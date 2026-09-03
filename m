@@ -1,63 +1,65 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1F28168BD
-	for <linux-sound@vger.kernel.org>; Thu,  3 Sep 2026 05:12:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82562384CEA
+	for <linux-sound@vger.kernel.org>; Thu,  3 Sep 2026 05:12:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788412331; cv=none; b=RKV6p+bxgb6zcYzrbPvrk0aY1TgjC6QbT5f8Y3gKnssNGJ1gJMsaJW2Covs933qHTlwFLnYcl/sal/wk2KnL0BKWDIvxnSowmQxxV61H9d4w4Xqlbi5Swu/X+yOKKO69ts/iq1IX0ahRYuRvL/EISLeVw9Fec63I0L7+HOtd0i4=
+	t=1788412336; cv=none; b=AB+uH3SdHwgcTSdDSWRUT/1vusp4VMJ6Gd0fqgkZknUyAWm/9dLmwIBqncJwY6n+Q63HlmwZmA0svjGZfaK2quob7so2p3LSATmzOKrwx2ccWLYkoy3XEBnbPj8MqFMHbUCNpiPqfg8CXTgH2gOOzX/Htr8PXbyHIubX7ad8akU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788412331; c=relaxed/simple;
-	bh=QuHzfk6YmKahgTfxy5ReSNFyHaM28WbpdYkFRfUwrAg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QDq+4uCDt0SfIOKLFju4+B/CbTtUffjroKLhlXEZOio31UL4PgrsxudG8Na6ZhZmVeGRS+TpRXQDfv/Z470jY9RylvS20O4jThJ5BEJU0tN+EgcnhscD9wlgLjACyPhC72G27xu6S+pS//sj0Lkcf/6xHdu6preiGsFe2y+oPD4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MbnSDDLT; arc=none smtp.client-ip=209.85.216.53
+	s=arc-20240116; t=1788412336; c=relaxed/simple;
+	bh=YdGYLhvtvptCpYDC3ICVM4oOhiZ9/gCcjjUKAA8PwCM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=gggAlKpbquqWGhlzDEctgvMdEsfBCMcGuzFS5EwqPeMJMoACZJzMXOvYvvL24xKw7HWCBmnHIwYYIzZOEWlNDCUVoK7LjPi3AwprGyVEpTHcDY5outm/m8K/Ogoua8r290Fc7WDQlTUrPbcRoUDZo9bSWMrhxmKycMZw+i5dsrM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NF0tt5e+; arc=none smtp.client-ip=209.85.215.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MbnSDDLT"
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-3969e82ff8fso2278252a91.0
-        for <linux-sound@vger.kernel.org>; Wed, 02 Sep 2026 22:12:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NF0tt5e+"
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-c9aea40d799so1179812a12.0
+        for <linux-sound@vger.kernel.org>; Wed, 02 Sep 2026 22:12:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788412329; x=1789017129; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=cBr8HRxr2IvFH9jg6UhnzrGvkPEyPmptbNqlHpdb1vQ=;
-        b=MbnSDDLTZtUXB1dXjWnAIpUDM0HImxs279kP+1NtcCtF2EQyHgkc5DySMnS6Ze3VIB
-         wdTe6U+6ZX/e9onRZajyf3RixpIUPbDKCNcUdHHGMgW5MQGrjYpUegih0ew49ZxUn0pD
-         MlcTyE7huqE8g62W5pQztptoqaOGQe+YhM64LrkvKUqu5gfgliaAd5rdKXFFZBsRW3Ro
-         IWEvCVTne40+VHHAtAfhxuVdADfAcXLddV5FQne0l2sSdG3k7cEPnTekAtkdZftAGhE1
-         WLGiEfSYx5DRB8UEG3tg/Gp87yfOx/cmS50rlk3OAT8xqaaICTWw5BP45QN6nV9xIfAc
-         zv9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788412329; x=1789017129;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1788412334; x=1789017134; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=cBr8HRxr2IvFH9jg6UhnzrGvkPEyPmptbNqlHpdb1vQ=;
-        b=HoYFdsh7b0fS9DWfMbPkjTP1xo5tMX/PstnN1TgtQ43ntOT2afob1rTP8+YCM1je1g
-         +SwixtIjHMO5tSGE/Jv7EOGYhMmtUgu+H46eMvjKJVyNvWz3C94JbD4fyWWhKN0o1qsS
-         cRvMqnGW8ERPKoD3XAObDct3uw22e+7856OzRKgKI9RMcNcD5/GsQITyqpxDxUMIvK8q
-         dCDdr6x1cpolYDIpOSAZ58j+T08bvpYJcvWLLODedMCk30oKIKwWPohC95n714nQVn4X
-         C0IsrIvNd/DoVPMCnvPHOIVjcXIkkHRvZRcda/MP9pGSvBG9f9yBlX/df6qRFHi3g89l
-         iAWQ==
-X-Forwarded-Encrypted: i=1; AKwUvBy8uv0iYVDL92ySJ6N1j1BCN/3FIpC9OoLmuo2SheDq1VpDKav8jnj05KaPJs552D2rVldfc9rz6VFQmw==@vger.kernel.org
-X-Gm-Message-State: AFuF++mOTkVLftb4JvU4uZ9+imk9s9Jlbk7XwzhK7Hni+wdvdJ7alT4d
-	pT5TsOTbzzpREEHXn1iySDUdi76vI4RtAwye84sd56LMaVfMrewa2Cyi
-X-Gm-Gg: AYBFou03GGv3wWiCC44q+/UA7UF/49vQCS0rspC4EZnX2qgW4lhOxAd+g9+5QCq/hCi
-	rsPE7FBmRS24f7CVgdGjVwlIvI20/D+6dryE5DVpzT6BALEruAUANY1ZR5CZjgwB8K1PH4Az7jQ
-	NGKMogBNGddCS33iwlQSJSZDB83ilUOztGB0IgQ060lHIk+BnfQPi2szyhb6Av7LeVe7vdLPts0
-	iH3agFBYdRMVyhWLwjuDj4boA65ogGGaAQXsi5Hz2TbuSGn0iojJTH8ySfsLQdPqBNNiYZa8f6S
-	OFGmJU8/L6sOP1kSmETEfdapyBLsrR9Xo7SXWwq+pH3L2Ym4CfRcVhdC1DZSW9BUlwF6r7fxTU2
-	7D6Kvp9sBBxb5U9jq2jUphc7ex6aS5o24zt9IAa+zcSUbvCGq5S2mTPNJqO92EDKWK1zDPRstwI
-	FrFluxgUtKG7VcA+JqkKZOdRDHfjbd4KLr3Snia3boL7Jh8QWhc8DVNAnqMW9ZbbKIiK+125NKc
-	XY8++Fro/veePUl9u4rr5Fnj3Z7WDPq+M6G3uCubJLgoEZdTzAiiRaIWLDtwp5V5oT/ZhPggBna
-	+FOX
-X-Received: by 2002:a17:90a:ec8c:b0:38e:5964:97a8 with SMTP id 98e67ed59e1d1-39aee04ace5mr16394737a91.16.1788412328628;
-        Wed, 02 Sep 2026 22:12:08 -0700 (PDT)
+        bh=xAiRO/oCYlRl0/keklqXsoT6bN4V7lIX81Jp9VCDRm0=;
+        b=NF0tt5e+3oSOAzJVnuDjQOPtnuebhoOzOtJ/fTjcvwmNWfLnvYC3lsE8cxhsgQNUt3
+         rm5roUPEkiChdsDIeRzX9ebmUE+pBFQm7rs1cnILCv0Wrl+ynZPD2ZZlgJCZXNYxTSus
+         n4U+7YoBOFechpgq854EaKQE5xBWM2rSp9u5YmKt2fi2iICVGyhGYZJERkDoMJWy3kDK
+         4u7cQl9zV7LYATms3PL8qo9VxEGoZPOmAa9MD15oV+8Tes2/zkRYEAK6TnVUxKiiIGi1
+         6lmx50dxJZ+zfhAPTzyW7eAasM9IZTAh7c4MT81ulLNT9M8x84AXuhzxAC/tvuxcgsF0
+         bKQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788412334; x=1789017134;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=xAiRO/oCYlRl0/keklqXsoT6bN4V7lIX81Jp9VCDRm0=;
+        b=HcCuSdr9NdBTgcvkOdNS5mrf6vfvg4vRS7XhTSH7AELmmDYhWCgvWg3UzlaIezfUZC
+         B2aZr79VUWjELa/g+XaYTBggYKFkWz4nWTP893ZIBxGeJGsv4TsiVnINh6qN2wcCRZ37
+         2P/meg4rXaCfZDiMgR6ZqKNQiy3JNYDi90iDR6c+py4p/WbwILoOoBJauE6Q3aw3uuJi
+         AiQ1a0jZn5V/qoHzb8FHkyyt2CHl6T7Ue+6keDhxfgY8ELzbTW4YhvcySn5E0ptSyqCY
+         srF6u4pDGsFTSoMDxP+tXl9P3IQeW5tomnYvZuN2ecmZOpSUCH96KLDFcqfQPjMMMsyO
+         aMgA==
+X-Forwarded-Encrypted: i=1; AKwUvBy5UuOuChMXgEZnhtOFeY+gjHw4fS5eyvwZldGlVNTDV8eOqSGTuLhsuxCmXnqDdTF0cmKehZuDY8k6Lw==@vger.kernel.org
+X-Gm-Message-State: AFuF++kPNMfSiUwYqnGEBDMH2FQxGtNe+tAoKHOJ9RZQYyF7XMM4XqKu
+	xNegDTB1McUtSpHgotEj9j+YbD4m+adVr9oOCMnq6lkFaJXf8Xvi6R/6
+X-Gm-Gg: AYBFou2edBddlX/CY2k9RZ9sG5X65LlV2QggHnt/UldW/vRXu+r181jjaBZKtQvxORG
+	QmlBZZW8Vune0m55FpLLkV1g226XrIEH7ZuN64iPtTtODzHuiZFTZ9PfCUMvQyp6u87fp/eJTSU
+	eQAJS61l9uDL1WaG0KSgJLEakhHSxhkA0fcXZ43mQamGG8aHdpiB0jhHcu/nvl6+zBKydndMwlU
+	hGhpOgVXSgTSDcveGOcshlhLRt/gF4f/n/t0En8tEXXIKzm0+tj3ig8sx+cgnwkZ+/we4wc8a2N
+	4AMIhg2/Nmu6PSxXPI94Z+8bhFngQN5GNiXNjykh9hj51NV9/WTmA5OSukjIu39UCgji16MlSgx
+	WsIP2QZIKFCD7AgK8LYgo/5EK/tk8g0OyR7XPwINobDsTV6XTDGESHCGr2/4OxZPcPV1ZLSN6f0
+	lOJGTo7AtK/CX0txzyRrYulKZT1X3M1e2XHA/RneBgTw6FpUG1HNfUn7E7A4JAK1MtvobKXA1oB
+	VN8knlLCmICjPLQksGAkOlvoJXyczuyhEeI9EabHjjRrhtCiznaMsFLnx6E6Pfd8kHfzRKEPXPc
+	ogQq
+X-Received: by 2002:a17:90b:4e8c:b0:392:6638:2e6a with SMTP id 98e67ed59e1d1-39aee0840d5mr15450600a91.13.1788412333744;
+        Wed, 02 Sep 2026 22:12:13 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39b0875ce14sm3218092a91.13.2026.09.02.22.12.05
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39b0875ce14sm3218092a91.13.2026.09.02.22.12.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Sep 2026 22:12:08 -0700 (PDT)
+        Wed, 02 Sep 2026 22:12:13 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>,
 	Matthias Brugger <matthias.bgg@gmail.com>
@@ -73,10 +75,12 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	linux-mediatek@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v4 0/8] ASoC: mediatek: mt8186: Fix clock error handling
-Date: Thu,  3 Sep 2026 12:11:42 +0700
-Message-ID: <20260903051150.178057-1-phucduc.bui@gmail.com>
+Subject: [PATCH v4 1/8] ASoC: mediatek: mt8186: Fix APLL mux setting error handling
+Date: Thu,  3 Sep 2026 12:11:43 +0700
+Message-ID: <20260903051150.178057-2-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260903051150.178057-1-phucduc.bui@gmail.com>
+References: <20260903051150.178057-1-phucduc.bui@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -87,63 +91,167 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-Hi all,
+The APLL mux setup functions return immediately when a clock operation
+fails, without undoing the clock changes already made. This can leave
+clocks enabled or muxes configured to an unexpected parent.
 
-This series fixes several error handling issues in the mt8186 ASoC driver.
+Restore the affected muxes to CLK26M and disable previously enabled
+clocks on error before propagating the original error.
 
-The patches mainly address failures during APLL/mux, clock, MCK, GPIO,
-and regcache operations. In particular, they make sure that partial
-failures are handled correctly and that resources are left in a
-consistent state.
+Fixes: 55b423d5623c ("ASoC: mediatek: mt8186: support audio clock control in platform driver")
+Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+---
+ sound/soc/mediatek/mt8186/mt8186-afe-clk.c | 50 ++++++++++++++++------
+ 1 file changed, 38 insertions(+), 12 deletions(-)
 
-The series also removes redundant probe error messages where the errors
-are already reported by the called functions.
-
-The changes were found by manual code inspection and compile-tested only.
-
-Link v1 : 
-https://lore.kernel.org/all/20260820111253.97866-1-phucduc.bui@gmail.com/
-
-Link v2: 
-https://lore.kernel.org/all/20260821123021.41390-1-phucduc.bui@gmail.com/
-
-Link v3:
-https://lore.kernel.org/all/20260828091532.600047-1-phucduc.bui@gmail.com/
-
-Changes in v2:
- - Update the cover letter.
- - Drop patch 5 from v1.
- - Add Fixes tags.
-Changes in v3:
- - Add a patch to fix clock handling in the mux disable path
- - Return directly from apllx_mux_setting() instead of using a goto label
- - Add GPIO rollback handling for partial failures in ADDA DL/UL.
- - Add Handle failures from regcache_sync().
- - Add a patch to remove redundant error messages from the probe path.
- - Update the cover letter.
-Changes in v4:
- - In the mux disable path, remove the goto labels so that all teardown
-   steps are attempted and any errors are only reported.
-
-Best regards,
-Phuc
-
-bui duc phuc (8):
-  ASoC: mediatek: mt8186: Fix APLL mux setting error handling
-  ASoC: mediatek: mt8186: Fix clock handling in mux disable path
-  ASoC: mediatek: mt8186: Fix AFE clock error handling
-  ASoC: mediatek: mt8186: Fix APLL enable error handling
-  ASoC: mediatek: mt8186: Fix MCK error handling
-  ASoC: mediatek: mt8186: Fix gpio rollback on adda dl/ul partial
-    failure
-  ASoC: mediatek: mt8186: Handle regcache sync failure
-  ASoC: mediatek: mt8186: Drop redundant probe error messages
-
- sound/soc/mediatek/mt8186/mt8186-afe-clk.c  | 95 ++++++++++++++-------
- sound/soc/mediatek/mt8186/mt8186-afe-gpio.c |  6 +-
- sound/soc/mediatek/mt8186/mt8186-afe-pcm.c  | 21 +++--
- 3 files changed, 78 insertions(+), 44 deletions(-)
-
+diff --git a/sound/soc/mediatek/mt8186/mt8186-afe-clk.c b/sound/soc/mediatek/mt8186/mt8186-afe-clk.c
+index daaca36a2d08..aa8b2eaf7b95 100644
+--- a/sound/soc/mediatek/mt8186/mt8186-afe-clk.c
++++ b/sound/soc/mediatek/mt8186/mt8186-afe-clk.c
+@@ -98,7 +98,7 @@ static int apll1_mux_setting(struct mtk_base_afe *afe, bool enable)
+ 		if (ret) {
+ 			dev_err(afe->dev, "%s clk_prepare_enable %s fail %d\n",
+ 				__func__, aud_clks[CLK_TOP_MUX_AUD_1], ret);
+-			return ret;
++			goto ERR_ENABLE_CLK_TOP_MUX_AUD_1;
+ 		}
+ 		ret = clk_set_parent(afe_priv->clk[CLK_TOP_MUX_AUD_1],
+ 				     afe_priv->clk[CLK_TOP_APLL1_CK]);
+@@ -106,7 +106,7 @@ static int apll1_mux_setting(struct mtk_base_afe *afe, bool enable)
+ 			dev_err(afe->dev, "%s clk_set_parent %s-%s fail %d\n",
+ 				__func__, aud_clks[CLK_TOP_MUX_AUD_1],
+ 				aud_clks[CLK_TOP_APLL1_CK], ret);
+-			return ret;
++			goto ERR_SELECT_CLK_TOP_MUX_AUD_1;
+ 		}
+ 
+ 		/* 180.6336 / 8 = 22.5792MHz */
+@@ -114,7 +114,7 @@ static int apll1_mux_setting(struct mtk_base_afe *afe, bool enable)
+ 		if (ret) {
+ 			dev_err(afe->dev, "%s clk_prepare_enable %s fail %d\n",
+ 				__func__, aud_clks[CLK_TOP_MUX_AUD_ENG1], ret);
+-			return ret;
++			goto ERR_ENABLE_CLK_TOP_MUX_AUD_ENG1;
+ 		}
+ 		ret = clk_set_parent(afe_priv->clk[CLK_TOP_MUX_AUD_ENG1],
+ 				     afe_priv->clk[CLK_TOP_APLL1_D8]);
+@@ -122,7 +122,7 @@ static int apll1_mux_setting(struct mtk_base_afe *afe, bool enable)
+ 			dev_err(afe->dev, "%s clk_set_parent %s-%s fail %d\n",
+ 				__func__, aud_clks[CLK_TOP_MUX_AUD_ENG1],
+ 				aud_clks[CLK_TOP_APLL1_D8], ret);
+-			return ret;
++			goto ERR_SELECT_CLK_TOP_MUX_AUD_ENG1;
+ 		}
+ 	} else {
+ 		ret = clk_set_parent(afe_priv->clk[CLK_TOP_MUX_AUD_ENG1],
+@@ -131,7 +131,7 @@ static int apll1_mux_setting(struct mtk_base_afe *afe, bool enable)
+ 			dev_err(afe->dev, "%s clk_set_parent %s-%s fail %d\n",
+ 				__func__, aud_clks[CLK_TOP_MUX_AUD_ENG1],
+ 				aud_clks[CLK_CLK26M], ret);
+-			return ret;
++			goto EXIT;
+ 		}
+ 		clk_disable_unprepare(afe_priv->clk[CLK_TOP_MUX_AUD_ENG1]);
+ 
+@@ -141,12 +141,25 @@ static int apll1_mux_setting(struct mtk_base_afe *afe, bool enable)
+ 			dev_err(afe->dev, "%s clk_set_parent %s-%s fail %d\n",
+ 				__func__, aud_clks[CLK_TOP_MUX_AUD_1],
+ 				aud_clks[CLK_CLK26M], ret);
+-			return ret;
++			goto EXIT;
+ 		}
+ 		clk_disable_unprepare(afe_priv->clk[CLK_TOP_MUX_AUD_1]);
+ 	}
+ 
+ 	return 0;
++
++ERR_SELECT_CLK_TOP_MUX_AUD_ENG1:
++	clk_set_parent(afe_priv->clk[CLK_TOP_MUX_AUD_ENG1],
++		       afe_priv->clk[CLK_CLK26M]);
++	clk_disable_unprepare(afe_priv->clk[CLK_TOP_MUX_AUD_ENG1]);
++ERR_ENABLE_CLK_TOP_MUX_AUD_ENG1:
++ERR_SELECT_CLK_TOP_MUX_AUD_1:
++	clk_set_parent(afe_priv->clk[CLK_TOP_MUX_AUD_1],
++		       afe_priv->clk[CLK_CLK26M]);
++	clk_disable_unprepare(afe_priv->clk[CLK_TOP_MUX_AUD_1]);
++ERR_ENABLE_CLK_TOP_MUX_AUD_1:
++EXIT:
++	return ret;
+ }
+ 
+ static int apll2_mux_setting(struct mtk_base_afe *afe, bool enable)
+@@ -159,7 +172,7 @@ static int apll2_mux_setting(struct mtk_base_afe *afe, bool enable)
+ 		if (ret) {
+ 			dev_err(afe->dev, "%s clk_prepare_enable %s fail %d\n",
+ 				__func__, aud_clks[CLK_TOP_MUX_AUD_2], ret);
+-			return ret;
++			goto ERR_ENABLE_CLK_TOP_MUX_AUD_2;
+ 		}
+ 		ret = clk_set_parent(afe_priv->clk[CLK_TOP_MUX_AUD_2],
+ 				     afe_priv->clk[CLK_TOP_APLL2_CK]);
+@@ -167,7 +180,7 @@ static int apll2_mux_setting(struct mtk_base_afe *afe, bool enable)
+ 			dev_err(afe->dev, "%s clk_set_parent %s-%s fail %d\n",
+ 				__func__, aud_clks[CLK_TOP_MUX_AUD_2],
+ 				aud_clks[CLK_TOP_APLL2_CK], ret);
+-			return ret;
++			goto ERR_SELECT_CLK_TOP_MUX_AUD_2;
+ 		}
+ 
+ 		/* 196.608 / 8 = 24.576MHz */
+@@ -175,7 +188,7 @@ static int apll2_mux_setting(struct mtk_base_afe *afe, bool enable)
+ 		if (ret) {
+ 			dev_err(afe->dev, "%s clk_prepare_enable %s fail %d\n",
+ 				__func__, aud_clks[CLK_TOP_MUX_AUD_ENG2], ret);
+-			return ret;
++			goto ERR_ENABLE_CLK_TOP_MUX_AUD_ENG2;
+ 		}
+ 		ret = clk_set_parent(afe_priv->clk[CLK_TOP_MUX_AUD_ENG2],
+ 				     afe_priv->clk[CLK_TOP_APLL2_D8]);
+@@ -183,7 +196,7 @@ static int apll2_mux_setting(struct mtk_base_afe *afe, bool enable)
+ 			dev_err(afe->dev, "%s clk_set_parent %s-%s fail %d\n",
+ 				__func__, aud_clks[CLK_TOP_MUX_AUD_ENG2],
+ 				aud_clks[CLK_TOP_APLL2_D8], ret);
+-			return ret;
++			goto ERR_SELECT_CLK_TOP_MUX_AUD_ENG2;
+ 		}
+ 	} else {
+ 		ret = clk_set_parent(afe_priv->clk[CLK_TOP_MUX_AUD_ENG2],
+@@ -192,7 +205,7 @@ static int apll2_mux_setting(struct mtk_base_afe *afe, bool enable)
+ 			dev_err(afe->dev, "%s clk_set_parent %s-%s fail %d\n",
+ 				__func__, aud_clks[CLK_TOP_MUX_AUD_ENG2],
+ 				aud_clks[CLK_CLK26M], ret);
+-			return ret;
++			goto EXIT;
+ 		}
+ 		clk_disable_unprepare(afe_priv->clk[CLK_TOP_MUX_AUD_ENG2]);
+ 
+@@ -202,12 +215,25 @@ static int apll2_mux_setting(struct mtk_base_afe *afe, bool enable)
+ 			dev_err(afe->dev, "%s clk_set_parent %s-%s fail %d\n",
+ 				__func__, aud_clks[CLK_TOP_MUX_AUD_2],
+ 				aud_clks[CLK_CLK26M], ret);
+-			return ret;
++			goto EXIT;
+ 		}
+ 		clk_disable_unprepare(afe_priv->clk[CLK_TOP_MUX_AUD_2]);
+ 	}
+ 
+ 	return 0;
++
++ERR_SELECT_CLK_TOP_MUX_AUD_ENG2:
++	clk_set_parent(afe_priv->clk[CLK_TOP_MUX_AUD_ENG2],
++		       afe_priv->clk[CLK_CLK26M]);
++	clk_disable_unprepare(afe_priv->clk[CLK_TOP_MUX_AUD_ENG2]);
++ERR_ENABLE_CLK_TOP_MUX_AUD_ENG2:
++ERR_SELECT_CLK_TOP_MUX_AUD_2:
++	clk_set_parent(afe_priv->clk[CLK_TOP_MUX_AUD_2],
++		       afe_priv->clk[CLK_CLK26M]);
++	clk_disable_unprepare(afe_priv->clk[CLK_TOP_MUX_AUD_2]);
++ERR_ENABLE_CLK_TOP_MUX_AUD_2:
++EXIT:
++	return ret;
+ }
+ 
+ int mt8186_afe_enable_cgs(struct mtk_base_afe *afe)
 -- 
 2.43.0
 
