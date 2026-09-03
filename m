@@ -1,107 +1,186 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CF5A4AEBE7
-	for <linux-sound@vger.kernel.org>; Thu,  3 Sep 2026 13:26:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 851E14BA9E5;
+	Thu,  3 Sep 2026 14:38:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788442033; cv=none; b=aAESCpZbMhnlVde57lBmEV4FmMtM2DeADKPWy624zkx5WSB4LFqlfQ7OriVb0cN33nxGvuSPSsKhf6btoqpi4ThJokiC5V8hDG6iYCEMIjRDgOoulh3WeYtfHuXEh6GTnxgxws9+wYRvgq41sJaGja3NICmlzUMM96ZCXs1dlSM=
+	t=1788446302; cv=none; b=m/diH18tuEZ8iEDwYhe+xAQsv8pGESHG/SWtxkilq3AtZLJJNjb1s3C65qIYIh8IVyEihn/WWRrh/Jg5pKFJBuqKrdBwGpmWCvXfDcNlm28iqMHIXa/Z+94q6kzW8nTWPvOzWII8uPOmg8B7qzJTnV8rdQouXxeZaZ5HXTlRUFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788442033; c=relaxed/simple;
-	bh=kONAT1sWOqq2RkVXK2/3P7bl1cJC2j6xiUdKnuWxokE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gmcq1nZKbvxg3+/hFPlVPuN8wG9m0Zu03u8bvj9HSIaspa6G4uvXIZdx27MwPSwQ3zCrDx3hRPXiOABAU9yxeGb98cpq86c0ROBrZQqkKiqxDoDlnYjyuXRBRKN8y9wK667V5Qg9YdrEW5qwuZD1bStiWCYIPFdiLrayvOddA3k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=JKj2t0Y+; arc=none smtp.client-ip=185.246.84.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1788446302; c=relaxed/simple;
+	bh=5IDUCm3/c6KrZ9HpzncmlBCcPtf0jMBAVY/kGndV6SA=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=VdJuO2o332ksVwMoWzTCCk2K0F588NB/m7AiimxrUEheK5v17F8339DZLIkhWI63pbvRAMtXrAIgEWBypNwZ7QS1DT/hRiu8J2FXpJVbwI6SFmSDTZru+Jh068GjO8gBYaA0QG5HHJ4bEklYAh4XQJRJZgWDmQjH+gATbRvx9hs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=EABflAnv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=y4vw+3Of; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=TlwseHHX; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=MofL51L+; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="JKj2t0Y+"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id C61411A197C;
-	Thu,  3 Sep 2026 13:26:54 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 90479602B8;
-	Thu,  3 Sep 2026 13:26:54 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 6640F11C7A01D;
-	Thu,  3 Sep 2026 15:26:47 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1788442009; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=3fAcnP0xk5VImcOaCSVWFZKTfYi9ijAKHbQ0RnE0Z/o=;
-	b=JKj2t0Y+rLrVa8hQMDhuH5A6WBTEQV6WzzOGXWIeogW+5MKBSxcpl8sWzNWdSv7/W9f2HK
-	4I+SU7mG9L9YKyuvA6y6/pxdZIXS8zn2heIMRWxk6vvY8SpJmn87rErHdYd8D7l58dgwfP
-	5T6SijJWWnXY5DnJsTeBBQerxHA02r9RM6d3kf5c/1wZ3RZ+UJhPXUwndX/gVaLhE//h4W
-	k54jz75fPkwaOOVmxURByo6bOA0N4Wvmf/Yu7GpifzrQTy1Uw9IAI0c6BJIYY7l7WayU16
-	IAXNpL1IEkZL9mKA3Ar9n3UF7Q6F/d0zU6bDcBO6+N2BUe46lzZr34kMWD7AlA==
-Message-ID: <0746f828-a424-4001-8054-1e52ed07139b@bootlin.com>
-Date: Thu, 3 Sep 2026 15:26:46 +0200
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EABflAnv";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="y4vw+3Of";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TlwseHHX";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MofL51L+"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 89ADE21EC1;
+	Thu,  3 Sep 2026 14:37:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1788446276; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NoIe1+StESLxiqdohgf6Gkohhov5f/zGPRJzVWWUMJY=;
+	b=EABflAnv+VzsI1PsdtEcrQGKurUXloXp7tNnDfpZaapOYIR0BSsTWRZIJpjZbXlXuxzFBV
+	oeN6oclLrlMxb7uwl4LwbAqBujD8+5uClI9+8afyw8HGDInlD3NeldC87S6MDo24PxV4u8
+	3Yb5gBEk0F8yQ/B2zf5dbhpMNa36V+0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1788446276;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NoIe1+StESLxiqdohgf6Gkohhov5f/zGPRJzVWWUMJY=;
+	b=y4vw+3OfKFIPm3CnR1ywuxb59vLvGO0HEpeiluTzzPQE6IXnuW/ZwnZUXqhnVBjH1WaK7v
+	Im8OjTx3vH03rNCw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=TlwseHHX;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=MofL51L+
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1788446272; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NoIe1+StESLxiqdohgf6Gkohhov5f/zGPRJzVWWUMJY=;
+	b=TlwseHHX+lOPF6cuL3NY30UdiIDoTf34mV5ltvcl8gKFOFl8ZHyk2SbYi/Un0QnY5ky6rP
+	5pKDqGeEuurUJ7jQyUfKGj1e6aNrB46s0pgeFFcfpwI2fCE7QFhnv/J6BzmBVTV9XwRXZQ
+	ZwciWya1dKN8N/4DqFy5GoQpo6y6MMI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1788446272;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NoIe1+StESLxiqdohgf6Gkohhov5f/zGPRJzVWWUMJY=;
+	b=MofL51L+lkYsgVobSaJbS99No+p0rRBs8MgY5BlLojIlkD8uxw0CUPis8ibqdRnC2oU+Sz
+	wg9cDhtLrD2W3pCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CFFAF13738;
+	Thu,  3 Sep 2026 14:37:51 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 6cpkMT+GmWpuHgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 03 Sep 2026 14:37:51 +0000
+Date: Thu, 03 Sep 2026 16:37:51 +0200
+Message-ID: <87y0di764g.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Michal Pecio <michal.pecio@gmail.com>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	syzbot <syzbot+832ce9fa3face1b7d44d@syzkaller.appspotmail.com>,
+	bolewara@gmail.com,
+	devnull@kernel.org,
+	gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	mchehab@kernel.org,
+	syzkaller-bugs@googlegroups.com,
+	Daniel Mack <zonque@gmail.com>,
+	Takashi
+ Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org
+Subject: Re: DIY allocation or embedding of URBs in larger structures
+In-Reply-To: <20260903130757.0668310a.michal.pecio@gmail.com>
+References: <6a6e9502.f794c993.27aeb.0018.GAE@google.com>
+	<6a97af8d.27a413cd.1e878c.0004.GAE@google.com>
+	<20260903112417.21b76017.michal.pecio@gmail.com>
+	<87o6ee8y9e.wl-tiwai@suse.de>
+	<20260903130757.0668310a.michal.pecio@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] ASoC: dt-bindings: realtek,rt5677: Add clock property
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Animesh Agarwal <animeshagarwal28@gmail.com>,
- Thierry Reding <thierry.reding@kernel.org>,
- Jonathan Hunter <jonathanh@nvidia.com>, linux-sound@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-tegra@vger.kernel.org
-References: <20260903-rt5677-mclk-v1-0-b71a5a3533f9@bootlin.com>
- <20260903-rt5677-mclk-v1-1-b71a5a3533f9@bootlin.com>
- <aplEfd33wSz59iLS@sirena.org.uk>
-Content-Language: en-US
-From: Diogo Ivo <diogo.ivo@bootlin.com>
-In-Reply-To: <aplEfd33wSz59iLS@sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -2.01
+X-Rspamd-Queue-Id: 89ADE21EC1
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-2.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[suse.de,syzkaller.appspotmail.com,gmail.com,kernel.org,linuxfoundation.org,vger.kernel.org,googlegroups.com,suse.com];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[832ce9fa3face1b7d44d];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Spam-Flag: NO
 
-Hi Mark,
-
-On 9/3/26 11:57 AM, Mark Brown wrote:
-> On Thu, Sep 03, 2026 at 12:11:00AM +0200, Diogo Ivo wrote:
->> Add a clock property as the RT5677 codec can be fed an
->> external clock signal.
+On Thu, 03 Sep 2026 13:07:57 +0200,
+Michal Pecio wrote:
 > 
->> +  clocks:
->> +    items:
->> +      - description: phandle and clock specifier for codec MCLK.
->> +
->> +  clock-names:
->> +    items:
->> +      - const: mclk
+> On Thu, 03 Sep 2026 11:44:45 +0200, Takashi Iwai wrote:
+> > On Thu, 03 Sep 2026 11:24:17 +0200,
+> > Michal Pecio wrote:
+> > > So what happens here is that USB core continues to use a URB after
+> > > completion to implement things like usb_kill_urb(), so URBs are
+> > > reference counted. Then core decrements the count - one more use.
+> > > 
+> > > If a driver waits for completion or even usb_kill_urb() to return
+> > > and then proceeds to free the URB's storage, this becomes a UAF.
+> > > This driver embeds 2 URBs in its priv and does just that.
+> > > 
+> > > A URB can only exist as an independent allocation, core will free
+> > > it if upon finding zero reference count in such case.
+> >
+> > So, IIUC, now the URB *must* be always allocated via usb_alloc_urb()
+> > and an embedded URB isn't allowed?  If so, we'd need to address other
+> > drivers, too.
 > 
-> The driver code has a reference to MCLK1 which implies multiple MCLKs,
-> unfortunately no pinout seems to be available and other references in
-> the driver are just to MCLK so it could be cut'n'paste.
+> Yes, that's basically the case and actually has been for a long time.
+> 
+> The only thing that works is for both USB and the driver to call
+> usb_free_urb() and whoever does last will actually free the storage.
+> This means URB can't share storage with anything else.
+> 
+> Some drivers got away with making URB the first member of a struct
+> which is freed together with it. AFAIK this pattern doesn't crash, but
+> it's deprecated too because it puts a flexible member (in the URB) in
+> the middle of (the outer) struct.
+> 
+> This pattern here in caiaq has always been one race away from UAF.
+> Maybe it wasn't very likely to happen, but stuff like PREEMPT_RT and
+> hypervisors can insert unexpected delays anywhere these days.
+> 
+> Greg KH puts it thusly:
+> https://lore.kernel.org/linux-usb/2025120716-sway-hypnotic-8cb6@gregkh/
 
-Thanks for raising this point, I had missed it completely. In fact,
-looking at rt5677.h there are two places where MCLK2 is mentioned:
+OK, I'll send the fix patches for the rest of sound drivers.
 
-#define RT5677_MCLK_SRC_SFT                     10
-#define RT5677_MCLK1_SRC                        (0x0 << 10)
-#define RT5677_MCLK2_SRC                        (0x1 << 10)
 
-and
+thanks,
 
-#define RT5677_PLL2_PR_SRC_SFT                  15
-#define RT5677_PLL2_PR_SRC_MCLK1                (0x0 << 15)
-#define RT5677_PLL2_PR_SRC_MCLK2                (0x1 << 15)
+Takashi
 
-so to me it _looks_ like there are indeed two MCLK inputs, both of which
-can drive the MCLK clock and can also be the input of PLL2. However, as
-you mentioned I also wasn't able to find the pinout/datasheet and I have
-no way of testing this. I think the safest bet here is that I send a v2
-where I rename "mclk" to "mclk1" that we know for a fact exists, and
-then later on if someone with access to the actual datasheet comes along
-and confirms the existence of "mclk2" we can add it to the binding.
 
-Let me know what you think!
-
-Best regards,
-Diogo
