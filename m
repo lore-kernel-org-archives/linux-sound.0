@@ -1,99 +1,97 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 941C217A2FC;
-	Thu,  3 Sep 2026 21:48:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4178328267;
+	Thu,  3 Sep 2026 22:24:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788472132; cv=none; b=ZlSnt1V5MVoXEx0cGFwi3GORK2nGD4WZE5dew6Tx0f5WXDAFLW9Or3RXC0CBcwPGILWW8yoBs+ycL4e8sOZTp6z9WWuJuVZZ6zADeEMhZ6+EyEMB6Lwnv83P3x6W98lkzF/U/CBR0+gvQSC+G+aJ1O5oFP48EEQf9Pe9/tgXl8Y=
+	t=1788474262; cv=none; b=pGKUoEQYXJvRYBSpgB77rXLU8Fd/7ZmCqWCxZkKuvcRdTKSWfA9ldB1vz7pFjlFqbTI6wYiAoJJzD+t2HUFprUA6Fi8pkPlCAHJSwWXW1DI5WwpVFkgIDkP9uPb8yDS9aGskYn20O5WO4E6vYMRjELKUopV8tkzYPWDqd8Ep+Hs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788472132; c=relaxed/simple;
-	bh=RoTh620FQ2N44q1Xvh+EaErHOArRDRxsxQTARbpw/48=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X2qAs9vqU2gCTUO4AZzJTqBmJbAxqtG7UVozYIFhunpBjYCVXQdQYQy4zYO8Me+6Q+EtegrVgobP7EYVHZ+wpUhCkfHzwLI+37ZHg/i0hTdIa8I0KHxK/fzbOBqAbRUvftdBT3mnpNwiqIUSiLy9cfZUpCes6ZHB5BP4DNUrHSc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BFMFDVM3; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788474262; c=relaxed/simple;
+	bh=R5ecAYavOe/shWm/VHZyOlX0ILQ6IoRlJWrBllw86so=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=ewzpQFitxtTkx9+0fNJO+nlQod5U9kc559tX42UllPYV8dsYY/DsWmA2ITESxGCP6F5JoZkPMdd4N4wbea7mfUT4CSKvMBgqESMmKWiuwuJTXQvzVjQh1h5N1RPf5QlhZ3+xKYwGuKG3PtmYpCqwjI55hqGRucPoRLUYjTZpwGU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BfsP5sYC; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BFMFDVM3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37ECA1F00A3D;
-	Thu,  3 Sep 2026 21:48:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BfsP5sYC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C3331F000E9;
+	Thu,  3 Sep 2026 22:24:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788472131;
-	bh=quKv1rg6pN+umTyA545IWVQ1rBGqQJEp9oxgK3g6RGw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=BFMFDVM3yEgciUwtoLDAAByrSVF03uuc1pkH7HG9T2Bv3gCgYOTe4+8EVX4cWXLpD
-	 Kcp+2mYzPrBN/Dik3bzhdZ8gNIb0i3xgTKWFtTVBmWE9FkJmmmNZ9bR77YQ4Bsd1Pz
-	 8xQwunwMljim2cv1I3uFXvl/YUwBHGWqKhue9vLuTySNdQ/sXZOpojMvbQ34GBFi6/
-	 /wXaP/5oY0tHpsq+GcwOZB8svsTmyrlqdbl4ZHKzJfPIYrNBW/zGOvvamQRr5KFm6T
-	 fJdR2nZR+ZUKYRc9+Cpg8LdD09oGA7Tkh//tdXMOxZKNVnBuNG7/dZu6GKatFy/NqF
-	 CrWB7zhwVDtuQ==
-Date: Thu, 3 Sep 2026 22:48:44 +0100
+	s=k20260515; t=1788474261;
+	bh=r4Awgxk/6qZuiOs5NBt5iKLdvwHRlQ2uTPMeZaAPeN4=;
+	h=From:To:In-Reply-To:References:Subject:Date;
+	b=BfsP5sYC5/Nqio8sYBOh02H7pgewe4wVisN9kP+lp33gRywxmrMQN3m55asg1ljwb
+	 V70GJjlOaK4UQusnacxTH4HHAG0zvDr4NKrpPX2/+YtlUrB9AGLPYkcBc9MJDTvoKq
+	 LqwiELoZMy8Jj8A5BDEq2H7eEoZJAMIGSvsq7FgxDQLFU+WLkLXYBrkRa03ENyB4n5
+	 Wer75FnMMZuFbMiWqw/72AyxOhvU736AIPMpbGwa44QiCG5fRCj/GfGajKP8w2ZOwA
+	 nDdM1qLakaJbsBfKTsLdbIdkft0cgqpvz87JUGinczdAvUi+05RSPn7E6IQ165hL9O
+	 9soUu5ewR1+3g==
 From: Mark Brown <broonie@kernel.org>
-To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Gary Yang <gary.yang@cixtech.com>,
-	Fugang Duan <fugang.duan@cixtech.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	CIX Linux Kernel Upstream Group <cix-kernel-upstream@cixtech.com>,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	sound-open-firmware@alsa-project.org
-Subject: Re: [PATCH v2 10/12] ASoC: SOF: mediatek: mt8186: Use
- devm_of_reserved_mem_device_init()
-Message-ID: <df541310-cc36-497e-b3c9-5ad4f15ebfce@sirena.org.uk>
-References: <20260902194712.2003414-1-mukesh.ojha@oss.qualcomm.com>
- <20260902194712.2003414-11-mukesh.ojha@oss.qualcomm.com>
+To: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Frank Li <Frank.Li@nxp.com>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, 
+ Oleksij Rempel <o.rempel@pengutronix.de>, linux-sound@vger.kernel.org, 
+ devicetree@vger.kernel.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+In-Reply-To: <20260830084046.14679-2-krzysztof.kozlowski@oss.qualcomm.com>
+References: <20260830084046.14679-2-krzysztof.kozlowski@oss.qualcomm.com>
+Subject: Re: [PATCH v2] ASoC: dt-bindings: imx-audmux: Replace tabs with
+ spaces
+Message-Id: <178846125559.7659.2373412974052957861.b4-ty@b4>
+Date: Thu, 03 Sep 2026 19:47:35 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="adSxNV/7OHX/0sHK"
-Content-Disposition: inline
-In-Reply-To: <20260902194712.2003414-11-mukesh.ojha@oss.qualcomm.com>
-X-Cookie: One picture is worth 128K words.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1135; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=R5ecAYavOe/shWm/VHZyOlX0ILQ6IoRlJWrBllw86so=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqmfOQANCyZh+kF83YBereludMZCIbGXvNHdv9n
+ qSQ+PVVaVyJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCapnzkAAKCRAk1otyXVSH
+ 0MZ1B/911WzFcnjK0xMG7i2UmccxCAPh6RL/mwROCe+M5azXO87QCxfvoM0RiglkxDPFuPKpnsu
+ eU/Xz0Y/Gt1k3tV6S8CpmS+hlcwEDefNFOCnG19IeZ2gVLHEwR0QJUwoZzfcUj6joLb/BQyizk9
+ DWuTi0Rkp0NjJQl5/AfBHRt5dAgEqvnfsc08o4mj6N41kpKYpYYFKWPoMTDYZEBAPeqRTp7JLey
+ bdLtxNvfe9kW5dtw6dbun8R2VoYjOLoCh/n1keImYM12ZzpU8cXKUdABuC+NeDKJKnWQJx1MbrK
+ K9HBvaFfkmdSYsxaqNs4kxnbv+eAlDSbUVtmC4QvA6T4rUET
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
+On Sun, 30 Aug 2026 10:40:47 +0200, Krzysztof Kozlowski wrote:
+> ASoC: dt-bindings: imx-audmux: Replace tabs with spaces
 
---adSxNV/7OHX/0sHK
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied to
 
-On Thu, Sep 03, 2026 at 01:17:10AM +0530, Mukesh Ojha wrote:
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
 
-> -	ret = of_reserved_mem_device_init(dev);
-> +	ret = devm_of_reserved_mem_device_init(dev);
->  	if (ret) {
->  		dev_err(dev, "of_reserved_mem_device_init failed\n");
->  		return ret;
+Thanks!
 
-This should update the error message as well.
+[1/1] ASoC: dt-bindings: imx-audmux: Replace tabs with spaces
+      https://git.kernel.org/broonie/sound/c/9e6ad2ba055f
 
---adSxNV/7OHX/0sHK
-Content-Type: application/pgp-signature; name="signature.asc"
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
------BEGIN PGP SIGNATURE-----
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqZ6zsACgkQJNaLcl1U
-h9DZrQf/YSIAHnk7hN7pE7Wn/BXo7i2+AbAx760M7Jjj4JLAx4B8xR3G/roBycBa
-YlMdDcPSgyZezWgNZIQqCLEB74saROdDr+LhPEEdvS/NHEtGrmizgYrrsfckCNL8
-o06imN4sCBPtRuYEz3VHAFwyvfh0tjjfCCX5XMA8O6TvzuI34ZPFlj68TBH37s21
-3kNBWJ1q/I5WXVDLATLAYazVhaWyqpVk9ZkM/s6N68wux/FHfefKGXgE8ybX5x1W
-1eRkWUr0NBRfYxGPskc0rE76rM2v/zEocyTJGvEpLSdLnM/X69iT+AZ8bu5LRvo3
-P5ZJaZqkXfXR2WTTRJ3Hc9HCCgT6QA==
-=bK8O
------END PGP SIGNATURE-----
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
---adSxNV/7OHX/0sHK--
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
