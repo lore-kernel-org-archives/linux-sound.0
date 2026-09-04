@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4AFB391E77
-	for <linux-sound@vger.kernel.org>; Fri,  4 Sep 2026 07:31:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C954F387590
+	for <linux-sound@vger.kernel.org>; Fri,  4 Sep 2026 07:31:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788507115; cv=none; b=TrgbaxsxMBYk3GjtLhXKibW8TjJleXjCZ8v3mNc3KkORnKPiEl/jk/31XbW9drRJRxGWa/WP6x6jRIJVrpjvg/5nGUsuqSFDNPUleuDurQwAc1DjLyNxv6niXQOBr0jQzjjoqppXsouFQutO7KzqS+MFbTS7kfb0eCEawjs79ro=
+	t=1788507118; cv=none; b=ZgHH5X8E54K9pGOfyhIj/4aoP08cI3sNWrNkfGPszmgATY++s4JLocq69z1bEUD0gv2fO+ZGS904AWowxjQzteax1A29r6NNLC5LT3Gd4omq2pEsFGur/k19KhBPIf2UQp8F9D0Vra4ALgjydsaob/tWXLuQsJ9QSRNnuRf40CA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788507115; c=relaxed/simple;
-	bh=RpXB0zCO+Zau3rjmYkV93BUflOdMclr/vU0ORtUF+A8=;
+	s=arc-20240116; t=1788507118; c=relaxed/simple;
+	bh=hakHFEiBnMn6B3AmWrYWjV78TSDtafMAaCvas/4P/QQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=irzEg5kD7PU1l+FlsJBpVLh6c7UUhA371hHbiqYdsOQiayihheB+Sf0XJEgZVtSPFY0pbliuXdLkWBIAWtunXK3KHsSBhEQdBMCzcQFwYZmFScQQV0gpuZuiJpTLXjw8OUaXv170Ec3q8aiUrpSNesb84hg3dzjUG5/vWXGmgMU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VlOYRI/u; arc=none smtp.client-ip=198.175.65.9
+	 MIME-Version; b=mscbyg82cQWkKijAOp/RYe65Frfaci35Nlmeyaxl+xGVc6k/fE8kfweMTc2XnTfVlEX4CNJDCFOihFYkhR97J/fM1mmQySCv3nu6PncpW/NOOI0oK6QH2jcpj5/XLvyOrxIZWK382DXsARD6J54dSEOjfpUPHIVSMB5dudedTXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g7OG2obl; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VlOYRI/u"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g7OG2obl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788507114; x=1820043114;
+  t=1788507117; x=1820043117;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=RpXB0zCO+Zau3rjmYkV93BUflOdMclr/vU0ORtUF+A8=;
-  b=VlOYRI/un3CxVc5ZD3fCXEFWbLbkrWfJNXq7JQGxHAGgV2GlqdForx2t
-   cZZQbMtxUWZbXOnMj1WUnvxknR94xDSqITYPW3AxDBVT+5nZP9DRpjYWx
-   Rs6DQXLgyHfXcFdJQaPUznNte5ETwd0y5o3I2VCjIh7fHIl4ApRYaNQUb
-   9agDsGzT1zVV3wOVOVBCihs3SB1xsjmrq5eyz7qu4Mi7PKHxbsKuMQtp/
-   LpEXlDv9iD9Jnw/CmmPNejIxBxB80xbRwKhVcBMDlMkdBvjQUZuHz+++e
-   4m8xZ+Rr53+5bEjhsH0DXqPWAx8aiVVAic5aottxiR5iByPIY9Jar2Xcu
-   A==;
-X-CSE-ConnectionGUID: PZh8BqzlTw60XG+ktOpEOQ==
-X-CSE-MsgGUID: gtfnttywSjubDY4xAMbJbA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11895"; a="111777870"
+  bh=hakHFEiBnMn6B3AmWrYWjV78TSDtafMAaCvas/4P/QQ=;
+  b=g7OG2oblXdw6Ymc+15jPxi4oQG7tTtNtfoxyOsTq3B43hDXlJDyQi5mn
+   p10J8wq3k9PwS2N3qTgffwWIBUcOZfAY3fSo7E8D+aUJ1+hgcMYnwWbHg
+   P8uquo4aupg+VUB63Wvo3cBzLYAyXvb9F9kuEOlk7cetLl2UXyjBvwhob
+   F+QVC2z8FddfGF99cN9vhTAjLvbIM9GTK8sHfv97Gon0RAHwR5zayK+Z1
+   dAL1kkiNdrlwLvzu+vJAJRyflUOuHbNygCL0QUU/X4ZlshCEh+mFWoe6r
+   Pzi0yKNqWvUI3C2APMDHEyiZUfbXz9izKnC35iLf2QgjoHu8miBwLDPrI
+   w==;
+X-CSE-ConnectionGUID: YAz5Zuy0Sz6V8y4s7rrPwg==
+X-CSE-MsgGUID: 7bvhdAOcTb2R8plWIfNASw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11895"; a="111777879"
 X-IronPort-AV: E=Sophos;i="6.25,260,1779174000"; 
-   d="scan'208";a="111777870"
+   d="scan'208";a="111777879"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2026 00:31:53 -0700
-X-CSE-ConnectionGUID: JkDqUNeRRUusTSxXUPSMVQ==
-X-CSE-MsgGUID: CDoiWx29TOavF5ggf/ETHw==
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2026 00:31:56 -0700
+X-CSE-ConnectionGUID: i6+W0EjrRM6fFuCo50pg7A==
+X-CSE-MsgGUID: /dlBqnlXSliISV70sBvzoQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,260,1779174000"; 
-   d="scan'208";a="293480586"
+   d="scan'208";a="293480592"
 Received: from ettammin-mobl3.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.244.213])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2026 00:31:50 -0700
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2026 00:31:53 -0700
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: vkoul@kernel.org,
 	perex@perex.cz,
@@ -56,9 +56,9 @@ Cc: linux-sound@vger.kernel.org,
 	pierre-louis.bossart@linux.dev,
 	daniel.baluta@nxp.com,
 	Vijendar.Mukunda@amd.com
-Subject: [PATCH 08/23] ASoC: SOF: sof-audio: do not dereference swidget->spipe unconditionally on free
-Date: Fri,  4 Sep 2026 10:31:19 +0300
-Message-ID: <20260904073134.29648-9-peter.ujfalusi@linux.intel.com>
+Subject: [PATCH 09/23] ASoC: SOF: sof-audio: Expose a couple of functions
+Date: Fri,  4 Sep 2026 10:31:20 +0300
+Message-ID: <20260904073134.29648-10-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260904073134.29648-1-peter.ujfalusi@linux.intel.com>
 References: <20260904073134.29648-1-peter.ujfalusi@linux.intel.com>
@@ -70,61 +70,61 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-sof_widget_free_unlocked() dereferences swidget->spipe without checking
-it for two things: swidget->spipe->complete for a scheduler widget, and
-swidget->spipe->pipe_widget for the recursive free of the pipeline's
-scheduler widget. Both can be reached with spipe or pipe_widget not
-set, which oopses in the free path - where there is nothing left to
-bail out to.
+From: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
 
-Check both before use and cache swidget->spipe in the local spipe
-variable that is already there. A widget with no pipeline has nothing
-to put or complete, and no scheduler widget to free, so skipping is the
-correct behaviour.
+These are common functions that will also be needed for the IPC4
+compressed support.
 
-No functional change for a widget that was successfully set up:
-sof_widget_setup_unlocked() already rejects a dynamic pipeline widget
-with no spipe or no spipe->pipe_widget with -EINVAL.
-
+Signed-off-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
 Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
 ---
- sound/soc/sof/sof-audio.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ sound/soc/sof/pcm.c       | 6 +++---
+ sound/soc/sof/sof-audio.h | 7 ++++++-
+ 2 files changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/sound/soc/sof/sof-audio.c b/sound/soc/sof/sof-audio.c
-index d244e90a734b..0b2f41f4a59b 100644
---- a/sound/soc/sof/sof-audio.c
-+++ b/sound/soc/sof/sof-audio.c
-@@ -103,7 +103,7 @@ static int sof_widget_free_unlocked(struct snd_sof_dev *sdev,
- 	 * decrement ref count for cores associated with all modules in the pipeline and clear
- 	 * the complete flag
- 	 */
--	if (swidget->id == snd_soc_dapm_scheduler) {
-+	if (swidget->id == snd_soc_dapm_scheduler && spipe) {
- 		int i;
+diff --git a/sound/soc/sof/pcm.c b/sound/soc/sof/pcm.c
+index 941baa48b275..8f59c200b8ec 100644
+--- a/sound/soc/sof/pcm.c
++++ b/sound/soc/sof/pcm.c
+@@ -66,7 +66,7 @@ void snd_sof_pcm_period_elapsed(struct snd_pcm_substream *substream)
+ }
+ EXPORT_SYMBOL(snd_sof_pcm_period_elapsed);
  
- 		for_each_set_bit(i, &spipe->core_mask, sdev->num_cores) {
-@@ -115,16 +115,16 @@ static int sof_widget_free_unlocked(struct snd_sof_dev *sdev,
- 					err = ret;
- 			}
- 		}
--		swidget->spipe->complete = 0;
-+		spipe->complete = 0;
- 	}
+-static int
++int
+ sof_pcm_setup_connected_widgets(struct snd_sof_dev *sdev, struct snd_soc_pcm_runtime *rtd,
+ 				struct snd_sof_pcm *spcm, struct snd_pcm_hw_params *params,
+ 				struct snd_sof_platform_stream_params *platform_params, int dir)
+@@ -100,8 +100,8 @@ sof_pcm_setup_connected_widgets(struct snd_sof_dev *sdev, struct snd_soc_pcm_run
+ 	return 0;
+ }
  
- 	/*
- 	 * free the scheduler widget (same as pipe_widget) associated with the current swidget.
- 	 * skip for static pipelines
- 	 */
--	if (swidget->spipe && swidget->dynamic_pipeline_widget &&
-+	if (spipe && spipe->pipe_widget && swidget->dynamic_pipeline_widget &&
- 	    swidget->id != snd_soc_dapm_scheduler) {
--		ret = sof_widget_free_unlocked(sdev, swidget->spipe->pipe_widget);
-+		ret = sof_widget_free_unlocked(sdev, spipe->pipe_widget);
- 		if (ret < 0 && !err)
- 			err = ret;
- 	}
+-static struct snd_sof_widget *snd_sof_find_swidget_by_comp_id(struct snd_sof_dev *sdev,
+-							      int comp_id)
++struct snd_sof_widget *snd_sof_find_swidget_by_comp_id(struct snd_sof_dev *sdev,
++						       int comp_id)
+ {
+ 	struct snd_sof_widget *swidget;
+ 
+diff --git a/sound/soc/sof/sof-audio.h b/sound/soc/sof/sof-audio.h
+index bd5bbaf9ae44..1b3e66037584 100644
+--- a/sound/soc/sof/sof-audio.h
++++ b/sound/soc/sof/sof-audio.h
+@@ -636,7 +636,12 @@ struct snd_sof_pcm *snd_sof_find_spcm_comp(struct snd_soc_component *scomp,
+ 					   int *direction);
+ void snd_sof_pcm_period_elapsed(struct snd_pcm_substream *substream);
+ void snd_sof_pcm_init_elapsed_work(struct work_struct *work);
+-
++int sof_pcm_setup_connected_widgets(struct snd_sof_dev *sdev, struct snd_soc_pcm_runtime *rtd,
++				    struct snd_sof_pcm *spcm, struct snd_pcm_hw_params *params,
++				    struct snd_sof_platform_stream_params *platform_params,
++				    int dir);
++struct snd_sof_widget *snd_sof_find_swidget_by_comp_id(struct snd_sof_dev *sdev,
++						       int comp_id);
+ /*
+  * snd_sof_pcm specific wrappers for dev_dbg() and dev_err() to provide
+  * consistent and useful prints.
 -- 
 2.55.0
 
