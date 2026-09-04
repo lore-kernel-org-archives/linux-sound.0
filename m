@@ -1,142 +1,102 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE4543D7D75
-	for <linux-sound@vger.kernel.org>; Fri,  4 Sep 2026 07:51:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3240A3B1B3
+	for <linux-sound@vger.kernel.org>; Fri,  4 Sep 2026 07:58:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788508296; cv=none; b=n6/sHcfuXEP+Gw7Dnd42eqyoq2cEdC4doqOnubkoHcT1EDbGjoMaFEhOfzYvLzkYQIQOD70IulEsPAa6RhU9tVeSSoOpixcUIr9a4ECW2I+q7WWrFUgM9A/lzZjLlGu+cFsOtZJQns35Bh/pMAQeFIJepSF20e4mVmQwMoQh1rs=
+	t=1788508700; cv=none; b=nUcZRMojhY3UHOQTu9r/r3xKAX7bdKX8WJYIlHEVFSamaOryqY8QoMZreFct1bpFgDJzZk66wW2WwBcHXRci6skAmS8/993fRzeO/Aqq68qPitmC6AMJLLPyzCX5A7+KyrBCw/2QDavVkKg3TIUNePMqRDfzppoE9OyPeVobhyM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788508296; c=relaxed/simple;
-	bh=OAVTpRalSrlPBdaVwPjSrol5eJPt8K/vleR0Lgp23gQ=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mnI2cySS98UBWfZpOzRQCmFNKfewIhr+M6k/+yl1QF6fFfdVM3pIUOA4sdmR2k/dXHZpu/5uoBx94CHHXdW2+rh5vDi1fAb8lTrSWSYUOhU6z5MbPlau3/w3xDXXHpIGk6S3elDs47d8cqnRe4NdlnwSHk49rpIKi4x/LldZbhI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=BDx9fTar; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=atNU9TL6; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=i8MvQQ8R; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=vBrdjdwv; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1788508700; c=relaxed/simple;
+	bh=QleeC+wZw7COGJX/pg/g2Bo1xiTYLcERNCBumHK72JU=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=eTpQV41Rmg4yIy+T8cV4EFFpMcMmmh9YtYvsPJvt49vcSyVmpWAt0fxF69QWnlMlwzuOUXEl9gthMl6I8Vwiz01sUc3z8HqGUu+nZoN2NpfVaeBHHW7gszoIvd8jFOgTd5Jq80fl4p09xf0fAuM+QG1IbC64OFCWrsAA11xdV7M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=e6NEZtm2; arc=none smtp.client-ip=211.75.126.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="BDx9fTar";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="atNU9TL6";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="i8MvQQ8R";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vBrdjdwv"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 69C0B1FB06;
-	Fri,  4 Sep 2026 07:51:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1788508288; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oYeiMt8ADRTtsQE52NSgdYOFNUr3QbYdNaluuRHdbGc=;
-	b=BDx9fTarXGDuF8JbTYq1DRZtzbXz9JtlLj5Xa3uQOswr01lM6SzexeNUXaajuKvpEUJc3f
-	mdMHn+0p35AkxCwkcPQGcGTnHrqJo6fCIa8xr3Snx/bT+Uj7xlZ27zrDO0tdgETC1Ckf1y
-	jQ81Mz3EG3E0U4cozt2pHSKStq79LW4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1788508288;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oYeiMt8ADRTtsQE52NSgdYOFNUr3QbYdNaluuRHdbGc=;
-	b=atNU9TL6Fwu/nESNIqYQjPS9IpY1igUqJ3+QkjiqR16OR13vKt1m95qoEk6ma1p+9SelRh
-	JapnXYlLefnN2FCw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1788508284; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oYeiMt8ADRTtsQE52NSgdYOFNUr3QbYdNaluuRHdbGc=;
-	b=i8MvQQ8RL1132Fr87CpfiMcFz2sgJuTc90fX7r49er/+YSChGgitDOF0zccAYrOXHAYl39
-	zZcU4E4ZeJl6OOhdF4PY5o6FYrpf5MrtRnm7DkS3K7eFoVcpvZF2/G7LroH3geFN95+TPw
-	oE+hhvd0wspZHnXGCNSyf5vnS3zaaoM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1788508284;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oYeiMt8ADRTtsQE52NSgdYOFNUr3QbYdNaluuRHdbGc=;
-	b=vBrdjdwvuC8csj6Hq8Ie4UCLd2rHG2ie93tiHurdxH9otrjE4W7ryNk/4fMZvzaaMiIfOq
-	hBt9vuuksvXctzBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F10F513678;
-	Fri,  4 Sep 2026 07:51:23 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id yqSzN3t4mmpmJgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 04 Sep 2026 07:51:23 +0000
-Date: Fri, 04 Sep 2026 09:51:23 +0200
-Message-ID: <878q5h78uc.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: vkoul@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	srinivas.kandagatla@oss.qualcomm.com,
-	linux-sound@vger.kernel.org,
-	kai.vehmanen@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	pierre-louis.bossart@linux.dev,
-	daniel.baluta@nxp.com,
-	Vijendar.Mukunda@amd.com
-Subject: Re: [PATCH 02/23] ALSA: compress: stop active streams on disconnect
-In-Reply-To: <20260904073134.29648-3-peter.ujfalusi@linux.intel.com>
-References: <20260904073134.29648-1-peter.ujfalusi@linux.intel.com>
-	<20260904073134.29648-3-peter.ujfalusi@linux.intel.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="e6NEZtm2"
+X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 6847vr4H3092520, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
+	t=1788508674; bh=XVJJhf9c5okBHzCu8NHNHZlxLB+76/hGFjc3KhKR+2c=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type;
+	b=e6NEZtm2UbzfNFM553ymo4VbBK8vAiDscAVnK37WcSp3zTUNVFTD014dOhZ4VoDwi
+	 +bzsccuahTwJ0Q0Lzd3alZpG95h/TF0Ncxx3tZl36DJBoL9UQB1smUbQKxa4Mimknc
+	 VtS4KxIs9y3KqCtJjhQZbqb3OHjF3Z52HfwrFy6CNqKZIMmb5KXDmvgXejspL/X5K+
+	 MTSm3BEaryaXf5BivXSl8axoCQJb8r4DFIOPGHHuBJ9FKkCHLeJ8GrBFurAuwxAf8z
+	 I6Irw5APe3jqibgvbOEFic0XP3ughqTCQg7XIsMpymapIsdIlA3g3fRinmHrUt0qYj
+	 w5lj7pvps2YhA==
+Received: from mail.realtek.com (rtkexhmbs02.realtek.com.tw[172.21.6.41])
+	by rtits2.realtek.com.tw (8.15.2/3.29/5.94) with ESMTPS id 6847vr4H3092520
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Fri, 4 Sep 2026 15:57:54 +0800
+Received: from RTKEXHMBS05.realtek.com.tw (10.21.1.55) by
+ RTKEXHMBS02.realtek.com.tw (172.21.6.41) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.43; Fri, 4 Sep 2026 15:57:52 +0800
+Received: from sw-server.localdomain (172.24.54.4) by
+ RTKEXHMBS05.realtek.com.tw (10.21.1.55) with Microsoft SMTP Server id
+ 15.2.2562.43 via Frontend Transport; Fri, 4 Sep 2026 15:57:51 +0800
+From: <shumingf@realtek.com>
+To: <broonie@kernel.org>, <lgirdwood@gmail.com>
+CC: <linux-sound@vger.kernel.org>, <lars@metafoo.de>, <flove@realtek.com>,
+	<oder_chiou@realtek.com>, <jack.yu@realtek.com>, <derek.fang@realtek.com>,
+	Shuming Fan <shumingf@realtek.com>
+Subject: [PATCH v2 1/6] ASoC: rt766: fix uninitialized stream_config->type
+Date: Fri, 4 Sep 2026 15:57:37 +0800
+Message-ID: <20260904075737.86525-1-shumingf@realtek.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spam-Score: -3.30
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[kernel.org,perex.cz,suse.com,gmail.com,oss.qualcomm.com,vger.kernel.org,linux.intel.com,linux.dev,nxp.com,amd.com];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On Fri, 04 Sep 2026 09:31:13 +0200,
-Peter Ujfalusi wrote:
-> 
-> Track open compressed streams per device so disconnect can stop
-> active streams and wake waiters before snd_unregister_device().
-> 
-> This aligns compressed stream teardown with PCM disconnect behavior
-> and prevents active userspace streams from running into unregister
-> races.
-> 
-> Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-> Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
+From: Shuming Fan <shumingf@realtek.com>
 
-Reviewed-by: Takashi Iwai <tiwai@suse.de>
+The stream_config variable was not initialized before being passed to
+sdw_stream_add_slave().
+This may cause unexpected behavior when configuring the SoundWire stream.
 
+Signed-off-by: Shuming Fan <shumingf@realtek.com>
+---
+ sound/soc/codecs/rt766-sdca.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-thanks,
+diff --git a/sound/soc/codecs/rt766-sdca.c b/sound/soc/codecs/rt766-sdca.c
+index 64d763b96a06..5a1c1e10e6d7 100644
+--- a/sound/soc/codecs/rt766-sdca.c
++++ b/sound/soc/codecs/rt766-sdca.c
+@@ -936,9 +936,8 @@ static int rt766_sdca_pcm_hw_params(struct snd_pcm_substream *substream,
+ {
+ 	struct snd_soc_component *component = dai->component;
+ 	struct rt766_sdca_priv *rt766 = snd_soc_component_get_drvdata(component);
+-	struct sdw_stream_config stream_config;
++	struct sdw_stream_config stream_config = {0};
+ 	struct sdw_port_config port_config;
+-	enum sdw_data_direction direction;
+ 	struct sdw_stream_runtime *sdw_stream;
+ 	unsigned int sampling_rate;
+ 	int retval, port;
+@@ -957,7 +956,6 @@ static int rt766_sdca_pcm_hw_params(struct snd_pcm_substream *substream,
+ 
+ 	/* SoundWire specific configuration */
+ 	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
+-		direction = SDW_DATA_DIR_RX;
+ 		if (dai->id == RT766_AIF1)
+ 			port = 3;
+ 		else if (dai->id == RT766_AIF2)
+@@ -965,7 +963,6 @@ static int rt766_sdca_pcm_hw_params(struct snd_pcm_substream *substream,
+ 		else
+ 			return -EINVAL;
+ 	} else {
+-		direction = SDW_DATA_DIR_TX;
+ 		if (dai->id == RT766_AIF1)
+ 			port = 12;
+ 		else if (dai->id == RT766_AIF3)
+-- 
+2.54.0
 
-Takashi
