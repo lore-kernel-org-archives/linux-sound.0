@@ -1,74 +1,74 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from TYPPR03CU001.outbound.protection.outlook.com (mail-japaneastazon11012008.outbound.protection.outlook.com [52.101.126.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2ED637BE75
-	for <linux-sound@vger.kernel.org>; Fri,  4 Sep 2026 02:19:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788488398; cv=none; b=YWTCiGlHRBeouiXwhVgxZM3aKW1X1glD8tk3I3qCdDYnL/Thi6xLLN4LelHSQSys4LVgzJ7sCtgMw/JRZ4IdkiDu9W1x7VS6u5J+xWAmAQXfN9mwrt1lwACk11WzV32MTaX+n1OvNyIy/H5RnSy3spGRMvzJt6yJkKPYXNRZdcM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788488398; c=relaxed/simple;
-	bh=p3+FAJ/9mFidjyr+eEcreaYdBMlN0e+7XIZVWS+Ja/w=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Fi6H/pv/ZBgWfahyfQDH0kgFof/15G52GPesB7I3AeQdgeQ70U6dQW8KlwAqv9LP0EX7h8UtAbPFjXjjvIy+Q4ZrBUvv4nkcEDYvSMOXyG1d+iSyVEp0GEfk4t0tppRYLejnmqegvgstF2fxd9rZ4efytIpUhHxzv2kuE2x+zAU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=niac6wvv; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AEDF3A8734;
+	Fri,  4 Sep 2026 02:45:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.126.8
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788489909; cv=fail; b=VxBU/tKpSoDrgTnvYrovemLXK0S9uUrP0LLpaDwjhmYaSZWvDC+GkEOCMn1YXs+ocMbf0GqG3+XjU3/D3DtHveCwJ/Gz3BziGlVmyf9oDMDGZbazuCUDeGIitlC8LrPNb4spbhVcK8pZN010P+Zu2lfVyJZx4T+oukMDZn0/vPk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788489909; c=relaxed/simple;
+	bh=sRZ/CxG7F5unuvv5j0HIBZUgTNg+05NfH2FYCZNFyYc=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=hWnhHxG0NOqG4IPL8C7QPpKBJUh9wIzPRRYMf/OleokJTXy+7mtGWAEQFJUfung8EWk6u5vQxP9dLnh31x6+WBmp1I7TtaJkmGASQnbp2qtbpj7IXGsAwQDXEXBxe+todgFTKaxaJ3Ktjivsm3V+7tG84NwRj7YFbKRekXjF3yQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nuvoton.com; spf=pass smtp.mailfrom=nuvoton.com; dkim=pass (2048-bit key) header.d=nuvoton.com header.i=@nuvoton.com header.b=gEQeoaNb; arc=fail smtp.client-ip=52.101.126.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nuvoton.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuvoton.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="niac6wvv"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2d9004f39d3so6881585ad.2
-        for <linux-sound@vger.kernel.org>; Thu, 03 Sep 2026 19:19:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788488396; x=1789093196; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=cH8hCql3slFtjql46/fGxJDpBGHTGfbVhDtVe9R8smo=;
-        b=niac6wvvOL4Eq8box362ohv6ntOmpUvesj954DvolNMvVSwgeL9NoDH7kVY2e18baz
-         C3Uu553MbcQDml1Ai5Tf/DWBHnGxr1Igya1Swhws+tVxkWdbsHi+e6u20FDZ9jxa2WVt
-         QLS3IHL65UQtMGYGlE2nSmanweCssYF5G3nF4GQ3oO8+u5qEs06j/VBBYr9lLJLhyeN0
-         mAdXzx/ppVmzaqysW9kawH1u3q90y+QJHD7o9PgWASnOCI5C9p5hrxIfCaApRwbif8Ur
-         9yG6IesLH3DopA7VJ0VXF4xX3vpxz2gEmSrI8Cv29JonUFX/TmAXGgvxkTtsNdk9X2bj
-         AS7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788488396; x=1789093196;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=cH8hCql3slFtjql46/fGxJDpBGHTGfbVhDtVe9R8smo=;
-        b=k74xWZoKG+y/TFockIGZy5oyLP4pnI2diLrXkILtwMplQBqO/I9EaKGoBh/yPN7Mie
-         hHVIgvjZxxwfyJRAw2bXk6GtOqY+zleUJ2YOWHrs/g5aUsUy5WPU1FOSRkKYCxOz6jqv
-         TP3wIDZ9jbthIDDCNRlDptuzYXAh/f1b8TC64oGbsf+ycAfbd9rq8QGObMUc8NYik0F9
-         cb+nSG41o8wX5TecAwGOfak+0qakLv040q1+ilEFSOfFYnbkkjLRY7N+PBQtYE9Q5ZzF
-         li15LliG2nLqNcSgTloLszRA2ZE42Y2FAkNRvaHE1F0ckBgz1N1OKgwRTP+tpMn7Caow
-         4UYg==
-X-Gm-Message-State: AFuF++mAJRvtv93oYH+QYFW42Z42kEm+XVUIqR5ngpL+2VTG7cZZlBLe
-	Xgj3Qs3aFht6BaA9R8GEXqWcyrD1IQ8OPpzI8byk4PbOWsB2T3+GObJs
-X-Gm-Gg: AYBFou3hzMoOpRDPVEEdzmEivKAAef6HKjwd5e3V2ePYrn2xXPaDLPo4XZuozCyYQRb
-	/tgbJKf3cTFC5m9eAQ3/tXMSptkGjpNyfaCbsyOLlhYFE6luOSCUrzCQNQjJGLXCpy9D0pr35VR
-	qY8JSaGrzcAycLXast7q9mDkCqLn6DEy0phOv4ULag5JUE6iPjr3cDZzIKPwc8AS+cZfDE0XbF4
-	vFqrNSRjoFOGXSb+GJGorcEkI7zmTLtj6eT38L8Yu9YY/8h1kfdomIkV2jWtt/u1GdU92MWHA3f
-	wdE/cLykMPEZrDlVFne+k9/MHZW4eyYtfAN7RCEkMQ4IASntVO8Xqu1pjmUSpZgH88nffLEHJVw
-	PfSZygfE1fogLunc491va6wInZT7VBd+ihQMYVeLE/u89m+npDnTtWebBOclhuZrANYQDXkOWT2
-	TUk7K7SpiEW5rLNnCa1bsjt8KkljjwmC/aSclM80nEwbxPRQPje1auhwMFAvOqUDtI9Vy8JhBZT
-	QoFU25HpjhFGaAjaQypIGQbII++kM8/BR8OtIZ2LeiFLE/364xNCw==
-X-Received: by 2002:a17:90b:4c4a:b0:398:bc52:825b with SMTP id 98e67ed59e1d1-39b2624c32amr3809472a91.21.1788488395788;
-        Thu, 03 Sep 2026 19:19:55 -0700 (PDT)
-Received: from nugod-NUC15CRHU5.tail9f095a.ts.net ([218.237.104.87])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39b260cd2aasm1731212a91.3.2026.09.03.19.19.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Sep 2026 19:19:55 -0700 (PDT)
-From: HyeongJun An <sammiee5311@gmail.com>
-To: Mark Brown <broonie@kernel.org>,
-	Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Shuah Khan <shuah@kernel.org>
-Cc: linux-sound@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	HyeongJun An <sammiee5311@gmail.com>
-Subject: [PATCH] selftests/alsa: Test writes to IEC958 controls
-Date: Fri,  4 Sep 2026 11:19:39 +0900
-Message-ID: <20260904021939.149468-1-sammiee5311@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=nuvoton.com header.i=@nuvoton.com header.b="gEQeoaNb"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jU3oVLPK19iByAqGGOYrfa5ZHlHBSQHgEPfP0POlkz2fTQMF45GjAfl7tdi0b45QHpO2iBOr6vPJ+E2gmebl55ob9FMd5UzRK9C8bBu4m+7dJvvqon5pAh5qgvor+xI8e7FuXMY/8GGCpv/T5UvrgzEcpKwCEkSMNFXnNWhfWaeBqSjbds+KK55mj9nKb7jyBqRE4VkpnpmZ4+3ByELxBpYQS7vrtOsUhU+/xZ1y/phLGbVGCrdKVjgF4Vq7IXXPw7xzAOrdgAdhsL/JD3wM5oTGAILdFeWSCguL6Oh9uUy8KkxUR/DNLgTHo36sfoUKrj8KJklAnOuhBOLKxitvmQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=u645JAEptkktINqUTloinGIpfCrfT5WkXzEsBBJ/+r4=;
+ b=JtwY68aaHPVH33GsR1WJrLckMFVAy4TDBkwBV97n00D8VI5rGvjC6WeblVaWgveqiS2Q13eIjDZtAWkyWOu9xhr2CXvZS3D3CJZRwV+RkFvHD3wXcju/tdURSg4zRgMXpNG88CmYgbE/iZe2ad+LxnGNL6LMMZWlWxnGEasJwvYAqCUWfWoa7eF2Y8A7QtEkZ+kwhIGaS9K/idm/8FSa9nmfgwuyfB4jfOPc9sKPMZ4lwU0jJOABP3CJynYAyOL1saxpcHJ/RjlIbS+ZgMZ7b1RyQ4GEcKhfkg3FKa91q9JjJV9FUrwkhyRP19PO0N8oW1260wv17AVTrgLJk05/Ag==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 211.75.126.7) smtp.rcpttodomain=kernel.org smtp.mailfrom=nuvoton.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=nuvoton.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuvoton.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=u645JAEptkktINqUTloinGIpfCrfT5WkXzEsBBJ/+r4=;
+ b=gEQeoaNbWfxTs730aoNOhYpJfIVVmaFpLnqEUBX+1boT9kq9c/Tbp8s/cP2DBdwS5FtvU0fLrP4MbnhSD8bx2nlsq9z9Ajfv5CCEeEUUD9QdbgT/9D4SjVtTM0D932/9Zv/HRLOyWUUeqaVyMjK+mT1DusDwJCaSQymfaVC5nwJ12fCh+XrpesVzYHRC7fpXlHWglGGbSx7OwjY8N0v0NKqpDtFQV8FJ2eVpwjrNg9l+omEi2wl+97+qBLPncGnRGu49GnUHpEw8+GGAj9yFJoG2K7jQwiyAiTmpESUELAQPWqnLv1EVZJSaetv3oEKKAg7YAj30PRME+zDPahYNmg==
+Received: from JH0PR01CA0139.apcprd01.prod.exchangelabs.com
+ (2603:1096:990:5b::11) by KL1PR03MB7798.apcprd03.prod.outlook.com
+ (2603:1096:820:f7::10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Fri, 4 Sep
+ 2026 02:44:59 +0000
+Received: from SG2PEPF000B66CB.apcprd03.prod.outlook.com
+ (2603:1096:990:5b:cafe::a4) by JH0PR01CA0139.outlook.office365.com
+ (2603:1096:990:5b::11) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.382.12 via Frontend Transport; Fri, 4
+ Sep 2026 02:44:59 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 211.75.126.7)
+ smtp.mailfrom=nuvoton.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nuvoton.com;
+Received-SPF: Pass (protection.outlook.com: domain of nuvoton.com designates
+ 211.75.126.7 as permitted sender) receiver=protection.outlook.com;
+ client-ip=211.75.126.7; helo=NTHCCAS01.nuvoton.com; pr=C
+Received: from NTHCCAS01.nuvoton.com (211.75.126.7) by
+ SG2PEPF000B66CB.mail.protection.outlook.com (10.167.240.24) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.382.8 via Frontend Transport; Fri, 4 Sep 2026 02:44:59 +0000
+Received: from NTHCCAS01.nuvoton.com (10.1.8.28) by NTHCCAS01.nuvoton.com
+ (10.1.8.28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.61; Fri, 4 Sep
+ 2026 10:44:57 +0800
+Received: from localhost.localdomain (10.11.36.27) by NTHCCAS01.nuvoton.com
+ (10.1.8.28) with Microsoft SMTP Server id 15.1.2507.61 via Frontend
+ Transport; Fri, 4 Sep 2026 10:44:57 +0800
+From: Neo Chang <YLCHANG2@nuvoton.com>
+To: <broonie@kernel.org>
+CC: <lgirdwood@gmail.com>, <perex@perex.cz>, <robh@kernel.org>,
+	<krzk+dt@kernel.org>, <linux-sound@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+	<neo.chang70@gmail.com>, <kchsu0@nuvoton.com>, <sjlin0@nuvoton.com>, "Neo
+ Chang" <YLCHANG2@nuvoton.com>
+Subject: [PATCH 0/2] ASoC: codecs: nau8360: Add DSP fallback and PEQ band initialization
+Date: Fri, 4 Sep 2026 10:44:54 +0800
+Message-ID: <20260904024456.193528-1-YLCHANG2@nuvoton.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -76,290 +76,53 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-NotSetDelaration: True
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SG2PEPF000B66CB:EE_|KL1PR03MB7798:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0837d16e-95d2-4ff0-2138-08df0a2e834f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|376014|36860700016|23010399003|82310400026|10067099003|56012099006|11063799006|5023799004|6133799003|3023799007|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	4Bq2tgjsN8dhK3y8mI2s69gQYGwEW1KsSMcgcPRjvyxRNircI1zzC0PZxg1s6c5Z4AFeo63jg3huguLe2XFE6ugPgEhZkOvcVf5HjBZKcDFqF2LDuAxXmUKxRrrox+ZsYv8nPn8c+FNN6YhjvhvnGB99XznjhhRwiPTJtlsJ3QkBVfMsn8k0x2VRvaP5Q0R7lkOVPSTEinKfrbDTs9bieyeqGgVfqj3WV3qm1qWFyM7JlNQZ5TGI7B9C1KZC75smPkBuXQsS58TL1xiDTL4lFWzvu2YQ6yUa45r8HNVxJQI6CBRmvpoaRVCAxruEisCkuhMsuQjhT6yoCdYXASFPmC/q93s4yoS3CnyhjX2bUoDI5Z5kw0xci2JxemSmxzSB8VsuZKQ8Pi/81TqTZgHeWmfbxElMXUHoegxhKou0d7Z8/Iqs4/3zIq/u8VDef4AKkVbmVmJQNGmQQEuGmPpfKZXXjcp798I2nsc9zjzl5OpflkkaaNvDSK2H9ziy17d4zNpXzFr23tFip9LEM+c2N7c6SuAdjGMnq9UQ1TEFBp6aTlt//7+H2Z+ZJm4T0ouvU12PYXxDh4KYSKITKJUeyZw4m7DDTZgU+0cRxAIHUmaFK2xXZNkkP9Y+J49rCwfyfeEluSpZjL2kFoBVrykpCrR1SC1f1/47ZdwHkh7htY/G50VZLOvxRZFI6iB2It3I
+X-Forefront-Antispam-Report:
+	CIP:211.75.126.7;CTRY:TW;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:NTHCCAS01.nuvoton.com;PTR:211-75-126-7.hinet-ip.hinet.net;CAT:NONE;SFS:(13230040)(1800799024)(376014)(36860700016)(23010399003)(82310400026)(10067099003)(56012099006)(11063799006)(5023799004)(6133799003)(3023799007)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	59oyeREmj8zNYkyCH4eR3cpg8bbZpZOLdfhwQef5DQLeGWg90sIZX86yOJSulEveF5tlRN7oPFNkyWeLRCkBzrHkQAoZun8SvSWbqUDvzoN2AC+/aXAgytsWQO3LOj9pEcxzPVMsFEbWMzwzKMGlSzxcbqQ1nUDEmKXDGo0qC9wZKC6zWNu7/AcRyP1PcspGCnnYnmA4rSXamfxtq5nuyWsKMdYJ1d/Idl4wg84LDNDcr6QWyrQAuiS7Sf/3OGL2UxWO3Y64JfpyNSi+X9zMs6GW2IAIKVhgDxKZkeqrPkxV//FzLI6OFuq1a0GX1OSu1DzXeq+sbyV+gRmtGHFTCpemLQbam94b7Hf5tBDguIQLWFNbeSHj8Y86unBz1+3Xjbx4yWFs8WIJy3SvmZjktGErodJz8jHUp7RhnbijJlh8fngOOnd8GhbGCLS7TkKp
+X-OriginatorOrg: nuvoton.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Sep 2026 02:44:59.6389
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0837d16e-95d2-4ff0-2138-08df0a2e834f
+X-MS-Exchange-CrossTenant-Id: a3f24931-d403-4b4a-94f1-7d83ac638e07
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=a3f24931-d403-4b4a-94f1-7d83ac638e07;Ip=[211.75.126.7];Helo=[NTHCCAS01.nuvoton.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SG2PEPF000B66CB.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR03MB7798
 
-Nothing checks that the put() callback of an IEC958 control reports a
-change, because write_valid skips these controls.
+This patch series adds a fallback mechanism for the NAU8360 DSP during 
+firmware load failure and ensures proper initialization for PEQ bands.
 
-Toggle one channel status bit and look for the event. The bit comes
-from the Con Mask, Pro Mask or plain Mask sibling where there is one,
-non-audio by preference because it means the same thing in both
-layouts. Bit 0 of the first byte picks the layout, so leave it alone.
+It includes the following changes:
+- Fallback to bypass mode automatically when DSP firmware fails to load,
+  ensuring basic audio playback remains functional.
+- Set a default PEQ band number during DSP initialization to prevent
+  invalid state or uninitialized parameters before user configuration
+  is applied.
 
-Write the value once without grading it first, since a device need not
-implement the bit we picked. The graded write then compares against
-what the device gave back, so it can only fail on the notification.
+Neo Chang (2):
+  ASoC: codecs: nau8360: Set DAC path to bypass mode when DSP firmware
+    load fails
+  ASoC: codecs: nau8360: Add default PEQ band number for DSP init
 
-On an HDA card with four HDMI PCMs:
+ sound/soc/codecs/nau8360.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-  -# Totals: pass:212 fail:5 xfail:0 xpass:0 skip:56 error:0
-  +# Totals: pass:216 fail:5 xfail:0 xpass:0 skip:52 error:0
-
-A driver whose put() never reports a change now shows up as
-event_missing rather than as a skip. hdmi-codec, img-spdif-out and
-uniperif_player store the value and return 0, so boards using them
-should report a new failure.
-
-write_invalid stays a skip. Every bit pattern is a valid channel
-status.
-
-Suggested-by: Mark Brown <broonie@kernel.org>
-Link: https://lore.kernel.org/all/317fc80e-ec80-477d-80f6-53c395de4b4a@sirena.org.uk/
-Signed-off-by: HyeongJun An <sammiee5311@gmail.com>
-Assisted-by: Claude:claude-opus-5
----
- tools/testing/selftests/alsa/mixer-test.c | 225 ++++++++++++++++++++++
- 1 file changed, 225 insertions(+)
-
-diff --git a/tools/testing/selftests/alsa/mixer-test.c b/tools/testing/selftests/alsa/mixer-test.c
-index a329f901c5ed..0f5750edcd98 100644
---- a/tools/testing/selftests/alsa/mixer-test.c
-+++ b/tools/testing/selftests/alsa/mixer-test.c
-@@ -30,6 +30,12 @@
- 
- #define TESTS_PER_CONTROL 7
- 
-+/* Suffixes of the SNDRV_CTL_NAME_IEC958() names, not exported to userspace */
-+#define IEC958_DEFAULT		"Default"
-+#define IEC958_CON_MASK		"Con Mask"
-+#define IEC958_PRO_MASK		"Pro Mask"
-+#define IEC958_MASK		"Mask"
-+
- struct card_data {
- 	snd_ctl_t *handle;
- 	int card;
-@@ -842,6 +848,221 @@ static bool test_ctl_write_valid_enumerated(struct ctl_data *ctl)
- 	return !fail;
- }
- 
-+/*
-+ * Find the read only mask control for an IEC958 value control.  The two
-+ * share device, subdevice and index but not always the interface.
-+ */
-+static struct ctl_data *find_iec958_mask_ctl(struct ctl_data *ctl,
-+					     const char *suffix)
-+{
-+	char name[64];
-+	int stem;
-+	struct ctl_data *mask;
-+
-+	stem = strlen(ctl->name) - strlen(IEC958_DEFAULT);
-+	if (snprintf(name, sizeof(name), "%.*s%s", stem, ctl->name, suffix) >=
-+	    (int)sizeof(name))
-+		return NULL;
-+
-+	for (mask = ctl_list; mask != NULL; mask = mask->next) {
-+		if (mask->card != ctl->card)
-+			continue;
-+		if (snd_ctl_elem_info_get_type(mask->info) !=
-+		    SND_CTL_ELEM_TYPE_IEC958)
-+			continue;
-+		if (snd_ctl_elem_info_is_inactive(mask->info))
-+			continue;
-+		if (!snd_ctl_elem_info_is_readable(mask->info))
-+			continue;
-+		if (snd_ctl_elem_id_get_device(mask->id) !=
-+		    snd_ctl_elem_id_get_device(ctl->id))
-+			continue;
-+		if (snd_ctl_elem_id_get_subdevice(mask->id) !=
-+		    snd_ctl_elem_id_get_subdevice(ctl->id))
-+			continue;
-+		if (snd_ctl_elem_id_get_index(mask->id) !=
-+		    snd_ctl_elem_id_get_index(ctl->id))
-+			continue;
-+		if (strcmp(mask->name, name) == 0)
-+			return mask;
-+	}
-+
-+	return NULL;
-+}
-+
-+/*
-+ * Read the bits the device says it implements.  Bit 0 of the first status
-+ * byte picks which mask applies, some devices publish only a plain Mask.
-+ */
-+static bool read_iec958_mask(struct ctl_data *ctl,
-+			     const snd_aes_iec958_t *cur,
-+			     snd_aes_iec958_t *mask)
-+{
-+	int err;
-+	struct ctl_data *mask_ctl;
-+	snd_ctl_elem_value_t *val;
-+
-+	if (!strend(ctl->name, IEC958_DEFAULT))
-+		return false;
-+
-+	if (cur->status[0] & IEC958_AES0_PROFESSIONAL)
-+		mask_ctl = find_iec958_mask_ctl(ctl, IEC958_PRO_MASK);
-+	else
-+		mask_ctl = find_iec958_mask_ctl(ctl, IEC958_CON_MASK);
-+	if (!mask_ctl)
-+		mask_ctl = find_iec958_mask_ctl(ctl, IEC958_MASK);
-+	if (!mask_ctl)
-+		return false;
-+
-+	snd_ctl_elem_value_alloca(&val);
-+	snd_ctl_elem_value_set_id(val, mask_ctl->id);
-+
-+	err = snd_ctl_elem_read(mask_ctl->card->handle, val);
-+	if (err < 0) {
-+		ksft_print_msg("snd_ctl_elem_read() failed for %s: %s\n",
-+			       mask_ctl->name, snd_strerror(err));
-+		return false;
-+	}
-+
-+	snd_ctl_elem_value_get_iec958(val, mask);
-+
-+	return true;
-+}
-+
-+/*
-+ * Pick one bit to toggle.  Bit 0 of the first status byte selects the
-+ * layout the others are read in so leave it alone, prefer non audio.
-+ */
-+static bool pick_iec958_bit(const snd_aes_iec958_t *mask, unsigned int *byte,
-+			    unsigned char *bit)
-+{
-+	unsigned int i;
-+	int j;
-+
-+	if (mask->status[0] & IEC958_AES0_NONAUDIO) {
-+		*byte = 0;
-+		*bit = IEC958_AES0_NONAUDIO;
-+		return true;
-+	}
-+
-+	for (i = 0; i < sizeof(mask->status); i++) {
-+		for (j = 0; j < 8; j++) {
-+			if (i == 0 && (1 << j) == IEC958_AES0_PROFESSIONAL)
-+				continue;
-+			if (mask->status[i] & (1 << j)) {
-+				*byte = i;
-+				*bit = 1 << j;
-+				return true;
-+			}
-+		}
-+	}
-+
-+	return false;
-+}
-+
-+/*
-+ * Throw away the events from a write we are not grading, one left behind
-+ * would make a missing notification look like a notification we got.
-+ */
-+static int drop_events(struct ctl_data *ctl)
-+{
-+	int err;
-+
-+	do {
-+		err = wait_for_event(ctl, 0);
-+	} while (err > 0);
-+
-+	return err;
-+}
-+
-+/*
-+ * Toggle a single channel status bit and check that userspace is told about
-+ * it.  A device need not implement the bit we picked so write the value
-+ * without grading it first, then grade against what it gave back.
-+ */
-+static bool test_ctl_write_valid_iec958(struct ctl_data *ctl)
-+{
-+	int err;
-+	unsigned int byte;
-+	unsigned char bit;
-+	snd_aes_iec958_t iec958, mask;
-+	snd_ctl_elem_value_t *orig_val, *val, *read_val, *w_val;
-+	snd_ctl_elem_value_alloca(&orig_val);
-+	snd_ctl_elem_value_alloca(&val);
-+	snd_ctl_elem_value_alloca(&read_val);
-+	snd_ctl_elem_value_alloca(&w_val);
-+
-+	/*
-+	 * The bytes past the ones a driver implements are compared too,
-+	 * so start from a read rather than building a value here.
-+	 */
-+	snd_ctl_elem_value_set_id(orig_val, ctl->id);
-+	err = snd_ctl_elem_read(ctl->card->handle, orig_val);
-+	if (err < 0) {
-+		ksft_print_msg("snd_ctl_elem_read() failed: %s\n",
-+			       snd_strerror(err));
-+		return false;
-+	}
-+
-+	snd_ctl_elem_value_get_iec958(orig_val, &iec958);
-+
-+	/* With no mask to go on all we can do is try non audio */
-+	memset(&mask, 0, sizeof(mask));
-+	if (!read_iec958_mask(ctl, &iec958, &mask))
-+		mask.status[0] = IEC958_AES0_NONAUDIO;
-+
-+	if (!pick_iec958_bit(&mask, &byte, &bit)) {
-+		ksft_print_msg("%s implements no settable status bits\n",
-+			       ctl->name);
-+		return true;
-+	}
-+
-+	iec958.status[byte] ^= bit;
-+	snd_ctl_elem_value_copy(val, orig_val);
-+	snd_ctl_elem_value_set_iec958(val, &iec958);
-+
-+	/* Writing can modify the value so keep a copy to write from */
-+	snd_ctl_elem_value_copy(w_val, val);
-+	err = snd_ctl_elem_write(ctl->card->handle, w_val);
-+	if (err < 0) {
-+		ksft_print_msg("snd_ctl_elem_write() failed: %s\n",
-+			       snd_strerror(err));
-+		return false;
-+	}
-+
-+	snd_ctl_elem_value_set_id(read_val, ctl->id);
-+	err = snd_ctl_elem_read(ctl->card->handle, read_val);
-+	if (err < 0) {
-+		ksft_print_msg("snd_ctl_elem_read() failed: %s\n",
-+			       snd_strerror(err));
-+		return false;
-+	}
-+
-+	/* Put it back where we found it, then forget both writes */
-+	snd_ctl_elem_value_copy(w_val, orig_val);
-+	err = snd_ctl_elem_write(ctl->card->handle, w_val);
-+	if (err < 0) {
-+		ksft_print_msg("snd_ctl_elem_write() failed: %s\n",
-+			       snd_strerror(err));
-+		return false;
-+	}
-+
-+	if (drop_events(ctl) < 0)
-+		return false;
-+
-+	if (snd_ctl_elem_value_compare(val, read_val)) {
-+		/* Grade against what came back, the event check still runs */
-+		ksft_print_msg("%s does not implement status[%u] 0x%02x\n",
-+			       ctl->name, byte, bit);
-+		return write_and_verify(ctl, val, read_val) == 0;
-+	}
-+
-+	ksft_print_msg("%s toggling status[%u] 0x%02x\n", ctl->name, byte,
-+		       bit);
-+
-+	return write_and_verify(ctl, val, NULL) == 0;
-+}
-+
- static void test_ctl_write_valid(struct ctl_data *ctl)
- {
- 	bool pass;
-@@ -878,6 +1099,10 @@ static void test_ctl_write_valid(struct ctl_data *ctl)
- 		pass = test_ctl_write_valid_enumerated(ctl);
- 		break;
- 
-+	case SND_CTL_ELEM_TYPE_IEC958:
-+		pass = test_ctl_write_valid_iec958(ctl);
-+		break;
-+
- 	default:
- 		/* No tests for this yet */
- 		ksft_test_result_skip("write_valid.%s.%d\n",
 -- 
-2.43.0
+2.25.1
 
