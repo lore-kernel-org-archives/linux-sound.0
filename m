@@ -1,36 +1,36 @@
-Received: from mta1.migadu.com (out-74.mta1.migadu.com [95.215.58.74])
+Received: from mta0.migadu.com (out-166.mta0.migadu.com [91.218.175.166])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 594743F1AC5
-	for <linux-sound@vger.kernel.org>; Fri,  4 Sep 2026 08:36:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0A933F6C55
+	for <linux-sound@vger.kernel.org>; Fri,  4 Sep 2026 08:36:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.166
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788510980; cv=none; b=X+lKyovazrNDPUI2TsNQ3mzOByhKaUn2q9Oeq7cvb+dyTJuV4WeS5YYPxPX6GTgs7m3nKO2YsVKrD09xJ++ErfsSaMKJDpgSkpl6Vssjp8okBWAryv3RATuh7l0s2AIH0qQLWvYvWyOXw8aXHD8VlnGSE1Hp4r5LNE90ECgPYhs=
+	t=1788510981; cv=none; b=qh0HaZ+EfH72d/C3qTIypqTA8MsAlJe5rLKmAjvNlEAxqRHhlEX/LK3Ba/Rfb9sXOh21wSvvcJCIW3CJT1NYjtQR6wkqCAL5VUyyUgaTrTfe/iXI9R2Y/U5rcQpRlyWf64RSGRr9wTt7iEupuCOGvYd39A7Jg2DWAuZua8P9Sgk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788510980; c=relaxed/simple;
-	bh=Kg4/aqDRaXMqMIg8PKl30nMewyVqFQhXtA0OxCoMYYg=;
+	s=arc-20240116; t=1788510981; c=relaxed/simple;
+	bh=0LJHNxhVLG/qYZju6tQaq/vHtC/kswimquYT7U0GHmQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oluZ2PBjK4W4nMmtqknzH1AxKkUXQv/mFuQ/nhZc0d66j/a2/JCHk/0CCfc3wDYwyI+ywRXZRPT9VjmpoPsrItLYXTDSMMRI6rlBL87eUlKt0KWpeFTfrOW4m4zB4Nn6RvytjGRCPdATffq1xXNPK3J/069SevDbXpco1TYS99Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=cbRvvAP3; arc=none smtp.client-ip=95.215.58.74
+	 In-Reply-To:Content-Type; b=IIlTGziWNRAfC/upKc3DEwYoXNPY33hpXNw99aLnWE9Y3tJLVN3pGE86xV8s5/TMNRjGf3WoUC3izC8zztT0DWDXoGyGzgX3oAbuRoM+ino44mOpKezfLLatatE+wojS0EjaiI50bAPKUgQgytoVWE+7flZ7W6X07O+I3JNeVGg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=AS0WGoKJ; arc=none smtp.client-ip=91.218.175.166
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="cbRvvAP3"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="AS0WGoKJ"
 X-Envelope-To: linux-sound@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=Kg4/aqDRaXMqMIg8PKl30nMewyVqFQhXtA0OxCoMYYg=;
+DKIM-Signature: a=rsa-sha256; bh=0LJHNxhVLG/qYZju6tQaq/vHtC/kswimquYT7U0GHmQ=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1788510977; v=1; x=1789115777;
- b=cbRvvAP3kMz6m5xPsAjF8QC4waC5MBum+p6eg6dvATxtk3CV2WpQpYjVZ3cSJf+lutx6Iea9
- 6FrmSpElyD7HiMYDTKbaqip+Q6RGbRex82OF3digFFEDsZ1idkMgrg9tp5cRErtzXUpfBn3Ghx4
- L/c62QmiUVSEKV4jN57aTrrk=
+ t=1788510978; v=1; x=1789115778;
+ b=AS0WGoKJepIO2wqRo/OQJg4CLU+T0N8pPZOtbIlde6z7odlbb8pCCCc2EEHNjZ/JCDj2AFwZ
+ Vazytmx7riicqB9TTcig6SWuaQIUgzVcgk8x1qnIuWTRD8S6eIa9OJEjKPtYmAGLSajX/wXtyfo
+ V2XvswJeA3F+EeO9/BVYwnMA=
 X-Envelope-To: linux-sound@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id cf0016a16f4f442f;
-	Fri, 04 Sep 2026 08:36:17 +0000
-X-Mizu-Trace-ID: cf0016a16f4f442f
+Received: by smtp.migadu.com with ESMTPS id 361b9677b4cad989;
+	Fri, 04 Sep 2026 08:36:18 +0000
+X-Mizu-Trace-ID: 361b9677b4cad989
 X-Migadu-Flow: FLOW_OUT
-Message-ID: <60e6f5b1-eaee-4eff-9330-b87eb77abfd7@linux.dev>
-Date: Fri, 4 Sep 2026 09:25:29 +0200
+Message-ID: <4e445256-f9aa-4cc9-a2e1-fa45500dbba0@linux.dev>
+Date: Fri, 4 Sep 2026 09:26:32 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -38,45 +38,51 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/3] soundwire: bus: re-enable CLOCK_STOP_MODE1 support
+Subject: Re: [PATCH] soundwire: cadence_master: wait and cancel cdns->work
+ before clock stop
 To: Bard Liao <yung-chuan.liao@linux.intel.com>, linux-sound@vger.kernel.org,
  vkoul@kernel.org
 Cc: vinod.koul@linaro.org, linux-kernel@vger.kernel.org,
- peter.ujfalusi@linux.intel.com, bard.liao@intel.com
-References: <20260901030311.232823-1-yung-chuan.liao@linux.intel.com>
+ peter.ujfalusi@linux.intel.com, bard.liao@intel.com, david.lin@intel.com
+References: <20260901031019.233254-1-yung-chuan.liao@linux.intel.com>
 Content-Language: en-US
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <20260901030311.232823-1-yung-chuan.liao@linux.intel.com>
+In-Reply-To: <20260901031019.233254-1-yung-chuan.liao@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 9/1/26 05:03, Bard Liao wrote:
-> Add CLOCK_STOP_MODE1 back to allow the peripheral to utilize it when
-> the clock is stopped.
-> This mode is designed for power-sensitive devices as it enables a deeper
-> power-saving state, although it does not retain the peripheral's state
-> during the clock stop.
+On 9/1/26 05:10, Bard Liao wrote:
+> A peripheral event could happen during the clock stop process. We need
+> to wait for the event be handled before stopping the bus clock.
+> Otherwise, we will get the IO transfer timed out issue.
 > 
-> v2:
->  - check slave->probed before looking at the driver to avoid NULL pointer
->    dereference.
->  - add wake_enable parameter to stop_bus ops to stop the clock but keep the
->    bus unwakeable during system suspend.
-> 
-> Bard Liao (3):
->   soundwire: bus: add CLOCK_STOP_MODE1 support back
->   soundwire: Intel: add wake_enable parameter to stop_bus ops
->   soundwire: Intel: stop sdw clock in system suspend
-> 
->  drivers/soundwire/bus.c              | 54 +++++++++++++++++-----------
->  drivers/soundwire/intel.h            |  6 ++--
->  drivers/soundwire/intel_auxdevice.c  |  7 ++--
->  drivers/soundwire/intel_bus_common.c |  8 ++---
->  include/linux/soundwire/sdw.h        |  4 +++
->  include/linux/soundwire/sdw_intel.h  |  2 +-
->  6 files changed, 50 insertions(+), 31 deletions(-)
-> 
-
-Thanks Bard, LGTM - this addresses my previous feedback.
+> Fixes: af4cc917826f ("soundwire: cadence: mask Slave interrupt before stopping clock")
+> Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+> Reviewed-by: David Lin <david.lin@intel.com>
+> Reviewed-by: Shuming Fan <shumingf@realtek.com>
 
 Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+
+> ---
+>  drivers/soundwire/cadence_master.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/drivers/soundwire/cadence_master.c b/drivers/soundwire/cadence_master.c
+> index 6fa3739221ee..c41971f4f177 100644
+> --- a/drivers/soundwire/cadence_master.c
+> +++ b/drivers/soundwire/cadence_master.c
+> @@ -1702,6 +1702,13 @@ int sdw_cdns_clock_stop(struct sdw_cdns *cdns, bool block_wake)
+>  		return 0;
+>  	}
+>  
+> +	/*
+> +	 * wait for any in-flight peripheral event handling to complete before stopping the clock.
+> +	 * No need to disable peripheral interrupts before canceling the work, as the peripheral
+> +	 * interrupts are already masked before the work is scheduled.
+> +	 */
+> +	cancel_work_sync(&cdns->work);
+> +
+>  	/*
+>  	 * Before entering clock stop we mask the Slave
+>  	 * interrupts. This helps avoid having to deal with e.g. a
+
