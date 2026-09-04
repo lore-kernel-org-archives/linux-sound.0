@@ -1,135 +1,227 @@
-Received: from mail-m1973192.qiye.163.com (mail-m1973192.qiye.163.com [220.197.31.92])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1471D41686A;
-	Fri,  4 Sep 2026 11:18:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.92
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 006B74078D8
+	for <linux-sound@vger.kernel.org>; Fri,  4 Sep 2026 11:26:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788520726; cv=none; b=SfSEnPhYD8zBz1ydj75ujyYaJHiYfjPwltvWQTskQGdH/X1iBifRol48BnLIrzoSaAuCmSaT8atB4+OwU6Blm5D2kv4Hi95jJQ63/Au5/ESZ2CmvD1E3cMUEK/XoTfkJePbACO5zFvM0m2a36R2J7SbNERaTn994PFBE7p3bx5E=
+	t=1788521179; cv=none; b=iuiXD3RDjwM/XxP3Kvz28fhtaQDlzTbC5nIHxRwP0hgUaoeXXiuL/jbPKUWV4RlFK4F74zRsMXbkRedlyWuCPB7Zk15pXJ+fHcCJdPXiylexUxVtebXZxqKPu1EgJe9bRLoyv3TiHKK1O9HFz6XkWT8BVTSkSs4WjQH3RPxuKj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788520726; c=relaxed/simple;
-	bh=qNhMbFl0+8tleEkoZZdNpXH8z1y7vkZPMU0/luTj13A=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=pd3S+X9iCETsAmx1XtmkJh6dkEwp0jwYaBhUl44nPXwzd0+Ods/D68cUO6fQZXwGUIa18BbUBJTfwzvKO6FqcpWv7g8bL7G0Py3aaDrAIDR79N+A9OG91orj51TzonK5KZmTcIiQqBvY/gRGQM6xIZo7XqT4NqrPhsbPZuOEMPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=thundersoft.com; spf=pass smtp.mailfrom=thundersoft.com; dkim=pass (1024-bit key) header.d=thundersoft.com header.i=@thundersoft.com header.b=G0aSWWRP; arc=none smtp.client-ip=220.197.31.92
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=thundersoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thundersoft.com
+	s=arc-20240116; t=1788521179; c=relaxed/simple;
+	bh=CQzOS+rZGbncjCLOFoQoiDEmny0rCYJyS6C1FLbJGSI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=PfYtlU3sTJi5rjwqnFCAFf9xxkYA00Es9iwrkBAAPrXqSvcjgCOIh9DzO2+ZuUuSc1GiFph1Zhp1erYKKNwoT4Az+kSTKd4zp/p961jm5Lo10Aalm4sNCa5NcYqBRjPj6dXuM2RoxjvujK2+D9RF5qTqFgUS7csRKoQii9P/MeY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UEz4sbH/; arc=none smtp.client-ip=209.85.167.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=thundersoft.com header.i=@thundersoft.com header.b="G0aSWWRP"
-Received: from [127.0.1.1] (unknown [36.129.139.90])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 4c8f646b9;
-	Fri, 4 Sep 2026 18:02:50 +0800 (GMT+08:00)
-From: Hongyang Zhao <hongyang.zhao@thundersoft.com>
-Subject: [PATCH v3 0/6] Add audio support for QCS6490 Rubik Pi 3
-Date: Fri, 04 Sep 2026 18:02:24 +0800
-Message-Id: <20260904-rubikpi-next-20260605-v3-0-f49146d85af3@thundersoft.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UEz4sbH/"
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5b28c91fba5so1162347e87.1
+        for <linux-sound@vger.kernel.org>; Fri, 04 Sep 2026 04:26:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788521175; x=1789125975; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=U4aY3uNjbAyDvlcOheeRnD6wUmUcErbQzc0yYkJMYFI=;
+        b=UEz4sbH/yqum3LecnBzPBK8LlibxKwCAc3cLPBfUeh3jG8rTCUPe7pIAlgkW7fJ2ZM
+         k+O85RZ8S3AtgUnWWvsMG5CmcMfpJIFIl7hPyshL2urD82sNfTizlQBVT/1H5f9JEl31
+         h8/ePJgP4mm+yPLBukYF1G/D1mlNLmqmraMgHBCL50P69JJChZFZDVuV5u4vYg1vCWYP
+         9dAo7g7OttHI4o0ChN+B6treHWRb7NZuACWBq2qpCahX11mgIrTC9IzepgGnwsIEGI/p
+         xxcoZ4wn4WYQTrG+Lzx3m7cXtCsNULCJTu3CKdHnFIGAO4A5/nhCNgiFLg32g9Cm3Ifg
+         U6Aw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788521175; x=1789125975;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=U4aY3uNjbAyDvlcOheeRnD6wUmUcErbQzc0yYkJMYFI=;
+        b=X/fnwBDiF2Cl1X2mw/uhe79Cjr4IwaOgy3NJLqHHQnV1wBu+PAz0zxEGBHl8DmNoLt
+         AZjizPK5jdHoEkUFcVEyuNgJ2YWD9hAGq3RcZLVq3Q56JCba8kj38vF+dOw1a5QDS6YR
+         1A/TTKRl3+li0Kb418rkfMt3rJFelT3GrBKslQLaCqSVDG5qo2r2+zzk7uGRWoAqg2Gj
+         hJULduj5n4Wq+O6ncdsXhj56homQE8v+rOUWjgzm4+lUDSaZIEJC2SFmUQQU/jxYOy3J
+         AhXQxIoJO7WFQQcRlcvusv0sh1R5z62LP8e5aMAace+R9SakkAvmHW7T38oGiMoLvSOB
+         YN2Q==
+X-Forwarded-Encrypted: i=1; AKwUvByX7Xkbz4rwmlXGlgaPj6R7LdKmTyRZkFVzDShw7c/moPajhQj1anQznlUFRy7/OrGXt/f4h6tIXXCqXw==@vger.kernel.org
+X-Gm-Message-State: AFuF++mGdOeUcroPQJSuaogIvlXfxwRW9/3PhjRbLjhDkZC/h5lVtUGa
+	FkEIj7G7mCR0qNL73u6xrSArE94UtCLzxh8IK0WqWSziibtFJHwVp5K/
+X-Gm-Gg: AYBFou3ucrMSR3PZtPQqwUxTctSYhsRDC1cg3oqPrW1FZWq3tJEs9FDr3UzlyqLs6zK
+	40x1wwD2FR3ovVr8AIsttdT987ZGZGQ8LuIPz8TkUe7+Q8Y8dvXhgeiS+p3FmLYDjFDpXs5SZ74
+	3PPsnxC5jhqFEwhZccIW9UsqL/mvfNbVtT1VfEQaUXMdT3HWyl05rCjv4JnjOSyb9wZXV9XD+Vr
+	2PcYAGnR+wEo+aXEF5LIgNZfqKwpi6diO5BRvNPV4A2BHcQlcnhmDNOFgfG1wx3Wc1i7gSiwOKt
+	X5Feuw5k+5zZDz1vwWkcGDtINfkomdKSpDTUOlzsmF6OKpP6kbunIGMfQGJVRFmIMip5WhCG29B
+	l5NN5rDrI520lQeon9KjKVUr1PqIgyFqJzeI76LAXxenglmdimd5hcGrTyUPuL43/z9HG1TCbKo
+	+cO25WD9P3nZzTLrOPvZYIpuzGkcqfYXUbXbpawXo3xnXzW94UvUV22atgTkjN0fSb71jPUEa8s
+	r37K6ALYcEvYgLJpDZVjk5TNion5Tr01ykQFr3Nu/94zWRGHgaLOiklAX6v
+X-Received: by 2002:a05:6512:6d3:b0:5b6:10bc:b864 with SMTP id 2adb3069b0e04-5b61769bbddmr802323e87.18.1788521174292;
+        Fri, 04 Sep 2026 04:26:14 -0700 (PDT)
+Received: from localhost ([188.234.148.119])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b61669aedesm478911e87.10.2026.09.04.04.26.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Sep 2026 04:26:13 -0700 (PDT)
+From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+To: tiwai@suse.de
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	jikos@kernel.org,
+	bentiss@kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+Subject: [RFC PATCH 0/2] the Topping M62's vendor controls, on the component framework
+Date: Fri,  4 Sep 2026 16:26:08 +0500
+Message-ID: <20260904112610.3286659-1-mikhail.v.gavrilov@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260904070530.195389-1-mikhail.v.gavrilov@gmail.com>
+References: <20260904070530.195389-1-mikhail.v.gavrilov@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIADCXmmoC/3WNwQ7CIBAFf6XZsxjAFhpP/ofpoZbFbozQAG1qG
- v5drIk3jzPJm7dBxEAY4VxtEHChSN4VOB0qGMbe3ZGRKQySS8UVb1iYb/SYiDlcE/tZa0wvRN3
- K2mgo2ymgpXXvXrvCI8Xkw2u/WeTHfota/CsuknGmtOLC6L5tWnFJ4+wMhuhtOg7+CV3O+Q29y
- ez2wAAAAA==
-X-Change-ID: 20260605-rubikpi-next-20260605-fdda114824d7
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Daniel Drake <drake@endlessm.com>, 
- Katsuhiro Suzuki <katsuhiro@katsuster.net>, 
- Matteo Martelli <matteomartelli3@gmail.com>, 
- Binbin Zhou <zhoubinbin@loongson.cn>, 
- Srinivas Kandagatla <srini@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>, 
- Roger Shimizu <rosh@debian.org>, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- devicetree@vger.kernel.org, Hongyang Zhao <hongyang.zhao@thundersoft.com>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1788516170; l=2990;
- i=hongyang.zhao@thundersoft.com; s=20260127; h=from:subject:message-id;
- bh=qNhMbFl0+8tleEkoZZdNpXH8z1y7vkZPMU0/luTj13A=;
- b=DyjzfWyZooYl2T4wNplaRvqj6qUvWaFiUJMuiIYnKEQ0onq8fJ06D9Et7ELZnwPZvjl/Rt6nm
- Gp236L1+mnlCGOwxU3q1nN5IClev05u3eaOQKgn5YVdzJjeXBEp1N4O
-X-Developer-Key: i=hongyang.zhao@thundersoft.com; a=ed25519;
- pk=D9yL5W9Zj0lPBDAq9gzY++1849VlXuTWAkROzZ88J/4=
-X-HM-Tid: 0aa06bdefbd209d5kunm6f63729aafb37
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlDGkpIVhlCSB5NTEwZHh5JHlYVFA
-	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlITVVKSUJVSkhCVUJLWVdZFhoPEhUdFFlBWU9LSFVKS0
-	lPT09IVUpLS1VKQktLWQY+
-DKIM-Signature: a=rsa-sha256;
-	b=G0aSWWRPPIQkmbUjsZ8CpVSUBuR+7xIQYb+UMp6g6Lwv5QCJK9/Qb0EQYS89R6v4eWTgMujIPF1Y7NWGvFAsGquy5ZySq+jIyOuM3xsw021XmISYe0ulW9Fr8D6i2fDcF+94YKne289u6PDKv5ynOe1IMvu2izolakSm4RdMIes=; s=default; c=relaxed/relaxed; d=thundersoft.com; v=1;
-	bh=4SgzzfN9XSK4heNk7+WjBfxET6sCvnhhqs10XtTLQUA=;
-	h=date:mime-version:subject:message-id:from;
+Content-Transfer-Encoding: 8bit
 
-Add audio support for the Thundercomm Rubik Pi 3, based on QCS6490.
+This is the experiment Takashi suggested in the v8 thread: an
+individual HID driver joined to snd-usb-audio through the component
+framework, instead of a mixer quirk that claims the HID interface for
+itself. It is posted as an RFC rather than as v9 because v8 is not
+withdrawn -- it remains the alternative, and the choice between the two
+is the question this series exists to answer.
 
-The board uses AudioReach/GPR on the ADSP. An ES8316 codec on primary
-MI2S provides headset playback, capture and jack detection, while the
-LT9611 bridge on quaternary MI2S provides HDMI playback.
+I said this morning that I would hold this until the questions in that
+thread were answered. I am sending it anyway, because a patch gets a
+better answer than a question does, and because the last of those
+questions answered itself: the correction I sent a few hours ago
+proposed deferring the controls until the card reports, and working out
+how that lands in code showed why it cannot -- which is in the section
+below. The only question still genuinely open is the HID one, and it
+touches one line.
 
-Document the ES8316 jack-detect inversion property and add a dedicated
-sound-card compatible. Factor out a generic Qualcomm headset helper for
-external codecs, extend the sc8280xp machine driver with optional per-DAI
-clock and jack configuration, and describe the audio hardware in the board
-device tree. Existing cards continue to use their card-wide defaults, and
-the DAI format remains card-wide.
+What the shape buys, measured rather than argued:
 
-This series is based on next-20260902. The required q6prm MCLK IDs, q6apm
-MI2S clock control and ES8316 regulator support are present in that tree,
-so there are no external dependencies.
+  - card.c is not touched at all. The v8 series had to add
+    snd_usb_claim_iface() and snd_usb_release_iface() there, and had a
+    defect I reported separately: an interface claimed and marked
+    USB_AUDIO_IFACE_UNUSED never gets told to wind down, because
+    usb_audio_disconnect() returns at its first line. With no claim
+    there is no such interface and the defect has nothing to attach
+    to. Watching the wire with usbmon: unbind the audio interface and
+    the keepalive stops. In v8 it kept going.
 
-Tested on Rubik Pi 3 with HDMI playback, headset playback and capture, and
-headset jack detection. The bindings and board DTB were also validated
-against next-20260902.
+  - the hid_ignore_list entry goes away, so hidraw stays available.
+    That matters because five of the card's functions -- the mixer
+    matrix, the mutes, the loopback routing, the input power and the
+    EQ -- are reachable only through the vendor protocol, and v8 made
+    them unreachable from userspace as the price of the quirk.
 
-Corresponding AudioReach topology and alsa-ucm-conf updates have also
-been tested and will be submitted separately to their respective upstream
-projects.
+  - two M62s on one host bind to their own cards. The match is by
+    descent from the shared USB device, and it holds: gains set on one
+    do not appear on the other, and unplugging one leaves the other's
+    controls in place. The quirk road could not be tested for this at
+    all.
 
-Changes in v3:
+On the timing worry from that thread: it does not bite on an ordinary
+plug. The master goes up from snd_topping_init() inside
+snd_usb_create_mixer(), so the bind is synchronous and the controls
+exist before try_to_register_card() -- the same ordering as v8. From
+HID probe to component bind, 54 to 57 ms across five replugs. Only a
+module reload onto a live card adds controls after registration, and
+there a desktop mixer does not follow the renumbered elements until
+wireplumber is restarted. That is a real wart and I have not found a
+way around it that is worth the code.
 
-- Rebase onto next-20260902 and drop the external dependencies, which are
-  now present in linux-next.
-- Adapt the machine driver to the current board data, keeping existing
-  card-wide settings as fallbacks and codec_dai_fmt card-wide.
-- Describe MCLK at the ES8316 codec and BCLK at the primary MI2S backend
-  DAIs.
-- Use the upstream ES8316 supplies without regulator-always-on or
-  regulator-boot-on, and assign the shared GPIO117 pinctrl state to only
-  one fixed regulator.
-- Put capture before playback and use human-readable link names.
+  What the card does and does not report
+  --------------------------------------
 
-Link: https://lore.kernel.org/r/20260715-rubikpi-next-20260605-v2-0-67601d7a8581@thundersoft.com
+I got this wrong twice in the v8 thread and would rather state it
+plainly here, since the design follows from it.
 
-Signed-off-by: Hongyang Zhao <hongyang.zhao@thundersoft.com>
----
-Hongyang Zhao (6):
-      ASoC: dt-bindings: es8316: Document jack detect inversion
-      ASoC: dt-bindings: qcom,sm8250: Add RubikPi 3 sound card
-      ASoC: qcom: common: Add generic headset jack helpers
-      ASoC: qcom: sc8280xp: Add per-DAI board configuration
-      ASoC: qcom: sc8280xp: Add RubikPi 3 sound card support
-      arm64: dts: qcom: qcs6490-rubikpi3: Add audio support
+After a subscribe the card reports itself in two waves: jacks at about
+0.9 s, then at about 5.2 s the jacks again plus the output mutes plus
+the gain of every input whose jack is present. Every turn of a
+front-panel knob is reported as it happens, gains and output volumes
+alike. What is never reported is a source selector, because the card
+reports events and a selector has no front-panel control, so no event
+can exist; and an output volume before anyone has touched it, because
+it is a setting rather than a physical fact.
 
- .../devicetree/bindings/sound/everest,es8316.yaml  |   5 +
- .../devicetree/bindings/sound/qcom,sm8250.yaml     |   1 +
- .../boot/dts/qcom/qcs6490-thundercomm-rubikpi3.dts | 169 +++++++++++++++++++++
- sound/soc/qcom/common.c                            |  61 +++++++-
- sound/soc/qcom/common.h                            |   3 +
- sound/soc/qcom/sc8280xp.c                          | 130 ++++++++++++++--
- 6 files changed, 352 insertions(+), 17 deletions(-)
----
-base-commit: 32b6ef9a5d0eca44f9cd91f52f4faa89f145a0de
-change-id: 20260605-rubikpi-next-20260605-fdda114824d7
+So five of the nine controls have a source of truth on the card, two
+have one only after a hand moves them, and two never do.
 
-Best regards,
+That looked at first like an argument for deferring the controls until
+the first report lands, so that a value read at connect would be the
+panel's rather than something restored over it. I have not done that,
+and here is why: alsactl restores once, at card add, and does not
+come back for elements that appear later. Deferring would therefore
+trade an accurate value for five controls against no restore at all
+for nine, and would wait forever for an input with nothing plugged
+into it -- which on a five-input card is the normal case.
+The controls are published at bind, as in v8, and the value at
+connect is the restored one.
+
+  Open question, not blocking the review
+  --------------------------------------
+
+hid_hw_open() sets intf->needs_remote_wakeup, and usbhid offers no way
+to take input reports without it. This card does not advertise remote
+wakeup (bmAttributes 0xc0, no power/wakeup node), so that forbids
+runtime suspend to the whole device -- undoing something an earlier
+revision of the v8 series had to fix. The driver clears the flag after
+opening, with a comment saying so, because it resynchronises on resume
+and has no use for a device-initiated wakeup. Jiri and Benjamin have
+been asked whether that is acceptable or whether usbhid should offer
+something; the question is in the same thread and unanswered. If the
+answer is that the clear must go, HID_CONNECT_DRIVER replaces
+HID_CONNECT_HIDRAW and the hidraw node goes with it.
+
+  Tested
+  ------
+
+Fedora, 7.2.0-rc1 plus this series, KASAN, PROVE_LOCKING, UBSAN and
+kmemleak enabled. One M62, firmware V87.05.45.48.27, and a second of
+the same for the two-card test.
+
+All nine controls read and written from amixer and from the front
+panel, values cross-checked against the panel. Module load and unload
+against a live card, audio-side unbind and rebind, unplug while
+playing and while writing in a loop, and fifty cycles of module
+load/unload with kmemleak scanned afterwards: no splat, no leak.
+System suspend and resume, with the selectors written back on resume
+as they must be. Two cards on one host.
+
+Not tested: hibernate and the reset_resume path; a card whose battery
+has run down; anything on a big-endian host.
+
+  Ordering
+  --------
+
+The HID driver comes first. Between the two patches it binds, speaks
+to the card and creates no controls, which is harmless; the reverse
+order leaves a master that never matches, which is equally harmless
+but leaves hid-generic making a bogus input device out of the
+descriptor in the meantime.
+
+Mikhail Gavrilov (2):
+  HID: topping-m62: driver for the M62's vendor controls
+  ALSA: usb-audio: bind the Topping M62's vendor controls
+
+ MAINTAINERS                   |   9 +
+ drivers/hid/Kconfig           |  19 +
+ drivers/hid/Makefile          |   1 +
+ drivers/hid/hid-ids.h         |   3 +
+ drivers/hid/hid-quirks.c      |   3 +
+ drivers/hid/hid-topping-m62.c | 855 ++++++++++++++++++++++++++++++++++
+ sound/usb/Makefile            |   1 +
+ sound/usb/mixer_quirks.c      |   5 +
+ sound/usb/mixer_topping.c     | 173 +++++++
+ sound/usb/mixer_topping.h     |   7 +
+ 10 files changed, 1076 insertions(+)
+ create mode 100644 drivers/hid/hid-topping-m62.c
+ create mode 100644 sound/usb/mixer_topping.c
+ create mode 100644 sound/usb/mixer_topping.h
+
 -- 
-Hongyang Zhao <hongyang.zhao@thundersoft.com>
+2.55.0
 
