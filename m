@@ -1,383 +1,222 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46C55485CE7
-	for <linux-sound@vger.kernel.org>; Fri,  4 Sep 2026 12:33:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 948E543B6CB
+	for <linux-sound@vger.kernel.org>; Fri,  4 Sep 2026 12:36:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788525228; cv=none; b=JBJ2KVOwGW8C9oBS/x0ONCLiuAdtlWDQn6lbAAFUbWQs0JrPx0H/oSe0rZinlrUrUZVO9kxhHwyVv3v9k/R+qNm68KyUwF27Bhjir+LdXyW9X8mo2k5oj64KIDGx8SJQ3mWIPNHE4n//yevTsd7WTqd9NvgSaKEOdRJtu/zSG8g=
+	t=1788525384; cv=none; b=eNky5iQr3Mss5WTJcKy+Uav1HcgniHgq6Yt/k2hGNRRq8Hy/GEwaRwQxK54qaJsnAxcVxfiHFvQXBZ0kjv3I4wKi5vzfCvQEIe7XDnqDA1u2ocVzsiQWDSBlCbngrMLvf3bL53zAjmcFBOHK35rkCJAImdtGf/OIVziFN6UHYGw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788525228; c=relaxed/simple;
-	bh=CGlCoOFuxSCMcRhRdG1IJe+APgQJjnuSqJcxoLP2+64=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fdBmBahu1ECUmwzsnFoKtmUvM72SUbJAIF5lj4b8Vgoq8USBhBoix+7hxSx8tUvTecejTyTVTmNG4g43cU+wtqcvVPTHL7HETcSI1p3J15HzfCNz+fDqP1Q2+PQG33m1SwznCin4k5ryTyR0ZQ50VPwORRNhbUNunw6rfG/4Uz8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H8Qw06xc; arc=none smtp.client-ip=209.85.216.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788525384; c=relaxed/simple;
+	bh=BjHw8yd6/BRd04jmWpzQC2h5VXMVKxhfSIEDd4C9eng=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=AKzyBaaRbIXg3w8fPIbl9Mii1qdFk+Kiw50IcxKyQ3lG+GOykyPRQjH3phc7lkEqz/H966z1rl+qWxRDNlhzNszRYg3RElUCpZmrji4vqbXnIqvqza+LKZxMT5XlTdO0p1wdcl7S1tzXuohlzKf2bmQKMP9ovy2LBkIi+BDdkVA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=QYWwRhNa; arc=none smtp.client-ip=185.70.43.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H8Qw06xc"
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-3990fe066ebso711377a91.1
-        for <linux-sound@vger.kernel.org>; Fri, 04 Sep 2026 05:33:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788525226; x=1789130026; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=KOIRIOEdEBxt33f2KxOmtEgiCZX540U4icvOGMNo9bc=;
-        b=H8Qw06xc/KU0A/S8sOimYf8Of5Dr2R1R0rZ7AEOOKKvLy0U2Z9OpWqyRjEupHqpW47
-         0tl9+9Yh8ltSD2bmbnMOQPaBJfEy/l/ogGS7X/wy2pvZflHtrYevDSTrNIU/CKahu3W+
-         z9fQBPCehAUJHnVRMSNPZtUUdZvFLSPmGGow6aD2+9DTgu9EcQCTSSsGWqKevAtSlPr6
-         zquQk/fur7F+3UxbyN/QdQSuEsZ+DikOcS3b5YQ4r77FZnCJ5tibCA6KMLJ1bLaHDka3
-         dY7SLvV92hRn1sjYs4wVGlOmbRt2q4ij6R8XI8GBCsUKTzaLqhoZQTFscLRU4rWLQ1Wv
-         TEFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788525226; x=1789130026;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=KOIRIOEdEBxt33f2KxOmtEgiCZX540U4icvOGMNo9bc=;
-        b=leRGTv7puxf1paVymBxrkocc20mQ76UFZcGf0+DMZhoIc28PvunF6WPAehRyC5tCue
-         N9VzBFgSa4UUv/C1/Sctgkh0Y37Zd8zz7BbnRIBT2IVIlonDJFCziqI9mIq0DwtdrJn6
-         famm8wq7l/Oc+7LarqCuvk7HDRU1j0rTtHtsnwCIPAZTNCNpsI2kzWl5tzqbxw3Id1XR
-         PK4KQlgJ3a1MtifEZti8SZMe7t3r0Bgyy5VMDoxNmUA0YNQfU75ULNxzku6cYW9QwuWc
-         biyYYknVWSLXLC/kOPL6FFkmG7P3n7m/3tZGt0li74Rtja2Le8dgli+Wb6hi0quw+IYY
-         +ugQ==
-X-Gm-Message-State: AFuF++loUUa7xJKPg7u8hOrrMFljjrtN5js80nDm5SxCxJfnrPe/cRdv
-	uX3qhkM+txefGWj/aNgM4GxaGlyOQSPHCainoCG+LVs473MxztEcpurk
-X-Gm-Gg: AYBFou2sJj2Vu4Q/bFNRD5rsOho9P9lFJypxqWx622joJvgJ00S2kLNulnqgouvRV1V
-	i18FVghTL4tc4ERCA3SKLCBzKvu5gB2RyQEqW04K4EdnymRP5U6NpnAdiVvPALFcuMPoygXq4AF
-	zdIc21ei63AY74uliMATk+PKmSg8lGEQ4G0J73eUTLcpQJbAE1Ff++/QTUy0J7Yuf2ab8R6R1lh
-	iN9INO8FzyidlaQ2wD4lQmVsvVc6idCh9Jk+bV01MvdahwrP7lReBtn0dJHiFmEz+5y5U7lYQdM
-	aeK5Wlkh7K9o6WE4x8PN5r8q6W2TGlfy5W0SqqvEaFPipJWHAr2784mZmJbnduKty3cqc0pGTBm
-	gwrOQHXAWyhb3qEZ65hVEvHBz5ylXKlyVa8X0y5uztqtTpEbGgOT9J82w9Zs7//UWj8SlfFyawc
-	8zIbXloMfdBm6chIknknTMnislct1SdmIb3BMGvdk6Eq/nJk+NIpl9ysvt2hJPh4plI8pgzYtdV
-	7e6G84q3aowYdfXwUpuOpafs+NDwQgi6hoFJU3qmvraS3tAUmWy
-X-Received: by 2002:a17:90b:5246:b0:39a:e983:d4bd with SMTP id 98e67ed59e1d1-39b262a3cf7mr9939535a91.24.1788525225307;
-        Fri, 04 Sep 2026 05:33:45 -0700 (PDT)
-Received: from nugod-NUC15CRHU5.tail9f095a.ts.net ([218.237.104.87])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39b08bcc081sm10681112a91.6.2026.09.04.05.33.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Sep 2026 05:33:44 -0700 (PDT)
-From: HyeongJun An <sammiee5311@gmail.com>
-To: Mark Brown <broonie@kernel.org>,
-	Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Shuah Khan <shuah@kernel.org>
-Cc: linux-sound@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	HyeongJun An <sammiee5311@gmail.com>
-Subject: [PATCH v2] selftests/alsa: Test writes to IEC958 controls
-Date: Fri,  4 Sep 2026 21:33:34 +0900
-Message-ID: <20260904123334.1505003-1-sammiee5311@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260904021939.149468-1-sammiee5311@gmail.com>
-References: <20260904021939.149468-1-sammiee5311@gmail.com>
+	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="QYWwRhNa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
+	s=protonmail3; t=1788525374; x=1788784574;
+	bh=djvliklWdsfdgRdreD/2ckYAPqPbTY9IWX+kSKJv5Xo=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=QYWwRhNaP+svYpvlOQXn3irOYnmwkyk697zjGthqpkZEgK8ZRbgJJ7DNNdTx5lfZb
+	 QUNE66MV8ygb1/8Z5OD69mtbeFK3Y0zRUZnE/0emuJ0pQLBwG229A+NYcxM27JZ0gB
+	 04yUm4YgnSOOyfwtlmQq+Xr6MITsAceKc2OUVUOaaDXZuCSxu0xbB/Uf4pJj4yVJAT
+	 fGojx8HBoBwkBmjbHOZ4JzTfc3F/puCC4Q2IK8oqBzJ407HWL7zmj9XTJFx3hKQlZE
+	 ntHqhkV4+6X0tDutbFposrNwmRB9KF5jbpCeaVfFksysKvJXdyY34SHsZfM8hwv+GO
+	 RO3/rK7ThsVJg==
+Date: Fri, 04 Sep 2026 12:36:08 +0000
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Vinod Koul <vkoul@kernel.org>, Bard Liao <yung-chuan.liao@linux.intel.com>, Oder Chiou <oder_chiou@realtek.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+From: Sergey Lebedev <lsa.uz@pm.me>
+Cc: Bard Liao <bard.liao@intel.com>, Shuming Fan <shumingf@realtek.com>, Amaan Lalani <zlzzm2014@outlook.com>, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] soundwire: dmi-quirks: drop the ghost RT1320 on the Surface Pro 11 (Intel)
+Message-ID: <20260904123559.40620-1-lsa.uz@pm.me>
+In-Reply-To: <10c5c5b4-cfd5-4d69-8312-ccff02a2e05c@linux.dev>
+References: <20260830151516.44629-1-lsa.uz@pm.me> <20260830151516.44629-3-lsa.uz@pm.me> <10c5c5b4-cfd5-4d69-8312-ccff02a2e05c@linux.dev>
+Feedback-ID: 113843758:user:proton
+X-Pm-Message-ID: 5fa4133fe976985b37ea4b7f186eba5dc4d9e59c
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Nothing checks that the put() callback of an IEC958 control reports a
-change, because write_valid skips these controls.
+Pierre-Louis,
 
-Toggle one channel status bit and look for the event. The bit comes
-from the Con Mask, Pro Mask or plain Mask sibling where there is one,
-non-audio by preference because it means the same thing in both
-layouts. Bit 0 of the first byte picks the layout, so leave it alone.
+Thank you for the review of 2/2.
 
-Write the value once without grading it first, since a device need not
-implement the bit we picked. The graded write then compares against
-what the device gave back, so it can only fail on the notification.
+On 1/2 I have to correct the record, and the confusion is mine. That patch
+is already upstream:
 
-That probe and the restore after it are not graded, so nothing consumes
-the events they make and the graded write would find one of those
-instead of its own. Drop them first. The other write_valid tests write
-only through write_and_verify(), so they have no ungraded write of their
-own to drop after.
+  9b30521074f0 ("ASoC: rt1320: run the initialisation preset on the first
+                 hardware init")
 
-On an HDA card with four HDMI PCMs:
+applied from v1 on 2026-08-10, merged in asoc-v7.3 on 2026-08-18 =E2=80=
+=94 twelve
+days before I re-sent it as v3 1/2. I rebuilt the series after the v1
+review and did not notice that one of the three had already been taken; the
+cover letter says only that 1/2 is byte-identical to v1's 1/3, which reads
+as "unchanged" rather than "already applied". So there is nothing to skip:
+my own 2026-08-30 request not to apply it, and your agreement with it, both
+concern code that shipped three weeks ago, and AUTOSEL has since proposed
+it for 6.18. That is my error and I am sorry for the wasted attention.
 
-  -# Totals: pass:212 fail:5 xfail:0 xpass:0 skip:56 error:0
-  +# Totals: pass:216 fail:5 xfail:0 xpass:0 skip:52 error:0
+Which leaves two real questions: whether it belongs in the tree, and what
+the flag is actually doing. I have answers for both now, and they point in
+opposite directions.
 
-A driver whose put() never reports a change now shows up as
-event_missing rather than as a skip. hdmi-codec, img-spdif-out and
-uniperif_player store the value and return 0, so boards using them
-should report a new failure.
 
-write_invalid stays a skip. Every bit pattern is a valid channel
-status.
+The change is a revert, not a workaround
+----------------------------------------
 
-Suggested-by: Mark Brown <broonie@kernel.org>
-Link: https://lore.kernel.org/all/317fc80e-ec80-477d-80f6-53c395de4b4a@sirena.org.uk/
-Signed-off-by: HyeongJun An <sammiee5311@gmail.com>
-Assisted-by: Claude:claude-opus-5
----
-v2: No code change.  The changelog now says why the test drops the events
-    from the two writes it does not grade.  It is bookkeeping for this
-    test rather than a general change - the other write_valid tests write
-    only through write_and_verify(), so they have no ungraded write of
-    their own to drop after.
+The fallback is what the driver shipped with:
 
-Link to v1: https://lore.kernel.org/all/20260904021939.149468-1-sammiee5311@gmail.com/
+  bad0a07a7e61  rt1320 driver added         2024-05-21  v6.11
+      if ((amp_func_status & FUNCTION_NEEDS_INITIALIZATION) ||
+          (!rt1320->first_hw_init)) {
 
- tools/testing/selftests/alsa/mixer-test.c | 225 ++++++++++++++++++++++
- 1 file changed, 225 insertions(+)
+  f465d10cd731  "Add support for version C"  2024-09-02  v6.12
+      if ((amp_func_status & FUNCTION_NEEDS_INITIALIZATION)) {
 
-diff --git a/tools/testing/selftests/alsa/mixer-test.c b/tools/testing/selftests/alsa/mixer-test.c
-index a329f901c5ed..0f5750edcd98 100644
---- a/tools/testing/selftests/alsa/mixer-test.c
-+++ b/tools/testing/selftests/alsa/mixer-test.c
-@@ -30,6 +30,12 @@
- 
- #define TESTS_PER_CONTROL 7
- 
-+/* Suffixes of the SNDRV_CTL_NAME_IEC958() names, not exported to userspace */
-+#define IEC958_DEFAULT		"Default"
-+#define IEC958_CON_MASK		"Con Mask"
-+#define IEC958_PRO_MASK		"Pro Mask"
-+#define IEC958_MASK		"Mask"
-+
- struct card_data {
- 	snd_ctl_t *handle;
- 	int card;
-@@ -842,6 +848,221 @@ static bool test_ctl_write_valid_enumerated(struct ctl_data *ctl)
- 	return !fail;
- }
- 
-+/*
-+ * Find the read only mask control for an IEC958 value control.  The two
-+ * share device, subdevice and index but not always the interface.
-+ */
-+static struct ctl_data *find_iec958_mask_ctl(struct ctl_data *ctl,
-+					     const char *suffix)
-+{
-+	char name[64];
-+	int stem;
-+	struct ctl_data *mask;
-+
-+	stem = strlen(ctl->name) - strlen(IEC958_DEFAULT);
-+	if (snprintf(name, sizeof(name), "%.*s%s", stem, ctl->name, suffix) >=
-+	    (int)sizeof(name))
-+		return NULL;
-+
-+	for (mask = ctl_list; mask != NULL; mask = mask->next) {
-+		if (mask->card != ctl->card)
-+			continue;
-+		if (snd_ctl_elem_info_get_type(mask->info) !=
-+		    SND_CTL_ELEM_TYPE_IEC958)
-+			continue;
-+		if (snd_ctl_elem_info_is_inactive(mask->info))
-+			continue;
-+		if (!snd_ctl_elem_info_is_readable(mask->info))
-+			continue;
-+		if (snd_ctl_elem_id_get_device(mask->id) !=
-+		    snd_ctl_elem_id_get_device(ctl->id))
-+			continue;
-+		if (snd_ctl_elem_id_get_subdevice(mask->id) !=
-+		    snd_ctl_elem_id_get_subdevice(ctl->id))
-+			continue;
-+		if (snd_ctl_elem_id_get_index(mask->id) !=
-+		    snd_ctl_elem_id_get_index(ctl->id))
-+			continue;
-+		if (strcmp(mask->name, name) == 0)
-+			return mask;
-+	}
-+
-+	return NULL;
-+}
-+
-+/*
-+ * Read the bits the device says it implements.  Bit 0 of the first status
-+ * byte picks which mask applies, some devices publish only a plain Mask.
-+ */
-+static bool read_iec958_mask(struct ctl_data *ctl,
-+			     const snd_aes_iec958_t *cur,
-+			     snd_aes_iec958_t *mask)
-+{
-+	int err;
-+	struct ctl_data *mask_ctl;
-+	snd_ctl_elem_value_t *val;
-+
-+	if (!strend(ctl->name, IEC958_DEFAULT))
-+		return false;
-+
-+	if (cur->status[0] & IEC958_AES0_PROFESSIONAL)
-+		mask_ctl = find_iec958_mask_ctl(ctl, IEC958_PRO_MASK);
-+	else
-+		mask_ctl = find_iec958_mask_ctl(ctl, IEC958_CON_MASK);
-+	if (!mask_ctl)
-+		mask_ctl = find_iec958_mask_ctl(ctl, IEC958_MASK);
-+	if (!mask_ctl)
-+		return false;
-+
-+	snd_ctl_elem_value_alloca(&val);
-+	snd_ctl_elem_value_set_id(val, mask_ctl->id);
-+
-+	err = snd_ctl_elem_read(mask_ctl->card->handle, val);
-+	if (err < 0) {
-+		ksft_print_msg("snd_ctl_elem_read() failed for %s: %s\n",
-+			       mask_ctl->name, snd_strerror(err));
-+		return false;
-+	}
-+
-+	snd_ctl_elem_value_get_iec958(val, mask);
-+
-+	return true;
-+}
-+
-+/*
-+ * Pick one bit to toggle.  Bit 0 of the first status byte selects the
-+ * layout the others are read in so leave it alone, prefer non audio.
-+ */
-+static bool pick_iec958_bit(const snd_aes_iec958_t *mask, unsigned int *byte,
-+			    unsigned char *bit)
-+{
-+	unsigned int i;
-+	int j;
-+
-+	if (mask->status[0] & IEC958_AES0_NONAUDIO) {
-+		*byte = 0;
-+		*bit = IEC958_AES0_NONAUDIO;
-+		return true;
-+	}
-+
-+	for (i = 0; i < sizeof(mask->status); i++) {
-+		for (j = 0; j < 8; j++) {
-+			if (i == 0 && (1 << j) == IEC958_AES0_PROFESSIONAL)
-+				continue;
-+			if (mask->status[i] & (1 << j)) {
-+				*byte = i;
-+				*bit = 1 << j;
-+				return true;
-+			}
-+		}
-+	}
-+
-+	return false;
-+}
-+
-+/*
-+ * Throw away the events from a write we are not grading, one left behind
-+ * would make a missing notification look like a notification we got.
-+ */
-+static int drop_events(struct ctl_data *ctl)
-+{
-+	int err;
-+
-+	do {
-+		err = wait_for_event(ctl, 0);
-+	} while (err > 0);
-+
-+	return err;
-+}
-+
-+/*
-+ * Toggle a single channel status bit and check that userspace is told about
-+ * it.  A device need not implement the bit we picked so write the value
-+ * without grading it first, then grade against what it gave back.
-+ */
-+static bool test_ctl_write_valid_iec958(struct ctl_data *ctl)
-+{
-+	int err;
-+	unsigned int byte;
-+	unsigned char bit;
-+	snd_aes_iec958_t iec958, mask;
-+	snd_ctl_elem_value_t *orig_val, *val, *read_val, *w_val;
-+	snd_ctl_elem_value_alloca(&orig_val);
-+	snd_ctl_elem_value_alloca(&val);
-+	snd_ctl_elem_value_alloca(&read_val);
-+	snd_ctl_elem_value_alloca(&w_val);
-+
-+	/*
-+	 * The bytes past the ones a driver implements are compared too,
-+	 * so start from a read rather than building a value here.
-+	 */
-+	snd_ctl_elem_value_set_id(orig_val, ctl->id);
-+	err = snd_ctl_elem_read(ctl->card->handle, orig_val);
-+	if (err < 0) {
-+		ksft_print_msg("snd_ctl_elem_read() failed: %s\n",
-+			       snd_strerror(err));
-+		return false;
-+	}
-+
-+	snd_ctl_elem_value_get_iec958(orig_val, &iec958);
-+
-+	/* With no mask to go on all we can do is try non audio */
-+	memset(&mask, 0, sizeof(mask));
-+	if (!read_iec958_mask(ctl, &iec958, &mask))
-+		mask.status[0] = IEC958_AES0_NONAUDIO;
-+
-+	if (!pick_iec958_bit(&mask, &byte, &bit)) {
-+		ksft_print_msg("%s implements no settable status bits\n",
-+			       ctl->name);
-+		return true;
-+	}
-+
-+	iec958.status[byte] ^= bit;
-+	snd_ctl_elem_value_copy(val, orig_val);
-+	snd_ctl_elem_value_set_iec958(val, &iec958);
-+
-+	/* Writing can modify the value so keep a copy to write from */
-+	snd_ctl_elem_value_copy(w_val, val);
-+	err = snd_ctl_elem_write(ctl->card->handle, w_val);
-+	if (err < 0) {
-+		ksft_print_msg("snd_ctl_elem_write() failed: %s\n",
-+			       snd_strerror(err));
-+		return false;
-+	}
-+
-+	snd_ctl_elem_value_set_id(read_val, ctl->id);
-+	err = snd_ctl_elem_read(ctl->card->handle, read_val);
-+	if (err < 0) {
-+		ksft_print_msg("snd_ctl_elem_read() failed: %s\n",
-+			       snd_strerror(err));
-+		return false;
-+	}
-+
-+	/* Put it back where we found it, then forget both writes */
-+	snd_ctl_elem_value_copy(w_val, orig_val);
-+	err = snd_ctl_elem_write(ctl->card->handle, w_val);
-+	if (err < 0) {
-+		ksft_print_msg("snd_ctl_elem_write() failed: %s\n",
-+			       snd_strerror(err));
-+		return false;
-+	}
-+
-+	if (drop_events(ctl) < 0)
-+		return false;
-+
-+	if (snd_ctl_elem_value_compare(val, read_val)) {
-+		/* Grade against what came back, the event check still runs */
-+		ksft_print_msg("%s does not implement status[%u] 0x%02x\n",
-+			       ctl->name, byte, bit);
-+		return write_and_verify(ctl, val, read_val) == 0;
-+	}
-+
-+	ksft_print_msg("%s toggling status[%u] 0x%02x\n", ctl->name, byte,
-+		       bit);
-+
-+	return write_and_verify(ctl, val, NULL) == 0;
-+}
-+
- static void test_ctl_write_valid(struct ctl_data *ctl)
- {
- 	bool pass;
-@@ -878,6 +1099,10 @@ static void test_ctl_write_valid(struct ctl_data *ctl)
- 		pass = test_ctl_write_valid_enumerated(ctl);
- 		break;
- 
-+	case SND_CTL_ELEM_TYPE_IEC958:
-+		pass = test_ctl_write_valid_iec958(ctl);
-+		break;
-+
- 	default:
- 		/* No tests for this yet */
- 		ksft_test_result_skip("write_valid.%s.%d\n",
--- 
-2.43.0
+  9b30521074f0  restored                     2026-08-04  v7.3
+
+f465d10cd731 is +2124/-23 and its commit message reads, in full, "This
+patch added the support for version C". That condition was rewritten
+because its body had to grow a VC branch, and the `||` half did not survive
+the edit. Nothing in the message, and nothing I can find on the list,
+suggests it was meant to go.
+
+The siblings have never been without it, and all four commits are Shuming
+Fan's, which is why I have put him on Cc =E2=80=94 he is better placed than=
+ I am to
+say whether the removal was meant:
+
+  bad0a07a7e61  rt1320  2024-05-21  gate introduced, with the fallback
+  936abb09c1c7  rt712   2024-06-20  gate introduced, with the fallback (x3)
+  f465d10cd731  rt1320  2024-09-02  fallback dropped
+  91f4ca732495  rt722   2025-04-16  gate introduced, with the fallback (x3)
+
+In rt712 and rt722 the fallback is present in the very first line that ever
+consulted the flag there =E2=80=94 three times each, for DMIC, jack and amp=
+. Six
+live instances across two drivers, and rt1320 the only one that lost it,
+eight months after being the first to have it.
+
+So I do not think anything about the flag needs to be understood before
+that change is allowed to stand: it restores the driver's original
+behaviour and makes it consistent with its siblings. What it lacks is the
+tag saying so, which I should have found in August and did not:
+
+  Fixes: f465d10cd731 ("ASoC: rt1320: Add support for version C")
+
+That would put the window at v6.12 through v7.2. Whether it is worth
+backporting past 6.18 depends on whether any machine actually lands in the
+gap, and =E2=80=94 see below =E2=80=94 I can no longer demonstrate one, so =
+I am not asking
+for that.
+
+
+What the flag is doing, measured today
+--------------------------------------
+
+I went back to the hardware rather than argue from July's logs. Surface Pro
+11 for Business, Ubuntu 7.0.0-30, with snd_soc_rt1320_sdw.dyndbg=3D"func
+rt1320_io_init +p" on the kernel command line =E2=80=94 the dynamic-debug c=
+ontrol
+file cannot be written on this machine, because Secure Boot puts the kernel
+in lockdown "integrity".
+
+Two of its modules are local builds rather than the distro's, and it
+matters for reading what follows: snd-soc-rt1320-sdw carries 9b30521074f0,
+and the v3 2/2 quirk is backported into soundwire-intel, which is where
+dmi-quirks.o lands in this tree. I checked the first of those in the
+disassembly rather than trusting the build directory, which turned out to
+hold different source: the gate reads the status register, tests BIT(5),
+and falls through to a byte test of first_hw_init with both branches
+entering the same block. So the fallback is present. The ghost is absent on
+this machine today for the same reason =E2=80=94 the quirk is loaded.
+
+The func_status value is read and printed before that gate, so the readings
+themselves are independent of which version of the condition is compiled
+in:
+
+  condition                              amp func_status   BIT(5)
+  cold boot, systemd poweroff to S5,
+    RTC alarm wake                       0x61              set
+  warm reboot                            0x61              set
+  resume from s2idle                     0x41              absent
+  driver unbind/bind                     0x41              absent
+
+0x61 is NEWLY_ATTACHED | NEEDS_INITIALIZATION | HAS_BEEN_RESET; 0x41 is the
+same without BIT(5).
+
+On this machine the flag is therefore behaving as intended: raised on the
+attach that follows a genuine power-on, absent on later re-attaches where
+the part has kept its state.
+
+The resume row is the one that says something about the hardware regardless
+of the patch, because first_hw_init is already true there =E2=80=94 so the =
+preset
+is skipped on resume under the stock condition and under the restored one
+alike. It is skipped, and the speakers still work. I checked that by
+measurement rather than by log, because silence with every layer reporting
+success is the failure mode here: a 1 kHz tone played to the speaker and
+recorded on the internal microphone puts the 1 kHz bin 1697x over ambient
+after a resume. The amplifier retains its programming across s2idle.
+
+I cannot make the same claim from the unbind/bind row. There first_hw_init
+goes back to false, so on this module the fallback fires and the preset
+runs; sound after a rebind shows only that it ran.
+
+I think 0x41 is also explained, and it is not a second reading of "this
+part has been reset". All three drivers acknowledge exactly one bit:
+
+  regmap_write(..., RT1320_SDCA_CTL_FUNC_STATUS, 0),
+      FUNCTION_NEEDS_INITIALIZATION);
+
+DEVICE_NEWLY_ATTACHED and FUNCTION_HAS_BEEN_RESET are never written back by
+rt1320, rt712 or rt722 =E2=80=94 none of the three mentions HAS_BEEN_RESET =
+at all.
+So after the first attach clears BIT(5), what is left standing is 0x41, for
+the rest of the boot. That is a question worth asking on its own: are those
+bits meant to be acknowledged by the host, and is anything downstream
+entitled to believe them? If they are write-1-to-clear status and nobody
+clears them, then every reader after the first sees a function permanently
+claiming to be newly attached and freshly reset.
+
+It also means the patch I nearly sent instead =E2=80=94 treat HAS_BEEN_RESE=
+T like
+NEEDS_INITIALIZATION =E2=80=94 would have been wrong. It would re-run the f=
+ull
+preset and the MCU patch load on every resume and every rebind, driven by a
+bit that nobody ever clears. I am glad I measured before writing it.
+
+
+What I still cannot explain
+---------------------------
+
+In July this machine read 0x41 where it now reads 0x61, the amplifier was
+unprogrammed, and the speakers were silent. Those logs are real and so is
+today's table. I do not have a mechanism that turns one into the other, the
+kernel and firmware were ruled out at the time, and I am not going to
+invent one to tidy up the story. What I can say is that the case for
+9b30521074f0 no longer rests on this laptop at all =E2=80=94 it rests on
+f465d10cd731.
+
+I still have the hardware and the instrumentation is now scripted, so if
+there is a register or a moment you would want looked at, I would rather
+measure what you ask for than keep guessing at what matters.
+
+2/2 is the one that still needs applying. Run fully stock on 2026-08-30,
+with distro modules and no quirk, this machine had no audio device at all:
+"aplay -l" reported zero cards. It is not an optimisation. That it has one
+today is only because the backported quirk is loaded.
+
+Sergey
 
