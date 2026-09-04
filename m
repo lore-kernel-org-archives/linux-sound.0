@@ -1,100 +1,159 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DA5F52121D
-	for <linux-sound@vger.kernel.org>; Fri,  4 Sep 2026 20:10:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18DAA4399E5
+	for <linux-sound@vger.kernel.org>; Fri,  4 Sep 2026 20:58:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788552652; cv=none; b=hiVUkggdSiD6jo3ceNAxnNI71ki9wt5AAjKs3GiBpY0/T3W37U+ISGODowQSm/zLO1bsSnA/YpvGAsvK8Q51AEQrm83h2cwdQwBMkFmHYozJjhAOJB0Tq0jJSgUsNOSz06H+1zkbSq9ac8lCikVJU6YJr3dxTneMMuAeU4ukFGU=
+	t=1788555514; cv=none; b=uwnJUcJHb1EhloYtZ8xut3P9e0FKYXDLajLc7zNUu8e1oB+yYMLEpSan1HyMw3pjFSi9pNhJz1jAVan5XsIlCEkXLa63lzL6U2YUwsAB393QB3viVnp0Udtpyz9bYVwRQjAJ8BMOSJHvwCtnxp/YY9q4/r+g8aJWVl4cY+Px+Ow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788552652; c=relaxed/simple;
-	bh=JHlgi3VxNI/y6Iv2HAIHSxI/E6F+QRuWhN2rtYh2EsU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=VE9n+4ZK+sHqNoA0CTjA3g5XPuyX4MOmQXyhZBFwiC2pxhyErqsh1a85/Y8KCjDgKh8gNGfIdSKckLrT8CtE0TFQ68eLymdBg8TGyJ9tDEDyg392zCSGcLa9miMO82lT0AU5L7LoEO5b6zSXKvg/U9Zh/UYaibGr4drphi5VAY8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FvSvtcLa; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788555514; c=relaxed/simple;
+	bh=28uhGPjiJ2KFbOvQJhv6vfgzO9MJUM/PdqW0N3evoOk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QnDZpdc1q/Do/vXKwh8YsgItdbjJWAhyEZrnDNCv7IoRcoMlHFFXGAMz5Jz8V/N5aWGytzvp2Rn/NEYKC0EwPfNvNkyweS/e/1XRG3RropYntpz5rDf0g3EysBkS/kU8eCrgCI92r5bUmUz+1ORq7A1l/TZEk4x/2Q3zgz5TDOU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PH8V1WhP; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FvSvtcLa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07DAC1F00A3D;
-	Fri,  4 Sep 2026 20:10:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788552632;
-	bh=Fl65Hp6qOtCns0ftV4fcyofEMAZE915KxEYCAx/iOHM=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=FvSvtcLaU0fewpdsU54MM8lsi+XkE6Eif26i4lbDwsiSVM9B39iIIvhrBHULIbMzQ
-	 0oJLkwOw+uq6aXU85qoXtciWKDeS5U59CS51pWORvB8LRXwNRukx2ndsxcjar0PdZg
-	 mqMDQTFGcrLDZdOPwr5nvvoGW6d7svLcy1Pl+Ism+09P1NgDBrBP3UAMsXVtxOZ603
-	 xndeZabH5eR25XGOrI2IudXRss+7xS/+f9cNhB0ogMtnUWD1ahnTGjKs3/2WU8U5of
-	 Q5zKdqYWbOj5txFOaeN1d8deAOWFoQUYhQRSN0UBf+KThqoYocAC+CmpMqxfb8tP/R
-	 hVWhXexYwKufg==
-From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, shumingf@realtek.com
-Cc: linux-sound@vger.kernel.org, lars@metafoo.de, flove@realtek.com, 
- oder_chiou@realtek.com, jack.yu@realtek.com, derek.fang@realtek.com
-In-Reply-To: <20260904075737.86525-1-shumingf@realtek.com>
-References: <20260904075737.86525-1-shumingf@realtek.com>
-Subject: Re: [PATCH v2 1/6] ASoC: rt766: fix uninitialized
- stream_config->type
-Message-Id: <178853968592.632048.6740798833520648561.b4-ty@b4>
-Date: Fri, 04 Sep 2026 17:34:45 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PH8V1WhP"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-4858595f997so953742f8f.1
+        for <linux-sound@vger.kernel.org>; Fri, 04 Sep 2026 13:58:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788555509; x=1789160309; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=6FQ7QnZPMANOssRW33us2G5YSu4ovcViTbmXD59gXys=;
+        b=PH8V1WhP4MY8/RkgToK5DzOTP94PWrxluTheX7jM4xFd/4tlkSj5iBlHTTNrGiY+oi
+         73OnMu2r3Pxdn4gOg0zeC9stTthceOp7FusjPU5ghzSvwFDRUokBlMj/P6kxu6LgbzVR
+         TfMT9ymXggb1RfNnxLKlLyH3Se7LcfRnnpKVtNg0bZq84ptI5vtBxerIEoU4+SwWObGu
+         nBD+NgXOFTts79Z2yAi57saCm1oNH0ycr9JOq2GEFbiaGvfToCk0DjYlYIIWcjn4joIF
+         rquE4JEEd0QMhfEo9T1fryjnHJWbysushTntxOcVWjyONbeQLGCzLnyneF4YyLwRrun3
+         jKWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788555509; x=1789160309;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=6FQ7QnZPMANOssRW33us2G5YSu4ovcViTbmXD59gXys=;
+        b=epFLE64EyO0gWbkGfLqY+xHNNr7eErPgTep1f86HgnL5a+07aTF3M5S32ASlmwm/cp
+         8qkEPp+3Y21LACmJyhybucRgPgE31fLDjSwf1HLpAwm6xdm2VU/eSFIgGGgoDy2uZOc7
+         At8FGoj9o+amwzwKccJN2j6zgoAJ5vApreK91F/kifHoVN51nEFfCwySXfxWqDR9N6al
+         V+LzifU/ug+UARkMbSF6MaHD39izdv7Qws8dxryaq9rV2NQ4u7QkBUv/za0TO0186pNV
+         P7uuVWJH5yV3ap7QSlRzr0SzNJh/Kih/vhtqrhgoM3X8qffbbuEamZFHi3mdocjOwLRo
+         jrOQ==
+X-Gm-Message-State: AFuF++nu25tNeCmWDmV8XNjDkfjy6iX64qzctXx1YLLiomvHcVKsO6ZB
+	9j4Sk4Fu4F9Op7pruhv80slVLF0nRALcj0d0lZOrQJpaWQZDpbAU9CM=
+X-Gm-Gg: AYBFou0aT3TlXJghDLJjmGCD4S4xOeOYq849t7CIQt/ffHMPcHfFxCGLBrYgXqu5wAC
+	6rzG/1P9gI4ahpm9epG91VcoxRapqM1z4S1HptJvwGnPDndi7jno6ZjQ8VpnSQg0wWsDUl9UJMK
+	vH3uhr85Y1IE7l0mYeLRxLnYbalubVHTVy633SNX+YWVdAjOSY7PBD6JNpFMadKZRp6Pj8VM0vV
+	ELFwsZa8+cCV3DC+tRmOL7muX15YNYCeZbedZu59ZN/fqLgTEhuRh4D/5kVex+mKRFFpfTPHqp9
+	AU8XK9O+4sWBHLwX8J5+cDJXinQXZ/qIlceP2NJ1DkbRGQraz75jxSb14lXxVGkLV/xmIW6J2iT
+	1/DhvAIm2gCltnOuBq7mjiBJ3fAeZNl8BpprkgGAwWVorFUSW2W5H6ojb3WZW+9AUb6z3OE8w2g
+	52c914mEvu0I/rumyCotOZrmsOFse+JuNJODn0GV/pyg==
+X-Received: by 2002:a05:6000:26c4:b0:485:847c:4c64 with SMTP id ffacd0b85a97d-4858729b6f7mr16087150f8f.28.1788555508729;
+        Fri, 04 Sep 2026 13:58:28 -0700 (PDT)
+Received: from debian.. ([2001:41d0:303:db6b::])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4858d312ca0sm5789563f8f.4.2026.09.04.13.58.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Sep 2026 13:58:27 -0700 (PDT)
+From: Tristan Madani <tristmd@gmail.com>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Tristan Madani <tristan@talencesecurity.com>
+Subject: [PATCH v2 1/2] ALSA: usbusx2y: fix in04_last array size mismatch with in04_buf
+Date: Fri,  4 Sep 2026 20:58:25 +0000
+Message-ID: <20260904205826.4071119-1-tristmd@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1713; i=broonie@kernel.org;
- h=from:subject:message-id; bh=JHlgi3VxNI/y6Iv2HAIHSxI/E6F+QRuWhN2rtYh2EsU=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqmyW0N4G9trjk2GdXMx/SFYkdZdRU+k1WGQmek
- VgN7SbUEcOJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCapsltAAKCRAk1otyXVSH
- 0KzvB/0ebhClYgWhQz2EKY4EsCXD1czDYJLK2vrKK6DPEhpQrv0nmJaGw1Mz7UyEhP4jsKAa4zR
- gAgcYs8MMM9vrdBxypcjuJyhYrYy4bOyLWEBKjs1P1ZPJkAiVEp/1qwkZ42anz3f3aZvxT5R+GT
- dAYY2BTVvuYQowlSOTMl1XDYcaLO5R5O7uIfnb4PD60aBX2dxVY/osFCNU/HzVLbHUBlru1Inwo
- slyuRHu7C3a41sHGadjMHMX1rZmJR29TxvCD/4927Om3QNX+MI5ad4g+tx2zDD/g/EstI2MfAId
- glVtZ3gUHlDlSK+p2KKpX7nyWyj4EUIg6kZFkQ/nWHnypR7g
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Transfer-Encoding: 8bit
 
-On Fri, 04 Sep 2026 15:57:37 +0800, shumingf@realtek.com wrote:
-> ASoC: rt766: fix uninitialized stream_config->type
+From: Tristan Madani <tristan@talencesecurity.com>
 
-Applied to
+The in04_last array in struct usx2ydev is declared as char[24], but
+in04_buf is allocated as sizeof(struct us428_ctls) which is 21 bytes.
+In i_usx2y_in04_int(), when ctl_snapshot_last == -2 (initialization
+path):
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
+    memcpy(usx2y->in04_last, usx2y->in04_buf, sizeof(usx2y->in04_last));
 
-Thanks!
+This copies 24 bytes from a 21-byte slab allocation, reading 3 bytes
+past the end of the source object.
 
-[1/6] ASoC: rt766: fix uninitialized stream_config->type
-      https://git.kernel.org/broonie/sound/c/4e3bd70facac
-[2/6] ASoC: rt712: fix uninitialized stream_config->type
-      https://git.kernel.org/broonie/sound/c/0a9bce8a4ff8
-[3/6] ASoC: rt1320: fix uninitialized stream_config->type
-      https://git.kernel.org/broonie/sound/c/2c68c4a0e570
-[4/6] ASoC: rt1318: fix uninitialized stream_config->type
-      https://git.kernel.org/broonie/sound/c/c966210ed5f2
-[5/6] ASoC: rt721: fix uninitialized stream_config->type
-      https://git.kernel.org/broonie/sound/c/0e17e50b9930
-[6/6] ASoC: rt722: fix uninitialized stream_config->type
-      https://git.kernel.org/broonie/sound/c/cff381508c18
+Introduce a USX2Y_IN04_SIZE constant defined as sizeof(struct
+us428_ctls) and use it consistently for the in04_last array, the
+in04_buf allocation, the URB transfer length, and the comparison loop,
+replacing the bare 24 and 21 literals throughout.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Cc: stable@vger.kernel.org
+Signed-off-by: Tristan Madani <tristan@talencesecurity.com>
+---
+v2: Introduce USX2Y_IN04_SIZE constant and replace all magic number
+    occurrences, per Takashi Iwai review [Takashi Iwai]
+ sound/usb/usx2y/usbusx2y.c | 6 +++---
+ sound/usb/usx2y/usbusx2y.h | 4 +++-
+ 2 files changed, 6 insertions(+), 4 deletions(-)
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/sound/usb/usx2y/usbusx2y.c b/sound/usb/usx2y/usbusx2y.c
+index 4190227c5a2a5..200b708aacd6d 100644
+--- a/sound/usb/usx2y/usbusx2y.c
++++ b/sound/usb/usx2y/usbusx2y.c
+@@ -196,7 +196,7 @@ static void i_usx2y_in04_int(struct urb *urb)
+ 			memcpy(usx2y->in04_last, usx2y->in04_buf, sizeof(usx2y->in04_last));
+ 			us428ctls->ctl_snapshot_last = -1;
+ 		} else {
+-			for (i = 0; i < 21; i++) {
++			for (i = 0; i < USX2Y_IN04_SIZE; i++) {
+ 				if (usx2y->in04_last[i] != ((char *)usx2y->in04_buf)[i]) {
+ 					if (diff < 0)
+ 						diff = i;
+@@ -305,7 +305,7 @@ int usx2y_in04_init(struct usx2ydev *usx2y)
+ 		goto error;
+ 	}
+ 
+-	usx2y->in04_buf = kmalloc(21, GFP_KERNEL);
++	usx2y->in04_buf = kmalloc(USX2Y_IN04_SIZE, GFP_KERNEL);
+ 	if (!usx2y->in04_buf) {
+ 		err = -ENOMEM;
+ 		goto error;
+@@ -313,7 +313,7 @@ int usx2y_in04_init(struct usx2ydev *usx2y)
+ 
+ 	init_waitqueue_head(&usx2y->in04_wait_queue);
+ 	usb_fill_int_urb(usx2y->in04_urb, usx2y->dev, usb_rcvintpipe(usx2y->dev, 0x4),
+-			 usx2y->in04_buf, 21,
++			 usx2y->in04_buf, USX2Y_IN04_SIZE,
+ 			 i_usx2y_in04_int, usx2y,
+ 			 10);
+ 	if (usb_urb_ep_type_check(usx2y->in04_urb)) {
+diff --git a/sound/usb/usx2y/usbusx2y.h b/sound/usb/usx2y/usbusx2y.h
+index 6a76d04bf1c7d..7b6deed17d4b1 100644
+--- a/sound/usb/usx2y/usbusx2y.h
++++ b/sound/usb/usx2y/usbusx2y.h
+@@ -5,6 +5,8 @@
+ #include "../midi.h"
+ #include "usbus428ctldefs.h"
+ 
++#define USX2Y_IN04_SIZE	sizeof(struct us428_ctls)
++
+ #define NRURBS	        2
+ 
+ /* Default value used for nr of packs per urb.
+@@ -55,7 +57,7 @@ struct usx2ydev {
+ 	int			stride;
+ 	struct urb		*in04_urb;
+ 	void			*in04_buf;
+-	char			in04_last[24];
++	char			in04_last[USX2Y_IN04_SIZE];
+ 	unsigned int		in04_int_calls;
+ 	struct snd_usx2y_urb_seq	*us04;
+ 	wait_queue_head_t	in04_wait_queue;
+-- 
+2.47.3
 
