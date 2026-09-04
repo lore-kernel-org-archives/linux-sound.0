@@ -1,127 +1,130 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CF753AEB35
-	for <linux-sound@vger.kernel.org>; Fri,  4 Sep 2026 03:11:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7440B3D9029
+	for <linux-sound@vger.kernel.org>; Fri,  4 Sep 2026 04:00:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.46
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788491511; cv=pass; b=nvcsK4miWmWLHqt7XfyE+Uc1ZFfdaEk7TkepZ/+fPr5JCHGjDTaUbAPFPGwQrSi4isKxQQQi2Fzg8CJjXxGFwoigSaILlim2i8U3kwtmcUdw9AVzh5Uyna/V2X2o0CocBvDCM89YiLz4+kXRptp4yFkRCKXjLvzhUfFmSiUNYpI=
+	t=1788494407; cv=pass; b=X2pPtDGGV7FAZ7CNcLFPWZ7PUYy+qkN2cKhtRFKczLiAb5KnjxuOtoWkfLvZ454DPonO9rA4Ef687jtzpx1KI5d0IETYedEdf/6E+lewCim3QJvRWAaxVKLdPFsu8/crxewcTScIQMgFnh47h3z+CLNo1HROmbzWiYN/MMUDuo4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788491511; c=relaxed/simple;
-	bh=vfRlFYrZG7tQcJDkEgmaPaaxAK6OS6eQsP+WeAvUDW0=;
+	s=arc-20240116; t=1788494407; c=relaxed/simple;
+	bh=vhpL38NTQCYoHMG/9DQNSR9BiZVg0Lg7euVjakPkQP8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OIZf3h0FLP95eod5Ig13/l0I9HnP+83Bgg9mWgUJPF3le2OHIa0+B8fmk47K8Nd1kolGuR690ZoWXMd/G59Q3/YlG4n0AM8tD51gl+LuyiBQEyZIV5lSkjR6oY7mwUUbP/IO0bE5DIo8McAbfY0vRl3LXYCvfUQ7OxpJtkRlIJA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cB9L74Y/; arc=pass smtp.client-ip=209.85.214.169
+	 To:Cc:Content-Type; b=vEW1h95dZEQO6HgKk54NbHGRTtASp8aLvE6utsl91QD/8JKq1n4HTZRPzW8xHyiAPDN+67med6ZBD0cOKecclZ4fUg+6RwMo8u98e6/6vbI8F55B4M63TssBT8Ezcae6DGIeWZWPn70fYD3vUT2q98pt5lK6hEM2EiM26P2cE3s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=otXpgKlV; arc=pass smtp.client-ip=209.85.167.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cB9L74Y/"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2d8f265cbe6so4486415ad.0
-        for <linux-sound@vger.kernel.org>; Thu, 03 Sep 2026 20:11:50 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788491510; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="otXpgKlV"
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5b5e18f0439so507048e87.2
+        for <linux-sound@vger.kernel.org>; Thu, 03 Sep 2026 21:00:05 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788494403; cv=none;
         d=google.com; s=arc-20260327;
-        b=Xo94M7gOckSaYvt67zwa94ISH/Rz7kLIHJwQhfIN51heDre9HhY3W8QCBgBOp6fNXI
-         /26SP1YSNE6i2Kj0QQNq18dbvqA/ygLfWMuAYI58/nE1bLqcia524uPjXFQnSzsafg9y
-         0Bh6TFQ6vGEaCibBAC/9v8udV4yDayEpBvtOaRFUTAprpF1FIi8cPXXnkHJRqlP2nk9d
-         IOtkknj9B/njiLS4b/2SZR286+2KxbWG8L/Ae/7p9HeGmoJgnKCLvNYwGZ6R9/2o8EtU
-         fZEGUPyoCmuPaeyUq+bltTpixLL08e38pSsMk6f5VdLvsJCn/EEOmEDQMyvA7BtkRHsG
-         er/A==
+        b=WqUOSJ1oUDsL7+sj32QEeHvZYUpDjzEL+1dgDWcifCpudPLOPFrEw6682TYkmZ5SqQ
+         9JigIkyOl9MQOUd5DOPwbYvYMQQBzSOs3YfjYG+7GrGBhmjSxI2N2C0pVKPMZVVMnDVs
+         kM0W5CtC02jvxnEOt5IGbChA3UTLeAVd7gSQb+cg/UlhvWrYjWoi4h7BoBC0I+p0qAu0
+         KwryYUdrSrsMJU08dvB0vhUQ9XBbbhf4Ul2bPz4ovV/Pcw0aatYU5+XCWl47A0ZWEIGG
+         QT2ohXXoWqU/ulqrE+xmRee8Q8DLJQWIu4iCGIqJmyVvcpLGbjDYrd7d9eaADj/loBCk
+         ljRg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=vfRlFYrZG7tQcJDkEgmaPaaxAK6OS6eQsP+WeAvUDW0=;
-        fh=JVisvYrsNJcEhtLid9FVcS1yI5GNL1gklP0jsvaEDqg=;
-        b=iZ5jdI0s3MQ2XP4CRFOLZSeE38Bz2zJYfeDIfpKsxh1QDWvyHodBqNQhrmaD9h8YZB
-         dm8Ugp+XbXaIFqTgSjGBeBqqUHrWfCPPHOX0WOpN2iTXRlJWyjt0BoOcI8ytazdpewEN
-         Ztg30GXqS+OG2l/yL10FSB0yr06YLbpNM148zZjFKHxLgIoG96qqHF4SQwfKBrb/FArN
-         4ar6Y2wIJC1N14MTB0M6HtZltP1uJxuWehqEoJJCTb1HSaacOkoWeOuZM2GbKFLDlneJ
-         JSMSBDaMemYRgUK3VYJUWNkgjuVHQXX5VKEsUttRDh9Um4e+kNsnIG2Vtw7yCGUFf4+0
-         j13w==;
+        bh=vhpL38NTQCYoHMG/9DQNSR9BiZVg0Lg7euVjakPkQP8=;
+        fh=utNX0hiTpiEaFo2oLAZCO9Its0O9+5XmT4isizlrDDM=;
+        b=QLsnpX+x2N8xXd2FXalGQV2Co6SSeXJuNjqhpLysplp9RiJyOAVE30gB+0aL0JJIfF
+         VcQDUD2peXmC1uecfCPO+WFsQJsiNrgRlFE9EaxFVufHFd299h90XBgVWBvXTt64nlb1
+         Q5uubj7sz2ZG8m8njd5ijzfjVmmRVNshG9biVT0ece98x7goyRzipMH/HQd+73VUIGfu
+         wrv/wd8V7uUjFk6sXwBLN2N+a4Dkv105oMDbntI3aVqsGrbW3KUL0tEz22uwIPmPTckt
+         dGKNJHNBsA2Rape3fKSRD/2ObJPQmSVObL8yMZvz9fBSWRtkymnznHKUEaFZKoHEt68O
+         zcCA==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788491510; x=1789096310; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1788494403; x=1789099203; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=vfRlFYrZG7tQcJDkEgmaPaaxAK6OS6eQsP+WeAvUDW0=;
-        b=cB9L74Y/322y7ZV+mCRyplO5gjZFLkjeXcoQe3JNT0KFh3EcB958KWB0LSyvDdu8O0
-         HImua85i7oVVPDUdlsEDnerGun9UFBx3klouyyJi7c7rTXcH4Gr0eFsxR5s3kji7Dk6D
-         Xf1nOzWKDpkYg3srMPFDmzOJLIhsHsTaHCvctqWb6hhLOWTGBr/eub6cqcGKF7rtZTrS
-         GLuu+M2ZhFLwaegHRJA5MIanOGBpxTDkHCccs2w+4JpY5yUY/zDbxnVia7+2LUQkUumo
-         FwfwsY7y6CyIDEmJp8aYIWrJdcGkQycBrhn45YJm/U5SW9D7ECgq6pRhZn9GtUHIH3J0
-         6Kig==
+        bh=vhpL38NTQCYoHMG/9DQNSR9BiZVg0Lg7euVjakPkQP8=;
+        b=otXpgKlVkymNQc925O1lD/lsKCMQ+FWBz9CFHD0VTHjgDbLyQEWVXAghm307p6P04P
+         NVivmGGl+WMVPi82Top7UgE/+vGO1D/g+0pOPaUhKO+B4X+uXqM093dch+MsSPEv+OJk
+         8lnaES4xxXUg5Ambwe4DL5kE4epjp235y+Efhwi1v2XOao0vpQCqg8HBXH4qRMBIMERF
+         qP10YttU0abyXXh9VcUvqykKL90r5rNsbWmRfUzWQ+lJgbW8UuH7+Bq1tqNikgGWvBQY
+         8AUmBwwXZuWyHn7HrkHZbK4rISeRPEv76jOfOp3VCvQ2pQ3dU/1agJuC7Vs/WaZLPpH3
+         +PSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788491510; x=1789096310;
+        d=1e100.net; s=20251104; t=1788494403; x=1789099203;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=vfRlFYrZG7tQcJDkEgmaPaaxAK6OS6eQsP+WeAvUDW0=;
-        b=UQb2kANKS7k2hn/xap9ZOkLrADsv20bymNbN60cInk6qpr156Awm+2jnuZUuTPsa9I
-         9C9e7qpcrP408+hxUTO2uYYIe8y6QAnQP54bx8wstjtmMr9/iV8rgw0l3+jw7k110KcJ
-         9Qi/XuTUEyQ9z8j1RnIRFT9UohvBQgJPUvyj7TSmIU6HdojnwXYB+lmBwoqSeRD4UAAn
-         PwdJlJKsqXP5o9V/yL9KXH84tKUbyQyynFBP1s/66GkmAsKYMEoSJMj75GNH+5VFNAMV
-         INUymOZqVYsfqt53vTTi5DIxHlegJmzTAVvV6XW3AKIVg5EtsHGtp96TS/uMc191BmNp
-         nkdA==
-X-Forwarded-Encrypted: i=1; AKwUvBw14eXtScYTgxXYM60k0NgnEplqXatg2KejQT4E5oBLvEUvpw0eznHDWruF6O14iBjafJ9Dad2u5Ckw+w==@vger.kernel.org
-X-Gm-Message-State: AFuF++l7590TjjVluFA8ztVRhSz3dgOS1Yt8nYF0yV7vn7mp0lGbR2hF
-	Tl9TaZTiCDjfyMNnF+Qb53iIib9W3APbj85re+jYt90ZzGwVvK9FXhi9Edfael7ZCyWiNcuUdlK
-	Mf5Iv22v3P7heHx2u5nAlR3sKbk27etQ=
-X-Gm-Gg: AYBFou35LHUdf5RxY90CK6a2CurYweI/Quj0wcLFobskt99xQaasGL2T2D0LkoFielm
-	c5NOGwzoyCo1XERqCPbEvfAd+rwq+Bmqk6QluQYJN62cXpBTQMmOsXva8FVgvDHjEXLyVm3BhHD
-	QYQXvVg195O+RMQFr+5I+Nht3kUIYnnzq7Ub9AsFU1Nptm7G8ce0lU728yV8Fna/2IzvbRke1Cn
-	t5DoUz3Q2JlebRfULsig3k4m0e4wTZ73TzZV319OuSMLaZ4FyPhbkGUdDD5yhPIpyhPFHebhCKn
-	3bOjdyqG1U4CUh1pBR+QmK7uoh5qD8cCeK/4DXH/gcl7
-X-Received: by 2002:a17:903:1acf:b0:2d8:da29:da41 with SMTP id
- d9443c01a7336-2db127509bemr55944165ad.15.1788491509602; Thu, 03 Sep 2026
- 20:11:49 -0700 (PDT)
+        bh=vhpL38NTQCYoHMG/9DQNSR9BiZVg0Lg7euVjakPkQP8=;
+        b=c13bvyMOyYRazDjYNax7MZxrT4cjv4ffGSbkSCsvFK6NKm/KlqXWdMd5EXnd4w1B2h
+         lQBffVXhtR67+8bEkcumG0tAIAql6yKHKnCoB+t5TzoOvWxbps0vsh1BCLw6Zl8MMAU8
+         9GqmzlhBeO9U4cGcdStw2W8W7i9BkXCUCL3kDX6f1khGrCK3SK+psQ9+dKwn4trcsyaA
+         5sN0ajxrBtmZ/5CJYUCow1L6xkLZXjPu2zPAZBpWZMLfV1g+0TmRkJ1tmuY7zZqe/6Xi
+         UQSN6uBGG6jALH0SZLrlT7svATC/xJGPUcbYsq/JHj43QC/LmaNW1ZeI9JFOzZgwN3Pd
+         HDWA==
+X-Forwarded-Encrypted: i=1; AKwUvBxwUn/8l+P4OV6/Hgm9iBmHdXLlWAPTh5R5/FWAy3/uzbCcJ2c6rFYdLkIt21RmdtPl2j34CRQGEtGczw==@vger.kernel.org
+X-Gm-Message-State: AFuF++kOeQyR2d0WUqM1FWHsxd3CBM8A4NUDUqVB3yHhB5u44oZyMojd
+	zZIixVpdSXWgqDB+AY27+AFzabIdgDPjBg6BGTo5abXap8U8Cm9N3mPpBFpd4m59yn9PPWA+HoW
+	6kcdFmJ9Jr3gwtB3T7je0UVWO7iqok7UgETihLdY=
+X-Gm-Gg: AYBFou0CdlW5Za/Wz0RbnqavVonYU2sRkZvsa62r2NznBBmomKXCJQB3LD0gZmVYBFp
+	Aop73cqnQ5C6zSGNLn3vLD5UbV6kuwqf/C0+DslSDfD6EtX0YmwenxIcW8mST5aUVEXMbris/2B
+	8gWfey+n43MW/QZx+glMHJw8rlZbWMvrx9uD389E2TDcBKp5HwztHpSPsxIWx0RgKycXhgamvF9
+	Gc2XlxCq3BOU7/UGeai4lEC4Br47MHbhjutuosxVfp9T/B8CNjIOTP1WaA8enb2pwDCNEv5BXzk
+	4l9EkjLrO7sFSNFA7Qb7KfwJSiEoaaD0rZmxQ33FUmhUcKGJt2IRLXiRnA==
+X-Received: by 2002:a05:6512:3406:b0:5b6:183b:d216 with SMTP id
+ 2adb3069b0e04-5b6183bd400mr238592e87.61.1788494403087; Thu, 03 Sep 2026
+ 21:00:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260813070020.719810-1-shengjiu.wang@oss.nxp.com>
- <20260813070020.719810-2-shengjiu.wang@oss.nxp.com> <20260814-lean-classy-hyrax-60aab2@quoll>
- <CAA+D8AOdF08PyOqQX6HTz-bWZmyB0bmKoW2DxYtnGS3g72aWrA@mail.gmail.com>
-In-Reply-To: <CAA+D8AOdF08PyOqQX6HTz-bWZmyB0bmKoW2DxYtnGS3g72aWrA@mail.gmail.com>
-From: Shengjiu Wang <shengjiu.wang@gmail.com>
-Date: Fri, 4 Sep 2026 11:11:35 +0800
-X-Gm-Features: AcwNN1VSQJhguJNnq06i_90XVuMC-oTCxeandMzLTYM0L_HXyiYFRb-mCLJw1rE
-Message-ID: <CAA+D8AN=ZSPDK0HahaD_Ki9=RSfofpTbphFz_eestpZvmFpYfA@mail.gmail.com>
-Subject: Re: [PATCH v4 1/5] ASoC: dt-bindings: fsl,imx-asrc: update port
- binding to support multiple paths
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: shengjiu.wang@oss.nxp.com, lgirdwood@gmail.com, broonie@kernel.org, 
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, Frank.Li@nxp.com, 
-	s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com, 
-	shawnguo@kernel.org, linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, Xiubo.Lee@gmail.com, nicoleotsuka@gmail.com, 
-	perex@perex.cz, tiwai@suse.com, linuxppc-dev@lists.ozlabs.org, 
-	Shengjiu Wang <shengjiu.wang@nxp.com>
+References: <20260903231641.18536-1-hhkieu@gmail.com>
+In-Reply-To: <20260903231641.18536-1-hhkieu@gmail.com>
+From: Geraldo Nascimento <geraldogabriel@gmail.com>
+Date: Fri, 4 Sep 2026 00:59:51 -0300
+X-Gm-Features: AcwNN1X0uovzUyaqwk661Z8ri8kFZYFzajo-PGzk-Nkz45p8WS6ROgDm4XS2Pus
+Message-ID: <CAEsQvcuaNZvLxyxNH_NOy5qwTmkrk-A9QdVtZD0GiCtPwk4A+A@mail.gmail.com>
+Subject: Re: [PATCH] ALSA: usb-audio: add Pioneer DJ DDJ-SZ support
+To: Hanh Kieu <hhkieu@gmail.com>
+Cc: perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Aug 14, 2026 at 3:41=E2=80=AFPM Shengjiu Wang <shengjiu.wang@gmail.=
-com> wrote:
->
-> On Fri, Aug 14, 2026 at 3:21=E2=80=AFPM Krzysztof Kozlowski <krzk@kernel.=
-org> wrote:
-> >
-> > On Thu, Aug 13, 2026 at 03:00:16PM +0800, shengjiu.wang@oss.nxp.com wro=
-te:
-> > > From: Shengjiu Wang <shengjiu.wang@nxp.com>
-> > >
-> > > The i.MX ASRC hardware supports up to three conversion pairs (A, B, C=
-).
-> >
-> > Each one or only the newest? You will be getting the same questions.
->
-> Each one.
->
-Should I refine the commit message with a new version?
+Hi everyone,
 
-Best regards
-Shengjiu Wang
+On Thu, Sep 3, 2026 at 8:18=E2=80=AFPM Hanh Kieu <hhkieu@gmail.com> wrote:
+>
+> The Pioneer DJ DDJ-SZ exposes its audio interface as USB vendor-specific
+> class (0xFF) rather than USB Audio Class, so it needs a quirks-table
+> entry like its sibling Pioneer devices (DJM-750, DJM-850, DJM-900NXS2,
+> DJM-450, DJM-V10) already have.
+>
+> The device presents 10 channels of S24_3LE audio in both directions,
+> fixed at 44.1kHz, on interface 0 altsetting 1: playback on endpoint
+> 0x01, capture on endpoint 0x82. The unit contains its own analog mixer,
+> and each playback channel pair feeds one of its physical channel strips:
+> 0/1, 2/3, 4/5 and 6/7 feed strips 1-4 respectively, and 8/9 feed the
+> booth output. The master output is produced in analog by that mixer and
+> is not carried over USB at all. On the capture side, channels 8/9 are
+> the mic input; capture channels 0-7 are not yet mapped to specific
+> physical inputs.
+>
+> Implicit feedback needs no quirk flag here: is_pioneer_implicit_fb() in
+> implicit.c already covers vendor 0x08e4 with a vendor-spec class
+> interface and two endpoints, and the driver duly reports endpoint 0x82
+> as the playback sync endpoint.
+
+Are you sure is_pioneer_implicit_fb() isn't returning false and you're
+picking up on a generic sync ep instead?
+
+You should double-check that function is returning true or false because it
+will return false when USB_ENDPOINT_USAGE_IMPLICIT_FB isn't
+set on bmAttributes of a Isochronous IN EP.
+
+Thanks,
+Geraldo Nascimento
