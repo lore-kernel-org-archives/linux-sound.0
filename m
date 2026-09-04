@@ -1,79 +1,74 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0EC814AD0D
-	for <linux-sound@vger.kernel.org>; Fri,  4 Sep 2026 00:18:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2ED637BE75
+	for <linux-sound@vger.kernel.org>; Fri,  4 Sep 2026 02:19:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788481106; cv=none; b=Vj3pz6M7viGsxFbsOcSASDIb2yCZgAjRrU4/LDPCbIMFP6V5CuoiphzMze8IMNcnc2RXT38p6mQQIt2o7ywfHchLUvu9Q1UyuB3eOGz+kfJLtYZJy6cyKrwer5YY6jflEApxwxcyd9KznfOPPQBMc33B4YQnInS91tOt1skde00=
+	t=1788488398; cv=none; b=YWTCiGlHRBeouiXwhVgxZM3aKW1X1glD8tk3I3qCdDYnL/Thi6xLLN4LelHSQSys4LVgzJ7sCtgMw/JRZ4IdkiDu9W1x7VS6u5J+xWAmAQXfN9mwrt1lwACk11WzV32MTaX+n1OvNyIy/H5RnSy3spGRMvzJt6yJkKPYXNRZdcM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788481106; c=relaxed/simple;
-	bh=Y9qWNNOcmsXNVqzd+GFCwszjXpfdR4NAiC3qVQoR96c=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=akr0ubV6VwLgd1eXGON4rAwUfD03lKdUnwNdHNnvOtdVl674S3/fg7QiPa/9J8ot8+S7AwrtSfm+CMeaTBAR5Nfv3bCOq4zO3hZz5PcXw0HTuBtyjTcY1kyUAd0VQkR3G8KWw2YuFHGxjSHI/BMw2PwKJMc6BlOM5adCX92bE7A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=o1S4Dpif; arc=none smtp.client-ip=209.85.218.47
+	s=arc-20240116; t=1788488398; c=relaxed/simple;
+	bh=p3+FAJ/9mFidjyr+eEcreaYdBMlN0e+7XIZVWS+Ja/w=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Fi6H/pv/ZBgWfahyfQDH0kgFof/15G52GPesB7I3AeQdgeQ70U6dQW8KlwAqv9LP0EX7h8UtAbPFjXjjvIy+Q4ZrBUvv4nkcEDYvSMOXyG1d+iSyVEp0GEfk4t0tppRYLejnmqegvgstF2fxd9rZ4efytIpUhHxzv2kuE2x+zAU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=niac6wvv; arc=none smtp.client-ip=209.85.214.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="o1S4Dpif"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-c207cb16cf5so59572166b.1
-        for <linux-sound@vger.kernel.org>; Thu, 03 Sep 2026 17:18:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="niac6wvv"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2d9004f39d3so6881585ad.2
+        for <linux-sound@vger.kernel.org>; Thu, 03 Sep 2026 19:19:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788481103; x=1789085903; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=3Pn1aEbcO0f3BAISnT6H9S3U4eX/tv1UuXBAlv+8tiE=;
-        b=o1S4DpifDr4bTRVtiZk5YXl3YG/PtiKIomlo45hpnTWsJKI2F/cO7ihoXTtuIRFr3x
-         YpPTqXFFifcHHXFSf3GFNPcvrFwHRKicf1k+AH3cTllNEIezNTuRvMKzR6oFfZjS+v40
-         zNcLYzxv6RCS+sQV2DKCWahplkSW8g7GIXSneLxsW2eaH1tcKO2YKeC6WlqpUQ4go6KL
-         Y9QxTCqKN6WiY6So/ZqW5WYXmGqfln5D+l3M0wHUvFXe8KRJEecaBI+AJ6FhXvuOyVZ9
-         Yz6JTwR5iFdKpeQAqNG9nHx6ud+MMoB1hIfBiKooGwieuilNVeUJCKXGX1r+FyPbQOdF
-         +/Pg==
+        d=gmail.com; s=20251104; t=1788488396; x=1789093196; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=cH8hCql3slFtjql46/fGxJDpBGHTGfbVhDtVe9R8smo=;
+        b=niac6wvvOL4Eq8box362ohv6ntOmpUvesj954DvolNMvVSwgeL9NoDH7kVY2e18baz
+         C3Uu553MbcQDml1Ai5Tf/DWBHnGxr1Igya1Swhws+tVxkWdbsHi+e6u20FDZ9jxa2WVt
+         QLS3IHL65UQtMGYGlE2nSmanweCssYF5G3nF4GQ3oO8+u5qEs06j/VBBYr9lLJLhyeN0
+         mAdXzx/ppVmzaqysW9kawH1u3q90y+QJHD7o9PgWASnOCI5C9p5hrxIfCaApRwbif8Ur
+         9yG6IesLH3DopA7VJ0VXF4xX3vpxz2gEmSrI8Cv29JonUFX/TmAXGgvxkTtsNdk9X2bj
+         AS7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788481103; x=1789085903;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=3Pn1aEbcO0f3BAISnT6H9S3U4eX/tv1UuXBAlv+8tiE=;
-        b=KbxXA0OUV/ypcJwKdGennX/PImXdM4D3lgMiIczFiwdLXD6J87XhIZVMxEwXpQDfGf
-         aSrT2N2uWlUSYFBB/2QjOdw8s/ZL5UWsjLtJiljjRe9lu9pwqfi9eD8UdHvBFcB72G+V
-         jmcXcarx+Lnzri4HYxBS45lkpH8X5MI0Oj0eKxFbBGsviZ5KwHpZ20CpF+hrPBVQ3K/4
-         RWOP75wfuVKR0HAYipnX3Jy7glA3ARfEbfsHUgZUYTgTriv/B1zjBiVi74Cm8EbHM4Zd
-         jBcmlMKCMyRX3AGy6dAEonQY1ABbp6O0tWdDuLtVFR5cMM5E/HeRjNgJbdt5KmbJezOe
-         cKTg==
-X-Forwarded-Encrypted: i=1; AKwUvBxTNt9NEtGiSqCyeS1/Q9SgzzW5wZeEfSDMMwextsx63/iegkzBWIsdQ+OxUXlBQAUlsnhKBk5+U47dBQ==@vger.kernel.org
-X-Gm-Message-State: AFuF++kwXKY2I+6uU/h/ms5gxvmjPdN0Jcb8hUiVLhE8dvBXJzIbaHgl
-	p+k2rypN2BIz71hM25FvDkG1vlf7EP/xtSt1KAwgy4GTNGqZMyjJgkj3
-X-Gm-Gg: AYBFou2BmJVnCVQ3D4Hu7YCHWVF3Gj3GpdTjcvVydRLQX6oZs8BBH8o/PZGC5S0JVmM
-	JlMOR+UPEuL4dKMSh50uFW8ehlZeQx9DqmLaxdTA4xvRiPaWChM17cwZVnroetZZ6GBw8yqJvUl
-	GDUW8f8plDBfUgB1w+eZ4l+lZUC+WvMybx6fFz25GhqclKO7yQLs1COqTwqLCoSaMdi9md3j187
-	ZekjCHMrklyKvyildDlAwohBKyKEARoxD5W6hgqtr6WIX+6/paEb+Mzu8V8tpsZVnPoEo62DybG
-	O2irNRVXBcm+VKCkY/8rk+ppXCGWBeBKWbCfl9pcdlagOkqm5/atv9OAYaMR20OsFIdbwAMtPZD
-	33wnF7063FD7CA/JRQjMGE15O/LZ8YshShQAKL2RCNMqru5dnvsxlgizjau41ZqvzWN2jaFVzMU
-	AIY2P1DtWqCAzYIEECKMgfQTL/CKBVMzGxYdzSH+8bFYaJDVBNXRVOQndpT90OFQcfYmLRR78CM
-	SzMiJZMi+aD98RTTxvkpH9WlpChEOdYHj/bHjuk29eYrUy4zdnE2BcjuzA+
-X-Received: by 2002:a17:907:1c22:b0:c25:5a7:87f with SMTP id a640c23a62f3a-c260c448d9fmr121109866b.0.1788481102884;
-        Thu, 03 Sep 2026 17:18:22 -0700 (PDT)
-Received: from localhost ([188.234.148.119])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c260d53e0b1sm31671066b.33.2026.09.03.17.18.19
+        d=1e100.net; s=20251104; t=1788488396; x=1789093196;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=cH8hCql3slFtjql46/fGxJDpBGHTGfbVhDtVe9R8smo=;
+        b=k74xWZoKG+y/TFockIGZy5oyLP4pnI2diLrXkILtwMplQBqO/I9EaKGoBh/yPN7Mie
+         hHVIgvjZxxwfyJRAw2bXk6GtOqY+zleUJ2YOWHrs/g5aUsUy5WPU1FOSRkKYCxOz6jqv
+         TP3wIDZ9jbthIDDCNRlDptuzYXAh/f1b8TC64oGbsf+ycAfbd9rq8QGObMUc8NYik0F9
+         cb+nSG41o8wX5TecAwGOfak+0qakLv040q1+ilEFSOfFYnbkkjLRY7N+PBQtYE9Q5ZzF
+         li15LliG2nLqNcSgTloLszRA2ZE42Y2FAkNRvaHE1F0ckBgz1N1OKgwRTP+tpMn7Caow
+         4UYg==
+X-Gm-Message-State: AFuF++mAJRvtv93oYH+QYFW42Z42kEm+XVUIqR5ngpL+2VTG7cZZlBLe
+	Xgj3Qs3aFht6BaA9R8GEXqWcyrD1IQ8OPpzI8byk4PbOWsB2T3+GObJs
+X-Gm-Gg: AYBFou3hzMoOpRDPVEEdzmEivKAAef6HKjwd5e3V2ePYrn2xXPaDLPo4XZuozCyYQRb
+	/tgbJKf3cTFC5m9eAQ3/tXMSptkGjpNyfaCbsyOLlhYFE6luOSCUrzCQNQjJGLXCpy9D0pr35VR
+	qY8JSaGrzcAycLXast7q9mDkCqLn6DEy0phOv4ULag5JUE6iPjr3cDZzIKPwc8AS+cZfDE0XbF4
+	vFqrNSRjoFOGXSb+GJGorcEkI7zmTLtj6eT38L8Yu9YY/8h1kfdomIkV2jWtt/u1GdU92MWHA3f
+	wdE/cLykMPEZrDlVFne+k9/MHZW4eyYtfAN7RCEkMQ4IASntVO8Xqu1pjmUSpZgH88nffLEHJVw
+	PfSZygfE1fogLunc491va6wInZT7VBd+ihQMYVeLE/u89m+npDnTtWebBOclhuZrANYQDXkOWT2
+	TUk7K7SpiEW5rLNnCa1bsjt8KkljjwmC/aSclM80nEwbxPRQPje1auhwMFAvOqUDtI9Vy8JhBZT
+	QoFU25HpjhFGaAjaQypIGQbII++kM8/BR8OtIZ2LeiFLE/364xNCw==
+X-Received: by 2002:a17:90b:4c4a:b0:398:bc52:825b with SMTP id 98e67ed59e1d1-39b2624c32amr3809472a91.21.1788488395788;
+        Thu, 03 Sep 2026 19:19:55 -0700 (PDT)
+Received: from nugod-NUC15CRHU5.tail9f095a.ts.net ([218.237.104.87])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39b260cd2aasm1731212a91.3.2026.09.03.19.19.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Sep 2026 17:18:21 -0700 (PDT)
-From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-To: tiwai@suse.de
-Cc: tiwai@suse.com,
-	perex@perex.cz,
-	jikos@kernel.org,
-	bentiss@kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8 0/2] ALSA: usb-audio: the Topping M62's vendor controls
-Date: Fri,  4 Sep 2026 05:18:18 +0500
-Message-ID: <20260904001818.66423-1-mikhail.v.gavrilov@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <87mrty8xf2.wl-tiwai@suse.de>
-References: <87mrty8xf2.wl-tiwai@suse.de>
+        Thu, 03 Sep 2026 19:19:55 -0700 (PDT)
+From: HyeongJun An <sammiee5311@gmail.com>
+To: Mark Brown <broonie@kernel.org>,
+	Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Shuah Khan <shuah@kernel.org>
+Cc: linux-sound@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	HyeongJun An <sammiee5311@gmail.com>
+Subject: [PATCH] selftests/alsa: Test writes to IEC958 controls
+Date: Fri,  4 Sep 2026 11:19:39 +0900
+Message-ID: <20260904021939.149468-1-sammiee5311@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -82,148 +77,289 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On Thu, 03 Sep 2026 12:02:57 +0200, Takashi Iwai wrote:
->
-> Well, let's experiment the component stuff a bit.
+Nothing checks that the put() callback of an IEC958 control reports a
+change, because write_valid skips these controls.
 
-I did, and it works. But while testing it I measured something that
-undercuts the premise of the whole series, so that comes first and the
-component question is at the bottom, where it now belongs.
+Toggle one channel status bit and look for the event. The bit comes
+from the Con Mask, Pro Mask or plain Mask sibling where there is one,
+non-audio by preference because it means the same thing in both
+layouts. Bit 0 of the first byte picks the layout, so leave it alone.
 
-**The card cannot be read. Not by this driver, and not by the vendor's
-own application.**
+Write the value once without grading it first, since a device need not
+implement the bit we picked. The graded write then compares against
+what the device gave back, so it can only fail on the notification.
 
-Every version of this series has rested on one sentence, which is in
-the v8 commit message: that a single write of 0x11/0x26 makes the
-device announce its whole state, and that this is how the controls are
-populated without caching what we wrote. That is wrong, and I am sorry
-it stood for eight postings.
+On an HDA card with four HDMI PCMs:
 
-Six captures, on two operating systems.
+  -# Totals: pass:212 fail:5 xfail:0 xpass:0 skip:56 error:0
+  +# Totals: pass:216 fail:5 xfail:0 xpass:0 skip:52 error:0
 
-Four with usbmon here: a cold start with the card powered down first,
-an ordinary replug, a module unload and reload with the card left in
-place, and one with every state restorer disabled -- alsa-restore and
-alsa-state masked, the 90-alsa-restore udev rule symlinked to
-/dev/null, wireplumber and pipewire stopped, asound.state moved aside.
-That last one: thirty-one seconds, seventeen frames out, 2589 in,
-every incoming frame a level meter. The 0x11/0x26 write elicited
-nothing at all.
+A driver whose put() never reports a change now shows up as
+event_missing rather than as a skip. hdmi-codec, img-spdif-out and
+uniperif_player store the value and return 0, so boards using them
+should report a new failure.
 
-Two of the vendor's application on macOS. Its connect sequence is:
+write_invalid stays a skip. Every bit pattern is a valid channel
+status.
 
-	0.000  OUT  0x11/0x01 = 1      handshake, device answers 3
-	0.034  OUT  0x11/0x20 = 1      opens a bulk transaction
-	 ...        149 writes         gains, mixer, EQ, routing
-	1.070  OUT  0x11/0x20 = 0      closes it
-	1.072  OUT  0x11/0x26 = 1
-	1.074  OUT  0x11/0x24 = 1      subscribe, then every ~2 s
+Suggested-by: Mark Brown <broonie@kernel.org>
+Link: https://lore.kernel.org/all/317fc80e-ec80-477d-80f6-53c395de4b4a@sirena.org.uk/
+Signed-off-by: HyeongJun An <sammiee5311@gmail.com>
+Assisted-by: Claude:claude-opus-5
+---
+ tools/testing/selftests/alsa/mixer-test.c | 225 ++++++++++++++++++++++
+ 1 file changed, 225 insertions(+)
 
-All 162 outgoing frames are writes. There is not one read. The
-application never asks the card anything: it opens a transaction and
-pushes its own stored workspace in, including every one of the nine
-values this series exposes. And 0x11/0x26 goes out *after* the upload,
-so whatever it is, it is not a request for state. I had it backwards.
-
-The second macOS capture was taken deliberately. I set Mic-1 to 70
-from the front panel here and confirmed it through the control; the
-Mac had 50 stored. Forty milliseconds after connecting, the
-application wrote 0x21/0x04 = 50 and the panel followed. That write is
-the only mention of 0x21/0x04 anywhere in the capture.
-
-So the plausible values in my earlier testing were the driver's own
-writes coming back. topping_ctl_write() updates the cache before
-sending, and alsactl restored the stored state within about 80 ms of
-the bind on every plug. My asound.state held "value 28" for Mic-1, and
-28 is what the control read for two days. Reload the module -- no
-card-add uevent, so no restorer runs -- and it reads 0 while the panel
-is plainly not at zero.
-
-This is what the vendor told me in August: there is no read command.
-They were describing their hardware accurately.
-
-**How this differs from an ordinary card.**
-
-An HDA codec keeps its amp values in registers and
-snd_hda_codec_amp_read() asks for them; a UAC device answers GET_CUR.
-Both drivers then cache, which is why a mixer control looks like plain
-software state from the outside. The M62 remembers too -- better than
-either, since it has a battery and survives being unplugged -- but
-there is no way to ask it. The cache has nothing to start from, so it
-starts from zero.
-
-That is not merely inaccurate. The output volumes use a TLV whose
-index 0 is DB_GAIN_MUTE and whose index 99 is the top of the scale, so
-the driver can report "muted" for a card sitting at maximum. The input
-gains are no better in kind: this card is bought for measurement, and
-a preamplifier reading 28 while the hardware is at 70 makes every
-number taken through it wrong, quietly and later.
-
-The two source selectors are worse than either, because a wrong one is
-silent rather than loud. If the headphone output is pointed at Mix A
-and the host plays into Playback 1/2, nothing comes out and nothing
-says why: the card is playing correctly, from a source no one is
-feeding. No log line, no error, no clue short of reading the panel.
-The vendor application writes 0x64/0x02 on connect for exactly this
-reason.
-
-**What I think the answer is.**
-
-There is no "do nothing" option: publishing a control at all makes
-alsactl store and restore it, so the driver imposes state on the card
-whether it means to or not.
-
-While looking for a convention I found that usb-audio already has one
-for this, in mixer.c:
-
-	/* forcibly initialize the current mixer value; if GET_CUR fails,
-	 * set to the minimum as default
-	 */
-	static void init_cur_mix_raw(...)
-	{
-		err = snd_usb_get_cur_mix_value(cval, ch, idx, &val);
-		if (!err)
-			return;
-		...
-		snd_usb_set_cur_mix_value(cval, ch, idx, cval->min);
-	}
-
-If a device will not answer GET_CUR -- and there is a get_cur_broken
-flag and a check_mixer_get_cur() that detects it -- the mixer writes
-the minimum and caches that. It does not display an unverified number
-and it does not make the control write-only. The reported value is
-true because the driver made it true, and safe because the minimum is
-the safe end.
-
-That is what I would like to do here: write the minimum to all seven
-gains and volumes at bind, and cache it. alsactl restore then puts the
-user's stored values over the top a moment later, exactly as it does
-for any other card. A hand-set panel value is lost on connect, which
-is a real cost -- but the vendor's own application already destroys it,
-with its stored value rather than the minimum.
-
-The selectors do not fit that shape, since their minimum is the
-"Unknown" item and writing it is a no-op. Either the driver picks a
-sensible default source at bind, and takes over routing the user may
-have set deliberately, or it leaves them alone and the card can be
-silent for reasons nothing on the host can explain. I do not have a
-good answer and would rather be told.
-
-So: is init_cur_mix_raw()'s behaviour the right precedent to follow
-for a vendor protocol that has no read at all, rather than only a
-broken GET_CUR? And what would you do about the selectors?
-
-**The component experiment**, briefly. It works. The master goes up
-from snd_topping_init() inside snd_usb_create_mixer(), so on an
-ordinary plug the bind is synchronous and the controls exist before
-try_to_register_card() -- the same ordering as v8, and the restore
-timing worry does not bite there. From HID probe to component bind:
-54 to 57 ms across five replugs. Only a module reload onto a live card
-adds controls after registration, and there a desktop mixer does not
-follow the renumbered elements until wireplumber is restarted.
-
-I will hold the prototype until the above is settled, because the
-answer decides what these controls are.
-
+diff --git a/tools/testing/selftests/alsa/mixer-test.c b/tools/testing/selftests/alsa/mixer-test.c
+index a329f901c5ed..0f5750edcd98 100644
+--- a/tools/testing/selftests/alsa/mixer-test.c
++++ b/tools/testing/selftests/alsa/mixer-test.c
+@@ -30,6 +30,12 @@
+ 
+ #define TESTS_PER_CONTROL 7
+ 
++/* Suffixes of the SNDRV_CTL_NAME_IEC958() names, not exported to userspace */
++#define IEC958_DEFAULT		"Default"
++#define IEC958_CON_MASK		"Con Mask"
++#define IEC958_PRO_MASK		"Pro Mask"
++#define IEC958_MASK		"Mask"
++
+ struct card_data {
+ 	snd_ctl_t *handle;
+ 	int card;
+@@ -842,6 +848,221 @@ static bool test_ctl_write_valid_enumerated(struct ctl_data *ctl)
+ 	return !fail;
+ }
+ 
++/*
++ * Find the read only mask control for an IEC958 value control.  The two
++ * share device, subdevice and index but not always the interface.
++ */
++static struct ctl_data *find_iec958_mask_ctl(struct ctl_data *ctl,
++					     const char *suffix)
++{
++	char name[64];
++	int stem;
++	struct ctl_data *mask;
++
++	stem = strlen(ctl->name) - strlen(IEC958_DEFAULT);
++	if (snprintf(name, sizeof(name), "%.*s%s", stem, ctl->name, suffix) >=
++	    (int)sizeof(name))
++		return NULL;
++
++	for (mask = ctl_list; mask != NULL; mask = mask->next) {
++		if (mask->card != ctl->card)
++			continue;
++		if (snd_ctl_elem_info_get_type(mask->info) !=
++		    SND_CTL_ELEM_TYPE_IEC958)
++			continue;
++		if (snd_ctl_elem_info_is_inactive(mask->info))
++			continue;
++		if (!snd_ctl_elem_info_is_readable(mask->info))
++			continue;
++		if (snd_ctl_elem_id_get_device(mask->id) !=
++		    snd_ctl_elem_id_get_device(ctl->id))
++			continue;
++		if (snd_ctl_elem_id_get_subdevice(mask->id) !=
++		    snd_ctl_elem_id_get_subdevice(ctl->id))
++			continue;
++		if (snd_ctl_elem_id_get_index(mask->id) !=
++		    snd_ctl_elem_id_get_index(ctl->id))
++			continue;
++		if (strcmp(mask->name, name) == 0)
++			return mask;
++	}
++
++	return NULL;
++}
++
++/*
++ * Read the bits the device says it implements.  Bit 0 of the first status
++ * byte picks which mask applies, some devices publish only a plain Mask.
++ */
++static bool read_iec958_mask(struct ctl_data *ctl,
++			     const snd_aes_iec958_t *cur,
++			     snd_aes_iec958_t *mask)
++{
++	int err;
++	struct ctl_data *mask_ctl;
++	snd_ctl_elem_value_t *val;
++
++	if (!strend(ctl->name, IEC958_DEFAULT))
++		return false;
++
++	if (cur->status[0] & IEC958_AES0_PROFESSIONAL)
++		mask_ctl = find_iec958_mask_ctl(ctl, IEC958_PRO_MASK);
++	else
++		mask_ctl = find_iec958_mask_ctl(ctl, IEC958_CON_MASK);
++	if (!mask_ctl)
++		mask_ctl = find_iec958_mask_ctl(ctl, IEC958_MASK);
++	if (!mask_ctl)
++		return false;
++
++	snd_ctl_elem_value_alloca(&val);
++	snd_ctl_elem_value_set_id(val, mask_ctl->id);
++
++	err = snd_ctl_elem_read(mask_ctl->card->handle, val);
++	if (err < 0) {
++		ksft_print_msg("snd_ctl_elem_read() failed for %s: %s\n",
++			       mask_ctl->name, snd_strerror(err));
++		return false;
++	}
++
++	snd_ctl_elem_value_get_iec958(val, mask);
++
++	return true;
++}
++
++/*
++ * Pick one bit to toggle.  Bit 0 of the first status byte selects the
++ * layout the others are read in so leave it alone, prefer non audio.
++ */
++static bool pick_iec958_bit(const snd_aes_iec958_t *mask, unsigned int *byte,
++			    unsigned char *bit)
++{
++	unsigned int i;
++	int j;
++
++	if (mask->status[0] & IEC958_AES0_NONAUDIO) {
++		*byte = 0;
++		*bit = IEC958_AES0_NONAUDIO;
++		return true;
++	}
++
++	for (i = 0; i < sizeof(mask->status); i++) {
++		for (j = 0; j < 8; j++) {
++			if (i == 0 && (1 << j) == IEC958_AES0_PROFESSIONAL)
++				continue;
++			if (mask->status[i] & (1 << j)) {
++				*byte = i;
++				*bit = 1 << j;
++				return true;
++			}
++		}
++	}
++
++	return false;
++}
++
++/*
++ * Throw away the events from a write we are not grading, one left behind
++ * would make a missing notification look like a notification we got.
++ */
++static int drop_events(struct ctl_data *ctl)
++{
++	int err;
++
++	do {
++		err = wait_for_event(ctl, 0);
++	} while (err > 0);
++
++	return err;
++}
++
++/*
++ * Toggle a single channel status bit and check that userspace is told about
++ * it.  A device need not implement the bit we picked so write the value
++ * without grading it first, then grade against what it gave back.
++ */
++static bool test_ctl_write_valid_iec958(struct ctl_data *ctl)
++{
++	int err;
++	unsigned int byte;
++	unsigned char bit;
++	snd_aes_iec958_t iec958, mask;
++	snd_ctl_elem_value_t *orig_val, *val, *read_val, *w_val;
++	snd_ctl_elem_value_alloca(&orig_val);
++	snd_ctl_elem_value_alloca(&val);
++	snd_ctl_elem_value_alloca(&read_val);
++	snd_ctl_elem_value_alloca(&w_val);
++
++	/*
++	 * The bytes past the ones a driver implements are compared too,
++	 * so start from a read rather than building a value here.
++	 */
++	snd_ctl_elem_value_set_id(orig_val, ctl->id);
++	err = snd_ctl_elem_read(ctl->card->handle, orig_val);
++	if (err < 0) {
++		ksft_print_msg("snd_ctl_elem_read() failed: %s\n",
++			       snd_strerror(err));
++		return false;
++	}
++
++	snd_ctl_elem_value_get_iec958(orig_val, &iec958);
++
++	/* With no mask to go on all we can do is try non audio */
++	memset(&mask, 0, sizeof(mask));
++	if (!read_iec958_mask(ctl, &iec958, &mask))
++		mask.status[0] = IEC958_AES0_NONAUDIO;
++
++	if (!pick_iec958_bit(&mask, &byte, &bit)) {
++		ksft_print_msg("%s implements no settable status bits\n",
++			       ctl->name);
++		return true;
++	}
++
++	iec958.status[byte] ^= bit;
++	snd_ctl_elem_value_copy(val, orig_val);
++	snd_ctl_elem_value_set_iec958(val, &iec958);
++
++	/* Writing can modify the value so keep a copy to write from */
++	snd_ctl_elem_value_copy(w_val, val);
++	err = snd_ctl_elem_write(ctl->card->handle, w_val);
++	if (err < 0) {
++		ksft_print_msg("snd_ctl_elem_write() failed: %s\n",
++			       snd_strerror(err));
++		return false;
++	}
++
++	snd_ctl_elem_value_set_id(read_val, ctl->id);
++	err = snd_ctl_elem_read(ctl->card->handle, read_val);
++	if (err < 0) {
++		ksft_print_msg("snd_ctl_elem_read() failed: %s\n",
++			       snd_strerror(err));
++		return false;
++	}
++
++	/* Put it back where we found it, then forget both writes */
++	snd_ctl_elem_value_copy(w_val, orig_val);
++	err = snd_ctl_elem_write(ctl->card->handle, w_val);
++	if (err < 0) {
++		ksft_print_msg("snd_ctl_elem_write() failed: %s\n",
++			       snd_strerror(err));
++		return false;
++	}
++
++	if (drop_events(ctl) < 0)
++		return false;
++
++	if (snd_ctl_elem_value_compare(val, read_val)) {
++		/* Grade against what came back, the event check still runs */
++		ksft_print_msg("%s does not implement status[%u] 0x%02x\n",
++			       ctl->name, byte, bit);
++		return write_and_verify(ctl, val, read_val) == 0;
++	}
++
++	ksft_print_msg("%s toggling status[%u] 0x%02x\n", ctl->name, byte,
++		       bit);
++
++	return write_and_verify(ctl, val, NULL) == 0;
++}
++
+ static void test_ctl_write_valid(struct ctl_data *ctl)
+ {
+ 	bool pass;
+@@ -878,6 +1099,10 @@ static void test_ctl_write_valid(struct ctl_data *ctl)
+ 		pass = test_ctl_write_valid_enumerated(ctl);
+ 		break;
+ 
++	case SND_CTL_ELEM_TYPE_IEC958:
++		pass = test_ctl_write_valid_iec958(ctl);
++		break;
++
+ 	default:
+ 		/* No tests for this yet */
+ 		ksft_test_result_skip("write_valid.%s.%d\n",
 -- 
-Mikhail
+2.43.0
+
