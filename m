@@ -1,92 +1,282 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2972A3ED5AC;
-	Fri,  4 Sep 2026 15:56:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C156F4EC67D
+	for <linux-sound@vger.kernel.org>; Fri,  4 Sep 2026 16:22:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788537410; cv=none; b=svICS1iDnJX4VjrYyg5P1TiVSkeMu4wjQVC98J8Ra3V/9/f1j8AZi836nBeQ+HhBkGnRagDkDVz8+3F2QjZwJ/Xhd0DsBk6CfFocpTXV0bHOuq9DqsoCbbaq9M+rWnREJwSeyOpT4dGHI8rJ5zLgHvg0CiyIwR/2JBvSNHzBZn0=
+	t=1788538965; cv=none; b=CeJUMBDudOpH43RcKfw2hr1JFjyuPoSbVkJpwg0BrL2FRjE62Xe7tLIFrEoGyYo5wvjpen2Cp6/g7MKH0L2gVYGEokAr8+kcuR5iXlHjX65O0nvPvvE9plITfPky2oRV6AUMe+s2UTIjQ67bJ3U2JHpUKtMGOoNX+/hGqIJZisk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788537410; c=relaxed/simple;
-	bh=Wqe7V5jigU1tEd47oUdV0pAEqaxtM+usXsDQ8qTONt0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HTRGClaVf19ipfR/zOnw3mNP3/9IRzk7oyJZYrvAgmvG0hoU68FaRcIjs2WUfdgaWDEAZ0rJ5GRQ8Kn0kbzKifStM/xxrG3e+gmlw4IQaLzWsEh2W7LuoAKpnKtooDj0eCK9nCkvh7uwd02WqsvJ8wUjS1H9aN2QiisaGsnVBSE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZxgXaINm; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788538965; c=relaxed/simple;
+	bh=tzK3UKTtS9JIjsbVctIiNEivUU+ANwbZzqbfNXNfpRI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=VKr+HJz/52ziRFSjcXZS/b7lRRL32psPt4DuNJEBJg6h2Q8GqVAwUQhToIGruBuVh4Qh4rcM9c5BvZi1Q2SAsaUl8aPg5MyFUngGTq7kaEM5rbaseOY7BJ4Y8oBGblvz0O7zactqR5YVBJryH22z9oDjH6EtpOGsnGL7rFdIUmo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sYiZO2fv; arc=none smtp.client-ip=209.85.167.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZxgXaINm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3E7B1F00A3D;
-	Fri,  4 Sep 2026 15:56:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788537404;
-	bh=4g93PhMijTSLmg1+oQtraAOOBVjRubRTVEKa/SIB1qU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ZxgXaINmrBPUiPnVR4hFz8KDLQM76R+1J9YHHt3zSIWttEfY1cHSOiEIz9mgZ9YQb
-	 Pu8j3HO5v7K+VyBVIcnKkzmSvnMl5ac0luRGLIqfHvLDUWQwhWdMrxE1aWD5xIJZLv
-	 SGF5ErLW8z16JdLwboFMrGkyCSkqmN4PkGyrBkP7aaQ5NFkjDs6MA/SI56JsfMbcWD
-	 cez1etoKQqLHL+rhrWGvebFy1wkpyZJ/TqGtUB0HXcA7gTIzS/oRzNxI/xQ2cqWT5K
-	 9bJiWS6J7o/tSaUTzU7HWc5ByZ68/RL21uPodZznhKEOvUBjhImRGsKM3Zxv38L0bk
-	 jlRxahh963/Cw==
-Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id 4B7D91AC528C; Fri, 04 Sep 2026 16:56:41 +0100 (BST)
-Date: Fri, 4 Sep 2026 16:56:41 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Manuel Ebner <manuelebnerli@mailbox.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-sound@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] ASoC: doc: Fix bracket and wording
-Message-ID: <aprqOQm357605zoD@sirena.co.uk>
-References: <20260904120737.758809-2-manuelebnerli@mailbox.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sYiZO2fv"
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5b159850b16so1186249e87.3
+        for <linux-sound@vger.kernel.org>; Fri, 04 Sep 2026 09:22:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788538960; x=1789143760; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=C/2ZdZdl6qmR51zeaL+nCzu0LwWvHRFYyLrBt4GeQgM=;
+        b=sYiZO2fvaxkC8pDZcQsFIDf+/rO4gZVP42g6LWm4QbWYW+zIbj/47dHqyX0SdNTUbo
+         3fEOFULefgz3lZSh3TbGzorEKJqgzQNIG0aqceweAr1m179FZnkt4gyC7JrwPfEs9tEB
+         9eGg8n5iq6SUPEny5+3mjZ7jGz9ET6YsK9L/64y9LW49nhPkHwwWXNK8y6DcYlxxO7gK
+         /n08VOW9189Ks54zSCnC0PEmWEyGTXCS0kO6diux1MhMl4ft4Ok5uIpNenA0ORFgW4g+
+         ytUQ2kn/61KiXYRMpSH8CqaLGQ152kzSsiWOTgwWyGptuyUuOoloXfG980MMmqYp9NVJ
+         Ea2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788538960; x=1789143760;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=C/2ZdZdl6qmR51zeaL+nCzu0LwWvHRFYyLrBt4GeQgM=;
+        b=A4Nh3jdAP4g4wouVqlCnTcy5bSHuygJ/S/vuTJrHLs/pXiGZBCJJQ8fGK5LkOAmFvb
+         +8aFdPfmnHNFO9PNKrt9pJyeGM2/Q8l4N6u1+Hu3DjPzJvOyyrObLmjwWMiSZfjAikIw
+         mPiKDdcxGL+igQ2BCGT4Z2X1hS5D0ZbglMduCkqwTUPlADvn9jSz/J4cQ3Ampcwemf/j
+         6XQY8XDwKqWVOmmvwkLogyVcQPHqYosm1V0Fczl89yfCGp4ONGjiyA/+ihlxRMS04Ocr
+         nxYoBGjd45arkQZWpcRVhtP9urjAw53WdVXU37//77KpGAqH4PYmT/dih2pH+ggdVJCO
+         88Ww==
+X-Forwarded-Encrypted: i=1; AKwUvByLIF+QflUDoYMFKz5oBBmsBWYS1oTEDghH2/SgleZHFOgbqBuR+UgBi1+QVVYzRf/TXiS72OB9QXITyg==@vger.kernel.org
+X-Gm-Message-State: AFuF++nBHX3Ayzcf2JA3c/Ffyfvpo2MlyMgdef/BGGtBi/Ig5/mmYgoM
+	kSwy5cvcFVVXOpyzgLD6EsffKw+yj/AuhUR7g1EayH26vPUuwDWy9wo7ySINfpwt9Pezg6Fq
+X-Gm-Gg: AYBFou0PYZYq5L8EXYIVu0AO47BhojA3on7tCYyTuGFsFp5P3Q9IvtBJkJ+7rNHYPiB
+	Rer71ft/4rPGDtTcKCDDPu7Cmd5yIIN9j/e/ubQ00Z94voMb9KDifFbsE+TdgGmTcT66xUXrsIB
+	UtNcE3b/QKpyq7RCBsBYHIq0xJhJgrwfdHNZvbdCBC4RzQ9cj+HNnPO85e7VSsbKIkviyniMmAO
+	tO9C1Ad/N+up62yEmmBpve1mrgNItAOH/HZzkQrkAILGe8lOYrUrQH4OCiWM4SE3U/m0r2h6nsc
+	1hq7nmoWhZKhAF4BWW9y18fAxAJN9FmKrOcy/4KVYyyv3RlkoJSLMuKhCoHbEzMfgzVF8JBPfwm
+	FoUBbZrioftJC9F/vRlLj+gMOBHNCdcyOBxIezbmQKE3sMkDX1vuP3lkTymrcaf7GLrh7WCA+ql
+	3szSecC8MxJAOwt9oCWlXN/ErSZH+Euk/oLXkY8RYSgvub5zNsP4jN3LVeVknpymtRtkGLMsSy3
+	jV6icyxgBpzp7zZVq42wVUsZ6+qTVfVYxanSPQckw7lRfBXg82IR1L5VIMd
+X-Received: by 2002:a05:6512:3985:b0:5b4:ac27:6bb0 with SMTP id 2adb3069b0e04-5b616f4ba31mr1908487e87.25.1788538960167;
+        Fri, 04 Sep 2026 09:22:40 -0700 (PDT)
+Received: from localhost ([188.234.148.119])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b667b6c30fsm281370e87.9.2026.09.04.09.22.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Sep 2026 09:22:39 -0700 (PDT)
+From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+To: tiwai@suse.de
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	jikos@kernel.org,
+	bentiss@kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+Subject: [RFC PATCH v5 0/2] the Topping M62's vendor controls, on the component framework
+Date: Fri,  4 Sep 2026 21:22:34 +0500
+Message-ID: <20260904162236.3212370-1-mikhail.v.gavrilov@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260904153051.1785280-1-mikhail.v.gavrilov@gmail.com>
+References: <20260904153051.1785280-1-mikhail.v.gavrilov@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="RXQjFobGZcgVdBUO"
-Content-Disposition: inline
-In-Reply-To: <20260904120737.758809-2-manuelebnerli@mailbox.org>
-X-Cookie: My vaseline is RUNNING...
+Content-Transfer-Encoding: 8bit
 
+This is the experiment Takashi suggested in the v8 thread: an
+individual HID driver joined to snd-usb-audio through the component
+framework, instead of a mixer quirk that claims the HID interface for
+itself. It is posted as an RFC rather than as v9 because v8 is not
+withdrawn -- it remains the alternative, and the choice between the two
+is the question this series exists to answer.
 
---RXQjFobGZcgVdBUO
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+I said this morning that I would hold this until the questions in that
+thread were answered. I am sending it anyway, because a patch gets a
+better answer than a question does, and because the last of those
+questions answered itself: the correction I sent a few hours ago
+proposed deferring the controls until the card reports, and working out
+how that lands in code showed why it cannot -- which is in the section
+below. The only question still genuinely open is the HID one, and it
+touches one line.
 
-On Fri, Sep 04, 2026 at 02:07:37PM +0200, Manuel Ebner wrote:
-> Change wording to make sense.
-> 'above' -> 'here' in placeholder which already is above the code block.
+Changes since v4:
+ 
+  - the master's teardown could not work from the path it was written
+    for. topping_master_release() called component_master_del(), which
+    calls topping_master_unbind(), which looked its own context up with
+    devres_find() -- and devres_release_all() moves every node off the
+    device before it calls a single release, so that lookup always came
+    back empty. The WARN_ON fired and the unbind was skipped, leaving
+    the component bound to a master that no longer existed.
+ 
+    Worse, the skip was load-bearing: component_unbind_all() walks the
+    match array, and component_match_add() had put that array in devres
+    after the context, so devres releases it first. Had the unbind gone
+    ahead it would have walked freed memory.
+ 
+    Two changes. topping_master_unbind() no longer looks anything up:
+    it passes NULL as the component data, and the HID side takes its
+    controls off the card it was handed at bind, which it still has.
+    And the teardown moved out of the release into its own devres
+    action, registered after component_match_add(), so that it unwinds
+    before the match array rather than after it.
+ 
+    topping_master_release() is storage again, and the ordering that
+    v4's release was reaching for is now expressed by where the action
+    is registered rather than by hoping.
 
-> I guess the line is to show that there are more DAI links _above_ the code
-> block. But it's already above, thus change 'above' -> 'here'
-> Let me know if I misunderstood.
+What the shape buys, measured rather than argued:
 
->    static struct snd_soc_dai_link dais[] = {
-> -	< ... more DAI links above ... >
-> -	{
-> +        < ... more DAI links here ... >
->  		.name = "MODEM",
+  - card.c is not touched at all. The v8 series had to add
+    snd_usb_claim_iface() and snd_usb_release_iface() there, and had a
+    defect I reported separately: an interface claimed and marked
+    USB_AUDIO_IFACE_UNUSED never gets told to wind down, because
+    usb_audio_disconnect() returns at its first line. With no claim
+    there is no such interface and the defect has nothing to attach
+    to. Watching the wire with usbmon: unbind the audio interface and
+    the keepalive stops. In v8 it kept going.
 
-You've moved the bit saying more links into the definition of the link
-element that's show where you obviously can't have more links since it's
-a single element in the array.  Again, I'm confused what you think the
-issue is here.
+  - the hid_ignore_list entry goes away, so hidraw stays available.
+    That matters because five of the card's functions -- the mixer
+    matrix, the mutes, the loopback routing, the input power and the
+    EQ -- are reachable only through the vendor protocol, and v8 made
+    them unreachable from userspace as the price of the quirk.
 
---RXQjFobGZcgVdBUO
-Content-Type: application/pgp-signature; name="signature.asc"
+  - two M62s on one host bind to their own cards. The match is by
+    descent from the shared USB device, and it holds: gains set on one
+    do not appear on the other, and unplugging one leaves the other's
+    controls in place. The quirk road could not be tested for this at
+    all.
 
------BEGIN PGP SIGNATURE-----
+On the timing worry from that thread: it does not bite on an ordinary
+plug. The master goes up from snd_topping_init() inside
+snd_usb_create_mixer(), so the bind is synchronous and the controls
+exist before try_to_register_card() -- the same ordering as v8. From
+HID probe to component bind, 54 to 57 ms across five replugs. Only a
+module reload onto a live card adds controls after registration, and
+there a desktop mixer does not follow the renumbered elements until
+wireplumber is restarted. That is a real wart and I have not found a
+way around it that is worth the code.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqa6jQACgkQJNaLcl1U
-h9CzEQf8D3WFIxa4Y+cYPR2KZbEiFQn7J1PO/eqdUkfw9D8yg42gM+6t/tiJCR55
-S5Fj78mxFBdH3kAVD8crzKQREjnrOiGl7/8yUINsv5NU78NAOhZot9ANXeTxs/dk
-Wp+C4RwWjT7Vf1srG8OaFRAy11PBkR1HDq+I80HtUxdQrwFQ5TayxJwSLRw75PpH
-S8jonQXJX86FZ3OnxJhVl29El6BnvoFGMPJ4L1ScTcElENo5W0GVKNl8UU8hBx0b
-N18gxcNIrcOHm2cMAxJxv5RR3aX7boaKbo3xWMs5OIaPbee3+m1SSNN7Hs1YVplR
-RfghGwtlvtask/nG37Ap/UyPENZEzw==
-=5+xh
------END PGP SIGNATURE-----
+What the card does and does not report
 
---RXQjFobGZcgVdBUO--
+I got this wrong twice in the v8 thread and would rather state it
+plainly here, since the design follows from it.
+
+After a subscribe the card reports itself in two waves: jacks at about
+0.9 s, then at about 5.2 s the jacks again plus the output mutes plus
+the gain of every input whose jack is present. Every turn of a
+front-panel knob is reported as it happens, gains and output volumes
+alike. What is never reported is a source selector, because the card
+reports events and a selector has no front-panel control, so no event
+can exist; and an output volume before anyone has touched it, because
+it is a setting rather than a physical fact.
+
+So five of the nine controls have a source of truth on the card, two
+have one only after a hand moves them, and two never do.
+
+That looked at first like an argument for deferring the controls until
+the first report lands, so that a value read at connect would be the
+panel's rather than something restored over it. I have not done that,
+and here is why: alsactl restores once, at card add, and does not
+come back for elements that appear later. Deferring would therefore
+trade an accurate value for five controls against no restore at all
+for nine, and would wait forever for an input with nothing plugged
+into it -- which on a five-input card is the normal case.
+The controls are published at bind, as in v8, and the value at
+connect is the restored one.
+
+Open question, not blocking the review
+
+hid_hw_open() sets intf->needs_remote_wakeup, and usbhid offers no way
+to take input reports without it. This card does not advertise remote
+wakeup (bmAttributes 0xc0, no power/wakeup node), so that forbids
+runtime suspend to the whole device -- undoing something an earlier
+revision of the v8 series had to fix. The driver clears the flag after
+opening, with a comment saying so, because it resynchronises on resume
+and has no use for a device-initiated wakeup. Jiri and Benjamin have
+been asked whether that is acceptable or whether usbhid should offer
+something; the question is in the same thread and unanswered. If the
+answer is that the clear must go, HID_CONNECT_DRIVER replaces
+HID_CONNECT_HIDRAW and the hidraw node goes with it.
+
+Tested
+
+Fedora, 7.3.0-rc1-bc35965f6940 plus this series, with KASAN,
+PROVE_LOCKING and UBSAN enabled. One M62, firmware V87.05.45.48.27,
+and a second of the same for the two-card test. Everything below was
+run after the fixes listed above, not before them.
+ 
+All nine controls read and written from amixer and from the front
+panel, values cross-checked against the panel.
+ 
+One hundred cycles of module load and unload against a live card,
+which is the path the fixes touch: the controls come and go while the
+meter stream keeps arriving, so .raw_event() runs against a set of
+controls that is being taken apart. No splat and no lockdep complaint,
+including on the lock order the first fix introduces -- m62->lock is
+now held across snd_ctl_notify(), which takes the card's
+controls_rwlock inside it.
+ 
+An audio-side unbind and rebind, exercising topping_unbind() through
+the master rather than through the HID driver's own remove.
+ 
+The cable pulled out of a card while a control was being written in a
+loop. That produces a run of failed writes and then the disconnect,
+and after the last fix it does so without a line of complaint each.
+ 
+System suspend and resume: the subscription survives it -- turning a
+front-panel knob afterwards still moves the control -- and the
+selectors are written back on the way out, as they must be since the
+card never reports them.
+ 
+Two cards on one host, on different ports of the same hub: the
+component match is by descent from the shared USB device and it holds
+-- dmesg shows snd-usb-audio 3-1.3:1.0 binding one HID device and
+3-1.4.2:1.0 the other, each card carries its own nine controls, gains
+set from one front panel move only that card's controls, and
+unplugging one leaves the other's in place.
+ 
+Not tested:
+ 
+  - hibernation, and with it .reset_resume, which shares
+    topping_resume() with .resume. This machine is not set up for it:
+    there is no resume= on the command line and zram takes swap
+    priority, so the attempt logs "PM: Image not found (code -16)" and
+    powers off instead of saving an image. That is the same on a stock
+    kernel and has nothing to do with this series, but it does mean
+    the path is unexercised;
+  - kmemleak, compiled in on this system but disabled at boot;
+  - a card whose battery has run down;
+  - anything on a big-endian host.
+
+Ordering
+
+The HID driver comes first. Between the two patches it binds, speaks
+to the card and creates no controls, which is harmless; the reverse
+order leaves a master that never matches, which is equally harmless
+but leaves hid-generic making a bogus input device out of the
+descriptor in the meantime.
+
+Mikhail Gavrilov (2):
+  HID: topping-m62: driver for the M62's vendor controls
+  ALSA: usb-audio: bind the Topping M62's vendor controls
+
+ MAINTAINERS                   |   9 +
+ drivers/hid/Kconfig           |  19 +
+ drivers/hid/Makefile          |   1 +
+ drivers/hid/hid-ids.h         |   3 +
+ drivers/hid/hid-quirks.c      |   3 +
+ drivers/hid/hid-topping-m62.c | 925 ++++++++++++++++++++++++++++++++++
+ sound/usb/Makefile            |   1 +
+ sound/usb/mixer_quirks.c      |   5 +
+ sound/usb/mixer_topping.c     | 227 +++++++++
+ sound/usb/mixer_topping.h     |   7 +
+ 10 files changed, 1200 insertions(+)
+ create mode 100644 drivers/hid/hid-topping-m62.c
+ create mode 100644 sound/usb/mixer_topping.c
+ create mode 100644 sound/usb/mixer_topping.h
+
+-- 
+2.55.0
+
