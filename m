@@ -1,110 +1,127 @@
-Received: from fhigh-a5-smtp.messagingengine.com (fhigh-a5-smtp.messagingengine.com [103.168.172.156])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40A1E468C1B;
-	Fri,  4 Sep 2026 17:24:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.156
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16AB6517BCF
+	for <linux-sound@vger.kernel.org>; Fri,  4 Sep 2026 17:45:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788542665; cv=none; b=HXZ9vAad5XWmw3qQfB9tJhkS1FvkVNbv6UBx6Y+ywvOy0wn2olrZY9lKWTDxeB5ho5rLoXmiNQxGVIedPDmwIpNYBydVqbTOjmJ0r1TREYI4bcW+ngo5tSpYLuJBt8bSQENezV68fdevm413SD0KrY9yGBj353eChzc4r4HEx7M=
+	t=1788543917; cv=none; b=CRfmHzDYuLrkzE0JvAufXg7E+eLbY/+Int3Vi45pdM06vSG989rtCsbz4DqIRix0kG6RCHRXAgDbeMMsuug2rE76cAvDNBMQPEVyISykx5gJ1Ecj4tSl/sRRpsLmjP96f7Fz4KDVC+0froX/VwWHmdkNp4UQODTw6oQgiSMYgic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788542665; c=relaxed/simple;
-	bh=aHRrwqVmsjy8g0VpNAWWWsqE6EEnUadxJ7SP0R6D1kQ=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:Subject:Content-Type; b=XrnS8fLczkCdApe1Sdxl/ZPsrWI5f9ULcVZp0pRkfdeaIBzrliZU6XJMiwM0lfYiXXWWsuK2Jn6VOsQeI4jEwBkX9XsvYsrZ8PVqhl7jYxdgnrNCJ4rp2YbO1pP575OH7+o2wIxzf0ITbBYLSDm5qn1jEtd23nnHtlAEkmg/tL0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nickpegg.com; spf=pass smtp.mailfrom=nickpegg.com; dkim=pass (2048-bit key) header.d=nickpegg.com header.i=@nickpegg.com header.b=qEEul7dr; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=OqTpno2x; arc=none smtp.client-ip=103.168.172.156
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nickpegg.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nickpegg.com
+	s=arc-20240116; t=1788543917; c=relaxed/simple;
+	bh=5xeMxtX1fCh8OGl3ui+hhjKrfVCy12n88MgVgMcIa2M=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=tE5WTnOMrCC9izRcHTZkHDeSwcxPBG1gh95IUVzIHar8zdln9EWjz1SYH5uF4LdnZVUru3RMbCZXg6BI/8+SMOjCpnHtycrxi6WJTRBbETqJvadEjQnpUb7AX+6fyJhH+rBLnR+Kvrk8DI4rAVxSVA0nEZDQHspdWOfcjKAZfyM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PmE0vyVY; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nickpegg.com header.i=@nickpegg.com header.b="qEEul7dr";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="OqTpno2x"
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 2C841140013E;
-	Fri,  4 Sep 2026 13:24:18 -0400 (EDT)
-Received: from phl-imap-03 ([10.202.2.93])
-  by phl-compute-04.internal (MEProxy); Fri, 04 Sep 2026 13:24:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nickpegg.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:message-id:mime-version:reply-to
-	:subject:subject:to:to; s=fm2; t=1788542658; x=1788629058; bh=eA
-	Wr6LHPi4LLwO2tVfuAs28v+80IHXqcFgQC2kjU5m4=; b=qEEul7dr0ktGXC5qxe
-	j7kjy9DaNu3u3xPrLXeIRa4B6GZn9omWLw/FqLyQy2t9ZZ0RJWocnFmYxHblsvLq
-	7+RrrS4mYM3Lc8xoB9f6OL5mgSuvFT9IydWXzAQN/YN8K5+kEC5+fxzSLJhg0X6F
-	pNBLuJXleB3H+LkNv5wr/LR2LACwUhmllSonv+dfElwzhyxq9xU+GXwmIidBIN3A
-	Jv5ARdOStAhWsd21UM52Csn8uJF8arVNayd5jenqcENOlaZNSonDd4nuyS9kOxgY
-	NCmKj7sCHgFrmb3IOuGYwJXAi+cZRE+XtPWekVSIqfCdIm/MQOwWwYb09MkwUYOX
-	bcag==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1788542658; x=1788629058; bh=eAWr6LHPi4LLwO2tVfuAs28v+80I
-	HXqcFgQC2kjU5m4=; b=OqTpno2x+HVFBBuhoLqbkXbu993IcE/I83ULrvSJ8KSc
-	draQkedyJRqp8U+LAHKGqZon0AULL6L+/hwlAnTRZHlBTSsboDzzWp5BHLZP4kGd
-	7HyJkZIRg8TicaDD1Un0eiQCvzOdN/ml6eS5eyK8m/PLncg2X0qKv06vB27jlc6M
-	qLi4t+mdObhvpwZU6zUDSA0bDyplYFp1oSBQYeD26leOCaBzEC21ivStpBnX4BVs
-	vWSbX4n0QaJebXb9e4xhjc0C6ZbyfISrQ/Nq6fkXwTDnKXjWYTyoctodVH7BQEGY
-	wEBQXu5VNC09R+Mio55Fgz2yD2XH1y+52tcs17/VpA==
-X-ME-Sender: <xms:wf6aalFPura3RXlOdUJzcf85l28y9KyUY3XiUKpGWuPW__sVpPbL6A>
-    <xme:wf6aalJf0WjkJlLgei8gPP6nR1yR7__Pi3yRe4wqTO3Z17AxB6BtkuMMs3O6GM3OK
-    W3w6wmrxhdbumnzIVv2DE2QusKBm5SPhrn5LMHuFBRfLyr_0iFn87am>
-X-ME-Proxy-Cause: dmFkZTGbbKRuRpgkEZIKdvGyFi4NcEwTalIXYOIrzXGVZW/qIvDSa8WiF/NkB+DgnqGX5s
-    ZEWG66klrOp0LE/eoR329c5/loVt6ySxhtCO33D+uVANbYPMQPNQzcAfZRtf60jVkFQRMX
-    ZJEuqluNvpsetrGOvPyr0lckmSfBnYfvVJSxtpirTbrsPMInkCT7JXkJp9dF9HbWsJLMZP
-    QpmyUM7JozJRAn6K/tu5UWqMGqZtgul+nyAac6JSOt4CS3GGvKIEB20IkKGtWrkK9jAt6q
-    mU4aUIasGKXNGVcN8Evb/LA/QIAxb6hq9jhikn5jTuG9RL7L++pX21kTQggAo+JuVDklqt
-    Yn/JTBiqlBAuP736Hi2M0UQoW5BTKW81xX5q6clua1lm/lKI3MO/AW/6L66sFRmdypF4ip
-    BmemPNT5zBp2NNk13b3kD83kHh5ZFLyT/IpAnhuoD3i0TFX1/CnNR0AhMFMv1bPBGMeLGn
-    +fmApUmmtQDfuz8fm69YpUBLEviaheuUutWkmDzlwVKvVuFGj2xRZlQ5qU4D9mbz3Cl4r0
-    37j2BlJO/RRa/FYZJCeJ0u49zvfMu9tG3y4Q7BSmupxdYnJK743WdZEc9QSoygH8vIspun
-    O1WpZtkH8BL1/UDESD3oyxxTBvl2byA4A5KS3Eo31M9/yGFv3EE1GDwRE6ug
-X-ME-Proxy: <xmx:wf6aasNr635iADqlD6H9tIM5oM8JaHxDPA3qUXf3i_vuVRK5YVOEMQ>
-    <xmx:wf6aauZhaE3woHMZynjGj6kkjFiJe91ZNBnOKUZAQmryGIyCusH46g>
-    <xmx:wf6aamxmWfm0mGdlRGEonGPuiyJhvCYcQHJ2izosJFG7waHdX-vTLQ>
-    <xmx:wf6aapKK0qutPBS0DL0lw5b7CQR88tfsvXAOdjKTeIy4fNKQzhfYOw>
-    <xmx:wv6aaiEZ2RXKX5n6U8OcZn48klPaJLnBO8kjyLA7drTTzvdVCFBt0AeG>
-Feedback-ID: i95c946fb:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 9F25018E006C; Fri,  4 Sep 2026 13:24:17 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PmE0vyVY"
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5b4a0e5aefeso1477192e87.3
+        for <linux-sound@vger.kernel.org>; Fri, 04 Sep 2026 10:45:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788543913; x=1789148713; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=QUYDwrBykVcOFXxIJuB5joV8Yatru/7oqjgD9YEMvFo=;
+        b=PmE0vyVYyDsjh535BUj5s+uxbhla4+kQkFzqB0ORSzwk+GEVMGmGlDCC/8gW2NcIDN
+         jE2pwhQtAKLIt2F9e5+rNaIvjtAO0XYaGKRrhGYpsSpVxqpCMWvQ8Iny4iNg5gttuMGc
+         4FzrcF3ssQ4ooJxEml5SmvrtfVC3ZfHHYXABTHtjGqPYpeR5qOVkDl/oaOY9W+KE8x8H
+         elxs5MLq2j+vA0nU/8tCCTaCuTih6mUVokK+H/ZMUf26Q5l8vohKh4fg3bBdiv6BMF8u
+         VWkVNKOqT3UnViRsQ+DS1fRzO4z2qRLTj9AmeQdD/Tbsv/KyKu7Nq/SKJrOKbM4qhBb6
+         fdJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788543913; x=1789148713;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=QUYDwrBykVcOFXxIJuB5joV8Yatru/7oqjgD9YEMvFo=;
+        b=aLzeqqJZwgsNPr5qvHgXZDpda7fXSHLQg8NNXNRMcSb02Lxu0XnQ6sgBNwok8Q4rRu
+         cJaKp9GHciacjtKagpFUADcBGD9ubkprY94A/hm+YCgqzuso+8T0hnZl4w/djQ09Ykim
+         Vv5T0+lC+xkSOzH+ChxMaSD2xo8cTt4IupO5PtuWBadubuJ1hIQ42Aw81sOfRQZBkB2k
+         kjjRt1FyTI50uviscvWIAIDtCOjGG2miUrSDPOGX6r92ta0gNmHTLx1X2zbYIb0WByWw
+         QbZFyrhK1pCfINpNNz2lFqcTWD2Kt37n+7VsaNNyppVJ1/T82oyfYaBA4noCZKpU7QrE
+         R0Ig==
+X-Forwarded-Encrypted: i=1; AKwUvBwnb0iJQWvDsw8F3LPloh4AiIfQ0GXqTx/j8YJsrMKjpP5rmE6wUjSXczEYxzG6Wv+cr8vp+qh7RV5TUA==@vger.kernel.org
+X-Gm-Message-State: AFuF++kFR/I3pcGQNmVyIgr2NJjAh1+iwlku2Bryc7GohkBXNUzF4ISy
+	6e71Dfu9q5fkWNYXFrOHQbIeEUEooUWW4uespF9NZoPpMOWRrwlOWWW3
+X-Gm-Gg: AYBFou0toHTzcpXGTX1iLGIY1IjrUzj1601cD1GDgwKaU+8kURxM5hR/qQXJJiyD8dK
+	H8iBq2li/hZ9EJS+7bhJ4LKVQsYE7TcwsCe3FtugSy6FSSZ5vAnT8QtA4H+9MWQoKIrS1pvop3k
+	OAcq9DS/yfn+Yg5VugP0qj9bQ1+elqNnIFvYNwswvSyKTLsN58ijEomvng1j4vJ8i8Z8rs8bXyf
+	fuHxH6IWiktfJ05j91TOrUQBIWydbxLHtLHdJYiIpN7UXHwpEC0Jx3et8OVTluMTzgu2NYCJQc/
+	kDlAzE2+YjmAjIjFiQh7/F0oK+DfmC3sgN/UdlMuB3sslpsmI47e70UVt68GdFyYkE95ZUFEhcX
+	Nryp7FX68WQVapQprojaZf/Lt5/PMge6DSgiJ3apSnnlS3QbtEKFNQNoza4t9o8rPweLIzmpIgV
+	0JECMb+++qGM39yfXFV30Tuwbo7pOUtouRBa7Op8jr69kpH9J9TYuORQ1jozqmMO1m1x0h3u8bS
+	JBRNt9oUrIfUBoDefium9JYimQ6vMuh2Tf0sr5Ytgryp8Br2aWTXtOxONxk7nasIuHNt3wDUuhN
+	U+trSEo=
+X-Received: by 2002:a05:6512:3ca7:b0:5b6:1a7c:37 with SMTP id 2adb3069b0e04-5b61a7c0261mr894499e87.58.1788543912418;
+        Fri, 04 Sep 2026 10:45:12 -0700 (PDT)
+Received: from localhost ([188.234.148.119])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b616700006sm644118e87.57.2026.09.04.10.45.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Sep 2026 10:45:10 -0700 (PDT)
+From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+To: tiwai@suse.de
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	jikos@kernel.org,
+	bentiss@kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH v6 2/2] ALSA: usb-audio: bind the Topping M62's vendor controls
+Date: Fri,  4 Sep 2026 22:45:07 +0500
+Message-ID: <20260904174507.3952588-1-mikhail.v.gavrilov@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260904171646.5301B1F00A3D@smtp.kernel.org>
+References: <20260904171646.5301B1F00A3D@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Fri, 04 Sep 2026 10:23:15 -0700
-From: "Nick Pegg" <nick@nickpegg.com>
-To: perex@perex.cz, tiwai@suse.com
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Message-Id: <42486ae6-a634-4897-ae70-338dfca68bd9@app.fastmail.com>
-Subject: [PATCH] ALSA: usb-audio: Add quirk flags for Behringer UV1
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-The Behringer UV1 is a microphone audio processor with a USB audio
-interface, which experiences periodic stutters unless implicit_fb is used.
+> If usb_audio_probe() fails on a secondary interface, devres is
+> synchronously unwound and topping_master_teardown() runs while the
+> orphaned mixer is still in chip->mixer_list.
 
-This seems to be a similar device to the Behringer UMC series, so I
-copied the quirks from those. I've confirmed that my own UV1 works great
-with these flags set.
+That mixer does not exist, because this device has no secondary
+probes. snd_usb_create_streams() claims the streaming interfaces with
+usb_driver_claim_interface(), which binds them without calling probe,
+so usb_audio_probe() runs exactly once, on interface 0. The hardware
+agrees: /sys/kernel/debug/device_component lists one aggregate per
+card, both on :1.0, with :1.1 and :1.2 absent.
 
-Signed-off-by: Nick Pegg <nick@nickpegg.com>
----
-sound/usb/quirks.c | 2 ++
-1 file changed, 2 insertions(+)
+The other half is not there either. If that one probe fails,
+chip->num_interfaces is zero, so usb_audio_probe() calls
+snd_card_free(), which takes the mixer down through private_free() --
+and that removes the devres action and destroys the context before the
+driver core unwinds anything. There is nothing for the teardown to
+race.
 
-diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index 4d2957e62fbd..5b27659d3eb7 100644
---- a/sound/usb/quirks.c
-+++ b/sound/usb/quirks.c
-@@ -2388,6 +2388,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
-                   QUIRK_FLAG_PLAYBACK_FIRST | QUIRK_FLAG_GENERIC_IMPLICIT_FB),
-        DEVICE_FLG(0x1397, 0x050c, /* Behringer Flow 8 */
-                   QUIRK_FLAG_IFB_SILENCE_ON_EMPTY),
-+       DEVICE_FLG(0x1397, 0x0510, /* Behringer UV1 */
-+                  QUIRK_FLAG_PLAYBACK_FIRST | QUIRK_FLAG_GENERIC_IMPLICIT_FB),
-        DEVICE_FLG(0x13e5, 0x0001, /* Serato Phono */
-                   QUIRK_FLAG_IGNORE_CTL_ERROR),
-        DEVICE_FLG(0x152a, 0x880a, /* NeuralDSP Quad Cortex */
---
-2.55.0
+The same premise sits under the findings I acted on in v4, v5 and v6,
+and I took it on trust instead of checking it. Those changes stay,
+because each is right on its own terms:
+
+  - topping_master_unbind() no longer looks its context up, which is
+    correct regardless: devres_release_all() moves every node off the
+    device before it calls a single release, so the lookup could never
+    have worked from an unwind, and the component does not need the
+    card from us anyway;
+
+  - the teardown is a devres action registered after
+    component_match_add(), so it unwinds before the match array that
+    component_unbind_all() walks -- the ordering is now expressed
+    rather than assumed;
+
+  - topping_master_bind() returns -EPROBE_DEFER rather than warning
+    when the context is missing, which a WARN had no business doing
+    for a state the framework can reach.
+
+But none of them fixes a defect this device can reach, and I would
+rather say so here than leave the impression that the driver was
+crashing. A v7 cover letter will say the same.
+
+Mikhail
