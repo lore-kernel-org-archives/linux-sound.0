@@ -1,79 +1,64 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B28731A6808
-	for <linux-sound@vger.kernel.org>; Fri,  4 Sep 2026 07:05:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E50E3002A0
+	for <linux-sound@vger.kernel.org>; Fri,  4 Sep 2026 07:31:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788505539; cv=none; b=nWctiSxKKQ4jC9rQKAvKllSIWpMkgoyMc8QTAcQmKpBaJV5NDidQKoJuZ5mxSYoC9nJkjl/AJbEWL48Bp7W8f7DwcWxkWYZsbOwccOXHqQ4jta8CNFgoyuxiX8AdTaKJlWheXhfN1TMsId9e5q3sA5m0btEm9ebMvgldS2iAeys=
+	t=1788507092; cv=none; b=lksIZhCgSTSslzcx1yGu7gAac4BbuTVZdYVkzViFX0y+3op5p4oPJwaQ0/bLGgfiPsFrb45t6XJvR0dfah+g9g82eYBvkacVaaFkt4wGOTe1mh4DVZGXJY/LLKVY9hnTliyC7Vdhp+NzwQikGd7W9OSZu+7owAKCAdY4wNwDtw4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788505539; c=relaxed/simple;
-	bh=FO7Ei7qQa/upriKmLpsNBP2XveFeD36mtVUieyMK2Dk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Ri+3g1ejZ7ub/J57vDZYfwXBD7E79cB1VPSDZQgq8jAJs8w0fWt3C96w/JCLSggoFH5OW/6qEmxLi7Y4BieEWpPfezAuFtfTsPBzYUHtavZuOs0x+NbJuNN2J7/UIkqF3hkn9ygF8QiQowFtXt5RKoib8RU96FnzAaa8Foj3oQU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dMFELJh0; arc=none smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788507092; c=relaxed/simple;
+	bh=yiV6aJNQk2tQTk7LxdJqPJ07MoWXVTPHf0Fwl5cZDl8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qrBdCLH99Q1nJB2ZgGnoI4eI7B8tWvjpcu6cToHYztJSChVFm67hJl2zhHfHM5WPNQBZXPJYLOLoGP3PmQnZd/JajoQHIwB6IKXURhsjxC0yzCv41nNG5hBIsAOLL+sPrEi+bxSu0ks3+dWciAK4d40agmDBr4l5m+0jYZg67xo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NXd8ZmP5; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dMFELJh0"
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5b4aa47bc97so496176e87.2
-        for <linux-sound@vger.kernel.org>; Fri, 04 Sep 2026 00:05:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788505536; x=1789110336; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=PCK1kuLgzLkj4k85zYq4Xi9yEBNBYbg/y2hUJYnpxsA=;
-        b=dMFELJh0mhM7jdoGQqwHYeWTNUA2q1LXA0JBgNSQxbp3Qxotsg3VyNXy5o5aYtIXce
-         OFym0EOWaNTq5yGQZVI6fgHEeqhqk8mZLwO650V2SW5WMrQF9K3sKbxnmsUVifbphi65
-         Q10drPZZIGZZb0yOj3oHIRHKcFYIIMIuIn34DNCqKMqPI/5wywVeTPRpynkp30CSVYCE
-         UqaNXYem3O/pYGD9IT//GnDpLOMTWz0PuA9CMdRtrffrX+M3+JYZWsoBVgsXIKIA/gQr
-         Sguy9oUpCVKLh3VyiVOsigomqMd/gMsCie6H+dLWY9TjXt+LS8hjb86C31IWmsaWxhE0
-         zTyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788505536; x=1789110336;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=PCK1kuLgzLkj4k85zYq4Xi9yEBNBYbg/y2hUJYnpxsA=;
-        b=qIeD52IX9sR2ahn9c0h7kaDo5rRfG38EkT6a+d4F1W96XTJi98KATuvkgjHqlb/EMa
-         flYmsrUFasR+wPG0f219QMYyP106wPivLYWRKOB9c/zvm46dqXu/QE0bdxcvPu/tiAiF
-         tW6Q8S+3Tp6n0U1/YvNAc4SqkIw+2MJfmhhhJrW0gEv2jS9B/HdQu79iJ8bnluzBhl3u
-         EKU3pzrdhKkHX6bmWuLICZTGI3oZeYJB4Ofa3Nww9YTxmJIV05WW3dbmlxpSXZi7zUBT
-         PkpjEL3E0mM4YWua4lu1dRtKohhruFqNMBlbJGlro09I32stu2BvthkdIgCw7yypLgoK
-         TqrQ==
-X-Forwarded-Encrypted: i=1; AKwUvByIggy7cWJoZn6vx9mgM+kunpyIlQEjX/l2ol7VNYldl99OJeXK+y9vg5Cd4ghCccvmC07w7ITvpVwYDQ==@vger.kernel.org
-X-Gm-Message-State: AFuF++lbxBISZ5nhh7zvnuwqRYVCbgJt9BQtPJYO1KA//9Ur+PDc6ZoY
-	crR6dQ64ICSZkIyyS99X5/aadX8hqxxpnmQyuE6No3LyNPTDbWMOwx9r
-X-Gm-Gg: AYBFou3F8wb6YAfKSQZlQdAcxyVxvijlwqNJXfmUPqYoWnfsYEa5YutVM/WB+y4sJht
-	P8ovOKErW9UVAtQxRkxN2zoNflRpUUV0V7YR2SVApvPxTps7UJxpxDmPRJ1KujHfRrVc6x6ikHw
-	NZIkdN1xYTtQxiNQz16OmzXPoGn2bezON+UchfkXW9aoUfcwE9r0N8g1ncqca05IrzRHB0AnC+v
-	g7Ei86gnIRtK9SewxjUopEZxXiz6B43do127Gw+g9f1msphz19+I8+OipVroMtZDYvuf9vrHjzY
-	/mKECEnnFWtCMgZe6Ysz9gyeOop0ed7Stt1eLFcrzWMRvy1l8YpchUMaIrkYe0jmuOdGFl/IuQe
-	Eft8KTfzZv4ODhkSkIexPFfKsQunCaPxDHJFR1llKPUQcUDslXY7HQemECVyUt8E8uetULpICOh
-	2Fz507Z77mqdF1NnK2IX5I4yMH4DQRNw6fo+y8dMranvLx24oPBvyDKBlKnNWnfoo3Ax36+GpjH
-	gYHBio6n6zNme3KkyF3iMSeNYyhDLrgo0sblkSK1u9aJSl5V800k8P1Vl/B
-X-Received: by 2002:ac2:51cb:0:b0:5b6:183c:5c8a with SMTP id 2adb3069b0e04-5b6183c5d4emr335765e87.40.1788505534925;
-        Fri, 04 Sep 2026 00:05:34 -0700 (PDT)
-Received: from localhost ([188.234.148.119])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b6166ecebesm355911e87.27.2026.09.04.00.05.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Sep 2026 00:05:33 -0700 (PDT)
-From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-To: tiwai@suse.de
-Cc: tiwai@suse.com,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NXd8ZmP5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1788507090; x=1820043090;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=yiV6aJNQk2tQTk7LxdJqPJ07MoWXVTPHf0Fwl5cZDl8=;
+  b=NXd8ZmP5P9MvBKXhvTmcl6U3C7iOWK6vfEaHwhCUyJeS9kHYIJ2eTA48
+   Kwlq8bRr2IBNE4vk5vwAAQn6w0Tmft7h/hg0cd7+52pUFt81amRRtfFUU
+   7unKSyvwTKgaAKFRedO0e1wxCvqNsFUYnwNiGaVun7z2uoHlkxIdkwe5/
+   7Nl88V20o33usKSa4eRmXBRmcsbWoTdrjJuHRd+2arW0dhbaIGkEa84gE
+   Ww4H9EzlGXP27/tIVmK4FjwxG6d8WeOEY3iqTykQRWfSiyzpqJj9kAqK0
+   Ag83RATjeJmhIcxFm30J9635DywNHlXGpDmFt5SY35VhW79Dnia8mhDhH
+   g==;
+X-CSE-ConnectionGUID: kFLTjmjBQC64WMIgHUD9Mg==
+X-CSE-MsgGUID: ahftzjkYQjqqHhAfMg72Wg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11895"; a="111777771"
+X-IronPort-AV: E=Sophos;i="6.25,260,1779174000"; 
+   d="scan'208";a="111777771"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2026 00:31:30 -0700
+X-CSE-ConnectionGUID: +l9rKy7FT5Kuy+bCQTRCEQ==
+X-CSE-MsgGUID: BuoSXP8fQamyT205HkjenA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,260,1779174000"; 
+   d="scan'208";a="293480450"
+Received: from ettammin-mobl3.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.244.213])
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2026 00:31:26 -0700
+From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+To: vkoul@kernel.org,
 	perex@perex.cz,
-	jikos@kernel.org,
-	bentiss@kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8 0/2] ALSA: usb-audio: the Topping M62's vendor controls
-Date: Fri,  4 Sep 2026 12:05:30 +0500
-Message-ID: <20260904070530.195389-1-mikhail.v.gavrilov@gmail.com>
+	tiwai@suse.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	srinivas.kandagatla@oss.qualcomm.com
+Cc: linux-sound@vger.kernel.org,
+	kai.vehmanen@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	pierre-louis.bossart@linux.dev,
+	daniel.baluta@nxp.com,
+	Vijendar.Mukunda@amd.com
+Subject: [PATCH 00/23] ALSA compress / ASoC compress / SOF: Compressed audio support with IPC4
+Date: Fri,  4 Sep 2026 10:31:11 +0300
+Message-ID: <20260904073134.29648-1-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260904001818.66423-1-mikhail.v.gavrilov@gmail.com>
-References: <20260904001818.66423-1-mikhail.v.gavrilov@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -82,91 +67,118 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On Fri, 04 Sep 2026 05:18:18 +0500, I wrote:
->
-> **The card cannot be read. Not by this driver, and not by the vendor's
-> own application.**
+Hi,
 
-That is wrong, and I would rather correct it before it is answered.
-The card does report its state. It reports rather a lot of it. What I
-had was two blind spots that happened to hide the same thing.
+This series adds compressed audio support for SOF with IPC4 firmware.
+Supported formats are PCM, MP3, AAC and VORBIS, the feature set is
+PAUSE_PUSH/RELEASE, DRAIN and position reporting.
 
-**What I missed.** In four of the six captures the state restorers on
-this machine wrote to the card about 90 ms after the bind, so the
-report that arrives at 5.2 s described their write and was
-indistinguishable from silence. In the one capture with the restorers
-disabled, nothing was plugged into any input -- and the card reports
-the gain only of an input whose jack is present, so there was nothing
-for it to report. Each blind spot alone would have been enough.
+Patches 1-5 are prerequisites in the ALSA compress core and in
+soc-compress.c.
 
-Repeating that capture with a coupler in IN 1 and every restorer
-masked: the card sent 0x21/0x04 = 50 at 5.17 s, which is exactly what
-I had set by hand on the front panel. Twenty-two outgoing frames in
-the whole run, all of them 0x11/0x24 or 0x11/0x26. Nothing was
-written; that value came from the card.
+These are core fixes rather than driver level workarounds on purpose.
+The other users of compressed DPCM have DSP internal ports on their
+BEs, driven by code they own. An Intel/SOF BE ends at a third party
+CODEC driver which is shared with the non DPCM case and has no reason
+to know that the FE is compressed. That set of CODECs is open ended,
+so teaching each of them to cope with a compressed FE does not scale.
+The core has to hand a BE the same substream state whether the FE is
+a PCM or a compressed one.
 
-Then I turned the knobs by hand, still with nothing writing:
+Two of these patches change behaviour for the existing users of
+compressed DPCM, so they would need a look from Qualcomm and NXP:
 
-  - Mic-1, 50 up to 53 and back to 50: every step reported, seventeen
-    frames of 0x21/0x04;
-  - the headphone volume, likewise: five frames of 0x64/0x03, 32, 33,
-    33, 32, 31.
+ - "ASoC: soc-compress: Implement trigger FE-BE sequencing as with
+   normal PCMs" makes the FE/BE trigger order follow
+   dai_link->trigger[], the way dpcm_fe_dai_do_trigger() does it.
+   Neither sound/soc/qcom/ nor sound/soc/fsl/ sets it, so both default
+   to SND_SOC_DPCM_TRIGGER_PRE: START keeps the current order, but
+   STOP, SUSPEND and PAUSE_PUSH now trigger the BE before the FE.
 
-So the corrected picture:
+ - "ASoC: soc-compress: Stop running dpcm on free" sends a STOP trigger
+   from soc_compr_free_fe() if the DPCM is still in START state, which
+   is the case when the last trigger the stream received was a DRAIN.
 
-                        announced at connect       when a hand moves it
-  five input gains      yes, if the jack is        yes
-                        present, ~5.2 s after
-                        subscribe
-  two output volumes    no                         yes
-  two selectors         no                         never
+Patches 6-20 implement the IPC4 compressed support, patch 21 is a
+Kconfig cleanup. The last two patches enable the feature, in Kconfig
+for TGL and later and in the topology parser, so the compressed device
+type only becomes usable once the code behind it is in place.
 
-The model that fits: **the card reports what a hand does to the
-hardware, not what its settings are.** Jack states, mutes, battery and
-the gain of a connected input are all physical facts it knows by
-itself. An output volume is a setting, so it is not in the connect
-report -- but its knob is on the front panel, so turning it is an
-event and that is reported. A source selector has no front-panel
-control at all, which is why nothing about it ever arrives: there is
-no event to report, not a missing command.
+Testing:
 
-That last point is worth stating plainly because it retires a question
-I have been asking since v2. The "Unknown" first item on the two
-selectors is not a compromise; it is the accurate description of a
-control the host can set and can never learn. If another host set it,
-this one cannot find out, and no firmware change short of adding a
-query would alter that.
+ - IPC4: Arrow Lake, compressed playback on speaker and headphone
+   (cs42l43), MP3, AAC and VORBIS.
+ - IPC3: tested by NXP. This does not cover the STOP on free path
+   above, as they do not implement DRAIN.
 
-**I withdraw the proposal at the end of my last mail.** Writing the
-minimum to the gains at bind, after init_cur_mix_raw(), would destroy
-a value the card is about to report 5.2 s later. It was the right
-shape for a device that cannot be read and the wrong shape for this
-one.
+Regards,
+Peter
+---
+Peter Ujfalusi (17):
+  ALSA: compress: pin card module while stream is open
+  ALSA: compress: stop active streams on disconnect
+  ASoC: soc-compress: Provide a runtime for the compressed FE substream
+  ASoC: soc-compress: Implement trigger FE-BE sequencing as with normal
+    PCMs
+  ASoC: soc-compress: Stop running dpcm on free
+  ASoC: SOF: ipc4-pcm: harden pipeline teardown races
+  ASoC: SOF: sof-audio: do not dereference swidget->spipe
+    unconditionally on free
+  ASoC: SOF: ipc4: Add definition of module data in init_ext object type
+  ASoC: SOF: ipc4-topology: Support init_ext_module_data for process
+    modules
+  ASoC: SOF: ipc4-pcm: Make the timestamp info usable outside of
+    ipc4-pcm.c
+  ASoC: SOF: ipc4/ipc4-loader: Add SOF_INFO and CODEC_INFO to
+    fw_config_params
+  ASoC: SOF: ipc4-pcm: Handle COMPR DRAIN triggers as EOS pipeline state
+  ASoC: SOF: ipc4-topology: Set FAST_MODE for host copier in compr mode
+  ASoC: SOF: Add support for IPC4 compressed
+  ASoC: SOF: ipc4: Handle compressed drain done notification from
+    firmware
+  ASoC: SOF: Intel: Kconfig: Remove redundant IPC version selects
+  ASoC: SOF: Intel: Kconfig: Select compress support for TGL+ platforms
 
-What the measurement suggests instead is that the driver's problem is
-a race it need not enter. alsactl restores at 90 ms; the truth arrives
-at 5.2 s; the driver loses by a factor of fifty and publishes an
-invented number in between. But the component road you suggested can
-simply not publish yet: hold component_add() until the first report
-lands, and the controls appear late, once, with the values the panel
-actually has. Nothing restores over them because they do not exist to
-be restored. A mixer quirk cannot express that; the component split
-can, which is an argument for it I did not have this morning.
+Ranjani Sridharan (6):
+  ASoC: SOF: compress: Rename compress ops with ipc3 prefix
+  ASoC: SOF: sof-audio: Expose a couple of functions
+  ASoC: SOF: pcm: Modify the signature of a couple of PCM IPC ops
+  ASoC: SOF: intel: hda-stream: Clear the current position when
+    releasing stream
+  ASoC: SOF: ops: Add new platform-specific ops for compress
+  ASoC: SOF: topology: Add support for decoder and encoder widgets
 
-The output volumes stay unknown until someone touches them, and the
-selectors stay Unknown until someone writes them. That is honest
-incompleteness rather than invention, and it is as good as this
-hardware allows.
-
-What stands from the last mail: the vendor application still issues
-162 frames on connect and not one read; 0x11/0x26 still goes out after
-its bulk push rather than before; a value set by hand still does not
-survive being plugged into another host, since MCC overwrote my 70
-with its stored 50 forty milliseconds after connecting. What does not
-stand is the conclusion I drew from those, and the recommendation.
-
-Sorry for the noise. I would rather send this than have you answer the
-version I got wrong.
+ include/sound/compress_driver.h               |   2 +
+ include/sound/sof/ipc4/header.h               |  24 +-
+ sound/core/compress_offload.c                 |  77 +-
+ sound/soc/soc-compress.c                      | 190 ++++-
+ sound/soc/sof/Makefile                        |   4 +-
+ sound/soc/sof/core.c                          |  10 +-
+ sound/soc/sof/intel/Kconfig                   |   9 +-
+ sound/soc/sof/intel/hda-common-ops.c          |   8 +
+ sound/soc/sof/intel/hda-pcm.c                 | 142 ++++
+ sound/soc/sof/intel/hda-stream.c              |  70 +-
+ sound/soc/sof/intel/hda.h                     |  15 +
+ sound/soc/sof/{compress.c => ipc3-compress.c} | 145 +---
+ sound/soc/sof/ipc3-pcm.c                      |  29 +-
+ sound/soc/sof/ipc3-priv.h                     |   3 +
+ sound/soc/sof/ipc4-compress.c                 | 776 ++++++++++++++++++
+ sound/soc/sof/ipc4-loader.c                   |  51 ++
+ sound/soc/sof/ipc4-pcm.c                      | 125 +--
+ sound/soc/sof/ipc4-priv.h                     |  45 +
+ sound/soc/sof/ipc4-topology.c                 | 115 ++-
+ sound/soc/sof/ipc4-topology.h                 |   9 +
+ sound/soc/sof/ipc4.c                          |  13 +-
+ sound/soc/sof/ops.h                           |  74 ++
+ sound/soc/sof/pcm.c                           |  18 +-
+ sound/soc/sof/sof-audio.c                     |  89 +-
+ sound/soc/sof/sof-audio.h                     |  23 +-
+ sound/soc/sof/sof-priv.h                      |  12 +
+ sound/soc/sof/topology.c                      |   2 +
+ 27 files changed, 1773 insertions(+), 307 deletions(-)
+ rename sound/soc/sof/{compress.c => ipc3-compress.c} (66%)
+ create mode 100644 sound/soc/sof/ipc4-compress.c
 
 -- 
-Mikhail
+2.55.0
+
