@@ -1,224 +1,153 @@
-Received: from mta1.migadu.com (out-95.mta1.migadu.com [95.215.58.95])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11012016.outbound.protection.outlook.com [52.101.53.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0F8340E8C1
-	for <linux-sound@vger.kernel.org>; Fri,  4 Sep 2026 08:36:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.95
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788510985; cv=none; b=Zi9xAiHSZEkPiZ4iRp7MCCYIsi16Bk+VJMcG1hkrAF8+9zIjc2ahTDn9VePhsHQxblJxNBj8jJY1J4eOW6zPkDgmxjOXimlqwf+Q7XK8njY3BlO0+/LjkcxaxwVaEi6meM+CPHgFcVP/7IHZoLrQGUme8jLpgyzt3QLBZ1qYefw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788510985; c=relaxed/simple;
-	bh=9JbO1y2iWbLODHWR0hN/vU9jJ+u7W0a/wK+7f9yq7lI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=U5w3QrWTdr028hs0jb2ZzfYSfGehyR3Hpdr9JBkoSfW1axYC/u0q++D4GYyu0AKv9rsPTLulDhz/2h4qYf9lr0GfJ2LBNL9RQlazas58Om3jqwnlmzlRNCSURNO1NPkhQcOefaas+pK3v6PfF3NacJko0C5xp4GoK+zYEiYanXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=P0pxunQz; arc=none smtp.client-ip=95.215.58.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8DAE408035;
+	Fri,  4 Sep 2026 08:53:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.53.16
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788512024; cv=fail; b=EG3bpY/3OmatG/dxAb7FmW0n39IhcawjyYJaPf1eLG9U/AiFMSNl2a4QigMut1jPf5H0CG0z2qpIK4sHNlj1wEMrCtVwgVK1+/C5bvmxPOsYPpJ8roRrcSX8fwJe0XfkOZrcVpqHk0SKNnoJhF1WGW98wNgSo7PRmjmIfQu4YNM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788512024; c=relaxed/simple;
+	bh=/YcU8WAJkQz+Pk/O5vUYCtCtYLHOwSYDzH3o7IhzRKI=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=mw0aWO/lowGjIKtGEoslT/Rc/ZEWhNx6XzgYB0/c3pUKJEffsPLtIdC2Y1HXnF1d/SZ45oTeezCf7TVL6pZ+0AYQwFNrJBma2B3Jr/+jXr8ZfeH42kqKsi1FqrBZMSPxI++h/VQMqWgCPgHKWHW3MY/wcKtG/BKo4+XaC+U3tJ0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=W1PLFNZj; arc=fail smtp.client-ip=52.101.53.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="P0pxunQz"
-X-Envelope-To: linux-sound@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=9JbO1y2iWbLODHWR0hN/vU9jJ+u7W0a/wK+7f9yq7lI=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1788510980; v=1; x=1789115780;
- b=P0pxunQzFaHrRfTY1iBAa3oHO+WchvssOE7+ZyvepB9kSCNGGKjDMb+KZBj3sxKPsmqOcKeD
- p8wI5zwyjTYjpcWOK1ekd4AYUrsdhE7KmOxuns6to2zWfLNj82vUwuyC/dwZToo0XE0bJ41JzN/
- 4gT1o6nr9I7ha1rRP3Ql59uo=
-X-Envelope-To: linux-sound@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 409d7dda428307e8;
-	Fri, 04 Sep 2026 08:36:20 +0000
-X-Mizu-Trace-ID: 409d7dda428307e8
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <70a91202-e801-4008-bec8-883b229f9f0f@linux.dev>
-Date: Fri, 4 Sep 2026 10:23:23 +0200
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="W1PLFNZj"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=oDDCuyZnfjz1t9tLYa3IE4GiKCFpydTNakbO6wNzSC8xwKYTs4AJy6DaXo0zqjuPSnqvYuSTcenFt5RNhn2+A7HEbJECby+VIVAoVJ07l9iIYSy8C+N587DSoe5W7ksCGbkEWqdMLLTsYP4cMXaxyzX/485z0so4Tu7YmUcGh36INH4ArGX5oDJ2pjtV7ySM3M/1fk87bs29L8VMGSbZLxF2H38amOqKpFm4eFmgu9skBCf0SdkTEZqU2rXFuTBTlUdMtQ/MWFU6mtNxUdOpMVWJgbdbaxauH1WuFFSK9ZO8vL7DwN3V+M/FLwZEW/uMerGMVOep5PxATedkBHW/Nw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=CCNEQPuAtcfGAiEE/GbdkrO06yW3LpvnyamPRm61EVo=;
+ b=oxyO/LxA5lR06wR5q3tP1lHPHwv2VvyyRDBqYtfKpAU3CdPPD3SGKl8SF2KhUdvLY7RTWLrLQWJrwD/F8f52Wp2zCKeSUugHH+zvqQlgDdgDPdhh/EegSTVPu0WdMMMD+xrhDenWsJx7rRVgZUk2uoX+7FGuRDSoFY1xsgrp7fL8ouUmm5OFL6Akcto70+ekGQn1p0AsBsETSCDF66hkcXr2Fa8Am5ZPw4wL+Usu7TT/0tDbh+KqZ+RYdUW5G/YE0zR2tjHIXNjBbQyOl0FWLYxvCSS54MaKE131e3Rq2xcH4TBA7k4l8PJkGfgb2zTcNyvv6x/Lx+Jngaom2zkp0Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CCNEQPuAtcfGAiEE/GbdkrO06yW3LpvnyamPRm61EVo=;
+ b=W1PLFNZjwhv5imd/NRkHw3nN+12GqItxJAKT9G+HCxSOqhp+5CPrUO5BlgIeAQBI/PUNVTat6OIEigKr6LsPWFLNLMLW9vjUnOa1qduQ3GR+gyqD/jZ0iNCnn/Iac51kQiBkkC9FMx9QtQumXJvTbTjjdf12u+bSTSx5cKBZaysrgxSoow2s9YUiSuZ+/21YzOD/GreFJfw24HzeG0koeBckD2qr45gId4YXQexCqGFiHojIQBFxSVAgZv0KXWJX1oOGeB23sMUzK/7+WJBGoheyIcu/uKHQCFYcDGKhA3bks8UZKP8xUmbSo2MsKFtDmFA9cDIVdrYgQlaeZnqsfQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from SJ1PR12MB6051.namprd12.prod.outlook.com (2603:10b6:a03:48a::18)
+ by MW3PR12MB4459.namprd12.prod.outlook.com (2603:10b6:303:56::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.11; Fri, 4 Sep
+ 2026 08:53:39 +0000
+Received: from SJ1PR12MB6051.namprd12.prod.outlook.com
+ ([fe80::96e1:b300:7b78:d3a9]) by SJ1PR12MB6051.namprd12.prod.outlook.com
+ ([fe80::96e1:b300:7b78:d3a9%6]) with mapi id 15.21.0382.007; Fri, 4 Sep 2026
+ 08:53:39 +0000
+Message-ID: <578c07f6-3473-463c-b204-72335aa63264@nvidia.com>
+Date: Fri, 4 Sep 2026 09:53:34 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 17/21] ASoC: tegra: use .auto_selectable_formats
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Jaroslav Kysela <perex@perex.cz>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Takashi Iwai <tiwai@suse.com>, Thierry Reding <thierry.reding@kernel.org>
+Cc: linux-sound@vger.kernel.org,
+ "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
+References: <87zexzyw5v.wl-kuninori.morimoto.gx@renesas.com>
+ <87bjafyw3s.wl-kuninori.morimoto.gx@renesas.com>
+Content-Language: en-US
+From: Jon Hunter <jonathanh@nvidia.com>
+In-Reply-To: <87bjafyw3s.wl-kuninori.morimoto.gx@renesas.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AS4PR09CA0003.eurprd09.prod.outlook.com
+ (2603:10a6:20b:5e0::6) To SJ1PR12MB6051.namprd12.prod.outlook.com
+ (2603:10b6:a03:48a::18)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: tas2783-sdw: questions about the register tables
-To: Andrey Golovko <andrey.golovko@gmail.com>,
- Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
- Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>,
- "Holalu Yogendra, Niranjan" <niranjan.hy@ti.com>
-Cc: Mark Brown <broonie@kernel.org>,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
- Antoine Monnet <antoine@montane.tech>, Robin Everaars <robineveraars@pm.me>,
- Ville Saarinen <wiza@saarinenkoti.fi>, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260824104500.7588-1-andrey.golovko@gmail.com>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <20260824104500.7588-1-andrey.golovko@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PR12MB6051:EE_|MW3PR12MB4459:EE_
+X-MS-Office365-Filtering-Correlation-Id: 23a17cee-55f9-4278-5f87-08df0a62035b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|376014|10070799003|366016|23010399003|4143699003|56012099006|10067099003|11063799006|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	NkE3KCrXyVNH4E43VOJgb+/UNDSUjpxquMRynHRQWaFmXDyvzTv1d9MEVNCIPz+SQcjyw3ojzWTTkFuWi7H1Hl7Wkk2jplOvF96XoZKE/Z8sRJVQmPpl1FYfJBZFdO1i+BIUDZpWfzmNj3MGVOKD35HdzyoOcEkQobC5YMgmtiEp1+Noynqt+TJrj8Az406Cs29Lvg1+S80TQBKxmcmblVVnlMslWN7bXBBr1cWWLUucSDTdsfJn5L/owUMCGfqsUj09z4/ORuRbu6s5d95hlKwtxjSgTjp6jfrneJyWLECY2NLX/K/RNsDUEhH8FuffCt9kMwdrzw5yO3eZPJ63iaTpxle8ZWMVEHOaaKDEzkAxNTczZN1Uk3jJoqglWR/rFZh317BvCCjJCI7NQFsVTpwlvUbWQjWw2LjmqZcS3RlselBD+wBhiouXcArQRRc17UeZfAMSh2uWkqku+vbYPzxNrsOZXhGeIo7tGU99Znldsk7yfs8UDhEp4wvqUM/shBBnGYrbDhHIjbjh156PUId7azumujNax5HtgIxLpRP0DqgZZsH0R+cI2iH7bCb+M92YjQxSoor4WTKd0/l2VIOfkjBsALmMqCR5oWJ8qJNlAIiMGHVjHH323vtE9FnemPXp1fwSvruQTwYInxd9WKmHLGdhmPcuFK92wjmxsX4=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR12MB6051.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(10070799003)(366016)(23010399003)(4143699003)(56012099006)(10067099003)(11063799006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?T0Vrck9aczZ5UlQwTDFqanFUYlF3dEZhVjlZVWd1Q2N6bXgwWFpKRWpKY1Uz?=
+ =?utf-8?B?M0ZJdHhJMWdsYzFkMGtwUytnaFdRN2xSVVh3b1dXYnUzTk1CTGhHanBmR0F1?=
+ =?utf-8?B?a0w0bDFCQjMzNGVuYmVYZFRaUGlxMnMvVVhsUGxuM3RGRXV1TE5YR3RJcmt0?=
+ =?utf-8?B?bFFTMWxZWnMvclBvbTNNS3FHWmh2Qmc1Q0gxejBlZFBvam5HdldnZ1BVUVpN?=
+ =?utf-8?B?bVpXbGV1ZUZuR0ZWUEsvNEFBSHVydkk2bExUQ2tjSlNGZzRvNGtmbkV3MC9Z?=
+ =?utf-8?B?SGRVOEdYNUtFa3RDbVlqclBrTzVGMllibTZyclJsOUI3SlBlRGFUMnFkTzA4?=
+ =?utf-8?B?N0RNRDEwTU9NQWQ3aVROcWc2WUVodTZabC9CZ05ORHhGZ0FhcUVNUW9HU0gr?=
+ =?utf-8?B?T25BeGxQTkVENy9pK1Y5eUgzM1FXWG5PY0VTVGlsQXRvbDRldVlvSGRIalNK?=
+ =?utf-8?B?MkM1aEJaZXplV05veWl6YXBJdS9FWktFRG0xWVljQzBwdkNjQllhdnJ1MFFB?=
+ =?utf-8?B?Mm5DZ1d3aUhYSldwM0dGWjhqckVUUUh5NEF6ZG1JQURBYmNkSkhzUGZjNDNz?=
+ =?utf-8?B?Q2FZaFBVbmRoSFdnaWFWNzc5bEVSNS80UnpQZnZZYUNzT1VlM0FFMlpJL2lS?=
+ =?utf-8?B?Sy8wdW10RVlaQmlaa3lrejFvbzdramhJUHRqNSt4N3dXWkNkSHFGTnk1Wm5p?=
+ =?utf-8?B?elg4eFErS1hxNHI4U3hZWWVXRk5aQzF1eVgwNmduRVd5cHZWenBnN0lHVHdq?=
+ =?utf-8?B?NzE3YWtaMVpTRU05QWxPaFV5akRjUDhOSTFuYVIvSjlMR2FKdVI3SkxvTFZk?=
+ =?utf-8?B?M001cHV6a3NxY2VYSDJRUFI0L3NoVjl5NmFYazZ6eCs5S0NNYlpUL1dUYWxR?=
+ =?utf-8?B?cHMzWjBWems0T1pUdy9ncU8xTjg4L2tNWEZOdFlyVUJ5SlcyejVlZjNVdkZ4?=
+ =?utf-8?B?cTU4aGR6RkMwRVZUVGNJdFpGcHVpSWdBL05zRmxTRVphbWlPR3dOM1Jicytz?=
+ =?utf-8?B?cVFCZTlYSGQxbk5rY2ZETXpnR3dMdnZ0ZTBlb2tTTDJwcWJjVU9GQlpwNS9V?=
+ =?utf-8?B?ZmJTR2NrdTJPazA3bEJVMFVHNGlMZlM1S00yVEt2VCtmRVd1djVIWVFwNTdQ?=
+ =?utf-8?B?NThhM0E3SjFST3RwTEQ5TGR0UjhDdzJuRGRxa0kvYjZMaTVkV2xZVnNQZkRw?=
+ =?utf-8?B?L0dRYTBNZFJRdzBwdklQMlA5YWZUVmFyOHFxUlZBM2R0VmZiQW5jRkR1MFYz?=
+ =?utf-8?B?SGxhWXBjWDhtbklvOHNMcWtWcXlVNENNajRicFdKTFo2cTZJOTZ2QjNBak5L?=
+ =?utf-8?B?S3hkUm9HVGRhMmhTem1rdGozU2RnS0FZT2RKWjFrMUpIRmRaOURBT0NxRFNH?=
+ =?utf-8?B?ZnF3SFExY2NqdHNLZnBXZVRhRFZGRXJ5SFBsbFRVZmI2RUFwenFoTXF0QkVN?=
+ =?utf-8?B?M2ZhRnBDL2NDa0FkWWNZdS9LL3FmL3p2b2ExM1pVejhIWXZVRDJCUXduTHFX?=
+ =?utf-8?B?SUVaTklWQXp0dnY4emRoaXFPVkZNeUxKc0NrQWd0ZE5zZGV3Z1NwN1RtTUcz?=
+ =?utf-8?B?Vm1GTmpCZlUzVHFWcnhjYllXbmdTdzRubkNnU1IrNWd5dmZVeUI1QkhCMXNh?=
+ =?utf-8?B?Uml2K0xQN1lOZGwvT3V1amxBZ2JVT3JDZ1ZNb0pKbUhyY29meWtQL0V5dWg5?=
+ =?utf-8?B?aFFzUWdjbmlaU3VreHJyZ2hSU2tMY3NYekdrd2lzeVhLQ0FkUThCY2pCOEht?=
+ =?utf-8?B?SXVlZHN2a285YzVmbkltQVlEbXlQZTM2UlBJVlEyWFZCRTc1RGFBd1BFSGc5?=
+ =?utf-8?B?anU3cExJcTB4cEQ5SmdrTVZ1MGd4VTFSSUxMWjQ0QnF3Y2VFOW9kWDdNWUZv?=
+ =?utf-8?B?ak5vSzloalA4OHRZWWxsVzB5dHJyenc5dkFOYTdYVm1FUzJWUjNCbVRuMHBj?=
+ =?utf-8?B?Rk11L2ZOYTRJWU5DRjZNZGhEQ3cvMlBuSkNWT3RHbis4bzhYY0VLK2dvV2FD?=
+ =?utf-8?B?eGlkTnNsN3UrVVFmVWt6NkloWWJCbWRaUzdjc1ZPRytQQUZVSDIwZ3NETTFX?=
+ =?utf-8?B?VW95alVac2Y3T1d3dWk1MUZha2IyRlpzUHlkVzh0TUNsWjZzMHo1d2x6QWhi?=
+ =?utf-8?B?TUt6WkdRUTFrdFV2OE14b1RSYjFvSWxXVkVrOS93SUhkc2J2MlE4bEFRREo1?=
+ =?utf-8?B?RnhPOEZTbmhzaUdHaGF0S0VuRkh0QSs1a1NSam5ack1QSGFwUmFvQ1JRbjQ3?=
+ =?utf-8?B?VGJWMVNrWjNMcnRXNW51Y1VuVU9CUklZZG9zZDk1N1ZoZ29VNEVUS2pFd3Bq?=
+ =?utf-8?B?WnR1WmVGd2hDdzVsTmRmREFlSWw1cEZpUGllSWwxcGkvQ096UXc2NmRQTkNj?=
+ =?utf-8?Q?rcS3hzzlsX1sfeOkIeQQyTG9b0hu9uT1b0kSr6KAcp/Zg?=
+X-MS-Exchange-AntiSpam-MessageData-1: eW7mYGeuEKlNow==
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 23a17cee-55f9-4278-5f87-08df0a62035b
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PR12MB6051.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Sep 2026 08:53:39.2265
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: UQeIrebB0KtWcQRJkVCeCffPNEsv2FVv0Cqu5N1OaIycSVeL+51WljuB6RKlZgY6EPsQC2hIsM+D8p6DO+Fquw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4459
 
 
-> 1. The tables and DisCo describe different parts.
+On 03/09/2026 02:14, Kuninori Morimoto wrote:
+> We can use .auto_selectable_formats. Let's adds it.
 > 
->    The platform describes the Smart Amp Function in some detail: 27
->    Entities with their Controls.  The driver ignores that and uses its
->    own tables, so the two can be compared.
-> 
->    Entities the driver knows that DisCo does not describe: CS24 (0x05),
->    OT24 (0x17), OT127 (0x1E), CS127 (0x20), MFPU21 (0x22), MFPU26
->    (0x23).  Entities DisCo describes that the driver does not know:
->    0x0B, 0x0D, 0x1D and 0x37 - 0x0B and 0x0D look like two more Power
->    Domain Entities, each with Controls 0x01 and 0x10 like PDE23.
-> 
->    Is the driver's table a superset written against a different
->    configuration of the part, or is the platform description short?
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-In a perfect world, the DisCo tables would contain all the required
-information and the drivers would just use it blindly.
-In reality, it's very common for the platform firmware to contain
-errors, and for drivers developers to start their own code with what
-works for them...
 
-> 2. Latency Controls.
-> 
->    The driver's read-only list holds 21 Latency Controls.  DisCo
->    describes exactly one of them: FU21 0x10.  For eighteen the Entity is
->    described and the Latency is not; two more belong to Entities DisCo
->    does not have at all.
-> 
->    And FU21 0x10 - the single one the platform describes - is one of the
->    two the driver cannot reach: it appears in no case of
->    tas2783_sdca_mbq_size(), so the callback returns 0, and both
->    tas2783_readable_register() and the cache refuse it.  The same holds
->    for UDMPU23 0x06.  The other nineteen are declared four bytes wide
->    and carry a 0x0 placeholder in tas2783_reg_default[].
-> 
->    The DSDT settles what FU21 0x10 is: access mode 0x05, i.e. DC, with
->    mipi-sdca-control-dc-value 0x0.  A DisCo constant, as Charles Keepax
->    described - hard coded in ACPI, not implemented in the hardware, and
->    normally given a default-array entry with no readable/writeable case
->    so the constant can still be read.  Which is the one shape the driver
->    does not give it.
-> 
->    But that only covers the one.  What are the other twenty Latencies,
->    which no DisCo entry describes and which the tables answer with a 0x0
->    placeholder?  Are they implemented in this part?
+Tested-by: Jon Hunter <jonathanh@nvidia.com>
+Acked-by: Jon Hunter <jonathanh@nvidia.com>
 
-Huh, you can safely ignore Latency Controls. This is something that was
-'inspired' by USB audio, where this was also ignored. No one knows what
-to do with Latency controls...
+Thanks
+Jon
 
-> 3. XU22.
-> 
->    The driver's read-only list has XU22 0x06 (Latency), 0x07 (XU_ID) and
->    0x08 (XU_Version).  DisCo describes none of the three, and XU22 0x07
->    answers COMMAND_IGNORED here, powered and unpowered, on both
->    amplifiers.  Not implemented?
-> 
->    Conversely, XU22 0x09 and 0x0a are in tas2783_reg_default[] and in
->    the size callback - 0x09 as two bytes, 0x0a as four - and DisCo does
->    describe them, as constants rather than registers (see 4), even
->    though SDCA 1.0 section 6.3.10.3 defines no Control Selectors 0x09
->    and 0x0a for an Extension Unit.  What are they?
-> 
->    XU22 0x12 (FDL_MessageOffset) is described by DisCo and still answers
->    COMMAND_IGNORED in both power states.  (Before the regmap val_bits
->    widening in 1/2 of [1] it returned -EINVAL without reaching the bus,
->    since it is declared four bytes wide.)
-
-XU stands for eXtension Unit, it's where all the secret-sauce is
-handled. In practice this is what's used for firmware download. As long
-as the firmware download works I wouldn't spend time looking at this.
-
-> 4. DisCo access modes disagree with the tables in both directions.
-> 
->    Reading the access mode of every Control in the Function turned up
->    Controls the driver treats as ordinary writable registers that the
->    platform declares constant or read-only:
-> 
->      XU22 0x09, XU22 0x0a   DC, dc-value 0x0
->      UDMPU23 0x10           DC, dc-value 0x1 - the driver's default is 0x0
->      SAPU29 0x10            RO (Protection Mode)
->      XU22 0x15              RO
->      IT21 and IT26 0x10 and 0x11, IT28 0x11, OT25 and OT28 0x11,
->      FU127 0x01, 0x04 and 0x05, MU26 0x01     all DC
-> 
->    Nothing in the driver writes most of these today, so this is latent
->    like the rest, but tas2783_writeable_register() would let a write
->    through to a Control the part does not implement, and for UDMPU23
->    0x10 the cached value differs from the constant the platform states.
-
-Yeah, in general the DC and RO access are a bit problematic, sources of
-errors...
-
->    One more of that kind, outside the read-only question: FU21 Channel
->    Volume 0x02 has a DisCo default of 0xFA00 with a range of 0x9C00 to
->    0x0000 in steps of 0x19, while tas2783_reg_default[] gives it 0x9C00,
->    the bottom of that range.  Is the table value deliberate?
-
-In theory the DisCo default is supposed to be a platform-specific
-information. Setting the volume at the driver level is pretty bad in
-that all platforms using that amp would use the same volume default.
-That said, if the BIOS writers copy-paste the value without asking the
-audio integration folks then that'd be equally bad.
-
->    More generally: the kernel can parse this description now.  Is moving
->    the driver onto the SDCA parser, rather than maintaining tables that
->    have drifted from it, something you are considering?
-> 
-> 5. Placeholders for state readings.
-> 
->    PDE23 Actual Power State has a default of 0x3 while the peripheral
->    answers 0x0; SAPU29 Protection Status has 0x0 while the peripheral
->    answers 0x3.  Both are cached, so a read returns the opposite of the
->    device state in both cases.  Patch 2/2 of [1] addresses this by
->    marking them volatile - is there a reason the entries are there?
-
-all volatile registers should be handled as such with no defaults...
-
-> 6. FU23 Mute, channel 0.
-> 
->    regcache_sync() aborts there, at 0x40400108, every time: the default
->    is 0x1, the cache holds 0x00 after bring-up, so the sync tries to
->    restore 0x1 and the peripheral answers COMMAND_IGNORED.  Being the
->    first mismatch in address order, nothing after it is restored either,
->    so a sync effectively does nothing on this part.  What is the reset
->    value of the FU23 Mutes, and should they be in the defaults at all?
-
-that points to an unimplemented register...>
-> 7. Calibration register width.
-> 
->    tas2783_set_calib_params_to_device() wrote each of the five
->    calibration values with regmap_bulk_write(..., buf, sizeof(u32)),
->    relying on val_bits = 8 to spread one 32-bit value over four
->    consecutive single-byte registers, most significant byte first.  With
->    val_bits widened that call would mean something else, so 1/2 of [1]
->    writes the four registers explicitly in the same order; read back
->    over the bus, the five values of both amplifiers are byte for byte
->    what they were before.  Please confirm the layout is what the part
->    expects - the tables declare these registers one byte wide and
->    nothing else documents the order.
-> 
-> 8. simple_ch_prep_sm.
-> 
->    The platform sets it for DP1, the only data port these amplifiers
->    have, so the core skips the DPn_PrepareStatus poll.  That is what
->    made the resume failure fixed by 119046319e77 silent: the port never
->    finished preparing and nothing in the kernel noticed.  Does the part
->    implement the full channel prepare state machine, i.e. is the
->    property right?
-
-this has been addressed in multiple threads. the short story is that we
-stick to this simple_ch_prep_sm mode.>
-> 9. Power symmetry.
-> 
->    With 119046319e77 the Function is powered up in the port PRE_PREP
->    callback while the power down stayed in tas_sdw_pcm_hw_free().  If
->    you would prefer the two symmetric, moving the power down to
->    POST_DEPREP is a small patch and I am happy to send it.
-possibly. In general, ports and functions are not really at the same
-level and there's no reason why the two are linked. I don't fully
-remember the issue on this chip but this was not a generic problem. TDB
-with TI if they need a symmetry for the power-down.
-
+-- 
+nvpublic
 
