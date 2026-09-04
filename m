@@ -1,43 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 430F44CB8C4;
-	Fri,  4 Sep 2026 20:10:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DA5F52121D
+	for <linux-sound@vger.kernel.org>; Fri,  4 Sep 2026 20:10:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788552651; cv=none; b=cvFZ2yv1cPirAQ9S9OqtYcwZevxCiweBLszd/XAB9wGFy5w9iOfnVCqE3yZbTwQwg+i1IstuNOkbqZXb3Yo8GRWkD5ZVsTWC/1MFIZJhogYMhL6YDJ0uKDYh6attPKsjpCjZsdggIxI7AkSAiuCU+03d0vts/xf0POwbR0LP5IY=
+	t=1788552652; cv=none; b=hiVUkggdSiD6jo3ceNAxnNI71ki9wt5AAjKs3GiBpY0/T3W37U+ISGODowQSm/zLO1bsSnA/YpvGAsvK8Q51AEQrm83h2cwdQwBMkFmHYozJjhAOJB0Tq0jJSgUsNOSz06H+1zkbSq9ac8lCikVJU6YJr3dxTneMMuAeU4ukFGU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788552651; c=relaxed/simple;
-	bh=KouETztfN/mGp7RZFdrBAOhN3ydprk2sioBxfEDIYD4=;
+	s=arc-20240116; t=1788552652; c=relaxed/simple;
+	bh=JHlgi3VxNI/y6Iv2HAIHSxI/E6F+QRuWhN2rtYh2EsU=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=dP6g/5nLsK4OVcAO/xOGAI3uzU7k0M0457B3SiWQtbuUkCOzdzYzYkXApMiqF7BsTl3Pt8kLNNTnW9Ti9y+8kxx0aqk7FEwr7MxXOpdvf9zy1JZ+wTLMHo9P4+5SHgiuDpBPwaM16t3kwILhKi6/ilmkGkfhbTeA+a1Rb7/llkc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lr/LjaDW; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=VE9n+4ZK+sHqNoA0CTjA3g5XPuyX4MOmQXyhZBFwiC2pxhyErqsh1a85/Y8KCjDgKh8gNGfIdSKckLrT8CtE0TFQ68eLymdBg8TGyJ9tDEDyg392zCSGcLa9miMO82lT0AU5L7LoEO5b6zSXKvg/U9Zh/UYaibGr4drphi5VAY8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FvSvtcLa; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lr/LjaDW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89B9E1F00A3E;
-	Fri,  4 Sep 2026 20:10:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FvSvtcLa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07DAC1F00A3D;
+	Fri,  4 Sep 2026 20:10:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788552639;
-	bh=I0S92nhD9viTVQZ6laHD4KPftAfxERiYP7FmJsp8UL0=;
+	s=k20260515; t=1788552632;
+	bh=Fl65Hp6qOtCns0ftV4fcyofEMAZE915KxEYCAx/iOHM=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=lr/LjaDW9N6Bpe/6cdL6479zwR2fKj4TLug/1eyCWqUfcclqevAIZ5kcqowSt8oYJ
-	 urSBoNxg9ySbEw9hwAwbFlQaIXAMYJDynQlWi2xaj4nfZXcGREngec1iHofhr0BUWe
-	 Se3ta08NFhjQeR/sy7fhFB26Di5nepT1+xMI4+cTf5o7CP0LRe7NfgyUSRuxW7BkAI
-	 9Q4KoP7lCs8G0B07bnNXQvt4SrH+sJdc357G21AR6we+oVcbm5rI2kZxe0uUWISBUa
-	 fydK9xzQoG04RxqsebCNSmPdr+OtPAZj9aqcVCuv9hrEFpIo8MklgoLGpQNJWmyQDJ
-	 iYHvHzc6JoKOQ==
+	b=FvSvtcLaU0fewpdsU54MM8lsi+XkE6Eif26i4lbDwsiSVM9B39iIIvhrBHULIbMzQ
+	 0oJLkwOw+uq6aXU85qoXtciWKDeS5U59CS51pWORvB8LRXwNRukx2ndsxcjar0PdZg
+	 mqMDQTFGcrLDZdOPwr5nvvoGW6d7svLcy1Pl+Ism+09P1NgDBrBP3UAMsXVtxOZ603
+	 xndeZabH5eR25XGOrI2IudXRss+7xS/+f9cNhB0ogMtnUWD1ahnTGjKs3/2WU8U5of
+	 Q5zKdqYWbOj5txFOaeN1d8deAOWFoQUYhQRSN0UBf+KThqoYocAC+CmpMqxfb8tP/R
+	 hVWhXexYwKufg==
 From: Mark Brown <broonie@kernel.org>
-To: Neo Chang <YLCHANG2@nuvoton.com>
-Cc: lgirdwood@gmail.com, perex@perex.cz, robh@kernel.org, 
- krzk+dt@kernel.org, linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- alsa-devel@alsa-project.org, neo.chang70@gmail.com, kchsu0@nuvoton.com, 
- sjlin0@nuvoton.com
-In-Reply-To: <20260904060035.196399-1-YLCHANG2@nuvoton.com>
-References: <20260904060035.196399-1-YLCHANG2@nuvoton.com>
-Subject: Re: (subset) [PATCH v2 0/2] ASoC: codecs: nau8360: Add DSP
- fallback and PEQ band initialization
-Message-Id: <178854413324.632048.16181974298837410103.b4-ty@b4>
-Date: Fri, 04 Sep 2026 18:48:53 +0100
+To: lgirdwood@gmail.com, shumingf@realtek.com
+Cc: linux-sound@vger.kernel.org, lars@metafoo.de, flove@realtek.com, 
+ oder_chiou@realtek.com, jack.yu@realtek.com, derek.fang@realtek.com
+In-Reply-To: <20260904075737.86525-1-shumingf@realtek.com>
+References: <20260904075737.86525-1-shumingf@realtek.com>
+Subject: Re: [PATCH v2 1/6] ASoC: rt766: fix uninitialized
+ stream_config->type
+Message-Id: <178853968592.632048.6740798833520648561.b4-ty@b4>
+Date: Fri, 04 Sep 2026 17:34:45 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,41 +45,39 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1645; i=broonie@kernel.org;
- h=from:subject:message-id; bh=KouETztfN/mGp7RZFdrBAOhN3ydprk2sioBxfEDIYD4=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqmyW5CHmZIsfH0bYXLbLvUKZjoXrYrgwByweJm
- PS0zWEb0ymJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCapsluQAKCRAk1otyXVSH
- 0LraB/99GK8X9AY197m83eozpYp3bH/07Zj1zJ7HutcI6x/+jfzHZIuooo7nbVcm7CFXKd6YazL
- z5OY4DOdb7pOTMXii25qnQF1XsGcpJ/BZUicm6UxBdy8EUaPutIdjJRejCcT52JyhpjXvcWNVea
- +scGexE52CDAnzbNTXEZl5zeFaC4AnMnNBrFkaQOvgyqpUvDDCSOoxmikar6f/pMQ1/KuDIH+Iy
- 5OABQDCOrHv03OUQooTcSjhahGkIKObxM/TXB7oDZXjO6SYClLzMxHGMFESuADMy4zgc9Omkd+E
- sKMZGVviwi5VayKcULvv8ieFV0ecGzD+Qj4HL9HH/NgXUppi
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1713; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=JHlgi3VxNI/y6Iv2HAIHSxI/E6F+QRuWhN2rtYh2EsU=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqmyW0N4G9trjk2GdXMx/SFYkdZdRU+k1WGQmek
+ VgN7SbUEcOJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCapsltAAKCRAk1otyXVSH
+ 0KzvB/0ebhClYgWhQz2EKY4EsCXD1czDYJLK2vrKK6DPEhpQrv0nmJaGw1Mz7UyEhP4jsKAa4zR
+ gAgcYs8MMM9vrdBxypcjuJyhYrYy4bOyLWEBKjs1P1ZPJkAiVEp/1qwkZ42anz3f3aZvxT5R+GT
+ dAYY2BTVvuYQowlSOTMl1XDYcaLO5R5O7uIfnb4PD60aBX2dxVY/osFCNU/HzVLbHUBlru1Inwo
+ slyuRHu7C3a41sHGadjMHMX1rZmJR29TxvCD/4927Om3QNX+MI5ad4g+tx2zDD/g/EstI2MfAId
+ glVtZ3gUHlDlSK+p2KKpX7nyWyj4EUIg6kZFkQ/nWHnypR7g
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Fri, 04 Sep 2026 14:00:33 +0800, Neo Chang wrote:
-> ASoC: codecs: nau8360: Add DSP fallback and PEQ band initialization
-> 
-> This patch series adds a fallback mechanism for the NAU8360 DSP during
-> firmware load failure and ensures proper initialization for PEQ bands.
-> 
-> It includes the following changes:
-> - Fallback to bypass mode automatically when DSP firmware fails to load,
->   ensuring basic audio playback remains functional.
-> - Set a default PEQ band number during DSP initialization to prevent
->   invalid state or uninitialized parameters before user configuration
->   is applied.
-> 
-> [...]
+On Fri, 04 Sep 2026 15:57:37 +0800, shumingf@realtek.com wrote:
+> ASoC: rt766: fix uninitialized stream_config->type
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
 
 Thanks!
 
-[2/2] ASoC: codecs: nau8360: Add default PEQ band number for DSP init
-      https://git.kernel.org/broonie/sound/c/366e4d4f0ca8
+[1/6] ASoC: rt766: fix uninitialized stream_config->type
+      https://git.kernel.org/broonie/sound/c/4e3bd70facac
+[2/6] ASoC: rt712: fix uninitialized stream_config->type
+      https://git.kernel.org/broonie/sound/c/0a9bce8a4ff8
+[3/6] ASoC: rt1320: fix uninitialized stream_config->type
+      https://git.kernel.org/broonie/sound/c/2c68c4a0e570
+[4/6] ASoC: rt1318: fix uninitialized stream_config->type
+      https://git.kernel.org/broonie/sound/c/c966210ed5f2
+[5/6] ASoC: rt721: fix uninitialized stream_config->type
+      https://git.kernel.org/broonie/sound/c/0e17e50b9930
+[6/6] ASoC: rt722: fix uninitialized stream_config->type
+      https://git.kernel.org/broonie/sound/c/cff381508c18
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
