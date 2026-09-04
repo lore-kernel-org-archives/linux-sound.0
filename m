@@ -1,129 +1,103 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF7773D890B
-	for <linux-sound@vger.kernel.org>; Fri,  4 Sep 2026 07:59:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E038F35C68A
+	for <linux-sound@vger.kernel.org>; Fri,  4 Sep 2026 08:03:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788508749; cv=none; b=ZepPamp61FijZ4iDqR8d9/1Ivjwpsg0LLMZolKFAUFmzc0QcJoURN3/RuDErLOk+wPp/vsfKNvmSQZtTw2qDU47VvlsZGr7NSYB9lFbyuG0FAstkdSSlrzaE+2vCRutgHrC7StptVZKq+TSdO8IwGPu8irFcHccBKnRMLwH3rJQ=
+	t=1788509029; cv=none; b=mvhVjmXj4OPyKJkdJOieq/6jnMXi11tdfiJezwE+e5a7QMhSWgbSAlonJzGGpHRHzAgOIivHUhlNoYfOa6PXvYc6ch8PM0f2vOlv/Nbo8cukFrcTrT1k/+I5aCe1HfCKJTSlCYIzU3bzmO6c+U3FvX3ZNxdTJErghzyBngviEBc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788508749; c=relaxed/simple;
-	bh=3WPptEUD1dxSq11Rhdtu7dIYs0o9Y41Hxy/kYduYF8o=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=aSDwjdYor7YBqAF+/B7Io+W/2EGKkuvRPyNPyYrrQ/N6beQkDsuLexuPaD95OMprCQhjJAGZ477JfFFsoeDnHKKEe2mNwOAMse4Vx3ZqIPPHu23ueTMg1dWhxxzg5k1Nj32Rrjzd78pnwBwL7UdR7OqBcs4HR4r02uYVgAK1Dek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=QCb84pe7; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+	s=arc-20240116; t=1788509029; c=relaxed/simple;
+	bh=YBUefHObD2KyQmK72p66Qt2VxfC3YRxnsjHskDaYZbk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=j7XkLCiKTA/jq8+p/zH4BscvZfLxKG2EOx7k4DUhEUo2OtXA3G70kRLPsN72qNBvJQlPnBYdApKepxUstkemJrAcpWaJarinyowlp7x4TYV4ksftZSDLgzuxCSjOvxGaSzKF0O4qcy3qyWCv9kzwjT8E+w20YqMSTOLEL89Opr8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=krpf4q0l; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="QCb84pe7"
-X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 6847wjr57093002, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
-	t=1788508725; bh=9BCUKIuuKr3DgL6A4tBUPxT+c66ensTAgI3F5pRdrPs=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:
-	 Content-Transfer-Encoding:Content-Type;
-	b=QCb84pe7UiccQE9V8CKOxwmpazdQsC68v3Ixlx8XTGNXAVym+6KvUKE0x3ENJFj4x
-	 FOQnba2vWYU+6xbWD377QaTaq3MxyuwreweXfyhFFuFEDFEPlXWumHb4rEsAKiBmWd
-	 84/b5A4MEMmyqNCWJanmrRLXVQ+Ga/qpy/V43ljg9FDl+9Y+yBZAPjSqXLNJM7Py1i
-	 4zpgRScgZ5mmbSnh+Lq3W/00/N8yiCI9imLC4JkjJ6fF2WOxLXzC0PDMNrkR6jjqAF
-	 tueY30zP1dYAMTEl9sT1Npt/ba0NTIGOcRblil+8eqISLLVrDfODJYbuPtYXgDwWBd
-	 jma6QFE+MsEsw==
-Received: from mail.realtek.com (rtkexhmbs02.realtek.com.tw[172.21.6.41])
-	by rtits2.realtek.com.tw (8.15.2/3.29/5.94) with ESMTPS id 6847wjr57093002
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Fri, 4 Sep 2026 15:58:45 +0800
-Received: from RTKEXHMBS05.realtek.com.tw (10.21.1.55) by
- RTKEXHMBS02.realtek.com.tw (172.21.6.41) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43; Fri, 4 Sep 2026 15:58:44 +0800
-Received: from sw-server.localdomain (172.24.54.4) by
- RTKEXHMBS05.realtek.com.tw (10.21.1.55) with Microsoft SMTP Server id
- 15.2.2562.43 via Frontend Transport; Fri, 4 Sep 2026 15:58:43 +0800
-From: <shumingf@realtek.com>
-To: <broonie@kernel.org>, <lgirdwood@gmail.com>
-CC: <linux-sound@vger.kernel.org>, <lars@metafoo.de>, <flove@realtek.com>,
-	<oder_chiou@realtek.com>, <jack.yu@realtek.com>, <derek.fang@realtek.com>,
-	Shuming Fan <shumingf@realtek.com>
-Subject: [PATCH v2 6/6] ASoC: rt722: fix uninitialized stream_config->type
-Date: Fri, 4 Sep 2026 15:58:34 +0800
-Message-ID: <20260904075835.130778-1-shumingf@realtek.com>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="krpf4q0l"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1788509027; x=1820045027;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=YBUefHObD2KyQmK72p66Qt2VxfC3YRxnsjHskDaYZbk=;
+  b=krpf4q0lZB81xqvIsAuEE97ZTxZaFztReM1il9jDmCp0cyBKm5vPr1kU
+   aSTp3LS8UoGcuiq9o5+LS4SqtgplxG8m1QNZ+W0okhSCqppVEqfU72SIc
+   cJyPkcSg9T9F1VceNWP8MiJdF7786eO8x8k8ArvDJXmZivf9jw5vQmQns
+   qaiy427zPtAcYxRRjYzgqcmrx2gpdYeYGt55HNK7kikPyAbPn+84k3LiJ
+   rplLuvu+TF7jIVlZ4bl0+DUWcM0yw7oWIuWE7e3zpyvoISQnTuOwu2A5B
+   Rz92u0B+gnGKhJ/ApbGwZ2MGfQ0T7VlzrMbyhMne0gl+qwgXTp+y0HS6i
+   A==;
+X-CSE-ConnectionGUID: FSlXECf6SQiJrVtpV7+PXg==
+X-CSE-MsgGUID: GxIDvbJqT4u8PxjL0wZRdw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11895"; a="99336304"
+X-IronPort-AV: E=Sophos;i="6.25,260,1779174000"; 
+   d="scan'208";a="99336304"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2026 01:03:47 -0700
+X-CSE-ConnectionGUID: 3EIx+UQRTEqFO3FwmeqSOg==
+X-CSE-MsgGUID: sA4YtvPKQC6DSZ+43Xggpw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,260,1779174000"; 
+   d="scan'208";a="270511298"
+Received: from ettammin-mobl3.ger.corp.intel.com (HELO [10.245.244.213]) ([10.245.244.213])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2026 01:03:43 -0700
+Message-ID: <b3e44d88-6843-452d-9529-e6cdd49490f4@linux.intel.com>
+Date: Fri, 4 Sep 2026 11:03:51 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 01/23] ALSA: compress: pin card module while stream is
+ open
+To: Takashi Iwai <tiwai@suse.de>
+Cc: vkoul@kernel.org, perex@perex.cz, tiwai@suse.com, lgirdwood@gmail.com,
+ broonie@kernel.org, srinivas.kandagatla@oss.qualcomm.com,
+ linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com,
+ yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev,
+ daniel.baluta@nxp.com, Vijendar.Mukunda@amd.com
+References: <20260904073134.29648-1-peter.ujfalusi@linux.intel.com>
+ <20260904073134.29648-2-peter.ujfalusi@linux.intel.com>
+ <87a4px78vb.wl-tiwai@suse.de>
+From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
+Content-Language: en-US
+In-Reply-To: <87a4px78vb.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 
-From: Shuming Fan <shumingf@realtek.com>
 
-The stream_config variable was not initialized before being passed to
-sdw_stream_add_slave().
-This may cause unexpected behavior when configuring the SoundWire stream.
 
-Signed-off-by: Shuming Fan <shumingf@realtek.com>
----
- sound/soc/codecs/rt722-sdca.c | 16 +++++-----------
- 1 file changed, 5 insertions(+), 11 deletions(-)
+On 04/09/2026 10:50, Takashi Iwai wrote:
+> On Fri, 04 Sep 2026 09:31:12 +0200,
+> Peter Ujfalusi wrote:
+>>
+>> Take a module reference in snd_compr_open() and release it in
+>> snd_compr_free(). This pins the card driver module for the
+>> lifetime of an open compress stream and prevents card removal
+>> while the stream file is still in use.
+>>
+>> Adjust the open() cleanup paths to drop the added module
+>> reference only when it was acquired, and keep release ordering
+>> safe by dropping the module reference before freeing stream
+>> data.
+>>
+>> Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+>> Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
+> 
+> Reviewed-by: Takashi Iwai <tiwai@suse.de>
+> 
+> While we're at it: the compress-offload seems missing the call of
+> snd_card_file_add() and snd_card_file_remove() at open/close, too.
+> By adding those, the unexpected syscalls are guarded in the core side
+> after disconnection by replacing file ops.
 
-diff --git a/sound/soc/codecs/rt722-sdca.c b/sound/soc/codecs/rt722-sdca.c
-index 4cbe9e909585..149cb6617126 100644
---- a/sound/soc/codecs/rt722-sdca.c
-+++ b/sound/soc/codecs/rt722-sdca.c
-@@ -24,6 +24,7 @@
- #include <sound/pcm.h>
- #include <sound/pcm_params.h>
- #include <sound/soc-dapm.h>
-+#include <sound/sdw.h>
- #include <sound/tlv.h>
- 
- #include "rt722-sdca.h"
-@@ -1442,11 +1443,10 @@ static int rt722_sdca_pcm_hw_params(struct snd_pcm_substream *substream,
- {
- 	struct snd_soc_component *component = dai->component;
- 	struct rt722_sdca_priv *rt722 = snd_soc_component_get_drvdata(component);
--	struct sdw_stream_config stream_config;
-+	struct sdw_stream_config stream_config = {0};
- 	struct sdw_port_config port_config;
--	enum sdw_data_direction direction;
- 	struct sdw_stream_runtime *sdw_stream;
--	int retval, port, num_channels;
-+	int retval, port;
- 	unsigned int sampling_rate;
- 
- 	dev_dbg(dai->dev, "%s %s", __func__, dai->name);
-@@ -1465,7 +1465,6 @@ static int rt722_sdca_pcm_hw_params(struct snd_pcm_substream *substream,
- 	 * RT722_AIF3 with port = 6 for digital-mic capture
- 	 */
- 	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
--		direction = SDW_DATA_DIR_RX;
- 		if (dai->id == RT722_AIF1)
- 			port = 1;
- 		else if (dai->id == RT722_AIF2)
-@@ -1473,7 +1472,6 @@ static int rt722_sdca_pcm_hw_params(struct snd_pcm_substream *substream,
- 		else
- 			return -EINVAL;
- 	} else {
--		direction = SDW_DATA_DIR_TX;
- 		if (dai->id == RT722_AIF1)
- 			port = 2;
- 		else if (dai->id == RT722_AIF3)
-@@ -1481,13 +1479,9 @@ static int rt722_sdca_pcm_hw_params(struct snd_pcm_substream *substream,
- 		else
- 			return -EINVAL;
- 	}
--	stream_config.frame_rate = params_rate(params);
--	stream_config.ch_count = params_channels(params);
--	stream_config.bps = snd_pcm_format_width(params_format(params));
--	stream_config.direction = direction;
- 
--	num_channels = params_channels(params);
--	port_config.ch_mask = GENMASK(num_channels - 1, 0);
-+	/* SoundWire specific configuration */
-+	snd_sdw_params_to_config(substream, params, &stream_config, &port_config);
- 	port_config.num = port;
- 
- 	retval = sdw_stream_add_slave(rt722->slave, &stream_config,
+You are right, I'll prepare the followup patch and either send it later
+or include it in v2 of the series.
+
 -- 
-2.54.0
+Péter
 
