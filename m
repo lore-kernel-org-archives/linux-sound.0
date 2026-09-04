@@ -1,28 +1,28 @@
-Received: from mail-m15574.qiye.163.com (mail-m15574.qiye.163.com [101.71.155.74])
+Received: from mail-m32106.qiye.163.com (mail-m32106.qiye.163.com [220.197.32.106])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B85ED3CCFBD;
-	Fri,  4 Sep 2026 10:18:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D05583D88F7;
+	Fri,  4 Sep 2026 10:18:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.32.106
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788517115; cv=none; b=dABgMBGI2EyaPHKZXkA0T46pgY4zAXXcXwPSTZ1ps1uoSO7y4RCVVO6hdmUmWQKysdXPSYCVeSePh4TbVgEMQiRodPzQ2aG5lZIpFP5hlVZ8xi4AsiVh58/EIfS1g6wTBVIV0YtLn0Kpm/yJjJv3LWBmGa1GV0ap67rjC6d70MI=
+	t=1788517118; cv=none; b=aLiujxLu0E4G3A8LAboO9BsojULVoDgy2k4/ISLBliPSnHTt3IGGy7bvXdFv9zj43XZiS0A+4OTXb33RSgZwObIHmPVjTCd6lQGBWLINvz7rEDTY1tSNyVQqH0Qzh/u2Hr4Q7Z8CTCTixQ/DcrN2VUXPcqe0qzr6feknrUFGuZI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788517115; c=relaxed/simple;
-	bh=51aJ1JblvEYM3O+oFR62vf+HfYNykqMpE6H+TgBBpb4=;
+	s=arc-20240116; t=1788517118; c=relaxed/simple;
+	bh=k+MlA6X3Punm2gYWRdKkhl6OvEkpZR1/eHhSIaY2LAU=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=qk/dvNriYcesD5OblsZbuCB0SUMevHOG03JZvFSjcLgrA973uUgSih+X9XWTr4aDH/+Bf1IIBHlaPfMkMqitN1pjA9FdhF387CbrCjQA2mr/aWdAAYQl8yBhlewIvmRjS4g8ApyyIyH669D3xoSUY3i5f4zcR8Fdjmo6aNXPgf8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=thundersoft.com; spf=pass smtp.mailfrom=thundersoft.com; dkim=pass (1024-bit key) header.d=thundersoft.com header.i=@thundersoft.com header.b=L97Ae4nz; arc=none smtp.client-ip=101.71.155.74
+	 In-Reply-To:To:Cc; b=rYxfgOUC0J4eV4+s4bp7ftGAiV6WseyDTN5JVsLjp7WGi3xFgrOpp5WO/RBbVxYZmO/xvaKwqpKt3rhU6p/nsNs7b2i+/dWCYfxibgz5qpfdHKgk3+bHTOI0IM5HSrx9Ek4NDUt8nRuBx1smwniUdZkSaLW6zAn2gJ4OYxIJv7U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=thundersoft.com; spf=pass smtp.mailfrom=thundersoft.com; dkim=pass (1024-bit key) header.d=thundersoft.com header.i=@thundersoft.com header.b=RueZZFbN; arc=none smtp.client-ip=220.197.32.106
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=thundersoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thundersoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=thundersoft.com header.i=@thundersoft.com header.b="L97Ae4nz"
+	dkim=pass (1024-bit key) header.d=thundersoft.com header.i=@thundersoft.com header.b="RueZZFbN"
 Received: from [127.0.1.1] (unknown [36.129.139.90])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 4c8f646f0;
-	Fri, 4 Sep 2026 18:03:03 +0800 (GMT+08:00)
+	by smtp.qiye.163.com (Hmail) with ESMTP id 4c8f646d9;
+	Fri, 4 Sep 2026 18:02:58 +0800 (GMT+08:00)
 From: Hongyang Zhao <hongyang.zhao@thundersoft.com>
-Date: Fri, 04 Sep 2026 18:02:30 +0800
-Subject: [PATCH v3 6/6] arm64: dts: qcom: qcs6490-rubikpi3: Add audio
- support
+Date: Fri, 04 Sep 2026 18:02:28 +0800
+Subject: [PATCH v3 4/6] ASoC: qcom: sc8280xp: Add per-DAI board
+ configuration
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -31,7 +31,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260904-rubikpi-next-20260605-v3-6-f49146d85af3@thundersoft.com>
+Message-Id: <20260904-rubikpi-next-20260605-v3-4-f49146d85af3@thundersoft.com>
 References: <20260904-rubikpi-next-20260605-v3-0-f49146d85af3@thundersoft.com>
 In-Reply-To: <20260904-rubikpi-next-20260605-v3-0-f49146d85af3@thundersoft.com>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
@@ -48,273 +48,265 @@ Cc: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>,
  linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
  devicetree@vger.kernel.org, Hongyang Zhao <hongyang.zhao@thundersoft.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1788516170; l=6027;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1788516170; l=8539;
  i=hongyang.zhao@thundersoft.com; s=20260127; h=from:subject:message-id;
- bh=51aJ1JblvEYM3O+oFR62vf+HfYNykqMpE6H+TgBBpb4=;
- b=A/BF92uO0JERtcGEOwQvREJTdbHcB1MxdO867Ucm+Yu7ht2quZnM66HG/1pv5BIxVWfy1J8Kj
- JyZ2fqt6jLjC5+mt069L3ftfjzonKw5FmCc31wdOzVjyEnVP5ZK3uls
+ bh=k+MlA6X3Punm2gYWRdKkhl6OvEkpZR1/eHhSIaY2LAU=;
+ b=MM6qCFgV5QGU/30NkC6WwK9hVka7kICPTki4j9AsXqCiU8RpkxTvmP1XC009CZrUt/SJYROio
+ tikQue8wAc6D0oCeO3QpDfRrEKRcETkRuKLx5Yaijqe3x1GnKnQB3XS
 X-Developer-Key: i=hongyang.zhao@thundersoft.com; a=ed25519;
  pk=D9yL5W9Zj0lPBDAq9gzY++1849VlXuTWAkROzZ88J/4=
-X-HM-Tid: 0aa06bdf2bee09d5kunm6f63729aafba4
+X-HM-Tid: 0aa06bdf1afd09d5kunm6f63729aafb80
 X-HM-MType: 1
 X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkaT0lCVkpOS0kYS0IfH0JLGFYVFA
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkZHR9CVhhCTE8eSklJH0IYHlYVFA
 	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlITVVKSUJVSkhCVUJLWVdZFhoPEhUdFFlBWU9LSFVKS0
 	lPT09IVUpLS1VKQktLWQY+
 DKIM-Signature: a=rsa-sha256;
-	b=L97Ae4nzBcalR/YT6lqW556dqyid17l+02j0S2wO9m+BrWBbfsHyWNnuO0jek598hUbIGL4yFy+47/cn7Qi5w5hOYTpWiSfANipd1rm6XHot/nFYe4dyHmKl2BqpMiBC09CuAg+wos1W6GCotAVXBe7SMTSYATZUgF2a46HrGYw=; s=default; c=relaxed/relaxed; d=thundersoft.com; v=1;
-	bh=GJBUxSd6wE6o/DKf4dE/o3ZZ+oVtDtob6mF1TrwlVMY=;
+	b=RueZZFbNt7uyv295plX+KGuEMlgfa64QL/BpZNXay0ZWMi8PRgdyl4xPkkAXzmGhXEwWRHUjlV05DhTo16cfojDmJLZJNW5C2QzjfqIOnjeCJi9RH5htZ6FBcQUZFOHolX3LEsF1UBNg1ySxu8u4yC0b6OnbAEXmAcqjiDz5HN4=; s=default; c=relaxed/relaxed; d=thundersoft.com; v=1;
+	bh=mfgZSbr/syZYI9aMdBK862dul9i0Zwry4EFMXAiJ6E0=;
 	h=date:mime-version:subject:message-id:from;
 
-RubikPi 3 uses the AudioReach firmware path for its external audio
-interfaces. Primary MI2S connects to an ES8316 codec for headset playback
-and capture, while quaternary MI2S feeds the LT9611 HDMI bridge.
+The board data currently applies codec sysclk, MI2S clock and jack setup
+policy to every backend DAI on a sound card. This cannot describe a card
+whose codecs have different clock requirements on different MI2S
+interfaces.
 
-Describe the ES8316 supplies, MCLK, jack detection and audio routing, and
-add the primary and quaternary MI2S links. The 1.8 V and 3.3 V codec
-supplies are both controlled by GPIO117.
+Add an optional per-DAI configuration table indexed by CPU DAI ID. Each
+entry can override the MCLK rate, CPU MCLK and BCLK programming, codec
+sysclk setup and jack setup path. Keep the codec DAI format card-wide.
+
+Cards without a matching per-DAI entry continue to use the existing
+card-wide settings, keeping all current board data unchanged.
 
 Signed-off-by: Hongyang Zhao <hongyang.zhao@thundersoft.com>
 ---
- .../boot/dts/qcom/qcs6490-thundercomm-rubikpi3.dts | 169 +++++++++++++++++++++
- 1 file changed, 169 insertions(+)
+ sound/soc/qcom/sc8280xp.c | 107 ++++++++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 98 insertions(+), 9 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/qcom/qcs6490-thundercomm-rubikpi3.dts b/arch/arm64/boot/dts/qcom/qcs6490-thundercomm-rubikpi3.dts
-index 0f21777c480b..10277bee86b3 100644
---- a/arch/arm64/boot/dts/qcom/qcs6490-thundercomm-rubikpi3.dts
-+++ b/arch/arm64/boot/dts/qcom/qcs6490-thundercomm-rubikpi3.dts
-@@ -19,6 +19,7 @@
- #include "pm7325.dtsi"
- #include "pm8350c.dtsi" /* PM7350C */
- #include "pmk8350.dtsi" /* PMK7325 */
-+#include "qcs6490-audioreach.dtsi"
- 
- /delete-node/ &adsp_mem;
- /delete-node/ &cdsp_mem;
-@@ -128,6 +129,33 @@ fan0: pwm-fan {
- 		pinctrl-names = "default";
- 	};
- 
-+	vreg_es8316_1v8: regulator-es8316-1v8 {
-+		compatible = "regulator-fixed";
-+
-+		regulator-name = "vreg_es8316_1v8";
-+		regulator-min-microvolt = <1800000>;
-+		regulator-max-microvolt = <1800000>;
-+
-+		gpio = <&tlmm 117 GPIO_ACTIVE_HIGH>;
-+		enable-active-high;
-+
-+		pinctrl-0 = <&es8316_power_on>;
-+		pinctrl-names = "default";
-+
-+		vin-supply = <&vreg_l18b_1p8>;
-+	};
-+
-+	vreg_es8316_3v3: regulator-es8316-3v3 {
-+		compatible = "regulator-fixed";
-+
-+		regulator-name = "vreg_es8316_3v3";
-+		regulator-min-microvolt = <3300000>;
-+		regulator-max-microvolt = <3300000>;
-+
-+		gpio = <&tlmm 117 GPIO_ACTIVE_HIGH>;
-+		enable-active-high;
-+	};
-+
- 	vreg_eth_1v8: regulator-eth-1v8 {
- 		compatible = "regulator-fixed";
- 
-@@ -743,6 +771,30 @@ &gpu_zap_shader {
- 	firmware-name = "qcom/qcs6490/a660_zap.mbn";
+diff --git a/sound/soc/qcom/sc8280xp.c b/sound/soc/qcom/sc8280xp.c
+index 4d48e1012cd4..368a54c2cdf8 100644
+--- a/sound/soc/qcom/sc8280xp.c
++++ b/sound/soc/qcom/sc8280xp.c
+@@ -58,6 +58,25 @@ static const struct snd_soc_dapm_widget max98090_dapm_widgets[] = {
+ 	SND_SOC_DAPM_SPK("Speaker", NULL),
  };
  
-+&i2c0 {
-+	status = "okay";
-+
-+	es8316: audio-codec@11 {
-+		compatible = "everest,es8316";
-+		reg = <0x11>;
-+		#sound-dai-cells = <0>;
-+
-+		clocks = <&q6prmcc LPASS_CLK_ID_MCLK_1 LPASS_CLK_ATTRIBUTE_COUPLE_NO>;
-+		clock-names = "mclk";
-+
-+		interrupts-extended = <&tlmm 63 IRQ_TYPE_LEVEL_HIGH>;
-+		avdd-supply = <&vreg_es8316_3v3>;
-+		cpvdd-supply = <&vreg_es8316_1v8>;
-+		dvdd-supply = <&vreg_es8316_1v8>;
-+		pvdd-supply = <&vreg_es8316_1v8>;
-+
-+		pinctrl-0 = <&es8316_jack_detect>;
-+		pinctrl-names = "default";
-+
-+		everest,jack-detect-inverted;
-+	};
++enum sc8280xp_jack_setup {
++	SC8280XP_JACK_SETUP_NONE,
++	SC8280XP_JACK_SETUP_CODEC,
++	SC8280XP_JACK_SETUP_WCD,
 +};
 +
- /* Pin 3, 5 in 40-pin connector */
- &i2c1 {
- 	status = "okay";
-@@ -756,6 +808,7 @@ &i2c9 {
- 	lt9611_codec: hdmi-bridge@39 {
- 		compatible = "lontium,lt9611";
- 		reg = <0x39>;
-+		#sound-dai-cells = <1>;
- 
- 		interrupts-extended = <&tlmm 20 IRQ_TYPE_EDGE_FALLING>;
- 		reset-gpios = <&tlmm 21 GPIO_ACTIVE_HIGH>;
-@@ -994,6 +1047,23 @@ &pon_resin {
- 	status = "okay";
++struct sc8280xp_dai_data {
++	unsigned int id;
++	unsigned int mclk_rate;
++	bool codec_sysclk_set;
++	bool mi2s_mclk_enable;
++	bool mi2s_bclk_enable;
++	enum sc8280xp_jack_setup jack_setup;
++};
++
++#define SC8280XP_DAI_DATA(...) \
++	.dai_data = (const struct sc8280xp_dai_data[]) { __VA_ARGS__ }, \
++	.num_dai_data = ARRAY_SIZE(((const struct sc8280xp_dai_data[]) { __VA_ARGS__ }))
++
+ struct qcom_snd_soc_common {
+ 	const char *driver_name;
+ 	const struct snd_soc_dapm_widget *dapm_widgets;
+@@ -71,6 +90,8 @@ struct qcom_snd_soc_common {
+ 	bool mi2s_mclk_enable;
+ 	bool mi2s_bclk_enable;
+ 	bool wcd_jack;
++	const struct sc8280xp_dai_data *dai_data;
++	size_t num_dai_data;
+ 	int (*snd_prepare)(struct snd_pcm_substream *substream);
  };
  
-+&q6apmbedai {
-+	#address-cells = <1>;
-+	#size-cells = <0>;
-+
-+	dai@10 {
-+		reg = <PRIMARY_MI2S_RX>;
-+		clocks = <&q6prmcc LPASS_CLK_ID_PRI_MI2S_IBIT LPASS_CLK_ATTRIBUTE_COUPLE_NO>;
-+		clock-names = "bclk";
-+	};
-+
-+	dai@11 {
-+		reg = <PRIMARY_MI2S_TX>;
-+		clocks = <&q6prmcc LPASS_CLK_ID_PRI_MI2S_IBIT LPASS_CLK_ATTRIBUTE_COUPLE_NO>;
-+		clock-names = "bclk";
-+	};
-+};
-+
- &qupv3_id_0 {
- 	firmware-name = "qcom/qcm6490/qupv3fw.elf";
- 
-@@ -1030,6 +1100,69 @@ &sdhc_2 {
- 	status = "okay";
+@@ -83,6 +104,20 @@ struct sc8280xp_snd_data {
+ 	bool jack_setup;
  };
  
-+&sound {
-+	compatible = "thundercomm,qcs6490-rubikpi3-sndcard";
-+	model = "QCS6490-Thundercomm-RubikPi3";
++static const struct sc8280xp_dai_data *
++sc8280xp_get_dai_data(const struct qcom_snd_soc_common *common,
++		      unsigned int id)
++{
++	size_t i;
 +
-+	pinctrl-0 = <&mi2s0_data0>, <&mi2s0_data1>, <&mi2s0_mclk>,
-+		    <&mi2s0_sclk>, <&mi2s0_ws>,
-+		    <&lpass_qua_mi2s_sclk>, <&lpass_qua_mi2s_ws>,
-+		    <&lpass_qua_mi2s_data>;
-+	pinctrl-names = "default";
++	for (i = 0; i < common->num_dai_data; i++) {
++		if (common->dai_data[i].id == id)
++			return &common->dai_data[i];
++	}
 +
-+	audio-routing = "Headphone Jack", "HPOL",
-+			"Headphone Jack", "HPOR",
-+			"MIC2", "Mic Jack";
++	return NULL;
++}
 +
-+	mi2s-capture-dai-link {
-+		link-name = "Primary MI2S Capture";
-+
-+		codec {
-+			sound-dai = <&es8316>;
-+		};
-+
-+		cpu {
-+			sound-dai = <&q6apmbedai PRIMARY_MI2S_TX>;
-+		};
-+
-+		platform {
-+			sound-dai = <&q6apm>;
-+		};
-+	};
-+
-+	mi2s-playback-dai-link {
-+		link-name = "Primary MI2S Playback";
-+
-+		codec {
-+			sound-dai = <&es8316>;
-+		};
-+
-+		cpu {
-+			sound-dai = <&q6apmbedai PRIMARY_MI2S_RX>;
-+		};
-+
-+		platform {
-+			sound-dai = <&q6apm>;
-+		};
-+	};
-+
-+	quaternary-mi2s-playback-dai-link {
-+		link-name = "HDMI Playback";
-+
-+		codec {
-+			sound-dai = <&lt9611_codec 0>;
-+		};
-+
-+		cpu {
-+			sound-dai = <&q6apmbedai QUATERNARY_MI2S_RX>;
-+		};
-+
-+		platform {
-+			sound-dai = <&q6apm>;
-+		};
-+	};
-+};
-+
- /* Pin 19, 21, 23, 24 in 40-pin connector */
- &spi12 {
- 	status = "okay";
-@@ -1244,6 +1377,29 @@ &sdc2_data {
- 	drive-strength = <10>;
- };
+ static inline int sc8280xp_get_mclk_freq(struct snd_pcm_hw_params *params)
+ {
+ 	int rate = params_rate(params);
+@@ -112,13 +147,22 @@ static int sc8280xp_tdm_hw_params(struct snd_pcm_substream *substream,
+ 	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
+ 	struct sc8280xp_snd_data *data = snd_soc_card_get_drvdata(rtd->card);
+ 	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
++	const struct sc8280xp_dai_data *dai_data;
+ 	struct snd_soc_dai *codec_dai;
+ 	struct qcom_snd_tdm_slot_cfg cpu_cfg;
+ 	struct qcom_snd_tdm_slot_cfg codec_cfg;
++	bool codec_sysclk_set = data->priv->codec_sysclk_set;
++	bool mi2s_bclk_enable = data->priv->mi2s_bclk_enable;
+ 	int bclk_freq;
+ 	int ret;
+ 	int i;
  
-+&lpass_tlmm {
-+	lpass_qua_mi2s_sclk: qua-mi2s-sclk-state {
-+		pins = "gpio0";
-+		function = "qua_mi2s_sclk";
-+		drive-strength = <8>;
-+		bias-disable;
-+	};
++	dai_data = sc8280xp_get_dai_data(data->priv, cpu_dai->id);
++	if (dai_data) {
++		codec_sysclk_set = dai_data->codec_sysclk_set;
++		mi2s_bclk_enable = dai_data->mi2s_bclk_enable;
++	}
 +
-+	lpass_qua_mi2s_ws: qua-mi2s-ws-state {
-+		pins = "gpio1";
-+		function = "qua_mi2s_ws";
-+		drive-strength = <8>;
-+		bias-disable;
-+	};
-+
-+	lpass_qua_mi2s_data: qua-mi2s-data-state {
-+		pins = "gpio2", "gpio3", "gpio4";
-+		function = "qua_mi2s_data";
-+		drive-strength = <8>;
-+		bias-disable;
-+	};
-+};
-+
- &tlmm {
- 	pcie1_reset_n: pcie1-reset-n-state {
- 		pins = "gpio2";
-@@ -1389,6 +1545,12 @@ m2_vcc_pin: m2-vcc-state {
- 		input-disable;
- 	};
+ 	ret = qcom_snd_get_dai_tdm_slots(rtd, &cpu_cfg, &codec_cfg);
+ 	if (ret)
+ 		return ret == -ENOENT ? 0 : ret;
+@@ -147,7 +191,7 @@ static int sc8280xp_tdm_hw_params(struct snd_pcm_substream *substream,
+ 	if (bclk_freq <= 0)
+ 		return -EINVAL;
  
-+	es8316_jack_detect: es8316-jack-detect-state {
-+		pins = "gpio63";
-+		function = "gpio";
-+		bias-disable;
-+	};
-+
- 	lt9611_vcc_pin: lt9611-vcc-pin-state {
- 		pins = "gpio83";
- 		function = "gpio";
-@@ -1418,6 +1580,13 @@ pcie0_wake_n: pcie0-wake-n-state {
- 		bias-pull-up;
- 	};
+-	if (data->priv->mi2s_bclk_enable) {
++	if (mi2s_bclk_enable) {
+ 		ret = snd_soc_dai_set_sysclk(cpu_dai, LPAIF_MI2S_BCLK, bclk_freq,
+ 					     SND_SOC_CLOCK_IN);
+ 		if (ret && ret != -ENOTSUPP) {
+@@ -157,7 +201,7 @@ static int sc8280xp_tdm_hw_params(struct snd_pcm_substream *substream,
+ 		}
+ 	}
  
-+	es8316_power_on: es8316-power-on-state {
-+		pins = "gpio117";
-+		function = "gpio";
-+		drive-strength = <2>;
-+		bias-pull-down;
-+	};
+-	if (data->priv->codec_sysclk_set) {
++	if (codec_sysclk_set) {
+ 		for_each_rtd_codec_dais(rtd, i, codec_dai) {
+ 			ret = snd_soc_dai_set_sysclk(codec_dai, 0, bclk_freq,
+ 						     SND_SOC_CLOCK_IN);
+@@ -176,10 +220,13 @@ static int sc8280xp_snd_init(struct snd_soc_pcm_runtime *rtd)
+ {
+ 	struct sc8280xp_snd_data *data = snd_soc_card_get_drvdata(rtd->card);
+ 	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
++	const struct sc8280xp_dai_data *dai_data;
+ 	struct snd_soc_card *card = rtd->card;
+ 	struct snd_soc_jack *dp_jack  = NULL;
+ 	int dp_pcm_id = 0;
+ 
++	dai_data = sc8280xp_get_dai_data(data->priv, cpu_dai->id);
 +
- 	wifi_power_on: wifi-power-on-state {
- 		pins = "gpio125";
- 		function = "gpio";
+ 	switch (cpu_dai->id) {
+ 	case WSA_CODEC_DMA_RX_0:
+ 	case WSA_CODEC_DMA_RX_1:
+@@ -209,10 +256,24 @@ static int sc8280xp_snd_init(struct snd_soc_pcm_runtime *rtd)
+ 	if (dp_jack)
+ 		return qcom_snd_dp_jack_setup(rtd, dp_jack, dp_pcm_id);
+ 
+-	if (data->priv->wcd_jack)
+-		return qcom_snd_wcd_jack_setup(rtd, &data->jack, &data->jack_setup);
++	if (!dai_data) {
++		if (data->priv->wcd_jack)
++			return qcom_snd_wcd_jack_setup(rtd, &data->jack,
++						       &data->jack_setup);
+ 
+-	return 0;
++		return 0;
++	}
++
++	switch (dai_data->jack_setup) {
++	case SC8280XP_JACK_SETUP_CODEC:
++		return qcom_snd_headset_jack_setup(rtd, &data->jack,
++					   &data->jack_setup);
++	case SC8280XP_JACK_SETUP_WCD:
++		return qcom_snd_wcd_jack_setup(rtd, &data->jack,
++					       &data->jack_setup);
++	default:
++		return 0;
++	}
+ }
+ 
+ static int sc8280xp_be_hw_params_fixup(struct snd_soc_pcm_runtime *rtd,
+@@ -251,10 +312,24 @@ static int sc8280xp_snd_hw_params(struct snd_pcm_substream *substream,
+ 	struct snd_soc_dai *codec_dai = snd_soc_rtd_to_codec(rtd, 0);
+ 	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
+ 	struct sc8280xp_snd_data *data = snd_soc_card_get_drvdata(rtd->card);
+-	int mclk_freq = sc8280xp_get_mclk_freq(params);
++	const struct sc8280xp_dai_data *dai_data;
++	bool codec_sysclk_set = data->priv->codec_sysclk_set;
++	bool mi2s_mclk_enable = data->priv->mi2s_mclk_enable;
++	bool mi2s_bclk_enable = data->priv->mi2s_bclk_enable;
++	int mclk_freq;
+ 	int bclk_freq = sc8280xp_get_bclk_freq(params);
+ 	int ret;
+ 
++	dai_data = sc8280xp_get_dai_data(data->priv, cpu_dai->id);
++	mclk_freq = sc8280xp_get_mclk_freq(params);
++	if (dai_data) {
++		codec_sysclk_set = dai_data->codec_sysclk_set;
++		mi2s_mclk_enable = dai_data->mi2s_mclk_enable;
++		mi2s_bclk_enable = dai_data->mi2s_bclk_enable;
++		if (dai_data->mclk_rate)
++			mclk_freq = dai_data->mclk_rate;
++	}
++
+ 	switch (cpu_dai->id) {
+ 	case PRIMARY_MI2S_RX ... QUATERNARY_MI2S_TX:
+ 	case QUINARY_MI2S_RX ... QUINARY_MI2S_TX:
+@@ -271,7 +346,7 @@ static int sc8280xp_snd_hw_params(struct snd_pcm_substream *substream,
+ 				return ret;
+ 		}
+ 
+-		if (data->priv->mi2s_mclk_enable) {
++		if (mi2s_mclk_enable) {
+ 			ret = snd_soc_dai_set_sysclk(cpu_dai,
+ 						     LPAIF_MI2S_MCLK, mclk_freq,
+ 						     SND_SOC_CLOCK_OUT);
+@@ -279,7 +354,7 @@ static int sc8280xp_snd_hw_params(struct snd_pcm_substream *substream,
+ 				return ret;
+ 		}
+ 
+-		if (data->priv->mi2s_bclk_enable) {
++		if (mi2s_bclk_enable) {
+ 			ret = snd_soc_dai_set_sysclk(cpu_dai,
+ 						     LPAIF_MI2S_BCLK, bclk_freq,
+ 						     SND_SOC_CLOCK_OUT);
+@@ -287,7 +362,7 @@ static int sc8280xp_snd_hw_params(struct snd_pcm_substream *substream,
+ 				return ret;
+ 		}
+ 
+-		if (data->priv->codec_sysclk_set) {
++		if (codec_sysclk_set) {
+ 			ret = snd_soc_dai_set_sysclk(codec_dai,
+ 						     0, mclk_freq,
+ 						     SND_SOC_CLOCK_IN);
+@@ -368,6 +443,19 @@ static int sc8280xp_snd_hw_free(struct snd_pcm_substream *substream)
+ 	return qcom_snd_sdw_hw_free(substream, &data->stream_prepared[cpu_dai->id]);
+ }
+ 
++static void sc8280xp_snd_exit(struct snd_soc_pcm_runtime *rtd)
++{
++	struct sc8280xp_snd_data *data = snd_soc_card_get_drvdata(rtd->card);
++	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
++	const struct sc8280xp_dai_data *dai_data;
++
++	dai_data = sc8280xp_get_dai_data(data->priv, cpu_dai->id);
++	if (dai_data && dai_data->jack_setup == SC8280XP_JACK_SETUP_CODEC) {
++		qcom_snd_headset_jack_cleanup(rtd);
++		data->jack_setup = false;
++	}
++}
++
+ static const struct snd_soc_ops sc8280xp_be_ops = {
+ 	.startup = qcom_snd_sdw_startup,
+ 	.shutdown = qcom_snd_sdw_shutdown,
+@@ -384,6 +472,7 @@ static void sc8280xp_add_be_ops(struct snd_soc_card *card)
+ 	for_each_card_prelinks(card, i, link) {
+ 		if (link->no_pcm == 1) {
+ 			link->init = sc8280xp_snd_init;
++			link->exit = sc8280xp_snd_exit;
+ 			link->be_hw_params_fixup = sc8280xp_be_hw_params_fixup;
+ 			link->ops = &sc8280xp_be_ops;
+ 		}
 
 -- 
 2.43.0
