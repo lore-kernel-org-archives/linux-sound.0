@@ -1,209 +1,161 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 625994BD11B;
-	Fri,  4 Sep 2026 14:45:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E6B4470EBC
+	for <linux-sound@vger.kernel.org>; Fri,  4 Sep 2026 14:46:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788533130; cv=none; b=m60L04rRsLtVKzxaz3lSRNhZxefwhsTDguMyAet1LAZ0VKBmRF5eD5pNXRE2Jm9KjUODQ+M3SIqJqioRpGu8x35Y/7OT9ICGar2MrIMe5kjCvFP5Xk/1L+8BTl8GD9UrSaB4ZAiEeaTJ02X/wgbXj86Z+jrRlcHwaaObDZXPL+Q=
+	t=1788533187; cv=none; b=U19vhwSocj8Qmjud/LavYfmw7S4dNtzDEbq2lJrCQUlDNnwpyj9SNlmaqftLPWxXbbGLuS/IQs9WoINsd19ro5uKfrVTd+dUbGZztxL0nHTr0NY2yx/2zxiJqb7yCVR0IQrlvwhx4PZrvlOTTG93Gu0YIVXoqpEZjYFUiRpEQQs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788533130; c=relaxed/simple;
-	bh=slERl2dvq5Spzqv2HIyb/3aymRLpbkntgzHliuFBwV8=;
-	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=f8rs03wF/W77Gt2Ipj5LZt83b817Cr25WJ8kmfpaUfBy8/MP045PnHU/6LjhHeHvyeIxbrRzajaWN66OqRLa8xbVgZzpwFDsKVBFK16exMvYEv+SoFqz1Nk/tCm5oAFKcRa95xIWXQoWGfCQcYG8+RCWhAmq9LrAOWSxSo3kiJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=cVcDSyxP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=WCawr2qe; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=cgQ6uVlj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Bt1ix3eA; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1788533187; c=relaxed/simple;
+	bh=Yp8tYgPNpTXxsGy5+609I4e13nmE8B0dM7UajTEg3zg=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=O6AunFVCIkUTV7AmGLqeQvtaDGnSmMM6CE/OCGKCVQmQExLqiDhDD8mAzfVBWIM1PE04Yu6Wo1Errbxhk4ApjMi4RskbM0QgCm9QWE5kdmtd+8hnw0FJsEzEWUtjh/nc954xAzqTnjzgCQZtqQsOLEcdmLlp9fkDWXd40Q6dOt8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SL6JFF9F; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cVcDSyxP";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WCawr2qe";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cgQ6uVlj";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Bt1ix3eA"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 0AA0022540;
-	Fri,  4 Sep 2026 14:45:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1788533122; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=zGLmfvZ8R5JB0SBfBij6xq4Jo14B7AnjDL+sevxZuWA=;
-	b=cVcDSyxPva+Ic+/bobPkbQKBRzpM0vXey8FuD79ExT49n4kpkSb7KKt38H+U0csADXbtWl
-	SiULFJMXDULK5tAbU9sFIZcso3Wf591ikDqTN4lY85jqUHAIhHAgAov5Fao6wIfW8nHHZ6
-	A0lnEcZL+sLPg0dVOocUs2qSDBMmUuE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1788533122;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=zGLmfvZ8R5JB0SBfBij6xq4Jo14B7AnjDL+sevxZuWA=;
-	b=WCawr2qe7PFejIun6DQf7aUrNz6j+P52G977qkqaCy4KAqI5DMSWqzta92bVKPCgtfhla/
-	z0xp2H1EyJBV5WDg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1788533118; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=zGLmfvZ8R5JB0SBfBij6xq4Jo14B7AnjDL+sevxZuWA=;
-	b=cgQ6uVljsa7uhObOqqIbxb5eoK7UN/JIaZWaI8A8kpZJiz1hKOpxMR2I8MNL+37DvE5wwy
-	xDKP2Xw2XlRQS+UILEhsIOayhHdRPYM8EjgDEPcrC/FMUuLmPbuoCc3BQ3ttnIqlUWotLi
-	3+DG/1X0D00Qz8P5VaGtTjXc1YgbqTs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1788533118;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=zGLmfvZ8R5JB0SBfBij6xq4Jo14B7AnjDL+sevxZuWA=;
-	b=Bt1ix3eAa8/prjqRnMwTSQidHeZSEQKy2IJKuMcThVPTC7UPw37211q/F9eyjBT2l28Ff0
-	554awvupUonJcBDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C930613726;
-	Fri,  4 Sep 2026 14:45:17 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id YgPbL33Zmmq3WQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 04 Sep 2026 14:45:17 +0000
-Date: Fri, 04 Sep 2026 16:45:17 +0200
-Message-ID: <875x0l5b42.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
- Mailing List <linux-kernel@vger.kernel.org>
-Subject: [GIT PULL] sound fixes for 7.3-rc2
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SL6JFF9F"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4921eed3fa2so12450765e9.0
+        for <linux-sound@vger.kernel.org>; Fri, 04 Sep 2026 07:46:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788533184; x=1789137984; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=vhyOjz0WA8Xf+6egkRqkIlMgMHYt6yHAudWT2EhHeng=;
+        b=SL6JFF9FbCbhl7XSPM2iAz6g+px0se8rMnFhIZCKftFOr3N3ahyj678/VTUAuygI5/
+         Wstq0g6y7TXHnvFm18XRtlww1SWc4kj02HtQypjf6WEkSdZvOvz4za8uO0MAcSbxAw8a
+         5XODuleKOr7K7venGXbKhPFRwAm1n5pNyP1B9UlyexQ1p91gEbhOI3mohk/RbaXs6R9N
+         kwwCk/FrkEpo3l9LSP8obDmQEEtCk4wS4OBhF+Xp8jStWFK8sRiw5PQ60kJbrcyU9SwS
+         sHNNU4asUeFlVX0BxaGD8Lbk0cF9f4Z2pml11tUDjz8SfDDkuQiVZqrC5yWKL0jzCUAc
+         MVvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788533184; x=1789137984;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=vhyOjz0WA8Xf+6egkRqkIlMgMHYt6yHAudWT2EhHeng=;
+        b=SPEdLELYEM2aPMNARhuLFwYW6f3uJeZaFaWC8Oj2lhraKWbtG1sh50HF1ho3YPjuIe
+         WVzn8fT1dIhqNvKhkmDD6OHL0sIxeh3vsy5Xpc4tEsGmpNyl2JPQ86ta9M/0JDpcTHFT
+         HLeN4D+8Lk3aW2udY9RykA8yS2N+/T8lQU3HomLjmRxvqSvwe/mfeh3gezW2em9vDqfj
+         pOb7LXEwBcrcpDz5hzLhlVImzPp1WRjkgxxH/aCMZ5gqFgwYfDDvNrcmGEL40Gq5/oCo
+         iK8HE9Pr/+T45yjIH6Ibc4Jp5iG1jzCyToASuW/xtseLlzfNih7uzLK5LEDTDE3CFuHl
+         yO+A==
+X-Forwarded-Encrypted: i=1; AKwUvBx77DfUxNPNQPKPCFr5en/IMcciJe9oCEZM/NCtWR+DLx6lEkHQyNpEnGufkraMJkDHtLery6XrIZxAdw==@vger.kernel.org
+X-Gm-Message-State: AFuF++mIDLgIDH9zXmxmyoga+XLZEnJm4uBFhHlj8RfP5+HLoOSKj26x
+	NeHzHQNnYYTXNK+ey6it9NwX4zngWd4kn9sWTFJZmn38WoetHyVpcBHt
+X-Gm-Gg: AYBFou3H/t5ErnJRrm3uN13cUFj1JWuwLOgGGoylX+7i6HXVheelGPxPglzuUmb+L0i
+	2y24QX/EXeoi3doHHpZjKxiUKHshLPaWO4PcMEiiARnxjyv2DcJzT1XVLEMeRCaaXDTpAmeMaHJ
+	emiZCK9Fx2Ivu48lxhj8LDdbhIt7sZkbf77YyLsbOvGs5SOvA+0ueJZgt5fQyUa9aN3rAKkk1BB
+	XEfIg/f6SG+Jnlv+k97KxLQDZ+4sx2F/EAoIeMjchBRatMzJCjZxP9Nx3OguOWgi3mhHINje3k1
+	knHi/g+O+rGOg4CD4nMJeDENdrn7nAFXUESPEqnv4t7TnXzEsCkTVjjFjumDirnnbIeU0yhaHrm
+	beDaFtHJc/w2cjFb5LxBGN+xaOmyS2ZfyOgUsU/fzWLLVaWS2isQBN8Bm3u2H1Wa8B3ZfUAmiKZ
+	zFAzJVdfRz7cJw5IPuiA6SGRvS42v4CK93leYaBtKAhpYYxAkFNfGopPo=
+X-Received: by 2002:a05:600c:c48f:b0:497:fecd:5b00 with SMTP id 5b1f17b1804b1-49cf825d507mr65851075e9.9.1788533183474;
+        Fri, 04 Sep 2026 07:46:23 -0700 (PDT)
+Received: from foxbook (bfg95.neoplus.adsl.tpnet.pl. [83.28.44.95])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cff81c9b5sm10582275e9.4.2026.09.04.07.46.22
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Fri, 04 Sep 2026 07:46:23 -0700 (PDT)
+Date: Fri, 4 Sep 2026 16:46:16 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Mathias Nyman <mathias.nyman@linux.intel.com>
+Cc: Wesley Cheng <wesley.cheng@oss.qualcomm.com>, Mathias Nyman
+ <mathias.nyman@intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-sound@vger.kernel.org
+Subject: Re: [PATCH 0/2] Add larger page size support for USB audio offload
+ path
+Message-ID: <20260904164616.12abbe13.michal.pecio@gmail.com>
+In-Reply-To: <05117737-8793-4db9-9815-f617ac085d82@linux.intel.com>
+References: <20260824-16k_offload_v1_b4-v1-0-49a6be60ca30@oss.qualcomm.com>
+	<20260825094327.606072e9.michal.pecio@gmail.com>
+	<25ebe180-a620-4170-92f7-fda6c55a4129@oss.qualcomm.com>
+	<0bf654f3-51c5-4555-8cdd-dc9d25dd9f78@oss.qualcomm.com>
+	<20260826122552.5761dea2.michal.pecio@gmail.com>
+	<05117737-8793-4db9-9815-f617ac085d82@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spam-Score: -3.30
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.996];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_DN_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+Content-Transfer-Encoding: 7bit
 
-Linus,
+On Wed, 26 Aug 2026 14:44:42 +0300, Mathias Nyman wrote:
+> On 8/26/26 13:25, Michal Pecio wrote:
+> > The part about memory being "owned by the audio DSP" made me wonder
+> > if it would be helpful to let offload drivers allocate their own
+> > memory and then just dma_map() it for the xHC. No new rings would
+> > be allocated for offloaded endpoints when they are enabled, we
+> > would point Endpoint Context of the xHC to the sideband ring and
+> > leave ep->ring as NULL.
+> > 
+> > Offload drivers would have full control over memory allocation -
+> > size, number of segments (it seems that qc-usb-audio only uses one
+> > out of two allocated by xhci-hcd), alignment, anything else.
+> > 
+> > It would become impossible to offload an endpoint which is already
+> > enabled, but is this an issue for anyone?
+> > 
+> > NULL ep->ring will cause oopses/panics when somebody submits URBs to
+> > offloaded endpoints, but I think it wouldn't be a problem otherwise.
+> >   
+> I have similar thoughts.
+> 
+> One idea would be to basically let sideband allocate the entire ring
+> and set ep->new_ring early. This would tell xhci_endpoint_init() that
+> a ring exists and a new one should not be allocated.
 
-please pull sound fixes for v7.3-rc2 from:
+Actually, my suggestion was more radical: make the ring NULL for
+offloaded endpoints. Driver core would only be concerned with copying
+some dequeue pointer to the EP Context, which pointer would only have
+meaning to the sideband client, the xHC, and maybe xhci-sideband.
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-7.3-rc2
+This would be a new special case in xhci_endpoint_init(), but little
+other core changes, I think. And yes, it makes sense that sideband
+support shouldn't exclude using normal URBs, but they can't both work
+at the same time. We can restore normal operation when SB is gone.
 
-The topmost commit is 3b26ceef88c110f4d188387cffa0df78657be904
+> xhci ring allocation would need some refactoring to create helpers
+> for sideband to allocate and initialize all the other parts of the
+> ring.
 
-----------------------------------------------------------------
+Helpers can be exported if clients need them. But it seems existing QC
+driver has different idea about segment count (I think it uses one) and
+hence it probably also writes its own link TRB and doesn't need ours.
 
-sound fixes for 7.3-rc2
+Even segment size - does it need to be equal in QC DSP and xhci-hcd?
+Today it is, but one or the other side might want to change it later.
 
-A collection of small fixes since 7.3-rc1.  Quite a few fixes are
-for ALSA core for issues that have been detected by the things you
-know well.  Additionally a series of hardening for runtime PM, and
-usual quirk updates, and some other misc driver fixes are included.
+It also seems that QC DSP expects the rings to appear at particular
+IOVAs in particular order, so QC driver maps them one by one through
+IOMMU. Alternatively, it could map one big block, divide it into rings
+as the DSP desires and pass pointers to sideband_create_endpoint().
+Looks like less work for the driver.
 
-* Core:
-- Fixes for PCM races
-- UMP parser NULL dereference fix
-- Fix error handling in rawmidi ioctl
+> This is something that VTIO (xhci spec section 4.25) would also need.
+> There an endpoint can be handed over to a secondary DMA ID (second,
+> new PCI BDF), that the normal xhci driver can be excluded from  with
+> iommu.
+> 
+> VTIO use case is something like trusted VM accessing a secure usb
+> storage device, preventing regular OS running the xhci driver in
+> another VM from touching it.
+> 
+> The secure VM needs to allocate and map the ring to this secondary
+> PCI BDF
 
-* USB- and HD-audio:
-- Implement missing runtime PM guards across multiple interfaces
-- Fix for OOB access in US-122L MIDI driver
-- Double-free fix for CAIAQ driver
-- Quirks for HD-audio Realtek & Cirrus codecs, Conexant S3-resume,
-  USB Audient devices
+If I understand correctly, that's something like Qubes OS archicture,
+where untrusted VMs run drivers to contain any failures inside. Then it
+seems we wouldn't want the xhci-hcd VM to have access to transfer rings
+to prevent tampering with protected devices.
 
-* Others:
-- Fix of logical mistakes in dummy driver mixer and selftest code
-- Lock init fix in the legacy harmony driver
+Hence, no allocation, no initialization. Only opaque pointers, again.
 
-----------------------------------------------------------------
-
-HyeongJun An (4):
-      ALSA: usb-audio: fix OOB write in snd_usbmidi_us122l_output()
-      ALSA: dummy: Report a change when one capture switch channel moves
-      ALSA: rawmidi: Return the error from snd_rawmidi_input_params()
-      selftests/alsa: Fix the step check for INTEGER controls
-
-Jonne Vuorela (1):
-      ALSA: hda/cs420x: Add CS4208 fixup for MacBookAir 7,2
-
-Oleksandr Kovalov (1):
-      ALSA: hda/realtek: Fix cold-boot headset misdetection on Acer Aspire A515-57G
-
-Peter Drabik (1):
-      ALSA: usb-audio: Add mixer map quirk for Audient iD24
-
-Qingyu Zhang (1):
-      ALSA: ump: do not touch legacy_rmidi before it exists
-
-Riku Matsumura (1):
-      ALSA: hda/realtek: Add quirk for VAIO VJS131
-
-Runyu Xiao (1):
-      ALSA: harmony: initialize locks before requesting IRQ
-
-Takashi Iwai (2):
-      ALSA: pcm: Fix race between non-atomic ops and trigger-start
-      ALSA: caiaq: Fix potential double-free at error path
-
-Will Porter (6):
-      ALSA: usb-audio: Add PM guard to Studio 1810c controls
-      ALSA: usb-audio: Add PM guards to US-16x08 transfers
-      ALSA: usb-audio: Add PM guard to Scarlett meter reads
-      ALSA: usb-audio: Guard Scarlett2 protocol transfers
-      ALSA: usb-audio: Add PM guards to RME Digiface controls
-      ALSA: usb-audio: Guard FCP protocol transfers
-
-Xu Rao (1):
-      ALSA: hda: restore MFG widget enumeration after core split
-
-Yilin Zhang (1):
-      ALSA: pcm: Serialize PCM mmap with buffer reallocation to fix page UAF
-
-Zhang Heng (2):
-      ALSA: hda/realtek: Add quirk for Lenovo Yoga Slim 9 14ILL10
-      ALSA: hda/realtek: Add quirk for Acer Predator PHN16-72
-
-feng liu (1):
-      ALSA: hda/conexant:Fix abnormal Mic/Speaker functionality on SN6140 after S3 wake-up
-
----
- sound/core/pcm_native.c                   | 37 +++++++++++++++++++++--------
- sound/core/rawmidi.c                      |  2 +-
- sound/core/ump.c                          |  4 ++++
- sound/drivers/dummy.c                     |  2 +-
- sound/hda/codecs/cirrus/cs420x.c          |  2 ++
- sound/hda/codecs/conexant.c               | 20 ++++++++++++++++
- sound/hda/codecs/realtek/alc269.c         | 39 ++++++++++++++++++++++++++++++-
- sound/hda/core/device.c                   |  5 ++--
- sound/parisc/harmony.c                    |  6 ++---
- sound/usb/caiaq/audio.c                   | 10 ++++----
- sound/usb/fcp.c                           |  8 +++++++
- sound/usb/midi.c                          |  2 ++
- sound/usb/mixer_maps.c                    | 18 ++++++++++++++
- sound/usb/mixer_quirks.c                  |  8 +++++++
- sound/usb/mixer_s1810c.c                  |  8 +++++++
- sound/usb/mixer_scarlett.c                |  4 ++++
- sound/usb/mixer_scarlett2.c               | 36 +++++++++++++++++++++++-----
- sound/usb/mixer_us16x08.c                 |  7 ++++++
- tools/testing/selftests/alsa/mixer-test.c |  4 ++--
- 19 files changed, 191 insertions(+), 31 deletions(-)
-
+Regards,
+Michal
