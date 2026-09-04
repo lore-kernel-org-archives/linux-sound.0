@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EFBD3B2FC7
-	for <linux-sound@vger.kernel.org>; Fri,  4 Sep 2026 07:32:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 748863B47FA
+	for <linux-sound@vger.kernel.org>; Fri,  4 Sep 2026 07:32:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788507151; cv=none; b=InF0tIDjSPUlw94PfWuE+A6Dqk5z/4D7JHaWL6UKGmsBFiMQKwinyDtwYPd7J+S+hrzOVHl4d1B6XnE11cC21izQ1RbAuMxwYaRJZ2oqqHDwcHIqBfe8oD+rsAGnk0L9mLkVIf8siR3JqlUZvEIIWXqj41uKKINSxiUYIrZrl8w=
+	t=1788507155; cv=none; b=GWFcrx6rEFgxAkKhBcEnk9/Ar6ZJ8Qb5+7f0L5XCu9HZXFy1nQtWoa7rjMM/f2WMdRsdlJy+PvKe2oObZyrXOmgsm2wglaAAWEUtag7nRqGBw8FjkIW53PnBBshtfpSln0jsqFb68j1+aA2PHAXAjbHkeQ9hXZ4PhYONe9EiJy8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788507151; c=relaxed/simple;
-	bh=p8FN8g3EOZH5t59VLDalA8oARMTh1mFd8vUbpEtJ3vI=;
+	s=arc-20240116; t=1788507155; c=relaxed/simple;
+	bh=9Jkf+IbId5pRv7cGTfxfYX43nTBcrEN5Jp+afTOTH6Q=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=iOpvtcMFfNFB9eckyBDrgRZcZJGtbVInBNu0NuwMsA6fMncSPnXdX8y5xuYfvzsCFOiA4HsWtI2FpozgZtJdnlYVOVXlUbM9T9ouweJVdJDPEi/vrob7qZ9uXtnwrSvCbxvfWcXnLMD8PbaomqFBks8zL2v+gGGZrDtohOQCQTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BpYL3PGF; arc=none smtp.client-ip=198.175.65.9
+	 MIME-Version; b=ll66iV/b9AAPtl+w8hjeTEsxugZZCMJqoMBQrMhkEOcLKePQHeO/chxB6sOeROCv5lYjNrvlHeduVVXprRyZPsK8GYkwyA+hzBWl/Myw46Tz8tU/cKTBo1ju//2FVtHvDFOBMNdSvX5c8fGtO9Upq8FJY8NhwiYMzAss5tU5v1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CSyaCIjb; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BpYL3PGF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CSyaCIjb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788507150; x=1820043150;
+  t=1788507153; x=1820043153;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=p8FN8g3EOZH5t59VLDalA8oARMTh1mFd8vUbpEtJ3vI=;
-  b=BpYL3PGFLBhq0tlwmWqPYL8ikgkL6SFe30CjTUzaaDUYbzo7lxK/DTc4
-   h55CyPGqMUT420360BXIDbTvNvPQRaE2RNvKGmbuYSI66bljPxRfqTypO
-   JR/tge/E8w8E7GfKCgv46917gi+ZnIcstrx4bmK/qiSIpBgdgqvgCt/XW
-   7rdHi72HxtqtmYW6UQXZm3GI5wGXErgKh2dqnggt/WJtgTwDQuR2MzHCq
-   YSH16q7oewty+cEKkATBtNUoJYvoHMyTucKUxrrJhZOhMf0cShWvfozyi
-   YsfEk3Om7IUW8cZBnhljTFXg8JhvCG8p2TkHdJ4YhA75TQbBbQz1x5EGT
+  bh=9Jkf+IbId5pRv7cGTfxfYX43nTBcrEN5Jp+afTOTH6Q=;
+  b=CSyaCIjbeHw2ZEkc7X1piDrJUatcn9S2/+CTHrftmymKLZYDZRwq1Dx4
+   zFrkLtvpH03uJYj4Fa7w3A4tmRsth//msiEquPeTlqFQKIT4/GVduy3df
+   Fso/piiSVPzfqVTjbubEIEl5WkNBkr3K0uAsJIw9C7UCY2rcyc/Re4vx2
+   Z3Er6lpCSrOmGMAlEzyh/+THc0/4iMO7sLC/ndm0jCfO4Z9EgVjDvQr9A
+   dXVLxXRdtvggA+LSNTYsO4W4aawUPF1C3W0OD4Awovb0n9pNSbhmCHyQT
+   HLFCIFkLKvOQjCLGoqJCNe1Vqv5q52wt7fUfzRwXv3GD6wufff+0PGV8Y
    Q==;
-X-CSE-ConnectionGUID: GkjmmFoIT8KukgFqkhy9XA==
-X-CSE-MsgGUID: 9nOC9r1lQRWzCtjoRDd3Lw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11895"; a="111778065"
+X-CSE-ConnectionGUID: 0TpXypMDTHi5pmr7IP65AA==
+X-CSE-MsgGUID: 4y4LHMa5RbuLbC007VOdvw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11895"; a="111778087"
 X-IronPort-AV: E=Sophos;i="6.25,260,1779174000"; 
-   d="scan'208";a="111778065"
+   d="scan'208";a="111778087"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2026 00:32:30 -0700
-X-CSE-ConnectionGUID: UmvaQQ+PQYqU65tXDTajjg==
-X-CSE-MsgGUID: ytFDMBVVSUGH+icWSic4eQ==
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2026 00:32:33 -0700
+X-CSE-ConnectionGUID: KU3qt3s5RmSImNN5puUpdg==
+X-CSE-MsgGUID: +eOInMBjTtm2+koKCPV6mw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,260,1779174000"; 
-   d="scan'208";a="293480707"
+   d="scan'208";a="293480709"
 Received: from ettammin-mobl3.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.244.213])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2026 00:32:27 -0700
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2026 00:32:30 -0700
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: vkoul@kernel.org,
 	perex@perex.cz,
@@ -56,9 +56,9 @@ Cc: linux-sound@vger.kernel.org,
 	pierre-louis.bossart@linux.dev,
 	daniel.baluta@nxp.com,
 	Vijendar.Mukunda@amd.com
-Subject: [PATCH 20/23] ASoC: SOF: ipc4: Handle compressed drain done notification from firmware
-Date: Fri,  4 Sep 2026 10:31:31 +0300
-Message-ID: <20260904073134.29648-21-peter.ujfalusi@linux.intel.com>
+Subject: [PATCH 21/23] ASoC: SOF: Intel: Kconfig: Remove redundant IPC version selects
+Date: Fri,  4 Sep 2026 10:31:32 +0300
+Message-ID: <20260904073134.29648-22-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260904073134.29648-1-peter.ujfalusi@linux.intel.com>
 References: <20260904073134.29648-1-peter.ujfalusi@linux.intel.com>
@@ -70,66 +70,64 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The decoder module sends a drain done notification when the last chunk of
-the stream after the EOS from host has been decoded.
+There is no need to select IPC3 and IPC4 along with INTEL_CNL as INTEL_CNL
+selects both.
 
-The notification is a module notification with 0xc0c0 as magic number in
-event_id upper 16 bit.
-
-Call sof_ipc4_compr_drain_done() when the notification arrives to handle
-it.
+Similarly, INTEL_MTL selects IPC4, so there is no need to do that for LNL,
+PTL and NVL.
 
 Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
 ---
- include/sound/sof/ipc4/header.h |  3 ++-
- sound/soc/sof/ipc4.c            | 13 +++++++++++--
- 2 files changed, 13 insertions(+), 3 deletions(-)
+ sound/soc/sof/intel/Kconfig | 7 -------
+ 1 file changed, 7 deletions(-)
 
-diff --git a/include/sound/sof/ipc4/header.h b/include/sound/sof/ipc4/header.h
-index dd1e0d1cf0d8..c0216f4b14c2 100644
---- a/include/sound/sof/ipc4/header.h
-+++ b/include/sound/sof/ipc4/header.h
-@@ -647,9 +647,10 @@ struct sof_ipc4_notify_module_data {
-  * The event_data contains the struct sof_ipc4_control_msg_payload of the control
-  * which sent the notification.
-  */
--#define SOF_IPC4_NOTIFY_MODULE_EVENTID_ALSA_MAGIC_MASK		GENMASK(31, 16)
-+#define SOF_IPC4_NOTIFY_MODULE_EVENTID_SOF_MAGIC_MASK		GENMASK(31, 16)
- #define SOF_IPC4_NOTIFY_MODULE_EVENTID_ALSA_MAGIC_VAL		0xA15A0000
- #define SOF_IPC4_NOTIFY_MODULE_EVENTID_ALSA_PARAMID_MASK	GENMASK(15, 0)
-+#define SOF_IPC4_NOTIFY_MODULE_EVENTID_COMPR_MAGIC_VAL		0xC0C00000
+diff --git a/sound/soc/sof/intel/Kconfig b/sound/soc/sof/intel/Kconfig
+index 915abbef398d..840d5a36b958 100644
+--- a/sound/soc/sof/intel/Kconfig
++++ b/sound/soc/sof/intel/Kconfig
+@@ -186,8 +186,6 @@ config SND_SOC_SOF_INTEL_ICL
+ 	tristate
+ 	select SND_SOC_SOF_HDA_GENERIC
+ 	select SND_SOC_SOF_INTEL_SOUNDWIRE_LINK_BASELINE
+-	select SND_SOC_SOF_IPC3
+-	select SND_SOC_SOF_IPC4
+ 	select SND_SOC_SOF_INTEL_CNL
  
- /*
-  * Macros for creating struct sof_ipc4_module_init_ext_init payload
-diff --git a/sound/soc/sof/ipc4.c b/sound/soc/sof/ipc4.c
-index e77f73390bd8..b9dd798e59bc 100644
---- a/sound/soc/sof/ipc4.c
-+++ b/sound/soc/sof/ipc4.c
-@@ -776,12 +776,21 @@ static void sof_ipc4_module_notification_handler(struct snd_sof_dev *sdev,
- 	}
+ config SND_SOC_SOF_ICELAKE
+@@ -214,8 +212,6 @@ config SND_SOC_SOF_INTEL_TGL
+ 	tristate
+ 	select SND_SOC_SOF_HDA_GENERIC
+ 	select SND_SOC_SOF_INTEL_SOUNDWIRE_LINK_BASELINE
+-	select SND_SOC_SOF_IPC3
+-	select SND_SOC_SOF_IPC4
+ 	select SND_SOC_SOF_INTEL_CNL
  
- 	/* Handle ALSA kcontrol notification */
--	if ((data->event_id & SOF_IPC4_NOTIFY_MODULE_EVENTID_ALSA_MAGIC_MASK) ==
--	    SOF_IPC4_NOTIFY_MODULE_EVENTID_ALSA_MAGIC_VAL) {
-+	switch (data->event_id & SOF_IPC4_NOTIFY_MODULE_EVENTID_SOF_MAGIC_MASK) {
-+	case SOF_IPC4_NOTIFY_MODULE_EVENTID_ALSA_MAGIC_VAL:
-+	{
- 		const struct sof_ipc_tplg_ops *tplg_ops = sdev->ipc->ops->tplg;
+ config SND_SOC_SOF_TIGERLAKE
+@@ -268,7 +264,6 @@ config SND_SOC_SOF_INTEL_LNL
+ 	tristate
+ 	select SND_SOC_SOF_HDA_GENERIC
+ 	select SND_SOC_SOF_INTEL_SOUNDWIRE_LINK_BASELINE
+-	select SND_SOC_SOF_IPC4
+ 	select SND_SOC_SOF_INTEL_MTL
  
- 		if (tplg_ops->control->update)
- 			tplg_ops->control->update(sdev, ipc4_msg);
-+
-+		break;
-+	}
-+	case SOF_IPC4_NOTIFY_MODULE_EVENTID_COMPR_MAGIC_VAL:
-+		sof_ipc4_compr_drain_done(sdev, ipc4_msg);
-+		break;
-+	default:
-+		break;
- 	}
- }
+ config SND_SOC_SOF_LUNARLAKE
+@@ -285,7 +280,6 @@ config SND_SOC_SOF_INTEL_PTL
+ 	tristate
+ 	select SND_SOC_SOF_HDA_COMMON
+ 	select SND_SOC_SOF_INTEL_SOUNDWIRE_LINK_BASELINE
+-	select SND_SOC_SOF_IPC4
+ 	select SND_SOC_SOF_INTEL_LNL
  
+ config SND_SOC_SOF_PANTHERLAKE
+@@ -302,7 +296,6 @@ config SND_SOC_SOF_INTEL_NVL
+ 	tristate
+ 	select SND_SOC_SOF_HDA_COMMON
+ 	select SND_SOC_SOF_INTEL_SOUNDWIRE_LINK_BASELINE
+-	select SND_SOC_SOF_IPC4
+ 	select SND_SOC_SOF_INTEL_PTL
+ 
+ config SND_SOC_SOF_NOVALAKE
 -- 
 2.55.0
 
