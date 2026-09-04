@@ -1,47 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E50E3002A0
-	for <linux-sound@vger.kernel.org>; Fri,  4 Sep 2026 07:31:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EECC13845AC
+	for <linux-sound@vger.kernel.org>; Fri,  4 Sep 2026 07:31:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788507092; cv=none; b=lksIZhCgSTSslzcx1yGu7gAac4BbuTVZdYVkzViFX0y+3op5p4oPJwaQ0/bLGgfiPsFrb45t6XJvR0dfah+g9g82eYBvkacVaaFkt4wGOTe1mh4DVZGXJY/LLKVY9hnTliyC7Vdhp+NzwQikGd7W9OSZu+7owAKCAdY4wNwDtw4=
+	t=1788507104; cv=none; b=CVS/Y8KbM4tleXEte60xunyn2Mc9vP4lIaJfMcnx2l8U1/mBtHdpoqTe5jn6SZJJy+62iKrfpy4yFHS5vGKAPNrH1va4PxH2QUOJ65LofnN/WTEyTqrYsl5BUHfrhEGXHxVq5cS9vuOqK2fKJML2nTwuafsDvD8LfO/bwPJQUrs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788507092; c=relaxed/simple;
-	bh=yiV6aJNQk2tQTk7LxdJqPJ07MoWXVTPHf0Fwl5cZDl8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qrBdCLH99Q1nJB2ZgGnoI4eI7B8tWvjpcu6cToHYztJSChVFm67hJl2zhHfHM5WPNQBZXPJYLOLoGP3PmQnZd/JajoQHIwB6IKXURhsjxC0yzCv41nNG5hBIsAOLL+sPrEi+bxSu0ks3+dWciAK4d40agmDBr4l5m+0jYZg67xo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NXd8ZmP5; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1788507104; c=relaxed/simple;
+	bh=V6OZpYCI4oc9LtE9gtyvNpOIIDK5GBqkKKm0tHrNm/o=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=uE7Jxlv7SsUS6K01TMJZ4oHRSSkyGbZAXcDUAXHI8jV9Js5WjK9B0DlcR/ZWPkVDHU1ze6b9V+0RKp2Gx9yXjJ8IOnBjkdKScMNG9A+Z3bQtPIieuiiwQ+FLCT48dCtRUSoMNJRWLHWh01hhS4TAYx5o8CuE3BSFzKZj+BcC5/s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F5MtG3ZC; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NXd8ZmP5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F5MtG3ZC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788507090; x=1820043090;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=yiV6aJNQk2tQTk7LxdJqPJ07MoWXVTPHf0Fwl5cZDl8=;
-  b=NXd8ZmP5P9MvBKXhvTmcl6U3C7iOWK6vfEaHwhCUyJeS9kHYIJ2eTA48
-   Kwlq8bRr2IBNE4vk5vwAAQn6w0Tmft7h/hg0cd7+52pUFt81amRRtfFUU
-   7unKSyvwTKgaAKFRedO0e1wxCvqNsFUYnwNiGaVun7z2uoHlkxIdkwe5/
-   7Nl88V20o33usKSa4eRmXBRmcsbWoTdrjJuHRd+2arW0dhbaIGkEa84gE
-   Ww4H9EzlGXP27/tIVmK4FjwxG6d8WeOEY3iqTykQRWfSiyzpqJj9kAqK0
-   Ag83RATjeJmhIcxFm30J9635DywNHlXGpDmFt5SY35VhW79Dnia8mhDhH
-   g==;
-X-CSE-ConnectionGUID: kFLTjmjBQC64WMIgHUD9Mg==
-X-CSE-MsgGUID: ahftzjkYQjqqHhAfMg72Wg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11895"; a="111777771"
+  t=1788507102; x=1820043102;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=V6OZpYCI4oc9LtE9gtyvNpOIIDK5GBqkKKm0tHrNm/o=;
+  b=F5MtG3ZC2uZFKC5ePbA3CntRCmNVzXtcMV9imIP89elaMW/stI2Wkcxf
+   CoQ3gBw8X/5ixar/WNZolhgRCe024gVQ5ImiayWz1C+HiNdvfVNPHLGdR
+   wJY0I3lyNJF0xXp1COg1ME1l9gJoZRnkOu0bIa4dvWpMTA7bX4YtWyomI
+   QftdQmYr9LizhuAQh+xsZKKXUOoiTlAA/brwvT0ffh6KKy09pC4eyaS9g
+   ZWLEjstfssuEI41sNcict6XuMBFpAa3eqU4JiemkGDkfP+vEXJkbDYfkl
+   +SCnWnyQpjCq1lGBw+ru88kLBhc+fqG1hAP+jFM26s1xTS+5eX8J3ZQzL
+   Q==;
+X-CSE-ConnectionGUID: Lnu1m4tDSf6j79aEQ4ju9Q==
+X-CSE-MsgGUID: sOsYRbqoSSe4LKWl42fXKQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11895"; a="111777782"
 X-IronPort-AV: E=Sophos;i="6.25,260,1779174000"; 
-   d="scan'208";a="111777771"
+   d="scan'208";a="111777782"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2026 00:31:30 -0700
-X-CSE-ConnectionGUID: +l9rKy7FT5Kuy+bCQTRCEQ==
-X-CSE-MsgGUID: BuoSXP8fQamyT205HkjenA==
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2026 00:31:32 -0700
+X-CSE-ConnectionGUID: 0L7IXoE1QAWJ2G6uMZ3sDA==
+X-CSE-MsgGUID: wTety404TYmmTZ2Eq2Uthg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,260,1779174000"; 
-   d="scan'208";a="293480450"
+   d="scan'208";a="293480462"
 Received: from ettammin-mobl3.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.244.213])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2026 00:31:26 -0700
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2026 00:31:29 -0700
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: vkoul@kernel.org,
 	perex@perex.cz,
@@ -55,10 +56,12 @@ Cc: linux-sound@vger.kernel.org,
 	pierre-louis.bossart@linux.dev,
 	daniel.baluta@nxp.com,
 	Vijendar.Mukunda@amd.com
-Subject: [PATCH 00/23] ALSA compress / ASoC compress / SOF: Compressed audio support with IPC4
-Date: Fri,  4 Sep 2026 10:31:11 +0300
-Message-ID: <20260904073134.29648-1-peter.ujfalusi@linux.intel.com>
+Subject: [PATCH 01/23] ALSA: compress: pin card module while stream is open
+Date: Fri,  4 Sep 2026 10:31:12 +0300
+Message-ID: <20260904073134.29648-2-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260904073134.29648-1-peter.ujfalusi@linux.intel.com>
+References: <20260904073134.29648-1-peter.ujfalusi@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -67,118 +70,100 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi,
+Take a module reference in snd_compr_open() and release it in
+snd_compr_free(). This pins the card driver module for the
+lifetime of an open compress stream and prevents card removal
+while the stream file is still in use.
 
-This series adds compressed audio support for SOF with IPC4 firmware.
-Supported formats are PCM, MP3, AAC and VORBIS, the feature set is
-PAUSE_PUSH/RELEASE, DRAIN and position reporting.
+Adjust the open() cleanup paths to drop the added module
+reference only when it was acquired, and keep release ordering
+safe by dropping the module reference before freeing stream
+data.
 
-Patches 1-5 are prerequisites in the ALSA compress core and in
-soc-compress.c.
-
-These are core fixes rather than driver level workarounds on purpose.
-The other users of compressed DPCM have DSP internal ports on their
-BEs, driven by code they own. An Intel/SOF BE ends at a third party
-CODEC driver which is shared with the non DPCM case and has no reason
-to know that the FE is compressed. That set of CODECs is open ended,
-so teaching each of them to cope with a compressed FE does not scale.
-The core has to hand a BE the same substream state whether the FE is
-a PCM or a compressed one.
-
-Two of these patches change behaviour for the existing users of
-compressed DPCM, so they would need a look from Qualcomm and NXP:
-
- - "ASoC: soc-compress: Implement trigger FE-BE sequencing as with
-   normal PCMs" makes the FE/BE trigger order follow
-   dai_link->trigger[], the way dpcm_fe_dai_do_trigger() does it.
-   Neither sound/soc/qcom/ nor sound/soc/fsl/ sets it, so both default
-   to SND_SOC_DPCM_TRIGGER_PRE: START keeps the current order, but
-   STOP, SUSPEND and PAUSE_PUSH now trigger the BE before the FE.
-
- - "ASoC: soc-compress: Stop running dpcm on free" sends a STOP trigger
-   from soc_compr_free_fe() if the DPCM is still in START state, which
-   is the case when the last trigger the stream received was a DRAIN.
-
-Patches 6-20 implement the IPC4 compressed support, patch 21 is a
-Kconfig cleanup. The last two patches enable the feature, in Kconfig
-for TGL and later and in the topology parser, so the compressed device
-type only becomes usable once the code behind it is in place.
-
-Testing:
-
- - IPC4: Arrow Lake, compressed playback on speaker and headphone
-   (cs42l43), MP3, AAC and VORBIS.
- - IPC3: tested by NXP. This does not cover the STOP on free path
-   above, as they do not implement DRAIN.
-
-Regards,
-Peter
+Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
 ---
-Peter Ujfalusi (17):
-  ALSA: compress: pin card module while stream is open
-  ALSA: compress: stop active streams on disconnect
-  ASoC: soc-compress: Provide a runtime for the compressed FE substream
-  ASoC: soc-compress: Implement trigger FE-BE sequencing as with normal
-    PCMs
-  ASoC: soc-compress: Stop running dpcm on free
-  ASoC: SOF: ipc4-pcm: harden pipeline teardown races
-  ASoC: SOF: sof-audio: do not dereference swidget->spipe
-    unconditionally on free
-  ASoC: SOF: ipc4: Add definition of module data in init_ext object type
-  ASoC: SOF: ipc4-topology: Support init_ext_module_data for process
-    modules
-  ASoC: SOF: ipc4-pcm: Make the timestamp info usable outside of
-    ipc4-pcm.c
-  ASoC: SOF: ipc4/ipc4-loader: Add SOF_INFO and CODEC_INFO to
-    fw_config_params
-  ASoC: SOF: ipc4-pcm: Handle COMPR DRAIN triggers as EOS pipeline state
-  ASoC: SOF: ipc4-topology: Set FAST_MODE for host copier in compr mode
-  ASoC: SOF: Add support for IPC4 compressed
-  ASoC: SOF: ipc4: Handle compressed drain done notification from
-    firmware
-  ASoC: SOF: Intel: Kconfig: Remove redundant IPC version selects
-  ASoC: SOF: Intel: Kconfig: Select compress support for TGL+ platforms
+ sound/core/compress_offload.c | 28 ++++++++++++++++++----------
+ 1 file changed, 18 insertions(+), 10 deletions(-)
 
-Ranjani Sridharan (6):
-  ASoC: SOF: compress: Rename compress ops with ipc3 prefix
-  ASoC: SOF: sof-audio: Expose a couple of functions
-  ASoC: SOF: pcm: Modify the signature of a couple of PCM IPC ops
-  ASoC: SOF: intel: hda-stream: Clear the current position when
-    releasing stream
-  ASoC: SOF: ops: Add new platform-specific ops for compress
-  ASoC: SOF: topology: Add support for decoder and encoder widgets
-
- include/sound/compress_driver.h               |   2 +
- include/sound/sof/ipc4/header.h               |  24 +-
- sound/core/compress_offload.c                 |  77 +-
- sound/soc/soc-compress.c                      | 190 ++++-
- sound/soc/sof/Makefile                        |   4 +-
- sound/soc/sof/core.c                          |  10 +-
- sound/soc/sof/intel/Kconfig                   |   9 +-
- sound/soc/sof/intel/hda-common-ops.c          |   8 +
- sound/soc/sof/intel/hda-pcm.c                 | 142 ++++
- sound/soc/sof/intel/hda-stream.c              |  70 +-
- sound/soc/sof/intel/hda.h                     |  15 +
- sound/soc/sof/{compress.c => ipc3-compress.c} | 145 +---
- sound/soc/sof/ipc3-pcm.c                      |  29 +-
- sound/soc/sof/ipc3-priv.h                     |   3 +
- sound/soc/sof/ipc4-compress.c                 | 776 ++++++++++++++++++
- sound/soc/sof/ipc4-loader.c                   |  51 ++
- sound/soc/sof/ipc4-pcm.c                      | 125 +--
- sound/soc/sof/ipc4-priv.h                     |  45 +
- sound/soc/sof/ipc4-topology.c                 | 115 ++-
- sound/soc/sof/ipc4-topology.h                 |   9 +
- sound/soc/sof/ipc4.c                          |  13 +-
- sound/soc/sof/ops.h                           |  74 ++
- sound/soc/sof/pcm.c                           |  18 +-
- sound/soc/sof/sof-audio.c                     |  89 +-
- sound/soc/sof/sof-audio.h                     |  23 +-
- sound/soc/sof/sof-priv.h                      |  12 +
- sound/soc/sof/topology.c                      |   2 +
- 27 files changed, 1773 insertions(+), 307 deletions(-)
- rename sound/soc/sof/{compress.c => ipc3-compress.c} (66%)
- create mode 100644 sound/soc/sof/ipc4-compress.c
-
+diff --git a/sound/core/compress_offload.c b/sound/core/compress_offload.c
+index 23d62fede06e..c7d2f4fb3e02 100644
+--- a/sound/core/compress_offload.c
++++ b/sound/core/compress_offload.c
+@@ -75,11 +75,11 @@ static inline void snd_compr_task_free_all(struct snd_compr_stream *stream) { }
+ static int snd_compr_open(struct inode *inode, struct file *f)
+ {
+ 	struct snd_compr *compr;
+-	struct snd_compr_file *data;
+-	struct snd_compr_runtime *runtime;
++	struct snd_compr_file *data = NULL;
++	struct snd_compr_runtime *runtime = NULL;
+ 	enum snd_compr_direction dirn;
+ 	int maj = imajor(inode);
+-	int ret;
++	int ret = 0;
+ 
+ 	if ((f->f_flags & O_ACCMODE) == O_WRONLY)
+ 		dirn = SND_COMPRESS_PLAYBACK;
+@@ -101,16 +101,21 @@ static int snd_compr_open(struct inode *inode, struct file *f)
+ 		return -ENODEV;
+ 	}
+ 
++	if (!try_module_get(compr->card->module)) {
++		snd_card_unref(compr->card);
++		return -EFAULT;
++	}
++
+ 	if (dirn != compr->direction) {
+ 		pr_err("this device doesn't support this direction\n");
+-		snd_card_unref(compr->card);
+-		return -EINVAL;
++		ret = -EINVAL;
++		goto __error;
+ 	}
+ 
+ 	data = kzalloc(sizeof(*data), GFP_KERNEL);
+ 	if (!data) {
+-		snd_card_unref(compr->card);
+-		return -ENOMEM;
++		ret = -ENOMEM;
++		goto __error;
+ 	}
+ 
+ 	INIT_DELAYED_WORK(&data->stream.error_work, error_delayed_work);
+@@ -121,9 +126,8 @@ static int snd_compr_open(struct inode *inode, struct file *f)
+ 	data->stream.device = compr;
+ 	runtime = kzalloc(sizeof(*runtime), GFP_KERNEL);
+ 	if (!runtime) {
+-		kfree(data);
+-		snd_card_unref(compr->card);
+-		return -ENOMEM;
++		ret = -ENOMEM;
++		goto __error;
+ 	}
+ 	runtime->state = SNDRV_PCM_STATE_OPEN;
+ 	init_waitqueue_head(&runtime->sleep);
+@@ -134,9 +138,12 @@ static int snd_compr_open(struct inode *inode, struct file *f)
+ 	f->private_data = (void *)data;
+ 	scoped_guard(mutex, &compr->lock)
+ 		ret = compr->ops->open(&data->stream);
++
++__error:
+ 	if (ret) {
+ 		kfree(runtime);
+ 		kfree(data);
++		module_put(compr->card->module);
+ 	}
+ 	snd_card_unref(compr->card);
+ 	return ret;
+@@ -164,6 +171,7 @@ static int snd_compr_free(struct inode *inode, struct file *f)
+ 	data->stream.ops->free(&data->stream);
+ 	if (!data->stream.runtime->dma_buffer_p)
+ 		kfree(data->stream.runtime->buffer);
++	module_put(data->stream.device->card->module);
+ 	kfree(data->stream.runtime);
+ 	kfree(data);
+ 	return 0;
 -- 
 2.55.0
 
