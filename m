@@ -1,94 +1,89 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7601F286D4D
-	for <linux-sound@vger.kernel.org>; Fri,  4 Sep 2026 20:08:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52782365A14
+	for <linux-sound@vger.kernel.org>; Fri,  4 Sep 2026 20:10:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788552510; cv=none; b=Ga5+a5sFOvrz69URRWoyxxLFJlCqdVKWzB2dNa2+8br12HRhdeuJ3SpzXkx0fWY0WoWTnh8ViWgUaRQkOXcVsuQkVaAklgNwGOUmrrQl4F1dsQoKR9E7KsXO/RRHOgtYhNeKMgDU3wQtwiG+pmfmrPxAj/ZpSP+a5eSPjKd1uRE=
+	t=1788552621; cv=none; b=QHfxuNtS4SlAmlRPsRVQYwc9I7mzCpndTfSQIib4js3tAAhdrQopEgYCZwtcov/VtgCz5BBE/OKxwfQpQgIgJwWqi6vQPur5mRTAinr+4zsDPp5FYJrKFE5T1bYLueofDaBfWvEJp8s7E2HXFiG2vRTJAAIQ2Htkrv+i1iDi9Lk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788552510; c=relaxed/simple;
-	bh=w7XwJFem+DyMLVL0ZG/u+v7WGT92YCBxSlW9d/JX9sI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kXijiIvwJl6tigOzPzBTCDOhyJ/uBMHUGTm1a/1qqW7ymXKKcg3+VSLVfNbESRXGGGGm+sYlyzsOgphXSaq5Opgv58D2ak9uKD5wC8QCWR9p/5OOl1mCVFpvOXbgO26htYL0jisTkVK2CUcbKunijNTrnI+ckAa6lJTmGIp0n5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T+IOi/ox; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788552621; c=relaxed/simple;
+	bh=wa492X/i8P6YMT6cdgSH4FjtHsREixnbqyz6aFqODws=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=p+0hYOxjQhboMMCCNAHCGOpaRdl8L1v3JY4lGv6G1O4++dOmCpdIy2fkfQWuabjX6VpqyoPeLDitmwbzT4JzIbw3j2cTOtbNt+H8lIfLpeYXczWWxJqCkuzqBqpv40j5FyPwp/uOaGhh288YmT4zsNcVKpSr7bp+r3rSgT/aVPI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JxEb51eF; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T+IOi/ox"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DD151F00A3D;
-	Fri,  4 Sep 2026 20:08:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JxEb51eF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D868B1F00A3D;
+	Fri,  4 Sep 2026 20:10:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788552500;
-	bh=xcdZy4hTZ5SW/Ie0lY6bqTJbRxHMB8ZSo5iMeR05n/A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=T+IOi/ox9ifhdzMo0zrwOlRcbVn5eaI/gCrK2khZCx23uDcmkW4Z6hNe7MWjuRVN+
-	 vI3tMRh6T3CB75tFChjlgqq1jTCaPQZt53MR55hPI83IENR5FSbT+pn1wn+tVCUNJQ
-	 kPg6NVtvhv+autgUA0i9+Sqbfnv9+mUETu7aLKV1Y9rWwirqcOmuABW/YND8nr/M1l
-	 +v6iwXN9sHs6plYt00oILA5ziwqXtkpirinPGJUE+AY+QZbwgWYGLwSrRuVER/8dMo
-	 e9CSFcGK3Ot/aDdTWqcyfgj74fZ8OkVMIG0oDI/3diEVbuLaPYb2RZJqxEL0Rvlsfq
-	 ec5wFFqoTTM3Q==
-Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id 38C6C1AC52F1; Fri, 04 Sep 2026 21:08:18 +0100 (BST)
-Date: Fri, 4 Sep 2026 21:08:18 +0100
+	s=k20260515; t=1788552612;
+	bh=pWfyFzeyyAB52fHHGhhS6gWs6JNEIW44ThVRFZXYTwc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=JxEb51eFWOpgoDjP67ps5JaQFxtcvrLZyrufZOjMjlsJsKvR81r2qQdQDgDJw79mI
+	 mf+T1RlDhHx+xfyENOX+3nOw66vOmdwdYHeRLrjgMR+SuLVn3sVKVoHbLjj1xUZTK7
+	 1l/fD/Q7zhV6FHSgxlzIzZX040w0WSYMnWkIS05YePsQXfUDmJGl6+EpyMMZAuo8Ov
+	 0Mt1gyuU1/GEHTSH76WBaRoEVCOOB/zuCiOtWjP314Q7rUCh34sdbqGAnl4bcZMw8q
+	 2LJcV3EyGEYVxPrwmyQadxQTrDd9BUTgcx6OFgPF+mGfsQVL3OXbqQjEL0pndEkjt7
+	 Wyw+nJ5Iw1akA==
 From: Mark Brown <broonie@kernel.org>
-To: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: vkoul@kernel.org, perex@perex.cz, tiwai@suse.com, lgirdwood@gmail.com,
-	srinivas.kandagatla@oss.qualcomm.com, linux-sound@vger.kernel.org,
-	kai.vehmanen@linux.intel.com, yung-chuan.liao@linux.intel.com,
-	pierre-louis.bossart@linux.dev, daniel.baluta@nxp.com,
-	Vijendar.Mukunda@amd.com
-Subject: Re: [PATCH 19/23] ASoC: SOF: Add support for IPC4 compressed
-Message-ID: <apslMqkO9eXK0RL5@sirena.co.uk>
-References: <20260904073134.29648-1-peter.ujfalusi@linux.intel.com>
- <20260904073134.29648-20-peter.ujfalusi@linux.intel.com>
+To: linux-sound@vger.kernel.org, Zhang Yi <zhangyi@everest-semi.com>
+Cc: tiwai@suse.com
+In-Reply-To: <20260904104141.3885-1-zhangyi@everest-semi.com>
+References: <20260904104141.3885-1-zhangyi@everest-semi.com>
+Subject: Re: [PATCH] ASoC: codecs: ES8389: Prevent enable_count underflow
+ in clk_core_disable
+Message-Id: <178854078142.632048.4622622365603919798.b4-ty@b4>
+Date: Fri, 04 Sep 2026 17:53:01 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="wzLuxTowNF1imiBp"
-Content-Disposition: inline
-In-Reply-To: <20260904073134.29648-20-peter.ujfalusi@linux.intel.com>
-X-Cookie: My vaseline is RUNNING...
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1158; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=wa492X/i8P6YMT6cdgSH4FjtHsREixnbqyz6aFqODws=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqmyWh+87KGy5DLwD2Kwt02+0Xy0K7q555JAWVy
+ WnW9JbaU5aJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCapsloQAKCRAk1otyXVSH
+ 0BBbB/sFNOOC55hKz9p0CwDMK/Y/J4ZjbbaJVd8WdTaKLXTsLpyzYB2bOi7IDSGV/6lT3sAhXN8
+ gNDeCmmrYnHLr+JLf0aAh3A1LiSJGAij5fg57aMTGQfuiVl/4vCp3jKZGefTI9hE4VZcByohDpu
+ ekBfnk4T/PO8lzh+bdCDR2quUHRfXcpC07vSDh/TCpVeIC/H5KlDHfzCdppZlcelRyDTbcaC3O/
+ DsgLB0T94OW5Z4MLTn0dZs8wZJ1EnNXTyP62uooE1pzH4e8saDeJSTuwrjFuJJCjXA3SBRfbVvK
+ EF5/cbMajApIzstjnV1ZgFCPeAvglw3Rwz6Trtw5vqCzruAo
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
+On Fri, 04 Sep 2026 18:41:41 +0800, Zhang Yi wrote:
+> ASoC: codecs: ES8389: Prevent enable_count underflow in clk_core_disable
 
---wzLuxTowNF1imiBp
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied to
 
-On Fri, Sep 04, 2026 at 10:31:30AM +0300, Peter Ujfalusi wrote:
-> Set and define the compressed ops for IPC4.
-> The initial implementation supports basic features: PAUSE PUSH/RELEASE,
-> DRAIN and progress reporting.
-> Tested with PCM, MP3, AAC and VORBIS codec.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
 
-> +static int sof_ipc4_compr_set_params(struct snd_soc_component *component,
-> +				     struct snd_compr_stream *cstream,
-> +				     struct snd_compr_params *params)
-> +{
+Thanks!
 
-> +	/* Use correct format based on the used codec */
-> +	switch (params->codec.id) {
-> +	case SND_AUDIOCODEC_PCM:
-> +		snd_mask_set_format(fmt, (snd_pcm_format_t)params->codec.format);
-> +		break;
+[1/1] ASoC: codecs: ES8389: Prevent enable_count underflow in clk_core_disable
+      https://git.kernel.org/broonie/sound/c/c1e01ea35093
 
-Do we validate the value supplied by userspace here?
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
---wzLuxTowNF1imiBp
-Content-Type: application/pgp-signature; name="signature.asc"
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
------BEGIN PGP SIGNATURE-----
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqbJTEACgkQJNaLcl1U
-h9AqywgAgJiMuu0d+UVWQhensoRy6g+NZX0+pSfmIV4BTbDOfSqkbl8qiDI80sY9
-JdCLcitJSGQ166rE9TZUOHenqR9qkh7QqsQKNOBjIHFZlAtCDpla/JRdLtqxU3aB
-Pbl7G3/XGS6kpk5WMPL+CN1TRuVrcyQF3nGoBPx9HRCJ8fJviULci3W9QgePGTac
-DjTbumtsalrE2Dhs7u7N+58gDl/BgSUyy/yyvh2vCtPSPqTlLE8lzM5d8SeglIS/
-eaLjuhTueDPlxZ8qfE4NbKz9AznGDTI0xGkBTXVWI8/BJWOhuezbmPztd8zvpAU6
-YSLQ/TF4FUUHARoix7bipb6PkZ5PRg==
-=z3fi
------END PGP SIGNATURE-----
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
---wzLuxTowNF1imiBp--
+Thanks,
+Mark
+
