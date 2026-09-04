@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC2E93B14AA
-	for <linux-sound@vger.kernel.org>; Fri,  4 Sep 2026 07:32:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFC8E3AEB35
+	for <linux-sound@vger.kernel.org>; Fri,  4 Sep 2026 07:32:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788507133; cv=none; b=W6BdBGzLl5VRn76/H9MTgB/BYsBAygZySe1iAFHbY8cHgrdAtxUnBPZmhshb9owi5Qaq7JHiRsBGf8Sin/2CgE3dNGwcaF+C5alml8haBx/djAJk5dO/R4DE672spr/+U44qgO8hiH6K2CdFX0FL9TZEl9Xuf4kzVDj0sakqL4o=
+	t=1788507136; cv=none; b=E1VAUQjKJ1rd6OFGa8NzyodiXofEmGdTG/9lCV0bTBFqUtHEVquL3H7k6jFWgrqF0Djm1ooSHCA9Ihu3zcCS1yOUO/7wVC0t/CLFbwoJvrrGqeWD5uA+fJ1LB7VYGH36+Hr6g9+ZO+Cz0MYgBi/7L40L4Y536J3i3R1alpQ2C/U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788507133; c=relaxed/simple;
-	bh=+eivWGp6kA36VCLOA1IYgs85VOt67Q/FhDxsnIVTtZ0=;
+	s=arc-20240116; t=1788507136; c=relaxed/simple;
+	bh=cdxMRsoZn+AZX0WPizvXDEuaQYO48TLWwPZTwHWQyVg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=b6iutAkvLgLuD+oZvYM1ZmJeiS+5GNu97xURrT9XBzl4neb8vfGttEpU4WYi5npE00KLuci/KgKQhpApem8LVtHdozrbZ9vulKYGY5j65I+nZDYbORWuU1BGEkv2HtkMeEv1XD1IL7yxz4a0y7pYy1Q2Ab6G0ASA0oYrb5Y93YM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=erGOlQ91; arc=none smtp.client-ip=198.175.65.9
+	 MIME-Version; b=kscgYotbmzq5z9o2IcjWS3H4sD9uPMUTICSxN4Llum3GX5XUSMDnX9bKR/JPLBy19itT65/1dMvbEkE25jdxNmDOt44wQQBGvA5Gzoqf2Zek4yTQMQqMBgrN20AaYo+DEDxuDyKb1GQKxUgO6ocJjnDBPZIiqMR6O6pUTkOsblk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m1PFitgh; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="erGOlQ91"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m1PFitgh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788507132; x=1820043132;
+  t=1788507135; x=1820043135;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=+eivWGp6kA36VCLOA1IYgs85VOt67Q/FhDxsnIVTtZ0=;
-  b=erGOlQ911AfTSkveqVxTCPbl0X8ooGhbh+LmNIXN0bBxw2EI0qN4ZHeA
-   w7wysGfkYz1SH8vBlvXwygJ3jNYJBxGqNrNgN/JcN6rExK5crA4VyHrkN
-   MNtaRE8BymWrkT/jw/lTeySJ37V8W6W4xp+OU5TyliEGMGtkWw8ktdErv
-   qlzq+YO7G3ep5TzpbJXDITZ0jLCiscjZXAN5NGSEb3zjm+fGd7f1wFldl
-   2nE2tO5Tv7qB1fHRn5/6TPc9SlFKKbm7BqCKoj/QTimYmqrdphbT/yH6+
-   3OALfvxv+fMQoOWu0tStjybdH4XUMRST+OEFgyJVSB6M/vvPL44EjmdSz
-   g==;
-X-CSE-ConnectionGUID: OpMjPPgwQIC7rx+kS9Vi3A==
-X-CSE-MsgGUID: s74T0kFVQDeFobRpeRocxw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11895"; a="111777965"
+  bh=cdxMRsoZn+AZX0WPizvXDEuaQYO48TLWwPZTwHWQyVg=;
+  b=m1PFitghWfUhdfiQnmMGsuWH8gznnItjhU6auhfz25BHilde7Tor7dXn
+   I3+zvcn2gnmR+qrGqeqmaRcx2ez/0d8Pop4GTVEUnDwFGa4tX+taRlbx6
+   YART+aeRoYL3t8Roy+//WC7XV5I6HyOjr6ESJIrt/txHgnt488h4LR2IM
+   Sg54Nwc0OrpwYIUFk2jS+/u+WauczYtGaKVRy8wQJsSw0I7Ma7F8rzGEP
+   mo1gnV0wabQ/BAKXNrC8RDwGTu6z/cqtTu66WXS3adJnrndqzrnGephkm
+   TqxOOrBYU2Q3ooJHRfRD4c3c5nOn2SRZiju73Nh+BxsoNjX4mmIK+n82y
+   Q==;
+X-CSE-ConnectionGUID: X0rkQn2DS8e9BAkIXlIFrQ==
+X-CSE-MsgGUID: TY2DRZrJSU6C7EG+d8DoYw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11895"; a="111777979"
 X-IronPort-AV: E=Sophos;i="6.25,260,1779174000"; 
-   d="scan'208";a="111777965"
+   d="scan'208";a="111777979"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2026 00:32:11 -0700
-X-CSE-ConnectionGUID: ZOmhaNA1TbCFzngf5Ndp9w==
-X-CSE-MsgGUID: xYVN6VESQ3isnldqPl/r1g==
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2026 00:32:14 -0700
+X-CSE-ConnectionGUID: oliObB+BQvO+5n+E+nJmew==
+X-CSE-MsgGUID: aH8yz8UZSjOtMC8tir7fXg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,260,1779174000"; 
-   d="scan'208";a="293480631"
+   d="scan'208";a="293480638"
 Received: from ettammin-mobl3.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.244.213])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2026 00:32:08 -0700
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2026 00:32:11 -0700
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: vkoul@kernel.org,
 	perex@perex.cz,
@@ -56,9 +56,9 @@ Cc: linux-sound@vger.kernel.org,
 	pierre-louis.bossart@linux.dev,
 	daniel.baluta@nxp.com,
 	Vijendar.Mukunda@amd.com
-Subject: [PATCH 14/23] ASoC: SOF: ipc4-topology: Support init_ext_module_data for process modules
-Date: Fri,  4 Sep 2026 10:31:25 +0300
-Message-ID: <20260904073134.29648-15-peter.ujfalusi@linux.intel.com>
+Subject: [PATCH 15/23] ASoC: SOF: ipc4-pcm: Make the timestamp info usable outside of ipc4-pcm.c
+Date: Fri,  4 Sep 2026 10:31:26 +0300
+Message-ID: <20260904073134.29648-16-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260904073134.29648-1-peter.ujfalusi@linux.intel.com>
 References: <20260904073134.29648-1-peter.ujfalusi@linux.intel.com>
@@ -70,192 +70,153 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add support for handling init_ext_module_data for process modules, which is
-going to be used by decoder and encoder type of process modules.
-The support is generic and it can be extended to other type of process
-modules or other module types than process with a small update of
-sof_ipc4_add_init_ext_module_data() function.
+The support for compressed stream will also need to have access to the
+same information which is used for delay reporting for DAI data
+progression tracking.
+
+Make the necessary struct and functions to be available and premare them to
+be called without a valid substream.
 
 Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
 ---
- sound/soc/sof/ipc4-topology.c | 101 ++++++++++++++++++++++------------
- sound/soc/sof/ipc4-topology.h |   4 ++
- sound/soc/sof/sof-audio.h     |   1 +
- 3 files changed, 72 insertions(+), 34 deletions(-)
+ sound/soc/sof/ipc4-pcm.c  | 40 +++++++++------------------------------
+ sound/soc/sof/ipc4-priv.h | 31 ++++++++++++++++++++++++++++++
+ 2 files changed, 40 insertions(+), 31 deletions(-)
 
-diff --git a/sound/soc/sof/ipc4-topology.c b/sound/soc/sof/ipc4-topology.c
-index 24a1175dd690..42cf444e847e 100644
---- a/sound/soc/sof/ipc4-topology.c
-+++ b/sound/soc/sof/ipc4-topology.c
-@@ -3263,22 +3263,56 @@ static void sof_ipc4_add_init_ext_dp_memory_data(struct snd_sof_dev *sdev,
- 						 u32 *payload, u32 *ext_pos,
- 						 struct sof_ipc4_module_init_ext_object **hdr)
- {
--	/* Add memory_data if comp_domain indicates DP */
--	if (swidget->comp_domain == SOF_COMP_DOMAIN_DP) {
--		struct sof_ipc4_mod_init_ext_dp_memory_data *dp_mem_data;
+diff --git a/sound/soc/sof/ipc4-pcm.c b/sound/soc/sof/ipc4-pcm.c
+index 6e8522d03a2b..45cdd5d8fbbf 100644
+--- a/sound/soc/sof/ipc4-pcm.c
++++ b/sound/soc/sof/ipc4-pcm.c
+@@ -15,29 +15,6 @@
+ #include "ipc4-topology.h"
+ #include "ipc4-fw-reg.h"
+ 
+-/**
+- * struct sof_ipc4_timestamp_info - IPC4 timestamp info
+- * @host_copier: the host copier of the pcm stream
+- * @dai_copier: the dai copier of the pcm stream
+- * @stream_start_offset: reported by fw in memory window (converted to
+- *                       frames at host_copier sampling rate)
+- * @stream_end_offset: reported by fw in memory window (converted to
+- *                     frames at host_copier sampling rate)
+- * @llp_offset: llp offset in memory window
+- * @delay: Calculated and stored in pointer callback. The stored value is
+- *         returned in the delay callback. Expressed in frames at host copier
+- *         sampling rate.
+- */
+-struct sof_ipc4_timestamp_info {
+-	struct sof_ipc4_copier *host_copier;
+-	struct sof_ipc4_copier *dai_copier;
+-	u64 stream_start_offset;
+-	u64 stream_end_offset;
+-	u32 llp_offset;
 -
--		*hdr = (struct sof_ipc4_module_init_ext_object *)&payload[*ext_pos];
--		(*hdr)->header =
--			SOF_IPC4_MOD_INIT_EXT_OBJ_ID(SOF_IPC4_MOD_INIT_DATA_ID_DP_DATA) |
--			SOF_IPC4_MOD_INIT_EXT_OBJ_WORDS(DIV_ROUND_UP(sizeof(*dp_mem_data),
--								     sizeof(u32)));
--		*ext_pos += DIV_ROUND_UP(sizeof(**hdr), sizeof(u32));
--		dp_mem_data = (struct sof_ipc4_mod_init_ext_dp_memory_data *)&payload[*ext_pos];
--		dp_mem_data->domain_id = swidget->domain_id;
--		dp_mem_data->stack_bytes = swidget->stack_bytes;
--		dp_mem_data->heap_bytes = swidget->heap_bytes;
--		*ext_pos += DIV_ROUND_UP(sizeof(*dp_mem_data), sizeof(u32));
-+	struct sof_ipc4_mod_init_ext_dp_memory_data *dp_mem_data;
-+
-+	*hdr = (struct sof_ipc4_module_init_ext_object *)&payload[*ext_pos];
-+	(*hdr)->header =
-+		SOF_IPC4_MOD_INIT_EXT_OBJ_ID(SOF_IPC4_MOD_INIT_DATA_ID_DP_DATA) |
-+		SOF_IPC4_MOD_INIT_EXT_OBJ_WORDS(DIV_ROUND_UP(sizeof(*dp_mem_data),
-+							     sizeof(u32)));
-+	*ext_pos += DIV_ROUND_UP(sizeof(**hdr), sizeof(u32));
-+	dp_mem_data = (struct sof_ipc4_mod_init_ext_dp_memory_data *)&payload[*ext_pos];
-+	dp_mem_data->domain_id = swidget->domain_id;
-+	dp_mem_data->stack_bytes = swidget->stack_bytes;
-+	dp_mem_data->heap_bytes = swidget->heap_bytes;
-+	*ext_pos += DIV_ROUND_UP(sizeof(*dp_mem_data), sizeof(u32));
-+}
-+
-+static int
-+sof_ipc4_add_init_ext_module_data(struct snd_sof_dev *sdev,
-+				  struct sof_ipc4_process *process,
-+				  u32 *payload, u32 *ext_pos,
-+				  struct sof_ipc4_module_init_ext_object **hdr)
-+{
-+	u32 data_size = process->init_ext_module_size;
-+	void *data = process->init_ext_module_data;
-+	size_t needed;
-+
-+	/*
-+	 * Unlike the other objects, the module data is of variable size,
-+	 * provided by the module which is being set up.
-+	 * Make sure that the object fits into the payload buffer before any of
-+	 * it is written.
-+	 */
-+	needed = ((size_t)*ext_pos + DIV_ROUND_UP(sizeof(**hdr), sizeof(u32)) +
-+		  DIV_ROUND_UP(data_size, sizeof(u32))) * sizeof(u32);
-+	if (needed > sdev->ipc->max_payload_size) {
-+		dev_err(sdev->dev,
-+			"Max ipc payload size %zu exceeded by module data: %zu\n",
-+			sdev->ipc->max_payload_size, needed);
-+		return -EINVAL;
- 	}
-+
-+	*hdr = (struct sof_ipc4_module_init_ext_object *)&payload[*ext_pos];
-+	(*hdr)->header = SOF_IPC4_MOD_INIT_EXT_OBJ_ID(SOF_IPC4_MOD_INIT_DATA_ID_MODULE_DATA) |
-+		SOF_IPC4_MOD_INIT_EXT_OBJ_WORDS(DIV_ROUND_UP(data_size, sizeof(u32)));
-+	*ext_pos += DIV_ROUND_UP(sizeof(*(*hdr)), sizeof(u32));
-+
-+	memcpy(&payload[*ext_pos], data, data_size);
-+
-+	*ext_pos += DIV_ROUND_UP(data_size, sizeof(u32));
-+
-+	return 0;
+-	snd_pcm_sframes_t delay;
+-};
+-
+ /**
+  * struct sof_ipc4_pcm_stream_priv - IPC4 specific private data
+  * @time_info: pointer to time info struct if it is supported, otherwise NULL
+@@ -61,7 +38,7 @@ struct sof_ipc4_pcm_stream_priv {
+ 
+ #define DELAY_MAX		(DELAY_BOUNDARY >> 1)
+ 
+-static inline struct sof_ipc4_timestamp_info *
++struct sof_ipc4_timestamp_info *
+ sof_ipc4_sps_to_time_info(struct snd_sof_pcm_stream *sps)
+ {
+ 	struct sof_ipc4_pcm_stream_priv *stream_priv = sps->private;
+@@ -990,7 +967,7 @@ static int sof_ipc4_pcm_setup(struct snd_sof_dev *sdev, struct snd_sof_pcm *spcm
+ 	return 0;
  }
  
- static int sof_ipc4_widget_mod_init_msg_payload(struct snd_sof_dev *sdev,
-@@ -3287,17 +3321,17 @@ static int sof_ipc4_widget_mod_init_msg_payload(struct snd_sof_dev *sdev,
- 						void *ipc_data, u32 ipc_size,
- 						void **new_data)
+-static void sof_ipc4_build_time_info(struct snd_sof_dev *sdev, struct snd_sof_pcm_stream *sps)
++void sof_ipc4_build_time_info(struct snd_sof_dev *sdev, struct snd_sof_pcm_stream *sps)
  {
--	struct sof_ipc4_module_init_ext_init *ext_init;
-+	struct sof_ipc4_process *process = swidget->private;
- 	struct sof_ipc4_module_init_ext_object *hdr = NULL;
-+	struct sof_ipc4_module_init_ext_init *ext_init;
-+	bool in_dp_domain = swidget->comp_domain == SOF_COMP_DOMAIN_DP;
-+	bool has_ext_data = WIDGET_IS_PROCESS(swidget->id) && process->init_ext_module_size;
- 	int new_size;
- 	u32 *payload;
- 	u32 ext_pos;
-+	int ret;
+ 	struct sof_ipc4_copier *host_copier = NULL;
+ 	struct sof_ipc4_copier *dai_copier = NULL;
+@@ -1088,7 +1065,7 @@ static int sof_ipc4_pcm_hw_params(struct snd_soc_component *component,
+ 	return 0;
+ }
  
--	/*
--	 * Only DP widgets currently add init-ext objects here. Avoid allocating
--	 * a max-sized payload buffer for widgets that will immediately return 0.
--	 */
--	if (swidget->comp_domain != SOF_COMP_DOMAIN_DP)
-+	if (!in_dp_domain && !has_ext_data)
- 		return 0;
+-static u64 sof_ipc4_frames_dai_to_host(struct sof_ipc4_timestamp_info *time_info, u64 value)
++u64 sof_ipc4_frames_dai_to_host(struct sof_ipc4_timestamp_info *time_info, u64 value)
+ {
+ 	u64 dai_rate, host_rate;
  
- 	payload = kzalloc(sdev->ipc->max_payload_size, GFP_KERNEL);
-@@ -3306,25 +3340,24 @@ static int sof_ipc4_widget_mod_init_msg_payload(struct snd_sof_dev *sdev,
+@@ -1117,10 +1094,10 @@ static u64 sof_ipc4_frames_dai_to_host(struct sof_ipc4_timestamp_info *time_info
+ 	return value;
+ }
  
- 	/* Add ext_init first and set objects array flag to 1 */
- 	ext_init = (struct sof_ipc4_module_init_ext_init *)payload;
-+	ext_init->word0 |= SOF_IPC4_MOD_INIT_EXT_OBJ_ARRAY_MASK;
- 	ext_pos = DIV_ROUND_UP(sizeof(*ext_init), sizeof(u32));
+-static int sof_ipc4_get_stream_start_offset(struct snd_sof_dev *sdev,
+-					    struct snd_pcm_substream *substream,
+-					    struct snd_sof_pcm_stream *sps,
+-					    struct sof_ipc4_timestamp_info *time_info)
++int sof_ipc4_get_stream_start_offset(struct snd_sof_dev *sdev,
++				     struct snd_pcm_substream *substream,
++				     struct snd_sof_pcm_stream *sps,
++				     struct sof_ipc4_timestamp_info *time_info)
+ {
+ 	struct sof_ipc4_copier *host_copier = time_info->host_copier;
+ 	struct sof_ipc4_copier *dai_copier = time_info->dai_copier;
+@@ -1134,7 +1111,8 @@ static int sof_ipc4_get_stream_start_offset(struct snd_sof_dev *sdev,
  
- 	/* Add object array objects after ext_init */
-+	if (in_dp_domain)
-+		sof_ipc4_add_init_ext_dp_memory_data(sdev, swidget, payload,
-+						     &ext_pos, &hdr);
- 
--	sof_ipc4_add_init_ext_dp_memory_data(sdev, swidget, payload, &ext_pos, &hdr);
--
--	/* Add following object array items here */
--
--	if (!hdr) {
--		/*
--		 * NOTE: Remove this early bail out, when struct
--		 *       sof_ipc4_module_init_ext_init alone has some
--		 *       function.
--		 */
--		kfree(payload);
--		return 0;
-+	if (has_ext_data) {
-+		ret = sof_ipc4_add_init_ext_module_data(sdev, process, payload,
-+							&ext_pos, &hdr);
-+		if (ret) {
-+			kfree(payload);
-+			return ret;
-+		}
- 	}
- 
--	ext_init->word0 |= SOF_IPC4_MOD_INIT_EXT_OBJ_ARRAY_MASK;
-+	/* Set last bit for the last object in the array */
- 	hdr->header |= SOF_IPC4_MOD_INIT_EXT_OBJ_LAST_MASK;
- 
- 	/* Calculate final size and check that it fits to max payload size */
-diff --git a/sound/soc/sof/ipc4-topology.h b/sound/soc/sof/ipc4-topology.h
-index c9fe9f2e4083..5e78f3de092e 100644
---- a/sound/soc/sof/ipc4-topology.h
-+++ b/sound/soc/sof/ipc4-topology.h
-@@ -524,6 +524,8 @@ struct sof_ipc4_base_module_cfg_ext {
-  * @msg: IPC4 message struct containing header and data info
-  * @base_config_ext_size: Size of the base config extension data in bytes
-  * @init_config: Module init config type (SOF_IPC4_MODULE_INIT_CONFIG_TYPE_*)
-+ * @init_ext_module_data: module_data for init_ext object
-+ * @init_ext_module_size: size of init_ext_module_data
-  */
- struct sof_ipc4_process {
- 	struct sof_ipc4_base_module_cfg base_config;
-@@ -535,6 +537,8 @@ struct sof_ipc4_process {
- 	struct sof_ipc4_msg msg;
- 	u32 base_config_ext_size;
- 	u32 init_config;
-+	void *init_ext_module_data;
-+	size_t init_ext_module_size;
+ 	if (host_copier->data.gtw_cfg.node_id == SOF_IPC4_INVALID_NODE_ID) {
+ 		return -EINVAL;
+-	} else if (host_copier->data.gtw_cfg.node_id == SOF_IPC4_CHAIN_DMA_NODE_ID) {
++	} else if (substream &&
++		   host_copier->data.gtw_cfg.node_id == SOF_IPC4_CHAIN_DMA_NODE_ID) {
+ 		/*
+ 		 * While the firmware does not support time_info reporting for
+ 		 * streams using ChainDMA, it is granted that ChainDMA can only
+diff --git a/sound/soc/sof/ipc4-priv.h b/sound/soc/sof/ipc4-priv.h
+index a8cdf9bc750b..7c0861d63bef 100644
+--- a/sound/soc/sof/ipc4-priv.h
++++ b/sound/soc/sof/ipc4-priv.h
+@@ -98,6 +98,29 @@ struct sof_ipc4_fw_data {
+ 	struct mutex pipeline_state_mutex; /* protect pipeline triggers, ref counts and states */
  };
  
- bool sof_ipc4_copier_is_single_bitdepth(struct snd_sof_dev *sdev,
-diff --git a/sound/soc/sof/sof-audio.h b/sound/soc/sof/sof-audio.h
-index 0610f2ab844d..151cfa9e6b7c 100644
---- a/sound/soc/sof/sof-audio.h
-+++ b/sound/soc/sof/sof-audio.h
-@@ -43,6 +43,7 @@
- #define WIDGET_IS_AIF(id) ((id) == snd_soc_dapm_aif_in || (id) == snd_soc_dapm_aif_out)
- #define WIDGET_IS_AIF_OR_DAI(id) (WIDGET_IS_DAI(id) || WIDGET_IS_AIF(id))
- #define WIDGET_IS_COPIER(id) (WIDGET_IS_AIF_OR_DAI(id) || (id) == snd_soc_dapm_buffer)
-+#define WIDGET_IS_PROCESS(id) ((id) == snd_soc_dapm_effect)
++/**
++ * struct sof_ipc4_timestamp_info - IPC4 timestamp info
++ * @host_copier: the host copier of the pcm stream
++ * @dai_copier: the dai copier of the pcm stream
++ * @stream_start_offset: reported by fw in memory window (converted to
++ *                       frames at host_copier sampling rate)
++ * @stream_end_offset: reported by fw in memory window (converted to
++ *                     frames at host_copier sampling rate)
++ * @llp_offset: llp offset in memory window
++ * @delay: Calculated and stored in pointer callback. The stored value is
++ *         returned in the delay callback. Expressed in frames at host copier
++ *         sampling rate.
++ */
++struct sof_ipc4_timestamp_info {
++	struct sof_ipc4_copier *host_copier;
++	struct sof_ipc4_copier *dai_copier;
++	u64 stream_start_offset;
++	u64 stream_end_offset;
++	u32 llp_offset;
++
++	snd_pcm_sframes_t delay;
++};
++
+ extern const struct sof_ipc_fw_loader_ops ipc4_loader_ops;
+ extern const struct sof_ipc_tplg_ops ipc4_tplg_ops;
+ extern const struct sof_ipc_tplg_control_ops tplg_ipc4_control_ops;
+@@ -129,4 +152,12 @@ void sof_ipc4_mic_privacy_state_change(struct snd_sof_dev *sdev, bool state);
+ enum sof_ipc4_pipeline_state;
+ const char *sof_ipc4_pipeline_state_str(enum sof_ipc4_pipeline_state state);
  
- #define SOF_DAI_PARAM_INTEL_SSP_MCLK		0
- #define SOF_DAI_PARAM_INTEL_SSP_BCLK		1
++struct sof_ipc4_timestamp_info *sof_ipc4_sps_to_time_info(struct snd_sof_pcm_stream *sps);
++void sof_ipc4_build_time_info(struct snd_sof_dev *sdev, struct snd_sof_pcm_stream *sps);
++int sof_ipc4_get_stream_start_offset(struct snd_sof_dev *sdev,
++				     struct snd_pcm_substream *substream,
++				     struct snd_sof_pcm_stream *sps,
++				     struct sof_ipc4_timestamp_info *time_info);
++u64 sof_ipc4_frames_dai_to_host(struct sof_ipc4_timestamp_info *time_info, u64 value);
++
+ #endif
 -- 
 2.55.0
 
