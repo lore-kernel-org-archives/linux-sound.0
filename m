@@ -1,81 +1,72 @@
-Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAF6E3C3F66
-	for <linux-sound@vger.kernel.org>; Fri,  4 Sep 2026 23:12:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1905837B027
+	for <linux-sound@vger.kernel.org>; Fri,  4 Sep 2026 23:16:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788563575; cv=none; b=tuT/QPeb4fQ3jVbRyXz1CUC1FIHCTiCGNFn5eOKTOlbgrmNlhdogRIUl/Qdg9FJMbm1BIznj6+EFt31iif6YKV+0LkmI6SFg5Zve/1O3Av2GoLeSZHdjFKkSzNUvBz+q6Xh0b/K8yaaGPBa7+mdYdNgsHdzOz+4OmCjJJuzN8NM=
+	t=1788563795; cv=none; b=ECTGtrieXHlvYJ2kCV26dxG064cObJnsErSgEfQO8rghPqokLakuEs/cyJyBqBjo6OZEfCeGaiWahB7r6JpfbYK6R38DSY8rT8J/WGF3/r8NKNU9neZaa+9S2TAaZrNK92EyzHVs8DujeRbNsPNyAMPmGmnn5gmygT7Pl6sJzek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788563575; c=relaxed/simple;
-	bh=DzlHABer7agnmDFqIt5UKBGqffNOPw21BqPF+Xdn0TA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WrL8Py/6Krd2Kc+nelMHrAjLR8CCSiWZOdPcJ0+ugl9j6jMc+V6Gj5SZPupFaWC5Cx4eDAPLn1hGTDrrFvnCc/gKZeI4fB2FnOzDvXR0rV8+7zN+wGTaplvV9L6vIR0hNdMz5K8O4KXyJGYjxwxEgkEXOTI9/R/jgV1lpG1UvSA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B+vWiiQn; arc=none smtp.client-ip=209.85.222.51
+	s=arc-20240116; t=1788563795; c=relaxed/simple;
+	bh=toX5g90APAEIw/JrBp16zerys93inZQ7yKT1M0I3GvE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Mk2uYyXpWZsZpKU/CirDDq9zJoZBVGBQ9t6tLG3hyJ5YW38arAhM5ka3bwftqhrmBFNgeDj6m4QCHNQKRXlBDdrX6LG5CaUcy72VBcRsgXGoj/W79LJoUS4g1VNyFNUvzGaHMVGi1LInIeM1jw+HTbOMZYdEr6qRj0Riwz9rWd0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OVH3aavB; arc=none smtp.client-ip=209.85.214.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B+vWiiQn"
-Received: by mail-ua1-f51.google.com with SMTP id a1e0cc1a2514c-97bf91b2e6eso439697241.2
-        for <linux-sound@vger.kernel.org>; Fri, 04 Sep 2026 16:12:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OVH3aavB"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2d91518a63fso12152015ad.0
+        for <linux-sound@vger.kernel.org>; Fri, 04 Sep 2026 16:16:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788563570; x=1789168370; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1788563793; x=1789168593; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=g2eDylLE3V6dYau/12iY8HPICkZuGDPWHe/ewwDQP+k=;
-        b=B+vWiiQnQAXs4FztEqpvZ+Ifg1Qu5UGl3Te8Uc3mN4zisoWC5sHBQ0/T7X5dNi0sAf
-         qOipCvW0oJbXNn4Z/WxWKa/OrEwHPv5Wt5mV6+pg71xanVLToKVraxECuHJ5PftXZyK2
-         IhIc4Mmano7s/J49UliV5taIeA6G81k10s19SHiJPGAlckkZPVUN4e/T8xyJrtr2obOi
-         7rp6e+Ty0VXkP2f7eie20D6aFg+PtxMqpa+2Z/kaRg7UxDvmz//OFv8pQ8M+jqB0CQ7F
-         H9QhfmBW99PeMcXt7OIW87vWzA7fKYeueZe9ZKTa5dGi/vV+KFPK9jHPinawnBCOIXET
-         KeAQ==
+        bh=Fkj+tOdPJa9maROU9VRDjz0YPmPUFkrYUP9fpE+J1l4=;
+        b=OVH3aavB5WPEknnETtImhRFxCL3BpbzOYUFY94/2rXlaTkElbj7Pk2/V6kedNoRxwu
+         MCDljp5tbKrVDZZjW6fkwL0+kdAHInl/Z4Ztx2Wgc2rjOAG1qHY0slX1DPu9Chr1KFZc
+         jJzj+BPydGCwpZQp3BlU5NNAKnHZD5KKL6VqVnJOKobjs4n5Ah7z79JVMt4b5ZbrkDel
+         yBRceUQy8LdH1Fe5K2/2ngmD54gYiqct9DupY5OorqEybgRv3ZBu8Up6hVLzd0HMNwJc
+         rNydsWTy51fHJXfvKCY9lRB70w0HS+Z7ErzuOsr3S1gbF4j5VEivkA6beSgW9iPmKEKR
+         T0Dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788563570; x=1789168370;
+        d=1e100.net; s=20251104; t=1788563793; x=1789168593;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=g2eDylLE3V6dYau/12iY8HPICkZuGDPWHe/ewwDQP+k=;
-        b=faZmy9P1v/0tQfumNJ+Jm0mEtqJCBYLdGzCj2Lp9is1ui+wm9TnjxUR9GYcp0kJdF6
-         LnJruhqQWskfKJUcHvBcrxg8XVaP6XPDkj7JEHLBWPQ1MfzoIkeRU1S0Jet4tBrAAX4C
-         Q1O4ftTrQqJsjrtI5IRZ6iQZEChazIZdTynqj6eMTGNSZUDGaaY0gpVcxH2Cz14OXpCH
-         QeQMYd5DX0RKuHuyp7cm/22lQU2vA+Ol9Lh8H4SRe93AYE7vqBW0o4xc6mh6zuajnVuB
-         hiSV1BKE0ZuJg60d3on2MdNgcoohR2fqqzAIOHyvUTMk8qcl+Sq4wzuwj6QCx5M+MaiM
-         dJcQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzDN6Ax5hbfvtjkSRIIlc7CfA/oHrjEIKncxbsVQEyXU+usdNWe5d+1q/oOUfj1UYLO5B/QBfVIZ7urSA==@vger.kernel.org
-X-Gm-Message-State: AFuF++mCgK7TzvV2amQDLeZEqIsvAAh5XCq5cRQCI4tN5xblqqKfnB79
-	HMPmTTPIBdp4FqGDsHOo1SvP87pECyOrhxY1tk3gLCxzQDyHMWAzHySb
-X-Gm-Gg: AYBFou33Yu49DjPCkWJVOC0SWlLJhpYfuOTWQVqEmiNk02v9ATY6d/CfNMRs2fg9IvJ
-	RvrvqeSOV+zoI/J6Eri6hcfC4tfys3tPnlrmYKgHjFgmxFFhMghjvp1cBlKeOWiee5dx5M7g1pE
-	rsPvgWLV54XnkHivrfAjzcLarQNa1iGUlD/9Lu59b2pzQ3eQRQJvuB0xGg5n/6vWibv7kk9dOEn
-	m5F0i6xiGyzYt6G45mrA8nFKcPmU5OUX7kqyUdPGF11QYSD8RG7bEYrzxJCLG5YoDfnKXOTci3N
-	b71SAzH6TxJQKbbQB5B021SQ5UGHVyxuVODpW0DzYMzo25/RjFY5ceXcxANXRmxTZU26Tz7iqzj
-	TBsOkJI43wRqu5G1BLonTTAqDL9B6mDwgctDlPG5L133GmfS7ZAbmMe4fKZqInSnvHS7qRc/ZYn
-	biNQE1BRCoo0ugITxiztr+gS8KaSBIHEXtZxp+syNTKnOlkDkVyz5dsTJX5H8or4EFHP9/4i0Nw
-	f2+ppy316T7es3FjXKToI79p0odpDpL
-X-Received: by 2002:a05:6102:a53:b0:789:1216:bb8d with SMTP id ada2fe7eead31-78a4a871937mr2913826137.6.1788563569404;
-        Fri, 04 Sep 2026 16:12:49 -0700 (PDT)
-Received: from Biostar-A520MT.. ([187.94.13.245])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-78a47b19369sm2880161137.9.2026.09.04.16.12.44
+        bh=Fkj+tOdPJa9maROU9VRDjz0YPmPUFkrYUP9fpE+J1l4=;
+        b=rENvYG5fD/hf7nu5gop8kZsOD/7/LJJuwcKb/GdutFOb/dep+tvz/azAkzaWSxuoED
+         yDJTAEIZ50bFbWrl+Hlk+rzcCzAf5Acx0tXAmfSHADR1Y2+6FvszyxmcvkjylB2x/BG6
+         yPdo0PfuoeMyC08+wmlS/jja8e94SkjL1lGbpGZs3XM//6FlTZWsMyWvqKyEtT/wXt5c
+         6vNC/UyIhHtrXP3N1pv4wyIi0Gvd9mXLPFmoNaEM7WSY1+cLQ8XbrB8cnLcOS39bNdYQ
+         A4v1PQFge6MufAhT5kkSFjZz19I9Q88q/KZBIhbKQTzPBmz53dSYxV67wkp2ofi3ztFG
+         xvkw==
+X-Gm-Message-State: AFuF++mojGdm75DhNs91rXOAUr26O2WKtpgeZ2DomMSYjVWmOLjkLwdn
+	DKK533pQxUOkk9jdAY004Gp9EzZ/wDKDdq10NDuRxh53egdHHL2+w0Fa6H6ZOt8okw41GQ==
+X-Gm-Gg: AYBFou0QTx1s9RxV4ll4Pb8ZIQZq2oiaJNWbI8AGIB9pJG0my+xK9qItM7Rj4hlHAzd
+	Myzqz6ren8Ab5i0ZN9NxReFfRwrfRX0fD9fCMFKA4nyO7JRpJdRznyeIwfm3/edfllcQNzpwDdL
+	djIxyzllM7pwOWECzIQlGO128M+vZJpkL1kqRQsRP+kkPwgSyLhRxewV+jdIhx0fUXtZTrIXahl
+	G4+eWTsLdGMXnEPnJimVUJg/ruDMcHFP028MapKD5Nqbc3cnf8n9A2COiEuEJQZNjMy8EX4N4ug
+	Qwd4ZclaPliC//wOWC0KuBNH3/yiOmThf+1RSEE0/4NPQogBsRQe+tKeoLN0BycBEu8Iz/nABYi
+	GMDzUDAj9NU4sDWJdEhrOUx9uvn9tDc0QfIdXRj6jCsGRkSc5OwjrN4WGdQGkK022a9239W7cXp
+	Zx6pjkO+C2w/JZ/Gno5yHIcZbHbT576qP5UHPQQe+Ri+KsvHSCHzAgVEuzuAA0EDI/lq1h3nm25
+	xDrGwACp/y0UUjbKNZg+ZHCaiDEjg5OuPZhxsgXLlf9k/f3aALV6zFBp7WpTM9RtvhLkfGRC+v6
+	ArfmOnD6qpZZXLmad7VapkjeviI3ZyWzNqK28adJU2g=
+X-Received: by 2002:a17:90b:2b8b:b0:398:c0ad:711c with SMTP id 98e67ed59e1d1-39b26272f0fmr14642210a91.15.1788563793256;
+        Fri, 04 Sep 2026 16:16:33 -0700 (PDT)
+Received: from localhost.localdomain (23-93-86-111.dedicated.static.sonic.net. [23.93.86.111])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3339b314cfcsm9579481eec.19.2026.09.04.16.16.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Sep 2026 16:12:48 -0700 (PDT)
-From: Breno Rodrigues Alves <breno3011alves@gmail.com>
-To: torvalds@linux-foundation.org
-Cc: linux-kernel@vger.kernel.org,
-	gregkh@linuxfoundation.org,
-	arnd@arndb.de,
-	linux-clk@vger.kernel.org,
-	linux-input@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-fbdev@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	Breno Rodrigues Alves <breno3011alves@gmail.com>
-Subject: [PATCH] Kconfig: purge twenty-nine legacy ghost options
-Date: Fri,  4 Sep 2026 20:12:40 -0300
-Message-ID: <20260904231240.87106-1-breno3011alves@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Fri, 04 Sep 2026 16:16:32 -0700 (PDT)
+From: Rithvik Vibhu <rithvikvibhu@gmail.com>
+To: Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Rithvik Vibhu <rithvikvibhu@gmail.com>
+Subject: [PATCH] ALSA: hda/realtek: Fix Acer Nitro 5 AN515-57 mic resume
+Date: Fri,  4 Sep 2026 16:15:45 -0700
+Message-ID: <20260904231545.33505-1-rithvikvibhu@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -84,553 +75,182 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-You can keep a dead config option around for a while out of sympathy.
-After a couple of releases it stops being "transitional" and starts
-being "you are confusing every user who greps for it". These options
-select nothing, gate nothing, and -- I checked by hand, this is not a
-regex accident -- are referenced by exactly nobody in the tree.
+The existing pin-configuration quirk exposes headset mic pin 0x19, but
+the ALC295 loses the correct combo-jack state across suspend-to-RAM
+(S3). After resume, pin 0x19 can remain falsely present after unplug and
+the capture mixer can remain routed away from the internal mic on pin
+0x12. The failure occurs on both 6.12 and v7.2-rc7.
 
-Evidence for each removal:
-  * no CONFIG_<sym> reference outside the Kconfig definition itself
-  * no <sym> reference as an 'if'/'select'/'depends on' target
-  * no mention in any defconfig, any Documentation, or any source build
-  * the code they used to gate is gone (removed or folded into a real
-    driver that already has its own, functioning config symbol)
+Give subsystem 1025:1539 a model-specific fixup which initializes the
+Acer combo-jack coefficients, enables the full Realtek CTIA/OMTP
+headset state machine, gates the headset mic with the reliable
+headphone pin 0x21, and feeds the corrected cached jack state through
+generic HDA mic autoswitching. This keeps the actual capture mux
+synchronized across boot, hotplug, unplug and S3 resume.
 
-Headliners of the graveyard:
-  - HID_THINGM: help text literally said "will be removed soon". Well.
-    Gone now. The blink(1) driver is HJID_LED.
-  - USB_CONFIGFS_F_TCM: the real fabric always built via USB_F_TCM; the
-    "CONFIGFS" name was a leftover from when someone could not decide
-    what to call the thing.
-  - USB_EHCI_TEGRA, USB_OCTEON_OHCI, USB_OHCI_HCD_SSB: help text says
-    "driver was removed, use X instead". The other X already exists.
-  - PANEL: proudly labeled "OLD OPTION" with its own "Deprecated
-    options" section in the file. The actual parport lcd driver has
-    always been PARPORT_PANEL.
-  - COMMON_CLK_MT6765_*: seven sysclk entries with no matching object
-    in the Makefile. Zero files built, zero regrets.
-  - The usual kconfig-vandalism suspects (HAVE_PWRCTL, REGULATOR_MT6316,
-    INTERCONNECT_MTK_MT8196, CLK_SUNXI_PRCM_SUN9I, DVB_ULE_DEBUG, ...).
+Apply the correction from both the headphone and microphone callback
+paths. A direct event from mic pin 0x19 otherwise bypasses the headphone
+hook and can restore the unreliable raw pin sense. Invalidate and
+refetch pin 0x21 when handling such an event before deriving the
+corrected microphone state.
 
-Validated: defconfig, olddefconfig and randconfig parse clean on both
-x86_64 and arm64; headers_install (the target that replaced the dearly
-departed headers_check, which this tree does not have) succeeds with a
-clean UAPI on both architectures. Because someone will ask: yes, I
-checked the s390/arm/riscv No, I did not delete any arch/* Kconfig, and
-no, I did not touch a single include/uapi/ file.
+Pin 0x21 indicates that a combo-jack plug is present but cannot
+distinguish three-pole headphones from a four-pole headset.
+Consequently, as with other headphone-gated mic configurations, a
+three-pole plug is exposed as a headset mic.
 
-Why should you care? Because "make menuconfig" allegedly lets people
-configure the kernel, and leaving a menu full of options that do
-nothing makes them feel like they have a choice when they really are
-just being sold snake oil. Clean it up.
+Tested with cold boot and repeated S3 cycles in the unplugged and
+four-pole-headset states, including unplug and reinsert after resume.
 
-Signed-off-by: Breno Rodrigues Alves <breno3011alves@gmail.com>
+Fixes: 51db05283f7c ("ALSA: hda/realtek: Enable headset mic for Acer Nitro 5")
+Cc: stable@vger.kernel.org # 6.12+
+Assisted-by: LLM
+Signed-off-by: Rithvik Vibhu <rithvikvibhu@gmail.com>
 ---
- drivers/auxdisplay/Kconfig            |  8 -----
- drivers/clk/mediatek/Kconfig          | 42 ------------------------
- drivers/clk/sunxi/Kconfig             |  7 ----
- drivers/hid/Kconfig                   |  9 ------
- drivers/interconnect/mediatek/Kconfig |  6 ----
- drivers/media/dvb-core/Kconfig        | 11 -------
- drivers/media/platform/Kconfig        |  6 ----
- drivers/misc/Kconfig                  |  4 ---
- drivers/pci/controller/dwc/Kconfig    | 14 --------
- drivers/pci/pwrctrl/Kconfig           |  9 ------
- drivers/regulator/Kconfig             | 12 -------
- drivers/staging/media/Kconfig         | 13 --------
- drivers/usb/gadget/Kconfig            | 14 --------
- drivers/usb/host/Kconfig              | 46 ---------------------------
- drivers/video/fbdev/core/Kconfig      |  6 ----
- security/apparmor/Kconfig             |  9 ------
- sound/soc/tegra/Kconfig               | 36 ---------------------
- 17 files changed, 252 deletions(-)
+The 6.12.y backport requires adaptation because the Realtek codec code
+is located in sound/pci/hda/patch_realtek.c there.
 
-diff --git a/drivers/auxdisplay/Kconfig b/drivers/auxdisplay/Kconfig
-index 1ea7c0391..24acd0d39 100644
---- a/drivers/auxdisplay/Kconfig
-+++ b/drivers/auxdisplay/Kconfig
-@@ -541,11 +541,3 @@ config ARM_CHARLCD
+base-commit: 3b26ceef88c110f4d188387cffa0df78657be904
+
+ sound/hda/codecs/realtek/alc269.c | 105 +++++++++++++++++++++++++++++-
+ 1 file changed, 104 insertions(+), 1 deletion(-)
+
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index 95b40a177..f1a83908e 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -3740,6 +3740,103 @@ static void alc2xx_fixup_headset_mic(struct hda_codec *codec,
+ 	}
+ }
  
- endif # AUXDISPLAY
- 
--#
--# Deprecated options
--#
--config PANEL
--	tristate "Parallel port LCD/Keypad Panel support (OLD OPTION)"
--	depends on PARPORT
--	select AUXDISPLAY
--	select PARPORT_PANEL
-diff --git a/drivers/clk/mediatek/Kconfig b/drivers/clk/mediatek/Kconfig
-index b059d4457..94a8a0a6f 100644
---- a/drivers/clk/mediatek/Kconfig
-+++ b/drivers/clk/mediatek/Kconfig
-@@ -181,12 +181,6 @@ config COMMON_CLK_MT6765_CAMSYS
-        help
-          This driver supports MediaTek MT6765 camsys clocks.
- 
--config COMMON_CLK_MT6765_GCESYS
--       tristate "Clock driver for MediaTek MT6765 gcesys"
--       depends on COMMON_CLK_MT6765
--       help
--         This driver supports MediaTek MT6765 gcesys clocks.
--
- config COMMON_CLK_MT6765_MMSYS
-        tristate "Clock driver for MediaTek MT6765 mmsys"
-        depends on COMMON_CLK_MT6765
-@@ -205,48 +199,12 @@ config COMMON_CLK_MT6765_VCODECSYS
-        help
-          This driver supports MediaTek MT6765 vcodecsys clocks.
- 
--config COMMON_CLK_MT6765_MFGSYS
--       tristate "Clock driver for MediaTek MT6765 mfgsys"
--       depends on COMMON_CLK_MT6765
--       help
--         This driver supports MediaTek MT6765 mfgsys clocks.
--
- config COMMON_CLK_MT6765_MIPI0ASYS
-        tristate "Clock driver for MediaTek MT6765 mipi0asys"
-        depends on COMMON_CLK_MT6765
-        help
-          This driver supports MediaTek MT6765 mipi0asys clocks.
- 
--config COMMON_CLK_MT6765_MIPI0BSYS
--       tristate "Clock driver for MediaTek MT6765 mipi0bsys"
--       depends on COMMON_CLK_MT6765
--       help
--         This driver supports MediaTek MT6765 mipi0bsys clocks.
--
--config COMMON_CLK_MT6765_MIPI1ASYS
--       tristate "Clock driver for MediaTek MT6765 mipi1asys"
--       depends on COMMON_CLK_MT6765
--       help
--         This driver supports MediaTek MT6765 mipi1asys clocks.
--
--config COMMON_CLK_MT6765_MIPI1BSYS
--       tristate "Clock driver for MediaTek MT6765 mipi1bsys"
--       depends on COMMON_CLK_MT6765
--       help
--         This driver supports MediaTek MT6765 mipi1bsys clocks.
--
--config COMMON_CLK_MT6765_MIPI2ASYS
--       tristate "Clock driver for MediaTek MT6765 mipi2asys"
--       depends on COMMON_CLK_MT6765
--      help
--         This driver supports MediaTek MT6765 mipi2asys clocks.
--
--config COMMON_CLK_MT6765_MIPI2BSYS
--       tristate "Clock driver for MediaTek MT6765 mipi2bsys"
--       depends on COMMON_CLK_MT6765
--       help
--         This driver supports MediaTek MT6765 mipi2bsys clocks.
--
- config COMMON_CLK_MT6779
- 	tristate "Clock driver for MediaTek MT6779"
- 	depends on (ARCH_MEDIATEK && ARM64) || COMPILE_TEST
-diff --git a/drivers/clk/sunxi/Kconfig b/drivers/clk/sunxi/Kconfig
-index 5e2f92bfe..3ba500b9d 100644
---- a/drivers/clk/sunxi/Kconfig
-+++ b/drivers/clk/sunxi/Kconfig
-@@ -32,11 +32,4 @@ config CLK_SUNXI_PRCM_SUN8I
- 	  Those are usually needed for the PMIC communication,
- 	  mostly.
- 
--config CLK_SUNXI_PRCM_SUN9I
--	bool "Legacy A80 PRCM driver"
--	default ARCH_SUNXI
--	help
--	  Legacy clock driver for the A80 PRCM clocks. Those are
--	  usually needed for the PMIC communication, mostly.
--
- endif
-diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-index a81bf51cb..082dc3f5c 100644
---- a/drivers/hid/Kconfig
-+++ b/drivers/hid/Kconfig
-@@ -1296,15 +1296,6 @@ config HID_TOPRE
- 	  Say Y for N-key rollover support on Topre REALFORCE R2 108/87 key and
-           Topre REALFORCE R3S 87 key keyboards.
- 
--config HID_THINGM
--	tristate "ThingM blink(1) USB RGB LED"
--	depends on LEDS_CLASS
--	select HID_LED
--	help
--	Support for the ThingM blink(1) USB RGB LED. This driver has been
--	merged into the generic hid led driver. Config symbol HID_THINGM
--	just selects HID_LED and will be removed soon.
--
- config HID_THRUSTMASTER
- 	tristate "ThrustMaster devices support"
- 	depends on USB_HID
-diff --git a/drivers/interconnect/mediatek/Kconfig b/drivers/interconnect/mediatek/Kconfig
-index 9fd3f2170..a7aebfa1a 100644
---- a/drivers/interconnect/mediatek/Kconfig
-+++ b/drivers/interconnect/mediatek/Kconfig
-@@ -28,9 +28,3 @@ config INTERCONNECT_MTK_MT8195
- 	  This is a driver for the MediaTek bus interconnect on MT8195-based
- 	  platforms.
- 
--config INTERCONNECT_MTK_MT8196
--	tristate "MediaTek MT8196 interconnect driver"
--	depends on INTERCONNECT_MTK_DVFSRC_EMI
--	help
--	  This is a driver for the MediaTek bus interconnect on MT8196-based
--	  platforms.
-diff --git a/drivers/media/dvb-core/Kconfig b/drivers/media/dvb-core/Kconfig
-index 8b3f2d53c..c6a97add8 100644
---- a/drivers/media/dvb-core/Kconfig
-+++ b/drivers/media/dvb-core/Kconfig
-@@ -67,14 +67,3 @@ config DVB_DEMUX_SECTION_LOSS_LOG
- 
- 	  If you are unsure about this, say N here.
- 
--config DVB_ULE_DEBUG
--	bool "Enable DVB net ULE packet debug messages"
--	depends on DVB_CORE
--	help
--	  Enable extra log messages meant to detect problems while
--	  handling DVB network ULE packet loss inside the Kernel.
--
--	  Should not be enabled on normal cases, as logs can
--	  be very verbose.
--
--	  If you are unsure about this, say N here.
-diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
-index 2c7699b66..dbef2275f 100644
---- a/drivers/media/platform/Kconfig
-+++ b/drivers/media/platform/Kconfig
-@@ -22,12 +22,6 @@ config SDR_PLATFORM_DRIVERS
- 	help
- 	  Say Y here to enable support for platform-specific SDR Drivers.
- 
--config DVB_PLATFORM_DRIVERS
--	bool "DVB platform devices"
--	depends on MEDIA_DIGITAL_TV_SUPPORT
--	help
--	  Say Y here to enable support for platform-specific Digital TV drivers.
--
- config V4L_MEM2MEM_DRIVERS
- 	bool "Memory-to-memory multimedia devices"
- 	depends on VIDEO_DEV
-diff --git a/drivers/misc/Kconfig b/drivers/misc/Kconfig
-index 7364931da..2e37b3e08 100644
---- a/drivers/misc/Kconfig
-+++ b/drivers/misc/Kconfig
-@@ -434,10 +434,6 @@ config XILINX_SDFEC
- 
- 	  If unsure, say N.
- 
--config MISC_RTSX
--	tristate
--	default MISC_RTSX_PCI || MISC_RTSX_USB
--
- config OPEN_DICE
- 	tristate "Open Profile for DICE driver"
- 	depends on OF_RESERVED_MEM
-diff --git a/drivers/pci/controller/dwc/Kconfig b/drivers/pci/controller/dwc/Kconfig
-index dcfbe7e22..c43b3bde5 100644
---- a/drivers/pci/controller/dwc/Kconfig
-+++ b/drivers/pci/controller/dwc/Kconfig
-@@ -121,20 +121,6 @@ config PCI_IMX6_HOST
- 	  on DesignWare hardware and therefore the driver re-uses the
- 	  DesignWare core functions to implement the driver.
- 
--config PCI_IMX6_EP
--	bool "Freescale i.MX6/7/8 PCIe controller (endpoint mode)"
--	depends on ARCH_MXC || COMPILE_TEST
--	depends on PCI_ENDPOINT
--	select PCIE_DW_EP
--	select PCI_HOST_COMMON
--	select PCI_IMX6
--	select PCI_PWRCTRL_GENERIC
--	help
--	  Enables support for the PCIe controller in the i.MX SoCs to
--	  work in endpoint mode. The PCI controller on i.MX is based
--	  on DesignWare hardware and therefore the driver re-uses the
--	  DesignWare core functions to implement the driver.
--
- config PCI_LAYERSCAPE
- 	tristate "Freescale Layerscape PCIe controller (host mode)"
- 	depends on OF && (ARM || ARCH_LAYERSCAPE || COMPILE_TEST)
-diff --git a/drivers/pci/pwrctrl/Kconfig b/drivers/pci/pwrctrl/Kconfig
-index 9eec767cd..853dd16b0 100644
---- a/drivers/pci/pwrctrl/Kconfig
-+++ b/drivers/pci/pwrctrl/Kconfig
-@@ -39,12 +39,3 @@ config PCI_PWRCTRL_TC9563
- 	  MAC is connected as endpoint device. Other two downstream ports are
- 	  supposed to connect to external device.
- 
--# deprecated
--config HAVE_PWRCTL
--	bool
--	select HAVE_PWRCTRL
--
--# deprecated
--config PCI_PWRCTL_PWRSEQ
--	tristate
--	select PCI_PWRCTRL_PWRSEQ
-diff --git a/drivers/regulator/Kconfig b/drivers/regulator/Kconfig
-index 89789ac7a..2c4d5b53e 100644
---- a/drivers/regulator/Kconfig
-+++ b/drivers/regulator/Kconfig
-@@ -22,7 +22,6 @@ menuconfig REGULATOR
- 
- 	  If unsure, say no.
- 
--
- if REGULATOR
- 
- config REGULATOR_DEBUG
-@@ -900,16 +899,6 @@ config REGULATOR_MT6315
- 	  This driver supports the control of different power rails of device
- 	  through regulator interface.
- 
--config REGULATOR_MT6316
--	tristate "MT6316 SPMI PMIC regulator driver"
--	depends on SPMI
--	select REGMAP_SPMI
--	help
--	  Say Y here to enable support for 2+2, 3+1 and 4 phase regulators
--	  found in the MediaTek MT6316 BP, CP, DP, HP, VP and TP SPMI PMICs.
--	  This driver supports the control of different power rails of device
--	  through regulator interface.
--
- config REGULATOR_MT6323
- 	tristate "MediaTek MT6323 PMIC"
- 	depends on MFD_MT6397
-@@ -1726,7 +1715,6 @@ config REGULATOR_TPS65185
- 	  so it is found in E-Book readers.
- 	  If HWWON is enabled, it also provides temperature measurement.
- 
--
- config REGULATOR_TPS65217
- 	tristate "TI TPS65217 Power regulators"
- 	depends on MFD_TPS65217
-diff --git a/drivers/staging/media/Kconfig b/drivers/staging/media/Kconfig
-index 06cbc5c54..2d3e70b49 100644
---- a/drivers/staging/media/Kconfig
-+++ b/drivers/staging/media/Kconfig
-@@ -16,7 +16,6 @@ menuconfig STAGING_MEDIA
- 
- 	  If in doubt, say N here.
- 
--
- if STAGING_MEDIA && MEDIA_SUPPORT
- 
- # Please keep them in alphabetic order
-@@ -38,16 +37,4 @@ source "drivers/staging/media/sunxi/Kconfig"
- 
- source "drivers/staging/media/tegra-video/Kconfig"
- 
--menuconfig STAGING_MEDIA_DEPRECATED
--	bool "Media staging drivers (DEPRECATED)"
--	default n
--	help
--	  This option enables deprecated media drivers that are
--	  scheduled for future removal from the kernel.
--
--	  If you wish to work on these drivers to prevent their removal,
--	  then contact the linux-media@vger.kernel.org mailing list.
--
--	  If in doubt, say N here.
--
- endif
-diff --git a/drivers/usb/gadget/Kconfig b/drivers/usb/gadget/Kconfig
-index 76521555e..f05eb1bb7 100644
---- a/drivers/usb/gadget/Kconfig
-+++ b/drivers/usb/gadget/Kconfig
-@@ -492,20 +492,6 @@ config USB_CONFIGFS_F_PRINTER
- 	  For more information, see Documentation/usb/gadget_printer.rst
- 	  which includes sample code for accessing the device file.
- 
--config USB_CONFIGFS_F_TCM
--	bool "USB Gadget Target Fabric"
--	depends on TARGET_CORE
--	depends on USB_CONFIGFS
--	select USB_LIBCOMPOSITE
--	select USB_F_TCM
--	help
--	  This fabric is a USB gadget component. Two USB protocols are
--	  supported that is BBB or BOT (Bulk Only Transport) and UAS
--	  (USB Attached SCSI). BOT is advertised on alternative
--	  interface 0 (primary) and UAS is on alternative interface 1.
--	  Both protocols can work on USB2.0 and USB3.0.
--	  UAS utilizes the USB 3.0 feature called streams support.
--
- source "drivers/usb/gadget/legacy/Kconfig"
- 
- endif # USB_GADGET
-diff --git a/drivers/usb/host/Kconfig b/drivers/usb/host/Kconfig
-index 10cff12a3..06999ba3d 100644
---- a/drivers/usb/host/Kconfig
-+++ b/drivers/usb/host/Kconfig
-@@ -281,20 +281,6 @@ config USB_EHCI_HCD_AT91
- 	  Enables support for the on-chip EHCI controller on
- 	  Atmel chips.
- 
--config USB_EHCI_TEGRA
--	tristate "NVIDIA Tegra HCD support"
--	depends on ARCH_TEGRA
--	select USB_CHIPIDEA
--	select USB_CHIPIDEA_HOST
--	select USB_CHIPIDEA_TEGRA
--	select USB_GADGET
--	help
--	  This option is deprecated now and the driver was removed, use
--	  USB_CHIPIDEA_TEGRA instead.
--
--	  Enable support for the internal USB Host Controllers
--	  found in NVIDIA Tegra SoCs. The controllers are EHCI compliant.
--
- config USB_EHCI_HCD_PPC_OF
- 	bool "EHCI support for PPC USB controller on OF platform bus"
- 	depends on PPC
-@@ -530,23 +516,6 @@ config USB_OHCI_HCD_PCI
- 	  Enables support for PCI-bus plug-in USB controller cards.
- 	  If unsure, say Y.
- 
--config USB_OHCI_HCD_SSB
--	bool "OHCI support for Broadcom SSB OHCI core (DEPRECATED)"
--	depends on (SSB = y || SSB = USB_OHCI_HCD)
--	select USB_HCD_SSB
--	select USB_OHCI_HCD_PLATFORM
--	help
--	  This option is deprecated now and the driver was removed, use
--	  USB_HCD_SSB and USB_OHCI_HCD_PLATFORM instead.
--
--	  Support for the Sonics Silicon Backplane (SSB) attached
--	  Broadcom USB OHCI core.
--
--	  This device is present in some embedded devices with
--	  Broadcom based SSB bus.
--
--	  If unsure, say N.
--
- config USB_OHCI_EXYNOS
- 	tristate "OHCI support for Samsung S5P/Exynos SoC Series"
- 	depends on ARCH_S5PV210 || ARCH_EXYNOS || COMPILE_TEST
-@@ -562,21 +531,6 @@ config USB_OHCI_HCD_PLATFORM
- 
- 	  If unsure, say N.
- 
--config USB_OCTEON_OHCI
--	bool "Octeon on-chip OHCI support (DEPRECATED)"
--	depends on CAVIUM_OCTEON_SOC
--	default USB_OCTEON_EHCI
--	select USB_OHCI_BIG_ENDIAN_MMIO if CPU_BIG_ENDIAN
--	select USB_OHCI_LITTLE_ENDIAN
--	select USB_OHCI_HCD_PLATFORM
--	help
--	  This option is deprecated now and the driver was removed, use
--	  USB_OHCI_HCD_PLATFORM instead.
--
--	  Enable support for the Octeon II SOC's on-chip OHCI
--	  controller.  It is needed for low-speed USB 1.0 device
--	  support.  All CN6XXX based chips with USB are supported.
--
- endif # USB_OHCI_HCD
- 
- config USB_UHCI_HCD
-diff --git a/drivers/video/fbdev/core/Kconfig b/drivers/video/fbdev/core/Kconfig
-index 8d1993e0b..14860a1ae 100644
---- a/drivers/video/fbdev/core/Kconfig
-+++ b/drivers/video/fbdev/core/Kconfig
-@@ -155,12 +155,6 @@ config FB_IOMEM_HELPERS
- 	select FB_CFB_IMAGEBLIT
- 	select FB_IOMEM_FOPS
- 
--config FB_IOMEM_HELPERS_DEFERRED
--	bool
--	depends on FB_CORE
--	select FB_DEFERRED_IO
--	select FB_IOMEM_HELPERS
--
- config FB_SYSMEM_HELPERS
- 	bool
- 	depends on FB_CORE
-diff --git a/security/apparmor/Kconfig b/security/apparmor/Kconfig
-index a1f3749bd..508fd7f02 100644
---- a/security/apparmor/Kconfig
-+++ b/security/apparmor/Kconfig
-@@ -35,15 +35,6 @@ config SECURITY_APPARMOR_DEBUG_ASSERTS
- 	  points. If the assert is triggered it will trigger a WARN
- 	  message.
- 
--config SECURITY_APPARMOR_DEBUG_MESSAGES
--	bool "Debug messages enabled by default"
--	depends on SECURITY_APPARMOR_DEBUG
--	default n
--	help
--	  Set the default value of the apparmor.debug kernel parameter.
--	  When enabled, various debug messages will be logged to
--	  the kernel message buffer.
--
- config SECURITY_APPARMOR_INTROSPECT_POLICY
- 	bool "Allow loaded policy to be introspected"
- 	depends on SECURITY_APPARMOR
-diff --git a/sound/soc/tegra/Kconfig b/sound/soc/tegra/Kconfig
-index fdc954028..e52f7cb9e 100644
---- a/sound/soc/tegra/Kconfig
-+++ b/sound/soc/tegra/Kconfig
-@@ -192,15 +192,6 @@ config SND_SOC_TEGRA_AUDIO_GRAPH_CARD
- config SND_SOC_TEGRA_MACHINE_DRV
- 	tristate
- 
--config SND_SOC_TEGRA_RT5631
--	tristate "SoC Audio support for Tegra boards using an RT5631 codec"
--	depends on SND_SOC_TEGRA && I2C && GPIOLIB
--	select SND_SOC_TEGRA_MACHINE_DRV
--	select SND_SOC_RT5631
--	help
--	  Say Y or M here if you want to add support for SoC audio on Tegra
--	  boards using the RT5631 codec, such as Transformer.
--
- config SND_SOC_TEGRA_RT5640
- 	tristate "SoC Audio support for Tegra boards using an RT5640 codec"
- 	depends on I2C && GPIOLIB
-@@ -276,24 +267,6 @@ config SND_SOC_TEGRA_MAX98090
- 	  Say Y or M here if you want to add support for SoC audio on Tegra
- 	  boards using the MAX98090 codec, such as Venice2.
- 
--config SND_SOC_TEGRA_MAX98088
--	tristate "SoC Audio support for Tegra boards using a MAX9808x codec"
--	depends on I2C && GPIOLIB
--	select SND_SOC_TEGRA_MACHINE_DRV
--	select SND_SOC_MAX98088
--	help
--	  Say Y or M here if you want to add support for SoC audio on Tegra
--	  boards using the MAX98088 codec, such as LG X3.
--
--config SND_SOC_TEGRA_RT5677
--	tristate "SoC Audio support for Tegra boards using a RT5677 codec"
--	depends on I2C && GPIOLIB
--	select SND_SOC_TEGRA_MACHINE_DRV
--	select SND_SOC_RT5677
--	help
--	  Say Y or M here if you want to add support for SoC audio on Tegra
--	  boards using the RT5677 codec, such as Ryu.
--
- config SND_SOC_TEGRA_SGTL5000
- 	tristate "SoC Audio support for Tegra boards using a SGTL5000 codec"
- 	depends on I2C && GPIOLIB
-@@ -304,15 +277,6 @@ config SND_SOC_TEGRA_SGTL5000
- 	  boards using the SGTL5000 codec, such as Apalis T30, Apalis TK1 or
- 	  Colibri T30.
- 
--config SND_SOC_TEGRA_CPCAP
--	tristate "SoC Audio support for Tegra boards using a CPCAP codec"
--	depends on I2C && GPIOLIB && MFD_CPCAP
--	select SND_SOC_TEGRA_MACHINE_DRV
--	select SND_SOC_CPCAP
--	help
--	  Say Y or M here if you want to add support for SoC audio on Tegra
--	  boards using the CPCAP codec, such as Motorola Atrix 4G or Droid X2.
--
- endif
- 
- endmenu
++static void alc295_acer_nitro_mic_autoswitch(struct hda_codec *codec,
++					     struct hda_jack_callback *jack)
++{
++	struct alc_spec *spec = codec->spec;
++	struct hda_jack_tbl *hp_jack, *mic_jack;
++	hda_nid_t hp_pin = alc_get_hp_pin(spec);
++	bool auto_mic = spec->gen.auto_mic;
++	bool hp_present;
++
++	hp_jack = snd_hda_jack_tbl_get(codec, hp_pin);
++	mic_jack = snd_hda_jack_tbl_get(codec, 0x19);
++	if (!hp_jack || !mic_jack) {
++		codec_warn(codec, "failed to find Acer Nitro combo-jack entries\n");
++		return;
++	}
++
++	/* A mic callback must not reuse a possibly stale cached HP sense. */
++	if (jack && jack->nid == 0x19)
++		hp_jack->jack_dirty = 1;
++	hp_present = snd_hda_jack_detect(codec, hp_pin);
++
++	/*
++	 * The codec reports a stale or inverted presence state for mic pin 0x19
++	 * after S3.  Pin 0x21 continues to track the shared combo jack reliably,
++	 * so use it as the presence source for 0x19.  Leave the entry clean so
++	 * the normal report pass does not immediately replace this value with a
++	 * broken raw pin-sense read.
++	 */
++	mic_jack->pin_sense &= ~AC_PINSENSE_PRESENCE;
++	if (hp_present)
++		mic_jack->pin_sense |= AC_PINSENSE_PRESENCE;
++	mic_jack->jack_dirty = 0;
++
++	/* Route the actual capture mux from the corrected jack state. */
++	spec->gen.auto_mic = 1;
++	snd_hda_gen_mic_autoswitch(codec, jack);
++	spec->gen.auto_mic = auto_mic;
++}
++
++static void alc295_acer_nitro_hp_automute(struct hda_codec *codec,
++					  struct hda_jack_callback *jack)
++{
++	/* Refresh the reliable HP jack and the Realtek headset mode first. */
++	alc_update_headset_jack_cb(codec, jack);
++	alc295_acer_nitro_mic_autoswitch(codec, jack);
++}
++
++static void alc295_fixup_acer_nitro_headset_mode(struct hda_codec *codec,
++						 const struct hda_fixup *fix,
++						 int action)
++{
++	struct alc_spec *spec = codec->spec;
++	static const struct hda_pintbl pincfgs[] = {
++		{ 0x19, 0x03a1103c },
++		{ }
++	};
++
++	if (action == HDA_FIXUP_ACT_PRE_PROBE) {
++		snd_hda_apply_pincfgs(codec, pincfgs);
++		alc_update_coef_idx(codec, 0x45, 0xf << 12 | 1 << 10, 5 << 12);
++		spec->parse_flags |= HDA_PINCFG_HEADSET_MIC;
++	}
++
++	alc271_hp_gate_mic_jack(codec, fix, action);
++	alc_fixup_headset_mode_no_hp_mic(codec, fix, action);
++
++	if (action == HDA_FIXUP_ACT_PROBE) {
++		int int_mic_idx = -1, headset_mic_idx = -1;
++		int i;
++
++		for (i = 0; i < spec->gen.input_mux.num_items; i++) {
++			if (spec->gen.imux_pins[i] == 0x12)
++				int_mic_idx = i;
++			else if (spec->gen.imux_pins[i] == 0x19)
++				headset_mic_idx = i;
++		}
++		if (int_mic_idx < 0 || headset_mic_idx < 0) {
++			codec_warn(codec,
++				   "failed to find Acer Nitro mic mux entries\n");
++			return;
++		}
++
++		spec->gen.am_num_entries = 2;
++		spec->gen.am_entry[0] = (struct automic_entry) {
++			.pin = 0x12,
++			.idx = int_mic_idx,
++		};
++		spec->gen.am_entry[1] = (struct automic_entry) {
++			.pin = 0x19,
++			.idx = headset_mic_idx,
++		};
++		spec->gen.hp_automute_hook = alc295_acer_nitro_hp_automute;
++		spec->gen.mic_autoswitch_hook =
++			alc295_acer_nitro_mic_autoswitch;
++	}
++}
++
+ static void alc245_fixup_hp_spectre_x360_eu0xxx(struct hda_codec *codec,
+ 					  const struct hda_fixup *fix, int action)
+ {
+@@ -4335,6 +4432,7 @@ enum {
+ 	ALC287_FIXUP_THINKPAD_I2S_SPK,
+ 	ALC287_FIXUP_MG_RTKC_CSAMP_CS35L41_I2C_THINKPAD,
+ 	ALC2XX_FIXUP_HEADSET_MIC,
++	ALC295_FIXUP_ACER_NITRO_HEADSET_MODE,
+ 	ALC289_FIXUP_DELL_CS35L41_SPI_2,
+ 	ALC256_FIXUP_ACER_SFG16_MICMUTE_LED,
+ 	ALC256_FIXUP_HEADPHONE_AMP_VOL,
+@@ -6854,6 +6952,10 @@ static const struct hda_fixup alc269_fixups[] = {
+ 		.type = HDA_FIXUP_FUNC,
+ 		.v.func = alc2xx_fixup_headset_mic,
+ 	},
++	[ALC295_FIXUP_ACER_NITRO_HEADSET_MODE] = {
++		.type = HDA_FIXUP_FUNC,
++		.v.func = alc295_fixup_acer_nitro_headset_mode,
++	},
+ 	[ALC289_FIXUP_DELL_CS35L41_SPI_2] = {
+ 		.type = HDA_FIXUP_FUNC,
+ 		.v.func = cs35l41_fixup_spi_two,
+@@ -7177,7 +7279,8 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1025, 0x1430, "Acer TravelMate B311R-31", ALC256_FIXUP_ACER_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1025, 0x1466, "Acer Aspire A515-56", ALC255_FIXUP_ACER_HEADPHONE_AND_MIC),
+ 	SND_PCI_QUIRK(0x1025, 0x1534, "Acer Predator PH315-54", ALC255_FIXUP_ACER_MIC_NO_PRESENCE),
+-	SND_PCI_QUIRK(0x1025, 0x1539, "Acer Nitro 5 AN515-57", ALC2XX_FIXUP_HEADSET_MIC),
++	SND_PCI_QUIRK(0x1025, 0x1539, "Acer Nitro 5 AN515-57",
++		      ALC295_FIXUP_ACER_NITRO_HEADSET_MODE),
+ 	SND_PCI_QUIRK(0x1025, 0x159c, "Acer Nitro 5 AN515-58", ALC287_FIXUP_ACER_MICMUTE_LED),
+ 	SND_PCI_QUIRK(0x1025, 0x1597, "Acer Nitro 5 AN517-55", ALC2XX_FIXUP_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1025, 0x159e, "Acer Nitro 5 AN515-46", ALC2XX_FIXUP_HEADSET_MIC),
 -- 
-2.43.0
-
+2.55.0
