@@ -1,75 +1,81 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D022421235
-	for <linux-sound@vger.kernel.org>; Fri,  4 Sep 2026 20:58:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAF6E3C3F66
+	for <linux-sound@vger.kernel.org>; Fri,  4 Sep 2026 23:12:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788555542; cv=none; b=O+0cqKKNPWnbOo8Y3dOyxaJ2fc9iyf/pwIVoxDGR1t3A0eAvwKh+RfByovKC0Q/itvPA11Gbm3jUhTesH2MnQJYEpMBffzjmiUb8mtYMLnid1WEgyun4VaEfy9HSz/Qp0ehUUJEkWsahj7aNAi3Rcc1boE0DI9H3dRAL6l7Ki3c=
+	t=1788563575; cv=none; b=tuT/QPeb4fQ3jVbRyXz1CUC1FIHCTiCGNFn5eOKTOlbgrmNlhdogRIUl/Qdg9FJMbm1BIznj6+EFt31iif6YKV+0LkmI6SFg5Zve/1O3Av2GoLeSZHdjFKkSzNUvBz+q6Xh0b/K8yaaGPBa7+mdYdNgsHdzOz+4OmCjJJuzN8NM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788555542; c=relaxed/simple;
-	bh=mYlsgrDQw0VP89f1tdnzaO8DqqEdv28FwA5WFWNhrC0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=myCsnYdbbid3De5SbEc/fNY0kNmCuKoKfRG7JNmlY1iQWB2KUWcwnRcokLAKnnfXV2dZR57EcK4sw8mdtFp3MH7HBQMBBpfXXb6ZBGcWapWLtjtyijqJo8OR8CZA9YRf03brig57/+qzLfNjaj2vzmk6VDzVB3CJm84OkK4z6yo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UEvoXsBU; arc=none smtp.client-ip=209.85.128.54
+	s=arc-20240116; t=1788563575; c=relaxed/simple;
+	bh=DzlHABer7agnmDFqIt5UKBGqffNOPw21BqPF+Xdn0TA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WrL8Py/6Krd2Kc+nelMHrAjLR8CCSiWZOdPcJ0+ugl9j6jMc+V6Gj5SZPupFaWC5Cx4eDAPLn1hGTDrrFvnCc/gKZeI4fB2FnOzDvXR0rV8+7zN+wGTaplvV9L6vIR0hNdMz5K8O4KXyJGYjxwxEgkEXOTI9/R/jgV1lpG1UvSA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B+vWiiQn; arc=none smtp.client-ip=209.85.222.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UEvoXsBU"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-49cd77e0f95so13463235e9.3
-        for <linux-sound@vger.kernel.org>; Fri, 04 Sep 2026 13:58:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B+vWiiQn"
+Received: by mail-ua1-f51.google.com with SMTP id a1e0cc1a2514c-97bf91b2e6eso439697241.2
+        for <linux-sound@vger.kernel.org>; Fri, 04 Sep 2026 16:12:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788555532; x=1789160332; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=+GiCJMpso1xWAYxd1379kkeROa3TRTeuMW+d9bTg3hU=;
-        b=UEvoXsBUmeXCU+P+1p+ppbdPrtqpOCEGBRxLqIBm9qvmZP3AoY7HhIA+qwmouy3pFr
-         uFLuBzN1kCAHh8LxQZ/KMeHxt5/PuwTnurBeS+xoLLp68qG/PTSH4Ivn8RhEwa6p4wEY
-         R/U/Bmw9SVd04gzb0tpHw4qA7Q+4u/4jdhavXwu7WM+vKNDEfy7Fo+xUVq7XDo0KZkut
-         T1LZ2mgpAJSCfOljHOUA1kDdsxjrou7qS/T/v61woMKacAzsDNfqvBG4bT/4EXb4bWm9
-         9JWbCYraDbGWzvJA4VucHe6M1QTg7qE29Di2g9kUFqiwd0C68jCpKqUWK+SvtDpBCGwO
-         2YZQ==
+        d=gmail.com; s=20251104; t=1788563570; x=1789168370; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=g2eDylLE3V6dYau/12iY8HPICkZuGDPWHe/ewwDQP+k=;
+        b=B+vWiiQnQAXs4FztEqpvZ+Ifg1Qu5UGl3Te8Uc3mN4zisoWC5sHBQ0/T7X5dNi0sAf
+         qOipCvW0oJbXNn4Z/WxWKa/OrEwHPv5Wt5mV6+pg71xanVLToKVraxECuHJ5PftXZyK2
+         IhIc4Mmano7s/J49UliV5taIeA6G81k10s19SHiJPGAlckkZPVUN4e/T8xyJrtr2obOi
+         7rp6e+Ty0VXkP2f7eie20D6aFg+PtxMqpa+2Z/kaRg7UxDvmz//OFv8pQ8M+jqB0CQ7F
+         H9QhfmBW99PeMcXt7OIW87vWzA7fKYeueZe9ZKTa5dGi/vV+KFPK9jHPinawnBCOIXET
+         KeAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788555532; x=1789160332;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=+GiCJMpso1xWAYxd1379kkeROa3TRTeuMW+d9bTg3hU=;
-        b=HFKpViIp3yo8tKkzSYlRfj3z5eUlN9BMV3M5m1P2alFKuYujkeetyjgAmciTXN/4bE
-         t6DemP1MJk9kkd+5o2ZLJ7OH27x1ezjUmSW+0m7zow3qsxKmuFfk6BYISXIZGgnk8gCd
-         cgcLZwG/+OHSIsabnarRxq9VTOTMK5/N8BkBsWNCIom4XFA7Bl9QT3ZgXOhLzrRjFLoG
-         J0vzIGy897vVb0TXoXGHanqWBvg8gu7/Vf/3EfF5Qq+lzrSkYdymDLaw85EAIRjwxOU8
-         v0ikiRO9yV4XEx2hGBv7WvQgLwaVQ7qZVujWRm5ca3CY8poRQ2HEU95cEwC/uEfBJ0UD
-         N8KQ==
-X-Gm-Message-State: AFuF++lNKHMSptf4dQDpQwviO5AoUeKC6EdzXqXstFOWYGLoJQEE1Mcn
-	xZauQLER88EL4126N7ryEqmRC9zuci92ECzDi3+7Mt3B5S5nkWQv2rN74/PS
-X-Gm-Gg: AYBFou2bBn8wasu3LF2QJbhqmFcdirfepp2d7M1XprTjvlPP+oZE40Su3Bx8AoKwYz2
-	FYE3qDPiy+SOUhcdSjPHoVsopawUObueF3MYdWL4Aq1HaJkp8Yg6a5FGHUKtv9diDuuLkshvyCn
-	LTP3Smo/7OvsDGyBnTYRYL21x/JZ0H788jehpg+nM1O8BIBy5rGi95bjop3I1rFsUi7DKxMUUKg
-	3S+AMuP4/0wz1o+d2pS78fPSthu7iunT4BGpDY4jiMXRJ/myULjHdnBBDeV0HorzXSC2/wd4wXA
-	9yvw+jkAUfLssl8VIHKrw/nIZ498gueqM9XKabYoWRjlXVeVEyFOlQ+ZZDg147LWMRLRpnlLu43
-	VETgfwYbElUtKPqwnUqXTFeR2Kpq9TPu/hYBwEvFviz3WfLsukBAIUxZRBOIedSAZ0/K2y4ttep
-	CIzSp9uIw+Adtt+5N+W3THFvIJ7nw/qg==
-X-Received: by 2002:a05:600c:83c4:b0:499:db6d:bc97 with SMTP id 5b1f17b1804b1-49cf7f5058emr97223535e9.0.1788555531716;
-        Fri, 04 Sep 2026 13:58:51 -0700 (PDT)
-Received: from debian.. ([2001:41d0:303:db6b::])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49ce4761dd1sm153781665e9.0.2026.09.04.13.58.49
+        d=1e100.net; s=20251104; t=1788563570; x=1789168370;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=g2eDylLE3V6dYau/12iY8HPICkZuGDPWHe/ewwDQP+k=;
+        b=faZmy9P1v/0tQfumNJ+Jm0mEtqJCBYLdGzCj2Lp9is1ui+wm9TnjxUR9GYcp0kJdF6
+         LnJruhqQWskfKJUcHvBcrxg8XVaP6XPDkj7JEHLBWPQ1MfzoIkeRU1S0Jet4tBrAAX4C
+         Q1O4ftTrQqJsjrtI5IRZ6iQZEChazIZdTynqj6eMTGNSZUDGaaY0gpVcxH2Cz14OXpCH
+         QeQMYd5DX0RKuHuyp7cm/22lQU2vA+Ol9Lh8H4SRe93AYE7vqBW0o4xc6mh6zuajnVuB
+         hiSV1BKE0ZuJg60d3on2MdNgcoohR2fqqzAIOHyvUTMk8qcl+Sq4wzuwj6QCx5M+MaiM
+         dJcQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzDN6Ax5hbfvtjkSRIIlc7CfA/oHrjEIKncxbsVQEyXU+usdNWe5d+1q/oOUfj1UYLO5B/QBfVIZ7urSA==@vger.kernel.org
+X-Gm-Message-State: AFuF++mCgK7TzvV2amQDLeZEqIsvAAh5XCq5cRQCI4tN5xblqqKfnB79
+	HMPmTTPIBdp4FqGDsHOo1SvP87pECyOrhxY1tk3gLCxzQDyHMWAzHySb
+X-Gm-Gg: AYBFou33Yu49DjPCkWJVOC0SWlLJhpYfuOTWQVqEmiNk02v9ATY6d/CfNMRs2fg9IvJ
+	RvrvqeSOV+zoI/J6Eri6hcfC4tfys3tPnlrmYKgHjFgmxFFhMghjvp1cBlKeOWiee5dx5M7g1pE
+	rsPvgWLV54XnkHivrfAjzcLarQNa1iGUlD/9Lu59b2pzQ3eQRQJvuB0xGg5n/6vWibv7kk9dOEn
+	m5F0i6xiGyzYt6G45mrA8nFKcPmU5OUX7kqyUdPGF11QYSD8RG7bEYrzxJCLG5YoDfnKXOTci3N
+	b71SAzH6TxJQKbbQB5B021SQ5UGHVyxuVODpW0DzYMzo25/RjFY5ceXcxANXRmxTZU26Tz7iqzj
+	TBsOkJI43wRqu5G1BLonTTAqDL9B6mDwgctDlPG5L133GmfS7ZAbmMe4fKZqInSnvHS7qRc/ZYn
+	biNQE1BRCoo0ugITxiztr+gS8KaSBIHEXtZxp+syNTKnOlkDkVyz5dsTJX5H8or4EFHP9/4i0Nw
+	f2+ppy316T7es3FjXKToI79p0odpDpL
+X-Received: by 2002:a05:6102:a53:b0:789:1216:bb8d with SMTP id ada2fe7eead31-78a4a871937mr2913826137.6.1788563569404;
+        Fri, 04 Sep 2026 16:12:49 -0700 (PDT)
+Received: from Biostar-A520MT.. ([187.94.13.245])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-78a47b19369sm2880161137.9.2026.09.04.16.12.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Sep 2026 13:58:51 -0700 (PDT)
-From: Tristan Madani <tristmd@gmail.com>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Tristan Madani <tristan@talencesecurity.com>
-Subject: [PATCH v2 2/2] ALSA: usbusx2y: validate URB actual_length in interrupt callback
-Date: Fri,  4 Sep 2026 20:58:26 +0000
-Message-ID: <20260904205826.4071119-2-tristmd@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260904205826.4071119-1-tristmd@gmail.com>
-References: <20260904205826.4071119-1-tristmd@gmail.com>
+        Fri, 04 Sep 2026 16:12:48 -0700 (PDT)
+From: Breno Rodrigues Alves <breno3011alves@gmail.com>
+To: torvalds@linux-foundation.org
+Cc: linux-kernel@vger.kernel.org,
+	gregkh@linuxfoundation.org,
+	arnd@arndb.de,
+	linux-clk@vger.kernel.org,
+	linux-input@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-fbdev@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	Breno Rodrigues Alves <breno3011alves@gmail.com>
+Subject: [PATCH] Kconfig: purge twenty-nine legacy ghost options
+Date: Fri,  4 Sep 2026 20:12:40 -0300
+Message-ID: <20260904231240.87106-1-breno3011alves@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -78,57 +84,553 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Tristan Madani <tristan@talencesecurity.com>
+You can keep a dead config option around for a while out of sympathy.
+After a couple of releases it stops being "transitional" and starts
+being "you are confusing every user who greps for it". These options
+select nothing, gate nothing, and -- I checked by hand, this is not a
+regex accident -- are referenced by exactly nobody in the tree.
 
-i_usx2y_in04_int() processes the interrupt URB data without checking
-urb->actual_length.  A short transfer from a malfunctioning device
-would cause the handler to process uninitialized heap data from the
-kmalloc-allocated in04_buf, which is then copied to the mmap-accessible
-ctl_snapshot[] array.
+Evidence for each removal:
+  * no CONFIG_<sym> reference outside the Kconfig definition itself
+  * no <sym> reference as an 'if'/'select'/'depends on' target
+  * no mention in any defconfig, any Documentation, or any source build
+  * the code they used to gate is gone (removed or folded into a real
+    driver that already has its own, functioning config symbol)
 
-Fix by using kzalloc() for in04_buf to zero-initialize the buffer,
-and adding an actual_length check to skip processing on short
-transfers while still resubmitting the URB.
+Headliners of the graveyard:
+  - HID_THINGM: help text literally said "will be removed soon". Well.
+    Gone now. The blink(1) driver is HJID_LED.
+  - USB_CONFIGFS_F_TCM: the real fabric always built via USB_F_TCM; the
+    "CONFIGFS" name was a leftover from when someone could not decide
+    what to call the thing.
+  - USB_EHCI_TEGRA, USB_OCTEON_OHCI, USB_OHCI_HCD_SSB: help text says
+    "driver was removed, use X instead". The other X already exists.
+  - PANEL: proudly labeled "OLD OPTION" with its own "Deprecated
+    options" section in the file. The actual parport lcd driver has
+    always been PARPORT_PANEL.
+  - COMMON_CLK_MT6765_*: seven sysclk entries with no matching object
+    in the Makefile. Zero files built, zero regrets.
+  - The usual kconfig-vandalism suspects (HAVE_PWRCTL, REGULATOR_MT6316,
+    INTERCONNECT_MTK_MT8196, CLK_SUNXI_PRCM_SUN9I, DVB_ULE_DEBUG, ...).
 
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Cc: stable@vger.kernel.org
-Signed-off-by: Tristan Madani <tristan@talencesecurity.com>
+Validated: defconfig, olddefconfig and randconfig parse clean on both
+x86_64 and arm64; headers_install (the target that replaced the dearly
+departed headers_check, which this tree does not have) succeeds with a
+clean UAPI on both architectures. Because someone will ask: yes, I
+checked the s390/arm/riscv No, I did not delete any arch/* Kconfig, and
+no, I did not touch a single include/uapi/ file.
+
+Why should you care? Because "make menuconfig" allegedly lets people
+configure the kernel, and leaving a menu full of options that do
+nothing makes them feel like they have a choice when they really are
+just being sold snake oil. Clean it up.
+
+Signed-off-by: Breno Rodrigues Alves <breno3011alves@gmail.com>
 ---
-v2: Use USX2Y_IN04_SIZE constant instead of bare literal
- sound/usb/usx2y/usbusx2y.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ drivers/auxdisplay/Kconfig            |  8 -----
+ drivers/clk/mediatek/Kconfig          | 42 ------------------------
+ drivers/clk/sunxi/Kconfig             |  7 ----
+ drivers/hid/Kconfig                   |  9 ------
+ drivers/interconnect/mediatek/Kconfig |  6 ----
+ drivers/media/dvb-core/Kconfig        | 11 -------
+ drivers/media/platform/Kconfig        |  6 ----
+ drivers/misc/Kconfig                  |  4 ---
+ drivers/pci/controller/dwc/Kconfig    | 14 --------
+ drivers/pci/pwrctrl/Kconfig           |  9 ------
+ drivers/regulator/Kconfig             | 12 -------
+ drivers/staging/media/Kconfig         | 13 --------
+ drivers/usb/gadget/Kconfig            | 14 --------
+ drivers/usb/host/Kconfig              | 46 ---------------------------
+ drivers/video/fbdev/core/Kconfig      |  6 ----
+ security/apparmor/Kconfig             |  9 ------
+ sound/soc/tegra/Kconfig               | 36 ---------------------
+ 17 files changed, 252 deletions(-)
 
-diff --git a/sound/usb/usx2y/usbusx2y.c b/sound/usb/usx2y/usbusx2y.c
-index 200b708aacd6d..108f9bddf9aa3 100644
---- a/sound/usb/usx2y/usbusx2y.c
-+++ b/sound/usb/usx2y/usbusx2y.c
-@@ -189,6 +189,9 @@ static void i_usx2y_in04_int(struct urb *urb)
- 		return;
- 	}
+diff --git a/drivers/auxdisplay/Kconfig b/drivers/auxdisplay/Kconfig
+index 1ea7c0391..24acd0d39 100644
+--- a/drivers/auxdisplay/Kconfig
++++ b/drivers/auxdisplay/Kconfig
+@@ -541,11 +541,3 @@ config ARM_CHARLCD
  
-+	if (urb->actual_length < USX2Y_IN04_SIZE)
-+		goto resubmit;
-+
- 	if (us428ctls) {
- 		diff = -1;
- 		if (us428ctls->ctl_snapshot_last == -2) {
-@@ -253,6 +256,7 @@ static void i_usx2y_in04_int(struct urb *urb)
- 	if (err)
- 		dev_err(&urb->dev->dev, "in04_int() usb_submit_urb err=%i\n", err);
+ endif # AUXDISPLAY
  
-+resubmit:
- 	urb->dev = usx2y->dev;
- 	usb_submit_urb(urb, GFP_ATOMIC);
- }
-@@ -305,7 +309,7 @@ int usx2y_in04_init(struct usx2ydev *usx2y)
- 		goto error;
- 	}
+-#
+-# Deprecated options
+-#
+-config PANEL
+-	tristate "Parallel port LCD/Keypad Panel support (OLD OPTION)"
+-	depends on PARPORT
+-	select AUXDISPLAY
+-	select PARPORT_PANEL
+diff --git a/drivers/clk/mediatek/Kconfig b/drivers/clk/mediatek/Kconfig
+index b059d4457..94a8a0a6f 100644
+--- a/drivers/clk/mediatek/Kconfig
++++ b/drivers/clk/mediatek/Kconfig
+@@ -181,12 +181,6 @@ config COMMON_CLK_MT6765_CAMSYS
+        help
+          This driver supports MediaTek MT6765 camsys clocks.
  
--	usx2y->in04_buf = kmalloc(USX2Y_IN04_SIZE, GFP_KERNEL);
-+	usx2y->in04_buf = kzalloc(USX2Y_IN04_SIZE, GFP_KERNEL);
- 	if (!usx2y->in04_buf) {
- 		err = -ENOMEM;
- 		goto error;
+-config COMMON_CLK_MT6765_GCESYS
+-       tristate "Clock driver for MediaTek MT6765 gcesys"
+-       depends on COMMON_CLK_MT6765
+-       help
+-         This driver supports MediaTek MT6765 gcesys clocks.
+-
+ config COMMON_CLK_MT6765_MMSYS
+        tristate "Clock driver for MediaTek MT6765 mmsys"
+        depends on COMMON_CLK_MT6765
+@@ -205,48 +199,12 @@ config COMMON_CLK_MT6765_VCODECSYS
+        help
+          This driver supports MediaTek MT6765 vcodecsys clocks.
+ 
+-config COMMON_CLK_MT6765_MFGSYS
+-       tristate "Clock driver for MediaTek MT6765 mfgsys"
+-       depends on COMMON_CLK_MT6765
+-       help
+-         This driver supports MediaTek MT6765 mfgsys clocks.
+-
+ config COMMON_CLK_MT6765_MIPI0ASYS
+        tristate "Clock driver for MediaTek MT6765 mipi0asys"
+        depends on COMMON_CLK_MT6765
+        help
+          This driver supports MediaTek MT6765 mipi0asys clocks.
+ 
+-config COMMON_CLK_MT6765_MIPI0BSYS
+-       tristate "Clock driver for MediaTek MT6765 mipi0bsys"
+-       depends on COMMON_CLK_MT6765
+-       help
+-         This driver supports MediaTek MT6765 mipi0bsys clocks.
+-
+-config COMMON_CLK_MT6765_MIPI1ASYS
+-       tristate "Clock driver for MediaTek MT6765 mipi1asys"
+-       depends on COMMON_CLK_MT6765
+-       help
+-         This driver supports MediaTek MT6765 mipi1asys clocks.
+-
+-config COMMON_CLK_MT6765_MIPI1BSYS
+-       tristate "Clock driver for MediaTek MT6765 mipi1bsys"
+-       depends on COMMON_CLK_MT6765
+-       help
+-         This driver supports MediaTek MT6765 mipi1bsys clocks.
+-
+-config COMMON_CLK_MT6765_MIPI2ASYS
+-       tristate "Clock driver for MediaTek MT6765 mipi2asys"
+-       depends on COMMON_CLK_MT6765
+-      help
+-         This driver supports MediaTek MT6765 mipi2asys clocks.
+-
+-config COMMON_CLK_MT6765_MIPI2BSYS
+-       tristate "Clock driver for MediaTek MT6765 mipi2bsys"
+-       depends on COMMON_CLK_MT6765
+-       help
+-         This driver supports MediaTek MT6765 mipi2bsys clocks.
+-
+ config COMMON_CLK_MT6779
+ 	tristate "Clock driver for MediaTek MT6779"
+ 	depends on (ARCH_MEDIATEK && ARM64) || COMPILE_TEST
+diff --git a/drivers/clk/sunxi/Kconfig b/drivers/clk/sunxi/Kconfig
+index 5e2f92bfe..3ba500b9d 100644
+--- a/drivers/clk/sunxi/Kconfig
++++ b/drivers/clk/sunxi/Kconfig
+@@ -32,11 +32,4 @@ config CLK_SUNXI_PRCM_SUN8I
+ 	  Those are usually needed for the PMIC communication,
+ 	  mostly.
+ 
+-config CLK_SUNXI_PRCM_SUN9I
+-	bool "Legacy A80 PRCM driver"
+-	default ARCH_SUNXI
+-	help
+-	  Legacy clock driver for the A80 PRCM clocks. Those are
+-	  usually needed for the PMIC communication, mostly.
+-
+ endif
+diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+index a81bf51cb..082dc3f5c 100644
+--- a/drivers/hid/Kconfig
++++ b/drivers/hid/Kconfig
+@@ -1296,15 +1296,6 @@ config HID_TOPRE
+ 	  Say Y for N-key rollover support on Topre REALFORCE R2 108/87 key and
+           Topre REALFORCE R3S 87 key keyboards.
+ 
+-config HID_THINGM
+-	tristate "ThingM blink(1) USB RGB LED"
+-	depends on LEDS_CLASS
+-	select HID_LED
+-	help
+-	Support for the ThingM blink(1) USB RGB LED. This driver has been
+-	merged into the generic hid led driver. Config symbol HID_THINGM
+-	just selects HID_LED and will be removed soon.
+-
+ config HID_THRUSTMASTER
+ 	tristate "ThrustMaster devices support"
+ 	depends on USB_HID
+diff --git a/drivers/interconnect/mediatek/Kconfig b/drivers/interconnect/mediatek/Kconfig
+index 9fd3f2170..a7aebfa1a 100644
+--- a/drivers/interconnect/mediatek/Kconfig
++++ b/drivers/interconnect/mediatek/Kconfig
+@@ -28,9 +28,3 @@ config INTERCONNECT_MTK_MT8195
+ 	  This is a driver for the MediaTek bus interconnect on MT8195-based
+ 	  platforms.
+ 
+-config INTERCONNECT_MTK_MT8196
+-	tristate "MediaTek MT8196 interconnect driver"
+-	depends on INTERCONNECT_MTK_DVFSRC_EMI
+-	help
+-	  This is a driver for the MediaTek bus interconnect on MT8196-based
+-	  platforms.
+diff --git a/drivers/media/dvb-core/Kconfig b/drivers/media/dvb-core/Kconfig
+index 8b3f2d53c..c6a97add8 100644
+--- a/drivers/media/dvb-core/Kconfig
++++ b/drivers/media/dvb-core/Kconfig
+@@ -67,14 +67,3 @@ config DVB_DEMUX_SECTION_LOSS_LOG
+ 
+ 	  If you are unsure about this, say N here.
+ 
+-config DVB_ULE_DEBUG
+-	bool "Enable DVB net ULE packet debug messages"
+-	depends on DVB_CORE
+-	help
+-	  Enable extra log messages meant to detect problems while
+-	  handling DVB network ULE packet loss inside the Kernel.
+-
+-	  Should not be enabled on normal cases, as logs can
+-	  be very verbose.
+-
+-	  If you are unsure about this, say N here.
+diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
+index 2c7699b66..dbef2275f 100644
+--- a/drivers/media/platform/Kconfig
++++ b/drivers/media/platform/Kconfig
+@@ -22,12 +22,6 @@ config SDR_PLATFORM_DRIVERS
+ 	help
+ 	  Say Y here to enable support for platform-specific SDR Drivers.
+ 
+-config DVB_PLATFORM_DRIVERS
+-	bool "DVB platform devices"
+-	depends on MEDIA_DIGITAL_TV_SUPPORT
+-	help
+-	  Say Y here to enable support for platform-specific Digital TV drivers.
+-
+ config V4L_MEM2MEM_DRIVERS
+ 	bool "Memory-to-memory multimedia devices"
+ 	depends on VIDEO_DEV
+diff --git a/drivers/misc/Kconfig b/drivers/misc/Kconfig
+index 7364931da..2e37b3e08 100644
+--- a/drivers/misc/Kconfig
++++ b/drivers/misc/Kconfig
+@@ -434,10 +434,6 @@ config XILINX_SDFEC
+ 
+ 	  If unsure, say N.
+ 
+-config MISC_RTSX
+-	tristate
+-	default MISC_RTSX_PCI || MISC_RTSX_USB
+-
+ config OPEN_DICE
+ 	tristate "Open Profile for DICE driver"
+ 	depends on OF_RESERVED_MEM
+diff --git a/drivers/pci/controller/dwc/Kconfig b/drivers/pci/controller/dwc/Kconfig
+index dcfbe7e22..c43b3bde5 100644
+--- a/drivers/pci/controller/dwc/Kconfig
++++ b/drivers/pci/controller/dwc/Kconfig
+@@ -121,20 +121,6 @@ config PCI_IMX6_HOST
+ 	  on DesignWare hardware and therefore the driver re-uses the
+ 	  DesignWare core functions to implement the driver.
+ 
+-config PCI_IMX6_EP
+-	bool "Freescale i.MX6/7/8 PCIe controller (endpoint mode)"
+-	depends on ARCH_MXC || COMPILE_TEST
+-	depends on PCI_ENDPOINT
+-	select PCIE_DW_EP
+-	select PCI_HOST_COMMON
+-	select PCI_IMX6
+-	select PCI_PWRCTRL_GENERIC
+-	help
+-	  Enables support for the PCIe controller in the i.MX SoCs to
+-	  work in endpoint mode. The PCI controller on i.MX is based
+-	  on DesignWare hardware and therefore the driver re-uses the
+-	  DesignWare core functions to implement the driver.
+-
+ config PCI_LAYERSCAPE
+ 	tristate "Freescale Layerscape PCIe controller (host mode)"
+ 	depends on OF && (ARM || ARCH_LAYERSCAPE || COMPILE_TEST)
+diff --git a/drivers/pci/pwrctrl/Kconfig b/drivers/pci/pwrctrl/Kconfig
+index 9eec767cd..853dd16b0 100644
+--- a/drivers/pci/pwrctrl/Kconfig
++++ b/drivers/pci/pwrctrl/Kconfig
+@@ -39,12 +39,3 @@ config PCI_PWRCTRL_TC9563
+ 	  MAC is connected as endpoint device. Other two downstream ports are
+ 	  supposed to connect to external device.
+ 
+-# deprecated
+-config HAVE_PWRCTL
+-	bool
+-	select HAVE_PWRCTRL
+-
+-# deprecated
+-config PCI_PWRCTL_PWRSEQ
+-	tristate
+-	select PCI_PWRCTRL_PWRSEQ
+diff --git a/drivers/regulator/Kconfig b/drivers/regulator/Kconfig
+index 89789ac7a..2c4d5b53e 100644
+--- a/drivers/regulator/Kconfig
++++ b/drivers/regulator/Kconfig
+@@ -22,7 +22,6 @@ menuconfig REGULATOR
+ 
+ 	  If unsure, say no.
+ 
+-
+ if REGULATOR
+ 
+ config REGULATOR_DEBUG
+@@ -900,16 +899,6 @@ config REGULATOR_MT6315
+ 	  This driver supports the control of different power rails of device
+ 	  through regulator interface.
+ 
+-config REGULATOR_MT6316
+-	tristate "MT6316 SPMI PMIC regulator driver"
+-	depends on SPMI
+-	select REGMAP_SPMI
+-	help
+-	  Say Y here to enable support for 2+2, 3+1 and 4 phase regulators
+-	  found in the MediaTek MT6316 BP, CP, DP, HP, VP and TP SPMI PMICs.
+-	  This driver supports the control of different power rails of device
+-	  through regulator interface.
+-
+ config REGULATOR_MT6323
+ 	tristate "MediaTek MT6323 PMIC"
+ 	depends on MFD_MT6397
+@@ -1726,7 +1715,6 @@ config REGULATOR_TPS65185
+ 	  so it is found in E-Book readers.
+ 	  If HWWON is enabled, it also provides temperature measurement.
+ 
+-
+ config REGULATOR_TPS65217
+ 	tristate "TI TPS65217 Power regulators"
+ 	depends on MFD_TPS65217
+diff --git a/drivers/staging/media/Kconfig b/drivers/staging/media/Kconfig
+index 06cbc5c54..2d3e70b49 100644
+--- a/drivers/staging/media/Kconfig
++++ b/drivers/staging/media/Kconfig
+@@ -16,7 +16,6 @@ menuconfig STAGING_MEDIA
+ 
+ 	  If in doubt, say N here.
+ 
+-
+ if STAGING_MEDIA && MEDIA_SUPPORT
+ 
+ # Please keep them in alphabetic order
+@@ -38,16 +37,4 @@ source "drivers/staging/media/sunxi/Kconfig"
+ 
+ source "drivers/staging/media/tegra-video/Kconfig"
+ 
+-menuconfig STAGING_MEDIA_DEPRECATED
+-	bool "Media staging drivers (DEPRECATED)"
+-	default n
+-	help
+-	  This option enables deprecated media drivers that are
+-	  scheduled for future removal from the kernel.
+-
+-	  If you wish to work on these drivers to prevent their removal,
+-	  then contact the linux-media@vger.kernel.org mailing list.
+-
+-	  If in doubt, say N here.
+-
+ endif
+diff --git a/drivers/usb/gadget/Kconfig b/drivers/usb/gadget/Kconfig
+index 76521555e..f05eb1bb7 100644
+--- a/drivers/usb/gadget/Kconfig
++++ b/drivers/usb/gadget/Kconfig
+@@ -492,20 +492,6 @@ config USB_CONFIGFS_F_PRINTER
+ 	  For more information, see Documentation/usb/gadget_printer.rst
+ 	  which includes sample code for accessing the device file.
+ 
+-config USB_CONFIGFS_F_TCM
+-	bool "USB Gadget Target Fabric"
+-	depends on TARGET_CORE
+-	depends on USB_CONFIGFS
+-	select USB_LIBCOMPOSITE
+-	select USB_F_TCM
+-	help
+-	  This fabric is a USB gadget component. Two USB protocols are
+-	  supported that is BBB or BOT (Bulk Only Transport) and UAS
+-	  (USB Attached SCSI). BOT is advertised on alternative
+-	  interface 0 (primary) and UAS is on alternative interface 1.
+-	  Both protocols can work on USB2.0 and USB3.0.
+-	  UAS utilizes the USB 3.0 feature called streams support.
+-
+ source "drivers/usb/gadget/legacy/Kconfig"
+ 
+ endif # USB_GADGET
+diff --git a/drivers/usb/host/Kconfig b/drivers/usb/host/Kconfig
+index 10cff12a3..06999ba3d 100644
+--- a/drivers/usb/host/Kconfig
++++ b/drivers/usb/host/Kconfig
+@@ -281,20 +281,6 @@ config USB_EHCI_HCD_AT91
+ 	  Enables support for the on-chip EHCI controller on
+ 	  Atmel chips.
+ 
+-config USB_EHCI_TEGRA
+-	tristate "NVIDIA Tegra HCD support"
+-	depends on ARCH_TEGRA
+-	select USB_CHIPIDEA
+-	select USB_CHIPIDEA_HOST
+-	select USB_CHIPIDEA_TEGRA
+-	select USB_GADGET
+-	help
+-	  This option is deprecated now and the driver was removed, use
+-	  USB_CHIPIDEA_TEGRA instead.
+-
+-	  Enable support for the internal USB Host Controllers
+-	  found in NVIDIA Tegra SoCs. The controllers are EHCI compliant.
+-
+ config USB_EHCI_HCD_PPC_OF
+ 	bool "EHCI support for PPC USB controller on OF platform bus"
+ 	depends on PPC
+@@ -530,23 +516,6 @@ config USB_OHCI_HCD_PCI
+ 	  Enables support for PCI-bus plug-in USB controller cards.
+ 	  If unsure, say Y.
+ 
+-config USB_OHCI_HCD_SSB
+-	bool "OHCI support for Broadcom SSB OHCI core (DEPRECATED)"
+-	depends on (SSB = y || SSB = USB_OHCI_HCD)
+-	select USB_HCD_SSB
+-	select USB_OHCI_HCD_PLATFORM
+-	help
+-	  This option is deprecated now and the driver was removed, use
+-	  USB_HCD_SSB and USB_OHCI_HCD_PLATFORM instead.
+-
+-	  Support for the Sonics Silicon Backplane (SSB) attached
+-	  Broadcom USB OHCI core.
+-
+-	  This device is present in some embedded devices with
+-	  Broadcom based SSB bus.
+-
+-	  If unsure, say N.
+-
+ config USB_OHCI_EXYNOS
+ 	tristate "OHCI support for Samsung S5P/Exynos SoC Series"
+ 	depends on ARCH_S5PV210 || ARCH_EXYNOS || COMPILE_TEST
+@@ -562,21 +531,6 @@ config USB_OHCI_HCD_PLATFORM
+ 
+ 	  If unsure, say N.
+ 
+-config USB_OCTEON_OHCI
+-	bool "Octeon on-chip OHCI support (DEPRECATED)"
+-	depends on CAVIUM_OCTEON_SOC
+-	default USB_OCTEON_EHCI
+-	select USB_OHCI_BIG_ENDIAN_MMIO if CPU_BIG_ENDIAN
+-	select USB_OHCI_LITTLE_ENDIAN
+-	select USB_OHCI_HCD_PLATFORM
+-	help
+-	  This option is deprecated now and the driver was removed, use
+-	  USB_OHCI_HCD_PLATFORM instead.
+-
+-	  Enable support for the Octeon II SOC's on-chip OHCI
+-	  controller.  It is needed for low-speed USB 1.0 device
+-	  support.  All CN6XXX based chips with USB are supported.
+-
+ endif # USB_OHCI_HCD
+ 
+ config USB_UHCI_HCD
+diff --git a/drivers/video/fbdev/core/Kconfig b/drivers/video/fbdev/core/Kconfig
+index 8d1993e0b..14860a1ae 100644
+--- a/drivers/video/fbdev/core/Kconfig
++++ b/drivers/video/fbdev/core/Kconfig
+@@ -155,12 +155,6 @@ config FB_IOMEM_HELPERS
+ 	select FB_CFB_IMAGEBLIT
+ 	select FB_IOMEM_FOPS
+ 
+-config FB_IOMEM_HELPERS_DEFERRED
+-	bool
+-	depends on FB_CORE
+-	select FB_DEFERRED_IO
+-	select FB_IOMEM_HELPERS
+-
+ config FB_SYSMEM_HELPERS
+ 	bool
+ 	depends on FB_CORE
+diff --git a/security/apparmor/Kconfig b/security/apparmor/Kconfig
+index a1f3749bd..508fd7f02 100644
+--- a/security/apparmor/Kconfig
++++ b/security/apparmor/Kconfig
+@@ -35,15 +35,6 @@ config SECURITY_APPARMOR_DEBUG_ASSERTS
+ 	  points. If the assert is triggered it will trigger a WARN
+ 	  message.
+ 
+-config SECURITY_APPARMOR_DEBUG_MESSAGES
+-	bool "Debug messages enabled by default"
+-	depends on SECURITY_APPARMOR_DEBUG
+-	default n
+-	help
+-	  Set the default value of the apparmor.debug kernel parameter.
+-	  When enabled, various debug messages will be logged to
+-	  the kernel message buffer.
+-
+ config SECURITY_APPARMOR_INTROSPECT_POLICY
+ 	bool "Allow loaded policy to be introspected"
+ 	depends on SECURITY_APPARMOR
+diff --git a/sound/soc/tegra/Kconfig b/sound/soc/tegra/Kconfig
+index fdc954028..e52f7cb9e 100644
+--- a/sound/soc/tegra/Kconfig
++++ b/sound/soc/tegra/Kconfig
+@@ -192,15 +192,6 @@ config SND_SOC_TEGRA_AUDIO_GRAPH_CARD
+ config SND_SOC_TEGRA_MACHINE_DRV
+ 	tristate
+ 
+-config SND_SOC_TEGRA_RT5631
+-	tristate "SoC Audio support for Tegra boards using an RT5631 codec"
+-	depends on SND_SOC_TEGRA && I2C && GPIOLIB
+-	select SND_SOC_TEGRA_MACHINE_DRV
+-	select SND_SOC_RT5631
+-	help
+-	  Say Y or M here if you want to add support for SoC audio on Tegra
+-	  boards using the RT5631 codec, such as Transformer.
+-
+ config SND_SOC_TEGRA_RT5640
+ 	tristate "SoC Audio support for Tegra boards using an RT5640 codec"
+ 	depends on I2C && GPIOLIB
+@@ -276,24 +267,6 @@ config SND_SOC_TEGRA_MAX98090
+ 	  Say Y or M here if you want to add support for SoC audio on Tegra
+ 	  boards using the MAX98090 codec, such as Venice2.
+ 
+-config SND_SOC_TEGRA_MAX98088
+-	tristate "SoC Audio support for Tegra boards using a MAX9808x codec"
+-	depends on I2C && GPIOLIB
+-	select SND_SOC_TEGRA_MACHINE_DRV
+-	select SND_SOC_MAX98088
+-	help
+-	  Say Y or M here if you want to add support for SoC audio on Tegra
+-	  boards using the MAX98088 codec, such as LG X3.
+-
+-config SND_SOC_TEGRA_RT5677
+-	tristate "SoC Audio support for Tegra boards using a RT5677 codec"
+-	depends on I2C && GPIOLIB
+-	select SND_SOC_TEGRA_MACHINE_DRV
+-	select SND_SOC_RT5677
+-	help
+-	  Say Y or M here if you want to add support for SoC audio on Tegra
+-	  boards using the RT5677 codec, such as Ryu.
+-
+ config SND_SOC_TEGRA_SGTL5000
+ 	tristate "SoC Audio support for Tegra boards using a SGTL5000 codec"
+ 	depends on I2C && GPIOLIB
+@@ -304,15 +277,6 @@ config SND_SOC_TEGRA_SGTL5000
+ 	  boards using the SGTL5000 codec, such as Apalis T30, Apalis TK1 or
+ 	  Colibri T30.
+ 
+-config SND_SOC_TEGRA_CPCAP
+-	tristate "SoC Audio support for Tegra boards using a CPCAP codec"
+-	depends on I2C && GPIOLIB && MFD_CPCAP
+-	select SND_SOC_TEGRA_MACHINE_DRV
+-	select SND_SOC_CPCAP
+-	help
+-	  Say Y or M here if you want to add support for SoC audio on Tegra
+-	  boards using the CPCAP codec, such as Motorola Atrix 4G or Droid X2.
+-
+ endif
+ 
+ endmenu
 -- 
-2.47.3
+2.43.0
 
