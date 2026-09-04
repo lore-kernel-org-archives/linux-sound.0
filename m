@@ -1,110 +1,115 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7C9051A743
-	for <linux-sound@vger.kernel.org>; Fri,  4 Sep 2026 18:20:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE3DD426692
+	for <linux-sound@vger.kernel.org>; Fri,  4 Sep 2026 19:45:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788546031; cv=none; b=MwhuQcVZ28WWsOsugiTk0I0D4ThN8uvXuzUjnKuM3UkY1cCh7erjoRdkYUron7I5u6vZDj7Z7sSUfWQ9L1SEuxHU/9D9C7IqcyDwxLEUs7hPvBt523ATXkXbnHipAKhdHk6cIG7lBJO5KZh0hTJ95i3ArmdfwNAGf/kmIq3SolQ=
+	t=1788551144; cv=none; b=VSMbZFdnJ5OAAkWjX/yvjjlgnz7r2fgISzkPvONDLoqQdspB88Hw7TOLYGpawdNDM5xlRR5pJn6/3CoduJswPLL5JYeVvVP5TvsN1wOgnAgCyfeWwWyx6ZfEQXcov0q58yC4eN+HK4XMyZtiOYD6fymXsSvPqnUWPz3U+M6YmW4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788546031; c=relaxed/simple;
-	bh=byKejZtAl6q7TXNAGPeYbR4LCvKQMlBWPXFv0oHjhEA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hAV2qcfyrcMm6AJq43GhWyOCz78OYkF3oeLpjGQM5gHXwUV/mt4a7vb1xi0awsL+pX0VN83lDFHnVLXsplu5uFW6Fe58xYIJANw9rohpgK4jhM1yrRPCBN5nrGGjmLCxCMPOGSudGy8ET0iEuLFGhFiIW60nYYjcoszjdjh+Iak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mC3WL4+W; arc=none smtp.client-ip=209.85.215.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788551144; c=relaxed/simple;
+	bh=DoWyGvrH8T+BMUmKnteBJVvqI769OmEKzOhaqNkgcAE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=s1jzI0oy2DUnnhQrp9CrFuzniCLmUOIkNwFNS7EvL3nDCmZuY7tV/14s7M4n5Ig4i7bBJ9JCqEGxX5q7seezgtAqmkkAthArLSw36D2v1j1ktUgq6hI9OA/Xf8mqvnmpuFdMREMnQ3wP+HGQCB+8EFyqQ9dyVOqnB7ezouj1m5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dGPwHUQc; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mC3WL4+W"
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-cc2276e6daeso1127577a12.0
-        for <linux-sound@vger.kernel.org>; Fri, 04 Sep 2026 11:20:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788546029; x=1789150829; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=byKejZtAl6q7TXNAGPeYbR4LCvKQMlBWPXFv0oHjhEA=;
-        b=mC3WL4+WEbngGes0cuZkjNgSffbUd4hbsuivXCv2cxu4iL5dHXETt1uCkPWTIFD7YQ
-         JtnYC9jDrcN0eOSP2NZdFRpbWtSD5U7bGm7lAoe3iNN349Bl8id3zcCQoxzFRsX8kr0t
-         DSuNfUBZchNJzQSIWoPkc3HXI7r+suxEIcq7RZAnY5Kv3vGSytUcZx3vIzGu5KrAyNTs
-         r1HqQXstoZGD3w271UG/ZzqG0IXVwiZmyuNcwDFZv8EZ+vpZd6LAdm38d3B/Msjxsdj2
-         3Jl481p9dhzEySxqbPEUywoajCtkDR2pcnoEpeQgR1HR/H+JjNCU+7XWCxqAdyfAeNjv
-         6L8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788546029; x=1789150829;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=byKejZtAl6q7TXNAGPeYbR4LCvKQMlBWPXFv0oHjhEA=;
-        b=VTqzc2QtNwuv7C+IcHYPTey5D7+m/zVpcRRNS1czFnKp4zXqvUvTiOpLBgwHKXmf4z
-         62i71zyOeqt5uwnQORvDg3GHn11WfoXTc5kbKpzDVQuH/oTenGNT22XHXypa392OW4oy
-         NVZLuIxB1a4LKnV6JZswnbJt/fpY7cTCqCfsjYz9qvh3IkAPw2e4/NO8ub5sFNaS62SB
-         FbxNLZVNc7rsF43hKrByVQbJ4O+qfnm5a09paACnrND+keeq8Fe0Vtk2nQq4li4ODt0z
-         bM4TIKaQLLGrq4/+PLXs/xqI2xNSrcHO1jJgNivnGmfviG0Bs1YXoE/mkzN0tFdS+2lm
-         yBPQ==
-X-Gm-Message-State: AFuF++lFt2umj8CrCJqUpGC2veV7Uc4uyclYk2Sg/g3n+VWMToi18EtD
-	yCwfTitmyGGRqAecrJRc4NY30/+DREQIOJVfGKbEX8Uk8ZCocdnqnWcTbEEx9mLpgVI=
-X-Gm-Gg: AYBFou3H79h3CK85Z1IoKJ6dMVADNGznGvUOX2RJchT6DBrYgr6zqm/cp3HHDGUWSRE
-	bZQK5JdNETfHc28DCVRDM+EE+LwEvZXOEV8ylCGeFFbXnJsXbDfGDaxVWENOOOFMaovjUIaxWVP
-	NZUATmKlJNo1VCpVC+j64OkVaJwBQPz/AoZ3zCnzKuGmeKBIuafTx8pegVC2uOf8UzwNeefHfyQ
-	sM459sVdP+AhtMqCFjXe6iiEhc+PHHPVg3KWCDVE0J5y00HAyftDt/wTCYL1W+IKIvlk9r6b/d9
-	Aun4ryPuhPtBApjlxw+gy9QPAb4brfJ/9cFS9Ru4pHZnvW9DUl10Tb3fVwBlvqe+5QFPzEirmso
-	OvGOvDXRnycBgRBWMjGt924ug4tqmShy0x/f4aABgOrKmo0rUIaCixWMkOb1LwBgItpOGwXZ0bz
-	YNQ1ERLP6RdtIKM3CuueCSY6J6uBwORYPCyU9OmiCLYvj/8c5dRmCrR37KI9jhNdYrBVN6y6XEI
-	w==
-X-Received: by 2002:a17:90a:d010:b0:38e:bbf1:de3f with SMTP id 98e67ed59e1d1-39b26272ef9mr13588885a91.12.1788546028788;
-        Fri, 04 Sep 2026 11:20:28 -0700 (PDT)
-Received: from localhost.localdomain ([2001:1960:1401:126c:876e:d154:517e:4c6f])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3342af0bc08sm6350509eec.17.2026.09.04.11.20.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Sep 2026 11:20:28 -0700 (PDT)
-From: Hanh Kieu <hhkieu@gmail.com>
-To: geraldogabriel@gmail.com,
-	perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: usb-audio: add Pioneer DJ DDJ-SZ support
-Date: Fri,  4 Sep 2026 11:20:23 -0700
-Message-ID: <20260904182023.4486-1-hhkieu@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <CAEsQvcuaNZvLxyxNH_NOy5qwTmkrk-A9QdVtZD0GiCtPwk4A+A@mail.gmail.com>
-References: <CAEsQvcuaNZvLxyxNH_NOy5qwTmkrk-A9QdVtZD0GiCtPwk4A+A@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dGPwHUQc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B3BA1F00A3D;
+	Fri,  4 Sep 2026 19:45:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788551129;
+	bh=HCY9VGAqhzJ9PPUA6uDYuCpDUnSnfB58EIDAVhpRUjw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=dGPwHUQcY+YtK+ZsfHZQLwSc9io5SQegfhxfYPu1e2uk0w8qB+9HhzomHK8WVdDvN
+	 GSz6KDTl7cZmfDnXacirsdptktG+4nZZpirdeRO9ULEo+izj7LZ9HynSii41klbEml
+	 hgkaj9TCGcPmHyUxQSKzeoJX8VRfaGJrg82zI9U+Rfbf/C/CJJq3Vz0phEF8zBVfS6
+	 koGOf8T0srsSo+hYjtHpkuLDROpsvD9WLitYLK1oTQ/ebOP1KVSSDD5IFFmanv2vbi
+	 HbFd8fLur9m1qvrdfZSG1tyEgX14oC1iCWjPt25Ql2NJgt15aoiihfpt2yNpMSb4GZ
+	 fmaDmAFp6NtSQ==
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+	id EBFD01AC52F1; Fri, 04 Sep 2026 20:45:26 +0100 (BST)
+Date: Fri, 4 Sep 2026 20:45:26 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: vkoul@kernel.org, perex@perex.cz, tiwai@suse.com, lgirdwood@gmail.com,
+	srinivas.kandagatla@oss.qualcomm.com, linux-sound@vger.kernel.org,
+	kai.vehmanen@linux.intel.com, yung-chuan.liao@linux.intel.com,
+	pierre-louis.bossart@linux.dev, daniel.baluta@nxp.com,
+	Vijendar.Mukunda@amd.com
+Subject: Re: [PATCH 04/23] ASoC: soc-compress: Implement trigger FE-BE
+ sequencing as with normal PCMs
+Message-ID: <apsf1kjaFG71NpPd@sirena.co.uk>
+References: <20260904073134.29648-1-peter.ujfalusi@linux.intel.com>
+ <20260904073134.29648-5-peter.ujfalusi@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="gaapBVWbjYR4hDFr"
+Content-Disposition: inline
+In-Reply-To: <20260904073134.29648-5-peter.ujfalusi@linux.intel.com>
+X-Cookie: My vaseline is RUNNING...
 
-Geraldo Nascimento wrote:
-> Are you sure is_pioneer_implicit_fb() isn't returning false and you're
-> picking up on a generic sync ep instead?
->
-> You should double-check that function is returning true or false because
-> it will return false when USB_ENDPOINT_USAGE_IMPLICIT_FB isn't
-> set on bmAttributes of a Isochronous IN EP.
 
-Good catch, thanks -- I checked against the real device rather than
-assuming.
+--gaapBVWbjYR4hDFr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-lsusb -v on the DDJ-SZ shows both endpoints (0x01 OUT, 0x82 IN) as
-Isochronous / Asynchronous with Usage Type = Data (bmAttributes = 0x05).
-is_pioneer_implicit_fb() accepts the capture endpoint's usage being
-either USB_ENDPOINT_USAGE_DATA or USB_ENDPOINT_USAGE_IMPLICIT_FB, not
-IMPLICIT_FB exclusively, so Data usage does pass that check.
+On Fri, Sep 04, 2026 at 10:31:15AM +0300, Peter Ujfalusi wrote:
 
-I also traced snd_usb_parse_implicit_fb_quirk()'s dispatch order for
-this device to make sure nothing generic intercepts first: no fixed or
-capture quirk-table entry matches 08e4:0191, it isn't UAC2
-(bInterfaceClass is vendor-spec, not USB_CLASS_AUDIO), and it isn't the
-Roland vendor ID. So is_pioneer_implicit_fb() is the function actually
-being reached and returning true for this device, not a coincidental
-generic fallback.
+> The FE-BE trigger sequence should be dynamic, similarly how soc-pcm.c
+> dpcm_fe_dai_do_trigger() does it.
 
-Happy to add a comment near the quirk-table entry noting the real
-bmAttributes value if that would help future readers.
+> +static int soc_compr_trigger_fe(struct snd_compr_stream *cstream, int cm=
+d)
+> +{
+> +	struct snd_soc_pcm_runtime *fe =3D cstream->private_data;
+>  	int stream =3D cstream->direction; /* SND_COMPRESS_xxx is same as SNDRV=
+_PCM_STREAM_xxx */
+> +	bool fe_first;
+>  	int ret;
+> =20
+>  	if (cmd =3D=3D SND_COMPR_TRIGGER_PARTIAL_DRAIN ||
+>  	    cmd =3D=3D SND_COMPR_TRIGGER_DRAIN)
+>  		return snd_soc_component_compr_trigger(cstream, cmd);
 
-Thanks,
-Hanh Kieu
+What about SND_COMPR_TRIGGER_NEXT_TRACK...
+
+> +	switch (cmd) {
+> +	case SNDRV_PCM_TRIGGER_START:
+> +	case SNDRV_PCM_TRIGGER_RESUME:
+> +	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
+> +		ret =3D soc_compr_trigger_fe_be(cstream, cmd, fe_first);
+> +		break;
+> +	case SNDRV_PCM_TRIGGER_STOP:
+> +	case SNDRV_PCM_TRIGGER_SUSPEND:
+> +	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
+> +		ret =3D soc_compr_trigger_fe_be(cstream, cmd, !fe_first);
+> +		break;
+> +	default:
+> +		ret =3D -EINVAL;
+> +		break;
+
+=2E..otherwise it'll end up with -EINVAL instead of getting passed
+through.  Also a switch statement would be a bit more idiomatic.
+
+--gaapBVWbjYR4hDFr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqbH9YACgkQJNaLcl1U
+h9Cw+gf/e7w9PkLTwIyCrLnWwTrjiGaiOfZ/73VCS/VR+BI/YokZz1cTKWZCklB+
+ljjZtFTRq4Z2qBk5h9VpaWYmG4DebmacD6tnNCPcb2nPdCm5JzID524OYFSPBbAM
+BdemcWlamRjLaJkYTKnVQ+KUm9ubItDImUp3rjt2HLfjKMtAkrYsUv4BBHwfJl+S
+EZMmGYVHhKXbp0ScMzlzLrizsv3vC+VJo9qBQc6EpKW61FIVmN5pT5m+hyTPCJow
+iJEnoLHhDIgVbQeF03ZyDsaLR/p/3Mdd74zATSwxieKt/mGmLVMM2rc3A9SHyvus
+ggexfa/tuW7Ajxja7LnS0ijvkwCveQ==
+=BHIj
+-----END PGP SIGNATURE-----
+
+--gaapBVWbjYR4hDFr--
