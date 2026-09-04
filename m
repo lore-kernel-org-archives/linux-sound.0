@@ -1,384 +1,186 @@
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 952E04772B3
-	for <linux-sound@vger.kernel.org>; Fri,  4 Sep 2026 11:26:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788521184; cv=none; b=r+UJi7TAHdKnSRpFJjI2IrZaBruNzgjRX4EnNsFHhli2QQQQb7rcFGZwan+IjLaVy/Iugzn9Sa2ZrkhBIjY4NwsPcJiEHqRRgGWEM641OuxLfgc3/0EYk7A7RuXXQhjwiG9oVcSM9gmoxa2Jv4Gn+1RtdKnHJ2Cy3olvDZPEzBM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788521184; c=relaxed/simple;
-	bh=f70AjhUTQ4PQI0dc5uRX87Q5V2W0KBh4z9npPpJrLj0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bbPOwlN/v8C9JfcIrtzuBknjGj1XARmfEAYoCNCJGxBYcI8aVSGPugPCdpOqV2yb2glp3UHHMvnr/bSwUBm1lAGefST+JbfuH6mBk4WVumIxuQIQ5r/p0WumlHFxQbmRJdb1jYjO2iLq8ekSDgmEABjOifgG3JKds3UsBWeIFgU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MOyw3B7j; arc=none smtp.client-ip=209.85.208.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE0B442124D;
+	Fri,  4 Sep 2026 11:36:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788521780; cv=fail; b=inqpaa/zcz4gE8ABVgYtPY0Zs6SagsV/JfIDCOLg28ouTlfNYwSGI7V4ViuV52zl8UIcG5hQR+fBhuMetDq3xPhTfGcUSXLdk7s7apnjlSpKuteRHYF+9tazYWjrJhqS3v5Mli2qIHUZvGf5alCYbOlTefqhVw0Ntvcan/1p2CY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788521780; c=relaxed/simple;
+	bh=EpnlWMiwy1o1fx++wuuqxAtIKGVOeeyMSMWb62fnPIk=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=d3Ly/htTh755XakOcWJtNpdDULF3YuDTxjmp/g4Y1iOeqWxJsxCsQN+sL0W5RTPdM21tFrofM3WV1HBQ5x/ZwXDoxtl0CLqrNnUI7VdA26NfJ7cXYNd+D4BpF5rCBOTHBxnnsljuGAEjXq/CULZrwMzBkgJhvZ9b/e7YL1Nz/fM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b/UknRCX; arc=fail smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MOyw3B7j"
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-3a0faa764beso6737881fa.2
-        for <linux-sound@vger.kernel.org>; Fri, 04 Sep 2026 04:26:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788521179; x=1789125979; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=gTHoaQMj/bgnWxEPgz6Tpqf4oErcicd99jI9ceF7rws=;
-        b=MOyw3B7j4wXdW5ZVijXiPTvJ0Suui9lzs/92wnD7CpXHBG9hkpHW7ZnHLDZc9QEkaU
-         R2JVv5XbMo+G8T5eprGX/qL9xe4i0xKb/AMZ5Du5DF/GARgrENDG2Ww7O+t+i+xW817m
-         LvWNjQtjwZKj+5Uk4WSzjjx3I3m/1o81NonIYoSY/jt9gpfofBDnpPqSwIHKl6xQAqpS
-         UFEju3gvwvr+tcXJhBOH8RbH7Qd7m+tVi7FaMvZ0mdjiVjoL4uiZFCDUyUVME1oeflvd
-         3lzvKXQsoE4M3FuAUKjhZg5SihLjXwO/AkUTkktuWUKDoCX+11tB8C/Mhaz6/9oYIyl2
-         E3Bg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788521179; x=1789125979;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=gTHoaQMj/bgnWxEPgz6Tpqf4oErcicd99jI9ceF7rws=;
-        b=JGkZYtfDkIuvMsJ5vDO32eqvXEerbN6seHopLPQDdPe0R5ByVS2XwukOHiuT07pcvu
-         A0dxs94/AczJGCGYvYiMePDvp1QCKWBrP2aa8aH4PJlubDlFR0kx0Uic5/mz7GGC1IM4
-         MNeqxFFXrS1l7VF4UuPniSFivBjHvGt7WWmPzJA2djyxxnGMSUNNMmmfpUUne7vonx7L
-         KPanBn/HJNXK97hbZmffGerSkcMNjEirvBZnk+6tLTP32pC7YuzLufeNyzbQcbVjTAiV
-         tfNnSK5VYWQRs6EAM8THmBwvSKw/4w92ICzhEnw4YBup5gkTVTi592HQUALFeir7tqTc
-         t83w==
-X-Forwarded-Encrypted: i=1; AKwUvBzS3IFUiSFLstyz66LaX7uvi52PCtEinEyFiq0ETIcrNRe3G8GURlAzb2Aq6hS/rQSE+S7GODVz2W5rGQ==@vger.kernel.org
-X-Gm-Message-State: AFuF++l2RQ13qfxTDf0Zah6cn7/8GkuqOIY2zQ4iAYGZHKq5KAWqRGqP
-	7Eg+1tljVvNnkWuv4ijpzaj4Xr6nwTU7SYJ2xclnRFaPFipt4TJzqwHT
-X-Gm-Gg: AYBFou0T53F0xMVkt4HcWN8wA7+7JRkaTr23pFWiWqvzB6ViAHEIU/xcHEBBlycNkmZ
-	PLwNuznrwtwyRi5owf0rAa69Z4q4wpQyaKJTYDgBlAixh5FdAxmpgjjBsR/P7TgZcKnlm69vRRt
-	LnS4NH4NZ7zVdi2wMB1wWB92kwGEJofoGMD33Qh59dX+Mwky8d1DHqMf4Dn3WDFHHsL9dJLhsbi
-	nciDTJkSS6m657WIlGJKclzJh7q9ide6U9/870zvCrUGYPDmq9gw2PsaObCCb9HtII4AmtnE6np
-	spjeAZ/PV3gFNkd0rsjc/oTrhofeptKVkXZxRT8UKh4MyzH6lOqScR8l0yK3fARrdQJqePyWpJA
-	p6U0DqcQfnzQhlRgTtg6GtEzqXdubMs/SX6yr+Q7jLi3wZpVbqXxcv7y9b7UkjWwwGf8LI5WxEH
-	uXOV47BWXbn03qWRwmOyvY0zKhpNr0+E5O9HBNVUUSu5YDR+QveWAWdL8xUzyia70jWeEAAi+6a
-	u7JOXR3EvOBdOXtAx5VCfELKINA3y8zD04xdUyM9lBIyxDb6/cFwvWd/eKJ
-X-Received: by 2002:a2e:bc0a:0:b0:3a3:22f6:51a2 with SMTP id 38308e7fff4ca-3a371bd418dmr7087641fa.12.1788521178903;
-        Fri, 04 Sep 2026 04:26:18 -0700 (PDT)
-Received: from localhost ([188.234.148.119])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b61669aedesm478911e87.10.2026.09.04.04.26.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Sep 2026 04:26:18 -0700 (PDT)
-From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-To: tiwai@suse.de
-Cc: tiwai@suse.com,
-	perex@perex.cz,
-	jikos@kernel.org,
-	bentiss@kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-Subject: [RFC PATCH 2/2] ALSA: usb-audio: bind the Topping M62's vendor controls
-Date: Fri,  4 Sep 2026 16:26:10 +0500
-Message-ID: <20260904112610.3286659-3-mikhail.v.gavrilov@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260904112610.3286659-1-mikhail.v.gavrilov@gmail.com>
-References: <20260904070530.195389-1-mikhail.v.gavrilov@gmail.com>
- <20260904112610.3286659-1-mikhail.v.gavrilov@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b/UknRCX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1788521778; x=1820057778;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=EpnlWMiwy1o1fx++wuuqxAtIKGVOeeyMSMWb62fnPIk=;
+  b=b/UknRCX8jV9y5hMNHCDc2JZRfP4o4G7sE9r/6bshWAleYzjzi0H4Z/k
+   fft9Bru7wj1Dg7y81Nf5EmSA0gUdS3qaNXu5A4+KEI3ywj3WtBf6mcLY/
+   XFJD++tU2f0Ngj+XBUKIqk95+LHfbXLkxiv6bDc2gMag4SH9y0fgZ+BOX
+   BpPBmfeFjdz9YGQvYN/1whLAQ9WAn4wCzlEO2mkTClPtgRPF3FlMbjcM5
+   3keUnaP328CYd5WLCas4+c6t+IU4cZDxucbgnQv9XfsLclVH/faUBz6Em
+   DNkx3Ku8pcTL1/89vLqm7jaziFyG3Rbi7QxY4aqd+gVnHgk6a4Wvempsl
+   Q==;
+X-CSE-ConnectionGUID: AOa8IHPqTQ2NcngpihL8bw==
+X-CSE-MsgGUID: ceS+7UfPRXyPJs65I1hgcw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11895"; a="92719659"
+X-IronPort-AV: E=Sophos;i="6.25,262,1779174000"; 
+   d="scan'208";a="92719659"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2026 04:36:17 -0700
+X-CSE-ConnectionGUID: WXuP4WsuS9eYxPeZWM2W4Q==
+X-CSE-MsgGUID: sO0HvuS7TfCZovuyzc+XwA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,262,1779174000"; 
+   d="scan'208";a="268698348"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+  by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2026 04:36:18 -0700
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.46; Fri, 4 Sep 2026 04:36:16 -0700
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.46 via Frontend Transport; Fri, 4 Sep 2026 04:36:16 -0700
+Received: from PH0PR06CU001.outbound.protection.outlook.com (40.107.208.11) by
+ edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.46; Fri, 4 Sep 2026 04:36:16 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=oBGHjg8e+BkwTzQJo0JSOJPEEomg4rnh6++rSr3xV4zMSvjpviq1Go7mwtHZjGcazmYK35UZCEZKk0ntIGkk8fkgazBCCOx1kUG6heGco9UdsA3dmkiS9J2ouqhaEv3gXlBvakAzUllwhv6NwY24lLsbeLpecgTPFEogdEY64aWe1BrLJpoPozIdwGs96wUz2P72KD7XzPBBlLCw6Y6v2+FtvtGH3IcQAO2HttdVRYi+b9kkGB5lZs4gH7XzlfWqVTkYCZZEQTAnx21ZJ0LF+WLtq5XEzOFZZCPVvh4b1tfUinBqkrLHoHKFQ9m1PNuGqbfR3TmMwaQL5s2/Yo4c+g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EpnlWMiwy1o1fx++wuuqxAtIKGVOeeyMSMWb62fnPIk=;
+ b=owm3/S437cNn1YtoxeunNq4W/coBrzuW9hAS/WDXvQT5hBY1+j27NXeFjpp7xv8/9dK9+nhInq4xGK8yXzsQccqpxSQys4lmSa1psUD1VimHV7DgWNdK6JwHQoLHA5OUQ1cdKdssyJXy/ausTNGVY+sF+Y8CNtZfEEYbCvwBjtxa6pW1yv61CDssh3FKhmeQfq+tRdhX9XsB6tiMdBV7/uMrPru4i7qomQR6EolR6n5FdniR0WXVhizC8oG0AyRKb+8T1Xr2/DXr95lQEoN59xHW6QoDncheexf6m4KPj/IjhJSN6xhQC/smBmPLUMuGFz4wfEywAkCE5uNimdEtew==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from SJ2PR11MB8424.namprd11.prod.outlook.com (2603:10b6:a03:53e::10)
+ by SJ0PR11MB5183.namprd11.prod.outlook.com (2603:10b6:a03:2d9::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Fri, 4 Sep
+ 2026 11:36:14 +0000
+Received: from SJ2PR11MB8424.namprd11.prod.outlook.com
+ ([fe80::3df:33f9:59a1:da76]) by SJ2PR11MB8424.namprd11.prod.outlook.com
+ ([fe80::3df:33f9:59a1:da76%5]) with mapi id 15.21.0360.006; Fri, 4 Sep 2026
+ 11:36:14 +0000
+From: "Liao, Bard" <bard.liao@intel.com>
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Bard Liao
+	<yung-chuan.liao@linux.intel.com>, "linux-sound@vger.kernel.org"
+	<linux-sound@vger.kernel.org>, "vkoul@kernel.org" <vkoul@kernel.org>
+CC: "vinod.koul@linaro.org" <vinod.koul@linaro.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"peter.ujfalusi@linux.intel.com" <peter.ujfalusi@linux.intel.com>
+Subject: RE: [PATCH] soundwire: debugfs: add root-level peripherals table
+Thread-Topic: [PATCH] soundwire: debugfs: add root-level peripherals table
+Thread-Index: AQHdOrOen/oFmooauUKkOpcPrWvyALa+CnOAgABCCWA=
+Date: Fri, 4 Sep 2026 11:36:13 +0000
+Message-ID: <SJ2PR11MB8424EEF8CC938A4DD842F06EFFB52@SJ2PR11MB8424.namprd11.prod.outlook.com>
+References: <20260902081802.420946-1-yung-chuan.liao@linux.intel.com>
+ <6aa4b17e-042e-4319-a3a2-41f7346f3755@linux.dev>
+In-Reply-To: <6aa4b17e-042e-4319-a3a2-41f7346f3755@linux.dev>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SJ2PR11MB8424:EE_|SJ0PR11MB5183:EE_
+x-ms-office365-filtering-correlation-id: 89f33372-3a94-423a-96bb-08df0a78b9d2
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|376014|366016|23010399003|10067099003|56012099006|11063799006|4143699003|6133799003|22082099003|18002099003|38070700021;
+x-microsoft-antispam-message-info: 8CXZ7ly30I6WJT4mr61GLMTSZFWLS4IbwATa/wZ0ialdIaB72lc2huF/z/pUw+5qSr9vU3wZKL6zZ53UhfpT6HNbS9G1tyQh2MD08EWFN2bOxvORjv1nVyMlRed12l7iSJr+PgKh2baEoWsDdm7UIrF3p1ofVt6ePgBmrLpHh4h5suJhTX3lAFO5p4CHLXRuL3pkWAWVEIFSUCxff66DjHgBl8i/cCJ+HKwt86oyF9QdCMyJzFapFX1/UuDIPI8UPSjdPZhQPVmk42h3Lf9+f7Ito7RBFnDLsCezNR7xJN/i/DgRW6Xn5hYibM5gUQfTCHBN9ZgHDHwH0jO+LIbXEnyxrIdAdI8JqkdCamHHiMFF9t95ul99jW0Zvz8cZvcRmKkNnwJPD1zyLf8GHB58ygBOL5jSj0Lxo83IPvKSZPtT4u+W87qmrQyL5RUKHyelfk6M/sGyMfngp6JqsdYGi1V7p2xaIPDqCKO3fM4ksdBhdGR0m/ddrgHrHb83h2Rjc3wIVeoF+7K8Ru/dGpkW/EXJj9xd6UwabZ1SpvCLNSYkROm8QLHTtBv9LVovKa6Kar7orQkVs+QlWo4yMbXirz5ttfHzodZsf5Ynl74jGdUX1D/BYt1gZl99Y6K751P5qYq0uTy5UkJLm8158KT/WaWmTNqVNqu3Zjp6U3qhSLuoweTv02CK2edsPEXLqBwQEOKCoxhR4RUQTX6SOPOEyzAg8ibsRhEDuj6IAvs5obE=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB8424.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(23010399003)(10067099003)(56012099006)(11063799006)(4143699003)(6133799003)(22082099003)(18002099003)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?cUR1ZHZQaWhybTM5UUxTZUg4NzdGMU5uNG44dTVKWmVOUTJteGNMM0RBTUkr?=
+ =?utf-8?B?SjVBMDN3VzlUb2pQeEZxSmJJZHlCQU9Dd01QbHh3Uis3c2JhK1BWQmFqWjJ1?=
+ =?utf-8?B?bStpNkdiNDVnaU01RVluQTdWcklrcUJwT0UyMThUamNLRkt6aGQ5eVdRSHRU?=
+ =?utf-8?B?MWFhQmUvaWZyZHpEVWRUK3ZjZWYweXNuRXcwekorZldLNjk2U1owOG1MUC9J?=
+ =?utf-8?B?NmtXQmhXblBPQ2pSWUE0alNJQUlyOXhXYnVDZ3Fub0p2V05oZ1lkbGhTdG1j?=
+ =?utf-8?B?a0NVUWxSYmhtOHIrNDV6blFRZ2FqR1N5L1JXd1BoN2lvM01RV0YzTUk5NDl4?=
+ =?utf-8?B?UVFOOU5lMlpGZEZwc2ZZckFtQXc2bTZ5Zlg5ZGZWNDY5bm1oU3V4VTJxcmtq?=
+ =?utf-8?B?RElYMWJVbUE1SEdoNUdpdzFPbWIwU044VUJpTUdMTXBZN21KSVN1eTExeGVH?=
+ =?utf-8?B?YjgrajlvNzFSUSt2UkdZUVlXbk5tQ1ppb2ZPSzg4VmU5NVNBNmxDUTdja2I4?=
+ =?utf-8?B?R0d6ZncxalpLdlV6WEZsb1VsMHk4NUFlN2FFeXBHSENSemszcVpHb1hBMWEy?=
+ =?utf-8?B?eHlIZU5kWWxMSzlZVUUzenJrMDVTcjNWK0tKZ0VodmJLZVdVMnAvc1daZHZL?=
+ =?utf-8?B?aHZnb3JKUldLM3JXQjVESHdSdlcvdk9yQnJ4ell0MVVwT3RRUWVLbnBESUpL?=
+ =?utf-8?B?QzYzUko4M29HQ3ZPRlJZZTgyNWhMUHdSdVhZcmxJc2MyRHdWeDlRTjNOdDRu?=
+ =?utf-8?B?cGFKekRyZ1Viclp6MXF0cDJieUhIc0w0V3JNU2N0KzZYazhhMjNWaTFuNVQx?=
+ =?utf-8?B?UVB0NkwrcnF4SERIbVFHYWs2UzlLZWgvUTVlWlB1ZjZaVmZoQjN0MXJWdUhV?=
+ =?utf-8?B?SFFKRCtyZFB1WlFzVklERlNxbnBZRkYvRm5ydXNDUThPRGlhelBwRHVRMEZW?=
+ =?utf-8?B?WDFRazVmeGs5MUtUSFlqODVLTHhWR2lrNEgwbFV2TnlMblVQWmMxLzQzaUZG?=
+ =?utf-8?B?T1d3akdBTTRXSXpQaXBxZkZlTis0TWtINVpZeFdxOTE1cHpDQldndStZS092?=
+ =?utf-8?B?Q3JpUkdlYVZrVjNOaGhwdFUwcHNsU2k0eWl2SEF0cndpL1RxUER2a3lZSlIr?=
+ =?utf-8?B?a1FJZGpGR2NweWxndXRNQzdSOTJvenVPbm1hNzR5Q2xVSTNzS1I1NVhXOVJo?=
+ =?utf-8?B?eEZQckhwOTVGSHhIV1hEbmV0ZEFIRytIcFkzY2F5YnBhdkRkUnUwQXJIQ3BI?=
+ =?utf-8?B?TzNkSkI2cXZoV3EvemhOcWpFMHptUjBnQkdaOU9jRnlvL2tmQW94RWNFZjF2?=
+ =?utf-8?B?bFIwNW41YUNrWHpEdTJHZ1lQT2FNUEc1UlhXN1hIYXBHenVXcUkrTk5HaXNq?=
+ =?utf-8?B?cnNkZmZPYi9pdVhqSGE4bXZHK3B3bGgxRnQ0REF2dEhJK29pYzVieW5NTTBH?=
+ =?utf-8?B?b0daaHpuc0JuZUpZb2UzeUh1b1hTWVhEVlA5RTZrcFh2cTE0b29OdEhJdlpS?=
+ =?utf-8?B?bFJWaU9KdERIWmRkYkVSS296U0lkV3c5T3pKSHNzZU5FUzRwSzVCQUJUSjJp?=
+ =?utf-8?B?ME1zK2VIdEtkbmVjVDVQSWsyZklWUzVSRGM5bkN2cnpmNGI5VDkxWGh0ZTQ2?=
+ =?utf-8?B?czZZNEVOWHJnMm9ZcExYdVFFQnhtR05DUDJ2L3NJNnJkVHBXN1ZHMElaNjQw?=
+ =?utf-8?B?MnpGMXpMbXRYTUdUSStPMCtxb0dpcUgxRXppQmpXWnh5WXQrSk80ZVhjL0NE?=
+ =?utf-8?B?YkVBUzNpR1pEOWIxNWVrdGZwTHFTS2tmS0xIdktPdTd5aUFMTGZ3bzFBVTd2?=
+ =?utf-8?B?VmlWZFhrcmRMY1h1ZjRXNU9Cbks4KzV3YmFTQzJzcHBXYkJqUzZKaUF3bDhD?=
+ =?utf-8?B?bjlZUjNoSGZna1ltUmpTVmFGNW9BT1RpWWJLTHdsbzVvZVNVaUxVWDkvdXVu?=
+ =?utf-8?B?dDJJU093WTkzbElxcHpNcnVQVmhyL0NjZC8yUG03NkQ1YUhxU08wK0prYWRk?=
+ =?utf-8?B?bWdSeEtNcENKYmJJNms2dzVoZnoyUlp6WlFIbG1PQ09HOXRaWm5UeEtqQzha?=
+ =?utf-8?B?QkhaczZhY2JiSEpqSzh2SDdoVCt4bmdmWGZNd01lUXZ1cmVsZldDTjJoNDha?=
+ =?utf-8?B?ZU5KZDJScXFJUkNWelJnc1VEelBNTTRiZGU5Q2pldkJRUXZNazQvRHAyNkdK?=
+ =?utf-8?B?aXo1WW9tTEt3L3g4NTVVY3JRWWU3WUk5RUludk5LeUtyWGJsbTdseGNiWVZK?=
+ =?utf-8?B?NThscDN5Rlc3aHg0a0lEeFJZTiszcXJnVWdSdWEwblBVdE5jaE9mU2tVZmdu?=
+ =?utf-8?Q?P2Yv9aETco67DG4MAf?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Exchange-RoutingPolicyChecked: XQXZTNz/hbllwe2m0Z74dqIgq3fCfseuEkPpfBwG7KJdfLBiyZUVF4HrkRsA85pNSVlWG2FGTnAIrp0tkJ8M6N7+xfiQtYRA46pmgu0OFrmDgS0Y9mSfjHxdkAagYgKviuD2rLiGEm/PDcG4eu7jxoU2zVOc6ZwI6tnUyw2WX+u0ZdBv/A8sOHwbkfOs0Nx53RFvGNtLPGAg03Q8YYE+P/ooBamgLQRhRDAQWDqVpPSHgqLevV4GI0b7B+aLrF4w3WIJeB4PE/Ma66m6WyybkfQPjwBZp0WetwC54O/RLBAKBx06yY3G7iyW8rfFR2weX3sMpj+gf1fNG0/qGy8GHw==
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB8424.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 89f33372-3a94-423a-96bb-08df0a78b9d2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Sep 2026 11:36:13.9233
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: eTQ/ZAF3zvQYrCs3a+G9kw+SE8sooQrnmr4UBOq1wrvo6+CjJCpuXe+AMwq+laQ3Lc69ogP2c3gMl6+PDx7m9w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5183
+X-OriginatorOrg: intel.com
 
-The M62's vendor controls are driven by hid-topping-m62, added in the
-previous patch, which speaks a vendor protocol on the card's HID
-interface. Those controls belong on the sound card that plays the
-audio, not on a card of the HID driver's own.
-
-This adds the other half of that: a component master, registered from
-the M62's mixer quirk, which hands its struct snd_card to the HID
-driver at bind time and takes the controls away again at unbind. The
-lifetime rules are the component framework's, which is the point --
-neither driver has to be told about the other's disconnect, and neither
-has to guess at the other's state. The same shape binds HD-audio to the
-graphics drivers in sound/hda/core/component.c, with sound as the
-master there too.
-
-The master's context lives in devres on the audio control interface
-rather than in drvdata, which on a usb_interface belongs to
-snd-usb-audio itself; devres_find(), keyed on the release function,
-gives it back inside the callbacks, which are handed nothing but a
-struct device *. It hangs off the control interface rather than off the
-USB device because component_match_add() allocates the match list with
-devm: on the interface that is released at unbind, while on the
-usb_device it would live until the device itself was released and a
-rebind would stack a second list on top.
-
-Neither component_compare_dev() nor component_compare_dev_name() fits:
-the audio side has no pointer to the HID device, and the HID device's
-name carries an instance counter that is not predictable. The match is
-therefore one of descent -- the HID device sits two levels below the
-USB device -- and which interface it is stays the HID driver's
-business, since it registers a component for the vendor interface and
-for no other. That keeps sound/usb free of HID symbols and of any
-opinion about this card's interface numbering.
-
-component_master_add_with_match() returns 0 with the aggregate merely
-pending when the HID driver is absent, so the card comes up either way
-and grows the vendor controls if and when the other half appears.
-
-Signed-off-by: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
----
- MAINTAINERS               |   9 ++
- sound/usb/Makefile        |   1 +
- sound/usb/mixer_quirks.c  |   5 ++
- sound/usb/mixer_topping.c | 173 ++++++++++++++++++++++++++++++++++++++
- sound/usb/mixer_topping.h |   7 ++
- 5 files changed, 195 insertions(+)
- create mode 100644 sound/usb/mixer_topping.c
- create mode 100644 sound/usb/mixer_topping.h
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 627595e245f3..b49560efa1c6 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -27593,6 +27593,15 @@ S:	Maintained
- W:	https://tomoyo.sourceforge.net/
- F:	security/tomoyo/
- 
-+TOPPING M62 VENDOR CONTROLS
-+M:	Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-+L:	linux-sound@vger.kernel.org
-+L:	linux-input@vger.kernel.org
-+S:	Maintained
-+F:	drivers/hid/hid-topping-m62.c
-+F:	sound/usb/mixer_topping.c
-+F:	sound/usb/mixer_topping.h
-+
- TOPSTAR LAPTOP EXTRAS DRIVER
- M:	Herton Ronaldo Krzesinski <herton@canonical.com>
- L:	platform-driver-x86@vger.kernel.org
-diff --git a/sound/usb/Makefile b/sound/usb/Makefile
-index e62794a87e73..151b481df795 100644
---- a/sound/usb/Makefile
-+++ b/sound/usb/Makefile
-@@ -14,6 +14,7 @@ snd-usb-audio-y := 	card.o \
- 			mixer_quirks.o \
- 			mixer_scarlett.o \
- 			mixer_scarlett2.o \
-+			mixer_topping.o \
- 			mixer_us16x08.o \
- 			mixer_s1810c.o \
- 			pcm.o \
-diff --git a/sound/usb/mixer_quirks.c b/sound/usb/mixer_quirks.c
-index a1f5592cc5d5..10f33026cdff 100644
---- a/sound/usb/mixer_quirks.c
-+++ b/sound/usb/mixer_quirks.c
-@@ -36,6 +36,7 @@
- #include "mixer_quirks.h"
- #include "mixer_scarlett.h"
- #include "mixer_scarlett2.h"
-+#include "mixer_topping.h"
- #include "mixer_us16x08.h"
- #include "mixer_s1810c.h"
- #include "helper.h"
-@@ -4531,6 +4532,10 @@ int snd_usb_mixer_apply_create_quirk(struct usb_mixer_interface *mixer)
- 		err = snd_fcp_init(mixer);
- 		break;
- 
-+	case USB_ID(0x152a, 0x875c): /* Topping M62 */
-+		err = snd_topping_init(mixer);
-+		break;
-+
- 	case USB_ID(0x041e, 0x323b): /* Creative Sound Blaster E1 */
- 		err = snd_soundblaster_e1_switch_create(mixer);
- 		break;
-diff --git a/sound/usb/mixer_topping.c b/sound/usb/mixer_topping.c
-new file mode 100644
-index 000000000000..922b0f61cbd4
---- /dev/null
-+++ b/sound/usb/mixer_topping.c
-@@ -0,0 +1,173 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * Topping M62 -- component master for the card's vendor controls.
-+ *
-+ * The M62's analogue gains, output volumes and source selectors are not
-+ * described by the USB Audio Class.  They are reached over a vendor
-+ * protocol on the card's HID interface, which hid-topping-m62 speaks.
-+ *
-+ * This file speaks none of that protocol.  It publishes the sound card to
-+ * whoever drives the vendor interface, so that the controls are created on
-+ * the card that plays the audio rather than on a card of their own, and are
-+ * torn down when either side goes away.  The lifetime rules are the
-+ * component framework's, which is the point: neither driver has to guess at
-+ * the other's state, and neither has to be told about the other's
-+ * disconnect.
-+ *
-+ * The same shape binds HD-audio to the graphics drivers in
-+ * sound/hda/core/component.c, with sound as the master there too.
-+ */
-+
-+#include <linux/component.h>
-+#include <linux/device.h>
-+#include <linux/usb.h>
-+
-+#include <sound/core.h>
-+
-+#include "usbaudio.h"
-+#include "mixer.h"
-+#include "helper.h"
-+#include "mixer_topping.h"
-+
-+/*
-+ * What the master hands the component at bind time.  It lives in devres on
-+ * the audio control interface rather than in drvdata, because drvdata on a
-+ * usb_interface belongs to snd-usb-audio itself.  devres_find(), keyed on
-+ * the release function, gives it back inside the callbacks, which are
-+ * handed nothing but a struct device *.
-+ */
-+struct topping_master {
-+	struct device *dev;		/* the audio control interface */
-+	struct snd_card *card;
-+};
-+
-+static void topping_master_release(struct device *dev, void *res)
-+{
-+	/* The devres allocation is the storage; nothing else to drop. */
-+}
-+
-+static struct topping_master *topping_get_master(struct device *dev)
-+{
-+	return devres_find(dev, topping_master_release, NULL, NULL);
-+}
-+
-+/*
-+ * Which of the registered components is ours.
-+ *
-+ * This is only ever called against devices that have registered with
-+ * component_add(), so it does not have to defend itself against the whole
-+ * device tree.  What it does have to do is tell this card's vendor
-+ * function apart from a second M62 on another port.
-+ *
-+ * The HID device sits two levels below the USB device:
-+ *
-+ *	hid_device  ->  usb_interface  ->  usb_device
-+ *
-+ * WHICH interface it is, is the HID driver's business: it registers a
-+ * component for the vendor interface and for nothing else.  So the test
-+ * here is one of descent alone and needs no HID symbols in sound/usb --
-+ * which also keeps this file free of any opinion about the M62's
-+ * interface numbering.
-+ */
-+static int topping_match_component(struct device *dev, void *data)
-+{
-+	return dev->parent && dev->parent->parent == data;
-+}
-+
-+static int topping_master_bind(struct device *dev)
-+{
-+	struct topping_master *tm = topping_get_master(dev);
-+
-+	if (WARN_ON(!tm))
-+		return -EINVAL;
-+
-+	return component_bind_all(dev, tm->card);
-+}
-+
-+static void topping_master_unbind(struct device *dev)
-+{
-+	struct topping_master *tm = topping_get_master(dev);
-+
-+	if (WARN_ON(!tm))
-+		return;
-+
-+	component_unbind_all(dev, tm->card);
-+}
-+
-+static const struct component_master_ops topping_master_ops = {
-+	.bind	= topping_master_bind,
-+	.unbind	= topping_master_unbind,
-+};
-+
-+static void topping_private_free(struct usb_mixer_interface *mixer)
-+{
-+	struct topping_master *tm = mixer->private_data;
-+
-+	if (!tm)
-+		return;
-+
-+	/*
-+	 * Reached from snd_usb_mixer_disconnect(), on an unplug and on an
-+	 * unbind of the audio interface alike.  component_master_del() runs
-+	 * topping_master_unbind() on the way, so the HID side has taken its
-+	 * kcontrols off this card before the card is taken apart.
-+	 */
-+	component_master_del(tm->dev, &topping_master_ops);
-+	devres_destroy(tm->dev, topping_master_release, NULL, NULL);
-+	mixer->private_data = NULL;
-+}
-+
-+int snd_topping_init(struct usb_mixer_interface *mixer)
-+{
-+	struct snd_usb_audio *chip = mixer->chip;
-+	struct component_match *match = NULL;
-+	struct usb_interface *intf;
-+	struct topping_master *tm;
-+	struct device *dev;
-+	int err;
-+
-+	/*
-+	 * The master hangs off the audio control interface rather than off
-+	 * the USB device: component_match_add() allocates the match list
-+	 * with devm, and on an interface that is released when the interface
-+	 * is unbound.  On the usb_device it would live until the device
-+	 * itself was released, and a rebind would stack a second list on top
-+	 * of the first.
-+	 */
-+	intf = usb_ifnum_to_if(chip->dev,
-+			       get_iface_desc(mixer->hostif)->bInterfaceNumber);
-+	if (!intf)
-+		return -ENODEV;
-+	dev = &intf->dev;
-+
-+	tm = devres_alloc(topping_master_release, sizeof(*tm), GFP_KERNEL);
-+	if (!tm)
-+		return -ENOMEM;
-+	tm->dev = dev;
-+	tm->card = chip->card;
-+	devres_add(dev, tm);
-+
-+	mixer->private_data = tm;
-+	mixer->private_free = topping_private_free;
-+
-+	component_match_add(dev, &match, topping_match_component,
-+			    &chip->dev->dev);
-+
-+	/*
-+	 * This returns 0 with the aggregate merely pending when
-+	 * hid-topping-m62 has not registered its component yet:
-+	 * try_to_bring_up_aggregate_device() reports an incomplete set as
-+	 * "not ready", not as an error.  So the card comes up either way and
-+	 * grows the vendor controls if and when the other half appears.
-+	 */
-+	err = component_master_add_with_match(dev, &topping_master_ops, match);
-+	if (err < 0) {
-+		mixer->private_data = NULL;
-+		mixer->private_free = NULL;
-+		devres_destroy(dev, topping_master_release, NULL, NULL);
-+		usb_audio_err(chip, "Topping: no component master: %d\n", err);
-+		return err;
-+	}
-+
-+	return 0;
-+}
-diff --git a/sound/usb/mixer_topping.h b/sound/usb/mixer_topping.h
-new file mode 100644
-index 000000000000..15e16b509eb9
---- /dev/null
-+++ b/sound/usb/mixer_topping.h
-@@ -0,0 +1,7 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+#ifndef __USB_MIXER_TOPPING_H
-+#define __USB_MIXER_TOPPING_H
-+
-+int snd_topping_init(struct usb_mixer_interface *mixer);
-+
-+#endif /* __USB_MIXER_TOPPING_H */
--- 
-2.55.0
-
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUGllcnJlLUxvdWlzIEJv
+c3NhcnQgPHBpZXJyZS1sb3Vpcy5ib3NzYXJ0QGxpbnV4LmRldj4NCj4gU2VudDogRnJpZGF5LCBT
+ZXB0ZW1iZXIgNCwgMjAyNiAzOjM1IFBNDQo+IFRvOiBCYXJkIExpYW8gPHl1bmctY2h1YW4ubGlh
+b0BsaW51eC5pbnRlbC5jb20+OyBsaW51eC0NCj4gc291bmRAdmdlci5rZXJuZWwub3JnOyB2a291
+bEBrZXJuZWwub3JnDQo+IENjOiB2aW5vZC5rb3VsQGxpbmFyby5vcmc7IGxpbnV4LWtlcm5lbEB2
+Z2VyLmtlcm5lbC5vcmc7DQo+IHBldGVyLnVqZmFsdXNpQGxpbnV4LmludGVsLmNvbTsgTGlhbywg
+QmFyZCA8YmFyZC5saWFvQGludGVsLmNvbT4NCj4gU3ViamVjdDogUmU6IFtQQVRDSF0gc291bmR3
+aXJlOiBkZWJ1Z2ZzOiBhZGQgcm9vdC1sZXZlbCBwZXJpcGhlcmFscyB0YWJsZQ0KPiANCj4gT24g
+OS8yLzI2IDEwOjE4LCBCYXJkIExpYW8gd3JvdGU6DQo+ID4gVGhlIHRhYmxlIHdpbGwgbGV0IHVz
+ZXIga25vdyB3aGF0IHBlcmlwaGVyYWxzIGFyZSBsaXN0ZWQgYW5kIGdldCB0aGUNCj4gPiBkZXRl
+Y3RlZCBzdGF0dXMgYnkgdGhlIGRldl9udW0uDQo+IA0KPiBUaGlzIHNvdW5kcyB1c2VmdWwgaW5k
+ZWVkLCBidXQgZG9lcyB0aGlzIG5lZWQgdG8gYmUgaW4gZGVidWdmcz8NCj4gDQo+IFdlIGFscmVh
+ZHkgaGF2ZSBhIHN5c2ZzIGVudHJ5IGZvciBldmVyeSBwZXJpcGhlcmFsIGxpc3RlZCBpbiBBQ1BJ
+LiBFYWNoDQo+IHBlcmlwaGVyYWwgd2lsbCBoYXZlIGEgc2V0IG9mIHByb3BlcnRpZXMgZXh0cmFj
+dGVkIGZyb20gRGlzQ28gdGFibGVzLA0KPiBjb3VsZCB3ZSBwaWdneS1iYWNrIG9uIGFsbCB0aGlz
+IGFuZCBqdXN0IGV4cG9zZSB0aGUgZGV2X251bT8NCg0KSXQgaXMgY29udmVuaWVudCBmb3IgdGhl
+IHVzZXIgdG8gZ2V0IGFsbCBpbmZvcm1hdGlvbiBvbiB0b3Agb2YgdGhlDQpzb3VuZHdpcmUgZm9s
+ZGVyIGluc3RlYWQgb2YgbG9va2luZyBmb3IgdGhlIGluZm9ybWF0aW9uIG9uZSBieSBvbmUNCmlu
+IGVhY2ggcGVyaXBoZXJhbCBmb2xkZXIuDQoNCj4gDQo+ID4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBC
+YXJkIExpYW8gPHl1bmctY2h1YW4ubGlhb0BsaW51eC5pbnRlbC5jb20+DQo=
