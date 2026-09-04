@@ -1,261 +1,291 @@
-Received: from mta0.migadu.com (out-215.mta0.migadu.com [91.218.175.215])
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9443D49362C
-	for <linux-sound@vger.kernel.org>; Fri,  4 Sep 2026 14:10:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.215
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BC454A2072
+	for <linux-sound@vger.kernel.org>; Fri,  4 Sep 2026 14:12:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788531037; cv=none; b=oDobE8cKSbAkUCn4XK5FS+DWZPXtjI6ZS8rd2W9nuxdNh0DFsVH6bpSfNOMvvYpacRHnxQr8d8XPSfem6Jw0N5tLMQbD0VIpJTzO6suXhjPCc4Z8JoFNOCQ/ojosQf6RFS3v7Bxr+vO3fiCImxe0yWeMxOi+pBRQ0w/wAbRMQSs=
+	t=1788531129; cv=none; b=pPfNuvHtsM1pGuSH+L1njWvmDw8BY6Oe8VNqC/Bf8GFX13Q6aXcogPgMpKTjoMz+v1Hf0QFWmpRl7/8FpxdKuyvw5wXLRLDUon+HoW8y+Z755WJMdPNkuXRyUmWGo0/ZCzPjxg1JMYze6O7siY12zwUaZyDLXkmqDHJxiV1rwlM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788531037; c=relaxed/simple;
-	bh=RMdz6GEDCziF1NUEvfRkS1s/4PHiKk/NS8PWPsfg7+s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rtcgjoHVikWcYkLjsfgtqTBjWovsM/ryzgMnw8+1yPIDk2+1Tx6Vos7UNK2DSoYhVL6TsVM/evtDQDeSzXieS8jptzthIz8RC34FAvIfkTr3oUk4OAjgYC4EDiJZppLTBc77MiYeilAe/Anyh76iqHySde2JeJ5dLa6itpCfBOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=qddUIexE; arc=none smtp.client-ip=91.218.175.215
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1788531129; c=relaxed/simple;
+	bh=o7qwfV22RsRaxa5PF4Zkk+tx4olXOcpRrxhfqiDgQBY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Al/B0yiKAIILzcUMSQLo2j54pB4Vw7zeqQu50WJCDaJ2PrLhHHou32PygFw1eD5eeQbxZaZsvXob5qp4VBx5Bwk7S24OPs/y0Q+AgbONjkJtY03Ju3Xl6hIFnKXMBynAq15gPZVPdtwoi+dt2eD9hgVKQ8mC1/RAvJ/YWoJpeHs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fr/wKaHS; arc=none smtp.client-ip=209.85.167.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="qddUIexE"
-X-Envelope-To: linux-sound@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=RMdz6GEDCziF1NUEvfRkS1s/4PHiKk/NS8PWPsfg7+s=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1788531032; v=1; x=1789135832;
- b=qddUIexEkXyZJ2I7CJFTgxAtkCViVV1bniL3nvKE8LIj8tO2di2IDBW+2V+gmtrPXrPjePJp
- eBtflWrrhoda9/Nx/vMbCkkbC2RVo/ux+d2XjjiOCUhTEY78nns8uLhX9noAgv/ijEE58iY9gs/
- EQotJvwY8swnstQTMMbMLwmc=
-X-Envelope-To: linux-sound@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 501c6173c18cb7ba;
-	Fri, 04 Sep 2026 14:10:31 +0000
-X-Mizu-Trace-ID: 501c6173c18cb7ba
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <592f3b8b-03a2-47b9-b275-b691cbd42d79@linux.dev>
-Date: Fri, 4 Sep 2026 16:09:07 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fr/wKaHS"
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5b5607bd3b5so891374e87.3
+        for <linux-sound@vger.kernel.org>; Fri, 04 Sep 2026 07:12:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788531125; x=1789135925; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=giefFbYJnxXweExm99mm3enYQv1jOphCqfhZ+67U7jE=;
+        b=fr/wKaHSLE4qJD+Jbq6AQ+tuF71BMBX82KVkvPQFHqw1B4QSZIXiXNb0xUnokLOEM0
+         wmH+fe0wGrmnyRXNQVy9nGWHTsqB4g7QSdEZ40L1qoouyXoYjMXdA7E5Yxl+focIft9K
+         BugkR6rTURQyg45bTZ1cKypBKrXMY13A4KpWpBwZsd10T4VMBzD5+LQo9NrWCHR0VOKP
+         8A5hw4bmw2ZiAqBSeOB/O2hs2PI7Qme7dBBgVfaIiV988gFxsPuwaj1S5tpi0AQ8nKew
+         nVZFbMupNL3y0QeVQtGHcHf1EnSOO3F3i1Ym/wAxxkvcRHz7VcL7L8lUAN4VBdAA4VPH
+         hHaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788531125; x=1789135925;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=giefFbYJnxXweExm99mm3enYQv1jOphCqfhZ+67U7jE=;
+        b=oSaY+CymE2XDCNN1Xe3JVCoc+nOBJY7lMkun/NNlOXf/9oc64s08IBV7FLrLWGfhDI
+         jaJn8Jw67pB7LAedOIZwSEwDupkOktJ0Gf3i2hxiqZ7aemSUHF96h9ayXAK5D6OC7+lM
+         nvB2+fpFSEuIrC/jQfinhMfF1VtJYHkKas3ShMrVBW7HxGuiVDigYKv8Q+sA0Dr0hfPg
+         0s9ACKyBCAgtB03NATB5AEVqW/w941B3vx9i9e+WwdchlAMJs3QC0aKMpp95HEc4D/9W
+         dh3H3Ycrdu+sURqSSJWp3l0fDlXMRWebh8ZXfFqG82kgNNBdu2/JWWhXnlb3rYTdGrqx
+         Zslg==
+X-Forwarded-Encrypted: i=1; AKwUvBwu6XFQRGQcq358MDae3qoKc2X07aGiUcj6SQ+suXXPUQDew2j5lSPVi6FD3RqFMqhmTAT/tnOG+rblYg==@vger.kernel.org
+X-Gm-Message-State: AFuF++mxiH8E8sI9GUIU+57bnBcTpha4r4nELvy11qkhrq4ck5B7Euy2
+	dAMiBvwVmikt8oi1puHupBBTOOKTSbx+F1UbAUJu/FA6YJugIg9nrqsL
+X-Gm-Gg: AYBFou00XwwIZwroaZEacl5PjcLfzZYvQZXKG+kjG4lX0OppP3pCvqPuGerE9EGMD0b
+	XpPvcNFSOe2dpOwVFYYInuAB0+PA1okDAriijpvYHv5ZJYpLU7J5UzkWmUKFtIHWsysdEDMoDdL
+	QnxmqvirfoAEQ+nEzxAnk80dD5vBYlwPGj7A5XSxq9AS9oF6TSD81zTXTW7hQkhH25d6dPs4N2C
+	2RIVFpLQn+87Z/qxZjE9Do4nUfq48Fvz+x2NsUbqGH8nCUxZBt2Ekuu31GIoxOqqIp6TSzjVAvj
+	YuO6FvV2xgaL7iJRGgCkd6yMkBXf32o5M01T+GapeDTcBdNGXc0AF8NqIZGZX1WNbWJIJhQ6Ehg
+	bQKMubTNcjUv2x7h9qKI9DYjGmC2ZrAYhagLyYeNU1Y/wGnNgQs98pNhf4UaL/KJH9ykjYMyWmU
+	sdGfAcd/uW9NAurDHsspeaw/LdhC/WELu6ZV6LJtXUrhrhpDqQQCOoE387tCM79xMawymCtUyzj
+	vxEw+6fPZOHu2ja0+CcTW7ht7LEiEUBOr4XwwQgK35gbHdc2iNwSgrBY7Tp
+X-Received: by 2002:a05:6512:3b2a:b0:5b6:1870:2689 with SMTP id 2adb3069b0e04-5b6187043c0mr865547e87.58.1788531124648;
+        Fri, 04 Sep 2026 07:12:04 -0700 (PDT)
+Received: from localhost ([188.234.148.119])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b6166fe10asm530844e87.47.2026.09.04.07.12.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Sep 2026 07:12:03 -0700 (PDT)
+From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+To: tiwai@suse.de
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	jikos@kernel.org,
+	bentiss@kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+Subject: [RFC PATCH v2 0/2] the Topping M62's vendor controls, on the component framework
+Date: Fri,  4 Sep 2026 19:11:56 +0500
+Message-ID: <20260904141158.33398-1-mikhail.v.gavrilov@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260904112610.3286659-1-mikhail.v.gavrilov@gmail.com>
+References: <20260904112610.3286659-1-mikhail.v.gavrilov@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/2] soundwire: dmi-quirks: drop the ghost RT1320 on
- the Surface Pro 11 (Intel)
-To: Sergey Lebedev <lsa.uz@pm.me>, Vinod Koul <vkoul@kernel.org>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- Oder Chiou <oder_chiou@realtek.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>
-Cc: Bard Liao <bard.liao@intel.com>, Shuming Fan <shumingf@realtek.com>,
- Amaan Lalani <zlzzm2014@outlook.com>, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260830151516.44629-1-lsa.uz@pm.me>
- <20260830151516.44629-3-lsa.uz@pm.me>
- <10c5c5b4-cfd5-4d69-8312-ccff02a2e05c@linux.dev>
- <20260904123559.40620-1-lsa.uz@pm.me>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <20260904123559.40620-1-lsa.uz@pm.me>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 9/4/26 14:36, Sergey Lebedev wrote:
-> Pierre-Louis,
-> 
-> Thank you for the review of 2/2.
-> 
-> On 1/2 I have to correct the record, and the confusion is mine. That patch
-> is already upstream:
-> 
->   9b30521074f0 ("ASoC: rt1320: run the initialisation preset on the first
->                  hardware init")
-> 
-> applied from v1 on 2026-08-10, merged in asoc-v7.3 on 2026-08-18 — twelve
-> days before I re-sent it as v3 1/2. I rebuilt the series after the v1
-> review and did not notice that one of the three had already been taken; the
-> cover letter says only that 1/2 is byte-identical to v1's 1/3, which reads
-> as "unchanged" rather than "already applied". So there is nothing to skip:
-> my own 2026-08-30 request not to apply it, and your agreement with it, both
-> concern code that shipped three weeks ago, and AUTOSEL has since proposed
-> it for 6.18. That is my error and I am sorry for the wasted attention.
-> 
-> Which leaves two real questions: whether it belongs in the tree, and what
-> the flag is actually doing. I have answers for both now, and they point in
-> opposite directions.
-> 
-> 
-> The change is a revert, not a workaround
-> ----------------------------------------
-> 
-> The fallback is what the driver shipped with:
-> 
->   bad0a07a7e61  rt1320 driver added         2024-05-21  v6.11
->       if ((amp_func_status & FUNCTION_NEEDS_INITIALIZATION) ||
->           (!rt1320->first_hw_init)) {
-> 
->   f465d10cd731  "Add support for version C"  2024-09-02  v6.12
->       if ((amp_func_status & FUNCTION_NEEDS_INITIALIZATION)) {
-> 
->   9b30521074f0  restored                     2026-08-04  v7.3
-> 
-> f465d10cd731 is +2124/-23 and its commit message reads, in full, "This
-> patch added the support for version C". That condition was rewritten
-> because its body had to grow a VC branch, and the `||` half did not survive
-> the edit. Nothing in the message, and nothing I can find on the list,
-> suggests it was meant to go.
-> 
-> The siblings have never been without it, and all four commits are Shuming
-> Fan's, which is why I have put him on Cc — he is better placed than I am to
-> say whether the removal was meant:
-> 
->   bad0a07a7e61  rt1320  2024-05-21  gate introduced, with the fallback
->   936abb09c1c7  rt712   2024-06-20  gate introduced, with the fallback (x3)
->   f465d10cd731  rt1320  2024-09-02  fallback dropped
->   91f4ca732495  rt722   2025-04-16  gate introduced, with the fallback (x3)
-> 
-> In rt712 and rt722 the fallback is present in the very first line that ever
-> consulted the flag there — three times each, for DMIC, jack and amp. Six
-> live instances across two drivers, and rt1320 the only one that lost it,
-> eight months after being the first to have it.
-> 
-> So I do not think anything about the flag needs to be understood before
-> that change is allowed to stand: it restores the driver's original
-> behaviour and makes it consistent with its siblings. What it lacks is the
-> tag saying so, which I should have found in August and did not:
-> 
->   Fixes: f465d10cd731 ("ASoC: rt1320: Add support for version C")
-> 
-> That would put the window at v6.12 through v7.2. Whether it is worth
-> backporting past 6.18 depends on whether any machine actually lands in the
-> gap, and — see below — I can no longer demonstrate one, so I am not asking
-> for that.
-> 
-> 
-> What the flag is doing, measured today
-> --------------------------------------
-> 
-> I went back to the hardware rather than argue from July's logs. Surface Pro
-> 11 for Business, Ubuntu 7.0.0-30, with snd_soc_rt1320_sdw.dyndbg="func
-> rt1320_io_init +p" on the kernel command line — the dynamic-debug control
-> file cannot be written on this machine, because Secure Boot puts the kernel
-> in lockdown "integrity".
-> 
-> Two of its modules are local builds rather than the distro's, and it
-> matters for reading what follows: snd-soc-rt1320-sdw carries 9b30521074f0,
-> and the v3 2/2 quirk is backported into soundwire-intel, which is where
-> dmi-quirks.o lands in this tree. I checked the first of those in the
-> disassembly rather than trusting the build directory, which turned out to
-> hold different source: the gate reads the status register, tests BIT(5),
-> and falls through to a byte test of first_hw_init with both branches
-> entering the same block. So the fallback is present. The ghost is absent on
-> this machine today for the same reason — the quirk is loaded.
-> 
-> The func_status value is read and printed before that gate, so the readings
-> themselves are independent of which version of the condition is compiled
-> in:
-> 
->   condition                              amp func_status   BIT(5)
->   cold boot, systemd poweroff to S5,
->     RTC alarm wake                       0x61              set
->   warm reboot                            0x61              set
->   resume from s2idle                     0x41              absent
->   driver unbind/bind                     0x41              absent
-> 
-> 0x61 is NEWLY_ATTACHED | NEEDS_INITIALIZATION | HAS_BEEN_RESET; 0x41 is the
-> same without BIT(5).
-> 
-> On this machine the flag is therefore behaving as intended: raised on the
-> attach that follows a genuine power-on, absent on later re-attaches where
-> the part has kept its state.
-> 
-> The resume row is the one that says something about the hardware regardless
-> of the patch, because first_hw_init is already true there — so the preset
-> is skipped on resume under the stock condition and under the restored one
-> alike. It is skipped, and the speakers still work. I checked that by
-> measurement rather than by log, because silence with every layer reporting
-> success is the failure mode here: a 1 kHz tone played to the speaker and
-> recorded on the internal microphone puts the 1 kHz bin 1697x over ambient
-> after a resume. The amplifier retains its programming across s2idle.
-> 
-> I cannot make the same claim from the unbind/bind row. There first_hw_init
-> goes back to false, so on this module the fallback fires and the preset
-> runs; sound after a rebind shows only that it ran.
-> 
-> I think 0x41 is also explained, and it is not a second reading of "this
-> part has been reset". All three drivers acknowledge exactly one bit:
-> 
->   regmap_write(..., RT1320_SDCA_CTL_FUNC_STATUS, 0),
->       FUNCTION_NEEDS_INITIALIZATION);
-> 
-> DEVICE_NEWLY_ATTACHED and FUNCTION_HAS_BEEN_RESET are never written back by
-> rt1320, rt712 or rt722 — none of the three mentions HAS_BEEN_RESET at all.
-> So after the first attach clears BIT(5), what is left standing is 0x41, for
-> the rest of the boot. That is a question worth asking on its own: are those
-> bits meant to be acknowledged by the host, and is anything downstream
-> entitled to believe them? If they are write-1-to-clear status and nobody
-> clears them, then every reader after the first sees a function permanently
-> claiming to be newly attached and freshly reset.
-> 
-> It also means the patch I nearly sent instead — treat HAS_BEEN_RESET like
-> NEEDS_INITIALIZATION — would have been wrong. It would re-run the full
-> preset and the MCU patch load on every resume and every rebind, driven by a
-> bit that nobody ever clears. I am glad I measured before writing it.
-> 
-> 
-> What I still cannot explain
-> ---------------------------
-> 
-> In July this machine read 0x41 where it now reads 0x61, the amplifier was
-> unprogrammed, and the speakers were silent. Those logs are real and so is
-> today's table. I do not have a mechanism that turns one into the other, the
-> kernel and firmware were ruled out at the time, and I am not going to
-> invent one to tidy up the story. What I can say is that the case for
-> 9b30521074f0 no longer rests on this laptop at all — it rests on
-> f465d10cd731.
-> 
-> I still have the hardware and the instrumentation is now scripted, so if
-> there is a register or a moment you would want looked at, I would rather
-> measure what you ask for than keep guessing at what matters.
-> 
-> 2/2 is the one that still needs applying. Run fully stock on 2026-08-30,
-> with distro modules and no quirk, this machine had no audio device at all:
-> "aplay -l" reported zero cards. It is not an optimisation. That it has one
-> today is only because the backported quirk is loaded.
-It's rather hard to follow the references to patches and versions, and
-if I am honest there are too many details...
-If you have two versions of code where you get two different reads of
-the same registers, then git bisect is your friend.
+This is the experiment Takashi suggested in the v8 thread: an
+individual HID driver joined to snd-usb-audio through the component
+framework, instead of a mixer quirk that claims the HID interface for
+itself. It is posted as an RFC rather than as v9 because v8 is not
+withdrawn -- it remains the alternative, and the choice between the two
+is the question this series exists to answer.
 
-On these bitfields, the definitions of HAS_BEEN_RESET and NEWLY_ATTACHED
-were controversial from the beginning when they were discussed in the
-MIPI WG. My personal opinion was that they didn't make sense...
+I said this morning that I would hold this until the questions in that
+thread were answered. I am sending it anyway, because a patch gets a
+better answer than a question does, and because the last of those
+questions answered itself: the correction I sent a few hours ago
+proposed deferring the controls until the card reports, and working out
+how that lands in code showed why it cannot -- which is in the section
+below. The only question still genuinely open is the HID one, and it
+touches one line.
 
-NEWLY_ATTACHED is a duplicate at the SDCA level of what is already
-defined for the SoundWire enumeration process. I am not sure if there is
-any merit in trying to deal with this bitfield, you could end-up in a a
-situation where the dev_num is non-zero after enumeration but the
-NEWLY_ATTACHED bit is still set. It's not obvious at all for how long
-this NEWLY_ATTACHED bit is supposed to be set by hardware.
+Changes since the RFC, all three from the Sashiko bot's review of it:
+ 
+  - .raw_event() read the control pointer under the lock and used it
+    after releasing it. snd_ctl_notify() dereferences the id it is
+    given -- it compares id->numid and copies the structure into the
+    event -- so an unbind racing between the two could free the
+    control first, and the card pointer was stale by then as well.
+    The notify now happens under the same lock; it is safe there,
+    taking read_lock_irqsave and allocating with GFP_ATOMIC, and
+    usb-audio's own mixer already notifies from a URB completion.
+ 
+  - the keepalive could outlive the driver. topping_unbind() cancelled
+    the work before clearing m62->card, so a resume in that window
+    could see a live card and schedule it again, and topping_remove()
+    never cancelled at all -- devm would free the driver data with the
+    timer still armed. The clear now comes first, resume tests and
+    schedules under the same lock, and remove() cancels
+    unconditionally.
+ 
+  - the third finding, that topping_drop_kctls() passes NULL to
+    snd_ctl_remove(), is not a defect. That function returns 0 on a
+    NULL control as its first statement and its kerneldoc says so;
+    the loop is deliberately unconditional so that a partly built set
+    unwinds through one path.
+ 
+No other changes: the sound side is untouched.
+ 
+  - topping_send() logged at err level for -EPROTO, so pulling the
+    cable out of a card that was being written to produced eight
+    complaints about a device that was already leaving. EPROTO and
+    EILSEQ join ENODEV and ESHUTDOWN in the quiet list. The keepalive
+    still gives up only on the latter two: EPROTO can be a transient
+    bus error, and stopping on it would leave the subscription dead
+    until the next replug.
 
-Same for HAS_BEEN_RESET. There are existing definitions at the SoundWire
-level for sync loss, device reset with a register write and bus reset.
-It's not clear for how long the HAS_BEEN_RESET bit is set in the SDCA
-status register after a SoundWire-level event...I vaguely remember that
-this bit was intended to deal with imp-def reset or to provide a
-placeholder for future extensions, but for now this bit doesn't seem too
-useful...
+What the shape buys, measured rather than argued:
 
-I would skip both definitions for now. The only one that really matters
-is NEEDS_INITIALIZATION, since this could lead to 'no audio' problems.
+  - card.c is not touched at all. The v8 series had to add
+    snd_usb_claim_iface() and snd_usb_release_iface() there, and had a
+    defect I reported separately: an interface claimed and marked
+    USB_AUDIO_IFACE_UNUSED never gets told to wind down, because
+    usb_audio_disconnect() returns at its first line. With no claim
+    there is no such interface and the defect has nothing to attach
+    to. Watching the wire with usbmon: unbind the audio interface and
+    the keepalive stops. In v8 it kept going.
 
-The premise is that the SDCA hardware layers know if the context is
-preserved or not, depending on what power rails are maintained during
-the suspend phases. The idea was that the driver should only try to
-re-download all the initialization tables - also defined as blind writes
-- when the hardware sets this bit.
-ut as usual placing trust in the hardware is risky if said hardware
-doesn't implement this logic, i.e. it's reasonable to expect that some
-chips will always set this bit even if it's not strictly required, or
-never set it...
-I think the logic to download the tables on the first_hw_init OR when
-hardware sets this bit is perfectly reasonable, it can't think of any
-reasons why drivers would have different tests.
+  - the hid_ignore_list entry goes away, so hidraw stays available.
+    That matters because five of the card's functions -- the mixer
+    matrix, the mutes, the loopback routing, the input power and the
+    EQ -- are reachable only through the vendor protocol, and v8 made
+    them unreachable from userspace as the price of the quirk.
+
+  - two M62s on one host bind to their own cards. The match is by
+    descent from the shared USB device, and it holds: gains set on one
+    do not appear on the other, and unplugging one leaves the other's
+    controls in place. The quirk road could not be tested for this at
+    all.
+
+On the timing worry from that thread: it does not bite on an ordinary
+plug. The master goes up from snd_topping_init() inside
+snd_usb_create_mixer(), so the bind is synchronous and the controls
+exist before try_to_register_card() -- the same ordering as v8. From
+HID probe to component bind, 54 to 57 ms across five replugs. Only a
+module reload onto a live card adds controls after registration, and
+there a desktop mixer does not follow the renumbered elements until
+wireplumber is restarted. That is a real wart and I have not found a
+way around it that is worth the code.
+
+What the card does and does not report
+
+I got this wrong twice in the v8 thread and would rather state it
+plainly here, since the design follows from it.
+
+After a subscribe the card reports itself in two waves: jacks at about
+0.9 s, then at about 5.2 s the jacks again plus the output mutes plus
+the gain of every input whose jack is present. Every turn of a
+front-panel knob is reported as it happens, gains and output volumes
+alike. What is never reported is a source selector, because the card
+reports events and a selector has no front-panel control, so no event
+can exist; and an output volume before anyone has touched it, because
+it is a setting rather than a physical fact.
+
+So five of the nine controls have a source of truth on the card, two
+have one only after a hand moves them, and two never do.
+
+That looked at first like an argument for deferring the controls until
+the first report lands, so that a value read at connect would be the
+panel's rather than something restored over it. I have not done that,
+and here is why: alsactl restores once, at card add, and does not
+come back for elements that appear later. Deferring would therefore
+trade an accurate value for five controls against no restore at all
+for nine, and would wait forever for an input with nothing plugged
+into it -- which on a five-input card is the normal case.
+The controls are published at bind, as in v8, and the value at
+connect is the restored one.
+
+Open question, not blocking the review
+
+hid_hw_open() sets intf->needs_remote_wakeup, and usbhid offers no way
+to take input reports without it. This card does not advertise remote
+wakeup (bmAttributes 0xc0, no power/wakeup node), so that forbids
+runtime suspend to the whole device -- undoing something an earlier
+revision of the v8 series had to fix. The driver clears the flag after
+opening, with a comment saying so, because it resynchronises on resume
+and has no use for a device-initiated wakeup. Jiri and Benjamin have
+been asked whether that is acceptable or whether usbhid should offer
+something; the question is in the same thread and unanswered. If the
+answer is that the clear must go, HID_CONNECT_DRIVER replaces
+HID_CONNECT_HIDRAW and the hidraw node goes with it.
+
+Tested
+
+Fedora, 7.3.0-rc1-bc35965f6940 plus this series, with KASAN,
+PROVE_LOCKING and UBSAN enabled. One M62, firmware V87.05.45.48.27,
+and a second of the same for the two-card test. Everything below was
+run after the fixes listed above, not before them.
+ 
+All nine controls read and written from amixer and from the front
+panel, values cross-checked against the panel.
+ 
+One hundred cycles of module load and unload against a live card,
+which is the path the fixes touch: the controls come and go while the
+meter stream keeps arriving, so .raw_event() runs against a set of
+controls that is being taken apart. No splat and no lockdep complaint,
+including on the lock order the first fix introduces -- m62->lock is
+now held across snd_ctl_notify(), which takes the card's
+controls_rwlock inside it.
+ 
+An audio-side unbind and rebind, exercising topping_unbind() through
+the master rather than through the HID driver's own remove.
+ 
+The cable pulled out of a card while a control was being written in a
+loop. That produces a run of failed writes and then the disconnect,
+and after the last fix it does so without a line of complaint each.
+ 
+System suspend and resume: the subscription survives it -- turning a
+front-panel knob afterwards still moves the control -- and the
+selectors are written back on the way out, as they must be since the
+card never reports them.
+ 
+Two cards on one host, on different ports of the same hub: the
+component match is by descent from the shared USB device and it holds
+-- dmesg shows snd-usb-audio 3-1.3:1.0 binding one HID device and
+3-1.4.2:1.0 the other, each card carries its own nine controls, gains
+set from one front panel move only that card's controls, and
+unplugging one leaves the other's in place.
+ 
+Not tested:
+ 
+  - hibernation, and with it .reset_resume, which shares
+    topping_resume() with .resume. This machine is not set up for it:
+    there is no resume= on the command line and zram takes swap
+    priority, so the attempt logs "PM: Image not found (code -16)" and
+    powers off instead of saving an image. That is the same on a stock
+    kernel and has nothing to do with this series, but it does mean
+    the path is unexercised;
+  - kmemleak, compiled in on this system but disabled at boot;
+  - a card whose battery has run down;
+  - anything on a big-endian host.
+
+Ordering
+
+The HID driver comes first. Between the two patches it binds, speaks
+to the card and creates no controls, which is harmless; the reverse
+order leaves a master that never matches, which is equally harmless
+but leaves hid-generic making a bogus input device out of the
+descriptor in the meantime.
+
+Mikhail Gavrilov (2):
+  HID: topping-m62: driver for the M62's vendor controls
+  ALSA: usb-audio: bind the Topping M62's vendor controls
+
+ MAINTAINERS                   |   9 +
+ drivers/hid/Kconfig           |  19 +
+ drivers/hid/Makefile          |   1 +
+ drivers/hid/hid-ids.h         |   3 +
+ drivers/hid/hid-quirks.c      |   3 +
+ drivers/hid/hid-topping-m62.c | 889 ++++++++++++++++++++++++++++++++++
+ sound/usb/Makefile            |   1 +
+ sound/usb/mixer_quirks.c      |   5 +
+ sound/usb/mixer_topping.c     | 173 +++++++
+ sound/usb/mixer_topping.h     |   7 +
+ 10 files changed, 1110 insertions(+)
+ create mode 100644 drivers/hid/hid-topping-m62.c
+ create mode 100644 sound/usb/mixer_topping.c
+ create mode 100644 sound/usb/mixer_topping.h
+
+-- 
+2.55.0
+
