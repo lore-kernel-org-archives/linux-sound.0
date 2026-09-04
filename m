@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFC8E3AEB35
-	for <linux-sound@vger.kernel.org>; Fri,  4 Sep 2026 07:32:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7371254B03
+	for <linux-sound@vger.kernel.org>; Fri,  4 Sep 2026 07:32:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788507136; cv=none; b=E1VAUQjKJ1rd6OFGa8NzyodiXofEmGdTG/9lCV0bTBFqUtHEVquL3H7k6jFWgrqF0Djm1ooSHCA9Ihu3zcCS1yOUO/7wVC0t/CLFbwoJvrrGqeWD5uA+fJ1LB7VYGH36+Hr6g9+ZO+Cz0MYgBi/7L40L4Y536J3i3R1alpQ2C/U=
+	t=1788507139; cv=none; b=ivOWrEGtZsdHFglkDK2R9dKU5O58wF//ocv2IO+mbEuZM6EV5TfAPb+zeuIuv0dYnfZ/xRS0hIfxcizVbU6jz+9iYLm7cHS/yNC4xibKuxMkFkzDFZpMivpbT5yYMCxiC7GsXDFvmIRX1eeogaNwfwlX2E8bmddq9G1kqIcGuGU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788507136; c=relaxed/simple;
-	bh=cdxMRsoZn+AZX0WPizvXDEuaQYO48TLWwPZTwHWQyVg=;
+	s=arc-20240116; t=1788507139; c=relaxed/simple;
+	bh=rxA78f2Dwx/eTnmWDIAUN07vH6t2FvW0TB1c2wWo46s=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kscgYotbmzq5z9o2IcjWS3H4sD9uPMUTICSxN4Llum3GX5XUSMDnX9bKR/JPLBy19itT65/1dMvbEkE25jdxNmDOt44wQQBGvA5Gzoqf2Zek4yTQMQqMBgrN20AaYo+DEDxuDyKb1GQKxUgO6ocJjnDBPZIiqMR6O6pUTkOsblk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m1PFitgh; arc=none smtp.client-ip=198.175.65.9
+	 MIME-Version; b=PD/fztIdnKdvA421ILEqLd+IKubIPdL8VFla71SMkXmcrHiO9niVZbLs4Sk4Nmmp5kpUIn+Tjn8Y4lli/lzrZQ9FaOyZOojeAcx4/hPxiaYMKyIqRUHGNpCt5mHj1IHzG3cAzawtnpF9JAzYeH+N2FIaC1ttqXcuAs7rvw2i97c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I1ZJxTUB; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m1PFitgh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I1ZJxTUB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788507135; x=1820043135;
+  t=1788507138; x=1820043138;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=cdxMRsoZn+AZX0WPizvXDEuaQYO48TLWwPZTwHWQyVg=;
-  b=m1PFitghWfUhdfiQnmMGsuWH8gznnItjhU6auhfz25BHilde7Tor7dXn
-   I3+zvcn2gnmR+qrGqeqmaRcx2ez/0d8Pop4GTVEUnDwFGa4tX+taRlbx6
-   YART+aeRoYL3t8Roy+//WC7XV5I6HyOjr6ESJIrt/txHgnt488h4LR2IM
-   Sg54Nwc0OrpwYIUFk2jS+/u+WauczYtGaKVRy8wQJsSw0I7Ma7F8rzGEP
-   mo1gnV0wabQ/BAKXNrC8RDwGTu6z/cqtTu66WXS3adJnrndqzrnGephkm
-   TqxOOrBYU2Q3ooJHRfRD4c3c5nOn2SRZiju73Nh+BxsoNjX4mmIK+n82y
+  bh=rxA78f2Dwx/eTnmWDIAUN07vH6t2FvW0TB1c2wWo46s=;
+  b=I1ZJxTUBZme3Uk2AEY+eBUoF8jySifZzwQ8OU6fXqKs6TAoKkDabfknf
+   HumBsGNTQ9AiXolSFMJg7UKh7vkVpekSx9+nDiWvJJptrS+YMSMRuzQQ2
+   ALM1QtaLukkruThAKzMlxXlNaySVdbSVjVc9z6aC4/VqpDGMtgf7mYPki
+   iF+n2wC8hjoPzkV/rGzaoIw+6F0h8yURKXXydFBzfsTkYSpgi3BFklynU
+   VkCf11Dol6bJ30J0fAgBdF7JzLsQyclgJJUuE1o9krZoPmLL+yrPQ2AWr
+   68Tp8Ozg/YAfr+aUJWwt9QLXJ47cSqpPi4/1oWO3A4+nhrQgKSvf8pDt/
    Q==;
-X-CSE-ConnectionGUID: X0rkQn2DS8e9BAkIXlIFrQ==
-X-CSE-MsgGUID: TY2DRZrJSU6C7EG+d8DoYw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11895"; a="111777979"
+X-CSE-ConnectionGUID: Pqng5tujRc21dpT5UmbV9g==
+X-CSE-MsgGUID: pvoLYzgUSkCMBvUAIMdJrg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11895"; a="111777996"
 X-IronPort-AV: E=Sophos;i="6.25,260,1779174000"; 
-   d="scan'208";a="111777979"
+   d="scan'208";a="111777996"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2026 00:32:14 -0700
-X-CSE-ConnectionGUID: oliObB+BQvO+5n+E+nJmew==
-X-CSE-MsgGUID: aH8yz8UZSjOtMC8tir7fXg==
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2026 00:32:17 -0700
+X-CSE-ConnectionGUID: WV+Q6Ka8RkKAroIBX4yoBQ==
+X-CSE-MsgGUID: 6R45VwxOSEy7dyx229mg6g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,260,1779174000"; 
-   d="scan'208";a="293480638"
+   d="scan'208";a="293480648"
 Received: from ettammin-mobl3.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.244.213])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2026 00:32:11 -0700
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2026 00:32:14 -0700
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: vkoul@kernel.org,
 	perex@perex.cz,
@@ -56,9 +56,9 @@ Cc: linux-sound@vger.kernel.org,
 	pierre-louis.bossart@linux.dev,
 	daniel.baluta@nxp.com,
 	Vijendar.Mukunda@amd.com
-Subject: [PATCH 15/23] ASoC: SOF: ipc4-pcm: Make the timestamp info usable outside of ipc4-pcm.c
-Date: Fri,  4 Sep 2026 10:31:26 +0300
-Message-ID: <20260904073134.29648-16-peter.ujfalusi@linux.intel.com>
+Subject: [PATCH 16/23] ASoC: SOF: ipc4/ipc4-loader: Add SOF_INFO and CODEC_INFO to fw_config_params
+Date: Fri,  4 Sep 2026 10:31:27 +0300
+Message-ID: <20260904073134.29648-17-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260904073134.29648-1-peter.ujfalusi@linux.intel.com>
 References: <20260904073134.29648-1-peter.ujfalusi@linux.intel.com>
@@ -70,153 +70,151 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The support for compressed stream will also need to have access to the
-same information which is used for delay reporting for DAI data
-progression tracking.
+SOF_INFO (id == 35) tuple holds tuple structured information about SOF
+features.
 
-Make the necessary struct and functions to be available and premare them to
-be called without a valid substream.
+The first entry in SOF_INFO is the SOF_CODEC_INFO (id == 0) which contains
+information about the supported codecs for decode/encode in the booted
+firmware.
+
+If present in the fw_config payload, make a copy of it and store it
+sof_ipc4_fw_data->codec_info to be used by the compressed code.
 
 Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
 ---
- sound/soc/sof/ipc4-pcm.c  | 40 +++++++++------------------------------
- sound/soc/sof/ipc4-priv.h | 31 ++++++++++++++++++++++++++++++
- 2 files changed, 40 insertions(+), 31 deletions(-)
+ include/sound/sof/ipc4/header.h | 18 ++++++++----
+ sound/soc/sof/ipc4-loader.c     | 51 +++++++++++++++++++++++++++++++++
+ sound/soc/sof/ipc4-priv.h       |  4 +++
+ 3 files changed, 67 insertions(+), 6 deletions(-)
 
-diff --git a/sound/soc/sof/ipc4-pcm.c b/sound/soc/sof/ipc4-pcm.c
-index 6e8522d03a2b..45cdd5d8fbbf 100644
---- a/sound/soc/sof/ipc4-pcm.c
-+++ b/sound/soc/sof/ipc4-pcm.c
-@@ -15,29 +15,6 @@
- #include "ipc4-topology.h"
- #include "ipc4-fw-reg.h"
- 
--/**
-- * struct sof_ipc4_timestamp_info - IPC4 timestamp info
-- * @host_copier: the host copier of the pcm stream
-- * @dai_copier: the dai copier of the pcm stream
-- * @stream_start_offset: reported by fw in memory window (converted to
-- *                       frames at host_copier sampling rate)
-- * @stream_end_offset: reported by fw in memory window (converted to
-- *                     frames at host_copier sampling rate)
-- * @llp_offset: llp offset in memory window
-- * @delay: Calculated and stored in pointer callback. The stored value is
-- *         returned in the delay callback. Expressed in frames at host copier
-- *         sampling rate.
-- */
--struct sof_ipc4_timestamp_info {
--	struct sof_ipc4_copier *host_copier;
--	struct sof_ipc4_copier *dai_copier;
--	u64 stream_start_offset;
--	u64 stream_end_offset;
--	u32 llp_offset;
--
--	snd_pcm_sframes_t delay;
--};
--
- /**
-  * struct sof_ipc4_pcm_stream_priv - IPC4 specific private data
-  * @time_info: pointer to time info struct if it is supported, otherwise NULL
-@@ -61,7 +38,7 @@ struct sof_ipc4_pcm_stream_priv {
- 
- #define DELAY_MAX		(DELAY_BOUNDARY >> 1)
- 
--static inline struct sof_ipc4_timestamp_info *
-+struct sof_ipc4_timestamp_info *
- sof_ipc4_sps_to_time_info(struct snd_sof_pcm_stream *sps)
- {
- 	struct sof_ipc4_pcm_stream_priv *stream_priv = sps->private;
-@@ -990,7 +967,7 @@ static int sof_ipc4_pcm_setup(struct snd_sof_dev *sdev, struct snd_sof_pcm *spcm
- 	return 0;
- }
- 
--static void sof_ipc4_build_time_info(struct snd_sof_dev *sdev, struct snd_sof_pcm_stream *sps)
-+void sof_ipc4_build_time_info(struct snd_sof_dev *sdev, struct snd_sof_pcm_stream *sps)
- {
- 	struct sof_ipc4_copier *host_copier = NULL;
- 	struct sof_ipc4_copier *dai_copier = NULL;
-@@ -1088,7 +1065,7 @@ static int sof_ipc4_pcm_hw_params(struct snd_soc_component *component,
- 	return 0;
- }
- 
--static u64 sof_ipc4_frames_dai_to_host(struct sof_ipc4_timestamp_info *time_info, u64 value)
-+u64 sof_ipc4_frames_dai_to_host(struct sof_ipc4_timestamp_info *time_info, u64 value)
- {
- 	u64 dai_rate, host_rate;
- 
-@@ -1117,10 +1094,10 @@ static u64 sof_ipc4_frames_dai_to_host(struct sof_ipc4_timestamp_info *time_info
- 	return value;
- }
- 
--static int sof_ipc4_get_stream_start_offset(struct snd_sof_dev *sdev,
--					    struct snd_pcm_substream *substream,
--					    struct snd_sof_pcm_stream *sps,
--					    struct sof_ipc4_timestamp_info *time_info)
-+int sof_ipc4_get_stream_start_offset(struct snd_sof_dev *sdev,
-+				     struct snd_pcm_substream *substream,
-+				     struct snd_sof_pcm_stream *sps,
-+				     struct sof_ipc4_timestamp_info *time_info)
- {
- 	struct sof_ipc4_copier *host_copier = time_info->host_copier;
- 	struct sof_ipc4_copier *dai_copier = time_info->dai_copier;
-@@ -1134,7 +1111,8 @@ static int sof_ipc4_get_stream_start_offset(struct snd_sof_dev *sdev,
- 
- 	if (host_copier->data.gtw_cfg.node_id == SOF_IPC4_INVALID_NODE_ID) {
- 		return -EINVAL;
--	} else if (host_copier->data.gtw_cfg.node_id == SOF_IPC4_CHAIN_DMA_NODE_ID) {
-+	} else if (substream &&
-+		   host_copier->data.gtw_cfg.node_id == SOF_IPC4_CHAIN_DMA_NODE_ID) {
- 		/*
- 		 * While the firmware does not support time_info reporting for
- 		 * streams using ChainDMA, it is granted that ChainDMA can only
-diff --git a/sound/soc/sof/ipc4-priv.h b/sound/soc/sof/ipc4-priv.h
-index a8cdf9bc750b..7c0861d63bef 100644
---- a/sound/soc/sof/ipc4-priv.h
-+++ b/sound/soc/sof/ipc4-priv.h
-@@ -98,6 +98,29 @@ struct sof_ipc4_fw_data {
- 	struct mutex pipeline_state_mutex; /* protect pipeline triggers, ref counts and states */
+diff --git a/include/sound/sof/ipc4/header.h b/include/sound/sof/ipc4/header.h
+index e5161f0a37e8..dd1e0d1cf0d8 100644
+--- a/include/sound/sof/ipc4/header.h
++++ b/include/sound/sof/ipc4/header.h
+@@ -436,12 +436,10 @@ enum sof_ipc4_fw_config_params {
+ 	SOF_IPC4_FW_CFG_RESERVED,
+ 	SOF_IPC4_FW_CFG_POWER_GATING_POLICY,
+ 	SOF_IPC4_FW_CFG_ASSERT_MODE,
+-	SOF_IPC4_FW_RESERVED1,
+-	SOF_IPC4_FW_RESERVED2,
+-	SOF_IPC4_FW_RESERVED3,
+-	SOF_IPC4_FW_RESERVED4,
+-	SOF_IPC4_FW_RESERVED5,
+-	SOF_IPC4_FW_CONTEXT_SAVE
++	/* Reserved: 24 - 28 */
++	SOF_IPC4_FW_CONTEXT_SAVE = 29,
++	/* Reserved: 30 - 34 */
++	SOF_IPC4_FW_CFG_SOF_INFO = 35,
  };
  
-+/**
-+ * struct sof_ipc4_timestamp_info - IPC4 timestamp info
-+ * @host_copier: the host copier of the pcm stream
-+ * @dai_copier: the dai copier of the pcm stream
-+ * @stream_start_offset: reported by fw in memory window (converted to
-+ *                       frames at host_copier sampling rate)
-+ * @stream_end_offset: reported by fw in memory window (converted to
-+ *                     frames at host_copier sampling rate)
-+ * @llp_offset: llp offset in memory window
-+ * @delay: Calculated and stored in pointer callback. The stored value is
-+ *         returned in the delay callback. Expressed in frames at host copier
-+ *         sampling rate.
+ struct sof_ipc4_fw_version {
+@@ -451,6 +449,14 @@ struct sof_ipc4_fw_version {
+ 	uint16_t build;
+ } __packed;
+ 
++/*
++ * tuple based array for SOF specific information under SOF_IPC4_FW_CFG_SOF_INFO
++ * tuple of fw_config
 + */
-+struct sof_ipc4_timestamp_info {
-+	struct sof_ipc4_copier *host_copier;
-+	struct sof_ipc4_copier *dai_copier;
-+	u64 stream_start_offset;
-+	u64 stream_end_offset;
-+	u32 llp_offset;
-+
-+	snd_pcm_sframes_t delay;
++enum ipc4_fw_sof_info_params {
++	SOF_IPC4_SOF_CODEC_INFO,
 +};
 +
- extern const struct sof_ipc_fw_loader_ops ipc4_loader_ops;
- extern const struct sof_ipc_tplg_ops ipc4_tplg_ops;
- extern const struct sof_ipc_tplg_control_ops tplg_ipc4_control_ops;
-@@ -129,4 +152,12 @@ void sof_ipc4_mic_privacy_state_change(struct snd_sof_dev *sdev, bool state);
- enum sof_ipc4_pipeline_state;
- const char *sof_ipc4_pipeline_state_str(enum sof_ipc4_pipeline_state state);
+ /* Payload data for SOF_IPC4_MOD_SET_DX */
+ struct sof_ipc4_dx_state_info {
+ 	/* core(s) to apply the change */
+diff --git a/sound/soc/sof/ipc4-loader.c b/sound/soc/sof/ipc4-loader.c
+index 07a78cb3c25c..8e0945b37ec8 100644
+--- a/sound/soc/sof/ipc4-loader.c
++++ b/sound/soc/sof/ipc4-loader.c
+@@ -408,6 +408,52 @@ static int sof_ipc4_validate_firmware(struct snd_sof_dev *sdev)
+ 	return 0;
+ }
  
-+struct sof_ipc4_timestamp_info *sof_ipc4_sps_to_time_info(struct snd_sof_pcm_stream *sps);
-+void sof_ipc4_build_time_info(struct snd_sof_dev *sdev, struct snd_sof_pcm_stream *sps);
-+int sof_ipc4_get_stream_start_offset(struct snd_sof_dev *sdev,
-+				     struct snd_pcm_substream *substream,
-+				     struct snd_sof_pcm_stream *sps,
-+				     struct sof_ipc4_timestamp_info *time_info);
-+u64 sof_ipc4_frames_dai_to_host(struct sof_ipc4_timestamp_info *time_info, u64 value);
++static int sof_ipc4_query_sof_info(struct snd_sof_dev *sdev,
++				   void *sof_info_data, u32 sof_info_size)
++{
++	struct sof_ipc4_fw_data *ipc4_data = sdev->private;
++	struct sof_ipc4_tuple *tuple;
++	size_t tuple_size;
++	size_t offset = 0;
++	int ret = 0;
 +
- #endif
++	while (offset < sof_info_size) {
++		if (sof_info_size - offset < sizeof(*tuple)) {
++			dev_err(sdev->dev, "Invalid SOF info tuple header at offset %zu\n", offset);
++			ret = -EINVAL;
++			goto out;
++		}
++
++		tuple = (struct sof_ipc4_tuple *)((u8 *)sof_info_data + offset);
++		tuple_size = sizeof(*tuple) + tuple->size;
++		if (tuple_size < sizeof(*tuple) || tuple_size > sof_info_size - offset) {
++			dev_err(sdev->dev,
++				"Invalid SOF info tuple size %u at offset %zu\n",
++				tuple->size, offset);
++			ret = -EINVAL;
++			goto out;
++		}
++
++		switch (tuple->type) {
++		case SOF_IPC4_SOF_CODEC_INFO:
++			ipc4_data->codec_info = devm_kmemdup(sdev->dev, tuple->value,
++							     tuple->size, GFP_KERNEL);
++			if (!ipc4_data->codec_info) {
++				ret = -ENOMEM;
++				goto out;
++			}
++			break;
++		default:
++			break;
++		}
++
++		offset += tuple_size;
++	}
++
++out:
++	return ret;
++}
++
+ int sof_ipc4_query_fw_configuration(struct snd_sof_dev *sdev)
+ {
+ 	struct sof_ipc4_fw_data *ipc4_data = sdev->private;
+@@ -483,6 +529,11 @@ int sof_ipc4_query_fw_configuration(struct snd_sof_dev *sdev)
+ 			 */
+ 			ipc4_data->libraries_restored = ipc4_data->fw_context_save;
+ 			break;
++		case SOF_IPC4_FW_CFG_SOF_INFO:
++			ret = sof_ipc4_query_sof_info(sdev, tuple->value, tuple->size);
++			if (ret)
++				goto out;
++			break;
+ 		default:
+ 			break;
+ 		}
+diff --git a/sound/soc/sof/ipc4-priv.h b/sound/soc/sof/ipc4-priv.h
+index 7c0861d63bef..07df6799c7a8 100644
+--- a/sound/soc/sof/ipc4-priv.h
++++ b/sound/soc/sof/ipc4-priv.h
+@@ -75,6 +75,8 @@ struct sof_ipc4_fw_library {
+  * @fw_context_save: Firmware supports full context save and restore
+  * @libraries_restored: The libraries have been retained during firmware boot
+  *
++ * @codec_info: Information about the available codecs in booted firmware. The
++ *		data is to be used by the code for compressed support.
+  * @load_library: Callback function for platform dependent library loading
+  * @pipeline_state_mutex: Mutex to protect pipeline triggers, ref counts, states and deletion
+  */
+@@ -91,6 +93,8 @@ struct sof_ipc4_fw_data {
+ 	bool fw_context_save;
+ 	bool libraries_restored;
+ 
++	void *codec_info;
++
+ 	int (*load_library)(struct snd_sof_dev *sdev,
+ 			    struct sof_ipc4_fw_library *fw_lib, bool reload);
+ 	void (*intel_configure_mic_privacy)(struct snd_sof_dev *sdev,
 -- 
 2.55.0
 
