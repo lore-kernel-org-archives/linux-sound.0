@@ -1,119 +1,90 @@
-Received: from r3-129.sinamail.sina.com.cn (r3-129.sinamail.sina.com.cn [202.108.3.129])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94A303BED30
-	for <linux-sound@vger.kernel.org>; Fri,  4 Sep 2026 10:41:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.108.3.129
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 806AC3A6B8E
+	for <linux-sound@vger.kernel.org>; Fri,  4 Sep 2026 10:53:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788518522; cv=none; b=a3oEYSd5nUCpd0KpQUve2YVTt5F4t67AYjDLnmUwExIPGEQ0nMRfkIgonFPbd+LsBl2GCTxynXHz+8dSuIcbtS3bhvTsWNOtBIijr/D0AbAUPMUq675LXgdRkTS4o7CkbUiP3zXvxu8jgJ/XQ0Sy3DbIGtqTLD6aLWweaGvefBY=
+	t=1788519205; cv=none; b=X4H7pLlS/v7BauXJq8qbIC8iwRP+Ewn1OncN7i/TY0b3bigI/PCOcRK9+gkqyAEMx3bbfw0x0IRUsLN3ed+Wv25re+6iKk3CuT8M2C8daNHNCu95EoxBa8P1Srfh/YdbLHLcCP6BMo3wpKnBuMaqETFOJbiaYqWOeeW089+WyXs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788518522; c=relaxed/simple;
-	bh=JEHLqHpRXGU+mk1wLlKD0iUGfaaE88EISpOVd7zKyQY=;
-	h=From:To:Cc:Subject:Date:Message-Id; b=KuSXw8641kCC0A3rLc5aHNPhy1qvI3eqBO7LeB9dtrHWNGfke8m2aQXSay9pLAlq9CAHRA2ZwrpME+kqpyUJy6JzFgTNqsclprngGsWi32nJgMyDCjy3W3vzyTnht1i2cIFhdBP9tUuDGCD4z3O5qKz1ycSugeQ+OCAo5iBmV3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com; spf=pass smtp.mailfrom=everest-semi.com; arc=none smtp.client-ip=202.108.3.129
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everest-semi.com
-Received: from unknown (HELO zy-virtual-machine.localdomain)([58.38.107.94])
-	by sina.net (10.54.253.36) with ESMTP
-	id 6A9AA0670000570D; Fri, 4 Sep 2026 18:41:44 +0800 (CST)
-X-Sender: zhangyi@everest-semi.com
-X-Auth-ID: zhangyi@everest-semi.com
-Authentication-Results: sina.net;
-	 spf=none smtp.mailfrom=zhangyi@everest-semi.com;
-	 dkim=none header.i=none;
-	 dmarc=none action=none header.from=zhangyi@everest-semi.com
-X-SMAIL-MID: 14FC4DC99E384753A0D82291B4B09D9E
-X-SMAIL-UIID: 14FC4DC99E384753A0D82291B4B09D9E-20260904-184144
-From: Zhang Yi <zhangyi@everest-semi.com>
-To: linux-sound@vger.kernel.org,
-	broonie@kernel.org
-Cc: tiwai@suse.com,
-	Zhang Yi <zhangyi@everest-semi.com>
-Subject: [PATCH] ASoC: codecs: ES8389: Prevent enable_count underflow in clk_core_disable
-Date: Fri,  4 Sep 2026 18:41:41 +0800
-Message-Id: <20260904104141.3885-1-zhangyi@everest-semi.com>
-X-Mailer: git-send-email 2.17.1
+	s=arc-20240116; t=1788519205; c=relaxed/simple;
+	bh=+zzLtHCyZ71YS9DpwgnAZ5vbTSrb+9acQ/ZyXLsxFdo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GiMciLQFAgIPvXkNC/lU0SMM8jATTyRwHpJtaPAl7KCCVxuk1cw/tzsdgIWbluLtAdIFUba5TeocmT2/bBeYzJ+DG9i+nPV59ObEtmyV+5o/BH48u9fNBiE4kflilSSVJb3Mo59XrsndIN+Jdai42zOZhLraDf1SypCna41x8fQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XEjcMzGZ; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XEjcMzGZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CD621F00A3D;
+	Fri,  4 Sep 2026 10:53:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788519198;
+	bh=JcqutnxbFt5vEzUdItOR2kf92XE17K1Y+Cjl1Z0Mlx8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=XEjcMzGZDKaLOWN6K/Tjz5S0weocYUg2ZH+LyQmvCUGKLAIq1gfhWI3jQnwJAM8pQ
+	 5Rv/XRuvPtg/qZIY98xl7wPewYJiT4EEVsO8QNOqKIzAg7tmhBgmJMF9sHJIVyTONs
+	 dKetnQ4zsqXjohiXLqlKyZsFhyHdSRemPnCOp3bwqXVFNIF2QTBEhBjzNnWA9OCh9y
+	 /rxZ+dF+gm5HzadmhT6MP8+SUzwDlLQnt/e2ePmCqIulb0LnsEcdYY72XPQ3f51ozc
+	 +I1oQOxy/uLYsiCR7ByX7jxvl0113hQhqWgEJk6w3v06gwsT/auvxinAJYZZbpTcxv
+	 74+EDVhe2DVRA==
+Date: Fri, 4 Sep 2026 11:53:13 +0100
+From: Mark Brown <broonie@kernel.org>
+To: shumingf@realtek.com
+Cc: lgirdwood@gmail.com, linux-sound@vger.kernel.org, lars@metafoo.de,
+	flove@realtek.com, oder_chiou@realtek.com, jack.yu@realtek.com,
+	derek.fang@realtek.com
+Subject: Re: [PATCH v2 1/6] ASoC: rt766: fix uninitialized stream_config->type
+Message-ID: <605813ee-72e2-4fbb-b665-202a118059ab@sirena.org.uk>
+References: <20260904075737.86525-1-shumingf@realtek.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="1EZLVYfSdAJcaCHI"
+Content-Disposition: inline
+In-Reply-To: <20260904075737.86525-1-shumingf@realtek.com>
+X-Cookie: A is for Apple.
 
-To prevent enable_count underflow in clk_core_disable,
-I replaced the direct call to `es8389_set_bias_level(component, SND_SOC_BIAS_STANDBY);`
-in the code with a helper function.
 
-Signed-off-by: Zhang Yi <zhangyi@everest-semi.com>
----
- sound/soc/codecs/es8389.c | 34 ++++++++++++++++++++--------------
- 1 file changed, 20 insertions(+), 14 deletions(-)
+--1EZLVYfSdAJcaCHI
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/sound/soc/codecs/es8389.c b/sound/soc/codecs/es8389.c
-index 80efce3e0..2ea0c4052 100644
---- a/sound/soc/codecs/es8389.c
-+++ b/sound/soc/codecs/es8389.c
-@@ -812,6 +812,23 @@ static int es8389_pcm_hw_free(struct snd_pcm_substream *substream,
- 	return 0;
- }
- 
-+static void es8389_standby(struct snd_soc_component *component)
-+{
-+	struct es8389_private *es8389 = snd_soc_component_get_drvdata(component);
-+
-+	regmap_update_bits(es8389->regmap, ES8389_ADC_HPF1, 0x0f, 0x04);
-+	regmap_update_bits(es8389->regmap, ES8389_ADC_HPF2, 0x0f, 0x04);
-+	regmap_write(es8389->regmap, ES8389_CSM_JUMP, 0xD4);
-+	usleep_range(70000, 72000);
-+	regmap_write(es8389->regmap, ES8389_ANA_CTL1, 0x59);
-+	regmap_write(es8389->regmap, ES8389_ADC_EN, 0x00);
-+	regmap_write(es8389->regmap, ES8389_CLK_OFF1, 0x00);
-+	regmap_write(es8389->regmap, ES8389_RESET, 0x3E);
-+	regmap_update_bits(es8389->regmap, ES8389_DAC_INV, 0x80, 0x80);
-+	usleep_range(8000, 8500);
-+	regmap_update_bits(es8389->regmap, ES8389_DAC_INV, 0x80, 0x00);
-+}
-+
- static int es8389_set_bias_level(struct snd_soc_component *component,
- 			enum snd_soc_bias_level level)
- {
-@@ -834,18 +851,7 @@ static int es8389_set_bias_level(struct snd_soc_component *component,
- 	case SND_SOC_BIAS_PREPARE:
- 		break;
- 	case SND_SOC_BIAS_STANDBY:
--		regmap_update_bits(es8389->regmap, ES8389_ADC_HPF1, 0x0f, 0x04);
--		regmap_update_bits(es8389->regmap, ES8389_ADC_HPF2, 0x0f, 0x04);
--		regmap_write(es8389->regmap, ES8389_CSM_JUMP, 0xD4);
--		usleep_range(70000, 72000);
--		regmap_write(es8389->regmap, ES8389_ANA_CTL1, 0x59);
--		regmap_write(es8389->regmap, ES8389_ADC_EN, 0x00);
--		regmap_write(es8389->regmap, ES8389_CLK_OFF1, 0x00);
--		regmap_write(es8389->regmap, ES8389_RESET, 0x3E);
--		regmap_update_bits(es8389->regmap, ES8389_DAC_INV, 0x80, 0x80);
--		usleep_range(8000, 8500);
--		regmap_update_bits(es8389->regmap, ES8389_DAC_INV, 0x80, 0x00);
--
-+		es8389_standby(component);
- 		clk_disable_unprepare(es8389->mclk);
- 		break;
- 	case SND_SOC_BIAS_OFF:
-@@ -1015,7 +1021,7 @@ static int es8389_suspend(struct snd_soc_component *component)
- {
- 	struct es8389_private *es8389 = snd_soc_component_get_drvdata(component);
- 
--	es8389_set_bias_level(component, SND_SOC_BIAS_STANDBY);
-+	es8389_standby(component);
- 	regcache_cache_only(es8389->regmap, true);
- 	regcache_mark_dirty(es8389->regmap);
- 
-@@ -1084,7 +1090,7 @@ static int es8389_probe(struct snd_soc_component *component)
- 
- 	es8389->hpf_freq = ES8389_HPF_DEFAULT;
- 	es8389_init(component);
--	es8389_set_bias_level(component, SND_SOC_BIAS_STANDBY);
-+	es8389_standby(component);
- 
- 	return 0;
- }
--- 
-2.17.1
+On Fri, Sep 04, 2026 at 03:57:37PM +0800, shumingf@realtek.com wrote:
+> From: Shuming Fan <shumingf@realtek.com>
+>=20
+> The stream_config variable was not initialized before being passed to
+> sdw_stream_add_slave().
+> This may cause unexpected behavior when configuring the SoundWire stream.
 
+Not related to this patch specifically but I notice that whenever you
+send a patch series you send a bunch of individual messages which don't
+end up threaded with each other, this causes issues for tooling so it'd
+be good if you could get threading working.
+
+You might want to look at b4 to send the patches, especially it's web
+submission endpoint which avoids having to configure mail:
+
+   https://b4.docs.kernel.org/en/latest/contributor/overview.html
+
+this will thread things in the expected manner.
+
+--1EZLVYfSdAJcaCHI
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqaoxkACgkQJNaLcl1U
+h9CF4Qf7Belu4VVH16OVlnOGnZUL0Ux50lr2YzxRTLawjk0o+PDxz3mIPGAyyXS7
+k85zuscJ3YbOn2sfGveBz+zplYujAXdi2d3o9XbfYZRtUfcojVyCYjY8nwA+1Pf9
+/vkQ+LG3LWljq7gp7pZocB2ZQDt3XYEXJo/aSxVUlQ/rPDV9hrgSH+BymO5mMjHN
+DJ7K0sMX3m3WvwWKvQEs1Cy3iCkfk7ozoWXR0bBV0rSJc97qrgbWUyXNK3hNLpOb
+tmqte3UrnWVothoOEMSAo0e89jLAzOoJaFMNyszKZRSmq1cVJbweEazONBMisO4c
+DGqHTiqhf9wBSKTDfJyJ3UGnO44cMw==
+=JwaS
+-----END PGP SIGNATURE-----
+
+--1EZLVYfSdAJcaCHI--
