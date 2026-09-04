@@ -1,397 +1,209 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04BC7470450
-	for <linux-sound@vger.kernel.org>; Fri,  4 Sep 2026 14:43:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 625994BD11B;
+	Fri,  4 Sep 2026 14:45:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788532995; cv=none; b=PmzdRbULiHqHH5b2IzicUXc+F4rIWga5l9bNfvlnlnenBGlZrsF7uvE2kjxwqnsnclX0wLeW2iySt/shlTTuZ7LEGaRhk/PwezE5KCmQXJktXfgrsiRQdJZNnD7gyJr1xsYURoCf2pKEeHppeAmrJIZnVF3nxeKGtgQyrw2LnUs=
+	t=1788533130; cv=none; b=m60L04rRsLtVKzxaz3lSRNhZxefwhsTDguMyAet1LAZ0VKBmRF5eD5pNXRE2Jm9KjUODQ+M3SIqJqioRpGu8x35Y/7OT9ICGar2MrIMe5kjCvFP5Xk/1L+8BTl8GD9UrSaB4ZAiEeaTJ02X/wgbXj86Z+jrRlcHwaaObDZXPL+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788532995; c=relaxed/simple;
-	bh=TmrdyYRtRUker2eEPa3SJoQ1mqCt9PEVADcbJB6GIk8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Ew8lHnXurd5sgDN4F4D9eHqAT6Rrik1dgw7FJ2UHXnY75panDmS1jXZyJ+BsQXNuWP89mjR9xbzJJ7UVad/75BCFw/fyhJPDWbhbvImzltlI/6Aw9Agc0BzAlpuo8hg9UdHKL4tIRl9KZQ7XNYMI+Q8wkG4MFRBIHTdfTNwf35o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OXOKaYLV; arc=none smtp.client-ip=209.85.167.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788533130; c=relaxed/simple;
+	bh=slERl2dvq5Spzqv2HIyb/3aymRLpbkntgzHliuFBwV8=;
+	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=f8rs03wF/W77Gt2Ipj5LZt83b817Cr25WJ8kmfpaUfBy8/MP045PnHU/6LjhHeHvyeIxbrRzajaWN66OqRLa8xbVgZzpwFDsKVBFK16exMvYEv+SoFqz1Nk/tCm5oAFKcRa95xIWXQoWGfCQcYG8+RCWhAmq9LrAOWSxSo3kiJs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=cVcDSyxP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=WCawr2qe; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=cgQ6uVlj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Bt1ix3eA; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OXOKaYLV"
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5b6188a2c0eso686158e87.1
-        for <linux-sound@vger.kernel.org>; Fri, 04 Sep 2026 07:43:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788532991; x=1789137791; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=MRbzgHH2uPKV/5VNVqjlcOo8QkYrGj645E/H8JPEoRM=;
-        b=OXOKaYLVzYd1mgko/X0Sh3eVqsfSI0oNb2ZXc+HpXXq8D4Ew2ktzYix8BjvhYQFCme
-         yrmZ7wndmZm0DKIiXhGZZVEnnRYO4LhwQukewmVr8WjrSxnlzwmIpJvRuJ0TpXxj1k6L
-         OSLZYpAmAKuTJNEwElVUhFnMfufKTG7eZCW4IrIjgPAcEo2lH1PHYRW9H5x87crMxLDo
-         927EMIDH/gH01D+M5ABdAQr/50vRq1fGZJRC0tlvhvdj1/6v5xF3fHvpEc7C+KYkrxF9
-         bMnKIDD20OL7YEqmy73DWucTxOf+B2u20ECJY6ZgP1T/IplcrTP+rk9mkxdUsRCRXyS4
-         pyjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788532991; x=1789137791;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=MRbzgHH2uPKV/5VNVqjlcOo8QkYrGj645E/H8JPEoRM=;
-        b=oAwLCR2h28MYSdLTDgz0jyHH1NSULyF+hO1bYD8sNU0aiF/yN65XPyhUxDAR7mja+j
-         wpMsoT/ZjqIQwaDsuld907deuSXC+5VaYCulNi5puTKly4c16eR5bakjw0rRhbnZRNVy
-         KfJuYX9WF2e18XkPn116hLFMgzVcln6NPJrJac+QrQq2q/vNFYNRcGDAvCBaMJ6M/YG1
-         SRhtXMGC6+9FJ5e14yBm/t675GQVLO/hgkwZkIoz+G4hIkpeb+myk5UjFcjRezzWfycR
-         qzjXpLMIG4CRL9hjRO/V2aBUCIeoNcePPWAJ4hdmQf9QVEZKaxxv8QUjgRTMZflcZJG7
-         idXA==
-X-Forwarded-Encrypted: i=1; AKwUvBwHNrFBxoXrUoh//VMPagi3K5pzde0dGbn2ojkvC1SQtL/6jCABcpLX/VP256iwwfjdwM3C87js+0Xt6w==@vger.kernel.org
-X-Gm-Message-State: AFuF++lVVeuUMc1LGnFjMInvTKrjm1ZgELhuikfNwFcokJFUncs7FFb0
-	CGt2Lr8j3TB4+Vonr2MLPNLm7mn4+ua50yItIy9Y1m4SUrFuiEYjbzSA
-X-Gm-Gg: AYBFou0Dp3D0KOz9ODEe4BnIJo/FNc67CM2RBlt6pIA9sIqMtnTkbLy1m1fLKwVBU/u
-	9aOAYZl3zPHr1wAI/RNCrAYOqmxS+SW9bxIE2FhrRoG5RY/wdAyBEBlBSLvgO3uV/7siG+hfpqB
-	7F2V5Pfjrqge9kIxgA0oCatUDdz/3YL3dr7sWSQ6FjCd1ob1ggne8r1MDaRtA7ecj7RULG/l12N
-	Yeo0z0Gy+QZYfx7KhQRusQWQPT8viOq1x82vyGTzjkpY/W6PHSKuGdpCbpHFZJBwQGQf5xM8X2q
-	yWkki+LsA83W7lhf0hVHqGthSEp5sZtx05sB0Lj4CLk2OL85efQDGRwbDNozl1BgP1qZODHScte
-	2q95JE14KbOfKwR1Vi0mu/xVeodROGB6E8J0kJeYCxq1Gr6aZ1mGYM9Hvyhz7c9xa9nZ/kfWJD0
-	Jw5y2uOLznEhnzr22dkgT8yM3gWg44oekEu74YRfQV5x6CqKfRaEnDvmTXqFGTnwRDpT3mgM8Yo
-	gE0aqEl1L3j7+xzSTyPNwNUDtnutbiHEknEJ40zXEXreD9fN+humvFgkMeZ
-X-Received: by 2002:a05:6512:b91:b0:5b6:1a7c:fd82 with SMTP id 2adb3069b0e04-5b61a7cfecamr750470e87.40.1788532990495;
-        Fri, 04 Sep 2026 07:43:10 -0700 (PDT)
-Received: from localhost ([188.234.148.119])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b61670537esm549289e87.66.2026.09.04.07.43.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Sep 2026 07:43:09 -0700 (PDT)
-From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-To: tiwai@suse.de
-Cc: tiwai@suse.com,
-	perex@perex.cz,
-	jikos@kernel.org,
-	bentiss@kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-Subject: [RFC PATCH v3 2/2] ALSA: usb-audio: bind the Topping M62's vendor controls
-Date: Fri,  4 Sep 2026 19:43:00 +0500
-Message-ID: <20260904144300.529289-3-mikhail.v.gavrilov@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260904144300.529289-1-mikhail.v.gavrilov@gmail.com>
-References: <20260904141158.33398-1-mikhail.v.gavrilov@gmail.com>
- <20260904144300.529289-1-mikhail.v.gavrilov@gmail.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cVcDSyxP";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WCawr2qe";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cgQ6uVlj";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Bt1ix3eA"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 0AA0022540;
+	Fri,  4 Sep 2026 14:45:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1788533122; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=zGLmfvZ8R5JB0SBfBij6xq4Jo14B7AnjDL+sevxZuWA=;
+	b=cVcDSyxPva+Ic+/bobPkbQKBRzpM0vXey8FuD79ExT49n4kpkSb7KKt38H+U0csADXbtWl
+	SiULFJMXDULK5tAbU9sFIZcso3Wf591ikDqTN4lY85jqUHAIhHAgAov5Fao6wIfW8nHHZ6
+	A0lnEcZL+sLPg0dVOocUs2qSDBMmUuE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1788533122;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=zGLmfvZ8R5JB0SBfBij6xq4Jo14B7AnjDL+sevxZuWA=;
+	b=WCawr2qe7PFejIun6DQf7aUrNz6j+P52G977qkqaCy4KAqI5DMSWqzta92bVKPCgtfhla/
+	z0xp2H1EyJBV5WDg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1788533118; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=zGLmfvZ8R5JB0SBfBij6xq4Jo14B7AnjDL+sevxZuWA=;
+	b=cgQ6uVljsa7uhObOqqIbxb5eoK7UN/JIaZWaI8A8kpZJiz1hKOpxMR2I8MNL+37DvE5wwy
+	xDKP2Xw2XlRQS+UILEhsIOayhHdRPYM8EjgDEPcrC/FMUuLmPbuoCc3BQ3ttnIqlUWotLi
+	3+DG/1X0D00Qz8P5VaGtTjXc1YgbqTs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1788533118;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=zGLmfvZ8R5JB0SBfBij6xq4Jo14B7AnjDL+sevxZuWA=;
+	b=Bt1ix3eAa8/prjqRnMwTSQidHeZSEQKy2IJKuMcThVPTC7UPw37211q/F9eyjBT2l28Ff0
+	554awvupUonJcBDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C930613726;
+	Fri,  4 Sep 2026 14:45:17 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id YgPbL33Zmmq3WQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 04 Sep 2026 14:45:17 +0000
+Date: Fri, 04 Sep 2026 16:45:17 +0200
+Message-ID: <875x0l5b42.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
+ Mailing List <linux-kernel@vger.kernel.org>
+Subject: [GIT PULL] sound fixes for 7.3-rc2
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spam-Score: -3.30
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.996];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_DN_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
 
-The M62's vendor controls are driven by hid-topping-m62, added in the
-previous patch, which speaks a vendor protocol on the card's HID
-interface. Those controls belong on the sound card that plays the
-audio, not on a card of the HID driver's own.
+Linus,
 
-This adds the other half of that: a component master, registered from
-the M62's mixer quirk, which hands its struct snd_card to the HID
-driver at bind time and takes the controls away again at unbind. The
-lifetime rules are the component framework's, which is the point --
-neither driver has to be told about the other's disconnect, and neither
-has to guess at the other's state. The same shape binds HD-audio to the
-graphics drivers in sound/hda/core/component.c, with sound as the
-master there too.
+please pull sound fixes for v7.3-rc2 from:
 
-The master's context lives in devres on the audio control interface
-rather than in drvdata, which on a usb_interface belongs to
-snd-usb-audio itself; devres_find(), keyed on the release function,
-gives it back inside the callbacks, which are handed nothing but a
-struct device *. It hangs off the control interface rather than off the
-USB device because component_match_add() allocates the match list with
-devm: on the interface that is released at unbind, while on the
-usb_device it would live until the device itself was released and a
-rebind would stack a second list on top.
+  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-7.3-rc2
 
-Neither component_compare_dev() nor component_compare_dev_name() fits:
-the audio side has no pointer to the HID device, and the HID device's
-name carries an instance counter that is not predictable. The match is
-therefore one of descent -- the HID device sits two levels below the
-USB device -- and which interface it is stays the HID driver's
-business, since it registers a component for the vendor interface and
-for no other. That keeps sound/usb free of HID symbols and of any
-opinion about this card's interface numbering.
+The topmost commit is 3b26ceef88c110f4d188387cffa0df78657be904
 
-component_master_add_with_match() returns 0 with the aggregate merely
-pending when the HID driver is absent, so the card comes up either way
-and grows the vendor controls if and when the other half appears.
+----------------------------------------------------------------
 
-Signed-off-by: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+sound fixes for 7.3-rc2
+
+A collection of small fixes since 7.3-rc1.  Quite a few fixes are
+for ALSA core for issues that have been detected by the things you
+know well.  Additionally a series of hardening for runtime PM, and
+usual quirk updates, and some other misc driver fixes are included.
+
+* Core:
+- Fixes for PCM races
+- UMP parser NULL dereference fix
+- Fix error handling in rawmidi ioctl
+
+* USB- and HD-audio:
+- Implement missing runtime PM guards across multiple interfaces
+- Fix for OOB access in US-122L MIDI driver
+- Double-free fix for CAIAQ driver
+- Quirks for HD-audio Realtek & Cirrus codecs, Conexant S3-resume,
+  USB Audient devices
+
+* Others:
+- Fix of logical mistakes in dummy driver mixer and selftest code
+- Lock init fix in the legacy harmony driver
+
+----------------------------------------------------------------
+
+HyeongJun An (4):
+      ALSA: usb-audio: fix OOB write in snd_usbmidi_us122l_output()
+      ALSA: dummy: Report a change when one capture switch channel moves
+      ALSA: rawmidi: Return the error from snd_rawmidi_input_params()
+      selftests/alsa: Fix the step check for INTEGER controls
+
+Jonne Vuorela (1):
+      ALSA: hda/cs420x: Add CS4208 fixup for MacBookAir 7,2
+
+Oleksandr Kovalov (1):
+      ALSA: hda/realtek: Fix cold-boot headset misdetection on Acer Aspire A515-57G
+
+Peter Drabik (1):
+      ALSA: usb-audio: Add mixer map quirk for Audient iD24
+
+Qingyu Zhang (1):
+      ALSA: ump: do not touch legacy_rmidi before it exists
+
+Riku Matsumura (1):
+      ALSA: hda/realtek: Add quirk for VAIO VJS131
+
+Runyu Xiao (1):
+      ALSA: harmony: initialize locks before requesting IRQ
+
+Takashi Iwai (2):
+      ALSA: pcm: Fix race between non-atomic ops and trigger-start
+      ALSA: caiaq: Fix potential double-free at error path
+
+Will Porter (6):
+      ALSA: usb-audio: Add PM guard to Studio 1810c controls
+      ALSA: usb-audio: Add PM guards to US-16x08 transfers
+      ALSA: usb-audio: Add PM guard to Scarlett meter reads
+      ALSA: usb-audio: Guard Scarlett2 protocol transfers
+      ALSA: usb-audio: Add PM guards to RME Digiface controls
+      ALSA: usb-audio: Guard FCP protocol transfers
+
+Xu Rao (1):
+      ALSA: hda: restore MFG widget enumeration after core split
+
+Yilin Zhang (1):
+      ALSA: pcm: Serialize PCM mmap with buffer reallocation to fix page UAF
+
+Zhang Heng (2):
+      ALSA: hda/realtek: Add quirk for Lenovo Yoga Slim 9 14ILL10
+      ALSA: hda/realtek: Add quirk for Acer Predator PHN16-72
+
+feng liu (1):
+      ALSA: hda/conexant:Fix abnormal Mic/Speaker functionality on SN6140 after S3 wake-up
+
 ---
- MAINTAINERS               |   9 ++
- sound/usb/Makefile        |   1 +
- sound/usb/mixer_quirks.c  |   5 +
- sound/usb/mixer_topping.c | 186 ++++++++++++++++++++++++++++++++++++++
- sound/usb/mixer_topping.h |   7 ++
- 5 files changed, 208 insertions(+)
- create mode 100644 sound/usb/mixer_topping.c
- create mode 100644 sound/usb/mixer_topping.h
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 627595e245f3..b49560efa1c6 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -27593,6 +27593,15 @@ S:	Maintained
- W:	https://tomoyo.sourceforge.net/
- F:	security/tomoyo/
- 
-+TOPPING M62 VENDOR CONTROLS
-+M:	Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-+L:	linux-sound@vger.kernel.org
-+L:	linux-input@vger.kernel.org
-+S:	Maintained
-+F:	drivers/hid/hid-topping-m62.c
-+F:	sound/usb/mixer_topping.c
-+F:	sound/usb/mixer_topping.h
-+
- TOPSTAR LAPTOP EXTRAS DRIVER
- M:	Herton Ronaldo Krzesinski <herton@canonical.com>
- L:	platform-driver-x86@vger.kernel.org
-diff --git a/sound/usb/Makefile b/sound/usb/Makefile
-index e62794a87e73..151b481df795 100644
---- a/sound/usb/Makefile
-+++ b/sound/usb/Makefile
-@@ -14,6 +14,7 @@ snd-usb-audio-y := 	card.o \
- 			mixer_quirks.o \
- 			mixer_scarlett.o \
- 			mixer_scarlett2.o \
-+			mixer_topping.o \
- 			mixer_us16x08.o \
- 			mixer_s1810c.o \
- 			pcm.o \
-diff --git a/sound/usb/mixer_quirks.c b/sound/usb/mixer_quirks.c
-index a1f5592cc5d5..10f33026cdff 100644
---- a/sound/usb/mixer_quirks.c
-+++ b/sound/usb/mixer_quirks.c
-@@ -36,6 +36,7 @@
- #include "mixer_quirks.h"
- #include "mixer_scarlett.h"
- #include "mixer_scarlett2.h"
-+#include "mixer_topping.h"
- #include "mixer_us16x08.h"
- #include "mixer_s1810c.h"
- #include "helper.h"
-@@ -4531,6 +4532,10 @@ int snd_usb_mixer_apply_create_quirk(struct usb_mixer_interface *mixer)
- 		err = snd_fcp_init(mixer);
- 		break;
- 
-+	case USB_ID(0x152a, 0x875c): /* Topping M62 */
-+		err = snd_topping_init(mixer);
-+		break;
-+
- 	case USB_ID(0x041e, 0x323b): /* Creative Sound Blaster E1 */
- 		err = snd_soundblaster_e1_switch_create(mixer);
- 		break;
-diff --git a/sound/usb/mixer_topping.c b/sound/usb/mixer_topping.c
-new file mode 100644
-index 000000000000..d97d895a4493
---- /dev/null
-+++ b/sound/usb/mixer_topping.c
-@@ -0,0 +1,186 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * Topping M62 -- component master for the card's vendor controls.
-+ *
-+ * The M62's analogue gains, output volumes and source selectors are not
-+ * described by the USB Audio Class.  They are reached over a vendor
-+ * protocol on the card's HID interface, which hid-topping-m62 speaks.
-+ *
-+ * This file speaks none of that protocol.  It publishes the sound card to
-+ * whoever drives the vendor interface, so that the controls are created on
-+ * the card that plays the audio rather than on a card of their own, and are
-+ * torn down when either side goes away.  The lifetime rules are the
-+ * component framework's, which is the point: neither driver has to guess at
-+ * the other's state, and neither has to be told about the other's
-+ * disconnect.
-+ *
-+ * The same shape binds HD-audio to the graphics drivers in
-+ * sound/hda/core/component.c, with sound as the master there too.
-+ */
-+
-+#include <linux/component.h>
-+#include <linux/device.h>
-+#include <linux/usb.h>
-+
-+#include <sound/core.h>
-+
-+#include "usbaudio.h"
-+#include "mixer.h"
-+#include "helper.h"
-+#include "mixer_topping.h"
-+
-+/*
-+ * What the master hands the component at bind time.  It lives in devres on
-+ * the audio control interface rather than in drvdata, because drvdata on a
-+ * usb_interface belongs to snd-usb-audio itself.  devres_find(), keyed on
-+ * the release function, gives it back inside the callbacks, which are
-+ * handed nothing but a struct device *.
-+ */
-+struct topping_master {
-+	struct device *dev;		/* the audio control interface */
-+	struct snd_card *card;
-+};
-+
-+static void topping_master_release(struct device *dev, void *res)
-+{
-+	/* The devres allocation is the storage; nothing else to drop. */
-+}
-+
-+static struct topping_master *topping_get_master(struct device *dev)
-+{
-+	return devres_find(dev, topping_master_release, NULL, NULL);
-+}
-+
-+/*
-+ * Which of the registered components is ours.
-+ *
-+ * This is only ever called against devices that have registered with
-+ * component_add(), so it does not have to defend itself against the whole
-+ * device tree.  What it does have to do is tell this card's vendor
-+ * function apart from a second M62 on another port.
-+ *
-+ * The HID device sits two levels below the USB device:
-+ *
-+ *	hid_device  ->  usb_interface  ->  usb_device
-+ *
-+ * WHICH interface it is, is the HID driver's business: it registers a
-+ * component for the vendor interface and for nothing else.  So the test
-+ * here is one of descent alone and needs no HID symbols in sound/usb --
-+ * which also keeps this file free of any opinion about the M62's
-+ * interface numbering.
-+ */
-+static int topping_match_component(struct device *dev, void *data)
-+{
-+	return dev->parent && dev->parent->parent == data;
-+}
-+
-+static int topping_master_bind(struct device *dev)
-+{
-+	struct topping_master *tm = topping_get_master(dev);
-+
-+	if (WARN_ON(!tm))
-+		return -EINVAL;
-+
-+	return component_bind_all(dev, tm->card);
-+}
-+
-+static void topping_master_unbind(struct device *dev)
-+{
-+	struct topping_master *tm = topping_get_master(dev);
-+
-+	if (WARN_ON(!tm))
-+		return;
-+
-+	component_unbind_all(dev, tm->card);
-+}
-+
-+static const struct component_master_ops topping_master_ops = {
-+	.bind	= topping_master_bind,
-+	.unbind	= topping_master_unbind,
-+};
-+
-+static void topping_private_free(struct usb_mixer_interface *mixer)
-+{
-+	struct topping_master *tm = mixer->private_data;
-+
-+	if (!tm)
-+		return;
-+
-+	/*
-+	 * Reached from snd_usb_mixer_disconnect(), on an unplug and on an
-+	 * unbind of the audio interface alike.  component_master_del() runs
-+	 * topping_master_unbind() on the way, so the HID side has taken its
-+	 * kcontrols off this card before the card is taken apart.
-+	 */
-+	component_master_del(tm->dev, &topping_master_ops);
-+	devres_destroy(tm->dev, topping_master_release, NULL, NULL);
-+	mixer->private_data = NULL;
-+}
-+
-+int snd_topping_init(struct usb_mixer_interface *mixer)
-+{
-+	struct snd_usb_audio *chip = mixer->chip;
-+	struct component_match *match = NULL;
-+	struct usb_interface *intf;
-+	struct topping_master *tm;
-+	struct device *dev;
-+	int err;
-+
-+	/*
-+	 * The master hangs off the audio control interface rather than off
-+	 * the USB device: component_match_add() allocates the match list
-+	 * with devm, and on an interface that is released when the interface
-+	 * is unbound.  On the usb_device it would live until the device
-+	 * itself was released, and a rebind would stack a second list on top
-+	 * of the first.
-+	 */
-+	intf = usb_ifnum_to_if(chip->dev,
-+			       get_iface_desc(mixer->hostif)->bInterfaceNumber);
-+	if (!intf)
-+		return -ENODEV;
-+	dev = &intf->dev;
-+
-+	tm = devres_alloc(topping_master_release, sizeof(*tm), GFP_KERNEL);
-+	if (!tm)
-+		return -ENOMEM;
-+	tm->dev = dev;
-+	tm->card = chip->card;
-+	devres_add(dev, tm);
-+
-+	mixer->private_data = tm;
-+	mixer->private_free = topping_private_free;
-+
-+	component_match_add(dev, &match, topping_match_component,
-+			    &chip->dev->dev);
-+
-+	/*
-+	 * component_match_add() reports a failed allocation by storing
-+	 * an error pointer rather than by returning, and
-+	 * component_master_add_with_match() dereferences what it is
-+	 * given without looking.
-+	 */
-+	if (IS_ERR(match)) {
-+		err = PTR_ERR(match);
-+		goto err_free;
-+	}
-+
-+	/*
-+	 * This returns 0 with the aggregate merely pending when
-+	 * hid-topping-m62 has not registered its component yet:
-+	 * try_to_bring_up_aggregate_device() reports an incomplete set as
-+	 * "not ready", not as an error.  So the card comes up either way and
-+	 * grows the vendor controls if and when the other half appears.
-+	 */
-+	err = component_master_add_with_match(dev, &topping_master_ops, match);
-+	if (err < 0)
-+		goto err_free;
-+
-+	return 0;
-+
-+err_free:
-+	mixer->private_data = NULL;
-+	mixer->private_free = NULL;
-+	devres_destroy(dev, topping_master_release, NULL, NULL);
-+	usb_audio_err(chip, "Topping: no component master: %d\n", err);
-+	return err;
-+}
-diff --git a/sound/usb/mixer_topping.h b/sound/usb/mixer_topping.h
-new file mode 100644
-index 000000000000..15e16b509eb9
---- /dev/null
-+++ b/sound/usb/mixer_topping.h
-@@ -0,0 +1,7 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+#ifndef __USB_MIXER_TOPPING_H
-+#define __USB_MIXER_TOPPING_H
-+
-+int snd_topping_init(struct usb_mixer_interface *mixer);
-+
-+#endif /* __USB_MIXER_TOPPING_H */
--- 
-2.55.0
+ sound/core/pcm_native.c                   | 37 +++++++++++++++++++++--------
+ sound/core/rawmidi.c                      |  2 +-
+ sound/core/ump.c                          |  4 ++++
+ sound/drivers/dummy.c                     |  2 +-
+ sound/hda/codecs/cirrus/cs420x.c          |  2 ++
+ sound/hda/codecs/conexant.c               | 20 ++++++++++++++++
+ sound/hda/codecs/realtek/alc269.c         | 39 ++++++++++++++++++++++++++++++-
+ sound/hda/core/device.c                   |  5 ++--
+ sound/parisc/harmony.c                    |  6 ++---
+ sound/usb/caiaq/audio.c                   | 10 ++++----
+ sound/usb/fcp.c                           |  8 +++++++
+ sound/usb/midi.c                          |  2 ++
+ sound/usb/mixer_maps.c                    | 18 ++++++++++++++
+ sound/usb/mixer_quirks.c                  |  8 +++++++
+ sound/usb/mixer_s1810c.c                  |  8 +++++++
+ sound/usb/mixer_scarlett.c                |  4 ++++
+ sound/usb/mixer_scarlett2.c               | 36 +++++++++++++++++++++++-----
+ sound/usb/mixer_us16x08.c                 |  7 ++++++
+ tools/testing/selftests/alsa/mixer-test.c |  4 ++--
+ 19 files changed, 191 insertions(+), 31 deletions(-)
 
