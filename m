@@ -1,110 +1,108 @@
-Received: from host.sedf.de (host.sedf.de [94.16.114.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7120B48D864;
-	Sat,  5 Sep 2026 12:11:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=94.16.114.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8F3149EC6E
+	for <linux-sound@vger.kernel.org>; Sat,  5 Sep 2026 12:34:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788610271; cv=none; b=rDeLz1Ibw20Vv+IJIQO+rJJBY/7oIdtkcmp/yaRZfi6MYKLYuGDxzyzXcSQdfvog2ltLuiShnIH7DXNGSZV7yYRbctzWJix8jWYZK8pn4wNl1MYoG1hC1Krs3/NcGxK3+IvdIy5X/cvof/kHHk/stv6pCylIFBHSAfDTkZf84ns=
+	t=1788611700; cv=none; b=oUjn8u5oCw7EwPaB5rMrQSzrAenZZZQ+GrSHYPvSOcUcwDVPW0mDiumUSXc5DujS28NcAHniWbp7tyV6WG9BMur7AR2exJhscM3VVPs631lAC+zD/BgnyjNXpaAfNNykHnJifGM65DSfFJwKifQp3rZ3nrSmQCjGykPrstZ+NL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788610271; c=relaxed/simple;
-	bh=CHw6mAcxOpO3wL84JxmYPrcHDkbsAMlAbCP0sNIQIHM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AWV3eRr5PJI1uJzDVityjGtWG2nXHA8UwFuLYP8wBYRDYwnJq1ynvXvuLeQp2eFNcE/tIp/vAglq8njLWOI33oWQOimwnmc7m1S1zaddTcqpzW+gKK776C7rMBHiBzth5YVzDE74tlE6iz1xctAMBMalZIWZi5zjyjP8SOowdtM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sedf.de; spf=pass smtp.mailfrom=sedf.de; dkim=pass (1024-bit key) header.d=sedf.de header.i=@sedf.de header.b=AR4Yj70H; arc=none smtp.client-ip=94.16.114.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sedf.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sedf.de
+	s=arc-20240116; t=1788611700; c=relaxed/simple;
+	bh=6f5p//qeeEhJiLT6hla2lNz47zEGEWS2WmSvXXHcHig=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qWYUPkfPbVX2FYdJTnZigfJ/odzxODj0e7VAGLfCs8jPNjd1l801TAzC2kull/n7SK8By2MndeE5Jiddt61DZzKjD8S83ktxAMZjMb0Mi9mhjHayglupM81w2Q1PZT0WrB6vch31/Iicbx6Ot209yoy0ECxliF6q275EwcNjuI4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YtbnSs8q; arc=none smtp.client-ip=209.85.216.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=sedf.de header.i=@sedf.de header.b="AR4Yj70H"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sedf.de;
-	s=20180621; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
-	Subject:Cc:To:From:Date:Sender:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=2cu6GLPUUzLAWq1fdl8FgOxDdPJnf8oNVQ+KdzVMG+c=; b=AR4Yj70HA+UZNeSP1QtwOl5D7X
-	yK2Kv/SUrDA1RT+p1hRashm8fx6OX4GXf9nNh+H5d97OHyAtNGlJPZpbdc72LXVJoUf9dd9z4Qz2+
-	iCgSOS7zVhkEEls64jgP37zF+VqAaDWOVAiV+bhSISm1M/flX54l3mLjfFeFgh3GG5q0=;
-Received: from dynamic-077-003-072-010.77.3.pool.telefonica.de ([77.3.72.10] helo=tf.fritz.box)
-	by host.sedf.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <sd@sedf.de>)
-	id 1x2p8c-000000007ll-2yg5;
-	Sat, 05 Sep 2026 14:10:47 +0200
-Date: Sat, 5 Sep 2026 14:11:12 +0200
-From: Sebastian =?utf-8?Q?Dalfu=C3=9F?= <sd@sedf.de>
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: usb-audio: Add boot quirk for Behringer CM1A
-Message-ID: <apwG4DRfNyvmRzyb@sedf.de>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YtbnSs8q"
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-39682983a0fso2149590a91.3
+        for <linux-sound@vger.kernel.org>; Sat, 05 Sep 2026 05:34:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788611696; x=1789216496; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=sCkeW/rlDEZbQRwhNQlqYVSLXnulFlxF+aDVtk4kLrI=;
+        b=YtbnSs8qfPdzgH+oeRaodn+q8Vb2tox19c9H6lxT0EFKc+LY1/TEPedO12k3EV0weq
+         ZubHW2aMvu5d9wRdvZ2JZKz7OYJGt9lSYnONx4iIPgTgklB3Zi9nQUeDscBHQNI2nipN
+         8PAydIGehlYBeD+FYQjwg6pUJGFz8Zv+UkkQ3/NrLop+gj8ozrTjmwWo2IbPI+M0RoI2
+         BN+5/uzNIMcpl8wO3T4RqLVBYURIS6zQbCgT+MIiipkpQV3o9deat8Ivesk3Ege7KHGV
+         agTdBI1D8e/AHP9rHdTaJMom7wYS+xvDGlXRUX3Io89bY3cqjDkY4ewjOrVt3ANdSDC6
+         BPIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788611696; x=1789216496;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=sCkeW/rlDEZbQRwhNQlqYVSLXnulFlxF+aDVtk4kLrI=;
+        b=DCaO+amp+0xmRBu29+Y/tz+avixrqE8zXLbwrR680Wv6lfpfUy/w44Z4vg4eD21rEj
+         D6Zsd0zE8TbLQsvoM8jLGUUlCk4JF3fR65CLNW+5+rMft9LBAZ3+NBuWS6kr5a+rReHi
+         H1Jf/zPunfAr0ehU8lauCF5goOFzk9bORh5MWzAEZ7RRRk8qlpcf1hH87/SPEwtGPBUL
+         Lr386GtXymKclr+0mkkbfCnbLmx7bSiGWQ1zLawO8fy0bMI8AsIQbOvzJkhmS7HeZVrf
+         t8Hk8eQdIWwy2SQDXX3N1cQ485anZsng0LhHStRui/fE+8ozzcQlUihusM1LDpDj2kuY
+         G9YA==
+X-Forwarded-Encrypted: i=1; AKwUvBziXgzIjurQidWYjH1/kjCtQtDe1tOtIb3rQY7UsWvmHwzRPQGxpko1F62KDhvbi7qKR/kvqVbqWbuuBA==@vger.kernel.org
+X-Gm-Message-State: AFuF++ktX0LW7Tpm7a7i4VjXDWlqMwrBvw7PBa/fKQTedlfBBpnN86rX
+	7L315SRmw9QshA/eNIeqwPy4pGNtPwyhZc0x3SmBMSg0+qIFCD00TQSL
+X-Gm-Gg: AYBFou0pxb5psLFOxMNNbmRWaBjxZRVu7odpT45tvB0Sx8zJ4K3YvLyyd7iFGNxSdo8
+	Es1fPySL1CAJRVD18nGf2G1YGUQCRiBQ60A5iPuV3VEV1J4BLBUUNCcMHNTaWCGwhFWPQmEp7No
+	0AcIYeI4AIIiLxQ2QwfFR5M6845vj9d6xmvAtVv6GLCkgwcPPBqudYFs9pAlm+nFoD0yh3ivHAI
+	ZbRc2AZPcorMsyeTmxiYyiP5tLusIdv/a0OlMOwJpyjxeAQaDWRLbCrEGo+rXqM/Ec+7oyaSCLG
+	595DnmpCJE6x5lARdemH9IUZtuHwEHQge5JqDzvy12UebX7nW/Kh4f71F/JK3j7SxMgnnQC7CpE
+	VoQWcPd6FN/uM5CpgPVYKf4oW22k6SzNjxFuKjGPyisyOqVxFemynD5Fit7D1OFnhDZuiOSZ+Xx
+	YNLTcmmavz+qAmYNQ435yRTqoMr9e95NtFBBkYjQPGK4nbzIpauNVzwfoZl9zJT/8/y4eKV5typ
+	RBkhluy7ej/rtRfz+OPujJtLijkmZbc
+X-Received: by 2002:a17:90b:5905:b0:398:9bd5:490b with SMTP id 98e67ed59e1d1-39b262133ccmr17366120a91.18.1788611696373;
+        Sat, 05 Sep 2026 05:34:56 -0700 (PDT)
+Received: from Biostar-A520MT.. ([187.94.13.245])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3339bdf26c5sm13829815eec.27.2026.09.05.05.34.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 05 Sep 2026 05:34:55 -0700 (PDT)
+From: Breno Rodrigues Alves <breno3011alves@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: torvalds@linux-foundation.org,
+	linux-kernel@vger.kernel.org,
+	arnd@arndb.de,
+	linux-clk@vger.kernel.org,
+	linux-input@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-fbdev@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	Breno Rodrigues Alves <breno3011alves@gmail.com>
+Subject: [PATCH v6 1/4] interconnect: mediatek: fix Makefile typo for mt8196
+Date: Sat,  5 Sep 2026 09:34:47 -0300
+Message-ID: <20260905123450.5620-1-breno3011alves@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
-After a power cycle and reenumeration, the Behringer CM1A* leaves its
-MIDI endpoint inoperative. USB enumeration and driver binding
-complete successfully, but MIDI outputs remain pending.
+Correct a copy-paste typo in the MediaTek interconnect Makefile that
+mapped mt8196.o to CONFIG_INTERCONNECT_MTK_MT8195 instead of MT8196.
 
-A GET_DESCRIPTOR request for the device descriptor, issued after USB
-configuration, makes the endpoint operational. Add a one time boot quirk
-to perform that request before ALSA initializes the device.
-
-*
-ID 1397:1234 BEHRINGER International GmbH CM1A
-
-Signed-off-by: Sebastian Dalfuß <sd@sedf.de>
+Assisted-by: OpenCode AI
+Signed-off-by: Breno Rodrigues Alves <breno3011alves@gmail.com>
 ---
- sound/usb/quirks.c | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+ drivers/interconnect/mediatek/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index 4936d66..f82d7a6 100644
---- a/sound/usb/quirks.c
-+++ b/sound/usb/quirks.c
-@@ -850,6 +850,27 @@ static int snd_usb_accessmusic_boot_quirk(struct usb_device *dev)
- 	return 0;
- }
- 
-+/*
-+ * A post configuration device descriptor read is needed to make the CM1A
-+ * operational after reenumeration.
-+ */
-+static int snd_usb_cm1a_boot_quirk(struct usb_device *dev)
-+{
-+	struct usb_device_descriptor *desc __free(kfree) = kmalloc_obj(*desc);
-+	int err;
-+
-+	if (!desc)
-+		return -ENOMEM;
-+
-+	err = usb_get_descriptor(dev, USB_DT_DEVICE, 0, desc, sizeof(*desc));
-+	if (err < 0) {
-+		dev_err(&dev->dev, "failed to read device descriptor: %d\n", err);
-+		return err;
-+	}
-+
-+	return 0;
-+}
-+
- /*
-  * Some sound cards from Native Instruments are in fact compliant to the USB
-  * audio standard of version 2 and other approved USB standards, even though
-@@ -1682,6 +1703,8 @@ int snd_usb_apply_boot_quirk_once(struct usb_device *dev,
- 	switch (id) {
- 	case USB_ID(0x07fd, 0x0008): /* MOTU M Series, 1st hardware version */
- 		return snd_usb_motu_m_series_boot_quirk(dev);
-+	case USB_ID(0x1397, 0x1234): /* Behringer CM1A */
-+		return snd_usb_cm1a_boot_quirk(dev);
- 	}
- 
- 	return 0;
-
-base-commit: 4c4e4be4edd5dbf5f7f6a3ef4fc0c243f2d01b3c
+diff --git a/drivers/interconnect/mediatek/Makefile b/drivers/interconnect/mediatek/Makefile
+index 6bd656668..64170ab16 100644
+--- a/drivers/interconnect/mediatek/Makefile
++++ b/drivers/interconnect/mediatek/Makefile
+@@ -3,4 +3,4 @@
+ obj-$(CONFIG_INTERCONNECT_MTK_DVFSRC_EMI) += icc-emi.o
+ obj-$(CONFIG_INTERCONNECT_MTK_MT8183) += mt8183.o
+ obj-$(CONFIG_INTERCONNECT_MTK_MT8195) += mt8195.o
+-obj-$(CONFIG_INTERCONNECT_MTK_MT8195) += mt8196.o
++obj-$(CONFIG_INTERCONNECT_MTK_MT8196) += mt8196.o
 -- 
-2.53.0
+2.43.0
+
