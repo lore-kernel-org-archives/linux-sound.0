@@ -1,179 +1,172 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E05B2DEA8C
-	for <linux-sound@vger.kernel.org>; Sat,  5 Sep 2026 00:30:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788568216; cv=none; b=LlPB/LXIhck81uPRzvORLiOkOFUGRejCIXTsOugIYhCeyXbYYFdxs6mThS5CaSZ0eUcCXCmh8SGX+d8CXPdlhyCToCP5kJPi/CthKs/o8cmRvpYdCOiDz3MyMUMwMy4UlMiBODaYa+44rLVnFXCwSdElIyVhVYR7RAsuqhEZeHg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788568216; c=relaxed/simple;
-	bh=XxbPIFk2tSsij/ROTcukZp1v9F5KUnPXyjMHgXJVQ8s=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RcQwGFLSPIr4mxh7A28hWTdAxpmOh1d8tW5UzCmLUs6adgoQmkLlPo5SfXTa3xqUhnytB7N43Ms7wuB+lSO3xEBlnA9HHg5et94/pVPMqDabtQP6ILwMLny4tsw8dU3xXskb5f7+m3kykUJW0xr32dpVjEWtVhXTYkH+MoC6ikY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YDGVxRdz; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE1F82F5A06
+	for <linux-sound@vger.kernel.org>; Sat,  5 Sep 2026 03:30:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788579031; cv=pass; b=jO+l/3N+0FObrnPe5HFnCsg3xvJBGWyfYpsFTkqqn5ib2ha20omMl/k2LYwKIFr/JtKW5r28nLYFXXzTOZxc/6iQuFj+2TBWbEfn6tjzlddriPO5iQHEoDRP+g9Ft9GyQaYpFbp0oYCa/oT9eh7PKWy4FcYHZW/Gewb1jACAg48=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788579031; c=relaxed/simple;
+	bh=73YgTfRY5PQ5ZLAadl5YBKFBHFoLXMnXGa/HgmJQYGs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=TkXArnBdXUUllZr527g1kPjRBs5w/XSufY7+xuxqAZmmT1MOppq5JvldY7CXDYAS13+kn/BEDppRv1HccrTTvyVWsyaBY0u0njO7oOQRZI6nEFRJsi9TVRzEPITEdd3ihCBkfyUMjIz1mqyChWZ+NaDo0qeygWEW5y06bYz/RXc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UsfX8jAE; arc=pass smtp.client-ip=209.85.167.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YDGVxRdz"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-38e041ea211so1307242a91.0
-        for <linux-sound@vger.kernel.org>; Fri, 04 Sep 2026 17:30:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UsfX8jAE"
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5b457a0b4e5so1569004e87.1
+        for <linux-sound@vger.kernel.org>; Fri, 04 Sep 2026 20:30:28 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788579026; cv=none;
+        d=google.com; s=arc-20260327;
+        b=M0JQAOuYmT2wkDjZ8EEdDy7FWN4vo86A/fSY/UoHo40vfB9DgHz4ZIjMhoB5YnLeSm
+         68CttfF7lPNebS5KNUH1G2NnqfglGKcUXxnM/t+Wqk6axXUM9DCK9+yBqC4j92lZ18lD
+         Mw90pypn4O99GT9G3yCo6comV5n7y0AAHUpSDUzm6O0Xi07Thf4EkMxT8FFv43snRWw0
+         VYer41TZljaMj1H17duRANIy2N5DI80cftsbSEPOM9RReuIsb4W1TNNUXWWNGQBzldOX
+         Xecn23Yb047BOTHllyuYfkyzbMfK8CA/rObXFGnMm+5mrW4/2oflvcWFKIklJpF/anIo
+         7xWw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=hPpL3LX8Ta/oFQQyARurckrGJqtP8qcS5JHXnp5HuTQ=;
+        fh=C8TujwwXJqTAn6JuczB9GbxnV4PFQCExElfdWO9LjpI=;
+        b=kwJbZrFTDB7LhcwA7JlkL1Q+duL0ZsroLobwkncqHQCyGOzggvCozeH7wbdnjDSDvx
+         1iSd5PVjaJrCpUZgDafviTl7vx+Vj2KcJc13epLQjGtPe1lechEOsnvdtcfXlKZ1vzn1
+         1ErSJKniX+HMx1GIMa0eTb44fiVtnaVNNfFtMHPEMzuU+kZxDhOzB6hVv5l5HVa3zbm0
+         FCnaInUBeEpAFKIexTPGhV5YnkGShAz0G/xPGqSKJPKp7xTt2f9rhudqbi3rftIcXa7b
+         Wym5oUp990UTpB6bOl4yXl6nhGPYkQStCXOtt5H6UWIMAwhm/yyh6+0dPYzL+cdyUcKU
+         nghA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788568212; x=1789173012; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=7HnYBPkgGHcq9yWO+WayMoxCwKBUXVvRWJyyRsMWSP0=;
-        b=YDGVxRdzwiZjZAB3CiuiI18XQj5Uxss8SJ+Qhvg9+pCl3vV5hseo++ZJ/aWiN0vxP7
-         /XkSLNhgKpB4hOldnEk0A9hgg+GgAXL+e90pN56oGuCoi5FjFd9M+wt9pqfI+ylRaQX4
-         dV4YlT9yGcbNP3933iE09hJl+mCcGK474uQtPhThwBjeUB+a7d7gHyRVlXQjRLEFrHLx
-         oJLAt2vkrxJF9h7HEYSM0V1OTQo6Ukd+vZCu+Se9ud/mw+UG6MN4wDUDF0Xa7h1RhH3w
-         XvGQoFIyQf4xHswOXk/O8JYWkXccWKd2oDt4IzvXIch90UYZU3nQ758vpPIxrEjM50DC
-         dLuA==
+        d=gmail.com; s=20251104; t=1788579026; x=1789183826; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=hPpL3LX8Ta/oFQQyARurckrGJqtP8qcS5JHXnp5HuTQ=;
+        b=UsfX8jAEGfKfgg+Y9st6Z8Id5TJFRw41C5+ziZWlF9uqy2pY5UXtVIl+Lh97XSeyrt
+         yVPRvaFL/uuZNzxjm4Tu7vM8escGzU3zyyveTlJNCGBGLDe24HrVuGUZPVKV21DC+0rH
+         lnTUnKeChFcuIDlBaYLNDFIo2sKe4kQKVBuSCyFvSGVHhdLUDwmlEXjNZ+Cb7yS+yyJm
+         kVrHMA7OGS1XfRa2UxDJlLTYmxqHIvxVi9emuxSJmW1Kxh7i5el8ndGZRtLsLQhbFwOP
+         MWMFVdX318m2/AoNaz79yGGJojxr6KFKDOTBA/bQfUekN1mZ3yeT9f+1GGYvSABz3y3V
+         KR3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788568212; x=1789173012;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=7HnYBPkgGHcq9yWO+WayMoxCwKBUXVvRWJyyRsMWSP0=;
-        b=iAZ+PvFI1Fkzk2Zo04wrEVbhaOQpALA85iMCnelRp4SuCT+wcIpmltFHHTFTmF1xyA
-         pQKY6nayCFFsYRchW2n2QLiadPChmoqEvVop7SGoEKsV42zKavd12h8f3tjhGgie3NsJ
-         Y2uuat2eFTA79RbEWYMixCS1PPnJxWJiUAIgaaxxTv7stDdk9XyW8vyYsFvknSjz2qe6
-         fRkA4vVd0GVYZdZ4MVuxzhbLIIAFvtwfMyAiSoGQxYRGQLjcfxQHCMmIf/UgrvJBFHgl
-         nZiAFOwXmB57g+cdigFF4ysJfmtgEh8CHc752uiL6HiQtzNaSfi+ISvXW/+ozNQ3UZ2R
-         Rf8g==
-X-Forwarded-Encrypted: i=1; AKwUvBzyo4yc5wy/8o83z9zPpwMvuQDUFioBGINxalB8B94eW1muI40vnTPf8uSDZ0Dx8HCw8YaCNMRVjt2dvQ==@vger.kernel.org
-X-Gm-Message-State: AFuF++lvrKAZgKkKctf/1r3dXM1jARTlNtAmyvnuSBfXQBW2vYzlgsW3
-	9ftDa0cS17a0rr4mEsXCRvS8rqJNLjo6NpMFXudN23SIBe2E+t4AGiFx
-X-Gm-Gg: AYBFou2yBKok3ezcp6aizdjQ/vliBkAw9H4xXCBZKj9LNz4LvxmBFnsg1/xe8d1zBs+
-	rBKZa3/mYMgFLenwH9mcNdLUXfqecIzBx0nmxhVlt/TIwsElkvYRFNTjIIEbjFPuRBXp91DfzRY
-	HmYQl+fCe8mH9URr0+2EKm8ObMLEjpLo0msa/gETbDqANMmJv/jMsHabzQN6NFb27jIHlNwodFG
-	7kUch826JU1KUNdHGAJH8MGtIqgElDyei1CxTB7+Itzm0bpJCWlMAWJ5tJ/IrHY2pGEAQLrsCGl
-	KyIuBGlv/rj1uMPVUJP8i+ThEOiDJ5Sn2qo4aIui/pTU1VVHAQcvoMS9VbsGHCYHEyK/bgccHGe
-	ExRPb95og9DVzwxDb1WYL3jh9vbnFd8G4dVumYyJuJyCTsO+kBSAT1ZzCDvZhZ1ne25xomPLbg7
-	t4E4M4oNFmfRKkuIA41eEkcaR0hVPCPRGjmVElWihsYas2pFR7nwmByk2m7oCZG0rBhaXqbF9Ih
-	KnJoVGvTsvgiSgFO6wPFEszBFPnB6z3
-X-Received: by 2002:a17:90b:4b0c:b0:37f:fdc8:71b4 with SMTP id 98e67ed59e1d1-39b26121f6cmr14637223a91.2.1788568211735;
-        Fri, 04 Sep 2026 17:30:11 -0700 (PDT)
-Received: from Biostar-A520MT.. ([187.94.13.245])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3339aa31b24sm9745628eec.13.2026.09.04.17.30.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Sep 2026 17:30:11 -0700 (PDT)
-From: Breno Rodrigues Alves <breno3011alves@gmail.com>
-To: torvalds@linux-foundation.org
-Cc: linux-kernel@vger.kernel.org,
-	gregkh@linuxfoundation.org,
-	arnd@arndb.de,
-	linux-clk@vger.kernel.org,
-	linux-input@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-fbdev@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	Breno Rodrigues Alves <breno3011alves@gmail.com>
-Subject: [PATCH v5] Kconfig: fix typos in core makefiles and purge defective DVB debug (v5)
-Date: Fri,  4 Sep 2026 21:30:05 -0300
-Message-ID: <20260905003005.118245-1-breno3011alves@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20251104; t=1788579026; x=1789183826;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=hPpL3LX8Ta/oFQQyARurckrGJqtP8qcS5JHXnp5HuTQ=;
+        b=DKSMCl8z7thILKvcSr6vFjvnDvMAvk/3aJDcyz6M8TdEHfutTLooqlTQzj1ypWqJtx
+         SMVtdFJbIoZ6VOoOg3D5JVqp3SmuaYY/hWW/Vog4xGanp5QIG5YOJ2QHsOcqdRG7KHib
+         nOi+MBI88JVk2BY0UcEpHuDnyzmnZEit9hW0OWgf+a0tg9TNjjfO7brAzpN3YebHgDYP
+         R/riAPnfYnYBojYv4rsANue/HZtVnCDMbbz48ltgGex8d9cqmTU8C6vavYFDzU89pNhP
+         N257gal60F2BSkdpgPedADbxd6JpKWGqtmvwMXe4JbuTZjJohq20hpQwmaMW2Ja6iJnp
+         9kSg==
+X-Forwarded-Encrypted: i=1; AKwUvBzeome8HnFQXSwczMrSlzDdGCwwbnUN/S9Is6Tp3Zx2mvbVyoTxj/PfKx5i0Fb4cFmvbNSVzKDQOjDVdQ==@vger.kernel.org
+X-Gm-Message-State: AFuF++kO30sn9zjANVJOi7Mfpw93A2RCnUib1gMVCol0b0PGqK+TckXs
+	5VEJNOTq9PzitlWCLYi+yDYBV06C1AcPdNp/BhpgxJLRkkRNBExMyey4rCZKMdWNmYX5Zdtug8b
+	/V50Aex7j1wVu4dFEwsTS43LivjnP7+zA7/soXKg=
+X-Gm-Gg: AYBFou0ac2V5OOhMIZidtgoku5aORlWS4HXwOJ8ItuRCj++rYaAcOxBliGuyVeqaBVA
+	ejEujeAVV+wyiPLKSBcJhKMvp6wUNQjICFNOlaFnrNsUjBeVOa2DBKyr9n5LmUra/V5TjII6dgk
+	g+O7Eh8SIdQ1sDyrJe0npgCt1wzBpx8etiXr7bWizVecv66y7Nj1asViA+2wiccgd1zc+WYAQcw
+	UyfbLo1fMXO0QYV6UoUCDf7nLkqLBzZFuER0leHgEADL5WOxdFQVtmG8x+GdTtVjESJgoljBMte
+	a2pI51LrWzvPNRXTShgSeJkFYG0f+bopmCGE/DNNCRti1A==
+X-Received: by 2002:a05:6512:3e08:b0:5b6:4b2:de81 with SMTP id
+ 2adb3069b0e04-5b617058c7emr1560231e87.31.1788579026068; Fri, 04 Sep 2026
+ 20:30:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAEsQvcuaNZvLxyxNH_NOy5qwTmkrk-A9QdVtZD0GiCtPwk4A+A@mail.gmail.com>
+ <20260904182023.4486-1-hhkieu@gmail.com>
+In-Reply-To: <20260904182023.4486-1-hhkieu@gmail.com>
+From: Geraldo Nascimento <geraldogabriel@gmail.com>
+Date: Sat, 5 Sep 2026 00:30:13 -0300
+X-Gm-Features: AcwNN1XqapVpSljR1RHwVb9QBxMZ9ZPENJ6iH6m31QN5659LjwkwMc11dhFfhzA
+Message-ID: <CAEsQvcuMFt=m=njsPzRtKarz04Gwbds+f8p2S+SdSQmaiW1fLw@mail.gmail.com>
+Subject: Re: [PATCH] ALSA: usb-audio: add Pioneer DJ DDJ-SZ support
+To: Hanh Kieu <hhkieu@gmail.com>
+Cc: perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Automated review from Sashiko AI revealed that re-enabling the legacy
-DVB_ULE_DEBUG code via CONFIG_DVB_ULE_DEBUG exposes severe race conditions
-on global state variables, leading to out-of-bounds memory corruption.
-Additionally, the debug block suffers from undeclared identifiers (TS_SZ).
+Hi Hanh,
 
-Following the core kernel principle of eliminating dangerous, unmaintained
-code, this patch completely extirpates the defective DVB_ULE_DEBUG block
-from dvb_net.c and purges its corresponding configuration symbol from
-the Kconfig tree.
+On Fri, Sep 4, 2026 at 3:20=E2=80=AFPM Hanh Kieu <hhkieu@gmail.com> wrote:
+>
+> Geraldo Nascimento wrote:
+> > Are you sure is_pioneer_implicit_fb() isn't returning false and you're
+> > picking up on a generic sync ep instead?
+> >
+> > You should double-check that function is returning true or false becaus=
+e
+> > it will return false when USB_ENDPOINT_USAGE_IMPLICIT_FB isn't
+> > set on bmAttributes of a Isochronous IN EP.
+>
+> Good catch, thanks -- I checked against the real device rather than
+> assuming.
 
-This version retains the verified MediaTek bugfixes and ghost purges:
-  - Fixes MediaTek interconnect typo mapping mt8196.o to MT8196.
-  - Fixes MediaTek regulator typo mapping mt6316-regulator to MT6316.
-  - Cleans up the dangling comment in drivers/leds/Kconfig.
-  - Purges verified legacy ghost weight.
+Thanks.
 
-Signed-off-by: Breno Rodrigues Alves <breno3011alves@gmail.com>
----
- drivers/interconnect/mediatek/Makefile | 2 +-
- drivers/leds/Kconfig                   | 1 -
- drivers/media/dvb-core/dvb_net.c       | 6 +++---
- drivers/regulator/Makefile             | 2 +-
- 4 files changed, 5 insertions(+), 6 deletions(-)
+>
+> lsusb -v on the DDJ-SZ shows both endpoints (0x01 OUT, 0x82 IN) as
+> Isochronous / Asynchronous with Usage Type =3D Data (bmAttributes =3D 0x0=
+5).
+> is_pioneer_implicit_fb() accepts the capture endpoint's usage being
+> either USB_ENDPOINT_USAGE_DATA or USB_ENDPOINT_USAGE_IMPLICIT_FB, not
+> IMPLICIT_FB exclusively, so Data usage does pass that check.
 
-diff --git a/drivers/interconnect/mediatek/Makefile b/drivers/interconnect/mediatek/Makefile
-index 6bd656668..64170ab16 100644
---- a/drivers/interconnect/mediatek/Makefile
-+++ b/drivers/interconnect/mediatek/Makefile
-@@ -3,4 +3,4 @@
- obj-$(CONFIG_INTERCONNECT_MTK_DVFSRC_EMI) += icc-emi.o
- obj-$(CONFIG_INTERCONNECT_MTK_MT8183) += mt8183.o
- obj-$(CONFIG_INTERCONNECT_MTK_MT8195) += mt8195.o
--obj-$(CONFIG_INTERCONNECT_MTK_MT8195) += mt8196.o
-+obj-$(CONFIG_INTERCONNECT_MTK_MT8196) += mt8196.o
-diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-index d0d318223..800fbd560 100644
---- a/drivers/leds/Kconfig
-+++ b/drivers/leds/Kconfig
-@@ -873,7 +873,6 @@ config LEDS_UPBOARD
- 	  This driver can also be built as a module. If so the module will be
- 	  called leds-upboard.
- 
--comment "LED driver for blink(1) USB RGB LED is under Special HID drivers (HID_THINGM)"
- 
- config LEDS_BLINKM
- 	tristate "LED support for the BlinkM I2C RGB LED"
-diff --git a/drivers/media/dvb-core/dvb_net.c b/drivers/media/dvb-core/dvb_net.c
-index a2159b2bc..3b503695e 100644
---- a/drivers/media/dvb-core/dvb_net.c
-+++ b/drivers/media/dvb-core/dvb_net.c
-@@ -68,7 +68,7 @@ static inline __u32 iov_crc32( __u32 c, struct kvec *iov, unsigned int cnt )
- 
- #define DVB_NET_MULTICAST_MAX 10
- 
--#ifdef DVB_ULE_DEBUG
-+#ifdef CONFIG_DVB_ULE_DEBUG
- /*
-  * The code inside DVB_ULE_DEBUG keeps a history of the
-  * last 100 TS cells processed.
-@@ -320,7 +320,7 @@ static int dvb_net_ule_new_ts_cell(struct dvb_net_ule_handle *h)
- {
- 	/* We are about to process a new TS cell. */
- 
--#ifdef DVB_ULE_DEBUG
-+#ifdef CONFIG_DVB_ULE_DEBUG
- 	if (ule_where >= &ule_hist[100*TS_SZ])
- 		ule_where = ule_hist;
- 	memcpy(ule_where, h->ts, TS_SZ);
-@@ -659,7 +659,7 @@ static void dvb_net_ule_check_crc(struct dvb_net_ule_handle *h,
- 			h->ts_remain > 2 ?
- 				*(unsigned short *)h->from_where : 0);
- 
--	#ifdef DVB_ULE_DEBUG
-+	#ifdef CONFIG_DVB_ULE_DEBUG
- 		hexdump(iov[0].iov_base, iov[0].iov_len);
- 		hexdump(iov[1].iov_base, iov[1].iov_len);
- 		hexdump(iov[2].iov_base, iov[2].iov_len);
-diff --git a/drivers/regulator/Makefile b/drivers/regulator/Makefile
-index 5a764cec8..f81d1f31a 100644
---- a/drivers/regulator/Makefile
-+++ b/drivers/regulator/Makefile
-@@ -107,7 +107,7 @@ obj-$(CONFIG_REGULATOR_MP886X) += mp886x.o
- obj-$(CONFIG_REGULATOR_MPQ7920) += mpq7920.o
- obj-$(CONFIG_REGULATOR_MT6311) += mt6311-regulator.o
- obj-$(CONFIG_REGULATOR_MT6315) += mt6315-regulator.o
--obj-$(CONFIG_REGULATOR_MT6315)  += mt6316-regulator.o
-+obj-$(CONFIG_REGULATOR_MT6316)  += mt6316-regulator.o
- obj-$(CONFIG_REGULATOR_MT6323)	+= mt6323-regulator.o
- obj-$(CONFIG_REGULATOR_MT6331)	+= mt6331-regulator.o
- obj-$(CONFIG_REGULATOR_MT6332)	+= mt6332-regulator.o
--- 
-2.43.0
+Thanks for this report.
 
+The code snippet in question is in the body of is_pioneer_implicit_fb()
+in sound/usb/implicit.c:
+
+epd =3D get_endpoint(alts, 1);
+if (!usb_endpoint_is_isoc_in(epd) ||
+   (epd->bmAttributes & USB_ENDPOINT_SYNCTYPE) !=3D USB_ENDPOINT_SYNC_ASYNC=
+ ||
+   ((epd->bmAttributes & USB_ENDPOINT_USAGE_MASK) !=3D
+    USB_ENDPOINT_USAGE_DATA &&
+    (epd->bmAttributes & USB_ENDPOINT_USAGE_MASK) !=3D
+    USB_ENDPOINT_USAGE_IMPLICIT_FB))
+return false;
+
+In my opinion the logical AND at the end of the if condition is short-circu=
+ited
+by doing that inequality comparison between USB_ENDPOINT_USAGE_DATA
+and the result of the bitwise AND between bmAttributes and
+USB_ENDPOINT_USAGE_MASK, because 0x05 & 0x30 =3D=3D 0x00.
+
+When that first condition evaluates to false C never bothers to check the o=
+ther
+half of the logical AND, for logical and practical reasons.
+
+What I'm not sure of is that's the kind of check we want for Pioneer implic=
+it fb
+matching... Takashi will have to be the judge here, but I think it is
+not intended
+behavior that this function picks up implicit fb without
+USB_ENDPOINT_USAGE_IMPLICIT_FB being set. The fact is does so probably
+means that code in implicit.c needs a bit of improvement.
+
+
+>
+> I also traced snd_usb_parse_implicit_fb_quirk()'s dispatch order for
+> this device to make sure nothing generic intercepts first: no fixed or
+> capture quirk-table entry matches 08e4:0191, it isn't UAC2
+> (bInterfaceClass is vendor-spec, not USB_CLASS_AUDIO), and it isn't the
+> Roland vendor ID. So is_pioneer_implicit_fb() is the function actually
+> being reached and returning true for this device, not a coincidental
+> generic fallback.
+
+Again, thanks for your due dilligence, and for all your work, it's looking
+good.
+
+Thanks,
+Geraldo Nascimento
