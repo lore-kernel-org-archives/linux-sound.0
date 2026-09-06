@@ -1,163 +1,121 @@
-Received: from ixit.cz (ixit.cz [84.42.129.46])
+Received: from fhigh-a8-smtp.messagingengine.com (fhigh-a8-smtp.messagingengine.com [103.168.172.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF81536C5AE;
-	Sun,  6 Sep 2026 11:51:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.42.129.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE60C3845CB;
+	Sun,  6 Sep 2026 15:56:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.159
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788695463; cv=none; b=e5nv5xHry1WcCvjx/WqQpi1nbfCTRMeKMsrnOa/sQ2/CABpO7QbN/mRGlNw4Lkgk0I1Dqcx9xFDNXUm42YhHgslzs5bVdUB6FUIitCJq+NbWOJW5wDDbjp3LwXSzd/Dndh5V6io84TNZQ4Xu4k8pXQZXzUshnWlsK3NdIUu0IME=
+	t=1788710218; cv=none; b=BDWm3iSksoO6YKGPhphRgj7ri9SrYLcBnf/gx9wJQCKWQaHajAvwdFbgAjD/71Hm0mgL8bvwpypQnxa8YS5Q7W0HqSNuwft93qpRt/ZxbKf1KlgjZkYAQfzqkuETrHW4+eekGkdkhAHf91DE+vOk0OBRmlSmrQGUqBCJMr1iTMU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788695463; c=relaxed/simple;
-	bh=2/yKYv471fR46kYUlABDOmzNwZCqTMlmoJ3xsi76D8A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cIkNGP4O2LEq+AV2x3VXuu3XLeOFccAa5kZd9ZP0NAQSyaHHYefx9EoNbcyLZ5nTQLrq7vex4f/9CfCqSvYJxa6wDRzkJde2Hcvf9Vejxya/lbUfjgmjfOoX77cJMI6tqQD79+whm7VcFMxX50pmPNic7saPuRHWY+Wlq/CumZs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=GZCJogSi; arc=none smtp.client-ip=84.42.129.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
+	s=arc-20240116; t=1788710218; c=relaxed/simple;
+	bh=s/mXdH0RQanOA74m67ML7mjbr9Y/UfGVcbNAhHiSeVU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=IRPr2hsbtfAPC5NhtmLQx2MrrEB4fkuXIk9CrhIiWz7kg5WgukUkDTX703eikCwKTCoZXfWJIgOAGqo3IvJ4NF4FUSRf9JMyd1IjNlcAaLSsl7oay0NQnG8KLG08TQFjyOqUKct9dN+iiUqSQQ+Z1EkqMdKcIwZHHtHtB0BRjjk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nickpegg.com; spf=pass smtp.mailfrom=nickpegg.com; dkim=pass (2048-bit key) header.d=nickpegg.com header.i=@nickpegg.com header.b=GGmvSPGm; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=xRh+bnnM; arc=none smtp.client-ip=103.168.172.159
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nickpegg.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nickpegg.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="GZCJogSi"
-Received: from [10.0.0.152] (unknown [10.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id 0BFC65340648;
-	Sun, 06 Sep 2026 13:50:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1788695453;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=+8TzT3wMM3pegpQapmGPBx80sjAEhO50glcP2ehboiw=;
-	b=GZCJogSilIr+vmt208y62FjBcltVQAMS40TkewOCwrLQYOdp8vuhPvQAjyAt5Bg805AN1v
-	x0/E2avnQ5E/3PCPQe1NEa7FWc3D9ygqw6JZ56dlOHhmUkTQ+XqzZq4PEnx5Dkrs/NaA8q
-	SS9bvkVZEg4R8prR6SOBJGS/j+I6st0=
-Message-ID: <a85ee1d2-329e-49b5-a22d-f68dfa527eec@ixit.cz>
-Date: Sun, 6 Sep 2026 13:50:52 +0200
+	dkim=pass (2048-bit key) header.d=nickpegg.com header.i=@nickpegg.com header.b="GGmvSPGm";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="xRh+bnnM"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 078EA14000F2;
+	Sun,  6 Sep 2026 11:56:52 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Sun, 06 Sep 2026 11:56:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nickpegg.com; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm2; t=1788710212; x=
+	1788796612; bh=310dkjKYgblmLe8ncEMuGqbFBWbPgCiWofAH3ycMNu8=; b=G
+	GmvSPGmWt3bsSDzY3q7mm3rZ0mBoSP60x793gMtX9EyLPaYSNNHb8uVd6hDa+dTd
+	31DmfXlhG9cnSoxAKjHLYTGF3dQ+epwqD9CrFVIT6AobpwyeJ8lbe080fbU+NL4d
+	0b23gkiB5jZCqmQ/syRPsvcfqn2UlemwvklqKIUGXXHpjulHRcUnrDQB/V3ryO9k
+	DUQNofmIdaCfleDFOX69kdIPQDkLbvNXrAYooVudYBC6jChsltH96c7yyLHVpX1M
+	qre2nEAPnC0OJGUlvKbDF/PapY6vkgpCcM8LMetmysOJJKS3vbRms5ZSKA97/HCW
+	pe4VbALc3McCJrE80Aq+w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
+	:x-me-sender:x-sasl-enc; s=fm1; t=1788710212; x=1788796612; bh=3
+	10dkjKYgblmLe8ncEMuGqbFBWbPgCiWofAH3ycMNu8=; b=xRh+bnnMtD0LRUaGp
+	27OBICejh03lct5BkjHespKhS/cgedonTRsGxhhPSulLNIG8EKbUYz987kiK/sy4
+	t0ZZiOeix7h09BdIdWe7GlfpTHvej2EWhKWEYqpKp3cM0B/OHF1XGpANKpBOcLr8
+	/GWhMxTHHW5meBz5gwzFd5LpCpPVtfzT4nT5b/4kiSpyXWPyjoryp5D+mJKsAq+f
+	lmEJ9XOTF8aXae7qu3XeEWx7ODp3q/a1FHyp4AI8rvmSmHff/GNFUE6l+LYe3XpD
+	Kjl7Q4f0qIvrpWqJ0GWCbkul8uGRqsf6pQNsbgE8GdFyO3zIaLRqaWougQ2axktq
+	oEcMg==
+X-ME-Sender: <xms:Q42dalJt-i6_bf9jv1_M2qGkh1d-eF8yJkqARUS_6HyZiRVy68JDbg>
+    <xme:Q42daipiEWhIRWH4BcN9R3m2OmUWkVH1z4OhtEIAlKYR9XmfZveSxk1oiTlXbmjj7
+    0swn9TxNjzLJgK1bNQx3-GBAMvwjIQN_qQG_jJMTLDnhLqAWTISMFO9PA>
+X-ME-Received: <xmr:Q42datxEZg0NVnsVnFg5plMTGQfLNNF5k3LCa3y2GM6tDgw-0vUmpZJh8wR3YaSDGEBVszb5tjQdd6z8mYp0kQvXfK8OsVKwgDKDDjQmZIZbhilq2Knd>
+X-ME-Proxy-Cause: dmFkZTGmoFTLymL9TVbj9Ay4wFbnzjOpCbVPqyh1qYdNEcsUQODJBFa2CJ7OesbWR1NhCo
+    xLitNDlDz9K028fHAzuGOuHsOoK9cg8SegNBTCypztwjQmrVvV/qKUhl7ZIA5M38yPp4t6
+    VKxOzJ+SQ147sMG+CTMWIYfR1TtpIliRwWLYFZeaQrKswf233iBdTan2P5zNRTA7+cbwHP
+    a3CcfbJyMN8yCBVQZ5lF+qI+3tEM3zE5HmQTpYkUH6WOvnPG3VmG1yYTu6of9lGJYLeTJx
+    YxKdIMtXm0iW5eBO8hhmI7eUOZV/nioLgaO9zLjUNyMBR20AeEPxTWeuLzNpSoi5Vza4JG
+    iVKUPleNn3i/yyF97qT5fZz8ZNil5u3xRU2eyHjm7ono0BXSWPsaLRxH4DEpibMOafZyYs
+    3iEEMhrF5VeLpxK6I9vTdM86MGhibXrPqhoNvm27tN3loeKWlpi0egQHSXgPnFjhwhPTmd
+    KYX6tuKl5nL3n0lAfjoyS8pTDI+X2hZ3sKp7WFdeVOd67fih47Qwiow9lcLz7kwmkpAPRl
+    XQJr1UL7hnxzojPEcWTHEbRiePSwKIK567Ly8Vo1VQg6Jd2Cv8gjlAN+xRlNFJNsNB2CeR
+    +wL65FTIRm3vN29SC9wU/2LWwAnLPW5ycliquJxDpcTeJBgVCtFHRIh+uC4A
+X-ME-Proxy: <xmx:Q42damNTNd0Y3huQwXXr_rXwbCYbcxLf0SVSFLQhDtwcMQw4tPt8UA>
+    <xmx:Q42dai67HCg4Gaohvw_i5RKc8xTr3dDFN8__78xHpUvu6ZwF4Wsdmg>
+    <xmx:Q42davlHQE6OKeuszKaQBmr3IMFf98SnEOsARq2TOr5tR0zSf6llcQ>
+    <xmx:Q42darS1V6Knzsoo-18ea_-gS3QbThyNM1nRuqqBSlu34MuXUUZReg>
+    <xmx:RI2dajz3mgQFg3-skoBysuA5lgpr710HefF3-U4eTk33B1XbfPgX_g-Y>
+Feedback-ID: i95c946fb:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 6 Sep 2026 11:56:50 -0400 (EDT)
+From: Nick Pegg <nick@nickpegg.com>
+To: tiwai@suse.de
+Cc: linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	perex@perex.cz,
+	Nick Pegg <nick@nickpegg.com>
+Subject: [PATCH v2] ALSA: usb-audio: Add quirk flags for Behringer UV1
+Date: Sun,  6 Sep 2026 08:55:37 -0700
+Message-ID: <20260906155616.1625465-1-nick@nickpegg.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <87jyoy4xdf.wl-tiwai@suse.de>
+References: <87jyoy4xdf.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH] ASoC: soc-core: use the device tree card name as
- long_name
-To: Val Packett <val@packett.cool>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>
-Cc: phone-devel@vger.kernel.org, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260506041112.412871-2-val@packett.cool>
-Content-Language: en-US, cs-CZ
-From: David Heidelberg <david@ixit.cz>
-Autocrypt: addr=david@ixit.cz; keydata=
- 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
-In-Reply-To: <20260506041112.412871-2-val@packett.cool>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 06/05/2026 05:58, Val Packett wrote:
-> When setting the model property for the sound card on an OF/DT system,
-> the expectation is that that model name would be used in the UCM config
-> path lookup. However, the DT model name was only used as the "short"
-> name, which gets overriden by the "long" name during loading, and
-> the "long" name is automatically set based on DMI data if available.
-> As a result, adding an intermediate bootloader such as U-Boot which
-> provides DMI data on a device that didn't have it before would break
-> the UCM config loading by suddenly looking at the "wrong" path.
-> 
-> Fix by assigning the DT model name to the long_name field as well.
-> 
-> Signed-off-by: Val Packett <val@packett.cool>
-> ---
-> 
-> For more context/examples, see:
-> https://gitlab.postmarketos.org/postmarketOS/pmaports/-/work_items/4386
-> 
-> err, for some reason that link requires an account to view right now,
-> hopefully that's fixed by the time you're reading this. if not, quoting:
-> 
->> ALSA looks for wrong device name when using U-Boot
->>
->> What's the expected behaviour?
->>    ALSA finds Fairphone 5.conf
->> What's the current behaviour?
->>    ALSA looks for fairphone-Fairphone5-.conf, doesn't find it, and results in no audio.
-> 
-> ("Fairphone 5.conf" coming from `model = "Fairphone 5";` in .dts)
-> 
-> So it's totally unexpected in the DT world that adding DMI info would
-> change which UCM path is used.
-> 
-> Now the question is, could this possibly break anything for anyone???..
-> 
-> Qcom laptops do not rely on these model-based paths at all, instead
-> having custom DMI match `If` conditions inside of "fallback" SoC-wide
-> UCM .conf files such as:
-> https://github.com/alsa-project/alsa-ucm-conf/blob/980fb83651e82c3e53d3a0ab7fa9b7d6fc2d809b/ucm2/Qualcomm/x1e80100/x1e80100.conf
-> 
-> So there it shouldn't make a difference. But does *anyone* use DMI-based
-> soundcard names intentionally on *any* DT platform?
-> 
-> 
-> Thanks,
-> ~val
-> 
-> P.S. I don't understand the lifecycle of these strings but it seeeems that
-> the expectation is that they point to static data so they're never freed?
-> 
-> ---
->   sound/soc/soc-core.c | 8 ++++++++
->   1 file changed, 8 insertions(+)
-> 
-Would be great to hear what what maintainers think about this, this causing some 
-level of unpleasantness.
+The Behringer UV1 is a microphone audio processor with a USB audio
+interface, which experiences periodic stutters unless implicit_fb is used.
 
-Also there is my slightly related question about the DT `model` property naming [1].
+This seems to be a similar device to the Behringer UMC series, so I
+copied the quirks from those. I've confirmed that my own UV1 works great
+with these flags set.
 
-Thanks
-David
+Signed-off-by: Nick Pegg <nick@nickpegg.com>
+---
+v2: Same change as before, but using git-send-email this time since my
+mailer mangled v1.
 
-[1] https://lore.kernel.org/all/c5773a71-e7f0-44ae-8418-1e00de16d08f@ixit.cz/
+
+ sound/usb/quirks.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
+index 4d2957e62fbd..5b27659d3eb7 100644
+--- a/sound/usb/quirks.c
++++ b/sound/usb/quirks.c
+@@ -2388,6 +2388,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
+ 		   QUIRK_FLAG_PLAYBACK_FIRST | QUIRK_FLAG_GENERIC_IMPLICIT_FB),
+ 	DEVICE_FLG(0x1397, 0x050c, /* Behringer Flow 8 */
+ 		   QUIRK_FLAG_IFB_SILENCE_ON_EMPTY),
++	DEVICE_FLG(0x1397, 0x0510, /* Behringer UV1 */
++		   QUIRK_FLAG_PLAYBACK_FIRST | QUIRK_FLAG_GENERIC_IMPLICIT_FB),
+ 	DEVICE_FLG(0x13e5, 0x0001, /* Serato Phono */
+ 		   QUIRK_FLAG_IGNORE_CTL_ERROR),
+ 	DEVICE_FLG(0x152a, 0x880a, /* NeuralDSP Quad Cortex */
+--
+2.55.0
