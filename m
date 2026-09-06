@@ -1,41 +1,44 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54D5C3B52E4;
-	Sun,  6 Sep 2026 03:42:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 768223B5319;
+	Sun,  6 Sep 2026 03:42:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788666176; cv=none; b=YdwlcqY4d8+3NHsEiLBEvG4cUTDhvsJGAgAfv9k7OntQvUBcG7owJjudC1+iJmf931eP8A9dJWvLrXqP8SeCPiqzgEAFIwIu61OA5pn3lEKBGWnYPfMIHqhFq0w8W7aP7QSAKnnucjxgCV36QlRGYksDvUsBvSeCjDUcc4idnJw=
+	t=1788666176; cv=none; b=WJwkFXZlw3UGQ5qVw7jykIm5d9r7T8Lh3k7Xmbc51EP12DtdcpGw5uYh0PQOC26gW9IbA4E0eGJYIdIBBCB2WrWGDtV+OsknPhQ99LR1hHC83Arba1bDOBbf4rEZHrwt5fepsotYUhhddgl3aKQIDFZ4jCS6/j60Ofz3bW96vOw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1788666176; c=relaxed/simple;
-	bh=lmoIPdj+6r2ziznCQsb0UzEOdDWnLWjBZg8LQD6n2Mw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=W5L6MSHT+01J72J1SvJDCQr1VlsQ3lPxFyGhv5j0qDNO15AP+kSsNNRDO53BP2mktVFlba3YlN/0VVlGkS3th8MJXfpXSnsbgqSpa0420PEwIeSXrnWkzv7gO/0dQ2Os+JIyLH2R0BpmvPLkT2fNAOfq/Oiwn5j94ZAR/hhpO38=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=BO3K+Qd+; arc=none smtp.client-ip=117.135.210.2
+	bh=XxEkSWtGahgcNelruYk9TkoDzG7UJt1S4urDB64x81s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MNnmi5QZMeTs/+N56WcX2EyQ+pXT1T/LZDnQptkXtfKk/2MK2dsNL+nn+OG9kAeBFipe+Q4Ee3JNF5DSKhVUt/nfM+O6GsXJ7RD4KzHFigmgrZXGh0YoEJMz7JggTULNqYJuS24j4FOpj6S4F6O4Zz/LVRR10JYf89hEUoCYVYI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=GI0o08ph; arc=none smtp.client-ip=117.135.210.4
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="BO3K+Qd+"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="GI0o08ph"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=F0
-	7UPZ7n+jzCWFF3mhj/KOd+XRpPjCif2TAp+ldB/Ew=; b=BO3K+Qd+0C+wJD8nL5
-	lyuFOoMTySu0MOuUSkLpIse7I/qDeqINNDKsOysK4WDIfNiE8n0j0Tx3/j6U1nC2
-	BlsFJ5ZTcFAH3fevcww30S25HG49KcyN8cicP/s7QDNz4vdPfZ5YRgjuD/rshVP+
-	twRAq8xBE7FPA0mlXq7/Nhvxw=
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=In
+	g9viFHlRqC3Evxp/NzyPpubp0ZutARSR7Ccr1pqjQ=; b=GI0o08phrfwgP1xdgY
+	A1ckuDpbCRYIhLktON7VBDOqRO0DloOwqIs7OEj+rZu6la+2gUxMijroHe/6+gUo
+	3iE7fWVdu77UmU59yaKZvN8xsLGOmonMCfKsZkg3jPZky712xlfG7EPreCsFeZcE
+	e4EWFxPrQ9UuP64XH52lj43Iw=
 Received: from localhost.localdomain (unknown [])
-	by gzsmtp3 (Coremail) with SMTP id PigvCgDXHxcb4Zxq8PnERA--.33810S6;
-	Sun, 06 Sep 2026 11:42:22 +0800 (CST)
+	by gzsmtp3 (Coremail) with SMTP id PigvCgDXHxcb4Zxq8PnERA--.33810S2;
+	Sun, 06 Sep 2026 11:42:20 +0800 (CST)
 From: Pengpeng Hou <hppiscas@163.com>
 To: Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>
 Cc: Pengpeng Hou <hppiscas@163.com>,
-	Nick Li <nick.li@foursemi.com>,
 	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
+	David Yang <yangxiaohua@everest-semi.com>,
+	Zhu Ning <zhuning0077@gmail.com>,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 4/4] ASoC: fs210x: report register restore errors
-Date: Sun,  6 Sep 2026 11:42:17 +0800
-Message-ID: <20260906034217.85696-5-hppiscas@163.com>
+	linux-kernel@vger.kernel.org,
+	Zhang Yi <zhangyi@everest-semi.com>,
+	Nick Li <nick.li@foursemi.com>
+Subject: [PATCH 0/4] ASoC: report additional component restore failures
+Date: Sun,  6 Sep 2026 11:42:13 +0800
+Message-ID: <20260906034217.85696-1-hppiscas@163.com>
 X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -44,45 +47,36 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:PigvCgDXHxcb4Zxq8PnERA--.33810S6
-X-Coremail-Antispam: 1Uf129KBjvJXoW7GFyftrWrXF4Utry3XrW7twb_yoW8Jr4xpF
-	93GFW8Xr97Xw4xArZIyF4UZFnakrZxWFW5Aw1jkwnxAwn8Cw1S93W5tw4jvFZrtrWYkanI
-	qr40ya45Zr15Jw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07U_8nrUUUUU=
-X-CM-SenderInfo: 5kssx2xfdvqiywtou0bp/xtbCxR5BCmqc4R5NsQAA3l
+X-CM-TRANSID:PigvCgDXHxcb4Zxq8PnERA--.33810S2
+X-Coremail-Antispam: 1Uf129KBjvdXoWrKryUWr45Ww47XF4ftrWDJwb_yoWkJFg_ua
+	4vk398Jr42gF47CFy7Wrn0vayDurWxCry5AF1vga17Jr1xJrn8Ga17Xr1rur1UZF4xt345
+	trn7t34xJw4S9jkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUb8pnJUUUUU==
+X-CM-SenderInfo: 5kssx2xfdvqiywtou0bp/xtbCxRxBCmqc4RxNjwAA3b
 
-fs210x_init_chip() marks the register cache dirty and replays it after
-reset and scene setup, but ignores a replay failure and publishes
-is_inited. Its resume caller already returns the helper status.
+The three Everest resume callbacks ignore status reads before branching on
+their output and then discard later restore failures. The FS210x helper marks
+its cache dirty but publishes is_inited even when replay fails.
 
-Keep is_inited clear and return a cache replay failure so the ASoC
-component wrapper can report the incomplete restoration.
+Check the fallible operations that delimit each restore transaction and
+return before publishing dependent IRQ or software state. Commit
+951af101c730 ("ASoC: report component resume callback errors") reports these
+callback results while retaining ASoC's best-effort deferred resume behavior.
 
-The issue was found by our static-analysis tool and manually reviewed.
+The issues were found by our static-analysis tool and manually reviewed.
 
-Fixes: 756117701779 ("ASoC: codecs: Add FourSemi FS2104/5S audio amplifier driver")
-Assisted-by: gpt 5
-Signed-off-by: Pengpeng Hou <hppiscas@163.com>
----
- sound/soc/codecs/fs210x.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+Pengpeng Hou (4):
+  ASoC: es8326: report resume restore errors
+  ASoC: es8375: report resume restore errors
+  ASoC: es8389: report resume restore errors
+  ASoC: fs210x: report register restore errors
 
-diff --git a/sound/soc/codecs/fs210x.c b/sound/soc/codecs/fs210x.c
-index 510cbeea5b62..316f3fe80d93 100644
---- a/sound/soc/codecs/fs210x.c
-+++ b/sound/soc/codecs/fs210x.c
-@@ -610,8 +610,9 @@ static int fs210x_init_chip(struct fs210x_priv *fs210x)
- 	if (!ret) {
- 		regcache_cache_only(fs210x->regmap, false);
- 		regcache_mark_dirty(fs210x->regmap);
--		regcache_sync(fs210x->regmap);
--		fs210x->is_inited = true;
-+		ret = regcache_sync(fs210x->regmap);
-+		if (!ret)
-+			fs210x->is_inited = true;
- 	}
- 
- 	return ret;
+ sound/soc/codecs/es8326.c | 20 +++++++++++++++-----
+ sound/soc/codecs/es8375.c | 18 +++++++++++-------
+ sound/soc/codecs/es8389.c | 20 ++++++++++++++------
+ sound/soc/codecs/fs210x.c |  5 +++--
+ 4 files changed, 43 insertions(+), 20 deletions(-)
+
 -- 
 2.50.1 (Apple Git-155)
 
