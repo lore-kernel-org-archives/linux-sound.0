@@ -1,89 +1,85 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E116E28690;
-	Sun,  6 Sep 2026 08:02:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4E9A30CD81;
+	Sun,  6 Sep 2026 08:06:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788681776; cv=none; b=QGmQrwOTZz5kD25O2zZBpx8IRhSgnAAQNjtJQBt623pSMuUVB3AVWVRiFq4RF0zyXMizurQ7sY5iPrZgMFU2eIHi6RAbTxbu5lFbB1Vr/4WpPupaQkaBnVJ9WDiPJ0dY2YmqOhnWvpY8gfSF8zPd1QUJ14w3q2HhOznE/2lK4ng=
+	t=1788682009; cv=none; b=NYvN+FzeS9mM/7mXrf09ew3gfplljoauy8k5AKG0zm0nUSAqTNmUlFvh3VngCFZiHmVPdzMXrIqWYC+QyoRJ7gFP29ce4MxOTdD3bvxbhK6IMCzoCRToHvHdSaD5j50eqwK5Ti61qcbfohYyiqMdbjNyULSmtwRhbaW/GFIMCpI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788681776; c=relaxed/simple;
-	bh=BWJG8hgiwvIi26aZFTgv5NewxMednrzjP9lQUJfSwzc=;
+	s=arc-20240116; t=1788682009; c=relaxed/simple;
+	bh=qBLo63qLpDU752yVf2VSzE5r7uMBMKLlHqDXlxVhIkQ=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=j6ON8Whhybe/AtiZ9fX5vBn9og3vmnpEWeyGlVBIyh1LxXetN9hn4/ociXhrPX70n0fMnd3pAXVy1NYirg37QfGPTEcNcJQ4LJVcDkMES9xZdzTVylRKx9BSs4Bh9X1qGtl0PwI3awXNzyEBCQcER71oMBxLzZc5SJNMIBvhIKc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=aVI+iROU; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=RACOOrgA; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Ae+jJ9PZ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=c00BUmNq; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=XaXTO8v2Qlvc9Wkgg8WV0cnJJSimx3z2rZj7dWbD7rNQ5FRTWdIoJIok/VmfdaZM+wk157i2w6zJnxBd/rSJ5a6ERpnux7hmgLeJ1E0WI9hqT7lBnPfIM8ED+bJdGF71SuEbfZWzzryLdJsVzNQAR2CGV0HN9B2Go+pXBnPuC5M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=plAHdqVv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=TntGLIrw; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=mYVdYoGc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=uISPrOB1; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="aVI+iROU";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RACOOrgA";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ae+jJ9PZ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="c00BUmNq"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="plAHdqVv";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TntGLIrw";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="mYVdYoGc";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="uISPrOB1"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id BCFB3222D4;
-	Sun,  6 Sep 2026 08:02:44 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 749DC22653;
+	Sun,  6 Sep 2026 08:06:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1788681768; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1788682001; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=67Fv1jILZAUwM1g0mfsgzMgEA0VRopTihuzg0i7Amlg=;
-	b=aVI+iROUav9KjPRzfhn7Bm4eQ4x7WFTNh1FYgbVMIyyS/ZuFaBxjwm1FSLU0TB/6WBOK7z
-	Ln9PnIQ1yzeDiLIBQ+5SHM38Yz5uZhvexyeOyB56Zjab2nExj4s7rPieg3q/Jcofq9VaLT
-	1vynERw0PSefad4tv/wFRcLR49Ddv64=
+	bh=eGSBYbKQ0X7U2dwkUHuXNPfjfmG7dNGpVNQvlQcg1z0=;
+	b=plAHdqVvIF83usC1oWJl9UJoaCSSAAaGUVf99iSURsimSsvITzGKJxeIUrDUQT1fkXtxv0
+	eU3UMaNiUziv9E0abQL17d/pK6ADNCJETy6bnNPSp74hkQV9uaPZjajtyjGYzyeSvBMKMY
+	n85lDx6eND/TEwGB582XRqyx1INb+Z4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1788681768;
+	s=susede2_ed25519; t=1788682001;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=67Fv1jILZAUwM1g0mfsgzMgEA0VRopTihuzg0i7Amlg=;
-	b=RACOOrgA34Wb2Rm93s/kmMiUx6zDuuKLvv3+o/qtV2xUkjMqE8DA7yrITBNMt2yqNeOWir
-	ITO7LJK3hxrJDYAw==
+	bh=eGSBYbKQ0X7U2dwkUHuXNPfjfmG7dNGpVNQvlQcg1z0=;
+	b=TntGLIrw6UnBdvpsIG7UJHStgQqpyacNqjuLowWwOmkuSrvKnNlINzI/2ciL9b6PFUoGkc
+	FLYOiUnG7Xp+QbAw==
 Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Ae+jJ9PZ;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=c00BUmNq
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1788681764; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1788681997; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=67Fv1jILZAUwM1g0mfsgzMgEA0VRopTihuzg0i7Amlg=;
-	b=Ae+jJ9PZ9AZ+mHFhkReGf2W4anh08WRMWhBfVbHavKopiQJfN4/JmGJ6oNBT4JOw8RjLmE
-	BpvuW2DkhgcPQPv51jsqT0q8U4dXarVFV/EmOvOU9gWvHDdbPCClhedAErxinSd6w1RPh4
-	w9T+mPNNppVd5nVQgmxNZag4pybz6bk=
+	bh=eGSBYbKQ0X7U2dwkUHuXNPfjfmG7dNGpVNQvlQcg1z0=;
+	b=mYVdYoGcjvVyGV7pKH+t7RjyeQl23FYNtoqotrhIkNncFnJH0NcSyYhrAWObNnjcK9Gu60
+	zuVBjMjvQmcHZBJ3tQ7rHKChixcOs2LpJC7R2do3LjIxJLqzoqghFt1NJpDcQhTQTyMjqF
+	mZskRuGLjmbAyhTbeBqjcqoMcVWak6w=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1788681764;
+	s=susede2_ed25519; t=1788681997;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=67Fv1jILZAUwM1g0mfsgzMgEA0VRopTihuzg0i7Amlg=;
-	b=c00BUmNqHaXJsnpp8/PrLf1FNGS/lDQjYy/vEN7tIrQIEmgwHZzu3Sn6c+ePbnccO0aVgn
-	cMUH++VHLrda3UBA==
+	bh=eGSBYbKQ0X7U2dwkUHuXNPfjfmG7dNGpVNQvlQcg1z0=;
+	b=uISPrOB1XY0WpNsanoC4Qc6r96CHa0LxedU0/OmIJedVrVGY8vcqw9sP9dnnPKfYhgRWjX
+	pib/616Ij5V0+8Dw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6091D13432;
-	Sun,  6 Sep 2026 08:02:44 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0CCEF13432;
+	Sun,  6 Sep 2026 08:06:37 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id X6c+FiQenWqeaQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sun, 06 Sep 2026 08:02:44 +0000
-Date: Sun, 06 Sep 2026 10:02:43 +0200
-Message-ID: <87ld9e4xjw.wl-tiwai@suse.de>
+	id whLuAA0fnWopbQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sun, 06 Sep 2026 08:06:37 +0000
+Date: Sun, 06 Sep 2026 10:06:36 +0200
+Message-ID: <87jyoy4xdf.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: zorgan.roman@gmail.com
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Colin Ian King <colin.i.king@gmail.com>,
-	Takashi Iwai <tiwai@suse.de>,
+To: "Nick Pegg" <nick@nickpegg.com>
+Cc: perex@perex.cz,
+	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] ALSA: ctxfi: Fix CA20K2 S/PDIF passthrough
-In-Reply-To: <20260903-ctxfi-spdif-conf9-fix-v1-1-5e4e3e1f801c@gmail.com>
-References: <20260903-ctxfi-spdif-conf9-fix-v1-1-5e4e3e1f801c@gmail.com>
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: usb-audio: Add quirk flags for Behringer UV1
+In-Reply-To: <42486ae6-a634-4897-ae70-338dfca68bd9@app.fastmail.com>
+References: <42486ae6-a634-4897-ae70-338dfca68bd9@app.fastmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -92,75 +88,45 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -2.01
-X-Rspamd-Queue-Id: BCFB3222D4
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.01 / 50.00];
+X-Spam-Score: -3.30
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.30 / 50.00];
 	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.996];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[perex.cz,suse.com,gmail.com,suse.de,vger.kernel.org];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_SEVEN(0.00)[8];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid]
-X-Spam-Flag: NO
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
 
-On Thu, 03 Sep 2026 23:14:44 +0200,
-Roman Prucha via B4 Relay wrote:
+On Fri, 04 Sep 2026 19:23:15 +0200,
+Nick Pegg wrote:
 > 
-> From: Roman Prucha <zorgan.roman@gmail.com>
+> The Behringer UV1 is a microphone audio processor with a USB audio
+> interface, which experiences periodic stutters unless implicit_fb is used.
 > 
-> dao_rsc_init() encodes the DAIO configuration as
+> This seems to be a similar device to the Behringer UMC series, so I
+> copied the quirks from those. I've confirmed that my own UV1 works great
+> with these flags set.
 > 
->     conf = (desc->msr & 0x7) | (desc->passthru << 3);
-> 
-> S/PDIF passthrough uses msr=1 and passthru=1, resulting in
-> conf=9.
-> 
-> daio_mgr_dao_init() masks conf with 0xf, but handles only values
-> 1, 2, 4 and 8 when programming ATXCTL_NUC. As a result, conf=9
-> falls through to the default case and leaves NUC at its previous
-> setting.
-> 
-> On a Creative X-Fi Titanium HD SB1270 (CA20K2), this breaks AC3
-> IEC61937 passthrough when snd_ctxfi runs with
-> reference_rate=48000,multiple=2. The receiver detects a non-audio
-> stream but cannot decode the AC3 payload.
-> 
-> With the unmodified driver, multiple=1 makes the same stream work.
-> Handle conf=9 through the same NUC=0 path as conf=1.
-> 
-> The change was runtime tested on the SB1270 with multiple=2 using
-> IEC958 stereo PCM, pre-encoded AC3 IEC61937 passthrough and ALSA
-> A52 live 5.1 encoding.
-> 
-> Fixes: 26a9630c72eb ("ALSA: ctxfi: cthw20k2: fix mask on conf to allow 4 bits")
-> Cc: stable@vger.kernel.org
-> Assisted-by: LLM
-> Signed-off-by: Roman Prucha <zorgan.roman@gmail.com>
+> Signed-off-by: Nick Pegg <nick@nickpegg.com>
 
-Applied now.  Thanks.
+The patch can't be cleanly applied, likely due to your mailer breaking
+tabs and spaces.  Could you fix your mailer setup and resubmit?
+At best submit via git-send-email.
 
+
+thanks,
 
 Takashi
