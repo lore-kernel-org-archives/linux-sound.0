@@ -1,107 +1,178 @@
-Received: from sonic304-46.consmr.mail.sg3.yahoo.com (sonic304-46.consmr.mail.sg3.yahoo.com [106.10.242.236])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53E3624EA90
-	for <linux-sound@vger.kernel.org>; Sun,  6 Sep 2026 07:43:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=106.10.242.236
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08D4C37418C;
+	Sun,  6 Sep 2026 08:01:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788680589; cv=none; b=F/sCpCkfy3oy7cwTZJaCqgIqKnIBJZ+iv+ojT+F3CT+wqOnQoJ50ooIOjqV2wjnHxtUoI+c0D9Kj4h7Rj5s3GnScLmMrN3Y4MlzljXaMvnoKf0VqrrQfOuTA1XfhQVUgRVzyt4svKriJb22RjiW+ybweeoGMLROOJojctvthIws=
+	t=1788681697; cv=none; b=H0mkmsxFah5z/mlfkNlb+hynzrpPxamvYXzxHtXvgN/VZYI7l3mSLJAsYAHUDl/YuWYb7zGVjGXyqHIRBORqFzgCCwXpB6w7vc7UUMskFg2ZTrVHEz/tSDDKZ7dtFEIMsOdTYSv9DZuVrFo3iepbG6+MMorMng6QGAjjc/7Xrz4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788680589; c=relaxed/simple;
-	bh=0fZThvsJiB1SVp88p7xvj4Q2ng8o/do0QgwFtcYm9AY=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:References; b=AiyWWc4D2SBasZ5/to9fgoKzoBB7aZIC3C8rxG9VDBMDhxQY3axtn1Nm3SVZMJGLeWFZBqPUdZXZwUVJeXy2sk8zxfJMDubp/us6U6H8LnZjxXHZ+5+K99QdMeTdp8+xIjK3BmDsskUw1OwJ8kBZlLyyT++4X5B3ABs23lM2N58=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com; spf=pass smtp.mailfrom=yahoo.com; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=QqPyZ4Cf; arc=none smtp.client-ip=106.10.242.236
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.com
+	s=arc-20240116; t=1788681697; c=relaxed/simple;
+	bh=lispaYJXyvdYsvDoj+kW+PP2c4CzAetUpDeaeRiyTi4=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QTUWGx3pVMVHGRzWP+ZQrXuoj7gY3qP9SFs6ExIzCEHHS8uiD0oPp6Ot6gKv+89rWLtomIlbvWDHtSUBQpQdgJeL8OUSyijUehXrr4vugzoa/mmW9KmC9b2ciGtZBzGbQf3vKVTh0y+3U++rwxq9hpuhKXucTP1OOwRtd6O+DJo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=urGshmDO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=nwW7C1qH; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=lTmj1quW; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=7DEvy6Lj; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="QqPyZ4Cf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1788680584; bh=l9zWHxulmZx2cLXTPCewxnXcoi+pUT1U77rBAQVom2w=; h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To; b=QqPyZ4Cf0HS7N9FR3dJgNaD0w+dHZWo0JDUiSMM2iF3oRdQfGbBWSrhupNqLXc5681zo7k53DUZAfubJgYUS8x3Mp2JZjYrqW61f7ubENvULSJRMbNem2fa/Ig31c0IlJJR7kn3cfN0VPj92HZql/3+aw7/4OTbbj5sOiEyt2U1xFcnmRzOzRc1mC0rKWBPWDZX7+5EGUzLHDIoViJ8SulO9/fmmasM/St2cyKvhuLeAHA1nBcHFOHzTOnt41mlszCEgCV+XEdOd1G6bPqsJF230zGKiMcXzVsQVWEcVQF6iuZck3wx02gfVW2/cc/TyH5WDEfW9ZVixZRdGVkaEYQ==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1788680584; bh=rqVv5WF8th+u4xPaGuTaVcnAGKq8mntEGUvq929zTxR=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=DNc8W4GFVovchTlp+xWz5naXeM9CTaGUmJi07Efkh0CibvbBAq7P7h5RtdSVh4KTtErnD4QrPXPgRbht6Lyq3T6wRq7lnV2uB2f8LcN5kUJ2MmfyXwzPFFPSVdLv95dXhlhbvC2bDa0Ow7rz3XiJ+y7Z1cwUnu6dgVeJ0pPtzUHlU4SjHLkTdXEnksyotrzSCTxBuTBiX2smu3JlURSMd5ru/fiZuH9NNsNSbKiwONZ9kwlD8/W5EKTYbJa0wKo4sZfxSrqsumZ3lJUhNv9lXmdPJ+qoLyo4g2hWxrJ3m90RH8lBIVfa4uWpWY/WNvC4r0fwEVHww9siPl7IcHBKtg==
-X-YMail-OSG: mA.nyxQVM1lBE5sEC5ACsLpO2NOAs8RmCUT0m7NJ3SXVkZLNJMBSsFe6KotsSre
- 2HTJA7RGmJZNW8eUOHztsmnloI2fXjz0uNGMoGZE9LXf1FNjc_gmPZtebPg8jh2YCmYo6CQMlLvy
- 75NzLSEai.9BV.DA3mBhRDIvlt.Zr1G7S5n73Kt_vICd3CFYXZMdoyjAH.xFvsjy2734RSNDpvgS
- wlqQ6bFWTWtGmb13NiU3vVmn6IUFO5p2KJklvuXRljr8NR0IygwLvvCS8IEI0yUBkA2HtB1QRL47
- dfu30mB5IuoglyNOvRF6I59fMtusqGonFECvcbA8KG1fUEHAoWmBdJS9k6q.p5ABMk.eIuyQP2aZ
- w2MB__DMo8DLgrhY2RomgID7yqiik2HNT8RzYnfrTl9gIR_nt1HfyxvsnV6dKlGMlPZ.ApLUBveC
- bkkysr.roHq7cZtvebKOd2A31TBiyCuCZgyCvMHcwbwksf1FpRRt6DOXHrTMFFz0zHfoWHmmAISn
- scXzvIuosL_FiDVSs5Jiv_ZisBtEyRqK1Ie4Z0yBGDLlDlxWuXDg9lOxwWDsHJRr_SKomZpC0HzF
- OQXHwvNPXN6IGcdARYZOc_yt7ITs1VDcIjx2Nm9Nob.877.F.yq59jLR.vp1ha79sDPREJAb4p_R
- dk0SNn0C7XyGjl8nFYlG484TgYz_91nOi3fMrESucNHdv_4ef2P9BrGHMZhf74SZ2CX..TRnTuej
- sM_SrH2Ro83b.l_yCSjefLnZloPa1dWQUPH7JDBxX9wB_PMOHRRlyFNMHa88Sr.GYR6AS.GrVZPh
- YUAZYLU7QNdAaUAizK.fTgUj0s1DKL6u4jG98w60ZPA31YFa2HYrVdy_v.9hCDm0UWcN_sYnDTG8
- junPHsv6DZewBDLGTkhq1H6yO2LFVUjUl01oOBJT_VgZBtdmPQhvWXeB9e53CC_7hGCwqQwM0LJg
- 9XHB61hEP6g8MVCmoxZwaRIaKLsyMUU5UKgt7tBjZeBIg7gv01D5bRsyyk721RFoYcLvt9pzR6AY
- U92X2RSrZYSVqkjqYTfKa8mN70r2ZnQWl_bkhygFWyqNfAVnAe5qsTIGb6WnuDBQAUctQqCOrK2W
- sOPlmTP4i4hO2sdlMTZOd4VO3Z4xvCNvkxWlm9O3XyZOTlYZvXw..UFaOI60aoZ3M6NZE84Vtp9N
- z85HMuve4ScpuWngtDdrPZfgsSKrb_taIcV4DUCPN36Z7hAURONsshehaBdJdE.TWTdNaOHeX4Ep
- nJU4M3iUUhc3acuRJnQcyj76K7uAg1T40U9_zQeNW79Ukp8nP2A8g4MviXcI74RNKVEjeJImWAES
- rlU1CXhDrlWjLiWS45mFIiA3GbiRBZ3loL.yTHyRpj.2G6xyJOhhfXoD5seJopoB.MNK9FcTjPei
- D0cLC5SIBRFWpMq.cdrcf3nHUdxVV2lYGYeUIFJF8SlX4PkmeAZzC89mfgaphgMXyUcssqs8F_2y
- 8EzEv.lbQm7xIJ.zG8bXsYYn_WeerLrGUToaUmtmRLgSQ4JBMX3olkl3iomT_Jhwm9G5saEYa_rr
- yrsbfY.gGjLM9Aob4h79lOF91PcwnX.SQb0ILllWl2Vl0cPnTrnAFy0VyuCL06STlmbpg7GaRuLO
- B19gbb50S7fYfr7rrkqhNu99mGUcBvRSkgK15cH6tvvcyxUsrVGoGZ0An9RbcFH9e4ttm_LPDtmM
- ctvR.5vJPqay7Ykp6LgF3NyeBc2FLANZfL5qXI4hiwtrQ5KirvWYnZ9JvHZjiH_N7di3hVjOJ75v
- OMj7EaZ7irXp9LRHo6ngU1FiEE0HcfsQgpWiMs8GD9faCr9vRlMPt2BbvhBEZTOY4hi1ssrmok5X
- zjrW0hseJyYkCYXY_HHPG8.bW11ml3ptgSJnuAehXMYcd6zDaifmQKykPox4rlB76AKEWl8FCuiF
- 0Fpoxbrd0fUSkGzuRzoRFLeqdGTZsxtow9Ho3Nw0woWWiiXfbFPesvPbc9I9Pr4Er7s2qFLf7BFD
- J3oLb4mHIEX65I7EyfQFQgm2q4e4qP3hCUCdHSiqNjqQVk_fChnUBXKk6oXQGWj4_.gr0Sr5nJ.s
- 34xTteo6JFfjtxN4_QCO6C6IxrxDf8nqXvTAz9LqCE_8ooIiRSKKVUBQEVmuU0cSJfJBflgQyZJ.
- .bFMowCGHBEAy_7jwO7vwT0xZO3v27XMMwVHWOy6lPfDygdHVbHwYCi3qzu.YotYSersM3T8y5BA
- eYprNgJneJZtw0Jd9C5nVflTckHOw91V16IBHJw--
-X-Sonic-MF: <mafiatamilan@yahoo.com>
-X-Sonic-ID: cd298061-56d0-4ae7-9e77-8e3d8b9010fd
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic304.consmr.mail.sg3.yahoo.com with HTTP; Sun, 6 Sep 2026 07:43:04 +0000
-Received: by hermes--production-sg3-664647588b-52h4b (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID b18fd0aebb47f8ebafacf0df8444bc70;
-          Sun, 06 Sep 2026 07:09:41 +0000 (UTC)
-From: David <mafiatamilan@yahoo.com>
-To: Mark Brown <broonie@kernel.org>, Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-Cc: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>, Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org, David <mafiatamilan@yahoo.com>
-Subject: [PATCH] ASoC: amd: yc: Fix internal mic for HP board 8C30
-Date: Sun, 06 Sep 2026 12:39:39 +0530
-Message-ID: <178867857905.85694.5014721659216165123@yahoo.com>
-X-Mailer: git-send-email 2.45.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-References: <178867857905.85694.5014721659216165123.ref@yahoo.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="urGshmDO";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="nwW7C1qH";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="lTmj1quW";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7DEvy6Lj"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 6F4451F836;
+	Sun,  6 Sep 2026 08:01:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1788681690; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=E7bVrx7Y8l6Q0BtkNtIWmgbqwYSF3CebnyWsx+/Wj8Y=;
+	b=urGshmDO5Rccb/BI4KI3fyGZ7Aybdip8L473cm5d+5FwL8Vn6GbeGCCCQbonV142+/T4qH
+	7e4FxlNctuZPhCFzYkcTgEITqtDRpLLiFpXvCQuysJjYfnRsOU6u1kPC1lTL3C3lx8wDyq
+	5WlRcsD7Pf2gzB69/BBLco5IdXI7SGg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1788681690;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=E7bVrx7Y8l6Q0BtkNtIWmgbqwYSF3CebnyWsx+/Wj8Y=;
+	b=nwW7C1qH/gbfQNxCj2zZf4yCeVPo8T9btTk7NnFLAy5S9hmH4HkqsfG5fwsqnCMvS/nNTk
+	ZbOKRkc9Rv4FlzCQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1788681685; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=E7bVrx7Y8l6Q0BtkNtIWmgbqwYSF3CebnyWsx+/Wj8Y=;
+	b=lTmj1quWDk+3Bd9NH/EJpkYafqq22BasZsfDatMJ8+lbVZ0PB96sf+snoDVXLpP4eWjQDj
+	ThAyfEb5nHnXH7oxKSIitza1LlTD6/pPrfgiTt1ulhJoACwRlLihHfduFsHuB8jm5RX1+U
+	ln5bcOrfFBLVqnV/MzlWe4pDM0Tgz30=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1788681685;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=E7bVrx7Y8l6Q0BtkNtIWmgbqwYSF3CebnyWsx+/Wj8Y=;
+	b=7DEvy6Lj5eCSiPMQgWRC/C1JPSal0D5+nRr5uKxAAfUMiatG9ZKqDVL507hZQfOMzumYeB
+	RT7HXnaLYO7P0ECw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E8E2F13432;
+	Sun,  6 Sep 2026 08:01:24 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id auB4N9QdnWpLaAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sun, 06 Sep 2026 08:01:24 +0000
+Date: Sun, 06 Sep 2026 10:01:24 +0200
+Message-ID: <87mrtu4xm3.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Edward Adam Davis <eadavis@sina.com>
+Cc: daniel@caiaq.org,
+	gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	perex@perex.cz,
+	syzbot+832ce9fa3face1b7d44d@syzkaller.appspotmail.com,
+	syzkaller-bugs@googlegroups.com,
+	tiwai@suse.com,
+	tiwai@suse.de,
+	zonque@gmail.com
+Subject: Re: [PATCH v4] ALSA: caiaq: Decoupling ep1_in_urb in caiaq dev
+In-Reply-To: <20260903130521.554840-1-eadavis@sina.com>
+References: <20260903115652.550250-1-eadavis@sina.com>
+	<20260903130521.554840-1-eadavis@sina.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -1.80
+X-Spam-Level: 
+X-Spamd-Result: default: False [-1.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_TLS_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TAGGED_RCPT(0.00)[832ce9fa3face1b7d44d];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,sina.com];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[caiaq.org,linuxfoundation.org,vger.kernel.org,perex.cz,syzkaller.appspotmail.com,googlegroups.com,suse.com,suse.de,gmail.com];
+	FREEMAIL_TO(0.00)[sina.com];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Flag: NO
 
-The HP laptop with AMD Ryzen 5 7535HS and ACP 6.x coprocessor (PCI ID
-1022:15e2, subsystem 103c:8c30) requires an entry in yc_acp_quirk_table[]
-to enable the internal digital microphone (DMIC).
+On Thu, 03 Sep 2026 15:05:21 +0200,
+Edward Adam Davis wrote:
+> 
+> The epq_in_urb object belonging to the caiaq device is coupled within
+> the struct snd_usb_caiaqdev. After usb_submit_urb(epq_in_urb, GFP_KERNEL)
+> executes successfully, epq_in_urb is successfully added to the urbp_list
+> queue of the dummy HCD driver (userspace specifies dummy_hcd as the HCD
+> layer driver for the caiaq USB device).
+> 
+> When init_card() calls snd_usb_caiaq_send_command() which subsequently
+> fails due to a timeout, and proceeds to call snd_card_free() to release
+> the card, the embedded ep1_in_urb object is also freed. When the dummy
+> HCD driver detects that the URB has been unlinked, it returns the URB
+> (by usb_hcd_giveback_urb()), which triggers [1].
+> 
+> Decouple the ep1_in_urb object from the struct snd_usb_caiaqdev and switch
+> to using a pointer instead. Separately allocate and manage the memory for
+> ep1_in_urb to prevent the release of the snd_card memory object from
+> interfering with it.
+> 
+> midi_out_urb has the same issue as ep1_in_urb and is handled in the same
+> way.
+> 
+> [1]
+> BUG: KASAN: slab-use-after-free in usb_free_urb+0x24/0x120 drivers/usb/core/urb.c:96
+> Write of size 4 at addr ffff88803cee1050 by task ktimers/1/29
+> Call Trace:
+>  usb_free_urb+0x24/0x120 drivers/usb/core/urb.c:96
+>  dummy_timer+0xaac/0x4d50 drivers/usb/gadget/udc/dummy_hcd.c:2019
+>  __run_hrtimer kernel/time/hrtimer.c:2067 [inline]
+>  __hrtimer_run_queues+0x3eb/0xaf0 kernel/time/hrtimer.c:2124
+>  hrtimer_run_softirq+0x1e1/0x2e0 kernel/time/hrtimer.c:2141
+> 
+> Allocated by task 36:
+>  snd_card_new+0x7b/0x110 sound/core/init.c:184
+>  create_card sound/usb/caiaq/device.c:429 [inline]
+>  snd_probe+0x236/0x1af0 sound/usb/caiaq/device.c:544
+> 
+> Freed by task 36:
+>  snd_card_free_when_closed sound/core/init.c:630 [inline]
+>  snd_card_free+0x138/0x1d0 sound/core/init.c:662
+>  snd_probe+0x162b/0x1af0 sound/usb/caiaq/device.c:553
+>  
+> Fixes: 523f1dce3743 ("[ALSA] Add Native Instrument usb audio device support")
+> Reported-by: syzbot+832ce9fa3face1b7d44d@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=832ce9fa3face1b7d44d
+> Tested-by: syzbot+832ce9fa3face1b7d44d@syzkaller.appspotmail.com
+> Signed-off-by: Edward Adam Davis <eadavis@sina.com>
 
-Without this quirk, acp6x_probe() returns -ENODEV and the internal
-microphone remains undetected.
+Applied now.  Thanks.
 
-Add a DMI quirk matching vendor "HP" and board name "8C30" to enable
-ACP DMIC support.
 
-Signed-off-by: David <mafiatamilan@yahoo.com>
----
- sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
-index 73baa48..0d3304d 100644
---- a/sound/soc/amd/yc/acp6x-mach.c
-+++ b/sound/soc/amd/yc/acp6x-mach.c
-@@ -721,6 +721,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
- 		.driver_data = &acp6x_card,
- 		.matches = {
- 			DMI_MATCH(DMI_BOARD_VENDOR, "HP"),
-+			DMI_MATCH(DMI_BOARD_NAME, "8C30"),
-+		}
-+	},
-+	{
-+		.driver_data = &acp6x_card,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "HP"),
- 			DMI_MATCH(DMI_BOARD_NAME, "8EE4"),
- 		}
- 	},
--- 
-2.45.0
-
+Takashi
