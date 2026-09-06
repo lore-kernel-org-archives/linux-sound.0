@@ -1,77 +1,42 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 413A73BB13C
-	for <linux-sound@vger.kernel.org>; Sat,  5 Sep 2026 22:27:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5397737A839;
+	Sun,  6 Sep 2026 03:42:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.2
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788647233; cv=none; b=Ke69HUHnxcRxhSIlAvkbTwVhhOPq/uCyoBA2Ok+ZlZfS8k6he2+a/2uy6EIaT2NLjGLBu9XVJikUq65xTfjZMwEFsIHEVJPrfFVu1Q/T5KgmtXdfpXSFqbiNEulzxR1SLDRT6MS3aIjUsbZ12Pf0d0Zq+npJBWVv6v4SRo39mRY=
+	t=1788666175; cv=none; b=Dp4x4io8m/zczn9X7gkJ7tzXRCj+T4AJARa61xPP0qeFb8g1JLSgboJ9WnYzcV9c36dVSWLyoxIEq/+CwFjfKryIzFCM3R/kv1T68ksiw/KEkLruZwI9MkLeggKH3cfJDuHVMxob8soQNv4UUhquFOhEU2a/vWCDQzD7TEVS2dk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788647233; c=relaxed/simple;
-	bh=0vyDvbj1aE6ce+OT40UuheNXEfROtOJ2IbEziGagt1Y=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PyQsCRFQxJb35RUAL5/Wap8LywoAkvWV4WvTsYSOX50VbuLZYQUCLi5TLCDe3u5CU9v40SZzx3HfcqZpFccSGrJieHqNFjx6JB8RNs3LRZ/rV8mVWwL0Y2QUnhpmcRZQb3lb3G3JAhrB/b0cAoAXQzknVMm0VNZNU2hjgNA9YEQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kBaYqwfX; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788666175; c=relaxed/simple;
+	bh=s2ely7C8IHvnn1zVkej3RjWU3H45Mk+y2tp56m3lSdM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UGX9Uh+pOzwtWysEgUhBpHTQj++WcJweHLc5Eb9LoXf3ygCLONd2uQb5TGiLcO6zux9UQ0kZWyK7Yvtno65HQsLOMw+TWGBriBWky8kSA1OZMplCrwVsv37V3HLU17O9dhk5mCJF9+V6n1opBXsMIovkbACbf8J9QyhKI9E1vgk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=DowkPoow; arc=none smtp.client-ip=117.135.210.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kBaYqwfX"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2d9b60c652aso28001575ad.1
-        for <linux-sound@vger.kernel.org>; Sat, 05 Sep 2026 15:27:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788647231; x=1789252031; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=LKYQ9YXPXC7AQL+wDeglTr7PWmC0dNVqh+gm0Bvig0g=;
-        b=kBaYqwfXNYPRbPICWLJxsymewxLUvgJnfV+88sMMUrXvQvWplT7rUEVI48WL/c2a/y
-         N5Pk53JnfONHB3Kz6p7/7rm7CxDe4gi7ubQElSwkW4SEqCHi9X4PtozGVy8Scfy5JNuz
-         yOUy+ezQHZapQKWiKAwJwy+Qagj154SpJruuvwmQpxSNxgGo8lSg8rHvT1kCYL/94g+v
-         fXQvPtxIr4UKoFcOc+lWV0Hi/qdJTJsNLT/Hx6jPu1Bj9TTy0Pil9x2baWtV0wmM9Hoh
-         Pq9vrJeQ1XsG73kh5ZkuMsHjDSVwyGx4FZ/8OKPjZDClj+Tlo8oh8OXXKRfvYZXYLJOK
-         OBpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788647231; x=1789252031;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=LKYQ9YXPXC7AQL+wDeglTr7PWmC0dNVqh+gm0Bvig0g=;
-        b=S6ni2Wd9AwH5gPCiGFTitKLqEyz+2tUtpmEwSgrJ2PqxoUHKs/KMN8kcyvkaDx5PX/
-         OAP9I8CdyEPopoH10djDoCw4Nw52gn6EqEygQ+Hj57YZnDDOjxIjjopN9jS5BC8rtZS5
-         Dcz8htcD7SUqvZ4b0egcqwANZaTCV81z6QiRuBN2I0nAkCoxQP06c6brCdY1BXcpLn6o
-         6fWqOjuDvbfnCkn+dc0trUbTTGckSaENI+DAk5Jt0csNO5f8wXnfBM3NiXkuOVqqqqeZ
-         5lxLiZ7278JHh6l1GKJNaRjeuWJGSCsHzpGkHuSovJ79uk6e2uz6zKdTkX45fDS5wBI+
-         L5hw==
-X-Forwarded-Encrypted: i=1; AKwUvBx2jVJBZR4ZA9A9PsUD90+EIs4jNs3oPzcHU3lR5yRTVRijBUeEwrjZOS0VUat9gJk7mbWxJHwGxTEwDQ==@vger.kernel.org
-X-Gm-Message-State: AFuF++m2XtkFumueOpjrt9CR22a3od1nfkqN7jzJX0TLyjrgUM3oLnZC
-	D4G9p7llAzsgXdZsPfJqQHT7TuDBm+0xkkKJc2dRP04GNAKOVgSWpbKl
-X-Gm-Gg: AYBFou1AoIqM5bssRpwCZyRT1WbNunrYlSZ0Brsu6nuykAA3G16x5jZEFq+9nx4B77p
-	H8plQ50NrnrUHD0J4rYLEpzkv0CoNE4Kft04L56qxBiXI1RFYF5eUpceW7+hdZiJmxZTGrqrl0X
-	2ttDmP8V4PoOwFzmncmbiHmFL9I2E+n4Sn9yDw3NrfoBVCl+Ntez+bJliWBGu5jFt4lIfWEpfN7
-	CSus6bjLdOQqNQ/U9+KM8GcYfAAlVwI2dSCuycRtYVmVUeo6rrVbYGO9jLtixfdQ6GQwMZAVu6O
-	/YnF5BQn2M1OTAmBLib2t5BcaSQQueas+mistoi6TP4RQ3ynWZpP4F0WV3ut85AEM/NT2B/wVKf
-	UfKKFLm0SLps9qkElNaewXd9LmykKFN8m9sGD8MHrnPbUwYDntiU1P7DFpj8x/krI+PR7Aq3iBl
-	RVdtyWvXeBjksqA0SpI1jU9M7POAjupcfOhxZ01y7WJL8Mpig3WnoAZWWWT32SyH/yY9EUaF1+9
-	lvP/QpLJJkOQ/hBF3YSINN7bGUOX6rGSaJBg6dUInDn0+BcHenlNCZ5je6XT3iuA/OQkdId+XFs
-	QkR4sl7eTr/yRdoOsAB3Fg==
-X-Received: by 2002:a17:903:1983:b0:2cf:8131:75f4 with SMTP id d9443c01a7336-2db127c3903mr253514825ad.11.1788647231100;
-        Sat, 05 Sep 2026 15:27:11 -0700 (PDT)
-Received: from arch.taild3b82f.ts.net ([2401:4900:ad20:813b:5d6e:82de:195:ca4e])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3339befe870sm18200019eec.30.2026.09.05.15.27.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Sep 2026 15:27:10 -0700 (PDT)
-From: Krish Gulati <krishgulati7@gmail.com>
-To: krishgulati7@gmail.com,
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="DowkPoow"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=hB
+	md32aKMBI3im5/Bl5uvL0+27adgzsCRSSkVsFnMnA=; b=DowkPoowuvDxaKU7io
+	ulv3jUPjIvWN+x5SY7pOPQYzRng8XXF+x5tsrps8xh7Bu17eSaCfiXPVnpFZL6pp
+	qDnuvaunMMneFBA039WonWXUn7xVOzsUNrrhKaBV/lneNMbgAGYhbnoYk9OTmZ35
+	Q531MuW2uWASfzyl4UuG1zIYM=
+Received: from localhost.localdomain (unknown [])
+	by gzsmtp3 (Coremail) with SMTP id PigvCgDXHxcb4Zxq8PnERA--.33810S5;
+	Sun, 06 Sep 2026 11:42:22 +0800 (CST)
+From: Pengpeng Hou <hppiscas@163.com>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: Pengpeng Hou <hppiscas@163.com>,
 	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
+	Zhang Yi <zhangyi@everest-semi.com>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] ALSA: hda/realtek: Add quirk for HP Omen 16-wd0xxx mute LED
-Date: Sun,  6 Sep 2026 03:56:56 +0530
-Message-ID: <20260905222659.10247-1-krishgulati7@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260905084951.9595-1-krishgulati7@gmail.com>
-References: <20260905084951.9595-1-krishgulati7@gmail.com>
+Subject: [PATCH 3/4] ASoC: es8389: report resume restore errors
+Date: Sun,  6 Sep 2026 11:42:16 +0800
+Message-ID: <20260906034217.85696-4-hppiscas@163.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -79,34 +44,69 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:PigvCgDXHxcb4Zxq8PnERA--.33810S5
+X-Coremail-Antispam: 1Uf129KBjvJXoW7uFWDZFyxXFW3uw17JF1UKFg_yoW8CF4fpF
+	9xGFWfKr1xXw4fur45ta18ZFyFkrZ2yFW3A342g34xur1rZ34rKa1rKF1UuF98JF47WFsr
+	Zr1jqw18WF1kXaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07j3739UUUUU=
+X-CM-SenderInfo: 5kssx2xfdvqiywtou0bp/xtbCxh5BCmqc4R7QjwAA3F
 
-Add SND_PCI_QUIRK entry for HP Omen 16-wd0xxx (PCI SSID 103c:8ba9)
-using ALC245_FIXUP_HP_MUTE_LED_V1_COEFBIT, which controls the mute
-LED via a COEF bit write on the ALC245 codec. Without this quirk,
-the mute LED does not reflect mute state on this model.
+es8389_resume() ignores the reset-register read, bias restoration and
+register-cache replay. A failed read can leave regv uninitialized before
+it selects the initialization path.
 
-Tested on the affected hardware; mute LED now toggles correctly.
+Check those operations and always leave cache bypass before returning an
+error. The ASoC component wrapper reports callback failures while retaining
+its best-effort resume contract.
 
-Signed-off-by: Krish Gulati <krishgulati7@gmail.com>
+The issue was found by our static-analysis tool and manually reviewed.
 
-v2:
- - Fixed table ordering: entry moved to sort by PCI device ID
+Fixes: 0319c26889f7 ("ASoC: codecs: add support for ES8389")
+Assisted-by: gpt 5
+Signed-off-by: Pengpeng Hou <hppiscas@163.com>
 ---
- sound/hda/codecs/realtek/alc269.c | 1 +
- 1 file changed, 1 insertion(+)
+ sound/soc/codecs/es8389.c | 20 ++++++++++++++------
+ 1 file changed, 14 insertions(+), 6 deletions(-)
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index 95b40a177d2b..f7786e1b0878 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -7566,6 +7566,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x8b92, "HP", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8b96, "HP", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
- 	SND_PCI_QUIRK(0x103c, 0x8b97, "HP", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
-+	SND_PCI_QUIRK(0x103c, 0x8ba9, "HP Omen 16-wd0xxx", ALC245_FIXUP_HP_MUTE_LED_V1_COEFBIT),
- 	SND_PCI_QUIRK(0x103c, 0x8bb3, "HP Slim OMEN", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x103c, 0x8bb4, "HP Slim OMEN", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x103c, 0x8bb6, "HP Laptop 15-fd0039nt", ALC236_FIXUP_HP_15_FD0XXX),
+diff --git a/sound/soc/codecs/es8389.c b/sound/soc/codecs/es8389.c
+index 80efce3e0a22..204fe6731140 100644
+--- a/sound/soc/codecs/es8389.c
++++ b/sound/soc/codecs/es8389.c
+@@ -1026,20 +1026,28 @@ static int es8389_resume(struct snd_soc_component *component)
+ {
+ 	struct es8389_private *es8389 = snd_soc_component_get_drvdata(component);
+ 	unsigned int regv;
++	int ret;
+ 
+ 	regcache_cache_only(es8389->regmap, false);
+ 	regcache_cache_bypass(es8389->regmap, true);
+-	regmap_read(es8389->regmap, ES8389_RESET, &regv);
++	ret = regmap_read(es8389->regmap, ES8389_RESET, &regv);
++	if (ret)
++		goto disable_bypass;
+ 
+-	if (regv == 0xff)
++	if (regv == 0xff) {
+ 		es8389_init(component);
+-	else
+-		es8389_set_bias_level(component, SND_SOC_BIAS_ON);
++	} else {
++		ret = es8389_set_bias_level(component, SND_SOC_BIAS_ON);
++		if (ret)
++			goto disable_bypass;
++	}
+ 
++disable_bypass:
+ 	regcache_cache_bypass(es8389->regmap, false);
+-	regcache_sync(es8389->regmap);
++	if (ret)
++		return ret;
+ 
+-	return 0;
++	return regcache_sync(es8389->regmap);
+ }
+ 
+ static int es8389_probe(struct snd_soc_component *component)
 -- 
-2.55.0
+2.50.1 (Apple Git-155)
 
