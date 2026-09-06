@@ -1,85 +1,70 @@
-Received: from fhigh-a8-smtp.messagingengine.com (fhigh-a8-smtp.messagingengine.com [103.168.172.159])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE60C3845CB;
-	Sun,  6 Sep 2026 15:56:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.159
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AF1338F950
+	for <linux-sound@vger.kernel.org>; Sun,  6 Sep 2026 20:25:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788710218; cv=none; b=BDWm3iSksoO6YKGPhphRgj7ri9SrYLcBnf/gx9wJQCKWQaHajAvwdFbgAjD/71Hm0mgL8bvwpypQnxa8YS5Q7W0HqSNuwft93qpRt/ZxbKf1KlgjZkYAQfzqkuETrHW4+eekGkdkhAHf91DE+vOk0OBRmlSmrQGUqBCJMr1iTMU=
+	t=1788726334; cv=none; b=Mo8jfNB7MDTyl8amDBR33+zSSrAf9YYTXU7l8jA6ggg8jm1qHXelHVUuL4xOABlSNqm0ESkVEoJUyCFvGuswqGY19AbsBIBTsMz5Wwy/zQx5nbn/sKrHN4OYe8BYVnqPP4bsAJJ45WxpO9kFyg9TCcy97UdIfRK3Q05YL6k7aXM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788710218; c=relaxed/simple;
-	bh=s/mXdH0RQanOA74m67ML7mjbr9Y/UfGVcbNAhHiSeVU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IRPr2hsbtfAPC5NhtmLQx2MrrEB4fkuXIk9CrhIiWz7kg5WgukUkDTX703eikCwKTCoZXfWJIgOAGqo3IvJ4NF4FUSRf9JMyd1IjNlcAaLSsl7oay0NQnG8KLG08TQFjyOqUKct9dN+iiUqSQQ+Z1EkqMdKcIwZHHtHtB0BRjjk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nickpegg.com; spf=pass smtp.mailfrom=nickpegg.com; dkim=pass (2048-bit key) header.d=nickpegg.com header.i=@nickpegg.com header.b=GGmvSPGm; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=xRh+bnnM; arc=none smtp.client-ip=103.168.172.159
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nickpegg.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nickpegg.com
+	s=arc-20240116; t=1788726334; c=relaxed/simple;
+	bh=P6JMux5cC6FV4GKzJ9f+9AH3aGnVkce5RlqRDkGoTYE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nafceOKSxC5GA47trO330v8z1mJSj1ZIhkmVospmIP9k15/nn0fSOvZ4asoEmlhac1x4gVk1s1LUmQT9NJCFr9dHXusv2/QwaYfvpzclRb98ENguu+k2MDCFADJUFPFwynAZT5PwvlOK5F23gHd/TsXPs0nqBkOBvd5PR4u465A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qb2rFs16; arc=none smtp.client-ip=209.85.216.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nickpegg.com header.i=@nickpegg.com header.b="GGmvSPGm";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="xRh+bnnM"
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 078EA14000F2;
-	Sun,  6 Sep 2026 11:56:52 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-05.internal (MEProxy); Sun, 06 Sep 2026 11:56:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nickpegg.com; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm2; t=1788710212; x=
-	1788796612; bh=310dkjKYgblmLe8ncEMuGqbFBWbPgCiWofAH3ycMNu8=; b=G
-	GmvSPGmWt3bsSDzY3q7mm3rZ0mBoSP60x793gMtX9EyLPaYSNNHb8uVd6hDa+dTd
-	31DmfXlhG9cnSoxAKjHLYTGF3dQ+epwqD9CrFVIT6AobpwyeJ8lbe080fbU+NL4d
-	0b23gkiB5jZCqmQ/syRPsvcfqn2UlemwvklqKIUGXXHpjulHRcUnrDQB/V3ryO9k
-	DUQNofmIdaCfleDFOX69kdIPQDkLbvNXrAYooVudYBC6jChsltH96c7yyLHVpX1M
-	qre2nEAPnC0OJGUlvKbDF/PapY6vkgpCcM8LMetmysOJJKS3vbRms5ZSKA97/HCW
-	pe4VbALc3McCJrE80Aq+w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm1; t=1788710212; x=1788796612; bh=3
-	10dkjKYgblmLe8ncEMuGqbFBWbPgCiWofAH3ycMNu8=; b=xRh+bnnMtD0LRUaGp
-	27OBICejh03lct5BkjHespKhS/cgedonTRsGxhhPSulLNIG8EKbUYz987kiK/sy4
-	t0ZZiOeix7h09BdIdWe7GlfpTHvej2EWhKWEYqpKp3cM0B/OHF1XGpANKpBOcLr8
-	/GWhMxTHHW5meBz5gwzFd5LpCpPVtfzT4nT5b/4kiSpyXWPyjoryp5D+mJKsAq+f
-	lmEJ9XOTF8aXae7qu3XeEWx7ODp3q/a1FHyp4AI8rvmSmHff/GNFUE6l+LYe3XpD
-	Kjl7Q4f0qIvrpWqJ0GWCbkul8uGRqsf6pQNsbgE8GdFyO3zIaLRqaWougQ2axktq
-	oEcMg==
-X-ME-Sender: <xms:Q42dalJt-i6_bf9jv1_M2qGkh1d-eF8yJkqARUS_6HyZiRVy68JDbg>
-    <xme:Q42daipiEWhIRWH4BcN9R3m2OmUWkVH1z4OhtEIAlKYR9XmfZveSxk1oiTlXbmjj7
-    0swn9TxNjzLJgK1bNQx3-GBAMvwjIQN_qQG_jJMTLDnhLqAWTISMFO9PA>
-X-ME-Received: <xmr:Q42datxEZg0NVnsVnFg5plMTGQfLNNF5k3LCa3y2GM6tDgw-0vUmpZJh8wR3YaSDGEBVszb5tjQdd6z8mYp0kQvXfK8OsVKwgDKDDjQmZIZbhilq2Knd>
-X-ME-Proxy-Cause: dmFkZTGmoFTLymL9TVbj9Ay4wFbnzjOpCbVPqyh1qYdNEcsUQODJBFa2CJ7OesbWR1NhCo
-    xLitNDlDz9K028fHAzuGOuHsOoK9cg8SegNBTCypztwjQmrVvV/qKUhl7ZIA5M38yPp4t6
-    VKxOzJ+SQ147sMG+CTMWIYfR1TtpIliRwWLYFZeaQrKswf233iBdTan2P5zNRTA7+cbwHP
-    a3CcfbJyMN8yCBVQZ5lF+qI+3tEM3zE5HmQTpYkUH6WOvnPG3VmG1yYTu6of9lGJYLeTJx
-    YxKdIMtXm0iW5eBO8hhmI7eUOZV/nioLgaO9zLjUNyMBR20AeEPxTWeuLzNpSoi5Vza4JG
-    iVKUPleNn3i/yyF97qT5fZz8ZNil5u3xRU2eyHjm7ono0BXSWPsaLRxH4DEpibMOafZyYs
-    3iEEMhrF5VeLpxK6I9vTdM86MGhibXrPqhoNvm27tN3loeKWlpi0egQHSXgPnFjhwhPTmd
-    KYX6tuKl5nL3n0lAfjoyS8pTDI+X2hZ3sKp7WFdeVOd67fih47Qwiow9lcLz7kwmkpAPRl
-    XQJr1UL7hnxzojPEcWTHEbRiePSwKIK567Ly8Vo1VQg6Jd2Cv8gjlAN+xRlNFJNsNB2CeR
-    +wL65FTIRm3vN29SC9wU/2LWwAnLPW5ycliquJxDpcTeJBgVCtFHRIh+uC4A
-X-ME-Proxy: <xmx:Q42damNTNd0Y3huQwXXr_rXwbCYbcxLf0SVSFLQhDtwcMQw4tPt8UA>
-    <xmx:Q42dai67HCg4Gaohvw_i5RKc8xTr3dDFN8__78xHpUvu6ZwF4Wsdmg>
-    <xmx:Q42davlHQE6OKeuszKaQBmr3IMFf98SnEOsARq2TOr5tR0zSf6llcQ>
-    <xmx:Q42darS1V6Knzsoo-18ea_-gS3QbThyNM1nRuqqBSlu34MuXUUZReg>
-    <xmx:RI2dajz3mgQFg3-skoBysuA5lgpr710HefF3-U4eTk33B1XbfPgX_g-Y>
-Feedback-ID: i95c946fb:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 6 Sep 2026 11:56:50 -0400 (EDT)
-From: Nick Pegg <nick@nickpegg.com>
-To: tiwai@suse.de
-Cc: linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	perex@perex.cz,
-	Nick Pegg <nick@nickpegg.com>
-Subject: [PATCH v2] ALSA: usb-audio: Add quirk flags for Behringer UV1
-Date: Sun,  6 Sep 2026 08:55:37 -0700
-Message-ID: <20260906155616.1625465-1-nick@nickpegg.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qb2rFs16"
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-38759bcd877so2822000a91.2
+        for <linux-sound@vger.kernel.org>; Sun, 06 Sep 2026 13:25:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788726332; x=1789331132; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Iz+jOMTRFswI96YUaCHrKXfF+E3aHFIXS8T0r+CTbmg=;
+        b=Qb2rFs16VMKSncljykAXVtDuW8NVtXGQ2bglatwuVkwjBkge+a2nNfCtpkS+xDH9ya
+         69rRMS+58BCqrGHv1yZTk0wkxd14+xgK5yuOD8cugGJOrXFJJYJzB5au72+H+rMh6q5v
+         3KHvKJySXA0aLSBGfTHWXv+1e9jLIwUxnajUAY3odIoxmRzX29NEqz5ZobohhPoT2hmr
+         x4YGEp59R0sThVC0CCoDrhlO/XhJ9aORRrTL02IeGKArX2kna2+iYmS4DkoioouG2Ia6
+         nRmqCwMi2fI4XyJ6OL+A/YFz6VhwYuIn1tW37lkG9fAgUQk1mnEgyEdR2RvSEBP8GcjC
+         1bnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788726332; x=1789331132;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Iz+jOMTRFswI96YUaCHrKXfF+E3aHFIXS8T0r+CTbmg=;
+        b=JVtgy+GCRo+PyVxJ4uqNf0YmikGVSkV4P6mHyO/OJ7+xBaWUvWNQspExgCoGRNZbNo
+         yPukYamC5vKgR6/1qhQ9+GvYdfqb1uFkvbCGixZPTp/FuDyfUrRS8Ij+D99PUmZzSDH1
+         +4C7Rl5c6qvJSMHcAtxJP0uxpw37DvXBKAMcxsxgFiiW9LaS7ovh9Rz0BYBL7zzdpFnc
+         XyfL++VK3Xh6qTbT5ImdR83AORq5cxeZ5oAhvY/f2/tUV437J/GODz7l8gpCeksoARaJ
+         gdUqvDdxqJ57WEHnVP5HfZp4WdnENzKAc7wdL0wduttebLpeDDMEDn6/gCzYV9sg85bM
+         nQHw==
+X-Gm-Message-State: AFuF++nVTUs9kOzaDTdsk4ODJX2VIlETxi7+IC8N+3x9bC+ijck4b2u7
+	oSGFoGSd1ozJKCHOLHjm+MTkECTzZz3IqFvan268h8uZdQUbBq2dQ4Cf
+X-Gm-Gg: AYBFou2+kUkPXKRleGORRZJLQPry1qM/CffWmR4WHOMeMWj77xWvrOtlWrFcWsRJkhL
+	tsvnQy3FhRnQPHtaMLszoI7OGKHsU7MACOR/HUpvZVfEndo+2OwYCPAZnzvM8hj1uDk5fLsC6Rk
+	5PWyykykGIUdAMYXKxFEp9jtcyPGERvcRiJkmCpVgeOL6pUg+46EFEpnTA794HXxsHaUBWUM6E4
+	ngkpsjOO0xcyhBm1ki7lfcglJhmHQZekZ9X31dOLhvEf7ofhXTQz3J4zJaPhyHiUfwivcCEjKLI
+	XkdK9bKsfX3lQq2hZDrNe7C7amNPjzK/yKVGqarXLoAJ+qvFmKn8099/pMiZgXuk94lF0iDKDbU
+	AlQjgG8SPVADXMZMbdESydWz70HMBWbCrV4g/+ZmGCSKnYJ9xoYURcZJIvaXKDOGhb/6KPCAQKq
+	KfvkG/DrKiiQj1SeEhVodWZ17VpMByiiSe1q3hiobyvqfwdbCpMgh3Ega/aGwivWHjiPDiHRJsl
+	hUzc8HWSG/AW8lLADXFjqhcFfLoOjGAYj0yVkHuVp0OSJTG7nknoSlNrvDCyE2Q4w==
+X-Received: by 2002:a17:90b:4fd1:b0:398:bd37:6a49 with SMTP id 98e67ed59e1d1-39b261cfd8cmr28654971a91.12.1788726332444;
+        Sun, 06 Sep 2026 13:25:32 -0700 (PDT)
+Received: from moneychan.tail1efcdf.ts.net ([182.234.157.91])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39b25c974cfsm16742142a91.0.2026.09.06.13.25.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 06 Sep 2026 13:25:31 -0700 (PDT)
+From: Suzu <suzu1dev@gmail.com>
+To: tiwai@suse.com,
+	perex@perex.cz
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [RFC PATCH] ALSA: hda/intel: Disable power saving on ASUS GU605CX
+Date: Mon,  7 Sep 2026 04:24:39 +0800
+Message-ID: <20260906202439.209462-1-suzu1dev@gmail.com>
 X-Mailer: git-send-email 2.55.0
-In-Reply-To: <87jyoy4xdf.wl-tiwai@suse.de>
-References: <87jyoy4xdf.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -88,34 +73,112 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The Behringer UV1 is a microphone audio processor with a USB audio
-interface, which experiences periodic stutters unless implicit_fb is used.
+On the ASUS ROG Zephyrus G16 GU605CX, the ALC285 analog headphone
+output produces a loud pop about ten seconds after playback stops
+with power_save=10. This was reproduced with iLoud Micro Monitor
+powered speakers connected to the 3.5 mm jack. Setting power_save=0
+eliminated the idle pops in repeated pause/resume tests on
+7.2.3-arch1-2, with power_save_controller left enabled.
 
-This seems to be a similar device to the Behringer UMC series, so I
-copied the quirks from those. I've confirmed that my own UV1 works great
-with these flags set.
+Extend the power-save denylist check to cover the tested Intel HDA
+controller (8086:7728, subsystem 1043:1034) on this board. Check the
+DMI board vendor and name as well, since GU605CW also uses subsystem
+1043:1034 and has not been tested for this issue. Keep the existing
+pm_blacklist override behavior.
 
-Signed-off-by: Nick Pegg <nick@nickpegg.com>
+Disabling idle power saving can increase idle power consumption on
+the matched controller. A separate pop during shutdown was still
+observed with power_save=0; this change does not address it.
+
+Link: https://github.com/omacom/omarchy/pull/10498
+Assisted-by: LLM
+Signed-off-by: Suzu <suzu1dev@gmail.com>
 ---
-v2: Same change as before, but using git-send-email this time since my
-mailer mangled v1.
+Validation completed on the affected GU605CX:
+- Built and booted the complete patched 7.3-rc1 kernel; the native
+  kernel build log contains no warnings.
+- Verified that the loaded HDA module's srcversion matches the built
+  artifact for 7.3.0-rc1-audio-pop-test.
+- Confirmed power_save=10, power_save_controller=Y and pm_blacklist=-1,
+  with the expected 1043:1034 power-save denylist message.
+- In five samples spanning 40 seconds, the Intel analog PipeWire sink
+  was SUSPENDED while the ALC285 remained runtime-active with
+  power/control=on. This was sampled observation, not continuous tracing.
+- Intel and NVIDIA HDMI codecs were observed suspended with
+  power/control=auto; the NVIDIA HDA controller was also suspended.
+- After booting this kernel and receiving the pause/resume test
+  instructions, the user confirmed that the popping was no longer
+  audible. The exact number of cycles and pause durations were not
+  separately reported for this patched-kernel test.
+- The earlier power_save=0 workaround also passed human pause/resume
+  listening tests on 7.2.3-arch1-2, with controller power saving enabled.
 
+Headphone switching, internal speakers and suspend/resume checks have
+not been reported for this patched kernel. Boot-time popping remains
+unverified. A shutdown pop was previously observed with power_save=0;
+this change does not address that shutdown path. No reliable measurement
+of additional idle power consumption is available.
 
- sound/usb/quirks.c | 2 ++
- 1 file changed, 2 insertions(+)
+Test-build context: an Arch-derived configuration with debug information
+and BTF disabled was used. NVIDIA 610.57.04 test modules required a
+separate local adaptation for the 7.3 dmem cgroup registration API.
+Those modules built and initialized; their objtool return warnings also
+occurred in the production-driver build. The NVIDIA adaptation is not
+part of this audio patch. Full graphics regression testing was not done.
 
-diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index 4d2957e62fbd..5b27659d3eb7 100644
---- a/sound/usb/quirks.c
-+++ b/sound/usb/quirks.c
-@@ -2388,6 +2388,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
- 		   QUIRK_FLAG_PLAYBACK_FIRST | QUIRK_FLAG_GENERIC_IMPLICIT_FB),
- 	DEVICE_FLG(0x1397, 0x050c, /* Behringer Flow 8 */
- 		   QUIRK_FLAG_IFB_SILENCE_ON_EMPTY),
-+	DEVICE_FLG(0x1397, 0x0510, /* Behringer UV1 */
-+		   QUIRK_FLAG_PLAYBACK_FIRST | QUIRK_FLAG_GENERIC_IMPLICIT_FB),
- 	DEVICE_FLG(0x13e5, 0x0001, /* Serato Phono */
- 		   QUIRK_FLAG_IGNORE_CTL_ERROR),
- 	DEVICE_FLG(0x152a, 0x880a, /* NeuralDSP Quad Cortex */
---
+AI assistance: I asked OpenAI Codex to investigate the idle pops
+and prepare a GU605CX-specific fix. It assisted with the patch,
+changelog and build/runtime checks. I performed the listening
+tests; results are described above. I booted the patched kernel
+and confirmed that the idle pop was no longer audible.
+
+No introducing commit has been identified, so no Fixes tag is proposed.
+
+ sound/hda/controllers/intel.c | 22 +++++++++++++++++-----
+ 1 file changed, 17 insertions(+), 5 deletions(-)
+
+diff --git a/sound/hda/controllers/intel.c b/sound/hda/controllers/intel.c
+index 24015c73a..6da1d7ee5 100644
+--- a/sound/hda/controllers/intel.c
++++ b/sound/hda/controllers/intel.c
+@@ -2328,18 +2328,30 @@ static const struct snd_pci_quirk power_save_denylist[] = {
+ 	{}
+ };
+ 
++static bool azx_is_power_save_denylisted(struct pci_dev *pci)
++{
++	if (snd_pci_quirk_lookup(pci, power_save_denylist))
++		return true;
++
++	/* GU605CW shares the subsystem ID; only GU605CX was tested. */
++	return pci->vendor == PCI_VENDOR_ID_INTEL &&
++	       pci->device == PCI_DEVICE_ID_INTEL_HDA_ARL &&
++	       pci->subsystem_vendor == 0x1043 &&
++	       pci->subsystem_device == 0x1034 &&
++	       dmi_match(DMI_BOARD_VENDOR, "ASUSTeK COMPUTER INC.") &&
++	       dmi_match(DMI_BOARD_NAME, "GU605CX");
++}
++
+ static void set_default_power_save(struct azx *chip)
+ {
+ 	struct hda_intel *hda = container_of(chip, struct hda_intel, chip);
+ 	int val = power_save;
+ 
+ 	if (pm_blacklist < 0) {
+-		const struct snd_pci_quirk *q;
+-
+-		q = snd_pci_quirk_lookup(chip->pci, power_save_denylist);
+-		if (q && val) {
++		if (val && azx_is_power_save_denylisted(chip->pci)) {
+ 			dev_info(chip->card->dev, "device %04x:%04x is on the power_save denylist, forcing power_save to 0\n",
+-				 q->subvendor, q->subdevice);
++				 chip->pci->subsystem_vendor,
++				 chip->pci->subsystem_device);
+ 			val = 0;
+ 			hda->runtime_pm_disabled = 1;
+ 		}
+
+base-commit: 45b5beb60bf7bd41c55ef17f6f2d28b351fad6c0
+-- 
 2.55.0
+
