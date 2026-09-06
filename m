@@ -1,184 +1,187 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-10631.protonmail.ch (mail-10631.protonmail.ch [79.135.106.31])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AF1338F950
-	for <linux-sound@vger.kernel.org>; Sun,  6 Sep 2026 20:25:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED7121F78E6
+	for <linux-sound@vger.kernel.org>; Sun,  6 Sep 2026 21:16:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.31
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788726334; cv=none; b=Mo8jfNB7MDTyl8amDBR33+zSSrAf9YYTXU7l8jA6ggg8jm1qHXelHVUuL4xOABlSNqm0ESkVEoJUyCFvGuswqGY19AbsBIBTsMz5Wwy/zQx5nbn/sKrHN4OYe8BYVnqPP4bsAJJ45WxpO9kFyg9TCcy97UdIfRK3Q05YL6k7aXM=
+	t=1788729401; cv=none; b=Nkcr3l7zpDyiyp1RHsyB3/SMLWvPWlNs/ZF9tXtUf2RjYunGel1VMcm8pUqOPm/XGmT8nqMPPd41bNpSA72oOgzKiJvgs19yQATxG7RZD7ToIpzL50RPo9WexIcK5U7DQ9JEB3t2v5oT70T7ByWUjxZqLTOJLd/bvMoBDT/SY04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788726334; c=relaxed/simple;
-	bh=P6JMux5cC6FV4GKzJ9f+9AH3aGnVkce5RlqRDkGoTYE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nafceOKSxC5GA47trO330v8z1mJSj1ZIhkmVospmIP9k15/nn0fSOvZ4asoEmlhac1x4gVk1s1LUmQT9NJCFr9dHXusv2/QwaYfvpzclRb98ENguu+k2MDCFADJUFPFwynAZT5PwvlOK5F23gHd/TsXPs0nqBkOBvd5PR4u465A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qb2rFs16; arc=none smtp.client-ip=209.85.216.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788729401; c=relaxed/simple;
+	bh=T6ocn1JWdhASinRJLlDLsIIvJTzgx+9tM78ayJVP1qU=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=TRUmvDlXVGRuKLtSvWytgjYOB5yL/Ujh/DEg/od4Da0QMlW+Tr9bFHYbioZCmN+lSo1ACyHyVx1osuPyN1oejASG62QQNob3yI8BfcH+ia26OfShUrHaJL062YVilJvAbdcHtB3T5Tf51JVhGJfJ2uoscAroThyQRWYwXjecI78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=L7z5b/Uf; arc=none smtp.client-ip=79.135.106.31
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qb2rFs16"
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-38759bcd877so2822000a91.2
-        for <linux-sound@vger.kernel.org>; Sun, 06 Sep 2026 13:25:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788726332; x=1789331132; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Iz+jOMTRFswI96YUaCHrKXfF+E3aHFIXS8T0r+CTbmg=;
-        b=Qb2rFs16VMKSncljykAXVtDuW8NVtXGQ2bglatwuVkwjBkge+a2nNfCtpkS+xDH9ya
-         69rRMS+58BCqrGHv1yZTk0wkxd14+xgK5yuOD8cugGJOrXFJJYJzB5au72+H+rMh6q5v
-         3KHvKJySXA0aLSBGfTHWXv+1e9jLIwUxnajUAY3odIoxmRzX29NEqz5ZobohhPoT2hmr
-         x4YGEp59R0sThVC0CCoDrhlO/XhJ9aORRrTL02IeGKArX2kna2+iYmS4DkoioouG2Ia6
-         nRmqCwMi2fI4XyJ6OL+A/YFz6VhwYuIn1tW37lkG9fAgUQk1mnEgyEdR2RvSEBP8GcjC
-         1bnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788726332; x=1789331132;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Iz+jOMTRFswI96YUaCHrKXfF+E3aHFIXS8T0r+CTbmg=;
-        b=JVtgy+GCRo+PyVxJ4uqNf0YmikGVSkV4P6mHyO/OJ7+xBaWUvWNQspExgCoGRNZbNo
-         yPukYamC5vKgR6/1qhQ9+GvYdfqb1uFkvbCGixZPTp/FuDyfUrRS8Ij+D99PUmZzSDH1
-         +4C7Rl5c6qvJSMHcAtxJP0uxpw37DvXBKAMcxsxgFiiW9LaS7ovh9Rz0BYBL7zzdpFnc
-         XyfL++VK3Xh6qTbT5ImdR83AORq5cxeZ5oAhvY/f2/tUV437J/GODz7l8gpCeksoARaJ
-         gdUqvDdxqJ57WEHnVP5HfZp4WdnENzKAc7wdL0wduttebLpeDDMEDn6/gCzYV9sg85bM
-         nQHw==
-X-Gm-Message-State: AFuF++nVTUs9kOzaDTdsk4ODJX2VIlETxi7+IC8N+3x9bC+ijck4b2u7
-	oSGFoGSd1ozJKCHOLHjm+MTkECTzZz3IqFvan268h8uZdQUbBq2dQ4Cf
-X-Gm-Gg: AYBFou2+kUkPXKRleGORRZJLQPry1qM/CffWmR4WHOMeMWj77xWvrOtlWrFcWsRJkhL
-	tsvnQy3FhRnQPHtaMLszoI7OGKHsU7MACOR/HUpvZVfEndo+2OwYCPAZnzvM8hj1uDk5fLsC6Rk
-	5PWyykykGIUdAMYXKxFEp9jtcyPGERvcRiJkmCpVgeOL6pUg+46EFEpnTA794HXxsHaUBWUM6E4
-	ngkpsjOO0xcyhBm1ki7lfcglJhmHQZekZ9X31dOLhvEf7ofhXTQz3J4zJaPhyHiUfwivcCEjKLI
-	XkdK9bKsfX3lQq2hZDrNe7C7amNPjzK/yKVGqarXLoAJ+qvFmKn8099/pMiZgXuk94lF0iDKDbU
-	AlQjgG8SPVADXMZMbdESydWz70HMBWbCrV4g/+ZmGCSKnYJ9xoYURcZJIvaXKDOGhb/6KPCAQKq
-	KfvkG/DrKiiQj1SeEhVodWZ17VpMByiiSe1q3hiobyvqfwdbCpMgh3Ega/aGwivWHjiPDiHRJsl
-	hUzc8HWSG/AW8lLADXFjqhcFfLoOjGAYj0yVkHuVp0OSJTG7nknoSlNrvDCyE2Q4w==
-X-Received: by 2002:a17:90b:4fd1:b0:398:bd37:6a49 with SMTP id 98e67ed59e1d1-39b261cfd8cmr28654971a91.12.1788726332444;
-        Sun, 06 Sep 2026 13:25:32 -0700 (PDT)
-Received: from moneychan.tail1efcdf.ts.net ([182.234.157.91])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39b25c974cfsm16742142a91.0.2026.09.06.13.25.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Sep 2026 13:25:31 -0700 (PDT)
-From: Suzu <suzu1dev@gmail.com>
-To: tiwai@suse.com,
-	perex@perex.cz
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [RFC PATCH] ALSA: hda/intel: Disable power saving on ASUS GU605CX
-Date: Mon,  7 Sep 2026 04:24:39 +0800
-Message-ID: <20260906202439.209462-1-suzu1dev@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="L7z5b/Uf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
+	s=protonmail3; t=1788729395; x=1788988595;
+	bh=T6ocn1JWdhASinRJLlDLsIIvJTzgx+9tM78ayJVP1qU=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=L7z5b/UfZ3f8l8gWRY+zQEqhIcQ737Iu5X1O5nI/NA/h5uBfO5YvWXBJX0qWi1DKu
+	 LJXknOPV5GjQMOq5eYHSxcOjf720Q/PzqppzcpgyHY+zaMSUzHzr01lvugRGusAbvq
+	 tf4INuKWEwv3EKqKIKFzuGR2OVy1cm88zXtgTl7ms8PDKZzMKQh8SOhwTx4OFsvdYY
+	 5UlyFn0RiiP0pffoVLcHqigKALVuY53tbLd3+fCdF3zaSv5WR5sg9YE6a9/R8AxmXq
+	 jKAa8o7uxvfEGxZFOqsQ3TXmiUCj38muEJv9TRHugiySCzpsFXENAOjm/AXlf4hB7i
+	 FhVRyCz0JsUzg==
+Date: Sun, 06 Sep 2026 21:16:32 +0000
+To: linux-sound@vger.kernel.org
+From: "KM.Plass" <kmplass@pm.me>
+Cc: sbinding@opensource.cirrus.com, tiwai@suse.de
+Subject: BUG] cs35l41-hda: OTP_BOOT_DONE timeout / I2C lost arbitration persists independent of bus speed (Lenovo Legion Slim 7 16APH8, BIOS M1CN48WW)
+Message-ID: <e93b780f-2989-4353-9316-71df451f7da7@pm.me>
+Feedback-ID: 179145053:user:proton
+X-Pm-Message-ID: 0e0446710a5cde280a7ffc06e0efd12766408eec
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On the ASUS ROG Zephyrus G16 GU605CX, the ALC285 analog headphone
-output produces a loud pop about ten seconds after playback stops
-with power_save=10. This was reproduced with iLoud Micro Monitor
-powered speakers connected to the 3.5 mm jack. Setting power_save=0
-eliminated the idle pops in repeated pause/resume tests on
-7.2.3-arch1-2, with power_save_controller left enabled.
+Hi there.
 
-Extend the power-save denylist check to cover the tested Intel HDA
-controller (8086:7728, subsystem 1043:1034) on this board. Check the
-DMI board vendor and name as well, since GU605CW also uses subsystem
-1043:1034 and has not been tested for this issue. Keep the existing
-pm_blacklist override behavior.
+System information
+Machine: Lenovo Legion Slim 7 16APH8 (82Y4), AMD Ryzen 7 7840HS
+BIOS version: M1CN48WW
+Kernel: 7.0.0-31-generic (Ubuntu)
+ACPI subsystem ID reported by driver: 17AA38B7
+Audio codec: cs35l41-hda (I2C, ACPI HID "CSC3551"), 2 amplifiers at I2C=20
+addresses 0x40 and 0x41 on _SB.I2CD (i2c-designware controller instance=20
+AMDI0010:03)
+Symptom
 
-Disabling idle power saving can increase idle power consumption on
-the matched controller. A separate pop during shutdown was still
-observed with power_save=0; this change does not address it.
+Both amplifier instances fail probe with:
 
-Link: https://github.com/omacom/omarchy/pull/10498
-Assisted-by: LLM
-Signed-off-by: Suzu <suzu1dev@gmail.com>
----
-Validation completed on the affected GU605CX:
-- Built and booted the complete patched 7.3-rc1 kernel; the native
-  kernel build log contains no warnings.
-- Verified that the loaded HDA module's srcversion matches the built
-  artifact for 7.3.0-rc1-audio-pop-test.
-- Confirmed power_save=10, power_save_controller=Y and pm_blacklist=-1,
-  with the expected 1043:1034 power-save denylist message.
-- In five samples spanning 40 seconds, the Intel analog PipeWire sink
-  was SUSPENDED while the ALC285 remained runtime-active with
-  power/control=on. This was sampled observation, not continuous tracing.
-- Intel and NVIDIA HDMI codecs were observed suspended with
-  power/control=auto; the NVIDIA HDA controller was also suspended.
-- After booting this kernel and receiving the pause/resume test
-  instructions, the user confirmed that the popping was no longer
-  audible. The exact number of cycles and pause durations were not
-  separately reported for this patched-kernel test.
-- The earlier power_save=0 workaround also passed human pause/resume
-  listening tests on 7.2.3-arch1-2, with controller power saving enabled.
+cs35l41-hda i2c-CSC3551:00-cs35l41-hda.0: Failed waiting for OTP_BOOT_DONE
+cs35l41-hda i2c-CSC3551:00-cs35l41-hda.0: probe with driver cs35l41-hda=20
+failed with error -11
+cs35l41-hda i2c-CSC3551:00-cs35l41-hda.1: Failed waiting for OTP_BOOT_DONE
+cs35l41-hda i2c-CSC3551:00-cs35l41-hda.1: probe with driver cs35l41-hda=20
+failed with error -11
 
-Headphone switching, internal speakers and suspend/resume checks have
-not been reported for this patched kernel. Boot-time popping remains
-unverified. A shutdown pop was previously observed with power_save=0;
-this change does not address that shutdown path. No reliable measurement
-of additional idle power consumption is available.
+occurring at the exact same timestamps as:
 
-Test-build context: an Arch-derived configuration with debug information
-and BTF disabled was used. NVIDIA 610.57.04 test modules required a
-separate local adaptation for the 7.3 dmem cgroup registration API.
-Those modules built and initialized; their objtool return warnings also
-occurred in the production-driver build. The NVIDIA adaptation is not
-part of this audio patch. Full graphics regression testing was not done.
+i2c_designware AMDI0010:03: i2c_dw_handle_tx_abort: lost arbitration
 
-AI assistance: I asked OpenAI Codex to investigate the idle pops
-and prepare a GU605CX-specific fix. It assisted with the patch,
-changelog and build/runtime checks. I performed the listening
-tests; results are described above. I booted the patched kernel
-and confirmed that the idle pop was no longer audible.
+(repeated ~30 times within a few milliseconds, matching the probe attempts)=
+.
 
-No introducing commit has been identified, so no Fixes tag is proposed.
+Internal speakers remain silent; headphones and Bluetooth audio work=20
+normally, isolating the problem to the internal CS35L41 amplifiers.
 
- sound/hda/controllers/intel.c | 22 +++++++++++++++++-----
- 1 file changed, 17 insertions(+), 5 deletions(-)
+Background: a known fix for this exact SSID does not resolve the issue=20
+on this BIOS revision
 
-diff --git a/sound/hda/controllers/intel.c b/sound/hda/controllers/intel.c
-index 24015c73a..6da1d7ee5 100644
---- a/sound/hda/controllers/intel.c
-+++ b/sound/hda/controllers/intel.c
-@@ -2328,18 +2328,30 @@ static const struct snd_pci_quirk power_save_denylist[] = {
- 	{}
- };
- 
-+static bool azx_is_power_save_denylisted(struct pci_dev *pci)
-+{
-+	if (snd_pci_quirk_lookup(pci, power_save_denylist))
-+		return true;
-+
-+	/* GU605CW shares the subsystem ID; only GU605CX was tested. */
-+	return pci->vendor == PCI_VENDOR_ID_INTEL &&
-+	       pci->device == PCI_DEVICE_ID_INTEL_HDA_ARL &&
-+	       pci->subsystem_vendor == 0x1043 &&
-+	       pci->subsystem_device == 0x1034 &&
-+	       dmi_match(DMI_BOARD_VENDOR, "ASUSTeK COMPUTER INC.") &&
-+	       dmi_match(DMI_BOARD_NAME, "GU605CX");
-+}
-+
- static void set_default_power_save(struct azx *chip)
- {
- 	struct hda_intel *hda = container_of(chip, struct hda_intel, chip);
- 	int val = power_save;
- 
- 	if (pm_blacklist < 0) {
--		const struct snd_pci_quirk *q;
--
--		q = snd_pci_quirk_lookup(chip->pci, power_save_denylist);
--		if (q && val) {
-+		if (val && azx_is_power_save_denylisted(chip->pci)) {
- 			dev_info(chip->card->dev, "device %04x:%04x is on the power_save denylist, forcing power_save to 0\n",
--				 q->subvendor, q->subdevice);
-+				 chip->pci->subsystem_vendor,
-+				 chip->pci->subsystem_device);
- 			val = 0;
- 			hda->runtime_pm_disabled = 1;
- 		}
+A community-documented DSDT workaround exists for this exact model and=20
+subsystem ID (17AA38B7) on an earlier BIOS revision (M1CN42WW): lowering=20
+the I2C bus speed for both amplifiers from 1 MHz to 400 kHz in the DSDT=20
+resolves the "lost arbitration" failure there. Reference:=20
+https://forum.garudalinux.org/t/fix-lenovo-legion-slim-7-16aph8-82y4-silent=
+-speakers-on-linux-cs35l41-at-400-khz/48722
 
-base-commit: 45b5beb60bf7bd41c55ef17f6f2d28b351fad6c0
--- 
-2.55.0
+On BIOS M1CN48WW this fix does NOT resolve the issue. I tested all of=20
+the following I2C bus speeds by patching the DSDT (I2cSerialBusV2=20
+resources for both 0x40 and 0x41 on _SB.I2CD) and loading the modified=20
+table via the kernel's initrd ACPI table-upgrade mechanism (confirmed=20
+successfully loaded via ACPI: DSDT ACPI table found in initrd,=20
+CONFIG_ACPI_TABLE_UPGRADE=3Dy):
+
+1 MHz (0x000F4240) - original firmware value - fails
+400 kHz (0x00061A80) - matches the published M1CN42WW fix - fails=20
+identically
+100 kHz (0x000186A0) - the speed the i2c-designware driver itself=20
+already force-downgrades AMDI0010:00 to, logged as "known not-working"=20
+at 400 kHz on that other bus instance - fails identically
+
+All three speeds produce the exact same "lost arbitration" and "Failed=20
+waiting for OTP_BOOT_DONE" errors at the same point in boot. This=20
+strongly suggests I2C clock speed is not the (sole) root cause on this=20
+particular BIOS/board revision.
+
+Kernel-side configuration checked
+
+The cs35l41_hda_property.c table entry for this SSID appears correct:
+
+{ "17AA38B7", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1,=20
+-1, 0, 0, 0 },
+
+reset_gpio_index =3D 0 correctly maps to the only GpioIo resource with=20
+IoRestrictionOutputOnly (ACPI pin 0x0082) among the GPIO resources=20
+appended to the device's _CRS (the SPK1 device has no _DSD at all; full=20
+_CRS excerpt below).
+
+/sys/kernel/debug/gpio confirms this pin (#130) has already been claimed=20
+as an output by some consumer (shown as output with state low), so GPIO=20
+acquisition itself does not appear to be failing. dmesg contains no=20
+"Unable to get" / gpiod error messages related to this device or HID.
+
+I was not able to determine, from userspace logs alone, whether the=20
+reset line is toggled with correct timing relative to the first I2C=20
+transaction (assertion duration / settle time before the driver attempts=20
+to talk to the amp) - this would require kernel-side GPIO tracing or a=20
+hardware logic analyzer, which I don't have access to.
+
+Relevant ACPI _CRS excerpt (Device SPK1, decompiled DSDT)
+Method (_CRS, 0, NotSerialized)
+{
+ =C2=A0 =C2=A0 Name (IBUF, ResourceTemplate ()
+ =C2=A0 =C2=A0 {
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 I2cSerialBusV2 (0x0040, ControllerInitiated, 0=
+x000F4240,
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 AddressingMode7Bit, "\_SB.I2CD",=
+ 0x00, ResourceConsumer, ,=20
+Exclusive, )
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 I2cSerialBusV2 (0x0041, ControllerInitiated, 0=
+x000F4240,
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 AddressingMode7Bit, "\_SB.I2CD",=
+ 0x00, ResourceConsumer, ,=20
+Exclusive, )
+ =C2=A0 =C2=A0 })
+ =C2=A0 =C2=A0 Return (ConcatenateResTemplate (IBUF, GPIA))
+}
+
+Name (GPIA, ResourceTemplate ()
+{
+ =C2=A0 =C2=A0 GpioIo (Exclusive, PullNone, 0x0000, 0x0000, IoRestrictionOu=
+tputOnly,
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 "\_SB.GPIO", 0x00, ResourceConsumer, , ) { 0x0=
+082 }
+ =C2=A0 =C2=A0 GpioIo (Exclusive, PullNone, 0x0000, 0x0000, IoRestrictionIn=
+putOnly,
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 "\_SB.GPIO", 0x00, ResourceConsumer, , ) { 0x0=
+055 }
+ =C2=A0 =C2=A0 GpioIo (Shared, PullUp, 0x0064, 0x0000, IoRestrictionInputOn=
+ly,
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 "\_SB.GPIO", 0x00, ResourceConsumer, , ) { 0x0=
+05A }
+ =C2=A0 =C2=A0 GpioInt (Edge, ActiveLow, Shared, PullNone, 0x0064,
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 "\_SB.GPIO", 0x00, ResourceConsumer, , ) { 0x0=
+05A }
+})
+Attachments to include when submitting
+Full dmesg output from a boot with the original (1 MHz) DSDT
+Full dmesg output from a boot with the 400 kHz DSDT test
+Full dmesg output from a boot with the 100 kHz DSDT test
+Full decompiled DSDT (iasl -d dsdt.aml) or at least the complete SPK1=20
+device block plus the _SB.I2CD scope
+Question for maintainers
+
+Is there a known timing/sequencing difference for CS35L41 reset handling=20
+on M1CN48WW (or in general for this board's GPIO controller / AMDI0010=20
+revision) that could cause "lost arbitration" independent of I2C clock=20
+speed? Could this point to an incorrect reset assertion duration or=20
+settle time rather than clock speed, and if so, is this adjustable from=20
+DSDT/userspace, or would it require a driver change (e.g. an additional=20
+delay after deasserting reset before the first OTP_BOOT_DONE poll)?
+
+Happy to provide any additional logs, test patches, or run further tests=20
+on this hardware.
+
+BTW: I'm not into computing, just tried to solve that problem using Claude.
+
 
