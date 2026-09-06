@@ -1,29 +1,29 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5397737A839;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FF9D3B634C;
 	Sun,  6 Sep 2026 03:42:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.2
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788666175; cv=none; b=Dp4x4io8m/zczn9X7gkJ7tzXRCj+T4AJARa61xPP0qeFb8g1JLSgboJ9WnYzcV9c36dVSWLyoxIEq/+CwFjfKryIzFCM3R/kv1T68ksiw/KEkLruZwI9MkLeggKH3cfJDuHVMxob8soQNv4UUhquFOhEU2a/vWCDQzD7TEVS2dk=
+	t=1788666175; cv=none; b=kZibBHN0y7YvRoYIE91DGnRbIKfwQsKo3EKJsbXn9RvOe9VvDfxEhaNeh1G2h1FXIRiZjz9UNZ42WZEHrfJuUUAneVK/cDcE4DTy8C+HKS6ykMMq6Os9aYvMDUgnKKUYN9IrucUh9Gto2ktQ08P98kSR1vLBQtrVEWeNT/x7qVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1788666175; c=relaxed/simple;
-	bh=s2ely7C8IHvnn1zVkej3RjWU3H45Mk+y2tp56m3lSdM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UGX9Uh+pOzwtWysEgUhBpHTQj++WcJweHLc5Eb9LoXf3ygCLONd2uQb5TGiLcO6zux9UQ0kZWyK7Yvtno65HQsLOMw+TWGBriBWky8kSA1OZMplCrwVsv37V3HLU17O9dhk5mCJF9+V6n1opBXsMIovkbACbf8J9QyhKI9E1vgk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=DowkPoow; arc=none smtp.client-ip=117.135.210.2
+	bh=6r9ztJmf7FVxM591W6welLpNEpS9624eWt4/Ax/FlKc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=diw5XYuTEm3WB1zcSpTMD+sNYPSA6Xh0/ytpDVoBUgBTujvS/jAENy7BX319t37ZohFDiUXh+teIUF8ppFTyjxqic9+4xYsQgNjqGX2UUw/4X+6WHEQt8ceE88n43MBdg8LciYcNVRolF2X37rd8NYI3UY7Vn5e+5ST/MuD0Zy8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=o5tIle0N; arc=none smtp.client-ip=117.135.210.3
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="DowkPoow"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="o5tIle0N"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=hB
-	md32aKMBI3im5/Bl5uvL0+27adgzsCRSSkVsFnMnA=; b=DowkPoowuvDxaKU7io
-	ulv3jUPjIvWN+x5SY7pOPQYzRng8XXF+x5tsrps8xh7Bu17eSaCfiXPVnpFZL6pp
-	qDnuvaunMMneFBA039WonWXUn7xVOzsUNrrhKaBV/lneNMbgAGYhbnoYk9OTmZ35
-	Q531MuW2uWASfzyl4UuG1zIYM=
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=6Q
+	rsJd10qbOYtSC0lScAZq51yYb3EmgqGX2IrC9tXAU=; b=o5tIle0NVCGoj2/um5
+	J0RbayePZxPjcUlKM97EPiiY92y0LlDu9V4Ba0Ab0QGgMMlamRc8MUGUpZ53+3qR
+	TdnFh1Gw/g2tJqZZzCH4LXpk5XOk7SD5s0b97eHuT9EcOOn7Z15nvbEpJreCMFTr
+	5r51CMqtYbjncqq9Mp6GWWwj4=
 Received: from localhost.localdomain (unknown [])
-	by gzsmtp3 (Coremail) with SMTP id PigvCgDXHxcb4Zxq8PnERA--.33810S5;
-	Sun, 06 Sep 2026 11:42:22 +0800 (CST)
+	by gzsmtp3 (Coremail) with SMTP id PigvCgDXHxcb4Zxq8PnERA--.33810S4;
+	Sun, 06 Sep 2026 11:42:21 +0800 (CST)
 From: Pengpeng Hou <hppiscas@163.com>
 To: Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>
@@ -33,9 +33,9 @@ Cc: Pengpeng Hou <hppiscas@163.com>,
 	Zhang Yi <zhangyi@everest-semi.com>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 3/4] ASoC: es8389: report resume restore errors
-Date: Sun,  6 Sep 2026 11:42:16 +0800
-Message-ID: <20260906034217.85696-4-hppiscas@163.com>
+Subject: [PATCH 2/4] ASoC: es8375: report resume restore errors
+Date: Sun,  6 Sep 2026 11:42:15 +0800
+Message-ID: <20260906034217.85696-3-hppiscas@163.com>
 X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -44,69 +44,66 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:PigvCgDXHxcb4Zxq8PnERA--.33810S5
-X-Coremail-Antispam: 1Uf129KBjvJXoW7uFWDZFyxXFW3uw17JF1UKFg_yoW8CF4fpF
-	9xGFWfKr1xXw4fur45ta18ZFyFkrZ2yFW3A342g34xur1rZ34rKa1rKF1UuF98JF47WFsr
-	Zr1jqw18WF1kXaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07j3739UUUUU=
-X-CM-SenderInfo: 5kssx2xfdvqiywtou0bp/xtbCxh5BCmqc4R7QjwAA3F
+X-CM-TRANSID:PigvCgDXHxcb4Zxq8PnERA--.33810S4
+X-Coremail-Antispam: 1Uf129KBjvJXoW7uF1UXw18tF1kAFWkKFWkCrg_yoW8CryDpF
+	ZxtFZ09ryrXw4fCFW5tr48Was5GrWSvFy3C347K34Ivry5Aw17Cw1YkFyI9FZ3Jry7CFsr
+	Z3yjqa15WF4rGaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07je38nUUUUU=
+X-CM-SenderInfo: 5kssx2xfdvqiywtou0bp/xtbC7R1BCmqc4R2v4wAA39
 
-es8389_resume() ignores the reset-register read, bias restoration and
-register-cache replay. A failed read can leave regv uninitialized before
-it selects the initialization path.
+es8375_resume() ignores the clock-status read, bias restoration and
+register-cache replay. A read failure can leave reg uninitialized before
+it selects the initialization path, and later resume processing cannot
+observe a failed restore.
 
-Check those operations and always leave cache bypass before returning an
-error. The ASoC component wrapper reports callback failures while retaining
-its best-effort resume contract.
+Return the fallible operation results to the ASoC component wrapper, which
+reports callback failures while retaining its best-effort resume contract.
 
 The issue was found by our static-analysis tool and manually reviewed.
 
-Fixes: 0319c26889f7 ("ASoC: codecs: add support for ES8389")
+Fixes: de2b3119f9f7 ("ASoC: codecs: add support for ES8375")
 Assisted-by: gpt 5
 Signed-off-by: Pengpeng Hou <hppiscas@163.com>
 ---
- sound/soc/codecs/es8389.c | 20 ++++++++++++++------
- 1 file changed, 14 insertions(+), 6 deletions(-)
+ sound/soc/codecs/es8375.c | 18 +++++++++++-------
+ 1 file changed, 11 insertions(+), 7 deletions(-)
 
-diff --git a/sound/soc/codecs/es8389.c b/sound/soc/codecs/es8389.c
-index 80efce3e0a22..204fe6731140 100644
---- a/sound/soc/codecs/es8389.c
-+++ b/sound/soc/codecs/es8389.c
-@@ -1026,20 +1026,28 @@ static int es8389_resume(struct snd_soc_component *component)
+diff --git a/sound/soc/codecs/es8375.c b/sound/soc/codecs/es8375.c
+index e8747bc24433..2c58225feddd 100644
+--- a/sound/soc/codecs/es8375.c
++++ b/sound/soc/codecs/es8375.c
+@@ -577,20 +577,24 @@ static int es8375_resume(struct snd_soc_component *component)
  {
- 	struct es8389_private *es8389 = snd_soc_component_get_drvdata(component);
- 	unsigned int regv;
+ 	struct es8375_priv *es8375 = snd_soc_component_get_drvdata(component);
+ 	unsigned int reg;
 +	int ret;
  
- 	regcache_cache_only(es8389->regmap, false);
- 	regcache_cache_bypass(es8389->regmap, true);
--	regmap_read(es8389->regmap, ES8389_RESET, &regv);
-+	ret = regmap_read(es8389->regmap, ES8389_RESET, &regv);
-+	if (ret)
-+		goto disable_bypass;
- 
--	if (regv == 0xff)
-+	if (regv == 0xff) {
- 		es8389_init(component);
--	else
--		es8389_set_bias_level(component, SND_SOC_BIAS_ON);
-+	} else {
-+		ret = es8389_set_bias_level(component, SND_SOC_BIAS_ON);
-+		if (ret)
-+			goto disable_bypass;
-+	}
- 
-+disable_bypass:
- 	regcache_cache_bypass(es8389->regmap, false);
--	regcache_sync(es8389->regmap);
+ 	regcache_cache_only(es8375->regmap, false);
+ 	regcache_cache_bypass(es8375->regmap, true);
+-	regmap_read(es8375->regmap, ES8375_CLK_MGR2, &reg);
++	ret = regmap_read(es8375->regmap, ES8375_CLK_MGR2, &reg);
+ 	regcache_cache_bypass(es8375->regmap, false);
 +	if (ret)
 +		return ret;
  
+-	if (reg == 0x00)
++	if (reg == 0x00) {
+ 		es8375_init(component);
+-	else
+-		es8375_set_bias_level(component, SND_SOC_BIAS_ON);
+-
+-	regcache_sync(es8375->regmap);
++	} else {
++		ret = es8375_set_bias_level(component, SND_SOC_BIAS_ON);
++		if (ret)
++			return ret;
++	}
+ 
 -	return 0;
-+	return regcache_sync(es8389->regmap);
++	return regcache_sync(es8375->regmap);
  }
  
- static int es8389_probe(struct snd_soc_component *component)
+ static int es8375_codec_probe(struct snd_soc_component *component)
 -- 
 2.50.1 (Apple Git-155)
 
