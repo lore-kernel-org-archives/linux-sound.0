@@ -1,108 +1,96 @@
-Received: from mta1.migadu.com (out-122.mta1.migadu.com [95.215.58.122])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F192F5540AD
-	for <linux-sound@vger.kernel.org>; Tue,  8 Sep 2026 14:56:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.122
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 530FD554096;
+	Tue,  8 Sep 2026 15:02:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788879383; cv=none; b=hZg1X3w+aEJN3mRQ9Ft50SLVOqmUQYh6a7GTLVjOc4yJWF8HTtsuhbpmOikGsrWiQiwF0kT82rpqcnTxOPhuxGzxrViccrDB6QixszP5Z1uk8AlWF2uwlHZvjE4WOHkigBRcmO1Bi4AlaXVVljddM8idiCkMJ2NaQiv8MfcwO8Q=
+	t=1788879741; cv=none; b=J4f5c3B7k07Y85WXwaL8zXIkRBsrO+X0f1WLSrBKKf/LKd24lv4SNYouuvhwb9m2ruDOpX0DMVTJ/STguWoAhYeMpLHW4krLjcBmffaGxaIxBq/La8H1JZD/yWiPZbuOOh6o5ww2dHFk1KZxMreDp//CF3hJ/19ayKbzWO2EgzI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788879383; c=relaxed/simple;
-	bh=jqT5YWw6XzYTW3RmB9nMK1Qe9ifvJJ0493veblNOzns=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=n9YFo3kuJDj+t0gsDA6ZoYg8WFApNxbMVFaRlCuhqk3w+hiD59ggGd03Gq0DFJnpFYqtxomqQ9Jrc4mzqZjhweTeVltAi9Sc+zbquvz2mAwd6Kkos44JgUtTNzjh93sLAB9xP/o+07T3PuJ+IP5V6a9sQJLCEPB00ymB2GXdVC0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=WAUEc73c; arc=none smtp.client-ip=95.215.58.122
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1788879741; c=relaxed/simple;
+	bh=7FRrLvnJiZVAimKF/j88jz54tDKP3hFh2nkzbKFXkQI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=m7wY0zwEbXifaYQrsOO1DnWFBBz/s56YgMn4Zz7uOQ25VZfGCY6ZFvtm7XKHnDKDeDdFAXilArrh/Rvce8HqRNlbpqQe2YUgKsVyMhhRYa0NrZy0B9RSh40S3My6BpnbDr+ZYe0j+oE2A5Ph6DwWLGDY/QWYZMIRrKvq2GrdjaE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GTymgIIj; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="WAUEc73c"
-X-Envelope-To: linux-sound@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=jqT5YWw6XzYTW3RmB9nMK1Qe9ifvJJ0493veblNOzns=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1788879364; v=1; x=1789484164;
- b=WAUEc73c3Gi0aNrxu3242M86092fDLCu5QOWiRikIiAOzNnFG0ai4y5c8s/r3MywFucXifoe
- TMwoDKkGRCvZlRqYq1hwiwjOAxho1pwJXxCJtI+0eWH9CBVwvBxXtO9SPAUs5quIPMf+b6tXQqA
- 493lUOmFZTHiM2xefvskls7k=
-X-Envelope-To: linux-sound@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id f0ad4095efbec7d0;
-	Tue, 08 Sep 2026 14:56:04 +0000
-X-Mizu-Trace-ID: f0ad4095efbec7d0
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <4d6ed30b-65df-4f29-b0c2-245e854021df@linux.dev>
-Date: Tue, 8 Sep 2026 16:22:53 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GTymgIIj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C71081F00A3A;
+	Tue,  8 Sep 2026 15:02:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788879727;
+	bh=80f3+AF52zcevnLWJ5bCvG2rYVQ1CNFhIMnR7u01iWM=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=GTymgIIjrd946UwQfxfPtsuPExjXK30L2y7wpYR9zIXlFoO9+Nrv5TMILgVOxT33L
+	 2eIUIkM62y00HPZCeMSbGFeOYPoqPaJpOs+k5tJ065xCZ033KqiyY1xvSnbQ3ZuJFq
+	 TUFOLoaFfZjVKlY4xnfBdv21CGES65ktYactWsh+2jFzuyN3vvSrCb7vBQnmVfKowy
+	 p5PD+uPJ0ADrkAk8iD797rzQIwy6ARwr6WF3W9SKceG/dm0n3bNb5Qyx77CZ1RKRGK
+	 VMs3jGEv3e6VoHt9JXcsVGqEoKlbdCb9MAyLBxgLG8ExiChtarhWuNu8g/Hir08zJo
+	 1LAdJbc6BTCNQ==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Pengpeng Hou <hppiscas@163.com>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ David Yang <yangxiaohua@everest-semi.com>, Zhu Ning <zhuning0077@gmail.com>, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20260906034217.85696-2-hppiscas@163.com>
+References: <20260906034217.85696-2-hppiscas@163.com>
+Subject: Re: [PATCH 1/4] ASoC: es8326: report resume restore errors
+Message-Id: <178882136788.118202.13350473647316370947.b4-ty@b4>
+Date: Mon, 07 Sep 2026 23:49:27 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 11/11] ASoC: codecs: add Qualcomm Tambora (WCD9378)
- SDCA codec
-To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
- Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: Richard Fitzgerald <rf@opensource.cirrus.com>,
- Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Bard Liao <yung-chuan.liao@linux.intel.com>,
- Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>,
- Maciej Strozek <mstrozek@opensource.cirrus.com>,
- Takashi Iwai <tiwai@suse.com>, Faiz Nabi Kuchay <fkuchay@oss.qualcomm.com>,
- Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>,
- patches@opensource.cirrus.com, linux-sound@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260907083727.733705-1-srinivas.kandagatla@oss.qualcomm.com>
- <20260907083727.733705-12-srinivas.kandagatla@oss.qualcomm.com>
- <525f887e-cb3b-4e74-8b93-30c3baeb8018@linux.dev>
- <7006ad74-334c-41cb-bcc8-9ef5e75dde7e@oss.qualcomm.com>
- <005e3c81-778a-47bc-a8ae-fb5c38ea2e2c@linux.dev>
- <c7fec9d0-b79f-437c-ba8b-37858842c545@oss.qualcomm.com>
- <ap/MFVMHG2Hej8k/@opensource.cirrus.com>
- <a6ae0ad4-6fb4-48f7-9636-7c0e266b6940@oss.qualcomm.com>
- <a6d1f575-2431-4951-ab5b-e5bce5ecc63a@opensource.cirrus.com>
- <af9a7339-1e21-435a-9d58-b29977195520@oss.qualcomm.com>
- <aqALjdlyZfUb5fDu@opensource.cirrus.com>
- <9ed5d56c-9231-407c-ae7b-9c608c603254@oss.qualcomm.com>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <9ed5d56c-9231-407c-ae7b-9c608c603254@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1431; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=7FRrLvnJiZVAimKF/j88jz54tDKP3hFh2nkzbKFXkQI=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqoCNqHAne4rpLk8Af6HCV1Gwx6c4zN+c7zvSVi
+ ZpxU2JaxdqJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaqAjagAKCRAk1otyXVSH
+ 0BOqB/9S3OIX1gNY+UWjGEXWh+E2ZLi+8IlAnt+koLteGJuu3epAZKVyIboHumTtdgUVc1uuJIl
+ 1b8zsWMBfe0iIsdCNcw/y8srWH6vgpliDU1cg5VdNQLn1KNZ5zCfHq0bO7UU0n6X9pnOjiJ1H6M
+ 2wmE6of8LutxZMzQ6pJSJtWj3sAEE5t4gd11+0rGCUM5oKmMD++Ug+TshTOYOyS17ANchiQW0C4
+ z6FjDzeMqZpdUC5pgOnSYXKt4cnl5aeE3z3s7s0tV8PO6ulBD/1Zua2XWPf3504mvMn+yzwrVQ0
+ c/fh1ofXIrm3StMwBCIb1yIr5QA79omAnCE1sBHmWEvJpiwu
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
+On Sun, 06 Sep 2026 11:42:14 +0800, Pengpeng Hou wrote:
+> ASoC: es8326: report resume restore errors
 
->>> That's why the current series takes the lower-overhead path
->>> (mechanical transcription in C) rather than proposing an intermediate
->>> DT format as part of this submission.  If the concept-DT direction
->>> gets traction at LPC 2026 DT MC, we can revisit.
->>
->> This part I follow slightly better, I would be happy to proceed,
->> pending reviews with the current approach, although if Pierre
->> is or not probably remains to be seen.
-> 
-> @Pierre
-> Please let us know if you are okay with this approach of C structures.
-Now that I have more context, I don't have any objections with Srini's
-proposal. It'd a good step forward to use common class drivers across
-multiple vendors, we'll probably find a couple of bugs or harden the
-SDCA core and that'd be good progress for everyone developing or
-depending on the ASoC/SoundWire/SDCA frameworks.
+Applied to
 
-If this means that in an intermediate step C tables are used, that's
-fine with me. In the long run, things might change with additional
-options such as:
-a) ACPI support on all platforms
-b) DT hybrid mode to reuse ACPI/DSDT tables
-c) DT native representation of properties.
-We can review the preferred direction when the platform firmware
-plumbing improves.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
 
-I believe the point about binary/opaque data was noted by Srini, it can
-be handled in multiple ways and there's no reason to block.
+Thanks!
 
-Best to start small at the SDCA level with incremental changes later on
-how to fetch DisCo information from platform firmware - that wouldn't
-change the system behavior, only optimize by making the translation from
-DSDT to C tables un-necessary.
+[1/4] ASoC: es8326: report resume restore errors
+      https://git.kernel.org/broonie/sound/c/349e94679968
+[2/4] ASoC: es8375: report resume restore errors
+      https://git.kernel.org/broonie/sound/c/8f43acfd3add
+[3/4] ASoC: es8389: report resume restore errors
+      https://git.kernel.org/broonie/sound/c/8f7d23eb8ffb
+[4/4] ASoC: fs210x: report register restore errors
+      https://git.kernel.org/broonie/sound/c/aa7d985d8552
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
