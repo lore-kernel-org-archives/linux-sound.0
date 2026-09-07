@@ -1,36 +1,36 @@
-Received: from mta0.migadu.com (out-210.mta0.migadu.com [91.218.175.210])
+Received: from mta0.migadu.com (out-215.mta0.migadu.com [91.218.175.215])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32D7A413D62
-	for <linux-sound@vger.kernel.org>; Mon,  7 Sep 2026 19:57:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.210
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84BA9375F82
+	for <linux-sound@vger.kernel.org>; Mon,  7 Sep 2026 19:57:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.215
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788811070; cv=none; b=iD7iSOv4qgejg0MTHTHcrqMpwJgZ2TCoJ7v4zoqsKV0phos+eIaXO/hk9zJTG7xLEGMUhAcxMzP1n/7sqpBrUEK7soaJIeRCG25/E1HDAKmv1mMxUxZ+dCGFhLQCkrSxO6hGgpkxggmKM8/c8ERbZweFGIjzPrgXsh1xGMRRWU4=
+	t=1788811071; cv=none; b=RMxNrEJPVsBIorXzM1AsOd20S0ak8EdZoxZvICdcwzO2FTNWB8EAmeOp1Sb1QGn6vB2E7bes/FduLknFNcjCBJ754/8fxzMKF857vpcrofLoS2kwsuF8a0HUdaZLBIUjpFjmjYvJm/xBHeFB4PyOsYEAskB3s86hiu9mAAFeKvE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788811070; c=relaxed/simple;
-	bh=jdUYVS+YdOcdEcqavzPPKCzHJFCDt3rrQaoJDSq3eVo=;
+	s=arc-20240116; t=1788811071; c=relaxed/simple;
+	bh=AVmntpqFMQUJQqOArS5677uNa0XgNRQqmgKDrKEtsFw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Exy+fezZbFJoZ6pIUrFwfc+6Vv/p+SCGmfm4iQggxPO0MaYMcRzLEfEOVB1+GnKuLk9t1wV0DQ1IGz2rRVnqxzx2TXF4hw44AGFYLC4uVBivhUg+TfpwiUMfxlbzdDMvKqers7XM2/ONFd/aA2LAagFyMl7Pt24wKSlVyKX4UU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=coNp2flm; arc=none smtp.client-ip=91.218.175.210
+	 In-Reply-To:Content-Type; b=fKgxoehayZdBPjTgzf6WrUGL3vHJZHIO+v0MyKMwpNCBrJYjApBWWEVttxI1wHfgQTcGFjXjQd2UAoatqaavb4jhAhyinue2D3xB66DMXRcnw+0DkWq9K5LYrJJz2Ncex9BrGV0DMFPws8+0wm82vMtfc2Znir6gsfUF3WAvht4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=cdt+y96q; arc=none smtp.client-ip=91.218.175.215
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="coNp2flm"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="cdt+y96q"
 X-Envelope-To: linux-sound@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=jdUYVS+YdOcdEcqavzPPKCzHJFCDt3rrQaoJDSq3eVo=;
+DKIM-Signature: a=rsa-sha256; bh=AVmntpqFMQUJQqOArS5677uNa0XgNRQqmgKDrKEtsFw=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1788811065; v=1; x=1789415865;
- b=coNp2flmqFRPLKNf3BJ4oCk1YpRh9MMr7uy7LeZzCOuFl2BiCr2NIMNWYr/dMLPujXVn4Pba
- ggwbrncaLb4J7Lv3AD0ZlxQB5JM/+Kj+qA63AYR17HnwX2kD5q8m1xDMTmgJzY7avc0fYnehxPL
- scAXS6iIHXlxZ/aifuApRFe4=
+ t=1788811067; v=1; x=1789415867;
+ b=cdt+y96qrTuYSCsO+DhBOzPzyucCBkug4KOATZ6qKswetAzcRgu2NP8B7uZi5C5xnzRtz17N
+ Z6pfBZfzaAYbxqmD+ccaKfAYwURMLGUh1ic4szchbTxCBtG/RUl3YP2MTC5JhzP6DSDJ4ETjB0r
+ m2WRGNJmkl2ezmXL28/mE7GY=
 X-Envelope-To: linux-sound@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 8fc32778f025bbd4;
-	Mon, 07 Sep 2026 19:57:44 +0000
-X-Mizu-Trace-ID: 8fc32778f025bbd4
+Received: by smtp.migadu.com with ESMTPS id 66cbaa8f93b0f8a9;
+	Mon, 07 Sep 2026 19:57:47 +0000
+X-Mizu-Trace-ID: 66cbaa8f93b0f8a9
 X-Migadu-Flow: FLOW_OUT
-Message-ID: <005e3c81-778a-47bc-a8ae-fb5c38ea2e2c@linux.dev>
-Date: Mon, 7 Sep 2026 21:47:42 +0200
+Message-ID: <69650a4d-3021-49b0-b853-f7b9ba81aae1@linux.dev>
+Date: Mon, 7 Sep 2026 21:55:14 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -38,134 +38,50 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 11/11] ASoC: codecs: add Qualcomm Tambora (WCD9378)
- SDCA codec
-To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
- Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
- Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Bard Liao <yung-chuan.liao@linux.intel.com>, Jaroslav Kysela
- <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>,
- Maciej Strozek <mstrozek@opensource.cirrus.com>,
- Takashi Iwai <tiwai@suse.com>, Faiz Nabi Kuchay <fkuchay@oss.qualcomm.com>,
- Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>,
- patches@opensource.cirrus.com, linux-sound@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260907083727.733705-1-srinivas.kandagatla@oss.qualcomm.com>
- <20260907083727.733705-12-srinivas.kandagatla@oss.qualcomm.com>
- <525f887e-cb3b-4e74-8b93-30c3baeb8018@linux.dev>
- <7006ad74-334c-41cb-bcc8-9ef5e75dde7e@oss.qualcomm.com>
+Subject: Re: [PATCH 04/23] ASoC: soc-compress: Implement trigger FE-BE
+ sequencing as with normal PCMs
+To: Vinod Koul <vkoul@kernel.org>,
+ =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
+Cc: Mark Brown <broonie@kernel.org>, perex@perex.cz, tiwai@suse.com,
+ lgirdwood@gmail.com, srinivas.kandagatla@oss.qualcomm.com,
+ linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com,
+ yung-chuan.liao@linux.intel.com, daniel.baluta@nxp.com,
+ Vijendar.Mukunda@amd.com
+References: <20260904073134.29648-1-peter.ujfalusi@linux.intel.com>
+ <20260904073134.29648-5-peter.ujfalusi@linux.intel.com>
+ <apsf1kjaFG71NpPd@sirena.co.uk>
+ <b64906b9-032f-4435-a179-b663f0202796@linux.intel.com>
+ <361eb4b4-d880-4560-8b71-eeda6f28b43c@linux.dev>
+ <5b9a199e-abac-4193-94c0-d395329207ed@linux.intel.com>
+ <ap7sF6dOY0Pl0c46@parshuram>
 Content-Language: en-US
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <7006ad74-334c-41cb-bcc8-9ef5e75dde7e@oss.qualcomm.com>
+In-Reply-To: <ap7sF6dOY0Pl0c46@parshuram>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-
->> wow, I realize now I completely misunderstood what this whole endeavor
->> was about. I *thought* the point was to read the information about all
->> the functions from Device Tree tables. I now understand there are no
->> such tables, all the information is encoded in C as part of the
->> higher-level codec driver.
+On 9/7/26 18:53, Vinod Koul wrote:
+> On 07-09-26, 17:03, Péter Ujfalusi wrote:
 >>
->> Is this really intended?
-> Unfortunately Yes.
-> 
->> I mean, the whole ACPI set of definitions relied on the _DSD mechanism
->> that mimics what DT provides. Do we really want all this information in
->> C? Why not have a set of DT properties for each function?
 >>
+>> On 07/09/2026 14:26, Pierre-Louis Bossart wrote:
+>>>>> ...otherwise it'll end up with -EINVAL instead of getting passed
+>>>>> through.  Also a switch statement would be a bit more idiomatic.
+>>>>
+>>>> OK, I will add the NEXT_TRACK and convert the if to switch.
+>>>
+>>> ICYMI for testing, NEXT_TRACK and PARTIAL_DRAIN are only enabled in the
+>>> 'fcplay' application with the '-p 1' argument for gapless playback, not
+>>> in the initial cplay application.
+>>
+>> With SOF/Intel/IPC4 we can only support DRAIN, NEXT_TRACK and
+>> PARTIAL_DRAIN are not supported, but there were mismatch between fcplay
 > 
-> We discussed this topic at LPC 2025, Devicetree MC:
->     "DeviceTrees - MIPI SoundWire Device Class for Audio (SDCA) and
->      classic ACPI-DT problem"
->     https://lpc.events/event/19/contributions/2024/
-> 
-> Among other options presented, representing them in a intermediate
-> format was something which was doable.
-> 
-> I have also proposed another follow up of this topic in this years LPC
-> Devicetree MC too
-> 
-> RFC of this patchset got some comments from DT maitainers.
-> 
-> DT maintainers are not happy with the idea of keeping this info in DT
-> while it can be derived from compatible string.
-> 
-> https://lkml.org/lkml/2026/7/29/1166
-> 
->> I guess my main objection is for opaque initialization data aka blind
->> writes or SWF table, this should really come from platform firmware, no?
-> This table is directly generated from ACPI tables both from Lenovo T14
-> and Reference platform.
-> 
-> on ARM platforms DT is is the only firmware entry for such things and
-> its not 1:1 with ACPI example, Somethings that can be derived can not be
-> in Device tree description so its bit of mix.
-> 
->> With this approach you'd have an endless set of kernel quirks for each
->> board variant using the same codec.
-> 
-> @Krzysztof Kozlowski <krzk+dt@kernel.org> that is a valid point.
-> 
-> Idea is to gate them using platform specific compatibles, so far we have
-> few laptops that are pretty much identical w.r.t the description, may be
-> we got lucky in this early stages.
-> 
-> In future if it turns out to need a quirks per platform or changes
-> needed in this table then we should be able to handle it with platform
-> specific device compatibles.
-Thanks for the pointers. Unfortunately I missed all these threads but I
-don't have the background to understand the difference between software
-nodes, secondary fwnodes, etc.
+> Those should be optional always. Gapless support should not be mandatory
+well in practice it's a non-negotiable requirement from users... We had
+to add this as the request of the Android team, and it's a standard
+feature on most players, not a nice-to-have.
 
-What I can tell you is that the SDCA definitions were NOT designed for
-ACPI. We used the concepts we wanted to expose to drivers and the Intel
-ACPI folks told us how to represent them in ACPI. At the time, we didn't
-have *anyone* in the WG who could speak for DT platforms, and the main
-push was Windows platforms so ACPI became the path of least resistance
-to get things done.
-
-The entire SDCA document is a design-by-committee exercise where we
-tried to make progress, you need to look at the SDCA document and not
-think "how do I translate the properties to DT syntax' but 'how do I
-extract useful concepts and represent them well in DT'...
-
-I could go on forever on what happened since 2017 but here goes:
-
-1) One of the most frustrating things with ACPI was the lack of
-'subblocks', we had to define indirections using "_DSD Hierarchical Data
-Extension Properties", which wasn't a walk in the park. That makes the
-SDCA text file completely unreadable for humans, and to the best of my
-knowledge no one ever released tools. This was the case when the
-properties were integer values, but now that the properties include
-binary arrays it's even worse. You could do much better with DT...
-
-2) The other problem is that some of the DisCo and SDCA properties are
-not generic, they only make sense in the context of a specific board.
-For example even if a codec is capable of detecting jacks, platform
-firmware could be modified to remove this capability. The delays or
-power states supported could be different between multiple boards. IOW,
-the DisCo information does make provide information on codec v. board
-context, it's all board. It's a bit silly but at the time we didn't have
-an ACPI way of representing a board - it's available now with the
-ACPI0018 'audio composition' device but too late...
-
-3) the initial plan was to represent everything in DisCo, but that went
-sideways when it became allowed to use firmware download for tables, and
-when a separate SWFT format was invented. That provides 3 ways of
-storing opaque/binary data...
-
-4) and perhaps the most confusing for me, the codec hardware is allowed
-to request specific binary data for specific uses, which breaks further
-the difference between codec and board...
-
-My take is that rather than encode all properties in C, it's probably
-worth exploring a DT representation of the concepts that *can* be used
-fairly easily and make the life of codec vendors easier - not as a
-literal translation of ACPI.
-
-Putting everything in C seems like a code management nightmare to me.
-
+Note that the NEXT_TRACK only works if the two consecutive tracks have
+the same format, if the platform wants 'perceived' gapless playback with
+a x-fade then two devices are required.
