@@ -1,93 +1,90 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A02F3BB690;
-	Mon,  7 Sep 2026 18:56:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E3313AFAE6;
+	Mon,  7 Sep 2026 19:20:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788807383; cv=none; b=FXNfBJcnmVV7waJ1i6pxICdjE3GRJdo9c8mcHialHBzCqgITlM09dlwK8HTL29GPFOuJ5WKsoLLyeIKZAHoi5Wtjrjk0Y1w0RNykN2pNmhUvKHUbiEwUgfuxGSCHXuWqF9iDw7WCxhWfVowcAGUYvsMt0BOim+MdDWheAgD5TSU=
+	t=1788808811; cv=none; b=NYIOkZOTk5PmqsLb0xsLgJ5ClRU87uf9ITu+qPwZ5gCkGpu4sq3uNz7QLkQw1UZ/NWVDa9o5Neaoff3wug2AtJpwCNXtVLfZUolgIFlc2XdR0Jdc6dQACes+jb4/+HhTqaeJz0eWyqkSPcB4CiAl6qA9HcyI4O+K7usUL9Gsjfc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788807383; c=relaxed/simple;
-	bh=YJfdtgGZEfw1Pm4Ff2jwDokAw2FuELUMKlB+6P5buDE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=RVmDiiRMONgiNqHy/RvIx7l5NeKxE+uuEpqgpvdYKvBqZQeqIS6F646PrH73TPyCZBO1DlugvFiP/pcsJxDmk+GeYTIxA7ycIMaA7IfdmYQayb9WZVE/YFhXT/bsY3K+tHS/cXQ2M7c/5cUngde6TmxB+1v5JwYTWPsVDJ6UL1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FnigJ7tC; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788808811; c=relaxed/simple;
+	bh=B2X4bWGMk/FhaOtRzqPtbwCBIe/I5ub1vzMOSMrZ/dE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rkLyQn5SqpwbxC+tyEESi0sY6Rl/C4hQrmAkodYXyUbNGzGOQS0f2GmlLhJVIDsu5gJiwqFcgObeYyFCZwHAPHYCCNpIxduH6ze0UyMvsragFMk4T2Be5YDa8Rtf0RqeLsYLwdXZiiZ2nG00vt0wO8gTGW++LUm1fIIYjF2l5q4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QaR7vrOi; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FnigJ7tC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3BE91F00A3A;
-	Mon,  7 Sep 2026 18:56:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QaR7vrOi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42B101F00A3A;
+	Mon,  7 Sep 2026 19:20:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788807382;
-	bh=a4/mLS+Hzx8w3Wy0ZXPzxistXfzJfxPMc5Ox0XORh2c=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=FnigJ7tCG1456RaqHjOQrzbxW2L2ZLga3QVsZaRJAgvi7nHPw1lc8Zn3drc1117Bx
-	 O0E/eouJYGLAexVB29nkO8e9CA+QCVSUn0EdcSLUiEb9GoqCCjIyEN+Hsa6Dl+GoUZ
-	 79/v8iALJubbskWdM5O3O/1SkSWhqpQ/9EHBpI8aoB84ft0blvf8fYsfrxEMRZDGHg
-	 61D3pAfodVwF+u8OC5Am+AreaPQT9XvBktg4WbkQURl5VzB5X1uhJOH87dYXBChR82
-	 eQwNyoH1nvf/g/AZdqeOuIfeQJc0XDGNwDELblgxEuhyLqUpKPhIAb3hs49Tj7iAVl
-	 btCyHZxVNvahg==
+	s=k20260515; t=1788808809;
+	bh=MBF954dvFmkhgI0aFSJi7k7vhmBty1EC28SfxK4YPSA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=QaR7vrOijinEhd9KEUPySAQE3a5WYYOYaTpktNd01h4PBTdOoQkU6YsCp7p5g/BsY
+	 aJwOxHZY3o1ftkakOMn1ObMgdgNw0emPrxgS+f+HDR707+J3NtHKfVJ1jIi1oPPs+h
+	 4yeGJ60ThUsimj53ngWWMom4pLdSutXUP8DZNpics1uAwNhw6Qq9kIGpk2JEZ4hze0
+	 m72fTjg3Y6PkDfxCTRqp8EX0oEFOnVJPri/3WR3D9O2CvA9pdCdwY2e975FaMcu8d3
+	 WQwN/zeCQDNFMzniwOwoyk9BCjUExOKRwSBZxgRpv4hHDBPJT/zkMqf2UJFfuS/lM1
+	 hFbG8MAS4m53A==
+Date: Mon, 7 Sep 2026 20:20:05 +0100
 From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, peter.ujfalusi@linux.intel.com, 
- yung-chuan.liao@linux.intel.com, daniel.baluta@nxp.com, 
- =?utf-8?q?=C8=98tefan_Ghe=C8=9Bu?= <stefanghetu9@gmail.com>
-Cc: kai.vehmanen@linux.intel.com, pierre-louis.bossart@linux.dev, 
- perex@perex.cz, tiwai@suse.com, sound-open-firmware@alsa-project.org, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20260902175517.209406-1-stefanghetu9@gmail.com>
-References: <20260902175517.209406-1-stefanghetu9@gmail.com>
-Subject: Re: [PATCH] ASoC: SOF: imx8: check imx_sc_pm_cpu_start() return
- value
-Message-Id: <178880426027.118202.15614393467053440038.b4-ty@b4>
-Date: Mon, 07 Sep 2026 19:04:20 +0100
+To: David <mafiatamilan@yahoo.com>
+Cc: Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+	Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
+	Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org,
+	alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: amd: yc: Fix internal mic for HP board 8C30
+Message-ID: <0b298bc2-ae48-4e08-823e-25be3ce09382@sirena.org.uk>
+References: <178867857905.85694.5014721659216165123.ref@yahoo.com>
+ <178867857905.85694.5014721659216165123@yahoo.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1134; i=broonie@kernel.org;
- h=from:subject:message-id; bh=YJfdtgGZEfw1Pm4Ff2jwDokAw2FuELUMKlB+6P5buDE=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqnwjRpg88crHkZamgHNrGkD2CROt2rszExG5md
- QMCgmZvwYeJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCap8I0QAKCRAk1otyXVSH
- 0GtbB/91D+X48CgT07f7bDdZY8HdDIIR4c35qITmqkfCTwrcPQwVkdUtDkq+D/JIQPSrB1BvWh7
- 9+ozmcn2wx3q6vtfpcvlPN62Uy1D/Ix8RwTMakjMmtM7I3MEsibScYWfJ37+lx+mQu/OhFwvO4J
- 8mL/sg8y0tLg6dpUD8rJ5oCSk5/MF/JtTamDvqJ20+QzOhtgidhUGwPEPIUR+YZT9y3cAZo1oyf
- hRLn18k++1rAyl5VKAzRBJtwhQOKm55EsLywId4FFDrBJYZLFp/AlCTeXpwnLx31FugekdCyaHw
- +9oakr2IfHJU9GCGTUw6zeYdvwGWaJTdTownop3iPjMV4BWc
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="jp8fH7H7p8UsvJg1"
+Content-Disposition: inline
+In-Reply-To: <178867857905.85694.5014721659216165123@yahoo.com>
+X-Cookie: Who's on first?
 
-On Wed, 02 Sep 2026 20:55:17 +0300, Ștefan Ghețu wrote:
-> ASoC: SOF: imx8: check imx_sc_pm_cpu_start() return value
 
-Applied to
+--jp8fH7H7p8UsvJg1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
+On Sun, Sep 06, 2026 at 12:39:39PM +0530, David wrote:
+> The HP laptop with AMD Ryzen 5 7535HS and ACP 6.x coprocessor (PCI ID
+> 1022:15e2, subsystem 103c:8c30) requires an entry in yc_acp_quirk_table[]
+> to enable the internal digital microphone (DMIC).
+>=20
+> Without this quirk, acp6x_probe() returns -ENODEV and the internal
+> microphone remains undetected.
+>=20
+> Add a DMI quirk matching vendor "HP" and board name "8C30" to enable
+> ACP DMIC support.
 
-Thanks!
+Does this already merged patch:
 
-[1/1] ASoC: SOF: imx8: check imx_sc_pm_cpu_start() return value
-      https://git.kernel.org/broonie/sound/c/88be49b2f848
+   https://patch.msgid.link/20250715031434.222062-1-queler+k@gmail.com
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+also get things working for your system?
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+--jp8fH7H7p8UsvJg1
+Content-Type: application/pgp-signature; name="signature.asc"
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+-----BEGIN PGP SIGNATURE-----
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqfDmQACgkQJNaLcl1U
+h9BxRAf/cCwAPCz7cNsbjofRRmDXMH/m9AKzvJEsnuD7GpCSiicCsjawdk7l3AOb
+IkmiHFAUALP+2WB+7c0iptxSXLnz1VR8CEsb2WRYDsgrTS5K9FKIOfHeJEK5D429
+VC+XjJ+Adw72DDPpi55/it6s4HvnAzIZg5nVbXkteBvfeeLJ0SlzHjLTgQzqkLok
+ePAnR8sL9KfacqImhNCZ0LwWJi79SNBmi7Rn9BIV7kuLIOCV7zXJUWWMl6KslA1X
+KLPjovqr+zhe14wd5f1NW/F0ZYSI2mUOPPadX2RQizWg0Np4KuSRD1pXM1TRCUk5
+ivwrwR6N/q754SDrB7NqZtpzfTXvBA==
+=dQrf
+-----END PGP SIGNATURE-----
 
-Thanks,
-Mark
-
+--jp8fH7H7p8UsvJg1--
