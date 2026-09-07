@@ -1,36 +1,36 @@
-Received: from mta1.migadu.com (out-220.mta1.migadu.com [95.215.58.220])
+Received: from mta0.migadu.com (out-86.mta0.migadu.com [91.218.175.86])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5C7C47F2ED
-	for <linux-sound@vger.kernel.org>; Mon,  7 Sep 2026 11:32:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.220
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28340486E4D
+	for <linux-sound@vger.kernel.org>; Mon,  7 Sep 2026 11:32:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.86
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788780744; cv=none; b=okZs4MB+9Dk21gdnIfLhKqIA1uqvu75zcVvD3fzqi/H68MveajoZkEFmz0Q45lCArsFmQ1/3qTwUrJ9XRVsuD5eUAzBRJJVGXpffJemAIupl2mjzMjmyRfdts6J+BWDEco2cMIV1EJjLAf+Wt3NKWYRCF3k0SmnjJ9Sedy+vSyo=
+	t=1788780748; cv=none; b=aekGMgvQM1YFTUU9N77XWNgovr3jSJeKYoZc8R4kE6zKNNRpRg3ZryezRRNo0HpEzcpfGyzw9PUgnFKQQOjbCBd60D5mLkWEUAJJZUfsk2b2YoupaXO/9HDIoGaxmMUKDoy2RK/wzpXkFzLpeLUOQr/0bl/yQ1y4d7L7dtoScZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788780744; c=relaxed/simple;
-	bh=RtOjr2fYYcnqkVc4b9IcH2n1K5+OqQfEjWTPTdlM2S4=;
+	s=arc-20240116; t=1788780748; c=relaxed/simple;
+	bh=Hz8ljkeaHoi/srntJZ5bqPlWtx4b46jV1nqKuoUSS/Y=;
 	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=BDgTVTR6xoY4E00H/1HnPhJ5OlDyPcfXB62SWaPaK6vE+eCOYT2KD94jvcLeJs9r4AWaE1W6tu4GIZKMeDEI+gV6o5QZzkRQSWeRnTYjKrB6Fnt2SNSV40vtyQU+u7mVluVndDKMwxbdfjHWB+aL0pGenbqAg/nJyb/GPnLCAjw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=XRkZleIW; arc=none smtp.client-ip=95.215.58.220
+	 In-Reply-To:Content-Type; b=Xe1GuUxxy28X9zagw4PSNOJMJsDnVURcDjm9/mKIlXC6ZIN8AkjIPN/66Vv4xVkCC0fgL+3w4PovOVRNbKUIuwAjt9acfBNFAyVLKkBD1T5opKLP+emWa4hjgM/jB87lrliuwd/vg8N9Ec1rkqEDJcQ+0C7stv+xIGkvQ1dOCqE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=SXvbCLyC; arc=none smtp.client-ip=91.218.175.86
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="XRkZleIW"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="SXvbCLyC"
 X-Envelope-To: linux-sound@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=RtOjr2fYYcnqkVc4b9IcH2n1K5+OqQfEjWTPTdlM2S4=;
+DKIM-Signature: a=rsa-sha256; bh=Hz8ljkeaHoi/srntJZ5bqPlWtx4b46jV1nqKuoUSS/Y=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1788780740; v=1; x=1789385540;
- b=XRkZleIWhQs/fvTphZNENjcxQvKHyEat4YNTYtNu9ZAuwswbJB6uUv5gAFDBRsDrknIh2AKe
- +ySNAmMJTgm2BWc3HNs1I1xzVjYVctGjy6zeV+5sQ7VHR8lWWO3KWrr5DoumOmZ4yq++jCdJu9b
- /c34b4RfZkB837PKPvnc7WPc=
+ t=1788780742; v=1; x=1789385542;
+ b=SXvbCLyChFZ3UxNg5lMw54RD3t2ZnpWX3CqsHgGjl6XzNh1AelKBlZGbM/qWG/Ic028pd0x6
+ PwODOSdv3JF3rcWvm9jap/JyuVljxufo9GV/cx8hgDXAzKnKSYHxAYsVWDfuGCQJBGnUBdKNO5O
+ 5pIpID3CWlpAnUF9flMZJdm0=
 X-Envelope-To: linux-sound@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id c5c907cfa801a1f1;
-	Mon, 07 Sep 2026 11:32:20 +0000
-X-Mizu-Trace-ID: c5c907cfa801a1f1
+Received: by smtp.migadu.com with ESMTPS id bad45750a42e1d03;
+	Mon, 07 Sep 2026 11:32:22 +0000
+X-Mizu-Trace-ID: bad45750a42e1d03
 X-Migadu-Flow: FLOW_OUT
-Message-ID: <603a67c1-dcc6-469f-9420-5ffbf55000bf@linux.dev>
-Date: Mon, 7 Sep 2026 13:29:18 +0200
+Message-ID: <836db10c-8d0e-4882-b0be-3add5069566b@linux.dev>
+Date: Mon, 7 Sep 2026 13:31:58 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -39,7 +39,8 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-Subject: Re: [PATCH v2 04/11] ASoC: SDCA: add hw_ops with hw_init hook
+Subject: Re: [PATCH v2 03/11] ASoC: SDCA: expose class SoundWire
+ probe/remove/read_prop as library
 To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
  Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
  Charles Keepax <ckeepax@opensource.cirrus.com>
@@ -54,134 +55,214 @@ Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
  devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  linux-kernel@vger.kernel.org
 References: <20260907083727.733705-1-srinivas.kandagatla@oss.qualcomm.com>
- <20260907083727.733705-5-srinivas.kandagatla@oss.qualcomm.com>
+ <20260907083727.733705-4-srinivas.kandagatla@oss.qualcomm.com>
 Content-Language: en-US
-In-Reply-To: <20260907083727.733705-5-srinivas.kandagatla@oss.qualcomm.com>
+In-Reply-To: <20260907083727.733705-4-srinivas.kandagatla@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 9/7/26 10:37, Srinivas Kandagatla wrote:
-> Add struct sdca_class_hw_ops with a hw_init callback that runs from
-> sdca_class_probe() before the class regmap is created.  Codec drivers
-> use it to enable supplies, toggle reset GPIOs and program initial
-> vendor register state.
-
-It'd be good to clarify when this hw_init() is supposed to run. Probe
-and hardware being available are usually two different things. I think
-this relies on a behavior at the device level where the function
-subdevices are only created after SoundWire device enumeration.
-
-Also the 'hw_init' naming could be confusing, this is used in many codec
-drivers to track if the hardware has previously been initialized.
-
-> sdca_class_probe() gains an optional const struct sdca_class_hw_ops *
-> argument (NULL for pure-generic SDCA parts) and stashes it on
-> sdca_class_drv for later use.
+> Split the internal class_sdw_probe/class_sdw_remove/class_read_prop
+> functions into caller-friendly library helpers:
 > 
-> No functional change for the built-in class_sdw_driver, which passes
-> NULL.
+>   sdca_class_read_prop(sdw)
+>   sdca_class_probe(sdw, drv)
+>   sdca_class_remove(drv)
 > 
+> The class_sdw_probe/class_sdw_remove callbacks of the built-in
+> class_sdw_driver are now thin wrappers that allocate a bare
+> sdca_class_drv, stash it in drvdata, and defer to the exported
+> helpers.
+> 
+> The exported sdca_class_probe() takes a caller-owned struct
+> sdca_class_drv * so codec-specific SoundWire drivers can embed the
+> class state in their own priv struct, own dev_set_drvdata() themselves,
+> and avoid a second allocation.  No functional change for the built-in
+> driver.
+> 
+> This lays the groundwork for codec-specific SDCA SoundWire drivers
+> that want to compose the class-side probe with their own quirks; the
+> next patches add the hw_ops mechanism on top.
+
+I am not sure I fully understand what you mean by "compose the
+class-side probe with their own quirks".
+
+The existing SDCA mechanism is that there's a top-level SoundWire
+device, whose driver creates auxiliary subdevices for each function. We
+currently probe drivers for those function devices based on naming. So
+how would the 'composing' work then?
+
+I guess part of the confusion is also the recurring 'codec specific'
+term used in several patch, but we are talking about functions which are
+subsets of a codec, no? maybe use hardware specific.
+
+Note that if you need customization to the base class mechanism, there's
+another option that's currently in use in the other OS that shall not be
+named. Codec providers are not allowed to change the class drivers,
+which are owned and distributed as part of the base OS. Codec vendors
+can however provide extension drivers. The premise was that the sound
+would be 'acceptable' with class drivers, and the extensions would
+unlock the secret sauce algorithms for the best audio quality. If we are
+talking about 'composing class-side probe with quirks', it'd be good to
+clarify the rationale and objectives...
+
+edit: I think the idea is really to use the class function drivers as
+is, but with the function data provided to and used by the subdevice
+driver probe. But the hw_init doesn't seem required to me, you already
+have the .status callback that can be used to perform device-level
+initializations.
+
+
+
 > Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 > ---
->  include/sound/sdca_class.h  | 17 ++++++++++++++++-
->  sound/soc/sdca/sdca_class.c | 15 +++++++++++++--
->  2 files changed, 29 insertions(+), 3 deletions(-)
+>  include/sound/sdca_class.h  |  5 +++
+>  sound/soc/sdca/sdca_class.c | 75 +++++++++++++++++++++++++++++++------
+>  2 files changed, 69 insertions(+), 11 deletions(-)
 > 
 > diff --git a/include/sound/sdca_class.h b/include/sound/sdca_class.h
-> index c6063f22be7a..3342937d09fd 100644
+> index 15a180385202..c6063f22be7a 100644
 > --- a/include/sound/sdca_class.h
 > +++ b/include/sound/sdca_class.h
-> @@ -20,6 +20,17 @@ struct regmap;
->  struct sdw_slave;
->  struct sdca_function_data;
+> @@ -33,6 +33,11 @@ struct sdca_class_drv {
+>  	struct work_struct boot_work;
+>  };
 >  
-> +/**
-> + * struct sdca_class_hw_ops - optional codec hardware callbacks
-> + * @hw_init: enable supplies, toggle reset, etc.  Runs from sdca_class_probe()
-> + *           before the class regmap is created and before the slave is
-> + *           ATTACHED; callers needing bus I/O must sdw_slave_wait_for_init()
-> + *           first.
-> + */
-> +struct sdca_class_hw_ops {
-> +	int (*hw_init)(struct sdw_slave *slave);
-> +};
+> +/* Library helpers used by codec-specific SDCA SoundWire drivers. */
+> +int sdca_class_read_prop(struct sdw_slave *sdw);
+> +int sdca_class_probe(struct sdw_slave *sdw, struct sdca_class_drv *drv);
+> +void sdca_class_remove(struct sdca_class_drv *drv);
 > +
->  struct sdca_class_drv {
->  	struct device *dev;
->  	struct regmap *dev_regmap;
-> @@ -27,6 +38,8 @@ struct sdca_class_drv {
->  
->  	struct sdca_interrupt_info *irq_info;
->  
-> +	const struct sdca_class_hw_ops *hw_ops;
-> +
->  	struct mutex regmap_lock;
->  	/* Serialise function initialisations */
->  	struct mutex init_lock;
-> @@ -35,7 +48,9 @@ struct sdca_class_drv {
->  
->  /* Library helpers used by codec-specific SDCA SoundWire drivers. */
->  int sdca_class_read_prop(struct sdw_slave *sdw);
-> -int sdca_class_probe(struct sdw_slave *sdw, struct sdca_class_drv *drv);
-> +int sdca_class_probe(struct sdw_slave *sdw,
-> +		     struct sdca_class_drv *drv,
-> +		     const struct sdca_class_hw_ops *hw_ops);
->  void sdca_class_remove(struct sdca_class_drv *drv);
->  
 >  /*
+>   * PM helpers.  Codec drivers embed sdca_class_drv in their own priv,
+>   * own dev_set_drvdata(), and compose these into their own dev_pm_ops:
 > diff --git a/sound/soc/sdca/sdca_class.c b/sound/soc/sdca/sdca_class.c
-> index b952fa6eb802..374de7d9e0b5 100644
+> index 88a29116a334..b952fa6eb802 100644
 > --- a/sound/soc/sdca/sdca_class.c
 > +++ b/sound/soc/sdca/sdca_class.c
-> @@ -153,6 +153,8 @@ static void class_boot_work(struct work_struct *work)
->   *       allocation and sets its own dev_set_drvdata() -- the framework
->   *       does not touch drvdata.  Typically embedded in the codec's own
->   *       priv struct so codec drivers can keep per-slave state.
-> + * @hw_ops: optional device-specific hw_ops (may be NULL for pure-generic
-> + *          SDCA parts that need no quirks)
->   *
->   * Codec-specific SoundWire drivers call this from their .probe after
->   * allocating a struct sdca_class_drv (usually embedded in their own
-> @@ -160,7 +162,9 @@ static void class_boot_work(struct work_struct *work)
->   * sdca_class_drv fields, sets up the class regmap, and queues the
->   * deferred boot work.
->   */
-> -int sdca_class_probe(struct sdw_slave *sdw, struct sdca_class_drv *drv)
-> +int sdca_class_probe(struct sdw_slave *sdw,
-> +		     struct sdca_class_drv *drv,
-> +		     const struct sdca_class_hw_ops *hw_ops)
+> @@ -24,7 +24,15 @@
+>  
+>  #define CLASS_SDW_ATTACH_TIMEOUT_MS	5000
+>  
+> -static int class_read_prop(struct sdw_slave *sdw)
+> +/**
+> + * sdca_class_read_prop - fill SDCA-common SoundWire slave properties
+> + * @sdw: SoundWire slave
+> + *
+> + * Exported so codec-specific SoundWire drivers can invoke the SDCA
+> + * common property setup from their own sdw_slave_ops.read_prop, and
+> + * then apply codec-specific overrides inline.
+> + */
+> +int sdca_class_read_prop(struct sdw_slave *sdw)
+>  {
+>  	struct sdw_slave_prop *prop = &sdw->prop;
+>  
+> @@ -36,9 +44,10 @@ static int class_read_prop(struct sdw_slave *sdw)
+>  
+>  	return 0;
+>  }
+> +EXPORT_SYMBOL_NS_GPL(sdca_class_read_prop, "SND_SOC_SDCA_CLASS");
+>  
+>  static const struct sdw_slave_ops class_sdw_ops = {
+> -	.read_prop	= class_read_prop,
+> +	.read_prop	= sdca_class_read_prop,
+>  };
+>  
+>  static void class_regmap_lock(void *data)
+> @@ -136,18 +145,31 @@ static void class_boot_work(struct work_struct *work)
+>  	pm_runtime_put_sync(drv->dev);
+>  }
+>  
+> -static int class_sdw_probe(struct sdw_slave *sdw, const struct sdw_device_id *id)
+> +/**
+> + * sdca_class_probe - SDCA class SoundWire slave probe helper
+> + * @sdw: SoundWire slave
+> + * @drv: caller-allocated sdca_class_drv storage.  The caller (a codec
+> + *       driver, or the built-in class_sdw_driver in this file) owns the
+> + *       allocation and sets its own dev_set_drvdata() -- the framework
+> + *       does not touch drvdata.  Typically embedded in the codec's own
+> + *       priv struct so codec drivers can keep per-slave state.
+> + *
+> + * Codec-specific SoundWire drivers call this from their .probe after
+> + * allocating a struct sdca_class_drv (usually embedded in their own
+> + * priv) and setting drvdata to their priv.  The framework fills in the
+> + * sdca_class_drv fields, sets up the class regmap, and queues the
+> + * deferred boot work.
+> + */
+> +int sdca_class_probe(struct sdw_slave *sdw, struct sdca_class_drv *drv)
 >  {
 >  	struct device *dev = &sdw->dev;
 >  	struct regmap_config *dev_config;
-> @@ -178,9 +182,16 @@ int sdca_class_probe(struct sdw_slave *sdw, struct sdca_class_drv *drv)
+> -	struct sdca_class_drv *drv;
+>  	int ret;
 >  
->  	drv->dev = dev;
->  	drv->sdw = sdw;
-> +	drv->hw_ops = hw_ops;
+>  	sdca_lookup_swft(sdw);
+>  
+> -	drv = devm_kzalloc(dev, sizeof(*drv), GFP_KERNEL);
+>  	if (!drv)
+> -		return -ENOMEM;
+> +		return -EINVAL;
+>  
+>  	dev_config = devm_kmemdup(dev, &class_dev_regmap_config,
+>  				  sizeof(*dev_config), GFP_KERNEL);
+> @@ -159,8 +181,6 @@ static int class_sdw_probe(struct sdw_slave *sdw, const struct sdw_device_id *id
 >  	mutex_init(&drv->regmap_lock);
 >  	mutex_init(&drv->init_lock);
 >  
-> +	if (hw_ops && hw_ops->hw_init) {
-> +		ret = hw_ops->hw_init(sdw);
-> +		if (ret)
-> +			return dev_err_probe(dev, ret, "hw_init failed\n");
-> +	}
-> +
-
-nit-pick: should the INIT_WORK be moved higher before this hw_init()? It
-has nothing to do with regmap and we'd lose the requirement that
-hw_init() be run before regmap inits.
-
+> -	dev_set_drvdata(drv->dev, drv);
+> -
 >  	INIT_WORK(&drv->boot_work, class_boot_work);
 >  
 >  	dev_config->lock_arg = &drv->regmap_lock;
-> @@ -222,7 +233,7 @@ static int class_sdw_probe(struct sdw_slave *sdw, const struct sdw_device_id *id
+> @@ -185,14 +205,47 @@ static int class_sdw_probe(struct sdw_slave *sdw, const struct sdw_device_id *id
 >  
->  	dev_set_drvdata(&sdw->dev, drv);
->  
-> -	return sdca_class_probe(sdw, drv);
-> +	return sdca_class_probe(sdw, drv, NULL);
+>  	return 0;
 >  }
+> +EXPORT_SYMBOL_NS_GPL(sdca_class_probe, "SND_SOC_SDCA_CLASS");
+>  
+> -static void class_sdw_remove(struct sdw_slave *sdw)
+> +static int class_sdw_probe(struct sdw_slave *sdw, const struct sdw_device_id *id)
+>  {
+> -	struct device *dev = &sdw->dev;
+> -	struct sdca_class_drv *drv = dev_get_drvdata(dev);
+> +	struct sdca_class_drv *drv;
+>  
+> +	/*
+> +	 * Pure-generic SDCA parts: no codec priv to embed, so allocate a
+> +	 * bare sdca_class_drv here and stash it in drvdata for the
+> +	 * built-in PM ops to fetch.
+> +	 */
+> +	drv = devm_kzalloc(&sdw->dev, sizeof(*drv), GFP_KERNEL);
+> +	if (!drv)
+> +		return -ENOMEM;
+> +
+> +	dev_set_drvdata(&sdw->dev, drv);
+> +
+> +	return sdca_class_probe(sdw, drv);
+> +}
+> +
+> +/**
+> + * sdca_class_remove - SDCA class SoundWire slave remove helper
+> + * @drv: caller-owned sdca_class_drv (the one handed to sdca_class_probe()).
+> + *
+> + * Cancels the deferred boot work so devres can safely free @drv and the
+> + * embedding codec priv without racing class_boot_work.  Codec-specific
+> + * SoundWire drivers that call sdca_class_probe() must call this from
+> + * their .remove with the same drv pointer they passed to probe.
+> + */
+> +void sdca_class_remove(struct sdca_class_drv *drv)
+> +{
+>  	cancel_work_sync(&drv->boot_work);
+>  }
+> +EXPORT_SYMBOL_NS_GPL(sdca_class_remove, "SND_SOC_SDCA_CLASS");
+> +
+> +static void class_sdw_remove(struct sdw_slave *sdw)
+> +{
+> +	struct sdca_class_drv *drv = dev_get_drvdata(&sdw->dev);
+> +
+> +	sdca_class_remove(drv);
+> +}
 >  
 >  /**
+>   * sdca_class_system_suspend - SDCA class system suspend helper
 
