@@ -1,91 +1,216 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 627D44248D7;
-	Mon,  7 Sep 2026 23:14:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788822883; cv=none; b=SwohhuET8+iIGS2hUuFSFXgufTkJJM0WDu8gwL2oU65b5H17P+5aRkfd3ccF76wOINPrLPKRI113PznA3D6NFTlUmJw1CMlCKU8OpuV/SZ62D2RCyJ/eRl5obcTHVS6eqV1D4eh26wnY8PzznjXWZzVXL2wv72kJaiTRssoBfJc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788822883; c=relaxed/simple;
-	bh=oQCnQEN2DfwlFjb0Pze/cADr3Ar+3Xem6XUDSpXlb5Y=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=UONZiFVWrb3NFiSbdbYscfxzOAiVstgLIsruWLsYd3urfCQTeCMERvPt3xYptkAwI9uaxRfHdeCRAr8zQyvkdlZuVJh0ObPHsAC+q7rC4JzQt5qPlpnk9UkP3Fr/B83wOppIBUaEytcbxlkf3jXgdSDM0ZG+0XXZT6aA+A+nGzE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RUDD6UY1; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E0E724BBEB
+	for <linux-sound@vger.kernel.org>; Mon,  7 Sep 2026 23:47:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788824850; cv=pass; b=rlVpxQx3xWRtVmSJceJlur9u0DGmMMWeBUONcmoDI60kIl30r0Lvoa6TlDinYNzZc+vdgygK0jDoJ8VnV/9tgD6AMKNUmjOc7NqFX/H5ovcoLiyvI1yNBMokhECScvW0CcPLPqs6LO0R8JKXwrdw0bR/SktWsrXLdTZx4pmLU54=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788824850; c=relaxed/simple;
+	bh=2EyfSlQO0clqzumSKQfW/GYjtcW37BsCA4kY/zFACCY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gFBfyVUvKq+5IYgQSNtC+t/nHECuMyVAVRTl4x9fWE0Tp0oGD/5UjKbZc76SI6/d/mvpdEUsjteparL87dnTJtMpJ+p4wOA9KIx7hJWtsF0Bs+MoWkqBdIbY0MBr3jnZb0c3Oj3+UmYLBX9wVz1iFfSjxSjePyaxMxS73yEYQuk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WOvzJOnh; arc=pass smtp.client-ip=209.85.167.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RUDD6UY1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2F601F00A3A;
-	Mon,  7 Sep 2026 23:14:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788822882;
-	bh=QIqKqWiMn7M+90S1KP8NGtWC+CfwTYwmJbjpL66AuKE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=RUDD6UY1FnGc7jMdPEOpQZ5CPgJSNClEa9YwWsU/x+yKakpj3mzk7he/HPSzSPXWr
-	 L7XC1vQrfcFbX0H/GHTWE6VwqZhXDTg2ffMsh+FeCImojGDT1YHJvZnIK1aeAZEPk3
-	 FimnmXUIUPXtUTMfh2pRTpxVjl9MZmehZpG9IdlcqXvLksG2zs9ozP/Bu5Wnz81fSm
-	 mDxFHcGHmjniu2KzVwFjaBik73AYmMmlKlxHEl0onSd32UFvHRfkq1GVYvjnoucTpF
-	 mGoOalol1ZTLFX3CKuLMcKYSXwsptbilNt0uWIXxozKhJQsw0PNOUjrDgzxsx/j9Ja
-	 dOoAVOFSnx7ZA==
-From: Mark Brown <broonie@kernel.org>
-To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Aaron Welwood <abwelwood@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org, 
- alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20260907031738.17257-1-abwelwood@gmail.com>
-References: <20260907031738.17257-1-abwelwood@gmail.com>
-Subject: Re: [PATCH] ASoC: amd: yc: add quirk for Acer Nitro AN17-41
- internal mic
-Message-Id: <178881485689.118202.6975212680087714192.b4-ty@b4>
-Date: Mon, 07 Sep 2026 22:00:56 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WOvzJOnh"
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5b5607bd3b5so1669973e87.3
+        for <linux-sound@vger.kernel.org>; Mon, 07 Sep 2026 16:47:28 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788824847; cv=none;
+        d=google.com; s=arc-20260327;
+        b=H3a45yzNtWmiIHk5lc+ppf19sr2CNcrth+uoFx51omvXM3QWyZ50SGs3llCKLxvAhS
+         JBWlqqpbTz7pakB2KOLP1o2jJrOQ17k0p72bQt9XvGbGQtmSer2eV5uagOc6zCKXhxls
+         tXR36lzvZNuDMVs+oEdLDuhQfpaRFvdU1hp7uPtFKB4hnb2Gk+shbsn/Z3MTyTty7utM
+         zMJwheC30nGH+Pawao12HlTcDfzw/HZwL97zi3li6PDyaO+UZq/NMWKTcsDo7NQHpFO5
+         OABhj8cOOfsrx69lgsjt9WEa18WnZmoPYvfWLnvAdgMrxbhNCnZHXyisORSCdxVoc0r5
+         fcgA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=jTCuKKWDruWBkfsdKrv4fLLGZb+hviUjoHhtnBESK6k=;
+        fh=gI5Vqf8W0YepKuydztj1sbOT12Ekar9uJRpk5BjoAyE=;
+        b=gKM/c7TPkCHvHc5RkIU/3u3PtJMyszV8nW5U5gCmcyI/S9HAXzu76+WP3zol18+r9r
+         p+ucIXsQVXvHDfyqp3hm14p14xwwV10sUhae2DdRmPyuiFSChY63oMc9INj1Or5asdDd
+         UKGD+zzAmyy51TmuUA+ER5+wZdHBxj1egcA2IVMA4DwxMb3DkM8QzabXj0BXY1ioufO+
+         F/oV/GhaQl0m/2e0X0cigpNj2ywO3GWJvZS6qxsx5L1nUpzcH+6iZRiDUsS08uAaKIRl
+         5epM2tlPQZ/VaSWVGFRJYsjrx/m0zZcPxE2x8AiQdmJWOmYuBlTG1uDwCCocJmo9PEa1
+         Bg1A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788824847; x=1789429647; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=jTCuKKWDruWBkfsdKrv4fLLGZb+hviUjoHhtnBESK6k=;
+        b=WOvzJOnhsQSI/TxkbzukH3TehQUw6GU18hRoXdV6zAYqD3fpk7450jduCwiXnSnEIC
+         uxkfYKlmkduvGgLdCXtKncHE4TekBPWa4ShCgFDItkiSfmC4YOOTci6jfelYIMDOkGsO
+         K+PVIdQsbbI1+ClPg+pflpXP5lQ6P7G3aJMOnyIyO0Cu3nkAIwZLlJu15PfxhSVaISPi
+         w44bMqTGsi/7gLS/H7rQJkpJtJmCKTS/zFDHfMsI1ji1/+mJjM0DINIDXIwA3BuJGaI3
+         p1AzEy4Uu/YfZHYmYsiDYCiAd/apYasJVeVk9UOtLKV+9/QCvFvrghPVc9i/lv4C46UN
+         7whg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788824847; x=1789429647;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=jTCuKKWDruWBkfsdKrv4fLLGZb+hviUjoHhtnBESK6k=;
+        b=dyk+4857G6L1fz43nR00BnJKyMYqBDIFEEFZ2DFsQsRkXo2yZxiI12+n3r7tVU+zVp
+         oa68FF9xLUCkM3cYIl1Sn0F2zJPU0pdsgqhxMhGyPngF9qXbE17YSikoTaksyMGlyWod
+         14VnJjSf7/ZVFiyOpvRUQ+FL4/da4f88Ob9T4yKguCQZjq6xlo7/1kYa/oTRiRVR+Z3L
+         PyUtFn1tSE6pvkncWOJW2XjbnfrMaiSGH+zWO+U0ogIQOytYNtY1gn7HMk2GjIzlb0y7
+         pHVEfz5YED0F3XJaI6EBZI7NCuIsnEUjzwiGMBO6l4excwhpCvoa3hoVDb86roCla85C
+         vjSg==
+X-Forwarded-Encrypted: i=1; AKwUvBy/q8ggr8D3/IG4t2Vs/IvJFO+FEwOuwDdZaz+NAjZc0jmzG4j18zp6APP5Q6x6h5TR/JovTByGsffApA==@vger.kernel.org
+X-Gm-Message-State: AFuF++mqgU9WVDpL4TDCOmD+6DSbtMx5WPmYub6HMLpLPQA8Hhn3zAvP
+	lt5SM6slvivwp6ZnvWzZ4vfdJjUUE0d4n//+102sh4LoErY2QYFKcFpZQECBuWphBSV5ND/d+z9
+	9qWnNLsqCQ7TwkhW4H3gimD924kzx47t8HKW8sRI=
+X-Gm-Gg: AYBFou25xF2BWNnqyhRHNGpqyVa/kDEudffBNnr4/QSGU4405JEkP00SCT2g4D0pjZh
+	9GsdwKNSvAC0ej09Tx88wDqAO9MsWO3K3vdH5bfeHt55+YU2YTadeYTqCkz2c0Efamwifa5Ufp+
+	l3LsOsGHQjIQ8YPUkk8XA9e1DEq3kj7A+IyBAlTyQ6NhWVI5Om5la3vhGftZHiNzSfNntJA2Lkj
+	qbr4exfeyMIEh5TLsp6NDUWVK12JmQzonaztyar94yn7Vt1luj1swqBq5DdB+tpkh6eJq6Kmi2M
+	dnrL8NpOByrREInrUCCH/fCR4OeHPMDDt7c2Zr0YRhRnyw==
+X-Received: by 2002:a05:6512:159c:b0:5b6:184c:7da3 with SMTP id
+ 2adb3069b0e04-5b6184c7f4bmr3704951e87.44.1788824846969; Mon, 07 Sep 2026
+ 16:47:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1139; i=broonie@kernel.org;
- h=from:subject:message-id; bh=oQCnQEN2DfwlFjb0Pze/cADr3Ar+3Xem6XUDSpXlb5Y=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqn0Vegs4PfOv+yugdaBfJZzk6+S5RwTdWcJgYe
- FbtjLWmp/SJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCap9FXgAKCRAk1otyXVSH
- 0KgYB/40A/VZL6b0uNHjYZwwbSsJ+MPH4Y3QfztLZvhtjwKCNKcKl7h7PwukOeXbton2DdEmNDi
- 8FdTifqCBQDJ9ovthsgU9hi6BgQDrVSus3J8RWfwYLX7Voze/r+jJ/2a+s/LxxyBTq7XwEdMgXM
- 0lsDaA0NxCa3bFHIf3YrtKzrSSzNBZcHWPCT9+1JE+K6Jg25IBuOsj3bmfZJ//wlN9ej/BMCxcX
- Jdo0yemntNE1xzgtSXJo4T+/i2DbAPKHmh3/EgHYk2Pf5LexdHMy58TAP6vpkOE1C/NjUfimpTX
- vbrbMYU700U3QZ/sPODIrPfC/IeAkkwiUufdAEYIKL0E7DnF
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+References: <CAEsQvcuaNZvLxyxNH_NOy5qwTmkrk-A9QdVtZD0GiCtPwk4A+A@mail.gmail.com>
+ <20260904182023.4486-1-hhkieu@gmail.com> <CAEsQvcuMFt=m=njsPzRtKarz04Gwbds+f8p2S+SdSQmaiW1fLw@mail.gmail.com>
+ <CAEWo5SpV6eyHo-tn+hKX4s98uCjGJg5Dz9fMkoWNDNqgofJ5og@mail.gmail.com>
+ <CAEsQvcsG_Q2uZQ8Q_MBhUyhY+n4HymMsuowSHfk-CHCBj6mbzQ@mail.gmail.com> <87pkyp335m.wl-tiwai@suse.de>
+In-Reply-To: <87pkyp335m.wl-tiwai@suse.de>
+From: Geraldo Nascimento <geraldogabriel@gmail.com>
+Date: Mon, 7 Sep 2026 20:47:15 -0300
+X-Gm-Features: AcwNN1UbsFMatNHx-EvOf31Raf8TPF1FHo1fYOxEv7oO3TuMZ2Ndt22rR4QZ3VY
+Message-ID: <CAEsQvcuZm_1DmR8gFGi3ec6++Eo03ruUJHc-RxuqaWKh8o0aXQ@mail.gmail.com>
+Subject: Re: [PATCH] ALSA: usb-audio: add Pioneer DJ DDJ-SZ support
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Hanh Kieu <hhkieu@gmail.com>, perex@perex.cz, tiwai@suse.com, 
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, 06 Sep 2026 21:17:38 -0600, Aaron Welwood wrote:
-> ASoC: amd: yc: add quirk for Acer Nitro AN17-41 internal mic
+Hi Takashi,
 
-Applied to
+On Mon, Sep 7, 2026 at 4:57=E2=80=AFAM Takashi Iwai <tiwai@suse.de> wrote:
+>
+> On Sat, 05 Sep 2026 08:19:37 +0200,
+> Geraldo Nascimento wrote:
+> >
+> > On Sat, Sep 5, 2026 at 2:35=E2=80=AFAM Hanh Kieu <hhkieu@gmail.com> wro=
+te:
+> > >
+> > > Hi Geraldo,
+> > >
+> > > I looked further into the is_pioneer_implicit_fb() check you pointed =
+out.
+> > >
+> > > It seems the DATA case is intentional. In the original Pioneer DJM-90=
+0NXS2 work, Fabian Lesniak described the observed behavior as:
+> > >
+> > > =E2=80=9Cthe playback streams also tries to start the capture endpoin=
+t as sync source.=E2=80=9D
+> > >
+> > > https://gist.github.com/flesniak/074ab23bbc833663b782f44174eae6a4
+> > >
+> > > Takashi Iwai later formalized this in the Pioneer implicit-feedback h=
+andling, explicitly accepting either USB_ENDPOINT_USAGE_DATA or USB_ENDPOIN=
+T_USAGE_IMPLICIT_FB for the secondary IN endpoint before passing it to add_=
+implicit_fb_sync_ep():
+> > >
+> > > https://github.com/torvalds/linux/commit/167c9dc84ec384c0940359e06730=
+1883ad2b42a8
+> > >
+> >
+> > Every other Pioneer device has that USB_ENDPOINT_USAGE_IMPLICIT_FB
+> > on the IN endpoint. Yours would be the first without it in the IN
+> > endpoint. Unless
+> > your hardware doesn't rely on implicit feedback for syncing then there'=
+s a good
+> > chance that implicit.c short-circuiting and still picking up implicit
+> > feedback for you
+> > isn't correct, but what you need to do is cool down now and wait for pr=
+oper
+> > maintainer response which takes time.
+>
+> Accepting both DATA and IMPLICIT_FB usages is intentional, yes.
+> But I don't follow what's the problem there -- in this case, the
+> bmAttributes of the secondary EP shows it's DATA, no?  Then this check
+> must pass.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
+If you check the original patch submission by Hanh, you'll see he did not
+bother to include USB_ENDPOINT_USAGE_IMPLICIT_FB as a flag for
+EP attributes, claiming it was unnecessary and the implicit feedback was
+picked-up regardless.
 
-Thanks!
+Hahn already traced the functions return values, he is getting a true value
+out of that function (and thus picking up implicit feedback for his device)
+even though he does not add USB_ENDPOINT_USAGE_IMPLICIT_FB
+to the IN EP Attributes on his original submission.
 
-[1/1] ASoC: amd: yc: add quirk for Acer Nitro AN17-41 internal mic
-      https://git.kernel.org/broonie/sound/c/22728415a9cc
+>
+> The condition is:
+>
+>         if (!usb_endpoint_is_isoc_in(epd) ||
+>             (epd->bmAttributes & USB_ENDPOINT_SYNCTYPE) !=3D USB_ENDPOINT=
+_SYNC_ASYNC ||
+>             ((epd->bmAttributes & USB_ENDPOINT_USAGE_MASK) !=3D
+>              USB_ENDPOINT_USAGE_DATA &&
+>              (epd->bmAttributes & USB_ENDPOINT_USAGE_MASK) !=3D
+>              USB_ENDPOINT_USAGE_IMPLICIT_FB))
+>                 return false;
+>
+>         return false;
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+Yes, and that means when that first inequality is false, C short-circuits t=
+he
+logical AND and never checks USB_ENDPOINT_USAGE_IMPLICIT_FB
+like it should.
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+>
+> ... and maybe it's better to be rewritten like:
+>
+>         sync =3D (epd->bmAttributes & USB_ENDPOINT_SYNCTYPE);
+>         usage =3D (epd->bmAttributes & USB_ENDPOINT_USAGE_MASK);
+>
+>         if (usb_endpoint_is_isoc_in(epd) &&
+>             sync =3D=3D USB_ENDPOINT_SYNC_ASYNC &&
+>             (usage =3D=3D USB_ENDPOINT_USAGE_DATA ||
+>              usage =3D=3D USB_ENDPOINT_USAGE_IMPLICIT_FB))
+>                 return true;
+>
+>         return false;
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+But then, again, you would be disregarding the meaning of the flag
+USB_ENDPOINT_USAGE_IMPLICIT_FB and in practice just making
+the first check.
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+>
+> So it should return true.
+> Please double-check which test actually fails.
+>
+
+The tests don't fail, the function returns true and implicit fb is engaged,
+it's just the second test never runs.
+
+Should Pioneer release hardware in the future that does not need implicit
+feedback to be engaged, provided all the other particulars are equal, this
+function as-is would enforce implicit feedback on a device we don't want
+it applied. It's a bit far-fetched but do I see what I mean now? Do you see
+the logical error now?
 
 Thanks,
-Mark
+Geraldo Nascimento
 
+>
+> thanks,
+>
+> Takashi
