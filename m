@@ -1,153 +1,183 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 624C8440641;
-	Mon,  7 Sep 2026 09:09:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57DD444AB97
+	for <linux-sound@vger.kernel.org>; Mon,  7 Sep 2026 09:14:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788772176; cv=none; b=pSmJoJs6Flbr29D4RqdIgtoVaODlYo0L7TOIOozcp5yk+imCgIj1Bt4e3U8f/+MqKDq60kwjBJknDUxoqW0I8wzmGuqBHxI5chuLuNoNUXICgau7Cz6zj8hUP2q8Tg+F7GlLGRZ1GuDsVETQukGkSf49ULbrIV1xUF9BwzpcFYo=
+	t=1788772467; cv=none; b=FZGhwA3LA98zRIMNYAvTP7liFK+TeCwylekcAJtD8qZsegQF2W3fy+piWVb1b2wHQ21Yt2KGu2quaJ4eOZHxdz7MBw0HTYItceAk4VtI01VQj+kNIDZT+78gP003GuLy43AgB10nlQJJAEjeF+1BqURdonrSEFjJcQYIo2kIQRQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788772176; c=relaxed/simple;
-	bh=a5yTJl1mTRNz/JnJGETtgRbZibZXhJy1nbc0Lpub2jM=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Ww4K9c6DAL9VNAY1GDrNTGB4YIKQQxrBp663qNCocyr6TrxxpnCntcdBRYMjfLkXnIC7OxDGPaZdhR9+ckpw/L/50fFNLmkOXEFx/29WJWjrFZuYsnlDJDhx+WDDg6cb1ikXPEPNPuEr3y88kEhWvRLm8LPIeRAjzHUUZun79B8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RxmycdbA; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=MLkoViF3; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=EYS0JhIM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ZFqKzuHP; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1788772467; c=relaxed/simple;
+	bh=NYbmgC2XRLkSt5J1CBdChQlA98CR6LLPtwW8E/RkRc0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lGg7xjbf/7nyKGJ2Fos/OGDgjbCTuHuEy9ZKxouH8XIeWQ63mKPp3whTw2U9FJ2IePqVNXnRqHBUU0nB0hD3A7n9p6hga36kyQ3dFWq4TJ5/H5yzqJzj6BUfXy1IrGQmwASVy1tW2TXHh8+t1T5+sEyguWyb8dP6rOqPkYd4V0w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=bu6BhgBg; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=VyM19Nm6; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RxmycdbA";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MLkoViF3";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EYS0JhIM";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ZFqKzuHP"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 1D93E1F453;
-	Mon,  7 Sep 2026 09:09:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1788772169; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+ayhPQCbhnor1lPCivHrHnj/zJ7ZNSLcLh+xD4A7yX4=;
-	b=RxmycdbAIO4OVyCEIL9O0pfCvwDurOi1D6P2DoJBgwPq3Tut6eHaRtriZJHJUkZgMw8WrQ
-	SExGba1NQAHUqo4JSr5yal2OTJ1zPC8gOAMEJihO3p/wVdQKm+DpZ2sINpDaDyuWP1jRup
-	t8vuwpKxPg5IFTdg2cM6ceed+h4nhu8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1788772169;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+ayhPQCbhnor1lPCivHrHnj/zJ7ZNSLcLh+xD4A7yX4=;
-	b=MLkoViF3YX+tUsoMfLapzh0/Nmt1Om7/HXDHRhI8X0xzs8FgIpbdyhE/KWysQU8AIG0Jw0
-	Tl6qVYDRt08leKDQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1788772165; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+ayhPQCbhnor1lPCivHrHnj/zJ7ZNSLcLh+xD4A7yX4=;
-	b=EYS0JhIM7+I5nJqqJSCPUZul5E5jtOxOY8dxW/DR7vV8qItmL99TfLU7v86sySDTr6xAfB
-	zRSfmXm87SL1Rzx/HJSA1F4GU72HX/0L0tuXGCIqEPDbHbDHb7w7TFKkkcXeBf9ORbs+AM
-	Me0eVmCeCe43pwyam5CQAsvfQjpT2zY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1788772165;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+ayhPQCbhnor1lPCivHrHnj/zJ7ZNSLcLh+xD4A7yX4=;
-	b=ZFqKzuHPDLBuoB4hA18WebMRzpdcA+vsdAajgcFWSY3+a2sVA8Bh6Mz69QhV6gfnW3K2E5
-	wXzgGhD6uc1mcHAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 79FA613432;
-	Mon,  7 Sep 2026 09:09:24 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id a6NmHER/nmoyaQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 07 Sep 2026 09:09:24 +0000
-Date: Mon, 07 Sep 2026 11:09:23 +0200
-Message-ID: <8733vltol8.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Jaroslav Kysela
- <perex@perex.cz>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Maciej Strozek <mstrozek@opensource.cirrus.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Takashi Iwai <tiwai@suse.com>,
-	Faiz Nabi Kuchay <fkuchay@oss.qualcomm.com>,
-	Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>,
-	patches@opensource.cirrus.com,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 01/11] ASoC: SDCA: allow building without ACPI
-In-Reply-To: <b1eb306a-ca6b-4fb5-93c6-7890a88e2689@opensource.cirrus.com>
-References: <20260907083727.733705-1-srinivas.kandagatla@oss.qualcomm.com>
-	<20260907083727.733705-2-srinivas.kandagatla@oss.qualcomm.com>
-	<b1eb306a-ca6b-4fb5-93c6-7890a88e2689@opensource.cirrus.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="bu6BhgBg";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="VyM19Nm6"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6877osrN3657422
+	for <linux-sound@vger.kernel.org>; Mon, 7 Sep 2026 09:14:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=wwq1oK15Jr7k+xNkFsQ6GLdQUS9QHbill2N
+	kskuia9g=; b=bu6BhgBgp1p4nxAXqnGNwPAM3lZ9SbzeAaKoUrwW6Hqa1+pJfXp
+	PGbVGX2d5PT8bL4xoe7lXuZZN3UhG7IuU1Y0FQ/OuZvRwdlZQDUKdFUyjTr8TTza
+	c4e7Fywc/dQBjDoPmy6o1FUJWyLeaYidjCw91g099JsQdkt0TTsqAW6JmrnV8Xsy
+	OitIxvPL+jYaySqwjxI2FnOn4lwTpjEUx5wMHXsjE/cE19nEAByBKQrLM0QC0D6M
+	90UWEr2a8omZaFTC+NA6dwSkk4MaDqtqI+vKdPh3u5NfhYL5dgT5jzfwrMCBDVFC
+	44ffETrZVsgjJu6fU+34qmZsH7IoVgxTKog==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ghs86rbtr-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Mon, 07 Sep 2026 09:14:24 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-9382f9430deso567947085a.1
+        for <linux-sound@vger.kernel.org>; Mon, 07 Sep 2026 02:14:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1788772464; x=1789377264; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=wwq1oK15Jr7k+xNkFsQ6GLdQUS9QHbill2Nkskuia9g=;
+        b=VyM19Nm6kcb5d7Keuv3y01H8BodiVoxw9Fvx//gTXwtwK6TYkvHXa2JHT0VV4vRw5K
+         yHuSyr4RSB5s7qRNmsThxE4lhkF7KeefBvPaNW+UQM5n2bqDT5pdfTtZm3oYq33gi4tN
+         CXyuCIYQHyAZj3rjoLQGBh9/Z/3kitiQesAsbFR/2heyjVf5AK9gvybCNF+4gDRefw08
+         GTGm18GPB/awWeMA0qq3FlxdTGE+WfiIuOHff9F5ShE+iEYJkj8Ak4pfCHscMafFyYqu
+         kmqk+rgL7ivjOtNNK08vJtUC/Ckvrdqpjpvo6+5CEzT981NZycP917hGNMW+Uz2Rp2iC
+         AP5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788772464; x=1789377264;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=wwq1oK15Jr7k+xNkFsQ6GLdQUS9QHbill2Nkskuia9g=;
+        b=pAsfen0NlFV6XOYzxXQ1AlaJ0G25Kb9PPUOxldNboXym2wuFueja5AHyEauKBIlT1h
+         e7iAWx3gACzgOKD6bL8zfIuA1OZXRxkkmz9a05xPSg0Oaov6PkVj9xGPj9QVstxa33gn
+         Fq3dAYG1OG7gzsmtrTv3ncqJsCc2BSo0WwZA5I4VZEu57XpjNYnIODlFQv3y+qsG8aug
+         B/d64+aJPV+W4oYaZPk9fC8L+z5vHJHmk0OD7FiONXkq0nH2CjVvhaCeaGcY/mCl783R
+         wmKmd3tqfalPDo7TnZMq4ja0hu3TaQzOnZeFSbuik1ZrAXWFNW76Di9lc6JZ4LpeRATe
+         c3Ww==
+X-Forwarded-Encrypted: i=1; AKwUvBw6+Cp4l9aZ7w2FLtiKV2B87bUdh59pi3LDbe40kdU6A/FSYyvdiHoOIcpPJZH5LCBcXCVzpa21pb6veQ==@vger.kernel.org
+X-Gm-Message-State: AFuF++kkJF5gKc30XhsQE2izP2Wcc9V2xgCLvkOHWsA6MOaN+kDbouHS
+	zLumls4Nnf6d9hCWNKI3+/xOs8HUe9cbU3qDHUqYMD+GcZ1uUbxaXJItxjUFDg9VbJg5b5+GXn2
+	v1ilXadQ+6j/QWpRrls0goBkfZ+9Ztl8LThxEHiWeiCHxZE8RiwKcpPIP/IJaDUk6MxNGpt29Uw
+	==
+X-Gm-Gg: AYBFou393ZBWp5URdDjXQ3Pjv+dcj/7KDinqd4Io5kcfMjFUKVDBhAKCGwoHRU7nt57
+	H76wiofxRMXYgnl0jhH8LW8LTwCscl8V/cWxawsJRvDrQbQJ3GYNQyMN6wC57xoIxNsW9vpsyLu
+	o/V0IapVCzswoQPqdO8hpCv0TILhtqYB64Oppo6mSE0llcejeeVSGu+HUhOgjoY6fKjAsPraqi9
+	xKOC6LLa89Ra0uIjsrWqB75vO0V7g5SV6TPhSXcvrqzHM9OHxuYJCu3BYD327S+Zo0yZMotNyP0
+	gDmVMuiRR5XQ525cIwEnc+sEkXtHluoAaqCqI/qh3BLvJHOFAEzXlFM+jOaNOJw7zQC5RaxU2zd
+	+wVK8OBqP2vlThg==
+X-Received: by 2002:a05:620a:aa1b:b0:92e:57ae:3a53 with SMTP id af79cd13be357-939802f824dmr2054857685a.9.1788772463588;
+        Mon, 07 Sep 2026 02:14:23 -0700 (PDT)
+X-Received: by 2002:a05:620a:aa1b:b0:92e:57ae:3a53 with SMTP id af79cd13be357-939802f824dmr2054854485a.9.1788772463139;
+        Mon, 07 Sep 2026 02:14:23 -0700 (PDT)
+Received: from debian ([5.133.47.210])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-485958f1493sm15681665f8f.37.2026.09.07.02.14.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Sep 2026 02:14:22 -0700 (PDT)
+From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+To: Vinod Koul <vkoul@kernel.org>
+Cc: Bard Liao <yung-chuan.liao@linux.intel.com>,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+        linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] soundwire: bus: iterate DT compatibles for class-ID match
+Date: Mon,  7 Sep 2026 10:14:21 +0100
+Message-ID: <20260907091421.837917-1-srinivas.kandagatla@oss.qualcomm.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spam-Score: -1.80
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-1.80 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	TAGGED_RCPT(0.00)[dt];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[oss.qualcomm.com,kernel.org,opensource.cirrus.com,linux.intel.com,perex.cz,gmail.com,linux.dev,suse.com,catcrafts.net,vger.kernel.org];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: TcDLn9orrU2LKLY-2-N3TejSqoVfi2H0
+X-Proofpoint-ORIG-GUID: TcDLn9orrU2LKLY-2-N3TejSqoVfi2H0
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTA3MDEwMCBTYWx0ZWRfX6h8l/oHlR/CU
+ LfFGY6V1WymXs2J/lDcYZBwntsbPDdzTLHcSQNz7ijffVlZGoOP8NZM+egakp+kODPoujtH7Jao
+ yNA3G3CprEdykYZ6xYH3Yyt431mCOyI=
+X-Authority-Analysis: v=2.4 cv=LseiDHdc c=1 sm=1 tr=0 ts=6a9e8070 cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+ a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22 a=EUspDBNiAAAA:8
+ a=FnuwY2gGiWojwcxyLPUA:9 a=NFOGd7dJGGMPyQGDc5-O:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTA3MDEwMCBTYWx0ZWRfX6La9veu+zVLQ
+ pc4ehJi5j15ATqohyyQY194WeNDBhFeFJQJo5d58/QdniMS7x9kyrXiduLsR7lReuqRZzYjjKZo
+ o7hTexk4SlT51YBxhqBwQ0VHRFw1sCW3kV9Alen8GuxUN3jqNEJe9v9j3fXMMmS8n3McigTCSe5
+ AiEb1i1u039o6kb9GJtg0WN7JgCUBg5CfImyX9zmqw8rRrjG2uddVkOmAVplCq56W1u6V1dOto1
+ RxSwTg626SHLZKlJRqxZOjyFHRn8W2ktkHBylsJiQhtCCvqcoXlPc1NPUCSCXKnoVbJshynrudC
+ bQncKX/JrddGbtlUf+zYcBCpILia2HdPlPU/q1FOnwjrmkvFsAb4M2Paq2IoTFiYh8QyAcfPeL1
+ kcB1rW/gweN+SH9EwDsZKDJti6c11FSane3lw9donlfv/4Y33d3rsOKI3LnXi//T0iAA+XUryW9
+ jz7O0TxzSy3JiZIZ84Q==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-07_02,2026-09-03_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 impostorscore=0 spamscore=0 lowpriorityscore=0 suspectscore=0
+ adultscore=0 bulkscore=0 malwarescore=0 priorityscore=1501 clxscore=1015
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2609070100
 
-On Mon, 07 Sep 2026 10:54:08 +0200,
-Richard Fitzgerald wrote:
-> 
-> On 07/09/2026 9:37 am, Srinivas Kandagatla wrote:
-> > The SDCA class driver is useful on non-ACPI platforms where the
-> > topology is supplied statically via sdca_class_hw_ops.get_function_data.
-> > 
-> > Drop 'depends on ACPI' from SND_SOC_SDCA and guard the
-> > ACPI-parsing implementations in sdca_device.c and sdca_functions.c
-> > with IS_ENABLED(CONFIG_ACPI), providing empty stubs when ACPI is off.
-> 
-> Would it be better to use IS_REACHABLE(CONFIG_ACPI)?
+sdw_of_find_slaves() reads only the first "compatible" string on a
+SoundWire slave DT node and rejects the node if that string does not
+parse as sdwVMMMPPPPXX.  This prevents the standard DT convention of
+placing a vendor-variant compatible ahead of the SoundWire class-ID
+compatible:
 
-CONFIG_ACPI is a bool, so it's equivalent.
+    compatible = "vendor,partname", "sdwVMMMPPPPXX";
 
+Iterate every string in the compatible property and accept the first
+one that parses as a SoundWire class ID.  The vendor-variant string
+remains visible to driver probe callbacks via device_is_compatible()
+for mode/variant disambiguation.
 
-thanks,
+Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+---
+ drivers/soundwire/slave.c | 28 +++++++++++++++++++---------
+ 1 file changed, 19 insertions(+), 9 deletions(-)
 
-Takashi
+diff --git a/drivers/soundwire/slave.c b/drivers/soundwire/slave.c
+index e0c49cbcb1ba..a7d2938b031d 100644
+--- a/drivers/soundwire/slave.c
++++ b/drivers/soundwire/slave.c
+@@ -243,17 +243,27 @@ int sdw_of_find_slaves(struct sdw_bus *bus)
+ 		const char *compat = NULL;
+ 		struct sdw_slave_id id;
+ 		const __be32 *addr;
++		struct property *prop;
++		bool matched = false;
+ 
+-		ret = of_property_read_string(node, "compatible", &compat);
+-		if (ret)
+-			continue;
+-
+-		ret = sscanf(compat, "sdw%01x%04hx%04hx%02hhx", &sdw_version,
+-			     &id.mfg_id, &id.part_id, &id.class_id);
++		/*
++		 * Iterate the compatible list so DT nodes can carry a
++		 * vendor-variant compatible ahead of the SoundWire class-ID
++		 * compatible (e.g. "vendor,part", "sdwVMMMPPPPXX").
++		 */
++		of_property_for_each_string(node, "compatible", prop, compat) {
++			ret = sscanf(compat, "sdw%01x%04hx%04hx%02hhx",
++				     &sdw_version, &id.mfg_id, &id.part_id,
++				     &id.class_id);
++			if (ret == 4) {
++				matched = true;
++				break;
++			}
++		}
+ 
+-		if (ret != 4) {
+-			dev_err(dev, "Invalid compatible string found %s\n",
+-				compat);
++		if (!matched) {
++			dev_err(dev, "%pOFn: no SoundWire class-ID compatible\n",
++				node);
+ 			continue;
+ 		}
+ 
+-- 
+2.53.0
+
