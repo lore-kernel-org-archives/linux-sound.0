@@ -1,117 +1,125 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55DEC30EF8F
-	for <linux-sound@vger.kernel.org>; Mon,  7 Sep 2026 03:17:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 551E73F0A8C
+	for <linux-sound@vger.kernel.org>; Mon,  7 Sep 2026 03:47:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788751061; cv=none; b=tPF+WgSZvBuzP1k0rta1DxHryhLayYA8fGjy9aevJT4y+y+0Ev0ZpIBbaA1egik48cWVLQyX5AOokP4XrdVNZB+vEYZK1NQFg+ZXxptKVaQNQlZdc4WwhkXQ+9VJ6jXqFAMN/7uRTbhoMI4SUtVpPg7eKv2AGYM5oRihveS6VEk=
+	t=1788752846; cv=none; b=rTuYYEvOV4x0d9QPW1IX7opPdcVRydcouZnRImswjwRG4AYsyrLaiREyBVHIU/2Yt//ujcNyak3tuWyBwXvnfZ5f9SpBJkZL/zHvRqWr5QQFrEG2EjMvuKFkqLRoOre6UGHDXc0Iv87QYy9TqAHxK4APScb0u8zXKNTLWQoIthQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788751061; c=relaxed/simple;
-	bh=GOgl2AuYHF4o6a4Lhc4SJicPmu0YSPNh3S5k/cExEnc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WTnYMNCaTFkFn5uoQlvGQSHLiTt9FFXWVjrEPvjRFeeHoziu4y2heexNRXUvki1spAcunNrAJfamWqxP9lqqr0Mfxg/wi+1Ty6T7VktSvPtrnKQ3yIQVnH35qt83oO+5VXiQi+onnCed+i5758+1mSjNRZeg87mv+J0kuS/VvbA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=q/lEizuR; arc=none smtp.client-ip=209.85.216.44
+	s=arc-20240116; t=1788752846; c=relaxed/simple;
+	bh=6jmWJK61/SjCyFrb3g0NExISI2RjY7LO/yDYliJAQ/U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Zl1QbVSweTFUo/tgVx5Y9+D229Tb3pfV/h15YI5BtsddiccGtJg8cq+uhUKbhzWRGtjwilLdNgwDRjZ63LdAfctLvh4YCnDjRJivdGOXG5scEzlBSD1UyJo4OVeR2DEkrBziXSDc/+9K8OGiweWe5Rh1Sn/XkOPQrI3f9b5Nltg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CiPYKts5; arc=none smtp.client-ip=209.85.210.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="q/lEizuR"
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-398b1e63c49so3380242a91.0
-        for <linux-sound@vger.kernel.org>; Sun, 06 Sep 2026 20:17:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CiPYKts5"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-853f8c34ba4so3809492b3a.0
+        for <linux-sound@vger.kernel.org>; Sun, 06 Sep 2026 20:47:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788751060; x=1789355860; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=O/1O+V3m/DlTGUY8KpefTzcFfj5+Q1Ib789WR1OBDhI=;
-        b=q/lEizuRs5HIzA0qEYhkSxIVIj42h464vhe3+mSED80dO4gn9Ol1IqM6GCI8EYNme5
-         LLKdRg9V8WEl0Y4POoHJlmOXi9GZtGRbBpk9GiTBs3Z9LjUB+9WyOL0NodDALI2JrLrj
-         2wJyFOGgn4qqY9QahZqbKvrmHDWKV+JYvjhYx4opqKs4gDLAyXYpmWX4FeMwiWyZJSUe
-         LDePuF+9t+IbaZ57ORsS4IKgH/otbbOfSTgsLb3cAeVeObPugIMd8p+jOXySUtMs1AYa
-         kDVeAdM7NKnmOnMS+p4+zOHQiAIIXew4EToCqePjXI0UToUXrLw88Cmf19aM5nZbjh75
-         EaIw==
+        d=gmail.com; s=20251104; t=1788752844; x=1789357644; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=vljcaDx2KvDeXjmIWLAHTkvLtKLMiyvxJX3Uoaq3r8g=;
+        b=CiPYKts5sIwcOvA1sXwYuITRHwEY/9tkjxmgcjhEe+QCf+DbbVTuEqt40NlgYq7EOX
+         7Iu0wNGzWjJiK1K20QqeMr5Yq9ND9xY5HUTKCixQ7iWVP0VsHpUjhJwtLDHCJ6Yz8pJu
+         In4y84MNgaEDCSBjNa4vmv7DhTUAVNfsZgZm93m6t8a+DuW+aidqEJYMXSFgTvLxv4wu
+         GfS79BnklAzVllHGrUs47bs6xzkokydxJxkqRjLD718lheWxy6Kt2ryVn8685TWkrmWl
+         ZE0jq3y6fHx3DxVCRwSCI1mo35xAlune0fK2ylTwxrsBhJq2H5kJqoyjb8J+eiHVT4NP
+         0KGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788751060; x=1789355860;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1788752844; x=1789357644;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=O/1O+V3m/DlTGUY8KpefTzcFfj5+Q1Ib789WR1OBDhI=;
-        b=AgYhp53lwska1nIhEf18VTXDA4WJSrN38uQImcbbXsvWPK2GqV6eDBwbNTioAmbItX
-         iMmB/GFdvEDxX21nbi1iTsz6eqorKwsqdM1Yvh3JTVJa7jspQz8mNpwybErBXVmRVdD9
-         BL4WEcLadQP+bCarb7zKcEI/j+MUfaDXgIebBdDz6+7ZbjVcdbbQF08sbOUdaNqqKvoY
-         ouiKRMJ/Q3mE69bWg45yHJ0o8SnahVL0hR2dQxMXkZDnCty4MIeT9DgoAo0VM7533kuH
-         wMubU54ab6XroAIYezpmPaw8KzcCG9Sq2O89UgTvzgrQlF1thsEWmp+YvPfJWHq3Q9qy
-         8liQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzsKm1hK9rpsezKgvOGneAfeNRPolabddl4I6rbhN3TM31mrFYBbpUZsUfPQioDqkcknPLM1+mo6gj8Qg==@vger.kernel.org
-X-Gm-Message-State: AFuF++nwIC9MvC5FGxVCljzcGEGx8u1OFeifmPujqxfx8qVnTDGpzxUY
-	x31beEY2rFviycBLMzWDm19G9o3zkwddKWfdzxSovs6M5h/xrC5OME8=
-X-Gm-Gg: AYBFou0WlJkaA6PB/ocyj+m0sg0elXFGPZttT1kE+TKmo5SAxaxP0NvWbui3OAnYSGr
-	9GtyMd6HoBRh5XLJRVN1Sdecr7Lch42aiLy9B0i2RHzUoBYay86t1tOTk+mqGs5dVmRyCudmJ6r
-	edBE4OJuMCPIsIQHX2RMLzXHmmGm9vi3vFG1F2027iviWkM3GwfaUaLwV6pPhMO7Yf9rQANGmH4
-	V+ROo+Up4ITCJmk8EIClj5ig/Mh72XALvGmCXJfaA7HWhETAmBDwzwZ4HhT6+ppAHhF1VyKlR+v
-	ILMGDZwHe6SnEkP3adNIqritxFFfcqYWosa1j+49qFFQQV+VPcw7y4AV2a+/ves1nAt7833bf6d
-	JG7ObfAYsZWKoKMroZuWY/Onpl1ISKugu0VId+8PXLwveGJRWlDgWPhFnq/lQSNVaFITMBuuZzW
-	Ozd/W7wnFCglt/qAo/DGEyTP8Dxk3Hb6zfnlgwAEdb2o9ORTSxxo5jO/IFGPbwcyoB873T3wcDX
-	brcubN6nIOC7B1+
-X-Received: by 2002:a17:90b:2ccd:b0:398:baa7:4c2f with SMTP id 98e67ed59e1d1-39b27c442f8mr16208923a91.5.1788751059655;
-        Sun, 06 Sep 2026 20:17:39 -0700 (PDT)
-Received: from Nitro17 (S010660cf843d99e8.mh.shawcable.net. [70.75.72.188])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39b2a6cb7c8sm5206120a91.1.2026.09.06.20.17.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Sep 2026 20:17:39 -0700 (PDT)
-From: Aaron Welwood <abwelwood@gmail.com>
-To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
-	Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	linux-sound@vger.kernel.org,
-	alsa-devel@alsa-project.org,
-	linux-kernel@vger.kernel.org,
-	Aaron Welwood <abwelwood@gmail.com>
-Subject: [PATCH] ASoC: amd: yc: add quirk for Acer Nitro AN17-41 internal mic
-Date: Sun,  6 Sep 2026 21:17:38 -0600
-Message-ID: <20260907031738.17257-1-abwelwood@gmail.com>
-X-Mailer: git-send-email 2.55.0
+        bh=vljcaDx2KvDeXjmIWLAHTkvLtKLMiyvxJX3Uoaq3r8g=;
+        b=BxDW1C175mu0XgsTADkyY/PVc9tUqTgse0mqT7tPfg2daInemMzVT6XD/wCufyPyad
+         5bzxHxo90kOIRB4302ZCbH5aWGFTOW2jOv0WGzCQ5+jhwGGMXUGQqaEJnc2FYt02BHa3
+         dxPzOkMxqp5+RBeVUlSABRBUhXnPA4jugIw8la9PNV15hVm+80WRAkug2eSIxbUR3hPL
+         I+c1u+gPhlszIMl2lRP9TgjNEjxdCstM4QNjnoGjrWpJs5v35JDMh36AS+0IJbaa7gsL
+         FWzW1rO0VByb+RJRiyjaKS2ON/P/6e3+snrtOq9eXMYGx/CTAkR4BQLDP5YmxysXgvt5
+         xOXQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxU+KsIGYoG+ww/Xbf1/hVD3HQuB2iCE3YTDwowxdCUs0kjJlfXINATbhIHO1XJygu1oZcinWhiCmxqnQ==@vger.kernel.org
+X-Gm-Message-State: AFuF++n46qM0hNcuYPxHFgbF1on+T+beao07AtucEY0igv4Q6tO6/qLA
+	DtzzxFDUuXQLm5xG5mm69LXGPM0WDFbF1cuIr71HjZa8W9NP0qFzouC2
+X-Gm-Gg: AYBFou0QTRVDflDjo1bxOJ69/8iE7fFrVV88ac1Ua/ENV65FMzKYm/ex1wlhYiow9AL
+	HTucVBZHOs1s6A4MWgT8r/3KvymQ59uVxgAuFt/95tSBS6Bwlm3qXJKOKvYYP1glvB34QhaHJn9
+	IEhJP9LJtU5lMRqTUuigVs0gNkbXLRuImgB5OTKKIzuiBNyKJeT77bBccP30EeDMqwsEyiDhkSI
+	KWug5CZCWvhqHdvKcxP19osItu+m9E2vbMKMxZ7yYIGsxOlD36ohrZejQKwt0Rdrm5BMDldjzpm
+	YSoFFvFmtEjjpoC4erqzOGI144eS0S4fM0SIUtWVVL3MQ9vHjJ13T7N4q+r1QL0UZSgd5AbitHu
+	8R9IRT7quZQsJ7t36tKQtSoMuYV1DCPQP25F3b/NvlAC/Nk2q/DbLF8/8F2dDL0cHlnPWnbSMJP
+	UxB27U9DaQNxhYXkgCCFObE67sgoO4iB622d+id32rAGhgWtjN9fCiZ9xM32O4HWutUY/snd6Rz
+	dEzAp5UO8agz9S3TK0Q+SjJeYw=
+X-Received: by 2002:aa7:888b:0:b0:84f:dfce:966b with SMTP id d2e1a72fcca58-8616a06b9eamr25052174b3a.8.1788752844486;
+        Sun, 06 Sep 2026 20:47:24 -0700 (PDT)
+Received: from [172.20.10.2] (114-137-107-99.emome-ip.hinet.net. [114.137.107.99])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-86152a358a2sm3690281b3a.29.2026.09.06.20.47.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 06 Sep 2026 20:47:23 -0700 (PDT)
+Message-ID: <a5a983de-44f2-45ed-9a71-0839f5349d46@gmail.com>
+Date: Mon, 7 Sep 2026 11:45:10 +0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] ASoC: codecs: nau8360: Set DAC path to bypass mode
+ when DSP firmware load fails
+To: Mark Brown <broonie@kernel.org>, Neo Chang <YLCHANG2@nuvoton.com>
+Cc: lgirdwood@gmail.com, perex@perex.cz, robh@kernel.org, krzk+dt@kernel.org,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ alsa-devel@alsa-project.org, kchsu0@nuvoton.com, sjlin0@nuvoton.com
+References: <20260904060035.196399-1-YLCHANG2@nuvoton.com>
+ <20260904060035.196399-2-YLCHANG2@nuvoton.com>
+ <apsEO6K6Qo1ADH-y@sirena.co.uk>
+Content-Language: en-US
+From: YLCHANG2 <neo.chang70@gmail.com>
+In-Reply-To: <apsEO6K6Qo1ADH-y@sirena.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-The Acer Nitro AN17-41 uses "RB" as its board vendor and has no entry
-in yc_acp_quirk_table, so acp6x_probe() finds no DMI match, registers
-no card, and the internal digital microphone records only silence.
 
-Add a quirk entry for it so the DMIC is enabled.
+On 9/5/26 01:47, Mark Brown wrote:
+> On Fri, Sep 04, 2026 at 02:00:34PM +0800, Neo Chang wrote:
+>> Automatically route the DAC path to bypass mode if DSP firmware fails
+>> to load, ensuring basic audio playback remains functional.
+>> @@ -1702,6 +1702,8 @@ static void nau8360_load_fw_work(struct work_struct *work)
+>>   	if (ret) {
+>>   		dev_err(nau8360->dev, "Failed to initialize DSP: %d\n", ret);
+>>   		nau8360_dsp_enable(nau8360->regmap, false);
+>> +		snd_soc_component_update_bits(cp, NAU8360_R12_PATH_CTRL,
+>> +			NAU8360_DAC_SEL_MASK, NAU8360_DAC_SEL_BYP);
+>>   		return;
+> We don't generally do things like this, we rely on the user to fix up
+> their configuration, but equally we don't have a good mechanism to flag
+> problems with firmware download to the user.  It's not something we
+> really expect to go wrong.
+>
+> Since the register being updated here is a user visible control if this
+> does kick in we should also generate an event on the DAC Source control
+> so userspace knows something happened.
+Hi Mark,
+Thank you for your review and suggestion.
+I will remove the register update (NAU8360_DAC_SEL_BYP) during firmware 
+loading.
+Instead, I will add the following check in nau8360_dac_mux_put_enum() to 
+warn the user and block the path switch
+if the DSP firmware is not ready:
 
-Signed-off-by: Aaron Welwood <abwelwood@gmail.com>
----
-Tested on an Acer Nitro AN17-41 (board Spacia_PEH, BIOS V1.26).
-Without this entry acp6x_probe() returns -ENODEV and the internal
-DMIC records silence; with it the acp6x card registers and the
-microphone captures normally.
+int ret = 0;
+//....
+mutex_lock(&nau8360->lock);
 
- sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
-index 21d7ec0..65c4d13 100644
---- a/sound/soc/amd/yc/acp6x-mach.c
-+++ b/sound/soc/amd/yc/acp6x-mach.c
-@@ -388,6 +388,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "Nitro ANV15-41"),
- 		}
- 	},
-+	{
-+		.driver_data = &acp6x_card,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "RB"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "Nitro AN17-41"),
-+		}
-+	},
- 	{
- 		.driver_data = &acp6x_card,
- 		.matches = {
--- 
-2.55.0
-
+if (item[0] == NAU8360_DAC_SRC_DSP && !nau8360->load_fw_done) {
+     dev_warn(nau8360->dev, "Cannot enable DSP: Firmware not ready or 
+disabled\n");
+     mutex_unlock(&nau8360->lock);
+     return ret;
+}
