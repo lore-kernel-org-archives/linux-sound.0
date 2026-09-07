@@ -1,157 +1,86 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17918493644
-	for <linux-sound@vger.kernel.org>; Mon,  7 Sep 2026 12:04:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9291941D122;
+	Mon,  7 Sep 2026 12:08:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788782654; cv=none; b=ZkwlaJNmGIdMf5G8cQGUqsn4a9qkRSPpRx/sRZ1VGWTOCwgvJaiS9sD9sSFyCVK/JfgKsKrZFA3ph5Ki0upkmt11Z2nh1EKoIuJxx893kh9VakvuNkFS+QdQR0bIaHkQ+3ITTzsl3PJYIZccQjQjeNzaffxC9YUiYeZje9dqD8g=
+	t=1788782928; cv=none; b=iQbk8IxEPnDtm2GGWT/Zf+HovTtkQ2eF7JauZAt1WFCtGFRgdS3+DgsBuYVe4/lmY9vskCf0z2REHGTD5pz7veGCsWC8id0/FnvADvVaZo72b/Kr5pp7iHDm1WEIiDnXdKFx5DNEnPNAZeAh3S9XWCsi1sOTU+HGFvBXX2Q9SII=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788782654; c=relaxed/simple;
-	bh=Nph2ROMLnvDhQtRDVClTwoKUmdbXNY6dbwexoUG0CYs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IHyy1VB4jftZXEI0fJ/rN/D/62Mkny5Z2dQB+PYmTlF7V48sy6NfiYwRLxZL/SxGCT4djtD/f+08EzZxVNDh50n7PJkirp1kSgaul8UphJY2DysI+O9kv09SUwpRxCoyGlCt2KSm9vmFaBAOhpGUGyjzOFisZoqoDHJIOdNLSTs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O8oEN0gn; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788782928; c=relaxed/simple;
+	bh=biYw2wB0Py4pbHn2BhygOpvspdOcowmWtnaTlLrDGZQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=r/E7o/rwqkyAQUWR4QysIMgdxOxLG9Fu2YVuHHoMXPiBgvy19JOp00MqS8jZgOdV3zNyz9Ak03ZMgcaxxJM/YG0+BvqtHfeW1OQOoFhL5oYQdfMc3ussof5tTUy2ssHD+NE5RsRQxS9PkO/fVrqSzv/EwjX1iZ1CKzV2jF6OxBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aPE6Gp0S; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O8oEN0gn"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2d6d28aa26cso20438475ad.2
-        for <linux-sound@vger.kernel.org>; Mon, 07 Sep 2026 05:04:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788782652; x=1789387452; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=O7h2S3qXgjH0d2/zuTeGXDlTjAza128Ox3NWLM9is1c=;
-        b=O8oEN0gnNgk7F+Y3+m1u/T1vocboO7ZJF6y/iXWBjatyrNwkSyABBH0pTrgrcti9+W
-         3dL/MY2T7bQ5ZfldgvgkuoHlIKFlSqqjwZcCWXO6OblfDCihZK3sYKYT9g1K6+jxI1Xn
-         kWJCta6KiqYKSPN/1EyRJXqKU4noaJcfhwoFVkr70pg76eXZWi0TrFtYD7i5E69lFInC
-         YlGUeXCTAb31eUfkL8eM2WrWNe2Dgq582HaX0sl84JyqbfP+pCr/7SjK4yRaAPBl9Ao0
-         KX8kAJmkYij1HicRT7rPG14p8KsuJEyl2XeT7VTWdv6S35SINsnaOwOuAjcau+UCpeO5
-         ZTVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788782652; x=1789387452;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=O7h2S3qXgjH0d2/zuTeGXDlTjAza128Ox3NWLM9is1c=;
-        b=e0zd5i8usYopbLRc72Dgeccicw0XqpAixJrD4qHsbAkeM4sMzL40FB7kbHHeHhGFuh
-         zeoa1B4u5KlUTZI7Rzk8OFJCxqa+qFAFAax7XXnTc/6pfyekKqIr9soSjZyq93gt1xeA
-         Plh0KFeq273ePElwfeax2TUWwfmkYBuRxIDq2FkMb5sHlWJ69nFUbWhAUV//VnjKE0M6
-         OZhxv2zW0au4bJE6oL0waul2Tnqz/mTs80V8Q6+5ZGfpKjVeY3gXdArmIIhogmpxkVMP
-         3K/ifLXe2uL0WsHXjoECzTceoyxbopjDhQpv0tjkRjm33DyqQot9eRvMz2WGSj5SlXTm
-         S8wQ==
-X-Forwarded-Encrypted: i=1; AKwUvBy5//rK71U7Sq7qMGftUgB2bvWUg3iw5DWxybXiSbE3GvAD3vDvNqiiHONu+1sB5DDNhd77nCEhx8GrQA==@vger.kernel.org
-X-Gm-Message-State: AFuF++mMB1gwfJ4qzgSIwLOPXUMKAa7uyhWxJxZdll6xcArY0ZMcBk23
-	CfkBVtKvGW65hBKmKNkdcx3D8wECEWWoWmjZj5y9CDimRgStwEcAMz7k
-X-Gm-Gg: AYBFou2Dqx0ll7fAHuomlPR2SlgxeIhRXm5D4VCJXWAkP9b3HmmTTIZDTSbW0ScL2gl
-	hxCfdfb8wyPHDr4hwaYzQ4il13SP9UoTx+39g7PNO1KZyi1b49VM8hV3QnvzaFNMbeWvwDz2aIf
-	dIuhjJrFTp7snqCDmcopXaPFYbO0+md8yEr7IA5GR//bnGfzhAJ+ukFMdfMPy1YQkDFTTSfz6Vl
-	kgJor9wtSklOGPB00oVH2uol2YrwnUyTZU/v2AUUv8F/QhIxss2OGwmSZRUUuxCP55gSPC+iiTB
-	AHjV2IOJqjwak6U4cn1faVhzAE4FhQ+k+N4D9HNL4IgdznnyyGA0Bs56OO+ecyAkDJiAjOW4tf+
-	tTa7WS5R8qyJjItzytdITe73VKd/1bPcww6vLdMjgtm0fxUkLPDuRXQ+nBEa9xudHGFKuFuB3m+
-	4FRViq+y3LYORye9wuoDk4Rk6eOBer0b+W8/X2S98BVPR2+sksryU9XV58XTCWaMZ19bVVcbq1R
-	3sDFy1adahcoTbV4E1M1ZANc3tVNcr+pujgBidZDbyJ9yDl8fZnkq2xNN2sEMfM/AcTpYiNiRcn
-	QCOc
-X-Received: by 2002:a17:902:ed8b:b0:2c8:2808:3ec9 with SMTP id d9443c01a7336-2db126d8fc2mr211708425ad.12.1788782652165;
-        Mon, 07 Sep 2026 05:04:12 -0700 (PDT)
-Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2db14ae85eesm43064815ad.82.2026.09.07.05.04.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Sep 2026 05:04:11 -0700 (PDT)
-From: phucduc.bui@gmail.com
-To: Mark Brown <broonie@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Cezary Rojewski <cezary.rojewski@intel.com>,
-	Kees Cook <kees@kernel.org>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Trevor Wu <trevor.wu@mediatek.com>,
-	Douglas Anderson <dianders@chromium.org>,
-	linux-sound@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 7/7] ASoC: mediatek: mt8188: fix clk leak on error in audsys_clk_register
-Date: Mon,  7 Sep 2026 19:03:10 +0700
-Message-ID: <20260907120310.135693-8-phucduc.bui@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260907120310.135693-1-phucduc.bui@gmail.com>
-References: <20260907120310.135693-1-phucduc.bui@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aPE6Gp0S"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 040F21F00A3A;
+	Mon,  7 Sep 2026 12:08:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788782927;
+	bh=biYw2wB0Py4pbHn2BhygOpvspdOcowmWtnaTlLrDGZQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=aPE6Gp0SESAgXCgga7cyGEzkDzsxkx1R3I8AVPrNBq5EF4CnCbb63VYFmdtb9B4kQ
+	 2AZPg3jwlw+64KMA0YfSZ0TXi0MGW4INyx5sKmLXmqmabCBZpRypX5sbivIGvvp34f
+	 UMmbNFV+DqrOETi7C/oaRNoMeqDMauBxab6PG/6/DqBlqSo3pgy2VJFbFP4MthPQcM
+	 V9M7OtJj0yLh1LkKnjEwRW3E55L9KO7t9VcpMvHmPcSaT+09NL3K8PkGg2mp06ABUh
+	 jSA45ZJt0b6z7ws/5bScBODYwiXqvkF5iGx//tzsFTibKPAyoLcV2clShzapit1wKQ
+	 53KMWJLVCbCzg==
+Date: Mon, 7 Sep 2026 13:08:42 +0100
+From: Mark Brown <broonie@kernel.org>
+To: YLCHANG2 <neo.chang70@gmail.com>
+Cc: Neo Chang <YLCHANG2@nuvoton.com>, lgirdwood@gmail.com, perex@perex.cz,
+	robh@kernel.org, krzk+dt@kernel.org, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
+	kchsu0@nuvoton.com, sjlin0@nuvoton.com
+Subject: Re: [PATCH v2 1/2] ASoC: codecs: nau8360: Set DAC path to bypass
+ mode when DSP firmware load fails
+Message-ID: <b74f633e-85f3-4ced-af78-82e664cb91ba@sirena.org.uk>
+References: <20260904060035.196399-1-YLCHANG2@nuvoton.com>
+ <20260904060035.196399-2-YLCHANG2@nuvoton.com>
+ <apsEO6K6Qo1ADH-y@sirena.co.uk>
+ <a5a983de-44f2-45ed-9a71-0839f5349d46@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="G9WZqs0xGJIBruP9"
+Content-Disposition: inline
+In-Reply-To: <a5a983de-44f2-45ed-9a71-0839f5349d46@gmail.com>
+X-Cookie: Who's on first?
 
-From: bui duc phuc <phucduc.bui@gmail.com>
 
-devm_add_action_or_reset() is called after the loop that registers gate
-clocks. If kzalloc() fails mid-loop, the function returns -ENOMEM before
-that call, so cleanup is never registered and all previously registered
-clocks leak permanently.
+--G9WZqs0xGJIBruP9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Move devm_add_action_or_reset() before the loop so cleanup is always
-scheduled. The clock from the current (failing) iteration is not yet
-stored in afe_priv->lookup[i], so it still needs an explicit
-clk_unregister_gate() call.
+On Mon, Sep 07, 2026 at 11:45:10AM +0800, YLCHANG2 wrote:
 
-Fixes: fd67a7a1a22c ("ASoC: mediatek: mt8188: fix use-after-free in driver remove path")
-Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
----
- sound/soc/mediatek/mt8188/mt8188-audsys-clk.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+> Thank you for your review and suggestion.
+> I will remove the register update (NAU8360_DAC_SEL_BYP) during firmware
+> loading.
+> Instead, I will add the following check in nau8360_dac_mux_put_enum() to
+> warn the user and block the path switch
+> if the DSP firmware is not ready:
 
-diff --git a/sound/soc/mediatek/mt8188/mt8188-audsys-clk.c b/sound/soc/mediatek/mt8188/mt8188-audsys-clk.c
-index 972f097a13ca..9f3b3a777577 100644
---- a/sound/soc/mediatek/mt8188/mt8188-audsys-clk.c
-+++ b/sound/soc/mediatek/mt8188/mt8188-audsys-clk.c
-@@ -170,7 +170,7 @@ int mt8188_audsys_clk_register(struct mtk_base_afe *afe)
- 	struct mt8188_afe_private *afe_priv = afe->platform_priv;
- 	struct clk *clk;
- 	struct clk_lookup *cl;
--	int i;
-+	int i, ret;
- 
- 	afe_priv->lookup = devm_kcalloc(afe->dev, CLK_AUD_NR_CLK,
- 					sizeof(*afe_priv->lookup),
-@@ -179,6 +179,10 @@ int mt8188_audsys_clk_register(struct mtk_base_afe *afe)
- 	if (!afe_priv->lookup)
- 		return -ENOMEM;
- 
-+	ret = devm_add_action_or_reset(afe->dev, mt8188_audsys_clk_unregister, afe);
-+	if (ret)
-+		return ret;
-+
- 	for (i = 0; i < ARRAY_SIZE(aud_clks); i++) {
- 		const struct afe_gate *gate = &aud_clks[i];
- 
-@@ -194,8 +198,10 @@ int mt8188_audsys_clk_register(struct mtk_base_afe *afe)
- 
- 		/* add clk_lookup for devm_clk_get(SND_SOC_DAPM_CLOCK_SUPPLY) */
- 		cl = kzalloc_obj(*cl);
--		if (!cl)
-+		if (!cl) {
-+			clk_unregister_gate(clk);
- 			return -ENOMEM;
-+		}
- 
- 		cl->clk = clk;
- 		cl->con_id = gate->name;
-@@ -206,5 +212,5 @@ int mt8188_audsys_clk_register(struct mtk_base_afe *afe)
- 		afe_priv->lookup[i] = cl;
- 	}
- 
--	return devm_add_action_or_reset(afe->dev, mt8188_audsys_clk_unregister, afe);
-+	return 0;
- }
--- 
-2.43.0
+That seems like a sensible approach.
 
+--G9WZqs0xGJIBruP9
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqeqUkACgkQJNaLcl1U
+h9AfTwf/X356fqC0l1bdCY6UN7dCumPayT9K90eYSBlWUAHxLhL6AHuZJsYK4e/f
+JLiRqT5iUe1yo3F0uHep04BV4ohQzK0pIfawAWKTN49sUninu+PqkKngtIPylHVg
+/6cw9mgQxaTutRCNXfnqK+O+X8EeKej4ZGRXCocTZccFNZ6G+5kZNayUe4U2vuWg
+14PUjKy/+9ibOG1anCId4vlz5fGxjBOsQpMGdpoEYczOsgU1N9DJxofoPikkkePV
+l/CvQNoRNAmzP8H6Uecvgl/eGnXnixosIHRUMbowuzgyuTCh51fVqKZVLGq6yufm
+kqjlpQRUGzLzDc8TC8eRvPW2ycjt2g==
+=a+nT
+-----END PGP SIGNATURE-----
+
+--G9WZqs0xGJIBruP9--
