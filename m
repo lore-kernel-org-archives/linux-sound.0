@@ -1,82 +1,90 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F76B51E43B
-	for <linux-sound@vger.kernel.org>; Mon,  7 Sep 2026 16:53:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50C38519906;
+	Mon,  7 Sep 2026 16:59:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788800040; cv=none; b=f5gnWgoD8WENAKYWUAqLHm+3c45F4gA7Q8CTkiCq5diTHWTBxPwwv8wMNT1hKMLwfL7CHiLLEy6vDWxd3TAFjawh8WDvVKdWDljftGZ/R0Hxmg4WiYiKvSK0+XipkPFf4LVKps8Y55K7WRO5F/vC1ElufPYsjbl0hnm8dSrrEhw=
+	t=1788800397; cv=none; b=XriZa7ncE1sC8p75M2fWIAnYabCrnb3Xo5hlX1x0PVI50Qm+Pr3m3D4EE1n5P7DvOrKBq+sG+wDcI/+CptZX93qbKt4hsV26xJPy2kjmsXlae/55PSbzdhKTSozjWPYtati6k6KeyN9GrTcMp5KxxiYP+m39VAusnBM4PUyP6h0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788800040; c=relaxed/simple;
-	bh=xdDLf5Eb/0Pt5KNW4drtZkUyJAjxIzs2QB09d3Z9cpE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lBybZ2OEkveqzjOOTeRWaDEfuW/wu5nzmMjFdUSSkuog6DXyCtqibVbFEgdLqvXIoF9ZJ4U9YEe2TiEmuX+cU3B/0CB6aR21cxNW08FH9QXRFVn7jh9tkFW5t06gatFldHqS/jZPGnq4S4xfXIIbclTcAv0iyXO9OeJlp+dL9gc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L3BfL2Gk; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788800397; c=relaxed/simple;
+	bh=IIlbBjPVL9SGm3Vs5mstFCN7buv5sEMUkbK5Y1LdE5Q=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=G9sVzLn1l+0VdnE0y0QZ56a3JRum+yhVswfEoFnj5s1E20taLv8jrxmpphc2biGIRqmuCk6nT+E52E6IeENZVPMXmiXuxhqWKkI2pacxqvjIVGLQm9usxHBcWSPaeDlsovEl4rd0o2DajjgJNmNs4SztIJ3wMMrys5AL6Ay79Nc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PQr/gJaS; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L3BfL2Gk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73B081F0155F;
-	Mon,  7 Sep 2026 16:53:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PQr/gJaS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FDCB1F00A3A;
+	Mon,  7 Sep 2026 16:59:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788800038;
-	bh=dGusu3fG9lyc91GUz7ZH+10PfrqDsyomeerL2/tL3XM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=L3BfL2GkA4Kp9WbA9dMDQEt4FpIqSUphkKzcuu/pjrRvnpqhZLCwWzfi42u5IgBSU
-	 9c3frWy/gE83fyhJvDB3kXDjNH2+9eDRYTeL0jvh15HnxP3Czx9Xfv2HMu8zmhwQVM
-	 k1D801qybHsAZXfBPre9tywst19VqGx80da9zbhY1a5rKvqW2tHscpW0jsywd4zwjZ
-	 r67EkcMP3XgGNGpuk/x723b/nYA9VAT4T2TgI6+Iydxk5bfYqOh5hgaLMGL0gy0zdD
-	 8NSGNyg1fxhzv6/HmRBAGuwkKQ/on3EnAMyphcDkjAbTuvgHho4tlRXaqzC1nmPrhn
-	 +FUxoerZNYYlA==
-Date: Mon, 7 Sep 2026 22:23:43 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: =?iso-8859-1?Q?P=E9ter?= Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Mark Brown <broonie@kernel.org>, perex@perex.cz, tiwai@suse.com,
-	lgirdwood@gmail.com, srinivas.kandagatla@oss.qualcomm.com,
-	linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com,
-	yung-chuan.liao@linux.intel.com, daniel.baluta@nxp.com,
-	Vijendar.Mukunda@amd.com
-Subject: Re: [PATCH 04/23] ASoC: soc-compress: Implement trigger FE-BE
- sequencing as with normal PCMs
-Message-ID: <ap7sF6dOY0Pl0c46@parshuram>
-References: <20260904073134.29648-1-peter.ujfalusi@linux.intel.com>
- <20260904073134.29648-5-peter.ujfalusi@linux.intel.com>
- <apsf1kjaFG71NpPd@sirena.co.uk>
- <b64906b9-032f-4435-a179-b663f0202796@linux.intel.com>
- <361eb4b4-d880-4560-8b71-eeda6f28b43c@linux.dev>
- <5b9a199e-abac-4193-94c0-d395329207ed@linux.intel.com>
+	s=k20260515; t=1788800395;
+	bh=h8uootJdn7y6hiezHT25dBz28nB26GojxQM2yMtCx0Q=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=PQr/gJaS3tmGKlWmACnenTX7zQU4VZLQNt9cFmUKwPFiBaXXmucSxW2By2QT+Ol2g
+	 jVOk1kcHyjwOwfHQ7WdScfakUL4x/v6d0DylWoI809PFNOPvO4DYfGjBI/yrNHXGZa
+	 wZkLIPS/HXS3h/jdBoxmqAsXiePjhmOC6dcSD7CBbket+gZeYDOivviol6xaeCD1K+
+	 Dtn07QxbhKtZGwJQnKxFanudPP3O8Ie5tb/wpiAVcad+HVsXK2oHiWlXn5lAPMfJ61
+	 qt67blIGC37QDXzZiKGTb6jtFMHLxu25me3WA2wGBYqSKiSFgVajIfAn45fxQrtyzH
+	 wia/Szs+vhaWw==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, "hpp.iscas" <hppiscas@163.com>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Kevin Li <kevin-ke.li@broadcom.com>
+In-Reply-To: <20260905133103.63432-1-hppiscas@163.com>
+References: <20260905133103.63432-1-hppiscas@163.com>
+Subject: Re: [PATCH] ASoC: bcm: bcm63xx: Publish the OF module aliases
+Message-Id: <178879302852.118202.17490760276173407712.b4-ty@b4>
+Date: Mon, 07 Sep 2026 15:57:08 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <5b9a199e-abac-4193-94c0-d395329207ed@linux.intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1113; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=IIlbBjPVL9SGm3Vs5mstFCN7buv5sEMUkbK5Y1LdE5Q=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqnu2HqoxKcS25IZYf5uNyZ+v3iNb9X2Oh3oop6
+ KkPoPqenCWJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCap7thwAKCRAk1otyXVSH
+ 0BMJB/4w7qIGtx6GVf25C+jJxDcK3Dxdy9H9oiTRzvRSclTmmNmW49RSU4tEdaavp09UQg976Y4
+ yQi3KKKWOV2cAmfLvkmqCl8PCONRB7zSg254rYXEsxQirIakn6CXnCWDhV7JsaWzlDN6XZLcW6g
+ y/oPqJAfhaEJoo0RDpUkPeGcn/Vf7nJlc8JGNFJNFWa2czgeqrMv3yKxPjaQpnwhK3MrKCY+Lsu
+ jDdogUtmwZbtPhbYR4vrjI6XP24PJijLhkWlszT9Bdarx96UtUCF1RM9FcYUaKbZ5AtZIC/bDqj
+ +u8JObVzwHaRh81Xg1EiOpnvhH/3eJyE6Kw0f8FYfoqgg5uN
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On 07-09-26, 17:03, Péter Ujfalusi wrote:
-> 
-> 
-> On 07/09/2026 14:26, Pierre-Louis Bossart wrote:
-> >>> ...otherwise it'll end up with -EINVAL instead of getting passed
-> >>> through.  Also a switch statement would be a bit more idiomatic.
-> >>
-> >> OK, I will add the NEXT_TRACK and convert the if to switch.
-> > 
-> > ICYMI for testing, NEXT_TRACK and PARTIAL_DRAIN are only enabled in the
-> > 'fcplay' application with the '-p 1' argument for gapless playback, not
-> > in the initial cplay application.
-> 
-> With SOF/Intel/IPC4 we can only support DRAIN, NEXT_TRACK and
-> PARTIAL_DRAIN are not supported, but there were mismatch between fcplay
+On Sat, 05 Sep 2026 21:31:03 +0800, hpp.iscas wrote:
+> ASoC: bcm: bcm63xx: Publish the OF module aliases
 
-Those should be optional always. Gapless support should not be mandatory
+Applied to
 
-> and the kernel.
-> IPC3 does not support DRAIN afaik.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
 
-That one should be mandatory
+Thanks!
 
--- 
-~Vinod
+[1/1] ASoC: bcm: bcm63xx: Publish the OF module aliases
+      https://git.kernel.org/broonie/sound/c/32689f0fc54f
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
