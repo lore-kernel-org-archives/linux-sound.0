@@ -1,191 +1,171 @@
-Received: from sender5-op-o15.zoho.com (sender5-op-o15.zoho.com [165.173.182.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta0.migadu.com (out-210.mta0.migadu.com [91.218.175.210])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE5C8412280;
-	Mon,  7 Sep 2026 19:35:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=165.173.182.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788809719; cv=pass; b=ZeqobcmOm8t5MrVrUGuTXw7QYjyJfbfIjv5GIEHVrPqZITkawDcX/a1wt5Y20+/qGEw4LRuEG4vhvjXCHGSabXWN3+n8M0MB2QF9rkrALncgKMV91gLeeYYfwgErxwdeEOOwwigm10Nz1rZSRgHaxiIatJiGcjmdA9D3FIzVEtI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788809719; c=relaxed/simple;
-	bh=4Y8sx3ONZ3zL53OtxcsBEjCKaLvK0necxZ6DWhdZt7A=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=SnpNMeQc7qyRrp0HoFumnpHqED+JLxKms8EoxlKb030qbNHFL6797LIE9hdwe3TlaujX7F/MKSp6N92/9OhwGo1rc85JeHWYhOd2pfdZcj2rEMp2UY7L59U1E2uh4CfMAe/xQakofwyRohwNJuiwnV3LQajp0LJiFi/7PEXP04U=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=W/B7zC+l; arc=pass smtp.client-ip=165.173.182.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rong.moe
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32D7A413D62
+	for <linux-sound@vger.kernel.org>; Mon,  7 Sep 2026 19:57:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.210
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788811070; cv=none; b=iD7iSOv4qgejg0MTHTHcrqMpwJgZ2TCoJ7v4zoqsKV0phos+eIaXO/hk9zJTG7xLEGMUhAcxMzP1n/7sqpBrUEK7soaJIeRCG25/E1HDAKmv1mMxUxZ+dCGFhLQCkrSxO6hGgpkxggmKM8/c8ERbZweFGIjzPrgXsh1xGMRRWU4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788811070; c=relaxed/simple;
+	bh=jdUYVS+YdOcdEcqavzPPKCzHJFCDt3rrQaoJDSq3eVo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Exy+fezZbFJoZ6pIUrFwfc+6Vv/p+SCGmfm4iQggxPO0MaYMcRzLEfEOVB1+GnKuLk9t1wV0DQ1IGz2rRVnqxzx2TXF4hw44AGFYLC4uVBivhUg+TfpwiUMfxlbzdDMvKqers7XM2/ONFd/aA2LAagFyMl7Pt24wKSlVyKX4UU0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=coNp2flm; arc=none smtp.client-ip=91.218.175.210
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="W/B7zC+l"
-ARC-Seal: i=1; a=rsa-sha256; t=1788809698; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=c7FxL89vbCVHjrsYKcMiJ7t4cmhq+ZneHwhzqxWT3t/1D/B03bBs6Fk6BPAODfrTqmaOxXFkrP+CQ3x6TtQii9drdWeMl/IMD5ftvE4qc4Gd8bexL5rizTY2DWdgqOy97AolXGewc4mpY03x0L4cBQwdXSuNb2i20dsWMbCcQeQ=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1788809698; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=u/qHrBdVk/gn+RbDm+CHmVxzRHl6sCOs8xPOskDG3ok=; 
-	b=lRQiDdFgBXhtBOMHh8WLK+8eUIc2StPBFE2IdxWvi/IHnz7Smp7MQpEMUxFsIbweSVCI5PgPQvRwljaFG+RSY2Wu3U7H2U3M363cOZ9No6yTvt0ZQhX1xgq9MS7aBsWOyMti8WhZmi9MUHvmaLtacKcr8UivHQSCju4+oNkAIpA=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=rong.moe;
-	spf=pass  smtp.mailfrom=i@rong.moe;
-	dmarc=pass header.from=<i@rong.moe>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1788809698;
-	s=zmail2048; d=rong.moe; i=i@rong.moe;
-	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:In-Reply-To:To:To:Cc:Cc:Reply-To;
-	bh=u/qHrBdVk/gn+RbDm+CHmVxzRHl6sCOs8xPOskDG3ok=;
-	b=W/B7zC+l/WO2WGW00v2CWsFRYY6/enbm6X/3s0dtaZHvPD02fUr4pNhlCC3dyx8J
-	ZT3bExEAeqoBSBhNRQ9Iy174qqQNp8e3IYqBaK+kMsLh5BhZXhYFGtJx6jSGzo7YUbX
-	VP8PfpZOEJ51e4ZmNKCPdUuJ8eHXXCZAZ5ep8vSsNoEr4DI/MdaXX/j/FlwGY/sQlf7
-	N3zBBNs5RoJvX7XJ+Z2t76kzkF/Y+Uk44HddsfxUQssMPH5q99kYFgoZIeR4/cAT5Tm
-	GG4XiWUK3UZ9ydiuaRLG79/XlNS7wVat/GLir9NcK+molKrj0pGVXLxIRFmw3KZVay+
-	Go4rTOMhNA==
-Received: by mx.zohomail.com with SMTPS id 1788809695443853.7795859537737;
-	Mon, 7 Sep 2026 12:34:55 -0700 (PDT)
-From: Rong Zhang <i@rong.moe>
-Date: Tue, 08 Sep 2026 03:34:40 +0800
-Subject: [PATCH 2/2] ALSA: usb-audio: Add quirks for HP Elite x3 Lap Dock
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="coNp2flm"
+X-Envelope-To: linux-sound@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=jdUYVS+YdOcdEcqavzPPKCzHJFCDt3rrQaoJDSq3eVo=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1788811065; v=1; x=1789415865;
+ b=coNp2flmqFRPLKNf3BJ4oCk1YpRh9MMr7uy7LeZzCOuFl2BiCr2NIMNWYr/dMLPujXVn4Pba
+ ggwbrncaLb4J7Lv3AD0ZlxQB5JM/+Kj+qA63AYR17HnwX2kD5q8m1xDMTmgJzY7avc0fYnehxPL
+ scAXS6iIHXlxZ/aifuApRFe4=
+X-Envelope-To: linux-sound@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 8fc32778f025bbd4;
+	Mon, 07 Sep 2026 19:57:44 +0000
+X-Mizu-Trace-ID: 8fc32778f025bbd4
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <005e3c81-778a-47bc-a8ae-fb5c38ea2e2c@linux.dev>
+Date: Mon, 7 Sep 2026 21:47:42 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 11/11] ASoC: codecs: add Qualcomm Tambora (WCD9378)
+ SDCA codec
+To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+ Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>, Jaroslav Kysela
+ <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>,
+ Maciej Strozek <mstrozek@opensource.cirrus.com>,
+ Takashi Iwai <tiwai@suse.com>, Faiz Nabi Kuchay <fkuchay@oss.qualcomm.com>,
+ Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>,
+ patches@opensource.cirrus.com, linux-sound@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260907083727.733705-1-srinivas.kandagatla@oss.qualcomm.com>
+ <20260907083727.733705-12-srinivas.kandagatla@oss.qualcomm.com>
+ <525f887e-cb3b-4e74-8b93-30c3baeb8018@linux.dev>
+ <7006ad74-334c-41cb-bcc8-9ef5e75dde7e@oss.qualcomm.com>
+Content-Language: en-US
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+In-Reply-To: <7006ad74-334c-41cb-bcc8-9ef5e75dde7e@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260908-uac-hp-elite-x3-lap-dock-v1-2-e226cfe4038e@rong.moe>
-References: <20260908-uac-hp-elite-x3-lap-dock-v1-0-e226cfe4038e@rong.moe>
-In-Reply-To: <20260908-uac-hp-elite-x3-lap-dock-v1-0-e226cfe4038e@rong.moe>
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Rong Zhang <i@rong.moe>
-X-Mailer: b4 0.17-dev-1f2f7
-X-ZohoMailClient: External
 
-The HP Elite x3 Lap Dock is a laptop-like external display device with a
-FHD screen, a keyboard, and a MT touchpad. It can be connected via USB-C
-or Miracast. As an e-waste collector, I recently brought one for 69 CNY
-(10.2 USD). The price already indicates how broken the device's design
-and compatibility are ;-P
 
-When connecting via USB-C, the video source is, of course, DisplayPort
-Alternate Mode. However, the audio source has nothing to do with the
-DisplayPort signal and is actually from a builtin UAC device.
+>> wow, I realize now I completely misunderstood what this whole endeavor
+>> was about. I *thought* the point was to read the information about all
+>> the functions from Device Tree tables. I now understand there are no
+>> such tables, all the information is encoded in C as part of the
+>> higher-level codec driver.
+>>
+>> Is this really intended?
+> Unfortunately Yes.
+> 
+>> I mean, the whole ACPI set of definitions relied on the _DSD mechanism
+>> that mimics what DT provides. Do we really want all this information in
+>> C? Why not have a set of DT properties for each function?
+>>
+> 
+> We discussed this topic at LPC 2025, Devicetree MC:
+>     "DeviceTrees - MIPI SoundWire Device Class for Audio (SDCA) and
+>      classic ACPI-DT problem"
+>     https://lpc.events/event/19/contributions/2024/
+> 
+> Among other options presented, representing them in a intermediate
+> format was something which was doable.
+> 
+> I have also proposed another follow up of this topic in this years LPC
+> Devicetree MC too
+> 
+> RFC of this patchset got some comments from DT maitainers.
+> 
+> DT maintainers are not happy with the idea of keeping this info in DT
+> while it can be derived from compatible string.
+> 
+> https://lkml.org/lkml/2026/7/29/1166
+> 
+>> I guess my main objection is for opaque initialization data aka blind
+>> writes or SWF table, this should really come from platform firmware, no?
+> This table is directly generated from ACPI tables both from Lenovo T14
+> and Reference platform.
+> 
+> on ARM platforms DT is is the only firmware entry for such things and
+> its not 1:1 with ACPI example, Somethings that can be derived can not be
+> in Device tree description so its bit of mix.
+> 
+>> With this approach you'd have an endless set of kernel quirks for each
+>> board variant using the same codec.
+> 
+> @Krzysztof Kozlowski <krzk+dt@kernel.org> that is a valid point.
+> 
+> Idea is to gate them using platform specific compatibles, so far we have
+> few laptops that are pretty much identical w.r.t the description, may be
+> we got lucky in this early stages.
+> 
+> In future if it turns out to need a quirks per platform or changes
+> needed in this table then we should be able to handle it with platform
+> specific device compatibles.
+Thanks for the pointers. Unfortunately I missed all these threads but I
+don't have the background to understand the difference between software
+nodes, secondary fwnodes, etc.
 
-The builtin UAC device provides three Alternate Settings:
+What I can tell you is that the SDCA definitions were NOT designed for
+ACPI. We used the concepts we wanted to expose to drivers and the Intel
+ACPI folks told us how to represent them in ACPI. At the time, we didn't
+have *anyone* in the WG who could speak for DT platforms, and the main
+push was Windows platforms so ACPI became the path of least resistance
+to get things done.
 
-- 1:1 - Capture, S16_LE, 8000/32000/44100/48000Hz
-- 2:1 - Playback, S16_LE, 48000Hz
-- 2:2 - Playback, S24_3LE, 48000Hz
+The entire SDCA document is a design-by-committee exercise where we
+tried to make progress, you need to look at the SDCA document and not
+think "how do I translate the properties to DT syntax' but 'how do I
+extract useful concepts and represent them well in DT'...
 
-Unfortunately, the last one is broken because:
+I could go on forever on what happened since 2017 but here goes:
 
-- it doesn't accept SET_CUR(SAMPLE_RATE). QUIRK_FLAG_FIXED_RATE works
-  around it, however...
-- it constantly produces severe harmonic distortion once the capture
-  stream is also opened. The interface 2 must be closed and reopened to
-  make it recover. IOW, simply closing the capture stream makes no
-  difference.
+1) One of the most frustrating things with ACPI was the lack of
+'subblocks', we had to define indirections using "_DSD Hierarchical Data
+Extension Properties", which wasn't a walk in the park. That makes the
+SDCA text file completely unreadable for humans, and to the best of my
+knowledge no one ever released tools. This was the case when the
+properties were integer values, but now that the properties include
+binary arrays it's even worse. You could do much better with DT...
 
-Considering that S24_3LE offers no additional benefit on small speakers
-compared to S16_LE, and 2:1 is always usable as an alternative, skip 2:2
-to get rid of the trouble.
+2) The other problem is that some of the DisCo and SDCA properties are
+not generic, they only make sense in the context of a specific board.
+For example even if a codec is capable of detecting jacks, platform
+firmware could be modified to remove this capability. The delays or
+power states supported could be different between multiple boards. IOW,
+the DisCo information does make provide information on codec v. board
+context, it's all board. It's a bit silly but at the time we didn't have
+an ACPI way of representing a board - it's available now with the
+ACPI0018 'audio composition' device but too late...
 
-Setting chip->setup to any non-default value disables the fixup and
-reenables 2:2 (in this case QUIRK_FLAG_FIXED_RATE is required).
+3) the initial plan was to represent everything in DisCo, but that went
+sideways when it became allowed to use firmware download for tables, and
+when a separate SWFT format was invented. That provides 3 ways of
+storing opaque/binary data...
 
-Quirky device sample:
+4) and perhaps the most confusing for me, the codec hardware is allowed
+to request specific binary data for specific uses, which breaks further
+the difference between codec and board...
 
-  usb 7-1.4: new full-speed USB device number 50 using xhci_hcd
-  usb 7-1.4: New USB device found, idVendor=03f0, idProduct=0c56, bcdDevice= 0.00
-  usb 7-1.4: New USB device strings: Mfr=1, Product=2, SerialNumber=0
-  usb 7-1.4: Product: HP Elite x3 Lap Dock
-  usb 7-1.4: Manufacturer: HP
-  usb 7-1.4: Found last interface = 0
-  usb 7-1.4: 1:1: add audio endpoint 0x81
-  usb 7-1.4: Creating new data endpoint #81
-  usb 7-1.4: 1:1 Set sample rate 48000, clock 0
-  usb 7-1.4: 2:1: add audio endpoint 0x1
-  usb 7-1.4: Creating new data endpoint #1
-  usb 7-1.4: 2:1 Set sample rate 48000, clock 0
-  usb 7-1.4: 2:2: add audio endpoint 0x1
-  usb 7-1.4: 2:2 Set sample rate 48000, clock 0
-  usb 7-1.4: 2:2: cannot set freq 48000 to ep 0x1
-  usb 7-1.4: [9] FU [Sidetone Playback Switch] ch = 1, val = 0/1/1
-  usb 7-1.4: cannot set ctl value: req = 0x4, wValue = 0x200, wIndex = 0x900, type = 4, data = 0x40/0x0
-  usb 7-1.4: [9] FU [Sidetone Playback Volume] ch = 1, val = -17664/0/128
-  usb 7-1.4: [2] FU [Headset Playback Switch] ch = 1, val = 0/1/1
-  usb 7-1.4: [2] FU [Headset Playback Volume] ch = 2, val = -18944/0/1
-  usb 7-1.4: [6] FU [Headset Capture Switch] ch = 1, val = 0/1/1
-  usb 7-1.4: [6] FU [Headset Capture Volume] ch = 2, val = -18944/0/1
-  input: HP HP Elite x3 Lap Dock Consumer Control as /devices/pci0000:00/0000:00:08.3/0000:c9:00.4/usb7/7-1/7-1.4/7-1.4:1.3/0003:03F0:0C56.0033/input/input129
-  input: HP HP Elite x3 Lap Dock as /devices/pci0000:00/0000:00:08.3/0000:c9:00.4/usb7/7-1/7-1.4/7-1.4:1.3/0003:03F0:0C56.0033/input/input130
-  hid-generic 0003:03F0:0C56.0033: input,hiddev100,hidraw8: USB HID v1.11 Device [HP HP Elite x3 Lap Dock] on usb-0000:c9:00.4-1.4/input3
+My take is that rather than encode all properties in C, it's probably
+worth exploring a DT representation of the concepts that *can* be used
+fairly easily and make the life of codec vendors easier - not as a
+literal translation of ACPI.
 
-Signed-off-by: Rong Zhang <i@rong.moe>
----
- sound/usb/quirks.c | 38 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 38 insertions(+)
-
-diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index 6e4808330a80..6462b8390106 100644
---- a/sound/usb/quirks.c
-+++ b/sound/usb/quirks.c
-@@ -1585,11 +1585,47 @@ static int s1810c_skip_setting_quirk(struct snd_usb_audio *chip,
- 	return 0;
- }
- 
-+static int hp_elite_x3_lap_dock_skip_setting_quirk(struct snd_usb_audio *chip,
-+						   int iface, int altno)
-+{
-+	/*
-+	 * 1:1 - Capture, S16_LE, 8000/32000/44100/48000Hz
-+	 * 2:1 - Playback, S16_LE, 48000Hz
-+	 * 2:2 - Playback, S24_3LE, 48000Hz
-+	 *
-+	 * 2:2 is broken because:
-+	 * - it doesn't accept SET_CUR(SAMPLE_RATE). QUIRK_FLAG_FIXED_RATE works
-+	 *   around it, however...
-+	 * - it constantly produces severe harmonic distortion once the capture
-+	 *   stream is also opened. The interface 2 must be closed and reopened
-+	 *   to make it recover. IOW, simply closing the capture stream makes no
-+	 *   difference.
-+	 *
-+	 * Considering that S24_3LE offers no additional benefit on small
-+	 * speakers compared to S16_LE, and 2:1 is always usable as an
-+	 * alternative, skip 2:2 to get rid of the trouble.
-+	 *
-+	 * Setting chip->setup to any non-default value disables the fixup and
-+	 * reenables 2:2 (in this case QUIRK_FLAG_FIXED_RATE is required).
-+	 */
-+	if (!chip->setup && iface == 2 && altno == 2) {
-+		usb_audio_info(chip,
-+			       "%d:%d: skipping broken altsetting on HP Elite x3 Lap Dock\n",
-+			       iface, altno);
-+		return 1;
-+	}
-+
-+	return 0;
-+}
-+
- int snd_usb_apply_interface_quirk(struct snd_usb_audio *chip,
- 				  int iface,
- 				  int altno)
- {
- 	switch (chip->usb_id) {
-+	/* HP Elite x3 Lap Dock: skip broken altsets */
-+	case USB_ID(0x03f0, 0x0c56):
-+		return hp_elite_x3_lap_dock_skip_setting_quirk(chip, iface, altno);
- 	/* quattro usb: skip altsets incompatible with device_setup */
- 	case USB_ID(0x0763, 0x2001):
- 		return quattro_skip_setting_quirk(chip, iface, altno);
-@@ -2215,6 +2251,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
- 		   QUIRK_FLAG_FORCE_IFACE_RESET | QUIRK_FLAG_IFACE_DELAY),
- 	DEVICE_FLG(0x0124, 0x0c21, /* Generic USB Headphone */
- 		   QUIRK_FLAG_FORCE_IFACE_RESET | QUIRK_FLAG_IFACE_DELAY),
-+	DEVICE_FLG(0x03f0, 0x0c56, /* HP Elite x3 Lap Dock */
-+		   QUIRK_FLAG_FIXED_RATE),
- 	DEVICE_FLG(0x03f0, 0x654a, /* HP 320 FHD Webcam */
- 		   QUIRK_FLAG_GET_SAMPLE_RATE | QUIRK_FLAG_MIC_RES_16),
- 	DEVICE_FLG(0x041e, 0x3000, /* Creative SB Extigy */
-
--- 
-2.55.0
+Putting everything in C seems like a code management nightmare to me.
 
