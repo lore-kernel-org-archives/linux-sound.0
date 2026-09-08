@@ -1,226 +1,199 @@
-Received: from mta1.migadu.com (out-193.mta1.migadu.com [95.215.58.193])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9EC6524B1B
-	for <linux-sound@vger.kernel.org>; Tue,  8 Sep 2026 09:27:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.193
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788859664; cv=none; b=b1egWHrBrMdCtf4g9rSP5rNr/NERkx8geWXyh1BbSTmQuVCstlS1ah53rSXfIMq8qg+IojocPicgFy01wl6Z+9ORTAYZski658s1PdNOV1vooigge0QaxfoqGyGU7XUnqDjG5i8NTGtk3usQRsBrbzeBafT7Ty9kz2/Svl1PuvA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788859664; c=relaxed/simple;
-	bh=nI2cHtRI7/aOj72QYq28mZAiQzw9zhfPoWeHcoKy/P0=;
-	h=Mime-Version:Content-Type:Date:Message-Id:To:Subject:From:
-	 References:In-Reply-To; b=q/tagb2NW02uyYBXxO+v38fKf/kf7xqPYj4bkUSDzyLaraXI6vw25DzL7YrLLyllojTzgpRRQAxdGzkZ0KRQ/Lkokg5eVEFMmBVSh4m0rWwD8YwOIVAaj3e8Xc6BnzpunaFT3NlwBOxYzqLtcdQnFP85WnC+RzxKsblifzZe8/4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow-tech.com; spf=pass smtp.mailfrom=cknow-tech.com; dkim=pass (2048-bit key) header.d=cknow-tech.com header.i=@cknow-tech.com header.b=m8I6ET0W; arc=none smtp.client-ip=95.215.58.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow-tech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cknow-tech.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D6A551477F;
+	Tue,  8 Sep 2026 10:38:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788863900; cv=fail; b=qR+wfNbQbZGC3dWccxAwb+nhlslj5J9sXRAQS1KwYqZIQIydq2khuBS8S2q4S0nUMvDOhRiU2rbhOMFEmgXof208ub2wWeBnm3ZRbd1HQ55mMW+dQEuZAGyFeQbEGAdE72lTWdNPiDes9HQGRurZZH7ebIGbEm++i7wvPqyncQE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788863900; c=relaxed/simple;
+	bh=ER8V3uKqsZws/pBIlaXATVeQHCYNVWrIkKGFsYx1bII=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=eX4FMyxtKNdoIxT0aasv4PIs5R69HrbRP/SsU8GJQ7DsG//uaqYuFXOBupSeS8Dg2GW/Qs8eR8Jwpow/7wc6RD2QArlqvxm+iAKeYhBCHkFiLGzijSw/RgjrvmUFpyR7mbu/lzV49IN9gGsiObbg98SDAFujbLpOCKgwoJ72Rn8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=OO7QNhBu; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=GXdaoaMz; arc=fail smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cknow-tech.com header.i=@cknow-tech.com header.b="m8I6ET0W"
-X-Envelope-To: linux-sound@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=nI2cHtRI7/aOj72QYq28mZAiQzw9zhfPoWeHcoKy/P0=;
- c=simple/simple; d=cknow-tech.com;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1788859659; v=1; x=1789464459;
- b=m8I6ET0WNN6ThsQoA+3VI7+neXkdKBhEJ00qgK9WABZuFa17E2rT21z5lapJUcb3g2qZAU8o
- ywV20zS4Ocm/Ml7BaoVHkBMYuUmddbw70KEPfsWFkZ27EBjruJQLavYKb4MVID0PKXb61Eade+s
- 9LH3qC3Hk9oPytuIANB9qHG/p95zUKryLUxvmX2BzV3mv8E5+xEeCtniyMtfUPEhsD6/Sh/HZOb
- SnOhxU4zpAc7D3wynXonDHo/vLs7Xw9grapanQJUjmiq2adi6D/8kf1STkULh1zI4OI+02R4eZY
- SfeZ0DrOYAeN08eBVO79iyhjqfcrPDof1Y9E7BMEWAs9g==
-X-Envelope-To: linux-sound@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id b6bd7019bb7593c9;
-	Tue, 08 Sep 2026 09:27:39 +0000
-X-Mizu-Trace-ID: b6bd7019bb7593c9
-X-Migadu-Flow: FLOW_OUT
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="OO7QNhBu";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="GXdaoaMz"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68840ND82350625;
+	Tue, 8 Sep 2026 05:37:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	PODMain02222019; bh=MTFM4xWJifPEakTR89v4Tm5r7ixT+GK1UNqAc/aVnt4=; b=
+	OO7QNhBuKJj/o3+wbgfK1jyRQFQ3eWsxdf/qeJWpLIj81Pu9dv1KJdgKiNFv/5gQ
+	zvOol0j+wQpiq2R2xDcBemS8BZYMZ0YK8eP7+Y1Glc03EAGLk5NQy3LKcSKTa6Dx
+	Qn4XNiMlYm8ZO/og7ckVi9HF1plig9ylk4IW7hqRqXvsRRmfv5t+6F6xmnZZ+5Sx
+	vpnv40sgOY5FhIMbPG+LjJRUSfE48TlqyJov1ht30/j6WgvNPToHs0MtdLhj57kO
+	6gemg+sVnCOfRrRD9KJHK3r7pxS6utzDsjZvWuYmD7eWLs8pVzeG4KIAqvc3tlQ3
+	g3gBAM0nS7xlvXEY2/lSNg==
+Received: from mw6pr02cu001.outbound.protection.outlook.com (mail-westus2azhn15012013.outbound.protection.outlook.com [52.102.136.13])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4ggfgju6q6-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Tue, 08 Sep 2026 05:37:43 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=AwcI7eRkb+mrbOjsVYGdm/KNC6PoRG03PUW9me2/CY3sz5DbRDW/XJ5D0I195ackRoULSWa4FmBkTbujgNoSWeAOkxLF7ZeM1DhhFb+fl2G3uPT/ScD+O8juw/BmsAGytCnATYi20yOJYKSd3IcxaJgqZpZN47zdIeEofEQjxnpExP4HLgvlSR//eKc8ijQ1hJjbuq8nLlKMc1GpTWriV8lllohcAJWZH2Bo5coWhs4Siu/s0+/3F69PWvczt7D7AX9OnzuYICbD8I7fJyOEnS31exuVuUozf4nbaQ4HRgiqsFBqzkZ1FmQ1SvWbM9FOmICbk8H4Di+RLCwlhEC2QA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=MTFM4xWJifPEakTR89v4Tm5r7ixT+GK1UNqAc/aVnt4=;
+ b=XMFBsNKNb/+8KAV0BdSOoTVhaMlznD6BHRZwA9i61HFIfnU7DMl4fHmqCdytmFH5wMDpj1slP3Le9qCkZlDEFdIVrvM+ZHsN9mNwQe4e7Hzzj+PStu0BFqv0GATNGpEu61YdXnrSsWhCbABLEKR9Cz+Yskpx4yyeeDPNIIgTdxVCNRGk2+ZhHCC1OBOSXZNiVH/DTl3bO8+ThJOmricKV/vHgAhY2r5cE6iwHeypcol+foE/FWLg/ATlQa/fF8sSsMlBV0HzY/HbojTIdsRDiydiI50GPXteF0DQNuPHNMfDVNEm/8stFPbp+2EJlpP/sRmmE6M+uhWwRURoVw2n0g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=catcrafts.net
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MTFM4xWJifPEakTR89v4Tm5r7ixT+GK1UNqAc/aVnt4=;
+ b=GXdaoaMz1+3aOK3E7AHLxs+Fo245wDkpmTm2rdbYNNR6oB4FH+80ZiB9jw1W4Dyt9RghIWzebrHVQhMEGadVlRO7HU7s/AU2SxfcR6TBtHGtf9Lt7UsyyeQqFU/6UcF6mZXXIJy308zARgQWJLg9FgGGdXZWYPxcyg/nIv/pUGc=
+Received: from MW4PR03CA0158.namprd03.prod.outlook.com (2603:10b6:303:8d::13)
+ by PH3PPF32277437D.namprd19.prod.outlook.com (2603:10b6:518:1::c10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.7; Tue, 8 Sep 2026
+ 10:37:37 +0000
+Received: from SJ5PEPF000001C9.namprd05.prod.outlook.com
+ (2603:10b6:303:8d:cafe::22) by MW4PR03CA0158.outlook.office365.com
+ (2603:10b6:303:8d::13) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.382.15 via Frontend Transport; Tue, 8
+ Sep 2026 10:37:37 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ SJ5PEPF000001C9.mail.protection.outlook.com (10.167.242.37) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.406.5
+ via Frontend Transport; Tue, 8 Sep 2026 10:37:36 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 2B0CD406543;
+	Tue,  8 Sep 2026 10:37:34 +0000 (UTC)
+Received: from [198.90.208.11] (ediswws06.ad.cirrus.com [198.90.208.11])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 142C8820247;
+	Tue,  8 Sep 2026 10:37:34 +0000 (UTC)
+Message-ID: <a6d1f575-2431-4951-ab5b-e5bce5ecc63a@opensource.cirrus.com>
+Date: Tue, 8 Sep 2026 11:37:33 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 08 Sep 2026 11:27:36 +0200
-Message-Id: <DL9TTP3MMMWH.129LZ6DVSWA42@cknow-tech.com>
-To: <linux-sound@vger.kernel.org>
-Subject: Re: BUG in es8389_set_bias_level?
-From: "Diederik de Haas" <diederik@cknow-tech.com>
-X-Mailer: aerc 0.22.0-9-ge948bb7230f4
-References: <DJIUWLPIHZ48.5H5T2EI2YI8D@cknow-tech.com>
-In-Reply-To: <DJIUWLPIHZ48.5H5T2EI2YI8D@cknow-tech.com>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 11/11] ASoC: codecs: add Qualcomm Tambora (WCD9378)
+ SDCA codec
+To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+        Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+        Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>,
+        Bard Liao <yung-chuan.liao@linux.intel.com>,
+        Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>,
+        Maciej Strozek <mstrozek@opensource.cirrus.com>,
+        Takashi Iwai <tiwai@suse.com>,
+        Faiz Nabi Kuchay <fkuchay@oss.qualcomm.com>,
+        Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>,
+        patches@opensource.cirrus.com, linux-sound@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20260907083727.733705-1-srinivas.kandagatla@oss.qualcomm.com>
+ <20260907083727.733705-12-srinivas.kandagatla@oss.qualcomm.com>
+ <525f887e-cb3b-4e74-8b93-30c3baeb8018@linux.dev>
+ <7006ad74-334c-41cb-bcc8-9ef5e75dde7e@oss.qualcomm.com>
+ <005e3c81-778a-47bc-a8ae-fb5c38ea2e2c@linux.dev>
+ <c7fec9d0-b79f-437c-ba8b-37858842c545@oss.qualcomm.com>
+ <ap/MFVMHG2Hej8k/@opensource.cirrus.com>
+ <a6ae0ad4-6fb4-48f7-9636-7c0e266b6940@oss.qualcomm.com>
+Content-Language: en-GB
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+In-Reply-To: <a6ae0ad4-6fb4-48f7-9636-7c0e266b6940@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ5PEPF000001C9:EE_|PH3PPF32277437D:EE_
+X-MS-Office365-Filtering-Correlation-Id: c6c0d87b-2458-47de-edcb-08df0d9532d6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|34020700016|82310400026|61400799027|23010399003|36860700016|10067099003|4143699003|11063799006|56012099006|16102099003|22082099003|18002099003|12100799066;
+X-Microsoft-Antispam-Message-Info:
+	iqu6jfnUDbv4YNi3zyKz89luhezNGam+EAz93sx5NPjjSWhg1ZIEpj5T5ReXozpE3KSzQeipX86xGxeinZUNil4OPewVlv/po4CVofmwarPYyRvf8F6uuSB1cooJgmQwhWv6Yl7rJDhFMQIGm5cMRX1Jlki4NH5obOcw8Io9C87FsOL+dUh8pacG5uZjsHFq2TewHe+bX//H5xga3afjj2Wu9643h7t40a4z5Buw6NFZqIcNr09FJzaSYZCYMIktkw12mI39UB9Y9MaQwkPyckIB3o7B05O2IaTjkXKIxmX30etot34oxMd6oszwK9sD5m21MCojrVEgjyofWrFW8+pDBDr9u3vVkNyJg4gSUajJZ3soimDDiUgwZrsSKR5GjmsKBBVrS7qljjM8i6u/Sec9PMMBLYrzurNSDwVtQT+PWeqSY6Io/TEB/TY28fFWQGyrBuO3B72dNpwrElrlZBoQ/TEDO1IzABdK7LjQ4OrGOp5UYv6zhZf16M1gJYfUOYGwmysWOZO82g+Tm8HD3O7UObGYxZ5YOWRX85E4GaSHEd0/0Y51vk1b3gKZhrAU71CsKyfw7gghbcVnFY2aF/anTgZl6X0XzOj9QkxWDLMeHxvfUA5pTPnEWXYyMcL8Mmmh+hazH6JbwdpK4x/9XWf0Qkm+o5GKfHHhiS5cVH7AStI/sA3ZzkJB5SYLNWgxuC+WoI69rcFiTVfFKRzQjg==
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(7416014)(34020700016)(82310400026)(61400799027)(23010399003)(36860700016)(10067099003)(4143699003)(11063799006)(56012099006)(16102099003)(22082099003)(18002099003)(12100799066);DIR:OUT;SFP:1501;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	4qyeGFOsF8pr69trtggbSH1MaW0TyxmyhxXMaqSC8RR/8DBbdLeWHssJV3di+0UHpjVvowRngyMu0ekWVzZmk3twblUs98zoeMJ3e6xlVh8/sp+B3y0dYxk6TkPE9k4T/gpNe40R0trbOSjuA8jdrTypTTNvZvr8aHlIjnlPbMQw5V1q8juVWZSc/y2jYSTiXWr9j8xfRjoty4qna5/EwDzZPwq/r67NiySWPfngshujxMKYk7dxYXBaq/BQMVt2KwlorRvomJWQ63EaesHBg1uQcjLTOsl+eH6DzYyfVwX/LgvK3X9YTNAR/cwsslC0BU+2V00hvEd3qf3GQEKXqrqZ+tR95FhWFGF8Z001IZlO+HaQYGGMsr6rzebR2/PhRXLc2r5xDWyLamIWii7CltI6gvW539Zj/kQZh5pUatEpLjT3CTQ14l+u5hqCHECC
+X-Exchange-RoutingPolicyChecked:
+	ROmDeL3ga7EXGsJYGYKg6ejBF5VL8RwB5l0UdjtlHu0TJ8uhU3uY7d1vaW9DpQz19gdOv8HbOsPwzsDuWUSYTjexHt1okAolLRYA2PGFIK5UFDd1qgjk9nPVUEgUNtFpc9ADSYRRvQqi65WWrUPZspNDz12Er+MNR2+Gx3IAs8aCLA+LCY8Jn3C+5OoQM3JqbpCXJU2qCYW2NjAOX5TLYwsCFzh72BZ+mS9SpEQeVsNvnQAHfbjLX6b+tKBR+XfiJpmMoG6rkDmDlgt9Kqvy56s9dryIfAW5k3oPI4/kDjRCjxhiI4A8hyZOzMvSx0GEGvzKeKWEtQ7vAy1hs8bsTw==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Sep 2026 10:37:36.0862
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c6c0d87b-2458-47de-edcb-08df0d9532d6
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-SJ5PEPF000001C9.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH3PPF32277437D
+X-Authority-Analysis: v=2.4 cv=bpd8wkai c=1 sm=1 tr=0 ts=6a9fe577 cx=c_pps
+ a=JBO1m3OZybHMqBf15U+9pQ==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=KfkQE9S9VqCBgivYGm0O:22
+ a=06WyV9Ugvycfi6l5TIgA:9 a=QEXdDO2ut3YA:10 a=jZz-an6Pvt0H8_Yc_ROU:22
+ a=VlVynqX4KLlZR1Cn4-IV:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTA4MDExMyBTYWx0ZWRfX/LQjlmr/CycC
+ YsGWz3SoyVZzDTtylakpGBlavuKwfPqTQrD5eywck3iSFZ0/S2FOgP1b4kR1OMIvx4fvuiFnKbF
+ y6R+32ddCQh4que/1hAQx6TWMM9WiirMN10OT4Sc2LFUHXkKGEAcDukYjbVwfdBzsCqmIn+SQx1
+ 5JowlQHH/NAyfmQNBS2Kry9O7joz3VkSiUBpNKbcxHJnyJZRaVHm8OCxuREyE3AASO36TJei/I+
+ i3c3xhoRLm0hFNluaqvcWNesj1P2uahXgemBtREWfIPYgyvat1rZFKpjaZ+aiyaC62zbQs+aqcT
+ lcK+LbJEN4zjePeBge+1N7sgicqRF48Yc2omhD4m3rteXeuEFs1dCzVcq/+BjupqLmbB73CcSuV
+ YWjt5NcHWCtdMW/RmL0GrxMNiFqSqmmeo2M+159OpwgrZHxNJLwsFhAE/WDkjqCMh4U4C2bl7Rp
+ ZCN1yTQJV7W17xGrdsQ==
+X-Proofpoint-ORIG-GUID: hkLAExi7dHVWciGsR3dU6O0TcGNXq78Z
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTA4MDExMyBTYWx0ZWRfX43iREX9w/riI
+ iuoAnzkom6ekiJRo68fi/+Z7O45kXu/cglHk8gW83kxgmDAQ6UZOfrh0cxfKS282n+nJYdQ3noi
+ VSp4jBKA00xETuJwb2Okk0tIbyZIiwQ=
+X-Proofpoint-GUID: hkLAExi7dHVWciGsR3dU6O0TcGNXq78Z
+X-Proofpoint-Spam-Reason: safe
 
-On Fri Jun 26, 2026 at 11:00 AM CEST, Diederik de Haas wrote:
-> I'm working on adding support for the FriendlyElec NanoPC-T6 Plus [1] whi=
-ch
+On 08/09/2026 10:09 am, Srinivas Kandagatla wrote:
+> On 9/8/26 9:49 AM, Charles Keepax wrote:
+>> On Mon, Sep 07, 2026 at 11:37:49PM +0100, Srinivas Kandagatla wrote:
+>>> On 9/7/26 8:47 PM, Pierre-Louis Bossart wrote:
+>>>> My take is that rather than encode all properties in C, it's probably
+>>>> worth exploring a DT representation of the concepts that *can* be used
+>>>> fairly easily and make the life of codec vendors easier - not as a> literal translation of ACPI.
+>>>
+>>> I agree a DT expression of the *concepts*  not a literal DisCo
+>>> mirror would be a better A.  I want to bring that back to LPC 2026
+>>> DT MC as a concrete proposal grounded in the earlier DT-maintainer
+>>> feedback rather than re-litigating it inline on this series.  Because
+>>> B stays put, switching A later is a change inside populate_function,
+>>> not an ABI break. so landing this series does not close the door on
+>>> the representation you're asking for.
+>>
+>> I am still not sure I really see what the value is in a
+>> completely different DT representation of the DisCo information,
+>> all it does is give us potential issues with future spec versions
+>> and create a whole bunch of new code than needs maintained. The
+>> ACPI representation translates perfectly well to DT, should work
+>> perfectly fine using the existing code.
+> 
+> I totally agree with both of your comments, there is no way we can
+> replicate MiPi spec into an different DT representation, this brings
+> both maintenance overhead and is fragile. This a very big effort.
 
-FWIW, that has now been submitted:
-https://lore.kernel.org/linux-rockchip/20260907122406.1862398-1-diederik@ck=
-now-tech.com/
+But in your previous message in this thread you said the opposite:
 
-> uses the es8389 codec. And while analog audio does work, I always get the
-> following stack trace in dmesg:
->
-> [   10.072410] ------------[ cut here ]------------
-> [   10.073686] i2s0_8ch_mclkout_to_io already disabled
-> [   10.074943] WARNING: drivers/clk/clk.c:1188 at clk_core_disable+0x224/=
-0x260, CPU#6: kworker/u32:0/12
-
-That has now been fixed by this patch:
-https://lore.kernel.org/all/20260904104141.3885-1-zhangyi@everest-semi.com/
-
-Cheers,
-  Diederik
-
-> [   10.076547] Modules linked in: aes_ce_blk ghash_ce gf128mul rockchip_v=
-dec joydev snd_soc_simple_card(+) snd_soc_es8389 snd_soc_rockchip_i2s_tdm s=
-nd_soc_hdmi_codec(+) v4l2_vp9 snd_soc_simple_card_utils rockchip_iep2 rockc=
-hip_rga synopsys_hdmirx pwm_fan leds_gpio rockchip_iep_common v4l2_h264 v4l=
-2_dv_timings snd_soc_core v4l2_mem2mem videobuf2_dma_contig videobuf2_dma_s=
-g gpio_ir_recv videobuf2_memops snd_compress videobuf2_v4l2 snd_pcm_dmaengi=
-ne panthor ofpart snd_pcm videodev snd_timer spi_nor videobuf2_common drm_g=
-puvm snd rockchip_rng mtd rockchip_thermal mc soundcore gpu_sched rk805_pwr=
-key drm_exec drm_shmem_helper evdev cpufreq_dt pkcs8_key_parser nvme_fabric=
-s efi_pstore configfs autofs4 ext4 hid_generic crc16 usbhid mbcache jbd2 hi=
-d r8169 realtek onboard_usb_dev phy_package mdio_devres of_mdio fixed_phy f=
-wnode_mdio libphy mdio_bus nvme xhci_plat_hcd xhci_hcd nvme_core rk808_regu=
-lator nvme_keyring nvme_auth rockchipdrm dw_hdmi_qp dw_mipi_dsi fusb302 tcp=
-m dw_hdmi rtc_hym8563 aux_hpd_bridge analogix_dp fan53555
-> [   10.076648]  drm_dp_aux_bus drm_display_helper cec phy_rockchip_usbdp =
-gpio_rockchip phy_rockchip_snps_pcie3 dw_mmc_rockchip phy_rockchip_naneng_c=
-ombphy fixed sdhci_of_dwcmshc rockchip_saradc rc_core display_connector sdh=
-ci_pltfm typec ohci_platform dw_mmc_pltfm industrialio_triggered_buffer dwc=
-3 sdhci drm_client_lib ehci_platform kfifo_buf dw_mmc udc_core spi_rockchip=
- ehci_hcd ohci_hcd dw_wdt cqhci phy_rockchip_samsung_hdptx drm_dma_helper n=
-vmem_rockchip_otp pl330 rockchip_dfi spi_rockchip_sfc drm_kms_helper usbcor=
-e drm i2c_rk3x adc_keys pwm_rockchip phy_rockchip_inno_usb2 industrialio ul=
-pi usb_common
-> [   10.095597] CPU: 6 UID: 0 PID: 12 Comm: kworker/u32:0 Not tainted 7.1-=
-rc7+unreleased-arm64-cknow #1 PREEMPTLAZY  Debian 7.1~rc7-2
-> [   10.097473] Hardware name: FriendlyElec NanoPC-T6 Plus (DT)
-> [   10.098826] Workqueue: async async_run_entry_fn
-> [   10.100094] pstate: 604000c9 (nZCv daIF +PAN -UAO -TCO -DIT -SSBS BTYP=
-E=3D--)
-> [   10.101564] pc : clk_core_disable+0x224/0x260
-> [   10.102818] lr : clk_core_disable+0x224/0x260
-> [   10.104059] sp : ffff80008021bc30
-> [   10.105189] x29: ffff80008021bc30 x28: 0000000000000000 x27: 000000000=
-0000000
-> [   10.106663] x26: ffff000100040c28 x25: 00000000fffffef7 x24: ffff00010=
-019be05
-> [   10.108135] x23: ffff000107fa2028 x22: ffff000105217880 x21: 000000000=
-0000001
-> [   10.109596] x20: 0000000000000000 x19: ffff00010035a800 x18: 000000000=
-000000a
-> [   10.111056] x17: 0000000000000000 x16: ffffb1911af0cef0 x15: 000000000=
-0000000
-> [   10.112497] x14: ffffffffffffffff x13: ffff000109d7c480 x12: 3ffffffff=
-fffefff
-> [   10.113922] x11: 0000000000017fe8 x10: ffffb1911d05c148 x9 : ffffb1911=
-afa4a8c
-> [   10.115333] x8 : ffffb1911d0e4310 x7 : ffffffffffffefff x6 : 000000000=
-0000001
-> [   10.116735] x5 : ffff0005fdf361c8 x4 : ffff4e74e0fec000 x3 : ffff00010=
-092ca00
-> [   10.118141] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff00010=
-092ca00
-> [   10.119550] Call trace:
-> [   10.120539]  clk_core_disable+0x224/0x260 (P)
-> [   10.121686]  clk_disable+0x40/0x70
-> [   10.122743]  es8389_set_bias_level+0x17c/0x238 [snd_soc_es8389]
-> [   10.124013]  snd_soc_component_set_bias_level+0x2c/0x70 [snd_soc_core]
-> [   10.125329]  snd_soc_dapm_set_bias_level+0x60/0x2c0 [snd_soc_core]
-> [   10.126604]  dapm_pre_sequence_async+0x5c/0x110 [snd_soc_core]
-> [   10.127844]  async_run_entry_fn+0x40/0x1a0
-> [   10.128915]  process_one_work+0x17c/0x510
-> [   10.129964]  worker_thread+0x18c/0x310
-> [   10.130994]  kthread+0x134/0x150
-> [   10.131958]  ret_from_fork+0x10/0x20
-> [   10.132950] ---[ end trace 0000000000000000 ]---
-> [   10.134217] ------------[ cut here ]------------
-> [   10.135476] i2s0_8ch_mclkout_to_io already unprepared
-> [   10.136833] WARNING: drivers/clk/clk.c:1047 at clk_core_unprepare+0x27=
-4/0x2c0, CPU#6: kworker/u32:0/12
-> [   10.138576] Modules linked in: aes_ce_blk ghash_ce gf128mul rockchip_v=
-dec joydev snd_soc_simple_card(+) snd_soc_es8389 snd_soc_rockchip_i2s_tdm s=
-nd_soc_hdmi_codec(+) v4l2_vp9 snd_soc_simple_card_utils rockchip_iep2 rockc=
-hip_rga synopsys_hdmirx pwm_fan leds_gpio rockchip_iep_common v4l2_h264 v4l=
-2_dv_timings snd_soc_core v4l2_mem2mem videobuf2_dma_contig videobuf2_dma_s=
-g gpio_ir_recv videobuf2_memops snd_compress videobuf2_v4l2 snd_pcm_dmaengi=
-ne panthor ofpart snd_pcm videodev snd_timer spi_nor videobuf2_common drm_g=
-puvm snd rockchip_rng mtd rockchip_thermal mc soundcore gpu_sched rk805_pwr=
-key drm_exec drm_shmem_helper evdev cpufreq_dt pkcs8_key_parser nvme_fabric=
-s efi_pstore configfs autofs4 ext4 hid_generic crc16 usbhid mbcache jbd2 hi=
-d r8169 realtek onboard_usb_dev phy_package mdio_devres of_mdio fixed_phy f=
-wnode_mdio libphy mdio_bus nvme xhci_plat_hcd xhci_hcd nvme_core rk808_regu=
-lator nvme_keyring nvme_auth rockchipdrm dw_hdmi_qp dw_mipi_dsi fusb302 tcp=
-m dw_hdmi rtc_hym8563 aux_hpd_bridge analogix_dp fan53555
-> [   10.138686]  drm_dp_aux_bus drm_display_helper cec phy_rockchip_usbdp =
-gpio_rockchip phy_rockchip_snps_pcie3 dw_mmc_rockchip phy_rockchip_naneng_c=
-ombphy fixed sdhci_of_dwcmshc rockchip_saradc rc_core display_connector sdh=
-ci_pltfm typec ohci_platform dw_mmc_pltfm industrialio_triggered_buffer dwc=
-3 sdhci drm_client_lib ehci_platform kfifo_buf dw_mmc udc_core spi_rockchip=
- ehci_hcd ohci_hcd dw_wdt cqhci phy_rockchip_samsung_hdptx drm_dma_helper n=
-vmem_rockchip_otp pl330 rockchip_dfi spi_rockchip_sfc drm_kms_helper usbcor=
-e drm i2c_rk3x adc_keys pwm_rockchip phy_rockchip_inno_usb2 industrialio ul=
-pi usb_common
-> [   10.158082] CPU: 6 UID: 0 PID: 12 Comm: kworker/u32:0 Tainted: G      =
-  W           7.1-rc7+unreleased-arm64-cknow #1 PREEMPTLAZY  Debian 7.1~rc7=
--2
-> [   10.160114] Tainted: [W]=3DWARN
-> [   10.161231] Hardware name: FriendlyElec NanoPC-T6 Plus (DT)
-> [   10.162575] Workqueue: async async_run_entry_fn
-> [   10.163848] pstate: 60400009 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYP=
-E=3D--)
-> [   10.165316] pc : clk_core_unprepare+0x274/0x2c0
-> [   10.166574] lr : clk_core_unprepare+0x274/0x2c0
-> [   10.167831] sp : ffff80008021bc30
-> [   10.168959] x29: ffff80008021bc30 x28: 0000000000000000 x27: 000000000=
-0000000
-> [   10.170417] x26: ffff000100040c28 x25: 00000000fffffef7 x24: ffff00010=
-019be05
-> [   10.171886] x23: ffff000107fa2028 x22: ffff000105217880 x21: 000000000=
-0000001
-> [   10.173342] x20: 0000000000000000 x19: ffff00010035a800 x18: ffff4e74e=
-0fec000
-> [   10.174809] x17: 0000000000000000 x16: ffffb1911beae608 x15: ffffb1911=
-d0321c8
-> [   10.176271] x14: ffffb1911cf4a100 x13: 00000000000000c0 x12: ffff0005f=
-df36100
-> [   10.177720] x11: 00000000000000c0 x10: 0000000000000db0 x9 : ffffb1911=
-af2a084
-> [   10.179177] x8 : ffff00010092d810 x7 : 0000000000000004 x6 : 000000000=
-0000000
-> [   10.180626] x5 : ffff4e74e0fec000 x4 : ffff00010092ca00 x3 : ffff00010=
-0901280
-> [   10.182061] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff00010=
-092ca00
-> [   10.183505] Call trace:
-> [   10.184503]  clk_core_unprepare+0x274/0x2c0 (P)
-> [   10.185676]  clk_unprepare+0x38/0x60
-> [   10.186745]  es8389_set_bias_level+0x184/0x238 [snd_soc_es8389]
-> [   10.187997]  snd_soc_component_set_bias_level+0x2c/0x70 [snd_soc_core]
-> [   10.189264]  snd_soc_dapm_set_bias_level+0x60/0x2c0 [snd_soc_core]
-> [   10.190520]  dapm_pre_sequence_async+0x5c/0x110 [snd_soc_core]
-> [   10.191701]  async_run_entry_fn+0x40/0x1a0
-> [   10.192683]  process_one_work+0x17c/0x510
-> [   10.193623]  worker_thread+0x18c/0x310
-> [   10.194540]  kthread+0x134/0x150
-> [   10.195425]  ret_from_fork+0x10/0x20
-> [   10.196326] ---[ end trace 0000000000000000 ]---
-> [   29.109243] snd_parse_eld: 6 callbacks suppressed
->
-> The NanoPC-T6 Plus is quite a lot like the T6 LTS ... apart from that the=
- LTS
-> uses a Realtek ALC5616 codec and it does not have such a stack trace, hen=
-ce my
-> suspicion that the bug is in es8389.
->
-> Or did I do anything wrong?
-> Happy to provide additional info and/or run tests.
->
-> Cheers,
->   Diederik
->
-> [1] WIP branch: https://git.sr.ht/~diederik/linux-kernel/tree/rk3588-nano=
-pc-t6-plus
-
+"I agree a DT expression of the *concepts*  not a literal DisCo
+mirror would be a better A."
 
