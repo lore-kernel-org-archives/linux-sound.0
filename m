@@ -1,47 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 808FA5908DA;
-	Tue,  8 Sep 2026 17:28:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C2FC59572B;
+	Tue,  8 Sep 2026 17:28:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788888484; cv=none; b=l0Mf4y8sTwJEh2n1i8sKQTsbLvbfYyHudMsYIHRoZ/SWdmUQdLjonhDeKapWiWjXEoBtBZe9R8i/GoRYpixIHo3zeXmOcdbWXSYErn7eGdEi9Qx/+R7xdPwDUwP0KTfIOGD4FnyPFkyA+dRgaFWs5++oM7nfozNMPUMAOr0uOrI=
+	t=1788888490; cv=none; b=BSNYdZtVkSEysAKMgj/o8cGxRWnZ4ZdYPwl7tq0SX3nfqoTbFSo/+2Fm43IAo69A3KMmbj0UrbTvMmH7Su8m+QyjwlaX1C016gOcWmnLCCxroasrb7xgR7RI3CqHsvbkfmRURt2a0sqYdLHswIbb22LZmUeb/wRxhyiE3c1FxDs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788888484; c=relaxed/simple;
-	bh=lEUgOH/O9TJ8aaaKwHIpkEDMFvYaZ3as10UkVzac/3A=;
+	s=arc-20240116; t=1788888490; c=relaxed/simple;
+	bh=fMJiwrHTyjvVpgbOXarjvXSkyT6yrU59DVbno2lZsBs=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=iw5/feQHgZvbpSY8McU+eNfijA2nmHQdE7hTESjrYgHMEPwqxqt40yUYrvrwkuheXZIGeItTDDjTreInaLkPxNlFF72EVwIUCOoqfG694erp8JOgl9CN5815tTcneZx4Wr6l+2jdIXvGqMEMFGbfLCtXV7KGW6CHqKNCg2Uip68=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DLkoMscu; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=Xw3dTlN5bP+sjBSOzbPPVD/t+zGZrWSCjGY8bkHToLklTEazIw5VBwA2YJq6eVHqHLBsZ9faJCloKRIi10TrII9jlNCOKjdRcQHCdr3UTpfH24sN66Y6FZsMM+AoOT6TlHQZn6UD4Pfb1ykFqkYHvu3Wk67cUkao9B5AuW4yQH8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AUVUzHW+; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DLkoMscu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E27B1F00A3A;
-	Tue,  8 Sep 2026 17:28:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AUVUzHW+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 018091F00ACA;
+	Tue,  8 Sep 2026 17:28:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788888483;
-	bh=0EQhqCbrqwzwwWKEroV5fCssCI+1bbt2OCRkahyZW/s=;
+	s=k20260515; t=1788888489;
+	bh=vuOH39iw3d/PmB0J0eEsdrkaPdDup6dreHUeej1Qxy4=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=DLkoMscuF03DiQJB8lCqCtMGAeV3vv2NEAna4f2iHH/j9eReKaml+h7pLpaTfn+2R
-	 LUjES668wLWU9PgXc6TjSKI8XwXHFnWa07fJXdcTXIBsC12DL674ajnQIBpwtltn7X
-	 tfpCvZqC3gqmY47Ings9HwPUEX0ZJQW5Nvh85pF4gQtJTFqVmHD8YjfyBsr+zd7sLX
-	 rCP/gQQeLHXx+1M5pRmJ/05lHa/Q4qnShobypYZgIlgRwKLUPgv6vmYlW6Is3DMhDV
-	 Jj4hnh8imw2uY3hRpypYmkX//gS5f5oftody7hS/y/faOQrqk9JUqtmHHwIrExuzqX
-	 UyOPiSjJGvZYg==
+	b=AUVUzHW+C2uSRaCKaT68zCs65xE+E+bvP7kiqDjBgKqaxhV5ZUS/Tz/X41vPnb8ei
+	 49HX8n+akUEV+o5WE3drG5ToO3PE8euS/o98cm9zFEwJb7ChFBbTJZ9OupjKu7eWhO
+	 FlJUoZ5xOJpJaI++TkGh1zDG2IKjGn93zjjIk2h5HKrSOHh4AIdEvbZ46cuvcbfv6V
+	 nT6E7w6cGqObUF/ztIQM8tnps3KxB1EryA9rqApgEEZHT+iKuoWSu6jIABKjS/u1XQ
+	 5UHtBD1VqkbSNw2Xx9xG2MHEwuYkfT7oCxjPPw9E4O3E37LTuWW9MctAEDW8/RsbNS
+	 2iOjy7oU1VCVQ==
 From: Mark Brown <broonie@kernel.org>
-To: Matthias Brugger <matthias.bgg@gmail.com>, phucduc.bui@gmail.com
-Cc: Liam Girdwood <lgirdwood@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Cezary Rojewski <cezary.rojewski@intel.com>, 
- Jiaxin Yu <jiaxin.yu@mediatek.com>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
- linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20260903051150.178057-1-phucduc.bui@gmail.com>
-References: <20260903051150.178057-1-phucduc.bui@gmail.com>
-Subject: Re: [PATCH v4 0/8] ASoC: mediatek: mt8186: Fix clock error
- handling
-Message-Id: <178887689148.78527.9216488124284671038.b4-ty@b4>
-Date: Tue, 08 Sep 2026 15:14:51 +0100
+To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ Charles Keepax <ckeepax@opensource.cirrus.com>, 
+ Maciej Strozek <mstrozek@opensource.cirrus.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>, patches@opensource.cirrus.com, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20260908063644.463819-1-srinivas.kandagatla@oss.qualcomm.com>
+References: <20260908063644.463819-1-srinivas.kandagatla@oss.qualcomm.com>
+Subject: Re: [PATCH 0/2] ASoC: SDCA: SimpleJack support and small cleanup
+Message-Id: <178887273153.78527.8368268314964292566.b4-ty@b4>
+Date: Tue, 08 Sep 2026 14:05:31 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -51,26 +49,27 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2159; i=broonie@kernel.org;
- h=from:subject:message-id; bh=lEUgOH/O9TJ8aaaKwHIpkEDMFvYaZ3as10UkVzac/3A=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqoEWeQes/jCku3Iq4D3H5LKd6gl8xKA3GdAEe/
- XlZjShb5niJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaqBFngAKCRAk1otyXVSH
- 0CkuB/wOoqeXC9FOIyndZtWhz5Qj4zD7zwwM/7nTG52Om90sRRJGh0Wubs8FAtPV2zv5lA5NiBf
- ofcjtN7pp35fsEmexC5PGYZ0NRHNY5eQR1rJE4aaTZVWiwLUrpdtiZNebxjeKCOF73goNfZnxTe
- 7xjdm2dalX1Cs0HEVDjbaHoyw7YaO0vAch3jJ+H5J0AXrcVN9vL55Oo09BdKS+D9+zJhf0IhVlD
- HVIRpt7Lc7VMYorRse3fo9+MxGYB8PdrTvRpIW15wEJlREkn0kXLgguf9kq1lGWfXw94gk/gpK8
- /Fe0kdw6jJBQN1oFT5vlFg+xEEhWpvcsvXCtQ5PvhoW+GpbT
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1569; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=fMJiwrHTyjvVpgbOXarjvXSkyT6yrU59DVbno2lZsBs=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqoEWkkrszhuMlG7oo3McIp9lvM1F9dN5iXwBzl
+ O9ph1RlvG2JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaqBFpAAKCRAk1otyXVSH
+ 0PnqB/4uv6W9gXrzjMMIb9Ayfa6L1OBYrUxFHHI/2mY+O86o8ZKBtIMDIMPYalsXfq12VJ2EWV5
+ YfY86J17xfks9I1HzaXH32PNj4H36dwtgrRmiJhflmz3tyQxjqG+4MbkK0Wp4tvNnIs+GKqTT5i
+ 7VYmyzrOOBybbJgGuwds2VNOFfbb664g9Xyy/b2Fu7s4QcN456vbSDv6Z5p4piMhFzSj7PPz0IK
+ PNELcbGR6iWHiggnYRNAtIM8gef5sICq+PdzECyiVgSmqwB8W42jwfS0U6Dkrrx44cwz0czonFu
+ YViMQ/qLN0LTMoRbXql7TIy9WcQSxpSKfFO1h0Yk1vunRq7M
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Thu, 03 Sep 2026 12:11:42 +0700, phucduc.bui@gmail.com wrote:
-> ASoC: mediatek: mt8186: Fix clock error handling
+On Tue, 08 Sep 2026 07:36:42 +0100, Srinivas Kandagatla wrote:
+> ASoC: SDCA: SimpleJack support and small cleanup
 > 
-> From: bui duc phuc <phucduc.bui@gmail.com>
+> These two patches were originally part of
 > 
-> Hi all,
+>   https://lore.kernel.org/all/20260907083727.733705-1-srinivas.kandagatla@oss.qualcomm.com/
 > 
-> This series fixes several error handling issues in the mt8186 ASoC driver.
+> As Suggested by Charles and Pierre am sending them as independent
+> of the rest of that series and can be picked up on their own.
 > 
 > [...]
 
@@ -80,22 +79,10 @@ Applied to
 
 Thanks!
 
-[1/8] ASoC: mediatek: mt8186: Fix APLL mux setting error handling
-      https://git.kernel.org/broonie/sound/c/5ee5987fadf6
-[2/8] ASoC: mediatek: mt8186: Fix clock handling in mux disable path
-      https://git.kernel.org/broonie/sound/c/d70109f5510b
-[3/8] ASoC: mediatek: mt8186: Fix AFE clock error handling
-      https://git.kernel.org/broonie/sound/c/eb72060a1966
-[4/8] ASoC: mediatek: mt8186: Fix APLL enable error handling
-      https://git.kernel.org/broonie/sound/c/cb552c6b9abe
-[5/8] ASoC: mediatek: mt8186: Fix MCK error handling
-      https://git.kernel.org/broonie/sound/c/996469c1092e
-[6/8] ASoC: mediatek: mt8186: Fix gpio rollback on adda dl/ul partial failure
-      https://git.kernel.org/broonie/sound/c/d87989ec1c2a
-[7/8] ASoC: mediatek: mt8186: Handle regcache sync failure
-      https://git.kernel.org/broonie/sound/c/0830625cacf9
-[8/8] ASoC: mediatek: mt8186: Drop redundant probe error messages
-      https://git.kernel.org/broonie/sound/c/5ca0b1c5e32a
+[1/2] ASoC: SDCA: register SDCA_FUNCTION_TYPE_SIMPLE_JACK in class function driver
+      https://git.kernel.org/broonie/sound/c/29863d75b9f0
+[2/2] ASoC: SDCA: make find_sdca_control_reset() return void
+      https://git.kernel.org/broonie/sound/c/1a6a763a6237
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
