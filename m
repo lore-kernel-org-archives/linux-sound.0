@@ -1,85 +1,86 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 821FC39E194;
-	Tue,  8 Sep 2026 07:12:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1603299A82;
+	Tue,  8 Sep 2026 07:13:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788851542; cv=none; b=ULTW69vrCVMJ/ymY9Fx3prIjZF7X7lRezv25Ny7smw3tG9EuW/WtOF8OcORuCYjy5tTgsRhKEtHAsC9BntyhH06Nvi2tHvMmvxKabAmwEcmEMbgp0eH2HQwJPSQtCgyeQqtRzWEOCwh5M6SJPjZ/GU7jO+aMXtTgTQk6D5aRjcs=
+	t=1788851615; cv=none; b=Y3ooDUbjDxW0X+OrU31bOH39iVTgQuiGYbFLrJJ7GsvtC4617bcfLwHwth8EZ78E9fhBsTCqxyGLDD4H4BAAtGXhyG46ollB/KvSRSiEZzp3cTNB8NhYyvC7Zk5t9gcuVsueFV1jvZykx+ACQnd7418azWaq7stO3GL8TFyCejQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788851542; c=relaxed/simple;
-	bh=COuG8udEer5h9zv3uB62XfLheQ2UWG8P/LIDq9udE7E=;
+	s=arc-20240116; t=1788851615; c=relaxed/simple;
+	bh=ObccZqKbynwQWHDkMWOyFYQ4vcSpvHaG0r9vaGS8SGg=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IDCQy6kJoAi3GnncyNLRDWVw1GqxetLbfH5lU6dtKxwbvPXWMtneD1NCJnzn+1idYsmewb+MXFuCLY18Ys4N78uHDkrFIFUCfxIcGVUZzgrmC2WfvXYnLPGP2t4KcG7ldMTaJaU83j6XK9499itVpxSbpOx3bWt7O82zLjpRsjA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=De2uB3Jl; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=jeN5sIGy; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ReDqClOG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=o2aXTwgk; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=C667e3fZU6njDWCMJ7FTIMuAxtchucpcE8DArX1cYxYpWs8++oVXCyXDEBM3r2SuL58EYhA61Utu9I0vbGkQpnfM9iJjYDVQ+UwOIoPSKg57DVVWiHyj8lbxfNBspmPeXqtZ/hNnYclP0EG5TI7E5WNpfLrX7st1U+b3frcUyxA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OyyUcL8M; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=PTVdRJOP; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=NkP8oO6W; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=p+gM8Yni; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="De2uB3Jl";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="jeN5sIGy";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ReDqClOG";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="o2aXTwgk"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OyyUcL8M";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PTVdRJOP";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="NkP8oO6W";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="p+gM8Yni"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 474ED1F460;
-	Tue,  8 Sep 2026 07:12:10 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id AE649219DC;
+	Tue,  8 Sep 2026 07:13:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1788851534; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1788851607; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/O6UCTLl7RYoMDJqjN1WLTnpGFkFGo9YDpHEImr6wn4=;
-	b=De2uB3Jl4QuhtfHJnIM7p9oSuhIIjuvzILw9IM0liTpG0Ot4O3cJ5qNgrf52SkdE3mb08d
-	GO++MSYstvkhXj4T1SOozC0615IhWQ9NHE343SQsr7fFQa6A6a/5RMCKgBrrjuehU+KWSM
-	JlIJQORHD8wH34Ry1eULNvPZVUiafXw=
+	bh=8/SJGR6WtcRxTvrW5Po/VoKri6nAJbVkJgkS0XpLwQU=;
+	b=OyyUcL8Mh5orld1n/RYQfWstojQY4AyDRQgB1Cs5pCQpxrLPXkm80yj7KRVwhC9Cawid/3
+	IHsZwgygoD44VpWx0tq+FDNVx6cSg2GGgTIGUdYGwxG8vN8r4MLu5K/zMfLMBNKQuHOxog
+	mQeNwfT4q8A1yeFhToNjAuRFG0bazWg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1788851534;
+	s=susede2_ed25519; t=1788851607;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/O6UCTLl7RYoMDJqjN1WLTnpGFkFGo9YDpHEImr6wn4=;
-	b=jeN5sIGyD105QzxrXYctOyphkiuIozYTLTkquJtK2f+aIHULs2J9dl1ArISTgcIxT34+pb
-	OAAVmx5eR7k8cvCA==
-Authentication-Results: smtp-out2.suse.de;
-	none
+	bh=8/SJGR6WtcRxTvrW5Po/VoKri6nAJbVkJgkS0XpLwQU=;
+	b=PTVdRJOPrt/L+HE7n25CHnH6kyTpLY/FWON7YHm/Cy6BrqihS+9hAZoSAXXBf6T1AdN3RI
+	2H/imHJP6El8xVBA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=NkP8oO6W;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=p+gM8Yni
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1788851530; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1788851603; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/O6UCTLl7RYoMDJqjN1WLTnpGFkFGo9YDpHEImr6wn4=;
-	b=ReDqClOGJFlmZ6It43qTL3zdwvRJ36SwHIJcDlqtaXIZ3SMr04pTakluedD7oZYDmG/SX3
-	huVWfWA5lY1h4/6N7+d6LQiKxVVQ50iGFyoOLipfLEJp5QeShWnWewx7p1RC3JCyMw0Q88
-	qjHyKVZ6a0n9PSyT6J242R18A0cOgIw=
+	bh=8/SJGR6WtcRxTvrW5Po/VoKri6nAJbVkJgkS0XpLwQU=;
+	b=NkP8oO6WVeI/rgOrjTi3SDDS28+kp0KzMpFAPdZWGmoEZMrzCc5IH3gmKr7rwA/bLZNiW+
+	98e9IBnrRrsvEi+dLlv6Y108o6yh8jqVEqJTTR9MFMd+mVYjk15zh2OitsWyk03rtyUcaX
+	jwLFQydPWUBAJechEuU3nu5lnelZ/bY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1788851530;
+	s=susede2_ed25519; t=1788851603;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/O6UCTLl7RYoMDJqjN1WLTnpGFkFGo9YDpHEImr6wn4=;
-	b=o2aXTwgk/Y7W0JEduKD7MKZMvSGOXE/U1aihqw7iv8qsotw9cxs/VFMRq2hYRwO0T73BfL
-	Ve6GB+GUlcQByCDg==
+	bh=8/SJGR6WtcRxTvrW5Po/VoKri6nAJbVkJgkS0XpLwQU=;
+	b=p+gM8YniQr44jNtn2rDHXfrBkauM7e7AqthCeKGV3cIEtiq/8glgk+R0Oj2dEh4Pg0K5tS
+	3ICmaEqVvZ23byBQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0473C1347F;
-	Tue,  8 Sep 2026 07:12:09 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 68E811364A;
+	Tue,  8 Sep 2026 07:13:23 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id /mFWO0m1n2p/UAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 08 Sep 2026 07:12:09 +0000
-Date: Tue, 08 Sep 2026 09:12:09 +0200
-Message-ID: <87cxuoqks6.wl-tiwai@suse.de>
+	id zxFsGJO1n2rLUQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 08 Sep 2026 07:13:23 +0000
+Date: Tue, 08 Sep 2026 09:13:22 +0200
+Message-ID: <87bja8qkq5.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Rong Zhang <i@rong.moe>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
+To: Ruairi Anthony <ruairi@ruairi.uk>
+Cc: perex@perex.cz,
+	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] ALSA: usb-audio: Add quirks for HP Elite x3 Lap Dock
-In-Reply-To: <20260908-uac-hp-elite-x3-lap-dock-v1-0-e226cfe4038e@rong.moe>
-References: <20260908-uac-hp-elite-x3-lap-dock-v1-0-e226cfe4038e@rong.moe>
+Subject: Re: [PATCH] ALSA: hda/realtek: Add quirk for HP Elite Dragonfly Max G2 speaker
+In-Reply-To: <20260907115942.19286-1-ruairi@ruairi.uk>
+References: <20260907115942.19286-1-ruairi@ruairi.uk>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -88,98 +89,54 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.30
 X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: AE649219DC
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.997];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
+	MX_GOOD(-0.01)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
 	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	RCVD_TLS_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,rong.moe:email,suse.de:mid]
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid,ruairi.uk:email];
+	DKIM_TRACE(0.00)[suse.de:+]
 X-Spam-Flag: NO
+X-Spam-Score: -3.51
 
-On Mon, 07 Sep 2026 21:34:38 +0200,
-Rong Zhang wrote:
+On Mon, 07 Sep 2026 13:59:42 +0200,
+Ruairi Anthony wrote:
 > 
-> The HP Elite x3 Lap Dock is a laptop-like external display device with a
-> FHD screen, a keyboard, and a MT touchpad. It can be connected via USB-C
-> or Miracast. As an e-waste collector, I recently brought one for 69 CNY
-> (10.2 USD). The price already indicates how broken the device's design
-> and compatibility are ;-P
+> The HP Elite Dragonfly Max G2 Notebook PC (SSID 103c:8890) uses an
+> ALC285 codec but is missing from the existing HP quirk table, unlike
+> the related "HP Elite Dragonfly G2" entry (SSID 103c:8716). Without
+> the quirk the right speaker amplifier's GPIO is never initialized,
+> leaving it silent while the left speaker plays normally.
 > 
-> When connecting via USB-C, the video source is, of course, DisplayPort
-> Alternate Mode. However, the audio source has nothing to do with the
-> DisplayPort signal and is actually from a builtin UAC device.
+> Apply the existing ALC285_FIXUP_HP_GPIO_AMP_INIT fixup used by the
+> 103c:8716 entry, which resolves the issue. Verified with speaker-test
+> on both channels and confirmed correct routing to both the downward-
+> firing woofer and upward-firing tweeter on each side via the board's
+> passive crossover.
 > 
-> The builtin UAC device provides three Alternate Settings:
-> 
-> - 1:1 - Capture, S16_LE, 8000/32000/44100/48000Hz
-> - 2:1 - Playback, S16_LE, 48000Hz
-> - 2:2 - Playback, S24_3LE, 48000Hz
-> 
-> Unfortunately, the last one is broken because:
-> 
-> - it doesn't accept SET_CUR(SAMPLE_RATE). QUIRK_FLAG_FIXED_RATE works
->   around it, however...
-> - it constantly produces severe harmonic distortion once the capture
->   stream is also opened. The interface 2 must be closed and reopened to
->   make it recover. IOW, simply closing the capture stream makes no
->   difference.
-> 
-> Considering that S24_3LE offers no additional benefit on small speakers
-> compared to S16_LE, and 2:1 is always usable as an alternative, skip 2:2
-> to get rid of the trouble.
-> 
-> Setting chip->setup to any non-default value disables the fixup and
-> reenables 2:2 (in this case QUIRK_FLAG_FIXED_RATE is required).
-> 
-> Quirky device sample:
-> 
->   usb 7-1.4: new full-speed USB device number 50 using xhci_hcd
->   usb 7-1.4: New USB device found, idVendor=03f0, idProduct=0c56, bcdDevice= 0.00
->   usb 7-1.4: New USB device strings: Mfr=1, Product=2, SerialNumber=0
->   usb 7-1.4: Product: HP Elite x3 Lap Dock
->   usb 7-1.4: Manufacturer: HP
->   usb 7-1.4: Found last interface = 0
->   usb 7-1.4: 1:1: add audio endpoint 0x81
->   usb 7-1.4: Creating new data endpoint #81
->   usb 7-1.4: 1:1 Set sample rate 48000, clock 0
->   usb 7-1.4: 2:1: add audio endpoint 0x1
->   usb 7-1.4: Creating new data endpoint #1
->   usb 7-1.4: 2:1 Set sample rate 48000, clock 0
->   usb 7-1.4: 2:2: add audio endpoint 0x1
->   usb 7-1.4: 2:2 Set sample rate 48000, clock 0
->   usb 7-1.4: 2:2: cannot set freq 48000 to ep 0x1
->   usb 7-1.4: [9] FU [Sidetone Playback Switch] ch = 1, val = 0/1/1
->   usb 7-1.4: cannot set ctl value: req = 0x4, wValue = 0x200, wIndex = 0x900, type = 4, data = 0x40/0x0
->   usb 7-1.4: [9] FU [Sidetone Playback Volume] ch = 1, val = -17664/0/128
->   usb 7-1.4: [2] FU [Headset Playback Switch] ch = 1, val = 0/1/1
->   usb 7-1.4: [2] FU [Headset Playback Volume] ch = 2, val = -18944/0/1
->   usb 7-1.4: [6] FU [Headset Capture Switch] ch = 1, val = 0/1/1
->   usb 7-1.4: [6] FU [Headset Capture Volume] ch = 2, val = -18944/0/1
->   input: HP HP Elite x3 Lap Dock Consumer Control as /devices/pci0000:00/0000:00:08.3/0000:c9:00.4/usb7/7-1/7-1.4/7-1.4:1.3/0003:03F0:0C56.0033/input/input129
->   input: HP HP Elite x3 Lap Dock as /devices/pci0000:00/0000:00:08.3/0000:c9:00.4/usb7/7-1/7-1.4/7-1.4:1.3/0003:03F0:0C56.0033/input/input130
->   hid-generic 0003:03F0:0C56.0033: input,hiddev100,hidraw8: USB HID v1.11 Device [HP HP Elite x3 Lap Dock] on usb-0000:c9:00.4-1.4/input3
-> 
-> Signed-off-by: Rong Zhang <i@rong.moe>
-> ---
-> Rong Zhang (2):
->       ALSA: usb-audio: Convert snd_usb_apply_interface_quirk() into a switch statement
->       ALSA: usb-audio: Add quirks for HP Elite x3 Lap Dock
+> Signed-off-by: Ruairi Anthony <ruairi@ruairi.uk>
 
-Applied both to for-next branch.  Thanks.
+Applied now.  Thanks.
 
 
 Takashi
