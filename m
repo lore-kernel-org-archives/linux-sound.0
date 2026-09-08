@@ -1,132 +1,158 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F56337AA70
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AE2738F250
 	for <linux-sound@vger.kernel.org>; Tue,  8 Sep 2026 06:37:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788849428; cv=none; b=ModC4FB33hAO3WmHBZEto/YGvj0QlicDWZ7J0Pkkl4S9XD/71Ck88sVpwn9eZ8p0Khw3EMw/pjJ7mLxg0y6IiK3Sjac4lWaEACEZI+29bwEAuhumLxA4iWA1tEnqaMBndzvuilBQ5ODT2/fFhHvzwItGZKoKgBBxo7Y7kXxn1qs=
+	t=1788849428; cv=none; b=HXJXKDz4+qVSRQr+4uTDql0xhivrWZFdL4r4lx2q/m3f2BB6jwOLm4BFdxLi7HPXg3r1n9rUCLRnbSsZFV1jQCk8knz3AJn7NKcg9udDGdlNkmCsbWYJ2MOIfyy8ccu+UvfO3dIdlZCjiv8Qe9Ez2GQNPNLv4l371kz+1TU1SqA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1788849428; c=relaxed/simple;
-	bh=Cj0/4eFbxQFEbivXS9MjzJ5VttyIv4+J2uDpeIG80ns=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pY4mLvmFDrkP15rLQdD9tWCYtnVy4MmHRZlW6M5ZVZjTb0yL6UigpCyF3K6FxZGckCYmCU9BVrmJWk2B536n254enT9JvKcQqIqF2LUQKk90XJ6nv5juN9qlMeAiy7FQvaAPf81uxTYcijyVg2TsvUoNnr7vwoh4t8k1XLxY9Ew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XM42FRxL; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	bh=lARc/goga3WxAbuvumLeJVnNOmElAcf2/GpBXHeuFKo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=G6y9AQwA6/fX2bJyvNFhhbsv2IHCVO5ohFC1l2iQ+faCaO7ehnR4grw0TvayolG7OGdOWuf1OitoWEitZ2yzMeWXYC/72I7f1V2H4htT2DmpK9FT6B9UYxc7m3tovMOrq5pocKdILJysO0QDy5OG02fZ/lGsVLdVS2BKJD2fmHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=kOzjtwJ/; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=JORg1soD; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XM42FRxL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788849426; x=1820385426;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=Cj0/4eFbxQFEbivXS9MjzJ5VttyIv4+J2uDpeIG80ns=;
-  b=XM42FRxL4GPhXBiQIe7Ju8WkwTedQEKLPTS0In44/jVAuApzu0xZ15yu
-   9UwMmOA6aSEXsUIFMWwwP+LuPbr33ZN72/SddViCxQQo/JQQYIoFJx6yc
-   FD2q9p7MNxPpJ8Go369ZhQH7dBCnVv+LNdaQvCiLJH2yhxBLUNvx1jknL
-   8d4dSZ1iqUGVuUsu7ytbpLraxhtFcmAt2rAIhMrXQOpkER6WhIf2TBTjh
-   LL98H7L9Mc/YTuSxkEz7wQUKcZxmNBShz1T33KzMuDF627B7oMXNsWgJ6
-   401M8DZbFeqOvI/fryiGLNbV8/jV7m65D05gVHHwKaJX3CYSa+GuFaJyA
-   w==;
-X-CSE-ConnectionGUID: c8ZXKlgSSkeP7SQltTGAdg==
-X-CSE-MsgGUID: aD3FCs0+QEGzfo11tiWYKA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11899"; a="89115729"
-X-IronPort-AV: E=Sophos;i="6.25,268,1779174000"; 
-   d="scan'208";a="89115729"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2026 23:37:05 -0700
-X-CSE-ConnectionGUID: FNDBza9mRh62b0Xdh3UupA==
-X-CSE-MsgGUID: PQgbyGq7S7e8MnEd1neW6A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,268,1779174000"; 
-   d="scan'208";a="269171217"
-Received: from fpallare-mobl4.ger.corp.intel.com (HELO [10.245.244.108]) ([10.245.244.108])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Sep 2026 23:37:01 -0700
-Message-ID: <7af0b170-dd4a-4aef-b4d8-7e87d72d11f0@linux.intel.com>
-Date: Tue, 8 Sep 2026 09:37:11 +0300
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="kOzjtwJ/";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="JORg1soD"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6886M3201479002
+	for <linux-sound@vger.kernel.org>; Tue, 8 Sep 2026 06:37:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=4tHatCXe2oaN/qEuufOocukAtMlM1llSw+L
+	YvX7luHY=; b=kOzjtwJ/E9uBXAJ2JUa8Ri7JRb6VQZcYzviTzw+/wdZYJMWea5d
+	gl0N+fRlF85LODCxrezZ7bnAPFAP364M/cj9QRM4h79wJuBqTxV5JAKAIFQMvlUn
+	rFxd8wDN9i1RXqYxOVg+3wD33LSsUoytDktLHZPTjUQjprezOsEVGS/bvczZl2JG
+	pD1oZpqKy9eERyEgrwSsO++WEMSFYbBI4v19nZfnjP7wAhR8rx842za2SCfQSXk2
+	IoOIKNs8szq48BsV8kSOKuM8+4KwbkFcz1zcN6kJt7tBi79/3zWE48c9q2l//66o
+	zQ28mNWFXogFCcNChoHp9lBFtXUTCPf8i7g==
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gjatjghmg-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Tue, 08 Sep 2026 06:37:05 +0000 (GMT)
+Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-51c1d30035dso52044691cf.2
+        for <linux-sound@vger.kernel.org>; Mon, 07 Sep 2026 23:37:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1788849424; x=1789454224; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=4tHatCXe2oaN/qEuufOocukAtMlM1llSw+LYvX7luHY=;
+        b=JORg1soDPHWloVIF+EuxzMKxo2lsqglCQvly/GXvF0ZbVlCjoAyeTA4nRM3qFvvZxk
+         DnIZqVzwWhTXJpDMioygpBMkMdlW1Xq65YkCdeBWsg6jUxtc3dI39sxpzv2XtvyIPTgf
+         +UpqUSoBsj0rkRbCGr0tuTSQqVB/uPk4UjT1Ps3MRvh3vXysWGbfc0HXNyYeNQ+tLCa6
+         70qeNUEvds+Qdg7iyKEXs7Zv1ocBY9ZZnfHImjOOGgKv5i88lnmr13CXDSnBEbpvcxwb
+         2SosNnKf1gPQ0IOZ6Cs+3ajS8GFVXzpLU2u9XNmwZR/mgYjgxNj72fB4TFztFHqGhqYJ
+         BTPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788849424; x=1789454224;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=4tHatCXe2oaN/qEuufOocukAtMlM1llSw+LYvX7luHY=;
+        b=aLrJgoEaNTsRcApePSi3Ys9YABsamAv8KpGxzqSv4vV7crBUY1la3p2kpIZaze2JDL
+         CUFZ4sncYuMup4/NKJ+7sbN3EPE1DZFVZn6VriMpZv6diDRqO7JYq0Ec7miaDRhQqKPG
+         o6g2jM73q2CV0W9+ZtsKVyJOr8Pjgw0Hd2kTywJXAfEwF5twDarBauhtIAHqpNR+anPF
+         0I4O1yddALPNC7CPx0eB7kSjaLQTShqkTPlZh9I/nufUt310p3APGWozCzgLFlCyDC0N
+         r6YXWKwFHJZzQeWklImEHq2RE2BY9TGdLRS0RddX9cJdy/HKaalMtzm5zVhyNBS4XbV3
+         lUag==
+X-Forwarded-Encrypted: i=1; AKwUvBxgDLRcHzVLJ0PqvudKttQ9ZLftgWe8nhKMiTFoIfrBxJihoTosurAIkBom8P0OqaaaUVPXY5CXnaW+/Q==@vger.kernel.org
+X-Gm-Message-State: AFuF++nOvdVw6EhpZvKXQwwGogGy805kibiBFd/dcNw3mkf2wpSL2ECj
+	NK0HO7gNsWteXKwt9tNfMn4nIpBFKJ/IaS7/IVaTNkT7yftrg787fKzfp/2M84Vyw2McCCxwIxV
+	v7VZ4/SzludgysZvVYyoi1jojJpivTPqtMnq5PHVQfj7wjqltNR24iAvaM0jt19MjcA==
+X-Gm-Gg: AYBFou05uINi8Hi8/+C9w/RfRKSks7H1X9RrQwGeCne6JR+IkWz9X1PqhS0YGFayLys
+	KAh4Stbtym/NEr23YFIw1xMfPe0N6pNLDR1zDmekcLVIRMcyPacmLy/5hOgid4MK65tSkP8EIen
+	ElUiKMeEOVE5HMm4kftSQMBUv5Y/d5klEHNdl7iFFDOUQhHBww+6Kp30dZ72VD0R5tYUk9s0WHb
+	jFAY6HMVWCbzeJvSgEEPrbuQTuY8KDkTvop0qqqt5d/WVKJNDcA4c5y2mb1U+Pg0oHjoRsDiQvE
+	XZHAwD4dBnanSyEphnj727BKNqerN+7yzM3W8yIUyxUR2jP116elJ1VH1X1MewZJWkIxYjZdKcN
+	Rzao+v7ih10GdEg==
+X-Received: by 2002:a05:620a:2983:b0:939:78ab:3c5f with SMTP id af79cd13be357-9398032452dmr2502819685a.9.1788849424342;
+        Mon, 07 Sep 2026 23:37:04 -0700 (PDT)
+X-Received: by 2002:a05:620a:2983:b0:939:78ab:3c5f with SMTP id af79cd13be357-9398032452dmr2502816485a.9.1788849423835;
+        Mon, 07 Sep 2026 23:37:03 -0700 (PDT)
+Received: from debian ([5.133.47.210])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49d03543064sm277799675e9.13.2026.09.07.23.37.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Sep 2026 23:37:03 -0700 (PDT)
+From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        Charles Keepax <ckeepax@opensource.cirrus.com>,
+        Maciej Strozek <mstrozek@opensource.cirrus.com>,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+        Bard Liao <yung-chuan.liao@linux.intel.com>,
+        patches@opensource.cirrus.com, linux-sound@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Subject: [PATCH 0/2] ASoC: SDCA: SimpleJack support and small cleanup
+Date: Tue,  8 Sep 2026 07:36:42 +0100
+Message-ID: <20260908063644.463819-1-srinivas.kandagatla@oss.qualcomm.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 04/23] ASoC: soc-compress: Implement trigger FE-BE
- sequencing as with normal PCMs
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
- Vinod Koul <vkoul@kernel.org>
-Cc: Mark Brown <broonie@kernel.org>, perex@perex.cz, tiwai@suse.com,
- lgirdwood@gmail.com, srinivas.kandagatla@oss.qualcomm.com,
- linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com,
- yung-chuan.liao@linux.intel.com, daniel.baluta@nxp.com,
- Vijendar.Mukunda@amd.com
-References: <20260904073134.29648-1-peter.ujfalusi@linux.intel.com>
- <20260904073134.29648-5-peter.ujfalusi@linux.intel.com>
- <apsf1kjaFG71NpPd@sirena.co.uk>
- <b64906b9-032f-4435-a179-b663f0202796@linux.intel.com>
- <361eb4b4-d880-4560-8b71-eeda6f28b43c@linux.dev>
- <5b9a199e-abac-4193-94c0-d395329207ed@linux.intel.com>
- <ap7sF6dOY0Pl0c46@parshuram> <69650a4d-3021-49b0-b853-f7b9ba81aae1@linux.dev>
-Content-Language: en-US
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-In-Reply-To: <69650a4d-3021-49b0-b853-f7b9ba81aae1@linux.dev>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTA4MDA2OSBTYWx0ZWRfX7mTTLJEtepaW
+ 0ftbJCNXut8JLb0Dr+uFoX9cizb39quXUCvq3A+4oXL/8gLiNyG0sLQYjGQG3KtYYrnWXxSS4EG
+ li95Ay7xd9+rB+pA7id5L/nNjU+6D1Q=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTA4MDA2OSBTYWx0ZWRfX65CM155AW+fE
+ mGi3kKoRO8O1+GsNFS3sSeeiI2LlkN2eiqm4pYBG+Rp+ecB3VY/AtpAb8z8/rngrZxFifeMS/Uu
+ +qMwIVpItpEx0HktViJi9qKx6hKcu1IgO6stjij8fhGhmNxwNuaNqPfvgoTgcBO4sOBU2iuLitj
+ JONkq9SvrbMj2BQfnWQ9TFzU/qkhaosbINiAWwnpcaIU5Su2EIS6iZhjSV8ER0b5gy9PJ1zTDQR
+ mnO5GAVYJS5RRwFsH3SkhWcXM9IvvcA+hSJh6Q/K4kR1YtbqmI73227VT/FrZZso2C9/q2M/M7y
+ tQJPaf83S2rV2FfEC3hpSLiU0ZnqgmOJjyBjO6vwyPbo1BACgh2T09UpkB2zIFz4qbtuyMIsZWZ
+ Ynf5fgkLpATDx6ONXHb98aftdGRqgrag5i4lfDYSWj29eJhupz+1D4RKOfjNvt8o2WGvwqD+BoQ
+ +hrexgInAKxkoBZCchA==
+X-Proofpoint-ORIG-GUID: Ab6qN6A5vt3RjT0c7dRG4kyDG96ZGy-Y
+X-Authority-Analysis: v=2.4 cv=QrduG1yd c=1 sm=1 tr=0 ts=6a9fad11 cx=c_pps
+ a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+ a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22 a=VwQbUJbxAAAA:8
+ a=EUspDBNiAAAA:8 a=q17wUVZQUpDMiA404scA:9 a=dawVfQjAaf238kedN5IG:22
+X-Proofpoint-GUID: Ab6qN6A5vt3RjT0c7dRG4kyDG96ZGy-Y
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-08_01,2026-09-07_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 bulkscore=0 adultscore=0 malwarescore=0 lowpriorityscore=0
+ impostorscore=0 spamscore=0 priorityscore=1501 phishscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2609080069
 
+These two patches were originally part of
 
+  https://lore.kernel.org/all/20260907083727.733705-1-srinivas.kandagatla@oss.qualcomm.com/
 
-On 07/09/2026 22:55, Pierre-Louis Bossart wrote:
-> On 9/7/26 18:53, Vinod Koul wrote:
->> On 07-09-26, 17:03, Péter Ujfalusi wrote:
->>>
->>>
->>> On 07/09/2026 14:26, Pierre-Louis Bossart wrote:
->>>>>> ...otherwise it'll end up with -EINVAL instead of getting passed
->>>>>> through.  Also a switch statement would be a bit more idiomatic.
->>>>>
->>>>> OK, I will add the NEXT_TRACK and convert the if to switch.
->>>>
->>>> ICYMI for testing, NEXT_TRACK and PARTIAL_DRAIN are only enabled in the
->>>> 'fcplay' application with the '-p 1' argument for gapless playback, not
->>>> in the initial cplay application.
->>>
->>> With SOF/Intel/IPC4 we can only support DRAIN, NEXT_TRACK and
->>> PARTIAL_DRAIN are not supported, but there were mismatch between fcplay
->>
->> Those should be optional always. Gapless support should not be mandatory
-> well in practice it's a non-negotiable requirement from users... We had
-> to add this as the request of the Android team, and it's a standard
-> feature on most players, not a nice-to-have.
+As Suggested by Charles and Pierre am sending them as independent
+of the rest of that series and can be picked up on their own.
 
-The only 'documentation' for the gapless (next_track + partial_drain)
-that I could find was the fcplay (and that could not have been worked
-(metadata and next_track was in wrong order).
+Patch 1 adds SDCA_FUNCTION_TYPE_SIMPLE_JACK to the class function
+driver's auxiliary id table so a SimpleJack auxdev is bound and
+enumerated as an ASoC component, and wires set_jack for this
+function type so the machine driver can register an ASoC jack
+against it.
 
-But, reading the code it implies that gapless must support anything
-thrown at it in any order as for consecutive files:
-metadata
-next_track
-set_codec_params
-partial_drain
+Patch 2 is a small cleanup: find_sdca_control_reset() only ever
+returns 0, so convert it to void and drop the dead error check in
+the caller. No functional change.
 
-With IPC4 the NOP strategy works (just streaming the files without
-stopping, but they mus be of same format and property), but then you
-loose the position, so not so great.
+Both patches already carry Reviewed-by tags from Charles and
+Pierre-Louis from the original posting.
 
-> Note that the NEXT_TRACK only works if the two consecutive tracks have
-> the same format, if the platform wants 'perceived' gapless playback with
-> a x-fade then two devices are required.
+Srinivas Kandagatla (2):
+  ASoC: SDCA: register SDCA_FUNCTION_TYPE_SIMPLE_JACK in class function
+    driver
+  ASoC: SDCA: make find_sdca_control_reset() return void
 
-If I can ever test this I might add support for it, it is not clear how
-the pointer should behave after partial_drain, we won't stop the DMAs in
-this case.
-With the cadence module (compress support in fw) the metadata is not
-supported, so true gapless is really something which needs more work.
+ sound/soc/sdca/sdca_class_function.c |  5 +++++
+ sound/soc/sdca/sdca_functions.c      | 12 +++++-------
+ 2 files changed, 10 insertions(+), 7 deletions(-)
 
-This has not been planned for the initial IPC4 compress support, it is
-unclear how it can be done to me atm.
-
--- 
-Péter
+--
+2.53.0
 
