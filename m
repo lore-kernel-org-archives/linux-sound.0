@@ -1,147 +1,232 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C40C4346769
-	for <linux-sound@vger.kernel.org>; Tue,  8 Sep 2026 05:53:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDE5A1917CD;
+	Tue,  8 Sep 2026 06:33:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788846816; cv=none; b=T6+rCYlUJSyo1rcT2eh1aWhe5dJLN3QsQjErqWcnj0nqlnPboap/FhpXJH8Y4JIn2M6z8VKJJnnKcmEoihPMWOtAK/YzXB9/31TMnTep1CSTStI9G1H7T0Aw/Bgnn/ZMFP5w2qvZofGLPEPFWuoh5wKPEOy25FJxW47N6nmo25I=
+	t=1788849195; cv=none; b=oF/I4dXJfFzFfnc1TB0otnlJDrbzrtbOl/usEmHxRikAtjM61Q3c5U2ciGHfQy/BSrEQazs0C6P+1f4B24YlFPVEKi4wiC7QELzhzrJkr16S0qzDeawoikUTmqckmz6hsVsmW+DWw6mA1+Tgcw0NjlRlojT9oeoZ3g3X7BkzqcQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788846816; c=relaxed/simple;
-	bh=JGJBLmB5YEOfw+2Ir+WBMhYBBkRwnqec5SN+QsKeXMs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AFj75VV9hOitN75kZzxphHEYaHNlwnBq9UPoQKenaUTgnJnD2d5pNqnUWzE2U4Ej8VgIPgkRXb6LV4M6O6P8CJzVAf24fW6qMor6KhIElbq32ft8uLBN5Z9tppmu1263TAxmLfSuFtgDTmNYulRITONIMLNCyO7oWpH9rxhA6kI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gyvqn73I; arc=none smtp.client-ip=209.85.216.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788849195; c=relaxed/simple;
+	bh=4dQY6vY2r8MB/Qh0iX8PDyk4MLTMEDg+OKUPh0defH0=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=uGdgLyGfxw9fK/fCUJVurkOaeV4v+hDFk5w0O5lKFozaHHptQ5whSx8iIRTSZ5F5NsoZAbSjpav2nPwhJMOnRq98h8IoddRXSQsWBe6vNuypAQRglJVJV6byBWMngJrhutSJnftdQfCxSPZBW1iuooMYz26/HC3ocgETaKKbmoI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=mrg151jh; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gDrApUI/; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=DB1YE7SU; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=u9+azC6h; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gyvqn73I"
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-395cf2535acso4265525a91.1
-        for <linux-sound@vger.kernel.org>; Mon, 07 Sep 2026 22:53:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788846814; x=1789451614; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=t0p68XCi/3n37Yvx4lo5DP9CDnr6N0Hgv4ZYSp2PWaQ=;
-        b=gyvqn73I8QJOCVxVAXS5ZA6Ftl9mONJSC1yX/071nTXJTJUY98DO6aK0LRo+7gv2++
-         Yvcd+0ZUIiySti62b0eorskJz8wPTkrX+Vk21fKozgxPzK9qjq1ywc0/39rQvje3pNLw
-         KfMqa8nU5LnfReuLCosFnfIj6tk1oMA7DKGx7lcs0BZ1OrYLqnso3vfIN+Abt5N+v5HZ
-         Hwyd2vi67/bWl8iZttj0f6SfnPBjbE69uv7rwslyRf6DYtaLF+FTuksGsHrwEf43SePm
-         fMXlX/B4R4xkoUoXofynfFGp/9BaVe+DBcmAX9/ai2reNGN4BbJLU6XYZZLm+WvRBxEi
-         ppng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788846814; x=1789451614;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=t0p68XCi/3n37Yvx4lo5DP9CDnr6N0Hgv4ZYSp2PWaQ=;
-        b=kZLalJh+6fAqh8P1HpdZ/mlYfGxEaTmLhCgQMYmMD/vanunk9YezMEt31Vut/wHP3a
-         vmkaNtEDsBEFD31TId27+P5N6Sjby6OningQeCsxgWmZjgK2UZkXd8PLTu3CbHd4+ZDc
-         7Pq0fTfVdJG2clrWOxcymjJ3E08oEF3uq2Nmp5bOvI6cr8s8jpBuGwmZuD7Bf6XjDjUV
-         LP56gpaCgkr1V+tvCou0+xvC3sskR/SajOSSywmgItNNhl0EVAVsNa/afcjB7ZvanljM
-         WOUom0qoC1afrPr8MKgTAGYPs/u6bNFwqhbbXwI1d+a6Muz3lAW6T1T/Az6gB0Lp5e2Q
-         0xRg==
-X-Gm-Message-State: AFuF++lCRt+Nxyi2VI/id2/tCfGmuuF2EiQZNHGIuoeA0dR+o2iYbq2C
-	iSMpCWvst703pYgJlwNbpSF27KiQYPbwpoghu6wk6neUg0cnKZdq6CJD
-X-Gm-Gg: AYBFou21Br2i4usxDRFMqT87qgPq/c/mKCfQeVIwc209cUwdWxLg9BNajWJNiATg8VJ
-	YiFbbUyc7lHQ0Yj8tROz9gF+Pg6we/dYA6KG19ripzJy/cCsskkCSU2dFMZfRFATsNfMHVES/c/
-	opMaGuWEC10y2yUm7C4b6CbnrPr2Se5XxOkSLZNwmfVAQ7oZugF/eaPs/RwGLps20/IH5NjHI/k
-	SVL+E4n/ljJxx9CVJa5nCiD3fhdnqt7rnyzK7wKYIowkvQ94KTnylDAghAKH1D66SW7T9VtbHFM
-	HFRuJyxgdFMTEO2xs/Lv+GwYW10GF8P9ZK+U22XC2XnQzEN9ruBuQKcBf4FPkvpJx47vOlez/4j
-	+koQonpKPdipF5HKscm2IdFpPvViQqIh2R8krZry+Gudy7NZc7IKVcRF16dXx09ENRYpQVhCL4T
-	alQUE4f/XT/+vxYgbO8zeBoTE0uKCw5vycIhi0fiPnyYklF8GFuufcZuf1QLpc5bfRiH2mSSPGj
-	O5xrk6etkT2rg==
-X-Received: by 2002:a17:90a:e183:b0:37f:e5b1:ec4b with SMTP id 98e67ed59e1d1-39b07f305admr35724680a91.5.1788846814013;
-        Mon, 07 Sep 2026 22:53:34 -0700 (PDT)
-Received: from volcano9f6e-hostos.amd.com ([165.204.217.251])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-14340a69666sm11957635c88.9.2026.09.07.22.53.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Sep 2026 22:53:33 -0700 (PDT)
-From: Hemanth Selam <hemanth.selam@gmail.com>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	patches@opensource.cirrus.com
-Cc: linux-sound@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="mrg151jh";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gDrApUI/";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DB1YE7SU";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="u9+azC6h"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 4AB7021A16;
+	Tue,  8 Sep 2026 06:32:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1788849182; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=diP4LpPCmefoer3V4tFCamAROerdtWsoDgXJZT41QXk=;
+	b=mrg151jhzfmYzMIJxEAAJaYOk2AFzBGdfZsQXzrI8fdcvFPbtacwuwBpptZ/Lmmxma5TSo
+	RoLtIhkWAKEvFrQ9AMV2/XZDiyya7uv1u7u+7daai8snsf4SP3W7Qaw2BZyDdsYwHd0h4A
+	u5u5cnwwx0/uWmckFjDoYAm6V91PeK4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1788849182;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=diP4LpPCmefoer3V4tFCamAROerdtWsoDgXJZT41QXk=;
+	b=gDrApUI/44kubQ431fE7kJ9alyEZCuW9ruEFVBtaS0iU2IDhILBotTV3l4cIcgcsqbSkS2
+	rrgwy9t9yEs0KNDw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=DB1YE7SU;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=u9+azC6h
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1788849178; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=diP4LpPCmefoer3V4tFCamAROerdtWsoDgXJZT41QXk=;
+	b=DB1YE7SUuMlX+z2JTH6aVEY+hGKXXih/Ngq16W/5BfNbfZ23cQ/iAXiMqwSd+Y9AkaTaeJ
+	0gu05JlYTwlc/bENhyE6J8TURDtI1e2fVTgQexBZMr5mJOQJRE26+mKSc+sPdtRAedb9qg
+	NgtUwlQc97GOEHp4jSaLpeRqQfeXECw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1788849178;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=diP4LpPCmefoer3V4tFCamAROerdtWsoDgXJZT41QXk=;
+	b=u9+azC6h3txxNIhQ7pVXOTqCYS2BOi8uMjfpEYDSL3+ryzHXx9/aB9x2vfg6iNrQWzJi42
+	5OU5eAXiejg9AaDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F2B6A1347F;
+	Tue,  8 Sep 2026 06:32:57 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 4uv6ORmsn2riKgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 08 Sep 2026 06:32:57 +0000
+Date: Tue, 08 Sep 2026 08:32:57 +0200
+Message-ID: <87mrtsqmli.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Geraldo Nascimento <geraldogabriel@gmail.com>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Hanh Kieu <hhkieu@gmail.com>,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v3] ASoC: codecs: fix typos in comments
-Date: Tue,  8 Sep 2026 11:23:28 +0530
-Message-ID: <20260908055328.22099-1-hemanth.selam@gmail.com>
-X-Mailer: git-send-email 2.48.1
+Subject: Re: [PATCH] ALSA: usb-audio: add Pioneer DJ DDJ-SZ support
+In-Reply-To: <CAEsQvcuZm_1DmR8gFGi3ec6++Eo03ruUJHc-RxuqaWKh8o0aXQ@mail.gmail.com>
+References: <CAEsQvcuaNZvLxyxNH_NOy5qwTmkrk-A9QdVtZD0GiCtPwk4A+A@mail.gmail.com>
+	<20260904182023.4486-1-hhkieu@gmail.com>
+	<CAEsQvcuMFt=m=njsPzRtKarz04Gwbds+f8p2S+SdSQmaiW1fLw@mail.gmail.com>
+	<CAEWo5SpV6eyHo-tn+hKX4s98uCjGJg5Dz9fMkoWNDNqgofJ5og@mail.gmail.com>
+	<CAEsQvcsG_Q2uZQ8Q_MBhUyhY+n4HymMsuowSHfk-CHCBj6mbzQ@mail.gmail.com>
+	<87pkyp335m.wl-tiwai@suse.de>
+	<CAEsQvcuZm_1DmR8gFGi3ec6++Eo03ruUJHc-RxuqaWKh8o0aXQ@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 4AB7021A16
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[suse.de,gmail.com,perex.cz,suse.com,vger.kernel.org];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	FROM_EQ_ENVFROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:email,suse.de:mid];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
 
-Fix typos in comments, reported by scripts/checkpatch.pl using the
-misspelling list in scripts/spelling.txt.  Only touches comments, no code
-changes.
+On Tue, 08 Sep 2026 01:47:15 +0200,
+Geraldo Nascimento wrote:
+> 
+> Hi Takashi,
+> 
+> On Mon, Sep 7, 2026 at 4:57 AM Takashi Iwai <tiwai@suse.de> wrote:
+> >
+> > On Sat, 05 Sep 2026 08:19:37 +0200,
+> > Geraldo Nascimento wrote:
+> > >
+> > > On Sat, Sep 5, 2026 at 2:35 AM Hanh Kieu <hhkieu@gmail.com> wrote:
+> > > >
+> > > > Hi Geraldo,
+> > > >
+> > > > I looked further into the is_pioneer_implicit_fb() check you pointed out.
+> > > >
+> > > > It seems the DATA case is intentional. In the original Pioneer DJM-900NXS2 work, Fabian Lesniak described the observed behavior as:
+> > > >
+> > > > “the playback streams also tries to start the capture endpoint as sync source.”
+> > > >
+> > > > https://gist.github.com/flesniak/074ab23bbc833663b782f44174eae6a4
+> > > >
+> > > > Takashi Iwai later formalized this in the Pioneer implicit-feedback handling, explicitly accepting either USB_ENDPOINT_USAGE_DATA or USB_ENDPOINT_USAGE_IMPLICIT_FB for the secondary IN endpoint before passing it to add_implicit_fb_sync_ep():
+> > > >
+> > > > https://github.com/torvalds/linux/commit/167c9dc84ec384c0940359e067301883ad2b42a8
+> > > >
+> > >
+> > > Every other Pioneer device has that USB_ENDPOINT_USAGE_IMPLICIT_FB
+> > > on the IN endpoint. Yours would be the first without it in the IN
+> > > endpoint. Unless
+> > > your hardware doesn't rely on implicit feedback for syncing then there's a good
+> > > chance that implicit.c short-circuiting and still picking up implicit
+> > > feedback for you
+> > > isn't correct, but what you need to do is cool down now and wait for proper
+> > > maintainer response which takes time.
+> >
+> > Accepting both DATA and IMPLICIT_FB usages is intentional, yes.
+> > But I don't follow what's the problem there -- in this case, the
+> > bmAttributes of the secondary EP shows it's DATA, no?  Then this check
+> > must pass.
+> 
+> If you check the original patch submission by Hanh, you'll see he did not
+> bother to include USB_ENDPOINT_USAGE_IMPLICIT_FB as a flag for
+> EP attributes, claiming it was unnecessary and the implicit feedback was
+> picked-up regardless.
+> 
+> Hahn already traced the functions return values, he is getting a true value
+> out of that function (and thus picking up implicit feedback for his device)
+> even though he does not add USB_ENDPOINT_USAGE_IMPLICIT_FB
+> to the IN EP Attributes on his original submission.
 
-Assisted-by: Cursor:claude-opus-5
-Signed-off-by: Hemanth Selam <hemanth.selam@gmail.com>
----
+Ah, OK.
 
-Changes since v2:
- - sent on its own instead of as part of a cirrus series.  Mark Brown
-   asked for patches touching different subsystems not to be grouped into
-   one series when there is no dependency between them.
+> >
+> > The condition is:
+> >
+> >         if (!usb_endpoint_is_isoc_in(epd) ||
+> >             (epd->bmAttributes & USB_ENDPOINT_SYNCTYPE) != USB_ENDPOINT_SYNC_ASYNC ||
+> >             ((epd->bmAttributes & USB_ENDPOINT_USAGE_MASK) !=
+> >              USB_ENDPOINT_USAGE_DATA &&
+> >              (epd->bmAttributes & USB_ENDPOINT_USAGE_MASK) !=
+> >              USB_ENDPOINT_USAGE_IMPLICIT_FB))
+> >                 return false;
+> >
+> >         return false;
+> 
+> Yes, and that means when that first inequality is false, C short-circuits the
+> logical AND and never checks USB_ENDPOINT_USAGE_IMPLICIT_FB
+> like it should.
+> 
+> >
+> > ... and maybe it's better to be rewritten like:
+> >
+> >         sync = (epd->bmAttributes & USB_ENDPOINT_SYNCTYPE);
+> >         usage = (epd->bmAttributes & USB_ENDPOINT_USAGE_MASK);
+> >
+> >         if (usb_endpoint_is_isoc_in(epd) &&
+> >             sync == USB_ENDPOINT_SYNC_ASYNC &&
+> >             (usage == USB_ENDPOINT_USAGE_DATA ||
+> >              usage == USB_ENDPOINT_USAGE_IMPLICIT_FB))
+> >                 return true;
+> >
+> >         return false;
+> 
+> But then, again, you would be disregarding the meaning of the flag
+> USB_ENDPOINT_USAGE_IMPLICIT_FB and in practice just making
+> the first check.
 
- sound/soc/codecs/wm8962.c  | 4 ++--
- sound/soc/codecs/wm8996.c  | 2 +-
- sound/soc/codecs/wm_hubs.c | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
+The Pioneer device quirk accepts USAGE_DATA also as an implicit fb
+source if it's the secondary EP and ASYNC input, too -- that's the
+very intention here because some Pioneer devices use USAGE_DATA
+instead of USAGE_IMPLICIT_FB.
 
-diff --git a/sound/soc/codecs/wm8962.c b/sound/soc/codecs/wm8962.c
-index 8a9598161b35..af4716051220 100644
---- a/sound/soc/codecs/wm8962.c
-+++ b/sound/soc/codecs/wm8962.c
-@@ -3430,7 +3430,7 @@ static int wm8962_gpio_request(struct gpio_chip *chip, unsigned offset)
- 
- 	/* The WM8962 GPIOs aren't linearly numbered.  For simplicity
- 	 * we export linear numbers and error out if the unsupported
--	 * ones are requsted.
-+	 * ones are requested.
- 	 */
- 	switch (offset + 1) {
- 	case 2:
-@@ -3813,7 +3813,7 @@ static int wm8962_i2c_probe(struct i2c_client *i2c)
- 	regmap_update_bits(wm8962->regmap, WM8962_EQ1,
- 			   WM8962_EQ_SHARED_COEFF, 0);
- 
--	/* Don't debouce interrupts so we don't need SYSCLK */
-+	/* Don't debounce interrupts so we don't need SYSCLK */
- 	regmap_update_bits(wm8962->regmap, WM8962_IRQ_DEBOUNCE,
- 			   WM8962_FLL_LOCK_DB | WM8962_PLL3_LOCK_DB |
- 			   WM8962_PLL2_LOCK_DB | WM8962_TEMP_SHUT_DB,
-diff --git a/sound/soc/codecs/wm8996.c b/sound/soc/codecs/wm8996.c
-index dface555f928..e7a20ce39940 100644
---- a/sound/soc/codecs/wm8996.c
-+++ b/sound/soc/codecs/wm8996.c
-@@ -2106,7 +2106,7 @@ static int wm8996_set_fll(struct snd_soc_component *component, int fll_id, int s
- 	if (i2c->irq)
- 		timeout *= 10;
- 	else
--		/* ensure timeout of atleast 1 jiffies */
-+		/* ensure timeout of at least 1 jiffies */
- 		timeout = (timeout/2) ? : 1;
- 
- 	for (retry = 0; retry < 10; retry++) {
-diff --git a/sound/soc/codecs/wm_hubs.c b/sound/soc/codecs/wm_hubs.c
-index f80dfc488e3c..019940589e51 100644
---- a/sound/soc/codecs/wm_hubs.c
-+++ b/sound/soc/codecs/wm_hubs.c
-@@ -338,7 +338,7 @@ static int wm8993_put_dc_servo(struct snd_kcontrol *kcontrol,
- 	ret = snd_soc_put_volsw(kcontrol, ucontrol);
- 
- 	/* If we're applying an offset correction then updating the
--	 * callibration would be likely to introduce further offsets. */
-+	 * calibration would be likely to introduce further offsets. */
- 	if (hubs->dcs_codes_l || hubs->dcs_codes_r || hubs->no_series_update)
- 		return ret;
- 
--- 
-2.48.1
 
+Takashi
