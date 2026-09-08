@@ -1,137 +1,154 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58F7254CF7A
-	for <linux-sound@vger.kernel.org>; Tue,  8 Sep 2026 14:13:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 126A0545D82;
+	Tue,  8 Sep 2026 14:25:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788876817; cv=none; b=C4IhZEsr2YoygTeoezae294XV3s/ARbZXiMsiRGRvt56ovO2IDz1ERWVGo2JlLeJKcPXPPz+1zLxImECteWh46jK8rUAkuJ3ss4BTNKTTWZ3QC55DDyKOfi+y321BZf4tZz1sSFeQOwHOIwbS7QxbjhEAujIzNRqfOqz3ZW80LA=
+	t=1788877509; cv=none; b=NPPpd/V0M25UMXRKUMH4xpIqpiwIpKejlW3MIoWeGQlcZnMYuiTpSbun/bMFBrbTbnLk+d8YjU/2z6EmEB46JYLflxskyjzIu6S3M956j9ooRiFAurkXgOYifygCAkW1cKmrIH3U/ZlHk2dZWBIWBv4hIOIU1ik6dNF/GICW7Oc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788876817; c=relaxed/simple;
-	bh=6X+ZkZ9V9uQkjlYX6Ly6wRM/T8R81wVgIXoZhpU/ynE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HH1OpRsg3R72t5fAvMbvEm6G94uSviQUpkvXts7VqhHnjCF56omvo2poAelCUIquTCmp1O//w2UVw93PA6Aj3+Z6OTsktwRTfWtFX8KzKJ1bqKlNYE0naneNrlitZ8xykTbUB20ePlMFeFSq/TvROAGMwmUNPjXLpbb1NPleY9U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BxcGTFi8; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1788877509; c=relaxed/simple;
+	bh=0zTWRMOSrIPyxHH4DhfPpkrmaXsO0+MIuSmvP0/RniY=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=nYLS9UhsXEemOTmsQF4OY36u3gXxmBXpObrhZI+sa9sKMAcZmSZUu+uobdFb6lSw2SYkcYVLWodZBUkEsKZWgcxkK4V26ufIy2G8tCSBeZDt/q1ItKCi+FQB7cHM8a7/54vEju4fFLp6vLY0oRFM8f6HvTpoX8c8ycV3Frkb7uY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=w3sGhBk0; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=hwD3ytoY; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=eJYsAkg0; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Q3asSZUQ; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BxcGTFi8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788876814; x=1820412814;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=6X+ZkZ9V9uQkjlYX6Ly6wRM/T8R81wVgIXoZhpU/ynE=;
-  b=BxcGTFi8Pcg8ZWli59+aQDrNoELyncuIwxoyYkSTJenUMdAiizhDmjQ1
-   O/Mp6mtFnW1EZOtfs68Z604S+ANG4PNUfcOOHI8+cV5qk4phhdUw+92sI
-   1Ulm6oSa3JsygIdUjDkVuQ37kJ7sApVIAbIVrepSsK6ZXcfsuHlmULosg
-   MMPU/SR/7r+iBSnwa/YLuJ1Guj1YiCbTqUkASB6QCyQTK1DW3iraIqh+E
-   9YWrYAtGNwL+QMlJcgCqrD8MHBmASqSMu4d5DQHra92/V76JvUyBb/bEn
-   UjtRXf0DwZ3iELImS8PAm6+YKi+nsvBW5xWFEeeEfsmvF6F1jN4KZ/yYd
-   g==;
-X-CSE-ConnectionGUID: UUC7U8o1RHSOrWBXRXyeMw==
-X-CSE-MsgGUID: I6Fya/hESFy0ehx2W9Ho2g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11899"; a="89037619"
-X-IronPort-AV: E=Sophos;i="6.25,269,1779174000"; 
-   d="scan'208";a="89037619"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2026 07:13:27 -0700
-X-CSE-ConnectionGUID: n8vnFyVjQOCaPARaCp5ZMA==
-X-CSE-MsgGUID: LwzvFmUmQ9mbNbaUZkxSvg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,269,1779174000"; 
-   d="scan'208";a="295933782"
-Received: from fpallare-mobl4.ger.corp.intel.com (HELO [10.245.244.108]) ([10.245.244.108])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2026 07:13:24 -0700
-Message-ID: <7f5625fa-d391-406c-ba75-4df526af903c@linux.intel.com>
-Date: Tue, 8 Sep 2026 17:13:34 +0300
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="w3sGhBk0";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hwD3ytoY";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="eJYsAkg0";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Q3asSZUQ"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id EA7D521ADF;
+	Tue,  8 Sep 2026 14:24:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1788877489; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hHJKGSD2nFK/r/6f73cKpn6t2cf00+z7JQKS548yRy0=;
+	b=w3sGhBk08adRcOYfsOAa5bJwIaDpeCMdy/oP3XnrsrMTW1rD9O3l+FEXOhsICqiCJOzz8b
+	mCvSbcPkKM3BqFkJXQynZzT248uX/AHA720tAbeYdyxL9+gQ+Ghd/09UWZJBkuDMjLMJZs
+	IWvNj2RbP58mouFOnmrb2NfH0nUP4Xo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1788877489;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hHJKGSD2nFK/r/6f73cKpn6t2cf00+z7JQKS548yRy0=;
+	b=hwD3ytoYukqf1ABQS9gMwWY0Rj7qs/UtkR+FRNrGh2pUQp5PE0c92i2jeM4NwIuilHsQ07
+	hCKmTbhE9bfQzKAw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=eJYsAkg0;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Q3asSZUQ
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1788877484; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hHJKGSD2nFK/r/6f73cKpn6t2cf00+z7JQKS548yRy0=;
+	b=eJYsAkg0GEpmeTUKR9aXVqBdhNnq8tDwsHQh1JwUP7unnAV9GnUCaLoX34zz49DFUH8eF7
+	H9QNW52tcP8VZOUg3jOINoXxtjXnQWd/Adfe+Orsj1tD+Z1yWew5s6xk2DG8pTIhER6k+1
+	Xh1CQO4e8Q44A462WJtcZ9vC7qzUmV0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1788877484;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hHJKGSD2nFK/r/6f73cKpn6t2cf00+z7JQKS548yRy0=;
+	b=Q3asSZUQHNAxn4o6t6CDBr0zCkhEv9kDY1V+iifBodboLftNQGwoFbLgrntoogjXANTlsf
+	MfLYCLDck778lFAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BD5701364A;
+	Tue,  8 Sep 2026 14:24:44 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id j+2qLawaoGq3BwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 08 Sep 2026 14:24:44 +0000
+Date: Tue, 08 Sep 2026 16:24:29 +0200
+Message-ID: <87ik4fq0rm.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Kazuki Hanai <hnkz.64@gmail.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] ALSA: us122l: Prevent write upgrades for read mappings
+In-Reply-To: <20260908110053.2950767-1-hnkz.64@gmail.com>
+References: <20260908110053.2950767-1-hnkz.64@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 04/23] ASoC: soc-compress: Implement trigger FE-BE
- sequencing as with normal PCMs
-To: Vinod Koul <vkoul@kernel.org>
-Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
- Mark Brown <broonie@kernel.org>, perex@perex.cz, tiwai@suse.com,
- lgirdwood@gmail.com, srinivas.kandagatla@oss.qualcomm.com,
- linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com,
- yung-chuan.liao@linux.intel.com, daniel.baluta@nxp.com,
- Vijendar.Mukunda@amd.com
-References: <20260904073134.29648-5-peter.ujfalusi@linux.intel.com>
- <apsf1kjaFG71NpPd@sirena.co.uk>
- <b64906b9-032f-4435-a179-b663f0202796@linux.intel.com>
- <361eb4b4-d880-4560-8b71-eeda6f28b43c@linux.dev>
- <5b9a199e-abac-4193-94c0-d395329207ed@linux.intel.com>
- <ap7sF6dOY0Pl0c46@parshuram> <69650a4d-3021-49b0-b853-f7b9ba81aae1@linux.dev>
- <7af0b170-dd4a-4aef-b4d8-7e87d72d11f0@linux.intel.com>
- <ap-yDQotxJpw_jHr@parshuram>
- <003c3998-5b46-4532-9d48-dd47b98d544e@linux.intel.com>
- <aqABhbYne6RIree6@parshuram>
-Content-Language: en-US
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-In-Reply-To: <aqABhbYne6RIree6@parshuram>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -2.01
+X-Rspamd-Queue-Id: EA7D521ADF
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-2.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	ARC_NA(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid]
+X-Spam-Flag: NO
 
-
-
-On 08/09/2026 15:37, Vinod Koul wrote:
->>> It was supposed to be in a specific sequence. See the sequence in the
->>> documentation.
->>
->> The documentation confirms that the fcplay was incorrect:
->> https://github.com/alsa-project/tinycompress/commit/7d41dc4bcd39a1b2c449a6f87e827bdbd84d1213
+On Tue, 08 Sep 2026 13:00:53 +0200,
+Kazuki Hanai wrote:
 > 
-> OKay, feel free to send a patch, we should be consistent with above
-> documented behaviour
-
-It is already applied.
-
->>>> With IPC4 the NOP strategy works (just streaming the files without
->>>> stopping, but they mus be of same format and property), but then you
->>>> loose the position, so not so great.
+> The hwdep mmap callback rejects read-buffer mappings that are initially
+> writable, but leaves VM_MAYWRITE set on mappings created with PROT_READ.
+> A process that can open the hwdep node O_RDWR can later use mprotect() to
+> make the mapping writable.
 > 
-> I wanted to ask earlier, whats IPC4?
-
-SOF supports 2 major IPC mode, IPC3 which was used up to TGL family (and
-by NXP, AMD and MediaTek) and IPC4 which is from MTL onward (with
-unofficial support for TGL).
-
-They have different operating principles and we just got the compress
-support for IPC4 (so TGL and up) only on Intel platforms.
-
-NXP is using the compressed with IPC3.
-
-> The kernel should view this as a continuous bit stream and wont know
-> EOF. Only firmware will know about it and with metadata, able to skip
-> those.
-
-I see, the issue is that I cannot find any way to give the metadata to
-the decoder module, it is a black box to us.
-
-Also I'm not sure how the fw could get any idea where one
-flac/vorbis/aac/mp3 ends and where it starts, the black box does not
-seam to be able to detect this or if it does, it will not emit this
-information to outside.
-
->> Also: I have assorted ogg/mp3/flac in my music library and I tend to
->> play them in random, which defeats the gapless.
+> The read allocation begins with struct usb_stream. Its read_size member is
+> used by the fault handler to decide which pages belong to the read buffer.
+> The read VMA intentionally remains expandable because pcm_usb_stream uses
+> mremap() after reading that size. Changing read_size first can therefore
+> map and access pages beyond the allocation. The same member is also
+> consumed by usb_stream_free(), where changing it can make
+> free_pages_exact() release pages outside the allocation.
 > 
-> You are a non typical users :-) To test this, we would same track in
-> album. A typical user would be running spotify with same format :-)
+> Clear VM_MAYWRITE for read-buffer mappings after rejecting an initially
+> writable VMA. This keeps the separate output-buffer mapping writable while
+> preventing later permission upgrades.
+> 
+> Fixes: 030a07e44129 ("ALSA: Add USB US122L driver")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Kazuki Hanai <hnkz.64@gmail.com>
 
-Yes, Spotify will shuffle, but use the same format mostly for the random
-'files', true.
+Applied now.  Thanks.
 
->> The gapless support is not covered in this initial version, but can be
->> added later.
-I will likely need to do this at some point, but again, w/o the ability
-to test it, it is hard to declare victory ;)
 
--- 
-Péter
-
+Takashi
