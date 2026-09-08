@@ -1,144 +1,113 @@
-Received: from mta1.migadu.com (out-132.mta1.migadu.com [95.215.58.132])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 377834CA77E
-	for <linux-sound@vger.kernel.org>; Tue,  8 Sep 2026 09:12:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.132
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788858727; cv=none; b=Xa4d/yYvd/vy2AgR7FI43UCj91LmPt1atdA7NOM5TUQXBHSeQRe+czTMn9xZStcMLzpv3vYFO2+giWE1QWNiZrOWbtSi6TX6dqCRGOH8ze+L/glgWdHgcgAuoQUbYK7i+9rsR9zav+9bltLBppYuGv3SKfqG+2iGoR26eXx4kDg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788858727; c=relaxed/simple;
-	bh=BtgLhY8Gg+G0Ww36E3CW/0PZbBudzuQoD6MENa3r00A=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
-	 References:In-Reply-To; b=Of8rBO42mMfVnDFboNHxDczlfeVDo+1D5j/UoiS5xd3Lu3DnCTQAzBdctier5SJ8HAB/rN1cIl+255thOsUkocNgazDBiYlf10B1yf+RpgeKn+13yBkOMPvzu46R4Ue+mXkMNL+dpV1d/e4zep8dkSPITkpJJQS6g7SfRW+5JVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow-tech.com; spf=pass smtp.mailfrom=cknow-tech.com; dkim=pass (2048-bit key) header.d=cknow-tech.com header.i=@cknow-tech.com header.b=aTNkd7SU; arc=none smtp.client-ip=95.215.58.132
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow-tech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cknow-tech.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDD7F50EC07
+	for <linux-sound@vger.kernel.org>; Tue,  8 Sep 2026 09:19:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.182
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788859168; cv=pass; b=Q09nyxmEAp6K1J6RHsX2Pc0LRCjFbKEPpLsj1E0+QZiBjobHY7ctVRg1NUR/wi29lajqhZr4DUu1zbl64Nj756+3Ndg1IrAQLjVh3gzDDMVEuih9dh3QN2xCL3pK6d1TS2GKZiey5ASmDHndNw8HKtW/cZFeJksKtMDFKs5sd2E=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788859168; c=relaxed/simple;
+	bh=1CJ3Fj5ZeETTIou3X8k81+BylqMvg1us8lXgPWVlAw4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RzNklgMeB3Go2C6i2fwPFp8C/8ikDNTm9tZX3Fw4Buje39V6OqBLLG/jF/K2WH9OwSVI+unXafMzQP0MjFqsnp/IOFGhl53ZmrPwMNg5gFGSQ05VubB37jgQI/e5c+VSLXIqPJizmKKFOh2n2ZkI5e92h3W2xIy2yVXOyRGueaQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O+XC3HIE; arc=pass smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cknow-tech.com header.i=@cknow-tech.com header.b="aTNkd7SU"
-X-Envelope-To: linux-sound@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=BtgLhY8Gg+G0Ww36E3CW/0PZbBudzuQoD6MENa3r00A=;
- c=simple/simple; d=cknow-tech.com;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1788858723; v=1; x=1789463523;
- b=aTNkd7SUDb/sd/uq27oHvqQgqHAGmFZstKlQiB6e0G57vjemRzckXR5c8BoBeYaH+0HwFNe8
- pHr7VpNlXIarPXvPG5F0N/uYmyvQCZWaHKe1aF4LNA5kVKfIt6qRAseMd1inQ6ZW0u8Bbtky4GJ
- VrWMnqDH5tHAh3aWQIRrW0kvIXMj154j+B0DaebWBcE5D6JhnmZkF7y0chrXf6VBejPDAg0yfd+
- XV0V/acTJj6SNIFvKcAdDsn8hqvmLKGzpY5Js+I/rf/W7JoSjg2K7/cad6WRXI4UEkQtqwk8JtN
- KXiLDkcAzfYjknXOYDoBwf8N8w9FcQzylu63UFqKuqTiw==
-X-Envelope-To: linux-sound@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 34eb8cfa9cff89a1;
-	Tue, 08 Sep 2026 09:11:53 +0000
-X-Mizu-Trace-ID: 34eb8cfa9cff89a1
-X-Migadu-Flow: FLOW_OUT
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O+XC3HIE"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2d6fe26ef1cso43309845ad.2
+        for <linux-sound@vger.kernel.org>; Tue, 08 Sep 2026 02:19:27 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788859167; cv=none;
+        d=google.com; s=arc-20260327;
+        b=SfWW3T5lsVA1yZ9dYD6EiIM1wlTofH+PWZqVvDC6VYVlRhYZrn1kQ5tZ3AzvKnU63e
+         mtnuKyHW2Tq3iqdWgh2PzID2qHejC4GkFSh6wj9Fh5JEUPwWfUMpH1Lllw1l8v/ty07w
+         ViU9kQOPJQLdKuPjmVyu3ynGcjuFlkoXLnHnRTMP9rCtA4ZzgNdS7EzMcTLIQTuk5xs1
+         WEg71FlQ++fH5LgrvpEaYDyZSVM8kTEgko/qmmsGVMRK17CUKD4fEB4tX0OTY3cY5FvR
+         XiVT0+YHjn61wQGcadh8L/+6Al/+MAz4l4r7A4gNYeyjVgSzvbS8X5IEd0XK/J7dfVSP
+         qgGA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=yG4Pnz01dW2S7kM9qcZcTMa47qByQxdGgpfF/vR9rUI=;
+        fh=gw2Fznk9mpxdQcuDmzxB3dbWG0xgAnACG+8N+SjDh5g=;
+        b=rtM5HRstTjzLWOM/mKXmbbe7nGCHw/YsdJQ3pu8qsVVsd5EM1iciZViFxAsSlGlg4g
+         QaOOr0y1JTL3wEAUe9EeI3Ggrx0MRemS5lWCGoC3sYWCLZGrkbq8BwfpFsVwr5+MjLB6
+         h/7Ib4v+JiB4LFd8uW71+oC1QnpTCl9GDCG5nCojk3D7d7fFr5N/Z4r8VAEIoSdmIqmL
+         2dYiSChF/67/ItBKE7/w96WWLHXu0oTVr2jL5BrXZD08CvFRP0mrszX1Wngck7MhJtl8
+         9q+LPsbRDRtGogmnUB7zUtVRhbDMrLs/0/NLSArIMI1pOgXkfCDBn7E2LYcUcxi2BsKJ
+         J85g==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788859167; x=1789463967; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=yG4Pnz01dW2S7kM9qcZcTMa47qByQxdGgpfF/vR9rUI=;
+        b=O+XC3HIEh4BvShXFCFAaXRAFIX46peg6MtueGCced9Gl6ZE3xOxNkfco69Lfy3plI3
+         szB4t5ssfobRGXsPxZgr8QvO/8va2hII6m/9oMSj5+0rD6wWoFT4BScsIJL9lO5gWEWX
+         gDItRBp2o/heh/OfsLdLVFnlS7VWf3B4sZenYi804DwdILHrM2TzosHoRq4R3X0ldary
+         VBP1R9T+LCZZivgjKOTkvUCYyWWfbxkyx91fQIF/j25ldADwBKnBgtfJt8T+iBBcqVh0
+         1ytdA2H2jShNv5YGSmnMpi2Bm9dYa1HFfB5YbZmAxgfAEv7+/6ls9rDEboZlhOpJKm0q
+         lqBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788859167; x=1789463967;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=yG4Pnz01dW2S7kM9qcZcTMa47qByQxdGgpfF/vR9rUI=;
+        b=bMdVmrgXz7v+370ortISseT1xoVpMPQIfE+LMthj1yJ/wrmb/avihkHc0bDfP/huPp
+         G5Pe4jHFRPTB+XCiiYXLUBk6m0AQBv4fdQoSzT9gzVMLsxAD7SdMEGHmpvCXSWkQwPML
+         zb+7Gb46FNh0GMVLSiWII+N6wJLYFgD/lsi1B0nCGvjSjxiJBNtX12RKnl2C2VuAM+zh
+         N52tWQwdA8CkcFf9I1x2UO25dTyxQgbHLoqWeUgz8ZCseBl4mnEJU6xdiO7CY5EbK4kU
+         9m9esWnxzHIFoQXb0Isnmyfz005LdO1pFNqQfHETmaXrV2fYP5QyeLLRZTZNrVb/LbVw
+         qglw==
+X-Forwarded-Encrypted: i=1; AKwUvBydxagJLMD6YZL3QZ67GJfaCuOSZw2MUHAWu7ynYNdmXLJmJrYGMDuKqVqiYa6ss4zb/+csr0QNUHFOcg==@vger.kernel.org
+X-Gm-Message-State: AFuF++mRmqSu+1+rpjQsHmuBU94xdf/VnfrJ5AwXoj0ixC5c4TjSeS3Q
+	KyfE0kaO80nl5T+YU+upVqZGZrOVBunxKRyUzPrCtwwsRaolXu+BI1wdPiSKuDEAuJVLfgSW8t5
+	hQ7B0BCZTz3aK9SicZeRTrc9BIfccuBk=
+X-Gm-Gg: AYBFou3SGXk3HdAqM5+Ttxd1XVludIe2TaJVZhbDhs8d/DK1ars7NfuGiUihYUiJybv
+	QlOXeGDVqVyXaNrbiJoQIuUE1L305tW1WBWuPsMpFE3pFL08+26foXPlqT/QaUZoBukABEh34+r
+	lCiKiwW0Sd8icJ2QNvGhI9E+rw01wRxWmvxcCTnvADjrt6aYS2RxES24NwltGF77kByQjP+jKh/
+	5lk8+Y9uxBGqbjG/BUCjwlEz75ru24nRXUPYPGjYGggsHljihj7I4s1qyfLFIfugJjmmBDFrAp5
+	yAuJ2Y9VaIBoyzokTCrLAlDKUnF6mRcusDSpga0ARVWfDs1WlbUChzmZ9x60Mf+dIvBg3bzdpbZ
+	/xQdiR3SwA8SugfaSfF6sVqsmDB25TkJYEhlE6yZJwv57Hmgpn8j563TT
+X-Received: by 2002:a17:903:3c47:b0:2db:eb5:47ea with SMTP id
+ d9443c01a7336-2db12106896mr426721305ad.0.1788859167169; Tue, 08 Sep 2026
+ 02:19:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 08 Sep 2026 11:11:50 +0200
-Message-Id: <DL9THMPHYI9G.4JZF02QB3950@cknow-tech.com>
-Subject: Re: [PATCH] ASoC: codecs: ES8389: Prevent enable_count underflow in
- clk_core_disable
-From: "Diederik de Haas" <diederik@cknow-tech.com>
-To: <linux-sound@vger.kernel.org>, <broonie@kernel.org>
-Cc: <tiwai@suse.com>
-X-Mailer: aerc 0.22.0-9-ge948bb7230f4
-References: <20260904104141.3885-1-zhangyi@everest-semi.com>
-In-Reply-To: <20260904104141.3885-1-zhangyi@everest-semi.com>
+MIME-Version: 1.0
+References: <20260908090448.3332-1-ansuelsmth@gmail.com> <20260908090448.3332-5-ansuelsmth@gmail.com>
+In-Reply-To: <20260908090448.3332-5-ansuelsmth@gmail.com>
+From: Bui Duc Phuc <phucduc.bui@gmail.com>
+Date: Tue, 8 Sep 2026 16:19:14 +0700
+X-Gm-Features: AcwNN1VpPKN1gkIiS51yj4BLA5N52CV9eNK9WOCJ4im1zZlIaPxLmU_uBzBetZQ
+Message-ID: <CAABR9nERV0bGkEQm=4kLNBZVfurr+6c-Q_to9=XixJV9CT=vyQ@mail.gmail.com>
+Subject: Re: [PATCH v6 4/5] ASoC: airoha: Add AFE driver for Airoha AN7581
+To: Christian Marangi <ansuelsmth@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Cyril Chao <Cyril.Chao@mediatek.com>, 
+	Darren Ye <darren.ye@mediatek.com>, Rosen Penev <rosenp@gmail.com>, 
+	Daniel Golle <daniel@makrotopia.org>, linux-sound@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri Sep 4, 2026 at 12:41 PM CEST, Zhang Yi wrote:
-> To prevent enable_count underflow in clk_core_disable,
-> I replaced the direct call to `es8389_set_bias_level(component, SND_SOC_B=
-IAS_STANDBY);`
-> in the code with a helper function.
-
-Reported-by: Diederik de Haas <diederik@cknow-tech.com>
-Closes: https://lore.kernel.org/linux-sound/DJIUWLPIHZ48.5H5T2EI2YI8D@cknow=
--tech.com/
-Tested-by: Diederik de Haas <diederik@cknow-tech.com>  # NanoPC-T6 Plus
-
-Thanks!
-
-> Signed-off-by: Zhang Yi <zhangyi@everest-semi.com>
-> ---
->  sound/soc/codecs/es8389.c | 34 ++++++++++++++++++++--------------
->  1 file changed, 20 insertions(+), 14 deletions(-)
->
-> diff --git a/sound/soc/codecs/es8389.c b/sound/soc/codecs/es8389.c
-> index 80efce3e0..2ea0c4052 100644
-> --- a/sound/soc/codecs/es8389.c
-> +++ b/sound/soc/codecs/es8389.c
-> @@ -812,6 +812,23 @@ static int es8389_pcm_hw_free(struct snd_pcm_substre=
-am *substream,
->  	return 0;
->  }
-> =20
-> +static void es8389_standby(struct snd_soc_component *component)
-> +{
-> +	struct es8389_private *es8389 =3D snd_soc_component_get_drvdata(compone=
-nt);
+> +       ret = devm_request_irq(dev, irq_id, an7581_afe_irq_handler,
+> +                              IRQF_TRIGGER_NONE, "asys-isr", (void *)afe);
+> +       if (ret)
+> +               return dev_err_probe(dev, ret, "Failed to request irq for asys-isr\n");
 > +
-> +	regmap_update_bits(es8389->regmap, ES8389_ADC_HPF1, 0x0f, 0x04);
-> +	regmap_update_bits(es8389->regmap, ES8389_ADC_HPF2, 0x0f, 0x04);
-> +	regmap_write(es8389->regmap, ES8389_CSM_JUMP, 0xD4);
-> +	usleep_range(70000, 72000);
-> +	regmap_write(es8389->regmap, ES8389_ANA_CTL1, 0x59);
-> +	regmap_write(es8389->regmap, ES8389_ADC_EN, 0x00);
-> +	regmap_write(es8389->regmap, ES8389_CLK_OFF1, 0x00);
-> +	regmap_write(es8389->regmap, ES8389_RESET, 0x3E);
-> +	regmap_update_bits(es8389->regmap, ES8389_DAC_INV, 0x80, 0x80);
-> +	usleep_range(8000, 8500);
-> +	regmap_update_bits(es8389->regmap, ES8389_DAC_INV, 0x80, 0x00);
-> +}
-> +
->  static int es8389_set_bias_level(struct snd_soc_component *component,
->  			enum snd_soc_bias_level level)
->  {
-> @@ -834,18 +851,7 @@ static int es8389_set_bias_level(struct snd_soc_comp=
-onent *component,
->  	case SND_SOC_BIAS_PREPARE:
->  		break;
->  	case SND_SOC_BIAS_STANDBY:
-> -		regmap_update_bits(es8389->regmap, ES8389_ADC_HPF1, 0x0f, 0x04);
-> -		regmap_update_bits(es8389->regmap, ES8389_ADC_HPF2, 0x0f, 0x04);
-> -		regmap_write(es8389->regmap, ES8389_CSM_JUMP, 0xD4);
-> -		usleep_range(70000, 72000);
-> -		regmap_write(es8389->regmap, ES8389_ANA_CTL1, 0x59);
-> -		regmap_write(es8389->regmap, ES8389_ADC_EN, 0x00);
-> -		regmap_write(es8389->regmap, ES8389_CLK_OFF1, 0x00);
-> -		regmap_write(es8389->regmap, ES8389_RESET, 0x3E);
-> -		regmap_update_bits(es8389->regmap, ES8389_DAC_INV, 0x80, 0x80);
-> -		usleep_range(8000, 8500);
-> -		regmap_update_bits(es8389->regmap, ES8389_DAC_INV, 0x80, 0x00);
-> -
-> +		es8389_standby(component);
->  		clk_disable_unprepare(es8389->mclk);
->  		break;
->  	case SND_SOC_BIAS_OFF:
-> @@ -1015,7 +1021,7 @@ static int es8389_suspend(struct snd_soc_component =
-*component)
->  {
->  	struct es8389_private *es8389 =3D snd_soc_component_get_drvdata(compone=
-nt);
-> =20
-> -	es8389_set_bias_level(component, SND_SOC_BIAS_STANDBY);
-> +	es8389_standby(component);
->  	regcache_cache_only(es8389->regmap, true);
->  	regcache_mark_dirty(es8389->regmap);
-> =20
-> @@ -1084,7 +1090,7 @@ static int es8389_probe(struct snd_soc_component *c=
-omponent)
-> =20
->  	es8389->hpf_freq =3D ES8389_HPF_DEFAULT;
->  	es8389_init(component);
-> -	es8389_set_bias_level(component, SND_SOC_BIAS_STANDBY);
-> +	es8389_standby(component);
-> =20
->  	return 0;
->  }
 
-
+I think we can return the error directly here, as devm_request_irq()
+already reports the error.
+dev_err_probe() would result in a redundant error message.
