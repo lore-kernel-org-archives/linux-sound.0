@@ -1,36 +1,36 @@
-Received: from mta1.migadu.com (out-109.mta1.migadu.com [95.215.58.109])
+Received: from mta0.migadu.com (out-236.mta0.migadu.com [91.218.175.236])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81F4639658D
-	for <linux-sound@vger.kernel.org>; Tue,  8 Sep 2026 08:06:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.109
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 876B83ABD9D
+	for <linux-sound@vger.kernel.org>; Tue,  8 Sep 2026 08:06:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.236
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788854803; cv=none; b=cU9CzIcDExFmPij4EYBEwIQGY07Su0NVbfCqWwD+fjVb6ZEyaXZktVwssrn5T8JJS1WstcU0qMrVuUVUtF1V5Cf7vRc8NE/eYk52MxqMp8D9a22NBAnX+tPiwcKSgB2flTq+4qR9dmooW+G2BEmVSE5DkTj7gJsKlGEqxpuE1po=
+	t=1788854807; cv=none; b=jHkoR6B2PEin2ZR9lYyEI2QbKBDwoSyBgwvU7uAc1SYvr8mdmCk1omrngHkkp+XvUJHN9vknQvmd9RIQq5X7y2es1Aw2OXhxrJctnAd0jh2cymIL/NuLxgId2aOlrf/76YZ00xZEpHhJpg3faQxwKnb/vlbEn+cmUD87XeRRTHo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788854803; c=relaxed/simple;
-	bh=X40NbP2VG3ynlCJ/mMCdKpCJsDLmQc6h9+cTEAWmcsE=;
+	s=arc-20240116; t=1788854807; c=relaxed/simple;
+	bh=z2Aui1gfVBqQER1RfDy8XUHJ416rxABvVZUfx6BuIb0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ekwR13V2yaIKFu0mq5eKSnY/rGMSd2RuKwgf9wBHCt5ibHUvo9Wq+we5K+43SWWgZTE3crfcDlnInyW/KbFEXggfKLwdMzqL00m3xD3f4q7BK+XWHcYc6+OEEewnucOLpm3AFZnuxCV1mOdc/ziMM/vvlGGEmmY0jvyV/12/HoQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=rhOU4HRn; arc=none smtp.client-ip=95.215.58.109
+	 In-Reply-To:Content-Type; b=ckU8k33xA4LbhRhz+u8Qc8z12hXG+v7dS4PvKbhVgXVNxugG2UdRQXuy3SM0Ol/1WzpHTs69N4hblZjC2TEq3kFl2fUKZRcfU6n24Hj55Fc9ffuA38CyExPZyOiHH0Dw3fQ/rjYuqP7uBzZCnzN4hT4CEKaypagSxJYsRcMYGRo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=RhGhPaQh; arc=none smtp.client-ip=91.218.175.236
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="rhOU4HRn"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="RhGhPaQh"
 X-Envelope-To: linux-sound@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=X40NbP2VG3ynlCJ/mMCdKpCJsDLmQc6h9+cTEAWmcsE=;
+DKIM-Signature: a=rsa-sha256; bh=z2Aui1gfVBqQER1RfDy8XUHJ416rxABvVZUfx6BuIb0=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1788854798; v=1; x=1789459598;
- b=rhOU4HRngGezHIaW5x1C9VMF6X3WhwLxpat1O7zmmH9O4aG8TCmW1Gaj7bAe8B8Zh47Dypac
- kQAuW2o1qxlLKHUSUH+LOHgXRoOOV8gi9YpxWIR1xe07x+N+yAA95ST+pV7T20Yzyu5DtACkdwO
- d4VbrmqGO0yfLHqtVyurJnUc=
+ t=1788854803; v=1; x=1789459603;
+ b=RhGhPaQh/JAJ1DmPMqDRtkWhJ1FH9z3wLt6KpqYBBKnbJiZ6ubgYuzwCIhmZAMacoejWVpSL
+ F/Ko6686HotrOuJjXKDr/E+aus57KnQf818uZ4hFgFUGo7bEOWzKb7Ni6/GW09CRERcm5xcJuD1
+ y4cMR/fLpVXNbiWEaoy+uDjY=
 X-Envelope-To: linux-sound@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id d13c9dd9c39d3850;
-	Tue, 08 Sep 2026 08:06:38 +0000
-X-Mizu-Trace-ID: d13c9dd9c39d3850
+Received: by smtp.migadu.com with ESMTPS id 3872aa417a299e6d;
+	Tue, 08 Sep 2026 08:06:33 +0000
+X-Mizu-Trace-ID: 3872aa417a299e6d
 X-Migadu-Flow: FLOW_OUT
-Message-ID: <adbffefd-b921-48b5-b0dc-a5f4c26d0838@linux.dev>
-Date: Tue, 8 Sep 2026 10:03:34 +0200
+Message-ID: <136b37a6-05ff-4ea1-8715-211a64040433@linux.dev>
+Date: Tue, 8 Sep 2026 10:02:29 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -38,7 +38,7 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 2/2] ASoC: sdw_utils: add tac5272 support
+Subject: Re: [PATCH v1 1/2] ASoC: tac5xx2-sdw: add tac5272 support
 To: Niranjan Holalu Yogendra <niranjan.hy@ti.com>, linux-sound@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org, broonie@kernel.org,
  ckeepax@opensource.cirrus.com, lgirdwood@gmail.com, perex@perex.cz,
@@ -46,60 +46,199 @@ Cc: linux-kernel@vger.kernel.org, broonie@kernel.org,
  yung-chuan.liao@linux.intel.com, kai.vehmanen@linux.intel.com,
  baojun.xu@ti.com, shenghao-ding@ti.com, sandeepk@ti.com, v-hampiholi@ti.com
 References: <20260908032757.389-1-niranjan.hy@ti.com>
- <20260908032757.389-2-niranjan.hy@ti.com>
 Content-Language: en-US
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <20260908032757.389-2-niranjan.hy@ti.com>
+In-Reply-To: <20260908032757.389-1-niranjan.hy@ti.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 9/8/26 05:27, Niranjan Holalu Yogendra wrote:
 > From: Niranjan H Y <niranjan.hy@ti.com>
 > 
->  Update soundiwre utils to support tac5272 which is
-> UAJ only variant.
+>   Add support for tac5272 which is a UAJ
+> only variant with no speaker and dmic.
 > 
 > Signed-off-by: Niranjan H Y <niranjan.hy@ti.com>
 > Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 
-this one looks fine.
-
-Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+this looks mostly ok at a high-level, but see below for improvement
+suggestions
 
 > ---
->  sound/soc/sdw_utils/soc_sdw_utils.c | 21 +++++++++++++++++++++
->  1 file changed, 21 insertions(+)
+>  sound/soc/codecs/tac5xx2-sdw.c | 50 ++++++++++++++++++++++++++++++++--
+>  1 file changed, 47 insertions(+), 3 deletions(-)
 > 
-> diff --git a/sound/soc/sdw_utils/soc_sdw_utils.c b/sound/soc/sdw_utils/soc_sdw_utils.c
-> index 88031238c..ab0132031 100644
-> --- a/sound/soc/sdw_utils/soc_sdw_utils.c
-> +++ b/sound/soc/sdw_utils/soc_sdw_utils.c
-> @@ -81,6 +81,27 @@ static const struct snd_kcontrol_new rt700_controls[] = {
+> diff --git a/sound/soc/codecs/tac5xx2-sdw.c b/sound/soc/codecs/tac5xx2-sdw.c
+> index a5f654cde..fe6d3f981 100644
+> --- a/sound/soc/codecs/tac5xx2-sdw.c
+> +++ b/sound/soc/codecs/tac5xx2-sdw.c
+> @@ -146,6 +146,8 @@ struct tac5xx2_prv {
+>  	struct device *dev;
+>  	bool hw_init;
+>  	bool first_hw_init_done;
+> +	bool support_spk;
+> +	bool support_dmic;
+>  	u32 part_id;
+>  	u32 rev_id;
+>  	struct snd_soc_jack *hs_jack;
+> @@ -1168,6 +1170,28 @@ static int tac_interrupt_callback(struct sdw_slave *slave,
+>  	return 0;
+>  }
+>  
+> +static struct snd_soc_dai_driver tac5272_dai_driver[] = {
+> +	{
+> +		.name = "tac5xx2-aif3",
+> +		.id = TAC5XX2_UAJ,
+> +		.playback = {
+> +			.stream_name = "DP4 UAJ Speaker Playback",
+> +			.channels_min = 1,
+> +			.channels_max = 2,
+> +			.rates = TAC5XX2_DEVICE_RATES,
+> +			.formats = TAC5XX2_DEVICE_FORMATS,
+> +		},
+> +		.capture = {
+> +			.stream_name = "DP7 UAJ Mic Capture",
+> +			.channels_min = 1,
+> +			.channels_max = 2,
+> +			.rates = TAC5XX2_DEVICE_RATES,
+> +			.formats = TAC5XX2_DEVICE_FORMATS,
+> +		},
+> +		.ops = &tac_dai_ops,
+> +	},
+> +};
+> +
+>  static struct snd_soc_dai_driver tac5572_dai_driver[] = {
+>  	{
+>  		.name = "tac5xx2-aif1",
+> @@ -1409,8 +1433,16 @@ static const struct snd_soc_component_driver soc_codec_driver_tacdevice = {
+>  	.endianness = 1,
 >  };
 >  
->  struct asoc_sdw_codec_info codec_info_list[] = {
-> +	{
-> +		.vendor_id = 0x0102,
-> +		.part_id = 0x5272,
-> +		.name_prefix = "tac5272",
-> +		.dais = {
-> +			{
-> +				/* UAJ only - no speaker or DMIC */
-> +				.direction = {true, true},
-> +				.dai_name = "tac5xx2-aif3",
-> +				.component_name = "tac5272",
-> +				.dai_type = SOC_SDW_DAI_TYPE_JACK,
-> +				.dailink = {SOC_SDW_JACK_OUT_DAI_ID, SOC_SDW_JACK_IN_DAI_ID},
-> +				.controls = generic_jack_controls,
-> +				.num_controls = ARRAY_SIZE(generic_jack_controls),
-> +				.widgets = generic_jack_widgets,
-> +				.num_widgets = ARRAY_SIZE(generic_jack_widgets),
-> +				.rtd_init = asoc_sdw_ti_sdca_jack_rtd_init,
-> +			},
-> +		},
-> +		.dai_num = 1,
-> +	},
->  	{
->  		.vendor_id = 0x0102,
->  		.part_id = 0x5572,
+> +static const struct snd_soc_component_driver soc_codec_driver_tac5272 = {
+> +	.probe = tac_component_probe,
+> +	.remove = tac_component_remove,
+> +	.idle_bias_on = 0,
+> +	.endianness = 1,
+> +};
+
+This essentially removes the controls, widget and routes that were for
+the 'default' tacdevice, which assumed the presence of speaker+dmic,
+with UAJ optional.
+
+	.num_controls = ARRAY_SIZE(tac5xx2_snd_controls),
+	.dapm_widgets = tac5xx2_common_widgets,
+	.num_dapm_widgets = ARRAY_SIZE(tac5xx2_common_widgets),
+	.dapm_routes = tac5xx2_common_routes,
+	.num_dapm_routes = ARRAY_SIZE(tac5xx2_common_routes),
+
+Now that speaker+dmic become optional, you could remove these
+initializations and dynamically add the controls/widgets/routes for
+speaker and dmic if they are present, as you currently do for UAJ in
+tac_component_probe(). That way you would treat all 3 options separately
+and can handle whichever variations creative hardware designers come up
+with.
+
+
+> +
+>  static s32 tac_init(struct tac5xx2_prv *tac_dev)
+>  {
+> +	const struct snd_soc_component_driver *template;
+>  	struct snd_soc_component_driver *component_driver;
+>  	struct snd_soc_dai_driver *dai_drv;
+>  	int num_dais;
+> @@ -1419,21 +1451,30 @@ static s32 tac_init(struct tac5xx2_prv *tac_dev)
+>  	dev_set_drvdata(tac_dev->dev, tac_dev);
+>  
+>  	switch (tac_dev->part_id) {
+> +	case 0x5272:
+> +		dai_drv = tac5272_dai_driver;
+> +		num_dais = ARRAY_SIZE(tac5272_dai_driver);
+> +		template = &soc_codec_driver_tac5272;
+> +		break;
+>  	case 0x5572:
+>  		dai_drv = tac5572_dai_driver;
+>  		num_dais = ARRAY_SIZE(tac5572_dai_driver);
+> +		template = &soc_codec_driver_tacdevice;
+>  		break;
+>  	case 0x5672:
+>  		dai_drv = tac5672_dai_driver;
+>  		num_dais = ARRAY_SIZE(tac5672_dai_driver);
+> +		template = &soc_codec_driver_tacdevice;
+>  		break;
+>  	case 0x5682:
+>  		dai_drv = tac5682_dai_driver;
+>  		num_dais = ARRAY_SIZE(tac5682_dai_driver);
+> +		template = &soc_codec_driver_tacdevice;
+>  		break;
+>  	case 0x2883:
+>  		dai_drv = tas2883_dai_driver;
+>  		num_dais = ARRAY_SIZE(tas2883_dai_driver);
+> +		template = &soc_codec_driver_tacdevice;
+>  		break;
+>  	default:
+>  		dev_err(tac_dev->dev, "Unsupported device: 0x%x\n",
+> @@ -1446,7 +1487,7 @@ static s32 tac_init(struct tac5xx2_prv *tac_dev)
+>  	if (!component_driver)
+>  		return -ENOMEM;
+>  
+> -	memcpy(component_driver, &soc_codec_driver_tacdevice, sizeof(*component_driver));
+> +	memcpy(component_driver, template, sizeof(*component_driver));
+>  	if (tac_has_uaj_support(tac_dev))
+>  		component_driver->set_jack = tac5xx2_set_jack;
+>  
+> @@ -1756,7 +1797,7 @@ static int tac_io_init(struct device *dev, struct sdw_slave *slave, bool first)
+>  		}
+>  	}
+>  
+> -	if (tac_dev->sa_func_data) {
+> +	if (tac_dev->sa_func_data && tac_dev->support_spk) {
+>  		ret = sdca_regmap_write_init(dev, tac_dev->regmap,
+>  					     tac_dev->sa_func_data);
+>  		if (ret) {
+> @@ -1775,7 +1816,7 @@ static int tac_io_init(struct device *dev, struct sdw_slave *slave, bool first)
+>  		}
+>  	}
+>  
+> -	if (tac_dev->sm_func_data) {
+> +	if (tac_dev->sm_func_data && tac_dev->support_dmic) {
+
+this looks weird, is there a case where sm_func_data is not NULL but
+support_dmic is false?
+
+The addition of those support_ booleans doesn't seem quite right, why
+not skip over the functions if they are not implemented?
+
+It's not just arguing about the code for the sake of arguing, such
+messages could become confusing for users/testers:
+
+dev_dbg(dev, "SDCA functions enabled: SA=%s SM=%s UAJ=%s HID=%s",
+		tac_dev->sa_func_data ? "yes" : "no",
+		tac_dev->sm_func_data ? "yes" : "no",
+		tac_dev->uaj_func_data ? "yes" : "no",
+		tac_dev->hid_func_data ? "yes" : "no");
+
+because they don't rely on the support_speaker boolean...
+
+In general using ONE source of information is better...
+
+>  		ret = sdca_regmap_write_init(dev, tac_dev->regmap,
+>  					     tac_dev->sm_func_data);
+>  		if (ret) {
+> @@ -1995,6 +2036,8 @@ static s32 tac_sdw_probe(struct sdw_slave *peripheral,
+>  	tac_dev->first_hw_init_done = false;
+>  	tac_dev->part_id = id->part_id;
+>  	tac_dev->rev_id = 0x0;
+> +	tac_dev->support_spk = (id->part_id != 0x5272);
+> +	tac_dev->support_dmic = (id->part_id != 0x5272);
+>  	dev_set_drvdata(dev, tac_dev);
+>  
+>  	regmap = devm_regmap_init_sdw_mbq_cfg(&peripheral->dev, peripheral,
+> @@ -2045,6 +2088,7 @@ static void tac_sdw_remove(struct sdw_slave *peripheral)
+>  }
+>  
+>  static const struct sdw_device_id tac_sdw_id[] = {
+> +	SDW_SLAVE_ENTRY(0x0102, 0x5272, 0),
+>  	SDW_SLAVE_ENTRY(0x0102, 0x5572, 0),
+>  	SDW_SLAVE_ENTRY(0x0102, 0x5672, 0),
+>  	SDW_SLAVE_ENTRY(0x0102, 0x5682, 0),
 
