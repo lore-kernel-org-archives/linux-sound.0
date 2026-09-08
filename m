@@ -1,211 +1,237 @@
-Received: from mx0a-0002e601.pphosted.com (mx0a-0002e601.pphosted.com [148.163.150.75])
+Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazolkn19010005.outbound.protection.outlook.com [52.103.43.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F4A3318EC4;
-	Tue,  8 Sep 2026 03:29:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.150.75
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0170436F8E9;
+	Tue,  8 Sep 2026 05:14:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.43.5
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788838147; cv=fail; b=LYAhwzkIvTk/S8ZMRTd9HP5rFCPA7/dvDHYPgtyhEV7IaofOILaBTu84rHaMB2amGhZ9eWnc6MLEXKPKNFy7m/gFtYGUbcRT90A+owM9QncAkF91XVha6vRaZL8ZXlTuGKE1637vqBBbSv2zZtUa3bNdAGL4uqt6a9DqtOUmbgg=
+	t=1788844480; cv=fail; b=jcON8fXMyWBYhMfqzoEZuClU2G7IVDILeGO6saPAM20GG23RUVmg/FDXCWzoG7cMI9lgiZFJeS9ikrgrtiIBAw9qeN4x7pcOS5LtlUecxB01rjN+LakTHQ7SYtdmWZOFQHsC04OuTMw+Jytk31b3bnNQtlisFN8lhf4RcBHJQIw=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788838147; c=relaxed/simple;
-	bh=1VyvZbtqXeH7+rz9jAgc8CsQvKq6uY8PF0uS+PM+ou4=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=t8Ee6geAaxg/Mjx8Oi3ZpOHuibQq/pUFqIa/tlfYsqJOcGpcN6+0Asv/X1aNq4VEKEL3M9USB1JZqc9+XTgKXWMuGDWfp8XsSBOjTpJWsOzdpS+oKktmKnYgG3IliV3WhN38GpGf9CqLwKU//WB0MVp+7QwBulBNFXXEc124E+o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (2048-bit key) header.d=ti.com header.i=@ti.com header.b=MNkvWPCX; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=RZtNZp74; arc=fail smtp.client-ip=148.163.150.75
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1788844480; c=relaxed/simple;
+	bh=69oJQP7Asu89f6eQ2jSYywne/6XpW8pQTNr7kbv+fxw=;
+	h=Message-ID:Date:To:Cc:From:Subject:Content-Type:MIME-Version; b=Pp09QaSQoBX7a15oGDgla63mynIHxI+upr3o7nDVCh/2sP29l8tW39SpV73Yz79rhZHA9Q7pIOkeB9UJUxzDGR9NGPDRcyZQlYEsJmvq+ttVadayUVzs/F4uyVFp+Mgdpq/OYG7T8Ar4QrMY31jNfV/LfatcgRGlqhIb+nVWgNU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=f5IyC0oV; arc=fail smtp.client-ip=52.103.43.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ti.com header.i=@ti.com header.b="MNkvWPCX";
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="RZtNZp74"
-Received: from pps.filterd (m0384305.ppops.net [127.0.0.1])
-	by m0384305.ppops.net (8.18.1.11/8.18.1.11) with ESMTP id 687NnuMY2680116;
-	Mon, 7 Sep 2026 22:28:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	proofpoint-05-2026; bh=VGNXc35pRF0PaPRv855KooOnbw3oOBK8dzp8/zBbS
-	FY=; b=MNkvWPCXnEkeQ3NDhKQW3mjtRiu1R/WhtcUMg63kSnhEjYmbBGwv3weqQ
-	/lCLXzVS4EtUHbbzIc51GF6yIfd4qowXqgAJvco31uOIRiHOsLBaMU3TFxz6cDMJ
-	Ia5es+ahTpt3g9vX6q8TKr9cQf+r7fzfaiB1RpJ788Oq/9FZPen5BFN+ImZ6JI5R
-	uRvfZTuMH8lAhWtGpfeA82cste7/2NY16glDkwhc5s0I7+uzOxumDeJyNwvy8ezd
-	yAqSSUX/w2Mr/sWCrhtg3BEgIwiAu6Z4G9j7hf318GQK3f3xaVyfAM4C3EHVhjOG
-	NfszlC3amekeDHy+5Ie0h8YjyZzxw==
-Received: from ph8pr06cu001.outbound.protection.outlook.com (mail-westus3azon11012066.outbound.protection.outlook.com [40.107.209.66])
-	by m0384305.ppops.net (PPS) with ESMTPS id 4ght65n0nr-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Mon, 07 Sep 2026 22:28:50 -0500 (CDT)
+	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="f5IyC0oV"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cb/OY0JV9EMyoIbyi6P/EW6gny1RTPg3sDnw/XnKY629UdhgFeVEZRaJKvxPL47037rdk373ZGzAVHfoIuA6gjfMcGTH0UKs/Qobsop+PKZS1jBa2Twr2O35RwSOkIF8IMHp7zVxecN9Rqi1QAKOfLv0tzgk5f72S28p2nrKRXrL3c8ytfz6bK/+9rP6qskerB0CqThS/z9Y64bNVkrl88zUs8Qvd7oTMaMEK11KbsTZCwysHPMey9ZQMQHStp1dohkP1RdSzAt9bV0rqg64M2yCgygpp2e0YJaLeoTcENAMLhQ2znm8qeVPW/x6yTonlRwKSgim0ubzpPNm2FubKA==
+ b=nYkq5pKc1fJnFUWucam9oec/nYO08vNrR5xnHJnOAhA+eG6FI+Hvi2OQVrmM1MsYFJlcj7MacTmzg+ItUwL+5IsCALS7SC+X9ewLKTwVKCZ/xTLv3tDNkcrhtI0HAbYzPT0G9p1V9ItmWGrlyaS0j+RqQ7K1M6031798MmVmiKbXCoFoWN03ieWmBdCE2xV9TWJIkSOu34MkiR6dp+yM4MTzx5VSWXOI+8NR9vjrmG47FSN1MeDQ38im0ZwjmEJjqBnTxdRIX+OsSrg2T4iWXo9nr847xBGpvz+kqJJpMRfeh8n/rPYrjf6DtoKCyXsutX772Q/AeYCHCQiJBPD35g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VGNXc35pRF0PaPRv855KooOnbw3oOBK8dzp8/zBbSFY=;
- b=Ued2Sya2MOLTExDXI/dQxGMVgmkmEHEgNZYXl33NXBzcBauWKivD8DShjSS6CWh2JCnBcMFV3vlHVxyXlcYefBPQZzBHpelqcI6fzi/fSVbOFuinzBZ3r3mNXJ0WfyOolgKv0MRtnQdlLqkN2LW9H8Z+YsCLrsShc5i6r8VfXQVh8gjanxIjdx/1A78t5ebnz/P6dE+F2wIrAumFSY4YLdJSsVnS5EStd87KXa9Gzlx4t0jgCQdR//kD3wkQfEBbB+bSl+hfyqcPgcYr5vt1O9jgSZh7FciA6axjJYS6WLk383Fr4u+Dv5C2EmLYKHhsfIau5y4KdbANec7ZsHeqaA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.23.194) smtp.rcpttodomain=linux.dev smtp.mailfrom=ti.com; dmarc=pass
- (p=quarantine sp=none pct=100) action=none header.from=ti.com; dkim=none
- (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ bh=kkq0iXi3it1Yx6UiaLWWhgOnb8jNrLiEw4Rg9mmIT7w=;
+ b=UDWt6T/DBbvymuNE15PJ69gD7vm/iYfVLoADtqXSC/Lxd/EoHH2sdx2VeZQ0H5mh4wqm4Kct7yEJr54hGXuouL3EL9qiWYYJIiu/NxTGi24TIdUbjQgTK3A4CgyOBxr7TRc9URBHvuWXV5wT5NcQT41AglT7Y2hwvn/H6tK5+IRYDqJNb/WR3zhteXY9HB8Ofkgq2qDx2bYleRKKZSUVkFCuu3ZGURxw/Xx4o0CNufIAPaPH5YomfXtfcAmmaxyV8Fv6LszPGUYxq7inUExYZlVzwQNR34zs84Nbq2ctKlhY1n8PibqdFkfk+JDwt1lQRuZdIFHsjMvvJ1Bm/TX9iA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VGNXc35pRF0PaPRv855KooOnbw3oOBK8dzp8/zBbSFY=;
- b=RZtNZp74kdNKnS1J+nTjW2Eh6UQgFd2fOEyL7nnoXw11E6ZTxRe08vWeZRHOpZ3tOj5Z2Z4AsPkkHXSUE6hbXGlbstZ1VCIrHEUfmLkEnHRm5fo3yyMXNfoGyuJaeIAFJzOlIGCkV+w85umRJRGcB37tTQnbMsysjoOilSKBkho=
-Received: from BY1P220CA0016.NAMP220.PROD.OUTLOOK.COM (2603:10b6:a03:5c3::13)
- by BN0PR10MB4888.namprd10.prod.outlook.com (2603:10b6:408:115::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.4; Tue, 8 Sep 2026
- 03:28:48 +0000
-Received: from BY1PEPF00026968.namprd05.prod.outlook.com
- (2603:10b6:a03:5c3:cafe::ae) by BY1P220CA0016.outlook.office365.com
- (2603:10b6:a03:5c3::13) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.382.15 via Frontend Transport; Tue, 8
- Sep 2026 03:28:47 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.194)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.23.194 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.23.194; helo=lewvzet200.ext.ti.com; pr=C
-Received: from lewvzet200.ext.ti.com (198.47.23.194) by
- BY1PEPF00026968.mail.protection.outlook.com (10.167.244.152) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.406.5 via Frontend Transport; Tue, 8 Sep 2026 03:28:47 +0000
-Received: from DLEE210.ent.ti.com (157.170.170.112) by lewvzet200.ext.ti.com
- (10.4.14.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Mon, 7 Sep
- 2026 22:28:46 -0500
-Received: from DLEE201.ent.ti.com (157.170.170.76) by DLEE210.ent.ti.com
- (157.170.170.112) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Mon, 7 Sep
- 2026 22:28:46 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE201.ent.ti.com
- (157.170.170.76) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45 via Frontend
- Transport; Mon, 7 Sep 2026 22:28:46 -0500
-Received: from LTPW0EX92E.dhcp.ti.com (ltpw0ex92e.dhcp.ti.com [10.82.30.14])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 6883SPTJ2661269;
-	Mon, 7 Sep 2026 22:28:42 -0500
-From: Niranjan Holalu Yogendra <niranjan.hy@ti.com>
-To: <linux-sound@vger.kernel.org>
-CC: <linux-kernel@vger.kernel.org>, <broonie@kernel.org>,
-        <ckeepax@opensource.cirrus.com>, <lgirdwood@gmail.com>,
-        <perex@perex.cz>, <tiwai@suse.com>, <cezary.rojewski@intel.com>,
-        <peter.ujfalusi@linux.intel.com>, <yung-chuan.liao@linux.intel.com>,
-        <kai.vehmanen@linux.intel.com>, <pierre-louis.bossart@linux.dev>,
-        <baojun.xu@ti.com>, <shenghao-ding@ti.com>, <sandeepk@ti.com>,
-        <v-hampiholi@ti.com>, Niranjan H Y <niranjan.hy@ti.com>
-Subject: [PATCH v1 2/2] ASoC: sdw_utils: add tac5272 support
-Date: Tue, 8 Sep 2026 08:57:57 +0530
-Message-ID: <20260908032757.389-2-niranjan.hy@ti.com>
-X-Mailer: git-send-email 2.33.0.windows.2
-In-Reply-To: <20260908032757.389-1-niranjan.hy@ti.com>
-References: <20260908032757.389-1-niranjan.hy@ti.com>
+ bh=kkq0iXi3it1Yx6UiaLWWhgOnb8jNrLiEw4Rg9mmIT7w=;
+ b=f5IyC0oVXY3eOezDwg6RTXlncd6iF3+6wd45xZPAI7UEeUuh+l/Ugnj6Lyo7UtlNEhHGTTcTfoGZ2WkFJyBqY8l/l87fEFdgC7HMo9uJYusRR0KMtHGusIz1zlhjIeUsIVcBAxdRMklCDtQ3GVhL/twKXUF785gfYXufe2IhBbLASK76u4E0g0odYSpEwjvILU6xu1peDrpraoKfEcVclMc3N209Ln8rruJcTlTtMfbc6IukYkk8vp9pAj9E6szPbgerQe7YSBLwTRq8Np6/K9rfK91U0nE0IXSKe4GlyeyvjeZxc3dk/NWh1xw0PXXMr0CZTgfal5zxYiqNWBNImQ==
+Received: from TY3PR01MB10206.jpnprd01.prod.outlook.com
+ (2603:1096:400:1d9::14) by OS9PR01MB12357.jpnprd01.prod.outlook.com
+ (2603:1096:604:2e0::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.382.15; Tue, 8 Sep
+ 2026 05:14:36 +0000
+Received: from TY3PR01MB10206.jpnprd01.prod.outlook.com
+ ([fe80::b0dd:ddc7:e52a:f875]) by TY3PR01MB10206.jpnprd01.prod.outlook.com
+ ([fe80::b0dd:ddc7:e52a:f875%3]) with mapi id 15.21.0382.014; Tue, 8 Sep 2026
+ 05:14:36 +0000
+Message-ID:
+ <TY3PR01MB1020607FB346FA33C71EAF844DAB12@TY3PR01MB10206.jpnprd01.prod.outlook.com>
+Date: Tue, 8 Sep 2026 13:14:25 +0800
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US-large
+To: tiwai@suse.com
+Cc: perex@perex.cz, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+From: Seas0 <season1277@outlook.com>
+Subject: [PATCH] ALSA: hda/realtek: Enable headset buttons on ASUS TUF Gaming
+ A15
+Autocrypt: addr=season1277@outlook.com; keydata=
+ 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
+ bcxa5ph3Lcgy5F3EcVYzlQ==
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: OS6P279CA0004.NORP279.PROD.OUTLOOK.COM
+ (2603:10a6:e10:30::16) To TY3PR01MB10206.jpnprd01.prod.outlook.com
+ (2603:1096:400:1d9::14)
+X-Microsoft-Original-Message-ID:
+ <51d4938f-3ede-451a-9b9d-13241c6dbaca@outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
+X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY1PEPF00026968:EE_|BN0PR10MB4888:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2bf36c47-cdd0-4fa2-6d58-08df0d594b10
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
+X-MS-TrafficTypeDiagnostic: TY3PR01MB10206:EE_|OS9PR01MB12357:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6e1942fc-d08f-431c-73c1-08df0d681313
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|23010399003|7416014|1800799024|82310400026|36860700016|22082099003|18002099003|56012099006|10067099003;
+	BCL:0;ARA:14566002|5062599005|6090799003|24021099003|5072599009|25010399006|51005399006|25031999004|19110799012|23021999003|8060799015|15080799012|3412199025|440099028|40105399003|2607281247196008;
 X-Microsoft-Antispam-Message-Info:
-	agimvR1flLZdQumibno9TPlBkx9ijjGrOwNUwLm5ICa+ncD/kedt29geAXnIoX451FZ9Tjm2mrDQqKvGNz7Novr7y6cv0O0UFnZ0WJ26bkRsRqqodQsXqje3vqUiYF3WBGzp8fFVSajt9s2Hfa1/eDpJRM1lFyhTu0BIwgEUK75EwrU8vMevPlUTif4r5B71aTTZlLlxAAUiAkMXGLRuWqL77jttv5o/ouCNLzeF5G3dHnolJEMTqU0lDnLqExUDcw4BT9eP1Bfs1UUxsSx8kxW6YPY38U9RFvXxLlS/R0+VNaEOZoyzDuClhRAhLV0UUDKN5o4S5cLuQKLs+Y3NeOcNCWxeKbU1UaQyzgcwHh1+Xl4sh+5a69iJj8EB+7zx5HT7A5m/q7FP6vYHcLNFeWpJPW8UepkQGCzEk/bY/aF6BQuns60FP3meDglYUpUHk1bzjRwT4/93Pz7ES690BnhZp/ikYXrJrpcpLiGW/QE+Z/fwUUTAnfoTbCRqmeqSTHp8EFkrGO7uT8BE2IBDtLiGt1NZKiRClc6+pAs+bYVN0ErZYDj50oEvWqOGE9/stZjzqlh0qrVyjcZtqOEbN9sJJB0utTEDlhkQpRjYnZJ/h6MPoThhfIIYBCLZhsPE9SlCynFYnaRVjr14gneeXEtRwYZtzO+YYdyj+iJrC/9TrlZC+OCsSFP+4Knll85ghoTo2i13gZxgGoJwlB1bIw==
-X-Forefront-Antispam-Report:
-	CIP:198.47.23.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet200.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(23010399003)(7416014)(1800799024)(82310400026)(36860700016)(22082099003)(18002099003)(56012099006)(10067099003);DIR:OUT;SFP:1101;
+	=?utf-8?B?VVBDdVpBUVd3WXBaKzVNY3I3UzNKbkF1M0x6SUpGKzg1TXlHa3pyL1hMWElP?=
+ =?utf-8?B?K3RuRldCRnc2Z3c2NHVFZC85eVdoRDlDTTBCM1BTMXVSOG9QbVNBM0JFRDFH?=
+ =?utf-8?B?M28zSzJYczh4b1NCci9lb3YyWHJoNVlMTlpSOW8rWHNXSENLRTQxbG9SdHZX?=
+ =?utf-8?B?TEZsK3llTm4wNUlJakV1YUY0cEJIcTQ2UTBDUW5hblk3UExWMDM0NWZaY2Vq?=
+ =?utf-8?B?UXorcEdySnhmRmdpZlJSbjAza3ZsUi9XVUVuc215aW8xOEpBYkFQQmcxVlNU?=
+ =?utf-8?B?eFlHOFUyRkYxcFgzNWh2NVlYT0FqQmxkNmY2U0N3SjhYNlFudENOdlpkV1Nl?=
+ =?utf-8?B?ZzBKTXpndkNVekJRdWl5SUt5Y1R6QisvSVk2UHFXUjVoUndXaU5hbGI3OExm?=
+ =?utf-8?B?ZXpOYVVOZGM2dStKZnV3dGNmT2wyd2EvdUFSYUpkckQzd3dSdFMrN09oZkt6?=
+ =?utf-8?B?NHd4RmNCYUxnMStVWVY3ejJsNDMvcHJxaG4yelNvak96SnJ2T09nVXpLVmJl?=
+ =?utf-8?B?NWxHazNZWXpJUDFmTEFYeWZHK1VaZVJaOXUzYzFmbjlvOUl3Tk9hbDdXZ0dF?=
+ =?utf-8?B?SmllUU56Z2poL24yelhJUTBpaE1sMVFQLy9ld0cybHh2Um5ReXRLeUkvVCti?=
+ =?utf-8?B?dG1rVGc2L0FpbXI2RDFIZVZ1eldxTUUvRm45Z09iTUFmMEc4cVNrZXFBejVW?=
+ =?utf-8?B?amxnb0NJdjJIa1l4d1VWN1ZPSVBicUNTUndVaGI4V2M1Um5sL2R3aW0wb0lB?=
+ =?utf-8?B?VWZTK2x2dlNBRDJZVkowZm9FdDF6TTFVR0F1Qk11MEJCSzRRYjNMNFlscHdM?=
+ =?utf-8?B?QzRCbDdlZVZYcXNEN1RYZWl3Wk9GSXA1NTRTbUdJTG1nQ0RxZ2hYS3FhTU5Y?=
+ =?utf-8?B?bWxOcTRzOCszUFN5OG9IU2xlYXR4KzE0ejJRdU5hMVh6a2VQN00xZmRwQnVR?=
+ =?utf-8?B?a1BlNXh0by9RbERwNXRZMlArRTZKMFloa3RGNXIwWjc5MnVSTThuaGRITW5N?=
+ =?utf-8?B?UkluaG1qRTdVK0JMbkRZZGorZjl4clhFbEF0VnkyWGVQVjYyZDhyQlVjbnF2?=
+ =?utf-8?B?YWFIUURHTVNXelJCT2wrV01RS3dPbW5JZk1MelYwR2ZvQjV3NTBhem5jdDc0?=
+ =?utf-8?B?c1B5UytlaXlZY252ZTdMYWpqTHNsVUVJak1XVFdGZ1JDdWlKVFJsTklzWXJl?=
+ =?utf-8?B?b05lNTlrYzZhbDlrWS9kTXA4K1AzMDdCa3NMdVRhMEZxemp2S2ZjVUtzZFFH?=
+ =?utf-8?B?UUErY1lJcWJYQnJtMWJlYjNlWmcyZjltbmJsSEtidlVqQlNRQjdZd25wMHV5?=
+ =?utf-8?B?MlFwRlJDMzFmZ041bHRFT1RBdExTdHEwdkRTSGhpWjZDM1pDMEJLWlFhUFB0?=
+ =?utf-8?B?bENVeEljRWJRZVE9PQ==?=
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	Ofc/jCiYs2J6kvHL/17fPs9Ygua/4uiagg6QfGc+X7aS/FKKiK7UqxOI9mFhl33FW1qBt/aXjoeJv2c/pXTPX8o1lPIIEr6zF0ggs6tstxHUehXWnsbxNqkXSgzZcne2TfEPMel75YPIsuUPN3aSvKLnOHWMeeydoAKFGv5wXwLL7DULp5kIfsyFYEXp3lO55oYYYuA9/lIB8JHFGVSoYdW7bAG0Q7jRtVSORErStHqSRT8WCOkUt9CGgdHMx2DjtmrqQ9F2NZhP0LSnx0S8xTO+6bD+D5jZvGT/ensQoXdCWHVjZi7H8dMY8DQ5kdFP5VcMjtpcvtwQBFDESZGOzb5g2jrZzQvkwPeQloFK7QlSweI4fFxrqxiQ8FjEMYlxK2cJYksc1qfePx9kFkbVQe3LfibtrIHoPrDbDJqoccHiWbW1fG+5sjRpdbmXNbD9
-X-Exchange-RoutingPolicyChecked:
-	NfZKEKCValEhHLrI/m1dLN5r1A+4SWgVJ6F6McoO42vVpUaqOwxf6+AKgy7Gtv/dna4Kon7Y3zqoPGpWnkzjxxH4G1LCI9wHFi1a0KgpHModkXYJ8S81jdQv866OvwswyvKeb57EYqxwzIv578oh6IgMu/00p3BCh3DWo3xK0GmQCGsxUxHfv/8Ah6QGD0LVlDd00/bD121uVeY6H5SJRQ0P8S/Sa4Z00IzcbXEUwHzyMeDp4EOl8KU56exO386f6CrhgvUFawjrxT5rPgXsM8WzOJ+tU8V8gYY7iq7pPqoD4jdDbRBz1nM8A+8zENbPRfeAc0PATbjJvHU6mdcGCg==
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Sep 2026 03:28:47.1225
+	=?utf-8?B?enFLYWtlemN3bDJJSmhudU5jV2QraEZNT3ZLVjZuT0hXUGF0ODJhRkxKdHJt?=
+ =?utf-8?B?UkdkTFZLMWRRV1AwdWJ1aHR3WHpnRVhxdzk4cFNUcEQ2ZVFGc3VIR25KaGxk?=
+ =?utf-8?B?ckRMblNvWE13cnE0elE0R2I5NEJYdFBQeVlKOHVuR1B4d2JFSXBVbmdDQWdZ?=
+ =?utf-8?B?aUwyYVY3SFoxZXBVbEROZmpJZllRVjVFSGh1cmhndUhCTW5YMUU0TGIwQmFW?=
+ =?utf-8?B?eWhqUVJ2dUhxKzBJUWhqUS9uOVJxMXF6T0hLelVISWM5K0JpWWdudjZhbno0?=
+ =?utf-8?B?MHVOblRjSlY1TGZFTzZUZGo1WGNscG5rdDNxUGYxN2lXc0NzT2dQNW5URWJo?=
+ =?utf-8?B?dmo3WHJRNlZsckE0RjlWTnNRN1BabmVmcEpZV1ZrNmUzdXlHSEI2RVJhejVx?=
+ =?utf-8?B?L2JVeVlaMmppbGNSMGljQmo4cnJhaXVOOU8zT2NQWlBTZDZMa2owWnNRNks1?=
+ =?utf-8?B?dmNzV2hibWN4TUhyalV3TC92Y1RyQlJCV1hodUFnSmxLUUVnVnczMnNMRFR1?=
+ =?utf-8?B?aUVubFFzOUgwSkdoUkhOeXNCR0JrN09DWmxZdy9uT3dMT2xQTzBqNm9jeFJM?=
+ =?utf-8?B?Q0pjbVVsNmNxcWw5bmFMQU04cytTeTZ4TzZ4eG1OY3p4SGlpZDNWV1MyZEpP?=
+ =?utf-8?B?YUw3Ykd2VHptdkZ5bGREVXBzSG40ZWRVaFhPVnB5ZDZhN1B3UUVlaFVEa1B0?=
+ =?utf-8?B?WERjRjVFUVJPL0tCL295alE4YVIxUWdMNTdJNjJYTFJJYTZTMWU0K0dZaTVV?=
+ =?utf-8?B?UEtBVnJpV0pxRHNBQkszRDRnRERLK2M4OWtaVUY0Q1hmM1BlZm1ISUFmVVY5?=
+ =?utf-8?B?WThjNWlrTkUvV0FhV3d0YTMrOEZUUkhWLzdsc01iamFIWGc1ZDZjTXlFUEJE?=
+ =?utf-8?B?MHFhb2JLR3A4UlNPR1F6L2JkRE1lMWgrL1V4NnpUcVdtUFJlZ3QvdjJFV1lH?=
+ =?utf-8?B?YitHdGNzOGNhYmtZVS85MTg0UVhmcVhFQUNsd3BkZFJ2SWxjUnNDR1N6b2hP?=
+ =?utf-8?B?OVFvbTJXS00rSURrSHRDVlp3QW5JcFVzSmdzNlN6c1dFaXNmUXpLZW9kakNM?=
+ =?utf-8?B?K3llbmRZZWlCVElGcmxVeGlKWmx2M1VkcERUODhnSmFFWXNBMitRcDVNUEVj?=
+ =?utf-8?B?bVQya2JQVUF3bEdrSkF1c1FNSlFPMXh6RFc3RWxqWjRaMDhKWkV5eGtBcUND?=
+ =?utf-8?B?b2VFME9IK0xsREo1aTlGVmxhVThKc2ZhVFhyQjdvTVZBdGVXZXhSZFk3Mk1E?=
+ =?utf-8?B?ZzVnTVNnRktTeWtFbnoxeEFpSVlFYks3blh0TUNCMHVpeWY2em5GdUZCalNm?=
+ =?utf-8?B?c29PMlZMVXV1WVg3OUtOaHJPcEU5cWI1TTEzVUtxZU1nc3JnMHZXamc3eTUz?=
+ =?utf-8?B?dDFQdlIvREV3RzlURmFlWkwvdXVPLy9URVZuNk5UcUFGSDFwWFJ1NWxKemxO?=
+ =?utf-8?B?aHRrUHlaT3JvUU5vV1lIdUNPQVpETHZXNEF5NXJhRElUMDAxZ3lickNycTln?=
+ =?utf-8?B?L0FGNVQrRUNoWWN3RmNGREk3YUNhVXRPWDk4MTE4V2ZrbmhpclROZFg0OTdn?=
+ =?utf-8?B?NmxXTWNFZzY1ZlVwMjJwakNFaWw2bThGQnFrSlRpajRlRGcxZ2ViL3ZFNDBi?=
+ =?utf-8?B?Zktjc1dYU1FrMlhXa2VsZGNrUmRGckFtV1piSUxkSGZaejdlQTNyZ0l5WWp6?=
+ =?utf-8?B?VGE4cThaZ0FnNk1KeTZkSXI5OTI2K0FPWFVNM3RPeVFnWjF3aElmRXgxeVp4?=
+ =?utf-8?B?OXNyUUttU0VvS3JiNElSK0RXNTlqUFZvVENPVGkrZnJKSEFyRWk5T2RRLzBz?=
+ =?utf-8?B?YjVONUhxakZIUXZKWkpDQmZKN0EzTzBEUWJNU0hiQTRsMS9odWhOeXdYS0Jw?=
+ =?utf-8?B?ek1HS1RsL1R3Z045bEJ1aThLYWw3S2t6ZnhVSU9LMDFuNVE9PQ==?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6e1942fc-d08f-431c-73c1-08df0d681313
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB10206.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Sep 2026 05:14:36.2087
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2bf36c47-cdd0-4fa2-6d58-08df0d594b10
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.194];Helo=[lewvzet200.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BY1PEPF00026968.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN0PR10MB4888
-X-Proofpoint-GUID: BRk9LNCFVwz58V0IJxuYrWknHRnrGCV5
-X-Authority-Analysis: v=2.4 cv=I95Vgtgg c=1 sm=1 tr=0 ts=6a9f80f2 cx=c_pps
- a=TLqzh4Vj95vWg92rYJ0Jsw==:117 a=WotqVVQAdb04rnGuttW3Kw==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=VdqzKS8jKosA:10 a=s63m1ICgrNkA:10
- a=V5UXEbMT0ywA:10 a=VkNPw1HP01LnGYTKEx00:22 a=Z8NIEmU8O1QQgoT56wFK:22
- a=taLDd7a_hP9WKsMzeGRc:22 a=sozttTNsAAAA:8 a=QyXUC8HyAAAA:8
- a=V80UKwMsD-nZ57Tu3V0A:9
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTA4MDAzNCBTYWx0ZWRfX3fxnduSuE/RS
- vBMWM8jCoFHpQSg4ilcqKn7M848sR+paEG3NKGAct/pCom5ulxd2r0qIk1zclTg2/jrqpyVie1N
- B2FETIKYenlLeQmNKh1l9G5H4lIUTLPhri66YLVP8Q+Wq0p8Cz86Sn5g/OW8VqSAdLqhET7g8H3
- yJE7jybILeL4zUDG6oCF7ZHHtD/ryTKVixY3SISoTaC9VnyH6Za4v67SAIrtdXXqUU1+MEwBZt9
- twgXgzUFkRSWPmBdb+snDij/jEbIMNJDT5x3dq5B6sOpseS1Qg4QpcUeVkas2zK3CUiPJ7q3ES2
- SYEpQ0LkQf05qw7l8/iQuN4e6ypkwGI/Is15YzyyxfgjjzrWfNSHe2ONqTtbzcf032R1VpnUuwM
- edhf631nyznRhId9QHSx2NtwELVWh8Bphjye50/oTNrp42kw5dMAsvO0rOVDmZU9/5hW0UYN/2B
- iEAmmXLA5z1dMi8vjsw==
-X-Proofpoint-ORIG-GUID: BRk9LNCFVwz58V0IJxuYrWknHRnrGCV5
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTA4MDAzNCBTYWx0ZWRfX5AYcDsU82iUH
- djINYoJKBbwLXMnvW32BgrrPmNw5k+nY8iKW/7RBvzK0X2osXleSKAl7bAVzKQejOPAmWAf1dwY
- EHsUR5ESYLV45ZvXVKBYK9lZbXfZ5uA=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-07_07,2026-09-07_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 lowpriorityscore=0 adultscore=0 impostorscore=0 bulkscore=0
- phishscore=0 suspectscore=0 clxscore=1015 priorityscore=1501 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2609080034
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS9PR01MB12357
 
-From: Niranjan H Y <niranjan.hy@ti.com>
+Inline headset buttons are not reported on the ASUS TUF Gaming A15
+FA507XV/FA507XI with an ALC256 codec and subsystem ID 1043:14b3. The
+existing pin quirk selects ALC256_FIXUP_ASUS_MIC_NO_PRESENCE, which
+configures the headset microphone and CTIA/OMTP detection but does not
+enable the headset button decoder.
 
- Update soundiwre utils to support tac5272 which is
-UAJ only variant.
+Add an exact PCI subsystem quirk using alc_fixup_headset_jack to enable
+the existing button decoder and key map. Chain it to
+ALC256_FIXUP_ASUS_MIC_NO_PRESENCE to retain the microphone pin override
+and headset-mode handling when the PCI quirk takes precedence over
+pin-based matching.
 
-Signed-off-by: Niranjan H Y <niranjan.hy@ti.com>
-Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+The same quirk was tested on an FA507XV on a archlinux installation with
+kernel version 7.2.4 with a three-button headset. All buttons produced
+clean EV_KEY press and release events during the test.
+
+Assisted-by: Codex GPT-6 Astra
+Signed-off-by: Seas0 <season1277@outlook.com>
 ---
- sound/soc/sdw_utils/soc_sdw_utils.c | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+  sound/hda/codecs/realtek/alc269.c | 9 +++++++++
+  1 file changed, 9 insertions(+)
 
-diff --git a/sound/soc/sdw_utils/soc_sdw_utils.c b/sound/soc/sdw_utils/soc_sdw_utils.c
-index 88031238c..ab0132031 100644
---- a/sound/soc/sdw_utils/soc_sdw_utils.c
-+++ b/sound/soc/sdw_utils/soc_sdw_utils.c
-@@ -81,6 +81,27 @@ static const struct snd_kcontrol_new rt700_controls[] = {
- };
- 
- struct asoc_sdw_codec_info codec_info_list[] = {
-+	{
-+		.vendor_id = 0x0102,
-+		.part_id = 0x5272,
-+		.name_prefix = "tac5272",
-+		.dais = {
-+			{
-+				/* UAJ only - no speaker or DMIC */
-+				.direction = {true, true},
-+				.dai_name = "tac5xx2-aif3",
-+				.component_name = "tac5272",
-+				.dai_type = SOC_SDW_DAI_TYPE_JACK,
-+				.dailink = {SOC_SDW_JACK_OUT_DAI_ID, SOC_SDW_JACK_IN_DAI_ID},
-+				.controls = generic_jack_controls,
-+				.num_controls = ARRAY_SIZE(generic_jack_controls),
-+				.widgets = generic_jack_widgets,
-+				.num_widgets = ARRAY_SIZE(generic_jack_widgets),
-+				.rtd_init = asoc_sdw_ti_sdca_jack_rtd_init,
-+			},
-+		},
-+		.dai_num = 1,
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index ecc9c6e6ab98..9e33d29a3c15 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -4175,6 +4175,7 @@ enum {
+  	ALC286_FIXUP_ACER_AIO_HEADSET_MIC,
+  	ALC256_FIXUP_ASUS_HEADSET_MIC,
+  	ALC256_FIXUP_ASUS_MIC_NO_PRESENCE,
++	ALC256_FIXUP_ASUS_HEADSET_JACK,
+  	ALC255_FIXUP_PREDATOR_SUBWOOFER,
+  	ALC299_FIXUP_PREDATOR_SPK,
+  	ALC256_FIXUP_MEDION_HEADSET_NO_PRESENCE,
+@@ -5718,6 +5719,12 @@ static const struct hda_fixup alc269_fixups[] = {
+  		.chained = true,
+  		.chain_id = ALC256_FIXUP_ASUS_HEADSET_MODE
+  	},
++	[ALC256_FIXUP_ASUS_HEADSET_JACK] = {
++		.type = HDA_FIXUP_FUNC,
++		.v.func = alc_fixup_headset_jack,
++		.chained = true,
++		.chain_id = ALC256_FIXUP_ASUS_MIC_NO_PRESENCE,
 +	},
- 	{
- 		.vendor_id = 0x0102,
- 		.part_id = 0x5572,
+  	[ALC255_FIXUP_PREDATOR_SUBWOOFER] = {
+  		.type = HDA_FIXUP_PINS,
+  		.v.pins = (const struct hda_pintbl[]) {
+@@ -7756,6 +7763,8 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+  	SND_PCI_QUIRK(0x1043, 0x1473, "ASUS GU604VI/VC/VE/VG/VJ/VQ/VU/VV/VY/VZ", ALC285_FIXUP_ASUS_HEADSET_MIC),
+  	SND_PCI_QUIRK(0x1043, 0x1483, "ASUS GU603VQ/VU/VV/VJ/VI", ALC285_FIXUP_ASUS_HEADSET_MIC),
+  	SND_PCI_QUIRK(0x1043, 0x1493, "ASUS GV601VV/VU/VJ/VQ/VI", ALC285_FIXUP_ASUS_HEADSET_MIC),
++	SND_PCI_QUIRK(0x1043, 0x14b3, "ASUS TUF Gaming A15 FA507XV/FA507XI",
++		      ALC256_FIXUP_ASUS_HEADSET_JACK),
+  	SND_PCI_QUIRK(0x1043, 0x14d3, "ASUS G614JY/JZ/JG", ALC245_FIXUP_CS35L41_SPI_2),
+  	SND_PCI_QUIRK(0x1043, 0x14e3, "ASUS G513PI/PU/PV", ALC287_FIXUP_CS35L41_I2C_2),
+  	SND_PCI_QUIRK(0x1043, 0x14f2, "ASUS VivoBook X515JA", ALC256_FIXUP_ASUS_MIC_NO_PRESENCE),
+
+base-commit: 4c4e4be4edd5dbf5f7f6a3ef4fc0c243f2d01b3c
 -- 
-2.34.1
+2.55.0
 
