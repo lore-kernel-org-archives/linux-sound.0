@@ -1,183 +1,94 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7565837A494
-	for <linux-sound@vger.kernel.org>; Tue,  8 Sep 2026 06:37:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 999D438B158
+	for <linux-sound@vger.kernel.org>; Tue,  8 Sep 2026 06:52:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788849433; cv=none; b=RdLtcIQN9BTIT2/4tAvQf12c4O5afP79s/SrXjwa4pJEHoQv617Si9coTGbyTM/EizgSsH3cJGZnqN1mAiKkLhZ9pTRpQhHA5zfi5ZpmkdvcscjXaTiVEE8nJSGTUul6EkC45XAx2t7A9UhPkL1zeV7cmO3o5U7SuKEfOouz81g=
+	t=1788850363; cv=none; b=V6g6QPcDgV/R3dfy6TKIugSwL6dcTAGMV1lAhcKtodAQdarUioh/WVnTK10HuTbfH3G/SMfKJcz3vYk5+GCAikS3fJIQkFTy9AiYDi2sQ1Rgwgb44c5JcC9pM8WCIdTH3ifyiHITW05pdI0UYa5qGoi/LmXGU8a1vbrLVAcu/Ng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788849433; c=relaxed/simple;
-	bh=YiTuIbcS6hPcgv6ItYlpBhz0L/k8rn6qCb4bzAgirZs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=toVP0nQ67Lh19mX8bYAaXwaU+LEDdtMG1LKu8XjtT/K2xyx1kiaJK35Cv5nwLS1X0Hiyrk+jtSyGCN6E5eL2eHTJQ70lxmwh/Ofv54LLU4gfEUYLVaXAmpJmesiKCbYHF1otyuA0Lsz0P5JHWTMlNzhvAznohphZbQ7RS/KjJ50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=W9xc75nF; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=kGkB7VR6; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1788850363; c=relaxed/simple;
+	bh=60NrI8iXgeXo1fXwc3z9y1JjY8uBrTjgmcuiJo1Fjvg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Wwl6TqJRH4Q0H5DmPG3r3pdjfjEDMkPordeflb0Qo1PgJ49M9HyaeXijcTky4B4LHwXi9Z+5eZR/tLJeW6SHxrt86sb5z7E+aLu+KpFsEy8ktda+GxML5pCiqC5LrYsVzcQ/ieyNZtYsnNOuDVBurKqpaJ341RqkUiQ1vFrj250=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d7w7vvOj; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="W9xc75nF";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="kGkB7VR6"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6886Ledn3299172
-	for <linux-sound@vger.kernel.org>; Tue, 8 Sep 2026 06:37:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=QuIDTG3AsB1
-	yUpm1Ko7cKVJyJNN0vDfKHooNGo8PMHE=; b=W9xc75nF4BYLWWqEsV4rTwC0E3p
-	cOliblW7GwT3rpwegZQ2lPVEFbghYQegmM+NBZjtOIPVWVaTs+iAV7dL98QjB8DC
-	8VQEF4OlSQ7YDjz6ZP6wUeR9rWjuv8Z0nxb4XDDiIa1r7N6F2rVjfNLUg1fcEHv2
-	Hw52hSMuIGCr5yfsVmuJZ2HMftrAcOnHQJ0d5S73K36wEpCcJNeM9r6JfZoB9oJm
-	fkCuuUaa7ECNENIkZt1fcblhzJwPadgTx8VCgUUSz7fWHdEmyU59SCWuWmCOWjfq
-	ZRPzNjzqq5RUpX1LU5MOm1cenQA4MOGzfp263TLlJsh4fjG//HSwX4ZozZw==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gjb0p8gf9-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Tue, 08 Sep 2026 06:37:11 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-939694871aaso677193685a.2
-        for <linux-sound@vger.kernel.org>; Mon, 07 Sep 2026 23:37:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1788849430; x=1789454230; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=QuIDTG3AsB1yUpm1Ko7cKVJyJNN0vDfKHooNGo8PMHE=;
-        b=kGkB7VR65nwQlvD+ANb7kv7Qou9eetKzm6oMs3h/+lFYuDjc9jJBBs9mg1gd3oVoJ8
-         6sAQX2WEWlie+G17MwVb8inaW3H+ekBB+1RpXk1yLA/cqXWmgs4DIAAmGyfbQVntxGKA
-         Nn1PbZ0iLe7JR/eOpcHEs8cRDuTKjXxCLlmBw0JsHFdGbDAwnoq/OdpPS+9FzvCMmDLj
-         HcnV2+LQvbjnerbyKvPf/Sl3wIEtyU/edC3MgomO1ci4mO/QaiMuAUCGSYwKHPHnTuJT
-         IxElQ7caa/wpv/DSn1wmVD6F0SZdj348ZOB48doJeKOx/sGLKz3O92Aw6+EpuIo7wHur
-         6CkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788849430; x=1789454230;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=QuIDTG3AsB1yUpm1Ko7cKVJyJNN0vDfKHooNGo8PMHE=;
-        b=eYEa6WC7HKrah8helTnNOe4woz4UTQ3n+WMxzNyZgpKGy6O3T3okuXVRiKKiTWk2MW
-         DdFlMJtFE8NCk6fENSJR3KvPgQB1wZ72e0PEloYxr4A3NszDfE8J+Pq2a8HyE1TJpdl0
-         y/+/FN7hCsZLNPgSnDOGPjDDpxEZp247+YAbHyBuwajRQ+3+dG7y3k+01GJvPN+SgccO
-         d8us4D9Jg5J7B0yv86IHd6ZCPujpTX3z1cKh1plMre/6rEIqQ85Dj7xTBmLFHBkga4wz
-         vFO1xRWfZx1QOtijmdxEtZAAma+0TMTVECtUDl705fs2JyzgxU1HGC5xREsiqJ6uVvWU
-         /iVQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzINgWlGbLgB3gL3hjmmkbXG6qCoDuU4QHGSpDjUoC2UjQat6hyyo40qIF06ksJS9NHye+XZfGKsUJ3Og==@vger.kernel.org
-X-Gm-Message-State: AFuF++n1k2JdzNkijG62gajxKi0V0Bz3nD5FXJqDWqf4sxLNWMq1Zyzl
-	9BZPgPSoopyMHhKgtSRnbRZSC+F8g6w2JaC0km0Idw0HwhbIhQmyYDUoIbrqje8B4JHAGrzmHlU
-	B0/wFHRz+J66N7un6HJZ3f02kR7HBOUJqU763Vtus1YSu3MSNoZEOo3E8KwCzJdZkTg==
-X-Gm-Gg: AYBFou0LZFGyUR+MffXCaH/kKaiYtxV/UcOtqyu0tHON8wUmqDlRDV5qTv5J5N2xoRM
-	9kpULvKZHZXiW7mzwacCHOBHmTLuK8dsaTb+UKTQNI4P0743uaArANNf3lAWi8AjzKFJdcaGpaQ
-	FcDmNqLGx9SP1m4a7s3spUI+5xe2FYwu2T16og64tj0SScR3ovXrDwhosByKzQGkiWuIPsUobNJ
-	JSWQfDl7NJIEz/fLRQ85CabXlgstTZmZwhnlUVnL8dksZow+9IX8/02hcBLOyXyqtJulqICiIVl
-	L2f2S8CeQ8mPENb4b33x8atMCIfvTNCOURjVBKA3pmaKo8+HTah8XCPj7xz/GRFmpjS1CJoLB8G
-	TzzpYtZFC+AVpWg==
-X-Received: by 2002:a05:620a:831b:b0:92e:5fe2:fd35 with SMTP id af79cd13be357-939804070f6mr2346388785a.32.1788849425712;
-        Mon, 07 Sep 2026 23:37:05 -0700 (PDT)
-X-Received: by 2002:a05:620a:831b:b0:92e:5fe2:fd35 with SMTP id af79cd13be357-939804070f6mr2346386285a.32.1788849425193;
-        Mon, 07 Sep 2026 23:37:05 -0700 (PDT)
-Received: from debian ([5.133.47.210])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49d03543064sm277799675e9.13.2026.09.07.23.37.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Sep 2026 23:37:04 -0700 (PDT)
-From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Charles Keepax <ckeepax@opensource.cirrus.com>,
-        Maciej Strozek <mstrozek@opensource.cirrus.com>,
-        Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-        Bard Liao <yung-chuan.liao@linux.intel.com>,
-        patches@opensource.cirrus.com, linux-sound@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Subject: [PATCH 1/2] ASoC: SDCA: register SDCA_FUNCTION_TYPE_SIMPLE_JACK in class function driver
-Date: Tue,  8 Sep 2026 07:36:43 +0100
-Message-ID: <20260908063644.463819-2-srinivas.kandagatla@oss.qualcomm.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260908063644.463819-1-srinivas.kandagatla@oss.qualcomm.com>
-References: <20260908063644.463819-1-srinivas.kandagatla@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d7w7vvOj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6682D1F00A3E;
+	Tue,  8 Sep 2026 06:52:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788850362;
+	bh=D1Wgs4uMtkWAqHkCLsfl1nHsHoqVdEMaEEVZQcjSbjw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=d7w7vvOjK7s+1/eoEZZkGejheMDrHdrWwlRD5MH/NGLCzEyc+OYD1t1FtRxHNfMLx
+	 uJab5kfrcoyTuJw0el6lgoUk0l7BXKiaok6GgJ+GV7U3jRvofM4L9VW27OXd5GSxSB
+	 DD0iNA6i6YVOOxz/pD01QF0iYHpPE5bqrRnDA2fvpizM0eYDZVf7iLQXkwv8YL5nGi
+	 6D7OY4EKoY38bw9zm5KWW7n+OfD+0KIHtokEIOw1FK+gC0N/b9ppGHR6T25C4sKgHy
+	 tPYvoFKtPsM2xhckLMiycWIQqQ3ybplaIXyQmps4auRd/iw9UkTfRO/V8KmSylmJCj
+	 tr/S2uCcGj6hQ==
+Date: Tue, 8 Sep 2026 12:22:28 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+Cc: =?iso-8859-1?Q?P=E9ter?= Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Mark Brown <broonie@kernel.org>, perex@perex.cz, tiwai@suse.com,
+	lgirdwood@gmail.com, srinivas.kandagatla@oss.qualcomm.com,
+	linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com,
+	yung-chuan.liao@linux.intel.com, daniel.baluta@nxp.com,
+	Vijendar.Mukunda@amd.com
+Subject: Re: [PATCH 04/23] ASoC: soc-compress: Implement trigger FE-BE
+ sequencing as with normal PCMs
+Message-ID: <ap-wrMsh2HYEf_PT@parshuram>
+References: <20260904073134.29648-1-peter.ujfalusi@linux.intel.com>
+ <20260904073134.29648-5-peter.ujfalusi@linux.intel.com>
+ <apsf1kjaFG71NpPd@sirena.co.uk>
+ <b64906b9-032f-4435-a179-b663f0202796@linux.intel.com>
+ <361eb4b4-d880-4560-8b71-eeda6f28b43c@linux.dev>
+ <5b9a199e-abac-4193-94c0-d395329207ed@linux.intel.com>
+ <ap7sF6dOY0Pl0c46@parshuram>
+ <69650a4d-3021-49b0-b853-f7b9ba81aae1@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: NEo9lKmaeCpldyuAZe-o6H3G6CvlK6R0
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTA4MDA2OSBTYWx0ZWRfX2iQF2i9PfZCR
- KdrSB19291/Nvrtj7pnT9LWAxecxXjcMA1e8zqx6QchthaMunUKn7JO6wSJy9j9qBx56m/dbsTU
- zpbSV0QfFiCor0O0OPs/k116e6gNBE8=
-X-Authority-Analysis: v=2.4 cv=HL3z0Itv c=1 sm=1 tr=0 ts=6a9fad17 cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
- a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22 a=w1d2syhTAAAA:8
- a=EUspDBNiAAAA:8 a=IEwj7ntJ1M3WgPGe5dsA:9 a=bTQJ7kPSJx9SKPbeHEYW:22
-X-Proofpoint-GUID: NEo9lKmaeCpldyuAZe-o6H3G6CvlK6R0
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTA4MDA2OSBTYWx0ZWRfX5/mZ0wxjMhq/
- m79T2qyb14oOCdsv3QzsOcGdRbcmqvE/DLfIgkzlvUmfK6esIVdaoMmN+0Ul9jWkXBMOKw7cS03
- QlC1Z1pY2xy7x1Lj+vLsb4yrL/jzSysN0XWaihEYe0vxjEXRtsJxvru99U7XXehtIocPMkrgnt/
- uQQtNYO0l3MneDGldijQaKE2tbGaD8pnxPzaPLZWShQ0v0Y+zk9/feX5wnCNcrKm57rsBNwfeC1
- iXBCinb5B4zPA89C8RUpQBOFZmgMl5rxivFFht6KJCojYpC1swRy/HRZ9dEsVhE8P/6vdvEjlby
- QF6ROI+UKo6NA1XzZBbvjypODxlVbb+g77DPBHZD1Ubd0OF3Ls0svJ7wXdG6t5pmmT/yX/7U1j1
- QhZ6p+t8jqDWYy76T4jwqqjkRiOkoI6/3Q0xrcznedMTxnDarig410D873AKRzjs51M/5ExAoCp
- Tis7ci6xSDXV7NjQNUw==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-08_01,2026-09-07_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 lowpriorityscore=0 clxscore=1015 suspectscore=0
- impostorscore=0 spamscore=0 phishscore=0 malwarescore=0 bulkscore=0
- adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2609080069
+In-Reply-To: <69650a4d-3021-49b0-b853-f7b9ba81aae1@linux.dev>
 
-Add SDCA_FUNCTION_TYPE_SIMPLE_JACK to the class function driver's
-auxiliary id table so a SimpleJack auxdev is bound and enumerated as
-an ASoC component.  Wire set_jack for this function type so the machine
-driver can register an ASoC jack against it.
+On 07-09-26, 21:55, Pierre-Louis Bossart wrote:
+> On 9/7/26 18:53, Vinod Koul wrote:
+> > On 07-09-26, 17:03, Péter Ujfalusi wrote:
+> >>
+> >>
+> >> On 07/09/2026 14:26, Pierre-Louis Bossart wrote:
+> >>>>> ...otherwise it'll end up with -EINVAL instead of getting passed
+> >>>>> through.  Also a switch statement would be a bit more idiomatic.
+> >>>>
+> >>>> OK, I will add the NEXT_TRACK and convert the if to switch.
+> >>>
+> >>> ICYMI for testing, NEXT_TRACK and PARTIAL_DRAIN are only enabled in the
+> >>> 'fcplay' application with the '-p 1' argument for gapless playback, not
+> >>> in the initial cplay application.
+> >>
+> >> With SOF/Intel/IPC4 we can only support DRAIN, NEXT_TRACK and
+> >> PARTIAL_DRAIN are not supported, but there were mismatch between fcplay
+> > 
+> > Those should be optional always. Gapless support should not be mandatory
+> well in practice it's a non-negotiable requirement from users... We had
+> to add this as the request of the Android team, and it's a standard
+> feature on most players, not a nice-to-have.
 
-Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
-Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
----
- sound/soc/sdca/sdca_class_function.c | 5 +++++
- sound/soc/sdca/sdca_functions.c      | 2 ++
- 2 files changed, 7 insertions(+)
+It may be non-negotiable requirement from user/OS but should not be
+mandatory from API :-)
 
-diff --git a/sound/soc/sdca/sdca_class_function.c b/sound/soc/sdca/sdca_class_function.c
-index cc7045dc26e6..1d7fd6603882 100644
---- a/sound/soc/sdca/sdca_class_function.c
-+++ b/sound/soc/sdca/sdca_class_function.c
-@@ -367,6 +367,7 @@ static int class_function_probe(struct auxiliary_device *auxdev,
- 	switch (drv->function->desc->type) {
- 	case SDCA_FUNCTION_TYPE_UAJ:
- 	case SDCA_FUNCTION_TYPE_RJ:
-+	case SDCA_FUNCTION_TYPE_SIMPLE_JACK:
- 		cmp_drv->set_jack = class_function_set_jack;
- 		break;
- 	default:
-@@ -552,6 +553,10 @@ static const struct auxiliary_device_id class_function_id_table[] = {
- 		.name = "snd_soc_sdca." SDCA_FUNCTION_TYPE_RJ_NAME,
- 		.driver_data = SDCA_FUNCTION_TYPE_RJ,
- 	},
-+	{
-+		.name = "snd_soc_sdca." SDCA_FUNCTION_TYPE_SIMPLE_NAME,
-+		.driver_data = SDCA_FUNCTION_TYPE_SIMPLE_JACK,
-+	},
- 	{},
- };
- MODULE_DEVICE_TABLE(auxiliary, class_function_id_table);
-diff --git a/sound/soc/sdca/sdca_functions.c b/sound/soc/sdca/sdca_functions.c
-index 32d9b7f30a4f..30fa0324648a 100644
---- a/sound/soc/sdca/sdca_functions.c
-+++ b/sound/soc/sdca/sdca_functions.c
-@@ -78,6 +78,8 @@ static const char *get_sdca_function_name(u32 function_type)
- 		return SDCA_FUNCTION_TYPE_SPEAKER_MIC_NAME;
- 	case SDCA_FUNCTION_TYPE_RJ:
- 		return SDCA_FUNCTION_TYPE_RJ_NAME;
-+	case SDCA_FUNCTION_TYPE_SIMPLE_JACK:
-+		return SDCA_FUNCTION_TYPE_SIMPLE_NAME;
- 	case SDCA_FUNCTION_TYPE_COMPANION_AMP:
- 		return SDCA_FUNCTION_TYPE_COMPANION_AMP_NAME;
- 	case SDCA_FUNCTION_TYPE_IMP_DEF:
+> Note that the NEXT_TRACK only works if the two consecutive tracks have
+> the same format, if the platform wants 'perceived' gapless playback with
+> a x-fade then two devices are required.
+
+Correct and given the fact the people use apps on this ecosystem, I
+would expect the formats will be same for an app
+
 -- 
-2.53.0
-
+~Vinod
