@@ -1,50 +1,53 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9B9357C72E;
-	Tue,  8 Sep 2026 18:52:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E10EC315D49;
+	Tue,  8 Sep 2026 19:49:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788893563; cv=none; b=eiZVdWPxo6+/i5OrXkAzdqfX6lfzcI1en9dBKRulxQAXIuMk8CJUkHpafTvmaB5gAwLFlQm9P7kZCNOu3hwmoyptDJXbf7r9Nom9s2bQx01MF25uAGKlhfbPPG9/03qqvrzyDGuZjieTQ8vA/tBJxw2b3SQFzYzuLf1p1LNUH6s=
+	t=1788896967; cv=none; b=Z2FEKx+rpiKSRK0w/iqq+EMevADzpddPezyPP1vJYav1UHwzUKwVV9nuel/p1W6DFe1TV/FcOGxtFbBTv4IkjbVyJpCGHSMHIUMozArZJ6PYP+NatnNSPMSv+5Mv3k0525hjHB17aES3ouOgAByAzsFZniQKvvrLFM6I6Xlt/mk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788893563; c=relaxed/simple;
-	bh=utfaVtlGd7u5D4EQV6l5xEQC/ZWecWLHb/s4NJCNk1A=;
+	s=arc-20240116; t=1788896967; c=relaxed/simple;
+	bh=rgJSUYHlkcErCbXk0bwy8oX8d3IsA4cgNJZC9Ka8Xxg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y5sUXMjdI21zvH0yeeY8JtIy7IHer0kSF02AtpZESAHsZm6fDUeJM4MAVotSpb1HbebMwyT/5cqfejIhXD4rRMcAC07qcebZIU6RjjbXv+HshnDDF7NV3tumem1kYF/KTQzz5gzF9SkrG2gDCOi2gT08UEX8j5Gz/dkY7/Lgdl8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ieq4JLaR; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=Kwyd7RZpOIwfJVIX2dgju7XsNKnyNBJSiKu4+cgyNUb76WpoIRnRHARuP3VJ/5QM10zlfvH3Vu6dW0Pg2/dNNQto4lo7W+9Va/asZXDYtlznKPovoUFCDQwTDslTkUCiLna1vDuMLKTR35XhHRqOaS8J1Rg9lc2Zqs9HWsk4Nr4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h/kn2Qh3; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ieq4JLaR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2CE51F00A3D;
-	Tue,  8 Sep 2026 18:52:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h/kn2Qh3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CF441F00A3E;
+	Tue,  8 Sep 2026 19:49:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788893561;
-	bh=DOKPmpWRmdDBglqf84YkB3HAz/fgt7fFnGQ4z3lV4J8=;
+	s=k20260515; t=1788896966;
+	bh=293efd8OkQdYG7J7DoMlVzlrpU2pBJJ+Nskz7GcwtAY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Ieq4JLaRtlT92Yg0dCEjo4VFE7X1234dNn5s2zUPIZ7NiNXSGmSkQQFccLQBYWHhr
-	 RYN3F1nROxCUN1B3nbU1qcvdS/fARGMxeXIBC0M3xsXKUfhNOP0y0lBj7ZuD80FyrO
-	 YYD7Eni5KPI+8MP7nSsd/ANAyvZKOVnW4XlIQFXohh/yW3P/gwqVMp9XgrgrpIWGrM
-	 Kvwmv2mW3Zn7/utqqBEybj89h+2cbzaTqGwYaRW9WfZl62QybKty/KBfX+89QKf8dg
-	 YhnfVAqb1MqfylRhqRxXbuWa/SWl5KK5X12z097zGYHnCehSs1UY4qQ+WS+B8L/Nly
-	 Fclmqr2A1t+eA==
-Date: Tue, 8 Sep 2026 19:52:36 +0100
+	b=h/kn2Qh3gwFEwIbq2y9bh/BbXhXeiDTimZQA4JLNxtzHWtkKxId0dPNeUQ9pesfg0
+	 xPJLUAE5yqSW8PbgPRIo4xf5muFhsKq7SUDijDQt1xxdCnGseniesPt2ZjagxJf6vG
+	 TTmOh+PUAF+4H9qjRqYEyS4GZtA7GiPLMsbkVN8SXpRaYDjx6xJaD4u0eXTzTidqe4
+	 TqngR5h23VjOVOqflApuK81+/E362+eO+6+f9Fjms1bSfGk+yfHn+aP0vMUCC59jHK
+	 YzXEjx0BF+UieqIO9GzUerSbJkSesGCNb32hDXprCdHt9yp37RYnIqHJhT8TzD+JZL
+	 1mVAaeVmT2D3g==
+Date: Tue, 8 Sep 2026 20:49:20 +0100
 From: Mark Brown <broonie@kernel.org>
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: phucduc.bui@gmail.com, Liam Girdwood <lgirdwood@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+To: Harendra Gautam <harendra.gautam@oss.qualcomm.com>
+Cc: Srinivas Kandagatla <srini@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
 	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Kees Cook <kees@kernel.org>,
 	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Trevor Wu <trevor.wu@mediatek.com>,
-	Douglas Anderson <dianders@chromium.org>,
-	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Matthias Brugger <matthias.bgg@gmail.com>
-Subject: Re: [PATCH 3/7] ASoC: mediatek: mt8188: mt8188-afe-clk: Propagate
- regmap update errors
-Message-ID: <a88fbf17-faac-4902-bd39-ff0a616a7d2d@sirena.org.uk>
-References: <20260907120310.135693-1-phucduc.bui@gmail.com>
- <20260907120310.135693-4-phucduc.bui@gmail.com>
- <e011cd74-7c5a-4cd1-b412-ad11765ad11c@intel.com>
+	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
+	Sarath Ganapathiraju <sarath.ganapathiraju@oss.qualcomm.com>,
+	Kumar Anurag Singh <kumar.singh@oss.qualcomm.com>,
+	Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+Subject: Re: [PATCH v5 01/10] ASoC: dt-bindings: qcom,shikra-qaif-cpu: Add
+ binding
+Message-ID: <a69c1fb4-b1cc-4ba2-81d0-7f6488536062@sirena.org.uk>
+References: <20260907-b4-qaif-shikra-audio-v5-0-6d8ad9ba5c9f@oss.qualcomm.com>
+ <20260907-b4-qaif-shikra-audio-v5-1-6d8ad9ba5c9f@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -52,38 +55,59 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="JWy8Wwp5/yGMiUOU"
+	protocol="application/pgp-signature"; boundary="1iUwHh5skxVSU9mE"
 Content-Disposition: inline
-In-Reply-To: <e011cd74-7c5a-4cd1-b412-ad11765ad11c@intel.com>
+In-Reply-To: <20260907-b4-qaif-shikra-audio-v5-1-6d8ad9ba5c9f@oss.qualcomm.com>
 X-Cookie: The world is not octal despite DEC.
 
 
---JWy8Wwp5/yGMiUOU
+--1iUwHh5skxVSU9mE
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Tue, Sep 08, 2026 at 07:49:00PM +0200, Cezary Rojewski wrote:
+On Mon, Sep 07, 2026 at 05:39:26PM +0530, Harendra Gautam wrote:
+> Add the Devicetree binding for the Qualcomm Audio Interface (QAIF) CPU DAI
+> controller used on the Shikra audio platform, together with a dt-bindings
+> header for QAIF DAI and AIF interface IDs.
 
-> I'd expect someone from Mediatek to verify this.  While I agree with the
-> change, some drivers follow "ignore register update result" arch and,
-> what was previously ignored will now cause basic operations to fail.
+> +  clocks:
+> +    minItems: 5
+> +    maxItems: 9
+> +
+> +  clock-names:
+> +    description:
+> +      The first five clocks are always required. Any further entries are the
+> +      per-AIF bit clocks (aif_if<N>_ibit), supplied in order starting from
+> +      AIF interface 0 for as many serial AIF interfaces as the board uses.
+> +    minItems: 5
+> +    items:
+> +      - const: lpass_config
+> +      - const: lpass_core_axim
+> +      - const: aud_dma
+> +      - const: aud_dma_mem
+> +      - const: bus
+> +      - const: aif_if0_ibit
+> +      - const: aif_if1_ibit
+> +      - const: aif_if2_ibit
+> +      - const: aif_if3_ibit
 
-We don't really get any review from Mediatek, AngeloGioacchino used to
-try to cover things but it seems he got busy recently :(
+The driver doesn't request any of these clocks as optional, are they
+really optional?  Probably easier to make them all mandatory and then
+relax later if they can genuinely be optional.
 
---JWy8Wwp5/yGMiUOU
+--1iUwHh5skxVSU9mE
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqgWXMACgkQJNaLcl1U
-h9Ccvgf9Ggr9gv/6qkfKjZsgCMk8lQLLYxhJ/1oG28aS2ODQznEVI0n/o3onhTSp
-9sWz6l6XoSuTlM0+U+89WVv2HZFTcs0wsaA+pE+OGa7diIQxlVE2+V5AgbbdLPHJ
-h5Lhk2fB/Qubw+9taoXc8pT2Jmt/L89dCkVTgysWcDBJ+t0/2zhRB5YHSrsYiqbQ
-fgbnFPbf6JVIOqaCm20N1AAPm0cqbXi3+/TAqVmuHXpIOccFDiy/NrwG5BZj2JDk
-LySiLFKawdzJBIRjeP9EO46fau/vwCeJQbtsD0qdS4HAzi2FAtj+WZGjwS2Y9kJf
-Muc8BwBg69bA6BnfHttIdruciJ41Bw==
-=1Y36
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqgZr8ACgkQJNaLcl1U
+h9ClzAf/QWVhtZS3ZaMtJZ40O7yfH+/b/o0694RXmc5cGMnZOgD5VD5PfYBEkPqb
+DiaK8QaNMuJ26XPFceZNUjQx5oSpCEvevSvfu7CYRpBYeIK9ZLJfmRHZaaxe1/AO
+e+sCvYNmTAIojD7ew5Uz88Hfj4dlDj2ZwikTmj+XYJdcl02OhsIMbp+0cLRmGxJ8
+aQ+DUah7g0qp4cnF6FDYZ9bnQMp3eAZXMZ5zyzcvrbR1NvCDSs4IW55nc+y5vzGa
+TOAAn+ZXsoPVsD/PB5yL0Ngo0lxAdtDSDWgcreV7htVJzkhuFZFGrNIoF3mxXhb/
+d3i/SnHrqp95071rlPrSQ6ebWZQYPA==
+=ysw+
 -----END PGP SIGNATURE-----
 
---JWy8Wwp5/yGMiUOU--
+--1iUwHh5skxVSU9mE--
