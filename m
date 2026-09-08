@@ -1,87 +1,85 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 126A0545D82;
-	Tue,  8 Sep 2026 14:25:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3686538D8F;
+	Tue,  8 Sep 2026 14:25:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788877509; cv=none; b=NPPpd/V0M25UMXRKUMH4xpIqpiwIpKejlW3MIoWeGQlcZnMYuiTpSbun/bMFBrbTbnLk+d8YjU/2z6EmEB46JYLflxskyjzIu6S3M956j9ooRiFAurkXgOYifygCAkW1cKmrIH3U/ZlHk2dZWBIWBv4hIOIU1ik6dNF/GICW7Oc=
+	t=1788877548; cv=none; b=CttNQqaMD+W0Wpkrjdm4H+k1lb/ErutVQw1Eezlj7F4KtvnEKhcHx6wuc9cbdcHRncMhEHAQOmZ4Pnj/o9lFvKAPA+Q9UpJAIfulJnwwdI6V6mJpMuLK9X8NEi+awEOC1iYxjbc5VhEE/z2yA3LPDRqbtXhFGied0ieRO0Uj1mQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788877509; c=relaxed/simple;
-	bh=0zTWRMOSrIPyxHH4DhfPpkrmaXsO0+MIuSmvP0/RniY=;
+	s=arc-20240116; t=1788877548; c=relaxed/simple;
+	bh=SBlrYUc5bktRNySDzMbsWFnudT8zvDRLFqwFtIeMcPA=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nYLS9UhsXEemOTmsQF4OY36u3gXxmBXpObrhZI+sa9sKMAcZmSZUu+uobdFb6lSw2SYkcYVLWodZBUkEsKZWgcxkK4V26ufIy2G8tCSBeZDt/q1ItKCi+FQB7cHM8a7/54vEju4fFLp6vLY0oRFM8f6HvTpoX8c8ycV3Frkb7uY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=w3sGhBk0; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=hwD3ytoY; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=eJYsAkg0; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Q3asSZUQ; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=Cl9aHRkqLkbPBgQDjS7QM1M+HGJj92x9a1AF7bmEjsFskLYpRRv/O8/n0xJ+qelSWNU9jPuT15ZACTZyy7OU9KARwNyPagDmlKFNOFAm3EyteSuVa02t3vLZOnc9gCJXwJCtWLgBIioRfvNJl5H++PPJ/cjaJl4vfzN0y26UX5s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hlo3wOf2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=IRH/Go4r; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=tQodyI59; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=sPONlnVx; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="w3sGhBk0";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hwD3ytoY";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="eJYsAkg0";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Q3asSZUQ"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hlo3wOf2";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="IRH/Go4r";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tQodyI59";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="sPONlnVx"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id EA7D521ADF;
-	Tue,  8 Sep 2026 14:24:44 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 96F391F84C;
+	Tue,  8 Sep 2026 14:25:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1788877489; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1788877507; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=hHJKGSD2nFK/r/6f73cKpn6t2cf00+z7JQKS548yRy0=;
-	b=w3sGhBk08adRcOYfsOAa5bJwIaDpeCMdy/oP3XnrsrMTW1rD9O3l+FEXOhsICqiCJOzz8b
-	mCvSbcPkKM3BqFkJXQynZzT248uX/AHA720tAbeYdyxL9+gQ+Ghd/09UWZJBkuDMjLMJZs
-	IWvNj2RbP58mouFOnmrb2NfH0nUP4Xo=
+	bh=zCM8OSlnfGjEuWyXAzlyV0IrTBlxNeBmK3x23X8/D3Q=;
+	b=hlo3wOf2CQh1Ou0LOuGoZiW0iNWftq/2gqdCELs/kR5JscgZNfkdtR2bZV8hrA5E8sgfWw
+	pXGrXNhHCV+8SVA1359W8KzQbttbY7MhP4mXjcxHKlRrNtpxQZThrDHc5f1Z3CFCTBkDDX
+	OoEPFC5GFU6eeHN1AKvqasNiQICaGls=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1788877489;
+	s=susede2_ed25519; t=1788877507;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=hHJKGSD2nFK/r/6f73cKpn6t2cf00+z7JQKS548yRy0=;
-	b=hwD3ytoYukqf1ABQS9gMwWY0Rj7qs/UtkR+FRNrGh2pUQp5PE0c92i2jeM4NwIuilHsQ07
-	hCKmTbhE9bfQzKAw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=eJYsAkg0;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Q3asSZUQ
+	bh=zCM8OSlnfGjEuWyXAzlyV0IrTBlxNeBmK3x23X8/D3Q=;
+	b=IRH/Go4rWry0Cvxz1wvGtX/UFTTmAgRYa25qBzpA8T+5ElkNt3CMhM3F+hz6BLiZIXPii8
+	CqENVAtnxBjkYgCw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=tQodyI59;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=sPONlnVx
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1788877484; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1788877503; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=hHJKGSD2nFK/r/6f73cKpn6t2cf00+z7JQKS548yRy0=;
-	b=eJYsAkg0GEpmeTUKR9aXVqBdhNnq8tDwsHQh1JwUP7unnAV9GnUCaLoX34zz49DFUH8eF7
-	H9QNW52tcP8VZOUg3jOINoXxtjXnQWd/Adfe+Orsj1tD+Z1yWew5s6xk2DG8pTIhER6k+1
-	Xh1CQO4e8Q44A462WJtcZ9vC7qzUmV0=
+	bh=zCM8OSlnfGjEuWyXAzlyV0IrTBlxNeBmK3x23X8/D3Q=;
+	b=tQodyI59gyFGpBoRIcrcxSUOqVuQT3bvFp2vUz7XIbE/f9NDWqXebYiwyuhIo/rc3LzV5Q
+	2pH7Tc2xexi8LrPJdbPJy2vgh1kVeE5Do2HeINH/6l9o5SuzAn0DBGSqOseYiAXSF/ZYS0
+	lmKp5QkfJV1cEC6+mr0ZCIqswQueYJ4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1788877484;
+	s=susede2_ed25519; t=1788877503;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=hHJKGSD2nFK/r/6f73cKpn6t2cf00+z7JQKS548yRy0=;
-	b=Q3asSZUQHNAxn4o6t6CDBr0zCkhEv9kDY1V+iifBodboLftNQGwoFbLgrntoogjXANTlsf
-	MfLYCLDck778lFAA==
+	bh=zCM8OSlnfGjEuWyXAzlyV0IrTBlxNeBmK3x23X8/D3Q=;
+	b=sPONlnVxot92X9qpK1MGUlBEDcRuShH5pycFYVfDmEes8s3DGg7cynPyDAANR6nIXxPR6Q
+	UBuZAyu0/j9jP1Aw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BD5701364A;
-	Tue,  8 Sep 2026 14:24:44 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 61AB61364A;
+	Tue,  8 Sep 2026 14:25:03 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id j+2qLawaoGq3BwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 08 Sep 2026 14:24:44 +0000
-Date: Tue, 08 Sep 2026 16:24:29 +0200
-Message-ID: <87ik4fq0rm.wl-tiwai@suse.de>
+	id cMYvF78aoGrNBwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 08 Sep 2026 14:25:03 +0000
+Date: Tue, 08 Sep 2026 16:25:03 +0200
+Message-ID: <87h5jzq0qo.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Kazuki Hanai <hnkz.64@gmail.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] ALSA: us122l: Prevent write upgrades for read mappings
-In-Reply-To: <20260908110053.2950767-1-hnkz.64@gmail.com>
-References: <20260908110053.2950767-1-hnkz.64@gmail.com>
+To: HyeongJun An <sammiee5311@gmail.com>
+Cc: Takashi Iwai <tiwai@suse.com>,	Jaroslav Kysela <perex@perex.cz>,
+	=?ISO-8859-1?Q?C=E1ssio?= Gabriel <cassiogabrielcontato@gmail.com>,
+	linux-sound@vger.kernel.org,	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda: Report a change when only the channel status bytes move
+In-Reply-To: <20260908134153.1614273-1-sammiee5311@gmail.com>
+References: <20260908134153.1614273-1-sammiee5311@gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -90,63 +88,61 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -2.01
-X-Rspamd-Queue-Id: EA7D521ADF
+X-Spam-Score: -3.51
+X-Rspamd-Queue-Id: 96F391F84C
 X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Level: 
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
 	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[suse.com,perex.cz,gmail.com,vger.kernel.org];
 	RCPT_COUNT_FIVE(0.00)[6];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid]
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
 X-Spam-Flag: NO
 
-On Tue, 08 Sep 2026 13:00:53 +0200,
-Kazuki Hanai wrote:
+On Tue, 08 Sep 2026 15:41:53 +0200,
+HyeongJun An wrote:
 > 
-> The hwdep mmap callback rejects read-buffer mappings that are initially
-> writable, but leaves VM_MAYWRITE set on mappings created with PROT_READ.
-> A process that can open the hwdep node O_RDWR can later use mprotect() to
-> make the mapping writable.
+> The put() callback of "IEC958 Playback Default" returns whether the
+> converted register value moved. The convert_from_spdif_status() helper
+> reads part of the first two channel status bytes and none of the last
+> two, while the get() callback returns all four. So a write that lands
+> only in the bits it does not read changes what userspace reads back and
+> reports no change. Of the 31 bits above the mode bit, 20 are such bits
+> in consumer mode and 29 in professional mode. The core notifies only on
+> a positive return.
 > 
-> The read allocation begins with struct usb_stream. Its read_size member is
-> used by the fault handler to decide which pages belong to the read buffer.
-> The read VMA intentionally remains expandable because pcm_usb_stream uses
-> mremap() after reading that size. Changing read_size first can therefore
-> map and access pages beyond the allocation. The same member is also
-> consumed by usb_stream_free(), where changing it can make
-> free_pages_exact() release pages outside the allocation.
+> Toggling status[2] bit 0 on an HDA HDMI codec moves the read-back from
+> 04 00 00 00 to 04 00 01 00 with no event. Toggling the non-audio bit
+> in status[0] gives one.
 > 
-> Clear VM_MAYWRITE for read-buffer mappings after rejecting an initially
-> writable VMA. This keeps the separate output-buffer mapping writable while
-> preventing later permission upgrades.
+> Compare the stored status as well, the way the ac97 code does. The
+> write to the codec stays gated on the converted value.
 > 
-> Fixes: 030a07e44129 ("ALSA: Add USB US122L driver")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Kazuki Hanai <hnkz.64@gmail.com>
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Signed-off-by: HyeongJun An <sammiee5311@gmail.com>
+> Assisted-by: Claude:claude-opus-5
 
 Applied now.  Thanks.
 
