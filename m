@@ -1,86 +1,84 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE366395AC6;
-	Tue,  8 Sep 2026 07:22:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11E8F3976A4
+	for <linux-sound@vger.kernel.org>; Tue,  8 Sep 2026 07:23:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788852129; cv=none; b=h77L+rGYhQAIKvjdjxyhVmkpqs+ZTF4I4cAkiKKOeMdmS6E1ExMMUlKp3tUUfdwPC0b3MeA3GGOeuPF/MjpfrsSI1qepojzoGuOjlt2l/6Touo54FN7gF2NXupBzxmxn/gZ6u43kwlJfHurjelh1c/bgtOxCwcu6/caZq54pzg4=
+	t=1788852237; cv=none; b=maBwMt6GSNb29NxzVhM+ywLPZ4niO9yPMcbSwVOtjj9Yn0qhxnhcir0V8GLQfQLe0PD3NjKbDzUrYVfeatcpyLHIP4W1piAC1CxQg4ESveW7jrXlt1eLHj6L7poOyq47a6/uoQGpYOUsb4+U9kjml/uKjyBQMpTtl1TocRmk8nU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788852129; c=relaxed/simple;
-	bh=c/UOezhR3ck0+vPGa0KccIRAo2wvr3A7zcLg0LqWeWM=;
+	s=arc-20240116; t=1788852237; c=relaxed/simple;
+	bh=3yYG2e/G3CPH6YWd02aktJTwbA0NsDfBx9XmrrZQY3o=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=breva7jtxrBKF5D/uoxgpziY3UEB+/SqvvQlHi2G+dhSDRX/UdN5vsbWSpatbtm+4V1WB+5qkfpHc0UrO3psawnmEkWmicTF0L04QR+FpJQ+2FNmVgN/KdqnjH8NDirnHXMZHIrq1ZFBh6hrtre/RJkrIkYQQ/vo6QCclj13zmM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=nPlAHklQ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ZvncwBjZ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=DGiAV67G; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=rV7109yT; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=tNECjpXcU7R4B9yU6vppxkTN5yadCfhtKcxPydi0TId1+oDBnA7jMnz6hNhmlkpEr3TskpXwZNketVBqYPqdXDC19i2TfQcc/tmZW9p3kO/wPARjx2PkPORqGVROoc5aucuP/qIZEfCzDO+r3UV3ZkCocojj+6FKMheDksu7rIE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=TPsMkYvm; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ieJOTfmS; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Sf4Gj/Ve; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=hOklRepv; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nPlAHklQ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ZvncwBjZ";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DGiAV67G";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rV7109yT"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TPsMkYvm";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ieJOTfmS";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Sf4Gj/Ve";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hOklRepv"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id C32AC1F449;
-	Tue,  8 Sep 2026 07:21:57 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id DB3EA219DF;
+	Tue,  8 Sep 2026 07:23:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1788852121; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1788852230; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=iqefEv/GeFfWWXxNH97SYRaK8ovpP3GwVWeC7CpomDs=;
-	b=nPlAHklQwJjH+7K4gPXxJ8l6im7d7cvX9wH54aJjKWmahWYkTAau5e6qebuEWVt09R7saq
-	Y6CSis+WMnghxzPgQUaNfG+gzEI7cw+kaljavZM7RI3TlC5tDTj8Vhod+4IrC1AreCmUmH
-	hf0ogqGHM0guQDPdawj5400TYnTsxzw=
+	bh=4VSqU4n0BXWAV+kOoC4l58w5z3lkckSS/AxiHTXHKaQ=;
+	b=TPsMkYvmleQcitc5GBOuv9yxLbh1+f1twOrSs0AcC1HDg20GQZ9/rlgxZmq0jHnvIoybut
+	uMeMKVKntn8ELwqoZGmwTA0W8/n1OhI7YokLrVEZofv2nGDJpfn77D+pS5CrZWCaVrsRhM
+	R3d+sndQGwzHfD7/j83CeE3on1AbIqE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1788852121;
+	s=susede2_ed25519; t=1788852230;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=iqefEv/GeFfWWXxNH97SYRaK8ovpP3GwVWeC7CpomDs=;
-	b=ZvncwBjZ1l3U8nsW/WJiOrh96YqpXgU4Cxpit7xaQ/5sY842SJe8uMYHJ07arKiqcKXOj2
-	StNfm2XNdDegQ2BQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=DGiAV67G;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=rV7109yT
+	bh=4VSqU4n0BXWAV+kOoC4l58w5z3lkckSS/AxiHTXHKaQ=;
+	b=ieJOTfmSpOdZOIxTuUx/xqLeAhFivnxRzXPZmDyE4ObB/KQMXtdCz/28xIQfYqmkfwovDz
+	iW5lFMLj5FuumPAQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="Sf4Gj/Ve";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=hOklRepv
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1788852117; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1788852225; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=iqefEv/GeFfWWXxNH97SYRaK8ovpP3GwVWeC7CpomDs=;
-	b=DGiAV67GW/jZq1Ai8Y6U/uZO1U6gqgbt2OFKAb38ycloDl4zGCX8HyXHmd+j0Orwvnj0rx
-	nrm64y7FqOKpMi2padfwLTzarwHAtX1awsyADLYmdXULxEOQZuVfwpfXt0SN+Ar1VwqqWj
-	xxgUdpva9li7GOca6l4a77sMuHOWLm4=
+	bh=4VSqU4n0BXWAV+kOoC4l58w5z3lkckSS/AxiHTXHKaQ=;
+	b=Sf4Gj/VeawWE8yDPlAlCCAWIg0NW9pztK4KmXvVfJNKiHzm6VWfwiqrKV38x6eycVhlgJR
+	ZzDF1CPIuT4FPmT+y0f5Ydc0m0qSsSch5RizPfCgybzxl0tURIGpOYSi8vySf2H/i8M11a
+	hBWNDw0cSbY7G3HSEnibdWVwDoFdO+Y=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1788852117;
+	s=susede2_ed25519; t=1788852225;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=iqefEv/GeFfWWXxNH97SYRaK8ovpP3GwVWeC7CpomDs=;
-	b=rV7109yTOdo1IqMtd+ndZeieAZMyiG6DinSXqENt/pt9Sd2mcNktJSBvH0LcMQYosoQzbG
-	WoJ9iSTmcY1DNeCg==
+	bh=4VSqU4n0BXWAV+kOoC4l58w5z3lkckSS/AxiHTXHKaQ=;
+	b=hOklRepvHohBDkZj61ep02A/9YJ1IrH343GLHtBfjxrzOsZHLVGBHjzWsbaMwdp84NGw3E
+	Ky0riUkBp1UpNVBQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 81D0F13332;
-	Tue,  8 Sep 2026 07:21:57 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A60FD13332;
+	Tue,  8 Sep 2026 07:23:45 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id jvB1HpW3n2qGWgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 08 Sep 2026 07:21:57 +0000
-Date: Tue, 08 Sep 2026 09:21:56 +0200
-Message-ID: <87a4psqkbv.wl-tiwai@suse.de>
+	id aQYoJgG4n2oJXAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 08 Sep 2026 07:23:45 +0000
+Date: Tue, 08 Sep 2026 09:23:45 +0200
+Message-ID: <878q5cqk8u.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Suzu <suzu1dev@gmail.com>
-Cc: tiwai@suse.com,
-	perex@perex.cz,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH] ALSA: hda/intel: Disable power saving on ASUS GU605CX
-In-Reply-To: <20260906202439.209462-1-suzu1dev@gmail.com>
-References: <20260906202439.209462-1-suzu1dev@gmail.com>
+To: Eirik Kvalheim <eirikkva@gmail.com>
+Cc: linux-sound@vger.kernel.org,
+	tiwai@suse.de
+Subject: Re: Jabra Evolve2 30 SE (0b0e:0e36) needs QUIRK_FLAG_MIXER_GET_CUR_BROKEN
+In-Reply-To: <CAKwi-_QqvHSDFnt3A71RRZRyaWPAOWArZBHVHffE8znQw+B8+g@mail.gmail.com>
+References: <CAKwi-_QqvHSDFnt3A71RRZRyaWPAOWArZBHVHffE8znQw+B8+g@mail.gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -89,11 +87,10 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.51
-X-Rspamd-Queue-Id: C32AC1F449
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Level: 
 X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: DB3EA219DF
 X-Spamd-Result: default: False [-3.51 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
@@ -102,144 +99,106 @@ X-Spamd-Result: default: False [-3.51 / 50.00];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	FREEMAIL_TO(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_THREE(0.00)[3];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid]
 X-Spam-Flag: NO
+X-Spam-Score: -3.51
 
-On Sun, 06 Sep 2026 22:24:39 +0200,
-Suzu wrote:
+On Tue, 08 Sep 2026 09:14:19 +0200,
+Eirik Kvalheim wrote:
 > 
-> On the ASUS ROG Zephyrus G16 GU605CX, the ALC285 analog headphone
-> output produces a loud pop about ten seconds after playback stops
-> with power_save=10. This was reproduced with iLoud Micro Monitor
-> powered speakers connected to the 3.5 mm jack. Setting power_save=0
-> eliminated the idle pops in repeated pause/resume tests on
-> 7.2.3-arch1-2, with power_save_controller left enabled.
+> Hi,
 > 
-> Extend the power-save denylist check to cover the tested Intel HDA
-> controller (8086:7728, subsystem 1043:1034) on this board. Check the
-> DMI board vendor and name as well, since GU605CW also uses subsystem
-> 1043:1034 and has not been tested for this issue. Keep the existing
-> pm_blacklist override behavior.
+> Note up front: this report was researched and written by Claude Code (an AI
+> coding agent) on my behalf, on my machine. I have read it, reproduced the
+> behaviour and verified the fix myself, and I am happy to run any further tests
+> or try patches.
 > 
-> Disabling idle power saving can increase idle power consumption on
-> the matched controller. A separate pop during shutdown was still
-> observed with power_save=0; this change does not address it.
+> The sticky-mixer heuristic disables the playback volume control on a Jabra
+> Evolve2 30 SE, leaving the headset stuck at roughly -48 dB and effectively
+> inaudible. This looks like the same shape as the SteelSeries Arctis Nova 5
+> issue fixed in commit 0663d1df8d28 ("ALSA: usb-audio: Fix mixer regression on
+> SteelSeries Arctis Nova 5").
 > 
-> Link: https://github.com/omacom/omarchy/pull/10498
-> Assisted-by: LLM
-> Signed-off-by: Suzu <suzu1dev@gmail.com>
-> ---
-> Validation completed on the affected GU605CX:
-> - Built and booted the complete patched 7.3-rc1 kernel; the native
->   kernel build log contains no warnings.
-> - Verified that the loaded HDA module's srcversion matches the built
->   artifact for 7.3.0-rc1-audio-pop-test.
-> - Confirmed power_save=10, power_save_controller=Y and pm_blacklist=-1,
->   with the expected 1043:1034 power-save denylist message.
-> - In five samples spanning 40 seconds, the Intel analog PipeWire sink
->   was SUSPENDED while the ALC285 remained runtime-active with
->   power/control=on. This was sampled observation, not continuous tracing.
-> - Intel and NVIDIA HDMI codecs were observed suspended with
->   power/control=auto; the NVIDIA HDA controller was also suspended.
-> - After booting this kernel and receiving the pause/resume test
->   instructions, the user confirmed that the popping was no longer
->   audible. The exact number of cycles and pause durations were not
->   separately reported for this patched-kernel test.
-> - The earlier power_save=0 workaround also passed human pause/resume
->   listening tests on 7.2.3-arch1-2, with controller power saving enabled.
+> Device:  0b0e:0e36  GN Netcom Jabra Evolve2 30 SE
+> Kernel:  7.1.9-arch1-2 x86_64 (Arch Linux)
 > 
-> Headphone switching, internal speakers and suspend/resume checks have
-> not been reported for this patched kernel. Boot-time popping remains
-> unverified. A shutdown pop was previously observed with power_save=0;
-> this change does not address that shutdown path. No reliable measurement
-> of additional idle power consumption is available.
+> On every hotplug the driver logs:
 > 
-> Test-build context: an Arch-derived configuration with debug information
-> and BTF disabled was used. NVIDIA 610.57.04 test modules required a
-> separate local adaptation for the 7.3 dmem cgroup registration API.
-> Those modules built and initialized; their objtool return warnings also
-> occurred in the production-driver build. The NVIDIA adaptation is not
-> part of this audio patch. Full graphics regression testing was not done.
+>   usb 3-6: 2:0: sticky mixer values (-12288/3072/1024 => 3072), disabling
+>   usb 3-6: check MIXER_GET_CUR_BROKEN if you believe the mixer is non-sticky
 > 
-> AI assistance: I asked OpenAI Codex to investigate the idle pops
-> and prepare a GU605CX-specific fix. It assisted with the patch,
-> changelog and build/runtime checks. I performed the listening
-> tests; results are described above. I booted the patched kernel
-> and confirmed that the idle pop was no longer audible.
+> and the volume control is then absent entirely:
 > 
-> No introducing commit has been identified, so no Fixes tag is proposed.
+>   numid=7,iface=MIXER,name='Speaker Playback Switch'
+>   (no 'Speaker Playback Volume')
 > 
->  sound/hda/controllers/intel.c | 22 +++++++++++++++++-----
->  1 file changed, 17 insertions(+), 5 deletions(-)
+> -12288 in 1/256 dB units is -48 dB, so the headset's internal amplifier is
+> pinned near minimum with no control left to raise it. Userspace volume at 100%
+> is then just software gain into a nearly-muted amplifier, which is what the
+> symptom sounds like. Note the third value in the triple differs run to run
+> (3072, -12287, -1023, 1 across reboots), so the readback looks unstable rather
+> than genuinely sticky.
 > 
-> diff --git a/sound/hda/controllers/intel.c b/sound/hda/controllers/intel.c
-> index 24015c73a..6da1d7ee5 100644
-> --- a/sound/hda/controllers/intel.c
-> +++ b/sound/hda/controllers/intel.c
-> @@ -2328,18 +2328,30 @@ static const struct snd_pci_quirk power_save_denylist[] = {
->  	{}
->  };
->  
-> +static bool azx_is_power_save_denylisted(struct pci_dev *pci)
-> +{
-> +	if (snd_pci_quirk_lookup(pci, power_save_denylist))
-> +		return true;
-> +
-> +	/* GU605CW shares the subsystem ID; only GU605CX was tested. */
-> +	return pci->vendor == PCI_VENDOR_ID_INTEL &&
-> +	       pci->device == PCI_DEVICE_ID_INTEL_HDA_ARL &&
-> +	       pci->subsystem_vendor == 0x1043 &&
-> +	       pci->subsystem_device == 0x1034 &&
-> +	       dmi_match(DMI_BOARD_VENDOR, "ASUSTeK COMPUTER INC.") &&
-> +	       dmi_match(DMI_BOARD_NAME, "GU605CX");
-> +}
-> +
->  static void set_default_power_save(struct azx *chip)
->  {
->  	struct hda_intel *hda = container_of(chip, struct hda_intel, chip);
->  	int val = power_save;
->  
->  	if (pm_blacklist < 0) {
-> -		const struct snd_pci_quirk *q;
-> -
-> -		q = snd_pci_quirk_lookup(chip->pci, power_save_denylist);
-> -		if (q && val) {
-> +		if (val && azx_is_power_save_denylisted(chip->pci)) {
->  			dev_info(chip->card->dev, "device %04x:%04x is on the power_save denylist, forcing power_save to 0\n",
-> -				 q->subvendor, q->subdevice);
-> +				 chip->pci->subsystem_vendor,
-> +				 chip->pci->subsystem_device);
->  			val = 0;
->  			hda->runtime_pm_disabled = 1;
->  		}
+> Interestingly a cold boot with the headset already attached was unaffected,
+> which masked this for a while - only hotplug/re-enumeration triggered it.
 > 
-> base-commit: 45b5beb60bf7bd41c55ef17f6f2d28b351fad6c0
+> With the quirk applied:
+> 
+>   options snd-usb-audio quirk_flags=0b0e:0e36:MIXER_GET_CUR_BROKEN
+> 
+> the driver instead logs
+> 
+>   usb 3-6: 2:0: broken mixer GET_CUR (-12288/3072/1024 => 1)
+> 
+> the control comes back
+> 
+>   numid=8,iface=MIXER,name='Speaker Playback Volume'
+> 
+> and the headset behaves correctly. This has been verified across hotplug,
+> simulated re-enumeration via the USB authorized toggle, and a clean reboot.
+> 
+> The quirk table currently has one Jabra entry (0b0e:0349, Jabra 550a,
+> QUIRK_FLAG_CTL_MSG_DELAY_1M) and nothing for 0e36. Suggested addition, in the
+> same form as the Arctis Nova 5 fix:
+> 
+> --- a/sound/usb/quirks.c
+> +++ b/sound/usb/quirks.c
+> @@
+> + DEVICE_FLG(0x0b0e, 0x0e36, /* Jabra Evolve2 30 SE */
+> +   QUIRK_FLAG_MIXER_GET_CUR_BROKEN),
+> 
+> I have not sent this as a formal patch because I did not want to add a
+> Signed-off-by for work an agent drafted; if you would prefer it as a proper
+> patch submission, say the word and I will send one under my own sign-off.
+> 
+> One small documentation note while I am here: Documentation (the ALSA
+> configuration guide) describes bit 30 as "mixer_get_cur_ok" and the kernel's
+> own log message points at MIXER_GET_CUR_BROKEN. The string the parser actually
+> accepts is MIXER_GET_CUR_BROKEN - passing MIXER_GET_CUR_OK gives
+> "snd_usb_audio: unknown flag MIXER_GET_CUR_OK while parsing param quirk_flags".
+> The doc wording may be worth a look.
+> 
+> Thanks,
+> Eirik Kvalheim
 
-First of all, note that the power-save deny-list is a last resort.
-Often better to tweak the existing quirks than disabling the runtime
-PM.
-
-And, even if we go for the pm deny-list, you can just add PCI SSID.
-Both models are very likely same configurations.
-
-Last but not least, you must provide a full real name (or a known
-identity) in Signed-off-by tag.  It's a legal requirement.  The From
-tag should also be the same, too.
+Could you check the behavior with 7.3-rc?  The too-strict behavior
+should have been already relaxed and it should work as is.
 
 
 thanks,
