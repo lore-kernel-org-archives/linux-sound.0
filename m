@@ -1,112 +1,190 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E58C6491595
-	for <linux-sound@vger.kernel.org>; Wed,  9 Sep 2026 09:06:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D32FD3B388B
+	for <linux-sound@vger.kernel.org>; Wed,  9 Sep 2026 09:09:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788944795; cv=none; b=NJd2kvxNRgdIg6pgm+nCFxx2BbkxFBijHclifPUeo0dsvrs8/zDtNw8D6KYJna4czNl+lV/vvSbIuQ1v51/ODU9s6RGaIox006RnKjCaAmA5j8fIMp6m5VuaDqgSbbnfbD5ZZLbkAueaXPmbak24HN7Gc9/OOoRcVpuLUIBIVIE=
+	t=1788944984; cv=none; b=Z4XA4GX/Osp/7/x9RKOYWXa2OJZjJGGtpGZ67bXulRdfhsAAJTFfMnZ7uEbVpxditG54Q4S6Git7sYvOzNYM49d78Jz6CaHSFdktbo+ogxhcWDzpB/U70JFVkrmyAyrYbKMX9StiQJV8VYsS2T/0cNb6mZU42gRWJW39sFwL+6c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788944795; c=relaxed/simple;
-	bh=MDBBmeOGt1jJA2QyqYyZpKdJgVhokM9Hyvk+N6kJG7Y=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=krTVr3833Xjen8Oeca0sHlk3vMHuDLC4tlEVh2GzUnVLH9LybjGs2jSQtb4gHBrLAgTD1MvY7aGP2kXBMBUJahR017wwV877F7+2Dt/97hta3vgQMert5E4sst0E/fcsda9ssqRezygOkMoqW6NwDo/beYJg8+OnT3SnWm9dgzE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m1Dgu4B2; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788944984; c=relaxed/simple;
+	bh=3jPi6LQt0zRX3j69EKc+GaFk6pdTvoiXzTG6GmgXglk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PDDusJk4lX6YV4LUrbj0EyhBKPqGgouczTFov280L6BLpHmeELrutqICbWTWB+og/tRtsVN/RG2v+3W3EMzWbYy6Gm8gGm+fGX7YcsDUbVTZh5GzeaS/qd4WRt1iJibqkHR34wDdgEcGgo478HSBsm1PfcXn6R/eDNGFyBejgC8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SfBVHbs1; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m1Dgu4B2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C325D1F0156E
-	for <linux-sound@vger.kernel.org>; Wed,  9 Sep 2026 09:06:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788944791;
-	bh=osuKNlWwkgDC1U1icT/Qoh45Es9k9O509Xjy31GoFe8=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc;
-	b=m1Dgu4B2XCYkK9uqtTe9U9zEXs0+QrbFPh/q2c/n8LAZhnNC57aXu7oDMWH25YFrp
-	 9M2uoKoGR0DUSNTkL3g/H7OsUoXwQwe3tockNtuif2v6KCgmiZhBLiZfpFCiHmtePp
-	 Ba0GX/O8QSZZ2e1PFYofcm1ZihQj+A4SwJ0IR1I9Z6n3NuDtUxi+qnbBBYRVakRThB
-	 YXRpuC/R0xLvXvgN8OC5C5P2hHsyLiPrcv/x3z8mk/Adi17+SZdQwgIpCpfpwHlzP0
-	 TZTIQSliDRZSrY2WY7ooZWDbOWX076STbMR2HTqAlqJCusNUgpsOdOCmSq9L96ms35
-	 SuQ/zVSZCkVoQ==
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-39c86ce9e29so39433491fa.3
-        for <linux-sound@vger.kernel.org>; Wed, 09 Sep 2026 02:06:31 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBwYBqskFCOD3XB3emqxf6kQkLiTfa1FbaqwFbSobtZ1X1sx8beWXJJKoutTnBnCFldHojWSqgBEp4nCoQ==@vger.kernel.org
-X-Gm-Message-State: AFuF++lbJz3ozBydv3kGGcpJltI2zlxtuE17E4X/MNbNI0b8pXP84Cjj
-	Ko0+99vbPvMiNSYRqfoFJr9+wGgl0q2DlIuyQ3anrBheypnBlYz3XwbykPQjn/VzGyIW+QjF4eU
-	r6IEDWTCWPXLZB6fCoqpBf8PpHt/MZrIhgvDclt9RXA==
-X-Received: by 2002:a2e:bc13:0:b0:39c:624d:82b9 with SMTP id
- 38308e7fff4ca-3a371b5785bmr81319681fa.4.1788944790433; Wed, 09 Sep 2026
- 02:06:30 -0700 (PDT)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 9 Sep 2026 02:06:29 -0700
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 9 Sep 2026 02:06:29 -0700
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <20260909080114.591938-6-herve.codina@bootlin.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SfBVHbs1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1788944982; x=1820480982;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=3jPi6LQt0zRX3j69EKc+GaFk6pdTvoiXzTG6GmgXglk=;
+  b=SfBVHbs1TKD+/Hyh9UYORbQzk08j/wdjKdVYLAfI1WK4ExrumuhgH4q+
+   u2VbX1PcSab91EezNHh1oYe1njx53rWcJGbp3cjohYVr1cu0wbtyPx/wQ
+   g+SW5lfv1kwzX3cIFm8wxA624tGT4O68COJkUXDsrkRdaXoLsgaw097IX
+   +FExPFyZugt2gl/lWji0kH1BpmGHOl5FpCqk5vTod0Aon058lJ+a9P6xW
+   Eo0oeeOmeLDvdLMmP2iexHu+WOuvkqcEtGhpyXMCLCc35GXGmtAkyIrTw
+   iQZ18WDuFYOh/rHjR2jRK2DQxGgRG/dQIdjyldksiIM+RQ5t0Xo6Vl9lj
+   g==;
+X-CSE-ConnectionGUID: 9jpaDKP5Qo2vV8Is7fSa+g==
+X-CSE-MsgGUID: yOMFFV9MS7Wgsx26fuANEg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11900"; a="89200571"
+X-IronPort-AV: E=Sophos;i="6.25,270,1779174000"; 
+   d="scan'208";a="89200571"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2026 02:09:41 -0700
+X-CSE-ConnectionGUID: BHG432AtTAWadAkUylM0XA==
+X-CSE-MsgGUID: hXfweyZxSR6WVBGLVSy+Cg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,270,1779174000"; 
+   d="scan'208";a="266972758"
+Received: from ettammin-mobl2.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.244.252])
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2026 02:09:38 -0700
+From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+To: vkoul@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	srinivas.kandagatla@oss.qualcomm.com
+Cc: linux-sound@vger.kernel.org,
+	kai.vehmanen@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	pierre-louis.bossart@linux.dev,
+	daniel.baluta@nxp.com
+Subject: [PATCH v2 00/24] ALSA compress / ASoC compress / SOF: Compressed audio support with IPC4
+Date: Wed,  9 Sep 2026 12:09:25 +0300
+Message-ID: <20260909090949.7503-1-peter.ujfalusi@linux.intel.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260909080114.591938-1-herve.codina@bootlin.com> <20260909080114.591938-6-herve.codina@bootlin.com>
-Date: Wed, 9 Sep 2026 02:06:29 -0700
-X-Gmail-Original-Message-ID: <CAMRc=MfMvXWLHMb1w7km_JCsZvE9_HmhiAWgoMi9mjxXL3_8EQ@mail.gmail.com>
-X-Gm-Features: AcwNN1UAL1h56FAgIlDt7ND-Ag45pHEciGYFt6Y1QX_NiTCc2meGcA2HgU6LiJg
-Message-ID: <CAMRc=MfMvXWLHMb1w7km_JCsZvE9_HmhiAWgoMi9mjxXL3_8EQ@mail.gmail.com>
-Subject: Re: [PATCH v11 05/10] cxl/test: Use fw_devlink_set_device()
-To: Herve Codina <herve.codina@bootlin.com>
-Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-pci@vger.kernel.org, linux-sound@vger.kernel.org, 
-	patches@opensource.cirrus.com, linux-gpio@vger.kernel.org, 
-	linux-acpi@vger.kernel.org, linux-cxl@vger.kernel.org, 
-	Allan Nielsen <allan.nielsen@microchip.com>, Horatiu Vultur <horatiu.vultur@microchip.com>, 
-	Daniel Machon <daniel.machon@microchip.com>, Steen Hegelund <steen.hegelund@microchip.com>, 
-	Luca Ceresoli <luca.ceresoli@bootlin.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
-	Jonathan Cameron <jonathan.cameron@huawei.com>, Richard Cheng <icheng@nvidia.com>, 
-	Andrew Lunn <andrew@lunn.ch>, Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Charles Keepax <ckeepax@opensource.cirrus.com>, 
-	Richard Fitzgerald <rf@opensource.cirrus.com>, David Rhodes <david.rhodes@cirrus.com>, 
-	Linus Walleij <linusw@kernel.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Bartosz Golaszewski <brgl@kernel.org>, 
-	Len Brown <lenb@kernel.org>, Davidlohr Bueso <dave@stgolabs.net>, Jonathan Cameron <jic23@kernel.org>, 
-	Dave Jiang <dave.jiang@intel.com>, Alison Schofield <alison.schofield@intel.com>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dan Williams <djbw@kernel.org>, 
-	Ira Weiny <iweiny@kernel.org>, Li Ming <ming.li@zohomail.com>, Lizhi Hou <lizhi.hou@amd.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Wed, 9 Sep 2026 10:01:04 +0200, Herve Codina <herve.codina@bootlin.com> said:
-> The code set directly fwnode.dev field.
->
-> Use the dedicated fw_devlink_set_device() helper to perform this
-> operation.
->
-> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
-> Reviewed-by: Dave Jiang <dave.jiang@intel.com>
-> Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Reviewed-by: Richard Cheng <icheng@nvidia.com>
-> ---
->  tools/testing/cxl/test/cxl.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/tools/testing/cxl/test/cxl.c b/tools/testing/cxl/test/cxl.c
-> index 547ebc97bf59..e21e45fe1572 100644
-> --- a/tools/testing/cxl/test/cxl.c
-> +++ b/tools/testing/cxl/test/cxl.c
-> @@ -1678,7 +1678,7 @@ static void mock_companion(struct acpi_device *adev, struct device *dev)
->  	device_initialize(&adev->dev);
->  	fwnode_init(&adev->fwnode, NULL);
->  	device_set_node(dev, &adev->fwnode);
-> -	adev->fwnode.dev = dev;
-> +	fw_devlink_set_device(&adev->fwnode, dev);
->  }
->
->  #ifndef SZ_64G
-> --
-> 2.55.0
->
->
+Hi,
 
-Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Changes since v1:
+- Add patch to snd_card_file_add/remove for compress
+- Hanlde the SND_COMPR_TRIGGER_NEXT_TRACK in soc_compr_trigger_fe()
+
+Cover letter:
+
+This series adds compressed audio support for SOF with IPC4 firmware.
+Supported formats are PCM, MP3, AAC and VORBIS, the feature set is
+PAUSE_PUSH/RELEASE, DRAIN and position reporting.
+
+Patches 1-5 are prerequisites in the ALSA compress core and in
+soc-compress.c.
+
+These are core fixes rather than driver level workarounds on purpose.
+The other users of compressed DPCM have DSP internal ports on their
+BEs, driven by code they own. An Intel/SOF BE ends at a third party
+CODEC driver which is shared with the non DPCM case and has no reason
+to know that the FE is compressed. That set of CODECs is open ended,
+so teaching each of them to cope with a compressed FE does not scale.
+The core has to hand a BE the same substream state whether the FE is
+a PCM or a compressed one.
+
+Two of these patches change behaviour for the existing users of
+compressed DPCM, so they would need a look from Qualcomm and NXP:
+
+ - "ASoC: soc-compress: Implement trigger FE-BE sequencing as with
+   normal PCMs" makes the FE/BE trigger order follow
+   dai_link->trigger[], the way dpcm_fe_dai_do_trigger() does it.
+   Neither sound/soc/qcom/ nor sound/soc/fsl/ sets it, so both default
+   to SND_SOC_DPCM_TRIGGER_PRE: START keeps the current order, but
+   STOP, SUSPEND and PAUSE_PUSH now trigger the BE before the FE.
+
+ - "ASoC: soc-compress: Stop running dpcm on free" sends a STOP trigger
+   from soc_compr_free_fe() if the DPCM is still in START state, which
+   is the case when the last trigger the stream received was a DRAIN.
+
+Patches 6-20 implement the IPC4 compressed support, patch 21 is a
+Kconfig cleanup. The last two patches enable the feature, in Kconfig
+for TGL and later and in the topology parser, so the compressed device
+type only becomes usable once the code behind it is in place.
+
+Testing:
+
+ - IPC4: Arrow Lake, compressed playback on speaker and headphone
+   (cs42l43), MP3, AAC and VORBIS.
+ - IPC3: tested by NXP. This does not cover the STOP on free path
+   above, as they do not implement DRAIN.
+
+Regards,
+Peter
+---
+Peter Ujfalusi (18):
+  ALSA: compress: pin card module while stream is open
+  ALSA: compress: register the open file with the card
+  ALSA: compress: stop active streams on disconnect
+  ASoC: soc-compress: Provide a runtime for the compressed FE substream
+  ASoC: soc-compress: Implement trigger FE-BE sequencing as with normal
+    PCMs
+  ASoC: soc-compress: Stop running dpcm on free
+  ASoC: SOF: ipc4-pcm: harden pipeline teardown races
+  ASoC: SOF: sof-audio: do not dereference swidget->spipe
+    unconditionally on free
+  ASoC: SOF: ipc4: Add definition of module data in init_ext object type
+  ASoC: SOF: ipc4-topology: Support init_ext_module_data for process
+    modules
+  ASoC: SOF: ipc4-pcm: Make the timestamp info usable outside of
+    ipc4-pcm.c
+  ASoC: SOF: ipc4/ipc4-loader: Add SOF_INFO and CODEC_INFO to
+    fw_config_params
+  ASoC: SOF: ipc4-pcm: Handle COMPR DRAIN triggers as EOS pipeline state
+  ASoC: SOF: ipc4-topology: Set FAST_MODE for host copier in compr mode
+  ASoC: SOF: Add support for IPC4 compressed
+  ASoC: SOF: ipc4: Handle compressed drain done notification from
+    firmware
+  ASoC: SOF: Intel: Kconfig: Remove redundant IPC version selects
+  ASoC: SOF: Intel: Kconfig: Select compress support for TGL+ platforms
+
+Ranjani Sridharan (6):
+  ASoC: SOF: compress: Rename compress ops with ipc3 prefix
+  ASoC: SOF: sof-audio: Expose a couple of functions
+  ASoC: SOF: pcm: Modify the signature of a couple of PCM IPC ops
+  ASoC: SOF: intel: hda-stream: Clear the current position when
+    releasing stream
+  ASoC: SOF: ops: Add new platform-specific ops for compress
+  ASoC: SOF: topology: Add support for decoder and encoder widgets
+
+ include/sound/compress_driver.h               |   2 +
+ include/sound/sof/ipc4/header.h               |  24 +-
+ sound/core/compress_offload.c                 |  86 +-
+ sound/soc/soc-compress.c                      | 200 ++++-
+ sound/soc/sof/Makefile                        |   4 +-
+ sound/soc/sof/core.c                          |  10 +-
+ sound/soc/sof/intel/Kconfig                   |   9 +-
+ sound/soc/sof/intel/hda-common-ops.c          |   8 +
+ sound/soc/sof/intel/hda-pcm.c                 | 142 ++++
+ sound/soc/sof/intel/hda-stream.c              |  70 +-
+ sound/soc/sof/intel/hda.h                     |  15 +
+ sound/soc/sof/{compress.c => ipc3-compress.c} | 145 +---
+ sound/soc/sof/ipc3-pcm.c                      |  29 +-
+ sound/soc/sof/ipc3-priv.h                     |   3 +
+ sound/soc/sof/ipc4-compress.c                 | 776 ++++++++++++++++++
+ sound/soc/sof/ipc4-loader.c                   |  51 ++
+ sound/soc/sof/ipc4-pcm.c                      | 125 +--
+ sound/soc/sof/ipc4-priv.h                     |  45 +
+ sound/soc/sof/ipc4-topology.c                 | 115 ++-
+ sound/soc/sof/ipc4-topology.h                 |   9 +
+ sound/soc/sof/ipc4.c                          |  13 +-
+ sound/soc/sof/ops.h                           |  74 ++
+ sound/soc/sof/pcm.c                           |  18 +-
+ sound/soc/sof/sof-audio.c                     |  89 +-
+ sound/soc/sof/sof-audio.h                     |  23 +-
+ sound/soc/sof/sof-priv.h                      |  12 +
+ sound/soc/sof/topology.c                      |   2 +
+ 27 files changed, 1790 insertions(+), 309 deletions(-)
+ rename sound/soc/sof/{compress.c => ipc3-compress.c} (66%)
+ create mode 100644 sound/soc/sof/ipc4-compress.c
+
+-- 
+2.55.0
+
