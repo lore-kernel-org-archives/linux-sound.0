@@ -1,90 +1,112 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBE2B39A4A4
-	for <linux-sound@vger.kernel.org>; Wed,  9 Sep 2026 09:18:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF3603D1A9A
+	for <linux-sound@vger.kernel.org>; Wed,  9 Sep 2026 09:23:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788945519; cv=none; b=D9we+lLcTSx2jigH4Z4kM8UWgOEs6diDUYwqjxW1YD60lPu0zT9lHzUe29cRCAywRytTjXiN75E7J1ShADuxJh6AccOsbVS5Tu1r3ixcUUlpsZ1A/pW1iDQQnzf8Be7utHT706VNPrssad2Th0NhOvQ+svBr6mS6L/hkSazRh+Y=
+	t=1788945791; cv=none; b=hI2Tx1THKXFbJrgvwkS7w7R3k/toSOcnAEtTBUB7u8DSKa/RsK497Mhozvku6l9OcE+EhYxlS4C7xWG/WHzkn04mPrIvcJ1l2Wm0959qfM9bo92dyqoWLoaorPntdAjeEadEWElwF++FD0TnVKTCRtsJpBr6b4fcv7R5PTdTW0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788945519; c=relaxed/simple;
-	bh=8ok39uNEitqPsI9/X+Ixgm/ZljDk/0oH/c8FA1450q4=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=lLUgj7ssaJA+uEokv2Ye51oKnZND5Jzu+Vm7ZY8I5xLrUAmP4IVN7x2do5wnwi6VKv4S1JQvfMaOoahqNvB+zKejIPaNa3FnNCTAJbSsQdZFjyXr/e8OyKJ7zYfr6SsNjUQ/2x59/apROl8FP7VR1pYbs/wgNPGZps0zi6nJ4fg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=ErNNXicj; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+	s=arc-20240116; t=1788945791; c=relaxed/simple;
+	bh=MDBBmeOGt1jJA2QyqYyZpKdJgVhokM9Hyvk+N6kJG7Y=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=p/+6fGGp1JDpZ+7XTzNXel323Jv4Ry4nxlamDFZ333QiT7PRb7W4k5NUnIcayj/HkLLJwputE08eszNid8NNuhakdQQqTG0FvbgrzK4wrUlydfwd7USAKmMr3GaSrKeMtjHLYWPnNgbUPxF/XVMMcOaf5xp6iLQQO7zaEOGLABg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xv8ei3Eh; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="ErNNXicj"
-X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 6899IBdM4425865, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
-	t=1788945492; bh=JKcdy7OtYID8yu/zjYfEP0X9437N+PUCgLIIrDAuu98=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:
-	 Content-Transfer-Encoding:Content-Type;
-	b=ErNNXicjgve7SqismY1+tzsEhcw+f0XKUiKMWGpu+tQ2jc74AgyLCDQBjb1tkYiq4
-	 9NmLu1tf0aIw55tWVmdMldFahp90AH2RnRm1/AYi4b4EghauHcAV89oQ1BXxdzazkr
-	 7Tt9MjHveSjCDRFXwlmRPAqdKkOxUFnTZQNGscEvbCo3g3ZCbrLYdklZN/SnXZh4Nh
-	 dgA3be1FsXMYxen5HMttipi4MXXkHpFr2ty6fkXqxNfJEf83+pmFl3Gu65W2/hgFj0
-	 /0hQ7Lon84d1tshXAA01hTQF/L2d1I0xsO+73kBe6WFdOQbYL4MYBMwxCgfhkSrkwl
-	 ymT24t8EqDWiA==
-Received: from mail.realtek.com (rtkexhmbs02.realtek.com.tw[172.21.6.41])
-	by rtits2.realtek.com.tw (8.15.2/3.29/5.94) with ESMTPS id 6899IBdM4425865
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Wed, 9 Sep 2026 17:18:12 +0800
-Received: from RTKEXHMBS05.realtek.com.tw (10.21.1.55) by
- RTKEXHMBS02.realtek.com.tw (172.21.6.41) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43; Wed, 9 Sep 2026 17:18:10 +0800
-Received: from sw-server.localdomain (172.24.54.4) by
- RTKEXHMBS05.realtek.com.tw (10.21.1.55) with Microsoft SMTP Server id
- 15.2.2562.43 via Frontend Transport; Wed, 9 Sep 2026 17:18:10 +0800
-From: <shumingf@realtek.com>
-To: <broonie@kernel.org>, <lgirdwood@gmail.com>
-CC: <linux-sound@vger.kernel.org>, <lars@metafoo.de>, <flove@realtek.com>,
-	<oder_chiou@realtek.com>, <jack.yu@realtek.com>, <derek.fang@realtek.com>,
-	Shuming Fan <shumingf@realtek.com>
-Subject: [PATCH] ASoC: rt1320: avoid re-initialize in advanced mode
-Date: Wed, 9 Sep 2026 17:18:06 +0800
-Message-ID: <20260909091806.872977-1-shumingf@realtek.com>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xv8ei3Eh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F36D1F01560
+	for <linux-sound@vger.kernel.org>; Wed,  9 Sep 2026 09:23:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788945789;
+	bh=osuKNlWwkgDC1U1icT/Qoh45Es9k9O509Xjy31GoFe8=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc;
+	b=Xv8ei3EhJ4HgzbOdGsjteUPopCkw4XU2rkVeC9+Yfe1nKnNiNuCsJxA2oGOVTwAin
+	 saUDbUkbRvVy4G8RMb+sD2xLpnoZ+wb5cFTZpHBb/r3XXd7BgseV4AD9YSzORRN1Qo
+	 P6+hM6WkOb7MTC6McLuApcRQCfbbCx9L9oRk3VjEbTuhLzsp4hXtg3FOsuAsAody6o
+	 OwWw9b+uJ7KWWbwXq3MgiXGRa4JZiV1mxJaSS7zepZzVlygSaortBcOxlQoHcOw9Zp
+	 P8pkZZRMSUTymuvBe/OaVF0AQH8Bu8SUO6au2gniraylnozvssr9Ux9ggfAylFPJnU
+	 VMchAFHffC2ew==
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5b76694fb7aso326816e87.0
+        for <linux-sound@vger.kernel.org>; Wed, 09 Sep 2026 02:23:09 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvByhvJZf5ILkXsmZc90TM8V6NceDBCEvG2kHEu6qTlGLs52KBiwYn21HER4VFwtMvpiwpeqEFF20rwTE3A==@vger.kernel.org
+X-Gm-Message-State: AFuF++kGlYpc+ARax4WQhVCxPV5yvHOt/MvBgy29awGi6oLnm500UwPN
+	4XEOa/P1W5lIun0pDWrfnblblRNe0FoldwDg+sGfUbwlxXzoacqn6fYnNyXlsHcQ/fRZw3gR+Hz
+	c3vspelWfgMj3Vlysa9DNXKbSUrnD10HHdDlH3LG5fA==
+X-Received: by 2002:a05:6512:1286:b0:5b7:668a:e8cb with SMTP id
+ 2adb3069b0e04-5b7668aeb82mr414082e87.31.1788945788232; Wed, 09 Sep 2026
+ 02:23:08 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 9 Sep 2026 02:23:07 -0700
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 9 Sep 2026 02:23:06 -0700
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <20260909080114.591938-6-herve.codina@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+References: <20260909080114.591938-1-herve.codina@bootlin.com> <20260909080114.591938-6-herve.codina@bootlin.com>
+Date: Wed, 9 Sep 2026 02:23:06 -0700
+X-Gmail-Original-Message-ID: <CAMRc=MfqbjoARAQQ65fpwn8Y8SMXt7BAfvhtfzOj6iQUEYnAPQ@mail.gmail.com>
+X-Gm-Features: AcwNN1WZ09Q1SV1ODjBdPMqkfOrJoPMMt-CtgzyA6h5c6HSsWVZpQuvsCQtR_OE
+Message-ID: <CAMRc=MfqbjoARAQQ65fpwn8Y8SMXt7BAfvhtfzOj6iQUEYnAPQ@mail.gmail.com>
+Subject: Re: [PATCH v11 05/10] cxl/test: Use fw_devlink_set_device()
+To: Herve Codina <herve.codina@bootlin.com>
+Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-pci@vger.kernel.org, linux-sound@vger.kernel.org, 
+	patches@opensource.cirrus.com, linux-gpio@vger.kernel.org, 
+	linux-acpi@vger.kernel.org, linux-cxl@vger.kernel.org, 
+	Allan Nielsen <allan.nielsen@microchip.com>, Horatiu Vultur <horatiu.vultur@microchip.com>, 
+	Daniel Machon <daniel.machon@microchip.com>, Steen Hegelund <steen.hegelund@microchip.com>, 
+	Luca Ceresoli <luca.ceresoli@bootlin.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+	Jonathan Cameron <jonathan.cameron@huawei.com>, Richard Cheng <icheng@nvidia.com>, 
+	Andrew Lunn <andrew@lunn.ch>, Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Charles Keepax <ckeepax@opensource.cirrus.com>, 
+	Richard Fitzgerald <rf@opensource.cirrus.com>, David Rhodes <david.rhodes@cirrus.com>, 
+	Linus Walleij <linusw@kernel.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Bartosz Golaszewski <brgl@kernel.org>, 
+	Len Brown <lenb@kernel.org>, Davidlohr Bueso <dave@stgolabs.net>, Jonathan Cameron <jic23@kernel.org>, 
+	Dave Jiang <dave.jiang@intel.com>, Alison Schofield <alison.schofield@intel.com>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dan Williams <djbw@kernel.org>, 
+	Ira Weiny <iweiny@kernel.org>, Li Ming <ming.li@zohomail.com>, Lizhi Hou <lizhi.hou@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Shuming Fan <shumingf@realtek.com>
+On Wed, 9 Sep 2026 10:01:04 +0200, Herve Codina <herve.codina@bootlin.com> said:
+> The code set directly fwnode.dev field.
+>
+> Use the dedicated fw_devlink_set_device() helper to perform this
+> operation.
+>
+> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
+> Reviewed-by: Dave Jiang <dave.jiang@intel.com>
+> Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Reviewed-by: Richard Cheng <icheng@nvidia.com>
+> ---
+>  tools/testing/cxl/test/cxl.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/tools/testing/cxl/test/cxl.c b/tools/testing/cxl/test/cxl.c
+> index 547ebc97bf59..e21e45fe1572 100644
+> --- a/tools/testing/cxl/test/cxl.c
+> +++ b/tools/testing/cxl/test/cxl.c
+> @@ -1678,7 +1678,7 @@ static void mock_companion(struct acpi_device *adev, struct device *dev)
+>  	device_initialize(&adev->dev);
+>  	fwnode_init(&adev->fwnode, NULL);
+>  	device_set_node(dev, &adev->fwnode);
+> -	adev->fwnode.dev = dev;
+> +	fw_devlink_set_device(&adev->fwnode, dev);
+>  }
+>
+>  #ifndef SZ_64G
+> --
+> 2.55.0
+>
+>
 
-On some machines, speaker protection is enabled.
-We call this advanced mode, which loads the DSP firmware and changes settings
-based on the basic mode, including blind writes.
-The amplifier can retain the advanced mode settings until a POR or power loss occurs.
-Therefore, the driver does not need to switch from basic mode to advanced mode
-when the system performs a warm reboot.
-We only need to check the function_status to determine
-whether the system has undergone a cold or warm reboot.
-
-Fixes: 9b30521074f0 ("ASoC: rt1320: run the initialisation preset on the first hardware init")
-Signed-off-by: Shuming Fan <shumingf@realtek.com>
----
- sound/soc/codecs/rt1320-sdw.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/sound/soc/codecs/rt1320-sdw.c b/sound/soc/codecs/rt1320-sdw.c
-index 72af413306fa..444a91755be9 100644
---- a/sound/soc/codecs/rt1320-sdw.c
-+++ b/sound/soc/codecs/rt1320-sdw.c
-@@ -2470,7 +2470,7 @@ static int rt1320_io_init(struct device *dev, struct sdw_slave *slave)
- 	dev_dbg(dev, "%s amp func_status=0x%x\n", __func__, amp_func_status);
- 
- 	/* initialization write */
--	if ((amp_func_status & FUNCTION_NEEDS_INITIALIZATION) || !rt1320->first_hw_init) {
-+	if ((amp_func_status & FUNCTION_NEEDS_INITIALIZATION)) {
- 		switch (rt1320->dev_id) {
- 		case RT1320_DEV_ID:
- 			if (rt1320->version_id < RT1320_VC)
--- 
-2.54.0
-
+Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
