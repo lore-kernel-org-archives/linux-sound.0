@@ -1,119 +1,180 @@
-Received: from out203-205-221-202.mail.qq.com (out203-205-221-202.mail.qq.com [203.205.221.202])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9251B3CF202
-	for <linux-sound@vger.kernel.org>; Wed,  9 Sep 2026 07:05:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DE7D3002B9;
+	Wed,  9 Sep 2026 07:38:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788937556; cv=none; b=rbBbXAgZ+BjJAHmK+excw+jgoEtvO6rUexwVsUMVLyTBzSiWgIJ5evAYrb0pDa6eqf5p8YJcr/+X3u/YJ4FPeeVuZeIVgzbof1SeohklT9HL5DZxH2wZ2OqOgjsgPi8roAfoe9aM4cCMPr7cUn1y/APZ+icFmKka9njeBFAzI6g=
+	t=1788939485; cv=none; b=LPpDvO14P9dvovPn8DBpbgZboEWgWseOh56r4Yl3HRsELiuo6wI5iGUvzvwyG7C2cybqA2tGiUKe2XyOvDNn17v21zvSMlnoP/DWtW19w+kjr4mq8hfcJYaeIMQkZuEmjQKtYsjAJRIVumrnWTQ1eFr4PDHQJUlqspWXIOWdwrs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788937556; c=relaxed/simple;
-	bh=EFCjIcaEq7yAtTZLEjo4ZoV8N80XCu551gIsZVmsZU8=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=hGktSN6N6ABPDAWwaPzHBbIb3TMSs0iWfFbBIuhbexpHSR3zg84wl1fCg4vVpEmtnR4zCW2sTCmxNiebT7y4EflVmpmxnHiecPVXUxZlCUK924v+hleJ6TZbmTuqmyy4DGOTGu5QCZmNeoopJsVOSYwXlrRJ8UAoBYnUmFdi07o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=vZltUv8y; arc=none smtp.client-ip=203.205.221.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	s=arc-20240116; t=1788939485; c=relaxed/simple;
+	bh=nTAm35845aAqmOQtS6HyRYHkKn+bOdSMAV3QF5uJvY8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZdQmzFnen4pGM4M62lN7CkOLWz1/1MCEJEt2hgKO7FlRi4xKC9STZLFtV+TYQNNzy6w4guOP7Nnf0JOeDgs+Fl7UJqdo2lV+8wa+WPR92q+n7cn+23HaVocVKLhTHI0KyyiHyqIHIp0yxOlO+SUikaYa/YdguoVldsNeaQK4tos=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=fMvwOMtK; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="vZltUv8y"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1788937543; bh=EFCjIcaEq7yAtTZLEjo4ZoV8N80XCu551gIsZVmsZU8=;
-	h=Date:To:Cc:From:Subject;
-	b=vZltUv8yiYcII3N8Lth+E30KwS8tEUTgzFHli1eZh2J50WDpok8rwJbEmyYPzlZAl
-	 i14uhdIK0242VgHR+4czBMyJQUqk8ezmiipW67sb45leO6/jOz30aQKKgGqPq5HJsA
-	 uMY5CVNV8UM2lk5FumLSXk+h74Jl2b8ie4fWXxTY=
-Received: from [IPV6:240e:47e:810:e56:b3e4:883e:9c05:2223] ([240e:47e:810:e56:b3e4:883e:9c05:2223])
-	by newxmesmtplogicsvrsza73-0.qq.com (NewEsmtp) with SMTP
-	id 1691A0F2; Wed, 09 Sep 2026 15:05:41 +0800
-X-QQ-mid: xmsmtpt1788937541tesyjh6y8
-Message-ID: <tencent_A89516B196B5F3484ADDB96992501D676B09@qq.com>
-X-QQ-XMAILINFO: MMq8nqC7jH0B1kgcxgCDDGWMYgsmUU+ZUxE6oFlHv1i9tX5ElptME35GVExf0o
-	 4OMD8SJ7iul5k+wRapGQ99Lh5v+99yHk+mBxq+P0NiQeZgIzkNP1P1LAfQdyDSWo8hNqEwZT2GRI
-	 81p8BJL1XZF5fHTqnaoxqvCSJPWo968gO0TQgNLQMUvLpinJm9Q1/B4XFHn/+tcodWjzCMFJ2HB8
-	 JqJkheh1iHNnykCbgP3BeQOHFzN7SUTO5xCKSKtF+pqepdqN8DEf7WNSeyRciYZalQGDIuYbbMrj
-	 sdGfFprHLgLVZtmkKOiisyo10BuDWjgjX+eVHGeldhoqvCpHUmGSUiD+URFzg3Mt2ddSclDF6tew
-	 haDtXKvhwZ1voCh9LuzKGjACwWUlFiR1dyxCbjqew2YmG8w/pWuYD8ps7OuVC1XnE3UZMdAxqdUZ
-	 ivG9c8pS5ov1vLwB4IawIOEEL7vIQKzAXUiOVRLXjiwgNptzo5aZFmlVNazmqi48A9wSG4/3WM6M
-	 JHyAO2/QIN145AYpRxaEM6YVEZzAXcnuhxGarq4LpTG9jVLsJbhUcVj6VKdw9HK+46lPPn9kc7lH
-	 8tqmq8iDP4rzqi3mFN/2Ys+4D7w+snYLP2h5Tb2bZu/52QdaB07QwhhpUAb0VeJMzBn2b96EzjvU
-	 ZER7rnI1CXj7Bb77yjLsQqpDqVsrJOhDG6oQLHulpMqaLSAzbn+OcOqaYptqqM30pfeCGoyq0h1V
-	 oJBi+7xKrRjWMNMGm9MBBIYmm2xetd/+vVOpRO4n65VzlN+uAWe0cTAfOr4rt1f4wPG6Q7z/Lweq
-	 vv32ar5j9AH6z/3TbaQP8KLdS8z+FmN+XrNN/yQyqndoia+W/tvj9W8cXTCd311GPGbJpubNpObx
-	 Pcq098D6sucmD7Yrsa2ghJUuecA/eL9H3Jnd2DZQWNelHvq/XRPIhkQ5RgFS2KcS9go9cLbAhVQB
-	 BOaqp0082t/1N4gKdQIvxeA4rJWFKXBEfnVRWYfb4DJSK1fGptcydHFBbcSetnihXHKYzeSHOYQ8
-	 A9qtSXbvc5OSFQLJ17gv40g5R+9ZfYNaSshDRgpBVlfxaA6pTD4saS1UTPlir0+5PJnlodPw==
-X-QQ-XMRINFO: Mp0Kj//9VHAxzExpfF+O8yhSrljjwrznVg==
-X-OQ-MSGID: <8fe5ce1f-456a-4dcb-9dd7-a8fb17633537@qq.com>
-Date: Wed, 9 Sep 2026 15:05:41 +0800
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="fMvwOMtK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8484C1F00A3A;
+	Wed,  9 Sep 2026 07:38:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1788939483;
+	bh=z7WoiQ3kTHyw/Ii8U53W3jB43VLKD3M/+zE0Et0v4Dk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=fMvwOMtKjnQJHWqbGOBFRkxLXNBsibipPgj2Q6P064WQJWMW7wfdq4gqVuVvBLOBi
+	 mw2LdSGq7nWqdIa6eYDVqIpvJUSLUA2zonOikKUX6K36rwbteoOJo/Gwa7LLNDfbhI
+	 EHt9w7bjV4yHdhIGfrHtCRftSsoS+o6rrCDY1usY=
+Date: Wed, 9 Sep 2026 09:37:54 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>,
+	Pedro Falcato <pfalcato@suse.de>,
+	David Hildenbrand <david@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+	Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
+	Paul Moore <paul@paul-moore.com>,
+	Stephen Smalley <stephen.smalley.work@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Nico Pache <nico.pache@linux.dev>,
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+	Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
+	Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>,
+	Doug Gilbert <dgilbert@interlog.com>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	"Martin K. Petersen" <mkp@kernel.org>,
+	Jaya Kumar <jayalk@intworks.biz>, Simona Vetter <simona@ffwll.ch>,
+	Helge Deller <deller@gmx.de>, Sebastian Reichel <sre@kernel.org>,
+	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>,
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
+	Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
+	Muchun Song <muchun.song@linux.dev>,
+	Oscar Salvador <osalvador@suse.de>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Jan Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oupton@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Janosch Frank <frankja@linux.ibm.com>,
+	Claudio Imbrenda <imbrenda@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Andreas Larsson <andreas@gaisler.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+	Byungchul Park <byungchul@sk.com>,
+	Gregory Price <gourry@gourry.net>,
+	Ying Huang <ying.huang@linux.alibaba.com>,
+	Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>,
+	Kairui Song <kasong@tencent.com>,
+	Kemeng Shi <shikemeng@huaweicloud.com>,
+	Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>,
+	Youngjun Park <youngjun.park@lge.com>,
+	Johannes Weiner <hannes@cmpxchg.org>, Qi Zheng <qi.zheng@linux.dev>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
+	Xu Xin <xu.xin16@zte.com.cn>,
+	Chengming Zhou <chengming.zhou@linux.dev>,
+	Michal Hocko <mhocko@kernel.org>,
+	Miklos Szeredi <miklos@szeredi.hu>, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-rdma@vger.kernel.org,
+	selinux@vger.kernel.org, linux-sound@vger.kernel.org,
+	bpf@vger.kernel.org, linux-scsi@vger.kernel.org,
+	linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
+	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org,
+	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+	sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev
+Subject: Re: [PATCH 09/39] drivers/usb/mon: update to use mmap_prepare + map
+ kernel pages
+Message-ID: <2026090947-daycare-gentleman-9796@gregkh>
+References: <20260908-b4-mmap-prepare-vma-flag-sanify-v1-0-dacf19cce22b@kernel.org>
+ <20260908-b4-mmap-prepare-vma-flag-sanify-v1-9-dacf19cce22b@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: linux-sound@vger.kernel.org
-Cc: tiwai@suse.com, perex@perex.cz
-From: =?UTF-8?B?5ZGo5bu65a6H?= <997536907@qq.com>
-Subject: [PATCH] ALSA: hda/realtek: Add quirk for IPASON SmartBook S1 (ALC256,
- SSID 0x2782:0x0206)
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260908-b4-mmap-prepare-vma-flag-sanify-v1-9-dacf19cce22b@kernel.org>
 
-Hi,
+On Tue, Sep 08, 2026 at 09:01:13PM +0100, Lorenzo Stoakes (ARM) wrote:
+> Replace the deprecated .mmap hook with its replacement .mmap_prepare. As
+> part of this change, additionally take the approach of mapping pages upon
+> mmap rather than providing a fault handler.
+> 
+> The page span cannot be mutated when an mmap mapping is in place, so this
+> is safe to do in advance (the MON_IOCT_RING_SIZE ioctl operation exits
+> -EBUSY if it's attempted, gated by the rp->mmap_active reference count).
+> 
+> Utilise the newly introduced mmap_action_map_discontig_kernel_pages() to do
+> this, which allows for iteration over pages in mon_bin_discontig_get().
+> 
+> mon_bin_discontig_init() increments the rp->mmap_active reference count to
+> stabilise page spans. Should an error arise the core unmaps the VMA and
+> mon_bin_vma_close() drops the reference again.
+> 
+> The vm_ops->close hook implemented in mon_bin_vma_close() will ensure
+> correct reference count arithmetic upon unmap (with mon_bin_vma_open()
+> accounting for splitting).
+> 
+> The existing semantics are all retained, including not mapping past the
+> range of available pages, with a SIGBUS being raised in a userland process
+> that attempts to access past this point.
+> 
+> Ultimately insert_page() is invoked to insert each page, which increments
+> the reference count on each mapped page. This mimics what was being done
+> previously, only we pre-map the entire range rather than doing so on
+> demand.
+> 
+> The existing fault handler did nothing that required demand paging, and was
+> presumably implemented this way due for historic reasons.
+> 
+> One behavioural difference: pages are no longer faulted in on demand, so a
+> page discarded with MADV_DONTNEED is not repopulated and a subsequent
+> access raises SIGBUS, as with other pre-populated kernel mappings.
+> 
+> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 
-The internal speaker on the IPASON SmartBook S1 (an Emdoor ODM laptop)
-is completely silent under Linux. Bluetooth audio works, and the same
-machine's speaker works fine under Windows 11 / Windows PE with the
-vendor Realtek driver, so the hardware and amplifier are all good.
-
-Root cause (found):
--------------------
-The BIOS reports the real internal speaker pin, NID 0x1b, with
-Pin Default 0x411111f0 (DefAssociation = 0xf, i.e. "unconnected").
-ALSA's pin parser therefore drops that node at pin-config time: no
-mixer control is ever created and the pin is never driven, no matter
-how 0x14 is configured. Enabling 0x1b produces sound immediately.
-
-The existing model=alc256-honor-mrb-xxx-m1020-audio makes the speaker
-work because it is an HDA_FIXUP_PINS that also rewrites 0x1b to
-0x90170110, but it additionally rewrites 0x19 and 0x1a with Honor-
-specific values that add a bogus "Dock Mic" device that does not exist
-on this hardware. A minimal two-pin override is preferable.
-
-Hardware:
-- Codec: Realtek ALC256 (0x10ec0256), SSID 0x2782:0x0206
-- Controller: Intel Tiger Lake-LP SST 8086:a0c8
-- BIOS init pin configs:
-   0x12 0x90a60130  0x13 0x40000000  0x14 0x90170110  0x18 0x411111f0
-   0x19 0x02a19040  0x1a 0x411111f0  0x1b 0x411111f0  0x1d 0x4067b945
-   0x1e 0x411111f0  0x21 0x02214020
-
-Proposed fix:
--------------
-I do not have a kernel git tree at hand to produce a proper unified
-diff; the two hunks below are the exact entries to add. Please let me
-know if you need a formal patch.
-
-     SND_PCI_QUIRK(0x2782, 0x0206, "IPASON SmartBook S1",
-                   ALC256_FIXUP_IPASON_SMARTBOOK_S1),
-
-     [ALC256_FIXUP_IPASON_SMARTBOOK_S1] = {
-         .type = HDA_FIXUP_PINS,
-         .v.pins = (const struct hda_pintbl[]) {
-             { 0x14, 0x90170111 },
-             { 0x1b, 0x90170110 },   /* the real internal speaker */
-             { }
-         },
-     },
-
-Verified on kernel 7.2.0-1-MANJARO (also reproduced on 6.18.45-1-MANJARO),
-in both the SOF and legacy HDA driver paths.
-
-alsa-info output:
-https://alsa-project.org/db/?f=4c555d942f5cef14cac55e34b2236238ae909af3
-
-Happy to test any patch and provide further hda-verb dumps on request.
-
-Signed-off-by: 周建宇 <997536907@qq.com>
-
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
