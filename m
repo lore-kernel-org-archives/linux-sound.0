@@ -1,247 +1,194 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B613154529E;
-	Wed,  9 Sep 2026 12:08:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A627554096
+	for <linux-sound@vger.kernel.org>; Wed,  9 Sep 2026 12:24:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788955741; cv=none; b=KLz8pHbYvCDCMZRab5KuwIwHeEyYsJlj0w00jBJgrQhWnAPpeKI6oOtrpGz4nxhPOGHV/pQgSe5xYnJc0+SoH+qyVuBwuMGtJV9EMqyc/2Y+2liB7VNXQ7mrMZ20RGpm+CyxDDQpH9DB5PSWVvqysKNNGgpYeB88zydbYPsZVTc=
+	t=1788956701; cv=none; b=mLPPQO3ucXgN+xrSI5xMahB+ESU+excRO2pCVlAhTQDr5gISmPmNXhmFH0zBitiy1dLTt0mYc5lprjMXOFLYJmk4zPTxWCPlub7bBJ1Pos8LFxEyMQaMqJ84+7ywg0Dj4hGz48vQzgUtrfMGx7iQRR645S4NEztShFc41IUYuwY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788955741; c=relaxed/simple;
-	bh=Tr7NeP1XAHfJ7HqrKKBxhlWmTq0V2hBOX4MjlUrY6wo=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sqMLKM8J5IWYEAJnG86qNukqnCpAebe15zIsiE9vuONNxw4cu1jUP4egA13BMjfD7Kn6QDx2DIgbfaGxr8TDbPfulDQVJii7NrDw6hr3qWn9kRSL21Gfv+nDhBNX0FPf+ZiPCKEnP/sCntgEminfaJaZDYDgBwvvObRFFw+kbZw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QSBO7XfB; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788956701; c=relaxed/simple;
+	bh=Oh6LCs69HrQa/5CPiYGxJu2O5OytHwOBnLQZTrlelB8=;
+	h=Message-ID:From:To:Cc:Subject:Date; b=CrO2J/Z9bhEWC3ALUslJQBxp2zAhESIOOARSRWyalzok2+H9IwyJaTEddsgOvH1o7W5nfRYUsLb1hFz4G4Kk0HoNCxNH7NQzAlc7ev1MC0uUiVsCkHFHJ+XkKqLA0ZSlQdXCDNQfZjmNpd0ZxdVF64cMzy2kgxp9ddi68x6v3Rc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YDvOr0NA; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QSBO7XfB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFC671F00A3E;
-	Wed,  9 Sep 2026 12:08:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YDvOr0NA"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 3AFE11F00A3A;
+	Wed,  9 Sep 2026 12:24:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788955739;
-	bh=+vl7JXesMvOyLvN4TqdpRFvW5tHWQV0Z6fTfMaOZcos=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=QSBO7XfB9eJuCgdZw4woX9h6hLVv1DAAKEMcqqTtIlfNGaiMpuLvQbzhC/HsUDqDy
-	 15tzsyERcKb/dCy0KrTkU176RhbTCcy21TSs/XRVe0a2CeHrpUDlqlX+4eqWNdQmSP
-	 ZwfdXLWGjYgxyEXXB+UjA+lgDSAN24eS4K+Y/at+9+bmLKnF2sQtudlKc4XZf2yWBT
-	 GWiqoV+03Qgq8XKU5kEPlMdYwMF4DBOmSD8P6FFdNW88ziMwb+5x2tUJ7KBFC2OEkv
-	 y0F1ASE9ljvI2KQ6gM2g9pgM4YchyP5SgcvLLQZd8YcLUPlszfpfiqg7ho1AxZsTq8
-	 3yCEIs6vu9sRQ==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <maz@kernel.org>)
-	id 1x4H6m-00000006flL-2cBD;
-	Wed, 09 Sep 2026 12:08:56 +0000
-Date: Wed, 09 Sep 2026 13:08:55 +0100
-Message-ID: <86wlsu39uw.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Jann Horn <jannh@google.com>,
-	Pedro Falcato <pfalcato@suse.de>,
-	David Hildenbrand <david@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Leon Romanovsky <leon@kernel.org>,
-	Paul Moore <paul@paul-moore.com>,
-	Stephen Smalley <stephen.smalley.work@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-	Zi Yan <ziy@nvidia.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Nico Pache <nico.pache@linux.dev>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	Dev Jain <dev.jain@arm.com>,
-	Barry Song <baohua@kernel.org>,
-	Lance Yang <lance.yang@linux.dev>,
-	Usama Arif <usama.arif@linux.dev>,
-	Kiryl Shutsemau <kas@kernel.org>,
-	Doug Gilbert <dgilbert@interlog.com>,
-	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-	"Martin K. Petersen" <mkp@kernel.org>,
-	Jaya Kumar <jayalk@intworks.biz>,
-	Simona Vetter <simona@ffwll.ch>,
-	Helge Deller <deller@gmx.de>,
-	Sebastian Reichel <sre@kernel.org>,
-	John Hubbard <jhubbard@nvidia.com>,
-	Peter Xu <peterx@redhat.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Rik van Riel <riel@surriel.com>,
-	Harry Yoo <harry@kernel.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Will Deacon <will@kernel.org>,
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
-	Nick Piggin <npiggin@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Muchun Song <muchun.song@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Jan Kara <jack@suse.cz>,
-	Oliver Upton <oupton@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Anup Patel <anup@brainfault.org>,
-	Paul Walmsley <pjw@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Janosch Frank <frankja@linux.ibm.com>,
-	Claudio Imbrenda <imbrenda@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Andreas Larsson <andreas@gaisler.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Joshua Hahn <joshua.hahnjy@gmail.com>,
-	Rakie Kim <rakie.kim@sk.com>,
-	Byungchul Park <byungchul@sk.com>,
-	Gregory Price <gourry@gourry.net>,
-	Ying Huang <ying.huang@linux.alibaba.com>,
-	Alistair Popple <apopple@nvidia.com>,
-	Chris Li <chrisl@kernel.org>,
-	Kairui Song <kasong@tencent.com>,
-	Kemeng Shi <shikemeng@huaweicloud.com>,
-	Nhat Pham <nphamcs@gmail.com>,
-	Baoquan He <baoquan.he@linux.dev>,
-	Youngjun Park <youngjun.park@lge.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Qi Zheng <qi.zheng@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Axel Rasmussen <axelrasmussen@google.com>,
-	Yuanchu Xie <yuanchu@google.com>,
-	Wei Xu <weixugc@google.com>,
-	Xu Xin <xu.xin16@zte.com.cn>,
-	Chengming Zhou <chengming.zhou@linux.dev>,
-	Michal Hocko <mhocko@kernel.org>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-rdma@vger.kernel.org,
-	selinux@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	bpf@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	linux-fbdev@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-trace-kernel@vger.kernel.org,
-	linux-perf-users@vger.kernel.org,
-	linux-arch@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	kvmarm@lists.linux.dev,
-	linuxppc-dev@lists.ozlabs.org,
-	kvm@vger.kernel.org,
-	kvm-riscv@lists.infradead.org,
-	linux-riscv@lists.infradead.org,
-	linux-s390@vger.kernel.org,
-	sparclinux@vger.kernel.org,
-	fuse-devel@lists.linux.dev
-Subject: Re: [PATCH 28/39] mm: drop some redundant checks around hugetlb VMAs
-In-Reply-To: <20260908-b4-mmap-prepare-vma-flag-sanify-v1-28-dacf19cce22b@kernel.org>
-References: <20260908-b4-mmap-prepare-vma-flag-sanify-v1-0-dacf19cce22b@kernel.org>
-	<20260908-b4-mmap-prepare-vma-flag-sanify-v1-28-dacf19cce22b@kernel.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	s=k20260515; t=1788956699;
+	bh=lKRybCl3ZB8PHNRXZYkUpM6tYQN9bvZm8Q3Xz0YWvtY=;
+	h=From:To:Cc:Subject:Date;
+	b=YDvOr0NAjhaAWVoMJwuhffZN+cfovm0C++C0SBIk2GcXznzwO5vOZgXvLZBNvjY4D
+	 B6MS+BGBYjvqsaV4TlxNNIU/ufofW3637xsq/3ND0ZGFiT88WLyz/r6sIS4+NsVuli
+	 /C5Eq6zZ1ErF+Y/aO+7FZ5onHZ/Z4C6YkmPZ9fSOUd1YGvb6+kCS3ZdxJiDQPmTM9+
+	 TJr75YX3o8aqK/uK03Rb8CQXkViWxXQX2ap61F6V/YYlWLy0fPfWr5vte1iMMtZiPo
+	 nXqKvtnNANWiMB2ZrXuIMYd3jsE6g8GeXPeh16rho6KS1Lmx4gmvMp8h67Zkh2B1Ho
+	 0STHcgxe8kggA==
+Message-ID: <ef950e391b7a5d9d8054cc53d4f88da1@kernel.org>
+From: Mark Brown <broonie@kernel.org>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, Mark Brown <broonie@kernel.org>
+Subject: [GIT PULL] ASoC fixes for v7.3-rc2
+Date: Wed, 09 Sep 2026 13:24:52 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: ljs@kernel.org, akpm@linux-foundation.org, liam@infradead.org, vbabka@kernel.org, jannh@google.com, pfalcato@suse.de, david@kernel.org, rppt@kernel.org, surenb@google.com, mhocko@suse.com, corbet@lwn.net, gregkh@linuxfoundation.org, dennis.dalessandro@cornelisnetworks.com, jgg@ziepe.ca, leon@kernel.org, paul@paul-moore.com, stephen.smalley.work@gmail.com, perex@perex.cz, tiwai@suse.com, ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org, eddyz87@gmail.com, memxor@gmail.com, ziy@nvidia.com, baolin.wang@linux.alibaba.com, nico.pache@linux.dev, ryan.roberts@arm.com, dev.jain@arm.com, baohua@kernel.org, lance.yang@linux.dev, usama.arif@linux.dev, kas@kernel.org, dgilbert@interlog.com, James.Bottomley@HansenPartnership.com, mkp@kernel.org, jayalk@intworks.biz, simona@ffwll.ch, deller@gmx.de, sre@kernel.org, jhubbard@nvidia.com, peterx@redhat.com, mhiramat@kernel.org, oleg@redhat.com, peterz@infradead.org, tglx@kernel.org, mingo@redhat.com, bp@alien8.de, dave.hansen
- @linux.intel.com, x86@kernel.org, acme@kernel.org, namhyung@kernel.org, mark.rutland@arm.com, riel@surriel.com, harry@kernel.org, juri.lelli@redhat.com, vincent.guittot@linaro.org, maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, will@kernel.org, aneesh.kumar@kernel.org, npiggin@gmail.com, arnd@arndb.de, muchun.song@linux.dev, osalvador@suse.de, willy@infradead.org, jack@suse.cz, oupton@kernel.org, catalin.marinas@arm.com, maddy@linux.ibm.com, anup@brainfault.org, pjw@kernel.org, palmer@dabbelt.com, aou@eecs.berkeley.edu, borntraeger@linux.ibm.com, frankja@linux.ibm.com, imbrenda@linux.ibm.com, agordeev@linux.ibm.com, gerald.schaefer@linux.ibm.com, hca@linux.ibm.com, gor@linux.ibm.com, davem@davemloft.net, andreas@gaisler.com, viro@zeniv.linux.org.uk, brauner@kernel.org, matthew.brost@intel.com, joshua.hahnjy@gmail.com, rakie.kim@sk.com, byungchul@sk.com, gourry@gourry.net, ying.huang@linux.alibaba.com, apopple@nvidia.com, chrisl@kernel.
- org, kasong@tencent.com, shikemeng@huaweicloud.com, nphamcs@gmail.com, baoquan.he@linux.dev, youngjun.park@lge.com, hannes@cmpxchg.org, qi.zheng@linux.dev, shakeel.butt@linux.dev, axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, xu.xin16@zte.com.cn, chengming.zhou@linux.dev, mhocko@kernel.org, miklos@szeredi.hu, linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-d
- evel@lists.linux.dev
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On Tue, 08 Sep 2026 21:01:32 +0100,
-"Lorenzo Stoakes (ARM)" <ljs@kernel.org> wrote:
-> 
-> Adjust code which inadvertently perform redundant checks on hugetlb VMAs
-> and clean them up:
-> 
-> * hugetlb VMAs have VMA_DONTEXPAND_BIT set so a VMA_SPECIAL_FLAGS check
->   suffices. (migrate_vma_setup() regains an explicit hugetlb test later in
->   the series, once VMA_SPECIAL_FLAGS is removed.)
-> 
-> * hugetlb VMAs unconditionally set vma->vm_ops, so they are never
->   anonymous.
-> 
-> * hugetlb VMAs do not set VMA_PFNMAP_BIT so checking for this is redundant.
-> 
-> While we're here also drop a VM_BUG_ON() which the simplified check above
-> makes unreachable, and use the new VMA flag API.
-> 
-> No functional change intended.
-> 
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> ---
->  arch/arm64/kvm/mmu.c         | 4 +---
->  drivers/gpu/drm/drm_gpusvm.c | 3 +--
->  mm/migrate_device.c          | 4 ++--
->  3 files changed, 4 insertions(+), 7 deletions(-)
-> 
-> diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
-> index a7968f8d24bf..3c1240ffc38d 100644
-> --- a/arch/arm64/kvm/mmu.c
-> +++ b/arch/arm64/kvm/mmu.c
-> @@ -1463,14 +1463,12 @@ static int get_vma_page_shift(struct vm_area_struct *vma, unsigned long hva)
->  {
->  	unsigned long pa;
->  
-> -	if (vma_is_hugetlb(vma) && !(vma->vm_flags & VM_PFNMAP))
-> +	if (vma_is_hugetlb(vma))
->  		return huge_page_shift(hstate_vma(vma));
->  
->  	if (!(vma->vm_flags & VM_PFNMAP))
->  		return PAGE_SHIFT;
->  
-> -	VM_BUG_ON(vma_is_hugetlb(vma));
-> -
->  	pa = (vma->vm_pgoff << PAGE_SHIFT) + (hva - vma->vm_start);
->  
->  #ifndef __PAGETABLE_PMD_FOLDED
+The following changes since commit cee9395acd8043be0644b25c34bfa86623f2b935:
 
-Acked-by: Marc Zyngier <maz@kernel.org>
+  Linux 7.3-rc1 (2026-08-30 13:34:40 -0700)
 
-	M.
+are available in the Git repository at:
 
--- 
-Without deviation from the norm, progress is not possible.
+  https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v7.3-rc2
+
+for you to fetch changes up to 7e125889f1705fc6326679a3db3b4159f7a8c87e:
+
+  ASoC: amd: acp-da7219-max98357a: don't bind on Raven/Picasso boards (2026-09-08 15:59:06 +0100)
+
+----------------------------------------------------------------
+ASoC: Fixes for v7.3
+
+An unusually large batch of fixes here, partly due to me not sending a
+pull request last week and partly due to Linus' fixes for the Ericsson
+systems.  I'm fairly sure he's the only user there so it seemed low risk
+to handle as fixes.  We also have a batch of error handling fixes from
+Cezary and issues with uninitialised stream_config->type from Shuming
+both of which had user error reports attached.  Otherwise everything is
+a fairly normal combination of quirks and device specific fixes.
+
+----------------------------------------------------------------
+Aaron Welwood (1):
+      ASoC: amd: yc: add quirk for Acer Nitro AN17-41 internal mic
+
+Antoine Monnet (1):
+      ASoC: tas2783-sdw: split a stereo stream across the two mono amps
+
+Cezary Rojewski (10):
+      ALSA: hda: ext: Clean up links if their initialization fails
+      ALSA: hda: ext: Clean up streams if their initialization fails
+      ASoC: Intel: avs: Clean up the bus when its initialization fails
+      ASoC: Intel: avs: Clean up the bus when fetching ML caps fails
+      ASoC: Intel: avs: Clean up streams if their initialization fails
+      ASoC: Intel: avs: Do not ignore -ENOENT when loading a topology
+      ASoC: Intel: avs: Cancel d0ix_work asynchrounously during recovery
+      ASoC: Intel: avs: Fix unbalanced module reference count
+      ASoC: Intel: avs: Refactor and fix init_config access
+      ASoC: Intel: avs: hda: Constrain MSBs on startup
+
+Jack Yu (1):
+      ASoC: rt721-sdca: Adjust latency control to fix no-sound issue
+
+Jairaj Arava (1):
+      ASoC: Intel: sof_rt5682: Add support for nvl_max98360a_rt5682
+
+Linus Walleij (15):
+      ASoC: ab8500: Reset the audio block before configuring it
+      ASoC: ab8500: Repair the DAPM capture graph
+      ASoC: ab8500: Correct digital interface format setup
+      ASoC: ab8500: Validate and program TDM slots correctly
+      ASoC: ab8500: Remove the nonfunctional sidetone apply control
+      ASoC: ab8500: Skip missing DMIC GPIOs on AB8505
+      ASoC: ux500: Fix MSP stream lifecycle handling
+      ASoC: ux500: Propagate MSP setup errors
+      ASoC: ux500: Correct MSP frame and bit clock setup
+      ASoC: ux500: Validate MSP DAI configuration
+      ASoC: ux500: Deassert the MSP reset during probe
+      ASoC: ux500: Request the MSP MMIO resource
+      ASoC: ux500: Remove obsolete PRCMU QoS calls
+      ASoC: ux500: Allow repeated MSP prepare calls
+      ASoC: ux500: Program the MSP FIFO watermarks
+
+Mark Brown (3):
+      ASoC: ab8500: Fix codec reset, routing and DAI setup
+      ASoC: ux500: Fix MSP lifecycle, clocking and resources
+      ALSA/ASoC: Intel: avs: HDAudio bus and general fixes
+
+Niranjan H Y (1):
+      ASoC: Intel: sof_sdw: add tac5xx2-sdw family
+
+Richard Fitzgerald (3):
+      ASoC: cs35l56: Fix pm_runtime imbalance if suspending before first attach
+      ASoC: cs35l56: Fix probe deadlock waiting for SoundWire enumeration
+      ASoC: cs35l56: Fix race between kexec and snd_soc_register_component()
+
+Runyu Xiao (1):
+      ASoC: sti: initialize IRQ lock before requesting IRQ
+
+Shuming Fan (6):
+      ASoC: rt766: fix uninitialized stream_config->type
+      ASoC: rt712: fix uninitialized stream_config->type
+      ASoC: rt1320: fix uninitialized stream_config->type
+      ASoC: rt1318: fix uninitialized stream_config->type
+      ASoC: rt721: fix uninitialized stream_config->type
+      ASoC: rt722: fix uninitialized stream_config->type
+
+Syed Saba Kareem (1):
+      ASoC: amd: yc: Add DMI entry for HP 255R G10 laptop
+
+Tianchu Chen (1):
+      ASoC: sprd: validate compress buffer sizes against fixed allocations
+
+Yorick Rommers (1):
+      ASoC: amd: acp-da7219-max98357a: don't bind on Raven/Picasso boards
+
+Zhang Yi (2):
+      ASoC: codecs: ES8326: issue about capture pop
+      ASoC: codecs: ES8389: Prevent enable_count underflow in clk_core_disable
+
+hpp.iscas (3):
+      ASoC: bcm: bcm63xx: Publish the OF module aliases
+      ASoC: Intel: SST: Publish the PCI module aliases
+      ASoC: mt6351: Publish the OF module alias
+
+wangdicheng (2):
+      ASoC: amd: renoir: fix disable_pdm_interrupts() to clear mask bits
+      ASoC: amd: yc: fix memory leak in acp6x_pdm_dma_close()
+
+Ștefan Ghețu (1):
+      ASoC: fsl_micfil: balance mclk enable/disable
+
+ sound/hda/core/ext/controller.c                   |   4 +-
+ sound/hda/core/ext/stream.c                       |   5 +-
+ sound/soc/amd/acp-da7219-max98357a.c              |  23 +
+ sound/soc/amd/renoir/acp3x-pdm-dma.c              |   2 +-
+ sound/soc/amd/yc/acp6x-mach.c                     |  14 +
+ sound/soc/amd/yc/acp6x-pdm-dma.c                  |   2 +
+ sound/soc/bcm/bcm63xx-i2s-whistler.c              |   1 +
+ sound/soc/codecs/ab8500-codec.c                   | 682 +++++++++-------------
+ sound/soc/codecs/cs35l56-sdw.c                    |   7 +-
+ sound/soc/codecs/cs35l56.c                        | 116 +++-
+ sound/soc/codecs/cs35l56.h                        |   2 +
+ sound/soc/codecs/es8326.c                         |  19 +-
+ sound/soc/codecs/es8389.c                         |  34 +-
+ sound/soc/codecs/mt6351.c                         |   1 +
+ sound/soc/codecs/rt1318-sdw.c                     |  24 +-
+ sound/soc/codecs/rt1320-sdw.c                     |   2 +-
+ sound/soc/codecs/rt712-sdca.c                     |  17 +-
+ sound/soc/codecs/rt721-sdca.c                     |  17 +-
+ sound/soc/codecs/rt722-sdca.c                     |  16 +-
+ sound/soc/codecs/rt766-sdca.c                     |   5 +-
+ sound/soc/codecs/tas2783-sdw.c                    |  25 +
+ sound/soc/fsl/fsl_micfil.c                        |  21 +-
+ sound/soc/intel/atom/sst/sst_pci.c                |   1 +
+ sound/soc/intel/avs/boards/hdaudio.c              |  17 +
+ sound/soc/intel/avs/core.c                        |  59 +-
+ sound/soc/intel/avs/debugfs.c                     |  12 +-
+ sound/soc/intel/avs/ipc.c                         |   6 +-
+ sound/soc/intel/avs/path.c                        |  11 +-
+ sound/soc/intel/avs/pcm.c                         |  34 +-
+ sound/soc/intel/avs/topology.c                    |  49 +-
+ sound/soc/intel/avs/topology.h                    |   5 +-
+ sound/soc/intel/boards/Kconfig                    |   4 +-
+ sound/soc/intel/boards/sof_rt5682.c               |   8 +
+ sound/soc/intel/common/soc-acpi-intel-nvl-match.c |   8 +-
+ sound/soc/sprd/sprd-pcm-compress.c                |  15 +-
+ sound/soc/sti/uniperif_reader.c                   |   4 +-
+ sound/soc/ux500/ux500_msp_dai.c                   | 189 +++---
+ sound/soc/ux500/ux500_msp_dai.h                   |  14 +-
+ sound/soc/ux500/ux500_msp_i2s.c                   | 264 ++++++---
+ sound/soc/ux500/ux500_msp_i2s.h                   |  12 +-
+ 40 files changed, 955 insertions(+), 796 deletions(-)
