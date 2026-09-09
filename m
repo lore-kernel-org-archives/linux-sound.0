@@ -1,50 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from out203-205-221-202.mail.qq.com (out203-205-221-202.mail.qq.com [203.205.221.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4ECA2D2488
-	for <linux-sound@vger.kernel.org>; Wed,  9 Sep 2026 06:48:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9251B3CF202
+	for <linux-sound@vger.kernel.org>; Wed,  9 Sep 2026 07:05:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788936507; cv=none; b=hbXCD6yl1rdYZf5S+zlnV47r4gzRpcX5pLNg2W0CWQVKERVCVsVosN6ImZwOIkh94/Imn2ALSjX9X1CaJ1OMDfVcsMyA290Ar1fuDjQdk8lraOOlgg61vzqDUw8Ip5KIZ9OkJOU17EoScHSG7WKfhh/kUwoCupp9JCHXF908sv8=
+	t=1788937556; cv=none; b=rbBbXAgZ+BjJAHmK+excw+jgoEtvO6rUexwVsUMVLyTBzSiWgIJ5evAYrb0pDa6eqf5p8YJcr/+X3u/YJ4FPeeVuZeIVgzbof1SeohklT9HL5DZxH2wZ2OqOgjsgPi8roAfoe9aM4cCMPr7cUn1y/APZ+icFmKka9njeBFAzI6g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788936507; c=relaxed/simple;
-	bh=nD2qU7Ke/0DHGdbboCFhjU80yQJ0C5HTFU752GQGefk=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=ScBHguK+ab0IkWm49/sQ5DHcaby1PNnwciOdIqtI3vtH/KB1CzOEDa1+V4qQhjFQJ4R4Tt97EN7e+l5YvWjtpwjebGIzBSmc5Nryf3QKbyYsdfxeAPgp/iggq4jo4h/iIDTVaBHGC1HQJve3678Z52BVaFZ1u5sav/N8+VNuvrs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DZQkG8Em; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1788937556; c=relaxed/simple;
+	bh=EFCjIcaEq7yAtTZLEjo4ZoV8N80XCu551gIsZVmsZU8=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=hGktSN6N6ABPDAWwaPzHBbIb3TMSs0iWfFbBIuhbexpHSR3zg84wl1fCg4vVpEmtnR4zCW2sTCmxNiebT7y4EflVmpmxnHiecPVXUxZlCUK924v+hleJ6TZbmTuqmyy4DGOTGu5QCZmNeoopJsVOSYwXlrRJ8UAoBYnUmFdi07o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=vZltUv8y; arc=none smtp.client-ip=203.205.221.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DZQkG8Em"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788936505; x=1820472505;
-  h=message-id:date:mime-version:subject:from:to:cc:
-   references:in-reply-to:content-transfer-encoding;
-  bh=nD2qU7Ke/0DHGdbboCFhjU80yQJ0C5HTFU752GQGefk=;
-  b=DZQkG8Emp58vYCfs10IFOCHdfiIoLKLI7mtRTIPHqmKQhPr5Zc+5MNm4
-   c+YouKYH9VA28HfJAmtSaOxhs0usz4qgNzz0vpUn2WWtmVkvgbgnddgFX
-   Wasq9wLNBZzmZr7cy37CXtk+uGc/ECk0ytb7Pm0ULDBiytTAEbkQ3N7dD
-   9nTGhvQebEYehUwm80zi2kzWmAdqUXICfbtngYRo9Fvhgnk5EqvqDByfp
-   dX5ZBhgd7UlDrTWxhssnQDLhMHne5nCb/zwacmuxOtQVn10MECyy1crGw
-   nQ30PRjBzYyLkeurSTtmlEWITZFx72LxnArbr9MKi9+PeiBo1N8PjalDX
-   g==;
-X-CSE-ConnectionGUID: 8du3wCQtTC+qSliYS8MBrA==
-X-CSE-MsgGUID: tTvG6YDUT6yD1oFFDyEKBw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11900"; a="89390972"
-X-IronPort-AV: E=Sophos;i="6.25,270,1779174000"; 
-   d="scan'208";a="89390972"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2026 23:48:24 -0700
-X-CSE-ConnectionGUID: EXisrGtRSPyos0l3Re1MbQ==
-X-CSE-MsgGUID: icuy6bvJRDK8lTvJyy6fPg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,270,1779174000"; 
-   d="scan'208";a="275009936"
-Received: from ettammin-mobl2.ger.corp.intel.com (HELO [10.245.244.252]) ([10.245.244.252])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2026 23:48:22 -0700
-Message-ID: <fe3369a3-3d0f-4b35-b169-8c6c520f72f8@linux.intel.com>
-Date: Wed, 9 Sep 2026 09:48:20 +0300
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="vZltUv8y"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1788937543; bh=EFCjIcaEq7yAtTZLEjo4ZoV8N80XCu551gIsZVmsZU8=;
+	h=Date:To:Cc:From:Subject;
+	b=vZltUv8yiYcII3N8Lth+E30KwS8tEUTgzFHli1eZh2J50WDpok8rwJbEmyYPzlZAl
+	 i14uhdIK0242VgHR+4czBMyJQUqk8ezmiipW67sb45leO6/jOz30aQKKgGqPq5HJsA
+	 uMY5CVNV8UM2lk5FumLSXk+h74Jl2b8ie4fWXxTY=
+Received: from [IPV6:240e:47e:810:e56:b3e4:883e:9c05:2223] ([240e:47e:810:e56:b3e4:883e:9c05:2223])
+	by newxmesmtplogicsvrsza73-0.qq.com (NewEsmtp) with SMTP
+	id 1691A0F2; Wed, 09 Sep 2026 15:05:41 +0800
+X-QQ-mid: xmsmtpt1788937541tesyjh6y8
+Message-ID: <tencent_A89516B196B5F3484ADDB96992501D676B09@qq.com>
+X-QQ-XMAILINFO: MMq8nqC7jH0B1kgcxgCDDGWMYgsmUU+ZUxE6oFlHv1i9tX5ElptME35GVExf0o
+	 4OMD8SJ7iul5k+wRapGQ99Lh5v+99yHk+mBxq+P0NiQeZgIzkNP1P1LAfQdyDSWo8hNqEwZT2GRI
+	 81p8BJL1XZF5fHTqnaoxqvCSJPWo968gO0TQgNLQMUvLpinJm9Q1/B4XFHn/+tcodWjzCMFJ2HB8
+	 JqJkheh1iHNnykCbgP3BeQOHFzN7SUTO5xCKSKtF+pqepdqN8DEf7WNSeyRciYZalQGDIuYbbMrj
+	 sdGfFprHLgLVZtmkKOiisyo10BuDWjgjX+eVHGeldhoqvCpHUmGSUiD+URFzg3Mt2ddSclDF6tew
+	 haDtXKvhwZ1voCh9LuzKGjACwWUlFiR1dyxCbjqew2YmG8w/pWuYD8ps7OuVC1XnE3UZMdAxqdUZ
+	 ivG9c8pS5ov1vLwB4IawIOEEL7vIQKzAXUiOVRLXjiwgNptzo5aZFmlVNazmqi48A9wSG4/3WM6M
+	 JHyAO2/QIN145AYpRxaEM6YVEZzAXcnuhxGarq4LpTG9jVLsJbhUcVj6VKdw9HK+46lPPn9kc7lH
+	 8tqmq8iDP4rzqi3mFN/2Ys+4D7w+snYLP2h5Tb2bZu/52QdaB07QwhhpUAb0VeJMzBn2b96EzjvU
+	 ZER7rnI1CXj7Bb77yjLsQqpDqVsrJOhDG6oQLHulpMqaLSAzbn+OcOqaYptqqM30pfeCGoyq0h1V
+	 oJBi+7xKrRjWMNMGm9MBBIYmm2xetd/+vVOpRO4n65VzlN+uAWe0cTAfOr4rt1f4wPG6Q7z/Lweq
+	 vv32ar5j9AH6z/3TbaQP8KLdS8z+FmN+XrNN/yQyqndoia+W/tvj9W8cXTCd311GPGbJpubNpObx
+	 Pcq098D6sucmD7Yrsa2ghJUuecA/eL9H3Jnd2DZQWNelHvq/XRPIhkQ5RgFS2KcS9go9cLbAhVQB
+	 BOaqp0082t/1N4gKdQIvxeA4rJWFKXBEfnVRWYfb4DJSK1fGptcydHFBbcSetnihXHKYzeSHOYQ8
+	 A9qtSXbvc5OSFQLJ17gv40g5R+9ZfYNaSshDRgpBVlfxaA6pTD4saS1UTPlir0+5PJnlodPw==
+X-QQ-XMRINFO: Mp0Kj//9VHAxzExpfF+O8yhSrljjwrznVg==
+X-OQ-MSGID: <8fe5ce1f-456a-4dcb-9dd7-a8fb17633537@qq.com>
+Date: Wed, 9 Sep 2026 15:05:41 +0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -52,55 +51,69 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 19/23] ASoC: SOF: Add support for IPC4 compressed
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: vkoul@kernel.org, perex@perex.cz, tiwai@suse.com, lgirdwood@gmail.com,
- srinivas.kandagatla@oss.qualcomm.com, linux-sound@vger.kernel.org,
- kai.vehmanen@linux.intel.com, yung-chuan.liao@linux.intel.com,
- pierre-louis.bossart@linux.dev, daniel.baluta@nxp.com,
- Vijendar.Mukunda@amd.com
-References: <20260904073134.29648-1-peter.ujfalusi@linux.intel.com>
- <20260904073134.29648-20-peter.ujfalusi@linux.intel.com>
- <apslMqkO9eXK0RL5@sirena.co.uk>
- <571135ef-fb87-4003-b4a1-253582d776a8@linux.intel.com>
 Content-Language: en-US
-In-Reply-To: <571135ef-fb87-4003-b4a1-253582d776a8@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
+To: linux-sound@vger.kernel.org
+Cc: tiwai@suse.com, perex@perex.cz
+From: =?UTF-8?B?5ZGo5bu65a6H?= <997536907@qq.com>
+Subject: [PATCH] ALSA: hda/realtek: Add quirk for IPASON SmartBook S1 (ALC256,
+ SSID 0x2782:0x0206)
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
+Hi,
 
+The internal speaker on the IPASON SmartBook S1 (an Emdoor ODM laptop)
+is completely silent under Linux. Bluetooth audio works, and the same
+machine's speaker works fine under Windows 11 / Windows PE with the
+vendor Realtek driver, so the hardware and amplifier are all good.
 
-On 07/09/2026 08:15, Péter Ujfalusi wrote:
-> 
-> 
-> On 04/09/2026 23:08, Mark Brown wrote:
->> On Fri, Sep 04, 2026 at 10:31:30AM +0300, Peter Ujfalusi wrote:
->>> Set and define the compressed ops for IPC4.
->>> The initial implementation supports basic features: PAUSE PUSH/RELEASE,
->>> DRAIN and progress reporting.
->>> Tested with PCM, MP3, AAC and VORBIS codec.
->>
->>> +static int sof_ipc4_compr_set_params(struct snd_soc_component *component,
->>> +				     struct snd_compr_stream *cstream,
->>> +				     struct snd_compr_params *params)
->>> +{
->>
->>> +	/* Use correct format based on the used codec */
->>> +	switch (params->codec.id) {
->>> +	case SND_AUDIOCODEC_PCM:
->>> +		snd_mask_set_format(fmt, (snd_pcm_format_t)params->codec.format);
->>> +		break;
->>
->> Do we validate the value supplied by userspace here?
-> 
-> On SOF core side we do not, but on the Intel side in
-> hda_dsp_compr_hw_params() we might want to fail in case of S24_3LE,
-> which is not supported. by hardware.
+Root cause (found):
+-------------------
+The BIOS reports the real internal speaker pin, NID 0x1b, with
+Pin Default 0x411111f0 (DefAssociation = 0xf, i.e. "unconnected").
+ALSA's pin parser therefore drops that node at pin-config time: no
+mixer control is ever created and the pin is never driven, no matter
+how 0x14 is configured. Enabling 0x1b produces sound immediately.
 
-On a second thought, this is not needed either, we will reject formats
-based on the topology information
+The existing model=alc256-honor-mrb-xxx-m1020-audio makes the speaker
+work because it is an HDA_FIXUP_PINS that also rewrites 0x1b to
+0x90170110, but it additionally rewrites 0x19 and 0x1a with Honor-
+specific values that add a bogus "Dock Mic" device that does not exist
+on this hardware. A minimal two-pin override is preferable.
 
--- 
-Péter
+Hardware:
+- Codec: Realtek ALC256 (0x10ec0256), SSID 0x2782:0x0206
+- Controller: Intel Tiger Lake-LP SST 8086:a0c8
+- BIOS init pin configs:
+   0x12 0x90a60130  0x13 0x40000000  0x14 0x90170110  0x18 0x411111f0
+   0x19 0x02a19040  0x1a 0x411111f0  0x1b 0x411111f0  0x1d 0x4067b945
+   0x1e 0x411111f0  0x21 0x02214020
+
+Proposed fix:
+-------------
+I do not have a kernel git tree at hand to produce a proper unified
+diff; the two hunks below are the exact entries to add. Please let me
+know if you need a formal patch.
+
+     SND_PCI_QUIRK(0x2782, 0x0206, "IPASON SmartBook S1",
+                   ALC256_FIXUP_IPASON_SMARTBOOK_S1),
+
+     [ALC256_FIXUP_IPASON_SMARTBOOK_S1] = {
+         .type = HDA_FIXUP_PINS,
+         .v.pins = (const struct hda_pintbl[]) {
+             { 0x14, 0x90170111 },
+             { 0x1b, 0x90170110 },   /* the real internal speaker */
+             { }
+         },
+     },
+
+Verified on kernel 7.2.0-1-MANJARO (also reproduced on 6.18.45-1-MANJARO),
+in both the SOF and legacy HDA driver paths.
+
+alsa-info output:
+https://alsa-project.org/db/?f=4c555d942f5cef14cac55e34b2236238ae909af3
+
+Happy to test any patch and provide further hda-verb dumps on request.
+
+Signed-off-by: 周建宇 <997536907@qq.com>
 
