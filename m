@@ -1,90 +1,119 @@
-Received: from mta1.migadu.com (out-232.mta1.migadu.com [95.215.58.232])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D4D65448A7
-	for <linux-sound@vger.kernel.org>; Wed,  9 Sep 2026 11:29:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D6B654936B
+	for <linux-sound@vger.kernel.org>; Wed,  9 Sep 2026 11:31:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788953369; cv=none; b=EtlqPctlCDCZc3NLZleolG0TozHlt8IqJDRZr/LLWMMLBQ2OIlOIUO71qxtShzjEgdm8cX2923FNQQSlQ5fQU8u0PuKOC/44tgE1CMLy2Unix+m0Pf/1ttLYw2tyJHzRqSnmSutfyWk1f0nx3ErSkyV1rwN9cvjNxbIlBy8SaMM=
+	t=1788953486; cv=none; b=Vh+zNBJOY9JPlbMR/kF4QILSs2f4NLQW/eBdlK+9k0Vu7PcVjgCald0TROadwcC5RNqDShjg2EyQAacJl1Bls4v2U0MLt1E2Tq8bpP/qp3NLXf6PdNcf8EaAYtaPsy5hYwLFnqmx98cquMKFiublJRceS8BQfslKFiX/0rJfzj8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788953369; c=relaxed/simple;
-	bh=56QV56ucpbgS2qOQ9Q/zFhH/twhqdWpKNgDOES1MCW4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jjZwE+tKy6e1ugXuHEy7Hn8syNGW+x3yAsVKq+IaPKnGpELk2vPnIC/VkRfSuy5QH5j+1aFh23ot3/zKSVmzBxGtvT4mceKp14LLF0hUE9EZJx8Ci4KdHGEo0dd0eqjar8R6aAPg2xxO5SshQm2ApajSVy9i8IJWMIvA7Dni3ZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Yn7Q1Jgt; arc=none smtp.client-ip=95.215.58.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1788953486; c=relaxed/simple;
+	bh=o2WzF/t6msWU5RqpBykSw0CS3QVZFDpT8yngxr1mCgg=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UiTbZ801w0WniDQTzNWbPl74mwU9BA0IJC7ZfdBwhCRpBqzrqw4epi5eJCk+axsA71yCn/+x87kTjkzqKvompIV5eCwQVMTl8WWyr7tqZqHZZlH8oP/34o69LqYP2WzxkGjic9AXNsnESgzGfQl49S+FrLSeT10Zu0e32B61Slo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PsmHXN/1; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Yn7Q1Jgt"
-X-Envelope-To: linux-sound@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=56QV56ucpbgS2qOQ9Q/zFhH/twhqdWpKNgDOES1MCW4=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1788953364; v=1; x=1789558164;
- b=Yn7Q1JgtLeCosfaZoJho2bGga5DyTDSt6aZj4pBe/5CPiEO2n1clPFF8Y6smFhCjewW5RJey
- Ft0MqYAq0g2ob7aM01ZYXVcMMLVZK/ryUlMlyoY/MJgOZ/Z6nZlw2SC8/j6/jFSggg4zVadhKTQ
- nN3tJUyCJXdztNIUnqtB9pHQ=
-X-Envelope-To: linux-sound@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id e038fb79e2ad4fb8;
-	Wed, 09 Sep 2026 11:29:24 +0000
-X-Mizu-Trace-ID: e038fb79e2ad4fb8
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <3922a062-2e5a-4b9f-9d7b-34e41eb6c4a5@linux.dev>
-Date: Wed, 9 Sep 2026 13:27:22 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PsmHXN/1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE3D71F0157B
+	for <linux-sound@vger.kernel.org>; Wed,  9 Sep 2026 11:31:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788953482;
+	bh=FmBocDloVqnt9fxeDtFrylQPpruprCsSKsABIgX1uUA=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc;
+	b=PsmHXN/1LmSL5vjfxnfPlVVh5V675dSmFSqIG6JW/RYPOTF5y8DKg6bl7BhyFSak9
+	 6fvpPc3M1/2396QwFRzzIvx0vQ0D6Xjr2KNQ1X1uLmCiy6+VXSQwSuZP3V30CJvSmF
+	 6VbHRzrZ9h/7nXFLXQMwv2pxcDph4ncKNcQfLLBMRsN3+RyUWRfkbSMa5so4kn8Bhv
+	 NpQpyqbhLnd3QgrVQU73eg6Mz/KcuLL/fMVavoknnLupa152kuE+zgjgkYPZXRxHjE
+	 sTYD/aOidLVBRLe2eM2xE3wIobz2ug0NJCNoVNX558avRipg6y64ppo2pd0eWtLNR0
+	 WCgZwInf3Tdqw==
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5b5e907853eso5958685e87.2
+        for <linux-sound@vger.kernel.org>; Wed, 09 Sep 2026 04:31:22 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBzWB29FQ2fe9Kzd20dg2aeqHHE2ShTJWUbICOnBA8ZMbjMW+XH+VvuxiIQpxl5UlvOboFOzp4s1j9+RYg==@vger.kernel.org
+X-Gm-Message-State: AFuF++mXjpHCyfduM5JxOa5B2ikVYc29/e5HgTNvGiXgBcoQWcvBP9J/
+	VP5ypvgmGdm+bb3SDi21QE6mwn7VE2NSRSxV2zfiYE9iR8205cqs5tq+G3050Zp9TgSFNQDh6an
+	Z0KNUmKOYtVzrBLsRadSqjDvde2WsAaRcoDnOIPa46A==
+X-Received: by 2002:a05:6512:250d:b0:5b6:1a7c:59d4 with SMTP id
+ 2adb3069b0e04-5b61a7c5a90mr5183400e87.46.1788953481262; Wed, 09 Sep 2026
+ 04:31:21 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 9 Sep 2026 04:31:19 -0700
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 9 Sep 2026 04:31:19 -0700
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <20260909080114.591938-8-herve.codina@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: rt1320: avoid re-initialize in advanced mode
-To: shumingf@realtek.com, broonie@kernel.org, lgirdwood@gmail.com
-Cc: linux-sound@vger.kernel.org, lars@metafoo.de, flove@realtek.com,
- oder_chiou@realtek.com, jack.yu@realtek.com, derek.fang@realtek.com
-References: <20260909091806.872977-1-shumingf@realtek.com>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <20260909091806.872977-1-shumingf@realtek.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260909080114.591938-1-herve.codina@bootlin.com> <20260909080114.591938-8-herve.codina@bootlin.com>
+Date: Wed, 9 Sep 2026 04:31:19 -0700
+X-Gmail-Original-Message-ID: <CAMRc=MeF1+1L1qO3NkHgK-nA8T-LmY3qJ=yA2tsT7_nDEmpTOQ@mail.gmail.com>
+X-Gm-Features: AcwNN1X-SYpdTDZqvUUX2vYKitA7KsBPnLzmy5HJ0ZvOyOzbEwFGKRa35FuLPsw
+Message-ID: <CAMRc=MeF1+1L1qO3NkHgK-nA8T-LmY3qJ=yA2tsT7_nDEmpTOQ@mail.gmail.com>
+Subject: Re: [PATCH v11 07/10] PCI: of: Clear fwnode->dev during root bridge
+ node removal and error path
+To: Herve Codina <herve.codina@bootlin.com>
+Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-pci@vger.kernel.org, linux-sound@vger.kernel.org, 
+	patches@opensource.cirrus.com, linux-gpio@vger.kernel.org, 
+	linux-acpi@vger.kernel.org, linux-cxl@vger.kernel.org, 
+	Allan Nielsen <allan.nielsen@microchip.com>, Horatiu Vultur <horatiu.vultur@microchip.com>, 
+	Daniel Machon <daniel.machon@microchip.com>, Steen Hegelund <steen.hegelund@microchip.com>, 
+	Luca Ceresoli <luca.ceresoli@bootlin.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+	stable@vger.kernel.org, 
+	Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>, Richard Cheng <icheng@nvidia.com>, 
+	Andrew Lunn <andrew@lunn.ch>, Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Charles Keepax <ckeepax@opensource.cirrus.com>, 
+	Richard Fitzgerald <rf@opensource.cirrus.com>, David Rhodes <david.rhodes@cirrus.com>, 
+	Linus Walleij <linusw@kernel.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Bartosz Golaszewski <brgl@kernel.org>, 
+	Len Brown <lenb@kernel.org>, Davidlohr Bueso <dave@stgolabs.net>, Jonathan Cameron <jic23@kernel.org>, 
+	Dave Jiang <dave.jiang@intel.com>, Alison Schofield <alison.schofield@intel.com>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dan Williams <djbw@kernel.org>, 
+	Ira Weiny <iweiny@kernel.org>, Li Ming <ming.li@zohomail.com>, Lizhi Hou <lizhi.hou@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On 9/9/26 11:18, shumingf@realtek.com wrote:
-> From: Shuming Fan <shumingf@realtek.com>
-> 
-> On some machines, speaker protection is enabled.
-> We call this advanced mode, which loads the DSP firmware and changes settings
-> based on the basic mode, including blind writes.
-> The amplifier can retain the advanced mode settings until a POR or power loss occurs.
-> Therefore, the driver does not need to switch from basic mode to advanced mode
-> when the system performs a warm reboot.
-> We only need to check the function_status to determine
-> whether the system has undergone a cold or warm reboot.
-> 
-> Fixes: 9b30521074f0 ("ASoC: rt1320: run the initialisation preset on the first hardware init")
-> Signed-off-by: Shuming Fan <shumingf@realtek.com>
-
-LGTM
-
-Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-
-this should also be done for all existing SDCA devices, no?
-
+On Wed, 9 Sep 2026 10:01:06 +0200, Herve Codina <herve.codina@bootlin.com> said:
+> During the of_pci_make_host_bridge_node() call, an OF node is created
+> dynamically and its fwnode device (fwnode->dev) is set to the PCI root
+> bridge device using the fw_devlink_set_device(&np->fwnode, &bridge->dev)
+> call.
+>
+> On removal, of_pci_remove_host_bridge_node() is called and calls
+> device_remove_of_node() which in turn set to NULL the related
+> dev->fwnode.
+>
+> Later in the removal sequence, device_del() is called and runs its
+> cleanup logic:
+>
+>     if (dev->fwnode && dev->fwnode->dev == dev)
+>         fw_devlink_set_device(dev->fwnode, NULL);
+>
+> Because dev->fwnode has been cleared earlier, fw_devlink_set_device()
+> is not called and leaves fwnode->dev unchanged. This fwnode device
+> (fwnode->dev) becomes an dangling pointer.
+>
+> If any reference to the OF node is held after this removal, the pointer
+> is still accessible using the OF node (np->fwnode.dev) but points to a
+> freed area.
+>
+> The exact same issue is present in the of_pci_make_host_bridge_node()
+> error path leading to the exact same dangling fwnode->dev.
+>
+> Avoid this dangling fwnode->dev pointer by clearing it in
+> of_pci_remove_host_bridge_node() and in of_pci_make_host_bridge_node()
+> error path.
+>
+> Fixes: 1f340724419e ("PCI: of: Create device tree PCI host bridge node")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
+> Reviewed-by: Richard Cheng <icheng@nvidia.com>
+> Acked-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
 > ---
->  sound/soc/codecs/rt1320-sdw.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/sound/soc/codecs/rt1320-sdw.c b/sound/soc/codecs/rt1320-sdw.c
-> index 72af413306fa..444a91755be9 100644
-> --- a/sound/soc/codecs/rt1320-sdw.c
-> +++ b/sound/soc/codecs/rt1320-sdw.c
-> @@ -2470,7 +2470,7 @@ static int rt1320_io_init(struct device *dev, struct sdw_slave *slave)
->  	dev_dbg(dev, "%s amp func_status=0x%x\n", __func__, amp_func_status);
->  
->  	/* initialization write */
-> -	if ((amp_func_status & FUNCTION_NEEDS_INITIALIZATION) || !rt1320->first_hw_init) {
-> +	if ((amp_func_status & FUNCTION_NEEDS_INITIALIZATION)) {
->  		switch (rt1320->dev_id) {
->  		case RT1320_DEV_ID:
->  			if (rt1320->version_id < RT1320_VC)
 
+Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
