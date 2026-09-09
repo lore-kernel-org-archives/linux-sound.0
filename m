@@ -1,193 +1,152 @@
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47])
+Received: from mta0.migadu.com (out-108.mta0.migadu.com [91.218.175.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B6D3364926
-	for <linux-sound@vger.kernel.org>; Wed,  9 Sep 2026 19:31:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C5DB41D652
+	for <linux-sound@vger.kernel.org>; Wed,  9 Sep 2026 20:22:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788982270; cv=none; b=Nlf2TMk2cYIu6WwfafzqKgOAPNgMSTih+rIC1NwblatwjF/ddOOBJrk844sBQMF4SCEBJhy1aArSpnrWPl2jsSX46Pqd7FJR3X3ABf1hjqqSVEI+E50awvLwn+ZVAvE2oulTpm5VcocmFv9Q9X5CXRytIfEEdRkHt37A+iZzcCk=
+	t=1788985344; cv=none; b=G4GNQ9S9di2fty9RpFVYoqyEYSkJS9wFIg6g76ZyKdB8zllC7sXmNZMS+vXmXRypVO+QDQ6sJefqZFPhKi3TT0qMn3ZvPjYiIIc2reMJQYw54VQesniuunEnB45WJcqz3w6HnUwnzVXTJZ3GOpDjBkJK5v7554JSwPLc4Ryy/Zk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788982270; c=relaxed/simple;
-	bh=OGmMUhZHrOr6boThLHu7z77I7dRpjo6IF+jPmVb2rpE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bXru32wTpKHKosWN1xdzpuD31ZR1VvigbQ7mtwlzFjKPYxGcgBei+PbyqvlgFQBFt6NLv4HhlYESF9L0haHJUpRWLUS+nkkwd7Ut72owDV3bW/QBytar7NKaFRbJ2/DCtK797yH1j5xqicuIWTWZCc6Ai4RyNNX+pJyiLkKYw2Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GWZceMpb; arc=none smtp.client-ip=209.85.222.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788985344; c=relaxed/simple;
+	bh=cu3Jm7QmCMbLfHFVPAr0burQXfHT7lvirfauiXYobJk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=utrrHsIZahjVM+UJN9RWG2SdQsSFMumk0F9sUq5C+T+VdvtB0j7gq75o19mCTUU0h3RLMFzM3MyPioylJVCClJj3NzmsOdeMQdf4tgbu2ifFo37tuehmKoYiknnUlitXEyZwa3eh/NGACQUvFDSwWOSgf3MzifsylVLdPQZKer8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=xKIRKDtV; arc=none smtp.client-ip=91.218.175.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GWZceMpb"
-Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-97cc72fe0f3so112299241.1
-        for <linux-sound@vger.kernel.org>; Wed, 09 Sep 2026 12:31:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788982267; x=1789587067; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=bu4GfVzH8DhuwM8RYplW9+YvYURtPxANRKmn9IzC2Nw=;
-        b=GWZceMpbzLLRqJsp+gj217Q/gqjCB+2Rjfk0dQLnihPLBCxDzM4EOoOxfPCQ84DVp9
-         G+M8kj6m9oLbSek8k6sAVWWstklMtXP3F8gVaQoyhQ3kMpwKQyjFRZzLNLEqNAnXlhKk
-         iA3CamGvzV3Xa9wbk20Ym0DFO+tQzEapC5bUfxxQA3thzig331xcT4LjDkXmnXoInHvp
-         UOaI7P48ETNP7qE7PNCt82di3bCmhJ76ZMDfNEunbI0gMdon472/Kzb7Piy4mX7RpV6w
-         dBZZdUGX8cuoFsV6JabIFs2l54VXTeic1BFE1v31eXbP72WvWyAFs+FVhLutwWwpgTzk
-         gr+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788982267; x=1789587067;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=bu4GfVzH8DhuwM8RYplW9+YvYURtPxANRKmn9IzC2Nw=;
-        b=oO0JSSK9YvMwwtoeoubJWR2MgUrxuemlXVwDMF92VZ2oTAGGC0uM+oBdlw/N1vJ3m3
-         cdHUMS7cdz4DuyqB2GsAaR0xcKP15K4LD8shr3zbzXUQoSO81KZdM+0oeN3ekPpcpGSd
-         lw6pFgI2ClxnreR6ue22AT3KwXWPVODID72f/h/3F3O4iiTT0gVPZGuwkcl6gq70r6QV
-         mUJBeyW9d7NJjNm8vfRuw3bC+mlahcFkqrP3g+VBdA/HuG28fufzGL1YOt9lGyYfTpyB
-         T0CyJ3LvY3Mb5WY94kkcqRs6q9x9v0/AtBRjbQZphqwF/AIAMqm0+91Wu2vQwSpTLR9H
-         lngg==
-X-Gm-Message-State: AFuF++ncO3uVe6Ps+4yCFjrjOG446ygBxhrS8SvSDFoxGxzH0iMszLBm
-	IgBHCB9i6B6BTqfGuyw2NfjXa+5XjyShohEcWWbcNozzA/vt7kjabLuOMgBXAw==
-X-Gm-Gg: AYBFou3oo5jzZOH7Q5HoY05p0yJ+NQu25ApDdMA0q89sZc7oWExwdIV3ZkufP/UKGJo
-	xrl1NoyHsny3AJLy0e0wTQfaKOCGpjen5whe6t635ytr/o0n97RQEGOTgYNZvvriwpe56MFLo3X
-	KYLgNRmAdf2TsFqWxZnXrOCOGz7krjgypC2mArKTVvx3MUSy5lNoXqL7a1S8R4SEnRv7JrF3NYU
-	ca60Xzya3CCZwWHIxInt4U8RtXZe1eDUBqib4BmMfI31svhmJjAl06zoZM2w62WALxRrPvkkKhg
-	NH/PiL6BPk4jlJ/ckRd6l5eHoNfI9rfI9VVqoQvhn4BkCuB5LJyHvUY49pheV7Yc33wU/VGnp1s
-	H38y3C9hRXXIu0eD77ewU4mNxL4OLTjff1+6FkM3i1nBVBIgBnqndxrAueQDukurQs7afIu8wef
-	RBvI4HT1bxL6ohU879AkhuLb1wGa1JwFR5OiCEMP34bCe8E2NxvseH3K/uPQ3mLzA=
-X-Received: by 2002:a05:6102:578c:b0:774:ce64:242f with SMTP id ada2fe7eead31-790db2da0e4mr366570137.20.1788982266782;
-        Wed, 09 Sep 2026 12:31:06 -0700 (PDT)
-Received: from localhost ([47.201.34.27])
-        by smtp.gmail.com with UTF8SMTPSA id ada2fe7eead31-78a47ae301fsm11646230137.7.2026.09.09.12.31.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Sep 2026 12:31:06 -0700 (PDT)
-From: Andrew Udvare <audvare@gmail.com>
-To: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Andrew Udvare <audvare@gmail.com>
-Subject: [PATCH] ALSA: hda/realtek: Fix speaker dropouts on MSI GE66 Raider 11UE
-Date: Wed,  9 Sep 2026 15:31:04 -0400
-Message-ID: <20260909193104.26508-1-audvare@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="xKIRKDtV"
+X-Envelope-To: linux-sound@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=cu3Jm7QmCMbLfHFVPAr0burQXfHT7lvirfauiXYobJk=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1788985332; v=1; x=1789590132;
+ b=xKIRKDtV8pfYWfj38MeShfbOoAsgFHgyBeRJ21WFUJo0Xx+F3eK2OEKaEuUXsR+/e9ZT8JC6
+ r2+dXx/1ZvjuVYs+ZLjRO6RO5GUqHOXdjYTD5R9SBnSy0By3hSd2FDgx5kYRjXo0qNfEnnB3/va
+ wCTv1z1kfpz7sDUG1hmB7TWc=
+X-Envelope-To: linux-sound@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 038407f55bc34093;
+	Wed, 09 Sep 2026 20:22:12 +0000
+X-Mizu-Trace-ID: 038407f55bc34093
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <e0ca888d-6607-47b4-a470-564c34cfa0cd@linux.dev>
+Date: Wed, 9 Sep 2026 22:22:10 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 04/23] ASoC: soc-compress: Implement trigger FE-BE
+ sequencing as with normal PCMs
+To: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
+ Vinod Koul <vkoul@kernel.org>
+Cc: Mark Brown <broonie@kernel.org>, perex@perex.cz, tiwai@suse.com,
+ lgirdwood@gmail.com, srinivas.kandagatla@oss.qualcomm.com,
+ linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com,
+ yung-chuan.liao@linux.intel.com, daniel.baluta@nxp.com,
+ Vijendar.Mukunda@amd.com
+References: <20260904073134.29648-5-peter.ujfalusi@linux.intel.com>
+ <apsf1kjaFG71NpPd@sirena.co.uk>
+ <b64906b9-032f-4435-a179-b663f0202796@linux.intel.com>
+ <361eb4b4-d880-4560-8b71-eeda6f28b43c@linux.dev>
+ <5b9a199e-abac-4193-94c0-d395329207ed@linux.intel.com>
+ <ap7sF6dOY0Pl0c46@parshuram> <69650a4d-3021-49b0-b853-f7b9ba81aae1@linux.dev>
+ <7af0b170-dd4a-4aef-b4d8-7e87d72d11f0@linux.intel.com>
+ <ap-yDQotxJpw_jHr@parshuram>
+ <003c3998-5b46-4532-9d48-dd47b98d544e@linux.intel.com>
+ <aqABhbYne6RIree6@parshuram>
+ <7f5625fa-d391-406c-ba75-4df526af903c@linux.intel.com>
+ <e5f6d6a3-27e4-49ce-9340-9722380312a9@linux.dev>
+ <9b2eea34-a04d-4124-8f76-ebfde6df67fc@linux.intel.com>
+Content-Language: en-US
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+In-Reply-To: <9b2eea34-a04d-4124-8f76-ebfde6df67fc@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The speakers on this laptop are driven by a Realtek ALC1316 smart amplifier
-sitting behind the ALC298 processing-coefficient tunnel. Nothing configures
-it, so it runs on its power-up defaults with silence detection enabled: the
-speaker path is muted after roughly 0.2 s of quiet and takes roughly 0.4 s
-to reopen. Anything arriving in that window is lost, so the beginning of
-every sound that follows a pause is cut off. It is most obvious with speech
-synthesis, where the first syllable of each utterance disappears, but it
-affects music equally. Headphones do not pass through the amplifier and are
-never affected.
 
-Measured on the affected machine with generated tones: isolated 150 ms
-bursts spaced one second apart are inaudible, the same bursts spaced 100 ms
-apart are heard, and a continuous tone loses only its first 0.4 s.
+>>> I see, the issue is that I cannot find any way to give the metadata to
+>>> the decoder module, it is a black box to us.
+>>
+>> The metadata is typically handled *outside* of the decoder library by a
+>> memcpy-based wrapper or modulo pointers.
+>>
+>> For example due to the filterbank, the decoder will generate N zero
+>> samples in the first frame. If you know the value of N thanks to the
+>> METADATA ioctl, you can discard the first N samples in the wrapper.
+>>
+>> Likewise at the end of the track the wrapper can skip the last M samples
+>> which were padded to make the initial soundtrack a multiple of the frame
+>> size (e.g. 1152 for MP3). the value M is the encoder padding.
+> 
+> I got this part, but I have no idea how the wrapper could know this.
+> It can be only _after_ the decoder to do the fade out/in/mixing, but so
+> far I have not seen any way to actually pin-point the exact time.
+> And not just exact time, but T minus something to T plus something.
 
-Add a fixup that programs the amplifier's initialisation sequence at codec
-init, which turns silence detection off. Writes go through the tunnel with
-coefficient 0x22 selecting the amplifier, 0x23 carrying the 16-bit
-register, 0x24 and 0x25 the value's high and low halves, and 0x26
-committing.
+It's not time you need to track but bytes, and the accuracy of the
+next-track position is exactly a byte. If you're off by even one byte,
+you probably lost a minimum of one frame until the decoder re-syncs for
+an elementary stream, and the whole scheme is down the drain if there's
+a header.
 
-Link: https://github.com/thesofproject/sof/issues/5842
-Signed-off-by: Andrew Udvare <audvare@gmail.com>
----
- sound/hda/codecs/realtek/alc269.c | 50 +++++++++++++++++++++++++++++++
- 1 file changed, 50 insertions(+)
+Also the decoder has to in a wrapper anyways, even without gapless
+playback: the fragments used by the compressed framework may contain
+more or less than a frame, so the decoder needs to deal with all cases
+of 'no enough data available' and 'more than one frame provided'.
+Likewise some decoder may not be able to generate data on initial calls,
+and need to be called without new input to full internal PCM buffers.
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index ecc9c6e6a..8f55c3c00 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -1840,6 +1840,48 @@ struct alc298_samsung_amp_desc {
- 	unsigned short init_seq[2][2];
- };
- 
-+/*
-+ * The MSI GE66 Raider 11UE drives its speakers through a Realtek ALC1316 smart
-+ * amplifier, reached over the ALC298 coefficient tunnel. Left unconfigured the
-+ * amplifier's silence detection mutes the speaker path after about 0.2 s of
-+ * quiet and takes about 0.4 s to reopen, so the start of every sound that
-+ * follows a pause is lost. Headphones do not pass through the amplifier and are
-+ * unaffected.
-+ *
-+ * Tunnel layout for ALC286/ALC298: coefficient 0x22 selects the amplifier, 0x23
-+ * carries the 16-bit register, 0x24 and 0x25 the value's high and low halves,
-+ * and 0x26 commits. Bit 4 of the commit word is a self-clearing go bit.
-+ */
-+static void alc298_fixup_alc1316_amp(struct hda_codec *codec,
-+				     const struct hda_fixup *fix, int action)
-+{
-+	static const unsigned short init_seq[][2] = {
-+		{ 0x0000, 0x01 }, { 0xc001, 0x14 }, { 0xc003, 0x00 }, { 0xc004, 0x11 },
-+		{ 0xc005, 0x00 }, { 0xc006, 0x00 }, { 0xc007, 0x11 }, { 0xc008, 0x11 },
-+		{ 0xc009, 0x00 }, { 0xc730, 0x06 }, { 0xc612, 0x16 }, { 0xc00f, 0xf7 },
-+		{ 0xc00a, 0xd8 }, { 0xc00b, 0xb7 }, { 0xc60b, 0xff }, { 0xc60c, 0x37 },
-+		{ 0xc605, 0xf0 }, { 0xc020, 0x00 }, { 0xc022, 0xd6 }, { 0xc023, 0x00 },
-+		{ 0xc025, 0xd6 }, { 0xc602, 0x07 }, { 0xc603, 0x07 }, { 0xd101, 0x00 },
-+		{ 0xc093, 0x80 }, { 0xc090, 0x87 }, { 0xc091, 0x11 }, { 0xc614, 0x20 },
-+		{ 0xc615, 0x0a }, { 0xc616, 0x02 }, { 0xc617, 0x00 }, { 0xc050, 0x80 },
-+		{ 0xc051, 0x7f }, { 0xc052, 0x00 }, { 0xc053, 0x70 }, { 0xc054, 0x00 },
-+		{ 0xc0a2, 0x01 }, { 0xc09d, 0x80 }, { 0xc09c, 0x71 }
-+	};
-+	int i;
-+
-+	if (action != HDA_FIXUP_ACT_INIT)
-+		return;
-+
-+	alc_write_coef_idx(codec, 0x22, 0x0010);
-+
-+	for (i = 0; i < ARRAY_SIZE(init_seq); i++) {
-+		alc_write_coef_idx(codec, 0x23, init_seq[i][0]);
-+		alc_write_coef_idx(codec, 0x24, 0x0000);
-+		alc_write_coef_idx(codec, 0x25, init_seq[i][1]);
-+		alc_write_coef_idx(codec, 0x26, 0xb031);
-+	}
-+}
-+
- static void alc298_fixup_samsung_amp(struct hda_codec *codec,
- 				     const struct hda_fixup *fix, int action)
- {
-@@ -4211,6 +4253,7 @@ enum {
- 	ALC236_FIXUP_HP_15_FD0XXX,
- 	ALC236_FIXUP_LENOVO_INV_DMIC,
- 	ALC298_FIXUP_SAMSUNG_AMP,
-+	ALC298_FIXUP_MSI_GE66_ALC1316_AMP,
- 	ALC298_FIXUP_SAMSUNG_AMP_V2_2_AMPS,
- 	ALC298_FIXUP_SAMSUNG_AMP_V2_4_AMPS,
- 	ALC298_FIXUP_LG_GRAM_STYLE_14,
-@@ -6006,6 +6049,10 @@ static const struct hda_fixup alc269_fixups[] = {
- 		.type = HDA_FIXUP_FUNC,
- 		.v.func = alc295_fixup_hp_pavilion_mute_led_1b,
- 	},
-+	[ALC298_FIXUP_MSI_GE66_ALC1316_AMP] = {
-+		.type = HDA_FIXUP_FUNC,
-+		.v.func = alc298_fixup_alc1316_amp,
-+	},
- 	[ALC298_FIXUP_SAMSUNG_AMP] = {
- 		.type = HDA_FIXUP_FUNC,
- 		.v.func = alc298_fixup_samsung_amp,
-@@ -7933,6 +7980,8 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x144d, 0xc1cc, "Samsung Galaxy Book3 Ultra (NT960XFH)", ALC298_FIXUP_SAMSUNG_AMP_V2_4_AMPS),
- 	SND_PCI_QUIRK(0x1458, 0x900e, "Gigabyte G5 KF5 (2023)", ALC2XX_FIXUP_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1458, 0xfa53, "Gigabyte BXBT-2807", ALC283_FIXUP_HEADSET_MIC),
-+	SND_PCI_QUIRK(0x1462, 0x12fb, "MSI GE66 Raider 11UE",
-+		      ALC298_FIXUP_MSI_GE66_ALC1316_AMP),
- 	SND_PCI_QUIRK(0x1462, 0xb120, "MSI Cubi MS-B120", ALC283_FIXUP_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1462, 0xb171, "Cubi N 8GL (MS-B171)", ALC283_FIXUP_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x152d, 0x1082, "Quanta NL3", ALC269_FIXUP_LIFEBOOK),
-@@ -8515,6 +8564,7 @@ static const struct hda_model_fixup alc269_fixup_models[] = {
- 	{.id = ALC298_FIXUP_HUAWEI_MBX_STEREO, .name = "huawei-mbx-stereo"},
- 	{.id = ALC256_FIXUP_MEDION_HEADSET_NO_PRESENCE, .name = "alc256-medion-headset"},
- 	{.id = ALC298_FIXUP_SAMSUNG_AMP, .name = "alc298-samsung-amp"},
-+	{.id = ALC298_FIXUP_MSI_GE66_ALC1316_AMP, .name = "alc298-alc1316-amp"},
- 	{.id = ALC298_FIXUP_SAMSUNG_AMP_V2_2_AMPS, .name = "alc298-samsung-amp-v2-2-amps"},
- 	{.id = ALC298_FIXUP_SAMSUNG_AMP_V2_4_AMPS, .name = "alc298-samsung-amp-v2-4-amps"},
- 	{.id = ALC256_FIXUP_SAMSUNG_HEADPHONE_VERY_QUIET, .name = "alc256-samsung-headphone"},
--- 
-2.47.3
+then the logic should be:
 
+(a) On a new track, for the first decoder you skip the first N samples.
+
+(b) The end of track happens when all the bytes have been provided to
+the decoder, and the decoder cannot generate more data. At that point
+you would discard the last M padding samples.
+
+(c) if there was a NEXT_TRACK, eset the byte counting for the track and
+go back to (a)
+
+That's the high level logic. Now for the positioning, I may be wrong but
+I think there is a requirement that the NEXT_TRACK is only signaled when
+all the bytes for the current track were provided to the driver. So on
+the NEXT_TRACK you would need to record the number of bytes provided so
+far by userspace, and forward that information to firmware. Then the
+next write would be with the content for the next track. It could also
+be the PARTIAL_DRAIN that does this, since at that point no new data
+should be provided by userspace. Either way, do no write data in the
+ring buffer until the firmware knows the total number of bytes in the
+current track. If the app doesn't respect that then the accounting will
+go sideways.
+
+The last time I saw DSP code for this was in 2013 or so, take this with
+a grain of salt. Vinod, if you have a better memory please do chime in...
+
+>>> Also I'm not sure how the fw could get any idea where one
+>>> flac/vorbis/aac/mp3 ends and where it starts, the black box does not
+>>> seam to be able to detect this or if it does, it will not emit this
+>>> information to outside.
+>> I must admit I don't fully remember the details on the start/end
+>> position. IIRC this isn't strictly required for elementary streams such
+>> as MP3 or AAC ADTS, you could cat the streams together and that'd be
+>> just fine. you would have a slightly different transition by blending
+>> the two streams in a common filterbank history buffer but that'd be
+>> nearly impossible to detect...
+> 
+> and there is still the monitoring of the progress of let's say 6th track
+> in the stream.
+> 
+> I was planning to revisit this sooner than later when I have a moment of
+> 'free' time, but for this initial series, it is not promised and should
+> not work at all.
+> 
+>> But for streams with a header such as WMA not sure how this might work,
+>> I think you do need to know the buffer position, reset the decoder and
+>> restart from that position.
+> 
+> Luckily no one has such files anymore ;)
+
+Hehe, the Zune music service only stopped in 2017...
