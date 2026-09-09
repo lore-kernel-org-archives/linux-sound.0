@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B4C149159F
-	for <linux-sound@vger.kernel.org>; Wed,  9 Sep 2026 09:10:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6AFF493625
+	for <linux-sound@vger.kernel.org>; Wed,  9 Sep 2026 09:10:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788945049; cv=none; b=jk3QKObw/DxEmfI0DcYG0vYZjXd3GocmSxyyAWHQ5dmNx50QFH9+J7aLQe2J2TMiY3JJbh8Fw4t5SsZk8SnQflshSqs5msEQDl0W5riABxmc8rzC8gMIs4s2nU7UmSrV7xGReAdWk66K4cfpyHo3oMtD6w54rAYsTnnJSHC/G2c=
+	t=1788945052; cv=none; b=uNKISvoYqWxV4/whgH6lS0n0J6ArqN+G7EKj1Sp4RdBJxhjiJzdkuGCuaeFSkkdZ9kEYHVB+QRaEohs5XZdmq2ZnHLrn27DDDkEu4Ce5XtoXSvdM4nkjE9bICPrrAR1crdWcHQQIP0sECHdCV9qEDDb492B3qFAt+7DGtj8H8WA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788945049; c=relaxed/simple;
-	bh=T5qTYxjdj2xdMMRtR7NyE5a0nmSxNxYopagQJ6MGXfw=;
+	s=arc-20240116; t=1788945052; c=relaxed/simple;
+	bh=i5tEUZ49J/v+xI360H0wqZVG7XM2k2VA6VS81ZDxzCs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=E2qkmLfO6yGP1hWuMqo82f5ut2b4otTR7BtTkk0rkWpqeoZPHGA3OWP83l8LuwMlpcTssCc4PnuNjwif8HcYIz5krR2iB0zvkvoRsEvUKm9On91iJfeunb3+RN606o84P6csqzOi/BNPuhp7CgpNBjLS3tbPeGt/7n/VBSZFUus=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VHpAGK70; arc=none smtp.client-ip=198.175.65.21
+	 MIME-Version; b=uSlFFJpZpmMfd04J7T3JWijrGva7O66C0nVNp47KTT32zg73AgaqKkAYmApuq14UztsiDop6vXSOASBL/LEtIHx4fpET8nlHHxw44kNfu6oLZzIy+pifmEEpRcXaTnrA53s+C9P6xLDUJlKGlVleSBKBwCIMvNkM+a3lVP5Nxf8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OsosAZIx; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VHpAGK70"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OsosAZIx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788945049; x=1820481049;
+  t=1788945051; x=1820481051;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=T5qTYxjdj2xdMMRtR7NyE5a0nmSxNxYopagQJ6MGXfw=;
-  b=VHpAGK702WonsG9PpOIM029UkALxbIwGhuP2iRAkkjtDMox6uETI0paO
-   SRcO2oq0XHMdJjDTCPwBUkBGobc92ad3INqomY7u+OihpOsv6dxcRmkWN
-   uMdQcHyRP+xoj8DEZSrJC4JJiVtGRrUwcvbeEukjza6cssKE1IhVEmmim
-   axrLSMZJkbmBEb0L3FSm0cI1dPPVlUJl1Ugf2LximWMU0ykYiVTfA3TH+
-   btgTdKH6JuwRsR/xDHvpzP+CAdrnv3e7KfWn6RmUcEifd4jc5T7ZKWO/7
-   ur6lrdr8I2Wu39MA6CmaKoU20T4jifbJr5zNPF01otvpMO8GKaJ8zdPna
-   g==;
-X-CSE-ConnectionGUID: 3+jncpFTTfWd4+ugI/X7hw==
-X-CSE-MsgGUID: Bcj6C0oOQM6T+J77iY3L4Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11900"; a="89200935"
+  bh=i5tEUZ49J/v+xI360H0wqZVG7XM2k2VA6VS81ZDxzCs=;
+  b=OsosAZIx/7lWz8Gu0fAT6U5JF/tcLRs3xsvsF430JuI1AkYjjdCd/P/w
+   adfmlDO9R87IDIqosmizpiX1a3kGgm28rCHJjfacAjuNGYbh1ghMWxJFG
+   vLpBieaq8s/B8C9Yix+5D4G1Oandys4vkfmJDBCaYK4GLKhvE8Jlib5O/
+   DbXEIYBh0l0QL1veucrPbb8VR4dWOXzptLxH0CNA41w+GunU9HSh9Y8AX
+   07Ssdk9DQfAgmFOpwjfOJjBsSWBN6uWbap+rux5nW/s2CuKcWmU+w3x5v
+   k1qn7BC6pEH5CT7g38WXoYdRoh7HcXf6YkRi37MI5z/B9cOnFUwckNFg7
+   Q==;
+X-CSE-ConnectionGUID: m/seO4qQRSWhmWyOX75wqA==
+X-CSE-MsgGUID: BPJsulRaSN6IoYOARQlo4Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11900"; a="89200965"
 X-IronPort-AV: E=Sophos;i="6.25,270,1779174000"; 
-   d="scan'208";a="89200935"
+   d="scan'208";a="89200965"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2026 02:10:48 -0700
-X-CSE-ConnectionGUID: zIDf6igxQ3G8TNdHGGUTxg==
-X-CSE-MsgGUID: z4XRW7rfS+6/QkOt2jSadQ==
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2026 02:10:51 -0700
+X-CSE-ConnectionGUID: 2gmucMK+RYWYacLwsooXXA==
+X-CSE-MsgGUID: mUT1frRFRfWQzoo4M86qHA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,270,1779174000"; 
-   d="scan'208";a="266973470"
+   d="scan'208";a="266973528"
 Received: from ettammin-mobl2.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.244.252])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2026 02:10:44 -0700
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2026 02:10:47 -0700
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: vkoul@kernel.org,
 	perex@perex.cz,
@@ -55,9 +55,9 @@ Cc: linux-sound@vger.kernel.org,
 	yung-chuan.liao@linux.intel.com,
 	pierre-louis.bossart@linux.dev,
 	daniel.baluta@nxp.com
-Subject: [PATCH v2 23/24] ASoC: SOF: Intel: Kconfig: Select compress support for TGL+ platforms
-Date: Wed,  9 Sep 2026 12:09:48 +0300
-Message-ID: <20260909090949.7503-24-peter.ujfalusi@linux.intel.com>
+Subject: [PATCH v2 24/24] ASoC: SOF: topology: Add support for decoder and encoder widgets
+Date: Wed,  9 Sep 2026 12:09:49 +0300
+Message-ID: <20260909090949.7503-25-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260909090949.7503-1-peter.ujfalusi@linux.intel.com>
 References: <20260909090949.7503-1-peter.ujfalusi@linux.intel.com>
@@ -69,35 +69,77 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Select SOF_COMPRESS for TGL and newer platforms, on Intel devices the
-compressed support is available with IPC4 only.
+From: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
 
+Decoder and encoder modules fall under process modules in SOF.
+
+Signed-off-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+Co-developed-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
 ---
- sound/soc/sof/intel/Kconfig | 2 ++
- 1 file changed, 2 insertions(+)
+ sound/soc/sof/ipc4-topology.c | 11 +++++++++++
+ sound/soc/sof/sof-audio.h     |  4 +++-
+ sound/soc/sof/topology.c      |  2 ++
+ 3 files changed, 16 insertions(+), 1 deletion(-)
 
-diff --git a/sound/soc/sof/intel/Kconfig b/sound/soc/sof/intel/Kconfig
-index 840d5a36b958..02b41e4ccab2 100644
---- a/sound/soc/sof/intel/Kconfig
-+++ b/sound/soc/sof/intel/Kconfig
-@@ -213,6 +213,7 @@ config SND_SOC_SOF_INTEL_TGL
- 	select SND_SOC_SOF_HDA_GENERIC
- 	select SND_SOC_SOF_INTEL_SOUNDWIRE_LINK_BASELINE
- 	select SND_SOC_SOF_INTEL_CNL
-+	select SND_SOC_SOF_COMPRESS
+diff --git a/sound/soc/sof/ipc4-topology.c b/sound/soc/sof/ipc4-topology.c
+index 566913025cc7..74a6da9705da 100644
+--- a/sound/soc/sof/ipc4-topology.c
++++ b/sound/soc/sof/ipc4-topology.c
+@@ -3589,6 +3589,8 @@ static int sof_ipc4_widget_setup(struct snd_sof_dev *sdev, struct snd_sof_widget
+ 		msg = &asrc->msg;
+ 		break;
+ 	}
++	case snd_soc_dapm_decoder:
++	case snd_soc_dapm_encoder:
+ 	case snd_soc_dapm_effect:
+ 	{
+ 		struct sof_ipc4_process *process = swidget->private;
+@@ -4361,6 +4363,15 @@ static const struct sof_ipc_tplg_widget_ops tplg_ipc4_widget_ops[SND_SOC_DAPM_TY
+ 				process_token_list, ARRAY_SIZE(process_token_list),
+ 				NULL, sof_ipc4_prepare_process_module,
+ 				NULL},
++	/* for all practical purposes a decoder is like an effect type widget */
++	[snd_soc_dapm_decoder] = {sof_ipc4_widget_setup_comp_process,
++				  sof_ipc4_widget_free_comp_process,
++				  process_token_list, ARRAY_SIZE(process_token_list),
++				  NULL, sof_ipc4_prepare_process_module, NULL},
++	[snd_soc_dapm_encoder] = {sof_ipc4_widget_setup_comp_process,
++				  sof_ipc4_widget_free_comp_process,
++				  process_token_list, ARRAY_SIZE(process_token_list),
++				  NULL, sof_ipc4_prepare_process_module, NULL},
+ };
  
- config SND_SOC_SOF_TIGERLAKE
- 	tristate "SOF support for Tigerlake"
-@@ -249,6 +250,7 @@ config SND_SOC_SOF_INTEL_MTL
- 	select SND_SOC_SOF_HDA_GENERIC
- 	select SND_SOC_SOF_INTEL_SOUNDWIRE_LINK_BASELINE
- 	select SND_SOC_SOF_IPC4
-+	select SND_SOC_SOF_COMPRESS
+ const struct sof_ipc_tplg_ops ipc4_tplg_ops = {
+diff --git a/sound/soc/sof/sof-audio.h b/sound/soc/sof/sof-audio.h
+index 9dff4fea628e..b60246fd5869 100644
+--- a/sound/soc/sof/sof-audio.h
++++ b/sound/soc/sof/sof-audio.h
+@@ -43,7 +43,9 @@
+ #define WIDGET_IS_AIF(id) ((id) == snd_soc_dapm_aif_in || (id) == snd_soc_dapm_aif_out)
+ #define WIDGET_IS_AIF_OR_DAI(id) (WIDGET_IS_DAI(id) || WIDGET_IS_AIF(id))
+ #define WIDGET_IS_COPIER(id) (WIDGET_IS_AIF_OR_DAI(id) || (id) == snd_soc_dapm_buffer)
+-#define WIDGET_IS_PROCESS(id) ((id) == snd_soc_dapm_effect)
++#define WIDGET_IS_PROCESS(id) ((id) == snd_soc_dapm_effect ||	\
++			       (id) == snd_soc_dapm_decoder ||	\
++			       (id) == snd_soc_dapm_encoder)
  
- config SND_SOC_SOF_METEORLAKE
- 	tristate "SOF support for Meteorlake"
+ #define SOF_DAI_PARAM_INTEL_SSP_MCLK		0
+ #define SOF_DAI_PARAM_INTEL_SSP_BCLK		1
+diff --git a/sound/soc/sof/topology.c b/sound/soc/sof/topology.c
+index 8338133899ab..e2cb90133650 100644
+--- a/sound/soc/sof/topology.c
++++ b/sound/soc/sof/topology.c
+@@ -1530,6 +1530,8 @@ static int sof_widget_ready(struct snd_soc_component *scomp, int index,
+ 		list_add(&dai->list, &sdev->dai_list);
+ 		swidget->private = dai;
+ 		break;
++	case snd_soc_dapm_decoder:
++	case snd_soc_dapm_encoder:
+ 	case snd_soc_dapm_effect:
+ 		/* check we have some tokens - we need at least process type */
+ 		if (le32_to_cpu(tw->priv.size) == 0) {
 -- 
 2.55.0
 
