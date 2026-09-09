@@ -1,116 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta1.migadu.com (out-232.mta1.migadu.com [95.215.58.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A118141A551
-	for <linux-sound@vger.kernel.org>; Wed,  9 Sep 2026 11:27:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D4D65448A7
+	for <linux-sound@vger.kernel.org>; Wed,  9 Sep 2026 11:29:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788953274; cv=none; b=gX3nMnKULJroMwp3/78TqZJCrn+wQJ0hjqULMJNSEfvjsAFzTR2LRhBZGLTbbREIhOuD8eJRJKSrZLyKIiW20SI7bVFlc8TK+oUeSCuBgtZAEOXXWib+bTYO4hORJsFPlRaykFs/e8njyETan9aVfAPB0HTiokdRyrPBDyhYu1c=
+	t=1788953369; cv=none; b=EtlqPctlCDCZc3NLZleolG0TozHlt8IqJDRZr/LLWMMLBQ2OIlOIUO71qxtShzjEgdm8cX2923FNQQSlQ5fQU8u0PuKOC/44tgE1CMLy2Unix+m0Pf/1ttLYw2tyJHzRqSnmSutfyWk1f0nx3ErSkyV1rwN9cvjNxbIlBy8SaMM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788953274; c=relaxed/simple;
-	bh=JJBgofp2pe9RCsL65EmLQklp4DEK1h2O8rEip2QGCW4=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oe22DZD6bn2vz0t+zvIVs9X99M8Z1xGDK1CWBMQKTvXv648/dSAexRk3fhj63lRNPNsR3i6+WDyQ6+Dmb8o95vO3shyeYEmRJqW1w9SNztVh4K14yon2H0iulV5J1jSI1JMxiMNtz1DJ1+95OnQ9luWGzJlH3EpLlIPbiwcTIE0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fjiZ8XBd; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788953369; c=relaxed/simple;
+	bh=56QV56ucpbgS2qOQ9Q/zFhH/twhqdWpKNgDOES1MCW4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jjZwE+tKy6e1ugXuHEy7Hn8syNGW+x3yAsVKq+IaPKnGpELk2vPnIC/VkRfSuy5QH5j+1aFh23ot3/zKSVmzBxGtvT4mceKp14LLF0hUE9EZJx8Ci4KdHGEo0dd0eqjar8R6aAPg2xxO5SshQm2ApajSVy9i8IJWMIvA7Dni3ZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Yn7Q1Jgt; arc=none smtp.client-ip=95.215.58.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fjiZ8XBd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88D121F00ADF
-	for <linux-sound@vger.kernel.org>; Wed,  9 Sep 2026 11:27:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788953273;
-	bh=3jiQyn42rIxemPjlFRLmdJmNQuLfss1eu61probES9o=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc;
-	b=fjiZ8XBdNPsN183InFRv0uIGqWcQgVMgWYF8Nz1i3uO8x3JtYZ027bGAYG6OmYwHS
-	 B34buxTmhnZs5QLlUGSuvQETka0bRRRQv1m3KwCA8AWUTmrPJ8skJDaxUfIMvGKZFE
-	 nisCHiXVdzZ3WopzUcXJ6LKJ04IuduKPvjfXxRXGS1T0OpbPIynxC/1IcjgUFquYPc
-	 9xWVH6oC6JVqyoYTgb1B6b2EBuWsioHAOP6Sc/C7+BpJqMhysnGtpfgiRtCCovCaDz
-	 51P2TvYfiwAP0lpTJT/MK/tMFl0mr181rUwldfJvyj2QkhLa6b4mTnX3VjPFFLH+IB
-	 30j4Slq3fgQSg==
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5b808456308so325362e87.0
-        for <linux-sound@vger.kernel.org>; Wed, 09 Sep 2026 04:27:53 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBz8EPth13cYLvj2DhAZLkpkfbP3HXdvVmK76mBxOsxWiydOdTtGAY5SYn/DMQoQ5z9gGWZhqGOod31c2g==@vger.kernel.org
-X-Gm-Message-State: AFuF++lzlMab8UvLDiBrH1sNZ/MmmqyEcdu3ipF8+dm+x29oNgTU/rp0
-	7ETwKwqBCa42lQMk/FjcUA2z45fc4P+y5SOZilctRWxyMm9CqggPyIIPiQDmXJPF/ffLy2MhfUA
-	/oBpDuxvguaXQR3w18SUPUSv/4RcJ0a2KdG/ASazA5Q==
-X-Received: by 2002:a05:6512:3a8d:b0:5b4:a836:13f3 with SMTP id
- 2adb3069b0e04-5b6170525c5mr5848674e87.19.1788953272225; Wed, 09 Sep 2026
- 04:27:52 -0700 (PDT)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 9 Sep 2026 04:27:50 -0700
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 9 Sep 2026 04:27:49 -0700
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <20260909080114.591938-7-herve.codina@bootlin.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Yn7Q1Jgt"
+X-Envelope-To: linux-sound@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=56QV56ucpbgS2qOQ9Q/zFhH/twhqdWpKNgDOES1MCW4=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1788953364; v=1; x=1789558164;
+ b=Yn7Q1JgtLeCosfaZoJho2bGga5DyTDSt6aZj4pBe/5CPiEO2n1clPFF8Y6smFhCjewW5RJey
+ Ft0MqYAq0g2ob7aM01ZYXVcMMLVZK/ryUlMlyoY/MJgOZ/Z6nZlw2SC8/j6/jFSggg4zVadhKTQ
+ nN3tJUyCJXdztNIUnqtB9pHQ=
+X-Envelope-To: linux-sound@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id e038fb79e2ad4fb8;
+	Wed, 09 Sep 2026 11:29:24 +0000
+X-Mizu-Trace-ID: e038fb79e2ad4fb8
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <3922a062-2e5a-4b9f-9d7b-34e41eb6c4a5@linux.dev>
+Date: Wed, 9 Sep 2026 13:27:22 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260909080114.591938-1-herve.codina@bootlin.com> <20260909080114.591938-7-herve.codina@bootlin.com>
-Date: Wed, 9 Sep 2026 04:27:49 -0700
-X-Gmail-Original-Message-ID: <CAMRc=MeUtCK1SnOk7aAQrnpmZrSxQ1kK-hrw97TH5TBwFR04MQ@mail.gmail.com>
-X-Gm-Features: AcwNN1XgkJRIkWr-Q-vmNlBTGGna2wUXbTKL0GfXX3gNNSE-nKv4XSkZWRFV2s4
-Message-ID: <CAMRc=MeUtCK1SnOk7aAQrnpmZrSxQ1kK-hrw97TH5TBwFR04MQ@mail.gmail.com>
-Subject: Re: [PATCH v11 06/10] PCI: of: Use fw_devlink_set_device()
-To: Herve Codina <herve.codina@bootlin.com>
-Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-pci@vger.kernel.org, linux-sound@vger.kernel.org, 
-	patches@opensource.cirrus.com, linux-gpio@vger.kernel.org, 
-	linux-acpi@vger.kernel.org, linux-cxl@vger.kernel.org, 
-	Allan Nielsen <allan.nielsen@microchip.com>, Horatiu Vultur <horatiu.vultur@microchip.com>, 
-	Daniel Machon <daniel.machon@microchip.com>, Steen Hegelund <steen.hegelund@microchip.com>, 
-	Luca Ceresoli <luca.ceresoli@bootlin.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
-	stable@vger.kernel.org, 
-	Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>, Richard Cheng <icheng@nvidia.com>, 
-	Andrew Lunn <andrew@lunn.ch>, Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Charles Keepax <ckeepax@opensource.cirrus.com>, 
-	Richard Fitzgerald <rf@opensource.cirrus.com>, David Rhodes <david.rhodes@cirrus.com>, 
-	Linus Walleij <linusw@kernel.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Bartosz Golaszewski <brgl@kernel.org>, 
-	Len Brown <lenb@kernel.org>, Davidlohr Bueso <dave@stgolabs.net>, Jonathan Cameron <jic23@kernel.org>, 
-	Dave Jiang <dave.jiang@intel.com>, Alison Schofield <alison.schofield@intel.com>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dan Williams <djbw@kernel.org>, 
-	Ira Weiny <iweiny@kernel.org>, Li Ming <ming.li@zohomail.com>, Lizhi Hou <lizhi.hou@amd.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: rt1320: avoid re-initialize in advanced mode
+To: shumingf@realtek.com, broonie@kernel.org, lgirdwood@gmail.com
+Cc: linux-sound@vger.kernel.org, lars@metafoo.de, flove@realtek.com,
+ oder_chiou@realtek.com, jack.yu@realtek.com, derek.fang@realtek.com
+References: <20260909091806.872977-1-shumingf@realtek.com>
+Content-Language: en-US
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+In-Reply-To: <20260909091806.872977-1-shumingf@realtek.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, 9 Sep 2026 10:01:05 +0200, Herve Codina <herve.codina@bootlin.com> said:
-> The code set directly fwnode.dev field.
->
-> Use the dedicated fw_devlink_set_device() helper to perform this
-> operation.
->
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Acked-by: Bjorn Helgaas <bhelgaas@google.com>
-> Reviewed-by: Richard Cheng <icheng@nvidia.com>
-> Acked-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+On 9/9/26 11:18, shumingf@realtek.com wrote:
+> From: Shuming Fan <shumingf@realtek.com>
+> 
+> On some machines, speaker protection is enabled.
+> We call this advanced mode, which loads the DSP firmware and changes settings
+> based on the basic mode, including blind writes.
+> The amplifier can retain the advanced mode settings until a POR or power loss occurs.
+> Therefore, the driver does not need to switch from basic mode to advanced mode
+> when the system performs a warm reboot.
+> We only need to check the function_status to determine
+> whether the system has undergone a cold or warm reboot.
+> 
+> Fixes: 9b30521074f0 ("ASoC: rt1320: run the initialisation preset on the first hardware init")
+> Signed-off-by: Shuming Fan <shumingf@realtek.com>
+
+LGTM
+
+Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+
+this should also be done for all existing SDCA devices, no?
+
 > ---
-> Cc stable because used by other patches with Fixes + Cc stable
-> ---
->  drivers/pci/of.c | 2 +-
+>  sound/soc/codecs/rt1320-sdw.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/pci/of.c b/drivers/pci/of.c
-> index a51dff91b196..0f45c5b72458 100644
-> --- a/drivers/pci/of.c
-> +++ b/drivers/pci/of.c
-> @@ -882,7 +882,7 @@ void of_pci_make_host_bridge_node(struct pci_host_bridge *bridge)
->  	 * bus. Avoid any new device creation.
->  	 */
->  	of_node_set_flag(np, OF_POPULATED);
-> -	np->fwnode.dev = &bridge->dev;
-> +	fw_devlink_set_device(&np->fwnode, &bridge->dev);
->  	fwnode_dev_initialized(&np->fwnode, true);
->
->  	ret = of_changeset_apply(cset);
-> --
-> 2.55.0
->
->
+> 
+> diff --git a/sound/soc/codecs/rt1320-sdw.c b/sound/soc/codecs/rt1320-sdw.c
+> index 72af413306fa..444a91755be9 100644
+> --- a/sound/soc/codecs/rt1320-sdw.c
+> +++ b/sound/soc/codecs/rt1320-sdw.c
+> @@ -2470,7 +2470,7 @@ static int rt1320_io_init(struct device *dev, struct sdw_slave *slave)
+>  	dev_dbg(dev, "%s amp func_status=0x%x\n", __func__, amp_func_status);
+>  
+>  	/* initialization write */
+> -	if ((amp_func_status & FUNCTION_NEEDS_INITIALIZATION) || !rt1320->first_hw_init) {
+> +	if ((amp_func_status & FUNCTION_NEEDS_INITIALIZATION)) {
+>  		switch (rt1320->dev_id) {
+>  		case RT1320_DEV_ID:
+>  			if (rt1320->version_id < RT1320_VC)
 
-Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
