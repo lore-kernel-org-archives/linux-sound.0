@@ -1,58 +1,58 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F4E653D0B3
-	for <linux-sound@vger.kernel.org>; Wed,  9 Sep 2026 11:27:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A118141A551
+	for <linux-sound@vger.kernel.org>; Wed,  9 Sep 2026 11:27:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788953262; cv=none; b=nUk9oPeP7o+BAHyd4l2yCsiYV3hXlQAkf4QedsQXqupLfXaE2kHdGogO48DVGGkTxedH0mqfsQnKI5w2LEZIii9ie9oMemy2nwkQ+QiElr/TqWB1oA+HNESGslSMcA2Bo9NDPReoqanVDSWxGS6CHs1bsPBHpa499UFlY7jsYWY=
+	t=1788953274; cv=none; b=gX3nMnKULJroMwp3/78TqZJCrn+wQJ0hjqULMJNSEfvjsAFzTR2LRhBZGLTbbREIhOuD8eJRJKSrZLyKIiW20SI7bVFlc8TK+oUeSCuBgtZAEOXXWib+bTYO4hORJsFPlRaykFs/e8njyETan9aVfAPB0HTiokdRyrPBDyhYu1c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788953262; c=relaxed/simple;
-	bh=MDBBmeOGt1jJA2QyqYyZpKdJgVhokM9Hyvk+N6kJG7Y=;
+	s=arc-20240116; t=1788953274; c=relaxed/simple;
+	bh=JJBgofp2pe9RCsL65EmLQklp4DEK1h2O8rEip2QGCW4=;
 	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SDeY2wOEgHORZz9KEHKvk5vRWfPgJr2LAWDf5ivVdRYn2c845CmZbVk9LrU6JtTYx42umqjjpnQisuH++2Qj6uP+rmy1VHiRCPXnv/ANNAkzYTsNIHctpfLGvQPRiRJsr5vf3UjaVsO3UnDdDabXVZuuIeS2zQkKWKWJS9MSckc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AvHeT9q0; arc=none smtp.client-ip=100.103.45.18
+	 To:Cc:Content-Type; b=oe22DZD6bn2vz0t+zvIVs9X99M8Z1xGDK1CWBMQKTvXv648/dSAexRk3fhj63lRNPNsR3i6+WDyQ6+Dmb8o95vO3shyeYEmRJqW1w9SNztVh4K14yon2H0iulV5J1jSI1JMxiMNtz1DJ1+95OnQ9luWGzJlH3EpLlIPbiwcTIE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fjiZ8XBd; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AvHeT9q0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F339F1F00ADF
-	for <linux-sound@vger.kernel.org>; Wed,  9 Sep 2026 11:27:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fjiZ8XBd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88D121F00ADF
+	for <linux-sound@vger.kernel.org>; Wed,  9 Sep 2026 11:27:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788953261;
-	bh=osuKNlWwkgDC1U1icT/Qoh45Es9k9O509Xjy31GoFe8=;
+	s=k20260515; t=1788953273;
+	bh=3jiQyn42rIxemPjlFRLmdJmNQuLfss1eu61probES9o=;
 	h=From:In-Reply-To:References:Date:Subject:To:Cc;
-	b=AvHeT9q07mrFnfse9Uk24EO6Q7CoZSkye46/Qh9mTWfJvOWnqvVf7lYngpEegQB9y
-	 EdiUuvDcNjOpdNjIhpfDyH3EbYl72xEYC/KodcKIhy+VXn4+w3w+yNKW617QB4UN5f
-	 +ssctnHV/S77+GUG1XCV3l5QqNYcDGdiG/abO5nXFdjV81JXtadk47JN9Wxy8t5Tbm
-	 nDEcChLlhf4tarqU1tebaiv81VSTCfDJOeCkJyL+n8/IoTbnThWdqQyRhNVJs/LQzI
-	 XRS855GH9ZzK3iI99kw2kTFL1gkpAKmx8ZrI1HFRYXTCvQv7ZgIPcUrodgaK+GCJ05
-	 +0L9xdnhwhaEw==
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5b4ae0b3308so4181754e87.3
-        for <linux-sound@vger.kernel.org>; Wed, 09 Sep 2026 04:27:40 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBzqOnLk+vUJGu84/Zd7dhYRDVcu1rrA5mH/DxcbtFYm6qqBEx5SPkRaaJmbpGEKWWnZ8jYLd+kHi/qh3w==@vger.kernel.org
-X-Gm-Message-State: AFuF++nDFdDS9Ea+VLVSOrDxtagdjIzG+IjlEv3ZPol8WFLnqCRISRQ/
-	pnaqg2mztr9YGHV0+S1DQDpmD6Oog/CPlucsVdq2usFhk/ijYNztv/W31PggVKBmmB1kxy7UOQv
-	G5onqi3x4+rBgNUSjH0xqL1bx9vaNjLWsq3/2HWFF9A==
-X-Received: by 2002:a05:6512:234a:b0:5b6:1a7c:aa0d with SMTP id
- 2adb3069b0e04-5b61a7cac20mr5414087e87.37.1788953259475; Wed, 09 Sep 2026
- 04:27:39 -0700 (PDT)
+	b=fjiZ8XBdNPsN183InFRv0uIGqWcQgVMgWYF8Nz1i3uO8x3JtYZ027bGAYG6OmYwHS
+	 B34buxTmhnZs5QLlUGSuvQETka0bRRRQv1m3KwCA8AWUTmrPJ8skJDaxUfIMvGKZFE
+	 nisCHiXVdzZ3WopzUcXJ6LKJ04IuduKPvjfXxRXGS1T0OpbPIynxC/1IcjgUFquYPc
+	 9xWVH6oC6JVqyoYTgb1B6b2EBuWsioHAOP6Sc/C7+BpJqMhysnGtpfgiRtCCovCaDz
+	 51P2TvYfiwAP0lpTJT/MK/tMFl0mr181rUwldfJvyj2QkhLa6b4mTnX3VjPFFLH+IB
+	 30j4Slq3fgQSg==
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5b808456308so325362e87.0
+        for <linux-sound@vger.kernel.org>; Wed, 09 Sep 2026 04:27:53 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBz8EPth13cYLvj2DhAZLkpkfbP3HXdvVmK76mBxOsxWiydOdTtGAY5SYn/DMQoQ5z9gGWZhqGOod31c2g==@vger.kernel.org
+X-Gm-Message-State: AFuF++lzlMab8UvLDiBrH1sNZ/MmmqyEcdu3ipF8+dm+x29oNgTU/rp0
+	7ETwKwqBCa42lQMk/FjcUA2z45fc4P+y5SOZilctRWxyMm9CqggPyIIPiQDmXJPF/ffLy2MhfUA
+	/oBpDuxvguaXQR3w18SUPUSv/4RcJ0a2KdG/ASazA5Q==
+X-Received: by 2002:a05:6512:3a8d:b0:5b4:a836:13f3 with SMTP id
+ 2adb3069b0e04-5b6170525c5mr5848674e87.19.1788953272225; Wed, 09 Sep 2026
+ 04:27:52 -0700 (PDT)
 Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 9 Sep 2026 04:27:38 -0700
+ HTTPREST; Wed, 9 Sep 2026 04:27:50 -0700
 Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 9 Sep 2026 04:27:37 -0700
+ HTTPREST; Wed, 9 Sep 2026 04:27:49 -0700
 From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <20260909080114.591938-6-herve.codina@bootlin.com>
+In-Reply-To: <20260909080114.591938-7-herve.codina@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260909080114.591938-1-herve.codina@bootlin.com> <20260909080114.591938-6-herve.codina@bootlin.com>
-Date: Wed, 9 Sep 2026 04:27:37 -0700
-X-Gmail-Original-Message-ID: <CAMRc=Mf8Hp1k+s0A3+T0XCWbm0mzV3rGDOd0=gkM0x+arqf2fw@mail.gmail.com>
-X-Gm-Features: AcwNN1UF2eAGvBL-3uNx_wKL96_0i716IzDQOeLpWlE0LgzqTry7SnN7eIT7jms
-Message-ID: <CAMRc=Mf8Hp1k+s0A3+T0XCWbm0mzV3rGDOd0=gkM0x+arqf2fw@mail.gmail.com>
-Subject: Re: [PATCH v11 05/10] cxl/test: Use fw_devlink_set_device()
+References: <20260909080114.591938-1-herve.codina@bootlin.com> <20260909080114.591938-7-herve.codina@bootlin.com>
+Date: Wed, 9 Sep 2026 04:27:49 -0700
+X-Gmail-Original-Message-ID: <CAMRc=MeUtCK1SnOk7aAQrnpmZrSxQ1kK-hrw97TH5TBwFR04MQ@mail.gmail.com>
+X-Gm-Features: AcwNN1XgkJRIkWr-Q-vmNlBTGGna2wUXbTKL0GfXX3gNNSE-nKv4XSkZWRFV2s4
+Message-ID: <CAMRc=MeUtCK1SnOk7aAQrnpmZrSxQ1kK-hrw97TH5TBwFR04MQ@mail.gmail.com>
+Subject: Re: [PATCH v11 06/10] PCI: of: Use fw_devlink_set_device()
 To: Herve Codina <herve.codina@bootlin.com>
 Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
 	linux-pci@vger.kernel.org, linux-sound@vger.kernel.org, 
@@ -61,7 +61,8 @@ Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
 	Allan Nielsen <allan.nielsen@microchip.com>, Horatiu Vultur <horatiu.vultur@microchip.com>, 
 	Daniel Machon <daniel.machon@microchip.com>, Steen Hegelund <steen.hegelund@microchip.com>, 
 	Luca Ceresoli <luca.ceresoli@bootlin.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
-	Jonathan Cameron <jonathan.cameron@huawei.com>, Richard Cheng <icheng@nvidia.com>, 
+	stable@vger.kernel.org, 
+	Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>, Richard Cheng <icheng@nvidia.com>, 
 	Andrew Lunn <andrew@lunn.ch>, Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, 
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
 	Danilo Krummrich <dakr@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
@@ -76,34 +77,37 @@ Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
 	Ira Weiny <iweiny@kernel.org>, Li Ming <ming.li@zohomail.com>, Lizhi Hou <lizhi.hou@amd.com>
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 9 Sep 2026 10:01:04 +0200, Herve Codina <herve.codina@bootlin.com> said:
+On Wed, 9 Sep 2026 10:01:05 +0200, Herve Codina <herve.codina@bootlin.com> said:
 > The code set directly fwnode.dev field.
 >
 > Use the dedicated fw_devlink_set_device() helper to perform this
 > operation.
 >
+> Cc: stable@vger.kernel.org
 > Signed-off-by: Herve Codina <herve.codina@bootlin.com>
-> Reviewed-by: Dave Jiang <dave.jiang@intel.com>
-> Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
 > Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Acked-by: Bjorn Helgaas <bhelgaas@google.com>
 > Reviewed-by: Richard Cheng <icheng@nvidia.com>
+> Acked-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
 > ---
->  tools/testing/cxl/test/cxl.c | 2 +-
+> Cc stable because used by other patches with Fixes + Cc stable
+> ---
+>  drivers/pci/of.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/tools/testing/cxl/test/cxl.c b/tools/testing/cxl/test/cxl.c
-> index 547ebc97bf59..e21e45fe1572 100644
-> --- a/tools/testing/cxl/test/cxl.c
-> +++ b/tools/testing/cxl/test/cxl.c
-> @@ -1678,7 +1678,7 @@ static void mock_companion(struct acpi_device *adev, struct device *dev)
->  	device_initialize(&adev->dev);
->  	fwnode_init(&adev->fwnode, NULL);
->  	device_set_node(dev, &adev->fwnode);
-> -	adev->fwnode.dev = dev;
-> +	fw_devlink_set_device(&adev->fwnode, dev);
->  }
+> diff --git a/drivers/pci/of.c b/drivers/pci/of.c
+> index a51dff91b196..0f45c5b72458 100644
+> --- a/drivers/pci/of.c
+> +++ b/drivers/pci/of.c
+> @@ -882,7 +882,7 @@ void of_pci_make_host_bridge_node(struct pci_host_bridge *bridge)
+>  	 * bus. Avoid any new device creation.
+>  	 */
+>  	of_node_set_flag(np, OF_POPULATED);
+> -	np->fwnode.dev = &bridge->dev;
+> +	fw_devlink_set_device(&np->fwnode, &bridge->dev);
+>  	fwnode_dev_initialized(&np->fwnode, true);
 >
->  #ifndef SZ_64G
+>  	ret = of_changeset_apply(cset);
 > --
 > 2.55.0
 >
