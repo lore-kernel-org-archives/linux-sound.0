@@ -1,145 +1,137 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6AFF493625
-	for <linux-sound@vger.kernel.org>; Wed,  9 Sep 2026 09:10:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEF7147C11B;
+	Wed,  9 Sep 2026 09:13:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788945052; cv=none; b=uNKISvoYqWxV4/whgH6lS0n0J6ArqN+G7EKj1Sp4RdBJxhjiJzdkuGCuaeFSkkdZ9kEYHVB+QRaEohs5XZdmq2ZnHLrn27DDDkEu4Ce5XtoXSvdM4nkjE9bICPrrAR1crdWcHQQIP0sECHdCV9qEDDb492B3qFAt+7DGtj8H8WA=
+	t=1788945193; cv=none; b=sXNzF90jcK8wtyNL3quH3o4JmgFFZveUvMoq36v9cl0suXsDIQy0bYdv3S50FJuOL3W8ZkLp1KEU01KarYgvemVdrJAvJEwqSeDDqw7e+8wzdg3bt61rHqXKbio2yEup2hEi4HwWQtA5xo1l25ZgFKDAcrql6fWMR6xQe5IHc50=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788945052; c=relaxed/simple;
-	bh=i5tEUZ49J/v+xI360H0wqZVG7XM2k2VA6VS81ZDxzCs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=uSlFFJpZpmMfd04J7T3JWijrGva7O66C0nVNp47KTT32zg73AgaqKkAYmApuq14UztsiDop6vXSOASBL/LEtIHx4fpET8nlHHxw44kNfu6oLZzIy+pifmEEpRcXaTnrA53s+C9P6xLDUJlKGlVleSBKBwCIMvNkM+a3lVP5Nxf8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OsosAZIx; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1788945193; c=relaxed/simple;
+	bh=9FW2UTOgqCav1VjSAAUtH3W+CbF5wggrb4OPxT9/SnU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QUACEWvguOUDgdehPOw3vQV3aOAy+3A/PYuEN6UIoWvwylHAzpU39YdphCsQJTKFeXT3QQOt8V8sH/nvkEbylAUTCMbBw8kUxLRmZhFe2RTRWsOVnbCK0E9T/48H/5N4pJpaEetXIq2Ri1FFnwqsdLq0CWqhJ+V2qpBr26wshrM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=G14bceSe; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OsosAZIx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788945051; x=1820481051;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=i5tEUZ49J/v+xI360H0wqZVG7XM2k2VA6VS81ZDxzCs=;
-  b=OsosAZIx/7lWz8Gu0fAT6U5JF/tcLRs3xsvsF430JuI1AkYjjdCd/P/w
-   adfmlDO9R87IDIqosmizpiX1a3kGgm28rCHJjfacAjuNGYbh1ghMWxJFG
-   vLpBieaq8s/B8C9Yix+5D4G1Oandys4vkfmJDBCaYK4GLKhvE8Jlib5O/
-   DbXEIYBh0l0QL1veucrPbb8VR4dWOXzptLxH0CNA41w+GunU9HSh9Y8AX
-   07Ssdk9DQfAgmFOpwjfOJjBsSWBN6uWbap+rux5nW/s2CuKcWmU+w3x5v
-   k1qn7BC6pEH5CT7g38WXoYdRoh7HcXf6YkRi37MI5z/B9cOnFUwckNFg7
-   Q==;
-X-CSE-ConnectionGUID: m/seO4qQRSWhmWyOX75wqA==
-X-CSE-MsgGUID: BPJsulRaSN6IoYOARQlo4Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11900"; a="89200965"
-X-IronPort-AV: E=Sophos;i="6.25,270,1779174000"; 
-   d="scan'208";a="89200965"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2026 02:10:51 -0700
-X-CSE-ConnectionGUID: 2gmucMK+RYWYacLwsooXXA==
-X-CSE-MsgGUID: mUT1frRFRfWQzoo4M86qHA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,270,1779174000"; 
-   d="scan'208";a="266973528"
-Received: from ettammin-mobl2.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.244.252])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2026 02:10:47 -0700
-From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-To: vkoul@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	srinivas.kandagatla@oss.qualcomm.com
-Cc: linux-sound@vger.kernel.org,
-	kai.vehmanen@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	pierre-louis.bossart@linux.dev,
-	daniel.baluta@nxp.com
-Subject: [PATCH v2 24/24] ASoC: SOF: topology: Add support for decoder and encoder widgets
-Date: Wed,  9 Sep 2026 12:09:49 +0300
-Message-ID: <20260909090949.7503-25-peter.ujfalusi@linux.intel.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260909090949.7503-1-peter.ujfalusi@linux.intel.com>
-References: <20260909090949.7503-1-peter.ujfalusi@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="G14bceSe"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 0CD411A1A7B;
+	Wed,  9 Sep 2026 09:13:09 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id CB06E60448;
+	Wed,  9 Sep 2026 09:13:08 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id E49CF11C7AF50;
+	Wed,  9 Sep 2026 11:12:51 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1788945186; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=9X5Hg2F0uLuCJm6N2AouKct+zmRjRP/xwCe08E1h2Dc=;
+	b=G14bceSeMMscqNQfsMmZnO4qhbNFOzGXWjAY9otn4UPr+p2vnmRbPx8NCgh+97c0a8XvK0
+	Bt7VHMfcxro5bPWJ9cYVZt2xh6bA9yqB8pePmoWCpCsFrZYTE8UQ39XbqHX00R5uUkOgSf
+	T2SHnj47S7r4SfrB5thKh0NYRTIAG3F1dzI6wYA8AEk8aBwHpoj0c9CYEmfUVt6SnH2q1o
+	e+OhQ7Hd+w7YpZvTaqaSqTGQHgEI+us9G7dPUfrhjpsgwNFQZcIYD4bOKN0vfUGzLknDrb
+	O08QK4OgzsL0A74SZ49trK7KZ8CH5uIBvpcFFNdtVDjjbDGbZocRX+uo5wgw4g==
+Date: Wed, 9 Sep 2026 11:12:50 +0200
+From: Herve Codina <herve.codina@bootlin.com>
+To: Richard Cheng <icheng@nvidia.com>, Andrew Lunn <andrew@lunn.ch>, Rob
+ Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Bjorn Helgaas
+ <bhelgaas@google.com>, Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>, David Rhodes
+ <david.rhodes@cirrus.com>, Linus Walleij <linusw@kernel.org>, Andy
+ Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally
+ <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, Bartosz Golaszewski
+ <brgl@kernel.org>, Len Brown <lenb@kernel.org>, Davidlohr Bueso
+ <dave@stgolabs.net>, Jonathan Cameron <jic23@kernel.org>, Dave Jiang
+ <dave.jiang@intel.com>, Alison Schofield <alison.schofield@intel.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, Dan Williams <djbw@kernel.org>,
+ Ira Weiny <iweiny@kernel.org>, Li Ming <ming.li@zohomail.com>, Herve Codina
+ <herve.codina@bootlin.com>, Lizhi Hou <lizhi.hou@amd.com>
+Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-sound@vger.kernel.org,
+ patches@opensource.cirrus.com, linux-gpio@vger.kernel.org,
+ linux-acpi@vger.kernel.org, linux-cxl@vger.kernel.org, Allan Nielsen
+ <allan.nielsen@microchip.com>, Horatiu Vultur
+ <horatiu.vultur@microchip.com>, Daniel Machon
+ <daniel.machon@microchip.com>, Steen Hegelund
+ <steen.hegelund@microchip.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ stable+noautosel@kernel.org
+Subject: Re: [PATCH v11 10/10] PCI: of: Avoid np->data usage for the node
+ changeset
+Message-ID: <20260909111250.6b36af7e@bootlin.com>
+In-Reply-To: <20260909080114.591938-11-herve.codina@bootlin.com>
+References: <20260909080114.591938-1-herve.codina@bootlin.com>
+	<20260909080114.591938-11-herve.codina@bootlin.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-From: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+Hi All,
 
-Decoder and encoder modules fall under process modules in SOF.
+On Wed,  9 Sep 2026 10:01:09 +0200
+Herve Codina <herve.codina@bootlin.com> wrote:
 
-Signed-off-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-Co-developed-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
----
- sound/soc/sof/ipc4-topology.c | 11 +++++++++++
- sound/soc/sof/sof-audio.h     |  4 +++-
- sound/soc/sof/topology.c      |  2 ++
- 3 files changed, 16 insertions(+), 1 deletion(-)
+> of_pci_remove_node() and of_pci_remove_host_bridge_node() check
+> whether the node is dynamic but not whether it has valid private data.
+> 
+> During the node creation, an OF changeset is used and this changeset is
+> stored in np->data to be available for removal functions.
+> 
+> If, for instance, a PCI host bridge is created using a device-tree
+> overlay, the related node will have the dynamic flag set but np->data
+> will be NULL. This leads to NULL pointer dereferences.
+> 
+> Checking for a non-NULL np->data pointer to determine if the node has
+> been created by the PCI node creation process is not enough. Indeed,
+> on some platforms like PowerPC, the OF_RECONFIG_ATTACH_NODE notifier
+> (e.g., in the pci_dn_reconfig_notifier() function) intercepts node
+> additions and populates np->data with its own structure, such as a
+> struct pci_dn. In that case, np->data is not NULL but it is not related
+> to our changeset stored during the PCI node process creation.
+> 
+> Avoid the usage of np->data to store the changeset used during the PCI
+> node creation. Store our changeset in a more relevant structure: either
+> struct pci_dev when the node is created for a PCI device or struct
+> pci_host_bridge when the node is created for the PCI host bridge.
+> 
+> With that done, no ambiguity remains on removal. Indeed, this changeset,
+> if non-NULL, is the one used during PCI node creation. Check and use
+> this changeset on the removal process.
+> 
+> Fixes: 407d1a51921e ("PCI: Create device tree node for bridge")
+> Fixes: 1f340724419e ("PCI: of: Create device tree PCI host bridge node")
+> Cc: <stable+noautosel@kernel.org> # Issue not triggered but could be a problem
+> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
+> ---
+>  drivers/pci/of.c    | 28 ++++++++++++++--------------
+>  include/linux/pci.h | 11 +++++++++++
+>  2 files changed, 25 insertions(+), 14 deletions(-)
+> 
 
-diff --git a/sound/soc/sof/ipc4-topology.c b/sound/soc/sof/ipc4-topology.c
-index 566913025cc7..74a6da9705da 100644
---- a/sound/soc/sof/ipc4-topology.c
-+++ b/sound/soc/sof/ipc4-topology.c
-@@ -3589,6 +3589,8 @@ static int sof_ipc4_widget_setup(struct snd_sof_dev *sdev, struct snd_sof_widget
- 		msg = &asrc->msg;
- 		break;
- 	}
-+	case snd_soc_dapm_decoder:
-+	case snd_soc_dapm_encoder:
- 	case snd_soc_dapm_effect:
- 	{
- 		struct sof_ipc4_process *process = swidget->private;
-@@ -4361,6 +4363,15 @@ static const struct sof_ipc_tplg_widget_ops tplg_ipc4_widget_ops[SND_SOC_DAPM_TY
- 				process_token_list, ARRAY_SIZE(process_token_list),
- 				NULL, sof_ipc4_prepare_process_module,
- 				NULL},
-+	/* for all practical purposes a decoder is like an effect type widget */
-+	[snd_soc_dapm_decoder] = {sof_ipc4_widget_setup_comp_process,
-+				  sof_ipc4_widget_free_comp_process,
-+				  process_token_list, ARRAY_SIZE(process_token_list),
-+				  NULL, sof_ipc4_prepare_process_module, NULL},
-+	[snd_soc_dapm_encoder] = {sof_ipc4_widget_setup_comp_process,
-+				  sof_ipc4_widget_free_comp_process,
-+				  process_token_list, ARRAY_SIZE(process_token_list),
-+				  NULL, sof_ipc4_prepare_process_module, NULL},
- };
- 
- const struct sof_ipc_tplg_ops ipc4_tplg_ops = {
-diff --git a/sound/soc/sof/sof-audio.h b/sound/soc/sof/sof-audio.h
-index 9dff4fea628e..b60246fd5869 100644
---- a/sound/soc/sof/sof-audio.h
-+++ b/sound/soc/sof/sof-audio.h
-@@ -43,7 +43,9 @@
- #define WIDGET_IS_AIF(id) ((id) == snd_soc_dapm_aif_in || (id) == snd_soc_dapm_aif_out)
- #define WIDGET_IS_AIF_OR_DAI(id) (WIDGET_IS_DAI(id) || WIDGET_IS_AIF(id))
- #define WIDGET_IS_COPIER(id) (WIDGET_IS_AIF_OR_DAI(id) || (id) == snd_soc_dapm_buffer)
--#define WIDGET_IS_PROCESS(id) ((id) == snd_soc_dapm_effect)
-+#define WIDGET_IS_PROCESS(id) ((id) == snd_soc_dapm_effect ||	\
-+			       (id) == snd_soc_dapm_decoder ||	\
-+			       (id) == snd_soc_dapm_encoder)
- 
- #define SOF_DAI_PARAM_INTEL_SSP_MCLK		0
- #define SOF_DAI_PARAM_INTEL_SSP_BCLK		1
-diff --git a/sound/soc/sof/topology.c b/sound/soc/sof/topology.c
-index 8338133899ab..e2cb90133650 100644
---- a/sound/soc/sof/topology.c
-+++ b/sound/soc/sof/topology.c
-@@ -1530,6 +1530,8 @@ static int sof_widget_ready(struct snd_soc_component *scomp, int index,
- 		list_add(&dai->list, &sdev->dai_list);
- 		swidget->private = dai;
- 		break;
-+	case snd_soc_dapm_decoder:
-+	case snd_soc_dapm_encoder:
- 	case snd_soc_dapm_effect:
- 		/* check we have some tokens - we need at least process type */
- 		if (le32_to_cpu(tw->priv.size) == 0) {
--- 
-2.55.0
+Shashiko has reported issues [0].
 
+IMO, those issues cannot be triggered but I would like to know the opinion of
+other people and Maintainers.
+
+Of course, I can update the code to more defensive but is it really needed?
+
+Let me know if I need to send a new iteration with the update (check for a
+null np and set cset to NULL after the kfree() call in remove functions).
+
+[0] https://lore.kernel.org/all/20260909110623.2e6bbc89@bootlin.com/
+
+Best regards,
+Hervé
