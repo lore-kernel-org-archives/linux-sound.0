@@ -1,84 +1,90 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAA6537996C;
-	Wed,  9 Sep 2026 09:15:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBE2B39A4A4
+	for <linux-sound@vger.kernel.org>; Wed,  9 Sep 2026 09:18:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788945331; cv=none; b=VO0fFBU6iLX3hY3jOB6D9hQgnHt111IsYqzx8ZbSXF3VaFFGQGzOS1WQJjt/RpZ86AW38kpp0NRnyT03LW+IJG0hDbKTRlH35lR6tIpDniyeDCyjatpKh5byjUYhWeQLgljDYuuwJyE39Jb5TdHzIsX9XaSrNatiPGbvYIEu2yU=
+	t=1788945519; cv=none; b=D9we+lLcTSx2jigH4Z4kM8UWgOEs6diDUYwqjxW1YD60lPu0zT9lHzUe29cRCAywRytTjXiN75E7J1ShADuxJh6AccOsbVS5Tu1r3ixcUUlpsZ1A/pW1iDQQnzf8Be7utHT706VNPrssad2Th0NhOvQ+svBr6mS6L/hkSazRh+Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788945331; c=relaxed/simple;
-	bh=Q1hPFcHkvswbhbdcsLOQX7sUlSGIB2PG8xMG+T49BdU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bzRzN+E1XmyCEjg8wOTcnYpkxRrRWD/YOyTwHnQrAQcDyTrJqyfiGCj8V+Gn6GRlQ228qk5u/rFhwfCmUszAjNF8xuwbKCz92eyOF6Dp5VcverJOROCIZMpgkvccZHL5f+CBIlEXL2N/B2oN3Qj3kQ1m+N1wlND6AjY6aL+wJcE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=dT2IlqVY; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1788945519; c=relaxed/simple;
+	bh=8ok39uNEitqPsI9/X+Ixgm/ZljDk/0oH/c8FA1450q4=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=lLUgj7ssaJA+uEokv2Ye51oKnZND5Jzu+Vm7ZY8I5xLrUAmP4IVN7x2do5wnwi6VKv4S1JQvfMaOoahqNvB+zKejIPaNa3FnNCTAJbSsQdZFjyXr/e8OyKJ7zYfr6SsNjUQ/2x59/apROl8FP7VR1pYbs/wgNPGZps0zi6nJ4fg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=ErNNXicj; arc=none smtp.client-ip=211.75.126.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="dT2IlqVY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1788945325;
-	bh=Q1hPFcHkvswbhbdcsLOQX7sUlSGIB2PG8xMG+T49BdU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=dT2IlqVYjgDxGh0a45aUg5OLWqBfn58Tqt+giiqkH/WI7jCVZTpq39H7OPXvyc+9k
-	 Y7bmq7IYqc98Lfkus42umstvLW4rDYwwLXiRDBWrE69flsMPUEkSDwRLTQoQrqN8//
-	 3gASZwZWUVen+9+pS4SKdmBNCG5c+lkO6TUtRKxiYEJZJKsrvxI1xHnCxH0caEpkRh
-	 KU0WcYboDKQFpEtc3jES2L/YVxBFQmtLHoyU/mNFh4FjPzvLP++Mw3sQ+cFhpeBHUe
-	 tWs4wzGEGcrtF51V24DffIbEm8ehBowmunz6LbYkd+S6ntCu2Oarxo8mfP7KjcYC4j
-	 df2B9WEsk0Qpw==
-Received: from [100.64.1.21] (unknown [100.64.1.21])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id CDED317E06E0;
-	Wed, 09 Sep 2026 11:15:24 +0200 (CEST)
-Message-ID: <3bb91821-e618-4992-8f95-8e2631568bbe@collabora.com>
-Date: Wed, 9 Sep 2026 11:15:24 +0200
+	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="ErNNXicj"
+X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 6899IBdM4425865, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
+	t=1788945492; bh=JKcdy7OtYID8yu/zjYfEP0X9437N+PUCgLIIrDAuu98=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type;
+	b=ErNNXicjgve7SqismY1+tzsEhcw+f0XKUiKMWGpu+tQ2jc74AgyLCDQBjb1tkYiq4
+	 9NmLu1tf0aIw55tWVmdMldFahp90AH2RnRm1/AYi4b4EghauHcAV89oQ1BXxdzazkr
+	 7Tt9MjHveSjCDRFXwlmRPAqdKkOxUFnTZQNGscEvbCo3g3ZCbrLYdklZN/SnXZh4Nh
+	 dgA3be1FsXMYxen5HMttipi4MXXkHpFr2ty6fkXqxNfJEf83+pmFl3Gu65W2/hgFj0
+	 /0hQ7Lon84d1tshXAA01hTQF/L2d1I0xsO+73kBe6WFdOQbYL4MYBMwxCgfhkSrkwl
+	 ymT24t8EqDWiA==
+Received: from mail.realtek.com (rtkexhmbs02.realtek.com.tw[172.21.6.41])
+	by rtits2.realtek.com.tw (8.15.2/3.29/5.94) with ESMTPS id 6899IBdM4425865
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Wed, 9 Sep 2026 17:18:12 +0800
+Received: from RTKEXHMBS05.realtek.com.tw (10.21.1.55) by
+ RTKEXHMBS02.realtek.com.tw (172.21.6.41) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.43; Wed, 9 Sep 2026 17:18:10 +0800
+Received: from sw-server.localdomain (172.24.54.4) by
+ RTKEXHMBS05.realtek.com.tw (10.21.1.55) with Microsoft SMTP Server id
+ 15.2.2562.43 via Frontend Transport; Wed, 9 Sep 2026 17:18:10 +0800
+From: <shumingf@realtek.com>
+To: <broonie@kernel.org>, <lgirdwood@gmail.com>
+CC: <linux-sound@vger.kernel.org>, <lars@metafoo.de>, <flove@realtek.com>,
+	<oder_chiou@realtek.com>, <jack.yu@realtek.com>, <derek.fang@realtek.com>,
+	Shuming Fan <shumingf@realtek.com>
+Subject: [PATCH] ASoC: rt1320: avoid re-initialize in advanced mode
+Date: Wed, 9 Sep 2026 17:18:06 +0800
+Message-ID: <20260909091806.872977-1-shumingf@realtek.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/7] ASoC: mediatek: mt8188: mt8188-afe-clk: Propagate
- regmap update errors
-To: Mark Brown <broonie@kernel.org>,
- Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: phucduc.bui@gmail.com, Liam Girdwood <lgirdwood@gmail.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Kees Cook <kees@kernel.org>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Trevor Wu <trevor.wu@mediatek.com>, Douglas Anderson
- <dianders@chromium.org>, linux-sound@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-kernel@vger.kernel.org, Matthias Brugger <matthias.bgg@gmail.com>
-References: <20260907120310.135693-1-phucduc.bui@gmail.com>
- <20260907120310.135693-4-phucduc.bui@gmail.com>
- <e011cd74-7c5a-4cd1-b412-ad11765ad11c@intel.com>
- <a88fbf17-faac-4902-bd39-ff0a616a7d2d@sirena.org.uk>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <a88fbf17-faac-4902-bd39-ff0a616a7d2d@sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On 9/8/26 20:52, Mark Brown wrote:
-> On Tue, Sep 08, 2026 at 07:49:00PM +0200, Cezary Rojewski wrote:
-> 
->> I'd expect someone from Mediatek to verify this.  While I agree with the
->> change, some drivers follow "ignore register update result" arch and,
->> what was previously ignored will now cause basic operations to fail.
-> 
-> We don't really get any review from Mediatek, AngeloGioacchino used to
-> try to cover things but it seems he got busy recently :(
+From: Shuming Fan <shumingf@realtek.com>
 
-Yeah, sorry about that, it's busy-busy-busy days here.
-Also I had a summer break, so 1+1=ouch :-)
+On some machines, speaker protection is enabled.
+We call this advanced mode, which loads the DSP firmware and changes settings
+based on the basic mode, including blind writes.
+The amplifier can retain the advanced mode settings until a POR or power loss occurs.
+Therefore, the driver does not need to switch from basic mode to advanced mode
+when the system performs a warm reboot.
+We only need to check the function_status to determine
+whether the system has undergone a cold or warm reboot.
 
-The changes are fine, those regmap updates always succeed, that's why it works,
-and ignoring an error there would actually break things.
+Fixes: 9b30521074f0 ("ASoC: rt1320: run the initialisation preset on the first hardware init")
+Signed-off-by: Shuming Fan <shumingf@realtek.com>
+---
+ sound/soc/codecs/rt1320-sdw.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Cheers,
-Angelo
+diff --git a/sound/soc/codecs/rt1320-sdw.c b/sound/soc/codecs/rt1320-sdw.c
+index 72af413306fa..444a91755be9 100644
+--- a/sound/soc/codecs/rt1320-sdw.c
++++ b/sound/soc/codecs/rt1320-sdw.c
+@@ -2470,7 +2470,7 @@ static int rt1320_io_init(struct device *dev, struct sdw_slave *slave)
+ 	dev_dbg(dev, "%s amp func_status=0x%x\n", __func__, amp_func_status);
+ 
+ 	/* initialization write */
+-	if ((amp_func_status & FUNCTION_NEEDS_INITIALIZATION) || !rt1320->first_hw_init) {
++	if ((amp_func_status & FUNCTION_NEEDS_INITIALIZATION)) {
+ 		switch (rt1320->dev_id) {
+ 		case RT1320_DEV_ID:
+ 			if (rt1320->version_id < RT1320_VC)
+-- 
+2.54.0
+
