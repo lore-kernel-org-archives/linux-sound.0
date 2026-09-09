@@ -1,152 +1,133 @@
-Received: from mta0.migadu.com (out-108.mta0.migadu.com [91.218.175.108])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C5DB41D652
-	for <linux-sound@vger.kernel.org>; Wed,  9 Sep 2026 20:22:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AA423C9891
+	for <linux-sound@vger.kernel.org>; Wed,  9 Sep 2026 20:29:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788985344; cv=none; b=G4GNQ9S9di2fty9RpFVYoqyEYSkJS9wFIg6g76ZyKdB8zllC7sXmNZMS+vXmXRypVO+QDQ6sJefqZFPhKi3TT0qMn3ZvPjYiIIc2reMJQYw54VQesniuunEnB45WJcqz3w6HnUwnzVXTJZ3GOpDjBkJK5v7554JSwPLc4Ryy/Zk=
+	t=1788985786; cv=none; b=AxL2g8wXY9+o556nuQwFrjtY2srU4HUaQYVPkXxOqxCAGn0+kus/1Y9A/SxPQotEwKXyibclxH3ygIVzXqPSMgVRhz9kNdTVkBV7ydEU7Xjg2ZBiyAfs8AnZxFOsY9uRNA6QYpG4qtJ9C33b4b4R/BFGHLkV2I3a5RfUWYkO940=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788985344; c=relaxed/simple;
-	bh=cu3Jm7QmCMbLfHFVPAr0burQXfHT7lvirfauiXYobJk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=utrrHsIZahjVM+UJN9RWG2SdQsSFMumk0F9sUq5C+T+VdvtB0j7gq75o19mCTUU0h3RLMFzM3MyPioylJVCClJj3NzmsOdeMQdf4tgbu2ifFo37tuehmKoYiknnUlitXEyZwa3eh/NGACQUvFDSwWOSgf3MzifsylVLdPQZKer8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=xKIRKDtV; arc=none smtp.client-ip=91.218.175.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1788985786; c=relaxed/simple;
+	bh=n2O3OIrAFdMmFr0yu/uaSut1SXnpXWM1clMCDkvIz4g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=URkOgiLCYV5DoOBb148ms8kg6+mJlA7MM9kvnaRbs25rDB58hRrW4qtoxB1E7vPJJjKi7TTVOOJ48Wh9LUCf1jkIRnvfO9BNNKvZGo2NZo9lUsjQl0qUh1SAIhcYsjY1SGqSI6CbVehaZR+y8NwP/Fg6Y/etsGI2vr5HB2iHcEs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TJZ/KFx4; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="xKIRKDtV"
-X-Envelope-To: linux-sound@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=cu3Jm7QmCMbLfHFVPAr0burQXfHT7lvirfauiXYobJk=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1788985332; v=1; x=1789590132;
- b=xKIRKDtV8pfYWfj38MeShfbOoAsgFHgyBeRJ21WFUJo0Xx+F3eK2OEKaEuUXsR+/e9ZT8JC6
- r2+dXx/1ZvjuVYs+ZLjRO6RO5GUqHOXdjYTD5R9SBnSy0By3hSd2FDgx5kYRjXo0qNfEnnB3/va
- wCTv1z1kfpz7sDUG1hmB7TWc=
-X-Envelope-To: linux-sound@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 038407f55bc34093;
-	Wed, 09 Sep 2026 20:22:12 +0000
-X-Mizu-Trace-ID: 038407f55bc34093
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <e0ca888d-6607-47b4-a470-564c34cfa0cd@linux.dev>
-Date: Wed, 9 Sep 2026 22:22:10 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TJZ/KFx4"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-49ccfbe062eso62130645e9.3
+        for <linux-sound@vger.kernel.org>; Wed, 09 Sep 2026 13:29:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788985779; x=1789590579; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=qckaQ07GIjAycth+WTbJjXIHu8VJsW0kggwIpsbAbME=;
+        b=TJZ/KFx44v+UViRzLR0kAbzUjkD34nLHd7nh7cjoz2P4FUsNjpjtrcwIfrE8ne+UVy
+         AZp+n0hjllq7BK0rP2Us/OFfd8ShsVCDVFGUKxYtDOVuQe0NholSuwuRLjugwYcRiq6Z
+         7ra/84LU7ycnAewMBOfuFxjjgB/VHk+j4KqmpzMShX8e/TZbyU9lTNe14/B0o+uxPgCr
+         MPzZ7rd17jAF4i9DiMuQwL0wpPg5MhZy3qE0JEraB2LM6CYHwqcE2/H0nGslrPfYAwzO
+         szCktNIMZ69atida+RWdfFNbfEcqZPfOPg8H39i0fy0b9xd5u9TVMBLhgNXmqAElDtoE
+         /O1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788985779; x=1789590579;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=qckaQ07GIjAycth+WTbJjXIHu8VJsW0kggwIpsbAbME=;
+        b=UtN642S9V+YtiP1Sqva/BOKv973WkOlUIThNwqI/lb1m3Op0j7mwpk8ptPcIjvMtip
+         bsyOTuwzaXPCpFGYBRwcE+SgTxberBWSOdS7+Wg3BxBYSbflQDWCIOsiJO7JrfJhWLUe
+         riwoktJ5E17KtmhFZYn0Z0H0WfyvdIZ6Tvyqcybr6xBZxT+CsqrEL/MVkQtoPcwaN9xF
+         tXuLAeDMldOqhQHPPeClD7gE9/wG1BTPHISAZaVP4SwBLaDixdfpVNkyrwCfw53qhAOp
+         3pyngslJgw/hAt4CbQ6BKPNdKjiklQBUEHOs9NFRSIY4dKnIJKPpVplLA4H5FAYHDxDa
+         A+NQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxGQbAZ9SBeTlN8tRXrz/5WDRQDF0ZCCQwyChxL5FaUxwLfcI9zEZzlgb5cAsWKQus7wuLQEtKQamQlcA==@vger.kernel.org
+X-Gm-Message-State: AFuF++kTjEKxIJ255SOGIVor0OeT6384ZWJr/vkrxFyqnXoJu2f9tDjT
+	afXl0NxsNmSXjpVB4YvWXNiKX1Rpmd9BRlti4qr7/zp1kIXl4Nw3UeEA
+X-Gm-Gg: AYBFou09h8ce4jnpSz8kPQ7bEQdsYBsZxIUXvMTTSzhDQ1Ui8dDdNu6k7leG3D5KVIq
+	38Y1XKJ7HaQhkCH8j0esAmp8lr6zaSK4+HUu+b+LLssY6ssmFWX8Bns3ndqlvhOQpRDlIHXQniB
+	ooB4h1Bdaup4BUfqyxZJdVeR65FHYxbgu7P7h8CRufcsWdR2z6dHyyLRVFhCLoOEQ5gVqw0nRiE
+	gNPxRnrw/zOggivvsgFfN9Rm/wpPtIA367SqyIL2+HuK0FxHIpIaB3GhvZIu3tKBsKelrmE2ay6
+	V9XCfB8c1sx8NPVAaxZFfuHBB09l0mLFjE438GhCCeZZ4Kl1qsSM+Ts13ZVRw5ZGEBzmel6mnSn
+	MYV9i8zdhuO1lkt5UzZXTcPYhui2ibLZGCaatNHnMikdfBwp6T5C9pt/9XiOHikrmA/AE/Qs4uy
+	1umfMp3hmAPgB4NGm8EHx2ll/p+aXv9Nb4ZXqlmEVgX2Ha0ezlv7jgx/wAoJ8Rz1uPSO98cCl9h
+	+swxjM673CwVHuL+ayfDamwRQh8w/3xH7YEyH5w/IumyN0e49J5kCzX4svUhBKiJQ6aQFOQr0Sq
+	Fdk6egm5HKVbFfeqYjTA1sWkMel7A4BS7nOpXMOOV5+hm/RI6Jr0U80/HO1JTjEG+EOmpQLvupZ
+	Lh/Md6NtYfleiQOI9
+X-Received: by 2002:a05:600c:628b:b0:49d:2856:fcf6 with SMTP id 5b1f17b1804b1-49d2856fe91mr2796585e9.15.1788985778747;
+        Wed, 09 Sep 2026 13:29:38 -0700 (PDT)
+Received: from workstation ([85.186.165.159])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49d26b7332asm16723565e9.0.2026.09.09.13.29.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Sep 2026 13:29:38 -0700 (PDT)
+From: =?UTF-8?q?=C8=98tefan=20Ghe=C8=9Bu?= <stefanghetu9@gmail.com>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Mark Brown <broonie@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Guennadi Liakhovetski <guennadi.liakhovetski@linux.intel.com>,
+	Rander Wang <rander.wang@intel.com>,
+	sound-open-firmware@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	=?UTF-8?q?=C8=98tefan=20Ghe=C8=9Bu?= <stefanghetu9@gmail.com>
+Subject: [PATCH v2 0/2] ASoC: SOF: xtensa: prevent stack OOB read on DSP panic
+Date: Wed,  9 Sep 2026 23:29:31 +0300
+Message-ID: <20260909202934.37644-1-stefanghetu9@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 04/23] ASoC: soc-compress: Implement trigger FE-BE
- sequencing as with normal PCMs
-To: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
- Vinod Koul <vkoul@kernel.org>
-Cc: Mark Brown <broonie@kernel.org>, perex@perex.cz, tiwai@suse.com,
- lgirdwood@gmail.com, srinivas.kandagatla@oss.qualcomm.com,
- linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com,
- yung-chuan.liao@linux.intel.com, daniel.baluta@nxp.com,
- Vijendar.Mukunda@amd.com
-References: <20260904073134.29648-5-peter.ujfalusi@linux.intel.com>
- <apsf1kjaFG71NpPd@sirena.co.uk>
- <b64906b9-032f-4435-a179-b663f0202796@linux.intel.com>
- <361eb4b4-d880-4560-8b71-eeda6f28b43c@linux.dev>
- <5b9a199e-abac-4193-94c0-d395329207ed@linux.intel.com>
- <ap7sF6dOY0Pl0c46@parshuram> <69650a4d-3021-49b0-b853-f7b9ba81aae1@linux.dev>
- <7af0b170-dd4a-4aef-b4d8-7e87d72d11f0@linux.intel.com>
- <ap-yDQotxJpw_jHr@parshuram>
- <003c3998-5b46-4532-9d48-dd47b98d544e@linux.intel.com>
- <aqABhbYne6RIree6@parshuram>
- <7f5625fa-d391-406c-ba75-4df526af903c@linux.intel.com>
- <e5f6d6a3-27e4-49ce-9340-9722380312a9@linux.dev>
- <9b2eea34-a04d-4124-8f76-ebfde6df67fc@linux.intel.com>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <9b2eea34-a04d-4124-8f76-ebfde6df67fc@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+This series fixes a stack out-of-bounds read affecting all platforms
+that dump DSP oops/panic info via sof_print_oops_and_stack() (i.MX,
+AMD, Intel atom/bdw/hda-dsp, MediaTek).
 
->>> I see, the issue is that I cannot find any way to give the metadata to
->>> the decoder module, it is a black box to us.
->>
->> The metadata is typically handled *outside* of the decoder library by a
->> memcpy-based wrapper or modulo pointers.
->>
->> For example due to the filterbank, the decoder will generate N zero
->> samples in the first frame. If you know the value of N thanks to the
->> METADATA ioctl, you can discard the first N samples in the wrapper.
->>
->> Likewise at the end of the track the wrapper can skip the last M samples
->> which were padded to make the initial soundtrack a multiple of the frame
->> size (e.g. 1152 for MP3). the value M is the encoder padding.
-> 
-> I got this part, but I have no idea how the wrapper could know this.
-> It can be only _after_ the decoder to do the fade out/in/mixing, but so
-> far I have not seen any way to actually pin-point the exact time.
-> And not just exact time, but T minus something to T plus something.
+Commit 58bb5081cba1 ("ASoC: SOF: Xtensa: dump ar registers to restore
+call stack") added a loop that walks the flexible array member ar[]
+in struct sof_ipc_dsp_oops_xtensa, using plat_hdr.numaregs (a
+firmware-supplied, unbounded count) as the element count. This only
+works correctly for callers that allocate room for ar[], such as the
+Intel IPC4 path. The IPC3 callers listed below allocate xoops on the
+stack with no room for ar[], and were not updated when the loop was
+added, so numaregs walks past the buffer.
 
-It's not time you need to track but bytes, and the accuracy of the
-next-track position is exactly a byte. If you're off by even one byte,
-you probably lost a minimum of one frame until the decoder re-syncs for
-an elementary stream, and the whole scheme is down the drain if there's
-a header.
+Patch 1/2 fixes the i.MX handler (previously sent standalone; this v2
+includes it in the series after an automated review pass flagged the
+same pattern in five other handlers).
 
-Also the decoder has to in a wrapper anyways, even without gapless
-playback: the fragments used by the compressed framework may contain
-more or less than a frame, so the decoder needs to deal with all cases
-of 'no enough data available' and 'more than one frame provided'.
-Likewise some decoder may not be able to generate data on initial calls,
-and need to be called without new input to full internal PCM buffers.
+Patch 2/2 applies the identical fix to amd_get_registers(),
+atom_get_registers(), bdw_get_registers(), hda_dsp_get_registers()
+and mtk_adsp_get_registers().
 
-then the logic should be:
+Ștefan Ghețu (2):
+  ASoC: SOF: imx: Prevent stack OOB read in DSP panic dump
+  ASoC: SOF: Prevent stack OOB read in the remaining DSP panic dumps
 
-(a) On a new track, for the first decoder you skip the first N samples.
+ sound/soc/sof/amd/acp-common.c           | 1 +
+ sound/soc/sof/imx/imx-common.c           | 1 +
+ sound/soc/sof/intel/atom.c               | 1 +
+ sound/soc/sof/intel/bdw.c                | 1 +
+ sound/soc/sof/intel/hda-dsp.c            | 1 +
+ sound/soc/sof/mediatek/mtk-adsp-common.c | 1 +
+ 6 files changed, 6 insertions(+)
 
-(b) The end of track happens when all the bytes have been provided to
-the decoder, and the decoder cannot generate more data. At that point
-you would discard the last M padding samples.
+-- 
+2.53.0
 
-(c) if there was a NEXT_TRACK, eset the byte counting for the track and
-go back to (a)
-
-That's the high level logic. Now for the positioning, I may be wrong but
-I think there is a requirement that the NEXT_TRACK is only signaled when
-all the bytes for the current track were provided to the driver. So on
-the NEXT_TRACK you would need to record the number of bytes provided so
-far by userspace, and forward that information to firmware. Then the
-next write would be with the content for the next track. It could also
-be the PARTIAL_DRAIN that does this, since at that point no new data
-should be provided by userspace. Either way, do no write data in the
-ring buffer until the firmware knows the total number of bytes in the
-current track. If the app doesn't respect that then the accounting will
-go sideways.
-
-The last time I saw DSP code for this was in 2013 or so, take this with
-a grain of salt. Vinod, if you have a better memory please do chime in...
-
->>> Also I'm not sure how the fw could get any idea where one
->>> flac/vorbis/aac/mp3 ends and where it starts, the black box does not
->>> seam to be able to detect this or if it does, it will not emit this
->>> information to outside.
->> I must admit I don't fully remember the details on the start/end
->> position. IIRC this isn't strictly required for elementary streams such
->> as MP3 or AAC ADTS, you could cat the streams together and that'd be
->> just fine. you would have a slightly different transition by blending
->> the two streams in a common filterbank history buffer but that'd be
->> nearly impossible to detect...
-> 
-> and there is still the monitoring of the progress of let's say 6th track
-> in the stream.
-> 
-> I was planning to revisit this sooner than later when I have a moment of
-> 'free' time, but for this initial series, it is not promised and should
-> not work at all.
-> 
->> But for streams with a header such as WMA not sure how this might work,
->> I think you do need to know the buffer position, reset the decoder and
->> restart from that position.
-> 
-> Luckily no one has such files anymore ;)
-
-Hehe, the Zune music service only stopped in 2017...
