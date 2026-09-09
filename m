@@ -1,540 +1,186 @@
-Received: from mta0.migadu.com (out-130.mta0.migadu.com [91.218.175.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87CE65867F9
-	for <linux-sound@vger.kernel.org>; Wed,  9 Sep 2026 14:23:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.130
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788963827; cv=none; b=NYCaRRtz3b2xZpudHQKOhMMToKf6If0rzqzAzjk7giBLjnM9+yKYZWOYB8ipH0XxxPOpjodJw8JLYH0lPqD9I3N/G37FyWdGQuA/CVu4vpn8MD9UWAV7pDX6wrhftzpIPp8v4erwCDlWkkF4w0bXmTu9ZrP+SaYZdwR+1vI3IwY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788963827; c=relaxed/simple;
-	bh=t1eKOz2MkWDgIJQJpL4pb5hPa5Jrt0yiKJ5b6X9ikkE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=U8ylNNNrkq7E5UoOxzKwmFtkMdfI/ZIE5aitMr+N3pAlerCKDA8pUvmMoKauYiuqRQ8ndP0pUQMFfqgiFv9Jq1enCZVx8EKF6ubdr2YOwwfofC+PxGU9sGuV6rJSIEk/3YQIFjekJRRIxq2aacLC7BbjyLKUzXvxVigrBahmQms=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=rludyM3d; arc=none smtp.client-ip=91.218.175.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 792B758F06E;
+	Wed,  9 Sep 2026 14:40:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788964806; cv=fail; b=d+YxmLz/o7YspLtDGeJudBEC5uB5cVWyF0DLeDjaMA1ypbtDG1rb7LB0xWKKrcilU4O1yz+5BbIt6jLpMVh4HIr0vwSb2q/iAwno8ddfQnqXAkOeBhbEoyS5bFqeEuDsuVi3K476bGaWQ6VGMSR/ZrBiMocr6xm91//jp4TZUsQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788964806; c=relaxed/simple;
+	bh=aYbQLXk37KwSO6iA5VxTwP6Tv/6+VynI3+Bn7a1cXvI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DRBkNb7wfg86WP7mwrU1eLxZeeEdkEvRCSBGgLk1AtTOW4EeOug6UkVrllMby3uG1Tb75+JtKNsLl9SN59iI4oAT2BIlr83pCaKp9KofOCh6Xez0rQ/En+XJ+fxJDUZDv3J3UDNVBpZ0eg1ezOqQcDNAu6XLv7pAUr4ojW7r8sw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=TtGGPJ5I; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=FDUp0aca; arc=fail smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="rludyM3d"
-X-Envelope-To: linux-sound@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=t1eKOz2MkWDgIJQJpL4pb5hPa5Jrt0yiKJ5b6X9ikkE=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1788963823; v=1; x=1789568623;
- b=rludyM3dXVNL2qhBw9jz7LnCBRHbs6HePJJPmnpzFLL679GA+NBuYpp/uiNynAy+GsaSIkI3
- uWTeV4axFUcZca/qk+SaQs6vhCD16mRuC3QJBbWh/4fv1Y70DZiBVgdLQ+/m+pJxTpQSZPXeaw2
- b0zcxoFsmGRbRW84PeMl4054=
-X-Envelope-To: linux-sound@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 371bb726f8cf6c84;
-	Wed, 09 Sep 2026 14:23:43 +0000
-X-Mizu-Trace-ID: 371bb726f8cf6c84
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <0522c051-600b-4038-aa7d-77b4121ab966@linux.dev>
-Date: Wed, 9 Sep 2026 16:23:42 +0200
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="TtGGPJ5I";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="FDUp0aca"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6893npgp1578475;
+	Wed, 9 Sep 2026 09:39:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PODMain02222019; bh=iLxABrejSUqDTt1/QH
+	DrlHY0R8rI0yqLu3zIX8J+ing=; b=TtGGPJ5I0/tPslm98C45xdSDDX/dh1/rcB
+	pw3p5/lg35GZ9vBnb7zGn4rqv/biZVYRNEcqWZMUl69bpug9HqiwXoZl8kJfLMOC
+	HK6z/SC+bc5cNuk3NFyhaHhSYlGP6E25W0jVz2raaeEOKOGD0X4ex2+lZ4f481II
+	Q6SzgKpFm4lcRdDxCQELcqGrHYoHLBGLAIlJM+te+d1hWkH18yQZuzopmECdNA0m
+	cl1Ts4zbYmCmAwqa5dc3X0xLASUd8cx86cky56sOBHJd8Q+V2u5m19Oe0Fm3E18X
+	bbnQPnIwhEzsdj/MEm/LSVgazVsEGuqf6bGzgDjKoGLkVzycQzsA==
+Received: from byapr05cu005.outbound.protection.outlook.com (mail-westusazon11020110.outbound.protection.outlook.com [52.101.85.110])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4gggfwn796-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Wed, 09 Sep 2026 09:38:59 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=GpD7cObPJDqnGtvmuWP964XJzEzwsVY0y0WXrUS4H2+U1cDIqPRJVilJj1LIGEjogh+zZR5gE5GEBOSvBiK79Gtr9uOKbpBiNzJ9iAmZchHlSUTmjatHAOMHLbiDTJ7rajWt9KNAcfTn6mTJFWJertUZcwiZJB3GarTqNgPFDZiMKCgXqMKuM0zmC88xW2tiPhyajY7umO7i2RhpEQvpbLtSiVOfHildYZb0QjWtqnW76+rC1469F0YnFuND74eQNN4U9nadO36fgIvU0wUw7n4EYdqOfGH0Po563YjGt4SlVfe1CJA/9w/pXbuA7iR7+cicnFD5yHmN81mA0SHXqg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=iLxABrejSUqDTt1/QHDrlHY0R8rI0yqLu3zIX8J+ing=;
+ b=lmDGFUjF3uYe7h9+K/15lCfvlvezMBk9wlrslgJgoTFcb9StZtZKADvvBWfetKXh8YqIgjBtFzB1tS5Jp//LmtenWjAf4pg317RDi5zLt5j28M2ySMhJN+vye/9eMCvsVq2HORziDy2C6cmQu7y8HRocfCJCIiKmQ7r9aqA1nyAK6/IoLiscXS9vdzUYqmgndj9khuBEceHXsUdBnB+KvUsP3J+hPnP2BlnsszMKKg/6bYxr1iqWQByxl9eYhcRlctY+v6iGMKOSdkZAR3KOKhXg4SC43I6cvA2BIT4XxumPGkMzJmYkO/NPohnnG0QVke7JmNVwGG6Try36kM4wwg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=analog.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iLxABrejSUqDTt1/QHDrlHY0R8rI0yqLu3zIX8J+ing=;
+ b=FDUp0acaoiGa5YHU1dS686D9x1BxMdrgL8Bc4OOrtg2kNN5h/0OS+d8COpbSQ9SBhQgTHuyF3qFc81MotVwGe0smw/Q3oQl0tfmMoUI0YLS3kkV6Kx0TbyjOwIjYc3CCp7aUhHRP1hMultmL6i5F+o0uTuEJ/TaE2bdBNMgqOLU=
+Received: from PH5P220CA0011.NAMP220.PROD.OUTLOOK.COM (2603:10b6:510:34a::11)
+ by AT6PR19MB679231.namprd19.prod.outlook.com (2603:10b6:170:10f::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.8; Wed, 9 Sep 2026
+ 14:38:55 +0000
+Received: from SA2PEPF00003AE4.namprd02.prod.outlook.com
+ (2603:10b6:510:34a:cafe::71) by PH5P220CA0011.outlook.office365.com
+ (2603:10b6:510:34a::11) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.406.8 via Frontend Transport; Wed, 9
+ Sep 2026 14:38:55 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ SA2PEPF00003AE4.mail.protection.outlook.com (10.167.248.4) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.406.5
+ via Frontend Transport; Wed, 9 Sep 2026 14:38:54 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id AF99B406543;
+	Wed,  9 Sep 2026 14:38:53 +0000 (UTC)
+Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 8F5E782024B;
+	Wed,  9 Sep 2026 14:38:53 +0000 (UTC)
+Date: Wed, 9 Sep 2026 15:38:52 +0100
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Lee Jones <lee@kernel.org>, mfd@lists.linux.dev,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Arnd Bergmann <arnd@arndb.de>, Daniel Thompson <danielt@kernel.org>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Guenter Roeck <linux@roeck-us.net>,
+        Linus Walleij <linusw@kernel.org>,
+        Bartosz Golaszewski <brgl@kernel.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Pavel Machek <pavel@kernel.org>,
+        Michael Hennerich <michael.hennerich@analog.com>,
+        Support Opensource <support.opensource@diasemi.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
+        linux-doc@vger.kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        patches@opensource.cirrus.com, linux-watchdog@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-rtc@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, linux-sound@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, llvm@lists.linux.dev
+Subject: Re: [PATCH 04/14] mfd: remove unused wm8400 driver
+Message-ID: <aqFvfMcocLR4qU7s@opensource.cirrus.com>
+References: <20260909132153.1596191-1-arnd@kernel.org>
+ <20260909132153.1596191-5-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 13/24] ASoC: SOF: ops: Add new platform-specific ops
- for compress
-To: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, vkoul@kernel.org,
- perex@perex.cz, tiwai@suse.com, lgirdwood@gmail.com, broonie@kernel.org,
- srinivas.kandagatla@oss.qualcomm.com
-Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com,
- yung-chuan.liao@linux.intel.com, daniel.baluta@nxp.com
-References: <20260909090949.7503-1-peter.ujfalusi@linux.intel.com>
- <20260909090949.7503-14-peter.ujfalusi@linux.intel.com>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <20260909090949.7503-14-peter.ujfalusi@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260909132153.1596191-5-arnd@kernel.org>
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA2PEPF00003AE4:EE_|AT6PR19MB679231:EE_
+X-MS-Office365-Filtering-Correlation-Id: ec7fac24-9101-4f11-927f-08df0e80133e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|36860700016|23010399003|7416014|376014|61400799027|4143699003|11063799006|56012099006|10067099003|16102099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	umTZJUeE244Ysy4jKRn57ca4h2aKB79jfm6ciPHGP5leBO5wHA28Nmy4JqBwfF9Uqh/ff5J7lbX0RWtuKdvsocfkylpRPGFX2Hw8HDYfF7W3yO+TYcGVL+Fajd+ognL01CmM+mNXv0RU9r+3AQ/7KSfLkyGEX8+Z0ElE1dreBCydVrKcIcoSaLP0s9UYt/qib1T9V0sOz+C784u/S1RcGzm+UpoGYqYiVEs/XGI+yKGvv16siiWoVVgNkiFWbhwCDc51eahMh+86LQWy3ZAxv00JvmWVGvgFAv09HVHb6TPT7HK5qMqijQI/D6wotW2/kygS//+vc9vgeld/oN6u+TNyQcZtjcA01cwLyraBl6BLIbU7w8rEophz/quN8zNRf3TSZGVZwxx7+lzHpVwYkyKgF9zKOTZjHGgMxV4Levsyb7BNSIELadD/OlxeGNBCygS7IP/duFM6ErzAw5fuCdw+6LS/8a7aLdZfXAeQ7hXvEU/O+KEjGeKL3QMA2DsxBrgQEx/jQ+0DluRtJuEbs7gHZ8xA2O0uCf+eUu41mVXa0saQlAXOPZKGd3zGe42owMIb4HH+nNA6uL176FOEk6+/dLhFZbTuAdjhdSqZd/O26c71x7CQmMgPfUW/WKbX4KQYjkYv6x8wNUjkCQ+l4efMhCfHSAiFAvOUwann9b1hyrhhgj/b9J9+Nutl98yQcOFhsLy270njZPvi7O44FQ==
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(36860700016)(23010399003)(7416014)(376014)(61400799027)(4143699003)(11063799006)(56012099006)(10067099003)(16102099003)(18002099003)(22082099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	W73cWf+nadA/TjwpKvQt3TuJx5pVAdLs1N5g52ywoVzP6/7gOfiBYcQDqfh/PBmEkBxKDq0NFwUrFM0OGDW3GtFzH355tgzjie/rX2UBmqj2yNRj6u505FSVRH0fToHeF5QsEYK+SMy4sF1IzYS6k9WdxoDImnQWGe9zIMN1OisW9qXBDA/0CwOB2sxE/1zLLbhiYHFZ+crj20416vGmLtm2C+O5M0BFjxkvKnp4kGTnzijDNDottAnTJfp+wF3o5wzBR/LuT5Fn92fEpIrXcxyD4b8/77QK+FDcfr2axvHkkrQGOfOZrkiEIKuE9g/fCyR3KMS7O6OSifpBKf5k7hqwxw5uvBGxEjHrqrqeadULKth63TLASklIvtdRGuJXTF+CMmt/vq9PBsXxAjmrxqSGiH+r8tVivEvhVrs2lN5WbYMoGOeiRJspmTJ2C2BD
+X-Exchange-RoutingPolicyChecked:
+	eWFOBkeid2X4h02brkV7H0m+IyHpFtaCXGSSavq0O+VCN7eNoKFNvudS6UcGSqBnBt3ZlynMScvrmdPGau5d0T+AFZIq8Dxa7DNmn7Kh1e0v6rXQnYdgvrtyinlixbX7MuBIKesS64DVXi3o904xhFj0wMycYWKTppSdvpcx5qtLE6pGpEuQljf4kd9gSGbhbsGBbatP2mH0NuSFHL5ej1CluEp+rN+0jRvdFZKEIDWQe4mGLNnD4nDzcXAupNOsSCpspan+qqJoT8bSbkwAHwOF53pGmS1k3YgkAtVfDWFEyzD3wLqJyuF1S8tFbR1bdsWL07S/ChbIWQdQEOJO5w==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2026 14:38:54.8916
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ec7fac24-9101-4f11-927f-08df0e80133e
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-SA2PEPF00003AE4.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AT6PR19MB679231
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTA5MDE2MyBTYWx0ZWRfXynIz4HG4D4sQ
+ MAOkhMS5r/Buiuc5nK6CHoF/KLLcibYq2FV8rnJ/OxmvXnKrVAZFGhUqS3JpzAjm7VorTzHDIgs
+ MgAH9215NzY/uPRmL/N0rnhtcLhcbuk=
+X-Proofpoint-ORIG-GUID: cQQGe3MGS0BJVNfkCGMGTzoPm8s29Xry
+X-Proofpoint-GUID: cQQGe3MGS0BJVNfkCGMGTzoPm8s29Xry
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTA5MDE2MyBTYWx0ZWRfX43Pxx/TTOfCS
+ IhixKPi8xIbQpapsUfIpYMmbOObdn1D2rgvoLtG5wnECczjS8n34rJY/HXMTtjwnvC3MKz9EaY4
+ ujTyqv+iOV1lIUNWUJg9wZipVlSmB6Y8U9IxE3XVcz2TlPAKhTNJkmNxu0EXyFLeu3KhAZ999Bc
+ RsowwrOMMSL6Id/i+N3NINgR926EaGziIyk74HRGslz/q60npQVRz0V6LNt8zWQ91XenZ01a3ZY
+ HhsYn2Aobf8bZAB0va8b6r0F1pm11NicCMhYJvzWs2nlPomlJVi0TZVPDm6CIiEU3so23RNz1S1
+ p4Eu7TflpKaI0RMzavJQYyfZZwYEI4mj3iQVRGebaBE9IdWgE/LzZiNtBQe4jI9NSByGK6rLabj
+ yhFM16nAsobUDGhRe+2pc2GM47wskz5VydWQKw3kpQ8ucPXvCLsGMPg6v7VZQqFRLTeq376zUyl
+ qGOjXybQ+Z07ETUdWjA==
+X-Authority-Analysis: v=2.4 cv=fK4JG5ae c=1 sm=1 tr=0 ts=6aa16f83 cx=c_pps
+ a=54yuESksmrMaP3RwvbuPCA==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=kj9zAlcOel0A:10 a=VdqzKS8jKosA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
+ a=w1d2syhTAAAA:8 a=3CKuFnzYrga0DEbIuDIA:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-Spam-Reason: safe
 
-On 9/9/26 11:09, Peter Ujfalusi wrote:
-> From: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+On Wed, Sep 09, 2026 at 03:21:41PM +0200, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 > 
-> Add new ops in the struct snd_sof_ops for platform-specific ops for
-> compresssed streams. Also, define and set them for the HDA platforms.
+> This driver requires a platform_data definition, which does not exist
+> in the kernel.
 > 
-> Signed-off-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-> Co-developed-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-> Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-> Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
+> According to Mark Brown, the hardware supported by this driver was never
+> shipped in production.
+> 
+> Since this is clearly unused, remove it.
+> 
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 > ---
->  sound/soc/sof/intel/hda-common-ops.c |   8 ++
->  sound/soc/sof/intel/hda-pcm.c        | 142 +++++++++++++++++++++++++++
->  sound/soc/sof/intel/hda-stream.c     |  69 +++++++++----
->  sound/soc/sof/intel/hda.h            |  15 +++
->  sound/soc/sof/ops.h                  |  74 ++++++++++++++
->  sound/soc/sof/sof-priv.h             |  12 +++
->  6 files changed, 301 insertions(+), 19 deletions(-)
 
-this is added 'too-early', there are additional changes in
-topology/timestamping that could be applied earlier. Maybe move later
-when actual IPC4 compressed support is added?
+Acked-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 
-> 
-> diff --git a/sound/soc/sof/intel/hda-common-ops.c b/sound/soc/sof/intel/hda-common-ops.c
-> index 746b426b1329..aa91f2b6fd65 100644
-> --- a/sound/soc/sof/intel/hda-common-ops.c
-> +++ b/sound/soc/sof/intel/hda-common-ops.c
-> @@ -57,6 +57,14 @@ const struct snd_sof_dsp_ops sof_hda_common_ops = {
->  	.pcm_pointer	= hda_dsp_pcm_pointer,
->  	.pcm_ack	= hda_dsp_pcm_ack,
->  
-> +	.compr_open = hda_dsp_compr_open,
-> +	.compr_hw_params = hda_dsp_compr_hw_params,
-> +	.compr_hw_free = hda_dsp_stream_compr_hw_free,
-> +	.compr_close = hda_dsp_compr_close,
-> +	.compr_trigger = hda_dsp_compr_trigger,
-> +	.compr_pointer = hda_dsp_compr_pointer,
-> +	.compr_get_dai_frame_counter = hda_dsp_compr_get_stream_llp,
-> +
->  	.get_dai_frame_counter = hda_dsp_get_stream_llp,
->  	.get_host_byte_counter = hda_dsp_get_stream_ldp,
->  
-> diff --git a/sound/soc/sof/intel/hda-pcm.c b/sound/soc/sof/intel/hda-pcm.c
-> index 16a364072821..83efc9bdf418 100644
-> --- a/sound/soc/sof/intel/hda-pcm.c
-> +++ b/sound/soc/sof/intel/hda-pcm.c
-> @@ -151,6 +151,71 @@ int hda_dsp_pcm_hw_params(struct snd_sof_dev *sdev,
->  }
->  EXPORT_SYMBOL_NS(hda_dsp_pcm_hw_params, "SND_SOC_SOF_INTEL_HDA_COMMON");
->  
-> +int hda_dsp_compr_hw_params(struct snd_sof_dev *sdev,
-> +			    struct snd_compr_stream *cstream,
-> +			    struct snd_compr_params *params,
-> +			    struct snd_sof_platform_stream_params *platform_params)
-> +{
-> +	struct hdac_stream *hstream = cstream->runtime->private_data;
-> +	struct hdac_ext_stream *hext_stream = stream_to_hdac_ext_stream(hstream);
-> +	struct sof_intel_hda_dev *hda = sdev->pdata->hw_pdata;
-> +	struct snd_dma_buffer *dmab;
-> +	u32 bits, rate;
-> +	int bps;
-> +	int ret;
-> +
-> +	hstream->cstream = cstream;
-> +	dmab = cstream->runtime->dma_buffer_p;
-> +
-> +	/* Use correct format based on the used codec */
-> +	switch (params->codec.id) {
-> +	case SND_AUDIOCODEC_PCM:
-> +		bps = snd_pcm_format_physical_width((snd_pcm_format_t)params->codec.format);
-> +		break;
-> +	case SND_AUDIOCODEC_VORBIS:
-> +		bps = snd_pcm_format_physical_width(SNDRV_PCM_FORMAT_S16_LE);
-> +		break;
-> +	case SND_AUDIOCODEC_FLAC:
-> +	{
-> +		struct snd_dec_flac *dec_flac = &params->codec.options.flac_d;
-> +
-> +		if (dec_flac->sample_size == 16)
-> +			bps = snd_pcm_format_physical_width(SNDRV_PCM_FORMAT_S16_LE);
-> +		else
-> +			bps = snd_pcm_format_physical_width(SNDRV_PCM_FORMAT_S32_LE);
-> +		break;
-> +	}
-> +	default:
-> +		bps = snd_pcm_format_physical_width(SNDRV_PCM_FORMAT_S32_LE);
-> +	}
-> +
-> +	if (bps < 0)
-> +		return bps;
-> +	bits = hda_dsp_get_bits(sdev, bps);
-> +	rate = hda_dsp_get_mult_div(sdev, params->codec.sample_rate);
-> +
-> +	hstream->format_val = rate | bits | (params->codec.ch_out - 1);
-> +	hstream->bufsize = cstream->runtime->buffer_size;
-> +	hstream->period_bytes = cstream->runtime->fragment_size;
-> +	hstream->no_period_wakeup  = false;
-> +
-> +	/* params is not used so pass NULL */
-> +	dmab = cstream->runtime->dma_buffer_p;
-> +	ret = hda_dsp_stream_hw_params(sdev, hext_stream, dmab, NULL);
-> +	if (ret < 0) {
-> +		dev_err(sdev->dev, "%s: hdac prepare failed: %d\n", __func__, ret);
-> +		return ret;
-> +	}
-> +
-> +	if (hda)
-> +		platform_params->no_ipc_position = hda->no_ipc_position;
-> +
-> +	platform_params->stream_tag = hstream->stream_tag;
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_NS(hda_dsp_compr_hw_params, "SND_SOC_SOF_INTEL_HDA_COMMON");
-> +
->  /* update SPIB register with appl position */
->  int hda_dsp_pcm_ack(struct snd_sof_dev *sdev, struct snd_pcm_substream *substream)
->  {
-> @@ -184,6 +249,16 @@ int hda_dsp_pcm_trigger(struct snd_sof_dev *sdev,
->  }
->  EXPORT_SYMBOL_NS(hda_dsp_pcm_trigger, "SND_SOC_SOF_INTEL_HDA_COMMON");
->  
-> +int hda_dsp_compr_trigger(struct snd_sof_dev *sdev,
-> +			  struct snd_compr_stream *cstream, int cmd)
-> +{
-> +	struct hdac_stream *hstream = cstream->runtime->private_data;
-> +	struct hdac_ext_stream *hext_stream = stream_to_hdac_ext_stream(hstream);
-> +
-> +	return hda_dsp_stream_trigger(sdev, hext_stream, cmd);
-> +}
-> +EXPORT_SYMBOL_NS(hda_dsp_compr_trigger, "SND_SOC_SOF_INTEL_HDA_COMMON");
-> +
->  snd_pcm_uframes_t hda_dsp_pcm_pointer(struct snd_sof_dev *sdev,
->  				      struct snd_pcm_substream *substream)
->  {
-> @@ -216,6 +291,20 @@ snd_pcm_uframes_t hda_dsp_pcm_pointer(struct snd_sof_dev *sdev,
->  }
->  EXPORT_SYMBOL_NS(hda_dsp_pcm_pointer, "SND_SOC_SOF_INTEL_HDA_COMMON");
->  
-> +int hda_dsp_compr_pointer(struct snd_sof_dev *sdev, struct snd_compr_stream *cstream,
-> +			  struct snd_compr_tstamp64 *tstamp)
-> +{
-> +	struct hdac_stream *hstream = cstream->runtime->private_data;
-> +
-> +	/* hstream->curr_pos is updated when we receive the ioc */
-> +	tstamp->copied_total = hstream->curr_pos;
-> +
-> +	tstamp->byte_offset = hda_dsp_stream_get_position(hstream, cstream->direction, true);
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_NS(hda_dsp_compr_pointer, "SND_SOC_SOF_INTEL_HDA_COMMON");
-> +
->  int hda_dsp_pcm_open(struct snd_sof_dev *sdev,
->  		     struct snd_pcm_substream *substream)
->  {
-> @@ -342,6 +431,41 @@ int hda_dsp_pcm_open(struct snd_sof_dev *sdev,
->  }
->  EXPORT_SYMBOL_NS(hda_dsp_pcm_open, "SND_SOC_SOF_INTEL_HDA_COMMON");
->  
-> +int hda_dsp_compr_open(struct snd_sof_dev *sdev, struct snd_compr_stream *cstream)
-> +{
-> +	struct snd_soc_pcm_runtime *rtd = cstream->private_data;
-> +	struct snd_soc_component *scomp = sdev->component;
-> +	struct hdac_ext_stream *dsp_stream;
-> +	struct snd_sof_pcm *spcm;
-> +	int direction = cstream->direction;
-> +
-> +	spcm = snd_sof_find_spcm_dai(scomp, rtd);
-> +	if (!spcm) {
-> +		dev_err(sdev->dev, "%s: can't find PCM with DAI ID %d\n",
-> +			__func__, rtd->dai_link->id);
-> +		return -EINVAL;
-> +	}
-> +
-> +	dsp_stream = hda_dsp_stream_get(sdev, direction, 0);
-> +	if (!dsp_stream) {
-> +		dev_err(sdev->dev, "%s: no stream available\n", __func__);
-> +		return -ENODEV;
-> +	}
-> +
-> +	/* binding compr stream to hda stream */
-> +	cstream->runtime->private_data = &dsp_stream->hstream;
-> +
-> +	/*
-> +	 * Reset the llp cache values (they are used for LLP compensation in
-> +	 * case the counter is not reset)
-> +	 */
-> +	dsp_stream->pplcllpl = 0;
-> +	dsp_stream->pplcllpu = 0;
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_NS(hda_dsp_compr_open, "SND_SOC_SOF_INTEL_HDA_COMMON");
-> +
->  int hda_dsp_pcm_close(struct snd_sof_dev *sdev,
->  		      struct snd_pcm_substream *substream)
->  {
-> @@ -361,3 +485,21 @@ int hda_dsp_pcm_close(struct snd_sof_dev *sdev,
->  	return 0;
->  }
->  EXPORT_SYMBOL_NS(hda_dsp_pcm_close, "SND_SOC_SOF_INTEL_HDA_COMMON");
-> +
-> +int hda_dsp_compr_close(struct snd_sof_dev *sdev, struct snd_compr_stream *cstream)
-> +{
-> +	struct hdac_stream *hstream = cstream->runtime->private_data;
-> +	int direction = cstream->direction;
-> +	int ret;
-> +
-> +	ret = hda_dsp_stream_put(sdev, direction, hstream->stream_tag);
-> +	if (ret)
-> +		return -ENODEV;
-> +
-> +	/* unbinding compress stream to hda stream */
-> +	hstream->cstream = NULL;
-> +	cstream->runtime->private_data = NULL;
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_NS(hda_dsp_compr_close, "SND_SOC_SOF_INTEL_HDA_COMMON");
-> diff --git a/sound/soc/sof/intel/hda-stream.c b/sound/soc/sof/intel/hda-stream.c
-> index 5097a497188d..ac2a62c4e41f 100644
-> --- a/sound/soc/sof/intel/hda-stream.c
-> +++ b/sound/soc/sof/intel/hda-stream.c
-> @@ -755,13 +755,12 @@ int hda_dsp_stream_hw_params(struct snd_sof_dev *sdev,
->  	return ret;
->  }
->  
-> -int hda_dsp_stream_hw_free(struct snd_sof_dev *sdev,
-> -			   struct snd_pcm_substream *substream)
-> +static int _hda_dsp_stream_hw_free(struct snd_sof_dev *sdev,
-> +				   struct hdac_stream *hstream)
->  {
-> -	struct hdac_stream *hstream = substream->runtime->private_data;
->  	struct hdac_ext_stream *hext_stream = container_of(hstream,
-> -							 struct hdac_ext_stream,
-> -							 hstream);
-> +							   struct hdac_ext_stream,
-> +							   hstream);
->  	int ret;
->  
->  	ret = hda_dsp_stream_reset(sdev, hstream);
-> @@ -786,8 +785,21 @@ int hda_dsp_stream_hw_free(struct snd_sof_dev *sdev,
->  
->  	return 0;
->  }
-> +
-> +int hda_dsp_stream_hw_free(struct snd_sof_dev *sdev,
-> +			   struct snd_pcm_substream *substream)
-> +{
-> +	return _hda_dsp_stream_hw_free(sdev, substream->runtime->private_data);
-> +}
->  EXPORT_SYMBOL_NS(hda_dsp_stream_hw_free, "SND_SOC_SOF_INTEL_HDA_COMMON");
->  
-> +int hda_dsp_stream_compr_hw_free(struct snd_sof_dev *sdev,
-> +				 struct snd_compr_stream *cstream)
-> +{
-> +	return _hda_dsp_stream_hw_free(sdev, cstream->runtime->private_data);
-> +}
-> +EXPORT_SYMBOL_NS(hda_dsp_stream_compr_hw_free, "SND_SOC_SOF_INTEL_HDA_COMMON");
-> +
->  bool hda_dsp_check_stream_irq(struct snd_sof_dev *sdev)
->  {
->  	struct hdac_bus *bus = sof_to_bus(sdev);
-> @@ -1162,19 +1174,9 @@ EXPORT_SYMBOL_NS(hda_dsp_stream_get_position, "SND_SOC_SOF_INTEL_HDA_COMMON");
->  
->  #define merge_u64(u32_u, u32_l) (((u64)(u32_u) << 32) | (u32_l))
->  
-> -/**
-> - * hda_dsp_get_stream_llp - Retrieve the LLP (Linear Link Position) of the stream
-> - * @sdev: SOF device
-> - * @component: ASoC component
-> - * @substream: PCM substream
-> - *
-> - * Returns the raw Linear Link Position value
-> - */
-> -u64 hda_dsp_get_stream_llp(struct snd_sof_dev *sdev,
-> -			   struct snd_soc_component *component,
-> -			   struct snd_pcm_substream *substream)
-> +static u64 hda_dsp_get_llp(struct snd_sof_dev *sdev,
-> +			   struct snd_soc_pcm_runtime *rtd, int dir)
->  {
-> -	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
->  	struct snd_soc_pcm_runtime *be_rtd = NULL;
->  	struct hdac_ext_stream *hext_stream;
->  	struct snd_soc_dai *cpu_dai;
-> @@ -1185,7 +1187,7 @@ u64 hda_dsp_get_stream_llp(struct snd_sof_dev *sdev,
->  	 * The LLP needs to be read from the Link DMA used for this FE as it is
->  	 * allowed to use any combination of Link and Host channels
->  	 */
-> -	for_each_dpcm_be(rtd, substream->stream, dpcm) {
-> +	for_each_dpcm_be(rtd, dir, dpcm) {
->  		if (dpcm->fe != rtd)
->  			continue;
->  
-> @@ -1199,7 +1201,7 @@ u64 hda_dsp_get_stream_llp(struct snd_sof_dev *sdev,
->  	if (!cpu_dai)
->  		return 0;
->  
-> -	hext_stream = snd_soc_dai_get_dma_data(cpu_dai, substream);
-> +	hext_stream = snd_soc_dai_dma_data_get(cpu_dai, dir);
->  	if (!hext_stream)
->  		return 0;
->  
-> @@ -1223,8 +1225,37 @@ u64 hda_dsp_get_stream_llp(struct snd_sof_dev *sdev,
->  
->  	return merge_u64(llp_u, llp_l);
->  }
-> +
-> +/**
-> + * hda_dsp_get_stream_llp - Retrieve the LLP (Linear Link Position) of the stream
-> + * @sdev: SOF device
-> + * @component: ASoC component
-> + * @substream: PCM substream
-> + *
-> + * Returns the raw Linear Link Position value
-> + */
-> +u64 hda_dsp_get_stream_llp(struct snd_sof_dev *sdev,
-> +			   struct snd_soc_component *component,
-> +			   struct snd_pcm_substream *substream)
-> +{
-> +	return hda_dsp_get_llp(sdev, snd_soc_substream_to_rtd(substream),
-> +			       substream->stream);
-> +}
->  EXPORT_SYMBOL_NS(hda_dsp_get_stream_llp, "SND_SOC_SOF_INTEL_HDA_COMMON");
->  
-> +/**
-> + * hda_dsp_compr_get_stream_llp - Retrieve the LLP (Linear Link Position) of the stream
-> + * @sdev: SOF device
-> + * @cstream: Compress stream
-> + *
-> + * Returns the raw Linear Link Position value
-> + */
-> +u64 hda_dsp_compr_get_stream_llp(struct snd_sof_dev *sdev, struct snd_compr_stream *cstream)
-> +{
-> +	return hda_dsp_get_llp(sdev, cstream->private_data, cstream->direction);
-> +}
-> +EXPORT_SYMBOL_NS(hda_dsp_compr_get_stream_llp, "SND_SOC_SOF_INTEL_HDA_COMMON");
-> +
->  /**
->   * hda_dsp_get_stream_ldp - Retrieve the LDP (Linear DMA Position) of the stream
->   * @sdev: SOF device
-> diff --git a/sound/soc/sof/intel/hda.h b/sound/soc/sof/intel/hda.h
-> index 1609589929a1..701578ec35cf 100644
-> --- a/sound/soc/sof/intel/hda.h
-> +++ b/sound/soc/sof/intel/hda.h
-> @@ -683,6 +683,21 @@ snd_pcm_uframes_t hda_dsp_pcm_pointer(struct snd_sof_dev *sdev,
->  				      struct snd_pcm_substream *substream);
->  int hda_dsp_pcm_ack(struct snd_sof_dev *sdev, struct snd_pcm_substream *substream);
->  
-> +int hda_dsp_compr_open(struct snd_sof_dev *sdev, struct snd_compr_stream *cstream);
-> +int hda_dsp_compr_close(struct snd_sof_dev *sdev, struct snd_compr_stream *cstream);
-> +int hda_dsp_compr_hw_params(struct snd_sof_dev *sdev,
-> +			    struct snd_compr_stream *cstream,
-> +			    struct snd_compr_params *params,
-> +			    struct snd_sof_platform_stream_params *platform_params);
-> +int hda_dsp_stream_compr_hw_free(struct snd_sof_dev *sdev,
-> +				 struct snd_compr_stream *cstream);
-> +int hda_dsp_compr_trigger(struct snd_sof_dev *sdev,
-> +			  struct snd_compr_stream *cstream, int cmd);
-> +int hda_dsp_compr_pointer(struct snd_sof_dev *sdev, struct snd_compr_stream *cstream,
-> +			  struct snd_compr_tstamp64 *tstamp);
-> +u64 hda_dsp_compr_get_stream_llp(struct snd_sof_dev *sdev,
-> +				 struct snd_compr_stream *cstream);
-> +
->  /*
->   * DSP Stream Operations.
->   */
-> diff --git a/sound/soc/sof/ops.h b/sound/soc/sof/ops.h
-> index 72af1f4ff620..4afc92490fbe 100644
-> --- a/sound/soc/sof/ops.h
-> +++ b/sound/soc/sof/ops.h
-> @@ -15,6 +15,7 @@
->  #include <linux/interrupt.h>
->  #include <linux/kernel.h>
->  #include <linux/types.h>
-> +#include <sound/compress_driver.h>
->  #include <sound/pcm.h>
->  #include "sof-priv.h"
->  
-> @@ -448,6 +449,79 @@ snd_sof_pcm_platform_hw_params(struct snd_sof_dev *sdev,
->  	return 0;
->  }
->  
-> +static inline int
-> +snd_sof_compr_platform_open(struct snd_sof_dev *sdev, struct snd_compr_stream *cstream)
-> +{
-> +	if (sof_ops(sdev) && sof_ops(sdev)->compr_open)
-> +		return sof_ops(sdev)->compr_open(sdev, cstream);
-> +
-> +	return 0;
-> +}
-> +
-> +/* disconnect pcm substream to a host stream */
-> +static inline int
-> +snd_sof_compr_platform_close(struct snd_sof_dev *sdev, struct snd_compr_stream *cstream)
-> +{
-> +	if (sof_ops(sdev) && sof_ops(sdev)->compr_close)
-> +		return sof_ops(sdev)->compr_close(sdev, cstream);
-> +
-> +	return 0;
-> +}
-> +
-> +/* host stream hw params */
-> +static inline int
-> +snd_sof_compr_platform_hw_params(struct snd_sof_dev *sdev,
-> +				 struct snd_compr_stream *cstream,
-> +				 struct snd_compr_params *params,
-> +				 struct snd_sof_platform_stream_params *platform_params)
-> +{
-> +	if (sof_ops(sdev) && sof_ops(sdev)->compr_hw_params)
-> +		return sof_ops(sdev)->compr_hw_params(sdev, cstream, params, platform_params);
-> +
-> +	return 0;
-> +}
-> +
-> +static inline int
-> +snd_sof_compr_platform_hw_free(struct snd_sof_dev *sdev,
-> +			       struct snd_compr_stream *cstream)
-> +{
-> +	if (sof_ops(sdev) && sof_ops(sdev)->compr_hw_free)
-> +		return sof_ops(sdev)->compr_hw_free(sdev, cstream);
-> +
-> +	return 0;
-> +}
-> +
-> +static inline int
-> +snd_sof_compr_platform_trigger(struct snd_sof_dev *sdev,
-> +			       struct snd_compr_stream *cstream, int cmd)
-> +{
-> +	if (sof_ops(sdev) && sof_ops(sdev)->compr_trigger)
-> +		return sof_ops(sdev)->compr_trigger(sdev, cstream, cmd);
-> +
-> +	return 0;
-> +}
-> +
-> +static inline int
-> +snd_sof_compr_platform_pointer(struct snd_sof_dev *sdev,
-> +			       struct snd_compr_stream *cstream,
-> +			       struct snd_compr_tstamp64 *tstamp)
-> +{
-> +	if (sof_ops(sdev) && sof_ops(sdev)->compr_pointer)
-> +		return sof_ops(sdev)->compr_pointer(sdev, cstream, tstamp);
-> +
-> +	return 0;
-> +}
-> +
-> +static inline u64
-> +snd_sof_compr_get_dai_frame_counter(struct snd_sof_dev *sdev,
-> +				    struct snd_compr_stream *cstream)
-> +{
-> +	if (sof_ops(sdev) && sof_ops(sdev)->compr_get_dai_frame_counter)
-> +		return sof_ops(sdev)->compr_get_dai_frame_counter(sdev, cstream);
-> +
-> +	return 0;
-> +}
-> +
->  /* host stream hw free */
->  static inline int
->  snd_sof_pcm_platform_hw_free(struct snd_sof_dev *sdev,
-> diff --git a/sound/soc/sof/sof-priv.h b/sound/soc/sof/sof-priv.h
-> index 38753b088fc1..560be58611c0 100644
-> --- a/sound/soc/sof/sof-priv.h
-> +++ b/sound/soc/sof/sof-priv.h
-> @@ -256,6 +256,18 @@ struct snd_sof_dsp_ops {
->  	/* pcm ack */
->  	int (*pcm_ack)(struct snd_sof_dev *sdev, struct snd_pcm_substream *substream); /* optional */
->  
-> +	int (*compr_open)(struct snd_sof_dev *sdev, struct snd_compr_stream *cstream);
-> +	int (*compr_close)(struct snd_sof_dev *sdev, struct snd_compr_stream *cstream);
-> +	int (*compr_hw_params)(struct snd_sof_dev *sdev, struct snd_compr_stream *cstream,
-> +			       struct snd_compr_params *params,
-> +			       struct snd_sof_platform_stream_params *platform_params);
-> +	int (*compr_hw_free)(struct snd_sof_dev *sdev, struct snd_compr_stream *cstream);
-> +	int (*compr_trigger)(struct snd_sof_dev *sdev, struct snd_compr_stream *cstream,
-> +			     int cmd);
-> +	int (*compr_pointer)(struct snd_sof_dev *sdev, struct snd_compr_stream *cstream,
-> +			     struct snd_compr_tstamp64 *tstamp);
-> +	u64 (*compr_get_dai_frame_counter)(struct snd_sof_dev *sdev,
-> +					   struct snd_compr_stream *cstream);
->  	/*
->  	 * optional callback to retrieve the number of frames left/arrived from/to
->  	 * the DSP on the DAI side (link/codec/DMIC/etc).
-
+Thanks,
+Charles
