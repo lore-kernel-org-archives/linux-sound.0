@@ -1,114 +1,103 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE6DF583AB3;
-	Wed,  9 Sep 2026 14:40:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788964822; cv=fail; b=B75L/WpR2Ay4uziGBIUqzYMRkw6i4GPGDS2Z9GmzvAqwkBFwUWrfxJBTBP3Z7uvAkYek2i6Hlz7YLpi7UeyjF6zksw+s0tPaYHZJ5wqK0g102UVlKyyfF6mHes98k/B+W+ptlCrvgwXqZCwF1gy6BbXjejtUxEYxRAHsKxfLsOg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788964822; c=relaxed/simple;
-	bh=4Typqp6cf/0N/Te5RdtRuPEj8x+rItkCU9oNYC6YJ44=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6A72576EB3
+	for <linux-sound@vger.kernel.org>; Wed,  9 Sep 2026 14:45:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788965111; cv=none; b=KT6CEOboOsWOzoNHjJUngMS6DgP4X0fFvv7YyjKKTIwrUgMiXA52xdPBuw1L2FfZja9/oDWLBEGNkut3GjjgDOYxg6UZa+f4SsnGVdpMhZ10vL9wubd6BcHBSS7oZLTPKzlafxi/2O5dNyWJbfoCHxElHD3wMqbu6K37tkJGcXI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788965111; c=relaxed/simple;
+	bh=lngbaFIw7df51hzvDfpcwYG1fGj9Oc7zBuT183aLNVA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YPop2uSZw69dvMopeRll1pkFgik8NP8ZGgFT8+/S1n0e21lRRDAgU1c0tOPoiCtH+SMw7uLOiLE7XbQ1seE83Ns+mVrfJPvLPVdb7u5M4Wnlp64zgyrP6B1GhrSa+eP0mrdsie42MFftVw2dzxSuaDfH3ZFs0qtj+85UsKgG9XU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=MBRgwD4f; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=KtGaRaXx; arc=fail smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=GiL2mNDIEJbakY7bMy47+55J8Qq3RgRhFPEA/L9CPgkg5napSU3YVd0UlJjF7ZBKQNaDgyAVGStDgLoQGVZAavCB8bwbElrkI+mr+cAUEC+0nRhbKAShiU/BsBF6vuFCU5FIJARjmBNOYKJIDNyR28Os3NH+gJIZMzbZBeDyJKc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=N0CSpgVr; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=InpgR9SF; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="MBRgwD4f";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="KtGaRaXx"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6893mxEb584136;
-	Wed, 9 Sep 2026 09:39:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PODMain02222019; bh=6pJrEqWo0mLWRGOdSD
-	ClNeDqWhy1UIfKpehsrdXbgOE=; b=MBRgwD4fapZQR4S7b9YTf+nki+lUjkYRsU
-	wYeIEeVnltZ7jAAjgQyIDrss6P086PdowhWkQgHIEncArkeqdqeSr2LDLfjnf+eR
-	yUV73uN0WK9UANczrqo9cercWFcxLxKIrvvJilYuDbMNtsYc5tqyeGcnDTxsp6q3
-	P1vjHf6HJi8a9EcQJFrPHhnf4qCPmZfS6z+CRdZIeNjaJ2NPfbp8450MJK6RY5x1
-	hVL3j57sk8b3OYcWN8n9pEZTC6LKOHkF44etu4b7tf+QhiCmSb5T9aA00FjphK00
-	tgqRnfhv9adAyQPJdRJObFuls57V7B8f2KgxMtV12Tmlm4y8JuwA==
-Received: from ph0pr06cu001.outbound.protection.outlook.com (mail-westus3azon11021118.outbound.protection.outlook.com [40.107.208.118])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4ggfgjw5pq-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Wed, 09 Sep 2026 09:39:16 -0500 (CDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Ms88K2otvIGb++fGCc/6FWWZXjIV7gy8uBdy6OQIKrIZ9jgK8g13tuyLi1lDgDn0T9JWF9c2ipvwsP+S+2GArwuZ1fkEGcLFyp3OuhyApeaNK+/D3y9lPD0YHyQTa+de9vPc2w077WVSIhuGKPaNuYgIO+5CYDXvkQmMnHSTxbl+Cv6ojYXlFWwEokUGEJD/y4evLYQMGhky41BsrmTggJOwohxAINSF0fz95xJSyE340BvAo1N8xAoH+Kn7AtT1INGPhhfqlUiI6al7Loxsv8RowLxh8QXgf6NOVTTUMwwIz758SsMAN6+00GIWwlIGHUAMf/De6PDAIj5z4d/bXw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6pJrEqWo0mLWRGOdSDClNeDqWhy1UIfKpehsrdXbgOE=;
- b=ffaGmWBxnIKE2GGuGuthLW3ERNrQvMGUQmeqG7QvKFr6qOed+VOIkmutNuwMWhqpzM4LlkLggNJyuGd8cTVbUQSEls9dUvfu1i31mcqhqKIoJf7VLFg2apMtjS2VMUh0lAzQd65gXNiFU2ReeNSTzQpixaNkdKhtbmi9nVAS9xmVTecHoLQ4ObjmUxjpcIx7fQC6DgoA+KpOEQSMi4HUGcRwJAT/AbKjZ1EjS8GrXnFdx5nEAUC0ev9LiM/GTOFOZs6tPodKUS/WDjlCfwiRsa5+S9iCQrYgv5v6sBf01VgrWL8VZzHV3ByoWO7ZP10QSe/W/E+uXBzN7vJD3YFr4g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
- is 84.19.233.75) smtp.rcpttodomain=analog.com
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="N0CSpgVr";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="InpgR9SF"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 689BU4Lu2171689
+	for <linux-sound@vger.kernel.org>; Wed, 9 Sep 2026 14:45:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=0ZRG+xpPfqS2+swMicsmkK+9
+	EkUi9QaTQm3JgCuQh98=; b=N0CSpgVrul6qu8O5h0DXcRK0MEH1V+IUCww2U/zL
+	35KIUHJjCUFhLahoFQE3ho77HM0dcktjLjkR6vjmvaCjhcc0d5kofsFX6eplxTku
+	K4hTzoqXoRFEAM3UZbtl9O0yYcVyJH3HG03r9S1HCnh6N0WWVei5vl+2VlAq0IpG
+	WbgeuJIiSVD2JlRyzrwoTc4WvSSt0WIBR1OC8P6qGrJ2s5y9iiC3UfmKck8vWWtt
+	1e8RfuEYHizlXataJyPJXmnuiWsBndc/pngfxIb+Ms0pNQpvhDB7hhFkAWikoYPm
+	VVjv/Yt+QzCDfgdEjH+osItM8EyPqZNAkt2+1lmR5LUOeQ==
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com [209.85.215.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gk5rgh0y0-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Wed, 09 Sep 2026 14:45:08 +0000 (GMT)
+Received: by mail-pg1-f199.google.com with SMTP id 41be03b00d2f7-cc489e7a701so3796120a12.2
+        for <linux-sound@vger.kernel.org>; Wed, 09 Sep 2026 07:45:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6pJrEqWo0mLWRGOdSDClNeDqWhy1UIfKpehsrdXbgOE=;
- b=KtGaRaXx/vJnfbpCkjIQ/2VO6GcVbQMdMLvqXe7S0Zzed8rMIhQVzeCGUPj22fYPbs06Ao/s2X3X/5HBHuskc9Gg7JV7mesBH3krys9UJ4MBnHYhsxu+BgCEOMfM2cm1xQAqY/JFETLDD7VmsTbArzUi13t4sQuY959bQxyyyYM=
-Received: from SJ0PR13CA0029.namprd13.prod.outlook.com (2603:10b6:a03:2c0::34)
- by DS2PR19MB059743.namprd19.prod.outlook.com (2603:10b6:8:401::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.8; Wed, 9 Sep 2026
- 14:39:12 +0000
-Received: from CO1PEPF00012E64.namprd05.prod.outlook.com
- (2603:10b6:a03:2c0:cafe::50) by SJ0PR13CA0029.outlook.office365.com
- (2603:10b6:a03:2c0::34) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.406.6 via Frontend Transport; Wed, 9
- Sep 2026 14:39:11 +0000
-X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
- smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- CO1PEPF00012E64.mail.protection.outlook.com (10.167.249.73) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.406.5
- via Frontend Transport; Wed, 9 Sep 2026 14:39:10 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 96C1A406557;
-	Wed,  9 Sep 2026 14:39:09 +0000 (UTC)
-Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 82F0A82024B;
-	Wed,  9 Sep 2026 14:39:09 +0000 (UTC)
-Date: Wed, 9 Sep 2026 15:39:08 +0100
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Lee Jones <lee@kernel.org>, mfd@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Arnd Bergmann <arnd@arndb.de>, Daniel Thompson <danielt@kernel.org>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        d=oss.qualcomm.com; s=google; t=1788965108; x=1789569908; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=0ZRG+xpPfqS2+swMicsmkK+9EkUi9QaTQm3JgCuQh98=;
+        b=InpgR9SFUBmz4qGcdsZ58aK8zKOvF4lBNbOxweNgHONQoj+dxEs1zms1qriuZJdRxh
+         1Iq9oYQUw6sZ8IAO+F2QbxF8QArx7watk31oJrgxcU/kyKS2xGMjt/9rXejEofRzH3y/
+         vHut7CK4RkGEJDP0zCDaEBuVPV/mnWkJ+tUbVnH7Z318PCkgfqneHCBCUtky2BVb8nzB
+         1y4Py2Yr+WScJAnczlQG2jzcyPByQZYFdwMYVTpVVzRKjs0BCeLzzccSBqn4OAlTSk00
+         qCWJFG+FXfVT3xhznrJRPt6khL8JvHNa2oHJRWZMivaczfJVxYvsiyC76zM1vEX0BXJw
+         b25A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788965108; x=1789569908;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=0ZRG+xpPfqS2+swMicsmkK+9EkUi9QaTQm3JgCuQh98=;
+        b=S0ukH9fnmBagqX7aex3RH+KhyF9eRi1zMQTx/6ArMVMrB9/DRfy7As6geyEdZlH91+
+         sxsd5vaxBoJTBttLZmtL77pVOjCkJRT4VcpLj6HlUqO0fV4r/c/AjNVMNFBJDVMVeORQ
+         pwNkM5drO/tTK0pAjjXaHU6tigFTUsYECkQyFzU2M4Nq3RWbiM2+hI6ANjLehLxqaB9a
+         BP9VGvgJlv9vpdPUKfYw4Gkkg6qJjgndCR6OKDQHluzYAzTPesV+LeK7otNvjHtgeil9
+         P0Vs4aEG73sT5n2rxa2TbjQJH4wOqBsHPCp4g+qKHWQtzv752Yg4r62j69Pa2qVF+U96
+         mm5w==
+X-Forwarded-Encrypted: i=1; AKwUvBzykge4XDnGoFmFS7qCSiha4DIt3w1TlwJFH9X7AMF+xo15q4HGjeekZbAftknEEwMGH9PxZRHZHjFl5w==@vger.kernel.org
+X-Gm-Message-State: AFuF++mLE4ktEjGx1iiFlhdtltMUKP7ji4lSFtHNI41dx3NPz6gqCBW1
+	6myPKT9NBRY7exNTw0I6Cz6OS+LXuHUz5wEyHREkTZkwM9BwZPMMhoKeNn1Nh8Qu7HBN7zaubKh
+	kvAudh7sXH4ePy4++f2O00zsy/ABH7Op7iyenShJOebtbvrANtlqohCUNgmnrQ6OQWg==
+X-Gm-Gg: AYBFou10Evmo2QXLuu79oNI9Ilm5ChM0eoEfuKi0GFs7MFz9MWe1ZUVbVssdyUlRoIk
+	oZ8mLj4hY/WivDN0xM9PmltbhkpqkUEioPXxG+ifhVlR6Ujal/bUf4ukjf8rr950LPGxmTrvAjX
+	J15scUobvYv54bT1jImxGltXnoCeKGlFsq3ang/qfiPZfHq0433RXWa5DkJ+QEWyfQwDiwtu1WJ
+	cgKDkMRpffA9ODsF6UeovVlZx58qDLxdKUX33zVi3WCKLHC7M856LQL7puY3KteVgZe3CpbLQkW
+	WtUlk4TrqCEJJsXOV+UNFCLX7Cl7qVdvmdaZ5bTv3rQrEirhFQSpJt2rMapt1Gq65Tt0TMrcXK7
+	+o2H4fWgozdoxpn2NDdQnp8Yk/bD73dL7LUBUX5b4Jm8=
+X-Received: by 2002:a17:902:ebc7:b0:2d7:f0:896b with SMTP id d9443c01a7336-2dd0797ada3mr22680195ad.13.1788965107506;
+        Wed, 09 Sep 2026 07:45:07 -0700 (PDT)
+X-Received: by 2002:a17:902:ebc7:b0:2d7:f0:896b with SMTP id d9443c01a7336-2dd0797ada3mr22679445ad.13.1788965106910;
+        Wed, 09 Sep 2026 07:45:06 -0700 (PDT)
+Received: from QCOM-aGQu4IUr3Y (i-global052.qualcomm.com. [199.106.103.52])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2db149cc85dsm75711565ad.74.2026.09.09.07.45.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Sep 2026 07:45:06 -0700 (PDT)
+Date: Wed, 9 Sep 2026 22:44:57 +0800
+From: Shawn Guo <shengchao.guo@oss.qualcomm.com>
+To: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+        Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+        Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>,
         Rob Herring <robh@kernel.org>,
         Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Guenter Roeck <linux@roeck-us.net>,
-        Linus Walleij <linusw@kernel.org>,
-        Bartosz Golaszewski <brgl@kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Pavel Machek <pavel@kernel.org>,
-        Michael Hennerich <michael.hennerich@analog.com>,
-        Support Opensource <support.opensource@diasemi.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
-        linux-doc@vger.kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        patches@opensource.cirrus.com, linux-watchdog@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-rtc@vger.kernel.org,
-        linux-fbdev@vger.kernel.org, linux-sound@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, llvm@lists.linux.dev
-Subject: Re: [PATCH 11/14] mfd: remove unused wm8350 driver
-Message-ID: <aqFvjLMp+NpH8Ixa@opensource.cirrus.com>
-References: <20260909132153.1596191-1-arnd@kernel.org>
- <20260909132153.1596191-12-arnd@kernel.org>
+        Conor Dooley <conor+dt@kernel.org>,
+        Srinivas Kandagatla <srini@kernel.org>, linux-sound@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH v1 1/5] ASoC: codec: adau1977-i2c: Add OF device match
+ table
+Message-ID: <aqFw6RNBZrkiAg-y@QCOM-aGQu4IUr3Y>
+References: <20260907-nord-asoc-driver-support-v1-0-997d3b20cf43@oss.qualcomm.com>
+ <20260907-nord-asoc-driver-support-v1-1-997d3b20cf43@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -117,71 +106,144 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260909132153.1596191-12-arnd@kernel.org>
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PEPF00012E64:EE_|DS2PR19MB059743:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8abe4302-c6e7-4934-04ca-08df0e801cde
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|30052699003|61400799027|36860700016|23010399003|7416014|376014|22082099003|16102099003|18002099003|5023799004|11063799006|4143699003|56012099006|10067099003;
-X-Microsoft-Antispam-Message-Info:
-	CjnWSTDnaPoG2LIh/5k9rzeVss2Qh8ANuWh+uPKVLInPXWloWtD5+VfZsMb1xIezrDPPR52oYzFpX5qU0Pa6zL/aOOh9n857KXUD8qmqXCxlll6zmLNg/6k8X5yijcy/JqzwGiTZ7Oyeory69q0sLN5OyvVf5BWRTWESv0GShAeVDZqSBVyKJcr7UI3EDY7a4IcrqKrvvrTjsj48zw292hH/gRxkQtMEt1SkcDhNmxOOEn8RjxS05tc5xYt50PzkVaNSZpOerRIV8FrAqnP9G+qIZdqx2wMb+0I8wBa2Y/NgCREtpNsgG2jKRPdbSW/Vp1bbZlN0vhQf1k0JaASOI/d8LxF3RljsrxOpD1Ey6puefN2jHDbQKL1la7/DivZJ6ZqM1XmkYItWoO8+p3U7dfUmaLFXo+kv3fz2EO1Ef1TGLCcLnHRYEofhLBVu/E6j2cZgFcBUxzNxKK5op8clIO+VNopHLOKjOCZWQm1zp+OkAV5nsPokarmvCov+jN0Wh4QLBlIW6WYdAq2O9AWCQxeBtJR5bNNXO8cILAnj7ZcRGnJqkU/rHnMwikooXoXUigLE3kGHYkyPoc2FNfyqNolICPZ3hgoSlesfKRoFzvOs7HlKn1CiU+VnYkTqZIdlGAVwesBo1KrMRoPvhV7xXEAv+4DlIMRXg3xfujo1keLYAI0Za1bjUijtALFGAnL5dYoK03tV7//A0l2i95ZY1Q==
-X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(30052699003)(61400799027)(36860700016)(23010399003)(7416014)(376014)(22082099003)(16102099003)(18002099003)(5023799004)(11063799006)(4143699003)(56012099006)(10067099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	Dp6J0K8V8bwzYsrX6EtjW1JexDgYuzmoByCf4ADwn8D4ry6cFUAr0NJZ8NFIhbggTx0o+aNhQxQ/fIRDK/0CPesGojhk6fsf199yF36ZiLb9JHZFLyxkqi9c9KV3PqedsIgDFP9uHu1nN5yYFGeC09FDHyEA3+y0WpmwGBFsx7RWKJmGwzXkoG9W4V7U8lOWtgIw6yTL7UajI9gG5smLrYGH9lboPyJRqbZax8M9Qo5bG4FgZnuD7D68lKmcPYIeerSVTi2L5LIL/xNQdwgui8NGhgU3CaUTmgkvqASbBzd8/kGvRKkV1x7lsOJUTK471ci8BGG2hAKgw+kwLKCkv6NzrJ3TAQHlC6tOZ9S9qqG2RfDCOZmJsm5LmLyKT/tg9au/4D8SEhYhJz1Qfk0JWXmoI/0of7o2vQHP9wW6VXPJVAScLlt12JwyzPnF9Wgx
-X-Exchange-RoutingPolicyChecked:
-	OO7BmBkMvypYphj2ThprKYnqyZdH1kCjE+qYhXPte/N51DTCLeqniWsHQ1csDhrC+EzVytjg0ycvCvSoPkRtKFYyGN6OVW1WcKhD6XYYCM4pt/k6D+cCfU8AkV75zv9t5gmrO2xhcwKKfUVugt2dhn1srYReseaZ6HYTTceaVKKeyD/Rt27uvfulO0fEjMYmINh8gNkY9GaJ3euXULcUMTu6xhbpkSMh5vt0sH9ADRz7Z6qlqRt5dkEYahvYZVVlX02zgnM7umQa83NowziBwIfyx9OHM7KbubXKil4TuNGdp1uUj8zrkpcN66+pua0N8l1Zjklrep5SF8dCgE/J1Q==
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2026 14:39:10.9901
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8abe4302-c6e7-4934-04ca-08df0e801cde
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-CO1PEPF00012E64.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS2PR19MB059743
-X-Authority-Analysis: v=2.4 cv=bpd8wkai c=1 sm=1 tr=0 ts=6aa16f94 cx=c_pps
- a=M/tNFvKf9qcYTEXzCPs7dA==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=kj9zAlcOel0A:10 a=VdqzKS8jKosA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=KfkQE9S9VqCBgivYGm0O:22
- a=w1d2syhTAAAA:8 a=xo24t3wAf2OcpJBrjYsA:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTA5MDE2MyBTYWx0ZWRfXxpr6vtb38lrz
- JHQh8AsZCrBA2Zzw6SbeOlctGrzgQihsOUvP5DEbyeSqDQQkjSVYgo5KULdka0D6fIv7eH9ISgB
- 4g7a69XlgolKUVLUc6bm5i0q/jPBXsIMFQn8F3xTpMp8XrzSs8bJkHRg+kyqkgeBgT2/rFqAPre
- vu8G35ZX3Btr2r4Jv0rf1pON9s6ARTtSM56ndpJNf8kgKUx/44wuQbqqOAFXxyEDY4LmdAZKKo9
- mbPnkHV1WB61iZBQZn+ZOrF8wQw6vDC2b6PBcC/1ecPgu5UXA0KyfCr0Pkye/HtOYPoIO9FyDAJ
- aPz57uYx/LadBz0qHfQX+ydVkCcbFa6FojLVNNaMcdVA0UmHZkPm5uxXJdCyGYpe7Dt9R5FUT+u
- +NTeeiklKQWKjQfYidxj59jtRCdE5AJYJ6p+1RSzrPlYTIGAVvLsup8knaLelCHYKZjHKBkwuY9
- o8Bc67rcqnmeuvo5Tlw==
-X-Proofpoint-ORIG-GUID: xGGMELUOrrSqA-l5XsinEeHFr4DsjBiD
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTA5MDE2MyBTYWx0ZWRfX2yQ34r3LFjpL
- a2K/xG1Z/tvgptxD3XKM8ovGE5nCPN2h0w2UMXgrRH37Bi/nBMfbdta1ctXI0k6OSxsXx/R8LBz
- RG9IJ1GoVJ/ma+Vyi75id/7jgzQIWqk=
-X-Proofpoint-GUID: xGGMELUOrrSqA-l5XsinEeHFr4DsjBiD
-X-Proofpoint-Spam-Reason: safe
+In-Reply-To: <20260907-nord-asoc-driver-support-v1-1-997d3b20cf43@oss.qualcomm.com>
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTA5MDE2NCBTYWx0ZWRfX4OLBgxpc2YHT
+ k2tlHf0nyrSFRcKdovd1pC1T+F2IySOJ0lEQoCa9/elYCX0jswQLWFwHu9OsriLJepJAzkf4rlo
+ kqauoAtKLhfAidIZGwSMbO70H3nrVJQ=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTA5MDE2NCBTYWx0ZWRfX6KCgojmN+8r4
+ TFM2VD1xkew5z5zXMUaZEat8786czmPbHnnLk5hYUEjwUr9idKRPRJPRuVhPTznxG/4L85gQEJ2
+ +OjN7xERnCh+v9O7315Pvojt7HQp5SdzDP7YbVdMJ0CO3LFF3DOw2mg8SESAxYQ7CL/wP3f1bcf
+ O9dozHm2KuFoEevJtNmv1r1biY99missM62v5zfhNdg3tJvdrMgcjkQG3kaEWhM1VgSeayvXhCR
+ ZYrFYSn42TVbf4MnpX86KM9VXk/bEnLKT/vgvfqveTu9oFVruExoWtkzTE4I8QVGg57wfUs+dee
+ u6trGw8cjOjdeIJUvdqHKV7zM1Cr3VuF/MNWzdD5ZP/dczLTjMwugeEqZngLpcD1vLdctEElnXB
+ HjTwr4jME0ShID9GUAUuFFkBjdgYZk0tZayF9ak09DRgaaCx1aua+aPzausS/m/fHJFvonSKNFl
+ k0roQ+vwLP8a2LxWoLg==
+X-Authority-Analysis: v=2.4 cv=B6qJFutM c=1 sm=1 tr=0 ts=6aa170f4 cx=c_pps
+ a=Oh5Dbbf/trHjhBongsHeRQ==:117 a=b9+bayejhc3NMeqCNyeLQQ==:17
+ a=kj9zAlcOel0A:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22
+ a=EUspDBNiAAAA:8 a=1coeNckUEot7TYRSRIgA:9 a=CjuIK1q_8ugA:10
+ a=_Vgx9l1VpLgwpw_dHYaR:22
+X-Proofpoint-GUID: QtrC7Le3lPUTy5sEizEKvAdTa6aF07zq
+X-Proofpoint-ORIG-GUID: QtrC7Le3lPUTy5sEizEKvAdTa6aF07zq
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-08_03,2026-09-09_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 phishscore=0 spamscore=0 adultscore=0 malwarescore=0
+ bulkscore=0 clxscore=1011 impostorscore=0 lowpriorityscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2609090164
 
-On Wed, Sep 09, 2026 at 03:21:48PM +0200, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
+On Mon, Sep 07, 2026 at 11:39:42PM +0530, Mohammad Rafi Shaik wrote:
+> The ADAU1977 I2C driver lacks an OF device match table, preventing
+> it from binding to codec instances described via Device Tree. Systems
+> using compatible strings such as "adi,adau1977", "adi,adau1978", or
+> "adi,adau1979" fail to probe the driver as a result.
+
+This justification isn't accurate -- DT instances do bind today. The I2C
+core matches DT clients by stripping the vendor prefix from the first
+compatible and comparing the result against the driver's id_table:
+
+  of_i2c_get_board_info()          drivers/i2c/i2c-core-of.c
+    of_alias_from_compatible()  ->  client->name = "adau1979"
+  i2c_device_match()               drivers/i2c/i2c-core-base.c
+    i2c_match_id(driver->id_table, client)  -> matches
+
+So "adi,adau1979" already probes without this patch, and the patch as
+written doesn't fix a probe failure.
+
+What it does fix -- and what I think the changelog should say -- is
+module autoloading. For any client with an of_node, the bus emits the
+OF modalias, not the I2C one:
+
+  static int i2c_device_uevent(...)
+  {
+          rc = of_device_uevent_modalias(dev, env);
+          if (rc != -ENODEV)
+                  return rc;
+          ...
+          return add_uevent_var(env, "MODALIAS=%s%s", I2C_MODULE_PREFIX,
+                                client->name);
+  }
+
+The kernel therefore advertises "of:N...Cadi,adau1979", which no module
+claims without MODULE_DEVICE_TABLE(of, ...). With SND_SOC_ADAU1977_I2C=m
+the codec module never gets loaded and the card stays in -EPROBE_DEFER
+with nothing in the log pointing at the cause.
+
 > 
-> This driver was used on the i.MX31 ADS reference board from Freescale
-> and the smdk6410 reference board from Samsung. Both used platform_data
-> based driver probing and are now gone from the kernel.
+> Add a descriptive prompt string for SND_SOC_ADAU1977_I2C/SPI so
+> the driver is visible and selectable when running menuconfig.
+
+This should probably be a separate change?
+
 > 
-> Since probing with devicetree has never been supported by wm8350,
-> it is clear that nothing can use the driver on an upstream kernel,
-> and it is unlikely that anyone is still interested in a devicetree
-> conversion, so remove it.
-> 
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> Signed-off-by: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
 > ---
+>  sound/soc/codecs/Kconfig        | 4 ++--
+>  sound/soc/codecs/adau1977-i2c.c | 9 +++++++++
+>  2 files changed, 11 insertions(+), 2 deletions(-)
+> 
+> diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
+> index d3730c4da51b..6f481a54313f 100644
+> --- a/sound/soc/codecs/Kconfig
+> +++ b/sound/soc/codecs/Kconfig
+> @@ -526,13 +526,13 @@ config SND_SOC_ADAU1977
+>  	tristate
+>  
+>  config SND_SOC_ADAU1977_SPI
+> -	tristate
+> +	tristate "Analog Devices ADAU1977 CODEC - SPI"
+>  	depends on SPI_MASTER
+>  	select SND_SOC_ADAU1977
+>  	select REGMAP_SPI
+>  
+>  config SND_SOC_ADAU1977_I2C
+> -	tristate
+> +	tristate "Analog Devices ADAU1977 CODEC - I2C"
+>  	depends on I2C
+>  	select SND_SOC_ADAU1977
+>  	select REGMAP_I2C
+> diff --git a/sound/soc/codecs/adau1977-i2c.c b/sound/soc/codecs/adau1977-i2c.c
+> index d1c6c4ddf506..9f54fa8375b1 100644
+> --- a/sound/soc/codecs/adau1977-i2c.c
+> +++ b/sound/soc/codecs/adau1977-i2c.c
+> @@ -34,9 +34,18 @@ static const struct i2c_device_id adau1977_i2c_ids[] = {
+>  };
+>  MODULE_DEVICE_TABLE(i2c, adau1977_i2c_ids);
+>  
+> +static const struct of_device_id adau1977_i2c_of_match[] __maybe_unused = {
+> +	{ .compatible = "adi,adau1977" },
+> +	{ .compatible = "adi,adau1978" },
+> +	{ .compatible = "adi,adau1979" },
+> +	{ },
+> +};
+> +MODULE_DEVICE_TABLE(of, adau1977_i2c_of_match);
 
-Acked-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+Worth noting for whoever touches this next: the variant is still resolved
+via i2c_get_match_data()'s fallback to id_table, since ADAU1977 == 0
+can't be expressed through .data. That's fine as-is, but it means
+adau1977_i2c_ids[] is now load-bearing in a way that isn't obvious --
+removing it as "redundant" would silently make every compatible probe as
+ADAU1977.
 
-Thanks,
-Charles
+> +
+>  static struct i2c_driver adau1977_i2c_driver = {
+>  	.driver = {
+>  		.name = "adau1977",
+> +		.of_match_table = of_match_ptr(adau1977_i2c_of_match),
+
+Drop of_match_ptr() and the __maybe_unused. Upstream has been removing
+of_match_ptr() from drivers for years.
+
+Shawn
+
+>  	},
+>  	.probe = adau1977_i2c_probe,
+>  	.id_table = adau1977_i2c_ids,
+> 
+> -- 
+> 2.34.1
+> 
+> 
