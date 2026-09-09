@@ -1,94 +1,131 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9A8D4DF4DC;
-	Wed,  9 Sep 2026 13:52:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EDA653FD2B
+	for <linux-sound@vger.kernel.org>; Wed,  9 Sep 2026 13:53:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788961923; cv=none; b=Z8TueXaLjICMKjKK1TAr4mjg3r7LHwVTtgWFEjb14O1Zae2zIdZcNwlg7cZ+Ky5n+X/PmFsjQhvwKGgUHJN2921tSupxSQQhV52wTxeb1vx4ATFYz7qiQAbAOvCmLmU3iGVig770SwBy/slyDI2Gd1FFXNYPtfJ1UP+UYsR9v9w=
+	t=1788961997; cv=none; b=GA/kQw5tFd1dRj9TYgJgw9qCeAyGV4etYaAng0R1WwYXexGbOvqY4+rXJqY6TIvP4N0WD0BG778fP/if8gytYurD7tZmG0mZTOMOUvA9RhHroRCN4/UXKxvuGGvyMCNXYUlnMsFT0tuOAdMonv30gtTWolUJcSqLVnkdzS+m9U0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788961923; c=relaxed/simple;
-	bh=pAVIrS3A7Rvp0U6cdijMHeBv+L6o6e+82vw+zmkqi7U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nXTtbzZVIvylX3JjIJ2NZGuiVH2KMHfI1PRXKCMil1wkhn7/Lme27yf8Wu4WzS4Vc8SjBKBy+EBinWwh7LXf5r+GF2FaM4Zj95zy0XmwpXDklqRkW75u2J48dDIkvoHRl2OxJ6Vd6Mu7gX9VlDRD4AnFqMg1JViLeKwzhy5zcV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ioCAXYPV; arc=none smtp.client-ip=185.246.84.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1788961997; c=relaxed/simple;
+	bh=clHv+5MdGzCyQc1/qdfqerXhaNr3BVXMXEghFYYfB7U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DSqdCRD7dz5fjjZCBWmSHbfEdOLgrKnQc7hPIuT7/oaPniegvRtSkSknnlEnMPxbEiPoz5zjdoH6qmAlOX0XOC3vStMd1UCgZtdAQLUdpCxO4sPWX0EkSRPkWdty1QHw7JmprmEe941xEi4RrIbMgZ6LaHUf6+p5ot95HE9t82c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZEIZkAMY; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ioCAXYPV"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 0E6A21A1A75;
-	Wed,  9 Sep 2026 13:51:59 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id CD57B60448;
-	Wed,  9 Sep 2026 13:51:58 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id A566B11C7AF8E;
-	Wed,  9 Sep 2026 15:51:49 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1788961916; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 in-reply-to:references; bh=X3TXa8ZqMQb4DnauQKRwN/9Bqzakf4XtPXYK7Pd7tsY=;
-	b=ioCAXYPVeyyJMca8ak7CEqrnzMHTUnvRr+T9Em1q2K55JSPptr9oF0sf8wq+LQEdMpFEKD
-	00Vkzm8CTC+NdwdC1gZZ9VtovHy1m5ebKW8EgpOtx8a6YUjVa/AU6YAMdmkFMBXUnNt/NX
-	09GgLdWETkP2R+00Kf9hLVtcVDO20S1blQ18HThNPki10EisBVPE0hTs6dtgpE5pofHJc8
-	YP07DdcaByF7h4IU4ii4lOqWfFZiccMDPuveULOScrip6ulVUSm+uyjN8NNdXeHizLT7vS
-	HqNPdXLA9lk7kniz17hGVcOlsGTDe8/Z24UFy3FJqS9SaDzfZNGprIAeNTOJ8A==
-Date: Wed, 9 Sep 2026 15:51:49 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Lee Jones <lee@kernel.org>, mfd@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	Arnd Bergmann <arnd@arndb.de>, Daniel Thompson <danielt@kernel.org>,
-	Jingoo Han <jingoohan1@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Pavel Machek <pavel@kernel.org>,
-	Michael Hennerich <michael.hennerich@analog.com>,
-	Support Opensource <support.opensource@diasemi.com>,
-	Sebastian Reichel <sre@kernel.org>, Helge Deller <deller@gmx.de>,
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, patches@opensource.cirrus.com,
-	linux-watchdog@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-leds@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-rtc@vger.kernel.org, linux-fbdev@vger.kernel.org,
-	linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	llvm@lists.linux.dev
-Subject: Re: [PATCH 13/14] mfd: remove unused menelaus driver
-Message-ID: <20260909135149e7d73952@mail.local>
-References: <20260909132153.1596191-1-arnd@kernel.org>
- <20260909132153.1596191-14-arnd@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZEIZkAMY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1788961995; x=1820497995;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=clHv+5MdGzCyQc1/qdfqerXhaNr3BVXMXEghFYYfB7U=;
+  b=ZEIZkAMY+23Rz5AXXBA+ay8yh4qIarwVhNndlqA87P6wC0vo4dlaOIOF
+   TF4JzFslxvKpt4OJI+ukCoB1g/j94GqzWk9RxmEPCymudvA+Y79FftqJY
+   VfXypw5C2SJ2c3rioF5TJzzKizGDYWVqsvs3/OORo45OI1PeFK6acL6Rv
+   x9W+1CIaRtvLHxALfgd43L1faS5HFPpjtLHkM6M4motx6sV+fmYq9H9L6
+   IQAJ4u7hA+IR/HfP8dkAoHgRWTGF9jXBnxUbLu7c6rbACXz7+k6HHIH2n
+   AXiCApPvZT/bGxkBhyce12tQTRDNOOTogtrACcnABTpGumXNpzFfmrdw2
+   g==;
+X-CSE-ConnectionGUID: Z3syW9ZBRuS1xCElRJfW5w==
+X-CSE-MsgGUID: 2UuFIBJyRuqD8xh3etEMrg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11900"; a="89407438"
+X-IronPort-AV: E=Sophos;i="6.25,270,1779174000"; 
+   d="scan'208";a="89407438"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2026 06:53:14 -0700
+X-CSE-ConnectionGUID: zPoQD/RJTh6DmPLD9ehkpw==
+X-CSE-MsgGUID: fdv1U0Q0SfOGekfUlPpxxw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,270,1779174000"; 
+   d="scan'208";a="268071605"
+Received: from ettammin-mobl2.ger.corp.intel.com (HELO [10.245.244.252]) ([10.245.244.252])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2026 06:53:11 -0700
+Message-ID: <9b2eea34-a04d-4124-8f76-ebfde6df67fc@linux.intel.com>
+Date: Wed, 9 Sep 2026 16:53:22 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260909132153.1596191-14-arnd@kernel.org>
-X-Last-TLS-Session-Version: TLSv1.3
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 04/23] ASoC: soc-compress: Implement trigger FE-BE
+ sequencing as with normal PCMs
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+ Vinod Koul <vkoul@kernel.org>
+Cc: Mark Brown <broonie@kernel.org>, perex@perex.cz, tiwai@suse.com,
+ lgirdwood@gmail.com, srinivas.kandagatla@oss.qualcomm.com,
+ linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com,
+ yung-chuan.liao@linux.intel.com, daniel.baluta@nxp.com,
+ Vijendar.Mukunda@amd.com
+References: <20260904073134.29648-5-peter.ujfalusi@linux.intel.com>
+ <apsf1kjaFG71NpPd@sirena.co.uk>
+ <b64906b9-032f-4435-a179-b663f0202796@linux.intel.com>
+ <361eb4b4-d880-4560-8b71-eeda6f28b43c@linux.dev>
+ <5b9a199e-abac-4193-94c0-d395329207ed@linux.intel.com>
+ <ap7sF6dOY0Pl0c46@parshuram> <69650a4d-3021-49b0-b853-f7b9ba81aae1@linux.dev>
+ <7af0b170-dd4a-4aef-b4d8-7e87d72d11f0@linux.intel.com>
+ <ap-yDQotxJpw_jHr@parshuram>
+ <003c3998-5b46-4532-9d48-dd47b98d544e@linux.intel.com>
+ <aqABhbYne6RIree6@parshuram>
+ <7f5625fa-d391-406c-ba75-4df526af903c@linux.intel.com>
+ <e5f6d6a3-27e4-49ce-9340-9722380312a9@linux.dev>
+Content-Language: en-US
+From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
+In-Reply-To: <e5f6d6a3-27e4-49ce-9340-9722380312a9@linux.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 09/09/2026 15:21:50+0200, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> Menelaus was a companion chip for the omap24xx platform, which has
-> been remvoed from the kernel, so now the menelaus driver is unused
-> and can be removed.
-> 
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+
+On 08/09/2026 17:54, Pierre-Louis Bossart wrote:
+> 
+>> I see, the issue is that I cannot find any way to give the metadata to
+>> the decoder module, it is a black box to us.
+> 
+> The metadata is typically handled *outside* of the decoder library by a
+> memcpy-based wrapper or modulo pointers.
+> 
+> For example due to the filterbank, the decoder will generate N zero
+> samples in the first frame. If you know the value of N thanks to the
+> METADATA ioctl, you can discard the first N samples in the wrapper.
+> 
+> Likewise at the end of the track the wrapper can skip the last M samples
+> which were padded to make the initial soundtrack a multiple of the frame
+> size (e.g. 1152 for MP3). the value M is the encoder padding.
+
+I got this part, but I have no idea how the wrapper could know this.
+It can be only _after_ the decoder to do the fade out/in/mixing, but so
+far I have not seen any way to actually pin-point the exact time.
+And not just exact time, but T minus something to T plus something.
+
+>> Also I'm not sure how the fw could get any idea where one
+>> flac/vorbis/aac/mp3 ends and where it starts, the black box does not
+>> seam to be able to detect this or if it does, it will not emit this
+>> information to outside.
+> I must admit I don't fully remember the details on the start/end
+> position. IIRC this isn't strictly required for elementary streams such
+> as MP3 or AAC ADTS, you could cat the streams together and that'd be
+> just fine. you would have a slightly different transition by blending
+> the two streams in a common filterbank history buffer but that'd be
+> nearly impossible to detect...
+
+and there is still the monitoring of the progress of let's say 6th track
+in the stream.
+
+I was planning to revisit this sooner than later when I have a moment of
+'free' time, but for this initial series, it is not promised and should
+not work at all.
+
+> But for streams with a header such as WMA not sure how this might work,
+> I think you do need to know the buffer position, reset the decoder and
+> restart from that position.
+
+Luckily no one has such files anymore ;)
 
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Péter
+
