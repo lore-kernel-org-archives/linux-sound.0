@@ -1,94 +1,169 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from CH4PR04CU002.outbound.protection.outlook.com (mail-northcentralusazon11013053.outbound.protection.outlook.com [40.107.201.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 997BB489882;
-	Thu, 10 Sep 2026 13:18:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789046285; cv=none; b=AIoiwKh+rMYJ6HHfU/j5xS+mgt0zfVPLZYNpBxSN7aMJppI3FMPAXv7/byq0BO2jtflGUK4WqItzZKjFl9gx8XMozu+O5uZ6RN7yWUVtwmFnJQ3VNlPBfEz+ceUAuI4EsNuZUK7YfwwvU3Grn6fad7ebXixW8NLwmEsrbPSxe6Y=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789046285; c=relaxed/simple;
-	bh=qQrItInjJmJYkwqN2J3a6oD0Faw1CDbdOVtEASc676g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jW8I0xgEpo7vh2Ext5sSugqLlOAM9/anLRotEHrL/wkAaV3yloG/fLez0xADXqW8S75rMPDwjJi5BW+vYrBFyLrLAUI29XX/1x2PvH+KeRMMdC4i2tkePkXrMiTEh82mADNTP9yIA7Rpup7arLp15JMyH7SXrrJ6CE82rSio57c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Yh28SgK7; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6356F3921D6;
+	Thu, 10 Sep 2026 13:24:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.201.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789046652; cv=fail; b=h10JvrMaX6li6Yj6j0yEwdnH423S0eSDXZj09c+TjhaOLmCkiZiwgknZeIFzJjVA4THAXA4mLHQNNnZS2btkvHZ+S/tdM1/jBuJ6KQcc2QX76kWtbOLEy4YIcQXRB/2lqwLjtMtNVx0nG2d5xYw2uWFCgU0dAtTYihz4qWMgf3U=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789046652; c=relaxed/simple;
+	bh=MXpwBw+5JcS6S7fMhb4PfcSNnVIxU/pemuNpCrYx7rE=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=f8f2ytqeBNEtvK2GDYfAhngW4PPaTw1ktJQwXALMK+hBHihKy75JuMz/0H2gDMebMfxQB7UpzSXklujQE7IRAc6LPCATZpg4W7boHHXNzSLkGDHYxNF2LWQzZlW8tBE3nT3ZSR2KJH3uPBgTucrlEaMfa/5MEAuJCDZgUSTDKEE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=joQeXmad; arc=fail smtp.client-ip=40.107.201.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Yh28SgK7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E76B11F000FF;
-	Thu, 10 Sep 2026 13:18:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789046284;
-	bh=63mYHX7mtuoiPipaFKq34F2k9faAGyQ8nFHA1oVLU8U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Yh28SgK7gOsyNTvjOGWgVG1/MDJixzQwQhYPAGNTeDU4OCLsroi21iNV/clvoIEh5
-	 uKFGiJ3Oi1dp52stLFPNgzYrIwY8vNlOCjtj1+b4kort8izKB+rqCmiPcTI2gh7VgM
-	 tnC4jvDMu1aBxEAWYpTLCVl4tx5EUYH1Eo4S55XiuIvhDgkXE6oCXY/ZV/qc9qh0co
-	 NXrZ88fbtKVa75c5eqBXedcleXEgyodSEZT+Sa1MLTSh3o3RmvxJy3XY5E77JyMUO4
-	 o5wNJdeykoOuBVD3BDFefmraJ/IoJNeQ3gvvoxGkawTwMXxtIDWfOV+WxREmvKXjJl
-	 YyFwTlmBFNxlA==
-Date: Thu, 10 Sep 2026 14:17:57 +0100
-From: Mark Brown <broonie@kernel.org>
-To: =?utf-8?B?yJh0ZWZhbiBHaGXIm3U=?= <stefanghetu9@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH] ASoC: SOF: imx: Prevent stack OOB read in DSP panic dump
-Message-ID: <f64a008a-8bdd-4c06-aa12-a721cebc3a11@sirena.org.uk>
-References: <20260909204042.46656-1-stefanghetu9@gmail.com>
- <20260909204042.46656-2-stefanghetu9@gmail.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="joQeXmad"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=MKtNnqmVuKQ53hgVsMPS2MUBb31uAhYhHLIPa6fzZlD9s8k/8JV/DMtTVbQAwCh7B0brAG907r7UZ5ZbmtqPXzmRajSPVJPqgb+vkA7dWLYSLzcvkHYpIbudcpOv6X3NJSSKi6yJDCmbRILRjHrzmKJf80LmoNqbBx249noBv34621Kj7+1ij8bbKLfdePymlifoJwBnO1CEbdvx0uEFafJl6R5Qi3/9dP6nCzKc3WTnF8oYksk3LO5s1RIg2IbVGVxRS9oGRehd/TjNQkstSlUJj9krXGZ+/A3EQk1FfFmm+xx74zh5JebnSs7ieMNfAuj2SITKr08bJ5AGuylJag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=p4l4YYc84S79phyNERWD1eyH+Wri8ah5WinZFuY810A=;
+ b=dDI2P1P8zghDfSXY2qdtgvoSt4/+SWlk+MUEwuYjk4klId4SCzX5FquXn4vbX0R1IiGTivK0LKKs53qWMhnEhtHrrvygPnaSKWRKV0BsK0rpmkm+eapWlMWG0mQ9XTl8HhD1tVGDvVDYprE20e9oPDFRiX1jiNra/ORYHQol3CGg2ALIFt6J+MvFyWTucsA9VazeTxn8PrpP3l6iDKfbmu/lasiB8uPQcJ7K6MpFJTAh5ElGKxvsOeknXucsDHeUMZwZSITlvuCE8/celf4Uxe5xbJuu42TJK4Zd6BH33QlTh4dcRgwjxwCl7Yx8ez8eedUHWk/mN4v0RtWn4IXrpQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=p4l4YYc84S79phyNERWD1eyH+Wri8ah5WinZFuY810A=;
+ b=joQeXmadtBSWNvpowvGf+9VfBfDB4eRY24Ilq/ZVopdd4I0VYuvlzaHKrRPfUalhlNSNilw7f1yaKLo1dU6kg9lnNp7wysauEWIEDAz0cNamPy/0ycUOpFoWOlLarV8Kgn28Ce/WeZ56aACKTayeFCzKZd+Fx/7ku2BNidEDBl8=
+Received: from MN2PR22CA0025.namprd22.prod.outlook.com (2603:10b6:208:238::30)
+ by DM4PR12MB6325.namprd12.prod.outlook.com (2603:10b6:8:a4::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.382.15; Thu, 10 Sep
+ 2026 13:23:59 +0000
+Received: from BN2PEPF000044A6.namprd04.prod.outlook.com
+ (2603:10b6:208:238:cafe::aa) by MN2PR22CA0025.outlook.office365.com
+ (2603:10b6:208:238::30) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.406.9 via Frontend Transport; Thu, 10
+ Sep 2026 13:23:58 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ BN2PEPF000044A6.mail.protection.outlook.com (10.167.243.100) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.406.5 via Frontend Transport; Thu, 10 Sep 2026 13:23:58 +0000
+Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.46; Thu, 10 Sep
+ 2026 08:23:58 -0500
+Received: from amd-System-Product-Name.amd.com (10.180.168.240) by
+ satlexmb07.amd.com (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.46
+ via Frontend Transport; Thu, 10 Sep 2026 08:23:53 -0500
+From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+To: <broonie@kernel.org>
+CC: <alsa-devel@alsa-project.org>, <lgirdwood@gmail.com>,
+	<yung-chuan.liao@linux.intel.com>, <pierre-louis.bossart@linux.dev>,
+	<perex@perex.cz>, <tiwai@suse.com>, <Basavaraj.Hiregoudar@amd.com>,
+	<Sunil-kumar.Dommati@amd.com>, <venkataprasad.potturu@amd.com>,
+	<Syed.SabaKareem@amd.com>, <Mario.Limonciello@amd.com>,
+	<Richard.Gong@amd.com>, <linux-sound@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <sound-open-firmware@alsa-project.org>,
+	Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+Subject: [PATCH 00/11] ASoC: SOF: amd: SoundWire and PDM support and fixes for ACP7.B/7.F
+Date: Thu, 10 Sep 2026 18:50:00 +0530
+Message-ID: <20260910132251.1171943-1-Vijendar.Mukunda@amd.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Bxz62p+0qLECbO21"
-Content-Disposition: inline
-In-Reply-To: <20260909204042.46656-2-stefanghetu9@gmail.com>
-X-Cookie: Gravity brings me down.
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN2PEPF000044A6:EE_|DM4PR12MB6325:EE_
+X-MS-Office365-Filtering-Correlation-Id: 63af50ca-9e51-4fea-9715-08df0f3ec5ad
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|82310400026|36860700016|7416014|376014|1800799024|10067099003|6133799003|3023799007|56012099006|11063799006|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	4WwllXR7ZOEaT0SAs2ahCkGNMmE6b4YUOjvdRIIsJ5rPGw2ZGOoMKRZM8ErMBuO05tPhHX5ZCkaNmG6ODv4uXrxQzMRu3WEXp4KOPvVoOpcQfPa8Y02o5fHjPhRBj7sfGMEpWp2Lu/ti36kaWawtB1pZDR0+n+mQr0HlWMRDo92Sbh5py2ltKiR4mGjTCD+GGpZcHXIFLPP6CW8i6NqPBumtADEJaKSloiWvSEJGzaStMXu/r5e9t0VUKja5eoKYKAmhNrXj4L6PVDizwHTDHUCABxuVQyTBNNKVFISeXhSSM5LO2niuZzE6AZ/sjrI5B218yqfmWwkJrX1Sx1XouXs+vC49alHFm2jkU6g5WH0ehXbxTEXvVuezNZP3gvvRvqzMFZKy98tqZtVnAK3Rs0uh4wQSTy2AosqyYRTwS+hRf1HxAreRhY1dopPQOowmgjHnNF+2MEZlNLWOcnIVReziT36pI5c5gZ/9bf3KTrwkXOC45ooRX97vg071KE/nCB1LdBn7HIzgpmt6CKSGlAzeiE7fTzNZIU5uwyoZYz6xj4K3ukYqw66Q6OOObiDfFnqIMdVs/FfZDBkGRe7WDFwPhHMt0ddRlLbFrfPxUYAOa20ChkHmPYLJE2gmJDHFxShwo53zT1iMbOdwAHGQVubRSJ9Rp8yNdLAYPewjm5Hqy32HTKar4nMn1q2FzoL/i6whZY8ot7bnW0Y5MWj90g==
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(23010399003)(82310400026)(36860700016)(7416014)(376014)(1800799024)(10067099003)(6133799003)(3023799007)(56012099006)(11063799006)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	51XXwqZScXlJ+1izitUuvL132Wl4jNJrT/p2B5ETYGzyXSkaDD5QbUQBXslmxpLXYSp+Aj1KTpOMUoTFRaoT59dhAwqbhG1TwRzEsXXDKr0CmWqxsLddBGezjYbRV4ClPqGEXVvP02Zcb3jGJ9oWamSqfSfRNvJnSPg2Z+n50GChR30oe0V6m8IgLl4dUveIOoy0PDBqYTUAM8EWj0R09ZeUWnLxVTskL7Xrnj0h88m6zjO1xJpPJwHh7F0+vnNymdTcN+/tCzfyCwxx7CF710c3Nfy2jsj0n2EuAEG9BeKT/IkXpes1jLhO8cdUsZywotxWXpSOAnmtmG/IthxWN6+qk2cTmZHalkw6MG7ejNosw1zKfI7R5k89jM+9xsej+I6qgJb/ftL23D40IMW18+U1cf6VhglHRQgZWH4F3TROtoT0wnvUZhK49Ezngz/v
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2026 13:23:58.8357
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 63af50ca-9e51-4fea-9715-08df0f3ec5ad
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN2PEPF000044A6.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6325
 
+This series contains bug fixes for the existing AMD SOF SoundWire stack
+that affect all ACP platforms, followed by new SoundWire support
+specifically for ACP7.B and ACP7.F.
 
---Bxz62p+0qLECbO21
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The existing stack has three bugs that are fixed here. First,
+amd_sof_acp7x_suspend() silently falls through on an unrecognised PCI
+revision instead of returning an error, leaving ACP_CONTROL with a stale
+value; it now returns -EINVAL. Second, amd_sof_acp_remove() calls
+amd_sof_sdw_exit() before free_irq(), so an IRQ that fires in that window
+can dereference the freed SoundWire context; the teardown order is
+corrected. Third, the same use-after-free hazard exists in the error
+unwind of amd_sof_acp_probe() and is fixed in the same way.
 
-On Wed, Sep 09, 2026 at 11:40:42PM +0300, =C8=98tefan Ghe=C8=9Bu wrote:
-> Commit 58bb5081cba1 ("ASoC: SOF: Xtensa: dump ar registers to restore
-> call stack") added a shared Xtensa helper that iterates over a flexible
-> array of AR registers (`ar[]`) controlled by `plat_hdr.numaregs`.
+On top of those fixes, the series brings SoundWire support to ACP7.B/7.F.
+These platforms expose four SoundWire manager instances (SDW0-SDW3) rather
+than the two found on ACP63/ACP70/ACP71/ACP72. The work covers ACPI DSDT
+scanning for SoundWire endpoints, chip descriptor population so the SOF
+core can enumerate all four managers, per-manager IRQ dispatch for data,
+host-wake, PME and error events, selective host-wake interrupt arming based
+on SW_WAKE_EN, and SoundWire-aware PM callbacks that take a clock-stop fast
+path through suspend/resume to preserve SoundWire bus state across power
+transitions.
 
-You've sent multiple tengentially related patches in a single thread
-without anything indicating that it's a patch series.  This is really
-confusing tooling, please resend as either a coherent series or
-individual patches.
+ACP7.B/7.F also supports two PDM controllers (PDM0 and PDM1), but only
+one is active at a time. The active controller is determined at probe time
+by scanning the acp-audio-ep-port ACPI _DSD property of the PDM child
+device in the DSDT. The selected controller is then propagated to the
+machine driver via mach->pdata so that the correct SOF DMIC DAI link is
+registered.
 
---Bxz62p+0qLECbO21
-Content-Type: application/pgp-signature; name="signature.asc"
+Vijendar Mukunda (11):
+  ASoC: SOF: amd: return -EINVAL for unknown PCI revision in acp7x
+    suspend
+  ASoC: SOF: amd: fix amd_sof_acp_remove() teardown ordering
+  ASoC: SOF: amd: fix amd_sof_acp_probe() error unwind ordering
+  ASoC: SOF: amd: add ACP7.B/7.F PDM controller scan and pdata
+    propagation
+  ASoC: SOF: amd: update SoundWire specific acp descriptor fields for
+    ACP7.B/7.F
+  ASoC: SOF: amd: enable SoundWire build for ACP7.B/7.F
+  ASoC: SOF: amd: wire SoundWire probe and remove into ACP7.B/7.F paths
+  ASoC: SOF: amd: add ACP7.B/7.F clock-stop detection in
+    check_acp_sdw_enable_status
+  ASoC: SOF: amd: add ACP7.B/7.F SoundWire IO IRQ handling
+  ASoC: SOF: amd: enable SoundWire host wake interrupt in acp_init
+  ASoC: SOF: amd: add SoundWire PM ops for ACP7.B/7.F
 
------BEGIN PGP SIGNATURE-----
+ sound/soc/amd/acp/soc_amd_sdw_common.h |  13 +
+ sound/soc/sof/amd/Kconfig              |   1 +
+ sound/soc/sof/amd/acp-common.c         |  17 ++
+ sound/soc/sof/amd/acp-dsp-offset.h     |  17 ++
+ sound/soc/sof/amd/acp.c                | 389 +++++++++++++++++++++++--
+ sound/soc/sof/amd/acp.h                |  16 +
+ sound/soc/sof/amd/acp7x.h              |  37 +++
+ sound/soc/sof/amd/pci-acp7x.c          |   2 +
+ 8 files changed, 460 insertions(+), 32 deletions(-)
+ create mode 100644 sound/soc/sof/amd/acp7x.h
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqirgUACgkQJNaLcl1U
-h9AwYQf+OIH7nMiz45cq2dAIjQSTZ7xvYRJFfL7NgH9LmIUJzCDA5iD/8JHzAJqH
-HtB/dbJUg5yoPkH8vB9DmrouOKM1/ZnoGMZLz2md/fcHprBKzTRRY/hpS/SLL7uG
-ebPii0YZt+JZnq0WeDpOljT7LfjU7mcSxobur3AjJd84pHxsxFHB1XnjtBPGHhdT
-O77Q+yTV8DjIgXy4iZSWTvmxxYFIagg6w7DiuJ7G5VogrWpFJGOFw1PRw+Xg+S7F
-YP96GFRjjB+BMtmXvRYpIyB6Uvm3NYGkYlIMP2TOLR+vEbuz/UxWOwUVFFw9Jg38
-W8RJHuPrDPsz/7g1TH6r92mrmYo0ig==
-=uzC5
------END PGP SIGNATURE-----
+-- 
+2.48.1
 
---Bxz62p+0qLECbO21--
