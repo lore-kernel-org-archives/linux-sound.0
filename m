@@ -1,124 +1,124 @@
-Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A8305A0AC1
-	for <linux-sound@vger.kernel.org>; Wed,  9 Sep 2026 21:24:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 787531E0E14;
+	Thu, 10 Sep 2026 00:12:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788989050; cv=none; b=syF+NvuMhYxgO8MoBzvsvMa6RmklkPuPwmd3vJoOKc4aCsCfcmF/wbNHZjhX6ZBVM1q4wAWpN62+wdYfrfUi1/1wv749T8Jlmoavrk7UbzySMFtoWJg51pynmjve4omC/nuEiV+tK2vVuyhuNmNCxHf4C5dY11ggnkxS3M/OwvA=
+	t=1788999168; cv=none; b=Ysi7Lg5IEiJzCY5mSyrfEqm88p6eLJI6cnZF1KKQ4boB2fxghSeQzgZQAdcMqlMiT0kkGLIN+kz59xlkKze0RCJMVQ8orLsbyYsUOd/p3otGbVNHNmbGPTpwLLy6I0AA0rX4CIOBR5hIQxjzrb8kpVGz3Ip2Vel+LoHwar+kUe8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788989050; c=relaxed/simple;
-	bh=FW5whXPmaXHA5LR2dz0E+orKk8rccpIOS+ct8eSwStQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=gVFBXZMu5IiuNtKcdUx4pQarE9/WgLNZkPbx3gtrXnsoC8NdDPZ4pjDcLZOsiE6ybRvHPfICAR6B3e3AEwvr91YxXaNvBrxYppW0Obyb7s94uqnmJS/jdjbI2txfLtyAsIQEfftiJGooB5H4heWGDfheWNUZZ0sGFpM+SfCzQcw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dDwPXaaU; arc=none smtp.client-ip=74.125.225.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788999168; c=relaxed/simple;
+	bh=J1jJnaeyf7LLhRqA+aeobhaA5FN1rbTKGY9M/HtxP4k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uEtqAjiwyCwOLzXZK2+0d9IxSXrXZxOKjKxsIj2xlzbJCHX+KxpujKe1pD262g0MeJrLK4Gi4GWoAOA5pmjcP6QIdpFcS4QKZYLWsO0f8UxWqI95bAC2twptcu52uih1J9+jttJzS2ID7JGjY1CkO/AKiD0hrXdjxJ3rcIevbxU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nHG6J6Bf; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dDwPXaaU"
-Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-485933b2522so605389f8f.0
-        for <linux-sound@vger.kernel.org>; Wed, 09 Sep 2026 14:24:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788989040; x=1789593840; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=gVfR3lqxcmlEuRpdPzCYb7K9yNG7tXcy09eud1ICyVY=;
-        b=dDwPXaaUK7kfUnq1x8ECKYYkdLWmGFUJcX4ulACHuXStbxTYgvB2vAhBjCvdCITKjG
-         fuKGb7YqE6UXJxWY/zTRkR07lmCuX+GPfBqMkpLYaaU6nrBD0i/XSCxSVkWS5FivUSxj
-         pTwbPXkPCHjw9joA3Yo3DqWm+64zBbPBz8TG9ZD2ETDq17cWn8Jvq9497kltuUutH8k0
-         F15Paw6RbRjZZVdwvjQxe3lzp711x2ThykTLfjkG6GQORNg+WMYVR9BLEJQoUUKv4NzQ
-         +b9+VJ4wqd9Llm27NOgk+nW8I5U57E84CQhg1EBjjoblCcpHi7qK4FOz5b+qJntnolbl
-         I+gw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788989040; x=1789593840;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=gVfR3lqxcmlEuRpdPzCYb7K9yNG7tXcy09eud1ICyVY=;
-        b=Ut8NvCwS4nutpqVdcqfRlUBmmmdRDtjpJZ2sWu0/eJYmHkKini/Fa4Vza518aANyDu
-         wz4ud9fN0Q1MF5Z0aLVZa0+1A2hUIHdsqC2/4LBUFdOmPChwI6jwcYwblsUT6v4asPWG
-         eYh4Wj6OxxX7gAombHgHPfoUnXHT7cPj/D/mTzjYJB3LDx5smwRrnf/ZH25WwCSKAMcP
-         AJKVJiHzgg+8F9QaZEIIgOjsNqWVTv+/y0kz7USehkGvXnlMbPoay8nl8+MUYbnGWIu3
-         mQDk+nHzoC7GJ11snUgembXL7WY3v6XwevKbQbJrbEftG+AzY9o/rI3yXy855iTSmpeC
-         tk4w==
-X-Forwarded-Encrypted: i=1; AKwUvBw30EwXQSGex3oN4rFOvPWWRTY32M9rWDXjTvamavWmf8okgd8Qu60v+yH6iyw48xaCdwqxZs4vwggO4A==@vger.kernel.org
-X-Gm-Message-State: AFuF++kZbLrvOAVOCBmL80rf/zvPO/BdmYlT48CgQbVIslIXiAwWDKGP
-	YqYWqGQpRG+HDRsZNiPVmFxy66df8UeeFoBYFdVyBxogokgt4ht2pm94
-X-Gm-Gg: AYBFou3GpK0aM2PS+7U1NXhpu8rydyQSRQHhpi993VUL3pleDMrKIzFZin7jIDUiJjo
-	t5DU9+IvwCTQAMy5w2Z+h8HrGl26yzwplfLhT5zyb2l04C0B2nprSQIVMHmnHGiT1UdVQE9uTp4
-	4lZVxwxtlQZOl5Pz+8JbNR66CiEDAw2jOcv0HlV+dpeKS3FBeyx5gH8qc2FTZmk0SG5t6a6DYLi
-	hVovyuB5F6wA4LUFKOualJhbftbb2MZ1xVQjf6A4GsHuuJbRGuhDxz2qWW3upFgjLezK0IkTSOv
-	sI+KZ5XFDA+DPJ5kg0hwdEfsGgIcKGUBVPV+w3xfNPrMeBtLIyWkHY1jL01/HGCwiHrEk0r8Qsn
-	YvyWcQeu6PooVGr7QGtM11aytiIla5P5njeGfQH2lLKFN33GDOXjhAaSTOIhDXey+SPZ6ivdMqF
-	lZ+tKsIxOKApCITlaZhf1SHx25a3sctq5F48ppr2sPg3v3ePWebUoBl4BJzzzqow3ElGnIRjSs2
-	Sa1Fo+DEUQI3EC5tmHHIbyjNdO/pnShm9kqAg1oQowFjXW9K/XUO5dNfM2z8Xx8p6EeDPZkYArh
-	+fcPhD1k8wvfDqzHFIsoihKlubzZ4SaFN4M/UV2tjPXUrY7XO05gcu1qEFJcOlrv56JMrxdIekJ
-	LhWTCkbplPRM4P8f1
-X-Received: by 2002:a05:6000:40dc:b0:485:ac96:7251 with SMTP id ffacd0b85a97d-485c23e5bbfmr7228249f8f.21.1788989039805;
-        Wed, 09 Sep 2026 14:23:59 -0700 (PDT)
-Received: from workstation ([85.186.165.159])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-485885bfdf6sm46967470f8f.34.2026.09.09.14.23.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Sep 2026 14:23:59 -0700 (PDT)
-From: =?UTF-8?q?=C8=98tefan=20Ghe=C8=9Bu?= <stefanghetu9@gmail.com>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Mark Brown <broonie@kernel.org>
-Cc: Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	sound-open-firmware@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?=C8=98tefan=20Ghe=C8=9Bu?= <stefanghetu9@gmail.com>
-Subject: [PATCH] ASoC: SOF: ipc3: bound firmware-supplied ext header size
-Date: Thu, 10 Sep 2026 00:23:53 +0300
-Message-ID: <20260909212353.69599-1-stefanghetu9@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nHG6J6Bf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1788999167; x=1820535167;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=J1jJnaeyf7LLhRqA+aeobhaA5FN1rbTKGY9M/HtxP4k=;
+  b=nHG6J6BfXPcIowaA912QKVzXyc8TXWD5eQ586HWUjnHphsZYh8PCWqw0
+   I97TkvfCifUE6vWq/BnxLiG4lHO55H0id9pqgOlkJ5VpP+4E2s4J52M69
+   tmeyP+lTD0MHaipmzpGSYJp8BAoND6aGjHrosPNldOKGNeiHoaAXXqgbp
+   glCoNTFnzStw0JLgPr/2O7lFiNPxdBvldrOzMIg8VuEWzb8uk6TRhyuhh
+   BI2iZf+/7T4VspPSwEX6G/NxYmQk9IXi2npP2/57aioCVCZOD1Y7hqmrq
+   1MNBIwBfmY+qi9XNlLPulikTFDiugSGB70uQb4lLZombOsbloUUqxiHqe
+   g==;
+X-CSE-ConnectionGUID: DtJjLdW/QtieSh1jFtP1sg==
+X-CSE-MsgGUID: 6e2B8osBSWiB6VLXITkSKg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11900"; a="88384806"
+X-IronPort-AV: E=Sophos;i="6.25,271,1779174000"; 
+   d="scan'208";a="88384806"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2026 17:12:46 -0700
+X-CSE-ConnectionGUID: 57YLa0rXQiKYLTcF3IhQXQ==
+X-CSE-MsgGUID: Mhufsv5iQ4+dLQjYqL4qAg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,271,1779174000"; 
+   d="scan'208";a="276707916"
+Received: from lkp-server01.sh.intel.com (HELO a3e91e2cf319) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 09 Sep 2026 17:12:42 -0700
+Received: from kbuild by a3e91e2cf319 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1x4SPA-0000000018G-0Anx;
+	Thu, 10 Sep 2026 00:12:40 +0000
+Date: Thu, 10 Sep 2026 08:11:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: Breno Rodrigues Alves <breno3011alves@gmail.com>,
+	torvalds@linux-foundation.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	gregkh@linuxfoundation.org, arnd@arndb.de,
+	linux-clk@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-fbdev@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	Breno Rodrigues Alves <breno3011alves@gmail.com>
+Subject: Re: [PATCH v5] Kconfig: fix typos in core makefiles and purge
+ defective DVB debug (v5)
+Message-ID: <202609100824.ndDVSLWu-lkp@intel.com>
+References: <20260905003005.118245-1-breno3011alves@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260905003005.118245-1-breno3011alves@gmail.com>
 
-ext_hdr->hdr.size comes straight from firmware and is used unchecked
-as a read length: too large overflows the PAGE_SIZE heap allocation
-in ext_data, too small underflows the size_t subtraction (hdr.size -
-sizeof(*ext_hdr)), producing a read length near SIZE_MAX.
+Hi Breno,
 
-Bound hdr.size to [sizeof(*ext_hdr), PAGE_SIZE] before using it.
+kernel test robot noticed the following build errors:
 
-Signed-off-by: Ștefan Ghețu <stefanghetu9@gmail.com>
----
- sound/soc/sof/ipc3.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+[auto build test ERROR on lee-leds/for-leds-next]
+[also build test ERROR on broonie-regulator/for-next linus/master v7.3-rc2 next-20260909]
+[cannot apply to linux/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/sound/soc/sof/ipc3.c b/sound/soc/sof/ipc3.c
-index 85bb22bbe18d..6188e43726e2 100644
---- a/sound/soc/sof/ipc3.c
-+++ b/sound/soc/sof/ipc3.c
-@@ -598,6 +598,14 @@ static int ipc3_fw_parse_ext_data(struct snd_sof_dev *sdev, u32 offset)
- 	ext_hdr = ext_data;
- 
- 	while (ext_hdr->hdr.cmd == SOF_IPC_FW_READY) {
-+		/* bound hdr.size to avoid heap overflow/underflow */
-+		if (ext_hdr->hdr.size < sizeof(*ext_hdr) ||
-+		   ext_hdr->hdr.size > PAGE_SIZE) {
-+			dev_err(sdev->dev, "invalid ext data size 0x%x\n",
-+				ext_hdr->hdr.size);
-+			ret = -EINVAL;
-+			break;
-+		}
- 		/* read in ext structure */
- 		snd_sof_dsp_block_read(sdev, SOF_FW_BLK_TYPE_SRAM,
- 				       offset + sizeof(*ext_hdr),
--- 
-2.53.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Breno-Rodrigues-Alves/Kconfig-fix-typos-in-core-makefiles-and-purge-defective-DVB-debug-v5/20260904-213005
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
+patch link:    https://lore.kernel.org/r/20260905003005.118245-1-breno3011alves%40gmail.com
+patch subject: [PATCH v5] Kconfig: fix typos in core makefiles and purge defective DVB debug (v5)
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260910/202609100824.ndDVSLWu-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260910/202609100824.ndDVSLWu-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609100824.ndDVSLWu-lkp@intel.com/
+
+All error/warnings (new ones prefixed by >>):
+
+>> drivers/media/dvb-core/dvb_net.c:76:35: error: 'TS_SZ' undeclared here (not in a function)
+      76 | static unsigned char ule_hist[100*TS_SZ] = { 0 };
+         |                                   ^~~~~
+>> drivers/media/dvb-core/dvb_net.c:76:22: warning: 'ule_hist' defined but not used [-Wunused-variable]
+      76 | static unsigned char ule_hist[100*TS_SZ] = { 0 };
+         |                      ^~~~~~~~
+
+
+vim +/TS_SZ +76 drivers/media/dvb-core/dvb_net.c
+
+^1da177e4c3f41 drivers/media/dvb/dvb-core/dvb_net.c Linus Torvalds        2005-04-16  70  
+e9f8b7ccd92d83 drivers/media/dvb-core/dvb_net.c     Breno Rodrigues Alves 2026-09-04  71  #ifdef CONFIG_DVB_ULE_DEBUG
+b93a25e120d5a4 drivers/media/dvb-core/dvb_net.c     Mauro Carvalho Chehab 2017-12-11  72  /*
+ba711e1cee7553 drivers/media/dvb-core/dvb_net.c     Mauro Carvalho Chehab 2017-12-11  73   * The code inside DVB_ULE_DEBUG keeps a history of the
+b93a25e120d5a4 drivers/media/dvb-core/dvb_net.c     Mauro Carvalho Chehab 2017-12-11  74   * last 100 TS cells processed.
+b93a25e120d5a4 drivers/media/dvb-core/dvb_net.c     Mauro Carvalho Chehab 2017-12-11  75   */
+b93a25e120d5a4 drivers/media/dvb-core/dvb_net.c     Mauro Carvalho Chehab 2017-12-11 @76  static unsigned char ule_hist[100*TS_SZ] = { 0 };
+b93a25e120d5a4 drivers/media/dvb-core/dvb_net.c     Mauro Carvalho Chehab 2017-12-11  77  static unsigned char *ule_where = ule_hist, ule_dump;
+b93a25e120d5a4 drivers/media/dvb-core/dvb_net.c     Mauro Carvalho Chehab 2017-12-11  78  
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
