@@ -1,35 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 953D729B228;
-	Thu, 10 Sep 2026 23:04:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29999374E59;
+	Thu, 10 Sep 2026 23:04:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789081444; cv=none; b=VjyspF+VTfIW9dlyp5dBWn6lTk9NUaTgUxWh+/rEqX+/0pEFgRAGW71rH8MblMowmpt0sAxSMcG+W04t7km2iazGUCw0+vGXdFAD/crQmJaFe3Rwbs3mcrlfcTa9KEisbOo9MpyQ+CXycDcsf440AzH79OUrM6Z0Q5VWObInvbg=
+	t=1789081446; cv=none; b=YSk4oZOz4m7J2F4tPe6zX6DDAJWfRqeHH2B9Wl8YLku4j8zpuzAhrGGhXl3+/Uk1gE2CrzWKaZJNhDAQdKB73VORZiAOuLxSi0it1I9ZAGOpB+4s4mCX78IxYkWt7FqzW9pJneA2p33CsJtwgCnjly+iVPLYSpjbt6+EkM5xJcg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789081444; c=relaxed/simple;
-	bh=wS0aZrOeDNyhD+XGIGzDSAElGYb+IObpugHdokhFyoA=;
+	s=arc-20240116; t=1789081446; c=relaxed/simple;
+	bh=3Tqlq58nnnZ1ljHJpCaztp7sT28l4mkNqkfIm8OBFuE=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=V1LFKt7zOaNE7pGYRmcDYI2SQe72nCsONqOXiEzxIMBvqJTh+Xqy7g2rrVHrx4nCzcGlMGb97hUgaWghrJhtkirxrFxMZIhW+N7FXBJO1Gt0mZV4pnIuiXJp9Aa/jvL7f0LbR+o90hqxrhOlidN508oqc3UNgtGYCObhEXCd4kk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XplsAbPU; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=GcSWLpTzH5jPTQntryQkINwQJ2/oEyVpQKWBBhItEToFBosfsvgUHEyEfaqBuflQIxUAnPgt/2/7nf0Oh2BRXDSNW5JNolsgA/a21Stz5jpSpoDBCdyKUeM2XrSqOsCoboFDeZL66Ky2jcmjpzU/R1rz/IIFt/VJk+hz/k0MP6g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UYE0xgGZ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XplsAbPU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB5531F00893;
-	Thu, 10 Sep 2026 23:03:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UYE0xgGZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 740481F000FF;
+	Thu, 10 Sep 2026 23:04:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789081442;
-	bh=oLhVn6lbhj3EhpMFwNsDhV8XdOBajGu6JReHZ1+ijgc=;
+	s=k20260515; t=1789081444;
+	bh=JE5YpUVOloIunsmmhQAgl4rcTgq8dXGaSKLaJ2rHXRQ=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=XplsAbPUAO/whFAJQJFjfLtNy5f9F2ZiYarfxEo+7e4HQf6uarbYPSo1Ko3QGKFb1
-	 apauNHME6Uh9oWOCgAj0tz2gVBTUGzmRie3Eu2HyBuIHLK8IPxoGwlptTrBEig0wtw
-	 uX3lekOeeMAqEwK7U/8QQ2louJ+PSAzJgWnTXnw3VY4qypu33IPYyNyQLRHRIm7BEZ
-	 kWuaWWxnSK9bzJ3kOfgTs96YY36QQT52sfLR90syZGlOmzrUKp86rygSZVuA7tfLex
-	 XCC6Brze5cJUxp28aK/fWvru88SoF2AFV5SXqOKfDbqks+p4v03epnCkkdyFvIRNvP
-	 XKcUVofb8GIdA==
+	b=UYE0xgGZH2KBXAumsV9y9ZjXENW+e63L+7IzfabSm0UZbnlzZEnNCZKdoY7hrq12d
+	 fgH5yr6w15jy0tK+gHVc2Bm+K7ciSbzGwbAg9vddcWgvI6ioc5/OA27SJp/PX1V6/v
+	 Tj5H8RbTVTR8fuwKqujdZLcjCExDTSJuLdVwYaSXxKP5QZqKCTVeA+CteSnSSNPcon
+	 /UUuK51RS1oIjw8DABwmKDQeDUkVEcoxYyyc3JTFjCOnA3Dss3dhdtTbLYV81Auk/0
+	 6K9H/JTuSO/3H4xRJA8yP5mOcMaeaf2Qs9StWvFyFodYkz61FR3Y9N8+h4/GokvQBv
+	 0NA7W87kBSbLw==
 From: Linus Walleij <linusw@kernel.org>
-Date: Fri, 11 Sep 2026 01:03:47 +0200
-Subject: [PATCH 4/9] ASoC: ab8500: Skip digital microphone support on
- AB8505
+Date: Fri, 11 Sep 2026 01:03:48 +0200
+Subject: [PATCH 5/9] ARM: dts: ux500: Add sound DAI provider cells
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -38,7 +37,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260911-ux500-simple-sound-v1-4-6771ac714e82@kernel.org>
+Message-Id: <20260911-ux500-simple-sound-v1-5-6771ac714e82@kernel.org>
 References: <20260911-ux500-simple-sound-v1-0-6771ac714e82@kernel.org>
 In-Reply-To: <20260911-ux500-simple-sound-v1-0-6771ac714e82@kernel.org>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
@@ -49,234 +48,78 @@ Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
  mfd@lists.linux.dev, Linus Walleij <linusw@kernel.org>
 X-Mailer: b4 0.14.3
 
-The AB8505 does not have the digital microphone interface, its six
-input pins or the VDMIC regulator found in AB8500. The shared codec
-driver nevertheless creates the entire AB8500 DMIC DAPM graph. When an
-AB8505 sound card binds, the regulator widget requests the nonexistent
-V-DMIC supply and falls back to a dummy regulator.
+Describe each MSP as a single-DAI provider and the AB8500 codec as a
+two-DAI provider. This allows generic sound cards to reference the
+playback and capture interfaces by phandle.
 
-Split the digital microphone widgets and routes from the common codec
-graph and add them only when the parent MFD is an actual AB8500. This
-also removes the DMIC4-only AD_OUT4 path from AB8505.
-
-Fixes: 679d7abdc754 ("ASoC: codecs: Add AB8500 codec-driver")
 Assisted-by: LLM
 Signed-off-by: Linus Walleij <linusw@kernel.org>
 ---
- sound/soc/codecs/ab8500-codec.c | 144 +++++++++++++++++++++++-----------------
- 1 file changed, 82 insertions(+), 62 deletions(-)
+ arch/arm/boot/dts/st/ste-ab8500.dtsi | 1 +
+ arch/arm/boot/dts/st/ste-ab8505.dtsi | 1 +
+ arch/arm/boot/dts/st/ste-dbx5x0.dtsi | 4 ++++
+ 3 files changed, 6 insertions(+)
 
-diff --git a/sound/soc/codecs/ab8500-codec.c b/sound/soc/codecs/ab8500-codec.c
-index e1a0e35836e6..35df09705440 100644
---- a/sound/soc/codecs/ab8500-codec.c
-+++ b/sound/soc/codecs/ab8500-codec.c
-@@ -299,7 +299,6 @@ static const struct snd_soc_dapm_widget ab8500_dapm_widgets[] = {
- 	SND_SOC_DAPM_REGULATOR_SUPPLY("V-AUD", 0, 0),
- 	SND_SOC_DAPM_REGULATOR_SUPPLY("V-AMIC1", 0, 0),
- 	SND_SOC_DAPM_REGULATOR_SUPPLY("V-AMIC2", 0, 0),
--	SND_SOC_DAPM_REGULATOR_SUPPLY("V-DMIC", 0, 0),
+diff --git a/arch/arm/boot/dts/st/ste-ab8500.dtsi b/arch/arm/boot/dts/st/ste-ab8500.dtsi
+index dd30d08ccb9b..8bf083addd66 100644
+--- a/arch/arm/boot/dts/st/ste-ab8500.dtsi
++++ b/arch/arm/boot/dts/st/ste-ab8500.dtsi
+@@ -272,6 +272,7 @@ pwm@3 {
  
- 	/* Power */
- 	SND_SOC_DAPM_SUPPLY("Audio Power",
-@@ -324,7 +323,6 @@ static const struct snd_soc_dapm_widget ab8500_dapm_widgets[] = {
- 	SND_SOC_DAPM_AIF_OUT("AD_OUT1", NULL, 0, SND_SOC_NOPM, 0, 0),
- 	SND_SOC_DAPM_AIF_OUT("AD_OUT2", NULL, 0, SND_SOC_NOPM, 0, 0),
- 	SND_SOC_DAPM_AIF_OUT("AD_OUT3", NULL, 0, SND_SOC_NOPM, 0, 0),
--	SND_SOC_DAPM_AIF_OUT("AD_OUT4", NULL, 0, SND_SOC_NOPM, 0, 0),
- 	SND_SOC_DAPM_AIF_OUT("AD_OUT57", NULL, 0, SND_SOC_NOPM, 0, 0),
- 	SND_SOC_DAPM_AIF_OUT("AD_OUT68", NULL, 0, SND_SOC_NOPM, 0, 0),
+ 				codec: codec {
+ 					compatible = "stericsson,ab8500-codec";
++					#sound-dai-cells = <1>;
  
-@@ -584,36 +582,6 @@ static const struct snd_soc_dapm_widget ab8500_dapm_widgets[] = {
- 	SND_SOC_DAPM_SUPPLY("AD5768 Enable", AB8500_ADPATHENA,
- 			    AB8500_ADPATHENA_ENAD5768, 0, NULL, 0),
+ 					V-AUD-supply = <&ab8500_ldo_audio_reg>;
+ 					V-AMIC1-supply = <&ab8500_ldo_anamic1_reg>;
+diff --git a/arch/arm/boot/dts/st/ste-ab8505.dtsi b/arch/arm/boot/dts/st/ste-ab8505.dtsi
+index 131c82508e82..e61beb8b5ac3 100644
+--- a/arch/arm/boot/dts/st/ste-ab8505.dtsi
++++ b/arch/arm/boot/dts/st/ste-ab8505.dtsi
+@@ -224,6 +224,7 @@ pwm@1 {
  
--	/* Digital Microphone path */
--
--	SND_SOC_DAPM_INPUT("DMic 1"),
--	SND_SOC_DAPM_INPUT("DMic 2"),
--	SND_SOC_DAPM_INPUT("DMic 3"),
--	SND_SOC_DAPM_INPUT("DMic 4"),
--	SND_SOC_DAPM_INPUT("DMic 5"),
--	SND_SOC_DAPM_INPUT("DMic 6"),
--
--	SND_SOC_DAPM_MIXER("DMIC1",
--			AB8500_DIGMICCONF, AB8500_DIGMICCONF_ENDMIC1, 0,
--			NULL, 0),
--	SND_SOC_DAPM_MIXER("DMIC2",
--			AB8500_DIGMICCONF, AB8500_DIGMICCONF_ENDMIC2, 0,
--			NULL, 0),
--	SND_SOC_DAPM_MIXER("DMIC3",
--			AB8500_DIGMICCONF, AB8500_DIGMICCONF_ENDMIC3, 0,
--			NULL, 0),
--	SND_SOC_DAPM_MIXER("DMIC4",
--			AB8500_DIGMICCONF, AB8500_DIGMICCONF_ENDMIC4, 0,
--			NULL, 0),
--	SND_SOC_DAPM_MIXER("DMIC5",
--			AB8500_DIGMICCONF, AB8500_DIGMICCONF_ENDMIC5, 0,
--			NULL, 0),
--	SND_SOC_DAPM_MIXER("DMIC6",
--			AB8500_DIGMICCONF, AB8500_DIGMICCONF_ENDMIC6, 0,
--			NULL, 0),
--	SND_SOC_DAPM_MIXER("AD4 Channel Volume",
--			SND_SOC_NOPM, 0, 0,
--			NULL, 0),
- 	/* Acoustical Noise Cancellation path */
+ 				codec: codec {
+ 					compatible = "stericsson,ab8500-codec";
++					#sound-dai-cells = <1>;
  
- 	SND_SOC_DAPM_MUX("ANC Source",
-@@ -648,6 +616,40 @@ static const struct snd_soc_dapm_widget ab8500_dapm_widgets[] = {
- 			NULL, 0),
- };
+ 					V-AUD-supply = <&ab8500_ldo_audio_reg>;
+ 					V-AMIC1-supply = <&ab8500_ldo_anamic1_reg>;
+diff --git a/arch/arm/boot/dts/st/ste-dbx5x0.dtsi b/arch/arm/boot/dts/st/ste-dbx5x0.dtsi
+index 25a20fafc6b9..e6585eeb4553 100644
+--- a/arch/arm/boot/dts/st/ste-dbx5x0.dtsi
++++ b/arch/arm/boot/dts/st/ste-dbx5x0.dtsi
+@@ -1078,6 +1078,7 @@ sound {
  
-+static const struct snd_soc_dapm_widget ab8500_dmic_dapm_widgets[] = {
-+	SND_SOC_DAPM_REGULATOR_SUPPLY("V-DMIC", 0, 0),
-+	SND_SOC_DAPM_AIF_OUT("AD_OUT4", NULL, 0, SND_SOC_NOPM, 0, 0),
-+
-+	SND_SOC_DAPM_INPUT("DMic 1"),
-+	SND_SOC_DAPM_INPUT("DMic 2"),
-+	SND_SOC_DAPM_INPUT("DMic 3"),
-+	SND_SOC_DAPM_INPUT("DMic 4"),
-+	SND_SOC_DAPM_INPUT("DMic 5"),
-+	SND_SOC_DAPM_INPUT("DMic 6"),
-+
-+	SND_SOC_DAPM_MIXER("DMIC1",
-+			AB8500_DIGMICCONF, AB8500_DIGMICCONF_ENDMIC1, 0,
-+			NULL, 0),
-+	SND_SOC_DAPM_MIXER("DMIC2",
-+			AB8500_DIGMICCONF, AB8500_DIGMICCONF_ENDMIC2, 0,
-+			NULL, 0),
-+	SND_SOC_DAPM_MIXER("DMIC3",
-+			AB8500_DIGMICCONF, AB8500_DIGMICCONF_ENDMIC3, 0,
-+			NULL, 0),
-+	SND_SOC_DAPM_MIXER("DMIC4",
-+			AB8500_DIGMICCONF, AB8500_DIGMICCONF_ENDMIC4, 0,
-+			NULL, 0),
-+	SND_SOC_DAPM_MIXER("DMIC5",
-+			AB8500_DIGMICCONF, AB8500_DIGMICCONF_ENDMIC5, 0,
-+			NULL, 0),
-+	SND_SOC_DAPM_MIXER("DMIC6",
-+			AB8500_DIGMICCONF, AB8500_DIGMICCONF_ENDMIC6, 0,
-+			NULL, 0),
-+	SND_SOC_DAPM_MIXER("AD4 Channel Volume",
-+			SND_SOC_NOPM, 0, 0,
-+			NULL, 0),
-+};
-+
- /*
-  * DAPM-routes
-  */
-@@ -853,35 +855,6 @@ static const struct snd_soc_dapm_route ab8500_dapm_routes[] = {
- 	{"AD_OUT68", NULL, "Main Supply"},
- 	{"AD_OUT68", NULL, "AD6 Channel Volume"},
+ 		msp0: msp@80123000 {
+ 			compatible = "stericsson,ux500-msp-i2s";
++			#sound-dai-cells = <0>;
+ 			reg = <0x80123000 0x1000>;
+ 			interrupts = <GIC_SPI 31 IRQ_TYPE_LEVEL_HIGH>;
+ 			v-ape-supply = <&db8500_vape_reg>;
+@@ -1095,6 +1096,7 @@ msp0: msp@80123000 {
  
--	/* Digital Microphone path */
--
--	{"DMic 1", NULL, "V-DMIC"},
--	{"DMic 2", NULL, "V-DMIC"},
--	{"DMic 3", NULL, "V-DMIC"},
--	{"DMic 4", NULL, "V-DMIC"},
--	{"DMic 5", NULL, "V-DMIC"},
--	{"DMic 6", NULL, "V-DMIC"},
--
--	{"DMIC1", NULL, "DMic 1"},
--	{"DMIC2", NULL, "DMic 2"},
--	{"DMIC3", NULL, "DMic 3"},
--	{"DMIC4", NULL, "DMic 4"},
--	{"DMIC5", NULL, "DMic 5"},
--	{"DMIC6", NULL, "DMic 6"},
--
--	{"AD1 Source Select", "DMic 1", "DMIC1"},
--	{"AD2 Source Select", "DMic 2", "DMIC2"},
--	{"AD3 Source Select", "DMic 3", "DMIC3"},
--	{"AD5 Source Select", "DMic 5", "DMIC5"},
--	{"AD6 Source Select", "DMic 6", "DMIC6"},
--
--	{"AD4 Channel Volume", NULL, "DMIC4"},
--	{"AD4 Channel Volume", NULL, "AD34 Enable"},
--
--	{"ab8500_0c", NULL, "AD_OUT4"},
--	{"AD_OUT4", NULL, "Main Supply"},
--	{"AD_OUT4", NULL, "AD4 Channel Volume"},
--
- 	/* LineIn Bypass path */
+ 		msp1: msp@80124000 {
+ 			compatible = "stericsson,ux500-msp-i2s";
++			#sound-dai-cells = <0>;
+ 			reg = <0x80124000 0x1000>;
+ 			interrupts = <GIC_SPI 62 IRQ_TYPE_LEVEL_HIGH>;
+ 			v-ape-supply = <&db8500_vape_reg>;
+@@ -1113,6 +1115,7 @@ msp1: msp@80124000 {
+ 		// HDMI sound
+ 		msp2: msp@80117000 {
+ 			compatible = "stericsson,ux500-msp-i2s";
++			#sound-dai-cells = <0>;
+ 			reg = <0x80117000 0x1000>;
+ 			interrupts = <GIC_SPI 98 IRQ_TYPE_LEVEL_HIGH>;
+ 			v-ape-supply = <&db8500_vape_reg>;
+@@ -1131,6 +1134,7 @@ HighPrio - Fixed */
  
- 	{"LINL to HSL Volume", NULL, "LINL Enable"},
-@@ -911,7 +884,6 @@ static const struct snd_soc_dapm_route ab8500_dapm_routes[] = {
- 	{"Sidetone Left Source", "Headset Left", "DA_IN1"},
- 	{"Sidetone Right Source", "LineIn Right", "AD2 Channel Volume"},
- 	{"Sidetone Right Source", "Mic 1", "AD3 Channel Volume"},
--	{"Sidetone Right Source", "DMic 4", "AD4 Channel Volume"},
- 	{"Sidetone Right Source", "Headset Right", "DA_IN2"},
- 
- 	{"STFIR1 Control", NULL, "Sidetone Left Source"},
-@@ -924,6 +896,37 @@ static const struct snd_soc_dapm_route ab8500_dapm_routes[] = {
- 	{"DA2 Enable", NULL, "STFIR2 Volume"},
- };
- 
-+static const struct snd_soc_dapm_route ab8500_dmic_dapm_routes[] = {
-+	{"DMic 1", NULL, "V-DMIC"},
-+	{"DMic 2", NULL, "V-DMIC"},
-+	{"DMic 3", NULL, "V-DMIC"},
-+	{"DMic 4", NULL, "V-DMIC"},
-+	{"DMic 5", NULL, "V-DMIC"},
-+	{"DMic 6", NULL, "V-DMIC"},
-+
-+	{"DMIC1", NULL, "DMic 1"},
-+	{"DMIC2", NULL, "DMic 2"},
-+	{"DMIC3", NULL, "DMic 3"},
-+	{"DMIC4", NULL, "DMic 4"},
-+	{"DMIC5", NULL, "DMic 5"},
-+	{"DMIC6", NULL, "DMic 6"},
-+
-+	{"AD1 Source Select", "DMic 1", "DMIC1"},
-+	{"AD2 Source Select", "DMic 2", "DMIC2"},
-+	{"AD3 Source Select", "DMic 3", "DMIC3"},
-+	{"AD5 Source Select", "DMic 5", "DMIC5"},
-+	{"AD6 Source Select", "DMic 6", "DMIC6"},
-+
-+	{"AD4 Channel Volume", NULL, "DMIC4"},
-+	{"AD4 Channel Volume", NULL, "AD34 Enable"},
-+
-+	{"ab8500_0c", NULL, "AD_OUT4"},
-+	{"AD_OUT4", NULL, "Main Supply"},
-+	{"AD_OUT4", NULL, "AD4 Channel Volume"},
-+
-+	{"Sidetone Right Source", "DMic 4", "AD4 Channel Volume"},
-+};
-+
- static const struct snd_soc_dapm_route ab8500_dapm_routes_mic1a_vamicx[] = {
- 	{"MIC1A V-AMICx Enable", NULL, "V-AMIC1"},
- 	{"MIC1A V-AMICx Enable", NULL, "V-AMIC2"},
-@@ -2043,13 +2046,30 @@ static int ab8500_codec_probe(struct snd_soc_component *component)
- {
- 	struct device *dev = component->dev;
- 	struct device_node *np = dev->of_node;
-+	struct ab8500 *ab8500 = dev_get_drvdata(dev->parent);
- 	struct ab8500_codec_platform_data codec_pdata;
-+	struct snd_soc_dapm_context *dapm;
- 	int status;
- 
- 	dev_dbg(dev, "%s: Enter.\n", __func__);
- 
- 	ab8500_codec_of_probe(dev, np, &codec_pdata);
- 
-+	if (is_ab8500(ab8500)) {
-+		dapm = snd_soc_component_to_dapm(component);
-+		status = snd_soc_dapm_new_controls(dapm,
-+						   ab8500_dmic_dapm_widgets,
-+						   ARRAY_SIZE(ab8500_dmic_dapm_widgets));
-+		if (status)
-+			return status;
-+
-+		status = snd_soc_dapm_add_routes(dapm,
-+						 ab8500_dmic_dapm_routes,
-+						 ARRAY_SIZE(ab8500_dmic_dapm_routes));
-+		if (status)
-+			return status;
-+	}
-+
- 	status = ab8500_audio_init_audioblock(component);
- 	if (status < 0) {
- 		dev_err(dev, "%s: failed to init audio-block (%d)!\n",
+ 		msp3: msp@80125000 {
+ 			compatible = "stericsson,ux500-msp-i2s";
++			#sound-dai-cells = <0>;
+ 			reg = <0x80125000 0x1000>;
+ 			interrupts = <GIC_SPI 62 IRQ_TYPE_LEVEL_HIGH>;
+ 			v-ape-supply = <&db8500_vape_reg>;
 
 -- 
 2.55.0
