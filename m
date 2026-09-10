@@ -1,123 +1,184 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43AFF4A1DEE
-	for <linux-sound@vger.kernel.org>; Thu, 10 Sep 2026 14:57:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CCF449EC57
+	for <linux-sound@vger.kernel.org>; Thu, 10 Sep 2026 15:03:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789052266; cv=none; b=cDl1qUW3j7S8oHt6fvcD4rshwCrHmV/uruisv6YGLi/5LMSOM8rapJ1AM+xElWM+ObilTYVZkAYMY4g37DKEbfJ6A06Dbtmq9o4fmT9ZDYr4x1B4kTBUUZFn44oP0f0ZC0JTM9/Qk91WmYNQT1hNzhMumfKOqVmnMWgPBhic4NU=
+	t=1789052588; cv=none; b=ulEyVWmQyqSRsNADaWwcjn9kkwJpZ1qs4VACZozqTex38X40rjQriuaapDl3mR9ezRKAs8CZ8yCP7NwKg/pi38/V7kGE5MOqRafm52pAtg1OckQaPcHSwEPBuerwAitMy4xWbcSh0+rUZxYGALbOEAydMiT/omn6sRfI41S6PkQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789052266; c=relaxed/simple;
-	bh=tG/L3kHn6KoUTFz7lhLNHl00QEqBtsGKyMaI9mJjIEc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=I5rr1xcGMQEk1vCbezn7uM35rU08DPSLVaOY1smu2uuzl4vHZ/9JWsJSdePXmNSumzvnuAn34sLuVOiU0OJ5UJGyEPak8AVyBCfCIBDEt013Iuin7OhMygEfBIRIjQRxCUI+COodGaL8vjfqxfQOTBbXVgbfYcGaSwjWzIb/YR8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z2o2kGkL; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1789052588; c=relaxed/simple;
+	bh=Yt6bgePLJmo5nfr3TgUtFNZs1VIHJBLofDWIH217bHg=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=BuB2IpLZTj3lWpYtekTPaAeRxQPorMLCpPpyfFm3G7OxvDqhTswgvFaqX4OvlqOoXRq0AT+oh51c9+1YhDzlOhQu2I1XER/F51oS2YHXlUu3IAwgjFPTG8aG7h4Tlaz4hifxwFRmXN1h4tjRCCvvduoymslvMFGK2Vy0CyB5bwg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=e29PEg4R; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=GqRajIdC; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z2o2kGkL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789052263; x=1820588263;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=tG/L3kHn6KoUTFz7lhLNHl00QEqBtsGKyMaI9mJjIEc=;
-  b=Z2o2kGkLp//QRWxA9tMD/il3dHnqvLQ1uBqmi1DH4YXwWyZ7MkpC6jl7
-   VZNMb6eBHS493JeOHSaZo0/9fN2KoMTTihvHYWxVOSmext90I5MKwz5ZZ
-   ts0/+S9D3nTA9bb87luxrE8dPP4VdxdhYlL86CYMLZHhRNJ3PRAWtyyz8
-   di2FrmXSg75gElvfLpwSJiH3xnKts3yljWOJP25PoGX6UPEkg81muyPSk
-   8b06OSDUq2f8mfbG9kGX69gKQw/s6K4bASBtTNiOJZuyRhhMDehb0bgZZ
-   0GIf4hHvHxmskcCSh8Ibz6fJAikdrnYy5duFBZVYQiarKSI7b1O46vCDL
-   A==;
-X-CSE-ConnectionGUID: wZGk9Tz4Tr2r6J0vL76bBA==
-X-CSE-MsgGUID: 6JscESrNTyGLQ+ui47MKaw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11901"; a="93195682"
-X-IronPort-AV: E=Sophos;i="6.27,95,1787036400"; 
-   d="scan'208";a="93195682"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2026 07:57:43 -0700
-X-CSE-ConnectionGUID: XNkzH7g5R3iZ0+DosFhLhw==
-X-CSE-MsgGUID: ca974eJ+ShSLEsqo658/Hg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,95,1787036400"; 
-   d="scan'208";a="295145211"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO [10.245.245.173]) ([10.245.245.173])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2026 07:57:39 -0700
-Message-ID: <c0395b03-4c4e-49b4-b9d4-7e5557686988@linux.intel.com>
-Date: Thu, 10 Sep 2026 17:57:49 +0300
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="e29PEg4R";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="GqRajIdC"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68AE09n61334157
+	for <linux-sound@vger.kernel.org>; Thu, 10 Sep 2026 15:03:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=Qlv+RCIgN6n8OpIQswWk7x
+	Zr8KiDxD72diUXV2HDjvY=; b=e29PEg4RQa7lGENEkW91d7a+K5tqvU+XIWicPe
+	1FTHUTz5abkpuA8431sv2/ZDtHZGErPco3Sis9h2UA1lyBPixPIuVcIqdKyCQRBE
+	Ie2t0pJS1nC0NrQ/mTsSH2Fr+ooaL0kQV4wPENNlRlxNm6oLo3PNRK4LPzQ1uiXk
+	2nO9Ph4xgTYt4asygF0axN3HaJYLuQaPeieMfDkBrlNONVmzL6p8lYt/Ljw+FabG
+	lAMF8mHXx0GPtUsB3hyq2NdzjXMWUhN8c3KfTAsvL14LlhEcmqolXLnfS07CzRXm
+	iUJsFX61R8X6+/SPaMbmQKe/+T5VsS/9bNWuFVW0/fvCYctA==
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com [209.85.210.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gkwx9rg4w-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Thu, 10 Sep 2026 15:03:05 +0000 (GMT)
+Received: by mail-pf1-f198.google.com with SMTP id d2e1a72fcca58-8688139460bso1620171b3a.0
+        for <linux-sound@vger.kernel.org>; Thu, 10 Sep 2026 08:03:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1789052583; x=1789657383; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=Qlv+RCIgN6n8OpIQswWk7xZr8KiDxD72diUXV2HDjvY=;
+        b=GqRajIdCQ4eCPCxeDHOkTQkdZyKk46E3+04vxOIQPMwo5TbEmP2C5HYbommp9j1Uyh
+         u+YUouZ+O2YLh6QEzZOCPDf0biIUI6D/zzZMM4b6slmvtHAQ2QA6eetUINZCCaPeycRE
+         n+090kCqVKGqtnOkBkqZysYeYKubm4ucUlfUHMBjfXGVJ6kcmWPjzZ75XCDIS3BLAk++
+         Z4Q7Su9ShWEfKFEhTfEcrJWJD6MYbN7ZwXmUBPCUgPhw+rkLquOSnxrhkNXqEFHr/pne
+         ClWVjcltOedJbyHXDl2B6dJc53GDy1Wk8dePySip6HK8BK64Ne9ln5BcSYf6Luyj0btJ
+         LzEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789052583; x=1789657383;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=Qlv+RCIgN6n8OpIQswWk7xZr8KiDxD72diUXV2HDjvY=;
+        b=DjHLflqDl3izfekxtjZPSGh38g6XCsrIAw3stmvjtrnmvmKkj9wUSnZTLWDCyEiA9g
+         jEA5kU3QoWyh8JrZuZSGF2YVsGjbpp2Drf7ps040oco2inV7T5NBBC7fgr+Wt59GR3h3
+         YK1nOTaGDaNY8UOffiEE+1au26f8vD9CU2mlJtWNSZxAhwUCsMe6kKaWuQfksZtrPgDR
+         Kq7FeZwqfZehpo0xQswhz9KREKHA/WPAG6DDgtyl2yB6s8XQRKUJINfdhTMq9y/1gqy/
+         LXS2BcmM5XlFlQjNFSNJxngZ0CTnHCqWWVJJrdV2KG0FL0dASXa6noOONOF5fX/ykuwr
+         7hzw==
+X-Forwarded-Encrypted: i=1; AKwUvBywXUQHizc5Zsc0wTZY532UZmROf1xxl3dshDoAVPWXgEVsGwzSPGAht4INJQa919/ZB/J636FFeP7+Xw==@vger.kernel.org
+X-Gm-Message-State: AFuF++mRklK1g2N0o160FM44RhRjJOgfGjZlnBSgEFr6Y2XapA4wdm2+
+	/iqOPz1txojixOpobE+FfiX40sdiTlEobnldAlqjwRHx/YK8As99Z1Jba3hpafM5sD0a+BmILaN
+	d7W/i0fTkj85pKj3tQiG+1CPZRPGAATc4EjjjAiH9X5Y19WkBMl0V0sSiTTs03l0JBg==
+X-Gm-Gg: AYBFou1ribCnYwEVZjXh8RAb9w3z7q4iib6KJz9XzGrF0AWD6cDcqC6sPOjV2fj0opb
+	HJiAvwmyjeYUOIQXjubXuUX9ORzBDCh+54zJ7Xs3KKobqy3midxaUkZ93ap3Z+mpuOqjfb7D0nc
+	KVf2cYFrIXlVhK4VaM1lFLt+kY0aZppVnfzgz156f+Wjjei8brU2vL0pY0g6SDq+6yxK0p2PJuZ
+	ZBq6ovxFW/of/qm+jJ49oVTVzRvJzcUIcrktosSpCxfZ7K4Klw2nwFrdHSQrzR0k4RXTJaFvAqh
+	xD77yGOOFsQ0hGQjpSzj/ohuUE09zvZw2AZhyeGnaq7o+erYvGxML5Wd+5Et4AUOSYJBOyNBZ+B
+	/ibANI0oQFPIwIfA+0ZhoP3FJhhRr
+X-Received: by 2002:a05:6a00:2d91:b0:846:8b22:4933 with SMTP id d2e1a72fcca58-8616bd5c57amr53850255b3a.17.1789052582961;
+        Thu, 10 Sep 2026 08:03:02 -0700 (PDT)
+X-Received: by 2002:a05:6a00:2d91:b0:846:8b22:4933 with SMTP id d2e1a72fcca58-8616bd5c57amr53849946b3a.17.1789052581155;
+        Thu, 10 Sep 2026 08:03:01 -0700 (PDT)
+Received: from hu-nandam-hyd.qualcomm.com ([202.46.22.19])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8687b479848sm2357060b3a.38.2026.09.10.08.02.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Sep 2026 08:03:00 -0700 (PDT)
+From: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
+Subject: [PATCH v2 0/5] ASoC: qcom: Shikra machine driver and DT binding
+ support
+Date: Thu, 10 Sep 2026 20:32:37 +0530
+Message-Id: <20260910-shikra-machine-v2-v2-0-9bf6bad589d8@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 23/24] ASoC: SOF: Intel: Kconfig: Select compress
- support for TGL+ platforms
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, vkoul@kernel.org,
- perex@perex.cz, tiwai@suse.com, lgirdwood@gmail.com, broonie@kernel.org,
- srinivas.kandagatla@oss.qualcomm.com
-Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com,
- yung-chuan.liao@linux.intel.com, daniel.baluta@nxp.com
-References: <20260909090949.7503-1-peter.ujfalusi@linux.intel.com>
- <20260909090949.7503-24-peter.ujfalusi@linux.intel.com>
- <6e5326ae-0a0b-4221-980d-65a8ffe8410f@linux.dev>
-Content-Language: en-US
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-In-Reply-To: <6e5326ae-0a0b-4221-980d-65a8ffe8410f@linux.dev>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAI3GomoC/yXMSQ6DMAxA0asgr2speMHQq6AuMrjEoKZVDAgJc
+ XfSdvkW/x+gnIUV7tUBmTdReacCulXgo00jo4RiIEON6WuDGmXOFl/WR0mMG2FobNsH50LnCUr
+ 3yfyU/fccHn/r6ib2y3cE53kBpZqR9XUAAAA=
+X-Change-ID: 20260910-shikra-machine-v2-d6a79dbbd8c2
+To: Srinivas Kandagatla <srini@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>
+Cc: linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+        Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>,
+        Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+X-Mailer: b4 0.15.0
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTEwMDE4MSBTYWx0ZWRfX0oPMGh61dheY
+ ofEFD3BaUZwODXoEpsTuhYBgCTRhAMk8lBql2ThLVhjvADOZiwizH0PBJcKC6V3THmNviSlDO3t
+ SOJQmKcJq6sNKYETP2Cug2zUbNE0a002ICfrk+hK1pK8RhioUEg87b9nLmJriOj+Sujg3JxLLdc
+ 1+stneYKvQvAKGMPXgTW2+uN9PADJ4WL0KEXJ+QFKI5oCAIj2iM9B0L0YppvUKGtLxoL9ArdZA7
+ gr1nd2jemKkJBlUREh8ZRivmVrfIpr1NP6fSbPcCZkrwtnB3zl9j8SYmhORgx//5Qs53MA9B0dV
+ K6PGYJfa6oCQy+cOZG+A048OxScfpBA53kZHrQ/dpZ0qoX+ltz/J25c+QI+Fh7mXx41bOuqWWjz
+ ZzAU113LZZy80taUqzdivNqo9aoq2f8YVsmE3/cgfDQznFMAXwpe0BVLYux8kd92N9Yv0kqpPNq
+ 6TaYRADwysIdykkW09Q==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTEwMDE4MSBTYWx0ZWRfX4GDPMHTbuRRp
+ Q+4MvJTwWWjF1DaODwAiz9whGZflkZ1VB8dBAwhENqTuBvFs87XJ8JDErficV9ypJJPaTou4SXh
+ Cnsc9Hq2m+zjUOATtjkoY/ihr436dfU=
+X-Proofpoint-GUID: j1SgjZoyu2wGlc5rP3-Hg6mXCWbXXkb_
+X-Authority-Analysis: v=2.4 cv=TupzFzXh c=1 sm=1 tr=0 ts=6aa2c6a9 cx=c_pps
+ a=m5Vt/hrsBiPMCU0y4gIsQw==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
+ a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=EeDgvMqZeazNxKWBYXAA:9 a=QEXdDO2ut3YA:10
+ a=IoOABgeZipijB_acs4fv:22
+X-Proofpoint-ORIG-GUID: j1SgjZoyu2wGlc5rP3-Hg6mXCWbXXkb_
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-10_04,2026-09-09_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 malwarescore=0 lowpriorityscore=0 clxscore=1015 bulkscore=0
+ suspectscore=0 phishscore=0 priorityscore=1501 impostorscore=0 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609100181
 
+This series adds Qualcomm Shikra sound-card variant support in DT
+bindings and in the sc8280xp machine driver.
 
+Shikra EVK variants use different audio components and processing
+architectures:
+- CQM/CQS use an I2S-based path with WSA885x amplifiers and
+  PM4125 + Rouleur codec components.
+- CQS uses modem-DSP based audio processing.
+- IQS uses a third-party MAX98091 codec with modem-DSP support.
 
-On 09/09/2026 16:37, Pierre-Louis Bossart wrote:
-> On 9/9/26 11:09, Peter Ujfalusi wrote:
->> Select SOF_COMPRESS for TGL and newer platforms, on Intel devices the
->> compressed support is available with IPC4 only.
-> 
-> that wording is confusing.
-> 
-> TGL default is IPC3, official IPC4 support started with MTL, didn't it?
+Changes in v2:
+- Split the single machine-driver patch into four separate patches
+  as requested by Srinivas and Dmitry:
+  - Patch 2/5: extend hw_params for QAIF MI2S/TDM DAI ranges,
+    add cpu_dai_fmt, VA_CODEC_DMA_TX_1 and be_ops filter changes
+  - Patch 3/5: CQM variant support
+  - Patch 4/5: CQS variant support
+  - Patch 5/5: IQS variant support
+- Carry forward Reviewed-by from Krzysztof on the DT binding patch
+- Use correct struct type (qcom_snd_soc_common) for all priv_data
 
-Yes, officially it is from MTL, but I worked on TGL for most of the time
-until got access to the actual decoder blobs and a machine where I can
-deploy the self built firmware.
+Link: https://lore.kernel.org/all/20260611112946.954172-1-ajay.nandam@oss.qualcomm.com/ [v1]
 
-The compress works on TGL IPC4 with ffmpeg in firmware ;)
-Extremely experimental thing for now.
+Dependencies:
+- https://lore.kernel.org/all/20260907-b4-qaif-shikra-audio-v5-1-6d8ad9ba5c9f@oss.qualcomm.com/
+  Dependency: CPU DAI ID's mentioned in the above patch
 
-I think I will leave it like this and reconsider if TGL IPC4 is decided
-to be dropped.
+Signed-off-by: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
+---
+Ajay Kumar Nandam (5):
+      ASoC: dt-bindings: qcom,sm8250: add Shikra sound card compatibles
+      ASoC: qcom: sc8280xp: Extend hw_params for QAIF backends
+      ASoC: qcom: sc8280xp: Add shikra-cqm-evk compatible support
+      ASoC: qcom: sc8280xp: Add shikra-cqs-evk compatible support
+      ASoC: qcom: sc8280xp: Add shikra-iqs-evk compatible support
 
-> 
->> Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
->> Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
->> ---
->>  sound/soc/sof/intel/Kconfig | 2 ++
->>  1 file changed, 2 insertions(+)
->>
->> diff --git a/sound/soc/sof/intel/Kconfig b/sound/soc/sof/intel/Kconfig
->> index 840d5a36b958..02b41e4ccab2 100644
->> --- a/sound/soc/sof/intel/Kconfig
->> +++ b/sound/soc/sof/intel/Kconfig
->> @@ -213,6 +213,7 @@ config SND_SOC_SOF_INTEL_TGL
->>  	select SND_SOC_SOF_HDA_GENERIC
->>  	select SND_SOC_SOF_INTEL_SOUNDWIRE_LINK_BASELINE
->>  	select SND_SOC_SOF_INTEL_CNL
->> +	select SND_SOC_SOF_COMPRESS
->>  
->>  config SND_SOC_SOF_TIGERLAKE
->>  	tristate "SOF support for Tigerlake"
->> @@ -249,6 +250,7 @@ config SND_SOC_SOF_INTEL_MTL
->>  	select SND_SOC_SOF_HDA_GENERIC
->>  	select SND_SOC_SOF_INTEL_SOUNDWIRE_LINK_BASELINE
->>  	select SND_SOC_SOF_IPC4
->> +	select SND_SOC_SOF_COMPRESS
->>  
->>  config SND_SOC_SOF_METEORLAKE
->>  	tristate "SOF support for Meteorlake"
-> 
+ .../devicetree/bindings/sound/qcom,sm8250.yaml     |  3 +
+ sound/soc/qcom/sc8280xp.c                          | 82 ++++++++++++++++++++--
+ sound/soc/qcom/sdw.c                               |  1 +
+ 3 files changed, 79 insertions(+), 7 deletions(-)
+---
+base-commit: c68a982815dcce5464e3bf2a31ac94f5146c04ca
+change-id: 20260910-shikra-machine-v2-d6a79dbbd8c2
 
--- 
-Péter
+Best regards,
+--  
+Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
 
