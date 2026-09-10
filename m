@@ -1,186 +1,171 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CH5PR02CU005.outbound.protection.outlook.com (mail-northcentralusazon11012063.outbound.protection.outlook.com [40.107.200.63])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 595F03C552B
-	for <linux-sound@vger.kernel.org>; Thu, 10 Sep 2026 18:38:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789065489; cv=none; b=iH6iAoEXxU60gzHpzy1+IF7u9qq3n8t84GTk1ktOh6JAK/XUuFHcbB+g5sgpxYchYrH21ElnUkUm8Lb/q13Xa1NbInWeCFHwes73bQZOyGRAzzw2GEXiIbAh66M59N8oOvzy8URKfokSTI3HO/SyG0aMp4mhPZdDkzXOKLsxDBA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789065489; c=relaxed/simple;
-	bh=XqQ/TBdyys53bJSV2TlOxB+9gn0LoZosuGJ+Op+jijg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=V3BfhFlOBN/N50Yf2CvTrpKI6g6JI0qX28guRRlbIoytCaAg90upYp4nAxKvjlKonKZy77MPDJhOS4jWjupe1J77jFNZLL3d5HRP3gXh9ceFQZwM+EGxKENCxwPBM4l+zXDwtic1AEKUMC96ZM1ctlkG1IiA3Uyjp+gPWcHpe28=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ByiblXtc; arc=none smtp.client-ip=209.85.216.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 764545437E7;
+	Thu, 10 Sep 2026 19:03:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.200.63
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789067033; cv=fail; b=EDXCcemTHsWjccXV0QXA0ukUTK9BN2qteLBFPR2gaIiRP61DQDFWpnVSuccBD8+vYD0xqx5VjELDBopxwsuFX8zGWRcEYIVZvg4s04w++xqv69+x8QMadlWj3rjqgMcklBkPYDEp38+9iB7x+cFnbNpt6amKlIQnOrQ1x5b9w0Q=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789067033; c=relaxed/simple;
+	bh=XL2wNW85H7kFl7fX+PrWY4od/s5XLX3+tBk4AmaAxac=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Hp4mVZ0+lfdOu5GS4uz9IJjSOfEzJgPqvKbXbOQF5sMEfj7/tufLYnJSkxgEVOym+epJiYDmnkGgp5vvPrZpWIG+41GpeNFymfT5NDxLQi0hEVGR94qUrmGxT4JriD6GswIA4VaNgV2cxN0ig18WcsmnRSXjXEChzovuZbPXYmg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=p2Qfuoc4; arc=fail smtp.client-ip=40.107.200.63
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ByiblXtc"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-38a0c7e841fso55562a91.2
-        for <linux-sound@vger.kernel.org>; Thu, 10 Sep 2026 11:38:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789065487; x=1789670287; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=9u7TJ9tgwm2KnuZFSYIca8LwnX5gbxqDtxG2LPSH6i0=;
-        b=ByiblXtc3+xG0Oh2cV0vBgSMKuqQtcRusXb89NrFQsnx41PBnsEtuNsoJ95Wrw2fMF
-         8RdITLXQ2BAgyIbQRdFDCTbBCNvrWhrhglJ4fSPw2G/Khp+aha2xy60L8EX92MDwC2q5
-         1n2d0lhk9L90B8Z/IHmcEnGRpAQnUFQFzweH2z+xskdkPUzwkiB042sQ7k7UdKKxP3yX
-         PjE0jP1l9ISxDvP7PJWkgkGSdf8PCnNj8gqSJkOXxuU3GgyB8xVrLSpJm9qkg2INdzs9
-         jC6zyRl7S5N2xWI4TPbPYsnMtmFELgKVjgZBfteAxH2aL7ec56dgJvSvbqM3k5hg961W
-         BVsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789065487; x=1789670287;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=9u7TJ9tgwm2KnuZFSYIca8LwnX5gbxqDtxG2LPSH6i0=;
-        b=WWqlK0PgTdaTfT7oDwnZAsuyadN+ubZj/CiJN5QFX6os6dP3nJEA/bOnkgWc/u0IZn
-         fBYSDsBJOc8qdMzZac03tHaa4TJ4C8J1/S65Dg0OlZ5Yciy9dtKtc+9UabFev3m+kMgf
-         soLGnvaZFD3zOZ8FhwyMH4VI/zz9dzFPrkibW6iHzPspLSxtPlmuYTYULxq3A2LczScX
-         p/5fythuDV3Sr3vd9RymHS7nvZQbLO3qzvuSjmsIyL9ARMXCo/7izTKJTVpBW7gjxjLa
-         wnIVx63c5LM9LXLNmVjPwMOWq5HREy3hn1svC6VKxMMT6fJtF9h4Bp4xiqOTbXSRi8JQ
-         Bhyg==
-X-Forwarded-Encrypted: i=1; AKwUvBwlAenHIUSFReIz5W9vyy+Lxn4Oi6/PnJgCnMfXeJ8NfdIa5kJ4zoQQXKkAfvN9tLoaCZH35r5xGfXEJA==@vger.kernel.org
-X-Gm-Message-State: AFuF++lHG5llRTJrOyNirzNJv18QBUzOiBRApbnReLuFwvslRwESvAZX
-	idC+4/1UDMoxW35DJu+DbEVB9z/e7lQVGAvVFZv4Qzeja2hVH4245zpf
-X-Gm-Gg: AYBFou35RpIgto4dBcmKciCr6kECf4h/e+k1zyYYB8EFjhabsbXuUIZrEX06jChwVHY
-	3uzPRRuFb24OSJ4h4swYfZOfIqZRKRGLFS8qnqQogEqmy3QKDK7D4w4yaU/hINmX6vRteruJRXU
-	88cpTpgzh6Or+CtJhE7ySb2sTDO6OLJn9ogjjU0UAJgR6yZGSLgWYkbKrcullnuICDFndA7iShC
-	WofuASYus9qLHi+zGT7qvid7jyE7dWXMeaUU1Vh6/J9S2GN2JM/nizC8bB7Vbm1lnsunevzMSBV
-	iQzk6VAph5TAQzjtZmYu6LRr5jeZ5xCvkx26rbb8OiMcO0ZS5xKZQsLJQLByMEM2i+VFrWHcCoI
-	O6zQpI7ptVk8T1QGgQTDj0R/040DSzrlTKYltcmviQuF9gwYbT2z7t7CgeMWRKxuuSZyTumvX52
-	/xU3aoSEG420Uu+j6CFQPrqe/2VfeGjoCJ/GiTkpjmOzzo/17xekSIvJG21vTp6tyCGIKXz5tzb
-	6Uowo4NtvxvxbE6Dgo4ZiO7cIV6fFaAvK6dIPY5HZU5ZZBb
-X-Received: by 2002:a17:90b:35d2:b0:39d:8d38:8b04 with SMTP id 98e67ed59e1d1-39d9bbea1d3mr52593a91.1.1789065486698;
-        Thu, 10 Sep 2026 11:38:06 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39d95752809sm851731a91.13.2026.09.10.11.38.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 10 Sep 2026 11:38:06 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <7a92a79e-e22a-4e34-9f11-4086b88f62cc@roeck-us.net>
-Date: Thu, 10 Sep 2026 11:38:03 -0700
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="p2Qfuoc4"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=g0yjiHAkBOc7IMwlLf8YFYucJHuGu73Z3ugqpv5hKeIPvyOjF7gktW6+fxPqlx0LYo9zrYSy8dT2pCuMFv5jq5+Jzhsj7oiBaL6/JF2h9WMYr2mtq1Llub3dFiY0Zo6mDOnRECDWxNSkv60ndQCI8vYxQHr6mXWYsZ+qfLcW7/ir/Dfl8qayeToMqNT5BruD8C6J8Kkq6a8q5CxriHjnOWpWlmPIaSYCHJo1jMbmI1DmabbgnSb/5IMG1iLoSFmM4MX+l09sPzfNHHmBKrisJvUK68CkOFy2kM9RoVrzoa9AgFF4BBhHI1XDmvnOphhkSeKUU5UComGB0bbEHMfXTw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qsp4xl1i6Iz4ZaOO2XGdCE86QZChi28KNlAbFRJw+kU=;
+ b=TMaV151jQMdRBIBeKZuIfnVYTSGrEAOLuh2RrNSdoCKF3Xet2vUuL1I2bdN3lBfn7z4z+FLcAJDfLxmocyx5qkpMFzdMhhTzlI4xrVUbucXTduRiMSmbBOmTwgJItNTDUIlHc/ali7OvTETYnYFwWoE5iByABLUODWslpbq3c8yQeOqDOijomibe1l6Rvc2NLaspSvNyJ2ZIQLrczES1J6fdmMRYaUI3CTlT7pcoVbLNrswDy3zc4YQiPwrRcBw91tLd3BQzoOd06AhzGWaYZQ/vRLor/meim82bJrbVCF/ToEq+rTHdduMfczHi6b6atqWh4eljGb11wiiLoDcJ+w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qsp4xl1i6Iz4ZaOO2XGdCE86QZChi28KNlAbFRJw+kU=;
+ b=p2Qfuoc4p6m39V0C4H8nx8VrYlYv7/yy7Q2qZRDtcMqAecbsRs/TkT6pIFIa7LStLZPjy1CCLItuKGl50byH9zflDieTB/768DWGzrKd9hYMJpDTyyv/HHjjLtr605rimB53eAzrIIUmPAQ3JUjK/+w4w15E2Zc19up+/sMcG3Y=
+Received: from SJ0PR13CA0064.namprd13.prod.outlook.com (2603:10b6:a03:2c4::9)
+ by CH2PR12MB4149.namprd12.prod.outlook.com (2603:10b6:610:7c::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.9; Thu, 10 Sep
+ 2026 19:03:47 +0000
+Received: from CO1PEPF00012E80.namprd03.prod.outlook.com
+ (2603:10b6:a03:2c4:cafe::c0) by SJ0PR13CA0064.outlook.office365.com
+ (2603:10b6:a03:2c4::9) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.428.5 via Frontend Transport; Thu, 10
+ Sep 2026 19:03:47 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
+Received: from satlexmb08.amd.com (165.204.84.17) by
+ CO1PEPF00012E80.mail.protection.outlook.com (10.167.249.55) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.406.5 via Frontend Transport; Thu, 10 Sep 2026 19:03:46 +0000
+Received: from satlexmb10.amd.com (10.181.42.219) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.46; Thu, 10 Sep
+ 2026 14:03:46 -0500
+Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb10.amd.com
+ (10.181.42.219) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.46; Thu, 10 Sep
+ 2026 14:03:45 -0500
+Received: from amd-System-Product-Name.amd.com (10.180.168.240) by
+ satlexmb07.amd.com (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.46
+ via Frontend Transport; Thu, 10 Sep 2026 14:03:42 -0500
+From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+To: <vkoul@kernel.org>
+CC: <yung-chuan.liao@linux.intel.com>, <pierre-louis.bossart@linux.dev>,
+	<Basavaraj.Hiregoudar@amd.com>, <Sunil-kumar.Dommati@amd.com>,
+	<venkataprasad.potturu@amd.com>, <Syed.SabaKareem@amd.com>,
+	<Mario.Limonciello@amd.com>, <Richard.Gong@amd.com>,
+	<linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Vijendar
+ Mukunda" <Vijendar.Mukunda@amd.com>
+Subject: [PATCH 0/8] soundwire: amd: SoundWire manager driver bug fixes
+Date: Fri, 11 Sep 2026 00:30:48 +0530
+Message-ID: <20260910190240.1604447-1-Vijendar.Mukunda@amd.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 08/14] mfd: remove unused aat2870 driver
-To: Arnd Bergmann <arnd@arndb.de>, Svyatoslav Ryhel <clamor95@gmail.com>,
- Arnd Bergmann <arnd@kernel.org>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Bartosz Golaszewski <brgl@kernel.org>, Mark Brown <broonie@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Daniel Thompson <danielt@kernel.org>,
- Helge Deller <deller@gmx.de>, devicetree@vger.kernel.org,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- dri-devel@lists.freedesktop.org, Jonathan Cameron <jic23@kernel.org>,
- Jingoo Han <jingoohan1@gmail.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Lee Jones <lee@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Linus Walleij <linusw@kernel.org>, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-fbdev@vger.kernel.org,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-rtc@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-watchdog@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, llvm@lists.linux.dev,
- Mauro Carvalho Chehab <mchehab@kernel.org>, mfd@lists.linux.dev,
- Michael Hennerich <michael.hennerich@analog.com>,
- patches@opensource.cirrus.com, Pavel Machek <pavel@kernel.org>,
- Rob Herring <robh@kernel.org>, Sebastian Reichel <sre@kernel.org>,
- Support Opensource <support.opensource@diasemi.com>
-References: <CAPVz0n0ryOns2sCJE_jFana9MVzwEj1QZuPEa8FNhGbHXnMB+A@mail.gmail.com>
- <11652e5e-053e-45b0-98a0-0c1cb2aeedc4@app.fastmail.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <11652e5e-053e-45b0-98a0-0c1cb2aeedc4@app.fastmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1PEPF00012E80:EE_|CH2PR12MB4149:EE_
+X-MS-Office365-Filtering-Correlation-Id: dce22909-4cd0-4dd0-a06c-08df0f6e3dfc
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700016|376014|23010399003|1800799024|82310400026|10067099003|11063799006|56012099006|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	O8mQ5lX3amFEkToERoe0OpwoiQLIgyo8jUCZcY62bEoPSJO79BxeZqaHc2S2rWn1BJ28yS+OrS4vfdQ5rXJS8YqjBOdnwtFetdR0523HwhZ60+wRLK6kkpf7XcXcUDmh4HAFLfmZ/YtKcFkTm6o/O9PMlkc/8wvnT4m0wS/r8Ke0T7v/5kLa4vBaTzQMOFtt5Osq9cAza3CiP7kc/uAZEjzq2889hOQPQu86bltCQgxiOrWAfKQw5lyMWk8JdNaeSZ/zpIzONC/hXunreoerXQ+CQmKPeZVq9u3eIKp7j32mZm9nh2auFW7PQbAei7AY97SmPnBFIIkzQZHMQiZcXpK7N+CtG95/tGRJsHAsR+5lV2CwgUwFpkaFR4TNm7m0OTahVMor/3B1vA0ccNVUd/yTk379t8ot0/0z7kX5wm8sKfj69EcADiic6K/9Y3NkmRsUSSL1T0vXRwPOksAhNIhI8a1VVm9Rta51X69/ILmoURCGaLMHbJCyl+oV4bZDK1UeZ5aw1nKiHOr8Hnu4nAYqYVrsNpgZnp9e7q8IR1PXynIG4xIheNgxQs7F9HH+2G+tGi0xvr3507db4CaUa7R6QF+NoULFyzZRtf2Rb8LRtrhMXSTkiidpfKypYs+Pj8bARem3AVZUOz0JBV/Q/SaHmNtTLxQorBJ6BjieMSJHUy8g3wNtJJeU8viE4TO8QgwS62VICzK0woeRsI2E2A==
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb08.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(376014)(23010399003)(1800799024)(82310400026)(10067099003)(11063799006)(56012099006)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	7qVEmCFJQ+TP8i1AT4lCOL42OfO91AaPKftQS1pXWcWr5Qfr+Mev6iRNNg1FAU90dwXXsojAMkVwHyHs7iR+JYYoRRXTDk6B2/kM9GmB9nnEDrL3wZFkDngOLasbJjCwwgJ3TREMH/jB3t9F5u59KSpTcyF0MF1pj9TRw7Aj2Lek899HqgiZCM+xpFldzkZSV3J4ABxLj6zfIIKuEbhNAaZGumgwqNGPMX1jjM2hWBjp9Tk+FiqI9qTD/edJHOXzPBPzwMM8qo5m+1SMGnmhp4sX2Txr3ECMYIj70pIjtsgV3syG15ll5NdhoqAvIqvy772E5X3vW7unzB3686prfFLb2XyoEAuVImPrGokXKSncH9olD75d9J8A4EwzQs1r78LO1hUxICs0LWt8RrOMY1sSQNEYb+K+Bp4khzoDvqualdRjm7+6Ric7P4FJSV3l
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2026 19:03:46.9586
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: dce22909-4cd0-4dd0-a06c-08df0f6e3dfc
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb08.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CO1PEPF00012E80.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4149
 
-On 9/10/26 11:14, Arnd Bergmann wrote:
-> On Thu, Sep 10, 2026, at 18:40, Svyatoslav Ryhel wrote:
->> __
->> Hello Arnd! May you please spare AAT2870 from being removed? I have a
->> device which uses aat2870 (LG Optimus 2X P990 Tegra 2, not upstreamed
->> yet, but in process as well) and atm I am working on converting this
->> driver to use OF. Thank you!
-> 
-> Sure, I have removed this patch from my series now.
-> 
->> P. S. If you are planning to remove more old drivers, please CC me in
->> since I may be interested in some additional driver upgrades for
->> devices I own.
-> 
-> Please have a look at
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git/log/?h=board-remove-7.3
-> 
-> I tried to be careful about figuring out exactly which drivers are
-> unused, but I'm sure there are still a few false positive and false
-> negative ones in there. I've added the current list of driver files below,
-> let me know if you see something that shouldn't be there.
-> 
->       Arnd
-> 
-...
-> drivers/hwmon/ds620.c
-> drivers/hwmon/f75375s.c
-> drivers/hwmon/max1111.c
-> drivers/hwmon/max197.c
+This series collects eight bug fixes for the AMD SoundWire manager
+driver (ACP6.3/7.0/7.1/7.2). The patches address correctness issues
+in command response handling, slave status caching, work-queue teardown
+ordering, resource cleanup on probe failure, and power-management
+suspend/resume sequences.
 
-I missed the rationale for removing those, but then I don't really
-mind either. I guess we'll hear if someone still uses any of those
-drivers/chips.
+Patch 1 fixes a silent type widening in amd_sdw_send_cmd_get_resp()
+where -ETIMEDOUT was returned through a u64, producing a large positive
+value instead of an error.
 
-Guenter
+Patch 2 caches the last successful ping slave status so that a command
+timeout during sdw_show_ping_status() does not report a spurious
+"no peripherals attached" warning.
+
+Patch 3 fixes the work-drain sequence in amd_sdw_manager_remove(): the
+interrupt delivery gate must be closed before cancel_work_sync() to
+prevent an in-flight IRQ handler from re-queuing work after the cancel
+returns. A pm_runtime_disable() imbalance on partially-started managers
+is also corrected.
+
+Patch 4 adds the missing sdw_amd_exit() call and ctx pointer clear on
+the sdw_amd_startup() failure path in sdw_amd_probe().
+
+Patch 5 propagates the amd_init_sdw_manager() return value in
+amd_resume_runtime() instead of ignoring it.
+
+Patch 6 removes the amd_deinit_sdw_manager() helper and expands its
+two call sites in the POWER_OFF suspend path to direct calls, making
+the sequence explicit with no functional change.
+
+Patch 7 replaces open-ended acp_rev >= ACP70_PCI_REV_ID comparisons
+in the PM callbacks with explicit per-revision handling covering
+ACP63, ACP70, ACP71 and ACP72, with a dev_err + -EINVAL default. The
+repeated host-wake-by-revision block is factored into a helper,
+amd_sdw_host_wake_enable_by_rev().
+
+Patch 8 fixes the interrupt gate and work drain ordering in all four
+suspend mode/path combinations: the ACP_EXTERNAL_INTR_CNTL gate must
+be closed before cancel_work_sync() calls to prevent a racing ISR from
+re-queuing work after the drain completes.
+
+Vijendar Mukunda (8):
+  soundwire: amd: fix SDW command timeout return value handling
+  soundwire: amd: cache ping slave status to avoid spurious disconnect
+    on timeout
+  soundwire: amd: fix work drain ordering and pm_runtime guard in remove
+    path
+  soundwire: amd: fix ctx leak when sdw_amd_startup() fails
+  soundwire: amd: propagate amd_init_sdw_manager() error on resume
+  soundwire: amd: drop amd_deinit_sdw_manager() in POWER_OFF suspend
+  soundwire: amd: replace >= ACP70 with explicit switch/case in PM paths
+  soundwire: amd: fix interrupt gate and work drain ordering in PM ops
+
+ drivers/soundwire/amd_init.c      |   9 +-
+ drivers/soundwire/amd_manager.c   | 204 ++++++++++++++++++++----------
+ include/linux/soundwire/sdw_amd.h |   3 +
+ 3 files changed, 148 insertions(+), 68 deletions(-)
+
+-- 
+2.48.1
 
