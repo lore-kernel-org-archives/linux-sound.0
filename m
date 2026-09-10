@@ -1,409 +1,158 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtpbguseast1.qq.com (smtpbguseast1.qq.com [54.204.34.129])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A020A2DF144
-	for <linux-sound@vger.kernel.org>; Thu, 10 Sep 2026 00:37:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01BD231618B;
+	Thu, 10 Sep 2026 01:33:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.204.34.129
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789000679; cv=none; b=emlySk19I1Efs3fyMjsU3lpwNqtKZVYrBGL2UEl/pvcDDgaw3mJ6Ri6dUNdyHgVUCMuPvrCK7eN4bM47N6vphlSEH9rVvjolffvJ4558PgkCWRw8IQ8vrrzW+z6MbFHekIeB1avaHPT/fs1WryUeY4iB4G/nf5pbIC7Kyn59Gos=
+	t=1789004027; cv=none; b=PQ7OQdKygSOinUdTbITyUOzC2tJuKTYgwsVJsUq8bzquwEKBtARftycrT/s6i2bw3LObw5NiZzggMkq9eMiipYGDOQZ8q4AhLuqxAfd1/WoiO4oPlv2FThHV6btMoZXurzR61/Kns1VaqimkxxkiHPHHdIw9juxELcVq7Ayo6yc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789000679; c=relaxed/simple;
-	bh=g6+lDSV7c/I/rpsXtbTpMhV094bJUKl2aNgFcsm5eGw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=A+SQLHZffUaBPleQEv2M1jXzANfqLdVNgrsgYz5LINEplFK0a27FSZ3JjKZKdcPCtHw5YUCpshzQFt3wYHqBrNEIJRbYfRK9Pt0ZZw73Dt50wstSihSr8XLBhm0bGjcvqkOMVxMHfTHWyLen3nIOZlaFKytMqo96wIiju1ZnAvM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=m+JMcqvd; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=B1Ak95Pn; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1789004027; c=relaxed/simple;
+	bh=1upMGiJeLzYtdrPLZ63MwfmHRhcTf7sTr78NB/LK/UQ=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
+	 References:In-Reply-To; b=OOI0sSr7Kn6NKmoEKRF4yLpudWDnAC9LtNi7iq/OGSbpDL5F+GAkh5opqAWn4WQjXw4MGnmP/F5+jPc3clD1n4MiiSN2kEUmhbpeGc13/3BIp9rNrJleDJUpb8xERdO6VOAUBSttrk0iuSvrMh10yzk5n2Z3YLXiFnO6u7C5O6s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com; spf=none smtp.mailfrom=linux.spacemit.com; dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b=ILqw91Yp; arc=none smtp.client-ip=54.204.34.129
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.spacemit.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="m+JMcqvd";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="B1Ak95Pn"
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 689M9WLM3137916
-	for <linux-sound@vger.kernel.org>; Thu, 10 Sep 2026 00:37:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	iYeNAGKJAILkQCJR+LXDROeSFwDZiD2F1WFQZUQ2A3Y=; b=m+JMcqvdzVMtd7qT
-	zANkRxcnMk+bcn9FhoMvgrMW+o6VNb9yWEind83+aKQHXYY6m09Ah3AE70gt56br
-	I4wpWnbfnvW2wiA0y2kkmbab+zO89Le+HPuvoUCZQIyLU488QL/NafAWQmCzQsCX
-	AD4y1Zy2yisScDMcSQNU2pgNjvx7MGPJMbps1f7cviLeVEGW8XHXi/1lwZSqzfvl
-	Ghc1HJXUWW/blofU/RvGhYh7/1o5ECyaY0buD7G/QSNJugBUpw8mIW5dIFoOzOgm
-	jJm7l/AH7PYbbproyP/fT8s6suD/LItJeVJThD7gWjwlf8MrqKClNx88KtjEV4ok
-	5yu/NA==
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gkcyfsb22-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Thu, 10 Sep 2026 00:37:55 +0000 (GMT)
-Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-3968bb86fb7so8038875a91.2
-        for <linux-sound@vger.kernel.org>; Wed, 09 Sep 2026 17:37:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1789000674; x=1789605474; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=iYeNAGKJAILkQCJR+LXDROeSFwDZiD2F1WFQZUQ2A3Y=;
-        b=B1Ak95PniSaITIijcear0N/BY33ra8eLfnWEB9U8PAK1E43voqeZJ/Cc0EhgjUEfwY
-         g1lxqcevYYeQkF9pRFifd2Aep7YB7Cm2/f5Lhbped5Hkzob1UaLbGJT3ziPhkIAvqvKr
-         dPCceGXBuCHjr4xf9RD6i7l4ZrJPzVUQuFUYsa8brkR9SX/+8roE5KDKPJevT5cJ6bO1
-         dWXJhz/Y/vWhCTHA2syK+w792VwVYM4k5jtDcs9P9U9/j3RCbFcAYQEFYvb0dKD1A1b1
-         +R9ms4cUnLzNl9xuj7IswjMxc8afCAZmshmmfx43TgeSoJ7/t6qqIQDBZafIF6B29o/7
-         wxEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789000674; x=1789605474;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=iYeNAGKJAILkQCJR+LXDROeSFwDZiD2F1WFQZUQ2A3Y=;
-        b=ryzIx/Ay8vtVMw430azsLJ9iV6EVOwvUoN3MGeNG859wPiqSKa5BI8weCc87QPPcCk
-         GJvCn3SisdSEgluo1e/YXEcNTRY32pguP67MpgRgoJJo0ymlj2pBc+ca+gZmheiCNEGj
-         Z4bemgv8IABERTDD3kyWRdIX2mRYXtxhW4Fi74+UYzNWxFSyK3mELVe0i2V4S4joOcgr
-         Pbn0hsvl9xPLDuJq6E0Jk/bPMBfTelXRRPaCYVW4pm0PdJXWJ99BqaY+1NTJhchW/AFD
-         8l1vaO+JH6izyaHSQ58/uzWEM6ZUCF3W8G76fxxL/yHQJHlrSlx4XUXoub+EdX7M1pm/
-         NBqg==
-X-Forwarded-Encrypted: i=1; AKwUvBwHxXQsS0Lw3JPSUMgQMLGRabHAHPo8h+lzaSq4ClbT4RwalX0HejQAUiETIniXhhhtlRpctKTy6S3LWg==@vger.kernel.org
-X-Gm-Message-State: AFuF++nKJSsb3USUmlpWwmxC9L992wrDxjisKd1vVQCYxrnvZHB3Qne7
-	rGnCxtPyVXK9UcplYs89XzVt+mpH1e11FfIiBl8fFNsNe1shdzzmYh+hYhPGF6xvn3J0MUWyQN9
-	t8EHTDBTXXQiNt+5I6HmY6sougMc1bg8wEYMPkZgdnFv+B2mbCFoND7e2voIYeRTP2A==
-X-Gm-Gg: AYBFou2uUYaZAf2isuP5cyY+uUDKkHioYXz08CUFwFu638xabXxmLQwMjgQkeR5WTtW
-	eFPcmRdiRu/NoPiFTLDyxvMpDW/cTJiQ9ECOztY04M6GSNqY8TQk16CGoC0xhcgpKr1PsNep2xM
-	s3CigMPSvYCs1vx4dWHiWfDvAA6/5zkj99ERStDA15S1fpP4PfZ2zmn8/0hniN0iGxMJcD74ivg
-	w63ubqYAeu5BDUo4PQ+MjrCAVeWSL5uQsQ6KZ0BkmYgLfyy3ojTREde8MmWoE166wU6EEzYGWAi
-	zqwP310DpEREmOI6G2d/5DNh6y+N8UcZlhcvvqYX1jt6VUTQLcCIb0iKCnWKWSWPJwI6bhAoDH1
-	8y5MnWpe7UPie7cwOOdusIbtBBVf1cZn99QWpR6erpsB0fts=
-X-Received: by 2002:a17:90b:1a88:b0:38f:efed:5448 with SMTP id 98e67ed59e1d1-39b2619138bmr54635834a91.8.1789000674206;
-        Wed, 09 Sep 2026 17:37:54 -0700 (PDT)
-X-Received: by 2002:a17:90b:1a88:b0:38f:efed:5448 with SMTP id 98e67ed59e1d1-39b2619138bmr54635742a91.8.1789000673530;
-        Wed, 09 Sep 2026 17:37:53 -0700 (PDT)
-Received: from [10.73.194.28] (pat_11.qualcomm.com. [192.35.156.11])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3339ac24d7esm74760649eec.15.2026.09.09.17.37.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Sep 2026 17:37:52 -0700 (PDT)
-Message-ID: <0b323a5d-6d49-4309-8b23-4ffb1e0c4f0b@oss.qualcomm.com>
-Date: Wed, 9 Sep 2026 17:37:50 -0700
+	dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b="ILqw91Yp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.spacemit.com;
+	s=mxsw2412; t=1789003960;
+	bh=JRLAWTIhqaaecsAukWfEk30ICvbbdNAr1t0TIDEE89s=;
+	h=Mime-Version:Date:Message-Id:From:To:Subject;
+	b=ILqw91YpOSY14+c8I7VK8ruo6YRhT7Am77O0aUoQRK3PGTB4zzQ9nAg9i6CT12w2T
+	 1S8+BNAVnCpA8jyIuMt2kQcIQkmXXcYS3fuKZCsC+3hl5Rd8GgtRypSV+IHTZb590q
+	 lDgZxKgJHfc1spEpNMTtcndXAfrhvU9Ld5+zYZo8=
+X-QQ-mid: esmtpgz15t1789003953t3e8991ed
+X-QQ-Originating-IP: e+6YXafASxPf1eSSOf6GAwmVakYdPq8Bw8GPT1vxgas=
+Received: from = ( [120.237.158.181])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Thu, 10 Sep 2026 09:32:31 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 11798593259033511261
+EX-QQ-RecipientCnt: 20
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/4] usb: xhci: sideband: allocate sideband ring
- segments from a dedicated pool
-To: Mathias Nyman <mathias.nyman@linux.intel.com>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        Michal Pecio <michal.pecio@gmail.com>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-sound@vger.kernel.org
-References: <20260903-16k_offload_v1_b4-v3-0-135928dc2408@oss.qualcomm.com>
- <20260903-16k_offload_v1_b4-v3-2-135928dc2408@oss.qualcomm.com>
- <3e8baa09-2ecf-413b-9ced-73479add6f8b@linux.intel.com>
-Content-Language: en-US
-From: Wesley Cheng <wesley.cheng@oss.qualcomm.com>
-In-Reply-To: <3e8baa09-2ecf-413b-9ced-73479add6f8b@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: sHMmur0rWxTCIQwlIv0YpdKjQ52w8rha
-X-Authority-Analysis: v=2.4 cv=GNqdgeNK c=1 sm=1 tr=0 ts=6aa1fbe3 cx=c_pps
- a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=ZdW6uxA9NKXbfdqeeS2OGA==:17
- a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22
- a=EUspDBNiAAAA:8 a=r2LSxhclMoEJzFSgZ9EA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=uKXjsCUrEbL0IQVhDsJ9:22
-X-Proofpoint-ORIG-GUID: sHMmur0rWxTCIQwlIv0YpdKjQ52w8rha
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTEwMDAwNSBTYWx0ZWRfX7t7DlK7OH3p4
- 3zgNAXegOUMh/JRH2o1zAK6Q4bpUiae+jZNgMa9VkUKhgzij5EstrI+WguCzBozaKIdnnvtKDsV
- DhuUqmt2Q7CEF7RlcbtPovM1+rLw2aqoP9ryGCmvtOjO1k2wvVdZ32kpHpCMChJO2zL4G084idv
- PAlqRWW4kzK6ESP+SqXvVpWnYiA5/FyJFOXQPSGwsF0M2Eoxjqe/An3JXm/sx/xMr08dXM2/ifz
- tOXri/dweqnLu5rb/KreKjM5YZ4jv0zRHEfndfle827tIpDPSDoE2jXgqnLbZA0Fh41JHGeXD/L
- 2wveyVl7KapnWHDC17P+OuaQ0vnYFLYW/Be3K0pDZfNfKS+YXGXOCs0De7TjL+sLju3tVkn4GKW
- rUszHZB8mUY13o0ddgmfXpfDcQ8dHon4YefQ0K5f8OLNwe66ynlF9Rd1Kw07ruFJH4oCPJ9ZVkI
- OOPPQw24+vDt5fqJtOw==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTEwMDAwNSBTYWx0ZWRfX8U/c4HAqdhdW
- KtwPhGC/sQr5reXjGpV93rxMDROGKo+HjddrBix2wonLgtI4fknuprK9t0GbilDgVC3UJy6q5k+
- YZ17oO1QMItk1RzN5t8AILSUf2RShUs=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-09_02,2026-09-09_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 impostorscore=0 priorityscore=1501 adultscore=0 phishscore=0
- malwarescore=0 bulkscore=0 spamscore=0 suspectscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609100005
+Mime-Version: 1.0
+Content-Type: multipart/signed;
+ boundary=11bbd86e82698157b531ee79da7e296696d006f746390c3a0d4a79aa529a;
+ micalg=pgp-sha512; protocol="application/pgp-signature"
+Date: Thu, 10 Sep 2026 09:32:28 +0800
+Message-Id: <DLB8Z04I9AJ5.14D1ET3LMEICL@linux.spacemit.com>
+From: "Troy Mitchell" <troy.mitchell@linux.spacemit.com>
+To: "Troy Mitchell" <troy.mitchell@linux.spacemit.com>, "Liam Girdwood"
+ <lgirdwood@gmail.com>, "Mark Brown" <broonie@kernel.org>, "Jaroslav Kysela"
+ <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>, "Yixun Lan"
+ <dlan@kernel.org>, "Jinmei Wei" <weijinmei@linux.spacemit.com>, "Rob
+ Herring" <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ "Conor Dooley" <conor+dt@kernel.org>, "Paul Walmsley" <pjw@kernel.org>,
+ "Palmer Dabbelt" <palmer@dabbelt.com>, "Albert Ou" <aou@eecs.berkeley.edu>,
+ "Alexandre Ghiti" <alex@ghiti.fr>
+Cc: <linux-sound@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+ <spacemit@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, "Arnd Bergmann" <arnd@arndb.de>
+Subject: Re: [PATCH v2] riscv: dts: spacemit: k3: add i2s0-i2s5 nodes
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260910-kx-i2s-dts-v2-1-91f5376c899d@linux.spacemit.com>
+ <20260909172639.BCDE91F000FF@smtp.kernel.org>
+In-Reply-To: <20260909172639.BCDE91F000FF@smtp.kernel.org>
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpgz:linux.spacemit.com:qybglogicsvrgz:qybglogicsvrgz3a-0
+X-QQ-XMAILINFO: NwZEY09ZZGEZVvqf8+YezEAmM5w3WON858kCV+075xnJtCMxOzbXSBlq
+	yqTq2sJ1xcR802fNLAUOVHhMYcQlsWLqIy2z7x9UD1Zc3hx/ofGmS9FNlWt/oOoPvLo/8xO
+	SaX1fmnY2r7HCGU/l8KVYmOAb7wU8hfdRVUBqxEZ+9ncVdkWTIXqPjM/bZS+Q5SjuQIH1iA
+	N7uKC5xQlv2C8hSidNKXHD/KjTzwyrE1xvquwnV/JM+fjEhmuVsowvYAgsjSE/rGAGtY8hf
+	uBDRKTVnBUnmLl6FLf5xVw6KQKwPYbEqLoCBKMqQGHzcOFfwX+kqDC1F9iOFhdihl7dhASv
+	C10ujbWeT/2r9M9asl3DblFWHYSz6W6HDlMGdwmfAhAXbMGcqPjqaX1z7FW0P+FQfia404P
+	PI8K/4wqj1eOgsEkb3c61nw1UTnVPE3aCvt1/IVBECeu31l8z5DIhzqpUS9P/Zi1ur0dJ3i
+	umYWf3iH8Ugr7vypSsu/wDs1UPOaiHBHwdBlMk/77Bmcsa9UhJ6aX367NZFAUF/GCVs2OIZ
+	82Ic/q6Sbx1QRinOdGd6TxZCAcT5K5jbVcS/0c17skiZAS+yLpONik4k86J9m0lwdYyqFfp
+	KnLBU7r29s26S0Dgg3nvQp+rD8YjKiMVeh//ddvxybjlLuvYX0GIV/3BdqHpk9M1pQk2heK
+	4KerA4UU5MSx1PQ0vkoYdBBMHeLE+voTo24UR8LDWI52RIb0PI64TuySpuXLiZe2XoXk5X5
+	zdyIZXrm6cEp516N/U/INu3228f2H9PNKi/mJKSsFtIQNqUC/QbQ/nHRgTPYujs7aaPLvp6
+	ZSjScuOshIpI+9Anw0pBu1J/3pE8FqhcbdkSgKb6Mj3SUS1ZbXix95U/F/EYm1xXle4lDxz
+	8yFq+w7Vy4j/GTCeSE0c5rCXK7eeRZkIP9/b9xtnZXJxOzEmdWpqxxWs1OJks18jiEosxmB
+	1XwiOduVvGN4G4AhjJAqsa74s/BVyQhuzhCs8+0rtH6oBJiVt8LRhmkbddo6uDQuTq6cYK7
+	JdDuTmbqzcWxK1qnTMvchhF7T414zMOXq1YFOuV4TbGP3V/xKXa89oGeG13SVJMxETX31HB
+	yc6IfAOOATC5G7zwkxzhWqe6cwk0XIbdwluooxwh3pdelAKeWjYR/DVXj1jNQCclg==
+X-QQ-XMRINFO: OWPUhxQsoeAVwkVaQIEGSKwwgKCxK/fD5g==
+X-QQ-RECHKSPAM: 0
+
+--11bbd86e82698157b531ee79da7e296696d006f746390c3a0d4a79aa529a
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
 
+On Thu Sep 10, 2026 at 1:26 AM +08, sashiko-bot wrote:
+> Thank you for your contribution! Sashiko AI review found 1 potential issu=
+e(s) to consider:
+> - [Low] The newly added I2S device tree nodes use hardcoded magic numbers=
+ for DMA channels instead of the available hardware macros from `k3-pdma.h`=
+.
+> --
+>
+> commit 8163a94c4a6b08c0fea00752b0853d3f434a12d1
+> Author: Troy Mitchell <troy.mitchell@linux.spacemit.com>
+>
+> riscv: dts: spacemit: k3: add i2s0-i2s5 nodes
+>
+> Add the six SSPA-based I2S controller nodes for the K3 SoC.
+> i2s0 and i2s2-i2s5 each have a dedicated per-controller sysclk
+> divider, so they use the published 7-clock layout.
+>
+> Link: https://lore.kernel.org/all/20260721-kx-i2s-dts-v1-0-d22cb6cfaab5@l=
+inux.spacemit.com/
+>
+>> diff --git a/arch/riscv/boot/dts/spacemit/k3.dtsi b/arch/riscv/boot/dts/=
+spacemit/k3.dtsi
+>> index c3f2dce0969c0..f2ff9f02249c3 100644
+>> --- a/arch/riscv/boot/dts/spacemit/k3.dtsi
+>> +++ b/arch/riscv/boot/dts/spacemit/k3.dtsi
+>
+> [ ... ]
+>
+>> @@ -1140,6 +1140,85 @@ uart10: serial@d401f000 {
+>>  			status =3D "disabled";
+>>  		};
+>> =20
+>> +		i2s0: i2s@d4026000 {
+>> +			compatible =3D "spacemit,k3-i2s";
+>> +			reg =3D <0x0 0xd4026000 0x0 0x30>;
+>> +			clocks =3D <&syscon_mpmu CLK_MPMU_I2S0_SYSCLK>,
+>> +				 <&syscon_apbc CLK_APBC_I2S0_BCLK>,
+>> +				 <&syscon_apbc CLK_APBC_I2S0_BUS>,
+>> +				 <&syscon_apbc CLK_APBC_I2S0>,
+>> +				 <&syscon_mpmu CLK_MPMU_I2S0_SYSCLK_DIV>,
+>> +				 <&syscon_mpmu CLK_MPMU_I2S_SYSCLK>,
+>> +				 <&syscon_mpmu CLK_MPMU_I2S_BCLK>;
+>> +			clock-names =3D "sysclk", "bclk", "bus", "func",
+>> +				      "sysclk_div", "c_sysclk", "c_bclk";
+>> +			dmas =3D <&pdma 21>, <&pdma 22>;
+>
+> [Severity: Low]
+> Could this use the available hardware macros from k3-pdma.h instead of
+> hardcoded magic numbers, such as <&pdma K3_PDMA_SSPA0_TX>,
+> <&pdma K3_PDMA_SSPA0_RX>?
+Yes, will fix in the next version.
 
-On 9/9/2026 3:08 AM, Mathias Nyman wrote:
-> On 9/4/26 09:57, Wesley Cheng wrote:
->> Ring segments are normally allocated from a shared DMA pool sized and
->> aligned to TRB_SEGMENT_SIZE (4096 bytes). On kernels built with a
->> larger PAGE_SIZE (e.g. 16K or 64K page arches), a segment can end up
->> at a non-page-aligned offset within its enclosing CPU page, and
->> multiple segments can share the same physical page.
->>
->> A sideband client that maps a ring buffer directly via the IOMMU
->> (which operates at page granularity) needs to know exactly which
->> page(s) back the ring, and only pages that are actually intended to
->> be exposed to that client should ever be mapped this way.
->>
->> Allow each xhci_sideband endpoint to pass its own segment_pool, allocated
->> separately from the core xhci->segment_pool, so every segment backing
->> a sideband-tagged endpoint always comes from a page that is meant to
->> be visible by the entity handling the offloaded endpoints. Normal
->> (non-offloaded) endpoints are unaffected, as they keep allocating from
->> xhci->segment_pool.
->>
->> The offload client owns the pool's full lifetime, and since
->> that lifetime is no longer tied to the sideband instance itself,
->> xhci_sideband_unregister() must free any ring still backed by a
->> client-supplied pool before returning, rather than leaving it for xhci
->> to free later when the client and its pool may already be gone.
->>
->> Assisted-by: Claude:claude-sonnet-5
->> Signed-off-by: Wesley Cheng <wesley.cheng@oss.qualcomm.com>
->> ---
->>   drivers/usb/host/xhci-mem.c       | 63 ++++++++++++++++++++++++ 
->> +--------------
->>   drivers/usb/host/xhci-sideband.c  | 40 ++++++++++++++++++++++---
->>   drivers/usb/host/xhci.h           | 16 +++++-----
->>   include/linux/usb/xhci-sideband.h | 20 +++++++++++--
->>   sound/usb/qcom/qc_audio_offload.c | 21 +++++++++++--
->>   5 files changed, 121 insertions(+), 39 deletions(-)
->>
->> diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
->> index 7a21ac81f9c8..a041a35fcd4f 100644
->> --- a/drivers/usb/host/xhci-mem.c
->> +++ b/drivers/usb/host/xhci-mem.c
->> @@ -28,6 +28,7 @@
->>    * "All components of all Command and Transfer TRBs shall be 
->> initialized to '0'"
->>    */
->>   static struct xhci_segment *xhci_segment_alloc(struct xhci_hcd *xhci,
->> +                           struct dma_pool *pool,
->>                              unsigned int max_packet,
->>                              unsigned int num,
->>                              gfp_t flags)
->> @@ -40,7 +41,7 @@ static struct xhci_segment *xhci_segment_alloc(struct 
->> xhci_hcd *xhci,
->>       if (!seg)
->>           return NULL;
->> -    seg->trbs = dma_pool_zalloc(xhci->segment_pool, flags, &dma);
->> +    seg->trbs = dma_pool_zalloc(pool, flags, &dma);
->>       if (!seg->trbs) {
->>           kfree(seg);
->>           return NULL;
->> @@ -50,7 +51,7 @@ static struct xhci_segment *xhci_segment_alloc(struct 
->> xhci_hcd *xhci,
->>           seg->bounce_buf = kzalloc_node(max_packet, flags,
->>                       dev_to_node(dev));
->>           if (!seg->bounce_buf) {
->> -            dma_pool_free(xhci->segment_pool, seg->trbs, dma);
->> +            dma_pool_free(pool, seg->trbs, dma);
->>               kfree(seg);
->>               return NULL;
->>           }
->> @@ -62,10 +63,11 @@ static struct xhci_segment *xhci_segment_alloc(struct 
->> xhci_hcd *xhci,
->>       return seg;
->>   }
->> -static void xhci_segment_free(struct xhci_hcd *xhci, struct xhci_segment 
->> *seg)
->> +static void xhci_segment_free(struct xhci_hcd *xhci, struct dma_pool *pool,
->> +                  struct xhci_segment *seg)
->>   {
->>       if (seg->trbs) {
->> -        dma_pool_free(xhci->segment_pool, seg->trbs, seg->dma);
->> +        dma_pool_free(pool, seg->trbs, seg->dma);
->>           seg->trbs = NULL;
->>       }
->>       kfree(seg->bounce_buf);
->> @@ -81,7 +83,7 @@ static void xhci_ring_segments_free(struct xhci_hcd 
->> *xhci, struct xhci_ring *rin
->>       while (seg) {
->>           next = seg->next;
->> -        xhci_segment_free(xhci, seg);
->> +        xhci_segment_free(xhci, ring->segment_pool, seg);
->>           seg = next;
->>       }
->>   }
->> @@ -334,7 +336,7 @@ static int xhci_alloc_segments_for_ring(struct 
->> xhci_hcd *xhci, struct xhci_ring
->>       struct xhci_segment *prev;
->>       unsigned int num = 0;
->> -    prev = xhci_segment_alloc(xhci, ring->bounce_buf_len, num, flags);
->> +    prev = xhci_segment_alloc(xhci, ring->segment_pool, ring- 
->> >bounce_buf_len, num, flags);
->>       if (!prev)
->>           return -ENOMEM;
->>       num++;
->> @@ -343,7 +345,8 @@ static int xhci_alloc_segments_for_ring(struct 
->> xhci_hcd *xhci, struct xhci_ring
->>       while (num < ring->num_segs) {
->>           struct xhci_segment    *next;
->> -        next = xhci_segment_alloc(xhci, ring->bounce_buf_len, num, flags);
->> +        next = xhci_segment_alloc(xhci, ring->segment_pool, ring- 
->> >bounce_buf_len,
->> +                      num, flags);
->>           if (!next)
->>               goto free_segments;
->> @@ -362,15 +365,10 @@ static int xhci_alloc_segments_for_ring(struct 
->> xhci_hcd *xhci, struct xhci_ring
->>       return -ENOMEM;
->>   }
->> -/*
->> - * Create a new ring with zero or more segments.
->> - *
->> - * Link each segment together into a ring.
->> - * Set the end flag and the cycle toggle bit on the last segment.
->> - * See section 4.9.1 and figures 15 and 16.
->> - */
->> -struct xhci_ring *xhci_ring_alloc(struct xhci_hcd *xhci, unsigned int 
->> num_segs,
->> -                  enum xhci_ring_type type, unsigned int max_packet, 
->> gfp_t flags)
->> +static struct xhci_ring *
->> +xhci_ring_alloc_from_pool(struct xhci_hcd *xhci, unsigned int num_segs,
->> +              enum xhci_ring_type type, unsigned int max_packet,
->> +              struct dma_pool *pool, gfp_t flags)
->>   {
->>       struct xhci_ring    *ring;
->>       int ret;
->> @@ -382,6 +380,7 @@ struct xhci_ring *xhci_ring_alloc(struct xhci_hcd 
->> *xhci, unsigned int num_segs,
->>       ring->num_segs = num_segs;
->>       ring->bounce_buf_len = max_packet;
->> +    ring->segment_pool = pool;
->>       INIT_LIST_HEAD(&ring->td_list);
->>       ring->type = type;
->>       if (num_segs == 0)
->> @@ -398,6 +397,20 @@ struct xhci_ring *xhci_ring_alloc(struct xhci_hcd 
->> *xhci, unsigned int num_segs,
->>       return NULL;
->>   }
->> +/*
->> + * Create a new ring with zero or more segments.
->> + *
->> + * Link each segment together into a ring.
->> + * Set the end flag and the cycle toggle bit on the last segment.
->> + * See section 4.9.1 and figures 15 and 16.
->> + */
->> +struct xhci_ring *xhci_ring_alloc(struct xhci_hcd *xhci, unsigned int 
->> num_segs,
->> +                  enum xhci_ring_type type, unsigned int max_packet, 
->> gfp_t flags)
->> +{
->> +    return xhci_ring_alloc_from_pool(xhci, num_segs, type, max_packet,
->> +                     xhci->segment_pool, flags);
->> +}
->> +
->>   void xhci_free_endpoint_ring(struct xhci_hcd *xhci,
->>           struct xhci_virt_device *virt_dev,
->>           unsigned int ep_index)
->> @@ -422,6 +435,7 @@ int xhci_ring_expansion(struct xhci_hcd *xhci, struct 
->> xhci_ring *ring,
->>       new_ring.num_segs = num_new_segs;
->>       new_ring.bounce_buf_len = ring->bounce_buf_len;
->>       new_ring.type = ring->type;
->> +    new_ring.segment_pool = ring->segment_pool;
->>       ret = xhci_alloc_segments_for_ring(xhci, &new_ring, flags);
->>       if (ret)
->>           return -ENOMEM;
->> @@ -1424,6 +1438,7 @@ int xhci_endpoint_init(struct xhci_hcd *xhci,
->>       unsigned int mult;
->>       unsigned int avg_trb_len;
->>       unsigned int err_count = 0;
->> +    struct dma_pool *pool;
->>       ep_index = xhci_get_endpoint_index(&ep->desc);
->>       ep_ctx = xhci_get_ep_ctx(xhci, virt_dev->in_ctx, ep_index);
->> @@ -1487,8 +1502,10 @@ int xhci_endpoint_init(struct xhci_hcd *xhci,
->>           avg_trb_len = 8;
->>       /* Set up the endpoint ring */
->> +    pool = virt_dev->eps[ep_index].priv_seg_pool ?
->> +           virt_dev->eps[ep_index].priv_seg_pool : xhci->segment_pool;
->>       virt_dev->eps[ep_index].new_ring =
->> -        xhci_ring_alloc(xhci, 2, ring_type, max_packet, mem_flags);
->> +        xhci_ring_alloc_from_pool(xhci, 2, ring_type, max_packet, pool, 
->> mem_flags);
->>       if (!virt_dev->eps[ep_index].new_ring)
->>           return -ENOMEM;
->> @@ -2291,7 +2308,8 @@ static int xhci_setup_port_arrays(struct xhci_hcd 
->> *xhci, gfp_t flags)
->>   }
->>   static struct xhci_interrupter *
->> -xhci_alloc_interrupter(struct xhci_hcd *xhci, unsigned int segs, gfp_t 
->> flags)
->> +xhci_alloc_interrupter(struct xhci_hcd *xhci, unsigned int segs,
->> +               struct dma_pool *pool, gfp_t flags)
->>   {
->>       struct device *dev = xhci_to_hcd(xhci)->self.sysdev;
->>       struct xhci_interrupter *ir;
->> @@ -2308,7 +2326,7 @@ xhci_alloc_interrupter(struct xhci_hcd *xhci, 
->> unsigned int segs, gfp_t flags)
->>       if (!ir)
->>           return NULL;
->> -    ir->event_ring = xhci_ring_alloc(xhci, segs, TYPE_EVENT, 0, flags);
->> +    ir->event_ring = xhci_ring_alloc_from_pool(xhci, segs, TYPE_EVENT, 
->> 0, pool, flags);
->>       if (!ir->event_ring) {
->>           xhci_warn(xhci, "Failed to allocate interrupter event ring\n");
->>           kfree(ir);
->> @@ -2356,7 +2374,8 @@ void xhci_add_interrupter(struct xhci_hcd *xhci, 
->> unsigned int intr_num)
->>   struct xhci_interrupter *
->>   xhci_create_secondary_interrupter(struct usb_hcd *hcd, unsigned int segs,
->> -                  u32 imod_interval, unsigned int intr_num)
->> +                  struct dma_pool *pool, u32 imod_interval,
->> +                  unsigned int intr_num)
->>   {
->>       struct xhci_hcd *xhci = hcd_to_xhci(hcd);
->>       struct xhci_interrupter *ir;
->> @@ -2367,7 +2386,7 @@ xhci_create_secondary_interrupter(struct usb_hcd 
->> *hcd, unsigned int segs,
->>           intr_num >= xhci->max_interrupters)
->>           return NULL;
->> -    ir = xhci_alloc_interrupter(xhci, segs, GFP_KERNEL);
->> +    ir = xhci_alloc_interrupter(xhci, segs, pool, GFP_KERNEL);
-> 
-> 
-> Passing a custom dma pool to xhci_create_secondary_interrupters() shuld be 
-> optional.
-> Callers shoudn't need to be aware of the xhci->segment_pool, and pass it in 
-> the default case.
-> 
 
-Makes sense, will fix this.
+--=20
+Troy Mitchell
 
-> Instead use the default xhci->segment_pool if caller passes NULL for pool.
-> 
-> 
->>       if (!ir)
->>           return NULL;
->> @@ -2498,7 +2517,7 @@ int xhci_mem_init(struct xhci_hcd *xhci, gfp_t flags)
->>       if (!xhci->interrupters)
->>           goto fail;
->> -    xhci->interrupters[0] = xhci_alloc_interrupter(xhci, 0, flags);
->> +    xhci->interrupters[0] = xhci_alloc_interrupter(xhci, 0, xhci- 
->> >segment_pool, flags);
->>       if (!xhci->interrupters[0])
->>           goto fail;
-> 
-> I would split the patch here.
-> 
-> Do all xhci "core" code above in one patch, and the sideband changes in a 
-> separate patch.
-> Only sideband change needed in first patch would be passing NULL for pool when
-> creating the secondary interrupter:
-> 
->       sb->ir = xhci_create_secondary_interrupter(xhci_to_hcd(sb->xhci),
-> -                           num_seg, imod_interval,
-> -                           intr_num);
-> +                           num_seg, NULL,
-> +                           imod_interval, intr_num);
-> 
-Sounds good. Will split the patch accordingly.
 
-Thanks
-Wesley Cheng
+--11bbd86e82698157b531ee79da7e296696d006f746390c3a0d4a79aa529a
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iIMEABYKACsWIQSL4Ay2cExaPXAQcU2YCe+A+TM0LwUCaqIIrA0caUB0cm95LXku
+b3JnAAoJEJgJ74D5MzQvKIoBALwKLoo7uuF39mKvybSqI95DC3y1EIi91MJWsMzL
+lcWYAP98Y3nrDXnshzSwNi8LYPiY6ALW3eKvkhvPGtofCXnNAQ==
+=1jI+
+-----END PGP SIGNATURE-----
+
+--11bbd86e82698157b531ee79da7e296696d006f746390c3a0d4a79aa529a--
