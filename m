@@ -1,85 +1,83 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E2CC35C6A3
-	for <linux-sound@vger.kernel.org>; Thu, 10 Sep 2026 16:26:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 417E74A6898;
+	Thu, 10 Sep 2026 16:27:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789057562; cv=none; b=k1Dp0PpofZs4TdTODRqwmRa5Zeys2qNHWDd5XLTwufD0IzchbsSutoqz/UN+oB880C0n7l8d5HKgk1LssSlV6xTiXhAQxhO3B8XXxk5lUQDRDgJWKUClkpMav9liCt82SPpe7tZqmRkLu22hZQnHPvR33e/H0s58ZhL9SZEC6fY=
+	t=1789057648; cv=none; b=lev8r43UyGOjVD4RfX3V4JSEZoF7vS9KLbOu/3vBwRb2yFPwEtm1XIMc4hodIIL+tvAdca5LXyDoP0pP9Iz191SjIiWsbwfU9goQ44uLjFv5THbftlMJabC3Mqt7J2wfMRJ2zuVoBB6s1eF3YPywvTLrYJcLfmmNVeGRCjlofyg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789057562; c=relaxed/simple;
-	bh=3EztzNKg8dxA7Qv30/rY5/MY1WFoIyUsnX+tkn6mPQQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eur/5Pvqjm2aE+trC8RQUaZtCFQIa8tRdKCiT1DeUp8OQIwJ1XF2FIw0mKrGqZYZgNV2ZKdWIT0or+1tJh77Ap0xJzK1I/HX79+KE28NJhIaKjIefQ27+YMvoZhLcAqXG94btI+j5Jn0afqUERyzQiX87wNI19yPGTFteBuMPnI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=INRfr9/9; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789057648; c=relaxed/simple;
+	bh=51cFfM5S3umxZrJCaooV7zSyAKYpkpsKge6vy0/4mW0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CfaKpYKgYj8TR1YMq3pkKDPz3iqPCe1KaC2LY5gyM+eR9LZKlobQKbvy0ppX5qkcj1Q+ovDHi/s11U7T7Uh+zGFb2GWxLkN/UF4LOnqLmxbSzAJ2+FOoABAQT19BU4pt/9e+QvMHtAuTB4KmvVA3tG1xnTHLySWiz6jJi2SyDiI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O7bKDPWj; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="INRfr9/9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB5AE1F000FF;
-	Thu, 10 Sep 2026 16:25:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O7bKDPWj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E7641F00893;
+	Thu, 10 Sep 2026 16:27:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789057560;
-	bh=vIdaBic866LOa2MRIKQFCY1TH0/PBHVUlMlX69r1fmA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=INRfr9/9T+lQya2wr/Pd+TpO5j6/hOiRmKs86slEW8FphPzdAF1ZyBxgIDw8rp8ZO
-	 4O5jAwr+V2lLPeul6MPGkb3QF7rNtLrfFGg3yJSOWUOcOgCChs7mrUXbkCW3wI+VOD
-	 rxgbmDrUJYlSoedqF4bkpULVplckORNW+hEN8lLycEYQiIjIg7ZTFhJ3ggeJQ8tBnI
-	 Vab7IaYv0JCvdJMatJExxWSNdqJzX+s0q9HKtHLBB6pl60XIDRXFFf9Yc8J5HLTnv4
-	 MNl0tD6HArckZuoaTmwRoqFrX2eoPCkjNLYK3JVut8+tb+PU2AlwnajPYGnZgnpTz0
-	 EhfGtBNjFroMg==
-Date: Thu, 10 Sep 2026 17:25:57 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Zhang Yi <zhangyi@everest-semi.com>
-Cc: linux-sound@vger.kernel.org, tiwai@suse.com
-Subject: Re: [PATCH 2/2] ASoC: codecs: ES8326: Adjust the standby
- configuration
-Message-ID: <e008bc53-559e-44b1-ba0d-4dec50cc9336@sirena.org.uk>
-References: <20260910111828.28027-1-zhangyi@everest-semi.com>
- <20260910111828.28027-3-zhangyi@everest-semi.com>
+	s=k20260515; t=1789057641;
+	bh=tWNDrqWCw8zhX+YW2XyBg3uxHDB/fBuRnMf94DdU+MA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=O7bKDPWjpZ8y2KwinEehTvAR5FwRMpG8EJ03uBXEOVxDx8tLITVyLwPwrfG9wzrtm
+	 UTxG46SGygJG8jZ+FhWG2pTIWJP7HdCiCEXfiRAekgZMaGUfWBoeVMDHRHUXCMSovv
+	 IZceBBu9sMu7tFZ2zyy/bPVoH8ME/A7LghS5C8Z5CJFiHawAMNP+HZURDyvkAHwcH0
+	 BejqFm3aOol+R7KrI47SQPnF7/CZuTnwJDNeMSx8TwSSGwiqQVoGWS249BHu7tOxMf
+	 7iTYNySaCuSBXofJ7lSonu2BLU7VrS9t9dRlHybjCtMKH36qQEOHGJMkoSiR8/kBF5
+	 7jNttkDpUFMfA==
+Message-ID: <f8ef053f-d73c-47d7-bb81-72ce9844069d@kernel.org>
+Date: Thu, 10 Sep 2026 11:27:19 -0500
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="LreYeKJn6TuBeEfj"
-Content-Disposition: inline
-In-Reply-To: <20260910111828.28027-3-zhangyi@everest-semi.com>
-X-Cookie: Gravity brings me down.
+User-Agent: Mozilla Thunderbird Beta
+Subject: Re: [PATCH 0/4] ASoC: amd: acp: SoundWire machine driver fixes
+Content-Language: en-US
+To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>, broonie@kernel.org
+Cc: alsa-devel@alsa-project.org, lgirdwood@gmail.com, perex@perex.cz,
+ tiwai@suse.com, yung-chuan.liao@linux.intel.com,
+ Basavaraj.Hiregoudar@amd.com, Sunil-kumar.Dommati@amd.com,
+ venkataprasad.potturu@amd.com, Syed.SabaKareem@amd.com,
+ Richard.Gong@amd.com, ckeepax@opensource.cirrus.com,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260910161728.1452808-1-Vijendar.Mukunda@amd.com>
+From: Mario Limonciello <superm1@kernel.org>
+In-Reply-To: <20260910161728.1452808-1-Vijendar.Mukunda@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
---LreYeKJn6TuBeEfj
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-On Thu, Sep 10, 2026 at 07:18:28PM +0800, Zhang Yi wrote:
-
-> Adjust the configuration in SND_SOC_BIAS_STANDBY for better
-> power consumption performance
-
-> @@ -1078,14 +1079,19 @@ static void es8326_jack_detect_handler(struct work_struct *work)
->  					SND_JACK_HEADPHONE, SND_JACK_HEADSET);
->  		} else {
->  			dev_dbg(comp->dev, "Headset detected\n");
-> -			snd_soc_jack_report(es8326->jack,
-> -					SND_JACK_HEADSET, SND_JACK_HEADSET);
-
-This report removal isn't explained in the changelog, and I'm not seeing
-what replaces it?
-
---LreYeKJn6TuBeEfj
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqi2hQACgkQJNaLcl1U
-h9CnIwf9E6CS3IncxBfQ351lOFRMxaHUW+pxyrRecc4GiO52ONi9IKy4+PwF3QCU
-YvMzuJUYR5wJHAAUC5BbPzmmkoY7VBcuxES2u/1IAtEdY/Dzg5M3W4P0OcRurxvd
-8adWYIRaoGWgHgAA22nPBUuwv+Wn1cKjKxO3ZD+NxR0HJet1hRNXGGnsw6ClSwiE
-yNXkRnW/ct4MniwfAIh39aB05tLbdw1sREk37WdxFx/vP7iYRET6oK1NnU2poDtB
-af+l2B3C8pTsO2z7sywyqf3UvsQtFzYsl7cqETyzppmoYPcLsOtnkLPEd/WZamXQ
-CnMCDu7dqfzDHtJD/XKJ/vHgfngs/Q==
-=xwni
------END PGP SIGNATURE-----
-
---LreYeKJn6TuBeEfj--
+On 9/10/26 11:16, Vijendar Mukunda wrote:
+> This series fixes four defects in the AMD ACP SoundWire machine drivers
+> (acp-sdw-legacy-mach.c and acp-sdw-sof-mach.c).
+> 
+> A bounds check is added to validate the SoundWire link ID before it is
+> used as an array index in create_sdw_dailink(), preventing out-of-bounds
+> access when an unexpected link_mask value is encountered. The codec
+> config count in the SOF machine driver is refactored to use a dedicated
+> variable rather than reusing the endpoint-count variable for two
+> purposes, making the intent clearer and avoiding a stale value being
+> passed to the codec config array. An operator-precedence bug in the
+> ffs(link_mask - 1) expression is corrected to ffs(link_mask) - 1,
+> ensuring the link ID is derived from the correct bit position. Finally,
+> the SOF machine driver card name is shortened to fit within the 16-byte
+> snd_card driver[] field and eliminate a compile-time warning.
+> 
+> Vijendar Mukunda (4):
+>    ASoC: amd: acp: bounds-check SoundWire link ID in machine drivers
+>    ASoC: amd: acp: refactor codec config count in SOF SoundWire machine
+>      driver
+>    ASoC: amd: acp: fix ffs() operator precedence for SoundWire link ID
+>    ASoC: amd: acp: fix card name length warning in SOF SoundWire machine
+>      driver
+> 
+>   sound/soc/amd/acp/acp-sdw-legacy-mach.c | 14 ++++++++++++--
+>   sound/soc/amd/acp/acp-sdw-sof-mach.c    | 23 +++++++++++++++++------
+>   2 files changed, 29 insertions(+), 8 deletions(-)
+> 
+Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
