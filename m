@@ -1,124 +1,409 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 787531E0E14;
-	Thu, 10 Sep 2026 00:12:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A020A2DF144
+	for <linux-sound@vger.kernel.org>; Thu, 10 Sep 2026 00:37:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788999168; cv=none; b=Ysi7Lg5IEiJzCY5mSyrfEqm88p6eLJI6cnZF1KKQ4boB2fxghSeQzgZQAdcMqlMiT0kkGLIN+kz59xlkKze0RCJMVQ8orLsbyYsUOd/p3otGbVNHNmbGPTpwLLy6I0AA0rX4CIOBR5hIQxjzrb8kpVGz3Ip2Vel+LoHwar+kUe8=
+	t=1789000679; cv=none; b=emlySk19I1Efs3fyMjsU3lpwNqtKZVYrBGL2UEl/pvcDDgaw3mJ6Ri6dUNdyHgVUCMuPvrCK7eN4bM47N6vphlSEH9rVvjolffvJ4558PgkCWRw8IQ8vrrzW+z6MbFHekIeB1avaHPT/fs1WryUeY4iB4G/nf5pbIC7Kyn59Gos=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788999168; c=relaxed/simple;
-	bh=J1jJnaeyf7LLhRqA+aeobhaA5FN1rbTKGY9M/HtxP4k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uEtqAjiwyCwOLzXZK2+0d9IxSXrXZxOKjKxsIj2xlzbJCHX+KxpujKe1pD262g0MeJrLK4Gi4GWoAOA5pmjcP6QIdpFcS4QKZYLWsO0f8UxWqI95bAC2twptcu52uih1J9+jttJzS2ID7JGjY1CkO/AKiD0hrXdjxJ3rcIevbxU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nHG6J6Bf; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1789000679; c=relaxed/simple;
+	bh=g6+lDSV7c/I/rpsXtbTpMhV094bJUKl2aNgFcsm5eGw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=A+SQLHZffUaBPleQEv2M1jXzANfqLdVNgrsgYz5LINEplFK0a27FSZ3JjKZKdcPCtHw5YUCpshzQFt3wYHqBrNEIJRbYfRK9Pt0ZZw73Dt50wstSihSr8XLBhm0bGjcvqkOMVxMHfTHWyLen3nIOZlaFKytMqo96wIiju1ZnAvM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=m+JMcqvd; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=B1Ak95Pn; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nHG6J6Bf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788999167; x=1820535167;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=J1jJnaeyf7LLhRqA+aeobhaA5FN1rbTKGY9M/HtxP4k=;
-  b=nHG6J6BfXPcIowaA912QKVzXyc8TXWD5eQ586HWUjnHphsZYh8PCWqw0
-   I97TkvfCifUE6vWq/BnxLiG4lHO55H0id9pqgOlkJ5VpP+4E2s4J52M69
-   tmeyP+lTD0MHaipmzpGSYJp8BAoND6aGjHrosPNldOKGNeiHoaAXXqgbp
-   glCoNTFnzStw0JLgPr/2O7lFiNPxdBvldrOzMIg8VuEWzb8uk6TRhyuhh
-   BI2iZf+/7T4VspPSwEX6G/NxYmQk9IXi2npP2/57aioCVCZOD1Y7hqmrq
-   1MNBIwBfmY+qi9XNlLPulikTFDiugSGB70uQb4lLZombOsbloUUqxiHqe
-   g==;
-X-CSE-ConnectionGUID: DtJjLdW/QtieSh1jFtP1sg==
-X-CSE-MsgGUID: 6e2B8osBSWiB6VLXITkSKg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11900"; a="88384806"
-X-IronPort-AV: E=Sophos;i="6.25,271,1779174000"; 
-   d="scan'208";a="88384806"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2026 17:12:46 -0700
-X-CSE-ConnectionGUID: 57YLa0rXQiKYLTcF3IhQXQ==
-X-CSE-MsgGUID: Mhufsv5iQ4+dLQjYqL4qAg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,271,1779174000"; 
-   d="scan'208";a="276707916"
-Received: from lkp-server01.sh.intel.com (HELO a3e91e2cf319) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 09 Sep 2026 17:12:42 -0700
-Received: from kbuild by a3e91e2cf319 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1x4SPA-0000000018G-0Anx;
-	Thu, 10 Sep 2026 00:12:40 +0000
-Date: Thu, 10 Sep 2026 08:11:57 +0800
-From: kernel test robot <lkp@intel.com>
-To: Breno Rodrigues Alves <breno3011alves@gmail.com>,
-	torvalds@linux-foundation.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	gregkh@linuxfoundation.org, arnd@arndb.de,
-	linux-clk@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-fbdev@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	Breno Rodrigues Alves <breno3011alves@gmail.com>
-Subject: Re: [PATCH v5] Kconfig: fix typos in core makefiles and purge
- defective DVB debug (v5)
-Message-ID: <202609100824.ndDVSLWu-lkp@intel.com>
-References: <20260905003005.118245-1-breno3011alves@gmail.com>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="m+JMcqvd";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="B1Ak95Pn"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 689M9WLM3137916
+	for <linux-sound@vger.kernel.org>; Thu, 10 Sep 2026 00:37:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	iYeNAGKJAILkQCJR+LXDROeSFwDZiD2F1WFQZUQ2A3Y=; b=m+JMcqvdzVMtd7qT
+	zANkRxcnMk+bcn9FhoMvgrMW+o6VNb9yWEind83+aKQHXYY6m09Ah3AE70gt56br
+	I4wpWnbfnvW2wiA0y2kkmbab+zO89Le+HPuvoUCZQIyLU488QL/NafAWQmCzQsCX
+	AD4y1Zy2yisScDMcSQNU2pgNjvx7MGPJMbps1f7cviLeVEGW8XHXi/1lwZSqzfvl
+	Ghc1HJXUWW/blofU/RvGhYh7/1o5ECyaY0buD7G/QSNJugBUpw8mIW5dIFoOzOgm
+	jJm7l/AH7PYbbproyP/fT8s6suD/LItJeVJThD7gWjwlf8MrqKClNx88KtjEV4ok
+	5yu/NA==
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gkcyfsb22-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Thu, 10 Sep 2026 00:37:55 +0000 (GMT)
+Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-3968bb86fb7so8038875a91.2
+        for <linux-sound@vger.kernel.org>; Wed, 09 Sep 2026 17:37:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1789000674; x=1789605474; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=iYeNAGKJAILkQCJR+LXDROeSFwDZiD2F1WFQZUQ2A3Y=;
+        b=B1Ak95PniSaITIijcear0N/BY33ra8eLfnWEB9U8PAK1E43voqeZJ/Cc0EhgjUEfwY
+         g1lxqcevYYeQkF9pRFifd2Aep7YB7Cm2/f5Lhbped5Hkzob1UaLbGJT3ziPhkIAvqvKr
+         dPCceGXBuCHjr4xf9RD6i7l4ZrJPzVUQuFUYsa8brkR9SX/+8roE5KDKPJevT5cJ6bO1
+         dWXJhz/Y/vWhCTHA2syK+w792VwVYM4k5jtDcs9P9U9/j3RCbFcAYQEFYvb0dKD1A1b1
+         +R9ms4cUnLzNl9xuj7IswjMxc8afCAZmshmmfx43TgeSoJ7/t6qqIQDBZafIF6B29o/7
+         wxEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789000674; x=1789605474;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=iYeNAGKJAILkQCJR+LXDROeSFwDZiD2F1WFQZUQ2A3Y=;
+        b=ryzIx/Ay8vtVMw430azsLJ9iV6EVOwvUoN3MGeNG859wPiqSKa5BI8weCc87QPPcCk
+         GJvCn3SisdSEgluo1e/YXEcNTRY32pguP67MpgRgoJJo0ymlj2pBc+ca+gZmheiCNEGj
+         Z4bemgv8IABERTDD3kyWRdIX2mRYXtxhW4Fi74+UYzNWxFSyK3mELVe0i2V4S4joOcgr
+         Pbn0hsvl9xPLDuJq6E0Jk/bPMBfTelXRRPaCYVW4pm0PdJXWJ99BqaY+1NTJhchW/AFD
+         8l1vaO+JH6izyaHSQ58/uzWEM6ZUCF3W8G76fxxL/yHQJHlrSlx4XUXoub+EdX7M1pm/
+         NBqg==
+X-Forwarded-Encrypted: i=1; AKwUvBwHxXQsS0Lw3JPSUMgQMLGRabHAHPo8h+lzaSq4ClbT4RwalX0HejQAUiETIniXhhhtlRpctKTy6S3LWg==@vger.kernel.org
+X-Gm-Message-State: AFuF++nKJSsb3USUmlpWwmxC9L992wrDxjisKd1vVQCYxrnvZHB3Qne7
+	rGnCxtPyVXK9UcplYs89XzVt+mpH1e11FfIiBl8fFNsNe1shdzzmYh+hYhPGF6xvn3J0MUWyQN9
+	t8EHTDBTXXQiNt+5I6HmY6sougMc1bg8wEYMPkZgdnFv+B2mbCFoND7e2voIYeRTP2A==
+X-Gm-Gg: AYBFou2uUYaZAf2isuP5cyY+uUDKkHioYXz08CUFwFu638xabXxmLQwMjgQkeR5WTtW
+	eFPcmRdiRu/NoPiFTLDyxvMpDW/cTJiQ9ECOztY04M6GSNqY8TQk16CGoC0xhcgpKr1PsNep2xM
+	s3CigMPSvYCs1vx4dWHiWfDvAA6/5zkj99ERStDA15S1fpP4PfZ2zmn8/0hniN0iGxMJcD74ivg
+	w63ubqYAeu5BDUo4PQ+MjrCAVeWSL5uQsQ6KZ0BkmYgLfyy3ojTREde8MmWoE166wU6EEzYGWAi
+	zqwP310DpEREmOI6G2d/5DNh6y+N8UcZlhcvvqYX1jt6VUTQLcCIb0iKCnWKWSWPJwI6bhAoDH1
+	8y5MnWpe7UPie7cwOOdusIbtBBVf1cZn99QWpR6erpsB0fts=
+X-Received: by 2002:a17:90b:1a88:b0:38f:efed:5448 with SMTP id 98e67ed59e1d1-39b2619138bmr54635834a91.8.1789000674206;
+        Wed, 09 Sep 2026 17:37:54 -0700 (PDT)
+X-Received: by 2002:a17:90b:1a88:b0:38f:efed:5448 with SMTP id 98e67ed59e1d1-39b2619138bmr54635742a91.8.1789000673530;
+        Wed, 09 Sep 2026 17:37:53 -0700 (PDT)
+Received: from [10.73.194.28] (pat_11.qualcomm.com. [192.35.156.11])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3339ac24d7esm74760649eec.15.2026.09.09.17.37.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 09 Sep 2026 17:37:52 -0700 (PDT)
+Message-ID: <0b323a5d-6d49-4309-8b23-4ffb1e0c4f0b@oss.qualcomm.com>
+Date: Wed, 9 Sep 2026 17:37:50 -0700
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260905003005.118245-1-breno3011alves@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/4] usb: xhci: sideband: allocate sideband ring
+ segments from a dedicated pool
+To: Mathias Nyman <mathias.nyman@linux.intel.com>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        Michal Pecio <michal.pecio@gmail.com>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-sound@vger.kernel.org
+References: <20260903-16k_offload_v1_b4-v3-0-135928dc2408@oss.qualcomm.com>
+ <20260903-16k_offload_v1_b4-v3-2-135928dc2408@oss.qualcomm.com>
+ <3e8baa09-2ecf-413b-9ced-73479add6f8b@linux.intel.com>
+Content-Language: en-US
+From: Wesley Cheng <wesley.cheng@oss.qualcomm.com>
+In-Reply-To: <3e8baa09-2ecf-413b-9ced-73479add6f8b@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: sHMmur0rWxTCIQwlIv0YpdKjQ52w8rha
+X-Authority-Analysis: v=2.4 cv=GNqdgeNK c=1 sm=1 tr=0 ts=6aa1fbe3 cx=c_pps
+ a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=ZdW6uxA9NKXbfdqeeS2OGA==:17
+ a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22
+ a=EUspDBNiAAAA:8 a=r2LSxhclMoEJzFSgZ9EA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=uKXjsCUrEbL0IQVhDsJ9:22
+X-Proofpoint-ORIG-GUID: sHMmur0rWxTCIQwlIv0YpdKjQ52w8rha
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTEwMDAwNSBTYWx0ZWRfX7t7DlK7OH3p4
+ 3zgNAXegOUMh/JRH2o1zAK6Q4bpUiae+jZNgMa9VkUKhgzij5EstrI+WguCzBozaKIdnnvtKDsV
+ DhuUqmt2Q7CEF7RlcbtPovM1+rLw2aqoP9ryGCmvtOjO1k2wvVdZ32kpHpCMChJO2zL4G084idv
+ PAlqRWW4kzK6ESP+SqXvVpWnYiA5/FyJFOXQPSGwsF0M2Eoxjqe/An3JXm/sx/xMr08dXM2/ifz
+ tOXri/dweqnLu5rb/KreKjM5YZ4jv0zRHEfndfle827tIpDPSDoE2jXgqnLbZA0Fh41JHGeXD/L
+ 2wveyVl7KapnWHDC17P+OuaQ0vnYFLYW/Be3K0pDZfNfKS+YXGXOCs0De7TjL+sLju3tVkn4GKW
+ rUszHZB8mUY13o0ddgmfXpfDcQ8dHon4YefQ0K5f8OLNwe66ynlF9Rd1Kw07ruFJH4oCPJ9ZVkI
+ OOPPQw24+vDt5fqJtOw==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTEwMDAwNSBTYWx0ZWRfX8U/c4HAqdhdW
+ KtwPhGC/sQr5reXjGpV93rxMDROGKo+HjddrBix2wonLgtI4fknuprK9t0GbilDgVC3UJy6q5k+
+ YZ17oO1QMItk1RzN5t8AILSUf2RShUs=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-09_02,2026-09-09_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 impostorscore=0 priorityscore=1501 adultscore=0 phishscore=0
+ malwarescore=0 bulkscore=0 spamscore=0 suspectscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609100005
 
-Hi Breno,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on lee-leds/for-leds-next]
-[also build test ERROR on broonie-regulator/for-next linus/master v7.3-rc2 next-20260909]
-[cannot apply to linux/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Breno-Rodrigues-Alves/Kconfig-fix-typos-in-core-makefiles-and-purge-defective-DVB-debug-v5/20260904-213005
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
-patch link:    https://lore.kernel.org/r/20260905003005.118245-1-breno3011alves%40gmail.com
-patch subject: [PATCH v5] Kconfig: fix typos in core makefiles and purge defective DVB debug (v5)
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260910/202609100824.ndDVSLWu-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260910/202609100824.ndDVSLWu-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609100824.ndDVSLWu-lkp@intel.com/
-
-All error/warnings (new ones prefixed by >>):
-
->> drivers/media/dvb-core/dvb_net.c:76:35: error: 'TS_SZ' undeclared here (not in a function)
-      76 | static unsigned char ule_hist[100*TS_SZ] = { 0 };
-         |                                   ^~~~~
->> drivers/media/dvb-core/dvb_net.c:76:22: warning: 'ule_hist' defined but not used [-Wunused-variable]
-      76 | static unsigned char ule_hist[100*TS_SZ] = { 0 };
-         |                      ^~~~~~~~
 
 
-vim +/TS_SZ +76 drivers/media/dvb-core/dvb_net.c
+On 9/9/2026 3:08 AM, Mathias Nyman wrote:
+> On 9/4/26 09:57, Wesley Cheng wrote:
+>> Ring segments are normally allocated from a shared DMA pool sized and
+>> aligned to TRB_SEGMENT_SIZE (4096 bytes). On kernels built with a
+>> larger PAGE_SIZE (e.g. 16K or 64K page arches), a segment can end up
+>> at a non-page-aligned offset within its enclosing CPU page, and
+>> multiple segments can share the same physical page.
+>>
+>> A sideband client that maps a ring buffer directly via the IOMMU
+>> (which operates at page granularity) needs to know exactly which
+>> page(s) back the ring, and only pages that are actually intended to
+>> be exposed to that client should ever be mapped this way.
+>>
+>> Allow each xhci_sideband endpoint to pass its own segment_pool, allocated
+>> separately from the core xhci->segment_pool, so every segment backing
+>> a sideband-tagged endpoint always comes from a page that is meant to
+>> be visible by the entity handling the offloaded endpoints. Normal
+>> (non-offloaded) endpoints are unaffected, as they keep allocating from
+>> xhci->segment_pool.
+>>
+>> The offload client owns the pool's full lifetime, and since
+>> that lifetime is no longer tied to the sideband instance itself,
+>> xhci_sideband_unregister() must free any ring still backed by a
+>> client-supplied pool before returning, rather than leaving it for xhci
+>> to free later when the client and its pool may already be gone.
+>>
+>> Assisted-by: Claude:claude-sonnet-5
+>> Signed-off-by: Wesley Cheng <wesley.cheng@oss.qualcomm.com>
+>> ---
+>>   drivers/usb/host/xhci-mem.c       | 63 ++++++++++++++++++++++++ 
+>> +--------------
+>>   drivers/usb/host/xhci-sideband.c  | 40 ++++++++++++++++++++++---
+>>   drivers/usb/host/xhci.h           | 16 +++++-----
+>>   include/linux/usb/xhci-sideband.h | 20 +++++++++++--
+>>   sound/usb/qcom/qc_audio_offload.c | 21 +++++++++++--
+>>   5 files changed, 121 insertions(+), 39 deletions(-)
+>>
+>> diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
+>> index 7a21ac81f9c8..a041a35fcd4f 100644
+>> --- a/drivers/usb/host/xhci-mem.c
+>> +++ b/drivers/usb/host/xhci-mem.c
+>> @@ -28,6 +28,7 @@
+>>    * "All components of all Command and Transfer TRBs shall be 
+>> initialized to '0'"
+>>    */
+>>   static struct xhci_segment *xhci_segment_alloc(struct xhci_hcd *xhci,
+>> +                           struct dma_pool *pool,
+>>                              unsigned int max_packet,
+>>                              unsigned int num,
+>>                              gfp_t flags)
+>> @@ -40,7 +41,7 @@ static struct xhci_segment *xhci_segment_alloc(struct 
+>> xhci_hcd *xhci,
+>>       if (!seg)
+>>           return NULL;
+>> -    seg->trbs = dma_pool_zalloc(xhci->segment_pool, flags, &dma);
+>> +    seg->trbs = dma_pool_zalloc(pool, flags, &dma);
+>>       if (!seg->trbs) {
+>>           kfree(seg);
+>>           return NULL;
+>> @@ -50,7 +51,7 @@ static struct xhci_segment *xhci_segment_alloc(struct 
+>> xhci_hcd *xhci,
+>>           seg->bounce_buf = kzalloc_node(max_packet, flags,
+>>                       dev_to_node(dev));
+>>           if (!seg->bounce_buf) {
+>> -            dma_pool_free(xhci->segment_pool, seg->trbs, dma);
+>> +            dma_pool_free(pool, seg->trbs, dma);
+>>               kfree(seg);
+>>               return NULL;
+>>           }
+>> @@ -62,10 +63,11 @@ static struct xhci_segment *xhci_segment_alloc(struct 
+>> xhci_hcd *xhci,
+>>       return seg;
+>>   }
+>> -static void xhci_segment_free(struct xhci_hcd *xhci, struct xhci_segment 
+>> *seg)
+>> +static void xhci_segment_free(struct xhci_hcd *xhci, struct dma_pool *pool,
+>> +                  struct xhci_segment *seg)
+>>   {
+>>       if (seg->trbs) {
+>> -        dma_pool_free(xhci->segment_pool, seg->trbs, seg->dma);
+>> +        dma_pool_free(pool, seg->trbs, seg->dma);
+>>           seg->trbs = NULL;
+>>       }
+>>       kfree(seg->bounce_buf);
+>> @@ -81,7 +83,7 @@ static void xhci_ring_segments_free(struct xhci_hcd 
+>> *xhci, struct xhci_ring *rin
+>>       while (seg) {
+>>           next = seg->next;
+>> -        xhci_segment_free(xhci, seg);
+>> +        xhci_segment_free(xhci, ring->segment_pool, seg);
+>>           seg = next;
+>>       }
+>>   }
+>> @@ -334,7 +336,7 @@ static int xhci_alloc_segments_for_ring(struct 
+>> xhci_hcd *xhci, struct xhci_ring
+>>       struct xhci_segment *prev;
+>>       unsigned int num = 0;
+>> -    prev = xhci_segment_alloc(xhci, ring->bounce_buf_len, num, flags);
+>> +    prev = xhci_segment_alloc(xhci, ring->segment_pool, ring- 
+>> >bounce_buf_len, num, flags);
+>>       if (!prev)
+>>           return -ENOMEM;
+>>       num++;
+>> @@ -343,7 +345,8 @@ static int xhci_alloc_segments_for_ring(struct 
+>> xhci_hcd *xhci, struct xhci_ring
+>>       while (num < ring->num_segs) {
+>>           struct xhci_segment    *next;
+>> -        next = xhci_segment_alloc(xhci, ring->bounce_buf_len, num, flags);
+>> +        next = xhci_segment_alloc(xhci, ring->segment_pool, ring- 
+>> >bounce_buf_len,
+>> +                      num, flags);
+>>           if (!next)
+>>               goto free_segments;
+>> @@ -362,15 +365,10 @@ static int xhci_alloc_segments_for_ring(struct 
+>> xhci_hcd *xhci, struct xhci_ring
+>>       return -ENOMEM;
+>>   }
+>> -/*
+>> - * Create a new ring with zero or more segments.
+>> - *
+>> - * Link each segment together into a ring.
+>> - * Set the end flag and the cycle toggle bit on the last segment.
+>> - * See section 4.9.1 and figures 15 and 16.
+>> - */
+>> -struct xhci_ring *xhci_ring_alloc(struct xhci_hcd *xhci, unsigned int 
+>> num_segs,
+>> -                  enum xhci_ring_type type, unsigned int max_packet, 
+>> gfp_t flags)
+>> +static struct xhci_ring *
+>> +xhci_ring_alloc_from_pool(struct xhci_hcd *xhci, unsigned int num_segs,
+>> +              enum xhci_ring_type type, unsigned int max_packet,
+>> +              struct dma_pool *pool, gfp_t flags)
+>>   {
+>>       struct xhci_ring    *ring;
+>>       int ret;
+>> @@ -382,6 +380,7 @@ struct xhci_ring *xhci_ring_alloc(struct xhci_hcd 
+>> *xhci, unsigned int num_segs,
+>>       ring->num_segs = num_segs;
+>>       ring->bounce_buf_len = max_packet;
+>> +    ring->segment_pool = pool;
+>>       INIT_LIST_HEAD(&ring->td_list);
+>>       ring->type = type;
+>>       if (num_segs == 0)
+>> @@ -398,6 +397,20 @@ struct xhci_ring *xhci_ring_alloc(struct xhci_hcd 
+>> *xhci, unsigned int num_segs,
+>>       return NULL;
+>>   }
+>> +/*
+>> + * Create a new ring with zero or more segments.
+>> + *
+>> + * Link each segment together into a ring.
+>> + * Set the end flag and the cycle toggle bit on the last segment.
+>> + * See section 4.9.1 and figures 15 and 16.
+>> + */
+>> +struct xhci_ring *xhci_ring_alloc(struct xhci_hcd *xhci, unsigned int 
+>> num_segs,
+>> +                  enum xhci_ring_type type, unsigned int max_packet, 
+>> gfp_t flags)
+>> +{
+>> +    return xhci_ring_alloc_from_pool(xhci, num_segs, type, max_packet,
+>> +                     xhci->segment_pool, flags);
+>> +}
+>> +
+>>   void xhci_free_endpoint_ring(struct xhci_hcd *xhci,
+>>           struct xhci_virt_device *virt_dev,
+>>           unsigned int ep_index)
+>> @@ -422,6 +435,7 @@ int xhci_ring_expansion(struct xhci_hcd *xhci, struct 
+>> xhci_ring *ring,
+>>       new_ring.num_segs = num_new_segs;
+>>       new_ring.bounce_buf_len = ring->bounce_buf_len;
+>>       new_ring.type = ring->type;
+>> +    new_ring.segment_pool = ring->segment_pool;
+>>       ret = xhci_alloc_segments_for_ring(xhci, &new_ring, flags);
+>>       if (ret)
+>>           return -ENOMEM;
+>> @@ -1424,6 +1438,7 @@ int xhci_endpoint_init(struct xhci_hcd *xhci,
+>>       unsigned int mult;
+>>       unsigned int avg_trb_len;
+>>       unsigned int err_count = 0;
+>> +    struct dma_pool *pool;
+>>       ep_index = xhci_get_endpoint_index(&ep->desc);
+>>       ep_ctx = xhci_get_ep_ctx(xhci, virt_dev->in_ctx, ep_index);
+>> @@ -1487,8 +1502,10 @@ int xhci_endpoint_init(struct xhci_hcd *xhci,
+>>           avg_trb_len = 8;
+>>       /* Set up the endpoint ring */
+>> +    pool = virt_dev->eps[ep_index].priv_seg_pool ?
+>> +           virt_dev->eps[ep_index].priv_seg_pool : xhci->segment_pool;
+>>       virt_dev->eps[ep_index].new_ring =
+>> -        xhci_ring_alloc(xhci, 2, ring_type, max_packet, mem_flags);
+>> +        xhci_ring_alloc_from_pool(xhci, 2, ring_type, max_packet, pool, 
+>> mem_flags);
+>>       if (!virt_dev->eps[ep_index].new_ring)
+>>           return -ENOMEM;
+>> @@ -2291,7 +2308,8 @@ static int xhci_setup_port_arrays(struct xhci_hcd 
+>> *xhci, gfp_t flags)
+>>   }
+>>   static struct xhci_interrupter *
+>> -xhci_alloc_interrupter(struct xhci_hcd *xhci, unsigned int segs, gfp_t 
+>> flags)
+>> +xhci_alloc_interrupter(struct xhci_hcd *xhci, unsigned int segs,
+>> +               struct dma_pool *pool, gfp_t flags)
+>>   {
+>>       struct device *dev = xhci_to_hcd(xhci)->self.sysdev;
+>>       struct xhci_interrupter *ir;
+>> @@ -2308,7 +2326,7 @@ xhci_alloc_interrupter(struct xhci_hcd *xhci, 
+>> unsigned int segs, gfp_t flags)
+>>       if (!ir)
+>>           return NULL;
+>> -    ir->event_ring = xhci_ring_alloc(xhci, segs, TYPE_EVENT, 0, flags);
+>> +    ir->event_ring = xhci_ring_alloc_from_pool(xhci, segs, TYPE_EVENT, 
+>> 0, pool, flags);
+>>       if (!ir->event_ring) {
+>>           xhci_warn(xhci, "Failed to allocate interrupter event ring\n");
+>>           kfree(ir);
+>> @@ -2356,7 +2374,8 @@ void xhci_add_interrupter(struct xhci_hcd *xhci, 
+>> unsigned int intr_num)
+>>   struct xhci_interrupter *
+>>   xhci_create_secondary_interrupter(struct usb_hcd *hcd, unsigned int segs,
+>> -                  u32 imod_interval, unsigned int intr_num)
+>> +                  struct dma_pool *pool, u32 imod_interval,
+>> +                  unsigned int intr_num)
+>>   {
+>>       struct xhci_hcd *xhci = hcd_to_xhci(hcd);
+>>       struct xhci_interrupter *ir;
+>> @@ -2367,7 +2386,7 @@ xhci_create_secondary_interrupter(struct usb_hcd 
+>> *hcd, unsigned int segs,
+>>           intr_num >= xhci->max_interrupters)
+>>           return NULL;
+>> -    ir = xhci_alloc_interrupter(xhci, segs, GFP_KERNEL);
+>> +    ir = xhci_alloc_interrupter(xhci, segs, pool, GFP_KERNEL);
+> 
+> 
+> Passing a custom dma pool to xhci_create_secondary_interrupters() shuld be 
+> optional.
+> Callers shoudn't need to be aware of the xhci->segment_pool, and pass it in 
+> the default case.
+> 
 
-^1da177e4c3f41 drivers/media/dvb/dvb-core/dvb_net.c Linus Torvalds        2005-04-16  70  
-e9f8b7ccd92d83 drivers/media/dvb-core/dvb_net.c     Breno Rodrigues Alves 2026-09-04  71  #ifdef CONFIG_DVB_ULE_DEBUG
-b93a25e120d5a4 drivers/media/dvb-core/dvb_net.c     Mauro Carvalho Chehab 2017-12-11  72  /*
-ba711e1cee7553 drivers/media/dvb-core/dvb_net.c     Mauro Carvalho Chehab 2017-12-11  73   * The code inside DVB_ULE_DEBUG keeps a history of the
-b93a25e120d5a4 drivers/media/dvb-core/dvb_net.c     Mauro Carvalho Chehab 2017-12-11  74   * last 100 TS cells processed.
-b93a25e120d5a4 drivers/media/dvb-core/dvb_net.c     Mauro Carvalho Chehab 2017-12-11  75   */
-b93a25e120d5a4 drivers/media/dvb-core/dvb_net.c     Mauro Carvalho Chehab 2017-12-11 @76  static unsigned char ule_hist[100*TS_SZ] = { 0 };
-b93a25e120d5a4 drivers/media/dvb-core/dvb_net.c     Mauro Carvalho Chehab 2017-12-11  77  static unsigned char *ule_where = ule_hist, ule_dump;
-b93a25e120d5a4 drivers/media/dvb-core/dvb_net.c     Mauro Carvalho Chehab 2017-12-11  78  
+Makes sense, will fix this.
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> Instead use the default xhci->segment_pool if caller passes NULL for pool.
+> 
+> 
+>>       if (!ir)
+>>           return NULL;
+>> @@ -2498,7 +2517,7 @@ int xhci_mem_init(struct xhci_hcd *xhci, gfp_t flags)
+>>       if (!xhci->interrupters)
+>>           goto fail;
+>> -    xhci->interrupters[0] = xhci_alloc_interrupter(xhci, 0, flags);
+>> +    xhci->interrupters[0] = xhci_alloc_interrupter(xhci, 0, xhci- 
+>> >segment_pool, flags);
+>>       if (!xhci->interrupters[0])
+>>           goto fail;
+> 
+> I would split the patch here.
+> 
+> Do all xhci "core" code above in one patch, and the sideband changes in a 
+> separate patch.
+> Only sideband change needed in first patch would be passing NULL for pool when
+> creating the secondary interrupter:
+> 
+>       sb->ir = xhci_create_secondary_interrupter(xhci_to_hcd(sb->xhci),
+> -                           num_seg, imod_interval,
+> -                           intr_num);
+> +                           num_seg, NULL,
+> +                           imod_interval, intr_num);
+> 
+Sounds good. Will split the patch accordingly.
+
+Thanks
+Wesley Cheng
