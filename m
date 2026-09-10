@@ -1,65 +1,65 @@
 Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0110748CD48
-	for <linux-sound@vger.kernel.org>; Thu, 10 Sep 2026 12:58:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1F7D48E0CB
+	for <linux-sound@vger.kernel.org>; Thu, 10 Sep 2026 12:58:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789045110; cv=none; b=Z3Rbl1kEHgZJVKrYOYId0IpoTF4a30EYOIkpDfhir/tmadlV+nvPFGzdumySIk8tulZDI3yXXpxI5jGx3q0p4FZZszi7ytdaMY3HIRclCghip7vSUCkJUQD17cDRony9We9lEKxe0QVLXjWBAESd90lfvPDhVwsiODwJQLD/Gao=
+	t=1789045115; cv=none; b=cAoP+zR1Ijkpjw5t7E++lanw/YwdRlwZcpoe0UbNMZVTbJOC7pCx2Ec29by6GBxtKFB1qeQP1zlUBHiC2P/Bs+BEpcQSkwH4IeIaQJEWr4DLV2uDpRCg03ZbmIfqYsqmbA9cc7zT1DkWqtBQEjDAW60NW3tRi3B085/CsGgHaOU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789045110; c=relaxed/simple;
-	bh=7mTmQqvMAJspHqMWjJADF5TkGnCYRTyK2h8zGqfXvsQ=;
+	s=arc-20240116; t=1789045115; c=relaxed/simple;
+	bh=yM4L3d5xAxA3ZdEO3lRnqdCQHhz1gw6fuQgVMe41j5I=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DQHXbu9WW/ZAAvAwtXusNftEy/MoxrIKVY8ynyRPkC26kKxQ9ldwNfrIQM6N6wyU50Bb/QPhmr+SbDy1Ly30a4tWBev4cnCV+MgBjFfki/AV+tpOb4tVNyecAPgd5KOVX/bQd1J1rOpgTO7ATRnjMQXDOJa7lOe6E99nt69r7NU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lBEwYEHl; arc=none smtp.client-ip=74.125.228.12
+	 MIME-Version; b=EEYx5DGFxh22dpBcgf0tivYM0jODtCgnSdT+ImI21XEdT1CRtSZQyfkkFdeR7HnYixlKxaJ0Uv1nuZKTUeR2iP7WIT4qz/JfyxlyH89c1wQGahzYXRgLiJg6332bFELu5tuIpUZxT4Q2Dr/05FfX0lzqsbYKAyQhI/ExtbiAbUA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=skQAj1+4; arc=none smtp.client-ip=74.125.228.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lBEwYEHl"
-Received: by mail-pz2-f12.google.com with SMTP id 41be03b00d2f7-cc1cea4ae2dso857110a12.3
-        for <linux-sound@vger.kernel.org>; Thu, 10 Sep 2026 05:58:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="skQAj1+4"
+Received: by mail-pz2-f12.google.com with SMTP id 41be03b00d2f7-cc4ae61629fso626759a12.2
+        for <linux-sound@vger.kernel.org>; Thu, 10 Sep 2026 05:58:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789045108; x=1789649908; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1789045113; x=1789649913; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=MsPHanuPYhLkAJkeLkxT04CaUhRH1BSXCePDlxHKnc4=;
-        b=lBEwYEHlRt6twxxo35hJCWSo8eh/hQrmPGa1Ibm2BtCCJONxqJI3TwijaWTwi3tTRc
-         KdZEsJ0MmcgnF4+OfykSqr+xtJ8dLUmAFSVJf9UlBYKXyS6ty48SNwYeDcHfy63iM9ER
-         nXR/oQW/PCfd2oA0A3hcqjNryeQyb7lWnKpq9zAFE/pu8qKNXp0njv67CB0X8QrKnzHE
-         OmdDR/EBC0CPCNE+UH1ZPFkIHjCseIDr4K6LXTihV6eTeAPzUc0P3R/hbt9eK8XDMTxp
-         eb2j382vx4yJVQmjzLg1ZdkHrQMt16ACDAwbKIOdTu6UcRJS6o10o8FsBKyOjg+RlUky
-         eEPg==
+        bh=X0f+3hmpde177tradfD9iqffBrSGUNX0UYvHhWMmKXM=;
+        b=skQAj1+4eJCaWdBS4pZ/idL7FrFydoXhJKy8mgLTV1REAiLYGCN821dfRHngaWgAiz
+         yF9GVXEv/yTMsMG5EBCC7zb4h/yURwTvrq4CeBPV9doYYSdY6FULvUgHEzZoIsNBylwL
+         dub7fSmlYlgyNqE07mxsxujxAR4rvku6xCykfkdfKyOBqCKPIF2mGTOQxLMh03L6J3EL
+         E6X3zH3F1b8aZHw/zfms/tsQ4SECk2fGREBZdidZT/ZH0TMMC7dXoqw+L07f6EI/1sLN
+         U29zBeB2wzkjwz8+tHeFBzNXcL/GzCoinWWfNPezSrZN00oTCRVBzetJ/yUJO34qvP8I
+         3SWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789045108; x=1789649908;
+        d=1e100.net; s=20251104; t=1789045113; x=1789649913;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=MsPHanuPYhLkAJkeLkxT04CaUhRH1BSXCePDlxHKnc4=;
-        b=lqb4aweKdYBVF8M1qyZLy4HAvO4BANdbuUsfs4pBaIQsSnnI+WdW0Pg3Qg6c6arUX1
-         xbhY9DrhrC1RCsgqcrgiCvOLmPITwTwZOkf2nF0mkk9xVXjOntrUWxROMHw2Wt04rr5j
-         4V54bDg/D63KclUqdd89KwHFI9pFTasUpywJG9QIokPq6es4RFxhRB1RbNBDwIJYBbyJ
-         dDE7LY9W+XKOuxJBJ/rOZhxc+zOrag9u2SDgFBPoYFV1qDEcvWAozDfeyR4o9XcvD6rh
-         Okn4+VJ42Ry28N6sJYLYkZkfuUfuYLsT0g8nCfxJPd3Qbh6EzqU5XPVE9kG0T7bfzaWv
-         BbKA==
-X-Forwarded-Encrypted: i=1; AKwUvBxRhTOdSpavfDqhhjhaL+9bXf60bX8/t5oNw68lLpsRNWTgDc2Su4JR7lj15DYPCcFucanZGsdujQS9fw==@vger.kernel.org
-X-Gm-Message-State: AFuF++kqCVJV8Qi048L+P4i0JXJqo3Mz8AR5wGo69FrR7NILmu6b0lew
-	uENndS8ZqPzje8ROCGk+biFsDJ2zUBQ0vJTekh2kalbHQyTBcGopN/cs
-X-Gm-Gg: AYBFou0+vcTLVoPdSL6xbAg2SESBZK50nzxYTBD95PHi2boOFOeu5AvJIPzAo+EdQy8
-	CLcCX5vL+fAmr0tPRoTyYWhUzG8Wjm0g2zMyvzOXYaWq5JTzyry+qrZUhjIr7jVnD7uIiO7tqft
-	R63CV/pHGYqXM6NzJ00pa1gBkiXrcoqfhl28ztE4h/D4dc0UKzMX6SRjACMPhsG7B6MXlC+j6MM
-	qCSZNkYXRkhcqEJc2/K8lD/3l7dsvUalcF4lzkFpf1qwqQaP0Oh/EGSEMrbfyhaXt0sEpdvaHoh
-	LkPGxmgk4WKi2SkU9SwAJp9sjks9bAmsynjim3qhDAEDYw4KZXSkUd5d3Zb+wWusEAhInZZcEyy
-	2CU+vmrW+xZMi0gTDnK4KwYke4De3cKjzwrgBeuT7ragD8Te8ua7WBxxr9bIZ+7lw5xmSYcJ1Jx
-	Cc9KezpUpwQ/gO1QwP78CHJPX91+4Juj5sUGKNDz6pMYImi39O04MbeKIlUS7K+dYEWITGcTeJB
-	UcMuK5/aQfNt6s2npvHRiJMSICQTkt9y+a5r1ihKArYVuWZA1YNyCWX8FUrg0trpbkFL4JiVmzR
-	FPrdA0KykyGD4vA=
-X-Received: by 2002:a17:90b:5292:b0:398:e969:87ef with SMTP id 98e67ed59e1d1-39d70b7d864mr10327996a91.24.1789045108156;
-        Thu, 10 Sep 2026 05:58:28 -0700 (PDT)
+        bh=X0f+3hmpde177tradfD9iqffBrSGUNX0UYvHhWMmKXM=;
+        b=Wrqz1vKIv8/CbBQnwNl5QaH8wxguE7PK2pvIcbZAB/1TdB8TZo9DmHHkXSCLoNvim4
+         y8rsl1OznuFj8GzGpSHJkWC/nTSSw7i3oWw2U5EzyyGITu2Mvv4SqFooaNHvFbbbj7AK
+         VLZ66DXdvX86dqN+GXKKSLcBTG92DTSTI1wY2gFuCs8mQly6WQZ6JJubTJ+HvrKZkrIW
+         dYsAlWwj0CI5+HALg1aS125XKihxW+pNpub0QTRBw8nimYknV/9oLgzRU/Xhu2HvSfqZ
+         DhhGQUNIl9S0nBbAfQ+1hxBvOFstScGwYazpv3kj9MkgMmbmZ+0NJXhLtjpbmQPdaA+0
+         ZJCw==
+X-Forwarded-Encrypted: i=1; AKwUvBzLiZdxBFMD8HRZOmHBuMPuIdCUZuHeG355nmNuxiFWbDVAd+1C/hkUwNdxT5S0Zh2oGg5hZ+GJcdwGIQ==@vger.kernel.org
+X-Gm-Message-State: AFuF++mbFL5Jc4yb2wka89nObcwje/AezlKApeeDlgeIydQVqUAlSM68
+	y3t9/99Ilxr0sYNDIOGaq4qUT/VbiW2L2Eit7Vfk0dLE6Oub17MkAKTR
+X-Gm-Gg: AYBFou3kNl0oaQsf6648p0qGZ0HyEKNAFwQuFr4i9xqJOAVlH95/I3rWag2bUnXN1w+
+	SgIDMQ1RckLDbygQYjKsQ5sv4rc8V6rm0wdniIMVv0V33qOTKI5JxnTzXT1XL1l44iu79VM93OR
+	sVgTeXfD8djGKY+kcziebpmPv641dsSEQYozPKIYNSnuqPAkageagMfmT/IRWirVa1kQDW3VJKO
+	m2PnQZFf+SPnTntXh4q/h/ENLQU4XaSPFKO1yH5fbhU0z+78LMNeX98pUM24y6LonL8dPHchGPA
+	7z2z02Q864oHoW04g3n6OQIlMLaT1js3enqvEOFinqGU/CiGlC4qdTckW3HoxyOc6MT4BkqYY0l
+	L8MsmXzfySkc0LwzncQ/HWm6FXpM/ZPgYYvo2HRLVb+F99lp6RxUEzWbSohHH/V+bNgxUDEbfWm
+	zdgeDtN+XfzFdGJDxeprZfY2R6KL/23BOpf6U1gXI8Ih3Yd60RWbigy3qtFONfomnZPcGxLQzsQ
+	EeSRcpIr7w/Fmd9aH/rWk1RYrxC1QBidChKUCpsfVI3HLGqnowZphGmMhLHxIHg1ZHEUeLDpNmD
+	1yGFWo5LAUnQVKc=
+X-Received: by 2002:a17:90b:3c4a:b0:39d:6f12:fd47 with SMTP id 98e67ed59e1d1-39d70bb2226mr11925208a91.20.1789045112679;
+        Thu, 10 Sep 2026 05:58:32 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39d7e77b1afsm4891592a91.5.2026.09.10.05.58.24
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39d7e77b1afsm4891592a91.5.2026.09.10.05.58.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Sep 2026 05:58:27 -0700 (PDT)
+        Thu, 10 Sep 2026 05:58:32 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>,
 	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
@@ -77,9 +77,9 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	linux-mediatek@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 06/13] ASoC: mediatek: mt8189: Use dev_err_probe() for clock errors
-Date: Thu, 10 Sep 2026 19:57:35 +0700
-Message-ID: <20260910125742.150902-7-phucduc.bui@gmail.com>
+Subject: [PATCH 07/13] ASoC: mediatek: mt8189: Propagate runtime resume errors
+Date: Thu, 10 Sep 2026 19:57:36 +0700
+Message-ID: <20260910125742.150902-8-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260910125742.150902-1-phucduc.bui@gmail.com>
 References: <20260910125742.150902-1-phucduc.bui@gmail.com>
@@ -93,32 +93,76 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-Use dev_err_probe() when obtaining clocks to avoid redundant error
-messages, particularly for probe deferral.
+mt8189_afe_runtime_resume() currently ignores errors from regmap
+operations and mt8189_afe_enable_main_clock().
 
+Propagate these errors and clean up the state before returning the
+error.
+
+Fixes: 7eb153585598 ("ASoC: mediatek: mt8189: add platform driver")
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/mediatek/mt8189/mt8189-afe-clk.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ sound/soc/mediatek/mt8189/mt8189-afe-pcm.c | 36 +++++++++++++++++-----
+ 1 file changed, 29 insertions(+), 7 deletions(-)
 
-diff --git a/sound/soc/mediatek/mt8189/mt8189-afe-clk.c b/sound/soc/mediatek/mt8189/mt8189-afe-clk.c
-index 435914aafb44..4997031cbcab 100644
---- a/sound/soc/mediatek/mt8189/mt8189-afe-clk.c
-+++ b/sound/soc/mediatek/mt8189/mt8189-afe-clk.c
-@@ -793,10 +793,9 @@ int mt8189_init_clock(struct mtk_base_afe *afe)
+diff --git a/sound/soc/mediatek/mt8189/mt8189-afe-pcm.c b/sound/soc/mediatek/mt8189/mt8189-afe-pcm.c
+index 77cf2b604f6c..431320719b63 100644
+--- a/sound/soc/mediatek/mt8189/mt8189-afe-pcm.c
++++ b/sound/soc/mediatek/mt8189/mt8189-afe-pcm.c
+@@ -2328,24 +2328,46 @@ static int mt8189_afe_runtime_resume(struct device *dev)
  
- 	for (i = 0; i < MT8189_CLK_NUM; i++) {
- 		afe_priv->clk[i] = devm_clk_get(afe->dev, aud_clks[i]);
--		if (IS_ERR(afe_priv->clk[i])) {
--			dev_err(afe->dev, "devm_clk_get %s fail\n", aud_clks[i]);
--			return PTR_ERR(afe_priv->clk[i]);
--		}
-+		if (IS_ERR(afe_priv->clk[i]))
-+			return dev_err_probe(afe->dev, PTR_ERR(afe_priv->clk[i]),
-+					     "failed to get clock %s\n", aud_clks[i]);
+ 	if (!afe->regmap) {
+ 		dev_warn(afe->dev, "skip regmap\n");
+-		return 0;
++		ret = -EINVAL;
++		goto err_reg_rw_clk;
  	}
  
- 	ret = mt8189_afe_disable_apll(afe);
+ 	regcache_cache_only(afe->regmap, false);
+-	regcache_sync(afe->regmap);
++	ret = regcache_sync(afe->regmap);
++	if (ret)
++		goto err_regcache_sync;
+ 
+ 	/* set audio 26M request */
+-	regmap_update_bits(afe->regmap, AFE_SPM_CONTROL_REQ, 0x1, 0x1);
+-	regmap_update_bits(afe->regmap, AFE_CBIP_CFG0, 0x1, 0x1);
++	ret = regmap_update_bits(afe->regmap, AFE_SPM_CONTROL_REQ, 0x1, 0x1);
++	if (ret)
++		goto err_regcache_sync;
++
++	ret = regmap_update_bits(afe->regmap, AFE_CBIP_CFG0, 0x1, 0x1);
++	if (ret)
++		goto err_26m_req;
+ 
+ 	/* force cpu use 8_24 format when writing 32bit data */
+-	regmap_update_bits(afe->regmap, AFE_MEMIF_CON0,
+-			   CPU_HD_ALIGN_MASK_SFT, 0 << CPU_HD_ALIGN_SFT);
++	ret = regmap_update_bits(afe->regmap, AFE_MEMIF_CON0,
++				 CPU_HD_ALIGN_MASK_SFT, 0 << CPU_HD_ALIGN_SFT);
++	if (ret)
++		goto err_26m_req;
+ 
+ 	/* enable AFE */
+-	mt8189_afe_enable_main_clock(afe);
++	ret = mt8189_afe_enable_main_clock(afe);
++	if (ret)
++		goto err_26m_req;
+ 
+ 	return 0;
++
++err_26m_req:
++	regmap_update_bits(afe->regmap,
++			   AFE_SPM_CONTROL_REQ, 0x1, 0x0);
++err_regcache_sync:
++	regcache_cache_only(afe->regmap, true);
++err_reg_rw_clk:
++	mt8189_afe_disable_reg_rw_clk(afe);
++
++	return ret;
+ }
+ 
+ static int mt8189_afe_component_probe(struct snd_soc_component *component)
 -- 
 2.43.0
 
