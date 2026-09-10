@@ -1,39 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A22A451991B
-	for <linux-sound@vger.kernel.org>; Thu, 10 Sep 2026 16:24:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E2CC35C6A3
+	for <linux-sound@vger.kernel.org>; Thu, 10 Sep 2026 16:26:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789057470; cv=none; b=OGJWpJ0Ve2EnQiYaXzvnqt9Cp8rjVr/5CuzwsbMa8a/POdRrbHQQtOJHVvCRP3cFhdOlMUI7IJfLiYfWqYxc6VAJkHdt98qFEyAl25V6KxYn9qYj7f2dRzm+BtJbtAOmubiGqZ6MxpGMcLke4jtblWkdjDyfpGkX7xJ15o100aw=
+	t=1789057562; cv=none; b=k1Dp0PpofZs4TdTODRqwmRa5Zeys2qNHWDd5XLTwufD0IzchbsSutoqz/UN+oB880C0n7l8d5HKgk1LssSlV6xTiXhAQxhO3B8XXxk5lUQDRDgJWKUClkpMav9liCt82SPpe7tZqmRkLu22hZQnHPvR33e/H0s58ZhL9SZEC6fY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789057470; c=relaxed/simple;
-	bh=XMEHOa0BVufINKJK4ZzKEIUiwHETJnR3kYoPy/JwP+8=;
+	s=arc-20240116; t=1789057562; c=relaxed/simple;
+	bh=3EztzNKg8dxA7Qv30/rY5/MY1WFoIyUsnX+tkn6mPQQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gTxhrOKc/H9AGYzZvP2A0lrBvZvRk1AoF291BlbAwZ9/VKY58hkxOXzfZTnGuNCD9bapSynVV8VHYjfRa0oi82yJ3+CraA4PXjrT+xTag3BqSYSqj/Cf7/JipByqivnGyBkXbHbTpt8eVO87pxaXM5ikYJrFNH1q8nFyUSEwLEs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nE9CqRN9; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=eur/5Pvqjm2aE+trC8RQUaZtCFQIa8tRdKCiT1DeUp8OQIwJ1XF2FIw0mKrGqZYZgNV2ZKdWIT0or+1tJh77Ap0xJzK1I/HX79+KE28NJhIaKjIefQ27+YMvoZhLcAqXG94btI+j5Jn0afqUERyzQiX87wNI19yPGTFteBuMPnI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=INRfr9/9; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nE9CqRN9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC7521F000FF;
-	Thu, 10 Sep 2026 16:24:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="INRfr9/9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB5AE1F000FF;
+	Thu, 10 Sep 2026 16:25:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789057469;
-	bh=rYy8Zlc7FIKNe+mlHAqXT+c2i9QqTIwWMNrQWjFOkNk=;
+	s=k20260515; t=1789057560;
+	bh=vIdaBic866LOa2MRIKQFCY1TH0/PBHVUlMlX69r1fmA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=nE9CqRN9t90gRZy7EF3dr59d3xiTMayMuqPB1ux0MqHdSgTIcTCd4BDbHfXnqqhIR
-	 fFPWrSMSdw3QH82McUh7O45Rq+zEI7cI6GZ905xC5hl582cjGyNqFawHRZn+Npbthv
-	 TYmjytdTSK5JQSFLGvK0UxppFszPgpGZ9i31chm3eWFqnrCxRuK+n+MQ7QHpAkSzSB
-	 +FqKgI9ijHe5mHrZBXFyc6ZOhjCJFkQ7GKl2dCljZWaG9OdGNMY2M65YfTIHIM8OpU
-	 ersMbElkPHRprMS9ImUnOPg6wKaGJeZ56FNjhWDfkg7zkFFSvKWh1AsCnVbMvNordS
-	 2v5K7+BQnWYBg==
-Date: Thu, 10 Sep 2026 17:24:26 +0100
+	b=INRfr9/9T+lQya2wr/Pd+TpO5j6/hOiRmKs86slEW8FphPzdAF1ZyBxgIDw8rp8ZO
+	 4O5jAwr+V2lLPeul6MPGkb3QF7rNtLrfFGg3yJSOWUOcOgCChs7mrUXbkCW3wI+VOD
+	 rxgbmDrUJYlSoedqF4bkpULVplckORNW+hEN8lLycEYQiIjIg7ZTFhJ3ggeJQ8tBnI
+	 Vab7IaYv0JCvdJMatJExxWSNdqJzX+s0q9HKtHLBB6pl60XIDRXFFf9Yc8J5HLTnv4
+	 MNl0tD6HArckZuoaTmwRoqFrX2eoPCkjNLYK3JVut8+tb+PU2AlwnajPYGnZgnpTz0
+	 EhfGtBNjFroMg==
+Date: Thu, 10 Sep 2026 17:25:57 +0100
 From: Mark Brown <broonie@kernel.org>
 To: Zhang Yi <zhangyi@everest-semi.com>
 Cc: linux-sound@vger.kernel.org, tiwai@suse.com
-Subject: Re: [PATCH 1/2] ASoC: codecs: ES8326: Add private members about HPF
-Message-ID: <12182d7f-b6f6-44d3-9b4f-e73ed0253ef5@sirena.org.uk>
+Subject: Re: [PATCH 2/2] ASoC: codecs: ES8326: Adjust the standby
+ configuration
+Message-ID: <e008bc53-559e-44b1-ba0d-4dec50cc9336@sirena.org.uk>
 References: <20260910111828.28027-1-zhangyi@everest-semi.com>
- <20260910111828.28027-2-zhangyi@everest-semi.com>
+ <20260910111828.28027-3-zhangyi@everest-semi.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -41,70 +42,44 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="hKO2gGoyFPJ9xQU3"
+	protocol="application/pgp-signature"; boundary="LreYeKJn6TuBeEfj"
 Content-Disposition: inline
-In-Reply-To: <20260910111828.28027-2-zhangyi@everest-semi.com>
+In-Reply-To: <20260910111828.28027-3-zhangyi@everest-semi.com>
 X-Cookie: Gravity brings me down.
 
 
---hKO2gGoyFPJ9xQU3
+--LreYeKJn6TuBeEfj
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Thu, Sep 10, 2026 at 07:18:27PM +0800, Zhang Yi wrote:
-> Add private members related to HPF.
-> Add Kcontrol for HPF
+On Thu, Sep 10, 2026 at 07:18:28PM +0800, Zhang Yi wrote:
 
-> +static int es8326_hpf_set(struct snd_kcontrol *kcontrol,
-> +	struct snd_ctl_elem_value *ucontrol)
-> +{
+> Adjust the configuration in SND_SOC_BIAS_STANDBY for better
+> power consumption performance
 
-> +	if (es8326->capture_rate) {
-> +		freq = (ucontrol->value.integer.value[0] * 48000) / es8326->capture_rate;
+> @@ -1078,14 +1079,19 @@ static void es8326_jack_detect_handler(struct work_struct *work)
+>  					SND_JACK_HEADPHONE, SND_JACK_HEADSET);
+>  		} else {
+>  			dev_dbg(comp->dev, "Headset detected\n");
+> -			snd_soc_jack_report(es8326->jack,
+> -					SND_JACK_HEADSET, SND_JACK_HEADSET);
 
-> +		if (es8326->hpf_freq != ucontrol->value.integer.value[0])
-> +			dev_dbg(component->dev, "At the %u Hz sampling rate, %ld Hz could not be obtained."
-> +				"the frequency has been set to the closest value, %u Hz\n",
-> +				es8326->capture_rate, ucontrol->value.integer.value[0], es8326->hpf_freq);
+This report removal isn't explained in the changelog, and I'm not seeing
+what replaces it?
 
-It's fine to just do this silently.
-
-> +	} else {
-> +		es8326->hpf_freq = ucontrol->value.integer.value[0];
-> +		dev_dbg(component->dev, "PCM_STREAM_CAPTURE is not active.retain the input frequency\n");
-> +	}
-
-This won't do any validation at all, but find_best_hpf_freq() refuses to
-run in the frequency is over 1020Hz.  We should be consistent and reject
-high values in this case too.
-
-> +	if (substream->stream == SNDRV_PCM_STREAM_CAPTURE) {
-> +		es8326->capture_rate = params_rate(params);
-> +		freq = (es8326->hpf_freq * 48000) / params_rate(params);
-> +		hpf = find_best_hpf_freq(freq, &es8326->hpfl, &es8326->hpfr, &es8326->hpf_freq);
-> +		if (!hpf) {
-> +			dev_err(component->dev, "The HPF frequency is invalid\n");
-> +			return -EINVAL;
-> +		}
-> +	}
-
-This will update hpf_freq, does that ensure stable values (especially if
-the capture frequency changes with different streams)?  We probably want
-to just store the user value without modifying it.
-
---hKO2gGoyFPJ9xQU3
+--LreYeKJn6TuBeEfj
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqi2bkACgkQJNaLcl1U
-h9CM0Qf/a/8X6158nZ0rjQkzvFAjsFUe/4bguwfzleYrfhrKHXulp4TfVE3cEiQ+
-N0aYj5d3TT7NNlNMgbhvjc/uPObfE+4Cw8OiYqBS2pDmo9RUlZUL4CI1HE0eZmf3
-WyhfE31h1v6bPqSY+eoB5wpUWSKmZbucAn3GT1eQbMn2zwUdW3i0WfenvFPoacDx
-dCqiZHcKPR2OkaYuDUd+oqmY/b0N67tYWJVTWLp0T6Cn7Pn7ZGfXhua1NoU5+KkX
-C8ytZ9uhOeygC+6M6uRRbHe307YWtIBgFXM4C0jYVVlaserxPxY/590bipJclH3K
-VnJkQ6vcUQx8AW4fi2F3qTQIfsvLDA==
-=5OWI
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqi2hQACgkQJNaLcl1U
+h9CnIwf9E6CS3IncxBfQ351lOFRMxaHUW+pxyrRecc4GiO52ONi9IKy4+PwF3QCU
+YvMzuJUYR5wJHAAUC5BbPzmmkoY7VBcuxES2u/1IAtEdY/Dzg5M3W4P0OcRurxvd
+8adWYIRaoGWgHgAA22nPBUuwv+Wn1cKjKxO3ZD+NxR0HJet1hRNXGGnsw6ClSwiE
+yNXkRnW/ct4MniwfAIh39aB05tLbdw1sREk37WdxFx/vP7iYRET6oK1NnU2poDtB
+af+l2B3C8pTsO2z7sywyqf3UvsQtFzYsl7cqETyzppmoYPcLsOtnkLPEd/WZamXQ
+CnMCDu7dqfzDHtJD/XKJ/vHgfngs/Q==
+=xwni
 -----END PGP SIGNATURE-----
 
---hKO2gGoyFPJ9xQU3--
+--LreYeKJn6TuBeEfj--
