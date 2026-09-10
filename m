@@ -1,154 +1,148 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A02549BD94;
-	Thu, 10 Sep 2026 14:42:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8B8F2DEA89
+	for <linux-sound@vger.kernel.org>; Thu, 10 Sep 2026 14:49:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789051347; cv=none; b=puRR/Xpi7/lV5vHq8bG76HWPy7iEcRDNQ4WxLDSO8NwYhO37slk0OzFqQsCP6sUyayeF6k8Bm2LQxkDGTa6pD/p0fX8ZGTMtPrktaEl/l9SW/sidjhqSx9a/oMySs868/dBw8Bo9CNv8DTfGpBbvZa5IWJZRJACk3VpCg8PSC6A=
+	t=1789051764; cv=none; b=b2X+aVjCJFSpW4MDmy2Nu6atvEiWeoUbLsaUi0FxWMJdmRqsPr7g6emu0XUXG9fFrySUjYkYNwHW2FNk6WUGa5C1KDUs2Hrm4k86d4aP4y0Jppf8/gf5o89S5eDdC/Od1RLiiGuP/eMMY7QZLioxB9KY46k4err69jcG16p6i6o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789051347; c=relaxed/simple;
-	bh=nKvAjS37ofFsoaTqwVf9kCG5yWF1OQzptBUJZ/e8M6Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iNa/UljdCrUCY+XoNGIxutUeR33UyIDidvaKpsOhQnETYQTYlcAQeXAt53LJvIiMG4PdtbRolefVzdMMZxeeQJnG0nZRhRbK+EU1poUwjxs7qepGPEDom4h9Zv8a5aGCydkodLTB5qvJrRoMXePcA0z4m8dNpVRlteF3e2xSzNo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=tg3JIP7z; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=+c+t2R+G; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=tuqBJmti; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=guScsU49; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1789051764; c=relaxed/simple;
+	bh=evSsSsoQyPmYfdV0T41E6xTxz3ZauE8IUKBn4sOVNkk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=J8cdGl97/qvTKt+1XSVDzSaKBIgcmIth48YQC76ODvLlAjKc+e23Tat1eeCc618e2ZeGygFCIr5zQXzElFc9bHmvsPhVF68KCzlfMNhGOpbhobVQN5dgqgfo4EH85bybXUJ8Cb4U23aoPGpNrQBoanQfFNgP41G0RoDCsztjrK4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nxdXdPkY; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tg3JIP7z";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+c+t2R+G";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tuqBJmti";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="guScsU49"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 1BA4B21D3D;
-	Thu, 10 Sep 2026 14:42:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1789051339; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=rzJHAZZxRdOkdADShKQfaJLBVNvFkp8HnumvkPHvunY=;
-	b=tg3JIP7zWfYsIgJlNzZ4ba5mSKyn3q5Or9IwOaxi2q6b1o3LxzrBHSkeOuds9T86dXRfa5
-	omzzyX/hXsZffIziZt2u80ucgi+3pdnQV26AR++AdmeuTTKHxbA7xnBGKfi2VGPYETrg0u
-	2cq3fPi1KcZdXiHTU/IAFZXWdcDUgts=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1789051339;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=rzJHAZZxRdOkdADShKQfaJLBVNvFkp8HnumvkPHvunY=;
-	b=+c+t2R+GHXR5fOWEEezO+QECxEycCEeC8H/vblq4XSqe8i0FxDu48WtbUpq6/oI0Xkilza
-	PAOz8AZAorFHLwBA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=tuqBJmti;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=guScsU49
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1789051335; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=rzJHAZZxRdOkdADShKQfaJLBVNvFkp8HnumvkPHvunY=;
-	b=tuqBJmtiON+cz/cUA3NSZXGkEpGUhO2MH/rG+X7pxBf/Yk1dkiYm6yRAC9Zsxf6wOTQEAb
-	HjFm6LR1VmLS33kLEZvXYjz+HQ6xen0t1uaff9VZCxnPUXe4Fd/GhWm5n+maAcXeo4RRo+
-	y1N8Pp6C2kr3KPXOkFdQ1XbWJQ4BpHs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1789051335;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=rzJHAZZxRdOkdADShKQfaJLBVNvFkp8HnumvkPHvunY=;
-	b=guScsU49FQRhsvnZlAqcbw+ccawD0mgFghDn6yYssItm0t038meGZrUh4oFG7dE+bHpdRN
-	OngxzmT0GYSFGDDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CD3EB13180;
-	Thu, 10 Sep 2026 14:42:14 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id qWrOMMbBomriXgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 10 Sep 2026 14:42:14 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	AtmanActive <alsa.atmanactive.3dfqt@slmail.me>
-Subject: [PATCH] ALSA: hdspm: Add a new PCI device ID (1d18:3fc6) for RME HDSPe AIO PCI express audio
-Date: Thu, 10 Sep 2026 16:41:50 +0200
-Message-ID: <20260910144204.973359-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nxdXdPkY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1789051763; x=1820587763;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=evSsSsoQyPmYfdV0T41E6xTxz3ZauE8IUKBn4sOVNkk=;
+  b=nxdXdPkYMi0dO72irXHcWMbgOsRBblXGU4KmkNG9mUdM50Vr8Cm9U8zq
+   NpX+vgnjoCUCG4e1KEVfCrew2+p/RjPDCkRHM4kclN+494ajIpJ/G8Vh0
+   YPqN02E++FLxX36bpVmQtVbSnxwCeAyu40vIj7vUFQpZM2TYrORkYqZHB
+   d3tJ5Dq1ya7XV/pbCHHDW+a1AY56+cchkKg411UNUD2ObWj/qFnHVWs+R
+   +khur/SOl5ej7gk3P97aoileT7DBqJlMWm2X4iL2To9Czw0UAHpUw0jvt
+   DWJNS3l+AhfCZNacLwWH4NNRBySMMJVcwlkWlim0uMg6v+MxUmGEwkY60
+   Q==;
+X-CSE-ConnectionGUID: PNTvwdn/Qm2+g3BaSKQFsw==
+X-CSE-MsgGUID: nAuCGWnnRse16iYmhD3ylg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11901"; a="99835076"
+X-IronPort-AV: E=Sophos;i="6.27,95,1787036400"; 
+   d="scan'208";a="99835076"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2026 07:49:22 -0700
+X-CSE-ConnectionGUID: gpYPWIAuR8qqNDhUfoLUCQ==
+X-CSE-MsgGUID: v/6m6+7SQCiLy6SWBxXABA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,95,1787036400"; 
+   d="scan'208";a="295144322"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO [10.245.245.173]) ([10.245.245.173])
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2026 07:49:19 -0700
+Message-ID: <e210f571-fa14-4994-af7c-ca0302ba35ed@linux.intel.com>
+Date: Thu, 10 Sep 2026 17:49:29 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 19/24] ASoC: SOF: ipc4-topology: Set FAST_MODE for host
+ copier in compr mode
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, vkoul@kernel.org,
+ perex@perex.cz, tiwai@suse.com, lgirdwood@gmail.com, broonie@kernel.org,
+ srinivas.kandagatla@oss.qualcomm.com
+Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com,
+ yung-chuan.liao@linux.intel.com, daniel.baluta@nxp.com
+References: <20260909090949.7503-1-peter.ujfalusi@linux.intel.com>
+ <20260909090949.7503-20-peter.ujfalusi@linux.intel.com>
+ <0bb3caad-5734-4524-8a9b-75b3c5e058dc@linux.dev>
+Content-Language: en-US
+From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
+In-Reply-To: <0bb3caad-5734-4524-8a9b-75b3c5e058dc@linux.dev>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -3.01
-X-Rspamd-Queue-Id: 1BA4B21D3D
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	DISPOSABLE_ENVRCPT(0.00)[slmail.me];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[slmail.me:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:email,suse.de:mid];
-	FROM_EQ_ENVFROM(0.00)[];
-	DISPOSABLE_CC(0.00)[vger.kernel.org,slmail.me];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RCPT_COUNT_THREE(0.00)[3];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Flag: NO
 
-The RME HDSPe AIO PCI express audio card has a new PCI vendor ID (1d18)
-while keeping the same device ID (3fc6).  The card seems working fine by
-just adding the new ID.
 
-While we're at it, use the standard macro to cleann up the existing PCI
-ID entry, too.
 
-Reported-by: AtmanActive <alsa.atmanactive.3dfqt@slmail.me>
-Closes: https://lore.kernel.org/178674392532.7.10140952469564861620.1550442282@slmail.me
-Tested-by: AtmanActive <alsa.atmanactive.3dfqt@slmail.me>
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- sound/pci/rme9652/hdspm.c | 10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
+On 09/09/2026 16:21, Pierre-Louis Bossart wrote:
+> On 9/9/26 11:09, Peter Ujfalusi wrote:
+>> FAST_MODE allows the host DMA to work in opportunistic, free running mode,
+>> which matches with the bitstream nature of compressed devices.
+> 
+> Does it?
 
-diff --git a/sound/pci/rme9652/hdspm.c b/sound/pci/rme9652/hdspm.c
-index d8bbedbc8ff6..95fd82bb1c6d 100644
---- a/sound/pci/rme9652/hdspm.c
-+++ b/sound/pci/rme9652/hdspm.c
-@@ -1071,14 +1071,8 @@ struct hdspm {
- 
- 
- static const struct pci_device_id snd_hdspm_ids[] = {
--	{
--	 .vendor = PCI_VENDOR_ID_XILINX,
--	 .device = PCI_DEVICE_ID_XILINX_HAMMERFALL_DSP_MADI,
--	 .subvendor = PCI_ANY_ID,
--	 .subdevice = PCI_ANY_ID,
--	 .class = 0,
--	 .class_mask = 0,
--	 .driver_data = 0},
-+	{ PCI_DEVICE(PCI_VENDOR_ID_XILINX, PCI_DEVICE_ID_XILINX_HAMMERFALL_DSP_MADI) },
-+	{ PCI_DEVICE(0x1d18, 0x3fc6) }, /* RME HDSPe AIO PCI express audio */
- 	{0,}
- };
- 
+Yes, it does.
+
+> My memory of the 'opportunistic' behavior was that the DMA would try to
+> use every possible window to send to/from the DSP, so that the bus would
+> be idle for longer periods of time overall.
+
+The FAST_MODE detaches the host copier form the sampling rate completely
+and will 'allow' prolonged periods w/o new data to be available. The
+IPC4 definition of the feature bit says:
+/* If FAST_MODE bit is set in CopierModuleCfg::copier_feature_mask then
+   copier is able to transfer more than ibs. This bit shall be set only
+   if all sinks are connected to data processing queue.
+*/
+> That would make sense as well for PCM, no?
+
+We have similar mode for PCMs with Deep Bufferr, but that is a different
+mechanism: it only makes the DMA move in bigger chunks, expressed in ms
+(SOF_TKN_INTEL_COPIER_DEEP_BUFFER_DMA_MS -> dma_buffer_size), so it is
+still bound by the sampling rate checks. It is not opportunistic.
+> Maybe this is the right thing to do for compressed data, I just wonder
+> why it is NOT the right thing to do for PCM...
+
+Basically FAST_MODE is a free run mode of the host copier. A PCM stream
+has a sampling rate the host side can and should be paced by, a
+compressed stream is a bitstream where the host side has no such reference.
+
+>>
+>> Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+>> Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
+>> ---
+>>  sound/soc/sof/ipc4-topology.c | 3 +++
+>>  sound/soc/sof/ipc4-topology.h | 5 +++++
+>>  2 files changed, 8 insertions(+)
+>>
+>> diff --git a/sound/soc/sof/ipc4-topology.c b/sound/soc/sof/ipc4-topology.c
+>> index 42cf444e847e..566913025cc7 100644
+>> --- a/sound/soc/sof/ipc4-topology.c
+>> +++ b/sound/soc/sof/ipc4-topology.c
+>> @@ -744,6 +744,9 @@ static int sof_ipc4_widget_setup_pcm(struct snd_sof_widget *swidget)
+>>  			sps->dsp_max_burst_size_in_ms = 1;
+>>  	}
+>>  
+>> +	if (spcm->pcm.compress)
+>> +		ipc4_copier->data.copier_feature_mask |= BIT(SOF_IPC4_COPIER_FAST_MODE);
+>> +
+>>  skip_gtw_cfg:
+>>  	ipc4_copier->gtw_attr = kzalloc_obj(*ipc4_copier->gtw_attr);
+>>  	if (!ipc4_copier->gtw_attr) {
+>> diff --git a/sound/soc/sof/ipc4-topology.h b/sound/soc/sof/ipc4-topology.h
+>> index 5e78f3de092e..c2949ff979a5 100644
+>> --- a/sound/soc/sof/ipc4-topology.h
+>> +++ b/sound/soc/sof/ipc4-topology.h
+>> @@ -222,6 +222,11 @@ struct sof_copier_gateway_cfg {
+>>  	uint32_t config_data[];
+>>  };
+>>  
+>> +/* bit definition in copier_feature_mask */
+>> +enum sof_ipc4_copier_feature {
+>> +	SOF_IPC4_COPIER_FAST_MODE = 0, /* free running mode of host copier */
+>> +};
+>> +
+>>  /**
+>>   * struct sof_ipc4_copier_data - IPC data for copier
+>>   * @base_config: Base configuration including input audio format
+> 
+
 -- 
-2.55.0
+Péter
 
