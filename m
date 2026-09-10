@@ -1,121 +1,94 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A712489FD7
-	for <linux-sound@vger.kernel.org>; Thu, 10 Sep 2026 12:59:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 997BB489882;
+	Thu, 10 Sep 2026 13:18:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789045143; cv=none; b=DPk5fhxmw987xhC/ZkUNqv+mHa0u/auG4Sm9yYx1ox1FP9gGgLbfC8J8yD6rJsKS3kt4rEKpI0Zm/7eVAoLKRGNTPSf9ybuGx/6deY6m4JA/B8KFxJnRZQP1gR6e83CKspQKA+0xcOS9v3EY1CLU08kSYunOPD7zt9vQ6pgNQmE=
+	t=1789046285; cv=none; b=AIoiwKh+rMYJ6HHfU/j5xS+mgt0zfVPLZYNpBxSN7aMJppI3FMPAXv7/byq0BO2jtflGUK4WqItzZKjFl9gx8XMozu+O5uZ6RN7yWUVtwmFnJQ3VNlPBfEz+ceUAuI4EsNuZUK7YfwwvU3Grn6fad7ebXixW8NLwmEsrbPSxe6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789045143; c=relaxed/simple;
-	bh=HNQ3yAaTj8Lox9L4v2OsrFX6RIoSfJ6hArRWObXN3VU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cuGOc+4bEXF/B8eLuSqm77n8DznidhMh4jh717iPcXVCq/C9y6KiOA1+l/cOUyUtBzKisMLFB3kCtYvT3exz/IZvDOLVhnouXtyiRiBMkya/hxzD/dCfNf4OdSZsBiTZem/xmQyNSth4HmaOr5J8sbRlU/ivvXbI2tBY+xuHccs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XXmG+AmY; arc=none smtp.client-ip=209.85.216.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789046285; c=relaxed/simple;
+	bh=qQrItInjJmJYkwqN2J3a6oD0Faw1CDbdOVtEASc676g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jW8I0xgEpo7vh2Ext5sSugqLlOAM9/anLRotEHrL/wkAaV3yloG/fLez0xADXqW8S75rMPDwjJi5BW+vYrBFyLrLAUI29XX/1x2PvH+KeRMMdC4i2tkePkXrMiTEh82mADNTP9yIA7Rpup7arLp15JMyH7SXrrJ6CE82rSio57c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Yh28SgK7; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XXmG+AmY"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-38ea87caafeso6197382a91.3
-        for <linux-sound@vger.kernel.org>; Thu, 10 Sep 2026 05:59:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789045141; x=1789649941; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=DlX7uEp+xJt+DRWD58MvDXb25/Cat7Ywclf9fNm7ioc=;
-        b=XXmG+AmYeQA5wFVZe4dPHhJnRvIQuS2SddhNcQiHH8MWPBka942XMgjYgqNim3IeLx
-         d5kwADZa1r2xjLVXZS/IRgIuIXmk1EBm+iq4gz1jq2nxgAcm9FcUFxqT3Y+N+k5LRbW5
-         NyWO2uFYIZyvnY6xpaqDDykqGA9ItPmv7/iPBTORP3fZYi9Ce44x3j2otet0gOwLw7U9
-         Ui4lgmQtiJ2tVBiB76vksrXK+3oLxxHYq9frS98i8BA4tfS17PvA99vzc+rp75NK3WMs
-         /Q7Wp6vskMvUGcw4zyXMe7Cn1bPbiv/O3sYTBj4y7bFF3vBznrtc455dH/wuAz2euoRe
-         DKfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789045141; x=1789649941;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=DlX7uEp+xJt+DRWD58MvDXb25/Cat7Ywclf9fNm7ioc=;
-        b=D/V4iOJnIKcVgftrSt/Ihkz3W76QGrl0HiXfFzF0e6hdGcjii3ZSzPTGo9Zf3AS5NX
-         c0WoSgar9mBP9jr9UQIe4vqrMYR2/BG8glEo+00eydU7KT5aDVpUfBl7K4tpOKhUI6Kf
-         PSO283cPsj7mwB85N+BYZTMQhkoybEVqkZhXCqFmQhpORz8dYEM69Z3wOn+/Jc149N8W
-         qTZp/yifvIey9hbbGgQ0ibCKjLwhVgj2MnQY6Rge716HivczrzvyXLxo301TfZxgZyDK
-         p8oqzaRtq+KUr79KxCX/cNiU4PYGQ8wyd5yps8SKMYlWy3I0uGLcgb1CLU5Q21bNH7cB
-         r0jg==
-X-Forwarded-Encrypted: i=1; AKwUvBxHea2U4WuOnhB6Co51f0HqI3TRhUhye3w+2MyNEfRWXWOSpfLRbvfRGZaTeUjPU17Xvg6NaA8d+FpA7g==@vger.kernel.org
-X-Gm-Message-State: AFuF++ltn248olR21QRV+J7VOGsDYAyEBGO/pRsFXhD2bt/GMggjq/O2
-	VxC42Ohzf099fAD3mmPnzHa/5UiBYZyVIYi0yj8EiYxXM2e/hrVQhnYT
-X-Gm-Gg: AYBFou2TEm5AACY95epwt3I+BhXFIeihBA2Yk4uh96w/wQ74+h3m6jPEkTCODDFIBPf
-	Lq4V/i7yHScqkq+0BODDIY6RneTc7+7fzC6jmwq0sCz5fwrzLC1EwBIrVI7LIPVZPf6lpM3Rwwt
-	gBKGi6VeUBUPkXhcTG+k7VABVBinTtiTdynK/OpWhhpeEC7a/rfCp1M6Ybl0mrl5ksAO6gXaFOf
-	FPGuA7fM43FFR1GvAgObPbJy4omWozYgv2nW4BeII/RKmS3aT/N7RVcMz2jxvFr0zYrxzCSb9uJ
-	XlikPR9qus9fiPmOZ+PyEMlUUvriH2vFACwerPQmvZiOat1Trh5RmJM0bned/mR3D8D4ToiugqT
-	M8UEIyb8lk9j/2nBgIRD1HVEMlqOySpvAuMLErDPJQ8PUemoL+7ZAayWQBntKlbNAiwAs13n/n4
-	dLIZ0QnxeARvlNDJwPLFl2yE+MAuKOFpVljmPCuu5xlO5gsIZoCh8k1B8NenwZtdFIxScCOaAnX
-	PkAEgaxStr4A/OoO5vvIzkKvgNAEqbNxizpolTKHZ61/K4Fk1z+2xhlr1BncBMZ6uJLD2pejUk/
-	JuNqRVEQI+wQG/0=
-X-Received: by 2002:a17:90b:3a81:b0:398:c292:ac80 with SMTP id 98e67ed59e1d1-39b2612eaa4mr58543997a91.10.1789045140953;
-        Thu, 10 Sep 2026 05:59:00 -0700 (PDT)
-Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39d7e77b1afsm4891592a91.5.2026.09.10.05.58.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Sep 2026 05:59:00 -0700 (PDT)
-From: phucduc.bui@gmail.com
-To: Mark Brown <broonie@kernel.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Yh28SgK7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E76B11F000FF;
+	Thu, 10 Sep 2026 13:18:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789046284;
+	bh=63mYHX7mtuoiPipaFKq34F2k9faAGyQ8nFHA1oVLU8U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Yh28SgK7gOsyNTvjOGWgVG1/MDJixzQwQhYPAGNTeDU4OCLsroi21iNV/clvoIEh5
+	 uKFGiJ3Oi1dp52stLFPNgzYrIwY8vNlOCjtj1+b4kort8izKB+rqCmiPcTI2gh7VgM
+	 tnC4jvDMu1aBxEAWYpTLCVl4tx5EUYH1Eo4S55XiuIvhDgkXE6oCXY/ZV/qc9qh0co
+	 NXrZ88fbtKVa75c5eqBXedcleXEgyodSEZT+Sa1MLTSh3o3RmvxJy3XY5E77JyMUO4
+	 o5wNJdeykoOuBVD3BDFefmraJ/IoJNeQ3gvvoxGkawTwMXxtIDWfOV+WxREmvKXjJl
+	 YyFwTlmBFNxlA==
+Date: Thu, 10 Sep 2026 14:17:57 +0100
+From: Mark Brown <broonie@kernel.org>
+To: =?utf-8?B?yJh0ZWZhbiBHaGXIm3U=?= <stefanghetu9@gmail.com>
 Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Cezary Rojewski <cezary.rojewski@intel.com>,
-	Cyril Chao <Cyril.Chao@mediatek.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Dan Carpenter <error27@gmail.com>,
-	cassiogabrielcontato@gmail.com,
-	linux-sound@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 13/13] ASoC: mediatek: mt8189: Validate TDM MCLK frequency
-Date: Thu, 10 Sep 2026 19:57:42 +0700
-Message-ID: <20260910125742.150902-14-phucduc.bui@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260910125742.150902-1-phucduc.bui@gmail.com>
-References: <20260910125742.150902-1-phucduc.bui@gmail.com>
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH] ASoC: SOF: imx: Prevent stack OOB read in DSP panic dump
+Message-ID: <f64a008a-8bdd-4c06-aa12-a721cebc3a11@sirena.org.uk>
+References: <20260909204042.46656-1-stefanghetu9@gmail.com>
+ <20260909204042.46656-2-stefanghetu9@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Bxz62p+0qLECbO21"
+Content-Disposition: inline
+In-Reply-To: <20260909204042.46656-2-stefanghetu9@gmail.com>
+X-Cookie: Gravity brings me down.
 
-From: bui duc phuc <phucduc.bui@gmail.com>
 
-mtk_dai_tdm_cal_mclk() accepts zero or negative frequencies.
-Reject invalid frequencies before configuring the TDM clock.
+--Bxz62p+0qLECbO21
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Fixes: 9f202872ba04 ("ASoC: mediatek: mt8189: support TDM in platform driver")
-Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
----
- sound/soc/mediatek/mt8189/mt8189-dai-tdm.c | 3 +++
- 1 file changed, 3 insertions(+)
+On Wed, Sep 09, 2026 at 11:40:42PM +0300, =C8=98tefan Ghe=C8=9Bu wrote:
+> Commit 58bb5081cba1 ("ASoC: SOF: Xtensa: dump ar registers to restore
+> call stack") added a shared Xtensa helper that iterates over a flexible
+> array of AR registers (`ar[]`) controlled by `plat_hdr.numaregs`.
 
-diff --git a/sound/soc/mediatek/mt8189/mt8189-dai-tdm.c b/sound/soc/mediatek/mt8189/mt8189-dai-tdm.c
-index 1b51027c6cf4..7748b4ff2c72 100644
---- a/sound/soc/mediatek/mt8189/mt8189-dai-tdm.c
-+++ b/sound/soc/mediatek/mt8189/mt8189-dai-tdm.c
-@@ -381,6 +381,9 @@ static int mtk_dai_tdm_cal_mclk(struct mtk_base_afe *afe,
- 	int apll;
- 	int apll_rate;
- 
-+	if (freq <= 0)
-+		return -EINVAL;
-+
- 	apll = mt8189_get_apll_by_rate(afe, freq);
- 	apll_rate = mt8189_get_apll_rate(afe, apll);
- 
--- 
-2.43.0
+You've sent multiple tengentially related patches in a single thread
+without anything indicating that it's a patch series.  This is really
+confusing tooling, please resend as either a coherent series or
+individual patches.
 
+--Bxz62p+0qLECbO21
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqirgUACgkQJNaLcl1U
+h9AwYQf+OIH7nMiz45cq2dAIjQSTZ7xvYRJFfL7NgH9LmIUJzCDA5iD/8JHzAJqH
+HtB/dbJUg5yoPkH8vB9DmrouOKM1/ZnoGMZLz2md/fcHprBKzTRRY/hpS/SLL7uG
+ebPii0YZt+JZnq0WeDpOljT7LfjU7mcSxobur3AjJd84pHxsxFHB1XnjtBPGHhdT
+O77Q+yTV8DjIgXy4iZSWTvmxxYFIagg6w7DiuJ7G5VogrWpFJGOFw1PRw+Xg+S7F
+YP96GFRjjB+BMtmXvRYpIyB6Uvm3NYGkYlIMP2TOLR+vEbuz/UxWOwUVFFw9Jg38
+W8RJHuPrDPsz/7g1TH6r92mrmYo0ig==
+=uzC5
+-----END PGP SIGNATURE-----
+
+--Bxz62p+0qLECbO21--
