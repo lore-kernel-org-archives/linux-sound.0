@@ -1,93 +1,175 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E36C49E12D;
-	Thu, 10 Sep 2026 23:10:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C06CF49E143
+	for <linux-sound@vger.kernel.org>; Thu, 10 Sep 2026 23:16:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789081843; cv=none; b=RS/++9YBOX4qevq1ayaWWJeNbldbgDwoGNVV4dsx4Y9TqYxF4K4kVdP6tTYMT8HW7xNFDnlbAX5Saj1zdFXvAmAzcX+hISaLa8HWROm3QPoVhmeoO2AEx45P6e3iO2PdR9wE5Q9PHMqkptC0szRznPQEo4pv6i7PX7P3v4h3ZCs=
+	t=1789082216; cv=none; b=fK3hnvaUCxPXdVjh2Ii1ViEocuK6CsoGiEjxwMiz7/zzHNwnmOooww5tiC/nV5LM5uGDRO+1q3aT8x+GIpkcJJkfGXEPwaGF28JFlMu4b2Qw10r/5KfcHpI6TjAOBAqCjCbm6iO07zkgtj8+P+TciBYq2UcMzwAa+l4JmLLdGRw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789081843; c=relaxed/simple;
-	bh=Sz7IyMFAo8Hbn4tOcAk1S4f1pmpQTjj9Nzv/Xpy7wYQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LAJ1e6KPpFSqlBR+zAwPAN1Bwjl9XuB5yvYjn1TIy/ja85s6Kr3KERgmM+EcL5La+H9B2nrr2tAp2QyXYSL6zW4LonJS22swv8zkOO1Vs4/OpWcIqeuPIRhjrSOyEhRG1uGzUXOjyX8HtgIq0ywMNQrV5wYx+kBoe3D6G7Eg0ZE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I3rRRtaM; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789082216; c=relaxed/simple;
+	bh=Dr5Iuf4k9Fo9Xzhbyx3m5ImmN753LgrcpI5ZozfKH/0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=CMXEcebe27Mv7uEmVwR+ruXv38LQfiSaAwOiAf5seAnm46mCuVuRa97c8B+aMwl1Aom4OXcIc4/5Xk15Qvli/rKA4RVfo4pLUf75xOVqVnIzWpHUeZZNeJBdjUCKOCFj12Im3Nstl9g6tsf3swbgrO2bdJZO5+swp6G/CkvDT9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=aGKEIBR5; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=cUlrOIlD; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I3rRRtaM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4545C1F000FF;
-	Thu, 10 Sep 2026 23:10:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789081841;
-	bh=Sz7IyMFAo8Hbn4tOcAk1S4f1pmpQTjj9Nzv/Xpy7wYQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=I3rRRtaMlu2tVaLIrV2bTTp4UJ4XZwg4K2Y4yWl6AsjPDtcVGkcb9jEEwse7Mgf5v
-	 KOFvQCt8pTt9K0h8Azw5+3asv0TYJ05OVZ6oD7zfMFNoAXi00okEGXIgxi1hfPvQxJ
-	 SOhK3xIJr74b97kBvvT4dUEvfq9WmSSvQ+U/PmuJyJDL0Swc3LELg4y6vWg3WLJJuW
-	 2D3o1/xEZh1dmKAqewPm4jAJZPbi2sRA4s3p8iaPkuQv2pzqQw525sz9NPPtYwWu1j
-	 4S0JR0aAJjAPyWy5XjHFCNSG64ogdtzgCz3x1cCbUg0xwvXqvwsi0JVdwgQZzzgryq
-	 nRWsfIyyZ7bGg==
-Date: Fri, 11 Sep 2026 00:10:36 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Linus Walleij <linusw@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	mfd@lists.linux.dev
-Subject: Re: [PATCH 0/9] ASoC: ux500: Migrate HREF and Samsung audio to
- simple-card
-Message-ID: <621688e1-0c18-460e-b48d-581fbd3ef5dd@sirena.org.uk>
-References: <20260911-ux500-simple-sound-v1-0-6771ac714e82@kernel.org>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="aGKEIBR5";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="cUlrOIlD"
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68ALTlLl1497174
+	for <linux-sound@vger.kernel.org>; Thu, 10 Sep 2026 23:16:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=r5/hiIdFrPwvj9F46iRT7f
+	RMfEtM0BwXeE3UhxkGKSE=; b=aGKEIBR52Tf4hgOPq1rPZdk9yfpnlrozXV9IsN
+	nU+6+mLf5QCl23ozEOkiUBWURnSNXfDH95DD6d035K/QouoO+aYqVJO5+OqD8IZi
+	p5LkRkxyb0ftvewOkN9O97fQr/XkcKQ/qleFZgE81+PRSAhx19NIxI7/zY2Jtioy
+	2xQ6ldmDc51sutTVwdSuPFl9j+L9EHoudnqSDAsP8E/8BF8k1v92xtswGu7W7nee
+	nq9ZnWcMLIHqRftjp9q+6yxQz2h0Iiac9LZh+L3MSnvERNU17fpXrDwcwFrQsaUK
+	pC3rAz5lxWSpoZpbqmDwuVN6RzHOwuYWAokrqkmtKkiQS3WQ==
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com [209.85.210.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gkxv79wj5-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Thu, 10 Sep 2026 23:16:53 +0000 (GMT)
+Received: by mail-pf1-f197.google.com with SMTP id d2e1a72fcca58-8633c0d7353so316772b3a.3
+        for <linux-sound@vger.kernel.org>; Thu, 10 Sep 2026 16:16:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1789082213; x=1789687013; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=r5/hiIdFrPwvj9F46iRT7fRMfEtM0BwXeE3UhxkGKSE=;
+        b=cUlrOIlDPNMit+gmEn6itmM5AaGT39R22MHxvy8ISL4viFTHWIC8IKtOHIK26hpbWq
+         VUNa44Xxbs+HLc6IPzEz3jy/kKjoca8VryJGD80bcRQYHk0DAdLRPyoFzHdTOli+s7vJ
+         o7j5UjWlVdVdna6oVPR+px2P2W2zbonZpNtKWAQ3DSlmgGWkbfL+iMf5PDgeFU+3ny7t
+         Ic7NNL2H+KkqEHiZJ03RfWMUBIghSWybvop7S0DErTwDa8ZKiVKPXwd8bUWemIjzxk0U
+         uP/ytmCrSTl8cwF9Mzer/1vzN4Ye8NWvPwa+6iZXy4CodEjtLczDSIpLdynaPsdTTAEb
+         D7OQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789082213; x=1789687013;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=r5/hiIdFrPwvj9F46iRT7fRMfEtM0BwXeE3UhxkGKSE=;
+        b=ECqCUlO020iRfNEW/eHo+xKxZparFqhdjqIlRCyyL3OlVStIJS6JmCy7mmfgnYNWUN
+         a3tjQCgMTyCz70hF7L61cZP6xvCCIyszfXjhhphYKXAk8W4Ls31jIjbIj6RRZyvRaQMA
+         2UXBtoEwdXF+U6Gwmkmbz+4NBj9cLX8skEg4rcywvLFrALjkS9e9ZW6du+8dbXyJtguK
+         S2fYzgPiz1kFuYJR6qpcMUey3lWGyRjyOPTz88bVQsLM/hgd0063vX0TqkX2qqjv4lTP
+         04Pt1N0WcZmR+cehxY9cooTaav+dEa+QkiUmmHRNiF8wad0gakTBlYLx0SiPGiRpHOAk
+         DW0Q==
+X-Gm-Message-State: AFuF++nFNVwNVntNpHDk8r8imhiQz1gKqOFM93HzepG6YCbe3s2gsOSo
+	bwpA9lmMQXd8gNb6buDGgNaqu/wEz7/UxwBftr9H4umV/MPLvIQ7y6Oa0/MLDKmW7k76e00MMBV
+	kb6hpAkHu+NB/r4iRKlanF/FW2Z8lMsb52/FDQELPgCwlTnaCLwx2oz71fyxnugscOWYI2dNp1g
+	==
+X-Gm-Gg: AYBFou2OGk+LhDLt7ZrD6VLFIQzijWKS9pwE9UDXgQ4whnLWnNA7mefKPaWlVzPOpXQ
+	K+xBsZ4+EWglhPzZP1jPX3K1v2TKnlxibmJej1MlONX/cmz/czJ9RnvCnAje0jthnh53nkITIXf
+	oQJLG3VmCuOeTZnMRbbT/r+PabpTjtllMgQaQItYCzNKUcAOzZjXHpI7tIBDnZugfyRwVFWmgN8
+	xzMmnSLN1ZaDu+GpNUP37I/12g8fRh3tABc/wZu2nNuD8wvPWmJXwvzKGi4/BvuO1YdrOQzOYyU
+	2O4Qv9wKhRJjUwFIF9UTWRkU6gMqfWMIke5PsqklebnGClzNGsECXthoo46rPwAZ/KkBYH48By+
+	CsUZrVzF3F7LwnoCuxyjuO9+7JY8Mh2/TM0zC
+X-Received: by 2002:a05:6300:670d:b0:3da:5b4d:a89f with SMTP id adf61e73a8af0-3daed64d8e7mr2613955637.27.1789082212546;
+        Thu, 10 Sep 2026 16:16:52 -0700 (PDT)
+X-Received: by 2002:a05:6300:670d:b0:3da:5b4d:a89f with SMTP id adf61e73a8af0-3daed64d8e7mr2613890637.27.1789082212126;
+        Thu, 10 Sep 2026 16:16:52 -0700 (PDT)
+Received: from hu-mohs-hyd.qualcomm.com ([202.46.23.25])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33ba4f7390csm1204374eec.26.2026.09.10.16.16.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Sep 2026 16:16:51 -0700 (PDT)
+From: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+To: Srinivas Kandagatla <srini@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>
+Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/9] arm64: dts: qcom: shikra: Enable audio on EVK boards
+Date: Fri, 11 Sep 2026 04:46:33 +0530
+Message-Id: <20260910231642.1794948-1-mohammad.rafi.shaik@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Q7EJpUPxP+3BQWtG"
-Content-Disposition: inline
-In-Reply-To: <20260911-ux500-simple-sound-v1-0-6771ac714e82@kernel.org>
-X-Cookie: Gravity brings me down.
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTEwMDI5MyBTYWx0ZWRfX+ImeqAzp5QhM
+ UJQG2xHup25RsLwS3Xxq1zX7MPKvh8sb8jIVNfmkeD5X4/DoTstAAW3CB1QldhaADyk+USf0tJS
+ F2kdLvQhkTRp7CeCkDmf2lJguo3ccqA=
+X-Proofpoint-GUID: 2FtBrm3KtOzjiXaF9lt112emGwyPlsq8
+X-Authority-Analysis: v=2.4 cv=FPSOVOos c=1 sm=1 tr=0 ts=6aa33a65 cx=c_pps
+ a=rEQLjTOiSrHUhVqRoksmgQ==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=bC-a23v3AAAA:8 a=XxL5jg9vB5HpZleAeu8A:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=2VI0MkxyNR6bbpdq8BZq:22
+ a=FO4_E8m0qiDe52t0p3_H:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTEwMDI5MyBTYWx0ZWRfX7mmOxl5b8BaI
+ rurI8R4YLupajE7rX43e3iWRtR2qUDRLZp9EVpAi7igqP/GpJVLx9/3GutUdchYczAOF6HN+wRJ
+ kjdVqE1EKSirKepea2nrKZfjC+6B+5krlNxuf7Jb2THJrMk+JUbg7vKrvT5DywI5UN/BqZmWhUH
+ wqfRoJoR5tEqw9doXBh/9kESGbAcAVhXFevMZI5wIgfJ1PLcOfzPRv4rixumcCDnJJR8Qq1CCpB
+ ZUXwiju3EKuHHzVotUy/IY7L9ECW98NDxIFZGfxQBXjTXKjkSLLgWJ8WrlK5AjnU0A9M8pMEvYm
+ tID56ecFGPL42bIGyfgzPO3ro+zvkORTJ6zNmBAYygyFmCl+jaK6LR4mIY+HoUbKHGW62mTpOSM
+ 60KrtGb6He2xzb9LBKrvdH/q1PgRueMCh15J8fBkPol4BvTo5zQfye1T0cBtQJh345iXfCXQFeu
+ OI6aN+K0zW3lExqyp8w==
+X-Proofpoint-ORIG-GUID: 2FtBrm3KtOzjiXaF9lt112emGwyPlsq8
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-10_07,2026-09-09_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 suspectscore=0 malwarescore=0 clxscore=1015 impostorscore=0
+ adultscore=0 priorityscore=1501 lowpriorityscore=0 spamscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609100293
+
+This series enables the Shikra audio path on EVK targets by adding the QAIF
+CPU endpoint, GPR/APM/PRM services, SoundWire and LPASS macro nodes, and
+board-level sound card wiring for CQM, CQS and IQS variants.
+
+---
+Changes in v2:
+ - Fixed Konrad’s review comments, addressed nitpicks, and alignment issues.
+ - Added PM4125 headphone support for the CQS EVK board.
+ - Documented TX/RX macro clock constraints.
+ - Included MDSP carveout memory and updated APM DAI memory regions.
+   (https://lore.kernel.org/all/20260618113509.2025881-3-ajay.nandam@oss.qualcomm.com/).
+ - Link to V1: https://patch.msgid.link/20260616201315.2565115-1-mohammad.rafi.shaik@oss.qualcomm.com
+---
+Mohammad Rafi Shaik (9):
+  ASoC: dt-bindings: qcom,apr: Add modem_apps GLINK channel for shikra
+  dt-bindings: sound: qcom,lpass-va-macro: Add clock constraints for
+    shikra
+  arm64: dts: qcom: shikra: Add QAIF CPU node for audio
+  arm64: dts: qcom: shikra: Add gpr node
+  arm64: dts: qcom: shikra: Add soundwire and macro nodes
+  arm64: dts: qcom: shikra-cqm-evk: Enable sound card support
+  arm64: dts: qcom: shikra-cqs-evk: Enable sound card support
+  arm64: dts: qcom: shikra-iqs-evk: Enable sound card support
+  arm64: defconfig: Enable Qualcomm PM4125 and WSA885X drivers
+
+ .../bindings/soc/qcom/qcom,apr.yaml           |   4 +-
+ .../bindings/sound/qcom,lpass-rx-macro.yaml   |   1 +
+ .../bindings/sound/qcom,lpass-va-macro.yaml   |  15 +
+ arch/arm64/boot/dts/qcom/shikra-cqm-evk.dts   | 185 +++++++++++++
+ arch/arm64/boot/dts/qcom/shikra-cqm-som.dtsi  |   5 +
+ arch/arm64/boot/dts/qcom/shikra-cqs-evk.dts   | 220 +++++++++++++++
+ arch/arm64/boot/dts/qcom/shikra-iqs-evk.dts   | 144 ++++++++++
+ arch/arm64/boot/dts/qcom/shikra.dtsi          | 256 +++++++++++++++++-
+ arch/arm64/configs/defconfig                  |   2 +
+ 9 files changed, 830 insertions(+), 2 deletions(-)
 
 
---Q7EJpUPxP+3BQWtG
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+base-commit: f2bfbc3554ca6919484030729424b9dee2942d24
+prerequisite-patch-id: a056f645f45682f1008b321f5e639505f22bb979
+prerequisite-patch-id: 3d5670d672ae08b8c534b7beed6f57c8b44e7b43
+prerequisite-patch-id: 32a1efe2e364ee15c466f496b1ff3128e5326c66
+prerequisite-patch-id: 1ddc51582586120795d86a2ff9f0aef20c0e891e
+prerequisite-patch-id: 1e68cced9250cf9fdfbb8cdc27ee8ec47ada4a87
+prerequisite-patch-id: 99245529321cadedd30d9e38845b53dba3725de8
+-- 
+2.34.1
 
-On Fri, Sep 11, 2026 at 01:03:43AM +0200, Linus Walleij wrote:
-> The Ux500 HREF500 and HREF520 audio support still relies on a
-> MOP500-specific machine driver and ad-hoc text bindings.
->=20
-> Convert the MSP binding to DT schema and make the MSP and AB8500 codec
-> nodes proper sound DAI providers.
->=20
-> Move the fixed DSP_A and TDM policy into those links.
->=20
-> Add a common two-link simple audio card named Samsung in
-> ste-ux500-samsung.dtsi and include it from the seven supported Samsung
-> U8500 phones.
-
-The modern thing is to use audio-graph-card2 (which scales down to the
-use cases that simple- handles with a more flexible binding).
-
-What's your thinking on merge strategy here?
-
---Q7EJpUPxP+3BQWtG
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqjOOsACgkQJNaLcl1U
-h9BzGQf/cJIJEVEUtsh0YsmnwyajhbYO9nwcLPiNktb9BslTJFQupE7nt5ILuKRZ
-tbN279rsZW032wiogM6AHAekercS2Vd/8hH+P4rdngK2ut7p1q7Q7pqDIZTbv9MC
-sitUNcWbuZ/Tfal9VPZnM0+5L6h8zBWf3lE1aY4eBuLUrqBJzwRLF4I9Y5jdHuHr
-QHiVRY5SUgrOE1bOcscbCfoTuVtXbdNRRaDXCKc3uAsxIG/t3fQUD8cINjPp5Nph
-xIEUuA4G6D3Tpfbo+buzrCXYWqcAgR+zEgmbCrs8FyVJeBgagWvm5vloYbQ8MrKZ
-bSvQHbMU4wt1kIfWlr5uGrZXA0ainA==
-=tC9X
------END PGP SIGNATURE-----
-
---Q7EJpUPxP+3BQWtG--
