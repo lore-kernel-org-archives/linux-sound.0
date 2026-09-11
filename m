@@ -1,89 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57B993BB113;
-	Thu, 10 Sep 2026 23:18:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E22D2F2619;
+	Fri, 11 Sep 2026 00:54:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789082286; cv=none; b=kW/Y3B5lScyoKZAcAMwNLDMvlsQMHS4G8sIembnLIW9BQXYFTdP4VMHjDMutIRmkr9PKPpe1735qoAXst8qXre77TVt3AoT2mul9pWxCGIp/hmuWu08hEClCkL+h8KZ9CpgYoT8PtqCf3nB1clv/7OkLBSFhWmiRP15n6GVT5fc=
+	t=1789088068; cv=none; b=OCrHXYkyvUmoyqvgSRhteyP9DzMH2Ei54ND6ncumt6kp9WM5c5XTn3t00qZtqflAz/gfw61RnlnM4H0mm9+4b0bmdrH3iXXj168KhnBCPE91sw8H/wnncWTyEymCb2o/2tJUbTIfXMFcRdUNOc0nzPeW+75y8xaeE6lEb6KL7P8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789082286; c=relaxed/simple;
-	bh=7qoaVTWNeWfKfJjIKDbZ92NAvSYn3b4QcmyHDV66GF8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EYWmTQdU0/l7gMY+4zzlMeb6jCpSWEuucbjDhIdzlE/REI4eO/4G2omlfibH5n2TBpBVdkLIDuU618J/AdAUihdzr2BVyOZmTgulS9BbYlnq9dZKoXUIuuxMUEpMTPkMWcOYRSRKGGMu7Coj68Fu9bumuNMWA1N0FVQXXoUs9cs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EqtE4RZK; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789088068; c=relaxed/simple;
+	bh=OwmtVl1WVrvjj5XSnNIGOFIhDbNRedd7Pj9lbKYaalU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=C1xxQgSPF7yEcYgXJyMOyFcN1KlHrHKtbcIhTkmLyNKyRoSvdl35rXC7JnkFN2E7ifrVrj1m18+BH+1ftH5uz69TFk7/2J/qO3dE71+laKyP1BXXlq9EaYtmqX3gipwRH+IlsJdYALjJUfwmwGd1kw+YRN8HEmAUu7ff2YNmfV0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S+ZiRj/I; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EqtE4RZK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D86631F008AB;
-	Thu, 10 Sep 2026 23:18:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789082285;
-	bh=7qoaVTWNeWfKfJjIKDbZ92NAvSYn3b4QcmyHDV66GF8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=EqtE4RZKKalBVOoJBzTf/SP/EGqvoyxJVOur2GZ0HRGJNuRvJxXBeKNSYE9TeiCKl
-	 iC0/clo4B9OxZDfd/X7kBtgswvPYGHUJwTvAMVoOweVuX/igfRC3Extj+oi7d2fEst
-	 7eAif8sRtWVtGofzzUMY/2VTrI12xSpkQa3J7yKUTo2OtAzf0Q0IphZ+E/JBIETqT0
-	 atv71eca1hOMftNdWZuCiOkBo6LGCWFZOtz7GM1jrjD3lWrMPc6fBFlPy/Mr9hABKR
-	 JZBqF0ABDK/spShc2Qk2MbJuYyxqL3K6OrHxKCGFUw59NoOYkczXPBPnqaHaRXOSQH
-	 qt0yjHVpli6ig==
-Date: Fri, 11 Sep 2026 00:17:59 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-Cc: Srinivas Kandagatla <srini@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/9] dt-bindings: sound: qcom,lpass-va-macro: Add
- clock constraints for shikra
-Message-ID: <2a49bfff-d51a-4d41-bf65-949f682d9d99@sirena.org.uk>
-References: <20260910231642.1794948-1-mohammad.rafi.shaik@oss.qualcomm.com>
- <20260910231642.1794948-3-mohammad.rafi.shaik@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S+ZiRj/I"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1789088068; x=1820624068;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=OwmtVl1WVrvjj5XSnNIGOFIhDbNRedd7Pj9lbKYaalU=;
+  b=S+ZiRj/IsyIaXG/kyh1l1X867KodUBhxzqRWK6+8iATOyw1gER+SkW1J
+   vebp7xzCw0RvesfMjV2RftT7RQkH3gClY7FfI3QHEnImf9siRMwxY0U8L
+   c0bkf49UH/EBdV0Qb3GtxxEaAiJtwOWzbz3solQUmIqCzgR3hVOTofsrD
+   7/aNKcTOInLzb7Xqkm6RoKFe7LDCuLMZ0a+/oIt7a73EjMpa+8kH0t4Ds
+   1z9Hrqv1hY5nRNGFvwRv3d23lPi3WRsLZehy6uYJly/K9wurLS74rfpUZ
+   PntV0cTvCHHAS74w3NjPbXiyYneoSfdOqpzx37IQ//5e2g3vNU81giUrj
+   g==;
+X-CSE-ConnectionGUID: YEyBpyHNQ/uFnXipym6kEQ==
+X-CSE-MsgGUID: t8v87GBKSA629C7dyL4Viw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11901"; a="89565915"
+X-IronPort-AV: E=Sophos;i="6.27,96,1787036400"; 
+   d="scan'208";a="89565915"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2026 17:54:27 -0700
+X-CSE-ConnectionGUID: V+nwWiuhRBS/1JmboJOPcQ==
+X-CSE-MsgGUID: 2bVHKFTZRlS5EOLlSZCw3A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,96,1787036400"; 
+   d="scan'208";a="271311658"
+Received: from yungchua-desk.itwn.intel.com ([10.227.8.136])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2026 17:54:25 -0700
+From: Bard Liao <yung-chuan.liao@linux.intel.com>
+To: linux-sound@vger.kernel.org,
+	vkoul@kernel.org
+Cc: vinod.koul@linaro.org,
+	linux-kernel@vger.kernel.org,
+	pierre-louis.bossart@linux.dev,
+	peter.ujfalusi@linux.intel.com,
+	bard.liao@intel.com,
+	ckeepax@opensource.cirrus.com
+Subject: [PATCH] soundwire: dmi-quirks: Disable ghost Realtek on Lenovo Yoga 7 Pro
+Date: Fri, 11 Sep 2026 08:54:18 +0800
+Message-ID: <20260911005418.1416726-1-yung-chuan.liao@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="eRPXtxIlIXa46/kx"
-Content-Disposition: inline
-In-Reply-To: <20260910231642.1794948-3-mohammad.rafi.shaik@oss.qualcomm.com>
-X-Cookie: Gravity brings me down.
+Content-Transfer-Encoding: 8bit
 
+Another Lenovo module that has a Realtek device in the ACPI that
+doesn't exist in the physical hardware.
 
---eRPXtxIlIXa46/kx
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+---
+ drivers/soundwire/dmi-quirks.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-On Fri, Sep 11, 2026 at 04:46:35AM +0530, Mohammad Rafi Shaik wrote:
-> Add an if/then condition for qcom,shikra-lpass-va-macro specifying
-> exactly 2 clocks (mclk and npl) as required by the Shikra VA macro
-> hardware.
+diff --git a/drivers/soundwire/dmi-quirks.c b/drivers/soundwire/dmi-quirks.c
+index 72e59b50b685..0b4f5cec8cfd 100644
+--- a/drivers/soundwire/dmi-quirks.c
++++ b/drivers/soundwire/dmi-quirks.c
+@@ -235,6 +235,13 @@ static const struct dmi_system_id adr_remap_quirk_table[] = {
+ 		},
+ 		.driver_data = (void *)ghost_realtek,
+ 	},
++	{
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "83SN"),
++		},
++		.driver_data = (void *)ghost_realtek,
++	},
+ 	{
+ 		.matches = {
+ 			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
+-- 
+2.43.0
 
-Please submit patches using subject lines reflecting the style for the
-subsystem, this makes it easier for people to identify relevant patches.
-Look at what existing commits in the area you're changing are doing and
-make sure your subject lines visually resemble what they're doing.
-There's no need to resubmit to fix this alone.
-
---eRPXtxIlIXa46/kx
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqjOqcACgkQJNaLcl1U
-h9DpSQf+OyZxYZyV+/C9g7EPGraYa3GYoAPAR0NoSIFc+bKSd0i6uAofTJ3vVrN5
-+fMAtQ1ALnsHrUIqMXbMG7FzBS1S9eC9L98Dig9BzZqYW9nJE2Mwt2bjY3QRFw++
-tRGdnkwcIBAjh4/qXQ58Ug6LdIj9IyIUzPwFXnyi7LzrloSuTYQ6lH9xXEaT4dA1
-Cri4EAmgJha8XyidmI2ZSu73ZQcol+8RsuZ8WJQaB+aEpPO0p6SjHzttWnlLIJJT
-qHqmf6WD9vBOcPGwKwB2YBZrEjg5TcPNWzDCpGqnsSIJ8FgPzeZatLOe/A6GRU+V
-pa1MGT+hYZluR+kJdR900K2rHi/KUA==
-=bIky
------END PGP SIGNATURE-----
-
---eRPXtxIlIXa46/kx--
