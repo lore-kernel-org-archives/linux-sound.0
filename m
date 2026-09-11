@@ -1,53 +1,89 @@
-Received: from smtp153-175.sina.com.cn (smtp153-175.sina.com.cn [61.135.153.175])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2608846D547
-	for <linux-sound@vger.kernel.org>; Fri, 11 Sep 2026 13:12:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=61.135.153.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A90830ACF2
+	for <linux-sound@vger.kernel.org>; Fri, 11 Sep 2026 13:23:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789132373; cv=none; b=VLL+shC1wFn6ZDidT8okG1lC4Imy0UsVjG16e1WTArHuFlcu2mGkKWHEXQGd8E4N0b6jFFOQxRZTKWv0r9fBzaSGiLIfMkOUJVbuAo5WqK7vP5VFDzDhZKL5FTZxgtNn/Aw8v2TFimv7Cv+sX58m8Q6Rd1E7Rz26oOa8FOavUpY=
+	t=1789133031; cv=none; b=Apw6Dwm6NF+tDFkJaBUOnJ4PVI933HiQBzFlJjA2VKcUwg1Io18Lwp2vP/aDrenU0wiT+2HYVUIesuEv7+9lr4ctBaPPuyvNgJhvANW6JjPM6/DvRLwPsGrhLbMReraXeosdr1UxPE4yZoimV1y2DG9UXin+Fxl7ybi4lscopqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789132373; c=relaxed/simple;
-	bh=0oog6fnoMU7y9CuPV5VGw84nVGlDmm/A2IEJmFs8T8I=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=NhZzaSFGUbFDQ57vDNEcAR9NVKRZ1bQSxQA0yv+crxlt/uOBkUSXZP5Y/IcMAMDNwU7aXTJYPH849m/rZ8P/tlBwRXF7i6FEG83pGD710F4h/g8qKPioxFpisPRX66zoib6RLgvl7KA1rSV2pHAV/9io+1Cv8w9s/p8uZZU1Y4g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com; spf=pass smtp.mailfrom=everest-semi.com; arc=none smtp.client-ip=61.135.153.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everest-semi.com
-Received: from unknown (HELO zy-virtual-machine.localdomain)([58.38.107.94])
-	by sina.net (10.54.253.37) with ESMTP
-	id 6AA3FE4A00006CBB; Fri, 11 Sep 2026 21:12:43 +0800 (CST)
-X-Sender: zhangyi@everest-semi.com
-X-Auth-ID: zhangyi@everest-semi.com
-Authentication-Results: sina.net;
-	 spf=none smtp.mailfrom=zhangyi@everest-semi.com;
-	 dkim=none header.i=none;
-	 dmarc=none action=none header.from=zhangyi@everest-semi.com
-X-SMAIL-MID: 6BB37A9301B045B0A8F8FA380015991C
-X-SMAIL-UIID: 6BB37A9301B045B0A8F8FA380015991C-20260911-211243
-From: Zhang Yi <zhangyi@everest-semi.com>
-To: broonie@kernel.org
-Cc: tiwai@suse.com,
-	linux-sound@vger.kernel.org
-Subject: RE: [PATCH v1 0/2] ASoC: codecs: ES8326: Modify the configuration and add kcontrol
-Date: Fri, 11 Sep 2026 21:12:41 +0800
-Message-Id: <20260911131241.4188-1-zhangyi@everest-semi.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <2b3120aa-faff-4dea-965f-d00e84aa2607@sirena.org.uk>
+	s=arc-20240116; t=1789133031; c=relaxed/simple;
+	bh=eKZKdcqY+WTmNoIBMBHFPERM+LRw386SnrWDaWpuCks=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CiQi//wofjBnekq2fJTDpCz8E4kPuVDX6YuGx10X7dEU8d49o5jSHhrJtYoPB84aMv+Scgwjux9WxUtlPqNTy1SE13JOOBZIPgtyWagvcHPD3MOvxXb51EKFsRXPxzEhl3QoI0MKh19thNquwMWBa/M26/9mTBlK9RjM6CYjI08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LZlytRii; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LZlytRii"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 353871F000FF;
+	Fri, 11 Sep 2026 13:23:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789133030;
+	bh=u1D6QoM5XpHsmr2Z2iKB0985vwLHWWCHIeJiHDEhFaI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=LZlytRii7f1ncuN5QaJIkq50/MXjOLht/wBK1g4U7l0TN133HCN5vzmGLV2YXYvSg
+	 8uAnw1sTHpaZJITdnYxEL/RwkXIXqm6BmRFPnp170ftABAO71UIg/M1AVYU6J+0agq
+	 QQ8aVscTQJ8wsr5hLn21HDwmNVaishU3ZliBJK6Q7XXgJFEDCxfLdMG17PN8SG5/dR
+	 ZzNAe6W+foJ2vCrKu0T0swaU7X2ICeXql8eAp9fVsYHmbYFsXq8h0etIuYfuOLLYoV
+	 YWqoMnwwdtWQb7qsYoWNEJSTiGoGwEAzViYO1sVhep4L3bSPRsQYOjzpGoyPO8QCY5
+	 k2cV3Opiltd/g==
+Date: Fri, 11 Sep 2026 14:23:46 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Zhang Yi <zhangyi@everest-semi.com>
+Cc: tiwai@suse.com, linux-sound@vger.kernel.org
+Subject: Re: [PATCH v1 0/2] ASoC: codecs: ES8326: Modify the configuration
+ and add kcontrol
+Message-ID: <bf0bf794-4791-4192-926c-bd839447d947@sirena.org.uk>
 References: <2b3120aa-faff-4dea-965f-d00e84aa2607@sirena.org.uk>
+ <20260911131241.4188-1-zhangyi@everest-semi.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="G+TdLzt8v8UUUJaV"
+Content-Disposition: inline
+In-Reply-To: <20260911131241.4188-1-zhangyi@everest-semi.com>
+X-Cookie: Piece of cake!
 
-> > v1 -> v0:
-> > 	- Modify the parameters of 'find_best_hpf_freq'
-> > 	- Modify debug information in kcontrol
-> > 	- Fix the issue with the incorrect removal of the jack report
-> 
-> The versioning is confused here and will mess up tooling - your subject
-> says this is v1 when it's at least v2, and the changelog says you're
-> moving from v1 to v0 which is a step back.
 
-Was the first version I submitted v1 instead of v0?
-In that case, should I resubmit a v3 version to update the version number?
+--G+TdLzt8v8UUUJaV
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Sep 11, 2026 at 09:12:41PM +0800, Zhang Yi wrote:
+> > > v1 -> v0:
+> > > 	- Modify the parameters of 'find_best_hpf_freq'
+> > > 	- Modify debug information in kcontrol
+> > > 	- Fix the issue with the incorrect removal of the jack report
+> >=20
+> > The versioning is confused here and will mess up tooling - your subject
+> > says this is v1 when it's at least v2, and the changelog says you're
+> > moving from v1 to v0 which is a step back.
+>=20
+> Was the first version I submitted v1 instead of v0?
+
+Yes, that's the normal thing.
+
+> In that case, should I resubmit a v3 version to update the version number?
+
+Yes, please.
+
+--G+TdLzt8v8UUUJaV
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqkAOEACgkQJNaLcl1U
+h9CekAf/fF3xIxMWB/LmtZkj2qxBBPb++zYhsxOjKtz0jg6Vi3k4jxfvmmklYPRv
+a1g0a1rTQhz64N7WZCplPC37VmP/9scypQ1pjrSAEi2p9i10Xn5ajno9azLR1J5L
+E+hGPf1Lg+Ft0jN1IZEamjivZpJ4nOhAqvgnVC2kUyg0Ellawomq5w86F0jgwHhK
+tXBU4dciTtYsjuvHuSErdJX5Wy3MntSlbw+F0NIBw+L8Ao+1yOYBoR70IGFAi4iG
+n4LiYdiMRcZoNOJYeecXP5QVM0sgR/sgEtTh70OQXp5nnjTt3mZHyYPfDaKj3k8a
+5R5gAP9fXetCMoth1V+sm2SF+9o1Vw==
+=Fdvm
+-----END PGP SIGNATURE-----
+
+--G+TdLzt8v8UUUJaV--
