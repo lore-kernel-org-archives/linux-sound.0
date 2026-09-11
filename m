@@ -1,200 +1,138 @@
-Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28D32366541
-	for <linux-sound@vger.kernel.org>; Fri, 11 Sep 2026 09:45:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77CE4414417;
+	Fri, 11 Sep 2026 10:13:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789119954; cv=none; b=QEqMAYybdHbt8206rA1UAnnZfgVKuSWdEnFjYdQqJQHyu3pdyULt9mFYrex/9jeLqPmNvxoiWF7NvHT65MrF1gFT1Pl/b4wS9VH5hxgW56DKBHulg8+ycit2ZfktfHOQvj9dPw+2l0Ofq4DbI5Y86O6M2/s5ngCIbX6aAfkNgog=
+	t=1789121634; cv=none; b=Lg/zhN32hLkvTlALdtKpez/njgpNduhAfla3RCstdoYG3T4dWPc+5quojVFaA7hxx0Kzdx2nuEQqPe2YHiFhSKxie63OowvN58BMmEDzDtpxfuaRr4bLH40NvUfaerm4oRvjZZRPHl94b+m7as74Si4mAqTFO9q/zi8Ik23RiqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789119954; c=relaxed/simple;
-	bh=dytEZOn1FDj2SMJe8538PIZbHoiQaaz5IHeNj6uVCQ0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JwkGc7hLrtKYJ1Xrtx3UcYQKY1KUxGH2iTLCCmNV1fn7LCvG7HQvUcNOdoyqVaNp0dvUWaiE9Pz/LKLMsboivoTJdZdWhyrXGDRvKST6PIahYvwWHVJqzrqHrqccRpefKajOkTSUZFznnlKXXqmWwvhwP5vgZSWVY9hmt0KNL2M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=etVGKNx0; arc=none smtp.client-ip=74.125.225.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789121634; c=relaxed/simple;
+	bh=AJ4osXGfnva+GsW9Xj6wSlPvmOYx8+Z4McGwoEWWU6k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z/nz25oijYbnMnGJnkIP22Ji/priNezxuNzHqV/HGdcXC2YGF4/GGefAm901p7tRfiIpzS7mmp6x23O2UkT3x4gr26gTiMjXh5MniY6vJupw5sTv/ethNyNlA7hxgZVrwWIITjbJaY2GnZNuaqkXbKF1zQscN3PhvsB0YbWJXKk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VXiIsYXG; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="etVGKNx0"
-Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-48434392b02so519983f8f.3
-        for <linux-sound@vger.kernel.org>; Fri, 11 Sep 2026 02:45:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789119951; x=1789724751; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=39DANzm2wDydTuTG7bVtQ+9QaeAwoGihngbn0SxWnoM=;
-        b=etVGKNx0UHQBdFWJ8LT/4jki8XGtiiN+35/sMOFM7QP6B1VAVUIejp4OzieSgcyX7S
-         +BVD0oxqztiXPtJ5Nk+6+xoaofa9LkUHqlhCcXRSPM7BtYXODb/6WvSbdVNJ8VRX8fHr
-         8dJN3yISgl2TgOvyAQ8MHuXrjYi7gk66PwWkfCZwRWM/BaIZKD4iUUTM+bSroVJjzdGo
-         c0Y1KlBThfSo2/IUjj+OJiOTLsbk44fNnAgAFZOdM2L8TOfIIFi+lu8tWrpUky3odAcH
-         6ZcoCCSEZUA3M3iWbK2fBCz4idD7q84kQA5RNP+abmJcPnND6Vwy7PrFPyIikdTNWf+C
-         Rw9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789119951; x=1789724751;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=39DANzm2wDydTuTG7bVtQ+9QaeAwoGihngbn0SxWnoM=;
-        b=TtJmwEqqrynEqLil3jZ4N8Rc/J6aZl0KYhZUpv2dqyehV8anMo2K4uaWy8NbXPPK+0
-         JWVqoWTmXu6e7uOig83EajZlatYgfG8DjKVRVL0Q8QO4fUa0OhkruxTyqAR5jeS1iaXQ
-         7zjFlh7Ka69h50mRYsB1i2I1oxM/gxXGH2HmiNInyOBgvCuUupMiFT9ATKFyrDuD9n7e
-         gcwBu4sbBNt8q/xECtwOkP2QMcGMaFaPOLcdizjHd6kTsrv6FGvxr9B+JaFl5Obqi6/8
-         5Xi42j0rnoEJ0mf8e7wdM0Wl08BlRIzNDdz5RDabi77XfjEOQdcNgW2+NSYtZdVwmi7L
-         aJWw==
-X-Forwarded-Encrypted: i=1; AKwUvBx15EsqAuO9OS8e4zQzX6dqjk8cWXLuOQBV/o0MqDUm7jqBRWM1cM5M062KiZp2NC8UKNIhjWfSKtk1Zw==@vger.kernel.org
-X-Gm-Message-State: AFuF++kFbndSXlHwAIt1etoLZc/Q8G6IfEOkC4n15Qx3PkiVAMmyWE3I
-	bPHIMOklbHh37MQr5dnjtxKpCp77XL4AdDLzHdUzX+eDIBo4naYF/SXO
-X-Gm-Gg: AYBFou2u4g5THnR7w8E9/FTFCuMOcsrTo5Fb15P4zCVBJQpSTEiaGWhslPQPNbXUxr6
-	8jii7AmvXQ0BmRUITvmFNzAv0VgF4hHuZk0rRlexsNkthyHmz0g3356XP4NxGrZERqCU6wCmPXl
-	7EiuW3R4Px6Pr/z6zRU0V2qmHTgvR3h/oNspyoeADI3cMFrfwuKTV0CkmjzFSxaZwjBKuX1bpJE
-	Ko0SJ2jNuCSNAqfRIlVnTeu0o0Ij5Pg6xLKM1kRRf8jz0HeP84u+bc/Nx+Iv8I9ayf58wlcCjXH
-	NmP0MyIpvrIi1Fa7xxLgVherulHA4M20ILd5J4nkULEUBhFr4XnrpJ1eTtAAjCVfSZQfiikDj8+
-	LclmMCiTifNU/bit4V0Bw06zwO1sHJRFouVlEUaJP2bfpuZTZax7AmbozFZj1aLX0NXrc787PKY
-	dZNafsWje8JJAfQQk8Hmqq53yQa+1cS3vy9hjNiztZgJVM5cAhE2ylH/zH+cBADATcSAhAReZ3l
-	pQyYoTDYfW9XZMaKL9fM9gU/AKadZdipgoct5BusrZ0cfrCVQb5Ou00SCh6W6p/XmnUagrpuiar
-	dfS7Wokuakpofk4=
-X-Received: by 2002:adf:f9d2:0:b0:486:e6a2:2d7c with SMTP id ffacd0b85a97d-486eb31b1ccmr5619433f8f.15.1789119951201;
-        Fri, 11 Sep 2026 02:45:51 -0700 (PDT)
-Received: from TIM.homenet.telecomitalia.it (host-87-20-169-207.retail.telecomitalia.it. [87.20.169.207])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-486eb2ecfc3sm4588470f8f.4.2026.09.11.02.45.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Sep 2026 02:45:50 -0700 (PDT)
-From: Antonio Di Lorenzo <antoniodilorenzonap@gmail.com>
-To: Cezary Rojewski <cezary.rojewski@intel.com>,
-	Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <liam.r.girdwood@linux.intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	linux-sound@vger.kernel.org,
-	Antonio Di Lorenzo <antoniodilorenzonap@gmail.com>
-Subject: [PATCH v2] ASoC: Intel: soc-acpi: add SoundWire config for ASUS P5405CAA
-Date: Fri, 11 Sep 2026 11:45:39 +0200
-Message-ID: <20260911094539.237430-1-antoniodilorenzonap@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VXiIsYXG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88F4F1F000FF;
+	Fri, 11 Sep 2026 10:13:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789121626;
+	bh=AJ4osXGfnva+GsW9Xj6wSlPvmOYx8+Z4McGwoEWWU6k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=VXiIsYXGW7V+CUC2hoUUxshBtk//170ahXby5qOmnHCTEG6nprU1IS50u25G/fRQk
+	 sf9ytH2Ce2iGqonEAUfAmBNxEiX0H5gDZvz851NX8EhIuDaWSIQBlPZWYHnVma0aGj
+	 blDmI4LY1KM28dzcRxXSp3rNd+ml+k1Jf5jXcr5BNdmFsP+f0lE+KyInKD5utrTv18
+	 j0kWa0ZAaMlc3Pw4wRDO2h4SoWYRal6ZvW3YmHkVxX6gQf6/JqWhQp1QSVXE2Kca+2
+	 BYYLTVktrg9Xqy9CLQ0dyOX4enXiqnPzEjwUfsC5vJviK7A/gYwNlJA1GGOz2i3bhy
+	 SIFHvCnClRnig==
+Date: Fri, 11 Sep 2026 11:13:15 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Jann Horn <jannh@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Pedro Falcato <pfalcato@suse.de>, David Hildenbrand <david@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
+	Paul Moore <paul@paul-moore.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen" <mkp@kernel.org>, 
+	Jaya Kumar <jayalk@intworks.biz>, Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, 
+	Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
+	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Juri Lelli <juri.lelli@redhat.com>, 
+	Vincent Guittot <vincent.guittot@linaro.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
+	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
+	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
+	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
+	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
+	Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
+	Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Xu Xin <xu.xin16@zte.com.cn>, Chengming Zhou <chengming.zhou@linux.dev>, 
+	Michal Hocko <mhocko@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
+	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
+	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
+	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev
+Subject: Re: [PATCH 11/39] selinux: reject writable opens of policy file,
+ drop mmap shared/write check
+Message-ID: <aqPS_UHU3MotlchR@gremlin>
+References: <20260908-b4-mmap-prepare-vma-flag-sanify-v1-0-dacf19cce22b@kernel.org>
+ <20260908-b4-mmap-prepare-vma-flag-sanify-v1-11-dacf19cce22b@kernel.org>
+ <CAG48ez3Ucb8HyhjC1-fijFiYJsnWcTLYHvJjzMyU710mgegxnA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAG48ez3Ucb8HyhjC1-fijFiYJsnWcTLYHvJjzMyU710mgegxnA@mail.gmail.com>
 
-The ASUS ExpertBook P5 P5405CAA uses two TAS2783 speaker
-amplifiers on SoundWire link 1 and an RT721 codec on link 3.
+On Tue, Sep 08, 2026 at 10:22:20PM +0200, Jann Horn wrote:
+> On Tue, Sep 8, 2026 at 10:07 PM Lorenzo Stoakes (ARM) <ljs@kernel.org> wrote:
+> > The policy file has no write method and is exposed read-only (S_IRUGO in
+> > selinux_files[]), yet sel_open_policy() performs no open mode check, so a
+> > CAP_DAC_OVERRIDE caller can open it O_RDWR. Reject FMODE_WRITE at open, as
+> > kernfs does.
+> >
+> > The file can then never be mapped with FMODE_WRITE, so do_mmap() always
+> > clears VM_MAYWRITE and VM_SHARED for MAP_SHARED mappings and the VM_SHARED
+> > check in sel_mmap_policy() cannot be reached. Remove it.
+>
+> You should also be able to remove the sel_mmap_policy_ops.page_mkwrite
+> handler, which is only for shared-writable faults, right?
 
-Add the corresponding SoundWire ADR devices and link description
-so the sof_sdw machine driver can select the correct configuration.
+Yeah I think you're right, though I wonder if it's a bit out of scope for this
+change as it's focused on removing a VMA_MAYWRITE_BIT clearance for a
+non-kernel-owned VMA.
 
-There is no monolithic topology for this machine. Use the
-sof-ptl-dummy.tplg sentinel so SOF requires function topologies
-instead of falling back to a monolithic topology. The platform
-name in the sentinel is also used by sof_sdw_get_tplg_files() when
-building the function topology filenames.
+So maybe one for a follow up?
 
-Signed-off-by: Antonio Di Lorenzo <antoniodilorenzonap@gmail.com>
----
-Changes in v2:
-- Drop the RT721 AIF description from the commit message.
-- Explain why the machine relies on function topologies and uses the
-  sof-ptl-dummy.tplg sentinel instead of a monolithic topology.
-- Clarify the purpose of the dummy topology name in the match table.
+>
+> > This also stops sel_mmap_policy() clearing VM_MAYWRITE on a mapping that is
+> > neither a PFN map nor a mixed map, ahead of the core enforcing that only
+> > such mappings may do so.
+> >
+> > Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+>
+> Reviewed-by: Jann Horn <jannh@google.com>
 
-Link to v1: https://lore.kernel.org/r/20260911091035.221224-1-antoniodilorenzonap@gmail.com/
+Thanks!
 
- .../intel/common/soc-acpi-intel-ptl-match.c   | 65 +++++++++++++++++++
- 1 file changed, 65 insertions(+)
-
-diff --git a/sound/soc/intel/common/soc-acpi-intel-ptl-match.c b/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
-index 756bbf82a326..510e4b204fe6 100644
---- a/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
-+++ b/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
-@@ -109,6 +109,23 @@ static const struct snd_soc_acpi_endpoint jack_dmic_endpoints[] = {
- 	},
- };
- 
-+static const struct snd_soc_acpi_endpoint rt721_jack_dmic_endpoints[] = {
-+	/* Jack Endpoint (AIF1) */
-+	{
-+		.num = 0,
-+		.aggregated = 0,
-+		.group_position = 0,
-+		.group_id = 0,
-+	},
-+	/* DMIC Endpoint (AIF3); AIF2 is unused with external speaker amps */
-+	{
-+		.num = 2,
-+		.aggregated = 0,
-+		.group_position = 0,
-+		.group_id = 0,
-+	},
-+};
-+
- static const struct snd_soc_acpi_endpoint jack_amp_g1_dmic_endpoints[] = {
- 	/* Jack Endpoint */
- 	{
-@@ -301,6 +318,46 @@ static const struct snd_soc_acpi_adr_device rt1320_3_group2_adr[] = {
- 	}
- };
- 
-+/* TAS2783 stereo speaker pair on SoundWire link 1. */
-+static const struct snd_soc_acpi_adr_device tas2783_1_adr[] = {
-+	{
-+		.adr = 0x00013c0102000001ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_l_endpoint,
-+		.name_prefix = "tas2783-1",
-+	},
-+	{
-+		.adr = 0x0001390102000001ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_r_endpoint,
-+		.name_prefix = "tas2783-2",
-+	},
-+};
-+
-+static const struct snd_soc_acpi_adr_device rt721_3_adr[] = {
-+	{
-+		.adr = 0x000330025d072101ull,
-+		.num_endpoints = ARRAY_SIZE(rt721_jack_dmic_endpoints),
-+		.endpoints = rt721_jack_dmic_endpoints,
-+		.name_prefix = "rt721",
-+	},
-+};
-+
-+/* ASUS ExpertBook P5 P5405CAA */
-+static const struct snd_soc_acpi_link_adr ptl_tas2783_l1_rt721_l3[] = {
-+	{
-+		.mask = BIT(1),
-+		.num_adr = ARRAY_SIZE(tas2783_1_adr),
-+		.adr_d = tas2783_1_adr,
-+	},
-+	{
-+		.mask = BIT(3),
-+		.num_adr = ARRAY_SIZE(rt721_3_adr),
-+		.adr_d = rt721_3_adr,
-+	},
-+	{}
-+};
-+
- static const struct snd_soc_acpi_link_adr ptl_cs42l43_agg_l3_cs35l56_l2[] = {
- 	{
- 		.mask = BIT(3),
-@@ -487,6 +544,14 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_ptl_sdw_machines[] = {
- 		.sof_tplg_filename = "sof-ptl-rt713-l3-rt1320-l1.tplg",
- 		.get_function_tplg_files = sof_sdw_get_tplg_files,
- 	},
-+	{
-+		.link_mask = BIT(1) | BIT(3),
-+		.links = ptl_tas2783_l1_rt721_l3,
-+		.drv_name = "sof_sdw",
-+		/* "dummy" tells SOF to require function topologies without fallback. */
-+		.sof_tplg_filename = "sof-ptl-dummy.tplg",
-+		.get_function_tplg_files = sof_sdw_get_tplg_files,
-+	},
- 	{
- 		.link_mask = BIT(0) | BIT(2) | BIT(3),
- 		.links = ptl_rt722_l0_rt1320_l23,
--- 
-2.55.0
-
+--
+Cheers, Lorenzo
