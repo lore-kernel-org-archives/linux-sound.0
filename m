@@ -1,71 +1,72 @@
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B47329CB52
-	for <linux-sound@vger.kernel.org>; Fri, 11 Sep 2026 04:59:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7583438A73B
+	for <linux-sound@vger.kernel.org>; Fri, 11 Sep 2026 05:16:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789102761; cv=none; b=IPDIaoVzAtbESqa6xmmqCPz68wspyM2R7Xg8Hpyc+FHgc87ecSCFJbmZKjk6LPIYh0qxrYeYXkT+tD5kfqlb+/HYZdB6RqXHcD3VPxdLI6e1A93skNDgfVpwD/ccWO+WEnThmNElLnwCnQTlljnnhJ30s9D65lq6TOmX04fXjEY=
+	t=1789103776; cv=none; b=Wx0tOqjgHPRLOxmnmbiqnhxo7phnNPqDlGPQpuOoQzkhUEIHqh8Y98x8WU1HMD58t01FWEzcDkVXSDouC8kXO4daGZhczUJmMd8h9l907yqC9BpSXxTNTJjH8xsGx3mR+tH2pUkM8B5veHhWgyDlhht/Hs9ksWZAB/qs5It04ss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789102761; c=relaxed/simple;
-	bh=x6e1VD6DAjwkYHlAuCKFBq9VSgMnvVwyyuhPVCgAQkc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Y0ppfkxRuhyw6b9O1jay56JoTNq5KLqZY1UDWETXMjpy908WeKZvB2wlnW4faZXXbbg3rOjPf6tdGQ0N6cnq1CgZeaAkSwe+WEXJ4U5FrFT1h9cf4D/Isk+OTjle23tYuqL46WwzaOoeUUdhfjmPecC0dC1F1SLJimELxVkyRU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aFxgpp8B; arc=none smtp.client-ip=209.85.160.171
+	s=arc-20240116; t=1789103776; c=relaxed/simple;
+	bh=TLAv+lITIAz9Rqr/UUY++KQ+Omu5YXiO/SRrsb8Jcls=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WHJkLBTPMGJsaUGSzYos/QIjb4LNBBusTkPS6/u15r0GCKQgrImmjcPmQ4XPnA11edQv7K0qOqbOguazCHofBVnyfHNi5aEOmxmyC0Oe1NEX3luCG6zAikLloOXdYwjvTZT/bODWzZTMgMqoOjlQEIQ/wN90GaqhdgBDsiWN9bA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UDzdhdTI; arc=none smtp.client-ip=209.85.216.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aFxgpp8B"
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-530d8021e97so145811cf.1
-        for <linux-sound@vger.kernel.org>; Thu, 10 Sep 2026 21:59:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UDzdhdTI"
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-398a5aad413so498085a91.3
+        for <linux-sound@vger.kernel.org>; Thu, 10 Sep 2026 22:16:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789102759; x=1789707559; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1789103775; x=1789708575; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=wCXPH5qyN+T/QDXSJDvMi96nm7B2ecJ31ViCwFmjhuA=;
-        b=aFxgpp8BETKWpi7Mh3et0QFvJZABV1LQ7TaKJFiCdtXF1agyoVDOw1atnPCLr5JIc+
-         OapJh/XhG2eFWnLtlHHjHT/LcYHfbYvd0bLvPPMR3QWDGuq2Sw4gBA7ThuG40ihj+7Aj
-         7LFSDBYEwNBJL8swnZtEgvQ6CMgT791bP4jwG+6ouKrtpgOWfnYSxGMBCUwcYNfrYXEP
-         Eslow3bspTpk1xjF8IjZFBnTffw2Fy2JFMlAn3Xs2bCv+/xVilKTwKUu4vtwP4jnaDUw
-         KdYifSRaZfXEz9bf2sL6vq4yjE3zAk92RCydurJN7aUCmfu36X28F6XCyjd0+zBkgUfm
-         67cg==
+        bh=ArmzfnWDQ/PeAsKx2cuKOwfwqEy95uaVW3+H99u9LlU=;
+        b=UDzdhdTI4dJCJcjELosEG6+C9av5Z+YNj0UHmVKQyaLlvE8mnMRio/hYDMA/jrgt92
+         iuzsWMFoykU8+7cL5DPS6Nqg6lMxay76WEDgKVwVlN+HABrn+4/4yWRmNW+jYt3s20aK
+         fZLBrSXUp/afpi9J+fzbhKelYD6+aUi+RrKS5OsUF3VDLo547fXBNN9t59+/gr7jBRGA
+         3iNo1T1FaFbvrGUEvkePW53kWgY+z40a5ndoZFzysQS30v6awRZ8czcYBz27fvYZelFp
+         v6SAXpsxXG1ncEGgMXhscplEYEqLX+V4LO2zVIzxqG6KAlKshPgUxXewEW14JBJScq9K
+         dr3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789102759; x=1789707559;
+        d=1e100.net; s=20251104; t=1789103775; x=1789708575;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=wCXPH5qyN+T/QDXSJDvMi96nm7B2ecJ31ViCwFmjhuA=;
-        b=kr+MR/EC4ZhFe1FSzN+xyZjMpJNADG9pp3W4o++qjSsmIY5KRRZca/1m+IIzRSb/az
-         4hczGRK0dJAGoH3YA+awi2oONnCIOZ1xpFKrRVC1cj7MKGlTYptCxVdpgtRA/sxEvpZt
-         vnEPnJ2qfnujGNKjUl1N46uZ/2ZqjPUwIO1576yhBOoWpvjLI9AYMAydwQ8YePzoG0Z1
-         +1Tsb457xUtewSh3PJkGVriD88nQmXkbaGkED0ae3IlLUOScB9pP4m3qOKRw9wqdR76k
-         zGdBhPEnfF3n3F8YGruKDWOLLkG2jZ31jeLnMbgcqq1e5Y8fh3r70lI/e9vxi/lfdFv1
-         M5EQ==
-X-Forwarded-Encrypted: i=1; AKwUvBz1GnjIgacnhSrjZpNX0Dm1yxvX8noX1n9MrBoTEFQUB4r60rEjubFVCvU2FpAVOgsuoSZgErAP4IaJig==@vger.kernel.org
-X-Gm-Message-State: AFuF++mL7yHlC7EtL6StEiIyJ+vmFE/jU33gNicDcHvs8axXIFsJnL+c
-	5t63yDXtobaFOetqCavZFaxA/tJTflN2zYq3Zc8Fvza0TfFsCvoVb8n+
-X-Gm-Gg: AYBFou0B1aLKXF6Spp8udiJssYjddo0nOIZ0f6yeDVESNJ5vlyGgoIc8JTGWNJJFfMs
-	TQ9cJgPz4DcrAsQS4PZ6ZdP6cEArMH9EchJBSXAaLZrDIt+YOlHoc+Q01NHlxWopnk/spjQPVEr
-	WBNFUcXQ86Ym25UHMWkjBaSuYILI9NQ2tvvk6Z1tIDsc442fh9SwczyIyrJzoX9xleoN4iE1XKO
-	HGRSIX7N/j7L8Pj5nf84iaBHC94x52SvOPr3Cc27aemgCXsGTWGClyWD1ixJPpQYO1FLZqYqx3+
-	1d6KYyiGl+NXGogFXVwsPUw9MdjXMN6diZZUdUwbSMtqHMCUMPha/8GOv5pxplcaT6ngSyzl8Vn
-	9f8krhv4gh9Q1ylHtmREOS05Y6SVPU94xg1ydj1zwnFJa/tBqw53mYC7NsYWTfrFLeShMDxHUfu
-	QVMxzn2CvdhPEC3IXzDBpzeFUjaUBO73Yt65Pw8K80yWf95GovlIBGkReC85Og
-X-Received: by 2002:a05:622a:453:b0:530:b2e1:2f46 with SMTP id d75a77b69052e-530c879db6cmr40766121cf.61.1789102758964;
-        Thu, 10 Sep 2026 21:59:18 -0700 (PDT)
-Received: from linux.. ([8.34.174.240])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-530ca4b9a97sm11586281cf.18.2026.09.10.21.59.16
+        bh=ArmzfnWDQ/PeAsKx2cuKOwfwqEy95uaVW3+H99u9LlU=;
+        b=lQS42bJLfUTg/kW+VAXmvjPd2zDjR0rTArqD8rWPv3sWn6DTZdjEMkncPzk2/Mii89
+         oN81Gj5TCP4pzPZEQc4xOtT5YWVz0bZ10quz/Qk3PSGVYUM/E8zK61u7flHjYR6OlFPF
+         HID2S5piKd47375u4qnuq6SlUdM/kGFIldtaqKLiPJDNbWLswRZ7Yldt6cdKFbixHwsX
+         43pPbfjW5pxgfCLNh6KHls5CQ7pQZVdc2RtE5LytOBp49JqllED5hGCw0e252g4DR7Zq
+         WzYCZdM6jcd/zNBRpUkAs2YQNO1gkPLiFuuqJ2CVSFDn9x8zescIpM7m9b7mzsPMq+e2
+         NOEQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwPrmsujRVMruKBJ4SQLpNcoSE+HsV6JwJ8X+vA7FhKb1dCfa69XgpzZW58ZYhVMwjRWT8F4e90B27JAQ==@vger.kernel.org
+X-Gm-Message-State: AFuF++lt55cFEN8uABILJtm9ubKxCmSr4wsXuD9M6AGhpdTOhbZ3IjT5
+	+gHbn7Ti6LQOARVb50+urRKosbzfZJsNGY7BVZ5eQS+d9uLLhXd163Ac
+X-Gm-Gg: AYBFou3oONoaf/1uigo6JjSmoo58cL+dc+ropiteLpGZ/sC3MQn1wIBtA6xD9VXJJtb
+	2lZlWUKXGI9F0UMYvQA629ZQbVv1TdcjlzoUdE7od7QziTM6ynZ1ejV2eBt1ElPvRvdwstXAr9c
+	19wD7m8CQAd95dI2R/SxBQ4mR+MhEpINIompIzbrXxpImR35+QyD1wjl5CitKrWkAb03oEnZ+I+
+	5khGWD0yxOh23vRVep2HG0qjOh39hN+zNEMvTm1DHNRgW36loyQuFRQVBR+yEdVgk3pQq0NGMuW
+	6/184CnzAnCnYTNQ7brgqKckSVR5c4z0eBJWVpVtrWvEuo7zgnzPyrVQ9J4SIkMMRS1OENVm3FG
+	MeI59bUiLX4BK2OQe/1Qu/pCYywSWt8sWkVoC+Jfq+F3+u8lOQ5RUC73GShZnVNnAmzsZVRDFC1
+	QDLD6d5pASTGTljkwynL/VLd9PpHVGHuOWKatgFcRykRn/7U6vLqyzBS3OlIP769nOHCGEAx3x7
+	bxbtFS990wKgd6SzVY85/rsDHUEoWLkTsxryQ==
+X-Received: by 2002:a17:90b:4cce:b0:38e:7168:281 with SMTP id 98e67ed59e1d1-39d9bec4d91mr4189394a91.10.1789103774430;
+        Thu, 10 Sep 2026 22:16:14 -0700 (PDT)
+Received: from localhost.localdomain ([180.101.244.69])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39d98e602d8sm2541024a91.3.2026.09.10.22.16.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Sep 2026 21:59:17 -0700 (PDT)
-From: Changyul Lee <lcy8047@gmail.com>
-To: Srinivas Kandagatla <srini@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thu, 10 Sep 2026 22:16:13 -0700 (PDT)
+From: Aohan Mei <ljp1205831794@gmail.com>
+To: tiwai@suse.com
+Cc: perex@perex.cz,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Changyul Lee <lcy8047@gmail.com>
-Subject: [PATCH] slimbus: messaging: hold lock until transaction is completed
-Date: Fri, 11 Sep 2026 00:59:11 -0400
-Message-ID: <20260911045911.1327413-1-lcy8047@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	Aohan Mei <henrymei@tencent.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] ALSA: pcm: Fix race between concurrent START and hw_params/hw_free
+Date: Fri, 11 Sep 2026 13:15:59 +0800
+Message-ID: <20260911051605.3448607-1-ljp1205831794@gmail.com>
+X-Mailer: git-send-email 2.43.7
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -74,55 +75,87 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-slim_msg_response() drops lock after idr_find() and dereferences txn.
-If the requester times out in the meantime, it frees the TID and
-returns, so the handler writes the reply into msg->rbuf and calls
-complete() on txn->comp, both of which have already benn freed.
+From: Aohan Mei <henrymei@tencent.com>
 
-Keep lock held until complete(txn->comp) finishes, so a requester
-in slim_free_txn_tid() and cannot return while txn is still in use.
-Call idr_remove() because slim_free_txn_tid() takes the same lock.
+snd_pcm_hw_params() and snd_pcm_hw_free() validate the stream state
+only once, under the stream lock at entry, and then free/realloc the
+DMA buffer (snd_pcm_lib_free_pages() -> snd_pcm_set_runtime_buffer(NULL),
+followed by the sleeping allocation in snd_pcm_lib_malloc_pages()) and
+update the runtime fields without holding the stream lock.  The state,
+however, stays SNDRV_PCM_STATE_PREPARED until the final
+snd_pcm_set_state() at the very end of the operation.
 
-Fixes: afbdcc7c384b ("slimbus: Add messaging APIs to slimbus framework")
+A concurrent SNDRV_PCM_IOCTL_START takes only the stream lock and
+merely requires state == PREPARED in snd_pcm_pre_start(), so it can
+slip into that window: snd_pcm_post_start() sets the state RUNNING,
+arms the driver data plane and fills the initial silence through
+snd_pcm_playback_silence().  The data plane then keeps operating on
+the buffer that hw_params/hw_free is tearing down concurrently; once
+snd_pcm_set_runtime_buffer(NULL) has cleared runtime->dma_area, the
+silence fill in fill_silence() -> get_dma_ptr() dereferences a NULL
+pointer, and on real hardware the device may additionally keep
+DMA-ing into the freed pages.
 
-Signed-off-by: Changyul Lee <lcy8047@gmail.com>
+Close the race by leaving the PREPARED state atomically with the
+entry state check, inside the same stream lock critical section: a
+START that already completed makes the hw_params/hw_free state check
+fail with -EBADFD, and a later START observes SETUP and fails in
+snd_pcm_pre_start() with -EBADFD as well, so the data plane can never
+be armed while the buffer is being freed or reallocated.  Both
+functions impose SETUP as their resulting state anyway, hence this
+does not change the state machine semantics visible to user space.
+
+The buffer_mutex/buffer_accessing serialization introduced by the
+earlier fixes for the prepare-vs-hw_params races cannot simply be
+extended to the START path: the trigger action has to run under the
+IRQ-off stream spinlock for atomic PCMs, and failing START with
+-EBUSY whenever a read/write transfer is in flight would be a user
+visible regression.  Transitioning the state atomically at entry
+avoids both problems.
+
+Cc: stable@vger.kernel.org
+Assisted-by: CodeBuddy:Kimi-K3
+Signed-off-by: Aohan Mei <henrymei@tencent.com>
 ---
- drivers/slimbus/messaging.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ sound/core/pcm_native.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/drivers/slimbus/messaging.c b/drivers/slimbus/messaging.c
-index e2dbe4a66b70..aa98f5480ba4 100644
---- a/drivers/slimbus/messaging.c
-+++ b/drivers/slimbus/messaging.c
-@@ -29,22 +29,24 @@ void slim_msg_response(struct slim_controller *ctrl, u8 *reply, u8 tid, u8 len)
- 
- 	spin_lock_irqsave(&ctrl->txn_lock, flags);
- 	txn = idr_find(&ctrl->tid_idr, tid);
--	spin_unlock_irqrestore(&ctrl->txn_lock, flags);
--
--	if (txn == NULL)
-+	if (txn == NULL) {
-+		spin_unlock_irqrestore(&ctrl->txn_lock, flags);
- 		return;
-+	}
- 
- 	msg = txn->msg;
- 	if (msg == NULL || msg->rbuf == NULL) {
-+		spin_unlock_irqrestore(&ctrl->txn_lock, flags);
- 		dev_err(ctrl->dev, "Got response to invalid TID:%d, len:%d\n",
- 				tid, len);
- 		return;
+diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
+index 62324282fcae..6040eb752873 100644
+--- a/sound/core/pcm_native.c
++++ b/sound/core/pcm_native.c
+@@ -805,6 +805,17 @@ static int snd_pcm_hw_params(struct snd_pcm_substream *substream,
+ 			err = -EBADFD;
+ 			break;
+ 		}
++		/*
++		 * The buffer free/realloc and the runtime field updates
++		 * below run without the stream lock, while a concurrent
++		 * SNDRV_PCM_IOCTL_START only requires state == PREPARED
++		 * under that lock.  Leave the PREPARED state atomically
++		 * with the check above so that a racing START (and the
++		 * data plane it arms) can no longer slip in and operate
++		 * on the buffer while it is being freed or reallocated.
++		 */
++		if (!err && runtime->state == SNDRV_PCM_STATE_PREPARED)
++			__snd_pcm_set_state(runtime, SNDRV_PCM_STATE_SETUP);
  	}
- 
--	slim_free_txn_tid(ctrl, txn);
-+	idr_remove(&ctrl->tid_idr, txn->tid);
- 	memcpy(msg->rbuf, reply, len);
- 	if (txn->comp)
- 		complete(txn->comp);
-+	spin_unlock_irqrestore(&ctrl->txn_lock, flags);
- 
- 	/* Remove runtime-pm vote now that response was received for TID txn */
- 	pm_runtime_mark_last_busy(ctrl->dev);
+ 	if (err)
+ 		goto unlock;
+@@ -966,6 +977,13 @@ static int snd_pcm_hw_free(struct snd_pcm_substream *substream)
+ 			result = -EBADFD;
+ 			break;
+ 		}
++		/* Same race as in snd_pcm_hw_params(): leave the PREPARED
++		 * state atomically with the check above, so that a racing
++		 * START cannot arm the data plane while do_hw_free() tears
++		 * down the buffer without the stream lock.
++		 */
++		if (!result && runtime->state == SNDRV_PCM_STATE_PREPARED)
++			__snd_pcm_set_state(runtime, SNDRV_PCM_STATE_SETUP);
+ 	}
+ 	if (result)
+ 		goto unlock;
 -- 
-2.43.0
+2.43.7
 
