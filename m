@@ -1,78 +1,115 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AE33232395;
-	Fri, 11 Sep 2026 07:25:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789111503; cv=none; b=KV+IGgXFsQMPevUP4+7mQA1lf2cSBZ5NB/nrjEIWH0WR3ClTj0p2HYI+ue88G4kEXizvdlyYY8Lbs/d/SQUFjrRzle3HrOsTwSp4u+i17cFnhVzpGKv05jRSJNnKJ5bBkofntu5AX2BU5cgyaa1p+/QKGQv0BBtVMaGGY+RzRzI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789111503; c=relaxed/simple;
-	bh=GWroBVEzFoQk4S/34nBzYkm+qHO729shFJDiDKYbJl8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=C71P2j8HTpbUfn8LdhLyUlC/xlvcCLwHmTebJq1U4PeGaxsI87u5dtEnm9WN1cN6WHW9kIg25Hyi8HBAFSnnbenQS4tfDO1CwRlveaGsKA0y0V5bQ1zHsJaboIo7Zoea5dRNRPoAGc35+3llqIqZPPWXNviGdotwKImcca9Oz7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ANl9844t; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 409394570D0
+	for <linux-sound@vger.kernel.org>; Fri, 11 Sep 2026 07:48:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.172
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789112884; cv=pass; b=MjT4oS8MtwpB/fuj2u/pesXIEoMe7ueQ7AhOLU1D/ulJVWvTLrF8Mz+Gru5pNv8Mz+GYMjuEMMnB1mU14GL0HcivfWnwr/qYu+NiBGpJOgpGAK8yECElbufcJGVQFgRTALiqDPDduYWCuuhsrijC0/o+eFY3j3zB2sE/oCVbTco=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789112884; c=relaxed/simple;
+	bh=g4LUAxw61ZG6O9pKjlfTJNUbYSvDm0/NC8AtOOiAsqs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=F+Dw92D62w59cwJ+N3ijokX4nGU1SndLC3GOaeN8DPW7Xi2ppDo5nonLNSm4TAY8GvQMZUK8oNl2FyC8i5u/pc2aNyEFG44tcDy6PysPy06zs55qQvbMrB+hmWktO3MOa2dYJKyXChCVCmmjRE9TESLujMxRoahib/CWU7O0d0w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M0ko1bm2; arc=pass smtp.client-ip=209.85.215.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ANl9844t"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93D7E1F000FF;
-	Fri, 11 Sep 2026 07:25:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789111501;
-	bh=BH+kR55l7q2T4yQ9SIaFXw37h9ozVxD3HhYmGKf8G4g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ANl9844tOuE5AoQGY+DjaIFqCkPogFuzPNdfQWqulQ1ewcXnDBgt4NdOoaAxooGZH
-	 otw3WqXN/dfJ1pNs0X0yevkODFTPh3pxA9BwxVVkBA1iktQgUJQewif5xVbMODOWQG
-	 p/mWIch3ra5WH3jLHFaw3cWT0YrPLRjUedj8sYvbwLEFVFwspXynmHIaliKaD8MzHM
-	 Xaf5Qs18Xas8eGIznU7yaUWvc+9ptKBerpjAHFGKEw0DHIqd0hSZcM1yyqzMhkH095
-	 IUQbqVg1ph51dt/CUhqYAMrmXLp66EUw6RS72Jj/2UD9lzJLKJvRcTkZjvnML1Ja+L
-	 dkfqQ0ihw0QKA==
-Date: Fri, 11 Sep 2026 09:24:57 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Lee Jones <lee@kernel.org>, mfd@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	Arnd Bergmann <arnd@arndb.de>, Daniel Thompson <danielt@kernel.org>, 
-	Jingoo Han <jingoohan1@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Guenter Roeck <linux@roeck-us.net>, Linus Walleij <linusw@kernel.org>, 
-	Bartosz Golaszewski <brgl@kernel.org>, Jonathan Cameron <jic23@kernel.org>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@kernel.org>, 
-	Michael Hennerich <michael.hennerich@analog.com>, Support Opensource <support.opensource@diasemi.com>, 
-	Sebastian Reichel <sre@kernel.org>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-hwmon@vger.kernel.org, 
-	patches@opensource.cirrus.com, linux-watchdog@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-iio@vger.kernel.org, linux-input@vger.kernel.org, linux-leds@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-rtc@vger.kernel.org, linux-fbdev@vger.kernel.org, 
-	linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, llvm@lists.linux.dev
-Subject: Re: [PATCH 01/14] mfd: remove unused 88pm80x driver
-Message-ID: <20260911-righteous-arboreal-angelfish-3bcbdf@quoll>
-References: <20260909132153.1596191-1-arnd@kernel.org>
- <20260909132153.1596191-2-arnd@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M0ko1bm2"
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-cc149372c14so492135a12.1
+        for <linux-sound@vger.kernel.org>; Fri, 11 Sep 2026 00:48:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789112881; cv=none;
+        d=google.com; s=arc-20260327;
+        b=i3Ax0SnucA5DMHelyuS8FeftQRGV6/AoVsTkIVhpOpW/v1nacfBpikIjSygrTQVmui
+         FvXtw65ukf98tyI1KkwXzm1F0qKS3G5nrgWGrMTNWKM8ClGOZDzIMSetgHnCZzfN2zIV
+         byvbcxw8MiVR5Sebo5S5GuEI8lqQj8r9OHHGLYtj0WivPlLvpBA04t0g+sUjFyyqSUXn
+         kXpQoeuuzn6YFQ1yWVacVr/VJ9iW40oVGs33AE9etdHkBkW9BLslXPrqzH9OXTW58co9
+         ku5KGgQiXm5wzROQwHpDF8xS5iN2plLIV+DLA5M0S7bD4t9eLPW/HdYdabYPuYmfVjGY
+         xxzA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=nAbGJK1TfivU+OKkZxPlu+JsW/mWTytutOio68a70R4=;
+        fh=MFoQjwlCfaZw0u0pEfeTBQ1WHpeCfsyTc9Gws+KekiM=;
+        b=N/4UkkAR9C/uTPGF/rRN7SUxSn6xA9mz2hOpDZLeKpg/ldtXPx16Hi4zD4O4vk+cKI
+         LLHfJHBjRbZzqqJF9ZGp8vqeh9CYQz3ursQ4hLm/q0ndfJLaEIegAOAbp91lBiYK9geC
+         Mqnic5gc3dtssltcQtE5/xmxCFhaqG0bqxlmipkmUjBrC0TBYzH5II66Dk/fXluuho+r
+         bX05C1CXj0LzVIH159AJbqG2h3vkz9ch4oEiWaBH9wKNQXxqCTGwAURHPC6OPIR9szYA
+         +1cmynVFjgYLV1V30lLN3QzKM/xZpm7ZPTgspgQ5bhTLmzMZBXPsXq9cBJndM34T2pS2
+         6uXA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789112881; x=1789717681; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=nAbGJK1TfivU+OKkZxPlu+JsW/mWTytutOio68a70R4=;
+        b=M0ko1bm2g5BnN5scV5lXZM2Dzp5AObWEXBpYoIuEPjpf5DbjdLxxh4TM8q62ZYEcNx
+         DPHvrPoMeRwLvRQTAJD6jrQD6c2rNYdoPu+9N1PuM08ZkGcLHnrCafBb2CyTYF3jo3vP
+         j7pZQOBTDGqvZAFyW4bi5GazcCIDCdDj0OM7Un2INp5gxYJFRNC5W+1LnJNfO3gXSwsD
+         X0vncayKdVOZyqR2LCu4d0Msnko4JxcDPhHemO4ijMrMYOPxYZ3JJ/iPntuXsQm9xMFz
+         20I04ZkpvBo6+ReTYczXZyq/Xyd2HY1jf7oOfQoZyPpsYantQ7UJrUFdtuNmYG/VK8xV
+         v7hA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789112881; x=1789717681;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=nAbGJK1TfivU+OKkZxPlu+JsW/mWTytutOio68a70R4=;
+        b=ecgB73cJ/9IDGu88hS8pB2Ocz2b7UVWhEg87xAMcdcItOpYQB2XONrOZ1asYfi1XfH
+         1j5EEvhQl7zjJm3H55P6VLtbH3zeSu00JwQwEgTDa3l2q2H8OGFYSpP9SkuSxhWQTXzB
+         yG6DvCRMCtSpOwqvTO5xeZrf91IsY+G2mg7sTMV5ashQwJ7Z/ugxMYXtVRLBn1K7GJik
+         Oc/jBBZ2QtrFrxl5ZgN/neZYFFlj08n4+KynaXLsKkji2Y0k/8H2XoaS7b8cwU/wASlT
+         FUMnBrxm4c/DKUONw5oAqcVj/yxNW83Pc/RbEEw5kjoiw3Mfk+MBUijnWfEx7oXmnGpO
+         NCBA==
+X-Forwarded-Encrypted: i=1; AKwUvByYsmkN6rM7ivkUGRT0pnUnl2rNMi5e120JbTuSTSHUOPn68ezWQMCrcFP5/TjJ2KJV3Fv93Jf5PBhHig==@vger.kernel.org
+X-Gm-Message-State: AFuF++mywfwQp4/L01niqtnnZ+4oViXZqNWAWYGm/3ciGE3c62wzt4Ab
+	PmxCoEz6i2zKaeqWvSA29Q19SJ2DXp+3x5pXs81DRP6+3Nxb9FnJ8C1pSfYpQ2IRto146GYIaOI
+	emhUdQOiD10wyNRDh5/A5t4NiIN4i4es=
+X-Gm-Gg: AYBFou0hZlZH+gXgOoLn2qThCXWsmJgOpGD/fvYa4XkhFd5bO6arsV3OqiboZP8sqm9
+	3EACEKa4cKFQYVNYk+7BpS3TBTHIRLIUcXchzE59QIyfz63SlBrPJwMZv5J53++enogojrGdshx
+	BekWnxJNobcmpyNRrSG6GNI64NkxWF4fS20t5PbzG3KXufMzIBc8KdOPnbHH0eDY3bfK83tYq0T
+	9Q6I/CWHMEEPtOY2eYa0JxSYiCdInf6rhqTLzsZv7uIunUOetZ0Yt9722b0W0/5OT5/7eXiZyrQ
+	a40lSZDSVorcKc5sI+a7XF6y/qSY0hQkQBwl3fuUgcMCaLQtDwSIRa4i+Oa5VZx75jipexpqKDY
+	34y1/GNl7ueeRoC21CW/nCWnMQPTYikYU9lt8uj6A5rP47Q9xxkVYT1NbZfxONBdyQVI=
+X-Received: by 2002:a05:6a20:a103:b0:3d3:adbf:7779 with SMTP id
+ adf61e73a8af0-3daed3b7ec5mr5165165637.21.1789112880724; Fri, 11 Sep 2026
+ 00:48:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260909132153.1596191-2-arnd@kernel.org>
+References: <20260910125742.150902-1-phucduc.bui@gmail.com>
+ <20260910125742.150902-12-phucduc.bui@gmail.com> <aqKwGQDkB_HruLyQ@stanley.mountain>
+In-Reply-To: <aqKwGQDkB_HruLyQ@stanley.mountain>
+From: Bui Duc Phuc <phucduc.bui@gmail.com>
+Date: Fri, 11 Sep 2026 14:47:48 +0700
+X-Gm-Features: AcwNN1U0HOa6yp6q-cu6PKO_-PEzbPG32NAKnqHP9l3WjK-sZPO65dMRXGkz238
+Message-ID: <CAABR9nE+NYF23XqXCZiHaK7CXhcmVKLznB5Xz3eDr03NCM2dtQ@mail.gmail.com>
+Subject: Re: [PATCH 11/13] ASoC: mediatek: mt8189: Validate sysclk frequency
+To: Dan Carpenter <error27@gmail.com>
+Cc: Mark Brown <broonie@kernel.org>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Cezary Rojewski <cezary.rojewski@intel.com>, Cyril Chao <Cyril.Chao@mediatek.com>, 
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, cassiogabrielcontato@gmail.com, 
+	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Sep 09, 2026 at 03:21:38PM +0200, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> This pair of drivers was originally added as companion chips for pxa/mmp
-> SoCs, but the corresponding platform code was never merged, so it has
-> been unused the entire time.
-> 
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->  .../devicetree/bindings/regulator/88pm800.txt |  38 --
+Hi Dan
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+
+> > mtk_dai_i2s_set_sysclk() accepts zero or negative frequencies.
+>                                            ^^^^^^^^^^^^^^^^^^^^
+> It's unsigned int so it can't be negative.
+>
+
+You're right, thanks for catching that. I'll fix it.
 
 Best regards,
-Krzysztof
-
+Phuc
