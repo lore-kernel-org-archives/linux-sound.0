@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02A79457E65
-	for <linux-sound@vger.kernel.org>; Fri, 11 Sep 2026 11:22:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 338A6427A03
+	for <linux-sound@vger.kernel.org>; Fri, 11 Sep 2026 11:22:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789125763; cv=none; b=HfQ9i5NfT2mIRnEGMDWEuE1+venMqJpcbW7ZAU6QAWg1u4nBBvjUYcdrr2BKbIZod7uyQtlDtyTxExWNNhGIHohVtDW8BpF2xcisRXnTpj/iLhV3UQ1zxQwTYB+U+XanRSjR0lQQOSiOP7+7vMqNfE9iW3OqQ0RFfTo8wgInEW8=
+	t=1789125777; cv=none; b=BpqDUke0Tf0lZ1+zzgY2P1e6HZp+sRDY7iIZLIE17L5ZvcYjG1jiSQhVNR1vIYMTPo6hpu+D718NldZg3H89TJgCb5mJuj6OHzb7CUdEuC2uE7BPHr64ecmXdsbWUwZcCXD35ydU5SR7cnMH3jj8uGWw634i4Fhl0ySVrkSp9e0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789125763; c=relaxed/simple;
-	bh=BgyBs3unxn74Qty5/MLuejP9kIRHVAgimB89a9E3hwg=;
+	s=arc-20240116; t=1789125777; c=relaxed/simple;
+	bh=wxsdzKB5xWviLlFDXWyeZUG6y0LX8sOZGa3T7FOgRWM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=vGYm9imz5/L2TlT16vGxjvFMQ98H3ywRI/340gN/j3zvuNoL9Wypj65c35d1/edErDrm4W89LupJyCVMLeKaYT0B8c+2eJ6k2+oW+v/N0PPr+/Ki3OsFTlWfPNyBGdIpRYljuwpy0PjiWKbKviIjjUlOLNAHD+pBop5wZ2S6q9I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HHx5enRL; arc=none smtp.client-ip=198.175.65.13
+	 MIME-Version; b=BLVHypE5WzU+gfMRtgp/YAOQwJymz/AKWaB941rvY5KT65E2VuU/XdS/30JMgWhfwp+5Y3nuW4dtMarAZURxr1qekOyDTejAb2uxkqBtB9hMThuHLw1HQUjwX1H3+riL2hHyaxr5nYXUx8t1xoh/Or8kmQzz/3OHunsDTh4AV/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nT8Xuro8; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HHx5enRL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nT8Xuro8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789125751; x=1820661751;
+  t=1789125764; x=1820661764;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=BgyBs3unxn74Qty5/MLuejP9kIRHVAgimB89a9E3hwg=;
-  b=HHx5enRLxbbtxme0sXVN/kcN+PKFpM5FxZWb/ccbL33MEBnuaOzoHzaF
-   Aog7+H4PUkD3xqX+Yhvk1WosfMrgVcrMLQ3FUO9P/gHdZdFzF+VpQ8EYd
-   pRdHVR50DCDWEaLtxFzJK+NJD5gWi2o/6ulTahWApPMvpB8dMgF0uEJU9
-   lMYkNlpKNfNax0BJg54hHXLEt+q/+MrttOvQ/dyAdQ3kSeorLYTArx7/Y
-   JNjVQxHF7Ah5EVbfQAQ2ri6MPAz1/2bNFKe+SqR+rzraZl4pVjtg+fb7s
-   RXhbmBWNs0mKwq3bcNyfV/AC0J2VcKSHanaBWaN0gQ0bVp23vUEj2WqDc
-   A==;
-X-CSE-ConnectionGUID: rprPCsZUSfOJdEBvSv5XHQ==
-X-CSE-MsgGUID: GFyZaHwGR2mKafBrRo+qMw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11901"; a="100749965"
+  bh=wxsdzKB5xWviLlFDXWyeZUG6y0LX8sOZGa3T7FOgRWM=;
+  b=nT8Xuro8OD2hx3H7Krfh7sqDxFsiYYs1sirFBsHwkvgDZo4sXB+iLRah
+   Syl/UoOHBkmw27n4hvUdxxeiUNYQ95HZelkaSpfXjIsa//UJDbcsw1Y11
+   WRtN+5hoTtqT3kyDwXDgOuU32v3y3V+gEb5Q0fNOiFxs5W4oyH2Iexiq5
+   wqHwEIy02C6J3i5Vl5JmY60dWyj5OXGxCfojqslm/uFBnSe5I1UCJOYKI
+   yw9OckDFQ9v9SXMtEHNH5sy2UWaZj5g8r7FiM9RydGcoXOadbdLUZHLwH
+   wFoKoINl/O0+trGj9YjVWYsypTtopC7Ph6eAWVT+IJMM+4c/w7MuH4wDD
+   w==;
+X-CSE-ConnectionGUID: /nqkLa7BTpeCTVVixiXwAg==
+X-CSE-MsgGUID: j2aLJBizQO+JOGIHRmF7+A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11901"; a="100749985"
 X-IronPort-AV: E=Sophos;i="6.27,97,1787036400"; 
-   d="scan'208";a="100749965"
+   d="scan'208";a="100749985"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2026 04:22:17 -0700
-X-CSE-ConnectionGUID: T6gq3nU1T6uYVldMEoDCxw==
-X-CSE-MsgGUID: PfyeQAjeQvu1Hxmp/Ia+Cw==
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2026 04:22:22 -0700
+X-CSE-ConnectionGUID: OGY5c8pkT5iVH/SaUhzA2w==
+X-CSE-MsgGUID: K/nb9G1qQ0+V31NEVfFo9A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,97,1787036400"; 
-   d="scan'208";a="268213314"
+   d="scan'208";a="268213325"
 Received: from ncintean-mobl1.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.244.83])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2026 04:22:14 -0700
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2026 04:22:20 -0700
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: vkoul@kernel.org,
 	perex@perex.cz,
@@ -55,9 +55,9 @@ Cc: linux-sound@vger.kernel.org,
 	yung-chuan.liao@linux.intel.com,
 	pierre-louis.bossart@linux.dev,
 	daniel.baluta@nxp.com
-Subject: [PATCH v3 11/26] ASoC: SOF: sof-audio: do not dereference swidget->spipe unconditionally on free
-Date: Fri, 11 Sep 2026 14:21:37 +0300
-Message-ID: <20260911112152.28528-12-peter.ujfalusi@linux.intel.com>
+Subject: [PATCH v3 13/26] ASoC: SOF: pcm: Modify the signature of a couple of PCM IPC ops
+Date: Fri, 11 Sep 2026 14:21:39 +0300
+Message-ID: <20260911112152.28528-14-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260911112152.28528-1-peter.ujfalusi@linux.intel.com>
 References: <20260911112152.28528-1-peter.ujfalusi@linux.intel.com>
@@ -69,61 +69,263 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-sof_widget_free_unlocked() dereferences swidget->spipe without checking
-it for two things: swidget->spipe->complete for a scheduler widget, and
-swidget->spipe->pipe_widget for the recursive free of the pipeline's
-scheduler widget. Both can be reached with spipe or pipe_widget not
-set, which oopses in the free path - where there is nothing left to
-bail out to.
+From: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
 
-Check both before use and cache swidget->spipe in the local spipe
-variable that is already there. A widget with no pipeline has nothing
-to put or complete, and no scheduler widget to free, so skipping is the
-correct behaviour.
+In order to reuse the pipeline triggering logic for compressed support
+with IPC4, modify the signature of the trigger and hw_free PCM IPC ops
+so that they can be reused.
 
-No functional change for a widget that was successfully set up:
-sof_widget_setup_unlocked() already rejects a dynamic pipeline widget
-with no spipe or no spipe->pipe_widget with -EINVAL.
-
+Signed-off-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
 Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
 ---
- sound/soc/sof/sof-audio.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ sound/soc/sof/ipc3-pcm.c  | 26 +++++++---------------
+ sound/soc/sof/ipc4-pcm.c  | 45 ++++++++++++++++++++-------------------
+ sound/soc/sof/pcm.c       |  7 +++---
+ sound/soc/sof/sof-audio.h |  7 +++---
+ 4 files changed, 39 insertions(+), 46 deletions(-)
 
-diff --git a/sound/soc/sof/sof-audio.c b/sound/soc/sof/sof-audio.c
-index 850eb2bc2b44..9f9f18b3c935 100644
---- a/sound/soc/sof/sof-audio.c
-+++ b/sound/soc/sof/sof-audio.c
-@@ -103,7 +103,7 @@ static int sof_widget_free_unlocked(struct snd_sof_dev *sdev,
- 	 * decrement ref count for cores associated with all modules in the pipeline and clear
- 	 * the complete flag
- 	 */
--	if (swidget->id == snd_soc_dapm_scheduler) {
-+	if (swidget->id == snd_soc_dapm_scheduler && spipe) {
- 		int i;
+diff --git a/sound/soc/sof/ipc3-pcm.c b/sound/soc/sof/ipc3-pcm.c
+index 1d0c80466f6a..42f93e596598 100644
+--- a/sound/soc/sof/ipc3-pcm.c
++++ b/sound/soc/sof/ipc3-pcm.c
+@@ -14,23 +14,18 @@
+ #include "sof-audio.h"
  
- 		for_each_set_bit(i, &spipe->core_mask, sdev->num_cores) {
-@@ -115,16 +115,16 @@ static int sof_widget_free_unlocked(struct snd_sof_dev *sdev,
- 					err = ret;
- 			}
- 		}
--		swidget->spipe->complete = 0;
-+		spipe->complete = 0;
+ static int sof_ipc3_pcm_hw_free(struct snd_soc_component *component,
+-				struct snd_pcm_substream *substream)
++				struct snd_pcm_substream *substream,
++				struct snd_sof_pcm *spcm, int dir)
+ {
+ 	struct snd_sof_dev *sdev = snd_soc_component_get_drvdata(component);
+-	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
+ 	struct sof_ipc_stream stream;
+-	struct snd_sof_pcm *spcm;
+-
+-	spcm = snd_sof_find_spcm_dai(component, rtd);
+-	if (!spcm)
+-		return -EINVAL;
+ 
+-	if (!spcm->prepared[substream->stream])
++	if (!spcm->prepared[dir])
+ 		return 0;
+ 
+ 	stream.hdr.size = sizeof(stream);
+ 	stream.hdr.cmd = SOF_IPC_GLB_STREAM_MSG | SOF_IPC_STREAM_PCM_FREE;
+-	stream.comp_id = spcm->stream[substream->stream].comp_id;
++	stream.comp_id = spcm->stream[dir].comp_id;
+ 
+ 	/* send IPC to the DSP */
+ 	return sof_ipc_tx_message_no_reply(sdev->ipc, &stream, sizeof(stream));
+@@ -141,20 +136,15 @@ static int sof_ipc3_pcm_hw_params(struct snd_soc_component *component,
+ }
+ 
+ static int sof_ipc3_pcm_trigger(struct snd_soc_component *component,
+-				struct snd_pcm_substream *substream, int cmd)
++				struct snd_pcm_substream *substream,
++				struct snd_sof_pcm *spcm, int cmd, int dir)
+ {
+-	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
+ 	struct snd_sof_dev *sdev = snd_soc_component_get_drvdata(component);
+ 	struct sof_ipc_stream stream;
+-	struct snd_sof_pcm *spcm;
+-
+-	spcm = snd_sof_find_spcm_dai(component, rtd);
+-	if (!spcm)
+-		return -EINVAL;
+ 
+ 	stream.hdr.size = sizeof(stream);
+ 	stream.hdr.cmd = SOF_IPC_GLB_STREAM_MSG;
+-	stream.comp_id = spcm->stream[substream->stream].comp_id;
++	stream.comp_id = spcm->stream[dir].comp_id;
+ 
+ 	switch (cmd) {
+ 	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
+@@ -172,7 +162,7 @@ static int sof_ipc3_pcm_trigger(struct snd_soc_component *component,
+ 		stream.hdr.cmd |= SOF_IPC_STREAM_TRIG_STOP;
+ 		break;
+ 	default:
+-		spcm_err(spcm, substream->stream, "Unhandled trigger cmd %d\n", cmd);
++		spcm_err(spcm, dir, "Unhandled trigger cmd %d\n", cmd);
+ 		return -EINVAL;
  	}
  
- 	/*
- 	 * free the scheduler widget (same as pipe_widget) associated with the current swidget.
- 	 * skip for static pipelines
+diff --git a/sound/soc/sof/ipc4-pcm.c b/sound/soc/sof/ipc4-pcm.c
+index d2a6c569845c..d3add122ec00 100644
+--- a/sound/soc/sof/ipc4-pcm.c
++++ b/sound/soc/sof/ipc4-pcm.c
+@@ -412,28 +412,23 @@ static int sof_ipc4_chain_dma_trigger(struct snd_sof_dev *sdev,
+ }
+ 
+ static int sof_ipc4_trigger_pipelines(struct snd_soc_component *component,
+-				      struct snd_pcm_substream *substream, int state, int cmd)
++				      struct snd_pcm_substream *substream, int state, int cmd,
++				      struct snd_sof_pcm *spcm, int dir)
+ {
+ 	struct snd_sof_dev *sdev = snd_soc_component_get_drvdata(component);
+-	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
+ 	struct snd_sof_pcm_stream_pipeline_list *pipeline_list;
+ 	struct sof_ipc4_fw_data *ipc4_data = sdev->private;
+ 	struct ipc4_pipeline_set_state_data *trigger_list;
+ 	struct snd_sof_widget *pipe_widget;
+ 	struct sof_ipc4_pipeline *pipeline;
+ 	struct snd_sof_pipeline *spipe;
+-	struct snd_sof_pcm *spcm;
+ 	u8 *pipe_priority;
+ 	int ret;
+ 	int i;
+ 
+-	spcm = snd_sof_find_spcm_dai(component, rtd);
+-	if (!spcm)
+-		return -EINVAL;
++	spcm_dbg(spcm, dir, "cmd: %d, state: %d\n", cmd, state);
+ 
+-	spcm_dbg(spcm, substream->stream, "cmd: %d, state: %d\n", cmd, state);
+-
+-	pipeline_list = &spcm->stream[substream->stream].pipeline_list;
++	pipeline_list = &spcm->stream[dir].pipeline_list;
+ 	guard(mutex)(&ipc4_data->pipeline_state_mutex);
+ 
+ 	/* nothing to trigger if the list is empty */
+@@ -451,9 +446,9 @@ static int sof_ipc4_trigger_pipelines(struct snd_soc_component *component,
+ 	if (pipeline->use_chain_dma) {
+ 		struct sof_ipc4_timestamp_info *time_info;
+ 
+-		time_info = sof_ipc4_sps_to_time_info(&spcm->stream[substream->stream]);
++		time_info = sof_ipc4_sps_to_time_info(&spcm->stream[dir]);
+ 
+-		ret = sof_ipc4_chain_dma_trigger(sdev, spcm, substream->stream,
++		ret = sof_ipc4_chain_dma_trigger(sdev, spcm, dir,
+ 						 pipeline_list, state, cmd);
+ 		if (ret || !time_info)
+ 			return ret;
+@@ -462,12 +457,16 @@ static int sof_ipc4_trigger_pipelines(struct snd_soc_component *component,
+ 			/*
+ 			 * Record the DAI position for delay reporting
+ 			 * To handle multiple pause/resume/xrun we need to add
+-			 * the positions to simulate how the firmware behaves
++			 * the positions to simulate how the firmware behaves.
++			 * Chained DMA does not support compress streams. We should
++			 * never get here with compress.
+ 			 */
+-			u64 pos = snd_sof_pcm_get_dai_frame_counter(sdev, component,
+-								    substream);
++			if (substream) {
++				u64 pos = snd_sof_pcm_get_dai_frame_counter(sdev, component,
++									    substream);
+ 
+-			time_info->stream_end_offset += pos;
++				time_info->stream_end_offset += pos;
++			}
+ 		} else if (state == SOF_IPC4_PIPE_RESET) {
+ 			/* Reset the end offset as the stream is stopped */
+ 			time_info->stream_end_offset = 0;
+@@ -526,7 +525,7 @@ static int sof_ipc4_trigger_pipelines(struct snd_soc_component *component,
  	 */
--	if (swidget->spipe && swidget->dynamic_pipeline_widget &&
-+	if (spipe && spipe->pipe_widget && swidget->dynamic_pipeline_widget &&
- 	    swidget->id != snd_soc_dapm_scheduler) {
--		ret = sof_widget_free_unlocked(sdev, swidget->spipe->pipe_widget);
-+		ret = sof_widget_free_unlocked(sdev, spipe->pipe_widget);
- 		if (ret < 0 && !err)
- 			err = ret;
+ 	ret = sof_ipc4_set_multi_pipeline_state(sdev, SOF_IPC4_PIPE_PAUSED, trigger_list);
+ 	if (ret < 0) {
+-		spcm_err(spcm, substream->stream, "failed to pause all pipelines\n");
++		spcm_err(spcm, dir, "failed to pause all pipelines\n");
+ 		/*
+ 		 * workaround: if the firmware is crashed or the IPC timed out
+ 		 * while setting the pipeline state we must ignore the error
+@@ -557,7 +556,7 @@ static int sof_ipc4_trigger_pipelines(struct snd_soc_component *component,
+ 		 * Invalidate the stream_start_offset to make sure that it is
+ 		 * going to be updated if the stream resumes
+ 		 */
+-		time_info = sof_ipc4_sps_to_time_info(&spcm->stream[substream->stream]);
++		time_info = sof_ipc4_sps_to_time_info(&spcm->stream[dir]);
+ 		if (time_info)
+ 			time_info->stream_start_offset = SOF_IPC4_INVALID_STREAM_POSITION;
+ 
+@@ -567,7 +566,7 @@ static int sof_ipc4_trigger_pipelines(struct snd_soc_component *component,
+ 	/* else set the RUNNING/RESET state in the DSP */
+ 	ret = sof_ipc4_set_multi_pipeline_state(sdev, state, trigger_list);
+ 	if (ret < 0) {
+-		spcm_err(spcm, substream->stream,
++		spcm_err(spcm, dir,
+ 			 "failed to set final state %d for all pipelines\n",
+ 			 state);
+ 		/*
+@@ -598,7 +597,8 @@ static int sof_ipc4_trigger_pipelines(struct snd_soc_component *component,
+ }
+ 
+ static int sof_ipc4_pcm_trigger(struct snd_soc_component *component,
+-				struct snd_pcm_substream *substream, int cmd)
++				struct snd_pcm_substream *substream,
++				struct snd_sof_pcm *spcm, int cmd, int dir)
+ {
+ 	int state;
+ 
+@@ -620,14 +620,15 @@ static int sof_ipc4_pcm_trigger(struct snd_soc_component *component,
  	}
+ 
+ 	/* set the pipeline state */
+-	return sof_ipc4_trigger_pipelines(component, substream, state, cmd);
++	return sof_ipc4_trigger_pipelines(component, substream, state, cmd, spcm, dir);
+ }
+ 
+ static int sof_ipc4_pcm_hw_free(struct snd_soc_component *component,
+-				struct snd_pcm_substream *substream)
++				struct snd_pcm_substream *substream,
++				struct snd_sof_pcm *spcm, int dir)
+ {
+ 	/* command is not relevant with RESET, so just pass 0 */
+-	return sof_ipc4_trigger_pipelines(component, substream, SOF_IPC4_PIPE_RESET, 0);
++	return sof_ipc4_trigger_pipelines(component, substream, SOF_IPC4_PIPE_RESET, 0, spcm, dir);
+ }
+ 
+ static int ipc4_ssp_dai_config_pcm_params_match(struct snd_sof_dev *sdev,
+diff --git a/sound/soc/sof/pcm.c b/sound/soc/sof/pcm.c
+index 8f59c200b8ec..42738f12fa33 100644
+--- a/sound/soc/sof/pcm.c
++++ b/sound/soc/sof/pcm.c
+@@ -152,7 +152,7 @@ static int sof_pcm_hw_params(struct snd_soc_component *component,
+ 	 * between. At least ALSA OSS emulation depends on this.
+ 	 */
+ 	if (spcm->prepared[substream->stream] && pcm_ops && pcm_ops->hw_free) {
+-		ret = pcm_ops->hw_free(component, substream);
++		ret = pcm_ops->hw_free(component, substream, spcm, substream->stream);
+ 		if (ret < 0)
+ 			return ret;
+ 
+@@ -223,7 +223,8 @@ static int sof_pcm_stream_free(struct snd_sof_dev *sdev,
+ 
+ 		/* free PCM in the DSP */
+ 		if (pcm_ops && pcm_ops->hw_free) {
+-			ret = pcm_ops->hw_free(sdev->component, substream);
++			ret = pcm_ops->hw_free(sdev->component, substream, spcm,
++					       substream->stream);
+ 			if (ret < 0) {
+ 				spcm_err(spcm, substream->stream,
+ 					 "pcm_ops->hw_free failed %d\n", ret);
+@@ -458,7 +459,7 @@ static int sof_pcm_trigger(struct snd_soc_component *component,
+ 		snd_sof_pcm_platform_trigger(sdev, substream, cmd);
+ 
+ 	if (pcm_ops && pcm_ops->trigger)
+-		ret = pcm_ops->trigger(component, substream, cmd);
++		ret = pcm_ops->trigger(component, substream, spcm, cmd, substream->stream);
+ 
+ 	switch (cmd) {
+ 	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
+diff --git a/sound/soc/sof/sof-audio.h b/sound/soc/sof/sof-audio.h
+index 1b3e66037584..0610f2ab844d 100644
+--- a/sound/soc/sof/sof-audio.h
++++ b/sound/soc/sof/sof-audio.h
+@@ -125,9 +125,10 @@ struct sof_ipc_pcm_ops {
+ 	int (*hw_params)(struct snd_soc_component *component, struct snd_pcm_substream *substream,
+ 			 struct snd_pcm_hw_params *params,
+ 			 struct snd_sof_platform_stream_params *platform_params);
+-	int (*hw_free)(struct snd_soc_component *component, struct snd_pcm_substream *substream);
+-	int (*trigger)(struct snd_soc_component *component,  struct snd_pcm_substream *substream,
+-		       int cmd);
++	int (*hw_free)(struct snd_soc_component *component, struct snd_pcm_substream *substream,
++		       struct snd_sof_pcm *spcm, int dir);
++	int (*trigger)(struct snd_soc_component *component, struct snd_pcm_substream *substream,
++		       struct snd_sof_pcm *spcm, int cmd, int dir);
+ 	int (*dai_link_fixup)(struct snd_soc_pcm_runtime *rtd, struct snd_pcm_hw_params *params);
+ 	int (*pcm_setup)(struct snd_sof_dev *sdev, struct snd_sof_pcm *spcm);
+ 	void (*pcm_free)(struct snd_sof_dev *sdev, struct snd_sof_pcm *spcm);
 -- 
 2.55.0
 
