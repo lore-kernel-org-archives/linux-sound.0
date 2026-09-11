@@ -1,75 +1,70 @@
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD5383E49D4
-	for <linux-sound@vger.kernel.org>; Fri, 11 Sep 2026 03:11:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B47329CB52
+	for <linux-sound@vger.kernel.org>; Fri, 11 Sep 2026 04:59:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789096291; cv=none; b=bzs0c8Wl5V8NyhtTD+zK9rnWulW6+cqsGajiyIp8MRE71qztqnNPBVxUu35FROjqpVhR/GPq8PFdQAusU/qBikG55ID9nHgTYGMvpsF7Jg1FjB51kHlJ7p3Z2D8y5qnaS7v6pikM3439dLvFVNo6ruP7FdDXY7dgZ7mPIDvN9L4=
+	t=1789102761; cv=none; b=IPDIaoVzAtbESqa6xmmqCPz68wspyM2R7Xg8Hpyc+FHgc87ecSCFJbmZKjk6LPIYh0qxrYeYXkT+tD5kfqlb+/HYZdB6RqXHcD3VPxdLI6e1A93skNDgfVpwD/ccWO+WEnThmNElLnwCnQTlljnnhJ30s9D65lq6TOmX04fXjEY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789096291; c=relaxed/simple;
-	bh=IsH/uiXS6PCMYKUcTa6HJLyo15+CD5yZpyixAyCfD84=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Q/d9uf/gXdepHacezuHjD2SWiGx7Fs2LPusYlmK3gmEDETtDdCfRiD7+nui7WrEjmaxUQT8C/9gYoJ3Dq/buNgXtlWeVzU6osUBYrKMwCZLDJc00Lz/E06gJ+1OKLBB3qwoLQxdmFhiTo2LeqHUMtbKdcG0p2Wh2tP3kIoYQzvA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dgm6T8Kx; arc=none smtp.client-ip=209.85.222.174
+	s=arc-20240116; t=1789102761; c=relaxed/simple;
+	bh=x6e1VD6DAjwkYHlAuCKFBq9VSgMnvVwyyuhPVCgAQkc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Y0ppfkxRuhyw6b9O1jay56JoTNq5KLqZY1UDWETXMjpy908WeKZvB2wlnW4faZXXbbg3rOjPf6tdGQ0N6cnq1CgZeaAkSwe+WEXJ4U5FrFT1h9cf4D/Isk+OTjle23tYuqL46WwzaOoeUUdhfjmPecC0dC1F1SLJimELxVkyRU0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aFxgpp8B; arc=none smtp.client-ip=209.85.160.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dgm6T8Kx"
-Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-9399daa3d43so31826385a.2
-        for <linux-sound@vger.kernel.org>; Thu, 10 Sep 2026 20:11:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aFxgpp8B"
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-530d8021e97so145811cf.1
+        for <linux-sound@vger.kernel.org>; Thu, 10 Sep 2026 21:59:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789096289; x=1789701089; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1789102759; x=1789707559; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=W+7mpvDw1F56ZPu1ONqje79/4zvVptkv9Mg6Nl0mTjo=;
-        b=dgm6T8KxbyCxESOM4r/q/CFHYw+ksIcv+MUJ3BZwIginVpvVqLvs+KULqtJcreG2o7
-         /UdQXv36CbYJ8MwUmKKUJSOsU35ohzJ5onzRDnK1z6uojOhOWuYal6KhFvSGVIJmMDYn
-         Bbapo5gb0sk05iUt/utI5HQO5Ah/vkZDoTsDbljbwMAvM+LZd/AcNcetPwy64WXgZw6z
-         5ZjXrDI5fdOSEr2/mr9cvcNuD60AO4QvtDMxBB7fFdWRujCWC0xRJ3277xO+vFK1ciMX
-         8KtmCCIcgcP2463cBXEl3ZHoQDutfsAxyFbaU5Vz3lYI/nbyA7Od91GKcmUuagGKfdcl
-         3UGQ==
+        bh=wCXPH5qyN+T/QDXSJDvMi96nm7B2ecJ31ViCwFmjhuA=;
+        b=aFxgpp8BETKWpi7Mh3et0QFvJZABV1LQ7TaKJFiCdtXF1agyoVDOw1atnPCLr5JIc+
+         OapJh/XhG2eFWnLtlHHjHT/LcYHfbYvd0bLvPPMR3QWDGuq2Sw4gBA7ThuG40ihj+7Aj
+         7LFSDBYEwNBJL8swnZtEgvQ6CMgT791bP4jwG+6ouKrtpgOWfnYSxGMBCUwcYNfrYXEP
+         Eslow3bspTpk1xjF8IjZFBnTffw2Fy2JFMlAn3Xs2bCv+/xVilKTwKUu4vtwP4jnaDUw
+         KdYifSRaZfXEz9bf2sL6vq4yjE3zAk92RCydurJN7aUCmfu36X28F6XCyjd0+zBkgUfm
+         67cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789096289; x=1789701089;
+        d=1e100.net; s=20251104; t=1789102759; x=1789707559;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=W+7mpvDw1F56ZPu1ONqje79/4zvVptkv9Mg6Nl0mTjo=;
-        b=ApfZH+0Npt0M/Z6H2Y+KKz920Yt03wcPUXT9BOovvW0BFhf94784DFK8sg/ZVABClf
-         CyC28opWA47vFQXVDx9KEpb0sIVyDO5RZ7IUo+LAhxjB8hfLdtmwV18g2RA2/Y3NY/pD
-         o5wlAhbYeMtuxGFfmxudwwl63U4OtJYB9K74Fkh/xglBMAzXKU0m2C1KcWaQwV6zrzZa
-         agWEzWpNE0ivM6OmIp4TSavKaYtFJwgocozQPaYMFj/truzf2Vmy3cHSDEDsU9HqKoTz
-         QnhLrVcnYRfz6RLnCTeJ7ZcSSiEDbeLOxd58Vsm2IXHNv05D1PKVBmD8bH+vA1FU3Z03
-         JjWQ==
-X-Forwarded-Encrypted: i=1; AKwUvBybHniu6LVZ0X3w9q288RoJ+x/EV7+GNdaneK6VVsZBTERdBLTPa4s6QaM6NgVztS5zcZ2xO6oSo+5/kQ==@vger.kernel.org
-X-Gm-Message-State: AFuF++mVbPhSfgWTjf8kpIpaP8LYzCJ58JByVasBIO4x/3s9GA3fx9vJ
-	Ptar/wHFbrWIa4/m5zLwYsBFGLQfObIsERHsMzwJLmP1vxpBUqwksA5Z
-X-Gm-Gg: AYBFou15u7E0gkJzvmKg8N6Mz4sYuxODZ57C/QI5TuPkBxk+R0wU68lfFwbVa8ADdd9
-	/jPkti/rdf5TTbET63V5G5X/vo1zRjRx1Z5ZeJW9xpkQdt2xndVWishH71I5vKpdZC4mBPqtF8K
-	l+AQI8Yd2conP+qjFPddSJ7LjFIHwmwtbYBoMNjlzEAPQ3QkaREXFRC3QEg1v2anNVELAhuR2C+
-	PFhHk26u91VkeEW9hgYV7Sh/Ko+Wvi8jQ06Fx8y43swfWBh8JkiyYlXHKPfrD9wK4lrmca0lixb
-	FJ/Iyz4aDbYCft0L9B89Z3YrOynDlWtYI2zbCrFUgipMVQxJR2cKesdI3UTdXHWsZ1F3HrsL/wr
-	qgpAplTww3o9+xPo7YLubhzRWZ7H8MqfDX+O6jFVx0UPw/kFjpT56OF82TgvgwhK9byVusiWoOV
-	ZVZaHDkMTZvCa5NQ3G0dBCgwZ5vw4LM//kImOXuQLox6iamLAJHmIA1ftuKlnrs2JIBkFoyjwTg
-	/NB/1Terrwxsq1nYA==
-X-Received: by 2002:a05:620a:1a08:b0:934:970a:beb2 with SMTP id af79cd13be357-939ea22a13cmr252005985a.26.1789096288727;
-        Thu, 10 Sep 2026 20:11:28 -0700 (PDT)
-Received: from i4-gl-tmk5904.ad.psu.edu ([130.203.156.186])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-939e80bfc90sm136878085a.37.2026.09.10.20.11.27
+        bh=wCXPH5qyN+T/QDXSJDvMi96nm7B2ecJ31ViCwFmjhuA=;
+        b=kr+MR/EC4ZhFe1FSzN+xyZjMpJNADG9pp3W4o++qjSsmIY5KRRZca/1m+IIzRSb/az
+         4hczGRK0dJAGoH3YA+awi2oONnCIOZ1xpFKrRVC1cj7MKGlTYptCxVdpgtRA/sxEvpZt
+         vnEPnJ2qfnujGNKjUl1N46uZ/2ZqjPUwIO1576yhBOoWpvjLI9AYMAydwQ8YePzoG0Z1
+         +1Tsb457xUtewSh3PJkGVriD88nQmXkbaGkED0ae3IlLUOScB9pP4m3qOKRw9wqdR76k
+         zGdBhPEnfF3n3F8YGruKDWOLLkG2jZ31jeLnMbgcqq1e5Y8fh3r70lI/e9vxi/lfdFv1
+         M5EQ==
+X-Forwarded-Encrypted: i=1; AKwUvBz1GnjIgacnhSrjZpNX0Dm1yxvX8noX1n9MrBoTEFQUB4r60rEjubFVCvU2FpAVOgsuoSZgErAP4IaJig==@vger.kernel.org
+X-Gm-Message-State: AFuF++mL7yHlC7EtL6StEiIyJ+vmFE/jU33gNicDcHvs8axXIFsJnL+c
+	5t63yDXtobaFOetqCavZFaxA/tJTflN2zYq3Zc8Fvza0TfFsCvoVb8n+
+X-Gm-Gg: AYBFou0B1aLKXF6Spp8udiJssYjddo0nOIZ0f6yeDVESNJ5vlyGgoIc8JTGWNJJFfMs
+	TQ9cJgPz4DcrAsQS4PZ6ZdP6cEArMH9EchJBSXAaLZrDIt+YOlHoc+Q01NHlxWopnk/spjQPVEr
+	WBNFUcXQ86Ym25UHMWkjBaSuYILI9NQ2tvvk6Z1tIDsc442fh9SwczyIyrJzoX9xleoN4iE1XKO
+	HGRSIX7N/j7L8Pj5nf84iaBHC94x52SvOPr3Cc27aemgCXsGTWGClyWD1ixJPpQYO1FLZqYqx3+
+	1d6KYyiGl+NXGogFXVwsPUw9MdjXMN6diZZUdUwbSMtqHMCUMPha/8GOv5pxplcaT6ngSyzl8Vn
+	9f8krhv4gh9Q1ylHtmREOS05Y6SVPU94xg1ydj1zwnFJa/tBqw53mYC7NsYWTfrFLeShMDxHUfu
+	QVMxzn2CvdhPEC3IXzDBpzeFUjaUBO73Yt65Pw8K80yWf95GovlIBGkReC85Og
+X-Received: by 2002:a05:622a:453:b0:530:b2e1:2f46 with SMTP id d75a77b69052e-530c879db6cmr40766121cf.61.1789102758964;
+        Thu, 10 Sep 2026 21:59:18 -0700 (PDT)
+Received: from linux.. ([8.34.174.240])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-530ca4b9a97sm11586281cf.18.2026.09.10.21.59.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Sep 2026 20:11:28 -0700 (PDT)
-From: Yuho Choi <oss.patchbox@gmail.com>
-To: Anton Yakovlev <anton.yakovlev@opensynergy.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: virtualization@lists.linux.dev,
+        Thu, 10 Sep 2026 21:59:17 -0700 (PDT)
+From: Changyul Lee <lcy8047@gmail.com>
+To: Srinivas Kandagatla <srini@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Yuho Choi <oss.patchbox@gmail.com>
-Subject: [PATCH v1] ALSA: virtio: reset device before deleting virtqueues
-Date: Thu, 10 Sep 2026 23:11:21 -0400
-Message-ID: <20260911031121.1542502-1-oss.patchbox@gmail.com>
+	Changyul Lee <lcy8047@gmail.com>
+Subject: [PATCH] slimbus: messaging: hold lock until transaction is completed
+Date: Fri, 11 Sep 2026 00:59:11 -0400
+Message-ID: <20260911045911.1327413-1-lcy8047@gmail.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -79,47 +74,55 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-virtsnd_remove() and virtsnd_freeze() delete the virtqueues before
-resetting the device. del_vqs() frees the vring backing, but does not
-provide a generic device quiesce operation. In particular, modern
-virtio-pci keeps enabled queues active until the device is reset.
+slim_msg_response() drops lock after idr_find() and dereferences txn.
+If the requester times out in the meantime, it frees the TID and
+returns, so the handler writes the reply into msg->rbuf and calls
+complete() on txn->comp, both of which have already benn freed.
 
-Reset the device before deleting the virtqueues so it can no longer
-access the vring memory when that memory is released. This also covers
-probe failures after DRIVER_OK, which unwind through virtsnd_remove().
+Keep lock held until complete(txn->comp) finishes, so a requester
+in slim_free_txn_tid() and cannot return while txn is still in use.
+Call idr_remove() because slim_free_txn_tid() takes the same lock.
 
-Fixes: de3a9980d8c3 ("ALSA: virtio: add virtio sound driver")
-Fixes: 575483e90a32 ("ALSA: virtio: introduce device suspend/resume support")
-Cc: stable@vger.kernel.org
-Signed-off-by: Yuho Choi <oss.patchbox@gmail.com>
+Fixes: afbdcc7c384b ("slimbus: Add messaging APIs to slimbus framework")
+
+Signed-off-by: Changyul Lee <lcy8047@gmail.com>
 ---
- sound/virtio/virtio_card.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/slimbus/messaging.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/sound/virtio/virtio_card.c b/sound/virtio/virtio_card.c
-index 647190f4d5afc..6f35276416fed 100644
---- a/sound/virtio/virtio_card.c
-+++ b/sound/virtio/virtio_card.c
-@@ -354,8 +354,8 @@ static void virtsnd_remove(struct virtio_device *vdev)
- 	if (snd->card)
- 		snd_card_free(snd->card);
+diff --git a/drivers/slimbus/messaging.c b/drivers/slimbus/messaging.c
+index e2dbe4a66b70..aa98f5480ba4 100644
+--- a/drivers/slimbus/messaging.c
++++ b/drivers/slimbus/messaging.c
+@@ -29,22 +29,24 @@ void slim_msg_response(struct slim_controller *ctrl, u8 *reply, u8 tid, u8 len)
  
--	vdev->config->del_vqs(vdev);
- 	virtio_reset_device(vdev);
-+	vdev->config->del_vqs(vdev);
+ 	spin_lock_irqsave(&ctrl->txn_lock, flags);
+ 	txn = idr_find(&ctrl->tid_idr, tid);
+-	spin_unlock_irqrestore(&ctrl->txn_lock, flags);
+-
+-	if (txn == NULL)
++	if (txn == NULL) {
++		spin_unlock_irqrestore(&ctrl->txn_lock, flags);
+ 		return;
++	}
  
- 	for (i = 0; snd->substreams && i < snd->nsubstreams; ++i) {
- 		struct virtio_pcm_substream *vss = &snd->substreams[i];
-@@ -383,8 +383,8 @@ static int virtsnd_freeze(struct virtio_device *vdev)
- 	virtsnd_disable_event_vq(snd);
- 	virtsnd_ctl_msg_cancel_all(snd);
+ 	msg = txn->msg;
+ 	if (msg == NULL || msg->rbuf == NULL) {
++		spin_unlock_irqrestore(&ctrl->txn_lock, flags);
+ 		dev_err(ctrl->dev, "Got response to invalid TID:%d, len:%d\n",
+ 				tid, len);
+ 		return;
+ 	}
  
--	vdev->config->del_vqs(vdev);
- 	virtio_reset_device(vdev);
-+	vdev->config->del_vqs(vdev);
+-	slim_free_txn_tid(ctrl, txn);
++	idr_remove(&ctrl->tid_idr, txn->tid);
+ 	memcpy(msg->rbuf, reply, len);
+ 	if (txn->comp)
+ 		complete(txn->comp);
++	spin_unlock_irqrestore(&ctrl->txn_lock, flags);
  
- 	for (i = 0; i < snd->nsubstreams; ++i)
- 		cancel_work_sync(&snd->substreams[i].elapsed_period);
+ 	/* Remove runtime-pm vote now that response was received for TID txn */
+ 	pm_runtime_mark_last_busy(ctrl->dev);
 -- 
 2.43.0
 
