@@ -1,65 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F4B13C1D6A;
-	Fri, 11 Sep 2026 06:02:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9854341D4D0
+	for <linux-sound@vger.kernel.org>; Fri, 11 Sep 2026 06:31:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789106545; cv=none; b=lXhY0eLvRB1UlClnt+bRHLBBUA1rzEAriXQslKAlCIRSwH/svmi6JWeRqh7gJ7XOR6jWIH+T90z1JEZVePXWOQzCmqOT/NvQIU3Dk/GaGxDlwQ+ZgUY0a7m0gFKP5xzU43AWssjSjmH/tszetXlsOCfUh4H8kQIP6mOzcbM45TA=
+	t=1789108307; cv=none; b=TqmQyfjaXk2u7vkb63yVvTZCWNf5QuwbwopUedhiXTp1/SB/2kSAj3TxlXz1ZvT8UQDcmdWYzhkl0WWx1QYYQfEUAmh1XPDl5jpTcG/Ac2uy9sNuvZsJGEKh4hXblpv864mwin7R000oMqlyJVjnrn8/xjqsVdIrhBfbhRc2oRU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789106545; c=relaxed/simple;
-	bh=5VDZeViSqzK8Fu9n4jxhh9yOff54U7Ehj50D82xJcuA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lViPI4yfBvrWpP8DVNZ2Xf8Zs5nTWLXxiUxyP7F/WMr+AhTVF6VRm0L8KqFVMUXZBCuO7Jz56PF4FWpcrxmjmf7NY1HDymvy3DkdNFxLFPXHdIBsaWkaF4oBh5n6kU4Slav3jobdnIbzdCaPGiAtbPWmICZKw1mAv38TttyU0NQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=tqvpZISf; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789108307; c=relaxed/simple;
+	bh=+J5VSXuO5GctXIp5wrXhWp9wUaFQTQEgyQOeMWHO0oI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GuH5So5zTD4bZgqA2Q6LUrTZr6k6/XHlnw5Z5DjkaN5dxvkrqoNzC//IQpD5gVqr84ElbBKAOyCFUWEvphVxqVLPZsYM4olwnEbDtQUnDxydXavtPzebSBTv79raN0sQdaxWn5oQ2BSxe2WZWK+C24wQF0fyjWUspk3/feGpDVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AeT3znSX; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="tqvpZISf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EB5F1F000FF;
-	Fri, 11 Sep 2026 06:02:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1789106544;
-	bh=q++EVy/8oOAQSwq1tgfxkXr09cak9GNilyco3DCsB8g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=tqvpZISfeZZ/Gr438ZqvhHSOK15N1mvblCj3JvKc5PwBy9MgYpGX+CICQICpY5Wkp
-	 TIkfsNC782uz09spFjKN5mPY5PQsADOKbB+AURLNSsvZzquirwTwHgFYIwF15qkH15
-	 MHxD1w/pHFdYHNyX9XkyUzBY88ZpDQZARVswC+3o=
-Date: Fri, 11 Sep 2026 08:00:28 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Changyul Lee <lcy8047@gmail.com>
-Cc: Srinivas Kandagatla <srini@kernel.org>, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] slimbus: messaging: hold lock until transaction is
- completed
-Message-ID: <2026091111-appear-stopper-6fd6@gregkh>
-References: <20260911045911.1327413-1-lcy8047@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AeT3znSX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1789108302; x=1820644302;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=+J5VSXuO5GctXIp5wrXhWp9wUaFQTQEgyQOeMWHO0oI=;
+  b=AeT3znSXAIebUmwo+jYZI8SFK2HcFC7NNxl3rboPwbCRKETdXtSifPi/
+   mqfLgBIoY1REW8vUY0mvuGB418gXkPFcfui/w2CHWxgc6+qrYgcAiZn0n
+   0azfpzSJrbKyaBFp+bEm8NZSOx3Jm7p0sv3Olv9hvxsr2G0ueIbfZd07f
+   fXOOg48o/lTc4uOd2OfW1aEj+qWlKNNQhXSuit4ZClMkA6DvpXO5Tj8r9
+   K01rN11ntB8aY2TnqfoCjDLnAb0KmdFJsc5XpVbHCqEpCfadBhiUxOgU8
+   LUcRGB50D2y2SC79R5MfVvIlVbR3DSlqLb6KCMBXa5yepnAJr0g0JBz/M
+   A==;
+X-CSE-ConnectionGUID: LyjK7WT7SLyrUfUPz4Y8lw==
+X-CSE-MsgGUID: Knu69vveSKy4iXIAoKb8YA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11901"; a="99899595"
+X-IronPort-AV: E=Sophos;i="6.27,96,1787036400"; 
+   d="scan'208";a="99899595"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2026 23:31:39 -0700
+X-CSE-ConnectionGUID: HaBaESAuSziN8D6xDzOxaQ==
+X-CSE-MsgGUID: r0R65f8rQU2MLbpY1AFYJw==
+X-ExtLoop1: 1
+Received: from ncintean-mobl1.ger.corp.intel.com (HELO [10.245.244.83]) ([10.245.244.83])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2026 23:31:37 -0700
+Message-ID: <3a0e5da9-0971-4136-af9c-45e1bca48861@linux.intel.com>
+Date: Fri, 11 Sep 2026 09:31:47 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260911045911.1327413-1-lcy8047@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 12/24] ASoC: SOF: intel: hda-stream: Clear the current
+ position when releasing stream
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, vkoul@kernel.org,
+ perex@perex.cz, tiwai@suse.com, lgirdwood@gmail.com, broonie@kernel.org,
+ srinivas.kandagatla@oss.qualcomm.com
+Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com,
+ yung-chuan.liao@linux.intel.com, daniel.baluta@nxp.com
+References: <20260909090949.7503-1-peter.ujfalusi@linux.intel.com>
+ <20260909090949.7503-13-peter.ujfalusi@linux.intel.com>
+ <f0dfb60a-27e4-40e6-8ba4-401634ef7fd7@linux.dev>
+From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
+Content-Language: en-US
+In-Reply-To: <f0dfb60a-27e4-40e6-8ba4-401634ef7fd7@linux.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, Sep 11, 2026 at 12:59:11AM -0400, Changyul Lee wrote:
-> slim_msg_response() drops lock after idr_find() and dereferences txn.
-> If the requester times out in the meantime, it frees the TID and
-> returns, so the handler writes the reply into msg->rbuf and calls
-> complete() on txn->comp, both of which have already benn freed.
+
+
+On 09/09/2026 15:45, Pierre-Louis Bossart wrote:
+> On 9/9/26 11:09, Peter Ujfalusi wrote:
+>> From: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+>>
+>> After the host DMA ID is released, reset the curr_pos to 0 for a clean
+>> start for subsequent stream starts. This is not needed for PCM streams
+>> but for compressed streams.
+>>
+>> Signed-off-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+>> Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+>> Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
+>> ---
+>>  sound/soc/sof/intel/hda-stream.c | 1 +
+>>  1 file changed, 1 insertion(+)
 > 
-> Keep lock held until complete(txn->comp) finishes, so a requester
-> in slim_free_txn_tid() and cannot return while txn is still in use.
-> Call idr_remove() because slim_free_txn_tid() takes the same lock.
+> move to preparation patch to reduce the volume of this patchset?
+
+The reason I kept these together instead of sending them separately is
+that on their own they lack the context: all of them are needed to get
+compress working via IPC4 in a more open ecosystem.
+
+The ALSA and soc-compress patches alone can be NAKed on the grounds that
+things work right now - that's my assumption at least.
+
+The SOF preparatory patches are in the same bucket: things work fine,
+why do the churn?
+In the context of compress they make sense, as there are several system
+level differences between how PCM and compress work and the code we have
+is perfectly fine as long as it is confined to PCM.
+
+Splitting also raises a dependency tracking question between the series.
+
+I can do the split if you prefer, but the flip side is that the core
+changes would land without the users that justify them. FWIW the series
+has been tested with IPC3 as well, so the soc-compress changes are not
+Intel/IPC4 only in practice.
+
 > 
-> Fixes: afbdcc7c384b ("slimbus: Add messaging APIs to slimbus framework")
+>> diff --git a/sound/soc/sof/intel/hda-stream.c b/sound/soc/sof/intel/hda-stream.c
+>> index c95230487a1b..5097a497188d 100644
+>> --- a/sound/soc/sof/intel/hda-stream.c
+>> +++ b/sound/soc/sof/intel/hda-stream.c
+>> @@ -317,6 +317,7 @@ static int _hda_dsp_stream_put(struct snd_sof_dev *sdev, int direction, int stre
+>>  		if (s->direction == direction && s->stream_tag == stream_tag) {
+>>  			s->opened = false;
+>>  			found = true;
+>> +			s->curr_pos = 0;
+>>  			if (pair)
+>>  				link_stream = hext_stream;
+>>  		} else if (!(hda_stream->flags & SOF_HDA_STREAM_DMI_L1_COMPATIBLE)) {
 > 
-> Signed-off-by: Changyul Lee <lcy8047@gmail.com>
 
-No blank line between these please.
+-- 
+Péter
 
-And how was this found and tested?
-
-thanks,
-
-greg k-h
