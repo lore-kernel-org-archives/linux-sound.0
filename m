@@ -1,94 +1,83 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from r3-129.sinamail.sina.com.cn (r3-129.sinamail.sina.com.cn [202.108.3.129])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E22D2F2619;
-	Fri, 11 Sep 2026 00:54:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 905A53DD526
+	for <linux-sound@vger.kernel.org>; Fri, 11 Sep 2026 02:19:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.108.3.129
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789088068; cv=none; b=OCrHXYkyvUmoyqvgSRhteyP9DzMH2Ei54ND6ncumt6kp9WM5c5XTn3t00qZtqflAz/gfw61RnlnM4H0mm9+4b0bmdrH3iXXj168KhnBCPE91sw8H/wnncWTyEymCb2o/2tJUbTIfXMFcRdUNOc0nzPeW+75y8xaeE6lEb6KL7P8=
+	t=1789093148; cv=none; b=dPgdAx6uny4M96UhTRchkzWo3TIzY4dhcoa1hx25OaCJ5epmzq3TxiP0LBhkoPWtAUZ1/XITDyuf5iPOIU/bakZyGBoC4wu/eaE76/jercoZT13zrw7fs7mWFjIB7n6iOonekYZbUgFYQG8p18qyZyX+ALQmjtkgr+n05+Jb8lo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789088068; c=relaxed/simple;
-	bh=OwmtVl1WVrvjj5XSnNIGOFIhDbNRedd7Pj9lbKYaalU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=C1xxQgSPF7yEcYgXJyMOyFcN1KlHrHKtbcIhTkmLyNKyRoSvdl35rXC7JnkFN2E7ifrVrj1m18+BH+1ftH5uz69TFk7/2J/qO3dE71+laKyP1BXXlq9EaYtmqX3gipwRH+IlsJdYALjJUfwmwGd1kw+YRN8HEmAUu7ff2YNmfV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S+ZiRj/I; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S+ZiRj/I"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789088068; x=1820624068;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=OwmtVl1WVrvjj5XSnNIGOFIhDbNRedd7Pj9lbKYaalU=;
-  b=S+ZiRj/IsyIaXG/kyh1l1X867KodUBhxzqRWK6+8iATOyw1gER+SkW1J
-   vebp7xzCw0RvesfMjV2RftT7RQkH3gClY7FfI3QHEnImf9siRMwxY0U8L
-   c0bkf49UH/EBdV0Qb3GtxxEaAiJtwOWzbz3solQUmIqCzgR3hVOTofsrD
-   7/aNKcTOInLzb7Xqkm6RoKFe7LDCuLMZ0a+/oIt7a73EjMpa+8kH0t4Ds
-   1z9Hrqv1hY5nRNGFvwRv3d23lPi3WRsLZehy6uYJly/K9wurLS74rfpUZ
-   PntV0cTvCHHAS74w3NjPbXiyYneoSfdOqpzx37IQ//5e2g3vNU81giUrj
-   g==;
-X-CSE-ConnectionGUID: YEyBpyHNQ/uFnXipym6kEQ==
-X-CSE-MsgGUID: t8v87GBKSA629C7dyL4Viw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11901"; a="89565915"
-X-IronPort-AV: E=Sophos;i="6.27,96,1787036400"; 
-   d="scan'208";a="89565915"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2026 17:54:27 -0700
-X-CSE-ConnectionGUID: V+nwWiuhRBS/1JmboJOPcQ==
-X-CSE-MsgGUID: 2bVHKFTZRlS5EOLlSZCw3A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,96,1787036400"; 
-   d="scan'208";a="271311658"
-Received: from yungchua-desk.itwn.intel.com ([10.227.8.136])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2026 17:54:25 -0700
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
-To: linux-sound@vger.kernel.org,
-	vkoul@kernel.org
-Cc: vinod.koul@linaro.org,
-	linux-kernel@vger.kernel.org,
-	pierre-louis.bossart@linux.dev,
-	peter.ujfalusi@linux.intel.com,
-	bard.liao@intel.com,
-	ckeepax@opensource.cirrus.com
-Subject: [PATCH] soundwire: dmi-quirks: Disable ghost Realtek on Lenovo Yoga 7 Pro
-Date: Fri, 11 Sep 2026 08:54:18 +0800
-Message-ID: <20260911005418.1416726-1-yung-chuan.liao@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1789093148; c=relaxed/simple;
+	bh=VPbks/Ni6vfO7D5qwa/ezA9C3Tg4naQA7HkMCQOG2GU=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=otNwfnKpDBHAaiNkyK8GGN2g6CghJLbeoTYoRAya5vZQCD8XiYNkRTe8R7MAMZ1gz1LWSvZ1fBu1eQ6Ei1WMLJGwu5jA3LPYyjpU4Bujas3N6pO34THef3FLug394QUvWxaPtXXqzOoiYGxLKABTsQST/WGhzKq9qB0/QZQyZKs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com; spf=pass smtp.mailfrom=everest-semi.com; arc=none smtp.client-ip=202.108.3.129
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everest-semi.com
+Received: from unknown (HELO zy-virtual-machine.localdomain)([58.38.107.94])
+	by sina.net (10.54.253.36) with ESMTP
+	id 6AA3647800000AE8; Fri, 11 Sep 2026 10:16:25 +0800 (CST)
+X-Sender: zhangyi@everest-semi.com
+X-Auth-ID: zhangyi@everest-semi.com
+Authentication-Results: sina.net;
+	 spf=none smtp.mailfrom=zhangyi@everest-semi.com;
+	 dkim=none header.i=none;
+	 dmarc=none action=none header.from=zhangyi@everest-semi.com
+X-SMAIL-MID: 3A36E1B529F04823A82F4990DD3FFECF
+X-SMAIL-UIID: 3A36E1B529F04823A82F4990DD3FFECF-20260911-101625
+From: Zhang Yi <zhangyi@everest-semi.com>
+To: broonie@kernel.org
+Cc: tiwai@suse.com,
+	linux-sound@vger.kernel.org
+Subject: RE: [PATCH 1/2] ASoC: codecs: ES8326: Add private members about HPF
+Date: Fri, 11 Sep 2026 10:16:23 +0800
+Message-Id: <20260911021623.29862-1-zhangyi@everest-semi.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <12182d7f-b6f6-44d3-9b4f-e73ed0253ef5@sirena.org.uk>
+References: <12182d7f-b6f6-44d3-9b4f-e73ed0253ef5@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Another Lenovo module that has a Realtek device in the ACPI that
-doesn't exist in the physical hardware.
+> > +	if (es8326->capture_rate) {
+> > +		freq = (ucontrol->value.integer.value[0] * 48000) / es8326->capture_rate;
+> 
+> > +		if (es8326->hpf_freq != ucontrol->value.integer.value[0])
+> > +			dev_dbg(component->dev, "At the %u Hz sampling rate, %ld Hz could not be obtained."
+> > +				"the frequency has been set to the closest value, %u Hz\n",
+> > +				es8326->capture_rate, ucontrol->value.integer.value[0], es8326->hpf_freq);
+> 
+> It's fine to just do this silently.
 
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
----
- drivers/soundwire/dmi-quirks.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+Yes, but I'd still like to keep the information displayed here.
 
-diff --git a/drivers/soundwire/dmi-quirks.c b/drivers/soundwire/dmi-quirks.c
-index 72e59b50b685..0b4f5cec8cfd 100644
---- a/drivers/soundwire/dmi-quirks.c
-+++ b/drivers/soundwire/dmi-quirks.c
-@@ -235,6 +235,13 @@ static const struct dmi_system_id adr_remap_quirk_table[] = {
- 		},
- 		.driver_data = (void *)ghost_realtek,
- 	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "83SN"),
-+		},
-+		.driver_data = (void *)ghost_realtek,
-+	},
- 	{
- 		.matches = {
- 			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
--- 
-2.43.0
+> > +	} else {
+> > +		es8326->hpf_freq = ucontrol->value.integer.value[0];
+> > +		dev_dbg(component->dev, "PCM_STREAM_CAPTURE is not active.retain the input frequency\n");
+> > +	}
+> 
+> This won't do any validation at all, but find_best_hpf_freq() refuses to
+> run in the frequency is over 1020Hz.  We should be consistent and reject
+> high values in this case too.
 
+OK
+
+> > +	if (substream->stream == SNDRV_PCM_STREAM_CAPTURE) {
+> > +		es8326->capture_rate = params_rate(params);
+> > +		freq = (es8326->hpf_freq * 48000) / params_rate(params);
+> > +		hpf = find_best_hpf_freq(freq, &es8326->hpfl, &es8326->hpfr, &es8326->hpf_freq);
+> > +		if (!hpf) {
+> > +			dev_err(component->dev, "The HPF frequency is invalid\n");
+> > +			return -EINVAL;
+> > +		}
+> > +	}
+> 
+> This will update hpf_freq, does that ensure stable values (especially if
+> the capture frequency changes with different streams)?  We probably want
+> to just store the user value without modifying it.
+
+We want to be able to change the values of the HPF-related registers when the capture frequency changes,
+because the specific values depend on the capture frequency.
+As for changing `hpf_freq`, since the codec cannot support all user-specified frequencies,
+I will replace the user-specified frequency with the closest available frequency.
