@@ -1,140 +1,93 @@
-Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B51C9489899
-	for <linux-sound@vger.kernel.org>; Fri, 11 Sep 2026 13:44:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A094730F92E;
+	Fri, 11 Sep 2026 14:05:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789134266; cv=none; b=Lo9hW7Tb3SAjFH422fC3GsYmZTpK1nG9HVbl+ojLI3gdXL1IweYV2g57ZlsUog1766oP4srKfQ/QbVOxgIpomHRSVTZPaghXPt4yGbl5Ctg9zUzVO8tndbQDIq6xy+hJaF5vdLKdHGrpVumxwlIzrKR6ZJVnYVoDETJe6+zlHDE=
+	t=1789135530; cv=none; b=ZKk/0EuuwZNZoD2X0tri5YswRN4iD/cPomul9aCdkXQOHctaYoD8yvcGyH9R98hpizj6TuNIekCgxMfHcUiuFLWzYxZPLb4j8BCa9tqC/OX8FWTM7pAyEX4ypO7LOxAMU4hhO6nBAL9d6OmullHmxICsNx0KglDYYZkX58sAclc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789134266; c=relaxed/simple;
-	bh=mjF2BEVmE/cfZKi26LJxInRozzTj8lQQw4ZM8GginD0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AZ8raGx5+lhMuvTmQxInkO4RMfFL2ZU7K+Web9PSB/7rwKdViNO9cESLtQ5IUga+BnpjGnE9eF3TvyJnvMgmAWADi0bx4VIpyAtrmYWiT3W5aAaiiNezq0LPb0ek8kkcdc5FPhcovKrU45LqEOMv95o7cRN/d24aTVp/wAaZo0o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VtT/kMTH; arc=none smtp.client-ip=74.125.227.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789135530; c=relaxed/simple;
+	bh=dnnPP8P+q8r4eEm8AUNtq0yD8aIh7c+f9n6gFPjXE1c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cr9bj1NkN+vX2SDBnqpexC6BeEkYIRW/7OdYaTXZHMDKWHKKwiVSPucutG1ypyXD2ZqP3vZ8wTBIouq37W9+eAIKvjQjiDs753e2xuh7PNhgbF6YNFsvBAtnnej1or4euaPWpQoutvsTFvE2mt0isybxxQe4l+inzaCSw3/bQFA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=acnVdEkV; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VtT/kMTH"
-Received: by mail-pj2-f12.google.com with SMTP id d9443c01a7336-2db1ca06b03so3452335ad.0
-        for <linux-sound@vger.kernel.org>; Fri, 11 Sep 2026 06:44:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789134264; x=1789739064; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=C1KsTdivOxtvr7J+dR/PNhHfipIhjRnfvGWIk4hbog4=;
-        b=VtT/kMTHLCxwu59gRfhwmrzJVho2/IXMbrY6RTUAwpKFtZE1N3TNw1RTCczU/ZrQD1
-         qTe3Mclr6ydqTJOCePBvUpHtYs/pJCUl5ACtHOd7nmxxS5woTzeZfQzfLBpGQZr5w2sX
-         nVtwMZfqcb7S1UwVgFFz/cchmRRBM6/so9H5JOsZJZUzc1+GB3pBNJjUVrF2j7TSIqhb
-         r5gIl7K5ZYDi8IriVwlEpqS7M/F0cw/wG3KQ9khDUNArmCACnBQmqxGKCnUzuOeQloOc
-         yEpVRzGahEn56FGEA6PxZDoUYuVKDaOzZntEQh/KeehgMmFJ9dGmxVfNqt0wKnDHiCXA
-         podg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789134264; x=1789739064;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=C1KsTdivOxtvr7J+dR/PNhHfipIhjRnfvGWIk4hbog4=;
-        b=Ky2pwkgOvwjJL2+tl7lBbtrZJqUeTUzqVswUZ0RzecVo90CCCZIKwjpuWVewkclawy
-         y4XgQE20nocwsuZGNK3MTAtJxv3oiu5P1+01JMNYQH/nI1mdkUHAoUA+dHdV8fCd39NZ
-         ygkCHMPfcOB/mNtcIQsR31eJPI9jams4WkpjooQNOGcFyqFsx84+DWWfOTSx6UL5io1m
-         OQHEQvAyRxf7KSQcFE+5Yy0W6m5LSHAvbhCJ6KpyQTLNKRft3J0O/RqkrByvGxp6YXcA
-         OWObj2Dl/jg8798OWW84UczbXTnfa19VlXerNLgouOZw45FoUesTbU2E/kY9c2SXIYr/
-         FK3g==
-X-Forwarded-Encrypted: i=1; AKwUvByQNiCeH8CHreX7h4svaobVFE3nyR2f5nZ8jnB2Mig/QXrII5jvuIpZiUVatCeG/Up5kgR1j5DnDAXlqQ==@vger.kernel.org
-X-Gm-Message-State: AFuF++nF1NvQGQrfeQcVS/UC+RmcEdac6djl5O3TcPXX57wGFAI1I8iY
-	qFQKYq9MdO1PQxtXKA4xJhHUWhXdoqUcZxPX/uyhLlqNkSybH5NcGWbM
-X-Gm-Gg: AYBFou2/mUE+0P21LTsnDzUd2H/nUdzCMLifIro6RN50zbLjmWOEFh4eGBLn3Av3Np3
-	IOCn/BjGsAJ/0Rpsk2WflWtQZZe/kN54BnAPDCeED5il643qO9UCrqXSkb5iMlbzjn4phgPqEyn
-	j0HnwE80JwLt7pmt2YcbHD+JS9V2r6wfIQ1thaeDtTkfQ/Y1d/P/6OsmOP2dpU3lOPM5l6Z6ZPw
-	raXYqpiH0vXgNH8uQT/g56zaCkh4acxHR0Y6wJsEzR+04tD7IWyD6Sh0TzYgXWB81szWiEMyKtG
-	l/H3jkHxtrmAgvKqt5ED6jGlu0gffPawU1whO7XhXhDyiwe+PkJOzsPYDFZIuvivi7E/6qbD8Zs
-	NKjGKTVx79YhmoSRUyfX4ZzTcYacsY3paJEa92pMjcI9iclCk8DsLmUx/5vPRRUQxddr81XMPkf
-	Y+w1g+UqXib0g9lLow9RcTgvOB2be5Lks1iNPeVHY8dNwUdDiyocGZZRxLE4GJ+D404POzHQQWN
-	4e2GGMLmAh+uGDg8RQNS5QMKq2wjlpU5HvcGJj5E7jmDbDovSYIGu4ZZx3V0xeiHQ4LZmwvFcYZ
-X-Received: by 2002:a17:903:2f05:b0:2d7:4bc8:41a4 with SMTP id d9443c01a7336-2dd2a336477mr45257095ad.10.1789134263808;
-        Fri, 11 Sep 2026 06:44:23 -0700 (PDT)
-Received: from nugod-NUC15CRHU5.tail9f095a.ts.net ([218.237.104.87])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2dd2cfe815bsm11666245ad.68.2026.09.11.06.44.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Sep 2026 06:44:21 -0700 (PDT)
-From: HyeongJun An <sammiee5311@gmail.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Shuah Khan <shuah@kernel.org>,
-	linux-sound@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="acnVdEkV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFD811F000FF;
+	Fri, 11 Sep 2026 14:05:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789135529;
+	bh=dnnPP8P+q8r4eEm8AUNtq0yD8aIh7c+f9n6gFPjXE1c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=acnVdEkVuThQE19VWE8qs29kb4yY+tjGc89X+BRrTO5KYsPRGaDk8A1v7uSCCMCNS
+	 dL2veHOLqdLE1ffIVclAAjG45nFILvKIoyqyq/qPcxRroJQi0EQCc4M9DaFMdr+NYe
+	 w5zPL/idStCoSPAZ4DFyrlN1zV9XlInwc9LNKKseI5TwzNoR0Rcw3hp5b3p5ePwTYP
+	 7Q9t4ZAKangv/zmfwzTmoiA3O1WV8enbxVwJ1GSUavGvCXIOmH5o0oT/R+yK0iSjQu
+	 5fAZTRcu1vj8AiQbut7rjXJavMzhB0sRYk8So+xyL/8DCfP6WvrVbWb3DsQKU4L9bd
+	 wRLbz87TFUmKw==
+Date: Fri, 11 Sep 2026 15:05:24 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+Cc: Srinivas Kandagatla <srini@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] selftests/alsa: Test writes to IEC958 controls
-Date: Fri, 11 Sep 2026 22:44:16 +0900
-Message-ID: <20260911134416.1860354-1-sammiee5311@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <21cc0424-8b57-4be4-9555-892b980d2f74@sirena.org.uk>
-References: <21cc0424-8b57-4be4-9555-892b980d2f74@sirena.org.uk>
+Subject: Re: [PATCH v2 0/9] arm64: dts: qcom: shikra: Enable audio on EVK
+ boards
+Message-ID: <feee7ac3-f5e5-4677-b44d-34be0c784110@sirena.org.uk>
+References: <20260910231642.1794948-1-mohammad.rafi.shaik@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="CsyL+oqxIPiQycsV"
+Content-Disposition: inline
+In-Reply-To: <20260910231642.1794948-1-mohammad.rafi.shaik@oss.qualcomm.com>
+X-Cookie: Close cover before striking.
 
-On Tue, Sep 08, 2026 at 05:23:19PM +0100, Mark Brown wrote:
 
-Thanks for the detailed review.
+--CsyL+oqxIPiQycsV
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> You're using "grading" a bunch, I think you mean "check"?  It makes
-> things hard to follow.
+On Fri, Sep 11, 2026 at 04:46:33AM +0530, Mohammad Rafi Shaik wrote:
+> This series enables the Shikra audio path on EVK targets by adding the QAIF
+> CPU endpoint, GPR/APM/PRM services, SoundWire and LPASS macro nodes, and
+> board-level sound card wiring for CQM, CQS and IQS variants.
 
-Yes, that's what I meant. Will change it.
+> base-commit: f2bfbc3554ca6919484030729424b9dee2942d24
+> prerequisite-patch-id: a056f645f45682f1008b321f5e639505f22bb979
+> prerequisite-patch-id: 3d5670d672ae08b8c534b7beed6f57c8b44e7b43
+> prerequisite-patch-id: 32a1efe2e364ee15c466f496b1ff3128e5326c66
+> prerequisite-patch-id: 1ddc51582586120795d86a2ff9f0aef20c0e891e
+> prerequisite-patch-id: 1e68cced9250cf9fdfbb8cdc27ee8ec47ada4a87
+> prerequisite-patch-id: 99245529321cadedd30d9e38845b53dba3725de8
 
-> It seems like we should have a test that we can actually find this
-> control, right now it looks like we silently ignore it being missing.
-> Are all IEC958 controls supposed to have one of these?
+As I've said before could Qualcomm in general *please* stop sending me
+things that don't apply.
 
-I couldn't find anything saying they must. 32 of the 36 writable
-Playback Defaults in the tree have a Con Mask, Pro Mask or Mask sibling,
-4 don't (fsl_spdif, fsl_xcvr, uniperif_player, stm32_sai_sub). The
-driver docs only ask that mask and default share an iface, and
-sound/core doesn't check. So unless there's a rule I'm missing I'll keep
-the non audio guess for those and print that no mask was found, rather
-than fail them.
+--CsyL+oqxIPiQycsV
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> This will fail without reporting a diagnostic which isn't helpful.
+-----BEGIN PGP SIGNATURE-----
 
-Right, thanks. Will add one. I'll print the raw return value rather
-than snd_strerror() since three of the wait_for_event() paths hand back
-a bare -1.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqkCqMACgkQJNaLcl1U
+h9CvkQf/WVf75ELNnL0po+kiE+dtlmS7JEAUcKTCkgYzJtKLLCzQwlIgguNVzIfw
+AvQUi0oXqqGW/NpUBeo++WsHSZX4ZG8omuvBkd4ZGvFjqUz5LfovPTHxoJHNyOg+
+GvTje6kc6iuMlWjYI1p38qzYm91OCZm2i+IDScIMe8O6d7y0EcItV4ukVAq642IG
+sRIdWwcZ0XIJqsYCPoA6N59XIyfPiHgBG34q5StwByT8bOIjAXI9nt7TTQn1BZ6Z
+l9yB3BQLVfN1r+JeAiNVPN1EcUbscXysLzw8St7AARODtXSjd56aooIR3zXzjgSZ
+PyYYquCYBk0BqjWBT0pICOn3M2+WTw==
+=LEao
+-----END PGP SIGNATURE-----
 
-> Aren't there two cases here?  There's the case where the device
-> advertised a mask where we presumably know that the control ought to be
-> writable, and there's the case where we just guessed a bit to write
-> where it's more legitimate that the write got ignored.
-
-Yes, good point. I'll split on whether a mask was found. With one,
-walk every advertised bit except the layout bit through
-write_and_verify() and fail if a bit doesn't stick, same as the integer
-loop does. Without one, keep the v2 guess and only check the event.
-That also means drop_events() only runs on the guess path.
-
-> In theory we could also probe every single bit advertised rather than
-> just the first one, that's more what the tests for other control types
-> do.
-
-That falls out of the split. 11 writes per control on the HDA card
-here.
-
-One thing I'd like to check with you first. Failing on an advertised
-bit that's dropped turns three drivers that pass today into failures:
-au88x0 (mask says 0xff, put() reads only the FS bits), ice1712 on Delta
-1010 and Mediastation (mask 0xff, no put callback), and rme32 in
-professional layout (mask advertises the whole emphasis field, the
-converter reads one value). I think those are the mask not matching the
-driver, which is the kind of thing the test is for, but I don't have
-any of that hardware. I'll go with strict for v3 unless you'd rather
-those were reported without failing. Happy to do either.
-
-Thanks,
-HyeongJun
+--CsyL+oqxIPiQycsV--
