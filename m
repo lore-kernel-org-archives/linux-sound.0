@@ -1,178 +1,234 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A85273CF1F0;
-	Fri, 11 Sep 2026 10:16:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B311431A56
+	for <linux-sound@vger.kernel.org>; Fri, 11 Sep 2026 10:22:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789121807; cv=none; b=iB1NN+Xle04CzXtYZV7Yrz51R90PYU9RFFF5qUBsYrwHcwZWPnKStc3sHfnBk+oewk2JJAXoOSsj7tiwExazvUs0D0gdOkJL3C3HuCFB6c/Bf+j47tqMX8OpNavVIRYw1EtAzqNABeLVtIPTXm9ZJaJaGvs+5+coISO+tBa7WjU=
+	t=1789122169; cv=none; b=oSvF1HkptXnCjJnO3TKBt6FG36uQgmMz0tSCjDw5ItoUHCg+He+Htk1T56k17Bua6+AWgJDHTYe95scnAT+RZDHeO9GSigZYho68OT1hgCFsaUGjBiaJhLab01uTIqxywqt046pNQUstQqVSJlrQUXx5ry/7SabZwX5FIhaUjJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789121807; c=relaxed/simple;
-	bh=vTsPXaHi8RAzBaWbL447Y7Wml4ZSeJ0BE4+oGF83XiM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VfULfKtT0eEwotwelT327Y+zHp8Xx8rUQ9pIKLl4J/4EQygHBBSYlbgOrVnN363ru4tOxiaB1w0T8fcxepr8zf/Fb738AONethY+9NM/OO4aWTW+C3iPQbXMdJ/kgEJ6/b3jJMMAcyKtnlYX8v3sIEarQHXPAHFKmZIVMBV0gQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bAW41siy; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789122169; c=relaxed/simple;
+	bh=IzxSwCrhf8d9FMRhv0k7DfYYSIK+phpr001usHYVJgA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ABcJfD2NR1L8dKZM8M07TCaPhU8vwpocBf769k0iIbKnfNiN7bRawS7vGxEheFD9KtbAccBBdti2j0Y4p5lNZXJk4ZRXLJ6qLZN78d2ku6HZ2RAZtsR6palN+bnkY5AxQpaKJSalkvywATkRrX8h1vXBnjh2IzAyxtQB2hUzKoQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=iNuMl10J; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=SACoaXIr; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bAW41siy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0B0E1F000FF;
-	Fri, 11 Sep 2026 10:16:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789121805;
-	bh=giLIDOVuGk3wU4sINvGbjDY5Co7tru0+JFiE0K9FPLI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=bAW41siy0jHTB1qfl3qn4gdNLwygOP92sxwRZ5j93bg2aVlvwhPZHWNQXCkbUnxC6
-	 9zk3b5mbI7ab2hw7oNcaGXVKHnNx1qFzqMm5NsCPo7iMQTWRRa4ga4/FYZMgemnHMR
-	 LUWR9RDzd1jBIAPZg7P5yYAnVdcGzlswz7uYblSZrI8mgcWzefXPuZrclq/aRa18mg
-	 UXHtcfHYeWzL2TMktPNfUxYpL9byrk5pz2SSOJ+Hi6IFxR8hMDvGKPZB2iRfKGLL8X
-	 ZmrHB9kpMAfbsIpyQlYJu0jR9aIkQQcmQfumaGM+wf3Q1dTyf8WnZzhQjhpzxy2VYs
-	 gbIALJ3tDM5qQ==
-Date: Fri, 11 Sep 2026 11:16:14 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Stephen Smalley <stephen.smalley.work@gmail.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
-	Paul Moore <paul@paul-moore.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen" <mkp@kernel.org>, 
-	Jaya Kumar <jayalk@intworks.biz>, Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, 
-	Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
-	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
-	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Juri Lelli <juri.lelli@redhat.com>, 
-	Vincent Guittot <vincent.guittot@linaro.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, 
-	Oliver Upton <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
-	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
-	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
-	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
-	Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
-	Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
-	Xu Xin <xu.xin16@zte.com.cn>, Chengming Zhou <chengming.zhou@linux.dev>, 
-	Michal Hocko <mhocko@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
-	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
-	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev
-Subject: Re: [PATCH 11/39] selinux: reject writable opens of policy file,
- drop mmap shared/write check
-Message-ID: <aqPUqU3eZeFrykj3@gremlin>
-References: <20260908-b4-mmap-prepare-vma-flag-sanify-v1-0-dacf19cce22b@kernel.org>
- <20260908-b4-mmap-prepare-vma-flag-sanify-v1-11-dacf19cce22b@kernel.org>
- <CAEjxPJ7hXSi=oLtQPV+7GEvN+txfYwZ-u-v_EysNHM0gSGNrCw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="iNuMl10J";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="SACoaXIr"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68B7kbbE3686775
+	for <linux-sound@vger.kernel.org>; Fri, 11 Sep 2026 10:22:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	tDweQGfiDsekOj0T2784PA2rCFWCh+RkBLsA7n7s2rE=; b=iNuMl10JnOkrBvNr
+	n2Y5oDnpdHx5rpmFkY4AD9L4wOL2CfWozbGj6GhbcPVGy+3azf9v4cMvSdc4pIq3
+	G+MdrFSluFt83raNUpUP0UgtTVrWwCuJYCkSKmR5HHMfJ32Mk5a/8vAq99sgNa24
+	OlAjL1QV/kJHxZPM5dI2gO3EMkt48/QnighBWtrYMyabnjUvBmMRCzBPpzw746T/
+	q/aZcrQFU7Aym4wZYhN35EC+JO2ecMJLAgFgpUBiMWRU6fhkUoOqBllIpKAW2P0q
+	idi9EplvOYdiRzaWbWdDanAPxindBPXXbxi5bBb+ekEoF5vZ/mRjM5Ciy3m7oWz+
+	WLnm6Q==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gmapg1aut-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Fri, 11 Sep 2026 10:22:46 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-93903622880so383528285a.0
+        for <linux-sound@vger.kernel.org>; Fri, 11 Sep 2026 03:22:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1789122166; x=1789726966; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=tDweQGfiDsekOj0T2784PA2rCFWCh+RkBLsA7n7s2rE=;
+        b=SACoaXIrGHa2sGPJhpBtPnYViQrWLdGLuqYnXGWJ8UFnZS2XajKywt6qJwzk6WET/B
+         PKaly8t0BtQdQzhOgoIRNhXGPbB6h2h96wdvr3jmqk0Dq0ajq5Gt9rwaiLxzmS6HSRYA
+         F3+aiUoxnYAJzc8Z/KG1+mc7ZSCHi7oL6N/9CDJouWJ8e5hNcs1nyFik9ny/ZkcC8NRA
+         2MEYv8pvmPd/2DPK3aYD2dR6uNMXfN/W7c1s1iqQ9wXekOxwJmn5D0c5n4qmPujtKVLR
+         vZ93F3LnnNPwRjN6skPGQWVWNSGUJ1bLLiIz06Q9nTJpI6tl6EqtEW3gip8cyVx+aQQ2
+         0W/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789122166; x=1789726966;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=tDweQGfiDsekOj0T2784PA2rCFWCh+RkBLsA7n7s2rE=;
+        b=gZviOxEAsyTVWW0SOMm/iRlfBC7s0JA62dz+ym6GCc0ITtybrqME45q+KR3SLACcMQ
+         9kzIfVuHjlh6SzTJSsRz6ni57LFhiYYHr9ehkKXLuNX3AQNbNqodXRLnzojBbkLMBsSm
+         GaZgpgfCxgZc8caEVZwLnTvSm12pZXcyYKaErRQpsu2uvaj4Kxm88PjGtP45OziKOuwt
+         nYsTUM7Dy8aCaPeY2lDIIFyZIGAc22XTPRmAz0GmFS0GXAP01AVX7XfSQ1A89P29C85c
+         z+EseDZKI6aKJszWtWBfP03Iu1bwqBKtgks5zd+ucxImkIX8R8dNL1Q1z4y10ZHD6/TM
+         /O2A==
+X-Forwarded-Encrypted: i=1; AKwUvBxpN0ha8aUevwZtoyG5cv6hOyxUFMJWEA1mS7wqZ4v2XIpp4qxkaZMzsuxqKEOHlU1LXXZkcZVeJLK1lA==@vger.kernel.org
+X-Gm-Message-State: AFuF++kOtuJcW2YDhSkf9NF9ZtJqbNscM4d8xu8Wd6YC2V+mRvwMV7kT
+	zNaV3RkWUCCcBFSVAKToaTKBUaNjH+X+BOartOqOqN01CH1/CXXva4PIBd1+gmbE2hYDU1HMGsY
+	iIXdETcpAy2pjWM7/JxH3sLW+x1JdN4wvNx/GxcHpxMBgrhz2ivd1mgofWP6AVp+wAA==
+X-Gm-Gg: AYBFou1j9JN6dW+RisLHSKQSR8tvRkC0al0t8qSyKod/INgcjqibXPLH94T1FaG0fsF
+	QxiPkvCrvK9yeL3FJKgt5ZVZ3LW+LJQ61jQr14dZ7G32QPZvp6zILIxyKRhKFgn96m38XQSvrbS
+	MJ9uZ8Rrk+9Dj/rhardP3su2Vb1mPABo15FwRhMe0eAG3Zu6HN0zn/hllxjoOuhZHSlv9OCCcXm
+	aICBl7GcW4H1iWtlRTPYsV2FP1FmPoqxOC2390n1ndKMABO7ps9D7Yqu6NeC8YuwznrvPQOFNEP
+	KloOD09Xe6H0snYuYtZ8osQMyA/nASF3bspPSEhmoxQe1aJQbuG/lU2sxr8zvBEpJhxBru8ezgn
+	AL2S1O2F0TIctOl2j2IB2lRDzkfqTo+r1GQeN0xfAZFkCE3t7+d8vcoKj3sBTH9E=
+X-Received: by 2002:a05:620a:4482:b0:939:c7dc:8712 with SMTP id af79cd13be357-939d7eaef14mr1043307785a.15.1789122161358;
+        Fri, 11 Sep 2026 03:22:41 -0700 (PDT)
+X-Received: by 2002:a05:620a:4482:b0:939:c7dc:8712 with SMTP id af79cd13be357-939d7eaef14mr1043304085a.15.1789122160909;
+        Fri, 11 Sep 2026 03:22:40 -0700 (PDT)
+Received: from ?IPV6:2a05:6e02:1041:c10:7d20:e20f:a77f:4ef7? ([2a05:6e02:1041:c10:7d20:e20f:a77f:4ef7])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49e60a8a89esm63701295e9.1.2026.09.11.03.22.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 11 Sep 2026 03:22:39 -0700 (PDT)
+Message-ID: <81b9d76d-6036-45fa-8dcc-c180d102ef64@oss.qualcomm.com>
+Date: Fri, 11 Sep 2026 12:22:37 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 05/13] ARM: orion/dove/mv78xx0: remove all board files
+To: Arnd Bergmann <arnd@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Linus Walleij <linusw@kernel.org>,
+        Russell King <linux@armlinux.org.uk>
+Cc: Drew Fustini <fustini@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+        Liviu Dudau <liviu.dudau@arm.com>,
+        Sudeep Holla <sudeep.holla@kernel.org>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>, Frank Li <Frank.Li@nxp.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>, Vladimir Zapolskiy <vz@mleia.com>,
+        Stefan Agner <stefan@agner.ch>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Aaro Koskinen <aaro.koskinen@iki.fi>,
+        Andreas Kemnade
+ <andreas@kemnade.info>,
+        Kevin Hilman <khilman@baylibre.com>, Roger Quadros <rogerq@kernel.org>,
+        Tony Lindgren <tony@atomide.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Robert Jarzmik <robert.jarzmik@free.fr>,
+        Kristoffer Ericson <kristoffer.ericson@gmail.com>,
+        Ethan Nelson-Moore <enelsonmoore@gmail.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Alexander Sverdlin <alexander.sverdlin@siemens.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Karl Mehltretter <kmehltretter@gmail.com>,
+        "David Hildenbrand (Arm)" <david@kernel.org>,
+        Nicolas Pitre <npitre@baylibre.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        devicetree@vger.kernel.org, imx@lists.linux.dev,
+        linux-stm32@st-md-mailman.stormreply.com, linux-omap@vger.kernel.org,
+        Alexander Clouter <alex@digriz.org.uk>,
+        "Jeremy J. Peper" <jeremy@jeremypeper.com>,
+        Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>,
+        Ulf Hansson <ulfh@kernel.org>,
+        =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?=
+ <kwilczynski@kernel.org>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>, Vinod Koul <vkoul@kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@kernel.org>,
+        Guenter Roeck <linux@roeck-us.net>, Mark Brown <broonie@kernel.org>,
+        Bartosz Golaszewski <brgl@kernel.org>,
+        Thomas Weissschuh <thomas.weissschuh@linutronix.de>,
+        linux-ide@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-phy@lists.infradead.org,
+        linux-rtc@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-watchdog@vger.kernel.org, linux-sound@vger.kernel.org,
+        linux-gpio@vger.kernel.org
+References: <20260908152808.3928630-1-arnd@kernel.org>
+ <20260908152808.3928630-6-arnd@kernel.org>
+Content-Language: en-US
+From: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>
+In-Reply-To: <20260908152808.3928630-6-arnd@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAEjxPJ7hXSi=oLtQPV+7GEvN+txfYwZ-u-v_EysNHM0gSGNrCw@mail.gmail.com>
+X-Proofpoint-ORIG-GUID: GIKNthpwpPWu5PeWfE4CtlvbZMBlH0Oi
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTExMDE0NSBTYWx0ZWRfX3kY8Y+O4spKE
+ rPiIrF2k26ziqDB+AZYJ5mjx1OGn7Ztw+fZt6VjQ80xzpg6mu1+RtiTuIzHCMJkDrswC4v8M8E0
+ jkXJZQBZ8XfRQTGRjkFn6cUmoEvKxOI=
+X-Proofpoint-GUID: GIKNthpwpPWu5PeWfE4CtlvbZMBlH0Oi
+X-Authority-Analysis: v=2.4 cv=DLoacCNb c=1 sm=1 tr=0 ts=6aa3d676 cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22 a=pGLkceISAAAA:8
+ a=P-IC7800AAAA:8 a=qUSviUioAAAA:8 a=bcVNC_F_AAAA:8 a=VwQbUJbxAAAA:8
+ a=1XWaLZrsAAAA:8 a=_jlGtV7tAAAA:8 a=JfrnYn6hAAAA:8 a=EUspDBNiAAAA:8
+ a=LCLTMPDaK1Elu1LaZkAA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=IoWCM6iH3mJn3m4BftBB:22 a=d3PnA9EDa4IxuAV0gXij:22 a=NaVVo_BLbmHoeYVcMpQ9:22
+ a=XlnQEC-7T2amSQPCFme7:22 a=nlm17XC03S6CtCLSeiRr:22 a=1CNFftbPRP8L7MoqJWF3:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTExMDE0NSBTYWx0ZWRfX3BHjizPj30PP
+ Wdsdvffkk9sKCm2QOiKFSYUI62PS5qZpWpA2unPxA/zxMcrEhiDMnwRON4qRL/VOkRmHi4EVTuK
+ LBA53gKpqDKSNmGXGKLh2qgbS+JuoFItej23b6KodT25yqio7KyBEHIBlgIWPwBpdfEoX0fOB8U
+ X++nqY6VVXh12uHY6fTII7f1vAuaw8X4qjqJTzt20JfIzRD+QN+S5vxMo2/LzsZMsY+7LBQ9BOt
+ ZgVnpiSnphHmD6vaksgnbKms1/kN0s/ql3J16PzDSA+5HGh4Cko3Fn2rUgLzymteSysWbpeW07L
+ b421i4yGu56Xm1bJ5TczvqOQfMLEDK7Q1enS1jBHCTJVz26kd1CMKaISO7m4Bu3s9ZIFUlQ6btf
+ lGxPEcZHFlABpMoUgAlg/Zi1WXLi6Wqdrwi5QOEdIyoL5XVkiY7ZlHArbiWuIJap4oAh9PxN0U9
+ zKU04+24ftgCCFyXUqQ==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-11_03,2026-09-09_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 priorityscore=1501 phishscore=0 adultscore=0 suspectscore=0
+ spamscore=0 impostorscore=0 bulkscore=0 clxscore=1015 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609110145
 
-On Thu, Sep 10, 2026 at 02:11:18PM -0400, Stephen Smalley wrote:
-> On Tue, Sep 8, 2026 at 4:07 PM Lorenzo Stoakes (ARM) <ljs@kernel.org> wrote:
-> >
-> > The policy file has no write method and is exposed read-only (S_IRUGO in
-> > selinux_files[]), yet sel_open_policy() performs no open mode check, so a
-> > CAP_DAC_OVERRIDE caller can open it O_RDWR. Reject FMODE_WRITE at open, as
-> > kernfs does.
-> >
-> > The file can then never be mapped with FMODE_WRITE, so do_mmap() always
-> > clears VM_MAYWRITE and VM_SHARED for MAP_SHARED mappings and the VM_SHARED
-> > check in sel_mmap_policy() cannot be reached. Remove it.
-> >
-> > This also stops sel_mmap_policy() clearing VM_MAYWRITE on a mapping that is
-> > neither a PFN map nor a mixed map, ahead of the core enforcing that only
-> > such mappings may do so.
-> >
-> > Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
->
-> We should likely do something similar for the other sel_open_*() and
-> sel_mmap_*() functions too.
-> In particular, truncation of the status file can bring down systemd
-> since it is mapped by libselinux.
-
-Yeah I think there's definitely more that can be done there.
-
-Though I think obviously that kind of stuff is better as a follow up as this
-patch is focused on eliminating a case where VMA_MAYWRITE_BIT is cleared
-incorrectly.
-
->
-> Acked-by: Stephen Smalley <stephen.smalley.work@gmail.com>
-
-Thanks!
->
-> > ---
-> >  security/selinux/selinuxfs.c | 11 +++--------
-> >  1 file changed, 3 insertions(+), 8 deletions(-)
-> >
-> > diff --git a/security/selinux/selinuxfs.c b/security/selinux/selinuxfs.c
-> > index c7d91476971c..545a6f89f9e7 100644
-> > --- a/security/selinux/selinuxfs.c
-> > +++ b/security/selinux/selinuxfs.c
-> > @@ -340,6 +340,9 @@ static int sel_open_policy(struct inode *inode, struct file *filp)
-> >         struct policy_load_memory *plm = NULL;
-> >         int rc;
-> >
-> > +       if (filp->f_mode & FMODE_WRITE)
-> > +               return -EACCES;
-> > +
-> >         rc = avc_has_perm(current_sid(), SECINITSID_SECURITY,
-> >                           SECCLASS_SECURITY, SECURITY__READ_POLICY, NULL);
-> >         if (rc)
-> > @@ -424,14 +427,6 @@ static const struct vm_operations_struct sel_mmap_policy_ops = {
-> >
-> >  static int sel_mmap_policy(struct file *filp, struct vm_area_struct *vma)
-> >  {
-> > -       if (vma->vm_flags & VM_SHARED) {
-> > -               /* do not allow mprotect to make mapping writable */
-> > -               vm_flags_clear(vma, VM_MAYWRITE);
-> > -
-> > -               if (vma->vm_flags & VM_WRITE)
-> > -                       return -EACCES;
-> > -       }
-> > -
-> >         vm_flags_set(vma, VM_DONTEXPAND | VM_DONTDUMP);
-> >         vma->vm_ops = &sel_mmap_policy_ops;
-> >
-> >
-> > --
-> > 2.55.0
-> >
-
---
-Cheers, Lorenzo
+On 9/8/26 17:27, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> The 'orion' platform is the predecessor to what linux now calls the
+> 'mvebu' line of Marvell SoCs, and originally covered orion5x,
+> mv78xx0, kirkwood, dove and a few others that do not have any
+> upstream support at the moment.
+> 
+> Only a few board files remain here, these are the ones left
+> in 2022 board file purge because they had some level of support
+> in Debian or OpenWRT, mostly for commercial NAS or router boxes.
+> This distro support is now gone, and nobody has converted the
+> board files to devicetree, though the orion5x and dove platforms
+> also come with devicetree support for some other machines.
+> 
+> Cc: Andrew Lunn <andrew@lunn.ch>
+> Cc: Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>
+> Cc: Gregory Clement <gregory.clement@bootlin.com>
+> Cc: Alexander Clouter <alex@digriz.org.uk>
+> Cc: Jeremy J. Peper <jeremy@jeremypeper.com>
+> Cc: Damien Le Moal <dlemoal@kernel.org>
+> Cc: Niklas Cassel <cassel@kernel.org>
+> Cc: Ulf Hansson <ulfh@kernel.org>
+> Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>
+> Cc: "Krzysztof Wilczyński" <kwilczynski@kernel.org>
+> Cc: Manivannan Sadhasivam <mani@kernel.org>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Bjorn Helgaas <bhelgaas@google.com>
+> Cc: Vinod Koul <vkoul@kernel.org>
+> Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+> Cc: Daniel Lezcano <daniel.lezcano@kernel.org>
+> Cc: Guenter Roeck <linux@roeck-us.net>
+> Cc: Mark Brown <broonie@kernel.org>
+> Cc: Linus Walleij <linusw@kernel.org>
+> Cc: Bartosz Golaszewski <brgl@kernel.org>
+> Cc: Thomas Weissschuh <thomas.weissschuh@linutronix.de>
+> Cc: linux-ide@vger.kernel.org
+> Cc: linux-mmc@vger.kernel.org
+> Cc: linux-pci@vger.kernel.org
+> Cc: linux-phy@lists.infradead.org
+> Cc: linux-rtc@vger.kernel.org
+> Cc: linux-pm@vger.kernel.org
+> Cc: linux-watchdog@vger.kernel.org
+> Cc: linux-sound@vger.kernel.org
+> Cc: linux-gpio@vger.kernel.org
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+Acked-by: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com> # thermal
