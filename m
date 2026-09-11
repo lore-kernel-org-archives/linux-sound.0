@@ -1,89 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from r3-144.sinamail.sina.com.cn (r3-144.sinamail.sina.com.cn [202.108.3.144])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A90830ACF2
-	for <linux-sound@vger.kernel.org>; Fri, 11 Sep 2026 13:23:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22198472068
+	for <linux-sound@vger.kernel.org>; Fri, 11 Sep 2026 13:28:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.108.3.144
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789133031; cv=none; b=Apw6Dwm6NF+tDFkJaBUOnJ4PVI933HiQBzFlJjA2VKcUwg1Io18Lwp2vP/aDrenU0wiT+2HYVUIesuEv7+9lr4ctBaPPuyvNgJhvANW6JjPM6/DvRLwPsGrhLbMReraXeosdr1UxPE4yZoimV1y2DG9UXin+Fxl7ybi4lscopqw=
+	t=1789133339; cv=none; b=ASkYOUBBNAO4YUz3F672OrJP7Sv4EUrJ0GI/NoQbAVFN0e1gy1AFSXghVGRWJxFXERfYwQn8+n5oD5bQ1Suv7TDqj2cy4Paka2B3lGUn35lAyYBsUb40ZnVPfALpAIQoTz8aLs9e5cIzYe3m8L4Zom3D04oPP1Ktoa2vN7YFoSU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789133031; c=relaxed/simple;
-	bh=eKZKdcqY+WTmNoIBMBHFPERM+LRw386SnrWDaWpuCks=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CiQi//wofjBnekq2fJTDpCz8E4kPuVDX6YuGx10X7dEU8d49o5jSHhrJtYoPB84aMv+Scgwjux9WxUtlPqNTy1SE13JOOBZIPgtyWagvcHPD3MOvxXb51EKFsRXPxzEhl3QoI0MKh19thNquwMWBa/M26/9mTBlK9RjM6CYjI08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LZlytRii; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LZlytRii"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 353871F000FF;
-	Fri, 11 Sep 2026 13:23:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789133030;
-	bh=u1D6QoM5XpHsmr2Z2iKB0985vwLHWWCHIeJiHDEhFaI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=LZlytRii7f1ncuN5QaJIkq50/MXjOLht/wBK1g4U7l0TN133HCN5vzmGLV2YXYvSg
-	 8uAnw1sTHpaZJITdnYxEL/RwkXIXqm6BmRFPnp170ftABAO71UIg/M1AVYU6J+0agq
-	 QQ8aVscTQJ8wsr5hLn21HDwmNVaishU3ZliBJK6Q7XXgJFEDCxfLdMG17PN8SG5/dR
-	 ZzNAe6W+foJ2vCrKu0T0swaU7X2ICeXql8eAp9fVsYHmbYFsXq8h0etIuYfuOLLYoV
-	 YWqoMnwwdtWQb7qsYoWNEJSTiGoGwEAzViYO1sVhep4L3bSPRsQYOjzpGoyPO8QCY5
-	 k2cV3Opiltd/g==
-Date: Fri, 11 Sep 2026 14:23:46 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Zhang Yi <zhangyi@everest-semi.com>
-Cc: tiwai@suse.com, linux-sound@vger.kernel.org
-Subject: Re: [PATCH v1 0/2] ASoC: codecs: ES8326: Modify the configuration
- and add kcontrol
-Message-ID: <bf0bf794-4791-4192-926c-bd839447d947@sirena.org.uk>
-References: <2b3120aa-faff-4dea-965f-d00e84aa2607@sirena.org.uk>
- <20260911131241.4188-1-zhangyi@everest-semi.com>
+	s=arc-20240116; t=1789133339; c=relaxed/simple;
+	bh=gnWrzr4nTOkLq7mXxOC3yhltZCpa/iZQYaRQaKB4HUE=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=bbQGOJjGZ0V/Lr4dzsoyPzqhXbXM//bwnrFiAkzvbbEpYvPVv4I+cqYDkN65/M7c1X+ZYBafiFNC5YKHWJasoZcSet6LdqKUW1WK+j3LbTEdXZiWHntTIgZmIRa0XR1ePAZBMEADqdOOy1MCYfmBHOU7/HbIJ6tVSPBQCuGOHvw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com; spf=pass smtp.mailfrom=everest-semi.com; arc=none smtp.client-ip=202.108.3.144
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everest-semi.com
+Received: from unknown (HELO zy-virtual-machine.localdomain)([58.38.107.94])
+	by sina.net (10.54.253.36) with ESMTP
+	id 6AA401EC00006365; Fri, 11 Sep 2026 21:28:15 +0800 (CST)
+X-Sender: zhangyi@everest-semi.com
+X-Auth-ID: zhangyi@everest-semi.com
+Authentication-Results: sina.net;
+	 spf=none smtp.mailfrom=zhangyi@everest-semi.com;
+	 dkim=none header.i=none;
+	 dmarc=none action=none header.from=zhangyi@everest-semi.com
+X-SMAIL-MID: 076792D0A71347E8A86D1171EBE3EB70
+X-SMAIL-UIID: 076792D0A71347E8A86D1171EBE3EB70-20260911-212815
+From: Zhang Yi <zhangyi@everest-semi.com>
+To: linux-sound@vger.kernel.org,
+	broonie@kernel.org
+Cc: tiwai@suse.com,
+	Zhang Yi <zhangyi@everest-semi.com>
+Subject: [PATCH v3 2/2] ASoC: codecs: ES8326: Adjust the standby configuration
+Date: Fri, 11 Sep 2026 21:28:09 +0800
+Message-Id: <20260911132809.4478-3-zhangyi@everest-semi.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20260911132809.4478-1-zhangyi@everest-semi.com>
+References: <20260911132809.4478-1-zhangyi@everest-semi.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="G+TdLzt8v8UUUJaV"
-Content-Disposition: inline
-In-Reply-To: <20260911131241.4188-1-zhangyi@everest-semi.com>
-X-Cookie: Piece of cake!
 
+Adjust the configuration in SND_SOC_BIAS_STANDBY for better
+power consumption performance
 
---G+TdLzt8v8UUUJaV
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Zhang Yi <zhangyi@everest-semi.com>
+---
+ sound/soc/codecs/es8326.c | 24 ++++++++++++++++--------
+ 1 file changed, 16 insertions(+), 8 deletions(-)
 
-On Fri, Sep 11, 2026 at 09:12:41PM +0800, Zhang Yi wrote:
-> > > v1 -> v0:
-> > > 	- Modify the parameters of 'find_best_hpf_freq'
-> > > 	- Modify debug information in kcontrol
-> > > 	- Fix the issue with the incorrect removal of the jack report
-> >=20
-> > The versioning is confused here and will mess up tooling - your subject
-> > says this is v1 when it's at least v2, and the changelog says you're
-> > moving from v1 to v0 which is a step back.
->=20
-> Was the first version I submitted v1 instead of v0?
+diff --git a/sound/soc/codecs/es8326.c b/sound/soc/codecs/es8326.c
+index 7bb16ef37..6fc72d82a 100644
+--- a/sound/soc/codecs/es8326.c
++++ b/sound/soc/codecs/es8326.c
+@@ -818,7 +818,8 @@ static int es8326_set_bias_level(struct snd_soc_component *codec,
+ 	case SND_SOC_BIAS_PREPARE:
+ 		break;
+ 	case SND_SOC_BIAS_STANDBY:
+-		regmap_write(es8326->regmap, ES8326_ANA_PDN, 0x3b);
++		regmap_write(es8326->regmap, ES8326_PGA_PDN, 0x58);
++		regmap_write(es8326->regmap, ES8326_ANA_PDN, 0x13);
+ 		regmap_update_bits(es8326->regmap, ES8326_CLK_CTL, 0x20, 0x00);
+ 		regmap_write(es8326->regmap, ES8326_SDINOUT1_IO, ES8326_IO_INPUT);
+ 		if (es8326->version > ES8326_VERSION_B) {
+@@ -981,7 +982,7 @@ static void es8326_jack_detect_handler(struct work_struct *work)
+ 	struct es8326_priv *es8326 =
+ 		container_of(work, struct es8326_priv, jack_detect_work.work);
+ 	struct snd_soc_component *comp = es8326->component;
+-	unsigned int iface;
++	unsigned int iface, pga_status;
+ 
+ 	guard(mutex)(&es8326->lock);
+ 	iface = snd_soc_component_read(comp, ES8326_HPDET_STA);
+@@ -1077,12 +1078,19 @@ static void es8326_jack_detect_handler(struct work_struct *work)
+ 			dev_dbg(comp->dev, "Headset detected\n");
+ 			snd_soc_jack_report(es8326->jack,
+ 					SND_JACK_HEADSET, SND_JACK_HEADSET);
+-			regmap_update_bits(es8326->regmap, ES8326_PGA_PDN,
+-					0x08, 0x08);
+-			regmap_write(es8326->regmap, ES8326_ADC1_SRC, 0x00);
+-			regmap_write(es8326->regmap, ES8326_ADC2_SRC, 0x00);
+-			regmap_update_bits(es8326->regmap, ES8326_PGA_PDN,
+-					0x08, 0x00);
++			pga_status = snd_soc_component_read(comp, ES8326_PGA_PDN);
++
++			if ((pga_status & 0x08) >> 3) {
++				regmap_write(es8326->regmap, ES8326_ADC1_SRC, 0x00);
++				regmap_write(es8326->regmap, ES8326_ADC2_SRC, 0x00);
++			} else {
++				regmap_update_bits(es8326->regmap, ES8326_PGA_PDN,
++						0x08, 0x08);
++				regmap_write(es8326->regmap, ES8326_ADC1_SRC, 0x00);
++				regmap_write(es8326->regmap, ES8326_ADC2_SRC, 0x00);
++				regmap_update_bits(es8326->regmap, ES8326_PGA_PDN,
++						0x08, 0x00);
++			}
+ 			usleep_range(10000, 15000);
+ 		}
+ 	}
+-- 
+2.17.1
 
-Yes, that's the normal thing.
-
-> In that case, should I resubmit a v3 version to update the version number?
-
-Yes, please.
-
---G+TdLzt8v8UUUJaV
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqkAOEACgkQJNaLcl1U
-h9CekAf/fF3xIxMWB/LmtZkj2qxBBPb++zYhsxOjKtz0jg6Vi3k4jxfvmmklYPRv
-a1g0a1rTQhz64N7WZCplPC37VmP/9scypQ1pjrSAEi2p9i10Xn5ajno9azLR1J5L
-E+hGPf1Lg+Ft0jN1IZEamjivZpJ4nOhAqvgnVC2kUyg0Ellawomq5w86F0jgwHhK
-tXBU4dciTtYsjuvHuSErdJX5Wy3MntSlbw+F0NIBw+L8Ao+1yOYBoR70IGFAi4iG
-n4LiYdiMRcZoNOJYeecXP5QVM0sgR/sgEtTh70OQXp5nnjTt3mZHyYPfDaKj3k8a
-5R5gAP9fXetCMoth1V+sm2SF+9o1Vw==
-=Fdvm
------END PGP SIGNATURE-----
-
---G+TdLzt8v8UUUJaV--
