@@ -1,272 +1,346 @@
-Received: from smtp153-175.sina.com.cn (smtp153-175.sina.com.cn [61.135.153.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F61639656D
-	for <linux-sound@vger.kernel.org>; Fri, 11 Sep 2026 13:04:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=61.135.153.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05E4B476CE7;
+	Fri, 11 Sep 2026 13:04:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789131873; cv=none; b=FqInvq71BMQ+5c6jXFPF2UZu9P7us3TYFXnqtYVButvGXBNQhiLnQgsin1AXlAtLzwSrwuRuH0ejQaQf96SKd+MKn1tXqTFoS1l/hAiDU1T0ITJa//2hbwuYj+4GwgMwMyNKgzZwY+MVmSxi7cUdkdKgu4BgQ99TuyySmn4IyOo=
+	t=1789131877; cv=none; b=qqLY/fCPoYBuSnLUSTs2Tu2/ihyUZv5es0AskvVuNGACT6lcFMFMo099uthrJ9vZEsmOOfyoHsvsbCBUGotDs7/SKSff2X+Z4nYKYNVpnPmv3NmFcd2uz3Ie8TskUJvjwNSVrF7ScTArwjQGnMjtd8Jw1l2pyopdi0oaRXglTPo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789131873; c=relaxed/simple;
-	bh=4qmkwGxl9Xq5Brh6nL3+xw9hVCqlwHfe4jcyDGu4ggs=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=PiPi9gO0CSjQB3ryBLML1ZoTys12RkVkjcEFG0bKBUsTn53G4D/EMtbgU9mAjp5xKobpL5G/o8BF9vZPmk1Ir7g+sQEMsCcNpANl24Isk4AOLQFucNDQL/gH1Zx88xcIo07yG928p2VE2PGJWDEs+uFc+OU4sc2V4dQPGa8yWx4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com; spf=pass smtp.mailfrom=everest-semi.com; arc=none smtp.client-ip=61.135.153.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everest-semi.com
-Received: from unknown (HELO zy-virtual-machine.localdomain)([58.38.107.94])
-	by sina.net (10.54.253.37) with ESMTP
-	id 6AA3FC2B00004A35; Fri, 11 Sep 2026 21:03:41 +0800 (CST)
-X-Sender: zhangyi@everest-semi.com
-X-Auth-ID: zhangyi@everest-semi.com
-Authentication-Results: sina.net;
-	 spf=none smtp.mailfrom=zhangyi@everest-semi.com;
-	 dkim=none header.i=none;
-	 dmarc=none action=none header.from=zhangyi@everest-semi.com
-X-SMAIL-MID: AFB6E0FB1F7B45C0B1FA2D17F75B3E06
-X-SMAIL-UIID: AFB6E0FB1F7B45C0B1FA2D17F75B3E06-20260911-210341
-From: Zhang Yi <zhangyi@everest-semi.com>
-To: linux-sound@vger.kernel.org,
-	broonie@kernel.org
-Cc: tiwai@suse.com,
-	Zhang Yi <zhangyi@everest-semi.com>
-Subject: [PATCH v1 1/2] ASoC: codecs: ES8326: Add private members about HPF
-Date: Fri, 11 Sep 2026 21:03:36 +0800
-Message-Id: <20260911130337.4058-2-zhangyi@everest-semi.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20260911130337.4058-1-zhangyi@everest-semi.com>
-References: <20260911130337.4058-1-zhangyi@everest-semi.com>
+	s=arc-20240116; t=1789131877; c=relaxed/simple;
+	bh=aASjVvft59hgV4TzpOP2BdR6eWlXB8Et+zCOjURtGmY=;
+	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=rEymYRes60FIt9v4N5+9S6V3I9hYeetI4qBTXsYFlam1b8jt+zaMjE2LJYOMekuqDy45RyD+wMuuO6Hs6Oze/xOdDEcKbrthJFuOtlZXRhl2dh3FJX0SsNO/ygp86hhVVsdeydO84QsxS6gfJN2dijaOo6foZMkEfXlKPeEXE9U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QhejHlN3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=CEgtjQ3C; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=gAZifzcZ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=eJ1muLvB; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QhejHlN3";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="CEgtjQ3C";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="gAZifzcZ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="eJ1muLvB"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id DF47C219BF;
+	Fri, 11 Sep 2026 13:04:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1789131870; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=ftNAmWL3edl1xDtAmfcdpdghqAzIiyuhEm+MgxBkPZM=;
+	b=QhejHlN3L3NeuUpTFDWfob2hOJ90Ad4KD/bRie+7lLy590yjNua03rtfsfP6nFbSVp5zvv
+	ji56V+m6BGCQAe+9LjFpakQcKgSWxfcGcPig9GGMFEYH9LNSf2cuyLc7iTh4Sfeol0gkCS
+	47WJdsUka0xmCDhraTJxmd9RMJgPVYI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1789131870;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=ftNAmWL3edl1xDtAmfcdpdghqAzIiyuhEm+MgxBkPZM=;
+	b=CEgtjQ3C8AFEnvX6pnjfbgg4A3Q4qwgTHkRJ+447dUpR2fcye8VamybateedzYKUP8gvgF
+	6A1SK8fQzZn3aoDQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1789131865; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=ftNAmWL3edl1xDtAmfcdpdghqAzIiyuhEm+MgxBkPZM=;
+	b=gAZifzcZ2FUugqNrxFCxEvQWzMp9tpoRfMTRxWxlPesFD+4Db4RwXxODaKsiqizOCkdTBJ
+	ib368UmEfbUAjbO6MYrDSowHIlMRre0t+5+r4r9VVOKBCUvUsnddLzg1jVacxIzgmzae0j
+	Cple2rqwhSX3IXHYmr7Z4w5vEfk9+b8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1789131865;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=ftNAmWL3edl1xDtAmfcdpdghqAzIiyuhEm+MgxBkPZM=;
+	b=eJ1muLvBRspAP5RGZ2XzH6/TeX1+08Rdoi1LSJnYo7bEhlJs4hvKODgkmyskACE5LLJ1Lr
+	uC2GPyQ1jPUegpAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8C76F136ED;
+	Fri, 11 Sep 2026 13:04:25 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id jIEBIVn8o2q2JAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 11 Sep 2026 13:04:25 +0000
+Date: Fri, 11 Sep 2026 15:04:25 +0200
+Message-ID: <87pkykhrc6.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
+ Mailing List <linux-kernel@vger.kernel.org>
+Subject: [GIT PULL] sound fixes for 7.3-rc3
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spam-Score: -3.30
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_DN_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
 
-Add private members related to HPF.
-Add Kcontrol for HPF
+Linus,
 
-Signed-off-by: Zhang Yi <zhangyi@everest-semi.com>
+please pull sound fixes for v7.3-rc3 from:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-7.3-rc3
+
+The topmost commit is e10f2b7e28be3e1ce42a4be8fa9b0684d1d354ac
+
+----------------------------------------------------------------
+
+sound fixes for 7.3-rc3
+
+A collection of device-specific small fixes.  At this time, the
+majority of changes are about ASoC while we have usual suspects like
+HD- and USB-audio quirks.  Some highlights below.
+
+ASoC Intel / SoundWire:
+- Fix bus and stream resource leaks at error path in avs and hda-ext
+- More fixes and refactoring in avs for constraining MSBs, async
+  handling d0ix
+- Add support for TAC5xx2 SoundWire family and NVL MAX98360A RT5682
+  machines
+- Fix uninitialized stream configurations in Realtek SoundWire codecs
+- Adjust latency control to fix no-sound issue on RT721-SDCA
+
+ASoC AMD:
+- Avoid binding for the acp-da7219-max98357a machine driver
+- Add quirks for Acer Nitro AN17-41 and HP 255R G10
+- Fix memory leaks in ACP6x
+
+ASoC Codecs & Platforms:
+- Fixes for cs35l56 to avoid deadlock, kexec race, and runtime PM
+  imbalances
+- Split stereo streams across mono amps on tas2783-sdw
+- Fix pop noise on es8326 and enable_count underflow on es8389
+- Various fixes for fsl_micfil, sprd, sti, and publish OF module
+  aliases
+- Fixes & cleanups for Ux500 (MSP/I2S) and AB8500 codecs
+
+HD-audio:
+- Fix for channel status notification changes
+- Quirks for HP laptops
+
+USB-audio:
+- Fix embedded URBs in caiaq, 6fire, hiface, and ua101 drivers
+- More hardening in usx2y and us122l drivers
+- Quirks for Behringer devices
+
+Misc:
+- Add PCI ID for RME HDSPe AIO PCI Express audio card in hdspm
+- Fix S/PDIF passthrough on CA20K2 in ctxfi
+
+----------------------------------------------------------------
+
+Aaron Welwood (1):
+      ASoC: amd: yc: add quirk for Acer Nitro AN17-41 internal mic
+
+Antoine Monnet (1):
+      ASoC: tas2783-sdw: split a stereo stream across the two mono amps
+
+Cezary Rojewski (10):
+      ALSA: hda: ext: Clean up links if their initialization fails
+      ALSA: hda: ext: Clean up streams if their initialization fails
+      ASoC: Intel: avs: Clean up the bus when its initialization fails
+      ASoC: Intel: avs: Clean up the bus when fetching ML caps fails
+      ASoC: Intel: avs: Clean up streams if their initialization fails
+      ASoC: Intel: avs: Do not ignore -ENOENT when loading a topology
+      ASoC: Intel: avs: Cancel d0ix_work asynchrounously during recovery
+      ASoC: Intel: avs: Fix unbalanced module reference count
+      ASoC: Intel: avs: Refactor and fix init_config access
+      ASoC: Intel: avs: hda: Constrain MSBs on startup
+
+Edward Adam Davis (1):
+      ALSA: caiaq: Decoupling ep1_in_urb in caiaq dev
+
+HyeongJun An (1):
+      ALSA: hda: Report a change when only the channel status bytes move
+
+Jack Yu (1):
+      ASoC: rt721-sdca: Adjust latency control to fix no-sound issue
+
+Jairaj Arava (1):
+      ASoC: Intel: sof_rt5682: Add support for nvl_max98360a_rt5682
+
+Kazuki Hanai (1):
+      ALSA: us122l: Prevent write upgrades for read mappings
+
+Krish Gulati (1):
+      ALSA: hda/realtek: Add quirk for HP Omen 16-wd0xxx mute LED
+
+Linus Walleij (15):
+      ASoC: ab8500: Reset the audio block before configuring it
+      ASoC: ab8500: Repair the DAPM capture graph
+      ASoC: ab8500: Correct digital interface format setup
+      ASoC: ab8500: Validate and program TDM slots correctly
+      ASoC: ab8500: Remove the nonfunctional sidetone apply control
+      ASoC: ab8500: Skip missing DMIC GPIOs on AB8505
+      ASoC: ux500: Fix MSP stream lifecycle handling
+      ASoC: ux500: Propagate MSP setup errors
+      ASoC: ux500: Correct MSP frame and bit clock setup
+      ASoC: ux500: Validate MSP DAI configuration
+      ASoC: ux500: Deassert the MSP reset during probe
+      ASoC: ux500: Request the MSP MMIO resource
+      ASoC: ux500: Remove obsolete PRCMU QoS calls
+      ASoC: ux500: Allow repeated MSP prepare calls
+      ASoC: ux500: Program the MSP FIFO watermarks
+
+Nick Pegg (1):
+      ALSA: usb-audio: Add quirk flags for Behringer UV1
+
+Niranjan H Y (1):
+      ASoC: Intel: sof_sdw: add tac5xx2-sdw family
+
+Richard Fitzgerald (3):
+      ASoC: cs35l56: Fix pm_runtime imbalance if suspending before first attach
+      ASoC: cs35l56: Fix probe deadlock waiting for SoundWire enumeration
+      ASoC: cs35l56: Fix race between kexec and snd_soc_register_component()
+
+Roman Prucha (1):
+      ALSA: ctxfi: Fix CA20K2 S/PDIF passthrough
+
+Ruairi Anthony (1):
+      ALSA: hda/realtek: Add quirk for HP Elite Dragonfly Max G2 speaker
+
+Runyu Xiao (1):
+      ASoC: sti: initialize IRQ lock before requesting IRQ
+
+Sebastian Dalfuß (1):
+      ALSA: usb-audio: Add boot quirk for Behringer CM1A
+
+Shuming Fan (6):
+      ASoC: rt766: fix uninitialized stream_config->type
+      ASoC: rt712: fix uninitialized stream_config->type
+      ASoC: rt1320: fix uninitialized stream_config->type
+      ASoC: rt1318: fix uninitialized stream_config->type
+      ASoC: rt721: fix uninitialized stream_config->type
+      ASoC: rt722: fix uninitialized stream_config->type
+
+Syed Saba Kareem (1):
+      ASoC: amd: yc: Add DMI entry for HP 255R G10 laptop
+
+Takashi Iwai (4):
+      ALSA: usb: ua101: Avoid embedded URBs
+      ALSA: usb: hiface: Avoid embedded URBs
+      ALSA: usb: 6fire: Avoid embedded URBs
+      ALSA: hdspm: Add a new PCI device ID (1d18:3fc6) for RME HDSPe AIO PCI express audio
+
+Tianchu Chen (1):
+      ASoC: sprd: validate compress buffer sizes against fixed allocations
+
+Tristan Madani (2):
+      ALSA: usbusx2y: fix in04_last array size mismatch with in04_buf
+      ALSA: usbusx2y: validate URB actual_length in interrupt callback
+
+Yorick Rommers (1):
+      ASoC: amd: acp-da7219-max98357a: don't bind on Raven/Picasso boards
+
+Zhang Yi (2):
+      ASoC: codecs: ES8326: issue about capture pop
+      ASoC: codecs: ES8389: Prevent enable_count underflow in clk_core_disable
+
+hpp.iscas (3):
+      ASoC: bcm: bcm63xx: Publish the OF module aliases
+      ASoC: Intel: SST: Publish the PCI module aliases
+      ASoC: mt6351: Publish the OF module alias
+
+wangdicheng (2):
+      ASoC: amd: renoir: fix disable_pdm_interrupts() to clear mask bits
+      ASoC: amd: yc: fix memory leak in acp6x_pdm_dma_close()
+
+Ștefan Ghețu (1):
+      ASoC: fsl_micfil: balance mclk enable/disable
+
 ---
- sound/soc/codecs/es8326.c | 121 +++++++++++++++++++++++++++++++++++++-
- sound/soc/codecs/es8326.h |   4 ++
- 2 files changed, 123 insertions(+), 2 deletions(-)
-
-diff --git a/sound/soc/codecs/es8326.c b/sound/soc/codecs/es8326.c
-index 32f39cdff..7bb16ef37 100644
---- a/sound/soc/codecs/es8326.c
-+++ b/sound/soc/codecs/es8326.c
-@@ -38,6 +38,10 @@ struct es8326_priv {
- 	u8 interrupt_clk;
- 	u8 hpl_vol;
- 	u8 hpr_vol;
-+	u8 hpfl;
-+	u8 hpfr;
-+	u32 hpf_freq;
-+	u32 capture_rate;
- 	bool jd_inverted;
- 	unsigned int sysclk;
- 
-@@ -47,6 +51,48 @@ struct es8326_priv {
- 	int jack_remove_retry;
- };
- 
-+static const u32 hpf_table[10][10] = {
-+	{1020, 754, 624, 559, 527, 511, 502, 498, 497, 496},
-+	{754, 495, 368, 306, 274, 259, 251, 247, 246, 244},
-+	{624, 368, 243, 182, 151, 136, 128, 124, 123, 121},
-+	{559, 306, 182, 120, 90, 75, 68, 63, 62, 60},
-+	{527, 274, 151, 90, 60, 45, 38, 33, 32, 31},
-+	{511, 259, 136, 75, 45, 30, 23, 19, 18, 17},
-+	{502, 251, 128, 68, 38, 23, 16, 13, 11, 11},
-+	{498, 247, 124, 63, 33, 19, 13, 10, 8, 8},
-+	{497, 246, 123, 62, 32, 18, 11, 8, 8, 0},
-+	{496, 244, 121, 60, 31, 17, 11, 8, 0, 0}
-+};
-+
-+static bool find_best_hpf_freq(u32 target_hz, u8 *hpf1, u8 *hpf2)
-+{
-+	int best_row = -1, best_col = -1;
-+	u32 min_diff = U32_MAX;
-+	u32 f, diff;
-+	int i, j;
-+
-+	if (target_hz > 1020)
-+		return false;
-+
-+	for (i = 0; i < 10; i++) {
-+		for (j = i; j < 10; j++) {
-+			f = hpf_table[i][j];
-+
-+			diff = (target_hz > f) ? (target_hz - f) : (f - target_hz);
-+			if (diff < min_diff) {
-+				min_diff = diff;
-+				best_row = i;
-+				best_col = j;
-+			}
-+		}
-+	}
-+
-+	*hpf1 = best_col + ES8326_HPF_OFFSET;
-+	*hpf2 = best_row + ES8326_HPF_OFFSET;
-+
-+	return true;
-+}
-+
- static int es8326_crosstalk1_get(struct snd_kcontrol *kcontrol,
- 		struct snd_ctl_elem_value *ucontrol)
- {
-@@ -189,6 +235,47 @@ static int es8326_hprvol_set(struct snd_kcontrol *kcontrol,
- 	return 0;
- }
- 
-+static int es8326_hpf_get(struct snd_kcontrol *kcontrol,
-+	struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
-+	struct es8326_priv *es8326 = snd_soc_component_get_drvdata(component);
-+
-+	ucontrol->value.integer.value[0] = es8326->hpf_freq;
-+	return 0;
-+}
-+
-+static int es8326_hpf_set(struct snd_kcontrol *kcontrol,
-+	struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
-+	struct es8326_priv *es8326 = snd_soc_component_get_drvdata(component);
-+	u32 freq;
-+	bool hpf;
-+
-+	if (ucontrol->value.integer.value[0] > 1020)
-+		return -EBUSY;
-+
-+	if (es8326->hpf_freq == ucontrol->value.integer.value[0])
-+		return 0;
-+
-+	es8326->hpf_freq = ucontrol->value.integer.value[0];
-+	if (es8326->capture_rate) {
-+		freq = (ucontrol->value.integer.value[0] * 48000) / es8326->capture_rate;
-+
-+		hpf = find_best_hpf_freq(freq, &es8326->hpfl, &es8326->hpfr);
-+		if (!hpf)
-+			return -EBUSY;
-+
-+		regmap_update_bits(es8326->regmap, ES8326_ADC_HPFS1, 0x0f, es8326->hpfl);
-+		regmap_update_bits(es8326->regmap, ES8326_ADC_HPFS2, 0x0f, es8326->hpfr);
-+	} else {
-+		dev_dbg(component->dev, "PCM_STREAM_CAPTURE is not active.retain the input frequency\n");
-+	}
-+
-+	return 1;
-+}
-+
- static const SNDRV_CTL_TLVD_DECLARE_DB_SCALE(dac_vol_tlv, -9550, 50, 0);
- static const SNDRV_CTL_TLVD_DECLARE_DB_SCALE(adc_vol_tlv, -9550, 50, 0);
- static const SNDRV_CTL_TLVD_DECLARE_DB_SCALE(adc_analog_pga_tlv, 0, 300, 0);
-@@ -269,6 +356,8 @@ static const struct snd_kcontrol_new es8326_snd_controls[] = {
- 	SOC_ENUM("ALC Capture Winsize", alc_winsize),
- 	SOC_SINGLE_TLV("ALC Capture Target Level", ES8326_ALC_LEVEL,
- 			0, 0x0f, 0, drc_target_tlv),
-+	SOC_SINGLE_EXT("ADC HPF Freq Select", SND_SOC_NOPM, 0, 1020, 0,
-+				es8326_hpf_get, es8326_hpf_set),
- 
- 	SOC_SINGLE_EXT("CROSSTALK1", SND_SOC_NOPM, 0, 31, 0,
- 			es8326_crosstalk1_get, es8326_crosstalk1_set),
-@@ -353,8 +442,6 @@ static bool es8326_writeable_register(struct device *dev, unsigned int reg)
- 	case ES8326_BIAS_SW2:
- 	case ES8326_BIAS_SW3:
- 	case ES8326_BIAS_SW4:
--	case ES8326_ADC_HPFS1:
--	case ES8326_ADC_HPFS2:
- 		return false;
- 	default:
- 		return true;
-@@ -558,6 +645,8 @@ static int es8326_pcm_hw_params(struct snd_pcm_substream *substream,
- 	struct es8326_priv *es8326 = snd_soc_component_get_drvdata(component);
- 	u8 srate = 0;
- 	int coeff, array;
-+	u32 freq;
-+	bool hpf;
- 
- 	if (es8326->version == 0) {
- 		coeff_div =  coeff_div_v0;
-@@ -612,6 +701,28 @@ static int es8326_pcm_hw_params(struct snd_pcm_substream *substream,
- 		dev_warn(component->dev, "Clock coefficients do not match");
- 	}
- 
-+	if (substream->stream == SNDRV_PCM_STREAM_CAPTURE) {
-+		es8326->capture_rate = params_rate(params);
-+		freq = (es8326->hpf_freq * 48000) / params_rate(params);
-+		hpf = find_best_hpf_freq(freq, &es8326->hpfl, &es8326->hpfr);
-+		if (!hpf) {
-+			dev_err(component->dev, "The HPF frequency is invalid\n");
-+			return -EINVAL;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+static int es8326_pcm_hw_free(struct snd_pcm_substream *substream,
-+		struct snd_soc_dai *dai)
-+{
-+	struct snd_soc_component *component = dai->component;
-+	struct es8326_priv *es8326 = snd_soc_component_get_drvdata(component);
-+
-+	if (substream->stream == SNDRV_PCM_STREAM_CAPTURE)
-+		es8326->capture_rate = 0;
-+
- 	return 0;
- }
- 
-@@ -636,6 +747,8 @@ static int es8326_mute(struct snd_soc_dai *dai, int mute, int direction)
- 				regmap_update_bits(es8326->regmap, ES8326_VMIDSEL, 0x40, 0x40);
- 				regmap_update_bits(es8326->regmap, ES8326_ANA_MICBIAS, 0x70, 0x30);
- 			}
-+			regmap_update_bits(es8326->regmap, ES8326_ADC_HPFS1, 0x0f, 0x04);
-+			regmap_update_bits(es8326->regmap, ES8326_ADC_HPFS2, 0x0f, 0x04);
- 		}
- 	} else {
- 		if (!es8326->calibrated) {
-@@ -728,6 +841,7 @@ static int es8326_set_bias_level(struct snd_soc_component *codec,
- 
- static const struct snd_soc_dai_ops es8326_ops = {
- 	.hw_params = es8326_pcm_hw_params,
-+	.hw_free = es8326_pcm_hw_free,
- 	.set_fmt = es8326_set_dai_fmt,
- 	.set_sysclk = es8326_set_dai_sysclk,
- 	.mute_stream = es8326_mute,
-@@ -781,6 +895,8 @@ static void es8326_capture_pop_handler(struct work_struct *work)
- 	struct es8326_priv *es8326 =
- 		container_of(work, struct es8326_priv, capture_pop_work.work);
- 
-+	regmap_update_bits(es8326->regmap, ES8326_ADC_HPFS1, 0x0f, es8326->hpfl);
-+	regmap_update_bits(es8326->regmap, ES8326_ADC_HPFS2, 0x0f, es8326->hpfr);
- 	regmap_update_bits(es8326->regmap,  ES8326_ADC_MUTE,
- 					0x0F, 0x00);
- }
-@@ -1212,6 +1328,7 @@ static int es8326_probe(struct snd_soc_component *component)
- 	}
- 	dev_dbg(component->dev, "interrupt-clk %x", es8326->interrupt_clk);
- 
-+	es8326->hpf_freq = ES8326_HPF_DEFAULT;
- 	es8326_init(component);
- 	return 0;
- }
-diff --git a/sound/soc/codecs/es8326.h b/sound/soc/codecs/es8326.h
-index 1c5b3ec70..c78d528e7 100644
---- a/sound/soc/codecs/es8326.h
-+++ b/sound/soc/codecs/es8326.h
-@@ -149,6 +149,10 @@
- #define ES8326_ADC_SRC_DMIC_SDIN3 6
- #define ES8326_ADC_SRC_DMIC_SDIN3_INV 7
- 
-+/* HPF Settings */
-+#define ES8326_HPF_DEFAULT            8
-+#define ES8326_HPF_OFFSET             4
-+
- #define ES8326_ADC_AMIC	((ES8326_ADC_SRC_ANA_INV_SW1 << ES8326_ADC2_SHIFT) \
- 		| (ES8326_ADC_SRC_ANA_INV_SW1 << ES8326_ADC1_SHIFT))
- #define ES8326_ADC_DMIC	((ES8326_ADC_SRC_DMIC_SDIN2 << ES8326_ADC2_SHIFT) \
--- 
-2.17.1
+ sound/hda/codecs/realtek/alc269.c                 |   2 +
+ sound/hda/common/codec.c                          |   4 +-
+ sound/hda/core/ext/controller.c                   |   4 +-
+ sound/hda/core/ext/stream.c                       |   5 +-
+ sound/pci/ctxfi/cthw20k2.c                        |   1 +
+ sound/pci/rme9652/hdspm.c                         |  10 +-
+ sound/soc/amd/acp-da7219-max98357a.c              |  23 +
+ sound/soc/amd/renoir/acp3x-pdm-dma.c              |   2 +-
+ sound/soc/amd/yc/acp6x-mach.c                     |  14 +
+ sound/soc/amd/yc/acp6x-pdm-dma.c                  |   2 +
+ sound/soc/bcm/bcm63xx-i2s-whistler.c              |   1 +
+ sound/soc/codecs/ab8500-codec.c                   | 688 +++++++++-------------
+ sound/soc/codecs/cs35l56-sdw.c                    |   7 +-
+ sound/soc/codecs/cs35l56.c                        | 116 +++-
+ sound/soc/codecs/cs35l56.h                        |   2 +
+ sound/soc/codecs/es8326.c                         |  19 +-
+ sound/soc/codecs/es8389.c                         |  34 +-
+ sound/soc/codecs/mt6351.c                         |   1 +
+ sound/soc/codecs/rt1318-sdw.c                     |  24 +-
+ sound/soc/codecs/rt1320-sdw.c                     |   2 +-
+ sound/soc/codecs/rt712-sdca.c                     |  17 +-
+ sound/soc/codecs/rt721-sdca.c                     |  17 +-
+ sound/soc/codecs/rt722-sdca.c                     |  16 +-
+ sound/soc/codecs/rt766-sdca.c                     |   5 +-
+ sound/soc/codecs/tas2783-sdw.c                    |  25 +
+ sound/soc/fsl/fsl_micfil.c                        |  21 +-
+ sound/soc/intel/atom/sst/sst_pci.c                |   1 +
+ sound/soc/intel/avs/boards/hdaudio.c              |  17 +
+ sound/soc/intel/avs/core.c                        |  59 +-
+ sound/soc/intel/avs/debugfs.c                     |  12 +-
+ sound/soc/intel/avs/ipc.c                         |   6 +-
+ sound/soc/intel/avs/path.c                        |  11 +-
+ sound/soc/intel/avs/pcm.c                         |  34 +-
+ sound/soc/intel/avs/topology.c                    |  49 +-
+ sound/soc/intel/avs/topology.h                    |   5 +-
+ sound/soc/intel/boards/Kconfig                    |   4 +-
+ sound/soc/intel/boards/sof_rt5682.c               |   8 +
+ sound/soc/intel/common/soc-acpi-intel-nvl-match.c |   8 +-
+ sound/soc/sprd/sprd-pcm-compress.c                |  15 +-
+ sound/soc/sti/uniperif_reader.c                   |   4 +-
+ sound/soc/ux500/ux500_msp_dai.c                   | 189 +++---
+ sound/soc/ux500/ux500_msp_dai.h                   |  14 +-
+ sound/soc/ux500/ux500_msp_i2s.c                   | 260 +++++---
+ sound/soc/ux500/ux500_msp_i2s.h                   |  12 +-
+ sound/usb/6fire/comm.c                            |  42 +-
+ sound/usb/6fire/comm.h                            |   2 +-
+ sound/usb/6fire/midi.c                            |  43 +-
+ sound/usb/6fire/midi.h                            |   2 +-
+ sound/usb/6fire/pcm.c                             | 128 ++--
+ sound/usb/6fire/pcm.h                             |   5 +-
+ sound/usb/caiaq/device.c                          |  36 +-
+ sound/usb/caiaq/device.h                          |   4 +-
+ sound/usb/caiaq/midi.c                            |   6 +-
+ sound/usb/hiface/pcm.c                            |  44 +-
+ sound/usb/misc/ua101.c                            | 102 ++--
+ sound/usb/quirks.c                                |  25 +
+ sound/usb/usx2y/us122l.c                          |   7 +-
+ sound/usb/usx2y/usbusx2y.c                        |  10 +-
+ sound/usb/usx2y/usbusx2y.h                        |   4 +-
+ 59 files changed, 1246 insertions(+), 984 deletions(-)
 
