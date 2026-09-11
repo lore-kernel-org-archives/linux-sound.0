@@ -1,62 +1,272 @@
 Received: from smtp153-140.sina.com.cn (smtp153-140.sina.com.cn [61.135.153.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C3D846A608
-	for <linux-sound@vger.kernel.org>; Fri, 11 Sep 2026 13:28:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 262A32E8B67
+	for <linux-sound@vger.kernel.org>; Fri, 11 Sep 2026 13:30:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=61.135.153.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789133341; cv=none; b=Q7qJQANGG2BZFQzcjpAfvBRAO63RtKSVjAsXC+jeOQYjhlqSfN3mTe2yrogaKNrsOwcysApSmvr0HnNLR9u67uRUIfeW6aZVLaVRTzMcfXmEe87f3HW5szVgVVlH2WyhjFVlD0fO26XPPJZ5J834axAcs8GxfRQVRupwOBohK/o=
+	t=1789133449; cv=none; b=Hin8q8dabR8hx9p7Hc/46CAJCT5GaANwrSeIfpMHI27UIU3D3a7s2vTXs7f9YJy+/fJEdBkBUj+LfooenyW66ly+F1cN0+1IWv1QGbG83JAhf9kqmcMJRxdeS/z78uH4bRIId6r5DzXdOE2OxKjJGGHfvopPvkd4XV5Mpm0/rc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789133341; c=relaxed/simple;
-	bh=bwmIujNayDw1nZ8g6aV3jZ4uLNrmHhStcjdMqNl85EM=;
-	h=From:To:Cc:Subject:Date:Message-Id; b=jTHU/QIFyY7FfvdUBY4YbOZ40MNJA+Con7xGOxUplBVNOf0yrbV7tXe8lVKUH+hn/9lvABNU5nkxDXLU1vsfI06D5BwbBg/VHXigp6qokPZLQMlMB09PNkd7I4KIyH61in+pZjRSfRsF5ZQ9qBy3s7STkOIgDKu3811IC7DBS68=
+	s=arc-20240116; t=1789133449; c=relaxed/simple;
+	bh=4qmkwGxl9Xq5Brh6nL3+xw9hVCqlwHfe4jcyDGu4ggs=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=Op4yCl1/QV9M8dMSITDWV8i3iugTBJy2j4aHrLRlE1Om7ZhPSYdGWLl5tcvb9wl2G8YkyaiNNO4lmDIbsCl76rzyXiTDDf8LKCTn3ORZnjjkD9nt6vme2TdVULizXp9eENbmeqK9prsCHAYA9AAVtjnwvWWf815atiJiVoCzkyM=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com; spf=pass smtp.mailfrom=everest-semi.com; arc=none smtp.client-ip=61.135.153.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everest-semi.com
 Received: from unknown (HELO zy-virtual-machine.localdomain)([58.38.107.94])
 	by sina.net (10.54.253.36) with ESMTP
-	id 6AA401EC00006365; Fri, 11 Sep 2026 21:28:13 +0800 (CST)
+	id 6AA401EC00006365; Fri, 11 Sep 2026 21:28:14 +0800 (CST)
 X-Sender: zhangyi@everest-semi.com
 X-Auth-ID: zhangyi@everest-semi.com
 Authentication-Results: sina.net;
 	 spf=none smtp.mailfrom=zhangyi@everest-semi.com;
 	 dkim=none header.i=none;
 	 dmarc=none action=none header.from=zhangyi@everest-semi.com
-X-SMAIL-MID: D7F0BA675F3B457EACC30D4D73CE9A32
-X-SMAIL-UIID: D7F0BA675F3B457EACC30D4D73CE9A32-20260911-212813
+X-SMAIL-MID: 4C57083B476A4537B1D9CA54D6C6400F
+X-SMAIL-UIID: 4C57083B476A4537B1D9CA54D6C6400F-20260911-212814
 From: Zhang Yi <zhangyi@everest-semi.com>
 To: linux-sound@vger.kernel.org,
 	broonie@kernel.org
 Cc: tiwai@suse.com,
 	Zhang Yi <zhangyi@everest-semi.com>
-Subject: [PATCH v3 0/2] ASoC: codecs: ES8326: Modify the configuration and add kcontrol
-Date: Fri, 11 Sep 2026 21:28:07 +0800
-Message-Id: <20260911132809.4478-1-zhangyi@everest-semi.com>
+Subject: [PATCH v3 1/2] ASoC: codecs: ES8326: Add private members about HPF
+Date: Fri, 11 Sep 2026 21:28:08 +0800
+Message-Id: <20260911132809.4478-2-zhangyi@everest-semi.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20260911132809.4478-1-zhangyi@everest-semi.com>
+References: <20260911132809.4478-1-zhangyi@everest-semi.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 
-Modify the standby configuration and add the kcontrol related to HPF
+Add private members related to HPF.
+Add Kcontrol for HPF
 
-Changes in v3:
-	- Modify the incorrect version number
-
-Changes in v2:
-	- Modify the parameters of 'find_best_hpf_freq'
-	- Modify debug information in kcontrol
-	- Fix the issue with the incorrect removal of the jack report
-
-Zhang Yi (2):
-  ASoC: codecs: ES8326: Add private members about HPF
-  ASoC: codecs: ES8326: Adjust the standby configuration
-
- sound/soc/codecs/es8326.c | 145 +++++++++++++++++++++++++++++++++++---
+Signed-off-by: Zhang Yi <zhangyi@everest-semi.com>
+---
+ sound/soc/codecs/es8326.c | 121 +++++++++++++++++++++++++++++++++++++-
  sound/soc/codecs/es8326.h |   4 ++
- 2 files changed, 139 insertions(+), 10 deletions(-)
+ 2 files changed, 123 insertions(+), 2 deletions(-)
 
+diff --git a/sound/soc/codecs/es8326.c b/sound/soc/codecs/es8326.c
+index 32f39cdff..7bb16ef37 100644
+--- a/sound/soc/codecs/es8326.c
++++ b/sound/soc/codecs/es8326.c
+@@ -38,6 +38,10 @@ struct es8326_priv {
+ 	u8 interrupt_clk;
+ 	u8 hpl_vol;
+ 	u8 hpr_vol;
++	u8 hpfl;
++	u8 hpfr;
++	u32 hpf_freq;
++	u32 capture_rate;
+ 	bool jd_inverted;
+ 	unsigned int sysclk;
+ 
+@@ -47,6 +51,48 @@ struct es8326_priv {
+ 	int jack_remove_retry;
+ };
+ 
++static const u32 hpf_table[10][10] = {
++	{1020, 754, 624, 559, 527, 511, 502, 498, 497, 496},
++	{754, 495, 368, 306, 274, 259, 251, 247, 246, 244},
++	{624, 368, 243, 182, 151, 136, 128, 124, 123, 121},
++	{559, 306, 182, 120, 90, 75, 68, 63, 62, 60},
++	{527, 274, 151, 90, 60, 45, 38, 33, 32, 31},
++	{511, 259, 136, 75, 45, 30, 23, 19, 18, 17},
++	{502, 251, 128, 68, 38, 23, 16, 13, 11, 11},
++	{498, 247, 124, 63, 33, 19, 13, 10, 8, 8},
++	{497, 246, 123, 62, 32, 18, 11, 8, 8, 0},
++	{496, 244, 121, 60, 31, 17, 11, 8, 0, 0}
++};
++
++static bool find_best_hpf_freq(u32 target_hz, u8 *hpf1, u8 *hpf2)
++{
++	int best_row = -1, best_col = -1;
++	u32 min_diff = U32_MAX;
++	u32 f, diff;
++	int i, j;
++
++	if (target_hz > 1020)
++		return false;
++
++	for (i = 0; i < 10; i++) {
++		for (j = i; j < 10; j++) {
++			f = hpf_table[i][j];
++
++			diff = (target_hz > f) ? (target_hz - f) : (f - target_hz);
++			if (diff < min_diff) {
++				min_diff = diff;
++				best_row = i;
++				best_col = j;
++			}
++		}
++	}
++
++	*hpf1 = best_col + ES8326_HPF_OFFSET;
++	*hpf2 = best_row + ES8326_HPF_OFFSET;
++
++	return true;
++}
++
+ static int es8326_crosstalk1_get(struct snd_kcontrol *kcontrol,
+ 		struct snd_ctl_elem_value *ucontrol)
+ {
+@@ -189,6 +235,47 @@ static int es8326_hprvol_set(struct snd_kcontrol *kcontrol,
+ 	return 0;
+ }
+ 
++static int es8326_hpf_get(struct snd_kcontrol *kcontrol,
++	struct snd_ctl_elem_value *ucontrol)
++{
++	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
++	struct es8326_priv *es8326 = snd_soc_component_get_drvdata(component);
++
++	ucontrol->value.integer.value[0] = es8326->hpf_freq;
++	return 0;
++}
++
++static int es8326_hpf_set(struct snd_kcontrol *kcontrol,
++	struct snd_ctl_elem_value *ucontrol)
++{
++	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
++	struct es8326_priv *es8326 = snd_soc_component_get_drvdata(component);
++	u32 freq;
++	bool hpf;
++
++	if (ucontrol->value.integer.value[0] > 1020)
++		return -EBUSY;
++
++	if (es8326->hpf_freq == ucontrol->value.integer.value[0])
++		return 0;
++
++	es8326->hpf_freq = ucontrol->value.integer.value[0];
++	if (es8326->capture_rate) {
++		freq = (ucontrol->value.integer.value[0] * 48000) / es8326->capture_rate;
++
++		hpf = find_best_hpf_freq(freq, &es8326->hpfl, &es8326->hpfr);
++		if (!hpf)
++			return -EBUSY;
++
++		regmap_update_bits(es8326->regmap, ES8326_ADC_HPFS1, 0x0f, es8326->hpfl);
++		regmap_update_bits(es8326->regmap, ES8326_ADC_HPFS2, 0x0f, es8326->hpfr);
++	} else {
++		dev_dbg(component->dev, "PCM_STREAM_CAPTURE is not active.retain the input frequency\n");
++	}
++
++	return 1;
++}
++
+ static const SNDRV_CTL_TLVD_DECLARE_DB_SCALE(dac_vol_tlv, -9550, 50, 0);
+ static const SNDRV_CTL_TLVD_DECLARE_DB_SCALE(adc_vol_tlv, -9550, 50, 0);
+ static const SNDRV_CTL_TLVD_DECLARE_DB_SCALE(adc_analog_pga_tlv, 0, 300, 0);
+@@ -269,6 +356,8 @@ static const struct snd_kcontrol_new es8326_snd_controls[] = {
+ 	SOC_ENUM("ALC Capture Winsize", alc_winsize),
+ 	SOC_SINGLE_TLV("ALC Capture Target Level", ES8326_ALC_LEVEL,
+ 			0, 0x0f, 0, drc_target_tlv),
++	SOC_SINGLE_EXT("ADC HPF Freq Select", SND_SOC_NOPM, 0, 1020, 0,
++				es8326_hpf_get, es8326_hpf_set),
+ 
+ 	SOC_SINGLE_EXT("CROSSTALK1", SND_SOC_NOPM, 0, 31, 0,
+ 			es8326_crosstalk1_get, es8326_crosstalk1_set),
+@@ -353,8 +442,6 @@ static bool es8326_writeable_register(struct device *dev, unsigned int reg)
+ 	case ES8326_BIAS_SW2:
+ 	case ES8326_BIAS_SW3:
+ 	case ES8326_BIAS_SW4:
+-	case ES8326_ADC_HPFS1:
+-	case ES8326_ADC_HPFS2:
+ 		return false;
+ 	default:
+ 		return true;
+@@ -558,6 +645,8 @@ static int es8326_pcm_hw_params(struct snd_pcm_substream *substream,
+ 	struct es8326_priv *es8326 = snd_soc_component_get_drvdata(component);
+ 	u8 srate = 0;
+ 	int coeff, array;
++	u32 freq;
++	bool hpf;
+ 
+ 	if (es8326->version == 0) {
+ 		coeff_div =  coeff_div_v0;
+@@ -612,6 +701,28 @@ static int es8326_pcm_hw_params(struct snd_pcm_substream *substream,
+ 		dev_warn(component->dev, "Clock coefficients do not match");
+ 	}
+ 
++	if (substream->stream == SNDRV_PCM_STREAM_CAPTURE) {
++		es8326->capture_rate = params_rate(params);
++		freq = (es8326->hpf_freq * 48000) / params_rate(params);
++		hpf = find_best_hpf_freq(freq, &es8326->hpfl, &es8326->hpfr);
++		if (!hpf) {
++			dev_err(component->dev, "The HPF frequency is invalid\n");
++			return -EINVAL;
++		}
++	}
++
++	return 0;
++}
++
++static int es8326_pcm_hw_free(struct snd_pcm_substream *substream,
++		struct snd_soc_dai *dai)
++{
++	struct snd_soc_component *component = dai->component;
++	struct es8326_priv *es8326 = snd_soc_component_get_drvdata(component);
++
++	if (substream->stream == SNDRV_PCM_STREAM_CAPTURE)
++		es8326->capture_rate = 0;
++
+ 	return 0;
+ }
+ 
+@@ -636,6 +747,8 @@ static int es8326_mute(struct snd_soc_dai *dai, int mute, int direction)
+ 				regmap_update_bits(es8326->regmap, ES8326_VMIDSEL, 0x40, 0x40);
+ 				regmap_update_bits(es8326->regmap, ES8326_ANA_MICBIAS, 0x70, 0x30);
+ 			}
++			regmap_update_bits(es8326->regmap, ES8326_ADC_HPFS1, 0x0f, 0x04);
++			regmap_update_bits(es8326->regmap, ES8326_ADC_HPFS2, 0x0f, 0x04);
+ 		}
+ 	} else {
+ 		if (!es8326->calibrated) {
+@@ -728,6 +841,7 @@ static int es8326_set_bias_level(struct snd_soc_component *codec,
+ 
+ static const struct snd_soc_dai_ops es8326_ops = {
+ 	.hw_params = es8326_pcm_hw_params,
++	.hw_free = es8326_pcm_hw_free,
+ 	.set_fmt = es8326_set_dai_fmt,
+ 	.set_sysclk = es8326_set_dai_sysclk,
+ 	.mute_stream = es8326_mute,
+@@ -781,6 +895,8 @@ static void es8326_capture_pop_handler(struct work_struct *work)
+ 	struct es8326_priv *es8326 =
+ 		container_of(work, struct es8326_priv, capture_pop_work.work);
+ 
++	regmap_update_bits(es8326->regmap, ES8326_ADC_HPFS1, 0x0f, es8326->hpfl);
++	regmap_update_bits(es8326->regmap, ES8326_ADC_HPFS2, 0x0f, es8326->hpfr);
+ 	regmap_update_bits(es8326->regmap,  ES8326_ADC_MUTE,
+ 					0x0F, 0x00);
+ }
+@@ -1212,6 +1328,7 @@ static int es8326_probe(struct snd_soc_component *component)
+ 	}
+ 	dev_dbg(component->dev, "interrupt-clk %x", es8326->interrupt_clk);
+ 
++	es8326->hpf_freq = ES8326_HPF_DEFAULT;
+ 	es8326_init(component);
+ 	return 0;
+ }
+diff --git a/sound/soc/codecs/es8326.h b/sound/soc/codecs/es8326.h
+index 1c5b3ec70..c78d528e7 100644
+--- a/sound/soc/codecs/es8326.h
++++ b/sound/soc/codecs/es8326.h
+@@ -149,6 +149,10 @@
+ #define ES8326_ADC_SRC_DMIC_SDIN3 6
+ #define ES8326_ADC_SRC_DMIC_SDIN3_INV 7
+ 
++/* HPF Settings */
++#define ES8326_HPF_DEFAULT            8
++#define ES8326_HPF_OFFSET             4
++
+ #define ES8326_ADC_AMIC	((ES8326_ADC_SRC_ANA_INV_SW1 << ES8326_ADC2_SHIFT) \
+ 		| (ES8326_ADC_SRC_ANA_INV_SW1 << ES8326_ADC1_SHIFT))
+ #define ES8326_ADC_DMIC	((ES8326_ADC_SRC_DMIC_SDIN2 << ES8326_ADC2_SHIFT) \
 -- 
 2.17.1
 
