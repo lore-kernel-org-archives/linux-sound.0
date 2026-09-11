@@ -1,52 +1,130 @@
-Received: from r3-47.sinamail.sina.com.cn (r3-47.sinamail.sina.com.cn [202.108.3.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D353F3DEFFE
-	for <linux-sound@vger.kernel.org>; Fri, 11 Sep 2026 02:40:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.108.3.47
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789094415; cv=none; b=lQDOPHWIzrkp7ATpRyT9oqzLf8/yXoQL5Cg9oJ1MQGs6QC0ppOVpY0JfHUTbaRgRLMrqUcfCzteEJWOGly8xI+fF9cuULEM7xu4E/o+KH3mDKh7fnx55Lsm+LxAfGCkeNN+O7bVsPtgxV27nb/30WbroA2EuP6SrUR1uPhtcoQ8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789094415; c=relaxed/simple;
-	bh=WqdSGS1srF/GGxajzNh4AZpq7krQiZd3Nlb+3je7cQ0=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=fnyFjoi+b4H0PO93FiXBmnTYtOSZbgH/MJtNvGy/9w4FWB1NRHFlzEsEITpuoNoavyt8ukhAVFeKViS+oJedmzZY7Ogt+8JbkrsbrJ5GzspShEdoFJyDSrT2jcAiRYbFsdumy5wkHCScWfSm7vl/NA3BJtrxf2TedR0rdly1aoQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com; spf=pass smtp.mailfrom=everest-semi.com; arc=none smtp.client-ip=202.108.3.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everest-semi.com
-Received: from unknown (HELO zy-virtual-machine.localdomain)([58.38.107.94])
-	by sina.net (10.54.253.39) with ESMTP
-	id 6AA364F500007CF3; Fri, 11 Sep 2026 10:18:30 +0800 (CST)
-X-Sender: zhangyi@everest-semi.com
-X-Auth-ID: zhangyi@everest-semi.com
-Authentication-Results: sina.net;
-	 spf=none smtp.mailfrom=zhangyi@everest-semi.com;
-	 dkim=none header.i=none;
-	 dmarc=none action=none header.from=zhangyi@everest-semi.com
-X-SMAIL-MID: 1F02533ACD954FFEBA654E1CED5E974F
-X-SMAIL-UIID: 1F02533ACD954FFEBA654E1CED5E974F-20260911-101830
-From: Zhang Yi <zhangyi@everest-semi.com>
-To: broonie@kernel.org
-Cc: tiwai@suse.com,
-	linux-sound@vger.kernel.org
-Subject: RE: [PATCH 2/2] ASoC: codecs: ES8326: Adjust the standby configuration
-Date: Fri, 11 Sep 2026 10:18:27 +0800
-Message-Id: <20260911021827.29963-1-zhangyi@everest-semi.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <e008bc53-559e-44b1-ba0d-4dec50cc9336@sirena.org.uk>
-References: <e008bc53-559e-44b1-ba0d-4dec50cc9336@sirena.org.uk>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13DF63EA957
+	for <linux-sound@vger.kernel.org>; Fri, 11 Sep 2026 03:00:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.172
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789095656; cv=pass; b=Za+LnpySd8zf9SJF/uIczwVCMwHc23AC9/cOexBY0UK+IMo6itav1Vwxp8uj7NauTS48aCgcB2wocBcUlRYWYlNtc/RpQGPvlok/YUs+Z32o7+0/emZPh6mXxrnlyWUIAt3GFcxXwCkvMJ6mb3sdiZ9fTdQT2quT4N/pNh/5l50=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789095656; c=relaxed/simple;
+	bh=Y2IK0OrtSi3t5BcBj1ZtQzAjH+x9+HSC57KKssAwDLw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=J7bOziQpu+8kKXOwmNOndnpr9tnbuoSdXjsc6+zEZSYUgT39A9Rg4oS/YGt1dN35QOC4odjdguq26pB1oWIg2apiaUUZE09UXv2Oee8J0Q0de70ApmiGcciQWdE797npQskuHPflhxW+/9vCKeq1x9DOXAufKi331ivsg2Vv2zg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E1JX9/Kh; arc=pass smtp.client-ip=209.85.210.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E1JX9/Kh"
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-853c07a76adso466652b3a.0
+        for <linux-sound@vger.kernel.org>; Thu, 10 Sep 2026 20:00:54 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789095654; cv=none;
+        d=google.com; s=arc-20260327;
+        b=kr1mVmCVyfKhsn46af1Sj1dtu1mc/mOyeuNkdE4xK2oKjsqyyftfoXBOjMBV8+vrM0
+         8jla2lTY24kWQA+39cRexmQeraOupK6rX1OUfXk9X/eIVvZD8CMFoHNcmlGLUznAWigi
+         Wvez8sywY+cHxgppK+Zs3UZ77IuZsvH42FfoxJ881ciyEYY+QimYR8Sn/elGgsYn28Mx
+         D0QLRbuXonia3A1aFi68DmJgmWRa4bsBSyVdaUgaAr/YgjdUaiQwXIkBuKgB46FvMTpR
+         8h9txw+pGVtZnYnGfN7gtW4qDVmPlMupHjvRN179fyYkm0pWlslYVXq+yRi9tg+TSpgU
+         or8A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=GgvtkYeJ7+6IrGYwWBRX0B9aKmCQvEgKBdWATeTAwDs=;
+        fh=S6Bi60OYu3imkAZdImkgt3LOnq+U25084AUFAeXCzBY=;
+        b=CBk7aVjyJmGb70z+nLKDe3Yx8xDCIiX5uZV0Pkrq367+RrG6NOIu79LGisSgs2Sikb
+         Nu4/RXunbXMQOOBo6jZQ101B/esdxkF2rquSTx3GwRRrEby0s/BS6dIeMqdybSFop2I8
+         y5cbWh7+k7hgYsZa08H+ea/DD/Mh36jHZpoEe2FnoaBE0z1dJyrJvAopgqawST9RM2NK
+         pbz2P14tW1i9wDc6sp7o5rARhJ2pK1+xDkcqZX26qVzVAZW4FgLwDoiModxTJfive5hk
+         J3GTFnYimG3o+EjlyCPKCQlnIwfTDmh48lrcF0lfsg0EiWoEnP3KCk6DwDedJLrN6hMk
+         Utig==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789095654; x=1789700454; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=GgvtkYeJ7+6IrGYwWBRX0B9aKmCQvEgKBdWATeTAwDs=;
+        b=E1JX9/KhE7A844Z2hPbzyQgfFOsw7m0hUvXmn6H4DJLeW9mw49E+B1rJx34F0dGB6o
+         So4IHX+VMrCuvS6dnaez8PNdyvxVhM85MqiLc8odRBZicL7klrz9Reunrq35WSpx/NNR
+         f1aZxYYw0wSUnL6EilMjGxa9Qigw4BtGqbhN+jM//HiEXed4Mm0q8kqUzaG3GzR5Zt+9
+         YVRKoeJp/LZB6/dmjEZ7acDtaklg1YckCmSHjPySUOO90cIUyuRC3WB0X3iXoZ3KuR5c
+         HoL6bb5TlfMOUUOG0sW6r32MAJ0OLNzyE6+JDBvnzYj/NulnYw56aytuai0MBDm2fttc
+         M41A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789095654; x=1789700454;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=GgvtkYeJ7+6IrGYwWBRX0B9aKmCQvEgKBdWATeTAwDs=;
+        b=OrvXITcAGmyGJC6/LIKmlzbsRLQa+wsJL2SaOEQc7loBUfKLM81ULts886R6rzQOBH
+         X4rcvjz3enRZW4Z1P5IHlHuP06A60bWRcQ1xAIAc+ijMzKRuWcRF0J0lpI2vgfBnwVza
+         32O2HPSIC6Bz0N9ywfHGvywRkWS+8qHeyOfaR9C03jBYbyECF9KaDW8Cfr2d/FTNXVh2
+         loPprOHUd5agu//JCupDrtWw7+0Kxs/vFwx7kdqM2FWgP5m2P8cyTaTg/8RFy3vYVW2c
+         SKnlU+QfN72+NKuLt7m84Tp1jFYLXMI2T7hG75asJGyJ0jwjOH74zE5tGK33PP4xMGCf
+         h/+g==
+X-Forwarded-Encrypted: i=1; AKwUvBztS9wk8CcTG5JoYOBDRn4mEHhii3ZAmw+lToYDQX5m/ZAGkgvhXGT1y7TnXOeixYYXmX60nzmeVVHwoQ==@vger.kernel.org
+X-Gm-Message-State: AFuF++mFvMZMLYhZ2DoYMlNNj3l70/8RHufxYaGqVaYQxRjFeCbJ8mVf
+	0el+FJkEq0+JsNLqeW1F1gamhHq4A/eYLG3Y9I4Ulac3uAz6hoLH2RuUMGJcZ1hltIaZUN91rjj
+	LCAu5PzH9vttb9RHoGpUnhSqTsQIybdw=
+X-Gm-Gg: AYBFou157GvXgxGXMgl97L/WyA393zQKRKSkHmyhDWbS3Ft876Ba74kXzkJzTw+Zswt
+	bam49FDpkl5ngrwtqjgQkCqxhF3LN8F1ZodlDXLh25ll4UhuUnxJBRKn6p4bnXAODk2xzJpLO4M
+	MKtbbrSUFEG0XjGil/AeS8FzbxFuhSfyPP6zeDF6EpIGyc3X4igf60fPBSfSSxpyUkj1tQ5TqiN
+	oxpWpaP0eB1IPdsNyD2kAXst5enRGGi3QtmURZDC623A+ulysKcyFmz1iWfWD5f+aJjkwe07EgT
+	6UDXBWRp2YeaxFa7y2Rs1du/aLwTXRyppvjY8nxQPnoD1EjZsCxT8x6luUkQ60n/WIQwkrCAyjl
+	Kt+0MV/TLtvFbBuLwad59d6w8+meC6AO3X6rphfRRv164gOMELq9hztitOU43T5dnceo=
+X-Received: by 2002:a05:6a00:3cd5:b0:857:72f8:dc99 with SMTP id
+ d2e1a72fcca58-86b328e7f63mr3298126b3a.26.1789095651223; Thu, 10 Sep 2026
+ 20:00:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+References: <20260910114338.142682-1-phucduc.bui@gmail.com> <2a553332-735e-4372-8d75-2ed7d095bfc0@sirena.org.uk>
+In-Reply-To: <2a553332-735e-4372-8d75-2ed7d095bfc0@sirena.org.uk>
+From: Bui Duc Phuc <phucduc.bui@gmail.com>
+Date: Fri, 11 Sep 2026 10:00:39 +0700
+X-Gm-Features: AcwNN1WPfGjfjTJ3UBeJ1SZL5IZMV3aP3IQW-IHMbnVy8yqXjU0IzHMcAxwIYp0
+Message-ID: <CAABR9nGdsKvay_3Cd_Lm0DjU6MiFL0zaC+ftpgQGaX3YtVe+DQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] ASoC: mediatek: common: Propagate control and DAPM errors
+To: Mark Brown <broonie@kernel.org>
+Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Cezary Rojewski <cezary.rojewski@intel.com>, Cyril Chao <Cyril.Chao@mediatek.com>, 
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Darren Ye <darren.ye@mediatek.com>, 
+	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-> > @@ -1078,14 +1079,19 @@ static void es8326_jack_detect_handler(struct work_struct *work)
-> >  					SND_JACK_HEADPHONE, SND_JACK_HEADSET);
-> >  		} else {
-> >  			dev_dbg(comp->dev, "Headset detected\n");
-> > -			snd_soc_jack_report(es8326->jack,
-> > -					SND_JACK_HEADSET, SND_JACK_HEADSET);
-> 
-> This report removal isn't explained in the changelog, and I'm not seeing what replaces it?
+Hi Mark,
 
-Sorry, I made a mistake.I shouldn't have deleted the report here. I'll fix this in the next patch.
+Thank you for your review.
+
+>
+> mt8365-afe-pcm.c has:
+>
+>     {"HW_GAIN1_IN_CH1", "CONNSYS_I2S_CH1", "Hostless FM DL"},
+>
+> missing a Switch from the control.  I suspect there's other errors; this
+> really needs to be tested before it can be applied.  Given the general
+> quality of the driver here and the lack of anything constructive we're
+> doing with the errors changes like this have high risk and low reward
+> unless we're actually running the code.
+
+I agree that these changes should ideally be tested on real hardware.
+Unfortunately, I don't currently have any MTK boards available for
+testing.
+
+If these changes cannot be properly tested, I'm also fine with
+dropping this patch.
+
+On a related note: do MediaTek or other hardware vendors typically
+provide development boards to independent upstream contributors for
+testing purposes? It would make it much easier for contributors like
+me to properly validate changes like this one.
+
+Best regards,
+Phuc
