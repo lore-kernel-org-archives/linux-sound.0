@@ -1,66 +1,191 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B137B345EDD;
-	Fri, 11 Sep 2026 08:56:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FC1A46C851
+	for <linux-sound@vger.kernel.org>; Fri, 11 Sep 2026 09:11:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789117011; cv=none; b=fRoCu/PTsA15/uo543EcOGJj8LD/WNKIybKOxz2nVrdlKZjulgCTmEF+go5tew39bsJ8XKqFIm+v9+j1gvAQZ99ElxrLY+Tw7pWHneGrOVZ9lN3Q7KNXmbW/SrbNIXQKhnLcEKagM3ophRpHtqjxboxyGsSyqBh6zw1EJeCYGQE=
+	t=1789117873; cv=none; b=nmEmiPn/83RTxnwnuhVCdmkAZMbqQ7XasbFPVGin2Wj5iKECmb1r4GfoqCJKs5tnrpBjJnusHD/UbhTy/ksFjwEv8RZAOFhkMJu2I8TviR/M/+zxVvGkk35kBaU+Z46XYpSWtx7ir7glsoQMp28Pt4O2li42b0dKgiNUiTp+Kus=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789117011; c=relaxed/simple;
-	bh=gkfJgdI6XeM6ZAlM1xQfobNUauinfKZ+a21KsW6Irf4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Mj2NSckIMEGovflAROlx63iVAExv7/2iQcGB9gDYKhFmk1WgwAzpWVsaH9y4CNxhwTxuKgPW7aBIbM8/eeZUcZSZybqpgFw1Vh8uRCtZ2upzdUPiOSndR/lwTmKZL3pIlAHjlchbUAP6jQNzh5td/BlRWUA4Z1H/vNDpSnfk6ww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MVMFtAxQ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789117873; c=relaxed/simple;
+	bh=qzB5xYjZudpXmyra4RIP7KgCNC17z3/27DkbVpLf9Pk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tVIY/EZibCLCnMPZVjgZG9y5geDGAcv+6pCFirhqT4sdIlf6oMKcPsqFu49BnzZfvmbht2yY+4r8JlaHDYhuIe5DzfekzJu6gbShZIy6b3v5H3Ygh1ZODvHunAkKlaCt3NUniBtmENIM1Npdm5RNNXafyiNEJ3gf096+KVZCEUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qEYHDK03; arc=none smtp.client-ip=74.125.225.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MVMFtAxQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 829661F000FF;
-	Fri, 11 Sep 2026 08:56:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789117010;
-	bh=gkfJgdI6XeM6ZAlM1xQfobNUauinfKZ+a21KsW6Irf4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=MVMFtAxQ2Azvbdm/Hc0AT4Q1b6OdOJwNIPPFpjXercYHUM+ebmkZmhDA4K52HSsI3
-	 JN3gOrx3C2iC0iFu6xk1Qv19WfCzDuSfwpza8ZPjQZxGr9m8gwSG8JigG2KDLk8DYg
-	 YFJJKvWwjowrI7Qo8WCwSxJGHplt9DdFi0C9hi2HgES3kckThrBZfYA4uTnmdZEgPp
-	 rJ0go04t9ULPf68ORcMMmw0G3Jl6pMWhGAOKIsC2V8bM3DMbenlX9Zx9LB8g4skRC3
-	 CGAZwZ6gQuwFxCy7DxB5UyOSUhg0rXWy9poh4dL/Ey9i/tmqRR8gZIuCfh8U62OM7h
-	 aVnKz+VDTLFdw==
-Date: Fri, 11 Sep 2026 10:56:46 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-Cc: Srinivas Kandagatla <srini@kernel.org>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 9/9] arm64: defconfig: Enable Qualcomm PM4125 and
- WSA885X drivers
-Message-ID: <20260911-tireless-sincere-flounder-5fdfb0@quoll>
-References: <20260910231642.1794948-1-mohammad.rafi.shaik@oss.qualcomm.com>
- <20260910231642.1794948-10-mohammad.rafi.shaik@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qEYHDK03"
+Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-4843cedd129so378129f8f.0
+        for <linux-sound@vger.kernel.org>; Fri, 11 Sep 2026 02:11:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789117870; x=1789722670; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=FjWAgtoFbX+Dl7d9AIeU+Ccr9woc+xQZQf6E8IGydFc=;
+        b=qEYHDK03Qzz0pwLTGqHJ+reMo5iCcRJgfD+IxfyphkvDPM/EN28knBC6BihUILfB5Y
+         QngspixBTCf5nGppk3ojExehZe/mBsLrTudVXWdNCK2aCRsC9nzjrDuOeM+M3BI8RdOy
+         G3zmaDmEaDWwVAp4oPQetlGLYvr1G7rtnbEBCdR/PJ6pULx6tRlrEFIfXe+KTABApqfp
+         dkIQnwPqEAHFnK7dVXp3WMq9hfqnqze52seQ6VoJs6pg42d6qH3J7iDziRnxAr5aYhTI
+         qAoTFkvrYmyfQ5+3wbRNwe+lju0+GbJBLX6fXw+5dR5xK4vzSAPmxKYuWuivov6iAtaX
+         WH/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789117870; x=1789722670;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=FjWAgtoFbX+Dl7d9AIeU+Ccr9woc+xQZQf6E8IGydFc=;
+        b=T0gPe5fd5GNUEANNcEZH+3l+1lZoS/9rNy2UQHLl0H7NxvnO5pobC9ORzbKx6tEAP4
+         +sJqoBohVdYPpHanYrwTeK0GwG3OC5reVhcvFS1DwBNjgY/zoUYV5y8iZ0ecnNfPAPp7
+         aebIbc3eHlUP2AjPxXxcRfPqz4Ov0yGlkTVUindfK4xyvgthYQcwx3dxHVfkZFipFotC
+         uo5HxVVxPYmP28hoppTznspw+iko0Ha3LsrBaIViyHWbG6sYYwTGl72rSWf5jOplQTlN
+         13N++dxurr+HI3IFDmncKR9nZ2Kjs4Zljaog4nJrAbjoyBGzQ0uYxzYCDuvMUH5S+zoi
+         UwiA==
+X-Forwarded-Encrypted: i=1; AKwUvByZrjvv4gGRJVJOgJpgTJTAHtg3Oyk/z/i0aF3Tk4MAqfMMpcKUT2lU3AEhyQMX0MYH4qzaVqBa7i797w==@vger.kernel.org
+X-Gm-Message-State: AFuF++nDBoiIWF45oN3oPL33FCfg1oA33Gvq+sngMSinHdG2qaavwy1j
+	ypsyWWEAOxGECRpl0qsLlszc5SzeCeZJtSiziEqwDRD4031WUWUTLqsz
+X-Gm-Gg: AYBFou0IF81KPcbzFPtqZFRoWr86JtzlUg/4Sgvmdh3odpAJMDtf3fzmZHl5HPf+zbB
+	kDwCg1WAoS+rpJVqZy332oQpH0kbeR0u8fx9s99tfX6LT9G74iIbxwnRmTmpbK5kabPkISuvyYs
+	7aKXXLsSNzhv4ORzVwOMx/RMioBuUBF3fY5+w8Y1UtZvbTBXmnY4ZlW3bywtUPcTMbAS5TQ8OdQ
+	7uJhFmAmGtXn56a1RC7GCFWOUjeNsDIkyXkNq87RXo2S4Y6VpWpm92aU+KidjddBI95BdcMjhf/
+	z8v24I5MmWzDa+gBx7oc1iD2Zela1ib97QVpg+1egCxkcSNxB6N+z3PcF7V9jLUwR840fqvoIt6
+	vq8ed2i1o/s80gWx3tyhszE2k3g2vlMDulMUR2USmq7ZgIjka/D5Vn84Iemo8hokDADW0C0xfFO
+	1j6IU2Lfauq/wZvg6tUk4/xFUA9+VmyYf+A31N3gXSf+JxTQ5DxnlEYwIrWMySoi4KzYUM1KGX3
+	fV3oAVkzgfNvSwD86v9Gp4ZAL6zKzJemPvn+pZOW+UoQQ+qPMawFaCKx2wNoyR/S9CNCA7ReYax
+	ghu5
+X-Received: by 2002:a05:6000:2f84:b0:485:b148:aa2a with SMTP id ffacd0b85a97d-486eb342209mr6494717f8f.23.1789117869546;
+        Fri, 11 Sep 2026 02:11:09 -0700 (PDT)
+Received: from TIM.homenet.telecomitalia.it (host-87-20-169-207.retail.telecomitalia.it. [87.20.169.207])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-486eb33ebe4sm3872075f8f.14.2026.09.11.02.11.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Sep 2026 02:11:09 -0700 (PDT)
+From: Antonio Di Lorenzo <antoniodilorenzonap@gmail.com>
+To: Cezary Rojewski <cezary.rojewski@intel.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <liam.r.girdwood@linux.intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	linux-sound@vger.kernel.org,
+	Antonio Di Lorenzo <antoniodilorenzonap@gmail.com>
+Subject: [PATCH] ASoC: Intel: soc-acpi: add SoundWire config for ASUS P5405CAA
+Date: Fri, 11 Sep 2026 11:10:35 +0200
+Message-ID: <20260911091035.221224-1-antoniodilorenzonap@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260910231642.1794948-10-mohammad.rafi.shaik@oss.qualcomm.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Sep 11, 2026 at 04:46:42AM +0530, Mohammad Rafi Shaik wrote:
-> Enable the PM4125 and WSA885X I2C codec as modules in
-> arm64 defconfig.
+The ASUS ExpertBook P5 P5405CAA uses two TAS2783 speaker
+amplifiers on SoundWire link 1 and an RT721 codec on link 3.
 
-Why?
+Add the corresponding SoundWire ADR devices and link description
+so the sof_sdw machine driver can select the correct configuration.
 
-Same question as usually. I even documented it in maintainer soc
-profile. Dunno how to improve it more.
+RT721 AIF1 is used for the headset jack and AIF3 for the DMIC,
+while AIF2 is unused when external speaker amplifiers are present.
 
-Can you tell me?
+Use function topology selection for this configuration.
 
-Best regards,
-Krzysztof
+Signed-off-by: Antonio Di Lorenzo <antoniodilorenzonap@gmail.com>
+---
+ .../intel/common/soc-acpi-intel-ptl-match.c   | 65 +++++++++++++++++++
+ 1 file changed, 65 insertions(+)
+
+diff --git a/sound/soc/intel/common/soc-acpi-intel-ptl-match.c b/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
+index 756bbf82a326..1035d61f65e9 100644
+--- a/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
++++ b/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
+@@ -109,6 +109,23 @@ static const struct snd_soc_acpi_endpoint jack_dmic_endpoints[] = {
+ 	},
+ };
+ 
++static const struct snd_soc_acpi_endpoint rt721_jack_dmic_endpoints[] = {
++	/* Jack Endpoint (AIF1) */
++	{
++		.num = 0,
++		.aggregated = 0,
++		.group_position = 0,
++		.group_id = 0,
++	},
++	/* DMIC Endpoint (AIF3); AIF2 is unused with external speaker amps */
++	{
++		.num = 2,
++		.aggregated = 0,
++		.group_position = 0,
++		.group_id = 0,
++	},
++};
++
+ static const struct snd_soc_acpi_endpoint jack_amp_g1_dmic_endpoints[] = {
+ 	/* Jack Endpoint */
+ 	{
+@@ -301,6 +318,46 @@ static const struct snd_soc_acpi_adr_device rt1320_3_group2_adr[] = {
+ 	}
+ };
+ 
++/* TAS2783 stereo speaker pair on SoundWire link 1. */
++static const struct snd_soc_acpi_adr_device tas2783_1_adr[] = {
++	{
++		.adr = 0x00013c0102000001ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_l_endpoint,
++		.name_prefix = "tas2783-1",
++	},
++	{
++		.adr = 0x0001390102000001ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_r_endpoint,
++		.name_prefix = "tas2783-2",
++	},
++};
++
++static const struct snd_soc_acpi_adr_device rt721_3_adr[] = {
++	{
++		.adr = 0x000330025d072101ull,
++		.num_endpoints = ARRAY_SIZE(rt721_jack_dmic_endpoints),
++		.endpoints = rt721_jack_dmic_endpoints,
++		.name_prefix = "rt721",
++	},
++};
++
++/* ASUS ExpertBook P5 P5405CAA */
++static const struct snd_soc_acpi_link_adr ptl_tas2783_l1_rt721_l3[] = {
++	{
++		.mask = BIT(1),
++		.num_adr = ARRAY_SIZE(tas2783_1_adr),
++		.adr_d = tas2783_1_adr,
++	},
++	{
++		.mask = BIT(3),
++		.num_adr = ARRAY_SIZE(rt721_3_adr),
++		.adr_d = rt721_3_adr,
++	},
++	{}
++};
++
+ static const struct snd_soc_acpi_link_adr ptl_cs42l43_agg_l3_cs35l56_l2[] = {
+ 	{
+ 		.mask = BIT(3),
+@@ -487,6 +544,14 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_ptl_sdw_machines[] = {
+ 		.sof_tplg_filename = "sof-ptl-rt713-l3-rt1320-l1.tplg",
+ 		.get_function_tplg_files = sof_sdw_get_tplg_files,
+ 	},
++	{
++		.link_mask = BIT(1) | BIT(3),
++		.links = ptl_tas2783_l1_rt721_l3,
++		.drv_name = "sof_sdw",
++		/* Function topologies only; no monolithic fallback. */
++		.sof_tplg_filename = "sof-ptl-dummy.tplg",
++		.get_function_tplg_files = sof_sdw_get_tplg_files,
++	},
+ 	{
+ 		.link_mask = BIT(0) | BIT(2) | BIT(3),
+ 		.links = ptl_rt722_l0_rt1320_l23,
+-- 
+2.55.0
 
