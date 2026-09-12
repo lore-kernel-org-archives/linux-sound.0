@@ -1,106 +1,79 @@
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAB332DE702
-	for <linux-sound@vger.kernel.org>; Sat, 12 Sep 2026 10:05:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AD033F23BE;
+	Sat, 12 Sep 2026 10:45:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789207556; cv=none; b=YyZksz2x2cYSd3QnZf4qu9YEG3DVKbUSvuJoI8xc20FBgrjhyR+0pQS2PGi5fCiU3DeF7vktzikvj0T+eovYWJRLHAhPp4ZJM6JbQ5c0W/GZzXlqNfkvBiuM3SGmyj/F+8krnqG5baBNa1ctbzlAy5LhkOeOLvLoteSwRrNNCU4=
+	t=1789209959; cv=none; b=AykLSNzIOpL89DiZqXisymLR3aPlMGr1mYPCfdNNeYCPY/84b2V7m0IAXJUnEBRj4RNxXEnDd0lOmiXLWPKCAEH/vB3Lg2WZw1N08AXm+FDf21exQSP7HtJ2sTw0n41/C6fX2UrzNYLxox84cSTBarnlrHuzV/pFopU3EXALKsk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789207556; c=relaxed/simple;
-	bh=LJOPmJrP21LYbzrhFhky3DZI4h+hJ59z5012EB8/nto=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=i7G5683cQlq7g4FK8hol8lNPIGUq9m4zaknuXmWZoOR/6ousyLZx4DYQEFFyTbboBmEf20fQkH4FTk/bi3anIMErWEbC7IT2zRmd3LWPaoBwnu/MUo03cxiwc5rup4FfTJKlbOFfrSxSM2LwIFfRSv841w0fzA8DFFNfyRPqybk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SW6aRQlG; arc=none smtp.client-ip=74.125.225.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789209959; c=relaxed/simple;
+	bh=6ZHX+KXqqUnpV+lj0b2E7UfTu5GySDXzprd1+AnLZ6U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RftLjdNH6ngukTXZfA8S2WCeiv/Nstoot27y+xid+VvOfH3XjXRa/lMD8HTU/qAjZMiKwjnJBn+XtR4hRJ1vm8xKpJQEZywNotaYNIcdm9tALvPqU5DvQQyTAMTkMVtPXcEEjwwtcp2FhWYXVAMcqw5CXAZd2Kz3J3xtEC+pV6A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xgdwkz8q; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SW6aRQlG"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b912e2406so2616365e9.1
-        for <linux-sound@vger.kernel.org>; Sat, 12 Sep 2026 03:05:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789207553; x=1789812353; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=6vpOBpBX9uNCEBjQ+845hANe2x9rtJ064R+VsEUkujA=;
-        b=SW6aRQlGVz1NUoh6rFaIXJE0FQqSkwAyZoCoPbqF3/kCc7BzgzcsD7N7B/5y/B8U+k
-         Umr8VDVwoGEOfOD5OhwIXB/k+ih/2/fh2U7QK/RKNnS+eyh+rs9jZzidHBTl+xRoNCGM
-         RXqwDfdbw1fzTbO/teV3YcD8N3XavUccrBy5b9luqbw/utQgufeHRKxWamAmjyDtGGeM
-         nB8SQu2cbODIPa2VxS0VgG2eVqGORu6kWr9qfzi3JwtIo1IjiWzbtsaLivlwv+4hfZeI
-         cDac/ZcAI3loU74r526JUmY/IJhFyi/dqmO+y0D1OoMNy+1hT/mRyQWuYtJgdQiJEMFH
-         pqlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789207553; x=1789812353;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=6vpOBpBX9uNCEBjQ+845hANe2x9rtJ064R+VsEUkujA=;
-        b=lslIxgUNdLM/EqOALPU4kcGO2K1lHrkIk5vW0PKEwFQ4f32ulbA1gyT3Zoib1b2oqa
-         Eg81jBLD/QTCG/2hrRbYgf7UIRnkgtbgrCY1QzyeJIf/XROX2D8yMFzJ2V8XcffRBxa3
-         1WtBwzFEzNMCHz45O5kW27Il2DS4w+NEWYdGbl+znXBVcOEwD1APIO//VYlwsXB//MUD
-         6ejPF/KnZdw3eoPg7/cyDyI1UyUw+YMNW7Ec/97PyisEtNwxJlwaLnSxspAUG50oCi5b
-         jntfMfqTF1cY05ivDn8zVTDcWH6Cq1/OS4A9QD2IU0ssv1TYfpVWqa3pr9bdHZNJPbSw
-         nleg==
-X-Forwarded-Encrypted: i=1; AKwUvBwbzO1tbSeFQMSQJyebpjjauPWfKetbeRyjHDYmPUdBjPKqi8o5r4f5IjhoPIZJU1XIMtFMHhbAsjBxyA==@vger.kernel.org
-X-Gm-Message-State: AFuF++n25v/0CtfRO5KwcGm5NCU/iZxyQcuulgdKp0IsYDqaf75yNXmJ
-	k6INFGqbEWjRlj0obvPXbEHn50MH8n4rFrYhmlKixhEuFxcljo57f7rT
-X-Gm-Gg: AYBFou3qFLI8Vgv5/VOmQnxJ7iVmxopA/CVjwOJk4mICOpkUu1gZyDzAsVn5tEr2mTS
-	aDdGmHAbbGscSsQYHq9UqItOcMQQ2/0dcSt6KeRyyPFn7aKfN7/qQCwy9XRZFdT+5l0IlPBsaUH
-	FNXBUoFZfSBgRKyF8n+5hqJVw0NSs8d3OOdJp3dlYk2DY4WWst72POfgihdujX/wzFqapVhXgqO
-	D0PDZYdt6icQh+Wi5TNudYKOLW80XWTVFIM8XZ2nqqfTcbi751UnTOY5ti3ncNVDppmMV2meEGm
-	1giRaO/m4fOy1S3jH3WPCE384bE4nKnvQBCMY/LhfuakYPjXDi27sjjYFmpI+FWJXhXNJ8MmD1t
-	5mqtyLPQIK3OBRctLNeoVTwln8onA47qeQ/Irdn2likou0/I/Sr8rVMzy03JbNVmsBrlJivf70r
-	d6v2/LrxC2EGkuHSg4eZk155BckJXDBIU+H9ZFPgA1gQSdObrTbEGUTlRYBngDN88S5VwZHYScA
-	ReuBxtswlFdVqbStxlCUWoqFaM/uahr53UcLH/AFlyQ+pi8HdJe0SbLSv+SE1E1PBbdmVvE13oY
-	YuqYJq4Xa7M44R6KlbsyiSBJnXKsZmZjemO59yokhy/Hc4/74+SUXt/TetUKFDnDfvotAVThJku
-	RGA==
-X-Received: by 2002:a05:600c:19cb:b0:49e:6581:7baf with SMTP id 5b1f17b1804b1-49e658188e3mr76273105e9.2.1789207553028;
-        Sat, 12 Sep 2026 03:05:53 -0700 (PDT)
-Received: from localhost.localdomain (dynamic-2a02-3100-b260-f201-9983-e8c4-aff5-7a36.310.pool.telefonica.de. [2a02:3100:b260:f201:9983:e8c4:aff5:7a36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49d26be3e35sm220381015e9.2.2026.09.12.03.05.52
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sat, 12 Sep 2026 03:05:52 -0700 (PDT)
-From: Karl Mehltretter <kmehltretter@gmail.com>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Karl Mehltretter <kmehltretter@gmail.com>,
-	linux-sound@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xgdwkz8q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB79A1F00893;
+	Sat, 12 Sep 2026 10:45:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789209958;
+	bh=6ZHX+KXqqUnpV+lj0b2E7UfTu5GySDXzprd1+AnLZ6U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Xgdwkz8qixw35R1je+ZAZJuVPJBGED1D4IL6BYG6xZHzHEv9sK06Rfh8wTP1dzmE4
+	 KlHEdV2BdOtZ2gvqVaOSSokLI6Lk1FDO6CPt8W/D21av4BI1TOxghmK6G5ux0mCQgs
+	 i8TqaUwtjjFUMRVRXgkJgtuHj1zAmX/uaqbPXobpN0lNrbwyS3KPScH7sAgGmN80BQ
+	 TAinq5nBnQ/Lv3qoe1lz8QNzOozPoFg96IARKuB7U9umlx1goKGsUOjqIUQk8vLOLL
+	 eFOIPAG8/uzNlFJ+4kUkUW6z333LH2IDQfW32IDEDSrNbKM5ow0XWr9/0oWSz4qFfM
+	 h1C6Ypw+KW9fw==
+Received: by traversing.sirena.org.uk (Postfix, from userid 1000)
+	id 415DDE06029; Sat, 12 Sep 2026 11:45:52 +0100 (BST)
+Date: Sat, 12 Sep 2026 11:45:52 +0100
+From: Mark Brown <broonie@kernel.org>
+To: HyeongJun An <sammiee5311@gmail.com>
+Cc: perex@perex.cz, tiwai@suse.com, shuah@kernel.org,
+	linux-sound@vger.kernel.org, linux-kselftest@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: control: Fix virtual master creation reference in kernel-doc
-Date: Sat, 12 Sep 2026 12:05:48 +0200
-Message-Id: <20260912100548.86134-1-kmehltretter@gmail.com>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+Subject: Re: [PATCH v3] selftests/alsa: Test writes to IEC958 controls
+Message-ID: <aqUtYK3mEYH2OiRS@sirena.org.uk>
+References: <20260904123334.1505003-1-sammiee5311@gmail.com>
+ <20260912025430.2102149-1-sammiee5311@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="RjOQ/8si06ScYdmy"
+Content-Disposition: inline
+In-Reply-To: <20260912025430.2102149-1-sammiee5311@gmail.com>
+X-Cookie: Orders subject to approval.
 
-The snd_ctl_add_follower() comment refers to
-snd_ctl_create_virtual_master(), but virtual master controls are created
-with snd_ctl_make_virtual_master(). Correct the helper name.
 
-Fixes: 79c7cdd5441f ("ALSA: Add kernel-doc comments to vmaster stuff")
-Assisted-by: LLM
-Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
----
- include/sound/control.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--RjOQ/8si06ScYdmy
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-diff --git a/include/sound/control.h b/include/sound/control.h
-index 909db0d0485df11385769367b484daaaf56905f8..37e9c545503e5fda45ed5d9a7fdfba3ad060fd67 100644
---- a/include/sound/control.h
-+++ b/include/sound/control.h
-@@ -244,7 +244,7 @@ int _snd_ctl_add_follower(struct snd_kcontrol *master,
-  * @follower: follower element to add
-  *
-  * Add a virtual follower control to the given master element created via
-- * snd_ctl_create_virtual_master() beforehand.
-+ * snd_ctl_make_virtual_master() beforehand.
-  *
-  * All followers must be the same type (returning the same information
-  * via info callback).  The function doesn't check it, so it's your
--- 
-2.39.5 (Apple Git-154)
+On Sat, Sep 12, 2026 at 11:54:30AM +0900, HyeongJun An wrote:
+> Nothing checks that the put() callback of an IEC958 control reports a
+> change, because write_valid skips these controls.
 
+Reviewed-by: Mark Brown <broonie@kernel.org>
+
+--RjOQ/8si06ScYdmy
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqlLV8ACgkQJNaLcl1U
+h9B+sgf9EGlda527nHH1iurG77KIl5ca10p0cQUhLQk+2avhfdspCbv5awWBMiey
+2tmPsaZmeLJhjNakT8UIflPfXgpK8H0dOHnArqmSilLch+RWE5XxJCak0WXxXiPh
+FPhBmsmEv98Gr6QEuQQdbS4o225rhTGYuP9HhJVZvUdAaI0SDYXt2h7whqpKNKoe
+kEJshASluQzZT1Qv1NbUy5j5/Y8MMSvXwOApvC2K6xhiPjWtbVLEuDvKJIdZ/JR6
+PVpYONzZb/A+wQV6cuk+C8roL/TY8HYG3GBx7mTC16YDGU63QKJbtgsjlyUZKVLz
+0t3eZW/YTwXE136aGgcAPavg3zBM7Q==
+=UODH
+-----END PGP SIGNATURE-----
+
+--RjOQ/8si06ScYdmy--
