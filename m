@@ -1,148 +1,171 @@
-Received: from flow-a7-smtp.messagingengine.com (flow-a7-smtp.messagingengine.com [103.168.172.142])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7537A30567B;
-	Sat, 12 Sep 2026 08:07:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.142
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77DA138AC87
+	for <linux-sound@vger.kernel.org>; Sat, 12 Sep 2026 08:24:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789200429; cv=none; b=lfF2SRH+PEVJMN8DLp6e/0ZPUVjVGQxYKbRZHLpZhS+8d49YDwuhPu3p6yqE/ABCOR8jNwm24HgrrAPwUxs/h22tFH/eHPwpcGZcsEAgdjQjOP+rLFOhrL489tYxRX1i80m2DTYWbx3oF9vsk1dAU/w4qr0RrzuQRzzIIOKX4BI=
+	t=1789201470; cv=none; b=uNH0lA03DbinAiCKj2fgf54wVsq/6h6Wu0OqPuCJ/BbJiVzsXWrtCTQYLJnssx2K/nD83KrvZAAAEu8dOYwUE/TVsone78F+eJLTMNVNowowhlSVpRfyIMbBuh7+CLSHB6VzknajFou/eFFNXySGWEE0j0jC/pA2arN+YuU2IgQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789200429; c=relaxed/simple;
-	bh=AN84vRXniBYk4yPYM0B8PUW9uuzmgLtIuPt928IPrcM=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=XXwxybsjiqCvuAFFf/ytYxg8zErKgtV7U4POV+irYctFeLWFDFqhhCNOe1VuKxdXs71hv/t+ezlbiEh2l9Q7KqD+B6u8ER3BVCaR9R/6MLhIw81LSVr5D49qBM5O+P7mZcT7RiIVpMw+DSl+NACavLhmGEa99lm3GArU63TVVV8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=Lrt/fM48; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=lxb01r0k; arc=none smtp.client-ip=103.168.172.142
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	s=arc-20240116; t=1789201470; c=relaxed/simple;
+	bh=Y7BDJA2XQDYA2/DlY2vPG51pA0G3lrEc/rtLWQuzI3A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RQsQRtpKKchr4dQNm7+GStHbRlktwXmHeQc/nOUeF/0qk0WLyGA1DTvFk0lPwTU6xr7rY1SiGKUg3VhVAVppEvcLWMApkjUPO/cQDncgkEIzytHqrBx5SOKRAvRDnODv4THLMjK+iiVPEWFqRfnwj4URiVk6+PSN5m8Ex+Uv8RY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Zlmz8zde; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="Lrt/fM48";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="lxb01r0k"
-Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
-	by mailflow.phl.internal (Postfix) with ESMTP id 0C6721380082;
-	Sat, 12 Sep 2026 04:07:02 -0400 (EDT)
-Received: from ams-imap-03 ([10.64.2.23])
-  by ams-compute-02.internal (MEProxy); Sat, 12 Sep 2026 04:07:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1789200422;
-	 x=1789207622; bh=f3qwWyqi3bNUqorYQGcKxNjQwJcXGV0fC7D1AqFX08M=; b=
-	Lrt/fM48uvxyR5iY147Dg1TLUxzhC6V9WeE9G4Nf2xS4+pkFwVgvQlPsZgX1ObsY
-	hxNwAbimSrgLpG19RfvyiSqHjWyUKu/DrU6GHqrd1Ny3X/qxb2V7PLMrwMTGxJ5J
-	hxhHSDw6DzkOfUQoTLd/xCPLr0ZkyiUbbdsArhbOLbeDBOETI9bYaulAFEdBhhYB
-	8yV92Rxc4ba4CNFpTlX1DQ8hmsjEd2RUFxoF2+d6ai2JCK/3mEz0yCBKDLCy0kT7
-	MblYeZafK+CpuQ2/h4Xvl/E08vAxOSUkiRJzXlUswU1dssfWm8A/JrDq84M4L8cU
-	2hzmROIQ1QhHapZ/aclkGQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1789200422; x=
-	1789207622; bh=f3qwWyqi3bNUqorYQGcKxNjQwJcXGV0fC7D1AqFX08M=; b=l
-	xb01r0kwHfIHCGkG23JDkVT0OR6WYaawzrtFN7BXJBAVCJeq1Uh+/e7Gg8JYmtXF
-	1LCmYWrVh+aXxK5P/aKoegaKad7yStYYhFa5ivwWliqhk6EY7BLZYTcIbQ4z6YAP
-	OgbD33qflDx3/fBJ5dTlkLlHBZs9X0dE/P17DVw8jlpi5mFAJYYwLaUHyVeXRB3f
-	CdBLMEWG4iHPdsLf2rroVuXg2vYAKidKUSvaUd82yVymPftKPUW6ojD1IN5haV6W
-	RHa8fD3MVF0wRBMz5082rQG2m7E0jTrMHkEZvxZ3XxwrNqgA6EB6PgmjTdxzlq1x
-	xsRPvrz6z+1EwtsZYC6DQ==
-X-ME-Sender: <xms:GwilaiM9DoEGXPS-5POglj3Fs3UX9dKSgEcrGATNpDMJPGNSuR9zRA>
-    <xme:GwilarxN0E-D3ujq0LTikzEohK71z4qj5L4kuPdseBnDwMgcrWtIyG72C2_JeVM5A
-    FBrlFgdq3_j6q1S6Y1dTCO0Qo2bNHyHI3LXOfX-aFV8Bj-yyr6y6g>
-X-ME-Proxy-Cause: dmFkZTEnMfHZeL1bdmK0cMv43Ykw4Ux5EmKrIdL01M3dqOuqJ2lE5s/Zf8fR7tEIJo0kPv
-    zWtV+y0PrEAHOjaSKsxSLCyqEt7BsSvRONex+NaaPtPqORZ63NRy+Js06kSKO6B4kHMOw6
-    X66YzjTgLq7T2dVQ/Wy+z0mQ4yQi6eeqwM+Ha0y0Pecb27IXKwT7AyfrUjOgPW/ax0pbxm
-    431ZmN3/a8b+CFj03gZG/0GqmMDdPzw9zIGPXhsnXYuTl1E61xnGM14GRGmIYVt0/4ruFj
-    bJzQHDqH1XLMGaU36Dad0/cx0LiIfSRIILMzpeOL+9wHlFYdYe8pNXSPkjqQSck9kl74XP
-    aCzd84oPX17C7TH8ROIK4AlY8as07h/xF1/mi69Tj3lPRbQOBi9KqgToWBN9+IbxAFo0Bl
-    O91jo3tZhjZHGmsdRT5I8CZPH49W4wppnyIMbWnJORO8mrIahMZ6pRtbPa974ykxYGKMc0
-    xa2sGvHlvvuBThI5t8oyZDRmkUDZCxhbR0R3u3jVuF2XW3z+rnrLNhMoF4j2qzzk8B1zZz
-    lJPY/WsxQGZwEdKj8dXZcU/q8nWTM5JBnCaWjr2cJoG1Wha/0dH3WyaH3eGu7Az0Ec7QPm
-    5/9iLK7Gy3Htywzk5qwWNhjRQMpdbPa/lgeqDfBz1ZWNbrYIda+j3gvZ7Xqg
-X-ME-Proxy: <xmx:IAilakYs_TJapqNKc7Bl7_t1LCTdqWksnA1ncYoY1SxGbgOkM5mR3g>
-    <xmx:IAilamUNZ9SPghoBE-fNuCRW3yvOkVXSEolaLNroFm67Oxs_i5V_HA>
-    <xmx:IAilakGOzLYoRVy5sbiYSRPFTKbqOoOKrzwo-FEclMQe4BRLcwxJkQ>
-    <xmx:IAilajCG69PBf_6_2kGV2BfXz2ckOvpTnN8WdA2x9XjMv6PH7RVuBQ>
-    <xmx:JgilasFp5Sb1z50QC1Sew28jzpy_7_aNbHZVZSIJDSN67XqZa69ERdel>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.ams.internal (Postfix, from userid 501)
-	id 549A532A007E; Sat, 12 Sep 2026 04:06:51 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zlmz8zde"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-47de0093c42so1657879f8f.3
+        for <linux-sound@vger.kernel.org>; Sat, 12 Sep 2026 01:24:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789201466; x=1789806266; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=WuB0E4VgqfrJ/Eym4OxocKoRvyxK15RKapEkzriuyaw=;
+        b=Zlmz8zdexejTkhA9CeOuRwbyCwBmkaKj9ZbkLOr1xyE4CaE2k4KIvlAfHONOODTPnD
+         /ehuVTXvzQcm0gXSSj3PMWBOvBlbMqwvawARZQKFWDgiQb6j9ehP9ODfuCAUfUQuCS68
+         jjW828Rd86sTeOdSVNl2nDBKpqP+aaAuE4GEoZy3pibd04icFDov9etxr6XIXr46WNjV
+         CMEkZKF7Z+3CEiNcF8vo9wj5L0oX9N8LrLpRsnrgn3gfggDBYu9V/AZ9rS89RsnbKjLm
+         nGfYZA4v46ulD9eckMkbiiEzwR9hBU6tWT71XlXXwbnNaLG8SuJXrHivWiHQwc///MUd
+         rVAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789201466; x=1789806266;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=WuB0E4VgqfrJ/Eym4OxocKoRvyxK15RKapEkzriuyaw=;
+        b=pvWJcQsYxBJTFxzimwceujd7Db1EIAiv3tnlGNeZvE5mDjjIrmR0exzBQBKv1+2gJB
+         RSx8KOvCWlmd4GJDOjGXNARl2XhC1vKIDtM3jZU0n8PhipGJr4q6ViCuSB9hHMSG0dW0
+         kIG2YHYRhQbQj0t4+JupzsHCqLR5k4Ct8hfTjB07Q4CPODNhlRqdXkpPNtY0QeDG72Gd
+         7cfcboRmfb7VveStjasj+dhHDV+R04ZiOc6Z2mvaR9KtgYH49jqO9rAbEMgKPQCkAtzU
+         IAOmF5KIBwOatWtyqXZVuX9FvBXZ1DBaLlR7y50B2w3bYLVR10okyQFlwVm95+7Z5LaO
+         2fgQ==
+X-Forwarded-Encrypted: i=1; AKwUvByEM+tezwQ0TvsKHI2od8XU92jrvCY0DDHT4slIZiUTb6GZGv7ACoUAQJ7uOs8mN4Tyl9DzUCPa5RSVCg==@vger.kernel.org
+X-Gm-Message-State: AFuF++lz1a57eIe7PP8gfAEcpf6Y8zPT6Nv8B0wo5A2Iq2w9dGYXd+Ad
+	IV+D9sWRsop1uyCrYc2yeidmC3jNRuHOrThhpARFst8z5z8l0e4G9MYi
+X-Gm-Gg: AYBFou0+La92iDnUCq46xMf9+WgUsLSNmwxbWppOWVz3Q8bfz4o9pKAkBuphBkjr+jt
+	NURZVYkxYcWNdd1EPTcb+jr2LNRR/q/2150nsHv0tnONB37SIPGtZW3EcgT/O7vJMN8ZGGwQUFk
+	r94nBa4sFXM3WskDJBtOfjhE5c5mh/LyulgwXoTGB9RHuuWzzr1fUO6QE49E5ffEhzpk/+tVvuo
+	dKXBxhl1Jil0oNlXB3/j8pZR/KNJqGzA5dIdp/0P/c6yp0/j3WxHAhkwhjT9mWjayU+HO81+2jJ
+	hzn/zoSUGh1b7dGX3YVRp/YJlb+NUvfFcHxKI96BSsumMTHmYPzc14gZ/ibWxtZy/BUtkxm6hoF
+	42dMVP1Bc01yRSfP62ASe6iHDVbzWXhxoh3DKB0v17/OGfCQjqMx3A5jwzleoEFmP+OKWzr/sXN
+	MnAGZof6S06swAjaEfhZicEPaxkCdGzEQascOEmBDfJPlKTJxs7itaJhRXEaeTs263zOsAmY2jp
+	11cQ1Mtz9SdJUxPwpJ5DvheRS7r1C36pA976+7mksVoVQgPkTGi7PtnpEyaP53OIVmiGOmFX9HH
+	PntyyJAU9F/2vf9DW9KlJFHdjy3C8gY3yN4wlL66+DZN6nIhg5ISKCFhDZpVscb645KangbMHrM
+	V+KAPxIr6ifVIRbZ2VgYG8EQY1rvTgHxfvwPIXG4/PWlPgfPBopiVRsPs+DR1H3pAH8dkvIA=
+X-Received: by 2002:a05:6000:240b:b0:485:8c16:5efb with SMTP id ffacd0b85a97d-486eb3162b2mr8422137f8f.53.1789201465664;
+        Sat, 12 Sep 2026 01:24:25 -0700 (PDT)
+Received: from cypher.home.roving-it.com (1.e.2.e.9.4.4.d.0.e.6.8.9.8.8.3.0.0.0.0.1.1.b.f.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:fb11:0:3889:86e0:d449:e2e1])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-486f301121asm6952678f8f.0.2026.09.12.01.24.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 12 Sep 2026 01:24:24 -0700 (PDT)
+From: Peter Robinson <pbrobinson@gmail.com>
+To: Shenghao Ding <shenghao-ding@ti.com>,
+	Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org
+Cc: Peter Robinson <pbrobinson@gmail.com>
+Subject: [PATCH] ASoC: pcm5102a: Add support for optional reset gpio
+Date: Sat, 12 Sep 2026 09:24:18 +0100
+Message-ID: <20260912082422.331962-1-pbrobinson@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: AK-jVwBtQCQR
-Date: Sat, 12 Sep 2026 10:05:45 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Svyatoslav Ryhel" <clamor95@gmail.com>
-Cc: "Arnd Bergmann" <arnd@kernel.org>,
- "Alexandre Belloni" <alexandre.belloni@bootlin.com>,
- "Bartosz Golaszewski" <brgl@kernel.org>,
- "Mark Brown" <broonie@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>,
- "Daniel Thompson" <danielt@kernel.org>, "Helge Deller" <deller@gmx.de>,
- devicetree@vger.kernel.org,
- "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
- dri-devel@lists.freedesktop.org, "Jonathan Cameron" <jic23@kernel.org>,
- "Jingoo Han" <jingoohan1@gmail.com>,
- "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Lee Jones" <lee@kernel.org>,
- "Liam Girdwood" <lgirdwood@gmail.com>,
- "Linus Walleij" <linusw@kernel.org>,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-fbdev@vger.kernel.org,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-rtc@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-watchdog@vger.kernel.org,
- "Guenter Roeck" <linux@roeck-us.net>, linuxppc-dev@lists.ozlabs.org,
- llvm@lists.linux.dev, "Mauro Carvalho Chehab" <mchehab@kernel.org>,
- mfd@lists.linux.dev, "Michael Hennerich" <michael.hennerich@analog.com>,
- patches@opensource.cirrus.com, "Pavel Machek" <pavel@kernel.org>,
- "Rob Herring" <robh@kernel.org>, "Sebastian Reichel" <sre@kernel.org>,
- "Support Opensource" <support.opensource@diasemi.com>
-Message-Id: <937fb2c0-e910-4ab6-8599-ff5ea67fd9c3@app.fastmail.com>
-In-Reply-To: 
- <CAPVz0n0pBxP2J=5DN+k+ut0HRnTmsU64orXwxa19G0+WAxN-zg@mail.gmail.com>
-References: 
- <CAPVz0n0ryOns2sCJE_jFana9MVzwEj1QZuPEa8FNhGbHXnMB+A@mail.gmail.com>
- <11652e5e-053e-45b0-98a0-0c1cb2aeedc4@app.fastmail.com>
- <CAPVz0n0pBxP2J=5DN+k+ut0HRnTmsU64orXwxa19G0+WAxN-zg@mail.gmail.com>
-Subject: Re: [PATCH 08/14] mfd: remove unused aat2870 driver
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sat, Sep 12, 2026, at 08:42, Svyatoslav Ryhel wrote:
-> =D1=87=D1=82, 10 =D0=B2=D0=B5=D1=80. 2026=E2=80=AF=D1=80. =D0=BE 21:15=
- Arnd Bergmann <arnd@arndb.de> =D0=BF=D0=B8=D1=88=D0=B5:
+Add support for optional reset/enable gpios as per the trivial-codec.yaml
+bindings that cover this basic PCM5102A driver. Some addons gate the
+PCM5102A's supply through an external GPIO, and rather than forcing
+this by using a manual config to drive the GPIO high use the documented
+mechanism to do this. Based on similar functionality in the pcm1789 driver.
 
->> drivers/leds/leds-lm3530.c
->> drivers/leds/leds-lm3532.c
->
-> LM3532 has full OF support and is functional, it just does not have
-> device tree users yet. I have a device using it - Motorola Atrix 4G
-> (Tegra 2 based).
->
-> Here is commit removing LM3532
-> https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git/commit/?id=
-=3D46a6457870825d8b782d350fdc7e27c540734d41
-> Here are my patches bringing up Motorola Atrix 4G support
-> https://lore.kernel.org/lkml/20260721100245.444623-3-clamor95@gmail.co=
-m/
+Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
+---
 
-Ah, perfect: this is actually one of two drivers that I independently
-noticed as a false positive while writing the commit logs, and I
-dropped the changes in the update I pushed the branch yesterday.
+The Pimoroni Pirate Audio [1] uses a PCM5100A DAC for audio and in it's docs
+has you manually driving a GPIO high to enable the DAC. While creating
+an overlay for the HAT I looked at the trivial codec bindings for the
+DAC and it seems the details were already documented so this just adds
+the ability to control this from the DAC DT rather than the documented
+hack.
 
-In fact, I saw that there are three other upstream dts files using
-this driver. In general, I assumed that anything with a DT binding
-has users, with the exception of the devices inside of a removed
-SoC and a few PMIC chips that were tightly linked to a removed SoC
-from the same manufacturer.
+[1] https://shop.pimoroni.com/products/pirate-audio-line-out?variant=31189750546515
 
-Thanks a lot for checking the list!
+ sound/soc/codecs/pcm5102a.c | 30 +++++++++++++++++++++++++++++-
+ 1 file changed, 29 insertions(+), 1 deletion(-)
 
-      Arnd
+diff --git a/sound/soc/codecs/pcm5102a.c b/sound/soc/codecs/pcm5102a.c
+index 9bca53de2475f..ed1e29e54ef8b 100644
+--- a/sound/soc/codecs/pcm5102a.c
++++ b/sound/soc/codecs/pcm5102a.c
+@@ -6,12 +6,17 @@
+  *		Copyright 2013
+  */
+ 
++#include <linux/gpio/consumer.h>
+ #include <linux/init.h>
+ #include <linux/module.h>
+ #include <linux/platform_device.h>
+ 
+ #include <sound/soc.h>
+ 
++struct pcm5102a_priv {
++	struct gpio_desc *gpio_reset;
++};
++
+ static struct snd_soc_dai_driver pcm5102a_dai = {
+ 	.name = "pcm5102a-hifi",
+ 	.playback = {
+@@ -32,10 +37,32 @@ static const struct snd_soc_component_driver soc_component_dev_pcm5102a = {
+ 
+ static int pcm5102a_probe(struct platform_device *pdev)
+ {
+-	return devm_snd_soc_register_component(&pdev->dev, &soc_component_dev_pcm5102a,
++	struct device *dev = &pdev->dev;
++	struct pcm5102a_priv *pcm5102a;
++
++	pcm5102a = devm_kzalloc(dev, sizeof(*pcm5102a), GFP_KERNEL);
++	if (!pcm5102a)
++		return -ENOMEM;
++
++	pcm5102a->gpio_reset = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
++
++	if (IS_ERR(pcm5102a->gpio_reset))
++		return dev_err_probe(dev, PTR_ERR(pcm5102a->gpio_reset),
++					"failed to acquire reset gpio\n");
++
++	platform_set_drvdata(pdev, pcm5102a);
++
++	return devm_snd_soc_register_component(dev, &soc_component_dev_pcm5102a,
+ 			&pcm5102a_dai, 1);
+ }
+ 
++static void pcm5102a_remove(struct platform_device *pdev)
++{
++	struct pcm5102a_priv *priv = platform_get_drvdata(pdev);
++
++	gpiod_set_value_cansleep(priv->gpio_reset, 1);
++}
++
+ static const struct of_device_id pcm5102a_of_match[] = {
+ 	{ .compatible = "ti,pcm5102a", },
+ 	{ }
+@@ -44,6 +71,7 @@ MODULE_DEVICE_TABLE(of, pcm5102a_of_match);
+ 
+ static struct platform_driver pcm5102a_codec_driver = {
+ 	.probe		= pcm5102a_probe,
++	.remove		= pcm5102a_remove,
+ 	.driver		= {
+ 		.name	= "pcm5102a-codec",
+ 		.of_match_table = pcm5102a_of_match,
+-- 
+2.55.0
+
