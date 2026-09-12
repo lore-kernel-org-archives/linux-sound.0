@@ -1,160 +1,160 @@
-Received: from mail-pz2-f43.google.com (mail-pz2-f43.google.com [74.125.228.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAA263C342F
-	for <linux-sound@vger.kernel.org>; Sat, 12 Sep 2026 20:09:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789243771; cv=pass; b=OL5BSkotfWKiJAkFLhv5Fj/QNx5fQ11kIy3pm+EXsn8Yk7xjdjwQuGpHZ/YVRwsjtMRciT8g1bzTgaLMMR+U723CY/akq8CLWpLNNkVOnELAS/G3FUgB3qdUx3YnABPzNvphGirLr/VNEKnJn6IxHTJpi+oE0DIQgokBh4CVMVo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789243771; c=relaxed/simple;
-	bh=n3MqhRx/mXenvMytp/ni8E7dPCtfLaiHE2c3yHtK4ds=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ROyQ6dwST2HGdFDGjnDMg0+z/TVH2XLi+fym7q0MfwZeUNiuHgjJM22CI5XatXaWhGWiSq2/vykU9y/aRTutnbXb23xh1YN0lpJ8YmaeJkDiBh47oer5R/WxG4X5y3pF4jXTfZCVLiVIzwMJRXef0zc2IlEooh6KOr4mOmq+h28=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=asu.edu; spf=pass smtp.mailfrom=asu.edu; dkim=pass (2048-bit key) header.d=asu.edu header.i=@asu.edu header.b=Pu2w6QjS; arc=pass smtp.client-ip=74.125.228.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=asu.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asu.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C630F39061C;
+	Sat, 12 Sep 2026 22:21:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789251664; cv=none; b=HRLRBqlPqXYQKn/0NcNlQkpYv84aS2xuk409J784xaqmGKsfTVoAxex7+hamY3Z1mezMhEopbiTCz+kmLaBvWMBQ0RMRNyHkjQEg6uh7idme378XZ855juxaC3xPyFKWc/wIHFB3L2W9QGlub2SzXSbdCAPNJHVmg2Hx6wxZuX0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789251664; c=relaxed/simple;
+	bh=jJN5bbmJG6+W8ZaAl9RR52OiGtP0jEKBmRMAckxoXiM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=aJe6HCLeEcaYPMYTJDo6bj52O4C4tN9/S/pJQ+nuxskJRaZYMGv/KJlET++t6zOUyeerAhGe7S1q8c9iuQ3BMZPp4tgAzfaoYtqM/d2uJ+98i0Myg33FwevRkgp9GRgF1P/rzFIYzEFpyw8oWzz9UatbWIXSpAj7k4XKeWMNeXg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BHhPvzDn; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=asu.edu header.i=@asu.edu header.b="Pu2w6QjS"
-Received: by mail-pz2-f43.google.com with SMTP id d2e1a72fcca58-8623e5d435cso295875b3a.1
-        for <linux-sound@vger.kernel.org>; Sat, 12 Sep 2026 13:09:29 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789243769; cv=none;
-        d=google.com; s=arc-20260327;
-        b=jW8JAAhJbtw/n9fJ2u8koLPvsTmxiY5WtHfaZ1ID1uV+zmK1dK1f9c3pwDHZ01YiIq
-         a/p17EqMbzx3Xk0XNDGBEWtRTeKc4OK/IdIykmu3Ez9zp1QtsuVfgmibIN6jW1o5tx2E
-         +XDF4Td/nuxnash+B0KDXLoaohf7BTy3eq0Q+zcDc4rHFdwSMUuZDpOhQoTLOLbkU8dC
-         QCp3p746aZxW0TdY+spTeIKiJSlLQAOpNRZe6v6MW/S95oK3Wk6oPwXuCwX/M8Lc6vqz
-         vdfwBUrH5y+4cLkeLE8It9yZo5bx3I3JcVzqHLgZ/Bu6ONtxQthvaFTgonTnrhNcTG8B
-         mKqQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=qB21ANWRxv7n96J1JHu+XhZk0UtWY45/KlWzWPWjsSs=;
-        fh=AK+DbVmRIoWfsWVNJUu+pnBEswwgtvqH1Abg8y62PYA=;
-        b=lNPq12SHFnH+5KSTrz+KzoZOpN92tiA5kN4mHMkPUCMOC2t0h62Nue8cpmB1tdTIXM
-         KmGp6VOdBTPZXod9gm4wBnkc6iEXYTcU67C8n98WhDwLTw5RthcQWJDO5s6rbNPzGNTh
-         +dFWkvchZ+jJcD8O2pOMKwoTA2ePnOPjhmKGtcPa4Lu4eN/6kXydrd8qv8eeNNjg7kAx
-         WQFU9WKNQgWfyXBaLomQLehLfEu4H9Ln2+E6E5gqeAE4lU02USBF+Bbk8g11D/MpqP+T
-         TitN+vhFpnHavkOBNaMpUpMt/ceRLN8ZnqwzqcSu9swpjyJ8EUd2e4LI3LTtmY2kTGPe
-         NQEA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=asu.edu; s=google; t=1789243769; x=1789848569; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=qB21ANWRxv7n96J1JHu+XhZk0UtWY45/KlWzWPWjsSs=;
-        b=Pu2w6QjSjr7W/fUpQJmQ5RUyWMljxt0bHbeptdYU7Q2jv+nF0HexMBHMvNh8L2yPoJ
-         TiS6VjhVcWtEIiK7M+RnyX814SoGVi04iVOfo8VRuDx8zAmlM+SxEWqg7Lt4i+EGmuOO
-         rKWtaApxAKPzQHOvHLpySibQZqqjpGzv5y8IUXFrpRr6yrvVKAM6KDWuzayM24JDSDFl
-         Ghwt/cmZMYGNsJJsy2EgzizdM91UvE5XwK8KXNeWrK7DxcEg27X71rOQA2HcePv01srH
-         ccoowyhkoAmVSym2f1xflXIUcTrzA7pXReRvw2ZBQH2H3NVMJA5+l76d48H4N67m7eFV
-         6x0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789243769; x=1789848569;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=qB21ANWRxv7n96J1JHu+XhZk0UtWY45/KlWzWPWjsSs=;
-        b=BVO5IBq/ftk2lehFfM0gR5xya/eNDTYyJ15le+4KOWQvTqyy9ZMqzUqEOjmczSFQ8O
-         bWUmO2BJb9N2SaUKRv2ZDSAhO3/5yRWe7FYsVqV7xUrHZeewCNHnSt2Hs2OJTznjkFPf
-         B1GCsPngkSLYvULJkIZBiaHH6z96Y6M+EtmfesslNdwn5qxPJQ8DoaLECJBcONDqDLeM
-         nR0TbtQaDvO+Wp+ro4fshF4qhxicmJ7kfM9gWfrMykpK+n2uCXgLMpfZGi+Pn5/e8RLe
-         snQ/TdGdW+bGiDpinQlKEmN177wsHCU8bd+wACFsSoqDnj//HTbls0MI+6IG1ei5Z3sN
-         XfSA==
-X-Forwarded-Encrypted: i=1; AKwUvBxjraMJf1t+Ib88EkvN9baQBOmFknbDsUa894yUbH3UZSfzScQCVq8sQfhLszyw0pMsvzQ3grW8utA34Q==@vger.kernel.org
-X-Gm-Message-State: AFuF++mCjVhRHGGx0giphbDZi2duZeSLyL9CaN7A3SU4PrgtM5Af6YkG
-	+Y+MJ10F51342mUtyUSQgnMrsxy4dpvjLf3nz7Y67ePMpF9pjAjzCAdiNUX2p9jCi6GkBoV1nSU
-	Oiwske9+bvGkjgHOaW8uU0pyAYBZMsxYz/PRFhOEYoTnYdhPK7EBYtWiV
-X-Gm-Gg: AYBFou2l2BsfOw6nZjIrNxKX2nmmNszJF3NoxyEXYpOhWPVOet9wfYSCjeOoOpyA94h
-	I0HcYymNUex9dyyqqLirf0UmaLBfsKnskxrD81qRj1n+N5JFRQE6GhVYBcKalMnk9BRExyTCyLw
-	WHKzS4JezqRLb+zvSu+6CmWHX77wNUpVuHqAu0XikvaRD3Rt0xril+ZfvF0dH4x5GVEHBcfIG9J
-	Lcukv5wsFbGpjgTLnQp/OQNGoULRiyG6SDaNIx/H/7QsyQ92d88aF8N6GKdUokYLp4ZWB3O6uGW
-	vzw0FFCuQMxTOCdoH3/Frldj70Flr6RmTh1Iyg/989w+1IL81qSfdLJiZhalV9oTVhob5joByub
-	m/E5HD6SAqho=
-X-Received: by 2002:a05:6a00:2304:b0:851:8bde:7861 with SMTP id
- d2e1a72fcca58-86b100bc308mr11287669b3a.1.1789243768860; Sat, 12 Sep 2026
- 13:09:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BHhPvzDn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 434821F000FF;
+	Sat, 12 Sep 2026 22:20:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789251662;
+	bh=A9T5TqugoZpwriYm80tITfJ7eL5e79XFR+RGRlWT3Yo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=BHhPvzDnmzwpQttZFmPMZf/UutFNeY/Degy6vahXXbV7Z6hNGc9MkvFE+rdhQJ6MU
+	 VAw3b4RYQvofx2lNTbeX4zkZRnpelNzwDei0UTSd3ZGNIs/4odMQ67B9LiiARuySxb
+	 U6BER7d7wfXohAn2tXbzGwa2wiTRgp4c4+hrPC/Fg2mvopBtYwKpfuJcqo2gQktz/i
+	 UBA340zyHxS9IBLWpHZ7ZP/iBROp/81WLbTAUh34hL3mGOOjez8TZZyGHIC4Q8vD6X
+	 SvDJPAFOvk+SgEr6vR+aGc41krBbPQbYbAOql8ew7alD2jpnrmyuGLi/805cAMk+g3
+	 S6DFuxrkx8D2Q==
+Date: Sat, 12 Sep 2026 23:20:47 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: "Arnd Bergmann" <arnd@arndb.de>
+Cc: "Svyatoslav Ryhel" <clamor95@gmail.com>, "Arnd Bergmann"
+ <arnd@kernel.org>, "Alexandre Belloni" <alexandre.belloni@bootlin.com>,
+ "Bartosz Golaszewski" <brgl@kernel.org>, "Mark Brown" <broonie@kernel.org>,
+ "Conor Dooley" <conor+dt@kernel.org>, "Daniel Thompson"
+ <danielt@kernel.org>, "Helge Deller" <deller@gmx.de>,
+ devicetree@vger.kernel.org, "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
+ dri-devel@lists.freedesktop.org, "Jingoo Han" <jingoohan1@gmail.com>,
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Lee Jones" <lee@kernel.org>,
+ "Liam Girdwood" <lgirdwood@gmail.com>, "Linus Walleij" <linusw@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, "open list:GPIO SUBSYSTEM"
+ <linux-gpio@vger.kernel.org>, linux-hwmon@vger.kernel.org,
+ linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-rtc@vger.kernel.org, linux-sound@vger.kernel.org,
+ linux-watchdog@vger.kernel.org, "Guenter Roeck" <linux@roeck-us.net>,
+ linuxppc-dev@lists.ozlabs.org, llvm@lists.linux.dev, "Mauro Carvalho
+ Chehab" <mchehab@kernel.org>, mfd@lists.linux.dev, "Michael Hennerich"
+ <michael.hennerich@analog.com>, patches@opensource.cirrus.com, "Pavel
+ Machek" <pavel@kernel.org>, "Rob Herring" <robh@kernel.org>, "Sebastian
+ Reichel" <sre@kernel.org>, "Support Opensource"
+ <support.opensource@diasemi.com>
+Subject: Re: [PATCH 08/14] mfd: remove unused aat2870 driver
+Message-ID: <20260912232047.19c4cb10@jic23-hlaptop>
+In-Reply-To: <11652e5e-053e-45b0-98a0-0c1cb2aeedc4@app.fastmail.com>
+References: <CAPVz0n0ryOns2sCJE_jFana9MVzwEj1QZuPEa8FNhGbHXnMB+A@mail.gmail.com>
+	<11652e5e-053e-45b0-98a0-0c1cb2aeedc4@app.fastmail.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <22xPn8drvIUtYgVeQnBiNqXuevOTpBAjepLz@bugs.sh> <87wlsq1lfa.wl-tiwai@suse.de>
-In-Reply-To: <87wlsq1lfa.wl-tiwai@suse.de>
-From: Xiang Mei <xmei5@asu.edu>
-Date: Sat, 12 Sep 2026 13:09:18 -0700
-X-Gm-Features: AcwNN1X1dMySvkFBvnf6VyEpz9GV0R43A0JOxk9_7Dhsosx5Nt9vYTNCh5NQHsE
-Message-ID: <CAPpSM+RgpkW7dxWdX0qr0kjVATYxyx2GT_ZD_mgpD6r4WetQJw@mail.gmail.com>
-Subject: Re: [BUG] sound/usb: out-of-bounds in prepare_playback_urb()
-To: Takashi Iwai <tiwai@suse.de>
-Cc: cedalion@bugs.sh, linux-sound@vger.kernel.org, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Sat, Sep 12, 2026 at 9:31=E2=80=AFAM Takashi Iwai <tiwai@suse.de> wrote:
->
-> On Sat, 12 Sep 2026 04:09:23 +0200,
-> co wrote:
-> >
-> > This is a bug report, not a patch submission.
-> >
-> > We found a bug reachable in:
-> >
-> >     path    sound/usb/endpoint.c` (the overwrite) and `sound/usb
-> >     crash   out-of-bounds in prepare_playback_urb()
-> >     commit  2f1baf1fc892 ("Merge tag 'trace-v7.2-rc7' of git://git.kern=
-el.org/pub/scm/linux/kernel/git/trace/linux-trace")
-> >
-> > Config, environment, the sanitizer report and a C reproducer follow.
-> >
-> > =3D=3D Notes =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >     If you fix this bug, this tag credits the report and lets us
-> >     close it on our side:
-> >
-> > Reported-by: co+8eacd4fa193b1b28@bugs.sh
-> >
-> >     Everything in this mail is validated by the reproducer below.
-> >
-> >     We also hold an unreviewed LLM-generated analysis and candidate
-> >     patch. The same reproducer panics the unpatched kernel and runs
-> >     clean with that patch applied. Use it as a starting point, or ignor=
-e
-> >     it and write your own:
-> >
-> >         patch.diff  https://bugs.sh/b/8eacd4fa193b1b28/patch.diff
-> >         report.md   https://bugs.sh/b/8eacd4fa193b1b28/report.md
-> >
-> >     A guide to taking it from here to a sendable patch, including the
-> >     trailers to add: https://bugs.sh/patch.html
-> >
-> >     Happy to test patches. Complaints and suggestions about our work
-> >     are welcome at:
-> >
-> >         cedalion@bugs.sh
->
-> The suggested patch looks reasonable.  Could you just submit it in a
-> proper format for upstream (after verifying that the issue still
-> happens in the latest upstream)?
->
-Thanks for checking.
-The patch has been tested on the latest upstream (tiwai/sound.git).
+On Thu, 10 Sep 2026 20:14:15 +0200
+"Arnd Bergmann" <arnd@arndb.de> wrote:
 
-And I have checked related functionality and ensured the patch fixes
-the bug (to my knowledge):
-https://lore.kernel.org/linux-sound/20260912200530.1955491-1-xmei5@asu.edu/=
-T/#u
+> On Thu, Sep 10, 2026, at 18:40, Svyatoslav Ryhel wrote:
+> > __ 
+> > Hello Arnd! May you please spare AAT2870 from being removed? I have a 
+> > device which uses aat2870 (LG Optimus 2X P990 Tegra 2, not upstreamed 
+> > yet, but in process as well) and atm I am working on converting this 
+> > driver to use OF. Thank you!  
+> 
+> Sure, I have removed this patch from my series now.
+> 
+> > P. S. If you are planning to remove more old drivers, please CC me in 
+> > since I may be interested in some additional driver upgrades for 
+> > devices I own.  
+> 
+> Please have a look at
+> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git/log/?h=board-remove-7.3
+> 
+> I tried to be careful about figuring out exactly which drivers are
+> unused, but I'm sure there are still a few false positive and false
+> negative ones in there. I've added the current list of driver files below,
+> let me know if you see something that shouldn't be there.
+Hi Arnd
 
-Xiang
+For I2C and SPI at least, there doesn't need to be explicit
+device tree support as long as they have defaults when platform
+data isn't there. Those two buses will happily bind based on
+a dt-compatible and their i2c_device_id or spi_device_id tables
+for example.
 
+So unless they fail to probe (some might?) we don't have
+a clear signal on whether they are in use via DT or not.
 
-> thanks,
->
-> Takashi
->
+For vast majority of IIO drivers we don't have an upstream
+DTS as there is no clear motivation for anyone to upstream
+the dts for a random industrial control board or similar.
+
+> drivers/iio/adc/ad7266.c
+No to dropping this.
+
+Has fallbacks and should bind just fine  No one ever
+bothered adding an of_device_id table because it isn't
+needed. Fine to rip out the platform data support as nothing is
+using that.
+
+This is a production part that is likely being used in new designs.
+
+> drivers/iio/adc/ad7791.c
+No to dropping this one.
+
+I'm fine with ripping out the platform data but this again
+has defaults and may well be in use via DT. Antoniu from
+Analog was doing some cleanup on this recently so I'd guess
+they probably still at least somewhat care and some of the
+supported parts are still in production (e.g. the AD7788)
+
+> drivers/iio/adc/ad7793.c
+Maybe. Analog devices ack needed.
+
+Production part but this one indeed fails to probe.  Analog
+folk, do you want to fix this one up?
+
+> drivers/iio/adc/ad7887.c
+No to dropping this.
+
+Production part - should work fine with defaults in driver.
+Could like the others drop the platform data handling.
+
+> drivers/iio/adc/lp8788_adc.c
+Probably
+
+Sub driver of an MFD.  I'm fine with that going if we know
+the mfd is no longer in use.
+
+> drivers/iio/adc/lpc18xx_adc.c
+> drivers/iio/dac/lpc18xx_dac.c
+Probably
+
+Likewise these two.
+
+> drivers/iio/frequency/ad9523.c
+Maybe. Analog Devices ack needed.
+
+Fails to probe without platform data and marked not recomended
+for new designs. If we get an Ack from Analog devices folk
+I'm fine with this one going away.
+
+Jonathan
+
