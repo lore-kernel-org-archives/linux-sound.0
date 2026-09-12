@@ -1,518 +1,510 @@
-Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazolkn19011025.outbound.protection.outlook.com [52.103.43.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F5E225776;
-	Sat, 12 Sep 2026 05:46:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.43.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F11A537475C
+	for <linux-sound@vger.kernel.org>; Sat, 12 Sep 2026 06:42:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.169
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789192000; cv=fail; b=G8BmoskrcAE5YkbH+Iy6s0n/XU2lkKlvY3nmYAtCi8X/YNy59zdEsKNy3aEvERTcgXls/FeUy3F3W5BHvnjK9GVkkRSZ2J99q7h8sfMrzIeth5Du8kxlDH7nZH22x9rffa0UHFKbr3LxNaDBgNGu4UegurkddEx0TTrcFcVNVp8=
+	t=1789195366; cv=pass; b=kOIZ6flFYJCuYqHmpb4T1jhIk1v+0GFFbr+qaXONNtDbNS3AaM4/iQwwvd4gGPyGRo76fHleZMEprPVhC09heS7MlzFUzar326UXVt4Q/K/SbseL2DXOHQP3N3LjiOw/xMgPfqunBASMnf4oT5sonFVilh8a6lpojF8sxLkwjas=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789192000; c=relaxed/simple;
-	bh=/NZku5d1JfOoFo5JA786eeyIyvpmXXx/GCoJZRZ/txs=;
-	h=Message-ID:Date:Cc:Subject:To:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=JADR8mLsawqPSkT08WRv0EU7+ax47XMnskpKKOUVrLBUICXe/Fgca5zp4/6vvvs3DCvAhOThx0Z1XnZOAp7e2drO5sZelP6OnRIYC+bWsP+U8lrDydMXYY9loiezoH29v126Kn7DppxCLx+bxakfJj2IZ9I2XsOC07qD6MCSKZo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=KWbiL51i; arc=fail smtp.client-ip=52.103.43.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
+	s=arc-20240116; t=1789195366; c=relaxed/simple;
+	bh=tJjQDgXYqlnPmpKINoz2d/oWMTDr4BO/qDJAgzNKoVE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=E0XoBOZmVWT36dzjQemDvEf1SaAlHDuaAdFAK7JX6RS8O9eCyU2uvFw5i8iMRgrzOsVwlb5ee2CS1DxQsFnXWrzXx9MYcnUb+AyvdIFAqo91ubcAdIXBxCY1npPxzNYFmx/XV/6SZ5453l7uoKJHHIcORjWlYcJpzX3E8oQIPxs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nqw2uZiR; arc=pass smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="KWbiL51i"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Q5NmrxGkN5mXEetlEeyJHK72Ke8+YHH1EwdrwmO1DJhcpiehvHM2zI05wE0bIpBr2rgLz7QJ4p1Y78C4njc0kkinKbbSNg2cZo1M//sbgA9rYmYvYsGkuXEanO1sd8kvtvm7oIR+bZs8Mso8ZLVqSPyEHvRV5+2ECy0ZvSzhi0/tBe+PecvkcNVRg5NWiXy9DVLDWhKVErl/B3+iH5cl2xiDhPJrItc3D3DBFOE1IEpBzSYD2zDKtnN0CZls1XC4RlRKJoyP1mRHWuZbqxikbTNVpMq5b1ceuOTyzjAmavYVBPlAT4y3LnuNT7P2brf77AuIyrkJyv1MkUNsj5oByw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/NZku5d1JfOoFo5JA786eeyIyvpmXXx/GCoJZRZ/txs=;
- b=QUB4qfp7mgX1D+Fr16qk0ohLv0yF+bp7arfLO271pU1EJFSp8v7yF+La/jE+87M+bAsY/fxh+AbwewCBy1eanEikcPF4S+z22sxohGJcZVcHJoAlBlBmjZyP3Ud2RO7n92iHSczSkb3B8PdYrAwITqqggmXt4UF+iz198SdUg89Yge4TqO2vm8cpE/P4ta6FCwHDp3eV/3gZ509ZhLSLmGqq6LVosBXZC6EFX+1xKwHLFP4WC3h71VWsezjOej8CS3EcFUxS7au1ujcHHFLghT4dowxh129PlCnSZvG2UjZEr8gFK7ct5CD45JtfXTw+FxUQ6vb5I+Qk5r0WcfRzIw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/NZku5d1JfOoFo5JA786eeyIyvpmXXx/GCoJZRZ/txs=;
- b=KWbiL51iiFeuOIIz/ofU8/lKkE04JT3OyKieF7ASEAuamn3Qjpdsq2xCsMyIQt1DTEdKJnoqtgvn+H7E9JrC6/Q4WS6XAqrnfGmTaMC6b/d8fCWuChmdkOs3/FkQccjCAXdt7oDg2C8utyppDT5cuBzeBv1Ew53Co5KxCaQkFZPIMdlijaGXJXVILY8fcJO+4CnaqOoEhI8nlwBkQ258fo8iqB7vwn2Stamxi9PzeeWKAX6BXdV45Bt99I5xfsTekJdP//3rSem56zaF0ljD+BqN64e0x6fy85Cl7/S0RjjH1IDGejTBkzEIw/ObjYzrFtsycnEhPtG8oONElNWZMg==
-Received: from TY4PR01MB14432.jpnprd01.prod.outlook.com
- (2603:1096:405:235::10) by OS7PR01MB14840.jpnprd01.prod.outlook.com
- (2603:1096:604:39d::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.10; Sat, 12 Sep
- 2026 05:46:27 +0000
-Received: from TY4PR01MB14432.jpnprd01.prod.outlook.com
- ([fe80::de2b:6c81:9bd7:99c2]) by TY4PR01MB14432.jpnprd01.prod.outlook.com
- ([fe80::de2b:6c81:9bd7:99c2%3]) with mapi id 15.21.0406.007; Sat, 12 Sep 2026
- 05:46:26 +0000
-Message-ID:
- <TY4PR01MB144329FF6B2B48FED9486F12E98BD2@TY4PR01MB14432.jpnprd01.prod.outlook.com>
-Date: Sat, 12 Sep 2026 13:46:19 +0800
-User-Agent: Mozilla Thunderbird
-Cc: wiagn233@outlook.com, Syed Saba Kareem <syed.sabakareem@amd.com>,
- "Mukunda,Vijendar" <vijendar.mukunda@amd.com>,
- "Flove(HsinFu)" <flove@realtek.com>,
- "venkataprasad.potturu@amd.com" <venkataprasad.potturu@amd.com>,
- "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
- Oder Chiou <oder_chiou@realtek.com>, "vkoul@kernel.org" <vkoul@kernel.org>,
- "yung-chuan.liao@linux.intel.com" <yung-chuan.liao@linux.intel.com>,
- "pierre-louis.bossart@linux.dev" <pierre-louis.bossart@linux.dev>,
- "broonie@kernel.org" <broonie@kernel.org>,
- "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "Dommati, Sunil-kumar" <Sunil-kumar.Dommati@amd.com>,
- Fish690103 <fish690103@realtek.com>, =?UTF-8?B?TWlrZSBMaW4gKOael+abieiDvSk=?=
- <mikelin@realtek.com>
-Subject: Re: [BUG] ASoC/AMD ACP70/RT721: ASUS TUF Gaming A14 FA401EA speakers
- silent and headphone jack buzzes on playback
-To: Jack Yu <jack.yu@realtek.com>, Cristian Timohi <cristiantimohi@gmail.com>
-References: <CAAAbPi4w+YO=W8vFr63wy6++1WQ2mHUDVfUDKyWR8xcTWKXCKw@mail.gmail.com>
- <1fdd17c6-a0ab-42de-8362-8e1374d42fac@amd.com>
- <bc542e80-e572-452b-81ba-53e57ed3126e@amd.com>
- <30fed968a6f54a6c81eca4ee23ea4166@realtek.com>
- <CAAAbPi4MekJAyNsCAi2Ww9QHVVrrGkW2cdDTrrpttZYmh7yZHw@mail.gmail.com>
- <3fa3de8f2bf24041ba9c029e0984abfb@realtek.com>
-Content-Language: en-US
-From: Shengyu Qu <wiagn233@outlook.com>
-In-Reply-To: <3fa3de8f2bf24041ba9c029e0984abfb@realtek.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------Q5ols2cBp8YAt7ZPWz5Adx1J"
-X-ClientProxiedBy: SEWP216CA0132.KORP216.PROD.OUTLOOK.COM
- (2603:1096:101:2c0::18) To TY4PR01MB14432.jpnprd01.prod.outlook.com
- (2603:1096:405:235::10)
-X-Microsoft-Original-Message-ID:
- <bda03c53-c96f-43ec-8464-7b013e411cf3@outlook.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nqw2uZiR"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2caced6038eso17644235ad.0
+        for <linux-sound@vger.kernel.org>; Fri, 11 Sep 2026 23:42:41 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789195361; cv=none;
+        d=google.com; s=arc-20260327;
+        b=FVjlaSBCRx0qnF7Z5PnI7dIGXGHL9YmR9J06KNxUJqJOycmrT4/i4TxpdxNqjE1HwJ
+         VeSUAuQrh+7gxD99Q580NP5bLf9YEGSPnWm9Sh3nK/UFLa6oWS/P5z3Zz3qWcl8v0647
+         gXa91PRbPB1+BYD78Cgsc0Gc2hd1C9jFiDMM+HSHhEO+PtrzqIuw8ipPsdzOIg3lx0Nr
+         3ATygxOwbjw6Agd7pnzvye0jJLtdVUsYBujK3MWl8fwtp3jUdwQn7PXnNHO8YCfwZq4h
+         X5xsNmUtQEinE4YoXUa6jZlyhGIrBuvBaLl4NVlI5k/B1PsbbcOMn0EjC9MyY51gHrbm
+         eo9g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=cIueFh+gkuoIg/zyR6m8UHNu9YPuEhQan6MTb8FOTWM=;
+        fh=mJFiRjeoOeyiSfYDlE6ANrl7NysU95Jq5GxloNxUXCw=;
+        b=LLhn7CGMJVR6QCmuw0//ZsuUE7T/7uwJ1GmWFhU7VqdHNtNgsfL7GsAkyMzKjoT3JD
+         JmN5v5xocbrxFGrc9HAd4ys+dmym0J6PPu+JwHff/7871QEeLATgOOtJnLrCo73oX902
+         ea8ajaTuG3Nv46qNXuehtERvKSeCjX30PHh7GUrPQYl7MZignIVa1yDxNb7DlXWsBrnB
+         buDEYh5AwsnSdY45XVRppRVQX+pJ1QlZRnMDdRjQ1sye6rDR2qTMBlK410YkP7+rOYhJ
+         5KYxXeFEYQYxKuyB4+9IxXWyJ1tnVfL8QfBy5GY6pMCu6bwkDtilmltskjHYzqW6NCAu
+         rzwQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789195361; x=1789800161; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=cIueFh+gkuoIg/zyR6m8UHNu9YPuEhQan6MTb8FOTWM=;
+        b=nqw2uZiRYy9kU82/HHF9q541/rHCJ6TVpY8clukoqIDDG9bRVtESBncDRCnER89YOc
+         CpJlynGEdw1aO5LnFsuRuk4gas/Ofx92Q+jF6MYllXmpCM5mLz+PzRM4Ubhe7OHkXsme
+         H+IUZ7Md8hkcl7GiKojDWyr/EEub5WWZyj9/Xqj5zYNO8dyjkvRcSSMQ0h28Bv5rVfSr
+         tIGHFX+Myu7BamKjJdQ8MKL3un8JM5apb8Xyrw6Lih6QCfxUMPO4gRzXKeSq/YgoXL2C
+         A5eH90yPkrdNlGjFaVBo503zHm1UO0ISUiJWSQJ+Le2lKGNnpWyU/wVtMBf0bafJGDrw
+         meLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789195361; x=1789800161;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=cIueFh+gkuoIg/zyR6m8UHNu9YPuEhQan6MTb8FOTWM=;
+        b=SYt25inPb79Qdoz0EkZ0C5IbhLysmj+Pw/oY0aKZiz7Trx5CbgOBHsJTbgwRGTHYUd
+         0YJF7kXZk9v9jJWp3OyMr2Ap+lBz/fQuW7/Fj/qsXTmWSyi134tfneZD3PZWEb0oGjGZ
+         FslMph6jMfvtehGKsszscLGUpFHEZrEjCRLEvIRjPYUIGLq684OorBgLB6Qs6oRi4BRe
+         1PFbVmMG7LGDQMDSAenm5wtLKyHiua/gV6BK3kfAWmvO1bjw6ZwrrGifI4Yn3hCiyRPM
+         C4LSrS6RiBvL3aapoTtEGYuxuNkuNwDDdXJ5/mPvIshWfM3G0ESFAqMsP5HHLtFG+mtS
+         FHPg==
+X-Forwarded-Encrypted: i=1; AKwUvBzBLsmMpA0L9MlcyTuONXy+l2SLRFnRXRBxK9/BoONE2xrGZOo/hv8tNZ2RkOESp4Cs6qLMN2vuHhkv2g==@vger.kernel.org
+X-Gm-Message-State: AFuF++k+oWVclOwfUlY2dOmhpD2wkgo3Tglq9j+Rdo+TxMYQkdHRYGHL
+	xglFxoY7XU9QOXpTHh/2/IezF9R8ZZ5a3HEzdbD0mpWYHCstMSyEuVwRgdqpX42wjCu99/YXmjT
+	ZMn/apPXirkGS45/Wgp6EYABrlBHG6YE=
+X-Gm-Gg: AYBFou3mRieqe9irH1pRFMbN2mV1/v0oTDxWNXX/QlzyaDE/pQj6ZEkS5Gh28P9CXzv
+	Qlu3yrxNvE/KJSxRXe+4t/pilFvgiwSLdyiKphLASTnJr7Z14f/EaIvH9WlZawVqlYAjb3T4aaF
+	ADFiaAy+1aTs4R9jk0nRueADL7zgRjufNupn3b702s3RBlzxDAPuFO9/lLMZ1VVXYJ1+8Jj5rDZ
+	tlp7Nm874qHYkWqFsVdz4dtO+jgcKw7EwIwFWBxu4MBaEVErc+MX9AyQ8myhqA0EZ9kNln5G0tE
+	dYqJg3HlEkTD08i4redIWITJmEg4S/khviPHeVLL03ggLCuiChpVEDbmoAJjuYRMsVCj+yQlnjO
+	uhNWVkm4U3A7O
+X-Received: by 2002:a17:902:f092:b0:2dd:4438:4290 with SMTP id
+ d9443c01a7336-2dd443843aamr24758605ad.3.1789195361107; Fri, 11 Sep 2026
+ 23:42:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY4PR01MB14432:EE_|OS7PR01MB14840:EE_
-X-MS-Office365-Filtering-Correlation-Id: f252bb27-a7cb-4bb6-12c0-08df10912f36
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|15080799012|23021999003|12121999013|19110799012|8060799015|5072599009|25010399006|24021099003|4140399003|16041099003|4302099013|26104999009|440099028|3412199025|1602099012|41105399003|53005399003|40105399003|2607281247196008|10035399007|1710799026;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?z1pwhbGzL1thupy2P08g0mjsO4YcGgdXD37NHUt7TWOD72zYrDA/VyfZ2699?=
- =?us-ascii?Q?CbCba+sm5AkmY/G2zxh1nHhtIO6ds7c/8kmuOtJo/lfZbzbfMgkD3s/g7UKI?=
- =?us-ascii?Q?NtDZOHnRE2fgRTXtkcCvLNZ8yda6fNQmPkIIQmWi30FlKGrKyeHf5RSsqgb7?=
- =?us-ascii?Q?B+F1oqjLmKaESdMdnk5pbY+KdDs6W2RUCXw5/nU1RBP8Bumulvx7Xxfr2M9j?=
- =?us-ascii?Q?Dk7sGexiaOjWheSa/T8YogU/CPgbG+st8UFGhyCpBtV1z1OmEsPDofdetP6N?=
- =?us-ascii?Q?HxwU+WpZP4R6iA09Q3dhgO9j0He6Q7mwOCZiHFLQpz4QviG4jWEP4h/nPqaK?=
- =?us-ascii?Q?Iq8o6sHWDw/GJNjXn+7BZrLu2wcEfFqCVeiC7ojR+/kwRrCbAT6I/enAJDwy?=
- =?us-ascii?Q?URX4i/h30n8yxhY78w1KMg4TK/j3E7RoZ96CnY0LjVdOJ758pTdu4lWbtq2W?=
- =?us-ascii?Q?EuKUT7jHtdk6k0wupSDvYuV/XSPfyYbbVCqNUud8fTO0u0L3wiEvvHpURsL5?=
- =?us-ascii?Q?V4Pu0TC5HhCBsGQPJ6KoKh3yLVa+J02b3lgHIPXNNaQndRdQSjeQND9ybZ76?=
- =?us-ascii?Q?iRIw5qbOUB4jyN6Gxq7VjjlmXn3TfIJSsKgBXB6GBZQbTCP2pdYmNyn9c/sc?=
- =?us-ascii?Q?MvbBoCoogu2uzM6LsbZbA1DggJInVGxhy9x+2EdYYD/3e45mgOr/Mk6HQJYq?=
- =?us-ascii?Q?t54VTQR5j41BR0Vka9EvJ0KBJ/L2eSZi02oFrwUcYBrCT0FO1ydGQy8z/qzW?=
- =?us-ascii?Q?Nu/vMEu2FYEvNH6uAFtRlL1qmWxNyMK/LfwOHfRI9i0Heh4GwlMYVAEtbdkX?=
- =?us-ascii?Q?RzaYbzs4j2q2mD6KkLTsYHfMhqea1sRlsrEXl6boadDZjxXUcsZGJwa2K8x3?=
- =?us-ascii?Q?DsGEB5O97AzO3e8tniCGxk/O9cAyb5ZibSCuGEL2izeeAtbIbcQNX/Btq6LP?=
- =?us-ascii?Q?1jAigpq3mgA6PTdB7JlnBU0T6TJctDHAFGbXewMYrQGkJfQuw4uDN0JsSSgn?=
- =?us-ascii?Q?lSTLU8kFMowzP3+ZsT64W8sL0HYQdz4EiTk3QtgZFPV7pnFfiWfgcwLdOsxk?=
- =?us-ascii?Q?PQerxaynn/QwzlyDxyY0jLFdHO1/9J07pcBM8Cbt9GO5Ky52bL/k08b2tKa1?=
- =?us-ascii?Q?u3mlIa102WcnpC1VtitApKQkHuKskeXQKSFVfnqz+qp/TkPF/Dcl0gY=3D?=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?WVt3UT5FsHTBamaW+P9cB4Drb5ZLEPni4pd4522swND2V+IIIcQhV7Wwty37?=
- =?us-ascii?Q?SJiKcKXzJbS1nSOLP3xQhoGQ0zCusAOvhIUb5vPkevY/wEhjzLKazXJn/dEm?=
- =?us-ascii?Q?xA3TCFjusdKGiKQaOyQFvLUCaffVutfPppgh1+XPMjSFFkHfWkoD7LhedQb4?=
- =?us-ascii?Q?u6lOvPgjIfchNX+NLWN2QPMGOeZxupis6dgRW+LnIH4uP8tvC57i/Gwk6EGQ?=
- =?us-ascii?Q?KCwScvWeFyU7CpdfUjtP3AmQAEtHqIQ/fxu7gCLs5jmt4wSXQqEvAWts6Kau?=
- =?us-ascii?Q?TbikIc+4xTUChIJSvwRVCODhoMgQkeWF3NN9/tNQqeim/UwyR+YowsLsinWs?=
- =?us-ascii?Q?9XT7Pk12WojXj5lyqgZqnkfFLf9Q+bJls0h3TtwzH1hODFkDjZL4nw9kmXH+?=
- =?us-ascii?Q?ukMIP3+f9vFPaQzB+562KitChXgGEW6wH6RgHnP3TtcjNdgyU2m3q6aD64bb?=
- =?us-ascii?Q?IkmyX/Tu5+3TyxzIzEvumoAE4sHw3abcDMwuUoWJ+n2rV/hngtdCx8E/DlQe?=
- =?us-ascii?Q?3a8E+QC7uWdqqrxQGaQEJIcJvOoW8pBuN7hD7PtGhA8gVBphUZZilws6+qRg?=
- =?us-ascii?Q?3xJtVArW3NXZbkYQ9y3p5WetiPij947SlOU6lSarjq28LU0b809vNGh1Pzlv?=
- =?us-ascii?Q?gF0yRXAokccpequ1jfFFvDCfTmVT5JDlY/LHbmGsT/jhwtpd7GCdg356yMSX?=
- =?us-ascii?Q?oQBKquhz4TWi1YvLLzhJXaqf5wBKH6EsCAn2h1oQJtH2wGPPG04/agAQIymI?=
- =?us-ascii?Q?Xm/UKruUTPBPoRg17zPli6bSoxomf1oNQkE8tkoAnR1A9+dr+UbNfjUsmNBt?=
- =?us-ascii?Q?TNLVrNAiJyIMJMKyTw+7XBge2zFVIROoJu3EV/gPmeCDGKqSQX3iX09n6Yf2?=
- =?us-ascii?Q?c+43kkX1OSAz+DG4eXDkiqpqebWgadayCMV3EM/Hc/LBTuZSttWZ6sX2uqDz?=
- =?us-ascii?Q?3SiqUqjj5yFzPTX7BftkD1N+PMHZTZ8tSygbISrikBptOMSFdTjiwpKjx7AJ?=
- =?us-ascii?Q?KVMbB7jBApqQXYDW67nTsYxZaT4BPpfjoDH5ZB1jglfbMyrZ5x73KZ+erxJn?=
- =?us-ascii?Q?crZEAGYs+hayVkX8fjOIlvXaSj+DLrjSyeAFDrRj0AUvKiZMhMucE15gEYyU?=
- =?us-ascii?Q?CDJT8Hy+sZgZPLk1rkxb1P7C1pPquV62UgBoEUTXCsoFq2Z+9ZIUkVWjKUyG?=
- =?us-ascii?Q?wv5d38r26moobr1SlioTMZuyHa2G/QZNPiXyH83SzVX6YnMH+kMJLTOwT+67?=
- =?us-ascii?Q?CyoNhs4eg5OYghogYkr40W+09dCbCWSi56PFiJ6ryLNPd0Y3H22ypZ4j2z9c?=
- =?us-ascii?Q?ork+0R+zZApC5xM+EmqL8nFmn64hASnJVtpR+P+imYT46lLsArR+foOSZNie?=
- =?us-ascii?Q?1MxerQoFKz5YLOoxlBOgja23n7MzeM/TuonbOoNB9ZCvxWZxH+rK+MEpLoRo?=
- =?us-ascii?Q?xNT9wMjMw1RE/X3P6VquGOZKMUOO8KFS?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f252bb27-a7cb-4bb6-12c0-08df10912f36
-X-MS-Exchange-CrossTenant-AuthSource: TY4PR01MB14432.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Sep 2026 05:46:26.1305
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS7PR01MB14840
+References: <CAPVz0n0ryOns2sCJE_jFana9MVzwEj1QZuPEa8FNhGbHXnMB+A@mail.gmail.com>
+ <11652e5e-053e-45b0-98a0-0c1cb2aeedc4@app.fastmail.com>
+In-Reply-To: <11652e5e-053e-45b0-98a0-0c1cb2aeedc4@app.fastmail.com>
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+Date: Sat, 12 Sep 2026 09:42:29 +0300
+X-Gm-Features: AcwNN1UU9hydFOGImBeWBO5hjkcNCRQ2PnPzv9Tt-xAUH4b_sUlrCRdkTJ4wt_0
+Message-ID: <CAPVz0n0pBxP2J=5DN+k+ut0HRnTmsU64orXwxa19G0+WAxN-zg@mail.gmail.com>
+Subject: Re: [PATCH 08/14] mfd: remove unused aat2870 driver
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Arnd Bergmann <arnd@kernel.org>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	Bartosz Golaszewski <brgl@kernel.org>, Mark Brown <broonie@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Daniel Thompson <danielt@kernel.org>, Helge Deller <deller@gmx.de>, devicetree@vger.kernel.org, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, dri-devel@lists.freedesktop.org, 
+	Jonathan Cameron <jic23@kernel.org>, Jingoo Han <jingoohan1@gmail.com>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Lee Jones <lee@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Linus Walleij <linusw@kernel.org>, linux-arm-kernel@lists.infradead.org, 
+	linux-doc@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>, linux-hwmon@vger.kernel.org, 
+	linux-iio@vger.kernel.org, linux-input@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-pm@vger.kernel.org, 
+	linux-rtc@vger.kernel.org, linux-sound@vger.kernel.org, 
+	linux-watchdog@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>, 
+	linuxppc-dev@lists.ozlabs.org, llvm@lists.linux.dev, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, mfd@lists.linux.dev, 
+	Michael Hennerich <michael.hennerich@analog.com>, patches@opensource.cirrus.com, 
+	Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>, Sebastian Reichel <sre@kernel.org>, 
+	Support Opensource <support.opensource@diasemi.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
---------------Q5ols2cBp8YAt7ZPWz5Adx1J
-Content-Type: multipart/mixed; boundary="------------wEletVpPpsxwZ0N1FGsh0gRD";
- protected-headers="v1"; hp="clear"
-Message-ID: <bda03c53-c96f-43ec-8464-7b013e411cf3@outlook.com>
-Date: Sat, 12 Sep 2026 13:46:19 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Cc: wiagn233@outlook.com, Syed Saba Kareem <syed.sabakareem@amd.com>,
- "Mukunda,Vijendar" <vijendar.mukunda@amd.com>,
- "Flove(HsinFu)" <flove@realtek.com>,
- "venkataprasad.potturu@amd.com" <venkataprasad.potturu@amd.com>,
- "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
- Oder Chiou <oder_chiou@realtek.com>, "vkoul@kernel.org" <vkoul@kernel.org>,
- "yung-chuan.liao@linux.intel.com" <yung-chuan.liao@linux.intel.com>,
- "pierre-louis.bossart@linux.dev" <pierre-louis.bossart@linux.dev>,
- "broonie@kernel.org" <broonie@kernel.org>,
- "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "Dommati, Sunil-kumar" <Sunil-kumar.Dommati@amd.com>,
- Fish690103 <fish690103@realtek.com>, =?UTF-8?B?TWlrZSBMaW4gKOael+abieiDvSk=?=
- <mikelin@realtek.com>
-Subject: Re: [BUG] ASoC/AMD ACP70/RT721: ASUS TUF Gaming A14 FA401EA speakers
- silent and headphone jack buzzes on playback
-To: Jack Yu <jack.yu@realtek.com>, Cristian Timohi <cristiantimohi@gmail.com>
-References: <CAAAbPi4w+YO=W8vFr63wy6++1WQ2mHUDVfUDKyWR8xcTWKXCKw@mail.gmail.com>
- <1fdd17c6-a0ab-42de-8362-8e1374d42fac@amd.com>
- <bc542e80-e572-452b-81ba-53e57ed3126e@amd.com>
- <30fed968a6f54a6c81eca4ee23ea4166@realtek.com>
- <CAAAbPi4MekJAyNsCAi2Ww9QHVVrrGkW2cdDTrrpttZYmh7yZHw@mail.gmail.com>
- <3fa3de8f2bf24041ba9c029e0984abfb@realtek.com>
-Content-Language: en-US
-From: Shengyu Qu <wiagn233@outlook.com>
-In-Reply-To: <3fa3de8f2bf24041ba9c029e0984abfb@realtek.com>
+=D1=87=D1=82, 10 =D0=B2=D0=B5=D1=80. 2026=E2=80=AF=D1=80. =D0=BE 21:15 Arnd=
+ Bergmann <arnd@arndb.de> =D0=BF=D0=B8=D1=88=D0=B5:
+>
+> On Thu, Sep 10, 2026, at 18:40, Svyatoslav Ryhel wrote:
+> > __
+> > Hello Arnd! May you please spare AAT2870 from being removed? I have a
+> > device which uses aat2870 (LG Optimus 2X P990 Tegra 2, not upstreamed
+> > yet, but in process as well) and atm I am working on converting this
+> > driver to use OF. Thank you!
+>
+> Sure, I have removed this patch from my series now.
+>
 
---------------wEletVpPpsxwZ0N1FGsh0gRD
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Thank you!
 
-SGkgSmFjaywNCg0KU29tZSBjb21tdW5pdHkgdXNlcnMgZm91bmQgYSB3YXkgdG8gZml4IHRo
-aXModGhvdWdoIHBhdGNoIGlzIGZyb20gdmliZQ0KY29kaW5nKS4gQ2FuIHlvdSBjaGVjayB3
-aHkgdGhpcyByZWFsbHkgaGVscHM/IEkgY2FuJ3QgcmVwcm9kdWNlIHRoaXMgb24NCm15IEZB
-NDAxRUEgc28gSSBjYW4ndCBnaXZlIHlvdSBtb3JlIGluZm9ybWF0aW9uIGZvciBkZWJ1Z2dp
-bmcuDQoNClBhdGNoZXMgaGVyZTogaHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3df
-YnVnLmNnaT9pZD0yMjEzMTAjYzc1DQoNCkJlc3QgcmVnYXJkcywNClNoZW5neXUNCg0K5Zyo
-IDIwMjYvOS85IDE2OjIxLCBKYWNrIFl1IOWGmemBkzoNCj4gSGkgQ3Jpc3RpYW4sDQo+IA0K
-PiBQbGVhc2UgZG9uJ3QgdXNlICJVcGRhdGUgcHJlc2V0IGZvciBhbGwgZnVuY3Rpb25zIiBw
-YXRjaCBhbmQgc3RpbGwga2VlcCBiZWxvdyBwYXRjaA0KPiANCj4gQVNvQzogcnQ3MjEtc2Rj
-YTogQWRqdXN0IGxhdGVuY3kgY29udHJvbCB0byBmaXggbm8tc291bmQgaXNzdWUNCj4gYTIw
-YWZlYzQwZWExMDEyNjU5ODYxZTU4Mzc0YzFiY2RlMmUxOGE0Mw0KPiANCj4gYWZ0ZXIgYWJv
-dmUgc3RlcHMsIHBsZWFzZSBkdW1wIHRoZSByZWdpc3RlcnMgaW4gYmVsb3cgcGF0aCBkdXJp
-bmcgcGxheWJhY2sgZm9yIGJvdGggc2NlbmFyaW9zIChzcGVha2VyIHBsYXliYWNrIGFuZCBo
-ZWFkcGhvbmUgcGxheWJhY2spLg0KPiANCj4gL3N5cy9rZXJuZWwvZGVidWcvcmVnbWFwLzxz
-ZHcgYWRkcj4vcmVnaXN0ZXJzDQo+IC9zeXMva2VybmVsL2RlYnVnL3JlZ21hcC88c2R3IE1C
-US1hZGRyPi9yZWdpc3RlcnMNCj4gDQo+IE91ciBGQUUgd2lsbCBhbHNvIHRyeSB0byBib3Jy
-b3cgZGV2aWNlcyBmcm9tIEFTVVMgZm9yIGZ1cnRoZXIgZGVidWdnaW5nLg0KPiANCj4gUmVn
-YXJkcywNCj4gSmFjaw0KPiANCj4+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+PiBG
-cm9tOiBDcmlzdGlhbiBUaW1vaGkgPGNyaXN0aWFudGltb2hpQGdtYWlsLmNvbT4NCj4+IFNl
-bnQ6IFdlZG5lc2RheSwgU2VwdGVtYmVyIDksIDIwMjYgNDo1MCBBTQ0KPj4gVG86IEphY2sg
-WXUgPGphY2sueXVAcmVhbHRlay5jb20+DQo+PiBDYzogU3llZCBTYWJhIEthcmVlbSA8c3ll
-ZC5zYWJha2FyZWVtQGFtZC5jb20+OyBNdWt1bmRhLFZpamVuZGFyDQo+PiA8dmlqZW5kYXIu
-bXVrdW5kYUBhbWQuY29tPjsgRmxvdmUoSHNpbkZ1KSA8ZmxvdmVAcmVhbHRlay5jb20+Ow0K
-Pj4gdmVua2F0YXByYXNhZC5wb3R0dXJ1QGFtZC5jb207IGxpbnV4LXNvdW5kQHZnZXIua2Vy
-bmVsLm9yZzsgT2RlciBDaGlvdQ0KPj4gPG9kZXJfY2hpb3VAcmVhbHRlay5jb20+OyB2a291
-bEBrZXJuZWwub3JnOw0KPj4geXVuZy1jaHVhbi5saWFvQGxpbnV4LmludGVsLmNvbTsgcGll
-cnJlLWxvdWlzLmJvc3NhcnRAbGludXguZGV2Ow0KPj4gYnJvb25pZUBrZXJuZWwub3JnOyBs
-Z2lyZHdvb2RAZ21haWwuY29tOyBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnOw0KPj4g
-RG9tbWF0aSwgU3VuaWwta3VtYXIgPFN1bmlsLWt1bWFyLkRvbW1hdGlAYW1kLmNvbT47IEZp
-c2g2OTAxMDMNCj4+IDxmaXNoNjkwMTAzQHJlYWx0ZWsuY29tPjsgTWlrZSBMaW4gKOael+ab
-ieiDvSkgPG1pa2VsaW5AcmVhbHRlay5jb20+DQo+PiBTdWJqZWN0OiBSZTogW0JVR10gQVNv
-Qy9BTUQgQUNQNzAvUlQ3MjE6IEFTVVMgVFVGIEdhbWluZyBBMTQgRkE0MDFFQQ0KPj4gc3Bl
-YWtlcnMgc2lsZW50IGFuZCBoZWFkcGhvbmUgamFjayBidXp6ZXMgb24gcGxheWJhY2sNCj4+
-DQo+Pg0KPj4gRXh0ZXJuYWwgbWFpbCA6IFRoaXMgZW1haWwgb3JpZ2luYXRlZCBmcm9tIG91
-dHNpZGUgdGhlIG9yZ2FuaXphdGlvbi4gRG8gbm90DQo+PiByZXBseSwgY2xpY2sgbGlua3Ms
-IG9yIG9wZW4gYXR0YWNobWVudHMgdW5sZXNzIHlvdSByZWNvZ25pemUgdGhlIHNlbmRlciBh
-bmQNCj4+IGtub3cgdGhlIGNvbnRlbnQgaXMgc2FmZS4NCj4+DQo+Pg0KPj4NCj4+IEhpIEph
-Y2ssIFZpamVuZGFyLCBhbGwsDQo+Pg0KPj4gSSB0ZXN0ZWQgYm90aCBSZWFsdGVrIGNoYW5n
-ZXMgb24gdGhlIEFTVVMgVFVGIEdhbWluZyBBMTQgRkE0MDFFQSAoQklPUw0KPj4gRkE0MDFF
-QS4zMDQpLg0KPj4NCj4+IEZvciByZWZlcmVuY2UsIGF1ZGlvIHdvcmtzIGNvcnJlY3RseSB1
-bmRlciB0aGUgZmFjdG9yeS1pbnN0YWxsZWQgV2luZG93cyAxMSBvbg0KPj4gdGhpcyBleGFj
-dCBoYXJkd2FyZTogYm90aCB0aGUgaW50ZXJuYWwgc3BlYWtlcnMgYW5kIHRoZQ0KPj4gMy41
-IG1tIGhlYWRwaG9uZSBvdXRwdXQgd29ya2VkIG5vcm1hbGx5Lg0KPj4NCj4+IFRlc3Qga2Vy
-bmVsOg0KPj4NCj4+IGN1cnJlbnQgdG9ydmFsZHMvbGludXggbWFzdGVyDQo+PiBIRUFEIGJl
-Zm9yZSB0aGUgdGVzdDogNWFjYmFlNWY3DQo+PiBhMjBhZmVjNDBlYTEgY2hlcnJ5LXBpY2tl
-ZA0KPj4gbG9jYWwga2VybmVsOiA3LjMuMC1yYzItZmE0MDFlYS1ydDcyMSsNCj4+IFNwZWFr
-ZXIgZml4OiBhMjBhZmVjNDBlYTENCj4+ID09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09DQo+Pg0KPj4gSSBmaXJzdCB0ZXN0ZWQgb25seToNCj4+DQo+PiBBU29DOiBydDcyMS1z
-ZGNhOiBBZGp1c3QgbGF0ZW5jeSBjb250cm9sIHRvIGZpeCBuby1zb3VuZCBpc3N1ZQ0KPj4g
-YTIwYWZlYzQwZWExMDEyNjU5ODYxZTU4Mzc0YzFiY2RlMmUxOGE0Mw0KPj4NCj4+IFVuZm9y
-dHVuYXRlbHksIHRoZSBpbnRlcm5hbCBzcGVha2VycyByZW1haW4gY29tcGxldGVseSBzaWxl
-bnQuDQo+Pg0KPj4gRGlyZWN0IEFMU0EgcGxheWJhY2sgb24gdGhlIFNtYXJ0QW1wIFBDTSBv
-cGVucyBhbmQgcnVucyBub3JtYWxseToNCj4+DQo+PiBzcGVha2VyLXRlc3QNCj4+IC1EIGh3
-PWFtZHNvdW5kd2lyZSxERVY9Mg0KPj4gLWMgMiAtciA0ODAwMCAtRiBTMTZfTEUgLXQgd2F2
-DQo+Pg0KPj4gVGhlcmUgYXJlIG5vIHJlbGV2YW50IFJUNzIxL1NvdW5kV2lyZSBlcnJvcnMg
-ZHVyaW5nIHBsYXliYWNrLCBidXQgdGhlcmUgaXMgbm8NCj4+IHBoeXNpY2FsIHNwZWFrZXIg
-b3V0cHV0Lg0KPj4NCj4+IFNvIGEyMGFmZWM0MGVhMSBhbG9uZSBkb2VzIG5vdCBmaXggdGhl
-IHNwZWFrZXIgaXNzdWUgb24gdGhpcyBGQTQwMUVBIHVuaXQuDQo+Pg0KPj4gIlVwZGF0ZSBw
-cmVzZXQgZm9yIGFsbCBmdW5jdGlvbnMiIHBhdGNoDQo+PiA9PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09DQo+Pg0KPj4gSSB0aGVuIGFwcGxpZWQgSmFjaydz
-Og0KPj4NCj4+IDAwMDEtQVNvQy1ydDcyMS1zZGNhLVVwZGF0ZS1wcmVzZXQtZm9yLWFsbC1m
-dW5jdGlvbnMucGF0Y2gNCj4+DQo+PiBUaGUgcGF0Y2ggYXBwbGllcyBjbGVhbmx5IG9uIHRv
-cCBvZiB0aGUgYWJvdmUga2VybmVsLg0KPj4NCj4+IFdpdGggdGhlIHBhdGNoIHVubW9kaWZp
-ZWQsIGhvd2V2ZXIsIGJvdGggcGxheWJhY2sgcGF0aHMgZmFpbCB0byBvcGVuIHdpdGgNCj4+
-IC1FTk9EQVRBLg0KPj4NCj4+IFRoZSBSVDcyMSByZW1haW5zIGF0dGFjaGVkOg0KPj4NCj4+
-IHNkdzowOjE6MDI1ZDowNzIxOjAxOiBBdHRhY2hlZA0KPj4NCj4+IGJ1dCBkbWVzZyByZXBv
-cnRzOg0KPj4NCj4+IHJ0NzIxLXNkY2Egc2R3OjA6MTowMjVkOjA3MjE6MDE6IERlZmVyIG9u
-IHVuZGVmZXJyYWJsZSBjb250cm9sOiA1ODEwMTAwDQo+PiBydDcyMS1zZGNhIHNkdzowOjE6
-MDI1ZDowNzIxOjAxOiBEZWZlciBvbiB1bmRlZmVycmFibGUgY29udHJvbDogNTgxMDEwMA0K
-Pj4gcnQ3MjEtc2RjYSBzZHc6MDoxOjAyNWQ6MDcyMTowMTogQVNvQyBlcnJvciAoLTYxKTog
-YXQNCj4+IHNuZF9zb2NfcGNtX2NvbXBvbmVudF9wbV9ydW50aW1lX2dldCgpIG9uIHNkdzow
-OjE6MDI1ZDowNzIxOjAxDQo+PiBTRFcxLVBJTjEtUExBWUJBQ0stU21hcnRBbXA6IEFTb0Mg
-ZXJyb3IgKC02MSk6IGF0IF9fc29jX3BjbV9vcGVuKCkgb24NCj4+IFNEVzEtUElOMS1QTEFZ
-QkFDSy1TbWFydEFtcA0KPj4NCj4+IFRoZSBzYW1lIHJ1bnRpbWUgUE0gZXJyb3IgYWxzbyBv
-Y2N1cnMgZm9yIHRoZSBTaW1wbGVKYWNrIHBsYXliYWNrIHBhdGguDQo+Pg0KPj4gSSB0cmFj
-ZWQgdGhpcyB0byB0aGUgbmV3IHdyaXRlIGluIHJ0NzIxX3NkY2FfamFja19wcmVzZXQoKToN
-Cj4+DQo+PiByZWdtYXBfd3JpdGUocnQ3MjEtPm1icV9yZWdtYXAsIDB4NTgxMDEwMCwgMHg4
-MDIxKTsNCj4+DQo+PiBFeHBlcmltZW50YWwgMHg1ODEwMTAwIC0+IDB4NTgxMDAwMCB0ZXN0
-DQo+PiA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQ0KPj4N
-Cj4+IEFzIGEgbG9jYWwgZXhwZXJpbWVudCBvbmx5LCBJIGNoYW5nZWQgdGhhdCBzaW5nbGUg
-d3JpdGUgZnJvbToNCj4+DQo+PiByZWdtYXBfd3JpdGUocnQ3MjEtPm1icV9yZWdtYXAsIDB4
-NTgxMDEwMCwgMHg4MDIxKTsNCj4+DQo+PiB0bzoNCj4+DQo+PiByZWdtYXBfd3JpdGUocnQ3
-MjEtPm1icV9yZWdtYXAsIDB4NTgxMDAwMCwgMHg4MDIxKTsNCj4+DQo+PiBUaGlzIHJlc3Rv
-cmVzIG5vcm1hbCBQQ00gb3BlbmluZy4gVGhlIC02MSAvICJEZWZlciBvbiB1bmRlZmVycmFi
-bGUNCj4+IGNvbnRyb2w6IDU4MTAxMDAiIG1lc3NhZ2VzIGRpc2FwcGVhciBjb21wbGV0ZWx5
-Lg0KPj4NCj4+IFdpdGggdGhpcyBleHBlcmltZW50YWwgY2hhbmdlIGFuZCB0aGUgcmVzdCBv
-ZiB0aGUgcHJlc2V0IHBhdGNoIHVuY2hhbmdlZDoNCj4+DQo+PiBJbnRlcm5hbCBzcGVha2Vy
-czoNCj4+DQo+PiBQQ00gb3BlbnMgYW5kIHN0cmVhbXMgbm9ybWFsbHkNCj4+IHN0aWxsIGNv
-bXBsZXRlbHkgc2lsZW50DQo+Pg0KPj4gMy41IG1tIGhlYWRwaG9uZXM6DQo+Pg0KPj4gUENN
-IG9wZW5zIGFuZCBzdHJlYW1zIG5vcm1hbGx5DQo+PiBubyBpbnRlbGxpZ2libGUgYXVkaW8g
-aXMgcHJvZHVjZWQNCj4+IGltcG9ydGFudGx5LCB0aGUgcHJldmlvdXMgYnV6emluZyBub2lz
-ZSBpcyBub3cgZ29uZQ0KPj4NCj4+IEkgYWxzbyByZXBlYXRlZCB0aGUgemVyby1QQ00gdGVz
-dDoNCj4+DQo+PiB0aW1lb3V0IDEwcyBiYXNoIC1jICcNCj4+IGRkIGlmPS9kZXYvemVybyBi
-cz0xOTIwMDAgMj4vZGV2L251bGwgfA0KPj4gYXBsYXkgLUQgaHc9YW1kc291bmR3aXJlLERF
-Vj0wDQo+PiAtdCByYXcgLWYgUzE2X0xFIC1yIDQ4MDAwIC1jIDINCj4+ICcNCj4+DQo+PiBQ
-cmV2aW91c2x5IHRoaXMgY2F1c2VkIGNvbnRpbnVvdXMgYnV6emluZyB3aGlsZSB0aGUgcGxh
-eWJhY2sgcGF0aCB3YXMgYWN0aXZlLg0KPj4NCj4+IFdpdGggdGhlIG5ldyBwcmVzZXQgcGF0
-Y2ggcGx1cyB0aGUgZXhwZXJpbWVudGFsIDB4NTgxMDEwMCAtPiAweDU4MTAwMDANCj4+IGNo
-YW5nZSwgdGhlIGhlYWRwaG9uZSBvdXRwdXQgaXMgY29tcGxldGVseSBzaWxlbnQgZHVyaW5n
-IHplcm8tUENNDQo+PiBwbGF5YmFjazogbm8gYnV6eiwgYnV0IGFsc28gbm8gYXVkaW8gZHVy
-aW5nIG5vcm1hbCBwbGF5YmFjay4NCj4+DQo+PiBTdW1tYXJ5DQo+Pg0KPj4gYTIwYWZlYzQw
-ZWExIG9ubHk6DQo+Pg0KPj4gc3BlYWtlcnM6IHNpbGVudA0KPj4gaGVhZHBob25lIGJlaGF2
-aW9yIHVuY2hhbmdlZA0KPj4NCj4+IGEyMGFmZWM0MGVhMSArIHByZXNldCBwYXRjaCBhcyBw
-cm92aWRlZDoNCj4+DQo+PiBSVDcyMSBzdGF5cyBBdHRhY2hlZA0KPj4gcGxheWJhY2sgY2Fu
-bm90IG9wZW4NCj4+IDB4NTgxMDEwMCBjYXVzZXMgLUVOT0RBVEEgLyBydW50aW1lIFBNIGZh
-aWx1cmUNCj4+DQo+PiBhMjBhZmVjNDBlYTEgKyBwcmVzZXQgcGF0Y2ggKyBleHBlcmltZW50
-YWwgMHg1ODEwMTAwIC0+IDB4NTgxMDAwMDoNCj4+DQo+PiBQQ00gcGxheWJhY2sgd29ya3Mg
-YWdhaW4NCj4+IHNwZWFrZXJzIHJlbWFpbiBzaWxlbnQNCj4+IGhlYWRwaG9uZXMgcmVtYWlu
-IHNpbGVudA0KPj4gcHJldmlvdXMgaGVhZHBob25lIGJ1enogaXMgZWxpbWluYXRlZA0KPj4g
-bm8gcmVsZXZhbnQgUlQ3MjEvU291bmRXaXJlIGVycm9ycyBpbiBkbWVzZw0KPj4NCj4+IEl0
-IHRoZXJlZm9yZSBsb29rcyBsaWtlIHRoZSBuZXcgcHJlc2V0IGRvZXMgYWZmZWN0IHRoZSBh
-bmFsb2cgaGVhZHBob25lIHN0YXRlDQo+PiBvbiB0aGlzIGhhcmR3YXJlLCBzaW5jZSBpdCBy
-ZW1vdmVzIHRoZSBidXp6aW5nLCBidXQgdGhlIGNvZGVjIHN0aWxsIGRvZXMgbm90DQo+PiBw
-cm9kdWNlIGFjdHVhbCBhdWRpby4NCj4+DQo+PiBQbGVhc2UgbGV0IG1lIGtub3cgaWYgeW91
-IHdvdWxkIGxpa2UgbWUgdG8gdGVzdCBkaWZmZXJlbnQgcmVnaXN0ZXIgdmFsdWVzIG9yDQo+
-PiBwcm92aWRlIHJlZ2lzdGVyL2RlYnVnIGR1bXBzIGZyb20gdGhpcyBzdGF0ZS4NCj4+DQo+
-PiBCdWd6aWxsYToNCj4+IGh0dHBzOi8vYnVnemlsbGEua2VybmVsLm9yZy9zaG93X2J1Zy5j
-Z2k/aWQ9MjIxOTU4DQo+Pg0KPj4gVGhhbmtzLA0KPj4gQ3Jpc3RpYW4NCj4+DQo+PiBPbiBG
-cmksIFNlcCA0LCAyMDI2IGF0IDk6MDHigK9BTSBKYWNrIFl1IDxqYWNrLnl1QHJlYWx0ZWsu
-Y29tPiB3cm90ZToNCj4+Pg0KPj4+IExvb3AgbW9yZQ0KPj4+DQo+Pj4gSGkgTXVrdW5kYSwN
-Cj4+Pg0KPj4+IFJlZ2FyZGluZyB0byBzcGVha2VycyBzaWxlbnQgaXNzdWUsIGEgcGF0Y2gg
-aGFzIGJlZW4gbWVyZ2VkIGFzIGJlbG93DQo+Pj4NCj4+PiBbMS8xXSBBU29DOiBydDcyMS1z
-ZGNhOiBBZGp1c3QgbGF0ZW5jeSBjb250cm9sIHRvIGZpeCBuby1zb3VuZCBpc3N1ZQ0KPj4+
-ICAgICAgICBodHRwczovL2dpdC5rZXJuZWwub3JnL2Jyb29uaWUvc291bmQvYy9hMjBhZmVj
-NDBlYTENCj4+Pg0KPj4+IGFuZCBmb3IgaGVhZHBob25lIGJ1enplcyBpc3N1ZSBvbiBwbGF5
-YmFjaywgY291bGQgeW91IG1lcmdlIHRoZSBhdHRhY2hlZA0KPj4gcGF0Y2ggYW5kIGNoZWNr
-IGlmIGJ1enplcyBpc3N1ZSBjYW4gYmUgZml4ZWQ/DQo+Pj4NCj4+PiBSZWdhcmRzLA0KPj4+
-IEphY2sNCj4+Pg0KPj4+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPj4+PiBGcm9t
-OiBTeWVkIFNhYmEgS2FyZWVtIDxzeWVkLnNhYmFrYXJlZW1AYW1kLmNvbT4NCj4+Pj4gU2Vu
-dDogVGh1cnNkYXksIFNlcHRlbWJlciAzLCAyMDI2IDQ6NDEgUE0NCj4+Pj4gVG86IE11a3Vu
-ZGEsVmlqZW5kYXIgPHZpamVuZGFyLm11a3VuZGFAYW1kLmNvbT47IENyaXN0aWFuIFRpbW9o
-aQ0KPj4+PiA8Y3Jpc3RpYW50aW1vaGlAZ21haWwuY29tPjsgSmFjayBZdSA8amFjay55dUBy
-ZWFsdGVrLmNvbT47DQo+Pj4+IEZsb3ZlKEhzaW5GdSkgPGZsb3ZlQHJlYWx0ZWsuY29tPg0K
-Pj4+PiBDYzogdmVua2F0YXByYXNhZC5wb3R0dXJ1QGFtZC5jb207IGxpbnV4LXNvdW5kQHZn
-ZXIua2VybmVsLm9yZzsgT2Rlcg0KPj4+PiBDaGlvdSA8b2Rlcl9jaGlvdUByZWFsdGVrLmNv
-bT47IHZrb3VsQGtlcm5lbC5vcmc7DQo+Pj4+IHl1bmctY2h1YW4ubGlhb0BsaW51eC5pbnRl
-bC5jb207IHBpZXJyZS1sb3Vpcy5ib3NzYXJ0QGxpbnV4LmRldjsNCj4+Pj4gYnJvb25pZUBr
-ZXJuZWwub3JnOyBsZ2lyZHdvb2RAZ21haWwuY29tOw0KPj4+PiBsaW51eC1rZXJuZWxAdmdl
-ci5rZXJuZWwub3JnOyBEb21tYXRpLCBTdW5pbC1rdW1hcg0KPj4+PiA8U3VuaWwta3VtYXIu
-RG9tbWF0aUBhbWQuY29tPg0KPj4+PiBTdWJqZWN0OiBSZTogW0JVR10gQVNvQy9BTUQgQUNQ
-NzAvUlQ3MjE6IEFTVVMgVFVGIEdhbWluZyBBMTQNCj4+IEZBNDAxRUENCj4+Pj4gc3BlYWtl
-cnMgc2lsZW50IGFuZCBoZWFkcGhvbmUgamFjayBidXp6ZXMgb24gcGxheWJhY2sNCj4+Pj4N
-Cj4+Pj4NCj4+Pj4gRXh0ZXJuYWwgbWFpbCA6IFRoaXMgZW1haWwgb3JpZ2luYXRlZCBmcm9t
-IG91dHNpZGUgdGhlIG9yZ2FuaXphdGlvbi4NCj4+Pj4gRG8gbm90IHJlcGx5LCBjbGljayBs
-aW5rcywgb3Igb3BlbiBhdHRhY2htZW50cyB1bmxlc3MgeW91IHJlY29nbml6ZQ0KPj4+PiB0
-aGUgc2VuZGVyIGFuZCBrbm93IHRoZSBjb250ZW50IGlzIHNhZmUuDQo+Pj4+DQo+Pj4+DQo+
-Pj4+DQo+Pj4+IE9uIDkvMy8yNiAxMToxMSwgTXVrdW5kYSxWaWplbmRhciB3cm90ZToNCj4+
-Pj4+DQo+Pj4+Pg0KPj4+Pj4gT24gOS8yLzI2IDIyOjEzLCBDcmlzdGlhbiBUaW1vaGkgd3Jv
-dGU6DQo+Pj4+Pj4gW1lvdSBkb24ndCBvZnRlbiBnZXQgZW1haWwgZnJvbSBjcmlzdGlhbnRp
-bW9oaUBnbWFpbC5jb20uIExlYXJuDQo+Pj4+Pj4gd2h5IHRoaXMgaXMgaW1wb3J0YW50IGF0
-DQo+Pj4+Pj4gaHR0cHM6Ly9ha2EubXMvTGVhcm5BYm91dFNlbmRlcklkZW50aWZpY2F0aW9u
-IF0NCj4+Pj4+Pg0KPj4+Pj4+ICoqKioNCj4+Pj4+PiBSZXNlbmRpbmcgYXMgcGxhaW4gdGV4
-dCwgYXMgdGhlIHByZXZpb3VzIG1lc3NhZ2Ugd2FzIHJlamVjdGVkIGJ5DQo+Pj4+Pj4gdGhl
-IHZnZXIua2VybmVsLm9yZyBtYWlsaW5nIGxpc3QgZHVlIHRvIGFuIEhUTUwgTUlNRSBwYXJ0
-Lg0KPj4+Pj4+IEFwb2xvZ2llcyB0byByZWNpcGllbnRzIHdobyByZWNlaXZlZCB0aGUgcHJl
-dmlvdXMgY29weSBkaXJlY3RseS4NCj4+Pj4+PiAqKioNCj4+Pj4+Pg0KPj4+Pj4+IEhlbGxv
-LA0KPj4+Pj4+DQo+Pj4+Pj4gSSdtIHJlcG9ydGluZyBhbiBhdWRpbyBpc3N1ZSBvbiBhbiBB
-U1VTIFRVRiBHYW1pbmcgQTE0IEZBNDAxRUENCj4+Pj4+PiAoUnl6ZW4gQUkgTUFYKyAzOTIp
-IHVzaW5nIEFNRCBBQ1A3MCBTb3VuZFdpcmUgYW5kIGEgUmVhbHRlayBSVDcyMQ0KPj4+Pj4+
-IFNEQ0EgY29kZWMuDQo+Pj4+Pj4NCj4+Pj4+PiBJIGhhdmUgcmVwcm9kdWNlZCB0aGUgaXNz
-dWUgb24gYSBjbGVhbiBjdXJyZW50IHZhbmlsbGEgNy4zLXJjMQ0KPj4+Pj4+IGtlcm5lbCwg
-c28gdGhpcyBkb2VzIG5vdCBhcHBlYXIgdG8gYmUgRmVkb3JhLSwgUGlwZVdpcmUtLCBvcg0K
-Pj4+Pj4+IGRlc2t0b3Atc3BlY2lmaWMuDQo+Pj4+Pj4NCj4+Pj4+PiBDdXJyZW50IGNsZWFu
-IHRlc3QgZW52aXJvbm1lbnQNCj4+Pj4+PiA9PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT0NCj4+Pj4+Pg0KPj4+Pj4+IERpc3RyaWJ1dGlvbjoNCj4+Pj4+PiAgICAgICBGZWRvcmEg
-NDUNCj4+Pj4+Pg0KPj4+Pj4+IEtlcm5lbDoNCj4+Pj4+PiAgICAgICA3LjMuMC0wLnJjMS4y
-NjA5MDEuNzg2MjYyYmUuNDE3LnZhbmlsbGEuZmM0NS54ODZfNjQNCj4+Pj4+Pg0KPj4+Pj4+
-IHNuZF9hY3Bfc2R3X2xlZ2FjeV9tYWNoIHF1aXJrOg0KPj4+Pj4+ICAgICAgIC0xDQo+Pj4+
-Pj4NCj4+Pj4+PiBUaGVyZSBhcmUgbm8gcmVtYWluaW5nIGN1c3RvbSBzbmRfYWNwX3Nkd19s
-ZWdhY3lfbWFjaC9tb2Rwcm9iZQ0KPj4+Pj4+IG92ZXJyaWRlcyBpbiB0aGUgY3VycmVudCBy
-ZXByb2R1Y3Rpb24gZW52aXJvbm1lbnQuDQo+Pj4+Pj4NCj4+Pj4+PiBIYXJkd2FyZQ0KPj4+
-Pj4+ID09PT09PT09DQo+Pj4+Pj4NCj4+Pj4+PiBMYXB0b3A6DQo+Pj4+Pj4gICAgICAgQVNV
-UyBUVUYgR2FtaW5nIEExNCBGQTQwMUVBDQo+Pj4+Pj4NCj4+Pj4+PiBETUkgcHJvZHVjdDoN
-Cj4+Pj4+PiAgICAgICBUVUYgR2FtaW5nIEExNCBGQTQwMUVBDQo+Pj4+Pj4NCj4+Pj4+PiBE
-TUkgYm9hcmQ6DQo+Pj4+Pj4gICAgICAgRkE0MDFFQQ0KPj4+Pj4+DQo+Pj4+Pj4gQklPUzoN
-Cj4+Pj4+PiAgICAgICBGQTQwMUVBLjMwNA0KPj4+Pj4+DQo+Pj4+Pj4gQ1BVL0FQVToNCj4+
-Pj4+PiAgICAgICBBTUQgUnl6ZW4gQUkgTUFYKyAzOTINCj4+Pj4+Pg0KPj4+Pj4+IEF1ZGlv
-Og0KPj4+Pj4+ICAgICAgIEFNRCBBQ1A3MCBTb3VuZFdpcmUNCj4+Pj4+PiAgICAgICBSZWFs
-dGVrIFJUNzIxIFNEQ0ENCj4+Pj4+Pg0KPj4+Pj4+IFRoZSBTb3VuZFdpcmUgYnVzIGV4cG9z
-ZXMgb25lIHBlcmlwaGVyYWw6DQo+Pj4+Pj4NCj4+Pj4+PiAgICAgICBzZHc6MDoxOjAyNWQ6
-MDcyMTowMTogQXR0YWNoZWQNCj4+Pj4+Pg0KPj4+Pj4+IEkgZG8gbm90IHNlZSBUQVMyNzgz
-IGRldmljZXMgZW51bWVyYXRlZCBvbiB0aGlzIHVuaXQuDQo+Pj4+Pj4NCj4+Pj4+PiBLbm93
-bi1nb29kIGNhc2VzDQo+Pj4+Pj4gPT09PT09PT09PT09PT09PQ0KPj4+Pj4+DQo+Pj4+Pj4g
-VGhlIGxhcHRvcCdzIGJ1aWx0LWluIHNwZWFrZXJzIHdvcmtlZCBjb3JyZWN0bHkgdW5kZXIg
-dGhlDQo+Pj4+Pj4gZmFjdG9yeS1pbnN0YWxsZWQgV2luZG93cyAxMS4NCj4+Pj4+Pg0KPj4+
-Pj4+IFVTQiBhdWRpbyBhbHNvIHdvcmtzIGNvcnJlY3RseSB1bmRlciBMaW51eC4gSSB0ZXN0
-ZWQgQ29yc2Fpcg0KPj4+Pj4+IFZpcnR1b3NvIFVTQiBoZWFkcGhvbmVzIGFuZCBub3JtYWwg
-YXVkaW8gcGxheWJhY2sgd29ya3MuDQo+Pj4+Pj4NCj4+Pj4+PiBUaGVyZWZvcmUgdGhlIGlz
-c3VlIGFwcGVhcnMgc3BlY2lmaWMgdG8gdGhlIGludGVybmFsIEFNRCBBQ1A3MCAtPg0KPj4+
-Pj4+IFNvdW5kV2lyZSAtPiBSVDcyMSBhdWRpbyBwYXRoLg0KPj4+Pj4+DQo+Pj4+Pj4gQWN0
-dWFsIGJlaGF2aW9yDQo+Pj4+Pj4gPT09PT09PT09PT09PT09DQo+Pj4+Pj4NCj4+Pj4+PiBJ
-bnRlcm5hbCBzcGVha2VyczoNCj4+Pj4+PiAgICAgICBDb21wbGV0ZWx5IHNpbGVudC4NCj4+
-Pj4+Pg0KPj4+Pj4+IDMuNSBtbSBoZWFkcGhvbmUgamFjazoNCj4+Pj4+PiAgICAgICBObyBp
-bnRlbGxpZ2libGUgYXVkaW8gaXMgcHJvZHVjZWQuDQo+Pj4+Pj4gICAgICAgV2hlbiB0aGUg
-YW5hbG9nIGF1ZGlvIHBhdGggYmVjb21lcyBhY3RpdmUsIHRoZSBoZWFkcGhvbmVzDQo+Pj4+
-IHByb2R1Y2UNCj4+Pj4+PiAgICAgICBhIGNvbnRpbnVvdXMgYnV6emluZyBub2lzZS4gVGhl
-IGJ1enogc3RvcHMgd2hlbiB0aGUNCj4+IHBsYXliYWNrL3BhdGgNCj4+Pj4+PiAgICAgICBp
-cyBkZWFjdGl2YXRlZC4NCj4+Pj4+Pg0KPj4+Pj4+IE9wZW5pbmcgdGhlIGRlc2t0b3Agc291
-bmQgY29udHJvbCBwYW5lbCBjYW4gYWxzbyB0cmlnZ2VyIHRoZQ0KPj4+Pj4+IGJ1enppbmcg
-d2hpbGUgdGhlIGFuYWxvZyBhdWRpbyBwYXRoIGlzIGFjdGl2ZS4NCj4+Pj4+Pg0KPj4+Pj4+
-IEFMU0EgcGxheWJhY2sgZGV2aWNlcw0KPj4+Pj4+ID09PT09PT09PT09PT09PT09PT09PQ0K
-Pj4+Pj4+DQo+Pj4+Pj4gVGhlIGFtZC1zb3VuZHdpcmUgY2FyZCBleHBvc2VzOg0KPj4+Pj4+
-DQo+Pj4+Pj4gICAgICAgZGV2aWNlIDA6DQo+Pj4+Pj4gICAgICAgU0RXMS1QSU4wLVBMQVlC
-QUNLLVNpbXBsZUphY2sgcnQ3MjEtc2RjYS1haWYxLTANCj4+Pj4+Pg0KPj4+Pj4+ICAgICAg
-IGRldmljZSAyOg0KPj4+Pj4+ICAgICAgIFNEVzEtUElOMS1QTEFZQkFDSy1TbWFydEFtcCBy
-dDcyMS1zZGNhLWFpZjItMg0KPj4+Pj4+DQo+Pj4+Pj4gRGlyZWN0IEFMU0EgcmVwcm9kdWN0
-aW9uDQo+Pj4+Pj4gPT09PT09PT09PT09PT09PT09PT09PT09DQo+Pj4+Pj4NCj4+Pj4+PiBJ
-bnRlcm5hbCBzcGVha2VyczoNCj4+Pj4+Pg0KPj4+Pj4+ICAgICAgIHNwZWFrZXItdGVzdCAt
-RCBodzpDQVJEPWFtZHNvdW5kd2lyZSxERVY9MiBcDQo+Pj4+Pj4gICAgICAgICAgIC1jIDIg
-LXIgNDgwMDAgLUYgUzE2X0xFIC10IHdhdg0KPj4+Pj4+DQo+Pj4+Pj4gVGhlIFBDTSBzdHJl
-YW0gc3RhcnRzIG5vcm1hbGx5IHdpdGhvdXQgYW4gQUxTQSBlcnJvciwgYnV0IHRoZXJlDQo+
-Pj4+Pj4gaXMgbm8gcGh5c2ljYWwgc3BlYWtlciBvdXRwdXQuDQo+Pj4+Pj4NCj4+Pj4+PiBB
-bmFsb2cgaGVhZHBob25lczoNCj4+Pj4+Pg0KPj4+Pj4+ICAgICAgIGFwbGF5IC1EIHBsdWdo
-dzpDQVJEPWFtZHNvdW5kd2lyZSxERVY9MCBcDQo+Pj4+Pj4gICAgICAgICAgIC91c3Ivc2hh
-cmUvc291bmRzL2Fsc2EvRnJvbnRfTGVmdC53YXYNCj4+Pj4+Pg0KPj4+Pj4+IE5vIHNwZWVj
-aCBpcyBoZWFyZC4gVGhlIGhlYWRwaG9uZSBvdXRwdXQgb25seSBidXp6ZXMgd2hpbGUgdGhl
-DQo+Pj4+Pj4gYXVkaW8gcGF0aCBpcyBhY3RpdmUuDQo+Pj4+Pj4NCj4+Pj4+PiBaZXJvLVBD
-TSB0ZXN0DQo+Pj4+Pj4gPT09PT09PT09PT09PQ0KPj4+Pj4+DQo+Pj4+Pj4gSSBhbHNvIHNl
-bnQgb25seSB6ZXJvLXZhbHVlZCBQQ00gc2FtcGxlczoNCj4+Pj4+Pg0KPj4+Pj4+ICAgICAg
-IHRpbWVvdXQgMTBzIGJhc2ggLWMgJw0KPj4+Pj4+ICAgICAgIGRkIGlmPS9kZXYvemVybyBi
-cz0xOTIwMDAgMj4vZGV2L251bGwgfA0KPj4+Pj4+ICAgICAgIGFwbGF5IC1EIGh3OkNBUkQ9
-YW1kc291bmR3aXJlLERFVj0wIFwNCj4+Pj4+PiAgICAgICAgICAgICAtdCByYXcgLWYgUzE2
-X0xFIC1yIDQ4MDAwIC1jIDINCj4+Pj4+PiAgICAgICAnDQo+Pj4+Pj4NCj4+Pj4+PiBUaGUg
-aGVhZHBob25lIGphY2sgc3RpbGwgYnV6emVzIHdoaWxlIHRoZSB6ZXJvLVBDTSBzdHJlYW0g
-aXMgYWN0aXZlLg0KPj4+Pj4+DQo+Pj4+Pj4gVGhlcmVmb3JlIHRoZSBidXp6IGRvZXMgbm90
-IGFwcGVhciB0byByZXByZXNlbnQgY29ycnVwdGVkDQo+Pj4+Pj4gYXBwbGljYXRpb24gYXVk
-aW87IG1lcmVseSBhY3RpdmF0aW5nIHBsYXliYWNrIGlzIHN1ZmZpY2llbnQgdG8gcHJvZHVj
-ZSBpdC4NCj4+Pj4+Pg0KPj4+Pj4+IE1peGVyIC8gVUNNDQo+Pj4+Pj4gPT09PT09PT09PT0N
-Cj4+Pj4+Pg0KPj4+Pj4+IFNwZWFrZXI6DQo+Pj4+Pj4NCj4+Pj4+PiAgICAgICBTcGVha2Vy
-IFN3aXRjaCA9IG9uDQo+Pj4+Pj4gICAgICAgcnQ3MjEgRlUwNiBQbGF5YmFjayBWb2x1bWUg
-PSA4Nyw4Nw0KPj4+Pj4+DQo+Pj4+Pj4gSGVhZHBob25lczoNCj4+Pj4+Pg0KPj4+Pj4+ICAg
-ICAgIEhlYWRwaG9uZSBTd2l0Y2ggPSBvbg0KPj4+Pj4+ICAgICAgIHJ0NzIxIEZVMDUgUGxh
-eWJhY2sgVm9sdW1lID0gODcsODcNCj4+Pj4+Pg0KPj4+Pj4+IEkgYWxzbyBleHBsaWNpdGx5
-IGVuYWJsZWQgdGhlIGNvcnJlc3BvbmRpbmcgU3BlYWtlciBhbmQNCj4+Pj4+PiBIZWFkcGhv
-bmVzIFVDTSBkZXZpY2VzLiBUaGlzIGRpZCBub3QgY2hhbmdlIHRoZSByZXN1bHQuDQo+Pj4+
-Pj4NCj4+Pj4+PiBBU29DIERBUE0gZHVyaW5nIHNwZWFrZXIgcGxheWJhY2sNCj4+Pj4+PiA9
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0NCj4+Pj4+Pg0KPj4+Pj4+IEkgaW5z
-cGVjdGVkIGRlYnVnZnMgd2hpbGUgc3BlYWtlci10ZXN0IG9uIHRoZSBTbWFydEFtcCBQQ00g
-d2FzDQo+Pj4+Pj4gYWN0aXZlbHkgcnVubmluZy4NCj4+Pj4+Pg0KPj4+Pj4+IEFsbCByZWxl
-dmFudCB3aWRnZXRzIHdlcmUgT046DQo+Pj4+Pj4NCj4+Pj4+PiAgICAgICBTcGVha2VyOiBP
-bg0KPj4+Pj4+ICAgICAgIHJ0NzIxIERQMyBTcGVha2VyIFBsYXliYWNrOiBPbg0KPj4+Pj4+
-ICAgICAgICAgICBzdHJlYW0gRFAzIFNwZWFrZXIgUGxheWJhY2sgYWN0aXZlDQo+Pj4+Pj4g
-ICAgICAgcnQ3MjEgRFAzUlg6IE9uDQo+Pj4+Pj4gICAgICAgcnQ3MjEgRlUgMjE6IE9uDQo+
-Pj4+Pj4gICAgICAgcnQ3MjEgRlUgMjM6IE9uDQo+Pj4+Pj4gICAgICAgcnQ3MjEgUERFIDQx
-OiBPbg0KPj4+Pj4+ICAgICAgIHJ0NzIxIFNQSzogT24NCj4+Pj4+Pg0KPj4+Pj4+IFRoZSBE
-QVBNIGdyYXBoIHRoZXJlZm9yZSBhcHBlYXJzIHRvIGFjdGl2YXRlIHRoZSBlbnRpcmUgZXhw
-ZWN0ZWQNCj4+Pj4+PiBzcGVha2VyIHBhdGg6DQo+Pj4+Pj4NCj4+Pj4+PiAgICAgICBEUDMg
-U3BlYWtlciBQbGF5YmFjaw0KPj4+Pj4+ICAgICAgICAgLT4gRFAzUlgNCj4+Pj4+PiAgICAg
-ICAgIC0+IEZVIDIxIC8gRlUgMjMNCj4+Pj4+PiAgICAgICAgIC0+IFNQSw0KPj4+Pj4+ICAg
-ICAgICAgLT4gU3BlYWtlcg0KPj4+Pj4+DQo+Pj4+Pj4gYnV0IHRoZSBwaHlzaWNhbCBzcGVh
-a2VycyByZW1haW4gc2lsZW50Lg0KPj4+Pj4+DQo+Pj4+Pj4gS2VybmVsIG1lc3NhZ2VzDQo+
-Pj4+Pj4gPT09PT09PT09PT09PT09DQo+Pj4+Pj4NCj4+Pj4+PiBSVDcyMSBhdHRhY2hlcyBz
-dWNjZXNzZnVsbHkuDQo+Pj4+Pj4NCj4+Pj4+PiBJIHNlZToNCj4+Pj4+Pg0KPj4+Pj4+ICAg
-ICAgIHJ0NzIxLXNkY2Egc2R3OjA6MTowMjVkOjA3MjE6MDE6DQo+Pj4+Pj4gICAgICAgRHJp
-dmVyIG5lZWRzIGZpeGluZzogVW5zb3J0ZWQgcmVnX2RlZmF1bHRzLCBzb3J0aW5nIHRoZSBj
-b3B5DQo+Pj4+Pj4NCj4+Pj4+PiBPbiBhbiBlYXJsaWVyIDcuMi54IGJvb3QgSSBhbHNvIG9i
-c2VydmVkOg0KPj4+Pj4+DQo+Pj4+Pj4gICAgICAgc291bmR3aXJlIHNkdzowOjE6MDI1ZDow
-NzIxOjAxOg0KPj4+Pj4+ICAgICAgIFBBUklUWSBlcnJvciBkZXRlY3RlZCBiZWZvcmUgSU5U
-IG1hc2sgaXMgZW5hYmxlZA0KPj4+Pj4+DQo+Pj4+Pj4gSSBkaWQgbm90IG9ic2VydmUgYWRk
-aXRpb25hbCBTb3VuZFdpcmUvUlQ3MjEgZXJyb3JzIHdoZW4gc3RhcnRpbmcNCj4+Pj4+PiBv
-ciBzdG9wcGluZyBwbGF5YmFjay4NCj4+Pj4+Pg0KPj4+Pj4+IEtlcm5lbHMgdGVzdGVkDQo+
-Pj4+Pj4gPT09PT09PT09PT09PT0NCj4+Pj4+Pg0KPj4+Pj4+IFRoZSBzYW1lIGlzc3VlIHdh
-cyByZXByb2R1Y2VkIG9uOg0KPj4+Pj4+DQo+Pj4+Pj4gICAgICAgRmVkb3JhIDQ0Og0KPj4+
-Pj4+ICAgICAgIDcuMi4yLTMwMC5mYzQ0Lng4Nl82NA0KPj4+Pj4+DQo+Pj4+Pj4gICAgICAg
-RmVkb3JhIDQ1Og0KPj4+Pj4+ICAgICAgIDcuMi4yLTMwMC5mYzQ1Lng4Nl82NA0KPj4+Pj4+
-DQo+Pj4+Pj4gICAgICAgVmFuaWxsYSBtYWlubGluZToNCj4+Pj4+PiAgICAgICA3LjMuMC0w
-LnJjMS4yNjA5MDEuNzg2MjYyYmUuNDE3LnZhbmlsbGEuZmM0NS54ODZfNjQNCj4+Pj4+Pg0K
-Pj4+Pj4+ICAgICAgIENhY2h5T1Mga2VybmVsOg0KPj4+Pj4+ICAgICAgIDcuMi4yLWNhY2h5
-b3MxLmZjNDUueDg2XzY0DQo+Pj4+Pj4NCj4+Pj4+PiBUaGUgY3VycmVudCByZXByb2R1Y3Rp
-b24gaXMgb24gdGhlIGNsZWFuIHZhbmlsbGEgNy4zLXJjMSBrZXJuZWwuDQo+Pj4+Pj4NCj4+
-Pj4+PiBQcmV2aW91cyBleHBlcmltZW50cw0KPj4+Pj4+ID09PT09PT09PT09PT09PT09PT09
-DQo+Pj4+Pj4NCj4+Pj4+PiBCZWZvcmUgdGVzdGluZyBjbGVhbiBtYWlubGluZSwgSSBhbHNv
-IGJ1aWx0IGEgRmVkb3JhIDcuMi4yIGtlcm5lbA0KPj4+Pj4+IGxvY2FsbHkgYW5kIGV4cGVy
-aW1lbnRhbGx5IGNoYW5nZWQgdGhlIFJUNzIxIHNwZWFrZXIgZW5kcG9pbnQgaW46DQo+Pj4+
-Pj4NCj4+Pj4+PiAgICAgICBzb3VuZC9zb2MvYW1kL2FjcC9hbWQtYWNwNzAtYWNwaS1tYXRj
-aC5jDQo+Pj4+Pj4NCj4+Pj4+PiBmcm9tOg0KPj4+Pj4+DQo+Pj4+Pj4gICAgICAgLmFnZ3Jl
-Z2F0ZWQgPSAwDQo+Pj4+Pj4gICAgICAgLmdyb3VwX2lkID0gMA0KPj4+Pj4+DQo+Pj4+Pj4g
-dG86DQo+Pj4+Pj4NCj4+Pj4+PiAgICAgICAuYWdncmVnYXRlZCA9IDENCj4+Pj4+PiAgICAg
-ICAuZ3JvdXBfaWQgPSAxDQo+Pj4+Pj4NCj4+Pj4+PiBUaGlzIGRpZCBub3QgY2hhbmdlIHRo
-ZSBiZWhhdmlvci4NCj4+Pj4+Pg0KPj4+Pj4+IEkgYWxzbyB0ZXN0ZWQgdGhhdCBjdXN0b20g
-a2VybmVsIHdpdGg6DQo+Pj4+Pj4NCj4+Pj4+PiAgICAgICBvcHRpb25zIHNuZF9hY3Bfc2R3
-X2xlZ2FjeV9tYWNoIHF1aXJrPTMyNzY4DQo+Pj4+Pj4NCj4+Pj4+PiBUaGUga2VybmVsIHJl
-cG9ydGVkOg0KPj4+Pj4+DQo+Pj4+Pj4gICAgICAgYW1kX3NkdyBhbWRfc2R3OiBPdmVycmlk
-aW5nIHF1aXJrIDB4MSA9PiAweDgwMDANCj4+Pj4+Pg0KPj4+Pj4+IGJ1dCB0aGVyZSB3YXMg
-c3RpbGwgbm8gc3BlYWtlciBvdXRwdXQuDQo+Pj4+Pj4NCj4+Pj4+PiBUaG9zZSBleHBlcmlt
-ZW50YWwgb3ZlcnJpZGVzIGhhdmUgYmVlbiByZW1vdmVkLiBUaGUgY3VycmVudA0KPj4+Pj4+
-IHZhbmlsbGENCj4+Pj4+PiA3LjMtcmMxIHJlcHJvZHVjdGlvbiB1c2VzIHF1aXJrPS0xIGFu
-ZCBubyBjdXN0b20gbW9kcHJvYmUgb3B0aW9ucy4NCj4+Pj4+Pg0KPj4+Pj4+IFF1ZXN0aW9u
-DQo+Pj4+Pj4gPT09PT09PT0NCj4+Pj4+Pg0KPj4+Pj4+IENvdWxkIHRoaXMgRkE0MDFFQSB2
-YXJpYW50IHJlcXVpcmUgYSBkaWZmZXJlbnQgUlQ3MjEtb25seQ0KPj4+Pj4+IHRvcG9sb2d5
-LA0KPj4+Pj4+IEFDUDcwIGNvbmZpZ3VyYXRpb24sIFNvdW5kV2lyZSBzZXR1cCwgb3IgY29k
-ZWMgaW5pdGlhbGl6YXRpb24gcXVpcms/DQo+Pj4+Pj4NCj4+Pj4+PiBUaGUgZmFjdCB0aGF0
-IGFsbC16ZXJvIFBDTSBjYXVzZXMgdGhlIGFuYWxvZyBoZWFkcGhvbmUgb3V0cHV0IHRvDQo+
-Pj4+Pj4gYnV6eiB3aGlsZSB0aGUgc3RyZWFtIGlzIGFjdGl2ZSBtYXkgYmUgcGFydGljdWxh
-cmx5IHJlbGV2YW50Lg0KPj4+Pj4+DQo+Pj4+Pj4gSSdtIGhhcHB5IHRvIHRlc3QgcGF0Y2hl
-cyBvciBwcm92aWRlIHJlZ2lzdGVyL2RlYnVnIG91dHB1dC4NCj4+Pj4+Pg0KPj4+Pj4+IEkg
-Y2FuIGFsc28gcHJvdmlkZSBmdWxsIGFsc2EtaW5mbywga2VybmVsIGpvdXJuYWwsIGxzcGNp
-IG91dHB1dCwNCj4+Pj4+PiBTb3VuZFdpcmUgc3lzZnMgc3RhdGUsIG1peGVyIHN0YXRlLCBh
-bmQgREFQTSBkZWJ1Z2ZzIG91dHB1dC4NCj4+Pj4+DQo+Pj4+PiBDb3VsZCB5b3UgcGxlYXNl
-IGxvZyBhIEJ1Z3ppbGxhIHRpY2tldCBhZGRpbmcgQUNQSSBkdW1wLCBkbWkNCj4+Pj4+IGlu
-Zm9ybWF0aW9uIGFuZCBhbG9uZyB3aXRoIGFsc2EgaW5mbyBvdXRwdXQ/DQo+Pj4+ICsrUlRL
-IFRlYW0NCj4+Pj4NCj4+Pj4gU2ltaWxhciBraW5kIG9mIGlzc3VlIHJlcG9ydGVkIGluIGFu
-b3RoZXIgbWFpbCB0aHJlYWQsIHJlYWx0ZWsgaXMgd29ya2luZyBvbg0KPj4gaXQuDQo+Pj4+
-DQo+Pj4+IEBqYWNrIGNvdWxkIHlvdSBwbGVhc2UgY29tbWVudCBvbiBpdC4NCj4+Pj4NCj4+
-Pj4+Pg0KPj4+Pj4+IFRoYW5rIHlvdS4NCj4+Pj4+PiBDcmlzdGlhbg0KPj4+Pj4NCg0K
+> > P. S. If you are planning to remove more old drivers, please CC me in
+> > since I may be interested in some additional driver upgrades for
+> > devices I own.
+>
+> Please have a look at
+>
+> https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git/log/?h=3Dboar=
+d-remove-7.3
+>
 
---------------wEletVpPpsxwZ0N1FGsh0gRD--
+Thanks, I will keep my eye on this branch.
 
---------------Q5ols2cBp8YAt7ZPWz5Adx1J
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+> I tried to be careful about figuring out exactly which drivers are
+> unused, but I'm sure there are still a few false positive and false
+> negative ones in there. I've added the current list of driver files below=
+,
+> let me know if you see something that shouldn't be there.
+>
+>      Arnd
+>
+> drivers/ata/pata_icside.c
+> drivers/ata/pata_pxa.c
+> drivers/char/ds1620.c
+> drivers/char/hw_random/mxc-rnga.c
+> drivers/char/nwbutton.c
+> drivers/char/nwbutton.h
+> drivers/char/nwflash.c
+> drivers/clk/clk-axm5516.c
+> drivers/clk/clk-stm32f4.c
+> drivers/clk/clk-stm32h7.c
+> drivers/clk/imx/clk-imx31.c
+> drivers/clk/imx/clk-imxrt1050.c
+> drivers/clk/nxp/clk-lpc18xx-ccu.c
+> drivers/clk/nxp/clk-lpc18xx-cgu.c
+> drivers/clk/nxp/clk-lpc18xx-creg.c
+> drivers/clk/ti/clk-2xxx.c
+> drivers/clocksource/armv7m_systick.c
+> drivers/clocksource/mps2-timer.c
+> drivers/cpufreq/sa1110-cpufreq.c
+> drivers/dma/lpc18xx-dmamux.c
+> drivers/dma/sa11x0-dma.c
+> drivers/gpio/gpio-adp5520.c
+> drivers/gpio/gpio-htc-egpio.c
+> drivers/gpio/gpio-lpc18xx.c
+> drivers/gpio/gpio-rc5t583.c
+> drivers/gpio/gpio-rdc321x.c
+> drivers/gpio/gpio-reg.c
+> drivers/gpio/gpio-sa1100.c
+> drivers/gpio/gpio-wm8350.c
+> drivers/hwmon/ds620.c
+> drivers/hwmon/f75375s.c
+> drivers/hwmon/max1111.c
+> drivers/hwmon/max197.c
+> drivers/hwmon/wm8350-hwmon.c
+> drivers/i2c/busses/i2c-acorn.c
+> drivers/i2c/busses/i2c-axxia.c
+> drivers/i2c/busses/i2c-lpc2k.c
+> drivers/i2c/busses/i2c-stm32f4.c
+> drivers/iio/adc/ad7266.c
+> drivers/iio/adc/ad7791.c
+> drivers/iio/adc/ad7793.c
+> drivers/iio/adc/ad7887.c
+> drivers/iio/adc/lp8788_adc.c
+> drivers/iio/adc/lpc18xx_adc.c
+> drivers/iio/dac/lpc18xx_dac.c
+> drivers/iio/frequency/ad9523.c
+> drivers/input/joystick/as5011.c
+> drivers/input/keyboard/adp5520-keys.c
+> drivers/input/keyboard/ipaq-micro-keys.c
+> drivers/input/keyboard/jornada720_kbd.c
+> drivers/input/keyboard/lm8323.c
+> drivers/input/keyboard/lm8333.c
+> drivers/input/keyboard/locomokbd.c
+> drivers/input/misc/88pm80x_onkey.c
+> drivers/input/misc/ad714x-i2c.c
+> drivers/input/misc/ad714x-spi.c
+> drivers/input/misc/ad714x.c
+> drivers/input/misc/ad714x.h
+> drivers/input/misc/adxl34x-i2c.c
+> drivers/input/misc/adxl34x-spi.c
+> drivers/input/misc/adxl34x.c
+> drivers/input/misc/adxl34x.h
+> drivers/input/misc/bma150.c
+> drivers/input/misc/cma3000_d0x.c
+> drivers/input/misc/cma3000_d0x.h
+> drivers/input/misc/cma3000_d0x_i2c.c
+> drivers/input/misc/kxtj9.c
+> drivers/input/misc/max8997_haptic.c
+> drivers/input/misc/mc13783-pwrbutton.c
+> drivers/input/mouse/rpcmouse.c
+> drivers/input/serio/rpckbd.c
+> drivers/input/serio/sa1111ps2.c
+> drivers/input/touchscreen/ad7877.c
+> drivers/input/touchscreen/da9034-ts.c
+> drivers/input/touchscreen/ipaq-micro-ts.c
+> drivers/input/touchscreen/jornada720_ts.c
+> drivers/input/touchscreen/mc13783_ts.c
+> drivers/input/touchscreen/tps6507x-ts.c
+> drivers/irqchip/irq-nvic.c
+> drivers/irqchip/irq-sa11x0.c
+> drivers/irqchip/irq-stm32-exti.c
+> drivers/leds/leds-adp5520.c
+> drivers/leds/leds-bd2802.c
+> drivers/leds/leds-da903x.c
+> drivers/leds/leds-ipaq-micro.c
+> drivers/leds/leds-lm3530.c
+> drivers/leds/leds-lm3532.c
 
------BEGIN PGP SIGNATURE-----
+LM3532 has full OF support and is functional, it just does not have
+device tree users yet. I have a device using it - Motorola Atrix 4G
+(Tegra 2 based).
 
-iQIzBAEBCgAdFiEEndez/blurJ1OdxJq0EdkUReHwWwFAmqk5ywACgkQ0EdkUReH
-wWy1NQ/+OarCHSN/F6VRVEnfpBm0Xep8vj9tVueEkJt7ox2ICAn6tfMT4jB1Oh7u
-wfatVHbfAUCCzVBgPchWTNTtdYzCrfS5kRQ+zi963MHeDlKxQ1edZrKhlPvhUZuP
-1dPXUy0CWwSkA7u/ErOyJGA58nVtTLpPrvMG2eJ8fu3tkA6pKpeex3sGIgzmMJtJ
-B22j/8s34a9xi7grDgRc36Kk4kWq+HfqGLe+rETF65/MxuJYF0h6NGhYgN5PatKL
-qLsNfJtWt99j2GkJaSBRmYh7KNYL3gyPI5jX/sZVWjo9JiT+zipriPHSm6TzkHOU
-nLmBBpBtF40Gzcfkh2PNrO8He8uamw7E5ArlXq9kL20rKKfmnEYvDRnGKqsIB8wH
-HTWqWv9GjJzmP2OoWB0X3fflg0a9OsnkgTN3AfUHyz3df/54xZnhQ3aHIbfvNCdp
-1LZXiR5YwZEvBr5zDeutU+CqRrI07Ty11DkxTuRc0UdAUeDa4iDFJ9UiLLBoylFW
-dXs+Nl/4rWrd7P4ldBSkrdGU2Ljn9y4N9TWs/VuwD9DK1t2yrIfvlz8jqjreCCTL
-evngWhqGiwXEqKpncyHpGqsQ8rK6r3BgRjwqTRk2Qj+yQs5FJtoL27szdnJPJ2St
-Z9WiItaNGvSW21L1k50Ln2vZ0E13/2kNUanUiL32JKpkEzg5uR4=
-=holx
------END PGP SIGNATURE-----
+Here is commit removing LM3532
+https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git/commit/?id=3D46=
+a6457870825d8b782d350fdc7e27c540734d41
+Here are my patches bringing up Motorola Atrix 4G support
+https://lore.kernel.org/lkml/20260721100245.444623-3-clamor95@gmail.com/
 
---------------Q5ols2cBp8YAt7ZPWz5Adx1J--
+> drivers/leds/leds-lm355x.c
+> drivers/leds/leds-lm3642.c
+> drivers/leds/leds-locomo.c
+> drivers/leds/leds-lp3944.c
+> drivers/leds/leds-lp8788.c
+> drivers/leds/leds-wm8350.c
+> drivers/media/i2c/ths7303.c
+> drivers/media/platform/samsung/s3c-camif/Kconfig
+> drivers/media/platform/samsung/s3c-camif/Makefile
+> drivers/media/platform/samsung/s3c-camif/camif-capture.c
+> drivers/media/platform/samsung/s3c-camif/camif-core.c
+> drivers/media/platform/samsung/s3c-camif/camif-core.h
+> drivers/media/platform/samsung/s3c-camif/camif-regs.c
+> drivers/media/platform/samsung/s3c-camif/camif-regs.h
+> drivers/media/platform/st/stm32/dma2d/dma2d-hw.c
+> drivers/media/platform/st/stm32/dma2d/dma2d-regs.h
+> drivers/media/platform/st/stm32/dma2d/dma2d.c
+> drivers/media/platform/st/stm32/dma2d/dma2d.h
+> drivers/media/radio/radio-si476x.c
+> drivers/mfd/88pm800.c
+> drivers/mfd/88pm805.c
+> drivers/mfd/88pm80x.c
+> drivers/mfd/adp5520.c
+> drivers/mfd/da903x.c
+> drivers/mfd/ipaq-micro.c
+> drivers/mfd/lp8788-irq.c
+> drivers/mfd/lp8788.c
+> drivers/mfd/mcp-core.c
+> drivers/mfd/mcp-sa11x0.c
+> drivers/mfd/menelaus.c
+> drivers/mfd/rc5t583-irq.c
+> drivers/mfd/rc5t583.c
+> drivers/mfd/rdc321x-southbridge.c
+> drivers/mfd/si476x-cmd.c
+> drivers/mfd/si476x-i2c.c
+> drivers/mfd/si476x-prop.c
+> drivers/mfd/ucb1x00-assabet.c
+> drivers/mfd/ucb1x00-core.c
+> drivers/mfd/ucb1x00-ts.c
+> drivers/mfd/wm8350-core.c
+> drivers/mfd/wm8350-gpio.c
+> drivers/mfd/wm8350-i2c.c
+> drivers/mfd/wm8350-irq.c
+> drivers/mfd/wm8350-regmap.c
+> drivers/mfd/wm8400-core.c
+> drivers/misc/bh1770glc.c
+> drivers/mtd/maps/dc21285.c
+> drivers/mtd/maps/pxa2xx-flash.c
+> drivers/mtd/maps/sa1100-flash.c
+> drivers/mtd/nand/raw/sharpsl.c
+> drivers/mtd/parsers/sharpslpart.c
+> drivers/mtd/spi-nor/controllers/Kconfig
+> drivers/mtd/spi-nor/controllers/Makefile
+> drivers/mtd/spi-nor/controllers/hisi-sfc.c
+> drivers/mtd/spi-nor/controllers/nxp-spifi.c
+> drivers/net/can/bxcan.c
+> drivers/net/ethernet/8390/etherh.c
+> drivers/net/ethernet/i825xx/ether1.c
+> drivers/net/ethernet/i825xx/ether1.h
+> drivers/net/ethernet/lantiq_etop.c
+> drivers/net/ethernet/samsung/Kconfig
+> drivers/net/ethernet/samsung/Makefile
+> drivers/net/ethernet/samsung/sxgbe/Makefile
+> drivers/net/ethernet/samsung/sxgbe/sxgbe_common.h
+> drivers/net/ethernet/samsung/sxgbe/sxgbe_core.c
+> drivers/net/ethernet/samsung/sxgbe/sxgbe_desc.c
+> drivers/net/ethernet/samsung/sxgbe/sxgbe_desc.h
+> drivers/net/ethernet/samsung/sxgbe/sxgbe_dma.c
+> drivers/net/ethernet/samsung/sxgbe/sxgbe_dma.h
+> drivers/net/ethernet/samsung/sxgbe/sxgbe_ethtool.c
+> drivers/net/ethernet/samsung/sxgbe/sxgbe_main.c
+> drivers/net/ethernet/samsung/sxgbe/sxgbe_mdio.c
+> drivers/net/ethernet/samsung/sxgbe/sxgbe_mtl.c
+> drivers/net/ethernet/samsung/sxgbe/sxgbe_mtl.h
+> drivers/net/ethernet/samsung/sxgbe/sxgbe_platform.c
+> drivers/net/ethernet/samsung/sxgbe/sxgbe_reg.h
+> drivers/net/ethernet/seeq/ether3.c
+> drivers/net/ethernet/seeq/ether3.h
+> drivers/net/ethernet/stmicro/stmmac/dwmac-lpc18xx.c
+> drivers/net/wireless/marvell/libertas/if_spi.c
+> drivers/net/wireless/marvell/libertas/if_spi.h
+> drivers/net/wireless/st/Kconfig
+> drivers/net/wireless/st/Makefile
+> drivers/net/wireless/st/cw1200/Kconfig
+> drivers/net/wireless/st/cw1200/Makefile
+> drivers/net/wireless/st/cw1200/bh.c
+> drivers/net/wireless/st/cw1200/bh.h
+> drivers/net/wireless/st/cw1200/cw1200.h
+> drivers/net/wireless/st/cw1200/cw1200_sdio.c
+> drivers/net/wireless/st/cw1200/cw1200_spi.c
+> drivers/net/wireless/st/cw1200/debug.c
+> drivers/net/wireless/st/cw1200/debug.h
+> drivers/net/wireless/st/cw1200/fwio.c
+> drivers/net/wireless/st/cw1200/fwio.h
+> drivers/net/wireless/st/cw1200/hwbus.h
+> drivers/net/wireless/st/cw1200/hwio.c
+> drivers/net/wireless/st/cw1200/hwio.h
+> drivers/net/wireless/st/cw1200/main.c
+> drivers/net/wireless/st/cw1200/pm.c
+> drivers/net/wireless/st/cw1200/pm.h
+> drivers/net/wireless/st/cw1200/queue.c
+> drivers/net/wireless/st/cw1200/queue.h
+> drivers/net/wireless/st/cw1200/scan.c
+> drivers/net/wireless/st/cw1200/scan.h
+> drivers/net/wireless/st/cw1200/sta.c
+> drivers/net/wireless/st/cw1200/sta.h
+> drivers/net/wireless/st/cw1200/txrx.c
+> drivers/net/wireless/st/cw1200/txrx.h
+> drivers/net/wireless/st/cw1200/wsm.c
+> drivers/net/wireless/st/cw1200/wsm.h
+> drivers/nvmem/lpc18xx_eeprom.c
+> drivers/nvmem/lpc18xx_otp.c
+> drivers/pcmcia/max1600.c
+> drivers/pcmcia/max1600.h
+> drivers/pcmcia/pxa2xx_base.c
+> drivers/pcmcia/pxa2xx_base.h
+> drivers/pcmcia/pxa2xx_sharpsl.c
+> drivers/pcmcia/sa1100_generic.c
+> drivers/pcmcia/sa1100_generic.h
+> drivers/pcmcia/sa1100_h3600.c
+> drivers/pcmcia/sa1111_generic.c
+> drivers/pcmcia/sa1111_generic.h
+> drivers/pcmcia/sa1111_jornada720.c
+> drivers/pcmcia/sa1111_neponset.c
+> drivers/pcmcia/sa11xx_base.c
+> drivers/pcmcia/sa11xx_base.h
+> drivers/pcmcia/soc_common.c
+> drivers/pcmcia/soc_common.h
+> drivers/phy/phy-lpc18xx-usb-otg.c
+> drivers/pinctrl/freescale/pinctrl-imxrt1050.c
+> drivers/pinctrl/freescale/pinctrl-imxrt1170.c
+> drivers/pinctrl/pinctrl-lpc18xx.c
+> drivers/pinctrl/stm32/pinctrl-stm32f429.c
+> drivers/pinctrl/stm32/pinctrl-stm32f469.c
+> drivers/pinctrl/stm32/pinctrl-stm32f746.c
+> drivers/pinctrl/stm32/pinctrl-stm32f769.c
+> drivers/pinctrl/stm32/pinctrl-stm32h743.c
+> drivers/power/reset/axxia-reset.c
+> drivers/power/supply/collie_battery.c
+> drivers/power/supply/da9030_battery.c
+> drivers/power/supply/ipaq_micro_battery.c
+> drivers/power/supply/lp8788-charger.c
+> drivers/power/supply/twl4030_madc_battery.c
+> drivers/power/supply/wm8350_power.c
+> drivers/pwm/pwm-lpc18xx-sct.c
+> drivers/regulator/88pm800-regulator.c
+> drivers/regulator/da903x-regulator.c
+> drivers/regulator/lp3971.c
+> drivers/regulator/lp3972.c
+> drivers/regulator/lp8788-buck.c
+> drivers/regulator/lp8788-ldo.c
+> drivers/regulator/max8649.c
+> drivers/regulator/rc5t583-regulator.c
+> drivers/regulator/wm8350-regulator.c
+> drivers/regulator/wm8400-regulator.c
+> drivers/reset/reset-lpc18xx.c
+> drivers/rtc/rtc-88pm80x.c
+> drivers/rtc/rtc-lp8788.c
+> drivers/rtc/rtc-lpc24xx.c
+> drivers/rtc/rtc-rc5t583.c
+> drivers/rtc/rtc-wm8350.c
+> drivers/scsi/arm/Kconfig
+> drivers/scsi/arm/Makefile
+> drivers/scsi/arm/acornscsi-io.S
+> drivers/scsi/arm/acornscsi.c
+> drivers/scsi/arm/acornscsi.h
+> drivers/scsi/arm/arm_scsi.h
+> drivers/scsi/arm/arxescsi.c
+> drivers/scsi/arm/cumana_1.c
+> drivers/scsi/arm/cumana_2.c
+> drivers/scsi/arm/eesox.c
+> drivers/scsi/arm/fas216.c
+> drivers/scsi/arm/fas216.h
+> drivers/scsi/arm/msgqueue.c
+> drivers/scsi/arm/msgqueue.h
+> drivers/scsi/arm/oak.c
+> drivers/scsi/arm/powertec.c
+> drivers/scsi/arm/queue.c
+> drivers/scsi/arm/queue.h
+> drivers/spi/spi-tle62x0.c
+> drivers/tty/serial/21285.c
+> drivers/tty/serial/8250/8250_acorn.c
+> drivers/tty/serial/8250/8250_lpc18xx.c
+> drivers/tty/serial/mps2-uart.c
+> drivers/tty/serial/sa1100.c
+> drivers/usb/host/ohci-sa1111.c
+> drivers/usb/host/sl811-hcd.c
+> drivers/usb/host/sl811.h
+> drivers/usb/host/sl811_cs.c
+> drivers/usb/musb/tusb6010.c
+> drivers/usb/musb/tusb6010.h
+> drivers/usb/musb/tusb6010_omap.c
+> drivers/usb/phy/phy-mv-usb.h
+> drivers/video/backlight/adp5520_bl.c
+> drivers/video/backlight/adp8860_bl.c
+> drivers/video/backlight/adp8870_bl.c
+> drivers/video/backlight/ams369fg06.c
+> drivers/video/backlight/bd6107.c
+> drivers/video/backlight/corgi_lcd.c
+> drivers/video/backlight/da903x_bl.c
+> drivers/video/backlight/ep93xx_bl.c
+> drivers/video/backlight/ipaq_micro_bl.c
+> drivers/video/backlight/jornada720_bl.c
+> drivers/video/backlight/jornada720_lcd.c
+> drivers/video/backlight/lm3639_bl.c
+> drivers/video/backlight/lms501kf03.c
+> drivers/video/backlight/locomolcd.c
+> drivers/video/backlight/lp8788_bl.c
+> drivers/video/backlight/tdo24m.c
+> drivers/video/fbdev/acornfb.c
+> drivers/video/fbdev/acornfb.h
+> drivers/video/fbdev/arcfb.c
+> drivers/video/fbdev/broadsheetfb.c
+> drivers/video/fbdev/core/fb_notify.c
+> drivers/video/fbdev/ep93xx-fb.c
+> drivers/video/fbdev/hecubafb.c
+> drivers/video/fbdev/metronomefb.c
+> drivers/video/fbdev/mmp/Kconfig
+> drivers/video/fbdev/mmp/Makefile
+> drivers/video/fbdev/mmp/core.c
+> drivers/video/fbdev/mmp/fb/Kconfig
+> drivers/video/fbdev/mmp/fb/Makefile
+> drivers/video/fbdev/mmp/fb/mmpfb.c
+> drivers/video/fbdev/mmp/fb/mmpfb.h
+> drivers/video/fbdev/mmp/hw/Kconfig
+> drivers/video/fbdev/mmp/hw/Makefile
+> drivers/video/fbdev/mmp/hw/mmp_ctrl.c
+> drivers/video/fbdev/mmp/hw/mmp_ctrl.h
+> drivers/video/fbdev/mmp/hw/mmp_spi.c
+> drivers/video/fbdev/mmp/panel/Kconfig
+> drivers/video/fbdev/mmp/panel/Makefile
+> drivers/video/fbdev/mmp/panel/tpo_tj032md01bw.c
+> drivers/video/fbdev/n411.c
+> drivers/video/fbdev/pxa168fb.c
+> drivers/video/fbdev/pxa168fb.h
+> drivers/video/fbdev/s1d13xxxfb.c
+> drivers/video/fbdev/sa1100fb.c
+> drivers/video/fbdev/sa1100fb.h
+> drivers/watchdog/lpc18xx_wdt.c
+> drivers/watchdog/rdc321x_wdt.c
+> drivers/watchdog/wdt285.c
+> drivers/watchdog/wdt977.c
+> drivers/watchdog/wm8350_wdt.c
+> sound/soc/codecs/si476x.c
+> sound/soc/codecs/wm8350.c
+> sound/soc/codecs/wm8350.h
+> sound/soc/codecs/wm8400.c
+> sound/soc/codecs/wm8400.h
+> sound/soc/pxa/pxa2xx-i2s.c
+> sound/soc/pxa/pxa2xx-i2s.h
+> sound/soc/pxa/spitz.c
+> sound/soc/ti/n810.c
+> sound/spi/Kconfig
+> sound/spi/Makefile
+> sound/spi/at73c213.c
+> sound/spi/at73c213.h
+
+Other drivers from this list seem to not be used in any of my devices.
+
+Best regards,
+Svyatoslav R.
