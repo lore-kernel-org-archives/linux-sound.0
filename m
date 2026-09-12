@@ -1,423 +1,213 @@
-Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazolkn19010016.outbound.protection.outlook.com [52.103.7.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CD2A345CCE
-	for <linux-sound@vger.kernel.org>; Sat, 12 Sep 2026 02:54:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.12
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789181680; cv=none; b=ZQkQdB8IaC6OOXZh56Ykt/4NfU2KgdGcg/41cg2jq9c29KPPEBD+Rld6L1kaGDurANL8jnyNvqSdcIWKnNUCzvtDlofwoC50yQiD44qe9t66kzH/aTiN2Ppv4H40K8ykL/Nq+PCljl1bGYUktMwAjbYglVh2yQNzwl+oxBqudgg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789181680; c=relaxed/simple;
-	bh=y2WHk1EElATFuPrRnMnMdPT7wRBuN+MIsDSt8uiBS7E=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=crJ49HRqJA5Ym2aag03M23I/4IvPqzGSPRoI69A3IrktDUOH+fzXAprLWrrlAlcWKXLL5KWbN1pdWeDGkKGPjkph8SjpkAhGM0wlGrYgSXQMKLdIRm1W223se8b+BYxJEeON6AI06/va0ffhqjmbT5FFgy+PBnkgwICM77qRhDo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SOgDPtyc; arc=none smtp.client-ip=74.125.228.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D30E390615;
+	Sat, 12 Sep 2026 03:28:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.7.16
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789183725; cv=fail; b=ggXvFXoMSoCcKqXLpEmYpxHOHiXVPmeN4xit15ChoYBlX/9jkfkqfRhNJ/oDaanXj+UJWSNldI7ilHCwRXwi5sQgJYwcrn0qb7e2uxZfD9Mgmrqq9iDhUBcQ8srBZB9brL1IMlz+WZ/ri7UIXosSnsQNeRcGB0bXYptqauVPVio=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789183725; c=relaxed/simple;
+	bh=Do6BaRzxXn53tV/ACopwEsi7RiV2REGUGQ72wS78kWY=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=HBhbmMKbtj4zqBMJkKzGVRUVu7Ay6j7DzZSDlSd9wgVhSXDrXO2Kp0GHVOO6/8wYWiKr6UvJnuaVeBWDhF/Kd8TqCoiQa1LK/+gX/zzHI2+XAzhEBzgNEHEdE5Wa756KuNB4DYF8Zji9VBtMdcGbmekXIM7aqFSAz3N9VcJ4Z0c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=vCKW+UZn; arc=fail smtp.client-ip=52.103.7.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SOgDPtyc"
-Received: by mail-pz2-f12.google.com with SMTP id d2e1a72fcca58-85469a3490bso193957b3a.3
-        for <linux-sound@vger.kernel.org>; Fri, 11 Sep 2026 19:54:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789181678; x=1789786478; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Co3fSwJnonBc+uhQ5gB6WwuK1NTmdlfZd5Atd2jIXqI=;
-        b=SOgDPtycOwsWxj1wEVkGxvsvhMA2rpqWiikMVmoDDKnSz9bcTAhNCGH5/7Uvqb6dYi
-         PVM1TLGylvU9bt4ckANFcyXEbWy1qLaq9Th+ItZnwbHuLaEPw3TdPvEbOixfxYqQSp/d
-         MZZVhA26iO1rztii9zTIfbR0r8EmzbdcUaZ+51PIOqPFRRpQbqXLyP5NpsplBG07ayuu
-         fuFNYxkRuJxB+qmyLQ7F83zz/J2xTnA4LGkDmUBaATU7ktIghzhfQH8PDrteznNvQEX8
-         UaraSgGOQAdOh8HxzqExx29tN5vauSeF7AxgeHuS5Ig5OoNk6b3f6aVF2GEAuQsHqRHR
-         Py0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789181678; x=1789786478;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Co3fSwJnonBc+uhQ5gB6WwuK1NTmdlfZd5Atd2jIXqI=;
-        b=XRYOuILs3hFXl68xWNlCz7jw8IuLRma2blTFGtsCiCaXLT1j8d/p1XWgJiwhYpDcT+
-         /q/YO8pEGlVZaGxBjgHkCHKzFwwJv8F6a/d1IBBKJqSilSLbq6Y0fLwH6sOJJGHUZy/z
-         n5mEnSknqWXz8QOfpw5e+16s6dGFKk7VkIbpk9mXcIDTlatLRPzoWnlnCtoQ10zVtof5
-         jwRLHrkgDryqBVZWMlj0b0Q/liGyOxDZEn/EbO/WshD7VkkV2PgKGST7HTswsTFV+wzE
-         YsFCcz6S9wRgSydNnrNDBMDFzQGz3hy7rnJ3Vj4VkYv0BvvSYHCLFjpTbQrRZs9SFtMN
-         HAdg==
-X-Gm-Message-State: AFuF++ndIdyah1wtDY+w2Q6/7CWC3J+KKEbfc6RjpvDxK/0RwA0keCJ5
-	l2XwB9GuD95VfIZHf0VWywa9a0JeaE/0mLHZbTpuSRLXp/aXzhJrQ4jR
-X-Gm-Gg: AYBFou1gMuSe/adZXfCacYJ0+GKXJjYnE4xvlLFwSgxruiN67QkPuvtZo4DzBeaqKPa
-	WhmQvLStGrsZh6nhI6kSub4OqoROtD+4QkwgULxCRdsuDctheY1q321X19vjBy/srqQ3MNX8wWW
-	1CN09H0acvTdgCFXBbtI/h+jX6GUVdEm2Fb3ExaO14uM0aCheHzFxA8wRhy7J+InD0hdP4iH08v
-	eAOPkxXl5iKbgHWA/l8YgXSyWcTowJbpPToKDy/VNXnkCSrwtH5ltZ0dJa0oV39mjQG6Ap8u41i
-	UlMJFYwZ/xjn3DiHaZnRlc8Ka3uZkqOMn5rwz9/sV+fLC1hKS1J3V56b79yncPLj8VWsHuPxqee
-	beE4GRefM8iNkqfyH+gMrF+oG64fwfWWtzT2v1D0/68rA72rYyhJlQlYNccukzLA3v6OACFLELw
-	vqTUMwXJOkjM8A5mLj3BYvHKWpyI+2HVwjsiRU9KMYb74kBy0J3R/PmRJapw5M4UJrnaeZs8UXn
-	V/rbFee9yc9hrVCr0RC4u72NwKsZq6TJKZzrPQjTPMATTZyRzCBevzwcfF+wU7hGTDt3MFCiEFp
-	OQ==
-X-Received: by 2002:a05:6a20:7348:b0:3da:b8b4:91d7 with SMTP id adf61e73a8af0-3db0e0a9ea3mr1564567637.2.1789181677725;
-        Fri, 11 Sep 2026 19:54:37 -0700 (PDT)
-Received: from nugod-NUC15CRHU5.tail9f095a.ts.net ([218.237.104.87])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cc4c6572ecasm1875903a12.22.2026.09.11.19.54.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Sep 2026 19:54:37 -0700 (PDT)
-From: HyeongJun An <sammiee5311@gmail.com>
-To: broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	shuah@kernel.org
-Cc: linux-sound@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	HyeongJun An <sammiee5311@gmail.com>
-Subject: [PATCH v3] selftests/alsa: Test writes to IEC958 controls
-Date: Sat, 12 Sep 2026 11:54:30 +0900
-Message-ID: <20260912025430.2102149-1-sammiee5311@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260904123334.1505003-1-sammiee5311@gmail.com>
-References: <20260904123334.1505003-1-sammiee5311@gmail.com>
+	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="vCKW+UZn"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Mb/OXuz4ObwZNClC16NvjS+qVCch/KDNQmuwU8GkNYXdnYZi2bDi99rTY5OkGckKoV4yIAzatOY50Bu/j+BpMI4F4Ixn69Yu+nDrUwOyVY5Cm1qGItAf3gYC/DA616myAvXDsO94JVj0/FAdTy8KJvCgLmThbpx2x/XrYuzeW5v3RXmZ7LdknCuw6+oYArlPzuRhC5q9xzSS5YATmMcNwclbvWguml6MGVT9tFlAKpn6pyC9HhpDIKoXsm7nqcPgpI0XqFuTGi9wXiMDQZLVo+6szcnjJtMbmTbUZAb+v8R+sJsTFQibjGJTd0liSLMWZ2eMRpSyJbYrnnLpzImJeg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8E2o7UBzvm02AMwFY43jyjDaQO0FtLU33qLl9WSWBeY=;
+ b=mcg58bNGbppbZOkN3MoNhIyQcjmMezGM2pbDerDydLjarnR7u9POlbNlmZFP3OVfXzHuZ2V+vf8qwdiDGP+3QpUls8y/iO2+nWG2BUeKOvp9nas6lkUcvMThJPZQzXHj2mXJcE06+f/yQwJIOkNGqgIPJLUhRQeW/I0/ywZBSBfb4LeCUZ+lU87VxdRO7kfNpm7qfQ3f+UdeRxkAGAdeGIipi26l4D/iMxU5WyI9svkHgCTdKKf4ljY2BKuJJQ0ENxkhIdzcokyRGw6+TClRN0bcS9HriDlK1T+aCiZdc+SbLjglFrCb4tB7PWPrw8LqFo4PzcapdL9EggopotUmBg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8E2o7UBzvm02AMwFY43jyjDaQO0FtLU33qLl9WSWBeY=;
+ b=vCKW+UZnBIn+5DuOeO0MHWllYUy2Vm0lgsG+93SiB10BdvZh8Uyuq4X//5Z6OLobCuNyqcpJzM9jwl8mnb7yMgSHpkL34S3M1tJQbkiS0IJ/iFCjRyWpKKX8sfYEPkiWtX2Qz2VeJrHwkxHVp6jrukvttlMN9ffFPbk/As58/jqCAuu+BGONEz0+nDuiI+FqlfW5ihXv2pkUP5oVtPQ4DpnUarjrzUYJOZXSof6ITe5opofThAxtHYTdfs3JNaluoHAWGXV8j+vVFhHeO6IuEZktQMuuLmqe5yd7ZCI+RRSlXm8m3tdK1tB4XznbWxBvBbTeqrcg60W+Y5nUdE0Dfw==
+Received: from MN2PR15MB3472.namprd15.prod.outlook.com (2603:10b6:208:3a::26)
+ by IA0PPFE8C6306E2.namprd15.prod.outlook.com (2603:10b6:20f:fc04::b4f) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.10; Sat, 12 Sep
+ 2026 03:28:42 +0000
+Received: from MN2PR15MB3472.namprd15.prod.outlook.com
+ ([fe80::5d1a:2222:aba3:3a3c]) by MN2PR15MB3472.namprd15.prod.outlook.com
+ ([fe80::5d1a:2222:aba3:3a3c%4]) with mapi id 15.21.0382.012; Sat, 12 Sep 2026
+ 03:28:42 +0000
+From: Nicholas Hobson <nicholas.hobson@outlook.com>
+To: "clemens@ladisch.de" <clemens@ladisch.de>, "perex@perex.cz"
+	<perex@perex.cz>, "tiwai@suse.com" <tiwai@suse.com>
+CC: "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: [PATCH] ALSA: usb-audio: keep MIDI input running for Roland TD-11
+Thread-Topic: [PATCH] ALSA: usb-audio: keep MIDI input running for Roland
+ TD-11
+Thread-Index: AQHdQmZVIwtJj8RLZUqwYeeUMoaLJQ==
+Date: Sat, 12 Sep 2026 03:28:42 +0000
+Message-ID:
+ <MN2PR15MB3472557AF39DC3A4CA9E753FF8BD2@MN2PR15MB3472.namprd15.prod.outlook.com>
+Accept-Language: en-CA, en-US
+Content-Language: en-CA
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MN2PR15MB3472:EE_|IA0PPFE8C6306E2:EE_
+x-ms-office365-filtering-correlation-id: d76bddf5-5c4f-4fef-fd29-08df107df19c
+x-microsoft-antispam:
+ BCL:0;ARA:14566002|39105399006|20031999006|24021099003|24071999003|41001999006|12121999013|15030799006|19110799012|8060799015|4140399003|8062599012|15080799012|25010399006|25031999004|37011999003|31061999003|440099028|3412199025|102099032|40105399003|2607281247196008;
+x-microsoft-antispam-message-info:
+ =?iso-8859-1?Q?XuPilHJsBgmh5H6nlHTKfmajalQt++3Aj2PNK5jl0pVREhkOF4pQ03Yp6A?=
+ =?iso-8859-1?Q?BLVvEgNwHPGSR6l02VnD1V2LSd2Ji7/fOUYCtJH77ldXtc8V4Bx4CtwfsN?=
+ =?iso-8859-1?Q?Z//qjqlopPTRKkykChY7LP+j2hL0Lm9xsmJMdjWdaHq+BbofCg2/9ifBxk?=
+ =?iso-8859-1?Q?DWkYeVNfdweBANWONIS8YgQEDrdMF2BOzPvgDNW47XYFO4pRXGV1M/DMVt?=
+ =?iso-8859-1?Q?LTTuMibuZ75Ia77ASZScZgr+a5Vo9GupJfAvBepckrVrXD2vQMpqt72DJe?=
+ =?iso-8859-1?Q?/pWPa6P3T2oY42dvbJY07on3Z+kWMcYREabjdEhCi5d1k+5xeCZmkANhdw?=
+ =?iso-8859-1?Q?YjFjsGmBItPizmQm7jDtuSgNWDd2HMyUFkTtN7FAifTiR9tvL94agsrzFO?=
+ =?iso-8859-1?Q?lh1N9lTKpOIzqzWMDwRidgPaVuDbmuyHtzOYeTb1x/Tii4Vz4fvP1IO03/?=
+ =?iso-8859-1?Q?kiwslAawsiI5m73PzIRmKN9/BtKhqiynBixgTufRpZt4kq9FJ4lZjjQoVm?=
+ =?iso-8859-1?Q?FUKeiqRAoiDhY7qCLKvrH/B/Wg0C3XunWsajRMIGm+Z9NCA5/59gVO6HIv?=
+ =?iso-8859-1?Q?mPxtNe9wXfva7z6NsAvVkbc1Ztlk0JWkn2u3Z902jNXbqKgEbdX3By7mQF?=
+ =?iso-8859-1?Q?q2JQrYtjhpA4sB645F+yRZtZsuMnaYN3FvN1HEio7+CfED49m9muM/zNWD?=
+ =?iso-8859-1?Q?+Q3qElk8LPxGk3kmROLrSGWBcNYsrhrAwv8ZaXY4CLf3NqdfYuc08QIjdk?=
+ =?iso-8859-1?Q?FEnmGq+wtH7Oy/KAsNOIU76K9A2pKBUTva4s8Z/0ApA/IBmzAsNfs/hoNt?=
+ =?iso-8859-1?Q?CRoXCgbTFLgQdXcT5TzSfW/IkpGR+VucJIX7mMyrFjHFDqUyGAmErKzP1b?=
+ =?iso-8859-1?Q?UyTWcLi3YQQwhE8uTiJUR03RtzPurNczqFqJkkoNGNiu24QN20Yl0BKq7y?=
+ =?iso-8859-1?Q?lVhQQBaOMFAydjREohWuFfTTUIdRQhryuVw20byC8P7U+aPSz1vfeM0Ab1?=
+ =?iso-8859-1?Q?nIfdF4TnrSmx5PhW6CGnDCg7fDfMFmgtkRty3wGWCVu6KQFaRdthy/Wdz2?=
+ =?iso-8859-1?Q?gBkXKZtWGpLsoYERjlrYfFxjtfMTCL+Zk6L34sbTUWRY6XHh8DMsod/b8t?=
+ =?iso-8859-1?Q?P2YKg5p8XX2nOSy6+yC3+EAQAOSx0N0lkMBaPbSgQAYjzY7hokbg6SX+E4?=
+ =?iso-8859-1?Q?/gQdH8Dz/pA82Ee4J9Ynjv1kuf5ZpJOa8RM=3D?=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?m6uch7S3dPV/LdSn6hcNE6B0NqQVF/svkM5x0cb4sil9nxCejT3NrzonAF?=
+ =?iso-8859-1?Q?AoEoOIox/76rcgVYujZ2ZgaAdGPKtTZ8Nc9+xKHFCHxWlmFNGjxl/YY6MZ?=
+ =?iso-8859-1?Q?yoVl3iuN6/plBvbn1PEQfN9YFYO2oOMrMObkFM1FZ9Tyh2CHmfU8UJq7NX?=
+ =?iso-8859-1?Q?CcsR7y1uHeGQwZktSP+3NCWaPjM4JQLJdCRW4Sp1gT2KZNLEB2CzQwGlr6?=
+ =?iso-8859-1?Q?ZhgEvDSOrTiAIWci0C9eOZ55yqMMcJKu6AeMl0LI1+viuWaGtOUOmHl3uQ?=
+ =?iso-8859-1?Q?iPRYcN8ZkKBOIDFc/nL8Z6XRjsjdZU5DNPR71VA1RB3UNwrSaGMZYkzbuu?=
+ =?iso-8859-1?Q?7/nUbahU4kZ16ttdAq3Ybi/9IlbO53y1og5d661Haim6LTSnQ78KhEXwsN?=
+ =?iso-8859-1?Q?KJECDg9/PJkzlZ/j7615MqyHTBvGx9VESDg5jxZPimMuxcVU8nYPrReWAe?=
+ =?iso-8859-1?Q?hbM7uvw85tJUejOq1PN7uFmT1NTb6ijNGSDNb/UZLnoWdlROSqDZsiCqAv?=
+ =?iso-8859-1?Q?uFmHEFbOnPioRNZs1Xn4FbKffkFz83WWIxo9DWg4QjW6Mkrweecras+7I2?=
+ =?iso-8859-1?Q?el86alZ+yhklQuWdhqaOB2zT2ofJcO/ZP9Jwo5CSnnA8zlIpzfduy156bw?=
+ =?iso-8859-1?Q?8KYNBpjgokgOOQ1Gy4eda/Jvq4LB/9JNZ9A4fPx68nPD/oMU/7Tqbdbf3c?=
+ =?iso-8859-1?Q?gi2Td+Ns8NudWQ0rGhbcRNzG7oGg2VWAXTsZNLAErCQKUnKHrnyxVXr1Ul?=
+ =?iso-8859-1?Q?REEeu0oF73xO+9u+kBS6n86mccUh9H/lnncqg1fhJ1px6rIbV8f5s1sS8c?=
+ =?iso-8859-1?Q?neoCLmJbNY/AKO5mbCzMMEj/KqtghbYXocxcuTrghWJPMVav9xQ8vqbqzP?=
+ =?iso-8859-1?Q?D5uLyDSonRvF15UZ4B24edIaLz4/jGxuZMSW5vNkLopyI2Dp+4mGzAcCI6?=
+ =?iso-8859-1?Q?QxejwA/r/s9NkkQ+I6Ug9qKXJVFsOqRiWnPaWlXdRaV2aCQA9trhXcKss1?=
+ =?iso-8859-1?Q?/jTSCG6PODjU5R1XrjuZL+7hDvFOl6Q3CaMOrmRrd9QtMDmYRbgxQnWVjQ?=
+ =?iso-8859-1?Q?KxgBGiJgHuFWu2Q6CUwM3hebmgw6l46mZmhDrLtjHUo8bheW8Y2NOARFFl?=
+ =?iso-8859-1?Q?Vr+aA50QJubJYo13XC7yBkjq9L3MNGxc+L1MZNLt2zSyICE3mYTI8QrcoG?=
+ =?iso-8859-1?Q?WNw6KLjlsrOsAIPycZLSEMC1uunZB21Ip1kMwKkE7rBP5MqA++MM9HJ5KR?=
+ =?iso-8859-1?Q?C6eL4HuKvE0shE1yO/z2mAYbIVrjMgob55eYKYzejIqlWQsonmWDrCKxIn?=
+ =?iso-8859-1?Q?yAAV8ktnr88zyloSX8VHL2lp1dbQjadiT38sQgUZKGDyl4YbFb2TBFextE?=
+ =?iso-8859-1?Q?TFvKQrzaBbMW/E+KgBDWbjrxCjxNShGytX6nA/jyGUNpQE7XpMiz1x0bve?=
+ =?iso-8859-1?Q?Fcmfpvttwyof/4wS?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR15MB3472.namprd15.prod.outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: d76bddf5-5c4f-4fef-fd29-08df107df19c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Sep 2026 03:28:42.0206
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PPFE8C6306E2
 
-Nothing checks that the put() callback of an IEC958 control reports a
-change, because write_valid skips these controls.
-
-Where the device publishes a mask, toggle every bit in it and check each
-write.  A bit the mask advertises that does not stick fails the test, the
-way a rejected value fails for the other control types.
-
-Where none is found, keep the old single guess at the non audio bit,
-which the device is free to ignore, so only the notification can be
-counted against it.  That path writes without checking so drop_events()
-clears what those writes leave behind.
-
-On an HDA card with four HDMI PCMs the Con Mask is 0f ff, so each control
-walks eleven bits instead of one and all eleven stick:
-
-  -# Totals: pass:212 fail:5 xfail:0 xpass:0 skip:56 error:0
-  +# Totals: pass:216 fail:5 xfail:0 xpass:0 skip:52 error:0
-
-A driver whose put() never reports a change still shows up as
-event_missing.  hdmi-codec and img-spdif-out store every byte and return
-0, so boards using them report one event_missing per walked bit, and
-hdmi-codec advertises the whole block so that is 191 of them.  A driver
-whose mask claims more than its put() keeps now fails write_valid
-outright: au88x0 and ice1712 on Delta 1010 and Mediastation advertise
-bytes they never store, cs46xx, oxygen and ice1724 advertise bits their
-put() drops, and the RME cards regenerate the whole emphasis field from
-one bit so the rest of it never reads back.  None of that hardware was
-to hand, the paths were read rather than run.
-
-write_invalid stays a skip.  Every bit pattern is a valid channel status.
-
-Signed-off-by: HyeongJun An <sammiee5311@gmail.com>
-Assisted-by: Claude:claude-opus-5
----
-Changes in v3:
-- Say check rather than grading.
-- Where a mask is found, walk every bit it advertises instead of one and
-  fail a bit that does not stick.
-- Split the two cases into test_ctl_write_valid_iec958_mask() and
-  test_ctl_write_valid_iec958_guess(), so drop_events() now runs only on
-  the guess path.
-- Keep the guess for the four drivers with no mask.  Adding the mask
-  controls to fsl_spdif, fsl_xcvr, uniperif_player and stm32_sai_sub is a
-  separate change for each of them.
-- Report when the mask lookup falls back to the non audio guess, and
-  report a drop_events() failure with the raw return value since three
-  of the wait_for_event() paths hand back a bare -1.
-- Name the drivers whose mask claims more than their put() keeps, which
-  a full walk widens beyond the three v2 mentioned.
-
-v2: https://lore.kernel.org/all/20260904123334.1505003-1-sammiee5311@gmail.com/
-v1: https://lore.kernel.org/all/20260904021939.149468-1-sammiee5311@gmail.com/
-
- tools/testing/selftests/alsa/mixer-test.c | 255 ++++++++++++++++++++++
- 1 file changed, 255 insertions(+)
-
-diff --git a/tools/testing/selftests/alsa/mixer-test.c b/tools/testing/selftests/alsa/mixer-test.c
-index 0857d64c322a..53a72753bb08 100644
---- a/tools/testing/selftests/alsa/mixer-test.c
-+++ b/tools/testing/selftests/alsa/mixer-test.c
-@@ -30,6 +30,12 @@
- 
- #define TESTS_PER_CONTROL 7
- 
-+/* Suffixes of the SNDRV_CTL_NAME_IEC958() names, not exported to userspace */
-+#define IEC958_DEFAULT		"Default"
-+#define IEC958_CON_MASK		"Con Mask"
-+#define IEC958_PRO_MASK		"Pro Mask"
-+#define IEC958_MASK		"Mask"
-+
- struct card_data {
- 	snd_ctl_t *handle;
- 	int card;
-@@ -842,6 +848,251 @@ static bool test_ctl_write_valid_enumerated(struct ctl_data *ctl)
- 	return !fail;
- }
- 
-+/*
-+ * Find the read only mask control for an IEC958 value control.  The two
-+ * share device, subdevice and index but not always the interface.
-+ */
-+static struct ctl_data *find_iec958_mask_ctl(struct ctl_data *ctl,
-+					     const char *suffix)
-+{
-+	char name[64];
-+	int stem;
-+	struct ctl_data *mask;
-+
-+	stem = strlen(ctl->name) - strlen(IEC958_DEFAULT);
-+	if (snprintf(name, sizeof(name), "%.*s%s", stem, ctl->name, suffix) >=
-+	    (int)sizeof(name))
-+		return NULL;
-+
-+	for (mask = ctl_list; mask != NULL; mask = mask->next) {
-+		if (mask->card != ctl->card)
-+			continue;
-+		if (snd_ctl_elem_info_get_type(mask->info) !=
-+		    SND_CTL_ELEM_TYPE_IEC958)
-+			continue;
-+		if (snd_ctl_elem_info_is_inactive(mask->info))
-+			continue;
-+		if (!snd_ctl_elem_info_is_readable(mask->info))
-+			continue;
-+		if (snd_ctl_elem_id_get_device(mask->id) !=
-+		    snd_ctl_elem_id_get_device(ctl->id))
-+			continue;
-+		if (snd_ctl_elem_id_get_subdevice(mask->id) !=
-+		    snd_ctl_elem_id_get_subdevice(ctl->id))
-+			continue;
-+		if (snd_ctl_elem_id_get_index(mask->id) !=
-+		    snd_ctl_elem_id_get_index(ctl->id))
-+			continue;
-+		if (strcmp(mask->name, name) == 0)
-+			return mask;
-+	}
-+
-+	return NULL;
-+}
-+
-+/*
-+ * Read the bits the device says it implements.  Bit 0 of the first status
-+ * byte picks which mask applies, some devices publish only a plain Mask.
-+ */
-+static bool read_iec958_mask(struct ctl_data *ctl,
-+			     const snd_aes_iec958_t *cur,
-+			     snd_aes_iec958_t *mask)
-+{
-+	int err;
-+	struct ctl_data *mask_ctl;
-+	snd_ctl_elem_value_t *val;
-+
-+	if (!strend(ctl->name, IEC958_DEFAULT))
-+		return false;
-+
-+	if (cur->status[0] & IEC958_AES0_PROFESSIONAL)
-+		mask_ctl = find_iec958_mask_ctl(ctl, IEC958_PRO_MASK);
-+	else
-+		mask_ctl = find_iec958_mask_ctl(ctl, IEC958_CON_MASK);
-+	if (!mask_ctl)
-+		mask_ctl = find_iec958_mask_ctl(ctl, IEC958_MASK);
-+	if (!mask_ctl)
-+		return false;
-+
-+	snd_ctl_elem_value_alloca(&val);
-+	snd_ctl_elem_value_set_id(val, mask_ctl->id);
-+
-+	err = snd_ctl_elem_read(mask_ctl->card->handle, val);
-+	if (err < 0) {
-+		ksft_print_msg("snd_ctl_elem_read() failed for %s: %s\n",
-+			       mask_ctl->name, snd_strerror(err));
-+		return false;
-+	}
-+
-+	snd_ctl_elem_value_get_iec958(val, mask);
-+
-+	return true;
-+}
-+
-+/*
-+ * Throw away the events from a write we are not checking, one left behind
-+ * would make a missing notification look like a notification we got.
-+ */
-+static int drop_events(struct ctl_data *ctl)
-+{
-+	int err;
-+
-+	do {
-+		err = wait_for_event(ctl, 0);
-+	} while (err > 0);
-+
-+	return err;
-+}
-+
-+/*
-+ * Toggle every bit the device advertises, one at a time.  Each one starts
-+ * from the value we read since a driver can look at the rest of the block
-+ * when it stores a bit, and bit 0 of the first status byte selects the
-+ * layout the others are read in so leave that one alone.
-+ */
-+static bool test_ctl_write_valid_iec958_mask(struct ctl_data *ctl,
-+					     snd_ctl_elem_value_t *orig_val,
-+					     const snd_aes_iec958_t *mask)
-+{
-+	int err, j;
-+	unsigned int byte;
-+	unsigned char bit;
-+	bool fail = false, found = false;
-+	snd_aes_iec958_t iec958;
-+	snd_ctl_elem_value_t *val;
-+	snd_ctl_elem_value_alloca(&val);
-+
-+	snd_ctl_elem_value_copy(val, orig_val);
-+
-+	for (byte = 0; byte < sizeof(mask->status); byte++) {
-+		for (j = 0; j < 8; j++) {
-+			bit = 1 << j;
-+
-+			if (byte == 0 && bit == IEC958_AES0_PROFESSIONAL)
-+				continue;
-+			if (!(mask->status[byte] & bit))
-+				continue;
-+			found = true;
-+
-+			snd_ctl_elem_value_get_iec958(orig_val, &iec958);
-+			iec958.status[byte] ^= bit;
-+			snd_ctl_elem_value_set_iec958(val, &iec958);
-+
-+			err = write_and_verify(ctl, val, NULL);
-+			if (err != 0) {
-+				ksft_print_msg("%s failed to set advertised status[%u] 0x%02x\n",
-+					       ctl->name, byte, bit);
-+				fail = true;
-+			}
-+		}
-+	}
-+
-+	if (!found)
-+		ksft_print_msg("%s implements no settable status bits\n",
-+			       ctl->name);
-+
-+	return !fail;
-+}
-+
-+/*
-+ * With nothing advertised all we can do is try non audio, and the device
-+ * need not implement even that.  Write it once and ignore the result, then
-+ * compare against what came back so the value cannot fail, which leaves the
-+ * notification counted by event_missing.
-+ */
-+static bool test_ctl_write_valid_iec958_guess(struct ctl_data *ctl,
-+					      snd_ctl_elem_value_t *orig_val)
-+{
-+	int err;
-+	snd_aes_iec958_t iec958;
-+	snd_ctl_elem_value_t *val, *read_val, *w_val;
-+	snd_ctl_elem_value_alloca(&val);
-+	snd_ctl_elem_value_alloca(&read_val);
-+	snd_ctl_elem_value_alloca(&w_val);
-+
-+	snd_ctl_elem_value_get_iec958(orig_val, &iec958);
-+	iec958.status[0] ^= IEC958_AES0_NONAUDIO;
-+	snd_ctl_elem_value_copy(val, orig_val);
-+	snd_ctl_elem_value_set_iec958(val, &iec958);
-+
-+	/* Writing can modify the value so keep a copy to write from */
-+	snd_ctl_elem_value_copy(w_val, val);
-+	err = snd_ctl_elem_write(ctl->card->handle, w_val);
-+	if (err < 0) {
-+		ksft_print_msg("snd_ctl_elem_write() failed: %s\n",
-+			       snd_strerror(err));
-+		return false;
-+	}
-+
-+	snd_ctl_elem_value_set_id(read_val, ctl->id);
-+	err = snd_ctl_elem_read(ctl->card->handle, read_val);
-+	if (err < 0) {
-+		ksft_print_msg("snd_ctl_elem_read() failed: %s\n",
-+			       snd_strerror(err));
-+		return false;
-+	}
-+
-+	/* Put it back where we found it, then drop the events from both */
-+	snd_ctl_elem_value_copy(w_val, orig_val);
-+	err = snd_ctl_elem_write(ctl->card->handle, w_val);
-+	if (err < 0) {
-+		ksft_print_msg("snd_ctl_elem_write() failed: %s\n",
-+			       snd_strerror(err));
-+		return false;
-+	}
-+
-+	err = drop_events(ctl);
-+	if (err < 0) {
-+		ksft_print_msg("drop_events() failed for %s: %d\n",
-+			       ctl->name, err);
-+		return false;
-+	}
-+
-+	if (snd_ctl_elem_value_compare(val, read_val)) {
-+		ksft_print_msg("%s does not implement status[0] 0x%02x\n",
-+			       ctl->name, IEC958_AES0_NONAUDIO);
-+
-+		/* Expect what came back, the notification is still checked */
-+		return write_and_verify(ctl, val, read_val) == 0;
-+	}
-+
-+	return write_and_verify(ctl, val, NULL) == 0;
-+}
-+
-+/*
-+ * Write the channel status bits and check that userspace is told about it.
-+ * Where a mask was found every bit in it has to stick, otherwise we fall
-+ * back to one guessed bit the device is free to ignore.
-+ */
-+static bool test_ctl_write_valid_iec958(struct ctl_data *ctl)
-+{
-+	int err;
-+	snd_aes_iec958_t iec958, mask;
-+	snd_ctl_elem_value_t *orig_val;
-+	snd_ctl_elem_value_alloca(&orig_val);
-+
-+	/*
-+	 * The bytes past the ones a driver implements are compared too,
-+	 * so start from a read rather than building a value here.
-+	 */
-+	snd_ctl_elem_value_set_id(orig_val, ctl->id);
-+	err = snd_ctl_elem_read(ctl->card->handle, orig_val);
-+	if (err < 0) {
-+		ksft_print_msg("snd_ctl_elem_read() failed: %s\n",
-+			       snd_strerror(err));
-+		return false;
-+	}
-+
-+	snd_ctl_elem_value_get_iec958(orig_val, &iec958);
-+
-+	if (!read_iec958_mask(ctl, &iec958, &mask)) {
-+		ksft_print_msg("%s falling back to non audio\n", ctl->name);
-+		return test_ctl_write_valid_iec958_guess(ctl, orig_val);
-+	}
-+
-+	return test_ctl_write_valid_iec958_mask(ctl, orig_val, &mask);
-+}
-+
- static void test_ctl_write_valid(struct ctl_data *ctl)
- {
- 	bool pass;
-@@ -878,6 +1129,10 @@ static void test_ctl_write_valid(struct ctl_data *ctl)
- 		pass = test_ctl_write_valid_enumerated(ctl);
- 		break;
- 
-+	case SND_CTL_ELEM_TYPE_IEC958:
-+		pass = test_ctl_write_valid_iec958(ctl);
-+		break;
-+
- 	default:
- 		/* No tests for this yet */
- 		ksft_test_result_skip("write_valid.%s.%d\n",
--- 
-2.43.0
-
+From cbb4e446c3278aa99b34e622ac7ccef3e6d98d5b Mon Sep 17 00:00:00 2001=0A=
+From: Nicholas Hobson <nicholas.hobson@outlook.com>=0A=
+Date: Fri, 11 Sep 2026 21:58:09 -0400=0A=
+Subject: [PATCH] ALSA: usb-audio: keep MIDI input running for Roland TD-11=
+=0A=
+=0A=
+The TD-11 hands MIDI handling off to the host once connected via=0A=
+USB. If no MIDI input port is opened on the host, the device itself=0A=
+becomes unusable as a standalone instrument until its input is=0A=
+serviced, independent of anything happening on the computer.=0A=
+=0A=
+Add a per-device keep_input_running flag, set for the TD-11 in=0A=
+snd_usbmidi_detect_roland(), and check it alongside the existing=0A=
+opened[1] check in snd_usbmidi_input_start()/snd_usbmidi_input_stop()=0A=
+so that input is started at device creation and never stopped for=0A=
+these devices, regardless of whether a client has the input port=0A=
+open.=0A=
+=0A=
+Signed-off-by: Nicholas Hobson <nicholas.hobson@outlook.com>=0A=
+---=0A=
+ sound/usb/midi.c | 13 +++++++++++--=0A=
+ 1 file changed, 11 insertions(+), 2 deletions(-)=0A=
+=0A=
+diff --git a/sound/usb/midi.c b/sound/usb/midi.c=0A=
+index 7e5b1b133..353217b36 100644=0A=
+--- a/sound/usb/midi.c=0A=
++++ b/sound/usb/midi.c=0A=
+@@ -113,6 +113,7 @@ struct snd_usb_midi {=0A=
+ 	unsigned int opened[2];=0A=
+ 	unsigned char disconnected;=0A=
+ 	unsigned char input_running;=0A=
++	unsigned char keep_input_running;=0A=
+ =0A=
+ 	struct snd_kcontrol *roland_load_ctl;=0A=
+ };=0A=
+@@ -1172,7 +1173,7 @@ static int substream_open(struct snd_rawmidi_substrea=
+m *substream, int dir,=0A=
+ 			snd_usbmidi_input_start(&umidi->list);=0A=
+ 	} else {=0A=
+ 		umidi->opened[dir]--;=0A=
+-		if (!umidi->opened[1])=0A=
++		if (!umidi->opened[1] && !umidi->keep_input_running)=0A=
+ 			snd_usbmidi_input_stop(&umidi->list);=0A=
+ 		if (!umidi->opened[0] && !umidi->opened[1]) {=0A=
+ 			if (umidi->roland_load_ctl) {=0A=
+@@ -2262,6 +2263,10 @@ static int snd_usbmidi_detect_roland(struct snd_usb_=
+midi *umidi,=0A=
+ 	struct usb_host_interface *hostif;=0A=
+ 	u8 *cs_desc;=0A=
+ =0A=
++	/* TD-11 becomes unusable if input isn't serviced continuously */=0A=
++	if (umidi->usb_id =3D=3D USB_ID(0x0582, 0x0151))=0A=
++		umidi->keep_input_running =3D 1;=0A=
++=0A=
+ 	intf =3D umidi->iface;=0A=
+ 	if (!intf)=0A=
+ 		return -ENOENT;=0A=
+@@ -2469,7 +2474,7 @@ void snd_usbmidi_input_start(struct list_head *p)=0A=
+ 	int i;=0A=
+ =0A=
+ 	umidi =3D list_entry(p, struct snd_usb_midi, list);=0A=
+-	if (umidi->input_running || !umidi->opened[1])=0A=
++	if (umidi->input_running || (!umidi->opened[1] && !umidi->keep_input_runn=
+ing))=0A=
+ 		return;=0A=
+ 	for (i =3D 0; i < MIDI_MAX_ENDPOINTS; ++i)=0A=
+ 		snd_usbmidi_input_start_ep(umidi, umidi->endpoints[i].in);=0A=
+@@ -2644,6 +2649,10 @@ int __snd_usbmidi_create(struct snd_card *card,=0A=
+ 	if (err < 0)=0A=
+ 		goto exit;=0A=
+ =0A=
++	/* start input for devices that need continuous servicing */=0A=
++	if (umidi->keep_input_running)=0A=
++		snd_usbmidi_input_start(&umidi->list);=0A=
++=0A=
+ 	usb_autopm_get_interface_no_resume(umidi->iface);=0A=
+ =0A=
+ 	list_add_tail(&umidi->list, midi_list);=0A=
+-- =0A=
+2.55.0=0A=
+=0A=
