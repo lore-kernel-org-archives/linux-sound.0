@@ -1,213 +1,106 @@
-Received: from mail-lr2-f12.google.com (mail-lr2-f12.google.com [74.125.230.76])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zipdox.net (195-240-81-79.fixed.kpn.net [195.240.81.79])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53ED33793CA
-	for <linux-sound@vger.kernel.org>; Sat, 12 Sep 2026 17:21:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F73D431A3E
+	for <linux-sound@vger.kernel.org>; Sat, 12 Sep 2026 17:21:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.240.81.79
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789233667; cv=none; b=sOgr3Skzx4iPul5KAc+MWngjWsK5aZph/TSw78QAZbkbeow6km+S94YYbPVZ6kJTtrmJXlzewz/F46vEPt1LzL9zARDKIbC8+4ZUAPl3/FHp1QVZy1wuWB921ewd2xJzAwjkn6hI4Q1aovIO85UCoTQL75f/M0sbBqIP0qASxsU=
+	t=1789233707; cv=none; b=Rgh8Dv8G/S+qFPxPE1eDIDpdTMhtwwteoIK3mdZPNA0+4DN7Yn9Wcy650XH+PGCjeUt8w7T5ALBlSeZ8PTJlN87slnr0Eb0dPYIxv0vq4ly3HBWWul/R9MRP5tFqKM3jhPQW3NaVLluqgS7hGq14+Gr5zvHCzuJnCxKxwkZQ0Y0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789233667; c=relaxed/simple;
-	bh=vXXGCo/Cvd8orX5ZHIf26NBPMR725nb7AVPQUDI/1eM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=PJ6TOL7p6Tha3rxWwePEfeleBiJzh8vAT2h2mZA9kcMWU8ksaTN1yyOeF7WCS9Ws5JaNST/j6hKYVzDhDK4OVqRMhVHZ1yIDO8G7p1K+wLiej6b1IhQ8GcE3rVLui7wl63aEBkx+nZZASxufuYzSxyWMpZ/YDbyCNMgujUCBRro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FA3OWHNt; arc=none smtp.client-ip=74.125.230.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789233707; c=relaxed/simple;
+	bh=BkHlLJylMVfjtAIy77rj2tXUKSgpH1S6BWIHsdy0nbM=;
+	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=hWH2ztWFHLsJJFXA1SWorUbvHQSlK1QsyqBh10GdESEu7LPveTBSM/wnHRZpmh3DZppEF2jas0IhtZYHPXQDhGuhOc/yarutwxrNOY1f+K+4N/zzjoOiZ1QjVyVMPzmU27g/jCzN5M5nTEN9pRjgCm8uDQeOzpli5taQG/3sogA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=zipdox.net; spf=pass smtp.mailfrom=zipdox.net; dkim=pass (2048-bit key) header.d=zipdox.net header.i=@zipdox.net header.b=qv0keJN5; arc=none smtp.client-ip=195.240.81.79
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=zipdox.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zipdox.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FA3OWHNt"
-Received: by mail-lr2-f12.google.com with SMTP id 38308e7fff4ca-3a2ff176d5bso8346201fa.2
-        for <linux-sound@vger.kernel.org>; Sat, 12 Sep 2026 10:21:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789233663; x=1789838463; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Mebu2RW2U3weGUDhTYy7W+gVJ+9xcUZXKXTexRRpr2s=;
-        b=FA3OWHNtuOkj5X5mTwULnmQsqRmI+Gl3u5x93b+Y1+w8mrz79wGwz9KP9AyNvhPV0X
-         8AVUlsEIFngLKxvrRwWvqjS5FNGq+w0U+Xhld0d+ER7TfRJ79NsgVzccM2DRfyAeSh52
-         5aVzSd2jXjtyRLWMMwcXQm7kvUUKc6x7jMMUljSHWQz0Pjh7leRqU40ZSHX8XkXDGATS
-         WWzqMrCilwJ8zkTxwfIHzOSjRzpaFF5KT7F5JUg1zqC22aO/ZSK+LXvb1PeS02TJ8VXj
-         GFwfbDRhYQMo2yh4A8zpC4ZYx5VAj0f2M5nL+52b6fIVy8VI8+xmw8YTqI2KjvAlaiez
-         Ta4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789233663; x=1789838463;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Mebu2RW2U3weGUDhTYy7W+gVJ+9xcUZXKXTexRRpr2s=;
-        b=Cy18N8+JRmD+0eYAz8KV4sgvbBPqd9Vd8YjSLOsC7hYpfBxGZRoUJp4YgehveoswYj
-         f4HniqlrE7VjZpLeqhA6Xus9GRDxfpWpYWVP3lkXegZklw8OjVwft4gJpmRBkTrhFt4q
-         3jNFAROs3kelwm+njWtDXl5IR9mKkw63Q+Fl2OPMI1ZG3dIBHlfBAh5FQFYAvmThdcMt
-         a5q3oWaVDjMH8SrhH4IOmYznX674mMPITq1g3kWh74xl0ig6Z+WAHuSEdBHxTFERBEtF
-         NOy33TVecKjRx16cG2A3Npn0X0+j88eYDvY177JJhoz7yxFlpvr8phY1Dw3Uqht+BwAL
-         Zk9A==
-X-Forwarded-Encrypted: i=1; AKwUvBw6JU7z56iYs7xbkWwKQ94OSwgc/BaGsPQS5/nucmTLiH6k4d+pX6t4iWpVooM6bWDQzQpCPdIgBt9yOQ==@vger.kernel.org
-X-Gm-Message-State: AFuF++lXxfTzIgxOuXyO1TyirPbGzCFYw/PaO1ez8hZ0thDvkziiAovF
-	PWwfeeWVxfktweVI2BSgCdjOBtUn3V0fpMZiff5yFUVNxFlShmmjyEM5
-X-Gm-Gg: AYBFou3O0/MIylgHutSqlBeMPQhNGtmPxcclYsRIpF3FmaseGab00ItXRHtpsChO3ce
-	krvxsOca5VPm1r4+9VCT9xJDyz8mH7LIVN4vgxQdi6TPZpbnhM7dag5vkYfhYw0KkvWT0dMlK6t
-	l3rvOnVEG1sH7KymTeiyc+IOHB3E+WhmAK9MHIuFl9/KWvjenEvdyE6TvYH5Qd6k1CTBYMv43Yr
-	epGI5cgpnYO9p5aAwzuN2ELE9WZBxLkaaed9x3Gb3rMs9qVJTXw+dHPusamDLkzr/w16hzOUT5h
-	OJb9bli5WRSALHQuTDnl0YOoG97RCzOmv1cBLlTr+adbtOjrTBC/hlJNmdrCD3hB6V2L8/0gnDo
-	2VWjoSt2FjSrNHcCEW6EIZM742+d7KMpO+IKsFWEbFdEkbq8NTpljSfwO8mEATw0SO2bKmwpSze
-	yhdhWx6ybO+uTd3TCDZzokk6nOKrf8pisaugWKPPRose3HxQqUO5sM7ohO1v3W96NDWt8vgdFbg
-	ITF3YL0UvMwNdrD5eiLfO0bhTy9/R/3IqzSY9obAiOc
-X-Received: by 2002:a05:6512:33d6:b0:5b0:113d:8ae5 with SMTP id 2adb3069b0e04-5b8a02fa142mr4002643e87.10.1789233662685;
-        Sat, 12 Sep 2026 10:21:02 -0700 (PDT)
-Received: from localhost (host-80-73-162-2.rev.as20985.net. [80.73.162.2])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b8a03a8009sm1377546e87.7.2026.09.12.10.21.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Sep 2026 10:21:02 -0700 (PDT)
-From: Andrey Golovko <andrey.golovko@gmail.com>
-To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
- Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- "Holalu Yogendra, Niranjan" <niranjan.hy@ti.com>,
- Antoine Monnet <antoine@montane.tech>,
- Robin Everaars <robineveraars@pm.me>,
- Ville Saarinen <wiza@saarinenkoti.fi>,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: tas2783-sdw: stop describing the Latency and XU ID/Version Controls
-Date: Sat, 12 Sep 2026 19:29:50 +0300
-Message-ID: <20260912163500.8412-1-andrey.golovko@gmail.com>
+	dkim=pass (2048-bit key) header.d=zipdox.net header.i=@zipdox.net header.b="qv0keJN5"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B6CA392106D
+	for <linux-sound@vger.kernel.org>; Sat, 12 Sep 2026 19:21:42 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zipdox.net; s=dkim;
+	t=1789233702; h=from:subject:date:message-id:to:mime-version:content-type:
+	 content-transfer-encoding:content-language:autocrypt;
+	bh=G1UZs/gfVWguxrr1msNC+7pLBM30p1HUJ7g+HU4eidw=;
+	b=qv0keJN5+mxOpISbF2tbdycC913hAqwylWi4Rkr/ZKRZcsj2gwH8YngKM7qOvtiyH1p+8b
+	x/tHavbzfi92iEY/6D0pRkR2JO0U6bcgY6iGxmkudzdIW1ODCUZBCo1upHJu9dy9To0vml
+	QwpCUhr6msFoOoNJJAbe2hzRR0kyJp3rROJHYvGA5BGWCeV8fHnGulMiB4bjVnYBxqz7NN
+	/s++sXsroWw6dW4OX/LTaaD8YgOa9SgPrHkYDwUhZYVEPYPeHBCnWRFTN/S7H//Vehod0W
+	ygV1H7jYqOhndHaqvny9ONGF9JDGzLxi1s149PDHcMGXHwG3SxkuMFBlqHr9Vw==
+Message-ID: <63001aad-918f-45c4-874d-55358f318ba8@zipdox.net>
+Date: Sat, 12 Sep 2026 19:21:42 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: linux-sound@vger.kernel.org
+From: Zipdox <zipdox@zipdox.net>
+Subject: [BUG] USB Audio Class 2.0 support for Mixer Unit
+Autocrypt: addr=zipdox@zipdox.net; keydata=
+ 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
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-The read-only Control list and tas2783_sdca_mbq_size() still describe the
-Latency Control of every Entity - twenty-one registers in all - and the
-XU ID and XU Version of the Extension Unit.  The driver never reads any
-of them, and the platform firmware seen so far describes exactly one of
-the Latencies (FU21, as a DisCo constant) and neither of the two XU
-Controls.  XU ID answers COMMAND_IGNORED on the bus in every power
-state.
+I'm sending this message to the mailing list since it seems that 
+Bugzilla doesn't really get any attention from the sound maintainers.
+Bugzilla bug: https://bugzilla.kernel.org/show_bug.cgi?id=221969
 
-Since commit f4ffa3820949 ("ASoC: tas2783-sdw: do not cache read-only
-Controls") they have no defaults and are marked volatile, so every
-access goes to the bus.  Remove them from both tables: the driver then
-neither declares them readable nor sizes them, and the read-only list is
-left with the readings the device actually reports - Clock Valid, the
-actual power state, the protection status and the algorithm ready flags.
+The USB Audio Mixer Unit driver (sound/usb/mixer.c) sends audio class 
+1.0 format messages to devices, regardless of the actual audio class 
+version. This means audio class 2.0 devices will receive incorrect 
+messages, stall, and cause the driver to error (e.g. alsamixer exits 
+with a broken pipe error).
 
-No functional change for the driver itself, which does not read any of
-the removed registers.
-
-Link: https://lore.kernel.org/all/70a91202-e801-4008-bec8-883b229f9f0f@linux.dev/
-Signed-off-by: Andrey Golovko <andrey.golovko@gmail.com>
----
- sound/soc/codecs/tas2783-sdw.c | 53 +++-------------------------------
- 1 file changed, 4 insertions(+), 49 deletions(-)
-
-diff --git a/sound/soc/codecs/tas2783-sdw.c b/sound/soc/codecs/tas2783-sdw.c
-index 1d31b3bfb1ad..8dafdc7af129 100644
---- a/sound/soc/codecs/tas2783-sdw.c
-+++ b/sound/soc/codecs/tas2783-sdw.c
-@@ -333,7 +333,6 @@ static int tas2783_sdca_mbq_size(struct device *dev, u32 reg)
- 	case SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_PPU26, 0x11, 0):
- 	case SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_TG23, 0x10, 0):
- 	case SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_XU22, 0x01, 0):
--	case SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_XU22, 0x08, 0):
- 	case SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_XU22, 0x0a, 0):
- 	case SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_XU22, 0x10, 0):
- 	case SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_XU22, 0x14, 0):
-@@ -419,7 +418,6 @@ static int tas2783_sdca_mbq_size(struct device *dev, u32 reg)
- 	case SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_FU127, 0x0b, 0):
- 	case SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_FU26, 0x0b, 0):
- 	case SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_FU26, 0x0b, 1):
--	case SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_XU22, 0x07, 0):
- 	case SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_XU22, 0x09, 0):
- 	case SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_MFPU21, 0x12, 0):
- 	case SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_MFPU26, 0x12, 0):
-@@ -431,27 +429,8 @@ static int tas2783_sdca_mbq_size(struct device *dev, u32 reg)
- 	case SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_IT21, 0x11, 0):
- 		return 2;
- 
--	case SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_FU23, 0x10, 0):
--	case SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_IT21, 0x08, 0):
--	case SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_IT26, 0x08, 0):
--	case SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_IT28, 0x08, 0):
--	case SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_IT29, 0x08, 0):
--	case SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_OT23, 0x08, 0):
--	case SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_OT24, 0x08, 0):
--	case SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_OT25, 0x08, 0):
--	case SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_OT28, 0x08, 0):
--	case SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_OT127, 0x08, 0):
--	case SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_MU26, 0x06, 0):
--	case SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_FU127, 0x10, 0):
--	case SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_FU26, 0x10, 0):
--	case SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_XU22, 0x06, 0):
- 	case SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_XU22, 0x12, 0):
- 	case SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_XU22, 0x13, 0):
--	case SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_MFPU21, 0x08, 0):
--	case SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_MFPU26, 0x08, 0):
--	case SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_SAPU29, 0x05, 0):
--	case SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_PPU21, 0x06, 0):
--	case SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_PPU26, 0x06, 0):
- 		return 4;
- 
- 	default:
-@@ -465,47 +444,23 @@ static bool tas2783_readable_register(struct device *dev, unsigned int reg)
- }
- 
- /*
-- * The read-only SDCA Controls the driver describes: the Latency of every
-- * Entity, the Clock Valid of every Clock Source, the actual power state of
-- * the Power Domain Entity, the protection status, the algorithm ready flag
-- * and the Extension Unit id, version and firmware download status.  None of
-- * them is a setting; every one is a reading of device state.
-+ * The read-only SDCA Controls the driver describes: the Clock Valid of every
-+ * Clock Source, the actual power state of the Power Domain Entity, the
-+ * protection status and the algorithm ready flags.  None of them is a
-+ * setting; every one is a reading of device state.
-  */
- static bool tas2783_read_only_control(unsigned int reg)
- {
- 	switch (reg) {
--	case SDW_SDCA_CTL(FUNC_NUM_SMART_AMP, TAS2783_SDCA_ENT_FU21, 0x10, 0):
--	case SDW_SDCA_CTL(FUNC_NUM_SMART_AMP, TAS2783_SDCA_ENT_FU23, 0x10, 0):
--	case SDW_SDCA_CTL(FUNC_NUM_SMART_AMP, TAS2783_SDCA_ENT_FU26, 0x10, 0):
--	case SDW_SDCA_CTL(FUNC_NUM_SMART_AMP, TAS2783_SDCA_ENT_XU22, 0x06, 0):
--	case SDW_SDCA_CTL(FUNC_NUM_SMART_AMP, TAS2783_SDCA_ENT_XU22, 0x07, 0):
--	case SDW_SDCA_CTL(FUNC_NUM_SMART_AMP, TAS2783_SDCA_ENT_XU22, 0x08, 0):
- 	case SDW_SDCA_CTL(FUNC_NUM_SMART_AMP, TAS2783_SDCA_ENT_CS24, 0x02, 0):
- 	case SDW_SDCA_CTL(FUNC_NUM_SMART_AMP, TAS2783_SDCA_ENT_CS21, 0x02, 0):
- 	case SDW_SDCA_CTL(FUNC_NUM_SMART_AMP, TAS2783_SDCA_ENT_CS25, 0x02, 0):
- 	case SDW_SDCA_CTL(FUNC_NUM_SMART_AMP, TAS2783_SDCA_ENT_CS26, 0x02, 0):
- 	case SDW_SDCA_CTL(FUNC_NUM_SMART_AMP, TAS2783_SDCA_ENT_CS28, 0x02, 0):
- 	case SDW_SDCA_CTL(FUNC_NUM_SMART_AMP, TAS2783_SDCA_ENT_PDE23, 0x10, 0):
--	case SDW_SDCA_CTL(FUNC_NUM_SMART_AMP, TAS2783_SDCA_ENT_UDMPU23, 0x06, 0):
--	case SDW_SDCA_CTL(FUNC_NUM_SMART_AMP, TAS2783_SDCA_ENT_SAPU29, 0x05, 0):
- 	case SDW_SDCA_CTL(FUNC_NUM_SMART_AMP, TAS2783_SDCA_ENT_SAPU29, 0x11, 0):
--	case SDW_SDCA_CTL(FUNC_NUM_SMART_AMP, TAS2783_SDCA_ENT_PPU21, 0x06, 0):
--	case SDW_SDCA_CTL(FUNC_NUM_SMART_AMP, TAS2783_SDCA_ENT_PPU26, 0x06, 0):
--	case SDW_SDCA_CTL(FUNC_NUM_SMART_AMP, TAS2783_SDCA_ENT_IT21, 0x08, 0):
--	case SDW_SDCA_CTL(FUNC_NUM_SMART_AMP, TAS2783_SDCA_ENT_IT29, 0x08, 0):
--	case SDW_SDCA_CTL(FUNC_NUM_SMART_AMP, TAS2783_SDCA_ENT_IT26, 0x08, 0):
--	case SDW_SDCA_CTL(FUNC_NUM_SMART_AMP, TAS2783_SDCA_ENT_IT28, 0x08, 0):
--	case SDW_SDCA_CTL(FUNC_NUM_SMART_AMP, TAS2783_SDCA_ENT_OT24, 0x08, 0):
--	case SDW_SDCA_CTL(FUNC_NUM_SMART_AMP, TAS2783_SDCA_ENT_OT23, 0x08, 0):
--	case SDW_SDCA_CTL(FUNC_NUM_SMART_AMP, TAS2783_SDCA_ENT_OT25, 0x08, 0):
--	case SDW_SDCA_CTL(FUNC_NUM_SMART_AMP, TAS2783_SDCA_ENT_OT28, 0x08, 0):
--	case SDW_SDCA_CTL(FUNC_NUM_SMART_AMP, TAS2783_SDCA_ENT_MU26, 0x06, 0):
--	case SDW_SDCA_CTL(FUNC_NUM_SMART_AMP, TAS2783_SDCA_ENT_OT127, 0x08, 0):
--	case SDW_SDCA_CTL(FUNC_NUM_SMART_AMP, TAS2783_SDCA_ENT_FU127, 0x10, 0):
- 	case SDW_SDCA_CTL(FUNC_NUM_SMART_AMP, TAS2783_SDCA_ENT_CS127, 0x02, 0):
--	case SDW_SDCA_CTL(FUNC_NUM_SMART_AMP, TAS2783_SDCA_ENT_MFPU21, 0x08, 0):
- 	case SDW_SDCA_CTL(FUNC_NUM_SMART_AMP, TAS2783_SDCA_ENT_MFPU21, 0x04, 0):
--	case SDW_SDCA_CTL(FUNC_NUM_SMART_AMP, TAS2783_SDCA_ENT_MFPU26, 0x08, 0):
- 	case SDW_SDCA_CTL(FUNC_NUM_SMART_AMP, TAS2783_SDCA_ENT_MFPU26, 0x04, 0):
- 		return true;
- 
-
-base-commit: 604ac544390f420332b10738cc10b29a2e91bac8
--- 
-2.53.0
-
+I've already written a patch that gets RANGE, GET CUR, and SET CUR 
+requests working (check the Bugzilla bug), but I don't know if this is 
+the best approach architecturally. I'm an embedded engineer otherwise so 
+this is my first time modifying the kernel. It seems to work with my 
+hardware, but I also don't have any other hardware to test with, so I 
+don't know if this introduced any regressions. If a maintainer could 
+pick this up I would appreciate it, but I would also be happy to 
+continue work on it myself with some input.
