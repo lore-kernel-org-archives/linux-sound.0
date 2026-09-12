@@ -1,75 +1,77 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17DEF4BEE32;
-	Sat, 12 Sep 2026 12:50:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D93647277D;
+	Sat, 12 Sep 2026 12:52:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789217406; cv=none; b=uQLAYSPMXFrWeLC62Qmn3+4Y11lEr4WhRjITzocnYWwMmIAG6hdBML3ANYA36tIJT9M4Q/vkU0WRIosZE9QJiPYZuQl5hEcXtkk+qBgMZY3xQ57gvUra6HvrUS3sKV3cofB14Bpb8h9GVpWJDifjPxPgsM4Gd/rk99qoWp8vm8k=
+	t=1789217542; cv=none; b=FzLdfjZOC4tsyQR7ul8MV/BKChD1rbKGaEjRiZ3Fp4U4U7pTZyDt64VTDI3xGeSlf47vVRPM4nPei4YgfirSXME/0MlbLrvRxwML6aZJADHL1LvYoHTV7sYr7lEOT9AqREzRXl34zuI0XSqO+I9T2bjNrEbflqv2ieas2OoX9Lc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789217406; c=relaxed/simple;
-	bh=q3T0G97yfWMmccxv2HnzusgWav3z706LG/8Zd0v7pmI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Q9WkFnHAtlIpuMg5+0G4BPgUN302U0F8qmP9WgoOWo9XZccjQDqDHJExfpacxgxXZCaZ7SsxBqSInB+e8FOKHQiHQv2O2YzMViHFbrvJgIIj8calSgDXXFl+U92ISz/d+UthSwPOx7fhohpW9TW9+5j2YYCTmNKY4nIMVLlnYQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=YB7+xOK5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=EhmrQHrw; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=sQbbmrRh; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=yi9LkzB9; arc=none smtp.client-ip=195.135.223.131
+	s=arc-20240116; t=1789217542; c=relaxed/simple;
+	bh=lQacYLv3te9B/89A0+GB49kCkBCkbkX+/qHcRDvnmsI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UjJkoyHmimmULK8Ipojv1VEvZTB+l5HcqHtaGRlhLgPkz7kvDqwngrA2vysqY1ef/IpjEhpnpJshKIODuf3V21D8y9bHMefQEiBVrTQD3kXhT4JVQWVW2zl6cu3tUPLbv0B8GPpWx1DNHsvUs9PL8LMthCzgB89N/C5oXPRUqps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GiDU82CP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2CjfxTM7; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=tNKwQNQX; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=cvu8IijU; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="YB7+xOK5";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="EhmrQHrw";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="sQbbmrRh";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yi9LkzB9"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GiDU82CP";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2CjfxTM7";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tNKwQNQX";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="cvu8IijU"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id A8C231F38E;
-	Sat, 12 Sep 2026 12:49:54 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 5A38E1F38E;
+	Sat, 12 Sep 2026 12:52:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1789217398; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1789217534; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=WOsmQv99DvjdBTfIEwio9sIJd/aTiSVGfXFN3OZs0jQ=;
-	b=YB7+xOK5jQs/oDmHLR9Gw5ujEA3pM1DPoHbZegUTkPrjTWcHooJrK/F1HAIHFsprmxYZNB
-	G27x8mXLsQTczI+hui2nVBa6MmMxJuXkULmv6hExiVbmvF8PlOXFXyDLZauG0siG4ePBWN
-	qWdbMXIluKCMfV+8MujT1dXiL4A6Iy8=
+	bh=z0rsfkpi+MtVIAwLx93HCl/8glkcoIECYAhMbIs3M+4=;
+	b=GiDU82CPtzfBrk8hyNiQvz/ORff6XiFAoclXW+lnf8k8ohXQJqHnZT7XO9wgrrmwPByLdV
+	tyFTlurDcC/JFPSl2tHrUbhAc1FcNeNc/z5FZ8o1+exySJwZ/5B7yDFEGYiEmOo8XC/j0i
+	7PLVcsaMbit+O2Mbc+Y+txwYrbU57mQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1789217398;
+	s=susede2_ed25519; t=1789217534;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=WOsmQv99DvjdBTfIEwio9sIJd/aTiSVGfXFN3OZs0jQ=;
-	b=EhmrQHrw8Pe4XiEjZIswPVte5im19IDrJyCvT1p6bIPQAeTg2zoRYT/6oLvOho4Jd6cCQS
-	TYpk82sdiMOvn/Dw==
+	bh=z0rsfkpi+MtVIAwLx93HCl/8glkcoIECYAhMbIs3M+4=;
+	b=2CjfxTM7Npx1/8RhO5RApIjAf/yk1sVQ2lQVOe0LcNmILbszvhx4KFQhDB9OhADhj2TW9w
+	yq22xQzgGQfJtXDQ==
 Authentication-Results: smtp-out2.suse.de;
-	none
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=tNKwQNQX;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=cvu8IijU
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1789217394; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1789217530; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=WOsmQv99DvjdBTfIEwio9sIJd/aTiSVGfXFN3OZs0jQ=;
-	b=sQbbmrRhvrvfEB8JSFjs/XxlSPoddfyRpTOuCSy5WtdGWkbQCpHGy2r7POQtu4hHypauxO
-	PSiyuKYzA50ufzG6CcOZNpTXV/pT9b7MBwxHBAx/8+EAr+bOMwrOvCtV8ZAYVt3XtV94rD
-	oqgg0OpE1tfuAow/6PrAB4p1emQJ9Jk=
+	bh=z0rsfkpi+MtVIAwLx93HCl/8glkcoIECYAhMbIs3M+4=;
+	b=tNKwQNQXapiwwn/nFej/7U31DqxFEeVrZWav0MiRMgTol73hQzQgXD5SOsX/eCuhXpxFWK
+	qj/jstcXXeT6kHfprs53LT7Dh+uUeOTrCz6/EWgKUnCJH279ZgrIpIBaAtelR2K5SwKl6U
+	LqEXLOLMW84OtkKR8YBo0njKUe/8Uwc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1789217394;
+	s=susede2_ed25519; t=1789217530;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=WOsmQv99DvjdBTfIEwio9sIJd/aTiSVGfXFN3OZs0jQ=;
-	b=yi9LkzB9YAxhy9pMVneWwH89LSulu7nCHtK5SiyfZPddy5f/dx5aq7DIubHYbBsNSEEm0s
-	elWpc/xyQ/Xv9IBA==
+	bh=z0rsfkpi+MtVIAwLx93HCl/8glkcoIECYAhMbIs3M+4=;
+	b=cvu8IijUmgFFpXOoA9PkOH8xd8awnRbKz8tJj39vGoml+HKnvx0IzkJL12LwfKp5AZckrc
+	AOmwHJ3LY+KEt9Cw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6673B13687;
-	Sat, 12 Sep 2026 12:49:54 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1928213687;
+	Sat, 12 Sep 2026 12:52:10 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id AHlFF3JKpWqTGwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sat, 12 Sep 2026 12:49:54 +0000
+	id 06zlBPpKpWrSHQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sat, 12 Sep 2026 12:52:10 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Subject: [PATCH RFC v2] ALSA: seq: Mark OSS sequencer emulation as deprecated
-Date: Sat, 12 Sep 2026 14:49:45 +0200
-Message-ID: <20260912124951.416761-1-tiwai@suse.de>
+Cc: linux-kernel@vger.kernel.org,
+	Farhad Alemi <farhad.alemi@berkeley.edu>
+Subject: [PATCH] ALSA: core: Fix potential UAF after asynchronous card release
+Date: Sat, 12 Sep 2026 14:52:03 +0200
+Message-ID: <20260912125205.417429-1-tiwai@suse.de>
 X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -79,92 +81,82 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Level: 
-X-Spam-Score: -2.80
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-2.80 / 50.00];
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 5A38E1F38E
+X-Spamd-Result: default: False [-3.01 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.995];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	RCPT_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	ARC_NA(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
 	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
 	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_NONE(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[]
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_THREE(0.00)[3];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email,suse.de:mid,berkeley.edu:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Score: -3.01
 
-OSS sequencer API emulation has been implemented as a client of ALSA
-sequencer, decades ago, at the time where OSS was still use.  But the
-API itself became very niche, and almost noone using it for a real
-purpose any longer -- only exceptions are AI and fuzzers, who have
-been causing significant maintenance burden for issues they hit &
-found.
+Usually a sound driver releases the resources assigned to the card via
+snd_card_free(), and it synchronizes with the whole release procedure.
+However, when the card is released asynchronously via
+snd_card_free_when_closed() like USB-audio driver, the situation is
+slightly different; although the snd_card_disconnect() call at the
+disconnection guarantees that any newer accesses will be gated, the
+in-flight tasks might be still accessing to the underlying card->dev
+device even after the disconnection, which would cause a
+use-after-free in the end, as reported by fuzzers.
 
-Meanwhile, the most features of OSS sequencer API emulation can be
-achieved in user-space, either by ALSA-OSS layer (aoss) or oss-seq-emu
-program:
-  https://github.com/alsa-project/alsa-oss
-  https://github.com/tiwai/oss-seq-emu
-where the former is LD_PRELOAD wrapper and the latter is a CUSE-based
-daemon.  So we can drop the stuff from the kernel sooner or later.
+For addressing the bug above, this patch takes the refcount of
+card->dev at initialization of the card object, and releases at its
+destructor.   This assures the availability of the card->dev in its
+whole lifecycle.
 
-Now, let's mark the OSS sequencer emulation as deprecated and give a
-warning when loaded, so that we can drop it later actually.
-
+Reported-by: Farhad Alemi <farhad.alemi@berkeley.edu>
+Closes: https://lore.kernel.org/CA+0ovChexj4TrZL_2iG_P0WBEbZc5+73GfB3DkciQi=R8pZOnA@mail.gmail.com
+Closes: https://lore.kernel.org/CA+0ovCgQUQNN=Z1tJTouiCsDaXR5M-3-SQEGk-cpPXQkM5Xh+w@mail.gmail.com
+Cc: <stable@vger.kernel.org>
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
-v1->v2: put the warning for snd-seq-oss at the right place
+ sound/core/init.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
- sound/core/seq/Kconfig       | 7 +++++--
- sound/core/seq/oss/seq_oss.c | 3 +++
- 2 files changed, 8 insertions(+), 2 deletions(-)
-
-diff --git a/sound/core/seq/Kconfig b/sound/core/seq/Kconfig
-index e4f58cb985d4..0d606159103e 100644
---- a/sound/core/seq/Kconfig
-+++ b/sound/core/seq/Kconfig
-@@ -27,14 +27,17 @@ config SND_SEQ_DUMMY
- 	  will be called snd-seq-dummy.
- 
- config SND_SEQUENCER_OSS
--	tristate "OSS Sequencer API"
-+	tristate "OSS Sequencer API (deprecated)"
- 	depends on SND_OSSEMUL
- 	select SND_SEQ_MIDI_EVENT
- 	help
- 	  Say Y here to enable OSS sequencer emulation (both
- 	  /dev/sequencer and /dev/music interfaces).
- 
--	  Many programs still use the OSS API, so say Y.
-+	  The OSS sequencer API is almost nowhere used, hence this option will
-+	  be dropped soon.
-+	  Use user-space wrapper (alsa-oss) or CUSE daemon (oss-seq-emu)
-+	  instead of the kernel-side emulation.
- 
- 	  To compile this driver as a module, choose M here: the module
- 	  will be called snd-seq-oss.
-diff --git a/sound/core/seq/oss/seq_oss.c b/sound/core/seq/oss/seq_oss.c
-index 2835576040ed..64a7e62029cc 100644
---- a/sound/core/seq/oss/seq_oss.c
-+++ b/sound/core/seq/oss/seq_oss.c
-@@ -67,6 +67,9 @@ static int __init alsa_seq_oss_init(void)
- {
- 	int rc;
- 
-+	pr_warn("seq-oss: kernel OSS sequencer emulation is deprecated\n");
-+	pr_warn("seq-oss: Use user-space solution (alsa-oss or oss-seq-emu) instead.\n");
-+
- 	rc = register_device();
- 	if (rc < 0)
- 		goto error;
+diff --git a/sound/core/init.c b/sound/core/init.c
+index 2f7f83a7611b..bffa94b7b956 100644
+--- a/sound/core/init.c
++++ b/sound/core/init.c
+@@ -310,7 +310,7 @@ static int snd_card_init(struct snd_card *card, struct device *parent,
+ 			kfree(card); /* manually free here, as no destructor called */
+ 		return err;
+ 	}
+-	card->dev = parent;
++	card->dev = get_device(parent);
+ 	card->number = idx;
+ 	WARN_ON(IS_MODULE(CONFIG_SND) && !module);
+ 	card->module = module;
+@@ -605,6 +605,7 @@ static int snd_card_do_free(struct snd_card *card)
+ 	}
+ 	if (card->release_completion)
+ 		complete(card->release_completion);
++	put_device(card->dev);
+ 	if (!managed)
+ 		kfree(card);
+ 	return 0;
 -- 
 2.55.0
 
