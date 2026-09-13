@@ -1,85 +1,90 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36847361DDC;
-	Sun, 13 Sep 2026 07:09:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA1C2361DDC;
+	Sun, 13 Sep 2026 07:12:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789283395; cv=none; b=E35vKHeLP9juKaXdwN/1N4MjXKxjwoTj2KVLw1tSDeo5z2BFU2Bp0KHBZmNxMn+eLkUTu1CuKsVVdP9aTpoG3MajOG064x9MDBXKBQyFy574EvBW7yN3en2+6l0UZGXdQ4fontTEJ+Leid0Ml/0hAMm/Jj6Xfii5h7+rNaqSPz4=
+	t=1789283572; cv=none; b=LXCftTXEL5lMKFbcPRnJRisKMCtNTaA653zhGdLUA6L0NxiWJ/fSUgxXPpO2BLg1E66eEHvXPvUf8EXxW8bLcuA40tEq8dQ8PTAS6sxBDT2e0Z4zOPvPPxX8l3w1ImHry3w6wbmG2J2kHU0bnYxm+d4whjGrfW04ShjNwUYjhmw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789283395; c=relaxed/simple;
-	bh=PopjpSs2nhAGEyT8mXbyWfAR7ppIUuBsRTrv7fhOCIk=;
+	s=arc-20240116; t=1789283572; c=relaxed/simple;
+	bh=ChPXcgncMs8XhdFql6JGwsQUrDmsDBKqkVqRDMf8T7A=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Nk8KXo8p4FGz5gESgniGFGFqT5hhBmAcy+AExiTwyTskpIKpYEyWcseVIuUHoU1AxpvxbdsyWonLv7cxIK8vWwDaicwiG6tERUwljk7H6iTg/SpR6BZkOeYDyDkpPXdjdRiWMPI2ycIGCQ0uv4Eo18PjQrBBfjhFnxuBXcsB0gM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HLAPeRox; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=toILyq7p; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HLAPeRox; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=toILyq7p; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=HDdqzI3KPYr8CGOCq3y1FOrCHHBDSnpUDH5SDOzQNjXUzykxpEWFvgrHmPtQAPQAhGVdS2SJT9HleMk38Zi8VoTGOI1SxKjwmGjL2aUShFUDLNxlsbWzprAAqSuRNalt4cElpI9LQQrG+fHYBFb6t3EwyJQ6jEl9x5oYZ7RnPTs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RNqVw1iJ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=vmJtr24Z; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=f+6W/0ej; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=fQMW9r6W; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HLAPeRox";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="toILyq7p";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HLAPeRox";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="toILyq7p"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RNqVw1iJ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vmJtr24Z";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="f+6W/0ej";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fQMW9r6W"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 3A2C521D99;
-	Sun, 13 Sep 2026 07:09:52 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id AB78121D99;
+	Sun, 13 Sep 2026 07:12:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1789283392; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1789283564; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=RlqWo7CRgnWlLwtEjdg8T0bqVaDjgK5PyseZ5wcAHk0=;
-	b=HLAPeRoxHFWRv9i2AyoKoI2BWqaoDWH6uhkDai5f1etzHAgnuMofe9yxZrhprg4JYRTUjT
-	orvN+FuY6D1h5vfujn8bV1s3vs8z4S/bdAK68wRetqLvf4/qFIj6xRHssCSi5L1W4AOS5U
-	VJKRv26reeCfuLyCnj0O5gJNyAr8u8s=
+	bh=OyV6yR/wT3tcu1I/199NoZt8SQ/ERdl+CssYjgFLqhI=;
+	b=RNqVw1iJObUd9EQKNLIneyesr3kpj01X4505QL0gPPh7uS1yQxgV8tvNY27+RSPBoBvz0g
+	Lm5aVevZjNarLn6i/7Q6OCoY0bTWGXpNZIA915NjbxEnHRI6+4sZ6ZwehFPVWw68TXPxwk
+	EAy2jqVR1tsPELqeL3VUkJ7sjeFJLGY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1789283392;
+	s=susede2_ed25519; t=1789283564;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=RlqWo7CRgnWlLwtEjdg8T0bqVaDjgK5PyseZ5wcAHk0=;
-	b=toILyq7pwHmHZQ1ejlOWheaBuMb+pqvhiSMwVD3dDeDzU4YWdqozShmcXzXy78dqna1DwU
-	qpGbHvSb+BbuYzBw==
+	bh=OyV6yR/wT3tcu1I/199NoZt8SQ/ERdl+CssYjgFLqhI=;
+	b=vmJtr24ZiZjEn0ajzs7amUdtT4ElmI1hxTaczK7dYN+mIZWH7nshsMplUwAI2d1FoE8dt9
+	TaXUbkKbDxSELqDw==
 Authentication-Results: smtp-out1.suse.de;
-	none
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="f+6W/0ej";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=fQMW9r6W
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1789283392; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1789283560; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=RlqWo7CRgnWlLwtEjdg8T0bqVaDjgK5PyseZ5wcAHk0=;
-	b=HLAPeRoxHFWRv9i2AyoKoI2BWqaoDWH6uhkDai5f1etzHAgnuMofe9yxZrhprg4JYRTUjT
-	orvN+FuY6D1h5vfujn8bV1s3vs8z4S/bdAK68wRetqLvf4/qFIj6xRHssCSi5L1W4AOS5U
-	VJKRv26reeCfuLyCnj0O5gJNyAr8u8s=
+	bh=OyV6yR/wT3tcu1I/199NoZt8SQ/ERdl+CssYjgFLqhI=;
+	b=f+6W/0ejSpqu1BJTiTzJiqNiJIWfPAaFxMOMgmw4LkZ6Guhhw6QZd3eufS29kRpVFev7pU
+	y6/yFej6NcTztD4eU0fcU5zLfizictyiVaBCIckQ5n3+pJrv9KmamJrEB3lSf4Ljj4aTiI
+	QwhQnewc/1xeCkUD5PF2NFJHFLd2WiM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1789283392;
+	s=susede2_ed25519; t=1789283560;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=RlqWo7CRgnWlLwtEjdg8T0bqVaDjgK5PyseZ5wcAHk0=;
-	b=toILyq7pwHmHZQ1ejlOWheaBuMb+pqvhiSMwVD3dDeDzU4YWdqozShmcXzXy78dqna1DwU
-	qpGbHvSb+BbuYzBw==
+	bh=OyV6yR/wT3tcu1I/199NoZt8SQ/ERdl+CssYjgFLqhI=;
+	b=fQMW9r6WSYbS3PE2EcXgycGW/g0Z9chkvOyYqM7quegvR9TPYu+iANYB5QLzf/igs++0hw
+	lc2oYb+hEBF67TBQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C469F13675;
-	Sun, 13 Sep 2026 07:09:51 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2C6B613675;
+	Sun, 13 Sep 2026 07:12:40 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id D/2gLT9MpmrMPAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sun, 13 Sep 2026 07:09:51 +0000
-Date: Sun, 13 Sep 2026 09:09:51 +0200
-Message-ID: <87jyopwrsw.wl-tiwai@suse.de>
+	id teOOCOhMpmoTPwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sun, 13 Sep 2026 07:12:40 +0000
+Date: Sun, 13 Sep 2026 09:12:39 +0200
+Message-ID: <87h5jtwro8.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: David Cemin <dcemin@nvidia.com>
-Cc: Takashi Iwai <tiwai@suse.com>,
+To: Yuho Choi <oss.patchbox@gmail.com>
+Cc: Anton Yakovlev <anton.yakovlev@opensynergy.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
 	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	virtualization@lists.linux.dev,
 	linux-sound@vger.kernel.org,
-	linux-tegra@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/acpi: add runtime PM suspend/resume to the ACPI controller
-In-Reply-To: <20260912182120.1156356-1-dcemin@nvidia.com>
-References: <20260912182120.1156356-1-dcemin@nvidia.com>
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v1] ALSA: virtio: reset device before deleting virtqueues
+In-Reply-To: <20260911031121.1542502-1-oss.patchbox@gmail.com>
+References: <20260911031121.1542502-1-oss.patchbox@gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -88,45 +93,57 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.30
+X-Spam-Score: -2.01
+X-Rspamd-Queue-Id: AB78121D99
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-2.01 / 50.00];
 	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.996];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
+	MX_GOOD(-0.01)[];
+	TAGGED_RCPT(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
 	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
 	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
 X-Spam-Flag: NO
 
-On Sat, 12 Sep 2026 20:21:20 +0200,
-David Cemin wrote:
+On Fri, 11 Sep 2026 05:11:21 +0200,
+Yuho Choi wrote:
 > 
-> The hda-acpi platform driver never enables runtime PM, so
-> pm_runtime_force_suspend() in hda_acpi_suspend() skips the runtime
-> callbacks. On resume the controller is therefore never re-initialised:
-> azx_init_chip() is called only at probe time, so after S3 the codec
-> verbs time out and audio is dead until the driver is rebound.
+> virtsnd_remove() and virtsnd_freeze() delete the virtqueues before
+> resetting the device. del_vqs() frees the vring backing, but does not
+> provide a generic device quiesce operation. In particular, modern
+> virtio-pci keeps enabled queues active until the device is reset.
 > 
-> Add explicit runtime_suspend/runtime_resume callbacks and invoke them
-> from the system-sleep paths, mirroring the pattern used by snd-hda-intel.
-> Tested on an arm64 platform with the NVDA2014 controller: resume latency
-> drops from 81.5 s to 3.6 s and audio is live immediately after wake.
+> Reset the device before deleting the virtqueues so it can no longer
+> access the vring memory when that memory is released. This also covers
+> probe failures after DRIVER_OK, which unwind through virtsnd_remove().
 > 
-> Signed-off-by: David Cemin <dcemin@nvidia.com>
+> Fixes: de3a9980d8c3 ("ALSA: virtio: add virtio sound driver")
+> Fixes: 575483e90a32 ("ALSA: virtio: introduce device suspend/resume support")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Yuho Choi <oss.patchbox@gmail.com>
 
-Applied to for-next branch.  Thanks.
+Applied now.  Thanks.
 
 
 Takashi
