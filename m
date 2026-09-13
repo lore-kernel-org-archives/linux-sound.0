@@ -1,109 +1,156 @@
-Received: from mta0.migadu.com (out-220.mta0.migadu.com [91.218.175.220])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-244116.protonmail.ch (mail-244116.protonmail.ch [109.224.244.116])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECF5F366048
-	for <linux-sound@vger.kernel.org>; Sun, 13 Sep 2026 20:07:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.220
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7ECD366045
+	for <linux-sound@vger.kernel.org>; Sun, 13 Sep 2026 21:09:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789330061; cv=none; b=iPrmKEAUYZLwd9dauaN/li3rUP+KFa43+Sxjhtk3XAerwnSc8pq+xdoZxaDSaaqFSlxueyvaW4XqKA0LaPu4A1tSdiFO0e6BhOZ9w2JUI2HGAwcGL951nqDlCrY0RYRurp9tmFQAgh4UXT9uRNr4GiJmuBG4L5iqvRPDTBTCgoc=
+	t=1789333746; cv=none; b=fNyeVDF8njScwP13awxCzOHto9SK8++kwF3AK732TcxblRRgm/x+iz6oRuUm7cCIWR+qrK0tMxPH7L4yAHIF+3Eo3xGgAO6SO9NOuj2Euln4XBU7uYjj4h1H4j+CaTG43mtSnGJtkNOe3pSpiSsX0aLd0U59gffG1jjJvy655rE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789330061; c=relaxed/simple;
-	bh=GY58dem29aWfC0rORAlGzx0DemkGhxeoVzsVr6I9QAo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DpQOp+CckRBurbbLo55rPsvRUupFaRvsE2jbh+qwBEqva00/I16hMAj6GHvwWMFvZ1wqei47vdotT571hBudEQ5hShlpawaynaWOKmqliYzXhOjmCqaqHQx4weBy3POybxEdgSvQ67slhxQE8IPla2+KxzY+U3E68jf4Wny9K+Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=H4hic+iH; arc=none smtp.client-ip=91.218.175.220
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1789333746; c=relaxed/simple;
+	bh=hpza5gQaEVXQ69SN8PAS4UtGZzUmazRr8gFB7uKht5c=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=PWiePP9Xjqi7jSc8jcIvIimL7wz/T22wH07FodZRsMTDsNn0ptEx+SSuontcleMMDkapM6+1dPz7Yu+VPXGlUeNREeDj+noBhDHWBVS9a9Oa4m4Z/hcoe+GkPVh73Zoaj9HeRSeV25xeEPFH7wTpmhVPr4Nv1Bq6RpU4gazWNfw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=rm2vMNab; arc=none smtp.client-ip=109.224.244.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="H4hic+iH"
-X-Envelope-To: linux-sound@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=GY58dem29aWfC0rORAlGzx0DemkGhxeoVzsVr6I9QAo=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1789330057; v=1; x=1789934857;
- b=H4hic+iHesTEC+Ow2fKgsX6YwtwWqPXagn/3ms7fH/Rm4sjcCBT99GrE3LEqMHAHKpnUrVvV
- Cq6vzVE7MfBhxQqvbv8UyuH7KQt4+NqWWVirHr3nVxAMaRVUqK3Z6jKinNvpQDn/s5fuaSZNv6t
- GczAaag/XvpJMrcEVCedF7Hw=
-X-Envelope-To: linux-sound@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id ad2a21e4a1891ee5;
-	Sun, 13 Sep 2026 20:07:27 +0000
-X-Mizu-Trace-ID: ad2a21e4a1891ee5
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <d825f337-0c66-440b-b481-45b40f29b006@linux.dev>
-Date: Sun, 13 Sep 2026 21:48:19 +0200
+	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="rm2vMNab"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
+	s=protonmail3; t=1789333741; x=1789592941;
+	bh=GDHm+oYs40oe2FEBNdGtp6Ozo+b9a2HBUfZ2vnJxyrk=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=rm2vMNabcQDQETl7f5V9m8F0FWCJNhm0a88yv1kOMD6rajhWQ8IEr6Krkk3jqx6XB
+	 kF3Crr26mSxJz7bG0UjfHDO37jVhcCssnpV9Q/c5bbv+aXj7Qj/79sWcleEnEvr7hH
+	 Knce61GDYKk2+wx9LnmBX6LrA+9o4oGJk6Clneut9LhtVLH+i6NcMmSkzx+Bi7cnZR
+	 MXZmsrGRRF204wY9UEIXMNC3fC8ujSbSM4kTKYFRqZMb4lZmcmyoptiMDhPz3P9rxu
+	 RtLzw7oJvWAx1yLT6cucVNgHAnUPSMxAvC3wMEXYxxAhfgSNe9NftacbsgzLjreibF
+	 WF46exDkRYWFQ==
+Date: Sun, 13 Sep 2026 21:08:55 +0000
+To: Vinod Koul <vkoul@kernel.org>, Bard Liao <yung-chuan.liao@linux.intel.com>, Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+From: Sergey Lebedev <lsa.uz@pm.me>
+Cc: Bard Liao <bard.liao@intel.com>, Amaan Lalani <zlzzm2014@outlook.com>, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v4] soundwire: dmi-quirks: drop the ghost RT1320 on the Surface Pro 11 (Intel)
+Message-ID: <20260913210849.6446-1-lsa.uz@pm.me>
+Feedback-ID: 113843758:user:proton
+X-Pm-Message-ID: f35380da33acda98db5c21e75963b1a6048311c0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: sdw_utils: clear stale RT711 device reference on
- exit
-To: David Cemin <dcemin@nvidia.com>, Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
- Jack Yu <jack.yu@realtek.com>, linux-sound@vger.kernel.org,
- linux-tegra@vger.kernel.org, stable@vger.kernel.org
-References: <20260912182131.1156475-1-dcemin@nvidia.com>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <20260912182131.1156475-1-dcemin@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On 9/12/26 20:21, David Cemin wrote:
-> asoc_sdw_rt711_exit() drops the reference held in ctx->headset_codec_dev
-> but leaves the pointer populated. If the card cleanup path reaches the
-> exit hook more than once after a failed or deferred probe, a later
-> invocation reuses the stale pointer and calls put_device() again,
-> underflowing the refcount and leading to oopses when later probe,
-> driver bind, or suspend paths walk the SoundWire bus after the device
-> reference was released. Observed as boot- and suspend-time oopses on an
-> arm64 platform with an RT712 headset codec, reproducible
-> deterministically by repeated machine-driver probe cycling with the
-> codec drivers unloaded.
-> 
-> Clear the pointer after put_device() so repeated cleanup becomes a
-> no-op, which also makes the existing NULL check at the top of the exit
-> hook effective. This matches what commit 046173b98de3 ("ASoC: sdw_utils:
-> fix double put_device() on aggregated amps") did for the aggregated amp
-> references.
-> 
-> Fixes: 811648340707 ("ASoC: Intel: sof_sdw: avoid oops in error handling")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: David Cemin <dcemin@nvidia.com>
-> ---
->  sound/soc/sdw_utils/soc_sdw_rt711.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/sound/soc/sdw_utils/soc_sdw_rt711.c b/sound/soc/sdw_utils/soc_sdw_rt711.c
-> index 3a3a66b4b737..4707190e160c 100644
-> --- a/sound/soc/sdw_utils/soc_sdw_rt711.c
-> +++ b/sound/soc/sdw_utils/soc_sdw_rt711.c
-> @@ -124,6 +124,7 @@ int asoc_sdw_rt711_exit(struct snd_soc_card *card, struct snd_soc_dai_link *dai_
->  
->  	device_remove_software_node(ctx->headset_codec_dev);
->  	put_device(ctx->headset_codec_dev);
-> +	ctx->headset_codec_dev = NULL;
->  
->  	return 0;
->  }
-The analysis looks correct, the only problem is that this code pattern
-is copy-pasted with the same issue in other files, e.g.
+The Microsoft Surface Pro 11 for Business (Intel, Lunar Lake) carries a
+single physical RT1320 amplifier on link 0 and describes it twice:
 
-int asoc_sdw_es9356_exit(struct snd_soc_card *card, struct
-snd_soc_dai_link *dai_link)
-{
-	struct asoc_sdw_mc_private *ctx = snd_soc_card_get_drvdata(card);
+  SWRA  _ADR 0x000030025D132000   SDCA class 0
+  SWRB  _ADR 0x000030025D132001   SDCA class 1
 
-	if (!ctx->headset_codec_dev)
-		return 0;
+Identical apart from the class id: same link, same manufacturer, part and
+version, same unique id 0. The part reports class 1, so only SWRB
+enumerates. SWRA never attaches on any boot or firmware version tested,
+including the November 2025 bundle.
 
-	device_remove_software_node(ctx->headset_codec_dev);
-	put_device(ctx->headset_codec_dev);
+The ghost is not harmless. It consumes an amplifier index in
+find_acpi_adr_device(), so the real part is named "rt1320-2" and the stock
+sof-soundwire UCM profile enables switches on a device that is not there.
+Its endpoints also reach create_sdw_dailink(), which builds DAI link names
+from link id and function type alone; the ghost declares the same SmartMic
+function as the real part, so the card fails to register at all:
+
+  sysfs: cannot create duplicate filename
+    '.../sof_sdw/SDW0-Capture-SmartMic'
+  kobject_add_internal failed for SDW0-Capture-SmartMic with -EEXIST
+  sof_sdw sof_sdw: probe with driver sof_sdw failed with error -12
+
+Remap its _ADR to zero so sdw_acpi_find_slaves() never creates the
+peripheral, which is how ghost devices are handled already - see
+ghost_realtek and global_ghost_adr in this file. Both failures then
+disappear, because neither path is reached.
+
+Matched on DMI_PRODUCT_SKU rather than the product name. A later batch of
+the same model could carry a different RT1320 version, which would change
+the _ADR; keying on the SKU keeps this remap to the hardware it was
+verified on, and follows dell_sku_0A3E above.
+
+Link: https://lore.kernel.org/linux-sound/20260830151516.44629-1-lsa.uz@pm.=
+me/
+Suggested-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+Suggested-by: Bard Liao <bard.liao@intel.com>
+Signed-off-by: Sergey Lebedev <lsa.uz@pm.me>
+Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+---
+v4: resent on its own. v3 was a two-patch series whose 1/2 had already been
+    applied as 9b30521074f0, which makes the series awkward to pick up; thi=
+s
+    is the remaining patch.
+
+    No code change since v3, and it still applies to dmi-quirks.c as that f=
+ile
+    stands today. Carries Pierre-Louis Bossart's Reviewed-by from the v3
+    thread.
+
+ drivers/soundwire/dmi-quirks.c | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
+
+diff --git a/drivers/soundwire/dmi-quirks.c b/drivers/soundwire/dmi-quirks.=
+c
+index d75037558..8b3c5c8d1 100644
+--- a/drivers/soundwire/dmi-quirks.c
++++ b/drivers/soundwire/dmi-quirks.c
+@@ -111,6 +111,25 @@ static const struct adr_remap ghost_realtek[] =3D {
+ =09{}
+ };
+=20
++/*
++ * The Microsoft Surface Pro 11 (Intel) describes its single physical RT13=
+20
++ * amplifier twice on link 0, as two _ADR entries differing only in SDCA c=
+lass
++ * id and sharing the same unique id. Only the class 1 entry enumerates; t=
+he
++ * class 0 entry is a ghost.
++ *
++ * Matched on the product SKU rather than the product name: a later batch =
+of the
++ * same model could carry a different RT1320 version, which would change t=
+he
++ * _ADR. Keying on the SKU keeps this remap to the hardware it was verifie=
+d on.
++ */
++static const struct adr_remap microsoft_sp11_intel[] =3D {
++=09/* ghost rt1320 on link0 */
++=09{
++=09=090x000030025d132000ull,
++=09=090x0000000000000000ull
++=09},
++=09{}
++};
++
+ static const struct dmi_system_id adr_remap_quirk_table[] =3D {
+ =09/* TGL devices */
+ =09{
+@@ -207,6 +226,15 @@ static const struct dmi_system_id adr_remap_quirk_tabl=
+e[] =3D {
+ =09=09},
+ =09=09.driver_data =3D (void *)ghost_realtek,
+ =09},
++=09/* LNL devices */
++=09{
++=09=09.matches =3D {
++=09=09=09DMI_MATCH(DMI_SYS_VENDOR, "Microsoft Corporation"),
++=09=09=09DMI_EXACT_MATCH(DMI_PRODUCT_SKU,
++=09=09=09=09=09"Surface_Pro_11th_Edition_With_Intel_For_Business_2103")
++=09=09},
++=09=09.driver_data =3D (void *)microsoft_sp11_intel,
++=09},
+ =09{}
+ };
+=20
+--=20
+2.50.1 (Apple Git-155)
 
 
-It'd be best to use a common helper and fix this across the board, no?
