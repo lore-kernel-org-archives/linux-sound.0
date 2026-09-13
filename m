@@ -1,36 +1,36 @@
-Received: from mta0.migadu.com (out-211.mta0.migadu.com [91.218.175.211])
+Received: from mta0.migadu.com (out-220.mta0.migadu.com [91.218.175.220])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77F15367B79
-	for <linux-sound@vger.kernel.org>; Sun, 13 Sep 2026 20:07:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECF5F366048
+	for <linux-sound@vger.kernel.org>; Sun, 13 Sep 2026 20:07:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.220
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789330061; cv=none; b=altMML69nS71vPlplGrsuy1HR/F6FK0D6Ppiiqv36RKDf8ZUqCgAfxiVtkpFIAlpnOdWxKp0X3GycNkbS/c8UfEpKDJSWEiPg9y5ue04SC8fj3RHCxW9XcoGQ6hvez61fqQrckwf8Rsegj1wo5L6xSZEQEgeGYNIt30mxwmIJdY=
+	t=1789330061; cv=none; b=iPrmKEAUYZLwd9dauaN/li3rUP+KFa43+Sxjhtk3XAerwnSc8pq+xdoZxaDSaaqFSlxueyvaW4XqKA0LaPu4A1tSdiFO0e6BhOZ9w2JUI2HGAwcGL951nqDlCrY0RYRurp9tmFQAgh4UXT9uRNr4GiJmuBG4L5iqvRPDTBTCgoc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1789330061; c=relaxed/simple;
-	bh=umvGmk2i7FPajTe1ipddW/f9CiWIlzCrAUkGgm4y3OA=;
+	bh=GY58dem29aWfC0rORAlGzx0DemkGhxeoVzsVr6I9QAo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=l+Evh/8xASVL348d9yJXbegUk+euZ24CbAQiPzei+l2zr4SKCNd6WOB5HeAHuSpbI2PSQnO3CW4vKFLZ+uLVWwWeVgheOO8IV38X67WXwBmKwJGrp+htCwNVMJRK+edLpA6V2D7/GgoE5Vl7keaTZa1d721wu3WPA86qWtnzi1g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=N3h2MD5m; arc=none smtp.client-ip=91.218.175.211
+	 In-Reply-To:Content-Type; b=DpQOp+CckRBurbbLo55rPsvRUupFaRvsE2jbh+qwBEqva00/I16hMAj6GHvwWMFvZ1wqei47vdotT571hBudEQ5hShlpawaynaWOKmqliYzXhOjmCqaqHQx4weBy3POybxEdgSvQ67slhxQE8IPla2+KxzY+U3E68jf4Wny9K+Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=H4hic+iH; arc=none smtp.client-ip=91.218.175.220
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="N3h2MD5m"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="H4hic+iH"
 X-Envelope-To: linux-sound@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=umvGmk2i7FPajTe1ipddW/f9CiWIlzCrAUkGgm4y3OA=;
+DKIM-Signature: a=rsa-sha256; bh=GY58dem29aWfC0rORAlGzx0DemkGhxeoVzsVr6I9QAo=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1789330056; v=1; x=1789934856;
- b=N3h2MD5mxUzD8CvJc0Ezb+YyoZrlcumlNNReOODKtwAQieOCM68PbLQzLxJLljvlsv6cZw1W
- r7rjE2NpVVfxPe3CeK0BAc0eWfaPSlN585Iv6IwZ3L0WDFeHyDOvYfOpJ6JvZZ7AyaRHvG7vEyO
- Ipacuwvj0m7mhK9rEdARrpGQ=
+ t=1789330057; v=1; x=1789934857;
+ b=H4hic+iHesTEC+Ow2fKgsX6YwtwWqPXagn/3ms7fH/Rm4sjcCBT99GrE3LEqMHAHKpnUrVvV
+ Cq6vzVE7MfBhxQqvbv8UyuH7KQt4+NqWWVirHr3nVxAMaRVUqK3Z6jKinNvpQDn/s5fuaSZNv6t
+ GczAaag/XvpJMrcEVCedF7Hw=
 X-Envelope-To: linux-sound@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id cdc5a4b19a0571fb;
-	Sun, 13 Sep 2026 20:07:36 +0000
-X-Mizu-Trace-ID: cdc5a4b19a0571fb
+Received: by smtp.migadu.com with ESMTPS id ad2a21e4a1891ee5;
+	Sun, 13 Sep 2026 20:07:27 +0000
+X-Mizu-Trace-ID: ad2a21e4a1891ee5
 X-Migadu-Flow: FLOW_OUT
-Message-ID: <860a28bf-9c69-48da-9fa7-1cdb82761c35@linux.dev>
-Date: Sun, 13 Sep 2026 22:05:05 +0200
+Message-ID: <d825f337-0c66-440b-b481-45b40f29b006@linux.dev>
+Date: Sun, 13 Sep 2026 21:48:19 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -38,85 +38,72 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/8] soundwire: amd: fix work drain ordering and
- pm_runtime guard in remove path
-To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>, vkoul@kernel.org
-Cc: yung-chuan.liao@linux.intel.com, Basavaraj.Hiregoudar@amd.com,
- Sunil-kumar.Dommati@amd.com, venkataprasad.potturu@amd.com,
- Syed.SabaKareem@amd.com, Mario.Limonciello@amd.com, Richard.Gong@amd.com,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260910190240.1604447-1-Vijendar.Mukunda@amd.com>
- <20260910190240.1604447-4-Vijendar.Mukunda@amd.com>
+Subject: Re: [PATCH] ASoC: sdw_utils: clear stale RT711 device reference on
+ exit
+To: David Cemin <dcemin@nvidia.com>, Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+ Jack Yu <jack.yu@realtek.com>, linux-sound@vger.kernel.org,
+ linux-tegra@vger.kernel.org, stable@vger.kernel.org
+References: <20260912182131.1156475-1-dcemin@nvidia.com>
 Content-Language: en-US
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <20260910190240.1604447-4-Vijendar.Mukunda@amd.com>
+In-Reply-To: <20260912182131.1156475-1-dcemin@nvidia.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 9/10/26 21:00, Vijendar Mukunda wrote:
-> amd_sdw_manager_remove() cancelled amd_sdw_work but not
-> amd_sdw_irq_thread. Since amd_sdw_irq_thread() calls
-> schedule_work(&amd_sdw_work), an in-flight irq_thread item can
-> re-queue amd_sdw_work after its cancel returns, defeating the
-> cancellation.
+On 9/12/26 20:21, David Cemin wrote:
+> asoc_sdw_rt711_exit() drops the reference held in ctx->headset_codec_dev
+> but leaves the pointer populated. If the card cleanup path reaches the
+> exit hook more than once after a failed or deferred probe, a later
+> invocation reuses the stale pointer and calls put_device() again,
+> underflowing the refcount and leading to oopses when later probe,
+> driver bind, or suspend paths walk the SoundWire bus after the device
+> reference was released. Observed as boot- and suspend-time oopses on an
+> arm64 platform with an RT712 headset codec, reproducible
+> deterministically by repeated machine-driver probe cycling with the
+> codec drivers unloaded.
 > 
-> Fix by calling amd_disable_sdw_interrupts() first to quiesce the
-> hardware IRQ source, then cancel_work_sync() for amd_sdw_irq_thread,
-> then cancel_work_sync() for amd_sdw_work. The existing
-> cancel_work_sync(amd_sdw_work) is also moved to after
-> amd_disable_sdw_interrupts() so that any work item queued between the
-> old cancel position and the interrupt disable cannot escape draining.
+> Clear the pointer after put_device() so repeated cleanup becomes a
+> no-op, which also makes the existing NULL check at the top of the exit
+> hook effective. This matches what commit 046173b98de3 ("ASoC: sdw_utils:
+> fix double put_device() on aggregated amps") did for the aggregated amp
+> references.
 > 
-> synchronize_irq() is deliberately not used before the
-> cancel_work_sync() calls. Once SoundWire interrupts are masked, no new
-> IRQ deliveries can occur. An IRQ handler already in flight may still
-> queue amd_sdw_irq_thread, so cancel_work_sync() is used to drain both
-> amd_sdw_irq_thread and any amd_sdw_work items it may have scheduled.
-> This fully quiesces the driver workqueues, making synchronize_irq()
-> unnecessary.
-> 
-> Also guard pm_runtime_disable() so it is only called when runtime PM
-> was actually enabled. amd_sdw_manager_start() calls pm_runtime_enable()
-> only at the very end, after several fallible hardware init steps. If
-> sdw_amd_startup() fails mid-loop (one manager started, the next fails
-> before pm_runtime_enable()), sdw_amd_exit() triggers
-> platform_device_unregister() for all managers. Calling
-> pm_runtime_disable() on the partially-started manager finds
-> disable_depth already at its initial value of 1, silently increments it
-> to 2 and returns without a warning, so a later pm_runtime_enable() would
-> only bring it back to 1 and leave runtime PM disabled. Use
-> pm_runtime_enabled() to skip the call when it was never paired with an
-> enable.
-
-The alternative is to do a pm_runtime_enable() in the probe(), and later
-a pm_runtime_set_active().
-
-That way if the probe is successful, then the remove() will always deal
-a balanced enable.
-
-Maybe only put a single 'fix' per patch?
-> Fixes: f93b697ed98e ("soundwire: amd: cancel pending slave status handling workqueue during remove sequence")
-> Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+> Fixes: 811648340707 ("ASoC: Intel: sof_sdw: avoid oops in error handling")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: David Cemin <dcemin@nvidia.com>
 > ---
->  drivers/soundwire/amd_manager.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
+>  sound/soc/sdw_utils/soc_sdw_rt711.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/drivers/soundwire/amd_manager.c b/drivers/soundwire/amd_manager.c
-> index a57b59609bfe..bbe1e73ed255 100644
-> --- a/drivers/soundwire/amd_manager.c
-> +++ b/drivers/soundwire/amd_manager.c
-> @@ -1172,9 +1172,11 @@ static void amd_sdw_manager_remove(struct platform_device *pdev)
->  	struct amd_sdw_manager *amd_manager = dev_get_drvdata(&pdev->dev);
->  	int ret;
+> diff --git a/sound/soc/sdw_utils/soc_sdw_rt711.c b/sound/soc/sdw_utils/soc_sdw_rt711.c
+> index 3a3a66b4b737..4707190e160c 100644
+> --- a/sound/soc/sdw_utils/soc_sdw_rt711.c
+> +++ b/sound/soc/sdw_utils/soc_sdw_rt711.c
+> @@ -124,6 +124,7 @@ int asoc_sdw_rt711_exit(struct snd_soc_card *card, struct snd_soc_dai_link *dai_
 >  
-> -	pm_runtime_disable(&pdev->dev);
-> -	cancel_work_sync(&amd_manager->amd_sdw_work);
-> +	if (pm_runtime_enabled(&pdev->dev))
-> +		pm_runtime_disable(&pdev->dev);
->  	amd_disable_sdw_interrupts(amd_manager);
-> +	cancel_work_sync(&amd_manager->amd_sdw_irq_thread);
-> +	cancel_work_sync(&amd_manager->amd_sdw_work);
->  	sdw_bus_master_delete(&amd_manager->bus);
->  	ret = amd_disable_sdw_manager(amd_manager);
->  	if (ret)
+>  	device_remove_software_node(ctx->headset_codec_dev);
+>  	put_device(ctx->headset_codec_dev);
+> +	ctx->headset_codec_dev = NULL;
+>  
+>  	return 0;
+>  }
+The analysis looks correct, the only problem is that this code pattern
+is copy-pasted with the same issue in other files, e.g.
 
+int asoc_sdw_es9356_exit(struct snd_soc_card *card, struct
+snd_soc_dai_link *dai_link)
+{
+	struct asoc_sdw_mc_private *ctx = snd_soc_card_get_drvdata(card);
+
+	if (!ctx->headset_codec_dev)
+		return 0;
+
+	device_remove_software_node(ctx->headset_codec_dev);
+	put_device(ctx->headset_codec_dev);
+
+
+It'd be best to use a common helper and fix this across the board, no?
