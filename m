@@ -1,46 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D60E441DEE5;
-	Mon, 14 Sep 2026 09:23:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E63B432304
+	for <linux-sound@vger.kernel.org>; Mon, 14 Sep 2026 09:23:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789377832; cv=none; b=MlvCGxXA+EojMy/zkQWezCsV84nMDLVU70DO4NYLO4Sr8x8TDlnlZi8L6wIa0vo+UST8cbYeXo+ZEseDT8PD9wnv+P6uyVhF3Slgcu7UYW1ZnYCn5IfTvYBRzhTh3fvJQScWIuz60913VFn+j6S2FqcP2oFlE0Y4aCqJ+GukvmQ=
+	t=1789377840; cv=none; b=jaUV0g2lPiYPNd2cgbECeFxoNcsddv1BeggmbWZvpjbVOhbrW7+GwEd5XbDzfaYihaY8nr6tUk5NeO7wBHmVm2CBbR8ymiMNKgK4YY8gnxeVwfmIO1YNdzYcr7wUuWhNcYIErV5mcQ59yBeaSTETty7poPJ9onJ3kI2J0MBbA08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789377832; c=relaxed/simple;
-	bh=GiEgc+HONCIOXNi/2k+PHumsrQ/y82kzXcHyvmihvDo=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=DQnvU1s/MtizpvVP6Z5v0hEbvKP9LBPwTJ1RROV5yJlzqp07cJ9A16e5CGrq3RK1FwMYc5FoP/Dck1F6sXdnKQxBDQyJQBGCw/S15kniekVBm6xZUPNCt/JPviz0u5g494tUagzq9hBlgv7SX3x8vNoByGglqT4ypKKGojG/up4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NRDUXwvJ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789377840; c=relaxed/simple;
+	bh=4EcPBYD2JP35XR0jaOs05ukWGeoxYDRIOS7emNzCJBw=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=hzW8iD/3Zt2uUNwHZI7lSMrdkFG8wJuRtR6e2d/qSmbgT+IJ9c7fOwk3d0xxdRZTECIujw8YgwNVJnajQwuY3YZT7UuKUGnDz0e4XGFyeDNy4LqasoU5D9lVocnG3TMYZqTaY2buWl+4juWQf+h9DZBSjgZF9vxleUzo31xI3q4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I/pEJdbr; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NRDUXwvJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BD711F00898;
-	Mon, 14 Sep 2026 09:23:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I/pEJdbr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A101A1F000FF;
+	Mon, 14 Sep 2026 09:23:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789377825;
-	bh=f/IIVhIpDUMez81w+c/uq+PdXNlb7xJjoOy0dmVdS8E=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=NRDUXwvJHEwA9ElVkndpfSDt1WgWGEy869lxK50oGZ9TX/GJ3UNLttjZlaFug4xD4
-	 GmqzeZyEyetgkGyu3lgT7kypzgJuHdMg3zZDvwx9eReQP2NvadiaE2D/GGx9WwlV8W
-	 dd0CS3X7CwtRXbTlgkpB/OaAwriW6eeq9O0AjOAnWFFLh7J2/ln5AMp1vitR3QCqDl
-	 rKqY+WfdYdLNDgBi/UPYSfKv1V0xPbhBLFYYsm5Op5gmwR1Rdo5LqTSf7+/gYmCMU2
-	 1tVU4y2vvuqaj3c0zrPmR+5ub6XgeN1LiqCLBi4HT3nk+S+k88RDT4/qNPC22LJZOG
-	 cCREPgV20KohQ==
+	s=k20260515; t=1789377830;
+	bh=t8en2427eyjSeEf7hmqPiidd6B966/VPjfQIjKvmdQ0=;
+	h=From:To:In-Reply-To:References:Subject:Date;
+	b=I/pEJdbr3dz7RmMxg+kCCSlQJHfr8nb/COw8LKo7lqY4afh4LBb7enaFaZKGieEsy
+	 qnCWJzF5MESzaGvpb66n60Q3gk8kED5WCYIRE14L5Ndd/ZP2aVp79DOq/9umrGcYmw
+	 FhVj7Xc7k9A2/Y/WXWUqYJnde9eynY2woWQaXszYu9r1ZjXYaeFw6Qs4deGDiYifiA
+	 a8fJRYZ9kf3/wt4wvkxS71XhNLuMW/QKnlrnRfdbRqQHE10KEQFIDQsm9T918qpmZm
+	 Qajm3fUYUKbO/mQ4AI0zgO+ZO9sluKCfmKcAbGoC8BjDUO+7jCc2MD5yuc+CFEOp/j
+	 /7sKsd0/zjJ1A==
 From: Mark Brown <broonie@kernel.org>
-To: cezary.rojewski@intel.com, liam.r.girdwood@linux.intel.com, 
- peter.ujfalusi@linux.intel.com, yung-chuan.liao@linux.intel.com, 
- kai.vehmanen@linux.intel.com, pierre-louis.bossart@linux.dev, 
- perex@perex.cz, tiwai@suse.com, kuninori.morimoto.gx@renesas.com, 
- tgaraev653@gmail.com, ckeepax@opensource.cirrus.com, 
- balamurugan.c@intel.com, marco.crivellari@suse.com, 
- Ai Chao <aichao@kylinos.cn>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20260911081932.2605407-1-aichao@kylinos.cn>
-References: <20260911081932.2605407-1-aichao@kylinos.cn>
-Subject: Re: [PATCH] ASoC: Intel: sof_es8336: Add a quirk for Huawei
- Matebook B3-420
-Message-Id: <178934278902.1239410.8386174882176684705.b4-ty@b4>
-Date: Mon, 14 Sep 2026 00:39:49 +0100
+To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
+ Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ linux-sound@vger.kernel.org, Peter Robinson <pbrobinson@gmail.com>
+In-Reply-To: <20260912082422.331962-1-pbrobinson@gmail.com>
+References: <20260912082422.331962-1-pbrobinson@gmail.com>
+Subject: Re: [PATCH] ASoC: pcm5102a: Add support for optional reset gpio
+Message-Id: <178934323644.1239410.14592356929071519663.b4-ty@b4>
+Date: Mon, 14 Sep 2026 00:47:16 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -50,29 +45,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1139; i=broonie@kernel.org;
- h=from:subject:message-id; bh=GiEgc+HONCIOXNi/2k+PHumsrQ/y82kzXcHyvmihvDo=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqp70bNU9mxGN4nWvYx6VnKYrDMWh0CrCdLQFka
- 24ug9NoPz+JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaqe9GwAKCRAk1otyXVSH
- 0Go0B/9grWcmSQh5Xi5RkR8jz51T8NqTKbHWnlb60RjPZGgT3HgzL+o7A5c9syiIzfu9DI/rsAJ
- WNGf+ognumWYpuAhNdbCQnD6nKCPLUG6QrlpJhqvH82y1PERzBldyVvSlDgDA+Bz/8vwqklhehG
- /YhEeMeujYrxN47Az19SDhL8HLoQYMsiAtXtn0w7WuGCrIbW908HZ7UHIZ/J7XLzq+bXHLkn48Q
- LbaEgeWm0z4qs1EHya2ChPAq1HG7xMhfg/k59M5bcG6WKtp7ITK2rDzvI+/OYLwN07b1dn9bnao
- qGhcMexK9EDgz78dgkAp5Nok4m0Lm6+tD3Odzgj7bvXqdimo
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1122; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=4EcPBYD2JP35XR0jaOs05ukWGeoxYDRIOS7emNzCJBw=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqp70hMIrxPOn0WQOCIxtt+5tUiICrtKK2sZjqa
+ LLQTOfdCkqJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaqe9IQAKCRAk1otyXVSH
+ 0Ei+B/9rFyttaxhrkyC+M1wA81Sasu/MjK98cljTD3eNVWP+pvTgu55kgmW3eLVqCJWRNmnVCl+
+ JZ0GmUeG0JpG4vaOlFRruSxSeTARLEfDxdDmQwo28bIc5lHRJyH0I2B3vAK+evb2JGRSp+E9lc4
+ uK4q9lYucfhU4fY4DsJEHlvQsd6KtUbuI9TK4w6Xydq7pal74Byz+pkcHBasNwRXKAODoswiqSa
+ G81zoFjBjDERiAUbP6ZVvmtYkPeynAYQqqcgbpJcspS+aq5vlz/oalZvKgajYZqDd3HIqhJqF9N
+ 40x9+zGvgsgNTJKoGRxFZSBusy744PzFbBsUTsbJNOKHOMvo
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Fri, 11 Sep 2026 16:19:32 +0800, Ai Chao wrote:
-> ASoC: Intel: sof_es8336: Add a quirk for Huawei Matebook B3-420
+On Sat, 12 Sep 2026 09:24:18 +0100, Peter Robinson wrote:
+> ASoC: pcm5102a: Add support for optional reset gpio
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
 
 Thanks!
 
-[1/1] ASoC: Intel: sof_es8336: Add a quirk for Huawei Matebook B3-420
-      https://git.kernel.org/broonie/sound/c/576725ded009
+[1/1] ASoC: pcm5102a: Add support for optional reset gpio
+      https://git.kernel.org/broonie/sound/c/81d2ec6f924e
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
