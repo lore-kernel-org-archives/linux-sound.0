@@ -1,125 +1,184 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011064.outbound.protection.outlook.com [40.107.130.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45D9E39E18E;
-	Sun, 13 Sep 2026 09:41:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789292475; cv=none; b=sKuhEfCP3LRW5v3bI/fUtY0ec183Oq8CLbSbgwD4o1QRmAj23Nh9rdMeEz7tm2qj0AhWrEp57Te/NdniDH+MQD7PgI/Dt4qBP+dCKrGFEYhdt3FtRXo1B15d3bHL/bvYk50KVwMEVTtz/2+ClaMYG7VsL1cOriyBnxyHw0uvyDw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789292475; c=relaxed/simple;
-	bh=mkLLa6rugF49G0zxSqnRyH+w70EHP8PbNp3i1XFE9BI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Kl+0FdQd/KUY3qM5QUvFFwHs3ofaEiBTynR4kBOdLBhCnod1PnQK8VPs6cThsAU7v3Q//3lOjs/sOt+0bVfzbXPKJc5kU8rOc6SGmci7TQPS6mqpti8asa3/Ut3Ooe9y8FYAbvizkW17NrmKgUmK13onfnA1R+UBrUQvG637DJE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kWu4++GL; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40E2E356754;
+	Sun, 13 Sep 2026 10:15:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.130.64
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789294545; cv=fail; b=pIk8gcp6888DmvBxAXur0rkzj9tfYL8ogitRbRHY1vc7K9gb6pRgyowpM+UNgsRO9YF3oij50FrPuSHY+tqfgu2LAee7iecElDfgcaLhcsWtWvOAoPEQiKrMBRYpm6SKyV7kYVw86KUQA3T0Ex3vvu3n0gs4Mq5PL227D0KWjCQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789294545; c=relaxed/simple;
+	bh=ffXIHdgVqhmpL+fXQTaDvv5PzHEGw7pQmduRUoEQEFs=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=ZXD6zVuPcfBtoO/GxDzh+zciXoOpPr+eGGbSyxucPnzSFanD9ImJx+R1Da6AoFsipTXBdrvetdFsiQ9v/v5kB5XBO3wpgqrWFs/N/iUGkokaZzf22xE2x0p39SFg+qec7I5pbgOi9RLwU5Jliy86OfaVYNxRNAZOppEBGIgibxQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=pfs0VBLp; arc=fail smtp.client-ip=40.107.130.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kWu4++GL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFBCB1F000FF;
-	Sun, 13 Sep 2026 09:41:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789292473;
-	bh=E/4ulU+au5vGq8JBMRy5RWGBS77P7SyvqTxZG8EhgOE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=kWu4++GLH3bLacfFgfps6MFpI2hTQmZT2OsEttxbo75PxOk7WIDnNI3X3Wh5VUhvl
-	 fjJpr87FDrdu1xiBH6y9FLyvdA3REXvY17Wcz+W/gWCCDKMtMUCJT3PtVtkLAMBVeR
-	 q/8DcD7ot08oU8CsATr7oxGwS2YLEoAppTB7dIaLFKtJxq5z++3wv7rRENsMuXKJg8
-	 tO5imeqVc8vJFmdVfGdQzf37Up0/dKhX7gZmWrM72Nt+0SK+U2n+UC/TcyZoNirz0U
-	 H7SN1t6pBBbXuSuxM2ntLciztGJG5DECMxWsa3K+Bz5hRY88fUF8SzGH/ci+O9qlsj
-	 EA4pKjjOfWuRg==
-Date: Sun, 13 Sep 2026 11:41:09 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Valerio Setti <vsetti@baylibre.com>
-Cc: Jerome Brunet <jbrunet@baylibre.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/6] ASoC: meson: add audin main module and I2S formatter
-Message-ID: <20260913-inventive-millipede-of-certainty-dd58ce@quoll>
-References: <20260912-audin-v1-0-7fbefe928711@baylibre.com>
- <20260912-audin-v1-2-7fbefe928711@baylibre.com>
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="pfs0VBLp"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=KkNkMhGPsYb8En9HWJeaIuMK86XNCj8AIlHvsyz92jl3CbI0CyO19ZFoNlgICa+ZmX6XmrNYVQr8GG08A0ZgHYYdorGI0je5pi4/Vof6Rv1NhlTNOSr+u3ddWdrHSx6KK4RqEvEEJtDYrhLRKxs6sDb/TjhkV+hZqumpSYHPiz3bGaqpGtoG47RmBPO12h1m+2Sb4fPSOGjAaIXdv3VNx6BRzrrcWcFqkuc62OaT03aLXYQbdq+5ORWRSyTdcOL0aRrfVJ4OkvFdFozJdDpFjtrzYqt3M245SZd8URLxq5YO8DsvKnfSiUiZ4Gdj5GzR+l8GVYPbjkLCowS7AF1xxQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=214g3Hrmx9dKXLQQtoBYU3KBWem1DzSKW44Gd5Utrtk=;
+ b=WDe3NIduLNxSTHiwGMAEARImeNXM+ka19bcKHIxQZlscX/awMtlAlQcLeKynn+qAPx797Bv/IKkOiD4bo77uT26Wjb8ucUMnDkFVsYnGOYOkUTIpS+DLZd2F+cNWPmkTv1mbAxbGbOzr00gZcvWq7A5mp6NZUdtLQFFcT5UD8RIPTTX9LsGiMpfV3YPTXiN5Eidda1dQ4ksYtwLgSOTCx3Sh1aeahLZAk98BcQEJJR1ZaKWZcfg8H1voWOxVDKnw3VitgfeLSmiZWTpzUL8szSm6p5MKg1hveFLppGzxWe9DGFDCdvxJ7qAwN+nK/LkxQKkcY3pKT7hTH/fj7ks+vQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=214g3Hrmx9dKXLQQtoBYU3KBWem1DzSKW44Gd5Utrtk=;
+ b=pfs0VBLpwF2dx71OD/nxYk+CzbL27jr0+e81x27QAXGJkoJfyMgnkjaD+v7UyXbL79Z2VojhxEtpIwiQ369dhRIUViXbv4Ac9kmbQWjkv6+DzXBAtGCq7mJoxeqbadbFkgy836J6UWCYN0N61pATpNLxKza6i7z6+z9GDj7RLt8OMXj4ID2TxVhEk2l914og8J3QEuB0CLKTta/7n1eh31VW1fw6+Sq3n88UqRpvZvUwDy3G+oZz7eR4a9JIwtPpvL56tcmQdvPlt033qp3kJiKIY81WeJXW1SeUFq+mzksD+R9b7xSQHepflv5lgwljUxNZgNUXp7Xp9Xy7/PqwOA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from GVXPR04MB10021.eurprd04.prod.outlook.com
+ (2603:10a6:150:112::20) by AM9PR04MB8602.eurprd04.prod.outlook.com
+ (2603:10a6:20b:439::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.12; Sun, 13 Sep
+ 2026 10:15:40 +0000
+Received: from GVXPR04MB10021.eurprd04.prod.outlook.com
+ ([fe80::d247:853:3e16:1994]) by GVXPR04MB10021.eurprd04.prod.outlook.com
+ ([fe80::d247:853:3e16:1994%5]) with mapi id 15.21.0406.007; Sun, 13 Sep 2026
+ 10:15:39 +0000
+From: Chancel Liu <chancel.liu@oss.nxp.com>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Shenghao Ding <shenghao-ding@ti.com>,
+	Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>,
+	Sen Wang <sen@ti.com>,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: Charles Keepax <ckeepax@opensource.cirrus.com>,
+	patches@opensource.cirrus.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/6] ASoC: codecs: Fix resource leaks on card re-bind
+Date: Sun, 13 Sep 2026 19:15:25 +0900
+Message-ID: <20260913101531.2787654-1-chancel.liu@oss.nxp.com>
+X-Mailer: git-send-email 2.50.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SE2P216CA0028.KORP216.PROD.OUTLOOK.COM
+ (2603:1096:101:114::16) To GVXPR04MB10021.eurprd04.prod.outlook.com
+ (2603:10a6:150:112::20)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260912-audin-v1-2-7fbefe928711@baylibre.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GVXPR04MB10021:EE_|AM9PR04MB8602:EE_
+X-MS-Office365-Filtering-Correlation-Id: a6d26b23-abbe-4cbc-29ce-08df117ff5a5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|376014|7416014|366016|19092799006|23010399003|6133799003|18002099003|921020|11063799006|10067099003|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	FgKVlKDTSdw+P1WHYzooloNynF4q13AzWBCXmmQ7QEpX/cPO5KQ8vQ/+OudkJsERRB1S0RkmYntLKwUQqvVft1RH8ykRgP1SylAKse6+NrdWe3LNmOdG/3i021/yJhXPiqaDfebaGBNoUtJpLu8oyZcv2cYtJsLPd05056kSX+pvhOlhgsYJ8PIMXYPfVSGULwIkFvUQAHZS0mVRfFS/EZYdowssQdXbl3Gy+PuddpMKu1WBJiBok2XzNwsIAr3iKcXWL57xK0KVfoWTh19j1G5aSuEbM1UYC+pBk3aV0nWCLgPJ7LOgwfnBfMnCGBVTH9OC2eSJLDptu3XFaURVfyxQ3bTgncH1ZcUqls6xjCZNxhZeNZE9i7zcroiWjEG8JR0swLWidWK2gZShznIPZrwXJPDAlBUALxjsoftGONsTAMVT9w7NIgvJJYeHvZ/PjBWsxGb+yzGQ1BgBJ1F34amAOFzmfK+WXf/aOMbxHz0t2R7Mh7+PSyxtHlhly+jL26WjU1CO14hcMk+KEIVhv0EPVDdBr7Q5JftuSkUGc+WL1K2cACwSkm0rfW759ODkzru9ZnhNBGK6lqZHLyJaJhOjXZ0w/U+/bdvChU/jBLf7aY0aFEI3FIapMBko3ftFe3Tf/wJQTgsYCixUp5LHp+/PYzjjt3BTNUe5rnJ4hM/Mbrgx9kwEjxGVIBm1vJdNvI3++6vhncIvg1X99SoKUw==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GVXPR04MB10021.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(19092799006)(23010399003)(6133799003)(18002099003)(921020)(11063799006)(10067099003)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?4k7qtqj7S5qjDkH5PXidceN8ShsRNdU2sWNniidV5IreV62qTPS5jj3erkpV?=
+ =?us-ascii?Q?5fcMpFFLpcanIX/a66FXdt7MzYP2ZrriZvSrh+A8KpaLUdhp1ewtct3kjq1M?=
+ =?us-ascii?Q?/ZQyVLMkGW2Q0DDuW0x3fbqYzW/EScU6QPA7Nk7f3O4VVZreZvN8gxxsNCC0?=
+ =?us-ascii?Q?9Zw/HzmVqD/YkYI78Ayz7ggGX7QnolBCP4i1S9c031EEalQccxVzGKJjLq4D?=
+ =?us-ascii?Q?6IEA0p1LGlGwokkCzMRAEK1yjO60RR1/v6WFlip2l1w2KbpZranjmA8AQW0F?=
+ =?us-ascii?Q?Le4L0Ki11c2/oDYffHHRTZzIM2JQ/vtjRGBZHaXWS7aFAVGFEb+42CTxSBgU?=
+ =?us-ascii?Q?99hqM1sRHSLFZPsQo25w0eOSSyVaRlH5spCJJlm9QnERjOjtq+ca1qwrAb2X?=
+ =?us-ascii?Q?bEt/s7XIjDMBYWthjjc0lSxhtBJUwNZxyfbWQ16iC2zOej/x8RqsG6J5UVAu?=
+ =?us-ascii?Q?hFgoMNOQ5ZZ6wPlofbOnA2+au26PR30A4MSO/uxaakFxmMfp4YGNPyyxtdot?=
+ =?us-ascii?Q?nbJq8eY81Pni74V2LBxwvCsvh3xR0mut1QPa8QQAA9NcjuUiuM0vTlEKwAVM?=
+ =?us-ascii?Q?Td+9tmNOtGITxIuhcBSTTQIgfIl8Hkp33aq4IwhWjYfRdNpYsX1uvlcJgYZe?=
+ =?us-ascii?Q?3di88Y+D3/WNB/yQblRJZq4j5+LnkLkt1VTKj8fiz4xw9e7YsVmYJ5VFfa7Q?=
+ =?us-ascii?Q?TRRlqehi24Gvo4pjBkM5q7cALRwD5bRN7clmh+dypX1IrZVCVWrF+NCv72sY?=
+ =?us-ascii?Q?lxfKK+/KzKRb1k/1p4sKb+yVscYj0WlbThJdypqcbxRoZBRIjNs12sTZuirZ?=
+ =?us-ascii?Q?ZV+BLFfmsFx566cBBUNVXI/NeRsL6NAlcV3ycCA2ZOo4dgWPbrdqTIozEw2w?=
+ =?us-ascii?Q?mY87bJDDvHoCy1SvmOZ7KohMHfpui5n4ofL2XUmgr3wk4wG6vgNGBAQ2TzZi?=
+ =?us-ascii?Q?xbwf2Chcaf6HY0NIESnYJ4wbH78DQ5eVBciLRLwhmA9y60EAP8vB1+9yrWU2?=
+ =?us-ascii?Q?FL7jDKoOEOrvY8blP95U4yU2k2vvp3yAGCqAJ7L1czi1XJVdzjUvOh72zuy5?=
+ =?us-ascii?Q?GoVJaWUDQAI85cyK6jXUOYayg8y2jDZXQ0vfzM+/2fgIAHTOli4wM2BchaPR?=
+ =?us-ascii?Q?wB7ZGkskyBYIaWYfjfJY+5dlzGPQKsOXhkuWXF94l9hFYAzm/VcALMvc5P3X?=
+ =?us-ascii?Q?Z9RXAO6byoQOQd5twwHBAqThozMjvd8owOI5GdJNXt1+3hUZswUWyhq1R/jq?=
+ =?us-ascii?Q?tLp2bfvKmp3QwvdSG4APdF01kkMSGN7s3vlpNqR6Cn5zA6SqdDOrWDaxOpVn?=
+ =?us-ascii?Q?YHzCdmsKl42Bqi9I+Yx2pm07FYRxd+JuCfgPTBzYW+2mSXLF2KFmdPZbtWhm?=
+ =?us-ascii?Q?45aArKr7LYjN73p6R8em6YWcCkYtNpt83Quzrc4b1snnPMTejj1u+e7t8AVh?=
+ =?us-ascii?Q?UhAnNYgmPEWBbutMd+Tz/ABdTqoGyZu+oH4sRpopUHp0zHRmKlJgA0vSi1Jn?=
+ =?us-ascii?Q?806g2m8XsS9m74XDovnw2F4L+PsKR7cFfTyXi+IcNlVzhp2zYcUYxaXY+not?=
+ =?us-ascii?Q?WJYGOi9V9eZev7Lsn28QkkDv+U+KCLNuNXoDroKdlsqgEAYI0CTm+4BJ/mHF?=
+ =?us-ascii?Q?hnhpL2miE/FqlWG4uqy6bz5LorQRn/pBvrKaCNhcJ6i5C1XZV610tn38tNP3?=
+ =?us-ascii?Q?X0GFS/ElW/SrDAWME5RVfoILzsy9gLcdYM2lVtlE3BLt0IrJ2m3aC2+A+tPe?=
+ =?us-ascii?Q?olC4CZZYHR0EvDU2UhWr0gzgHTtcmXHb/dEl/v/Pq+bRY3+4jU/W?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a6d26b23-abbe-4cbc-29ce-08df117ff5a5
+X-MS-Exchange-CrossTenant-AuthSource: GVXPR04MB10021.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Sep 2026 10:15:39.5879
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: dow9kbB4Fx0Oa/uEgb+S2MVGPOwS2JesRlyfMypG+h/FHG0zkfX1QaZh7S4bk/pLOTA0qqj6HzvazgCcJK+q8XRqcRtOK22DNmTYLBrHVVCgDUQQj83Nczw+IS+MuH/p
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB8602
 
-On Sat, Sep 12, 2026 at 12:14:32AM +0200, Valerio Setti wrote:
-> +static int meson_gx_audin_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	struct resource *res;
-> +	void __iomem *mmio;
-> +	struct regmap *regmap;
-> +	struct clk *clk;
-> +	int ret;
-> +
-> +	ret = device_reset(dev);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to reset device\n");
-> +
-> +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> +	if (!res)
-> +		return dev_err_probe(dev, -EINVAL, "Failed to get memory resource\n");
-> +
-> +	/*
-> +	 * Do not use devm_platform_ioremap_resource() here: it would claim the
-> +	 * whole AUDIN window exclusively and the FIFO children would then fail
-> +	 * to request their own sub-ranges.
-> +	 */
+From: Chancel Liu <chancel.liu@nxp.com>
 
-And this should point you that child is not a separate device.
+Several ASoC codec drivers set up per-device resources from their ASoC
+component probe, but the associated cleanup is tied to the underlying bus
+(I2C/SPI) device rather than being balanced per component probe. This is
+fine for a plain probe/remove, but it breaks when the sound card is
+unregistered and re-registered while the bus device stays bound (a card
+re-bind): the component probe runs again while the previous bus-level
+resources are still live.
 
-Please open your datasheet and read what is the address space of this
-device. You claim here ENTIRE address space. If you insist that entire
-address space is not owned by this device, then you misrepresented
-hardware in the DT anyway.
+Two kinds of resources are affected:
 
-> +	mmio = devm_ioremap(dev, res->start, resource_size(res));
-> +	if (!mmio)
-> +		return dev_err_probe(dev, -ENOMEM, "Failed to remap memory\n");
-> +
-> +	regmap = devm_regmap_init_mmio(dev, mmio, &audin_regmap_cfg);
-> +	if (IS_ERR(regmap))
-> +		return dev_err_probe(dev, PTR_ERR(regmap), "Failed to init regmap\n");
-> +
-> +	clk = devm_clk_get_enabled(dev, NULL);
-> +	if (IS_ERR(clk))
-> +		return dev_err_probe(dev, PTR_ERR(clk), "Failed to get clock\n");
-> +
-> +	ret = gx_formatter_create(dev, &audin_dapm_widgets[0], &audin_formatter_i2s_drv, regmap);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to allocate formatter\n");
-> +
-> +	ret = devm_snd_soc_register_component(dev, &audin_component, NULL, 0);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to register component\n");
-> +
-> +	ret = devm_of_platform_populate(dev);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to probe child nodes\n");
-> +
-> +	return 0;
-> +}
-> +
-> +static void meson_gx_audin_remove(struct platform_device *pdev)
-> +{
-> +	gx_formatter_free(&audin_dapm_widgets[0]);
-> +}
-> +
-> +static const struct of_device_id meson_gx_audin_of_match[] = {
-> +	{ .compatible = "amlogic,meson-gxbb-audin" },
-> +	{ .compatible = "amlogic,meson-gxl-audin" },
+- Regulator disable notifiers (wm8962, wm8995, tlv320aic31xx,
+  tlv320aic3x)
+  The same notifier_block is re-registered on the
+  still-registered regulator notifier chain, which triggers
 
-Why do you have two entries here and no fallbacks? This makes no sense,
-really. I have no more doubts that your "gx" is a real SoC/
+    notifier callback ..._regulator_event_N already registered
+    WARNING: ... at kernel/notifier.c:23 notifier_chain_register
 
-Best regards,
-Krzysztof
+  and corrupts the chain.
+
+- Beep input devices (wm8962, cs42l52, cs42l56)
+  A new input device is allocated and registered on every component
+  probe while the free path only clears the pointer, leaking the
+  previous input device and its sysfs/input node.
+
+The two problems need opposite fixes: the notifiers are registered from
+the component probe, so the registration is moved to the bus probe so it
+runs once per bus bind; the beep device is freed from the component
+remove path, so it is switched from devm_input_allocate_device() to
+input_allocate_device() paired with an explicit
+input_unregister_device() on that same free path.
+
+Verified with wm8962. The remaining patches fix other codec drivers
+following the same patterns.
+
+Chancel Liu (6):
+  ASoC: wm8962: Fix regulator notifier and beep leaks on card re-bind
+  ASoC: wm8995: Register regulator notifiers from the bus probe
+  ASoC: tlv320aic31xx: Register regulator notifier from the I2C probe
+  ASoC: tlv320aic3x: Register regulator notifier from the bus probe
+  ASoC: cs42l52: Fix beep input device leak on card re-bind
+  ASoC: cs42l56: Fix beep input device leak on card re-bind
+
+ sound/soc/codecs/cs42l52.c       |  9 ++++--
+ sound/soc/codecs/cs42l56.c       |  9 ++++--
+ sound/soc/codecs/tlv320aic31xx.c | 30 +++++++++---------
+ sound/soc/codecs/tlv320aic3x.c   | 28 ++++++++---------
+ sound/soc/codecs/wm8962.c        | 52 +++++++++++++++++---------------
+ sound/soc/codecs/wm8995.c        | 41 ++++++++++++++++---------
+ 6 files changed, 96 insertions(+), 73 deletions(-)
+
+--
+2.50.1
 
