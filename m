@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BB51361945;
-	Sun, 13 Sep 2026 08:46:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA969344DBD;
+	Sun, 13 Sep 2026 08:48:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789289196; cv=none; b=uKQRkjBA5fJF60t3ovXfRp8pdnTcgdwhFIbm5l8Bfoa2t0WSZwIv0xacJqgLTozPYQbNMWiP35qgl7lZ55oWTdnVeFf7XO0YfzZ2wLjOP9Hh9WwPSiKc9qSj2nQEKptTtgRFEb6LCYHky+JfJIMqBBZ5S/H8Dc/C53NI2W7Zzus=
+	t=1789289321; cv=none; b=GzwMbDT1A5ZTiZdScYAkPoZpcdaX6FL/WGLYpMb6IYIazyvAZfby5BuHEMkAmWSwHdGKlf6J8cZMnHjrsQLCUdfjM3DzvxQf/Px8aaVI0ER61c6GHwn1WgslnXbFTNSQCfZ/yCuDYpWKNDb+EjGpfR0cc55lah5QHz5jn8b9buQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789289196; c=relaxed/simple;
-	bh=nsaLAUiP+Kk5XXUdSBv7ofjWEKUqY9SsBE5yWLZG3tQ=;
+	s=arc-20240116; t=1789289321; c=relaxed/simple;
+	bh=pRVWt4lUb/N19rYg46NOlyrgv1y4aozIKyaparOTH9w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jm8OCX+ji8zTMFknduNRgLKGnTkxhzBtA/uV4tDrgdxudbErcej/nw92mkGm/Q3yA7mUcQkE5Ce1zsUa9CYlpVq57b+Wqz+8aQxJ6YgqM6LvsmHCnUreDbALs4mtQkBr0oazd6g4MzR+nLH0Q94TQXVWNucDGIox9ij6tQG1EBw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k0eaUeH+; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=eCCNC1U/JO9PvzT/d04MPqD3FEJLqoMjgXw9rcEBlapFzsJhBjkgzdyu1aKZhEWkuE0j/6zMJQUwlGjolpqdqjyfSW9JMYYVrMhL1CB5Z5wAVHqjkwP01ru7wfnJckpN6ifD9LPQEMNPvJcW9wByB7Dig+uUXx3tqN6hjbAPMV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OJfP4V0K; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k0eaUeH+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36D161F000FF;
-	Sun, 13 Sep 2026 08:46:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OJfP4V0K"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5694B1F000FF;
+	Sun, 13 Sep 2026 08:48:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789289195;
-	bh=S61zqkyGiU6S4DWSNDmAd84/Gw8Pr2V0jZxqB6HPvGY=;
+	s=k20260515; t=1789289320;
+	bh=q9b+oorGTRHCVDiv10tTcI+CXwyumm9Yvq+2cN0P4Qw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=k0eaUeH+IIKrnQUOU2Bw/9c095ZQk4mBbbloAqSxDpaj1vBMu4X0bZKmwXVytE4Z5
-	 NwH56RoX1Kq0yshi9wZBeI8y4fOGUMLEfGdy878cIXa/aqOE2lFp9ba/tYGQUflryW
-	 PW9LBM1mz347zllFxlxbsqhnR9nrwSs6D6QQIHR3r0/+B/ZpKfkuieCgyqfD/noAPj
-	 Ls4/0Q6yZu6aknzkda3WOZ+MmNbShJ/b3fTI7sBC/QvqAbS9gqulecz+QinMRLb/NU
-	 DUunUJooznaMfFXN5H/A8I/x7AqKZb0vjbja+47pG6aP/kSLFGSSV4Vv4LfdHDBIi3
-	 zGAWg7gFalsGQ==
-Date: Sun, 13 Sep 2026 10:46:31 +0200
+	b=OJfP4V0K9GeCtqTHG7SOLTH6qS5jz+dhKdInmif+gnEGz22vZxGMg1F8nEn4g/f+N
+	 9vHFDdd/Bn0Aup37HvgEHovuDLBq9xEga4mU8INhjSSGmKr6AdwdHz2TGmK8xG/6Yt
+	 lHhJyt6D7mIt29PSWXHIdoR9zX1GmHCdXX1gRlCIXudbwQoADNe3k+s0YETMU9WxhI
+	 vhSRIbzqiyYEBLl5jMvMcCit8Ek78zf32LzS95M4btmWE+AYxlUCVrscfnhZVoZo6D
+	 1PQqMGNGQVEDgeQt5VqQnTn9l5loBDS1+omJ/6ucYT7JMT1WEY2uyfujwtLuwjRxtR
+	 qvdXFcwJw1aHQ==
+Date: Sun, 13 Sep 2026 10:48:36 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
 Cc: Srinivas Kandagatla <srini@kernel.org>, 
@@ -34,11 +34,11 @@ Cc: Srinivas Kandagatla <srini@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
 	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
 	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/6] ASoC: qcom: lpass-macro-common: Add LPASS codec
- version 4.1
-Message-ID: <20260913-illegal-quartz-raccoon-be0d06@quoll>
+Subject: Re: [PATCH v2 1/6] ASoC: dt-bindings: qcom: Add Shikra RX and VA
+ macro compatibles
+Message-ID: <20260913-melodic-violet-dogfish-fb834c@quoll>
 References: <20260910-add_shikra_support-v2-0-fdd2129c696c@oss.qualcomm.com>
- <20260910-add_shikra_support-v2-3-fdd2129c696c@oss.qualcomm.com>
+ <20260910-add_shikra_support-v2-1-fdd2129c696c@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,34 +47,18 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260910-add_shikra_support-v2-3-fdd2129c696c@oss.qualcomm.com>
+In-Reply-To: <20260910-add_shikra_support-v2-1-fdd2129c696c@oss.qualcomm.com>
 
-On Thu, Sep 10, 2026 at 03:16:54PM +0530, Mohammad Rafi Shaik wrote:
-> Shikra integrates LPASS codec version 4.1. Add the new version to the
-> codec version enum and to the version string helper.
+On Thu, Sep 10, 2026 at 03:16:52PM +0530, Mohammad Rafi Shaik wrote:
+> Add bindings for Qualcomm shikra rx and va macro codec.
 > 
-> The enum stays ordered by version so that the existing '>=' comparisons
-> on enum lpass_codec_version keep working.
-> 
-> Signed-off-by: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-> ---
->  sound/soc/codecs/lpass-macro-common.h | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/sound/soc/codecs/lpass-macro-common.h b/sound/soc/codecs/lpass-macro-common.h
-> index 573b2145e..b52665b11 100644
-> --- a/sound/soc/codecs/lpass-macro-common.h
-> +++ b/sound/soc/codecs/lpass-macro-common.h
-> @@ -30,6 +30,7 @@ enum lpass_codec_version {
->  	LPASS_CODEC_VERSION_2_7,
->  	LPASS_CODEC_VERSION_2_8,
->  	LPASS_CODEC_VERSION_2_9,
-> +	LPASS_CODEC_VERSION_4_1,
->  };
->  
+> Shikra integrates LPASS codec version 4.1, which is not backwards
+> compatible with the already described compatibles.
 
-This commit no sense on its own. You added dead code here. Add this with
-an user of that version..
+OK, so it is not compatible with anything so far, thus existing
+constraints from the binding do not apply. Then why are the clock inputs
+flexible?
+
 
 Best regards,
 Krzysztof
