@@ -1,41 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7644742E401;
-	Mon, 14 Sep 2026 09:23:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D60E441DEE5;
+	Mon, 14 Sep 2026 09:23:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789377824; cv=none; b=mboBOtIaGyQbPw9J5eKl/gIt8PeHW0pc56C6EaXIIVDDsxIIgTrSGuNizokjIdw/IYIs0RmsqhV4Rp820pqTIdsAAWMmy0LECpDwHTW5IB+KChO5QNnF94/ybXXnhpOm0H12X3lqvW6XBH59VchChUet9R4oDP5QN5UgyCDleqA=
+	t=1789377832; cv=none; b=MlvCGxXA+EojMy/zkQWezCsV84nMDLVU70DO4NYLO4Sr8x8TDlnlZi8L6wIa0vo+UST8cbYeXo+ZEseDT8PD9wnv+P6uyVhF3Slgcu7UYW1ZnYCn5IfTvYBRzhTh3fvJQScWIuz60913VFn+j6S2FqcP2oFlE0Y4aCqJ+GukvmQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789377824; c=relaxed/simple;
-	bh=ee8dahDJ9hEGj0OepJiXD2XPmZ2PEfSyIduNA7O1ZUA=;
+	s=arc-20240116; t=1789377832; c=relaxed/simple;
+	bh=GiEgc+HONCIOXNi/2k+PHumsrQ/y82kzXcHyvmihvDo=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=mtPt5j0L5Qwcu9buclJh1Zrb2+knuwPaH6bpvJI3Bm+JSiPANnlzBILva67grjjR0HVDmVU5CTac/3Niwlrqn2GWWofBiN10c2rIIoWx1lcw+0qQLxjTu3cbEv105OckBY8yPZfXm+IyLVteiKsN6KnCEzKV5rCgH7CNhpK33jU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ov4N3caw; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=DQnvU1s/MtizpvVP6Z5v0hEbvKP9LBPwTJ1RROV5yJlzqp07cJ9A16e5CGrq3RK1FwMYc5FoP/Dck1F6sXdnKQxBDQyJQBGCw/S15kniekVBm6xZUPNCt/JPviz0u5g494tUagzq9hBlgv7SX3x8vNoByGglqT4ypKKGojG/up4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NRDUXwvJ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ov4N3caw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 196531F000FF;
-	Mon, 14 Sep 2026 09:23:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NRDUXwvJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BD711F00898;
+	Mon, 14 Sep 2026 09:23:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789377819;
-	bh=ipXYc0FwIZTWEWsx5UvxCcgri5Y/7MwkZSrdnly2V7w=;
+	s=k20260515; t=1789377825;
+	bh=f/IIVhIpDUMez81w+c/uq+PdXNlb7xJjoOy0dmVdS8E=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=ov4N3cawHywW0LJq/j9Iov8tJVBklq8InI//IcVFsDMuGYXlAznrsDh3YF6H6khdQ
-	 CTEGQzvjj3ng2foR76LZpGUzVHmyNvNsl6Dwi3rSzQ5plbY20/U+FlJmGCRKbDFLNA
-	 xVvtnZly9rpaU53STLmhDwOc2Oye1lYMwqVY0gaNj/ft9Cg5A2i03CebkRXxVg6Oq0
-	 bhRc2IvPymGT8lN1T+bC4NoU4rMN8dvFoKXWDUR+cHjTWigVEDXIJ499kUGFjLMZNz
-	 3JmXj77/NrJXV1P2qrW9itRmzbqYRFAyplPBj3I0SHLYVTiCxoWOz7fuE9FotgqER3
-	 DNU3+ubShddyw==
+	b=NRDUXwvJHEwA9ElVkndpfSDt1WgWGEy869lxK50oGZ9TX/GJ3UNLttjZlaFug4xD4
+	 GmqzeZyEyetgkGyu3lgT7kypzgJuHdMg3zZDvwx9eReQP2NvadiaE2D/GGx9WwlV8W
+	 dd0CS3X7CwtRXbTlgkpB/OaAwriW6eeq9O0AjOAnWFFLh7J2/ln5AMp1vitR3QCqDl
+	 rKqY+WfdYdLNDgBi/UPYSfKv1V0xPbhBLFYYsm5Op5gmwR1Rdo5LqTSf7+/gYmCMU2
+	 1tVU4y2vvuqaj3c0zrPmR+5ub6XgeN1LiqCLBi4HT3nk+S+k88RDT4/qNPC22LJZOG
+	 cCREPgV20KohQ==
 From: Mark Brown <broonie@kernel.org>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- patches@opensource.cirrus.com
-In-Reply-To: <20260910121047.1592541-1-rf@opensource.cirrus.com>
-References: <20260910121047.1592541-1-rf@opensource.cirrus.com>
-Subject: Re: [PATCH] ASoC: wm_adsp: Firmware search progress log should not
- look like an error
-Message-Id: <178934211063.1239410.2884150749674926121.b4-ty@b4>
-Date: Mon, 14 Sep 2026 00:28:30 +0100
+To: cezary.rojewski@intel.com, liam.r.girdwood@linux.intel.com, 
+ peter.ujfalusi@linux.intel.com, yung-chuan.liao@linux.intel.com, 
+ kai.vehmanen@linux.intel.com, pierre-louis.bossart@linux.dev, 
+ perex@perex.cz, tiwai@suse.com, kuninori.morimoto.gx@renesas.com, 
+ tgaraev653@gmail.com, ckeepax@opensource.cirrus.com, 
+ balamurugan.c@intel.com, marco.crivellari@suse.com, 
+ Ai Chao <aichao@kylinos.cn>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20260911081932.2605407-1-aichao@kylinos.cn>
+References: <20260911081932.2605407-1-aichao@kylinos.cn>
+Subject: Re: [PATCH] ASoC: Intel: sof_es8336: Add a quirk for Huawei
+ Matebook B3-420
+Message-Id: <178934278902.1239410.8386174882176684705.b4-ty@b4>
+Date: Mon, 14 Sep 2026 00:39:49 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,20 +50,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1170; i=broonie@kernel.org;
- h=from:subject:message-id; bh=ee8dahDJ9hEGj0OepJiXD2XPmZ2PEfSyIduNA7O1ZUA=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqp70W87XF97CyUoXZcUgEey2UlXTl9pxj7AyNP
- vskYQT8BUSJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaqe9FgAKCRAk1otyXVSH
- 0MsHB/0U+tIKlNy6xt8ofBfBsvOqWe+Vq7zPmE+UW/W7hCmnwfF+OJjOrXUYZR19iyoqDa1LpQu
- 1kM8HVQhNUklRV8xN16IgrdPs+idRo4SXMhuQ3QtBY+447LtKPTD7SgplINQ9J0noUS0Tq/9dNA
- p7GTuVA3yDv++PH70g1jcP6Dxc/Y8fOxWEaoU6BBLGvdh6PFtWBpdSJhMEK4CvKiNUXyDenlKgH
- ataTIIzhGFzVQCpPc39U8ZsXVOv2ck8TvlnPrhzp9tGhgCdJnec0iyYoJZvZnUAq/JbqfEVbiw4
- AXU/fjjQUH9iLouxSjauszxjyWgCCTcXuloPo7DIweFozLUR
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1139; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=GiEgc+HONCIOXNi/2k+PHumsrQ/y82kzXcHyvmihvDo=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqp70bNU9mxGN4nWvYx6VnKYrDMWh0CrCdLQFka
+ 24ug9NoPz+JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaqe9GwAKCRAk1otyXVSH
+ 0Go0B/9grWcmSQh5Xi5RkR8jz51T8NqTKbHWnlb60RjPZGgT3HgzL+o7A5c9syiIzfu9DI/rsAJ
+ WNGf+ognumWYpuAhNdbCQnD6nKCPLUG6QrlpJhqvH82y1PERzBldyVvSlDgDA+Bz/8vwqklhehG
+ /YhEeMeujYrxN47Az19SDhL8HLoQYMsiAtXtn0w7WuGCrIbW908HZ7UHIZ/J7XLzq+bXHLkn48Q
+ LbaEgeWm0z4qs1EHya2ChPAq1HG7xMhfg/k59M5bcG6WKtp7ITK2rDzvI+/OYLwN07b1dn9bnao
+ qGhcMexK9EDgz78dgkAp5Nok4m0Lm6+tD3Odzgj7bvXqdimo
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Thu, 10 Sep 2026 13:10:46 +0100, Richard Fitzgerald wrote:
-> ASoC: wm_adsp: Firmware search progress log should not look like an error
+On Fri, 11 Sep 2026 16:19:32 +0800, Ai Chao wrote:
+> ASoC: Intel: sof_es8336: Add a quirk for Huawei Matebook B3-420
 
 Applied to
 
@@ -66,8 +71,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: wm_adsp: Firmware search progress log should not look like an error
-      https://git.kernel.org/broonie/sound/c/88c4aff39452
+[1/1] ASoC: Intel: sof_es8336: Add a quirk for Huawei Matebook B3-420
+      https://git.kernel.org/broonie/sound/c/576725ded009
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
