@@ -1,121 +1,151 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr2-f0.google.com (mail-wr2-f0.google.com [74.125.225.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36C0C38F253;
-	Mon, 14 Sep 2026 08:05:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B0D33AFB1C
+	for <linux-sound@vger.kernel.org>; Mon, 14 Sep 2026 08:06:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789373110; cv=none; b=jsoDRGDI5hIyyJR+3p8Bv/SsmU9SM0jWRA1HnApsNCRhF2RbVGKRSi7fJPhDoadr4/tmUmR5rs53isMUTpw7j98+UojrqdyMoh8cDugfOIYo1x8jWTuZk6EDICRWxVh+0ea5/N+pyB6j/dKEWkvkJkGCLW9v/r51BH2NYPuDcTw=
+	t=1789373162; cv=none; b=uRo8wkLs0k7Co1Q2qAXaPeIULvs5dUdKUz+tMk1ReTkGmsuNUPBDOnsI1i4S/ddlrbMROv+WxyAiqmRqGBWySwgil4rhltyOf2f6jEFSE1+FjD+e6oodOjSdGx7tPHEvhvoUEmoCIBucTZx5ONRP6vk9QcZ5h+gOqIpQBmoK4dY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789373110; c=relaxed/simple;
-	bh=ms02h7CsujbREPeLnaUOThPK+64TwYCRPpUsizrNp/I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rnGNlW1v5nKWiG9oIxbLs2+fzcbuIuDo4RE8pBHfpdcorErVYExgciucLIfSKXvAZ5MQuGG1HXCIt/cAOX6rqaHzbsYmvipP/LSXZY/OzO3K7hswKolkXxfZs55yaToP4LfUeCNZUlTl1JQvSyWIKNP7SqjmDqwdFp4/UFNSfgY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L2TP4zHL; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1789373162; c=relaxed/simple;
+	bh=y//kUZXKT1lm5smHXcQPc8RjdKiy2djCT6Sh2UKuGrM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=WbdPpUq3oFc/TIKtD4RY0O+Df8tdPiKPfj1Pv+crV6Xr/7GJ/9NEQgTRN7TZsjm9Ex9eAabL3jADLzZ97TjlugOr958fV4waSdliX5Wj/ngibVGnYNEa7JoJAOj85VonJZGXk2j0rtUNpMf6PUv0u0QL8MuXTEmJr80c7bTtn0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DIboSOHp; arc=none smtp.client-ip=74.125.225.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L2TP4zHL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789373109; x=1820909109;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=ms02h7CsujbREPeLnaUOThPK+64TwYCRPpUsizrNp/I=;
-  b=L2TP4zHLHvmazl7NahMd9Yw7qC90RXeB5i+JSeOEeD4YBc32yljScTye
-   D7x4rC2lOcSEuOm+AxvP4xMEQcmv/zm3ExsM8YgOsJmWYFQlsz0ghZ469
-   kZSHPwoM7PwK6nyxaHMfKcem4Xn7IVUqtvDhFfv9676RQmEVCC3oE1vJr
-   k0WmcWla3L6p/Hy+N4hxzu47KFUfucbB4waiES6zpFstEp8KZdegFfC65
-   gpnQ8f99wRFmgA7DhgV8k2TBdsXORWDylpbtXlMq+y/AK7JJIhh8x7laT
-   cMdfV0+ee3Xc+8Haja2Y06OR9ObIkmSPrullglNnQxvBMw7O+Pt506r12
-   Q==;
-X-CSE-ConnectionGUID: Nu5+r8EcQuasyIvQcB+Iww==
-X-CSE-MsgGUID: XSXvpDGLSa27m3a+rnlYNA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11904"; a="100317036"
-X-IronPort-AV: E=Sophos;i="6.27,102,1787036400"; 
-   d="scan'208";a="100317036"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2026 01:05:09 -0700
-X-CSE-ConnectionGUID: k/BGMQlsQ26pQ7qXoD2Low==
-X-CSE-MsgGUID: LyK3jnAQS4OvLkjyLJO+GQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,102,1787036400"; 
-   d="scan'208";a="268897922"
-Received: from ettammin-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.245.29])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2026 01:05:03 -0700
-Date: Mon, 14 Sep 2026 11:05:01 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>
-Cc: linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-iio@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-spi@vger.kernel.org,
-	Vinod Koul <vkoul@kernel.org>, Frank Li <Frank.Li@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
-	=?iso-8859-1?Q?Am=E9lie?= Delaunay <amelie.delaunay@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Andy Shevchenko <andy@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Mark Brown <broonie@kernel.org>
-Subject: Re: [PATCH v4 02/10] dmaengine: Support bus widths of 32 bytes and
- above
-Message-ID: <aqeqrQU7Gtj9uGQx@ashevche-desk.local>
-References: <20260911-dmaengine-support-wider-dma-masks-v4-0-72b8fd4cc78e@analog.com>
- <20260911-dmaengine-support-wider-dma-masks-v4-2-72b8fd4cc78e@analog.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DIboSOHp"
+Received: by mail-wr2-f0.google.com with SMTP id ffacd0b85a97d-48437cc1b11so677455f8f.1
+        for <linux-sound@vger.kernel.org>; Mon, 14 Sep 2026 01:06:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789373159; x=1789977959; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=4pyHVI/MA8Y1XwfEMB96UsVZKJ18D0ODeQhP8/x0ooA=;
+        b=DIboSOHp71g+gAidKhoHoI5DlXHYyoMald+oKM6BEJ+y7FDhb4OIjryImgf5/0CfR+
+         rNjl7cgZIcTh6dvuR8eN/Kx2n+s3JAbz/jv8HeR6Tdh2m3/eD7imdwRAsKC6pgNH0/CE
+         p+hGbSeQ9XQCERylsGU7jf8M7K/xzwCRiVy+gs6p6DTEkDLgVh0Kpp8yNBZXUmWVTS7M
+         Zp0rF2okHEccyG+s95Gp2ifoM8RoEs7G8631Bm6cM1bEnqbwPL9gb7RySawbCZ1tXYqA
+         XePztLKBBP//uB0vsRNLKKE1iOQBcXLEvy8xwxqoYPPb78y9ahAxmJphLU0tOzHMee7b
+         K+dw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789373159; x=1789977959;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=4pyHVI/MA8Y1XwfEMB96UsVZKJ18D0ODeQhP8/x0ooA=;
+        b=eC5XyR0QxnYf85J71dX+Vi/NkbpWHHQZYQtqVY9VD6U6uGe7utJpRz/gAMD9FdhzAX
+         yF46VDHjLSpHwvwHjUmVJL9fFG4kJYB5TNJvDcehUfW9zWk8ByOMKuDnbJrlC/st6/yT
+         yL5fOWp4OJH4IPecgRbO7gRxhQo3ysExjHoknwVbUbAGgTdXAhVr4TvC0VHvF/RAWcMY
+         0tKNM3eDqb5gAm6MwPHqacSYdGB56DeegTO4zGotE7or+00rF4FFeVovw9e6YgTcxX4a
+         bZoiIPHQp5+ZYTVEkiIHRfTNwVIw5c3dJIqSzyHuAD25C5atk6VzYkfMi3PotUOV1CCM
+         ZkZg==
+X-Forwarded-Encrypted: i=1; AKwUvBz4+pirgmTbT3SY4hTQMdgtXE8FwZI68ozRPtr4Klw1oZ9lRPHNCByDHLBOJyyvnasb1wDay8/lDcECrg==@vger.kernel.org
+X-Gm-Message-State: AFuF++k+4trbGgha+DCsmSdmoYl9Ui16b1AR2DxKSK7O8SPf9Jb/BCRW
+	qFFWbNg+2xEnG5TvdZu9d0gDXzolRK783zcyqNZ6kTqmJPFdugrzZSKr
+X-Gm-Gg: AYBFou0ueq2/0XvEOi2i6oLY7nQrjXGAm20yTgVo5Do+u0/Po5nopx4Sgp8zt6Jm1Za
+	Jcpg42ajzdwPekDHmQJs1MjyroXeDA31hZ2Pvl/O6eGtAy1URbPhgzB4sRARJ6NuT2LVsX2/led
+	0rHgHx/H/DZ8bxI+10Hh/hXJIss49jpdrMIJzrfyq59PcmhdZazHDNjWMJz4SW3u92QXEYG5KaW
+	HA3ft1IIVROcCALGCqfeZTBRkGKuijNUJyntAB9oYdxONLUmZLJ7Y3FNkFpiNqxm9UAJKVpP/wf
+	1Fpi7zlJoQyisEtCSEVX7giK2nsDgneme829rA1QpDDgCzt7VuXw+Raa0O2NSHKLM15qixzX04r
+	riJYdTjinICsGupLYUdqP9lTR6ycFeAKAuoX9YW/QlgS6kHUNYMWwhVBYXdYv+mRcxcTlQIs36M
+	mRx+wtWgZPp9X2gJ9X44cNRkpeKBN7Q3Rsx5sFm8WhWyVKTwlPEz5WOWCu0PSSwXOIw0CU4OwAf
+	o3e9Uckh/KeaGTv
+X-Received: by 2002:a05:6000:4281:b0:485:8c17:9761 with SMTP id ffacd0b85a97d-48702aff858mr1622347f8f.35.1789373158956;
+        Mon, 14 Sep 2026 01:05:58 -0700 (PDT)
+Received: from localhost.localdomain ([78.40.184.2])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-486eb32e6f1sm24339329f8f.6.2026.09.14.01.05.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Sep 2026 01:05:58 -0700 (PDT)
+From: Roman Demidov <roman.demidov.nn@gmail.com>
+To: stable@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Roman Demidov <roman.demidov.nn@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Sasha Levin <sashal@kernel.org>,
+	Tim Guttzeit <t.guttzeit@tuxedocomputers.com>,
+	Werner Sembach <wse@tuxedocomputers.com>,
+	Kailang Yang <kailang@realtek.com>,
+	Zhang Heng <zhangheng@kylinos.cn>,
+	Sean Rhodes <sean@starlabs.systems>,
+	Damien Dagorn <damien.dagorn29@gmail.com>,
+	Martin Hamilton <m@martinh.net>,
+	Bharat Dev Burman <bharat.singh7924@gmail.com>,
+	Lei Huang <huanglei@kylinos.cn>,
+	Stefan Binding <sbinding@opensource.cirrus.com>,
+	Lucas Tanure <tanureal@opensource.cirrus.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Denis Arefev <arefev@swemel.ru>,
+	Takashi Iwai <tiwai@suse.de>
+Subject: [PATCH 6.1] ALSA: hda: Fix missing pointer check in hda_component_manager_init function
+Date: Mon, 14 Sep 2026 11:05:45 +0300
+Message-ID: <20260914080546.11947-1-roman.demidov.nn@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260911-dmaengine-support-wider-dma-masks-v4-2-72b8fd4cc78e@analog.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Fri, Sep 11, 2026 at 06:25:37PM +0100, Nuno Sá wrote:
-> The src_addr_widths and dst_addr_widths capability masks encode each
-> supported width as a bit whose position equals the corresponding
-> enum dma_slave_buswidth value (e.g. DMA_SLAVE_BUSWIDTH_4_BYTES sets bit
-> 4). As these masks are plain u32, widths of 32 bytes and above
-> (DMA_SLAVE_BUSWIDTH_32/64/128_BYTES map to bits 32, 64 and 128) cannot
-> be represented at all.
-> 
-> Introduce bitmap-based bus width capabilities that span the full enum
-> range, through a new dma_buswidth_mask_t type modeled after
-> dma_cap_mask_t. To allow DMA controller drivers to be converted
-> incrementally, the legacy dma_device u32 fields are kept alongside the
-> new masks and the core folds a legacy-only driver's u32 into the mask
-> when the device is registered, so consumers only ever have to look at
-> the mask.
-> 
-> The accessors live in a new include/linux/dma/engine/widthmask.h instead
-> of in linux/dmaengine.h, so that only their users pay for the
-> linux/bitmap.h include. They all take a dma_buswidth_mask_t, which means
-> the interface will not change once the legacy fields are dropped.
-> 
-> The fold is bidirectional while both representations coexist. A driver
-> that only fills in the legacy u32 gets its mask derived from it, so the
-> consumers already converted see it. A driver that only fills in the mask
-> gets its legacy u32 derived from the mask, so the consumers not
-> converted yet, which read the legacy dma_slave_caps fields, keep working.
-> 
-> On top of that, dma_get_slave_caps() derives the legacy dma_slave_caps
-> masks from the new ones when a device_caps() callback adjusted them, so
-> that a converted controller narrowing its per-channel capabilities is
-> still seen by the consumers not converted yet, while a driver adjusting
-> the legacy masks directly keeps working.
+From: Denis Arefev <arefev@swemel.ru>
 
-Acked-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+commit 1cf11d80db5df805b538c942269e05a65bcaf5bc upstream.
 
+The __component_match_add function may assign the 'matchptr' pointer
+the value ERR_PTR(-ENOMEM), which will subsequently be dereferenced.
+
+The call stack leading to the error looks like this:
+
+hda_component_manager_init
+|-> component_match_add
+    |-> component_match_add_release
+        |-> __component_match_add ( ... ,**matchptr, ... )
+            |-> *matchptr = ERR_PTR(-ENOMEM);       // assign
+|-> component_master_add_with_match( ...  match)
+    |-> component_match_realloc(match, match->num); // dereference
+
+Add IS_ERR() check to prevent the crash.
+
+Found by Linux Verification Center (linuxtesting.org) with SVACE.
+
+Fixes: ae7abe36e352 ("ALSA: hda/realtek: Add CS35L41 support for Thinkpad laptops")
+Cc: stable@vger.kernel.org
+Signed-off-by: Denis Arefev <arefev@swemel.ru>
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+[Roman: Instead of modifying hda_component_manager_init() (which does not
+yet exist in version 6.1), a check needs to be added to the
+cs35l41_generic_fixup() functionâ€”the very function introduced by the
+offending commit, which calls component_match_add() without verifying its
+successful completion.]
+Signed-off-by: Roman Demidov <roman.demidov.nn@gmail.com>
+---
+Backport fix for BDU:2026-03984
+
+ sound/pci/hda/patch_realtek.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index 7b4fd95c66f9..9e6846a37d67 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -7021,6 +7021,11 @@ static void cs35l41_generic_fixup(struct hda_codec *cdc, int action, const char
+ 			spec->comps[i].codec = cdc;
+ 			component_match_add(dev, &spec->match,
+ 					    comp_match_cs35l41_dev_name, rec);
++			if (IS_ERR(spec->match)) {
++				codec_err(cdc, "Fail to add component %ld\n",
++					  PTR_ERR(spec->match));
++				return;
++			}
+ 		}
+ 		ret = component_master_add_with_match(dev, &comp_master_ops, spec->match);
+ 		if (ret)
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.53.0
 
