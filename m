@@ -1,121 +1,143 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F4733CB571
-	for <linux-sound@vger.kernel.org>; Mon, 14 Sep 2026 07:29:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DCD037204E
+	for <linux-sound@vger.kernel.org>; Mon, 14 Sep 2026 07:33:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789370996; cv=none; b=dt7pDQDHqujXBTiEnh4C3gh6wQJw1WqAV3e6sExoWEbI9Tw9C5jpKVyJS2Ht9zmQY2a7awDpH57KpQMbEqGDyXpezZVqNwsA/AF6KdCt71vrfH8+Gki+06YXeG8bUOamiE3XgrC3BpbBeteBU9piVjMkEpSneq/FJEhN3WeMDi4=
+	t=1789371206; cv=none; b=LN4BuRen+Li1J3FK5KY220uvgsn3NHAkVLXV8kWGkUWAVuB6A+/1iEOGV3ma5SOlngp9FEItAuTSAAVE/hYweKLnnq0dcee/C4EIETMde3gOSYnCKnym+a8ddJV+8EEAm1E7Pd+fQZ1q0Z1v3T7Dg1TXU3sXnMvbrmK9d1zDu4s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789370996; c=relaxed/simple;
-	bh=HNQ3yAaTj8Lox9L4v2OsrFX6RIoSfJ6hArRWObXN3VU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Ha/lojyw9amqnbjwsok/YfjZ14WcwHnwkIdF3YfosNeGNltYL/Tq+B5XRxYMphPZoTrVYavdKSx0GQw/xdtGGN7fIDYqHXrEZV/0YXtcrZfQXug7SbtIcTGJIC/jSfiOZ1ffXPKIDeIbzu+zsA689/n36D3cHfpMK/StNE0bAmU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lYfsZik/; arc=none smtp.client-ip=209.85.216.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789371206; c=relaxed/simple;
+	bh=DTr6iiCXWEqi8Ceal6qp4HJBgbt9QBxJ+v30+Z1ghDI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NjNIIfq8SOFdXYYegjV6IkWleFSO4Ak20NCMFR/JkDmobkWdUQ4KGwepn8wRhDhVlptL9FYhjtLoGY6rGBICe5F+B6gbbvt/D4kW9iNgunJMVnjoHQVComlND1PDU++ut+IQ9o16kcjRhiVxGmzQYC/st9py7obqE3eUIdgIQ38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=WXMCr7d7; arc=none smtp.client-ip=74.125.225.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lYfsZik/"
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-383b4a3755fso3235727a91.3
-        for <linux-sound@vger.kernel.org>; Mon, 14 Sep 2026 00:29:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="WXMCr7d7"
+Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-482f6356f6bso1337065f8f.2
+        for <linux-sound@vger.kernel.org>; Mon, 14 Sep 2026 00:33:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789370995; x=1789975795; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=DlX7uEp+xJt+DRWD58MvDXb25/Cat7Ywclf9fNm7ioc=;
-        b=lYfsZik/twvSM+UqaiMIjAwr1/XNFn0i3kN/SlgWyse7tgP7VHMBXaogaFrEDWLPFD
-         R8Dy8jj0BbC3s5++wkvab2bE4DfdkMu/wn97ivBH/Ovxg8a0kWIYWebmG9mp2U/jm44N
-         1wussQPKOClO9yPEJlBUkv5/Rnk3WwSeKMotQ6FVNm0VBuna73i9ggJOx7C2JuMUF5V0
-         YGN2Zs1NBebCsz0jZ0JNBJsWdAWSvsIu6k7X4gkcqCmUpIypjrz5xW5rLN+IDZXQKFD0
-         eQJXuL5FwxizT7s93O0M7yZr5ZcXvGpLXQJpWRCIHRB/di/ZSqfsZXh+4Y48kX8Uy/ge
-         1S7w==
+        d=baylibre.com; s=google; t=1789371203; x=1789976003; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=aZr2FikKI33KDHEnzqoeN/VTnNw+pox/jCxpOuAG6zQ=;
+        b=WXMCr7d7uocRZ39WfXINuWRDf9AuOfUDiiJUL+jC+2lTafOUXv3gaAAEUFyQmB+Rvs
+         a1lUhv2oavzERsuzNMICfiAZfdAN9K8C1nLLS/lsuWWMrfOGLlWAtUBJd6Jc1cQsYntZ
+         UflZVMdql8z3GcmijcDuIQaA/yHVJJJ9RJiUVwDJX6RR4MXCSsRNUYYkuzUwTgLhEfgh
+         X5oFV5ri8gAlE7vi88W/vGx6VdlGZygBU5X03HGr14lNZFiRe8yKsiFwDkKr+s3SdapY
+         q8QTsZ1CqZ1MVUYgkDP7Lj32OjknilXwOHe3tsKEo/gLHrZfml2ghZj/7IVn8W94Xqz7
+         7GWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789370995; x=1789975795;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=DlX7uEp+xJt+DRWD58MvDXb25/Cat7Ywclf9fNm7ioc=;
-        b=d3gk4T3jJd1ZfXW3ihJ0wmM4cElMG8MwaFGDQHO4qg+33ngHDsgn67ZvY0soVgC2d7
-         kLgzSJg+xTgI9HLPR2B+o1HjNcPsu+3IHHCUbB1wm0cP0XFaAkO2A420zIsC+W0tTa/Y
-         TFNsN/2kNyurxzZYIy/ScP9fBDb/13XcU641go7UPO8SIis0U0T7yYG+RUE9jOQHku8I
-         Or7UoCxEDjWpUnpY9h/YXKF88thVY+IW/Yc8sa/9Av/96kh3REAiPJVqwdI5nBpo16kR
-         3Elz99uVwE78csZn2s5/cvLImCZSa9kRd7hY2916bkT0KVqigxfX9APDvP9JI3e+PTf3
-         rSPQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxuJW/rkfzVxWi//QVLqIqVxhELaj9FjulnbWH3F30p0JG8S+B8n9r+z8nNwZwF3FgbGh2btoZC3XguvA==@vger.kernel.org
-X-Gm-Message-State: AFuF++l57gnUpu2vGBuifwgM/n/goyz4Kw9Bp9BnxqaOuEH4osZ0FJC4
-	sp1SA/U+qZyfKHgYtaR984L9FJZ7yPl0/s6Q+9r2OGmKgDLsfF/OS/aU
-X-Gm-Gg: AYBFou3sJ6+yQhoPfxNYHrrF8z0uo/W3IZYcmdbfXDjLSws3FELaA2nDBR3OUw0m+fD
-	f6v+JW3jXYLCTQzr1rAUdml/YTTr5QsGTKbgNU2P8cTx1M+IGtgPLqyyXwByI3Vg3SHzStOHrHC
-	E16JqW9WrgcPEAbo3blwGMfAmOO/Bf6W6owubx2dv6kUtw1LszZ9pfAJp/7+tAcDX5wzHD2cmuE
-	+pgtb9D6w+9V1e3O7AeOABw5o/5PCnoQ+M4Xwj12/ynRmuCVQ0rMMTRxWMWiP2f+RsPFo5YGa/i
-	27Vw0X+Ckw+JUIjo+zDPd58q2VfHwj3v+TuQ7iYZdxcgfn4+Ud3bqQRq617pXt46IRMDsswQTmy
-	XMPBnPgO0WVeP9Syoq+COfBIKamUXFD2lB6Tb9LR+Z7o1rYLvdI7jfuzOjii3/fXZ+aHh50E5y9
-	GfdAg7PFPGhExSaH99kweC6HLWub230vKTOhdBC9qzslJ5ryT3U6sx2vXeM9wFY4apOARDqyVaE
-	vkbD+xhDxNQmlpiJqTXZnMO9vWSjuL37gPrVaIR6OGDHfOmAAF2lDRT9MnYCVEAmFRGuCwP/mo9
-	LsDFupBg00sDIdbBR7v/r6EjcA==
-X-Received: by 2002:a17:90b:3884:b0:396:6344:3b63 with SMTP id 98e67ed59e1d1-39debf6ce65mr3151063a91.2.1789370994682;
-        Mon, 14 Sep 2026 00:29:54 -0700 (PDT)
-Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39d957131f9sm19598245a91.12.2026.09.14.00.29.51
+        d=1e100.net; s=20251104; t=1789371203; x=1789976003;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=aZr2FikKI33KDHEnzqoeN/VTnNw+pox/jCxpOuAG6zQ=;
+        b=sWg4W9TfFVuBhOtfGfhCdMYh1tlV2vyZmMzBXWXQAHHElMoqKXEShXWyc96lxm5LwS
+         PKmVBD7dZEJzW9WiurM3tmHvo7r05b/2q3A4uSqqZ/mtMC9RVdj2gfiZIDszGB01MUnd
+         VmpCqVMOkBhGiisYPFGKt0CAZNj8kIVHkuNy1ri83nvO8iOOvTS0Qfb6J9JYOxdoUOeK
+         rPcHdGivR4/U5kbWqjIjTVLZ1Q63bzrwb2y12U/oIW7eqbNSxQE+zsRpIh6rLUDkysXj
+         mTE8q2c0gRt3mTeJNx2ynouqM6wgMajLYIy8pXcHMGfuDTf8hPhrN0EWIbGuUY1scp2m
+         jpXg==
+X-Forwarded-Encrypted: i=1; AKwUvByOZZN1SmigMvHd87e9uA2MAJXKE6gxKI7rsGFWPaYsOMEIua3ICwMRzhRJoMSiqRp96jMXKt12RXNGqw==@vger.kernel.org
+X-Gm-Message-State: AFuF++k08W6BeKGG/P3K5v1dEUx7ChIuEbe5od2cq0XfbW9QeLjN26L/
+	YGNZj+IxZCvH8vgx30KALD31LmJ7T+K2SOoufMsj6pUfjc8OpFOkNIgaeMhdgZ+lJt9JviOVQ6f
+	BHglM
+X-Gm-Gg: AYBFou1h2hS13BLZU8Xr8FYWGOvyqVOoDEKjhW/NDJUgDfO+5a6VYXv1MdCKjpYEWaF
+	WaiAfRByLYnJJHF3MmzS/MvmS8axim1DMASRa/eAq/uCojske0cvxDUwZ5w7KLOmWPpwWFvIatY
+	NkqTBkG/WFsrcY5TlXqcBAxme6yR105JTacrqUtPvrIkV8pq4lcOH9QtA6cjOhWsGQAo5z9yb++
+	JyCHM62nFM5BQwBzgyNqE11/33OvFO1qea9V0QqMepPNj6S0F4MS/0iOYwvQHhutiQca36wLtg1
+	QGltp4oWneWPaKIRkwqXrkgE4RocTxmVhEyDPE4Djv5AiTwulFHvALjst1bt8LJKwRZ5e1+D4hn
+	dfpbeexDOpX3SqwkvFMJQEu/42eRxEHaQUrlOc0wNkeeuqa9cxv2dyklpARsHf9ynVOQDiTOLVu
+	xLFfZzINCfVsE87jHYymICBTni0SyMMWu2GRp5LS8HNTM81YYcPwMew7OCBMUONDu7lVEaUkdBX
+	1S+ifvZ7TNZZifCAxKttqmR7AGwE71CAHDW4lgUMrIDbwC06b32B62su0yz7xq8S1o29hY+
+X-Received: by 2002:a05:6000:470c:b0:486:f770:9e87 with SMTP id ffacd0b85a97d-48702aacef4mr2464666f8f.5.1789371202652;
+        Mon, 14 Sep 2026 00:33:22 -0700 (PDT)
+Received: from localhost (p200300f65f19a904d5c06a7863c841d4.dip0.t-ipconnect.de. [2003:f6:5f19:a904:d5c0:6a78:63c8:41d4])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-486eb2ed106sm24129793f8f.1.2026.09.14.00.33.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2026 00:29:54 -0700 (PDT)
-From: phucduc.bui@gmail.com
-To: Mark Brown <broonie@kernel.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Cezary Rojewski <cezary.rojewski@intel.com>,
-	Cyril Chao <Cyril.Chao@mediatek.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Dan Carpenter <error27@gmail.com>,
-	cassiogabrielcontato@gmail.com,
-	linux-sound@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v2 13/13] ASoC: mediatek: mt8189: Validate TDM MCLK frequency
-Date: Mon, 14 Sep 2026 14:28:42 +0700
-Message-ID: <20260914072842.24420-14-phucduc.bui@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260914072842.24420-1-phucduc.bui@gmail.com>
-References: <20260914072842.24420-1-phucduc.bui@gmail.com>
+        Mon, 14 Sep 2026 00:33:21 -0700 (PDT)
+Date: Mon, 14 Sep 2026 09:33:20 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Valerio Setti <vsetti@baylibre.com>
+Cc: Jerome Brunet <jbrunet@baylibre.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/6] ASoC: meson: add audin main module and I2S formatter
+Message-ID: <aqeiUfIyeW2mapm_@monoceros>
+References: <20260912-audin-v1-0-7fbefe928711@baylibre.com>
+ <20260912-audin-v1-2-7fbefe928711@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="4kuywhcc5gf5klas"
+Content-Disposition: inline
+In-Reply-To: <20260912-audin-v1-2-7fbefe928711@baylibre.com>
 
-From: bui duc phuc <phucduc.bui@gmail.com>
 
-mtk_dai_tdm_cal_mclk() accepts zero or negative frequencies.
-Reject invalid frequencies before configuring the TDM clock.
+--4kuywhcc5gf5klas
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Subject: Re: [PATCH 2/6] ASoC: meson: add audin main module and I2S formatter
+MIME-Version: 1.0
 
-Fixes: 9f202872ba04 ("ASoC: mediatek: mt8189: support TDM in platform driver")
-Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
----
- sound/soc/mediatek/mt8189/mt8189-dai-tdm.c | 3 +++
- 1 file changed, 3 insertions(+)
+Hello Valerio,
 
-diff --git a/sound/soc/mediatek/mt8189/mt8189-dai-tdm.c b/sound/soc/mediatek/mt8189/mt8189-dai-tdm.c
-index 1b51027c6cf4..7748b4ff2c72 100644
---- a/sound/soc/mediatek/mt8189/mt8189-dai-tdm.c
-+++ b/sound/soc/mediatek/mt8189/mt8189-dai-tdm.c
-@@ -381,6 +381,9 @@ static int mtk_dai_tdm_cal_mclk(struct mtk_base_afe *afe,
- 	int apll;
- 	int apll_rate;
- 
-+	if (freq <= 0)
-+		return -EINVAL;
-+
- 	apll = mt8189_get_apll_by_rate(afe, freq);
- 	apll_rate = mt8189_get_apll_rate(afe, apll);
- 
--- 
-2.43.0
+On Sat, Sep 12, 2026 at 12:14:32AM +0200, Valerio Setti wrote:
+> +#include <linux/clk.h>
+> +#include <linux/module.h>
+> +#include <linux/mod_devicetable.h>
+> +#include <linux/of_platform.h>
+> +#include <linux/platform_device.h>
 
+Please rely on <linux/platform_device.h> to provide of_device_id and
+drop the include for <linux/mod_devicetable.h>. That latter header is
+supposed to go away soon and injects a lot of build dependencies into
+your driver.
+
+If you want to go full iwyn, please use <linux/device-id/of.h> instead.
+
+> +#include <linux/regmap.h>
+> +#include <linux/reset.h>
+> +#include <sound/soc.h>
+> [...]
+> +static const struct of_device_id meson_gx_audin_of_match[] = {
+> +	{ .compatible = "amlogic,meson-gxbb-audin" },
+> +	{ .compatible = "amlogic,meson-gxl-audin" },
+> +	{}
+> +};
+
+It seems to be subjective, but I think most nit-pickers in the kernel
+prefer { } over {} to match the spacing in the non-empty initializers.
+
+Best regards
+Uwe
+
+--4kuywhcc5gf5klas
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmqnoz4ACgkQj4D7WH0S
+/k6wBgf/VDlnoO5+iXo8tNZhitG0NPObCWmA3qnUxY31Go2pWwo5D7mENYe58DQf
+LbOjfyHM3rG5ajmQJpNpoxoWanM8pHm1pbf7WjzZXg8WxLPnc6Y6QmjA5rC1Rsoe
+OaAlq3aB/SmDTaIo9WzaLTYU/UhsFNVrWjtqGWhRXgGod17Q1r4iEW6LZadLjsyw
+8xYNabxMGbQJVZK8cXM2tJCC9n1O51+z8w01tQyZ4ze4J3Xw7v8uRXbDezOIqIee
+/+z7LE3HPZKG04IMtzYplulwe4dmSdjkf81QWxDR5SFxRrlxNaSuxE12LKJ4DSS4
+GL20Mp6Pvdl/Kqd1PwrNPdwUx4BNlw==
+=LwSM
+-----END PGP SIGNATURE-----
+
+--4kuywhcc5gf5klas--
