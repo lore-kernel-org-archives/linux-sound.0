@@ -1,317 +1,239 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0b-00128a01.pphosted.com (mx0b-00128a01.pphosted.com [148.163.139.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5887248CD48;
-	Mon, 14 Sep 2026 15:17:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789399076; cv=none; b=GFRhjG4aHrR/USHygWkRD68B23fCDRfQVhE2ANwFy7joN6o6tafDitwVaf3XzN8m6nLtYzVJheGC/jriXbCOh4f7HnEBN2suhDjhtXZNnGCtCsHHImSSlbXfcBp9caczamC/78DLkDFR5g3UolrQqX43ArX7HbPFyJxTW7TG+o4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789399076; c=relaxed/simple;
-	bh=3AnqccC2jTUlmIOHAi2JESa1NkBfZlWIxg9a+l0jjPI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=KNhoI8Qh/rgfmOs3FfvRb8sPY8gsnnAA2x/FpAUgq6NIMRkLU3GsLtP86Rnjt6Atb6DK+SIdUVOURrrU/EyGjET+vA7u8HBq7Qrwv9/6NMELBbrGiswJC/TnM6dSAYPxkQcFIWDUVKTudyISszkwuz2Ee55UhONcy0VRoj60sLY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SJBEb+Gi; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2923446D0A2;
+	Mon, 14 Sep 2026 15:39:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.139.77
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789400359; cv=fail; b=tFvtv8zpYx1T2I27rDDbfOVNuRlRROYo2cHSlVSlleUKbLfA+aYdFcrcjvzoqe7QVOrwa9TVagj4GhH1XmcCXaApEW7p0sRdoyYMIilrbjVZ4WR1lbCW+PO3oKAgCX4JvKf0344UDANl7aQM4Mp23fLuLaAfw0AXwLujzgj13HI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789400359; c=relaxed/simple;
+	bh=eCdwzSZZjBAxAk9/XUPiVOsYZa9pTROtGT6neVQu53w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=tyYrOCwomRQkIutWRXiJhcjGirnHGkc+BQFYVXDNKpBRg9xXfh8u/sHFsrD8cJxcHTpvQTboKedninWuh1Z2Jnk1r3hXZCQ6OGwKEW8hUxX/tpzDJIS/Onl4z4Qg/Q0VpCmdghQfpDTozhY0TMbdFy3a+7SINkjcmLU/yayN1qA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=l2FC+FSG; arc=fail smtp.client-ip=148.163.139.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SJBEb+Gi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2FFF01F00893;
-	Mon, 14 Sep 2026 15:17:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789399072;
-	bh=fJh5Pnd5DL/qwxE+WalsUTaJGJt6FooGZcWLpPNnk7E=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=SJBEb+GiYUKwq78ymyy9xZi5YxHSsl3+R12Wq1y0Nsf2/hsIt5f6VR12jG9FLsmoK
-	 IEzLRYU4gHRuR3B6UrSWiBzVaqEaDWCvCvmqwrdKIuMYP29tsdN9RjYMUy4sBEBwEO
-	 Qwmm0RQ5msDwyuLQ8+6UzfG1pCgJHdctl691Lrfe7MYxV0tWZUErIIggyXeia5YmMK
-	 h6wnFZurT6Z7hw2RrQcbTH/vH7UDNmre0Tsy8MF/iVuJWyzO05woCfsOn57z0QCf6a
-	 f3RqU+jD2hnz3/Do3nZKKt1jW7hJNKGt/eLLxEZU7UV2k/yAbKikokP9YsJLwlWHCM
-	 dm/lMP+3dWi7A==
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Date: Mon, 14 Sep 2026 15:58:00 +0100
-Subject: [PATCH v2 40/40] mm/vma: introduce and use vma[_flags]_can_gup()
+	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="l2FC+FSG"
+Received: from pps.filterd (m0375854.ppops.net [127.0.0.1])
+	by mx0b-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68ED3e4Z3175976;
+	Mon, 14 Sep 2026 11:38:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=DKIM; bh=Zj32T
+	b0RA0Zus74Wz2dLlS7JmsQ6PHGAIlyyDswkJnI=; b=l2FC+FSG0PC/TQacfHF4F
+	EVLTqD3/IcQwMI5V2w9LazbRKesLD42zgJisCwvMjZG/xmzlIjwbCRIxczoxdOl+
+	eUXaR1Hd62v0ocF5GzCFgq1Ag7nKscgHNu+pCSNdQiSc1vUTYIB6FBWTamU/YKb5
+	+KKAxNccj4BytL3DrDnB4fm4KQ8bloGzQ/pvkUI36p5rKR07WFETpncNxXYLIzCU
+	FjuHeH6adHZLlYSW32fKmmeuJGkx0Ezbli4zg/iUBAsRqZuTkFB/SN6aP7odwcBZ
+	SvZyx9a4paHf+PmlSlMBKEueYKfkgP7v7sgqL0UMZ+hRlxcKT89nR8SolX+0KgmR
+	g==
+Received: from ch5pr02cu005.outbound.protection.outlook.com (mail-northcentralusazon11012058.outbound.protection.outlook.com [40.107.200.58])
+	by mx0b-00128a01.pphosted.com (PPS) with ESMTPS id 4gnrsfm6sa-2
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Mon, 14 Sep 2026 11:38:28 -0400 (EDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=zEVuq6Xp5Ch1qzqUZHkKs5VqJk1G9kwwaL/5mqcovn8pLMPAdnXPRJPR3nNGdoXPDpXjSLg2fcMmsI5p1IkuqvtK5+oZw1L7bqg00D46uoQnaJEBlPV9USF0SZtWilrsH2pBF+61P58MAwmvxF1X85rqDYJV2tDMdrBmAh0plz5ZEcHYxfdk4STZ0L3mDc5zz1Qj+/SbRkuBuDLzms37SLSswwIaRyQPmIau+OdXBGbl9Iia0Ugt45nRhxgjgtsYQQZhRwzg1w6mRhobY//aAYEjAvNWc9auCvcvE8tiu5v1RIN0G63iIs1xwa83OE2aPQ3fssXQfZiZudqwL5373w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Zj32Tb0RA0Zus74Wz2dLlS7JmsQ6PHGAIlyyDswkJnI=;
+ b=dHNhlMM+7ZIF/eSH5QPsYRVnVQ3Cqf3NjiZ1e5KFsRPjAPUh1M+muBgPEJ8+b+9L0U3bhtmPAak9AGZK1ps5F7t0rmTmMvM5ReGGfLEwzEkkJZiS5vXfXhFUtRx/3rfnFMnDssaP895RP5VYLagoQDijeLbm672PwQS0pIReuKyVj7G5Wr93L1ABjQKXB94nVMQEHLr8quwgbfyWhqWsv+6KArr4jpH6n9yZnqjatjewcBozt0F230xobX+BnhMfWY96FxWW/VtV3GqDMxZArLx7BJrVNC8EUVpxAEIy00jywiCSsJqAlMJZxWE3lk9ruNWwRDM26UIKECY7Zm2gRQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=analog.com; dmarc=pass action=none header.from=analog.com;
+ dkim=pass header.d=analog.com; arc=none
+Received: from SJ0PR03MB5469.namprd03.prod.outlook.com (2603:10b6:a03:28a::17)
+ by BY5PR03MB5171.namprd03.prod.outlook.com (2603:10b6:a03:220::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.12; Mon, 14 Sep
+ 2026 15:38:23 +0000
+Received: from SJ0PR03MB5469.namprd03.prod.outlook.com
+ ([fe80::2a19:76b2:e731:8c5a]) by SJ0PR03MB5469.namprd03.prod.outlook.com
+ ([fe80::2a19:76b2:e731:8c5a%6]) with mapi id 15.21.0406.007; Mon, 14 Sep 2026
+ 15:38:23 +0000
+Date: Mon, 14 Sep 2026 16:39:38 +0100
+From: Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org, linux-iio@vger.kernel.org,
+        linux-sound@vger.kernel.org, linux-spi@vger.kernel.org,
+        Vinod Koul <vkoul@kernel.org>, Frank Li <Frank.Li@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
+        =?utf-8?Q?Am=C3=A9lie?= Delaunay <amelie.delaunay@foss.st.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        David Lechner <dlechner@baylibre.com>,
+        Andy Shevchenko <andy@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, Mark Brown <broonie@kernel.org>,
+        Frank Li <Frank.Li@nxp.com>
+Subject: Re: [PATCH v4 08/10] ALSA: pcm_dmaengine: Use dma_slave_caps bus
+ width helpers
+Message-ID: <aqgUo4-r0-TIKZLl@nsa>
+References: <20260911-dmaengine-support-wider-dma-masks-v4-0-72b8fd4cc78e@analog.com>
+ <20260911-dmaengine-support-wider-dma-masks-v4-8-72b8fd4cc78e@analog.com>
+ <aqesWfdIsiR31sql@ashevche-desk.local>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aqesWfdIsiR31sql@ashevche-desk.local>
+X-ClientProxiedBy: MA3P292CA0046.ESPP292.PROD.OUTLOOK.COM
+ (2603:10a6:250:48::16) To SJ0PR03MB5469.namprd03.prod.outlook.com
+ (2603:10b6:a03:28a::17)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260914-b4-mmap-prepare-vma-flag-sanify-v2-40-7d9781ed5361@kernel.org>
-References: <20260914-b4-mmap-prepare-vma-flag-sanify-v2-0-7d9781ed5361@kernel.org>
-In-Reply-To: <20260914-b4-mmap-prepare-vma-flag-sanify-v2-0-7d9781ed5361@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>, 
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
- Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
- David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
- Jonathan Corbet <corbet@lwn.net>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
- Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
- Paul Moore <paul@paul-moore.com>, 
- Stephen Smalley <stephen.smalley.work@gmail.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
- Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
- Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>, 
- Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, 
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
- Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
- Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, 
- "Martin K. Petersen" <mkp@kernel.org>, Jaya Kumar <jayalk@intworks.biz>, 
- Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, 
- Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, 
- Peter Xu <peterx@redhat.com>, Masami Hiramatsu <mhiramat@kernel.org>, 
- Oleg Nesterov <oleg@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
- Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
- x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
- Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
- Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
- Juri Lelli <juri.lelli@redhat.com>, 
- Vincent Guittot <vincent.guittot@linaro.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
- "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, 
- Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
- Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
- Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
- Catalin Marinas <catalin.marinas@arm.com>, 
- Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, 
- Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
- Albert Ou <aou@eecs.berkeley.edu>, 
- Christian Borntraeger <borntraeger@linux.ibm.com>, 
- Janosch Frank <frankja@linux.ibm.com>, 
- Claudio Imbrenda <imbrenda@linux.ibm.com>, 
- Alexander Gordeev <agordeev@linux.ibm.com>, 
- Gerald Schaefer <gerald.schaefer@linux.ibm.com>, 
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
- "David S. Miller" <davem@davemloft.net>, 
- Andreas Larsson <andreas@gaisler.com>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, 
- Matthew Brost <matthew.brost@intel.com>, 
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, 
- Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, 
- Ying Huang <ying.huang@linux.alibaba.com>, 
- Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, 
- Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
- Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
- Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
- Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
- Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
- Wei Xu <weixugc@google.com>, Chengming Zhou <chengming.zhou@linux.dev>, 
- Michal Hocko <mhocko@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, 
- Xu Xin <xu.xin@linux.dev>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
- linux-rdma@vger.kernel.org, selinux@vger.kernel.org, 
- linux-sound@vger.kernel.org, bpf@vger.kernel.org, 
- linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
- linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, 
- kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
- linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, 
- fuse-devel@lists.linux.dev, "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6501; i=ljs@kernel.org;
- h=from:subject:message-id; bh=3AnqccC2jTUlmIOHAi2JESa1NkBfZlWIxg9a+l0jjPI=;
- b=owGbwMvMwCV2fu7ZrsZH9SKMp9WSGLJWcG/RLrydJciw/BS79IsveW9n+2r99rmurBlodmpS+
- RRx76h1HaUsDGJcDLJiiizPv4jvDxIJm9d5wd8NZg4rE8gQBi5OAZhIkjvDP93oPv7KUwVZyzmP
- /Y5JN7v5L+H3keK5W5RUpgfrJzE0uzMynHype2puUKfCJhPhXQtYMu7XXi1Km15XEbP4QomOrJw
- oLwA=
-X-Developer-Key: i=ljs@kernel.org; a=openpgp;
- fpr=E7F417BF5214569E89D04F46CF9DCD8A81E27F14
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR03MB5469:EE_|BY5PR03MB5171:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8df69f20-fa39-4b2e-3619-08df127635ef
+X-LD-Processed: eaa689b4-8f87-40e0-9c6f-7228de4d754a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+ BCL:0;ARA:13230040|376014|7416014|23010399003|1800799024|366016|11063799006|56012099006|4143699003|10067099003|22082099003|18002099003|6133799003;
+X-Microsoft-Antispam-Message-Info:
+ Nw8nKB9lWNsaAMks8+r8cliKW0f05/4EDWzvMJg5RS0tm6GnBcpFK+MRuFw6sXE8izXR2ZeP+WJ4434ymrhtOwDa3oXXr3+3y3bDBKFSBtosnxKmP875nUWeysM2IPh0i0w4DLOq+d8WWBd5bBoV+kbdGCCzdErpm5v/z1CKJtVh3LqadW+uUSiAt6uS041RSH+0M6GTtqmkbDGTY4MBpfh12+yATFy6SrvwyAggzXxyBD9mvY1jYM934UJ3uTHxu4UN/hXZUb9mKALljwCqefqVik2oq2iE6ZSQv5UiBF/lsh3M8e0zRcTksloMr9YdOtQlQYorphGz3r5HeFXxRk1yULQKqs/RR2ckFBZBvpDj+vhR2Ag/G1nfnlxcvBj1rcS1CrE5raHaNFwiJn3pUZI3cRGxL1XTjJn1DLsqra4JI9hi5nqzEnFPZZi1sd0SpUl4Hy1C8byxLcD00ubLjmOOjvXSFhUw3FAUho8Yre5mJJ3bmskyThOt+i1dWMybhjSrcorqRyorpnv6ozoy1F+PUOKkcrhaJ7tru1lpUYrp6EifhYu7aGHPan1uiI0DKk3zrYM9Zo/e1QHJeJzpCZJIivDwzTdzH8wMDWfn4Wtb1x3Jr/lwJr48zlpuLAe+zhBkUHAHwm1UATVDVv4Qb1Hurf3mBkGtIKky/FfBXB0=
+X-Forefront-Antispam-Report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR03MB5469.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(23010399003)(1800799024)(366016)(11063799006)(56012099006)(4143699003)(10067099003)(22082099003)(18002099003)(6133799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+ =?utf-8?B?bnpKZGhHak1kT0UwTTBCa1JoaUtJd3FPOXpJL2dDU3ZJTEF2dmtlOWpiRXZN?=
+ =?utf-8?B?RkNXVVVmSlZoNEg4SFJDaEFwaSswKzJzVld3bk03a2FIWGpvTVVhKytFUVA4?=
+ =?utf-8?B?a0J0N0R2OFdvSWptN2JBT2VDYUZXY3F4ODF4QVltM3ZHSTNVdUdvcW9pbHg1?=
+ =?utf-8?B?QmRPNmVIa0xzQVpKYnBQR1dmdXczNXI0Uy80OUNxeWhtcng0WURxeUdrNXVj?=
+ =?utf-8?B?NEZYOHlPMUlKem8vMjh0UzNTREFINjNReDA3TUYrcnlaZnlDOWFYRWFpc29w?=
+ =?utf-8?B?ZTFvbE1lcFVRQ2VheVQ5aitMZzdBRXE5SVlwMEozenJqc2ZBTFNVZmI0UTZO?=
+ =?utf-8?B?MDJoMTdYT0czZDc0a0RuRWFlMG93MDByMHpOZy8vT2JDSnpHWTVvVC9JMnhM?=
+ =?utf-8?B?K3M0eCtwSDNNMlVJQmN2enpaRTZiS2hrMlluV1BsMjVJSkZkc2VUd2xpRmh4?=
+ =?utf-8?B?YmJqanJKbU45VWZxNmk5MmNNVitkbGZWT1c2VThSZ0ZYaC9rQ3Fvb2FpRjBS?=
+ =?utf-8?B?YThIVjFJU0l6M0kzR3NJN2t1d3lJc2dJNWU4T2J3c0FlUHp3SFhMdnBZRTF3?=
+ =?utf-8?B?NklrcjJpRWRjRHAyMjBLSmJMeFo4aUZoemM0UDRhNGExK3JSV0RDVXRUSWdM?=
+ =?utf-8?B?dUs0Y2tiK2JlVlkwd3R4VUlFdjQrWFYvK0g4QVJZdHhQeXVCRDJuTzhRM1dy?=
+ =?utf-8?B?blRWekliRUZ2NktOZkduR1NYZmFqTTN4UGlXRHUyVXRMaDFOZGZXeTB6QzZa?=
+ =?utf-8?B?dUxabnRBQVFla0xNMzY1QWYzZkxMQ25qZG1HcHlDaWFzMFlqdm52OWFZNU1x?=
+ =?utf-8?B?bGxrOExmM05kaWxndFVMYlpSYm1HZUwza3d1T01ZRjcvcm5wNVpDR3RtNFJt?=
+ =?utf-8?B?elRCWG9kUytKQm05M1FpN016c1B6a1dMVml0RkVuK2t0Vm1naTlreERJNDNn?=
+ =?utf-8?B?amQ3OEtYQVQrTmdYS1MyZU5KeEZsWHFNMXE3c3l5TTBBRmJ2aTE0cWFhRnhD?=
+ =?utf-8?B?SEtHckVpRGdoS0tCeFdqTUlVVzhxcmxldDcrVWFwQzZlaU9GMUtXQUUyNmE0?=
+ =?utf-8?B?VkdWOFdiTjlGM2FUMWFtL01rNkszNlQ0U0htd3kyc3RpdFJGU0FySkRLa2ty?=
+ =?utf-8?B?L0h2UUFKaytrSEhUdXovUlhlRjNac3NHQU9rWnVPTjFvT25BZ1lSQkJBdk9i?=
+ =?utf-8?B?UnF5T0k0SWdkb2tNdjR1Znl2M2lCYm81Tkcxd0dNOEgxLzNiVytqVE5vak16?=
+ =?utf-8?B?clpjR2RRNWZWVnVpNUM1MU5ueFh4Rkw2T1k5UHNZZ1BOaVVFL0dkQ3gzaTUr?=
+ =?utf-8?B?T0JVNGphbEJVbHNVTkdvdDdibk42R2UwUHF2N2F4REdWNUtGajNxcWEvYjkx?=
+ =?utf-8?B?MlZxZjU4a2xUTEVuQXFTcnR6ZmpMYTVIU0V6dnpjZDlxRGlSZ1luSmprVFRh?=
+ =?utf-8?B?RDJmSll4bWYvWmgxcGZSMXgxSkFtWEpBdmw1bEd5SVVRQ1RpYVFoanI0RllU?=
+ =?utf-8?B?dnIzZVI4bkVMRy9oa3J5cHRRQzczWHhSSVlIUG5NeXh5c2JhVU4vbno4Z0k3?=
+ =?utf-8?B?MURXWHhIdFpVcSt4dGg1VFZIajBnNGZ2eVcyOFVhTW1NWis3SHZQVmtkaURW?=
+ =?utf-8?B?TEhpYWZHbnFxeS9IQWg3N3pYd2xqZmZOS2VJOTJueUs3Y1liOEQreTJQQzRG?=
+ =?utf-8?B?N3FOZExlSFJ4N2dIQjRySHU2eHdSbUd1WE1ZODBVSVZOL0pYWkxiU0pUM0Qv?=
+ =?utf-8?B?eVhLQUxBcU0vakFQNFlmbVpmbzFjNmpRWEMxM1ExbnkxWkt0R0tZRGVoeDFk?=
+ =?utf-8?B?T1cwYWF3dkF0dzFLZTk3NDI0L1JWNXIrcm5JaCtXSTgzaTZnRzYrdy9CQjZ0?=
+ =?utf-8?B?NEFLbEhFUlhiNys2WlR5aSt5Mkp5aWpzUHRiN3BvUzJ5c0xTaHlmY0NoYUNu?=
+ =?utf-8?B?cXBqNEFjbDhIekVuQTdTZ0hub0t4aDhQempNTVlVQVhWWmtMb2lYQ0pUcEtv?=
+ =?utf-8?B?dVV1QVhoWTFIa3R5T01EMXA0T2F1cjZxT2E0Wjg0UTFNVUFEVGFlV2IyTXhy?=
+ =?utf-8?B?UVJISjNYU3dBa3ZzLzk0aGFSWU1jcXVzbFphVTNrV3VyY0RmM1lyRFE4aWJC?=
+ =?utf-8?B?UWhEcUJNRUFaUkdBK0JQWnVOVlFtZld4Q0Rab2VNR0l5MlZQV3RpZnBpRSs2?=
+ =?utf-8?B?TW44czZqa280RTFrU2J5RU5Tc0IzUHFpK2s0eTBUc1hSNW9mTlRBeUt1UWFF?=
+ =?utf-8?B?blhxQXF3c0NJV0dZUWVmYnlRb2NnaVRJQmpjeDBFaGp0em5FbUZPU3AyU0tw?=
+ =?utf-8?B?ZVFOWGxtQlVoR01kVWd2ZFA4WDZSSzNoUW03eSt0OWNCbUQ2RC94QT09?=
+X-Exchange-RoutingPolicyChecked:
+	zecViF59bl19fKvyAa4nqqUCS0BcGwROwoMJq0dzGslnm2tZjfIxguMHjcxgITWhlC08fojmG9xLMmG0ISBDjvKxC00M1wCRrMiAG6snpISRaPpPvJjBM8W42nS1kr9CxF0RKYi29WGYODw/CxLeYO9/q1zsQGwGUamccMVKsrSRLkC7sToCe3t2XwMbBlz8yIvWvw97+AxwMpfmDZmCRM8xubr6d3QFerxALzgDIt6eLJbf6rNyxaOkcpiOqneutuLczMzEN6D/ezdVE2CitvHQk9c1AklIqpTNI32dOVie9JNrGvtZCftfNUiT2XiVFUnjHauruzI9tNR2dGeKgg==
+X-OriginatorOrg: analog.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8df69f20-fa39-4b2e-3619-08df127635ef
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR03MB5469.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2026 15:38:23.1351
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: eaa689b4-8f87-40e0-9c6f-7228de4d754a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: P1+spONs7n6909p5MIa1+yaSVmKkT73wtijeM0cQxVEppu6uhPSc/X+Oh3ou7YA6ci+xpEcFQvHIudkGTEKZfw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR03MB5171
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTE0MDIyNSBTYWx0ZWRfX5DqhGcZlJ5tk
+ wy02ouEVIErLJOy2BlU2AjZDtOKPM+ARpwMKGM6phmbLLaWkoLx5Ok4pD7Ki/YYhIb6bse63dfN
+ B3HzuH4mgqudylAUu4nwjBVC7GqjV+twCavrf7b/kaIsJCdgtFRw
+X-Proofpoint-GUID: KhTYlhfOJz0Om9kq_3MHFPWkfash4F2C
+X-Proofpoint-ORIG-GUID: KhTYlhfOJz0Om9kq_3MHFPWkfash4F2C
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE0MDIyNSBTYWx0ZWRfX570jj0Bbly6K
+ s6HCfPtWP8R0UJKwuU+dIf1EjAk5u/gH++c14yVB1s80BDKvli1NEQVUTJi9G1iypN5E17WPgJN
+ FUec0NPWMa1ahAdNH3cx3Br6YueCeU4qT5I8Dsgj8pMr0wo3E5KaT1LfyApXXryHMlPrSqfHO5+
+ qWGhYxMv5aMqTc8ut9AOBO/HeBCMf4XntWgoTVdhDLLtO+Y0ZNODXgYtpTQ3mV+qYn/TV9KRMg+
+ zOJ6NT+o+aHQZkgeHk5e231Ah19ZXDKRYQqLTVqSF5fV53i7jfHC1hhUHwYgMtfnrS2oI59lHUq
+ zZZblDJwEfSt2jKDhh6KiC61yIdox4xSdIgKd3CpAmmb1pwjRJmw6b2d74dwnCtntT960cCb0zY
+ 1UsYPRKMgnH/KgEUH9t+2OAs67bgeN7kJse75EqgzRxotHQE2cU+dd5GSkuT2uSLE3S3F5s1Lnm
+ R2JKeYbpxun42S0UYLg==
+X-Authority-Analysis: v=2.4 cv=IKqXmQvG c=1 sm=1 tr=0 ts=6aa814f5 cx=c_pps
+ a=UC1wTn8whqDYkpYF2DSMwg==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=M51BFTxLslgA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=0sLvza09kfJOxVLZPwjg:22 a=iZSIUCweCk2Oy3QsdGPA:22
+ a=Mf61f-HALDbWcgiI77IA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-14_03,2026-09-14_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 adultscore=0 priorityscore=1501 impostorscore=0 suspectscore=0
+ lowpriorityscore=0 bulkscore=0 clxscore=1015 spamscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609140225
 
-GUP cannot be used for VMAs which set VMA_IO_BIT - because memory-mapped
-I/O must not be accessed on the user's behalf - or VMA_PFNMAP_BIT - because
-PFN maps have no folios which the kernel is permitted to access.
+On Mon, Sep 14, 2026 at 11:12:09AM +0300, Andy Shevchenko wrote:
+> On Fri, Sep 11, 2026 at 06:25:43PM +0100, Nuno Sá wrote:
+> > Use the dma_slave_caps bus width helpers instead of reading the legacy
+> > src_addr_widths and dst_addr_widths masks directly.
+> > 
+> > Keep the existing default assumption of 1, 2 and 4 byte widths when the
+> > DMA channel does not report slave capabilities.
+> 
+> ...
+> 
+> > int snd_dmaengine_pcm_refine_runtime_hwparams(
+> >  	struct snd_pcm_hardware *hw,
+> >  	struct dma_chan *chan)
+> >  {
+> > +	enum dma_slave_buswidth default_widths[] = {
+> > +		DMA_SLAVE_BUSWIDTH_1_BYTE,
+> > +		DMA_SLAVE_BUSWIDTH_2_BYTES,
+> > +		DMA_SLAVE_BUSWIDTH_4_BYTES,
+> > +	};
+> >  	struct dma_slave_caps dma_caps;
+> > -	u32 addr_widths = BIT(DMA_SLAVE_BUSWIDTH_1_BYTE) |
+> > -			  BIT(DMA_SLAVE_BUSWIDTH_2_BYTES) |
+> > -			  BIT(DMA_SLAVE_BUSWIDTH_4_BYTES);
+> 
+> > +	dma_buswidth_mask_t bus_widths = {};
+> 
+> Do you really need the zeroing?
 
-Rather than keeping these checks open-coded, abstract them to
-vma_flags_can_gup() and its VMA wrapper vma_can_gup().
+I think so. dma_bus_width_set_many() just does __set_bit() under the
+hood so if we do not zero initialize I think we could be left with some
+random bits in the mask. Unless I'm missing something.
 
-A number of other places make the same check to decide whether a mapping
-can be populated or accessed as GUP would, so update those too.
+- Nuno Sá
 
-While here, drop a reference to 'special' and replace a use of the
-deprecated VMA flags API in vma_dump_size().
-
-No functional change intended.
-
-Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
----
- fs/coredump.c      |  4 ++--
- include/linux/mm.h | 29 +++++++++++++++++++++++++++++
- mm/gup.c           |  7 +++----
- mm/hmm.c           |  3 +--
- mm/memory.c        | 14 ++++++++------
- mm/mempolicy.c     |  3 ++-
- 6 files changed, 45 insertions(+), 15 deletions(-)
-
-diff --git a/fs/coredump.c b/fs/coredump.c
-index fb21fb6703dd..9f729c594c47 100644
---- a/fs/coredump.c
-+++ b/fs/coredump.c
-@@ -1616,8 +1616,8 @@ static unsigned long vma_dump_size(struct vm_area_struct *vma,
- 		return 0;
- 	}
- 
--	/* Do not dump I/O mapped devices or special mappings */
--	if (vma->vm_flags & VM_IO)
-+	/* Do not dump memory-mapped I/O, which may have side effects on read. */
-+	if (vma_test(vma, VMA_IO_BIT))
- 		return 0;
- 
- 	/* By default, dump shared memory if mapped from an anonymous file. */
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index 5860a3b4dba9..1249e04d7b98 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -1777,6 +1777,35 @@ static inline bool vma_is_persistent(const struct vm_area_struct *vma)
- 	return vma_flags_is_persistent(&vma->flags);
- }
- 
-+/**
-+ * vma_flags_can_gup() - Do the specified VMA flags permit GUP to access the
-+ * mapping's pages?
-+ * @flags: The VMA flags to test.
-+ *
-+ * GUP cannot obtain pages from a PFN map (VMA_PFNMAP_BIT), which may have no
-+ * struct pages behind it, and must not provide access to memory-mapped I/O
-+ * (VMA_IO_BIT).
-+ *
-+ * Returns: true if GUP may access pages from the mapping, otherwise false.
-+ */
-+static inline bool vma_flags_can_gup(const vma_flags_t *flags)
-+{
-+	return !vma_flags_test_any(flags, VMA_IO_BIT, VMA_PFNMAP_BIT);
-+}
-+
-+/**
-+ * vma_can_gup() - May GUP obtain pages from @vma?
-+ * @vma: The VMA to test.
-+ *
-+ * See vma_flags_can_gup() for details.
-+ *
-+ * Returns: true if GUP may access pages from the mapping, otherwise false.
-+ */
-+static inline bool vma_can_gup(const struct vm_area_struct *vma)
-+{
-+	return vma_flags_can_gup(&vma->flags);
-+}
-+
- /**
-  * vma_kernel_pagesize - Default page size granularity for this VMA.
-  * @vma: The user mapping.
-diff --git a/mm/gup.c b/mm/gup.c
-index f166acf794e3..8e9ef5ee7498 100644
---- a/mm/gup.c
-+++ b/mm/gup.c
-@@ -1204,7 +1204,7 @@ static int check_vma_flags(struct vm_area_struct *vma, unsigned long gup_flags)
- 	int foreign = (gup_flags & FOLL_REMOTE);
- 	bool vma_anon = vma_is_anonymous(vma);
- 
--	if (vm_flags & (VM_IO | VM_PFNMAP))
-+	if (!vma_can_gup(vma))
- 		return -EFAULT;
- 
- 	if ((gup_flags & FOLL_ANON) && !vma_anon)
-@@ -1955,7 +1955,7 @@ int __mm_populate(unsigned long start, unsigned long len, int ignore_errors)
- 		 * range with the first VMA. Also, skip undesirable VMA types.
- 		 */
- 		nend = min(end, vma->vm_end);
--		if (vma->vm_flags & (VM_IO | VM_PFNMAP))
-+		if (!vma_can_gup(vma))
- 			continue;
- 		if (nstart < vma->vm_start)
- 			nstart = vma->vm_start;
-@@ -2017,8 +2017,7 @@ static long __get_user_pages_locked(struct mm_struct *mm, unsigned long start,
- 			break;
- 
- 		/* protect what we can, including chardevs */
--		if ((vma->vm_flags & (VM_IO | VM_PFNMAP)) ||
--		    !(vm_flags & vma->vm_flags))
-+		if (!vma_can_gup(vma) || !(vm_flags & vma->vm_flags))
- 			break;
- 
- 		if (pages) {
-diff --git a/mm/hmm.c b/mm/hmm.c
-index 2f1e98c6b644..e9569b82a1f0 100644
---- a/mm/hmm.c
-+++ b/mm/hmm.c
-@@ -595,8 +595,7 @@ static int hmm_vma_walk_test(unsigned long start, unsigned long end,
- 	struct hmm_range *range = hmm_vma_walk->range;
- 	struct vm_area_struct *vma = walk->vma;
- 
--	if (!(vma->vm_flags & (VM_IO | VM_PFNMAP)) &&
--	    vma->vm_flags & VM_READ)
-+	if (vma_can_gup(vma) && vma_test(vma, VMA_READ_BIT))
- 		return 0;
- 
- 	/*
-diff --git a/mm/memory.c b/mm/memory.c
-index 02e9d5d2e279..9e4a70421a6b 100644
---- a/mm/memory.c
-+++ b/mm/memory.c
-@@ -2417,11 +2417,11 @@ static bool vm_mixed_zeropage_allowed(struct vm_area_struct *vma)
- 	 * be problematic as soon as the zeropage gets replaced by a different
- 	 * page due to vma->vm_ops->pfn_mkwrite, because what's mapped would
- 	 * now differ to what GUP looked up. FSDAX is incompatible to
--	 * FOLL_LONGTERM and VM_IO is incompatible to GUP completely (see
--	 * check_vma_flags).
-+	 * FOLL_LONGTERM and memory-mapped I/O is incompatible to GUP completely
-+	 * (see vma_can_gup()).
- 	 */
- 	return vma->vm_ops && vma->vm_ops->pfn_mkwrite &&
--	       (vma_is_fsdax(vma) || vma->vm_flags & VM_IO);
-+	       (vma_is_fsdax(vma) || vma_test(vma, VMA_IO_BIT));
- }
- 
- static int validate_page_before_insert(struct vm_area_struct *vma,
-@@ -7116,7 +7116,8 @@ int follow_pfnmap_start(struct follow_pfnmap_args *args)
- 	if (unlikely(address < vma->vm_start || address >= vma->vm_end))
- 		goto out;
- 
--	if (!(vma->vm_flags & (VM_IO | VM_PFNMAP)))
-+	/* Only mappings GUP cannot handle are followed here. */
-+	if (vma_can_gup(vma))
- 		goto out;
- retry:
- 	pgdp = pgd_offset(mm, address);
-@@ -7316,8 +7317,9 @@ static int __access_remote_vm(struct mm_struct *mm, unsigned long addr,
- 			}
- 
- 			/*
--			 * Check if this is a VM_IO | VM_PFNMAP VMA, which
--			 * we can access using slightly different code.
-+			 * GUP failed, perhaps because this is a mapping it
-+			 * cannot handle (see vma_can_gup()) - such mappings may
-+			 * provide access via vm_ops->access() instead.
- 			 */
- 			bytes = 0;
- #ifdef CONFIG_HAVE_IOREMAP_PROT
-diff --git a/mm/mempolicy.c b/mm/mempolicy.c
-index 044ffb4f4128..2fd759e348ca 100644
---- a/mm/mempolicy.c
-+++ b/mm/mempolicy.c
-@@ -2013,7 +2013,8 @@ SYSCALL_DEFINE5(get_mempolicy, int __user *, policy,
- 
- bool vma_migratable(struct vm_area_struct *vma)
- {
--	if (vma->vm_flags & (VM_IO | VM_PFNMAP))
-+	/* Pages which GUP cannot obtain cannot be migrated either. */
-+	if (!vma_can_gup(vma))
- 		return false;
- 
- 	/*
-
--- 
-2.55.0
-
+> 
+> >  	snd_pcm_format_t i;
+> >  	int ret = 0;
+> 
+> >  	if (!hw || !chan || !dma_data)
+> >  		return -EINVAL;
+> >  
+> > +	ret = dma_bus_width_set_many(bus_widths, default_widths,
+> > +				     ARRAY_SIZE(default_widths));
+> > +	if (ret)
+> > +		return ret;
+> 
+> I assume that if ret == 0, bus_widths should be set accordingly.
+> 
+> -- 
+> With Best Regards,
+> Andy Shevchenko
+> 
+> 
