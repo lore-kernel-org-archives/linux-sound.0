@@ -1,109 +1,117 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C197435E92B;
-	Mon, 14 Sep 2026 18:55:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AA343A544A;
+	Mon, 14 Sep 2026 19:01:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789412107; cv=none; b=bcJmuhh63USiuT00MEzGIY9kq+XddQXzw0Aip5pThy2rIIqJuMu9NHRep3M6oc4l2R/8N2d27gKMDhye7akf6FUt5b8WhYFYDfxaSENeaubL//9cK0pUbKYu/hiSlWK6YGHyq/+Z0HL0696i7zdS+PWbGIdoY2x5ME9ReXYuqm0=
+	t=1789412506; cv=none; b=EcL2ufMHzsgMHvsdbXSMIn5gerN5YSWkBz/3HEoxZH+/1QRVCHIcs/ziLGNVkS5LQCir2UN2Nsw6owXmUI5x0D6E2tmaM73ClFPdBHyIS9c1TZhCQqeNGd+J6yce881ZPIPAs3kgGB6l7BiFgzhS9PWhsfK78HMCdqo7M9JqL3Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789412107; c=relaxed/simple;
-	bh=3wGE2FU4Opzet8RW/Vid3LE9SnZJEsoS+rjcCWTTi/M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DjJ4K8T1M+TaXV11EBgHO2BgedpvzzEcnL2/+q1ajJBG6Q10pBHBihrqtYbKiRYVsXxy01rmjZIr8A4Jxdp+rCdUZp7tUMc7cp9Owx8KqLN+uV7WKlrOW7MQJqeTNKuRKxcG74EEZIabFp9dJu0IIKNRDVECcfjGskwGb9E8Q34=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=avwicQJn; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789412506; c=relaxed/simple;
+	bh=jyNZrgxGAo8ZLRaNzEUWjq0aydYvMthqN/9L5sNtamI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=qoJmf+S2yYSERdhcY7KEZQrNkhYwr/4uCWOYo8tjrE7kA+cGNXXR04/V2tyNsjW41OgX3W3sGsokm7auYiRkgcvY9k7gj6e/jvPL5s1QUAAbK86gSiYW+HyZIv4UcKXa4TLxVDGC/PsvOHCU222KN4D7odfOucAu/VX0DjUi09A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KiIJg7a3; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="avwicQJn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 615D61F000FF;
-	Mon, 14 Sep 2026 18:55:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KiIJg7a3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6E081F000FF;
+	Mon, 14 Sep 2026 19:01:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789412106;
-	bh=Dt5w1Pn+88+/6QbLVYWGwITkkmR85KAahvz0h2yQbyk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=avwicQJnNlv4NY+cCLzYzlQzvtXGDzbl0SG7/oFzAQKdUDlB8xcYXpO3FmXdq9VIe
-	 zA3CmeKjc9Jdf5PEjbDCLE7bCZlIs2inTwCFif0kJic+F0O9hiUyISjRU+uelz1xYz
-	 /dbsbWPxfkYVe5v/6m7mgo5+dy2XDTGTW9C+VdEWOd3OWsozb7A3kNlueXPo9UNoOS
-	 4FP0ZIeq2WeYGUuuuCe76ybcZB/6lgLvwODHPefhsCpKQir+H3kp0xyZwY9O5pgem5
-	 Aaq93jDqfXzQQZeW39jKcA0i+G2ukQo8j423D+NNHqdlHROAuxLeWWcsOWwTIxhD6T
-	 GMYpdgv3oV6uQ==
-Received: by traversing.sirena.org.uk (Postfix, from userid 1000)
-	id 6BA11FF4DAC; Mon, 14 Sep 2026 19:54:39 +0100 (BST)
-Date: Mon, 14 Sep 2026 19:54:39 +0100
+	s=k20260515; t=1789412498;
+	bh=JVoxI06euGdLlFHQ0i+g2EJYJIklebnpnx7rzZa0b28=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=KiIJg7a3E5L0U+l5WKDOGrQSRDP9PF1W4sL07WJHfW4xFU29ib3P3COx40FOqvM2r
+	 VKX96P2HaC5aQ8sprbn5YgpZxB/CUxhoe34XybgnhHWMyn9nGL9C4V6I4ixkDMZhVy
+	 GihHFm6ISvudK0x85kQO31z34i9ujf+fD4bZGXjqZukCjiJSttSU6nSgSUrPmFm72z
+	 reCxzi+Sus78Ce6i0iwsEBOzgd5wCapgpsq8a9PpmrY1fcORCYHMP5DAA7AKHA+82O
+	 af1/xBxzLXyYQf/0JhEY+P8RbVRBP6PgFADFA5Pn3NrdmDG5K060jaQJOoI5OAwZgN
+	 VyrgwOxYv6KNg==
 From: Mark Brown <broonie@kernel.org>
-To: Hemanth Selam <hemanth.selam@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Andrei Simion <andrei.simion@microchip.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Support Opensource <support.opensource@diasemi.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Oder Chiou <oder_chiou@realtek.com>,
-	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>,
-	Cezary Rojewski <cezary.rojewski@intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Jarkko Nikula <jarkko.nikula@bitmer.com>,
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	patches@opensource.cirrus.com, linux-mediatek@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org, linux-omap@vger.kernel.org
-Subject: Re: [PATCH] ASoC: fix typos in comments
-Message-ID: <aqhC72HtZg6vZwlb@sirena.org.uk>
-References: <20260904110315.11650-1-hemanth.selam@gmail.com>
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Shenghao Ding <shenghao-ding@ti.com>, 
+ Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, 
+ Sen Wang <sen@ti.com>, David Rhodes <david.rhodes@cirrus.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ Chancel Liu <chancel.liu@oss.nxp.com>
+Cc: Charles Keepax <ckeepax@opensource.cirrus.com>, 
+ patches@opensource.cirrus.com, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20260913101531.2787654-1-chancel.liu@oss.nxp.com>
+References: <20260913101531.2787654-1-chancel.liu@oss.nxp.com>
+Subject: Re: [PATCH 0/6] ASoC: codecs: Fix resource leaks on card re-bind
+Message-Id: <178939428864.1239410.292115422550832572.b4-ty@b4>
+Date: Mon, 14 Sep 2026 14:58:08 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="+R8ajydSb1j5T0kw"
-Content-Disposition: inline
-In-Reply-To: <20260904110315.11650-1-hemanth.selam@gmail.com>
-X-Cookie: Orders subject to approval.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2313; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=jyNZrgxGAo8ZLRaNzEUWjq0aydYvMthqN/9L5sNtamI=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqqER+RPpvNvm46vN8fwqas6pVNF0ImqQStQOK9
+ D1xSw6yrg2JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaqhEfgAKCRAk1otyXVSH
+ 0NAmB/9rZiMFZbG4lXPvRwTEhcDOWi7Pzuzz/D+yI4m83OzpueB/qVrdrCWhaH6/n0SJ6fdu/2w
+ vjxMLDTaJr/BoNz+/RM9sii3rW6/PMRP30j/pTjgFkfwmDJIdqMN/Kl2XqGObWWS7afeyzPiGK8
+ eiT3iGNKnTznKztApn4Yhnbrpwy5s2jBvs8Nv4wArKZufRbznblQYIjpbOgIqwUSgNPYfyXnhK6
+ Z2dd1y48AjQnmMzlE6qMHUR4OZ1Jp+uW2+vWUFLctSdatCqUS28zmmCaWr4XLbcFyfHOsajt7s4
+ 8EgHkzRa4umQWlD2ge9pgWGz7OvE44RRh976Stt1kN5pOQcD
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
+On Sun, 13 Sep 2026 19:15:25 +0900, Chancel Liu wrote:
+> ASoC: codecs: Fix resource leaks on card re-bind
+> 
+> From: Chancel Liu <chancel.liu@nxp.com>
+> 
+> Several ASoC codec drivers set up per-device resources from their ASoC
+> component probe, but the associated cleanup is tied to the underlying bus
+> (I2C/SPI) device rather than being balanced per component probe. This is
+> fine for a plain probe/remove, but it breaks when the sound card is
+> unregistered and re-registered while the bus device stays bound (a card
+> re-bind): the component probe runs again while the previous bus-level
+> resources are still live.
+> 
+> [...]
 
---+R8ajydSb1j5T0kw
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied to
 
-On Fri, Sep 04, 2026 at 04:33:01PM +0530, Hemanth Selam wrote:
-> Fix typos in comments, reported by scripts/checkpatch.pl using the
-> misspelling list in scripts/spelling.txt.  Only touches comments, no code
-> changes.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
 
-This doesn't apply against current code, please check and resend.
+Thanks!
 
---+R8ajydSb1j5T0kw
-Content-Type: application/pgp-signature; name="signature.asc"
+[1/6] ASoC: wm8962: Fix regulator notifier and beep leaks on card re-bind
+      https://git.kernel.org/broonie/sound/c/b9e5343ba72a
+[2/6] ASoC: wm8995: Register regulator notifiers from the bus probe
+      https://git.kernel.org/broonie/sound/c/644914663c9f
+[3/6] ASoC: tlv320aic31xx: Register regulator notifier from the I2C probe
+      https://git.kernel.org/broonie/sound/c/10e2ccaae497
+[4/6] ASoC: tlv320aic3x: Register regulator notifier from the bus probe
+      https://git.kernel.org/broonie/sound/c/3efb5b99f642
+[5/6] ASoC: cs42l52: Fix beep input device leak on card re-bind
+      https://git.kernel.org/broonie/sound/c/115a5655bcbb
+[6/6] ASoC: cs42l56: Fix beep input device leak on card re-bind
+      https://git.kernel.org/broonie/sound/c/c5907dcc13ad
 
------BEGIN PGP SIGNATURE-----
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqoQu4ACgkQJNaLcl1U
-h9BQngf+NrKbIDQswDCVtp+p2+16s8VA4komgI1mJwvGX/l3TCUsL9LCubDyEiJT
-MFMcRlrtytBdb0B5Im6RKBIWJZaH+traqJYXu2n9J/Og95j4v42wm4LoXkXG+52n
-hMDKyEctBPWrG9zn+kKJ1r5azQYZ+ZpyMVbJE2KO7wWOpHEXpBu1/x9nZMVl4JK1
-ACL5+4S4QJlPc9rY0c3BhOi7nIHmBD67gjYbv3aQ2yTskcZrbwwRySAJgXXVEkuK
-t/ekOauEuhMj3Kj4rslRddyVgJaulJSlC9TvCRdHsKUlVZ/a1+Zymt/MbzJWQNcb
-FYQj7jL/7dJkHDDVC1Ah1qRWVbr/ow==
-=ob1K
------END PGP SIGNATURE-----
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
---+R8ajydSb1j5T0kw--
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
