@@ -1,91 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010067.outbound.protection.outlook.com [52.101.228.67])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B662C366567;
-	Mon, 14 Sep 2026 22:53:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789426431; cv=none; b=qtEtSLjr5ugVaVHqdS+x6cjX1PVWU+rBIwN7kozJ92fKKFBHR4xcsNCu6QbVFmsTlbsEGwP+LETPtFjMw1DCpXDhIN+i28zXytWOD5G53tQGx62O8T25YtBznuQ8ZjCRVouPxbZROQZo0PErYWXdMwPcTeJpP7ndpXWCOCVIYG8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789426431; c=relaxed/simple;
-	bh=T5xasH9os4v4epaEnMP3efQ2DNjo+MZCyF3nOJmiL6k=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Ub5t2y/U1ErSEz71euzjAfcTTI8A1ylbQXaqFJCbA268XrDkFPfHCB3/b6VxE5kuSrrRxCG0a1Eug9Qquz0742hnscljt9M5QxXoTZPszniPeaSWKcwKzzM1GfXohs25Td6eQng+drdgeVjfRZw6yeLxhSvNNqUCHCV+ChLB1yI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kpD+3UQx; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ACC535294E
+	for <linux-sound@vger.kernel.org>; Mon, 14 Sep 2026 23:56:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.67
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789430204; cv=fail; b=LgsmcElN8WX/KSxzw7/RNurk6hJ3w/YhNx2lrav/gxDDXwtbwLGKQGA+3ES59kKYeXUMZ9wePbrsKuVAqQ/0VaBLKgX55+ilBOYtYNBq+ynPhadRvu3KUenHhDSvlDKUR/DqIRkkE1GdsR3pk7+GalN7v3iNR0T9F/GeYK2Tkbg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789430204; c=relaxed/simple;
+	bh=PqPNS/S4q1xkhvQ2NIjIIrJptny6lTqmEWoBhI7fsPA=;
+	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=e8aKZF4wyflcZHuysQDJxqNSZF9/bwgrijCojf9R2ljk4lRzCxXmYfzKsLdIQIQZf3cmIoYeq6eIVp/vGJc4dpZc99n5G2X7onK7vv+SxgHT1ll5tokA4Dh7gsYU5yzgL52PXOfVfeRA6cLF+UTvP7HkZ/NBzrmPAgsAexf6ttg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=SXTcJcz7; arc=fail smtp.client-ip=52.101.228.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kpD+3UQx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A52EA1F000FF;
-	Mon, 14 Sep 2026 22:53:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789426430;
-	bh=XKep4A8bbtQC3AdBRVuyPS8K5hwyIDKEZaAfw3Snhq8=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=kpD+3UQxCAp2FkoUjMr5IDGxbkoe5O4y28OL5GqTmoPOZWGFfQ2cSrXkYYCNG2YQt
-	 e12sufVjX4Avulwpi5IkKvVgWALMe1k9+2qwCRRjsZ4Y3eltgO/gj+v8X4nFK6IQTd
-	 WsPDp6JrtgXFliGBLagZLAP3Yiefe04s7mFP5HYBL0px7V/TyNvI4Ps+vTsHOOH23q
-	 477FV0p5VqszLYNbQ6AnvXldyOQ2LBE1t2PepIWH6mV1jkk/AdjOlPMvhsdNOCzDrk
-	 XKdRhyGS4CFr02rrUd6lNm23zxeiiDY0eVy1TQQV8gomBQrE4RwTbADZdaglOEaUZK
-	 B6dR1yWrLf/hg==
-From: Mark Brown <broonie@kernel.org>
-To: oder_chiou@realtek.com, lgirdwood@gmail.com, perex@perex.cz, 
- tiwai@suse.com, Jiangshan Yi <yijiangshan@kylinos.cn>
-Cc: shumingf@realtek.com, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 13667453960@163.com, stable@vger.kernel.org
-In-Reply-To: <20260914104712.379574-1-yijiangshan@kylinos.cn>
-References: <20260914104712.379574-1-yijiangshan@kylinos.cn>
-Subject: Re: [PATCH] ASoC: codecs: rt712-sdca-dmic: fix uninitialized
- stream_config->type
-Message-Id: <178941264882.1239410.4388515452598692969.b4-ty@b4>
-Date: Mon, 14 Sep 2026 20:04:08 +0100
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="SXTcJcz7"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Uzm/mzhtOTQSIzyW5ceMRF97KUqudy9580HxKtUaVq/P+p4rQ7B7Zhff1y7akjupHdFnk1G5DxoTXUIDLiXgQWQ1gLEwu2kwIKxVWwxIVxAT8KDM41dXp2zD8Y24hnKQxCgnT6Ka9KdmoXre/0khNVuEFZkNGD/Afd92BB0aqHLYckiBOip9c7ZdkRGjNSi/a2x/ZlUoUcO22J2UziAuBJ/49GzBCHUSYaSR9V7ebADdpbamjhcrcmE5XEo+aRzb0XI1FZ00/+6HV00jqp6+1q8FFBAPbm17ZJeS8KBUb/Z9hqtX202PsbzKgSAOd6X6gTDRukYgSur9uukAUghxHw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LIbLJM+7U9i2s2cgU3+gQ5wSc7Jdd4LAGX/TbeYZ3pQ=;
+ b=h8jX2ZAjKrnlKuq0xvOQGzsu3nulTjR8hypbO/KGh6KNQCZ8W8Oht4EqP7A+Au69+5uEOSbPEKQQEP47RS9kvmj/qceQng/GLsKu524Xv1V89C4UXIGiRnAlejn7yUVYc0QP3DToxuVEu1JoxLNB5/JdJfkxFGOTA9RpmrgcvGQ7iytBSELJKord9baPj0ypseW5R4XCT4Y3I+uRrMaY1kWnnMRvG7A50TiN5JphMhOLAUqAQBMoXfh3NKpQvnRs5Cnr9WQxgige907QUupvezmv00gCVgMELsaEzZn4oQih52SMcRCa1NYuuu+wRWtFLVALoe3sni0algNR0bJW9g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LIbLJM+7U9i2s2cgU3+gQ5wSc7Jdd4LAGX/TbeYZ3pQ=;
+ b=SXTcJcz7ck3u537kDi0UC5EzVT1OPEQKYHZpqVUcBgR097fJZ7dgi8wScfFvgF/5/cI6ITNhyiuno2PL6G0KDlJ02anlLuGQttBcrPamvQwPjwvLYbGECk0PIKLiN2FTub0W5WKcmvX7A3AH92RL6LeeHLx0OWEsvA0/W5DnJVc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYYPR01MB14118.jpnprd01.prod.outlook.com
+ (2603:1096:405:214::12) by TYYPR01MB12998.jpnprd01.prod.outlook.com
+ (2603:1096:405:1c2::7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.12; Mon, 14 Sep
+ 2026 23:56:39 +0000
+Received: from TYYPR01MB14118.jpnprd01.prod.outlook.com
+ ([fe80::846f:9035:6a33:1f45]) by TYYPR01MB14118.jpnprd01.prod.outlook.com
+ ([fe80::846f:9035:6a33:1f45%6]) with mapi id 15.21.0406.007; Mon, 14 Sep 2026
+ 23:56:39 +0000
+Message-ID: <87ik47s7yh.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: linux-sound@vger.kernel.org
+Subject: Re: [PATCH 10/10] ASoC: soc-dai: add snd_soc_dai_get_bclk()
+In-Reply-To: <aqf821dqgbOzUP4L@sirena.co.uk>
+References: <87qziwliaj.wl-kuninori.morimoto.gx@renesas.com>
+	<87cxugli2d.wl-kuninori.morimoto.gx@renesas.com>
+	<aqf821dqgbOzUP4L@sirena.co.uk>
+User-Agent: Wanderlust/2.15.9 Emacs/30.2 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Mon, 14 Sep 2026 23:56:39 +0000
+X-ClientProxiedBy: TYCP286CA0206.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:385::14) To TYYPR01MB14118.jpnprd01.prod.outlook.com
+ (2603:1096:405:214::12)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1154; i=broonie@kernel.org;
- h=from:subject:message-id; bh=T5xasH9os4v4epaEnMP3efQ2DNjo+MZCyF3nOJmiL6k=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqqHr4fTGqYJP+ARgdzfEjmtrnJZ7kT7QX3X2Ta
- q8yBtDekP6JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaqh6+AAKCRAk1otyXVSH
- 0I4+B/9dXutNNgMkUFofjl46ZnjpuOoM+X50f7frsK+dnOOEy7F17fCcPWxGYfHBSOm2IQ8rSlO
- m2gCDvjLDhtfBj8ywv71ZurydVm1Cisv7HX5bo0RV2R1KU1Atw9GM4CVL2303fOPYUwt1f/V0ct
- 3xeibi88dYkf7mvegEvqXyksD9JBoyLZ7wTVBDThB9u1kUOjL84GBTpIQ6ZN3a/oa6fRRmlqU7x
- u9adTVJweiO3EAE3WbARwc2mYKy7zrkY96W1u9e1I6HLqHIYsiJBEulttEAWCoNOLB7N5yWOEgp
- PoOYFXe6LkzUtRYz9+IhdmDA/FXfpdXVvwyMT7/Uq+/wHbXz
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYYPR01MB14118:EE_|TYYPR01MB12998:EE_
+X-MS-Office365-Filtering-Correlation-Id: f236bc55-5fc4-40c9-4134-08df12bbd15f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|23010399003|1800799024|52116014|376014|10067099003|4143699003|6133799003|18002099003|22082099003|38350700014|11063799006|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	SWMzzhBPjlNfNqfrZbDtBu4zOjDP9K7rOF30zNRBJbgZ1hLYg+IeSHZFZSAPz8NMpPDHGHlJ7ae92kZkm9o85bZSCAINvfAkSo46UewhnAIAjqargclhKQ1C7Q2pRfmshtUgK2yF2xbE4Jrbp/ep78N5K1Woi/08DHNsw6EKC1wzkfZRCDmNF31PgobKgghrSBLJAQzlFexvYOmSoahHho+n8XCpsH8ladS/QTmRrtK/zR8Rbd+jJrrN7JHo+sx4DVhKvPZnMk3drU0J1XnCWUP1sI985+zjaqsUVZ3jjRkZvFAVpePprSIeSauTxC3Vnb8RuIJ5YOC4B21oTiHYdve9Ec5Ff7XZ26AXrzcw08MKQSmacyqp6ubvqrmmr2xRuTvd+DVUny/AeEyhnuRYeCyF8oe8sfWYimLPf5gKOzWJy/iU07fnC1yPe2QsaUwn9OR5xRz3ln3t/oelzl2H+JN6ybkDOW1UFmxee2ivZynO76vhTzUbR8Mp0UjuEQTt8ti9rDpE9nFN7hcUXyxIWPFgkGEYNh1BOmdjw6vBdQfi3kxCvRBOOqCElKHkquqkr1xZ0Wnrs+G8LgBSQcBQkldnX6DoRKD5kXmsEfo5Xx4LAi9SZy0H32GpfjnD8GlYo2W0OrEZWIIaIT96mJUoF/n8HOQUCkyfv+2Syjl0BcWerfL7YLdubPODZyxYa6lthARHk75vTtlUw/gQMGXYCfdhMZyXrBQa77PFa8Ugzgc=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYYPR01MB14118.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(1800799024)(52116014)(376014)(10067099003)(4143699003)(6133799003)(18002099003)(22082099003)(38350700014)(11063799006)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?QbkVfnxWwwOJHsczho+ivqsHwP1unHycDKTtZ0HeGhFdqFJzFf0DnseN+JNL?=
+ =?us-ascii?Q?1Lo/4BmAQhpKWPpJB6XkOANImHpuGhOc4vXiSXX1pa2CSO5xt+H8nMI8rIQX?=
+ =?us-ascii?Q?N++V5jjqFSjuRgSyEef+VPx3QLn1IB6AcBQF/D1RjaCOmDL9D3EPhsEdHF+3?=
+ =?us-ascii?Q?+YFhZjFt8bTeWCkuFaT+6EBF8jd/GPsLLMUD9/BVrEEwvqbG0TPL2KcmLy/Z?=
+ =?us-ascii?Q?vsYmJ8zjBxmnfUzU6pGcGWpeLBbie6/9gLg48hi9JYDEAUrUAyGzb+exTLlK?=
+ =?us-ascii?Q?pQKjoosKgljN0hb0xHOXCm2/BEfhma3e++DLCvxB6pMJHfdFaljuLkpHUy7B?=
+ =?us-ascii?Q?INu9VXS/Hxosb4vSNUjuR7DdzH1B23HQkGK/15zyc6TxmPsP9tASPwb18h7/?=
+ =?us-ascii?Q?2vh9iWDJz35f5UnWtZpJ7OFESgWHAR+NBVEQRMivPbkuKCPFbEwIUSQOWR0J?=
+ =?us-ascii?Q?Pf6br54lE33ppOY+NVBPFHfRT+TcHDa4F4aFXFoLHpNydTm+CShBO/+AjLDk?=
+ =?us-ascii?Q?1x6/c7Pu2CiIjc6WnlLwva/arFObVvGDISAhHnzsyuoqQOPkgVYl85ApLKZm?=
+ =?us-ascii?Q?4ltTkHeFcsjLYOv+LGbyPZCAkyGlBcNPEasjSFpjpQHAsUWIm65txXbn9gE2?=
+ =?us-ascii?Q?FV2Awdi8aImEDQTJtqkvnrnWEtFEdYy+4TGiz7KAOj3UXLMvjC6KwYWVRLz4?=
+ =?us-ascii?Q?I3oPVp+N9rNYkAilRoJn3z4e3vvdGcd7yDf8Pdf7es4HGWnwmunaMSn678jA?=
+ =?us-ascii?Q?wMIWMzSIun/PHcNCNThsu73lJ2uly0wgOOWMNvH9uMgH8fbH0E7ZhfvoJug8?=
+ =?us-ascii?Q?ru75LeJbdNxX/+PpQmeyQlTnB+yaCQX2E+Gchvy1kOf1P71597WEOouRsxHW?=
+ =?us-ascii?Q?Q0z/248w8nD19s7wL/lzRUtgHU11hn5XAJyeTyB+bSOS3YK9eCBWt/dBjbQL?=
+ =?us-ascii?Q?ORICxNv7UU0zM0tI4S5sFp3ikvaAn1ux1RFazrdbbfN5GCUX5R07lNIPxWCt?=
+ =?us-ascii?Q?vC1H4xfZot82q+locnbP6kDmfXMbfsRNYgAmFXdz693AiV7XYt93LhNmBOmg?=
+ =?us-ascii?Q?1w/vx8/NGsLzlV7oOsPClFH9S5qpwqVLO6QXDPOlrFULM0GJ9Qg+dIDooSDF?=
+ =?us-ascii?Q?iB6BLq0neQrpe24Pkynu8FeZyMUkdhxWg8Htt2LyKpuRJNbDe/fFC74fSLMn?=
+ =?us-ascii?Q?o8MXF058anDHjby13w8zu7r1vrBRlXyOQZ+4+6XJxDFd6vqmwgzG15Iiy68Y?=
+ =?us-ascii?Q?0XcWtitPyvxQwY4O9U0rC5GaCNBwQHUBJcf+HQsobT0NcNfAoAvsjm+czK/b?=
+ =?us-ascii?Q?7SOaLRro7xL0IHj6poI0clPcc5ffkA+vRTQ4u9iEf0+1TM1l6KUIFtyP2V00?=
+ =?us-ascii?Q?1Uvz4ETPcbcgQ0VjJVjkf6NhOIIOHu+wybvOAg+ouu14uy3tPeKH1gcHpTQs?=
+ =?us-ascii?Q?uEBQ9oA0tWKSlG8jYT55mN9RTDF03vGc6i/hErpNMV5ZBp1gfYFb7wQarNk0?=
+ =?us-ascii?Q?V2m6p6wnksGCAhmkZ4RLwCvlnEu/n5oC7UsBbCFORNdo1mAPeD4b+FpSa+2x?=
+ =?us-ascii?Q?JHFnCRrclWUiJpeBxEuq/8vooypIJdMWynzaJmg479S46VtwthC1+c9kmtZg?=
+ =?us-ascii?Q?kguIioOEgZ05ZsnN+FUbBiZ6MrHMb1UFBt8JTuU/pKSiYNDp5nbcJ2YbJ/D2?=
+ =?us-ascii?Q?PAaKxr9464JxL5FllL3rGxlC8jHUPVLEPMGdHExx9R59L66RI7+CXm+2tuDA?=
+ =?us-ascii?Q?U1SrgI/+MdRI/Tp85IoE8LzkAGNxJ1Dos45TvpHb3DYty7Vlzgmv?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f236bc55-5fc4-40c9-4134-08df12bbd15f
+X-MS-Exchange-CrossTenant-AuthSource: TYYPR01MB14118.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2026 23:56:39.2908
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: a1JIsSLxyqJ3DJs1+n6i3zQepUVIRvfeQknQzzHTYTdiTZ/lGFyv4cwen85sbEhYQY0kU0xOgOagov6NR5TY8zRzb2uopauu58FQHAqQXmvzLrOUn0j38a1BoNdFoxgL
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYYPR01MB12998
 
-On Mon, 14 Sep 2026 18:47:12 +0800, Jiangshan Yi wrote:
-> ASoC: codecs: rt712-sdca-dmic: fix uninitialized stream_config->type
 
-Applied to
+Hi Mark
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
+> > DAI parameter will be capsuled soon, will be not enable to access from
+> > each drivers. DAI priv has been mainly referred from SoundWire driver.
+> > Let's add snd_soc_dai_get_bclk() for internal use.
+> 
+> Weren't we trying to move more to snd_soc_dai_bclk_get()?
 
-Thanks!
+Thank you for your feedback
 
-[1/1] ASoC: codecs: rt712-sdca-dmic: fix uninitialized stream_config->type
-      https://git.kernel.org/broonie/sound/c/1e76ec00f75d
+Yes, I have tried to that. However, since existing functions already
+using xxx_{set/get}_yyy() pattern, I have started to worry that using
+xxx_{set/get}() pattern looks unnatural.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+That said, some functions are using that naming.
+But it is very case-by-case. if you ask me "do you have any rules for
+naming ?", unfortunately, honestly, I can't answer the question...
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Best regards
+---
+Kuninori Morimoto
