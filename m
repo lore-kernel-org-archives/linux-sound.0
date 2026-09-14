@@ -1,86 +1,560 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54AA93839BD;
-	Mon, 14 Sep 2026 18:46:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789411604; cv=none; b=HCzYgHHtHtUmVDGzoOq/pqkANCAlEDPwGI41F5fgacxz0PogG19S29M/Z8sodUAx0Mq9WybTWsUgy8Ca06siGR/JDYc+mCLKrGtzPd7ZEHM266m1Iwu4/8mgaQDDvnT9tSUlIHGH4xd9cb1yFnlD4LK4ngo1QsSc8Z09PaiboTI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789411604; c=relaxed/simple;
-	bh=5DwOM+JlHMrk7osczJmYDl5uYrjV0i9Og8D/yzEFyQ0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Rq2C5GFz4Q1Q2POWvF8Bczvn7qHoz5FsPJQnk3smLilYSas64Vv/2p3zHsydhcLpx5ZQtPi2m6ZngTZsrU6E+cnEstThqOeG+KJO+AMnvsJ3epq+siSK4ioYAaFihauyU6jAqoAD61fSJfcoWtP4eMWjQKLlHE8QyknAS3PkfQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=AvQQXEbw; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AF95357A25
+	for <linux-sound@vger.kernel.org>; Mon, 14 Sep 2026 18:52:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.173
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789411953; cv=pass; b=B/aHCg4A/AxXG1YrVUeJ29eyv8RXoIGOl8tFB4yEdfiPdaBSIRzGpxQkoq79W+Illl5co+IM1Dk9cOxr3qPzaC2ijkKsAlyxHICDCol0blfA1FAdjUfHarZnnwmGI1Kfkw7EBa+wRf7ZGAgq5nC4r4TlYf7vvs99IJYQdi9fO5E=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789411953; c=relaxed/simple;
+	bh=MzrlE7z+VTvhDvBCSRdTgaBxbFr074860A6PJOduIfU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=k9+xHhphJtrCtBmYLNR2UTLTwvfx3MUBCDui7KyHd1b8+HNGGUXyr0MS3X2g7CZTWJ085pOrnLivJ9SuQDCxf7Anl30AKAyA+bwU7wSRPoM6YBIyPJHj9kMsKNV9G1PN68POg0DA8EhPpzN1p0V+ESLX2eQD8CK6ax91Z2e5EkI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QbkM70sp; arc=pass smtp.client-ip=209.85.215.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="AvQQXEbw"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=jJGFCWeQVaCDhKRVdoRywcwM+hAI7Z/VaKx7DsHBri4=; b=AvQQXEbw9X9LaB7w27jIbWJNGf
-	xLWq4mz4j0bIibCOdptYlLKqmTzgj1eUbonj+4XeU2WzqVNonRXrdaEZwc/Y8JFatSWJy1aoHrleI
-	bpL4CfHPVvs3V5pEUjRtVFciS6uokXOg2TARnr61feloY3pwbxvbSiUlFpbWjEfhw2Z7EzZ7M7RWQ
-	eG0pqeDyrMuUgo6bc8accKcHCnRp8qczM+ZsJlZOT6696H+DHzNa9OREdTu31AkHrxCARf0XkR3o9
-	kDcAUZl050GcyXshNCy2c+wkg7Z5ui3soUAAtAWrmPbxYiigH8O1K+IDQiBEodB+us7P41hFdDAYP
-	riAc6BBA==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x6BhN-00000004Tqb-2IMO;
-	Mon, 14 Sep 2026 18:46:37 +0000
-Message-ID: <e12e3969-2c25-47e7-840a-99e7d0ec2f93@infradead.org>
-Date: Mon, 14 Sep 2026 11:46:37 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QbkM70sp"
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-cc4aa02a269so2924578a12.2
+        for <linux-sound@vger.kernel.org>; Mon, 14 Sep 2026 11:52:31 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789411951; cv=none;
+        d=google.com; s=arc-20260327;
+        b=bftyt5mlfXE4xhU5IYCiYoGHordUB4f/6XmKgEEIHbzpT7ZCbKYtE6d7+3sXVgVzhu
+         TozoKVbVfHP5XYm+CaZrMcYXHCAaw6PUgHuYHTwSAaTsMHZi+RvNHlyyGJbFbdt3oP+7
+         zXqreeOsP3l40+UU6Ut3oXqLpk7Mh4jgsVaXRcdU7VvG5I0LlCtpisiIE9wChtG7lWxy
+         VYuIL49BDc2ykSQWIFKCeX7iy63RjuUBufQ8QCwCXwhizrBqtVJydRm4eQMwJiQ4daJX
+         BmkDxwmwP8tvHEF1NlBVvQqiuJStKt3+IJDL9LhzF/4/MMDS0hSxCnGG2uIz3MT08KT3
+         3HnQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=+XWSHTY/9qkZ8/Fw4YT2g5oPsxXjpjZO0/95164Ca2E=;
+        fh=Zqzm9mJzis+oqNAauN1u41t27bIaJ9UkjcOoQR6Oa7k=;
+        b=DtoezPVOMbT52MBgK+l/5qsUdf2BFLkx/dWsLbyCaP0NIPau/QIsMzMs8n07ejvTyj
+         JjgZgZbw8SSegWkyaJqk5ppWFYveuVfdiI5Qq4WJK+oihClWCwRYc6p2g4iZShQ6ddrq
+         GW3w9LyhfX2sfI9XmRSPQAaNmG0OQU3Te4r3GPuaLiHaOrXXNKiI8gH3VfgC1GwvtC12
+         evxOKT7Dfh3lA85oZIImJpDBgqZW3VDwLS5M1akmWBejJgkalb3DCbZGJG343Ym2yavu
+         PhP3Ikp/gUexfh9B7mEoE4yfhh4vBXCxo/bocnyqWW2ntkJUwNxt8S6ejOueFrIDLuYZ
+         r+5A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789411951; x=1790016751; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=+XWSHTY/9qkZ8/Fw4YT2g5oPsxXjpjZO0/95164Ca2E=;
+        b=QbkM70sp9CIZG2yTRRAHpqAcGlZ6alCgDJOkUUtzu4N4EvYIY26h5VLCoZk/deeR2P
+         Pp2myBkz7w1ENDbuzMIc4z+EnpzJoPBvmOKiEgrU7tDTuJaTVpFlY5xMsZ2dgk0kw47i
+         4dSg8QMI2AaJidXwWdx7qMaUNiU9/fIbtDjHJr2w1BB9WhrbzgZlDEduhR5k9QSVjCGS
+         k9K9tY84wdFlZM05n/Rfu+QqX+ZrBCPzv6SXi2xyny+w3oDFcQgUDimRSn3i+T+Ti4eK
+         SHDJgMqpNl88z6r8Y3CnQe/cETL/DA8h1dZLXQ5YS7ciQPGPVr+K0n+4+V0g5Xm8/CIg
+         OdTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789411951; x=1790016751;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=+XWSHTY/9qkZ8/Fw4YT2g5oPsxXjpjZO0/95164Ca2E=;
+        b=Qp5rgGPNYRPk3957lJp4lx/VGmjOBI2S5clyqAV6lTgu2iI+oNMPIEBT3lV1pY2WnA
+         9w2KXzIKFG4n22ARpdnYwhuXiN2vLdmtnaZcphDX2F69HZw6d/TgNFjKm3l4uJfNrDoV
+         Jhvho0rpenempx/McMul91ssKSNyTmkCcOwpcBGGmPYxhINq6e9rcRyt251eGOGgebb1
+         +sNLsOkGu5l3qBYmeH5OTHoF3oJ8ah93hRmeH5XX02r7vjcHRy2k26ueLgEJuJtMORPn
+         47P/0Kl3uTDLDoa5jro+a+TPEbD7obKWk2ydlNFZtq4BcI6YqcaAMtWG776WqHmPeXYR
+         8mAQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzrZC2XVYueTiNV5H7U612oIbiFyQKFWZ4QgKftW20bNPBdEoK2nJCgYhmLcsYNnziZSXxqf+WimyM2JQ==@vger.kernel.org
+X-Gm-Message-State: AFuF++lc4KD+K3U0bbXhXKKHqVqsle4lG5IJAVE0AnC0ljKi98VNFzJP
+	S3Cf3kvXtxAFbFUiRPssJ5p8jXFP0wf7JqkwdspmoWhUCUnkGZ+6Au4OSgdJGFc2UYdSg5e5kuf
+	eZweNx9oK1fOffP8+gzPHdHKfK0eKYC0=
+X-Gm-Gg: AYBFou1Se5ZfKwp3iwYuPqndJ0a+u+8ZoW1stxw8Tiq63zHEE3+lXKBdcw5KwsrGn7V
+	GsHuXmLHvS9ddPQ1G7oZ7s1PgCLOma28Brsf9tYg5SxWG7i16GjX4rawHqGa7xG/71dAnYMFwFK
+	kgsLUgS7AiR9LDGETDrS5t6gFIo0jDvolnx4F0sviqe4ySJ3FkxHfa7fCYL70XR4PlmG5wueVHc
+	7H65j3qw6OgVLpgPeswDmE8sHTPnW2hnrYeb2F0slPDf2gmPp85AZfH+xh1P4A3HdpneJq1wSWQ
+	iSB74zG8b+1KxYvpIjaWf9xbUt/Cc5GxCIm3h74Rz93r4g47Ool+MA==
+X-Received: by 2002:a05:6a21:998a:b0:3cd:7ba2:e669 with SMTP id
+ adf61e73a8af0-3db403efc88mr8907716637.10.1789411950273; Mon, 14 Sep 2026
+ 11:52:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: sound: hdspm: clean up driver doc.
-To: Takashi Iwai <tiwai@suse.de>
-Cc: linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- linux-sound@vger.kernel.org
-References: <20260914050900.1312415-1-rdunlap@infradead.org>
- <87cxufombl.wl-tiwai@suse.de>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <87cxufombl.wl-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <CAAAbPi4w+YO=W8vFr63wy6++1WQ2mHUDVfUDKyWR8xcTWKXCKw@mail.gmail.com>
+ <1fdd17c6-a0ab-42de-8362-8e1374d42fac@amd.com> <bc542e80-e572-452b-81ba-53e57ed3126e@amd.com>
+ <30fed968a6f54a6c81eca4ee23ea4166@realtek.com> <CAAAbPi4MekJAyNsCAi2Ww9QHVVrrGkW2cdDTrrpttZYmh7yZHw@mail.gmail.com>
+ <3fa3de8f2bf24041ba9c029e0984abfb@realtek.com> <TY4PR01MB144329FF6B2B48FED9486F12E98BD2@TY4PR01MB14432.jpnprd01.prod.outlook.com>
+ <99e1afd842c4466ea562c83bb736fa74@realtek.com> <TY4PR01MB14432C55B885DB8231CA07C6298BB2@TY4PR01MB14432.jpnprd01.prod.outlook.com>
+ <aqg5OYBZ5eYqd-QX@sirena.org.uk>
+In-Reply-To: <aqg5OYBZ5eYqd-QX@sirena.org.uk>
+From: Cristian Timohi <cristiantimohi@gmail.com>
+Date: Mon, 14 Sep 2026 21:52:18 +0300
+X-Gm-Features: AcwNN1VcEOu9A4leuG94q1iHn3TbbbOC5A5d6JfxPgMm33LiumATR7UdqSoZlP8
+Message-ID: <CAAAbPi5fkpV3V1Ju+RYFOHWqNO+KjwoRVXnDgamNL5DVG0rbzA@mail.gmail.com>
+Subject: Re: [BUG] ASoC/AMD ACP70/RT721: ASUS TUF Gaming A14 FA401EA speakers
+ silent and headphone jack buzzes on playback
+To: Mark Brown <broonie@kernel.org>
+Cc: Shengyu Qu <wiagn233@outlook.com>, Jack Yu <jack.yu@realtek.com>, 
+	Syed Saba Kareem <syed.sabakareem@amd.com>, "Mukunda,Vijendar" <vijendar.mukunda@amd.com>, 
+	"Flove(HsinFu)" <flove@realtek.com>, 
+	"venkataprasad.potturu@amd.com" <venkataprasad.potturu@amd.com>, 
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>, Oder Chiou <oder_chiou@realtek.com>, 
+	"vkoul@kernel.org" <vkoul@kernel.org>, 
+	"yung-chuan.liao@linux.intel.com" <yung-chuan.liao@linux.intel.com>, 
+	"pierre-louis.bossart@linux.dev" <pierre-louis.bossart@linux.dev>, 
+	"lgirdwood@gmail.com" <lgirdwood@gmail.com>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"Dommati, Sunil-kumar" <Sunil-kumar.Dommati@amd.com>, Fish690103 <fish690103@realtek.com>, 
+	=?UTF-8?B?TWlrZSBMaW4gKOael+abieiDvSk=?= <mikelin@realtek.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi Mark, Jack, Shengyu, all,
+
+I performed the test Jack requested for NID 0x5f / index 0x30 on my
+affected ASUS TUF Gaming A14 FA401EA.
+
+I am including all details below because there were a few important
+observations during the test.
+
+One note before the technical details: I am not a Linux kernel/audio
+developer, and this level of ASoC/SoundWire/RT721 debugging is beyond
+my normal area of expertise. I am working through these tests with
+ChatGPT helping me understand the driver code, build temporary
+diagnostic modules, and perform the tests carefully.
+
+I am trying to keep every experiment minimal, reversible, and verified
+by readback where possible. I hope the results are still useful for
+debugging the actual issue.
+
+---
+
+## SYSTEM
+
+Laptop:
+ASUS TUF Gaming A14 FA401EA
+
+CPU/platform:
+Ryzen AI MAX+ 392
+AMD ACP 7.0
+
+Codec:
+Realtek RT721 SDCA
+
+BIOS:
+FA401EA.304
+
+This machine is already running the latest firmware/BIOS currently
+available for the FA401EA. Therefore, at least on this unit, the issue
+is reproducible with the latest available ASUS firmware installed.
+
+Running kernel:
+7.3.0-rc2-fa401ea-rt721+
+
+Kernel source tree HEAD:
+1a3fdcb408 ASoC: rt721-sdca: Adjust latency control to fix no-sound issue
+
+This includes the a20afec40ea1 fix.
+
+The following patch was NOT present during this test:
+
+ASoC: rt721-sdca: Update preset for all functions
+
+Audio card:
+
+amd-soundwire
+ASUSTeKCOMPUTERINC.-TUFGamingA14FA401EA-1.0-FA401EA
+
+SmartMic capture PCM:
+
+card: amdsoundwire
+device 4: SDW1-PIN5-CAPTURE-SmartMic
+DAI: rt721-sdca-aif3-4
+
+---
+
+## DIAGNOSTIC MODULE
+
+I built a temporary out-of-tree snd-soc-rt721-sdca module matching the
+running kernel.
+
+No DKMS installation was performed and no permanent module replacement was =
+made.
+
+The temporary module initially only did the following:
+
+1. Added MBQ address 0x5f00030 to the readable and volatile register lists.
+
+2. Added rt_sdca_index_read() calls inside:
+
+   rt721_sdca_pde11_event()
+
+   to read:
+
+   NID:   0x5f
+   index: 0x30
+
+   at three points:
+
+   * before requesting mic-path PS0
+   * after requesting mic-path PS0
+   * before requesting PS3
+
+The existing PDE2A power-state request itself was left unchanged.
+
+---
+
+## BASELINE READ-ONLY TEST
+
+Before capture I enabled:
+
+rt721 FU1E Capture Switch =3D on,on,on,on
+
+Capture command:
+
+arecord -D hw:amdsoundwire,4
+-f S16_LE
+-r 48000
+-c 2
+-d 3
+/tmp/rt721-mic-test.wav
+
+The register values were:
+
+RT721TEST mic 5f:30 before PS0: 0xffb7
+RT721TEST mic 5f:30 after PS0:  0xffb7
+RT721TEST mic 5f:30 before PS3: 0xffb7
+
+Therefore, on my affected FA401EA:
+
+0x5f:0x30 =3D 0xffb7
+
+and requesting PDE2A PS0 does NOT change it.
+
+I then analyzed the raw PCM samples.
+
+Capture:
+
+144000 frames
+48000 Hz
+stereo
+S16_LE
+3 seconds
+
+Channel 0:
+
+min=3D0
+max=3D0
+RMS=3D0.00
+nonzero samples=3D0/144000
+nonzero percentage=3D0.00%
+distinct sample values=3D1
+
+Channel 1:
+
+min=3D0
+max=3D0
+RMS=3D0.00
+nonzero samples=3D0/144000
+nonzero percentage=3D0.00%
+distinct sample values=3D1
+
+So the SmartMic capture is exact digital zero on both channels.
+
+---
+
+## 0xFFB7 VS 0xFFF7
+
+Jack mentioned that the default value according to the RT721 specification =
+for:
+
+NID 0x5f
+index 0x30
+
+is:
+
+0xfff7
+
+My hardware returns:
+
+0xffb7
+
+Difference:
+
+0xfff7
+0xffb7
+------
+
+0x0040
+
+So BIT(6) is the only difference between the value observed on my unit
+and 0xfff7.
+
+---
+
+## FIRST ATTEMPT TO FORCE BIT(6)
+
+I then modified the temporary module to set only BIT(6) using:
+
+rt_sdca_index_update_bits(..., BIT(6), BIT(6))
+
+rather than overwriting the entire register.
+
+This should change:
+
+0xffb7 -> 0xfff7
+
+In the first attempt I performed this before requesting PS0.
+
+That attempt failed safely:
+
+RT721TEST mic 5f:30 before PS0: read failed: -16
+RT721TEST force BIT6 failed: -16
+
+-16 is EBUSY.
+
+Since rt_sdca_index_update_bits() first reads the register and returns
+immediately if the read fails, no register write occurred during this
+first attempt.
+
+After PS0 the register became readable and still contained:
+
+0xffb7
+
+There was also a runtime PM issue during this attempt:
+
+runtime PM trying to activate child device sdw:0:1:025d:0721:01 but
+parent (sdw-master-0-1) is not active
+
+followed by:
+
+Failed to resume device: -61
+Slave 1 alert handling failed: -61
+
+Because of this I did not consider the first attempt authoritative.
+
+---
+
+## FINAL CONTROLLED TEST
+
+For the second attempt I moved the BIT(6) update until AFTER PDE2A had
+been requested to PS0.
+
+I also explicitly kept the complete relevant path runtime-active
+during the experiment.
+
+ACP PCI device:
+
+/sys/bus/pci/devices/0000:64:00.5
+
+SoundWire manager:
+
+/sys/devices/pci0000:00/0000:00:08.1/0000:64:00.5/amd_sdw_manager.1
+
+RT721 codec:
+
+/sys/bus/soundwire/devices/sdw:0:1:025d:0721:01
+
+For all three:
+
+power/control =3D on
+runtime_status =3D active
+
+PipeWire, WirePlumber and alsa-state were stopped during the
+experiment so nothing else held the ALSA devices.
+
+RT721 status before capture:
+
+Attached
+
+The sequence inside rt721_sdca_pde11_event() was:
+
+1. Read 0x5f:0x30
+2. Request PDE2A PS0
+3. Wait 10-20 ms
+4. Read 0x5f:0x30 again
+5. Set only BIT(6)
+6. Read 0x5f:0x30 again to verify the write
+7. Perform SmartMic capture
+8. Read 0x5f:0x30 before PS3
+9. Clear BIT(6) again
+10. Read back the register to verify restoration
+11. Request PS3
+
+The resulting kernel log was:
+
+RT721_BIT6_V2_BEGIN
+
+RT721TEST mic 5f:30 before PS0: 0xffb7
+RT721TEST mic 5f:30 after PS0: 0xffb7
+RT721TEST mic 5f:30 after BIT6 set: 0xfff7
+RT721TEST mic 5f:30 before PS3: 0xfff7
+RT721TEST mic 5f:30 after BIT6 restore: 0xffb7
+
+RT721_BIT6_V2_END
+
+So the requested value was successfully written and verified by
+hardware readback.
+
+During the entire three-second capture:
+
+0x5f:0x30 =3D 0xfff7
+
+After capture, BIT(6) was cleared again and readback confirmed that
+the original value was restored:
+
+0x5f:0x30 =3D 0xffb7
+
+---
+
+## CAPTURE RESULT WITH 0x5F:0x30 =3D 0xFFF7
+
+Capture command:
+
+arecord -D hw:amdsoundwire,4
+-f S16_LE
+-r 48000
+-c 2
+-d 3
+/tmp/rt721-mic-bit6-v2.wav
+
+Capture:
+
+144000 frames
+48000 Hz
+stereo
+S16_LE
+
+Channel 0:
+
+min=3D0
+max=3D0
+RMS=3D0.00
+nonzero samples=3D0/144000
+nonzero percentage=3D0.00%
+distinct sample values=3D1
+
+Channel 1:
+
+min=3D0
+max=3D0
+RMS=3D0.00
+nonzero samples=3D0/144000
+nonzero percentage=3D0.00%
+distinct sample values=3D1
+
+Therefore the microphone capture remained exact digital zero on both
+channels even while 0x5f:0x30 was verified to be 0xfff7.
+
+---
+
+## SUMMARY
+
+Firmware:
+
+BIOS FA401EA.304
+Latest currently available firmware for FA401EA
+Issue still reproducible
+
+Baseline:
+
+0x5f:0x30 =3D 0xffb7
+DMIC =3D exact digital zero
+
+Normal PDE2A -> PS0:
+
+0x5f:0x30 remains 0xffb7
+
+Explicit BIT(6) set:
+
+0x5f:0x30 becomes 0xfff7
+hardware readback confirms 0xfff7
+
+SmartMic capture while register is 0xfff7:
+
+Channel 0 =3D exact digital zero
+Channel 1 =3D exact digital zero
+
+After capture:
+
+BIT(6) cleared
+0x5f:0x30 returns to 0xffb7
+
+---
+
+## CONCLUSION
+
+On my affected FA401EA, explicitly setting NID 0x5f / index 0x30 to
+the specification default value 0xfff7 is NOT sufficient to make the
+microphones work.
+
+The machine is already running BIOS FA401EA.304, which is the latest
+firmware currently available for this model, and the issue is still
+reproducible. Therefore there is no newer ASUS firmware currently
+available for me to test against this behavior.
+
+One interesting difference from the earlier reported register dump is
+that my unit does not currently show 0x01c2 at 0x5f:0x30.
+
+It shows:
+
+0xffb7
+
+both before and after the normal PDE2A PS0 request.
+
+The only difference from the documented default value 0xfff7 is BIT(6).
+
+However, setting BIT(6), verifying 0xfff7 by hardware readback, and
+keeping that value for the entire capture still leaves both microphone
+channels producing exact digital zeros.
+
+This seems to suggest that some other part of the analog/vendor power
+sequence is still required.
+
+This could also explain why the community workaround which writes
+several RT721 vendor analog power registers succeeds: that workaround
+modifies considerably more than 0x5f:0x30, including codec-wide power
+state at 0x5f:0x00 and other analog power registers.
+
+I intentionally did NOT apply the complete vendor power sequence
+during this test because I wanted to test Jack's 0x5f:0x30 question
+independently and provide a clean result.
+
+For reference, the internal speakers also remain completely silent on
+this machine with a20afec40ea1 alone, as previously reported.
+
+If you would like me to perform another targeted test, please specify
+the exact register/value and at what state it should be read or
+written, and I will try to reproduce it carefully.
+
+Again, I am not experienced with Linux audio driver development and I
+am relying on ChatGPT to help me understand the kernel code and
+construct these diagnostic tests. I wanted to be transparent about
+that.
+
+Nevertheless, I have tried to keep the experiments minimal and
+reversible and to verify register changes by hardware readback
+wherever possible.
+
+I hope these results help narrow down the issue.
+
+Thanks,
+Cristian
 
 
-
-On 9/14/26 8:59 AM, Takashi Iwai wrote:
-> On Mon, 14 Sep 2026 07:09:00 +0200,
-> Randy Dunlap wrote:
->>
->> Do some overall document cleanups:
->>
->> - add driver name for clarification
->> - fix some punctuation issues
->> - correct some capitalization
->> - correct some grammar
->> - convert a few words from German to English
->> - eliminate double use of "note:"
->> - unindent Precise Pointer bullets so that they are not part of the Hint
->>
->> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
->> ---
->> Question: Is the precise_ptr documentation applicable to this driver?
->> 	Is preceise_ptr used in this driver? Not that I can see.
-> 
-> AFAIK, the precise_ptr has been dropped together with the support of
-> RME RayDAT and AIO models (commit 0dca1793063c).  Essentially
-> precise_ptr is always on.  Would you work on cleanup, too?
-
-Yes, I'll update that and send a v2.
-
-thanks.
--- 
-~Randy
-
+On Mon, Sep 14, 2026 at 9:13=E2=80=AFPM Mark Brown <broonie@kernel.org> wro=
+te:
+>
+> On Mon, Sep 14, 2026 at 08:16:22PM +0800, Shengyu Qu wrote:
+>
+> > On my FA401EA this issue doesn't exist so I can't test. Maybe you can a=
+sk at
+> > bugzilla so other users with this issue could test?
+>
+> > PS: maybe this is the issue for some old batches of RT721 chip? My devi=
+ce is
+> > very new and this might be why I don't have this issue?
+>
+> Could some firmware update have done something that helps somehow?
