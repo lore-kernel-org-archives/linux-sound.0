@@ -1,75 +1,46 @@
-Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CDFEBA34
-	for <linux-sound@vger.kernel.org>; Mon, 14 Sep 2026 00:03:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A530F249EB
+	for <linux-sound@vger.kernel.org>; Mon, 14 Sep 2026 00:24:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789344197; cv=none; b=PUh5hMBR8c5tTqbacSfOqeoYUtNZRlQAoHrLbamAaQz2MoKwTCXTczTgX77eFP87WyOz+jn5wfOWcl1mK5ef3+nWi61qE6KjCAekaalBBN72SllIHK2ShRgAjYBzirB/iUV2sQoxzh3b+aa1TK+RQPMqLe9DV1XMzM4A+WZetY4=
+	t=1789345474; cv=none; b=BEc7QTgMldgzRAV0Ck+z14LtL1Waln5kWFhur2zT9QSFS575a6Mr9XMMC01DWoLDV7LEst3W6pUFh1NPdzeLts2L0BzFsj3sfV/IB5FnFoEB/OK7w16CHI+Vx8wWKlBDtvoGXLPQB98xvUGIx3L09P5qfWEw5GM03KPJ+tTKuNk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789344197; c=relaxed/simple;
-	bh=blGe3qvg0f51TZC/BueJt8+QxSjOQEk8I3ZLXDIKtR4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XB7s8mOGIQ5Ew6JA+tC7Hv5qUZ8W2TJy61ayQ2O9IUkNPLD9gysW+Gx2sx9zS/jJObiBdGVa0r0kZiI6Z9OlpLT+EAIdf07WmX3PkfHdINvEC0ybUkVlgA1GW8ulNFij+1J//UYIK3EkANEQlwQ9ihZWAH6+xIt1GHhCiMoQj3E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RbCBOpH5; arc=none smtp.client-ip=74.125.227.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789345474; c=relaxed/simple;
+	bh=0QJN9VkbPJBQjrlzcUQo3zW92AHhyZbHGehoe9C9lYA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BisjJ8GEpQEH9ugMMqY+B3wgy5ZrtDWW3rgd+ofocppd/NM0zDf6Oe4gaDYV8zV/0LvviadV4HmssfsKoxw7W7cxJU9MXhG22PjE0SnZmYxnFJMt/uRnvAcdw/+VNf16wXmUmEAcURuI8DwtdAhRXlic4f8WidlaJ/USADaq3JM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net; spf=pass smtp.mailfrom=posteo.net; dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b=hMm9bhog; arc=none smtp.client-ip=185.67.36.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RbCBOpH5"
-Received: by mail-pj2-f12.google.com with SMTP id 98e67ed59e1d1-39666e7c9efso325034a91.3
-        for <linux-sound@vger.kernel.org>; Sun, 13 Sep 2026 17:03:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789344196; x=1789948996; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=4a9/oZ+aHx5BCercho5lpC3JRthJz5xcHExBYY3k+6s=;
-        b=RbCBOpH5pLI4Uz2PjySw34uztWq0EKSMkE5RMM7UxqY2sPYYwFfNx0RhxOrIt62u1s
-         XZGsT9Rz2saXV/qVZ+LvEbOgQm9wrq6ezdhVV99A3PuuEdh/8owBBDIZlw2bqRyUiOku
-         voXVPrSTKUwecoQNe2NJC7AbPDkVYEzgqnddY+E6iM21dUowOLLLRJlzGYpxvfG0bA1D
-         eh4pAfo3mceXQRELNYMx5OHpkjyxFz2vEu9xsIWMvm8gbvWZm2rvJvaISWBxnKRKcYtD
-         v+XxC78puCmtbc9nJefwy/8q0Q/iDl+Itx42w4ZZUulqcnWBzHz4fxY4H5vDAEPFnkiS
-         iD9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789344196; x=1789948996;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=4a9/oZ+aHx5BCercho5lpC3JRthJz5xcHExBYY3k+6s=;
-        b=gAXq3AkUZ+DhqaH98Dtloel/iyPcLczaqLxuPpAjiNzE+jL7g//CYWI4QY1jwG0PHQ
-         0Z0Y2/lzYKf6n2o25Cr6WygIxYfDEe26OinAcMAYY+YfdN7vdbv9X7Z7du4GyJaFt5v1
-         ngBWbcrfct/G+kZNan+OVVwReCNZ4H3TXp+snnC2jCky5IGfr8FzrHyfAsueL0JpNGUE
-         WxoMKCxOePh7GFAN4IYTBWOj837jG/bVMh0ruRTdjIWBU/p87aVvaCGMcDIzoxtEKgdx
-         +fELAb8LDWmAG4xJc6fXG8Pr5aMj0PtwYIM8KNF7xOHptTczRZ5wIdn05Bhx6Y77pXVF
-         e7WQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzrZjz8V0cQy/R2wkZ2pE4ysSwDVoLEnTG2JGRcm3AzAtmXJ/lMQldheqwxy3R9aI0wEF17Qn1jr2tN6g==@vger.kernel.org
-X-Gm-Message-State: AFuF++kiVYI+rqHqeszQNG1jljNIO/dL0Qx0iq7cIVAWHhBDY5kMYm5s
-	4RcHXSOcMa+8T5DVH4xG89P4nlcZqxKWESjNeghPWuGhigdgs8xXzWnf
-X-Gm-Gg: AYBFou2xljJyZLe1h0Fcwo2CBxjbt7Epw432mCGr3jYZnpgHlIjPBZP1w4qmKKpm7kp
-	CP+hZW9hwm3fhz2aboLNxQqssL/sMA42OsFHD6g0uRyRBxjYq6fS9Yn/WsTSCgWgQMpMKadHEYl
-	FWVQFOuliZFy8b7+KqpKWjXxNnmTWArjpLL1SkxYyr+ux+Vx8OmJyTKV1XOB4QDSBewSEq2Okiy
-	LdD+/c1Rg5PuXGY8/8GdfKRVdTdhdhgYpVUyddD7ROcwu3tluQo27FCXXHx7pCXh42hnZbrrKmc
-	8zBCNxLA6PzyHIobjHNwvqygS2so/SpYDg7/1NkhMzPC95LCZL9dq6gSiA2uxkiu/W+RB2qAL8s
-	O3E+OHTMV6dsAGP3kuuqj4PF0gw4AjsWfiB7EXEkJ19hhvQ6I07csN/Q5R5suSBcPt3GarWi7Zq
-	XaB3YrvEyoCOBRcffE3irL6z76VJozXJCi0jUINRfy6s2jaNOsLPrXw+gLP0kXb298Ucjmidu5V
-	C7p4q0VQvX97cBke015IIU2HA9vD6H1JKutSXuS2vKwXlq70rBEc5KgxKw+czoAvUGYMoEauJ6P
-	cuqR/DpD4sJ8ET9aVRMQzNjq69OJefo=
-X-Received: by 2002:a17:90b:2885:b0:398:bac0:238e with SMTP id 98e67ed59e1d1-39dec27c782mr289313a91.6.1789344195634;
-        Sun, 13 Sep 2026 17:03:15 -0700 (PDT)
-Received: from cachyos-aura ([45.112.148.104])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-14365ba71cesm22734169c88.13.2026.09.13.17.03.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Sep 2026 17:03:15 -0700 (PDT)
-From: Navon John Lukose <navonjohnlukose@gmail.com>
-To: rf@opensource.cirrus.com,
-	david.rhodes@cirrus.com
-Cc: broonie@kernel.org,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	linux-kernel@vger.kernel.org
-Subject: ALSA: hda/cs35l56: same calibration condition logged at dev_info() and dev_err()
-Date: Mon, 14 Sep 2026 05:33:08 +0530
-Message-ID: <20260914000308.108995-1-navonjohnlukose@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b="hMm9bhog"
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout02.posteo.de (Postfix) with ESMTPS id 42F15240103
+	for <linux-sound@vger.kernel.org>; Mon, 14 Sep 2026 02:24:24 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.net;
+	s=1984.8680eb; t=1789345464;
+	bh=XTrnvnLi6eOVO6BmFj8cCJwghr2DpOwoBKEk9I4NjNI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:
+	 Content-Transfer-Encoding:From;
+	b=hMm9bhog+Z6T2RvH0JWPN72MIIRNUThI3lk0KhhtWVmVZOlCZAWZ2hEJmQ/yTo5NZ
+	 Zxy20nxytvguXNlgLI+M6lIs1CAS+hTGqzUT0jOgeVN2v8SPV8kIIVBpgdiNXmm1gf
+	 /VnF5DhXi2wcFd802XwOYc672i+5JfVVxGiInS4PbSXAoFunOjM/c5D2RI6HHsVOdH
+	 TDj8Zss8CoGFadAcaVT5vw3w588kUPDqaO955fblwKwzkcJfyRSBg6DcmL+4CY1oI6
+	 W9yFI9pXpbmwaG1zBs8TWkoHn2Tj8ehSvpa5k2i/TOCtFsA47tJwqEsfOucFsMDzLi
+	 mL6C07HeyNXPQ==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4hjm9g45lDz9rxD;
+	Mon, 14 Sep 2026 02:24:23 +0200 (CEST)
+From: Kitty Makin <autumnull@posteo.net>
+To: linux-sound@vger.kernel.org
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	linux-kernel@vger.kernel.org,
+	Kitty Makin <autumnull@posteo.net>
+Subject: [PATCH] ALSA: usb-audio: Add capture quirk for Behringer FCA1616
+Date: Mon, 14 Sep 2026 00:24:24 +0000
+Message-ID: <20260914002334.12691-1-autumnull@posteo.net>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -78,28 +49,30 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Documentation/sound/codecs/cs35l56.rst says "Failed to write calibration"
-has the "same meaning and cause as 'Calibration disabled due to missing
-firmware controls'". The latter is a dev_info(). The former is a dev_warn()
-with a dev_err() from cs_amp_write_cal_coeff() ahead of it.
+The Behringer FCA1616 (1397:0004) returns silent capture samples unless its
+playback endpoint is active.
 
-Rebinding the HDA components without re-probing the i2c driver takes the
-loud path, 4 of 4 attempts here:
+Use the existing fixed implicit-feedback mechanism to keep playback endpoint
+0x01 on interface 1 active during capture.
 
-    cs35l56-hda i2c-CSC3556:00-cs35l56-hda.0: Failed to write to 'CAL_R': -1
-    cs35l56-hda i2c-CSC3556:00-cs35l56-hda.0: Failed to write calibration: -1
+Tested with 16-channel S32_LE capture at 44.1 and 48 kHz.
 
-list_empty() is false because the controls cs_dsp_power_down() disabled at
-unbind are still on ctl_list, so the dev_info() branch is skipped.
+Signed-off-by: Kitty Makin <autumnull@posteo.net>
+---
+ sound/usb/implicit.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-The calibration is intact. CAL_CHECKSUM, CAL_STATUS, CAL_R and CAL_AMBIENT
-in DSP YM are unchanged across a failing rebind on both amps. On a speaker
-amplifier "Failed to write calibration" reads as a protection failure.
-
-I lost around 5 hours chasing this down, believing this to be an actual
-bug.
-
-Lenovo Yoga Pro 7 14IAH10 (83KF), kernel 7.2.4, two CS35L56 B0 on I2C
-behind CSC3556:00 over the HDA link.
-
-Assisted-by: LLM
+diff --git a/sound/usb/implicit.c b/sound/usb/implicit.c
+index 77f06da93..bd4d569a8 100644
+--- a/sound/usb/implicit.c
++++ b/sound/usb/implicit.c
+@@ -76,6 +76,7 @@ static const struct snd_usb_implicit_fb_match playback_implicit_fb_quirks[] = {
+ 
+ /* Implicit feedback quirk table for capture: only FIXED type */
+ static const struct snd_usb_implicit_fb_match capture_implicit_fb_quirks[] = {
++	IMPLICIT_FB_FIXED_DEV(0x1397, 0x0004, 0x01, 1), /* Behringer FCA1616 */
+ 	{} /* terminator */
+ };
+ 
+-- 
+2.55.0
