@@ -1,143 +1,165 @@
-Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
+Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DCD037204E
-	for <linux-sound@vger.kernel.org>; Mon, 14 Sep 2026 07:33:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 282F53EC829
+	for <linux-sound@vger.kernel.org>; Mon, 14 Sep 2026 07:43:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789371206; cv=none; b=LN4BuRen+Li1J3FK5KY220uvgsn3NHAkVLXV8kWGkUWAVuB6A+/1iEOGV3ma5SOlngp9FEItAuTSAAVE/hYweKLnnq0dcee/C4EIETMde3gOSYnCKnym+a8ddJV+8EEAm1E7Pd+fQZ1q0Z1v3T7Dg1TXU3sXnMvbrmK9d1zDu4s=
+	t=1789371808; cv=none; b=Qc73O7ZM1RfAiZKuSCVhtQ4LIbXy5e10l36j57gt7KdSpL6bfmsEzM6NF46v3L5iUJ/L50tYc9YNMH/v7rNHAIcE/7ozW6Mn2B3CdWHEv2+/ooryTJDq/HT13itgR0MLJJ5uQkVXcd6X7SU+iILQfG0NgG/9sTq4dkkjfab6KCg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789371206; c=relaxed/simple;
-	bh=DTr6iiCXWEqi8Ceal6qp4HJBgbt9QBxJ+v30+Z1ghDI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NjNIIfq8SOFdXYYegjV6IkWleFSO4Ak20NCMFR/JkDmobkWdUQ4KGwepn8wRhDhVlptL9FYhjtLoGY6rGBICe5F+B6gbbvt/D4kW9iNgunJMVnjoHQVComlND1PDU++ut+IQ9o16kcjRhiVxGmzQYC/st9py7obqE3eUIdgIQ38=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=WXMCr7d7; arc=none smtp.client-ip=74.125.225.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1789371808; c=relaxed/simple;
+	bh=n7fu+Sb2mCNrOfYc1/FQ88AA21MaOhGsdcx1nVUoSyw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oTwcnw0Fs7Xx7M6gke5rDJJ8WgmGoB2zx3CExbQuMhB9N6xc+M+Qm0kyrYg3xoiQFdqCgmfzpTt1iXbl9x9NZNXWRnOlZrgSohH+XyNKYYriQf1NpX2mp3Qu85PfDlJkYmUp1ua96AVtYYD9RNzUqPTfDrg0XCaTdVtOnl+pPkk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=asu.edu; spf=pass smtp.mailfrom=asu.edu; dkim=pass (2048-bit key) header.d=asu.edu header.i=@asu.edu header.b=OuAYzQf8; arc=none smtp.client-ip=74.125.227.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=asu.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asu.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="WXMCr7d7"
-Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-482f6356f6bso1337065f8f.2
-        for <linux-sound@vger.kernel.org>; Mon, 14 Sep 2026 00:33:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=asu.edu header.i=@asu.edu header.b="OuAYzQf8"
+Received: by mail-pj2-f13.google.com with SMTP id 98e67ed59e1d1-39dacf053eeso970058a91.2
+        for <linux-sound@vger.kernel.org>; Mon, 14 Sep 2026 00:43:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1789371203; x=1789976003; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=aZr2FikKI33KDHEnzqoeN/VTnNw+pox/jCxpOuAG6zQ=;
-        b=WXMCr7d7uocRZ39WfXINuWRDf9AuOfUDiiJUL+jC+2lTafOUXv3gaAAEUFyQmB+Rvs
-         a1lUhv2oavzERsuzNMICfiAZfdAN9K8C1nLLS/lsuWWMrfOGLlWAtUBJd6Jc1cQsYntZ
-         UflZVMdql8z3GcmijcDuIQaA/yHVJJJ9RJiUVwDJX6RR4MXCSsRNUYYkuzUwTgLhEfgh
-         X5oFV5ri8gAlE7vi88W/vGx6VdlGZygBU5X03HGr14lNZFiRe8yKsiFwDkKr+s3SdapY
-         q8QTsZ1CqZ1MVUYgkDP7Lj32OjknilXwOHe3tsKEo/gLHrZfml2ghZj/7IVn8W94Xqz7
-         7GWA==
+        d=asu.edu; s=google; t=1789371806; x=1789976606; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Sg+24kMdlq7WqHjfro/gs2jwHR6xZZQwJPn2I5eBEWY=;
+        b=OuAYzQf8CCBbfP/9u3k1xNcS6crbhmQsssTGctfh3Eo1ywXccmn8YT/bEazpZX3aWo
+         HZYqmkC4/Era2xu6I6JWbQcSx/9sFAMkPasoY1Aj1KgNaJeG2NtSbY9WVOPQQ7XLD/Au
+         a37UKPwIDfnCEAE+IdRx5kyWnSaoyV9dKZ+uE3M44kfTz8J3I5YDTZoveunM55ixo8Hi
+         BgA+GvqqStRVybSvaAquWbL7k7nTqWMggbf38uznFQphtdawW+X3NjBqaCuCeKxM6JDU
+         uMeLsc1jYRwWYakM0xqGTBoLeWYh/X2jxbYiTvWc1sy4U4brd5WzBF6O4ceihpe0Trq/
+         Zalg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789371203; x=1789976003;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=aZr2FikKI33KDHEnzqoeN/VTnNw+pox/jCxpOuAG6zQ=;
-        b=sWg4W9TfFVuBhOtfGfhCdMYh1tlV2vyZmMzBXWXQAHHElMoqKXEShXWyc96lxm5LwS
-         PKmVBD7dZEJzW9WiurM3tmHvo7r05b/2q3A4uSqqZ/mtMC9RVdj2gfiZIDszGB01MUnd
-         VmpCqVMOkBhGiisYPFGKt0CAZNj8kIVHkuNy1ri83nvO8iOOvTS0Qfb6J9JYOxdoUOeK
-         rPcHdGivR4/U5kbWqjIjTVLZ1Q63bzrwb2y12U/oIW7eqbNSxQE+zsRpIh6rLUDkysXj
-         mTE8q2c0gRt3mTeJNx2ynouqM6wgMajLYIy8pXcHMGfuDTf8hPhrN0EWIbGuUY1scp2m
-         jpXg==
-X-Forwarded-Encrypted: i=1; AKwUvByOZZN1SmigMvHd87e9uA2MAJXKE6gxKI7rsGFWPaYsOMEIua3ICwMRzhRJoMSiqRp96jMXKt12RXNGqw==@vger.kernel.org
-X-Gm-Message-State: AFuF++k08W6BeKGG/P3K5v1dEUx7ChIuEbe5od2cq0XfbW9QeLjN26L/
-	YGNZj+IxZCvH8vgx30KALD31LmJ7T+K2SOoufMsj6pUfjc8OpFOkNIgaeMhdgZ+lJt9JviOVQ6f
-	BHglM
-X-Gm-Gg: AYBFou1h2hS13BLZU8Xr8FYWGOvyqVOoDEKjhW/NDJUgDfO+5a6VYXv1MdCKjpYEWaF
-	WaiAfRByLYnJJHF3MmzS/MvmS8axim1DMASRa/eAq/uCojske0cvxDUwZ5w7KLOmWPpwWFvIatY
-	NkqTBkG/WFsrcY5TlXqcBAxme6yR105JTacrqUtPvrIkV8pq4lcOH9QtA6cjOhWsGQAo5z9yb++
-	JyCHM62nFM5BQwBzgyNqE11/33OvFO1qea9V0QqMepPNj6S0F4MS/0iOYwvQHhutiQca36wLtg1
-	QGltp4oWneWPaKIRkwqXrkgE4RocTxmVhEyDPE4Djv5AiTwulFHvALjst1bt8LJKwRZ5e1+D4hn
-	dfpbeexDOpX3SqwkvFMJQEu/42eRxEHaQUrlOc0wNkeeuqa9cxv2dyklpARsHf9ynVOQDiTOLVu
-	xLFfZzINCfVsE87jHYymICBTni0SyMMWu2GRp5LS8HNTM81YYcPwMew7OCBMUONDu7lVEaUkdBX
-	1S+ifvZ7TNZZifCAxKttqmR7AGwE71CAHDW4lgUMrIDbwC06b32B62su0yz7xq8S1o29hY+
-X-Received: by 2002:a05:6000:470c:b0:486:f770:9e87 with SMTP id ffacd0b85a97d-48702aacef4mr2464666f8f.5.1789371202652;
-        Mon, 14 Sep 2026 00:33:22 -0700 (PDT)
-Received: from localhost (p200300f65f19a904d5c06a7863c841d4.dip0.t-ipconnect.de. [2003:f6:5f19:a904:d5c0:6a78:63c8:41d4])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-486eb2ed106sm24129793f8f.1.2026.09.14.00.33.21
+        d=1e100.net; s=20251104; t=1789371806; x=1789976606;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Sg+24kMdlq7WqHjfro/gs2jwHR6xZZQwJPn2I5eBEWY=;
+        b=TzPGXLMH+ffDChCBEPibHREs3J23eZygN9RgwuIT8wir07VRxNQMJ1CSxFJxtcxFUm
+         bgst78isFJ6/4c+LPp/Kh+aYk78rRvpsVFu4sO4RkbwnrUVfAcEJeGCu8yZ72nDeW/JN
+         hYtU+yh1cqzcACcbC4BRi1Yp8UypEEkHl4nuIlcbYoSqT2SN3eXPQPngV/3IfC1a6YTk
+         YCMhULAwp1DKXJ+jopoJ9K8rel17+1UhQHg5zS/T6vKGfOiznnPufdZ4HtEanIEsKiMD
+         X6TSVqDhJcNBNOzhX8pN6RiQpFjLLGw+bPqxAaxfoHaqY2HS8ysqjfHdQ64fE6hwurzA
+         SiLg==
+X-Forwarded-Encrypted: i=1; AKwUvBy38/GSjiqpnZ9XhwUbEOOVF7Qf2EU91NfxszLAchdlun+dtAN1CMfk5Cdfgho1U0jJm6Bsb3VLrDoNwg==@vger.kernel.org
+X-Gm-Message-State: AFuF++lbjbty7QsWL5zzzawTLObbZlYYEvkdmzGBsSGdrK+DR9Amhm3c
+	ssQDfzNAdh4Ir6VUO+c7ZJ5OSFoOy6i5B+UnK2soD9GbDc9NLaid41EeGvZvcm9hHg==
+X-Gm-Gg: AYBFou3M8Z0CkZxRDKs1Yp1oXEL+GT0c18EEKwpkMxIffTYKRtRdFlHGawZMXHJlftg
+	zWAW6YuB1cTao09egXYmZhOHtXHbUGYtMm7VCIp48wJp4oyNWsZi0iKHKgzw58b26ISi/LHv4hW
+	W9ytvU2ZuQu0b1EJ1UZt7/amPFzK1AkFPf/w/z1PIYs1jlTR8s8xqRXCAXsvUnUDySfHgh5ziXQ
+	kdjAjRKkUyKUC6NwYKguUi4gMSwDP/O48AfU695fi9jGdRhHtJSd9AKMY23Ty5CVb9dieB/0VQu
+	TQn9lkKLNSj+kTC2UgDNkCMZexvI04o1YzchDbhUVHNx637FoKweqUN1/ygLTmuPuxeFWZhIrKd
+	7Ep0sPtco1d5zqsmtMXGoRkJzwKdGyK/6QDV4Oamk1G1F4kgr+U9NUM5slWpVsG1ekIxxLnoaBQ
+	q2V3lqSLCDZIryc74X6cjTur8wegukuqv4pGDwugcvP9dL6mZwU1f6VPsgMHn4GBKIx8gzL5uL2
+	/RrvjK7WhfGjgcGJCj8EIpI81wxSYOMaJs5FTtRzFKX7uw7
+X-Received: by 2002:a17:90a:1056:b0:39d:ec9a:8f8e with SMTP id 98e67ed59e1d1-39dec9a90b5mr2070798a91.8.1789371806376;
+        Mon, 14 Sep 2026 00:43:26 -0700 (PDT)
+Received: from p1.. (209-147-138-4.nat.asu.edu. [209.147.138.4])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33ba4fa50efsm27877070eec.28.2026.09.14.00.43.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2026 00:33:21 -0700 (PDT)
-Date: Mon, 14 Sep 2026 09:33:20 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Valerio Setti <vsetti@baylibre.com>
-Cc: Jerome Brunet <jbrunet@baylibre.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/6] ASoC: meson: add audin main module and I2S formatter
-Message-ID: <aqeiUfIyeW2mapm_@monoceros>
-References: <20260912-audin-v1-0-7fbefe928711@baylibre.com>
- <20260912-audin-v1-2-7fbefe928711@baylibre.com>
+        Mon, 14 Sep 2026 00:43:25 -0700 (PDT)
+From: Xiang Mei <xmei5@asu.edu>
+To: perex@perex.cz,
+	tiwai@suse.com,
+	torsten.schenk@zoho.com
+Cc: co+855929c2df672879@bugs.sh,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Xiang Mei <xmei5@asu.edu>
+Subject: [PATCH v2] ALSA: 6fire: fix OOB write from device-reported iso length
+Date: Mon, 14 Sep 2026 00:43:24 -0700
+Message-ID: <20260914074324.3590843-1-xmei5@asu.edu>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="4kuywhcc5gf5klas"
-Content-Disposition: inline
-In-Reply-To: <20260912-audin-v1-2-7fbefe928711@baylibre.com>
+Content-Transfer-Encoding: 8bit
 
+usb6fire_pcm_in_urb_handler() sizes each outgoing isochronous packet as
+(actual_length - 4) / (in_n_analog << 2) * (out_n_analog << 2) + 4, where
+actual_length is the unsigned length the device reported for the matching
+IN packet.  A packet completed with status 0 and actual_length < 4 wraps
+the subtraction to 0x7fffffec; a zero-length isochronous packet is legal
+on the bus, and the preceding loop rejects only non-zero status.  The sum
+reaches memset() on out_urb->buffer, a 4832-byte object from
+kcalloc(PCM_MAX_PACKET_SIZE, PCM_N_PACKETS_PER_URB).
 
---4kuywhcc5gf5klas
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Subject: Re: [PATCH 2/6] ASoC: meson: add audin main module and I2S formatter
-MIME-Version: 1.0
+Even without the wrap the result is out of bounds: at 88.2/96 kHz the
+4-in/6-out scaling turns a full 420-byte IN packet into 628, so eight
+packets span 5024 bytes of that buffer.  usb_submit_urb() rejects an
+over-long descriptor only after the memset() and the
+usb6fire_pcm_playback() copy of user PCM data have run.
 
-Hello Valerio,
+Guard the subtraction as the sibling usb6fire_pcm_capture() already does,
+and limit the frame count to what fits in rt->out_packet_size, the OUT
+endpoint's wMaxPacketSize.  This bounds total_length by the buffer size
+while keeping each packet length aligned to a whole output frame.
 
-On Sat, Sep 12, 2026 at 12:14:32AM +0200, Valerio Setti wrote:
-> +#include <linux/clk.h>
-> +#include <linux/module.h>
-> +#include <linux/mod_devicetable.h>
-> +#include <linux/of_platform.h>
-> +#include <linux/platform_device.h>
+  BUG: KASAN: out-of-bounds in usb6fire_pcm_in_urb_handler (sound/usb/6fire/pcm.c:338)
+  Write of size 18446744073709551456 at addr ffff88802a3d0000 by task vhci_rx/5018
+  Call Trace:
+   dump_stack_lvl (lib/dump_stack.c:94 lib/dump_stack.c:120)
+   print_report (mm/kasan/report.c:378 mm/kasan/report.c:482)
+   kasan_report (mm/kasan/report.c:595)
+   kasan_check_range (mm/kasan/generic.c:186 mm/kasan/generic.c:200)
+   __asan_memset (mm/kasan/shadow.c:84)
+   usb6fire_pcm_in_urb_handler (sound/usb/6fire/pcm.c:338)
+   __usb_hcd_giveback_urb (drivers/usb/core/hcd.c:1657)
+   usb_hcd_giveback_urb (drivers/usb/core/hcd.c:1741)
+   vhci_rx_loop (drivers/usb/usbip/vhci_rx.c:107 drivers/usb/usbip/vhci_rx.c:242)
+   kthread (kernel/kthread.c:436)
+   ret_from_fork (arch/x86/kernel/process.c:158)
+   ret_from_fork_asm (arch/x86/entry/entry_64.S:245)
 
-Please rely on <linux/platform_device.h> to provide of_device_id and
-drop the include for <linux/mod_devicetable.h>. That latter header is
-supposed to go away soon and injects a lot of build dependencies into
-your driver.
+  Allocated by task 10:
+   __kmalloc_cache_noprof (mm/slub.c:5563)
+   usb6fire_pcm_init (sound/usb/6fire/pcm.c:560 sound/usb/6fire/pcm.c:595)
+   usb6fire_chip_probe (sound/usb/6fire/chip.c:133)
+   usb_probe_interface (drivers/usb/core/driver.c:399)
 
-If you want to go full iwyn, please use <linux/device-id/of.h> instead.
+  The buggy address belongs to the object at ffff88802a3d0000
+   which belongs to the cache kmalloc-8k of size 8192
+  The buggy address is located 0 bytes inside of
+   4832-byte region [ffff88802a3d0000, ffff88802a3d12e0)
+  Kernel panic - not syncing: Fatal exception in interrupt
 
-> +#include <linux/regmap.h>
-> +#include <linux/reset.h>
-> +#include <sound/soc.h>
-> [...]
-> +static const struct of_device_id meson_gx_audin_of_match[] = {
-> +	{ .compatible = "amlogic,meson-gxbb-audin" },
-> +	{ .compatible = "amlogic,meson-gxl-audin" },
-> +	{}
-> +};
+Fixes: c6d43ba816d1 ("ALSA: usb/6fire - Driver for TerraTec DMX 6Fire USB")
+Reported-by: co+855929c2df672879@bugs.sh
+Closes: https://lore.kernel.org/all/gisnub8aWGLbyZLcDCSc7zWsHonMWGcyRgt5%40bugs.sh/
+Assisted-by: LLM
+Signed-off-by: Xiang Mei <xmei5@asu.edu>
+---
+ sound/usb/6fire/pcm.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-It seems to be subjective, but I think most nit-pickers in the kernel
-prefer { } over {} to match the spacing in the non-empty initializers.
+diff --git a/sound/usb/6fire/pcm.c b/sound/usb/6fire/pcm.c
+index 21789db6657d..0285d79ace0f 100644
+--- a/sound/usb/6fire/pcm.c
++++ b/sound/usb/6fire/pcm.c
+@@ -335,11 +335,19 @@ static void usb6fire_pcm_in_urb_handler(struct urb *usb_urb)
+ 
+ 	/* setup out urb structure */
+ 	for (i = 0; i < PCM_N_PACKETS_PER_URB; i++) {
++		unsigned int frames = 0;
++
+ 		isoc_out = &out_urb->instance->iso_frame_desc[i];
+ 		isoc_in = &in_urb->instance->iso_frame_desc[i];
++		if (isoc_in->actual_length > 4)
++			frames = (isoc_in->actual_length - 4)
++					/ (rt->in_n_analog << 2);
++		frames = min_t(unsigned int, frames,
++				       (rt->out_packet_size - 4)
++				       / (rt->out_n_analog << 2));
++
+ 		isoc_out->offset = total_length;
+-		isoc_out->length = (isoc_in->actual_length - 4) / (rt->in_n_analog << 2)
+-				* (rt->out_n_analog << 2) + 4;
++		isoc_out->length = frames * (rt->out_n_analog << 2) + 4;
+ 		isoc_out->status = 0;
+ 		total_length += isoc_out->length;
+ 	}
+-- 
+2.43.0
 
-Best regards
-Uwe
-
---4kuywhcc5gf5klas
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmqnoz4ACgkQj4D7WH0S
-/k6wBgf/VDlnoO5+iXo8tNZhitG0NPObCWmA3qnUxY31Go2pWwo5D7mENYe58DQf
-LbOjfyHM3rG5ajmQJpNpoxoWanM8pHm1pbf7WjzZXg8WxLPnc6Y6QmjA5rC1Rsoe
-OaAlq3aB/SmDTaIo9WzaLTYU/UhsFNVrWjtqGWhRXgGod17Q1r4iEW6LZadLjsyw
-8xYNabxMGbQJVZK8cXM2tJCC9n1O51+z8w01tQyZ4ze4J3Xw7v8uRXbDezOIqIee
-/+z7LE3HPZKG04IMtzYplulwe4dmSdjkf81QWxDR5SFxRrlxNaSuxE12LKJ4DSS4
-GL20Mp6Pvdl/Kqd1PwrNPdwUx4BNlw==
-=LwSM
------END PGP SIGNATURE-----
-
---4kuywhcc5gf5klas--
