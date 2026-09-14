@@ -1,100 +1,84 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAAB73B27E2;
-	Mon, 14 Sep 2026 06:15:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 549E12FE057
+	for <linux-sound@vger.kernel.org>; Mon, 14 Sep 2026 06:16:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789366502; cv=none; b=SpGqZPYoNfzkbqnqfmbA2Q/QYnJXKsM8v/oXhLWjrjGVP7479+wd48cNAwR0xT/nH9B67Qa/+pudQhDZhkkvcY5OwK5VxsjM50fP/Hb9OfiyfM/H/NGJ6Itruh66jyA7hDflwKnqeK825Qpvzn+bZQW7FRpOi661bSBv8UEHb1I=
+	t=1789366562; cv=none; b=Ogy41KAQepkJXbNKwz5tuNYqm/FqwZvYTVAl5mrrVDtf6X+3IF6K8D9FaneLN+E4RtP/gpJ2kRgYQH4PVyW1lb3MkYBg+Cj2Se7IIFnALmHFdLAsXurMnW0lJZwoTU+1llYI8A5LSytvqE1HB+cX3VUgmSTC4vTxFA5VNnn9Wxo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789366502; c=relaxed/simple;
-	bh=8SFDSWBs5bcJBoYM71QxmXw5HNnk+Lbu9uskQygxsT8=;
+	s=arc-20240116; t=1789366562; c=relaxed/simple;
+	bh=/WtKMj5Mofkxo0h6JiVlBChgSZ0nXAfzNBy1Fmegt9s=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UVuNlaMvofotAfUKpbQwg3HQ60LkOp/r15dECjr/jd9RSh438vimQjlCmUp7yiBtsXQhOCur/lHg1086mOa87VnuAmvzlJ3Gsvlaf2MHF8+sbmtcEYYLCOdmWPRQdxpv1nQMwgD8b1fONIZyiexRSJ/Cws66E0fZqrpODxk0H0E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XlLY0A/Y; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=qPLDE6Lu; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=L7wYPKtG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=TboMdZFn; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=I1Yaoqw4OZ/2ozH9RfVWdDm23ItGmmn4FIrwLjJLEc7UH+DeY8BUPVC9EefssDBwTQ961yUf+2frzgCI+9uRso/sxTJYmS5y01nwzde59PkR4+YpATvnm6dX4wiKF16CqV88dZgSJv2DoV5aMHE35KYg2Metgkjwfp4kh6rLoU0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=goT13yjF; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5l8jtdiY; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hN/1FvJm; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=F3hvk7f2; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XlLY0A/Y";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qPLDE6Lu";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="L7wYPKtG";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TboMdZFn"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="goT13yjF";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5l8jtdiY";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hN/1FvJm";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="F3hvk7f2"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 51F5121CD8;
-	Mon, 14 Sep 2026 06:14:50 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 2E22A219C6;
+	Mon, 14 Sep 2026 06:15:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1789366494; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1789366555; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=moyDq0XaRJmr9DGyiF2V3RVtl1dii0WUfsiyK76Ypdo=;
-	b=XlLY0A/YodZzGNTSNehuny1BbjijWjdX8Ry8OeVRLeDBHPbsiWagUYNfqU26wmsdjKNxKj
-	wK6OekqD3W+x7z5edN4oVYg907Xc7R50IOCSmNrBVPTSQuXHbz58XmW/vdjjd8ooANrtIe
-	8f8UbtF4qd6+UdIjcfIM9VHheVHi7GQ=
+	bh=En0eitiR7wM7t/ZwII3Y2o0DssiIzD0TJAncKRp7E8E=;
+	b=goT13yjF/9wmrhRzNAoMoyHIz1dzZ+5NAbu90YRUdpyIIdPP3jq512v5u6BcL+8+zU0l6s
+	MOMagjxjysgcXso8S6mWCu46qPEC9QuhTfSEqgf64fk7JtC33ugnGmMUXYcAcNF4rFlz3g
+	hBy6b0i05VooWUwQDwC8dZAI01Ujztc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1789366494;
+	s=susede2_ed25519; t=1789366555;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=moyDq0XaRJmr9DGyiF2V3RVtl1dii0WUfsiyK76Ypdo=;
-	b=qPLDE6LuN2fPOiHi4mDjs7WWqkvQIyl3VrMm+YutGhBl/n/JCp6kWaGrI3BdfBbk5qvRRI
-	vdZULb/qOQfZeKBw==
+	bh=En0eitiR7wM7t/ZwII3Y2o0DssiIzD0TJAncKRp7E8E=;
+	b=5l8jtdiYAyUR67nl0iEW/dsoaboLHSGe6Kz3qWZ3wqlZcdWnIvhraMVyZDrxFMf+blkN3k
+	57Rm/Mib2LweboAA==
 Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=L7wYPKtG;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=TboMdZFn
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1789366490; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1789366551; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=moyDq0XaRJmr9DGyiF2V3RVtl1dii0WUfsiyK76Ypdo=;
-	b=L7wYPKtGdMCir1STSP/FHALtQavfhs3V9pMfZmLXPn19t07T5UryVjhXiAgWQMMz3ZX58t
-	SprR6mXR45DMpPiftkiRNUlUwV0ONxUZAkHFh8GiT8SDF/Tn89iiFIqapPAlRcRlQrSlPy
-	Kgb0n6Hnaxw865dLUQfCJw+wKRmeKkU=
+	bh=En0eitiR7wM7t/ZwII3Y2o0DssiIzD0TJAncKRp7E8E=;
+	b=hN/1FvJmzsnLXJ0d6jOLpNQiZVvZM91Y0t5Xge/3eHOgJuICIrJYjzHLlFHfc9zVYEdBG9
+	Rp1MeHELrvfmECd6FqW8YFycd4UbLWjDGHopmz/Ke7oA2CiOgYx3kHEfUyAOujFN7jDeEw
+	340JPqqvF81Vs+zq5eXicvmx/ZTX1u0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1789366490;
+	s=susede2_ed25519; t=1789366551;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=moyDq0XaRJmr9DGyiF2V3RVtl1dii0WUfsiyK76Ypdo=;
-	b=TboMdZFnSNAHKzaHPAkDqk4ZnaT+wk5dM+vfwgwi8P92/EComcVF20mLWDl+qQSr8FL8Z8
-	4yzoo6VcZkG9+ZDw==
+	bh=En0eitiR7wM7t/ZwII3Y2o0DssiIzD0TJAncKRp7E8E=;
+	b=F3hvk7f2L1he1b2XJATfpZ1pWkRs9l0V13D/T0NYfUWjfGV0CgSwowvMDSp6NeWHrsVNJJ
+	OOqXxJNPuYm2wmDA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EEF6913515;
-	Mon, 14 Sep 2026 06:14:49 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E074A13515;
+	Mon, 14 Sep 2026 06:15:50 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ALEOOdmQp2qPfgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 14 Sep 2026 06:14:49 +0000
-Date: Mon, 14 Sep 2026 08:14:49 +0200
-Message-ID: <87v788qrza.wl-tiwai@suse.de>
+	id +SGGNRaRp2r7fwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 14 Sep 2026 06:15:50 +0000
+Date: Mon, 14 Sep 2026 08:15:50 +0200
+Message-ID: <87tsnsqrxl.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Hanh Kieu <hhkieu@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Geraldo Nascimento <geraldogabriel@gmail.com>,
+To: Xavier Goffin <xaviergoffin42@gmail.com>
+Cc: tiwai@suse.com,
 	perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: usb-audio: add Pioneer DJ DDJ-SZ support
-In-Reply-To: <CAEWo5SqOZmVSc_uogQoG1Xfk26bHpuphaG-6+fpzGoX36TQMaA@mail.gmail.com>
-References: <CAEsQvcuaNZvLxyxNH_NOy5qwTmkrk-A9QdVtZD0GiCtPwk4A+A@mail.gmail.com>
-	<20260904182023.4486-1-hhkieu@gmail.com>
-	<CAEsQvcuMFt=m=njsPzRtKarz04Gwbds+f8p2S+SdSQmaiW1fLw@mail.gmail.com>
-	<CAEWo5SpV6eyHo-tn+hKX4s98uCjGJg5Dz9fMkoWNDNqgofJ5og@mail.gmail.com>
-	<CAEsQvcsG_Q2uZQ8Q_MBhUyhY+n4HymMsuowSHfk-CHCBj6mbzQ@mail.gmail.com>
-	<87pkyp335m.wl-tiwai@suse.de>
-	<CAEsQvcuZm_1DmR8gFGi3ec6++Eo03ruUJHc-RxuqaWKh8o0aXQ@mail.gmail.com>
-	<87mrtsqmli.wl-tiwai@suse.de>
-	<CAEWo5SqOZmVSc_uogQoG1Xfk26bHpuphaG-6+fpzGoX36TQMaA@mail.gmail.com>
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/realtek: Add mute LED quirk for HP OMEN 15-ax
+In-Reply-To: <20260913211155.20305-1-xaviergoffin42@gmail.com>
+References: <20260913211155.20305-1-xaviergoffin42@gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -102,163 +86,50 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -3.51
-X-Rspamd-Queue-Id: 51F5121CD8
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+Content-Type: text/plain; charset=US-ASCII
 X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
+X-Spam-Score: -3.30
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
 	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
 	FREEMAIL_TO(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
 	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[suse.de,gmail.com,perex.cz,suse.com,vger.kernel.org];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Flag: NO
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
 
-On Mon, 14 Sep 2026 06:00:04 +0200,
-Hanh Kieu wrote:
+On Sun, 13 Sep 2026 23:11:55 +0200,
+Xavier Goffin wrote:
 > 
+> On the HP OMEN 15 ax-202nf, the keyboard mute LED is exposed through
+> NID 0x1b rather than 0x18. This reuses the existing quirk
+> (ALC269_FIXUP_HP_MUTE_LED_MIC3) to allow the keyboard LED to reflect
+> the built-in speaker mute state.
 > 
-> Hi,
-> Following up, anything needed on my end?
+> Tested on HP OMEN 15 ax-202nf with Realtek ALC295:
+> - hda::mute/brightness properly follows mute state
+> - mute/unmute via keyboard shortcut or via GUI volume control
+> - state is kept on suspend & resume, and reboot
+> - plugging a 3.5mm jack headset reflects the headset mute status
+> - unplugging reverts the LED to the speaker mute status
+> - USB/Bluetooth headsets are not covered
+> 
+> Signed-off-by: Xavier Goffin <xaviergoffin42@gmail.com>
 
-Now I took to for-next branch.  Thanks.
+Applied now.  Thanks.
 
 
 Takashi
-
-> - Hanh Kieu 
-> 
-> On Mon, Sep 7, 2026 at 11:33 PM Takashi Iwai <tiwai@suse.de> wrote:
-> 
->     On Tue, 08 Sep 2026 01:47:15 +0200,
->     Geraldo Nascimento wrote:
->     >
->     > Hi Takashi,
->     >
->     > On Mon, Sep 7, 2026 at 4:57 AM Takashi Iwai <tiwai@suse.de> wrote:
->     > >
->     > > On Sat, 05 Sep 2026 08:19:37 +0200,
->     > > Geraldo Nascimento wrote:
->     > > >
->     > > > On Sat, Sep 5, 2026 at 2:35 AM Hanh Kieu <hhkieu@gmail.com> wrote:
->     > > > >
->     > > > > Hi Geraldo,
->     > > > >
->     > > > > I looked further into the is_pioneer_implicit_fb() check you
->     pointed out.
->     > > > >
->     > > > > It seems the DATA case is intentional. In the original Pioneer
->     DJM-900NXS2 work, Fabian Lesniak described the observed behavior as:
->     > > > >
->     > > > > “the playback streams also tries to start the capture endpoint as
->     sync source.”
->     > > > >
->     > > > > https://gist.github.com/flesniak/074ab23bbc833663b782f44174eae6a4
->     > > > >
->     > > > > Takashi Iwai later formalized this in the Pioneer
->     implicit-feedback handling, explicitly accepting either
->     USB_ENDPOINT_USAGE_DATA or USB_ENDPOINT_USAGE_IMPLICIT_FB for the
->     secondary IN endpoint before passing it to add_implicit_fb_sync_ep():
->     > > > >
->     > > > > 
->     https://github.com/torvalds/linux/commit/167c9dc84ec384c0940359e067301883ad2b42a8
->     > > > >
->     > > >
->     > > > Every other Pioneer device has that USB_ENDPOINT_USAGE_IMPLICIT_FB
->     > > > on the IN endpoint. Yours would be the first without it in the IN
->     > > > endpoint. Unless
->     > > > your hardware doesn't rely on implicit feedback for syncing then
->     there's a good
->     > > > chance that implicit.c short-circuiting and still picking up
->     implicit
->     > > > feedback for you
->     > > > isn't correct, but what you need to do is cool down now and wait for
->     proper
->     > > > maintainer response which takes time.
->     > >
->     > > Accepting both DATA and IMPLICIT_FB usages is intentional, yes.
->     > > But I don't follow what's the problem there -- in this case, the
->     > > bmAttributes of the secondary EP shows it's DATA, no?  Then this check
->     > > must pass.
->     >
->     > If you check the original patch submission by Hanh, you'll see he did
->     not
->     > bother to include USB_ENDPOINT_USAGE_IMPLICIT_FB as a flag for
->     > EP attributes, claiming it was unnecessary and the implicit feedback was
->     > picked-up regardless.
->     >
->     > Hahn already traced the functions return values, he is getting a true
->     value
->     > out of that function (and thus picking up implicit feedback for his
->     device)
->     > even though he does not add USB_ENDPOINT_USAGE_IMPLICIT_FB
->     > to the IN EP Attributes on his original submission.
->    
->     Ah, OK.
->    
->     > >
->     > > The condition is:
->     > >
->     > >         if (!usb_endpoint_is_isoc_in(epd) ||
->     > >             (epd->bmAttributes & USB_ENDPOINT_SYNCTYPE) !=
->     USB_ENDPOINT_SYNC_ASYNC ||
->     > >             ((epd->bmAttributes & USB_ENDPOINT_USAGE_MASK) !=
->     > >              USB_ENDPOINT_USAGE_DATA &&
->     > >              (epd->bmAttributes & USB_ENDPOINT_USAGE_MASK) !=
->     > >              USB_ENDPOINT_USAGE_IMPLICIT_FB))
->     > >                 return false;
->     > >
->     > >         return false;
->     >
->     > Yes, and that means when that first inequality is false, C
->     short-circuits the
->     > logical AND and never checks USB_ENDPOINT_USAGE_IMPLICIT_FB
->     > like it should.
->     >
->     > >
->     > > ... and maybe it's better to be rewritten like:
->     > >
->     > >         sync = (epd->bmAttributes & USB_ENDPOINT_SYNCTYPE);
->     > >         usage = (epd->bmAttributes & USB_ENDPOINT_USAGE_MASK);
->     > >
->     > >         if (usb_endpoint_is_isoc_in(epd) &&
->     > >             sync == USB_ENDPOINT_SYNC_ASYNC &&
->     > >             (usage == USB_ENDPOINT_USAGE_DATA ||
->     > >              usage == USB_ENDPOINT_USAGE_IMPLICIT_FB))
->     > >                 return true;
->     > >
->     > >         return false;
->     >
->     > But then, again, you would be disregarding the meaning of the flag
->     > USB_ENDPOINT_USAGE_IMPLICIT_FB and in practice just making
->     > the first check.
->    
->     The Pioneer device quirk accepts USAGE_DATA also as an implicit fb
->     source if it's the secondary EP and ASYNC input, too -- that's the
->     very intention here because some Pioneer devices use USAGE_DATA
->     instead of USAGE_IMPLICIT_FB.
-> 
->     Takashi
-> 
