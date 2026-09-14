@@ -1,113 +1,121 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E9201FC110
-	for <linux-sound@vger.kernel.org>; Mon, 14 Sep 2026 07:48:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36C0C38F253;
+	Mon, 14 Sep 2026 08:05:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789372093; cv=none; b=NoNBFwT650HdUyYczVNshLU3I1Lqk74umo403wo2uq0RAiBFxjTumZtwGCLgGt8zDEhNuWrmaNa/TKOM1auj7KVlJgKs37Y8ZXvpwPX70QFPKzfadsjHcnExbhahdyb2HKEQH3iKwO4+P/ccZCmFdDN54omvjuv6TTs68ZTs51c=
+	t=1789373110; cv=none; b=jsoDRGDI5hIyyJR+3p8Bv/SsmU9SM0jWRA1HnApsNCRhF2RbVGKRSi7fJPhDoadr4/tmUmR5rs53isMUTpw7j98+UojrqdyMoh8cDugfOIYo1x8jWTuZk6EDICRWxVh+0ea5/N+pyB6j/dKEWkvkJkGCLW9v/r51BH2NYPuDcTw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789372093; c=relaxed/simple;
-	bh=TD1VsMw4ljjDBopDcdkpyG+R1TO7dK3Dna4zZBtYNFQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=K3sFxsKCyju28XhFmWLuFF598w7R41rD6Y+D/IwguPDnWtIDCml5v4/TZDMapA6GSfeMNbMe+kVtP343AGe8QCmR2vvTauS4nQ8Nh/zFaY8v37RdUdTlWQnYlXW1vZq9fTwpdkdbNQ314YgWv+koTMwGFShB7s2nrialP4UT7mo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IN3U2j1x; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1789373110; c=relaxed/simple;
+	bh=ms02h7CsujbREPeLnaUOThPK+64TwYCRPpUsizrNp/I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rnGNlW1v5nKWiG9oIxbLs2+fzcbuIuDo4RE8pBHfpdcorErVYExgciucLIfSKXvAZ5MQuGG1HXCIt/cAOX6rqaHzbsYmvipP/LSXZY/OzO3K7hswKolkXxfZs55yaToP4LfUeCNZUlTl1JQvSyWIKNP7SqjmDqwdFp4/UFNSfgY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L2TP4zHL; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IN3U2j1x"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L2TP4zHL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789372091; x=1820908091;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=TD1VsMw4ljjDBopDcdkpyG+R1TO7dK3Dna4zZBtYNFQ=;
-  b=IN3U2j1xmehngMXKm+H2H6oz4ZNDWEHDajm7Mpkr1AhSDwJMcmmoSGvc
-   nfmel1VzQnhlSWaKegrqcvXtj7E6AiTeoMsgWKQ2MBcPLuacdU7ALLx1N
-   7PPNRzeVjoKCte2QeQWNIjPSjI6t0IzjpqTJcanS3rYLpeKinDAWAMQvc
-   UG2BEBCzE7GVVTtz+yE+/96DlIPGolmn6LZwvmMt5UYk/y7jQta4taa01
-   UEmEms4bUdZxc2H/+GWWZcn/SzANBkuNV2gdMz6K6kGGG868NbjTeDNdv
-   fKAb6PkqjTkNF3YdWzFt5GfgAsNV66X0w8BaUOFUzfImps1PKtmBdFBk1
-   g==;
-X-CSE-ConnectionGUID: X6L/LritT1qhwnliVl1aCw==
-X-CSE-MsgGUID: ugiJ/xfjRVyzfmRltDcOIQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11904"; a="89734569"
+  t=1789373109; x=1820909109;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=ms02h7CsujbREPeLnaUOThPK+64TwYCRPpUsizrNp/I=;
+  b=L2TP4zHLHvmazl7NahMd9Yw7qC90RXeB5i+JSeOEeD4YBc32yljScTye
+   D7x4rC2lOcSEuOm+AxvP4xMEQcmv/zm3ExsM8YgOsJmWYFQlsz0ghZ469
+   kZSHPwoM7PwK6nyxaHMfKcem4Xn7IVUqtvDhFfv9676RQmEVCC3oE1vJr
+   k0WmcWla3L6p/Hy+N4hxzu47KFUfucbB4waiES6zpFstEp8KZdegFfC65
+   gpnQ8f99wRFmgA7DhgV8k2TBdsXORWDylpbtXlMq+y/AK7JJIhh8x7laT
+   cMdfV0+ee3Xc+8Haja2Y06OR9ObIkmSPrullglNnQxvBMw7O+Pt506r12
+   Q==;
+X-CSE-ConnectionGUID: Nu5+r8EcQuasyIvQcB+Iww==
+X-CSE-MsgGUID: XSXvpDGLSa27m3a+rnlYNA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11904"; a="100317036"
 X-IronPort-AV: E=Sophos;i="6.27,102,1787036400"; 
-   d="scan'208";a="89734569"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2026 00:48:11 -0700
-X-CSE-ConnectionGUID: YHBqglqoR3SBpQH58TYMxA==
-X-CSE-MsgGUID: AZQY6xc1RU6axrafG3A0gw==
+   d="scan'208";a="100317036"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2026 01:05:09 -0700
+X-CSE-ConnectionGUID: k/BGMQlsQ26pQ7qXoD2Low==
+X-CSE-MsgGUID: LyK3jnAQS4OvLkjyLJO+GQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,102,1787036400"; 
-   d="scan'208";a="296064838"
-Received: from alekseim-mobl.ger.corp.intel.com (HELO [10.245.245.32]) ([10.245.245.32])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2026 00:48:08 -0700
-Message-ID: <9112300c-c26d-4fbf-9cde-40fa94c1e880@linux.intel.com>
-Date: Mon, 14 Sep 2026 10:48:20 +0300
+   d="scan'208";a="268897922"
+Received: from ettammin-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.245.29])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2026 01:05:03 -0700
+Date: Mon, 14 Sep 2026 11:05:01 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>
+Cc: linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-iio@vger.kernel.org,
+	linux-sound@vger.kernel.org, linux-spi@vger.kernel.org,
+	Vinod Koul <vkoul@kernel.org>, Frank Li <Frank.Li@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
+	=?iso-8859-1?Q?Am=E9lie?= Delaunay <amelie.delaunay@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Andy Shevchenko <andy@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, Mark Brown <broonie@kernel.org>
+Subject: Re: [PATCH v4 02/10] dmaengine: Support bus widths of 32 bytes and
+ above
+Message-ID: <aqeqrQU7Gtj9uGQx@ashevche-desk.local>
+References: <20260911-dmaengine-support-wider-dma-masks-v4-0-72b8fd4cc78e@analog.com>
+ <20260911-dmaengine-support-wider-dma-masks-v4-2-72b8fd4cc78e@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 22/26] ASoC: SOF: Add support for IPC4 compressed
-To: Mark Brown <broonie@kernel.org>
-Cc: vkoul@kernel.org, perex@perex.cz, tiwai@suse.com, lgirdwood@gmail.com,
- srinivas.kandagatla@oss.qualcomm.com, linux-sound@vger.kernel.org,
- kai.vehmanen@linux.intel.com, yung-chuan.liao@linux.intel.com,
- pierre-louis.bossart@linux.dev, daniel.baluta@nxp.com
-References: <20260911112152.28528-1-peter.ujfalusi@linux.intel.com>
- <20260911112152.28528-23-peter.ujfalusi@linux.intel.com>
- <aqRpp_AZseE86hhn@sirena.org.uk>
-Content-Language: en-US
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-In-Reply-To: <aqRpp_AZseE86hhn@sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260911-dmaengine-support-wider-dma-masks-v4-2-72b8fd4cc78e@analog.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
+On Fri, Sep 11, 2026 at 06:25:37PM +0100, Nuno Sá wrote:
+> The src_addr_widths and dst_addr_widths capability masks encode each
+> supported width as a bit whose position equals the corresponding
+> enum dma_slave_buswidth value (e.g. DMA_SLAVE_BUSWIDTH_4_BYTES sets bit
+> 4). As these masks are plain u32, widths of 32 bytes and above
+> (DMA_SLAVE_BUSWIDTH_32/64/128_BYTES map to bits 32, 64 and 128) cannot
+> be represented at all.
+> 
+> Introduce bitmap-based bus width capabilities that span the full enum
+> range, through a new dma_buswidth_mask_t type modeled after
+> dma_cap_mask_t. To allow DMA controller drivers to be converted
+> incrementally, the legacy dma_device u32 fields are kept alongside the
+> new masks and the core folds a legacy-only driver's u32 into the mask
+> when the device is registered, so consumers only ever have to look at
+> the mask.
+> 
+> The accessors live in a new include/linux/dma/engine/widthmask.h instead
+> of in linux/dmaengine.h, so that only their users pay for the
+> linux/bitmap.h include. They all take a dma_buswidth_mask_t, which means
+> the interface will not change once the legacy fields are dropped.
+> 
+> The fold is bidirectional while both representations coexist. A driver
+> that only fills in the legacy u32 gets its mask derived from it, so the
+> consumers already converted see it. A driver that only fills in the mask
+> gets its legacy u32 derived from the mask, so the consumers not
+> converted yet, which read the legacy dma_slave_caps fields, keep working.
+> 
+> On top of that, dma_get_slave_caps() derives the legacy dma_slave_caps
+> masks from the new ones when a device_caps() callback adjusted them, so
+> that a converted controller narrowing its per-channel capabilities is
+> still seen by the consumers not converted yet, while a driver adjusting
+> the legacy masks directly keeps working.
 
-
-On 11/09/2026 23:50, Mark Brown wrote:
-> On Fri, Sep 11, 2026 at 02:21:48PM +0300, Peter Ujfalusi wrote:
-> 
->> Set and define the compressed ops for IPC4.
->> The initial implementation supports basic features: PAUSE PUSH/RELEASE,
->> DRAIN and progress reporting.
->> Tested with PCM, MP3, AAC and VORBIS codec.
-> 
->> +static int sof_ipc4_compr_set_params(struct snd_soc_component *component,
->> +				     struct snd_compr_stream *cstream,
->> +				     struct snd_compr_params *params)
->> +{
-> 
->> +	/* Use correct format based on the used codec */
->> +	switch (params->codec.id) {
->> +	case SND_AUDIOCODEC_PCM:
->> +		snd_mask_set_format(fmt, (snd_pcm_format_t)params->codec.format);
->> +		break;
-> 
-> snd_mask_set_fmt() ends up as:
-> 
->   #define MASK_OFS(i)     ((i) >> 5)
-> 
->   ...
-> 
->   static inline void snd_mask_set(struct snd_mask *mask, unsigned int val)
->   {
->           mask->bits[MASK_OFS(val)] |= MASK_BIT(val);
->   }
-> 
-> but we have done no validation on the format and snd_mask only has 63
-> elements in the array.  That looks like we're allowing writes to go off
-> beyond the end of the buffer unless I'm misreading things.
-
-I see, if we do a check like this:
-snd_pcm_format_width((snd_pcm_format_t)params->codec.format) <= 0
-
-That would return error with incorrect format ID
+Acked-by: Andy Shevchenko <andriy.shevchenko@intel.com>
 
 -- 
-PÃ©ter
+With Best Regards,
+Andy Shevchenko
+
 
