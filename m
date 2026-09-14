@@ -1,90 +1,191 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E63B432304
-	for <linux-sound@vger.kernel.org>; Mon, 14 Sep 2026 09:23:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F57641F5CD
+	for <linux-sound@vger.kernel.org>; Mon, 14 Sep 2026 09:30:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789377840; cv=none; b=jaUV0g2lPiYPNd2cgbECeFxoNcsddv1BeggmbWZvpjbVOhbrW7+GwEd5XbDzfaYihaY8nr6tUk5NeO7wBHmVm2CBbR8ymiMNKgK4YY8gnxeVwfmIO1YNdzYcr7wUuWhNcYIErV5mcQ59yBeaSTETty7poPJ9onJ3kI2J0MBbA08=
+	t=1789378249; cv=none; b=c6pzIWYbi1CapBD3BVRX01bXU3u1iikjC8+ZVrNf1/Wav7/xvAelz4wkZmD8qIxSowBAcIkiVzO0Dn48LaYe8FkV/P7RWFd5d5evD83PCMiKuV8aDavDPMmkIhFeh+j7ujgcDJu1XxoK/w5vzxYEUSYs6StntKXP2kKuO494xAU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789377840; c=relaxed/simple;
-	bh=4EcPBYD2JP35XR0jaOs05ukWGeoxYDRIOS7emNzCJBw=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=hzW8iD/3Zt2uUNwHZI7lSMrdkFG8wJuRtR6e2d/qSmbgT+IJ9c7fOwk3d0xxdRZTECIujw8YgwNVJnajQwuY3YZT7UuKUGnDz0e4XGFyeDNy4LqasoU5D9lVocnG3TMYZqTaY2buWl+4juWQf+h9DZBSjgZF9vxleUzo31xI3q4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I/pEJdbr; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789378249; c=relaxed/simple;
+	bh=LaWXu73lrgxnM+WOLeLQIIpfXYsTiC4ZzLiUEwSFXJk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SSLqpqQBq/J1TVP+gheTu8qfV9eTyivxqhMZzdc3NJJdC1lt8TMKn1yaywsZUPwBujG/i6PLetNioByUh4CT1SN6fpyUaIMtnzwMrSjsMNjQ89SyGhJg7Wsb5fH/+PaYoaKLVLc4Ul8S8kuex4/GP6vM8mUSHmCLwTrJkvgiR2Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=JaxEYh0A; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=TzTYUJhM; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I/pEJdbr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A101A1F000FF;
-	Mon, 14 Sep 2026 09:23:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789377830;
-	bh=t8en2427eyjSeEf7hmqPiidd6B966/VPjfQIjKvmdQ0=;
-	h=From:To:In-Reply-To:References:Subject:Date;
-	b=I/pEJdbr3dz7RmMxg+kCCSlQJHfr8nb/COw8LKo7lqY4afh4LBb7enaFaZKGieEsy
-	 qnCWJzF5MESzaGvpb66n60Q3gk8kED5WCYIRE14L5Ndd/ZP2aVp79DOq/9umrGcYmw
-	 FhVj7Xc7k9A2/Y/WXWUqYJnde9eynY2woWQaXszYu9r1ZjXYaeFw6Qs4deGDiYifiA
-	 a8fJRYZ9kf3/wt4wvkxS71XhNLuMW/QKnlrnRfdbRqQHE10KEQFIDQsm9T918qpmZm
-	 Qajm3fUYUKbO/mQ4AI0zgO+ZO9sluKCfmKcAbGoC8BjDUO+7jCc2MD5yuc+CFEOp/j
-	 /7sKsd0/zjJ1A==
-From: Mark Brown <broonie@kernel.org>
-To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
- Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- linux-sound@vger.kernel.org, Peter Robinson <pbrobinson@gmail.com>
-In-Reply-To: <20260912082422.331962-1-pbrobinson@gmail.com>
-References: <20260912082422.331962-1-pbrobinson@gmail.com>
-Subject: Re: [PATCH] ASoC: pcm5102a: Add support for optional reset gpio
-Message-Id: <178934323644.1239410.14592356929071519663.b4-ty@b4>
-Date: Mon, 14 Sep 2026 00:47:16 +0100
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="JaxEYh0A";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="TzTYUJhM"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68E5inOc4057533
+	for <linux-sound@vger.kernel.org>; Mon, 14 Sep 2026 09:30:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	QwC6/Am/Axhts9IelVPAe4AEzQV5uQbp1jHkK1vCAXs=; b=JaxEYh0AgFuASaKu
+	libuXqFtXFTaPSkzhi/TZSqE/gMgE3Kb5DiXYnnO6C/lKjVoTG8Z3/iEDGoqZlpY
+	MdSHWPMqmEzhmVjY0IjxWAVv6la9fSa2lqPgYVstXCEoxwosnzIbCyKbEwHGCukC
+	of6ehNzI13uGONMHKCG7OcAM6k9HnXXSeU29/4BWE1x8BQJG9TSUNug+niSMA08/
+	JUBE/ORKYw5lisXX3RMUPHKN7+g1o7eHm1TRTgH+ZtSNTe6FNLzjakK7shCMnr0j
+	julbwe4DnRPkHv+9ViHp7g1e88xbyktL1c+KX0bXZwybjYzzJ1yJH1sDBPo7UNs2
+	sHDSeA==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gp3hssrhs-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Mon, 14 Sep 2026 09:30:47 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-93a1b824e84so193097285a.2
+        for <linux-sound@vger.kernel.org>; Mon, 14 Sep 2026 02:30:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1789378246; x=1789983046; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=QwC6/Am/Axhts9IelVPAe4AEzQV5uQbp1jHkK1vCAXs=;
+        b=TzTYUJhMQR7/HoxIedZvnV+3vLlPwtmyDrzAEg4ReMzaelBjTD2kI8RRQQLtoJLRXS
+         GIUZ1VnqM7nl+C7mQRrTVCN+GTCNQlU9uSqelUudqeN0dunwthV5vL8VvXqboLU643jL
+         7sUs+6Ps/1LR7hJUSw08e9qNzzLQBg//WL9BAvyNsYWGhiC4Vkdqv6dhMfJFTyAU+3BB
+         WbSCqB+PA1dFRTjlJ6aakvQX5lIFwgrUZVSUjiw2Dj1lQj+dm6N5ymUSEvHvAw42R4TP
+         RgZcA9z2R3XSYOXcoXopnw15L2/LPMlKaUeWho0N0uaC/3wWmToycNjMDI8XC0+Pn9TB
+         XB/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789378246; x=1789983046;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=QwC6/Am/Axhts9IelVPAe4AEzQV5uQbp1jHkK1vCAXs=;
+        b=QG5TuOMnWZ4kJ8mA4eT1PXcDk3zyGG3/LDck3kOpwkL0Zr+6azFS1TxwH/kmWpxjOl
+         bDpP1rp0p5UjhcD75PByW6tnc94F1IQrBZYR73eaHqVbu2RY08G8oT4zptNegTsk6lbj
+         6dDqmqtU8SXJRYDwx2iXWC3emuhNxpDkcIJbjMNtKoDWLHkmCdUkn60mUCJTyZeSiZKA
+         msHJ768acEqdBD0jH+weE5PEYE3dZubeR97PgaGO6IGCpi0AfyaBr5ch4JqZOV8A2err
+         L4FHxYwQTp1bJ400VTOQa3rHrMACX3iPvNcjAUghpbUZP/gPryjF64Wht5zVE3fnbWAm
+         6gSw==
+X-Forwarded-Encrypted: i=1; AKwUvBx4821E/g+i7tQ6RnglrUoUUUyUY5Tdmw0KAHP65avcryLKeP5LPkVmvOeHZ5GiXw3Enyk5v1SUc3w1fQ==@vger.kernel.org
+X-Gm-Message-State: AFuF++njB6+e7vBCp7+3jxWfEO7/o93f3ge+LOB0VoiE05IWVp08XIG8
+	aD5e/FyCqZnAs0o69KcBCrNO4XnVhqiS3j7+KjVL6j0SvoEm4DwtyyKkANjNcF7iW/me1yd99/C
+	84xTjvHZrwarFsAdJ3ZZwCuKqvO5CEmhVRiRa/+s5n/6+/vbJpBHW9j2pDoueBImLcA==
+X-Gm-Gg: AYBFou3vK/WkCixiipDzRbiPRQJEmo3C9GuqbrIA4fgoELkOTqhJFeO7uDSUy+YCwBC
+	Yx9RhpZ5U4Qo/9vS7Hb/PH2wI8N1pTPHQ+NmiE6cQbe7gWg1YfRzQZgks64ZuckT2Q40OEadnle
+	2ESmBO+18LlOKetPQ01tyxIvDYveP+BB1CnaNygnaZu+ykFS3G8Sn7jNwnMp9BKZf/iXL6fp/VL
+	EzxcKNjRvA/pl9EzVKqd8D1RqDwqgTdZCLeT9vWhHRHZAvRww2FFr2gW40A1vAGsojV2OIxrxd0
+	/g81XuZcDJD3I5N43h3H4i9MUhbcj4RmUuUkAa0gZHomy2ADT04n3DnQM87WHGzf7ijbORz8KzU
+	Z6sfUBn+0G3tUpoGSFk06bhcebWRw
+X-Received: by 2002:a05:620a:1d0c:b0:939:f9b6:47f1 with SMTP id af79cd13be357-93a29a3955bmr222694585a.46.1789378246570;
+        Mon, 14 Sep 2026 02:30:46 -0700 (PDT)
+X-Received: by 2002:a05:620a:1d0c:b0:939:f9b6:47f1 with SMTP id af79cd13be357-93a29a3955bmr222688285a.46.1789378246009;
+        Mon, 14 Sep 2026 02:30:46 -0700 (PDT)
+Received: from [192.168.1.110] ([178.197.219.214])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a9b5968cf3sm3895022a12.31.2026.09.14.02.30.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 14 Sep 2026 02:30:45 -0700 (PDT)
+Message-ID: <ad4b454e-0774-4870-b743-fd0d82d0311a@oss.qualcomm.com>
+Date: Mon, 14 Sep 2026 11:30:40 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: dt-bindings: Use consistent indentation in the
+ example
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: Lars-Peter Clausen <lars@metafoo.de>,
+        =?UTF-8?Q?Nuno_S=C3=A1?=
+ <nuno.sa@analog.com>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        David Rhodes <david.rhodes@cirrus.com>,
+        Richard Fitzgerald <rf@opensource.cirrus.com>,
+        =?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>,
+        Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        Binbin Zhou <zhoubinbin@loongson.cn>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+        Srinivas Kandagatla <srini@kernel.org>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+        Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Khanh Le <khanh.le.xr@renesas.com>,
+        Ricardo Rivera-Matos <rriveram@opensource.cirrus.com>,
+        patches@opensource.cirrus.com,
+        David Rau <David.Rau.opensource@dm.renesas.com>,
+        Shawn Guo <shawnguo@kernel.org>, Shengjiu Wang <shengjiu.wang@nxp.com>,
+        Oleksij Rempel <o.rempel@pengutronix.de>,
+        Yingkun Meng <mengyingkun@loongson.cn>,
+        Trevor Wu <trevor.wu@mediatek.com>,
+        Julien Massot <jmassot@collabora.com>,
+        Jiaxin Yu <jiaxin.yu@mediatek.com>,
+        Shane Chien <shane.chien@mediatek.com>,
+        Daniel Beer <daniel.beer@igorinstitute.com>,
+        Sebastian Reichel <sre@kernel.org>, linux-sound@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        asahi@lists.linux.dev, imx@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+References: <20260913123234.99988-2-krzysztof.kozlowski@oss.qualcomm.com>
+ <aqe4U6EJ0cGnV+Al@opensource.cirrus.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Content-Language: en-US
+In-Reply-To: <aqe4U6EJ0cGnV+Al@opensource.cirrus.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1122; i=broonie@kernel.org;
- h=from:subject:message-id; bh=4EcPBYD2JP35XR0jaOs05ukWGeoxYDRIOS7emNzCJBw=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqp70hMIrxPOn0WQOCIxtt+5tUiICrtKK2sZjqa
- LLQTOfdCkqJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaqe9IQAKCRAk1otyXVSH
- 0Ei+B/9rFyttaxhrkyC+M1wA81Sasu/MjK98cljTD3eNVWP+pvTgu55kgmW3eLVqCJWRNmnVCl+
- JZ0GmUeG0JpG4vaOlFRruSxSeTARLEfDxdDmQwo28bIc5lHRJyH0I2B3vAK+evb2JGRSp+E9lc4
- uK4q9lYucfhU4fY4DsJEHlvQsd6KtUbuI9TK4w6Xydq7pal74Byz+pkcHBasNwRXKAODoswiqSa
- G81zoFjBjDERiAUbP6ZVvmtYkPeynAYQqqcgbpJcspS+aq5vlz/oalZvKgajYZqDd3HIqhJqF9N
- 40x9+zGvgsgNTJKoGRxFZSBusy744PzFbBsUTsbJNOKHOMvo
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE0MDEzNSBTYWx0ZWRfXxnd5+gYTptqy
+ C1pDFuaJoKsndfhv+zwB3An2w/Gu2p3zKDFS9ap3J0QjNn25FxLl9DubYz0sbGXicn7nrWymYQd
+ ObktVX8zmJA87CgNcbHnNpXg95gvxrTve3MCD2RKyw0e4yy4wMjwaVRam1Tco8Fj7ijAVoh1wYc
+ 0rMzoDM0YOA1Ha5SwAjg/GraBTzkU3mDdkp8P7isqwbFj8WbxtdSL1HRpxRr4j82aCzXspKLNDQ
+ yzqn+hYjkDtUeNhXjWtd/wPPBXp+YGqhhm3w7+7XgTua92hXFuzz75LpGTPJgg+iewKSN8usczQ
+ NO54Xnw4tMrsePFd+5bgCxNFeZNILVOW5QOqlUKEETZLg2hoRvkFzX0u7HyF4y+8x6s9/I79H2v
+ /N21t7m+M7SWc34Hle9mjg9q8+Q4CsdYc0mXzLJxbVVnJ1iqTiWvPhxU1EoLyqXuaJ1NAwlmKzu
+ C434DoixdJleVSNjDig==
+X-Authority-Analysis: v=2.4 cv=IZwSymqa c=1 sm=1 tr=0 ts=6aa7bec7 cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=+bKQE0WJfmhK2875HamI0Q==:17
+ a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22
+ a=chZs0_0Ys9iI7aL1xjgA:9 a=QEXdDO2ut3YA:10 a=bTQJ7kPSJx9SKPbeHEYW:22
+X-Proofpoint-GUID: em5I03opDdZU0UbrCNeyMGiBPBRGOL9q
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTE0MDEzNSBTYWx0ZWRfXyxT2477jkgJS
+ F9UyfNeFCmSrpRk08K8klMIXFXjL0UUIIOsvip6D6iigWRVgPnHOQTXaFmS3XwBPvFIWbLVfY9i
+ JqRGV+nMFDlPUa6chjPCbJiA1vRbPgM=
+X-Proofpoint-ORIG-GUID: em5I03opDdZU0UbrCNeyMGiBPBRGOL9q
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-14_02,2026-09-13_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 adultscore=0 impostorscore=0 malwarescore=0 phishscore=0
+ clxscore=1015 bulkscore=0 lowpriorityscore=0 priorityscore=1501 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609140135
 
-On Sat, 12 Sep 2026 09:24:18 +0100, Peter Robinson wrote:
-> ASoC: pcm5102a: Add support for optional reset gpio
+On 14/09/2026 11:03, Charles Keepax wrote:
+> On Sun, Sep 13, 2026 at 02:32:35PM +0200, Krzysztof Kozlowski wrote:
+>> Correct indentation in the examples to consistent 2- or 4-spaces
+>> indentation to fix dt-check-style warnings ("example 0
+>> [indent-consistent] indent mismatch ...").  Preferred is 4-spaces, but
+>> re-indenting entire example just for that is too much churn.
+>>
+>> While changing the lines, correct also node name to be generic in
+>> dialog,da7219.yaml.
+> 
+> And cs42l42 which you also fixup, would make sense to fixup
+> cs35l45 which also has a non-generic name and isn't fixed up.
 
-Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
+Yes, I'll do a v2.
 
-Thanks!
 
-[1/1] ASoC: pcm5102a: Add support for optional reset gpio
-      https://git.kernel.org/broonie/sound/c/81d2ec6f924e
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Best regards,
+Krzysztof
