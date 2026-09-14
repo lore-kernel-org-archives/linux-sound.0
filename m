@@ -1,147 +1,105 @@
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010042.outbound.protection.outlook.com [52.101.229.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE59038332F
-	for <linux-sound@vger.kernel.org>; Sun, 13 Sep 2026 23:56:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789343765; cv=fail; b=Xt/R17QIh8Ktx1CnEpoxVFWciy0A9E6idS7ipVVzCr47hhkqkCZPkx5SjSSrhJqDSrq3okeizSmfWckfEoQhOlZ8ES4Srt9GosxFpBVRiZpieiwPCU3QExqZDSBmETuIXWV+ZKnU8XUc2KfAAe0/eE5rEYaOV+pEqS+M4RGZR5A=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789343765; c=relaxed/simple;
-	bh=TieoJ8hx2y9qD4CVr1/5AG2rYH4m3jIBU8Kd4MJWFig=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=PfNYXGhg9bo2SSrgcZt1rKTLvLJ577MCv5z1BSLuG8Mwh2UJzRPB1Sn/FWPEcEiS0zUwQXCx+/lAGZ1EQGOtXQ+jEq7QvBrQRDpPrRShmP0Vk3GFgtwY1XcF0Tj5zBIjE+YUSlfTqLKbEvzqF/UGeChAIcSW8slotH/Bz3Z+7+c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=XvIWfNyJ; arc=fail smtp.client-ip=52.101.229.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CDFEBA34
+	for <linux-sound@vger.kernel.org>; Mon, 14 Sep 2026 00:03:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789344197; cv=none; b=PUh5hMBR8c5tTqbacSfOqeoYUtNZRlQAoHrLbamAaQz2MoKwTCXTczTgX77eFP87WyOz+jn5wfOWcl1mK5ef3+nWi61qE6KjCAekaalBBN72SllIHK2ShRgAjYBzirB/iUV2sQoxzh3b+aa1TK+RQPMqLe9DV1XMzM4A+WZetY4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789344197; c=relaxed/simple;
+	bh=blGe3qvg0f51TZC/BueJt8+QxSjOQEk8I3ZLXDIKtR4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XB7s8mOGIQ5Ew6JA+tC7Hv5qUZ8W2TJy61ayQ2O9IUkNPLD9gysW+Gx2sx9zS/jJObiBdGVa0r0kZiI6Z9OlpLT+EAIdf07WmX3PkfHdINvEC0ybUkVlgA1GW8ulNFij+1J//UYIK3EkANEQlwQ9ihZWAH6+xIt1GHhCiMoQj3E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RbCBOpH5; arc=none smtp.client-ip=74.125.227.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="XvIWfNyJ"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BAIQnQlXwDjcKRUyOS/P7lF4XW7KNvbNvQ8QykUdgTCdQnNO+CD+rArh7MdJ7kFcTD1Xv8DDY/GOf1vLF6f/3tGv2mEoAaUxYPYxWkN+/tTV20icNuWnTGPgJdy0YnHBzynLVtguk3fjfxSEjpYkyFk7Y6O8EkVQcmJx2VkOnUNz4q+Z/Kl6p56qdbbWtICAoOnPDOgtKfnUWircmdtQQSQ7OXS2T7keIuAkHTYa/hzEv3OIfX8m3TotxJFeQGMtx44QwinR/OIwEza0X5cvE5X+lw+sULibUktjzm4WhvQ4rVyopyqQiboUFhs9mVm/4TDbi4VvX2GYtxoXpM5lyQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=O6uPEZu6HYzoFvR5msI4k5FUouSt4r9xYpBrdf27e78=;
- b=C/bEQrMdZ/unhH73f2xgJxXU5LnxCNFGy61ylyzX4rFP3hNsCvooZhBrPpplY8Doocjlf2x9Xzm48s8kkKo1VG4tl5XfV3qK5qpchL0+CIm8nvcm+AyoX/YeCm75HFROjH6tuKumj+Fa6O2j5qkIG++WCQ3QQWpnG2B2nNhfMWtZnV/5dgac3gu4eynJKT062EvFZwiAUgP8QY5pgAxkbNYpBovAEdlJglyVfHoenSKdkFq2TJDTDrSZPvNba+4g8ArSosS3C/hAm+gxRtvrqC6fNU6ghndm45VPaPRuMnQERzGw2GPJECicb5bFdxPo6Tp/izU6O6DcTbV3Qn2mTA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=O6uPEZu6HYzoFvR5msI4k5FUouSt4r9xYpBrdf27e78=;
- b=XvIWfNyJFGUnHKyYPtdK0swjNyYKFzzapBvbEX9Bs3u75nPXsS8ngdaqB0gJSMVn6aSYTFnIheuDQMNIcMjbbqKXYGUElIEuwPhP7dvdRUnJK8auxQwglJ7pC0c/e+LeLrJ4U0tPto/NG09twLcTSGDjBQhaXbH3t3Ffj6+q4Fk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYYPR01MB14118.jpnprd01.prod.outlook.com
- (2603:1096:405:214::12) by TYXPR01MB15704.jpnprd01.prod.outlook.com
- (2603:1096:405:29d::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.12; Sun, 13 Sep
- 2026 23:56:00 +0000
-Received: from TYYPR01MB14118.jpnprd01.prod.outlook.com
- ([fe80::846f:9035:6a33:1f45]) by TYYPR01MB14118.jpnprd01.prod.outlook.com
- ([fe80::846f:9035:6a33:1f45%6]) with mapi id 15.21.0406.007; Sun, 13 Sep 2026
- 23:56:00 +0000
-Message-ID: <8733vcn1tc.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Fabio Estevam <festevam@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	"J.M.B. Downing" <jonathan.downing@nautel.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Nicolin Chen <nicoleotsuka@gmail.com>,
-	Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
-	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	Vladimir Zapolskiy <vz@mleia.com>,
-	Xiubo Li <Xiubo.Lee@gmail.com>,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 02/21] ASoC: fsl: use .auto_selectable_formats
-In-Reply-To: <aqRgKGJUn5NGVcdi@sirena.org.uk>
-References: <87zexzyw5v.wl-kuninori.morimoto.gx@renesas.com>
-	<87wlt3yw5b.wl-kuninori.morimoto.gx@renesas.com>
-	<aqRgKGJUn5NGVcdi@sirena.org.uk>
-User-Agent: Wanderlust/2.15.9 Emacs/30.2 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Sun, 13 Sep 2026 23:55:59 +0000
-X-ClientProxiedBy: TYCP286CA0165.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:383::11) To TYYPR01MB14118.jpnprd01.prod.outlook.com
- (2603:1096:405:214::12)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RbCBOpH5"
+Received: by mail-pj2-f12.google.com with SMTP id 98e67ed59e1d1-39666e7c9efso325034a91.3
+        for <linux-sound@vger.kernel.org>; Sun, 13 Sep 2026 17:03:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789344196; x=1789948996; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=4a9/oZ+aHx5BCercho5lpC3JRthJz5xcHExBYY3k+6s=;
+        b=RbCBOpH5pLI4Uz2PjySw34uztWq0EKSMkE5RMM7UxqY2sPYYwFfNx0RhxOrIt62u1s
+         XZGsT9Rz2saXV/qVZ+LvEbOgQm9wrq6ezdhVV99A3PuuEdh/8owBBDIZlw2bqRyUiOku
+         voXVPrSTKUwecoQNe2NJC7AbPDkVYEzgqnddY+E6iM21dUowOLLLRJlzGYpxvfG0bA1D
+         eh4pAfo3mceXQRELNYMx5OHpkjyxFz2vEu9xsIWMvm8gbvWZm2rvJvaISWBxnKRKcYtD
+         v+XxC78puCmtbc9nJefwy/8q0Q/iDl+Itx42w4ZZUulqcnWBzHz4fxY4H5vDAEPFnkiS
+         iD9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789344196; x=1789948996;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=4a9/oZ+aHx5BCercho5lpC3JRthJz5xcHExBYY3k+6s=;
+        b=gAXq3AkUZ+DhqaH98Dtloel/iyPcLczaqLxuPpAjiNzE+jL7g//CYWI4QY1jwG0PHQ
+         0Z0Y2/lzYKf6n2o25Cr6WygIxYfDEe26OinAcMAYY+YfdN7vdbv9X7Z7du4GyJaFt5v1
+         ngBWbcrfct/G+kZNan+OVVwReCNZ4H3TXp+snnC2jCky5IGfr8FzrHyfAsueL0JpNGUE
+         WxoMKCxOePh7GFAN4IYTBWOj837jG/bVMh0ruRTdjIWBU/p87aVvaCGMcDIzoxtEKgdx
+         +fELAb8LDWmAG4xJc6fXG8Pr5aMj0PtwYIM8KNF7xOHptTczRZ5wIdn05Bhx6Y77pXVF
+         e7WQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzrZjz8V0cQy/R2wkZ2pE4ysSwDVoLEnTG2JGRcm3AzAtmXJ/lMQldheqwxy3R9aI0wEF17Qn1jr2tN6g==@vger.kernel.org
+X-Gm-Message-State: AFuF++kiVYI+rqHqeszQNG1jljNIO/dL0Qx0iq7cIVAWHhBDY5kMYm5s
+	4RcHXSOcMa+8T5DVH4xG89P4nlcZqxKWESjNeghPWuGhigdgs8xXzWnf
+X-Gm-Gg: AYBFou2xljJyZLe1h0Fcwo2CBxjbt7Epw432mCGr3jYZnpgHlIjPBZP1w4qmKKpm7kp
+	CP+hZW9hwm3fhz2aboLNxQqssL/sMA42OsFHD6g0uRyRBxjYq6fS9Yn/WsTSCgWgQMpMKadHEYl
+	FWVQFOuliZFy8b7+KqpKWjXxNnmTWArjpLL1SkxYyr+ux+Vx8OmJyTKV1XOB4QDSBewSEq2Okiy
+	LdD+/c1Rg5PuXGY8/8GdfKRVdTdhdhgYpVUyddD7ROcwu3tluQo27FCXXHx7pCXh42hnZbrrKmc
+	8zBCNxLA6PzyHIobjHNwvqygS2so/SpYDg7/1NkhMzPC95LCZL9dq6gSiA2uxkiu/W+RB2qAL8s
+	O3E+OHTMV6dsAGP3kuuqj4PF0gw4AjsWfiB7EXEkJ19hhvQ6I07csN/Q5R5suSBcPt3GarWi7Zq
+	XaB3YrvEyoCOBRcffE3irL6z76VJozXJCi0jUINRfy6s2jaNOsLPrXw+gLP0kXb298Ucjmidu5V
+	C7p4q0VQvX97cBke015IIU2HA9vD6H1JKutSXuS2vKwXlq70rBEc5KgxKw+czoAvUGYMoEauJ6P
+	cuqR/DpD4sJ8ET9aVRMQzNjq69OJefo=
+X-Received: by 2002:a17:90b:2885:b0:398:bac0:238e with SMTP id 98e67ed59e1d1-39dec27c782mr289313a91.6.1789344195634;
+        Sun, 13 Sep 2026 17:03:15 -0700 (PDT)
+Received: from cachyos-aura ([45.112.148.104])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-14365ba71cesm22734169c88.13.2026.09.13.17.03.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 13 Sep 2026 17:03:15 -0700 (PDT)
+From: Navon John Lukose <navonjohnlukose@gmail.com>
+To: rf@opensource.cirrus.com,
+	david.rhodes@cirrus.com
+Cc: broonie@kernel.org,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com,
+	linux-kernel@vger.kernel.org
+Subject: ALSA: hda/cs35l56: same calibration condition logged at dev_info() and dev_err()
+Date: Mon, 14 Sep 2026 05:33:08 +0530
+Message-ID: <20260914000308.108995-1-navonjohnlukose@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYYPR01MB14118:EE_|TYXPR01MB15704:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5cfd93db-76db-42c5-b464-08df11f28f89
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|23010399003|52116014|376014|7416014|10067099003|4143699003|22082099003|18002099003|56012099006|11063799006|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	xu41XlOOmLDoEshbamZkE1llKDxZMS7w/USaLNUy61kPW5xAIuJjbAiOZASsJSNLIx9oQJ/fqYwwnb09yGpvDziEBzIYoWYP6xIXhrMRcfP0ismGgCeMsUxbjjIEnLGjR1+8woSmW8Pia0C1t4E6K7v/jif78BgNF9ool0gezRfYVXphhK0bd4D9PD4V9/Mx1XyQhEA2cYNtY009h8xYGTf4+z+Zk6vxLYm4G1QXYDz8tcRc3+P/7R3MIf6WdEhOLvlJubTxviYfBh7XFrN0x/8oAOjCzdCRzeQmij7EG3hd5Iw6vVzvCYS46aVHtld4zOZJHuD7rwYjPLOqJ74GgDyGrJ0df4a3Tdc+oylSHdDP60og7vQQalLdJgqO16qzg9IqyQbUoyTn+fLh+10pnAJc5+Tow5jh70OgFM+m+ww7JlNu1wiP51vyntBHTF2f7pnfav3tZrw20bbB6C/n8TgOEs8gRlsDHp/qpLZv3bvSYcpa3lq2+t8zDqB52m8r0ypDU0C0BXYSiOmSpUGwNq2THjEZi2yWvDMo2NKEwwZC38hVYwEsc2AeWyU+G5e9pZXjaWHdu8OdjoQCwUTXdhAEJExvljleH4JtCsxycMQYr51+cKls5RMKNIywNFbChs5yg7DxeiC3u6ztrdK3L63OO5PyS/LDnzU8XwrwhtNZMOZfGDAmuj8HinmcU09z0TOWpWgvq0sbZwv2L0R38Q==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYYPR01MB14118.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(52116014)(376014)(7416014)(10067099003)(4143699003)(22082099003)(18002099003)(56012099006)(11063799006)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?BDSDaXBZ3/21zIPPd3O015G3/9i9GCEvY2Bnq77Z0VvJ3f/VZRoUoTnela1W?=
- =?us-ascii?Q?ufeVRX3/bxbIiKM9+OFd2sZy6d35FM9ml7Pk32fdHo92DbBLsLYbl2xEiUaV?=
- =?us-ascii?Q?FL3YZz8WybG1cz1mhZbQ/AN0hGC7YqYGEHHlbvYhvWIWCnHtqoeX2Cii58KM?=
- =?us-ascii?Q?n5vLnubg5xc5NeDrwMtIJAnCov/JKAX1++uTEwcnuUh8zsFtAGvTuTTXJoX/?=
- =?us-ascii?Q?mbdX3xcrtOvcvX6jOiFLHDAtMCheARjSzMoJVI6lTluScAgH6i5pFBXqd7ro?=
- =?us-ascii?Q?b9sqtPn3tvhIN9pDQgHVsKrWsxx4abIh1C1scecIFYyZhxSM8tWzVTGtt8mZ?=
- =?us-ascii?Q?tJe+6cizIgRHhcrxjkxqYVbGDL1n0x1zPhKpfUcqmLg4UgXNvQ31GtuxUv4v?=
- =?us-ascii?Q?pOSssjMr/K9kKvbXRgW6RXVPg6xD0tURGVXYtd0SNi5CcsE4V75EBhBNWVWH?=
- =?us-ascii?Q?OiknJXajFYvEY0ZHBt9mRNYVFJXQHf+Uvs1zx8g4X29nLv47oCxBhxjOJNI5?=
- =?us-ascii?Q?JYbX4pbZy28cuPXxMl9DXbxE/a+jw+AdJSW/WN2jAa1A/DpJEJhkqg4S5F/K?=
- =?us-ascii?Q?JqNtjZkwkRWLxIdY1IlNZCHrVkbzbARybQVwPeOWekaOKE0D+c8afAGIoXB3?=
- =?us-ascii?Q?pnr4FvQWVXFRvUMYctaZVp8uGdDnXskaxqkHjPhjeCZy0F9tOioJqK4e2Ipt?=
- =?us-ascii?Q?bupqaxVOV4tOM5LLka40+0sigDeYgHkIPeZObXii0XdLxaCfNq4ZvdgO4yZ/?=
- =?us-ascii?Q?3gCHQy8+8OxcMGwwszldJIGvOaEToukpiCZGxBCzqOaBZuTAgoWIsAoo+hpW?=
- =?us-ascii?Q?1LY4S4zP/aTego38qy/JrNjIKvu3qVks6ElkZnIvxvB3lZ+C2bs/oc0BgINs?=
- =?us-ascii?Q?IO8+wG1qsZ4biq7fDTDFOiLO9+98oiPkH1uB/mEr98zGXIp/l1X+X9EI0kUA?=
- =?us-ascii?Q?gQWzAhgnGSWPaoXiLFQWEqBK94EZ+0T2cN/SY2iCve35N/oVgaWDQzfD0x1b?=
- =?us-ascii?Q?67HYR4oPVF+DEmdcPoApcmYTNr9PmD6H/9AL94p8Upw/DNoVn5W2ZkJGQtC7?=
- =?us-ascii?Q?rxF3XMX9PSI9nhTow1SFIUEesVyXAvyNrZzDu77kdshEOw2IZnzDc08QSzx+?=
- =?us-ascii?Q?fB11Y+CQm17I8S8F5Nz4tMq2d2Y8OASOLmwJRelLJZ4G0ZdGmv2m337CnTm+?=
- =?us-ascii?Q?BM0gO1Rz06JbtsyotF4b3dQzp7XPujZga3ZfXwK0ke9TyTb31/Ogk1YPpkbG?=
- =?us-ascii?Q?X7uF1oZuRP0KokFlVWXCOFkx4pYavC94NozGvfbCGc3Jv1ZNiF/MF2JvmWWM?=
- =?us-ascii?Q?UbZ8KzoL2IJJBaPk8a/Iv/ZIBpG7IkmzyF3cmshAyubyr5wdJYnaFLxLpOPJ?=
- =?us-ascii?Q?1SFBY9Ha6nzJLaoK4C/o5e8X5Zo0bL9hrrjtCYRqcsU0+xpjj5DXEp3ec+9D?=
- =?us-ascii?Q?b6FkFr8pKlJPCzRRtQczOQraQCaM/cJM/vu9+RG4msx8+EYYs/GxQDzLiX69?=
- =?us-ascii?Q?aqs6VsTOSdCrWaZYwtHPU5jIBq3ajLOd2Yi2hlr7pXq695/x78NxWaR68owX?=
- =?us-ascii?Q?CdNpMaUgS2V8OCu8WKb2/ucQt8lloUgtR+k2JfOq1OhspfB/3Uo9RQsyGea3?=
- =?us-ascii?Q?Vb9DK+LhaC4y9SL6ydeGyj1+klEHLvdNMfN5NDkvDn55AcwGOKhqVbmZwws/?=
- =?us-ascii?Q?bYNHcRNt5d8zm2heQlGZsHwCUPiuhXMEKQGr5E2WsIFd9ui8b9KzPs9OrOwt?=
- =?us-ascii?Q?wRFiufEJmNcyncZm8wv76sQ/GoEUTpA=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5cfd93db-76db-42c5-b464-08df11f28f89
-X-MS-Exchange-CrossTenant-AuthSource: TYYPR01MB14118.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Sep 2026 23:56:00.0206
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nt43C5e5Ds7k54XgtTG1dyMwvJeiZUCxXy2rcbYua44KHNkvcmpAXku/g4lIuI4nMNQe15TZjRL6vDLrdJ7Hss545FdA66dYRWXBAk9pwkidpTgL8Z9uePZ55MozaPsz
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYXPR01MB15704
+Content-Transfer-Encoding: 8bit
 
+Documentation/sound/codecs/cs35l56.rst says "Failed to write calibration"
+has the "same meaning and cause as 'Calibration disabled due to missing
+firmware controls'". The latter is a dev_info(). The former is a dev_warn()
+with a dev_err() from cs_amp_write_cal_coeff() ahead of it.
 
-Hi Mark
+Rebinding the HDA components without re-probing the i2c driver takes the
+loud path, 4 of 4 attempts here:
 
-> Are you sure this is safe with DPCM systems that default things to being
-> linked to the dummy DAI?  If we run autoselection during startup and
-> looks at the dummy then that might not reflect the actual link we end up
-> with.  I think there's similar stuff going on with some of the Mediaktek
-> and Samsung machines, I'll skip those patches.
+    cs35l56-hda i2c-CSC3556:00-cs35l56-hda.0: Failed to write to 'CAL_R': -1
+    cs35l56-hda i2c-CSC3556:00-cs35l56-hda.0: Failed to write calibration: -1
 
-Ah, I think each FE/BE will match as own format, and FE side format will be
-used in total ? But I'm indeed not 100% sure about that.
-Thank you for skipping. Let's ignore un-safe driver. It is not 100% mandatory
-feature.
+list_empty() is false because the controls cs_dsp_power_down() disabled at
+unbind are still on ctl_list, so the dev_info() branch is skipped.
 
-Best regards
----
-Kuninori Morimoto
+The calibration is intact. CAL_CHECKSUM, CAL_STATUS, CAL_R and CAL_AMBIENT
+in DSP YM are unchanged across a failing rebind on both amps. On a speaker
+amplifier "Failed to write calibration" reads as a protection failure.
+
+I lost around 5 hours chasing this down, believing this to be an actual
+bug.
+
+Lenovo Yoga Pro 7 14IAH10 (83KF), kernel 7.2.4, two CS35L56 B0 on I2C
+behind CSC3556:00 over the HDA link.
+
+Assisted-by: LLM
