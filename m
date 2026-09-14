@@ -1,160 +1,139 @@
-Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BAA83D648F
-	for <linux-sound@vger.kernel.org>; Mon, 14 Sep 2026 10:58:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C16E439F96;
+	Mon, 14 Sep 2026 11:10:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=24.134.29.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789383521; cv=none; b=Xg9fPsaPAWRWE8sOwiok0Le+NLUVRUdaNZtX3XH5IPGoJibdC0Dvg+UeHkbkZYbg0R7YawwS0bf9kQsl68casNdO5eK3h36eV1w/lkWwK9S7E35nMG9gbuz/aIKb17CXo4YY9HFavhSRgCEF30NcQ+wo4WgAr9Gu/brn4IY1FhI=
+	t=1789384246; cv=none; b=X6i4DqO5khFVhMM+y4p/jvB9fW4ZJcMBHWtFCJD/4cOc/ZDaR0CuKUnbsYZ9/fTzHY7SSa5RTcN+7UzUmjAeY0ePf8dTTE6A4kQtbitjbHOlaRda/djDwOZeUKZZtL0oZtbsowRFYTkYSZcF1GSRLVxBkxRb4vptr4Hf2CKyq00=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789383521; c=relaxed/simple;
-	bh=tYs2cxRyTGdf410bulete8ziZ49L87S2sxxJrI5w/0A=;
-	h=From:Date:Subject:MIME-Version:Message-Id:To:Cc:Content-Type; b=uNR1Bj30+6L+/Y/IQ35/GPVZJK9E0EnaFss5vYUcTMQaFFs/bbiQ5hpgpD/4Bp2WecimXbzakirKzr5rlK9i7B16rgxbk9qEtDVDBxenvXC4Fwl7KBn9dnyPgEcgroKwaw40hpKkHTYPmsmxkm1BJcjn1nCDukLKDKioVbgotV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sne.moe; spf=none smtp.mailfrom=sne.moe; dkim=pass (2048-bit key) header.d=sne.moe header.i=@sne.moe header.b=cwiEbDwE; arc=none smtp.client-ip=74.125.227.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sne.moe
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=sne.moe
+	s=arc-20240116; t=1789384246; c=relaxed/simple;
+	bh=Snz0OCxdiERQaB60pbDwd668W+usaSatmVo7PTAIJfc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HorVv+QxgysvaOSQuV5taQTo//dBblYCjPlpe1EI5fj4qhKH7yK6BhFeuZKS1K3H6aiox5TBo7WOaMwBEFI2yUSCj2YxFuYK03nu65MVHO/HuxysRYZKo0mcLXQq/4eGPPeoGDNNzKDS/QBRGRH5117u/YJb4xOnp9h+YT91B4w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sigxcpu.org; spf=pass smtp.mailfrom=sigxcpu.org; dkim=pass (2048-bit key) header.d=sigxcpu.org header.i=@sigxcpu.org header.b=n91rP5er; arc=none smtp.client-ip=24.134.29.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sigxcpu.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sigxcpu.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sne.moe header.i=@sne.moe header.b="cwiEbDwE"
-Received: by mail-pj2-f12.google.com with SMTP id d9443c01a7336-2db425c8ff1so3026735ad.0
-        for <linux-sound@vger.kernel.org>; Mon, 14 Sep 2026 03:58:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sne.moe; s=google; t=1789383516; x=1789988316; darn=vger.kernel.org;
-        h=content-type:cc:to:message-id:mime-version:subject:date:from:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=w/AypDIHXXi5CXKyq5GMLOTs6AUWRfjuea5A7khngbU=;
-        b=cwiEbDwEGt5RKJjEal0rtGAk71kZow6MDcKbiPPOXGlnaGKVH23AWHh0K5D3yFwugq
-         qDOzC8q0Et2gLhhEI+RIcTQLmgDdyzQMDAseAxI15ksTV1r4WpHfHQ1+ps1+T+5bkOym
-         ibM5V0Qp5W9QLFsLQHrsdlisVRCAflN4bqkkhLUsVSZxnSxrs9WpKKgzlwZk0zw74Hh6
-         U0cS7RSz+7ySDAOBy1SkYnwYAHTPE8t/NGCQBSBdHy7msYWoNdzJrAYZyiAEaHpYOqUL
-         IF/YlvAKJp/uQsBOPIl/QL0goP3pOfeYuncdJIz3kwfTz1juDrbmaoaX124xXJ0Glryz
-         cwFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789383516; x=1789988316;
-        h=content-type:cc:to:message-id:mime-version:subject:date:from
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=w/AypDIHXXi5CXKyq5GMLOTs6AUWRfjuea5A7khngbU=;
-        b=HqaJxlO9X6vwf7QSdrHYjPqDpJXj1p48d7GLA0j61/TYe18trwLKAxwM1yeA6kg3bk
-         iWlXf2i0/qTtTMcyf+XHuKXJR5S8Ia21436ycbTGcBFDX5sYs1ApEKE6yeFOQP43+QU/
-         dFYR64qejks/kJJQypDyDlszXgqQZDAFXzp9xsMpAaC8TdUwOslUWbfiS+pZDuyesbIM
-         323AxPfz79fs4QPE5o3UBzmieZUNlmjqNw+GCiwBMFKpWXtwV3CaiGKtvY519Ycj838f
-         Dy2j0rAmgKN1wzweshx62rcEMOucl9++nw+RN4DjOvTIP2g3zwBmbcSVzugzvTAfdaA/
-         hmOw==
-X-Gm-Message-State: AFuF++l9TD65CIFAYLxh/Oo9/7XUoEkji5nuMm9SxA8mZ64Dd8+rrJF4
-	zZmNhaJlputQKYXHcM8pGKNTi6hOspvuomkue0rfozQ41yYbkwwnJgT/5TVA+L/XZtXXrL0/zf6
-	wgDcS5RjbAefnzxrMcs0S4TdnkIwGK4YmjOFR1Y1vcX3qf6T9KQvlWX6Sr+ap
-X-Gm-Gg: AYBFou2FcabJQsApn7xjXw2IRzH5eIqdy4s1pqfZu7KKiPPRU3wF8FmJ2Fi0VyiAPM0
-	ylwklHf2MzQG6gGfy9u1SEW+H/XpN9nsMME+1TLw9JPMtFUgCnt76ZcWWuuk5QZaVdP5UQV4S7W
-	HaXHRtE4gTL7J2oM4d6ZLXUpHHiJo+y84bIMPDEMPsqNh6d4zRYUPs8oRNZZ/LX01p5ZSysgX6R
-	frCUAzvQGYgog13UME6rYU7MZ1DQQ28aISuHh/fI+kYuXpnOHjqXe9wkaOXsdH8MgH+H0EdWQTj
-	cFrHBd0v9QNFFJ8G6yYOg0EZQ1lsGmgwrC+1wtpEyN39C+r3Ko8loGI6Ww98HPJ19CgVdZusYau
-	6ykmDxmbrcmD4M8fhp15k0tE8/WbeGJocM5oq4/mFaWwhoa3fJDMbw15NxCDsaGqN/Udlz9+sYH
-	UxmirCsOumXjl9DIK5a54jF+YsEZSpy7z4bbC4jyh2FdvmE1AfJuAUMSgfv+sgV3w=
-X-Received: by 2002:a17:903:240c:b0:2d8:f4d4:7044 with SMTP id d9443c01a7336-2dd6c7ca8a6mr27428635ad.3.1789383516506;
-        Mon, 14 Sep 2026 03:58:36 -0700 (PDT)
-Received: from [127.0.0.2] ([2403:18c0:1001:3a:74ea:baff:fe97:d2e7])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cc4c652aa8dsm4687280a12.7.2026.09.14.03.58.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2026 03:58:35 -0700 (PDT)
-From: Asai Neko <sugar@sne.moe>
-Date: Mon, 14 Sep 2026 18:58:29 +0800
-Subject: [PATCH] ALSA: usb-audio: skip the broken mute control on AVerMedia
- GC553Pro
+	dkim=pass (2048-bit key) header.d=sigxcpu.org header.i=@sigxcpu.org header.b="n91rP5er"
+Received: from localhost (localhost [127.0.0.1])
+	by honk.sigxcpu.org (Postfix) with ESMTP id A05FBFB03;
+	Mon, 14 Sep 2026 13:00:53 +0200 (CEST)
+Received: from honk.sigxcpu.org ([127.0.0.1])
+ by localhost (honk.sigxcpu.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id T89Q9flm9AQz; Mon, 14 Sep 2026 13:00:51 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=sigxcpu.org; s=2024;
+	t=1789383651; bh=Snz0OCxdiERQaB60pbDwd668W+usaSatmVo7PTAIJfc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=n91rP5er2PLxe3m03DLXGE8fQJnS4cP884UhP8y0dhlLm5rF9TGk3GJDKsMafjoQ6
+	 qIOgcOLuO8KGKYFNZdbd5b8yB+frAVyVXTAE8qzDPYOvln1C7eglW6StOBw8HTwLyu
+	 bJkNDkBszFV3tEtqEHOboVGJQWyIvnP0eIOi6hYShPTuihYT30gdgiUktkeGOzRBA4
+	 wusUSKUlwKcjLcenbUeAt5alFCTti17C7UtEH8OBt9PxI+qTIBCFwniHRsOXRo1H6g
+	 H1T8HuLO1vFgGG8ZK+8hRKJKkFubeGIJ4AwUHusmMcfpazvZj2cytzmyQRhi/WDdZA
+	 XkrR3P6oTPVgA==
+Date: Mon, 14 Sep 2026 13:00:49 +0200
+From: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
+To: Val Packett <val@packett.cool>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH] ASoC: soc-core: use the device tree card name as
+ long_name
+Message-ID: <aqfT4ZzmxtxM2Dn0@quark2.heme.sigxcpu.org>
+References: <20260506041112.412871-2-val@packett.cool>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <20260914-avermedia-gc553pro-alsa-v1-1-4c694e8b0cd5@sne.moe>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMTQ6CQAxA4auQrm0ygGDgKsZF6RSs4S+tEhPC3
- R11+S3e28HFVBzabAeTTV2XOSE/ZcB3mgdBjclQhKIOTX5G2sQmiUo4cFWVqy1IoxMyS9kHqmN
- 3CZDq1aTX9+98vf3tr+4h/Pzu4Dg+5kyF4nsAAAA=
-X-Change-ID: 20260914-avermedia-gc553pro-alsa-cce3f0a6db70
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Nathan Chancellor <nathan@kernel.org>, 
- Nick Desaulniers <ndesaulniers@google.com>, 
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- llvm@lists.linux.dev, Asai Neko <sugar@sne.moe>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2092; i=sugar@sne.moe;
- h=from:subject:message-id; bh=KKQ65lm5gd4TGamF3O9BljYBBsGT+aIMb7Ndkequqlk=;
- b=owJ4nJvAy8zAJfZHZ3FlRAEbJ+NptSSGrOWXI7+8vyx82i/8ltrtSouc2Q+erSu/4/725jejm
- An1s7vunPrXUcrCIMbFICumyNJ5pKvwyet5Hw646PLBzGFlAhnCwMUpABMR28XIMG+7SpPmw2TZ
- o+tLZU+Ebjl02up5g0GymfiuE1ax8499fcfwz2D6piUHGzsd1m88NonzxAl9j9zHhh2803h29ik
- 45NzbwwAAMNtOUg==
-X-Developer-Key: i=sugar@sne.moe; a=openpgp;
- fpr=89C48A71E4EB9EF0C0442D0EFC2CA37958700609
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260506041112.412871-2-val@packett.cool>
 
-Skip the nonfunctional master mute control on the AVerMedia Live Gamer
-ULTRA S GC553Pro (07ca:1553).
+Hi,
+On Wed, May 06, 2026 at 12:58:55AM -0300, Val Packett wrote:
+> When setting the model property for the sound card on an OF/DT system,
+> the expectation is that that model name would be used in the UCM config
+> path lookup. However, the DT model name was only used as the "short"
+> name, which gets overriden by the "long" name during loading, and
+> the "long" name is automatically set based on DMI data if available.
+> As a result, adding an intermediate bootloader such as U-Boot which
+> provides DMI data on a device that didn't have it before would break
+> the UCM config loading by suddenly looking at the "wrong" path.
+> 
+> Fix by assigning the DT model name to the long_name field as well.
+> 
+> Signed-off-by: Val Packett <val@packett.cool>
+> ---
+> 
+> For more context/examples, see:
+> https://gitlab.postmarketos.org/postmarketOS/pmaports/-/work_items/4386
+> 
+> err, for some reason that link requires an account to view right now,
+> hopefully that's fixed by the time you're reading this. if not, quoting:
+> 
+> > ALSA looks for wrong device name when using U-Boot
+> > 
+> > What's the expected behaviour?
+> >   ALSA finds Fairphone 5.conf
+> > What's the current behaviour?
+> >   ALSA looks for fairphone-Fairphone5-.conf, doesn't find it, and results in no audio.
+> 
+> ("Fairphone 5.conf" coming from `model = "Fairphone 5";` in .dts)
+> 
+> So it's totally unexpected in the DT world that adding DMI info would
+> change which UCM path is used.
+> 
+> Now the question is, could this possibly break anything for anyone???..
+> 
+> Qcom laptops do not rely on these model-based paths at all, instead
+> having custom DMI match `If` conditions inside of "fallback" SoC-wide
+> UCM .conf files such as:
+> https://github.com/alsa-project/alsa-ucm-conf/blob/980fb83651e82c3e53d3a0ab7fa9b7d6fc2d809b/ucm2/Qualcomm/x1e80100/x1e80100.conf
+> 
+> So there it shouldn't make a difference. But does *anyone* use DMI-based
+> soundcard names intentionally on *any* DT platform?
 
-USB tracing shows that GET_CUR returns zero bytes instead of the required
-one-byte value, both through usbfs and during ALSA initialization.
-SET_CUR succeeds, but switching capture off does not mute HDMI audio.
+Would be great to have some guidance from the subsystem / alsa ucm
+maintainers as multiple distros are patching around it atm (either with
+this patch or symlinks in the ucm profiles).
 
-Before the change, the driver exposed a misleading PCM Capture Switch
-and logged: 3:2: failed to get current value for ch 0 (-22)
+Cheers,
+ -- Guido
 
-With the patch applied, the switch and warning are absent. A ten-second
-sound recording through PipeWire confirmed that stereo 48 kHz, 16-bit
-capture still works.
-
-Tested on NixOS with the patched 7.3.0-rc3 kernel. The USB audio driver
-object builds with Clang and W=1; sparse and strict checkpatch pass.
-
-Signed-off-by: Asai Neko <sugar@sne.moe>
----
-Skip the broken mute control on the AVerMedia Live Gamer ULTRA S GC553Pro.
-Testing details and the rationale are included in the patch commit message.
----
- sound/usb/mixer_maps.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
-
-diff --git a/sound/usb/mixer_maps.c b/sound/usb/mixer_maps.c
-index 69093c666282..41454cb403d0 100644
---- a/sound/usb/mixer_maps.c
-+++ b/sound/usb/mixer_maps.c
-@@ -531,6 +531,15 @@ static const struct usbmix_name_map audient_id24_map[] = {
- 	{}
- };
- 
-+/*
-+ * The GC553Pro returns no data for GET_CUR on its advertised mute control.
-+ * SET_CUR succeeds but does not mute capture, so skip the control entirely.
-+ */
-+static const struct usbmix_name_map avermedia_gc553pro_map[] = {
-+	{ 3, NULL, UAC_FU_MUTE },
-+	{}
-+};
-+
- /*
-  * Control map entries
-  */
-@@ -577,6 +586,10 @@ static const struct usbmix_ctl_map usbmix_ctl_maps[] = {
- 		.id = USB_ID(0x0763, 0x2031),
- 		.selector_map = c400_selectors,
- 	},
-+	{
-+		.id = USB_ID(0x07ca, 0x1553),
-+		.map = avermedia_gc553pro_map,
-+	},
- 	{
- 		.id = USB_ID(0x08bb, 0x2702),
- 		.map = linex_map,
-
----
-base-commit: 704340f1cd0dcef829eb62f5b48ae95a2ce17bdf
-change-id: 20260914-avermedia-gc553pro-alsa-cce3f0a6db70
-
-Best regards,
---  
-Asai Neko <sugar@sne.moe>
-
-
--- 
-Asai Neko
-
-
+> 
+> 
+> Thanks,
+> ~val
+> 
+> P.S. I don't understand the lifecycle of these strings but it seeeems that
+> the expectation is that they point to static data so they're never freed?
+> 
+> ---
+>  sound/soc/soc-core.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
+> index 3fecf9fc903c..8456595bb41d 100644
+> --- a/sound/soc/soc-core.c
+> +++ b/sound/soc/soc-core.c
+> @@ -2995,6 +2995,14 @@ int snd_soc_of_parse_card_name(struct snd_soc_card *card,
+>  		return ret;
+>  	}
+>  
+> +	/*
+> +	 * When setting the OF property in a device tree, the expectation is
+> +	 * that the UCM config matching the value would be loaded. However if
+> +	 * a long_name is set, it would be used in the config path instead, and
+> +	 * snd_soc_set_dmi_name sets long_name to the DMI name if it's unset.
+> +	 */
+> +	card->long_name = card->name;
+> +
+>  	return 0;
+>  }
+>  EXPORT_SYMBOL_GPL(snd_soc_of_parse_card_name);
+> -- 
+> 2.53.0
+> 
