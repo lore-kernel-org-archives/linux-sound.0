@@ -1,150 +1,199 @@
-Received: from mail-ej2-f12.google.com (mail-ej2-f12.google.com [74.125.228.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 113B7420E89
-	for <linux-sound@vger.kernel.org>; Mon, 14 Sep 2026 10:08:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.140
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789380497; cv=none; b=l7dWIbmMR6vUDBA7Gi46PfFBnv7febTEuhQXodZtqEhhiqsux5GAeJ/jzntURxFBFX7nZJdCRffi6po6R1+oKc073Tn2rp+JInMs0z9eFDRSYhuNlLU0aysC4g32BYTpLGKUhqaXH3rfMv3ZGoXTdfusorZo69TouWYsDKEZNLo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789380497; c=relaxed/simple;
-	bh=wvewqGspSF0+0tZaFegnTfyHBoPaVXNrprOpdgsXmQk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Dy409sYgvjvHwaw5rSisUPxV1hnbpWzwObCnec7l9nvFTu3FpH89KAT48Wk66JZDJd0MXK1ogw9La7cEfdvwaVPVwJJpKlt5vPJGmHGF90F1jkIge3unXXlhvr2aAG/SeWu5sjb4Ac+QWx2yaPwp9FPA2VFDOFcJXY4kE2R1pZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VpGYoKYz; arc=none smtp.client-ip=74.125.228.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C329241D239;
+	Mon, 14 Sep 2026 10:09:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789380580; cv=fail; b=epcMQBrmH8ROcMZoYpdSF9BGiax3co5OWyrt+g7T6uM8AuTVZXEINR/paAbVEwtKU7FgYnRSWJu+IhZnurDhe71tOxPJzPEU/uicgX3plhxia6AtaWJiGls63uQa6v9B87VMuQQR0p4PeRIry1IZCd7jx9BlwPSPmMFfweP7fJg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789380580; c=relaxed/simple;
+	bh=m4rCIypYBwj4Tl4AEZE/tAloUp1AdTze72HRmELarkQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CsnDufQtTL5HB8EIVxlKuJJVPDlMIxVMGDCfBSmpCA+IZXeX6PArezpLXwr9ALCi+VvNEbkNH1zu0Xz6sTRxMX+umaHSBGZV9T/64FPpnsUd3GVPYR2YujE2Jlhu6fQn01F40+GB4XTW48MhFJjdBrK+9WsbEp+7a1zqAB6GXTk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=R8E9+lq2; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=gQENXSUY; arc=fail smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VpGYoKYz"
-Received: by mail-ej2-f12.google.com with SMTP id a640c23a62f3a-c2953a01240so268122366b.0
-        for <linux-sound@vger.kernel.org>; Mon, 14 Sep 2026 03:08:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="R8E9+lq2";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="gQENXSUY"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68E4bXQR261164;
+	Mon, 14 Sep 2026 05:09:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	PODMain02222019; bh=UCt+HMpzx+CqOkzLv5E9fpS0lrpSRGwkPaenmf6Hseo=; b=
+	R8E9+lq2wp61j3yREY6Wo7UpICuciMEfORFETXxe7KCE8mprHCtIDvm/dION4CGu
+	6r/Bq3s60soPERZOKCSq5y7RQm8AusVzbjNLux9w8lOwqFXgWYVlJ04tsvQ4mH5y
+	jl5uRnrSKVXf0nB0LoDNlzkoNb1Ph4uMl2L5BzCcI5NbmT4ZPQ5jYgdTOrk1YobS
+	+M9BfG8Gdzf2kUu0lRntsW84VZRPmkzvLlLxitkeWyF9B9FMAJ2ndN3iEb2g1Wwz
+	pfl1Dbg1nMtAzK0aR4Y9BBmqr2VdIt1vPBDBXZKRiFW6V+tNUEAoNaaHOWOZjckx
+	hi47Ky8pBMlj4ipX+Ki2Ug==
+Received: from cy7pr03cu001.outbound.protection.outlook.com (mail-westcentralusazon11020078.outbound.protection.outlook.com [40.93.198.78])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4gn35h9pxv-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Mon, 14 Sep 2026 05:09:33 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=kiDQRRf1vzy3/3cqHrcZsDm+SFjdZLPWgZ3wwn/EEttzYp33jR+12hhPtPM3oR+LI1Lx30Oc1I6UXgyN5ZJud68qrm+ckjLKFK5cESecygQ9WA/6W5K0rl1B0myoMC1Z7QkOxsv/cEwzbD/ovDfbnArw3EGD4b69NoqhnFsQhLONNzVle3YwLxLPGdmAKMquuuodu3nT+ifSqTRYjZwLb31f7KgK9PPONPZxqTz1+ldOd0I47xLen8cAUAru36Hrnn1ivlYZu05vSuQdEA0dtXXLdQGhaA4U1ntYwjbMrXm07bqw8o0aVPCf1zqoiz5t5T25cf+leqZM32ni0sLpHg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UCt+HMpzx+CqOkzLv5E9fpS0lrpSRGwkPaenmf6Hseo=;
+ b=MzygXsseWnfRW4W6HesCCnyqFsceUpmTrLO+M/RyynYb8PyhGHN1An6GxdEusHHV/C7js93eRtT6jdvXBE9nuplaWfXA3m6gXLnwC98ZZw3xWRMApK9rljiah6k83VU45Yz3jttuORrPzX5fHPAnuazA/jl0wXkufB6Fcs5U/qtyIzOZzPOueudXEEIItMo0Gfs5XohTSlZKx/510i8bvU6pUcUX16OqIHY995spYIkIh5VO3KCml9pkyz08Ti61XbrCcZuQFlA4cwFLjQdp0FY1wbrgKnQOnMfBmrwRY6iJ3Z34THkygwscxDosjZjH56U+CeD+7pzaVgNqPXjKJw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789380494; x=1789985294; darn=vger.kernel.org;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=90eu+2xkgHrn1KJtJWAnnYeVGWcd1Cy8bHOHpijrO40=;
-        b=VpGYoKYzn8fDpD4wPyz7c6dI6KaqvEcRofqezbEz/vSX+2PpaFXnQP3dcZWEBUDKcw
-         OkZ/PvcPhIcpvQlrIRS/MUpWCpH+K9ao7fZbySmIt1WrH5Ws9HuGbGi80Jsjqvh588vX
-         BuzIdKBaaYvWclFofDO3BtYZZZzQ+gOj25XlUpCzuYFGtuCeuFRVnNq0qebeBzZCc2jq
-         1EJBWj6gBCsAxybzAJumr2ifj6OwrfnWMWp2RUXueeJeB9TXUm3CWSxqaAKZ8jzilgfB
-         E3C46z6881BumEZ2uOH/SuG+sRQurXNduiYqpa6I6NIsN8naW9qiyYu21weLH1s+fOCT
-         I/Vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789380494; x=1789985294;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=90eu+2xkgHrn1KJtJWAnnYeVGWcd1Cy8bHOHpijrO40=;
-        b=pKZChrLDS4fr9jFotuec+u5d2Y27w4M+SaBbK3EbNWP730nAMWQ3P1zFK5I+Q/qvpI
-         sVvhWvk5v50ZolRkmW1tRhYPQeJ0vDkIH/gGPVZ+CQHn585Bg/RPOx5FbyYtsx8OcJtD
-         M04DCO6uPjp+X42BLaE7WUndvoEujcoWZYsBYJk2dYOW+iJolVSUTp774GpnPBURDLXM
-         YreEXmIv3RJoT2KVr7HrlVx3YU+tqtnebiZazG4Yuvc+KJH5u/B/HxzKfuLTr5atSx6H
-         c0TSVh/YZEEF9S+do6naAVF+3XXUkEo65nYHji+b5/uFpn7g1GSZga5ThjtTaTKeC9Pw
-         IZHA==
-X-Gm-Message-State: AFuF++klnIzrQZR2NviqFGB4skdGkQbaVD+/YaT5pUpZcTC2Db4tgGVU
-	AqHUa0F62ED28ctPTye7/AG9vFofK8HYQaXoa3BvmZ+STgknrcOHuy6f
-X-Gm-Gg: AYBFou2M/IOf8y3iWFTGBlNgS3q8NcI9f6/lV1tH/aKTWk0pb/gv872hggYvsyfv46v
-	J0/E+yDKzmJkM0mae/JoIX1U48hbTHdwF/du7JY6G0VFItjIOJ7+cXecbA/157QLHY3t8dc2Np7
-	BsKv29QSQo8uArbX8bqdfK+LTSLCHh5rKVSz3UQmcahjKLTZw7Yq1lISwJF2qyPUW4BOCdgPQR0
-	dYF3DTlJaGICP+mnOgs7vkLdxsYmqLyM6QrnVJc8rXeTR2wwhGgFoWWYeWqsFSAPhDzUUZHjtGQ
-	WEy9VMsrdz3eXA+9Gm8Sg61ZidZIwg7drQ3AiD9KgfBcMNTGALwlFlWJ23h9cvjsLFnJru+PIgV
-	LamAwq4S2HYuvRM3YD1alxKcKuqZP/Xes1XotadhV/izfD2Tc0iHpS4ze0Cp0c/QUi+R1g2TdF2
-	ccGti2l/cX6gJtJIQumZkl6kqS6w+XuJceufd/P7Iw2sO82kd0MIoSdsnsPFgvLQQj6O4=
-X-Received: by 2002:a17:907:1c1e:b0:c21:450d:cd88 with SMTP id a640c23a62f3a-c29b84ded72mr120670766b.6.1789380493888;
-        Mon, 14 Sep 2026 03:08:13 -0700 (PDT)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a9b594e462sm4080441a12.24.2026.09.14.03.08.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2026 03:08:13 -0700 (PDT)
-Date: Mon, 14 Sep 2026 13:08:09 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: bui duc phuc <phucduc.bui@gmail.com>
-Cc: linux-sound@vger.kernel.org
-Subject: [bug report] ASoC: codecs: pcm6240: Use guard() for mutex locks
-Message-ID: <aqfHiX3pE-0BiCt9@stanley.mountain>
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UCt+HMpzx+CqOkzLv5E9fpS0lrpSRGwkPaenmf6Hseo=;
+ b=gQENXSUY4qAi4P5P0wF+R3+WgUah+inTNQ4cSQfrScY896KC7nHafZYhuWc4tiuA/aTRaLa92zG4kjC2tOXHmTyTAeE/tqqWEOLVuxQ9cEugmyUugUz58eMhZIQqH2mVAPbTJsyjUwrlYqqEWSAJzIp2LGWdgOIOcpjD1kLYif4=
+Received: from SA0PR11CA0146.namprd11.prod.outlook.com (2603:10b6:806:131::31)
+ by DM4PR19MB6176.namprd19.prod.outlook.com (2603:10b6:8:b0::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.11; Mon, 14 Sep
+ 2026 10:09:28 +0000
+Received: from SA2PEPF00003F67.namprd04.prod.outlook.com
+ (2603:10b6:806:131:cafe::46) by SA0PR11CA0146.outlook.office365.com
+ (2603:10b6:806:131::31) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.406.12 via Frontend Transport; Mon,
+ 14 Sep 2026 10:09:27 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ SA2PEPF00003F67.mail.protection.outlook.com (10.167.248.42) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.428.7
+ via Frontend Transport; Mon, 14 Sep 2026 10:09:27 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 69E7A40655D;
+	Mon, 14 Sep 2026 10:09:25 +0000 (UTC)
+Received: from [198.90.208.11] (ediswws06.ad.cirrus.com [198.90.208.11])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 58FE7820247;
+	Mon, 14 Sep 2026 10:09:25 +0000 (UTC)
+Message-ID: <4621b455-9460-4f45-88d7-303b6243ad45@opensource.cirrus.com>
+Date: Mon, 14 Sep 2026 11:09:25 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: ALSA: hda/cs35l56: same calibration condition logged at
+ dev_info() and dev_err()
+To: Navon John Lukose <navonjohnlukose@gmail.com>, david.rhodes@cirrus.com
+Cc: broonie@kernel.org, tiwai@suse.com, linux-sound@vger.kernel.org,
+        patches@opensource.cirrus.com, linux-kernel@vger.kernel.org
+References: <20260914000308.108995-1-navonjohnlukose@gmail.com>
+Content-Language: en-GB
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+In-Reply-To: <20260914000308.108995-1-navonjohnlukose@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA2PEPF00003F67:EE_|DM4PR19MB6176:EE_
+X-MS-Office365-Filtering-Correlation-Id: b36d063c-b184-459c-4f0e-08df12484295
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|376014|61400799027|36860700016|82310400026|11063799006|56012099006|22082099003|18002099003|16102099003|10067099003;
+X-Microsoft-Antispam-Message-Info:
+	zoZ+60NvhUmZgduzWNHy8kpPKrl+eTo8swxt5OK2aiAvREIfapE8oPtmHF2+yg92UhUVfIHzzDXFaXKPti/0el+6QQUI8TTjQdHAk4Nb/1reaG8R2U+uC6EUbthBol46sS2EzrgECp9KE6WZFBJqb1RHOA+oqPn0mSNAAQdGssbIY2tW4uRt1OWzinxgCdXXYjwUJO9+cRZBzMxMNIYUk2A9hCbANn2gIVaQ/06W1gaPp+aCvUkaxUaD9YH3GrPLMrtk7rPfbrt+Yrj54UPM74SSvU1f7jsA3TeoERolp1XxTswf+rcmjgPfAzoHfOmYeGEuaP53o3ZijT6gUlyK4U3QUbo9b2djhkf0ZjTsbfEaPeQYS8aLql6gqWSH01LtLN/E+Q4mimNvx+Kbfadf4/iG58LUt8KUxKq/BrXY64rMeNyJxreuCoSrxVtUtC37ngRX8TosjuW9qMD2J5MM0XTYHkT9aqq/znb3mJsnxqvgEIo63uglsX1+qmxfNzVAkrpXFg0XdLOEHCSwkQA9nr4Xjgg//3ij/lRF0BrOzmnvAMrKcbCF2SLeezkqVvVwYwATmIKlwudgA4hyEAK9yLNe4L7J8TADbygbs7kN6ASpTR4b5M8cGaYR/EaRwFCjkGc9RUyyPhjiK5b6V5IKuK1iLu1ykLcxLMX7pbEx2NQtD2RHvpc64OIsFCh1/gE5EXLWGByIgVxP/JMq2CF1rA==
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(23010399003)(376014)(61400799027)(36860700016)(82310400026)(11063799006)(56012099006)(22082099003)(18002099003)(16102099003)(10067099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	W0ThE3epmTERH+9zrplrRaheE1PtAhxbY2pN8KNixoCpqw8rPBkLmQ+pOFAGR0umhQFk+/QFsqO6pMZSUo0uqlh80VuzshALjAeQnL/M3goSgY2McGZ2SsrDnCKi+aR+0E13cEkB/59hzap9fWhn/CQh7IjRfHK07qn0ypQQtlgvus6EmJCIUPcGljT8DvUZFnKr39TxppqNYluyEGmbDc7Fh7TPnYKRGpDHuQ546bEb4gmAR3bikzVu9fCuS5ag/Ou1TkCUmPEEgWaEPLsIVGHXw6jw1Xc9CQKtZltXs+fZ0x/XtFjP6pg7v9MXKAaj4Ky1sqC7EIWowaXPMkRss6ic/l/5S4CcQ2BAGqgnbf8J4oU3Vq8qaKpM+9u3BpJUmcEGEzZFdmeACCcOSYRrA211aZr4TztJp40Q7OG0TJ4nj3iNaAajB7QW38/D8YuE
+X-Exchange-RoutingPolicyChecked:
+	kCsNukLtNju3HxW/8XrQaO/xLVHiP9Hj/7kke8WqI8Sd+HPWZzwJDamwGw+XKMJwkV67EFC71WU9TspKIVVGHHNpkzQKLre85XMp6RvCKtGvRj5bQ4yXzitRTgRvuGceHdiLqtsF6nYWBMSSFeB9zgz12zytHF/InRwvruTF2WNJ20sxKvw8RCDWa6p1v21ZCQigWuP9J1cUh7LxRYUl5VIIOw870fc6q5FnbllGHMBRtTpyYrhJOR3HjnMLsKMieBAwVJbXfUYD10MLXtrZ4pxp611ycphaWkhYBFdqMf9tiNGvOhdu4FHKpd793QXSQ2/JjDzGrHQYKkupSqwRtw==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2026 10:09:27.0961
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b36d063c-b184-459c-4f0e-08df12484295
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-SA2PEPF00003F67.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR19MB6176
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTE0MDE0NCBTYWx0ZWRfX/0eUE3omiCSD
+ XzgYk/wDeNtQ3636QUmhKgSrHARsSJtIj5Rp8TZt+NkLi10+Ms9CAwFp6yrRE0Fad6WoWowST6l
+ yNxqHZJhHQiKVP2UZa63PZt7tCW2vxg=
+X-Proofpoint-GUID: b_0OBMNQL2EBjTtOlqe68nde8X3qGEuu
+X-Proofpoint-ORIG-GUID: b_0OBMNQL2EBjTtOlqe68nde8X3qGEuu
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE0MDE0NCBTYWx0ZWRfX4E7yhS8SvOfo
+ eS8aZ3VAgQ3OVqwwdZWB7pdkX6rU2EDZxyJIJt4ugR/ru7UocCnw/mWXX5EujZpU0MV2MbO5awi
+ VjFmjqyllzlrVkwXN1b0pgWG7D7pB0G17oxb6LGikI4S6NohmnSv+PjsytAXtZ0Natkjwyrec/G
+ ttOGUZDD4g2+kybJ/y3G4PWMmvx4v53MzrcmWzmDk6emyUOwBbYTneL3ILoS4zcea1hvPNR2Ank
+ n6fRooNVpP7MxmBd+SGwHX60saxQGyHIk2e9sT9GVLf9aXmGWHKp5t/39YruWwxKpvoEUuPyoWO
+ /UbTDAfOoN61rUXovrt0+GKoxzTz/rXQqEUL/msz0A0OwdrYjlsNIiOCi3nc1ASkGY7ewYIHXfE
+ wgK/VbXLe0sHb41Q2o/DWUvrQBfnoAOVsgxx2fZZ6mjCx1wCCVWr3jdCom7a/oW6IuEwoUtAu7F
+ LBjy4eDz6ROZRV9YmGg==
+X-Authority-Analysis: v=2.4 cv=It6L47/g c=1 sm=1 tr=0 ts=6aa7c7dd cx=c_pps
+ a=r5kpy6O4d1nOJ9DEYQWzwg==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=KfkQE9S9VqCBgivYGm0O:22
+ a=gmlGpiUbkyEgtPAR4HYA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Reason: safe
 
-Hello bui duc phuc,
+On 14/09/2026 1:03 am, Navon John Lukose wrote:
+> Documentation/sound/codecs/cs35l56.rst says "Failed to write calibration"
+> has the "same meaning and cause as 'Calibration disabled due to missing
+> firmware controls'". The latter is a dev_info(). The former is a dev_warn()
+> with a dev_err() from cs_amp_write_cal_coeff() ahead of it.
 
-Commit f3da3b7f6ed2 ("ASoC: codecs: pcm6240: Use guard() for mutex
-locks") from Jul 21, 2026 (linux-next), leads to the following Smatch
-static checker warning:
+The documentation is giving advice about the *typical causes* of the
+errors that can usually by fixed by the end user (like missing
+firmware). However, I can reword this to say that in most cases they
+indicate the same problem, though not necessarily.
 
-	sound/soc/codecs/pcm6240.c:623 pcmdev_get_volsw()
-	warn: missing error code? 'ret'
+The former is a dev_warn() because the driver attempted to do something
+that should succeed, but it unexpectedly failed (though is not a fatal
+error).
 
-sound/soc/codecs/pcm6240.c
-    594 static int pcmdev_get_volsw(struct snd_kcontrol *kcontrol,
-    595         struct snd_ctl_elem_value *ucontrol, int vol_ctrl_type)
-    596 {
-    597         struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
-    598         struct pcmdevice_priv *pcm_dev =
-    599                 snd_soc_component_get_drvdata(component);
-    600         struct pcmdevice_mixer_control *mc =
-    601                 (struct pcmdevice_mixer_control *)kcontrol->private_value;
-    602         int max = mc->max, ret;
-    603         unsigned int mask = BIT(fls(max)) - 1;
-    604         unsigned int dev_no = mc->dev_no;
-    605         unsigned int shift = mc->shift;
-    606         unsigned int reg = mc->reg;
-    607         unsigned int val;
-    608 
-    609         guard(mutex)(&pcm_dev->codec_lock);
-    610 
-    611         if (pcm_dev->chip_id == PCM1690) {
-    612                 ret = pcmdev_dev_read(pcm_dev, dev_no, PCM1690_REG_MODE_CTRL,
-    613                         &val);
-    614                 if (ret) {
-    615                         dev_err(pcm_dev->dev, "%s: read mode err=%d\n",
-    616                                 __func__, ret);
-    617                         return ret;
-    618                 }
-    619                 val &= PCM1690_REG_MODE_CTRL_DAMS_MSK;
-    620                 /* Set to wide-range mode, before using vol ctrl. */
-    621                 if (!val && vol_ctrl_type == PCMDEV_PCM1690_VOL_CTRL) {
-    622                         ucontrol->value.integer.value[0] = -25500;
---> 623                         return ret;
+The latter is a dev_info() because the driver skipped doing something
+that would fail, and is informing that it has skipped.
 
-This was intentional, but it would be better to "return 0;" here.
+For most users, in most cases, the root cause will be one of the two
+listed in the documentation:
 
-    624                 }
-    625                 /* Set to fine mode, before using fine vol ctrl. */
-    626                 if (val && vol_ctrl_type == PCMDEV_PCM1690_FINE_VOL_CTRL) {
-    627                         ucontrol->value.integer.value[0] = -12750;
-    628                         return ret;
+  * The driver did not find a suitable wmfw for this hardware
+or
+  * The amplifier has already been patched with firmware by something
+    previously
 
-Same here.
+> Rebinding the HDA components without re-probing the i2c driver takes the
+> loud path, 4 of 4 attempts here:
+> 
+>      cs35l56-hda i2c-CSC3556:00-cs35l56-hda.0: Failed to write to 'CAL_R': -1
+>      cs35l56-hda i2c-CSC3556:00-cs35l56-hda.0: Failed to write calibration: -1
+> 
+> list_empty() is false because the controls cs_dsp_power_down() disabled at
+> unbind are still on ctl_list, so the dev_info() branch is skipped.
+> 
+> The calibration is intact. CAL_CHECKSUM, CAL_STATUS, CAL_R and CAL_AMBIENT
+> in DSP YM are unchanged across a failing rebind on both amps. On a speaker
+> amplifier "Failed to write calibration" reads as a protection failure.
 
-    629                 }
-    630         }
-    631 
-    632         ret = pcmdev_dev_read(pcm_dev, dev_no, reg, &val);
-    633         if (ret) {
-    634                 dev_err(pcm_dev->dev, "%s: read err=%d\n",
-    635                         __func__, ret);
-    636                 return ret;
-    637         }
-    638 
-    639         val = (val >> shift) & mask;
-    640         val = (val > max) ? max : val;
-    641         val = mc->invert ? max - val : val;
-    642         ucontrol->value.integer.value[0] = val;
-    643 
-    644         return ret;
+This is the second possible cause listed in the documentation:
 
-And here.
+   * The amplifier has already been patched with firmware by something
+     previously
 
-    645 }
+> I lost around 5 hours chasing this down, believing this to be an actual
+> bug.
 
-This email is a free service from the Smatch-CI project [smatch.sf.net].
+Warnings are warnings. They don't mean there is a bug in the code.
+Some interpretation of the meaning is usually required, and AI isn't
+always good at doing this.
 
-regards,
-dan carpenter
+The documentation does say that you can get this warning if the
+firmware was already patched.
