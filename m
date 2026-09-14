@@ -1,360 +1,154 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010044.outbound.protection.outlook.com [52.101.46.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C208036F8F2;
-	Mon, 14 Sep 2026 05:09:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789362546; cv=none; b=aSOLA7TdMfNzDaSP2Dh/p4aPa0d+iHYLSjKngpWmVRGScNfnSBlJL0XjEetmRACH8YmmOb9s1psNgkpHz5dizJfqcZbFVpq8fWTbxmbGJGVqTLiu8MuiwQqRKi1zvn7r2Z3X8621F0imDTmmv6RkqAc6UmemLw2MPazVbIX4Zjc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789362546; c=relaxed/simple;
-	bh=70YD57mbirpyHwYQf7ha1K1W9GCri+HWZyovgesFQg8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dq/KKv3kYNCc7UrEy4XTe+2fUF26kFO0AQsNNhRNsiq+WSAK3kxkJf0qMBdFEl7Kk/c9XQyaDt/9YNOfpjuxOCJBVqffV1HcWSWWxpBP1/pDwKpfH1WVNT2EvmOTrcg/x8UEKDHzj1zMGZXWOD9QomOgEWDME9WJdNpuMA2fgDU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=CuKDGhNY; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4FF318C008;
+	Mon, 14 Sep 2026 05:32:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.46.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789363941; cv=fail; b=mJ+lU3uJ29sBobuCUmJu8Xl35zh/cahgAU7UNN2K2Fhp1+/CUriuF0v14RC67Y7+073CBi3/KJABthTKnjqCULTCbDLsWq92ddlAfxObN6lLraYVgk6bbbAasFOS0fPQq4zg0705odUhAb1Ygy/NFETYOGP4lAxI0H9AIeliW5U=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789363941; c=relaxed/simple;
+	bh=D90TFyzGlVy4xVFsKH5DG8l7wOkbY30M9qXb9bHE5Lg=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=JX7Z7LtdKvwk+a5Hoarf5+rnGb0V5tRZ01A7XLIOxr4FmSb58RymmD+XIgX64V77r3Bi9s0xf/tLPTXl0sfWUdgn/zwuv7ysYHZw/zWhOBtsmapw/hZ9aMtdxZTy/k1+3Mvzw8zr8IPRGGEk9M/DM9QTvE1G/5jPj9kDu++yXKw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=E/H7u4ni; arc=fail smtp.client-ip=52.101.46.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="CuKDGhNY"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=Lgpe3+Dctt1tXSKRidpe9Ch4sSV5QnWgNYvyQOPFvOc=; b=CuKDGhNY5kju0scDqWYmYht9xm
-	y4t1Yui1hE6pYXBU9YL2PE+V/HFGia5yR6HW5OuODLPwt1Vlu25YsVbD4tZcSSEL3j/sLKpkyw1Ye
-	3XRymPK2sZJnW2vsVdudQz7K6KotAzP+JRedSugFXdqrdFhlyjspW/uHGRfwGywD+ke3E7iPTw2ax
-	kJ9G2KwsbjTFGcyVjM2cY9sNDZU2y2lof+CQuzyeTwKllyH46PGmE8Xppdl0iytmMrh27TA3lBkWz
-	CZmECJrxcHVg5JCQsSx76fD17HhoAqGwAo8tqDj/fGc+Cwi1F2WKXlAMZAPv4XMmEOwvTkioQSMGb
-	W0hAghPQ==;
-Received: from [50.53.43.113] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x5yw9-00000002M5t-0wHM;
-	Mon, 14 Sep 2026 05:09:01 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-doc@vger.kernel.org,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org
-Subject: [PATCH] docs: sound: hdspm: clean up driver doc.
-Date: Sun, 13 Sep 2026 22:09:00 -0700
-Message-ID: <20260914050900.1312415-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="E/H7u4ni"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=P8WeG+byHOy1axLfTacfZouIDU5EoRpEI5X1tVbOsUC6OQHb72TqxIduSLyxFSLAG8euGBijRcbXARS2oBV6DWxclhUVqbj4cxajpikPUHDjTfbAj0F0/BZKrrLTq3VWgY/dM2eSzIRLTaYslaDgx3B8SkaHpOCRymkv8FWWRllypYmhpx+BWgr7BbfDoM93ES6D1+2CD3Wa7u5RLVuvKyke82iG8ULw2nY4sIna5Hgmd66Pk1rslfklX0BZn5wAJWaZyHFjDixvvQGouwCqH7qatjXAgdo1KKFkVFVhudpVOqSVABEPyKdLEX1dnWESDFBIh4dbHY0nAqfIei0FGA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=D90TFyzGlVy4xVFsKH5DG8l7wOkbY30M9qXb9bHE5Lg=;
+ b=xJtX5COJe2UyfX0jzl8SM6eOQAF6bE8slxICNeKL+1rZuiMn1MsxAjnYjC4HfvL+5QGVWx7FjSvUPNIFPARQJ5sdiTmOePs89Dv6RPEm95V+JoAvSmMyfvEAFZd55JSttEOvpiac0O0gsdLohYXy+Ql+rHLhbUk0+oTThEGDVuHI8EUoziZt3oE/ZXe0ujtP5c8ZM/Rt0H7Z/oUi0YV22jgODVx13MOvKw90lr3s5+ZAm1c1Ks96mYC3IQkSjHPOfkLOQCbNMoe5fESDKdCZVLer6GE2X8Mkg9dF5ayd9R4pdpE/AzkhwM0bEikOUADyooiHn3FL3BaENy/sxp40OQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=D90TFyzGlVy4xVFsKH5DG8l7wOkbY30M9qXb9bHE5Lg=;
+ b=E/H7u4ni4BrNQ+ess4EZpAG9pTbZa3yDJxVX7e2Nh+ODwwG4467C6ao/spBu8CpQRfvwCwGaYeVsdW0s3AgCtGAgbccCfqjqbQ7MiFXrN9XOi244GTn79a0Qhjj8mYx/OIiZHAHbKAQPfQ1Ebrzkub9rlcDUe/KDH0HRNEEXOAM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DS2PR12MB9567.namprd12.prod.outlook.com (2603:10b6:8:27c::8) by
+ LV2PR12MB5941.namprd12.prod.outlook.com (2603:10b6:408:172::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.12; Mon, 14 Sep
+ 2026 05:32:15 +0000
+Received: from DS2PR12MB9567.namprd12.prod.outlook.com
+ ([fe80::636:1b52:24ca:d7e5]) by DS2PR12MB9567.namprd12.prod.outlook.com
+ ([fe80::636:1b52:24ca:d7e5%4]) with mapi id 15.21.0406.007; Mon, 14 Sep 2026
+ 05:32:15 +0000
+Message-ID: <d326b188-6de8-4db4-8ff4-bc6f91868843@amd.com>
+Date: Mon, 14 Sep 2026 11:01:09 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/8] soundwire: amd: cache ping slave status to avoid
+ spurious disconnect on timeout
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, vkoul@kernel.org
+Cc: yung-chuan.liao@linux.intel.com, Basavaraj.Hiregoudar@amd.com,
+ Sunil-kumar.Dommati@amd.com, venkataprasad.potturu@amd.com,
+ Syed.SabaKareem@amd.com, Mario.Limonciello@amd.com, Richard.Gong@amd.com,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260910190240.1604447-1-Vijendar.Mukunda@amd.com>
+ <20260910190240.1604447-3-Vijendar.Mukunda@amd.com>
+ <5c651fd3-c177-4d9e-b13f-3dc62f0b2c97@linux.dev>
+Content-Language: en-US
+From: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
+In-Reply-To: <5c651fd3-c177-4d9e-b13f-3dc62f0b2c97@linux.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN4P287CA0007.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:c01:26a::10) To DS2PR12MB9567.namprd12.prod.outlook.com
+ (2603:10b6:8:27c::8)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS2PR12MB9567:EE_|LV2PR12MB5941:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2437c94c-3f25-43ea-edc2-08df122188e2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|23010399003|376014|1800799024|56012099006|11063799006|4143699003|10067099003|18002099003|22082099003|3023799007;
+X-Microsoft-Antispam-Message-Info:
+	dLwbGANg0/lGMF4GPneUXxK9b2hl5O9+rYooLtBXEGzDLc77A1felxFAG0/gtSdXwyZGhsnlQyFj9n1/+lwVvcgYxozAdx7t4YvPWezDCUTbl4mnafqoaNk9DIrOOtHpTbnaPD9P+hfrqGo4Ea6Nufvq9LXthX4iC5S1/mX/msLMqOAJKEXaBarYx6b0F4bMQsz37hbRgEJU2hJhsxfYhI/tUbOi2pkEa3gI6i01gSEgdVqdJQhbMcNIUCetYPIBgJL09x5LR3cf5o3af2jv6/H5v09dyBrV1QmlFLwZ0ajgStIbxgm1tNOc7iYYZaBF84d6twkLBghVJOHWy5KD3KqPFKgD8Nw3AYDqvzFb5p2xREUVwUnNnmatGyMZNgmsMUBfSxgkiF8d2DgJPfwC5h07AvU28UJbqxGxqXmbks33sNOczIiU3VfvSn0nCMYPpQxcKcjB4oG7cWGb2uk5+tubCKunQgwzDdwla8FEeLIYADDJlc6xIGP0QjAaIMSw5Xynz2l15/Y0S+KHhd3x5ntE6djoD+bPMtnjL0WcUoAq47HwebnbRguKtm0Tcu0DkQ9Buinx2estKDOi/PBwlZnCxJKN5QHXAym2YeIsFYI+jLaVim2Kg5UVsN1sYYzpAAadPHy7uHcELK5GPjTZV64QiJn28LWHgQvoq3wOepg=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS2PR12MB9567.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(376014)(1800799024)(56012099006)(11063799006)(4143699003)(10067099003)(18002099003)(22082099003)(3023799007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?dzkyMXUzK3JFMXl4S290T3g4ekJ2ZkZhTGtDU01jTEh1eVJVMDFDcGs0aERq?=
+ =?utf-8?B?UytRbXFSblFuQlNGVGZMTk96YTVJSW11QnZzMkFuR0NoelFzYnBKSjdlTVpy?=
+ =?utf-8?B?bkYyWEVhOHNXMzFZTWErQWpTM2FKbFVHQkdSOTU1ODkrVlB5enI2eW9VTjJ5?=
+ =?utf-8?B?djRIRHdsU2s5MWZWWktROUJvNEdYQjI2dnpUMGFkRklyenNXWml0TU1JcDdu?=
+ =?utf-8?B?NUF2L1h4b3JrL01walN5aDJyd21jSmwyRlFyQ0xJZUtSZFRUcnpaWFJNMnhh?=
+ =?utf-8?B?V3oxdnlEY1Qzd1NhTTZ0Rnprc3l1enFtblloSG9RcWZLZWs5QU8yNjR3N2tY?=
+ =?utf-8?B?RWdmVHBqOGowZ0hUVmFJZ285aEdFU0xORi9QRHhJWEV2dXVVRGZ1NFBxRHR4?=
+ =?utf-8?B?RzZZMmVCdm5ESXVGVU1mdkZ2d3UwdHIrTTVZaTFCWTBqc2VQMDR5SEUwZ1pw?=
+ =?utf-8?B?R1FIN3dMT2hWYXNQcDUzTW1zdjRGOHdJL201bXYyMnpkRWtGM0FTSVl3MndY?=
+ =?utf-8?B?cUk5YmIxNnY5WUhGWHdsU3l0Rko2Rk9LRExXZTJUU2UwMThWeWYzR3d2ZUpU?=
+ =?utf-8?B?Z2NnS2N4ZzJuWXdreTdnOGd0WWpDSHZuTStHWWIvUWF4TTdDb3piM09XNkFS?=
+ =?utf-8?B?UlRIKzk1c0FCY1hvMlF3OGdMQk5WWjN3T3hOZzJWMXVOVFhUeE5ETCtoWU9w?=
+ =?utf-8?B?aFRlUzlybmdvWi9PdHM2UysrZ1lPbFEzSUIydFROeXd4VkVEQ0xXeHBvaXAz?=
+ =?utf-8?B?cHMyZVVhUjlkdU1wOFMrRDZndDFxR09OcVpmOGlXL0psclgvdVhDK29nWS9z?=
+ =?utf-8?B?TnY2TnJHaSs0TGdrL3lTSERKTWJlTjlySE5SRjVDeFkxWGpjNUZBS1dqZGpv?=
+ =?utf-8?B?UkhmekhsZ2pUaWlpT1RVckNVT1VLL240Q3RhNjNXdXhEaHRtUnNoSDQxbzA2?=
+ =?utf-8?B?MXpVaFNid1RDOHBoeFU0c1NnWU9oaU5XWkE5aHpMLzE2TklMbGxkYVBNbmxG?=
+ =?utf-8?B?TENZc3BBMThUM2krbkZqZXowTll5TzdDS0J2cXJtVmd0c1c5MysvUWlpbyti?=
+ =?utf-8?B?L0dGOXVWQU1MNGdnOVNqS0xwbWd3N3JEano4K24yNm0zckh6em1wY1NWK1Q5?=
+ =?utf-8?B?Y04ya084bm9KUTVJaG5aZlpzRkg5U3ovUFUxU0RxUU1YZWlzbVN2UXBSVnJT?=
+ =?utf-8?B?MTBmV3NMcS96L1hMSWVZdWg2bzNsY2dXaFVHTnpCaWhUT0dsTkFpazVpK0M5?=
+ =?utf-8?B?Z3hWd3hxUUNqWXk0MFR5UHdpWGk4NjY3V2ljV2ZXWTJldGlSdXU4TVF5SCtJ?=
+ =?utf-8?B?aVJIZjY1dytzUnlOZE5qNi9BS2R5N2lVT2J3U2pOdmtZdVRucjU5dHl5TGk5?=
+ =?utf-8?B?USttM1pzSitEV1Y5WE1LU2ZuTDBBd3hRLzRpR0VvTnhZU2dweW85VXhHZHJX?=
+ =?utf-8?B?dUxOUmFMazdjbWNXQ1l1WE9VSVZEWXU4aDlGMlN5bk0xS0s5OWZhNVFVMVZQ?=
+ =?utf-8?B?eDd3UlJDanZKRVBWeTNtWCtJWHp0Q25zWlhKVENCVmxiTXJlTW13RTF3TU9w?=
+ =?utf-8?B?VGVXanVoS29IZFJuMTlWSTdEZjBTTldrdnFCWGwwN3lTR2xaU0tqNFg4L2Mz?=
+ =?utf-8?B?ZGZkSDBOMWJVZVBLd3paSkZJNkxSRzFmYWhQeTc0bEdzT2s0c2RqUGVPeXJm?=
+ =?utf-8?B?YjEvdy9kNHpRb0FwWFk1SHRDNUd6YitieGwvWU1ud0wxaEsrREFOTDlKeWRv?=
+ =?utf-8?B?N0g2eC9lQXNNU0hXck9jRElOTFpJOC95UGNXM3JzakpLV3RWYWdKRi9LTzEr?=
+ =?utf-8?B?S2VrNkhNbHhEZjF2dmswcHZTakNtMjVOY0FlNXNEcG9rRFIvTmRkL1JsWTBX?=
+ =?utf-8?B?R2oxNTFZaXJJYy82Tk5vR3BlM2VEVG52cndyZkxiVkl4OVNRdkJKeGFFN3Vi?=
+ =?utf-8?B?U3ZsakVnR0h0RTJEYXRGaGQxK3lyYzgrNlFhbmJCSDFQTGlpbE0vMG5neldX?=
+ =?utf-8?B?NGZNZ0ZpSUxzOG11blcwSDRoaldjYXlYTUVVU0ROUkRxQytTc2NhbXVCR1JV?=
+ =?utf-8?B?djZyTFJ2SGVyU05oNExIZTRta3g2dWxDclFoeVZicVJsTDB4bzVKaFUzdEJR?=
+ =?utf-8?B?OHFwbXFGbzhsM2pIcTlBMklPb1JJaHhFOS85NVY2dkRwNjNiUk5id0VlSVIw?=
+ =?utf-8?B?VXBNQ040bk03NnduNC9yaVpBQkk3K0V1T1krVWJ3S01rVkhZYklQOWIvN1VF?=
+ =?utf-8?B?Zy9RY2JYbHhUaXhFRnhXWDkrWXNRTUM3SlhudzR6cFdnZlRoVk1LUWdBQms1?=
+ =?utf-8?B?NWwxWThpVFFlWTdRV0xWOXZ3cWplK3NHc21nRUhKSW82bWRTYTZKUT09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2437c94c-3f25-43ea-edc2-08df122188e2
+X-MS-Exchange-CrossTenant-AuthSource: DS2PR12MB9567.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2026 05:32:15.2907
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3i+WVmt+6nY7yUQ9zhcaF5geugByfM4RCRxUHLmNZqF1efW3Cnf3mdfa0knqV76M+ueKMPYMCox/H39vTS+8WA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5941
 
-Do some overall document cleanups:
 
-- add driver name for clarification
-- fix some punctuation issues
-- correct some capitalization
-- correct some grammar
-- convert a few words from German to English
-- eliminate double use of "note:"
-- unindent Precise Pointer bullets so that they are not part of the Hint
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
----
-Question: Is the precise_ptr documentation applicable to this driver?
-	Is preceise_ptr used in this driver? Not that I can see.
+On 9/14/26 01:29, Pierre-Louis Bossart wrote:
+> On 9/10/26 21:00, Vijendar Mukunda wrote:
+>> + * @ping_slave_stat: cached slave status from the last successful ping response;
+> It'd be good to clarify the definition of a 'successful ping response',
+> since this concept doesn't exist in the SoundWire spec.
+> The only valid combined responses are Command_Aborted or Command_Ignored...
+Thanks, that's a good point.
+The intent here is not to introduce a new SoundWire protocol concept,
+but simply to cache the slave_stat field from the last ping transaction
+that completed without a command timeout. The cached value is only used
+as a fallback when a later ping transaction times out, to avoid
+treating a transient transport timeout as "no peripherals attached".
 
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-doc@vger.kernel.org
-Cc: Jaroslav Kysela <perex@perex.cz>
-Cc: Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org
+I'll update the comment to avoid the term "successful ping response"
+and instead describe it as the slave_stat value from the last ping
+transaction that returned a response.
 
- Documentation/sound/cards/hdspm.rst |   94 +++++++++++++-------------
- 1 file changed, 48 insertions(+), 46 deletions(-)
 
---- linux-next-20260911.orig/Documentation/sound/cards/hdspm.rst
-+++ linux-next-20260911/Documentation/sound/cards/hdspm.rst
-@@ -6,9 +6,11 @@ Software Interface ALSA-DSP MADI Driver
- 
- 2004 - winfried ritsch
- 
-+driver name - snd-hdspm
-+
- 
- Full functionality has been added to the driver. Since some of
--the Controls and startup-options  are ALSA-Standard and only the
-+the Controls and startup options are ALSA-Standard, only the
- special Controls are described and discussed below.
- 
- 
-@@ -18,7 +20,7 @@ Hardware functionality
- Audio transmission
- ------------------
- 
--* number of channels --  depends on transmission mode
-+* number of channels -- depends on transmission mode
- 
- 		The number of channels chosen is from 1..Nmax. The reason to
- 		use for a lower number of channels is only resource allocation,
-@@ -29,29 +31,29 @@ Audio transmission
- * Single Speed -- 1..64 channels 
- 
- .. note::
--		 (Note: Choosing the 56channel mode for transmission or as
-+		 Choosing the 56-channel mode for transmission or as
- 		 receiver, only 56 are transmitted/received over the MADI, but
- 		 all 64 channels are available for the mixer, so channel count
--		 for the driver)
-+		 for the driver.
- 
- * Double Speed -- 1..32 channels
- 
- .. note::
--		 Note: Choosing the 56-channel mode for
--		 transmission/receive-mode , only 28 are transmitted/received
-+		 Choosing the 56-channel mode for
-+		 transmission/receive-mode, only 28 are transmitted/received
- 		 over the MADI, but all 32 channels are available for the mixer,
--		 so channel count for the driver
-+		 so channel count for the driver.
- 
- 
- * Quad Speed -- 1..16 channels 
- 
- .. note::
- 		 Choosing the 56-channel mode for
--		 transmission/receive-mode , only 14 are transmitted/received
-+		 transmission/receive-mode, only 14 are transmitted/received
- 		 over the MADI, but all 16 channels are available for the mixer,
--		 so channel count for the driver
-+		 so channel count for the driver.
- 
--* Format -- signed 32 Bit Little Endian (SNDRV_PCM_FMTBIT_S32_LE)
-+* Format -- signed 32-bit Little Endian (SNDRV_PCM_FMTBIT_S32_LE)
- 
- * Sample Rates --
- 
-@@ -67,12 +69,12 @@ Audio transmission
- 
- * fragments -- 2
- 
--* Hardware-pointer -- 2 Modi
-+* Hardware-pointer -- 2 modes
- 
- 
- 		 The Card supports the readout of the actual Buffer-pointer,
--		 where DMA reads/writes. Since of the bulk mode of PCI it is only
--		 64 Byte accurate. SO it is not really usable for the
-+		 where DMA reads/writes. In the bulk mode of PCI it is only
-+		 64-byte accurate, so it is not really usable for the
- 		 ALSA-mid-level functions (here the buffer-ID gives a better
- 		 result), but if MMAP is used by the application. Therefore it
- 		 can be configured at load-time with the parameter
-@@ -80,16 +82,16 @@ Audio transmission
- 
- 
- .. hint::
--		 (Hint: Experimenting I found that the pointer is maximum 64 to
-+		 (Experimenting I found that the pointer is maximum 64 to
- 		 large never to small. So if you subtract 64 you always have a
- 		 safe pointer for writing, which is used on this mode inside
--		 ALSA. In theory now you can get now a latency as low as 16
-+		 ALSA. In theory now you can get a latency as low as 16
- 		 Samples, which is a quarter of the interrupt possibilities.)
- 
--   * Precise Pointer -- off
-+* Precise Pointer -- off
- 					interrupt used for pointer-calculation
- 				
--   * Precise Pointer -- on
-+* Precise Pointer -- on
- 					hardware pointer used.
- 
- Controller
-@@ -104,7 +106,7 @@ hwdep-interface.
- Also all 128+256 Peak and RMS-Meter can be accessed via the
- hwdep-interface. Since it could be a performance problem always
- copying and converting Peak and RMS-Levels even if you just need
--one, I decided to export the hardware structure, so that of
-+one, I decided to export the hardware structure, so that if
- needed some driver-guru can implement a memory-mapping of mixer
- or peak-meters over ioctl, or also to do only copying and no
- conversion. A test-application shows the usage of the controller.
-@@ -112,9 +114,9 @@ conversion. A test-application shows the
- * Latency Controls --- not implemented !!!
- 
- .. note::
--	   Note: Within the windows-driver the latency is accessible of a
--	   control-panel, but buffer-sizes are controlled with ALSA from
--	   hwparams-calls and should not be changed in run-state, I did not
-+	   Within the Windows driver the latency is accessible via
-+	   Control Panel, but buffer sizes are controlled with ALSA from
-+	   hwparams calls and should not be changed in run-state. I did not
- 	   implement it here.
- 
- 
-@@ -127,12 +129,12 @@ conversion. A test-application shows the
-   * Values -- "Master" "Slave"
- 
- .. note::
--		  !!!! This is a hardware-function but is in conflict with the
--		  Clock-source controller, which is a kind of ALSA-standard. I
-+		  !!!! This is a hardware function but is in conflict with the
-+		  Clock-source controller, which is a kind of ALSA-standard. It
- 		  makes sense to set the card to a special mode (master at some
--		  frequency or slave), since even not using an Audio-application
-+		  frequency or slave), since even not using an Audio application
- 		  a studio should have working synchronisations setup. So use
--		  Clock-source-controller instead !!!!
-+		  Clock-source controller instead !!!!
- 
- * Clock Source  
- 
-@@ -145,11 +147,11 @@ conversion. A test-application shows the
-     "Internal 96.0 kHz"
- 
- 		 Choose between Master at a specific Frequency and so also the
--		 Speed-mode or Slave (Autosync). Also see  "Preferred Sync Ref"
-+		 Speed-mode or Slave (Autosync). Also see "Preferred Sync Ref".
- 
- .. warning::
--       !!!! This is no pure hardware function but was implemented by
--       ALSA by some ALSA-drivers before, so I use it also. !!!
-+       !!!! This is not a pure hardware function but was implemented by
-+       ALSA by some ALSA drivers before, so I use it also. !!!
- 
- 
- * Preferred Sync Ref
-@@ -165,7 +167,7 @@ conversion. A test-application shows the
- 		 chosen. If it is not available another is used if possible.
- 
- .. note::
--		 Note: Since MADI has a much higher bit-rate than word-clock, the
-+		 Since MADI has a much higher bit-rate than word-clock, the
- 		 card should synchronise better in MADI Mode. But since the
- 		 RME-PLL is very good, there are almost no problems with
- 		 word-clock too. I never found a difference.
-@@ -179,12 +181,12 @@ conversion. A test-application shows the
- 
-   * Values -- 0 1
- 
--		 Using 64-channel-modus (1) or 56-channel-modus for
-+		 Using 64-channel mode (1) or 56-channel mode for
- 		 MADI-transmission (0).
- 
- 
- .. note::
--		 Note: This control is for output only. Input-mode is detected
-+		 This control is for output only. Input mode is detected
- 		 automatically from hardware sending MADI.
- 
- 
-@@ -200,7 +202,7 @@ conversion. A test-application shows the
- 		 Don't use to lower 5 Audio-bits on AES as additional Bits.
-         
- 
--* Safe Mode oder Auto Input
-+* Safe Mode or Auto Input
- 
-   * Name -- "Safe Mode"
- 
-@@ -222,7 +224,7 @@ conversion. A test-application shows the
-   * Values -- optical coaxial
- 
- 
--		 Choosing the Input, optical or coaxial. If Safe-mode is active,
-+		 Choosing the Input, optical or coaxial. If Safe mode is active,
- 		 this is the preferred Input.
- 
- Mixer
-@@ -240,7 +242,7 @@ Mixer
- 		 Here as a first value the channel-index is taken to get/set the
- 		 corresponding mixer channel, where 0-63 are the input to output
- 		 fader and 64-127 the playback to outputs fader. Value 0
--		 is channel muted 0 and 32768 an amplification of  1.
-+		 is channel muted 0 and 32768 an amplification of 1.
- 
- * Chn 1-64
- 
-@@ -250,14 +252,14 @@ Mixer
- 
- * Line Out
- 
--  * Name  -- "Line Out"
-+  * Name -- "Line Out"
- 
-   * Access -- Read Write
- 
-   * Values -- 0 1
- 
- 		 Switching on and off the analog out, which has nothing to do
--		 with mixing or routing. the analog outs reflects channel 63,64.
-+		 with mixing or routing. The analog outs reflects channel 63,64.
- 
- 
- Information (only read access)
-@@ -280,7 +282,7 @@ Information (only read access)
- 
- 
- 		 Should be "Autosync Rate", but Name used is
--		 ALSA-Scheme. External Sample frequency liked used on Autosync is
-+		 ALSA-Scheme. External Sample frequency like used on Autosync is
- 		 reported.
- 
- 
-@@ -315,19 +317,19 @@ Information (only read access)
- 
- 		 Sync-Reference is either "WordClock", "MADI" or none.
- 
--* RX 64ch --- noch nicht implementiert
-+* RX 64ch --- not yet implemented
- 
--       MADI-Receiver is in 64 channel mode oder 56 channel mode.
-+       MADI-Receiver is in 64-channel mode or 56-channel mode.
- 
- 
--* AB_inp   --- not tested 
-+* AB_inp --- not tested
- 
- 		 Used input for Auto-Input.
- 
- 
- * actual Buffer Position --- not implemented
- 
--	   !!! this is a ALSA internal function, so no control is used !!!
-+	   !!! This is an ALSA internal function, so no control is used !!!
- 
- 
- 
-@@ -357,17 +359,17 @@ Calling Parameter
-      Enable precise pointer, or disable.
- 
- .. note::
--     note: Use only when the application supports this (which is a special case).
-+     Use only when the application supports this (which is a special case).
- 
- * line_outs_monitor int array (min = 1, max = 8)
- 
-      Send playback streams to analog outs by default.
- 
- .. note::
--	  note: each playback channel is mixed to the same numbered output
-+	  Each playback channel is mixed to the same numbered output
- 	  channel (routed). This is against the ALSA-convention, where all
- 	  channels have to be muted on after loading the driver, but was
--	  used before on other cards, so i historically use it again)
-+	  used before on other cards, so I historically use it again.
- 
- 
- 
-@@ -375,5 +377,5 @@ Calling Parameter
- 
-      Enable Analog Out on Channel 63/64 by default.
- 
--.. note ::
--      note: here the analog output is enabled (but not routed).
-+.. note::
-+      Here the analog output is enabled (but not routed).
