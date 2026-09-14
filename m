@@ -1,109 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BE3631E84F;
-	Mon, 14 Sep 2026 18:45:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54AA93839BD;
+	Mon, 14 Sep 2026 18:46:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789411557; cv=none; b=IGRuICR/xP8fxY6TEjRcsI3LHMtmdfhc3sPFFXbzQG/FcNkXNOmtn5VkcpvTXSWWLeXYkFCyHyppIlZ5hazMHjV5EyQ1iiB/Fqx+qRRRkFdJJ7qb8m3mK257K0jSkJ3zItIrc4lfBbgGbedYMbqBQ1b1eIpP/GygAV+NtEp0zPM=
+	t=1789411604; cv=none; b=HCzYgHHtHtUmVDGzoOq/pqkANCAlEDPwGI41F5fgacxz0PogG19S29M/Z8sodUAx0Mq9WybTWsUgy8Ca06siGR/JDYc+mCLKrGtzPd7ZEHM266m1Iwu4/8mgaQDDvnT9tSUlIHGH4xd9cb1yFnlD4LK4ngo1QsSc8Z09PaiboTI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789411557; c=relaxed/simple;
-	bh=8VOZP+zwt31TXApxnfnI14pRAd9/bFtucNYDFhoOKvY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JC0zRRMpIaioeBkuCi/RGLK2e0FRXPS/1SApk8LkyT2SwUCeQQt7CZdBNccRTOPUWCn2u5adlr5HJHlTYx8DiJd4S4g3/pDh/5e0euSr3rmbdQH7M4Cndl7VOUEiLu8ULSr2c6p8LLmWYf0dgE4L2y/UkheVm99CQ4vFSIhmylQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HqNwQCAv; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789411604; c=relaxed/simple;
+	bh=5DwOM+JlHMrk7osczJmYDl5uYrjV0i9Og8D/yzEFyQ0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Rq2C5GFz4Q1Q2POWvF8Bczvn7qHoz5FsPJQnk3smLilYSas64Vv/2p3zHsydhcLpx5ZQtPi2m6ZngTZsrU6E+cnEstThqOeG+KJO+AMnvsJ3epq+siSK4ioYAaFihauyU6jAqoAD61fSJfcoWtP4eMWjQKLlHE8QyknAS3PkfQo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=AvQQXEbw; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HqNwQCAv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF77B1F000FF;
-	Mon, 14 Sep 2026 18:45:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789411555;
-	bh=i9gXA1RkdX4vMZMFUGwaIE3uoUpXpiFuI92B74HJ7J0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=HqNwQCAvMKD+GtGTB1UVnO5oeUzfzRSCLeRIQ/NI/5YC/RG8r3BPF3gt7Th8nmezh
-	 52/bjdtG4ljm5K2ylaznkBZ7klnQGPV+ZMsV/hFoADQuNk8YHaCYp+yofBFuAvnJZe
-	 ElLgLdKytCXrZdC6yCKHeoDbIQEcWWTVds2fhZpJEDzuVQ1nK9Bp319qhycp1fdkeN
-	 bWn/RODdLH2egWxUnfOaxYwKI40pI80/tPR6AkuP+W07vm6M08Yrox09wCd4bZYP7I
-	 cwkWlicYtvLmI0ccrZstiC05EfQg4gETzi5+40U10PA4kJMGRZYxFhUBBcuRe7kVRF
-	 h7NCB+gOQnemg==
-Received: by traversing.sirena.org.uk (Postfix, from userid 1000)
-	id 4D626FDBA8E; Mon, 14 Sep 2026 19:45:41 +0100 (BST)
-Date: Mon, 14 Sep 2026 19:45:41 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Gary Yang <gary.yang@cixtech.com>,
-	Fugang Duan <fugang.duan@cixtech.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	CIX Linux Kernel Upstream Group <cix-kernel-upstream@cixtech.com>,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	sound-open-firmware@alsa-project.org
-Subject: Re: [PATCH v2 5/12] ASoC: cix-ipbloq: Use
- devm_of_reserved_mem_device_init()
-Message-ID: <aqhA1bSbwBL3z5Ad@sirena.org.uk>
-References: <20260902194712.2003414-1-mukesh.ojha@oss.qualcomm.com>
- <20260902194712.2003414-6-mukesh.ojha@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="AvQQXEbw"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=jJGFCWeQVaCDhKRVdoRywcwM+hAI7Z/VaKx7DsHBri4=; b=AvQQXEbw9X9LaB7w27jIbWJNGf
+	xLWq4mz4j0bIibCOdptYlLKqmTzgj1eUbonj+4XeU2WzqVNonRXrdaEZwc/Y8JFatSWJy1aoHrleI
+	bpL4CfHPVvs3V5pEUjRtVFciS6uokXOg2TARnr61feloY3pwbxvbSiUlFpbWjEfhw2Z7EzZ7M7RWQ
+	eG0pqeDyrMuUgo6bc8accKcHCnRp8qczM+ZsJlZOT6696H+DHzNa9OREdTu31AkHrxCARf0XkR3o9
+	kDcAUZl050GcyXshNCy2c+wkg7Z5ui3soUAAtAWrmPbxYiigH8O1K+IDQiBEodB+us7P41hFdDAYP
+	riAc6BBA==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1x6BhN-00000004Tqb-2IMO;
+	Mon, 14 Sep 2026 18:46:37 +0000
+Message-ID: <e12e3969-2c25-47e7-840a-99e7d0ec2f93@infradead.org>
+Date: Mon, 14 Sep 2026 11:46:37 -0700
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="v9z/FgVXq66TVnlQ"
-Content-Disposition: inline
-In-Reply-To: <20260902194712.2003414-6-mukesh.ojha@oss.qualcomm.com>
-X-Cookie: Orders subject to approval.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: sound: hdspm: clean up driver doc.
+To: Takashi Iwai <tiwai@suse.de>
+Cc: linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ linux-sound@vger.kernel.org
+References: <20260914050900.1312415-1-rdunlap@infradead.org>
+ <87cxufombl.wl-tiwai@suse.de>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <87cxufombl.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
---v9z/FgVXq66TVnlQ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 03, 2026 at 01:17:05AM +0530, Mukesh Ojha wrote:
-> Use the devres-managed devm_of_reserved_mem_device_init() to ensure
-> the reserved memory region is released on device removal, fixing a
-> missing cleanup in the original code.
->=20
-> Acked-by: Mark Brown <broonie@kernel.org>
-> Reviewed-by: Gary Yang <gary.yang@cixtech.com>
-> Signed-off-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-> ---
->  sound/hda/controllers/cix-ipbloq.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+On 9/14/26 8:59 AM, Takashi Iwai wrote:
+> On Mon, 14 Sep 2026 07:09:00 +0200,
+> Randy Dunlap wrote:
+>>
+>> Do some overall document cleanups:
+>>
+>> - add driver name for clarification
+>> - fix some punctuation issues
+>> - correct some capitalization
+>> - correct some grammar
+>> - convert a few words from German to English
+>> - eliminate double use of "note:"
+>> - unindent Precise Pointer bullets so that they are not part of the Hint
+>>
+>> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+>> ---
+>> Question: Is the precise_ptr documentation applicable to this driver?
+>> 	Is preceise_ptr used in this driver? Not that I can see.
+> 
+> AFAIK, the precise_ptr has been dropped together with the support of
+> RME RayDAT and AIO models (commit 0dca1793063c).  Essentially
+> precise_ptr is always on.  Would you work on cleanup, too?
 
-Please submit patches using subject lines reflecting the style for the
-subsystem, this makes it easier for people to identify relevant patches.
-Look at what existing commits in the area you're changing are doing and
-make sure your subject lines visually resemble what they're doing.
+Yes, I'll update that and send a v2.
 
---v9z/FgVXq66TVnlQ
-Content-Type: application/pgp-signature; name="signature.asc"
+thanks.
+-- 
+~Randy
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqoQNQACgkQJNaLcl1U
-h9Cx3gf/aYLthuCMsMEQmoOqZmVaK7lkMZtutXAHSpVqlCF21WT8OUo8CHJUBOZO
-CqqF3j8USYxrpXTArB7zXq7WjIcSTQLU8LUANUpbY6zzjnwSJqg7no6Q/C2LdLAw
-6dCUZtYHRI5VmtEScEHPn+M3k+ny5NTAqKy9uwlQ+uthFreN5pEpmoFQiUmSQgik
-M4mnRZQQA7yQpfBDt2pp69KONsBH91wD3R0wcj7oHOOV8ma+CYtWty1uEOGtStBC
-5Vd9j6aOTBGU/3G/VzC8nl61V3K+bZX3AJZVBpGof1eV/sAxYW/MsT7wy0RZkAwM
-Lnu7P4u43Mi56mCA9ewYHpNXBgl0zA==
-=q00i
------END PGP SIGNATURE-----
-
---v9z/FgVXq66TVnlQ--
