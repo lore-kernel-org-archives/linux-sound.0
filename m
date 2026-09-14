@@ -1,85 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E12D472F9A
-	for <linux-sound@vger.kernel.org>; Mon, 14 Sep 2026 13:37:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CC973BFE4D
+	for <linux-sound@vger.kernel.org>; Mon, 14 Sep 2026 13:42:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789393059; cv=none; b=FUY5l/Q49x06Ac515RdAWQzPTeuTYWdvSaJPUF+SsnvjWPROy3xgy5YKUM3L4V+oTqHfoV3LwXZBqrbxfEB+pXsnFT2Qdr0D5zXWKfhSwFPGkt5ZOlB5iQ6KSEz4BzSeqvy6LgCpAlIb5BE6Q2l73GhpOeZL3ahn/ER9gKqm21E=
+	t=1789393323; cv=none; b=If0Y06jslVVxoQGU9gD7288a6ZzRs62nKWrJkdezDZgkTdqXJa/+OOCeo1+rTijlLezbE55lX95BN+R3U5kYzG0iwQEWNN90pcFExgsXKK6Xkrkf1prbWRe67mgOu+i0Cj3gAvKGPT6ywq+e6S33x1QaCIs1PnZmkmga1EYitq0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789393059; c=relaxed/simple;
-	bh=X/66vaaZ74peNi5iE2CRw0iwveJRlHGYiNfrwfd94GQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tTaYbR2NQo8VHv0Sh+EPEdz6Sf1y6bQ/rX06RlguoUYCpNpTfvD6ULHWqL7uXHlgcRgtLQYI6UNINCljBPkzqvTbwkSSI1aZVScYQHuudZophi/EsOfzrVpc4EFf+1dh8Csy85TeMTW/EgjsGoqQ7xrOgw9AbraDslKksRmLh9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nBlpTCRx; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789393323; c=relaxed/simple;
+	bh=PddB/J9MtdYNRVBKmIC2rQyphN1yaVNjGXFOy6TLFHI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=O8ctrpBaBNevnGKm0g1eqsvVjWylfvRBwy0jWvDBvnV2MSBIqGTUeLdcFIjtpeWBRTu5fauHphAImBM3Ls6GDSHDSWDZsUVyo2k8FRK+ti38LW/5HD/08j5dM+uCyQX01JbWkFIwnU+ek/lPrs/lyd0qZbX8o//jcew+gP0mehs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sTOfUo6b; arc=none smtp.client-ip=74.125.227.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nBlpTCRx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C309A1F00893;
-	Mon, 14 Sep 2026 13:37:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789393057;
-	bh=mGiuCnXaf83qk/9DZvNw4tfwfuzi3NA+LPb+nXw7Rx8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=nBlpTCRxBZ4M0FbYQr8YvJjc2t4h4WaLUg0ypRytG8DuctxCKIqYu34VWoJMO3v6s
-	 b5r/26A2AtTRGs5yKXfCIraKsz8EFJSKrHFlgj9zKhuMWUaqShM3uLpZLDJByk5FIN
-	 3t+djDCTlS5tA1Pu4X7TK4Flh9MYOuc8yJIrMrrjHks7rk9SLzQcQxB8c4kQmerFc7
-	 lkyU6WGKtzymZDwaxNXC2gxzp1xKYIPhpMHiryRjxhjer6uAOrcry3GEj+pCSOUcBF
-	 hceAt8jLFH2nmB6TovsmZhOA93vHZrfqrdxYVeQlJHS0JVHU9PEXbX52cCsS6byzD0
-	 UX5Ck43X0BL+g==
-Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id 598C11AC52F1; Mon, 14 Sep 2026 14:37:35 +0100 (BST)
-Date: Mon, 14 Sep 2026 14:37:35 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: linux-sound@vger.kernel.org
-Subject: Re: [PATCH 00/10] ASoC: add new DAI functions
-Message-ID: <aqf4n4Fcl_4Fe-x3@sirena.co.uk>
-References: <87qziwliaj.wl-kuninori.morimoto.gx@renesas.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sTOfUo6b"
+Received: by mail-pj2-f12.google.com with SMTP id d9443c01a7336-2d6ff23d82eso3295415ad.3
+        for <linux-sound@vger.kernel.org>; Mon, 14 Sep 2026 06:42:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789393322; x=1789998122; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=PddB/J9MtdYNRVBKmIC2rQyphN1yaVNjGXFOy6TLFHI=;
+        b=sTOfUo6byFjMoOmtCTEjE2sCm8r3Q0o7rmKpF5b2pDvKFgeOZRwb6dMVkAbyXItHtD
+         EypDeDEHiFVA290NrYjc2/Fm8D863mXGP0L7jQ3gBoUAlOqi/w5dCNMHGS1TJL8As2x7
+         x/mvupNB3g4P+HVwJz56tb8tA/pQcU5jjHiKmM0COdMVImfD7E5Z5MeqvTws7W1YzfNo
+         AujjK+VAIwnvbB/qz9tezTK3+PEwOmAx/efp5pF4WgAPgHplRH3NSrnL1xsc792Faopv
+         Qkf53r2YqUNxHRD8i6jULGTmXmQQhVbOyR4ks3mbNpsjeyxmXw4ujQtbCHecN0/CrP2i
+         dl+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789393322; x=1789998122;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=PddB/J9MtdYNRVBKmIC2rQyphN1yaVNjGXFOy6TLFHI=;
+        b=UV3o4vZdcusjRznodU81x+pRYjcy3hvQeEB4Wx1/icHpess9aDHuMNuhDSh68aN6cJ
+         3eZlWw2+gjDl28yyfnBGEUfRTZmq3/wVkaxffmBlj17yiOyFBZwOBU8ILzOqfvCA7bAd
+         lAEms4aEiitdirhm7ckYi4kT0ldxD7FuHwQmChnuVDF6ZMDuD8bDD+IVOPDeQxDJBNE1
+         1Q+msrCCAklz5XpNQgalcRUNAdl10VJo059gmp8guV1gWTNQQSE+1GhzfR4ukck4nDeZ
+         ONKldUBVypNmnrqkTj2kCMdEP2LrH32DLIW3+ogI9LpftTs6NuNBe1WqkjzdD5ttGAek
+         FCAw==
+X-Forwarded-Encrypted: i=1; AKwUvBzCvaqv4KKH6lSubbTUh48dxesnEfropq6cBj91Abe6qvYjFaeRawssg9Kckoo4c+Du1B3XOyHiba4XLg==@vger.kernel.org
+X-Gm-Message-State: AFuF++m0/gZS3erIoEAYg1ceSJGl8zTWMPULj2PiHw9gNNddoZGDtqpq
+	E+Rh9nb1TzOmAGrDJRN0S/wJJaB3ml64E8r5wDOJYW+JG2iarVAF76Rx
+X-Gm-Gg: AYBFou0HK6p0z4txRWdDwkAmFpF21tXVbLoNQt/RA9wbutjPoaWg8esfAWJ5OINjtgu
+	P67xu68ZqiPKbxBDn7dLiZmc5JlJLxS/v/Nn5NjrWlw1czmO896Cmcqzpek162oW26Qythvt47c
+	NfGOENkiXuNRRYIdSPVKULlQCWxYwEmnFNZwD0VE37DSSxra4G5+AM5tiP+0omT7IoRzXCOLlPV
+	9VAnlrRSXjDa1qid1w533PmzpvI6jHZX7FGoEDECWp2DzEQAVjtXX7IHXVz5haleqAm/LhoM0OZ
+	oX1Inbo6Yeyb2cUH0JnlMs0iHMWp6RZ0yltDRp84OacDTsHAs7/UsnFB6M9qSUS61FHq9s7/3jI
+	TXJf5xrCrbi8qEngHj3r1pc/G5/o6WcVH0h5Nyh98ho0+EOeIpBoFf4X/C8ttmryU54giCLPHnT
+	UdbKO60pN2pLs9j2erkPh/SxGzh3A/J/xsrnfk204ykUge2QpMXPExuX7phwGddDCeybelRHe2b
+	iM5MJ1tLfKbynlEgLPybDEYtxphKFRDdnegWDyVJtTl5q5SH3Hlz1I4FIa1QbisuXAFCyU7oM4V
+	Wj6F1YljUuOBsW13uQxvdpqCThsT97w=
+X-Received: by 2002:a17:903:4585:b0:2dd:190e:28b6 with SMTP id d9443c01a7336-2dd6c6e2812mr38152905ad.2.1789393321736;
+        Mon, 14 Sep 2026 06:42:01 -0700 (PDT)
+Received: from cachyos-aura ([45.112.148.109])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2dd2cff6e80sm48982875ad.78.2026.09.14.06.41.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Sep 2026 06:42:01 -0700 (PDT)
+From: Navon John Lukose <navonjohnlukose@gmail.com>
+To: rf@opensource.cirrus.com,
+	david.rhodes@cirrus.com
+Cc: Navon John Lukose <navonjohnlukose@gmail.com>,
+	broonie@kernel.org,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com,
+	linux-kernel@vger.kernel.org
+Subject: Re: ALSA: hda/cs35l56: same calibration condition logged at dev_info() and dev_err()
+Date: Mon, 14 Sep 2026 19:11:54 +0530
+Message-ID: <20260914134154.1295196-1-navonjohnlukose@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <4621b455-9460-4f45-88d7-303b6243ad45@opensource.cirrus.com>
+References: <20260914000308.108995-1-navonjohnlukose@gmail.com> <4621b455-9460-4f45-88d7-303b6243ad45@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="cUScAemSGBZpzMtn"
-Content-Disposition: inline
-In-Reply-To: <87qziwliaj.wl-kuninori.morimoto.gx@renesas.com>
-X-Cookie: My vaseline is RUNNING...
+Content-Transfer-Encoding: 8bit
 
+On 14/09/2026 11:09 am, Richard Fitzgerald wrote:
+> However, I can reword this to say that in most cases they
+> indicate the same problem, though not necessarily.
 
---cUScAemSGBZpzMtn
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Mon, Sep 14, 2026 at 01:43:01AM +0000, Kuninori Morimoto wrote:
-
-> This patch-set adds new DAI functions to get dai->xxx, because each
-> driver will not be access to them directly when capsuling has done.
-> This patch-set just adds new functions, but no user for now.
-> All user will use them at (A) timing.
-
-There are a couple of users updated:
-
->  sound/soc/mediatek/mt8188/mt8188-dai-pcm.c  |  5 +-
->  sound/soc/mediatek/mt8195/mt8195-dai-pcm.c  |  5 +-
->  sound/soc/mediatek/mt8365/mt8365-dai-dmic.c | 10 ++-
->  sound/soc/mediatek/mt8365/mt8365-dai-pcm.c  |  4 +-
->  sound/soc/sdca/sdca_asoc.c                  |  4 +-
-
---cUScAemSGBZpzMtn
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqn+J4ACgkQJNaLcl1U
-h9AlBQf+LNSxg9JwdRSFgz1EPmmu59wxVY5qHJVer9UXOMwuwPdA2/yYFXuEuCQg
-eiC83CYI5t7JRT1XteLVisEZbE/kJAgMSrF6THU0Sn+89JYrvTfDVjgwOHGBGCqb
-OHxEuOmHs0quHbVKg+BnlJcCMq0EFqvnwICEvVYOf9uoHGG8h4sVyHo8SFdUm1Vv
-XWr2q5PY4QKK0Z8c6V/Mx1+G2j2fCCl+d98rsKTuycMxqzEqtPi1C9dXaYaEk9Nn
-+7WVy9/511VIUlI7JCp7kz4wTGpppTjST5qhNgeWBmtgadfahak3cn11yyM+G1lg
-8KVGwvGRrepP6l+FJ5LAbz/WXK2Sjw==
-=ddvV
------END PGP SIGNATURE-----
-
---cUScAemSGBZpzMtn--
+That covers it, thanks!
