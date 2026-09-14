@@ -1,131 +1,134 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF7A8391E44
-	for <linux-sound@vger.kernel.org>; Mon, 14 Sep 2026 07:28:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C31703C09E0
+	for <linux-sound@vger.kernel.org>; Mon, 14 Sep 2026 07:28:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789370914; cv=none; b=naSY8LRY4G8dCCaB/LZODKBF1KyZSaLJ3pgJm6ZXBm8I4efNVqNbGMydN1WJyT1mfJIHHZ9fR27NGwzFLylpBL9fStXKOOKeuAXM6cdF2joO49lMA8iozlt4X6nPsmOYOUPBvY60Jv8BOiTo8owZc9KOhfnAqQDAFBvYItj27ik=
+	t=1789370937; cv=none; b=r8Ww9Za3YJDRVRD0xggcjpeO9UlRZ4yYQY2ul7pbm4TVawj3++qrx2QH3gHm7OupGFxr2rqZ4mi/VMGsk5+SZNDBbe3jWTd9cWPQC/BtqJPzL+TPxFJelvsCwGIb9sqe6Z30CagVtj5ZfN5xfOAp0QWmUa3XuymnXfawp9aCMJY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789370914; c=relaxed/simple;
-	bh=3ax/ymwZNx8xLZo6Y0czXfjEBbuwpeapWRjEeLMiiuU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fHsvrz6a/LhWpLM+o4rwMrtZFb+cGJa4x8QbGV7de+38dBQj+jEAeCqrGksSRWj61PW75VrawHwwfiveekejrKtO+13coyozWK4Czy2EV0xaWr9OE+BpWWmH4l4WG0Jy5V3xI6HDaZDKgWzFECX0MdKP/tfoLVhzXR8Z3C9IHPQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=llIYbGSl; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1789370937; c=relaxed/simple;
+	bh=2CcPm7Cfm0LPYY+SBic1zMOSG4SC06Av06vGivN7fNY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qxZBeSaYNJsB6+F8JRYQdPJykv4m30J4K5h0CHo0UZVe0ORSZjDa6ErZ6OCy0WE3wQ/d4mL/34FvK3itlL9fV6LPEH2dnrFG50ZzvReC1ooq2gVMEANcO7mmx52T8BYQglxy3xjuj77EKdUET9SRd55XxHSMQUJ+DnUz54AdnSE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HvYKEGMz; arc=none smtp.client-ip=74.125.228.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="llIYbGSl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789370912; x=1820906912;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=3ax/ymwZNx8xLZo6Y0czXfjEBbuwpeapWRjEeLMiiuU=;
-  b=llIYbGSldLKH9WpKb/5R3+1wda0koSYiM4T7aOPTlmNfNDBI3dT/Jcn7
-   rJWebResrqygUJbhrDBuZS2ir/i0aGoapnxP63qsN5P9wfAI1l2Rbqyz/
-   NAqZMXaIWuHA1c3FuktSEC2r9FXwvZUritX8KTEk27EJb61a7uPQMg8jo
-   PuEosulW9MdxXUrJG4Deb5ngWn46EMblYL2yAPi35F8NaiuWuckeQZN8M
-   1U9MnH3jAK4JkYn78nVpKVQ3oLzdcgWQZdrlE/w9I2WVUWzPBObXJGZeM
-   hSuM2zrZCd2IMMw6f/8OEZFTqSgJ/IpLWLzyTLsQH3YXZzXlzxVVm/keg
-   w==;
-X-CSE-ConnectionGUID: Mkt5OQH1R4Wp4JkpBB01nQ==
-X-CSE-MsgGUID: NregeQiXQlWyZElioyn7YQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11904"; a="92231064"
-X-IronPort-AV: E=Sophos;i="6.27,102,1787036400"; 
-   d="scan'208";a="92231064"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2026 00:28:32 -0700
-X-CSE-ConnectionGUID: bQBIxncKQVC7peuAgLt3vQ==
-X-CSE-MsgGUID: 1fuw2iZ2SSmmdLuSvWalOg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,102,1787036400"; 
-   d="scan'208";a="269284808"
-Received: from alekseim-mobl.ger.corp.intel.com (HELO [10.245.245.32]) ([10.245.245.32])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2026 00:28:29 -0700
-Message-ID: <30950a7e-25ea-4b32-94ee-70c7357ffcaf@linux.intel.com>
-Date: Mon, 14 Sep 2026 10:28:41 +0300
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HvYKEGMz"
+Received: by mail-pz2-f12.google.com with SMTP id 41be03b00d2f7-cc4c3304833so1236153a12.3
+        for <linux-sound@vger.kernel.org>; Mon, 14 Sep 2026 00:28:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789370936; x=1789975736; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=0PXm0Hk8s8gy5/waTkuG4N68LdsLQ96+cyFMyC7Q3Yo=;
+        b=HvYKEGMzFUPUCpMJjs3UKVe5BtIxYOB0xo+jdd49HblPWu1rragxb0Yum9cn2s6UOI
+         /LjPQmOyipDfhNH/UL+g37aOIPjVgMV3YaZ4Vpcxyf/2JEINiVAaF48eIEPGImU7crh0
+         kj5OqvXlJsKaxPAqtMs5SRNoFDwzBPRMokCaLXYZ98wLdyxg+01RgQNWcIY2nOlhdSa9
+         O0ZXHfhlxn9CXvF332LdTSEnryHKpfPUA9Y29eyy8QwiIxjf8dr9DdM3lIYGSEYAV3CZ
+         NITLLTGKXdDAW027jAmkSCseFHdrYuEGGf0OE3HLyEGDJcV8Ha2luZMl2epDV/qhY/AZ
+         2mKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789370936; x=1789975736;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=0PXm0Hk8s8gy5/waTkuG4N68LdsLQ96+cyFMyC7Q3Yo=;
+        b=PgcQWF3xxA9PBJwxrkb3NekfUrRH53uI0RyCiPqL+eFw4UYIYehe7/XwwEoaIXAID+
+         bFqx4q3F6/FMdy2zD8cJhAstXR55RsQcwLbNY/c5ZeSFLNFXDVioHaO8bQD5aVCdJN2y
+         H1CxNsB5s5r/RH9mUs2pobvQ0kDwcM59Xh7GUzxgnLmZbeVUa8egwHi64CT5a2RD5kAp
+         mhPXr/Dy4RbbZttBenTYwUGwCvnYaKFmptNdaHCMYfRV18Vh0aRnu06HI1wxXFhLUdcH
+         lvyTUzM/vQH5N5UkHf68x7QTxd+qqgpktYWE867CVrQDonnRjxo/hDE42d6u2BKtjpNJ
+         B9TQ==
+X-Forwarded-Encrypted: i=1; AKwUvBynpRR5xa6xmiMZBeuLMDKeAD6qwdoHXhw6oTSsjyiRG9BSmQgNenrNuziMNYb80e1AgLhLYesO4CrWiw==@vger.kernel.org
+X-Gm-Message-State: AFuF++nbC/6vB9ddYl2aRd/T95a7MaIN+Mwcskadiv7qtCkFvPIMCi3q
+	UW1yMDUzTO5GYygUG7CpDnfufimakhJirktKW5e8hdmZlukUmiMsUkrQ
+X-Gm-Gg: AYBFou2llTGZ+D0oWmN1d+gUbYNbSeol39HPWBDgg+w67k7tNZQw1z2a4QHoD+AZyGz
+	PcPETEl4g+xjJ86R1ZzKm/u1aOV1DB8KrMCCp7gjdYaEUIGWdtIxoBS1czSGp3lGxV5H/eqaGO5
+	FMEDcCh1i6HfjiepfRV3bHwE0iuOWAg7qxAQZxPoT+6MyRnEjVTLJS8/sd0U+T5A3DITaxjrAW2
+	eFZZAyD2jcOhbB1yR8S38b6wpnXUBxiYZQqI4KzWK+pmLNCLSiwWUhCAQOHemrfpkysKX0Fsnlb
+	CBdebbOwYPw57VdvU+fzdrmMlk3dCUKXTGstskoCEfNpqQTqDuTlYgc/8govnjqBxoiF6u/pVcf
+	ZVbIvQYebHP1vzhZ8cQl7EpsYdvXZ6vgWi3e/Qb13jCO8d3TU+zc5u2lKQrmpla2U+pMFtBtk3I
+	SKXxo5kzWI3Drwwquf0VWY+lbYvy/2LBhMuRgBxdI7Kl/SNELuEnwhMPb8jETzfRYmyBGgmJWi4
+	IU9KaTC8o7TNB+iDpGhhNE/zKgQ55WmlnqFgQKPpQ2jLyBLdB/qRU4BZzT/30wpj0tdfHAXq5+t
+	y2O9XLoESP7Sxjg=
+X-Received: by 2002:a17:90b:1d4e:b0:38f:5869:387b with SMTP id 98e67ed59e1d1-39debfaef5cmr2973318a91.9.1789370936217;
+        Mon, 14 Sep 2026 00:28:56 -0700 (PDT)
+Received: from phuc-desktop.. ([183.91.15.56])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39d957131f9sm19598245a91.12.2026.09.14.00.28.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Sep 2026 00:28:55 -0700 (PDT)
+From: phucduc.bui@gmail.com
+To: Mark Brown <broonie@kernel.org>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Cezary Rojewski <cezary.rojewski@intel.com>,
+	Cyril Chao <Cyril.Chao@mediatek.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Dan Carpenter <error27@gmail.com>,
+	cassiogabrielcontato@gmail.com,
+	linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	bui duc phuc <phucduc.bui@gmail.com>
+Subject: [PATCH v2 00/13] ASoC: mediatek: mt8189: Improve error handling
+Date: Mon, 14 Sep 2026 14:28:29 +0700
+Message-ID: <20260914072842.24420-1-phucduc.bui@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 18/26] ASoC: SOF: ipc4/ipc4-loader: Add SOF_INFO and
- CODEC_INFO to fw_config_params
-To: Mark Brown <broonie@kernel.org>
-Cc: vkoul@kernel.org, perex@perex.cz, tiwai@suse.com, lgirdwood@gmail.com,
- srinivas.kandagatla@oss.qualcomm.com, linux-sound@vger.kernel.org,
- kai.vehmanen@linux.intel.com, yung-chuan.liao@linux.intel.com,
- pierre-louis.bossart@linux.dev, daniel.baluta@nxp.com
-References: <20260911112152.28528-1-peter.ujfalusi@linux.intel.com>
- <20260911112152.28528-19-peter.ujfalusi@linux.intel.com>
- <aqRsL8fZercsabgU@sirena.org.uk>
-Content-Language: en-US
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-In-Reply-To: <aqRsL8fZercsabgU@sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+From: bui duc phuc <phucduc.bui@gmail.com>
 
+Hi all,
 
-On 12/09/2026 00:01, Mark Brown wrote:
-> On Fri, Sep 11, 2026 at 02:21:44PM +0300, Peter Ujfalusi wrote:
-> 
->> +static int sof_ipc4_query_sof_info(struct snd_sof_dev *sdev,
->> +				   void *sof_info_data, u32 sof_info_size)
->> +{
->> +	struct sof_ipc4_fw_data *ipc4_data = sdev->private;
->> +	struct sof_ipc4_tuple *tuple;
->> +	size_t tuple_size;
->> +	size_t offset = 0;
->> +	int ret = 0;
-> 
->> +	while (offset < sof_info_size) {
-> 
->> +		tuple = (struct sof_ipc4_tuple *)((u8 *)sof_info_data + offset);
->> +		tuple_size = sizeof(*tuple) + tuple->size;
->> +		if (tuple_size < sizeof(*tuple) || tuple_size > sof_info_size - offset) {
-> 
-> tuple->size can be 0...
+This series addresses part of the error handling in the MT8189 AFE driver.
 
-It cannot be 0, the tuples are built in firmware and they are guarantied
-to be correct.
+It propagates errors from clock operations and runtime resume, validates
+clock parameters, and removes redundant error messages.
 
-I guess I have added this check based on comments, but I would rather
-remove them.
+Compile-tested only.
 
-s for the specific CODEC_INFO, it is also granted that the tuple->size
-is not 0:
-https://github.com/thesofproject/sof/blob/main/src/audio/base_fw.c#L111
+Link v1 : 
+https://lore.kernel.org/all/20260910125742.150902-1-phucduc.bui@gmail.com/
 
-In fact, all tuples are added in a way that the size cannot be 0, but
-the check in the code is incorrect, it should be:
-if (!tuple->size || tuple_size > sof_info_size - offset) {
+Changes in v2:
+ - Update the names of the goto labels.
+ - Check for zero frequency since freq is unsigned. 
 
+Best regards,
+Phuc
 
-> 
->> +		switch (tuple->type) {
->> +		case SOF_IPC4_SOF_CODEC_INFO:
->> +			ipc4_data->codec_info = devm_kmemdup(sdev->dev, tuple->value,
->> +							     tuple->size, GFP_KERNEL);
-> 
-> ...and devm_kmemdup() of 0 returns ZERO_SIZE_PTR which crucially is not
-> NULL so things that later check that codec_info is set see that it is
-> and try to dereference it.  We should probably also check that the count
-> in the codec_info isn't oveflowing the buffer.
+bui duc phuc (13):
+  ASoC: mediatek: mt8189: Return error for missing regmap
+  ASoC: mediatek: mt8189: Propagate APLL enable errors
+  ASoC: mediatek: mt8189: Propagate MCK enable errors
+  ASoC: mediatek: mt8189: Validate MCK ID
+  ASoC: mediatek: mt8189: Propagate reg_rw clock errors
+  ASoC: mediatek: mt8189: Use dev_err_probe() for clock errors
+  ASoC: mediatek: mt8189: Propagate runtime resume errors
+  ASoC: mediatek: mt8189: Remove redundant error message
+  ASoC: mediatek: mt8189: Propagate APLL errors
+  ASoC: mediatek: mt8189: Propagate MCLK errors
+  ASoC: mediatek: mt8189: Validate sysclk frequency
+  ASoC: mediatek: mt8189: Propagate TDM clock errors
+  ASoC: mediatek: mt8189: Validate TDM MCLK frequency
 
-We trust  the firmware provided information. If we cannot trust that
-then we cannot trust on the size / count it provides either and there is
-nothing that we can validate.
-
-We don't have tuple size checking for fw_config or hw_config either.
-
-To have a compromised fw booted it involves obtaining a secret signing
-key to sign the compromised fw and a root access to actually deploy to
-the system.
+ sound/soc/mediatek/mt8189/mt8189-afe-clk.c | 136 +++++++++++++++------
+ sound/soc/mediatek/mt8189/mt8189-afe-pcm.c |  49 +++++---
+ sound/soc/mediatek/mt8189/mt8189-dai-i2s.c |  17 ++-
+ sound/soc/mediatek/mt8189/mt8189-dai-tdm.c |  17 ++-
+ 4 files changed, 155 insertions(+), 64 deletions(-)
 
 -- 
-Péter
+2.43.0
 
