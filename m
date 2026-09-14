@@ -1,36 +1,36 @@
-Received: from mta0.migadu.com (out-204.mta0.migadu.com [91.218.175.204])
+Received: from mta0.migadu.com (out-223.mta0.migadu.com [91.218.175.223])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16BA53859D3
-	for <linux-sound@vger.kernel.org>; Mon, 14 Sep 2026 18:29:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.204
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E28038AC90
+	for <linux-sound@vger.kernel.org>; Mon, 14 Sep 2026 18:29:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.223
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789410561; cv=none; b=X7OINglJxiEMMEs1B6nt3FH1ZbsYlm1W6zuSV6IsmhBSFpVSgGmbwa4uye/Rzd7FNrDKTKbzVVXxWBYpwRo6wCL9qmQv1q0JIeEObqnwSbot3B8WDyldAviMOfwAc/PAuwi5364mdhI3fis1iKQSHpzjOih7IesUj1m7aOVBqzs=
+	t=1789410562; cv=none; b=SRzc9uGVj/tAuBCJ8/yPl/WD0G7CggIF6PyXp3ZNVYDHWUCEyeQT72eHxGqgrdSK84auuYmipnoWfy0B5L2dnUL7agrU5r6V5747iqmB4VrqZH/oA0A1y3WBIanIe+o19d5Qsot9/FN0TiwmZoJ+6MFAtOGDZ1oGqPUadZwf5d8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789410561; c=relaxed/simple;
-	bh=qObNzLXGSe7+Pmcx9Xq5nh28Or/vlg/B3dDK4Ucq8e4=;
+	s=arc-20240116; t=1789410562; c=relaxed/simple;
+	bh=oiUF5LhxlHtYbTxjopkGNneVmugHN51Eq7CGGnZam7c=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VSkeJAv3Fc8g8hTPzKpkIhP6kpl405xiUcI53PuewVRj361WYC6lppz3vbNnL6EHk2Myogb8ZZFganVK9GMdnbSkaKwCI6fXYCLnFwcqXYAFHV4woRcMeeAn4axhhDgOCBx3iw/QrUcMXGYhKpbx8YEGVRWSJUijVqZR5KonjMg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=dI9KGDtP; arc=none smtp.client-ip=91.218.175.204
+	 In-Reply-To:Content-Type; b=bgNMcfmP42jahT3708XppcoBq+xiKDnmXDG+2Ed66oEZFpp1zeS/PRl0uOGwvMVZlR70NHgA/0wZCgiG6IdNrFqXmn6a7VnZBqwyq85m/C6Dy4TbvG2X5AiZ+buJoxZ0IoyF8cCqDpFHjPeNymXZhVub//noEc4aevB7nIxTIg0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Ejzlphn0; arc=none smtp.client-ip=91.218.175.223
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="dI9KGDtP"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Ejzlphn0"
 X-Envelope-To: linux-sound@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=qObNzLXGSe7+Pmcx9Xq5nh28Or/vlg/B3dDK4Ucq8e4=;
+DKIM-Signature: a=rsa-sha256; bh=oiUF5LhxlHtYbTxjopkGNneVmugHN51Eq7CGGnZam7c=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1789410554; v=1; x=1790015354;
- b=dI9KGDtPaHyHth18ymZLyq7sVaOKTv72PwiLl8YBpnTB+pD6SMFt0qArJTUK9PeYDYC3hZZQ
- Igokrt1f5QVGARfrSRkwTivl+NVv4fssIIkuDQaU0FDz4hjuS3fuc+hzbJqNs7DBoEwDcGOm8Co
- DmpsWExJUAAS8Fjkg4NcMnqA=
+ t=1789410557; v=1; x=1790015357;
+ b=Ejzlphn0Vu+wMB4ePv4GJDq8Ynn9cQqvSpCU10hF+uxC8F80TICdVTbCmo6KiSutmeBR4fI1
+ hocfncLt4Vl1ncC8qP1A+6CPpapeUB07ZBKFvbk54LI18nrO88VK9Tb5SxifhursPBzyf2G9+t3
+ s7xQxC8rGhmgUgO8HGQ+Mp4k=
 X-Envelope-To: linux-sound@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id fbdb2930a7d63bf4;
-	Mon, 14 Sep 2026 18:29:14 +0000
-X-Mizu-Trace-ID: fbdb2930a7d63bf4
+Received: by smtp.migadu.com with ESMTPS id 934f72edde8d4b3d;
+	Mon, 14 Sep 2026 18:29:07 +0000
+X-Mizu-Trace-ID: 934f72edde8d4b3d
 X-Migadu-Flow: FLOW_OUT
-Message-ID: <1ec1211c-51bb-4bd4-82c9-160216953c1e@linux.dev>
-Date: Mon, 14 Sep 2026 20:21:34 +0200
+Message-ID: <8c6bfa54-83a7-4d37-bbc8-d3384dfc6ce2@linux.dev>
+Date: Mon, 14 Sep 2026 19:21:32 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -38,63 +38,37 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] soundwire: bus: Don't unassign dev_num before
- unregistering device
-To: Charles Keepax <ckeepax@opensource.cirrus.com>, vkoul@kernel.org
-Cc: yung-chuan.liao@linux.intel.com, peter.ujfalusi@linux.intel.com,
- linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
- linux-kernel@vger.kernel.org
-References: <20260911161903.419814-1-ckeepax@opensource.cirrus.com>
- <20260911161903.419814-2-ckeepax@opensource.cirrus.com>
+Subject: Re: [PATCH 2/3] soundwire: qcom: add multi-master support
+To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+ robh@kernel.org, vkoul@kernel.org
+Cc: krzk+dt@kernel.org, conor+dt@kernel.org, srini@kernel.org,
+ yung-chuan.liao@linux.intel.com, prasad.kumpatla@oss.qualcomm.com,
+ jingyi.wang@oss.qualcomm.com, sibi.sankar@oss.qualcomm.com,
+ quic_srivasam@quicinc.com, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-sound@vger.kernel.org
+References: <cover.1789114385.git.srinivas.kandagatla@oss.qualcomm.com>
+ <0097b59e2b96d692b9fb542e207ee43f9dd44a7f.1789114385.git.srinivas.kandagatla@oss.qualcomm.com>
 Content-Language: en-US
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <20260911161903.419814-2-ckeepax@opensource.cirrus.com>
+In-Reply-To: <0097b59e2b96d692b9fb542e207ee43f9dd44a7f.1789114385.git.srinivas.kandagatla@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 9/11/26 18:19, Charles Keepax wrote:
-> Don't mark dev_num as unassigned until after device_unregister()
-> has been called. The driver may want to communicate with the
-> device as part of the driver remove operation, so the dev_num
-> should remain assigned until that has completed.
-
-That change looks fine.
-
-Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-
-But I am a bit worried about the dev_num handling now that I think of
-it. This is *only* at the manager level. At the peripheral level, the
-dev_num register has not been modified so the hardware still reports as
-ATTACHED with the dev_num whose mask was cleared on the host side.
-IOW we have a zombie peripheral on the link, and if we do a sequence
-rmmod/insmod things could be fun...
+On 9/11/26 10:21, Srinivas Kandagatla wrote:
+> v3.1.0+ Qualcomm SoundWire IPs can be paired to expose one logical
+> bus with more than two DATA lanes. One IP owns SWR_CLK and drives
+> the bus; the other contributes DATA lanes only.
 > 
-> Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
-> ---
->  drivers/soundwire/bus.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> Support this pairing on the driver side. A device link between the
+> two IPs enforces correct unbind ordering and keeps the peer resumed
+> while the primary is active.
 > 
-> diff --git a/drivers/soundwire/bus.c b/drivers/soundwire/bus.c
-> index aeaae5a57c89d..b17718f4277ed 100644
-> --- a/drivers/soundwire/bus.c
-> +++ b/drivers/soundwire/bus.c
-> @@ -175,8 +175,9 @@ static int sdw_delete_slave(struct device *dev, void *data)
->  
->  	sdw_slave_debugfs_exit(slave);
->  
-> -	mutex_lock(&bus->bus_lock);
-> +	device_unregister(dev);
->  
-> +	mutex_lock(&bus->bus_lock);
->  	if (slave->dev_num) { /* clear dev_num if assigned */
->  		clear_bit(slave->dev_num, bus->assigned);
->  		if (bus->ops && bus->ops->put_device_num)
-> @@ -185,7 +186,6 @@ static int sdw_delete_slave(struct device *dev, void *data)
->  	list_del_init(&slave->node);
->  	mutex_unlock(&bus->bus_lock);
->  
-> -	device_unregister(dev);
->  	return 0;
->  }
->  
+> Single-master deployments (no qcom,multi-master-mode in DT) are
+> unaffected.
+
+It'd be good to clarify how the command protocol is handled. Each IP is
+probably capable of handling PING/READ/WRITE commands in Column0, but in
+the paired option the primary IP is the only one that deals with Column0
+and all other DATA lanes are just data?
 
