@@ -1,41 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 688B948EC71
-	for <linux-sound@vger.kernel.org>; Mon, 14 Sep 2026 18:03:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04899484232;
+	Mon, 14 Sep 2026 18:03:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789408983; cv=none; b=kwK6l2r/BAZFlmI9vz5K8SK9Bs4rgLR0GfNffziEBmbIVcYyJTnqQffBZXZYH+8Qy0bNLG2IOWsrXf4FGJiCjwXaVoLD6eLFEYaL9PpigG7H7eBva/1bs/yKlOIIWJ49EgfYpDJxvyF9P0WS39GigPHcyksYWwAVw8JaTK2bfec=
+	t=1789408989; cv=none; b=e520DCg0BzFdDkyivVhEnzI1g03Nz98vVaJXEVsNA+6Z0tFs94ZCsJyN7Q2PW/elPuzj6k80MPqqAJby6JfpVnUkaJtInE/71y2UJWYhaGpDCvyp9UVlagGXQcc66RBXv8wan3lnsuQDSfKC+RyGDodXQ5XvKmwYdkjByE7IrOY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789408983; c=relaxed/simple;
-	bh=/rNHJ3rUR46A985iAA8ylJTVsYDxIkoL/TtliUeXJOI=;
+	s=arc-20240116; t=1789408989; c=relaxed/simple;
+	bh=gc6093ALfXfKohBY3JVjs/GFaF93Ilz9ifq3CwiCWEo=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=oVkjtVvS1YTpShv6i+fa7rykEZR0q82SwhNCXJLrISk0U/Oz7GBzRf4u/MBa3zH8bmSBRvF98LqfLj3E+CzmIO8T0LSUfYGxJXXgnCiaovcbNAUKgv6/0wcuyy2IHok4rOeRLTlU9B+zz591ryGuz+/WqX9duS1juBnkkphwdEM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mLUM04VL; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=lX0RhxZLLoOj66kT26n9HuDaY2xNpfC3y+La3geFzfWRdmfRieds+e78YkEBbQMM8ZJsbUpszjpUsp8ht330NcUAz1E8iBih3wIAvH7byidZPlYnj4Fk1YOG/TGlmYv4Kc2jB8Z/dAK2Pi6NKrYTgFcC4ZPivE+pikjbUxNMeL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mZeVXqPh; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mLUM04VL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C26ED1F000FF;
-	Mon, 14 Sep 2026 18:02:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mZeVXqPh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8B5A1F000FF;
+	Mon, 14 Sep 2026 18:03:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789408980;
-	bh=GebP2Fqx3bL6Dk2JHckmMKugy4bvrHoTzflhf4l2Tr8=;
+	s=k20260515; t=1789408987;
+	bh=J0e7lxESsd4vuyHG+6+WDdiSc9R3BrlrjSNIiyh280E=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=mLUM04VLMWOBgAl5D50n+9v6JaQ1DxZyaTTBI+WcH26XpUJNpaMKp110fLizTyli1
-	 SROF7/qLxO1mwBpxExSx6oJUWQSfkjGkS8PvN/9GoqLerp+TX89bdYGq5F80B5pZF2
-	 rmBZRQSzPs4hQtIvlTfFhCK4Ldmj1DOyLmb+WK2JyRL5m+1pe8M/Fduq4JdIhoUOSX
-	 vtqsY/sN57FCmFOrEIk8yQHaUCUxYGSsfDDrOCkfjzTMnWwWQExGSfUs6MQu/mdCnW
-	 Db1PH+Sgqc0Hyd9ZMLC/V26pSpoat5F4rGSSDL6ct7OjBo/53KfQGWguqWulI7sE0a
-	 ZhPDQS9slqT2Q==
+	b=mZeVXqPh7Ctf2Zz9uG8HiQJNZbZ+0/UQPZA0uZuk2BRolbkWJejmBQaGepHgDes5t
+	 X9s63hyp2ZlZ0UbHke6hmwOnUCVEq4waD+RIMNJJ6YSzYOBzyCLqMd8kLOfix4JbHy
+	 9YHZK7Db2s3ptfPlDJWbJkvaoH2SgV4ubwoS4kD0SPjFKsj6Xi9XOVYzyi4mIV4EYn
+	 hF4XUPJogExK/TB4bHNK+ZHxhwYzRtx6AwBGEtSxGmoZMW770bNyCfEDBtbCa+q+Gm
+	 FKAXpJTgaUk9bB4xBBxB+MfPyIDDA4au+lufMTDyba3DyQ2Z3hDzPDEbh+JOWiva9N
+	 OhauA62NtNxsg==
 From: Mark Brown <broonie@kernel.org>
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: tiwai@suse.com, perex@perex.cz, amade@asmblr.net, 
- linux-sound@vger.kernel.org
-In-Reply-To: <20260914101917.2969665-1-cezary.rojewski@intel.com>
-References: <20260914101917.2969665-1-cezary.rojewski@intel.com>
-Subject: Re: [PATCH 1/2] ASoC: Intel: avs: Use list_count_nodes() to
- simplify the code
-Message-Id: <178939581401.1239410.4823195178770792521.b4-ty@b4>
-Date: Mon, 14 Sep 2026 15:23:34 +0100
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: lgirdwood@gmail.com, linux-sound@vger.kernel.org, 
+ patches@opensource.cirrus.com, linux-kernel@vger.kernel.org
+In-Reply-To: <20260914131621.1461514-1-ckeepax@opensource.cirrus.com>
+References: <20260914131621.1461514-1-ckeepax@opensource.cirrus.com>
+Subject: Re: [PATCH] ASoC: SDCA: Remove redundant comment
+Message-Id: <178939641900.1239410.7735775481055471366.b4-ty@b4>
+Date: Mon, 14 Sep 2026 15:33:39 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,20 +44,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1272; i=broonie@kernel.org;
- h=from:subject:message-id; bh=/rNHJ3rUR46A985iAA8ylJTVsYDxIkoL/TtliUeXJOI=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqqDbFGCdbqaXUgoiPNhRoGHHLw+z539Ak1nDvB
- gPDYCiAhoyJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaqg2xQAKCRAk1otyXVSH
- 0OjaB/9wRb2F9G6l7TR28o2MFFV+pmYv5lLfwbz5DmDj/QFTy7In/hdZcRomzxxudGRQw7hKVcE
- fOeMhS5fYnhDKyqEAQbBm5c4ThDGtzRSLBYfbF9WLqYBpTfG08Q4FGICtV+LBc1ODwr0ds8663X
- kylQEVnPyYcrZJ5bNA12GT+jVX8GMgPrjsHmfsqJEHLtQQTl1RkU/0it9uwblitVns7TGNIxq2i
- TuBwTLwek/0ZnNego7ItysmU7GuwcMj3W+tGsT6TyLMbhso1McEQ35AjzATX8lgqs4B/at+L8P3
- 9KBcIGvTN1JtZwPgOuniAszIql8G7G++mJrM5Zwp7wA7H+Qo
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1092; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=gc6093ALfXfKohBY3JVjs/GFaF93Ilz9ifq3CwiCWEo=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqqDbVkvvDA/rMmaZrW8Hnh6i3nXte8+PNftzPu
+ 6Mt9bU4IiGJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaqg21QAKCRAk1otyXVSH
+ 0OLaB/99MjZIy5SmaM1tKHXqu4Nt+dvR8F8T8MQnABb6k6OrCrXHmVdt0+fYHZ5IXPeCY4OiCgu
+ bNdj6B+xvaQHJnSz6UA0iO+UhcgKksyJP4iN3opWLJmgchH3bny0MVWpMuIGUTsILrAo+H0fN+Q
+ X2vlY4WcZcmIMiYLcX6P4t6gGVdvBurg/ilhgZd3fqi16BIWKD2y7XwL000mNCQVq8iqy5reLfF
+ V2zCik2iwvx3kkDzvJngzlicJ2flbPPbHL+cVkyvbXbkxs2jntR2bleKw338Q3dIcFYysYsXAH5
+ f33MNtr5+/rkqOAudlSVtcwbR3rT6t+nmsZNdriG6WW8eVUR
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Mon, 14 Sep 2026 12:19:16 +0200, Cezary Rojewski wrote:
-> ASoC: Intel: avs: Use list_count_nodes() to simplify the code
+On Mon, 14 Sep 2026 14:16:21 +0100, Charles Keepax wrote:
+> ASoC: SDCA: Remove redundant comment
 
 Applied to
 
@@ -66,10 +65,8 @@ Applied to
 
 Thanks!
 
-[1/2] ASoC: Intel: avs: Use list_count_nodes() to simplify the code
-      https://git.kernel.org/broonie/sound/c/bb1719bd0caf
-[2/2] ASoC: codecs: hda: Use list_count_nodes() to simplify the code
-      https://git.kernel.org/broonie/sound/c/3411fcf7e1f7
+[1/1] ASoC: SDCA: Remove redundant comment
+      https://git.kernel.org/broonie/sound/c/4b49d276dba2
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
