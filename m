@@ -1,84 +1,86 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 549E12FE057
-	for <linux-sound@vger.kernel.org>; Mon, 14 Sep 2026 06:16:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2F3933A9DA;
+	Mon, 14 Sep 2026 06:18:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789366562; cv=none; b=Ogy41KAQepkJXbNKwz5tuNYqm/FqwZvYTVAl5mrrVDtf6X+3IF6K8D9FaneLN+E4RtP/gpJ2kRgYQH4PVyW1lb3MkYBg+Cj2Se7IIFnALmHFdLAsXurMnW0lJZwoTU+1llYI8A5LSytvqE1HB+cX3VUgmSTC4vTxFA5VNnn9Wxo=
+	t=1789366739; cv=none; b=Z7c2CnPbhPJXse2gm33UQ65k+eWo2q2c9yKUMizWOY2P4kjJv/XtYgSD77oNEIPuaFidWxZpiQWp4K6LY/K9oI/WfkE+8danCmi2xaBBb9DKhebT6pfLjVX7O17PxLuLsaasx0W/6tcAShvskGF8dsya0Tn9GYVYoJw0fTkjcqc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789366562; c=relaxed/simple;
-	bh=/WtKMj5Mofkxo0h6JiVlBChgSZ0nXAfzNBy1Fmegt9s=;
+	s=arc-20240116; t=1789366739; c=relaxed/simple;
+	bh=m2PW9f08I8Cu6oA63ICxXggNLlKtBNbpdY/lIEtGxKM=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=I1Yaoqw4OZ/2ozH9RfVWdDm23ItGmmn4FIrwLjJLEc7UH+DeY8BUPVC9EefssDBwTQ961yUf+2frzgCI+9uRso/sxTJYmS5y01nwzde59PkR4+YpATvnm6dX4wiKF16CqV88dZgSJv2DoV5aMHE35KYg2Metgkjwfp4kh6rLoU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=goT13yjF; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5l8jtdiY; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hN/1FvJm; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=F3hvk7f2; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=pRjN9ScWljwHFyOFPkf24x4zOZINeYboFbtXLm54xkw/sQyx7aNvcSLY/o5HEpnMvgjW1i7HPGRUtHLu8a4/L1iPS1jJAYTqW9Qlnt1jtfKphTBF/g2HvrSgIrIVc4WBOcv01/7mp1sZ7FyMpDp49EAcBISGtTZCCh+cfQ1IUYI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=BY9RqkbX; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Of+GPmO7; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=A5VMkhH0; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=CSmxQcv2; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="goT13yjF";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5l8jtdiY";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hN/1FvJm";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="F3hvk7f2"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="BY9RqkbX";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Of+GPmO7";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="A5VMkhH0";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="CSmxQcv2"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 2E22A219C6;
-	Mon, 14 Sep 2026 06:15:51 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 7AB911F836;
+	Mon, 14 Sep 2026 06:18:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1789366555; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1789366731; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=En0eitiR7wM7t/ZwII3Y2o0DssiIzD0TJAncKRp7E8E=;
-	b=goT13yjF/9wmrhRzNAoMoyHIz1dzZ+5NAbu90YRUdpyIIdPP3jq512v5u6BcL+8+zU0l6s
-	MOMagjxjysgcXso8S6mWCu46qPEC9QuhTfSEqgf64fk7JtC33ugnGmMUXYcAcNF4rFlz3g
-	hBy6b0i05VooWUwQDwC8dZAI01Ujztc=
+	bh=oZme78kNXZgDxFQ2xY8OCjMvaXH+aom+uvlM9QLK0XU=;
+	b=BY9RqkbX4uwC6bkFq0DM3hHCk69MbZ+PWWL4gnTML8JxE9Z8QjN/gpCj7e+gkglykZGaWj
+	Ip3aQhRtUvLDEMBg4yQ7m1POruDM3KD6aeTAZtaMNG5cQsfc46bggQMChRqRCAQbICXutj
+	e2VSyxXapmYhNK7PArIh0KHXIA1UO7g=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1789366555;
+	s=susede2_ed25519; t=1789366731;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=En0eitiR7wM7t/ZwII3Y2o0DssiIzD0TJAncKRp7E8E=;
-	b=5l8jtdiYAyUR67nl0iEW/dsoaboLHSGe6Kz3qWZ3wqlZcdWnIvhraMVyZDrxFMf+blkN3k
-	57Rm/Mib2LweboAA==
-Authentication-Results: smtp-out1.suse.de;
-	none
+	bh=oZme78kNXZgDxFQ2xY8OCjMvaXH+aom+uvlM9QLK0XU=;
+	b=Of+GPmO7pLoJlCS18w1zEyXUhYLKOWq5qtSyibLGHdeAnDndUtmxBDR35jXWcThu6msSZr
+	cVrH0zFRAsyRyXDw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=A5VMkhH0;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=CSmxQcv2
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1789366551; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1789366727; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=En0eitiR7wM7t/ZwII3Y2o0DssiIzD0TJAncKRp7E8E=;
-	b=hN/1FvJmzsnLXJ0d6jOLpNQiZVvZM91Y0t5Xge/3eHOgJuICIrJYjzHLlFHfc9zVYEdBG9
-	Rp1MeHELrvfmECd6FqW8YFycd4UbLWjDGHopmz/Ke7oA2CiOgYx3kHEfUyAOujFN7jDeEw
-	340JPqqvF81Vs+zq5eXicvmx/ZTX1u0=
+	bh=oZme78kNXZgDxFQ2xY8OCjMvaXH+aom+uvlM9QLK0XU=;
+	b=A5VMkhH0OQKa5R2q/9PpXPq74v68+0NZgqIhQB1DuB0gHp1Ney99nkZu4moYAs7l+v0UUI
+	XU0ZbIxOfJKM7TIL5mxPQIM0LsS13chDGXiC+SNv0b5MQ77Kd0d5GwYco2/EVxfxx9hbZO
+	gFg7geiuljsISYl50+cKaYN+A9WUHik=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1789366551;
+	s=susede2_ed25519; t=1789366727;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=En0eitiR7wM7t/ZwII3Y2o0DssiIzD0TJAncKRp7E8E=;
-	b=F3hvk7f2L1he1b2XJATfpZ1pWkRs9l0V13D/T0NYfUWjfGV0CgSwowvMDSp6NeWHrsVNJJ
-	OOqXxJNPuYm2wmDA==
+	bh=oZme78kNXZgDxFQ2xY8OCjMvaXH+aom+uvlM9QLK0XU=;
+	b=CSmxQcv2AkdA+S9vYcOE+UAArRyAukPIROvXn0eKRCI5/hyrwJymInfyVPouRL85lnis+6
+	UCVUXkt9XbD3PpBA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E074A13515;
-	Mon, 14 Sep 2026 06:15:50 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2B74613515;
+	Mon, 14 Sep 2026 06:18:47 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id +SGGNRaRp2r7fwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 14 Sep 2026 06:15:50 +0000
-Date: Mon, 14 Sep 2026 08:15:50 +0200
-Message-ID: <87tsnsqrxl.wl-tiwai@suse.de>
+	id tvBOCceRp2pABAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 14 Sep 2026 06:18:47 +0000
+Date: Mon, 14 Sep 2026 08:18:46 +0200
+Message-ID: <87se3cqrsp.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Xavier Goffin <xaviergoffin42@gmail.com>
-Cc: tiwai@suse.com,
+To: Kitty Makin <autumnull@posteo.net>
+Cc: linux-sound@vger.kernel.org,
+	tiwai@suse.com,
 	perex@perex.cz,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek: Add mute LED quirk for HP OMEN 15-ax
-In-Reply-To: <20260913211155.20305-1-xaviergoffin42@gmail.com>
-References: <20260913211155.20305-1-xaviergoffin42@gmail.com>
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: usb-audio: Add capture quirk for Behringer FCA1616
+In-Reply-To: <20260914002334.12691-1-autumnull@posteo.net>
+References: <20260914002334.12691-1-autumnull@posteo.net>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -88,48 +90,54 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
 X-Spam-Level: 
-X-Spam-Score: -3.30
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.30 / 50.00];
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 7AB911F836
+X-Spamd-Result: default: False [-3.51 / 50.00];
 	BAYES_HAM(-3.00)[99.99%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	FREEMAIL_TO(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	MX_GOOD(-0.01)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
 	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,posteo.net:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
 
-On Sun, 13 Sep 2026 23:11:55 +0200,
-Xavier Goffin wrote:
+On Mon, 14 Sep 2026 02:24:24 +0200,
+Kitty Makin wrote:
 > 
-> On the HP OMEN 15 ax-202nf, the keyboard mute LED is exposed through
-> NID 0x1b rather than 0x18. This reuses the existing quirk
-> (ALC269_FIXUP_HP_MUTE_LED_MIC3) to allow the keyboard LED to reflect
-> the built-in speaker mute state.
+> The Behringer FCA1616 (1397:0004) returns silent capture samples unless its
+> playback endpoint is active.
 > 
-> Tested on HP OMEN 15 ax-202nf with Realtek ALC295:
-> - hda::mute/brightness properly follows mute state
-> - mute/unmute via keyboard shortcut or via GUI volume control
-> - state is kept on suspend & resume, and reboot
-> - plugging a 3.5mm jack headset reflects the headset mute status
-> - unplugging reverts the LED to the speaker mute status
-> - USB/Bluetooth headsets are not covered
+> Use the existing fixed implicit-feedback mechanism to keep playback endpoint
+> 0x01 on interface 1 active during capture.
 > 
-> Signed-off-by: Xavier Goffin <xaviergoffin42@gmail.com>
+> Tested with 16-channel S32_LE capture at 44.1 and 48 kHz.
+> 
+> Signed-off-by: Kitty Makin <autumnull@posteo.net>
 
-Applied now.  Thanks.
+It's interesting that this capture implicit quirk is still needed.
+Maybe we can work around in a different way, but this addition would
+be likely simpler.  Let's see whether any other devices need to follow
+this pattern, then we can rethink.
+
+In anyway, applied now.  Thanks.
 
 
 Takashi
