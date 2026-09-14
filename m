@@ -1,131 +1,189 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 041093BFAF5;
-	Mon, 14 Sep 2026 10:47:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789382876; cv=none; b=lf+71CXRKDZMha0KdzJfhPtvswGDM35+eubWlInfBLbAMn+h3g+eH4jxs52OlhlTUaiMBuu775SnyMDPFu3ivu2FcnMLhWRz/UBxhluvc6KWZFgkvf3sOz/wphLQSmlKqIifAkslycd15neNSCv9A/JIR+fTL2B+wPe5lW4N0gU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789382876; c=relaxed/simple;
-	bh=YphhuIEr0fTPZFFG0wioG82gi0Gb9B0j7EjpZe3MlgM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=L5TCq5OZJyyRQT4qxgs+ClJD9QxnJWYOMmETO5lDtZ4f4XlpH2cs/wiTuhyvcghwqcbr7rRoI8+18TH7da5pdrkgHfiVNPerpWpnb7fT4MOCXBv43IZsTRlBMChoBg7ba96An7/0wrnU1i9V619JxbilgwzYQbIxviNhahONp6I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: b46b8df8b02911f19a56ed5b684f684d-20260914
-X-CTIC-Tags:
-	HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME, HR_CTE_8B
-	HR_CTT_MISS, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME
-	HR_SJ_DIGIT_LEN, HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM
-	HR_SJ_PHRASE, HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT
-	HR_TO_NO_NAME, IP_TRUSTED, SRC_TRUSTED, DN_TRUSTED, SA_TRUSTED
-	SA_EXISTED, SN_TRUSTED, SN_EXISTED, SPF_NOPASS, DKIM_NOPASS
-	DMARC_NOPASS, CIE_BAD, CIE_GOOD, CIE_GOOD_SPF, GTI_FG_BS
-	GTI_RG_INFO, GTI_C_BU, AMN_GOOD, ABX_MISS_RDNS
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:07cdf5b0-a8b5-4a06-b3f0-b04b8cae2a9b,IP:15,
-	URL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTI
-	ON:release,TS:-10
-X-CID-INFO: VERSION:1.3.19,REQID:07cdf5b0-a8b5-4a06-b3f0-b04b8cae2a9b,IP:15,UR
-	L:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:-10
-X-CID-META: VersionHash:7db8b62,CLOUDID:9bd63d9ec08bc900a0d253bc3b4fd0df,BulkI
-	D:260914184743QP54VZ76,BulkQuantity:0,SF:10|38|66|78|102|127|850|865|898,T
-	C:nil,Content:0|15|50|99,EDM:-3,IP:-2,URL:0,File:nil,RT:nil,Bulk:nil,QS:ni
-	l,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:
-	0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: b46b8df8b02911f19a56ed5b684f684d-20260914
-X-User: yijiangshan@kylinos.cn
-Received: from localhost.localdomain [(116.128.244.171)] by mailgw.kylinos.cn
-	(envelope-from <yijiangshan@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 1120140500; Mon, 14 Sep 2026 18:47:39 +0800
-From: Jiangshan Yi <yijiangshan@kylinos.cn>
-To: oder_chiou@realtek.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com
-Cc: shumingf@realtek.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	13667453960@163.com,
-	Jiangshan Yi <yijiangshan@kylinos.cn>,
-	stable@vger.kernel.org
-Subject: [PATCH] ASoC: codecs: rt712-sdca-dmic: fix uninitialized stream_config->type
-Date: Mon, 14 Sep 2026 18:47:12 +0800
-Message-Id: <20260914104712.379574-1-yijiangshan@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C7343D3CFF;
+	Mon, 14 Sep 2026 10:56:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789383414; cv=fail; b=Fv6ICeiDhIY6SMHTmRlFBd5Uz7az1UEswTO+yjulZzCA2lBU39D4mQrAPg4w8VMSqZVkxuaag9rQzIKw8EoSlCFVnI/6dKbSjw2q3koA3wN1HGfSpdpEixuRY5ByD27BGjN7FRcfju3BQTQ8P6zG6LEt0u5BvBcqezvt3/zfhT8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789383414; c=relaxed/simple;
+	bh=Mf+amyda1UFpMjwEpqn5RYgc0cat5Gy83JaXs3gz6fg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Dl51TPIUDH6U6uGfz3jYoJdrhqi/ATaftbVvUtKF/f4vb7Bnu0gmmZxDtUTMKGlojEEypx8WSMiQYeiU9Neimoovu5H5MiY6UuoBePra/ziiAs2rLcaIe/22gU6+ILKGcM6GrqZ+6QtGviUdbAwz6/Gj7FjH+T4SJQqhQm5bb4Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=S6loSRk1; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=gRNdNGn2; arc=fail smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="S6loSRk1";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="gRNdNGn2"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68E49B2j786064;
+	Mon, 14 Sep 2026 05:56:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PODMain02222019; bh=02OXRsnL0dqQvKQBXT
+	Y147djUE1hLnjuBi9UkLwTIvA=; b=S6loSRk1tncvvvUMwe8vtdnvkEOIXAsSny
+	0TJpDLa4OBTYetREG6FIQcHFJ38H9KxyKOI/fY/qb480q5say2frJzg1GbS3vRXx
+	CvYcKvNoFtw9sp36v1yHZp34HiuQTWy+5pz1GgW8DT3wCeq8AawB7zFh9eT1qilY
+	hz+Fc5eOcsdMzrcTwaCiYznXevRBxYhgVSU+7l/vNS6V5ovA+1UJobyoVpbTORel
+	Dy21pPHeeMeo1WhcsuzmZK3MwQdEWo5TFX3m1hLf4TErBrxpcdiCt9P3Yu4pGFiH
+	R7NQmmmnuThtYVO4V8z1xAbZ1YnJmSqbrTy/SIezGsgUthcQXqWQ==
+Received: from ph0pr06cu001.outbound.protection.outlook.com (mail-westus3azon11021092.outbound.protection.outlook.com [40.107.208.92])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4gn44w9qat-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Mon, 14 Sep 2026 05:56:34 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=iQPz6sDjRZs7tka52qLTgG29LsnSwp7spwz9KlA3HvZ4YmANGgzFX7boEhNxmmUxEVYqHe9/m+N748zO9fgVgu3BLv0rMAQFIkIV+65oS087GntMiPrvuYMT0rNx29HvrGXIHeqGQCu6u/cTI/yNusTFzfJPYZ/h/Y6WcToqbTy8vAz67GEWnDMHIHQnCAraUi1KmQcE9Evi7jQlQTJ8SWSXrXjfHQV2fak8FTKU9jv80oI0x0uOnbA4HlHDsDuUwymfsZTkL4WLAfN5yPo0/z3gMAmJjy7/zyTx0yPYGc0ShQWgZManHpXS9w2Y4TbGVQxkD7OCYpJO4CqFhZE1mw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=02OXRsnL0dqQvKQBXTY147djUE1hLnjuBi9UkLwTIvA=;
+ b=ii/wvcRP/mjvMUmicI18wbRdN9CN/34aM+C3lqBW3mY2yrVoK6R3OZs7fjtRjILSKnoMsExMCe1f+c3PsQ1ipMYL2jDW/DtSQdZu9l/SvE6I55csU7VpsQb8GFDwGf7FDMaVuVu35O1oL+OKeC5X4eAd4wqCdzzCEyUV8pzZvWYYY+s3IeMH6kfRxqlkQkKYJxmSt8W+85SQvYOYG9sxeN87YxfxN4Q/IV9Vi2XymPLSIRjHTGlgr65pXaFLbo0iANmyygGlPrwl2WA9mQHFSqLeNUVVERIj5QQf4TuYn01dTmCBZzGmngIkzByGA3d/1bl5ePTlTT65dkAjguJ+iA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=02OXRsnL0dqQvKQBXTY147djUE1hLnjuBi9UkLwTIvA=;
+ b=gRNdNGn2j+dRtmK/BVGuT14wgNk5sges/Aofxkp8uYEI6yQ5CgNE+wGW7V/uNP6gy9JbqmTx7e/SE/5+ompSVcQLqE6FsHSjYnHT10EnyBobz8RivhLXm+8tqlCKXlmhtY0JW/f6YkqyA7QQjPaBG9Q33BXTXQ4p3LRqG3PQBTc=
+Received: from MW4PR03CA0003.namprd03.prod.outlook.com (2603:10b6:303:8f::8)
+ by SA1PR19MB8071.namprd19.prod.outlook.com (2603:10b6:806:37c::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.12; Mon, 14 Sep
+ 2026 10:56:30 +0000
+Received: from CO1PEPF000075F4.namprd03.prod.outlook.com
+ (2603:10b6:303:8f:cafe::3d) by MW4PR03CA0003.outlook.office365.com
+ (2603:10b6:303:8f::8) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.406.11 via Frontend Transport; Mon,
+ 14 Sep 2026 10:56:29 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ CO1PEPF000075F4.mail.protection.outlook.com (10.167.249.43) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.428.7
+ via Frontend Transport; Mon, 14 Sep 2026 10:56:28 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 641E740655E;
+	Mon, 14 Sep 2026 10:56:27 +0000 (UTC)
+Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 4091A820247;
+	Mon, 14 Sep 2026 10:56:27 +0000 (UTC)
+Date: Mon, 14 Sep 2026 11:56:26 +0100
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Chancel Liu <chancel.liu@oss.nxp.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+        Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>,
+        David Rhodes <david.rhodes@cirrus.com>,
+        Richard Fitzgerald <rf@opensource.cirrus.com>,
+        patches@opensource.cirrus.com, linux-sound@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/6] ASoC: wm8962: Fix regulator notifier and beep leaks
+ on card re-bind
+Message-ID: <aqfS2k1TS/meEIkI@opensource.cirrus.com>
+References: <20260913101531.2787654-1-chancel.liu@oss.nxp.com>
+ <20260913101531.2787654-2-chancel.liu@oss.nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260913101531.2787654-2-chancel.liu@oss.nxp.com>
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1PEPF000075F4:EE_|SA1PR19MB8071:EE_
+X-MS-Office365-Filtering-Correlation-Id: 11b3120c-0a12-47d5-4f33-08df124ed47c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|30052699003|376014|7416014|82310400026|23010399003|61400799027|36860700016|22082099003|18002099003|16102099003|4143699003|10067099003|11063799006|6133799003|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	JDvuZWgsNqR+3kEakOKFmny9QUrO/40lC3DXJc/vzxHZhk3YsZggU+GdUxpr1ICPHOG5+f5aX2VHVj8oXXZzKFTZEGoPzlKgp1f8+8kk+zXaOvUsgz1o6mziL+Luotuc3xjAtrroqcqjrmjrSfHzbsY7bzvyGSDDjfJQCLn5oKOeMVgo1Xx9jbWW4avTqniJP/jKNi3A+6qfi6p7q18rm23uW1oQq8pO4PEZD6HCZnyndQ7XJv4UxsGux+6bQ3WcpJ0KG7tiDkdt7pnZXHDLecIBHsDZF3Um4sAJd07A7aeGJwrTEWw2MBoyJqOJOdgVqbRa4ZG8gbuaZRQB/82yVqnRld3dyvFPOhUXqN9TJcG4nKJEvbAQ01vJFPxEnE/pZvS/lwI7u6b/4ZB3rkoa7cxHCQ5a2IyjOzFN6bYWgI0UoxbkcOCbHzD/YYvyaexbrJzVSJH5Urztks7Lwo+qz12x3uiokfuWZLQzvAxtD2SblyEh+qN7DmuLiJ0xtuGkI4hmA7d+kKhaRicv1LeioMwsNq/JxfN3hyeS++D6Od9ONIaVe74SmToMbJtsbCI7POMWedoM7mHPG6jxSWBpGuntn3jYqN0/eJN7hEo+tyfn2RQ7GwGqRsbodXQqhdyh5O2oTMZPeFwSLA9gI7B5f/8Uzq/4WtmgUinSKC80oM8Ox8Ur7n7mbII2OIKGi1AUz+v+4j4fpM0Y2nPBSPXrzQ==
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(30052699003)(376014)(7416014)(82310400026)(23010399003)(61400799027)(36860700016)(22082099003)(18002099003)(16102099003)(4143699003)(10067099003)(11063799006)(6133799003)(56012099006);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	0ppPphHUEdrcHrj4y/hFO4HfkX8uC3jDIPvnyOJeDaX4jo4ohcPfzr3uWHtpQewVlTvcscNer603N8GMxT6X2Q8RCwzP49svp+QStsxrQsusiwDhaCrzmTZdguI9/wvdpee3gYGtcte5Pjs/11OMKKXJXIVbs5TAaptk29+wEgg6LLp8Zg+beA1+DzxDMmXfLgP6EEmnnFYHxnft3rOOK9BHyVMh7ajegJVmiGkaGIO+fy9ayy/ScsSgNR5vNnBgE7Ci/9j6LwgxAiHg2YJSSVwankR/4CSeQQd3oizOK6jyr4oKHY4zkbq4Ez1x5XmYAGGGGgZ2EUj+S6nSuJ1zQr7sN3O+iZNsgJZzkXMxb+5wW8kyGNsHNwAJfYc5cJj1x+fj7SIWEf+02EUwnhv6Dm+nmo/GnUQQ56qJT2fZM8PHKPcQXm4fwQY89lZEjW7s
+X-Exchange-RoutingPolicyChecked:
+	n9tlCHFOVeYsg36hqPz6dW7XOYks7tA/wwyHuQS8+ABH3idbLe7UFKq0NVG+Z8K50yszqZtZhB8mmLJkD2GNne3UlC2XmaQdgqsVf8ygLlDV1DuxA+nu4DWEe3DdrK9fv9A8rozZqXGSKgdRRUmuYPGYPo1NPygMvHZctonAsh10MeRkygnpMLuZUYU7N1HXfmoO58i4yZ+or2fd4jd2zO7M1ExFhVPxj7f5+nWjigymZ3STGDzImYiL/cwb0fweziOBX4u6aiWLgcttyqhIw4hg3I9Yl7ZFeSkTppRgp5r4H6ciWuXOLkwIFbt9IjNAiY5HvrWxxCRzbh++L5rqTg==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2026 10:56:28.8285
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 11b3120c-0a12-47d5-4f33-08df124ed47c
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-CO1PEPF000075F4.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR19MB8071
+X-Authority-Analysis: v=2.4 cv=A+T5rKWG c=1 sm=1 tr=0 ts=6aa7d2e2 cx=c_pps
+ a=N7hQvVYZfm862vJ1WlRLdg==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=kj9zAlcOel0A:10 a=VdqzKS8jKosA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
+ a=8AirrxEcAAAA:8 a=w1d2syhTAAAA:8 a=u3qkiGmfUHD6hov5-qEA:9 a=CjuIK1q_8ugA:10
+ a=ST-jHhOKWsTCqRlWije3:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE0MDE1NSBTYWx0ZWRfXyjHe35BZjkKa
+ zG9NfXYyhmnBHNxGgDDtLUPUBQ/zH6zRW0GdxXPY6REaBdRm1MMVQ0Na+ctZOxL++wUF7fDqPaL
+ cVnPpmfcRFetKWemHJWhkl/6TKIj3mQXBTaoHWXoakUExLs0z4vFnJwh4nEMQpL3D/paGJcP7kk
+ w/9efhGNU/Y1+9PDTUfMa0Og9rU9AIhdho/xBwF/Lm3sZ61kB4+T5p319jVLRvhsFKIJC/rsapI
+ vin/sEcdrAwgDyialIp9F2ta4ooD5cSTHmUGEavw0KiUc1ghAE4qbCxp8Rb1wm5w6hCxIzRvbG7
+ 6ZIHshEtQVdZQUXS6Cws4f0L0xfP9LuGWj8GtYQUirtTG9XTgraHMmL2y02ydH9W6IcSJ85fAiu
+ bXvT3UfrVPqKeEfBQ6O5OkKdNJ5yU/CH5MCfC/und9Zollt2yC8AFFiWn5YzMbJ/J6DppCb3r4X
+ AynR8i/Bhdi024zxjbw==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTE0MDE1NSBTYWx0ZWRfXwCs1srihbpGU
+ 7elh+NPP1B2qzQAiwTZXkARulABlKwvbh87+MBogUkFZgkeJ1C7+RfMKc8ohhpu63vSzfzI1ROQ
+ dYUkFPBdXyoAjwMZHnrCuN6QdACHFWE=
+X-Proofpoint-ORIG-GUID: gujrLctenAqU5-xnEFRe9XQZFhadmHU8
+X-Proofpoint-GUID: gujrLctenAqU5-xnEFRe9XQZFhadmHU8
+X-Proofpoint-Spam-Reason: safe
 
-stream_config is not initialized before being passed to
-sdw_stream_add_slave().  The type field may contain garbage and is
-later copied to stream->type by sdw_config_stream().
+On Sun, Sep 13, 2026 at 07:15:26PM +0900, Chancel Liu wrote:
+> From: Chancel Liu <chancel.liu@nxp.com>
+> 
+> wm8962 registers its regulator disable notifiers and allocates its beep
+> input device from the ASoC component probe, but the associated devres
+> cleanup is tied to the underlying I2C device.
+> 
+> These resources are only leaked when the sound card is unregistered and
+> re-registered while the I2C device stays bound. On that path the
+> component probe runs again and:
+> 
+> - re-registers the same notifier_block on the still-registered
+>   regulator notifier chain, which triggers
+> 
+>     notifier callback wm8962_regulator_event_N already registered
+>     WARNING: ... at kernel/notifier.c:23 notifier_chain_register
+> 
+>   and corrupts the chain.
+> 
+> - allocates and registers a new beep input device every time while
+>   wm8962_free_beep() only clears the pointer, leaking the previous
+>   input device and its sysfs/input node.
+> 
+> Fix both:
+> - Move the regulator notifier registration to wm8962_i2c_probe() so it
+>   runs once per I2C device bind.
+> 
+> - Allocate the beep device with input_allocate_device() and pair it
+>   with the component lifecycle: input_free_device() on registration
+>   failure and input_unregister_device() in wm8962_free_beep().
+> 
+> Signed-off-by: Chancel Liu <chancel.liu@nxp.com>
+> ---
 
-Zero-initialize stream_config so type defaults to SDW_STREAM_PCM.
+Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 
-While at it, use snd_sdw_params_to_config() helper instead of
-open-coding the same logic.
-
-Fixes: 63a511284c9e ("ASoC: rt712-sdca: Add RT712 SDCA driver for Mic topology")
-Cc: stable@vger.kernel.org
-Signed-off-by: Jiangshan Yi <yijiangshan@kylinos.cn>
----
- sound/soc/codecs/rt712-sdca-dmic.c | 14 +++++---------
- 1 file changed, 5 insertions(+), 9 deletions(-)
-
-diff --git a/sound/soc/codecs/rt712-sdca-dmic.c b/sound/soc/codecs/rt712-sdca-dmic.c
-index 8860d81134e7..a9f3aa4e143a 100644
---- a/sound/soc/codecs/rt712-sdca-dmic.c
-+++ b/sound/soc/codecs/rt712-sdca-dmic.c
-@@ -13,6 +13,7 @@
- #include <sound/core.h>
- #include <sound/pcm.h>
- #include <sound/pcm_params.h>
-+#include <sound/sdw.h>
- #include <sound/tlv.h>
- #include "rt712-sdca.h"
- #include "rt712-sdca-dmic.h"
-@@ -632,10 +633,10 @@ static int rt712_sdca_dmic_hw_params(struct snd_pcm_substream *substream,
- {
- 	struct snd_soc_component *component = dai->component;
- 	struct rt712_sdca_dmic_priv *rt712 = snd_soc_component_get_drvdata(component);
--	struct sdw_stream_config stream_config;
-+	struct sdw_stream_config stream_config = {0};
- 	struct sdw_port_config port_config;
- 	struct sdw_stream_runtime *sdw_stream;
--	int retval, num_channels;
-+	int retval;
- 	unsigned int sampling_rate;
-
- 	dev_dbg(dai->dev, "%s %s", __func__, dai->name);
-@@ -647,13 +648,8 @@ static int rt712_sdca_dmic_hw_params(struct snd_pcm_substream *substream,
- 	if (!rt712->slave)
- 		return -EINVAL;
-
--	stream_config.frame_rate = params_rate(params);
--	stream_config.ch_count = params_channels(params);
--	stream_config.bps = snd_pcm_format_width(params_format(params));
--	stream_config.direction = SDW_DATA_DIR_TX;
--
--	num_channels = params_channels(params);
--	port_config.ch_mask = GENMASK(num_channels - 1, 0);
-+	/* SoundWire specific configuration */
-+	snd_sdw_params_to_config(substream, params, &stream_config, &port_config);
- 	port_config.num = 2;
-
- 	retval = sdw_stream_add_slave(rt712->slave, &stream_config,
---
-2.25.1
-
+Thanks,
+Charles
