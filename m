@@ -1,143 +1,131 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2F3933A9DA;
-	Mon, 14 Sep 2026 06:18:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF7A8391E44
+	for <linux-sound@vger.kernel.org>; Mon, 14 Sep 2026 07:28:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789366739; cv=none; b=Z7c2CnPbhPJXse2gm33UQ65k+eWo2q2c9yKUMizWOY2P4kjJv/XtYgSD77oNEIPuaFidWxZpiQWp4K6LY/K9oI/WfkE+8danCmi2xaBBb9DKhebT6pfLjVX7O17PxLuLsaasx0W/6tcAShvskGF8dsya0Tn9GYVYoJw0fTkjcqc=
+	t=1789370914; cv=none; b=naSY8LRY4G8dCCaB/LZODKBF1KyZSaLJ3pgJm6ZXBm8I4efNVqNbGMydN1WJyT1mfJIHHZ9fR27NGwzFLylpBL9fStXKOOKeuAXM6cdF2joO49lMA8iozlt4X6nPsmOYOUPBvY60Jv8BOiTo8owZc9KOhfnAqQDAFBvYItj27ik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789366739; c=relaxed/simple;
-	bh=m2PW9f08I8Cu6oA63ICxXggNLlKtBNbpdY/lIEtGxKM=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pRjN9ScWljwHFyOFPkf24x4zOZINeYboFbtXLm54xkw/sQyx7aNvcSLY/o5HEpnMvgjW1i7HPGRUtHLu8a4/L1iPS1jJAYTqW9Qlnt1jtfKphTBF/g2HvrSgIrIVc4WBOcv01/7mp1sZ7FyMpDp49EAcBISGtTZCCh+cfQ1IUYI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=BY9RqkbX; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Of+GPmO7; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=A5VMkhH0; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=CSmxQcv2; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1789370914; c=relaxed/simple;
+	bh=3ax/ymwZNx8xLZo6Y0czXfjEBbuwpeapWRjEeLMiiuU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fHsvrz6a/LhWpLM+o4rwMrtZFb+cGJa4x8QbGV7de+38dBQj+jEAeCqrGksSRWj61PW75VrawHwwfiveekejrKtO+13coyozWK4Czy2EV0xaWr9OE+BpWWmH4l4WG0Jy5V3xI6HDaZDKgWzFECX0MdKP/tfoLVhzXR8Z3C9IHPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=llIYbGSl; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="BY9RqkbX";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Of+GPmO7";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="A5VMkhH0";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="CSmxQcv2"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 7AB911F836;
-	Mon, 14 Sep 2026 06:18:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1789366731; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oZme78kNXZgDxFQ2xY8OCjMvaXH+aom+uvlM9QLK0XU=;
-	b=BY9RqkbX4uwC6bkFq0DM3hHCk69MbZ+PWWL4gnTML8JxE9Z8QjN/gpCj7e+gkglykZGaWj
-	Ip3aQhRtUvLDEMBg4yQ7m1POruDM3KD6aeTAZtaMNG5cQsfc46bggQMChRqRCAQbICXutj
-	e2VSyxXapmYhNK7PArIh0KHXIA1UO7g=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1789366731;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oZme78kNXZgDxFQ2xY8OCjMvaXH+aom+uvlM9QLK0XU=;
-	b=Of+GPmO7pLoJlCS18w1zEyXUhYLKOWq5qtSyibLGHdeAnDndUtmxBDR35jXWcThu6msSZr
-	cVrH0zFRAsyRyXDw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=A5VMkhH0;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=CSmxQcv2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1789366727; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oZme78kNXZgDxFQ2xY8OCjMvaXH+aom+uvlM9QLK0XU=;
-	b=A5VMkhH0OQKa5R2q/9PpXPq74v68+0NZgqIhQB1DuB0gHp1Ney99nkZu4moYAs7l+v0UUI
-	XU0ZbIxOfJKM7TIL5mxPQIM0LsS13chDGXiC+SNv0b5MQ77Kd0d5GwYco2/EVxfxx9hbZO
-	gFg7geiuljsISYl50+cKaYN+A9WUHik=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1789366727;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oZme78kNXZgDxFQ2xY8OCjMvaXH+aom+uvlM9QLK0XU=;
-	b=CSmxQcv2AkdA+S9vYcOE+UAArRyAukPIROvXn0eKRCI5/hyrwJymInfyVPouRL85lnis+6
-	UCVUXkt9XbD3PpBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2B74613515;
-	Mon, 14 Sep 2026 06:18:47 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id tvBOCceRp2pABAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 14 Sep 2026 06:18:47 +0000
-Date: Mon, 14 Sep 2026 08:18:46 +0200
-Message-ID: <87se3cqrsp.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Kitty Makin <autumnull@posteo.net>
-Cc: linux-sound@vger.kernel.org,
-	tiwai@suse.com,
-	perex@perex.cz,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: usb-audio: Add capture quirk for Behringer FCA1616
-In-Reply-To: <20260914002334.12691-1-autumnull@posteo.net>
-References: <20260914002334.12691-1-autumnull@posteo.net>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="llIYbGSl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1789370912; x=1820906912;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=3ax/ymwZNx8xLZo6Y0czXfjEBbuwpeapWRjEeLMiiuU=;
+  b=llIYbGSldLKH9WpKb/5R3+1wda0koSYiM4T7aOPTlmNfNDBI3dT/Jcn7
+   rJWebResrqygUJbhrDBuZS2ir/i0aGoapnxP63qsN5P9wfAI1l2Rbqyz/
+   NAqZMXaIWuHA1c3FuktSEC2r9FXwvZUritX8KTEk27EJb61a7uPQMg8jo
+   PuEosulW9MdxXUrJG4Deb5ngWn46EMblYL2yAPi35F8NaiuWuckeQZN8M
+   1U9MnH3jAK4JkYn78nVpKVQ3oLzdcgWQZdrlE/w9I2WVUWzPBObXJGZeM
+   hSuM2zrZCd2IMMw6f/8OEZFTqSgJ/IpLWLzyTLsQH3YXZzXlzxVVm/keg
+   w==;
+X-CSE-ConnectionGUID: Mkt5OQH1R4Wp4JkpBB01nQ==
+X-CSE-MsgGUID: NregeQiXQlWyZElioyn7YQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11904"; a="92231064"
+X-IronPort-AV: E=Sophos;i="6.27,102,1787036400"; 
+   d="scan'208";a="92231064"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2026 00:28:32 -0700
+X-CSE-ConnectionGUID: bQBIxncKQVC7peuAgLt3vQ==
+X-CSE-MsgGUID: 1fuw2iZ2SSmmdLuSvWalOg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,102,1787036400"; 
+   d="scan'208";a="269284808"
+Received: from alekseim-mobl.ger.corp.intel.com (HELO [10.245.245.32]) ([10.245.245.32])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2026 00:28:29 -0700
+Message-ID: <30950a7e-25ea-4b32-94ee-70c7357ffcaf@linux.intel.com>
+Date: Mon, 14 Sep 2026 10:28:41 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 7AB911F836
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,posteo.net:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 18/26] ASoC: SOF: ipc4/ipc4-loader: Add SOF_INFO and
+ CODEC_INFO to fw_config_params
+To: Mark Brown <broonie@kernel.org>
+Cc: vkoul@kernel.org, perex@perex.cz, tiwai@suse.com, lgirdwood@gmail.com,
+ srinivas.kandagatla@oss.qualcomm.com, linux-sound@vger.kernel.org,
+ kai.vehmanen@linux.intel.com, yung-chuan.liao@linux.intel.com,
+ pierre-louis.bossart@linux.dev, daniel.baluta@nxp.com
+References: <20260911112152.28528-1-peter.ujfalusi@linux.intel.com>
+ <20260911112152.28528-19-peter.ujfalusi@linux.intel.com>
+ <aqRsL8fZercsabgU@sirena.org.uk>
+Content-Language: en-US
+From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
+In-Reply-To: <aqRsL8fZercsabgU@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, 14 Sep 2026 02:24:24 +0200,
-Kitty Makin wrote:
+
+
+On 12/09/2026 00:01, Mark Brown wrote:
+> On Fri, Sep 11, 2026 at 02:21:44PM +0300, Peter Ujfalusi wrote:
 > 
-> The Behringer FCA1616 (1397:0004) returns silent capture samples unless its
-> playback endpoint is active.
+>> +static int sof_ipc4_query_sof_info(struct snd_sof_dev *sdev,
+>> +				   void *sof_info_data, u32 sof_info_size)
+>> +{
+>> +	struct sof_ipc4_fw_data *ipc4_data = sdev->private;
+>> +	struct sof_ipc4_tuple *tuple;
+>> +	size_t tuple_size;
+>> +	size_t offset = 0;
+>> +	int ret = 0;
 > 
-> Use the existing fixed implicit-feedback mechanism to keep playback endpoint
-> 0x01 on interface 1 active during capture.
+>> +	while (offset < sof_info_size) {
 > 
-> Tested with 16-channel S32_LE capture at 44.1 and 48 kHz.
+>> +		tuple = (struct sof_ipc4_tuple *)((u8 *)sof_info_data + offset);
+>> +		tuple_size = sizeof(*tuple) + tuple->size;
+>> +		if (tuple_size < sizeof(*tuple) || tuple_size > sof_info_size - offset) {
 > 
-> Signed-off-by: Kitty Makin <autumnull@posteo.net>
+> tuple->size can be 0...
 
-It's interesting that this capture implicit quirk is still needed.
-Maybe we can work around in a different way, but this addition would
-be likely simpler.  Let's see whether any other devices need to follow
-this pattern, then we can rethink.
+It cannot be 0, the tuples are built in firmware and they are guarantied
+to be correct.
 
-In anyway, applied now.  Thanks.
+I guess I have added this check based on comments, but I would rather
+remove them.
+
+s for the specific CODEC_INFO, it is also granted that the tuple->size
+is not 0:
+https://github.com/thesofproject/sof/blob/main/src/audio/base_fw.c#L111
+
+In fact, all tuples are added in a way that the size cannot be 0, but
+the check in the code is incorrect, it should be:
+if (!tuple->size || tuple_size > sof_info_size - offset) {
 
 
-Takashi
+> 
+>> +		switch (tuple->type) {
+>> +		case SOF_IPC4_SOF_CODEC_INFO:
+>> +			ipc4_data->codec_info = devm_kmemdup(sdev->dev, tuple->value,
+>> +							     tuple->size, GFP_KERNEL);
+> 
+> ...and devm_kmemdup() of 0 returns ZERO_SIZE_PTR which crucially is not
+> NULL so things that later check that codec_info is set see that it is
+> and try to dereference it.  We should probably also check that the count
+> in the codec_info isn't oveflowing the buffer.
+
+We trust  the firmware provided information. If we cannot trust that
+then we cannot trust on the size / count it provides either and there is
+nothing that we can validate.
+
+We don't have tuple size checking for fw_config or hw_config either.
+
+To have a compromised fw booted it involves obtaining a secret signing
+key to sign the compromised fw and a root access to actually deploy to
+the system.
+
+-- 
+Péter
+
