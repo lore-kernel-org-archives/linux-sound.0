@@ -1,171 +1,106 @@
-Received: from mta0.migadu.com (out-205.mta0.migadu.com [91.218.175.205])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E83313D6487
-	for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 12:22:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.205
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5794C3D411D;
+	Tue, 15 Sep 2026 12:30:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789474927; cv=none; b=L8fMaaTkY8tG18aYrg5A7AKMR65BET9be2vWvFfxUZRxMb2l+VwDfiIO4UykCaKlb6tZLkV19Clnoyvz7KUSpj5AKex5vQBsSQ6lEh43zBzQ14BxIetiut12Hr1oCd4NfC5+7w4bt+oNJQSrBU6XfsKVMKLEBJo2Ty/61M5a6qQ=
+	t=1789475434; cv=none; b=sK6HTcGmwdd9dxPkg9dGSKqux/NLPqIYmU84IhVeOyHGkYyITFCKUIFhWpSglJed1v7q7mwZOZBnQ0ctPizqnjTA+L89y+HV2xgoxTPRDVvaN1jb6Nnp/5sutCI34UmOa85Kvq+f2zWNLV+LX3Hsvs3Vyq2LBEODrp2G4bSakng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789474927; c=relaxed/simple;
-	bh=8jLB9CAeAb0g4/yzsEq/6xK7tGdUPDNgXdhRVSOiY9o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=E8u5D9AdHWBkNkWTBT+NiH0PdiXB07rTKswZ2Edy2nq7SNAiFYVBm9QMj2fr2wuUi7YsKb0jB3cAGe9j49r1mpT1pJEV+t0K2ADkVG9POSQhHXCk+6YJWvFGsUlnL0bxS2ycTGBFPWDZ6LSRBS8nUI1DIClMLXAbIIrMlyHPtLw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=rC1lA+Zn; arc=none smtp.client-ip=91.218.175.205
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1789475434; c=relaxed/simple;
+	bh=gCBuP+2Evjh4veQE3BW3pdqF9G7KNExs6hM05mou+nU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sdci1KXKwqzpoL7b5s/1K2o8hkQ+EGXgTLazo31T1TFaeLXQETlgmCSMgcTF93+p8nbVWLSTf9ZO86EZpqVlvD+ODcHUUIPyy7vR86iWSTOm3wMJ068cjjRHpOUEcAaffqNtOGTO641MGZZGk06Tsp0nArNLvxCwgmLFDAXvheU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dPT/trEt; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="rC1lA+Zn"
-X-Envelope-To: linux-sound@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=8jLB9CAeAb0g4/yzsEq/6xK7tGdUPDNgXdhRVSOiY9o=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1789474923; v=1; x=1790079723;
- b=rC1lA+ZnAmVlC4pd2V2xg3yuSowI0OSleGTCIj/UIJfXeZm6lwyUKT1hl/twOtcivsZvXdOr
- uIAH24PttzvA8AfkvCfobCL3w3Nj6TxDgpbAAmYR0n6FgJQ9OW0Ung9DCKmycgJ2HHuyh9sws8p
- 13b6mElcC23PoQJ7dKilCS8s=
-X-Envelope-To: linux-sound@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 2cdac61b0a829b24;
-	Tue, 15 Sep 2026 12:22:03 +0000
-X-Mizu-Trace-ID: 2cdac61b0a829b24
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <071e3833-48af-4ca4-8eda-c6c825580def@linux.dev>
-Date: Tue, 15 Sep 2026 14:22:03 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dPT/trEt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF1401F000FF;
+	Tue, 15 Sep 2026 12:30:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789475432;
+	bh=TVtfbg9cLJPxe8CeCcpFkHFABq+D56AX0qqaWOp7cYg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=dPT/trEtgWSwmvf4ssrot2pTPi+3EgP+7jA5SMylqsftSnb6kmNLGGkazcWzOosXn
+	 2Vp9dIoTa0CGeivRWiRZ4hlOD2VqdxKcxSudldG/8P1XhIg97wh2pz23M9uJVMvEB7
+	 ASJYBRFUgN1fzdHQpipXRRI5/LEKdxCMM0gEA/uGWM9OG0a4D8fU7Y+7+ZeYq2acLE
+	 dOVIfk/G4mTIw4oiTQUQXmInZ7vyMxnafJMjD4hTtYqzoq2ZNKZlPvKZsSSKOaznzY
+	 XI51RrUsrUic4xhyZKAv6MhvYZ5ItT2guPS0QlC0bSUhNYjVFAHqqoGLYCVM/6qLjS
+	 mOs6uFUo48N2w==
+Date: Tue, 15 Sep 2026 13:30:23 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Hemanth Selam <hemanth.selam@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Andrei Simion <andrei.simion@microchip.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Support Opensource <support.opensource@diasemi.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Oder Chiou <oder_chiou@realtek.com>,
+	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>,
+	Cezary Rojewski <cezary.rojewski@intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Jarkko Nikula <jarkko.nikula@bitmer.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>, linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	patches@opensource.cirrus.com, linux-mediatek@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org, linux-omap@vger.kernel.org
+Subject: Re: [PATCH v2] ASoC: fix typos in comments
+Message-ID: <63334ddf-5ddc-4a90-8244-98e38a0ea174@sirena.org.uk>
+References: <20260904110315.11650-1-hemanth.selam@gmail.com>
+ <20260915063206.519683-1-hemanth.selam@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] soundwire: intel_auxdevice: Don't disable IRQs before
- removing children
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: vkoul@kernel.org, yung-chuan.liao@linux.intel.com,
- peter.ujfalusi@linux.intel.com, linux-sound@vger.kernel.org,
- patches@opensource.cirrus.com, linux-kernel@vger.kernel.org
-References: <20260911161903.419814-1-ckeepax@opensource.cirrus.com>
- <20260911161903.419814-3-ckeepax@opensource.cirrus.com>
- <8b54604a-ec75-4c84-9909-358510f6f3ba@linux.dev>
- <aqkMOFfQo2YRYt2C@opensource.cirrus.com>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <aqkMOFfQo2YRYt2C@opensource.cirrus.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="GiDgBwWwOzEOdFcQ"
+Content-Disposition: inline
+In-Reply-To: <20260915063206.519683-1-hemanth.selam@gmail.com>
+X-Cookie: Void where prohibited by law.
 
 
->>> It would appear the reason for the disabling of the IRQs is that
->>> the IRQ handler iterates through a linked list of all the links,
->>> once a link is removed the memory pointed at by this linked list
->>> is freed, but not removed from the linked_list. 
->>
->> That wasn't the reason, even if you have a single link we all thought it
->> made more sense to disable peripheral interrupts on the host before
->> calling sdw_bus_master_delete()
-> 
-> What was the reason for deciding to do that, that is not in itself
-> a reason? A drivers remove callback should be able to access
-> registers on the device. The host here requires interrupts to
-> do so. This was the only functional reason in the code I could
-> find that things were done in this order.
+--GiDgBwWwOzEOdFcQ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-like I said it was thought to be simpler this way, we never thought
-about the need to do anything in remove().
-IOW this is a missed requirement that led to a simple solution, not a
-deliberate decision to cripple the remove() step.
+On Tue, Sep 15, 2026 at 12:02:00PM +0530, Hemanth Selam wrote:
 
->>> --- a/drivers/soundwire/intel_auxdevice.c
->>> +++ b/drivers/soundwire/intel_auxdevice.c
->>> @@ -508,9 +508,12 @@ static void intel_link_remove(struct auxiliary_device *auxdev)
->>>  	if (!bus->prop.hw_disabled) {
->>>  		sdw_intel_debugfs_exit(sdw);
->>>  		cancel_delayed_work_sync(&cdns->attach_dwork);
->>> -		sdw_cdns_enable_interrupt(cdns, false);
->>>  	}
->>> +
->>>  	sdw_bus_master_delete(bus);
->>> +
->>> +	if (!bus->prop.hw_disabled)
->>> +		sdw_cdns_enable_interrupt(cdns, false);
->>>  }
->>
->> Sorry, that sequence looks really weird to me.
->>
->> See the code in
->>
->> void sdw_bus_master_delete(struct sdw_bus *bus)
->> {
->> 	device_for_each_child(bus->dev, NULL, sdw_delete_slave);
->>
->> 	sdw_irq_delete(bus);
->>
->> 	sdw_master_device_del(bus);
->>
->> After doing all this, one would mask the interrupts on the host side with
->>
->> 	if (!bus->prop.hw_disabled)
->> 		sdw_cdns_enable_interrupt(cdns, false);
->>
->> but that host is long gone.
->>
->> Does this even work?
->>
->> The last sdw_cdns_enable_interrupt(cdns, false) looks either very racy
->> or useless, no?
-> 
-> I mean it definitely works and fixes the problems on driver
-> remove. I will check to see if the call is redundant at this
-> stage, or if there are any potential dangers I am missing.
+> v2:
+>  - Rebased onto asoc/for-next; v1 no longer applied against current code
+>    (Mark Brown).
 
-ok
+It's still not applying against my tree?
 
->>> diff --git a/include/linux/soundwire/sdw_intel.h b/include/linux/soundwire/sdw_intel.h
->>> index 9710f2dc04e29..7495d35ed2fc3 100644
->>> --- a/include/linux/soundwire/sdw_intel.h
->>> +++ b/include/linux/soundwire/sdw_intel.h
->>> @@ -307,6 +307,7 @@ struct sdw_intel_ctx {
->>>  	acpi_handle handle;
->>>  	struct sdw_intel_link_dev **ldev;
->>>  	struct list_head link_list;
->>> +	struct mutex link_lock; /* lock protecting link_list */
->>>  	struct mutex shim_lock; /* lock for access to shared SHIM registers */
->>
->> IIRC shim_lock was used to prevent access to common registers shared
->> between links. How many locks do we need?
-> 
-> I mean we could reuse the lock but in my experience locks having
-> a clearly defined purpose is less error prone, than having catch
-> all locks. The shim lock claims to protect the SHIM registers,
-> this one protects the list of links. But if you feel strongly I
-> am happy to try reuse the shim lock for this?
+--GiDgBwWwOzEOdFcQ
+Content-Type: application/pgp-signature; name="signature.asc"
 
-I am not asking for you to share, just that we need to have a discussion
-on whether this new lock is redundant or not, and wording that describes
-why using existing locks isn't desired/needed.
+-----BEGIN PGP SIGNATURE-----
 
-this shim_lock is a protection for very low-level access to registers,
-and completely tied to the way the IP registers were clustered together,
-it's indeed a different conceptual level you're after. So even if there
-is some redundancy or overlap, it's probably simpler to use a different
-lock for different things,
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqpOl4ACgkQJNaLcl1U
+h9Cpfgf/Q7YrQXQeaROc/u9unXenwWJLaxVPhJGgdjoufaOEw/YeQHHnC66FhF/H
+n2skcounXBkPPvmeFnkoCeV+3ammQ+wWQv6HVL9CWdEYOKJYiesoS+u5WI9KNae1
+hJyBQw0prpFKvyxuJKhv8aewBYknoowABWc/15HK8DjqQZPEw8gMzyCgZTJrb0IY
+JxTznbOUKHxMr0U6Mi6HS0zVX1HIYkuzKJ3VlKK6IYUGpxtP8+ceFa9UXjg2p9oU
+SrNghGQ8TeBx5GJ2h9Wkyv6bvXkX8ru2TV6WYgGo66bTvBCgV+1gAk3wrIWKPrdM
+vkfSCtaDDZQT0SRZ7QrFHs8WOQJtaQ==
+=0/I9
+-----END PGP SIGNATURE-----
 
-> Ultimately, I am not super attached to this way of solving the
-> problem but we do need to come up with some solution to allow
-> drivers to access their device in driver remove. This causes
-> devices to take 1-2 minutes to remove the driver and fills the log
-> with loads of error messages. I am more than happy to entertain
-> other ways of making that happen if you have ideas you prefer?
-
-I don't have any objections with the requirement to let the codec do
-whatever it needs on remove(), this was a miss in the design and it
-needs to be addressed.
-I am just nervous about the interrupt part and possible race conditions.
-Maybe the last stage of the remove() should be to mask all interrupts on
-the codec side with a common helper shared by all codec drivers?
-
-BTW we did have scripts to remove/insert in loops to try and find
-issues, not sure if you're aware of them and if they still work, see:
-
-https://github.com/thesofproject/sof-test/blob/main/tools/kmod/
-
+--GiDgBwWwOzEOdFcQ--
