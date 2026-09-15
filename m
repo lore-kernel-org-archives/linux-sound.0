@@ -1,208 +1,121 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mta0.migadu.com (out-100.mta0.migadu.com [91.218.175.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96E5C48664C;
-	Tue, 15 Sep 2026 11:25:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DE2349CF22
+	for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 11:25:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.100
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789471504; cv=none; b=STGE8GD4DedD5zzjQFk2bkH1v7G1eMWb5BKqc4CHXREWMFvK+KsElNKFmWFJ5WMAZsQhfyyCWuQz+ksFFsgnMrtNpB/sVoJhIi3zNKWdRMTKZQ3yXrZ1bQzcClqVrzKd9o8ESHAwU6JfwyNoJduWQWoVSjkxCtMHtCuykEeFTcA=
+	t=1789471513; cv=none; b=MLana6VCjFqmQRLZ9kI/jYA5XgCYh2+SfPxauJ3HbuJ4mTzbMXjqdhbNNEze5LOmJhmN4jc2NPQbEdEU3hQ5sliNuznLVeyEF3ji5hQScdZssRoKsC3H3hK2o6/gKrU4+rynK5OKqMVm0RbNaoKcpKkRp5rlAX/Q8eEkcdHoP1A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789471504; c=relaxed/simple;
-	bh=0ve7/DDdcigv05770gqszO21YREHojJv3JBfh9LpjKU=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tISN/hfHhCg3v3MWi4PlDWGqnB+oJ9mSEsnYKbwFImBSVsmnv973OqC1Hfz3gLTGUX5eZdBJgud+4QWHNz2h72nFvuNQpbVBd9Qbp3B/ZxGQmLs4n2USXnoqW9VhBEV2wdn6tYnZYoz2vkxj0aWFGit8iO+LvnR+CQdReDRSIAY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=FSRxqY26; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=aSsl2yJ1; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HmFYlpnJ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=FquzOGo+; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1789471513; c=relaxed/simple;
+	bh=IFGcfCnV0Cgy+N8v4r2B8Kzt/wVJpYBHfR3s2l4nnhI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=u5vijMrA4/7ThDGyO7uZeLiJWM00DD/lin2qMHn/snIpgW5LQ57J3PbIjLKkspFCH6Ao3QS2zHkOReDMRNF+YJGu2TfU2JI71Wn/cCBcXuizcI0A3yFZ20NI9grrYgduKGtaoW5GfCDAh8U+tzfya0kR5cwGHyDdLOzCkjPYVdU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=T5s8EUCZ; arc=none smtp.client-ip=91.218.175.100
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="FSRxqY26";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="aSsl2yJ1";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HmFYlpnJ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FquzOGo+"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 20F5421B02;
-	Tue, 15 Sep 2026 11:24:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1789471494; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=psqF+EOKBnDir7oSpdYk0cv/7bWaGxT8GNrr5rPj7yg=;
-	b=FSRxqY266D0vmKnF9nLIRDyWWQM9yhSRf7SWuTSbWdHKmTZfPMBWgLsJq7H8V56FVkky//
-	8MrE9PciUwBdoFcR4M6TLhf0Be1H7UyuT3X6eiMNzlMbbIthbvGQDSnAd0oqm56+IjjTWt
-	ZfmEPFx5zXWF3FpvnKWoZi5XGYuzP5E=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1789471494;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=psqF+EOKBnDir7oSpdYk0cv/7bWaGxT8GNrr5rPj7yg=;
-	b=aSsl2yJ1+boxtQdbyNVNOLHSB2zJu6wAGQi+9pbebbTp2ClXENyw6idF+ycsnZ57BL4LP5
-	ZfcRP6lnX00QOOBw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=HmFYlpnJ;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=FquzOGo+
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1789471490; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=psqF+EOKBnDir7oSpdYk0cv/7bWaGxT8GNrr5rPj7yg=;
-	b=HmFYlpnJHQnucD0Hu7XWebQts4zdFxqB6Md4UgWWqagCStl48Xajm8kE50YWip9K8RYGR6
-	TjQMT6l+/cnv1Hphpj6UBRi2hgiye5AdRmKJllzK4WS/Qo3IlkmtIW20gkJR+AFYnIbRJu
-	qg1C7c30pv8I0/77mryKUVsgaauSbcU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1789471490;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=psqF+EOKBnDir7oSpdYk0cv/7bWaGxT8GNrr5rPj7yg=;
-	b=FquzOGo+tVlEMPCfctD8o5e/sCS7xihfao4/ZdIf2qlfM3ZVtlvjjsESrStMfdFOYRkvvC
-	9nOkOMjZr8TKGZBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E1B7713693;
-	Tue, 15 Sep 2026 11:24:46 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 2riGLf4qqWqtagAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 15 Sep 2026 11:24:46 +0000
-Date: Tue, 15 Sep 2026 13:24:46 +0200
-Message-ID: <877bkmn4e9.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Bill Wendling <morbo@google.com>
-Cc: linux-kernel@vger.kernel.org,	Russell King <linux@armlinux.org.uk>,
-	Huacai Chen <chenhuacai@kernel.org>,	WANG Xuerui <kernel@xen0n.name>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,	"James E.J. Bottomley"
- <James.Bottomley@HansenPartnership.com>,	Helge Deller <deller@gmx.de>,
-	Thomas Gleixner <tglx@kernel.org>,	Ingo Molnar <mingo@redhat.com>,	Borislav
- Petkov <bp@alien8.de>,	Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org,	"H. Peter Anvin" <hpa@zytor.com>,	Ian Abbott
- <abbotti@mev.co.uk>,	H Hartley Sweeten <hsweeten@visionengravers.com>,	Tony
- Luck <tony.luck@intel.com>,	Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>,	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,	Matthew Brost <matthew.brost@intel.com>,
-	=?ISO-8859-1?Q?=22Thomas_Hellstr=F6m=22?=
- <thomas.hellstrom@linux.intel.com>,	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,	Matthias Schwarzott
- <zzam@gentoo.org>,	Mauro Carvalho Chehab <mchehab@kernel.org>,	Tony Nguyen
- <anthony.l.nguyen@intel.com>,	Przemek Kitszel
- <przemyslaw.kitszel@intel.com>,	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,	Eric Dumazet
- <edumazet@google.com>,	Jakub Kicinski <kuba@kernel.org>,	Paolo Abeni
- <pabeni@redhat.com>,	Arend van Spriel <arend.vanspriel@broadcom.com>,	Rob
- Herring <robh@kernel.org>,	Saravana Kannan <saravanak@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,	Sylwester Nawrocki
- <s.nawrocki@samsung.com>,	Peter Griffin <peter.griffin@linaro.org>,	Alim
- Akhtar <alim.akhtar@samsung.com>,	Linus Walleij <linusw@kernel.org>,	Anil
- Gurumurthy <anil.gurumurthy@qlogic.com>,	Sudarsana Kalluru
- <sudarsana.kalluru@qlogic.com>,	"Martin K. Petersen" <mkp@kernel.org>,
-	Trond Myklebust <trondmy@kernel.org>,	Anna Schumaker <anna@kernel.org>,
-	Mike Marshall <hubcap@omnibond.com>,	Martin Brandenburg
- <martin@omnibond.com>,	Kees Cook <kees@kernel.org>,	Jiri Pirko
- <jiri@resnulli.us>,	Simon Horman <horms@kernel.org>,	Chuck Lever
- <cel@kernel.org>,	Jeff Layton <jlayton@kernel.org>,	NeilBrown
- <neil@brown.name>,	Olga Kornievskaia <okorniev@redhat.com>,	Dai Ngo
- <Dai.Ngo@oracle.com>,	Tom Talpey <tom@talpey.com>,	Jaroslav Kysela
- <perex@perex.cz>,	Takashi Iwai <tiwai@suse.com>,	Andrew Morton
- <akpm@linux-foundation.org>,	"Mike Rapoport (Microsoft)" <rppt@kernel.org>,
-	Kanglong Wang <wangkanglong@loongson.cn>,	Tiezhu Yang
- <yangtiezhu@loongson.cn>,	Qiang Ma <maqianga@uniontech.com>,	Randy Dunlap
- <rdunlap@infradead.org>,	Pengpeng Hou <pengpeng@iscas.ac.cn>,	Ard
- Biesheuvel <ardb@kernel.org>,	Breno Leitao <leitao@debian.org>,	Thorsten
- Blum <blum@kernel.org>,	Harshit Mogalapalli
- <harshit.m.mogalapalli@oracle.com>,	Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>,	Lyude Paul <lyude@redhat.com>,	Ashutosh Desai
- <ashutoshdesai993@gmail.com>,	Imre Deak <imre.deak@intel.com>,	Dmitry
- Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,	Johan Hovold
- <johan@kernel.org>,	Johannes Berg <johannes.berg@intel.com>,	Miri Korenblit
- <miriam.rachel.korenblit@intel.com>,	Alexander Stein
- <alexander.stein@ew.tq-group.com>,	Cryolitia PukNgae
- <cryolitia@uniontech.com>,	Jiaming Zhang <r772577952@gmail.com>,	Will
- Porter <mrwillporter@gmail.com>,	Cen Zhang <zzzccc427@gmail.com>,
-	=?ISO-8859-1?Q?=22C=E1ssio_Gabriel=22?= <cassiogabrielcontato@gmail.com>,
-	Rong Zhang <i@rong.moe>,	Arun Raghavan <arunr@valvesoftware.com>,
-	linux-arm-kernel@lists.infradead.org,	loongarch@lists.linux.dev,
-	linux-mips@vger.kernel.org,	linux-parisc@vger.kernel.org,
-	linux-edac@vger.kernel.org,	dri-devel@lists.freedesktop.org,
-	intel-xe@lists.freedesktop.org,	linux-input@vger.kernel.org,
-	linux-media@vger.kernel.org,	intel-wired-lan@lists.osuosl.org,
-	netdev@vger.kernel.org,	linux-wireless@vger.kernel.org,
-	brcm80211@lists.linux.dev,	brcm80211-dev-list.pdl@broadcom.com,
-	devicetree@vger.kernel.org,	linux-samsung-soc@vger.kernel.org,
-	linux-gpio@vger.kernel.org,	linux-scsi@vger.kernel.org,
-	linux-nfs@vger.kernel.org,	devel@lists.orangefs.org,
-	linux-hardening@vger.kernel.org,	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 00/28] Replace remaining strlcat() call sites with snprintf()/seq_buf()
-In-Reply-To: <20260915081910.4142719-1-morbo@google.com>
-References: <20260915081910.4142719-1-morbo@google.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="T5s8EUCZ"
+X-Envelope-To: linux-sound@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=IFGcfCnV0Cgy+N8v4r2B8Kzt/wVJpYBHfR3s2l4nnhI=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1789471507; v=1; x=1790076307;
+ b=T5s8EUCZe06cMdhCCh3us20u+ipX6UQd3H2EoKKET6JQE/OWxj5Ny5X3XSvmyF/NMjbWrnZt
+ uPipSYMYs74gMST2zJ0huc22pC9wXcE8nwdUGjG1j1Nm/T7r6d5vgtfCO1zf504oPL5Kee35vd/
+ tbK44k2ZnnCoUDdqSYr1W0Kc=
+X-Envelope-To: linux-sound@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 18f7e600982674e0;
+	Tue, 15 Sep 2026 11:24:57 +0000
+X-Mizu-Trace-ID: 18f7e600982674e0
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <aec77111-d07b-41b7-8d98-1519faa7f3f9@linux.dev>
+Date: Tue, 15 Sep 2026 13:24:49 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 20F5421B02
-X-Spamd-Result: default: False [-2.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,armlinux.org.uk,kernel.org,xen0n.name,alpha.franken.de,HansenPartnership.com,gmx.de,redhat.com,alien8.de,linux.intel.com,zytor.com,mev.co.uk,visionengravers.com,intel.com,suse.de,gmail.com,ffwll.ch,gentoo.org,lunn.ch,davemloft.net,google.com,broadcom.com,samsung.com,linaro.org,qlogic.com,omnibond.com,resnulli.us,brown.name,oracle.com,talpey.com,perex.cz,suse.com,linux-foundation.org,loongson.cn,uniontech.com,infradead.org,iscas.ac.cn,debian.org,linuxfoundation.org,oss.qualcomm.com,ew.tq-group.com,rong.moe,valvesoftware.com,lists.infradead.org,lists.linux.dev,lists.freedesktop.org,lists.osuosl.org,lists.orangefs.org];
-	DKIM_TRACE(0.00)[suse.de:+];
-	TO_DN_SOME(0.00)[];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCPT_COUNT_GT_50(0.00)[110];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[netdev];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -2.01
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/8] soundwire: amd: fix work drain ordering and
+ pm_runtime guard in remove path
+To: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>, vkoul@kernel.org
+Cc: yung-chuan.liao@linux.intel.com, Basavaraj.Hiregoudar@amd.com,
+ Sunil-kumar.Dommati@amd.com, venkataprasad.potturu@amd.com,
+ Syed.SabaKareem@amd.com, Mario.Limonciello@amd.com, Richard.Gong@amd.com,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260910190240.1604447-1-Vijendar.Mukunda@amd.com>
+ <20260910190240.1604447-4-Vijendar.Mukunda@amd.com>
+ <860a28bf-9c69-48da-9fa7-1cdb82761c35@linux.dev>
+ <3abf2784-49ff-459c-9022-acd88bd767b4@amd.com>
+ <029a18c3-f6f5-4971-8ee2-25a98dec416c@linux.dev>
+ <47708252-2867-4b3d-a997-ef153b6eeb05@amd.com>
+Content-Language: en-US
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+In-Reply-To: <47708252-2867-4b3d-a997-ef153b6eeb05@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, 15 Sep 2026 10:18:17 +0200,
-Bill Wendling wrote:
+
+> Thanks for the suggestion Pierre.  I considered moving pm_runtime_enable()
+> into probe(), but I do not think that is safe given how the AMD SoundWire
+> driver is structured.
 > 
-> strlcat() is deprecated: like strcat(), it requires re-scanning the
-> destination string from the beginning on every call, which is O(n^2)
-> when used to build up a string incrementally, and its truncation
-> behavior is easy to get wrong.
-
-... but what many of your patches do is to replace strlcat() with
-open-codes, which is more error-prone and easier to get wrong than
-a single strlcat() call.
-
-> See:
+> The current placement in amd_sdw_manager_start() follows the same model
+> used by the Intel SoundWire driver, where runtime PM is enabled only
+> after the hardware has been powered up and fully initialized.
 > 
->   https://github.com/KSPP/linux/issues/370
+> More importantly, pm_runtime_set_active() requires the hardware to be in
+> a known operational state. For AMD, that is only true after
+> acp_sdw_clk_init_ctrl(), acp_init_sdw_manager(),
+> acp_enable_sdw_interrupts(), acp_enable_sdw_manager(), and
+> acp_sdw_set_frameshape() have all completed successfully. Calling
+> pm_runtime_set_active() from probe() would advertise the device as
+> active before any of this initialization has occurred.
+> 
+> Enabling runtime PM in probe() would also create a race window between
+> probe() and sdw_amd_startup(). During that window, the PM core could
+> invoke the runtime suspend callback, which accesses SoundWire manager
+> registers and performs clock-stop sequences. Since the hardware has not
+> yet been initialized, those register accesses would occur on an
+> uninitialized manager.
+> 
+> The failure path that motivated this change is also a real scenario.
+> sdw_amd_startup() iterates over all manager instances. If one instance
+> successfully completes startup and another fails later, the cleanup path
+> must handle a mix of initialized and non-initialized managers. The
+> pm_runtime_enabled() check added here ensures that
+> pm_runtime_disable() is only called for instances that actually reached
+> the point where runtime PM was enabled.
+> 
+> The probe/startup split is intentional and follows the existing
+> SoundWire subsystem design. Hardware bring-up is deferred until startup,
+> and runtime PM is enabled only after the manager is known to be fully
+> operational. Since the runtime PM callbacks directly access hardware
+> registers, allowing them to run before startup completes would be
+> unsafe.
+> 
+> Finally, moving pm_runtime_enable() into probe() would separate it from
+> pm_runtime_set_active(). The current ordering of
+> pm_runtime_set_active() followed by pm_runtime_enable() is the standard
+> runtime PM pattern and avoids additional synchronization requirements.
+> 
+> This design is not new. The placement of pm_runtime_enable() inside
+> amd_sdw_manager_start() was introduced by commit 81ff58ff71ad
+> ("soundwire: amd: add runtime pm ops for AMD SoundWire manager driver")
+> and has been part of the upstream kernel since v6.4.
+> 
+> In summary, moving pm_runtime_enable() to probe() would expose runtime
+> PM callbacks before the SoundWire manager is initialized, creating a
+> real race between probe() and startup. Keeping it in
+> amd_sdw_manager_start() satisfies the requirements of
+> pm_runtime_set_active() and makes the pm_runtime_enabled() guard in the
+> remove path both correct and necessary.
+> 
+> We will split the patch and push the pm_runtime guard change separately.
 
-It's clear that strlcat() isn't perfect and sometimes inefficient.
-But blindly deprecating without providing a good alternative doesn't
-sound like a right approach to me.
+Sounds good, thanks for sharing the details.
+My suggestion was based on what we did for SoundWire codecs, it may not
+be 100% applicable on the host side - or it would create new problems.
 
-
-thanks,
-
-Takashi
