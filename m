@@ -1,199 +1,191 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011055.outbound.protection.outlook.com [40.107.130.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D60C356771;
-	Tue, 15 Sep 2026 14:19:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789481985; cv=none; b=jhMe1O9SiSS7SCim9RBhmXpQg6t+4rieWk6vQLZ3O90Y8xNdtoA6/nXmrbOVC7Dg6zqi195Ewmc4q0hXojwkz28q6fLWKkDhpOUyCFapPcKQP7vpbtaKUalUltoEqsAOzfRagG3xS/tIN4TO2XGJtbvEpOx/d43byPA1R6BQsmg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789481985; c=relaxed/simple;
-	bh=yiWTc9LuPY4Vs2RQHH7eG4n7l73EBdVHK/sOZd2JowA=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=J1Hg+QtSHfPAu1motlg1pZe6e+BYOYVUywEFsPUxTTVg7+yLYB1UlsM+k7EpgyvHEgJtN99fShiln/Jk7FBkhK5+Di+pK5I8M05YSi9HyD6sC1JS1Rugkn86TyHYo1mlRvf2b4tvIiEzarf8DgLWOCoKYP0U1ARgncGio45Be50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XbhVIxDl; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=xuDkaryW; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Gjq6ND1t; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=f9UONYJZ; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2368F3C5856;
+	Tue, 15 Sep 2026 14:38:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.130.55
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789483082; cv=fail; b=Pouljs/hjAdjKMypEf4R/vNoyXVHRTpQOK/KtR7Gip7fyUycIBZF0uwzCXXp52XrI3fRh4X2Hrt72AfV+6XdgmeY4J8KkHMrcQEs8WKlggMn3bcL+G8DMVV66GPSUHLMiQQGuMjHYiO3iJVFI8b/iO1ILKd3W9xvbIc6mZmZ8N8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789483082; c=relaxed/simple;
+	bh=fxPxSQSEWU+tlTxw1QnNwG0Tce1bKNWlqJTBv0HfzqQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=TSnAfHv2fXOQ3Rwr2dvq8xjpoq63tzUM94OoUhvKnnXQ8xq6vmwhiGGoUFKSCvUbiybl5+EcEkwXIQ/6joe1lyYgEX1P2V41GzuSMeHiiriQVZXocOojW0tRhDQSiJ09w49EXRJPNGJHjY3Hdq4TI8yxnMIBFK9L0dd3w3H6OH0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=fail (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=igV7gQNf reason="signature verification failed"; arc=fail smtp.client-ip=40.107.130.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XbhVIxDl";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xuDkaryW";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Gjq6ND1t";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="f9UONYJZ"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 1DEC71FDD2;
-	Tue, 15 Sep 2026 14:19:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1789481977; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lpTF3HCWm12/Df5Z7XVrVxBzYG39F++JBUDpesAaNp0=;
-	b=XbhVIxDlfQkOaUws4wy2XYvCIvwjGToovSMJppSx5L9PoLoAX+U+MqfBsHCVY4xrxqABI3
-	EKNmwydAWivX/lyskT2QHRVap1kBl6JWrLuxB2fzAOepVirn+ipUQmyNwL65Bl/8HI6i7/
-	7Q7kNabcCLIEhPRnONyx6YbUHJasKNQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1789481977;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lpTF3HCWm12/Df5Z7XVrVxBzYG39F++JBUDpesAaNp0=;
-	b=xuDkaryW1uSR0gKx3HbbSgAihFIfmw5ExY2Avd7LTUZ4kUaYUOC2w1qMW3AoLmJRWJfvCO
-	9BS5SDmyC3xEv0Dw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1789481973; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lpTF3HCWm12/Df5Z7XVrVxBzYG39F++JBUDpesAaNp0=;
-	b=Gjq6ND1tJJ04npn4WsEN/n4SjaDmnlZBHDaxyPf0X1UpOxaPVgci8exRLKTjMaAO9cNAId
-	zkNzlwne2lOXG0yLsah0tVFlIyMpgfS2GooKhvRcnLR4nNZWuwo6wRFRxlLN4YWsyANtc+
-	HFfAkQ/WHn0BjaHww4H9KoeusP0q4BE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1789481973;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lpTF3HCWm12/Df5Z7XVrVxBzYG39F++JBUDpesAaNp0=;
-	b=f9UONYJZZV83vXHAYhXMTOIeYyqH7Z2uweoDxsHOpUzJrBRYVXZgeq5FOcytaNFnNNnpjP
-	hyzcetGFQmC6iqBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C19F913432;
-	Tue, 15 Sep 2026 14:19:32 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id FAO8JfRTqWpiLAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 15 Sep 2026 14:19:32 +0000
-Date: Tue, 15 Sep 2026 16:19:32 +0200
-Message-ID: <8733vamwaz.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Zipdox <zipdox@zipdox.net>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	linux-sound@vger.kernel.org,
-	perex@perex.cz,
-	linux-kernel@vger.kernel.org,
-	tiwai@suse.com
-Subject: Re: [PATCH] USB Audio Class 2 Mixer unit support for GET_CUR, SET_CUR and RANGE
-In-Reply-To: <59b3dc9b-f324-42e7-ab03-a01c04e8b915@zipdox.net>
-References: <d46fcac6-bd7e-4fc4-95e1-4e8d39f92ad3@zipdox.net>
-	<87bj9yn55n.wl-tiwai@suse.de>
-	<59b3dc9b-f324-42e7-ab03-a01c04e8b915@zipdox.net>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="igV7gQNf"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=sSdHMCGb5g2O8A8Tnla9EauWAeuDKO71ZrmMeWJ6++IbzatJLkBzSVEy8KoyCshGk28EjBluab4+EBvLM7f3EoI46XfkRGDViZhlAYH4LunNW8aUnNhezNKYlD0NeisOahliWtSgZxtVMCcYcuEocICMxQMDTeO+dcJ1NslRXkD74xTtY94IY+0xw0VW8lZBHpQqllN6vUqr8ZXFKaTbI8P9DCszys8WMsihUbybQgzUvXvLGiaEps/tdp6LeP5Igp1/+aBuXuPa40WXojxc4A3HWjFuiHbufZ2bZCwhCReWZNGBaq6stHFx8wG37C8tlNFj5/y5HqZRRzZ8OIGreA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7U4D15ZDlQ89hKgU4y2s1p3qrJrjQyTxJYl9nYvoh/o=;
+ b=rZcoxgoUwnRKnQumHlE5Rx/uPZEdsajsiV+Yvds1e+j124UtneN6Y9mGtim3guA5nOcIRTl8t84isy+zdxm/TeHveXtf7qxaeIdcTmxBfe7eayjmBg/ChPAjjky2jPFYD4glGKlFXxDi7/rb7+cWLyJbnNSA/3x968o8OeaLmNNA5XWrnb21aSfnoF9HrY329Idh00mN+dblBkQMwfY3aHzRSklK6VqFVvWOnzBz3dKOysvAK9VfxhvDAYBMsTst5yOfm9Am9BfGsx0G2LBQ8QHKTCdzY5x9p94LG9ef147XhRk45s9D/JHak4ytEtvSKaz/kt6l9Jvzctd3WfC4Mg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7U4D15ZDlQ89hKgU4y2s1p3qrJrjQyTxJYl9nYvoh/o=;
+ b=igV7gQNfOBnGWSOYTnX4Xq0eM3ydvl564wafhu3Fg0MzAm8TrnCgj962OqRhfexu43Cg6de/Y7aUUyc6+C4nW8mGnltme3ugVutpPd5kYmndpVPKd6E4iwuWaFxa1f9VbDRQMGrZA+Jqxj+/lcSBn7CyF1x5+M0cgtGnGAmVU7sL8J3u1kkgws8sfjDwrYGxzU0RFueEEmDlancq33yXaGkGWNunWS842BAn1nCiEz24GnRV/owmh/i4CfoqbSWLwoyto97I6t6OlN3vAT9JTwd6RFsTutZSHtdFlGtAhxNX/wZn9MEJP9b7AzFqDzC7+PjIROxNHAVU5LKW4WmYRg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from GV2PR04MB11799.eurprd04.prod.outlook.com (2603:10a6:150:2cf::9)
+ by VI0PR04MB602228.eurprd04.prod.outlook.com (2603:10a6:800:363::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.12; Tue, 15 Sep
+ 2026 14:37:56 +0000
+Received: from GV2PR04MB11799.eurprd04.prod.outlook.com
+ ([fe80::2146:83a2:5329:b7c]) by GV2PR04MB11799.eurprd04.prod.outlook.com
+ ([fe80::2146:83a2:5329:b7c%7]) with mapi id 15.21.0406.012; Tue, 15 Sep 2026
+ 14:37:56 +0000
+Date: Tue, 15 Sep 2026 09:37:44 -0500
+From: Frank Li <Frank.li@oss.nxp.com>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-iio@vger.kernel.org,
+	linux-sound@vger.kernel.org, linux-spi@vger.kernel.org,
+	Vinod Koul <vkoul@kernel.org>, Frank Li <Frank.Li@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
+	=?iso-8859-1?Q?Am=E9lie?= Delaunay <amelie.delaunay@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Andy Shevchenko <andy@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, Mark Brown <broonie@kernel.org>
+Subject: Re: [PATCH v4 01/10] dmaengine: Move enum dma_slave_buswidth to a
+ new header
+Message-ID: <aqlYOHIFU_dB72I3@SMW015318>
+References: <20260911-dmaengine-support-wider-dma-masks-v4-0-72b8fd4cc78e@analog.com>
+ <20260911-dmaengine-support-wider-dma-masks-v4-1-72b8fd4cc78e@analog.com>
+ <aqgCQvRw9fns__0d@SMW015318>
+ <aqjzvxI4ecoFvRLT@ashevche-desk.local>
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aqjzvxI4ecoFvRLT@ashevche-desk.local>
+X-ClientProxiedBy: PH8P220CA0002.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:510:345::6) To GV2PR04MB11799.eurprd04.prod.outlook.com
+ (2603:10a6:150:2cf::9)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.30
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.996];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GV2PR04MB11799:EE_|VI0PR04MB602228:EE_
+X-MS-Office365-Filtering-Correlation-Id: d93da7fd-092d-417c-2763-08df1336ee6e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|23010399003|7416014|366016|19092799006|1800799024|5023799004|56012099006|11063799006|4143699003|10067099003|22082099003|18002099003|6133799003;
+X-Microsoft-Antispam-Message-Info:
+	e3mvwU2N472ONvpKS37W4Uknmr6cFp8+5wXp7Lznclq5tifA68prP9AoPy0umIp2qG/1dusw0HWlSbKgFBfw6PfD7z3dyykVBfMa+M+GbZ7KyPXIR1x9aLv7rJV874VOeUKmlkLUovDHr6/WoeTprNyIyCk9JAc3itvE0rrO6ipb/TeQ3JxcfxsdBa+BL7Q4wS3UVVMOquDjHn3wm7dHoIss5ybIVUrY0+LLVTtNoY3quxpycH5DhPn2YZ/dugJWu6N3r/+W8ZHrUk+8ebE+2hRxtTSs2Rj/zy2HbOVnp+XhDbVZUuUokjOFtb8W85O4XudxwTnb8PfVVHGBpd/h+ClpGnwmqqW4JL3v6XZLI6F96vt6Gof1UVS/4KERONrIomvNBQgljg8/w94jr6HQWoq9SL2Yh3MZPU/NvzshA7D/M1vKfMnjsG93zbWge6ZSxZ6hLlc3b/qUfImLLzOBpvyn3uWmp+aYERgq7V/YvRwPto/xcBT8P7R2g0FAJ1cS5sOJvFHMWfpxDMlFJUh+VkC7ilVpWQFA6kOGmZdrc6YLqWw3QH6opg5iOds2ckE47BlslHwde+XEhSn7Fr9Wuu1nRYyd2qg91BljNGnyU0StqZ492kMVIjp00InCVLJMKj6eLOmGSxlcbM6GQsaJlxO6wrhmosy5hF2bFDuv5qI=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB11799.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(7416014)(366016)(19092799006)(1800799024)(5023799004)(56012099006)(11063799006)(4143699003)(10067099003)(22082099003)(18002099003)(6133799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?iso-8859-1?Q?BYHGDnH4TpFRi9wbDZAx5T3LGfOFWLhQVZX/qXzL4K5v/PPpTx9lqpVT8H?=
+ =?iso-8859-1?Q?Sik9VkBoaVOxXioqXhpke2bhNbix6jNByDmy8PUAxvLU7Py55NtIpOxgSU?=
+ =?iso-8859-1?Q?maLvBRJAZ2u+aTHAuZ74jOOnm0Jwmrp5zlHSksmz4xSlQGk2uAfjaER+if?=
+ =?iso-8859-1?Q?yl4XGZZ6jvQMGgV9NOSjx5E1GhnMbstFXLBLaIlmExKmRrlZemm4LBjw3s?=
+ =?iso-8859-1?Q?taZq1rgbg1uvnRru2DIalxIM9O0076GtH7Fz1lCfOSKQwE/jwxBW0MgwUR?=
+ =?iso-8859-1?Q?Bg2C+GvRBN/7Y1DgOLB2aXdwb4qKqv3sUI2CMF8H2xEESmgACsBamBuTt1?=
+ =?iso-8859-1?Q?Is1v3AkaIPRB/azciUF0IoNPXLCxGUYt40mkSBTR2qjS1Ztl4B1L1ysYjN?=
+ =?iso-8859-1?Q?Dx4VL/PPUqpt4zydkW/awl+twAJ72QSqbuI49ptlYzvwfHHISghwCxHIcc?=
+ =?iso-8859-1?Q?EKVAsok9+WnbFa7pFFSBgWEnUfxtQJUasJCsv7j79nccIVYTzxr2Nh9HFP?=
+ =?iso-8859-1?Q?UNemECSFUWLxG/ts2HKecBY4IYdmq9UZLy+nnIFboKobxhwsoVDdtNZ062?=
+ =?iso-8859-1?Q?QTotdm6GHED/nj4sxYl6vNDsiNMWsXIIpewmZwFGFokkWR0h3SZleTVVkg?=
+ =?iso-8859-1?Q?JFGXGU9iW7T2/YFKj33RuQgNVhZzvoUSKMIf8agmrF+XHaQmrThh9rO03/?=
+ =?iso-8859-1?Q?n+WX+4Nq1bcSWTIPTgs4sdi1M2oMDZMpGYkSUEBuhg/9D9NufN9TFqm/LL?=
+ =?iso-8859-1?Q?pSVxpFRzV3rptTGEe1XsrYBDPCYcY+aNp7EJo9qmkOvONzSUcLxEnb4hfU?=
+ =?iso-8859-1?Q?+432BC7T3/a1CxWRiGttWUd/Zi1r/TbALWj5op+UV47XsG/bvF6DN9zDDP?=
+ =?iso-8859-1?Q?zitG71lAubqkli7AEwzg611ugFDhRXd373944LQeGx4m5YmMSZQcx/ksYF?=
+ =?iso-8859-1?Q?KGxjUcM26PM1zSo2xqsPmCkbv7cC5AxmNUJM5gcKCz7bLmNInWXSeebPrZ?=
+ =?iso-8859-1?Q?q+9FNyJKhkv5Bkd6kuQNg/wFVDK0GzExZZVZdEI3/aCgienaf+kzxb7DHy?=
+ =?iso-8859-1?Q?rpkvk03bd6SPESUgXhRtxwZUXMPJZ6Rh5imnkhe4edeR7ucI9ZLVt2w602?=
+ =?iso-8859-1?Q?MpPErz1+FxHPPlVoQROLFAsX25BUExUQ7L6OcY80k5dlo6Gqi1BzPh5yfm?=
+ =?iso-8859-1?Q?gxsCSWQSNrn8MBU64T7FQ8NQfrPb/2LXshyCRL0/tOmFxVssz2OJkReOlj?=
+ =?iso-8859-1?Q?GKwgaE4/4+bxSNLjt23iH71tqjs7Pdyx5vh1MtFTKPx539RougHpepvPqq?=
+ =?iso-8859-1?Q?o7RdWARQxBo+kwpug+HEy+QTZgPBwPkekn8zl1jeIGuOQm7b+7D6l0BUWq?=
+ =?iso-8859-1?Q?ltNaXZafVlnUUM0H6Fk6oC8scBlBfwOLJkhKWpV4bIDs5n9ZrXJlhLkK5K?=
+ =?iso-8859-1?Q?r+VLxbiLsTAvy8k8Zl47dT2Ws3VoEx/B6BMfJYWf6yV2LB6Aa9bnp/zetv?=
+ =?iso-8859-1?Q?FaWPUw4tSZrJ0Wp7+3fh97OQ4Y2nS0DU1ClA4aqALSh1MW0blWDj3SBYq3?=
+ =?iso-8859-1?Q?5j8VIbaGEu7PUPpjzZ9Kk3xK9Sl+tuDVxupS13lSP+YSxrxHRhiR1RFIGP?=
+ =?iso-8859-1?Q?0+G6iByw7ZkLqOALcJ9OzTvgiO2nhM9KoDYaPJzFk73ODl2eA7YoyvDli4?=
+ =?iso-8859-1?Q?DviAB2O299t9DUAUT6NKIwPNlz/i7S0/eap5RcmLrVi4drlkmq+uA+DfTP?=
+ =?iso-8859-1?Q?t5gqkUhXe8i8cmMUO8IpfMxKYoDgqt2Mx3MtNLnSyb7KmGQuW3d+kC4SJN?=
+ =?iso-8859-1?Q?UuwQXO7NOpzqokGviv3B566VMBkrekbf0KtIYFCLwBM+LdeZZDZM?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d93da7fd-092d-417c-2763-08df1336ee6e
+X-MS-Exchange-CrossTenant-AuthSource: GV2PR04MB11799.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Sep 2026 14:37:56.2526
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Mdzdd3luSU5h5lonpnhdlgkpIUaUqkcgh/qkqfpuF59lL9cjsbJnNc/yr556Ttm5IRIGzzJOWLVvlSYvqBKDtt22/zRhErFxYX3x7FQ5UCHjE4Fj8qpf1KKOI5THHZuJ
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR04MB602228
 
-On Tue, 15 Sep 2026 14:54:38 +0200,
-Zipdox wrote:
-> 
-> On 9/15/26 1:08 PM, Takashi Iwai wrote:
-> > Hmm, for UAC2, UAC_GET_CUR & co isn't passed as is at all, but the
-> > call is translated to UAC2_CS_CUR and UAC2_CS_RANGE accordingly in
-> > get_ctl_value_v2() (that is called from get_ctl_value()
-> > conditionally).  So this translation path was skipped somehow with
-> > your device...?
-> 
-> The request is translated yes, but wValue is incorrect. UAC2 uses a
-> Mixer Control Number ("mcn") in the low byte to identify the mixer
-> control, along with a control selector in the high byte (UAC2_MU_MIXER
-> in this case). UAC1 on the other hand uses the low and high byte to
-> identify the mixer control. It seems get_ctl_value_v2 doesn't change
-> wValue to the appropriate format (mcn and control selector). This code
-> was, as far as I understand it, never correct to begin with for UAC2.
+On Tue, Sep 15, 2026 at 10:29:03AM +0300, Andy Shevchenko wrote:
+> On Mon, Sep 14, 2026 at 09:18:42AM -0500, Frank Li wrote:
+> > On Fri, Sep 11, 2026 at 06:25:36PM +0100, Nuno Sá wrote:
+> > > In preparation for the bitmap based bus width capabilities, move
+> > > enum dma_slave_buswidth out of linux/dmaengine.h into a new
+> > > include/linux/dma/engine/types.h.
+> > >
+> > > linux/dmaengine.h is included nearly everywhere, so growing it with the
+> > > new interface would make every one of its users pay for it. Keeping the
+> > > basic types in a separate header lets the new interface live next to it
+> > > without that cost. linux/dmaengine.h includes the new header, so its
+> > > users are unaffected.
+> > >
+> > > While at it, add the missing kernel-doc for the enum members. The block
+> > > already opened with /**, so kernel-doc expected every member to be
+> > > described and warned about each one of them. Describe the UNDEFINED case
+> > > in particular, as its meaning depends on where the value is used.
+>
+> ...
+>
+> > >  include/linux/dmaengine.h        | 20 +++-----------------
+> >
+> > I think it is good to split dmengine consumer and provider header files to
+> > hidden dmaengine's detail.
+>
+> It's indeed desirable change. but isn't it a bit out of scope of the series?
+> I suggest to do one step at a time. Would it work for you?
 
-OK, point taken.
+Yes, but I hope the file name is finial expected file name. it is okay
+just move enum dma_slave_buswidth to there now.
 
-> To get the MIN, MAX, and RES, get_min_max_with_quirks currently calls
-> get_ctl_value three times to get the values separately. It looks like
-> get_ctl_value_v2 was written to send RANGE requests and extract the
-> appropriate part of the RANGE response, depending on the request. This
-> doesn't actually work though, because wValue is incorrect as I stated
-> above. It also unnecessarily sends three requests instead of one. That's
-> why I bypassed it entirely and wrote the get_ctl_range_16 function. This
-> could in theory be consolidated, but there's quite a bit of other code
-> so I'm hesitant to touch it. Supplying the correct wValue to
-> get_ctl_value in get_cur_mix_raw fixed getting the current value, and
-> the same applies to the call to snd_usb_mixer_set_ctl_value in
-> snd_usb_set_cur_mix_value.
+Frank
 
-But your code also blindly assumes the MU_MIXER_CONTROL that doesn't
-fit with other units like feature unit?  I guess we have to set the
-proper Control Selector value depending on the unit type.
-
-After all, this is about the correct setup of wValue.  Let's try to be
-minimalistic at first -- just tweak wValue in get_ctl_value_v2() and
-snd_usb_mixer_set_ctl_value() at first.  If this becomes too ugly, we
-can think of redesigning.
-
-
-> > Could you try to reformat in a proper patch format?
-> > Also, it looks containing many unnecessary / unrelated changes that
-> > make review more difficult.  Please try to concentrate only on the
-> > change you really need.
-> 
-> Perhaps you are referring to the indentation changes resulting from
-> wrapping existing code in an if statement? I can't really do anything
-> about that. I don't think I changed any unrelated code itself. If there
-> are unrelated changes, please point them out to me.
-
-Well, get_ctl_value_v2() changes look all unrelated and just breaking
-indentations.
-
-> In any case, I
-> changed the patch to the "canonical patch format" as written in the
-> kernel docs.
-> 
-> From: Zipdox <zipdox@zipdox.net>
-> 
-> The USB Audio Mixer Unit driver (sound/usb/mixer.c) sends audio class
-> 1.0 format control messages to devices, regardless of the actual audio
-> class version. This means audio class 2.0 devices will receive incorrect
-> messages, stall, and cause the driver to error (e.g. alsamixer exits
-> with a broken pipe error). This patch implements the GET_CUR, SET_CUR,
-> and RANGE control requests for mixer units according to the Audio Class
-> 2.0 specification.
-> 
-> Subject: [PATCH] USB Audio Class 2 Mixer unit support for GET_CUR, SET_CUR and RANGE
-
-The subject line must be at the beginning right after From tag.
-
-
-> Signed-off-by: Zipdox <zipdox@zipdox.net>
-
-... and both From and Signed-off-by should be with a real name (or a
-known identity).  It's a legal requirement.
-
-
-thanks,
-
-Takashi
+>
+> > suggest name
+> > 	dma/engine.h
+> >
+> > so we can start move more API to this files.
+> >
+> > after all user include this consumer header file,  old
+> > include/linux/dmaengine.h rename to include/linux/dmaengine-provider.h,
+> > which only include by dmaengine drivers.
+>
+> Traditional naming would be
+> dma/engine/provider.h
+> dma/engine/consumer.h
+>
+> --
+> With Best Regards,
+> Andy Shevchenko
+>
+>
