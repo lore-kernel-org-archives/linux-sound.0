@@ -1,78 +1,156 @@
-Received: from out30-97.freemail.mail.aliyun.com (out30-97.freemail.mail.aliyun.com [115.124.30.97])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D33941D22B;
-	Tue, 15 Sep 2026 10:54:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.97
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CA8C392836;
+	Tue, 15 Sep 2026 11:08:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789469692; cv=none; b=Ir988FxfzqvOdZ4RbXfs+0OedxZYdAM9VL+duYE7GVDvlBSp3CfSpd5XIiPsFuPmjT/uYvghyaVukLMqq0tx7IUN5hXXV0UT8UbQWvD7avAh+yVgz7Yc9dsIJk+g0RA3lGjtolK+FKgH6VjIZbNdJFBZ889RdUtBG8NBwx9+ZjU=
+	t=1789470513; cv=none; b=UGPu8ufFeVW2+9+NouyjDb4F2jR2R+62/5L/B0wlU9hKj8vnDtEPWV4UAG9XuOfVzRdR8N57oqXsoKeXIXhiYHf/holkgwOC0thCbBidAeknJ5IXmFpfUUQoXhnbUPxu6pndwo8XsVPBu1M7mr/PiTCq6EiMAhsDNMuM6JdAgUM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789469692; c=relaxed/simple;
-	bh=v5Jo0MPZVCelv+Z4UsEgSEUj4zV9YuPQ2fGaKsZiBsI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nOZU/pNN/wQeLhinneB30FxFv+7PJLPuBed7y5EZ2uan7XSJxoRp3tR7Z1LwfxRQVvwQWY+jpmqaBSBCviq+r5+5Gu0WBUXpCLzaMqvuhSGbB2281ex1s7K1v20cUOya34pUkipMCjJWh6HITRNxW6Fj7kVoAy8xIdCiftwUM58=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=kHy1/37s; arc=none smtp.client-ip=115.124.30.97
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1789470513; c=relaxed/simple;
+	bh=8QyQ5+bP6owd7vPzlJFIprmAxPRGeZYkO3IKs6ibc0Q=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=SHwzFrEM93D6RLniPT9fURCnSJqEouEyacuaI88Zc4TwydWz2q1XRr5Z7YBl1nbg09u/IoidLLjPKCspPPxKmVGyf8Q5X0/6fRQlV3ddBpWwz2lKTgF+uOkoi8UYWf2YQN/uVpdN6V73O/UBHSVp//KI/bKcog224hQWv6BANrI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OLW85onP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=IUQl1CI+; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uwek3Vjh; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=83Qwtxun; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="kHy1/37s"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1789469681; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=3NcK+2D6AazFJjSTKxR7cSuvqpA99SwORYNVJbXxAeM=;
-	b=kHy1/37sXJUJJN5yCjuUQgQVdWyXFJJyRc1jIgSd22HOtkYAXjxbcV+uqcIDxzgIaMOQR9XIGWzZTx9y6cqj9PB5WBF46bF0RjJyp1flBKZYXRWi2yy3OfyplQXWCt+3gYNvVpKrsqLekPglBvMFpN+SxFaSQ9ShrX4shfZXu3w=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R221e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam011083073210;MF=baolin.wang@linux.alibaba.com;NM=1;PH=DS;RN=33;SR=0;TI=SMTPD_---0XB1P4.X_1789469678;
-Received: from 30.74.144.126(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0XB1P4.X_1789469678 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Tue, 15 Sep 2026 18:54:39 +0800
-Message-ID: <ccd08979-d702-4dc7-90cd-f82c08c5182c@linux.alibaba.com>
-Date: Tue, 15 Sep 2026 18:54:37 +0800
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OLW85onP";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="IUQl1CI+";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uwek3Vjh";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="83Qwtxun"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id BF5DE219CC;
+	Tue, 15 Sep 2026 11:08:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1789470505; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=M+FN+qlaCMWuGM6tCzcvJE+t7ej3vRjXYqU+o3xsk5I=;
+	b=OLW85onPeZdUssHXYgvbDUs0bwhcMUq7vYZIZT4A7YCdn0H/FWC+375A2O864rXOFxTd+K
+	dNY6ockOtBd0et0NR9byWZkVUMsglPYkWXFLBN11+0nozAPKAUSNn7tuqpgn8uND5WJUKy
+	Uukj32BV3NxYpcwsa939RZdGQ6HbCD8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1789470505;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=M+FN+qlaCMWuGM6tCzcvJE+t7ej3vRjXYqU+o3xsk5I=;
+	b=IUQl1CI+D9XxAibXHyxt3XOMiyYBWQg/+0sdbGZpE0ofHjR8gNmDg8fFyO/5tLur9Wyuv8
+	sebMvgY230kp8XBQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1789470501; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=M+FN+qlaCMWuGM6tCzcvJE+t7ej3vRjXYqU+o3xsk5I=;
+	b=uwek3VjhyHCus9OXqBc9Ht1UqkvzIQfwZ56fegeR0/2wHYtc33zk39NUq40Fvh8HMmLhav
+	wUOKTmRG/a67tzapZF7xqKG4WkXlxAR5M/kGTX7PRYCPmSstTq3xzItXs6jzFp861ev+c5
+	2VnlFzF9Xf0rreHFQNCJbU1IYcjdt8M=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1789470501;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=M+FN+qlaCMWuGM6tCzcvJE+t7ej3vRjXYqU+o3xsk5I=;
+	b=83Qwtxunp/PO9zsGxcwGWptZ7jEitFZepLCzRHqok+p3NaE2VW+aoeVsRrc8jxWjQci5Tj
+	QNxkUCg4osTUeDCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6DEAB136A5;
+	Tue, 15 Sep 2026 11:08:21 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Uc67ESUnqWphVwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 15 Sep 2026 11:08:21 +0000
+Date: Tue, 15 Sep 2026 13:08:20 +0200
+Message-ID: <87bj9yn55n.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Zipdox <zipdox@zipdox.net>
+Cc: linux-sound@vger.kernel.org,
+	perex@perex.cz,
+	linux-kernel@vger.kernel.org,
+	tiwai@suse.com
+Subject: Re: [PATCH] USB Audio Class 2 Mixer unit support for GET_CUR, SET_CUR and RANGE
+In-Reply-To: <d46fcac6-bd7e-4fc4-95e1-4e8d39f92ad3@zipdox.net>
+References: <d46fcac6-bd7e-4fc4-95e1-4e8d39f92ad3@zipdox.net>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 2/7] ASoC: sprd: Replace dma_request_slave_channel() by
- dma_request_chan()
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Frank Li <Frank.Li@nxp.com>, Mark Brown <broonie@kernel.org>,
- Shengjiu Wang <shengjiu.wang@nxp.com>, bui duc phuc <phucduc.bui@gmail.com>,
- Tianchu Chen <flynnnchen@tencent.com>, linux-kernel@vger.kernel.org,
- dmaengine@vger.kernel.org, linux-sound@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com
-Cc: Dave Penkler <dpenkler@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Vinod Koul <vkoul@kernel.org>, Frank Li <Frank.Li@kernel.org>,
- Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>,
- Fabio Estevam <festevam@gmail.com>, Nicolin Chen <nicoleotsuka@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Daniel Mack <daniel@zonque.org>,
- Haojian Zhuang <haojian.zhuang@gmail.com>,
- Robert Jarzmik <robert.jarzmik@free.fr>, Lars-Peter Clausen
- <lars@metafoo.de>, Orson Zhai <orsonzhai@gmail.com>,
- Chunyan Zhang <zhang.lyra@gmail.com>,
- Olivier Moysan <olivier.moysan@foss.st.com>,
- Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>
-References: <20260915100931.3593242-1-andriy.shevchenko@linux.intel.com>
- <20260915100931.3593242-3-andriy.shevchenko@linux.intel.com>
-From: Baolin Wang <baolin.wang@linux.alibaba.com>
-In-Reply-To: <20260915100931.3593242-3-andriy.shevchenko@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spam-Score: -3.30
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.996];
+	MIME_GOOD(-0.10)[text/plain];
+	TO_DN_SOME(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,zipdox.net:email,suse.de:mid]
 
-
-
-On 9/15/26 6:04 PM, Andy Shevchenko wrote:
-> Replace dma_request_slave_channel() by dma_request_chan() as suggested
-> since the former is deprecated.
+On Tue, 15 Sep 2026 10:54:00 +0200,
+Zipdox wrote:
 > 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
+> Hello,
+> 
+> The USB Audio Mixer Unit driver (sound/usb/mixer.c) sends audio class
+> 1.0 format control messages to devices, regardless of the actual audio
+> class version. This means audio class 2.0 devices will receive incorrect
+> messages, stall, and cause the driver to error (e.g. alsamixer exits
+> with a broken pipe error).
 
-LGTM. Thanks.
-Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+Hmm, for UAC2, UAC_GET_CUR & co isn't passed as is at all, but the
+call is translated to UAC2_CS_CUR and UAC2_CS_RANGE accordingly in
+get_ctl_value_v2() (that is called from get_ctl_value()
+conditionally).  So this translation path was skipped somehow with
+your device...?
+
+
+> This patch implements the GET_CUR, SET_CUR,
+> and RANGE control requests for mixer units according to the Audio Class
+> 2.0 specification.
+> 
+> I have one question though, which has to do with the get_cur_mix_raw
+> function. It states "channel = 0: master, 1 = first channel", but as far
+> as I know the spec doesn't specify a master control for mixer units. I
+> implemented it so that channel 0 results the channel 1 value, but maybe
+> some other solution is desirable.
+> 
+> From: Zipdox <zipdox@zipdox.net>
+> Date: Tue, 15 Sep 2026 10:12:01 +0200
+> Subject: [PATCH] USB Audio Class 2 Mixer unit support for GET_CUR, SET_CUR and
+>  RANGE
+> 
+> Signed-off-by: Zipdox <zipdox@zipdox.net>
+
+Could you try to reformat in a proper patch format?
+Also, it looks containing many unnecessary / unrelated changes that
+make review more difficult.  Please try to concentrate only on the
+change you really need.
+
+
+thanks,
+
+Takashi
