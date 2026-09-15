@@ -1,40 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D50649CF5B
-	for <linux-sound@vger.kernel.org>; Wed, 16 Sep 2026 12:09:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB5EE36F908
+	for <linux-sound@vger.kernel.org>; Wed, 16 Sep 2026 12:09:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789560552; cv=none; b=kQPqEQpjW2EKq7i0VlqusMWJ1RByb44paK7OkrBcCjQulQ8Eqb6FmjMuGt6tgbj1wMspZwXe+THfRmxlBPsi86sk0g4uBImhffFyg0FXznZSGTor9xJZ5bIp8JmJsNzOg9NwcM2EK6B6Jtj2xsexqUjWPc+16NU1ZM+gHN2YisY=
+	t=1789560556; cv=none; b=PPyTU9mlVgqwHhLDFwMbRVRgTv7eoCU/45jJF9GnSZXeHUbfn7NTEYsklL9ReJsFKco33euogU3TAzy64/8/u8HFrUMZngX1/sAaRcyTbECrJO01Y+NmRSNr9wLgJZKiloUK9kiIhGC9LZXpsGy6BnfTMUUP7NF07/DhmW5aL5A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789560552; c=relaxed/simple;
-	bh=yoxA1kz240bYoRndTGrEZPFC8CbH+cUnAupvTM2bKmc=;
+	s=arc-20240116; t=1789560556; c=relaxed/simple;
+	bh=afYdW6WpbCylgXxMy59z6OHBl9IT24cHdv8Da3rA6Ys=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=MjLprDHBEgho4aCB5ePMwmRzYbYu5u9EsPKqZgL5n0/TDvCkVawu+gZy7NB9GBla3zN1CYC/wzGcucwj2TDTXLVzcd/prUyJnIVTYkGYpskZeEsqf6aozDU8nsvT6kNhP9wdSpR7b+xBVvFWGCV9uGqsmT7CPvSeJFWtyi4uRxg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gR+eIHEl; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=a0DnWi2bisx7FvjdH7AW/THPgL5vxh5809VRlVIkoB+miEszkCQ0reTRPLI1lJIQdbrJRbdqSeDLg/fMJ+fGM3mnlTHdud9o3t+WffQpuXf6Cm8kGjYOFewfzSiF3dEzY2RZ8jw7gRehYFPK+XYIo3070pP3Hw6qOIplB3VEIkY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qi6lvmvz; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gR+eIHEl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 631581F0089A;
-	Wed, 16 Sep 2026 12:09:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qi6lvmvz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2FB451F00893;
+	Wed, 16 Sep 2026 12:09:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789560543;
-	bh=GXQL20AwuRzjAWqtZEG9BabUC8NlGurVmHebuRja4LU=;
+	s=k20260515; t=1789560547;
+	bh=NZS+8M9xCyWV1SQSz2/o7Ssf3u4Fyt58Af5CA+H494Q=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=gR+eIHElQpXaad5G0wpqEpAK6ULiMNRbleEgzgdXOsHtUwaN9lgbLunPsKoMVMDNi
-	 yH+yfM03E4g0L5DozpeajeH6eZ/FYpHg16L/rmIDvwKkgPAwD7r8UC87y6hbvD2Hur
-	 BP0v38BJr6TvLOlKzJQ+PIW+bAmVCiW9HIIlw03QAKtgjQeeeWdQApUGf0NkSFsHne
-	 v3rA5IsAznPeUiqABrXBegxzaPRattSsuyh8tO6+6VHYB0ccl7nCC6HSPyIgggVESp
-	 xWKmxwwmgIQo9kxawcm6P2wUjqNWsCJ324JSKSxyZtBF9xvUhlApJU8DvM7nHOCcti
-	 sgjH6hO0fXM2Q==
+	b=Qi6lvmvzxPGgihfUtautp8iVmCMQ8NhyZGmuIN9QMNabN2VvVQNqoKI8ykI4e/PPb
+	 ERTTlxFc7CjNJxHqc5WqPX93g/B5B/f5wMaWTLnV1lpZX4Qqpfrrc6nmvARoytrJcC
+	 alLCnvOG6PT+KfP9OXTnkQHgaVwJ+7nVQlXZNe/yiyTFU29mRG5fljoPQL/bSnuPLz
+	 73RvhKGc6//LIl0a8lc0GmfBY3R18Rzuc+cDUnVj4X9VSc0GrlhHggL4hEuntNDTdM
+	 MTHDhKypoZqZ8MSfkXt28EZCjRkmPHUQbQ+VqB5WRs37K3SbHuAJWtbjUsY0pOkGTD
+	 wGpxof6wOIWiw==
 From: Mark Brown <broonie@kernel.org>
-To: linux-sound@vger.kernel.org, Zhang Yi <zhangyi@everest-semi.com>
-Cc: tiwai@suse.com
-In-Reply-To: <20260915023006.22940-1-zhangyi@everest-semi.com>
-References: <20260915023006.22940-1-zhangyi@everest-semi.com>
-Subject: Re: [PATCH v4 0/2] ASoC: codecs: ES8326: Modify the configuration
- and add kcontrol
-Message-Id: <178949554587.151760.8003595604828534881.b4-ty@b4>
-Date: Tue, 15 Sep 2026 19:05:45 +0100
+To: Shenghao Ding <shenghao-ding@ti.com>
+Cc: tiwai@suse.de, 13916275206@139.com, perex@perex.cz, lgirdwood@gmail.com, 
+ linux-sound@vger.kernel.org, baojun.xu@ti.com, k-lu@ti.com
+In-Reply-To: <20260915044735.1305-1-shenghao-ding@ti.com>
+References: <20260915044735.1305-1-shenghao-ding@ti.com>
+Subject: Re: [PATCH v3] ASoC: tas2781: Add TAS2573 calibration support
+Message-Id: <178949457658.151760.15632737262810659230.b4-ty@b4>
+Date: Tue, 15 Sep 2026 18:49:36 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -44,29 +44,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1525; i=broonie@kernel.org;
- h=from:subject:message-id; bh=yoxA1kz240bYoRndTGrEZPFC8CbH+cUnAupvTM2bKmc=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqqobcNjiPcjd1DLONYZWRBV56Eyq4uQUnUZYeU
- AdEdy7CyXWJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaqqG3AAKCRAk1otyXVSH
- 0KFIB/9MW2z0+vaNbbaNp89vK4uqi2OFcf7HYGs82M1j2Xmtt+x8JVn9fGAQVvcPBrCbNNsK3HL
- eLpoRkwCbZP+UxX8AtenVsUjbLrV33+Bql5/Mq+1dBWfyeBtQC7YYcnVXaGx//1oYuVM8Atd4XG
- T3Oe0ld9o8oWU75DOIyfj3i2kFmLUbwZ3+ef28Rn/AHz2ly1aHHiOsdRo9FGt+EKUdttfWGdU4G
- wHXFEQSUggSBpvbwQcXF/8l5EKkasnZTsKZnwIAcY4JNfOqNUxTbwK9W3Nxfulty0NMJtSZYOQ1
- HtBcqn780VOC3J2mN7ZoKnmMPLSopbyVfL9qG+VHWjRguSyw
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1111; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=afYdW6WpbCylgXxMy59z6OHBl9IT24cHdv8Da3rA6Ys=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqqobfR8BI9VgpGXio4WQ6YyOSB+TNJP0scVX7R
+ j4mwGUULmSJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaqqG3wAKCRAk1otyXVSH
+ 0Fe0B/47DsWyok+r0augNr5a+08S18pgItD64KQdkv9WcmMwIHZGWGyTecv5R1oDkPzgGYaiZSR
+ dzpo20D4ZJyCh0U4gcmsmAUqKdOPzJ431wfUSK6xoYvceO51K8Gc1xMAh4cWxLC6Kkpj7Utkf1j
+ eyypX/jPDY0HLY2mfoY3B/TUyXUAxCkTmEhHSTM0g7eHti6iAPN7TlrwsXjwOC81tyJFGahAwzD
+ u5SZ+NwsD2GKu1TE2m4RZpruQluvg67+3opZvTtBJxh+L4GxwoNEJfMrgH5Ze+FJq4taNAiLlPt
+ +HDNNylczmBhGxePOF/zivv3N9+aeUjN279sQTXTfRFdPLFa
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Tue, 15 Sep 2026 10:30:04 +0800, Zhang Yi wrote:
-> ASoC: codecs: ES8326: Modify the configuration and add kcontrol
-> 
-> Modify the standby configuration and add the kcontrol related to HPF
-> 
-> Changes in v4:
-> 	- In kcontrol, additionally check whether the input value is less than 0
-> 	- Move the assignment above to the end of the function
-> 	- Add a lock in kcontrol
-> 
-> [...]
+On Tue, 15 Sep 2026 12:47:35 +0800, Shenghao Ding wrote:
+> ASoC: tas2781: Add TAS2573 calibration support
 
 Applied to
 
@@ -74,10 +65,8 @@ Applied to
 
 Thanks!
 
-[1/2] ASoC: codecs: ES8326: Add private members about HPF
-      https://git.kernel.org/broonie/sound/c/b75981e29a5c
-[2/2] ASoC: codecs: ES8326: Adjust the standby configuration
-      https://git.kernel.org/broonie/sound/c/7502e1fca731
+[1/1] ASoC: tas2781: Add TAS2573 calibration support
+      https://git.kernel.org/broonie/sound/c/d1a73ad21f96
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
