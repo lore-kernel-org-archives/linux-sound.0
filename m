@@ -1,185 +1,263 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20E9B3AD538
-	for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 22:30:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7F884A843D;
+	Tue, 15 Sep 2026 22:48:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789511441; cv=none; b=XTNsNtr2WiFJOQSWakHpmylbs2b0DvXWOHmX80Zfhuh8Tc9j85GDYKSlCM7zrEVKxFfiB+5f4aIxjSmEMQK9DAb96g4yBGEVjy4ScdTSsYBGu0fb/Gt5trjWPVaCurnBGNvW+QOODN2x+YCar6sWJAbpHqkHWFO5rQ8tRHgc8co=
+	t=1789512529; cv=none; b=LZUIO1hCm7/nX+JpoXGBggoLY8+ReQq68oLG36BQ0aTXaoWlwhZo5xX6XoC2c/SxJuOHG2u3HUyAMge7crh1O+O9CIgsXPp1mmhWjjp/uhztcWTBsS4HPVSdjNwGebL2gOfaqce/MOkWdNVrM6Ygnqtb5gmr8aLrZAATuvL6JV0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789511441; c=relaxed/simple;
-	bh=vVmTWSLMVujJSG3CQY6fFBRFGflHp4JcNvvw1BRS2so=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fPnr0I0RA+20KyC2Y6HwcDScLcUKAP71gP2DR6QzuJhNKPMiJ/qqUhi9og1SUvHL+mZR0ZYTA1cIED0I9H+PiuXVfLLE/DrxJbkVbIcbFMGFmPzdXRCZjVugjv0DDnG2qt8KuT68zjRaRa9KQTrnTuge1qLQ+eLam+HReKhMY2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ZVDAdXDo; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=gR7t7Y7c; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1789512529; c=relaxed/simple;
+	bh=iCsV6Yt3i0365LsOOymIdc9BbzAJGLoMTOgYbTHFBjo=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=kUXkLt5W1WoH/Tg4Hoz0qY18SUXfZuX9CRWLdv7LaqiEEskuHyWuXjqO6D5liuv0P50zzqqH8t70My5MUhbjKZfP8rlsQbMF4d6QFWKiJQwQPg25v467MaBhkDO+3p3pIjXSn173z2TCrO03Q/sosTFsCuCSpvZErETjGv1soH0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KKledO5g; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ZVDAdXDo";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="gR7t7Y7c"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68FLYjvb840518
-	for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 22:30:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	OoaUvNij8YmbcFsxH3lXmPdyT4LUwKvkwpbwWWFHxPE=; b=ZVDAdXDo0ulVpyXb
-	g8NopG2tbvKSgTtcqDpDuO4nio/SQwZ0JzyDXFJ0rGtBNkZo/LmUNoa3jT7hlceo
-	6w7Mhbw6AfmN2EdU3pRwH6JZ9HqJlcU2PLDuqBZfaykiIb6ShRxb8EfEYcFwkDZ5
-	PTIdh17Y96kV5BeHTk50zBiw3iogDbOVtK/yfZI17mAHitg7rRfbAF1pLDmEKcDh
-	WNSX/EDeIRPcXhVy0VN6MPcC7ly6233oHvBDjJH9KN56YDulhUgZeqDfBV9woUfy
-	2hc2LKssaAgonXCEHqjV+37z/2SQKBIyXBgmz/uCg3bMHzabGv73qApnxcTBCIdj
-	brA15w==
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com [209.85.219.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gqdyw85xh-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 22:30:39 +0000 (GMT)
-Received: by mail-qv1-f70.google.com with SMTP id 6a1803df08f44-90e8472ee1eso108211516d6.0
-        for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 15:30:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1789511438; x=1790116238; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=OoaUvNij8YmbcFsxH3lXmPdyT4LUwKvkwpbwWWFHxPE=;
-        b=gR7t7Y7cyhJpDp2CnGQzkQB2fpHzSWv+qO/P7VaDyKbSGmyDIa4D3pq+v2ITaWYWrz
-         AsdybGRP5rr45idNI5z7xjnBCjeQDH8WALE7MZbfTkSQMejGg7d3r6lMYP01VU52xBaR
-         x+pd84S3u8qHC+ahal39qCMu01RLVN+PlpE2YSAAJGU4sqdK4fXVi3ArpyM7jOyh/qk0
-         Uudpu5rjlYWVg3pgACvcUYr7KR/l0JHbCcLHGwAhp7tWT5NWKwDEU8cnQHcwXMmsGeSJ
-         vQ8jI+eOrja3E7X5fsDbcqziaE3lPN4gE6/ZOceoOpdK435nP4ld+bgbLtvjzrt+8F2a
-         PztA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789511438; x=1790116238;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=OoaUvNij8YmbcFsxH3lXmPdyT4LUwKvkwpbwWWFHxPE=;
-        b=m4DrLOAd7ekzrbCrbpjXnmSFaIxTPgxh5TxmGYOCbzmA2461TSzifTx/GnLlnNuqdJ
-         3xxQrc72IZ/eL+0s2YY9f6LG7uSF8YFPd3uhDPaWEqeXnBy969J8zP3eMqfb4XVR5b7e
-         pTLAEUYTGyvqYQ+l/Mznok6+oUaLsdcbkITl8Zwt+eWz/iQ2v0nyDlzRt0bPoi38CuU7
-         p+mja0+rB8VYYwm6RRwG9aSS/cxM8OYDnZybGOHhZPAzXBZUC9nAhS8uDgEEiZYFBTTu
-         tNgD9/weY58hIyYeHBuJljlH/O/OQMl9MNzjn1k4hXhDvizlECsZc4SWghLeBdR06Xl9
-         /rZQ==
-X-Forwarded-Encrypted: i=1; AKwUvBy2nPe0WEvs6enF1HMgsfmvtudpOF2x/UCYt413RAhToooyG4ltUcQi+xblFimoBjsFOu+2hdRuNPU/WA==@vger.kernel.org
-X-Gm-Message-State: AFuF++mhEh0AB2sOzSToZk7lYWuT5sGMVnshOtk+QmzzPjz09b5WZsp9
-	BWZXNBKqJHiuRI7kqJ/3DqOP2Z0AgaphlD0wHJjlMWj8+3v9P9fltk18M5GAln/l42seAsChkqO
-	9yNwVmirod4DntLFkOeJnVcmuKiqQA3FPYkVr9y+3T5597YKmBm9vL1bJQPCJ3nE0KA==
-X-Gm-Gg: AYBFou0dtQa5SFpzn5i9dceXhiO09elpPyBncjjp2AxLd6HxZDlbEIATRaVomoGfN5v
-	09Xkm9V77vA0Kk/sSvIT9NEd4mzAtKS1b1DtrG/N5E0B2Ner8ObcLZr4/460cyY2h1VPOJBduzs
-	1Zios+BbafMCXQKz3lep94srS8mhmQ+o1fkt1Rzu/KdmV+kb66oXOejetRaZ7bqpop1EgCW6Pme
-	wV9B0/8XUh5a1OgwLvVGKr/tfbmZzaFyW+GGzlE/gf0RwKKQSbKIwCpodsh0KP0O8msJFETLQ5Z
-	bfb3eQ8SazWzE6qo5BxDbWkYq64fNsGZS3pg5x5YnwFcwT80gOdHb7dRVq3uon35uvvzpXapeLb
-	lfpE0ubOMnspNK1tItyyV5hWZ0Oo=
-X-Received: by 2002:a05:620a:1a03:b0:939:7c8:78b1 with SMTP id af79cd13be357-93bb789cc86mr30102385a.24.1789511438177;
-        Tue, 15 Sep 2026 15:30:38 -0700 (PDT)
-X-Received: by 2002:a05:620a:1a03:b0:939:7c8:78b1 with SMTP id af79cd13be357-93bb789cc86mr30097185a.24.1789511437739;
-        Tue, 15 Sep 2026 15:30:37 -0700 (PDT)
-Received: from [192.168.68.120] ([5.133.47.210])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-49e83dbb0c1sm24618435e9.14.2026.09.15.15.30.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Sep 2026 15:30:36 -0700 (PDT)
-Message-ID: <6266fd8c-d941-4eb4-bcf2-fbd54d093186@oss.qualcomm.com>
-Date: Tue, 15 Sep 2026 23:30:35 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KKledO5g"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1789512527; x=1821048527;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=iCsV6Yt3i0365LsOOymIdc9BbzAJGLoMTOgYbTHFBjo=;
+  b=KKledO5giiHfeDBBbYJXjPPYJ5f8bq+l+shAy8T/rMkY9NqepW6/korP
+   oOLpMMp0CiaEreV049rV1dAqZQ4OxI5PmBxnK2/377DStxnus/z8Nm1Da
+   0Wy4HwqVNQgvzTwYhOIJG5+wyC2JgD+TvUf/2YLoXjKasmASSrlnIenrj
+   oel50c6uIAcv8U5jEhbAz3CTx9PX3M6OsmBFPdqC8fMr5fU8iYmv4t09N
+   XCz7qNUewQkkvnt/NU9ym3rYDB/5mWMLHIMqJMn/oJ3NHXbQqOtOfy+bY
+   PpnjHddMiY27F17/E8TCUWkFPecPwGTjqPIzMriB5bqtZF4vVL3rEM7FX
+   w==;
+X-CSE-ConnectionGUID: 9IrwKqCPTOOmHOtGYQJtXg==
+X-CSE-MsgGUID: clrrcC1wRri8QUDQS4ZG6w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="93588500"
+X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
+   d="scan'208";a="93588500"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2026 15:48:45 -0700
+X-CSE-ConnectionGUID: l6aLB3sHSDCVOF+13n2dww==
+X-CSE-MsgGUID: N/e3gBTeQPOkIldTAQHVPw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
+   d="scan'208";a="277276980"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.24])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2026 15:48:40 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Wed, 16 Sep 2026 01:48:36 +0300 (EEST)
+To: Andre Eikmeyer <dev@deq.rocks>
+cc: platform-driver-x86@vger.kernel.org, amd-gfx@lists.freedesktop.org, 
+    linux-sound@vger.kernel.org, 
+    Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>, 
+    Hans de Goede <hansg@kernel.org>, Alex Deucher <alexander.deucher@amd.com>, 
+    =?ISO-8859-15?Q?Christian_K=F6nig?= <christian.koenig@amd.com>, 
+    David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+    Kenneth Feng <kenneth.feng@amd.com>, Jaroslav Kysela <perex@perex.cz>, 
+    Takashi Iwai <tiwai@suse.de>, Takashi Iwai <tiwai@suse.com>, 
+    Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
+    dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3 1/3] platform/x86: apple-gmux: add MacBookPro15,1 dGPU
+ power sequence
+In-Reply-To: <20260812144750.36797-2-dev@deq.rocks>
+Message-ID: <54a9c55c-4437-1974-dc3a-106bc2488fee@linux.intel.com>
+References: <20260812144221.35877-1-dev@deq.rocks> <20260812144750.36797-1-dev@deq.rocks> <20260812144750.36797-2-dev@deq.rocks>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 8/8] ASoC: codecs: add Qualcomm Tambora (WCD9378) SDCA
- codec
-To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-        Charles Keepax <ckeepax@opensource.cirrus.com>,
-        Maciej Strozek <mstrozek@opensource.cirrus.com>,
-        Bard Liao <yung-chuan.liao@linux.intel.com>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>, patches@opensource.cirrus.com,
-        linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260915165652.914893-1-srinivas.kandagatla@oss.qualcomm.com>
- <20260915165652.914893-9-srinivas.kandagatla@oss.qualcomm.com>
- <aql-HLWq4NOh3cgk@monoceros>
-Content-Language: en-US
-From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-In-Reply-To: <aql-HLWq4NOh3cgk@monoceros>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: _b-yfRVTnSZT0PnPOOPqzEzLi6RL6nPS
-X-Authority-Analysis: v=2.4 cv=aJ1lOr9m c=1 sm=1 tr=0 ts=6aa9c70f cx=c_pps
- a=oc9J++0uMp73DTRD5QyR2A==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
- a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
- a=ohbBbs68x0cw2nEFerEA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=iYH6xdkBrDN1Jqds4HTS:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE1MDMyOSBTYWx0ZWRfX32L4GTsQJZC2
- IrOTplBjiTNZvL2Qy5piBIv014ymblNJfaFj26tI6P0PahbtML9qK8K62ChfHoACYqydf2p8d1J
- EXoZ8G+ScSovq8JtPR10Yo/4nzKeYVonsZIvRxRVRBumqz97449zn8c8EBpwOoGclUzJFJnTsx0
- 4QQMQxYN1P3Jf4WK8/JwU4dHNbNq7ed4YoZTiwm4qxdewHsTJYDnjnQXGQbJ2Se4LWyzpkFPYLz
- 4iuEwp2bS2xOxTvM14C0tO26FsaYk+AlWik7R6jbtVetp1i1eUz0a7QCphmM9Sx7z5bcI0y2rMF
- GOoDRuHEiDkTkKx5ilvVJl92GpHn8G75RZ8sKcB0ZzJFGfbGa+I4JDQ+9Ehovsb0fPmYaqbQPIm
- r/8663uMBv0po6nT8RcgnFoVFvtaQL4vYOl2+U2vS0YJvdB4ApVuqqwSjbE2DdNCfNivjffguYI
- CpS19Py23MQ1HZ0bn5A==
-X-Proofpoint-ORIG-GUID: _b-yfRVTnSZT0PnPOOPqzEzLi6RL6nPS
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTE1MDMyOSBTYWx0ZWRfX+pLJ/AIkXP1F
- dWtnxLNwpgYWatm33SwDiMpsS3ToD4quBlBXjd+QkSXhIEmqOgCvFzvZPMLepCilOgO8KvOkEvT
- oZj7NikbGFtbCizVyRI8XW7bbphYUX4=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-15_05,2026-09-15_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 impostorscore=0 phishscore=0 suspectscore=0 bulkscore=0
- malwarescore=0 clxscore=1015 priorityscore=1501 spamscore=0
- lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
- definitions=main-2609150329
+Content-Type: text/plain; charset=US-ASCII
 
-On 9/15/26 6:22 PM, Uwe Kleine-König wrote:
-> Hello,
+On Wed, 12 Aug 2026, Andre Eikmeyer wrote:
+
+> From: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
 > 
-> On Tue, Sep 15, 2026 at 05:56:50PM +0100, Srinivas Kandagatla wrote:
->> +#include <linux/mod_devicetable.h>
->> +#include <linux/module.h>
->> +#include <linux/pm.h>
->> +#include <linux/pm_runtime.h>
->> +#include <linux/soundwire/sdw.h>
->> +#include <linux/soundwire/sdw_type.h>
+> The discrete GPU on the MacBookPro15,1 does not return after the legacy
+
+"return" seems wrong term in this sentence.
+
+> GMUX power-on sequence. PCI configuration space remains inaccessible, so
+> runtime PM cannot provide usable hybrid graphics with the integrated GPU
+> as primary.
 > 
-> You can and should rely on sdw_device_id being provided by
-> <linux/soundwire/sdw.h>. So please drop <linux/mod_devicetable.h> which
-> makes a bunch of useless build dependencies go away with it.
+> Evaluate the firmware PWG1 and PWG3 link methods around the GMUX
+> transition and wait for PCI configuration space before completing power-on.
+> Keep the sequence limited to the MacBookPro15,1 and retain the existing
+> path for every other model.
+
+
+
+> This was tested on both the 2018 and 2019 MacBookPro15,1 revisions with the
+> integrated GPU as primary. The discrete GPU transitions between DynOff and
+> DynPwr, and external displays work across the transitions.
+> 
+> Co-developed-by: Andre Eikmeyer <dev@deq.rocks>
+> Signed-off-by: Andre Eikmeyer <dev@deq.rocks>
+> Signed-off-by: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
+> ---
+>  drivers/platform/x86/apple-gmux.c | 86 ++++++++++++++++++++++++++++---
+>  1 file changed, 80 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/platform/x86/apple-gmux.c b/drivers/platform/x86/apple-gmux.c
+> index 9c728ac..ccb059a 100644
+> --- a/drivers/platform/x86/apple-gmux.c
+> +++ b/drivers/platform/x86/apple-gmux.c
+> @@ -22,6 +22,7 @@
+>  #include <linux/pci.h>
+>  #include <linux/vga_switcheroo.h>
+>  #include <linux/debugfs.h>
+> +#include <linux/dmi.h>
+>  #include <acpi/video.h>
+>  #include <asm/io.h>
+>  
+> @@ -74,6 +75,8 @@ struct apple_gmux_data {
+>  	enum vga_switcheroo_client_id switch_state_external;
+>  	enum vga_switcheroo_state power_state;
+>  	struct completion powerchange_done;
+> +	struct pci_dev *discrete_pdev;
+> +	bool use_pwg_power_sequence;
+>  
+>  	/* debugfs data */
+>  	u8 selected_port;
+> @@ -82,6 +85,34 @@ struct apple_gmux_data {
+>  
+>  static struct apple_gmux_data *apple_gmux_data;
+>  
+> +static int gmux_call_pwg(struct apple_gmux_data *gmux_data,
+> +			 const char *method)
+> +{
+> +	acpi_handle handle = ACPI_HANDLE(&gmux_data->discrete_pdev->dev);
+> +	unsigned long long result;
+> +	acpi_status status;
+> +
+> +	if (!handle)
+> +		return -ENODEV;
+> +
+> +	status = acpi_evaluate_integer(handle, (acpi_string)method, NULL,
+> +				       &result);
+> +	if (ACPI_FAILURE(status)) {
+> +		dev_err(&gmux_data->discrete_pdev->dev,
+> +			"failed to evaluate %s: %s\n", method,
+> +			acpi_format_exception(status));
+
+Add hinclude for dev_err().
+
+> +		return -EIO;
+> +	}
+> +
+> +	if (result) {
+> +		dev_err(&gmux_data->discrete_pdev->dev,
+> +			"%s failed: %llu\n", method, result);
+> +		return -EIO;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  struct apple_gmux_config {
+>  	u8 (*read8)(struct apple_gmux_data *gmux_data, int port);
+>  	void (*write8)(struct apple_gmux_data *gmux_data, int port, u8 val);
+> @@ -510,14 +541,49 @@ static int gmux_switch_ddc(enum vga_switcheroo_client_id id)
+>  static int gmux_set_discrete_state(struct apple_gmux_data *gmux_data,
+>  				   enum vga_switcheroo_state state)
+>  {
+> +	int ret;
+> +
+>  	reinit_completion(&gmux_data->powerchange_done);
+>  
+>  	if (state == VGA_SWITCHEROO_ON) {
+> -		gmux_write8(gmux_data, GMUX_PORT_DISCRETE_POWER, 1);
+> -		gmux_write8(gmux_data, GMUX_PORT_DISCRETE_POWER, 3);
+> +		if (gmux_data->use_pwg_power_sequence &&
+> +		    gmux_data->discrete_pdev) {
+> +			u16 vendor;
+> +			int i;
+> +
+> +			gmux_write8(gmux_data, GMUX_PORT_DISCRETE_POWER, 2);
+> +			msleep(100);
+> +			gmux_write8(gmux_data, GMUX_PORT_DISCRETE_POWER, 3);
+> +
+> +			ret = gmux_call_pwg(gmux_data, "PWG1");
+> +			if (ret)
+> +				return ret;
+> +
+> +			for (i = 0; i < 1000; i++) {
+> +				pci_read_config_word(gmux_data->discrete_pdev,
+> +						     PCI_VENDOR_ID, &vendor);
+> +				if (vendor != 0xffff)
+> +					break;
+> +				usleep_range(1000, 2000);
+> +			}
+> +			if (vendor == 0xffff) {
+
+Does this duplicate pci_bus_read_dev_vendor_id() ?
+
+> +				dev_err(&gmux_data->discrete_pdev->dev,
+> +					"timed out waiting for PCI config space\n");
+> +				return -ETIMEDOUT;
+> +			}
+> +
+> +			ret = gmux_call_pwg(gmux_data, "PWG3");
+> +			if (ret)
+> +				return ret;
+> +		} else {
+> +			gmux_write8(gmux_data, GMUX_PORT_DISCRETE_POWER, 1);
+> +			gmux_write8(gmux_data, GMUX_PORT_DISCRETE_POWER, 3);
+> +		}
+>  		pr_debug("Discrete card powered up\n");
+>  	} else {
+>  		gmux_write8(gmux_data, GMUX_PORT_DISCRETE_POWER, 1);
+> +		if (gmux_data->use_pwg_power_sequence)
+> +			usleep_range(10000, 11000);
+
+Where do these numbers come from?
+
+>  		gmux_write8(gmux_data, GMUX_PORT_DISCRETE_POWER, 0);
+>  		pr_debug("Discrete card powered down\n");
+>  	}
+> @@ -549,11 +615,16 @@ static enum vga_switcheroo_client_id gmux_get_client_id(struct pci_dev *pdev)
+>  	 */
+>  	if (pdev->vendor == PCI_VENDOR_ID_INTEL)
+>  		return VGA_SWITCHEROO_IGD;
+> -	else if (pdev->vendor == PCI_VENDOR_ID_NVIDIA &&
+> -		 pdev->device == 0x0863)
+> +	if (pdev->vendor == PCI_VENDOR_ID_NVIDIA && pdev->device == 0x0863)
+>  		return VGA_SWITCHEROO_IGD;
+> -	else
+> -		return VGA_SWITCHEROO_DIS;
+> +
+> +	if (apple_gmux_data->use_pwg_power_sequence &&
+> +	    apple_gmux_data->discrete_pdev != pdev) {
+> +		pci_dev_put(apple_gmux_data->discrete_pdev);
+> +		apple_gmux_data->discrete_pdev = pci_dev_get(pdev);
+> +	}
+> +
+> +	return VGA_SWITCHEROO_DIS;
+>  }
+>  
+>  static const struct vga_switcheroo_handler gmux_handler_no_ddc = {
+> @@ -803,6 +874,8 @@ static int gmux_probe(struct pnp_dev *pnp, const struct pnp_device_id *id)
+>  	if (!gmux_data)
+>  		return -ENOMEM;
+>  	pnp_set_drvdata(pnp, gmux_data);
+> +	gmux_data->use_pwg_power_sequence = type == APPLE_GMUX_TYPE_MMIO &&
+> +		dmi_match(DMI_PRODUCT_NAME, "MacBookPro15,1");
+
+This formatting is hard to read.
+
+>  	switch (type) {
+>  	case APPLE_GMUX_TYPE_MMIO:
+> @@ -1009,6 +1082,7 @@ static void gmux_remove(struct pnp_dev *pnp)
+>  	} else
+>  		release_region(gmux_data->iostart, gmux_data->iolen);
+>  	apple_gmux_data = NULL;
+> +	pci_dev_put(gmux_data->discrete_pdev);
+>  	kfree(gmux_data);
+>  }
+>  
 > 
 
-thanks for the comments both fixed in new version.
-
---srini
->> +#include "wcd9378-sdca.h"
->> +
->> +static const struct dev_pm_ops wcd9378_sdw_pm_ops = {
->> +	SYSTEM_SLEEP_PM_OPS(wcd9378_sdca_system_suspend,
->> +			    wcd9378_sdca_system_resume)
->> +	RUNTIME_PM_OPS(wcd9378_sdca_runtime_suspend,
->> +		       wcd9378_sdca_runtime_resume, NULL)
->> +};
->> +
->> +static const struct sdw_slave_ops wcd9378_sdw_ops = {
->> +	.read_prop = wcd9378_sdca_read_prop,
->> +};
->> +
->> +static const struct sdw_device_id wcd9378_sdw_id[] = {
->> +	SDW_SLAVE_ENTRY(0x0217, 0x0110, 0),
->> +	{}
->> +};
-> 
-> s/{}/{ }/ please
-> 
-> Best regards
-> Uwe
+-- 
+ i.
 
