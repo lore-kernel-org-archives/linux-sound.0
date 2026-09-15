@@ -1,229 +1,287 @@
-Received: from mail-yx2-f12.google.com (mail-yx2-f12.google.com [74.125.224.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from r3-55.sinamail.sina.com.cn (r3-55.sinamail.sina.com.cn [202.108.3.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFE06350298
-	for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 02:11:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D906B4BEE58
+	for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 02:30:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.108.3.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789438310; cv=none; b=ueqsOtdYHHreG/Kr3T3b7J53jZt/ly9hXMazS6upqeY8juSlyKEmLGqZ5dOhfSzRyt1B9539HhDIGWBx8dKj0ZCo43V9lcSHq3okfNSkMUL7OP0I5xSV65+pace+jk4LV1kyYoNlLsJc8xtl94t9XIJ+0JUmqaHiP2xgw70M7AQ=
+	t=1789439454; cv=none; b=OAgh/JIklkWqobAzM0N20SfIu4j5v7RcGCDQ4wD3Mih0yu805w4+GjaBOHTeYf1KtPkmJKuo5oRV7XAT6Jk5gXqwDemYrsup0kCwZgYthnJVMNeXNgBU4Da9M9drDs6bMtK2ahgbxKrGmvlHMLyoq4VTEO6fUwxRzyf4RwVf+gI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789438310; c=relaxed/simple;
-	bh=J6gXL9OWqIRNkG/24diPjt+VhU9zpgZR6oysBIkYEog=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=dts+oA/qUojzaicEdD/Q1hfCwbYXMSkoQtJybQvmlHb9qNl8KXgVcy0+7+JjkYyFXvHjIVvPhM2+d5xpyZpQooV20+ej8ODNAkL3Qfekka6bNGgma2toX83AcSkvjfZBViUgp25CsJg7s5BqP8XODE0Y4xrhl4g/tjDVWRS4RpQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=A9ye8nFb; arc=none smtp.client-ip=74.125.224.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="A9ye8nFb"
-Received: by mail-yx2-f12.google.com with SMTP id 00721157ae682-85d43da99e9so22271757b3.0
-        for <linux-sound@vger.kernel.org>; Mon, 14 Sep 2026 19:11:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1789438308; x=1790043108; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=uTIQQjABQDHUENfcTBLfCjdS86IJNh9pkbH6nAS/n2s=;
-        b=A9ye8nFb1bFdwRrk68rEIiLOmo8FoU8P0rI1ARtAV3j7DnC8WieVYpDGnpDm7pQ6KD
-         QIlFw/88j1SeM38UL8p9Iq43ZHaxCLIDDaVS0J2wXz3aXp4s7FbTB5VoAin7m+iPCdZP
-         moywid/NBznJzjWffofB7P/6opxZz+TBwfhlc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789438308; x=1790043108;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=uTIQQjABQDHUENfcTBLfCjdS86IJNh9pkbH6nAS/n2s=;
-        b=triFY1XhcMN/nOpJuCMAqP4nzWz7qGfPDxuvkZA/8FBHoHBX08gkB9mDskWKUd1H+T
-         6fbmd9Sh7uWvcVXjQgZNiFmGW2GUHrCqZ2DPCby5OPbmm1uYPsjnF8VyA+K9pG6y+YLV
-         yDbZ/VKCpQTj23CMhJubYbniK63LpRl3RU8sKeooCY0moeMJsMnhdWa0q3iRP5pSU/Iz
-         Jg8Ztd7Fm4QHJ8Z0a5HvHfqAiCDqjN97YmP9vfubRvhE8Fb4FvStyPC50oYQpO03fuvm
-         KeDRtuUhoiUu4YWj1TiiFmCa+ms8zsTG/rZiut+TyzJkbHafVnbXK1Vs1acYfjFmDh0v
-         yTjw==
-X-Gm-Message-State: AFuF++nhBK7bpBkIykEtK9E40OntIuSu8clfJjDZ+hufZ8h/Y1WpY5LE
-	RqY9QOofiCjxnYOweN9EU7cVLJSf/HtW2DFj9dfUgQ5xtxAl0t7bMFFPxAVhP8K+uw==
-X-Gm-Gg: AYBFou0++nWer143Xo6dUiTl9/lPWM2CBTTbcAL4aBrzzb/WRsizG4jNM6URZU97wY+
-	UT2yM2CiY0DjhZ0Dx3ljgVu7pf0O2zAitHOPZaPDAFZe0uLA5TkjCsldS5EFarexVitKvVfFm/m
-	c6I08LuSm9bhg6miCqIH4gNmA+2zk42PYL/11Ga8uldhxwM0GSQRbOmOQ7+MNhtC+QL/3zdp3nM
-	F0xAxv8rgXPFAA5dnD+i0nBb/EGErOKT16KCRkhJh0yn8pfrWbNQbcRs2XZsw6KbaG5oZ8SHmwU
-	XYMshjIc0TDti48MZ5twHnJ0toGfb+Vnw4TZrcAMzZYlUMpAoHQvrZfu+Ref+KMBWKUglcQ4/e+
-	sKTuHP/x/3iyBHURgl8IY9Ol5NHgqntZ0n33/smXyoQIQ2dLzlpKAOUinEYWHDygdBj9pMYKHPP
-	KmzLYdtvp6UQSTEDXe0WRinSRBXb9a2KSXsvbg2VBwTFQXGTLjhvambyQz5plrsv2G6xWk1gF3c
-	+Z66vrYtrK3qp9YGgu4WGlv1+3s7zTB1OfsNTNmNU/2CIo9UlByMjZiXspP
-X-Received: by 2002:a05:690c:dc2:b0:873:5bd1:98bf with SMTP id 00721157ae682-88d23993093mr16879117b3.49.1789438307806;
-        Mon, 14 Sep 2026 19:11:47 -0700 (PDT)
-Received: from ripwilburliny.c.googlers.com (160.117.86.34.bc.googleusercontent.com. [34.86.117.160])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-88ccbcdf4e3sm14139787b3.42.2026.09.14.19.11.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2026 19:11:47 -0700 (PDT)
-From: Steven 'Steve' Kendall <skend@chromium.org>
-Date: Tue, 15 Sep 2026 02:11:38 +0000
-Subject: [PATCH v3] ALSA: hda/cs8409: Fix for Dell Cirrus audio jack detect
+	s=arc-20240116; t=1789439454; c=relaxed/simple;
+	bh=4yHFdHFKTgFzAK2FIoOciKR4XARlwFi196yHQdAr314=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=AqCib9OSH1F2kdraQX8KFqz1XhwXGlXVdJlMAd1npIvaZTDwNcmIKwGB/fA/9rr7XSXljUuzWPk9mV59lVFesYjbZPiVJGPvutFmk69QmuTC8ZU7A4Fmi5cNPxJZGSbUqtgOBn8TsCO58LKsGrWoNU6Ot1kQOJrHJP70fTiuvig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com; spf=pass smtp.mailfrom=everest-semi.com; arc=none smtp.client-ip=202.108.3.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everest-semi.com
+Received: from unknown (HELO zy-virtual-machine.localdomain)([58.38.107.94])
+	by sina.net (10.54.253.38) with ESMTP
+	id 6AA8ADB0000067D9; Tue, 15 Sep 2026 10:30:09 +0800 (CST)
+X-Sender: zhangyi@everest-semi.com
+X-Auth-ID: zhangyi@everest-semi.com
+Authentication-Results: sina.net;
+	 spf=none smtp.mailfrom=zhangyi@everest-semi.com;
+	 dkim=none header.i=none;
+	 dmarc=none action=none header.from=zhangyi@everest-semi.com
+X-SMAIL-MID: B45FFE50C65C46B7B8DA3AA4C07B9C03
+X-SMAIL-UIID: B45FFE50C65C46B7B8DA3AA4C07B9C03-20260915-103009
+From: Zhang Yi <zhangyi@everest-semi.com>
+To: linux-sound@vger.kernel.org,
+	broonie@kernel.org
+Cc: tiwai@suse.com,
+	Zhang Yi <zhangyi@everest-semi.com>
+Subject: [PATCH v4 1/2] ASoC: codecs: ES8326: Add private members about HPF
+Date: Tue, 15 Sep 2026 10:30:05 +0800
+Message-Id: <20260915023006.22940-2-zhangyi@everest-semi.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20260915023006.22940-1-zhangyi@everest-semi.com>
+References: <20260915023006.22940-1-zhangyi@everest-semi.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260915-fix-headphone-plug-cirrus-dell-v3-1-6dc555b00f61@chromium.org>
-X-B4-Tracking: v=1; b=H4sIAFmpqGoC/4XNQQqDMBCF4auUrDvFJEZtV71H6cImoxlQI0kNL
- eLdG4VC6cblPzDfm1lATxjY5TAzj5ECuSGFPB6YtvXQIpBJzUQmiqzkGTT0Aou1Ga0bEMZuakG
- T91MAg10HCuUjP5taNUqwhIwe08c2cLunthSezr+3vcjX65eWe3TkwEFqxVWpTa60uWrrXU9Tf
- 3K+Zasexa9Y7YoiiU1VcZHMzBTiT1yW5QMf68ZWIQEAAA==
-X-Change-ID: 20260710-fix-headphone-plug-cirrus-dell-5e3b49da5f52
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Steven 'Steve' Kendall <skend@chromium.org>
-X-Mailer: b4 0.15.2
 
-On some models like the Dell Inspiron 15 3520, jack
-detection does not work. This patch switches to
-delayed work to fix jack plug on Chrome OS.
+Add private members related to HPF.
+Add Kcontrol for HPF
 
-Assisted-by: LLM
-Signed-off-by: Steven 'Steve' Kendall <skend@chromium.org>
+Signed-off-by: Zhang Yi <zhangyi@everest-semi.com>
 ---
-Changes in v3:
-- Unified sleep time for both cases.
-- Removed some superfluous logic after some additional testing.
-- Link to v2: https://patch.msgid.link/20260718-fix-headphone-plug-cirrus-dell-v2-1-f88121570d62@chromium.org
+ sound/soc/codecs/es8326.c | 124 +++++++++++++++++++++++++++++++++++++-
+ sound/soc/codecs/es8326.h |   4 ++
+ 2 files changed, 126 insertions(+), 2 deletions(-)
 
-Changes in v2:
-- Changes from v1 have been removed.
-- New approach uses delayed work and also solves the issue on this machine.
-- I'm now using the latest release of b4. Hopefully this addresses the formatting issues I was having!
-- Link to v1: https://lore.kernel.org/r/20260713-fix-headphone-plug-cirrus-dell-v1-1-3c5157cd45cd@chromium.org
----
- sound/hda/codecs/cirrus/cs8409.c | 43 +++++++++++++++++++++++++++++++++++++---
- sound/hda/codecs/cirrus/cs8409.h |  2 ++
- 2 files changed, 42 insertions(+), 3 deletions(-)
-
-diff --git a/sound/hda/codecs/cirrus/cs8409.c b/sound/hda/codecs/cirrus/cs8409.c
-index c43ff3ef75b6e..1300571e4b6ae 100644
---- a/sound/hda/codecs/cirrus/cs8409.c
-+++ b/sound/hda/codecs/cirrus/cs8409.c
-@@ -56,6 +56,10 @@ static int cs8409_parse_auto_config(struct hda_codec *codec)
- }
+diff --git a/sound/soc/codecs/es8326.c b/sound/soc/codecs/es8326.c
+index 32f39cdff..30964aeb9 100644
+--- a/sound/soc/codecs/es8326.c
++++ b/sound/soc/codecs/es8326.c
+@@ -33,11 +33,16 @@ struct es8326_priv {
+ 	 * while enabling or disabling or during an irq.
+ 	 */
+ 	struct mutex lock;
++	struct mutex hpf_lock;
+ 	u8 jack_pol;
+ 	u8 interrupt_src;
+ 	u8 interrupt_clk;
+ 	u8 hpl_vol;
+ 	u8 hpr_vol;
++	u8 hpfl;
++	u8 hpfr;
++	u32 hpf_freq;
++	u32 capture_rate;
+ 	bool jd_inverted;
+ 	unsigned int sysclk;
  
- static void cs8409_disable_i2c_clock_worker(struct work_struct *work);
-+static void cs8409_jack_detect_worker(struct work_struct *work);
-+static void cs42l42_run_jack_detect(struct sub_codec *cs42l42);
-+static int cs8409_i2c_read(struct sub_codec *scodec, unsigned int addr);
-+static int cs8409_i2c_write(struct sub_codec *scodec, unsigned int addr, unsigned int value);
+@@ -47,6 +52,48 @@ struct es8326_priv {
+ 	int jack_remove_retry;
+ };
  
- static struct cs8409_spec *cs8409_alloc_spec(struct hda_codec *codec)
- {
-@@ -69,6 +73,7 @@ static struct cs8409_spec *cs8409_alloc_spec(struct hda_codec *codec)
- 	codec->power_save_node = 1;
- 	mutex_init(&spec->i2c_mux);
- 	INIT_DELAYED_WORK(&spec->i2c_clk_work, cs8409_disable_i2c_clock_worker);
-+	INIT_DELAYED_WORK(&spec->jack_detect_work, cs8409_jack_detect_worker);
- 	snd_hda_gen_spec_init(&spec->gen);
- 
- 	return spec;
-@@ -115,6 +120,28 @@ static void cs8409_disable_i2c_clock_worker(struct work_struct *work)
- 	cs8409_disable_i2c_clock(spec->codec);
- }
- 
-+/*
-+ * cs8409_jack_detect_worker - Perform initial jack detection once hardware is settled
-+ *
-+ * Defer initial jack detection. On ChromeOS and possibly other platforms this
-+ * delay is required for jack detection to work as expected.
-+ */
-+static void cs8409_jack_detect_worker(struct work_struct *work)
++static const u32 hpf_table[10][10] = {
++	{1020, 754, 624, 559, 527, 511, 502, 498, 497, 496},
++	{754, 495, 368, 306, 274, 259, 251, 247, 246, 244},
++	{624, 368, 243, 182, 151, 136, 128, 124, 123, 121},
++	{559, 306, 182, 120, 90, 75, 68, 63, 62, 60},
++	{527, 274, 151, 90, 60, 45, 38, 33, 32, 31},
++	{511, 259, 136, 75, 45, 30, 23, 19, 18, 17},
++	{502, 251, 128, 68, 38, 23, 16, 13, 11, 11},
++	{498, 247, 124, 63, 33, 19, 13, 10, 8, 8},
++	{497, 246, 123, 62, 32, 18, 11, 8, 8, 0},
++	{496, 244, 121, 60, 31, 17, 11, 8, 0, 0}
++};
++
++static bool find_best_hpf_freq(u32 target_hz, u8 *hpf1, u8 *hpf2)
 +{
-+	struct cs8409_spec *spec = container_of(work, struct cs8409_spec, jack_detect_work.work);
-+	struct sub_codec *cs42l42 = spec->scodecs[CS8409_CODEC0];
++	int best_row = -1, best_col = -1;
++	u32 min_diff = U32_MAX;
++	u32 f, diff;
++	int i, j;
 +
-+	if (spec->init_done && spec->build_ctrl_done && !cs42l42->hp_jack_in) {
-+		int reg_ts_status = cs8409_i2c_read(cs42l42, CS42L42_TSRS_PLUG_STATUS);
++	if (target_hz > 1020)
++		return false;
 +
-+		/* error case */
-+		if (reg_ts_status < 0)
-+			return;
++	for (i = 0; i < 10; i++) {
++		for (j = i; j < 10; j++) {
++			f = hpf_table[i][j];
 +
-+		cs42l42_run_jack_detect(cs42l42);
++			diff = (target_hz > f) ? (target_hz - f) : (f - target_hz);
++			if (diff < min_diff) {
++				min_diff = diff;
++				best_row = i;
++				best_col = j;
++			}
++		}
 +	}
++
++	*hpf1 = best_col + ES8326_HPF_OFFSET;
++	*hpf2 = best_row + ES8326_HPF_OFFSET;
++
++	return true;
 +}
 +
- /*
-  * cs8409_enable_i2c_clock - Enable I2C clocks
-  * @codec: the codec instance
-@@ -954,6 +981,8 @@ static void cs8409_remove(struct hda_codec *codec)
- 	/* Cancel i2c clock disable timer, and disable clock if left enabled */
- 	cancel_delayed_work_sync(&spec->i2c_clk_work);
- 	cs8409_disable_i2c_clock(codec);
-+	/* Also cancel jack detect work */
-+	cancel_delayed_work_sync(&spec->jack_detect_work);
- 
- 	snd_hda_gen_remove(codec);
+ static int es8326_crosstalk1_get(struct snd_kcontrol *kcontrol,
+ 		struct snd_ctl_elem_value *ucontrol)
+ {
+@@ -189,6 +236,48 @@ static int es8326_hprvol_set(struct snd_kcontrol *kcontrol,
+ 	return 0;
  }
-@@ -1026,6 +1055,8 @@ static int cs8409_cs42l42_suspend(struct hda_codec *codec)
- 	/* Cancel i2c clock disable timer, and disable clock if left enabled */
- 	cancel_delayed_work_sync(&spec->i2c_clk_work);
- 	cs8409_disable_i2c_clock(codec);
-+	/* Also cancel jack detect work */
-+	cancel_delayed_work_sync(&spec->jack_detect_work);
  
- 	snd_hda_shutup_pins(codec);
++static int es8326_hpf_get(struct snd_kcontrol *kcontrol,
++	struct snd_ctl_elem_value *ucontrol)
++{
++	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
++	struct es8326_priv *es8326 = snd_soc_component_get_drvdata(component);
++
++	ucontrol->value.integer.value[0] = es8326->hpf_freq;
++	return 0;
++}
++
++static int es8326_hpf_set(struct snd_kcontrol *kcontrol,
++	struct snd_ctl_elem_value *ucontrol)
++{
++	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
++	struct es8326_priv *es8326 = snd_soc_component_get_drvdata(component);
++	u32 freq;
++	bool hpf;
++
++	if ((ucontrol->value.integer.value[0] > 1020) || (ucontrol->value.integer.value[0] < 0))
++		return -EBUSY;
++
++	if (es8326->hpf_freq == ucontrol->value.integer.value[0])
++		return 0;
++
++	if (es8326->capture_rate) {
++		guard(mutex)(&es8326->hpf_lock);
++		freq = (ucontrol->value.integer.value[0] * 48000) / es8326->capture_rate;
++
++		hpf = find_best_hpf_freq(freq, &es8326->hpfl, &es8326->hpfr);
++		if (!hpf)
++			return -EBUSY;
++
++		regmap_update_bits(es8326->regmap, ES8326_ADC_HPFS1, 0x0f, es8326->hpfl);
++		regmap_update_bits(es8326->regmap, ES8326_ADC_HPFS2, 0x0f, es8326->hpfr);
++	} else {
++		dev_dbg_ratelimited(component->dev, "PCM_STREAM_CAPTURE is not active.retain the input frequency\n");
++	}
++	es8326->hpf_freq = ucontrol->value.integer.value[0];
++
++	return 1;
++}
++
+ static const SNDRV_CTL_TLVD_DECLARE_DB_SCALE(dac_vol_tlv, -9550, 50, 0);
+ static const SNDRV_CTL_TLVD_DECLARE_DB_SCALE(adc_vol_tlv, -9550, 50, 0);
+ static const SNDRV_CTL_TLVD_DECLARE_DB_SCALE(adc_analog_pga_tlv, 0, 300, 0);
+@@ -269,6 +358,8 @@ static const struct snd_kcontrol_new es8326_snd_controls[] = {
+ 	SOC_ENUM("ALC Capture Winsize", alc_winsize),
+ 	SOC_SINGLE_TLV("ALC Capture Target Level", ES8326_ALC_LEVEL,
+ 			0, 0x0f, 0, drc_target_tlv),
++	SOC_SINGLE_EXT("ADC HPF Freq Select", SND_SOC_NOPM, 0, 1020, 0,
++				es8326_hpf_get, es8326_hpf_set),
  
-@@ -1196,20 +1227,26 @@ void cs8409_cs42l42_fixups(struct hda_codec *codec, const struct hda_fixup *fix,
- 	case HDA_FIXUP_ACT_INIT:
- 		cs8409_cs42l42_hw_init(codec);
- 		spec->init_done = 1;
-+		/*
-+		 * On resume, schedule delayed jack detect to allow the CS42L42
-+		 * to settle after reset before running detection.
-+		 */
- 		if (spec->init_done && spec->build_ctrl_done
- 			&& !spec->scodecs[CS8409_CODEC0]->hp_jack_in)
--			cs42l42_run_jack_detect(spec->scodecs[CS8409_CODEC0]);
-+			schedule_delayed_work(&spec->jack_detect_work,
-+					      msecs_to_jiffies(CS8409_JACK_DETECT_DELAY_MS));
- 		break;
- 	case HDA_FIXUP_ACT_BUILD:
- 		spec->build_ctrl_done = 1;
--		/* Run jack auto detect first time on boot
-+		/* Schedule jack auto detect first time on boot
- 		 * after controls have been added, to check if jack has
- 		 * been already plugged in.
- 		 * Run immediately after init.
- 		 */
- 		if (spec->init_done && spec->build_ctrl_done
- 			&& !spec->scodecs[CS8409_CODEC0]->hp_jack_in)
--			cs42l42_run_jack_detect(spec->scodecs[CS8409_CODEC0]);
-+			schedule_delayed_work(&spec->jack_detect_work,
-+					      msecs_to_jiffies(CS8409_JACK_DETECT_DELAY_MS));
- 		break;
+ 	SOC_SINGLE_EXT("CROSSTALK1", SND_SOC_NOPM, 0, 31, 0,
+ 			es8326_crosstalk1_get, es8326_crosstalk1_set),
+@@ -353,8 +444,6 @@ static bool es8326_writeable_register(struct device *dev, unsigned int reg)
+ 	case ES8326_BIAS_SW2:
+ 	case ES8326_BIAS_SW3:
+ 	case ES8326_BIAS_SW4:
+-	case ES8326_ADC_HPFS1:
+-	case ES8326_ADC_HPFS2:
+ 		return false;
  	default:
- 		break;
-diff --git a/sound/hda/codecs/cirrus/cs8409.h b/sound/hda/codecs/cirrus/cs8409.h
-index be1714a84fff4..dca9b31aeebfc 100644
---- a/sound/hda/codecs/cirrus/cs8409.h
-+++ b/sound/hda/codecs/cirrus/cs8409.h
-@@ -247,6 +247,7 @@ enum cs8409_coefficient_index_registers {
- #define CS8409_CS42L42_AMIC_PIN_NID		CS8409_PIN_ASP1_RECEIVER_A
- #define CS8409_CS42L42_DMIC_PIN_NID		CS8409_PIN_DMIC1_IN
- #define CS8409_CS42L42_DMIC_ADC_PIN_NID		CS8409_PIN_DMIC1
-+#define CS8409_JACK_DETECT_DELAY_MS		100
+ 		return true;
+@@ -558,6 +647,8 @@ static int es8326_pcm_hw_params(struct snd_pcm_substream *substream,
+ 	struct es8326_priv *es8326 = snd_soc_component_get_drvdata(component);
+ 	u8 srate = 0;
+ 	int coeff, array;
++	u32 freq;
++	bool hpf;
  
- /* Dolphin */
+ 	if (es8326->version == 0) {
+ 		coeff_div =  coeff_div_v0;
+@@ -612,6 +703,28 @@ static int es8326_pcm_hw_params(struct snd_pcm_substream *substream,
+ 		dev_warn(component->dev, "Clock coefficients do not match");
+ 	}
  
-@@ -339,6 +340,7 @@ struct cs8409_spec {
- 	unsigned int i2c_clck_enabled;
- 	unsigned int dev_addr;
- 	struct delayed_work i2c_clk_work;
-+	struct delayed_work jack_detect_work;
++	if (substream->stream == SNDRV_PCM_STREAM_CAPTURE) {
++		es8326->capture_rate = params_rate(params);
++		freq = (es8326->hpf_freq * 48000) / params_rate(params);
++		hpf = find_best_hpf_freq(freq, &es8326->hpfl, &es8326->hpfr);
++		if (!hpf) {
++			dev_err(component->dev, "The HPF frequency is invalid\n");
++			return -EINVAL;
++		}
++	}
++
++	return 0;
++}
++
++static int es8326_pcm_hw_free(struct snd_pcm_substream *substream,
++		struct snd_soc_dai *dai)
++{
++	struct snd_soc_component *component = dai->component;
++	struct es8326_priv *es8326 = snd_soc_component_get_drvdata(component);
++
++	if (substream->stream == SNDRV_PCM_STREAM_CAPTURE)
++		es8326->capture_rate = 0;
++
+ 	return 0;
+ }
  
- 	unsigned int playback_started:1;
- 	unsigned int capture_started:1;
-
----
-base-commit: df2908090cda368b01ff43709f51890076c56157
-change-id: 20260710-fix-headphone-plug-cirrus-dell-5e3b49da5f52
-
-Best regards,
---  
-Steven 'Steve' Kendall <skend@chromium.org>
+@@ -636,6 +749,8 @@ static int es8326_mute(struct snd_soc_dai *dai, int mute, int direction)
+ 				regmap_update_bits(es8326->regmap, ES8326_VMIDSEL, 0x40, 0x40);
+ 				regmap_update_bits(es8326->regmap, ES8326_ANA_MICBIAS, 0x70, 0x30);
+ 			}
++			regmap_update_bits(es8326->regmap, ES8326_ADC_HPFS1, 0x0f, 0x04);
++			regmap_update_bits(es8326->regmap, ES8326_ADC_HPFS2, 0x0f, 0x04);
+ 		}
+ 	} else {
+ 		if (!es8326->calibrated) {
+@@ -728,6 +843,7 @@ static int es8326_set_bias_level(struct snd_soc_component *codec,
+ 
+ static const struct snd_soc_dai_ops es8326_ops = {
+ 	.hw_params = es8326_pcm_hw_params,
++	.hw_free = es8326_pcm_hw_free,
+ 	.set_fmt = es8326_set_dai_fmt,
+ 	.set_sysclk = es8326_set_dai_sysclk,
+ 	.mute_stream = es8326_mute,
+@@ -781,6 +897,8 @@ static void es8326_capture_pop_handler(struct work_struct *work)
+ 	struct es8326_priv *es8326 =
+ 		container_of(work, struct es8326_priv, capture_pop_work.work);
+ 
++	regmap_update_bits(es8326->regmap, ES8326_ADC_HPFS1, 0x0f, es8326->hpfl);
++	regmap_update_bits(es8326->regmap, ES8326_ADC_HPFS2, 0x0f, es8326->hpfr);
+ 	regmap_update_bits(es8326->regmap,  ES8326_ADC_MUTE,
+ 					0x0F, 0x00);
+ }
+@@ -1212,6 +1330,7 @@ static int es8326_probe(struct snd_soc_component *component)
+ 	}
+ 	dev_dbg(component->dev, "interrupt-clk %x", es8326->interrupt_clk);
+ 
++	es8326->hpf_freq = ES8326_HPF_DEFAULT;
+ 	es8326_init(component);
+ 	return 0;
+ }
+@@ -1298,6 +1417,7 @@ static int es8326_i2c_probe(struct i2c_client *i2c)
+ 	i2c_set_clientdata(i2c, es8326);
+ 	es8326->i2c = i2c;
+ 	mutex_init(&es8326->lock);
++	mutex_init(&es8326->hpf_lock);
+ 	es8326->regmap = devm_regmap_init_i2c(i2c, &es8326_regmap_config);
+ 	if (IS_ERR(es8326->regmap)) {
+ 		ret = PTR_ERR(es8326->regmap);
+diff --git a/sound/soc/codecs/es8326.h b/sound/soc/codecs/es8326.h
+index 1c5b3ec70..c78d528e7 100644
+--- a/sound/soc/codecs/es8326.h
++++ b/sound/soc/codecs/es8326.h
+@@ -149,6 +149,10 @@
+ #define ES8326_ADC_SRC_DMIC_SDIN3 6
+ #define ES8326_ADC_SRC_DMIC_SDIN3_INV 7
+ 
++/* HPF Settings */
++#define ES8326_HPF_DEFAULT            8
++#define ES8326_HPF_OFFSET             4
++
+ #define ES8326_ADC_AMIC	((ES8326_ADC_SRC_ANA_INV_SW1 << ES8326_ADC2_SHIFT) \
+ 		| (ES8326_ADC_SRC_ANA_INV_SW1 << ES8326_ADC1_SHIFT))
+ #define ES8326_ADC_DMIC	((ES8326_ADC_SRC_DMIC_SDIN2 << ES8326_ADC2_SHIFT) \
+-- 
+2.17.1
 
