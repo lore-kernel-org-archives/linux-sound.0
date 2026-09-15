@@ -1,195 +1,126 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A1A84BFE87
-	for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 16:02:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05C9E4119F9;
+	Tue, 15 Sep 2026 16:18:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789488156; cv=none; b=VELmc2axIoAVJ4gfdZ9f/y+CqxXLujQQnQXeVlge2QmsKQJ5hBPXikVGjEclPqw8pPMeN2/K38Csx9Xbolw/3O6Rsl9KIAv+fcoSDmBKVf0fUURkVlgYBGvVtggyGDbHNvdvHzhqT9SRWqxPdtJ8Y+PThwTB9WlvZ1LneEKw+Ho=
+	t=1789489111; cv=none; b=g6PietbA4B5iT/bWVGMpznW2vxUET1LknsP94I5O9pwAwxxLPPTQiVDjDfCDcIEatWQEkDdgaQSVAcaUv+9i9NUQJxEwviPUepaeJTfv7phgW+Hd0to92qnLQlBg2I2WJGjcj0UG90nGkpItN71AJSr89XLEMlYEkWM4G/qIPog=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789488156; c=relaxed/simple;
-	bh=KDw3KInHZKeSYSEI10H1y98V3alm+pzzQO/wYLg4mJM=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=r1Cq/UqoCOiY/wNPN6lemihZIyPnQ+kOnPf23QG35G735A/zIzJpDiajiAAsi3032TOTEJ9P8eZg8TjsMI/Oci0LP73kCQRd7f3TviE8mqtFfcb2n6rHWe7wS/itLZ5ZcHZevN0jvT5Kj4rJ91uDiuservbm/hJ8vtHdJO+i2ds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ERGsY+YX; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=kMQ/GL3j; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wb4EJSmP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SXbKuGA3; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1789489111; c=relaxed/simple;
+	bh=xsHfdw96GFbaepBJbdXAFV0YRCZ+PaNC0b49O+JVBp0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Jn0VzZWh4eyjOfw6tlfAxdZheix+tqzxPQ3/Lsuk4x85jyunM31+VLUWjNaoznhYNqipySaZvhFvb0i5IOKpiPbs8wHRdqkAtWvrfwlxcurOtJgvPf117lKjLs7o2ZF1J8kcCa1CaykWB2vCR3mzFgKEoQowkB4l1fw0ocjdWxM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h27yCwED; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ERGsY+YX";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="kMQ/GL3j";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wb4EJSmP";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SXbKuGA3"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 1160B1FDB7;
-	Tue, 15 Sep 2026 16:02:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1789488147; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+bkDBHWFEAlpNF6nROklfhk93jUJ8iJz3BeO41A3Hig=;
-	b=ERGsY+YXe+15mfKOvO17rF77ixjrYslfxLp/FD7o/uLJVFiSb4mxJW11kGrQPs2qAFSVgS
-	4lsgFYGewYSdINlkGazri+5yPqNYWbBFRItevifTPYTlo13nQ6v4LZwIQH8W3QqZfrBdO8
-	g4MxN1jp+xW5/I4DV7MjDcoUf3tXyrY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1789488147;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+bkDBHWFEAlpNF6nROklfhk93jUJ8iJz3BeO41A3Hig=;
-	b=kMQ/GL3jtznIDrZAsgEpvUtY8L1Zpg4wMk3Bep7ui2aaZ3Nka8OvPsKIF77RSZfWpQcuTE
-	d4yKixZmnvbCfCBg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1789488142; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+bkDBHWFEAlpNF6nROklfhk93jUJ8iJz3BeO41A3Hig=;
-	b=wb4EJSmPlKbH5IVXXoPpo6tiAgSyQR6j9jEBgaBmws0LqvWHhczriYoTOdLF955uFpJfNG
-	bnmgNwBVEZA7qSHDEnMG5d0AmPvpcl+eS/p4WpBu6YbVe5DKObxQ13uY/pfOd64M/J5bEK
-	ZqVvLeh/llGdD7D+lBsRIory4AYYh5k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1789488142;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+bkDBHWFEAlpNF6nROklfhk93jUJ8iJz3BeO41A3Hig=;
-	b=SXbKuGA3+fdbLTRvnTe27B0cK/9eD2HQDYGnUUJ9kS/RUzLkZuxnWKZBXa2yZLBe+n1/g2
-	o4qb8yzPDLnM6OBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B067913693;
-	Tue, 15 Sep 2026 16:02:21 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id EpQtIQ1sqWqXHAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 15 Sep 2026 16:02:21 +0000
-Date: Tue, 15 Sep 2026 18:02:21 +0200
-Message-ID: <87ik46lcz6.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	<tiwai@suse.com>,
-	<broonie@kernel.org>,
-	<perex@perex.cz>,
-	<amade@asmblr.net>,
-	<linux-sound@vger.kernel.org>
-Subject: Re: [PATCH] ALSA: hda: Allow for codec model selection with module param
-In-Reply-To: <36644426-3302-47da-a720-f353c307348b@intel.com>
-References: <20260914102253.2969724-1-cezary.rojewski@intel.com>
-	<87bj9zom8l.wl-tiwai@suse.de>
-	<9e17f127-ecaa-407f-96ec-0993e9c1ee83@intel.com>
-	<87tsnrn5oe.wl-tiwai@suse.de>
-	<1d146db5-f4ff-4a5b-a1d9-181ee6d8ceac@intel.com>
-	<87a4pin4v2.wl-tiwai@suse.de>
-	<36644426-3302-47da-a720-f353c307348b@intel.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h27yCwED"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB3F11F00893;
+	Tue, 15 Sep 2026 16:18:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789489109;
+	bh=zdMtzOEeKhZuTFoJsqIR3X1skRiJm5fGYebmf2XTqE0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=h27yCwED5eGU5g7CjoRIMjXid1gcL0jK0GIkjqMBQUvezag4D7EoNkuvSCEqur0D2
+	 daVAKP9EZ4rnltqq1O3bZgPwu7oZPS8nB6jnIOQk0oX6i7HVATaCyQq5VgNy65h4rr
+	 LBLMVmA8lx7OdSEbHtlg0JRcHdL/RCfDv4iB+HPR38r5/YcnGy5AUbNRA4v5ysSxhn
+	 9dihzuIcsyXeBmoUtCp9dmFZHQHnhIo6b7LgOEvd7GubTKzN3VOSeLCkAG4WNRMyQy
+	 0gFiruljocQ7QTDMYwK9+TKqxCKwaRauuIyiCB48VbWoL7wGSk1rjSF5Dv+XCOt28W
+	 F09pU1HC4yPjQ==
+From: Mark Brown <broonie@kernel.org>
+To: Lars-Peter Clausen <lars@metafoo.de>, 
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jerome Brunet <jbrunet@baylibre.com>, 
+ David Rhodes <david.rhodes@cirrus.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+ Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Binbin Zhou <zhoubinbin@loongson.cn>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Srinivas Kandagatla <srini@kernel.org>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ Biju Das <biju.das.jz@bp.renesas.com>, 
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+ Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
+ Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Magnus Damm <magnus.damm@gmail.com>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Khanh Le <khanh.le.xr@renesas.com>, 
+ Ricardo Rivera-Matos <rriveram@opensource.cirrus.com>, 
+ patches@opensource.cirrus.com, 
+ David Rau <David.Rau.opensource@dm.renesas.com>, 
+ Shawn Guo <shawnguo@kernel.org>, Shengjiu Wang <shengjiu.wang@nxp.com>, 
+ Oleksij Rempel <o.rempel@pengutronix.de>, 
+ Yingkun Meng <mengyingkun@loongson.cn>, Trevor Wu <trevor.wu@mediatek.com>, 
+ Julien Massot <jmassot@collabora.com>, Jiaxin Yu <jiaxin.yu@mediatek.com>, 
+ Shane Chien <shane.chien@mediatek.com>, 
+ Daniel Beer <daniel.beer@igorinstitute.com>, 
+ Sebastian Reichel <sre@kernel.org>, linux-sound@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ asahi@lists.linux.dev, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Cc: Charles Keepax <ckeepax@opensource.cirrus.com>
+In-Reply-To: <20260915063317.28971-2-krzysztof.kozlowski@oss.qualcomm.com>
+References: <20260915063317.28971-2-krzysztof.kozlowski@oss.qualcomm.com>
+Subject: Re: [PATCH v3] ASoC: dt-bindings: Use consistent indentation in
+ the example
+Message-Id: <178948092653.151760.9676551205398911501.b4-ty@b4>
+Date: Tue, 15 Sep 2026 15:02:06 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spam-Score: -3.30
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.995];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,intel.com:email,alsa-project.org:url,imap1.dmz-prg2.suse.org:helo]
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1145; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=xsHfdw96GFbaepBJbdXAFV0YRCZ+PaNC0b49O+JVBp0=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqqW/KhCABg54MOkosoFTzPXmeLy/RlhkivifSk
+ jMcT3bipsWJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaqlvygAKCRAk1otyXVSH
+ 0LcyB/4hxF4ifiG0nOiFlkrrz1CCm5Ai3AIXbPgY9VtS02VcW230+rF+S51HzwY3b/C69z5M+sl
+ E5Bz+18HBKeoMsXQemKmgV3INECe3Ea9Ar+RsVNdjlak3uOxsrweJQs3wXAmBk39p6XeKwsIxa2
+ NFhIiS+s3/H5RQoltOYjzF3kbeotptgw8GlvnraZJLU3E8cvMurY4BbIb4ZdIYMR8eAYZ1TIYDC
+ tE68mtQGyskHvWIMuv/9pVeHIevKetO+5V4kN/PpMhJXr++EfVuolMTpCMGWRJT/FclrHONvFUq
+ MHa017eKvt2sLQlj4BPmTFz/WuSKhH6YpMhSdDizVu85Oo6q
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Tue, 15 Sep 2026 13:26:11 +0200,
-Cezary Rojewski wrote:
-> 
-> On 9/15/2026 1:14 PM, Takashi Iwai wrote:
-> > On Mon, 14 Sep 2026 19:58:05 +0200,
-> > Cezary Rojewski wrote:
-> >>
-> >> On 9/14/2026 6:44 PM, Takashi Iwai wrote:
-> >>
-> >>>>>> Model selection allows for customization of codec behaviour and thus
-> >>>>>> dealing with various problems on very specific configurations. The
-> >>>>>> parameter already exists but is part of snd_hda_intel specifically.
-> >>>>>> Non-Intel HDAudio controllers and DSP-capable drivers cannot benefit
-> >>>>>> from it.
-> >>>>>>
-> >>>>>> The common place for all the bus drivers is snd_hda_codec. Add modelname
-> >>>>>> parameter there and honor it when initializing codec->modelname field.
-> >>>>>>
-> >>>>>> Link: https://github.com/thesofproject/linux/issues/5683
-> >>>>>> Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
-> >>>>>
-> >>>>> The handling of the model option is a very long-standing PITA.
-> >>>>> A few years ago, I proposed a change like:
-> >>>>>   https://mailman.alsa-project.org/pipermail/alsa-devel/2022-September/206631.html
-> >>>>> but it didn't reach to agreement.  So I'm not 100% sure whether adding
-> >>>>> here is the best choice, either.
-> >>>> Thank you for the link, Takashi.
-> >>>>
-> >>>> IMHO patch presented here addresses the feedback. I too prefer
-> >>>> one-location-for-all approach. Also, I do believe having no option for
-> >>>> specifying the model is worse than choosing either of the approaches for
-> >>>> the model selection.
-> >>>>
-> >>>> snd_hda_codec module is *everywhere* and given the param is an array, it
-> >>>> supports even very complicated scenarios when multiple HDAudio codecs
-> >>>> are engaged.
-> >>>
-> >>> The multi-codec is exactly the problem I've been seeing (of course in
-> >>> addition to the lack of the option in ASoC HD-audio).  You'll have to
-> >>> be very careful how to pass the option, and it can be even fragile.
-> >>> That's why I hesitated to take this...
-> >> By multi-codec I also meant scenarios where one has 2+ codecs from one
-> >> vendor e.g.: realtek. Having non-array param e.g.: for
-> >> snd_hda_codec_realtek would not suffice.
-> > 
-> > But those 2+ codecs are for the single device, right?  (e.g. driving
-> > multiple channels with multiple codecs, but all of them are a single
-> > device for user.)
-> > 
-> > In theory, it can be a hotplug device, and in that case, we may have
-> > two device configurations for multiple codecs of the same codec chip.
-> > But, that's an exception, and I wonder whether we should care for the
-> > model option that is mainly used for debugging or workaround.
-> On reference setups we do anything. 2+ standalone codecs on HDAudio bus
-> in our lab is not some kind of sorcery. Obviously right now we
-> workaround the kernel by applying a bunch of patches. But adding a
-> module param (of type array) covers both: any userspace and any
-> reference scenario.
+On Tue, 15 Sep 2026 08:33:18 +0200, Krzysztof Kozlowski wrote:
+> ASoC: dt-bindings: Use consistent indentation in the example
 
-Well, using an array itself isn't a big problem.  The codec module
-option could be an array, too.
+Applied to
 
-The problem I've been seeing is, however, that it's cumbersome to pass
-the arrays correctly if there are multiple devices.  Currently it
-depends on the controller probe order, and that's often unintuitive
-for users.  This problem still remains with your proposed change --
-even more confusing because now there are multiple entries but
-digested differently (imagine a combination of hda-intel and SOF).
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
 
-So, obviously, I haven't found any good solution yet...
+Thanks!
 
+[1/1] ASoC: dt-bindings: Use consistent indentation in the example
+      https://git.kernel.org/broonie/sound/c/bd1041d3e1c0
 
-thanks,
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-Takashi
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
