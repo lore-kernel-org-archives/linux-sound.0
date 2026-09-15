@@ -1,399 +1,190 @@
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazolkn19010023.outbound.protection.outlook.com [52.103.32.23])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D85DC4B515B;
-	Tue, 15 Sep 2026 15:59:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.32.23
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789487987; cv=fail; b=d+VYDcX3GWcA1eloUoDB6bkppaBBLrxxKajpVNwusa/7wW+j1HLsZ49bngE4NaDD2yVvuMJDf8WXXdPpLs4cuVLNpNRsbwNX8dNzf4R/l6fIWX+zM6VEjchMGtbSc/gph6Meoe57nCnDWKB90lmqTKebRejJYAQ2YR9LStflXoM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789487987; c=relaxed/simple;
-	bh=B2aZVfYlk27dcN+siNro/GWzlLi5NPxy8FHHsxqE8Qs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=VSUdeoW+9SYysZjQIjMWOWorY06+V0N2FwSBZ/xG590P/jh/KgMwe1HaS9ZVMn4A/8cfXWSuMBBOIsdA97QrT3TcpoOUoOvBL8Grh+K+vOhJ7KhHObPvqImsqC6BqMk/uvyWH1Id7DzsqxjK1rln6ChLABkZW6zg2Gedxv9F+tU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=outlook.de; spf=pass smtp.mailfrom=outlook.de; dkim=pass (2048-bit key) header.d=OUTLOOK.DE header.i=@OUTLOOK.DE header.b=u2KzjAsI; arc=fail smtp.client-ip=52.103.32.23
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=outlook.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4041435E926
+	for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 16:02:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789488132; cv=none; b=pvujrOSCG72BxYoz2Mx2eF8q4t2/Oj0VkkEUI3RjoJN8z74AP0ggiVxK+QUR3LCIpXZ0klCgFCgBAWcXFgRzhGFRCw7PKfY+X5HAUCJPh5EL4/BTcsA5Joq92S33qkFYxLTAnLDp+Jpr/dw6PqYgVzW9OSROZ3gk7HBFVM/714I=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789488132; c=relaxed/simple;
+	bh=NKJuB0TIpLrtUCM0wUQ3aJBmWdnBf3WJenqkw3nEnrU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GAxNn1yVfvQvv486kcnmztTuR3o+5xmjzVlmDtAkWNVIiNIIl0V9l0bNdGh3eWEq49xPXaPK2Ux6HhWiqEWvgf7WHz+45IRdN97ANV9MMxLR6OdcSofii2rRjRAqF/FV5VycAPWNfIMH59LPDfUk0ZMaOhMMLjKJApgmk8PcHpQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=eycpzX0V; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=GLZDE79e; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=OUTLOOK.DE header.i=@OUTLOOK.DE header.b="u2KzjAsI"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wK78dEtwJtilsFbl7p0vGOilP4a7bVR/ptE7oKrruYQxIsADn1v3RyVybMHopi3ZxjRU7+FkmdJUM+2Hc+w4HJx79UbFj63VhvaHHJSkJDZZfGBdwy0lnACXj2g/tLEQ0ZiNWjXoYx9XW+QMUTF796jzm1udFigjtBLTCzR+GRgmqajqSR4wumOFP1RU2i+ILu5vQsWUppJllvCW+8Mo/ppCeoy7+lBDSRB2SsMEGfNLdgM8a3mPOVdL8RWOHuJvBtdfN3hmfHxl9YOpUfesiSjiD8ZBP4TUlel8nOJzxHwO+3i95+FYovgAG0OkZVhqQgrXhXKEWN2QxHztA1v+yQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DnanwlWxQrM4eZMWdTsrb/Ngf/F3nVDARrP/h4DoPp0=;
- b=L0CdAEH83aA6HgDqPVU2+6sZXiDgjjwlpkZ9oqTNlMvg2MEglRjIlQ5A+J+zIMWufdNjUyjP9mHk7vkUfuGUXsOVsYMUbfOUYNVMlNb/w8jbdTMUNcXk5sreYzn2bAbh5+X0CaDpx428AzSKEjqvnifNcBbOUaDbquBb/4Dr3Gkr8LLMuUP5FHl6kIs9aLkwE2Ayue6GNfk95m9H1do6WSPxD7jRBOFy6i6XOuAnj+nFmO4z50WqhnlBEr700+wmTil1taoAwf69KHmnfNpQ5hg58DZoBRVSLofCwzC8m67nfhEzASxJq10+QFy2x+v0xmDozWlM7PLedDevu6J/Fg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=OUTLOOK.DE;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DnanwlWxQrM4eZMWdTsrb/Ngf/F3nVDARrP/h4DoPp0=;
- b=u2KzjAsIlDCIPCfTCFe+LvYrsZ9MQrxuGLMLfmdxVn6rs/xm2gZvDPFUSGceqVfmsFaVtDf6TJjEtBztF+C0iQQ4y7JUlmO8fwNaaWOqV+ThxL0sFPvwQmee0kohy79FYYEG2tFuq5oGk1YtlyUfZTI0zja3iVhKH6RKUSuQoTf5UDwTnYMICPYNrCyb+fn9NqOtub+TTTO9W+Y7za1Lpdp7pYpgRz/OaAe/wulas3/Se9OCQtHmOc/ZQp1M7Xo7Lt4z2gNyEZe6kykrNUTNruoOBNnPePm3QP2SrW7F9Bqg+03pxBNDHWcdYYQdSq+1cxLrqaZgjMN4TcQ9oifkfA==
-Received: from AMBP191MB2886.EURP191.PROD.OUTLOOK.COM (2603:10a6:20b:6b0::11)
- by GV2P191MB2334.EURP191.PROD.OUTLOOK.COM (2603:10a6:150:d5::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.12; Tue, 15 Sep
- 2026 15:59:26 +0000
-Received: from AMBP191MB2886.EURP191.PROD.OUTLOOK.COM
- ([fe80::f9f:9408:b010:9883]) by AMBP191MB2886.EURP191.PROD.OUTLOOK.COM
- ([fe80::f9f:9408:b010:9883%4]) with mapi id 15.21.0406.007; Tue, 15 Sep 2026
- 15:59:26 +0000
-From: =?UTF-8?q?Luca=20Rodenh=C3=A4user?= <otzelot2021@outlook.de>
-To: perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?Luca=20Rodenh=C3=A4user?= <otzelot2021@outlook.de>
-Subject: [RFC PATCH 8/8] ALSA: Documentation: describe the card name fields
-Date: Tue, 15 Sep 2026 17:59:08 +0200
-Message-ID:
- <AMBP191MB288676A8CEDE865F49FB09A2CEBA2@AMBP191MB2886.EURP191.PROD.OUTLOOK.COM>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <AMBP191MB2886193B1F896974A7CE23E1CEBA2@AMBP191MB2886.EURP191.PROD.OUTLOOK.COM>
-References: <AMBP191MB2886193B1F896974A7CE23E1CEBA2@AMBP191MB2886.EURP191.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR3P281CA0190.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a4::8) To AMBP191MB2886.EURP191.PROD.OUTLOOK.COM
- (2603:10a6:20b:6b0::11)
-X-Microsoft-Original-Message-ID:
- <20260915155913.421839-9-otzelot2021@outlook.de>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="eycpzX0V";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="GLZDE79e"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68FFAfRq3567052
+	for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 16:02:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	siGkS8tDMM+UyATikY5KKD95rNCtSbqtQYlyLRx/Exw=; b=eycpzX0VnxykGJNS
+	EGyXe31E4ta5U+T4OafNRm4SfX1w/Yy3tHqqklKVLnR0f8SEdqgeBxstJGqnAtqQ
+	yu9wKqyYDEDwHcTDeDZiIw5iomem/kVVz7MFsfXzjadCiAXVMMOh8JDPSwSCuryE
+	dTS847DBS0+ewmjo1q7xah/LjqiRpu88PjLWJP6ga/BKj8qSGHtu1SlbSdRYMLcm
+	eBp0M2Ko0an+f+/+iAMZ9Jr2CpzClirqCsy5qfDgKUBPX1bhEkIiC+Brh5jDrQ3v
+	XRoouy2cIZD3f5gGim5wqpDmmS/F593l1GMR1RPK5XAA5aS9pvoJ8Yal/PWS1XWk
+	ycCb2A==
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gpxydaupu-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 16:02:08 +0000 (GMT)
+Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-2db3d832827so56834115ad.2
+        for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 09:02:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1789488128; x=1790092928; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=siGkS8tDMM+UyATikY5KKD95rNCtSbqtQYlyLRx/Exw=;
+        b=GLZDE79eqAsBTa4Zb5SwepVYwKnF8OiN+EgBISHQXJSG20xYo4EEw+ngUFSVF01zCP
+         1g3v1N0HPNr/jxo63y5m+vx4b04MUPo7NwhJZFmg9XyOO+psn9WFRjhtCokV9KC/sPcB
+         Dj+On+R58SGzBcGLHq8LH4eMBr9U8G/1/ueB+Jeze6rCcnYAx39P8wKyUcA8NrIbNsOn
+         GhVU4HX+/jbhB5XyQiOe8cy+/YfeMtDE3PZjG0TX6vBnwS/7Y5zk+CJoHOZjiqTYH3VY
+         3zjUjDmyXn5PnF2GfwOEH3tvORLRLOd3oxfywDCZZ/B0eMZ5s3ZtRjXZCOnGeUqKzNaJ
+         sO+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789488128; x=1790092928;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=siGkS8tDMM+UyATikY5KKD95rNCtSbqtQYlyLRx/Exw=;
+        b=VlD7rPm+8F+2ZPnCBJcLKjqMEWN6zzjiG32Lrvh8WdAo12Rx7msuyIQ87lTD4tcj+C
+         tC/yzRuy/o3rXNqaoPmckDWBTIZ+5mdsZzcdX1nG0+lKlACNBNhm0G9BoCjp/YZuXNGw
+         leeXL5WC0GwuC8jqKnqJMziQdp1h4Uc/NQfRZySztyv3vMitCfOaPYvT1tcB+6YfZBKk
+         z0MW96RoEd9j1K1DHjmfMfr0TDa0onIf65XH5jGoLemOUD1Y/WrYHSyP2tXKsZ1rES9u
+         sBvFB5/mjx+XO+HkoWVXuWLOt3Eh09mpyEquI/QEi7D44x5pso8V492ig2nHhO8I8NLM
+         calQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzAZ1MGUixhhJC6KgaNw+bN2jTFQjoxIVS9+NMlEGuyM72LTTavohSwoKZsaiuqtLT7/312t9tIyrjCkA==@vger.kernel.org
+X-Gm-Message-State: AFuF++mfiB9Yv2XdlVOO9LofFaWz0NJTvHIU981LoWfC6V4qc88UFZOZ
+	FGGYPtZxJj/cJV+NlR3cWPVDanc5jrdPVYltGywG2mKkXax0SxH4PMQ6fZI7PAguB9zi9api3/p
+	/pAmAlsR28EkXnGg9BjB1mSohBSs135Hr7NJL9fd9zAb/QqmP7kPQHYMPFaXOhbkt/w==
+X-Gm-Gg: AYBFou0vevS8cOVgkKpRqrt4wua691/ofay4q2OIC3FESqBPeBz5UX1hdVZRqo52a9H
+	CCLcaQZFCSSP/GotIbSjnhhKPgqTWTocG7KmcdiI+lTc7awlWwE8U5gTEk4MA1CTy4rbeQenxrv
+	1GXNQjL4/3aX9LYBpysiAW6KqbN8FnYviM7hmTqSYda4D2l/mxSBfxbEkScfMdKfRC8Nkd8GqRl
+	rg5wHowfzDZVdFGQjbV0jzkKoHjvHGQ3UBNPfPpCWrhXmi3wFRm7gSXJFsI9AmZUx2MfzLYdVCz
+	zv0MMmRsMm7rPYiK9AQiS74WqXu+BHXYJZ4NaWAnj8IMKE54LLWbbgJ/BRbccF6uRvyxopH306d
+	Zozn3nHCA5cfj8aOKhXJqr9sAtMw+j87KFpqEFTyM
+X-Received: by 2002:a17:902:d488:b0:2d7:f0:896b with SMTP id d9443c01a7336-2dd6c6c0d27mr138819745ad.13.1789488127767;
+        Tue, 15 Sep 2026 09:02:07 -0700 (PDT)
+X-Received: by 2002:a17:902:d488:b0:2d7:f0:896b with SMTP id d9443c01a7336-2dd6c6c0d27mr138819005ad.13.1789488127162;
+        Tue, 15 Sep 2026 09:02:07 -0700 (PDT)
+Received: from [192.168.1.5] ([122.169.220.106])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2dd2ccadb4fsm69974165ad.2.2026.09.15.09.02.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 15 Sep 2026 09:02:06 -0700 (PDT)
+Message-ID: <f67b20ec-4c5d-4fb6-aa91-f3ab616e80b4@oss.qualcomm.com>
+Date: Tue, 15 Sep 2026 21:31:59 +0530
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AMBP191MB2886:EE_|GV2P191MB2334:EE_
-X-MS-Office365-Filtering-Correlation-Id: adbb2444-e6a1-4732-eaef-08df13425077
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|25010399006|51005399006|24021099003|55001999006|41001999006|15080799012|19110799012|5072599009|8060799015|23021999003|6090799003|25031999004|22091999003|24121999003|40105399003|12091999003|26121999007|2607281247196008|56899033|3412199025|440099028|1710799026;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?eVpqTlRPOFhLbkQzOE1wSVRHTTdaRTJocCsxZUUzRGo3a0xVTmY5aE1pb1RK?=
- =?utf-8?B?cHFYSkNMSXd3YVZHeEo1YlIvdWpZNWVTd2xQcmNvWUpRUTE2a0dFNUh3TWhC?=
- =?utf-8?B?NHpsSlNWQ0VrenFyNmpIbHZJbWx4MmRuY3dxOE1pdW81aHlLbStZZEdkWGZO?=
- =?utf-8?B?aEIwc1FIaFA0aS9DSU5ySjJQOWsycUNITTQ4d2ZpVmJ2KzZVeENvUkdabnNi?=
- =?utf-8?B?SFRtSHI0d2k2aERDcWJjdFdaNnR4cG5CZzcyRWJ1SGJMWVlnYUlhdEg0eEpO?=
- =?utf-8?B?TmhXYkJyd05SNXBqYkNaR3RlWUZFR2d3M1h6elRaYkVaM2tmc3lCelF2VEtN?=
- =?utf-8?B?OWkyTTlOR2UzdndWSFJWczFOZmkvdHVJUUczT3A4UEVuTzlRVE1ZaGRURTQw?=
- =?utf-8?B?ZEZURC8xYXF3OHJkNitZd2lXOXZvOGM4Rko2V0tOYnc0dVFYY2JTR283bjcz?=
- =?utf-8?B?a3ZZMWlsZ0dBODljMnBBT0lOTjJZalAzRU15ODlQV1lhUFc3NG5IZmJJcWhH?=
- =?utf-8?B?SjVTeFlNYlpZL1FVbExEYlBwTHNFMUs2UWxuSnJrNDd3RmtzTFh6Mm1oTnlS?=
- =?utf-8?B?Mk9mVzJVaGdmVkJRMDFFYVV3YmFOcGwycmZFQ3ExczN3THkzQVc2dVdSTFB6?=
- =?utf-8?B?VXpLc2tSOE5VTUErZVlSQTFvVlBtRDhUTG1MajJmSysvcEpRcXBjcFRsMEYx?=
- =?utf-8?B?VktOcEVyK0hSbjVRRzNDL2hXVHI4cjlRQmxxUFJnQjdCQUJ5Tk4ySEsyQnJM?=
- =?utf-8?B?K3VQSmxhS0JuU2Ztbk5KRHpPTWtSeWhoQ1Q5WGRWTEpOeUpZdThpUXVvSGdJ?=
- =?utf-8?B?WWlndm5NQm82WVFBb09RQWlhM3NwYldmWXBKL0VNRDd6bnlCZi9KaTR3cXJy?=
- =?utf-8?B?VFFBUlF2L3NDOU1OWDR0cVErVm9yMGNUSFBsY01zdklEd2ZiRzljd25pZzBv?=
- =?utf-8?B?NDZoZEw4clV1RzRUdEUrb00yK3Q2L09LbVE0WlE0ZWd4eG1lNGkxaGt6WEl2?=
- =?utf-8?B?MGRtMXg0VTkzM0lmOWQ4eXA0a0dCOUpLQ1ZRN2pQUStVWmM0SzFtb3MxaEhl?=
- =?utf-8?B?Q2lFQlBFZW9oaHZGMExNOUhFaEtrRjJ5K01yWFp3VGdMYnpSd0ZPRSs4ZHk5?=
- =?utf-8?B?K1pJVGFXT3ZIMzlUemxMVEk5Ykw2R2xiRE9LUEdscFRVeWppTWpOc0sybk5W?=
- =?utf-8?B?YmJZYVRUaU0ySG5NVkNZQUJ4OVQ1UHArREo2OXRJa0MwMEZxQWJJSHQxNHRT?=
- =?utf-8?B?Z0JtYThrbm9WY0JvZDZLQjZWQ01aR2tpZnd0aFJpa0VRVXp5YXJTMDN2dUhZ?=
- =?utf-8?B?VVRyK2lXN1Q3KytPclZSbVZEMWtJd215a0xGbWRTNisxOFZlQ1FpUkhMTHBJ?=
- =?utf-8?B?blZiand0TVJ6TzJPY0puWjJGTEJpRUxITXRBRzRpREU2dU4xMlRiK2dEQ2lL?=
- =?utf-8?B?QmRjdEJaYXpVTmxoQ0ExeXU4NXljSFZraDlKTlAwWmhXclk3aU1TTWg3UDJr?=
- =?utf-8?B?L3l0SHNTbUxLUk4wTm1qbyt4d1F1SDU0QTNMQWlOWTRqcUsrK0pkWDMwb0dt?=
- =?utf-8?B?bGo1MThQT1hFSFUwQ2k1a25xRGpmb1FHejRhVHQzaEN2RFk3TE9laXJJcWdM?=
- =?utf-8?B?NkpKZ2txalV2a281RmUzd0FmMjZRbGc9PQ==?=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?dzBSUkpuVHdHRDVoRHdUdnV2bVBTWFBpZEtZb1ZNeHRNTTZ3LytQRHlKMzM5?=
- =?utf-8?B?NXM0cldkK2JTQnJtSzFZZXVrTVl1NkR4N3QyMElBaUVFZWRxYWx0ZEVZM1M5?=
- =?utf-8?B?eVZBVjJGOE1hMHJ6UklSOEg1VW5PWWVoTFFMYjNRK01pQzZ2K2t3ZkE2UGFG?=
- =?utf-8?B?Mk5xcjh1NndBbVhKYXNvanAvNFRQZWRPWHV6V3ZDUFFjWGVvOExLNmorSU1q?=
- =?utf-8?B?Q0hGNURveFVLT3llTGMvTEVpME5aNHlzclFQaGVacnJTbW9BcFpubEpzbjRz?=
- =?utf-8?B?dHhXemp2NWpyU1RKTVI1RFZnWG5KOGNTTGdmbFJTTmRWcGQxbkRHM21ZOGE0?=
- =?utf-8?B?cWo2b1Bxbm8vRXplTEN5ZnhlQkw5Z0hvTmU0VlRCUmtvUGZCSkNUa0JYZGlo?=
- =?utf-8?B?eVBxUENndXVwK1hrQ2t4N0t5aXFtNnR4SlkyN29DOE9XL1gyd0M3blRuZ1Bi?=
- =?utf-8?B?azd4QURDTXlXL1JMN3RhU2VPZmtWMk5VWDJURTRIYlFCc2pjYmMwdVJUK21E?=
- =?utf-8?B?Wm5vQkQxeE9ndm9laUM0M3VldFlRMElJVzl3aUxsdGRhTEQzWGV4NUdGU2FJ?=
- =?utf-8?B?K2EySkJOZUdIdjlOS1BuVDc2ZkN4bkF5ZkNmUHZCZ2xkaTJCZkJHMitjUUll?=
- =?utf-8?B?TldPdVZnS09NeG1SRHJid3VIa29CVTNsYjVPYkFhL3hJNWhtQ0JRVm0vcnJ6?=
- =?utf-8?B?RWJKS2xOTVVmL29NREd4THBsUGNsVnpnVFAxdlljZHlLNWUvc0dCU1AyWmIv?=
- =?utf-8?B?VGV5WkVOdEFYZDdqWVlxenlDNVJaYjdDaEF3UnExWmRxK25zTmlpU0FVb0pI?=
- =?utf-8?B?QjcxUWdpSTFaV280YWhUMkhVRUU1a1VENU5LanJqZDZ6Tm5aSWs0Zi9ZMzlj?=
- =?utf-8?B?RWJBcHpja1dVQ0xWRDhyZjluc042azhpWEc3QmhDN2dyNklvYnFIUm1BbC9S?=
- =?utf-8?B?cEZpZGllR0lQNndDd0hvRUdVYTNCdUlzbHVqeHlyZHcwOU9ZYzNsaWdrRm5H?=
- =?utf-8?B?OXpEdnhDZGxXYWtTcEw2cC9vRjQ1U0t4SEhhUVlwaENIZndvclBJdHpsdmNU?=
- =?utf-8?B?Ym9UWkVxeXNZcWdBcTBrODFqblJPY1hpaExEdmZlS3ZLOWF1R0lpZkFVWGQ0?=
- =?utf-8?B?VUFPdEJDUEpmVHVLQnQraDh1Z2pUR0tGdlA5c0E1R2tjcnpVdjRmaTk1L0R5?=
- =?utf-8?B?bUpDQi9hR1dZWHpqN3BFVDdnOC9JQmNESW5uZ3J5UGVhQkFWU1RoMlFzcytV?=
- =?utf-8?B?Vk82ODM4WG4wU1dqOFBWR0pjTTNiSEJyd2ZUaVF3N3NOcWFYZXdobHhGUjYx?=
- =?utf-8?B?eWx0Y2VQck9wWFNBS0pzdENrcG83MUJDenJReG9kbkNJQmJPQUF2VnlsK1Fy?=
- =?utf-8?B?ZHNRTW1PcEV2L01CWU5ZQWY5MjdpSkJoaXpSOHZSMDVSQ3RMNjkveDVTR1hT?=
- =?utf-8?B?NmNHckQxZ2RtcGxQcEdRVXZ1SXVFZVFkVUk1akFoemdDMkRQYjFFcGFZclhM?=
- =?utf-8?B?TDYwVnU1dW5tbWw2OEdGakMwUFlRVmpFVFhwSWEzb1hPeCtpcCtvL3cxUzU2?=
- =?utf-8?B?UnFVSmtaUTFsVFhoQmNHSE9xTTcvWDg3SU5NTVRIbDlNaEhXVHl2SlZJdE9K?=
- =?utf-8?B?YkN6b1lzUkd3WElDSnNud2J4cmtJNkNSdVYvbjhyQzd3azlWc0QreDhYb3k3?=
- =?utf-8?B?bEEzcUh3UXk4K2kvTnA5Ly9uWmh0YSt6ZDF1MVVINmFnYitiN1ZTTTdKN2dK?=
- =?utf-8?B?dXdhTlNkblNvajJxNCtVNytlQVpSR2hCcE9UOHhTVjQ3bkh4MDBsQmRidldY?=
- =?utf-8?B?TjJHcXpaTCtOUy84MU0xS05nSmhHVUpsRHNkaC9LaDdMU2l2TDFRT21oYnJZ?=
- =?utf-8?B?V0lSdnJJMFQzbm1kdHE4RkNuS1U4SzZKaXVnTVg3dm5wSTZRU1lLR1k0N1VC?=
- =?utf-8?Q?ZTeCeenAG6lD4nUD8lVDlWRDO1oIFkOL?=
-X-OriginatorOrg: sct-15-20-9412-4-msonline-outlook-061ba.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: adbb2444-e6a1-4732-eaef-08df13425077
-X-MS-Exchange-CrossTenant-AuthSource: AMBP191MB2886.EURP191.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Sep 2026 15:59:25.0797
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2P191MB2334
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 4/5] ASoC: dt-bindings: qcom,sm8250: Add Nord Ride
+ sound card
+To: Shawn Guo <shengchao.guo@oss.qualcomm.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        =?UTF-8?Q?Nuno_S=C3=A1?=
+ <nuno.sa@analog.com>,
+        Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+        Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>,
+        Srinivas Kandagatla <srini@kernel.org>, linux-sound@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+References: <20260907-nord-asoc-driver-support-v1-0-997d3b20cf43@oss.qualcomm.com>
+ <20260907-nord-asoc-driver-support-v1-4-997d3b20cf43@oss.qualcomm.com>
+ <aqFzPyDT_va9VP-i@QCOM-aGQu4IUr3Y>
+Content-Language: en-US
+From: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+In-Reply-To: <aqFzPyDT_va9VP-i@QCOM-aGQu4IUr3Y>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTE1MDIzMyBTYWx0ZWRfXzxKkjgCdIpya
+ 7cKiEK99bS8H3+ew6V/P0einqc/epnISs0YlHTPVVo4gQyD0Fhtf2y+R8mevkgKmoFUbQnAC+xH
+ eOyigp4v6Q7WO0DIh/uOdot7n5KmNko=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE1MDIzMyBTYWx0ZWRfX9JikJlxy2yUr
+ BdCy2G5OhNmAf1IkTNMeAXOQ41ERKd0TjoHKnX+6/CNzOYXTMr9HZzSW5Owh80jFKJn7pD+19S4
+ OssAMGQDObyFQlC3gLTWWiboj9CE7EC7ry3Ta2LH6Bn8sJy4fhEOt6Z4qh+2n99LqgrXk9sw9/8
+ ejZqpXwhxNCJgH9COD/K0BG6OWYHIa2dN2E5Klox4rxkayx0cmZr/gCwKUGTEncV18C6WBOI3M4
+ SWT170vFVnwI/+0r6rtzVpks2u6FRKMbwG6BTu8ziS9ZE/umHx0jwdQFx9yAy/V40K8r06bh7Q8
+ 0govSDoRzhRDOwfSPXSk3yCRWecZcV/sPX+Zx67ZW33s68W+xsKakKpfHdsCUgyfLPbROXhPPRV
+ f7Q2P7F3vPxTE1KXV7COKtDgLobZiw==
+X-Authority-Analysis: v=2.4 cv=LYepeTfi c=1 sm=1 tr=0 ts=6aa96c00 cx=c_pps
+ a=cmESyDAEBpBGqyK7t0alAg==:117 a=Ww153nmMuBeTcjqybhOiGw==:17
+ a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
+ a=EUspDBNiAAAA:8 a=xBKF7SBF3-SEUEZML9sA:9 a=QEXdDO2ut3YA:10
+ a=1OuFwYUASf3TG4hYMiVC:22
+X-Proofpoint-GUID: PT_cuMhdurSWEBnYUZrDyF7zYG1L7OoC
+X-Proofpoint-ORIG-GUID: PT_cuMhdurSWEBnYUZrDyF7zYG1L7OoC
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-15_04,2026-09-15_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 adultscore=0 suspectscore=0 malwarescore=0 bulkscore=0
+ phishscore=0 spamscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
+ definitions=main-2609150233
 
-Write down that card names are UTF-8, that the fixed fields are cut at a
-character boundary, and that the untruncated form is available through
-SNDRV_CTL_IOCTL_CARD_BYTES the same way the components string is.
 
-Say what the kernel guarantees and, at more length, what it does not: no
-NFC normalisation, no homoglyph detection, and no filtering of invisible or
-bidirectional format characters.  Say why - those need Unicode character
-properties that would go stale in the kernel - and say what user space has
-to do instead, down to isolating names for display and filtering
-Default_Ignorable_Code_Point.
 
-Explain why a name is repaired rather than rejected, since that is the
-non-obvious part: the fixed field holds the name either way, and readers
-are told to use it when the untruncated one is absent, so rejection would
-protect nobody.
+On 9/9/2026 8:24 PM, Shawn Guo wrote:
+> On Mon, Sep 07, 2026 at 11:39:45PM +0530, Mohammad Rafi Shaik wrote:
+>> Document the bindings for the Qualcomm Nord Ride board
+>> specific sound card.
+>>
+>> The bindings are the same as for other newer Qualcomm ADSP
+>> sound cards, thus keep them in existing qcom,sm8250.yaml file.
+>>
+>> Signed-off-by: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+>> ---
+>>   Documentation/devicetree/bindings/sound/qcom,sm8250.yaml | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
+>> index 1536fcd96d68..bdbaa8c822fc 100644
+>> --- a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
+>> +++ b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
+>> @@ -38,6 +38,7 @@ properties:
+>>             - fairphone,fp5-sndcard
+>>             - qcom,apq8096-sndcard
+>>             - qcom,glymur-sndcard
+>> +          - qcom,nord-ride-sndcard
+> 
+> I wonder whether we can make it SoC specific like qcom,nord-sndcard,
+> so that it servers both Ride and RRD reference boards.
+> 
 
-Spell out why id, driver and components are not part of this: they are
-identifiers, and matching a card has to keep using them.
+Ack,
 
-Assisted-by: LLM
-Signed-off-by: Luca Rodenhäuser <otzelot2021@outlook.de>
----
- Documentation/sound/designs/card-names.rst    | 178 ++++++++++++++++++
- Documentation/sound/designs/index.rst         |   1 +
- .../kernel-api/writing-an-alsa-driver.rst     |  12 ++
- 3 files changed, 191 insertions(+)
- create mode 100644 Documentation/sound/designs/card-names.rst
+Sure will move to qcom,nord-sndcard.
 
-diff --git a/Documentation/sound/designs/card-names.rst b/Documentation/sound/designs/card-names.rst
-new file mode 100644
-index 0000000000..a4c0a638d1
---- /dev/null
-+++ b/Documentation/sound/designs/card-names.rst
-@@ -0,0 +1,178 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+==========
-+Card Names
-+==========
-+
-+Background
-+==========
-+
-+A sound card carries three strings that exist purely to be shown to a human:
-+``shortname``, ``longname`` and ``mixername`` in ``struct snd_card``, handed to
-+user space as ``name``, ``longname`` and ``mixername`` in
-+``struct snd_ctl_card_info``.  All three are fixed-size byte arrays, 32 and 80
-+bytes, and a name that does not fit is cut.
-+
-+Those names are UTF-8.  That is not a new rule: USB has worked this way for
-+decades, because ``usb_string()`` converts the UTF-16LE string descriptors of a
-+device into UTF-8, so ``dev->product`` reaches the card name fields as UTF-8
-+already.
-+
-+Two things follow from the fixed size, and this document is about both.
-+
-+First, a cut can land in the middle of a multi-byte character, leaving a string
-+that is not valid UTF-8 and that user space cannot repair, because the missing
-+bytes never left the kernel.  ``snd_utf8_strscpy()`` fixes that: it is
-+``strscpy()`` except that it ends the copy after the last complete sequence
-+that fits.  Drivers that copy a device-provided name into one of these fields
-+should use it.
-+
-+Second, cutting cleanly is still cutting.  32 bytes is eight CJK characters, so
-+a name can be valid and still be unusable.  For that, ``struct snd_card`` also
-+carries the untruncated form of each name:
-+
-+======================  ==========================  ===============================
-+fixed field             untruncated form            user space type
-+======================  ==========================  ===============================
-+``shortname``           ``full_shortname``          ``SND_CTL_CARD_BTYPE_NAME``
-+``longname``            ``full_longname``           ``SND_CTL_CARD_BTYPE_LONGNAME``
-+``mixername``           ``full_mixername``          ``SND_CTL_CARD_BTYPE_MIXERNAME``
-+======================  ==========================  ===============================
-+
-+This mirrors ``card->components``, which holds the whole components string of
-+which ``snd_ctl_card_info::components`` is a cut copy, and which user space
-+reads through the same ioctl.
-+
-+``id``, ``driver`` and ``components`` have no untruncated counterpart of this
-+kind.  They are not display names: ``id`` is the unique handle of a card and
-+part of path names, ``driver`` is the key alsa-lib matches configuration
-+against, and ``components`` already has its own.  ``id`` in particular must
-+stay alphanumeric ASCII, and the kernel enforces that when deriving it.
-+
-+Rules
-+=====
-+
-+One name, two lengths
-+    The untruncated field is not a second name.  It is the same name, not cut.
-+    It stays NULL when the name fits, so "set" always means "the fixed field is
-+    not the whole story", and there is never a pair that could disagree.
-+
-+Either may be empty
-+    A driver may fill only the fixed field, which is what nearly all of them do
-+    today, and a card may have no mixername at all.  No reader may assume a
-+    name is present.
-+
-+Names are not identifiers
-+    Homoglyph detection is impossible in the kernel and NFC is not enforced, so
-+    two different cards can legitimately present names that look identical.
-+    Anything that matches, authorises or picks a device must use ``id``,
-+    ``driver`` or ``components``.
-+
-+NFC is a recommendation
-+    Drivers should hand over names in Normalization Form C.  The kernel cannot
-+    normalise: that needs the Unicode tables of ``CONFIG_UNICODE``, which the
-+    sound core has no reason to depend on.  A reader that compares names should
-+    normalise them itself.
-+
-+What the kernel guarantees, and what it does not
-+================================================
-+
-+For every name it hands out, the kernel guarantees that the string:
-+
-+* is well-formed UTF-8, and is never cut inside a multi-byte sequence -
-+  neither in the fixed field nor in the untruncated one;
-+* carries no code point that would break a line, that is no C0 or C1 control
-+  character and no U+2028 or U+2029.
-+
-+The second one is not cosmetic: the kernel prints these names into
-+``/proc/asound/cards``, which is line based, so a newline in a name would
-+corrupt a file that user space parses.  That is also why the repair belongs in
-+the kernel rather than in alsa-lib.
-+
-+Nothing beyond that is guaranteed, and that is a deliberate choice rather than
-+an oversight.  Invisible and bidirectional formatting characters, deprecated
-+format characters, the tag block, variation selectors and non-characters all
-+pass through untouched.  Catching them needs the Unicode character properties
-+(``Default_Ignorable_Code_Point`` and the general categories), which would mean
-+carrying a table in the sound core that goes stale with every Unicode release.
-+A hand-written list of ranges is worse than none: it looks like a defence while
-+leaving gaps, and user space then skips its own filtering.
-+
-+So the division of labour is:
-+
-+=====================================  ==============================
-+the kernel                             user space
-+=====================================  ==============================
-+well-formed UTF-8                      NFC normalisation
-+one line, no control characters        ``Default_Ignorable`` filtering
-+never cut inside a sequence            bidi isolation for display
-+=====================================  ==============================
-+
-+Concretely, before showing a name, wrap it in U+2066/U+2069 so that strong
-+right-to-left characters cannot reorder the text around it, and drop
-+``Default_Ignorable_Code_Point``.
-+
-+Rather than rejecting a name it dislikes, the kernel repairs it: a malformed
-+sequence becomes U+FFFD, one per bad byte as recommended for a maximal subpart
-+in Unicode TR#36, and a line breaking code point becomes a space.  Rejection
-+would achieve nothing here: the fixed field still holds the name, and readers
-+are told to use that whenever the untruncated one is absent, so a rejected name
-+would reach them anyway.
-+
-+Driver side
-+===========
-+
-+Copy a device-provided name into the fixed field with ``snd_utf8_strscpy()``,
-+then offer the untruncated form::
-+
-+  snd_utf8_strscpy(card->shortname, product, sizeof(card->shortname));
-+  snd_card_set_full_shortname(card, product);
-+
-+Order matters: the setter compares against ``card->shortname`` and stores
-+nothing if the name fit, so the fixed field has to be there first.  A driver
-+whose names are compile-time ASCII literals, which is most of them, needs
-+neither call.
-+
-+The setters strip surrounding whitespace, cut an over-long name at a character
-+boundary, and treat an empty result as "unset".  Passing NULL clears a field.
-+They do not reject anything: the only error is ``-ENOMEM``.  The size limits
-+are four times the size of the corresponding fixed field
-+(``SNDRV_CARD_FULL_SHORTNAME_MAX`` and friends), so the same number of
-+characters always fits, whatever they encode to.
-+
-+User space side
-+===============
-+
-+The untruncated names are read through the existing
-+``SNDRV_CTL_IOCTL_CARD_BYTES`` ioctl, which already carries the components
-+string the same way.  No existing structure or ioctl changes, so an old binary
-+keeps working unchanged.
-+
-+Call it once with ``data`` set to NULL to learn the length, then once with a
-+buffer of that size::
-+
-+  struct snd_ctl_card_bytes b = { .type = SND_CTL_CARD_BTYPE_NAME };
-+
-+  if (ioctl(fd, SNDRV_CTL_IOCTL_CARD_BYTES, &b) < 0) {
-+          /* kernel too old: the fixed field is all there is */
-+          return use_fixed_name();
-+  }
-+
-+  buf = malloc(b.data_len);
-+  if (!buf)
-+          return -ENOMEM;
-+  b.data_allocated = b.data_len;
-+  b.data = (__u64)(uintptr_t)buf;
-+  if (ioctl(fd, SNDRV_CTL_IOCTL_CARD_BYTES, &b) < 0) {
-+          free(buf);
-+          return use_fixed_name();
-+  }
-+
-+An empty result means the name fit, so ``snd_ctl_card_info`` already has it.
-+An ``-EINVAL`` from a kernel that does not know the type means the same thing.
-+``SNDRV_CTL_IOCTL_PVERSION`` reports at least 2.0.11 where the types exist.
-+
-+There is deliberately no sysfs interface for now.  It would be a second piece
-+of ABI for the same data, and nothing in user space has asked for one yet; it
-+can be added later if udev rules turn out to need the names before the control
-+device is opened.
-diff --git a/Documentation/sound/designs/index.rst b/Documentation/sound/designs/index.rst
-index 6b825c5617..e9bc10c81f 100644
---- a/Documentation/sound/designs/index.rst
-+++ b/Documentation/sound/designs/index.rst
-@@ -5,6 +5,7 @@ Designs and Implementations
-    :maxdepth: 2
- 
-    control-names
-+   card-names
-    channel-mapping-api
-    compress-accel
-    compress-offload
-diff --git a/Documentation/sound/kernel-api/writing-an-alsa-driver.rst b/Documentation/sound/kernel-api/writing-an-alsa-driver.rst
-index 86b64de031..86796297c8 100644
---- a/Documentation/sound/kernel-api/writing-an-alsa-driver.rst
-+++ b/Documentation/sound/kernel-api/writing-an-alsa-driver.rst
-@@ -438,6 +438,18 @@ functionality of each chip type.
- The shortname field is a string shown as more verbose name. The longname
- field contains the information shown in ``/proc/asound/cards``.
- 
-+These fields, together with mixername, are fixed-size and hold UTF-8. A name
-+that comes from the device rather than from a literal in the driver needs two
-+things: copy it with snd_utf8_strscpy() so that a name too long for the field
-+is not cut in the middle of a character, and offer the untruncated form so
-+that user space can get the whole name::
-+
-+  snd_utf8_strscpy(card->shortname, product, sizeof(card->shortname));
-+  snd_card_set_full_shortname(card, product);
-+
-+The second call stores nothing if the name fit, so it costs nothing for short
-+names. See Documentation/sound/designs/card-names.rst for the details.
-+
- 5) Create other components, such as mixer, MIDI, etc.
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
--- 
-2.43.0
+Best Regards,
+Rafi
+
+> Shawn
+> 
+>>             - qcom,qcm6490-idp-sndcard
+>>             - qcom,qcs615-sndcard
+>>             - qcom,qcs6490-rb3gen2-sndcard
+>>
+>> -- 
+>> 2.34.1
+>>
+>>
 
