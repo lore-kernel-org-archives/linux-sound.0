@@ -1,389 +1,223 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F13D4A8A0C
-	for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 16:32:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 046364B1272
+	for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 16:57:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789489961; cv=none; b=KaVqKIwX9EDAmrchnrwd8x0wcmxyhujnFsrwDQxF0n7NrBvVGivh8YEerP7DrN0xh2mFF+UI5GZgODE9dIHdWH9buNr71gwiKGeAqiD3igFu10xianlBr7Ol/2jz6Pg3g78+1Fga//BizGE1g8uikioDKJUk+2UO+V1T1y96TiE=
+	t=1789491436; cv=none; b=IKedIt9IxxhAXKNA4AY0RRdYer2Y75c2iOumAvWkA7gdNbDVYLRwjqTj3bmea7rZLI9oyBAQND49OBaCBFyuwwnxHovpdWdw7sKv6zNqaw+4l4m+87iUHPsAg7GssmtLmD4GxaOZt++/Z55pTCpGi5YaIanaUOfu8HnvluzIF7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789489961; c=relaxed/simple;
-	bh=p07+JoDPMzKCK5bI4/DCgvQDG0O/5/H3p7uRTKwDuLE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BxLXOxdAcyM1LpplGLLRROMJn1jzsQ94vwpuWORqLLrstSEXwNtEuW10YWikNUL4+SR13rhLySgvZmVA9mPndory1hpNAucrxSsHVE4JmZu+dfN8TLlPAN0xTL+Kx/m2+jqf/WvbR6ERRY/SHViNemYshy9y0BZLGttvvRD+RXc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=RhI+QKOO; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=BGcHwtT2; arc=none smtp.client-ip=205.220.168.131
+	s=arc-20240116; t=1789491436; c=relaxed/simple;
+	bh=7sZXCJrlcQe6tWAnvFSzQqrjQWl6F0vafplST4Apil8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mdZyFZ6sRNnDJjFb7FR802z9T86IFdkWHB+fz2qS/iZmy9mMsOkpwJBGu3g9zyrS2PmZmVRsjqrrNDz5K5VnWR7sjmR3NfdxBOQ7aJP9eyIe0eVXESmLlQY551KSeC5HaR/b/13qtiCOuFZ8yKq0+pdBlYPEOKMv8/+jjWemEuo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=OjZnOgzx; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=U7GAPlaF; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="RhI+QKOO";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="BGcHwtT2"
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68FFANVR813359
-	for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 16:32:38 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="OjZnOgzx";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="U7GAPlaF"
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68FFATxO4176129
+	for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 16:57:14 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	n9oYWlzrJjqCCO36W65tOQrn+7qNpv3zTqhfOj70ops=; b=RhI+QKOOWhJYZ6ez
-	2wNM5zf9I/AlSouRjyCx3t/3/igcN4ak4jwVxOHYqrsF0EIvWNVHvvuJKMEQP7xI
-	JAE9WcYaAYHOnC/aOBT9Nqz0TLLrC/b8d/+wJ2qlU50L/zGslJyzN6eu+fgijc9R
-	qYnfgwggNQ+ZnDYngm/+KCOxprWuiAzwTvYokBENeUIIT5pbFuyleLKzwdbpn8uB
-	TOTbSe3MSW/MBhxYHdykdibDZ1ORSX1x58VuXXV+Cvdad9R4GzHafpTIZz1KB60L
-	1Mcuj7fYFsUStmI8NbVIpNxEjatEcreVqhm0oQXlH03Db84s+S9pdDTt6zk6qmdm
-	ekBJ/g==
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gq6kc17e4-1
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=MI9Kl7QZCeP7JVMjKmDtliZY8ZENsVTkKBw
+	Bqm3AWGs=; b=OjZnOgzxB/Ny/uKwILwfTDmDBotboGiLbs5GjDZllgRDP51/nrp
+	GIaviMks4eOhaIu/0bdDTfgotEs1RFidTkcSbGEa4HV+nOBqWwGuCcXeX+1dMDeI
+	vVvOxDjfHMilqgx//l2LikFX+ImGINhUYOxKbOx3FJRKM4XYZXyuNQdNhx4CuMSL
+	WRIZoOWB6dlHyx3OdxlnK+mcxVbQOn35gIGV76EzpvkkvVjJVaF+G/UsOXcl+DLM
+	vPiWfs/r5pc3QlnQSjxmsOPwTJStpkAFX5q/Th2Ugcw0m/IxkPBunw0iKiths5gp
+	1aLcfC9Kgl96yvrBrOk2fPILLY0IfW03KaA==
+Received: from mail-vs1-f70.google.com (mail-vs1-f70.google.com [209.85.217.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gq3hc2jhp-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 16:32:38 +0000 (GMT)
-Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-2d001671a54so89843995ad.2
-        for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 09:32:38 -0700 (PDT)
+	for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 16:57:14 +0000 (GMT)
+Received: by mail-vs1-f70.google.com with SMTP id ada2fe7eead31-790376c9f8cso1192481137.1
+        for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 09:57:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1789489958; x=1790094758; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=n9oYWlzrJjqCCO36W65tOQrn+7qNpv3zTqhfOj70ops=;
-        b=BGcHwtT2Tha7VS9Hy2Mi7xTvYL7jC0w26KQ0BN5U49FHN7+8hNILmQVHM2smpZfAYK
-         +Ke+APQbr+mH1vTLTy7WXLgMrR5D1gO9BojVJkffzYrOxbZyaBThaSI2lR+vjJCbY4VS
-         jeHzsOxdM+JZGU1FsRbRd0En9KQdgaUUjwy7mEQaKDlIq2SgjjUh/NxuMaxs1ACK+aJK
-         lr6qjHKSvJ+tbdPsik9yx+hEovUwepRoSxmVkkKVw396p7TN2oJSilPGEVWMtHfCuIv/
-         MOjEh25e1MiqBLQ25uchfAONOgP7W3He9pyAlcINmzOpjbinAtsYTt7bX+yqAkA6d0E1
-         Z6fQ==
+        d=oss.qualcomm.com; s=google; t=1789491433; x=1790096233; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=MI9Kl7QZCeP7JVMjKmDtliZY8ZENsVTkKBwBqm3AWGs=;
+        b=U7GAPlaF7yJEerwi+ZDWNtGQvumHelZKPJ3MiIFdiAVCw1ZT6hDOqDq0Ynz5eCbeba
+         PBF38+wy+Wwzd2e/KDl/sgltxZxCVNXiEMwFnwkjSJlEJYl53wtcQ626e+VYfkjiU3gH
+         tlAnraghCb7ob5unwhkLkJSz48Meic9nGZQ+128UzYeuKy6v4YW4tEBtTgieXEuuWY7e
+         Gu8/FskHki1v5y6NlfzG9aHY6AcpfPaxzplFxsdP6dlfYeRPiMM7FvN6PjwjO7oVgikY
+         dP2XziQbsAh4pnTE6Xhx7nuoxii2ZNZnq5CpEoqgthUg3zlxqWxIJNCogiLU3Q4UtA/j
+         Qv6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789489958; x=1790094758;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20260707; t=1789491433; x=1790096233;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=n9oYWlzrJjqCCO36W65tOQrn+7qNpv3zTqhfOj70ops=;
-        b=XsKu9A9mQbOmpdOi1ZSYqVGPAFmseiZVq1iqqG239dlyZXv1deLQ4gLymVOW6iIMPD
-         OLlFMStuF/T2MdViPvQdz3EUPJPuwsqpD5wwcOHy5j3U6ypyJqSLzvrUx2DvquwN+Xit
-         U010e6UTLaYftUbMXujRI2Dysgf1oMipG46T916xM71kfWBDqn0iIJ6B5VhKTcEqdCSF
-         znDfsRPW79IvDs2vrXfg/2E8YvIXbmJ2TMsFHw/sdhBTaaL3Bau5skyJ0+zdHTN43Zfj
-         j2fg7ivdRBv+3b8Gd9rBq43Mop6hU68HNZeoMekMsTfWebclh88zOf/BpYYpmt7cYtbd
-         6L8w==
-X-Forwarded-Encrypted: i=1; AKwUvBwHrtISFEcOR/TJHBkLocZm0hGCkL9uWtKk0SBFbKXrQ/lswsTHLqWMS0qLYE5fz1C7b3NGc8yfBOz0og==@vger.kernel.org
-X-Gm-Message-State: AFuF++nCevoQJUAX2HVJGaXmFo581zlWEy6co90yMJOmBKkiABGAbkE9
-	ge/fSsIKl3ENzRHdXXqcAuWtnB6tVp41Otm4rtuxJQ18CbnEkdwELzHPRrvDxEpc/uGlG0ESz3y
-	Npae0kMNHWxPMpf2Zuqv3gyBwteE6zKMFOzd+87+jkOC1oO+VN2eZnlgDXE0x7zeq9g==
-X-Gm-Gg: AYBFou3KYOKkaeKPKNv6zPcIWzaI32EVEFpwvrnyvWLQ4emR7MCA1IDO+bakR7TtKzt
-	9N0kgKaOSUqgKg+NBVU7Uke26oKi5+evpEzji4fSIyHf0/mD8qgDP6Zw7WJdoRpWKtiTyCGvXhT
-	55qte/TJeCg8LaEiBdLp7SGieE2COr+eTCrofdSUHscc/u/GE7MxIS/PkX3L3yvF6SLT5iyPFex
-	R8y/3doaASBQIb6BH/HxMXbI5v0LS2a8AUifl1ncdAbqLrWgSptAxRKpowEft34dbLK1SavFXxq
-	65vsJA495NHFSD2LqVs0+jJ5KqllLlPnbyTeeDbQyDEXOZaEk/G88CkUZIJiGLb7MCSSqg050Ec
-	VIfOUcgt/iTIdT2oDtyhkC7M7+1QbBiQftZrPnseb
-X-Received: by 2002:a17:903:f8e:b0:2d8:d4d0:792e with SMTP id d9443c01a7336-2dd6c7630f2mr154440385ad.18.1789489957974;
-        Tue, 15 Sep 2026 09:32:37 -0700 (PDT)
-X-Received: by 2002:a17:903:f8e:b0:2d8:d4d0:792e with SMTP id d9443c01a7336-2dd6c7630f2mr154439665ad.18.1789489957339;
-        Tue, 15 Sep 2026 09:32:37 -0700 (PDT)
-Received: from [192.168.1.5] ([122.169.220.106])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2dd78bd7654sm16281405ad.43.2026.09.15.09.32.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Sep 2026 09:32:36 -0700 (PDT)
-Message-ID: <075116ba-e22e-4df8-ad16-9d9594d7cd16@oss.qualcomm.com>
-Date: Tue, 15 Sep 2026 22:02:29 +0530
+        bh=MI9Kl7QZCeP7JVMjKmDtliZY8ZENsVTkKBwBqm3AWGs=;
+        b=HD1aCoaE8A2JXm8X+veJaGfOLWpimb/ZtRmfazA8Rwpak7SG+pvPd4tlC+Q+VDr0fE
+         btvjErFz4HWPHxlZ+4q2cmLLT7wZRkwlqYTp+/BY81xzGU/fRqJx3JUrqlYie3s/hAA7
+         CdVQJx3fdWoarfxHd5FPfgN52AJKdI6iBUpsdfV63XQFEECnXKb/91itGQxU4h8Yjho6
+         k5TpVLPY2KodSwZ2jNEtvLVodQNcGCAxxbk4saN6l5np3XujHFY5+6p9WLzioMYA5Zi4
+         5Gcoo6yKh+cs0gRwqOFwQVaU9EPtuyD0H48tXGVscNkFAa+AAAIqqj2EolQ6IY3UiIWc
+         nTvQ==
+X-Forwarded-Encrypted: i=1; AKwUvBypezgVrlTjXwwaVOioGPEZDR616H+b20raWExI7lEpgLY5BuyKJoMIJvkhWyrSrg2coZz2Cikq4bbG6w==@vger.kernel.org
+X-Gm-Message-State: AFuF++n4IaU0w7rqLuoehhfCV1H3somQbB2Rc9WuoBMgJt2jeDrlMRLa
+	xpcTaA1E0ynooR6fV5NoqXqA8KYXRxIJEvTfRyxjQoYFzHdxvUFV/PWWI42lZ3VtU/NgeHvDYkl
+	HTnkoCJPa9Y0yFrTQYNH7mHgrqig73PBDhaxgxs9GjBwbez3Q9CBvqwc/jg++dAYmyw==
+X-Gm-Gg: AYBFou12p0N8Fboco9+1z0cCj2Wd1zj9G659ASoEz9FFjPj0bvwGlmBgSEE0rcPtNuM
+	c3czu7hK3Npi6InbNXhjo9DURtxF/b9MiCyX5Eq54zNNWihQUJ3YDlTfMfAxBsYG3BBZGYAZ/ke
+	q6+dg2VsesSNn40J/CX7isVFArGGStMm9zcEfUygDTaX2+cd5I73y4bxJWmx3eAOXZ1QYUhC2YA
+	EDi3uKAoGL1ndayrdVPwZcKgWvZj0AxpzPgYnw/IHslPJCy/mtec3DPH3jBIALtAGKAFczJXcdV
+	GURLOLh2iRE4uSNQkjB6OP63uqmuYhPGECSNv/uUgUtKTCx4HK4nOiK83wygWqllUqREJ7fTs4t
+	EHAR1RRi1nDcuGg==
+X-Received: by 2002:a05:6102:6407:b0:79b:ff9f:74cc with SMTP id ada2fe7eead31-79bff9f793bmr8266155137.0.1789491433066;
+        Tue, 15 Sep 2026 09:57:13 -0700 (PDT)
+X-Received: by 2002:a05:6102:6407:b0:79b:ff9f:74cc with SMTP id ada2fe7eead31-79bff9f793bmr8266072137.0.1789491432543;
+        Tue, 15 Sep 2026 09:57:12 -0700 (PDT)
+Received: from debian ([5.133.47.210])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49e83d9057dsm4361335e9.3.2026.09.15.09.57.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Sep 2026 09:57:11 -0700 (PDT)
+From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+        Charles Keepax <ckeepax@opensource.cirrus.com>,
+        Maciej Strozek <mstrozek@opensource.cirrus.com>,
+        Bard Liao <yung-chuan.liao@linux.intel.com>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, patches@opensource.cirrus.com,
+        linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Subject: [PATCH v3 0/8] ASoC: SDCA: Qualcomm Tambora (WCD9378) SDCA codec support
+Date: Tue, 15 Sep 2026 17:56:42 +0100
+Message-ID: <20260915165652.914893-1-srinivas.kandagatla@oss.qualcomm.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 5/5] ASoC: qcom: sc8280xp: Add Nord Ride sound card
- support
-To: Shawn Guo <shengchao.guo@oss.qualcomm.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        =?UTF-8?Q?Nuno_S=C3=A1?=
- <nuno.sa@analog.com>,
-        Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
-        Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>,
-        Srinivas Kandagatla <srini@kernel.org>, linux-sound@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-References: <20260907-nord-asoc-driver-support-v1-0-997d3b20cf43@oss.qualcomm.com>
- <20260907-nord-asoc-driver-support-v1-5-997d3b20cf43@oss.qualcomm.com>
- <aqF9Pp_U2tAM3xWf@QCOM-aGQu4IUr3Y>
-Content-Language: en-US
-From: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-In-Reply-To: <aqF9Pp_U2tAM3xWf@QCOM-aGQu4IUr3Y>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTE1MDIzOSBTYWx0ZWRfX2OawAlSLVcPP
- WqbVE3BZVO0/uHvUoXPHBvWKgN6eNLwolKAOp+39fnVq0clPlKRsGtvuK2+vIqpjtQrJmqBuHHf
- mAUWz94S0pKgpXppnJew8E17dK/yFFM=
-X-Proofpoint-GUID: d-bfS9talahAqfgIkYJNhgdijWWtG1Yr
-X-Authority-Analysis: v=2.4 cv=ZINCCn7b c=1 sm=1 tr=0 ts=6aa97326 cx=c_pps
- a=JL+w9abYAAE89/QcEU+0QA==:117 a=Ww153nmMuBeTcjqybhOiGw==:17
- a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22
- a=EUspDBNiAAAA:8 a=NDfCo3GjLwaGllft-sYA:9 a=QEXdDO2ut3YA:10
- a=324X-CrmTo6CU4MGRt3R:22
-X-Proofpoint-ORIG-GUID: d-bfS9talahAqfgIkYJNhgdijWWtG1Yr
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE1MDIzOSBTYWx0ZWRfX0xD17FIPoL+4
- bTdAmJ3uGAnpK9f36pNPTsCddD/YMd+TsV6SGYrvAmYcX8zSoUSiIkJaz7q9QyXgQQRyOvgqQSn
- iaSeZYVb39KtNDyw8oS+8c4FtKy9jUEqkHuBKCi8xLErHCTDHIvnc0UCM6Pj21/2fxPDPOdt8QC
- 6T3qiyGnPE+TfaJKcUGYdJ9l3rQAlbmUgsVcsDJo0YoYSRfjemHsSQGGe1mraIDoPH+5uEoZMWT
- r56PJ5h2+dxXZcIp4qRTCQcRlPLjkvIV3qRA27k+8r2UuGqWCuYn/vwpz/zMSeQFe4N0GqkcU71
- D2XpPfTExRSffPreC3vyMLDo8PWEm0bs6ixRuV6bEQYEWJliQbWAAJ9ADhhx/gd77yRZb+6bElS
- WaXIhBFxPoSpg+C4fw4Z2jlEPmTQufs1hyI/gPbYMZBKuqRkhfwuWBwkN85A2Pd7kzcZicgS7Yo
- 5UY0fBWFydQtJeRp94Q==
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: rqAToK0eZ0EWXqOrdp9ZNfVIzkzJWWMZ
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTE1MDI0NyBTYWx0ZWRfX3UYtX9KHUrHP
+ HP9s8xIGAjU3XMzVwFK5PIRjsOYvhsPQPTKQXFk5G3XYg/2Y5FDplIyupGdUKezW/vMvrLGP1hm
+ Boh+76kAV1opS3C0gskULdvX09vQU0g=
+X-Authority-Analysis: v=2.4 cv=dcUVTnXe c=1 sm=1 tr=0 ts=6aa978ea cx=c_pps
+ a=N1BjEkVkxJi3uNfLdpvX3g==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+ a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22 a=VwQbUJbxAAAA:8
+ a=EUspDBNiAAAA:8 a=NRmDave84CxBQQXzKXEA:9 a=O8hF6Hzn-FEA:10
+ a=crWF4MFLhNY0qMRaF8an:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE1MDI0NyBTYWx0ZWRfX6XvTBfC+fLQu
+ 5bgHEY602z/bfBzxlKnJ3mYVnepfCO3b6BrmW2NweoT6PsW9zxL7o46bq8YjETOAzrZTUnAgjcO
+ l6DQGNnyMJIAkdDjF4zER46fIKLYGeO2VB1CJbHAujfkaqkAbCK9ALk1Feupzd+uyunjQg/dxcB
+ LQkr+IqkTcdUUVSt3P98tIj57Re5BZwgtft3JRI/6enmKYr+wbR9KMpvL7K3b2cOP01nV7Bpm+T
+ rPYakk47T/H5Q8uRupx4Olg2cwLF0XpitsiTYb8xUUVo5pljGTy7xgjDi20DdlU5/eIoStsiy80
+ HgJFHc05vV+7qL15a1+DAK28JL1vin8EGPz7TXp/L/fSO1w+oTmMgpuMObvBYcA+OXihxhmYDyC
+ 32E/nArOBvsgsZfGlmyj7lmZwWwMKl8YEvrifln4Cf3Tp2rnXzVnqQF8la7D7qjLlcaBLLGDLGO
+ +fgznCyheumpWk2QbJA==
+X-Proofpoint-GUID: rqAToK0eZ0EWXqOrdp9ZNfVIzkzJWWMZ
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-09-15_04,2026-09-15_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 spamscore=0 clxscore=1015 lowpriorityscore=0 impostorscore=0
- adultscore=0 bulkscore=0 phishscore=0 priorityscore=1501 suspectscore=0
+ priorityscore=1501 bulkscore=0 impostorscore=0 malwarescore=0 phishscore=0
+ suspectscore=0 clxscore=1015 spamscore=0 lowpriorityscore=0 adultscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609150239
+ reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609150247
 
+This series extends the SDCA class driver to work on DT / non-ACPI
+platforms via a codec-provided static topology, and adds the Qualcomm
+WCD9378 (Tambora) codec as the first user driven in SDCA / compute
+mode. Tested on the Snapdragon X2 Elite Glymur CRD.
 
+Patches 1-6 extend the SDCA class helpers:
 
-On 9/9/2026 9:07 PM, Shawn Guo wrote:
-> On Mon, Sep 07, 2026 at 11:39:46PM +0530, Mohammad Rafi Shaik wrote:
->> Add support for the Nord Ride sound card by introducing a new
->> compatible string and associated platform private data.
->>
->> Nord uses external audio codecs with interface requirements that
->> differ from the generic SC8280XP platforms. Add a dedicated
->> hw_params callback to configure the appropriate DAI format for
->> playback and capture streams and to program the codec system clock
->> configuration required by the board.
->>
->> The callback configures the PCM1681 playback path to operate in I2S
->> mode and the ADAU1979 capture path to operate in DSP_A mode. For
->> capture, the ADAU1979 system clock is sourced from LRCLK as
->> required by the hardware design.
->>
->> Signed-off-by: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
->> ---
->>   sound/soc/qcom/sc8280xp.c | 57 +++++++++++++++++++++++++++++++++++++++++++++++
->>   1 file changed, 57 insertions(+)
->>
->> diff --git a/sound/soc/qcom/sc8280xp.c b/sound/soc/qcom/sc8280xp.c
->> index 4d48e1012cd4..4d8eafca4b7f 100644
->> --- a/sound/soc/qcom/sc8280xp.c
->> +++ b/sound/soc/qcom/sc8280xp.c
->> @@ -18,6 +18,7 @@
->>   #include "common.h"
->>   #include "sdw.h"
->>   
->> +#define LRCLK_SYSCLK 1
-> 
-> Rather than open-coding the value, please move
-> 
->    enum adau1977_clk_id;
->    enum adau1977_sysclk_src;
-> 
-> out of sound/soc/codecs/adau1977.h into include/sound/adau1977.h so
-> machine drivers can include them, and write the call as
->
+  - Kconfig gate to build the class without ACPI enabled.
+  - PM helpers keyed on a codec-embedded struct sdca_class_drv, so
+    codec drivers can build their own dev_pm_ops.
+  - Class SoundWire probe/remove exposed as library functions
+    callable from codec-specific SDW slave drivers.
+  - class_ops with a populate_function hook so codec drivers can
+    supply the SDCA function payload from static tables on DT /
+    non-DisCo platforms.
+  - Class function driver registers SDCA_FUNCTION_TYPE_SIMPLE_JACK,
+    and resolves sound-dai cells by entity index.
+  - sdca_apply_default_control_classifiers() applies the same
+    is_volatile / has_reset flags that the DisCo/ACPI parser would.
 
+Note:
+None of these are functional changes in sdca core, all of these are
+helper functions to allow non-ACPI users to use sdca core.
 
-Ack, thanks for pointing this out. I will rework this in the next revision.
+Patches 7-8 add the WCD9378 SDCA / compute-mode codec:
 
-There is no need to introduce a new include/sound/adau1977.h header for 
-this. Instead, I will define the required enums locally in the machine 
-driver and use them accordingly.
+  - dt-bindings for the SoundWire slave in compute mode.
+  - Codec driver split across wcd9378-sdw.c (SoundWire plumbing)
+    and wcd9378-sdca.c (SDCA topology + class_ops), sharing a
+    wcd9378-sdca.h header. A future mobile-mode driver can plug
+    into the same module by adding its own files.
 
+Testing: HPH playback and headset-mic capture confirmed on the
+Snapdragon X2 Elite Glymur CRD. Will test it on Lenovo T14s. 
 
->    snd_soc_component_set_sysclk(codec_dai->component,
->                                 ADAU1977_SYSCLK, ADAU1977_SYSCLK_SRC_LRCLK,
->                                 rate, SND_SOC_CLOCK_IN);
-> 
-> That documents both slots and turns a mix-up into a compile error.
-> 
+Jack detection is not wired up in this series.
 
-ACk, will check and update in next revision,
+Changes since v2 [1]:
 
+  - Un-export sdca_class_pm_ops and per-op wrappers; keep them
+    static and let codecs compose their own dev_pm_ops.
+  - Drop the exported sdca_class_read_prop() helper; codecs
+    open-code the four lines locally.
+  - class_function: check the codec-provided ops hook first, fall
+    back to sdca_parse_function() only when a firmware node is
+    present.
+  - Rename sdca_class_hw_ops to sdca_class_ops; populate_function
+    does no bus I/O.
+  - Drop the hw_init callback; codec users moved bring-up into
+    their own SoundWire probe.
+  - wcd9378-sdca: MIC_BIAS fixed at 2.75 V via the init_table;
+    drop stale qcom,micbias2-microvolt reference from the commit
+    message.
+  - Rebased on b-next-20260911.
 
->>   #define I2S_MCLKFS 256
->>   
->>   #define I2S_MCLK_RATE(rate) \
->> @@ -72,6 +73,8 @@ struct qcom_snd_soc_common {
->>   	bool mi2s_bclk_enable;
->>   	bool wcd_jack;
->>   	int (*snd_prepare)(struct snd_pcm_substream *substream);
->> +	int (*snd_hw_params)(struct snd_pcm_substream *substream,
->> +			     struct snd_pcm_hw_params *params);
->>   };
->>   
->>   struct sc8280xp_snd_data {
->> @@ -244,6 +247,47 @@ static int sc8280xp_be_hw_params_fixup(struct snd_soc_pcm_runtime *rtd,
->>   	return 0;
->>   }
->>   
->> +static int nord_snd_hw_params(struct snd_pcm_substream *substream,
->> +			      struct snd_pcm_hw_params *params)
->> +{
->> +	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
->> +	struct snd_soc_dai *codec_dai = snd_soc_rtd_to_codec(rtd, 0);
->> +	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
->> +	int rate = params_rate(params);
->> +	int ret;
->> +
->> +	switch (cpu_dai->id) {
->> +	case TERTIARY_MI2S_RX:
->> +		ret = snd_soc_dai_set_fmt(codec_dai,
->> +					  SND_SOC_DAIFMT_CBC_CFC |
->> +					  SND_SOC_DAIFMT_NB_NF |
->> +					  SND_SOC_DAIFMT_I2S);
->> +		if (ret && ret != -ENOTSUPP)
->> +			return ret;
->> +
->> +		break;
->> +	case TERTIARY_TDM_TX_7:
->> +		ret = snd_soc_dai_set_fmt(codec_dai,
->> +					  SND_SOC_DAIFMT_CBC_CFC |
->> +					  SND_SOC_DAIFMT_NB_NF |
->> +					  SND_SOC_DAIFMT_DSP_A);
->> +		if (ret && ret != -ENOTSUPP)
->> +			return ret;
->> +
->> +		/* adau1979 MCLK sourced from LRCLK */
-> 
-> The comment says MCLK is sourced from LRCLK, but the adau1977_set_sysclk()
-> call selects the PLL input (ADAU1977_PLL_CLK_S) -- MCLK is the other choice.
-> Something like "PLL clocked from LRCLK, no external MCLK" would match
-> the register write?
-> 
+[1] https://lore.kernel.org/all/20260907083727.733705-1-srinivas.kandagatla@oss.qualcomm.com/
 
-yes your right,
+Srinivas Kandagatla (8):
+  ASoC: SDCA: allow building without ACPI
+  ASoC: SDCA: export PM helpers keyed on sdca_class_drv
+  ASoC: SDCA: expose class SoundWire probe/remove as library
+  ASoC: SDCA: add class_ops with populate_function
+  ASoC: SDCA: class_function: xlate sound-dai cell by entity index
+  ASoC: SDCA: add sdca_apply_default_control_classifiers() helper
+  dt-bindings: sound: qcom: add Tambora WCD9378 SDCA codec
+  ASoC: codecs: add Qualcomm Tambora (WCD9378) SDCA codec
 
-will update the comment something like below.
+ .../bindings/sound/qcom,wcd9378-sdw.yaml      |   91 ++
+ include/sound/sdca.h                          |   23 +-
+ include/sound/sdca_class.h                    |   70 ++
+ include/sound/sdca_function.h                 |    2 +
+ sound/soc/codecs/Kconfig                      |   11 +
+ sound/soc/codecs/Makefile                     |    2 +
+ sound/soc/codecs/wcd9378-sdca.c               | 1005 +++++++++++++++++
+ sound/soc/codecs/wcd9378-sdca.h               |   20 +
+ sound/soc/codecs/wcd9378-sdw.c                |   52 +
+ sound/soc/sdca/Kconfig                        |    6 +-
+ sound/soc/sdca/sdca_class.c                   |  148 ++-
+ sound/soc/sdca/sdca_class.h                   |   35 -
+ sound/soc/sdca/sdca_class_function.c          |   45 +-
+ sound/soc/sdca/sdca_device.c                  |    4 +
+ sound/soc/sdca/sdca_functions.c               |   31 +
+ 15 files changed, 1474 insertions(+), 71 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/sound/qcom,wcd9378-sdw.yaml
+ create mode 100644 include/sound/sdca_class.h
+ create mode 100644 sound/soc/codecs/wcd9378-sdca.c
+ create mode 100644 sound/soc/codecs/wcd9378-sdca.h
+ create mode 100644 sound/soc/codecs/wcd9378-sdw.c
+ delete mode 100644 sound/soc/sdca/sdca_class.h
 
-"adau1979 PLL clock sourced from LRCLK, no external MCLK".
-
-
->> +		ret = snd_soc_component_set_sysclk(codec_dai->component,
->> +						   0, LRCLK_SYSCLK,
->> +						   rate, SND_SOC_CLOCK_IN);
-> 
-> There seems to be two problems, one functional and one cosmetic.
-> 
-> First, I guess this is called too late to have the intended effect. On
-> the ADAU1977 side, set_sysclk() doesn't only pick the clock source, it
-> also computes the rate constraint mask:
-> 
->    } else if (source == ADAU1977_SYSCLK_SRC_LRCLK) {
->            mask = ADAU1977_RATE_CONSTRAINT_MASK_LRCLK;
->    }
->    ...
->    adau1977->constraints.mask = mask;
-> 
-> and that mask is consumed in adau1977_startup():
-> 
->    snd_pcm_hw_constraint_list(substream->runtime, 0,
->            SNDRV_PCM_HW_PARAM_RATE, &adau1977->constraints);
-> 
-> startup() runs before hw_params(), so on the first capture open after
-> boot the mask is still 0 from probe and the rate constraint is not what
-> the LRCLK-sourced configuration requires. Setting the source once from a
-> dai_link init (or from a startup callback) rather than per-hw_params
-> would get the ordering right and also avoid reprogramming the PLL source
-> on every stream open. Could you confirm what the first arecord after
-> ot negotiates? I suspect it only appears to work because the rate you
-> test with is permitted by the unconstrained list anyway.
-> 
-> Second, on the naming. The prototype is
-> 
->    int snd_soc_component_set_sysclk(struct snd_soc_component *component,
->                                     int clk_id, int source,
->                                     unsigned int freq, int dir);
-> 
-> so in the call above the literal 0 is the clk_id (ADAU1977_SYSCLK) and
-> LRCLK_SYSCLK is the source (ADAU1977_SYSCLK_SRC_LRCLK). The macro name
-> reads like a clk_id, which is the slot it is *not* in, while the argument
-> that really is a clk_id is an unexplained 0.
-> 
-
-
-Thanks for pointing this out.
-
-I'll verify the first capture-open behaviour and revisit the 
-initialization sequence.
-
-The current set_sysclk() call is in hw_params() because ADAU1979 is 
-configured with LRCLK as its source, and the LRCLK frequency depends on 
-the selected sample rate rather than being fixed.
-
-I'll investigate whether the source selection can be initialized earlier 
-while maintaining the runtime rate-dependent configuration.
-
-
->> +		if (ret && ret != -ENOTSUPP)
->> +			return ret;
->> +		break;
->> +	default:
->> +		break;
->> +	};
-> 
-> Stray semicolon
->
-
-Will fix in next revision.
-
-
->> +
->> +	return 0;
->> +}
->> +
->>   static int sc8280xp_snd_hw_params(struct snd_pcm_substream *substream,
->>   				  struct snd_pcm_hw_params *params)
->>   {
->> @@ -255,6 +299,12 @@ static int sc8280xp_snd_hw_params(struct snd_pcm_substream *substream,
->>   	int bclk_freq = sc8280xp_get_bclk_freq(params);
->>   	int ret;
->>   
->> +	if (data->priv->snd_hw_params) {
->> +		ret = data->priv->snd_hw_params(substream, params);
->> +		if (ret)
->> +			return ret;
->> +	}
->> +
->>   	switch (cpu_dai->id) {
->>   	case PRIMARY_MI2S_RX ... QUATERNARY_MI2S_TX:
->>   	case QUINARY_MI2S_RX ... QUINARY_MI2S_TX:
->> @@ -461,6 +511,12 @@ static const struct qcom_snd_soc_common kaanapali_priv_data = {
->>   	.wcd_jack = true,
->>   };
->>   
->> +static const struct qcom_snd_soc_common nord_ride_priv_data = {
-> 
-> Again, can we drop "ride" to make it nord specific?
-> 
-
-Ack, will use the qcom,nord-sndcard.
-
-Thanks & Regards,
-Rafi.
-
-> Shawn
-> 
->> +	.driver_name = "nord",
->> +	.mi2s_bclk_enable = true,
->> +	.snd_hw_params = nord_snd_hw_params,
->> +};
->> +
->>   static const struct qcom_snd_soc_common qcs9100_priv_data = {
->>   	.driver_name = "sa8775p",
->>   	.dapm_widgets = sc8280xp_dapm_widgets,
->> @@ -564,6 +620,7 @@ static const struct of_device_id snd_sc8280xp_dt_match[] = {
->>   	{ .compatible = "qcom,hawi-sndcard", .data = &hawi_priv_data },
->>   	{ .compatible = "qcom,kaanapali-sndcard", .data = &kaanapali_priv_data },
->>   	{ .compatible = "qcom,maili-sndcard", .data = &hawi_priv_data },
->> +	{ .compatible = "qcom,nord-ride-sndcard", .data = &nord_ride_priv_data },
->>   	{ .compatible = "qcom,qcm6490-idp-sndcard", .data = &qcm6490_priv_data },
->>   	{ .compatible = "qcom,qcs615-sndcard", .data = &qcs615_priv_data },
->>   	{ .compatible = "qcom,qcs6490-rb3gen2-sndcard", .data = &qcs6490_priv_data },
->>
->> -- 
->> 2.34.1
->>
->>
+--
+2.53.0
 
