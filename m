@@ -1,57 +1,57 @@
 Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 108E946C841
-	for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 08:20:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D64C471412
+	for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 08:20:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.71
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789460448; cv=none; b=lwHC1AVHqJpQRSwd0DDfbMino6HmmOrYOoL5VaJ9faSZfSG15hDX78kgkqAE1BSHG1xPfon4QFfE+EtmE6EbSu7q0v1zeCwVFUmcK4rXRNOo+locEONt02+yAQsfera7z6KQbSNHZMI23iBEpZfqWQ9dM66o4LYlTXHjR7wbmAc=
+	t=1789460453; cv=none; b=Lxh6iDwith9FU7zcUVDwtYh57RhJmO7gX8NjUlo38ZQjW1TsbbFC9OcpPJ3yE+u0iuOPjNr/znMbkArxY5PsiDppK16hKH4cRU3RF6gE3/QDF5MQtb8aNL8U9FmYXTfE7PZCaFbNXfIG9l7Fgdbay+ucdeLfhEFqFwo9xlvL884=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789460448; c=relaxed/simple;
-	bh=OaAwr1sBjpntRvDMR8Yr1mj2+C2DlJcpETypf5U3EWo=;
+	s=arc-20240116; t=1789460453; c=relaxed/simple;
+	bh=gmsmGVxkrCC0joHW7g2qwHGDO+picAoXZWIoiOn43qE=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=mS1X7Eo8sN/CopLNWvOrfH1ci/Adgk/P+8pjdirUw03R2BYOWhSLE3vfYHooRaH2zNm+5UBvkJ1co4RqfFfK1tvtbsYpl6272zmIxo123Cp4ATfOpBfcTwxYH+ZVAn63RTJzJspZKHXDZbTACOJfz8eVh3O7cloYRPE7rgVsmaI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--morbo.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VtngEZwH; arc=none smtp.client-ip=209.85.216.71
+	 To:Cc:Content-Type; b=XFfCFrd892mwU2K2WP7Bw/OMDgWLarGxbPqcpidsmWJcXhXv08LhKFcddTm+L3O4Qx9ur2dGWaHzYus+s9U7OUXMhJJS7Nm4gnbkiHw4BC/U5/HC96FAsHdWT7DbgjX5wDTlTJPynvna1jU6kQUXEKBkD69LkfJOsY4pYlv0i8E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--morbo.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=iBtmz3Gn; arc=none smtp.client-ip=209.85.216.71
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--morbo.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VtngEZwH"
-Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-39512608fb1so9970641a91.1
-        for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 01:20:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="iBtmz3Gn"
+Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-398dcfabbf8so10485732a91.0
+        for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 01:20:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1789460399; x=1790065199; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1789460406; x=1790065206; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:from:subject
          :message-id:references:mime-version:in-reply-to:date:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=ANECGYJQk2+Ya+FPrAm+IsCBeyM6Er0meffRIzFfkVU=;
-        b=VtngEZwHywz6pB4/0vEVs9CVu+w8UDSvX5hiJVjqyUIsMmQ/wWU2M8gDB56Tq2OoI8
-         BE+KCjosqGB81nDRVcwFfSNexFz5T8al48RtsVmldHMkm0dfRW8jO3toPvoTZjPvTiXP
-         ziWxGh1pNSM/LuBTsGccw/+mmJgNidZSNWvrqqzF8DyWWRgCjU/tpFepKc3MYmFsnJQz
-         tQ8nelNJmcpqdLIaErt1k4fnWff6yx1BarW+2W8u48+VTNOeOqLHmMPlSIXjetcQ+jeK
-         Ax1/x2lG6VNZJx2C0YtPiL6nxdBXWbA/MvX0jUsO7DCJ5fjHAi5oRQx79IMeIRgdbHKT
-         skFA==
+        bh=YdNQWB21luiE9Gdv0Q1IFwuCzs7Lvdhhb2Hfuit5b6U=;
+        b=iBtmz3GnJkvwQtWy+snq8/8HkFAvGR9mOsfp8hdBb0LostnrUoKck94CCex9LAtzmZ
+         cktHJtFb3Zlls88Kgu3eEFyjenAz/63MiC5G1N1BFg/IeK8ARfwY7Mj3BU1K1INtHDKH
+         PVbGxM0urGg25cG5s4zzZKfALCFj/T8Mr8u+TlcYBVrdTN7j6/vgGubIvoyOxNiPG2aA
+         /ELkpUtZZmbhkK3qTPlLSoosEDtlIZUtWe2RoUGppaQ+iHD9LyJ5WqtCQMiQf3vHaCL2
+         KeZcl7gyYqfi5/qvIFUHSuORVTl4Xj6ara78RTAfrVb40QfHpR8UoO8RKjvsJwQBfxCI
+         KnVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789460399; x=1790065199;
+        d=1e100.net; s=20260707; t=1789460406; x=1790065206;
         h=content-transfer-encoding:content-type:cc:to:from:subject
          :message-id:references:mime-version:in-reply-to:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=ANECGYJQk2+Ya+FPrAm+IsCBeyM6Er0meffRIzFfkVU=;
-        b=xqefl6+JkApJSgvBxi62YcegkNleUzoqdS+f4LPiBqg755Ajy5dTCGt0721r08YaqT
-         GMGb9k1HN52WdyjUhSrqz7JTGBDc53d8n/WOKvL9zltEXbQ8Rso5AhV1u2XsgUOoeDwC
-         sxu00icWNL4Ia5Y0xL9mmTsuVvz8B1VTeJg8jYOsDlERefAfiBriPcUcKACog4ybbLj+
-         MD1M0RaixxOkOrAk3L3IR5tciQLcVYE7w7J2E0fl14/3TPFjg5EU/XP/QJpCLsmrwvJs
-         xEKTZ3FH9uRcuQ248H71TaJ4XrIfuQFRlWmP/kjjnL1qx6HptGSf9mYusW0shC5G8OKy
-         V8oQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzoEaJ/tIvsmJh5TNdxFDIP61RwiEYDdoQnIuuxuJSe73q1hBDInvNfRd1RgqBOdzwlMRXEVAHu1Mvw/Q==@vger.kernel.org
-X-Gm-Message-State: AFuF++nF3ZUdy4/vfpsskzBjUJW1gJxIbVXLikRLxZQxYrz5Coa8zq8I
-	GXDckXwfqV+O+MDhWxSX85KknEQ39ZfM0rE7SUZshEK7N9gjf93hFkTzpuAG4qxOTMJdGbtzssv
+        bh=YdNQWB21luiE9Gdv0Q1IFwuCzs7Lvdhhb2Hfuit5b6U=;
+        b=jmr10ViDZJHDJ8udEyl1IETTNDiVp89vAPgPej7q/K5ppfvvJILvA7RoX0RYKSlWyi
+         yCuxpr20cnJ7/J3Woz5D0Aw2+Jdw5Oz8/EvT3VWk2lXvhztC5h3XIuus0W+0y+fFRGk2
+         ywo1eHZ58HSEhDV3ojLgG6SKX0edpjxb2Y2JD3fZEnhEzhZpq4gJ4vcl6GU5J9dQVoZc
+         YEry5cbjQB1EjvPEhSGiSLjzrhYJe5CiuQvsjFRt84TLGzrR6dojlOUZcut8MknF3aA4
+         skbKl+AVlYvuHnnKmtFpbSU2t2ApgQadapTy4wM5DqwGbcbRiVGpj0dq+p/HP0DUlV9D
+         DMtw==
+X-Forwarded-Encrypted: i=1; AKwUvByC0Cdvkk8XD/x7QUCebmIYCkM0/CiotA3bdn25fbZDuYdmybN/JdtrTcKi9Hs7I2b4vMQSdDRiozvtUA==@vger.kernel.org
+X-Gm-Message-State: AFuF++maBvIrPeIZMlmxQvDAbQKkZBSlnAD0KnwQXxbDbcAdIXqXsU1R
+	MXJn1aTDNzNhaKPvpuVt8O2pNi0uxVk9FgjA1I5nJkX2u5odB7f5HZdab63Ta+U+iIfRvAFnJbz
 	2
-X-Received: from pllj10.prod.google.com ([2002:a17:902:758a:b0:2dd:63c:daa3])
- (user=morbo job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:ccd1:b0:2dd:40cb:a04c
- with SMTP id d9443c01a7336-2dd8386925cmr476775ad.19.1789460398847; Tue, 15
- Sep 2026 01:19:58 -0700 (PDT)
-Date: Tue, 15 Sep 2026 08:18:29 +0000
+X-Received: from plld7.prod.google.com ([2002:a17:902:7287:b0:2db:142b:72cc])
+ (user=morbo job=prod-delivery.src-stubby-dispatcher) by 2002:a17:903:238b:b0:2d8:d4cc:5bb1
+ with SMTP id d9443c01a7336-2dd83867c8amr573655ad.17.1789460405925; Tue, 15
+ Sep 2026 01:20:05 -0700 (PDT)
+Date: Tue, 15 Sep 2026 08:18:30 +0000
 In-Reply-To: <20260915081910.4142719-1-morbo@google.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -61,8 +61,8 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20260915081910.4142719-1-morbo@google.com>
 X-Mailer: git-send-email 2.55.0.1032.g73a4cd73de-goog
-Message-ID: <20260915081910.4142719-13-morbo@google.com>
-Subject: [PATCH 12/28] fortify: Convert strlcat() to snprintf() in strcat()
+Message-ID: <20260915081910.4142719-14-morbo@google.com>
+Subject: [PATCH 13/28] i40e: Replace strlcat() with snprintf() in i40e_nvm_version_str()
 From: Bill Wendling <morbo@google.com>
 To: linux-kernel@vger.kernel.org
 Cc: Bill Wendling <morbo@google.com>, codemender-patching+linux@google.com, 
@@ -123,21 +123,16 @@ Cc: Bill Wendling <morbo@google.com>, codemender-patching+linux@google.com,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-The fortified implementation of strcat() in include/linux/fortify-string.h
-currently relies on strlcat() to perform bounded concatenation and detect
-buffer overflows.
+i40e_nvm_version_str() uses strlcat() to optionally append the EETrackID
+and combo image version strings to the NVM version buffer.
 
-In preparation for removing the deprecated strlcat() API[1], replace the
-strlcat() call in strcat(). When the destination buffer size is unknown
-(SIZE_MAX), call __underlying_strcat() directly. Otherwise, determine the
-destination length with __fortify_strlen() and append the source string
-using __builtin_snprintf(), preserving the existing fortify_panic() check
-on overflow.
+In preparation for removing the deprecated strlcat() API[1], replace these
+strlcat() calls with bounded snprintf() calls at the current end of the
+buffer.
 
 Link: https://github.com/KSPP/linux/issues/370 [1]
 Cc: codemender-patching+linux@google.com
-Assisted-by: SecurityEngineer:Gemini1.5Pro [editor_update_file, shell_comma=
-nd_run, test_runner_run_kunit_test]
+Assisted-by: CoPilot:r1-preview [editor_update_file, shell_command_run]
 Signed-off-by: Bill Wendling <morbo@google.com>
 ---
 Cc: Russell King <linux@armlinux.org.uk>
@@ -251,30 +246,46 @@ Cc: devel@lists.orangefs.org
 Cc: linux-hardening@vger.kernel.org
 Cc: linux-sound@vger.kernel.org
 ---
- include/linux/fortify-string.h | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ drivers/net/ethernet/intel/i40e/i40e.h | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
-diff --git a/include/linux/fortify-string.h b/include/linux/fortify-string.=
-h
-index cf841dc71fef..0b489124bfcb 100644
---- a/include/linux/fortify-string.h
-+++ b/include/linux/fortify-string.h
-@@ -363,7 +363,12 @@ __FORTIFY_INLINE __diagnose_as(__builtin_strcat, 1, 2)
- char *strcat(char * const POS p, const char *q)
+diff --git a/drivers/net/ethernet/intel/i40e/i40e.h b/drivers/net/ethernet/=
+intel/i40e/i40e.h
+index 1b6a8fbaa648..9f792128a0ef 100644
+--- a/drivers/net/ethernet/intel/i40e/i40e.h
++++ b/drivers/net/ethernet/intel/i40e/i40e.h
+@@ -1059,19 +1059,26 @@ static inline char *i40e_nvm_version_str(struct i40=
+e_hw *hw, char *buf,
+ 					 size_t len)
  {
- 	const size_t p_size =3D __member_size(p);
--	const size_t wanted =3D strlcat(p, q, p_size);
-+
-+	if (p_size =3D=3D SIZE_MAX)
-+		return __underlying_strcat(p, q);
-+
-+	const size_t p_len =3D __fortify_strlen(p);
-+	const size_t wanted =3D p_len + __builtin_snprintf(p + p_len, p_size - p_=
-len, "%s", q);
+ 	char ver[16] =3D " ";
++	size_t offset;
 =20
- 	if (p_size <=3D wanted)
- 		fortify_panic(FORTIFY_FUNC_strcat, FORTIFY_WRITE, p_size, wanted + 1, p)=
-;
+ 	/* Get NVM version */
+ 	i40e_info_nvm_ver(hw, buf, len);
+=20
+ 	/* Append EETrackID if provided */
+ 	i40e_info_eetrack(hw, &ver[1], sizeof(ver) - 1);
+-	if (strlen(ver) > 1)
+-		strlcat(buf, ver, len);
++	if (strlen(ver) > 1) {
++		offset =3D strlen(buf);
++		if (offset < len)
++			snprintf(buf + offset, len - offset, "%s", ver);
++	}
+=20
+ 	/* Append combo image version if provided */
+ 	i40e_info_civd_ver(hw, &ver[1], sizeof(ver) - 1);
+-	if (strlen(ver) > 1)
+-		strlcat(buf, ver, len);
++	if (strlen(ver) > 1) {
++		offset =3D strlen(buf);
++		if (offset < len)
++			snprintf(buf + offset, len - offset, "%s", ver);
++	}
+=20
+ 	return buf;
+ }
 --=20
 2.55.0.1032.g73a4cd73de-goog
 
