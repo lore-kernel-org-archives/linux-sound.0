@@ -1,154 +1,128 @@
-Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D07F3CB569
-	for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 06:55:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.227.140
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789455323; cv=pass; b=kLTxi6bBvdr/8HtWPDd+LgY4+ewl93GnBaRiZ49O94/jo4d40/g2hAAcF8dFnMXBKIqqW2QRT1c2bMw7QWd+g8e2cTnCJ1yWfGktAO8+TaXYCxKOtKPUjCR+/QpBHYrtQz9BxyhpyK2tP2YE1HxKyAm752ol47eJzE6GoFFWs90=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789455323; c=relaxed/simple;
-	bh=4kkSE1ejTcnRbMKBPQPOKSGJxClRIs71SQcsbDPtpfw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=c5SUPrD0TStzgkENq0uRQqsQOxlulmoaFy9ziO8Qf/+sncorSx2JNPbTQt8iOAL6mhq5ktQS8hYZj6PeNwdv/3ruvlNvfyBliyqDkqmBep9UJvVEl2Rh0R56YEvcjfsJYyWioJyIBnbxEchE6l6aJI0wCNUsR++raVIYdcfMdQk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HgfvTriu; arc=pass smtp.client-ip=74.125.227.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 966E244238A;
+	Tue, 15 Sep 2026 07:29:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789457354; cv=none; b=SO7uzzf7pVnIn17vO0YQ6SYgeBKeltVfV/sZPdJL8fG5mSvGG84qcAQo1DehWxAd4NFeh4MZNr9rxl4tkzUAGKJOAxbxagum18yxDc3BojEfvOuv6PEuVhgB3Pb/9oKxT3G/fNfxL861z07zGFtsMViOeYAi2C8rQmfdIDyC090=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789457354; c=relaxed/simple;
+	bh=lblm+duqrIKOSpchtCRVtTa6szJIWB3TTaSd5w1skBE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CHdyBW8RlozvSC6YHQqThh/Bvcj2zrLIHPEvqbnZK+m9AS5A7EoFkYb8MjYE6dptUDwpsQWMiHD3f9Tiu/lu8LpiOkyA+pCJn/GruzDxWZ2cDiYyLJNrV2o7k75AFkGkhz2HpKJgV8VHzZwEebwVKdsCSfSXhFF44EJZ+XfAHnk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g9b3RUUS; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HgfvTriu"
-Received: by mail-pj2-f12.google.com with SMTP id d9443c01a7336-2d747ed9866so30757715ad.2
-        for <linux-sound@vger.kernel.org>; Mon, 14 Sep 2026 23:55:22 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789455321; cv=none;
-        d=google.com; s=arc-20260327;
-        b=l0rAQwqQOUtYlpMFkAcp5um8fxL/kjMpunaayb59EyiIgpXjb43ZqNrm1kNZFdkBAi
-         IzmyhBGZ9sonF7H5aGDGb/F/Hlz6W1FH8yNfgbDMZi4LLYqaYJAQg1yn+6jRZ1++N6Lh
-         XnnqeiEcDY5Gn+vONFYfjuHgEkB17XFuy0YINvjv9fH3SvOtmlkfhJoXOySYKrtpEH9U
-         fdJWJr8W8N1l0P+UYFwhmhgRNaCgIehH8zIr1Z9s6Z1ZTovB9jXkgrILWT/1BWSrMVdy
-         PAM+DGc4OF9qkLA7xudIhAwePivtvZzbb/nxqBhWHL9jLluuyZIZPWo+sg4excFNaLy2
-         IJiA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=uRse6mTJ7wbDyqaPOhujScHoJmlYUjJddn11gxGD2Rw=;
-        fh=lQVvcIz16AHAzeuPjzQLp5cIHNJD2XkpqHi/Ij/ePzE=;
-        b=bpMeW2sMxIGMeTTQS3PGQwG0QrOJ6wR8F79n7abB7JGx2KE8hFJcDQTak8CCAFv22O
-         sBUkGJ2kZsFGNWOKwek0NKS3fpWws1bA+FV1R27inN7vhOVJtV7TO4GLLCp/v3bMtv+J
-         CcGVS6bOijksJhJGecRATBOq0jbdm9CsiAq+42uxulXhTqbZgOYbpASrbx1bgfPH8VaL
-         OywsPQugu/SdFLttn6ijF9v77owzn3VEiLaIjgsuE3xHAW0/EAMNtNvShBh6efVfV2hx
-         TaCkFTuYE/mEO6a+yfSLyERl1ZQq6f6AKhGgmNDTAK6e5uROesnkG4mWUfeiuEQFU5AR
-         aM+w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789455321; x=1790060121; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=uRse6mTJ7wbDyqaPOhujScHoJmlYUjJddn11gxGD2Rw=;
-        b=HgfvTriuz9TdpdtX9WUoqEefMDLL0fWafq+eJIjV17xMUdBgmPiT14O8v++jT1MF4d
-         Gn2y+9cBOAYW37VJ8ZtWROBnoTNvMT8iaI3OLha4WuQmNMiFmDVlmrt6w1LsZ3K8PmWi
-         tJIBEewA3r3QwIcoW3lY5KZeWbr9yZK9V8sMVXgug49klYWTnjH+vgdjkLbMxq3Slxj3
-         TLtr7L8GYQBN6MyHeLNTsqzx5JKgZBbhAAaSAWw+d+SJ+/g8B756gX7VqTK1dmJk47EP
-         jieG7j+UyS4vrz6MZS5/sr8sVFIJqsCo3T5fcDaIegeTPzBtqExVzIkBg1Xv3+Gt0aSj
-         wVng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789455321; x=1790060121;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=uRse6mTJ7wbDyqaPOhujScHoJmlYUjJddn11gxGD2Rw=;
-        b=2eBZ3NiWPUipOLb8mlzGHu+uynzdYdScDKBX40I9zJcJvaQFL9BLIN++zVZPq/NmtC
-         C8gJJqxxD1XJogAChiHEMUf6yWmTShiuSOv8cvDx9CnuyOsRepKncKTgW5csYPRnJ8ox
-         FINS5Urq/vbu+mji2wI5hs2is4JtLtctH61lLjIOxODfac+KlUZsXez3QfTzj3sKe7nr
-         2jisGBzolRSb3DKX46m2o7BjHxV2gAEm63gQVi237TuLba6xsbc9H5RtldAKBoYPuwSd
-         fB2JT6ETqMaridGbCb8v+uwRCTjyLhBEGJTr4FdyinsFNuiGJlwG0hWx50SnVhLkSzN9
-         Ovwg==
-X-Forwarded-Encrypted: i=1; AKwUvBzTVPxB+Icb04tXZZLDmMgwDvX2Nx++E9NLWmi/P4XAnQJJ/l58r8wcZZOhktIR5yVlI3kRFHEIMS5/NQ==@vger.kernel.org
-X-Gm-Message-State: AFuF++l7BC2IeD1ulZbdcG8fUUQ0JOvwi5i95Si6raBRGBbVtGlf3w7q
-	QPr+vr70iyv0pymq1hX3gwnV6CY3oyLx7lTLpJVnmiqMG0xl2u6NftFmTDGAZpw4gnyczg+9t7L
-	6wFLkF0ttg7jo4HNkr1ZmiwcXc8oU9tOI3yKA
-X-Gm-Gg: AYBFou0BK6bUF9DVrcLGlRklxqbRWxsFYFKBMo6HAjK1EUBVn15wAc+kowRDFF91bpC
-	YA0RKeu4ji6cO3ZINEO4dqlUHgpCV2BMUD1VUBhVY5nsvlHrm/evdab+qflPMck/4SZqTa4j9XW
-	Nz/U6jsBs0/uLtMbJ6EfY8kzrLxrL2/s/B42RdrZHuf3bKBnh4nSR43o0NMgRb1ojgpnasIcxWO
-	iNcha8Xb2vyVk+PaKiizksP19e0GBijPuJkTENmG7BVXTzxg2bSArWj4nf8FsuBbHwGNHrKqcn3
-	NV5lH++SSuf2qYQdXiBec5vHeKgRFkcQE8HTCmeODmNCjZ1etlyy4+WqOANsGFq2yHx7H/R+dyB
-	VRKnI69z5eR4qelt15U7RROWzvJ1aHvUSnWxso/fxsPr3JpzCDwGMAa2xGHhTC+/RAsU=
-X-Received: by 2002:a17:90b:564d:b0:39e:53a:c8d4 with SMTP id
- 98e67ed59e1d1-39e053ace02mr2555146a91.12.1789455321539; Mon, 14 Sep 2026
- 23:55:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g9b3RUUS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1789457353; x=1820993353;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=lblm+duqrIKOSpchtCRVtTa6szJIWB3TTaSd5w1skBE=;
+  b=g9b3RUUStmHmGD0ATybemfTeI9EXELlGGeo4Xm/FMsHZGX5fn/EjC57H
+   LXoEc6TGH5LpS8P1YWMUzWLF0CfQwss/w5WrMp2DwOX5LLq6+YMHlDRSP
+   vHtZLOA+Aq4bCeyjfhjlixLlGWzYmOsg647PWYDJ7xJK6KfKLmG5jKLMZ
+   m/FO2YMgmKG/eTQCMF+if0ZXPxBwYAangi2kLndfe4RwDn408Mr0Xm5fD
+   u/faiVWXCqkNUtFn3bHpBiHcmqjDtVKvfH//B1S+y5a79yR6SLCRvFTXQ
+   zBbdSpPgfV8ot/H0TVEIXCTh3IoBayPKKpeVTBOo+Ez4bQs+uFsMn7fFb
+   A==;
+X-CSE-ConnectionGUID: ipyUg877QC6PkwMBijGxSA==
+X-CSE-MsgGUID: Dah45PrASTK2d0g5+j2F+w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="88949050"
+X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
+   d="scan'208";a="88949050"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2026 00:29:11 -0700
+X-CSE-ConnectionGUID: PDk0ELz7ScSPdw85lzMxbA==
+X-CSE-MsgGUID: 3YeBiet9Q3mnjwAAhfSuvw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
+   d="scan'208";a="271061383"
+Received: from smoticic-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.203])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2026 00:29:06 -0700
+Date: Tue, 15 Sep 2026 10:29:03 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Frank Li <Frank.li@oss.nxp.com>
+Cc: Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-iio@vger.kernel.org,
+	linux-sound@vger.kernel.org, linux-spi@vger.kernel.org,
+	Vinod Koul <vkoul@kernel.org>, Frank Li <Frank.Li@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
+	=?iso-8859-1?Q?Am=E9lie?= Delaunay <amelie.delaunay@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Andy Shevchenko <andy@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, Mark Brown <broonie@kernel.org>
+Subject: Re: [PATCH v4 01/10] dmaengine: Move enum dma_slave_buswidth to a
+ new header
+Message-ID: <aqjzvxI4ecoFvRLT@ashevche-desk.local>
+References: <20260911-dmaengine-support-wider-dma-masks-v4-0-72b8fd4cc78e@analog.com>
+ <20260911-dmaengine-support-wider-dma-masks-v4-1-72b8fd4cc78e@analog.com>
+ <aqgCQvRw9fns__0d@SMW015318>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260914072842.24420-1-phucduc.bui@gmail.com> <20260914072842.24420-3-phucduc.bui@gmail.com>
- <07add31d-5622-40eb-9bcf-f7cb2396fee3@collabora.com> <aqf7B_E7_Gv5iK2A@sirena.co.uk>
- <8f1ea5c4-d85a-43eb-8b10-3f80f8343b27@collabora.com> <aqf-pqvBNQ21EQZx@sirena.co.uk>
-In-Reply-To: <aqf-pqvBNQ21EQZx@sirena.co.uk>
-From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Tue, 15 Sep 2026 13:55:09 +0700
-X-Gm-Features: AcwNN1UCqK6sMPrqlCVGrE3bLZ2b-s0RCmlO_dC6IX4VPS5lJPfQdNqJWmpr8_U
-Message-ID: <CAABR9nEB16gANTVf-B+sud0+11XhjCjqiCRY3hP_rnaFstB0tw@mail.gmail.com>
-Subject: Re: [PATCH v2 02/13] ASoC: mediatek: mt8189: Propagate APLL enable errors
-To: Mark Brown <broonie@kernel.org>
-Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Cezary Rojewski <cezary.rojewski@intel.com>, Cyril Chao <Cyril.Chao@mediatek.com>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Dan Carpenter <error27@gmail.com>, 
-	cassiogabrielcontato@gmail.com, linux-sound@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aqgCQvRw9fns__0d@SMW015318>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Hi Mark , Angelo
+On Mon, Sep 14, 2026 at 09:18:42AM -0500, Frank Li wrote:
+> On Fri, Sep 11, 2026 at 06:25:36PM +0100, Nuno Sá wrote:
+> > In preparation for the bitmap based bus width capabilities, move
+> > enum dma_slave_buswidth out of linux/dmaengine.h into a new
+> > include/linux/dma/engine/types.h.
+> >
+> > linux/dmaengine.h is included nearly everywhere, so growing it with the
+> > new interface would make every one of its users pay for it. Keeping the
+> > basic types in a separate header lets the new interface live next to it
+> > without that cost. linux/dmaengine.h includes the new header, so its
+> > users are unaffected.
+> >
+> > While at it, add the missing kernel-doc for the enum members. The block
+> > already opened with /**, so kernel-doc expected every member to be
+> > described and warned about each one of them. Describe the UNDEFINED case
+> > in particular, as its meaning depends on where the value is used.
 
-Thanks both for the review.
+...
 
->
-> > >  Though practically speaking the error
-> > > handling ends up being the same as if they couldn't fail since if
-> > > something goes wrong it's generally catastrophic stuff like locking the
-> > > core up completely so the end result is the same.
->
-> > That was also an implicit point (that should've been explicit from me): if anything
-> > goes horribly wrong here, it means that it already went horribly wrong "some
-> > function calls ago", and the platform likely already locked up as you suggested.
->
-> > In any case, I'm not against doing error checking, it's just about not doing it
-> > when it's really useless (I'm sure you understand my reasons), and I believe this
-> > specific case is one of those.
->
-> > That said, should you prefer having error checks in such places... it's not a
-> > performance path, so I don't really have strong opinions really.
->
-> Yeah, I think it's fine and sensible to skip the error checks in cases
-> where we can't really do anything constructive about the error.
+> >  include/linux/dmaengine.h        | 20 +++-----------------
+> 
+> I think it is good to split dmengine consumer and provider header files to
+> hidden dmaengine's detail.
 
-As far as I understand it, regmap_update_bits() doesn't go straight to MMIO.
-It first passes through the regmap core, which has checks independent of
-the underlying bus:
+It's indeed desirable change. but isn't it a bit out of scope of the series?
+I suggest to do one step at a time. Would it work for you?
 
-https://elixir.bootlin.com/linux/v7.3-rc2/source/drivers/base/regmap/regmap.c#L2834
+> suggest name
+> 	dma/engine.h
+> 
+> so we can start move more API to this files.
+> 
+> after all user include this consumer header file,  old
+> include/linux/dmaengine.h rename to include/linux/dmaengine-provider.h,
+> which only include by dmaengine drivers.
 
-----------------------------------------------
-if (map->cache_only)
-        return -EBUSY;
+Traditional naming would be
+dma/engine/provider.h
+dma/engine/consumer.h
 
-if (!regmap_readable(map, reg))
-        return -EIO;
-----------------------------------------------
+-- 
+With Best Regards,
+Andy Shevchenko
 
-So, in my understanding, checking ret here isn't just unnecessary
-defensive programming
-for an MMIO write, it guards an assumption about PM/cache ordering, namely that
-the regmap is already out of cache_only mode by the time this runs.
-If that assumption were ever violated by a bug elsewhere (a PM race,
-wrong resume ordering,
-a register missing from readable_reg, etc.), this is where it would
-get caught and reported,
-rather than the driver silently assuming the enable succeeded when it didn't.
 
-Best regards,
-Phuc
