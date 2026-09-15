@@ -1,63 +1,63 @@
-Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
+Received: from mail-pz2-f43.google.com (mail-pz2-f43.google.com [74.125.228.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25B36469847
-	for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 08:45:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77A234A386D
+	for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 08:45:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789461902; cv=none; b=MlTgTKovSwiZa09koS53xFZjT2k7xkG4/Ltd6OL4bnziUK5Dq+xrQKewyYDKBD+D4bpOz/FUs9FytXSeipgg1jTJ7Ei7WsOYsY6F8HyUdqpuSWtAqV8CpBj39X8X2norGIOcNBvrNdPHdot3jv8y275crWKf+aezDMBwAIcIM54=
+	t=1789461906; cv=none; b=pRHlXkVYvTSJIlEG79bU/nRQpk0a79Jc5U0L+V2gBkcz71EocZHhiUosEsGi/EySdTzJ/HDTDJfr69CtHNM+mNyHF3T1oRLl7H7EVd5jiRDKZXmbgSoLs1Trarux9t9klGhfK3NVvoUsuutprAiYqRbGQr3COqxmp/THIKlPXHE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789461902; c=relaxed/simple;
-	bh=9lltDihzzJHKbJzSaGaaipr8NvQ1MAjoRyhSsUT8bvY=;
+	s=arc-20240116; t=1789461906; c=relaxed/simple;
+	bh=pHulsae2A1FoJKTNELVUWZMuiXc5Ybs7Ufw1lrQ9joY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Ji4h5OAzXw4/bPPuKYnUVLGjWO0wWQaZVFomjCrEc87xolCFeuZ7W59VI3i3X8wBsAX08VVBAmIBzR5SmcE7T/D1UiLbEFGadUMOx9uAawmkLJzOOtPDNXtxdqtGSNBaXhDWxVdOggJDDptn2jyMH4QazJ4VjM8Gfs8f6z8lOL0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qf1UDtWL; arc=none smtp.client-ip=74.125.228.12
+	 MIME-Version; b=dzWvpsn/K1iHmJPIEej/Z47VsnsgSLtEq/e41swYHjk8mhb7ZcoIMi5Mua6ynH2n5/PlqToMBna5kQuJWwNWTkrIf5ucVeUwkXoPpFiNLYynLkx9gGT0GaIo3M7rvhCh8JO3pxa+Mf7XIVrqyTyQ1+0EDLalnZlf95/T6rcwD0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IETcJdxu; arc=none smtp.client-ip=74.125.228.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qf1UDtWL"
-Received: by mail-pz2-f12.google.com with SMTP id 41be03b00d2f7-cc4cdc0d663so13001a12.3
-        for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 01:45:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IETcJdxu"
+Received: by mail-pz2-f43.google.com with SMTP id d2e1a72fcca58-85469f204f6so15039b3a.2
+        for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 01:45:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789461900; x=1790066700; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1789461904; x=1790066704; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=4ODo/pPzqKbReI+aI7w11jTc+qrHbOYIPwBg1VaG134=;
-        b=qf1UDtWLZqwGMzQmErivha81qR+WUyh82tHWXWVcujNUQ1weTzFnNeu3JycYmUR1S3
-         J+Nue79Mw5p7l+7FM0uw72bwjhubwfTr3jJOXrf3tD5oUoMfxLLIPQUVKR35IngDYdUk
-         IbsGBCeGaWXowbJnrPQlCFY+o8UiTJsVcg+HCNphRAbhU6e/HrTyQwA7Zupjw/9p8A4s
-         CBqowcmpwGElbhbZeh5KitbMXy5OoqqwUDtcpohYt6ocERRc9yeO3J0clMyjLSUmVdjk
-         Jt/XbKAAuy+lOjAngbluHZqTsJ20S8JFD1CVVfyflbd4GR/I/0PnHZarZtE2Ab3g/3d2
-         xwZQ==
+        bh=+4z1tVkLKQ0TsrkmOyzBSx9X1Dw+Zr6ZbUQ5wODCWnk=;
+        b=IETcJdxuK/N2DrZVAL7C3K4uQWja6YVVHht/k8UkABr+iS9N5dcvuhLLP/jYL1bEII
+         G+qskPU8LtlRpJu9FXrQc81pwXipv8v+X9Zc9zBZZhGG5xu9iQP1Z7ICS/c7JQq1fyP7
+         cebEJppNfue4P18h7gr9CmLfI97fWqEqPIjtxSyF/BaN4WI53jIki3a2bVrE/fWfFC0C
+         WqOa6h1zoxI2WelY2K3g0faBO1tx12X1JopbQSJmGtxESpvtMI8r8agOvvVALjryOBDK
+         UUdjLF5kCTRjC3eOQYQz7XbBcW3P9KZaCz9qPzJJpgI+cEb2oUQTtNQfJ3OEHoDgrbJ7
+         dbWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789461900; x=1790066700;
+        d=1e100.net; s=20260707; t=1789461904; x=1790066704;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=4ODo/pPzqKbReI+aI7w11jTc+qrHbOYIPwBg1VaG134=;
-        b=H5rsflmyJFn8ZrUpE5AJADBD6rDB8EF4FyLHjf0Rh94HsnEce/mJEvFS7mgtXBXzzS
-         Oi1Uu2Id/0kNSFBuf6IlXl5D1uFcUyIk+bKnVQpEUL4NctHuLjZX21MeM6D0CHnK3Sb0
-         YXPYVO1CyPAQXrQ9uMAcCqFDN2wYhgQwQXUls6yntTooO4R3IpDvRUojybMiQ609Dl57
-         +Pa7HGpSSn1dHi2+g70MtvXqbGmSHVfbSJn7UskMIDo5fr02OTtefngjpQxV42nuGsAx
-         7fhZYe7BJdajF4If3Y2/q9mc4l0yIGnk5T1HEZ25BTaE5TnKDfaqvCkl3UaS8T6ti5Ec
-         ObPA==
-X-Gm-Message-State: AFuF++lsknG95cqAN8ZXhJZKs+zrtivinSW00tAmjhFhXlKUwlK+k7p4
-	GJKazZ9PxdL/NfcE76QRHT3XMmR6vJZypu0mXOXXt2J+QY9CCmqTdvpTn3s6iK2K
-X-Gm-Gg: AYBFou266sXS+YB0FEEcjTNkq5jVZGojAbjhAddk5j7P4d7fsjx69a+UbgxqouOwEOr
-	6qP8ih5RsXa75wePgi+usk1aU8eytGwINNpqLNnZWy/VGH2fXNFE1E/XZi8XQ6Tr7bkaEU0PYEz
-	k8KwbJYl1oazXkyO2QRLAUuFQjImXuMVq0MhTHxMhXw1I7W3SpEHyedGMOz7VTaaN96vQ9i1hZk
-	4Y6hwEfHen1xPjWlnTJYb/a2x9U/0b2ODe9AELlVEtAbrmkaO/fm/hr91iQpdW+wNHT8DgHalV1
-	OQUFh3HLZgqTsbQ0tHhq9K/KQVPNUPbSiPXOKUbdedud/F2PHIxIAmIB7Tm9W87ncG1QtAp8gdT
-	AweFyvpfDMHKDaLk1IyVwUJEd0EFeW608mNt7FNNuy2XBwR0hku7hVkEzQRIr6a2oUn/y4rGwUb
-	kjV1nkquQCovvExqoXn07S17mF2ogUI75MWMQu13qgmEzTNV+MFF6MBjwk8ntPXP8BaEsNMcAQu
-	8OKjCkk/5aamXTBNIRACFFUi0c=
-X-Received: by 2002:a05:6a21:517:b0:3c3:a20f:f729 with SMTP id adf61e73a8af0-3dd52688949mr540524637.7.1789461900477;
-        Tue, 15 Sep 2026 01:45:00 -0700 (PDT)
+        bh=+4z1tVkLKQ0TsrkmOyzBSx9X1Dw+Zr6ZbUQ5wODCWnk=;
+        b=HrNlODgr4i2NTxlKklEd+pCR23GQKQi2i92dJ+bCUSpiXY76ZS1NP8b77lw/A75TBe
+         BPHdYSEHhck+t9FSc8oQZHCDq938+Osv5tTHpZ1rB/c4vauFdKZHGMnn1jAGUc8UM66R
+         X5snjFicRh/ywImEM2f5s61dB1n3ofIncakchfMPdn1noENaem/L1xeZHLQ8oxV+dDIA
+         3IVqdAydDBpWUoozfm0ZnfcABCMv4I4wak9uhRhmOXJz2RhY/2N41BSU54Jd2Smctg8Z
+         gTyjDqtSQODjWo44FCaODlTT2zRv3vTXSHMxwjSAGb+vM3HmRBX6DtMvhRubpRv98BCm
+         817w==
+X-Gm-Message-State: AFuF++mLx7sGoFH5JL/Ko8Q4mlkxRLY9B6IY6t3pY1e91UUCkFY7GM6q
+	ZYjbJid0Eb85hJW+MMIWV+bNszVZvUDk0W4ImlcVPLeG9rCdufIvkf0K
+X-Gm-Gg: AYBFou3D3/km6z/+4q8mPY8OVwMkT4G2ooPn3Ao+wP2T5fgHqMbw/O1e+ANyz8KQFUA
+	2owsU3l8R9nkno7Xls8Vv4z5bwCm0usz4AccoM4BQ1Ej66joDK38yelv40rumo/d6ods32oU5WT
+	yPROSuljUAmV+3QaDDgWYVC/sKzAyT2RgnbntfYxXvrm0s47hjsVmc4e6PSd2NpjZ8p1GBeaLfE
+	ZWKpfO62SI8H38m2ih5fYXHCpDZY9SzKOZhYkP6zwMG0gP1I98jKTTbMhqzRkMsh3/byTqJA8YL
+	q9bPIVZDW1M6rjWx5YGtlXO7n2J7bmEitm7zrs5pQ33141PmELQOhSmywrWq6DgagSX2yU3B8Fg
+	DHcmUabPuknCtHntw6mzNoEYFniP+ZxPE9AF0WoQsPeZKLigcpiJshmojtLgaesXuC/IWp1WOgT
+	bJduPNRko2/KQawl8BYKeHve6X5b5d5DatGbsT6xxK7GuVS61+t5Fh809D40waxf4nupazeKtmk
+	tzo4hYxcGxdaAG6PEHkQHu9TQ==
+X-Received: by 2002:a05:6a20:a10a:b0:3cc:eea9:f757 with SMTP id adf61e73a8af0-3dd5284c0c8mr454796637.16.1789461903331;
+        Tue, 15 Sep 2026 01:45:03 -0700 (PDT)
 Received: from volcano9f6e-hostos.amd.com ([165.204.217.251])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33ba4cf72dbsm34718935eec.3.2026.09.15.01.44.57
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33ba4cf72dbsm34718935eec.3.2026.09.15.01.45.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Sep 2026 01:44:59 -0700 (PDT)
+        Tue, 15 Sep 2026 01:45:02 -0700 (PDT)
 From: Hemanth Selam <hemanth.selam@gmail.com>
 To: Takashi Iwai <tiwai@suse.com>,
 	Jaroslav Kysela <perex@perex.cz>
@@ -65,9 +65,9 @@ Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Takashi Sakamoto <o-takashi@sakamocchi.jp>,
 	Clemens Ladisch <clemens@ladisch.de>
-Subject: [PATCH v2 11/23] ALSA: ac97: fix typos in comments
-Date: Tue, 15 Sep 2026 14:14:12 +0530
-Message-ID: <20260915084424.1007757-12-hemanth.selam@gmail.com>
+Subject: [PATCH v2 12/23] ALSA: au88x0: fix typos in comments
+Date: Tue, 15 Sep 2026 14:14:13 +0530
+Message-ID: <20260915084424.1007757-13-hemanth.selam@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20260915084424.1007757-1-hemanth.selam@gmail.com>
 References: <20260915084424.1007757-1-hemanth.selam@gmail.com>
@@ -83,36 +83,36 @@ Correct spelling mistakes in comments. No functional change.
 
 Signed-off-by: Hemanth Selam <hemanth.selam@gmail.com>
 ---
- sound/pci/ac97/ac97_codec.c | 2 +-
- sound/pci/ac97/ac97_patch.c | 2 +-
+ sound/pci/au88x0/au88x0.h        | 2 +-
+ sound/pci/au88x0/au88x0_mpu401.c | 2 +-
  2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/sound/pci/ac97/ac97_codec.c b/sound/pci/ac97/ac97_codec.c
-index 0bb65be021d9..207ce083593f 100644
---- a/sound/pci/ac97/ac97_codec.c
-+++ b/sound/pci/ac97/ac97_codec.c
-@@ -2960,7 +2960,7 @@ int snd_ac97_tune_hardware(struct snd_ac97 *ac97,
- {
- 	int result;
+diff --git a/sound/pci/au88x0/au88x0.h b/sound/pci/au88x0/au88x0.h
+index 6cbb2bc4a048..f97a0303da3e 100644
+--- a/sound/pci/au88x0/au88x0.h
++++ b/sound/pci/au88x0/au88x0.h
+@@ -28,7 +28,7 @@
  
--	/* quirk overriden? */
-+	/* quirk overridden? */
- 	if (override && strcmp(override, "-1") && strcmp(override, "default")) {
- 		result = apply_quirk_str(ac97, override);
- 		if (result < 0)
-diff --git a/sound/pci/ac97/ac97_patch.c b/sound/pci/ac97/ac97_patch.c
-index 64cc39dd2008..8577a2e0510c 100644
---- a/sound/pci/ac97/ac97_patch.c
-+++ b/sound/pci/ac97/ac97_patch.c
-@@ -430,7 +430,7 @@ static int patch_yamaha_ymf753(struct snd_ac97 * ac97)
- 	/* Patch for Yamaha YMF753, Copyright (c) by David Shust, dshust@shustring.com.
- 	   This chip has nonstandard and extended behaviour with regard to its S/PDIF output.
- 	   The AC'97 spec states that the S/PDIF signal is to be output at pin 48.
--	   The YMF753 will ouput the S/PDIF signal to pin 43, 47 (EAPD), or 48.
-+	   The YMF753 will output the S/PDIF signal to pin 43, 47 (EAPD), or 48.
- 	   By default, no output pin is selected, and the S/PDIF signal is not output.
- 	   There is also a bit to mute S/PDIF output in a vendor-specific register.
- 	*/
+ /* Vortex MPU401 defines. */
+ #define	MIDI_CLOCK_DIV		0x61
+-/* Standart MPU401 defines. */
++/* Standard MPU401 defines. */
+ #define	MPU401_RESET		0xff
+ #define	MPU401_ENTER_UART	0x3f
+ #define	MPU401_ACK		0xfe
+diff --git a/sound/pci/au88x0/au88x0_mpu401.c b/sound/pci/au88x0/au88x0_mpu401.c
+index 164f6b7039ab..dff4bf80ab96 100644
+--- a/sound/pci/au88x0/au88x0_mpu401.c
++++ b/sound/pci/au88x0/au88x0_mpu401.c
+@@ -22,7 +22,7 @@
+ 
+ /* Vortex MPU401 defines. */
+ #define MIDI_CLOCK_DIV      0x61
+-/* Standart MPU401 defines. */
++/* Standard MPU401 defines. */
+ #define MPU401_RESET		0xff
+ #define MPU401_ENTER_UART	0x3f
+ #define MPU401_ACK		    0xfe
 -- 
 2.48.1
 
