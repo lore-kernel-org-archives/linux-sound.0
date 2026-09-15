@@ -1,170 +1,78 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out30-97.freemail.mail.aliyun.com (out30-97.freemail.mail.aliyun.com [115.124.30.97])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2E6247F3A0
-	for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 10:53:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D33941D22B;
+	Tue, 15 Sep 2026 10:54:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.97
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789469625; cv=none; b=unEgUD9+BoNyt8+YE4kpRldl782nAI7SGSYNpJ8G4MRiHwVgVuESU78Z8vZPAXFnrsGbMqJ19mJ4jn9kuyzLiObt9XH3PmGnmcFn2VxeD30lZpABvrjA6RhkfSknzuWhmFTDSq7KPh70CBuvD3h+QYSdYri0a5BhjuNPCM7oypU=
+	t=1789469692; cv=none; b=Ir988FxfzqvOdZ4RbXfs+0OedxZYdAM9VL+duYE7GVDvlBSp3CfSpd5XIiPsFuPmjT/uYvghyaVukLMqq0tx7IUN5hXXV0UT8UbQWvD7avAh+yVgz7Yc9dsIJk+g0RA3lGjtolK+FKgH6VjIZbNdJFBZ889RdUtBG8NBwx9+ZjU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789469625; c=relaxed/simple;
-	bh=JSKCxVgRmVtu50wZTK+0Uk1Fh1MSH7Vb8v3oSaFUlu8=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kOB+8FdpktYlT0bU4GaOZ8XHqtUZCx83NkpiKHJ2jmIupm9DyPie3bvHq6H7O5mkYFykoKqWyIW/3lUlEPIWarW/B/Ks9Lb7kSUgsTClUcagkxbyQ7MDp9Sg8UF/OUYLs1DDCzka2rHoZnW94bQAvENrCfMa30nFSpcYlS9GBLo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ihNy9bB3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=YPuuv76z; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RYIJF8T5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=MMzGUDVJ; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1789469692; c=relaxed/simple;
+	bh=v5Jo0MPZVCelv+Z4UsEgSEUj4zV9YuPQ2fGaKsZiBsI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nOZU/pNN/wQeLhinneB30FxFv+7PJLPuBed7y5EZ2uan7XSJxoRp3tR7Z1LwfxRQVvwQWY+jpmqaBSBCviq+r5+5Gu0WBUXpCLzaMqvuhSGbB2281ex1s7K1v20cUOya34pUkipMCjJWh6HITRNxW6Fj7kVoAy8xIdCiftwUM58=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=kHy1/37s; arc=none smtp.client-ip=115.124.30.97
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ihNy9bB3";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YPuuv76z";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RYIJF8T5";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MMzGUDVJ"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 77C831FD70;
-	Tue, 15 Sep 2026 10:53:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1789469617; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=423/fj9UyI/j0R92yKuhj7kNI6HsySwJ56PZviHBsNE=;
-	b=ihNy9bB3r5H4K1x8Z1D67FmMiaMYZopDeYqb4VFfQ8AlppGD8T3oHh6wL4LUSYD9elaRnC
-	p0qO2xAigZwMe0shcUZ1NdAZP5PLp3309HzS7Hfyoj5vZni0X3EVClzdBKGp4xmqp5E78I
-	jje0Movr1ogNTW22FMXhaQAbtKb2joE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1789469617;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=423/fj9UyI/j0R92yKuhj7kNI6HsySwJ56PZviHBsNE=;
-	b=YPuuv76z1T9vyMGlK+WeB0Ix6eSXxTyHSreV/6hxLBhMJ2x5pi8gTZkCV+PE09Bv31GYTM
-	Sngsm4dnmcPDiYBQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1789469613; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=423/fj9UyI/j0R92yKuhj7kNI6HsySwJ56PZviHBsNE=;
-	b=RYIJF8T5FGbTIyJTe+uRuws0OYW+HxH6EQ/RjKD02x1H4jDcYe9IriXNubopW7j1qYg2iG
-	X+41JWHcaonnaBLK3+Vl/uiTEToeSYi9fU4kPwOCKtXbG+F7YgZnIjB4ysfhBdQryAJyUP
-	b4HPiSNbD38Bs/Be+JXNQ+xAxfz5k+0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1789469613;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=423/fj9UyI/j0R92yKuhj7kNI6HsySwJ56PZviHBsNE=;
-	b=MMzGUDVJj7PlvWo+i8uAKtAu6QLV86ls1a9ibfa3F9kICwTz44HIuuaCGEaFRuKSg6J/OO
-	IUBbwoweHZUclLBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3392C13432;
-	Tue, 15 Sep 2026 10:53:33 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id h8jfAq0jqWqfRwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 15 Sep 2026 10:53:33 +0000
-Date: Tue, 15 Sep 2026 12:53:32 +0200
-Message-ID: <87eceun5ub.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Jaroslav Kysela <perex@perex.cz>
-Cc: "otzelot2021@outlook.de" <otzelot2021@outlook.de>,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org
-Subject: Re: [RFC] ALSA: how should a card name that is not ASCII be exposed?
-In-Reply-To: <7723e39f-982d-47cd-8322-ed0e71d99290@perex.cz>
-References: <AMBP191MB2886BF4BED02C050FB4D6B76CEBB2@AMBP191MB2886.EURP191.PROD.OUTLOOK.COM>
-	<7723e39f-982d-47cd-8322-ed0e71d99290@perex.cz>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="kHy1/37s"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1789469681; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=3NcK+2D6AazFJjSTKxR7cSuvqpA99SwORYNVJbXxAeM=;
+	b=kHy1/37sXJUJJN5yCjuUQgQVdWyXFJJyRc1jIgSd22HOtkYAXjxbcV+uqcIDxzgIaMOQR9XIGWzZTx9y6cqj9PB5WBF46bF0RjJyp1flBKZYXRWi2yy3OfyplQXWCt+3gYNvVpKrsqLekPglBvMFpN+SxFaSQ9ShrX4shfZXu3w=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R221e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam011083073210;MF=baolin.wang@linux.alibaba.com;NM=1;PH=DS;RN=33;SR=0;TI=SMTPD_---0XB1P4.X_1789469678;
+Received: from 30.74.144.126(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0XB1P4.X_1789469678 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Tue, 15 Sep 2026 18:54:39 +0800
+Message-ID: <ccd08979-d702-4dc7-90cd-f82c08c5182c@linux.alibaba.com>
+Date: Tue, 15 Sep 2026 18:54:37 +0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spam-Score: -2.30
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-2.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUBJECT_ENDS_QUESTION(1.00)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[outlook.de];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_CC(0.00)[outlook.de,suse.com,vger.kernel.org];
-	RCPT_COUNT_THREE(0.00)[4];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 2/7] ASoC: sprd: Replace dma_request_slave_channel() by
+ dma_request_chan()
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Frank Li <Frank.Li@nxp.com>, Mark Brown <broonie@kernel.org>,
+ Shengjiu Wang <shengjiu.wang@nxp.com>, bui duc phuc <phucduc.bui@gmail.com>,
+ Tianchu Chen <flynnnchen@tencent.com>, linux-kernel@vger.kernel.org,
+ dmaengine@vger.kernel.org, linux-sound@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com
+Cc: Dave Penkler <dpenkler@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Vinod Koul <vkoul@kernel.org>, Frank Li <Frank.Li@kernel.org>,
+ Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>,
+ Fabio Estevam <festevam@gmail.com>, Nicolin Chen <nicoleotsuka@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Daniel Mack <daniel@zonque.org>,
+ Haojian Zhuang <haojian.zhuang@gmail.com>,
+ Robert Jarzmik <robert.jarzmik@free.fr>, Lars-Peter Clausen
+ <lars@metafoo.de>, Orson Zhai <orsonzhai@gmail.com>,
+ Chunyan Zhang <zhang.lyra@gmail.com>,
+ Olivier Moysan <olivier.moysan@foss.st.com>,
+ Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>
+References: <20260915100931.3593242-1-andriy.shevchenko@linux.intel.com>
+ <20260915100931.3593242-3-andriy.shevchenko@linux.intel.com>
+From: Baolin Wang <baolin.wang@linux.alibaba.com>
+In-Reply-To: <20260915100931.3593242-3-andriy.shevchenko@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, 14 Sep 2026 18:59:53 +0200,
-Jaroslav Kysela wrote:
+
+
+On 9/15/26 6:04 PM, Andy Shevchenko wrote:
+> Replace dma_request_slave_channel() by dma_request_chan() as suggested
+> since the former is deprecated.
 > 
-> On 9/14/26 18:46, otzelot2021@outlook.de wrote:
-> 
-> > The larger option
-> > -----------------
-> > 
-> > Add UTF-8 successors of the three fields, kept alongside the ASCII ones
-> > rather than replacing them, allocated on demand like card->components
-> > now is.  Either side may be empty, so nothing may assume a name is
-> > present and every reader keeps a fallback.  Drivers fill both and keep
-> > them semantically in sync.
-> > 
-> > For user space this needs no new ioctl: SNDRV_CTL_IOCTL_CARD_BYTES
-> > already carries a variable-length card string with a type discriminator
-> > that was added for exactly this kind of extension, so three more type
-> > values would do.  Nothing existing changes, and an old kernel returns
-> > -EINVAL for an unknown type, which a reader can treat as "use the ASCII
-> > field".
-> > 
-> > id, driver and components would deliberately keep no UTF-8 counterpart
-> > for the time being. They are not display names: id is the unique handle
-> > and part of path
-> > names, driver is what alsa-lib matches configuration against, and
-> > components is a token list.
-> 
-> This looks like a best extension proposal IMHO. The current apps don't
-> have any assumptions that the fields are in other character coding
-> than ASCII.
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
 
-I personally find it OK to have UTF-8 strings in short / long / mixer
-names.  That's no new problem, and it's been over decades.  Of course,
-a broken letter at the end could be a problem and we can fix it in
-either kernel or alsa-lib, too.
-
-OTOH, I'm fine with the extension, too.  That doesn't sound too
-intrusive.
-
-But, an open question is what should we fill into the short/long/mixer
-names in ASCII, instead of vendor / product names?  With embedded IDs
-like "USB 1234:abcd"?  Or shall we still pass the vendor / product
-names if they are ASCII only, and falling back only if they are
-non-ASCII?
-
-
-thanks,
-
-Takashi
+LGTM. Thanks.
+Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
