@@ -1,63 +1,63 @@
 Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 160AD499F13
-	for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 08:44:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42CA049CF47
+	for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 08:44:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789461895; cv=none; b=d1pRGpZYRJnlQikXL4KB4hQBCJawc5VpXhPxlhJvZHv81cEBKog8ohdZE0mEr4KxqdqVU8kIt+faap5ItWINkD38zut5+dEyCPug6wQqCE3UyZx7eacl7cVZrtZjj91CRw6S0pA6LFJoddpIcM7vP3g8kZWzFaVWyUywAXqAKFk=
+	t=1789461898; cv=none; b=p2nymbwsUPbklqvuqT/JBXWDgCtc6c8LHnqdMbPpldoiKi9ebH1Eexa77ur/9Ke0oaq8wHlx+GfQ0rpaq4EiTmGq5zrRKBIYMjx1rTUjBxyR9dD8EYkWMBvcike9stOuzi4XoX2JPi/nFD87MaXPWQhPKj2Xy3+82JJbf13rejE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789461895; c=relaxed/simple;
-	bh=UxDDQ0RU9M9F+qqFv2blr6XIi/xZl/4Wriymu56W5pw=;
+	s=arc-20240116; t=1789461898; c=relaxed/simple;
+	bh=/8vQTsAacrt7tq+CmZEqjCdzPBMpFxzscNzh2mve8hc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LR9qTzxWuEqJaVO0HKLNAF1x0/6+h/VyyX2eh7L/1NtCp7lmJaDpCqNf+BCL33A4Vx8GI41PG+z6oqaGXdQPDyjEzQhLax0qKSppfcoPLi6E9M2C+3/fn/IPFrzQOficsdo3ktYpThKoXk/kjqnCLl4IqPrj4w590kiJTgNexCM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B6hnhKGE; arc=none smtp.client-ip=74.125.227.141
+	 MIME-Version; b=M/ZMppRoXRlcdIcf+J+1ruX+qKsewCMzhp3mDGgaoi9BEGkZTzLYS0HRjRJoq5Qi77T+/KJhgLm7lVilBvxyIEfw5pLy4ZNsqV3rymmgI/hZCujeWGBdjj9QBwK7E8acqC5sVaj4IE4UIbirF9DHTVYOLeSdyxnJ6qtUcfeI6iY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mCsh4f42; arc=none smtp.client-ip=74.125.227.141
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B6hnhKGE"
-Received: by mail-pj2-f13.google.com with SMTP id 98e67ed59e1d1-396ccafb751so2987075a91.2
-        for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 01:44:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mCsh4f42"
+Received: by mail-pj2-f13.google.com with SMTP id d9443c01a7336-2d747ed9866so31629275ad.2
+        for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 01:44:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789461892; x=1790066692; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1789461895; x=1790066695; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=JhviqnNprA5p+wjy+HIKedRMX/OnI8Tgvx6aRl+Jg0Q=;
-        b=B6hnhKGEPtw21CossfjR1N6tPL1rTxCEDT6u1Ux4srZ/Ri2foZHXVmuUbqtjXfjsQI
-         UQmcqIxUE8lPk0yOJO1TuWG/8ili+DcM9XtKUGbXQ0WWxP/6LV+mrOYbVgmCR5q2PU+p
-         Y45AQgWAIsGoxX1ohqZxDs1zpBmDeQmo1nqi49rX1XPVvVWHtHk3qH+BBNwMt0l61emz
-         mhce2k6+U2tS9RNxym8Px/d+HsykzYgQXLocCzHJFvH9NyKw4/aaDbyESuXf41D9DkiP
-         NWt8uXi9FcDPty3UWiM9VBw8Qt03b86QsA5EN9G/PLkiyYDZJGgq2Hz4SMuzNoitHOSk
-         DMkw==
+        bh=Pv7hnek0M3kdITeC3SL2hfj05ljQFsw5RFgfNprat8g=;
+        b=mCsh4f42upLYTYFuetuvTgN5Zy8beJU4mZfQ/tKctqQKtiNS60Sq36GWiQyn92sLSw
+         H9CI+X5uti186YldPLVqV55Y2/j9vf8Bsbj8dtLdgm7jSeV4VwKhqr7d8JHkMi5GutxR
+         Rm2NUB3Mcv7d746Mhf6NFtLSZI5VDvUMvqCBm51dbqsxHT+8HkRUrx8bgz1/Px1Qxbqi
+         d+ktpYELGzxNpoxUe4fuQXm5tE+deJKOO56dhtbK1ClWywzf7pDKL8MTbaQZz/QoA0GM
+         PXX/UEISj3myHa0rjLN10BwT8kNUDJQUEy6kl5um5JYWnPpNbqmkQxjFO/C1nEd/jnW3
+         lo9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789461892; x=1790066692;
+        d=1e100.net; s=20260707; t=1789461895; x=1790066695;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=JhviqnNprA5p+wjy+HIKedRMX/OnI8Tgvx6aRl+Jg0Q=;
-        b=VzPuQzQo5fqqTgdDcuTnEA6VaEG4+1206KuI1vHeHZnuGhZEZd3K5vCuYpWDWmWbWf
-         8Y3/YInpf2yUpacxNie/RAkPIqzDzxE7Itxoq82QOVdlmFOMAwlmux+dioxaLLd2/8Zf
-         5WIulBLX85l+zq8Q/Pg5s4Vi2dN2pBgVz7bE2weolhIvWVZuXBppvHwXiN1o2kP8RQ7L
-         kHpo6vkhJOl8F2DcZXoO3LiqKUJlkJPDIvduDvC+eojDGHm/nSyJ8N6OcXubHOCK8sDk
-         +2VJ2iD/MFtHPnUlkjjLDUzXeC5qDEe4d/i2mUT7FVJxJ0NLOEgKpwCb/DEYJdknrWt0
-         Nx0Q==
-X-Gm-Message-State: AFuF++nHgmlDlo53ivDNXm3wAnBwYStb5KpVyQGpkQl4NkaUWMH8TcL3
-	cB99hcXfLeO7BGnqH4gseZm6msYgCLi4qb1vpNssc9jUR4M/gtiVf73u
-X-Gm-Gg: AYBFou0/ZDbfhtO7iSfdLejxGEaHUigBQ7hwfLNQn2u/1c0lg4O0CBRVaIuqEN4u+/7
-	BkvNB0rXt7VOp4B2WWb3uz//BAPXTxMDXBW+TwqGtIULOPgH29JLlPmgd4MsGsoTmnKAM0DSBnb
-	aX88Nk9Vv7BD5Au32ILtk+5OW7MsRgZTULJqso1fm77IoEKiko4+S8xMav8fjOmUSFMp58RLu+8
-	dqGV3SpFQ1AP1OWJoEOz1lBXYzYR7g9gHGXZGXwc5C0RLijprjgqWJPgE/32zyFa2bQUsikhZDY
-	+FGGQaSLC65vMKjxE08TDB6CpZ6CKzpKaQqkf0/ZN0lJn6ojNxjV+5VIfGywWisI5TnvYyiQjBe
-	yGOB7U2zB2/RiVo7xhh7f/4JBgJY/oeHmxzHr3VLsM2CfFp1+45SULBnad2DWObg/8bF0Np0i9w
-	Tj/GoVU1CV+57PUTHJckBc/9VraOiFYh2uaTkTywBxsnCJe3M9AgZf5zkJSgX6ndhQjyiTlP5sG
-	aBeY4HYgMHdH87Vo6Yz7LhKteo=
-X-Received: by 2002:a17:90a:d610:b0:39d:f06f:79be with SMTP id 98e67ed59e1d1-39df06f80c8mr13098521a91.15.1789461892002;
-        Tue, 15 Sep 2026 01:44:52 -0700 (PDT)
+        bh=Pv7hnek0M3kdITeC3SL2hfj05ljQFsw5RFgfNprat8g=;
+        b=hePegu/DMI9VAFnXnSei8iWjISUG3DNwn9UXCMQl4CTolpgOgf3sYCw+wQDrrFVpp+
+         fGYMjfHfzpsgVD+czzp/UUnjIbjypmBM1ibPA+DvwXCp6xRM9aBeWFc8r3bKOkNq8wik
+         pCqc2lM/L6ottUdJJ6BXHVavWf7iNmfatfxpPqp2bgiWe5eMx1HNPtQxqRl3y8MuLGVO
+         HW10lFrsrVsUX+YfIRVo+elY30G8jH7bFGMs6dMh8rNcMVjwjUI9qpnudu3v/XG+VPs1
+         /XY7+1AaYmTHpzqgTgJEasgtBqVKpEypo3FVwV9w9aqF1kE3SL8WmykEs1e0qhLgTWik
+         Podw==
+X-Gm-Message-State: AFuF++korHQrBeozrpCIGxdvlJkgDa8xrUF2RLWZutrcG0n6FQzFSRrc
+	b6TNE85G5rYFflKYzEhXyGaUgwm59O0Wo+qQiJ80zezE8GZfgG2AkqFc
+X-Gm-Gg: AYBFou1Jrv+tvOupS3bVxZSXqrNkhusptDJ9P8QBWYUJ33gnkWfD6Ae/XHTyYDCcoMA
+	KQdvBWMjzuuq2L9HkfbH+WTLICZxe28kYDiv4NZ7ZFUkbhNojGGVAxGm3yhXIHPSW5wWRK16UVS
+	GdeOPPIcbh/Rvvdkvp/oWcVmVdFBUHDV0R59NalggGRIYxeBi4QRvauiindOAHqC7NVgc/M9dTM
+	BZBFpWgrUmlNjYF2Wc5LBZB5zflscdMGxuTqifkNpcRZT3Uq/5rK+dTcOOzbN8VRPfO0cGNwO5H
+	pFw+oIB8DwGqaKndbpPlthfoq7cZXFZ8F7c0P/zp8XrGlj9AB5e0O1v0FCsXtKUQxvYTOwglXTW
+	Fv2S1zb4zBmDt0w/9dHrT4cgLiyEpR/jgXujHuAUOWSf8psy+vd6P77tHUoVMgpE8BVQLjk5ZBb
+	47DMUlg7lLJ8aT4gaohTol1puvXlqCd7fSFG1vr7fy1/dOiuEo922sUMg10FCyfLmgdqxHSohRI
+	CS2TWwAD10Woss2Q5O/TXTO3A==
+X-Received: by 2002:a17:90a:fc48:b0:39d:f5d0:88a7 with SMTP id 98e67ed59e1d1-39df5d08b93mr9931365a91.15.1789461894767;
+        Tue, 15 Sep 2026 01:44:54 -0700 (PDT)
 Received: from volcano9f6e-hostos.amd.com ([165.204.217.251])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33ba4cf72dbsm34718935eec.3.2026.09.15.01.44.49
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33ba4cf72dbsm34718935eec.3.2026.09.15.01.44.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Sep 2026 01:44:51 -0700 (PDT)
+        Tue, 15 Sep 2026 01:44:54 -0700 (PDT)
 From: Hemanth Selam <hemanth.selam@gmail.com>
 To: Takashi Iwai <tiwai@suse.com>,
 	Jaroslav Kysela <perex@perex.cz>
@@ -65,9 +65,9 @@ Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Takashi Sakamoto <o-takashi@sakamocchi.jp>,
 	Clemens Ladisch <clemens@ladisch.de>
-Subject: [PATCH v2 08/23] ALSA: opti9xx: fix typos in comments
-Date: Tue, 15 Sep 2026 14:14:09 +0530
-Message-ID: <20260915084424.1007757-9-hemanth.selam@gmail.com>
+Subject: [PATCH v2 09/23] ALSA: hal2: fix typos in comments
+Date: Tue, 15 Sep 2026 14:14:10 +0530
+Message-ID: <20260915084424.1007757-10-hemanth.selam@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20260915084424.1007757-1-hemanth.selam@gmail.com>
 References: <20260915084424.1007757-1-hemanth.selam@gmail.com>
@@ -83,22 +83,31 @@ Correct spelling mistakes in comments. No functional change.
 
 Signed-off-by: Hemanth Selam <hemanth.selam@gmail.com>
 ---
- sound/isa/opti9xx/opti92x-ad1848.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ sound/mips/hal2.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/sound/isa/opti9xx/opti92x-ad1848.c b/sound/isa/opti9xx/opti92x-ad1848.c
-index abaa3ed3ab5c..8a6db40ff893 100644
---- a/sound/isa/opti9xx/opti92x-ad1848.c
-+++ b/sound/isa/opti9xx/opti92x-ad1848.c
-@@ -378,7 +378,7 @@ static int snd_opti9xx_configure(struct snd_opti9xx *chip,
- 		 */
- 		snd_opti9xx_write_mask(chip, OPTi9XX_MC_REG(21), 0x82, 0xff);
- 		/* 
--		 * This bit sets OPTI931 to automaticaly select FM
-+		 * This bit sets OPTI931 to automatically select FM
- 		 * or digital input signal.
- 		 */
- 		snd_opti9xx_write_mask(chip, OPTi9XX_MC_REG(26), 0x01, 0x01);
+diff --git a/sound/mips/hal2.c b/sound/mips/hal2.c
+index 2beb6a0dc3b7..84f265335cf9 100644
+--- a/sound/mips/hal2.c
++++ b/sound/mips/hal2.c
+@@ -375,7 +375,7 @@ static void hal2_setup_dac(struct snd_hal2 *hal2)
+ 	hal2_i_clearbit16(hal2, H2I_DMA_PORT_EN, H2I_DMA_PORT_EN_CODECTX);
+ 	/* Setup the HAL2 for playback */
+ 	hal2_set_dac_rate(hal2);
+-	/* Set endianess */
++	/* Set endianness */
+ 	hal2_i_clearbit16(hal2, H2I_DMA_END, H2I_DMA_END_CODECTX);
+ 	/* Set DMA bus */
+ 	hal2_i_setbit16(hal2, H2I_DMA_DRV, (1 << pbus->pbusnr));
+@@ -400,7 +400,7 @@ static void hal2_setup_adc(struct snd_hal2 *hal2)
+ 	hal2_i_clearbit16(hal2, H2I_DMA_PORT_EN, H2I_DMA_PORT_EN_CODECR);
+ 	/* Setup the HAL2 for record */
+ 	hal2_set_adc_rate(hal2);
+-	/* Set endianess */
++	/* Set endianness */
+ 	hal2_i_clearbit16(hal2, H2I_DMA_END, H2I_DMA_END_CODECR);
+ 	/* Set DMA bus */
+ 	hal2_i_setbit16(hal2, H2I_DMA_DRV, (1 << pbus->pbusnr));
 -- 
 2.48.1
 
