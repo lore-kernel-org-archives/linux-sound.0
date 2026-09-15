@@ -1,57 +1,57 @@
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com [209.85.219.69])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7BD448095D
-	for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 08:25:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA0C3476CD6
+	for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 08:26:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.69
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789460751; cv=none; b=TdmR7egiW1K/36mdx8h2tskz4+395J9MV2vclMJINp6OkWuX5ZjCRO1YWc67nTRHpoqVQbXqTGV3QTl+IjyKbNKjTXkxA9JsA6QhUwU3R88qKLZo/pgcbB19o0b+zi36U8C77LMi81WjYWm93he4FGF5VCmZhBPLAOCg9l8OMXY=
+	t=1789460764; cv=none; b=XsEYjsmAskgJ/kJRBLmt3BntRvGtYkzVpW7YfQWoOa77ESNcJry4pur+ssynuhddZnrSJnLYIq/w2kvOGoiJgwR2iWVUrqNYcAtDVyID7ZuMcd2Pkv6fAHCwv2C49zbEp/NeB5/usEe7hgD6a2HSkb17NmEdZoP5q/NmE9KaN44=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789460751; c=relaxed/simple;
-	bh=F9i32u7X67i3rjTFL62V2TeKyR+ixZjqL6I2EccGRRA=;
+	s=arc-20240116; t=1789460764; c=relaxed/simple;
+	bh=lI3TjsMof+VUseu3jlc4aD2v6CaqWDV2PaTkxHX+GRE=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=EHYXalsfWCprPjQIUlIiKjJLWd6yL9Uekf8+SsIqBzxFGxQsptadRpQam4UbREBpfLJDiGXGPv7HeYyQ8rGh26GosW3qHigPPs9vfit2XCsny08svlcII9GDZTQHpsa1CAiUDDD4dERowvDRGr9rSnk4ahnr9QVfB+M++napRVc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--morbo.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=k90fpnV7; arc=none smtp.client-ip=209.85.160.200
+	 To:Cc:Content-Type; b=EfWq1D1St/c9Xj8PUdEB2b7Y/+QBU1yGtzAPxKyGizdgxvRoce6LO1tx2rWpZhVTBPjz8rprnLjvq/IJVMFoEYxaLQz5nQIn5ySNmYsByueR5uTWZg8ug++hHPXKlg12U+r1iSjQa6DTlRwuRjVcq0u6TEtzE4u31RNCLY/SI/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--morbo.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=tvN1jFiP; arc=none smtp.client-ip=209.85.219.69
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--morbo.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="k90fpnV7"
-Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-53124d6a362so441391cf.0
-        for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 01:25:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tvN1jFiP"
+Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-90ce8ad8002so97576396d6.2
+        for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 01:26:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1789460748; x=1790065548; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1789460760; x=1790065560; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:from:subject
          :message-id:references:mime-version:in-reply-to:date:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=CSHzy5Fr+v+g78gtgBhpLtU/5VBe17dtS9vTkuvViHg=;
-        b=k90fpnV7MZacxCsyMebPCZb/BQxscGCKSosoAHpI9rtrJjd/BeDpIw2PvqBP15hh6J
-         LRvODwo2ItAFY0NfHYEjMJ84+K4V0HeU9pLtdi8jA4VOGh8nAgyxCWzeOL0H+ugFiCrT
-         AQC/E3A4BcDA4MgPnD0Op3v2PvSFcbHGUbfkxpZpavuDOLrnJcMRt881gyzLVJCHzG5t
-         r52bojY6qcdmEOtMBrVnXwj8+/MxjYbii6Mak9W5O2Qadcue7GpXSC9U60MD8dMqZz7p
-         pJnVQ4Nkw3RB7+me6GsNIjgoZQXeUhxfwCeV/wfEsOM7bLS8yNaCv9nw169ATIMOtQz9
-         Yrww==
+        bh=jD1fGYdmSfmtHfbCTu69NC0iIcRgu3QWne7aaYuG46g=;
+        b=tvN1jFiPA4Q+O/Hlsj8HDMwcnHiTc5dst4s/4kLOj2AKZ0j254q6P9FAYWjnuidunB
+         4di8qfSzbXi8Ps560GEXz+qkClVXFvx+CEo69vMqxWsNmcBK/FCi8xn90ARihmOcrW6o
+         XKT8Nj9gJRZQG/ZB+ipfEjkKB35zHmvNzGBFwWYlrtGIUf1MoJuSrygNZ7D6ixQPh+Ji
+         crP/omamV/8OKO2R3of8PI6EZ4QDR44SyK+UsTUJZURWQYY7HsuzkXKI26kv0sy0Axcr
+         oCa+ory4/Zd2LBrr0zbDEfPMPDEgvQWpqzghFjdg1+wfuusvmWlmj8BH8NXZZxbsMVK3
+         7uWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789460748; x=1790065548;
+        d=1e100.net; s=20260707; t=1789460760; x=1790065560;
         h=content-transfer-encoding:content-type:cc:to:from:subject
          :message-id:references:mime-version:in-reply-to:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=CSHzy5Fr+v+g78gtgBhpLtU/5VBe17dtS9vTkuvViHg=;
-        b=udvTl0NLiw22bx9rr7HtAdpMFzaA0rmEov039YphVY+LkvzAbcT1FfJFu1D+ECD/1z
-         CpmIfhAQWcPiVWNtTfdxeSum5MPtNmRe154lntoXNQBTGzhnm8yxJ1TcfPjq/lxMpMGt
-         v0B8rLOBuH+HvXpBP2ksK/mJ872TZeyTwG2XwOAFVPMWp3ZD7+opfTKvPyQ5UhAX5KT5
-         gd+a/enIvzOBXePqRslbeH8CSL0V91TXAw0IDMtk+SP86CVbmgPM8DxnNY1tzUGu9PrZ
-         DOish7LKa07EQ3Ki6KLt5FPrnez0HcZj0sKsHzIAYykx8fQsny4uNAyqrA7G6hPZI79B
-         Qp2w==
-X-Forwarded-Encrypted: i=1; AKwUvBwyQH/M69ZUawzVQktk9FGhHnEe/an/Dx32S+OrP9QkG0hSPjQ7UuwoaC4Qlyuxo4go2h0KJZKQMgB1oA==@vger.kernel.org
-X-Gm-Message-State: AFuF++m3/uLAspJWP8mckRh9rfujNtOqMNeRZM+wdEnBx8zF0peor4RD
-	eEripjqeVJ6dSxVxyuC0Bl0zRD/cMo1d5cToUVP19oEhMT1RnzZ2wrXWwBLCAdh0l4sohClGHrn
-	r
-X-Received: from plky9.prod.google.com ([2002:a17:902:7009:b0:2dd:3c92:b0a2])
- (user=morbo job=prod-delivery.src-stubby-dispatcher) by 2002:a17:903:8c5:b0:2c6:90ec:f601
- with SMTP id d9443c01a7336-2dd6c5f3422mr125997365ad.8.1789460416594; Tue, 15
- Sep 2026 01:20:16 -0700 (PDT)
-Date: Tue, 15 Sep 2026 08:18:42 +0000
+        bh=jD1fGYdmSfmtHfbCTu69NC0iIcRgu3QWne7aaYuG46g=;
+        b=IkS6CGE4TszrvUHtC50mmoDT0TdYc/RnEfwdybuZ0nes8WnI23VtKDNFvEjVp1VMnx
+         Ht2N700vuw0TMTZDR0QAhnHnBeMMb8zIBICpZVHyBTYXkNUZGIV98OcL32ZsJBL9eqGX
+         XZa6fAFAU2n1xpOZD86Ej5UUni3ucyCS4Dh+dK8hyLEVjtO4bTrSU4Xmmnkyg8oU10Mk
+         FtImYARvFVbmGtH2bC08OG5hU2Ajbc8fx5UMptig9Tnu82uL2R0gkh5O7hiEeSbmAwCw
+         5wdD/LUixZ+Vg8DnoSfgu+j+fQgRe4KarGJhiuloQZv65ZAWuTCvUxUAm+GP8hMrZ3eI
+         wp9g==
+X-Forwarded-Encrypted: i=1; AKwUvByBVBY8V2iwdyDrFVJwgT4OFwL0ienFcy/f/fvfpDEZSEszJDVI+2d2wx1Yc/m0elAY/lYMyaK/md2odQ==@vger.kernel.org
+X-Gm-Message-State: AFuF++kk/WZawl5t8lwBC/9efJS0al1AKhoRr0/qHwb8/L9m8n3QuuwB
+	YpQlYzsCdJQ6BsrHEVk1sqZyXgGaGVUt7EtFe92KWPObb51JgMlt8m8gCMycph+7MJGW7hn+oeB
+	I
+X-Received: from plbkq15.prod.google.com ([2002:a17:903:284f:b0:2dd:1c44:fe2])
+ (user=morbo job=prod-delivery.src-stubby-dispatcher) by 2002:a17:903:1a0c:b0:2d9:464f:d45f
+ with SMTP id d9443c01a7336-2dd6c5ba2f0mr129830935ad.5.1789460408347; Tue, 15
+ Sep 2026 01:20:08 -0700 (PDT)
+Date: Tue, 15 Sep 2026 08:18:33 +0000
 In-Reply-To: <20260915081910.4142719-1-morbo@google.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -61,8 +61,8 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20260915081910.4142719-1-morbo@google.com>
 X-Mailer: git-send-email 2.55.0.1032.g73a4cd73de-goog
-Message-ID: <20260915081910.4142719-26-morbo@google.com>
-Subject: [PATCH 25/28] EDAC/thunderx: Replace strlcat() with seq_buf
+Message-ID: <20260915081910.4142719-17-morbo@google.com>
+Subject: [PATCH 16/28] pinctrl: samsung: Use snprintf() to construct pin bank names
 From: Bill Wendling <morbo@google.com>
 To: linux-kernel@vger.kernel.org
 Cc: Bill Wendling <morbo@google.com>, codemender-patching+linux@google.com, 
@@ -123,23 +123,17 @@ Cc: Bill Wendling <morbo@google.com>, codemender-patching+linux@google.com,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-The threaded ISR handlers (thunderx_ocx_com_threaded_isr(),
-thunderx_ocx_lnk_threaded_isr(), and thunderx_l2c_threaded_isr()) build
-multi-line error reports by formatting register details into a scratch
-buffer and appending them to "msg" with strlcat().
+samsung_banks_node_get() constructs each pin bank node name by copying
+bank->name with strscpy() and appending the suffix with strlcat().
 
-In preparation for removing the deprecated strlcat() API[1], refactor the
-ISR handlers to construct error messages using struct seq_buf.
-
-Additionally, fix two bugs in decode_register(): initialize "str[0] =3D '\0=
-'"
-so callers do not append stale buffer contents when no error bits match,
-and stop iterating if snprintf() truncates the buffer to avoid
-underflowing the remaining "size" counter.
+In preparation for removing the deprecated strlcat() API[1], format the
+node name in a single snprintf() call, which preserves the existing
+truncation check against sizeof(node_name).
 
 Link: https://github.com/KSPP/linux/issues/370 [1]
 Cc: codemender-patching+linux@google.com
-Assisted-by: AI:Claude-3-5-Sonnet [editor_update_file, shell_command_run]
+Assisted-by: Gemini:Pro [editor_update_file, make_kernel_build_single_file,=
+ checkpatch_run]
 Signed-off-by: Bill Wendling <morbo@google.com>
 ---
 Cc: Russell King <linux@armlinux.org.uk>
@@ -253,161 +247,26 @@ Cc: devel@lists.orangefs.org
 Cc: linux-hardening@vger.kernel.org
 Cc: linux-sound@vger.kernel.org
 ---
- drivers/edac/thunderx_edac.c | 64 ++++++++++++++++++++++--------------
- 1 file changed, 39 insertions(+), 25 deletions(-)
+ drivers/pinctrl/samsung/pinctrl-samsung.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/edac/thunderx_edac.c b/drivers/edac/thunderx_edac.c
-index e7c335ca0c36..4e3781815b6d 100644
---- a/drivers/edac/thunderx_edac.c
-+++ b/drivers/edac/thunderx_edac.c
-@@ -20,6 +20,7 @@
- #include <linux/atomic.h>
- #include <linux/bitfield.h>
- #include <linux/circ_buf.h>
-+#include <linux/seq_buf.h>
+diff --git a/drivers/pinctrl/samsung/pinctrl-samsung.c b/drivers/pinctrl/sa=
+msung/pinctrl-samsung.c
+index 5ecc9ed4c44d..0d639eec689c 100644
+--- a/drivers/pinctrl/samsung/pinctrl-samsung.c
++++ b/drivers/pinctrl/samsung/pinctrl-samsung.c
+@@ -1155,8 +1155,7 @@ static void samsung_banks_node_get(struct device *dev=
+, struct samsung_pinctrl_dr
 =20
- #include <asm/page.h>
-=20
-@@ -47,12 +48,17 @@ static void decode_register(char *str, size_t size,
- {
- 	int ret =3D 0;
-=20
-+	if (size > 0)
-+		str[0] =3D '\0';
-+
- 	while (descr->type && descr->mask && descr->descr) {
- 		if (reg & descr->mask) {
- 			ret =3D snprintf(str, size, "\n\t%s, %s",
- 				       descr->type =3D=3D ERR_CORRECTED ?
- 					 "Corrected" : "Uncorrected",
- 				       descr->descr);
-+			if (ret < 0 || ret >=3D size)
-+				break;
- 			str +=3D ret;
- 			size -=3D ret;
- 		}
-@@ -1115,35 +1121,37 @@ static irqreturn_t thunderx_ocx_com_threaded_isr(in=
-t irq, void *irq_id)
-=20
- 	while (CIRC_CNT(ocx->com_ring_head, ocx->com_ring_tail,
- 			ARRAY_SIZE(ocx->com_err_ctx))) {
-+		struct seq_buf s;
-+
- 		tail =3D ring_pos(ocx->com_ring_tail,
- 				ARRAY_SIZE(ocx->com_err_ctx));
- 		ctx =3D &ocx->com_err_ctx[tail];
-=20
--		snprintf(msg, OCX_MESSAGE_SIZE, "%s: OCX_COM_INT: %016llx",
--			ocx->edac_dev->ctl_name, ctx->reg_com_int);
-+		seq_buf_init(&s, msg, OCX_MESSAGE_SIZE);
-+
-+		seq_buf_printf(&s, "%s: OCX_COM_INT: %016llx",
-+			       ocx->edac_dev->ctl_name, ctx->reg_com_int);
-=20
- 		decode_register(other, OCX_OTHER_SIZE,
- 				ocx_com_errors, ctx->reg_com_int);
-=20
--		strlcat(msg, other, OCX_MESSAGE_SIZE);
-+		seq_buf_puts(&s, other);
-=20
- 		for (lane =3D 0; lane < OCX_RX_LANES; lane++)
- 			if (ctx->reg_com_int & BIT(lane)) {
--				snprintf(other, OCX_OTHER_SIZE,
--					 "\n\tOCX_LNE_INT[%02d]: %016llx OCX_LNE_STAT11[%02d]: %016llx",
--					 lane, ctx->reg_lane_int[lane],
--					 lane, ctx->reg_lane_stat11[lane]);
--
--				strlcat(msg, other, OCX_MESSAGE_SIZE);
-+				seq_buf_printf(&s,
-+					       "\n\tOCX_LNE_INT[%02d]: %016llx OCX_LNE_STAT11[%02d]: %016llx"=
-,
-+					       lane, ctx->reg_lane_int[lane],
-+					       lane, ctx->reg_lane_stat11[lane]);
-=20
- 				decode_register(other, OCX_OTHER_SIZE,
- 						ocx_lane_errors,
- 						ctx->reg_lane_int[lane]);
--				strlcat(msg, other, OCX_MESSAGE_SIZE);
-+				seq_buf_puts(&s, other);
- 			}
-=20
- 		if (ctx->reg_com_int & OCX_COM_INT_CE)
--			edac_device_handle_ce(ocx->edac_dev, 0, 0, msg);
-+			edac_device_handle_ce(ocx->edac_dev, 0, 0, seq_buf_str(&s));
-=20
- 		ocx->com_ring_tail++;
- 	}
-@@ -1196,25 +1204,28 @@ static irqreturn_t thunderx_ocx_lnk_threaded_isr(in=
-t irq, void *irq_id)
-=20
- 	while (CIRC_CNT(ocx->link_ring_head, ocx->link_ring_tail,
- 			ARRAY_SIZE(ocx->link_err_ctx))) {
-+		struct seq_buf s;
-+
- 		tail =3D ring_pos(ocx->link_ring_head,
- 				ARRAY_SIZE(ocx->link_err_ctx));
-=20
- 		ctx =3D &ocx->link_err_ctx[tail];
-=20
--		snprintf(msg, OCX_MESSAGE_SIZE,
--			 "%s: OCX_COM_LINK_INT[%d]: %016llx",
--			 ocx->edac_dev->ctl_name,
--			 ctx->link, ctx->reg_com_link_int);
-+		seq_buf_init(&s, msg, OCX_MESSAGE_SIZE);
-+
-+		seq_buf_printf(&s, "%s: OCX_COM_LINK_INT[%d]: %016llx",
-+			       ocx->edac_dev->ctl_name,
-+			       ctx->link, ctx->reg_com_link_int);
-=20
- 		decode_register(other, OCX_OTHER_SIZE,
- 				ocx_com_link_errors, ctx->reg_com_link_int);
-=20
--		strlcat(msg, other, OCX_MESSAGE_SIZE);
-+		seq_buf_puts(&s, other);
-=20
- 		if (ctx->reg_com_link_int & OCX_COM_LINK_INT_UE)
--			edac_device_handle_ue(ocx->edac_dev, 0, 0, msg);
-+			edac_device_handle_ue(ocx->edac_dev, 0, 0, seq_buf_str(&s));
- 		else if (ctx->reg_com_link_int & OCX_COM_LINK_INT_CE)
--			edac_device_handle_ce(ocx->edac_dev, 0, 0, msg);
-+			edac_device_handle_ce(ocx->edac_dev, 0, 0, seq_buf_str(&s));
-=20
- 		ocx->link_ring_tail++;
- 	}
-@@ -1880,22 +1891,25 @@ static irqreturn_t thunderx_l2c_threaded_isr(int ir=
-q, void *irq_id)
-=20
- 	while (CIRC_CNT(l2c->ring_head, l2c->ring_tail,
- 			ARRAY_SIZE(l2c->err_ctx))) {
-+		struct seq_buf s;
-+
- 		tail =3D ring_pos(l2c->ring_tail, ARRAY_SIZE(l2c->err_ctx));
- 		ctx =3D &l2c->err_ctx[tail];
-=20
--		snprintf(msg, L2C_MESSAGE_SIZE,
--			 "%s: %s: %016llx, %s: %016llx",
--			 l2c->edac_dev->ctl_name, reg_int_name, ctx->reg_int,
--			 ctx->reg_ext_name, ctx->reg_ext);
-+		seq_buf_init(&s, msg, L2C_MESSAGE_SIZE);
-+
-+		seq_buf_printf(&s, "%s: %s: %016llx, %s: %016llx",
-+			       l2c->edac_dev->ctl_name, reg_int_name, ctx->reg_int,
-+			       ctx->reg_ext_name, ctx->reg_ext);
-=20
- 		decode_register(other, L2C_OTHER_SIZE, l2_errors, ctx->reg_int);
-=20
--		strlcat(msg, other, L2C_MESSAGE_SIZE);
-+		seq_buf_puts(&s, other);
-=20
- 		if (ctx->reg_int & mask_ue)
--			edac_device_handle_ue(l2c->edac_dev, 0, 0, msg);
-+			edac_device_handle_ue(l2c->edac_dev, 0, 0, seq_buf_str(&s));
- 		else if (ctx->reg_int & mask_ce)
--			edac_device_handle_ce(l2c->edac_dev, 0, 0, msg);
-+			edac_device_handle_ce(l2c->edac_dev, 0, 0, seq_buf_str(&s));
-=20
- 		l2c->ring_tail++;
- 	}
+ 	bank =3D d->pin_banks;
+ 	for (i =3D 0; i < d->nr_banks; ++i, ++bank) {
+-		strscpy(node_name, bank->name, sizeof(node_name));
+-		len =3D strlcat(node_name, suffix, sizeof(node_name));
++		len =3D snprintf(node_name, sizeof(node_name), "%s%s", bank->name, suffi=
+x);
+ 		if (len >=3D sizeof(node_name)) {
+ 			dev_err(dev, "Too long pin bank name '%s', ignoring\n",
+ 				bank->name);
 --=20
 2.55.0.1032.g73a4cd73de-goog
 
