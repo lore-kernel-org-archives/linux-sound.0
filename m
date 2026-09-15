@@ -1,63 +1,63 @@
-Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
+Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A64C3B0595
-	for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 08:45:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E5DC4A49AB
+	for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 08:45:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789461918; cv=none; b=kkXWAmSIth5xfZRT86+yT3A+YUNKRKR4g+fBbV1U/nhYYEfurdDs6t9XDZUcoqvuzRRebAgKsU3rxflLGK/QE7gbDYHUFp1z+QKZvTInuqwI8ZJoVAQJto4SsuM7lOK8uqlp8E1JGGQsSm/J2p9Qupps8hPWKF2WT6rBmFiRarM=
+	t=1789461919; cv=none; b=pzleggnmRlHRviFbN4eo887fHexIOThXfTsKe3iVzxl8ZELQx6qgYUJmy3awBvDaIJ9FeWBbhsOZWFTNkMz8D0wnDdBh/908SReJNBwOmEmQM9rc0NZEltelh1WpLkD1GPthKwCwxWJOXnV6fnpGPhfbcdDYXRKTq6wJss7ucsI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789461918; c=relaxed/simple;
-	bh=voXUBxTQFlhO/ruRKWE/wANERiCFiYTPDr8M0VRsiyU=;
+	s=arc-20240116; t=1789461919; c=relaxed/simple;
+	bh=PEaLbwzOb+goHFxNAABOoR1EIpCElqjGmfdmvML+pNA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=o32GQFbBATa9Xu7+chprgyQMNUbBkwqikFpHchY1e0ahY5EzIgK7SzDH9wFvSYG96q6mpw6tNRlFX6FrXELfLElQ+yT4RpQAbtDLe7NsZDDSJ01gCZNjThfgjjCZZ+qNFTjs8sThNKncErHfgAEr5p3jXo11ZqEAXj42KuIq9+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XgIBQw7N; arc=none smtp.client-ip=74.125.227.141
+	 MIME-Version; b=H/yAZtxu8VZ1Z5ReeuyLL9r8UpfZlOo0zytd25UYE39xnvAS2J1XTOAWsdB4gbxQbSb4tNwWM5CZmD71rtG1daEgGE1tqCF+1a7a6fU5AMUqf3+YvSTrsTcfIVZojcXcBTnN2UZfxSj8RHXNRe/UV5UneBZ67iWjkzVw6+65nNA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QYo+GaH0; arc=none smtp.client-ip=74.125.228.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XgIBQw7N"
-Received: by mail-pj2-f13.google.com with SMTP id 98e67ed59e1d1-39dbdfaef3cso2985852a91.1
-        for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 01:45:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QYo+GaH0"
+Received: by mail-pz2-f12.google.com with SMTP id 41be03b00d2f7-cc1cea4ae2cso2859365a12.0
+        for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 01:45:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789461915; x=1790066715; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1789461917; x=1790066717; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=//NjZ5Gv6gZcU0sp0wzzMfVpLXREGk7SX2zQqubPTP4=;
-        b=XgIBQw7NrQdfdiNqgLQyZ6t0FblRM20k5icslBJifLr1P1d9G2JcQKURHIvu4AHmt1
-         1m1XdltiK3clBbP/7QkwlLduV3LwmqMTdaVWXOjVNKjTWpQfmhtBWtqo8ZtsIws+abPn
-         g5Xe86Z5QyqYBEOidBUpixP1+Cn31xBieIRt48IKuErZRThHM4D2wcQ0zmrIi3pJPKY5
-         ymJCU7itIPvUxJCcsfyyQVBcQahFF6doMn8BjMd/XInYazGlt00ROl46E+wAL3ULScGX
-         3jPChS/D+h3zxJC56FVPdXRRYx+rBV9za6hkBOgkiQKTpbw0WIoBGPfGuqSuZeO/LSH/
-         q8Ag==
+        bh=J/ckj+sOUQ60JwxbsOeTuwnrHwCCAW2BGcG7Qvw4jxg=;
+        b=QYo+GaH0TNkXinamNHfXifdyeiKvHjS88dn9R6zyyVtlARsWjdBjm1ADWlcsCW8+9p
+         LPk3efg8iTK11g97oiPk/TailQJ2wqIP5hehbl33Dz76ITHHB9CCKY4tGhjyoABnl7O+
+         kWOQdaad8RtTpUd1qDw+9AWO8IORMrPZLmT0PbP5y6Mh4p4O08ZWUJ6/eXZlB5nfuX1K
+         gqS2pNieCPY7S3BvWx3DS7AIXY/q7Aqn6k8dkYp77ceKJPw7OScMvpq6c+qA/ZBUpXtj
+         vOXebjV18X2xpYsLNKFMewuTeWthXMWr6sHcxIXjqpIhaDeRn1wZVL3uJOXaV1IQxBRg
+         644Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789461915; x=1790066715;
+        d=1e100.net; s=20260707; t=1789461917; x=1790066717;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=//NjZ5Gv6gZcU0sp0wzzMfVpLXREGk7SX2zQqubPTP4=;
-        b=G3kqsrWjfXGtfHnQrD7W49CFN8tP+cuhdvssuHIswsQ1PAwkr3AfaRS4vimoqhZMFN
-         1hpP8GBsr6H0xJSzaxuEPjLS9dWttyj0NeBYaRy2uDyZkl98M6rUzmhfqclkmNIQKit2
-         mo2c39ycSoWXcgqPVuHj6pjaOh4+NMclOxscaruHLF4prKkPbo3yEfP4PAnUMhrSDxsx
-         Fk5VFVVnoqm6v7ZEePgVvMHoXrbY8qKHlBgbHEUtMRqE7XKLjXK+68U4sxttzMtQPyGq
-         kmplRwvMmdRgxTH1HBholngGAXsqRUn+jj8ppMPjUezufrswdghuR0olJlO+D9dcOfzU
-         RY5Q==
-X-Gm-Message-State: AFuF++lfRwfwlMwgEZlynLHrA1RDZn1q33e/713T+7wfxpwWs3FJov78
-	BBdbExKEauLaLjQ8jDnBXJ8jkT3WmnFubwVO9Hz5C2ZYsskrHBjo/Zb5
-X-Gm-Gg: AYBFou2M+NYcJme4Cbtl1X0yc9Ts5JlK5xs1lcdMypXdgomz/mbcgJuojPxFsRdk0iX
-	ULgeKh3VbzcZwk3ImNUZBfE070kc2HgKCEKr9zKYTMlIpc6nIIwomOTHGabhd9trQK4gMDPkPuF
-	K38dbsewKz6TBNwOd1SQjStRVIYKcJDFCBQgnOeLsmZ7D0OOMmmStOVoacowmm1jNEv/bbLLGHZ
-	WYVnYC63O4XBx4mg4z7t7cPk/Yd47mU7VgFfjibtIOwEo5+MHsxkYaJihcevz1d0v2EbG0JIODT
-	+9Ram5u8xlxFSTv7q2Ziak4RCHXximGqTaBAqwdZe1hFDo1o0mcxwqLGoVu+m8QM8DTVvgy14c5
-	iyfoC+4HwWNFztJ8GKjb7TWvVI2dw11ZnAWUMTh/8WPgi1e1pFViRyKq+e08GC+4IabzJ43Rqm9
-	CJHHXl9uGifB2NpriBO8ZzxMZeRR/gOHeFdnlzuSPa16kOBmbhl9mY3wKSVckuNqgE7cTaTz/Ha
-	u6FS+eCmqF6EoRxIeu9Tcc9
-X-Received: by 2002:a17:90a:d610:b0:39d:f06f:79be with SMTP id 98e67ed59e1d1-39df06f80c8mr13101038a91.15.1789461914624;
-        Tue, 15 Sep 2026 01:45:14 -0700 (PDT)
+        bh=J/ckj+sOUQ60JwxbsOeTuwnrHwCCAW2BGcG7Qvw4jxg=;
+        b=lr0nz4Jh6jwPYDx1c1pUj/vjz761jYef/NsfwiCMetaQlBLFttf9T36xf4IW39jBB1
+         g6hTVqg9XhVI0X8RkZmb9UJewHL5M2gm8/v3FlkqhZVKMkT7b9fcIb9fLoOj5HFcd1d+
+         htTzHmUEBES/+cMS+GXun/Oet7UV4MLv8huicWpLw+AqptW1CdKpb0dP1vKJZlK+TVRG
+         GGeGv5g3ynqLnUeXCbu2WoNHzD7RxrtrLIaXEFXER8KJSEu+XvxV59fCXfmC7cEnZQHw
+         KsvzahmxYEKvCRBpsJO+Ou+uWP3WHqlthjj42dQwtO7Q1YP6RpFHRuim/3jyPuPp9p1b
+         tFJQ==
+X-Gm-Message-State: AFuF++k1CSS6kKGjWjb58smKQuemRYRbjixah4IooLymUSYR41uQl/XG
+	e8rd+zONluCwaTLJUxFYTplSmc0k7bgMtIwKGEMgLxLyTRMT7JvHmhBF
+X-Gm-Gg: AYBFou3Fp6V0TsjjZ66lsgL/ymRAZRccnkL1xQF/hJUCvFosMDniadqV2Ni7VuP8I/R
+	qbNjBa7f5p+u0jtgw9xSnW/HyUlD1IOQcYGnDPfMN7yJa4I2TdHFOVJGJPZT8/kTRKUocpbsNsI
+	hjDfzyb/yYkugnpYmkt253B5YF+PtxULBSpfaOoLm91DnIYWvFA49SzNiqdB83Lzsiiw1X5Gp3K
+	F35oxpVuK10EtXh1XkGwNW1eJYJSUtqa848xPyzwoadqDHuMABMd0zlWCyLrBXnuJew926yXAYi
+	xWwAbwsMKFGotV/S+e5i/MrLfUhIT8veIgmULj29qXbgpePfxIgl8G2Dyz8qtjPXOdZQ8b/3rau
+	+OSH2xf07+E8K7eDlowHUby0iUWrRwDXM7XoGA4wZUwuNqE12/O8uqRD8loQEnEJ8QlixxBk7w6
+	i7tk+iV4loyrGR10wt1lPNbGHu+PpR2hT5aNSfjsCEdoVZTXXHgPs2gVMHWzSCi+7GN9NDkLORD
+	GwIEErvIgNfwq2VRuaib+6Y9w==
+X-Received: by 2002:a05:6a21:1518:b0:3d0:88f5:f806 with SMTP id adf61e73a8af0-3db40521dc6mr13468678637.15.1789461917459;
+        Tue, 15 Sep 2026 01:45:17 -0700 (PDT)
 Received: from volcano9f6e-hostos.amd.com ([165.204.217.251])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33ba4cf72dbsm34718935eec.3.2026.09.15.01.45.12
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33ba4cf72dbsm34718935eec.3.2026.09.15.01.45.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Sep 2026 01:45:14 -0700 (PDT)
+        Tue, 15 Sep 2026 01:45:17 -0700 (PDT)
 From: Hemanth Selam <hemanth.selam@gmail.com>
 To: Takashi Iwai <tiwai@suse.com>,
 	Jaroslav Kysela <perex@perex.cz>
@@ -65,9 +65,9 @@ Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Takashi Sakamoto <o-takashi@sakamocchi.jp>,
 	Clemens Ladisch <clemens@ladisch.de>
-Subject: [PATCH v2 16/23] ALSA: echoaudio: fix typos in comments
-Date: Tue, 15 Sep 2026 14:14:17 +0530
-Message-ID: <20260915084424.1007757-17-hemanth.selam@gmail.com>
+Subject: [PATCH v2 17/23] ALSA: lx6464es: fix typos in comments
+Date: Tue, 15 Sep 2026 14:14:18 +0530
+Message-ID: <20260915084424.1007757-18-hemanth.selam@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20260915084424.1007757-1-hemanth.selam@gmail.com>
 References: <20260915084424.1007757-1-hemanth.selam@gmail.com>
@@ -83,47 +83,36 @@ Correct spelling mistakes in comments. No functional change.
 
 Signed-off-by: Hemanth Selam <hemanth.selam@gmail.com>
 ---
- sound/pci/echoaudio/echoaudio.c | 4 ++--
- sound/pci/echoaudio/echoaudio.h | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ sound/pci/lx6464es/lx_core.c | 2 +-
+ sound/pci/lx6464es/lx_defs.h | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/sound/pci/echoaudio/echoaudio.c b/sound/pci/echoaudio/echoaudio.c
-index 214d68657707..8b4637231deb 100644
---- a/sound/pci/echoaudio/echoaudio.c
-+++ b/sound/pci/echoaudio/echoaudio.c
-@@ -270,7 +270,7 @@ static int pcm_open(struct snd_pcm_substream *substream,
- 		return -ENOMEM;
- 	pipe->index = -1;		/* Not configured yet */
+diff --git a/sound/pci/lx6464es/lx_core.c b/sound/pci/lx6464es/lx_core.c
+index 9909f1067871..ae265dd19333 100644
+--- a/sound/pci/lx6464es/lx_core.c
++++ b/sound/pci/lx6464es/lx_core.c
+@@ -364,7 +364,7 @@ int lx_dsp_get_mac(struct lx6464es *chip)
+ 	macmsb = lx_dsp_reg_read(chip, eReg_ADMACESMSB) & 0x00FFFFFF;
+ 	maclsb = lx_dsp_reg_read(chip, eReg_ADMACESLSB) & 0x00FFFFFF;
  
--	/* Set up hw capabilities and contraints */
-+	/* Set up hw capabilities and constraints */
- 	memcpy(&pipe->hw, &pcm_hardware_skel, sizeof(struct snd_pcm_hardware));
- 	dev_dbg(chip->card->dev, "max_channels=%d\n", max_channels);
- 	pipe->constr.list = channels_list;
-@@ -1720,7 +1720,7 @@ static const struct snd_kcontrol_new snd_echo_vumeters = {
+-	/* todo: endianess handling */
++	/* todo: endianness handling */
+ 	chip->mac_address[5] = ((u8 *)(&maclsb))[0];
+ 	chip->mac_address[4] = ((u8 *)(&maclsb))[1];
+ 	chip->mac_address[3] = ((u8 *)(&maclsb))[2];
+diff --git a/sound/pci/lx6464es/lx_defs.h b/sound/pci/lx6464es/lx_defs.h
+index eca5367ba561..89e433d3f7a2 100644
+--- a/sound/pci/lx6464es/lx_defs.h
++++ b/sound/pci/lx6464es/lx_defs.h
+@@ -315,7 +315,7 @@ enum stream_flags {
+ #define ED_XILINX_ERROR                 (ED_RT | 0x07)
+ #define ED_COBRANET_ITF_NOT_RESPONDING  (ED_RT | 0x08)
  
- 
- 
--/*** Channels info - it exports informations about the number of channels ***/
-+/*** Channels info - it exports information about the number of channels ***/
- static int snd_echo_channels_info_info(struct snd_kcontrol *kcontrol,
- 				       struct snd_ctl_elem_info *uinfo)
- {
-diff --git a/sound/pci/echoaudio/echoaudio.h b/sound/pci/echoaudio/echoaudio.h
-index 7a5744bf3155..ac4507b7cc78 100644
---- a/sound/pci/echoaudio/echoaudio.h
-+++ b/sound/pci/echoaudio/echoaudio.h
-@@ -394,8 +394,8 @@ struct echoaudio {
- 
- 	u16 digital_modes;		/* Bitmask of supported modes
- 					 * (see ECHOCAPS_HAS_DIGITAL_MODE_*) */
--	u16 input_clock_types;		/* Suppoted input clock types */
--	u16 output_clock_types;		/* Suppoted output clock types -
-+	u16 input_clock_types;		/* Supported input clock types */
-+	u16 output_clock_types;		/* Supported output clock types -
- 					 * Layla20 only */
- 	u16 device_id, subdevice_id;
- 	u16 *dsp_code;			/* Current DSP code loaded,
+-/* Complete BOARD error code for the invaid standard object class */
++/* Complete BOARD error code for the invalid standard object class */
+ #define EB_ISO          (ERROR_VALUE | E_SOURCE_BOARD | \
+ 			 E_CLASS_INVALID_STD_OBJECT)
+ #define EB_INVALID_EFFECT               (EB_ISO | 0x00)
 -- 
 2.48.1
 
