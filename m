@@ -1,118 +1,330 @@
-Received: from mail-pz2-f20.google.com (mail-pz2-f20.google.com [74.125.228.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zipdox.net (195-240-81-79.fixed.kpn.net [195.240.81.79])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E17F64779A1
-	for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 08:45:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B09C82BE043;
+	Tue, 15 Sep 2026 08:54:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.240.81.79
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789461936; cv=none; b=F6jewivtu8WTYCIpFBj5MNutBF7I2djkT4HF+Rd15GTb7uYQLr9eKAthRpjjWdvmOu5J6rVMKBSBkxZ0XrticQvRaQDOpYU1F5sk1anBW3j0yb28/ZL0fcSH1tOTaFd36XeisKpPtioQ26+zWFTpWNcfajwQdiB25W5CuYy1lyo=
+	t=1789462462; cv=none; b=nfqh55Z+jyn6bnIBujpFomi4J801dHFCiW3UTSXoDvFrJ0a1lBicQiwM8dzzAmi1UjxrQib1kF181IAFlDqVrxdTFJoFRwVNBbVwUvzFHrcng9yl8v/lkoN9RIwB0RCWJw3Xr1Zsw5FkmLxyIppC4WJH5MiyKb7Kh7KB9UQDrSQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789461936; c=relaxed/simple;
-	bh=H+Casj91rLGYipq8ytk6EsEcu/qT6R4LQyFeNF6gEZI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VjxrQ2iwLHYCDwAz0DB+QZOIKwSDTjxOiPtAmzPy9Y5ZGfEXL5S/eREstvpxfWfthOKWKO5ALIn9AY/23L6sJVGsu08iKKPruzFyI0Jpda+c6dqC0a0OFRyAfHZAyzjyPko4wvQaSvgHDGn5gbxBJns3c+qHswhM5kJmwOSZVN8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fuFg45Vx; arc=none smtp.client-ip=74.125.228.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789462462; c=relaxed/simple;
+	bh=9LPz7L6X5P4dEYz1uKv/Ef1iM6cGuItFM+Xvd6L08BM=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=fnitqLhDnKeuK0z02/Dzt25kcV2p/XZsjW3IeyeKU500RGX+jKWae4yV7tghpjasftCsr889R2ND/QVB/gikOGa4hWzo2y4/fNRguspkvJcvT8AoXUyy6SQMtGW9t86q06+/piMnGemuluSp/J6qLunBv4P6wZjSEJQFculJVPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=zipdox.net; spf=pass smtp.mailfrom=zipdox.net; dkim=pass (2048-bit key) header.d=zipdox.net header.i=@zipdox.net header.b=eq14+LSZ; arc=none smtp.client-ip=195.240.81.79
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=zipdox.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zipdox.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fuFg45Vx"
-Received: by mail-pz2-f20.google.com with SMTP id 41be03b00d2f7-cc4ae61629fso2138535a12.2
-        for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 01:45:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789461934; x=1790066734; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=gi2cJ4ErFNrHvLJxpqfCchEU0jyj0U2j6YYuxAsvr9o=;
-        b=fuFg45VxWcuM9Yn9Ar4ZbLZnCcEJB7J26IoFhLX1uqzo6syLxxKzuk1Z460MygKB1d
-         QjDq9ZJgy3DXbuxQvmyuz30YchcsA8CSa3po+jLW4J5GxwuurBdx6ug0kn1wUMGeThC6
-         imcO8GjntsF+hkeY8JU+n1+YtZotCMnSDEf8ycaKfT9AVW1nJn2yXpQ0UqMErp201OIp
-         vqxv34alDj+UKo9TK4xeEm2N0g4LlWCgjluf5TQFGikVwByiLqumkc7T0zykKBvoXbVk
-         a9S1N9fiU8pvUM0CrkmJKGTBXwVH7KbQdzJauqlxcoYQmR7TANsYo9o1w+blNMyQ+Cx9
-         Kklw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789461934; x=1790066734;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=gi2cJ4ErFNrHvLJxpqfCchEU0jyj0U2j6YYuxAsvr9o=;
-        b=rVOdwjIF0zu49o6tVbTGFPywaVt4wabG4b74YsuuOMEzgUk8MWe7cWpRQMobZ6TQEZ
-         2ZuvHsbzA1xsQcMp31ItckwW8zQAYZf/ZT6tdgtx5iE/KX2NE76Oq/uMNM/pDnxByHIQ
-         5jT+ihsAcwz/wuGd1dThQK1UU6wj1Knc/XaRzsmeV+9n4JeFKh98Lyio1xOy4942vQtV
-         TziK19kNEtmee54d4imqNncDoS7lSukM2nZ1vMIPDDivIcekOqv6KFuHbiyPzK2KU2DC
-         Z2p6x5iUQeZ5/cwHqLX5B/o4fjs76M8ephbFMgi8om2KvMEnchDqYFEOgxOl4d9LsZvS
-         Fmxg==
-X-Gm-Message-State: AFuF++k+DWhc9UZ3UuOMobcs3r19DG2nsmV7ScGkHdozKwVjzjQAXKbH
-	z2S0PFIkKaVuNNQ0GTjPOShr0w37zK31WCX7YtIbo3gLTA/Qii1BDg/W
-X-Gm-Gg: AYBFou0rTcA5vK2mU2HVvHgVAB63Bpovgpu56yIKH0pBzKpsn8/Opni/OG6SQLXaWSX
-	DDpvzaTlErZqsdmyEdKtWC0bJZMGa2WnZogHmGGuHMu1GihdDkXNycxCZaLL5aJTDZZ3c7m8ACy
-	bCJ+zeuvKpItHeBfxNCzQfXStWihmU8mZCh/qFg7tHj0mSgFzVQ9OJXn9qzbxc6ZHXk0ArNYDad
-	yRlqL4leG4EQXuo+eL9Oa1Fs5lkBHDGQtfv1mwUL4NCrZ4rhPfcdjwpB2L3/izhvV0+0cM5kAYK
-	My+ifAgM+ee5Y02qhxStuQTxZLQ9+B32bQjCqz5AY6tx/QZ5JFQilbEQt7kCCpgxgd8QVXrnwrZ
-	qoJ1UM9mBnBhXXtrgmHTzRrQWf2WIg1e6CAK4kNX9jytdLuLtSARM2PBdofD2TlOR3/5tgH3LqJ
-	c1zkLC4qw4QX5LD5PKjGzsClp2LS3OZiG+7Bmt5G0hx+DGKUs60LGzoIuy/r3Ki685nj3jbAiCz
-	TcG5qXkoHuoVyNEP2IvECBI1WU=
-X-Received: by 2002:a05:6a20:d090:b0:3c4:2b8b:e88f with SMTP id adf61e73a8af0-3db4044614cmr14695371637.5.1789461934096;
-        Tue, 15 Sep 2026 01:45:34 -0700 (PDT)
-Received: from volcano9f6e-hostos.amd.com ([165.204.217.251])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33ba4cf72dbsm34718935eec.3.2026.09.15.01.45.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Sep 2026 01:45:33 -0700 (PDT)
-From: Hemanth Selam <hemanth.selam@gmail.com>
-To: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Takashi Sakamoto <o-takashi@sakamocchi.jp>,
-	Clemens Ladisch <clemens@ladisch.de>
-Subject: [PATCH v2 23/23] ALSA: vx: fix typos in comments
-Date: Tue, 15 Sep 2026 14:14:24 +0530
-Message-ID: <20260915084424.1007757-24-hemanth.selam@gmail.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20260915084424.1007757-1-hemanth.selam@gmail.com>
-References: <20260915084424.1007757-1-hemanth.selam@gmail.com>
+	dkim=pass (2048-bit key) header.d=zipdox.net header.i=@zipdox.net header.b="eq14+LSZ"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D7FD192106D;
+	Tue, 15 Sep 2026 10:54:09 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zipdox.net; s=dkim;
+	t=1789462450; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language;
+	bh=jzvsCIw9SZQC5MHn/su9KiKcRUleJjkuv7xeSG5s+i8=;
+	b=eq14+LSZuLpsmbHOP7L4w/tAqlcOMeYiAOiZXagysJXEMIlDPqfkwk3s+zzLevw9PXBRJ2
+	0i+v3kFcv4+NbzQfHrR+0Yl+u7YI6ll9xJjTNgIjCgpIlewI0nVXZ25uJgJpNNVT6WZC/g
+	NjA/IRb1XeXzOTVXahFUdKjMJEXXnKanpb/T9mg2ZF2Vk7T66zoixfHMR8OxoXeTSnZRGT
+	qnCaH96983j/1pUJeDoq31wz+KTpj4KEs/cquCjh/d9N0jBs5PLAKRlpKkzmt4/pwgrquc
+	gsqB8EgaD/e4y+93UN+VxcrWqTL4xfE8y+32VaXAWZiOFkYqSJTM0R4tMBLClA==
+Message-ID: <d46fcac6-bd7e-4fc4-95e1-4e8d39f92ad3@zipdox.net>
+Date: Tue, 15 Sep 2026 10:54:00 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+From: Zipdox <zipdox@zipdox.net>
+Subject: [PATCH] USB Audio Class 2 Mixer unit support for GET_CUR, SET_CUR and
+ RANGE
+To: linux-sound@vger.kernel.org
+Cc: perex@perex.cz, linux-kernel@vger.kernel.org, tiwai@suse.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-Correct spelling mistakes in comments. No functional change.
+Hello,
 
-Signed-off-by: Hemanth Selam <hemanth.selam@gmail.com>
+The USB Audio Mixer Unit driver (sound/usb/mixer.c) sends audio class
+1.0 format control messages to devices, regardless of the actual audio
+class version. This means audio class 2.0 devices will receive incorrect
+messages, stall, and cause the driver to error (e.g. alsamixer exits
+with a broken pipe error). This patch implements the GET_CUR, SET_CUR,
+and RANGE control requests for mixer units according to the Audio Class
+2.0 specification.
+
+I have one question though, which has to do with the get_cur_mix_raw
+function. It states "channel = 0: master, 1 = first channel", but as far
+as I know the spec doesn't specify a master control for mixer units. I
+implemented it so that channel 0 results the channel 1 value, but maybe
+some other solution is desirable.
+
+From: Zipdox <zipdox@zipdox.net>
+Date: Tue, 15 Sep 2026 10:12:01 +0200
+Subject: [PATCH] USB Audio Class 2 Mixer unit support for GET_CUR, SET_CUR and
+  RANGE
+
+Signed-off-by: Zipdox <zipdox@zipdox.net>
 ---
- sound/pci/vx222/vx222_ops.c | 2 +-
- sound/pcmcia/vx/vxp_ops.c   | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+  sound/usb/mixer.c | 191 ++++++++++++++++++++++++++++++++--------------
+  1 file changed, 133 insertions(+), 58 deletions(-)
 
-diff --git a/sound/pci/vx222/vx222_ops.c b/sound/pci/vx222/vx222_ops.c
-index b6459dbdb1b0..40f3716c478f 100644
---- a/sound/pci/vx222/vx222_ops.c
-+++ b/sound/pci/vx222/vx222_ops.c
-@@ -431,7 +431,7 @@ static int vx2_load_dsp(struct vx_core *vx, int index, const struct firmware *ds
- /*
-  * vx_test_and_ack - test and acknowledge interrupt
-  *
-- * called from irq hander, too
-+ * called from irq handler, too
-  *
-  * spinlock held!
-  */
-diff --git a/sound/pcmcia/vx/vxp_ops.c b/sound/pcmcia/vx/vxp_ops.c
-index 4211e7239138..e52b61125629 100644
---- a/sound/pcmcia/vx/vxp_ops.c
-+++ b/sound/pcmcia/vx/vxp_ops.c
-@@ -265,7 +265,7 @@ static int vxp_load_dsp(struct vx_core *vx, int index, const struct firmware *fw
- /*
-  * vx_test_and_ack - test and acknowledge interrupt
-  *
-- * called from irq hander, too
-+ * called from irq handler, too
-  *
-  * spinlock held!
-  */
+diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
+index ecaa8bc08d7c..99270731d409 100644
+--- a/sound/usb/mixer.c
++++ b/sound/usb/mixer.c
+@@ -360,12 +360,12 @@ static int get_ctl_value_v2(struct usb_mixer_elem_info *cval, int request,
+  	{
+  		CLASS(snd_usb_lock, pm)(chip);
+  		if (pm.err)
+-			return -EIO;
++		return -EIO;
+  
+-		idx = mixer_ctrl_intf(cval->head.mixer) | (cval->head.id << 8);
+-		ret = snd_usb_ctl_msg(chip->dev, usb_rcvctrlpipe(chip->dev, 0), bRequest,
+-				      USB_RECIP_INTERFACE | USB_TYPE_CLASS | USB_DIR_IN,
+-				      validx, idx, buf, size);
++	idx = mixer_ctrl_intf(cval->head.mixer) | (cval->head.id << 8);
++	ret = snd_usb_ctl_msg(chip->dev, usb_rcvctrlpipe(chip->dev, 0), bRequest,
++			      USB_RECIP_INTERFACE | USB_TYPE_CLASS | USB_DIR_IN,
++			      validx, idx, buf, size);
+  	}
+  
+  	if (ret < 0) {
+@@ -410,6 +410,53 @@ static int get_ctl_value(struct usb_mixer_elem_info *cval, int request,
+  		get_ctl_value_v2(cval, request, validx, value_ret);
+  }
+  
++static int get_ctl_range_16(struct usb_mixer_elem_info *cval)
++{
++	struct snd_usb_audio *chip = cval->head.mixer->chip;
++	int idx;
++	int ret;
++	__u16 wNumSubRanges;
++	__u8 range_res[8] = {0};
++
++	__u8 mcn = (cval->control - 1) * cval->channels;
++	__u16 wValue = (UAC2_MU_MIXER << 8) | mcn;
++
++	if (snd_usb_lock_shutdown(chip))
++		return -EIO;
++
++	idx = mixer_ctrl_intf(cval->head.mixer) | (cval->head.id << 8);
++	ret = snd_usb_ctl_msg(chip->dev, usb_rcvctrlpipe(chip->dev, 0), UAC2_CS_RANGE,
++			      USB_RECIP_INTERFACE | USB_TYPE_CLASS | USB_DIR_IN,
++			      wValue, idx, range_res, sizeof(range_res));
++	snd_usb_unlock_shutdown(chip);
++
++	if (ret < 0) {
++		usb_audio_dbg(chip,
++			"cannot get ctl range: req = %#x, wValue = %#x, wIndex = %#x\n",
++			UAC2_CS_RANGE, wValue, idx);
++		return ret;
++	}
++
++	wNumSubRanges = combine_word(&range_res[0]);
++	if(wNumSubRanges != 1) {
++		usb_audio_dbg(chip,
++			"unexpected wNumSubRanges (%u) for ctl range: req = %#x, wValue = %#x, wIndex = %#x\n",
++			(unsigned int)wNumSubRanges, UAC2_CS_RANGE, wValue, idx);
++		return -EIO;
++	}
++
++	cval->min = combine_word(&range_res[2]);
++	if (cval->min >= 0x8000) cval->min -= 0x10000;
++	cval->max = combine_word(&range_res[4]);
++	if (cval->max >= 0x8000) cval->max -= 0x10000;
++	cval->res = combine_word(&range_res[6]);
++	usb_audio_dbg(chip,
++		"range for mcn = %u: min = %d, max = %d, res = %d\n",
++		(unsigned int)mcn, cval->min, cval->max, cval->res);
++
++	return 0;
++}
++
+  static int get_cur_ctl_value(struct usb_mixer_elem_info *cval,
+  			     int validx, int *value)
+  {
+@@ -420,9 +467,18 @@ static int get_cur_ctl_value(struct usb_mixer_elem_info *cval,
+  static inline int get_cur_mix_raw(struct usb_mixer_elem_info *cval,
+  				  int channel, int *value)
+  {
+-	return get_ctl_value(cval, UAC_GET_CUR,
++	if(cval->head.mixer->protocol == UAC_VERSION_1){
++		return get_ctl_value(cval, UAC_GET_CUR,
+  			     (cval->control << 8) | channel,
+  			     value);
++	}else{
++		__u8 mcn = (cval->control - 1) * cval->channels + ((channel == 0 ? 1 : channel) - 1);
++		__u16 wValue = (UAC2_MU_MIXER << 8) | mcn;
++		return get_ctl_value(cval, UAC_GET_CUR,
++			     wValue,
++			     value);
++	}
++	
+  }
+  
+  int snd_usb_get_cur_mix_value(struct usb_mixer_elem_info *cval,
+@@ -527,9 +583,18 @@ int snd_usb_set_cur_mix_value(struct usb_mixer_elem_info *cval, int channel,
+  		return 0;
+  	}
+  
+-	err = snd_usb_mixer_set_ctl_value(cval,
+-					  UAC_SET_CUR, (cval->control << 8) | channel,
+-					  value);
++	if(cval->head.mixer->protocol == UAC_VERSION_1){
++		err = snd_usb_mixer_set_ctl_value(cval,
++						UAC_SET_CUR, (cval->control << 8) | channel,
++						value);
++	}else{
++		__u8 mcn = (cval->control - 1) * cval->channels + ((channel == 0 ? 1 : channel) - 1);
++		__u16 wValue = (UAC2_MU_MIXER << 8) | mcn;
++		err = snd_usb_mixer_set_ctl_value(cval,
++						UAC_SET_CUR, wValue,
++						value);
++	}
++
+  	if (err < 0)
+  		return err;
+  	cval->cached |= BIT(channel);
+@@ -1336,59 +1401,69 @@ static int get_min_max_with_quirks(struct usb_mixer_elem_info *cval,
+  	    cval->val_type == USB_MIXER_INV_BOOLEAN) {
+  		cval->initialized = 1;
+  	} else {
+-		int minchn = 0;
+-		if (cval->cmask) {
+-			for (i = 0; i < MAX_CHANNELS; i++)
+-				if (cval->cmask & BIT(i)) {
+-					minchn = i + 1;
+-					break;
+-				}
+-		}
+-		if (get_ctl_value(cval, UAC_GET_MAX, (cval->control << 8) | minchn, &cval->max) < 0 ||
+-		    get_ctl_value(cval, UAC_GET_MIN, (cval->control << 8) | minchn, &cval->min) < 0) {
+-			usb_audio_err(cval->head.mixer->chip,
+-				      "%d:%d: cannot get min/max values for control %d (id %d)\n",
+-				   cval->head.id, mixer_ctrl_intf(cval->head.mixer),
+-							       cval->control, cval->head.id);
+-			return -EAGAIN;
+-		}
+-		if (get_ctl_value(cval, UAC_GET_RES,
+-				  (cval->control << 8) | minchn,
+-				  &cval->res) < 0) {
+-			cval->res = 1;
+-		} else if (cval->head.mixer->protocol == UAC_VERSION_1) {
+-			int last_valid_res = cval->res;
+-
+-			while (cval->res > 1) {
+-				if (snd_usb_mixer_set_ctl_value(cval, UAC_SET_RES,
+-								(cval->control << 8) | minchn,
+-								cval->res / 2) < 0)
+-					break;
+-				cval->res /= 2;
++		if(cval->head.mixer->protocol == UAC_VERSION_1){
++			int minchn = 0;
++			if (cval->cmask) {
++				for (i = 0; i < MAX_CHANNELS; i++)
++					if (cval->cmask & BIT(i)) {
++						minchn = i + 1;
++						break;
++					}
++			}
++			if (get_ctl_value(cval, UAC_GET_MAX, (cval->control << 8) | minchn, &cval->max) < 0 ||
++				get_ctl_value(cval, UAC_GET_MIN, (cval->control << 8) | minchn, &cval->min) < 0) {
++				usb_audio_err(cval->head.mixer->chip,
++						"%d:%d: cannot get min/max values for control %d (id %d)\n",
++					cval->head.id, mixer_ctrl_intf(cval->head.mixer),
++									cval->control, cval->head.id);
++				return -EAGAIN;
+  			}
+  			if (get_ctl_value(cval, UAC_GET_RES,
+-					  (cval->control << 8) | minchn, &cval->res) < 0)
+-				cval->res = last_valid_res;
+-		}
+-		if (cval->res == 0)
+-			cval->res = 1;
++					(cval->control << 8) | minchn,
++					&cval->res) < 0) {
++				cval->res = 1;
++			} else if (cval->head.mixer->protocol == UAC_VERSION_1) {
++				int last_valid_res = cval->res;
++
++				while (cval->res > 1) {
++					if (snd_usb_mixer_set_ctl_value(cval, UAC_SET_RES,
++									(cval->control << 8) | minchn,
++									cval->res / 2) < 0)
++						break;
++					cval->res /= 2;
++				}
++				if (get_ctl_value(cval, UAC_GET_RES,
++						(cval->control << 8) | minchn, &cval->res) < 0)
++					cval->res = last_valid_res;
++			}
++			if (cval->res == 0)
++				cval->res = 1;
+  
+-		if (cval->min < cval->max) {
+-			int saved;
++			if (cval->min < cval->max) {
++				int saved;
+  
+-			if (get_cur_mix_raw(cval, minchn, &saved) < 0)
+-				goto no_checks;
++				if (get_cur_mix_raw(cval, minchn, &saved) < 0)
++					goto no_checks;
+  
+-			ret = check_sticky_volume_control(cval, minchn, saved);
+-			if (ret)
+-				goto no_checks;
++				ret = check_sticky_volume_control(cval, minchn, saved);
++				if (ret)
++					goto no_checks;
+  
+-			if (cval->min + cval->res < cval->max)
+-				check_volume_control_res(cval, minchn, saved);
++				if (cval->min + cval->res < cval->max)
++					check_volume_control_res(cval, minchn, saved);
+  
+-			snd_usb_set_cur_mix_value(cval, minchn, 0, saved);
+-		}
++				snd_usb_set_cur_mix_value(cval, minchn, 0, saved);
++			}
+  
++		}else{
++			if(get_ctl_range_16(cval) < 0){
++				usb_audio_err(cval->head.mixer->chip,
++				"%d:%d: cannot get min/max values for control %d (id %d)\n",
++					cval->head.id, mixer_ctrl_intf(cval->head.mixer),
++									cval->control, cval->head.id);
++				return -EINVAL;
++			}
++		}
+  no_checks:
+  		/*
+  		 * Got a non-fatal failure during sanity checks.
+@@ -1983,9 +2058,9 @@ static void __build_feature_ctl(struct usb_mixer_interface *mixer,
+  			       cval->head.id, kctl->id.name, cval->channels,
+  			       cval->min, cval->max, cval->res);
+  	} else {
+-		usb_audio_dbg(mixer->chip, "[%d] FU [%s] ch = %d, val = %d/%d/%d\n",
+-			      cval->head.id, kctl->id.name, cval->channels,
+-			      cval->min, cval->max, cval->res);
++	usb_audio_dbg(mixer->chip, "[%d] FU [%s] ch = %d, val = %d/%d/%d\n",
++		      cval->head.id, kctl->id.name, cval->channels,
++		      cval->min, cval->max, cval->res);
+  	}
+  
+  	snd_usb_mixer_add_control(&cval->head, kctl);
+@@ -3550,7 +3625,7 @@ void snd_usb_mixer_notify_id(struct usb_mixer_interface *mixer, int unitid)
+  		info = mixer_elem_list_to_info(list);
+  		/* invalidate cache, so the value is read from the device */
+  		if (!info->get_cur_broken)
+-			info->cached = 0;
++		info->cached = 0;
+  		snd_ctl_notify(mixer->chip->card, SNDRV_CTL_EVENT_MASK_VALUE,
+  			       &list->kctl->id);
+  	}
 -- 
-2.48.1
-
+2.47.3
