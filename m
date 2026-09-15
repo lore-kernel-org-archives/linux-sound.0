@@ -1,76 +1,58 @@
-Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E76A470E80
-	for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 09:25:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1533F3B05AF
+	for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 10:06:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789464338; cv=none; b=ck6KJanoBQppzrXQZS3RSKEv/dg81bWsolsjgpTq5N261cz4UfLFbC9F1y1Tj0uTmwapW95K6S5uSPQmZzqqbu8Z/2g+sKSwJ+Y7P/u1akEzCpZGV+q1xmUeJx1ri28zAhzsW/yR8kDrX1r53pIbIOgaxknzlk7ypXuFezu/mJk=
+	t=1789466782; cv=none; b=ZBDaiIG8ciEpSH+fwpihXS5r1TvMG6mDKoxQKnSwFOH/F0LU6bRjWwkaEHJs67tVBLlCl+94WIrpx/pnxACK4G/GYzaDslwyyzSAyE5ve+RtD7PLBIKcOsW3TNa4zM25E+OvnaJYLINwGkyydHOV2u+QbfkZt9N8mDycBJYIRAs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789464338; c=relaxed/simple;
-	bh=lXe6aSYFPWJ7c/AmG9xUu7LcDVy6kBr+8frdycfYPTc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=choqPo9a/UKHA75s6nILrN5K9lnrtRUQVfLwcxDGxNQTfkW14NZ+RERZr4FwC/0Yk+o8bNwBuVHyqXeKK9n+/23xGRnHAxiXARWJgurOm2drqyJC48nrGy7eF61gpMqJ7gNTakC/JO02Tdf1I85sWkMvpZVz5VDaPFMp5vHwOOk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gDQSHAt1; arc=none smtp.client-ip=74.125.228.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789466782; c=relaxed/simple;
+	bh=dSTCKmxcBaOFa8dCqcC5qK6BNOcxDCPfc+EZQpkwH+M=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=OcQle1b+imNIlvnfM+2MZUVe+z1H41471iHFPT95yBx1mBE/WUBeBBQJ+HwEKbjI0wFdtOQI5xoV4NNGh2slq6rLb/UjSpZmygYewYeEwA7ZyATXfkBY12oF4M+Ez3XpqyzWkcLZ0BKJ1byR07YlNFMuGL3gO7GpPLoE33gkHDQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ayTNd88U; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gDQSHAt1"
-Received: by mail-pz2-f12.google.com with SMTP id 41be03b00d2f7-cc4d04d740cso39291a12.0
-        for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 02:25:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789464336; x=1790069136; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=3AeTuTtLFD6wST7Qvf0FgJNMqRZl8DBcYMCo5RZWoxc=;
-        b=gDQSHAt1THzTAMx9jCiyrVan1OKnQccbJig0dRPSnKqBKnQSJ1pyrJRLjkiT5y+757
-         Xq8rH32wQs/sC176XSKBiEJKJo6Rh5djuw2rQb9/BHFv1Frip9V4hTO3e0zVZC5tdiM7
-         BgV7RvcP4IyAPDHOCAqySJRL4I9npIiMUIopsSpPy+gAF7ialT6+xO0ZBYV/iiLt3Wjl
-         +lZHb0onrT/XTD+U90ZEO2OUIkWn3RWw2l8wmmOa40L5Jsk2mGYxj+iYQCWnqnURcH8p
-         hUEtleOlv9A4txHlM6razBoOm/JujUbEgIF6YchSD4pubZvAbVLZZRunX/nhXYVF4Vm7
-         qB2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789464336; x=1790069136;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=3AeTuTtLFD6wST7Qvf0FgJNMqRZl8DBcYMCo5RZWoxc=;
-        b=iU4QqwmVAPSJjj00WhcxumQvEd7u0NbZ4vd8f+EPHrZZDxSuaIy5ZvYiTE2QidzT2n
-         DWIUzFgbvdyhYCOOK2eDYUOYNiHUfjVoRL2Api4bJ5kCcS4GTUa7+wbYgCEzxL3PNFQ+
-         Y+upthkF4EeYD3Azzvdet9t26lCvE37Yy3raSZ9O8+dfLJN6BS/WiAOypSV56fKt5xsd
-         v4367thqfbgS2BCS/LBZfb7y0U0Uw2FeY6VYfJgg8WgmTxQVv5djFmUbA/r/wAZOCkUj
-         SZbO8L2oywSUxC9uyIVdmELLPi5loRXCZJjlnSS/XPGqaJRYgRDDUyn2PNQh37lRUljK
-         SwPA==
-X-Forwarded-Encrypted: i=1; AKwUvBygJWWW7NJjqu3U4VfhWVUSfUiDLJWE7YMW9i+2i8gye19Wbl2JmDJbg1DeY15PKI0FQTssiB4V1w1v6g==@vger.kernel.org
-X-Gm-Message-State: AFuF++nbzCrtF6p9UdINTs0A7NLBuLN+1cosmHom9xCTb/SLXyDv7Z0e
-	ztL+3NAmQofgTnqpeo3XpiU6w6p+RMMo1TzVOIiJNNwTAN7ohWhraILQ
-X-Gm-Gg: AYBFou1QccGKpNa5PPOxWv+66Zcwjpt6g4GPEa9AhaYOrvY+n/X32BbZ8aBlqkP35hB
-	dPwoKMEZOJN1j/wsOyhVbC42aFYmTGNYyBsKOxlBeq5wIn24Uq1TZ9/XmTxlJ27IKKVz1Ffg7Z/
-	toOgu1HL/exulNJ6wKStQilamsAGEoVhfPO6uhmyzz0FBxz3nGU2HGpXLA4dpsZ7sVJUMmQAPlm
-	zv5noJpC+Ntfo8G0TaAScaK2ObxHZe1o0TMGEWEeRHMCJtQ2zeKwRQ2F8jR1zcUPDbjJs8qRqFT
-	RhmEh6oXSaJ6ZQ+RTMFeKYB3kHi7+goCJGxxTtgHzw1O1fhJpsn8ie7+iLNWdI4tph5T46sxuDZ
-	F249FfC8bwKkMkARx1VE10hTLDmvKbQhcs3BpG+ZnGNYpyAN4a/saH7BRIw7lNAN2TNc5PVjr6j
-	Y4C4EagAq3tl6Hqrvze/prB3/4nY9tnC4b4drFhCro1l6eSYMh9d/hwjcFC4o3fMFrUb4MCf5bB
-	C4lIh/qUMkg6U1ExtHlGaMTVsNHQS4UjSIFfJK7je1+QxOQIn1nW1C0p4v8MzXx3bsSodERHy8L
-	yvFWWOujP1Q=
-X-Received: by 2002:a17:90b:560e:b0:39d:fcbe:fe04 with SMTP id 98e67ed59e1d1-39e10c45eedmr148835a91.2.1789464335615;
-        Tue, 15 Sep 2026 02:25:35 -0700 (PDT)
-Received: from nugod-NUC15CRHU5.tail9f095a.ts.net ([218.237.104.87])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39dfdd58af8sm4123719a91.12.2026.09.15.02.25.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Sep 2026 02:25:35 -0700 (PDT)
-From: HyeongJun An <sammiee5311@gmail.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	mripard@kernel.org,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ayTNd88U"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1789466780; x=1821002780;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=dSTCKmxcBaOFa8dCqcC5qK6BNOcxDCPfc+EZQpkwH+M=;
+  b=ayTNd88UzHIsqpwtpvcS4xwJL7M4pXr6HdS3Wg06pikhwnDDk7ufDW/+
+   K/IchIg1HKoR8qe9kXAeCSD9rjgwqbKs5Fnk/qNDmaU3tw/l7qmwU9GkE
+   5f5Mnt+GVH6wnW0j6g3lBCy24wd+5grwewXDpXGlaxIG42bEgWPEP9Gr2
+   Yrcei3/FZlpH6kNzdmqTIfbh8QWbbPnBjkez9Rj5dFSDBIQ9xp+sm5xNd
+   isqs4pqupLEeJHYHnivxGxX3Q6F//7xWumNUyCEb4C3CBdeFox8r0+0lI
+   jke3o5pWqNUlMpVM6eNNwSYvz+0cMchFsigMKsSGjyvV5TaXCMekL61hs
+   A==;
+X-CSE-ConnectionGUID: LPXbV2hoSCOj3LeVovzyLQ==
+X-CSE-MsgGUID: TvpxYilQTziBXn0icROyaw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="100979690"
+X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
+   d="scan'208";a="100979690"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2026 03:06:19 -0700
+X-CSE-ConnectionGUID: Ckiya6XOS+S7R8gvHLeh7g==
+X-CSE-MsgGUID: Ex5qcEDgSpaBDBXPuHmL3Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
+   d="scan'208";a="272925941"
+Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
+  by orviesa007.jf.intel.com with ESMTP; 15 Sep 2026 03:06:17 -0700
+From: Cezary Rojewski <cezary.rojewski@intel.com>
+To: broonie@kernel.org
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	amade@asmblr.net,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	HyeongJun An <sammiee5311@gmail.com>
-Subject: [PATCH] ASoC: hdmi-codec: Report a change when the channel status moves
-Date: Tue, 15 Sep 2026 18:25:15 +0900
-Message-ID: <20260915092515.2638542-1-sammiee5311@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	Cezary Rojewski <cezary.rojewski@intel.com>
+Subject: [PATCH] ASoC: Intel: avs: Remove topology-loading wrappers
+Date: Tue, 15 Sep 2026 12:10:37 +0200
+Message-Id: <20260915101037.3087956-1-cezary.rojewski@intel.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -79,48 +61,83 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The put() callback of "IEC958 Playback Default" stores all 24 channel
-status bytes and then returns 0. The core notifies userspace only on a
-positive return, so a write that changes what the get() callback hands
-back is never announced, and a mixer holding the control open keeps
-showing the old value.
+With recent changes avs_load_topology() became unused whereas
+avs_remove_topology() is a simple wrapper. Drop them both.
 
-Compare the stored bytes and return 1 when they move, the way
-snd_hda_spdif_default_put() does.
-
-The same shape is in img-spdif-out and uniperif_player.
-
-No board with this codec was to hand. The change is a comparison of
-driver state with no hardware behaviour in it, and mixer-test counts the
-missing notification as event_missing.
-
-Fixes: 7a8e1d44211e ("ASoC: hdmi-codec: Add iec958 controls")
-Signed-off-by: HyeongJun An <sammiee5311@gmail.com>
-Assisted-by: Claude:claude-opus-5
+Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
 ---
- sound/soc/codecs/hdmi-codec.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ sound/soc/intel/avs/pcm.c      |  4 ++--
+ sound/soc/intel/avs/topology.c | 25 -------------------------
+ sound/soc/intel/avs/topology.h |  3 ---
+ 3 files changed, 2 insertions(+), 30 deletions(-)
 
-diff --git a/sound/soc/codecs/hdmi-codec.c b/sound/soc/codecs/hdmi-codec.c
-index bc2c22436ba6..7aa50c5bd3df 100644
---- a/sound/soc/codecs/hdmi-codec.c
-+++ b/sound/soc/codecs/hdmi-codec.c
-@@ -426,10 +426,14 @@ static int hdmi_codec_iec958_default_put(struct snd_kcontrol *kcontrol,
- 	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
- 	struct hdmi_codec_priv *hcp = snd_soc_component_get_drvdata(component);
+diff --git a/sound/soc/intel/avs/pcm.c b/sound/soc/intel/avs/pcm.c
+index 8174d2ebfa99..2d7ced953fde 100644
+--- a/sound/soc/intel/avs/pcm.c
++++ b/sound/soc/intel/avs/pcm.c
+@@ -1065,7 +1065,7 @@ static int avs_component_probe(struct snd_soc_component *component)
+ 	return 0;
  
-+	if (!memcmp(hcp->iec_status, ucontrol->value.iec958.status,
-+		    sizeof(hcp->iec_status)))
-+		return 0;
-+
- 	memcpy(hcp->iec_status, ucontrol->value.iec958.status,
- 	       sizeof(hcp->iec_status));
- 
--	return 0;
-+	return 1;
+ err_load_libs:
+-	avs_remove_topology(component);
++	snd_soc_tplg_component_remove(component);
+ 	return ret;
  }
  
- static int hdmi_codec_iec958_mask_get(struct snd_kcontrol *kcontrol,
+@@ -1083,7 +1083,7 @@ static void avs_component_remove(struct snd_soc_component *component)
+ 	mutex_unlock(&adev->comp_list_mutex);
+ 
+ 	if (mach->tplg_filename) {
+-		ret = avs_remove_topology(component);
++		ret = snd_soc_tplg_component_remove(component);
+ 		if (ret < 0)
+ 			dev_err(component->dev, "unload topology failed: %d\n", ret);
+ 	}
+diff --git a/sound/soc/intel/avs/topology.c b/sound/soc/intel/avs/topology.c
+index 5d70be63a4a7..1085090d5a9c 100644
+--- a/sound/soc/intel/avs/topology.c
++++ b/sound/soc/intel/avs/topology.c
+@@ -2226,28 +2226,3 @@ struct avs_tplg *avs_tplg_new(struct snd_soc_component *comp)
+ 
+ 	return tplg;
+ }
+-
+-int avs_load_topology(struct snd_soc_component *comp, const char *filename)
+-{
+-	const struct firmware *fw __free(firmware) = NULL;
+-	int ret;
+-
+-	ret = request_firmware(&fw, filename, comp->dev);
+-	if (ret < 0) {
+-		dev_err(comp->dev, "request topology \"%s\" failed: %d\n", filename, ret);
+-		return ret;
+-	}
+-
+-	ret = snd_soc_tplg_component_load(comp, &avs_tplg_ops, fw);
+-	if (ret < 0)
+-		dev_err(comp->dev, "load topology \"%s\" failed: %d\n", filename, ret);
+-
+-	return ret;
+-}
+-
+-int avs_remove_topology(struct snd_soc_component *comp)
+-{
+-	snd_soc_tplg_component_remove(comp);
+-
+-	return 0;
+-}
+diff --git a/sound/soc/intel/avs/topology.h b/sound/soc/intel/avs/topology.h
+index 189984ce7b51..25f3888a1939 100644
+--- a/sound/soc/intel/avs/topology.h
++++ b/sound/soc/intel/avs/topology.h
+@@ -233,7 +233,4 @@ struct avs_tplg_module {
+ extern const struct snd_soc_tplg_ops avs_tplg_ops;
+ struct avs_tplg *avs_tplg_new(struct snd_soc_component *comp);
+ 
+-int avs_load_topology(struct snd_soc_component *comp, const char *filename);
+-int avs_remove_topology(struct snd_soc_component *comp);
+-
+ #endif
 -- 
-2.43.0
+2.34.1
 
