@@ -1,190 +1,195 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4041435E926
-	for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 16:02:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A1A84BFE87
+	for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 16:02:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789488132; cv=none; b=pvujrOSCG72BxYoz2Mx2eF8q4t2/Oj0VkkEUI3RjoJN8z74AP0ggiVxK+QUR3LCIpXZ0klCgFCgBAWcXFgRzhGFRCw7PKfY+X5HAUCJPh5EL4/BTcsA5Joq92S33qkFYxLTAnLDp+Jpr/dw6PqYgVzW9OSROZ3gk7HBFVM/714I=
+	t=1789488156; cv=none; b=VELmc2axIoAVJ4gfdZ9f/y+CqxXLujQQnQXeVlge2QmsKQJ5hBPXikVGjEclPqw8pPMeN2/K38Csx9Xbolw/3O6Rsl9KIAv+fcoSDmBKVf0fUURkVlgYBGvVtggyGDbHNvdvHzhqT9SRWqxPdtJ8Y+PThwTB9WlvZ1LneEKw+Ho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789488132; c=relaxed/simple;
-	bh=NKJuB0TIpLrtUCM0wUQ3aJBmWdnBf3WJenqkw3nEnrU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GAxNn1yVfvQvv486kcnmztTuR3o+5xmjzVlmDtAkWNVIiNIIl0V9l0bNdGh3eWEq49xPXaPK2Ux6HhWiqEWvgf7WHz+45IRdN97ANV9MMxLR6OdcSofii2rRjRAqF/FV5VycAPWNfIMH59LPDfUk0ZMaOhMMLjKJApgmk8PcHpQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=eycpzX0V; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=GLZDE79e; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1789488156; c=relaxed/simple;
+	bh=KDw3KInHZKeSYSEI10H1y98V3alm+pzzQO/wYLg4mJM=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=r1Cq/UqoCOiY/wNPN6lemihZIyPnQ+kOnPf23QG35G735A/zIzJpDiajiAAsi3032TOTEJ9P8eZg8TjsMI/Oci0LP73kCQRd7f3TviE8mqtFfcb2n6rHWe7wS/itLZ5ZcHZevN0jvT5Kj4rJ91uDiuservbm/hJ8vtHdJO+i2ds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ERGsY+YX; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=kMQ/GL3j; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wb4EJSmP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SXbKuGA3; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="eycpzX0V";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="GLZDE79e"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68FFAfRq3567052
-	for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 16:02:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	siGkS8tDMM+UyATikY5KKD95rNCtSbqtQYlyLRx/Exw=; b=eycpzX0VnxykGJNS
-	EGyXe31E4ta5U+T4OafNRm4SfX1w/Yy3tHqqklKVLnR0f8SEdqgeBxstJGqnAtqQ
-	yu9wKqyYDEDwHcTDeDZiIw5iomem/kVVz7MFsfXzjadCiAXVMMOh8JDPSwSCuryE
-	dTS847DBS0+ewmjo1q7xah/LjqiRpu88PjLWJP6ga/BKj8qSGHtu1SlbSdRYMLcm
-	eBp0M2Ko0an+f+/+iAMZ9Jr2CpzClirqCsy5qfDgKUBPX1bhEkIiC+Brh5jDrQ3v
-	XRoouy2cIZD3f5gGim5wqpDmmS/F593l1GMR1RPK5XAA5aS9pvoJ8Yal/PWS1XWk
-	ycCb2A==
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gpxydaupu-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 16:02:08 +0000 (GMT)
-Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-2db3d832827so56834115ad.2
-        for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 09:02:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1789488128; x=1790092928; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=siGkS8tDMM+UyATikY5KKD95rNCtSbqtQYlyLRx/Exw=;
-        b=GLZDE79eqAsBTa4Zb5SwepVYwKnF8OiN+EgBISHQXJSG20xYo4EEw+ngUFSVF01zCP
-         1g3v1N0HPNr/jxo63y5m+vx4b04MUPo7NwhJZFmg9XyOO+psn9WFRjhtCokV9KC/sPcB
-         Dj+On+R58SGzBcGLHq8LH4eMBr9U8G/1/ueB+Jeze6rCcnYAx39P8wKyUcA8NrIbNsOn
-         GhVU4HX+/jbhB5XyQiOe8cy+/YfeMtDE3PZjG0TX6vBnwS/7Y5zk+CJoHOZjiqTYH3VY
-         3zjUjDmyXn5PnF2GfwOEH3tvORLRLOd3oxfywDCZZ/B0eMZ5s3ZtRjXZCOnGeUqKzNaJ
-         sO+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789488128; x=1790092928;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=siGkS8tDMM+UyATikY5KKD95rNCtSbqtQYlyLRx/Exw=;
-        b=VlD7rPm+8F+2ZPnCBJcLKjqMEWN6zzjiG32Lrvh8WdAo12Rx7msuyIQ87lTD4tcj+C
-         tC/yzRuy/o3rXNqaoPmckDWBTIZ+5mdsZzcdX1nG0+lKlACNBNhm0G9BoCjp/YZuXNGw
-         leeXL5WC0GwuC8jqKnqJMziQdp1h4Uc/NQfRZySztyv3vMitCfOaPYvT1tcB+6YfZBKk
-         z0MW96RoEd9j1K1DHjmfMfr0TDa0onIf65XH5jGoLemOUD1Y/WrYHSyP2tXKsZ1rES9u
-         sBvFB5/mjx+XO+HkoWVXuWLOt3Eh09mpyEquI/QEi7D44x5pso8V492ig2nHhO8I8NLM
-         calQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzAZ1MGUixhhJC6KgaNw+bN2jTFQjoxIVS9+NMlEGuyM72LTTavohSwoKZsaiuqtLT7/312t9tIyrjCkA==@vger.kernel.org
-X-Gm-Message-State: AFuF++mfiB9Yv2XdlVOO9LofFaWz0NJTvHIU981LoWfC6V4qc88UFZOZ
-	FGGYPtZxJj/cJV+NlR3cWPVDanc5jrdPVYltGywG2mKkXax0SxH4PMQ6fZI7PAguB9zi9api3/p
-	/pAmAlsR28EkXnGg9BjB1mSohBSs135Hr7NJL9fd9zAb/QqmP7kPQHYMPFaXOhbkt/w==
-X-Gm-Gg: AYBFou0vevS8cOVgkKpRqrt4wua691/ofay4q2OIC3FESqBPeBz5UX1hdVZRqo52a9H
-	CCLcaQZFCSSP/GotIbSjnhhKPgqTWTocG7KmcdiI+lTc7awlWwE8U5gTEk4MA1CTy4rbeQenxrv
-	1GXNQjL4/3aX9LYBpysiAW6KqbN8FnYviM7hmTqSYda4D2l/mxSBfxbEkScfMdKfRC8Nkd8GqRl
-	rg5wHowfzDZVdFGQjbV0jzkKoHjvHGQ3UBNPfPpCWrhXmi3wFRm7gSXJFsI9AmZUx2MfzLYdVCz
-	zv0MMmRsMm7rPYiK9AQiS74WqXu+BHXYJZ4NaWAnj8IMKE54LLWbbgJ/BRbccF6uRvyxopH306d
-	Zozn3nHCA5cfj8aOKhXJqr9sAtMw+j87KFpqEFTyM
-X-Received: by 2002:a17:902:d488:b0:2d7:f0:896b with SMTP id d9443c01a7336-2dd6c6c0d27mr138819745ad.13.1789488127767;
-        Tue, 15 Sep 2026 09:02:07 -0700 (PDT)
-X-Received: by 2002:a17:902:d488:b0:2d7:f0:896b with SMTP id d9443c01a7336-2dd6c6c0d27mr138819005ad.13.1789488127162;
-        Tue, 15 Sep 2026 09:02:07 -0700 (PDT)
-Received: from [192.168.1.5] ([122.169.220.106])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2dd2ccadb4fsm69974165ad.2.2026.09.15.09.02.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Sep 2026 09:02:06 -0700 (PDT)
-Message-ID: <f67b20ec-4c5d-4fb6-aa91-f3ab616e80b4@oss.qualcomm.com>
-Date: Tue, 15 Sep 2026 21:31:59 +0530
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ERGsY+YX";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="kMQ/GL3j";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wb4EJSmP";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SXbKuGA3"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 1160B1FDB7;
+	Tue, 15 Sep 2026 16:02:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1789488147; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+bkDBHWFEAlpNF6nROklfhk93jUJ8iJz3BeO41A3Hig=;
+	b=ERGsY+YXe+15mfKOvO17rF77ixjrYslfxLp/FD7o/uLJVFiSb4mxJW11kGrQPs2qAFSVgS
+	4lsgFYGewYSdINlkGazri+5yPqNYWbBFRItevifTPYTlo13nQ6v4LZwIQH8W3QqZfrBdO8
+	g4MxN1jp+xW5/I4DV7MjDcoUf3tXyrY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1789488147;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+bkDBHWFEAlpNF6nROklfhk93jUJ8iJz3BeO41A3Hig=;
+	b=kMQ/GL3jtznIDrZAsgEpvUtY8L1Zpg4wMk3Bep7ui2aaZ3Nka8OvPsKIF77RSZfWpQcuTE
+	d4yKixZmnvbCfCBg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1789488142; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+bkDBHWFEAlpNF6nROklfhk93jUJ8iJz3BeO41A3Hig=;
+	b=wb4EJSmPlKbH5IVXXoPpo6tiAgSyQR6j9jEBgaBmws0LqvWHhczriYoTOdLF955uFpJfNG
+	bnmgNwBVEZA7qSHDEnMG5d0AmPvpcl+eS/p4WpBu6YbVe5DKObxQ13uY/pfOd64M/J5bEK
+	ZqVvLeh/llGdD7D+lBsRIory4AYYh5k=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1789488142;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+bkDBHWFEAlpNF6nROklfhk93jUJ8iJz3BeO41A3Hig=;
+	b=SXbKuGA3+fdbLTRvnTe27B0cK/9eD2HQDYGnUUJ9kS/RUzLkZuxnWKZBXa2yZLBe+n1/g2
+	o4qb8yzPDLnM6OBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B067913693;
+	Tue, 15 Sep 2026 16:02:21 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id EpQtIQ1sqWqXHAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 15 Sep 2026 16:02:21 +0000
+Date: Tue, 15 Sep 2026 18:02:21 +0200
+Message-ID: <87ik46lcz6.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Cezary Rojewski <cezary.rojewski@intel.com>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	<tiwai@suse.com>,
+	<broonie@kernel.org>,
+	<perex@perex.cz>,
+	<amade@asmblr.net>,
+	<linux-sound@vger.kernel.org>
+Subject: Re: [PATCH] ALSA: hda: Allow for codec model selection with module param
+In-Reply-To: <36644426-3302-47da-a720-f353c307348b@intel.com>
+References: <20260914102253.2969724-1-cezary.rojewski@intel.com>
+	<87bj9zom8l.wl-tiwai@suse.de>
+	<9e17f127-ecaa-407f-96ec-0993e9c1ee83@intel.com>
+	<87tsnrn5oe.wl-tiwai@suse.de>
+	<1d146db5-f4ff-4a5b-a1d9-181ee6d8ceac@intel.com>
+	<87a4pin4v2.wl-tiwai@suse.de>
+	<36644426-3302-47da-a720-f353c307348b@intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 4/5] ASoC: dt-bindings: qcom,sm8250: Add Nord Ride
- sound card
-To: Shawn Guo <shengchao.guo@oss.qualcomm.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        =?UTF-8?Q?Nuno_S=C3=A1?=
- <nuno.sa@analog.com>,
-        Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
-        Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>,
-        Srinivas Kandagatla <srini@kernel.org>, linux-sound@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-References: <20260907-nord-asoc-driver-support-v1-0-997d3b20cf43@oss.qualcomm.com>
- <20260907-nord-asoc-driver-support-v1-4-997d3b20cf43@oss.qualcomm.com>
- <aqFzPyDT_va9VP-i@QCOM-aGQu4IUr3Y>
-Content-Language: en-US
-From: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-In-Reply-To: <aqFzPyDT_va9VP-i@QCOM-aGQu4IUr3Y>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTE1MDIzMyBTYWx0ZWRfXzxKkjgCdIpya
- 7cKiEK99bS8H3+ew6V/P0einqc/epnISs0YlHTPVVo4gQyD0Fhtf2y+R8mevkgKmoFUbQnAC+xH
- eOyigp4v6Q7WO0DIh/uOdot7n5KmNko=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE1MDIzMyBTYWx0ZWRfX9JikJlxy2yUr
- BdCy2G5OhNmAf1IkTNMeAXOQ41ERKd0TjoHKnX+6/CNzOYXTMr9HZzSW5Owh80jFKJn7pD+19S4
- OssAMGQDObyFQlC3gLTWWiboj9CE7EC7ry3Ta2LH6Bn8sJy4fhEOt6Z4qh+2n99LqgrXk9sw9/8
- ejZqpXwhxNCJgH9COD/K0BG6OWYHIa2dN2E5Klox4rxkayx0cmZr/gCwKUGTEncV18C6WBOI3M4
- SWT170vFVnwI/+0r6rtzVpks2u6FRKMbwG6BTu8ziS9ZE/umHx0jwdQFx9yAy/V40K8r06bh7Q8
- 0govSDoRzhRDOwfSPXSk3yCRWecZcV/sPX+Zx67ZW33s68W+xsKakKpfHdsCUgyfLPbROXhPPRV
- f7Q2P7F3vPxTE1KXV7COKtDgLobZiw==
-X-Authority-Analysis: v=2.4 cv=LYepeTfi c=1 sm=1 tr=0 ts=6aa96c00 cx=c_pps
- a=cmESyDAEBpBGqyK7t0alAg==:117 a=Ww153nmMuBeTcjqybhOiGw==:17
- a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
- a=EUspDBNiAAAA:8 a=xBKF7SBF3-SEUEZML9sA:9 a=QEXdDO2ut3YA:10
- a=1OuFwYUASf3TG4hYMiVC:22
-X-Proofpoint-GUID: PT_cuMhdurSWEBnYUZrDyF7zYG1L7OoC
-X-Proofpoint-ORIG-GUID: PT_cuMhdurSWEBnYUZrDyF7zYG1L7OoC
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-15_04,2026-09-15_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 adultscore=0 suspectscore=0 malwarescore=0 bulkscore=0
- phishscore=0 spamscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
- definitions=main-2609150233
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spam-Score: -3.30
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.995];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,intel.com:email,alsa-project.org:url,imap1.dmz-prg2.suse.org:helo]
 
-
-
-On 9/9/2026 8:24 PM, Shawn Guo wrote:
-> On Mon, Sep 07, 2026 at 11:39:45PM +0530, Mohammad Rafi Shaik wrote:
->> Document the bindings for the Qualcomm Nord Ride board
->> specific sound card.
->>
->> The bindings are the same as for other newer Qualcomm ADSP
->> sound cards, thus keep them in existing qcom,sm8250.yaml file.
->>
->> Signed-off-by: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
->> ---
->>   Documentation/devicetree/bindings/sound/qcom,sm8250.yaml | 1 +
->>   1 file changed, 1 insertion(+)
->>
->> diff --git a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
->> index 1536fcd96d68..bdbaa8c822fc 100644
->> --- a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
->> +++ b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
->> @@ -38,6 +38,7 @@ properties:
->>             - fairphone,fp5-sndcard
->>             - qcom,apq8096-sndcard
->>             - qcom,glymur-sndcard
->> +          - qcom,nord-ride-sndcard
+On Tue, 15 Sep 2026 13:26:11 +0200,
+Cezary Rojewski wrote:
 > 
-> I wonder whether we can make it SoC specific like qcom,nord-sndcard,
-> so that it servers both Ride and RRD reference boards.
-> 
+> On 9/15/2026 1:14 PM, Takashi Iwai wrote:
+> > On Mon, 14 Sep 2026 19:58:05 +0200,
+> > Cezary Rojewski wrote:
+> >>
+> >> On 9/14/2026 6:44 PM, Takashi Iwai wrote:
+> >>
+> >>>>>> Model selection allows for customization of codec behaviour and thus
+> >>>>>> dealing with various problems on very specific configurations. The
+> >>>>>> parameter already exists but is part of snd_hda_intel specifically.
+> >>>>>> Non-Intel HDAudio controllers and DSP-capable drivers cannot benefit
+> >>>>>> from it.
+> >>>>>>
+> >>>>>> The common place for all the bus drivers is snd_hda_codec. Add modelname
+> >>>>>> parameter there and honor it when initializing codec->modelname field.
+> >>>>>>
+> >>>>>> Link: https://github.com/thesofproject/linux/issues/5683
+> >>>>>> Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
+> >>>>>
+> >>>>> The handling of the model option is a very long-standing PITA.
+> >>>>> A few years ago, I proposed a change like:
+> >>>>>   https://mailman.alsa-project.org/pipermail/alsa-devel/2022-September/206631.html
+> >>>>> but it didn't reach to agreement.  So I'm not 100% sure whether adding
+> >>>>> here is the best choice, either.
+> >>>> Thank you for the link, Takashi.
+> >>>>
+> >>>> IMHO patch presented here addresses the feedback. I too prefer
+> >>>> one-location-for-all approach. Also, I do believe having no option for
+> >>>> specifying the model is worse than choosing either of the approaches for
+> >>>> the model selection.
+> >>>>
+> >>>> snd_hda_codec module is *everywhere* and given the param is an array, it
+> >>>> supports even very complicated scenarios when multiple HDAudio codecs
+> >>>> are engaged.
+> >>>
+> >>> The multi-codec is exactly the problem I've been seeing (of course in
+> >>> addition to the lack of the option in ASoC HD-audio).  You'll have to
+> >>> be very careful how to pass the option, and it can be even fragile.
+> >>> That's why I hesitated to take this...
+> >> By multi-codec I also meant scenarios where one has 2+ codecs from one
+> >> vendor e.g.: realtek. Having non-array param e.g.: for
+> >> snd_hda_codec_realtek would not suffice.
+> > 
+> > But those 2+ codecs are for the single device, right?  (e.g. driving
+> > multiple channels with multiple codecs, but all of them are a single
+> > device for user.)
+> > 
+> > In theory, it can be a hotplug device, and in that case, we may have
+> > two device configurations for multiple codecs of the same codec chip.
+> > But, that's an exception, and I wonder whether we should care for the
+> > model option that is mainly used for debugging or workaround.
+> On reference setups we do anything. 2+ standalone codecs on HDAudio bus
+> in our lab is not some kind of sorcery. Obviously right now we
+> workaround the kernel by applying a bunch of patches. But adding a
+> module param (of type array) covers both: any userspace and any
+> reference scenario.
 
-Ack,
+Well, using an array itself isn't a big problem.  The codec module
+option could be an array, too.
 
-Sure will move to qcom,nord-sndcard.
+The problem I've been seeing is, however, that it's cumbersome to pass
+the arrays correctly if there are multiple devices.  Currently it
+depends on the controller probe order, and that's often unintuitive
+for users.  This problem still remains with your proposed change --
+even more confusing because now there are multiple entries but
+digested differently (imagine a combination of hda-intel and SOF).
 
-Best Regards,
-Rafi
+So, obviously, I haven't found any good solution yet...
 
-> Shawn
-> 
->>             - qcom,qcm6490-idp-sndcard
->>             - qcom,qcs615-sndcard
->>             - qcom,qcs6490-rb3gen2-sndcard
->>
->> -- 
->> 2.34.1
->>
->>
 
+thanks,
+
+Takashi
