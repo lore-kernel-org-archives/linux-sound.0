@@ -1,41 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF24F3CC7CA;
-	Tue, 15 Sep 2026 17:12:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC3C443849F
+	for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 17:12:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789492357; cv=none; b=J0xeuudjIxLe6PhFHKDnS+vAq1EFUW9RZHpINd327WlYLk8PVGVZNSodd64V8PNb/dxFPdPZjfRcsdFojwM0M48fkR1hFiczpCmYAXmiHbwnbSjOgJbwbdMQ35LZx2Cy4t7c8D1NpFh8IxmVic3H4u13bvejqt6BroeXLfeV774=
+	t=1789492361; cv=none; b=JmtAT5Yib1FPjJUlaYXafjuopd0hOoShhjOklfs6O2Al3LDjt8E3gW9EFncghevNAFpCLE4mWErAdZ+Ic512EH7Zgk9p53xBgAryr46/KZ/EFPff7cOiXAyFoP63ypJTJLFM6vCcVfAq22c6nDBQtKB8XE5DTbJWVldTm0JwXJg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789492357; c=relaxed/simple;
-	bh=GTqazvYCcPJeD74DZfO8rcND1yC//Bo2ohe8JDKdv4g=;
+	s=arc-20240116; t=1789492361; c=relaxed/simple;
+	bh=7XOS365QUhoQhDBpMTF6HYffpyv6zQ+h3s/IFLWbC2c=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=VD25LUy+b7mwDGgdDuxWgF402uax1zoQej6tjrPwe2XwYOfbpH9mE1IT5PCwC5nNUd0zldb/DmIqFAVm6E5Bp80IH7nzd3WBZfdhElKe4EaWN2qSHUJJ8Ja0Q49qqj6sIZRpFR7qz9NjobswrUHCLAVDjQgUrFkEdwHxkp8gxI8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LclWOJgW; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=ZBY0vbx2u/CboD95++ZwOXPLpcF2mLi/LcKzjSQ+0MF8rNjjBJIVHBQxHjO4mS+JHKD5z0nSSijoizOlkZaItHBIP/C3YL6VvY3EIo1YhZf8qlsR0aXL+Sgz02eJoG1B+YM7Fxl3XMr+AxijHdIgsP2BWKADqR0nL4MVye5U+pE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nZIqTyml; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LclWOJgW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6E101F000FF;
-	Tue, 15 Sep 2026 17:12:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nZIqTyml"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B522D1F000FF;
+	Tue, 15 Sep 2026 17:12:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789492355;
-	bh=4oNJhN4dtu+O5waoWkTE7D/IWivUyBKL0wFJq/5iKHU=;
+	s=k20260515; t=1789492359;
+	bh=X0xAhKtkt8FpQ+lmUpGCaQ/B7vg50mh1xSxoXJGgfII=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=LclWOJgWHF/EmBn4ceEDh8W5qYgTCUHPUzIY50SaLlCWpIzwcGnUpgc9UbKpL7FxP
-	 UEWc6/mYROJoKSiACqAH3wcoILGp2tmIwGUDhnNxrCTy1xM7sIC0dPrw4GWHXH69bN
-	 6yxycrBLsf5KhHfd/LjCFhMqNm4Y3Ko0ATNjAfyj1gNbHgOWnCblC5XG0/wJyo2838
-	 9ICJCG+ErcnDjFDA+u6dxqkdoZGIykLPgdJLJx4NIyu+MjHp6RtwasM3/9ObNS0JnD
-	 8sqKpzkYJHluSIw4KNBbt2plGR45as4PiKEUk6a5Y/CAZQ/M689PDL/uVIK2MgaajH
-	 z76YlDiwBuHrw==
+	b=nZIqTymlQ8fIfV6GwOxNx6h8qcJilDH9Kv02UrdDFLAsDyKnkqhOa+0a/LWLDwupz
+	 3A96zFBHW3H/Kzd4jTEnSgsSgzoleHsuGFanDwyt5cHVlVHBZ65efOJ6KkN1pXIJVk
+	 I0qqJbFmc+GJZIIQel5GDqqiQMZxT7yy7CumoefyRKEM+dkLvzrAZljgYCDDj920Kn
+	 /qPlscd1kRA33Llv/5RTWajXZZx72dVgDS+SlZD1R/LgLNySF75CunZvxcdSwrvbXv
+	 US+1bf13iBVXRSXqu7wfsnJKiyZcrjblAsI+ao6xpaiZLjAtGOZl9336hj/BpitE1Y
+	 AsTRSMo70yskg==
 From: Mark Brown <broonie@kernel.org>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- patches@opensource.cirrus.com
-In-Reply-To: <20260915103121.3306373-1-rf@opensource.cirrus.com>
-References: <20260915103121.3306373-1-rf@opensource.cirrus.com>
-Subject: Re: [PATCH] ASoC: cs35l56: Add KUnit tests for regmap defaults
- table
-Message-Id: <178948372708.151760.7628471833380828294.b4-ty@b4>
-Date: Tue, 15 Sep 2026 15:48:47 +0100
+To: Cezary Rojewski <cezary.rojewski@intel.com>
+Cc: tiwai@suse.com, perex@perex.cz, amade@asmblr.net, 
+ linux-sound@vger.kernel.org
+In-Reply-To: <20260915101037.3087956-1-cezary.rojewski@intel.com>
+References: <20260915101037.3087956-1-cezary.rojewski@intel.com>
+Subject: Re: [PATCH] ASoC: Intel: avs: Remove topology-loading wrappers
+Message-Id: <178948408862.151760.13840121113378297387.b4-ty@b4>
+Date: Tue, 15 Sep 2026 15:54:48 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,20 +44,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1136; i=broonie@kernel.org;
- h=from:subject:message-id; bh=GTqazvYCcPJeD74DZfO8rcND1yC//Bo2ohe8JDKdv4g=;
- b=kA0DAAoBJNaLcl1Uh9AByyZiAGqpfIDIu0p9qR+cmMQfplha6bCmkmyYXceCvBOoeFTZJQLgd
- YkBMwQAAQoAHRYhBK3maKpnVxi1n+Kf6iTWi3JdVIfQBQJqqXyAAAoJECTWi3JdVIfQeWAH/3H+
- +o6EVf+zwliQPuglCVOM5olwztsHQIdKfBsMAJA7PqXohWQUt+n6OAtKTKhpz6D0Je5jXDw6No+
- rsuuSPCnzV5NQ9ek5B0uM9VXZLXUBhdDWjNHeBp8j7lg23m65j45DDMP3bucpyITaH7YDoqu8qJ
- LJPrUdX9J/5pxzdfvX5j9Ow5p/+eDpYXdL98WpUe61Djtm+k/fHyfqjueq0zoy9NZFaPeR1Dusa
- V7eUWEnhkUAlW3FZ58UTpqaBO3PTqwAPDRIhMmiCakOYfIYoNL0Rx915G9V2VXqWQ+mPWkx2r24
- H3AQTcyjmTUzKq+ovXUYbiZaNd+Vul5VCETkLa0=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1121; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=7XOS365QUhoQhDBpMTF6HYffpyv6zQ+h3s/IFLWbC2c=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqqXyEvFzu3VdOt0As5ufCTy4+OQ/04pIXgsid8
+ 1m1XZDCtRWJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaql8hAAKCRAk1otyXVSH
+ 0L8zB/9EeemFpFLr7nYRNRx1dDF8pHXwwMR0dRVcDishAS1wWJpncjeqP09+UTcykorBoIDhEV4
+ wK9+pz1gpIEGZGZzQwK0wwjhEUAp4Ny2VT8aom1FlMtBMpOThsPZeDKwnG1VO8Gim7qjYchS8rO
+ rCPovHpxfOkfoFlt68WChgqA8RrCIZqCgsvzH6alVbcbgH/vEkDTvp6ZH1BN547pacbJWHu9xHn
+ LU8tWq1fgmLq0LHIi4MtJy9ISay9CMPW1FQC+QOcyJI5BMsaGsN12H9Ozi9YmS+wmJd/N55yZki
+ iNSGjbcLZc6akLu3U/TgKGwIkx1bjzRDt5khWz3G3tjGwT3X
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Tue, 15 Sep 2026 11:31:21 +0100, Richard Fitzgerald wrote:
-> ASoC: cs35l56: Add KUnit tests for regmap defaults table
+On Tue, 15 Sep 2026 12:10:37 +0200, Cezary Rojewski wrote:
+> ASoC: Intel: avs: Remove topology-loading wrappers
 
 Applied to
 
@@ -66,8 +65,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: cs35l56: Add KUnit tests for regmap defaults table
-      https://git.kernel.org/broonie/sound/c/f4c49ebff706
+[1/1] ASoC: Intel: avs: Remove topology-loading wrappers
+      https://git.kernel.org/broonie/sound/c/99c3d5954293
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
