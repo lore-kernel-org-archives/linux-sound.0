@@ -1,45 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 054C2434E47;
-	Tue, 15 Sep 2026 18:08:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CD0D4B1272;
+	Tue, 15 Sep 2026 18:08:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789495714; cv=none; b=dZx6L7GWhyMnXK/plKXwpOrjdLBEz86TM3Yi5kbHfOwc72A4RsYkj0Jm02Y9Whvr1yQev+d5ARTQh0zHJkMIJqecKhaEDStBZ8YN1jMc5YgC/zZBuAw4TQJbzKNOpRzZICx8oqa+a/V/ogSGpAxL+wHAi2VCv9HxOY8kLUenetU=
+	t=1789495726; cv=none; b=CH3yBLltmcCMim6qZrCs7H2GcRRKnQOuy+s06D84hnpDHsLMX790oFGnelmp974+fP3Wxr0DShGinr/9OR3bIKufnQ1huoPiVVeAUZC6At4N97EDPL3h+OheGVRxhwEeSuWe036ENqCIUu94+zF8FS+WBGMwnWCbri5avsrwQME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789495714; c=relaxed/simple;
-	bh=TIIhdHZfImno8IHnpU61Rik0esQpnaspY0ZDNX2lqls=;
+	s=arc-20240116; t=1789495726; c=relaxed/simple;
+	bh=T4kFFumux9Xaba/3RIzj1k0b3xh6wq4hjzDQYidDAH0=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=aPoM1choqq7LwQctAVhuy9uzttJGp0wxv6t40Qf6xR5cTW/vJ0AxihEfbmoshdFPY/f/wpBiRRxf2s3SEw840ZthfDS7LVJsgb1n+E9b8o9Z2orRXfs/0RcXR+LJqK5St2FLcAJ7Wgs9JZ6AxLlzjS72oa++YLGKv795pkbvf58=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Vi+w+dk6; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=WuSwm1NdqLFhgyc5NHVumhKM45X/0PnSL8gsvasbAdfRGcXgKrTTQkPRnid21vl/gBCZN4G38N8jGxtGNIBMgok05gU1tZ0fu1V4RI7t03gm2H4ELWPX4I/5AQZGEj8d/9iz7xijntaO/P4ceMc8ycsleBh5hs8Xh2AK3R6xBcc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KD9qnuXD; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Vi+w+dk6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F12691F000FF;
-	Tue, 15 Sep 2026 18:08:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KD9qnuXD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC63A1F000FF;
+	Tue, 15 Sep 2026 18:08:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789495712;
-	bh=lW0j21suN5eUTRByogg2pNvghzdTs7ZY5AtLSulagVE=;
+	s=k20260515; t=1789495725;
+	bh=CnyYD2ktYXJC2QD/i9qf97SGs9XLKDPIG0Vh1+UhMZA=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=Vi+w+dk6FhsXb1qhgp6kkW7LTuQRoM5GGRxAoRBHeV1XBWq7+4y4gzywvDHp0i/rw
-	 7xn07dl9twQtv8MwQZZFLT64ztn1IhBKr+AUtIv88q68IU/1K/DosGX9ZTHetUcq3n
-	 Gl9AfjPNnsUN1ZIThlLn4Zk0H8Kr/h/1GXXPeGlV6Txpd5v0kAd5IcZcvrtlBq3cx3
-	 Au7DNqkucKI0sy2jqoTu+v++996fEClRU54Yxq+uIY3P/LOMVTKhqlkQVfVsCaGcRk
-	 lesywgRYZ5z+XCVpD6uxlt8sDZ1LqH7/6GZPPaObgJYulxPzVDp+cTqPKxiurQn+a9
-	 iywe2+TTuRZUw==
+	b=KD9qnuXDcnq13E24gPKB1HSVbgC61GZiytF5fUiJh8yBn7RD+HgEBzVaup0X26C45
+	 VGBp9cVPdd6XZv/wpFTIoO1uEgx4EgJUe3FxzFjzgZIk9ee+4nL10UtGGbT2Dv0BDZ
+	 eTuoL5JIKJdfCJI4hb46SYGG/ljYMXcOM5VTpF7xucwmVTAmSMtOw+ju6ca1VShBEL
+	 JaNsxCnvQMjpdjs9QGEC+ayG5X87c1asMgmMCj0+p2wjyGQ4zYL5UN6dDr4hZ8kVZq
+	 ngcdwKYjckczpOQCzM3p1cX8ro5GMUU7Ic0zOxFU7QVQQBbshPQ4abC9Ik44D7FOcS
+	 XkuyTgFLhy/Tw==
 From: Mark Brown <broonie@kernel.org>
-To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-Cc: alsa-devel@alsa-project.org, lgirdwood@gmail.com, perex@perex.cz, 
- tiwai@suse.com, yung-chuan.liao@linux.intel.com, 
- Basavaraj.Hiregoudar@amd.com, Sunil-kumar.Dommati@amd.com, 
- venkataprasad.potturu@amd.com, Syed.SabaKareem@amd.com, 
- Mario.Limonciello@amd.com, Richard.Gong@amd.com, 
- ckeepax@opensource.cirrus.com, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20260910161728.1452808-1-Vijendar.Mukunda@amd.com>
-References: <20260910161728.1452808-1-Vijendar.Mukunda@amd.com>
-Subject: Re: [PATCH 0/4] ASoC: amd: acp: SoundWire machine driver fixes
-Message-Id: <178949173671.151760.14042833988826539787.b4-ty@b4>
-Date: Tue, 15 Sep 2026 18:02:16 +0100
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Chancel Liu <chancel.liu@oss.nxp.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20260913102502.2805912-1-chancel.liu@oss.nxp.com>
+References: <20260913102502.2805912-1-chancel.liu@oss.nxp.com>
+Subject: Re: [PATCH 0/4] ASoC: generic: Free jack GPIOs on card remove
+Message-Id: <178949020844.151760.2511095576041942941.b4-ty@b4>
+Date: Tue, 15 Sep 2026 17:36:48 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,52 +45,46 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2490; i=broonie@kernel.org;
- h=from:subject:message-id; bh=TIIhdHZfImno8IHnpU61Rik0esQpnaspY0ZDNX2lqls=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqqYmbDZjNG5WhckGdMRHAgSIFk8Q3jv+atf2q3
- 5zi5G4bxVyJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaqmJmwAKCRAk1otyXVSH
- 0KguB/0Z4NquPK5hN7CChcyCOkGWNr6807j9P0ybILaUow+GNMhAyMipp8tWEHny8+ASsnMfaSX
- ou5Tjr4sDxNbkhO3sfF8ajogpSUvDChz8dtFbGqxq/KrXiBDg+8OFRTHWbXr0CxNpPG6Jy5XlMS
- Z26zdB5hdpKKDW0oSlhiSY81f89/aPgXtt8Wnp3DgwiVu1OQ5fuduDeLInOyV1BAXLVHccqroqX
- exhzBTJgf3e6UPRxkYPEABSBH94WINKrDAxZ2Iz8J57pd9y9W9h52/X72hllaUVRuiUwwZILgZe
- JrO78H8h6hKIQlTzj1qH/ffK4893FlMBJhhkH0Iagqz46TFa
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1905; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=T4kFFumux9Xaba/3RIzj1k0b3xh6wq4hjzDQYidDAH0=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqqYmpUqgctjdV8Q/ZX13y8y23eGJVyb3H7OKWc
+ tfVgDZdsN2JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaqmJqQAKCRAk1otyXVSH
+ 0HMAB/9moejDF3X2/BP0cUU2oRnKY6fCUAlWUdkKiZQQARpaT1gYSXPgnrIpBTTN/YappAFO/5W
+ tuN16Hn+g4FI1jI/oLQrMmGdviGwgNPrTojSBw/u1FLIMkFsKmZpRJZN2tNYMIDmy5sTaxfN2OK
+ ObP4CRK+Mxv45+bk55KDnx+jcyaFvqHQQr/ruhpZ78wVYWS2avENgyMupLoBq2yeG76cprwT8m6
+ d8Ivl96ki77GMBLabM/vOcRrZD51son9tjf4Ew80SunqilztN64mS8KDZl7DlraCdO7sZ84c8ln
+ ZYCM7HSzFjPPTVv7ctSwm5NDfSbLxRSxrZQ7rAMLgIpZYQsp
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Thu, 10 Sep 2026 21:46:45 +0530, Vijendar Mukunda wrote:
-> ASoC: amd: acp: SoundWire machine driver fixes
+On Sun, 13 Sep 2026 19:24:58 +0900, Chancel Liu wrote:
+> ASoC: generic: Free jack GPIOs on card remove
 > 
-> This series fixes four defects in the AMD ACP SoundWire machine drivers
-> (acp-sdw-legacy-mach.c and acp-sdw-sof-mach.c).
+> From: Chancel Liu <chancel.liu@nxp.com>
 > 
-> A bounds check is added to validate the SoundWire link ID before it is
-> used as an array index in create_sdw_dailink(), preventing out-of-bounds
-> access when an unexpected link_mask value is encountered. The codec
-> config count in the SOF machine driver is refactored to use a dedicated
-> variable rather than reusing the endpoint-count variable for two
-> purposes, making the intent clearer and avoiding a stale value being
-> passed to the codec config array. An operator-precedence bug in the
-> ffs(link_mask - 1) expression is corrected to ffs(link_mask) - 1,
-> ensuring the link ID is derived from the correct bit position. Finally,
-> the SOF machine driver card name is shortened to fit within the 16-byte
-> snd_card driver[] field and eliminate a compile-time warning.
+> simple_util_init_jack() acquires a jack detection GPIO with
+> gpiod_get_optional() and passes it to snd_soc_jack_add_gpios(), which
+> also installs an IRQ handler, a PM notifier, a delayed work and a sysfs
+> export for it. None of simple-card, audio-graph-card or
+> audio-graph-card2 implements a card->remove() callback, so none of this
+> is ever released.
 > 
 > [...]
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
 
 Thanks!
 
-[1/4] ASoC: amd: acp: bounds-check SoundWire link ID in machine drivers
-      https://git.kernel.org/broonie/sound/c/2faa0ae56fa5
-[2/4] ASoC: amd: acp: refactor codec config count in SOF SoundWire machine driver
-      https://git.kernel.org/broonie/sound/c/efd76c8d6153
-[3/4] ASoC: amd: acp: fix ffs() operator precedence for SoundWire link ID
-      https://git.kernel.org/broonie/sound/c/5b28d773ed3a
-[4/4] ASoC: amd: acp: fix card name length warning in SOF SoundWire machine driver
-      https://git.kernel.org/broonie/sound/c/2444f73fe476
+[1/4] ASoC: simple-card-utils: Add simple_util_remove_jack()
+      https://git.kernel.org/broonie/sound/c/c7420dd9213d
+[2/4] ASoC: simple-card: Free jack GPIOs on card remove
+      https://git.kernel.org/broonie/sound/c/b59a20808727
+[3/4] ASoC: audio-graph-card: Free jack GPIOs on card remove
+      https://git.kernel.org/broonie/sound/c/698fdd31522c
+[4/4] ASoC: audio-graph-card2: Free jack GPIOs on card remove
+      https://git.kernel.org/broonie/sound/c/df0afa439044
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
