@@ -1,302 +1,162 @@
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com [209.85.219.71])
+Received: from mail-pz2-f43.google.com (mail-pz2-f43.google.com [74.125.228.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54F614A2079
-	for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 08:27:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4123476CF9
+	for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 08:44:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789460868; cv=none; b=mpdCpAts9ofr2XZ76ARvSJdoN+KT8W08NYfpjVFIdA8jbQs++n/faujKkUZN5ba5vmDYhP581YiZ5iBmEzcpfEM4CgQLesLana1JZqkGmbn8H9DOo9m5askXZMSJdvbz8y/fvd8ph/bLhm6AKnTqZ0ApW/IXv+HqBtcu9P5+Hs8=
+	t=1789461872; cv=none; b=FxcW3boHtvNSNgPAxp50TRVZvMfyKZKb68FSMXMMcwRD4B7ikR/lStegrpkYdnU7Oqv4H9oXr9VMdB86Mhch5rOSYLgX0d0sMwePgDhwPdbgtG4SjW58afkmFVmj1TwaLeZLlV7j5YLEYpd3oCjgyWBOlaQ7FyNi+cCqGo94Vcw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789460868; c=relaxed/simple;
-	bh=EqxPY8uDyH4sIF56bisQGVYV4UgUVWe6Fa26kaXaoOs=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=cWK9MzmMXz8rCLxR0ee7N/1Kcbrfcngn53TuKT2PmfJeQMiSasB5FnBjlvQ+SRhZDmpOHi5/l+K22VJSGimkjgGqfiFBVSj6TESo2RLRWhboNjFzZLy/0oZpL7iEID1bgKM8H3ZY/wVfV6ktAySy4vraqycLgpJOZ+u4L568Xjs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--morbo.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=pvLLQaNG; arc=none smtp.client-ip=209.85.219.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--morbo.bounces.google.com
+	s=arc-20240116; t=1789461872; c=relaxed/simple;
+	bh=huYEm3HAtHnskymK5Sr7LQqVOdSLUWWrK2v7Z5zXVzg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=t3brGyMJmDi2lt2MVBCb8+w+Ezu2gtsQEn7zEzs9Vvc4pWGIj7A//x+BjrXKCtwXfaOrT8TuisD5PCCV2YrO43gHvoCH/kfENy4oVCMgeu9GT3S017LYHD/B0/Yc2SK4a/RXe8N8jkwoFfp8ZGiUg/P5/nKe9b/LQdkhT3an+VI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=btcQ3/zo; arc=none smtp.client-ip=74.125.228.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="pvLLQaNG"
-Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-90e98e74535so86164446d6.1
-        for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 01:27:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="btcQ3/zo"
+Received: by mail-pz2-f43.google.com with SMTP id d2e1a72fcca58-8631d0023daso1733035b3a.2
+        for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 01:44:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1789460865; x=1790065665; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:from:subject
-         :message-id:references:mime-version:in-reply-to:date:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=XkXp/XZtfYpYjiXJEDXdoQGA1NlHq2kVyqBGidLpG58=;
-        b=pvLLQaNGScQhzzfgQrl83LQIYq9zlADOI171R5tb5QtnU97CtGaIaiAI+JLK8aU0gb
-         1/iV+6lq7JGVhx5UcTyE8XS1yV20C83062UG3vePDPfURK/njvnfR93ofdeB9Cl/8Nv/
-         tlAfrrgSnAEvok4aBiRItnK+fF+iltZANa7lffVEbTQXRGgRinMmuleZxNDaU+R1GUuG
-         0rICMDCS6qf1jY5tg+DtxrmnWaR0dfKXarkOez4Bb7Egmkr2rKNexBu769AvZ9D6TvDm
-         vH6geBgpTvG8PxmmtJ5t/JknfchuMEoJNH0tH/0DuF7HeLSi1sy47DHj2swas2P8BKUG
-         LGFQ==
+        d=gmail.com; s=20251104; t=1789461870; x=1790066670; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=3qGtMJ8rOmaLVkBVwgGLv1rCNJV422A9E6Q4kREBYoI=;
+        b=btcQ3/zo0uHer4KwRY5acEFiraCMasoh7ivDV/j4wRbQT8pFaej7mo2Ud2teOqopRI
+         V/lLLadpSCTZ/pCnkWQeD/uMoAUKA/QADmyrsdyu7LCbMRL7Zsnz9EgBtKlN0SWGiWdc
+         jaLFJmv8SQXlobExdWvOwp9wb22aauHsvHOjdMIZ3kh/EPRonVXIRJlm4uletJnmjsc7
+         g6ZYSqRXilsG+tpNUdrEtFOLaHE0GwgwJ27i+vODTPtFw8/Mmx7iy4feQ9R8WtoKXxQ6
+         s8mUwFqNMBbJHXh6rnjFYeoQfW50zzLek5AsH6BjfI28FIEyMBiZ3aX5Z3qbHf+ZVX6+
+         eN+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789460865; x=1790065665;
-        h=content-transfer-encoding:content-type:cc:to:from:subject
-         :message-id:references:mime-version:in-reply-to:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=XkXp/XZtfYpYjiXJEDXdoQGA1NlHq2kVyqBGidLpG58=;
-        b=RW/rj5WUa34D7JGg9UssAc4PN9c4uacVLTSlh0lw/MipNScXok1SeXub+keY50EYl3
-         9BXysJPJCiAOkkvqcPsyLAMMCb+Mo/eP/7H6Ifq88taCsVP80QpNSvg38H1/oEomt20o
-         FWn6G8l4Xpy+ItJO29VCQzz+iZfM5QtMteEk01ktkKPdkCpAx/hgHUvI5/BEVDYtCSft
-         HgpShgGfxBu1dV9zayIR7kFATal45ngojW+t5K4FFrn9faZgAOY+F0mrOrvn1SIwM6rW
-         dXgZJdqphsR+otrYZO9gPYuRCczdygf1IUThMpM+Ir88+L7HKc/PbK149ab2CphG+NDj
-         fh7A==
-X-Forwarded-Encrypted: i=1; AKwUvBxqybGpha9rpzb8zpUArwTYgXtbfnXfI6q+HsiC8UFILZIkPcfi2ycXXBB84TQrLaRN9s70VY8O3da7Mw==@vger.kernel.org
-X-Gm-Message-State: AFuF++lgD2t5U12W/jJTMMygZnerVfhlp2/esouw1p2+bo15l5Z4NAL1
-	RUathGhzjLPQ8MxNwyI3Twab1eRmUnx68J7kcZT8MWbgsWULrpuziQgRvHnKWFd62eIBZWJ0R7s
-	W
-X-Received: from plbkc7.prod.google.com ([2002:a17:903:33c7:b0:2dd:630:cea4])
- (user=morbo job=prod-delivery.src-stubby-dispatcher) by 2002:a17:903:1965:b0:2d3:716e:e2ae
- with SMTP id d9443c01a7336-2dd6c5ef019mr154580855ad.6.1789460411846; Tue, 15
- Sep 2026 01:20:11 -0700 (PDT)
-Date: Tue, 15 Sep 2026 08:18:37 +0000
-In-Reply-To: <20260915081910.4142719-1-morbo@google.com>
+        d=1e100.net; s=20260707; t=1789461870; x=1790066670;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=3qGtMJ8rOmaLVkBVwgGLv1rCNJV422A9E6Q4kREBYoI=;
+        b=1vF4goYT0FJlYKJIFyS1mm0IKgfme64SQaSXKNyuE7eaOJrw4rau3oetm2QggpIWRc
+         ESgnSzVda4UpnNyalZfMh4Y1sYbSvTGv7EA7q9yOywaYBKjA3KHlp2FDszM+LqObOwy9
+         se7vMU3tIoc4qVorrYtUamIi2qig+RzxeBj0dxnWR8XtVPF/CTTfebHamimUFDs/+eom
+         6JhKWvNCWEJFSk2URshL/vwW7LUHSdJslJ7AT9KeoZU9a2w1CfenspTqNeAdWUQScFFN
+         ksd+Jdaod4Lxdtc0uR8o3Hlq9QL2TapjVK++H72U/n+tY1mc7HYtjvmsUk2i75nJvXyd
+         C1+g==
+X-Gm-Message-State: AFuF++mGsAQcVVR0YvJGdZvWLRnY1SqvCleYpnJH1Z9aU9ybdFDaDh/G
+	0jmk7M+qiX9URTctki68F07zqBoUiNylKY8RBc7U0X0uNWSrSA+de+AtLb2ED4HD
+X-Gm-Gg: AYBFou3nuQHQbf8GCYiBKqr+wiyudeIbiS8DEYXqQi8wl+AHtPoGVwUWCect0Xmx4DY
+	JC37I/p/3TQ3pUh2iyFmshPQ/hUu0kp/PcFQRTbCJSiNuZwcgf8MMuppkGq/56SepVv7DwATM8Q
+	05OJcEnSTQ4FuVqTTnCJdsmMVcztC1Gl9g7Gs90YbUIn9CbAfgXoPZPeOXYq1HY6hWuoxlhMnId
+	bw/oJ3a9U10lSx7lky4+pEP712y/hDvwPRU1QN+XecPwECFGU6LM29Dx7Ry+0+eFZ2lQcT1PvP/
+	nta+zcbaXYONrscYlVfotGdfaZMk0SBJBEdFO7X9LAklQpizUOwbKQ6oMSACOOYxf3XtSQ30q6U
+	IbWqxrlkeBRT2C/2TpRo1VvmFIepKsslzXcT4iIOn0IrIXf7GreSPIeFEv/0HaI1VBGyx66/dxY
+	auib/2Su2eKzFHLvfWfztyqdUiqVy+FQTG2B/IQuaA/1CQRCMfhGPLfA+tdqDuvfXgm2u1T2yiK
+	WL6aj0nPG5NpTnGcB39fhlQzw==
+X-Received: by 2002:a05:6a20:2587:b0:3d1:c99f:efbf with SMTP id adf61e73a8af0-3db405a991dmr13424081637.14.1789461869656;
+        Tue, 15 Sep 2026 01:44:29 -0700 (PDT)
+Received: from volcano9f6e-hostos.amd.com ([165.204.217.251])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33ba4cf72dbsm34718935eec.3.2026.09.15.01.44.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Sep 2026 01:44:29 -0700 (PDT)
+From: Hemanth Selam <hemanth.selam@gmail.com>
+To: Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Takashi Sakamoto <o-takashi@sakamocchi.jp>,
+	Clemens Ladisch <clemens@ladisch.de>
+Subject: [PATCH v2 00/23] ALSA: fix typos in comments
+Date: Tue, 15 Sep 2026 14:14:01 +0530
+Message-ID: <20260915084424.1007757-1-hemanth.selam@gmail.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260915081910.4142719-1-morbo@google.com>
-X-Mailer: git-send-email 2.55.0.1032.g73a4cd73de-goog
-Message-ID: <20260915081910.4142719-21-morbo@google.com>
-Subject: [PATCH 20/28] parisc: Refactor strlcat() to seq_buf in setup_cmdline()
-From: Bill Wendling <morbo@google.com>
-To: linux-kernel@vger.kernel.org
-Cc: Bill Wendling <morbo@google.com>, codemender-patching+linux@google.com, 
-	Russell King <linux@armlinux.org.uk>, Huacai Chen <chenhuacai@kernel.org>, 
-	WANG Xuerui <kernel@xen0n.name>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Ian Abbott <abbotti@mev.co.uk>, 
-	H Hartley Sweeten <hsweeten@visionengravers.com>, Tony Luck <tony.luck@intel.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Matthew Brost <matthew.brost@intel.com>, 
-	"=?UTF-8?q?Thomas=20Hellstr=C3=B6m?=" <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Matthias Schwarzott <zzam@gentoo.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Tony Nguyen <anthony.l.nguyen@intel.com>, 
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Arend van Spriel <arend.vanspriel@broadcom.com>, Rob Herring <robh@kernel.org>, 
-	Saravana Kannan <saravanak@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Sylwester Nawrocki <s.nawrocki@samsung.com>, Peter Griffin <peter.griffin@linaro.org>, 
-	Alim Akhtar <alim.akhtar@samsung.com>, Linus Walleij <linusw@kernel.org>, 
-	Anil Gurumurthy <anil.gurumurthy@qlogic.com>, 
-	Sudarsana Kalluru <sudarsana.kalluru@qlogic.com>, "Martin K. Petersen" <mkp@kernel.org>, 
-	Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
-	Mike Marshall <hubcap@omnibond.com>, Martin Brandenburg <martin@omnibond.com>, Kees Cook <kees@kernel.org>, 
-	Jiri Pirko <jiri@resnulli.us>, Simon Horman <horms@kernel.org>, Chuck Lever <cel@kernel.org>, 
-	Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>, 
-	Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, "Mike Rapoport (Microsoft)" <rppt@kernel.org>, 
-	Kanglong Wang <wangkanglong@loongson.cn>, Tiezhu Yang <yangtiezhu@loongson.cn>, 
-	Qiang Ma <maqianga@uniontech.com>, Randy Dunlap <rdunlap@infradead.org>, 
-	Pengpeng Hou <pengpeng@iscas.ac.cn>, Ard Biesheuvel <ardb@kernel.org>, Breno Leitao <leitao@debian.org>, 
-	Thorsten Blum <blum@kernel.org>, Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Lyude Paul <lyude@redhat.com>, 
-	Ashutosh Desai <ashutoshdesai993@gmail.com>, Imre Deak <imre.deak@intel.com>, 
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, Johan Hovold <johan@kernel.org>, 
-	Johannes Berg <johannes.berg@intel.com>, 
-	Miri Korenblit <miriam.rachel.korenblit@intel.com>, 
-	Alexander Stein <alexander.stein@ew.tq-group.com>, 
-	Cryolitia PukNgae <cryolitia@uniontech.com>, Jiaming Zhang <r772577952@gmail.com>, 
-	Will Porter <mrwillporter@gmail.com>, Cen Zhang <zzzccc427@gmail.com>, 
-	"=?UTF-8?q?C=C3=A1ssio=20Gabriel?=" <cassiogabrielcontato@gmail.com>, Rong Zhang <i@rong.moe>, 
-	Arun Raghavan <arunr@valvesoftware.com>, linux-arm-kernel@lists.infradead.org, 
-	loongarch@lists.linux.dev, linux-mips@vger.kernel.org, 
-	linux-parisc@vger.kernel.org, linux-edac@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
-	linux-input@vger.kernel.org, linux-media@vger.kernel.org, 
-	intel-wired-lan@lists.osuosl.org, netdev@vger.kernel.org, 
-	linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev, 
-	brcm80211-dev-list.pdl@broadcom.com, devicetree@vger.kernel.org, 
-	linux-samsung-soc@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-scsi@vger.kernel.org, linux-nfs@vger.kernel.org, 
-	devel@lists.orangefs.org, linux-hardening@vger.kernel.org, 
-	linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-setup_cmdline() uses multiple strlcat() calls to conditionally append
-default console and earlycon parameters to boot_command_line.
+v1 was a single patch touching 35 files, which was too coarse and would
+get in the way of backporting real fixes later on.
 
-In preparation for removing the deprecated strlcat() API[1], initialize a
-struct seq_buf with the existing boot_command_line contents and use
-seq_buf_printf() to append the console parameters.
+This v2 splits it per driver, so each patch stays confined to one driver
+and can be dropped or backported on its own.  Drivers made up of several
+files (hda, usb-audio, i2c, ac97, ...) are kept together in a single
+patch rather than going all the way down to one patch per file.
 
-Link: https://github.com/KSPP/linux/issues/370 [1]
-Cc: codemender-patching+linux@google.com
-Assisted-by: CoPilot:Gemini-1.5-Pro [editor_update_file, shell_command_run]
-Signed-off-by: Bill Wendling <morbo@google.com>
----
-Cc: Russell King <linux@armlinux.org.uk>
-Cc: Huacai Chen <chenhuacai@kernel.org>
-Cc: WANG Xuerui <kernel@xen0n.name>
-Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
-Cc: Helge Deller <deller@gmx.de>
-Cc: Thomas Gleixner <tglx@kernel.org>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: Dave Hansen <dave.hansen@linux.intel.com>
-Cc: x86@kernel.org
-Cc: "H. Peter Anvin" <hpa@zytor.com>
-Cc: Ian Abbott <abbotti@mev.co.uk>
-Cc: H Hartley Sweeten <hsweeten@visionengravers.com>
-Cc: Tony Luck <tony.luck@intel.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Simona Vetter <simona@ffwll.ch>
-Cc: Matthew Brost <matthew.brost@intel.com>
-Cc: "Thomas Hellstr=C3=B6m" <thomas.hellstrom@linux.intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Matthias Schwarzott <zzam@gentoo.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Tony Nguyen <anthony.l.nguyen@intel.com>
-Cc: Przemek Kitszel <przemyslaw.kitszel@intel.com>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: Eric Dumazet <edumazet@google.com>
-Cc: Jakub Kicinski <kuba@kernel.org>
-Cc: Paolo Abeni <pabeni@redhat.com>
-Cc: Arend van Spriel <arend.vanspriel@broadcom.com>
-Cc: Rob Herring <robh@kernel.org>
-Cc: Saravana Kannan <saravanak@kernel.org>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Sylwester Nawrocki <s.nawrocki@samsung.com>
-Cc: Peter Griffin <peter.griffin@linaro.org>
-Cc: Alim Akhtar <alim.akhtar@samsung.com>
-Cc: Linus Walleij <linusw@kernel.org>
-Cc: Anil Gurumurthy <anil.gurumurthy@qlogic.com>
-Cc: Sudarsana Kalluru <sudarsana.kalluru@qlogic.com>
-Cc: "Martin K. Petersen" <mkp@kernel.org>
-Cc: Trond Myklebust <trondmy@kernel.org>
-Cc: Anna Schumaker <anna@kernel.org>
-Cc: Mike Marshall <hubcap@omnibond.com>
-Cc: Martin Brandenburg <martin@omnibond.com>
-Cc: Kees Cook <kees@kernel.org>
-Cc: Jiri Pirko <jiri@resnulli.us>
-Cc: Simon Horman <horms@kernel.org>
-Cc: Chuck Lever <cel@kernel.org>
-Cc: Jeff Layton <jlayton@kernel.org>
-Cc: NeilBrown <neil@brown.name>
-Cc: Olga Kornievskaia <okorniev@redhat.com>
-Cc: Dai Ngo <Dai.Ngo@oracle.com>
-Cc: Tom Talpey <tom@talpey.com>
-Cc: Jaroslav Kysela <perex@perex.cz>
-Cc: Takashi Iwai <tiwai@suse.com>
-Cc: Bill Wendling <morbo@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-Cc: Kanglong Wang <wangkanglong@loongson.cn>
-Cc: Tiezhu Yang <yangtiezhu@loongson.cn>
-Cc: Qiang Ma <maqianga@uniontech.com>
-Cc: Randy Dunlap <rdunlap@infradead.org>
-Cc: Pengpeng Hou <pengpeng@iscas.ac.cn>
-Cc: Ard Biesheuvel <ardb@kernel.org>
-Cc: Breno Leitao <leitao@debian.org>
-Cc: Thorsten Blum <blum@kernel.org>
-Cc: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Lyude Paul <lyude@redhat.com>
-Cc: Ashutosh Desai <ashutoshdesai993@gmail.com>
-Cc: Imre Deak <imre.deak@intel.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Johan Hovold <johan@kernel.org>
-Cc: Johannes Berg <johannes.berg@intel.com>
-Cc: Miri Korenblit <miriam.rachel.korenblit@intel.com>
-Cc: Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc: Cryolitia PukNgae <cryolitia@uniontech.com>
-Cc: Jiaming Zhang <r772577952@gmail.com>
-Cc: Will Porter <mrwillporter@gmail.com>
-Cc: Cen Zhang <zzzccc427@gmail.com>
-Cc: "C=C3=A1ssio Gabriel" <cassiogabrielcontato@gmail.com>
-Cc: Rong Zhang <i@rong.moe>
-Cc: Arun Raghavan <arunr@valvesoftware.com>
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org
-Cc: loongarch@lists.linux.dev
-Cc: linux-mips@vger.kernel.org
-Cc: linux-parisc@vger.kernel.org
-Cc: linux-edac@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: intel-xe@lists.freedesktop.org
-Cc: linux-input@vger.kernel.org
-Cc: linux-media@vger.kernel.org
-Cc: intel-wired-lan@lists.osuosl.org
-Cc: netdev@vger.kernel.org
-Cc: linux-wireless@vger.kernel.org
-Cc: brcm80211@lists.linux.dev
-Cc: brcm80211-dev-list.pdl@broadcom.com
-Cc: devicetree@vger.kernel.org
-Cc: linux-samsung-soc@vger.kernel.org
-Cc: linux-gpio@vger.kernel.org
-Cc: linux-scsi@vger.kernel.org
-Cc: linux-nfs@vger.kernel.org
-Cc: devel@lists.orangefs.org
-Cc: linux-hardening@vger.kernel.org
-Cc: linux-sound@vger.kernel.org
----
- arch/parisc/kernel/setup.c | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+Comments only, no functional change.  The combined diff of this series
+is identical to v1 except for a trailing whitespace dropped from one
+cs46xx comment line that checkpatch complained about.
 
-diff --git a/arch/parisc/kernel/setup.c b/arch/parisc/kernel/setup.c
-index d3e17a7a8901..fa3efc82ad87 100644
---- a/arch/parisc/kernel/setup.c
-+++ b/arch/parisc/kernel/setup.c
-@@ -17,6 +17,7 @@
- #include <linux/init.h>
- #include <linux/console.h>
- #include <linux/seq_file.h>
-+#include <linux/seq_buf.h>
- #define PCI_DEBUG
- #include <linux/pci.h>
- #undef PCI_DEBUG
-@@ -42,6 +43,7 @@ static char __initdata command_line[COMMAND_LINE_SIZE];
- static void __init setup_cmdline(char **cmdline_p)
- {
- 	extern unsigned int boot_args[];
-+	struct seq_buf s;
- 	char *p;
-=20
- 	*cmdline_p =3D command_line;
-@@ -54,19 +56,21 @@ static void __init setup_cmdline(char **cmdline_p)
- 	strscpy(boot_command_line, (char *)__va(boot_args[1]),
- 		COMMAND_LINE_SIZE);
-=20
-+	s.buffer =3D boot_command_line;
-+	s.size =3D COMMAND_LINE_SIZE;
-+	s.len =3D strlen(boot_command_line);
-+
- 	/* autodetect console type (if not done by palo yet) */
- 	p =3D boot_command_line;
- 	if (!str_has_prefix(p, "console=3D") && !strstr(p, " console=3D")) {
--		strlcat(p, " console=3D", COMMAND_LINE_SIZE);
--		if (PAGE0->mem_cons.cl_class =3D=3D CL_DUPLEX)
--			strlcat(p, "ttyS0", COMMAND_LINE_SIZE);
--		else
--			strlcat(p, "tty0", COMMAND_LINE_SIZE);
-+		seq_buf_printf(&s, " console=3D%s",
-+			       PAGE0->mem_cons.cl_class =3D=3D CL_DUPLEX ?
-+			       "ttyS0" : "tty0");
- 	}
-=20
- 	/* default to use early console */
- 	if (!strstr(p, "earlycon"))
--		strlcat(p, " earlycon=3Dpdc", COMMAND_LINE_SIZE);
-+		seq_buf_printf(&s, " earlycon=3Dpdc");
-=20
- #ifdef CONFIG_BLK_DEV_INITRD
- 	/* did palo pass us a ramdisk? */
---=20
-2.55.0.1032.g73a4cd73de-goog
+Built with allmodconfig on x86, sound/ compiles clean with no new
+warnings.  sound/mips/hal2.c and sound/ppc/tumbler.c are arch-gated so
+they were not compile-tested here; both are comment-only as well.
+
+v1: https://lore.kernel.org/all/20260907063202.20577-1-hemanth.selam@gmail.com/
+
+Hemanth Selam (23):
+  ALSA: core: seq: oss: fix typos in comments
+  ALSA: hda: fix typos in comments
+  ALSA: usb-audio: fix typos in comments
+  ALSA: i2c: fix typos in comments
+  ALSA: emu10k1: fix typos in comments
+  ALSA: emux: fix typos in comments
+  ALSA: firewire: bebob: fix typos in comments
+  ALSA: opti9xx: fix typos in comments
+  ALSA: hal2: fix typos in comments
+  ALSA: ppc: tumbler: fix typos in comments
+  ALSA: ac97: fix typos in comments
+  ALSA: au88x0: fix typos in comments
+  ALSA: aw2: fix typos in comments
+  ALSA: cs4281: fix typos in comments
+  ALSA: cs46xx: fix typos in comments
+  ALSA: echoaudio: fix typos in comments
+  ALSA: lx6464es: fix typos in comments
+  ALSA: pcxhr: fix typos in comments
+  ALSA: riptide: fix typos in comments
+  ALSA: rme32: fix typos in comments
+  ALSA: hdsp: fix typos in comments
+  ALSA: trident: fix typos in comments
+  ALSA: vx: fix typos in comments
+
+ include/sound/emu10k1.h             | 4 ++--
+ include/sound/emux_legacy.h         | 2 +-
+ sound/core/seq/oss/seq_oss_init.c   | 2 +-
+ sound/firewire/bebob/bebob_hwdep.c  | 2 +-
+ sound/hda/codecs/hdmi/hdmi.c        | 2 +-
+ sound/hda/codecs/realtek/alc882.c   | 2 +-
+ sound/hda/codecs/sigmatel.c         | 6 +++---
+ sound/hda/common/codec.c            | 2 +-
+ sound/i2c/other/ak4113.c            | 2 +-
+ sound/i2c/other/ak4114.c            | 2 +-
+ sound/i2c/other/ak4xxx-adda.c       | 2 +-
+ sound/isa/opti9xx/opti92x-ad1848.c  | 2 +-
+ sound/mips/hal2.c                   | 4 ++--
+ sound/pci/ac97/ac97_codec.c         | 2 +-
+ sound/pci/ac97/ac97_patch.c         | 2 +-
+ sound/pci/au88x0/au88x0.h           | 2 +-
+ sound/pci/au88x0/au88x0_mpu401.c    | 2 +-
+ sound/pci/aw2/aw2-saa7146.c         | 4 ++--
+ sound/pci/cs4281.c                  | 2 +-
+ sound/pci/cs46xx/cs46xx_lib.c       | 6 +++---
+ sound/pci/cs46xx/dsp_spos_scb_lib.c | 8 ++++----
+ sound/pci/echoaudio/echoaudio.c     | 4 ++--
+ sound/pci/echoaudio/echoaudio.h     | 4 ++--
+ sound/pci/lx6464es/lx_core.c        | 2 +-
+ sound/pci/lx6464es/lx_defs.h        | 2 +-
+ sound/pci/pcxhr/pcxhr_core.c        | 4 ++--
+ sound/pci/riptide/riptide.c         | 4 ++--
+ sound/pci/rme32.c                   | 2 +-
+ sound/pci/rme9652/hdsp.c            | 2 +-
+ sound/pci/trident/trident_memory.c  | 2 +-
+ sound/pci/vx222/vx222_ops.c         | 2 +-
+ sound/pcmcia/vx/vxp_ops.c           | 2 +-
+ sound/ppc/tumbler.c                 | 2 +-
+ sound/usb/mixer.c                   | 4 ++--
+ sound/usb/mixer_us16x08.h           | 2 +-
+ 35 files changed, 50 insertions(+), 50 deletions(-)
+
+
+base-commit: 2e4c9ab2574eeaa7b893c7d35b4a9f60fd681ddd
+-- 
+2.48.1
 
