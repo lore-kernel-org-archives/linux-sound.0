@@ -1,94 +1,179 @@
-Received: from mta0.migadu.com (out-52.mta0.migadu.com [91.218.175.52])
+Received: from mail-vs2-f12.google.com (mail-vs2-f12.google.com [74.125.227.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0929643F0B6
-	for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 19:08:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.52
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789499336; cv=none; b=OcOOXArbJmJ1T/eGwWdR79CDfN9B8c/dP0m6nXrqaZh9gZ7O8+2T2tv6G9v5P4iU6i5dd6vD3LpXKLO4zEeViRmGMW+XaUEJP0Uzpg5YIfgwGd+jmXmpF2EkPNUD68qYWyFbBV5ScsBJSXzklutTqNIFXrdq3lfQgoQlsC++aXU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789499336; c=relaxed/simple;
-	bh=VQQ+E7fwYAhs6gRE7dYaQzVwEKGiE/fSgj1srDgmMNs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XburxSbz+jJBkYTWMCr0M8LHByetmi8mkx6eVouBmHt6urECIvbtK/IjxKj4msqRlcB94k8twu4X/BCJwgSgpFDV2N3c4AeR9o6ydj4GHkB6PVdiNyOLJVFOIni5f9xobGJHsJZKFvEIVqAt+g7TzMKH5atyR0mYR44NgkQ7zpo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=uDCeocEo; arc=none smtp.client-ip=91.218.175.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BFC34399D5
+	for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 19:30:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.227.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789500653; cv=pass; b=lK3h8z5SscU9Kq6Pd8xvFNZnw/vntmvZUN9VBRgoFoLtD5CtYZIg9UEzmkbgYWaiSfbW9+FfUASv95PkK8uAyJfsawmTqgPkoO666pTYXRGR6nClwsqLs4SGkrxLrKx44s3fvQbJfeLlEIvXUIef3UTOk8vczzRdbRWmy4BfYYU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789500653; c=relaxed/simple;
+	bh=RfxsKW+gWzHzPnl0VGV4sp1JrOew5XduTAso8G35GXs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PO6XK3Z2rpMA1H6rvEu882ZnM88avKun2Una91Gj2dirs3UfLwW/FawkJRXqtfGyNLowBJSUuiZ+SjBW6Q2Akf26t4Tf9Xymn72tsJv7Flk4daBA+UXyWqxOz+LaoTUVFTx/bQs1PJbK5WnBKZx1dwv6sTEDXl70S4SxlqohGBE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=mHQpOIQY; arc=pass smtp.client-ip=74.125.227.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="uDCeocEo"
-X-Envelope-To: linux-sound@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=VQQ+E7fwYAhs6gRE7dYaQzVwEKGiE/fSgj1srDgmMNs=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1789499333; v=1; x=1790104133;
- b=uDCeocEoM3X7f4bx5GbMkErpIZZcWNTiALHwK3gxYdtG5SQbKwoN2HvC7gQP0einLH7x+vPA
- 28asMCIMr8IsCf2BH/ulWt9J0dcm+by2QpCjodBQrcDGDze/a51BrasWNHKl0Xw36cPSLvYK/jn
- AKbHs4ECIxXAwRRk6RscYiu0=
-X-Envelope-To: linux-sound@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 15aa06455678b3d5;
-	Tue, 15 Sep 2026 19:08:53 +0000
-X-Mizu-Trace-ID: 15aa06455678b3d5
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <6e00e449-6525-4200-bcac-ffb696204208@linux.dev>
-Date: Tue, 15 Sep 2026 20:31:52 +0200
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mHQpOIQY"
+Received: by mail-vs2-f12.google.com with SMTP id 71dfb90a1353d-5c67e4fffc0so70522e0c.0
+        for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 12:30:50 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789500649; cv=none;
+        d=google.com; s=arc-20260327;
+        b=RsSoeGcH5JDqitRLGOXzKT3n5YPkLulDXHn8Az0C8umZR3sYq49zLS2Bc3Vut1y/ZU
+         u6PpifXzD/alnEybicMEFtVrmR/Ms7LEKC2P6zztVpbM9JyPCNvlLkLqGpF26x8puPOH
+         AEEJext4eDl05+GYFNazP/CESqrRDYrku4+cZG1i8yj/YxRbe67Wtrd7/AGlh/J6z6dk
+         JX1t7Nuib7zvZcRRO/ncNjwLToKCKfxgIh6YLXld5A16Ep0jvnckNFjExXvYQ0Tp/oOc
+         UaVzaU5+Tj58tzX80UyhZnaIJqrF+rZUYyFGkDwCkXHz1IgBjy6uwiySHpqNRtNn44fr
+         XX3Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=bRLtXj28C7ZetbPCXePmHpMel3/nm53ij0hFxwsbjIQ=;
+        fh=y/MXtfEPdur138ts3+ab39hbvvpTe2gQgTWDtIrL7xM=;
+        b=LVvNBBvogayl6rznU8/9uecHXO511z2mK4GVMhfxCM43MrZxres6TJowymft9mGEfX
+         BMTiUPWuXzc9WYIroa+sO4ssbFAGV/nX1IfXiUUySnjesZLQchcFRgVTu7ZJ95v9eNHt
+         rQFezmPlN2+PUJfiuvsZxQ56HvXD5wM/gizGczeyGXQAh9ZiVpKmR8NOKaKpRR+434sH
+         45ovN5fNfcfKWBbB49SzG6xqJcSQtBDaFubuHelV2Y2+FiCuzIR3ov0XEaEzNTgbLmLj
+         Te0OzBSEVA/JfSB+e9j6CyXUb+IiGXffHWXWQpLFFp53hfqqJGJFPBxMVCm2Gu5OfZ90
+         QtQg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1789500649; x=1790105449; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=bRLtXj28C7ZetbPCXePmHpMel3/nm53ij0hFxwsbjIQ=;
+        b=mHQpOIQYcK/f3LO6suOWFn0Cy720wLrLpDZ76Y2mpOM3+C9DQTQajqMKss2+8vswyu
+         6kP5JbXC/uQnmjFeNyvbn7ykDMjEjp2433FP2tusVe+U1jFmELny3ub1VOqaeQk4+bmw
+         tGfgnCt0FH77KKNFK/CBvajJjeEiwDPenSWUOdNQWc6FxW5qw9OoucUz3vPurhja7+2W
+         SRX2li+U/pB+n68jTLoULDYN4LWrOMyMYUPvz3nmRdNTo7uPdox+mGt4Z2VuXMis+C7M
+         e3WQC4JCEtRXPwtZDWEutENmL8gBQ5snBkXOOLsO675Xs4UrytQv+QbVij8iLiq/Acss
+         xb9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789500649; x=1790105449;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=bRLtXj28C7ZetbPCXePmHpMel3/nm53ij0hFxwsbjIQ=;
+        b=UZ3xyo9Up/Jy7IXJXOrXy7AozNy5ocgA8ux6QFhaqvBqvVnFdXiH0C2dPVsnUizKLO
+         OkblqBI9XYsOv5K2cbPceV8jxwyOumPgKWX+2rDSRctlcjh+GSbza+L2BFYau18FFwI/
+         9ZHEjZrmB/47oEOSWr5ceUWe9IQiuwx2EvVrEj0jIcnJII8UWiNgFmchOP8lisslOuiS
+         bVyZt4QtoabteyhJn3iGROGN3TTDYRiRFkicsQ9VVu/ioRwdtS1GZqJno3HGyubDI/Ex
+         Ltp11+x03xJX45Rx5mZSjtw4ILcsglSLRFAYI7Rh4vwrRmE32oYh1uMGMthWp/kv7aLL
+         e1lw==
+X-Forwarded-Encrypted: i=1; AKwUvBxSrHWd/sYnCE5+lJ0OGQayG3fEYBMTeqxcoCSJHu3rA90oX20kmJAxbLTCeHrLLF8PkkfXjW5ZfNhAmw==@vger.kernel.org
+X-Gm-Message-State: AFuF++kptwENE1NFDJnaf3C1jWtr8X5bnPBuGt+Fk1l2mtZxf+PrY2tS
+	g8XRvefrkV94Y0Ft0gTVUCHmx1vtBDz8z42DjS+sJthIIsgPteq/ymLgwyf4tnffBy0oX6MoMXo
+	ReJ3w7hCw6g4lSPXrVBprltZHXQETNwDGEUAfSjE=
+X-Gm-Gg: AYBFou0yVqhmi38lLVb9zZKa1xO9kzD70si0vWfe8659tAYEaorpZF5eFzyls+Bpbqz
+	UVPqmib6FLj6shs3iV4O4vT/frQePHlc3iJX6OKbbL3kdwBR+gxUdV618krxE0bphkdNHmARhsW
+	PE6swvOpCvMiB1zcJ2DeshwlZl276sx2/jkJd6RTD3ECZ/N25oQTMIFRbxJ+bnaBTPxjIgiFM1s
+	kYtPsBPJynkN5ppWTWDPFWJQ/HlHfahhtfxJ94GomLhZx3xtI8Y/mp4mCPL20/61f7FkLAR0DzP
+	7QTeTRgZbm1sGG2XwxD50jROWVHbmvypM0HO3c4tbv/7qU5Dmo+fRzDF5VcMM9qHIr2TqKlKac6
+	IC2DqfHhkUDQ7MrOGVo+3yZwhKtxzG8Ocwjj+0gv/BUl6GpIRyTwA3QV+jXVO4g4=
+X-Received: by 2002:a05:6122:8d4:b0:5c8:3697:9289 with SMTP id
+ 71dfb90a1353d-5c993b49b7cmr4231155e0c.8.1789500648289; Tue, 15 Sep 2026
+ 12:30:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] soundwire: allow drivers to check whether the
- peripheral is present
-To: Cezary Rojewski <cezary.rojewski@intel.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: vinod.koul@linaro.org, linux-kernel@vger.kernel.org,
- peter.ujfalusi@linux.intel.com, bard.liao@intel.com,
- linux-sound@vger.kernel.org, vkoul@kernel.org, broonie@kernel.org,
- tiwai@suse.de
-References: <20260915131327.1783551-1-yung-chuan.liao@linux.intel.com>
- <20260915131327.1783551-2-yung-chuan.liao@linux.intel.com>
- <f1f14def-8b2f-4b55-89fd-65f1e35d48a8@intel.com>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <f1f14def-8b2f-4b55-89fd-65f1e35d48a8@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260915081910.4142719-1-morbo@google.com> <20260915081910.4142719-22-morbo@google.com>
+ <202609151147.C5B45CB@keescook>
+In-Reply-To: <202609151147.C5B45CB@keescook>
+From: Bill Wendling <morbo@google.com>
+Date: Tue, 15 Sep 2026 12:30:31 -0700
+X-Gm-Features: AcwNN1W7vYosDgc2DMy2_OinBNj1qeEQ35WOY6PL8-NHlzjaHMOKmE1leyIGWNs
+Message-ID: <CAGG=3QXYtmJqE5oy5ZD0-G0=GNxK71KKYurusNJvLQNqR-o6+A@mail.gmail.com>
+Subject: Re: [PATCH 21/28] NFS: nfsroot: Refactor root_nfs_cat() to use snprintf()
+To: Kees Cook <kees@kernel.org>
+Cc: nikitash.mariiaw@gmail.com, linux-kernel@vger.kernel.org, 
+	codemender-patching+linux@google.com, Russell King <linux@armlinux.org.uk>, 
+	Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>, 
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Ian Abbott <abbotti@mev.co.uk>, 
+	H Hartley Sweeten <hsweeten@visionengravers.com>, Tony Luck <tony.luck@intel.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Matthew Brost <matthew.brost@intel.com>, 
+	=?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
+	Rodrigo Vivi <rodrigo.vivi@intel.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Matthias Schwarzott <zzam@gentoo.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Tony Nguyen <anthony.l.nguyen@intel.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>, 
+	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Arend van Spriel <arend.vanspriel@broadcom.com>, Rob Herring <robh@kernel.org>, 
+	Saravana Kannan <saravanak@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Sylwester Nawrocki <s.nawrocki@samsung.com>, Peter Griffin <peter.griffin@linaro.org>, 
+	Alim Akhtar <alim.akhtar@samsung.com>, Linus Walleij <linusw@kernel.org>, 
+	Anil Gurumurthy <anil.gurumurthy@qlogic.com>, 
+	Sudarsana Kalluru <sudarsana.kalluru@qlogic.com>, "Martin K. Petersen" <mkp@kernel.org>, 
+	Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
+	Mike Marshall <hubcap@omnibond.com>, Martin Brandenburg <martin@omnibond.com>, Jiri Pirko <jiri@resnulli.us>, 
+	Simon Horman <horms@kernel.org>, Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>, 
+	NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, 
+	Tom Talpey <tom@talpey.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, "Mike Rapoport (Microsoft)" <rppt@kernel.org>, 
+	Kanglong Wang <wangkanglong@loongson.cn>, Tiezhu Yang <yangtiezhu@loongson.cn>, 
+	Qiang Ma <maqianga@uniontech.com>, Randy Dunlap <rdunlap@infradead.org>, 
+	Pengpeng Hou <pengpeng@iscas.ac.cn>, Ard Biesheuvel <ardb@kernel.org>, Breno Leitao <leitao@debian.org>, 
+	Thorsten Blum <blum@kernel.org>, Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Lyude Paul <lyude@redhat.com>, 
+	Ashutosh Desai <ashutoshdesai993@gmail.com>, Imre Deak <imre.deak@intel.com>, 
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, Johan Hovold <johan@kernel.org>, 
+	Johannes Berg <johannes.berg@intel.com>, 
+	Miri Korenblit <miriam.rachel.korenblit@intel.com>, 
+	Alexander Stein <alexander.stein@ew.tq-group.com>, 
+	Cryolitia PukNgae <cryolitia@uniontech.com>, Jiaming Zhang <r772577952@gmail.com>, 
+	Will Porter <mrwillporter@gmail.com>, Cen Zhang <zzzccc427@gmail.com>, 
+	=?UTF-8?Q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>, 
+	Rong Zhang <i@rong.moe>, Arun Raghavan <arunr@valvesoftware.com>, 
+	linux-arm-kernel@lists.infradead.org, loongarch@lists.linux.dev, 
+	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	linux-edac@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	intel-xe@lists.freedesktop.org, linux-input@vger.kernel.org, 
+	linux-media@vger.kernel.org, intel-wired-lan@lists.osuosl.org, 
+	netdev@vger.kernel.org, linux-wireless@vger.kernel.org, 
+	brcm80211@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com, 
+	devicetree@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, linux-scsi@vger.kernel.org, 
+	linux-nfs@vger.kernel.org, devel@lists.orangefs.org, 
+	linux-hardening@vger.kernel.org, linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 9/15/26 19:32, Cezary Rojewski wrote:
-> On 9/15/2026 3:13 PM, Bard Liao wrote:
->> A ghost peripheral may be listed in the ACPI table and we want to skip
->> it. Add enumeration_complete and is_present in struct sdw_bus{} allow
->> the driver to wait and check whether a peripheral is present.
->>
->> Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
->> Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
->> ---
->>  drivers/soundwire/bus.c       | 7 +++++++
->>  include/linux/soundwire/sdw.h | 5 +++++
->>  2 files changed, 12 insertions(+)
->>
->> diff --git a/drivers/soundwire/bus.c b/drivers/soundwire/bus.c
->> index aeaae5a57c89..b49864ca683a 100644
->> --- a/drivers/soundwire/bus.c
->> +++ b/drivers/soundwire/bus.c
->> @@ -161,7 +161,13 @@ int sdw_bus_master_add(struct sdw_bus *bus, struct device *parent,
->>  	bus->params.curr_dr_freq = bus->params.max_dr_freq;
->>  	bus->params.curr_bank = SDW_BANK0;
->>  	bus->params.next_bank = SDW_BANK1;
->> +	/*
->> +	 * Set is_present = true by default. It will be set to false when no peripherals
->> +	 * are attached on the bus.
->> +	 */
->> +	bus->is_present = true;
-> 
-> Does the approach permit existence of non-ghost, SDW master instance
-> with no codecs attached?
+On Tue, Sep 15, 2026 at 11:52=E2=80=AFAM Kees Cook <kees@kernel.org> wrote:
+>
+> On Tue, Sep 15, 2026 at 08:18:38AM +0000, Bill Wendling wrote:
+> >  fs/nfs/nfsroot.c | 11 +++++++----
+> >  1 file changed, 7 insertions(+), 4 deletions(-)
+>
+> This collides with:
+> https://lore.kernel.org/all/27956255dde39f58d73a7b51cb53cbe3d7804f54.1786=
+411026.git.mariianikitash@google.com/
+>
+> > +     ret =3D snprintf(dest + len, destlen - len, "%s%s",
+> > +                    (len && dest[len - 1] !=3D ',') ? "," : "", src);
+>
+> I prefer Mariia's version because this inline ternary is difficult
+> to read.
+>
+Agreed. I was trying to not stomp on her work. Please ignore this patch.
 
-Also wondering how the 'mockup' codecs would be handled? That's very
-useful to test a manager with no actual codecs attached.
-> 
->> +	init_completion(&bus->enumeration_complete);
->>  	return 0;
->>  }
+-bw
 
+> I was expecting to land hers soon if the NFS folks don't pipe up. It is
+> one of the rare cases of still being open-coded, but the strlen() usage
+> was pre-existing to check for the trailing comma, so it's not a clean
+> seq_buf() conversion candidate...
+>
+> --
+> Kees Cook
