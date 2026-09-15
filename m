@@ -1,139 +1,118 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3CDA23909C;
-	Tue, 15 Sep 2026 01:08:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789434498; cv=none; b=eAeXtVci/shNTXsJXqUOSi2SH8Re4gVFXeQd7Rmm3Gc7A1/m/QMbzE46bcO28hcVA2Ye/BZZpv/Wz7zVqjU63MMHs7ArCobcKQ4YgjEsl1dvDTHbZ9bkY3pa498g7+UvAc3tRB2xET9UNh0/VGlyDPgVc/0mmOsvtJy4npGKorA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789434498; c=relaxed/simple;
-	bh=mUsymsCuQS3SvFkPbdMe4P0yrNvNhFRlUiTaViL3wpk=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=B+Hb5mZVOoyryXHDedn9vFejF6KS/VIgSsh5bFueoD3v3vHA0BWkO0DfTUdusxYSterbKN4JMClimR8dVXE8vM1fVZIvKomCfGyUaTFYscoYGQkDKraZCm3BNSwFN+55joc3xBQI8Upi0lX/SCDYjw+zKb2HU7qIFjgaO6DQVpo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=JlZVB02S; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ABDF318EC7
+	for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 01:23:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.177
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789435439; cv=pass; b=nJBM0/3Boxp6pLlvVXqlyJs+637Dr1h3zqnLvuOvhhmfmGahPT0o2fF0vrnXJAksawj/DLdPJ0t3Q2HH41/RyztvViY462JgMHV+mNJ38Q/VPBqQpfKt8ysKqhod9rSb4uWaUzBeHCxRDomtrueakCNvRXRr/FmaZiu7SQ6FXsc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789435439; c=relaxed/simple;
+	bh=A5UoK2kb1xkEY0f9fIegjJq7KUgHwF4qoCSG3hEbKmA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=L0hMVINXP+Wk7WNs2KL93nbG2CXFpNfAY+VFzXtsHU7QdU3NSREyEfYW4tBkr4borh0eV088+QHYWlfZw1pUHWuk9HtHkHOjwRenJY+24JEEZPPqPa26OArnRYgc7cxiuIjE1a4oTkI/nHOAnwkBpQZ7npGu9GjlAF6KuFvmY34=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=bmSPLuXJ; arc=pass smtp.client-ip=209.85.128.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="JlZVB02S"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 648761F000FF;
-	Tue, 15 Sep 2026 01:08:12 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="bmSPLuXJ"
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-861a2ae9c51so36454117b3.0
+        for <linux-sound@vger.kernel.org>; Mon, 14 Sep 2026 18:23:57 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789435437; cv=none;
+        d=google.com; s=arc-20260327;
+        b=I1b/JpJ+GRcZezIweWPjV3KnAnTb9ljOt3zatwQBAzI8LyyyINhZyav/EjJv3CgYJK
+         oL96h2Zve2Y5xlSiNFNox+SfPtusJHcBYMIwJAGe5RkWgncBwPmHJ2J+e1Q2pGdbc13p
+         UOV1Zef/lgfLazL9a3QiDDXilmz3g4fWwK1QqObSN+B9HlYEf9fZsDDI7zQvk3HTu5XB
+         FlnTVtbMcmY6iQXtl0VUk9ONkbhDBNWEwFq+vCmopwaQO5xatsFi+wZMZuE5jzuNKNoJ
+         QK4yC3bs9D8lhL30beDChnWpDK/J2E0Nf9MCtDkv0Slnvxaq1g88KZF1hzZj6w9x9xP2
+         Pvzg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=A5UoK2kb1xkEY0f9fIegjJq7KUgHwF4qoCSG3hEbKmA=;
+        fh=m1ClVrZAzckcd8M98VgFHTVGONxKIHFrPdCSmZGQ1dA=;
+        b=j+ws5pdeeNXdia0rUnH5akmkzXyI1kcWcHiC8TjEf05oRz2QJGV8XvxEd9Qr2+X5Ar
+         SL7lDHLfdDB5mB7yOS+WP/0jXNcWT/2Z7g+AX89ZwRCOVCtPLs1tjS29/bdD42V8egWE
+         ey041nIEFicQ4Cj1QlPbkZhXXV1hFd7vl3Yd5Ygw66sr8Fah8JT50+FzRIprqRWUmGFj
+         bywrn/TVsk61Venbk8eW9I/J0pcskRfoeI1xSRLtcr8CpUh4a/Q9nG0lqJTK5td25RJR
+         SgX16B4XhWkgxu41h9HAmoxCvEkjoCaJX/K83KgDIS7070lrvxOBspEAyTyjqmGp/L7Z
+         X2fA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1789434496;
-	bh=1++7fS8iWKOMzhlKxfG6KZTpRByEnFekp/pb13YE7fg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=JlZVB02SRB8SlrjnhgKRH7erLp6/lF0bjE2LaEmvv4g/ygzNEN9Df4GzyzKOq1GRm
-	 MXZBeGQXDG+eEGW474o2elhJDXFweuH5LsbgShtKZ8tWHgw7BwYQ9PSDiWCSrWxS8a
-	 XDSL8c0/AB3jDnSpmNCqPc3psNggeGWzB7Ii5XXU=
-Date: Mon, 14 Sep 2026 18:08:11 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka
- <vbabka@kernel.org>, Jann Horn <jannh@google.com>, Pedro Falcato
- <pfalcato@suse.de>, David Hildenbrand <david@kernel.org>, Mike Rapoport
- <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko
- <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Dennis Dalessandro
- <dennis.dalessandro@cornelisnetworks.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Leon Romanovsky <leon@kernel.org>, Paul Moore <paul@paul-moore.com>,
- Stephen Smalley <stephen.smalley.work@gmail.com>, Jaroslav Kysela
- <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Alexei Starovoitov
- <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko
- <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, Kumar Kartikeya
- Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, Ryan
- Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song
- <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, Usama Arif
- <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert
- <dgilbert@interlog.com>, "James E.J. Bottomley"
- <James.Bottomley@HansenPartnership.com>, "Martin K. Petersen"
- <mkp@kernel.org>, Jaya Kumar <jayalk@intworks.biz>, Simona Vetter
- <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, Sebastian Reichel
- <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, Peter Xu
- <peterx@redhat.com>, Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov
- <oleg@redhat.com>, Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner
- <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov
- <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim
- <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Rik van Riel
- <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Juri Lelli
- <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Will Deacon <will@kernel.org>, "Aneesh Kumar K.V"
- <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann
- <arnd@arndb.de>, Muchun Song <muchun.song@linux.dev>, Oscar Salvador
- <osalvador@suse.de>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan
- Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, Oliver Upton
- <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, Madhavan
- Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul
- Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou
- <aou@eecs.berkeley.edu>, Christian Borntraeger <borntraeger@linux.ibm.com>,
- Janosch Frank <frankja@linux.ibm.com>, Claudio Imbrenda
- <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>,
- Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens
- <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller"
- <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>, Alexander
- Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>, Joshua Hahn
- <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park
- <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, Ying Huang
- <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, Chris
- Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, Kemeng Shi
- <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He
- <baoquan.he@linux.dev>, Youngjun Park <youngjun.park@lge.com>, Johannes
- Weiner <hannes@cmpxchg.org>, Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt
- <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>,
- Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Chengming
- Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, Miklos
- Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-rdma@vger.kernel.org,
- selinux@vger.kernel.org, linux-sound@vger.kernel.org, bpf@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org,
- linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
- kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
- linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
- fuse-devel@lists.linux.dev, Takashi Iwai <tiwai@suse.de>
-Subject: Re: [PATCH v2 00/40] mm: make VMA flag semantics explicit,
- eliminate VM_SPECIAL
-Message-Id: <20260914180811.057cba8fcc48d6e0b53a2683@linux-foundation.org>
-In-Reply-To: <20260914-b4-mmap-prepare-vma-flag-sanify-v2-0-7d9781ed5361@kernel.org>
-References: <20260914-b4-mmap-prepare-vma-flag-sanify-v2-0-7d9781ed5361@kernel.org>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        d=chromium.org; s=google; t=1789435437; x=1790040237; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=A5UoK2kb1xkEY0f9fIegjJq7KUgHwF4qoCSG3hEbKmA=;
+        b=bmSPLuXJTs8HlDvm8UF7bBl7DJgVVl3eX2shE01epwK3kx5dQ2B+fl5ZvpnaN+rEE4
+         BfBSJ3lH6ktdyV3SG42DilwC0k2HaLdArZP3J5IyycpxKrrPA2siFA7MQGkjNhYNiXXT
+         8jkLgFGqgMrwWEQZIpqO+ejohku+EqwE944W4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789435437; x=1790040237;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=A5UoK2kb1xkEY0f9fIegjJq7KUgHwF4qoCSG3hEbKmA=;
+        b=akDUJkosuKnAng+Wmu88h6cnEZMTVogUqN7srzbLUh0d81FBsGvIXJbsECkC2FLkxd
+         psrLE2TT8II4FMRFvULLu/RV4nf/kD7HzhgRhBS+yacUSVhl0hYkP0xU8VNq9kC80iNF
+         2O7Kv/PnQIRScWRp/p5hiYH0ryTy0fGchJ4amzzlPKnIxGfaq6+zFc4rj9WiU6FbIkTg
+         PiiVlAp2GLAKeG2gNmDJ844S2meUBiK3FKtFbikm2k9PxG3Ajpi9Y0Ws02/hbHUx1uQg
+         /Um0rq7neuLva5TLwLvi+AaT7dE6ePzqGACPUBC+D2XRLDqbBvKdxSxnc7OfC/Ubo/8r
+         LzxA==
+X-Forwarded-Encrypted: i=1; AKwUvBy4QiYQU5qLhbYTKPQELVurL/PhXaYCmSsJIYDK/QsFiloEWdTa9makB41dhYmz/injPaHabCk00Mly2g==@vger.kernel.org
+X-Gm-Message-State: AFuF++nPpn5Mjfz9T4fq6BemeIZ7JMVwCTxfQk0jSiqkqhczDoTNggNO
+	SjsUmjRTkQQiPzG2VmLYvUhzt+CpAIomWIOWKJkLg25CXXNzLf1KFbh8jbkXtr7YxdAJkQlNQ4Y
+	2b4z8dh9vi3KV1R1xU3PvF4OrqZCErI63GDN00V6o
+X-Gm-Gg: AYBFou1sz2h8WK4wRltBiQ7oaMTIaAjN8ZXamgQ6Gc4tGqr6Hc6kq2LH8cyO2m5ksOd
+	4sKjxRqx7/Dm+lSFUtxomeROcWS97CfTTazvvOgM46eCBxYSCWJmD2RdvJI3oAQkhYaanMx5IDV
+	w35R+E4I/n7IO6jA4fk8q6AyCQ6uJcpFCNvGqjSwkikonjvB2LZvtDfzSOdFwTZiJeP1vtf7GZ4
+	AyRSDxnlFMYO+dlf04kw1fHb1Pk7weGjVNZXOUZ1c1ycxtVRyAmlRfQjlQnhc5U8s/etCONDvHO
+	XmPbVvzl9VPHoZmkuIiE+bEWUYj/3IOBAiMkOms4S39hWKNUHvjEnnV2
+X-Received: by 2002:a05:690c:31a:b0:862:2e2b:8639 with SMTP id
+ 00721157ae682-88d22ed03f0mr20767597b3.33.1789435437168; Mon, 14 Sep 2026
+ 18:23:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+References: <20260713-fix-headphone-plug-cirrus-dell-v1-1-3c5157cd45cd@chromium.org>
+ <6cebda31-08b6-41e5-9335-a40ce2744d29@opensource.cirrus.com>
+ <CAB1bpFAXpjRYgc1aeCZo3vhbRq3zsCL9HjohbPk-ESx_8ia5JA@mail.gmail.com>
+ <0921e5a2-f8f9-4802-b40b-ec332b1aa4b4@opensource.cirrus.com> <001a01dd299f$5aff42c0$10fdc840$@opensource.cirrus.com>
+In-Reply-To: <001a01dd299f$5aff42c0$10fdc840$@opensource.cirrus.com>
+From: Steven Kendall <skend@chromium.org>
+Date: Mon, 14 Sep 2026 21:23:45 -0400
+X-Gm-Features: AcwNN1UVshfbK9Z0ZQB7xd7ceNwFMzndUKjY-_AUYjnG6aBh1KikGWunGMZWEFQ
+Message-ID: <CAB1bpFD1S_u6qfa1sGPbYz39DCzSqQjw_dM1erzMdf=_1M66Eg@mail.gmail.com>
+Subject: Re: [PATCH] ALSA: hda/cs8409: Fix for Dell Cirrus audio jack detect
+To: "Stefan Binding (Opensource)" <sbinding@opensource.cirrus.com>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 14 Sep 2026 15:57:20 +0100 "Lorenzo Stoakes (ARM)" <ljs@kernel.org> wrote:
+> We have retested the hardware using Ubuntu 26.04, and everything works as=
+ expected.
+> The behaviour you describe where ALSA doesn=E2=80=99t detect plug/unplug =
+until playback is
+> expected on this hardware, due to the way the CS8409 works.
+>
+> As for ChromeOS Flex, do you have any instructions for us to try and inst=
+all this to be able
+> for us to test this? Is there a particular image or version we should use=
+?
+>
 
-> The VM_SPECIAL / VMA_SPECIAL_FLAGS mask conflates several unrelated
-> properties:
-> 
-> ...
-> 
-> It's all rather a mess.
-> 
-> This series brings some order to things by both limiting what drivers can
-> do with VMA flags and switching to using predicates that describe
-> behaviour, not arbitrary flags.
-
-That's a lot of patches.
-
-Review is thin and I expect this won't improve a lot.  Lots of "no
-functional changes" changes.
-
-Perhaps it would be helpful if you were to identify those patches which
-you'd like to see reviewers focus on?
-
->  1153 insertions(+), 582 deletions(-)
-
-It's funny how often cleanup patches do this.
-
-All queued up, thanks.
+Apologies for the delay getting back to you on this; I got pulled away
+to some other work. To test Chrome OS Flex on the device I recommend
+using https://dl.google.com/chromeos-flex/images/latest.bin.zip (which
+can also be reached from the Flex main site, albeit with one or two
+more clicks than would be ideal). I've reproduced the issue on that
+build: audio at first only works through speakers and headphone
+plug/unplug is not detected. However, by closing the lid and opening
+it again (once already logged in or as guest) it fixes the issue and
+plug/unplug works as expected and audio can be heard over headphones.
