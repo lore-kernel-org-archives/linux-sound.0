@@ -1,130 +1,158 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E647394470
-	for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 07:55:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789458938; cv=pass; b=GlbkDszfn2OL7sBjPq8WrzpBOJfPzY4nX6e7yPBshdD1Ykl98ZbL669lfMDFFug3wNdtSDjIL6fnE1xx/00IzVjwSpt9I2bCHXx7D5w07w5r5XeJH8vjYzq5EK/hcwBzbrgwq6rPModAeye9p/CqW31HmWOKzD7y4QhYauxwZ5I=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789458938; c=relaxed/simple;
-	bh=MCmnREfTZM3eEhy1qIdIvvOYJ/hTWjGqL24nR5iVWes=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WefrrjVz576xAlSystRvPlAxOioeWCU4zP90WsMoOP53LhZlZnCg544aiIBEtGf+/KEuSiAmEJenp3DHNvPt34DGADtH53cphaQ9je9NV9uwQjHYfH/IKkhYPCjq4gl0s6f2sWiRBURJoWHYHZEWfBSmbnYQ0Hci0hU1y+RpELg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KiXFELF3; arc=pass smtp.client-ip=209.85.208.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAA0A2EC0B0;
+	Tue, 15 Sep 2026 08:08:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789459729; cv=none; b=XxEMc34DfO5Q4aFrS8fIVj6B7TjlT6b93wEvg6vFVZFKga7YnO+yPrNjjFAd09rJndkwT1LHJo37aBMeJaxgV9zS7HIUqvC7FsJLPZbkktt6Ou/kpF56eab/EkAulia2WMbr/ndxd27ngUzHlZffUHpPNS6+lFWDDPeRnrRPk8g=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789459729; c=relaxed/simple;
+	bh=/8p1/KKgF7AZxygHlK7kYYuUeZFkVQJJgm7WNvarre0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BinOgaybMCH+xCmrVBTrdKwmYkb8MTai9xZ+ABWNbUVKrtw+0XVcXB/1p3fKUULyofbp8Ze43INyAa69pk4Ii+hqhs9ifG0kJA2dN+APbTkAUjfAn0FEdYMlDtDL3fEkNOn/fxyIFuIAi9dGnyOovy0TBMX69kfHwSH9bE3PD8E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=ffqRXUHK; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KiXFELF3"
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-6a5e971c970so733768a12.0
-        for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 00:55:36 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789458935; cv=none;
-        d=google.com; s=arc-20260327;
-        b=UNsNdVpDMmjt6C+g7ef+waZE8aa7cBe+12Y1DdZv7VJwc6AmNF51FlxL7qOaeLvhG/
-         EALYZpr5Bdh6v6kjt3wI1MXNiWmx0XGBQkC29rzCjrw9gL5NlxJCPBFaMwv0GtjUzt33
-         6Etu9ksiaqb/QRxOMCBqU3+NzgeGf9FTmTgzqRcRtsaS9PjkCE5fiBQjOCead8jQ1U5h
-         Xa8IoJEt6vnr2+6OMxfkzQ9bn49WZMuss0MN0aQlta9Z4ROjyTK0WTpodqFPhQ3SeZVa
-         y83pBDiqQdAN6gCYHe62/NFZc3Mf++QZS4b+/wCYggQo6iJOsPqmK40AiCJO8tcsa0qY
-         Bjlw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=goS4E7honEFOUt4mgD9dkwBiL9FCUu+3QHZSOMHuZ5E=;
-        fh=LmaRT13/wYUhNahKPtbyAQFy13GJ0CnDxxo13jUbd/A=;
-        b=BaCl1kXAYLj/1VMgABPazicWfLzb0lhc0Ue+PyubW75O6W0jelPRjjKw4znYl/WyAj
-         Lzib7HiN84YTzG/70uWHgzVfJTDR9K8cp1otMHsTW7hLKofkWn/TveGqt+lNS5OxjsWv
-         NSe7knnXUP+RiQWUe3BLt3B4rMRVVUzHRSDjn6JdwB8zBe1YM2ar9ZmFe7u9LchqBiYa
-         svPlGw/WvmCf+8Y/9Fv/bxDG2SCSM21C9J1PO2BWFi0D6FapU/c0Ddk0Y8BOay0lGY0O
-         k7CWeFnp/AftUmFQJzpc8KMw/MAQbq50INE+Zq2z+Cvy8iURJp2RQoEquqm5XweIOBmS
-         dgoQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789458935; x=1790063735; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=goS4E7honEFOUt4mgD9dkwBiL9FCUu+3QHZSOMHuZ5E=;
-        b=KiXFELF3EeVlIOaxeLxbMAHBZPRirg4qdOzBTXxtQ8yj8zU8hf+/oilZZOSv++OXW6
-         dnRNgOkFwZOW8CbpkDPsj8bgfXk8OJeuZD20Mo9ZaHWYYvGUCKEz9mCOWLoNsNv23aIg
-         rBlZPsmcedlb8SzOJ8MsA8ncwWn+DGoCzRjH+F/AveBu/lRUbKAcVcIODBtKK2UFHEfL
-         McO+24I/C7yVW1KfkJlhZK7NAgokUaczqJlo7MsIJkq59tFoXQ22uQw4uqUKHf2VccmG
-         m0VyRGhunnm2ioVNcumWQIwnTuEBDcV1mFdFuGOlY8/ApNI2bfY1wTyAgOTn+OPVlAC9
-         Qmlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789458935; x=1790063735;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=goS4E7honEFOUt4mgD9dkwBiL9FCUu+3QHZSOMHuZ5E=;
-        b=LpuUmOuGuQO0ZA907CGcBeaClB5kxzvcST8HeFCIcBJHkUyFjsDsWRSKSa4BYazG2v
-         CwKyrl7AibeMaww4lyrC9wCPWsyXQETobE7OmjjC9rdOwDa2WjmPCR+H8Irv/wvF2/BO
-         ZwptBr/nHVK7gFMaAEm1JAc7TempAoeyfQPs6525beaLtjq97p1AIlOFCqsFezNZtSb/
-         XEhIPRDewD1Ha/cNVoZcWsMyEttbr92IAJbdr1zLzWWODO9y4ejIYpQ2NFTy1Ebbv4DN
-         HWYaYJ75RqU+7Aq26fqbbzBxwwI/ZaRVuKQa2Xf5g0hsRR7HOuovoXSJbcMM4Pyqp5C7
-         WXLQ==
-X-Forwarded-Encrypted: i=1; AKwUvBx3a0tNfbclyc2NyAyPvP3AqC/yzRsp/K5V/CufSL9wv3rSogHsigP8o/pVCKz6QsMHPZvZ8Xw/1BuPtw==@vger.kernel.org
-X-Gm-Message-State: AFuF++nutUyGNxbl2msYCv4PmJud3KW7+C8cCR9/xjlQDiU+EWuLDrzp
-	DAaT0ICHLThpD/Law/LI7uy5PXitNEGwiIUZ4I1u7Q8myJBGxEW0fd+JnerNad0G+qXUJ0LtOaK
-	THP4mOypr/Yozthe3OrohMHPvDRKeprw=
-X-Gm-Gg: AYBFou06CziSl7iWgBQdeWPt8aXvqi+XrF0kYGRxIr8NrA0r30c8YIpHwVes7vlcnRB
-	3bDMJtmh0Hd7JU9kEtoRMYPv/qMpPvxFuqcsuKYtsSqkMjnkNClPwYO9i9pDOlOIK4xk94ZNfVO
-	m3DENcrFca/dR4qAeEn3ak70Tbqm7B55Ngb50gwW7ENzB7JznNIZDA6Dfo0FDP7HI+snJHjyVrV
-	Bawi18uVxODUK6hXYBw5Fqlgt4X85oKQRVLL66zyGOgqSByNe5JiZzJJpB5iFjRzR5bEnK4QnDg
-	Sb+G3KgjKkRDt+jbMx0OP+Lt5E9UAaxRxCes7XymvxAKaW+LAZFEte4hutv2rKi2bU7rDDw1Dm/
-	udEf4vVZXtSX9ZP7IwDnsoWRzY/WO1PT0PzgS753RnH/BnODTm8++Qxbud+T4DplyM3w=
-X-Received: by 2002:a17:906:6a06:b0:c26:1f8f:ed53 with SMTP id
- a640c23a62f3a-c29c896c418mr191111266b.12.1789458935020; Tue, 15 Sep 2026
- 00:55:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="ffqRXUHK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1789459719;
+	bh=/8p1/KKgF7AZxygHlK7kYYuUeZFkVQJJgm7WNvarre0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ffqRXUHKzmjQxpo2VjQtOyqv6/ogfbfK6zjfcEghA/fd9iiPcjW5kwKqWGT5+0dH7
+	 K+EK4R7ozILyaoaOWDNQ2Rbi1jhtynjwrKl+DJiVoEJbXlG2WpZqlbdhNUgw5OEskB
+	 VjV7ZeRd2xVkybWSx2vC/6yO4oLqyWnskIXipUvITvz2h2vBeAsdNqqcXHdfcFme0N
+	 rd9jBNjgpfyaUIbpR0LSFFkiSQ/knJoiOCgBRf4ZOCvZetSx8K4vFcwrtxP3vgq4nc
+	 04Z5KTmOllRmdTRLaqvLktW1ZgmTxdM5d7zREvgJws8AFpE8XO9jnXw3F57sKZ24Yl
+	 ePnNsiH8KwS3g==
+Received: from [100.64.1.21] (unknown [100.64.1.21])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id B6A4417E0A27;
+	Tue, 15 Sep 2026 10:08:38 +0200 (CEST)
+Message-ID: <936fda6d-8e9e-41f1-b988-b2a4dcb4004d@collabora.com>
+Date: Tue, 15 Sep 2026 10:08:37 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260914072842.24420-1-phucduc.bui@gmail.com> <20260914072842.24420-8-phucduc.bui@gmail.com>
- <693fea96-1905-49c9-b1c5-3fa1ceb4874a@collabora.com>
-In-Reply-To: <693fea96-1905-49c9-b1c5-3fa1ceb4874a@collabora.com>
-From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Tue, 15 Sep 2026 14:55:20 +0700
-X-Gm-Features: AcwNN1XHHQHyucAHdm0EW7r7ZxJRYduxWbuLcSKyAsTdoDPrrcNWVh8BQ68F-UQ
-Message-ID: <CAABR9nH5e=kKRsHQYx7u3HtWgA3C897d9dH4h+wQTpZNGaTRHQ@mail.gmail.com>
-Subject: Re: [PATCH v2 07/13] ASoC: mediatek: mt8189: Propagate runtime resume errors
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Cezary Rojewski <cezary.rojewski@intel.com>, Cyril Chao <Cyril.Chao@mediatek.com>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Dan Carpenter <error27@gmail.com>, 
-	cassiogabrielcontato@gmail.com, linux-sound@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 02/13] ASoC: mediatek: mt8189: Propagate APLL enable
+ errors
+To: Bui Duc Phuc <phucduc.bui@gmail.com>, Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Cezary Rojewski <cezary.rojewski@intel.com>,
+ Cyril Chao <Cyril.Chao@mediatek.com>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Dan Carpenter <error27@gmail.com>, cassiogabrielcontato@gmail.com,
+ linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20260914072842.24420-1-phucduc.bui@gmail.com>
+ <20260914072842.24420-3-phucduc.bui@gmail.com>
+ <07add31d-5622-40eb-9bcf-f7cb2396fee3@collabora.com>
+ <aqf7B_E7_Gv5iK2A@sirena.co.uk>
+ <8f1ea5c4-d85a-43eb-8b10-3f80f8343b27@collabora.com>
+ <aqf-pqvBNQ21EQZx@sirena.co.uk>
+ <CAABR9nEB16gANTVf-B+sud0+11XhjCjqiCRY3hP_rnaFstB0tw@mail.gmail.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <CAABR9nEB16gANTVf-B+sud0+11XhjCjqiCRY3hP_rnaFstB0tw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Angelo,
+On 9/15/26 08:55, Bui Duc Phuc wrote:
+> Hi Mark , Angelo
+> 
+> Thanks both for the review.
+> 
+>>
+>>>>   Though practically speaking the error
+>>>> handling ends up being the same as if they couldn't fail since if
+>>>> something goes wrong it's generally catastrophic stuff like locking the
+>>>> core up completely so the end result is the same.
+>>
+>>> That was also an implicit point (that should've been explicit from me): if anything
+>>> goes horribly wrong here, it means that it already went horribly wrong "some
+>>> function calls ago", and the platform likely already locked up as you suggested.
+>>
+>>> In any case, I'm not against doing error checking, it's just about not doing it
+>>> when it's really useless (I'm sure you understand my reasons), and I believe this
+>>> specific case is one of those.
+>>
+>>> That said, should you prefer having error checks in such places... it's not a
+>>> performance path, so I don't really have strong opinions really.
+>>
+>> Yeah, I think it's fine and sensible to skip the error checks in cases
+>> where we can't really do anything constructive about the error.
+> 
+> As far as I understand it, regmap_update_bits() doesn't go straight to MMIO.
+> It first passes through the regmap core, which has checks independent of
+> the underlying bus:
+> 
+> https://elixir.bootlin.com/linux/v7.3-rc2/source/drivers/base/regmap/regmap.c#L2834
+> 
+> ----------------------------------------------
+> if (map->cache_only)
+>          return -EBUSY;
+> 
+> if (!regmap_readable(map, reg))
+>          return -EIO;
+> ----------------------------------------------
+> 
+> So, in my understanding, checking ret here isn't just unnecessary
+> defensive programming
+> for an MMIO write, it guards an assumption about PM/cache ordering, namely that
+> the regmap is already out of cache_only mode by the time this runs.
 
-Thank you for your reviews.
+You have reasons, of course, but have a wider view and check the full picture:
+apll{1,2}_enable() is called only by mtk_apll_event(), which is a DAPM supply.
+
+That call can only happen if the device is not in suspended state, so can happen
+only after a call to
+
+	regcache_cache_only(afe->regmap, false);
+	regcache_sync(afe->regmap);
+
+is done in mt8189_afe_runtime_resume().
+
+> If that assumption were ever violated by a bug elsewhere (
 
 
-> >       if (!afe->regmap) {
-> >               dev_warn(afe->dev, "skip regmap\n");
->
-> In the probe function, there's a call to devm_regmap_init_mmio(), and that's being
-> correctly checked for error as in, if any, probe will fail.
->
-> So... during suspend or resume or anywhere else in this driver really, the regmap
-> pointer can't be NULL.
-> The right thing to do here would be to just remove the useless check.
->
-> Mind you, this comment applies to some other commits in this series as well.
->
+> a PM race,
 
-You are right. devm_regmap_init_mmio() returns an ERR_PTR() on error
-or a valid pointer to a struct regmap on success,
-so checking for NULL here is not correct.
+That would have worst consequences, and your system won't be saved by this error
+check because it would crash way before reaching that...
 
-Also, if devm_regmap_init_mmio() fails, the probe will already fail.
-Therefore, I will remove the if (!afe->regmap) check here.
+> wrong resume ordering,
 
+If limited to ASoC, that would break most (if not all) sound drivers, as that'd
+happen at the API level, and would get fixed immediately since that'd affect way
+too many platforms and architectures.
 
-Best regards,
-Phuc
+> a register missing from readable_reg, etc.),
+
+..and that would be a driver bug, which is not the case here: the error check
+though would be useful during development where you definitely want to paranoidly
+check for literally everything, even "useless" things... but this driver definitely
+is not in development stage, is it? :-)
+
+> this is where it would
+> get caught and reported,
+
+...but then you still wouldn't be able to do anything about it during runtime, as
+there would be no way to handle this and fix it: the driver would still act in a
+broken manner.
+
+Cheers,
+Angelo
+
+> rather than the driver silently assuming the enable succeeded when it didn't.
+> 
+> Best regards,
+> Phuc
