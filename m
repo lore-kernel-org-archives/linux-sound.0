@@ -1,93 +1,117 @@
-Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2492395DBF
-	for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 05:33:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FEAC23EAB3
+	for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 05:49:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789450415; cv=none; b=t1YYFj3F2+sseTa5TV9dNuDrQfYnEaQ2U1uukdd3mrYWYJvXKlx1/1t0ftNkp2hHIR6GTNqmWeq9V7OtukbzNi7nzzgKFJcVEnAQEYJaz6C0UNhBi+OB1nT6AyJ6J7MjNVAjX1PjcJt9PN2MheZxTOJtq/wd2a/y6G7oLVoBqSw=
+	t=1789451381; cv=none; b=b04DCvtghdwuXCzqDxnWugYgMDYOADqTKNRSs7PLqzrjF7GtL4HN7sUXLNC3jNQMumB96docXPa4stKKGpdJGWTH9w3wBt4gn5iWuPlmwwXKc1H5pyGC5T9YfmAXehvWBbFEqc6u0QiecqyJGayHAVRVY7HLO9ujErkxj92nnvM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789450415; c=relaxed/simple;
-	bh=Xwnij+Z3LNCoB15gSkLM+/TO+U7Se9AYEfVZuETLSgk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=c79dq2FAWIckHBp/PC5cJa2sy7gUdp3VxDsljWK9L1jFkJEobtHnPpM1lidQYc+TWm+vWDacmOqdWaECEypL2vhvfeHbPbrD/j7B0oZDK2kv5eWwHggekUC6wnPOxllR4lz9ivtYOyyAOfQ3sFzhLtwV6klaseb6pSMpzRGcQno=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F2f1Vs2X; arc=none smtp.client-ip=74.125.228.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789451381; c=relaxed/simple;
+	bh=l+3QHRncoILm3N7IaDd/iHYsMXXyCHGho0b7Gk/lsa0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kPyMqLEk0b0O/fM+fZlg5XDkI/7vp62oAPAFoUNYNKSJsbtLaWUM5QfTb6FbHQxG7LJLNM2LlmywrSUdesZQfg3GXmCAFAG2bBsp9XjdPlfnnRMzOwztmJSRLu0P66nUg93x+KpdZxiI2J8pPYBcO9xvE++IZFXX6v855OoFiJI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jRsXJhrn; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F2f1Vs2X"
-Received: by mail-pz2-f12.google.com with SMTP id 41be03b00d2f7-cc4bdf8acd6so2066291a12.1
-        for <linux-sound@vger.kernel.org>; Mon, 14 Sep 2026 22:33:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789450413; x=1790055213; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Xwnij+Z3LNCoB15gSkLM+/TO+U7Se9AYEfVZuETLSgk=;
-        b=F2f1Vs2X4HCudTGfDWL3XIaOk6lIpppjkyPTzwO8+BYNSIrvY9CI7zWtDPY5AzN6HX
-         Dydc7l9P50X9zeFiSKJ1u9b8kMzsETGmrbAuCXrUaOOGQki9khRgx4tCmjr8moJ7aff0
-         762WJfpjpTQxpiBgyXGL9F2Y3M8JCJqgYtjooznT3U6JFhPQoKWTBjwtlZ+YSt5sBCkK
-         h+Babg0Td9/IsfR79f5KL4VNhXYV0v5cjK47ZNkLIREAzwj22uwy/hhxNfw2MPWpONFZ
-         FFodBHwB7gv3XUJCr/suP9OpJjrLHi5v4dibWGi4q2aq/C/VXO8ALpcNLT5lCUHZYtB1
-         E3MQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789450413; x=1790055213;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Xwnij+Z3LNCoB15gSkLM+/TO+U7Se9AYEfVZuETLSgk=;
-        b=Hh28vPOsN2N76DCJ/KcKDHR+jbTGOpJqJ7E9Xx8UhdzqByEzojvP9BTjmZFekHyZmy
-         D9FE08ax6K0vU/bx+SeBmbpBKxNnu5qHPLCazBkviBQcp6sGxVuD+JC5ddpTq1iTN9C/
-         Goe3sbOKaNlgBZ0W5g3E2Il9Jx/yInacSmDmG9kqlWkPynPUBQD7TX6dPv1BTIC/PiS5
-         87dGwTlSzARLBPXolygnrGRQbaYfBApzaWeJwWTQrx5M98cbLSHKSvBu1vJJqOaB2ZLO
-         70tE351YYBJ/ycT0UpVIfEE3qsfldQSREyTtbfP5CPHHq9vOyfYcjWrZi8hHJksbXXYp
-         JV+Q==
-X-Forwarded-Encrypted: i=1; AKwUvBzD04SZDVn0XhBJb9GbNEeQi8PVIshsUB7NzpB7ljH8pRXMON93cSQFgz/vXhdD98B2plXLDhXVApTjnQ==@vger.kernel.org
-X-Gm-Message-State: AFuF++nicSAlOGwk8l21ThrVvItoNueyEtz/Mg7lPROrc+WxHPAOHfYd
-	MqU9E/sIopBuEm9gYdLdX88uPN8ZLIOqlRR2PFTsSMJCVJzMaWa548As
-X-Gm-Gg: AYBFou25LTfNOXSU0+9wHhvrHbrGNTT68Z4E/UECfkswGTGR5GhBoIR5haRrn9OyVkN
-	X0I+mGFPk0AmpuGTOy7xOryhqbPS4cNrw9mB76gEZymyBpC/A0pjtSRu5XGNUO2U2F/QaaicCW4
-	qkWD/fI7ZlK+vmDaaC3I9zHosoF3NEYpRfRDTR8Silco3Pf3OTr8x2tG9VzWuaQbbwM33TfCKwl
-	6AnW0xKxAOUc8cqxsHP3CNtg/XlrUifOPtzH+JFOkap5dH92J81s/vPGbrcrLLCLeYMeRaE3FuK
-	5Tw/L34v8HLSyATKhc7VAe0P1K5YpwCZSwKkdQ3yPjNGn3L3T0zkxvShv7GClpH5lDNhuPV7Eb7
-	dJtC1ySQbPIm+5QfLHd50QPQh2ofuVO4qhJfffpj8mMo+aHkPl9q3rLcpkJGFLnisoShUCtcfV/
-	7Cu5gm/VNqtdnIKWncDa9AB6SE8OP3bOMiHq9fUFKUq2965D5DPZdQ7rAGVFmtfcVT8P8hW03j/
-	DJO+odjwQ==
-X-Received: by 2002:a17:90a:dfcb:b0:398:ba56:b926 with SMTP id 98e67ed59e1d1-39dec142834mr13260587a91.25.1789450413078;
-        Mon, 14 Sep 2026 22:33:33 -0700 (PDT)
-Received: from kdev.. ([108.180.130.139])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39dfd9baad9sm2944462a91.4.2026.09.14.22.33.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2026 22:33:32 -0700 (PDT)
-From: Babanpreet Singh <bbnpreetsingh@gmail.com>
-To: Srinivas Kandagatla <srini@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Vinod Koul <vkoul@kernel.org>,
-	Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>,
-	linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	bbnpreetsingh@gmail.com
-Subject: Re: [PATCH] slimbus: qcom-ngd-ctrl: Release the TX descriptor on error paths
-Date: Tue, 15 Sep 2026 05:33:31 +0000
-Message-ID: <20260915053331.7-1-bbnpreetsingh@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260820035203.7-1-bbnpreetsingh@gmail.com>
-References: <20260820035203.7-1-bbnpreetsingh@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jRsXJhrn"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1789451379; x=1820987379;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=l+3QHRncoILm3N7IaDd/iHYsMXXyCHGho0b7Gk/lsa0=;
+  b=jRsXJhrnwLiFTWWY8lJKeFbmikC2Y1I8DLGP7R0vfkQUAHTKPvqNKZgS
+   b/DLygYPPZrrna7XOJD9gF9NbJxCLEb9N6R/AAimD9LMZDQrvXoexzRoe
+   btnyQHa4TYB37Czx4wq/+9INiMj4osHJ5SYM8mwuSEPkwWehoaRm/SJ78
+   Mjwfr4y+6nZd6SZAnuU9JpuLFPFoRdWmgazbsO4pqab6/tcEUkyR0AxLv
+   I/huJGoA3FoM/KZtDLxDaU9+1JqS9MZbCS+eNV76ilHqQhCnLgrgntNOU
+   6vNtyXKtS1DtZkOikMqLUF9faaxXkeivBMP94qH0WZqM9jX19kh6qgkfZ
+   w==;
+X-CSE-ConnectionGUID: A4M/7y3mRpiNnKH/bmqg9w==
+X-CSE-MsgGUID: QlSn/S5HS8O+tliHi4VpkQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="92315270"
+X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
+   d="scan'208";a="92315270"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2026 22:49:39 -0700
+X-CSE-ConnectionGUID: 7jiuk3IGQ3aXld8xSynmTg==
+X-CSE-MsgGUID: liK8iSB0T2CopzH9ikYkAQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
+   d="scan'208";a="278131020"
+Received: from ncintean-mobl1.ger.corp.intel.com (HELO [10.245.245.194]) ([10.245.245.194])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2026 22:49:36 -0700
+Message-ID: <f86a27ae-83ab-4a0c-8560-86f0ab2143f3@linux.intel.com>
+Date: Tue, 15 Sep 2026 08:49:48 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 18/26] ASoC: SOF: ipc4/ipc4-loader: Add SOF_INFO and
+ CODEC_INFO to fw_config_params
+To: Mark Brown <broonie@kernel.org>
+Cc: vkoul@kernel.org, perex@perex.cz, tiwai@suse.com, lgirdwood@gmail.com,
+ srinivas.kandagatla@oss.qualcomm.com, linux-sound@vger.kernel.org,
+ kai.vehmanen@linux.intel.com, yung-chuan.liao@linux.intel.com,
+ pierre-louis.bossart@linux.dev, daniel.baluta@nxp.com
+References: <20260911112152.28528-1-peter.ujfalusi@linux.intel.com>
+ <20260911112152.28528-19-peter.ujfalusi@linux.intel.com>
+ <aqRsL8fZercsabgU@sirena.org.uk>
+ <30950a7e-25ea-4b32-94ee-70c7357ffcaf@linux.intel.com>
+ <aqhEqOUf90j9YDzu@sirena.org.uk>
+From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
+Content-Language: en-US
+In-Reply-To: <aqhEqOUf90j9YDzu@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi Srinivas,
 
-Gentle ping on this one. It has been about three and a half weeks and I
-could not find it in char-misc-next or your for-next, so I wanted to
-check whether it fell through the cracks or whether you would like
-something changed.
 
-Thanks,
-Babanpreet
+On 14/09/2026 22:02, Mark Brown wrote:
+> On Mon, Sep 14, 2026 at 10:28:41AM +0300, Péter Ujfalusi wrote:
+>> On 12/09/2026 00:01, Mark Brown wrote:
+> 
+>>> tuple->size can be 0...
+> 
+>> It cannot be 0, the tuples are built in firmware and they are guarantied
+>> to be correct.
+> 
+>> I guess I have added this check based on comments, but I would rather
+>> remove them.
+> 
+>> s for the specific CODEC_INFO, it is also granted that the tuple->size
+>> is not 0:
+>> https://github.com/thesofproject/sof/blob/main/src/audio/base_fw.c#L111
+> 
+>> In fact, all tuples are added in a way that the size cannot be 0, but
+>> the check in the code is incorrect, it should be:
+>> if (!tuple->size || tuple_size > sof_info_size - offset) {
+> 
+> It's not always super clear when reading a diff what's being parsed
+> from a file loaded from disk (which could just have been corrupted) vs
+> what's been sent from the DSP.
+
+True, I will relocate sof_ipc4_query_fw_configuration() and it's static
+dependency to ipc4.c, there were a reason why it ended up in loader file.
+If I recall it was that this is the past part of the fw loading/booting
+sequence where we read back some information from the booted firmware to
+see what it can and cannot do in it's current form.
+
+I will do that later as separate patch.
+
+About dropping the tuple size checks: adding a comment that the data is
+coming from a trusted source might be better.
+As you have pointed out we check the tuple, but don't check the
+codec_info, so it is a mismatch, gives half backed feel.
+
+I a tuple is found, it is given that it's size is correct, tuple with
+size=0 cannot be present.
+
+-- 
+Péter
+
