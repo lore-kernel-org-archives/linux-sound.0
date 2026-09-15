@@ -1,172 +1,159 @@
-Received: from mail-lr2-f4.google.com (mail-lr2-f4.google.com [74.125.230.68])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2394E4A99AC
-	for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 11:54:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31EBD4A5C33
+	for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 12:04:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789473272; cv=none; b=Iv9Lnm9ODROZ2Rj6rpoIMU8D5bqW6z5zNNAyCKfIQ+BtvmIJSL2Vp4skLm9/D1PlFE1+nfQvne3IYwH97/GCAoNDryWveAyxPZPYvDjFJbO9GTRq6QXEy8maqFjreaU24QOsq9TWJPluTp0ZY+lVyGVT/Acd/1WgEpoFpjtKaqo=
+	t=1789473857; cv=none; b=CZs9esYhNmuG8KTTFkbrkfIADkVKWQPEHhxis30g01hredncZkZ+cqe8rZZhSz1OfdMFUGv/nfRo+6Lo1ouNG/Mf7HRAnvWVNZVgr5SH88xLP7NU52bfIO51/rc4t8rwsXdvkTqOVR41toZjSHKBdeiYX09qdwMouJ8JuNw4smc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789473272; c=relaxed/simple;
-	bh=4XUMdGNNDdDpAAwbuOPgfyiNEZsB2ALa50w4MMtVLVI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=j1AH50lJr279YXJEJd3v5U311hHC7RDf0zMS1Rif7IvM8dNOyiSstlfXtXLpjv898LotI7XQfkccut092ZxOOI1Cc/u9DpVPZat3Dl3G1Ac8uwiJxwD1MPrkOMW0WjW1/KzgqZpi1oB3QICSgrNGHMkGQfijOa11Zr6ekKVCwo4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FigqRK52; arc=none smtp.client-ip=74.125.230.68
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789473857; c=relaxed/simple;
+	bh=pmL4OrUfsmWyvTYoc4u23lHvskNNeZQP1IEA9i5+gD8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=etintiogSFSPLbV9qHkdLM4MGuR1tiqdsqs7x5hrqypSxJlaZvOWBDdBZyY2LlnVLl3hqxbhvKSrasgxPOIW7UmTRiog6FrFAvqTDSDgDEm5UKWGLR6QiiAwXj9TNPlDxcpLtw/I95Lh+13Djtw254Mu11/FTqjP41K+32BTEBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=WNtQWP+k; arc=none smtp.client-ip=77.48.224.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FigqRK52"
-Received: by mail-lr2-f4.google.com with SMTP id 38308e7fff4ca-3a48db5ecfcso24100361fa.0
-        for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 04:54:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789473269; x=1790078069; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=xOQoh1y5NM/04T86C2Jn4EMNc9+KHCfk34Vs3gnxreo=;
-        b=FigqRK52Rn2Y8/VXB1shDMAozSXPXg9xWtWgfLoPoUHkP0Lb45WjwlmCYNsXceluIw
-         YWBH4+KZXnpFYeMgLzUoiG5cyMmX0dX8Xb7d3g046ehJCH0pyPAxMllY1Z39YPRaweoT
-         Yud8YIm3GZOApFDqxtve9Aly4+A8TjVIbWtqRjt9SJpVnYDYrIJ4beLAalYiJ18ty7rg
-         ti2MH4bChR0hH4FGGskn6cf/NBxFDnI1WayX2IaukVDyTMyDIXz1nVigJgcyhGhFAqbx
-         kLuizIlbBRoYG7YrDzyyHjrtPOjz1HqIcuSDMkBaqnBJXhS0BR3MqQALmpSUev9BWiNQ
-         fHww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789473269; x=1790078069;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=xOQoh1y5NM/04T86C2Jn4EMNc9+KHCfk34Vs3gnxreo=;
-        b=c2wHLViVTioSRNr+Ul/0KABIbmLIElABYKuvpBs6587IGUwVx+koNGsT6QDW1ZNJvg
-         jgyK5gB3qkB/ah5XBFjjVwy5NgVmA5cRw4yfsY9pUG6csZZxMef9W8kwAsHNYd5WaHac
-         9SWlbfFCH60M/OdgVY3unUki5CJpWrKf9ur912/kYBivtDrHwGyepuvicfxmBmHPgj1j
-         xkf5ZRJDU6tYav1MfuKPpXbdHyCjexeGQxPk37yLz9cPjmCu152Q3auZU3nz1xG4qcMa
-         WS9w0ZbHjTzXVuBAJew3zIWRmkCKwjDk1l9YlWxIePx2FskICl73jqHDO/I/PfsXZwah
-         O+Uw==
-X-Forwarded-Encrypted: i=1; AKwUvBwUneGBUHH8/oZCm8lUxXkfAkjKTH8aaYNerdEYzSida2LE0NkbgqMJzmHuaUbnGwAIItLGyyOuMLBwZg==@vger.kernel.org
-X-Gm-Message-State: AFuF++khfZkZQnobXcz79wRb3hVgbZr3qkMOZi89roicfPtgrMCINCWf
-	NjMsqjry4+wLFrsaR7hF3r+tbZL7gje0OBRZcIO+a6JXVH5kWhWdVUXg
-X-Gm-Gg: AYBFou146uje+63jCknfQMHenQLNGoUlZiQhM51vAKhruOF3YXaVfIqfv/44S3t9tfi
-	RQZNcxXYIeCCrUnT7XogUw/40AC8yUXfmYJvOGdXnJnu4ZTdDccDa7p23lkdTI9Mkxw65eLX5ga
-	s5u3Cl7LmR9BoScUdKK4Fou9dHyrwII3Dg0itu2e+gHyXZ+rCqoHqKdDvUc04bHlCQOHker6Ny1
-	QZ+82o6UTbpXRLCy3O3ErqicB4Z5tAvMxzPICxHg4ANrOSxY9XXCNCAFUUvso2T2lNSFeCzfdum
-	ySTaNG5itlILCikg7ZVjO+kP0P4ObBIyOFU35T6n8WW5cwf4Vmqhv9Dta/khrbMSSv5qQFfb343
-	BcuiE08cH5QNg6pcck4KQS1Q2yGiQ6oCI5OWvWoqOIw0Q0J19t/TvAtuNMPROSVWFVi6cUn/fTT
-	tCy+FkYc/V2zZLgp9KvPNzS79NewrN/rX2HIW+zmhZ7+aBovmbQJ4SLz3fmyWMujUipXTg1Zy6d
-	VaMn7bod3pt/hUmbklll56UwEo=
-X-Received: by 2002:a05:6512:110b:b0:5b5:e7a8:9b1d with SMTP id 2adb3069b0e04-5b8ae68dbafmr4041728e87.13.1789473268925;
-        Tue, 15 Sep 2026 04:54:28 -0700 (PDT)
-Received: from localhost.localdomain ([78.40.184.2])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3a5a334bae0sm33906521fa.24.2026.09.15.04.54.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Sep 2026 04:54:28 -0700 (PDT)
-From: Roman Demidov <roman.demidov.nn@gmail.com>
-To: stable@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Roman Demidov <roman.demidov.nn@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Sasha Levin <sashal@kernel.org>,
-	Tim Guttzeit <t.guttzeit@tuxedocomputers.com>,
-	Werner Sembach <wse@tuxedocomputers.com>,
-	Kailang Yang <kailang@realtek.com>,
-	Zhang Heng <zhangheng@kylinos.cn>,
-	Sean Rhodes <sean@starlabs.systems>,
-	Damien Dagorn <damien.dagorn29@gmail.com>,
-	Martin Hamilton <m@martinh.net>,
-	Bharat Dev Burman <bharat.singh7924@gmail.com>,
-	Lei Huang <huanglei@kylinos.cn>,
-	Stefan Binding <sbinding@opensource.cirrus.com>,
-	Lucas Tanure <tanureal@opensource.cirrus.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	lvc-project@linuxtesting.org,
-	Denis Arefev <arefev@swemel.ru>,
-	Takashi Iwai <tiwai@suse.de>
-Subject: [PATCH 6.6 v2] ALSA: hda: Fix missing pointer check in hda_component_manager_init function
-Date: Tue, 15 Sep 2026 14:54:08 +0300
-Message-ID: <20260915115410.106036-1-roman.demidov.nn@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="WNtQWP+k"
+Received: from mail1.perex.cz (localhost [127.0.0.1])
+	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 8D36A3A217;
+	Tue, 15 Sep 2026 14:04:09 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 8D36A3A217
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
+	t=1789473849; bh=CaxLMaz6vws7uXzo0Gy1m89Ijnx1SuwmV4Y/wzsAiCU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=WNtQWP+kkw/P5AebSiAvyEq6u+htnMSFEjIKLQLU1vIzJkBo05qxCXrz6y3r2fnYd
+	 h8WdV52gNQKk/2ynSn0JxyHYoyBZmZ5LSWAHYqYxAloqaikNMsFolnc+IE+hnFxT9h
+	 Yo8MA8B9532rIO+DaE6LRDUL6nojTMHJHaCmpkXA=
+Received: from [192.168.100.98] (unknown [192.168.100.98])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: perex)
+	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
+	Tue, 15 Sep 2026 14:04:05 +0200 (CEST)
+Message-ID: <80d8cd47-08b2-4e27-ba6c-bc9a11e6fafe@perex.cz>
+Date: Tue, 15 Sep 2026 14:04:04 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC] ALSA: how should a card name that is not ASCII be exposed?
+To: Takashi Iwai <tiwai@suse.de>
+Cc: "otzelot2021@outlook.de" <otzelot2021@outlook.de>, tiwai@suse.com,
+ linux-sound@vger.kernel.org
+References: <AMBP191MB2886BF4BED02C050FB4D6B76CEBB2@AMBP191MB2886.EURP191.PROD.OUTLOOK.COM>
+ <7723e39f-982d-47cd-8322-ed0e71d99290@perex.cz> <87eceun5ub.wl-tiwai@suse.de>
+From: Jaroslav Kysela <perex@perex.cz>
+Content-Language: en-US
+Autocrypt: addr=perex@perex.cz; keydata=
+ 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
+In-Reply-To: <87eceun5ub.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-From: Denis Arefev <arefev@swemel.ru>
+On 9/15/26 12:53, Takashi Iwai wrote:
+> On Mon, 14 Sep 2026 18:59:53 +0200,
+> Jaroslav Kysela wrote:
+>>
+>> On 9/14/26 18:46, otzelot2021@outlook.de wrote:
+>>
+>>> The larger option
+>>> -----------------
+>>>
+>>> Add UTF-8 successors of the three fields, kept alongside the ASCII ones
+>>> rather than replacing them, allocated on demand like card->components
+>>> now is.  Either side may be empty, so nothing may assume a name is
+>>> present and every reader keeps a fallback.  Drivers fill both and keep
+>>> them semantically in sync.
+>>>
+>>> For user space this needs no new ioctl: SNDRV_CTL_IOCTL_CARD_BYTES
+>>> already carries a variable-length card string with a type discriminator
+>>> that was added for exactly this kind of extension, so three more type
+>>> values would do.  Nothing existing changes, and an old kernel returns
+>>> -EINVAL for an unknown type, which a reader can treat as "use the ASCII
+>>> field".
+>>>
+>>> id, driver and components would deliberately keep no UTF-8 counterpart
+>>> for the time being. They are not display names: id is the unique handle
+>>> and part of path
+>>> names, driver is what alsa-lib matches configuration against, and
+>>> components is a token list.
+>>
+>> This looks like a best extension proposal IMHO. The current apps don't
+>> have any assumptions that the fields are in other character coding
+>> than ASCII.
+> 
+> I personally find it OK to have UTF-8 strings in short / long / mixer
+> names.  That's no new problem, and it's been over decades.  Of course,
+> a broken letter at the end could be a problem and we can fix it in
+> either kernel or alsa-lib, too.
 
-commit 1cf11d80db5df805b538c942269e05a65bcaf5bc upstream.
+The fields are printed in procfs, so the kernel code should do this.
 
-The __component_match_add function may assign the 'matchptr' pointer
-the value ERR_PTR(-ENOMEM), which will subsequently be dereferenced.
+> OTOH, I'm fine with the extension, too.  That doesn't sound too
+> intrusive.
 
-The call stack leading to the error looks like this:
+Accepting UTF-8 in fields and provide short-long/long-long name through 
+SNDRV_CTL_IOCTL_CARD_BYTES when it does not fit to the standard field length 
+is also acceptable (as for the components string). But the driver name and ID 
+fields should be normalized somehow to not add another layer of complexity.
 
-hda_component_manager_init
-|-> component_match_add
-    |-> component_match_add_release
-        |-> __component_match_add ( ... ,**matchptr, ... )
-            |-> *matchptr = ERR_PTR(-ENOMEM);       // assign
-|-> component_master_add_with_match( ...  match)
-    |-> component_match_realloc(match, match->num); // dereference
+ > With embedded IDs like "USB 1234:abcd"?
 
-Add IS_ERR() check to prevent the crash.
+Yes, it may be an acceptable solution. Note that it's a problem probably for 
+the ID field only, because USB driver uses driver and mixer fields hardcoded as:
 
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
+   driver_name: USB-Audio
+   mixer_name: USB Mixer
 
-Fixes: ae7abe36e352 ("ALSA: hda/realtek: Add CS35L41 support for Thinkpad laptops")
-Signed-off-by: Denis Arefev <arefev@swemel.ru>
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
-[Roman: Instead of modifying hda_component_manager_init() (which does not
-yet exist in version 6.6), a check needs to be added to the
-cs35l41_generic_fixup() function—the very function introduced by the
-offending commit, which calls component_match_add() without verifying its
-successful completion. A check should also be added to
-tas2781_generic_fixup]
-Signed-off-by: Roman Demidov <roman.demidov.nn@gmail.com>
----
-Backport fix for CVE-2025-40097
-v2: 6.6 is missing 1cf11d80db5d ("ALSA: hda: Fix missing pointer check in
-hda_component_manager_init function") as well, and it is the newer tree,
-so 6.1 cannot go first here.
-A 6.6 version also needs one more hunk than this: 6.6 has a second
-unguarded component_match_add() in tas2781_generic_fixup() alongside the
-cs35l41_generic_fixup() one.
-Send a v2 covering 6.6, both call sites, and 6.1 
-as Sasha Levin <sashal@kernel.org> suggested.
+					Jaroslav
 
- sound/pci/hda/patch_realtek.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
-
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index 937f3fdbab25..a020e824fbb2 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -7052,6 +7052,11 @@ static void cs35l41_generic_fixup(struct hda_codec *cdc, int action, const char
- 			spec->comps[i].codec = cdc;
- 			component_match_add(dev, &spec->match,
- 					    comp_match_cs35l41_dev_name, rec);
-+			if (IS_ERR(spec->match)) {
-+				codec_err(cdc, "Fail to add component %ld\n",
-+					PTR_ERR(spec->match));
-+				return;
-+			}
- 		}
- 		ret = component_master_add_with_match(dev, &comp_master_ops, spec->match);
- 		if (ret)
-@@ -7084,6 +7089,11 @@ static void tas2781_generic_fixup(struct hda_codec *cdc, int action,
- 		spec->comps[0].codec = cdc;
- 		component_match_add(dev, &spec->match,
- 			comp_match_tas2781_dev_name, rec);
-+			if (IS_ERR(spec->match)) {
-+				codec_err(cdc, "Fail to add component %ld\n",
-+					PTR_ERR(spec->match));
-+				return;
-+			}
- 		ret = component_master_add_with_match(dev, &comp_master_ops,
- 			spec->match);
- 		if (ret)
 -- 
-2.53.0
-
+Jaroslav Kysela <perex@perex.cz>
+Linux Sound Maintainer; ALSA Project; Red Hat
