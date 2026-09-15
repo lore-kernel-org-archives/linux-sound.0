@@ -1,258 +1,725 @@
-Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012022.outbound.protection.outlook.com [40.93.195.22])
+Received: from mx0b-0002e601.pphosted.com (mx0b-0002e601.pphosted.com [148.163.154.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F45B25B0BB;
-	Tue, 15 Sep 2026 04:44:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4F733B27F3
+	for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 04:48:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.154.28
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789447449; cv=fail; b=qdO1Sjm7xjqqxK4KCcxtAU6epi9u54K3VZ/C0CkcWrwMVyY2Q/7VQGrQtB0F42wafjXVdIp7WF4TJD4QJyjIDCzK9bCzxOMUDbZBBoolkPGlB4q8QjjIVIIgVr9r3uRaY32Pebwh6sOOFnJSJ5KdbpRGlFZdvIUMXuKqRrk6vTo=
+	t=1789447726; cv=fail; b=DiCC2sXsr56r5zOGxesPSPLnU7AXPZzyb2LgWLNnUIADlQ6TtL//TIPGU4VBYaJhkw0ZyG6UL8pgQaqqR9tP3VlsWNsmcZ9ybZshPqfLeRUeF2fb3FLpl1g37ZCBdg5ziGM7jPj+VKajM/aroJYU3rIicy/5BuSMY50imWkDOrA=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789447449; c=relaxed/simple;
-	bh=8IwpK3EbCWAHtAj7RnQAmfMMUp+mONc8tmAEwoNK1y8=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=ZchXvKZVUopjWLKxAlYhVFyf+OBqMt396+BMLfOJSJhkp+Sq3anFOTK2EVsXlfbuaU3VGmJW6hpRGSsDgG7UUVR403IUogdseY8pD/4jAfOeIjNN+AAhjPHOtdRjkZNMGxORtKiCMATSDZPZgsub9lNEOD1I/rXa3KIwzr/5UI0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=xz0D5DeU; arc=fail smtp.client-ip=40.93.195.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	s=arc-20240116; t=1789447726; c=relaxed/simple;
+	bh=aUy6yPQ4EUvCRr0by/kWQzPMScf5zS2Qr/kq5OuyIYg=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=U0nk/DkvT4/NBl037D2XKMkKo6/rMOxnFEuibDpu/BEODrX2vCBCeXCAUQyhyNVFDV+CUlWRq4oeupQtD0T334A7FYEwhJaSk++F9FG4uZdfNk+1QYtR5CZpQut8vsC4j633eobZ6PhOTGg2EHliiDocuQ2zdoxFvM2hEa52w7k=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (2048-bit key) header.d=ti.com header.i=@ti.com header.b=nicOarrM; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=ZTfAw1O4; arc=fail smtp.client-ip=148.163.154.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="xz0D5DeU"
+	dkim=pass (2048-bit key) header.d=ti.com header.i=@ti.com header.b="nicOarrM";
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="ZTfAw1O4"
+Received: from pps.filterd (m0374955.ppops.net [127.0.0.1])
+	by mx0b-0002e601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68F2loxL3281004;
+	Mon, 14 Sep 2026 23:48:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=proofpoint-05-2026; bh=iY5GCtobbOAyH
+	UkG6CVkfRDWZrcTDSXgT7E9N/OVDT4=; b=nicOarrMMJDfQZWU7M4FsVjWmqet+
+	r18G64hjDgNGFTqaYzgRc9wTQnPW6d3sKr7OA7vTW2bbJGTBPB6k1HDeYY3jP1La
+	+/fss7iMJ6UHdlyzmBrBAIlHQ0l09rLftydxJjdVedRb9QW5s/R8nF6oB8N1Pemn
+	b+M5sRKknOEhTdIlJH0Mmq8Wq26UkQ9wKVOI4LE7tx8EpDGlxqUZty7DTjNMxT6p
+	RP0ANbdQIfbLfSqPw08pUKF100TYRjuCCft6aAZM3E4kiCDP7z0ZbeRv3WrnQuXd
+	QsxF3pP4HQHqAOiG3qT6p2UAkXd6jBamMvhDy+i5/q8NJ4/UkXYAQWRPg==
+Received: from sj2pr03cu001.outbound.protection.outlook.com (mail-westusazon11012034.outbound.protection.outlook.com [52.101.43.34])
+	by mx0b-0002e601.pphosted.com (PPS) with ESMTPS id 4gpvpj8y4j-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Mon, 14 Sep 2026 23:48:19 -0500 (CDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gW2bOcZWjhjPekTuntGV49HmhIQNiJXPfxjrF2eAxoDJAjdZc5zsrPwZVqEokL8kISnPESKJ283xn/dtnXPpK++z8u8ZKl/IuRNeL9AcKjGpEQOfDj75HiVE0buZMIxOkwVX58dKUyYVnQQsDQgjiq5PH2mIJEWPfr/5czkU2FptOp0aB/Ubz7/10oRnpbknwWG9oQ0N/TQndMKc6IL4/XHwOiV88Ai4bkTnO+1QQdhztidAoCRH/uXsAsZ3/2eDVdkkuiS84q7CP5qnaf9f1j73UHxGKJMpduXvnCW4l5oeMGqcpFUOUpLkQPyWW7nIbya9bjnUdzRTH15yi8xOPA==
+ b=HwJcLEhuHY00nWVU0A/wwZK78mKiLgP8qtBvYCMOu86SF7i+fkSJPVXA3ObGNwTIQfkEtdZKko0CL3DaUiE34M6lp8bqorr8IrfLTjM/XPKppX9jZwox8pgkyCbeNsQn+PStAl1u28NQcEKz6soBmNqGFMioXF783d7nSPDj15+3vGkcirDH1gXoyx28UWDnbA0uiRZ7rxN0I5YO5royg52RCrcQ8skZ7Vx5IJGQK+qVAiP2mx08TdDkAS4Maw7A7CEb1Mi4jBN0j5TKGzImQ7whaxIlFpQIWzzbjRtwlPrg9HDS6Zol3cSD0RsGA2UB1GiFB9iCkDptAniioaa2bQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8IwpK3EbCWAHtAj7RnQAmfMMUp+mONc8tmAEwoNK1y8=;
- b=ImGuVsA1XCRDeQxz+zAqRw7gg+tPuiEwQFl9sHgXPjNGxZojnPokAkfkGBB9O/DKqmmO4pUF8MVuM8FAcuetC7NpVECmwSDVkSLwHweDN8r+sOZScBotTZjYLoUYNI7/yYl5mB6ovqVIsywFIHX6JNNK75F3KZWpJl9aiXUeymkL0iseWHbxJaxHJxwtdGNGvuxQ+m+bIZ9SOYVDXMxfJx9TpaaBdHVQwkxc973PvDTFRa2OQdfF5sw0kjCIwfLGDDEe1gcY+x7+ESv5Kyjuj7QZWGAWnod/AZMsSdCmQmvuOw08pdQBDJs+VOtEAnwUvrFq9KDxlbkhZojEkhbdmw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ bh=iY5GCtobbOAyHUkG6CVkfRDWZrcTDSXgT7E9N/OVDT4=;
+ b=AWsS3IKXuN8ApMhyguAFmMIrGiEEny5ZZT7/7AwisNMdlrsHu3rmaqRyEChF1tUT1eKbz+cbE+2f2djgMOT4vkXb0uaEFIzPvP4gIeut/2Qu4Updw2gx1ZlD99/YUcjNR4ngvFbrH4ckvBFIdLMukjzr+umSglVeUDqkDk+vu08XrFsgJ+Sd/2wWYlCiH3g6XtBsRt23ySkpx40QVvVWGprv0wMDvODpsAK73ypMF935PjbXqPJKyPbv6yzSKOi2midBXuBs6Gcl4Jw7w9Q4rklD6jV8M9PBXsjjyJjqBPbW4Ro8UhOpJVWTF64laiU2i36Aob8jbpfmhEKTCZ0jlQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.21.195) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
+ dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8IwpK3EbCWAHtAj7RnQAmfMMUp+mONc8tmAEwoNK1y8=;
- b=xz0D5DeUWB9HmWvvvd1S+Cy6M7VgqU8q0VVXG6UZk5sq83IgUbRBw6zPjeiGuXYDEIC6KxxerxI0IYyEgqljtAiN5fpOD6YJtAuBNUeLMO0u11dTNFDdIpxMFNkhVmQgvpetp7h2UeALRcEXXFfylVl1fl3UCmQU/TmzPGGUNTI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DS2PR12MB9567.namprd12.prod.outlook.com (2603:10b6:8:27c::8) by
- DM4PR12MB6039.namprd12.prod.outlook.com (2603:10b6:8:aa::12) with Microsoft
+ bh=iY5GCtobbOAyHUkG6CVkfRDWZrcTDSXgT7E9N/OVDT4=;
+ b=ZTfAw1O4L6jGzwaVdiUTuxbKpWcf2Yx95/fNPsm/04UkqY2/a4GLl6486JkV3pL0g3geAj0M53bPMftLP1nirQmKENW0rO5w/od/LgXxErnE+kDuN1lwO7898TZECiYwUbM8gT8jnZ+26wT6i4TnP5gVjXPCP64MpVDDD2/BW9Y=
+Received: from BY5PR04CA0014.namprd04.prod.outlook.com (2603:10b6:a03:1d0::24)
+ by CY5PR10MB6213.namprd10.prod.outlook.com (2603:10b6:930:32::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.428.8; Tue, 15 Sep
+ 2026 04:48:11 +0000
+Received: from SJ5PEPF000001D7.namprd05.prod.outlook.com
+ (2603:10b6:a03:1d0:cafe::7d) by BY5PR04CA0014.outlook.office365.com
+ (2603:10b6:a03:1d0::24) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.406.12 via Frontend Transport; Tue,
+ 15 Sep 2026 04:48:11 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.195)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.21.195 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.21.195; helo=flwvzet201.ext.ti.com; pr=C
+Received: from flwvzet201.ext.ti.com (198.47.21.195) by
+ SJ5PEPF000001D7.mail.protection.outlook.com (10.167.242.59) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.406.10; Tue, 15 Sep 2026 04:44:05 +0000
-Received: from DS2PR12MB9567.namprd12.prod.outlook.com
- ([fe80::636:1b52:24ca:d7e5]) by DS2PR12MB9567.namprd12.prod.outlook.com
- ([fe80::636:1b52:24ca:d7e5%4]) with mapi id 15.21.0406.007; Tue, 15 Sep 2026
- 04:44:04 +0000
-Message-ID: <47708252-2867-4b3d-a997-ef153b6eeb05@amd.com>
-Date: Tue, 15 Sep 2026 10:12:57 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/8] soundwire: amd: fix work drain ordering and
- pm_runtime guard in remove path
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, vkoul@kernel.org
-Cc: yung-chuan.liao@linux.intel.com, Basavaraj.Hiregoudar@amd.com,
- Sunil-kumar.Dommati@amd.com, venkataprasad.potturu@amd.com,
- Syed.SabaKareem@amd.com, Mario.Limonciello@amd.com, Richard.Gong@amd.com,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260910190240.1604447-1-Vijendar.Mukunda@amd.com>
- <20260910190240.1604447-4-Vijendar.Mukunda@amd.com>
- <860a28bf-9c69-48da-9fa7-1cdb82761c35@linux.dev>
- <3abf2784-49ff-459c-9022-acd88bd767b4@amd.com>
- <029a18c3-f6f5-4971-8ee2-25a98dec416c@linux.dev>
-Content-Language: en-US
-From: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
-In-Reply-To: <029a18c3-f6f5-4971-8ee2-25a98dec416c@linux.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: PN2PR01CA0240.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:eb::17) To DS2PR12MB9567.namprd12.prod.outlook.com
- (2603:10b6:8:27c::8)
+ 15.21.428.7 via Frontend Transport; Tue, 15 Sep 2026 04:48:10 +0000
+Received: from DFLE213.ent.ti.com (10.64.6.71) by flwvzet201.ext.ti.com
+ (10.248.192.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Mon, 14 Sep
+ 2026 23:47:43 -0500
+Received: from DFLE214.ent.ti.com (10.64.6.72) by DFLE213.ent.ti.com
+ (10.64.6.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Mon, 14 Sep
+ 2026 23:47:43 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE214.ent.ti.com
+ (10.64.6.72) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45 via Frontend
+ Transport; Mon, 14 Sep 2026 23:47:43 -0500
+Received: from LT5CG31242FY.dhcp.ti.com ([10.250.163.3])
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 68F4leRj3480595;
+	Mon, 14 Sep 2026 23:47:40 -0500
+From: Shenghao Ding <shenghao-ding@ti.com>
+To: <broonie@kernel.org>
+CC: <tiwai@suse.de>, <13916275206@139.com>, <perex@perex.cz>,
+        <lgirdwood@gmail.com>, <linux-sound@vger.kernel.org>,
+        <baojun.xu@ti.com>, <k-lu@ti.com>,
+        Shenghao Ding <shenghao-ding@ti.com>
+Subject: [PATCH v3] ASoC: tas2781: Add TAS2573 calibration support
+Date: Tue, 15 Sep 2026 12:47:35 +0800
+Message-ID: <20260915044735.1305-1-shenghao-ding@ti.com>
+X-Mailer: git-send-email 2.33.0.windows.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS2PR12MB9567:EE_|DM4PR12MB6039:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9cbe2f31-0b4d-456a-c845-08df12e3f81b
+X-MS-TrafficTypeDiagnostic: SJ5PEPF000001D7:EE_|CY5PR10MB6213:EE_
+X-MS-Office365-Filtering-Correlation-Id: 507ac753-e2ba-4245-f966-08df12e48aed
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|23010399003|1800799024|366016|4143699003|11063799006|5023799004|6133799003|56012099006|10067099003|18002099003|22082099003;
+	BCL:0;ARA:13230040|36860700016|82310400026|23010399003|1800799024|376014|18002099003|56012099006|3023799007|10067099003|6133799003;
 X-Microsoft-Antispam-Message-Info:
-	SmjM9Tu4O0E9eFv4JX1NnKlL+AuQktH7GpvrTMe75g6FDUo49iYOkHw8dR0eBktw/gRWGMAQtGzVHpD/ono/k1VMCSY8pkujamp9ap4cjwGs25XySuRx+QR0MHqucTc4+aWAC6DWGVvBqJ8XDh8If5v9ovyg/n++xk6Gweocd0RY3Cuqzir08tsujaox4QsoFUofYmypFhwRKt0XTBxeubFK8zWyKjp7+/mfcavW08+KV1vcYo9lcUbVnXs6NEkWRIrSNGdB5VZNEAd57R22TfVT2iMZQCriCG+IMvgVpT2ocsdmL+u3+eiGZ3lQUbucFM/eEpzvuCdtaJTNFTZOsPYanHsKS06kw4Z2+YIsoMqS8vZfcrn8NAfsOk5yFP0aeJsNdur7CcHqZSxDWo+zg54wNbXw26935LWPDIw6NoEWYULO4wEYjf1p/ojy1GN8uxbApMx6A26l0Tq3aAm53KYNIo3wU3JbActsp6v43+rSu4HUxfBp67xz6iDqdpx4IhYLl7eswTZ86UqyIvUWcfLJrx9DH8uNbrfbpoUCpoWDQfRB0Dzxsm0+4WES4xRqTv7znWGwqPuRRDREv8LH6OWF/XaWAjugaufzOfunwTRGQEkvq7AGPU26E7nYeEaS3cJvqwbg1BVAG8lK510lG/dwWuxP4T2pxOraWOMpCxQ=
+	f7tPjm7CdsURRVp0KONtxUR0FiZozUuf3HG2AZ9k79eSUv5AZAD/cjEEDEo7GmK2YINB8tJxMPwN/RnOEJgpJxaqSkOCCcaUs5fkBm/eZ2sfc0aMlGfywXETkjKggwAhDE7eS3RYBrwK+RzFP+hf+HlYns8LqGrwZ64tpdy7xdSQVloe/3aqfhNBbzLOFQCzinLCujnfX6OytUyukyuBLDsF3IU0zYd/XOjio3nt2egOOW3zM5x+cq3wA8vYGDWRINfaKwtInTfA2NdBnDRDaTcuIlVCQGJitRKfpx/o2Jl5UySLBtXkuSr1ZxK4EDdSjJ2ldffCcXaD6FfJrJq06IK/wqx7zxUnEwWwIKmgfltaCAnjlSElcPRQ5skekmhKK0KUD3wVkvFQnLsaFNdJMHXBCvq4Ct7JsgnUlVvIDyodSePmrnUTUInv2p01ItbukWst+Itw8vfjH2Lp72EfvcM8PcCOJxXb5L4Cf3Vv2d0IQyMecR39kVTifUT2gjlCi0kGTcyngQAhS/C3SK6insT4Z5eEUSklU+hWXaLwYNAb5EmNwtDVfsMQABAWWcWWtuPl3jUVRzv+9rC/kmg4iRRUQcjifvywZipvwcteeiJ2WjdnUun5I+lx/jr0xlTA6/jtnLmLcWdje1RekD25wGf6EAAN/uwIuvVyJo8RCAT2s5Xt+Zwhlrnzum3HWPbFBjE0jYpEZlIBUQhcdD+VVQ==
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS2PR12MB9567.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(1800799024)(366016)(4143699003)(11063799006)(5023799004)(6133799003)(56012099006)(10067099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+	CIP:198.47.21.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet201.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(36860700016)(82310400026)(23010399003)(1800799024)(376014)(18002099003)(56012099006)(3023799007)(10067099003)(6133799003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Rm4yVjg0cEgrT3ZvL2xqUjRpT2hURHh0cnZOcXA2ZU9ha0tpRlBiVTQyQ21H?=
- =?utf-8?B?L3VBc1R3MXlFY3o4alB0SVJxVG9tZVh2TW9FRzNqbWt1NkVsY1FSY0Vla2t2?=
- =?utf-8?B?cndlNVN5L3VYK2djTVJkdVdWK0Yxa21UMThudzl6aXZnTnhxZUFoc294NnVu?=
- =?utf-8?B?SFVHSm1EVEllMC9LMkJYS2FKN0luU0M4RWtVL1QyTEUyblBmYW5MSWp3ZE1j?=
- =?utf-8?B?VTJLejNHaWVmRUZWSi9qNW1SZ1hRR2xRZlQxVTYyQmEySHl1RjY2MThMcmpE?=
- =?utf-8?B?RXl2RHluQjBBdXRjOXdRNStPanNEVlBsMTZqcVl3Q1VGQ1BOakdiWTRYWFV4?=
- =?utf-8?B?dDlab2ovdlZKMHVYZ2dEL1ZoSkNrRjN4S3FVempZQUJ1bWliVEFueEpUaUg3?=
- =?utf-8?B?NTNlS0VBS3o1MnRhamhNb1c0ZTJxbUtpS2FPYytwTlBCVGJYR1p5Tll4TFF2?=
- =?utf-8?B?QmR2MGdXUTBIL3lpaExjOWRJMlNQeUp4YjdWUUJpQVRLUFBGcDhHTS9BU0lB?=
- =?utf-8?B?SDVkK0JyYURiNUxiSFFPL2xqYitTZ0VNUE9zTEZVVkFmME9hRGJld3JweXZV?=
- =?utf-8?B?YmNReS9pZTZIUW51ZWo2QlAvalNxbFlOam9adVkrZW5TRldMNlZhbHd6aUNq?=
- =?utf-8?B?bkhjVzFuRWdMU3dNTzFuTmRmdDdrcVpBM01HelgxM3Awblk2Z3NJUjhGSW1P?=
- =?utf-8?B?djRLc2QrbGo1eVViL0t6S2thODlHRWphTUpnc24wS1dONkZ5aHRnbGgxQ2NT?=
- =?utf-8?B?QlJyeGk0dFEyVzR2SEJjeHJmU2RoamlQVFcxcmVRaVJIbVhPaEFlM2RDUTdC?=
- =?utf-8?B?aUVGU25zU2ZaUXdEdEhLZnVIWW5nYjVRZHlVdW5ZdExiZFU0a3RHdzBxZTE5?=
- =?utf-8?B?S3NzeVFRRXdyb1FSYk5WVWN4bnBkNnNmRDNmRDh1MU5tN2MrY2E1NWM2d0VE?=
- =?utf-8?B?ekpTYXBYUlhmdnZYQ0JIS3hycWpnRS90ejhlSVhNSHo3V1VORC8zdjlOSGwv?=
- =?utf-8?B?Rk14Rmo2VFdqR0VwU3pFUkhUUXNwTnY4YnFIdVgydW11Y3hjL09xOXMxMVBP?=
- =?utf-8?B?c0NuSHpaYmtvZjVjMlBhcUp2VzJJbFRoZHorTG9zQ1J6QXNvWWQzajNzRm5z?=
- =?utf-8?B?VUNEeXFhYlhabGh3QnFweUdwTWg5TEZNbHhwLzZEblZUWnhzUHJldmgzSnp4?=
- =?utf-8?B?WEtoNHZPcDUyUWlxSFMzTnJxbzUvbWJtd1V4VEpYZXk5LytuMjliUUZNSkxu?=
- =?utf-8?B?eTZZT1VPYU8waXA2TThnRExQNWR0UHVlQjhmWFVqd1JGcWxNWVRnKzlVOUN0?=
- =?utf-8?B?WVYrb0FYeWVIQS9RMnNoUmdwbGhtR3ZPcEFHYU9jekM1Tm5rRk9YdURUUEV3?=
- =?utf-8?B?aEs1UnFmL2ZkNWsvdmVjZG5nVWhEVXI1eGRHOHJpcXRKb0FYby96d0tqRG56?=
- =?utf-8?B?RkkzOFVYeFR0RFo4ODhCNFo0dkhROVRieldqaVBlYU9SSUhjZ3RKVTQyQTRk?=
- =?utf-8?B?cUhWSExOMEpaS0loUTJ4WnFIdTJOUnZyR1N3RnYyakRKNGxKUDd3aFBiYXdT?=
- =?utf-8?B?c3FlaUMyeFE1NVJ5UUZveVY1L1JNazlTeFQ1andRRGhXTGhjMVhzcVJlTlph?=
- =?utf-8?B?MjV2RUVTUktaNUVldzk2NHdIV2JRcE5kd2FLZWRzL2N0RWVDdGxOMDA5cWZQ?=
- =?utf-8?B?eDVORDZTbFYxYlliUnhsL2tUVlV1M3oydWUrQ09COGVJTC83WmxaVTltV28z?=
- =?utf-8?B?NWc1aTJBaUhCVGp4VjRWTVhOeEJrZXlZelRkbEJwZHF6OUNBK1NyTHl3aWxw?=
- =?utf-8?B?YkZlZ1RoeHVDUlAwT3V6djFML2RhMkFldTA2NWI1ajBUSTBqYldPb0Zwc1ZL?=
- =?utf-8?B?SVlsbURoRnlZTkVwODdlNFVJSExjOWQ0RjVvQld1VXBOcThYUXJEcTRoeVVM?=
- =?utf-8?B?TnhNQTFDdEl4T3RtSDUwVEk1NGxOZzJVR1hrUVN1aTJ2SkR4WllhenZYVXZH?=
- =?utf-8?B?VFZ2dDI3VW15YzBqdHJiRmF4dEhBaGxNUzZmRU13TjlYcWhGbDg4QlJiL0RJ?=
- =?utf-8?B?dE4xSC9QWVJYM0tQaVA0WnE3ZzN4Wkk2dGhqTkxhbDdTRlk4N3dNd2xhT1ky?=
- =?utf-8?B?YmVQak10ZGlHMG5sSXMwWG9uT25CbEJNY1NiYm5pVjBSK1FkTWdEdEF0TDVF?=
- =?utf-8?B?a3FSVkhHV2hjQmw1ZnJGdW84YU4rNkkvN3dMVDRGUy90K3FKQ1F6anVsMGVX?=
- =?utf-8?B?Mk80UzBXZmJDQlFDV1Q2VVpSZXJPbTRTMlNMYTBaVXZKb0hpVjZtWkxqdXpV?=
- =?utf-8?B?VXExbmNQaUtHdjd0emtqVzFPZURZNjVJZ0lFckJ3YmxvYVV1cmN4Zz09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9cbe2f31-0b4d-456a-c845-08df12e3f81b
-X-MS-Exchange-CrossTenant-AuthSource: DS2PR12MB9567.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Sep 2026 04:44:04.4163
+	s3M9iXsPcX5eFgcKPMNQKFXb8kzqN/ywDgSEbfbTESZbJV7ygVRQzp+jUHfdehEu/UrKHQfmIP+DEs2aqJkF8VcpdEXXclnypLLLheaX5g1HE3ELeZrIGJCS2z7CdXphGMiTfO33LpYKfJ37yg5f4x0aYdCyotoUGB/E32sR5wEweTSq54TfzUSJ8p8XRknB3eQOrzfzUj7OLIhFlEtaTR9cJUB4tCXOd194o4btgsPkTsLZTe/1+IBaonK6ig16MdXwc3hdLtdiCv6Cg5RPAAN0hRDbkUvEZVXd2DrSkkbO0mbsyBnhjBOKQULC0drF+qfZTRM1H0nARHn+6QyIkN0q78tnpNbZXOCk2BLanpIQRehnEFPOjQmfHK9cNPzq43BlODaUOMDr+LuzEuZIHG3ca3b8fB/adfM/JK8Xa8avQrnlZETzpQzaxK/WUbUY
+X-Exchange-RoutingPolicyChecked:
+	YgLI6rMmIntwPCJqFyHBSWYPpHPHPmM8GMZ18Szyu4HrJ/AIApZ/z53H13IJJHcAHT6eQ3Mmbm4dowfwkuofA9qepkAWOrmIhSmTQT6lXJhkMucJ7pqUOXdSf646qlhlNslDiLIyYCyStglwqXPZsnk6YokHFlDlbUPcR0EQMCAYCqIpAVB+PFncoXwJ6lVpC0Egcmeq11oXAN1vK1Xzj2d/2vemkeZyKI4f9Gkq/c+9gBGtQFAxL2rK2ipvfZ9PNQizccRgA6pVXXz/17X4uSPu7YcFaWtrCKXfbS7b2YBpkhXgMam35bhcJFuVDNET8+sq3mE9pGnII7E3Qb+MFA==
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Sep 2026 04:48:10.0854
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ahmbcwYnUEF2ET7SuGsKkSxdLX1Kw5UYXyRahOaX7voqQ+DjdQhjvJHAHftdWRhta35o6zlUGNLmt/hJqNJXlw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6039
+X-MS-Exchange-CrossTenant-Network-Message-Id: 507ac753-e2ba-4245-f966-08df12e48aed
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.195];Helo=[flwvzet201.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SJ5PEPF000001D7.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR10MB6213
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTE1MDA2NSBTYWx0ZWRfX4iZROwhi2H13
+ AQ/IdMWZIZPRdp8+RghZ6IdyjWOgEWcpAoO+Nx76bk6NsspGI294VV2/qc2Rx9f3UipXsesXB9T
+ rD5JoAN5y0qAPLboqV1xbpxN57pZ8vo=
+X-Authority-Analysis: v=2.4 cv=KvnYSmWN c=1 sm=1 tr=0 ts=6aa8ce13 cx=c_pps
+ a=e7UpQLGcWimQYEoqUdNrWw==:117 a=tJyPKKxUohctrY4NYmUjkA==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=VdqzKS8jKosA:10 a=V5UXEbMT0ywA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=Z8NIEmU8O1QQgoT56wFK:22 a=fPAWb5peG099m5CrUpKH:22
+ a=sozttTNsAAAA:8 a=ws6CleEZF0jA5ezxqNUA:9
+X-Proofpoint-ORIG-GUID: iUIHzY993AwOG1jYmmMviVapN_UMoR56
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE1MDA2NSBTYWx0ZWRfX+EvrBnd6KYSD
+ KOTzblVkTe9UFRRcYkE7FSQ2N5Tf/jS+FlCNKiuHyQ81cfHjmZF/W7bsUSKItxAs2bXaXijOCIU
+ e1qaets0qjJZzc2VwhHsi03MTjjsMpxqewrmlLQRNdFjTOnuubhHS921DNMv+05SRDhvTKCrdpP
+ kAaFSj2CqSkrQUUm6rC7vwqYSb23AMWDXFIXpQDqrQT+gypdHmZUdnrit+G/i5MEiKax7gy9Xd4
+ 75wfDxuOGx8bTbruVgZPGpoZQIMXMif3b85KKlHnDwmfxJgEHXz86X2i1Wug9cFg9/j8G15N2uv
+ FdTv7/weimqU6m6tQs/RkFxjZENbmwjCLuZ/tPcaWJlLIADYJYD2dIaW3op/pH8z4B5j324bupN
+ KxOoOTFBXTTd0QFk9Md437rSbiWHlyNDVv0bfcnzKxrSS9mQD4+RuWtF69owbxwwRVXHEG04xOE
+ J04w1GqJxf3yaevuQMg==
+X-Proofpoint-GUID: iUIHzY993AwOG1jYmmMviVapN_UMoR56
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-15_01,2026-09-14_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 clxscore=1015 priorityscore=1501 impostorscore=0
+ suspectscore=0 spamscore=0 bulkscore=0 adultscore=0 phishscore=0
+ malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
+ definitions=main-2609150065
 
+This patch adds complete calibration workflow support for TAS2573.
 
+Signed-off-by: Shenghao Ding <shenghao-ding@ti.com>
 
-On 9/14/26 23:00, Pierre-Louis Bossart wrote:
-> On 9/14/26 08:07, Mukunda,Vijendar wrote:
->>
->> On 9/14/26 01:35, Pierre-Louis Bossart wrote:
->>> On 9/10/26 21:00, Vijendar Mukunda wrote:
->>>> amd_sdw_manager_remove() cancelled amd_sdw_work but not
->>>> amd_sdw_irq_thread. Since amd_sdw_irq_thread() calls
->>>> schedule_work(&amd_sdw_work), an in-flight irq_thread item can
->>>> re-queue amd_sdw_work after its cancel returns, defeating the
->>>> cancellation.
->>>>
->>>> Fix by calling amd_disable_sdw_interrupts() first to quiesce the
->>>> hardware IRQ source, then cancel_work_sync() for amd_sdw_irq_thread,
->>>> then cancel_work_sync() for amd_sdw_work. The existing
->>>> cancel_work_sync(amd_sdw_work) is also moved to after
->>>> amd_disable_sdw_interrupts() so that any work item queued between the
->>>> old cancel position and the interrupt disable cannot escape draining.
->>>>
->>>> synchronize_irq() is deliberately not used before the
->>>> cancel_work_sync() calls. Once SoundWire interrupts are masked, no new
->>>> IRQ deliveries can occur. An IRQ handler already in flight may still
->>>> queue amd_sdw_irq_thread, so cancel_work_sync() is used to drain both
->>>> amd_sdw_irq_thread and any amd_sdw_work items it may have scheduled.
->>>> This fully quiesces the driver workqueues, making synchronize_irq()
->>>> unnecessary.
->>>>
->>>> Also guard pm_runtime_disable() so it is only called when runtime PM
->>>> was actually enabled. amd_sdw_manager_start() calls pm_runtime_enable()
->>>> only at the very end, after several fallible hardware init steps. If
->>>> sdw_amd_startup() fails mid-loop (one manager started, the next fails
->>>> before pm_runtime_enable()), sdw_amd_exit() triggers
->>>> platform_device_unregister() for all managers. Calling
->>>> pm_runtime_disable() on the partially-started manager finds
->>>> disable_depth already at its initial value of 1, silently increments it
->>>> to 2 and returns without a warning, so a later pm_runtime_enable() would
->>>> only bring it back to 1 and leave runtime PM disabled. Use
->>>> pm_runtime_enabled() to skip the call when it was never paired with an
->>>> enable.
->>> The alternative is to do a pm_runtime_enable() in the probe(), and later
->>> a pm_runtime_set_active().
->>>
->>> That way if the probe is successful, then the remove() will always deal
->>> a balanced enable.
->>>
->>> Maybe only put a single 'fix' per patch?
->> Thanks for the comments. I agree that it is preferable to keep each patch
->> focused, but in this case both changes are part of the same remove-path
->> cleanup bug and are tightly coupled.
->>
->> I do not think moving pm_runtime_enable() to probe() is the right fix
->> here. In this driver, runtime PM is intentionally enabled only at the end
->> of amd_sdw_manager_start(), after the fallible hardware bring-up sequence.
->> If one instance succeeds and the next fails before pm_runtime_enable(), the
->> remove path can still run for the partially started instance. In that
->> scenario, an unconditional pm_runtime_disable() is incorrect because there
->> was no matching enable for that instance.
-> My take on error handling is to avoid partially functional setups. Keep
-> things simple, fail big and fail early. Well-intended concealment
-> schemes will introduce more problems, e.g. if the link for the right amp
-> fails the left one might work, but users will complain about left-only
-> sounds...
->
-> That said, I am not going to lay on the tracks if this is the design you
-> want for your IP.
-Thanks for the suggestion Pierre.  I considered moving pm_runtime_enable()
-into probe(), but I do not think that is safe given how the AMD SoundWire
-driver is structured.
+---
+v3:
+ - Our customer requests to follow the feedback from the Linux Community. When there is no
+   dedicated special configuration for the calibration feature, the corresponding parameter
+   should be set to -1, so that redundant duplicate configuration work can be completely avoided.
+v2:
+ - Add comments for tasdevice_rca::calibration_profile_id, which is primarily designed for speaker
+   calibration scenarios with special requirements. For use cases without specific calibration
+   demands, it can directly reuse the standard music playback configuration, and its default value
+   is set to 0.
+ - Correct some logs.
+ - Use proper kernel error code and WARN_ON_ONCE in the tas2573 calib_start_put control.
+v1:
+ - Add TAS2573 dedicated calibration register definitions
+ - Extend firmware parser to auto detect and store "calib" tagged profile and config IDs
+ - Implement TAS2573 calibration start/stop control handlers
+ - Add dedicated kcontrols for real-time speaker impedance readout and full calibration status dump
+ - Refactor calibration control creation logic with per-chip switch-case branches for better scalability
+ - Extend firmware ready check to register TAS2573 calibration controls properly.
+---
+ include/sound/tas2781-dsp.h       |   9 +
+ include/sound/tas2781.h           |  24 +++
+ sound/soc/codecs/tas2781-fmwlib.c |  36 +++-
+ sound/soc/codecs/tas2781-i2c.c    | 320 +++++++++++++++++++++++++++---
+ 4 files changed, 361 insertions(+), 28 deletions(-)
 
-The current placement in amd_sdw_manager_start() follows the same model
-used by the Intel SoundWire driver, where runtime PM is enabled only
-after the hardware has been powered up and fully initialized.
-
-More importantly, pm_runtime_set_active() requires the hardware to be in
-a known operational state. For AMD, that is only true after
-acp_sdw_clk_init_ctrl(), acp_init_sdw_manager(),
-acp_enable_sdw_interrupts(), acp_enable_sdw_manager(), and
-acp_sdw_set_frameshape() have all completed successfully. Calling
-pm_runtime_set_active() from probe() would advertise the device as
-active before any of this initialization has occurred.
-
-Enabling runtime PM in probe() would also create a race window between
-probe() and sdw_amd_startup(). During that window, the PM core could
-invoke the runtime suspend callback, which accesses SoundWire manager
-registers and performs clock-stop sequences. Since the hardware has not
-yet been initialized, those register accesses would occur on an
-uninitialized manager.
-
-The failure path that motivated this change is also a real scenario.
-sdw_amd_startup() iterates over all manager instances. If one instance
-successfully completes startup and another fails later, the cleanup path
-must handle a mix of initialized and non-initialized managers. The
-pm_runtime_enabled() check added here ensures that
-pm_runtime_disable() is only called for instances that actually reached
-the point where runtime PM was enabled.
-
-The probe/startup split is intentional and follows the existing
-SoundWire subsystem design. Hardware bring-up is deferred until startup,
-and runtime PM is enabled only after the manager is known to be fully
-operational. Since the runtime PM callbacks directly access hardware
-registers, allowing them to run before startup completes would be
-unsafe.
-
-Finally, moving pm_runtime_enable() into probe() would separate it from
-pm_runtime_set_active(). The current ordering of
-pm_runtime_set_active() followed by pm_runtime_enable() is the standard
-runtime PM pattern and avoids additional synchronization requirements.
-
-This design is not new. The placement of pm_runtime_enable() inside
-amd_sdw_manager_start() was introduced by commit 81ff58ff71ad
-("soundwire: amd: add runtime pm ops for AMD SoundWire manager driver")
-and has been part of the upstream kernel since v6.4.
-
-In summary, moving pm_runtime_enable() to probe() would expose runtime
-PM callbacks before the SoundWire manager is initialized, creating a
-real race between probe() and startup. Keeping it in
-amd_sdw_manager_start() satisfies the requirements of
-pm_runtime_set_active() and makes the pm_runtime_enabled() guard in the
-remove path both correct and necessary.
-
-We will split the patch and push the pm_runtime guard change separately.
+diff --git a/include/sound/tas2781-dsp.h b/include/sound/tas2781-dsp.h
+index de087f4ca13f..3380dfd526de 100644
+--- a/include/sound/tas2781-dsp.h
++++ b/include/sound/tas2781-dsp.h
+@@ -146,6 +146,7 @@ struct tasdevice_fw {
+ 	struct tasdevice_calibration *calibrations;
+ 	struct fct_param_address fct_par_addr;
+ 	struct device *dev;
++	int calibration_config_id;
+ };
+ 
+ enum tasdevice_fw_state {
+@@ -210,6 +211,14 @@ struct tasdevice_rca {
+ 	 * capture.
+ 	 */
+ 	int capture_profile_id;
++	/*
++	 * Primarily designed for speaker calibration scenarios with special
++	 * requirements. For regular use cases, when the default value -1 is
++	 * set, calibration will directly reuse the current playback
++	 * configuration; non-negative values can be customized for special
++	 * calibration demands.
++	 */
++	int calibration_profile_id;
+ 	/*
+ 	 * Since version 0x105, the keyword 'init' was introduced into the
+ 	 * profile, which is used for chip initialization, particularly to
+diff --git a/include/sound/tas2781.h b/include/sound/tas2781.h
+index b763da613769..7367c76959aa 100644
+--- a/include/sound/tas2781.h
++++ b/include/sound/tas2781.h
+@@ -91,6 +91,30 @@
+ /* prm_TE_1_Beta1 */
+ #define TAS2563_TE_DT_REG		TASDEVICE_REG(0x00, 0x0f, 0x70)
+ 
++#define TAS2573_FCT_INT_LATCH		TASDEVICE_REG(0x00, 0x00, 0x67)
++/* YM57 */
++#define TAS2573_FCT_OUTPUT_R0		TASDEVICE_REG(0x00, 0x65, 0x74)
++/* YM58 */
++#define TAS2573_FCT_OUTPUT_R0_LOW	TASDEVICE_REG(0x00, 0x65, 0x78)
++/* YM59 */
++#define TAS2573_FCT_OUTPUT_INV_R0	TASDEVICE_REG(0x00, 0x65, 0x7C)
++/* YM61 */
++#define TAS2573_FCT_OUTPUT_POWERTOT	TASDEVICE_REG(0x00, 0x66, 0x0C)
++/* YM64 */
++#define TAS2573_FCT_OUTPUT_F0		TASDEVICE_REG(0x00, 0x65, 0x18)
++/* YM147 */
++#define TAS2573_FCT_STATUS_CTRL		TASDEVICE_REG(0x00, 0x68, 0x74)
++/* YM148 */
++#define TAS2573_FCT_STATUS_BINNING	TASDEVICE_REG(0x00, 0x68, 0x78)
++/* YM664 */
++#define TAS2573_RE_OUT			TASDEVICE_REG(0x00, 0x7A, 0x18)
++/* YM952 */
++#define TAS2573_SILENCE_DETECTED	TASDEVICE_REG(0x00, 0x83, 0x60)
++/* YM954 */
++#define TAS2573_OPEN_CIRCUIT		TASDEVICE_REG(0x00, 0x83, 0x68)
++/* YM955 */
++#define TAS2573_SHORTCKT		TASDEVICE_REG(0x00, 0x83, 0x6C)
++
+ #define TAS2781_PRM_INT_MASK_REG	TASDEVICE_REG(0x00, 0x00, 0x3b)
+ #define TAS2781_PRM_CLK_CFG_REG		TASDEVICE_REG(0x00, 0x00, 0x5c)
+ #define TAS2781_PRM_RSVD_REG		TASDEVICE_REG(0x00, 0x01, 0x19)
+diff --git a/sound/soc/codecs/tas2781-fmwlib.c b/sound/soc/codecs/tas2781-fmwlib.c
+index dc1c552206f8..e8ceeb027e1b 100644
+--- a/sound/soc/codecs/tas2781-fmwlib.c
++++ b/sound/soc/codecs/tas2781-fmwlib.c
+@@ -199,15 +199,22 @@ static struct tasdevice_config_info *tasdevice_add_config(
+ 			dev_err(tas_priv->dev, "add conf: Out of boundary\n");
+ 			goto out;
+ 		}
+-		/* If in the RCA bin file are several profiles with the
+-		 * keyword "init", init_profile_id only store the last
+-		 * init profile id.
++		/*
++		 * If in the RCA bin file are several profiles with the
++		 * keyword "init"/"calib", init_profile_id only store the last
++		 * init profile id, and same as calibration_profile_id.
+ 		 */
+ 		if (strnstr(&config_data[config_offset], "init", 64)) {
+ 			tas_priv->rcabin.init_profile_id =
+ 				tas_priv->rcabin.ncfgs - 1;
+ 			dev_dbg(tas_priv->dev, "%s: init profile id = %d\n",
+ 				__func__, tas_priv->rcabin.init_profile_id);
++		} else if (strnstr(&config_data[config_offset], "calib", 64)) {
++			tas_priv->rcabin.calibration_profile_id =
++				tas_priv->rcabin.ncfgs - 1;
++			dev_dbg(tas_priv->dev, "%s: calib profile id = %d\n",
++				__func__,
++				tas_priv->rcabin.calibration_profile_id);
+ 		}
+ 		config_offset += 64;
+ 	}
+@@ -314,6 +321,7 @@ int tasdevice_rca_parser(void *context, const struct firmware *fmw)
+ 	rca = &(tas_priv->rcabin);
+ 	/* Initialize to none */
+ 	rca->init_profile_id = -1;
++	rca->calibration_profile_id = -1;
+ 	fw_hdr = &(rca->fw_hdr);
+ 	if (!fmw || !fmw->data) {
+ 		dev_err(tas_priv->dev, "Failed to read %s\n",
+@@ -632,6 +640,17 @@ static int fw_parse_configuration_data_kernel(
+ 			goto out;
+ 		}
+ 		memcpy(config->name, &data[offset], 64);
++
++		/*
++		 * If in the coef bin file are several configs with the
++		 * keyword "calib", calibration_config_id only store the last
++		 * calibration profile id.
++		 */
++		if (strnstr(config->name, "calib", 64)) {
++			tas_fmw->calibration_config_id = i;
++			dev_dbg(tas_priv->dev, "%s: calib cofig = %d\n",
++				__func__, tas_fmw->calibration_config_id);
++		}
+ 		/*skip extra 16 bytes*/
+ 		offset += 80;
+ 
+@@ -1412,6 +1431,17 @@ static int fw_parse_configuration_data(
+ 		memcpy(config->name, &data[offset], 64);
+ 		offset += 64;
+ 
++		/*
++		 * If in the coef bin file are several configs with the
++		 * keyword "calib", calibration_config_id only store the last
++		 * calibration profile id.
++		 */
++		if (strnstr(config->name, "calib", 64)) {
++			tas_fmw->calibration_config_id = i;
++			dev_dbg(tas_priv->dev, "%s: calib cofig id = %d\n",
++				__func__, tas_fmw->calibration_config_id);
++		}
++
+ 		n = tasdevice_fw_strnlen(fmw, offset);
+ 		if (n < 0) {
+ 			dev_err(tas_priv->dev, "Description err\n");
+diff --git a/sound/soc/codecs/tas2781-i2c.c b/sound/soc/codecs/tas2781-i2c.c
+index 6f349f88f194..995bfd52f5fc 100644
+--- a/sound/soc/codecs/tas2781-i2c.c
++++ b/sound/soc/codecs/tas2781-i2c.c
+@@ -613,6 +613,39 @@ static void tas2563_calib_stop_put(struct tasdevice_priv *tas_priv)
+ 	}
+ }
+ 
++static void tas2573_calib_stop_put(struct tasdevice_priv *tas_priv)
++{
++	int cal_prof_id = tas_priv->rcabin.calibration_profile_id;
++
++	if (cal_prof_id >= 0)
++		tasdevice_select_cfg_blk(tas_priv, cal_prof_id,
++			TASDEVICE_BIN_BLK_PRE_SHUTDOWN);
++}
++
++static int tas2573_calib_start_put(struct snd_kcontrol *kcontrol,
++	struct snd_ctl_elem_value *ucontrol)
++{
++	struct snd_soc_component *comp = snd_kcontrol_chip(kcontrol);
++	struct tasdevice_priv *tas_priv = snd_soc_component_get_drvdata(comp);
++	int cal_prof_id = tas_priv->rcabin.calibration_profile_id;
++	int cal_conf_id = tas_priv->fmw->calibration_config_id;
++
++	guard(mutex)(&tas_priv->codec_lock);
++	if (tas_priv->chip_id != TAS2573) {
++		WARN_ON_ONCE(1);
++		return -ENODEV;
++	}
++
++	if (cal_prof_id >= 0)
++		tasdevice_select_cfg_blk(tas_priv, cal_prof_id,
++			TASDEVICE_BIN_BLK_PRE_POWER_UP);
++
++	tasdevice_select_tuningprm_cfg(tas_priv, tas_priv->cur_prog,
++		cal_conf_id, cal_prof_id);
++
++	return 1;
++}
++
+ static int tasdev_calib_stop_put(struct snd_kcontrol *kcontrol,
+ 	struct snd_ctl_elem_value *ucontrol)
+ {
+@@ -621,10 +654,22 @@ static int tasdev_calib_stop_put(struct snd_kcontrol *kcontrol,
+ 	int i;
+ 
+ 	guard(mutex)(&priv->codec_lock);
+-	if (priv->chip_id == TAS2563)
++
++	switch (priv->chip_id) {
++	case TAS2563:
+ 		tas2563_calib_stop_put(priv);
+-	else
++		break;
++	case TAS2573:
++		tas2573_calib_stop_put(priv);
++		break;
++	case TAS2781:
+ 		tas2781_calib_stop_put(priv);
++		break;
++	default:
++		dev_err(priv->dev, "%s: Chip(%d) unsupports calibration\n",
++			__func__, priv->chip_id);
++		return -1;
++	}
+ 
+ 	/*
+ 	 * Set reloading-firmware flag after calibration, the flag will work
+@@ -983,6 +1028,13 @@ static const struct snd_kcontrol_new tas2563_cali_controls[] = {
+ 		tasdev_nop_get, tas2563_calib_start_put),
+ };
+ 
++static const struct snd_kcontrol_new tas2573_cali_controls[] = {
++	SOC_SINGLE_EXT("Calibration Start", SND_SOC_NOPM, 0, 1, 0,
++		tasdev_nop_get, tas2573_calib_start_put),
++	SOC_SINGLE_EXT("Calibration Stop", SND_SOC_NOPM, 0, 1, 0,
++		tasdev_nop_get, tasdev_calib_stop_put),
++};
++
+ static int tasdevice_set_profile_id(struct snd_kcontrol *kcontrol,
+ 		struct snd_ctl_elem_value *ucontrol)
+ {
+@@ -1493,6 +1545,182 @@ static int create_tas2781_cali_start_ktrl(struct tasdevice_priv
+ 	return 0;
+ }
+ 
++static int tas2573_re_get(struct snd_kcontrol *kcontrol,
++	struct snd_ctl_elem_value *ucontrol)
++{
++	struct snd_soc_component *comp = snd_kcontrol_chip(kcontrol);
++	struct tasdevice_priv *priv = snd_soc_component_get_drvdata(comp);
++	unsigned char *dst = ucontrol->value.bytes.data;
++	struct soc_bytes_ext *bytes_ext =
++		(struct soc_bytes_ext *) kcontrol->private_value;
++	unsigned int i = 0;
++	unsigned int j;
++	int rc;
++
++	guard(mutex)(&priv->codec_lock);
++	dst[i++] = bytes_ext->max;
++	dst[i++] = 'r';
++
++	dst[i++] = TASDEVICE_BOOK_ID(TAS2573_RE_OUT);
++	dst[i++] = TASDEVICE_PAGE_ID(TAS2573_RE_OUT);
++	dst[i++] = TASDEVICE_PAGE_REG(TAS2573_RE_OUT);
++
++	dst[i++] = 'D';
++
++	for (j = 0; j < priv->ndev; j++) {
++		dst[i++] = j;
++
++		rc = tasdevice_dev_bulk_read(priv, j, TAS2573_RE_OUT,
++			&dst[i], 4);
++		if (rc < 0)
++			dev_err(priv->dev, "chn %d bulk_rd err = %d\n", j, rc);
++
++		i += 4;
++	}
++
++	return 0;
++}
++
++static int tas2573_calib_status_get(struct snd_kcontrol *kcontrol,
++	struct snd_ctl_elem_value *ucontrol)
++{
++	struct snd_soc_component *comp = snd_kcontrol_chip(kcontrol);
++	struct tasdevice_priv *priv = snd_soc_component_get_drvdata(comp);
++	unsigned char *dst = ucontrol->value.bytes.data;
++	struct soc_bytes_ext *bytes_ext =
++		(struct soc_bytes_ext *) kcontrol->private_value;
++	unsigned int fct_status_regs[] = {
++		TAS2573_FCT_INT_LATCH,
++		TAS2573_FCT_STATUS_CTRL,
++		TAS2573_FCT_STATUS_BINNING,
++		TAS2573_SILENCE_DETECTED,
++		TAS2573_OPEN_CIRCUIT,
++		TAS2573_SHORTCKT,
++		TAS2573_FCT_OUTPUT_R0,
++		TAS2573_FCT_OUTPUT_R0_LOW,
++		TAS2573_FCT_OUTPUT_INV_R0,
++		TAS2573_FCT_OUTPUT_POWERTOT,
++		TAS2573_FCT_OUTPUT_F0,
++		TAS2573_RE_OUT,
++	};
++	unsigned int j, k, val;
++	unsigned int i = 0;
++	int rc;
++
++	guard(mutex)(&priv->codec_lock);
++	dst[i++] = bytes_ext->max;
++	dst[i++] = 'r';
++
++	for (j = 0; j < ARRAY_SIZE(fct_status_regs); j++) {
++		dst[i++] = TASDEVICE_BOOK_ID(fct_status_regs[j]);
++		dst[i++] = TASDEVICE_PAGE_ID(fct_status_regs[j]);
++		dst[i++] = TASDEVICE_PAGE_REG(fct_status_regs[j]);
++	}
++	dst[i++] = 'D';
++
++	for (j = 0; j < priv->ndev; j++) {
++		dst[i++] = j;
++		dst[i++] = 0;
++		dst[i++] = 0;
++		dst[i++] = 0;
++
++		rc = tasdevice_dev_read(priv, j, fct_status_regs[0], &val);
++		if (rc < 0)
++			dev_err(priv->dev,
++				"chn %d fct_status_regs[0] rd err = %d\n",
++				j, rc);
++		else
++			dst[i++] = val;
++
++		for (k = 1; k < ARRAY_SIZE(fct_status_regs); k++, i += 4) {
++			rc = tasdevice_dev_bulk_read(priv, j,
++				fct_status_regs[k], &dst[i], 4);
++			if (rc < 0) {
++				dev_err(priv->dev,
++					"chn %d regs[%u] bulk_rd err = %d\n",
++					j, k, rc);
++			}
++		}
++
++	}
++
++	return 0;
++}
++
++static int create_tas2573_cali_status_ktrl(struct tasdevice_priv
++	*priv, struct snd_kcontrol_new *cali_ctrl)
++{
++	struct soc_bytes_ext *ext_cali_start;
++	char *cali_start_name;
++
++	ext_cali_start = devm_kzalloc(priv->dev,
++		sizeof(*ext_cali_start), GFP_KERNEL);
++	if (!ext_cali_start)
++		return -ENOMEM;
++
++	cali_start_name = devm_kstrdup(priv->dev,
++		"Calibration Status", GFP_KERNEL);
++	if (!cali_start_name)
++		return -ENOMEM;
++	/*
++	 * package structure for tas2573 fct status:
++	 *	Pkg len (1 byte)
++	 *	Reg id (1 byte, constant 'r')
++	 *	book, page, register for fct status (total 36 bytes)
++	 *	Data Start Flag (1 byte, constant 'D')
++	 *	for (i = 0; i < Device-Sum; i++) {
++	 *		Device #i index_info (1 byte)
++	 *		Sine gain for Device #i (48 bytes)
++	 *	}
++	 */
++	ext_cali_start->max = 39 + priv->ndev * 49;
++	cali_ctrl->name = cali_start_name;
++	cali_ctrl->iface = SNDRV_CTL_ELEM_IFACE_MIXER;
++	cali_ctrl->info = snd_soc_bytes_info_ext;
++	cali_ctrl->put = NULL;
++	cali_ctrl->get = tas2573_calib_status_get;
++	cali_ctrl->private_value = (unsigned long)ext_cali_start;
++
++	return 0;
++}
++
++static int create_tas2573_cali_re_ktrl(struct tasdevice_priv
++	*priv, struct snd_kcontrol_new *cali_ctrl)
++{
++	struct soc_bytes_ext *ext_cali_start;
++	char *cali_start_name;
++
++	ext_cali_start = devm_kzalloc(priv->dev,
++		sizeof(*ext_cali_start), GFP_KERNEL);
++	if (!ext_cali_start)
++		return -ENOMEM;
++
++	cali_start_name = devm_kstrdup(priv->dev,
++		"Real-time Speaker Impedance", GFP_KERNEL);
++	if (!cali_start_name)
++		return -ENOMEM;
++	/*
++	 * package structure for tas2573 real-time spk impedance:
++	 *	Pkg len (1 byte)
++	 *	Reg id (1 byte, constant 'r')
++	 *	book, page, register for fct status (total 3 bytes)
++	 *	Data Start Flag (1 byte, constant 'D')
++	 *	for (i = 0; i < Device-Sum; i++) {
++	 *		Device #i index_info (1 byte)
++	 *		Sine gain for Device #i (4 bytes)
++	 *	}
++	 */
++	ext_cali_start->max = 6 + priv->ndev * 5;
++	cali_ctrl->name = cali_start_name;
++	cali_ctrl->iface = SNDRV_CTL_ELEM_IFACE_MIXER;
++	cali_ctrl->info = snd_soc_bytes_info_ext;
++	cali_ctrl->put = NULL;
++	cali_ctrl->get = tas2573_re_get;
++	cali_ctrl->private_value = (unsigned long)ext_cali_start;
++
++	return 0;
++}
++
+ static int tasdevice_create_cali_ctrls(struct tasdevice_priv *priv)
+ {
+ 	struct calidata *cali_data = &priv->cali_data;
+@@ -1504,17 +1732,43 @@ static int tasdevice_create_cali_ctrls(struct tasdevice_priv *priv)
+ 	char *cali_name;
+ 	int rc, i;
+ 
+-	rc = snd_soc_add_component_controls(priv->codec,
+-		tasdevice_cali_controls, ARRAY_SIZE(tasdevice_cali_controls));
+-	if (rc < 0) {
+-		dev_err(priv->dev, "%s: Add cali controls err rc = %d",
+-			__func__, rc);
+-		return rc;
++	switch (priv->chip_id) {
++	case TAS2563: {
++		rc = snd_soc_add_component_controls(priv->codec,
++			tasdevice_cali_controls,
++			ARRAY_SIZE(tasdevice_cali_controls));
++		if (rc < 0) {
++			dev_err(priv->dev, "%s: Add cali controls err rc = %d",
++				__func__, rc);
++			return rc;
++		}
++		cali_ctrls = (struct snd_kcontrol_new *)tas2563_cali_controls;
++		nctrls = ARRAY_SIZE(tas2563_cali_controls);
++		for (i = 0; i < priv->ndev; i++) {
++			tasdev[i].cali_data_backup =
++				kmemdup(tas2563_cali_start_reg,
++				sizeof(tas2563_cali_start_reg), GFP_KERNEL);
++			if (!tasdev[i].cali_data_backup)
++				return -ENOMEM;
++		}
+ 	}
+-
+-	if (priv->chip_id == TAS2781) {
++		break;
++	case TAS2573:
++		cali_ctrls = (struct snd_kcontrol_new *)tas2573_cali_controls;
++		nctrls = ARRAY_SIZE(tas2573_cali_controls);
++		break;
++	case TAS2781: {
+ 		struct fct_param_address *t = &(fmw->fct_par_addr);
+ 
++		rc = snd_soc_add_component_controls(priv->codec,
++			tasdevice_cali_controls,
++			ARRAY_SIZE(tasdevice_cali_controls));
++		if (rc < 0) {
++			dev_err(priv->dev, "%s: Add cali controls err rc = %d",
++				__func__, rc);
++			return rc;
++		}
++
+ 		cali_ctrls = (struct snd_kcontrol_new *)tas2781_cali_controls;
+ 		nctrls = ARRAY_SIZE(tas2781_cali_controls);
+ 		for (i = 0; i < priv->ndev; i++) {
+@@ -1533,16 +1787,12 @@ static int tasdevice_create_cali_ctrls(struct tasdevice_priv *priv)
+ 				}
+ 			}
+ 		}
+-	} else {
+-		cali_ctrls = (struct snd_kcontrol_new *)tas2563_cali_controls;
+-		nctrls = ARRAY_SIZE(tas2563_cali_controls);
+-		for (i = 0; i < priv->ndev; i++) {
+-			tasdev[i].cali_data_backup =
+-				kmemdup(tas2563_cali_start_reg,
+-				sizeof(tas2563_cali_start_reg), GFP_KERNEL);
+-			if (!tasdev[i].cali_data_backup)
+-				return -ENOMEM;
+-		}
++	}
++		break;
++	default:
++		dev_err(priv->dev, "%s: Wrong chip id = %d", __func__,
++			priv->chip_id);
++		return -EINVAL;
+ 	}
+ 
+ 	rc = snd_soc_add_component_controls(priv->codec, cali_ctrls, nctrls);
+@@ -1554,10 +1804,17 @@ static int tasdevice_create_cali_ctrls(struct tasdevice_priv *priv)
+ 
+ 	/* index for cali_ctrls */
+ 	i = 0;
+-	if (priv->chip_id == TAS2781)
++	switch (priv->chip_id) {
++	case TAS2573:
++		nctrls = 3;
++		break;
++	case TAS2781:
+ 		nctrls = 2;
+-	else
++		break;
++	default:
+ 		nctrls = 1;
++		break;
++	}
+ 
+ 	/*
+ 	 * Alloc kcontrol via devm_kzalloc(), which don't manually
+@@ -1610,12 +1867,24 @@ static int tasdevice_create_cali_ctrls(struct tasdevice_priv *priv)
+ 	 * it, for the default value is 0, which means the first device.
+ 	 */
+ 	cali_data->data[0] = 0xff;
+-	if (priv->chip_id == TAS2781) {
++
++	switch (priv->chip_id) {
++	case TAS2573:
++		rc = create_tas2573_cali_status_ktrl(priv, &cali_ctrls[i]);
++		if (rc != 0)
++			return rc;
++		i++;
++		rc = create_tas2573_cali_re_ktrl(priv, &cali_ctrls[i]);
++		if (rc != 0)
++			return rc;
++		i++;
++		break;
++	case TAS2781:
+ 		rc = create_tas2781_cali_start_ktrl(priv, &cali_ctrls[i]);
+ 		if (rc != 0)
+ 			return rc;
+ 		i++;
+-
++		break;
+ 	}
+ 
+ 	return snd_soc_add_component_controls(priv->codec, cali_ctrls,
+@@ -1822,7 +2091,8 @@ static void tasdevice_fw_ready(const struct firmware *fmw,
+ 	tas_priv->fw_state = TASDEVICE_DSP_FW_ALL_OK;
+ 
+ 	/* There is no calibration required for TAS58XX. */
+-	if (tas_priv->chip_id == TAS2563 || tas_priv->chip_id == TAS2781) {
++	if (tas_priv->chip_id == TAS2563 || tas_priv->chip_id == TAS2573 ||
++		tas_priv->chip_id == TAS2781) {
+ 		ret = tasdevice_create_cali_ctrls(tas_priv);
+ 		if (ret) {
+ 			dev_err(tas_priv->dev, "cali controls error\n");
+-- 
+2.43.0
 
