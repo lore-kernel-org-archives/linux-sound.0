@@ -1,126 +1,173 @@
-Received: from mail-4322.protonmail.ch (mail-4322.protonmail.ch [185.70.43.22])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A8414BA1D1;
-	Tue, 15 Sep 2026 17:41:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 884214A6CDF;
+	Tue, 15 Sep 2026 18:05:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789494116; cv=none; b=ovY6kuuJkrldaAN/rHXh5/0igl29qGlVqJy5np4C6s5NocSDMoKN3otTcpEPkrqAnWovoAuWCTcpeqXC2V7k7MLZBRG9tqrDYSTOcjcr0EUGbLKoL2uB7t3aiynGjmbTX86JJ310jzNhCDOGSuA911PMa3nCX434n7vsOzCRz3s=
+	t=1789495532; cv=none; b=scEk3jaJqbfeet0JDqfFF0hblNplzvmS+1lPz5NwnsVrm4u1kVOCfExiYi/g6Hcz/08l4v56diz5hEAm6GLeiPHgwD5vF0ECUh6ZHM6V+9zH5qgIzxHNOxKGwTLx8eYsV+cO0V34F90js4GWpfA4rKUMxDgVeEre50pX0LwffPE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789494116; c=relaxed/simple;
-	bh=ckm5YErl8YuS5dn6xT8IvqcyZmcJHSVF6vVUUsLRAUc=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=G8xe4ElK0gVdR/BF72hoZi2oR4Qk+9LgK1lHPWCGB/1jgP1u+HsQmgN1oVDOWY7Zq1ekNa6A4jEeM7mkGlOg4/6mbnYxIPFHZMRA2KMdKlo9QGe8eUPLvM024OInaTv7YU4XMaVRpeXJJ4lSLUgtP1X1JRKNrd7bUgVjiI+Ug/I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=LPDkFeI2; arc=none smtp.client-ip=185.70.43.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
+	s=arc-20240116; t=1789495532; c=relaxed/simple;
+	bh=V6K4OlMCnUsCbDMREVaUa2vUImH9KQWys0wgaxngXJA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gfuPf03J7lxn0tqT5OuVYHZ4DS/aVd4KrSy2EDRM8b982EshWCpuzHWUr+D9KdPANs83cOFX09kIsaIw7aDm2lEcsp6xot0jmqiCR0NzNGmwbnunVarZnX3eiEP4fnf2GnWnQ/YsopuMzFiqjYgckczMy+23ng8N45508TCOPxI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jTo4X3Om; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="LPDkFeI2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1789494105; x=1789753305;
-	bh=2Z+GGqqxoNHhbn4tzCjicToeuuKyYpgbyqVA//Q9Hd8=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=LPDkFeI2PdKqRhs2rvoa1q23+sfpghIMI36dZ2KzQZMkp9kgoWRdPUId/Xp8zofA5
-	 LgIAWXNsSEtOXM6NRGbyRf1/WA5em6BHpNQSndRCX9mJl/ldKrchZfSlULchQv68el
-	 i7yn1i5BYo2KNGk1+BN3FRnaM4sDQosXcv2iwnk9N0iki9v9kFiRf9+01M3MwFdmT1
-	 6YhMn7AFkW2/iZp+iozYyWG4Uu50D33ajDX8i8OJb0zHuEOkD/9UVDdRU8fXt+a0jl
-	 Y7mlN8QW0aabbEp6kOoGx6ePApCfH9wmnqChesft/bNL5LJ9RYWlEV1E4xKIQ0IFSX
-	 C6BWfMMMxUyZQ==
-Date: Tue, 15 Sep 2026 17:41:36 +0000
-To: linux-sound@vger.kernel.org
-From: patryk.dankow@protonmail.com
-Cc: =?utf-8?Q?Patryk_Da=C5=84k=C3=B3w?= <patryk.dankow@protonmail.com>, perex@perex.cz, tiwai@suse.com, zhangheng@kylinos.cn, dnaim@cachyos.org, damien.dagorn29@gmail.com, kailang@realtek.com, habilerenturker@hotmail.com, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] ALSA: hda/realtek: Add mute LED support for ASUS PM3406CKA
-Message-ID: <20260915174110.67871-3-patryk.dankow@protonmail.com>
-In-Reply-To: <20260915174110.67871-1-patryk.dankow@protonmail.com>
-References: <20260915174110.67871-1-patryk.dankow@protonmail.com>
-Feedback-ID: 221603438:user:proton
-X-Pm-Message-ID: dbf11fb6ef013e63489214ee355fda125ceae26b
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jTo4X3Om"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9A331F000FF;
+	Tue, 15 Sep 2026 18:05:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789495529;
+	bh=mPeI+6lTU/Y8EitQI5ZfnrfapFmX8wWN22xo6A7UJaE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=jTo4X3Om6pjYJxMpPsXGw742bcwi+fNKt1WirPMCjMB3CN4+QeGCMAad0HowUYo27
+	 zkPX73/bpXrtYTMe0XsfHOKvy0auvvNyZSnejxr33FwP5Y4EAzd8YeVUzA5p/dgDEw
+	 5cFlE/iE3GLNGT0ByRP+/biS9WQfT2P4HJ97Jm9P9K/qgKyfL5uH3H46GOijU3awQE
+	 U05QkDGXb1dMAlMiuCtrF46H69n28W2iJaBayGHH26y3LSBp2/268of5pUNUCjMz6C
+	 lP5HOIiL9QmsIGugbJJQ+XSzW3eNNY7uy3+IQE3mKC77JsHqvgv78X1PoCadcnYcJG
+	 U7RPeBeWp4lDg==
+Date: Tue, 15 Sep 2026 11:05:29 -0700
+From: Kees Cook <kees@kernel.org>
+To: Bill Wendling <morbo@google.com>
+Cc: linux-kernel@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	WANG Xuerui <kernel@xen0n.name>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	Helge Deller <deller@gmx.de>, Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>, Ian Abbott <abbotti@mev.co.uk>,
+	H Hartley Sweeten <hsweeten@visionengravers.com>,
+	Tony Luck <tony.luck@intel.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Matthias Schwarzott <zzam@gentoo.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Arend van Spriel <arend.vanspriel@broadcom.com>,
+	Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Peter Griffin <peter.griffin@linaro.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Linus Walleij <linusw@kernel.org>,
+	Anil Gurumurthy <anil.gurumurthy@qlogic.com>,
+	Sudarsana Kalluru <sudarsana.kalluru@qlogic.com>,
+	"Martin K. Petersen" <mkp@kernel.org>,
+	Trond Myklebust <trondmy@kernel.org>,
+	Anna Schumaker <anna@kernel.org>,
+	Mike Marshall <hubcap@omnibond.com>,
+	Martin Brandenburg <martin@omnibond.com>,
+	Jiri Pirko <jiri@resnulli.us>, Simon Horman <horms@kernel.org>,
+	Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>,
+	NeilBrown <neil@brown.name>,
+	Olga Kornievskaia <okorniev@redhat.com>,
+	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"Mike Rapoport (Microsoft)" <rppt@kernel.org>,
+	Kanglong Wang <wangkanglong@loongson.cn>,
+	Tiezhu Yang <yangtiezhu@loongson.cn>,
+	Qiang Ma <maqianga@uniontech.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Pengpeng Hou <pengpeng@iscas.ac.cn>,
+	Ard Biesheuvel <ardb@kernel.org>, Breno Leitao <leitao@debian.org>,
+	Thorsten Blum <blum@kernel.org>,
+	Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Lyude Paul <lyude@redhat.com>,
+	Ashutosh Desai <ashutoshdesai993@gmail.com>,
+	Imre Deak <imre.deak@intel.com>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	Johan Hovold <johan@kernel.org>,
+	Johannes Berg <johannes.berg@intel.com>,
+	Miri Korenblit <miriam.rachel.korenblit@intel.com>,
+	Alexander Stein <alexander.stein@ew.tq-group.com>,
+	Cryolitia PukNgae <cryolitia@uniontech.com>,
+	Jiaming Zhang <r772577952@gmail.com>,
+	Will Porter <mrwillporter@gmail.com>,
+	Cen Zhang <zzzccc427@gmail.com>,
+	=?iso-8859-1?Q?C=E1ssio?= Gabriel <cassiogabrielcontato@gmail.com>,
+	Rong Zhang <i@rong.moe>, Arun Raghavan <arunr@valvesoftware.com>,
+	nikitash.mariiaw@gmail.com, linux-arm-kernel@lists.infradead.org,
+	loongarch@lists.linux.dev, linux-mips@vger.kernel.org,
+	linux-parisc@vger.kernel.org, linux-edac@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+	linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+	intel-wired-lan@lists.osuosl.org, netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
+	brcm80211-dev-list.pdl@broadcom.com, devicetree@vger.kernel.org,
+	linux-samsung-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-scsi@vger.kernel.org, linux-nfs@vger.kernel.org,
+	devel@lists.orangefs.org, linux-hardening@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH 00/28] Replace remaining strlcat() call sites with
+ snprintf()/seq_buf()
+Message-ID: <202609151055.AFC6267@keescook>
+References: <20260915081910.4142719-1-morbo@google.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260915081910.4142719-1-morbo@google.com>
 
-From: Patryk Da=C5=84k=C3=B3w <patryk.dankow@protonmail.com>
+On Tue, Sep 15, 2026 at 08:18:17AM +0000, Bill Wendling wrote:
+> strlcat() is deprecated: like strcat(), it requires re-scanning the
+> destination string from the beginning on every call, which is O(n^2)
+> when used to build up a string incrementally, and its truncation
+> behavior is easy to get wrong. See:
+> 
+>   https://github.com/KSPP/linux/issues/370
+> 
+> This series removes the remaining strlcat() call sites in the tree
+> (plus the one inside fortify-string.h's strcat() implementation
+> itself), replacing each with snprintf(), scnprintf(), or the seq_buf()
+> API, whichever best fits the surrounding code.
 
-Enable vmaster mute LED handling for the PM3406CKA while retaining
-the existing CS35L41 I2C fixup by chaining the new fixup to it.
+Thanks for tackling this!
 
-Tested on ASUS ExpertBook PM3406CKA.
+A few global notes:
 
-Signed-off-by: Patryk Da=C5=84k=C3=B3w <patryk.dankow@protonmail.com>
----
- sound/hda/codecs/realtek/alc269.c | 18 +++++++++++++++++-
- 1 file changed, 17 insertions(+), 1 deletion(-)
+- This series almost certainly needs to be sent as separate single
+  patches to each subsystem maintainer (rather than a giant CC list).
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/a=
-lc269.c
-index 3abee617e86e..d1f0c2752624 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -180,6 +180,15 @@ static void alc_enable_headset_jack_key(struct hda_cod=
-ec *codec)
- =09}
- }
-=20
-+static void alc_fixup_pm3406cka_vmaster_led(struct hda_codec *codec,
-+=09=09=09=09=09    const struct hda_fixup *fix, int action)
-+{
-+=09struct alc_spec *spec =3D codec->spec;
-+
-+=09if (action =3D=3D HDA_FIXUP_ACT_PRE_PROBE)
-+=09=09spec->gen.vmaster_mute_led =3D 1;
-+}
-+
- static void alc_fixup_headset_jack(struct hda_codec *codec,
- =09=09=09=09    const struct hda_fixup *fix, int action)
- {
-@@ -4383,6 +4392,7 @@ enum {
- =09ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN_HEADSET,
- =09ALC285_LENOVO_DAC_RENAME,
- =09ALC287_FIXUP_YOGA9_SPEAKER2_TO_DAC1,
-+=09ALC_FIXUP_PM3406CKA_VMASTER_LED,
- };
-=20
- /* A special fixup for Lenovo C940 and Yoga Duet 7;
-@@ -7129,6 +7139,12 @@ static const struct hda_fixup alc269_fixups[] =3D {
- =09=09.chained =3D true,
- =09=09.chain_id =3D ALC287_FIXUP_TXNW2781_I2C,
- =09},
-+=09[ALC_FIXUP_PM3406CKA_VMASTER_LED] =3D {
-+=09=09.type =3D HDA_FIXUP_FUNC,
-+=09=09.v.func =3D alc_fixup_pm3406cka_vmaster_led,
-+=09=09.chained =3D true,
-+=09=09.chain_id =3D ALC287_FIXUP_CS35L41_I2C_2,
-+=09},
- };
-=20
- static const struct hda_quirk alc269_fixup_tbl[] =3D {
-@@ -7786,7 +7802,7 @@ static const struct hda_quirk alc269_fixup_tbl[] =3D =
-{
- =09SND_PCI_QUIRK(0x1043, 0x13b0, "ASUS Z550SA", ALC256_FIXUP_ASUS_MIC_NO_P=
-RESENCE),
- =09SND_PCI_QUIRK(0x1043, 0x1427, "Asus Zenbook UX31E", ALC269VB_FIXUP_ASUS=
-_ZENBOOK),
- =09SND_PCI_QUIRK(0x1043, 0x1433, "ASUS GX650PY/PZ/PV/PU/PYV/PZV/PIV/PVV", =
-ALC285_FIXUP_ASUS_I2C_HEADSET_MIC),
--=09SND_PCI_QUIRK(0x1043, 0x1454, "ASUS PM3406CKA", ALC287_FIXUP_CS35L41_I2=
-C_2),
-+=09SND_PCI_QUIRK(0x1043, 0x1454, "ASUS PM3406CKA", ALC_FIXUP_PM3406CKA_VMA=
-STER_LED),
- =09SND_PCI_QUIRK(0x1043, 0x1460, "Asus VivoBook 15", ALC256_FIXUP_ASUS_MIC=
-_NO_PRESENCE),
- =09SND_PCI_QUIRK(0x1043, 0x1463, "Asus GA402X/GA402N", ALC285_FIXUP_ASUS_I=
-2C_HEADSET_MIC),
- =09SND_PCI_QUIRK(0x1043, 0x1473, "ASUS GU604VI/VC/VE/VG/VJ/VQ/VU/VV/VY/VZ"=
-, ALC285_FIXUP_ASUS_HEADSET_MIC),
---=20
-2.55.0
+- As others noted already, we don't want to do anything as just an
+  open-coded strlen/sprintf; this doesn't gain us anything. If we can't
+  use seq_buf or some other solution, we need to figure out what we _can_
+  do for a given use.
 
+- There are some collisions with other in-flight patches, e.g.  Mariia's[1]
 
+- The "Assisted-by:" trailer doesn't need the level of detail you've
+  got, which changed recently[2]. Now the desired trailer would just be:
+    Assisted-by: LLM
+
+- Please avoid including the Cc list in the email body (above or below
+  the "---" line), as it ends up being redundant.
+
+I'll go look through the individual patches...
+
+-Kees
+
+[1] https://lore.kernel.org/all/27956255dde39f58d73a7b51cb53cbe3d7804f54.1786411026.git.mariianikitash@google.com/
+[2] https://git.kernel.org/linus/816d9992d9ed ("coding-assistants: simplify attribution")
+
+-- 
+Kees Cook
