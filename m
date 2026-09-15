@@ -1,63 +1,63 @@
-Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
+Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42CA049CF47
-	for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 08:44:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F24E4A1E08
+	for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 08:44:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789461898; cv=none; b=p2nymbwsUPbklqvuqT/JBXWDgCtc6c8LHnqdMbPpldoiKi9ebH1Eexa77ur/9Ke0oaq8wHlx+GfQ0rpaq4EiTmGq5zrRKBIYMjx1rTUjBxyR9dD8EYkWMBvcike9stOuzi4XoX2JPi/nFD87MaXPWQhPKj2Xy3+82JJbf13rejE=
+	t=1789461899; cv=none; b=tS08GnDQxx/ZkKqbZeEKTRBeRPifNAUmaLw7rz5DT4iQ0rmnG7jI79ZEwX+AGgTTwE8QErgjmVu19Qdel1q1bxl/6M1T3ZIQatm5hJGc1vXRQgipeO+CxW2h3H7/XK8xDvTcw39Mt2x4AYlnDLTnhPeJi9fSdHjSldtV/tlERPI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789461898; c=relaxed/simple;
-	bh=/8vQTsAacrt7tq+CmZEqjCdzPBMpFxzscNzh2mve8hc=;
+	s=arc-20240116; t=1789461899; c=relaxed/simple;
+	bh=qhilQtEwoADWivd3qGD2EWMsOwf7j5yXfD9quboeN04=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=M/ZMppRoXRlcdIcf+J+1ruX+qKsewCMzhp3mDGgaoi9BEGkZTzLYS0HRjRJoq5Qi77T+/KJhgLm7lVilBvxyIEfw5pLy4ZNsqV3rymmgI/hZCujeWGBdjj9QBwK7E8acqC5sVaj4IE4UIbirF9DHTVYOLeSdyxnJ6qtUcfeI6iY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mCsh4f42; arc=none smtp.client-ip=74.125.227.141
+	 MIME-Version; b=Nm5XaWamgiHHqrQO0qAk6aSPE7bmmj7yxTFPqP5Km2J0XDjeLNhYC0wuZaU4ynShZELCckE02cRPAyk6DwVU09XCYMLE0gL39XrPgPAbvGPBotlbiuxXoIekIKThaGXC8NBkvxWCwhBL9DpIxAErLj54vToZjGFnlcW3OxLW2L8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pEX0Ec8p; arc=none smtp.client-ip=74.125.228.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mCsh4f42"
-Received: by mail-pj2-f13.google.com with SMTP id d9443c01a7336-2d747ed9866so31629275ad.2
-        for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 01:44:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pEX0Ec8p"
+Received: by mail-pz2-f12.google.com with SMTP id 41be03b00d2f7-cc1cea34ef3so18070a12.0
+        for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 01:44:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789461895; x=1790066695; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1789461897; x=1790066697; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Pv7hnek0M3kdITeC3SL2hfj05ljQFsw5RFgfNprat8g=;
-        b=mCsh4f42upLYTYFuetuvTgN5Zy8beJU4mZfQ/tKctqQKtiNS60Sq36GWiQyn92sLSw
-         H9CI+X5uti186YldPLVqV55Y2/j9vf8Bsbj8dtLdgm7jSeV4VwKhqr7d8JHkMi5GutxR
-         Rm2NUB3Mcv7d746Mhf6NFtLSZI5VDvUMvqCBm51dbqsxHT+8HkRUrx8bgz1/Px1Qxbqi
-         d+ktpYELGzxNpoxUe4fuQXm5tE+deJKOO56dhtbK1ClWywzf7pDKL8MTbaQZz/QoA0GM
-         PXX/UEISj3myHa0rjLN10BwT8kNUDJQUEy6kl5um5JYWnPpNbqmkQxjFO/C1nEd/jnW3
-         lo9Q==
+        bh=YAVWjX4Eu+ZHsqxn4+cTrhtGLpr5gbFSdYgLWKGxueI=;
+        b=pEX0Ec8phrSYZSwL6J1ld6aPs4I0TE0fNSVvmf/N+sPRPkliqwJsJ+sghd2IUkJ/mZ
+         qBYtMpSRPAU2ul9x7aLBSoeNKNAyskWzbBdjqtgB5BIQl1hAxi5WYPcEbwKFaJBhSx2f
+         pn5c/nWyjIKLoZ5Zc1JuKvQhLA2W5Ar4OYc3pwPDeJ+KkcAHvGGnLfOy/d+UBol3t9GU
+         AOf42ag5m5hBopdYQtFIuoT+wtpNE/bXZBoC/psYl00qXolsdGyeBDOwX/9zvgwK3ilE
+         pyObcdmozoQTFWFsZ+6lOzjz/Lvzz8vpVjXdZLsOJWj5wsFTZrszUpIyQyfj5lJ1L2Kz
+         d60w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789461895; x=1790066695;
+        d=1e100.net; s=20260707; t=1789461897; x=1790066697;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Pv7hnek0M3kdITeC3SL2hfj05ljQFsw5RFgfNprat8g=;
-        b=hePegu/DMI9VAFnXnSei8iWjISUG3DNwn9UXCMQl4CTolpgOgf3sYCw+wQDrrFVpp+
-         fGYMjfHfzpsgVD+czzp/UUnjIbjypmBM1ibPA+DvwXCp6xRM9aBeWFc8r3bKOkNq8wik
-         pCqc2lM/L6ottUdJJ6BXHVavWf7iNmfatfxpPqp2bgiWe5eMx1HNPtQxqRl3y8MuLGVO
-         HW10lFrsrVsUX+YfIRVo+elY30G8jH7bFGMs6dMh8rNcMVjwjUI9qpnudu3v/XG+VPs1
-         /XY7+1AaYmTHpzqgTgJEasgtBqVKpEypo3FVwV9w9aqF1kE3SL8WmykEs1e0qhLgTWik
-         Podw==
-X-Gm-Message-State: AFuF++korHQrBeozrpCIGxdvlJkgDa8xrUF2RLWZutrcG0n6FQzFSRrc
-	b6TNE85G5rYFflKYzEhXyGaUgwm59O0Wo+qQiJ80zezE8GZfgG2AkqFc
-X-Gm-Gg: AYBFou1Jrv+tvOupS3bVxZSXqrNkhusptDJ9P8QBWYUJ33gnkWfD6Ae/XHTyYDCcoMA
-	KQdvBWMjzuuq2L9HkfbH+WTLICZxe28kYDiv4NZ7ZFUkbhNojGGVAxGm3yhXIHPSW5wWRK16UVS
-	GdeOPPIcbh/Rvvdkvp/oWcVmVdFBUHDV0R59NalggGRIYxeBi4QRvauiindOAHqC7NVgc/M9dTM
-	BZBFpWgrUmlNjYF2Wc5LBZB5zflscdMGxuTqifkNpcRZT3Uq/5rK+dTcOOzbN8VRPfO0cGNwO5H
-	pFw+oIB8DwGqaKndbpPlthfoq7cZXFZ8F7c0P/zp8XrGlj9AB5e0O1v0FCsXtKUQxvYTOwglXTW
-	Fv2S1zb4zBmDt0w/9dHrT4cgLiyEpR/jgXujHuAUOWSf8psy+vd6P77tHUoVMgpE8BVQLjk5ZBb
-	47DMUlg7lLJ8aT4gaohTol1puvXlqCd7fSFG1vr7fy1/dOiuEo922sUMg10FCyfLmgdqxHSohRI
-	CS2TWwAD10Woss2Q5O/TXTO3A==
-X-Received: by 2002:a17:90a:fc48:b0:39d:f5d0:88a7 with SMTP id 98e67ed59e1d1-39df5d08b93mr9931365a91.15.1789461894767;
-        Tue, 15 Sep 2026 01:44:54 -0700 (PDT)
+        bh=YAVWjX4Eu+ZHsqxn4+cTrhtGLpr5gbFSdYgLWKGxueI=;
+        b=zFcCjDgdpDcttjtX84YHGMjvcb6breuj9BsW3e/7DJUIx0IqC36JI7zJi0ObRbcQjh
+         fdZMrbT0EgU/F2GHGuhV2vtEQl9valpdnLrJ+cDi5g1RPbeqfdp0bQ5FEatbzKikfqzE
+         ugHpWmnkUgUID61yUo9aMjvn8pX52j1NF5GPsfm/uy47cnkz+crwSR0WsKL15sUOt11L
+         j4W+hi79svkYesHgvkX+kPuVUR4HfL67/6Wv98vcUzbWM2w7hbcR7ZkzEOK9H0XyTqUd
+         l0H6jOTfTn2CI9cBmwM4I7n/37EyWJFh/bsbXjmsCfJAPgfDyRNxjVoy6b2xU6RRd+SD
+         2H5A==
+X-Gm-Message-State: AFuF++n2fKcuSdqhG6yK3snyZEIHRoNGOv+zGCh4hdz38ExIHAy/wRp9
+	1WMaEHTwbXSToGbwUDZPLHT/BxRS0uO5hECyFnE9jwln1uK3FQL1n7rZ
+X-Gm-Gg: AYBFou1UD76TEHODV/fulQeFXkpIvF9nakwAwJXbOGZq90E7HTAbfYqu2A3fTGk2g2p
+	ceGzXUpL8K4XNHxYpTCuCJeell4Z0mFgs9OoeXpuYRBKEbvpDYLw5vZhxxg1vCGaamrc/XQiaAp
+	G1lmcn3SyRFn6R92lzWZM6UWI8CZIRaPeZcFat0POlz+GQUm9REBMBhPTsJxUuAwZ6hKjY39HX6
+	biEgSkOyZ7KaaZU2wz6W3o4+N60GYZV4UDvUJyjDYs0lI0anvw5YwWhIEIUppa7VeXYRIH/0WvJ
+	781B5lU7hkPOVk5GS6jcXV2SLCqVNZQXo66dpVYnF4UINZs8OAFNCJzobokdyWtqTFkZC8uoYAl
+	2gpSoo+tDWemz+xNjup0k/IZ0WS6oXasXtZBgJ7nW3ndl4NFDH8VODGZBP9fOAm4mUiRYqU94IK
+	IgzNOvijAhVp1QWJ55njyqiLIAbIF0hyzjunYKKmA6DVLdrufpnP+tbJeM1pVcpyrppG68a1CtE
+	Xg7uzsMyYoJ48pVbhp4pdgNDxs=
+X-Received: by 2002:a05:6a20:d48c:b0:3da:e50c:5039 with SMTP id adf61e73a8af0-3dd529a4cd9mr485167637.15.1789461897488;
+        Tue, 15 Sep 2026 01:44:57 -0700 (PDT)
 Received: from volcano9f6e-hostos.amd.com ([165.204.217.251])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33ba4cf72dbsm34718935eec.3.2026.09.15.01.44.52
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33ba4cf72dbsm34718935eec.3.2026.09.15.01.44.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Sep 2026 01:44:54 -0700 (PDT)
+        Tue, 15 Sep 2026 01:44:57 -0700 (PDT)
 From: Hemanth Selam <hemanth.selam@gmail.com>
 To: Takashi Iwai <tiwai@suse.com>,
 	Jaroslav Kysela <perex@perex.cz>
@@ -65,9 +65,9 @@ Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Takashi Sakamoto <o-takashi@sakamocchi.jp>,
 	Clemens Ladisch <clemens@ladisch.de>
-Subject: [PATCH v2 09/23] ALSA: hal2: fix typos in comments
-Date: Tue, 15 Sep 2026 14:14:10 +0530
-Message-ID: <20260915084424.1007757-10-hemanth.selam@gmail.com>
+Subject: [PATCH v2 10/23] ALSA: ppc: tumbler: fix typos in comments
+Date: Tue, 15 Sep 2026 14:14:11 +0530
+Message-ID: <20260915084424.1007757-11-hemanth.selam@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20260915084424.1007757-1-hemanth.selam@gmail.com>
 References: <20260915084424.1007757-1-hemanth.selam@gmail.com>
@@ -83,31 +83,22 @@ Correct spelling mistakes in comments. No functional change.
 
 Signed-off-by: Hemanth Selam <hemanth.selam@gmail.com>
 ---
- sound/mips/hal2.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ sound/ppc/tumbler.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/mips/hal2.c b/sound/mips/hal2.c
-index 2beb6a0dc3b7..84f265335cf9 100644
---- a/sound/mips/hal2.c
-+++ b/sound/mips/hal2.c
-@@ -375,7 +375,7 @@ static void hal2_setup_dac(struct snd_hal2 *hal2)
- 	hal2_i_clearbit16(hal2, H2I_DMA_PORT_EN, H2I_DMA_PORT_EN_CODECTX);
- 	/* Setup the HAL2 for playback */
- 	hal2_set_dac_rate(hal2);
--	/* Set endianess */
-+	/* Set endianness */
- 	hal2_i_clearbit16(hal2, H2I_DMA_END, H2I_DMA_END_CODECTX);
- 	/* Set DMA bus */
- 	hal2_i_setbit16(hal2, H2I_DMA_DRV, (1 << pbus->pbusnr));
-@@ -400,7 +400,7 @@ static void hal2_setup_adc(struct snd_hal2 *hal2)
- 	hal2_i_clearbit16(hal2, H2I_DMA_PORT_EN, H2I_DMA_PORT_EN_CODECR);
- 	/* Setup the HAL2 for record */
- 	hal2_set_adc_rate(hal2);
--	/* Set endianess */
-+	/* Set endianness */
- 	hal2_i_clearbit16(hal2, H2I_DMA_END, H2I_DMA_END_CODECR);
- 	/* Set DMA bus */
- 	hal2_i_setbit16(hal2, H2I_DMA_DRV, (1 << pbus->pbusnr));
+diff --git a/sound/ppc/tumbler.c b/sound/ppc/tumbler.c
+index 139c7b25927a..7ba52e7a24d7 100644
+--- a/sound/ppc/tumbler.c
++++ b/sound/ppc/tumbler.c
+@@ -1134,7 +1134,7 @@ static long tumbler_find_device(const char *device, const char *platform,
+ 		gp->active_val = 0x4;
+ 		gp->inactive_val = 0x5;
+ 		/* Here are some crude hacks to extract the GPIO polarity and
+-		 * open collector informations out of the do-platform script
++		 * open collector information out of the do-platform script
+ 		 * as we don't yet have an interpreter for these things
+ 		 */
+ 		if (platform)
 -- 
 2.48.1
 
