@@ -1,155 +1,174 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs2-f43.google.com (mail-vs2-f43.google.com [74.125.227.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C7C94B0E3A
-	for <linux-sound@vger.kernel.org>; Wed, 16 Sep 2026 21:39:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789594782; cv=none; b=jaM15oqQ8XztKcf0P2OU4LbULU5PkR583ohdr1BO0zKMAQtxuN5IqpgLjde/0qxIolO1hRxzR6kExWp7w1cO4IUu3Tv6Ewfdy2FU/EsdtEKAaAd4mE2t3dr3H0cVkw1SYVK1/jdPYwkkGFolwZMspNETVG2R00zgfe6fyBTcLG4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789594782; c=relaxed/simple;
-	bh=6GQ99lacp4LlCPFF3R1g99Rh+m/D7gWt1Rrpd7ssTCM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E8v7uFOyCr7X+fA8XOw5tcjwK/zUC48aPoBUuJTYTasP0xcLXCCTXxG2Mi0Ben7x0Rtrl6DVUCFqDHbhi1l/M+UPcHVkhyD39L2JHuAii2hr1R3QbZXaJw5B3hxjbrGOj+mVupMaftOhguIrshKVF1SDJ1BKWPJj30cXx9YSaJE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XAAaXKPU; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6410F4D6C25
+	for <linux-sound@vger.kernel.org>; Wed, 16 Sep 2026 21:44:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.227.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789595110; cv=pass; b=DpaO1EexANROZHTOLYcCQ5zXjZZxsN62U3Rb9r8tM7Kvtv67Unl7S9JAU5leK4zqFLVKj4aQebyoFS8MP1N2/heqIkEnzm3RmfV6k+wddGm4VHH56HpEOPTADZ824T0MWTRTLGsMNt2R5Gbe6e6EJg2aTzxP1u41OMcRezkEa5w=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789595110; c=relaxed/simple;
+	bh=+TMWi8xF1c/GpLGSJWBDMGttEHh102/5Ofx0+5TAWdU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GRUYFq//FmsfGMCSZqfRXt01HUzZ6ecKNDAkKT1ubGz3nTmEqkASY0kB/c1hm7j1AnOcbC/F6SX4JIi5kaC4ZeY3PAMMKLoAK2TNMAxBdictc4pwo2B500iotycQIpKb1wb4RGIdc3Wz54ztS/YJt3f3qBMK6RCfn8Gz2zkXUAo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=PhRvxyDc; arc=pass smtp.client-ip=74.125.227.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XAAaXKPU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E8821F00893;
-	Wed, 16 Sep 2026 21:39:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789594762;
-	bh=msZC3YFvH41Z8Uyz/5UAJ95zO5Xt0O8aBHVvQd2O+GQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=XAAaXKPUBAxru+uGIUSDVwES9aPcRppb8cXXI7/92gVJ0M/eJ4qbv+wYEr8kkO6xH
-	 Vg/02fnKpkMIhVR+c1eBCTwWPsqDVS/HKZiY3zS3xI/xCMFWQeQBl4VflLYmrJY5uG
-	 C4EpbhQHD1G21UrKKH3S/01nwz2RoOQI0kGjpjfk4lHgR23Whraof5uNLnhZf9kA1T
-	 J7CDx87lOTqcTc9ohozv0rKts5ircGNVied7te4csLmbGh38U1axzaK7LZalFUM0b+
-	 K4YhNqAqY//8FuAwttxYas8KTRcCFpHs7WdVv6vw8LYbMMzL/YqL7XxZMyY39FVtLe
-	 dA8WpL9E7yFHQ==
-Date: Wed, 16 Sep 2026 22:39:18 +0100
-From: Mark Brown <broonie@kernel.org>
-To: shumingf@realtek.com
-Cc: lgirdwood@gmail.com, linux-sound@vger.kernel.org, lars@metafoo.de,
-	flove@realtek.com, oder_chiou@realtek.com, jack.yu@realtek.com,
-	derek.fang@realtek.com
-Subject: Re: [PATCH] ASoC: rt712: add GPIOs for LED control
-Message-ID: <3afc23b2-6072-4b65-b3e5-88cee7bf6997@sirena.org.uk>
-References: <20260916090513.2294466-1-shumingf@realtek.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="PhRvxyDc"
+Received: by mail-vs2-f43.google.com with SMTP id ada2fe7eead31-78a6c77d255so67190137.2
+        for <linux-sound@vger.kernel.org>; Wed, 16 Sep 2026 14:44:20 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789595057; cv=none;
+        d=google.com; s=arc-20260327;
+        b=pV8uyc2BVSS7987A3WGVj9fQJSvRDc79IUNuBCx03vnVP+grd3c1cUnv0vNYgjG46c
+         i1fjXNpOhxiMIwftWiXfdrOOKJhOMqrkRQimQnignLDvsiOWvXui1zXSXQFftWvZt/Si
+         MGWnn0vDDVr4vPHjDMYr+fhmbJD4wIUgJCYYPxYwMhKrt3dOvuCV397X1+XfZdMadawv
+         U/yoMWFlA9mKgjD6yobVqcyMVngep//AdOC3lBHlBylJu9pX7Sp0p9eHgUcoLpoYb66s
+         LjMMXTjkPCilvXlv6ONP5DW/szjiH8542ZgSN/GzQ9AUE6zu6daZu0P8PblmoVfZrlW6
+         uAlg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=+TMWi8xF1c/GpLGSJWBDMGttEHh102/5Ofx0+5TAWdU=;
+        fh=QgFeHP1Y8nPT33TJ7yZXz26WC4WvW4yEcPcvn3gABeI=;
+        b=rleKfmqBkvh66/U8BVd+ofXliAUWtFud8LbWNP/2oSs2rW3jJUtWCZ1rUOggojdPtI
+         TI0LYWomx937rRN5G5fxnRkOREL7gAAh0s8Kh7x8cDeqqhdgU5k6AiCKgwG1ZLk109rU
+         CiC7Y8Kd1+jSTc5BVwNYLLGd0VxdpjkWuZQRBWcyJ23hNJSWFvZ30c3dB2seiI43YBys
+         Rd4yZSgXx1bQrHkwWtPiJTKJyh4sU8DmhQIS9b3B8Pw871zP5/rUaG1E7R4x6HRTXGrk
+         zlKMb92ehH7IxCMIjtl4T9EBi8vo2uqJP3P8UGk59q6FegzlXLe6yAS/j7LORgkYwmNs
+         YFTA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1789595057; x=1790199857; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=+TMWi8xF1c/GpLGSJWBDMGttEHh102/5Ofx0+5TAWdU=;
+        b=PhRvxyDcEKpo82rz7bjO1wDQ8uBdzgmqFw/6qMLJ6ysl579NXOSm57qPRzt39pD3oV
+         RQb6cdMJNN/Ek0B5W2zGNfO0RqIoSKMqtIpUc7eAhIfyNHQGufGBDtCJwInLu+pX9hxn
+         J9cpThCkU1tmfCxsOJRLdZFf8wYm3kRlo/yoPwYzsu2PbhjQqcSKR20KyEdhLP8618yJ
+         5CmZfZeIm2+Na8mFl/ktZ3dXA1iPW6HhEYtD+ujAGpNgWXor7U3Ki4cMIqiM6LMBSHL9
+         ktggN+6MCwK15bvCxc3iBeUikkFZwpbRMOG0Pyt60U5y0YJFcb8fm4EhJ+LQPrX9SbDv
+         Tdmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789595057; x=1790199857;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=+TMWi8xF1c/GpLGSJWBDMGttEHh102/5Ofx0+5TAWdU=;
+        b=k4UA4cE8h5TaUZdcRQnOVkoMv8Uwebpy/dvIT8O+8Ce20iovM55W2cPRDZFJaasdSm
+         n0rH2/GwqP92IX4tI7qVzRr/MSp9LK1+Nj76rzZQ75gRKqpnCbIZdjGe9NxSpEUnM1Kj
+         2VnhNqHuigFwQK6GsnyfkkW29mq/T8kYROV+7TQn65xYrZlUNO36bj406S2e+G6Mybqe
+         6tJrtHI3zusKEMYF2NZNt2IxbELS1g5qRBVY3LC8raSR2H3+xCAWbAeaTMIPyHP5Shfp
+         KZAG/TTi8Sc3TXyAu1C99Vjf+mRG8yKlARwnL7jpcS2RB+kRFMgBvQCFntwYGt5Gxjjz
+         k0bQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxDYFUgEIm+QLHF5vTjD0pHMiS3+oQTXPdwLYN1en9H+3zAVW+gz013Gsft6FQN0vNsC4TU2YswxUR9BA==@vger.kernel.org
+X-Gm-Message-State: AFuF++mifX4R3TyHANM+70pY2wklnUBrDuA1xw2tHONdSUTGh94xh9Np
+	xt8xuB9NcNS5yrf9hcGGMt+bfqERFVHr/kUF1awhCFl1l4HoOrx06U5SM8Lfsl91HRmPb7mEr3h
+	ap5yGPQpitiotBmKKnYVAPtAOyQqYzfQGys+PBgk=
+X-Gm-Gg: AYBFou3brQ77gB33W0G+PLSztmTN7EZ3zIpOq4Ijf6pviYyBC8Xop4bVr0Vqx8s/Fhy
+	JzZLZR7q36Hp/DAsaTtUUrPrHiKtYSkJHPHE6JawXtivZMF3f57DYg35VKbtwjIKb0mkP7ZCY9G
+	mng3Ume7lv5kF4GJp6tU1u7gVvIa6pnrv8S0OnjEjggadXn12tiY8tVaxyAAsJHEb3nTdZzwUai
+	PckoMC2zWyRbK+rkuxS52aj7l/vSmTB0pYTnXIdbQv2HUX+Nwq6o6/Rk7U2LhWPYUjwihFdL/eV
+	/7G+3YgaHJUYDq3WZNJo70mkrMhBfT1ENnwbPEP1UyDWtAs/qCwGwu8v/w1p7ifXdCwoCr4vdW/
+	Tu1eDWoiunEcIlOWKhGG5
+X-Received: by 2002:a05:6102:a85:b0:7a2:2a6b:e7b4 with SMTP id
+ ada2fe7eead31-7a22a6be8efmr62586137.2.1789595055938; Wed, 16 Sep 2026
+ 14:44:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="vXgeF31AACmBEYVp"
-Content-Disposition: inline
-In-Reply-To: <20260916090513.2294466-1-shumingf@realtek.com>
-X-Cookie: Double!
-
-
---vXgeF31AACmBEYVp
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20260915081910.4142719-1-morbo@google.com> <20260915081910.4142719-26-morbo@google.com>
+ <202609151258.5FC01072@keescook> <20260916010945.GEaqnsWSZ-DTMyTO25@fat_crate.local>
+In-Reply-To: <20260916010945.GEaqnsWSZ-DTMyTO25@fat_crate.local>
+From: Bill Wendling <morbo@google.com>
+Date: Wed, 16 Sep 2026 14:43:59 -0700
+X-Gm-Features: AcwNN1XbboPOY3deKY79Gty15vkSErYIT9HTgeQdVXaDzFhBvm8_kiOA449bIqU
+Message-ID: <CAGG=3QVZRCJ94+DOfSsSDhsrXVYf-ec01NZBy299nYiCAYfXKg@mail.gmail.com>
+Subject: Re: [PATCH 25/28] EDAC/thunderx: Replace strlcat() with seq_buf
+To: Borislav Petkov <bp@alien8.de>
+Cc: Kees Cook <kees@kernel.org>, linux-kernel@vger.kernel.org, 
+	codemender-patching+linux@google.com, Russell King <linux@armlinux.org.uk>, 
+	Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>, 
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Ian Abbott <abbotti@mev.co.uk>, 
+	H Hartley Sweeten <hsweeten@visionengravers.com>, Tony Luck <tony.luck@intel.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Matthew Brost <matthew.brost@intel.com>, 
+	=?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
+	Rodrigo Vivi <rodrigo.vivi@intel.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Matthias Schwarzott <zzam@gentoo.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Tony Nguyen <anthony.l.nguyen@intel.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>, 
+	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Arend van Spriel <arend.vanspriel@broadcom.com>, Rob Herring <robh@kernel.org>, 
+	Saravana Kannan <saravanak@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Sylwester Nawrocki <s.nawrocki@samsung.com>, Peter Griffin <peter.griffin@linaro.org>, 
+	Alim Akhtar <alim.akhtar@samsung.com>, Linus Walleij <linusw@kernel.org>, 
+	Anil Gurumurthy <anil.gurumurthy@qlogic.com>, 
+	Sudarsana Kalluru <sudarsana.kalluru@qlogic.com>, "Martin K. Petersen" <mkp@kernel.org>, 
+	Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
+	Mike Marshall <hubcap@omnibond.com>, Martin Brandenburg <martin@omnibond.com>, Jiri Pirko <jiri@resnulli.us>, 
+	Simon Horman <horms@kernel.org>, Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>, 
+	NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, 
+	Tom Talpey <tom@talpey.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, "Mike Rapoport (Microsoft)" <rppt@kernel.org>, 
+	Kanglong Wang <wangkanglong@loongson.cn>, Tiezhu Yang <yangtiezhu@loongson.cn>, 
+	Qiang Ma <maqianga@uniontech.com>, Randy Dunlap <rdunlap@infradead.org>, 
+	Pengpeng Hou <pengpeng@iscas.ac.cn>, Ard Biesheuvel <ardb@kernel.org>, Breno Leitao <leitao@debian.org>, 
+	Thorsten Blum <blum@kernel.org>, Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Lyude Paul <lyude@redhat.com>, 
+	Ashutosh Desai <ashutoshdesai993@gmail.com>, Imre Deak <imre.deak@intel.com>, 
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, Johan Hovold <johan@kernel.org>, 
+	Johannes Berg <johannes.berg@intel.com>, 
+	Miri Korenblit <miriam.rachel.korenblit@intel.com>, 
+	Alexander Stein <alexander.stein@ew.tq-group.com>, 
+	Cryolitia PukNgae <cryolitia@uniontech.com>, Jiaming Zhang <r772577952@gmail.com>, 
+	Will Porter <mrwillporter@gmail.com>, Cen Zhang <zzzccc427@gmail.com>, 
+	=?UTF-8?Q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>, 
+	Rong Zhang <i@rong.moe>, Arun Raghavan <arunr@valvesoftware.com>, 
+	linux-arm-kernel@lists.infradead.org, loongarch@lists.linux.dev, 
+	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	linux-edac@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	intel-xe@lists.freedesktop.org, linux-input@vger.kernel.org, 
+	linux-media@vger.kernel.org, intel-wired-lan@lists.osuosl.org, 
+	netdev@vger.kernel.org, linux-wireless@vger.kernel.org, 
+	brcm80211@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com, 
+	devicetree@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, linux-scsi@vger.kernel.org, 
+	linux-nfs@vger.kernel.org, devel@lists.orangefs.org, 
+	linux-hardening@vger.kernel.org, linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 16, 2026 at 05:05:13PM +0800, shumingf@realtek.com wrote:
-> From: Shuming Fan <shumingf@realtek.com>
->=20
-> Certain platforms use the RT712 GPIOs to control the microphone mute LED =
-and speaker mute LED.
-> This patch lets the LED subsystem to handle the GPIO control.
+On Tue, Sep 15, 2026 at 6:11=E2=80=AFPM Borislav Petkov <bp@alien8.de> wrot=
+e:
+>
+> On Tue, Sep 15, 2026 at 01:00:00PM -0700, Kees Cook wrote:
+> > Seems like seq_buf would be better her? But yes, at the very least, thi=
+s
+> > needs to be scnprintf, not snprintf (or add the checks as you have
+> > here).
+> >
+> > The rest of the seq_buf conversions look right.
+>
+> This driver has been an orphan for a while now (we just made it official)=
+ so
+> I'd prefer it if we don't do anything here.
+>
+I'll remove those changes from future emails.
 
-> +static int rt712_sdca_gpio_request(struct gpio_chip *chip, unsigned int =
-offset)
-> +{
-> +	struct rt712_sdca_priv *rt712 =3D gpiochip_get_data(chip);
-> +	unsigned int gpio_pin =3D offset + 3;
-> +	int ret;
-> +
-> +	dev_dbg(&rt712->slave->dev, "%s: gpio_pin=3D%d\n", __func__, gpio_pin);
-> +
-> +	ret =3D pm_runtime_resume(rt712->component->dev);
-> +	if (ret < 0 && ret !=3D -EACCES)
-> +		return ret;
+> And yes, that mega CC list is just gross.
+>
+Apologies. :-(
 
-This pm_runtime_resume() usage can race with autosuspend, if the
-autosuspend timer is about to expire it could do so before we actually
-update the register values so the writes won't actually happen.  It's
-very unlikely to actually happen but the risk is there.
-
-> +	/*
-> +	 * Only support GPIO3 and GPIO4 for now
-> +	 */
-> +	switch (gpio_pin) {
-> +	case 3:
-> +		break;
-> +	case 4:
-> +		rt712_sdca_index_update_bits(rt712, RT712_VENDOR_HDA_CTL,
-> +			RT712_HDA_LEGACY_CONFIG_CTL0, 0x000c, 0x0004);
-
-This doesn't do any locking with other regmap users and gpiolib won't
-hold a lock for us - since rt712_sdca_index_update_bits() is a
-read/modify/write cycle this could lead to corruption.
-
-> +static void rt712_sdca_gpio_init(struct rt712_sdca_priv *rt712)
-> +{
-> +	int ret;
-> +
-> +	rt712->gpio_chip =3D rt712_sdca_template_chip;
-> +	rt712->gpio_chip.parent =3D &rt712->slave->dev;
-> +	rt712->gpio_chip.fwnode =3D dev_fwnode(&rt712->slave->dev);
-> +
-> +	ret =3D devm_gpiochip_add_data(&rt712->slave->dev, &rt712->gpio_chip, r=
-t712);
-> +	if (ret !=3D 0)
-> +		dev_err(&rt712->slave->dev, "Failed to add GPIOs: %d\n", ret);
-> +}
-
-The gpiolib usage either needs to be conditional on gpiolib or we need
-the driver to depend on it.  Either is fine.
-
-> @@ -1101,6 +1204,9 @@ static int rt712_sdca_probe(struct snd_soc_componen=
-t *component)
->  			rt712_sdca_spk_dapm_routes, ARRAY_SIZE(rt712_sdca_spk_dapm_routes));
->  	}
-> =20
-> +	/* initialize GPIOs */
-> +	rt712_sdca_gpio_init(rt712);
-> +
->  	if (!rt712->first_hw_init)
->  		return 0;
-> =20
-
-This will happen every time the card binds and uses devm, I'd expect it
-to happen when the SoundWire device binds rather than during ASoC level
-initialisation.  We don't want to continually register and unregister
-the GPIOs.
-
-> @@ -271,7 +276,6 @@ enum {
->  	RT712_CLK_FREQ_22_5792MHZ =3D 4,
->  };
-> =20
-> -
->  int rt712_sdca_io_init(struct device *dev, struct sdw_slave *slave);
->  int rt712_sdca_init(struct device *dev, struct regmap *regmap,
->  			struct regmap *mbq_regmap, struct sdw_slave *slave);
-
-Unrelated whitespace change.
-
---vXgeF31AACmBEYVp
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqrDIUACgkQJNaLcl1U
-h9B17wf+KFR7eDNDv+lKnyyKWU5+tM/7HfJm9vrq3C7zdPbYGIMquQ93sMx/cXV9
-zs7KY0srEhmyheOV0yIeJQlYyll4pbq6AJJjybV/iGfYNvv0y1hxAWIXCjjeb2ke
-n/JGvN8pE5l4v2vTDiu5ymNTOOED7KP1E+vPhPTMzoeIL42aB4tLe42QMhTK2oK6
-YHsiYPxtDsAwWb8TP4xoeSS1b3JlrXMQrooaKW/fRkoup3ghpF8yndrfDxA+TK2S
-dboRMFQRhcDyMHeTDhrZ5nf+XNtLe+mD/Vdclk7a7F1116wY/hEFkvUcdurK05yL
-Dc80Jz6Gjh9MSEqzQS4Hm33EyiRHMQ==
-=f1mV
------END PGP SIGNATURE-----
-
---vXgeF31AACmBEYVp--
+-bw
