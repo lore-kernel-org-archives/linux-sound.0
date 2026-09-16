@@ -1,182 +1,117 @@
-Received: from omggw0020.mail.otm.yahoo.co.jp (omggw0020.mail.otm.yahoo.co.jp [182.22.18.26])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 533434DA9B8
-	for <linux-sound@vger.kernel.org>; Thu, 17 Sep 2026 11:16:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=182.22.18.26
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F6BD4AA1D5;
+	Thu, 17 Sep 2026 11:32:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789643798; cv=none; b=a2Uy4350zyxPFJoyX9bvJAe72WJLcRgdxkVqPhk7dkFd2taO31/QhQ3sQ2aYrtd8AioeT9f+2bp5QYfruucFMrYXOVUUwoKQGVGU6La3Ywl8n5J68z7QoNzWTcH5QAYZv4AUYppzw0jow0B/MMA91gkJFh7T+vAeB3K9du2Wjpc=
+	t=1789644723; cv=none; b=uOpxQv3bDpK0n/Q5dXA4f2bV+ObNRrAVXFtvt6Q9vYOcEDlDenVbBS4oL+0CXHblDT/nH7+OOROsO0e20JvnTVx/9AV83A7T/JRuftXYO57bNbl2GBaAXuGM3p3qPA/G6ESoW23pSFC0zS4KPsNSgGINKTtEW9FLV1W6CeZrfuo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789643798; c=relaxed/simple;
-	bh=xw8QTQg+KP8KHzgOiL9d1W8Z3pnvqGgEvEe5gvXC02c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P1K6RjRyJf4nhlpdToo1bF+PwgFXp6j/60mKVd2LAPOebylr77tMoxUvH+DiDjrcK37TXZ0n+D0WnjEgz3lMQUDdiZsxEHx4Uw7OirogLMg5KZ6TegZQ0OjkMjvKP/LLubh5kifdNzvQkQA49YKWHWMywe7DovgZfqdfz704v88=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=yahoo.co.jp; spf=pass smtp.mailfrom=yahoo.co.jp; dkim=pass (2048-bit key) header.d=yahoo.co.jp header.i=@yahoo.co.jp header.b=SAHK0K8l; arc=none smtp.client-ip=182.22.18.26
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=yahoo.co.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.co.jp
+	s=arc-20240116; t=1789644723; c=relaxed/simple;
+	bh=z9eNiPj5wDyiTB2A/OcoLh7ppc5eD2mfvBaiWSEdvQ0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=sC642zmGItSO/tVXx0kg3HjNscPBG8+OTHuWWWRfEqyUXf9ewRKsi/ycJJm5sI2onALN9i0uJbIb4oNsKy4OUVhKSyrUjdkrd+EDRy5LbQD11DKQdfTX0jpeMI/PRNvjiYeORtUhvTeRUA3H9+vXbV1CXG2X/kTGzCh61Ysk02U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QZmba+ga; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.co.jp header.i=@yahoo.co.jp header.b="SAHK0K8l"
-X-YMail-OSG: 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
- Cd1EXp36lxBNZ15rg//wUvJ5pfw==
-X-Sonic-MF: seiji_adachi@yahoo.co.jp
-Received: from sonicgw.mail.gze.yahoo.co.jp by sonicconh6102.mail.ssk.ynwp.yahoo.co.jp with HTTP; Thu, 17 Sep 2026 11:16:22 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1789638684;
-	s=yahoocojp-202506; d=yahoo.co.jp;
-	h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date;
-	bh=yYunXypG8ybvRM7Im97Zkt6oUO9NyYy3nqq3uQyEhjM=;
-	b=SAHK0K8lAfUwNM5LvMNUtyGuvg10KFzQGhHDbRY1/FcFhSQgm/j93gAj6T3tK5Ui
-	316aTSTL0lox5xgmEIjq4+EkfLv1rQTn4cvxnrbqyCbDKoBqWJauggc0w5z1ls9U9i1
-	Qau0FMdrYoo6fyIpuBnI7acgIPeuI78cGLq0mFLpkpuFM7zvgcTQICc3sht6P59HyDQ
-	RY8RvBXwtQBhm6rp5N6HXInOf3OAHyN05aXSaHd66jQhz6G5BexGjxeSgoZxhr53F/C
-	Eggx3UFMyTsLmLPWUo6Fiqh+l5mdft3fWUw/7NBXqNZXeI47b4V3SjQ+woqVSJ4TMHW
-	3axvPCAoEg==
-Received: by smtphe6004.mail.ssk.ynwp.yahoo.co.jp (YJ Hermes SMTP Server) with ESMTPA ID 21d850ee35a89be4551df81a82ad8df6;
-          Thu, 17 Sep 2026 18:51:26 +0900 (JST)
-Date: Thu, 17 Sep 2026 18:51:24 +0900
-From: Seiji Adachi <seiji_adachi@yahoo.co.jp>
-To: Vijendar.Mukunda@amd.com, broonie@kernel.org
-Cc: venkataprasad.potturu@amd.com, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, Seiji Adachi <seiji_adachi@yahoo.co.jp>
-Subject: [RESEND PATCH] ASoC: amd: yc: Add Lenovo ThinkPad E16 Gen 2 (21JN)
- to quirks
-Message-ID: <aqu4HOCmdCUs_unm@adriana>
-References: <almeAbvirJwQ5doF.ref@adriana>
- <almeAbvirJwQ5doF@adriana>
- <alnKI3bPaZUc6uwB@adriana>
- <aoukqUoiIzcctf-k@adriana>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QZmba+ga"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 212991F00893;
+	Thu, 17 Sep 2026 11:31:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789644721;
+	bh=UuRDRTa/pgF24T6CNlfb17GrjpX/75I8hK3VDhG7wLg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=QZmba+ga10yMzQ1gemQipfG4BAK3F9RhZZfUxvHLmhhdhZT8HoKrw4jS1UtNndIf/
+	 gsJYb97N3IE67Y9q2kogvJpN0o3vQY2oJGV9cRqWUnBOZhAremGq38ToTl+1Jap4Rj
+	 Sg4iKXOqW1xd7s6bDZaC52N3G7iYcfMea5dH+CVJRZdjq5werMpHh2p3L3/CTdDsWg
+	 bw3eHAIdiNwoBzDAbYcYevHkY92nY6JBkAm3qXULI9LsTLvqaMM9XhmjgQf+LVtdJt
+	 wTyz3VjdyDuBRi37UimHQWIxig+xS0r22xrFBmMHLB5ilJ69bgL5L4r5G9ywqdmJ20
+	 Lh2XNkX86iG6g==
+From: Mark Brown <broonie@kernel.org>
+To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+Cc: alsa-devel@alsa-project.org, lgirdwood@gmail.com, perex@perex.cz, 
+ tiwai@suse.com, yung-chuan.liao@linux.intel.com, 
+ Basavaraj.Hiregoudar@amd.com, Sunil-kumar.Dommati@amd.com, 
+ venkataprasad.potturu@amd.com, Syed.SabaKareem@amd.com, 
+ Mario.Limonciello@amd.com, Richard.Gong@amd.com, 
+ ckeepax@opensource.cirrus.com, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20260910161728.1452808-1-Vijendar.Mukunda@amd.com>
+References: <20260910161728.1452808-1-Vijendar.Mukunda@amd.com>
+Subject: Re: [PATCH 0/4] ASoC: amd: acp: SoundWire machine driver fixes
+Message-Id: <178958572197.100121.14407200644851450524.b4-ty@b4>
+Date: Wed, 16 Sep 2026 20:08:41 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aoukqUoiIzcctf-k@adriana>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2490; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=z9eNiPj5wDyiTB2A/OcoLh7ppc5eD2mfvBaiWSEdvQ0=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqq8+sKqbUOIjNIxWRoEOn2z3Gakz5kSPA8anPY
+ BHbXPm3FLCJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaqvPrAAKCRAk1otyXVSH
+ 0MWMB/9GW5cSUO5cvH3ToZqAeRvPOvNVaRpkaj79V5uiQYm75pol0kZrB0Xta196VGRZ5V4nbO9
+ EqExr7vE4yD8+wzdHT+yeFEO+ebOc0Pyma2ALt9e8hNTxOsFPgCWfaLYokWLAek98Y6pSPsU1Mk
+ n7KOC+1esGnvS9Q2/IVDESVG3T6ozBVItC7otl6D5JVk4j3lHSbW9jFpTaOQ+p1CaQOxysZSLq6
+ vbmf9jqTGlW5WqESI4RLQuKszsXBOugKpPhQ1pOwVL1tzPiHvU5/5gO3mFn8YGglrJt5v5+hbzq
+ OpNG1LMz2CPaZiXpFvwjoHC5UOaX13fFOPnJVqsEU3J4FWG3
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-Hi,
+On Thu, 10 Sep 2026 21:46:45 +0530, Vijendar Mukunda wrote:
+> ASoC: amd: acp: SoundWire machine driver fixes
+> 
+> This series fixes four defects in the AMD ACP SoundWire machine drivers
+> (acp-sdw-legacy-mach.c and acp-sdw-sof-mach.c).
+> 
+> A bounds check is added to validate the SoundWire link ID before it is
+> used as an array index in create_sdw_dailink(), preventing out-of-bounds
+> access when an unexpected link_mask value is encountered. The codec
+> config count in the SOF machine driver is refactored to use a dedicated
+> variable rather than reusing the endpoint-count variable for two
+> purposes, making the intent clearer and avoiding a stale value being
+> passed to the codec config array. An operator-precedence bug in the
+> ffs(link_mask - 1) expression is corrected to ffs(link_mask) - 1,
+> ensuring the link ID is derived from the correct bit position. Finally,
+> the SOF machine driver card name is shortened to fit within the 16-byte
+> snd_card driver[] field and eliminate a compile-time warning.
+> 
+> [...]
 
-I am resending this request along with the code change (diff) required for 
-Lenovo ThinkPad E16 Gen 2 (21JN).
+Applied to
 
-Could you please review and consider applying the following patch to 
-sound/soc/amd/yc/acp6x-mach.c?
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
+
+Thanks!
+
+[1/4] ASoC: amd: acp: bounds-check SoundWire link ID in machine drivers
+      https://git.kernel.org/broonie/sound/c/29218a4d11a3
+[2/4] ASoC: amd: acp: refactor codec config count in SOF SoundWire machine driver
+      https://git.kernel.org/broonie/sound/c/0b7d55d3a912
+[3/4] ASoC: amd: acp: fix ffs() operator precedence for SoundWire link ID
+      https://git.kernel.org/broonie/sound/c/27098aaf28b9
+[4/4] ASoC: amd: acp: fix card name length warning in SOF SoundWire machine driver
+      https://git.kernel.org/broonie/sound/c/d57616f8be56
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
 Thanks,
-Seiji
+Mark
 
----
-Subject: [PATCH] ASoC: amd: yc: Add Lenovo ThinkPad E16 Gen 2 (21JN) to quirks
-
-Add ThinkPad E16 Gen 2 (21JN) to the DMI table in acp6x-mach.c
-to enable the internal digital microphone (DMIC).
-
-Signed-off-by: Seiji Adachi <seiji_adachi@yahoo.co.jp>
----
-diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
-index 385fede6d..ea173bdab 100644
---- a/sound/soc/amd/yc/acp6x-mach.c
-+++ b/sound/soc/amd/yc/acp6x-mach.c
-@@ -248,6 +248,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
- 						 DMI_MATCH(DMI_PRODUCT_NAME, "21J6"),
- 				 }
- 		 },
-+		{
-+				.driver_data = &acp6x_card,
-+				.matches = {
-+						DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-+						DMI_MATCH(DMI_PRODUCT_NAME, "21JN"),
-+				}
-+		},
- 		 {
- 				 .driver_data = &acp6x_card,
- 				 .matches = {
----
-
-
-On Mon, Aug 24, 2026 at 10:55:53AM +0900, Seiji Adachi wrote:
-> Hi,
-> 
-> I am writing to provide an update regarding the internal microphone issue on Lenovo ThinkPad E16 Gen 2 (21JN-003SCD).
-> 
-> I have recently updated the kernel to version 7.1.8+deb13-amd64 (Debian trixie-backports), but the internal digital microphone (DMIC) is still not recognized.
-> 
-> Output of `arecord -l` on kernel 7.1.8:
-> **** List of CAPTURE Hardware Devices ****
-> card 1: Generic_1 [HD-Audio Generic], device 0: CX11880 Analog [CX11880 Analog]
->   Subdevices: 0/1
->   Subdevice #0: subdevice #0
-> 
-> Could you please check if the DMI entry for 21JN can be added to sound/soc/amd/yc/acp6x-mach.c?
-> 
-> Thank you for your help.
-> 
-> Best regards,
-> Seiji
-> 
-> 
-> On Fri, Jul 17, 2026 at 02:22:27PM +0800, Seiji Adachi wrote:
-> > Hi,
-> > 
-> > An update on this: I have just upgraded my system kernel to the latest available version, 7.0.13. 
-> > 
-> > However, the internal digital microphone (DMIC) is still not detected (`arecord -l` shows the same result as before). 
-> > 
-> > So the quirk entry for "21JN" is definitely still needed in the latest kernel version.
-> > 
-> > Best regards,
-> > 
-> > Seiji
-> > 
-> > On Fri, Jul 17, 2026 at 11:17:58AM +0800, Seiji Adachi wrote:
-> > > Hi,
-> > > 
-> > > I have a Lenovo ThinkPad E16 Gen 2 (AMD Ryzen 7 7735HS) with machine type "21JN".
-> > > Currently, the internal digital microphone (DMIC) is not detected on Debian 13 (kernel 6.18).
-> > > 
-> > > Similar to the "21M5" model, this "21JN" model also requires a DMI quirk entry to enable the internal microphone.
-> > > 
-> > > Could you please add the "21JN" model to the quirk list in `sound/soc/amd/yc/acp6x-mach.c`?
-> > > 
-> > > DMI info:
-> > > - Vendor: LENOVO
-> > > - Product Name: 21JN
-> > > 
-> > > Thank you,
-> > > 
-> > > Seiji Adachi
