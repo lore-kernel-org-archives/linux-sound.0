@@ -1,248 +1,92 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BD9E48EBEA
-	for <linux-sound@vger.kernel.org>; Wed, 16 Sep 2026 09:05:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 448C3481ABB
+	for <linux-sound@vger.kernel.org>; Wed, 16 Sep 2026 09:16:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789549557; cv=none; b=K8d2eKR4+qbPAjJvoOfEclqPavKxKqAbT7k8FGa6FgS0EFkv8xUEs8s80Li6fc74zsW1fPPpNaFPPpmkyO/LYMuS9ypqWsWfrqp8t31bfWnMTZcT/ODdnJxry06X3FxDbzXX/dv1G+FGupLqqj9/TdlWyjqzSdBvISLiVBcZ0qQ=
+	t=1789550183; cv=none; b=MxqQbRmc9QvNv8D+qo7K1O9aKFyeJ7zrtpaXPQ8pbG4MPpMCpgC52VslJV2gKAD8MOSicj9eRM9ALrr3Dd9s/QmR8e/kt/ZDTxNipECdixwFNn7AJwCAjIvbbtNRnmpN+jAI9u4hEGqRS3igH0bYRdBr/ooixFro9mqgQDSRlks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789549557; c=relaxed/simple;
-	bh=capcDVI1GtGUj19hKfmIR07/wsPFBJt1I8HBeg9eXmI=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=gdVEk5023FlOSC2eujgeAJcBAio9f81kLOLIdw6L8bs6lz/MuqRU/Oa4EwZ2o83NmdCvT/EgDeTKdUPmzH+F7hpHh9JzY3R3dp0vL8Tm4J9Izm+ttiTDvbuzOSFNaQM9LiiRt+m9khwMz1LLOpQGmhopUtg3Nemz3tcqy8XzORg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=XVAnph8Z; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+	s=arc-20240116; t=1789550183; c=relaxed/simple;
+	bh=LGxMjzOtgDYJApSNFqhud5Zm1u9dxY/XIqI1bfCqgCI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=J+/flOsjo+UaPqXntILlT7zE21Rnvn6bXi063yLmTArLP8OzkF3VXpE4mIMlzF9XshCkIlk2LSQgqaoXM4Yw52JWRjQoc84Us7/C4nulDlA+3U0SMI0c0yAsVkig+goo1x0xYQtzQ3QFeJv1UHWgA0O0q3x6HlTGy490Mskk5S4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ghbYUzNj; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="XVAnph8Z"
-X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 68G95FIk82243409, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
-	t=1789549515; bh=OduiXmKWZqCqOMNafVnsgerVe/bh8Hqk8lN8+cxdWXc=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:
-	 Content-Transfer-Encoding:Content-Type;
-	b=XVAnph8ZKxAx2gHOHp+uKdpajim3DWhajB9CRItMy5PyvvM48QYlPpfFjJ6WoArjZ
-	 IqkBm6WngZ4GzbbFG50NG4frBL6XcJwOtPZvJiin+h6mf2mAyNl2W0m3e7VAPn4dDj
-	 1qRKsMLbxm8YoRBZqAduarvvbPgiMZrG3+O01FLPPNs/eQseOEPDOKick0ULX3pDSQ
-	 rPRHXSWL5mDodU90DrkDzyjoRyBpiOQrUJ2ZYoNXb65JnQ5U6FsrF88NCLm3P6gOA/
-	 dNLKN4b+dGq9Bkc3OFDTrOEwejzrdx/VIeKbfaXRaiL/HQHCRFCgUauNd5FJ0uMjh3
-	 G9d3QXi4ZyAIA==
-Received: from mail.realtek.com (rtkexhmbs02.realtek.com.tw[172.21.6.41])
-	by rtits2.realtek.com.tw (8.15.2/3.29/5.94) with ESMTPS id 68G95FIk82243409
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Wed, 16 Sep 2026 17:05:15 +0800
-Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
- RTKEXHMBS02.realtek.com.tw (172.21.6.41) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.49; Wed, 16 Sep 2026 17:05:15 +0800
-Received: from sw-server.localdomain (172.24.54.4) by
- RTKEXHMBS06.realtek.com.tw (10.21.1.56) with Microsoft SMTP Server id
- 15.2.2562.49 via Frontend Transport; Wed, 16 Sep 2026 17:05:14 +0800
-From: <shumingf@realtek.com>
-To: <broonie@kernel.org>, <lgirdwood@gmail.com>
-CC: <linux-sound@vger.kernel.org>, <lars@metafoo.de>, <flove@realtek.com>,
-	<oder_chiou@realtek.com>, <jack.yu@realtek.com>, <derek.fang@realtek.com>,
-	Shuming Fan <shumingf@realtek.com>
-Subject: [PATCH] ASoC: rt712: add GPIOs for LED control
-Date: Wed, 16 Sep 2026 17:05:13 +0800
-Message-ID: <20260916090513.2294466-1-shumingf@realtek.com>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ghbYUzNj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 777501F0089A
+	for <linux-sound@vger.kernel.org>; Wed, 16 Sep 2026 09:16:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789550163;
+	bh=G485UZORqYgG1BoyHfA+nhJ8NEYBx0Tkd0W2K9zwpWo=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=ghbYUzNjqB8oLkt9SHrlQCW0q/RkMFJLbEf1vTpcjgSnS0ndMdcGV9X9cgrfe4989
+	 N3Xn93l4XPQOajq0P7A/5M6HPn3yTHjWR8EvrAwA4OwkWY5xTXWm9mOBnDLihaOwjK
+	 wd5TOr7siG2LX9wPxGlx5avaj8nXLAaXY5IRwdSzAazrm9pDV8M0lRXUyE3UHzE16/
+	 FXm3CqEbbpuR2LBWqpXXKbJ56ao6QGEqci1e6xtJVvvKFXqfjcPqr3CUnba3RrYhsE
+	 o1HemSuCUevVSkF1lsIDDHpRQjihat5hdwbo8YlheOtB9ZQoTRUA+P7biM39MVxsZI
+	 /WB/6Bg0pUwnA==
+Received: by mail-lf2-f12.google.com with SMTP id 2adb3069b0e04-5b74e0c2e4dso744615e87.0
+        for <linux-sound@vger.kernel.org>; Wed, 16 Sep 2026 02:16:03 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBzugUxmhvg4GkdsmhuEMqr8Xxu+A7LofJzPNpkNf9CX4n91Amx81h+zVxaqFgFgIoF+Q8fRfBZXbuiR7A==@vger.kernel.org
+X-Gm-Message-State: AFuF++kJUkcIUwBBHRdbY1cVeS499johACFaoCPK5WVAIjSggOLsifHR
+	bWpvRAxB7TkwS6UOlwHCUb9d1F/lajB+mn1QZRWHPVOnOUFpOnJnENsKdAnLgoKP0R1i1xwroHi
+	8gwqoF0oSJe2Xaww5svyzSudwuWL322U=
+X-Received: by 2002:a05:6512:3986:b0:5ae:b7ce:9ca5 with SMTP id
+ 2adb3069b0e04-5b8b6645f8emr979198e87.18.1789550162175; Wed, 16 Sep 2026
+ 02:16:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+References: <20260915202038.3534453-1-arnd@kernel.org>
+In-Reply-To: <20260915202038.3534453-1-arnd@kernel.org>
+From: Linus Walleij <linusw@kernel.org>
+Date: Wed, 16 Sep 2026 11:15:49 +0200
+X-Gmail-Original-Message-ID: <CAD++jLkJzbJUeZrmHLp-+f__J3qnwho7nO03ARb98Div0UkeEg@mail.gmail.com>
+X-Gm-Features: AcwNN1VfYqEivMN3NvN5Jm4WsMhdLGlhk-Vr3rdcaGUNmmI3wae5tXLztVkRGSw
+Message-ID: <CAD++jLkJzbJUeZrmHLp-+f__J3qnwho7nO03ARb98Div0UkeEg@mail.gmail.com>
+Subject: Re: [PATCH] ASoC: ux500: avoid -Wparentheses warning
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Arnd Bergmann <arnd@arndb.de>, 
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Shuming Fan <shumingf@realtek.com>
+On Tue, Sep 15, 2026 at 10:20=E2=80=AFPM Arnd Bergmann <arnd@kernel.org> wr=
+ote:
 
-Certain platforms use the RT712 GPIOs to control the microphone mute LED and speaker mute LED.
-This patch lets the LED subsystem to handle the GPIO control.
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> gcc warns about a slightly confusing expression in two lines
+> of this driver:
+>
+> In file included from sound/soc/ux500/ux500_msp_i2s.c:20:
+> sound/soc/ux500/ux500_msp_i2s.c: In function 'configure_protocol':
+> sound/soc/ux500/ux500_msp_i2s.h:151:38: error: suggest parentheses around=
+ arithmetic in operand of '^' [-Werror=3Dparentheses]
+>   151 | #define MSP_TX_CLKPOL_BIT(n)     ((n & TCKPOL_MASK) << TCKPOL_SHI=
+FT)
+> sound/soc/ux500/ux500_msp_i2s.c:204:21: note: in expansion of macro 'MSP_=
+TX_CLKPOL_BIT'
+>   204 |         temp_reg |=3D MSP_TX_CLKPOL_BIT(!protdesc->tx_clk_pol ^
+>       |                     ^~~~~~~~~~~~~~~~~
+>
+> config->bclk_inverted is a boolean variable, while protdesc->tx_clk_pol
+> is a 32-bit unsigned integer that can only be zero or one in order to
+> be passed into MSP_RX_CLKPOL_BIT().
+>
+> Move the negation out of the inner expression to make this easier
+> to understand by the compiler.
+>
+> Fixes: 9ccbacf5a012 ("ASoC: ux500: Validate MSP DAI configuration")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-Signed-off-by: Shuming Fan <shumingf@realtek.com>
----
- sound/soc/codecs/rt712-sdca-sdw.h |   3 +
- sound/soc/codecs/rt712-sdca.c     | 106 ++++++++++++++++++++++++++++++
- sound/soc/codecs/rt712-sdca.h     |   6 +-
- 3 files changed, 114 insertions(+), 1 deletion(-)
+OK fair eniugh,
+Reviewed-by: Linus Walleij <linusw@kernel.org>
 
-diff --git a/sound/soc/codecs/rt712-sdca-sdw.h b/sound/soc/codecs/rt712-sdca-sdw.h
-index 7ad25cc27f62..162d62234b68 100644
---- a/sound/soc/codecs/rt712-sdca-sdw.h
-+++ b/sound/soc/codecs/rt712-sdca-sdw.h
-@@ -46,6 +46,9 @@ static const struct reg_default rt712_sdca_mbq_defaults[] = {
- 	{ 0x5b00029, 0x3fff },
- 	{ 0x5b0002a, 0xf000 },
- 	{ 0x6100000, 0x04e4 },
-+	{ 0x6100009, 0x0000 },
-+	{ 0x610000a, 0x0000 },
-+	{ 0x610000b, 0x0020 },
- 	{ 0x610000e, 0x0007 },
- 	{ 0x6100045, 0x0860 },
- 	{ 0x6100046, 0x0029 },
-diff --git a/sound/soc/codecs/rt712-sdca.c b/sound/soc/codecs/rt712-sdca.c
-index 38052cb19790..20889c614e47 100644
---- a/sound/soc/codecs/rt712-sdca.c
-+++ b/sound/soc/codecs/rt712-sdca.c
-@@ -113,6 +113,109 @@ static void rt712_sdca_clk_patch2(struct rt712_sdca_priv *rt712)
- 	rt712_sdca_index_write(rt712, RT712_VENDOR_REG, 0x65, 0x0000);
- }
- 
-+static int rt712_sdca_gpio_request(struct gpio_chip *chip, unsigned int offset)
-+{
-+	struct rt712_sdca_priv *rt712 = gpiochip_get_data(chip);
-+	unsigned int gpio_pin = offset + 3;
-+	int ret;
-+
-+	dev_dbg(&rt712->slave->dev, "%s: gpio_pin=%d\n", __func__, gpio_pin);
-+
-+	ret = pm_runtime_resume(rt712->component->dev);
-+	if (ret < 0 && ret != -EACCES)
-+		return ret;
-+
-+	/*
-+	 * Only support GPIO3 and GPIO4 for now
-+	 */
-+	switch (gpio_pin) {
-+	case 3:
-+		break;
-+	case 4:
-+		rt712_sdca_index_update_bits(rt712, RT712_VENDOR_HDA_CTL,
-+			RT712_HDA_LEGACY_CONFIG_CTL0, 0x000c, 0x0004);
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	rt712_sdca_index_update_bits(rt712, RT712_VENDOR_HDA_CTL,
-+		RT712_HDA_GPIO_EN_CTL, (1 << gpio_pin), (1 << gpio_pin));
-+	rt712_sdca_index_update_bits(rt712, RT712_VENDOR_HDA_CTL,
-+		RT712_HDA_GPIO_DIRECTION_CTL, (1 << gpio_pin), (1 << gpio_pin));
-+
-+	return 0;
-+}
-+
-+static int rt712_sdca_gpio_set(struct gpio_chip *chip, unsigned int offset,
-+			   int value)
-+{
-+	struct rt712_sdca_priv *rt712 = gpiochip_get_data(chip);
-+	unsigned int gpio_pin = offset + 3;
-+	int ret;
-+
-+	dev_dbg(&rt712->slave->dev, "%s: gpio_pin=%d, value=%d\n", __func__, gpio_pin, value);
-+
-+	ret = pm_runtime_resume(rt712->component->dev);
-+	if (ret < 0 && ret != -EACCES)
-+		return ret;
-+
-+	return rt712_sdca_index_update_bits(rt712, RT712_VENDOR_HDA_CTL,
-+			RT712_HDA_GPIO_SET_CTL, (1 << gpio_pin), (!!value << gpio_pin));
-+}
-+
-+static int rt712_sdca_gpio_direction_out(struct gpio_chip *chip,
-+				     unsigned offset, int value)
-+{
-+	struct rt712_sdca_priv *rt712 = gpiochip_get_data(chip);
-+	unsigned int gpio_pin = offset + 3;
-+	int ret;
-+
-+	dev_dbg(&rt712->slave->dev, "%s: gpio_pin=%d, value=%d\n", __func__, gpio_pin, value);
-+
-+	ret = pm_runtime_resume(rt712->component->dev);
-+	if (ret < 0 && ret != -EACCES)
-+		return ret;
-+
-+	switch (gpio_pin) {
-+	case 3:
-+	case 4:
-+		rt712_sdca_index_update_bits(rt712, RT712_VENDOR_HDA_CTL,
-+			RT712_HDA_GPIO_DIRECTION_CTL, (1 << gpio_pin), (1 << gpio_pin));
-+		rt712_sdca_index_update_bits(rt712, RT712_VENDOR_HDA_CTL,
-+			RT712_HDA_GPIO_SET_CTL, (1 << gpio_pin), (!!value << gpio_pin));
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static const struct gpio_chip rt712_sdca_template_chip = {
-+	.label = "rt712-sdca",
-+	.owner = THIS_MODULE,
-+	.request = rt712_sdca_gpio_request,
-+	.direction_output = rt712_sdca_gpio_direction_out,
-+	.set = rt712_sdca_gpio_set,
-+	.ngpio = 2,
-+	.can_sleep = true,
-+	.base = -1,
-+};
-+
-+static void rt712_sdca_gpio_init(struct rt712_sdca_priv *rt712)
-+{
-+	int ret;
-+
-+	rt712->gpio_chip = rt712_sdca_template_chip;
-+	rt712->gpio_chip.parent = &rt712->slave->dev;
-+	rt712->gpio_chip.fwnode = dev_fwnode(&rt712->slave->dev);
-+
-+	ret = devm_gpiochip_add_data(&rt712->slave->dev, &rt712->gpio_chip, rt712);
-+	if (ret != 0)
-+		dev_err(&rt712->slave->dev, "Failed to add GPIOs: %d\n", ret);
-+}
-+
- static int rt712_sdca_calibration(struct rt712_sdca_priv *rt712)
- {
- 	unsigned int val, loop_rc = 0, loop_dc = 0;
-@@ -1101,6 +1204,9 @@ static int rt712_sdca_probe(struct snd_soc_component *component)
- 			rt712_sdca_spk_dapm_routes, ARRAY_SIZE(rt712_sdca_spk_dapm_routes));
- 	}
- 
-+	/* initialize GPIOs */
-+	rt712_sdca_gpio_init(rt712);
-+
- 	if (!rt712->first_hw_init)
- 		return 0;
- 
-diff --git a/sound/soc/codecs/rt712-sdca.h b/sound/soc/codecs/rt712-sdca.h
-index 6229fe341bb5..362e6226982a 100644
---- a/sound/soc/codecs/rt712-sdca.h
-+++ b/sound/soc/codecs/rt712-sdca.h
-@@ -14,6 +14,7 @@
- #include <linux/soundwire/sdw_type.h>
- #include <sound/soc.h>
- #include <linux/workqueue.h>
-+#include <linux/gpio/driver.h>
- 
- struct  rt712_sdca_priv {
- 	struct regmap *regmap;
-@@ -45,6 +46,7 @@ struct  rt712_sdca_priv {
- 	bool fu05_dapm_mute;
- 	bool fu05_mixer_l_mute;
- 	bool fu05_mixer_r_mute;
-+	struct gpio_chip gpio_chip;
- };
- 
- struct rt712_dmic_kctrl_priv {
-@@ -114,6 +116,9 @@ struct rt712_dmic_kctrl_priv {
- #define RT712_HDA_LEGACY_MUX_CTL0			0x00
- #define RT712_HDA_LEGACY_CONFIG_CTL0			0x06
- #define RT712_HDA_LEGACY_RESET_CTL			0x08
-+#define RT712_HDA_GPIO_EN_CTL				0x09
-+#define RT712_HDA_GPIO_DIRECTION_CTL			0x0a
-+#define RT712_HDA_GPIO_SET_CTL				0x0b
- #define RT712_HDA_LEGACY_GPIO_WAKE_EN_CTL		0x0e
- #define RT712_DMIC_ENT_FLOAT_CTL			0x10
- #define RT712_DMIC_GAIN_ENT_FLOAT_CTL0			0x11
-@@ -271,7 +276,6 @@ enum {
- 	RT712_CLK_FREQ_22_5792MHZ = 4,
- };
- 
--
- int rt712_sdca_io_init(struct device *dev, struct sdw_slave *slave);
- int rt712_sdca_init(struct device *dev, struct regmap *regmap,
- 			struct regmap *mbq_regmap, struct sdw_slave *slave);
--- 
-2.54.0
-
+Yours,
+Linus Walleij
