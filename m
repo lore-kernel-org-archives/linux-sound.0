@@ -1,42 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CCF74DD3A6;
-	Thu, 17 Sep 2026 11:32:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDD593D902C
+	for <linux-sound@vger.kernel.org>; Thu, 17 Sep 2026 11:32:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789644759; cv=none; b=QjPXEC2qbYKQMjFxBF1oWZwgSn/T6ZMgVGoNGHeP+QABMfc+oo+xHwDMKzfb2Tcb/I58xnrlWtOF7Si95B+TothUSxORvgoWN5D0N9O8l7ZZr8XgjUKjsOqANVCQbJEKT82wdKgYfxSlmMeRlU3H0s0DwO+A4svmk/nVAAfW1s0=
+	t=1789644765; cv=none; b=eRTJG+iTeaUjd7lKD9mCPi9DrDxHKxP4cKsd7U7kBfTzzt8QxaMPK5B8f6OlMKp7K5KhtER/XMpyVPi/kRn16eXRKXBESjeqh1q7Kzyl+TC6UeS3DNAF7/OQm3zefGnLI3VnYgkW1JC2IN1sgaPLnRDHZ6bR0YUgnG8UZvIpD8I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789644759; c=relaxed/simple;
-	bh=v7Qytqm7ondVmKEizFYK+ogiJgUcD2OLVftKNCOl8aw=;
+	s=arc-20240116; t=1789644765; c=relaxed/simple;
+	bh=Nd9sxNtQbnAXN3g/zg0Cf9U0J8273RD9FzJvIm6RvYk=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=FwLRLQ/W2D6E/ier77iEuUf8sHxQTbZ+RQXMc8+3Y49c8LylzfBo9KfIQIKyOFKcevYtC6xZDxTPIebhUvnmiP0upE8riTVdxyLG1sEurQrG8X/WHwnS768P9ETGe/JJZy/drwJKb3BLflBl4/CgueNlL63x+39tgvXNoE0kUcs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Brx3V4hj; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=YuQD4bUrZII+k+7vfYk9QuFgv8FsVP43BEVsNoiKIn1W8E4wdmo/nglGCu7L1d7AGYaZHcYV/3SgPPEJw1IIZLFLmOZoLDx3TFvrf86DM2yt07G20NCWd7hocHKIEVI6q1/byOcs72Qal5Ft8xiJTGlkLAKEGLQRNB/oIINwIHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U5KzEeZN; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Brx3V4hj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8DE51F000FF;
-	Thu, 17 Sep 2026 11:32:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U5KzEeZN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C25AA1F00893;
+	Thu, 17 Sep 2026 11:32:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789644758;
-	bh=NT3AR/HzkEf6lxJ23rCzyAMbJ3c/PpXIqyCYUYbJrjI=;
+	s=k20260515; t=1789644763;
+	bh=kWk515TMgCitR9Jnhdh5FizV/JbHPu6vtUCIOtnDYZ4=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=Brx3V4hj6iv2s2o4b/6RjtWMtmMAoZYawz3bokFPQRCMRlUfaD+1wGY6VriFLB2zL
-	 Bla85UWBJyND1xUbcHVsTrXqnjpEEKBh0yhI6kD00DVCMYR579I9DqwcdGnRSYpXV3
-	 wRT+DZzPpeqoOosfhQGo8hwBiyGUruI9ujxBqMkdG60PqKsJdjI7eW964wk15WFo3g
-	 /tsr/JmHYyPlDUN9+xt6UJX3I6gN7NMSQ6uVsP5Z6WZuUuVJKgMUrgBsOrwOHVPzTz
-	 NU/LQOxR5+9TpiHpiSBwhU4QzWQd3qmBmdAAEK0E7fVihGnCaXokjSls4IfXd8KxW2
-	 HHsQFnV1vn7tg==
+	b=U5KzEeZNYFZUHxq7mkEtx45Zmcya6f1gP3f0PCTxTgE+FSGMV5Xy2i1CKj79+SMdw
+	 rBfCOiJ9CZJxmDb235mgrOUyv9Yih3qQszKqxv5LvHBrNRYuctdriC4EFN8SFYJimm
+	 ifu4Ip/LmnlRAoKYyi1wv4WsfS9lgM2l1q4ekkN+S9sJeOr5YbGAyRsXJlBUUUmD4e
+	 BKNWkKycXmI+J9iWjYT7I5PeS/EvswCA5YaCPGxRyDT6summ5RC3apdjjDnj0ez21x
+	 oucUgq+GgubRSIPFpCpLKIbynoU+U8h7I/f3cot376aX0zCLZczIh/yA7R+dF+v/hY
+	 uF8Hn1EpVmwyA==
 From: Mark Brown <broonie@kernel.org>
-To: Wentao Liang <vulab@iscas.ac.cn>
-Cc: lgirdwood@gmail.com, linux-kernel@vger.kernel.org, 
- linux-sound@vger.kernel.org, patches@opensource.cirrus.com, perex@perex.cz, 
- tiwai@suse.com, stable@vger.kernel.org
-In-Reply-To: <20260916072900.1971595-1-vulab@iscas.ac.cn>
-References: <20260916072900.1971595-1-vulab@iscas.ac.cn>
-Subject: Re: [PATCH] ASoC: arizona-jack: Fix runtime PM imbalance in
- arizona_start_hpdet_acc_id()
-Message-Id: <178959288860.414407.1871874696214616582.b4-ty@b4>
-Date: Wed, 16 Sep 2026 22:08:08 +0100
+To: lgirdwood@gmail.com, Oder Chiou <oder_chiou@realtek.com>
+Cc: linux-sound@vger.kernel.org, lars@metafoo.de, flove@realtek.com, 
+ shumingf@realtek.com, jack.yu@realtek.com, derek.fang@realtek.com
+In-Reply-To: <20260916101803.2301508-1-oder_chiou@realtek.com>
+References: <20260916101803.2301508-1-oder_chiou@realtek.com>
+Subject: Re: [PATCH] ASoC: rt721: Reset codec to fix abnormal sound
+Message-Id: <178958542375.100121.10281934755916297289.b4-ty@b4>
+Date: Wed, 16 Sep 2026 20:03:43 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,29 +44,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1170; i=broonie@kernel.org;
- h=from:subject:message-id; bh=v7Qytqm7ondVmKEizFYK+ogiJgUcD2OLVftKNCOl8aw=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqq8/SCSDvzS26PdxoKyK5Yqm2uk+FFOjOhCCOX
- wJSZPCLj0uJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaqvP0gAKCRAk1otyXVSH
- 0KjyB/0QVU8d2fESglgTSzoDpkESbY6JXUdnHh8RHelGUqwXz23rHoiLg6DIWtVL48CGJCw+6qt
- wUtqgh5MFCs/o1stIPZuslTvs9iGcOdaxVUnqFp6Cz0p+2lXjhOuo90EC2pKhqx3sK95AF1m2m3
- YK6OBQCoWbDQXCRossyYuE7+lR7KrIxnmuePEPKxVBxHs+AkJfA1WpCTZXKomMH11LVpkB8Gnml
- MhfR9O3MitREwd6uNN9XGsmclbN8OTFGRQ/gJB1xGXoUaifrOv00d8S0H2AwPCco0kOMZC0Pl9h
- yesSvuHBn6xI4qy8xQEz/o7uXeiJyAhDngUol8iQoln0tPnc
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1108; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=Nd9sxNtQbnAXN3g/zg0Cf9U0J8273RD9FzJvIm6RvYk=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqq8/XVxw/d1YkyTlkKp8GynoYr3iLVEHhdCSx7
+ AZxstdXNieJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaqvP1wAKCRAk1otyXVSH
+ 0A4NB/91zlqKpABwQ8nkjmLV4AnovAy3F18eg3WFhWUSyE/lWL51CU/HT88/2At4fIyBxW9zKXo
+ W3YIreE+9cqYIq5mP9RtauhXdFD1dm8cJxEua6w7cVuP/uhKWEBKySu7ZPqRPF8j0sUGSn6szfB
+ ns1Xbv99gUpz1GwsYZaq0q4YnNjJgnQqvTwj51VSMfNvROmo5UUn+jMbp2NZiNHcx56Xx3Z0Oop
+ EonG400WywoBYs/rhlqKD6Gd6EJKxNcc9dE1GnDbGI9BK26pE95Qx8qv/0NhIsK35Cyvo3+XW/C
+ WeCpudy9p4Ky+nP3Mn01cxCVp5cG8AAKrh51FZAtBu7wJmZB
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Wed, 16 Sep 2026 07:29:00 +0000, Wentao Liang wrote:
-> ASoC: arizona-jack: Fix runtime PM imbalance in arizona_start_hpdet_acc_id()
+On Wed, 16 Sep 2026 18:18:03 +0800, Oder Chiou wrote:
+> ASoC: rt721: Reset codec to fix abnormal sound
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
 
 Thanks!
 
-[1/1] ASoC: arizona-jack: Fix runtime PM imbalance in arizona_start_hpdet_acc_id()
-      https://git.kernel.org/broonie/sound/c/e04dcb895b46
+[1/1] ASoC: rt721: Reset codec to fix abnormal sound
+      https://git.kernel.org/broonie/sound/c/a5e22cba3549
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
