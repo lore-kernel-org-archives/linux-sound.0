@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70C113DD86C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAEAF3DD521
 	for <linux-sound@vger.kernel.org>; Wed, 16 Sep 2026 12:03:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789560214; cv=none; b=LHCCCilTfSUNWEkTA1IcbUpzBIZCVA4i7Gjrxwas1yEmvL2ML8iLJmilocmRH4oXhY7jrGbRZD9F6ew4wQhNStuJ21Wik+PiOtToxhJiGeEMHygCFrsPFH1lWrUYUtW5AEqzgu+u1iyOY9m773NRYRf5FhFcrFAO28BaIoO+vM4=
+	t=1789560218; cv=none; b=imp8iQlcJfAZeqmqxGoA/lKuagyB+y7uQGa5MJ9bzkPZmLiev5S4UXVx09sWQKRidpWK43vtgJ1fcdjokTOrBGRc9XNmckpGGR7hjTJqcxHJT8kRgarMBo/8a4zV7lyaBfvX0NVFhWs1h6Yvuqe2vxJxQJ4b6QOS7sdTupvYpus=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789560214; c=relaxed/simple;
-	bh=QN8kP45lewWABrmM7AtjnoLBnLfNgvhwa1P1BtqZGpg=;
+	s=arc-20240116; t=1789560218; c=relaxed/simple;
+	bh=aZX1EN8m5aZ8+n819gvmEyHiJ7y9IMVdqfeSfUYQ5Fw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GAJvsOZDTAvFvTR/6Tvzx0AzfqU/dekHT41wpZd1QXgNyyfoFlCEKUgRXCcNY/Yz6mEJraxkzvWCFZiJs3ByMd8lmDxa9CRo+0XOLjUIqRTzDwgu5oLYvpiPU8ICem4WZh94dc9oyeKE3Bj9m2GRV7aSX5KSmhQwTFKhkrZne2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WrLTYzSo; arc=none smtp.client-ip=192.198.163.16
+	 MIME-Version; b=sQ0ffnC1jiOGKFh7SmMQ823SHBWZ+b94mAH/ZJUhSXirLporwnFqQslnSeTpxNXSmu7tCtm7eZI+hqDngapwZgv/biMJmuuJ69gp23bY+nq5KTGKq9QC5UDzwHq6A8Ylu0byPpViTbScApS5LSRFYydfETWBZbTm4qIgWhzY8jA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f1ZZUjdA; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WrLTYzSo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f1ZZUjdA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789560206; x=1821096206;
+  t=1789560207; x=1821096207;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=QN8kP45lewWABrmM7AtjnoLBnLfNgvhwa1P1BtqZGpg=;
-  b=WrLTYzSoB5pQvbX8OF3rBUpwwlcShAMppsNF6pXv/GMamaNSmxzZ+nGd
-   vsTdryxl+0fCp+I1NkdxGHXTmGihYERi+nPPSvqe/dWcrFnFxl/2lWUOC
-   pE9d7Ygm7zh008rwc13oSLROKBdl5e0Z6K8nupM5dvV+0HSwTmgviF76Y
-   Ng76AsE95P8Sx5bhTdF13Oor8brPMcuzAfEJY6DHxRDVj0EUF64He4Vbq
-   Dy12e2NlxvMhiwdDRBQvezKa7Qs6XBh1zxtXkNh9XbBlVeBa9sBwLLfkB
-   UvAm80obdvlx7jpJ+LCFmRXkTrYFog/4y8xIpVtPc+tMAv/PfUE3zS5c4
-   w==;
-X-CSE-ConnectionGUID: 1TzHo4RlQ2WYjmdKe/AV+A==
-X-CSE-MsgGUID: bjw3H2iwSKOrVUrqAfD4+Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="77496240"
+  bh=aZX1EN8m5aZ8+n819gvmEyHiJ7y9IMVdqfeSfUYQ5Fw=;
+  b=f1ZZUjdAVfCJxToZQxesBuuVWHcIveIk4EQAyjLhvaXqTk+g4aUfP12H
+   ynkBvb0I1HJnviZoDNvBJIY9CSRyEjvW85yyNWLuBqilxK1dfZSSaogNx
+   rSyt8j4Ty7Mi0Wt8LI4J5A8m6EVuxkokKWUDzhmAaQqbAEAEKBv8rjEt2
+   PRvIXOTsFaHqvOJmeuoT0H43WzVpo9bptK+rzypt8lNaJhm/xYsT85nZg
+   CmEq/FNj+unt7kV3Wey2Ay8rZXraXcwusENJdw7xWR3zEA5vuK3YrrNVz
+   WCtZuUAkkWkWr5Dz8VmzO/m7rGbc0D+/Qx1nYn/TSX0X1m06eR5ySsm1X
+   A==;
+X-CSE-ConnectionGUID: Ldd7M1tWT4GBm1Xavj8Ddw==
+X-CSE-MsgGUID: I4XGXVlSQLSAxy19YAXKZg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="77496252"
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="77496240"
+   d="scan'208";a="77496252"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2026 05:03:21 -0700
-X-CSE-ConnectionGUID: mly1/2kuT1+Pz6r3S3gjig==
-X-CSE-MsgGUID: /xwRPraGQM+H9cNW8LwElw==
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2026 05:03:24 -0700
+X-CSE-ConnectionGUID: Yy4Jca+WSE+THLo4PK5U6w==
+X-CSE-MsgGUID: TGGFCrGvStO4o0tm6x8DdQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="273293337"
+   d="scan'208";a="273293342"
 Received: from conormcd-mobl2.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.244.100])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2026 05:03:19 -0700
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2026 05:03:22 -0700
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: vkoul@kernel.org,
 	perex@perex.cz,
@@ -55,9 +55,9 @@ Cc: linux-sound@vger.kernel.org,
 	yung-chuan.liao@linux.intel.com,
 	pierre-louis.bossart@linux.dev,
 	daniel.baluta@nxp.com
-Subject: [PATCH v4 03/26] ALSA: compress: stop active streams on disconnect
-Date: Wed, 16 Sep 2026 15:02:57 +0300
-Message-ID: <20260916120320.18318-4-peter.ujfalusi@linux.intel.com>
+Subject: [PATCH v4 04/26] ASoC: soc-compress: Provide a runtime for the compressed FE substream
+Date: Wed, 16 Sep 2026 15:02:58 +0300
+Message-ID: <20260916120320.18318-5-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260916120320.18318-1-peter.ujfalusi@linux.intel.com>
 References: <20260916120320.18318-1-peter.ujfalusi@linux.intel.com>
@@ -69,142 +69,197 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Track open compressed streams per device so disconnect can stop
-active streams and wake waiters before snd_unregister_device().
+When a compressed stream is used on the FE side of a DPCM link, the
+BE is still running as 'normal' PCM.
 
-This aligns compressed stream teardown with PCM disconnect behavior
-and prevents active userspace streams from running into unregister
-races.
+DPCM lends the runtime of the FE to every BE it opens and
+dpcm_be_reparent() re-points it at another FE when the lending one
+disconnects. The internal PCM created for a compressed FE by
+snd_soc_new_compress() is never opened via the PCM API, so its
+substream has no runtime and the BEs of a compressed FE were left
+with a NULL one.
+
+BE DAI and codec drivers can look at substream->runtime, they add
+their constraints to it in startup(), for example cs42l43, cs42l42,
+hdac_hdmi.
+
+The other users of compressed DPCM do not hit this as their BEs are
+DSP internal ports, driven by code which takes everything from the
+hw_params it is passed and never looks at substream->runtime. The
+BEs here end at generic CODEC drivers which are shared with the non
+DPCM case and cannot be expected to know about the FE type.
+
+Allocate a runtime for the compressed FE substream while the stream
+is open, initialize its constraints as snd_pcm_open() does and fill
+it in from the BE parameters once the mandatory machine level
+be_hw_params_fixup() has run, so that the compressed FE lends a valid
+and populated runtime just like a PCM FE does.
+
+This also allows a BE to be shared between a compressed and a PCM
+FE, which is needed to play a notification over PCM to an endpoint
+which a compressed stream is already using.
 
 Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
-Reviewed-by: Takashi Iwai <tiwai@suse.de>
 ---
- include/sound/compress_driver.h |  2 ++
- sound/core/compress_offload.c   | 49 +++++++++++++++++++++++++++------
- 2 files changed, 42 insertions(+), 9 deletions(-)
+ sound/soc/soc-compress.c | 109 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 109 insertions(+)
 
-diff --git a/include/sound/compress_driver.h b/include/sound/compress_driver.h
-index 9e3d801e45ec..84f51edc3f9d 100644
---- a/include/sound/compress_driver.h
-+++ b/include/sound/compress_driver.h
-@@ -188,6 +188,7 @@ struct snd_compr_ops {
-  * @card: sound card pointer
-  * @direction: Playback or capture direction
-  * @lock: device lock
-+ * @open_list: list of open compress files
-  * @device: device id
-  * @use_pause_in_draining: allow pause in draining, true when set
-  */
-@@ -199,6 +200,7 @@ struct snd_compr {
- 	struct snd_card *card;
- 	unsigned int direction;
- 	struct mutex lock;
-+	struct list_head open_list;
- 	int device;
- 	bool use_pause_in_draining;
- #ifdef CONFIG_SND_VERBOSE_PROCFS
-diff --git a/sound/core/compress_offload.c b/sound/core/compress_offload.c
-index 7b720603a9a8..89435e4394ef 100644
---- a/sound/core/compress_offload.c
-+++ b/sound/core/compress_offload.c
-@@ -42,6 +42,7 @@
- #endif
+diff --git a/sound/soc/soc-compress.c b/sound/soc/soc-compress.c
+index 093a70a93d2b..b803e8cb4ea4 100644
+--- a/sound/soc/soc-compress.c
++++ b/sound/soc/soc-compress.c
+@@ -16,6 +16,7 @@
+ #include <sound/core.h>
+ #include <sound/compress_params.h>
+ #include <sound/compress_driver.h>
++#include <sound/pcm_params.h>
+ #include <sound/soc.h>
+ #include <sound/initval.h>
+ #include <sound/soc-dpcm.h>
+@@ -131,6 +132,104 @@ static int soc_compr_open(struct snd_compr_stream *cstream)
+ 	return ret;
+ }
  
- struct snd_compr_file {
-+	struct list_head list;
- 	unsigned long caps;
- 	struct snd_compr_stream stream;
- };
-@@ -124,6 +125,7 @@ static int snd_compr_open(struct inode *inode, struct file *f)
- 		ret = -ENOMEM;
- 		goto __error;
- 	}
-+	INIT_LIST_HEAD(&data->list);
- 
- 	INIT_DELAYED_WORK(&data->stream.error_work, error_delayed_work);
- 
-@@ -143,8 +145,11 @@ static int snd_compr_open(struct inode *inode, struct file *f)
- #endif
- 	data->stream.runtime = runtime;
- 	f->private_data = (void *)data;
--	scoped_guard(mutex, &compr->lock)
-+	scoped_guard(mutex, &compr->lock) {
- 		ret = compr->ops->open(&data->stream);
-+		if (!ret)
-+			list_add_tail(&data->list, &compr->open_list);
++/*
++ * The internal PCM of a compressed FE is never opened via the PCM API, so its
++ * substream has no runtime attached to it.
++ *
++ * DPCM lends the runtime of the FE to every BE it opens and re-points it at
++ * another FE when the lending one goes away, so the compressed FE must provide
++ * one as well. Without it the BEs are left with a NULL runtime, which oopses
++ * in BE DAI and CODEC drivers looking at substream->runtime, and a BE can not
++ * be shared between a compressed and a PCM FE at all.
++ *
++ * The runtime is owned by the FE for as long as the compressed stream is open.
++ */
++static int soc_compr_alloc_fe_runtime(struct snd_soc_pcm_runtime *fe, int stream)
++{
++	struct snd_pcm_substream *fe_substream = snd_soc_dpcm_get_substream(fe, stream);
++	struct snd_pcm_hw_constraints *constrs;
++	int i;
++
++	if (!fe_substream || fe_substream->runtime)
++		return 0;
++
++	fe_substream->runtime = kzalloc_obj(*fe_substream->runtime);
++	if (!fe_substream->runtime)
++		return -ENOMEM;
++
++	/*
++	 * snd_pcm_open() initializes the constraints of a PCM runtime to
++	 * 'anything goes'. A zeroed one means an empty mask and a [0, 0]
++	 * interval instead, which the constraint helpers refine against and
++	 * reject, so initialize them the same way the PCM core does.
++	 *
++	 * The hw rules snd_pcm_hw_constraints_init() installs on top are only
++	 * evaluated by snd_pcm_hw_refine(), which never runs for this
++	 * substream, so they are not needed here.
++	 */
++	constrs = &fe_substream->runtime->hw_constraints;
++	for (i = SNDRV_PCM_HW_PARAM_FIRST_MASK; i <= SNDRV_PCM_HW_PARAM_LAST_MASK; i++)
++		snd_mask_any(constrs_mask(constrs, i));
++
++	for (i = SNDRV_PCM_HW_PARAM_FIRST_INTERVAL; i <= SNDRV_PCM_HW_PARAM_LAST_INTERVAL; i++)
++		snd_interval_any(constrs_interval(constrs, i));
++
++	return 0;
++}
++
++static void soc_compr_free_fe_runtime(struct snd_soc_pcm_runtime *fe, int stream)
++{
++	struct snd_pcm_substream *fe_substream = snd_soc_dpcm_get_substream(fe, stream);
++
++	if (!fe_substream || !fe_substream->runtime)
++		return;
++
++	/* BE startup callbacks may have added hw constraint rules */
++	kfree(fe_substream->runtime->hw_constraints.rules);
++	kfree(fe_substream->runtime);
++	fe_substream->runtime = NULL;
++}
++
++/*
++ * The BE parameters of a compressed FE are set up by the machine level
++ * be_hw_params_fixup(), which is mandatory for a compressed BE, see
++ * soc_compr_set_params_fe(). Once they are fixed up, use them to fill in the
++ * runtime the BEs have been lent, so that a BE DAI or CODEC driver sees the
++ * format it is being configured for.
++ */
++static void soc_compr_set_fe_runtime(struct snd_soc_pcm_runtime *fe, int stream)
++{
++	struct snd_pcm_substream *fe_substream = snd_soc_dpcm_get_substream(fe, stream);
++	struct snd_pcm_runtime *runtime;
++	struct snd_soc_dpcm *dpcm;
++
++	snd_soc_dpcm_mutex_assert_held(fe);
++
++	if (!fe_substream || !fe_substream->runtime)
++		return;
++
++	runtime = fe_substream->runtime;
++
++	for_each_dpcm_be(fe, stream, dpcm) {
++		struct snd_pcm_hw_params *params = &dpcm->be->dpcm[stream].hw_params;
++		int bits = snd_pcm_format_physical_width(params_format(params));
++
++		/* skip a BE which has not been fixed up */
++		if (bits <= 0)
++			continue;
++
++		runtime->access		= params_access(params);
++		runtime->format		= params_format(params);
++		runtime->subformat	= params_subformat(params);
++		runtime->channels	= params_channels(params);
++		runtime->rate		= params_rate(params);
++
++		runtime->sample_bits	= bits;
++		runtime->frame_bits	= bits * runtime->channels;
++		break;
 +	}
- 
- __error:
- 	if (ret) {
-@@ -161,17 +166,23 @@ static int snd_compr_free(struct inode *inode, struct file *f)
++}
++
+ static int soc_compr_open_fe(struct snd_compr_stream *cstream)
  {
- 	struct snd_compr_file *data = f->private_data;
- 	struct snd_compr_runtime *runtime = data->stream.runtime;
-+	struct snd_compr *compr = data->stream.device;
+ 	struct snd_soc_pcm_runtime *fe = cstream->private_data;
+@@ -142,6 +241,10 @@ static int soc_compr_open_fe(struct snd_compr_stream *cstream)
  
- 	cancel_delayed_work_sync(&data->stream.error_work);
+ 	snd_soc_card_mutex_lock(fe->card);
  
--	switch (runtime->state) {
--	case SNDRV_PCM_STATE_RUNNING:
--	case SNDRV_PCM_STATE_DRAINING:
--	case SNDRV_PCM_STATE_PAUSED:
--		data->stream.ops->trigger(&data->stream, SNDRV_PCM_TRIGGER_STOP);
--		break;
--	default:
--		break;
-+	scoped_guard(mutex, &compr->lock) {
-+		if (!list_empty(&data->list))
-+			list_del_init(&data->list);
++	ret = soc_compr_alloc_fe_runtime(fe, stream);
++	if (ret < 0)
++		goto be_err;
 +
-+		switch (runtime->state) {
-+		case SNDRV_PCM_STATE_RUNNING:
-+		case SNDRV_PCM_STATE_DRAINING:
-+		case SNDRV_PCM_STATE_PAUSED:
-+			data->stream.ops->trigger(&data->stream, SNDRV_PCM_TRIGGER_STOP);
-+			break;
-+		default:
-+			break;
-+		}
- 	}
+ 	ret = dpcm_path_get(fe, stream, &list);
+ 	if (ret < 0)
+ 		goto be_err;
+@@ -196,6 +299,7 @@ static int soc_compr_open_fe(struct snd_compr_stream *cstream)
+ 	dpcm_path_put(&list);
+ 	snd_soc_dpcm_mutex_unlock(fe);
+ be_err:
++	soc_compr_free_fe_runtime(fe, stream);
+ 	fe->dpcm[stream].runtime_update = SND_SOC_DPCM_UPDATE_NO;
+ 	snd_soc_card_mutex_unlock(fe->card);
+ 	return ret;
+@@ -238,6 +342,9 @@ static int soc_compr_free_fe(struct snd_compr_stream *cstream)
  
- 	snd_compr_task_free_all(&data->stream);
-@@ -1449,8 +1460,27 @@ static int snd_compress_dev_register(struct snd_device *device)
- static int snd_compress_dev_disconnect(struct snd_device *device)
- {
- 	struct snd_compr *compr;
-+	struct snd_compr_file *data;
+ 	snd_soc_dai_compr_shutdown(cpu_dai, cstream, 0);
  
- 	compr = device->device_data;
-+	scoped_guard(mutex, &compr->lock) {
-+		list_for_each_entry(data, &compr->open_list, list) {
-+			switch (data->stream.runtime->state) {
-+			case SNDRV_PCM_STATE_RUNNING:
-+			case SNDRV_PCM_STATE_DRAINING:
-+			case SNDRV_PCM_STATE_PAUSED:
-+				data->stream.ops->trigger(&data->stream,
-+							 SNDRV_PCM_TRIGGER_STOP);
-+				break;
-+			default:
-+				break;
-+			}
++	/* all BEs are shut down and disconnected, the runtime is unused now */
++	soc_compr_free_fe_runtime(fe, stream);
 +
-+			data->stream.runtime->state = SNDRV_PCM_STATE_DISCONNECTED;
-+			wake_up(&data->stream.runtime->sleep);
-+		}
-+	}
-+
- 	snd_unregister_device(compr->dev);
+ 	snd_soc_card_mutex_unlock(fe->card);
  	return 0;
  }
-@@ -1558,6 +1588,7 @@ int snd_compress_new(struct snd_card *card, int device,
- 	compr->device = device;
- 	compr->direction = dirn;
- 	mutex_init(&compr->lock);
-+	INIT_LIST_HEAD(&compr->open_list);
+@@ -388,6 +495,8 @@ static int soc_compr_set_params_fe(struct snd_compr_stream *cstream,
  
- 	snd_compress_set_id(compr, id);
- 
+ 	snd_soc_dpcm_mutex_lock(fe);
+ 	ret = dpcm_be_dai_hw_params(fe, stream);
++	if (!ret)
++		soc_compr_set_fe_runtime(fe, stream);
+ 	snd_soc_dpcm_mutex_unlock(fe);
+ 	if (ret < 0)
+ 		goto out;
 -- 
 2.55.0
 
