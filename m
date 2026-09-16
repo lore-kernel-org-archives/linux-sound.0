@@ -1,154 +1,164 @@
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11011001.outbound.protection.outlook.com [52.101.65.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A9E74A4F18
-	for <linux-sound@vger.kernel.org>; Wed, 16 Sep 2026 09:29:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789551004; cv=none; b=JJbGbyRJZEKWedSF5HEF52n2OUFFG92NsNRoaS2enQYl5W36xAmjxwYP3c18Nqtj74O8d0nizZXsSTNe4ljbQjgltq/sOpuXcSSw8iCrSYBbJA4d8sgdzM0BCS9tb34kTzJSfk05Qbh+IGeB5yRU3BeWQEdDXF3YHXDAN+SZ/fA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789551004; c=relaxed/simple;
-	bh=g/iC+DIqI1xrZJ0xCTu4BStW2wCcnb3D4yhvlUsffN0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=AbN6mBVfOxsxBMlyLZpK2w+jQe0S7ibRsDCdBOIJ8/8YPVJGtS0KJrffTLtkYi9qYEhwOD/oRuJ44Jc1oLPmAeqTlk+hNilnJx5JQEn4NDkn/Dz5pUBbZt5c3E+zowR8vqViVJbnQGoTts0Au76RknlYWr7WKx0G15HsoHdCX4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TqKxl7Lr; arc=none smtp.client-ip=74.125.225.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B9E84963D4;
+	Wed, 16 Sep 2026 09:36:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.65.1
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789551366; cv=fail; b=YYyuDqMpflUHlgaH2ybb02A4OqWF2z3D8YeX75kUiv6FOv4yqQ/BsxYfEKhazrFGiBC9nWj381uEpHm3EYqp+m0WG4jwXOPoLDhH8lolAJepXGLRB9tBxvJ1mghfNPAsqVEF02ran7XoRzybzZax43ScZSHOH9clFcKlLfLii9g=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789551366; c=relaxed/simple;
+	bh=7nXOEovJQzHmgjzX04gaO8vVB9J3tvWhFF5M1Upu4l4=;
+	h=From:To:Subject:Date:Message-Id:Content-Type:MIME-Version; b=Cw3H8r9Jffg7gPMn5S4BdBJRcHTvcsx4OqqO8XaltmwDe4VZtQYH+nN2AEbMQDb3ieWxBXFNcgcqO16YcbFj1T91y71dDAeX5XLxiN4ZYPG/sZ2/M01M8dRQKq+HgsdTlDkgLwK8Rg1h3WKZRnNkwuumJVuIKrBMeiLn/K95djc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=a2kten3W; arc=fail smtp.client-ip=52.101.65.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TqKxl7Lr"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49ccf3ca626so3311615e9.0
-        for <linux-sound@vger.kernel.org>; Wed, 16 Sep 2026 02:29:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789550994; x=1790155794; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=drCB0bFzLSt3iJv3AQNAxjZ5jc1SFYIJv68Mmbr8obI=;
-        b=TqKxl7LrugOFrQrgr8bdk88+4lv6xwiasJTOfStkN5VPSjnmIzv6T/HIKUKB391l8m
-         aP0WS6ji1Q/XPsOSzWynGbp6G3Sqk/TrqGdPwxlP+NPP7z04EpDLifyTLmNpyKjPitul
-         EB9Rkfwh8ymrL4n1jIueyXuEuicoczUb6JmVVr6Ywn6sjH6iyLNAuPuGHRMBurrKQw1r
-         4ZrPpvellJRfv8uBz/Hvs87/BfLCOS4sganTG4pAUCnUPLSPyjBBFaxLvBqNXUXAURG3
-         7JEvragE67izv0WU4XGTUcfR1iYvN1W8CdmHmjmDSfZR8IAkAZA9Dx4kydTrt7X1fSg9
-         yxqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789550994; x=1790155794;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=drCB0bFzLSt3iJv3AQNAxjZ5jc1SFYIJv68Mmbr8obI=;
-        b=UitrBInuf++g/nLOcpdlZa3dVvn75Y0pxJj+aEMkFHt3NTeT1W6jod3xLvyfJChzmz
-         TnfE503x3AL5i+flLXDKbviXtI6+xEYoSzxVpJyss+2x8FzTvg/ByIYr+gupm6ciruAv
-         rCSOE16O/OHMvQXZI2bvTxH1L6O6hVGcQdly5UHssy78lI4b8o0AaME/y8DntpX7/Cb9
-         16nb8USY8Hmx+/LLwUR4kBd4VNJpjhimOXyI6osXOBT/+Mf9opjgo6uj4XtqM0Wte69R
-         i9I6vxBfEIRNJRT/Ak9GaOlsOkilANySqHuqNFgGre6728m2w38CEhQvju756idheIe8
-         xNYg==
-X-Forwarded-Encrypted: i=1; AKwUvBxy8RUdKAheHaiMDUW57oku4cGOysgFI6ePbYtXutP6+z9C2ebGtgYXCxtCvbBgMTRncIKOkLfg4oMRjA==@vger.kernel.org
-X-Gm-Message-State: AFuF++nydJ60JsxhJB+2UVr43FxjZh0BsNELpcRG7cE0gSXELaU5XGcU
-	b5CeQbXfLdVkhifawUBlTghmDyAqiGbBQxCyhpVWqA6rYLQZy6F6qMMQ
-X-Gm-Gg: AYBFou1FYQRZQuz/b1FmRYTqQgt3gslrdoYVXeBMDJ0Fv1HivPkcioyJioQLZdIbT6K
-	w09rEISfEyvUwuZ1rz+NFqWWcKswDHflL2c1ksopAn9P9jewYReTsmdp4LgPS8yYG6mGkQALg2b
-	BGR65GxZKBElKPh85KwqlC6j64KNNMXGBWiELq2pK15SRnA2gi1IfXYhfvvcR9zDPjCO3qQbVAC
-	DnDdCa8dP1nSWOKYOSDXUQVF8yd9AF5EH3n/XC8dXpbYaO/ZQMIsOTN72ygaWJojBjKyQJsXjBa
-	gOngPIF4AB5brzjdyhFkeCk4q/ZlH2JHABpENfXOBj9KD6cfN5Cyr/ZskYPNMDbGdoL/FhiXUTj
-	BGeFuxDQrwO/gX0sMYg37BQZtuJYIGQQOGAekbyq3qPSGHvdm8M8H/8eHDBm1Pwjf1BKbPmmmC6
-	7wSB6jzZ6JofvG0eS2K2PxGC+/GBessTi8b/KFu2CaEi3KchLSnAooBJHazDp54sUF74yoXAU4M
-	uDT2gVPR3YaZ+20wW4xyqZWF1i/yOXaxYMd
-X-Received: by 2002:a05:600c:4709:b0:493:f5bf:4dc6 with SMTP id 5b1f17b1804b1-49eac46374bmr21150555e9.7.1789550993497;
-        Wed, 16 Sep 2026 02:29:53 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49e83db9102sm64812065e9.12.2026.09.16.02.29.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Sep 2026 02:29:53 -0700 (PDT)
-Date: Wed, 16 Sep 2026 10:29:51 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Kees Cook <kees@kernel.org>
-Cc: Bill Wendling <morbo@google.com>, linux-kernel@vger.kernel.org,
- codemender-patching+linux@google.com, Thomas Gleixner <tglx@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
- <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, Andrew
- Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, Peter Griffin <peter.griffin@linaro.org>, Linus
- Walleij <linusw@kernel.org>, "Martin K. Petersen" <mkp@kernel.org>, Trond
- Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, Jiri
- Pirko <jiri@resnulli.us>, Simon Horman <horms@kernel.org>, Chuck Lever
- <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>, NeilBrown
- <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo
- <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, Jaroslav Kysela
- <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Andrew Morton
- <akpm@linux-foundation.org>, "Mike Rapoport (Microsoft)" <rppt@kernel.org>,
- Kanglong Wang <wangkanglong@loongson.cn>, Tiezhu Yang
- <yangtiezhu@loongson.cn>, Qiang Ma <maqianga@uniontech.com>, Randy Dunlap
- <rdunlap@infradead.org>, Pengpeng Hou <pengpeng@iscas.ac.cn>, Ard
- Biesheuvel <ardb@kernel.org>, Breno Leitao <leitao@debian.org>, Thorsten
- Blum <blum@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, Johan Hovold
- <johan@kernel.org>, Cen Zhang <zzzccc427@gmail.com>, =?UTF-8?B?Q8Ohc3Np?=
- =?UTF-8?B?bw==?= Gabriel <cassiogabrielcontato@gmail.com>, Rong Zhang
- <i@rong.moe>, linux-input@vger.kernel.org, linux-media@vger.kernel.org,
- netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
- devicetree@vger.kernel.org, linux-gpio@vger.kernel.org,
- devel@lists.orangefs.org, linux-hardening@vger.kernel.org,
- linux-sound@vger.kernel.org
-Subject: Re: [PATCH 01/28] ALSA: ac97: Refactor snd_ac97_get_name() to use
- snprintf()
-Message-ID: <20260916102532.4b881a25@pumpkin>
-In-Reply-To: <202609151134.361FEA04@keescook>
-References: <20260915081910.4142719-1-morbo@google.com>
-	<20260915081910.4142719-2-morbo@google.com>
-	<202609151134.361FEA04@keescook>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="a2kten3W"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jlDUR0uhn7HOEaDsVzpCVFvXD5Hki2OwCaBrNcG/qyQInlX1kM3kJzAXg9CHWMnWeoiYwckDulWg80c+pbe2aLeubWxX0Yk7ow7GxPsZSJl1nk12E9lirRKfm/5LqmnPafiRiEvxve1s0Qk4EM3MYK1G7nq/tACF/dlkxfpmA7odXKRjqo9NOW0zczNLVdcJQ58qLzy/hKfB2T6dK3NvRj7zD5U/7q4ASdmQ/yV8FWJZvjgMSt2N01yXmg7v9k/YhpqXRi2NGrCcJ2FSlN10GYJrg3YpAgclrPpxBY9y8bMPInAljth5jz91pIN8Rg6UF8WPVW7BJCNaeDceofFsRg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2ZbhSdV2coza4ZHHXz+8OoRw3lY4SIx+4jsm6wz2iXQ=;
+ b=MW182WiPFAIND7Qo1NLqHwaV7aqyZ//dcNOWD92sjYVlqbgAV0Lb9UGQ5I/yf1HIkHdVOGTmUCLbOJRKR8OB8rSfMyxtI/tGl77S0dzP79pEhpuHZUrciDrQ2/4Ge27P2QjcPzzkD6Ktvlq2n8oDvUOh4YaqkiM38hSdMv0WTDnXSLyC+ZmCsAh2FwbaYBJRnApJ6ZVl9ATk+DMJQWyUuZJC/5kXCUvNJ12ShO5n0oflGlp3mwY0weWps9S4rothN+gYi2Yu5zh/oVrsnmltqTpYtHV6Sga+xJDE/DAdWgRb/RU9nTYiaMlKLbHKXJ0Zfe+tXKt3PmEn8cfFOocgkw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2ZbhSdV2coza4ZHHXz+8OoRw3lY4SIx+4jsm6wz2iXQ=;
+ b=a2kten3WM1w5MLTGWipbyWycnkFLmHV3JW1YljPjRKtpZCZ+it3AWFhUMYsB0WAn6fm7OfX8jhTV7fqjX/2ep2BE/gQg9cNBg3cUGcSIpQLb2BDunu4WUIZ7r7N0HxIIqazuIIQK5Gu25P4qkSpCgEAZjBb+Vmvh8RkcetpbsfP2XuUwflsciK6dEyEsKZ1PJ0iJH1R7s/IQA0ZKLOdQ/Q1WOPOCCDMrMpdm09H7+dJ2PeBhHkDLs+cyo3fVC39IIoklvS8C55tfJYT7QeDHFGe3ennH2OPMQS3BzP1Rdsaw7wu6n+Sz8Vyb9wtIcyN5K5oZlHc9iQ6pOX9XKxg97w==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from PAXPR04MB9351.eurprd04.prod.outlook.com (2603:10a6:102:2b6::17)
+ by AMCPR04MB12646.eurprd04.prod.outlook.com (2603:10a6:20b:770::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.428.9; Wed, 16 Sep
+ 2026 09:35:53 +0000
+Received: from PAXPR04MB9351.eurprd04.prod.outlook.com
+ ([fe80::1058:a430:52c1:5aa]) by PAXPR04MB9351.eurprd04.prod.outlook.com
+ ([fe80::1058:a430:52c1:5aa%6]) with mapi id 15.21.0406.007; Wed, 16 Sep 2026
+ 09:35:53 +0000
+From: shengjiu.wang@oss.nxp.com
+To: shengjiu.wang@gmail.com,
+	Xiubo.Lee@gmail.com,
+	festevam@gmail.com,
+	nicoleotsuka@gmail.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: fsl_asrc: use regmap_write_bits to update clock source registers
+Date: Wed, 16 Sep 2026 17:40:42 +0800
+Message-Id: <20260916094043.1496709-1-shengjiu.wang@oss.nxp.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: MA5PR01CA0242.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:223::9) To PAXPR04MB9351.eurprd04.prod.outlook.com
+ (2603:10a6:102:2b6::17)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB9351:EE_|AMCPR04MB12646:EE_
+X-MS-Office365-Filtering-Correlation-Id: bc083fb2-d2f4-49c2-d145-08df13d5e671
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|376014|1800799024|7416014|366016|19092799006|10067099003|3023799007|18002099003|11063799006|56012099006|921020;
+X-Microsoft-Antispam-Message-Info:
+	eXG4TKkVBYoozCS77uWQSJlgEH+PYDZcx0xLo1Ll4zZzHIW58W8tVXt+QdhWOV591e7YKcoCjTYd5xfpayVAvae17i5ANW4oMFmTVKH8Rx6DvXoYr7hQqHc8jm0lMWumnCFr3X2Iqnl2f4NISpMNf8qYPHnDDugJjRmXk8mMBwXOnVWWVdiM90HRIO57V9tohwAEhSlFQFcFBBa75hCqsk+f6xNwT085Xtdf5ot7QZtY69WNtQTtxGMy5Y/5W0PGsSKItMqC4DOVGhofD4qUL3L7mm+KybweIou3BTUPx3Yoev4xpJzo3KsjNyYMXg/KprF29PAPTRuLLXA8AMVB+wC0n0GZP4DTfDtNom4cGJQjIMHcXzD1DkwHSCtHG2AJnXYkOBiZdnlmI8OO0rZiXeNnmYqBWsP+mghAyLDUP3mOoWIZ7fV7MZWbtwmhg/bxBunkC5O8wEn9NUQXo5S+ymr+44zNGcam91CFl1seVMFe/3aVyS8G7vNRMYHaG6Q1b707gRi0CyD8lAX6kKXMq7C7Ar19yZcDdhlqQ68p/ncr9axfZyik2TLonXi2gXQZYN9prm6c7BnPcl/8k96asZmr36jWQlZyC6wMr+TXgDEEqOHU4NsHvAhbNK3LlIIoaq2JmZxEvq7ENQj79m79LdQ9yapN15o60t15FtORpKvt//9nlwltzekE9jeHvEEgfxaQQBdbbVinWeKxihyOOQ==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9351.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(7416014)(366016)(19092799006)(10067099003)(3023799007)(18002099003)(11063799006)(56012099006)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?+FjL6t8QsHk4YyVAIvO1leyuZOQYugVVzNs1J9nwusJs3Xl6js6bMU9itfv0?=
+ =?us-ascii?Q?0GZdbEkxacbia14iFOgZHug4UiklpImqFkzllSNehGpVSlGXYgTK88WrOoDx?=
+ =?us-ascii?Q?h0u4nq8B7jDVVzu5nLg+s6oCaiRMyqu6nVO45FIPUe/COJjqeye9yMtI4X7B?=
+ =?us-ascii?Q?zK0PUCjxYr4zjYAZiKpxMGSmdr+5YqHLubBuz0VA9Jb0ccVjOjiO783Ef7oZ?=
+ =?us-ascii?Q?AwP4BzR87Pw1umpD5aY64EX1LojKAIxYBjceoXEVOMFdEHSL7RNhatNa/Xcu?=
+ =?us-ascii?Q?V+/toUX2oujPtJbj/3mH/UqGaWSzqbSN4QKWjZRfOjgS51JRkE96rY7tgTI/?=
+ =?us-ascii?Q?H3y2p/Hi51IJEqxWysHGUNQdVjp1JA+kCLPTTdpg3Mdkn3Qa+2q1x1qkRq10?=
+ =?us-ascii?Q?Sunr9OUDjuRDgjJ/qce5SWNNwiT1trE2rO1axj0vtB47Ec1DmJYKCY+P1NQb?=
+ =?us-ascii?Q?qz50UCM44sj+WzXInak/67hjHZTC3g+4eVN8IePzkwciuM1JeSqU3epqgr8p?=
+ =?us-ascii?Q?V7cwB7jhZCNZdy22sEK8zTvt+QJa4q5fxIu2GF0ouu4rspNmYE+hfR3z1Ac/?=
+ =?us-ascii?Q?OVucs6bX+aq3oUxnxq38luKA7sK2EDhklWpBqTUzts5WmQMVycQh29DGsnbm?=
+ =?us-ascii?Q?EkSAUYSCDRBND6Gm3zYiqHbGkJRrAyMkhldZKI595Izq6eMMmhyyl4GrIsWM?=
+ =?us-ascii?Q?3Mh4YxTMG70ePPqu+uw7VYXUfmJ57SYG0vN/prmFzuosFjDy9Ltb+IkgZq7/?=
+ =?us-ascii?Q?hM2Rh0acru+ULCj6m+jkgTXrGfmIztPx7/6c5uUsDLdcE/Gx3goxLQ96vvZv?=
+ =?us-ascii?Q?bCi5b5R8j4ct8snbC0Et7RkkjPORzvJCyJZ6u8fY2t1w2gv8H9S7sySGiT/c?=
+ =?us-ascii?Q?lliKdK7u64zkhSb2SEcTxhBxb56gn0c75I5x2uVlu8pzqXoyK1IRdb9+Ggd9?=
+ =?us-ascii?Q?nF5y5I7rRNNT8lpnUd+emiNw+k8SvIDHWjASNgYvpc5jy/zf3RavAePwE2y7?=
+ =?us-ascii?Q?RLU8GgnYiHM5hb/v+YjIPDHLQ8hbqdbwy2mbKRJPGZxuEzFTfAjancFGpQwK?=
+ =?us-ascii?Q?Y2mdJ9M80sJhIGRv6sF4l6WRDT8DJoodQs7RtxwJRSIO8VZKGYjU14KmBX4k?=
+ =?us-ascii?Q?T+gggh9Er5ySW0O27gi8yQbVUYTg/KxLbIfqPm9npLwDJqLLzDFroyOTt9D5?=
+ =?us-ascii?Q?ZQetMz18FEXd2qpxeN9Akrxj41wK9GB4g+pL0jorPUh5hliAmY/2Oa67JJh4?=
+ =?us-ascii?Q?Q4w3x5U4uHJV86x2RADZFFKrz3e/2KHBvztVtTArU0I8cIPmn3nLW63Yu9aP?=
+ =?us-ascii?Q?0eiCtA3z58Bmj0BLQ1JDtkh89Dn+ZQ0/WSyRcypPK9wveP8XirE8haV267Q1?=
+ =?us-ascii?Q?VXRLxDEzCXqUaOnp5Vkw0PWa1yI9fSrqWpVqtBl6bQRrzVRIphnP/EwsYr/j?=
+ =?us-ascii?Q?r4jZJVaPRdiJtQfvl2SSH/09ZlJE2J+27z8tITXLkL+hKilaAOoTRyRi6hFh?=
+ =?us-ascii?Q?Ya8+resOmKCttCYG+2Uh3IB+iwFBWlrLw6tWprGqb528WzWlKDdKjF2xV4fY?=
+ =?us-ascii?Q?yejlaJ8eBQqs2QtaBF5ANEWOjnT/eQiOzwyDDmcw+W5WuZgGw1JmKyjJZpAE?=
+ =?us-ascii?Q?/WVhmiUQG+4I4l5pMvIRA91ajiBqgix8Hqrd1hBLfKIknuczlZMhXLaJWraZ?=
+ =?us-ascii?Q?BFO9Fr8JnfdqiEXvrA2pYj0UZPPizjNf/C0M2GuESIYi58DYqqIQsPs+66b8?=
+ =?us-ascii?Q?l6l/oxebSHfBI6SMh7hrylpSiZZDz8eJs6u6Wcnk122tpQ1h7TgY?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bc083fb2-d2f4-49c2-d145-08df13d5e671
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9351.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Sep 2026 09:35:53.4666
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: oA4TlLPmUTdZ/DS1+99e7t7IIPaCOu1N07jZowXH4crpzJgyH8oawT2EsPUvBkymG9ULqhhBmXJ9wu/QH3D6r36ZB7pEzVOM1L5qbrPSP/23zZNvGQJHZS5Zq7U29Txc
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AMCPR04MB12646
 
-On Tue, 15 Sep 2026 11:39:34 -0700
-Kees Cook <kees@kernel.org> wrote:
+From: Shengjiu Wang <shengjiu.wang@nxp.com>
 
-(I've just juked a lot of the 'reply to' list - too long to gmail.)
+After a warm reboot the REG_ASRCSR register may not be in its hardware
+reset state. regmap caches the register value as 0 (the assumed default),
+so when the desired clock source index is also 0, regmap_update_bits()
+skips the actual hardware write because it believes the register already
+holds the correct value. This leaves a stale clock source in the hardware.
 
-> On Tue, Sep 15, 2026 at 08:18:18AM +0000, Bill Wendling wrote:
-> > --- a/sound/pci/ac97/ac97_codec.c
-> > +++ b/sound/pci/ac97/ac97_codec.c
-> > @@ -1850,10 +1850,12 @@ void snd_ac97_get_name(struct snd_ac97 *ac97, unsigned int id, char *name,
-> >  
-> >  	pid = look_for_codec_id(snd_ac97_codec_ids, id);
-> >  	if (pid) {
-> > -		strlcat(name, " ", maxlen);
-> > -		strlcat(name, pid->name, maxlen);
-> > +		int l = strlen(name);
-> > +
-> >  		if (pid->mask != 0xffffffff)
-> > -			sprintf(name + strlen(name), " rev %u", id & ~pid->mask);
-> > +			snprintf(name + l, maxlen - l, " %s rev %u", pid->name, id & ~pid->mask);
-> > +		else
-> > +			snprintf(name + l, maxlen - l, " %s", pid->name);
-> >  		if (ac97 && pid->patch) {
-> >  			if ((modem && (pid->flags & AC97_MODEM_PATCH)) ||
-> >  			    (! modem && ! (pid->flags & AC97_MODEM_PATCH)))
-> > @@ -1861,6 +1863,7 @@ void snd_ac97_get_name(struct snd_ac97 *ac97, unsigned int id, char *name,
-> >  		}
-> >  	} else {
-> >  		int l = strlen(name);
-> > +
-> >  		snprintf(name + l, maxlen - l, " id %x", id & 0xff);
-> >  	}
-> >  }  
-> 
-> I'd rather not open-code the length math here. Can't we use seq_buf()
-> instead?
-> 
+Replace regmap_update_bits() with regmap_write_bits() so that the masked
+fields are always written to hardware regardless of the cached value.
 
-Or just use the length returned by the strscpy() call that wrote the initial
-part of name[].
-The return the name length so the callers don't have to use strcat()
-themselves.
-Replacing strlcat() with strlen() and a copy is just pointless.
+Fixes: 3117bb3109dc ("ASoC: fsl_asrc: Add ASRC ASoC CPU DAI and platform drivers")
+Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+---
+ sound/soc/fsl/fsl_asrc.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-David
+diff --git a/sound/soc/fsl/fsl_asrc.c b/sound/soc/fsl/fsl_asrc.c
+index 1c611ca89dea..56604fa1613a 100644
+--- a/sound/soc/fsl/fsl_asrc.c
++++ b/sound/soc/fsl/fsl_asrc.c
+@@ -521,10 +521,10 @@ static int fsl_asrc_config_pair(struct fsl_asrc_pair *pair, bool use_ideal_rate)
+ 			   ASRCTR_USR(index));
+ 
+ 	/* Set the input and output clock sources */
+-	regmap_update_bits(asrc->regmap, REG_ASRCSR,
+-			   ASRCSR_AICSi_MASK(index) | ASRCSR_AOCSi_MASK(index),
+-			   ASRCSR_AICS(index, clk_index[IN]) |
+-			   ASRCSR_AOCS(index, clk_index[OUT]));
++	regmap_write_bits(asrc->regmap, REG_ASRCSR,
++			  ASRCSR_AICSi_MASK(index) | ASRCSR_AOCSi_MASK(index),
++			  ASRCSR_AICS(index, clk_index[IN]) |
++			  ASRCSR_AOCS(index, clk_index[OUT]));
+ 
+ 	/* Calculate the input clock divisors */
+ 	indiv = fsl_asrc_cal_asrck_divisor(pair, div[IN]);
+-- 
+2.34.1
+
