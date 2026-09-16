@@ -1,84 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2EBB4D09E0;
-	Wed, 16 Sep 2026 11:22:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 292AB4AFE2C;
+	Wed, 16 Sep 2026 11:36:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789557777; cv=none; b=pGX3A/3LS/nih58p8Ew8APScs2Rqd+pZNU8HLI34nAlWCAdkDGMbT2E5eqfRGBws691ysnu44qpw1wuXXVu+o3H9i7ES/pvFwlUbvPGicAzhdtfj1Rc+KeD9fHm38dLEbvel5lAUXxZH9d/va6zBOFW69kl1xeBmDA7tQxQUXBY=
+	t=1789558634; cv=none; b=powj7D5RNhUOfXv3gBFdTECS/eXTHkk47rUepceVIIW+0IRXT+S8I6lgP/JjwFu7/W2OOzcSb7VzEEWs7BQT9ufUb0sHE5KvdbAOa9TcKX0a+KTRQu0JPdkyM6+C5Cwdrejj/Ql2Mw1P9jt7K3EY8Ku8WaUafP6gKRJke13LY6g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789557777; c=relaxed/simple;
-	bh=HaDup1zqLAuloj9vagheUeO2UyYUCSBAeeryA6ayQcQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kK32KSeJN/zqlBdAupI7bD1vpk21uHn/c6Kv2cJpxqdqNn0X4UqAQUGjDRXX35KxISSccE0UnQBi+gp2+d0lkAXrp1XjoJ0Ajw/E1fIUo7o3hoRzUFAFhPiqKoMoC8IeTXaVGcvR0ZlvjzgYfbko8+w7Ec2EhDShww91c32x9+Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JUguNGok; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789558634; c=relaxed/simple;
+	bh=cHF9JW+q4r40XE4aSQ50y15lKPe36Xbow7nP9rOrvKU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KWpyIxjOdiIigudYej4YMl/q/wZuTJdvb4MVLkyv1dsAZrxuvNxWjIyjznKnWDUaExpN0Mhr0GXm5bDYAZW0q9Z/UdGjHiNmI+mpWJkVuwJZa6KlNQlmSIxZ+bolYUXkjty/Jl+ydGwUZVvt75crHJwMRwYtW16TdDuAiK1gKhU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=sXEgOoC8; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=uED5qevw; arc=none smtp.client-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JUguNGok"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 599E41F00893;
-	Wed, 16 Sep 2026 11:22:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789557770;
-	bh=Bv9caHK0L3VnjzkDAa41MY/MJExPJkSpdY12LFmTBZg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=JUguNGok/rnJzGOGXcCKwTaEO9+sBhgPfVld16HUMoI5e/yplK7z8WDRTuemXMzbU
-	 MpzTF4953JBUCMNYt87QkDPjzNC5Che539aqreL0nSm+JWMJZGrOvnH332cE7RrMYs
-	 UK2NH13HMXevazHmGMes3wU7iZuFGaRxkxmQ5C/HT+HKfO87JV/Rmz5liwR8rvHz10
-	 FjKW13iFqn6i3J3g9K5O5pEmnnvoPfJB1oHz8TajHPeukNF2PwQJzp4WScvYL1IYiN
-	 DeTrGHgxphyrG+7OEZbCif3iJCgNcAEhR9T06uMEE66ntSHeLIvIlHBiXghDBMvA46
-	 C4byX0bqGHN4Q==
-Date: Wed, 16 Sep 2026 12:22:45 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Wentao Liang <vulab@iscas.ac.cn>
-Cc: krzk@kernel.org, lgirdwood@gmail.com, linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org, perex@perex.cz, s.nawrocki@samsung.com,
-	tiwai@suse.com, stable@vger.kernel.org
-Subject: Re: [PATCH 03/20] ASoC: samsung: snow: Fix clock leak in snow_probe()
-Message-ID: <1a22633e-6264-4ea4-a6be-28f87802000b@sirena.org.uk>
-References: <20260916070341.1965422-1-vulab@iscas.ac.cn>
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="sXEgOoC8";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="uED5qevw"
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4hlH0d2vt9z8tPl;
+	Wed, 16 Sep 2026 13:36:49 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1789558609;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=sxxbp5EMZL98v93x2yFAPLLVAeHdqAsEPbwrqsn9Pxw=;
+	b=sXEgOoC8gDLK+uqOhfPosWkDFdpk6h4R6WHrGPCNu7EGuCwyXbcqOF1x6wFd9X2EfzNwpl
+	nXrpENhhnPiVQeGjBrIIgog669bhnwDN1CVfv+aCvMJgnrtQ07Z0cpPd/xxE/R21PHl45f
+	A2MNWNF0Wyoel9I7xPNwce40HrnF7y4PKw/aa8zfyi80IlzKvlM48q2BsS5zz2Fwpn64j1
+	9Wr50zWgh9JNV5TYs58RZMUfc8m6YMuXIVGOa7eJ2lM2rOKilnNU16RPNtR2rjBzYYanH4
+	RALlvf33NiaporocvDSU0bBDIEAPO+oyXvOnh4jCqkMdOrQWV4uu5eqZze3rpg==
+From: Manuel Ebner <manuelebnerli@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1789558607;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=sxxbp5EMZL98v93x2yFAPLLVAeHdqAsEPbwrqsn9Pxw=;
+	b=uED5qevwCj3WdOMsXa0C+rpbSj6spYZCWCZzHx++SfKTnO3jOXDkenV/n0j14fjMuhhIER
+	CGAO27S24Er5oQHPC078JnQG3JCEsCc63o8q0hgsYHyM8kjvlEOI8WpBZFSwISm+XM9m+/
+	OeEZOLH6agqj0KrRRZIjPTGWnW+s3cQIb17h1QDiYr+dgbeuGodnWT/vY87gc2Le8+QxMV
+	HarQ2e3it5oD83cv6hd1XpmrwqJt4CB1u+yFvhrxHNxGXSFUPY90zJAObrqqbwpVuShgYi
+	+vY3vMDh28yCFe6Ji/EcXnOh2EBi/b2rElHRvKHTXUdhSt1BQmrby86+kYMyig==
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>
+Cc: Manuel Ebner <manuelebnerli@mailbox.org>,
+	linux-sound@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3] ASoC: doc: Fix bracket
+Date: Wed, 16 Sep 2026 13:35:24 +0200
+Message-ID: <20260916113524.304863-2-manuelebnerli@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ZyB3ECWHltiMyhAD"
-Content-Disposition: inline
-In-Reply-To: <20260916070341.1965422-1-vulab@iscas.ac.cn>
-X-Cookie: Double!
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: ef6yoojp1h9meg65oeetk4xe3ahmqwi3
+X-MBO-RS-ID: 3b14f006816aa1485a9
 
+Remove needless '{'.
 
---ZyB3ECWHltiMyhAD
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
+---
+[v3]
+ - removed the change of the placeholder
 
-On Wed, Sep 16, 2026 at 07:03:41AM +0000, Wentao Liang wrote:
-> In snow_probe(), priv->clk_i2s_bus is acquired via of_clk_get_by_name().
-> If devm_snd_soc_register_card() subsequently fails, the acquired clock
-> is never released, leading to a reference count leak.
+[v2]
+ https://lore.kernel.org/all/20260904120737.758809-2-manuelebnerli@mailbox.org/
+ - rearrange lines in diff
+ - fix commit message
 
-You've not copied me on the rest of the series so I don't know what's
-going on with dependencies.  When sending a patch series it is important
-to ensure that all the various maintainers understand what the
-relationship between the patches as the expecation is that there will be
-interdependencies.  Either copy everyone on the whole series or at least
-copy them on the cover letter and explain what's going on.  If there are
-no strong interdependencies then it's generally simplest to just send
-the patches separately to avoid any possible confusion.
+[v1]
+ https://lore.kernel.org/all/20260902150510.706055-2-manuelebnerli@mailbox.org/
+---
+ Documentation/sound/soc/dpcm.rst | 1 -
+ 1 file changed, 1 deletion(-)
 
---ZyB3ECWHltiMyhAD
-Content-Type: application/pgp-signature; name="signature.asc"
+diff --git a/Documentation/sound/soc/dpcm.rst b/Documentation/sound/soc/dpcm.rst
+index 7b6aeab3c..3ff13fa4c 100644
+--- a/Documentation/sound/soc/dpcm.rst
++++ b/Documentation/sound/soc/dpcm.rst
+@@ -358,7 +358,6 @@ The machine driver sets some additional parameters to the DAI link i.e.
+ 
+   static struct snd_soc_dai_link dais[] = {
+ 	< ... more DAI links above ... >
+-	{
+ 		.name = "MODEM",
+ 		.stream_name = "MODEM",
+ 		.cpu_dai_name = "dai2",
+-- 
+2.55.0
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqqfAQACgkQJNaLcl1U
-h9CZWAf/YsKKjzdxqiPRs2SAcU4OvqyZ+mVhxVFcrOXRsAlpjdRm9NV2h9OaB5Ko
-qGZZAKaOal6iYNpZH0ye4dCf/ncPDV5sKNz0HR4s1w9hzAAShknFPuausbtfmr6o
-XPTBS1LajEZwMxO0HSU2etNjO5xNCO70kJqP0yCpFmNcst/l1MI0XJMvjPC/Ro1W
-B83rnfFQV8FA0xTLZHpT47Vpa7x9IJlqyx8OeKNbNEMmBKaW2czxfsrkliD3HFCq
-QGH/OTqNeRLcS+qzC7ldzlOq+ch+a2kXr6gpXFeg1Ro73saQ+EwEHuw9LztU/HJC
-+WJdTu0JF9R3FFTwH/UO9YosSpoGkw==
-=jgHW
------END PGP SIGNATURE-----
-
---ZyB3ECWHltiMyhAD--
