@@ -1,161 +1,71 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zipdox.net (195-240-81-79.fixed.kpn.net [195.240.81.79])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06B414457C7;
-	Wed, 16 Sep 2026 07:41:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83D5045C714;
+	Wed, 16 Sep 2026 07:43:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.240.81.79
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789544482; cv=none; b=W5UeCb7blgvOxXflLxg3TAI4AsV33sI625YUaXSZZlORe1lRfGKpxUz0F65J+a7UrS2UmahxYfIPPkPPZa+72YmH38x7XtaV16aKntu9vhel455hwItYp53S2ntibu1K0aP1W9KHC+7xpu3ftXumsOBc7F2POXLBt/7l1LKVgOw=
+	t=1789544615; cv=none; b=stnoignM5ZmI/QCva11R8mxsWCXNDfnSxpDPj2utjfdt9PLF0EE6cohY8nJ6y5LjBbZ4IgqXz+nwT7mv/s6O0gjjeOeUn6QO916iVrgFKTub0NroOlEJWHGm+y+p68gfth99Xq3rftzlzTXM+mzotcdhSApHMbVTieBGM4Mk/48=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789544482; c=relaxed/simple;
-	bh=tay9gdRdnmbOWrci6HaZ97LBWSFEjpAoXpazrwaWGhI=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mYyUqopS442fSVSXehnllQqUCuZoPqUP3oCLHLieuX1GinE3Cp6BtjYuF/HtQKqD+JhOMLMJbkYHWIS9mjsIvRuyoR8FUFnxkDWKRID43UQq8AumfxOMLNg3CTTvuDUkx0r1UXCIDPHx4sy0/suzamYylOOzDeE8voov0dZc1/4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=2PSFwoD8; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=O/Bb7oGs; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uXOyBF52; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=35cKx9lP; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1789544615; c=relaxed/simple;
+	bh=rzRL3OyhTcnufJt3pvWkEq0P77Hr+fA7mcPihIjDB0E=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=m09MSU7PnK1L32C08piIjUDDij7w8fjd4xmjkwLvW/Ir4nNfPGTIkfofOnfIeY7PShNmBgoK1DQ/4ckr+1P8vkYeLyN/g7Hejm4GOUzSn/j1Ft7VvR8u+bluHqrRV/7ksAAbqPJcVXp4KchnJZxAycR91/CdIy3GbrSNcgjx5LI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=zipdox.net; spf=pass smtp.mailfrom=zipdox.net; dkim=pass (2048-bit key) header.d=zipdox.net header.i=@zipdox.net header.b=L/r8qrzf; arc=none smtp.client-ip=195.240.81.79
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=zipdox.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zipdox.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2PSFwoD8";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="O/Bb7oGs";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uXOyBF52";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="35cKx9lP"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id E7A4721A6E;
-	Wed, 16 Sep 2026 07:40:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1789544460; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8BxglG7s/pBFpIRx525JpPFtW2x8vqQ7lCtjyeujkXI=;
-	b=2PSFwoD8MF9BrsagRR92cgJ1jNU8LKJhqthx0Ckt3nv4gZQHLeByqbq7HG8ekysvhMxo9K
-	Qnac5uqJRS3BYjPjfEIxII++5DTstgTNQ1coutAS4z4Vxj7O1vqdF7tdejznT0lVz83Uen
-	CIPx8xxnSkEwbB7K2P4vLRI5PNbdaGY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1789544460;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8BxglG7s/pBFpIRx525JpPFtW2x8vqQ7lCtjyeujkXI=;
-	b=O/Bb7oGsSV5eWwL9+dfIOrv8nnggvpMsPskWau0IDZkQamWBy7cKowaP/m78offVqDCFIm
-	KvEq0t1ubph+bNAQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=uXOyBF52;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=35cKx9lP
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1789544455; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8BxglG7s/pBFpIRx525JpPFtW2x8vqQ7lCtjyeujkXI=;
-	b=uXOyBF526hyENMYEafZWkOvm6ZvCIdT4JfXGztcLZg0h8QDJlza/kNcseGIC8NE8QXJZ/n
-	dnlAQQfgeGdnRjK6w8YX8di/gDHpQ8uTFLiAw1XlwMSWwSDoakqlFBEEmu+oTqe+K9KuPB
-	AZbWFZ1RPPLdnlthNuORKHL5yHqWVV8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1789544455;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8BxglG7s/pBFpIRx525JpPFtW2x8vqQ7lCtjyeujkXI=;
-	b=35cKx9lPqfcrMK5k2Kx4gWA3/Y6RpZHTbIa3/n/DVf+a9AQbQz0OQAYNmnqGO6NKIW9/ou
-	+lzvY2csMCrInzAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 860DC136A5;
-	Wed, 16 Sep 2026 07:40:55 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id q6YaFwdIqmo8HAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 16 Sep 2026 07:40:55 +0000
-Date: Wed, 16 Sep 2026 09:40:55 +0200
-Message-ID: <8733v9lk3c.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: patryk.dankow@protonmail.com
-Cc: linux-sound@vger.kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	zhangheng@kylinos.cn,
-	dnaim@cachyos.org,
-	damien.dagorn29@gmail.com,
-	kailang@realtek.com,
-	habilerenturker@hotmail.com,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] ALSA: hda/realtek: Add mute LED support for ASUS PM3406CKA
-In-Reply-To: <20260915174110.67871-3-patryk.dankow@protonmail.com>
-References: <20260915174110.67871-1-patryk.dankow@protonmail.com>
-	<20260915174110.67871-3-patryk.dankow@protonmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=zipdox.net header.i=@zipdox.net header.b="L/r8qrzf"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id AE16792A5F4;
+	Wed, 16 Sep 2026 09:43:19 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zipdox.net; s=dkim;
+	t=1789544600; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=ttF87G2qEt6DPtDm3W8hI21JToURDEmqGv1ROgC/o+k=;
+	b=L/r8qrzf19qRHtxzL5rM4zRoIso1CgjcRP4weZvDInZ9Om6HT5u8QHSS6HwE55Jh3GJftK
+	INMiYNNMqHKtwZxNmKK5oFFnX7fhDOf8GjQaAdcDFNvoF+sGwy7l8nmvhH0hXyXygsEfb7
+	q59M7OX/ejIiCJrl7g5nmVaExkBXIwowWJ62xe5mdE1u6lU1CQa9Ih6fdrVIK5QS0lv3+A
+	q/1b4/XqVjy6xtEbKoZjVPWrHjn6U+JRS7B6OPqMEy5816YKp1CyXGtVzC/tnTX5zdNgOF
+	3JgbHPZeo9qciDnSncivQ9OsH50VGMjaUvdnzUBz2/sR1XASvygko0eykGDoDw==
+Message-ID: <da56664f-901e-497b-a74c-ae41cbc5cac4@zipdox.net>
+Date: Wed, 16 Sep 2026 09:43:14 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-2
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: E7A4721A6E
-X-Spamd-Result: default: False [-2.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,hotmail.com,protonmail.com];
-	FREEMAIL_TO(0.00)[protonmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FREEMAIL_CC(0.00)[vger.kernel.org,perex.cz,suse.com,kylinos.cn,cachyos.org,gmail.com,realtek.com,hotmail.com];
-	DKIM_TRACE(0.00)[suse.de:+];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_DN_NONE(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,protonmail.com:email,suse.de:dkim,suse.de:email,suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Score: -2.01
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] USB Audio Class 2 Mixer unit support for GET_CUR, SET_CUR
+ and RANGE
+To: Takashi Iwai <tiwai@suse.de>
+Cc: linux-sound@vger.kernel.org, perex@perex.cz,
+ linux-kernel@vger.kernel.org, tiwai@suse.com
+References: <d46fcac6-bd7e-4fc4-95e1-4e8d39f92ad3@zipdox.net>
+ <87bj9yn55n.wl-tiwai@suse.de>
+ <59b3dc9b-f324-42e7-ab03-a01c04e8b915@zipdox.net>
+ <8733vamwaz.wl-tiwai@suse.de>
+Content-Language: en-US
+From: Zipdox <zipdox@zipdox.net>
+In-Reply-To: <8733vamwaz.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Tue, 15 Sep 2026 19:41:36 +0200,
-patryk.dankow@protonmail.com wrote:
+On 9/15/26 4:19 PM, Takashi Iwai wrote:
+> But your code also blindly assumes the MU_MIXER_CONTROL that doesn't
+> fit with other units like feature unit?  I guess we have to set the
+> proper Control Selector value depending on the unit type.
 > 
-> From: Patryk Dañków <patryk.dankow@protonmail.com>
-> 
-> Enable vmaster mute LED handling for the PM3406CKA while retaining
-> the existing CS35L41 I2C fixup by chaining the new fixup to it.
-> 
-> Tested on ASUS ExpertBook PM3406CKA.
-> 
-> Signed-off-by: Patryk Dañków <patryk.dankow@protonmail.com>
-
-I suppose both patches should be in the same tree, so feel free to
-take my ack if the series go through another tree:
-
-Reviewed-by: Takashi Iwai <tiwai@suse.de>
-
-Or, if both should be merged through sound git tree, let me know.
-
-
-thanks,
-
-Takashi
+> After all, this is about the correct setup of wValue.  Let's try to be
+> minimalistic at first -- just tweak wValue in get_ctl_value_v2() and
+> snd_usb_mixer_set_ctl_value() at first.  If this becomes too ugly, we
+> can think of redesigning.
+I assumed that mixer.c was just for the mixer unit, and I seem to have 
+completely overlooked the fact that that it also controls feature units. 
+I'm not sure how to proceed from here. Do you have any suggestions for 
+how we can store the control selector in the usb_mixer_elem_info struct? 
+The control field is presently used as the input channel number, so 
+maybe we should add a separate field for the input channel? I think 
+maybe it's better that someone else fixes this, I'm kind of out of my 
+element here.
