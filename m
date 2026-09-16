@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E4CE3DCD99
-	for <linux-sound@vger.kernel.org>; Wed, 16 Sep 2026 12:03:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2604B36F42D
+	for <linux-sound@vger.kernel.org>; Wed, 16 Sep 2026 12:03:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789560218; cv=none; b=XKCbcc1rV8LfS3EaTM5GmmD/yoBp43JjJCbeu2n+fJlJ1rnANkM6O25ptksUtveb8hVptyEsmxUia+jradPDC6UkO3X4BrjfZHIW2EfBoQFldMy7eqHefO8i82T+caj093EPhFgKkJKlZYZpqBgUy64Fnq0G9jqCE4vbYI5v1uE=
+	t=1789560226; cv=none; b=qTa1skx1uD72d/2CbzzNXrDnHLI3BVCGi08SkulZvfF1wvZDWksUaQlQHxlyq6xMiD3FahSxAkoupne5g4zuImaOFLzZSTqWq6K65iCUwFO0DYzVGHCWIxvSBJgbgH7wEMoW5ntmBElmMlW+JFzN1Fh+lI3PyhBzcqCluxEcJSM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789560218; c=relaxed/simple;
-	bh=9XEityiEff+28pxW2ALVDDRdMuRQfPGRpGhMjoGOs1U=;
+	s=arc-20240116; t=1789560226; c=relaxed/simple;
+	bh=Mo+ObBylqF1Fc/oCwM6Acv8RFU18zsM0n2iuDvdQJBA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=vCAlzUiRCrJEnbHZ+WBsVCk72+KRWUSOm5XPN4ZRg3cTJ+ZfKaQ155GBorVW/jfkgPNgFxt15NNMgg1eDLUMXN2MNj5oze62H3BsigOtnOgf3O9YVVpMbzeNdsORl+fCDFcQxDpGAtuiXMnnQK/2nALsPIDNszheg4RWH4ATX0c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GOTYLNfW; arc=none smtp.client-ip=192.198.163.16
+	 MIME-Version; b=P+I1xD3i2rZIAlOSbq7on20byGJgEVoWVW1REUeIWVe7wPKDfyUaPuyv46XIFaOG/L5mQNAlkIzcbzT/n3ojYOgTiAJG07NIlkLEpNMJF1aAbZryF+/2Q9bpyZ4KPlGqInsbY7AiWf7mBtBjlm9mp8EuJRn1kPeoI4huI+JgaaY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LpKi7sR8; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GOTYLNfW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LpKi7sR8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789560210; x=1821096210;
+  t=1789560216; x=1821096216;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=9XEityiEff+28pxW2ALVDDRdMuRQfPGRpGhMjoGOs1U=;
-  b=GOTYLNfW5oP9Kpx9G8jrdpHfDg3ZoMA+NFIbQw+Z3GvcwAliOJptIxao
-   dCBtm5WABbPVW+0MgAYc9NN5VjQTquwhyAO3yXI0INUXG83pglgMtO2xw
-   ijMGRE8sSHvNR6XfbBa61VGauknMJPx+5Y8iNN6/xU3eKBxAGNjHnL+eD
-   QPr53pPq/oL36e4AGqXq3upS+SJydM9SMASpDBDbnz2jRQc54fUHjG1Ms
-   ktDBjvygcvRRCaV90cGvoq9w+a2pylmxGST1BOOFih+EsXvBkNO4TH9E9
-   2At29iQyEdhw0O7fROcOhQb7VcU0PvSOhz2afT1x5/VCsUeQQ3OwdpfMC
-   w==;
-X-CSE-ConnectionGUID: GP471TrbSlCkKUOLt+at0Q==
-X-CSE-MsgGUID: 6rwOPNxNT22+fgF22P2cfQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="77496265"
+  bh=Mo+ObBylqF1Fc/oCwM6Acv8RFU18zsM0n2iuDvdQJBA=;
+  b=LpKi7sR8PIvLX41uMFR7nGNG5fdVPlULSAEM+j5Q3nkR6zEB3zI0xJb2
+   1vAkJTGaVTDQ407lX95y+6BZ1NpmurYsK4d4hxdrVuqPEzrIKuJpHJGyX
+   kpfk+QccjsztOD3yqGMrd0kA2gn8wo1Olrvtzj1I5yZp0tuXSlk/y7PFa
+   8FQDYD/YCJ3hYlvLBrswQwIOF+ku64cY5BBdtVU+oE4XPv04fT6CSPwku
+   HY5cMxMtQpgX0TI5SAVApwhNhiPtC1cnXAhoLEgAif2vOGqxxL1DRu+ce
+   MZdEBVTFJSqpVgVIcvnzLfQ0P256neAVCSqQ3cIRuQJzXkFmHvbMoDul2
+   Q==;
+X-CSE-ConnectionGUID: cBY6Rg+rSQ2sehJlrcow2Q==
+X-CSE-MsgGUID: 6tkhBCSoRBiSdjjVZnfLUA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="77496280"
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="77496265"
+   d="scan'208";a="77496280"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2026 05:03:27 -0700
-X-CSE-ConnectionGUID: UN8+2LyNSjayhiiphDfp2w==
-X-CSE-MsgGUID: RT4vv1c0STOFMb6lAxmdKg==
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2026 05:03:30 -0700
+X-CSE-ConnectionGUID: UGzkjg3dThuyoB/a0g5JmQ==
+X-CSE-MsgGUID: Str9x1MUQcGmrmgg2uJj6Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="273293353"
+   d="scan'208";a="273293365"
 Received: from conormcd-mobl2.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.244.100])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2026 05:03:24 -0700
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2026 05:03:27 -0700
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: vkoul@kernel.org,
 	perex@perex.cz,
@@ -55,9 +55,9 @@ Cc: linux-sound@vger.kernel.org,
 	yung-chuan.liao@linux.intel.com,
 	pierre-louis.bossart@linux.dev,
 	daniel.baluta@nxp.com
-Subject: [PATCH v4 05/26] ASoC: soc-compress: Implement trigger FE-BE sequencing as with normal PCMs
-Date: Wed, 16 Sep 2026 15:02:59 +0300
-Message-ID: <20260916120320.18318-6-peter.ujfalusi@linux.intel.com>
+Subject: [PATCH v4 06/26] ASoC: soc-compress: Stop running dpcm on free
+Date: Wed, 16 Sep 2026 15:03:00 +0300
+Message-ID: <20260916120320.18318-7-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260916120320.18318-1-peter.ujfalusi@linux.intel.com>
 References: <20260916120320.18318-1-peter.ujfalusi@linux.intel.com>
@@ -69,121 +69,38 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The FE-BE trigger sequence should be dynamic, similarly how soc-pcm.c
-dpcm_fe_dai_do_trigger() does it.
+If the last trigger that the compr device received is a DRAIN then the
+DPCM is left in running state (no stop trigger is sent).
+Before we execute the free we need to send a STOP trigger to make sure that
+both BE and FE is in expected state and prepared for closing.
 
 Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
 ---
- sound/soc/soc-compress.c | 81 ++++++++++++++++++++++++++++++++++------
- 1 file changed, 70 insertions(+), 11 deletions(-)
+ sound/soc/soc-compress.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
 diff --git a/sound/soc/soc-compress.c b/sound/soc/soc-compress.c
-index b803e8cb4ea4..9fd2eeeeabb4 100644
+index 9fd2eeeeabb4..a941ed0908c6 100644
 --- a/sound/soc/soc-compress.c
 +++ b/sound/soc/soc-compress.c
-@@ -381,31 +381,90 @@ static int soc_compr_trigger(struct snd_compr_stream *cstream, int cmd)
- 	return ret;
- }
- 
--static int soc_compr_trigger_fe(struct snd_compr_stream *cstream, int cmd)
-+static int soc_compr_trigger_fe_be(struct snd_compr_stream *cstream, int cmd,
-+				   bool fe_first)
- {
- 	struct snd_soc_pcm_runtime *fe = cstream->private_data;
- 	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(fe, 0);
-+	int ret;
-+
-+	if (fe_first) {
-+		dev_dbg(fe->dev, "ASoC: pre trigger FE %s cmd %d\n",
-+			fe->dai_link->name, cmd);
-+
-+		ret = snd_soc_dai_compr_trigger(cpu_dai, cstream, cmd);
-+		if (ret < 0)
-+			goto out;
-+
-+		ret = snd_soc_component_compr_trigger(cstream, cmd);
-+		if (ret < 0)
-+			goto out;
-+
-+		ret = dpcm_be_dai_trigger(fe, cstream->direction, cmd);
-+	} else {
-+		dev_dbg(fe->dev, "ASoC: post trigger FE %s cmd %d\n",
-+			fe->dai_link->name, cmd);
-+
-+		ret = dpcm_be_dai_trigger(fe, cstream->direction, cmd);
-+		if (ret < 0)
-+			goto out;
-+
-+		ret = snd_soc_dai_compr_trigger(cpu_dai, cstream, cmd);
-+		if (ret < 0)
-+			goto out;
-+
-+		ret = snd_soc_component_compr_trigger(cstream, cmd);
-+	}
-+
-+out:
-+	return snd_soc_ret(fe->dev, ret, "trigger FE cmd: %d failed\n", cmd);
-+}
-+
-+static int soc_compr_trigger_fe(struct snd_compr_stream *cstream, int cmd)
-+{
-+	struct snd_soc_pcm_runtime *fe = cstream->private_data;
+@@ -312,6 +312,16 @@ static int soc_compr_free_fe(struct snd_compr_stream *cstream)
+ 	struct snd_soc_dpcm *dpcm;
  	int stream = cstream->direction; /* SND_COMPRESS_xxx is same as SNDRV_PCM_STREAM_xxx */
-+	bool fe_first;
- 	int ret;
  
--	if (cmd == SND_COMPR_TRIGGER_PARTIAL_DRAIN ||
--	    cmd == SND_COMPR_TRIGGER_DRAIN)
-+	/* FE only triggers */
-+	switch (cmd) {
-+	case SND_COMPR_TRIGGER_PARTIAL_DRAIN:
-+	case SND_COMPR_TRIGGER_NEXT_TRACK:
-+	case SND_COMPR_TRIGGER_DRAIN:
- 		return snd_soc_component_compr_trigger(cstream, cmd);
-+	default:
-+		break;
-+	}
++	/*
++	 * The core will not send a STOP trigger on free if the device is in
++	 * DRAIN state, but we need to stop BE and FE before we can proceed to
++	 * free the stream.
++	 * Run the STOP trigger if the DPCM state is START (DRAIN is not
++	 * changing the DPCM state).
++	 */
++	if (fe->dpcm[stream].state == SND_SOC_DPCM_STATE_START)
++		cstream->ops->trigger(cstream, SNDRV_PCM_TRIGGER_STOP);
 +
-+	if (fe->dai_link->trigger[stream] == SND_SOC_DPCM_TRIGGER_POST)
-+		fe_first = false;
-+	else
-+		fe_first = true;
- 
  	snd_soc_card_mutex_lock(fe->card);
  
--	ret = snd_soc_dai_compr_trigger(cpu_dai, cstream, cmd);
--	if (ret < 0)
--		goto out;
-+	fe->dpcm[stream].runtime_update = SND_SOC_DPCM_UPDATE_FE;
-+
-+	switch (cmd) {
-+	case SNDRV_PCM_TRIGGER_START:
-+	case SNDRV_PCM_TRIGGER_RESUME:
-+	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
-+		ret = soc_compr_trigger_fe_be(cstream, cmd, fe_first);
-+		break;
-+	case SNDRV_PCM_TRIGGER_STOP:
-+	case SNDRV_PCM_TRIGGER_SUSPEND:
-+	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
-+		ret = soc_compr_trigger_fe_be(cstream, cmd, !fe_first);
-+		break;
-+	default:
-+		ret = -EINVAL;
-+		break;
-+	}
- 
--	ret = snd_soc_component_compr_trigger(cstream, cmd);
- 	if (ret < 0)
- 		goto out;
- 
--	fe->dpcm[stream].runtime_update = SND_SOC_DPCM_UPDATE_FE;
--
--	ret = dpcm_be_dai_trigger(fe, stream, cmd);
--
- 	switch (cmd) {
- 	case SNDRV_PCM_TRIGGER_START:
- 	case SNDRV_PCM_TRIGGER_RESUME:
+ 	snd_soc_dpcm_mutex_lock(fe);
 -- 
 2.55.0
 
