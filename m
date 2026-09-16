@@ -1,42 +1,66 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 828E050C287;
-	Wed, 16 Sep 2026 15:21:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FCB6524AE0;
+	Wed, 16 Sep 2026 15:29:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789572120; cv=none; b=TZa96XtHkc37L/djQHG+V4M2851EsWMPNN+RZ4PRQSKrP9OQvWowDO6i9H61torWNteLAn6I69OOiW5k6qDcxiK6ViFjq6WwbLROWDod81LL19R8FfWG+IgUgvQgVnK75XEP2cJdmcs7UAU1Zpt3hk2Cc6pR/hJzLP8oasdK7BM=
+	t=1789572571; cv=none; b=YPtbRRhbcKJe7Cq05sP+8IkV6DtNi+Bh49hjiIrUWID/i8vaY4RjPVs31kq4aXED0PWpTaEJJGdP6W71F8UPbyL4HiTFePeJxVcbqYAC8MnP59/Skok96CAijjujzhJl/ZApI1JjBpFLvNWk/5RDGWiWKmjoBGx6pDcxfGrz9+8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789572120; c=relaxed/simple;
-	bh=QIyy0N04LfkgJYMMXXUHPODj1i7q6YwpTVR/0YmYeu8=;
+	s=arc-20240116; t=1789572571; c=relaxed/simple;
+	bh=FZhuVYRUrIPMg/4pcJsz/MlmpVb5ALInA9iwPzaekcI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FTPGvavTwq47yThjQPPw5Y6Jyl2aB3nyxhL+FH3FdBgIuhIY9+nvoElVNIixOY4cSReWhWvbKWW519S7umMJWMLhBKqPxkQ6QyTF6szTs8oeT0SGE2wu85SnH9OD0FPiXOSKc+xGjfFR4FwkU/1T4/V4LGXjMduIA0GrPDw9FBY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fQ/mnoAy; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZesTMDjbWDiZNF4lAC6NYo76AVfcTmeRaZD/Edi1kRgvZgn0Xf3f8N1/8gl/AbeZxRnCD/TxT4ZG+4kUJ3mLkqYVkGnFQAb9WAcNj+hW4fUprPHo+P4F/fAlzCoaORHwwk+Vxp84LWRj+Cg4j6jr3s+GINscHG7ggTMX6PSCfbk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mR0gpZoU; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fQ/mnoAy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C7101F00893;
-	Wed, 16 Sep 2026 15:21:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789572113;
-	bh=TlsZEJAiiH82j/Mx6kTCN96sqcmaljLGoEMImAFW9O8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=fQ/mnoAyoegvsCX7j37IkLXN5iVwvdZmpbmbNJrj/n2UusJHKt+UBNdAoo2EIvRrC
-	 X63V26CHTn/jqU/9nngXJYpQyvPL87Km1zRSfxgiLw8XNY5O4khKbDWHIJapHhHQi0
-	 k1h5GDt+LUEHS/7kCgs+msRgSbVPmcMgBABUyVEORHX+tvRY3kCzOximZbYNzYrkOh
-	 ZKCA0GXMEJVpN35gTBPIK1GrMc4zdd0l3qtVqu0xtOSlpg6Iv99HEh6r33T8JamoVk
-	 SUbnwCX7p7vxdAAS7Mk5rKH4eApvTeYNGgqi8vUv4b3NG9N+sqF595j8vWKjc4MCm4
-	 PtoiYI26DtEYw==
-Date: Wed, 16 Sep 2026 16:21:48 +0100
-From: Lee Jones <lee@kernel.org>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: vkoul@kernel.org, yung-chuan.liao@linux.intel.com,
-	pierre-louis.bossart@linux.dev, linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com, mfd@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] mfd: cs42l43: Move to core detach helper
-Message-ID: <20260916152148.GF1605367@google.com>
-References: <20260831140157.1736905-1-ckeepax@opensource.cirrus.com>
- <20260831140157.1736905-3-ckeepax@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mR0gpZoU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1789572568; x=1821108568;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=FZhuVYRUrIPMg/4pcJsz/MlmpVb5ALInA9iwPzaekcI=;
+  b=mR0gpZoUEVSu9DlIJtbCaqeVuxcnoNFeB70g/t5pii2B78w+lePH6SDG
+   5xc3rFmcdiHhEzwLMSjRtAMsKHNSqz9QAeKAEmbyxs1+QVEeRYu1OeWFW
+   xvDS0GT+vaMfG51Tb86Z7jozvev/MrM66PJlDnNuh9LMPSqk2P9h8NviD
+   n7DVxIs3qZyLwxbZe43lyXT4xxS+1W8rvTn2rVObnyN8Hr0tRePOikjoM
+   rol5wTP0p44GwcM9/21qV5nMQE1KiInxw2VV2/2+0Vfij633XwY+5d73t
+   1jwuPw2qpcuH/4iklaXfB6QyulhRNogNX9UTqLQm+BPK4CBkfbA6qlqEl
+   Q==;
+X-CSE-ConnectionGUID: YPFEfl1sS6SaLbD3AOCWAA==
+X-CSE-MsgGUID: G2NwwAX9SmOHj4zEhBrC1Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="101296219"
+X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
+   d="scan'208";a="101296219"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2026 08:29:24 -0700
+X-CSE-ConnectionGUID: kZ4lK1pcTdap9WyxR5jDaw==
+X-CSE-MsgGUID: RnaPJ5qkRI6pj1HaeSpBjQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
+   d="scan'208";a="270739144"
+Received: from ettammin-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.244.145])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2026 08:29:20 -0700
+Date: Wed, 16 Sep 2026 18:29:18 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: Arnd Bergmann <arnd@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Shuming Fan <shumingf@realtek.com>, Arnd Bergmann <arnd@arndb.de>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+	Niranjan H Y <niranjan.hy@ti.com>,
+	Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>,
+	Alexey Klimov <alexey.klimov@linaro.org>,
+	Julian Braha <julianbraha@gmail.com>, Peng Fan <peng.fan@nxp.com>,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: rt766: fix HID dependency for SND_SOC_SDCA_HID
+Message-ID: <aqq1zrURx4Y6_Nfo@ashevche-desk.local>
+References: <20260915211658.1671821-1-arnd@kernel.org>
+ <f9c9aef3-6e0b-4f7e-914e-35a82b5f962a@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,104 +69,35 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260831140157.1736905-3-ckeepax@opensource.cirrus.com>
+In-Reply-To: <f9c9aef3-6e0b-4f7e-914e-35a82b5f962a@sirena.org.uk>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Mon, 31 Aug 2026, Charles Keepax wrote:
+On Wed, Sep 16, 2026 at 04:10:08PM +0100, Mark Brown wrote:
+> On Tue, Sep 15, 2026 at 11:16:34PM +0200, Arnd Bergmann wrote:
 
-> Now the core has a helper to signal a device will detach from
-> the SoundWire bus, there is no need for the cs42l43 driver code
-> to separately track that. Switch to using the new core helper.
+...
+
+> > config SND_SOC_RT766_SDCA_SDW
+> >  	tristate "Realtek RT766 SDCA Codec - SDW"
+> >  	depends on SOUNDWIRE
+> >  	depends on SND_SOC_SDCA
+> > +	depends on HID
+> >  	select SND_SOC_SDCA_HID
+> >  	select SND_SOC_SDCA_IRQ
+> >  	select REGMAP_SOUNDWIRE
 > 
-> Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
-> ---
-> 
-> No changes since v1.
-> 
->  drivers/mfd/cs42l43-sdw.c   |  2 --
->  drivers/mfd/cs42l43.c       | 15 +--------------
->  include/linux/mfd/cs42l43.h |  1 -
->  3 files changed, 1 insertion(+), 17 deletions(-)
-> 
-> diff --git a/drivers/mfd/cs42l43-sdw.c b/drivers/mfd/cs42l43-sdw.c
-> index 0a6999453f325..f0825d6bf7b38 100644
-> --- a/drivers/mfd/cs42l43-sdw.c
-> +++ b/drivers/mfd/cs42l43-sdw.c
-> @@ -102,8 +102,6 @@ static int cs42l43_sdw_update_status(struct sdw_slave *sdw, enum sdw_slave_statu
->  		break;
->  	case SDW_SLAVE_UNATTACHED:
->  		dev_dbg(cs42l43->dev, "Device detach\n");
+> Should that be HID=y || HID=SND_SOC_SDCA like for SND_SOC_SDCA_HID and
+> SND_SOC_SDCA_CLASS?  The dependencies on _CLASS should stop the
+> problematic cases from actually occurring but I'm not sure if it stops
+> the warning.
 
-Is this now superfluous?
+(Based just on this comment without looking into details) there is also
+'depends on FOO if BAR' syntax that might be useful.
 
-> -
-> -		complete(&cs42l43->device_detach);
->  		break;
->  	default:
->  		break;
-> diff --git a/drivers/mfd/cs42l43.c b/drivers/mfd/cs42l43.c
-> index 4212ebcca60b5..f08ee598366d9 100644
-> --- a/drivers/mfd/cs42l43.c
-> +++ b/drivers/mfd/cs42l43.c
-> @@ -30,7 +30,6 @@
->  #define CS42L43_RESET_DELAY_MS			20
->  
->  #define CS42L43_SDW_ATTACH_TIMEOUT_MS		5000
-> -#define CS42L43_SDW_DETACH_TIMEOUT_MS		100
->  
->  #define CS42L43_MCU_BOOT_STAGE1			1
->  #define CS42L43_MCU_BOOT_STAGE2			2
-> @@ -555,7 +554,7 @@ static int cs42l43_soft_reset(struct cs42l43 *cs42l43)
->  		{ CS42L43_SFT_RESET, CS42L43_SFT_RESET_VAL },
->  	};
->  
-> -	reinit_completion(&cs42l43->device_detach);
-> +	sdw_slave_signal_unattach(cs42l43->sdw);
-
-If this call NULL safe?
-
->  	/*
->  	 * Apply cache only because the soft reset will cause the device to
-> @@ -566,17 +565,6 @@ static int cs42l43_soft_reset(struct cs42l43 *cs42l43)
->  
->  	msleep(CS42L43_RESET_DELAY_MS);
->  
-> -	if (cs42l43->sdw) {
-> -		unsigned long timeout = msecs_to_jiffies(CS42L43_SDW_DETACH_TIMEOUT_MS);
-> -		unsigned long time;
-> -
-> -		time = wait_for_completion_timeout(&cs42l43->device_detach, timeout);
-> -		if (!time) {
-> -			dev_err(cs42l43->dev, "Timed out waiting for device detach\n");
-> -			return -ETIMEDOUT;
-> -		}
-> -	}
-> -
->  	return -EAGAIN;
->  }
->  
-> @@ -1115,7 +1103,6 @@ int cs42l43_dev_probe(struct cs42l43 *cs42l43)
->  	dev_set_drvdata(cs42l43->dev, cs42l43);
->  
->  	mutex_init(&cs42l43->pll_lock);
-> -	init_completion(&cs42l43->device_detach);
->  	init_completion(&cs42l43->firmware_download);
->  	INIT_WORK(&cs42l43->boot_work, cs42l43_boot_work);
->  
-> diff --git a/include/linux/mfd/cs42l43.h b/include/linux/mfd/cs42l43.h
-> index 8e993fb535e68..798dc55149662 100644
-> --- a/include/linux/mfd/cs42l43.h
-> +++ b/include/linux/mfd/cs42l43.h
-> @@ -86,7 +86,6 @@ struct cs42l43 {
->  	struct regmap_irq_chip_data *irq_data;
->  
->  	struct work_struct boot_work;
-> -	struct completion device_detach;
->  	struct completion firmware_download;
->  	int firmware_error;
->  
-> -- 
-> 2.47.3
-> 
 
 -- 
-Lee Jones
+With Best Regards,
+Andy Shevchenko
+
+
