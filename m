@@ -1,34 +1,40 @@
 Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
 	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 452783FD96E;
-	Wed, 16 Sep 2026 07:09:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82CA4418361;
+	Wed, 16 Sep 2026 07:15:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789542586; cv=none; b=dyebXmlvyrtHjKpx9PkThB+jpvp1fvFokc+86VeyJS5ztCvNQdWy1553MDSEFUBW1hjdoOzHteUe1UDf2Eink8t38b0URCls1QKnVb4NH4YE5LNu7cANOxodihi0fLSn7yBzwOARc3CGoSCWABJEq9jXI+DjBPzCiNAODm7pGv0=
+	t=1789542912; cv=none; b=PCXiu1yUDphlPXpMzr3rJff89eV1le7NmhVr/lbsILP4X/RtKtyjd1bH1jwLW0xxOYGlntrxJV4Zd6yL6q/XciyV41noPDsd0UrRIcNFRh5st5n7V8r2ke5r7o0zdkyjl9NHdsan0mWN5DDbJvoaX56gn+ngM94HcmiiAJ27pJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789542586; c=relaxed/simple;
-	bh=ryCd3CPpqqZzwz//BiKcPgW8B/POumMrzQTjiW2c7WU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=k0LT7Y3R0bYG+RhnhBVzcVW6dhYXm9kHDlenmojUs9k0dUchibrob0wZtBSCb2ilWYxlN/C2V3OxAx69L0C3pp8KiXfBQMGwEfHcjUIH3n8R0ADZTKMdAobf4vmd6+Nfx3qPbId8Bs2oQC+xtbZRCHIpTElZoo5MwvbxeKGuL4M=
+	s=arc-20240116; t=1789542912; c=relaxed/simple;
+	bh=qhuzwXAH6Q8cakD7aUs3SGJaPAkXJYDMYEW2hqEGcBw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ZXSYDQ+tZM1HjvLjvo251mjwM6n1eaqBzZi/dhG3KoUEdnFbYWzL2ZLNJDjcYLYKAM8b3iSjogrJ63k70xmDiDmhvymAEbGfgCLGrBDZTNxjUiTtOZQZu0aVOgSKrY0NicYSGPMHHLdKN656lTt2bn/326v3xG++TS38k6Ma1mI=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
 Received: from dfae2b116770.home.arpa (unknown [36.110.52.2])
-	by APP-03 (Coremail) with SMTP id rQCowACXmjiuQKpqaPHeBw--.59725S2;
-	Wed, 16 Sep 2026 15:09:34 +0800 (CST)
+	by APP-03 (Coremail) with SMTP id rQCowACnrTvvQapqkP7eBw--.40755S2;
+	Wed, 16 Sep 2026 15:14:55 +0800 (CST)
 From: Wentao Liang <vulab@iscas.ac.cn>
-To: arnaud.pouliquen@foss.st.com
-Cc: broonie@kernel.org,
-	lgirdwood@gmail.com,
+To: broonie@kernel.org
+Cc: cezary.rojewski@intel.com,
+	kai.vehmanen@linux.intel.com,
+	liam.r.girdwood@linux.intel.com,
 	linux-kernel@vger.kernel.org,
 	linux-sound@vger.kernel.org,
 	perex@perex.cz,
+	peter.ujfalusi@linux.intel.com,
+	pierre-louis.bossart@linux.dev,
+	sbinding@opensource.cirrus.com,
 	tiwai@suse.com,
+	vitalyr@opensource.cirrus.com,
+	yung-chuan.liao@linux.intel.com,
 	Wentao Liang <vulab@iscas.ac.cn>,
 	stable@vger.kernel.org
-Subject: [PATCH 05/20] ASoC: sti: uniperif_player: Fix clock leak in uni_player_init()
-Date: Wed, 16 Sep 2026 07:09:06 +0000
-Message-Id: <20260916070906.1965935-1-vulab@iscas.ac.cn>
+Subject: [PATCH 07/20] ASoC: Intel: sof_cirrus_common: Fix device reference leak in cs35l41_compute_codec_conf()
+Date: Wed, 16 Sep 2026 07:14:27 +0000
+Message-Id: <20260916071427.1966427-1-vulab@iscas.ac.cn>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -37,53 +43,53 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:rQCowACXmjiuQKpqaPHeBw--.59725S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrKF45Jr1UJr17AF4UWFy5twb_yoWktwcE93
-	yj9r1vqr9rCFWayw1qqrs3AFsYgF18urZ5KF47KF43J34DGws5ta4jqryxur1rWw4rKryk
-	Ary3Wws7Awn3WjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUb4kFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j
-	6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
-	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
-	I7IYx2IY67AKxVWUAVWUtwAv7VC2z280aVAFwI0_Cr0_Gr1UMcvjeVCFs4IE7xkEbVWUJV
-	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7CjxVAaw2AFwI0_
-	Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67
-	AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIY
-	rxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14
-	v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8
-	JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUw5l8UU
-	UUU
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiDAQMA2qqP7kEwwAAsG
+X-CM-TRANSID:rQCowACnrTvvQapqkP7eBw--.40755S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7ZF18Gr1fCF4rAw1rWw47CFg_yoW8Gr45pF
+	40gFZxKr90grWrury8uryS9F1Y934aya1rGas8Gw15Krn3WryruFW2q340vr4YkrWkGr1q
+	yr9IyFykG3Z0v3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUU9214x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+	JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+	2Ix0cI8IcVAFwI0_Jw0_WrylYx0Ex4A2jsIE14v26F4j6r4UJwAm72CE4IkC6x0Yz7v_Jr
+	0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E
+	8cxan2IY04v7MxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFV
+	Cjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWl
+	x4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1I6r
+	4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1lIxAIcVCF04k26cxKx2IYs7xG6r1j
+	6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYx
+	BIdaVFxhVjvjDU0xZFpf9x0JUCNtxUUUUU=
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiBwgMA2qqQJUGAAAAsT
 
-In uni_player_init(), player->clk is acquired via of_clk_get(). If any
-subsequent operation fails (e.g. regmap_field_write(), devm_request_irq()),
-or upon driver detachment, the acquired clock is never freed with
-clk_put(), resulting in a resource leak.
+In cs35l41_compute_codec_conf(), get_device() is called on the physical
+node returned by acpi_get_first_physical_node() to populate the device
+name strings. However, this extra reference is never dropped, leaking
+a reference count for each matched ACPI device.
 
-Switch to devm_clk_get() so the clock is managed automatically and
-properly released.
+acpi_get_first_physical_node() returns a borrowed reference that is
+valid while the device exists. Remove the unnecessary get_device() call.
 
-Fixes: 76c2145ded6b ("ASoC: sti: Add CPU DAI driver for playback")
+Fixes: 1ca726424a12 ("ASoC: Intel: cirrus-common: Use UID to map correct amp to prefix")
 Cc: stable@vger.kernel.org
 Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
 ---
- sound/soc/sti/uniperif_player.c | 2 +-
+ sound/soc/intel/boards/sof_cirrus_common.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/soc/sti/uniperif_player.c b/sound/soc/sti/uniperif_player.c
-index 45d35b887e4e..34a604688cc9 100644
---- a/sound/soc/sti/uniperif_player.c
-+++ b/sound/soc/sti/uniperif_player.c
-@@ -1078,7 +1078,7 @@ int uni_player_init(struct platform_device *pdev,
- 		player->hw = &uni_player_pcm_hw;
- 
- 	/* Get uniperif resource */
--	player->clk = of_clk_get(pdev->dev.of_node, 0);
-+	player->clk = devm_clk_get(&pdev->dev, NULL);
- 	if (IS_ERR(player->clk)) {
- 		dev_err(player->dev, "Failed to get clock\n");
- 		return PTR_ERR(player->clk);
+diff --git a/sound/soc/intel/boards/sof_cirrus_common.c b/sound/soc/intel/boards/sof_cirrus_common.c
+index 88fc6cb2bfd4..2d23e16bd206 100644
+--- a/sound/soc/intel/boards/sof_cirrus_common.c
++++ b/sound/soc/intel/boards/sof_cirrus_common.c
+@@ -168,7 +168,7 @@ static int cs35l41_compute_codec_conf(void)
+ 				 cs35l41_name_prefixes[uid]);
+ 			continue;
+ 		}
+-		physdev = get_device(acpi_get_first_physical_node(adev));
++		physdev = acpi_get_first_physical_node(adev);
+ 		acpi_dev_put(adev);
+ 		if (!physdev) {
+ 			pr_devel("Cannot find physical node for HID %s UID %u (%s)\n", CS35L41_HID,
 -- 
 2.34.1
 
