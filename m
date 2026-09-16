@@ -1,95 +1,215 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 662DB4C9E0C
-	for <linux-sound@vger.kernel.org>; Wed, 16 Sep 2026 16:56:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A3724B0E3B;
+	Wed, 16 Sep 2026 16:59:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789577809; cv=none; b=NbDh6EZTpvWlh2nEd7CGawLu+2r5kAl4gEmoXL8Q3NI+DBhNSN3eYONjY+254IlY9Y81gG9AxkOQSaivADPYB63cRc7mxknqL4tx8uR6y0WG5uiG7syK40k0MtBlt1oirfzgUj/eRntwPoanN32qSjLnnkmg4Ym8vEgbTh5zsKc=
+	t=1789577958; cv=none; b=Pha2c42tRGS4cW5C/9N/LvzHCzCeRQoDFqS5zFzRz3rYRHnfBl9Gmm2L3ceuuZftIKK38c2QXVgU8CwChZAfcg8B4CizdA8IQqg3DKi86iRUhMvFLJGoTZaW6xWoD9qDitklCmz9b4ZHVRWphKwifRB2OZpzgS25aOZaTGe0eHs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789577809; c=relaxed/simple;
-	bh=fuqbMSXmKaVksZQ0mp9Ucbs7t4/StAc7bwI5H6qAaCU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gSk8B2tf/gG9EuzTeUXs7IKY0u/2NcqGEb0c+pdE6zry3mm7BqABdgostXhdPdMfXp2ZWdnVoqDop2/uFAywOonL/Y9cl/FLD1/NkEThZOWaRRrkOBrwcmBpgTM5HruZH8miaVEaINnSSSjQ97pCoi9E/uNR0rSxjeUC6MjQooU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cg/A8+VC; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789577958; c=relaxed/simple;
+	bh=/TwaMiMcer6euS6/8CkD33dYecd9qcz0FuKc8suMy+8=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=qRzd6aqsQSfF56shL1S9XGJRENFUozHJA9PBK/gORBQAppanap7O2ag/MLMu3TGgjsNYFgydWa/TlfugcO9qZJc/yH9Jv5gyVhPeLR65pZDuCAo1IZMMg9ckL9tIG3h7AiNjwxRNXxJpDShm5XY1AE7AXVYijs0qPi45KrfZBcw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=BmNM8syD; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=4qC8r8Kd; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ZO/f2dzV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=u+QoQhOb; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cg/A8+VC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC5E01F00A00
-	for <linux-sound@vger.kernel.org>; Wed, 16 Sep 2026 16:56:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789577791;
-	bh=fuqbMSXmKaVksZQ0mp9Ucbs7t4/StAc7bwI5H6qAaCU=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=Cg/A8+VC9E080TzyvTpxu0YnPUmsHYmEPc7xtw8lOlwVWQFVXT213KsByPqqSIU2I
-	 YKezTVvqkqyFj8RCV6X6z796z+cgGL3/V6KKfDg+c71b1lvwwgWiG1EI1uwu/m3Th0
-	 3PiWWmOGjEHneUgz6Si80Fbz7NLf7VJpVq/lxnf4hkRztmLGONXApvwq5Bj6ihxbnh
-	 2DEb0f9/ARGDI62c/9rCPp7kYe7gh6X3Np4O26+gdKgWFKq9/xbV2rRVt1oCMkC32O
-	 lt6rPATnGQ4rlLkFzK27Q7Nts5BzFzoK5WLviocUhwMjzceCEZEyQbrc9KdJxu4ARU
-	 QjSSuos16jzVg==
-Received: by mail-lf2-f12.google.com with SMTP id 2adb3069b0e04-5b74dbc7359so1147546e87.0
-        for <linux-sound@vger.kernel.org>; Wed, 16 Sep 2026 09:56:31 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBxHgRwvTsXvbvdJdsnUDF9ps01I3A9e0OuzOQkupAQ7VTRpnqZ/ulo5XaSy1VztiabS23kMRTjVWMNG9w==@vger.kernel.org
-X-Gm-Message-State: AFuF++lO0QhehsV/JYxNk0BVT+rqIe+EGP13zXNIkycniw5Q+BHJ7s+/
-	xj14CZV5U3cl+K66eKySmIWZ6fEWpek5cFCycbZyNfJktHnerpoXEQktUnnkWn6jL6YG/l38GBo
-	X6HTnlXuFr4os0LSSZWmTV7IwsOs2K4Y=
-X-Received: by 2002:a05:6512:3a96:b0:5b6:1a7c:59dc with SMTP id
- 2adb3069b0e04-5b8b66504bdmr1056044e87.54.1789577790547; Wed, 16 Sep 2026
- 09:56:30 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="BmNM8syD";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4qC8r8Kd";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ZO/f2dzV";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="u+QoQhOb"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 0751221B5F;
+	Wed, 16 Sep 2026 16:58:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1789577935; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PKEK8H3uONRYctwH+0B7I+A1KXHLhudQfu9KX4FXZtU=;
+	b=BmNM8syDMJwj/j1d6CiH6idsy1c49h4ezhiGfxFkseFPHLZQBLGVQX5tRTayj9exFeXZcV
+	OjGOTsNe2wYRfKZcBvv1awodiiFi4NmQpRy5FNIP3P4GxUt136dGaXxYOGPstEcOl7ZFG/
+	iXf8fDNSI1snKmfObWCoTdh1n9SyVg8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1789577935;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PKEK8H3uONRYctwH+0B7I+A1KXHLhudQfu9KX4FXZtU=;
+	b=4qC8r8Kd7GR+Cgc5y6Bp0utNZ9lbp+qEmZCUG+Wu3cHUhscrgHvTDc1q7bJ73sn3hxMzyy
+	BkTVXqRQvMfcyUCw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="ZO/f2dzV";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=u+QoQhOb
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1789577931; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PKEK8H3uONRYctwH+0B7I+A1KXHLhudQfu9KX4FXZtU=;
+	b=ZO/f2dzVaHSuh8l7v+6IzRRQ6HBqjLSmiLPz1n16i1KVxHhnXNHRwRqXHaGTWa3hceMWCr
+	1II9I/8ckUKTNk7np7cA6r4S4MTWSSTG/9jFsUrhj8On4zLgQfYjs97v5ZB7U+bpE4Dr/e
+	KP6LHzJikbn2Lbv3/knYDtMBMM1feNo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1789577931;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PKEK8H3uONRYctwH+0B7I+A1KXHLhudQfu9KX4FXZtU=;
+	b=u+QoQhObfxo6NXVuVK31nddt+TBgM/B/9+3vOtT+LXrboas/GY+0Ok+tRxefWS1lH1d2Q7
+	+3LhoUhbdXqTKZCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B51F41348F;
+	Wed, 16 Sep 2026 16:58:50 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id kxRAIsrKqmrYAwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 16 Sep 2026 16:58:50 +0000
+Date: Wed, 16 Sep 2026 18:58:50 +0200
+Message-ID: <8733v9jfp1.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Zipdox <zipdox@zipdox.net>
+Cc: linux-sound@vger.kernel.org,
+	perex@perex.cz,
+	linux-kernel@vger.kernel.org,
+	tiwai@suse.com
+Subject: Re: [PATCH] USB Audio Class 2 Mixer unit support for GET_CUR, SET_CUR and RANGE
+In-Reply-To: <87a4phjjay.wl-tiwai@suse.de>
+References: <d46fcac6-bd7e-4fc4-95e1-4e8d39f92ad3@zipdox.net>
+	<87bj9yn55n.wl-tiwai@suse.de>
+	<59b3dc9b-f324-42e7-ab03-a01c04e8b915@zipdox.net>
+	<8733vamwaz.wl-tiwai@suse.de>
+	<da56664f-901e-497b-a74c-ae41cbc5cac4@zipdox.net>
+	<87a4phjjay.wl-tiwai@suse.de>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260909132153.1596191-1-arnd@kernel.org> <20260909132153.1596191-12-arnd@kernel.org>
-In-Reply-To: <20260909132153.1596191-12-arnd@kernel.org>
-From: Linus Walleij <linusw@kernel.org>
-Date: Wed, 16 Sep 2026 18:56:17 +0200
-X-Gmail-Original-Message-ID: <CAD++jL=LM2agPEcCxjtQuCNx4q7zqutFA6oDb61kKEDAADR4Vw@mail.gmail.com>
-X-Gm-Features: AcwNN1Uahpnh6JEjJOB4HtYt7IIRQWlpnYcwXmBiixUkMQ8clPYYJyQ4xy80br8
-Message-ID: <CAD++jL=LM2agPEcCxjtQuCNx4q7zqutFA6oDb61kKEDAADR4Vw@mail.gmail.com>
-Subject: Re: [PATCH 11/14] mfd: remove unused wm8350 driver
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Lee Jones <lee@kernel.org>, mfd@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, Arnd Bergmann <arnd@arndb.de>, 
-	Daniel Thompson <danielt@kernel.org>, Jingoo Han <jingoohan1@gmail.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Guenter Roeck <linux@roeck-us.net>, Bartosz Golaszewski <brgl@kernel.org>, 
-	Jonathan Cameron <jic23@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Pavel Machek <pavel@kernel.org>, Michael Hennerich <michael.hennerich@analog.com>, 
-	Support Opensource <support.opensource@diasemi.com>, Sebastian Reichel <sre@kernel.org>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Helge Deller <deller@gmx.de>, 
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-hwmon@vger.kernel.org, patches@opensource.cirrus.com, 
-	linux-watchdog@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-iio@vger.kernel.org, linux-input@vger.kernel.org, 
-	linux-leds@vger.kernel.org, linux-pm@vger.kernel.org, 
-	linux-rtc@vger.kernel.org, linux-fbdev@vger.kernel.org, 
-	linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -3.51
+X-Rspamd-Queue-Id: 0751221B5F
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Flag: NO
 
-On Wed, Sep 9, 2026 at 3:23=E2=80=AFPM Arnd Bergmann <arnd@kernel.org> wrot=
-e:
+On Wed, 16 Sep 2026 17:40:53 +0200,
+Takashi Iwai wrote:
+> 
+> On Wed, 16 Sep 2026 09:43:14 +0200,
+> Zipdox wrote:
+> > 
+> > On 9/15/26 4:19 PM, Takashi Iwai wrote:
+> > > But your code also blindly assumes the MU_MIXER_CONTROL that doesn't
+> > > fit with other units like feature unit?  I guess we have to set the
+> > > proper Control Selector value depending on the unit type.
+> > > 
+> > > After all, this is about the correct setup of wValue.  Let's try to be
+> > > minimalistic at first -- just tweak wValue in get_ctl_value_v2() and
+> > > snd_usb_mixer_set_ctl_value() at first.  If this becomes too ugly, we
+> > > can think of redesigning.
+> > I assumed that mixer.c was just for the mixer unit, and I seem to have
+> > completely overlooked the fact that that it also controls feature
+> > units. I'm not sure how to proceed from here. Do you have any
+> > suggestions for how we can store the control selector in the
+> > usb_mixer_elem_info struct? The control field is presently used as the
+> > input channel number, so maybe we should add a separate field for the
+> > input channel? I think maybe it's better that someone else fixes this,
+> > I'm kind of out of my element here.
+> 
+> I took a look back at the current code, and at least, the parse of
+> UAC2 mixer unit itself is OK -- it handles the bitmap properly.
+> The problem is the exceptional way to set up wValue for the mixer
+> unit, and I guess something like below could work.  It just stores the
+> part of wValue in an additional field, and use it for calculating the
+> correct wValue with MCN + UAC2_MU_MIXER in high byte.
+> 
+> Just compile tested, so not 100% sure whether it's correct.
 
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> This driver was used on the i.MX31 ADS reference board from Freescale
-> and the smdk6410 reference board from Samsung. Both used platform_data
-> based driver probing and are now gone from the kernel.
->
-> Since probing with devicetree has never been supported by wm8350,
-> it is clear that nothing can use the driver on an upstream kernel,
-> and it is unlikely that anyone is still interested in a devicetree
-> conversion, so remove it.
->
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+... and this version was obviously half-baked, forgotten the
+counterpart.  A revised patch is below.
 
-Reviewed-by: Linus Walleij <linusw@kernel.org>
 
-Yours,
-Linus Walleij
+Takashi
+
+-- 8< --
+diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
+index 33a6a1281410..0977fc58d0b5 100644
+--- a/sound/usb/mixer.c
++++ b/sound/usb/mixer.c
+@@ -347,6 +347,10 @@ static int get_ctl_value_v2(struct usb_mixer_elem_info *cval, int request,
+ 
+ 	val_size = uac2_ctl_value_size(cval->val_type);
+ 
++	/* correct wValue for UAC2 mixer control with MCN */
++	if (cval->v2_mixer)
++		validx = cval->v2_mixer | ((validx & 0xff) - 1);
++
+ 	if (request == UAC_GET_CUR) {
+ 		bRequest = UAC2_CS_CUR;
+ 		size = val_size;
+@@ -478,6 +482,10 @@ int snd_usb_mixer_set_ctl_value(struct usb_mixer_elem_info *cval,
+ 		}
+ 
+ 		request = UAC2_CS_CUR;
++
++		/* correct wValue for UAC2 mixer control with MCN */
++		if (cval->v2_mixer)
++			validx = cval->v2_mixer | ((validx & 0xff) - 1);
+ 	}
+ 
+ 	value_set = convert_bytes_value(cval, value_set);
+@@ -2345,6 +2353,10 @@ static void build_mixer_unit_ctl(struct mixer_build *state,
+ 
+ 	snd_usb_mixer_elem_init_std(&cval->head, state->mixer, unitid);
+ 	cval->control = in_ch + 1; /* based on 1 */
++	/* MCN is calculated later with the input channel based on v2_mixer */
++	if (state->mixer->protocol == UAC_VERSION_2 ||
++	    state->mixer->protocol == UAC_VERSION_3)
++		cval->v2_mixer = (UAC2_MU_MIXER << 8) | (in_ch * num_outs);
+ 	cval->val_type = USB_MIXER_S16;
+ 	for (i = 0; i < num_outs; i++) {
+ 		__u8 *c = uac_mixer_unit_bmControls(desc, state->mixer->protocol);
+diff --git a/sound/usb/mixer.h b/sound/usb/mixer.h
+index 037b446d8b6f..650f30026177 100644
+--- a/sound/usb/mixer.h
++++ b/sound/usb/mixer.h
+@@ -97,6 +97,7 @@ struct usb_mixer_elem_info {
+ 	u8 initialized;
+ 	u8 min_mute;
+ 	u8 get_cur_broken;
++	u16 v2_mixer;
+ 	void *private_data;
+ };
+ 
