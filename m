@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7610F30D40C
-	for <linux-sound@vger.kernel.org>; Wed, 16 Sep 2026 12:03:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B5D3242D6B
+	for <linux-sound@vger.kernel.org>; Wed, 16 Sep 2026 12:03:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789560206; cv=none; b=R6Q/85K/Z9OvoBCUotimGk+GNbUiSDHvAAu8Uo2bnI4U3xvD2FIuHCHxg6y9UltQuB3Y/Epe3eLC9VCqsz/b4Hj0QpG/eVxa1Uah4g8hT7v/i1/AlK/3TH6QI7K2sEKYU1qRY+2xFDztYFYdjth+AG9GvvTD549okFEcRUDtOPA=
+	t=1789560210; cv=none; b=uJzXuj/bw6TO1zk397InJEk+T/xAATGsOxn43pIKrnUQyL4dGx8aWSpNSFGvL8Bt5orSM0Ak+FdoZpILWfQ4PCP6V3JmyROSEAplhjpDJVETUUsCHTIv9HEcDYNMhUrE5JYva8NGTaZUvNhGDJL92mikLmrRW2S4YffyabeFev8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789560206; c=relaxed/simple;
-	bh=RrKv05dglhxd3tSJcNvF/VRll+TeJ+JrzC86ANCU+34=;
+	s=arc-20240116; t=1789560210; c=relaxed/simple;
+	bh=r7g1rATmpuvVxogSDojudDCwwCOkItqRieAkmDIL+Kg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=r7j4/vW0C24bDYjikPAv7S3/KdCHHiMlUHMHxDGWAC/VUZuyrtZkRAyIDV47JXen1lKzsTKebxQSHZKSg4+28ZlYaVaQWdtH8XebXToGH8ERMZmXbeMevuWyLoUoywUYiKvltP9CsWI1E5qvbgNuRiYTPwzJyHItRZX2Zfn5YW8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eEigBmdP; arc=none smtp.client-ip=192.198.163.16
+	 MIME-Version; b=sSOHR5kA4ql2QYTpcXw37PZnko3rXyvc52j3Ub1VV2kZ88m2VzUU1g4QFf8ECr7aIVPi0CjSydcyfizDohmLM9fW+slvv8Mgx1pFbFb+hdtqcGIgVv2+Sryfadu+6gLS8ehJJJVOs/zAP1cjYwdoU361tH4cg4C/ltHPCfoUWVM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j8XjfP2A; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eEigBmdP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j8XjfP2A"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789560198; x=1821096198;
+  t=1789560202; x=1821096202;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=RrKv05dglhxd3tSJcNvF/VRll+TeJ+JrzC86ANCU+34=;
-  b=eEigBmdPp1UH4wjbVgYRwUHHmKIJG/pGDFmZMkhfAfOz/zye/+8WJtSK
-   UnKnVTHHWUG8t7fXrS6OXpswzpM4CZAA/84+fJecKjGvpmq1/gf3zisRA
-   SaaoworauZcFxe+zR0gRLKs5uWITYI0RUoAF4ZzH7zsGxrzcCZIiBMLmy
-   t4JOFAJA89txZowzQq5ZTnAewRiJamUEgfc+GYvcFSwuuXCmSxX3JTXW9
-   patXf6XhmojHIhmxgyK6V3W6TsaHdfL98dOwg/N6pgNdUI3Ff2MA5kdNN
-   zlD+OTTzlsCEnqMDGMRz3fwk/8OTSY/KRoFeC35oCjGr0pbvVADEO7to0
-   w==;
-X-CSE-ConnectionGUID: 9FyxUE0pS+Cy4BW1qk+v2w==
-X-CSE-MsgGUID: zJHPOYiRQgOmqoF52isg+w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="77496218"
+  bh=r7g1rATmpuvVxogSDojudDCwwCOkItqRieAkmDIL+Kg=;
+  b=j8XjfP2A2G4HTP/AQVm77M4r1jDBty4Y4rRBRAAfPHWXvg9mQUYzAY+2
+   xzpBjfGrAThMpW+15ivE44qOSeE8eHQi6IOpzLuR9Koq8aXlPwIAP1RYN
+   Aptpe/uV0lQtOD0c3A/ci8Uo8IcXdVqkPH1DN3RmX+6uFjxONGaufE8Yk
+   DX2FMJ8eqZhPyUAZihdUqgKa5VnYpbEKrRSITUOJkBw5zdVzgp1pvaRaZ
+   eqdrZvH/Gd3osD5LgQ4CT8AUFrHeRw2XZyyoI1ic2ae4a/PK6C2tfFOyD
+   HPFyE9fi0kkyng2B1u2rexkj6UgUW/ZXpHqp8Gi4zhOm1ctuFL6zyQExN
+   A==;
+X-CSE-ConnectionGUID: oQ1/YpgAQVW5w0B5etRuHw==
+X-CSE-MsgGUID: uwIBc//ORey7kGlM7iRitw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="77496228"
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="77496218"
+   d="scan'208";a="77496228"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2026 05:03:15 -0700
-X-CSE-ConnectionGUID: FCYc3k2QQn+2mUTRqHhyuQ==
-X-CSE-MsgGUID: yGRB7xTsSSS4hZt9GrMN4A==
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2026 05:03:18 -0700
+X-CSE-ConnectionGUID: OVtlCErkS7+2MPweQe7YXA==
+X-CSE-MsgGUID: pmLVAkh6RvioUxnhLVc7rQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="273293324"
+   d="scan'208";a="273293328"
 Received: from conormcd-mobl2.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.244.100])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2026 05:03:13 -0700
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2026 05:03:16 -0700
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: vkoul@kernel.org,
 	perex@perex.cz,
@@ -55,9 +55,9 @@ Cc: linux-sound@vger.kernel.org,
 	yung-chuan.liao@linux.intel.com,
 	pierre-louis.bossart@linux.dev,
 	daniel.baluta@nxp.com
-Subject: [PATCH v4 01/26] ALSA: compress: pin card module while stream is open
-Date: Wed, 16 Sep 2026 15:02:55 +0300
-Message-ID: <20260916120320.18318-2-peter.ujfalusi@linux.intel.com>
+Subject: [PATCH v4 02/26] ALSA: compress: register the open file with the card
+Date: Wed, 16 Sep 2026 15:02:56 +0300
+Message-ID: <20260916120320.18318-3-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260916120320.18318-1-peter.ujfalusi@linux.intel.com>
 References: <20260916120320.18318-1-peter.ujfalusi@linux.intel.com>
@@ -69,101 +69,59 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Take a module reference in snd_compr_open() and release it in
-snd_compr_free(). This pins the card driver module for the
-lifetime of an open compress stream and prevents card removal
-while the stream file is still in use.
+The compress-offload device is the only ALSA character device family
+which does not add its open files to the card's file list. Without it
+the core cannot replace the file operations on disconnect, so syscalls
+issued after the card is gone still reach the driver, and a card freed
+with snd_card_free_when_closed() does not wait for the open compress
+streams.
 
-Adjust the open() cleanup paths to drop the added module
-reference only when it was acquired, and keep release ordering
-safe by dropping the module reference before freeing stream
-data.
+Call snd_card_file_add() at open and snd_card_file_remove() at release,
+following the ordering used by the PCM, control, rawmidi and hwdep
+devices.
 
+Suggested-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
 Reviewed-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/core/compress_offload.c | 28 ++++++++++++++++++----------
- 1 file changed, 18 insertions(+), 10 deletions(-)
+ sound/core/compress_offload.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
 diff --git a/sound/core/compress_offload.c b/sound/core/compress_offload.c
-index 7c397b1c9231..ba6cdfe64246 100644
+index ba6cdfe64246..7b720603a9a8 100644
 --- a/sound/core/compress_offload.c
 +++ b/sound/core/compress_offload.c
-@@ -75,11 +75,11 @@ static inline void snd_compr_task_free_all(struct snd_compr_stream *stream) { }
- static int snd_compr_open(struct inode *inode, struct file *f)
- {
- 	struct snd_compr *compr;
--	struct snd_compr_file *data;
--	struct snd_compr_runtime *runtime;
-+	struct snd_compr_file *data = NULL;
-+	struct snd_compr_runtime *runtime = NULL;
- 	enum snd_compr_direction dirn;
- 	int maj = imajor(inode);
--	int ret;
-+	int ret = 0;
- 
- 	if ((f->f_flags & O_ACCMODE) == O_WRONLY)
- 		dirn = SND_COMPRESS_PLAYBACK;
-@@ -101,16 +101,21 @@ static int snd_compr_open(struct inode *inode, struct file *f)
+@@ -101,7 +101,14 @@ static int snd_compr_open(struct inode *inode, struct file *f)
  		return -ENODEV;
  	}
  
-+	if (!try_module_get(compr->card->module)) {
++	ret = snd_card_file_add(compr->card, f);
++	if (ret < 0) {
 +		snd_card_unref(compr->card);
-+		return -EFAULT;
++		return ret;
 +	}
 +
- 	if (dirn != compr->direction) {
- 		pr_err("this device doesn't support this direction\n");
--		snd_card_unref(compr->card);
--		return -EINVAL;
-+		ret = -EINVAL;
-+		goto __error;
+ 	if (!try_module_get(compr->card->module)) {
++		snd_card_file_remove(compr->card, f);
+ 		snd_card_unref(compr->card);
+ 		return -EFAULT;
  	}
- 
- 	data = kzalloc_obj(*data);
- 	if (!data) {
--		snd_card_unref(compr->card);
--		return -ENOMEM;
-+		ret = -ENOMEM;
-+		goto __error;
- 	}
- 
- 	INIT_DELAYED_WORK(&data->stream.error_work, error_delayed_work);
-@@ -121,9 +126,8 @@ static int snd_compr_open(struct inode *inode, struct file *f)
- 	data->stream.device = compr;
- 	runtime = kzalloc_obj(*runtime);
- 	if (!runtime) {
--		kfree(data);
--		snd_card_unref(compr->card);
--		return -ENOMEM;
-+		ret = -ENOMEM;
-+		goto __error;
- 	}
- 	runtime->state = SNDRV_PCM_STATE_OPEN;
- 	init_waitqueue_head(&runtime->sleep);
-@@ -134,9 +138,12 @@ static int snd_compr_open(struct inode *inode, struct file *f)
- 	f->private_data = (void *)data;
- 	scoped_guard(mutex, &compr->lock)
- 		ret = compr->ops->open(&data->stream);
-+
-+__error:
- 	if (ret) {
+@@ -144,6 +151,7 @@ static int snd_compr_open(struct inode *inode, struct file *f)
  		kfree(runtime);
  		kfree(data);
-+		module_put(compr->card->module);
+ 		module_put(compr->card->module);
++		snd_card_file_remove(compr->card, f);
  	}
  	snd_card_unref(compr->card);
  	return ret;
-@@ -164,6 +171,7 @@ static int snd_compr_free(struct inode *inode, struct file *f)
- 	data->stream.ops->free(&data->stream);
- 	if (!data->stream.runtime->dma_buffer_p)
- 		kfree(data->stream.runtime->buffer);
-+	module_put(data->stream.device->card->module);
+@@ -174,6 +182,7 @@ static int snd_compr_free(struct inode *inode, struct file *f)
+ 	module_put(data->stream.device->card->module);
  	kfree(data->stream.runtime);
  	kfree(data);
++	snd_card_file_remove(compr->card, f);
  	return 0;
+ }
+ 
 -- 
 2.55.0
 
