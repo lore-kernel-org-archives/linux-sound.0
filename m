@@ -1,145 +1,141 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45EB731355C
-	for <linux-sound@vger.kernel.org>; Wed, 16 Sep 2026 12:04:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92A964718DC;
+	Wed, 16 Sep 2026 12:07:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789560282; cv=none; b=OuiUtanz0FlSHiGIGqStOB8qhyl63PeNbGMh0bfwpF4bTo54jPxAERpuQ/YFWvTChmD56IGaAy+l46mFhvp6hUUQfVs6p/M99Lxu9cfI1BmBc4LgHtt92QM0hKTPUyWzZxD1BKWawXqrf0S0WC/IrRr176L/cOB0o8FOzrqWYAo=
+	t=1789560442; cv=none; b=r3TU8t1gMblrWURHkI3vXbpEWaCBN/bacb0JA716qC24zjE3r4D5b6U4wNJPQWZCQ9bgjOHaR9/5oRF2mxR6gGz78o3GhmB1amZ6y4dP1IAuGn8ol1nleEoQZoVOk1pSVifEO4AJKgi5cdpd1zXVhrJY8v+lusW5Vhx6Uenv0DU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789560282; c=relaxed/simple;
-	bh=i5tEUZ49J/v+xI360H0wqZVG7XM2k2VA6VS81ZDxzCs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QWYWRTpIuRBdm1j9b8gI030RKpoSdlMZ2I5s5IKw5Hk3Vsrlbixt4YazsG+RTUHjUwvSrC50n1T6edVPJbgFSC+EOlIiLZtnCZggPCZZXy4YGT7r/pxO3nhbREqW2zBc4rpjBVgENcejRe9eXT90ejgQb8fKK/TLbcu3dNFpMDI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z2xQ9mMP; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1789560442; c=relaxed/simple;
+	bh=PNRAk987V0a41382WuED48cFT2Uq+Yw379j0Eft2v+I=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Qqvokgp367Gcyj7wyA8dlz/Q0EaRfGb0zLoo3aNLEnSAg9151/u+cT/FQ2SBNGmNDauVkRH7H50YCAAqVwcxuxDt2fgjN9jG+U8N+nswiJivoObanSnMiD/YwRuMwGfqhMUgluyLlr1QaEAjjwOOMFDtwSNe8r4y0vCuXKaxOu8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=l9fPRdds; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=KBTH1pX9; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=NVyCj7eB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=HuUMd/h+; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z2xQ9mMP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789560278; x=1821096278;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=i5tEUZ49J/v+xI360H0wqZVG7XM2k2VA6VS81ZDxzCs=;
-  b=Z2xQ9mMPCMXfxf5akVKcbHgfYb/C5E0FWvz3gSF0S36F0OSVAUSGkpRC
-   0ic5deYj9hhlym3JbQjSryEXBQbD1d0i0hr6Hto1vd2mh8wCvVdNzeZK1
-   3xi3mlRyo63GAy13xpmASEvuxE3cybSi9F36U8J5Et6M3uMhrqTFtehDw
-   OdieAkQwsC2gT0EZBzuBKSAJc8FfMEawUqugeMMEICPXHjPvipsoEAzQJ
-   lqXTXQVgETPc5CZM9n8VEpQQaZAepvydkxbSvN/2TcjFf604KVkHPHsSr
-   dcLt1QVNjnfzPhJiQvlFtMNXAzc42Dugp6uqbzf1px9TOgqM8WpJwDE0J
-   Q==;
-X-CSE-ConnectionGUID: AmeEVHmyRJqZfRjEFTWrZQ==
-X-CSE-MsgGUID: QmR8xDuiS8yBdKCoP/uvwQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="77496586"
-X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="77496586"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2026 05:04:29 -0700
-X-CSE-ConnectionGUID: GoqlnH2zTV6LTHrCm8uoTQ==
-X-CSE-MsgGUID: lrIrERbcRDC4BW6zF/bUXw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="273294156"
-Received: from conormcd-mobl2.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.244.100])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2026 05:04:27 -0700
-From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-To: vkoul@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	srinivas.kandagatla@oss.qualcomm.com
-Cc: linux-sound@vger.kernel.org,
-	kai.vehmanen@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	pierre-louis.bossart@linux.dev,
-	daniel.baluta@nxp.com
-Subject: [PATCH v4 26/26] ASoC: SOF: topology: Add support for decoder and encoder widgets
-Date: Wed, 16 Sep 2026 15:03:20 +0300
-Message-ID: <20260916120320.18318-27-peter.ujfalusi@linux.intel.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260916120320.18318-1-peter.ujfalusi@linux.intel.com>
-References: <20260916120320.18318-1-peter.ujfalusi@linux.intel.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="l9fPRdds";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KBTH1pX9";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="NVyCj7eB";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HuUMd/h+"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id A4D6321BDE;
+	Wed, 16 Sep 2026 12:07:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1789560425; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WIkdHuvhYcFKQDO092qbt/BCYCXyCcCSeupVTxMXLvE=;
+	b=l9fPRddsZ5OeFihDkUh3NW517xbh20E4XipzUITj6bImrnNmzmFbgEO4HsuFg0okrWaFrL
+	2hmbFiItdPla95HJP21104XBj2l12GN2bdnx+inu2rM2hAOSwDIAOjFE+vUZLXD1iXPVw5
+	4Gw/mYg+zCngINXWtNgJVS0uYairrwE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1789560425;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WIkdHuvhYcFKQDO092qbt/BCYCXyCcCSeupVTxMXLvE=;
+	b=KBTH1pX9je7FsoaYb5RKBEB+veScSadY1mWpP2z5HUs3gbHtGnw9AmRHOIjQle6eNq0nfK
+	GBvxm6I/NVpQpPBw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1789560421; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WIkdHuvhYcFKQDO092qbt/BCYCXyCcCSeupVTxMXLvE=;
+	b=NVyCj7eBPMNSoH80EpydSzu8DWwTQ4QzQA0j/x3eekyUnToEcJNq96polV33hPykIBf84P
+	Gt+QKKdcTd+zL+OownagOY9BC79MZRzh/BDjxvVHUjx7VMY+B8WskJ8h6NdQ0H/qalCfCq
+	FYHfcXCnTrSZ5jq+5MvycFmxSvmXBHI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1789560421;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WIkdHuvhYcFKQDO092qbt/BCYCXyCcCSeupVTxMXLvE=;
+	b=HuUMd/h+XLTK9/nuKXTVw6tUsZ1NKU/V8RRYymiIQRnU7bUWv1WXLXawUqKbVkPJ8j33kG
+	eiIO5d8hqNc+7NAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 49F221348F;
+	Wed, 16 Sep 2026 12:07:01 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id MN38BmWGqmrwRQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 16 Sep 2026 12:07:01 +0000
+Date: Wed, 16 Sep 2026 14:07:00 +0200
+Message-ID: <87se39jt7f.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: phucduc.bui@gmail.com
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	cassiogabrielcontato@gmail.com,
+	Cezary Rojewski <cezary.rojewski@intel.com>,
+	Cen Zhang <zzzccc427@gmail.com>,
+	Yilin Zhang <yilinzhang@moonshot.ai>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: pcm: Propagate snd_pcm_stop() errors in snd_pcm_drop()
+In-Reply-To: <20260916094014.33609-1-phucduc.bui@gmail.com>
+References: <20260916094014.33609-1-phucduc.bui@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -1.80
+X-Spam-Level: 
+X-Spamd-Result: default: False [-1.80 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	TAGGED_RCPT(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[perex.cz,suse.com,gmail.com,intel.com,moonshot.ai,vger.kernel.org];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	URIBL_BLOCKED(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
 
-From: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+On Wed, 16 Sep 2026 11:40:14 +0200,
+phucduc.bui@gmail.com wrote:
+> 
+> From: bui duc phuc <phucduc.bui@gmail.com>
+> 
+> snd_pcm_drop() currently ignores the return value of
+> snd_pcm_stop() and returns a pre-initialized zero instead.
+> 
+> Store the return value of snd_pcm_stop() in 'result' so that any
+> error is propagated to the caller.
+> 
+> Found by manual code inspection.
+> 
+> Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 
-Decoder and encoder modules fall under process modules in SOF.
+Applied to for-next branch.  Thanks.
 
-Signed-off-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-Co-developed-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
----
- sound/soc/sof/ipc4-topology.c | 11 +++++++++++
- sound/soc/sof/sof-audio.h     |  4 +++-
- sound/soc/sof/topology.c      |  2 ++
- 3 files changed, 16 insertions(+), 1 deletion(-)
 
-diff --git a/sound/soc/sof/ipc4-topology.c b/sound/soc/sof/ipc4-topology.c
-index 566913025cc7..74a6da9705da 100644
---- a/sound/soc/sof/ipc4-topology.c
-+++ b/sound/soc/sof/ipc4-topology.c
-@@ -3589,6 +3589,8 @@ static int sof_ipc4_widget_setup(struct snd_sof_dev *sdev, struct snd_sof_widget
- 		msg = &asrc->msg;
- 		break;
- 	}
-+	case snd_soc_dapm_decoder:
-+	case snd_soc_dapm_encoder:
- 	case snd_soc_dapm_effect:
- 	{
- 		struct sof_ipc4_process *process = swidget->private;
-@@ -4361,6 +4363,15 @@ static const struct sof_ipc_tplg_widget_ops tplg_ipc4_widget_ops[SND_SOC_DAPM_TY
- 				process_token_list, ARRAY_SIZE(process_token_list),
- 				NULL, sof_ipc4_prepare_process_module,
- 				NULL},
-+	/* for all practical purposes a decoder is like an effect type widget */
-+	[snd_soc_dapm_decoder] = {sof_ipc4_widget_setup_comp_process,
-+				  sof_ipc4_widget_free_comp_process,
-+				  process_token_list, ARRAY_SIZE(process_token_list),
-+				  NULL, sof_ipc4_prepare_process_module, NULL},
-+	[snd_soc_dapm_encoder] = {sof_ipc4_widget_setup_comp_process,
-+				  sof_ipc4_widget_free_comp_process,
-+				  process_token_list, ARRAY_SIZE(process_token_list),
-+				  NULL, sof_ipc4_prepare_process_module, NULL},
- };
- 
- const struct sof_ipc_tplg_ops ipc4_tplg_ops = {
-diff --git a/sound/soc/sof/sof-audio.h b/sound/soc/sof/sof-audio.h
-index 9dff4fea628e..b60246fd5869 100644
---- a/sound/soc/sof/sof-audio.h
-+++ b/sound/soc/sof/sof-audio.h
-@@ -43,7 +43,9 @@
- #define WIDGET_IS_AIF(id) ((id) == snd_soc_dapm_aif_in || (id) == snd_soc_dapm_aif_out)
- #define WIDGET_IS_AIF_OR_DAI(id) (WIDGET_IS_DAI(id) || WIDGET_IS_AIF(id))
- #define WIDGET_IS_COPIER(id) (WIDGET_IS_AIF_OR_DAI(id) || (id) == snd_soc_dapm_buffer)
--#define WIDGET_IS_PROCESS(id) ((id) == snd_soc_dapm_effect)
-+#define WIDGET_IS_PROCESS(id) ((id) == snd_soc_dapm_effect ||	\
-+			       (id) == snd_soc_dapm_decoder ||	\
-+			       (id) == snd_soc_dapm_encoder)
- 
- #define SOF_DAI_PARAM_INTEL_SSP_MCLK		0
- #define SOF_DAI_PARAM_INTEL_SSP_BCLK		1
-diff --git a/sound/soc/sof/topology.c b/sound/soc/sof/topology.c
-index 8338133899ab..e2cb90133650 100644
---- a/sound/soc/sof/topology.c
-+++ b/sound/soc/sof/topology.c
-@@ -1530,6 +1530,8 @@ static int sof_widget_ready(struct snd_soc_component *scomp, int index,
- 		list_add(&dai->list, &sdev->dai_list);
- 		swidget->private = dai;
- 		break;
-+	case snd_soc_dapm_decoder:
-+	case snd_soc_dapm_encoder:
- 	case snd_soc_dapm_effect:
- 		/* check we have some tokens - we need at least process type */
- 		if (le32_to_cpu(tw->priv.size) == 0) {
--- 
-2.55.0
-
+Takashi
