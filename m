@@ -1,34 +1,36 @@
 Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
 	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EEF7438494;
-	Wed, 16 Sep 2026 07:17:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DA3543DA59;
+	Wed, 16 Sep 2026 07:19:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789543028; cv=none; b=c+Pyg14484BK9+JidgEjqShXammW+CNPzYJTMqp7+clk0iFQfB9nHo6xV2ajByl1usfPdGlzJs+i1CZSMVeX2m4UzmCql82Fj6/hZY0YCSLp5x1+Xwopm2iQ7poMnX0t3gFRgJwLiQiIPpa/WBmpVym4q5eikNN4MfuzssipFGI=
+	t=1789543168; cv=none; b=uT3gkhh8ZGbS/jMNCn4pJ3uybLU+orad1H7sk5zZtcfhJsYW/LBid9JfJFYyu7bRSs34oNC8ymLk4o4x4TldEpfT3QCgIY4bugFlYycKVskgqXuL+9vm6yybbOQ7MRetvmuaqhFjdNn6z+1aX0cce2K/d4ThUt5zIw0evClTGS0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789543028; c=relaxed/simple;
-	bh=C0R7WZ3y2UBTdK870GZt38ZGoF8EjQW3ukns5/2dBrE=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=rJnhpcUTcL0IJXq08+HjKKtDHD2CWLywnXPuhH8lYEvy0NUKqs+m/AmB9S3pm6aQ+/jdBCdxlgDQYAbEk/pC+YV09iq5yIBFnA/6hu/mGJLL8pEWAnuy1Z2HavyDOkaSUGmH33rAOfwm/MX9mR2yjjPfBa4v284T7zoH12iLaDM=
+	s=arc-20240116; t=1789543168; c=relaxed/simple;
+	bh=+vhw1Wo/YC/nC2Y1GnuAl2izxJZP5sTbuDJdJge6hD8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ZF2gp2UubGzU/sXHwZkxI7CJSwn/w8PKmZvCxG1VB0WCV9DVbhMTuc+eWUM8XZPH8/YoeVSb3kMJMnruSFRheMFY4GM7DIWjZwcGSq3tGR2t9+uuYplOTMG+hJAHR74wmoZSchEx0JN0e0oKTEFTvgz2uVer004jvCZkUsf2QG0=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
 Received: from dfae2b116770.home.arpa (unknown [36.110.52.2])
-	by APP-03 (Coremail) with SMTP id rQCowAAnKjhrQqpqfQTfBw--.39852S2;
-	Wed, 16 Sep 2026 15:16:59 +0800 (CST)
+	by APP-03 (Coremail) with SMTP id rQCowAB3eTfsQqpq3AnfBw--.41311S2;
+	Wed, 16 Sep 2026 15:19:08 +0800 (CST)
 From: Wentao Liang <vulab@iscas.ac.cn>
 To: broonie@kernel.org
-Cc: kuninori.morimoto.gx@renesas.com,
-	lgirdwood@gmail.com,
+Cc: lgirdwood@gmail.com,
+	linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-sound@vger.kernel.org,
+	neil.armstrong@linaro.org,
 	perex@perex.cz,
+	srini@kernel.org,
 	tiwai@suse.com,
 	Wentao Liang <vulab@iscas.ac.cn>,
 	stable@vger.kernel.org
-Subject: [PATCH 08/20] ASoC: audio-graph-card2: Fix device node leaks in graph_count_c2c()
-Date: Wed, 16 Sep 2026 07:16:31 +0000
-Message-Id: <20260916071631.1966635-1-vulab@iscas.ac.cn>
+Subject: [PATCH 09/20] ASoC: codecs: wcd939x: Fix device node leak in wcd939x_populate_dt_data()
+Date: Wed, 16 Sep 2026 07:18:40 +0000
+Message-Id: <20260916071840.1966850-1-vulab@iscas.ac.cn>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -37,57 +39,53 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:rQCowAAnKjhrQqpqfQTfBw--.39852S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7trWxZF13ArWkXryDtF1DZFb_yoW8CFWxp3
-	Z8KayYvrWDWr4UuF40vrWUJrZFkr47C3yrGr1UJ3ySkasxt3yfA34UZryDua15Ca1xuFy8
-	JrWDt3W8J34UZaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUkE14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
-	JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
-	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-	2Ix0cI8IcVAFwI0_Jw0_WrylYx0Ex4A2jsIE14v26F4j6r4UJwAm72CE4IkC6x0Yz7v_Jr
-	0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v2
-	6r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrV
-	AFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCI
-	c40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267
-	AKxVWxJVW8Jr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j
-	6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUCNt
-	xUUUUU=
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiBgMMA2qqPpQQpgABsX
+X-CM-TRANSID:rQCowAB3eTfsQqpq3AnfBw--.41311S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7Gry3uFyrJw1xXr4rZFWUArb_yoWDKFbEg3
+	y8WrWqqry8Wr92k3yDXF4Ivan2gF4xurW0yw1jyr9rGayUXFWfAwnxtr93uFy5Zrs7Jay5
+	Z3WjqF43W342kjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUba8FF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j
+	6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+	I7IYx2IY67AKxVWUtVWrXwAv7VC2z280aVAFwI0_Cr0_Gr1UMcvjeVCFs4IE7xkEbVWUJV
+	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
+	Y2ka0xkIwI1lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x
+	0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2
+	zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_JFI_Gr
+	1lIxAIcVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_
+	JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcS
+	sGvfC2KfnxnUUI43ZEXa7VU1VHq7UUUUU==
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiBwgMA2qqQJUKPwAAsg
 
-In graph_count_c2c(), port0 and port1 acquire device node references via
-of_node_get() and of_graph_get_next_port(), but they are not marked with
-__free(device_node), nor released with of_node_put(). Furthermore, an
-extra of_node_get() was called on the result of of_graph_get_next_port().
+In wcd939x_populate_dt_data(), np is obtained via
+of_graph_get_remote_node() to check if the remote endpoint exists,
+but the returned reference is never dropped, causing a device node
+leak.
 
-Add __free(device_node) to port0 and port1, and remove the redundant
-of_node_get() wrapper around of_graph_get_next_port() (which already
-returns an incremented reference) to prevent device node reference leaks.
+Declare np with __free(device_node) so that the reference is
+automatically released when exiting the function scope.
 
-Fixes: 5f281c3e82b1 ("ASoC: audio-graph-card2: use __free(device_node) for device node")
+Fixes: 10f514bd172a ("ASoC: codecs: Add WCD939x Codec driver")
 Cc: stable@vger.kernel.org
 Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
 ---
- sound/soc/generic/audio-graph-card2.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ sound/soc/codecs/wcd939x.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/soc/generic/audio-graph-card2.c b/sound/soc/generic/audio-graph-card2.c
-index 0202ed0ee78e..4f2da4d5803b 100644
---- a/sound/soc/generic/audio-graph-card2.c
-+++ b/sound/soc/generic/audio-graph-card2.c
-@@ -1198,8 +1198,9 @@ static int graph_count_c2c(struct simple_util_priv *priv,
- 			   struct link_info *li)
+diff --git a/sound/soc/codecs/wcd939x.c b/sound/soc/codecs/wcd939x.c
+index 01f1a08f48e6..022f7b02237d 100644
+--- a/sound/soc/codecs/wcd939x.c
++++ b/sound/soc/codecs/wcd939x.c
+@@ -3182,7 +3182,7 @@ static int wcd939x_populate_dt_data(struct wcd939x_priv *wcd939x, struct device
  {
- 	struct device_node *ports	__free(device_node) = port_to_ports(lnk);
--	struct device_node *port0	= of_node_get(lnk);
--	struct device_node *port1	= of_node_get(of_graph_get_next_port(ports, of_node_get(port0)));
-+	struct device_node *port0	__free(device_node) = of_node_get(lnk);
-+	struct device_node *port1	__free(device_node) =
-+		of_graph_get_next_port(ports, of_node_get(port0));
- 	struct device_node *ep0		__free(device_node) = of_graph_get_next_port_endpoint(port0, NULL);
- 	struct device_node *ep1		__free(device_node) = of_graph_get_next_port_endpoint(port1, NULL);
- 	struct device_node *codec0	__free(device_node) = of_graph_get_remote_port(ep0);
+ 	struct wcd_mbhc_config *cfg = &wcd939x->mbhc_cfg;
+ #if IS_ENABLED(CONFIG_TYPEC)
+-	struct device_node *np;
++	struct device_node *np __free(device_node) = NULL;
+ #endif /* CONFIG_TYPEC */
+ 	int ret;
+ 
 -- 
 2.34.1
 
