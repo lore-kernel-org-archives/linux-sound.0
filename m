@@ -1,130 +1,114 @@
-Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A63B53EBF04
-	for <linux-sound@vger.kernel.org>; Wed, 16 Sep 2026 06:36:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 920AB3EC813;
+	Wed, 16 Sep 2026 06:53:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789540582; cv=none; b=qiA+Ynql/G7jU/wCm775ZpXX5dG/cPPUbHYvXmNnYd9ksc1/wmzsQki3p3YPfR8rpedKwwYNvkLaeWMoaNyBFXKPshbBWnwmBw7r5SCdS6dT7ltj1glZ2Vb3jrxvEMDWS/IUZkzjB/J80VhOklbk8D6c33MCti2tOCLTtB0ukMM=
+	t=1789541615; cv=none; b=g6TnXo/HoiEXe3eUNIf9SBnG+h1wgEOBAzUdx4AO3s4vWRcDzXnk4VjQ8gmzueqMValoGAFY0ASNKJEqyUddUZk5C/01jnZ7mn5Yae6wLxdzCBex2fCJDA+Ad3GYS/+0uaeCXlHSwF7RHKxL6r8TU0cCX+Cs2cBnP25O8xVxlv4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789540582; c=relaxed/simple;
-	bh=GKIwRkZCm8Zv8iawV0UlTiF2MPtg/vkJSReYRTAWhUg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DP/9eGXOQqqhRL/7kmTMzEYG6yFkrkRTdYtLs+6YXRB0ZKlRXji4r9pKgsuNDDaAiJx4A1gRwR6agaHNCCa4mWtX0BNVKwCz2YBJ9WbQnVGkUVep1hjkjGueG4BBiX1TWPJSWdvfPDhhStcfBq8P6TL6oCb+QVKI2XqeDQJZ6tY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MSIu7pbZ; arc=none smtp.client-ip=74.125.227.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789541615; c=relaxed/simple;
+	bh=uoRP0/4GA2zBryumgFI/uqSwGga2IHXaKuv9yFTtyWc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sCSdm8h1FObgq/IkbkAU/xdlb1B7JVhW9WSmI1ZwzaACv3HF5gR6rXwbck1XYXGfJvUkyxZEdP77ZO5EU9DgrAuv+45/M2drGAeyspTaaciWdfVPC15K7fObMbdj2RyWmGo1to4uC7XjNzXojh0wUDh1moVVs3nnOU00LzmD6Bo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dmEh+rI3; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MSIu7pbZ"
-Received: by mail-pj2-f13.google.com with SMTP id d9443c01a7336-2db18fe433fso5098745ad.2
-        for <linux-sound@vger.kernel.org>; Tue, 15 Sep 2026 23:36:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789540580; x=1790145380; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=b4WYQWILag3Li3+uZK8NQbU2ARL1MJngd+OqezkcRd4=;
-        b=MSIu7pbZTI2F2Wtk9RO8e6Iy+7cuIdsMJquYzq64cssYtaiRUnpzHTBUDQ8ycVltcw
-         BJVCzhFa3gS5NqMBt5BFNwimqOeXC2DntQwuIWp/Wobx/BVQVoxAQf/W3jIRfOMLJ1Xi
-         p+Sq4WpJP4zaer37in7WuNJzISp9s5O7HxTjkRCt+w2CwK7ag/vUVmKA3GOrCgQTGH/0
-         fqkgvVFCS2uj6yKSCdoP+hmEuMO9VZlAclrd+uOK6XreGqOrQQ4BDhRN3ykpCuNCOAPY
-         2wsUqJqowvRJzfy18995rXY6OhvQq/MWUeJWK71Cc8kVbvnoznqpIcCrOOh0P8bOIHhH
-         SqkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789540580; x=1790145380;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=b4WYQWILag3Li3+uZK8NQbU2ARL1MJngd+OqezkcRd4=;
-        b=ASrUmqzXfOPureQJPHLXzJOwvyN0J/Kswrm/Ie9TryP/tA/N4WQG3AcL1ypMfFomwi
-         FYgHMRv+3txyoClcBhFOjei0ONSmtsMvzDZRLoV13/jB2Xcjnyfc4pImfRqf/KBaSpcT
-         GGeEKrFscIPC7veEcbEAcdigNHLUFlzKnuvTWtbPAxwqYLTXy8PCvZPmAy436Jz9NlM6
-         JiWkx0Pa1g/P9GgVyaXpEc4UqXqUDfQzYyEZZadjcefO7294XT4NZdCa3QFR8RyeQRsF
-         /vnFngR5Xzmsb7JorAcu7wWWhPzhRLJ6VyjlE13vNOAYlNIPac+xQt5efc51CtwQglc3
-         dEvQ==
-X-Forwarded-Encrypted: i=1; AKwUvBznAPi4b1DpBYxqPUHDLCdSDrL5onu78byO/DHPGxklzyqa+IFLr1y4SKSIR11A8D2jG589Yw86r++d3Q==@vger.kernel.org
-X-Gm-Message-State: AFuF++kl9iJwKiy3SK7kuLFO9+uiUyFOf6joBMrnniSW6djN7x9zLiSC
-	MFs6f5piQJVvH0OtmgIyngCz0C2/CjLf0f9MzZCIhqa44ZG4dqqNZ+1E
-X-Gm-Gg: AYBFou0JlCJlAn5z8SxzGHxjXH5ks2eknHCEg9YRGldsLsaNkXlD5N2qQthMrsdRaAo
-	bV8qqFjgjJjNRWYGoTuTJpC8jLR5dpCno2ov5VqPV3VBirBmQM/5gTZuaeq0pX17x1zI1qOr8c5
-	9fXABeYPO4+uYU4Llhehdeq4MRYVqXSroR79LjK4MzORU6PIPTTQGD0fH3jdRh6AXkm08+Wo6e7
-	MWgyDj40u8ioaht0/5xS3b2AtgqOaSWc6O5NNHl/ajINMs+emodK/9TtoKWYElDmZXu5udBHNIc
-	EYmaaytBw1GDH9OwEe4I8heErin7Hf+VRv4KCCVmbjQcYm88COKSF5LCqp19B3+NxEpToGdG4ce
-	EHuT+hD7wt+SWj6DwBoxK7jy2LzCBQnC2KjN02p0f9bG8zVBqzu5RI0wMu3gzrieg13WU9Up58h
-	xxSN+nIogvPZ/yXO3CT/A2n7fc/7OSCvqk21UOl3Sf6OmH/NnlqDpL1DKZzj+CrbQJdyAJfosky
-	cEJDRdXtcY+/oYophvBA6jtd5ANIOAAAojvj75cOFaVIp2ny84xM1V7nuOBQXugbOSVL1kysDDI
-	AuPtJg7lLR6iMWL5bDm8rSgH2g==
-X-Received: by 2002:a17:90b:380f:b0:39e:1494:1863 with SMTP id 98e67ed59e1d1-39e1e56b3f6mr3444619a91.25.1789540579242;
-        Tue, 15 Sep 2026 23:36:19 -0700 (PDT)
-Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39e1b6fe1b1sm3081767a91.7.2026.09.15.23.36.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Sep 2026 23:36:18 -0700 (PDT)
-From: phucduc.bui@gmail.com
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>
-Cc: Kees Cook <kees@kernel.org>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	u.kleine-koenig@baylibre.com,
-	Rosen Penev <rosenp@gmail.com>,
-	Dan Carpenter <error27@gmail.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH] ASoC: codecs: pcm6240: Return 0 explicitly on success
-Date: Wed, 16 Sep 2026 13:36:01 +0700
-Message-ID: <20260916063601.23625-1-phucduc.bui@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dmEh+rI3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEA4E1F000FF;
+	Wed, 16 Sep 2026 06:53:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789541614;
+	bh=13xcmcmR7AZeAAIk+eISQI1Df8FCi7PbyWP1mA812lI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=dmEh+rI3uieLexgKe9CkRQwp1LNSrHXaTZleEI8JJJUUmWA1am7Ll/FVvIbJ9ms83
+	 m4s1IKq6pa5cRZw/QaStQfDiiW23ZFkWAtMGsf1K60bZak9Mhy3y5SB1k2/Y0eX2oG
+	 31WxgvIMU9u4fm8xuNg8QSR+nSd06yjQ1cy15U1ZsWRKry1exAkjn9ZiuM3YPWE8Ho
+	 SNOoHzwCgw5omC1YePQN1Y9JQ0/5ViDuhDlMOb18dRFh+tiJeo6B/zkLC/Xlcc0tti
+	 ppUmnHp6nS9CHF4u81JRlhaN6lAw2OdNmqYsTRvIYIE1JSphKbYZeMyNxc4xshjL60
+	 EmGKOkNk8DDxg==
+Date: Wed, 16 Sep 2026 08:53:31 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Charles Keepax <ckeepax@opensource.cirrus.com>, 
+	Maciej Strozek <mstrozek@opensource.cirrus.com>, Bard Liao <yung-chuan.liao@linux.intel.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, patches@opensource.cirrus.com, linux-sound@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 7/8] dt-bindings: sound: qcom: add Tambora WCD9378
+ SDCA codec
+Message-ID: <20260916-imaginary-glossy-stallion-c769b5@quoll>
+References: <20260915165652.914893-1-srinivas.kandagatla@oss.qualcomm.com>
+ <20260915165652.914893-8-srinivas.kandagatla@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260915165652.914893-8-srinivas.kandagatla@oss.qualcomm.com>
 
-From: bui duc phuc <phucduc.bui@gmail.com>
+On Tue, Sep 15, 2026 at 05:56:49PM +0100, Srinivas Kandagatla wrote:
+> diff --git a/Documentation/devicetree/bindings/sound/qcom,wcd9378-sdw.yaml b/Documentation/devicetree/bindings/sound/qcom,wcd9378-sdw.yaml
+> new file mode 100644
+> index 000000000000..9a6c309018ed
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/sound/qcom,wcd9378-sdw.yaml
+> @@ -0,0 +1,91 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/sound/qcom,wcd9378-sdw.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Qualcomm WCD9378 (Tambora) SoundWire codec
+> +
+> +maintainers:
+> +  - Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+> +
+> +description:
+> +  Qualcomm WCD9378 (Tambora) SoundWire codec in SDCA compute mode.
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - const: qcom,wcd9378c
+> +      - const: sdw20217011000
 
-The return value of pcmdev_dev_read() is already checked, and
-errors are returned immediately. Therefore, the remaining paths
-are successful paths and should return 0 explicitly instead of
-returning ret.
+As pointed by Rob's bot, this won't work with current soundwire bus
+schema. If it is the same silicon, then usually it does not warrant a
+different compatible, even front compatible. For example same chips are
+used on I2C and SPI buses and the difference is coming from the bus.
 
-Reported-by: Dan Carpenter <error27@gmail.com>
-Link: https://lore.kernel.org/all/aqfHiX3pE-0BiCt9@stanley.mountain/
-Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
----
- sound/soc/codecs/pcm6240.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Last time I doubted that "compute" and "mobile" modes are a real thing,
+but if you say they are actually different fuse values, then they would
+be real. That could warrant different property, e.g.
+"qcom,sdca-compliant" or "qcom,separate-tx-rx-interfaces".
 
-diff --git a/sound/soc/codecs/pcm6240.c b/sound/soc/codecs/pcm6240.c
-index db85ae2f8aed..4b5569a5b062 100644
---- a/sound/soc/codecs/pcm6240.c
-+++ b/sound/soc/codecs/pcm6240.c
-@@ -620,12 +620,12 @@ static int pcmdev_get_volsw(struct snd_kcontrol *kcontrol,
- 		/* Set to wide-range mode, before using vol ctrl. */
- 		if (!val && vol_ctrl_type == PCMDEV_PCM1690_VOL_CTRL) {
- 			ucontrol->value.integer.value[0] = -25500;
--			return ret;
-+			return 0;
- 		}
- 		/* Set to fine mode, before using fine vol ctrl. */
- 		if (val && vol_ctrl_type == PCMDEV_PCM1690_FINE_VOL_CTRL) {
- 			ucontrol->value.integer.value[0] = -12750;
--			return ret;
-+			return 0;
- 		}
- 	}
- 
-@@ -641,7 +641,7 @@ static int pcmdev_get_volsw(struct snd_kcontrol *kcontrol,
- 	val = mc->invert ? max - val : val;
- 	ucontrol->value.integer.value[0] = val;
- 
--	return ret;
-+	return 0;
- }
- 
- static int pcmdevice_get_volsw(struct snd_kcontrol *kcontrol,
--- 
-2.43.0
+However my points from Jorijn patchset remain - the top level wrapper
+node is a fake construct to solve power sequencing issues and this
+binding should allow fixing that one as well.
+
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  qcom,port-mapping:
+> +    description: |
+
+You can drop |
+
+> +      Each entry maps a slave data port to a master data port.
+> +      Entries are in order starting from slave port 1; slave port 0
+> +      is reserved and not represented.  Compute mode uses 8 entries
+> +      covering DP1..DP8.
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    minItems: 8
+> +    maxItems: 8
+
+Best regards,
+Krzysztof
 
