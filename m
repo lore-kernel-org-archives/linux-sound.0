@@ -1,32 +1,36 @@
 Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
 	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F6903D25CC;
-	Thu, 17 Sep 2026 16:45:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0D6A51A134;
+	Thu, 17 Sep 2026 16:46:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789663528; cv=none; b=OPJ/pOspQkLMSdp2OAS9+w0DzvxangXMCYFZ7jcA1XDOrETYu9cM6M6pHC/Ms3SGdjN16LnovLyN6OgtAmX6nX3mjI0uRspc5dj5XJQVogZwGy3WUuUH2bEpoVavTZPWp5mD5f0evcVtqYTuY11JyHB/s1gVdr/NzDMjLq+3zm0=
+	t=1789663596; cv=none; b=N+1mqOgqi9PtiK+jt/6fOxnnmEtsyGpbFZnkU2C0sHluqTgHcAPGNypmmLgRQ8OvCTHYna2OfyBHoCwNuB5v38TL0O6w/pncmhVc8dIH7X8hWf7oeIbq2PIMr9GjeorMLhWonWeODtzJfLkskuej/5US0htWRYPhmwkOGlSD5rk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789663528; c=relaxed/simple;
-	bh=AFseobe/On7PEOH87B7g1yNk8F7L0I6E2Np587p6ZdA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=J8mTFwKzALD3FsGfgMjT77es5jtgXGCC8sJy9RH0JG2DIw0gFC3nBY9PJSpbs5g19GTAznRIN7fj0qAV7TlQ0wQslic/Q1qszc1OcFDefWbbc8pJzRrUGbcwrjlngHOuTf463SMOVPXEOCupI8HndOPfpg8uzWTsQfESAyobCtA=
+	s=arc-20240116; t=1789663596; c=relaxed/simple;
+	bh=8RIfnfRH+aOZKq7lB5+mDcmjSHUGSrRgsrUz5ma4HUs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=JGE3AyKcShRQyiZTxBBzH2yzMCoe4+91lRr53i2NoFynluFSjwklbnjzvG08I2kgjX8YtWL1/Aw2MH8oQl50eyd7JZFRlkr/s1J/rMAW0nkXjJPSvU2glx05hWmW+ZIrNgZkUVfzOkKnOBXkyEVBZmEPRK49d6p8jCAuafxjT8c=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.25
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
 Received: from dfae2b116770.home.arpa (unknown [36.110.52.2])
-	by APP-05 (Coremail) with SMTP id zQCowAD3J0IgGaxqwbyECA--.47882S2;
-	Fri, 18 Sep 2026 00:45:20 +0800 (CST)
+	by APP-05 (Coremail) with SMTP id zQCowACnEDthGaxqzsCECA--.739S2;
+	Fri, 18 Sep 2026 00:46:25 +0800 (CST)
 From: Wentao Liang <vulab@iscas.ac.cn>
-To: baojun.xu@ti.com
-Cc: linux-kernel@vger.kernel.org,
+To: broonie@kernel.org
+Cc: ckeepax@opensource.cirrus.com,
+	cw00.choi@samsung.com,
+	lgirdwood@gmail.com,
+	linux-kernel@vger.kernel.org,
 	linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com,
 	perex@perex.cz,
 	tiwai@suse.com,
 	Wentao Liang <vulab@iscas.ac.cn>,
 	stable@vger.kernel.org
-Subject: [PATCH] ALSA: hda/tas2781: Fix ACPI device double put in tas2781_read_acpi()
-Date: Thu, 17 Sep 2026 16:45:20 +0000
-Message-Id: <20260917164520.2163024-1-vulab@iscas.ac.cn>
+Subject: [PATCH] ASoC: arizona-jack: Fix runtime PM leak in arizona_start_mic()
+Date: Thu, 17 Sep 2026 16:46:25 +0000
+Message-Id: <20260917164625.2163097-1-vulab@iscas.ac.cn>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -35,52 +39,52 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowAD3J0IgGaxqwbyECA--.47882S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7GF1DJF13WF4DGw1kJFyrZwb_yoWkZFg_KF
-	45urWUXa48XFZrAw4rXF1v9FWrurs7AryrGrn5try29rWrWr4UXr98Jr1rAryDua10va4r
-	X3WYk3W8Gry2qjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbVkFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AK
+X-CM-TRANSID:zQCowACnEDthGaxqzsCECA--.739S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrZFy8tF45KF17Kry5JrWxXrb_yoWkKrc_Ca
+	1fuw1DurWjgrZ2ya1DZFn8Z397uFyDGFWfZa1qyF4UtFWUKan8ZryUAr9xCrs2q3yfXa43
+	A3WDuFW3A3srujkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbfAFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AK
 	wVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20x
 	vE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK6I8E
 	87Iv67AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1le2I262IYc4
 	CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_
 	Jw0_WrylYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x
-	0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7CjxVAaw2AFwI0_JF0_Jw1l42xK82IY
-	c2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VW8GFyrJr1UJwCFx2IqxVCFs4IE7xkEbVWUJV
-	W8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF
-	1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI42IY6x
-	IIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY
-	6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsGvfC2Kf
-	nxnUUI43ZEXa7VUjd-PUUUUUU==
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiDAQNA2qr9nBRuwACsp
+	0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7Cj
+	xVAaw2AFwI0_Jw0_GFyl42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VW8GFyrJr
+	1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480
+	Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7
+	IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UMIIF0xvE42xK
+	8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I
+	0E14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7VUbUPEDUUUUU==
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiDAANA2qr9nBTXwAAsJ
 
-The reference returned by acpi_dev_get_first_match_dev() is already
-released right after the physical node is looked up. The adev variable
-is not reassigned afterwards, so the acpi_dev_put() on the err path is a
-second, spurious put of the same device, which unbalances the reference
-count, or frees the device while physdev may still be in use.
+arizona_start_mic() takes a runtime PM reference before enabling mic
+detection, but the error path taken when regmap_update_bits_check()
+fails returns without releasing it, since pm_runtime_put_autosuspend()
+is only called in the !change branch. This leaks a runtime PM reference
+whenever the register write fails.
 
-Drop the redundant acpi_dev_put() from the error path.
+Release the reference on the error path as well.
 
-Fixes: bb5f86ea50ff ("ALSA: hda/tas2781: Add tas2781 hda SPI driver")
+Fixes: fbdc60b2a787 ("extcon: arizona: Correct error handling on regmap_update_bits_check")
 Cc: stable@vger.kernel.org
 Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
 ---
- sound/hda/codecs/side-codecs/tas2781_hda_spi.c | 1 -
- 1 file changed, 1 deletion(-)
+ sound/soc/codecs/arizona-jack.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/sound/hda/codecs/side-codecs/tas2781_hda_spi.c b/sound/hda/codecs/side-codecs/tas2781_hda_spi.c
-index 0e4f3553f273..63f8b15c2d8c 100644
---- a/sound/hda/codecs/side-codecs/tas2781_hda_spi.c
-+++ b/sound/hda/codecs/side-codecs/tas2781_hda_spi.c
-@@ -386,7 +386,6 @@ static int tas2781_read_acpi(struct tas2781_hda *tas_hda,
- err:
- 	dev_err(p->dev, "read acpi error, ret: %d\n", ret);
- 	put_device(physdev);
--	acpi_dev_put(adev);
- 
- 	return ret;
- }
+diff --git a/sound/soc/codecs/arizona-jack.c b/sound/soc/codecs/arizona-jack.c
+index a9063bac2752..09a100846fdb 100644
+--- a/sound/soc/codecs/arizona-jack.c
++++ b/sound/soc/codecs/arizona-jack.c
+@@ -274,6 +274,7 @@ static void arizona_start_mic(struct arizona_priv *info)
+ 				       &change);
+ 	if (ret < 0) {
+ 		dev_err(arizona->dev, "Failed to enable micd: %d\n", ret);
++		pm_runtime_put_autosuspend(arizona->dev);
+ 	} else if (!change) {
+ 		regulator_disable(info->micvdd);
+ 		pm_runtime_put_autosuspend(arizona->dev);
 -- 
 2.34.1
 
