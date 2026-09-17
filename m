@@ -1,266 +1,374 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-ej2-f12.google.com (mail-ej2-f12.google.com [74.125.228.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 208EA57ED80;
-	Thu, 17 Sep 2026 14:07:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789654044; cv=none; b=jerUNqmdSHo/VINOYaZ+H6imGNSws9LnNnMZCBfRuwPTOvWWigpH7qMFK5eUuYWR/aNjWSh5N0ClOqSJsmbLvMl85/jgFoJu56LvZuvviyZ+XHyxt7WD5OacEpTYG6RwXzTDUo3zeBaUlRCa322HLpRt+LIs8aUBG2GA4bojkck=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789654044; c=relaxed/simple;
-	bh=vfl896ZYq+ITdLTIbwzVIZEFlFnt1i7wxR7g5ktqCno=;
-	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=kESPE1yu2yyWEN/JECs42Tnpd8/73CxkqGzges/sKgxiPky7a4GmIboAHIliYcltITAEFItm7fpsO/+XI9C8LmiEhOC8JwmUrqfEIfkbNi0mvnwPnZVQdMm3d93x1mTP5NYlKQXrzmdMYALF6CPGjpmylm97g5cBMqMqJaNQA70=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=r6OUgXZ1; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=B75js+1O; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=vq+JBTPb; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=I7jGfqy+; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40D41530E10
+	for <linux-sound@vger.kernel.org>; Thu, 17 Sep 2026 14:11:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.140
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789654308; cv=pass; b=QO3tmKV82IY3s85Iu2iF4gDeBpbjcGe1YxKAVtx2PD77MSgILk0RFpSjQ1GbB8h5fgws2Bp+4Ult0d6G0I1pESozmc2mqV1WGXO3CVzUObJBPPKEzPRSWschShBGQdJCiM7m4Z/FfEzAU4naR5sR4/W6AG69Jy1SU+lGotDWFSg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789654308; c=relaxed/simple;
+	bh=Ir34GXWxbcbDOhDCiBrhFDNN/xt3YvnGacI703DSBRo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tikt6I/gFofxL0bJCcMv9jNiqbuw2Ph7gnlHOWb7K81iwZC6R77NXPB44RW/0cb1dHCFVbLu9SCFMfprMLADIZgoll6zKU73qol8WwHyO4COz1xr8Vo0BXIh78KK/3WaSCYLKl8jic2VFfiFCTvezqJMAqGlte58kpAXaeXVCFk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FkOcTjvw; arc=pass smtp.client-ip=74.125.228.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="r6OUgXZ1";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="B75js+1O";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="vq+JBTPb";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="I7jGfqy+"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 9B2DC2001C;
-	Thu, 17 Sep 2026 14:07:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1789654031; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=WfwbHmxT6E+UXfoHfKFxrx2mYaRxKqMI8z5hjEm22SQ=;
-	b=r6OUgXZ1+iwufbBqw6FGKb2JKc3PB84G1RsdKEHNUNNB8JwUiE+BhYYaaUxJspMkNlW6eW
-	MHK43BDKQ5cMs9k3kPzeU8+KoRV6Gf5lXbLk2Oprm8uZcM8OHVp6ngtCA/6tuFBGvIbpya
-	a0/YkzYeamHXYSLd5D/eI8s097vTjgc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1789654031;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=WfwbHmxT6E+UXfoHfKFxrx2mYaRxKqMI8z5hjEm22SQ=;
-	b=B75js+1OsMxFwDDpcpVaWUubFlk/+a8cxnhQ48tH+dWBETTqas211k6EaGOT1DoQUcPbah
-	F3IyYmFgy07fQQBg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=vq+JBTPb;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=I7jGfqy+
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1789654027; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=WfwbHmxT6E+UXfoHfKFxrx2mYaRxKqMI8z5hjEm22SQ=;
-	b=vq+JBTPb+XwziZlvpcUd9ycE/Aed1j5ozZVeCJ7BDjkXzvu9gXeidNs9v5eKDONpGh3YNp
-	4WKF1PLinB54o5nxNRKD7zqgG48W7+xQ3ykpdv+cXZZVCDq6GMHFBAlOKv+UGQ/ySjMyU+
-	Hc6LRLWT79deQzYPp5id3bOoKrooU0w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1789654027;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=WfwbHmxT6E+UXfoHfKFxrx2mYaRxKqMI8z5hjEm22SQ=;
-	b=I7jGfqy+bUaxjxa5JH+ERUAEkky44UfxiGe+sov95j2K36JvKgH1cZTl5kVHKjH4m0uu03
-	9VWvvxAxHSydRBBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4B2EC13974;
-	Thu, 17 Sep 2026 14:07:07 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 0yceCQv0q2rNYAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 17 Sep 2026 14:07:07 +0000
-Date: Thu, 17 Sep 2026 16:07:06 +0200
-Message-ID: <87ecesgeet.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
- Mailing List <linux-kernel@vger.kernel.org>
-Subject: [GIT PULL] sound fixes for 7.3-rc4
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FkOcTjvw"
+Received: by mail-ej2-f12.google.com with SMTP id a640c23a62f3a-c254fa663c2so116920166b.3
+        for <linux-sound@vger.kernel.org>; Thu, 17 Sep 2026 07:11:43 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789654300; cv=none;
+        d=google.com; s=arc-20260327;
+        b=LHKG7tpCe5VXnZwzLv6YmXnCteuWIHtA+kefLCre3jIlOos9o5BDHoDf19ya3jRP1Q
+         /srMTHkfyx49PChvscIsjhF4HXD+rD/KYoCg4fOaq+OLuUVWVbXCZ8+bIUJltWDdXUtf
+         c2jT3ruv8Y4quAPQI6PyrhkLCKMt7v2U4zg+zxDC4PhhPkIo+hpiFzKzsj66pHCjBVBT
+         opYLZVh28PwQX4vPTS2J98PMsG5EFOjCrjlfARV0ck0in3PDNBSf9/tMvOXQuReN0Oe/
+         3xadtssbZTt7aJmQwPTfr8VcX4v+xpZRfHpf7CcGNmZPTb7UkSt8Ebk9VmwYhl2GBXFy
+         CRhA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=R++7tFeBChA+zj9nKyQxFFd14Y5rYmO9osxU6fVJXRc=;
+        fh=9JNRthqzkaISOdNab8p0UDmyysdSHSnjKsECR36/BI4=;
+        b=ci2ETyowN3KfIeQihuLGJGECt0n4ouJ6e/EJw1ShtUOQuQNo/7bQWgkPZR8cyQ8Ebp
+         K6osu0Qv5ooeqPTlNKNC+fAouV8sVHvYYfg7twwQQ3AiirDN3mJ/S2szzJWmMUyn5OYm
+         VBw8k6gbr/JbH85TmoTjIm91s0JHAb0onHHD7tmHEavYfyABmBwsphXKoWuyWVDnXuzn
+         StCt4IYN/ILnTe4M4kaG2KfCFtJ/4hGjozs4m3LOaewFihc6CN79UODAKymp9f0GcqeY
+         4qdfGOPg4gprZAcoCsfQ09vOWdtNM02alGyMDIDXL1NJlUZhB0ab50D73y2WBkiY3wBl
+         S+uA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789654300; x=1790259100; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=R++7tFeBChA+zj9nKyQxFFd14Y5rYmO9osxU6fVJXRc=;
+        b=FkOcTjvw3LTxJ/E7NjZHHSjuMHdMnKCULTRx9mTlKihewEZD4Zne+Zu3mb1xPbvIOQ
+         cDVretDh+B9wx/iJ+8WlNYdYsjPveExaHw5uHhP9v8TS7yi1HtcQPxcWrsDIogqveq2b
+         IuZpYOSJ46TiyOkWY3JfoLCLocdrvm0IotJW/HDZVkvsbP/LEN+HWzwRbJLRp5D32fyV
+         YrhLP0ar1gjyb//+8N6bU+hKFkTJSJ4JQLMhAVij1+xNT+gveAVZqCzF29eeJSQ+YOzA
+         KgD2P3NsK7RSpqYJmbcTKalSode6gA5vFtUCAZJBiSeCKbKil6pWC8zAjIl80qXryk78
+         1UEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789654300; x=1790259100;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=R++7tFeBChA+zj9nKyQxFFd14Y5rYmO9osxU6fVJXRc=;
+        b=c74gRo5x9qmb0wQE5cArUD69K/mIACYVaZ9FNiKLSvahR1fyWyyzAhSeWK+j/rzl2a
+         n5q4HFwXG3j0stD7HVyJzUwSO9PwIM7+qTA28UskPm8h6MIAXPC8lpFyjz5JAJX0MWQj
+         gUvh5KZllAu7EP/h+9oxnTow8Q32tybpm8UHEUSFxwfbYLanUpUWmEn75SBBcYhoquX4
+         B4DctGFR1JU8tVF87gcBhCm89CihbRGcOTFIuFvlIhmeq6dWjyKwc3giUg7PmlVNypt0
+         Ib1bFTz/mr4w0FJ0vnPKlauIYdyuCGMNrxUhPKjZFeXiOn2hfu7M15NRBTdzRI+hjlI3
+         KA3w==
+X-Forwarded-Encrypted: i=1; AKwUvBwxAPRsXvE/hXU3dGm3+H/elcGJSp4uxxS02Foj7E9T+AYntRf3JmcErueSnIYmaG+QF7MiYnReTRXg4w==@vger.kernel.org
+X-Gm-Message-State: AFuF++mbxKD+0jUNMV3umo0GR4JxSKAux6AE9CMDBYAyo6EY9vZKySiS
+	Vn7+Qq705TEBFdIm3OmVXCTxjRpmQ/y4F/F2qLkd3qXmW3iwzFPjt2s5ZOacOLKiUUzd+hKpBKW
+	P5G/4vgh9FgSehn/agIKuTZAS41qFAQY=
+X-Gm-Gg: AYBFou1z6oj5252mDXnkYgcJZL05NperxlaLYPa0sCETowf+laQzkstvUrE9Im4iEC8
+	VRGcFb4QJ/1NjK1dFPVzH65msJxvHDc7ERCapC8hB8dYQ9AR+jDLEKZqRvmIkvfU9qTiH87XQWd
+	f3UwNjgiF9rgQX+Z6rL5aUDapvIRaUUljdT1Izv+Iy8we5TavLnrs+aQI2pQmEsCkqYKv9fdNkK
+	06zjRfpTt89V1D3mNUom10RIgSVvHqNELaHPF1vI+scf/tGbMn6Lp4wKFDWoL1KwBVX0J++Vod2
+	BYQpr2MrNWQi871/e1rBHnnPhxJinN0mds5IcXfS7FSwWazZTG4gZoyeTPekOZAoyIzrGyGsCxI
+	t2PD9KoSNO5dz
+X-Received: by 2002:a17:907:5c3:b0:c29:f5d5:5aa2 with SMTP id
+ a640c23a62f3a-c29f5d56248mr259313266b.44.1789654300128; Thu, 17 Sep 2026
+ 07:11:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-2
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 9B2DC2001C
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_TLS_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid];
-	TO_DN_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
+MIME-Version: 1.0
+References: <CACygGA9s1oWO53NPamL5tkaNhUt-W8S736OVAJZcYCU_UOni+A@mail.gmail.com>
+ <87zexggmqt.wl-tiwai@suse.de>
+In-Reply-To: <87zexggmqt.wl-tiwai@suse.de>
+From: A Akhil <akhilarul324@gmail.com>
+Date: Thu, 17 Sep 2026 19:41:27 +0530
+X-Gm-Features: AcwNN1X3MmZRFLbe_AwFmuOCxiIUGExvPhDBWu2t1ea76UIL4-mhn_Dgb5IwQSA
+Message-ID: <CACygGA9h-qehZVFxRMOgtt8y-kHMwSCuuvZwBSi_7R0xpp-dRg@mail.gmail.com>
+Subject: Re: Sound/seq: hung task in odev_open - unuse callback sleeps under list_mutex
+To: Takashi Iwai <tiwai@suse.de>
+Cc: tiwai@suse.com, perex@perex.cz, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Linus,
+Hi Takashi,
 
-please pull sound fixes for v7.3-rc4 from:
+Thanks for the quick patch. Right, it's not a deadlock, that was my
+reading of it too. Nothing locks up permanently, it's just a wait long
+enough to trip the detector. That's the reason I bothered with it though.
+On the syzbot run the wait was over 140 s, and for the whole of that
+anything else touching the sequencer is stuck behind it.
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-7.3-rc4
+I ran it on the setup I used to find this in the first place. One thread
+opening and closing /dev/sequencer2 while two others try to open it,
+hung_task_timeout_secs=30, three runs each.
 
-The topmost commit is 546b928da0427b0d6c663cbb992bd7bfa9ac7971
+  variant                       hung tasks    worst opener block
+  ---------------------------------------------------------------
+  unpatched                     10, 10, 10    ~130 s
+  your patch                    0, 0, 7       30.7 / 30.6 / 129.9 s
+  yours + open_mutex narrowed   7, 0, 0       129.9 / 41.3 / 40.9 s
+  drain bounded to 1s           0, 0, 0       20.6 / 18.4 / 21.8 s
+  drop instead of drain         0, 0, 0       4.0 / 2.4 / 2.4 s
 
-----------------------------------------------------------------
+Your patch builds clean and clearly helps, two of the three runs were
+completely quiet. The third still hung though, and when it does it's
+coming from the opening side rather than the closing side.
 
-sound fixes for 7.3-rc4
+  task 98:  odev_open                      holds register_mutex
+             snd_seq_oss_open
+              snd_seq_oss_synth_setup_midi
+               snd_seq_oss_midi_open+0x8e  blocked on mdev->open_mutex
+  tasks 97, 99: blocked on register_mutex owned by 98 -> hung task
 
-A collection of small fixes.  Most of them are device-specific fixes
-while there are a few core fixes.  The continued flux, but not too
-scaring yet.  Some highlights below.
+An opener grabs register_mutex, blocks deeper down, and sits on it while
+it waits.
 
-ALSA Core:
-- Fix potential UAF after asynchronous card release
-- Fix a race condition in PCM timer initialization order
+I tried stacking my earlier open_mutex narrowing in snd_seq_oss_midi_close
+on top of yours, so the closer would be holding neither lock over the
+drain. Still hung 1 in 3, and the wait had just moved further down again,
+this time into snd_seq_port_connect() on grp->list_mutex.
 
-USB-Audio:
-- Hardening fixes for issues reported by fuzzer for 6fire, bcd2000,
-  and implicit FB packets
-- Fix double list addition in implicit FB handling
-- Quirks for AVerMedia GC553Pro and Behringer FCA1616
+Three attempts at moving locks around now (mine, yours, both together) and
+every one of them just shifts where the wait happens. I don't think the
+locking is really the problem here. It's the 10*HZ per substream.
 
-HD-Audio:
-- Quirks / fixes for HP OmniBook 7, OMEN 15, and Victus 15 laptops
+Bounding the drain to 1*HZ in midisynth_unuse() does stop the hangs, but
+the cap is per substream and there are about twenty of them, so teardown
+still runs ~20 s. Capping the total across the teardown would do better,
+though that's more surgery.
 
-ASoC:
-- Support for DAI link codec channel mask to avoid mismatches
-- Fix HDMI-codec channel status change report
-- Fixes for various codecs and platforms: Realtek rt712/rt721
-  (calibration, reset fixes), Cirrus Logic (empty EFI variable
-  validation, capture channel fixup), AMD ACP SoundWire (bounds
-  checks, refactorings), ADAU1977 (OF match table support, SPI
-  cleanups), ES8336 (Huawei Matebook B3-420 quirk), UX500 (macro fix)
+The one that actually worked was swapping snd_rawmidi_drain_output() for
+snd_rawmidi_drop_output() in midisynth_unuse(). ~2.4 s, nothing hung in
+any run. Most of what's left there isn't even the data wait, it's the
+msleep(50) per substream for the Tx FIFOs.
 
-----------------------------------------------------------------
+I did wonder about throwing the data away, so I went and looked. As far as
+I can tell snd_rawmidi_drain_output() already drops the buffer once the
+10*HZ expires, so the bytes are gone either way and dropping early only
+costs whatever the device would have taken during the timeout. For a
+device that isn't draining, which is the case that gets us here, that's
+nothing. Tell me if I've misread that.
 
-Ai Chao (1):
-      ASoC: Intel: sof_es8336: Add a quirk for Huawei Matebook B3-420
+So, do you want me to send the drop version as a proper patch? Or would
+you rather bound the drain, in which case I can try a total cap instead of
+a per substream one. I can also test a revised version of yours if you'd
+prefer to keep this inside seq_oss.
 
-Alvin ©ipraga (3):
-      ASoC: adau1977: make the Kconfig symbols user selectable
-      ASoC: adau1977-spi: drop __maybe_unused and of_match_ptr()
-      ASoC: adau1977-i2c: add OF match table for I2C
+Thanks,
+Akhil Arul
 
-Asai Neko (1):
-      ALSA: usb-audio: skip the broken mute control on AVerMedia GC553Pro
 
-HyeongJun An (1):
-      ASoC: hdmi-codec: Report a change when the channel status moves
 
-Jack Yu (1):
-      ASoC: rt712-sdca: reconfigure PLL2 to fix calibration time-out
 
-Jaeho Cho (1):
-      ALSA: hda/realtek: Enable mute LEDs on HP OmniBook 7 17-dc0xxx
-
-Jiangshan Yi (1):
-      ASoC: codecs: rt712-sdca-dmic: fix uninitialized stream_config->type
-
-Kitty Makin (1):
-      ALSA: usb-audio: Add capture quirk for Behringer FCA1616
-
-Krish Gulati (1):
-      ALSA: hda/realtek: Add quirk for HP Victus 15-fa1xxx (MB 8BB1) mute LED
-
-Nguyen Ngoc Thang (2):
-      ALSA: pcm: set timer->private_data before registering the PCM timer
-      ALSA: usb-audio: fix list_add double-add in push_back_to_ready_list
-
-Oder Chiou (1):
-      ASoC: rt721: Reset codec to fix abnormal sound
-
-Richard Fitzgerald (7):
-      ASoC: wm_adsp: Firmware search progress log should not look like an error
-      ASoC: Rename snd_soc_dai_link_ch_map.ch_mask to cpu_ch_mask
-      ASoC: Add codec_ch_mask to snd_soc_dai_link_ch_map
-      ASoC: soc-pcm: Apply snd_soc_dai_link_ch_map.codec_ch_mask to codec params
-      ASoC: sdw_utils: Set snd_soc_dai_link_ch_map.codec_ch_mask for capture
-      ASoC: sdw_utils: cs_amp: Delete bogus and incorrect capture channel fixup
-      ASoC: cs-amp-lib: Prevent NULL pointer if efi variable is zero length
-
-Sasha Levin (1):
-      ASoC: ux500: Parenthesize MSP_{RX,TX}_CLKPOL_BIT() arguments
-
-Slavin Liu (1):
-      ALSA: hda: trace PCM open only after assigning a stream
-
-Takashi Iwai (2):
-      ALSA: bcd2000: Fix race between rawmidi and disconnect
-      ALSA: core: Fix potential UAF after asynchronous card release
-
-Vijendar Mukunda (4):
-      ASoC: amd: acp: bounds-check SoundWire link ID in machine drivers
-      ASoC: amd: acp: refactor codec config count in SOF SoundWire machine driver
-      ASoC: amd: acp: fix ffs() operator precedence for SoundWire link ID
-      ASoC: amd: acp: fix card name length warning in SOF SoundWire machine driver
-
-Xavier Goffin (1):
-      ALSA: hda/realtek: Add mute LED quirk for HP OMEN 15-ax
-
-Xiang Mei (2):
-      ALSA: usb-audio: Clamp implicit feedback packet count to URB capacity
-      ALSA: 6fire: fix OOB write from device-reported iso length
-
-Yuho Choi (1):
-      ALSA: virtio: reset device before deleting virtqueues
-
----
- include/sound/soc.h                     |  3 +-
- include/sound/soc_sdw_utils.h           |  2 -
- sound/core/init.c                       |  3 +-
- sound/core/pcm_timer.c                  |  7 ++-
- sound/hda/codecs/realtek/alc269.c       | 11 ++++-
- sound/hda/common/controller.c           |  2 +-
- sound/soc/amd/acp/acp-sdw-legacy-mach.c | 14 +++++-
- sound/soc/amd/acp/acp-sdw-sof-mach.c    | 23 ++++++---
- sound/soc/codecs/Kconfig                |  4 +-
- sound/soc/codecs/adau1977-i2c.c         |  9 ++++
- sound/soc/codecs/adau1977-spi.c         | 12 ++---
- sound/soc/codecs/cs-amp-lib.c           |  2 +
- sound/soc/codecs/hdmi-codec.c           |  6 ++-
- sound/soc/codecs/rt712-sdca-dmic.c      | 14 ++----
- sound/soc/codecs/rt712-sdca-sdw.c       |  8 +++
- sound/soc/codecs/rt712-sdca.c           | 86 +++++++++++++++++++++++++++++++--
- sound/soc/codecs/rt712-sdca.h           | 18 +++++++
- sound/soc/codecs/rt721-sdca-sdw.c       |  3 ++
- sound/soc/codecs/rt721-sdca.c           | 17 +++++++
- sound/soc/codecs/wm_adsp.c              |  5 +-
- sound/soc/intel/boards/sof_es8336.c     |  9 ++++
- sound/soc/sdw_utils/soc_sdw_cs_amp.c    | 46 ------------------
- sound/soc/sdw_utils/soc_sdw_utils.c     | 24 +++++----
- sound/soc/soc-pcm.c                     | 18 +++++--
- sound/soc/ux500/ux500_msp_i2s.h         |  4 +-
- sound/usb/6fire/pcm.c                   | 12 ++++-
- sound/usb/bcd2000/bcd2000.c             | 33 ++++++++++---
- sound/usb/card.h                        |  1 +
- sound/usb/endpoint.c                    | 21 +++++---
- sound/usb/implicit.c                    |  1 +
- sound/usb/mixer_maps.c                  | 13 +++++
- sound/virtio/virtio_card.c              |  4 +-
- 32 files changed, 316 insertions(+), 119 deletions(-)
-
+On Thu, 17 Sept 2026 at 16:37, Takashi Iwai <tiwai@suse.de> wrote:
+>
+> On Thu, 17 Sep 2026 04:41:31 +0200,
+> A Akhil wrote:
+> >
+> >
+> > To: tiwai@suse.com, perex@perex.cz
+> > Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+> >     syzkaller-bugs@googlegroups.com
+> > Subject: sound/seq: hung task in odev_open - unuse callback sleeps under
+> > list_mutex
+> >
+> > Hi,
+> >
+> > I've been looking at this syzbot report:
+> >
+> >   INFO: task hung in odev_open (5)
+> >   https://syzkaller.appspot.com/bug?extid=825b7e3a03dd072c187f
+> >
+> > The hang isn't really in the OSS code where it gets reported. syzbot only
+> > shows the task waiting on register_mutex in odev_open(); the one actually
+> > holding things up is this:
+> >
+> >   odev_release                            takes register_mutex
+> >    snd_seq_oss_release / snd_seq_oss_reset
+> >     snd_seq_oss_synth_reset
+> >      snd_seq_oss_midi_close               takes mdev->open_mutex
+> >       snd_seq_ioctl_unsubscribe_port
+> >        snd_seq_port_disconnect
+> >         __delete_and_unsubscribe_port     called with grp->list_mutex held
+> >          midisynth_unuse                  seq_midi.c:298
+> >           snd_rawmidi_drain_output        sleeps 10*HZ per substream
+> >            schedule_timeout
+> >
+> > delete_and_unsubscribe_port() holds grp->list_mutex for write while the
+> > unuse callback runs, and midisynth_unuse() ends up in
+> > snd_rawmidi_drain_output(), which waits 10*HZ per substream. With ~8
+> > substreams I measured close() taking 82 seconds. Anything calling
+> > snd_seq_port_connect() blocks on the same rwsem, and in the OSS path that
+> > connect runs under register_mutex, so every other odev_open() piles up
+> > behind it and the hung task detector fires.
+> >
+> > I tried narrowing register_mutex in odev_release, and then open_mutex in
+> > snd_seq_oss_midi_close. Both build, both still hang - the wait just moves
+> > down a level each time, ending up in snd_seq_port_connect().
+> >
+> > Moving unsubscribe_port() out of the rwsem looked wrong to me: grp->count
+> > is protected by it, and the comment above subscribe_port() says open and
+> > close are only invoked on the 0->1 and 1->0 transitions. If close ran
+> > unlocked, a concurrent subscribe could call open first.
+> >
+> > That pairing also means an opener of the same port has to wait for a close
+> > in progress anyway, so I don't think lock narrowing can fix this - the
+> > teardown just has to stop taking tens of seconds.
+> >
+> > So the drain has to stop blocking the teardown. I can see three ways to do
+> > that, but all of them change when or whether pending MIDI output gets
+> > flushed, and that's not something I want to decide on my own:
+> >
+> >   - drop the output instead of draining it in midisynth_unuse()
+> >   - move the drain to a workqueue so the unuse callback doesn't sleep
+> >   - keep draining but cap the total wait
+> >
+> > Which of those would you take? I can write it and test it.
+> >
+> > (v7.3-rc3, 9b87fdc9af2f, qemu with dummy_hcd + raw-gadget. The syz repro
+> > alone didn't trigger it for me - I needed a second thread opening
+> > /dev/sequencer2 while another one closes it. That hits the hang in under a
+> > minute.)
+>
+> IIUC, this is no real "hang" that locks up forever but just went over
+> threshold in mutex?  If so, we can avoid taking too long mutex like
+> the (totally untested) patch below?
+>
+>
+> thanks,
+>
+> Takashi
+>
+> -- 8< --
+> diff --git a/sound/core/seq/oss/seq_oss.c b/sound/core/seq/oss/seq_oss.c
+> index 2835576040ed..c790b1cd451a 100644
+> --- a/sound/core/seq/oss/seq_oss.c
+> +++ b/sound/core/seq/oss/seq_oss.c
+> @@ -132,13 +132,19 @@ static int
+>  odev_release(struct inode *inode, struct file *file)
+>  {
+>         struct seq_oss_devinfo *dp;
+> +       int index;
+>
+>         dp = file->private_data;
+>         if (!dp)
+>                 return 0;
+>
+> -       guard(mutex)(&register_mutex);
+> +       scoped_guard(mutex, &register_mutex)
+> +               snd_seq_oss_detach(dp);
+> +       index = dp->index;
+>         snd_seq_oss_release(dp);
+> +       scoped_guard(mutex, &register_mutex)
+> +               snd_seq_oss_detach_done(index);
+> +
+>         return 0;
+>  }
+>
+> @@ -149,6 +155,8 @@ odev_read(struct file *file, char __user *buf, size_t count, loff_t *offset)
+>         dp = file->private_data;
+>         if (snd_BUG_ON(!dp))
+>                 return -ENXIO;
+> +       if (dp->closing)
+> +               return -EBADFD;
+>         return snd_seq_oss_read(dp, buf, count);
+>  }
+>
+> @@ -160,6 +168,8 @@ odev_write(struct file *file, const char __user *buf, size_t count, loff_t *offs
+>         dp = file->private_data;
+>         if (snd_BUG_ON(!dp))
+>                 return -ENXIO;
+> +       if (dp->closing)
+> +               return -EBADFD;
+>         return snd_seq_oss_write(dp, buf, count, file);
+>  }
+>
+> diff --git a/sound/core/seq/oss/seq_oss_device.h b/sound/core/seq/oss/seq_oss_device.h
+> index 935cf3df0b30..ee318ea1a096 100644
+> --- a/sound/core/seq/oss/seq_oss_device.h
+> +++ b/sound/core/seq/oss/seq_oss_device.h
+> @@ -72,6 +72,7 @@ struct seq_oss_devinfo {
+>         int cseq;       /* sequencer client number */
+>         int port;       /* sequencer port number */
+>         int queue;      /* sequencer queue number */
+> +       bool closing;
+>
+>         struct snd_seq_addr addr;       /* address of this device */
+>
+> @@ -107,7 +108,9 @@ int snd_seq_oss_delete_client(void);
+>
+>  /* device file interface */
+>  int snd_seq_oss_open(struct file *file, int level);
+> +void snd_seq_oss_detach(struct seq_oss_devinfo *dp);
+>  void snd_seq_oss_release(struct seq_oss_devinfo *dp);
+> +void snd_seq_oss_detach_done(int index);
+>  int snd_seq_oss_ioctl(struct seq_oss_devinfo *dp, unsigned int cmd, unsigned long arg);
+>  int snd_seq_oss_read(struct seq_oss_devinfo *dev, char __user *buf, int count);
+>  int snd_seq_oss_write(struct seq_oss_devinfo *dp, const char __user *buf, int count, struct file *opt);
+> diff --git a/sound/core/seq/oss/seq_oss_init.c b/sound/core/seq/oss/seq_oss_init.c
+> index 6586e07431c3..3aece0d2981a 100644
+> --- a/sound/core/seq/oss/seq_oss_init.c
+> +++ b/sound/core/seq/oss/seq_oss_init.c
+> @@ -33,6 +33,7 @@ static int system_port __ro_after_init = -1;
+>  static int num_clients;
+>  static struct seq_oss_devinfo *client_table[SNDRV_SEQ_OSS_MAX_CLIENTS];
+>
+> +#define SEQ_OSS_DETACHED       ((struct seq_oss_devinfo *)-1)
+>
+>  /*
+>   * prototypes
+> @@ -396,14 +397,23 @@ free_devinfo(void *private)
+>  /*
+>   * close sequencer device
+>   */
+> +void snd_seq_oss_detach(struct seq_oss_devinfo *dp)
+> +{
+> +       dp->closing = true;
+> +       client_table[dp->index] = SEQ_OSS_DETACHED;
+> +       num_clients--;
+> +}
+> +
+> +void snd_seq_oss_detach_done(int index)
+> +{
+> +       client_table[index] = NULL;
+> +}
+> +
+>  void
+>  snd_seq_oss_release(struct seq_oss_devinfo *dp)
+>  {
+>         int queue;
+>
+> -       client_table[dp->index] = NULL;
+> -       num_clients--;
+> -
+>         snd_seq_oss_reset(dp);
+>
+>         snd_seq_oss_synth_cleanup(dp);
+> @@ -475,7 +485,7 @@ snd_seq_oss_system_info_read(struct snd_info_buffer *buf)
+>         for (i = 0; i < num_clients; i++) {
+>                 snd_iprintf(buf, "\nApplication %d: ", i);
+>                 dp = client_table[i];
+> -               if (!dp) {
+> +               if (!dp || dp == SEQ_OSS_DETACHED) {
+>                         snd_iprintf(buf, "*empty*\n");
+>                         continue;
+>                 }
+> diff --git a/sound/core/seq/oss/seq_oss_ioctl.c b/sound/core/seq/oss/seq_oss_ioctl.c
+> index f1a79776773f..2b4930a56a22 100644
+> --- a/sound/core/seq/oss/seq_oss_ioctl.c
+> +++ b/sound/core/seq/oss/seq_oss_ioctl.c
+> @@ -66,6 +66,9 @@ snd_seq_oss_ioctl(struct seq_oss_devinfo *dp, unsigned int cmd, unsigned long ca
+>         void __user *arg = (void __user *)carg;
+>         int __user *p = arg;
+>
+> +       if (dp->closing)
+> +               return -EBADFD;
+> +
+>         switch (cmd) {
+>         case SNDCTL_TMR_TIMEBASE:
+>         case SNDCTL_TMR_TEMPO:
