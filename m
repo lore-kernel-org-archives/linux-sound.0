@@ -1,78 +1,51 @@
-Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11012031.outbound.protection.outlook.com [52.101.53.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14EB449A3CA;
-	Thu, 17 Sep 2026 08:39:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.53.31
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789634385; cv=fail; b=tw5F0qEJveyNOKZ9MSrWdBJncoJ5IDNzt/jochO+DCAJos+Cag58gCAT7P8tjjef/rkHfmpu24Rxn3IVMzhqnWqqn12MLJxEITc5PAeZxMKtsgsYK8ztMCzs0v0XBlg8UmwEtH042SjGnI9WDWkHplQceGBOsgte33Lfg6zvlW8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789634385; c=relaxed/simple;
-	bh=DqashJMrQX49tCkDDmSpfSNfdAdwDr3UHYDIG6k0Dbw=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DU33hEFFRG1BdsjHZ8TuJJpAMUtgpm0yQ7MGLFnjripuEDqLruO0SfStHrOyFSeXlUuKENFp6+wOCi1IhFg4WkpLvbmIF5CZ+PGedU92WN0PN7kS9BVPv/p7JZveHjHX1Qj1WnMigWPFMhYaLi6CMgddiKYN+58tZqr10UiLATk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=NW2k/Y5h; arc=fail smtp.client-ip=52.101.53.31
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D26649B5DC
+	for <linux-sound@vger.kernel.org>; Thu, 17 Sep 2026 09:02:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789635725; cv=none; b=CSxyGF/WzpMqmGe2FXv5HV/eo/MDNCUUN8MCw4xv/01PQKLLsTBhji5fYqQ8wgY12+M5TWOe5ky00/93KGV7xVCcmQ1vsfLrsldKDJlHrK80S3Oag7vaGj8h+RvhezbSOWjHb2xzn2bRpeK7vjxBTQT0ccYKcbqx2OCpVdEesi8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789635725; c=relaxed/simple;
+	bh=5KZDPolGLunZUPqjm1y/5enNxrEwvmzhfV/4oSsPaDU=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=TjUhJqiHUTePBhSH5dNN+aRkLTS8GhynkoqbRXhuAKj/5hp+uZh2VSkpp9AXjzUCDtbFPvVotUQw/9GW3vh7kHFgLxd2OmQbsECmDRpm8PTTfVeViv9JQIIq8GRPJhlWQj+2P1WR1MMlNwYf7L6xKrq3LGowf6Kd4DUzyWOScXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=JvkxF/5f; arc=none smtp.client-ip=211.75.126.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="NW2k/Y5h"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=QmtNsi+TJjKpTZf23YRgenJCO2gexWWYQO5YEHRlT4tLlTsfBMdRWxChrWzOXymUQeVGtjv6XSuIGb1UmRc11dxISby7Z4KJIKgzKGPT2HMkmgFYWpAKUA/Lwko6BF+91il1XTmTTIBkKdyp3p71TNP4eC1ljH5saMl+dA13NFt2NZXUkcGsOaeJfOfEYOFMzVjzJeNA+EFrjwlh2A1iltGtA1WPir95meupmlBMJIPyN45n73lvIa3TJ/U0+LmoIaxJC6X0+k0js8+31k9kEtqzITWmZ+VeTy29HKn6AMAJ4lEoY1pe0jVCz0PEsWuZh8YrTJOkjgb/cLv0KqXXLw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uKeHN3IJ2uXIWj3bKKfuPjV7ploK0JTlIbpwvQf9FME=;
- b=iTUHOF22FzvuclAAGd8cbiq4kU0+DC6UZGoofnNQk+URo7ExUxygoN7YGpsXR4Gxn274wxy89vQKKUviPq+sZ/9YUkTbhP8BygvbqcJezcqK90N6bhtV+7fN74u8TW/a57ZKPgKMbWCFa/7cbtBL0euj85GVX7S7Ja+KgLchRNvl7hfjw87aCCPGxDZeZp2pjpWngicXAVL99OOUC5TAVTnZMV8kUon7jdwfTlsDhkddnMfUH4EmRMGwevWOrvw7RVpsQQVbTPJORI4Sndj/aYeJeavaVyGMnOSFdwQEBoHrWIHy3XefYM9doH2PjBBwM1TDuEsFWf+NqnbuEdqFmQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uKeHN3IJ2uXIWj3bKKfuPjV7ploK0JTlIbpwvQf9FME=;
- b=NW2k/Y5h+lSFZ/bR2vTrY5+Noig1Zv8DyUHDOvKDfdo9H5VfJoVK8sSyJNjcEoEGqdRpDtevKXd+idNioUOg/T+M6cwRR/BfMGSavHW7wsOwYFBRrxLh1MPqREPZGtQG32TR9xV4mpZxKfKRQReZYiC2Aer4outREfTHfhlZK9Y=
-Received: from CY5PR22CA0040.namprd22.prod.outlook.com (2603:10b6:930:1d::16)
- by IA0PR12MB7652.namprd12.prod.outlook.com (2603:10b6:208:434::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.428.11; Thu, 17 Sep
- 2026 08:39:21 +0000
-Received: from BN1PEPF00004682.namprd03.prod.outlook.com
- (2603:10b6:930:1d:cafe::a3) by CY5PR22CA0040.outlook.office365.com
- (2603:10b6:930:1d::16) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.428.11 via Frontend Transport; Thu,
- 17 Sep 2026 08:39:21 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- BN1PEPF00004682.mail.protection.outlook.com (10.167.243.88) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.428.7 via Frontend Transport; Thu, 17 Sep 2026 08:39:20 +0000
-Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.49; Thu, 17 Sep
- 2026 03:39:20 -0500
-Received: from amd-System-Product-Name.amd.com (10.180.168.240) by
- satlexmb07.amd.com (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.49
- via Frontend Transport; Thu, 17 Sep 2026 03:39:16 -0500
-From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-To: <vkoul@kernel.org>
-CC: <broonie@kernel.org>, <alsa-devel@alsa-project.org>,
-	<yung-chuan.liao@linux.intel.com>, <pierre-louis.bossart@linux.dev>,
-	<Basavaraj.Hiregoudar@amd.com>, <Sunil-kumar.Dommati@amd.com>,
-	<venkataprasad.potturu@amd.com>, <Syed.SabaKareem@amd.com>,
-	<Mario.Limonciello@amd.com>, <Richard.Gong@amd.com>,
-	<linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Vijendar
- Mukunda" <Vijendar.Mukunda@amd.com>
-Subject: [PATCH V2 9/9] soundwire: amd: fix interrupt gate and work drain ordering in PM ops
-Date: Thu, 17 Sep 2026 14:04:20 +0530
-Message-ID: <20260917083732.3803526-10-Vijendar.Mukunda@amd.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20260917083732.3803526-1-Vijendar.Mukunda@amd.com>
-References: <20260917083732.3803526-1-Vijendar.Mukunda@amd.com>
+	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="JvkxF/5f"
+X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 68H91XBK03145211, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
+	t=1789635694; bh=7WURpATfG3s3wN1yL9r1dvTYpVr6HV9bv730HUoZzdY=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type;
+	b=JvkxF/5fpsvpP/EBW8dYT2dHfPWzd57vH8SliqQKurJmsw/LGzw1SJZcouo05fg1b
+	 U/+FAtLoHXMOIxx7bDA8wjqkjsXi5+PVYg+UzKJeaLbHTbbEmQpnuGYntWuZtirNG9
+	 oY7g9Xn3jMojZN0nK4Dv/sLrEoBvqu3I6VgV1/rfMrlS0Q0UZ9LpDTIcKENE0ZO8SG
+	 vYThIdAqpL0aZmX0P9tEGiQP6qt7DNEmh6lUBFve2+u4IKq4xTkdFmwGDMYa3ns1CB
+	 GxesJoXm+urxMJngBavyZ+XcOauyrwNl3YDeFyxtq3l/KJW319TxugaCW/hXf7BPXC
+	 ITV0rM2JqJ9Zw==
+Received: from mail.realtek.com (rtkexhmbs03.realtek.com.tw[10.21.1.53])
+	by rtits2.realtek.com.tw (8.15.2/3.29/5.94) with ESMTPS id 68H91XBK03145211
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Thu, 17 Sep 2026 17:01:34 +0800
+Received: from RTKEXHMBS04.realtek.com.tw (10.21.1.54) by
+ RTKEXHMBS03.realtek.com.tw (10.21.1.53) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49; Thu, 17 Sep 2026 17:01:32 +0800
+Received: from sw-server.localdomain (172.24.54.4) by
+ RTKEXHMBS04.realtek.com.tw (10.21.1.54) with Microsoft SMTP Server id
+ 15.2.2562.49 via Frontend Transport; Thu, 17 Sep 2026 17:01:32 +0800
+From: <shumingf@realtek.com>
+To: <broonie@kernel.org>, <lgirdwood@gmail.com>
+CC: <linux-sound@vger.kernel.org>, <lars@metafoo.de>, <flove@realtek.com>,
+	<oder_chiou@realtek.com>, <jack.yu@realtek.com>, <derek.fang@realtek.com>,
+	Shuming Fan <shumingf@realtek.com>
+Subject: [PATCH v2] ASoC: rt712: add GPIOs for LED control
+Date: Thu, 17 Sep 2026 17:01:20 +0800
+Message-ID: <20260917090120.2506160-1-shumingf@realtek.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -81,139 +54,231 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN1PEPF00004682:EE_|IA0PR12MB7652:EE_
-X-MS-Office365-Filtering-Correlation-Id: 15d64c83-9014-4c74-258d-08df14972b53
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|82310400026|23010399003|36860700016|1800799024|10067099003|11063799006|56012099006|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	6npDY0dxzf69dcyq4PrTGoKiZiMY25J5v7cHqi57EUbyNCBpJKqRIBdu1/+WD+vrxGqvdjEUEGfeZToCNXNBY0N9bfxiYbHx1t8GzLkkhpvyGxwmY9MghWKbHu4MDj9ThcV140pLydokH9SiaPi4CqjIfcH6oZ297oSB23kdiwNMOCm3Sn28x9zrYZrc8hUCEB7k916zIowopqDIV1QhHcpMSSyIx0ouBNcRU4Q/1XLTde7FapOaz+mz3jCopIOVUPN6ITwg5EH7fmavmpMwowYJnRjRGfiDSTYz2vmhe9gGNldCvzKXNYAgPG/+mIMQflYXtVrUssLyMeMWdtC2uBHhhum8G4EWso1W+WkfVl+H6vnGEQYypXjDp+gcCnUAndNm4edTWiRWFVVOUWxr6Ozz7dMHtuBSsqwkUpoTXExznE996F/XTDSCdREnu7eD8dMN0gqQ5vAdCOo22MoojUD8BBfbdJicWYuzp9HuCFNrYCu3VJ/WauWQBNhHnv+35EpxA/d5HTCRlxLCp3o5dpfl/mLd21hKi9NdkXEmmo3wqgahcDyDPdY0dvJcH29Knoy5DsJqlJ1BolLQ/e/GHreNTzmPDODtxQhi5wWnG3P+Uj8MYkjLAt8WKi4fVLCmrXTs/XiGd5xblnSNNqLBs8YyAIYPO33UAYIIbZi19lyZhzC9xlFcmj++QotrauwpgxKuK0gmmeOSi8NyzSL0kw==
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(82310400026)(23010399003)(36860700016)(1800799024)(10067099003)(11063799006)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	obKQu6kPaOXnyzj+wy3A2M0nKCK1HPXAroyf3BPyOYHW26QbrFvPI7vUs7c6Z+5sd3kWY+EBNEZlYNFXI3hP5nTwRCwQcbQUpEJKZ0SkunAsCNOzDZDP6sOM2aPsLT/Kc4sD3ZWkohupQ3XNeBbLDwxmjdbrrPc0yFV5aCEaQ1ZhjYf7dFpUBEna4TOQPXjU/F2JIudl1Z7ADejuePFxwxeIu9y9ByEihqA3jbD7riUs235mmfZL/8pJky8OiCJgBAbV+dU37TEGD7d4UeKawPqhD1FEga3ppoGRykVy4czGJ9OA8y4Gsz6hG176Gnwv09Tsclim7l/xIg3XlmgwzRx431LW/5fDas8MunA8CKj7igOkWoZU2aLbZdSZTvMm2H+wgX73DtiUIeylmsEoC3vfMEwYxV2WaWWzbQXwSPIjhVXVsUQleiK6KrSB9nNf
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Sep 2026 08:39:20.8987
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 15d64c83-9014-4c74-258d-08df14972b53
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BN1PEPF00004682.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB7652
 
-The CLK_STOP_MODE branches in amd_suspend_runtime() and amd_suspend()
-did not close the ACP_EXTERNAL_INTR_CNTL delivery gate before draining
-amd_sdw_irq_thread and amd_sdw_work. The ACP PCI parent driver interrupt
-handler dispatches SoundWire interrupts to the AMD SoundWire stack by
-scheduling amd_sdw_irq_thread. Because the gate was open, an ISR already
-running when the drains completed could re-queue work after
-cancel_work_sync() returned, racing amd_sdw_clock_stop().
+From: Shuming Fan <shumingf@realtek.com>
 
-Fix both suspend paths by calling amd_disable_sdw_interrupts() first to
-close the ACP-level gate before work drains.
+Certain platforms use the RT712 GPIOs to control the microphone mute LED and speaker mute LED.
+This patch lets the LED subsystem to handle the GPIO control.
 
-In amd_suspend() CLK_STOP_MODE:
- - Add amd_disable_sdw_interrupts() and cancel_work_sync(irq_thread)
-   before the existing cancel_work_sync(work).
- - Call amd_enable_sdw_interrupts() after clock stop to reopen the gate.
-   ACP remains powered in CLK_STOP_MODE (only the SoundWire bus clock is
-   gated), so the interrupt path must be live to allow wake events to
-   reach the CPU during system sleep.
-
-In amd_suspend() POWER_OFF_MODE:
- - Add amd_disable_sdw_interrupts() and cancel_work_sync(irq_thread)
-   before the existing cancel_work_sync(work).
- - Remove the redundant post-clock-stop amd_disable_sdw_interrupts() call;
-   the gate is already closed at the top of the branch.
-
-In amd_suspend_runtime() CLK_STOP_MODE:
- - Add amd_disable_sdw_interrupts() and cancel_work_sync(irq_thread)
-   before the existing cancel_work_sync(work).
- - Call amd_enable_sdw_interrupts() to reopen the gate. ACP remains
-   powered in CLK_STOP_MODE (only the SoundWire bus clock is gated), so
-   the interrupt path must be live to allow wake events to reach the CPU.
-
-In amd_suspend_runtime() POWER_OFF_MODE:
- - Add amd_disable_sdw_interrupts() and cancel_work_sync(irq_thread)
-   before the existing cancel_work_sync(work).
- - Remove the redundant post-clock-stop amd_disable_sdw_interrupts() call;
-   the gate is already closed at the top of the branch.
-
-Fixes: 86a4371b7697 ("soundwire: amd: fix for handling slave alerts after link is down")
-Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+Signed-off-by: Shuming Fan <shumingf@realtek.com>
 ---
- drivers/soundwire/amd_manager.c | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+ sound/soc/codecs/rt712-sdca-sdw.c |   1 +
+ sound/soc/codecs/rt712-sdca-sdw.h |   3 +
+ sound/soc/codecs/rt712-sdca.c     | 136 ++++++++++++++++++++++++++++++
+ sound/soc/codecs/rt712-sdca.h     |   6 ++
+ 4 files changed, 146 insertions(+)
 
-diff --git a/drivers/soundwire/amd_manager.c b/drivers/soundwire/amd_manager.c
-index 0cb5f4694e9a..1a252a81269a 100644
---- a/drivers/soundwire/amd_manager.c
-+++ b/drivers/soundwire/amd_manager.c
-@@ -1321,6 +1321,8 @@ static int __maybe_unused amd_suspend(struct device *dev)
- 	}
+diff --git a/sound/soc/codecs/rt712-sdca-sdw.c b/sound/soc/codecs/rt712-sdca-sdw.c
+index edba0367d9ce..f2f91dd087bf 100644
+--- a/sound/soc/codecs/rt712-sdca-sdw.c
++++ b/sound/soc/codecs/rt712-sdca-sdw.c
+@@ -395,6 +395,7 @@ static void rt712_sdca_sdw_remove(struct sdw_slave *slave)
  
- 	if (amd_manager->power_mode_mask & AMD_SDW_CLK_STOP_MODE) {
-+		amd_disable_sdw_interrupts(amd_manager);
-+		cancel_work_sync(&amd_manager->amd_sdw_irq_thread);
- 		cancel_work_sync(&amd_manager->amd_sdw_work);
- 		amd_sdw_wake_enable(amd_manager, false);
- 		ret = amd_sdw_host_wake_enable_by_rev(amd_manager, false);
-@@ -1329,7 +1331,10 @@ static int __maybe_unused amd_suspend(struct device *dev)
- 		ret = amd_sdw_clock_stop(amd_manager);
- 		if (ret)
- 			return ret;
-+		amd_enable_sdw_interrupts(amd_manager);
- 	} else if (amd_manager->power_mode_mask & AMD_SDW_POWER_OFF_MODE) {
-+		amd_disable_sdw_interrupts(amd_manager);
-+		cancel_work_sync(&amd_manager->amd_sdw_irq_thread);
- 		cancel_work_sync(&amd_manager->amd_sdw_work);
- 		amd_sdw_wake_enable(amd_manager, false);
- 		ret = amd_sdw_host_wake_enable_by_rev(amd_manager, false);
-@@ -1342,7 +1347,6 @@ static int __maybe_unused amd_suspend(struct device *dev)
- 		ret = amd_sdw_clock_stop(amd_manager);
- 		if (ret)
- 			return ret;
--		amd_disable_sdw_interrupts(amd_manager);
- 		ret = amd_disable_sdw_manager(amd_manager);
- 		if (ret)
- 			return ret;
-@@ -1377,6 +1381,9 @@ static int __maybe_unused amd_suspend_runtime(struct device *dev)
- 		return 0;
- 	}
- 	if (amd_manager->power_mode_mask & AMD_SDW_CLK_STOP_MODE) {
-+		amd_disable_sdw_interrupts(amd_manager);
-+		cancel_work_sync(&amd_manager->amd_sdw_irq_thread);
-+		cancel_work_sync(&amd_manager->amd_sdw_work);
- 		amd_sdw_wake_enable(amd_manager, true);
- 		ret = amd_sdw_host_wake_enable_by_rev(amd_manager, true);
- 		if (ret)
-@@ -1384,7 +1391,11 @@ static int __maybe_unused amd_suspend_runtime(struct device *dev)
- 		ret = amd_sdw_clock_stop(amd_manager);
- 		if (ret)
- 			return ret;
-+		amd_enable_sdw_interrupts(amd_manager);
- 	} else if (amd_manager->power_mode_mask & AMD_SDW_POWER_OFF_MODE) {
-+		amd_disable_sdw_interrupts(amd_manager);
-+		cancel_work_sync(&amd_manager->amd_sdw_irq_thread);
-+		cancel_work_sync(&amd_manager->amd_sdw_work);
- 		amd_sdw_wake_enable(amd_manager, true);
- 		ret = amd_sdw_host_wake_enable_by_rev(amd_manager, true);
- 		if (ret)
-@@ -1392,7 +1403,6 @@ static int __maybe_unused amd_suspend_runtime(struct device *dev)
- 		ret = amd_sdw_clock_stop(amd_manager);
- 		if (ret)
- 			return ret;
--		amd_disable_sdw_interrupts(amd_manager);
- 		ret = amd_disable_sdw_manager(amd_manager);
- 		if (ret)
- 			return ret;
+ 	mutex_destroy(&rt712->calibrate_mutex);
+ 	mutex_destroy(&rt712->disable_irq_lock);
++	mutex_destroy(&rt712->gc_lock);
+ }
+ 
+ static const struct sdw_device_id rt712_sdca_id[] = {
+diff --git a/sound/soc/codecs/rt712-sdca-sdw.h b/sound/soc/codecs/rt712-sdca-sdw.h
+index 7ad25cc27f62..162d62234b68 100644
+--- a/sound/soc/codecs/rt712-sdca-sdw.h
++++ b/sound/soc/codecs/rt712-sdca-sdw.h
+@@ -46,6 +46,9 @@ static const struct reg_default rt712_sdca_mbq_defaults[] = {
+ 	{ 0x5b00029, 0x3fff },
+ 	{ 0x5b0002a, 0xf000 },
+ 	{ 0x6100000, 0x04e4 },
++	{ 0x6100009, 0x0000 },
++	{ 0x610000a, 0x0000 },
++	{ 0x610000b, 0x0020 },
+ 	{ 0x610000e, 0x0007 },
+ 	{ 0x6100045, 0x0860 },
+ 	{ 0x6100046, 0x0029 },
+diff --git a/sound/soc/codecs/rt712-sdca.c b/sound/soc/codecs/rt712-sdca.c
+index 38052cb19790..a98537e23c21 100644
+--- a/sound/soc/codecs/rt712-sdca.c
++++ b/sound/soc/codecs/rt712-sdca.c
+@@ -113,6 +113,138 @@ static void rt712_sdca_clk_patch2(struct rt712_sdca_priv *rt712)
+ 	rt712_sdca_index_write(rt712, RT712_VENDOR_REG, 0x65, 0x0000);
+ }
+ 
++static int rt712_sdca_gpio_request(struct gpio_chip *chip, unsigned int offset)
++{
++	struct rt712_sdca_priv *rt712 = gpiochip_get_data(chip);
++	struct device *dev = &rt712->slave->dev;
++	unsigned int gpio_pin = offset + 3;
++	int ret;
++
++	dev_dbg(&rt712->slave->dev, "%s: gpio_pin=%d\n", __func__, gpio_pin);
++
++	mutex_lock(&rt712->gc_lock);
++	ret = pm_runtime_resume_and_get(dev);
++	if (ret < 0 && ret != -EACCES)
++		goto io_error;
++
++	/*
++	 * Only support GPIO3 and GPIO4 for now
++	 */
++	switch (gpio_pin) {
++	case 3:
++		break;
++	case 4:
++		ret = rt712_sdca_index_update_bits(rt712, RT712_VENDOR_HDA_CTL,
++			RT712_HDA_LEGACY_CONFIG_CTL0, 0x000c, 0x0004);
++		if (ret < 0)
++			goto io_error;
++		break;
++	default:
++		ret = -EINVAL;
++		goto io_error;
++	}
++
++	ret = rt712_sdca_index_update_bits(rt712, RT712_VENDOR_HDA_CTL,
++		RT712_HDA_GPIO_EN_CTL, (1 << gpio_pin), (1 << gpio_pin));
++	if (ret < 0)
++		goto io_error;
++	ret = rt712_sdca_index_update_bits(rt712, RT712_VENDOR_HDA_CTL,
++		RT712_HDA_GPIO_DIRECTION_CTL, (1 << gpio_pin), (1 << gpio_pin));
++
++io_error:
++	mutex_unlock(&rt712->gc_lock);
++	pm_runtime_mark_last_busy(dev);
++	pm_runtime_put_autosuspend(dev);
++	return ret;
++}
++
++static int rt712_sdca_gpio_set(struct gpio_chip *chip, unsigned int offset,
++			   int value)
++{
++	struct rt712_sdca_priv *rt712 = gpiochip_get_data(chip);
++	struct device *dev = &rt712->slave->dev;
++	unsigned int gpio_pin = offset + 3;
++	int ret;
++
++	dev_dbg(&rt712->slave->dev, "%s: gpio_pin=%d, value=%d\n", __func__, gpio_pin, value);
++
++	mutex_lock(&rt712->gc_lock);
++	ret = pm_runtime_resume_and_get(dev);
++	if (ret < 0 && ret != -EACCES)
++		goto io_error;
++
++	ret = rt712_sdca_index_update_bits(rt712, RT712_VENDOR_HDA_CTL,
++			RT712_HDA_GPIO_SET_CTL, (1 << gpio_pin), (!!value << gpio_pin));
++
++io_error:
++	mutex_unlock(&rt712->gc_lock);
++	pm_runtime_mark_last_busy(dev);
++	pm_runtime_put_autosuspend(dev);
++	return ret;
++}
++
++static int rt712_sdca_gpio_direction_out(struct gpio_chip *chip,
++				     unsigned offset, int value)
++{
++	struct rt712_sdca_priv *rt712 = gpiochip_get_data(chip);
++	struct device *dev = &rt712->slave->dev;
++	unsigned int gpio_pin = offset + 3;
++	int ret;
++
++	dev_dbg(&rt712->slave->dev, "%s: gpio_pin=%d, value=%d\n", __func__, gpio_pin, value);
++
++	mutex_lock(&rt712->gc_lock);
++	ret = pm_runtime_resume_and_get(dev);
++	if (ret < 0 && ret != -EACCES)
++		goto io_error;
++
++	switch (gpio_pin) {
++	case 3:
++	case 4:
++		ret = rt712_sdca_index_update_bits(rt712, RT712_VENDOR_HDA_CTL,
++			RT712_HDA_GPIO_DIRECTION_CTL, (1 << gpio_pin), (1 << gpio_pin));
++		if (ret < 0)
++			goto io_error;
++		ret = rt712_sdca_index_update_bits(rt712, RT712_VENDOR_HDA_CTL,
++			RT712_HDA_GPIO_SET_CTL, (1 << gpio_pin), (!!value << gpio_pin));
++		break;
++	default:
++		ret = -EINVAL;
++		goto io_error;
++	}
++
++io_error:
++	mutex_unlock(&rt712->gc_lock);
++	pm_runtime_mark_last_busy(dev);
++	pm_runtime_put_autosuspend(dev);
++	return ret;
++}
++
++static const struct gpio_chip rt712_sdca_template_chip = {
++	.label = "rt712-sdca",
++	.owner = THIS_MODULE,
++	.request = rt712_sdca_gpio_request,
++	.direction_output = rt712_sdca_gpio_direction_out,
++	.set = rt712_sdca_gpio_set,
++	.ngpio = 2,
++	.can_sleep = true,
++	.base = -1,
++};
++
++static void rt712_sdca_gpio_init(struct rt712_sdca_priv *rt712)
++{
++	int ret;
++
++	mutex_init(&rt712->gc_lock);
++	rt712->gpio_chip = rt712_sdca_template_chip;
++	rt712->gpio_chip.parent = &rt712->slave->dev;
++	rt712->gpio_chip.fwnode = dev_fwnode(&rt712->slave->dev);
++
++	ret = devm_gpiochip_add_data(&rt712->slave->dev, &rt712->gpio_chip, rt712);
++	if (ret != 0)
++		dev_err(&rt712->slave->dev, "Failed to add GPIOs: %d\n", ret);
++}
++
+ static int rt712_sdca_calibration(struct rt712_sdca_priv *rt712)
+ {
+ 	unsigned int val, loop_rc = 0, loop_dc = 0;
+@@ -1724,6 +1856,10 @@ int rt712_sdca_init(struct device *dev, struct regmap *regmap,
+ 	INIT_DELAYED_WORK(&rt712->jack_detect_work, rt712_sdca_jack_detect_handler);
+ 	INIT_DELAYED_WORK(&rt712->jack_btn_check_work, rt712_sdca_btn_check_handler);
+ 
++	/* initialize GPIOs */
++	if (IS_ENABLED(CONFIG_GPIOLIB))
++		rt712_sdca_gpio_init(rt712);
++
+ 	/*
+ 	 * Mark hw_init to false
+ 	 * HW init will be performed when device reports present
+diff --git a/sound/soc/codecs/rt712-sdca.h b/sound/soc/codecs/rt712-sdca.h
+index 6229fe341bb5..7e6ee21c8a17 100644
+--- a/sound/soc/codecs/rt712-sdca.h
++++ b/sound/soc/codecs/rt712-sdca.h
+@@ -14,6 +14,7 @@
+ #include <linux/soundwire/sdw_type.h>
+ #include <sound/soc.h>
+ #include <linux/workqueue.h>
++#include <linux/gpio/driver.h>
+ 
+ struct  rt712_sdca_priv {
+ 	struct regmap *regmap;
+@@ -45,6 +46,8 @@ struct  rt712_sdca_priv {
+ 	bool fu05_dapm_mute;
+ 	bool fu05_mixer_l_mute;
+ 	bool fu05_mixer_r_mute;
++	struct gpio_chip gpio_chip;
++	struct mutex gc_lock;
+ };
+ 
+ struct rt712_dmic_kctrl_priv {
+@@ -114,6 +117,9 @@ struct rt712_dmic_kctrl_priv {
+ #define RT712_HDA_LEGACY_MUX_CTL0			0x00
+ #define RT712_HDA_LEGACY_CONFIG_CTL0			0x06
+ #define RT712_HDA_LEGACY_RESET_CTL			0x08
++#define RT712_HDA_GPIO_EN_CTL				0x09
++#define RT712_HDA_GPIO_DIRECTION_CTL			0x0a
++#define RT712_HDA_GPIO_SET_CTL				0x0b
+ #define RT712_HDA_LEGACY_GPIO_WAKE_EN_CTL		0x0e
+ #define RT712_DMIC_ENT_FLOAT_CTL			0x10
+ #define RT712_DMIC_GAIN_ENT_FLOAT_CTL0			0x11
 -- 
-2.48.1
+2.54.0
 
