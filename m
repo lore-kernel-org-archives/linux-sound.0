@@ -1,89 +1,89 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 970624B7A59;
-	Thu, 17 Sep 2026 17:24:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A95A4E9C1B;
+	Thu, 17 Sep 2026 18:09:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789665888; cv=none; b=Ghe2Kc20lKR3XauK7Uu7Vuq6xcyLc7KyQLjbr7agg0T1G/J3LROhzeTmFRtfAdHt5jInr9biu9R+5PsblDKWFl7TmPBqpOv8fPf5U2hMfo0uoW4pvK7Eb8yFle6qRgt9dc3OVhV6T3jopI7a3a5KXZri7BW7s6YiC2AooJsAjhA=
+	t=1789668601; cv=none; b=ACFW39c78eXwEnjkcUjGVr0bATdk6N8+rD+tAQoWmqbtmama2tRSb+x9x2gxzZinTcSVuC8S+RmbFpDr/pSVsRGpt8TleA1TuGPbA55o4Y1DItUkWhToZyV9UZPZxrR0kiR3pZP+0ZlpPhXLfNnCMGLhha9HhHFWeya/9KFOydQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789665888; c=relaxed/simple;
-	bh=zRgIYmhOkBviTaCSKzEY+UrVKQFC3UxDAcI8cDm1mPE=;
+	s=arc-20240116; t=1789668601; c=relaxed/simple;
+	bh=oai6U0JbCD4GjPdMag8AoSuR0BOXNS/qIxk4AQoBcA4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hqYRQzUW4FiKKOUTMJ6wUr1Xu/awqv5fDOsPLuh7zM5rJRemhXIEvTxf6J9R7fHpRQr4PulylX2a1koXn2gOTR4FnsaEVekfPB3XSg/+Kk21OugJOK5usDv2jLYZXkSsYORzsnqb8YB97YpGmOZ/FtoNv+m8EzbIJtwO4rObabc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VzHAn+0L; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=YDAwNo/w3nFWMZ+WT2I2KwjKODb6FGtVeW0ERsepTvbTUPKCXpmtcGE01jlTTE8rGvVIEOu/SzHrEr4QcL+gj7I33c/Aex+xk5SrACNUBfVdm7KqW74r+o5uKJqUvIEf2HSZkxp8CGMhQHG1jYOKwAM1PDdXagQ/nTmEGYzwVgo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WbPi5HkV; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VzHAn+0L"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F2DD1F000FF;
-	Thu, 17 Sep 2026 17:24:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WbPi5HkV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F0B51F00893;
+	Thu, 17 Sep 2026 18:09:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789665887;
-	bh=2u418ZnQvyCs6abTY+VRjRserpcaiedptr9Av50Tv+8=;
+	s=k20260515; t=1789668599;
+	bh=4pYu5PJMwDbiD3YaUZzHgB4wN8SoNcJfUzk9qPUH13c=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=VzHAn+0Lc+DpmEVX9gnZVRLqzC79aR5sMu4yhuHy/qCyFw+3S6jumelFT4VwP/R1I
-	 npAZqjNjl6PFl3Pi+dNzL50Atq3AUlj1DBtvLLh38BtOrNqMTDvfz6v//FpOcgswi8
-	 hOzczzKUoGQaq2zIaNdZ6Vx46lgjNF5P2Xnb0KkIR/xQg6zdA11JuL03XkGFJ+dHcs
-	 guzOt0fDIpiTwp9D2Up4YkqwqKIsCj4jmW5z9ETy3pTZK2DHQNOuPluRwmZGzjMbuj
-	 OQgW9hCrZF/rhW/Qm3IZSOtUeBJ4zgJFKSFqObhcCmZmT/SIkUV/Ith/FkxCcaZxXh
-	 +RSo9ec/bbdSQ==
-Date: Thu, 17 Sep 2026 18:24:43 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Rosen Penev <rosenp@gmail.com>
-Cc: linux-sound@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] ASoC: fsl: mpc5200: gate AC97 driver on PPC_MPC52xx
-Message-ID: <d76de06c-9cae-42c6-95a8-91c9ed7e8f6b@sirena.org.uk>
-References: <20260916220453.260472-1-rosenp@gmail.com>
+	b=WbPi5HkVF8DSz0T2SCNJanVPF1hO+VUVNvlf7dZN/M+QGQZdaZZ++HiKXIdGawI0K
+	 HoNSeXerN+3x7/q2GZx9A1BCMFtT6htdqJZ48oJSZe5prgnajMVxTbrsV37XDsodIL
+	 nFgOSCtk9xLUnNo9T5jIw7b+hxZrEP2SI7saVA+3Tfuw89Qv7f66r2lozXtG1mM9N5
+	 /wB/fpo4qFySqnM6qYJ3bWJdhbhNrCwJd0ZXHgk1bBgE76Dt0bo4BxnnXXZCXNiwB4
+	 5I+uWXcHsxWWx3DRSbK05yRnPAhe00NkpmwlmO7L2NzHBqZ/zl4oPzq6bUmJ7fh5bU
+	 LcQRf0alicsEw==
+Date: Thu, 17 Sep 2026 23:39:54 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Frank Li <Frank.li@oss.nxp.com>
+Cc: Andy Shevchenko <andriy.shevchenko@intel.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-iio@vger.kernel.org,
+	linux-sound@vger.kernel.org, linux-spi@vger.kernel.org,
+	Frank Li <Frank.Li@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
+	=?iso-8859-1?Q?Am=E9lie?= Delaunay <amelie.delaunay@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Andy Shevchenko <andy@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, Mark Brown <broonie@kernel.org>
+Subject: Re: [PATCH v4 01/10] dmaengine: Move enum dma_slave_buswidth to a
+ new header
+Message-ID: <aqws8pN2rfS9-dCC@parshuram>
+References: <20260911-dmaengine-support-wider-dma-masks-v4-0-72b8fd4cc78e@analog.com>
+ <20260911-dmaengine-support-wider-dma-masks-v4-1-72b8fd4cc78e@analog.com>
+ <aqgCQvRw9fns__0d@SMW015318>
+ <aqjzvxI4ecoFvRLT@ashevche-desk.local>
+ <aqlpoBJJXfZgsMxT@parshuram>
+ <aqlwRkNcs_UqKjWs@parshuram>
+ <aql6u3T0nnSVr-FC@SMW015318>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="XCQXD9fzcag7N+ET"
-Content-Disposition: inline
-In-Reply-To: <20260916220453.260472-1-rosenp@gmail.com>
-X-Cookie: Whip it, whip it good!
-
-
---XCQXD9fzcag7N+ET
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <aql6u3T0nnSVr-FC@SMW015318>
 
-On Wed, Sep 16, 2026 at 03:04:53PM -0700, Rosen Penev wrote:
-> The MPC5200 PSC AC97 driver only applies to the MPC52xx family of
-> SoCs, but only depended on PPC_BESTCOMM. Restrict the driver to
-> MPC52xx platforms so it is not offered (and does not fail to build)
-> on other bestcomm-based machines.
+On 15-09-26, 12:04, Frank Li wrote:
+> On Tue, Sep 15, 2026 at 09:50:22PM +0530, Vinod Koul wrote:
+> > On 15-09-26, 21:22, Vinod Koul wrote:
 
->  config SND_SOC_MPC5200_AC97
->  	tristate "Freescale MPC5200 PSC in AC97 mode driver"
-> -	depends on PPC_BESTCOMM
-> +	depends on PPC_BESTCOMM && PPC_MPC52xx
+> > > > Traditional naming would be
+> > > > dma/engine/provider.h
+> > > > dma/engine/consumer.h
+> > >
+> > > consumer and provider and good names.. I would retain the full dmaengine
+> > > everywhere please. dma causes confusion already!
+> >
+> > Thinking about it again, drivers/dma/dmaengine.h should be the provider
+> 
+> There some dmaengine code outside drivers/dma directory, like
+> drivers/crypto/ccp/ccp-dmaengine.c
 
-The DMA controller has:
+They chose to be outside, their choice... They need to be updated as
+well to point to ../../dma/dmaengine.h :-)
 
-config PPC_BESTCOMM
-        tristate "Bestcomm DMA engine support"
-        depends on PPC_MPC52xx
-
-so there's something else going on here I think.
-
---XCQXD9fzcag7N+ET
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqsIloACgkQJNaLcl1U
-h9BY7Qf/fkaOJRIVi6MAE9WTDDLwXDPRj407RDD96L+pgal2bNPZUhtDx4K48BEE
-y9VsKZ+E90iZ5WYlOFxFwrZCx9idaHZKSJaVEGOXcmU65/Lal8+KvOoRLAAMqfvg
-jAEhWWIKQXKcTVQXuRfzXIFPwYJoCZZAqlFL9XSjmiSUz0tUxQoJSb36zsJflq4j
-avBcP0ppyp6GNwHtrIrFcTKg8G/l9SVRfYjz501pu0mnARuh09HHrDDZYmbttSzj
-VvOdGxGxUFFUeLzwNq3HDFXKOj99+sK9yknuJUOUL38cj+q52QwZ2E/cYzl02K0K
-L4L7FdJEykhT6N+glPmRkqt1vbi4Lw==
-=E2tf
------END PGP SIGNATURE-----
-
---XCQXD9fzcag7N+ET--
+-- 
+~Vinod
