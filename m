@@ -1,167 +1,178 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C136E53D9FD;
-	Thu, 17 Sep 2026 16:40:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCAE14F4CED;
+	Thu, 17 Sep 2026 16:41:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789663250; cv=none; b=KjnObt+WeQUkml2nTwzV310gmrVXXqXm4mZpl+wqUfdlq5fUDn+P+I/tIQF34J1HyE/9gvbD5gJdJ5OvGADKLCOLdlDu632G4xeyGB6Y0eDlWxxFAoqq8fpsiMsaaBgngzpWmerf51FGW1No1JP/bIftZULkx3gE+6gZH7byF9s=
+	t=1789663266; cv=none; b=CA0Y4vaVl22U3cbLJ0PAgaxKu9KmcngWmOeQz2BqJFsDFyztq7zWHxxY6NtpsSXNS5pEUEXyNb0D4UjXTKK9rImTfI/+d1e2+Qbidbscbp3YiTfUfrheO7c1Y2I+IAs8tIpKjps3xXItCxqi14qMKsJjb+bwhBehwEQiqDydVGs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789663250; c=relaxed/simple;
-	bh=DL5e220u7y3LwD4Eiaa74zWyGi+IuXsLh7IOYBtbckQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=okO5qdfypyg/+iKO1jsikB8lSbI/EsqPumRi5oiSACErJo85x58gnOz06+3SaIvvC93uadF6YzZ3ck7imf7VHSj97PeI96o/0U7v4NNk/jPelpaEV8XC0IvAvxshK5TnszanMXhIt8o5W1AHVm2dRSPZBQyDzUIlWNLHF31dkPA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gspn9qQ7; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789663266; c=relaxed/simple;
+	bh=5FAbYOI3d6kLn4/03hVYDZrZobbTRvc1SkdQqGzL7jM=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=a3BjIteGf+IPburVE31vDc3wZb4Uq2eWW2jCw585aL4OVpfk3wy6AVOhWstKUnm+cJ0m7t2faB02UeZBThORQRyLC5BGiospZUleJ/l0ZISswCdp0FzwygpOE6b/RDStr+vMEB9DjtWGEGOrwdu4VdEVFwhSJq/wXx+0ekFzPPs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=PTYSEn+H; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5zhg47LL; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hmX1Ew1o; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Kcntsagq; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gspn9qQ7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 213F61F000FF;
-	Thu, 17 Sep 2026 16:40:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789663248;
-	bh=1QRQ9WYzmW2nABpmD05iYHWtoRPkYuNGcAfZon3VB64=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=Gspn9qQ7Co3hTNTbvqHEG4UcsqEuAaXs4WpY+IWArwLJpD+5im1F/7UjZBYzBxEFP
-	 r6kNzzWv/ygP9N4CBTIF6SK4Me1N+TZ7kg6quLRtughmHxBkfXwla981QkTLotSK4V
-	 PNjnrxnE7nvQlWvnL9nNWOrPkCRYAY+FZPJilWJSHjfUPF9+dMlR6D9G7cKVnY5zew
-	 CY9et4FnP9P/JyfZel2Guas6YNCbujBjaIbwC7sV5R2ANs6rbBZryLjyMGMzIfInyM
-	 67LHWbWvbSV5TTZ0+n/kZZXO1u8Gous31lF+kG/dEXbhUdNWe84ivAYvKYlYgwsB+w
-	 kA8OssQfVfUsg==
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Date: Thu, 17 Sep 2026 17:22:44 +0100
-Subject: [PATCH v3 35/40] mm: eliminate VMA_SPECIAL_FLAGS check in
- lru_gen_look_around()
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="PTYSEn+H";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5zhg47LL";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hmX1Ew1o";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Kcntsagq"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 4A9571FFA0;
+	Thu, 17 Sep 2026 16:40:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1789663258; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7mH0FIVer3GoGr7wIgb7gp2ZvqBkBDTqED8d7FnkK8w=;
+	b=PTYSEn+HBneKRSdJlIbbRc1ju/nHxtebdDms9iAg56cbdSZU2F860ezQGy05pUI4egECu0
+	374w9gv6ZaBOUY+4nhGq7zwcheHFkH5bO75snrZTvBExNlaGhspYOfmKMeiKoQTdWQGW1Z
+	LQDym4p7mez3DWycj4/h27XAIXR/BZo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1789663258;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7mH0FIVer3GoGr7wIgb7gp2ZvqBkBDTqED8d7FnkK8w=;
+	b=5zhg47LL8ivlSi5IavIEDZcqGRb6QW2iPXndVrNtCKorbPnXlhQPtH2XsFUB6aOm+/IX1f
+	hoZkPtnGKmWskfDw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=hmX1Ew1o;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Kcntsagq
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1789663254; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7mH0FIVer3GoGr7wIgb7gp2ZvqBkBDTqED8d7FnkK8w=;
+	b=hmX1Ew1o1A2bFnfIxIw7FGkc4FzN8sgZ7vzbQseXTGW+chFSbT7bCwXiL2ZRr3+As89bEr
+	eFUjU/nKnJYPUtH5VxfuhoCQ7vQvXBoH5g3UYIu/+M/RFGqTEnW6AUX77EQAb/1Ox/eZ3h
+	h3cz9Ze7fGGb3HJRg8Vc4RRLomwUTg8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1789663254;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7mH0FIVer3GoGr7wIgb7gp2ZvqBkBDTqED8d7FnkK8w=;
+	b=Kcntsagq3McmKLGntue1Uc5++fi0scWHG1G2txL2VzzsqBOYuIDc6TSTDYrXLx+5Ma86SD
+	HGk9S8+9NZ/NWOAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EEFC9134B3;
+	Thu, 17 Sep 2026 16:40:53 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id wk7cMBUYrGojFwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 17 Sep 2026 16:40:53 +0000
+Date: Thu, 17 Sep 2026 18:40:53 +0200
+Message-ID: <87o6dvg7ai.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Zipdox <zipdox@zipdox.net>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	linux-sound@vger.kernel.org,
+	perex@perex.cz,
+	linux-kernel@vger.kernel.org,
+	tiwai@suse.com
+Subject: Re: [PATCH] USB Audio Class 2 Mixer unit support for GET_CUR, SET_CUR and RANGE
+In-Reply-To: <13f9ee6e-acf2-4166-93cc-33cbc2d4bd89@zipdox.net>
+References: <d46fcac6-bd7e-4fc4-95e1-4e8d39f92ad3@zipdox.net>
+	<87bj9yn55n.wl-tiwai@suse.de>
+	<59b3dc9b-f324-42e7-ab03-a01c04e8b915@zipdox.net>
+	<8733vamwaz.wl-tiwai@suse.de>
+	<da56664f-901e-497b-a74c-ae41cbc5cac4@zipdox.net>
+	<87a4phjjay.wl-tiwai@suse.de>
+	<8733v9jfp1.wl-tiwai@suse.de>
+	<87y0d1hx9y.wl-tiwai@suse.de>
+	<895b9e3d-bc81-4688-8513-8aa42d40e4fa@zipdox.net>
+	<05a53b37-8de3-4075-93c0-21129a839356@zipdox.net>
+	<87se37g8gu.wl-tiwai@suse.de>
+	<13f9ee6e-acf2-4166-93cc-33cbc2d4bd89@zipdox.net>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-35-4583d8a23bca@kernel.org>
-References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
-In-Reply-To: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>, 
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
- Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
- David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
- Jonathan Corbet <corbet@lwn.net>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
- Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
- Paul Moore <paul@paul-moore.com>, 
- Stephen Smalley <stephen.smalley.work@gmail.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
- Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
- Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>, 
- Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, 
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
- Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
- Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, 
- "Martin K. Petersen" <mkp@kernel.org>, Jaya Kumar <jayalk@intworks.biz>, 
- Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, 
- Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, 
- Peter Xu <peterx@redhat.com>, Masami Hiramatsu <mhiramat@kernel.org>, 
- Oleg Nesterov <oleg@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
- Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
- x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
- Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
- Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
- Juri Lelli <juri.lelli@redhat.com>, 
- Vincent Guittot <vincent.guittot@linaro.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
- "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, 
- Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
- Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
- Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
- Catalin Marinas <catalin.marinas@arm.com>, 
- Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, 
- Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
- Albert Ou <aou@eecs.berkeley.edu>, 
- Christian Borntraeger <borntraeger@linux.ibm.com>, 
- Janosch Frank <frankja@linux.ibm.com>, 
- Claudio Imbrenda <imbrenda@linux.ibm.com>, 
- Alexander Gordeev <agordeev@linux.ibm.com>, 
- Gerald Schaefer <gerald.schaefer@linux.ibm.com>, 
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
- "David S. Miller" <davem@davemloft.net>, 
- Andreas Larsson <andreas@gaisler.com>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, 
- Matthew Brost <matthew.brost@intel.com>, 
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, 
- Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, 
- Ying Huang <ying.huang@linux.alibaba.com>, 
- Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, 
- Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
- Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
- Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
- Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
- Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
- Wei Xu <weixugc@google.com>, Chengming Zhou <chengming.zhou@linux.dev>, 
- Michal Hocko <mhocko@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, 
- Xu Xin <xu.xin@linux.dev>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
- linux-rdma@vger.kernel.org, selinux@vger.kernel.org, 
- linux-sound@vger.kernel.org, bpf@vger.kernel.org, 
- linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
- linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, 
- kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
- linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, 
- fuse-devel@lists.linux.dev, "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1176; i=ljs@kernel.org;
- h=from:subject:message-id; bh=DL5e220u7y3LwD4Eiaa74zWyGi+IuXsLh7IOYBtbckQ=;
- b=owGbwMvMwCV2fu7ZrsZH9SKMp9WSGLLWCB9hLL35ff77dPnnyjWxyxtOXnb5+35nmharbKxQy
- 6vMp54JHaUsDGJcDLJiiizPv4jvDxIJm9d5wd8NZg4rE8gQBi5OAZiIqy/Db9aa5weOsMxRtPrs
- HCqQHviv6mfnxF/xdR/y2ZT0lC4lMTL8M7Jx8PFZKXNRYHPiW8EVFv+upxuICcwLWyu1R4MnxHw
- zCwA=
-X-Developer-Key: i=ljs@kernel.org; a=openpgp;
- fpr=E7F417BF5214569E89D04F46CF9DCD8A81E27F14
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-2022-JP
+X-Spam-Score: -3.51
+X-Rspamd-Queue-Id: 4A9571FFA0
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Flag: NO
 
-A kernel-owned or fixed mapping is one which sets VMA_PFNMAP_BIT,
-VMA_MIXEDMAP_BIT or VMA_DONTEXPAND_BIT, which is precisely what
-VMA_SPECIAL_FLAGS tests for other than VMA_IO_BIT, which is safe to drop as
-only kernel-owned mappings may set it.
+On Thu, 17 Sep 2026 18:33:50 +0200,
+Zipdox wrote:
+> 
+> On 9/17/26 6:15 PM, Takashi Iwai wrote:
+> > Good to hear.  If you have a chance to test my last series of patches,
+> > it'd be appreciated.
+> > 
+> > BTW, I'll be off from tomorrow, and the issue is no new bug to be
+> > urgently fixed, so I'll handle after back to work again :)
+> > 
+> > 
+> > thanks,
+> > 
+> > Takashi
+> 
+> I have compiled your patches and the mixer unit control seems to work
+> correctly.
+> 
+> Another thing on my mind is the following section from section
+> 5.2.5.5.1 from the spec:
+> > A Mixer Unit consists of a number of Mixer Controls, either programmable or fixed. A Mixer Control must
+> > support the CUR and RANGE(MIN, MAX, RES) attributes. The settings for the CUR, MIN, and MAX
+> > attributes can range from +127.9961 dB (0x7FFF) down to -127.9961 dB (0x8001) in steps of 1/256 dB or
+> > 0.00390625 dB (0x0001). The settings for the RES attribute can only have positive values and range from
+> > 1/256 dB (0x0001) to +127.9961 dB (0x7FFF).
+> > In addition, code 0x8000, representing silence (i.e., -∞ dB), must always be implemented. However, it must
+> > never be reported as the MIN attribute value.
+> 
+> Is this presently handled? For reference, 0x8000 is -32768. When I use
+> qasmixer or alsamixer, for example, it only goes down to -32767. This
+> is the same in UAC1 by the way. Should we add a mute control to mixer
+> nodes? Or perhaps extend the reported range downward by one, and
+> overwrite the lowest value to -32768 when writing to a mixer unit. The
+> latter is my preferred solution.
 
-Using these predicates rather than VMA_SPECIAL_FLAGS makes the check
-self-documenting and helps eliminate the confusion around 'special' flags.
+I guess it's not; there is cval->min_mute flag, but it's for another
+case (the minimal volume = mute) for the statically mapped mixer
+elements, and not for this mixer unit case.
 
-No functional change intended.
+Maybe they should be implemented by additional mute switches.
 
-Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
----
- mm/vmscan.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Overall, the mixer unit controls have been rarely used by the devices,
+so far, and that's the reason we didn't hit this over years :)
 
-diff --git a/mm/vmscan.c b/mm/vmscan.c
-index 09ff20c3df5b..001f8b760266 100644
---- a/mm/vmscan.c
-+++ b/mm/vmscan.c
-@@ -4418,8 +4418,8 @@ bool lru_gen_look_around(struct page_vma_mapped_walk *pvmw, unsigned int nr)
- 	if (spin_is_contended(pvmw->ptl))
- 		return true;
- 
--	/* exclude special VMAs containing anon pages from COW */
--	if (vma->vm_flags & VM_SPECIAL)
-+	/* exclude kernel-owned and fixed VMAs containing anon pages from COW */
-+	if (vma_is_kernel_owned(vma) || vma_is_fixed_mapping(vma))
- 		return true;
- 
- 	/* avoid taking the LRU lock under the PTL when possible */
 
--- 
-2.55.0
-
+Takashi
