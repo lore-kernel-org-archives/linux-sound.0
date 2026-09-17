@@ -1,114 +1,143 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out162-62-58-216.mail.qq.com (out162-62-58-216.mail.qq.com [162.62.58.216])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0276C299A82
-	for <linux-sound@vger.kernel.org>; Thu, 17 Sep 2026 06:24:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D27944CF44
+	for <linux-sound@vger.kernel.org>; Thu, 17 Sep 2026 06:58:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.58.216
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789626275; cv=none; b=MQ2yySoIF+5Ec36frevDC03C2KB+8ScfG2+sp9J0o4GurQs2K1j1gJ5Z+raxqm3KzKuOa6VYQcFT7bJrd6ttFWOzjupfHfNHb9W3u0f9jGrg0GtPw9yz/KXVcRiCJQ3FnTrIXqG3c8T0YeP8oTJBnPx7SRO0qmpBafrmJvx045M=
+	t=1789628320; cv=none; b=oXln7Y7NrQ6QE87p74fBB63Dm4D0I+rnFTw+S4kKrU4FsSxstGHNOuHSY3CPOHJyJdyCsM3LMUXUAexP/gKhviTZk/H8hlnHzC9hExW4B3Dff5pWTNIuM41vmawaCHtkWjQMvqRg18uf1raE7Inzd9876IpnTLluZfvyxDJ9CW0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789626275; c=relaxed/simple;
-	bh=gRryFmSQ1tMi4eepV0V12vk4Ck8G+3DWzHU4u74HfKU=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=aWX1DL+xpJjjEPv2inkmyQMm5ROV4weANkaTiuJ3HJXdVsoOjR+1JshJoMkQkSzr4K+InrnrHbrd8S331vRzV3KlPvx1i+yP+jgVD2Xtf98aAXYjXq7nIrzR1MyMYIco/0fiuMXjMSNNLV6mp88eUcAdeuyM3dcyNagHflDoWQk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=Pjtg1XNt; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+	s=arc-20240116; t=1789628320; c=relaxed/simple;
+	bh=ZJdrE4ZQiL2fLVG0uq498yF1fyMXEuokmN0oteE5iLI=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=kfEEEvObw5u90VoQoNyspigJQnzma1FgrBMTeE8hPTu0Nil8cbO9Cg6P9goNWBaFbitseCM6wMK/Yoc8cDmqSx/LAlT6dFG2FMxpd52Ckafxl4SPe5IDAT6Aev3O3bwqNcbMXWyGIDonGrgZV7rsI/0FKGuYf2W3zCqBjBliYTw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=Kacba+HR; arc=none smtp.client-ip=162.62.58.216
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="Pjtg1XNt"
-X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 68H6O7nnC3058782, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
-	t=1789626247; bh=gRryFmSQ1tMi4eepV0V12vk4Ck8G+3DWzHU4u74HfKU=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:MIME-Version;
-	b=Pjtg1XNt4mhNMiI+MQcPf4PL47SyJHkDezoT/DgRdsuOAWQKPdzuuOUOIne9X/CJl
-	 mxS5UwT6ItuSCKOETiEGVxbiT7h5Uv17vwpJc2nsZbK9/KKsyBrNbILP/5zBKQgCWC
-	 aSAI3MXUYKWGbVzjVY514YRK6lmQ9EXIsLyuBqs/+nQsiyoytQbl6OnB1VG5Ff0d0b
-	 JW7o5CaWveW//vRQcgesJmyS2lAiLVZ3/3tmoppeFANRP/xb5UH5SRxGTexrcSiJZS
-	 7AzZXj3VKmGpYxBeR12spAnSPaoa+IFUjOsSYDM5Q99GKc00KO6Qxc7zwDRi80buJm
-	 LHKfwloBF6MLA==
-Received: from mail.realtek.com (rtkexhmbs04.realtek.com.tw[10.21.1.54])
-	by rtits2.realtek.com.tw (8.15.2/3.29/5.94) with ESMTPS id 68H6O7nnC3058782
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Thu, 17 Sep 2026 14:24:07 +0800
-Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
- RTKEXHMBS04.realtek.com.tw (10.21.1.54) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.49; Thu, 17 Sep 2026 14:24:07 +0800
-Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
- RTKEXHMBS06.realtek.com.tw (10.21.1.56) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.49; Thu, 17 Sep 2026 14:24:06 +0800
-Received: from RTKEXHMBS06.realtek.com.tw ([::1]) by
- RTKEXHMBS06.realtek.com.tw ([fe80::b3cc:c263:b82d:e87c%10]) with mapi id
- 15.02.2562.049; Thu, 17 Sep 2026 14:24:06 +0800
-From: =?big5?B?U2h1bWluZyBbrVOu0bvKXQ==?= <shumingf@realtek.com>
-To: Mark Brown <broonie@kernel.org>
-CC: "lgirdwood@gmail.com" <lgirdwood@gmail.com>, "linux-sound@vger.kernel.org"
-	<linux-sound@vger.kernel.org>, "lars@metafoo.de" <lars@metafoo.de>,
-	"Flove(HsinFu)" <flove@realtek.com>, Oder Chiou <oder_chiou@realtek.com>,
-	Jack Yu <jack.yu@realtek.com>, =?big5?B?RGVyZWsgW6TovHe4cV0=?=
-	<derek.fang@realtek.com>
-Subject: RE: [PATCH] ASoC: rt712: add GPIOs for LED control
-Thread-Topic: [PATCH] ASoC: rt712: add GPIOs for LED control
-Thread-Index: AQHdRbxIAPU0WEF84kS7Yg+BDGvqC7bRNhIAgACSnKA=
-Date: Thu, 17 Sep 2026 06:24:06 +0000
-Message-ID: <6c0f94dee95c474d8fd7b5ad486f372a@realtek.com>
-References: <20260916090513.2294466-1-shumingf@realtek.com>
- <3afc23b2-6072-4b65-b3e5-88cee7bf6997@sirena.org.uk>
-In-Reply-To: <3afc23b2-6072-4b65-b3e5-88cee7bf6997@sirena.org.uk>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-Content-Type: text/plain; charset="big5"
-Content-Transfer-Encoding: base64
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="Kacba+HR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1789628311; bh=MERgzgpXXsLuMM/VoNLF9rsIVtw8Kcufyml/2ixyCzE=;
+	h=Date:From:Subject:To:Cc;
+	b=Kacba+HRMKdalwTJcORO9GjHwmtAduzfpGgZ7aWqPhFq6LDa+rE6OD2qZTtf68aQ3
+	 ldL2nK+3oEJ7Oa1elXt003/ibKdwBh8IrXlgvYIHhW77DAuHf6g0S7FeLIzQae31sa
+	 sTril0eoo680YrR6aMs71PPi19tpzMRi8wfj6zRE=
+Received: from [192.168.0.69] ([14.145.45.144])
+	by newxmesmtplogicsvrszb51-1.qq.com (NewEsmtp) with SMTP
+	id E9D9DEBD; Thu, 17 Sep 2026 14:58:29 +0800
+X-QQ-mid: xmsmtpt1789628309tqvgiq5nj
+Message-ID: <tencent_3AB9214FB134949B31E9C471BC3669117F05@qq.com>
+X-QQ-XMAILINFO: OPm6cUD8cfbdqid7NB2NoOYRfyymZV9o3WLUB0rew3r48ATCKW9GhVoy5W/pR5
+	 x5+iSKaipTySHbt6MfckmrAD5mXKUupf4GovV2zG4HB3RizGwogB19OFjNv7a0W/R+zf/BR0Qslo
+	 1Vh+ngW+y9LFfr6NdrbJE0c/BY2vNB7cwtxfw/ga/VFUA88RS2lzBOvXcY73J41s2B3AveH6Libr
+	 0qwwuXMK6dcvbdKS+16Nobcm5Cvh6rpno7BghzOvSNYg8qv50ZBe9MMDYogVSv01V24Tq2XTkanx
+	 9Ji+S1XUzm9jj/EjDm+17IT8lpD2g5AJlATTy9ukw6JpMcZAOV3/ALdsb46nc6QUdyPENgbl0TG+
+	 TghTz3biUVXPY6VPrwNO9M2UJ9W8hu2H8BBjzisBeBQiLfBc2NMoiYhpSCTIVLbao+G0Td6jv/Qs
+	 XGbMMtf4QrkDfCTQlFuXXOXOfwc5bgUhIaEQBJXloBOXHAiiCLrUxoU1rYYHxPEpLtg3qZTsQ3KN
+	 tlnjA9yrA5HXfizTexGYNkNX16mCMlTd2Fk+kjYHz/0+mWhGv3iFImHKh3B8nd4rHZQX4XhgZUDx
+	 RgP5v8ww/jsEtQBu3YT09Y7wl95qKyeHVjEtbyOAVKybDMf5zpyM+HLztFwLQqdNZqvjgq/hUuL3
+	 2GbnAX+iLzcI+3wwnH8TZ2nFvqq2+A6r0Bot9wQcPA7j0oRzYHoeA+QV+OwiLLsrIDG63bT9Ckr4
+	 leImHdbg/X3r10cO4sfpluDrClzAIvr6wwBI7dNOIC/BHrFvAPhDt861usNDS/Eu9jJZSNETC7F7
+	 XTsJ5WUJsb8DLKjgFLO3KmMKNAaIbIxQP2ytO1cOIPLtQprBK2N818xHF823xbmTUbK7mR59zTe1
+	 /AC8TiOemSuXLLy0z0ZV6+tQnuJwP7YdpRIgSbUPoeqJbMRZy3m4DHkap6NTRc9f3gSf7LPz5G0E
+	 sRq4R/+HRusoM7loqvBGkxkqODEMeNItlFquXSfLzNU7Peu07Uogi69ZqrC7KUjwQQl9vvYVRrt3
+	 ddR7bKGoKhB7q/SB4ZGCtBUTtsPXZj7LbYesGC3Vy70x2TBNJL
+X-QQ-XMRINFO: OD9hHCdaPRBwH5bRRRw8tsiH4UAatJqXfg==
+X-OQ-MSGID: <f11456d2-0d67-4286-8509-63da002b8871@qq.com>
+Date: Thu, 17 Sep 2026 14:58:29 +0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+From: Jianyu Zhou <997536907@qq.com>
+Subject: [PATCH v2] ALSA: hda/realtek: Add quirk for IPASON SmartBook S1
+To: linux-sound@vger.kernel.org
+Cc: tiwai@suse.com, perex@perex.cz
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-PiA+ICsJZGV2X2RiZygmcnQ3MTItPnNsYXZlLT5kZXYsICIlczogZ3Bpb19waW49JWRcbiIsIF9f
-ZnVuY19fLA0KPiA+ICtncGlvX3Bpbik7DQo+ID4gKw0KPiA+ICsJcmV0ID0gcG1fcnVudGltZV9y
-ZXN1bWUocnQ3MTItPmNvbXBvbmVudC0+ZGV2KTsNCj4gPiArCWlmIChyZXQgPCAwICYmIHJldCAh
-PSAtRUFDQ0VTKQ0KPiA+ICsJCXJldHVybiByZXQ7DQo+IA0KPiBUaGlzIHBtX3J1bnRpbWVfcmVz
-dW1lKCkgdXNhZ2UgY2FuIHJhY2Ugd2l0aCBhdXRvc3VzcGVuZCwgaWYgdGhlDQo+IGF1dG9zdXNw
-ZW5kIHRpbWVyIGlzIGFib3V0IHRvIGV4cGlyZSBpdCBjb3VsZCBkbyBzbyBiZWZvcmUgd2UgYWN0
-dWFsbHkgdXBkYXRlDQo+IHRoZSByZWdpc3RlciB2YWx1ZXMgc28gdGhlIHdyaXRlcyB3b24ndCBh
-Y3R1YWxseSBoYXBwZW4uICBJdCdzIHZlcnkgdW5saWtlbHkgdG8NCj4gYWN0dWFsbHkgaGFwcGVu
-IGJ1dCB0aGUgcmlzayBpcyB0aGVyZS4NCg0KVGhhbmtzIGZvciByZXZpZXcuIA0KSSB3aWxsIHVz
-ZSBwbV9ydW50aW1lX3Jlc3VtZV9hbmRfZ2V0KCkgaW5zdGVhZC4NCg0KPiA+ICsJc3dpdGNoIChn
-cGlvX3Bpbikgew0KPiA+ICsJY2FzZSAzOg0KPiA+ICsJCWJyZWFrOw0KPiA+ICsJY2FzZSA0Og0K
-PiA+ICsJCXJ0NzEyX3NkY2FfaW5kZXhfdXBkYXRlX2JpdHMocnQ3MTIsIFJUNzEyX1ZFTkRPUl9I
-REFfQ1RMLA0KPiA+ICsJCQlSVDcxMl9IREFfTEVHQUNZX0NPTkZJR19DVEwwLCAweDAwMGMsIDB4
-MDAwNCk7DQo+IA0KPiBUaGlzIGRvZXNuJ3QgZG8gYW55IGxvY2tpbmcgd2l0aCBvdGhlciByZWdt
-YXAgdXNlcnMgYW5kIGdwaW9saWIgd29uJ3QgaG9sZCBhDQo+IGxvY2sgZm9yIHVzIC0gc2luY2Ug
-cnQ3MTJfc2RjYV9pbmRleF91cGRhdGVfYml0cygpIGlzIGEgcmVhZC9tb2RpZnkvd3JpdGUNCj4g
-Y3ljbGUgdGhpcyBjb3VsZCBsZWFkIHRvIGNvcnJ1cHRpb24uDQoNClN1cmUuIE1heSBJIGFkZCBh
-IGxvY2sgaW4gdGhlIGNhbGxiYWNrIGluc3RlYWQgb2Ygb25seSBsb2NraW5nIHJ0NzEyX3NkY2Ff
-aW5kZXhfdXBkYXRlX2JpdHMoKT8NCkkgd2lsbCBzZW5kIHYyIGFmdGVyd2FyZC4NCg0KPiA+ICtz
-dGF0aWMgdm9pZCBydDcxMl9zZGNhX2dwaW9faW5pdChzdHJ1Y3QgcnQ3MTJfc2RjYV9wcml2ICpy
-dDcxMikgew0KPiA+ICsJaW50IHJldDsNCj4gPiArDQo+ID4gKwlydDcxMi0+Z3Bpb19jaGlwID0g
-cnQ3MTJfc2RjYV90ZW1wbGF0ZV9jaGlwOw0KPiA+ICsJcnQ3MTItPmdwaW9fY2hpcC5wYXJlbnQg
-PSAmcnQ3MTItPnNsYXZlLT5kZXY7DQo+ID4gKwlydDcxMi0+Z3Bpb19jaGlwLmZ3bm9kZSA9IGRl
-dl9md25vZGUoJnJ0NzEyLT5zbGF2ZS0+ZGV2KTsNCj4gPiArDQo+ID4gKwlyZXQgPSBkZXZtX2dw
-aW9jaGlwX2FkZF9kYXRhKCZydDcxMi0+c2xhdmUtPmRldiwgJnJ0NzEyLT5ncGlvX2NoaXAsDQo+
-IHJ0NzEyKTsNCj4gPiArCWlmIChyZXQgIT0gMCkNCj4gPiArCQlkZXZfZXJyKCZydDcxMi0+c2xh
-dmUtPmRldiwgIkZhaWxlZCB0byBhZGQgR1BJT3M6ICVkXG4iLCByZXQpOyB9DQo+IA0KPiBUaGUg
-Z3Bpb2xpYiB1c2FnZSBlaXRoZXIgbmVlZHMgdG8gYmUgY29uZGl0aW9uYWwgb24gZ3Bpb2xpYiBv
-ciB3ZSBuZWVkIHRoZQ0KPiBkcml2ZXIgdG8gZGVwZW5kIG9uIGl0LiAgRWl0aGVyIGlzIGZpbmUu
-DQoNCkFkZCB0aGUgJ0lTX0VOQUJMRUQoQ09ORklHX0dQSU9MSUIpJyBjaGVjayBiZWZvcmUgY2Fs
-bGluZyBydDcxMl9zZGNhX2dwaW9faW5pdCgpLg0KDQo+ID4NCj4gPiArCS8qIGluaXRpYWxpemUg
-R1BJT3MgKi8NCj4gPiArCXJ0NzEyX3NkY2FfZ3Bpb19pbml0KHJ0NzEyKTsNCj4gPiArDQo+ID4g
-IAlpZiAoIXJ0NzEyLT5maXJzdF9od19pbml0KQ0KPiA+ICAJCXJldHVybiAwOw0KPiA+DQo+IA0K
-PiBUaGlzIHdpbGwgaGFwcGVuIGV2ZXJ5IHRpbWUgdGhlIGNhcmQgYmluZHMgYW5kIHVzZXMgZGV2
-bSwgSSdkIGV4cGVjdCBpdCB0bw0KPiBoYXBwZW4gd2hlbiB0aGUgU291bmRXaXJlIGRldmljZSBi
-aW5kcyByYXRoZXIgdGhhbiBkdXJpbmcgQVNvQyBsZXZlbA0KPiBpbml0aWFsaXNhdGlvbi4gIFdl
-IGRvbid0IHdhbnQgdG8gY29udGludWFsbHkgcmVnaXN0ZXIgYW5kIHVucmVnaXN0ZXIgdGhlIEdQ
-SU9zLg0KDQpXaWxsIG1vdmUgdG8gc2R3X2RyaXZlci5wcm9iZSgpLg0KDQo+ID4gQEAgLTI3MSw3
-ICsyNzYsNiBAQCBlbnVtIHsNCj4gPiAgCVJUNzEyX0NMS19GUkVRXzIyXzU3OTJNSFogPSA0LA0K
-PiA+ICB9Ow0KPiA+DQo+ID4gLQ0KPiA+ICBpbnQgcnQ3MTJfc2RjYV9pb19pbml0KHN0cnVjdCBk
-ZXZpY2UgKmRldiwgc3RydWN0IHNkd19zbGF2ZSAqc2xhdmUpOw0KPiA+IGludCBydDcxMl9zZGNh
-X2luaXQoc3RydWN0IGRldmljZSAqZGV2LCBzdHJ1Y3QgcmVnbWFwICpyZWdtYXAsDQo+ID4gIAkJ
-CXN0cnVjdCByZWdtYXAgKm1icV9yZWdtYXAsIHN0cnVjdCBzZHdfc2xhdmUgKnNsYXZlKTsNCj4g
-DQo+IFVucmVsYXRlZCB3aGl0ZXNwYWNlIGNoYW5nZS4NCg0KV2lsIGZpeA0K
+From 2adfedabfdd9f5ec800462b1f1c0859a198e63aa Mon Sep 17 00:00:00 2001
+From: Jianyu Zhou <997536907@qq.com>
+Date: Thu, 17 Sep 2026 14:34:46 +0800
+Subject: [PATCH v2] ALSA: hda/realtek: Add quirk for IPASON SmartBook S1
+
+The internal speaker of the IPASON SmartBook S1 (an Emdoor ODM laptop)
+stays silent under Linux, while the Bluetooth audio and the headset
+output work fine.  The same machine plays sound under Windows with the
+vendor driver, so the hardware and the amplifier are known good.
+
+The BIOS reports the pin default of the actual internal speaker pin
+(NID 0x1b) as 0x411111f0, i.e. the default association 0xf, which means
+"unconnected".  The pin parser therefore drops that node already at the
+pin-configuration time, hence no mixer control is ever created for it
+and the pin is never driven, no matter how the output pin 0x14 is set
+up.  Enabling 0x1b makes the speaker work immediately.
+
+The existing ALC256_FIXUP_HONOR_MRB_XXX_M1020_AUDIO quirk makes the
+speaker work, too, but it additionally rewrites the pins 0x14, 0x19 and
+0x1a with Honor-specific values, which creates a bogus "Dock Mic" device
+that does not exist on this hardware.  Add a minimal fixup that only
+enables 0x1b as the internal speaker.  Touching 0x14 is not needed:
+with the pin configuration overridden at runtime, both keeping its BIOS
+value (0x90170110) and disabling it (0x411111f0) leave the speaker
+working, so 0x1b alone decides the output.
+
+  Codec:       Realtek ALC256 (0x10ec0256), SSID 0x2782:0x0206
+  BIOS pincfg: 0x14 0x90170110  0x18 0x411111f0  0x19 0x02a19040
+               0x1a 0x411111f0  0x1b 0x411111f0  0x1d 0x4067b945
+               0x1e 0x411111f0  0x21 0x02214020
+
+Tested on 7.2.0-1-MANJARO and 6.18.45-1-MANJARO, with both the SOF and
+the legacy HDA driver paths.
+
+Signed-off-by: Jianyu Zhou <997536907@qq.com>
+---
+Changes in v2:
+- Use ASCII names for the From and Signed-off-by tags.
+- Drop the addition to alc269_fixup_models[]: the quirk can be applied
+  via the ID alias (0x2782:0x0206) instead.
+
+ sound/hda/codecs/realtek/alc269.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index 3abee61..9bbef18 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -4383,6 +4383,7 @@ enum {
+ 	ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN_HEADSET,
+ 	ALC285_LENOVO_DAC_RENAME,
+ 	ALC287_FIXUP_YOGA9_SPEAKER2_TO_DAC1,
++	ALC256_FIXUP_IPASON_SMARTBOOK_S1,
+ };
+ 
+ /* A special fixup for Lenovo C940 and Yoga Duet 7;
+@@ -7129,6 +7130,13 @@ static const struct hda_fixup alc269_fixups[] = {
+ 		.chained = true,
+ 		.chain_id = ALC287_FIXUP_TXNW2781_I2C,
+ 	},
++	[ALC256_FIXUP_IPASON_SMARTBOOK_S1] = {
++		.type = HDA_FIXUP_PINS,
++		.v.pins = (const struct hda_pintbl[]) {
++			{ 0x1b, 0x90170110 },	/* the real internal speaker */
++			{ }
++		},
++	},
+ };
+ 
+ static const struct hda_quirk alc269_fixup_tbl[] = {
+@@ -8345,6 +8353,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x2014, 0x800a, "Positivo ARN50", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
+ 	SND_PCI_QUIRK(0x2039, 0x0001, "Inspur S14-G1", ALC295_FIXUP_CHROME_BOOK),
+ 	SND_PCI_QUIRK(0x2145, 0x0001, "Star Labs StarFighter", ALC233_FIXUP_STARLABS_STARFIGHTER),
++	SND_PCI_QUIRK(0x2782, 0x0206, "IPASON SmartBook S1", ALC256_FIXUP_IPASON_SMARTBOOK_S1),
+ 	SND_PCI_QUIRK(0x2782, 0x0214, "VAIO VJFE-CL", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
+ 	SND_PCI_QUIRK(0x2782, 0x0228, "Infinix ZERO BOOK 13", ALC269VB_FIXUP_INFINIX_ZERO_BOOK_13),
+ 	SND_PCI_QUIRK(0x2782, 0x0232, "CHUWI CoreBook XPro", ALC269VB_FIXUP_CHUWI_COREBOOK_XPRO),
+-- 
+2.55.0
+
+
