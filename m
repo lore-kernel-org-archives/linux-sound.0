@@ -1,374 +1,91 @@
-Received: from mail-ej2-f12.google.com (mail-ej2-f12.google.com [74.125.228.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zipdox.net (195-240-81-79.fixed.kpn.net [195.240.81.79])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40D41530E10
-	for <linux-sound@vger.kernel.org>; Thu, 17 Sep 2026 14:11:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.140
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789654308; cv=pass; b=QO3tmKV82IY3s85Iu2iF4gDeBpbjcGe1YxKAVtx2PD77MSgILk0RFpSjQ1GbB8h5fgws2Bp+4Ult0d6G0I1pESozmc2mqV1WGXO3CVzUObJBPPKEzPRSWschShBGQdJCiM7m4Z/FfEzAU4naR5sR4/W6AG69Jy1SU+lGotDWFSg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789654308; c=relaxed/simple;
-	bh=Ir34GXWxbcbDOhDCiBrhFDNN/xt3YvnGacI703DSBRo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tikt6I/gFofxL0bJCcMv9jNiqbuw2Ph7gnlHOWb7K81iwZC6R77NXPB44RW/0cb1dHCFVbLu9SCFMfprMLADIZgoll6zKU73qol8WwHyO4COz1xr8Vo0BXIh78KK/3WaSCYLKl8jic2VFfiFCTvezqJMAqGlte58kpAXaeXVCFk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FkOcTjvw; arc=pass smtp.client-ip=74.125.228.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9B1C5908AC;
+	Thu, 17 Sep 2026 14:23:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.240.81.79
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789655040; cv=none; b=Gl6DnkbQFSELZf7kL05fA4OgIB3idtOF8N6fkvllK2P/yt49du3vWJS//XCrb40ODLnOs8avx7wcJWPDfEj+5klS4RmkHbpuHD12HqO49iTyH2f0iGbrV9CnSjx4rgP8oGPB32rezS4anpqyOPSG9eXmjdhEhMewGbcxcN+DJVI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789655040; c=relaxed/simple;
+	bh=jsmkWGdkOXjl5vCehHtXpCIFIRPU1ahWWGONREhd7AQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=b/b+tJtdO/ZMjR0xCtVGnbvSh2rCcbpWpxLame7O9GMX89bPHMXEIQHwt49vExXEBDdIcpVaKWAWlENFlRpoPsUTYTP658aIaYRFq9xupMS34w9k60iipZIZbkTjiTOg6jpRy2gY7rxhQvNswLh+dEv72cHUlHJvmsElnthVtL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=zipdox.net; spf=pass smtp.mailfrom=zipdox.net; dkim=pass (2048-bit key) header.d=zipdox.net header.i=@zipdox.net header.b=A8pUoPok; arc=none smtp.client-ip=195.240.81.79
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=zipdox.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zipdox.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FkOcTjvw"
-Received: by mail-ej2-f12.google.com with SMTP id a640c23a62f3a-c254fa663c2so116920166b.3
-        for <linux-sound@vger.kernel.org>; Thu, 17 Sep 2026 07:11:43 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789654300; cv=none;
-        d=google.com; s=arc-20260327;
-        b=LHKG7tpCe5VXnZwzLv6YmXnCteuWIHtA+kefLCre3jIlOos9o5BDHoDf19ya3jRP1Q
-         /srMTHkfyx49PChvscIsjhF4HXD+rD/KYoCg4fOaq+OLuUVWVbXCZ8+bIUJltWDdXUtf
-         c2jT3ruv8Y4quAPQI6PyrhkLCKMt7v2U4zg+zxDC4PhhPkIo+hpiFzKzsj66pHCjBVBT
-         opYLZVh28PwQX4vPTS2J98PMsG5EFOjCrjlfARV0ck0in3PDNBSf9/tMvOXQuReN0Oe/
-         3xadtssbZTt7aJmQwPTfr8VcX4v+xpZRfHpf7CcGNmZPTb7UkSt8Ebk9VmwYhl2GBXFy
-         CRhA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=R++7tFeBChA+zj9nKyQxFFd14Y5rYmO9osxU6fVJXRc=;
-        fh=9JNRthqzkaISOdNab8p0UDmyysdSHSnjKsECR36/BI4=;
-        b=ci2ETyowN3KfIeQihuLGJGECt0n4ouJ6e/EJw1ShtUOQuQNo/7bQWgkPZR8cyQ8Ebp
-         K6osu0Qv5ooeqPTlNKNC+fAouV8sVHvYYfg7twwQQ3AiirDN3mJ/S2szzJWmMUyn5OYm
-         VBw8k6gbr/JbH85TmoTjIm91s0JHAb0onHHD7tmHEavYfyABmBwsphXKoWuyWVDnXuzn
-         StCt4IYN/ILnTe4M4kaG2KfCFtJ/4hGjozs4m3LOaewFihc6CN79UODAKymp9f0GcqeY
-         4qdfGOPg4gprZAcoCsfQ09vOWdtNM02alGyMDIDXL1NJlUZhB0ab50D73y2WBkiY3wBl
-         S+uA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789654300; x=1790259100; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=R++7tFeBChA+zj9nKyQxFFd14Y5rYmO9osxU6fVJXRc=;
-        b=FkOcTjvw3LTxJ/E7NjZHHSjuMHdMnKCULTRx9mTlKihewEZD4Zne+Zu3mb1xPbvIOQ
-         cDVretDh+B9wx/iJ+8WlNYdYsjPveExaHw5uHhP9v8TS7yi1HtcQPxcWrsDIogqveq2b
-         IuZpYOSJ46TiyOkWY3JfoLCLocdrvm0IotJW/HDZVkvsbP/LEN+HWzwRbJLRp5D32fyV
-         YrhLP0ar1gjyb//+8N6bU+hKFkTJSJ4JQLMhAVij1+xNT+gveAVZqCzF29eeJSQ+YOzA
-         KgD2P3NsK7RSpqYJmbcTKalSode6gA5vFtUCAZJBiSeCKbKil6pWC8zAjIl80qXryk78
-         1UEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789654300; x=1790259100;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=R++7tFeBChA+zj9nKyQxFFd14Y5rYmO9osxU6fVJXRc=;
-        b=c74gRo5x9qmb0wQE5cArUD69K/mIACYVaZ9FNiKLSvahR1fyWyyzAhSeWK+j/rzl2a
-         n5q4HFwXG3j0stD7HVyJzUwSO9PwIM7+qTA28UskPm8h6MIAXPC8lpFyjz5JAJX0MWQj
-         gUvh5KZllAu7EP/h+9oxnTow8Q32tybpm8UHEUSFxwfbYLanUpUWmEn75SBBcYhoquX4
-         B4DctGFR1JU8tVF87gcBhCm89CihbRGcOTFIuFvlIhmeq6dWjyKwc3giUg7PmlVNypt0
-         Ib1bFTz/mr4w0FJ0vnPKlauIYdyuCGMNrxUhPKjZFeXiOn2hfu7M15NRBTdzRI+hjlI3
-         KA3w==
-X-Forwarded-Encrypted: i=1; AKwUvBwxAPRsXvE/hXU3dGm3+H/elcGJSp4uxxS02Foj7E9T+AYntRf3JmcErueSnIYmaG+QF7MiYnReTRXg4w==@vger.kernel.org
-X-Gm-Message-State: AFuF++mbxKD+0jUNMV3umo0GR4JxSKAux6AE9CMDBYAyo6EY9vZKySiS
-	Vn7+Qq705TEBFdIm3OmVXCTxjRpmQ/y4F/F2qLkd3qXmW3iwzFPjt2s5ZOacOLKiUUzd+hKpBKW
-	P5G/4vgh9FgSehn/agIKuTZAS41qFAQY=
-X-Gm-Gg: AYBFou1z6oj5252mDXnkYgcJZL05NperxlaLYPa0sCETowf+laQzkstvUrE9Im4iEC8
-	VRGcFb4QJ/1NjK1dFPVzH65msJxvHDc7ERCapC8hB8dYQ9AR+jDLEKZqRvmIkvfU9qTiH87XQWd
-	f3UwNjgiF9rgQX+Z6rL5aUDapvIRaUUljdT1Izv+Iy8we5TavLnrs+aQI2pQmEsCkqYKv9fdNkK
-	06zjRfpTt89V1D3mNUom10RIgSVvHqNELaHPF1vI+scf/tGbMn6Lp4wKFDWoL1KwBVX0J++Vod2
-	BYQpr2MrNWQi871/e1rBHnnPhxJinN0mds5IcXfS7FSwWazZTG4gZoyeTPekOZAoyIzrGyGsCxI
-	t2PD9KoSNO5dz
-X-Received: by 2002:a17:907:5c3:b0:c29:f5d5:5aa2 with SMTP id
- a640c23a62f3a-c29f5d56248mr259313266b.44.1789654300128; Thu, 17 Sep 2026
- 07:11:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=zipdox.net header.i=@zipdox.net header.b="A8pUoPok"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id F326D9214C4;
+	Thu, 17 Sep 2026 16:23:46 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zipdox.net; s=dkim;
+	t=1789655027; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=A/+4s5tba7S/aVWS7Khr8WD3jS2p0L3YwMxihJqGpMQ=;
+	b=A8pUoPokHBcXvbjwQaHAfr+qS1yvdg9SZRPRkGh4L6d/DvgDkt5GkFH28wCFyhhyHNAr6B
+	YoSIXAh1VRb2XdJFJ1Vhw+GpmFtlgxOmUP/9u60h2O/wV+TKaKfDlMz6PkYZZDKc6QQ3Nb
+	4c2udji/Qk7pHU2+Z14oUl4Hc55W5RxWLxpfPzCPhlJyxef85OVLlAlMAK2fETSyk9z/0v
+	y9MAq9ZE67NGhfNwW+FiiO/Njw6ugVMZTyGwSZBqq7ArfUnC0mM4PKdVreZ2kreAlgcz/F
+	mrnVuKg+CHBTfVC0L0mWhsfNM/bLHZYXC2NkPpNaFqXfYRHIvJjjj3HAA0s8Hw==
+Message-ID: <895b9e3d-bc81-4688-8513-8aa42d40e4fa@zipdox.net>
+Date: Thu, 17 Sep 2026 16:23:41 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CACygGA9s1oWO53NPamL5tkaNhUt-W8S736OVAJZcYCU_UOni+A@mail.gmail.com>
- <87zexggmqt.wl-tiwai@suse.de>
-In-Reply-To: <87zexggmqt.wl-tiwai@suse.de>
-From: A Akhil <akhilarul324@gmail.com>
-Date: Thu, 17 Sep 2026 19:41:27 +0530
-X-Gm-Features: AcwNN1X3MmZRFLbe_AwFmuOCxiIUGExvPhDBWu2t1ea76UIL4-mhn_Dgb5IwQSA
-Message-ID: <CACygGA9h-qehZVFxRMOgtt8y-kHMwSCuuvZwBSi_7R0xpp-dRg@mail.gmail.com>
-Subject: Re: Sound/seq: hung task in odev_open - unuse callback sleeps under list_mutex
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] USB Audio Class 2 Mixer unit support for GET_CUR, SET_CUR
+ and RANGE
 To: Takashi Iwai <tiwai@suse.de>
-Cc: tiwai@suse.com, perex@perex.cz, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-
-Hi Takashi,
-
-Thanks for the quick patch. Right, it's not a deadlock, that was my
-reading of it too. Nothing locks up permanently, it's just a wait long
-enough to trip the detector. That's the reason I bothered with it though.
-On the syzbot run the wait was over 140 s, and for the whole of that
-anything else touching the sequencer is stuck behind it.
-
-I ran it on the setup I used to find this in the first place. One thread
-opening and closing /dev/sequencer2 while two others try to open it,
-hung_task_timeout_secs=30, three runs each.
-
-  variant                       hung tasks    worst opener block
-  ---------------------------------------------------------------
-  unpatched                     10, 10, 10    ~130 s
-  your patch                    0, 0, 7       30.7 / 30.6 / 129.9 s
-  yours + open_mutex narrowed   7, 0, 0       129.9 / 41.3 / 40.9 s
-  drain bounded to 1s           0, 0, 0       20.6 / 18.4 / 21.8 s
-  drop instead of drain         0, 0, 0       4.0 / 2.4 / 2.4 s
-
-Your patch builds clean and clearly helps, two of the three runs were
-completely quiet. The third still hung though, and when it does it's
-coming from the opening side rather than the closing side.
-
-  task 98:  odev_open                      holds register_mutex
-             snd_seq_oss_open
-              snd_seq_oss_synth_setup_midi
-               snd_seq_oss_midi_open+0x8e  blocked on mdev->open_mutex
-  tasks 97, 99: blocked on register_mutex owned by 98 -> hung task
-
-An opener grabs register_mutex, blocks deeper down, and sits on it while
-it waits.
-
-I tried stacking my earlier open_mutex narrowing in snd_seq_oss_midi_close
-on top of yours, so the closer would be holding neither lock over the
-drain. Still hung 1 in 3, and the wait had just moved further down again,
-this time into snd_seq_port_connect() on grp->list_mutex.
-
-Three attempts at moving locks around now (mine, yours, both together) and
-every one of them just shifts where the wait happens. I don't think the
-locking is really the problem here. It's the 10*HZ per substream.
-
-Bounding the drain to 1*HZ in midisynth_unuse() does stop the hangs, but
-the cap is per substream and there are about twenty of them, so teardown
-still runs ~20 s. Capping the total across the teardown would do better,
-though that's more surgery.
-
-The one that actually worked was swapping snd_rawmidi_drain_output() for
-snd_rawmidi_drop_output() in midisynth_unuse(). ~2.4 s, nothing hung in
-any run. Most of what's left there isn't even the data wait, it's the
-msleep(50) per substream for the Tx FIFOs.
-
-I did wonder about throwing the data away, so I went and looked. As far as
-I can tell snd_rawmidi_drain_output() already drops the buffer once the
-10*HZ expires, so the bytes are gone either way and dropping early only
-costs whatever the device would have taken during the timeout. For a
-device that isn't draining, which is the case that gets us here, that's
-nothing. Tell me if I've misread that.
-
-So, do you want me to send the drop version as a proper patch? Or would
-you rather bound the drain, in which case I can try a total cap instead of
-a per substream one. I can also test a revised version of yours if you'd
-prefer to keep this inside seq_oss.
-
-Thanks,
-Akhil Arul
+Cc: linux-sound@vger.kernel.org, perex@perex.cz,
+ linux-kernel@vger.kernel.org, tiwai@suse.com
+References: <d46fcac6-bd7e-4fc4-95e1-4e8d39f92ad3@zipdox.net>
+ <87bj9yn55n.wl-tiwai@suse.de>
+ <59b3dc9b-f324-42e7-ab03-a01c04e8b915@zipdox.net>
+ <8733vamwaz.wl-tiwai@suse.de>
+ <da56664f-901e-497b-a74c-ae41cbc5cac4@zipdox.net>
+ <87a4phjjay.wl-tiwai@suse.de> <8733v9jfp1.wl-tiwai@suse.de>
+ <87y0d1hx9y.wl-tiwai@suse.de>
+Content-Language: en-US
+From: Zipdox <zipdox@zipdox.net>
+In-Reply-To: <87y0d1hx9y.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 
 
 
-
-On Thu, 17 Sept 2026 at 16:37, Takashi Iwai <tiwai@suse.de> wrote:
->
-> On Thu, 17 Sep 2026 04:41:31 +0200,
-> A Akhil wrote:
-> >
-> >
-> > To: tiwai@suse.com, perex@perex.cz
-> > Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-> >     syzkaller-bugs@googlegroups.com
-> > Subject: sound/seq: hung task in odev_open - unuse callback sleeps under
-> > list_mutex
-> >
-> > Hi,
-> >
-> > I've been looking at this syzbot report:
-> >
-> >   INFO: task hung in odev_open (5)
-> >   https://syzkaller.appspot.com/bug?extid=825b7e3a03dd072c187f
-> >
-> > The hang isn't really in the OSS code where it gets reported. syzbot only
-> > shows the task waiting on register_mutex in odev_open(); the one actually
-> > holding things up is this:
-> >
-> >   odev_release                            takes register_mutex
-> >    snd_seq_oss_release / snd_seq_oss_reset
-> >     snd_seq_oss_synth_reset
-> >      snd_seq_oss_midi_close               takes mdev->open_mutex
-> >       snd_seq_ioctl_unsubscribe_port
-> >        snd_seq_port_disconnect
-> >         __delete_and_unsubscribe_port     called with grp->list_mutex held
-> >          midisynth_unuse                  seq_midi.c:298
-> >           snd_rawmidi_drain_output        sleeps 10*HZ per substream
-> >            schedule_timeout
-> >
-> > delete_and_unsubscribe_port() holds grp->list_mutex for write while the
-> > unuse callback runs, and midisynth_unuse() ends up in
-> > snd_rawmidi_drain_output(), which waits 10*HZ per substream. With ~8
-> > substreams I measured close() taking 82 seconds. Anything calling
-> > snd_seq_port_connect() blocks on the same rwsem, and in the OSS path that
-> > connect runs under register_mutex, so every other odev_open() piles up
-> > behind it and the hung task detector fires.
-> >
-> > I tried narrowing register_mutex in odev_release, and then open_mutex in
-> > snd_seq_oss_midi_close. Both build, both still hang - the wait just moves
-> > down a level each time, ending up in snd_seq_port_connect().
-> >
-> > Moving unsubscribe_port() out of the rwsem looked wrong to me: grp->count
-> > is protected by it, and the comment above subscribe_port() says open and
-> > close are only invoked on the 0->1 and 1->0 transitions. If close ran
-> > unlocked, a concurrent subscribe could call open first.
-> >
-> > That pairing also means an opener of the same port has to wait for a close
-> > in progress anyway, so I don't think lock narrowing can fix this - the
-> > teardown just has to stop taking tens of seconds.
-> >
-> > So the drain has to stop blocking the teardown. I can see three ways to do
-> > that, but all of them change when or whether pending MIDI output gets
-> > flushed, and that's not something I want to decide on my own:
-> >
-> >   - drop the output instead of draining it in midisynth_unuse()
-> >   - move the drain to a workqueue so the unuse callback doesn't sleep
-> >   - keep draining but cap the total wait
-> >
-> > Which of those would you take? I can write it and test it.
-> >
-> > (v7.3-rc3, 9b87fdc9af2f, qemu with dummy_hcd + raw-gadget. The syz repro
-> > alone didn't trigger it for me - I needed a second thread opening
-> > /dev/sequencer2 while another one closes it. That hits the hang in under a
-> > minute.)
->
-> IIUC, this is no real "hang" that locks up forever but just went over
-> threshold in mutex?  If so, we can avoid taking too long mutex like
-> the (totally untested) patch below?
->
->
-> thanks,
->
+On 9/16/26 8:22 PM, Takashi Iwai wrote:
+> 
+> ... or maybe a less cryptic version like below.
+> 
+> 
 > Takashi
->
+> 
 > -- 8< --
-> diff --git a/sound/core/seq/oss/seq_oss.c b/sound/core/seq/oss/seq_oss.c
-> index 2835576040ed..c790b1cd451a 100644
-> --- a/sound/core/seq/oss/seq_oss.c
-> +++ b/sound/core/seq/oss/seq_oss.c
-> @@ -132,13 +132,19 @@ static int
->  odev_release(struct inode *inode, struct file *file)
->  {
->         struct seq_oss_devinfo *dp;
-> +       int index;
->
->         dp = file->private_data;
->         if (!dp)
->                 return 0;
->
-> -       guard(mutex)(&register_mutex);
-> +       scoped_guard(mutex, &register_mutex)
-> +               snd_seq_oss_detach(dp);
-> +       index = dp->index;
->         snd_seq_oss_release(dp);
-> +       scoped_guard(mutex, &register_mutex)
-> +               snd_seq_oss_detach_done(index);
-> +
->         return 0;
->  }
->
-> @@ -149,6 +155,8 @@ odev_read(struct file *file, char __user *buf, size_t count, loff_t *offset)
->         dp = file->private_data;
->         if (snd_BUG_ON(!dp))
->                 return -ENXIO;
-> +       if (dp->closing)
-> +               return -EBADFD;
->         return snd_seq_oss_read(dp, buf, count);
->  }
->
-> @@ -160,6 +168,8 @@ odev_write(struct file *file, const char __user *buf, size_t count, loff_t *offs
->         dp = file->private_data;
->         if (snd_BUG_ON(!dp))
->                 return -ENXIO;
-> +       if (dp->closing)
-> +               return -EBADFD;
->         return snd_seq_oss_write(dp, buf, count, file);
->  }
->
-> diff --git a/sound/core/seq/oss/seq_oss_device.h b/sound/core/seq/oss/seq_oss_device.h
-> index 935cf3df0b30..ee318ea1a096 100644
-> --- a/sound/core/seq/oss/seq_oss_device.h
-> +++ b/sound/core/seq/oss/seq_oss_device.h
-> @@ -72,6 +72,7 @@ struct seq_oss_devinfo {
->         int cseq;       /* sequencer client number */
->         int port;       /* sequencer port number */
->         int queue;      /* sequencer queue number */
-> +       bool closing;
->
->         struct snd_seq_addr addr;       /* address of this device */
->
-> @@ -107,7 +108,9 @@ int snd_seq_oss_delete_client(void);
->
->  /* device file interface */
->  int snd_seq_oss_open(struct file *file, int level);
-> +void snd_seq_oss_detach(struct seq_oss_devinfo *dp);
->  void snd_seq_oss_release(struct seq_oss_devinfo *dp);
-> +void snd_seq_oss_detach_done(int index);
->  int snd_seq_oss_ioctl(struct seq_oss_devinfo *dp, unsigned int cmd, unsigned long arg);
->  int snd_seq_oss_read(struct seq_oss_devinfo *dev, char __user *buf, int count);
->  int snd_seq_oss_write(struct seq_oss_devinfo *dp, const char __user *buf, int count, struct file *opt);
-> diff --git a/sound/core/seq/oss/seq_oss_init.c b/sound/core/seq/oss/seq_oss_init.c
-> index 6586e07431c3..3aece0d2981a 100644
-> --- a/sound/core/seq/oss/seq_oss_init.c
-> +++ b/sound/core/seq/oss/seq_oss_init.c
-> @@ -33,6 +33,7 @@ static int system_port __ro_after_init = -1;
->  static int num_clients;
->  static struct seq_oss_devinfo *client_table[SNDRV_SEQ_OSS_MAX_CLIENTS];
->
-> +#define SEQ_OSS_DETACHED       ((struct seq_oss_devinfo *)-1)
->
->  /*
->   * prototypes
-> @@ -396,14 +397,23 @@ free_devinfo(void *private)
->  /*
->   * close sequencer device
->   */
-> +void snd_seq_oss_detach(struct seq_oss_devinfo *dp)
+> diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
+> index 33a6a1281410..c6639a45fb24 100644
+> --- a/sound/usb/mixer.c
+> +++ b/sound/usb/mixer.c
+> @@ -335,6 +335,16 @@ static int get_ctl_value_v1(struct usb_mixer_elem_info *cval, int request,
+>   	return -EINVAL;
+>   }
+>   
+> +/* convert the given UAC1 wValue (ICN+1|OCN+1) to UAC2 MCN */
+> +static unsigned int to_mcn(const struct usb_mixer_elem_info *cval,
+> +			   unsigned int validx)
 > +{
-> +       dp->closing = true;
-> +       client_table[dp->index] = SEQ_OSS_DETACHED;
-> +       num_clients--;
+> +	unsigned char m = (validx >> 8) & 0xff;
+> +	unsigned char v = validx & 0xff;
+> +
+> +	return (m - 1) * cval->num_outputs * (v - 1);
 > +}
-> +
-> +void snd_seq_oss_detach_done(int index)
-> +{
-> +       client_table[index] = NULL;
-> +}
-> +
->  void
->  snd_seq_oss_release(struct seq_oss_devinfo *dp)
->  {
->         int queue;
->
-> -       client_table[dp->index] = NULL;
-> -       num_clients--;
-> -
->         snd_seq_oss_reset(dp);
->
->         snd_seq_oss_synth_cleanup(dp);
-> @@ -475,7 +485,7 @@ snd_seq_oss_system_info_read(struct snd_info_buffer *buf)
->         for (i = 0; i < num_clients; i++) {
->                 snd_iprintf(buf, "\nApplication %d: ", i);
->                 dp = client_table[i];
-> -               if (!dp) {
-> +               if (!dp || dp == SEQ_OSS_DETACHED) {
->                         snd_iprintf(buf, "*empty*\n");
->                         continue;
->                 }
-> diff --git a/sound/core/seq/oss/seq_oss_ioctl.c b/sound/core/seq/oss/seq_oss_ioctl.c
-> index f1a79776773f..2b4930a56a22 100644
-> --- a/sound/core/seq/oss/seq_oss_ioctl.c
-> +++ b/sound/core/seq/oss/seq_oss_ioctl.c
-> @@ -66,6 +66,9 @@ snd_seq_oss_ioctl(struct seq_oss_devinfo *dp, unsigned int cmd, unsigned long ca
->         void __user *arg = (void __user *)carg;
->         int __user *p = arg;
->
-> +       if (dp->closing)
-> +               return -EBADFD;
-> +
->         switch (cmd) {
->         case SNDCTL_TMR_TIMEBASE:
->         case SNDCTL_TMR_TEMPO:
+You used multiplication instead of addition for the last part. I assume 
+this is a mistake? Also you should probably also bitwise and that with 
+0xFF to make sure it's not more than one byte. The product of the number 
+of input and output channels must be no greater than 256 according to 
+the spec. I don't know if this is checked elsewhere. Other than that it 
+looks good for a patch to get it working. I'll try it out and send a 
+follow-up email shortly.
