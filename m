@@ -1,122 +1,80 @@
-Received: from mail-ej2-f12.google.com (mail-ej2-f12.google.com [74.125.228.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D9CD54706C
-	for <linux-sound@vger.kernel.org>; Thu, 17 Sep 2026 18:27:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.140
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789669670; cv=pass; b=VCgdnOG9zuwhbY+uOKRrQzVavqoRiwIJjDgwQ9si09Upcvxv/toFf4hRfVaMuU8nBiP0PQl/pUJy0l4ChDF08Odq3KxfzuIaluGF/wrFYoEj8AFglTXozixxLA48yfa7kTsoou2RPn0ajjSyUaGW8q06BfTUWwriTVrXKCYBBEo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789669670; c=relaxed/simple;
-	bh=rYE58RTx04dPphYH1qsvIJA08dXH52av8eKhBOXbJXg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=st27LDZEeP2l26KotHBKCqOK6eG7AAbaX4Sg5EehYgRpILbjAtP70KoBdsYVOqcNk5j+tUM2uxQu68fhJsyfsCXVEtefp1YoH8EsUSctEM828KrMxvz5SmokR16NZaArUS60EYSSmqXF/aBvNiqAXmgwWQwBXPlheHYxL3F8i7c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S3n7K5d5; arc=pass smtp.client-ip=74.125.228.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 967593DAAC9;
+	Thu, 17 Sep 2026 18:54:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789671300; cv=none; b=eTjlTJoY8I8OAtSsC0gSqGTfsKIDsV53MLuRek5/8rPheR1bxwN+38agBKYAkUFHouAz5q8c9YtiK3Mf0/KyMcJIkBdiAttsaVWQTgJQUuwM49NmQKPY7OJsGvI3SmKPs04w6Jj3ig1X2JTTrWP/pcV1D+hnMmEu52HLSzLY730=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789671300; c=relaxed/simple;
+	bh=MFyYX9kVDyHke7v9GQr92A5KO4Bb7nWSVOlKfr7KMN4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y7oRNvl9Qmfsn2vldbTbze/bPNzVxwgR4Tok3/pe18agch40TfZ/eiB/Jca96xOp3k40ZJ6gWVt8mB7YA0nFwR7R9BWAWyrijlv9+ajYyViPANZyuCW7B4N5huGAyVYz0qliBm41o/+x44M5xL3FGKgbpn/r04Ry8XRCigYYQYs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qf/2I9hp; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S3n7K5d5"
-Received: by mail-ej2-f12.google.com with SMTP id a640c23a62f3a-c254f56039dso174797166b.3
-        for <linux-sound@vger.kernel.org>; Thu, 17 Sep 2026 11:27:49 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789669667; cv=none;
-        d=google.com; s=arc-20260327;
-        b=qnoZgmuOITmnOO2UUufWXC0yMNV4oVgfVkUu7X//eCvZ3xuYk1PmxjKjUBYCqlOLZa
-         2hbbCHjc7bFVuygaY1ur239W3uTDm/g1giCSczoVE8pqPbQg0oLpe3TAri4FFBVwmHTF
-         8SaYYC3PEdWWgbGpqFO9oIiGPkYK7lX0UmRNorZng2ltfcBDmiIqA4Zh52fseApPvJth
-         WrtExZ8bqLu/eFEuDW2zvpBGbslu862ihNKTkKBCYstUQ+ihtJoJC497WGIWYXbcXItl
-         zHxFz5mpHEwjrPFlOv3pCo/XZjaLXh1YXWP5d/xW9TKxluiVdQlmT/wfx0+ipW1AN7QZ
-         bEaw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=tRt72PUf/XZ8nyXh0XsE8V2EqRfTqojcjnaq5ie03gg=;
-        fh=BnpHl01GuIm2JwC/u2Adpv5hyElpUUspkiHIbTCeo/k=;
-        b=mJrNltSVVDavG5Ze3oXA3YB+UkSEdfcKcrBEIVTZAdJdKz4m/4eIYAzls9GXwO0osG
-         i/5VhrLEwgA9qpplXzqivY8mPr4cTwEZ0FMH3KRvgnOZg7Oi/61RAl8zf/quSCt8syJG
-         24FP+G8zRIJElt4Aj461YxwlRb73bXmfFHSuN0jZRRZAesy3edEtp9DtFFI8VMO/xl4I
-         IO9Wv7iSU++KIdxgfzisLDcuYBtBc09AwI0V8aXekFCGYrhYD5q7WBhaCJBrpT+5UbVf
-         xQkVartHZ3cQKM+w02P11AHy3PrgmHOy+Ja51DL+Q91MTS4rnmuZzhvFd9O11iUvza3b
-         NNyQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789669667; x=1790274467; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=tRt72PUf/XZ8nyXh0XsE8V2EqRfTqojcjnaq5ie03gg=;
-        b=S3n7K5d5T7S6fpPM1REt59qtJjaiX4TqKX/kt1yLpxU9XM5dj+OrhUy+LOcfbxOK7g
-         ppl4KuFzeTz0MInfb2o7RrvEDBYhE4ZmM1wc47gowMJDqimodS/bJtIx8VFa3VjTjEs+
-         ofW1y0RjM1LQ3AVs3VskP7mj0aVSUMptGx4YUei4Q7PR0n4R0JBWkOs/+TWqEaTwMPKE
-         YmTt3dyxh0uoQy8R2ZWoDW5jCXGLQhlpAuk3ELFSPnHvlA5/4fFlS4IE2b2M+VPehD3B
-         7rJkjqA4Mg+gE9laW85QIO+PDiF7QOhO7PicqwwuoUKb1i6jYTp//Nhq87ybsghCU2s8
-         SmeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789669667; x=1790274467;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=tRt72PUf/XZ8nyXh0XsE8V2EqRfTqojcjnaq5ie03gg=;
-        b=dhClgY1CwTFVdNnNCe06qqrfZ8kW6JpqwXuXnHAgC9Qx0vMmCbWHHgnscnhg0OXehh
-         ooEZOayOeG3zLRNcEEEJn2yHn0TyZOub4yMdRS9qqIOUIQ4Rown37k+8AERZuxXWHpjm
-         M2Mes6fQ8i/of0mZLPYx1hlIpCPp50oKRKEBpHxe2LTGrrPSfHsdMjt9Fss5vxSUpYcj
-         nkDm0ehz9sjnbA5eWqClzGMW3RW+VO7jeOZih41J6pcPut0EcOdiplpJoQAYDSbs7QTB
-         3H141vjQbGNSzu7BmycT0UXBDC3wmn6WCSaVZcKo4EmZ+WZhqCyT5fJYg0bPzZQ/8sy8
-         AuLA==
-X-Gm-Message-State: AFuF++m+Ak04hYiDnj9rm/vcScZ0pB90LdOF5Ky+JsQD1ILYfYExwvsR
-	z2rs2SN7F5nCKqmSYG1VDKGH4CJte+0r7MSMfCAQKi3bSD+y9gaFfwDNldfZ1vQNaSVvekqlDId
-	iKjLcpjtq9IRuNDFnhA//5HMSB3TC7tULLVe2
-X-Gm-Gg: AYBFou3VwwFkVKMHg0awnEB+jtTSBta/BefeudT1xcGrQVtuIKIZSwNZbSq72SosUQf
-	tm5gv429aDHXAets+r8BIS+ntOxwL9tial64wh0c27SUcuMOFa2BgSiCeo0GlLxF6ZTaDOoFRx9
-	rbcGDJsfKHomm/Hhb28TDtLVFfEuvpyCA7N4LrHbbL6r9rAuSAfQUo/OhjEjsv1MtFbOYwd+xqz
-	XNgcMM/cP94ZagBdmtFFtzgls/npIN4lv2qiw/toqIQOA7fvSujo1bmBvErXKfLHjrVTMnerrIZ
-	SDHaTXH/t4lwt7QWqsv4R5JilkvS/X0qYALl3eEviiLloplsCRlWDkbd3i7/Ti0Yz33LcSy/Ofk
-	vn6PGCxbA2z8YuE8CvFkPpD9GD0BlRc3vpwB4QfscCObdXEi+Zr7+oUoBAvfzZs0kQatDNfxh33
-	IqAIq67Fo+8XAjZ2Wwc9Kxs+ENK8P4n5fpEKGtRRnqkuBkZpVG/syue7RucsSXIANPMw==
-X-Received: by 2002:a17:907:3ea1:b0:c29:60c1:7e55 with SMTP id
- a640c23a62f3a-c2a157f77c3mr4807066b.12.1789669667374; Thu, 17 Sep 2026
- 11:27:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qf/2I9hp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 398271F00893;
+	Thu, 17 Sep 2026 18:54:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789671299;
+	bh=MFyYX9kVDyHke7v9GQr92A5KO4Bb7nWSVOlKfr7KMN4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Qf/2I9hpI49nwH1tn75LokHsYexyxzfEH6U4I6JtWWLo19PjrUJp4eKR2SLM08VHm
+	 vWyc/XnRZiWKesiQxVlHufPz4YMXOHKIDuHFZLd6kmqBryeS8P1tMm/02E5wtxwHc5
+	 +QJxi6eC0j5oEjNgkA8YvlHYu7JPLvfuCQjbPjM9Ix0EczDZpnJZ+yHtFcvBH80TPr
+	 T/jB/tDAFxzbCwJh4lL6blG/4XIJvY11sC+Xh6aAlipWQ5huq/YwpDXU/AJ11de6m9
+	 wpGireRfH8+vMv3uCmMSZbXn+TVoQY5PXLt6yVKYw0XxDQFx0mSqBqEoWSVioRN/UU
+	 0VaLYJ/6o/uLQ==
+Date: Thu, 17 Sep 2026 19:54:55 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Rosen Penev <rosenp@gmail.com>
+Cc: linux-sound@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] ASoC: fsl: mpc5200: gate AC97 driver on PPC_MPC52xx
+Message-ID: <334c9751-208b-4c92-a839-be2afe7730d9@sirena.org.uk>
+References: <20260916220453.260472-1-rosenp@gmail.com>
+ <d76de06c-9cae-42c6-95a8-91c9ed7e8f6b@sirena.org.uk>
+ <CAKxU2N_JqRtBckSr+CFyOLP3vVk=ndE4UE5ihYtBUoK5sd-F7Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260916220453.260472-1-rosenp@gmail.com> <d76de06c-9cae-42c6-95a8-91c9ed7e8f6b@sirena.org.uk>
-In-Reply-To: <d76de06c-9cae-42c6-95a8-91c9ed7e8f6b@sirena.org.uk>
-From: Rosen Penev <rosenp@gmail.com>
-Date: Thu, 17 Sep 2026 11:27:36 -0700
-X-Gm-Features: AcwNN1X3stN8dmVkRdFt39pftKBfSqreD5Q4cCV84jdTqZ1Ue-KVCVd7OglK40A
-Message-ID: <CAKxU2N_JqRtBckSr+CFyOLP3vVk=ndE4UE5ihYtBUoK5sd-F7Q@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: fsl: mpc5200: gate AC97 driver on PPC_MPC52xx
-To: Mark Brown <broonie@kernel.org>
-Cc: linux-sound@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="A3dlCn4rFol7Kvr1"
+Content-Disposition: inline
+In-Reply-To: <CAKxU2N_JqRtBckSr+CFyOLP3vVk=ndE4UE5ihYtBUoK5sd-F7Q@mail.gmail.com>
+X-Cookie: Whip it, whip it good!
 
-On Thu, Sep 17, 2026 at 10:24=E2=80=AFAM Mark Brown <broonie@kernel.org> wr=
-ote:
->
-> On Wed, Sep 16, 2026 at 03:04:53PM -0700, Rosen Penev wrote:
-> > The MPC5200 PSC AC97 driver only applies to the MPC52xx family of
-> > SoCs, but only depended on PPC_BESTCOMM. Restrict the driver to
-> > MPC52xx platforms so it is not offered (and does not fail to build)
-> > on other bestcomm-based machines.
->
-> >  config SND_SOC_MPC5200_AC97
-> >       tristate "Freescale MPC5200 PSC in AC97 mode driver"
-> > -     depends on PPC_BESTCOMM
-> > +     depends on PPC_BESTCOMM && PPC_MPC52xx
->
-> The DMA controller has:
->
-> config PPC_BESTCOMM
->         tristate "Bestcomm DMA engine support"
->         depends on PPC_MPC52xx
->
-> so there's something else going on here I think.
-It was requested that I split up from
-https://lore.kernel.org/dmaengine/aqrxFTWEsJmFIrel@SMW015318/
+
+--A3dlCn4rFol7Kvr1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Thu, Sep 17, 2026 at 11:27:36AM -0700, Rosen Penev wrote:
+
+> It was requested that I split up from
+> https://lore.kernel.org/dmaengine/aqrxFTWEsJmFIrel@SMW015318/
+
+Unless you mention that I'm not going to be able to tell that anything
+else has changed...
+
+--A3dlCn4rFol7Kvr1
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqsN34ACgkQJNaLcl1U
+h9DcfQf8CoCTFUBtuCVxszea7OXsokIzmnMaLJNcJ9VauGsEEWHaqIEEnchdnO2B
+dQRAYNfJQorruagKxL2JW7vWmu6sRfnUOeIbgVgyF7eElE1r8WZXdQ5bH+IJw0QN
+nUuASD3TavelVFBPuIsjotbepLppsnAojbevZ2mCVMqPaNbQSCRCUIS1wbd8wu1w
+2OTGZVpsuzVy0xdR4/WitqTeLe5+FTJU0gECQ7uLriqhBI5dLk8y234hOFywASpR
+3N5pGooc7MpK3xWxZL0E8D6KNDSIJLBoEbgVuyfdDf3wm+UNwK9WbVpurbJ5voEx
+152tx8KOjkm1H3uQSG7jC+ncwny2MQ==
+=BeXk
+-----END PGP SIGNATURE-----
+
+--A3dlCn4rFol7Kvr1--
