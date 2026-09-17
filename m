@@ -1,146 +1,238 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej2-f15.google.com (mail-ej2-f15.google.com [74.125.228.143])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D280511E94
-	for <linux-sound@vger.kernel.org>; Thu, 17 Sep 2026 15:36:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789659372; cv=none; b=eW4+b4V5W+6EKF2Neg8hhxj44MbPE9/o07p/U4J28LppSAxfmaPSRuh8icTicjF+/U9rrxuTMnOFhHGET+GEg4hbcPjAR9UwIehG5ar3irab+K+h4RHwQHOuKK27+ScaAg8G0fOzfden7NFver2Yb/HBdxBKz/Cre3JnGqp5yvo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789659372; c=relaxed/simple;
-	bh=+iHkduZZMvqiS4zbkORDMTsoPplFs+u6nA/atCreelc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p8Y5bgZKS618p1L5ZfsC2UQDkBQ1IvOovyHOY5FUOzxgfy/fYj+ZrKU/2EY3pv8YQFtWvYYhQXw8qJMxIn0nAB2O+BOZw7AYTshZGYBt96c1MAyeRZUjUr61FutRl2ZwsmNPSi4BJAJW3iqPaHZsR1YPNyEXDCvoQ4cvAh46rzo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=kZ786Q5G; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=IZG2k37V; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5C8E4EFFAD
+	for <linux-sound@vger.kernel.org>; Thu, 17 Sep 2026 15:42:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.143
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789659782; cv=pass; b=DB62Yp/pkpZOfZzaxGbCc054TeUJhX4xrd3zcQ5Ahkw9eMWDz1H+zrNNLVbbmrWN2qmE/lV4lQ5w8SiaKVL3PKIjwyKfRHKPGVFdFK+SBksybFA5n9IA43ORE1+jPeynK7EEkToxBl1s08v6/6NCvyRc8Zd6qWssm4Z7Rmw//LI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789659782; c=relaxed/simple;
+	bh=gt0dv7lUskys8+OlSX0pL27DcpnnuyXu2ozj7ZYCfBo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sf+3aJRPXaA+Q0VpInaAn6Rb32QVGvfexTxHRiaxtsu8AXsjQCmx22Lj9KNSiwgDua4XPJQa7Qyu4vB+ZEcQ8DHOhANfbdvguWJ/lnhyY/EgdTY/kiolyoOxThkzcNeN6uGTNex+Jhy3N5h/1WjYhfMB73KjxAha75IZlhOXmPQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FVmqc6iN; arc=pass smtp.client-ip=74.125.228.143
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="kZ786Q5G";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="IZG2k37V"
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68HFA54s2024884
-	for <linux-sound@vger.kernel.org>; Thu, 17 Sep 2026 15:36:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=1eUp/uF6ojAgjILcRmjqb2zT
-	qv0dimYWlgVlrOGW+6Y=; b=kZ786Q5G695b/pL6vZ7QOnUdC/cWpDY84dzlRK4C
-	FUGNKVqiM0lbwsNt9427tCsXZQoR/q5Avr46Al0s10NNEm9tquVT1Y/NioDzbUuO
-	g2HKXoVUb/SQ/e/QYsd7fRRlZZ6oiD97RoQcnk6X8cCch/eowjjeC2KzzsnGcIIg
-	WoMd0MRsaFDXa9kQWaoptXrmgKiuV3UWqi6C4giuhK0TvZ37g/MoUGIIZw0CPpRL
-	Xtj9JfvZgdhleGDN3xIVg25j1ClI4GCb2rYvPiGhOlFnXnrTsd18d/BJvvdljntA
-	2MsZiMnm8YKXXzHguEXtqAc243tdqyL07w6z2UTo98qsrw==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4grjkt03xe-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Thu, 17 Sep 2026 15:36:00 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-934963b2bc0so186167785a.3
-        for <linux-sound@vger.kernel.org>; Thu, 17 Sep 2026 08:36:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FVmqc6iN"
+Received: by mail-ej2-f15.google.com with SMTP id a640c23a62f3a-c254f9f7dbfso129334066b.2
+        for <linux-sound@vger.kernel.org>; Thu, 17 Sep 2026 08:42:53 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789659769; cv=none;
+        d=google.com; s=arc-20260327;
+        b=dyf7H8Q07AbhHe7IINWOkXYMAxRaQJVYh4aM92xPmuf1NWpGCXfP2hFGVa5L2S5OTL
+         LVe6ukU2VnCfFNiT2tQf0Dq03EM0lhiWzJGpCuhGBNQCafSAffh7bVv6TQVMuhXx5pgX
+         C+MT+C8KfkWFqZ1PVeyRO5H0W7NjjoAekpXBt4EtAf8u6kU/6oUlhG0DdYwjiuKPj4fG
+         DRUEKry6WPiZwYQtM93QY5t3WTe0lXhmNQs4kt3Z3UkeCIobZkM4lKTy+jQCCsWS9s4G
+         8kVCKPf7ZUOWITTjJZQpKN3A5oOh8C4bJ35my1oYZMX7ObR1nEuqgIbl2ILBPplJF8Id
+         kAdA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=b6QcRMWdExnJJ8C8eYRzuUZ+eUGTgGISBUbWC62+eRY=;
+        fh=HFA0TIwmf3P8repN+1wHGrXM1/BQGyf0rqNJiAYf/w8=;
+        b=CI7icZKczHRD5Wn/TvLbSBe8zBH9eUqiV1vQ12xrucKhSamsD/wUlQIsYYWHy+avaI
+         obA25YE7aZvSaQx98H0xl+7diumsUVY56Lt6INkhWp+cdmkidwimoUxFezU2ozNfDZGR
+         RdgyUhvjRPAnz9GVFigvUb+SZ1k5VWpqUFO6UoOHd9gblvnr1KbvLvV2BpBE/p5G7Ov5
+         jVh4dBsj0kOpUkjNPDI/5iu2So3f7+6lLQq5wsOR8AVG/gBXRLqUIgQzHm21C/X+0WpO
+         oU1QHK5rNY4C+h//Yfr9leq11N/FjrsUfWem4nzOeaGDsUFzuxTD8YNCwAttFlqqzVEk
+         x29w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1789659359; x=1790264159; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=1eUp/uF6ojAgjILcRmjqb2zTqv0dimYWlgVlrOGW+6Y=;
-        b=IZG2k37Vm6c+y9JD/ofhZkzN1Ea3GamLtMOPvZTYZd55yALWBKtCM5G5CIU13e25OA
-         hDKfcEf+lg03RvQoradrRHq0EQSLiKa6/xbxZ2nmRM8uTwe4/INkq0O0LFtQW3JXeKWn
-         OWsaAtpEgF8wnLySNeWpsKqdtDZxU9RS5mwjb9YGqCRzkaiJTT7kaspAwjVQbGkVbJCt
-         eNocUpnXKypurUj0KV/oAhy2wYRunJFeZdjfsvJKhIKEMrPu3lOS/XFk3qNM7jXEPKnh
-         ySBFOp9MacgQ/LlhlDzqb5VgraGpE2WghMAer7aaWcFiM8DSHFCMKrhgIsQH4gDy44Xu
-         lduQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789659359; x=1790264159;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1789659769; x=1790264569; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=1eUp/uF6ojAgjILcRmjqb2zTqv0dimYWlgVlrOGW+6Y=;
-        b=OTOFl16gH0AE9DqoLqvDILk+4Vm7BDIztfJa7cZCdmBci7rTX7HlIx/WHbk2Uv/Ny/
-         qxs//wDDxoGO9t7gMIUThYKogTCcbXofd+0tnlbmY89c+Ed7ZmchGUed7ZAD8c9Oi+OP
-         LTkUj0aIippaUDzJvJgYynrS4VnJXjFYbAp6DM/SPWuhuMo5jJ9EHm1V+YMHNguDFSfD
-         YawixLyx7s4M24FyjDhbUDKEnXtEhNsMh2QerjL/MC/w0BtY7bLeMikJ28Aotz14HO/L
-         2e6kFxnz5zyvg/rZir6+A1ysNQjVgGBVkw9QTMbiM28IX5bFgCnRQfQXXnk74yLwKhTl
-         zjzQ==
-X-Forwarded-Encrypted: i=1; AKwUvBw7qMJZmYyK75hlHgLB36UBEqgL6s9ESM0A3hLwB7jRze928drWTSRadCSNyRQ+qnxqF+ECRV11cP0tRQ==@vger.kernel.org
-X-Gm-Message-State: AFuF++ksOzT+KIr/n4PzH0hOMblaFjhdf+2JtHxEp2Ve6znTwDCZii+d
-	4Dx4no8nc5wFEzIKS7q/s2H8wp7aSs04hCeqJA790eb65LXHaQzWnKyvUi+J/DdAgJ1NRcDEHyT
-	LlVWMeydtZO8A/KT4Rmg2XHTrDT0gNiakL1gVT54KpWXxMHCd6me8haR3EODGkvS2Xg==
-X-Gm-Gg: AYBFou3vPGJdq7Ai+Dv6RGhvDvlb8m1OMZyz/wKfz6TW0BXlz8kHh7dGGzHNE8ICL83
-	Nshox6qHrk/OzEzGsYgw5ZVYvRMVUykLIdby78fNYn8vJ4oLVnbBlc+ZzRX3AXbTQysBZOMNh2f
-	MYc5tsKw/TE14TVCMmyeTGyRyyVtNyT68kS6SPm3NKsw/WRlsVjwYa13U4BSD2I1qywdrhVQnda
-	fripvTxVgtwUzr0ns2eJG828id4yfBIno9L4sx87R0YREDtcrdrG3WT1r6p5u0jOU8SnqHjqasi
-	viTrHNk6X5HVzlYvfzSBVlMEQO7inRM9PQZx4o3u4DAecvX2JBGdWA90FUTe4BhsDU5WYaEvDPX
-	9SWaeZUmw6aLqig==
-X-Received: by 2002:a05:620a:4725:b0:93b:d79a:c465 with SMTP id af79cd13be357-93bd85f0415mr78851885a.61.1789659359290;
-        Thu, 17 Sep 2026 08:35:59 -0700 (PDT)
-X-Received: by 2002:a05:620a:4725:b0:93b:d79a:c465 with SMTP id af79cd13be357-93bd85f0415mr78847385a.61.1789659358745;
-        Thu, 17 Sep 2026 08:35:58 -0700 (PDT)
-Received: from oss.qualcomm.com ([86.121.170.232])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fbd24774esm134249535e9.10.2026.09.17.08.35.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Sep 2026 08:35:57 -0700 (PDT)
-Date: Thu, 17 Sep 2026 18:35:55 +0300
-From: Abel Vesa <abel.vesa@oss.qualcomm.com>
-To: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-Cc: Srinivas Kandagatla <srini@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Abel Vesa <abelvesa@kernel.org>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, linux-sound@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Harendra Gautam <harendra.gautam@oss.qualcomm.com>
-Subject: Re: [PATCH v3 2/8] arm64: dts: qcom: shikra: Add QAIF CPU node for
- audio
-Message-ID: <tfjdo4awnnqxnfashsg7rngszkqhcbz3aurpc2zz4nw7vhbykr@knl35b4p2ruc>
-References: <20260917-shikra_audio_dts-v3-0-9a49e1ca6370@oss.qualcomm.com>
- <20260917-shikra_audio_dts-v3-2-9a49e1ca6370@oss.qualcomm.com>
+        bh=b6QcRMWdExnJJ8C8eYRzuUZ+eUGTgGISBUbWC62+eRY=;
+        b=FVmqc6iNe9CVO5u5efXrUJTVIjT/dCzQbeRoYbazKkxyEpzRzfLd+8mGrLjF7ePVIT
+         1ixJunoD854qbJwhKJcvpZ+rAt1gkX04l2oc1sAeGUqIK120rc12jjIrxro0fe+KlK+M
+         15xQlJ+VQe9P5HqctP9qDybb5rqDU5M7/vjG37oT9Bgd00N9oE6rUtlv4qzTABK+S4L8
+         ZmR4VKf3/lRTtwXL/5b7us0z1qKSnHl9Q3C5Xv2D+YjpOWMYtLWfsFg8PQMRAVuk8R0J
+         SxVdorxMbxhG5Tc0qrIBVz6QKhPU+n0JrVkpryVtjjYDayL3NVltAa8hFLSA0O56mEcX
+         e7vA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789659769; x=1790264569;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=b6QcRMWdExnJJ8C8eYRzuUZ+eUGTgGISBUbWC62+eRY=;
+        b=te4/lfLGF+hXlpBi2GXWwt0DtVnMdfaqzEVe1fPzrRE/QQ5Pb8YmHTTOejZsvoMe3G
+         W8U4NVnNxf7GiOBG6rpE6FTnuau9j7xAsxnuYDpdloRB/GS18q7qsF/cglU+vY6mn0e5
+         UhCS4WrZH3jGrLeWrJPR35zSTi6nlpLqxQZHHXo3hrDdqMsJTV0MMxN/gm8IjmWccsHC
+         IR0qT/tx2RIp3ELiUfaT67CjadWmN2xRJ2bN85HXgG28aoCdOwqJ2Ggdig/HMTdzv050
+         kpsPy5ujgolUdBeZGDPrj+Z1SIT65ensbELhpBmxCngnco8A6GItCduIdvyHbAvanWdA
+         2jQg==
+X-Forwarded-Encrypted: i=1; AKwUvBwF63jNUekaO2HBi6eOSxN+6rfmrO/tFpE5VCYBAU/pgawHlVggdaexSclJoWm2PqmAtIK/0FsUdB2mGA==@vger.kernel.org
+X-Gm-Message-State: AFuF++kqitKbk3w5DNo/fphyGatV/ylN4uiOhAdk+DwMmhZp0uLvcHqY
+	R15ielYuX4/0ot58MUUHoEqDy6TVs/W83TPJbIF5aEYNwkUTrp5ughQBvR2nPH81C2QN2100iW+
+	5HyYttDXWvHlGrmd/6pOt1dOq2mzb3/o=
+X-Gm-Gg: AYBFou3y5Dz3cxIuGRT3aIktqyZ4S4sPXfyKBZkz1ThTeQQ1H9Ge//vssvbo5HQeyLp
+	tgd89F5YZM1GsMnVwy7FmOBF1a8n3mEfjpLi2BSCNpT2cAkmEX9x0vRz0gck48ZL5jzS7KukIVT
+	0assrCpgbCzY5+53PVsBVo778nAH38LvUfJAZAWDzPwx/UnW5jMOzqRxTwieo2kzVmuTqwngZCl
+	z7+sQa5dEpXI4TVy8RBfSfE8B0FFh6P3TFo3wDxBYTgaiPM9ZX1MPiYHZKPIGsOXiIH7AWzfowk
+	ECyL9TW0cF0anC2nYGIUadXIebGcgUgk+xMBABNVQzxrjlLGPimKNdulzPdvzdQq54PFLogUeB9
+	JhM/9bryUs4AmJ31XI5CXyMY=
+X-Received: by 2002:a17:907:1c12:b0:c26:19de:9adb with SMTP id
+ a640c23a62f3a-c29e53956cbmr555627466b.26.1789659767907; Thu, 17 Sep 2026
+ 08:42:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260917-shikra_audio_dts-v3-2-9a49e1ca6370@oss.qualcomm.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE3MDIyMSBTYWx0ZWRfX13LVg1S1DoEf
- 5pDu27ThkW+e3bd9FpXl9C23lz5+uGbGsSzG1jfvXmdlsViXQ0iWhx1YY825W/etzzoGin6Eyjy
- 3RQgl0V59cxStH9LgJA0gImhGenIzCTq8IBb+iwlVpi1KRLJ8ewJlORDbPm7XrjayG2NvXNTs3o
- AA9L1vBqpbpjrCfUigT/eTE4RNFdDnesfY570DKeOLdP8cwTMX2jD+tFlIpTuM+ejsJjuqli/Rv
- A8ekA1qJtjOxR8lKfqeghs9dgfOjy5t1Nxqr9U7sl2KM9H1Gan+hcunSWjea/SeRqiYe5q4zs79
- drynTrlYF9v5YoUuBzFpH5g3o7Y+FjeXPoIuGdPp1qxFL6PcuVmccdPq8Q2fyJrT2JVzHAOXyo6
- 8AzvQpg42cVXq1cGcIwckzuy2qi6uPHDpf0tvQAufX4LcEkk6F+M9io+Bcx+y4TfW8IRrh+2dKl
- r+GvFFo/vyWbdK3oUBQ==
-X-Proofpoint-GUID: tM5Kmy2zCh_wHys4haLfzjspIszX68l2
-X-Proofpoint-ORIG-GUID: tM5Kmy2zCh_wHys4haLfzjspIszX68l2
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTE3MDIyMSBTYWx0ZWRfX5DD1N4sn/3w1
- p6Z9oQjqUUNqMROfzwkgPr7vs4uN6tUtp/cJDSIy8Zr/zKgicLe60tJEvoFgf6lhXk8Mf+O68EW
- XQ8W9JsmIFVglO1PUpNsTlwj+H6fTXk=
-X-Authority-Analysis: v=2.4 cv=Y/VtIReN c=1 sm=1 tr=0 ts=6aac08e0 cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=po8fGBi+ks8MzcVQGuqtFQ==:17
- a=kj9zAlcOel0A:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22
- a=mXbM7gEZnszqHwy1qK4A:9 a=CjuIK1q_8ugA:10 a=NFOGd7dJGGMPyQGDc5-O:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-17_03,2026-09-16_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 bulkscore=0 clxscore=1015 priorityscore=1501
- malwarescore=0 suspectscore=0 spamscore=0 adultscore=0 phishscore=0
- impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
- definitions=main-2609170221
+References: <CACygGA9s1oWO53NPamL5tkaNhUt-W8S736OVAJZcYCU_UOni+A@mail.gmail.com>
+ <87zexggmqt.wl-tiwai@suse.de> <CACygGA9h-qehZVFxRMOgtt8y-kHMwSCuuvZwBSi_7R0xpp-dRg@mail.gmail.com>
+ <874ifogc5x.wl-tiwai@suse.de>
+In-Reply-To: <874ifogc5x.wl-tiwai@suse.de>
+From: A Akhil <akhilarul324@gmail.com>
+Date: Thu, 17 Sep 2026 21:12:36 +0530
+X-Gm-Features: AcwNN1WOwF372b5aZN6jQqBMCpHzRibzvDuWmE-PpVzaGQvaHkZOCiWUYPsk9rY
+Message-ID: <CACygGA839V5fg=C7nBTTyT0hy=4LV7kKMz1AH-+E9z3s75p3Zg@mail.gmail.com>
+Subject: Re: Sound/seq: hung task in odev_open - unuse callback sleeps under list_mutex
+To: Takashi Iwai <tiwai@suse.de>
+Cc: tiwai@suse.com, perex@perex.cz, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On 26-09-17 10:07:31, Mohammad Rafi Shaik wrote:
-> Add the QAIF CPU endpoint in shikra.dtsi so board files can connect LPASS
-> front-end links to backend codecs.
-> 
-> Describe the MMIO region, interrupt, IOMMU mapping and required clocks for
-> the QAIF block. Keep the node disabled at SoC level; board dts files enable
-> and consume it in subsequent patches.
+Hi Takashi,
 
-Don't mention subsequent patches here, please.
+Fair enough on dropping, I'll leave that alone.
 
-That is not a good enough argument to disable it at SoC level.
+I'd actually already tried the 1 second limit before your mail came in, so
+the short answer is yes, it holds up. Same rig as before, one thread
+opening and closing /dev/sequencer2 while two others open it, three runs
+each:
 
+  unpatched              hung 10, 10, 10    worst block ~130 s
+  your patch             hung  0,  0,  7    30.7 / 30.6 / 129.9 s
+  drain capped at 1*HZ   hung  0,  0,  0    20.6 / 18.4 / 21.8 s
+  progress detection     hung  0,  0,  0    11.0 / 11.1 / 11.6 s  <- new
+
+I was running with hung_task_timeout_secs=30 to make the failures turn up
+faster, so at the 120 s default the 1*HZ cap has plenty of room.
+
+The last row is new, and it's the one I'd rather pitch. Rather than
+picking a constant, it just checks whether the device is draining at all:
+wait in HZ/5 slices and give up once avail stops changing, with 10*HZ
+still there as the outer bound. A device that works drains completely as
+before, nothing gets truncated, and a stalled one gets spotted in about
+400 ms. Comes out at roughly half the teardown time of the 1 s cap here,
+and it's about 20 lines inside snd_rawmidi_drain_output(), nothing
+outside it.
+
+One note in case you do go with the cap. MIDI is 3125 bytes/s and the
+buffer is PAGE_SIZE, so a completely full 4K buffer needs 1.31 s to get
+out. 1*HZ would clip that, and 10*HZ already clips a full buffer on 64K
+page kernels. Unlikely to bite in practice since the buffer is rarely
+full at close, but it's the reason I went looking for something that
+doesn't depend on a fixed number.
+
+Also a correction to my last mail: I said about twenty substreams, which
+was wrong. It's one rawmidi device, midiC0D0, and the teardown just calls
+the drain repeatedly, around 31 times per cycle.
+
+If either of these looks fine to you I'll send it as a proper patch. And
+if I find something better in the meantime I'll pitch that instead.
+
+Enjoy your vacation.
+
+Thanks,
+Akhil Arul
+
+
+On Thu, 17 Sept 2026 at 20:25, Takashi Iwai <tiwai@suse.de> wrote:
+>
+> On Thu, 17 Sep 2026 16:11:27 +0200,
+> A Akhil wrote:
+> >
+> > Hi Takashi,
+> >
+> > Thanks for the quick patch. Right, it's not a deadlock, that was my
+> > reading of it too. Nothing locks up permanently, it's just a wait long
+> > enough to trip the detector. That's the reason I bothered with it though.
+> > On the syzbot run the wait was over 140 s, and for the whole of that
+> > anything else touching the sequencer is stuck behind it.
+> >
+> > I ran it on the setup I used to find this in the first place. One thread
+> > opening and closing /dev/sequencer2 while two others try to open it,
+> > hung_task_timeout_secs=30, three runs each.
+> >
+> >   variant                       hung tasks    worst opener block
+> >   ---------------------------------------------------------------
+> >   unpatched                     10, 10, 10    ~130 s
+> >   your patch                    0, 0, 7       30.7 / 30.6 / 129.9 s
+> >   yours + open_mutex narrowed   7, 0, 0       129.9 / 41.3 / 40.9 s
+> >   drain bounded to 1s           0, 0, 0       20.6 / 18.4 / 21.8 s
+> >   drop instead of drain         0, 0, 0       4.0 / 2.4 / 2.4 s
+> >
+> > Your patch builds clean and clearly helps, two of the three runs were
+> > completely quiet. The third still hung though, and when it does it's
+> > coming from the opening side rather than the closing side.
+> >
+> >   task 98:  odev_open                      holds register_mutex
+> >              snd_seq_oss_open
+> >               snd_seq_oss_synth_setup_midi
+> >                snd_seq_oss_midi_open+0x8e  blocked on mdev->open_mutex
+> >   tasks 97, 99: blocked on register_mutex owned by 98 -> hung task
+> >
+> > An opener grabs register_mutex, blocks deeper down, and sits on it while
+> > it waits.
+> >
+> > I tried stacking my earlier open_mutex narrowing in snd_seq_oss_midi_close
+> > on top of yours, so the closer would be holding neither lock over the
+> > drain. Still hung 1 in 3, and the wait had just moved further down again,
+> > this time into snd_seq_port_connect() on grp->list_mutex.
+> >
+> > Three attempts at moving locks around now (mine, yours, both together) and
+> > every one of them just shifts where the wait happens. I don't think the
+> > locking is really the problem here. It's the 10*HZ per substream.
+> >
+> > Bounding the drain to 1*HZ in midisynth_unuse() does stop the hangs, but
+> > the cap is per substream and there are about twenty of them, so teardown
+> > still runs ~20 s. Capping the total across the teardown would do better,
+> > though that's more surgery.
+> >
+> > The one that actually worked was swapping snd_rawmidi_drain_output() for
+> > snd_rawmidi_drop_output() in midisynth_unuse(). ~2.4 s, nothing hung in
+> > any run. Most of what's left there isn't even the data wait, it's the
+> > msleep(50) per substream for the Tx FIFOs.
+> >
+> > I did wonder about throwing the data away, so I went and looked. As far as
+> > I can tell snd_rawmidi_drain_output() already drops the buffer once the
+> > 10*HZ expires, so the bytes are gone either way and dropping early only
+> > costs whatever the device would have taken during the timeout. For a
+> > device that isn't draining, which is the case that gets us here, that's
+> > nothing. Tell me if I've misread that.
+> >
+> > So, do you want me to send the drop version as a proper patch? Or would
+> > you rather bound the drain, in which case I can try a total cap instead of
+> > a per substream one. I can also test a revised version of yours if you'd
+> > prefer to keep this inside seq_oss.
+>
+> Hm, dropping isn't optimal, as that's a clear behavior change; there
+> can be pending bytes even in the real use case.
+>
+> Actually, shortening the drain limit would be an easier way.
+> Practically seen, 1 second should be enough for the real hardware.
+> If this is enough for the syzkaller report, we can take it quickly.
+>
+> Another option would be to offload the snd_seq_kernel_client_ctl()
+> calls in seq_oss_midi.c snd_seq_oss_midi_open() and close() to a work,
+> as you pointed out previously.  This would be relatively safe, I
+> suppose.
+>
+> In general, I'd like to avoid touching too much outside the OSS
+> emulation layer.  The shortening of the drain limit would be OK, but
+> restructuring else isn't preferred.
+>
+> In anyway, if you can pitch some good workaround, I'll happily take.
+>
+> (But I'm going to be off from tomorrow, so it'll be continued after my
+> vacation.)
+>
+>
+> thanks,
+>
+> Takashi
