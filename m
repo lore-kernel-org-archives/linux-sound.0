@@ -1,150 +1,208 @@
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010060.outbound.protection.outlook.com [52.101.229.60])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EB4B4457DF;
-	Wed, 16 Sep 2026 23:59:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.60
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789603151; cv=fail; b=AEIUeAfOtRmIpfQZHtkwoadJ5NiwcdoW/sjb7kPX7Dt7Xjj9N5ufP+T36bO7/saMjyET5EowvKY+Tpl4rpii4bGzU552w1/Uy8iKO3//gDOjdpsoO9xbIhXOpfvq+mMRDaGHe8eLLxcnBn++7/9CmnZP2bxo6v0Rpcf8R2yv4Ww=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789603151; c=relaxed/simple;
-	bh=UknYgK3+eitZyZkVK+HR+FI8FWE81VjdWBjxiYbAR5w=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=o7/6N1I7p9H6VFApMxMaeP+boX7ng6hRk3Gz692nXGo/0/rC4B2KWnlHbR2zkukEVSg/7NrerN3mv1umCqHHmboCs4StBtX6hSa4IskC3Jc8g28n7KFIgFxLb6m7vNZaDFq6hWjDD+xPlRM5j11WOK2tKeSxqYANVWet9uzZocc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=UOySMT8+; arc=fail smtp.client-ip=52.101.229.60
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07B37233933
+	for <linux-sound@vger.kernel.org>; Thu, 17 Sep 2026 02:16:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789611375; cv=none; b=dTQepmtgZoNlzLdI0vAReH3QjfB1z6cdpPYctVVmtJTHVRolxQYWwIbEGW5Rnx/8o+Kaajc2RtRmi6qAuW7Gs3gL7pLRZvLJdH71USjO+fmq8GLaZFXrXlEMu5hZtQqHiTg0mxSxk3pmeicktH0kaElBZUT6dx0cpyhA3ZI1x2M=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789611375; c=relaxed/simple;
+	bh=dzSHSg0tnYOpMKohtDQniZjREcPmcvX1UrDWM0kbu3c=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=ATfsxJ/Rf7osGV/EeKD0XlxXskDVJ+Rjb3PKKjlAhWG56GyW2zrPFQnd3ciooxLTZE0KJTg6xi2R3GvtaZ3QoJ8P3PD1u/rQnsHaYt3R4QDU19GU8OsRBm2QGbwuIFdZMkfJ5khqNt8Qzzp732dp7JhuCDY+wIr03bUl5eSsJBg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=mtwHu1lA; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=K2m/J6di; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="UOySMT8+"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=eojx+A33rowovGYO+UuMtRphcWEjEZJnwlvBiTmyaAl8Xlsa03z+ITD+R3atawMLGf6q9Qdh7gRMZ4Dep1JnccPYVK7eChIw+eTyoXweuQTWZ9rLsqTyQQYpXAStFicWZn/TyMea3ivG4xVvwNh0QaaPMm6SrTAZK1yvWDar3pbK8zZc6wjeDSujIfJ8qkT5lcLn11zkDqj3NrVAArYULpZzPYRWi8q+KsP9Ih1mvbck89xW4SMDcnki939DfrAtOvia/3u7fCb0d1G1YUhMa4iC8bOpxZNdNoRZRhMxuCx+vnQnxkeVGV0aXAOiKwebdSt0BfutS0p0aUNax+bQRw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DWxVxOo2SGwl2ResFwz+O3479wsd7r0m7mKSfK7aWxk=;
- b=RBjRD7CJ0M0fqxkyFTWMFa9JTReLpX4tU4j9/Ddt6ZRYCdElcqrrBzZ09y0liWkx1hb6qnEB6A7VZC0zg0nt9bz7/KksNh5hbnSvFR6uUftOenJa3wiSmxVp2sc0Borui8rNmUwB8H+4HbGttft21ULgQHT9+KyfluYINv66LhkoF4s5Gjf0GVDDFjC61krIpq0j5W9R6u8OjFVvLH6puK46Ut33sbACMCm6bGeFEfIxkGB72UXLBvZinwqWdV/zcwa1QZ8hkASzFWthUykTYXo3ikzVpCf92vOn1YKlC2PkWSrRRSTHsi7Tn7xUNApvuunNnFmjWlSvIoVbLa/NnA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DWxVxOo2SGwl2ResFwz+O3479wsd7r0m7mKSfK7aWxk=;
- b=UOySMT8+n2M2VoB0nHJ8B0mFBwnKh/rpJm46Qc+0FlaOBAaktMm30f3isbKNnBpvPXpPqryGpm0Rm63KnnQAHVyynLHJwL3fMUWb5ugsMiPzp1XZX5G0ViQzJ70GsaSNWryuwNct3fSiQHDXPLgm3RKbB4waLgpph6ZazR5iWE8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from OS9PR01MB14121.jpnprd01.prod.outlook.com (2603:1096:604:367::5)
- by OSZPR01MB8035.jpnprd01.prod.outlook.com (2603:1096:604:1b0::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.428.9; Wed, 16 Sep
- 2026 23:59:05 +0000
-Received: from OS9PR01MB14121.jpnprd01.prod.outlook.com
- ([fe80::e5f:713b:1ac1:961c]) by OS9PR01MB14121.jpnprd01.prod.outlook.com
- ([fe80::e5f:713b:1ac1:961c%4]) with mapi id 15.21.0428.009; Wed, 16 Sep 2026
- 23:59:04 +0000
-Message-ID: <87fqz8zr22.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Wentao Liang <vulab@iscas.ac.cn>
-Cc: broonie@kernel.org,
-	lgirdwood@gmail.com,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	stable@vger.kernel.org
-Subject: Re: [PATCH 08/20] ASoC: audio-graph-card2: Fix device node leaks in graph_count_c2c()
-In-Reply-To: <20260916071631.1966635-1-vulab@iscas.ac.cn>
-References: <20260916071631.1966635-1-vulab@iscas.ac.cn>
-User-Agent: Wanderlust/2.15.9 Emacs/30.2 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Wed, 16 Sep 2026 23:59:03 +0000
-X-ClientProxiedBy: OS3PR01CA0064.jpnprd01.prod.outlook.com
- (2603:1096:604:de::15) To OS9PR01MB14121.jpnprd01.prod.outlook.com
- (2603:1096:604:367::5)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="mtwHu1lA";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="K2m/J6di"
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68H1KVnB210531
+	for <linux-sound@vger.kernel.org>; Thu, 17 Sep 2026 02:16:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=qmBBtsE3gOQe48Sv12+iXY
+	x65A6NntNxZLh/Y6z9vBM=; b=mtwHu1lAK0dA0gogAIrj+W7dOfbt9yiAucZeW/
+	4AJQKBOk/Fho5rJdsLOn8z/+lEJTQOs7mXcmiP5BM4vWa92CFiS8PnEoEXrVgE/l
+	jDR1TyYoqeZouDsGZY2FXtzWAHhzWH+PcOm9+ST0ebrpMM9fmCNeq3zDhuKKeDdi
+	pFdPWqbexNtU1HMloqIoz9a3Fe4zstXd4iu/R7YDtmZQDDInPlH4JAvulc2KeKvr
+	mCognNM3zdgSXlo0z5WlEXHWGIfQteO3BAI6iEuqjAdphPck6oB1CphgFHYQZeJH
+	LGf6u389aNDmk4IPwUrKJBJKFMz7aKLfqSS78NmRsXha3bpw==
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gqxw8t3x9-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Thu, 17 Sep 2026 02:16:11 +0000 (GMT)
+Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-39aee9b4cf2so701346a91.0
+        for <linux-sound@vger.kernel.org>; Wed, 16 Sep 2026 19:16:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1789611371; x=1790216171; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=qmBBtsE3gOQe48Sv12+iXYx65A6NntNxZLh/Y6z9vBM=;
+        b=K2m/J6diu9wo5IG7OHXWbGSEyrWC8SfuGH0gNHMJm2buXYbHndcuKHEyYy7d9ePAPa
+         dP8oCqIMoGk0giYY/6Gbqmk8YNLxlpBtSgDOgBNjvbUQXPiDxza4f6Pl96e5fh03Wbl0
+         MPlzhO4XFUnmVACZMax2249HBYMLYklv0ISnMGiPeZ4j6D14ph2+HA9VGMFT1qFHIQ1G
+         j4l6AZ1D+3a2akSs75lfO5TItbiqqxnLjMxwHFl26yaiJ0epx9RBXdo9NNT3cqMc6SVu
+         Td3/jTsH4RXj272iwFW8jNTgAiXDCsKqi3HFbgSGElOWnNgD1KQ/L85eQJkIDjUgNsHA
+         Vp5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789611371; x=1790216171;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=qmBBtsE3gOQe48Sv12+iXYx65A6NntNxZLh/Y6z9vBM=;
+        b=CBZbu+duCeIrUCPsEbxt6I4IVB7lhbFOu7GBiYYY7+XIXn9WCX6KyNq3SKqQmLlbJB
+         guQyj9+A6G3lRYI6hDXFb9uLn0RA6YLEzZQsZ809FNvJu3j5uoku0w2s5nSBC6Nm03TS
+         ImoX8eJ6rES/W9xi4mrhGwOIdsvUQbzuBo7ncJRjVCYzIuLrqLgxBHKE3qIblSe+FxUG
+         33ATAKWbdxdHzFKncbAmsJItcxWhsnBMtrkShsRKPoF6opoUm3hO6WKFzSxPIOb/ks+t
+         AMTM105klztcl4INFQH0mL5otChPvzZgNfaV2JZqJ7yNdnH26wmClUwbCMKLQVsv1PLI
+         Mt4Q==
+X-Forwarded-Encrypted: i=1; AKwUvBwKwEK1y01GSxTXi5joXUZ6zNOcAMhHl9oV4kuaN+d5wxspKk/J/yHovgUarzzaBJ9BKpe0J3UwJ2r40w==@vger.kernel.org
+X-Gm-Message-State: AFuF++nun0+56g9TtLNvdYyWtzNAtdbw+OA6o/yZn+V7B3RXerne8uB7
+	oPQt/ojgosAqg1ISSPLYNL+U++CQIJW6Fh8qVRXzv1wjUnYj2pFsWbinsI3L7yB0k+q8XA7pCvw
+	oBrV3Gaw1Jbegxa/SV1vrXxHxLZ+Tc2y1/WxCJyMIVMG0KQRpvVZVCVWaGLBfBDKZYe86ujZ9kA
+	==
+X-Gm-Gg: AYBFou2LB00Vw6KUO4u5BKETrBqc3lVFk4XflsdhBc4E668TMbq4uQbzoFv9CebL3dX
+	ryiO+gUcx99FjSE5oPnq5f+MONeph8bA0mbFFIJAaY5hlFd/12jiW/0Y2+SF+dAnX62ITerg2vA
+	GNIXz00ZLe5fOxdn1FPPtpzVQg4QDnBOoKrjRZRdjixV/6qKRsW8nO9i0r/u1sYxrrQVmMDQTX0
+	fj1YfQppqwGAdx/GLlaUa5xt1lnNLXoaZGz84pBYJN0GhZrw8PlaJZN3POlFfOBgfxGjID3cIOC
+	SyjJpEA32pCpDsGyaokX7TDSy3iWoWYkJAId9f1w6ZTjlawiYT007Hd9WIwcP0FU4QEYwhR7AIn
+	a/8FqstlPG/R3kUHpEH35lQ7PslAPXyEUuiWC
+X-Received: by 2002:a17:90b:1d8d:b0:39b:92bb:9ef0 with SMTP id 98e67ed59e1d1-39e1e48a200mr10500895a91.20.1789611371074;
+        Wed, 16 Sep 2026 19:16:11 -0700 (PDT)
+X-Received: by 2002:a17:90b:1d8d:b0:39b:92bb:9ef0 with SMTP id 98e67ed59e1d1-39e1e48a200mr10500846a91.20.1789611370615;
+        Wed, 16 Sep 2026 19:16:10 -0700 (PDT)
+Received: from hu-mohs-hyd.qualcomm.com ([202.46.23.25])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33bfb19f8cesm14372881eec.2.2026.09.16.19.16.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Sep 2026 19:16:10 -0700 (PDT)
+From: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+Subject: [PATCH v3 0/5] ASoC: qcom: Add shikra LPASS RX/VA macro support
+Date: Thu, 17 Sep 2026 07:45:31 +0530
+Message-Id: <20260917-add_shikra_support-v3-0-fc0e79c341aa@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: OS9PR01MB14121:EE_|OSZPR01MB8035:EE_
-X-MS-Office365-Filtering-Correlation-Id: fe679055-98c4-4b4c-42ed-08df144e7c56
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|52116014|366016|376014|1800799024|38350700014|10067099003|11063799006|22082099003|56012099006|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	15VCT1Ej469RQ4HLB/kiaWJb3amY+15FA1Df4hT4ePxkz9RVgw8To0gIBdCHwmCk0b2cxZp302mJCxqhJAV/7ATZaegiCt55b30kxejlbVS2u1D5WM+PVk8ELx30nvXUDQA3f1wzFRUeAr9wh1xhslU2fRpFHjeWpJOppmGcxgzDoeSam8E+elmjHmg6IhGWbIABeoNE+s09lN5t2tekoctZuOUrlAOYlEM+wMNN2H15FUF9KRGytOFNW66XD6gPvfiYRU1oZQK7es+oEo4mpdNj/+KhypwFCr8uLyzUtacNQAXgHU6aXBKJLk9Bkka9dZTsz6laUl65pwcslZ4r8hcFZv1KMekDdhdOC3qZM2QhQtZAw5gsnfB9i1fwK35Ope7cJeaLO+zSMzmA12Q2MDTSlwIDD3sLUPuHKU+QdI+8m7qE99mrzJxFCxGG2TRtwvGLHtDDQMDNbtrGQywNJ5UZLutjnQ6cefDSxMgM/lABfqPRIyD2XKcz3hMzgQsIecYWKdBiMb/jpbBZg7jiLG0EPuWY/KJm915lU3Qb9gRtifEx4by/gOz9aV1TfU5oAKFx7hJ3qHhkszC/qAkH5Oftnp/JIhdFWljendKykM6nKMt1b+5l7VMo/D5jo8Um5KfSTB60hu4CEuoBjD1pnUhmqHJXnrp9fDcE/Y8N+rL4CLTpREjZb1ZJaI8NvSx83OVW1uD+8iqhlMGVX3g/8vyvA8k4BQXce5JkKGythxw=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS9PR01MB14121.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(52116014)(366016)(376014)(1800799024)(38350700014)(10067099003)(11063799006)(22082099003)(56012099006)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?D2vZCpzhWmbzu1/iE1AOOgQEO/vcn1tUVBJwXKOG3YEBRQWQTBdKQlDJ9zfg?=
- =?us-ascii?Q?CjLM4gAKCq2ZUj+0iM60xnsuA96VFkuczyRJtrvZ5D5A6MKHtl5tw14lExiQ?=
- =?us-ascii?Q?tXfugkJpwyu1u7NmSi8vKjVxVyX70uO+n1OCIA9iH03rzJWhjOsDvKpI20SQ?=
- =?us-ascii?Q?/hM8Q8m2eBXDYpcOl2WYVZL9G47jyBgjWFE4ckD+oTMYBfDBNQ8eFuJs22gz?=
- =?us-ascii?Q?mhiSUJS+UXgcPcsxwSnjD9h8BvZbvtZw9/9aEzy9kcmmY1Ui2Ymb8p0Ktwdz?=
- =?us-ascii?Q?9tV4kdIdlUhy3N6brkPVkFDo7149S075TF9qv2i+YR4PZ2RpMw3/Dwl0jiX7?=
- =?us-ascii?Q?XnuKGvJ2WnmdgNywhJeFfJQnDwPGAiBWVTwY6oKRnKYoncCQUlUHSd4v2UhO?=
- =?us-ascii?Q?BaI2kCGHG9cp5ghqHk3QsCaJAhuh3SOR01ZEUY5WEzrI342XZYlAdnIyMkKG?=
- =?us-ascii?Q?x2N0QB+z1pjy6IoN2Nyqnw5O5LNQN50je8s627K5XF8zAOIzalbM9b3DUdIr?=
- =?us-ascii?Q?Wuh6+v8aqRCSPhQ6VvZ7erBc74HY4f2r5Fe9wLfrGHTsin8V6tZTFIhL7Mvp?=
- =?us-ascii?Q?vPiwdIAvhJFTkYY67UfSuWDDw1igO5q6+3twWSHrbPXtD/IVuNpLWIIoJx+3?=
- =?us-ascii?Q?XEIFG6xXtjTx9sMJTQPc41+kP2PLZOeSVeJTnR5/F2emHesrxdOUSIJNLNQ4?=
- =?us-ascii?Q?hGce38e8EX/4o6RaRAhmTEY5RRTBaQJWw1kUL1sB5kwE0IGfp9prIjog7Ocr?=
- =?us-ascii?Q?EvOQ+WDOVJiLwO9I/Sftromu8lJDSs3nesQ+Ai8KvZ0F0z++T/zcQxD6SnN/?=
- =?us-ascii?Q?R4JItbE5GHK99EKfA7kpJg5VgAJIXrV5IyFqD0RueHTOhNcW9lDDdn5b0u/H?=
- =?us-ascii?Q?RhASXlK6xwN9XA5HWDaHnYdtOc4+EIbF3eVihvkD9G4XUAR8xRvGsdaRuz0g?=
- =?us-ascii?Q?yI7FDwU79/0+a5EHzkoUXtr8XgLP5x3MfyF75hCxVvup8YKvT5kR0afP6Kqf?=
- =?us-ascii?Q?COc4tQQPP2/iqBXGYNklfPol5C1Ir6rzC9NczWxvK/yJ0rrGzJnJW8L3IcVh?=
- =?us-ascii?Q?9opt3Nl2npz9XXrHT54f4xVttMS2gmPPsrei36Xh72Vf+2n//G8EISdTqimv?=
- =?us-ascii?Q?UJu7bCmTooxKyOAvF6TQLEHQJsJoDmDkcW6hnBhISJObqzrU1MIP4dppHRpD?=
- =?us-ascii?Q?UVcrR9KUbicJCbCWwB/aSOz+hO91tZauwgGpa4/9nt8p3sptGv/Pd2EYFnm+?=
- =?us-ascii?Q?TIgzXNAeNbxX8FW2Nn215DbYXreIvOCe5KJi8js51j7RkAwuyn0Mw7kH072w?=
- =?us-ascii?Q?MP4d1AxRAZzCbeHM/DiGWaLo4nGtChw3d9IpDMuAOuI/aQIVo6ZRQPHBn6Xf?=
- =?us-ascii?Q?+7bwTOlDYozBSn2U54HRZ7yhSbYmZLk+vK6WgdMVW608HlXRRi0WhwVLgTGC?=
- =?us-ascii?Q?toM35xrJPMB+rE7IKKIQ9MLFUQ6cN2H+WTCeXLcUw/uROmfmv6AbAa9Mdv+V?=
- =?us-ascii?Q?Bp9nLBBfsKLeKSlb4lY8DHLyk1hAui04wLxzayLFdgiIOr6SbzpJp90pKmQj?=
- =?us-ascii?Q?+5jH7LwW1Sfw2uKXilsiqc4DYc1XAPl9yeDl3PSO7ui6InF0nknjptDV4uk5?=
- =?us-ascii?Q?AoGTDSCW3rtoLgxR4fjuHKQrCgTfSR9VCP90cPc0x6ywYbddr1yKv5HiimfB?=
- =?us-ascii?Q?pV/28P7pPcy/4WbrsMAe5V+Rlt8B7JkEJTJfkTSMBenqw5ZNs/HDfIu6CopS?=
- =?us-ascii?Q?oe9h7Ja3kw5NQC5/XkkbUeKfdFiS2rblyfDqKb8jeNz45auqbFEP?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fe679055-98c4-4b4c-42ed-08df144e7c56
-X-MS-Exchange-CrossTenant-AuthSource: OS9PR01MB14121.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Sep 2026 23:59:03.8976
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: y8t0HWaa61hHf02+/nEIeAviB2HeU5hQHyZshTgB3QQ3fwgfpal3xXDkFQ7/FF6kAmjlkRnwEHIJ21f1RH0dPsu3E0A3Ui7O34d6WrRsBseWc2VIkrgtkV4yuVK0Feou
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZPR01MB8035
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAENNq2oC/22NQQ6DIBREr2L+uhjABENXvUdjDAJW2irKV9LGe
+ Pei7bKbSWYyM28FtMFZhHO2QrDRofNDMsUpA92p4WaJM8kDp1xQyUqijKmxc4+galzG0YeZcMp
+ KwRolW6YgDcdgW/c6Tq8QC6i+GS7N3ep5f9tbncPZh/dBjuzo/iD0HyRyQklrDGdcaiGFvnjEf
+ FrUU/u+z5NAtW3bB46M74zRAAAA
+X-Change-ID: 20260917-add_shikra_support-201761ba9f1a
+To: Srinivas Kandagatla <srini@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>
+Cc: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>,
+        linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1789611365; l=2967;
+ i=mohammad.rafi.shaik@oss.qualcomm.com; s=20260424;
+ h=from:subject:message-id; bh=dzSHSg0tnYOpMKohtDQniZjREcPmcvX1UrDWM0kbu3c=;
+ b=AxnchDvZFo/t9BYXU7cVxFtxJK51uFZ3lCpjZnnicjxOZXdZeq+30HIJbXfJ8PHGrKzVY09fd
+ M9UmTwFlo3LCyOiIULdQS7ayhFXPGJwV/NJOpOKrA2r4RSeLcy2xihK
+X-Developer-Key: i=mohammad.rafi.shaik@oss.qualcomm.com; a=ed25519;
+ pk=KZedmYgMGYOzuTpLGv56tdrL+pTLDP8pdmfQ91xemiA=
+X-Proofpoint-GUID: fLZU2wBpcfb2riBFe4jLh7ifZoPTfQ-B
+X-Authority-Analysis: v=2.4 cv=bY3+w+PB c=1 sm=1 tr=0 ts=6aab4d6b cx=c_pps
+ a=0uOsjrqzRL749jD1oC5vDA==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22
+ a=bC-a23v3AAAA:8 a=EUspDBNiAAAA:8 a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8
+ a=iox4zFpeAAAA:8 a=doChDUTQ96gpDzZ_M_AA:9 a=QEXdDO2ut3YA:10
+ a=mQ_c8vxmzFEMiUWkPHU9:22 a=FO4_E8m0qiDe52t0p3_H:22 a=WzC6qhA0u3u7Ye7llzcV:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTE3MDAyOSBTYWx0ZWRfX1zRDqVI0s/uZ
+ LHFE629sCikBvM6QiZ/X6uJhZPEZ84Di5/wwl/hRXss4Yllhg5bHjGdrxT6cfiV1Uwla5NKQi1y
+ WzIwNIiHPeV6v1XkT47IVm82pq1lNx4=
+X-Proofpoint-ORIG-GUID: fLZU2wBpcfb2riBFe4jLh7ifZoPTfQ-B
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE3MDAyOSBTYWx0ZWRfX1IfafeyhBHgP
+ KAXqUo0p6CD02jmXQobb/2Iq1VX0p13XU8CF9CYNqW7G99NCXLY6fe57jFeJqkmsCX/kNcbIvRl
+ pXrLXs2GLVJEtmto1OXL9uYgCQXCxdy/D0+1Jef4n38Aygl8Y+fKuGRyDYYlUJxhE3PjZqkVCZi
+ XI47yu1S8SwREc+kVDtz9TMdv58SvwyE9q1bF9nKCP4ulmQ0joRCVaGEyrM2P9XYCyqpQNAUxAb
+ TdiMwzdRqRrLDmJN31MQ5gpKajVJYGvqyonR2KFUtpnjqWWmWyljc4gAgcRYD3wItqIKZgNJCZW
+ kpdmAcLJ95HsIB99+YmT2KnS8xyHrJEoGuDiHQQUfz0wNQqaGpPC+a5wFneo5JgyTuo+rE10jCg
+ nOh+IofiLVHosavAD86JTchHzb+vz8Gik/AMyRpllKpKf082c/p/e7vjNa03gVd7km/sr5i0Lmg
+ 8f1r1o1xNY/qXpEo10Q==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-16_03,2026-09-16_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 clxscore=1015 malwarescore=0 adultscore=0 impostorscore=0
+ priorityscore=1501 suspectscore=0 lowpriorityscore=0 bulkscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609170029
 
+This series adds support for the Qualcomm Shikra audio platform and
+extends VA macro functionality to support SoundWire microphone inputs.
 
-Hi Wentao
+The first part of the series introduces new DT bindings and driver
+updates required for LPASS codec version 4.1 used on Shikra, including
+RX and VA macro support, version detection enhancements, and associated
+register programming changes.
 
-Thank you for your patch
+The final patch adds support for routing VA decimators from SoundWire
+microphone (SMIC) inputs in addition to existing DMIC sources, allowing
+audio capture through SoundWire-connected microphones.
 
->  	struct device_node *ports	__free(device_node) = port_to_ports(lnk);
-> -	struct device_node *port0	= of_node_get(lnk);
-> -	struct device_node *port1	= of_node_get(of_graph_get_next_port(ports, of_node_get(port0)));
-> +	struct device_node *port0	__free(device_node) = of_node_get(lnk);
-> +	struct device_node *port1	__free(device_node) =
-> +		of_graph_get_next_port(ports, of_node_get(port0));
->  	struct device_node *ep0		__free(device_node) = of_graph_get_next_port_endpoint(port0, NULL);
->  	struct device_node *ep1		__free(device_node) = of_graph_get_next_port_endpoint(port1, NULL);
-
-Ah, it is confusale part, indeed.
-I have confirmed that your code seems correct.
-
-My personally, I like 1 line code for port1
-
-Acked-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-
-Thank you for your help !!
-
-Best regards
+Signed-off-by: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
 ---
-Kuninori Morimoto
+Changes in v3:
+- Added Shikra-specific clock constraints for RX and VA Macro DT bindings.
+- Restricted clock and clock-names properties to align with Shikra hardware requirements.
+- Removed dead code from patch 3 of v2, as suggested by Krzysztof.
+- Replaced open-coded checks with a flag-based conditional for LPASS
+  codec v4.1 specific configurations.
+- Reused existing SoundWire microphone widgets, as suggested by Srinivas.
+- Switched the regmap cache type to REGCACHE_MAPLE.
+- Link to v2: https://patch.msgid.link/20260910-add_shikra_support-v2-0-fdd2129c696c@oss.qualcomm.com
+
+Changes in v2:
+- Updated FS CONTROL and ADPT only for version 4.1, as suggested by Krzysztof.
+- Addressed Konrad's review comments from v1 by replacing magic numbers and
+  lower hex reg values where appropriate.
+- Link to v1: https://patch.msgid.link/20260608172023.2965292-1-mohammad.rafi.shaik@oss.qualcomm.com
+
+To: Srinivas Kandagatla <srini@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>
+To: Mark Brown <broonie@kernel.org>
+To: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzk+dt@kernel.org>
+To: Conor Dooley <conor+dt@kernel.org>
+To: Jaroslav Kysela <perex@perex.cz>
+To: Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org
+Cc: linux-arm-msm@vger.kernel.org
+Cc: devicetree@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+
+---
+Mohammad Rafi Shaik (5):
+      ASoC: dt-bindings: qcom: Add Shikra RX and VA macro codecs
+      ASoC: qcom: lpass-macro-common: Add missing v2.9 version string
+      ASoC: qcom: lpass-rx-macro: Add shikra compatible
+      ASoC: qcom: lpass-va-macro: Add shikra compatible
+      ASoC: qcom: lpass-va-macro: Add SoundWire microphone mux support
+
+ .../bindings/sound/qcom,lpass-rx-macro.yaml        |  17 +
+ .../bindings/sound/qcom,lpass-va-macro.yaml        |  17 +
+ sound/soc/codecs/lpass-macro-common.h              |   5 +
+ sound/soc/codecs/lpass-rx-macro.c                  |  14 +
+ sound/soc/codecs/lpass-va-macro.c                  | 366 ++++++++++++++++++++-
+ 5 files changed, 403 insertions(+), 16 deletions(-)
+---
+base-commit: 0d9d0dbf2fddcff5859d623e90ca73c4054276e1
+change-id: 20260917-add_shikra_support-201761ba9f1a
+
+Best regards,
+--  
+Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+
