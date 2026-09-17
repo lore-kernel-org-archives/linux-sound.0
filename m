@@ -1,325 +1,182 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from omggw0020.mail.otm.yahoo.co.jp (omggw0020.mail.otm.yahoo.co.jp [182.22.18.26])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 308954BD0FD;
-	Thu, 17 Sep 2026 11:07:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 533434DA9B8
+	for <linux-sound@vger.kernel.org>; Thu, 17 Sep 2026 11:16:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=182.22.18.26
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789643244; cv=none; b=Xe+OJCO6+o8/WaomzS20HrHBLSBulXoW1gsw+VqRuT9X8lWYayVr80B3JVn42aALcbHiuw5w7oVhfPzPJJA8+O7pNvViGFZVY2LfdtvGbPJGx9nie/aKt0R2vBO3w7BHiLHvq50Il6mKTR1D8FznV+vO9vEXhOZz+KtoL+CbvoU=
+	t=1789643798; cv=none; b=a2Uy4350zyxPFJoyX9bvJAe72WJLcRgdxkVqPhk7dkFd2taO31/QhQ3sQ2aYrtd8AioeT9f+2bp5QYfruucFMrYXOVUUwoKQGVGU6La3Ywl8n5J68z7QoNzWTcH5QAYZv4AUYppzw0jow0B/MMA91gkJFh7T+vAeB3K9du2Wjpc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789643244; c=relaxed/simple;
-	bh=ej12WBcgxUjonp5mnmeZ1QqoktFNYq4AwG8DM0OMau4=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Z7nhJR6XyD6R0bavF3eb9LRfIxruYzu6s/mltVHGl5jS5p9IoMSkZmg5lPAD5Weg9lmHOJDpntTKpnYNUKlmL9L7cXLEvvg4nFLF0at9uLq1IJHMoV9pHFD9GYBmbYRzamnUQCBsgM70t0KB6K6j99+zYILy4FP36wvFqZTTF3Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=PaHnQqEn; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=c6wJbcoX; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=fkJHRCqX; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=f5wr0dVf; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1789643798; c=relaxed/simple;
+	bh=xw8QTQg+KP8KHzgOiL9d1W8Z3pnvqGgEvEe5gvXC02c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=P1K6RjRyJf4nhlpdToo1bF+PwgFXp6j/60mKVd2LAPOebylr77tMoxUvH+DiDjrcK37TXZ0n+D0WnjEgz3lMQUDdiZsxEHx4Uw7OirogLMg5KZ6TegZQ0OjkMjvKP/LLubh5kifdNzvQkQA49YKWHWMywe7DovgZfqdfz704v88=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=yahoo.co.jp; spf=pass smtp.mailfrom=yahoo.co.jp; dkim=pass (2048-bit key) header.d=yahoo.co.jp header.i=@yahoo.co.jp header.b=SAHK0K8l; arc=none smtp.client-ip=182.22.18.26
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=yahoo.co.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.co.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="PaHnQqEn";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="c6wJbcoX";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fkJHRCqX";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="f5wr0dVf"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 2505C21DDF;
-	Thu, 17 Sep 2026 11:07:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1789643231; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LVJcEGGMkJoXImRO1LXTVtap5mDapXZTdZLVXHfCX8o=;
-	b=PaHnQqEnRnLwwxH/VrS2Ao1tMY0U7ne7j7nHmC5vz5Vj4gcxrJTbYZHxO+mW8Dd/1oR7rX
-	15KZT71QVwo0dr9QQjzAF+AiqwwbImCcUF3RAo4vKAyaYPjudrY4FydwV+ZEWaU46M7acc
-	hcInc4z4C1EzMi5EJDmou9RKimzBc+I=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1789643231;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LVJcEGGMkJoXImRO1LXTVtap5mDapXZTdZLVXHfCX8o=;
-	b=c6wJbcoXt5QZUYqVgO7pQREz9aS/MQ3/VwL1Bmwws5YqkPE+RopjoD8wEaFAMWjA5tF7Xk
-	cxhn/xLOmYjQszAA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1789643227; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LVJcEGGMkJoXImRO1LXTVtap5mDapXZTdZLVXHfCX8o=;
-	b=fkJHRCqXLB1oj2kIsLaxQ+0FTAXDz4hy+tncTQFk/ewgVgcCtnld10UUw+TEt65vQn/ZeC
-	UobVXB7KM5FFCl28Ro/HOc9Ke23K6CTtyKnZbyep3r3y3O8+PPnLBFyUsufj0ZpjPq0wRP
-	K0+08pP6Auqp1NerHTYjHDpPlpWq+1s=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1789643227;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LVJcEGGMkJoXImRO1LXTVtap5mDapXZTdZLVXHfCX8o=;
-	b=f5wr0dVfXeVC2E7Sg3zMPkmIiA+xVKqMUHW+0bOUwsVk3Y4gULEqRW/J5gxgm9EkWoyh7Y
-	R+7C6XAeN1+/XZAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CDA85134B3;
-	Thu, 17 Sep 2026 11:07:06 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id bqwOKdrJq2reGQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 17 Sep 2026 11:07:06 +0000
-Date: Thu, 17 Sep 2026 13:07:06 +0200
-Message-ID: <87zexggmqt.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: A Akhil <akhilarul324@gmail.com>
-Cc: tiwai@suse.com,
-	perex@perex.cz,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	syzkaller-bugs@googlegroups.com
-Subject: Re: Sound/seq: hung task in odev_open - unuse callback sleeps under list_mutex
-In-Reply-To: <CACygGA9s1oWO53NPamL5tkaNhUt-W8S736OVAJZcYCU_UOni+A@mail.gmail.com>
-References: <CACygGA9s1oWO53NPamL5tkaNhUt-W8S736OVAJZcYCU_UOni+A@mail.gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=yahoo.co.jp header.i=@yahoo.co.jp header.b="SAHK0K8l"
+X-YMail-OSG: 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
+ Cd1EXp36lxBNZ15rg//wUvJ5pfw==
+X-Sonic-MF: seiji_adachi@yahoo.co.jp
+Received: from sonicgw.mail.gze.yahoo.co.jp by sonicconh6102.mail.ssk.ynwp.yahoo.co.jp with HTTP; Thu, 17 Sep 2026 11:16:22 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1789638684;
+	s=yahoocojp-202506; d=yahoo.co.jp;
+	h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date;
+	bh=yYunXypG8ybvRM7Im97Zkt6oUO9NyYy3nqq3uQyEhjM=;
+	b=SAHK0K8lAfUwNM5LvMNUtyGuvg10KFzQGhHDbRY1/FcFhSQgm/j93gAj6T3tK5Ui
+	316aTSTL0lox5xgmEIjq4+EkfLv1rQTn4cvxnrbqyCbDKoBqWJauggc0w5z1ls9U9i1
+	Qau0FMdrYoo6fyIpuBnI7acgIPeuI78cGLq0mFLpkpuFM7zvgcTQICc3sht6P59HyDQ
+	RY8RvBXwtQBhm6rp5N6HXInOf3OAHyN05aXSaHd66jQhz6G5BexGjxeSgoZxhr53F/C
+	Eggx3UFMyTsLmLPWUo6Fiqh+l5mdft3fWUw/7NBXqNZXeI47b4V3SjQ+woqVSJ4TMHW
+	3axvPCAoEg==
+Received: by smtphe6004.mail.ssk.ynwp.yahoo.co.jp (YJ Hermes SMTP Server) with ESMTPA ID 21d850ee35a89be4551df81a82ad8df6;
+          Thu, 17 Sep 2026 18:51:26 +0900 (JST)
+Date: Thu, 17 Sep 2026 18:51:24 +0900
+From: Seiji Adachi <seiji_adachi@yahoo.co.jp>
+To: Vijendar.Mukunda@amd.com, broonie@kernel.org
+Cc: venkataprasad.potturu@amd.com, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, Seiji Adachi <seiji_adachi@yahoo.co.jp>
+Subject: [RESEND PATCH] ASoC: amd: yc: Add Lenovo ThinkPad E16 Gen 2 (21JN)
+ to quirks
+Message-ID: <aqu4HOCmdCUs_unm@adriana>
+References: <almeAbvirJwQ5doF.ref@adriana>
+ <almeAbvirJwQ5doF@adriana>
+ <alnKI3bPaZUc6uwB@adriana>
+ <aoukqUoiIzcctf-k@adriana>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -3.30
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	FREEMAIL_TO(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[syzkaller.appspot.com:url,suse.com:email,imap1.dmz-prg2.suse.org:helo,suse.de:mid,perex.cz:email,googlegroups.com:email]
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aoukqUoiIzcctf-k@adriana>
 
-On Thu, 17 Sep 2026 04:41:31 +0200,
-A Akhil wrote:
-> 
-> 
-> To: tiwai@suse.com, perex@perex.cz
-> Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
->     syzkaller-bugs@googlegroups.com
-> Subject: sound/seq: hung task in odev_open - unuse callback sleeps under
-> list_mutex
-> 
+Hi,
+
+I am resending this request along with the code change (diff) required for 
+Lenovo ThinkPad E16 Gen 2 (21JN).
+
+Could you please review and consider applying the following patch to 
+sound/soc/amd/yc/acp6x-mach.c?
+
+Thanks,
+Seiji
+
+---
+Subject: [PATCH] ASoC: amd: yc: Add Lenovo ThinkPad E16 Gen 2 (21JN) to quirks
+
+Add ThinkPad E16 Gen 2 (21JN) to the DMI table in acp6x-mach.c
+to enable the internal digital microphone (DMIC).
+
+Signed-off-by: Seiji Adachi <seiji_adachi@yahoo.co.jp>
+---
+diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
+index 385fede6d..ea173bdab 100644
+--- a/sound/soc/amd/yc/acp6x-mach.c
++++ b/sound/soc/amd/yc/acp6x-mach.c
+@@ -248,6 +248,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
+ 						 DMI_MATCH(DMI_PRODUCT_NAME, "21J6"),
+ 				 }
+ 		 },
++		{
++				.driver_data = &acp6x_card,
++				.matches = {
++						DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
++						DMI_MATCH(DMI_PRODUCT_NAME, "21JN"),
++				}
++		},
+ 		 {
+ 				 .driver_data = &acp6x_card,
+ 				 .matches = {
+---
+
+
+On Mon, Aug 24, 2026 at 10:55:53AM +0900, Seiji Adachi wrote:
 > Hi,
 > 
-> I've been looking at this syzbot report:
+> I am writing to provide an update regarding the internal microphone issue on Lenovo ThinkPad E16 Gen 2 (21JN-003SCD).
 > 
->   INFO: task hung in odev_open (5)
->   https://syzkaller.appspot.com/bug?extid=825b7e3a03dd072c187f
+> I have recently updated the kernel to version 7.1.8+deb13-amd64 (Debian trixie-backports), but the internal digital microphone (DMIC) is still not recognized.
 > 
-> The hang isn't really in the OSS code where it gets reported. syzbot only
-> shows the task waiting on register_mutex in odev_open(); the one actually
-> holding things up is this:
+> Output of `arecord -l` on kernel 7.1.8:
+> **** List of CAPTURE Hardware Devices ****
+> card 1: Generic_1 [HD-Audio Generic], device 0: CX11880 Analog [CX11880 Analog]
+>   Subdevices: 0/1
+>   Subdevice #0: subdevice #0
 > 
->   odev_release                            takes register_mutex
->    snd_seq_oss_release / snd_seq_oss_reset
->     snd_seq_oss_synth_reset
->      snd_seq_oss_midi_close               takes mdev->open_mutex
->       snd_seq_ioctl_unsubscribe_port
->        snd_seq_port_disconnect
->         __delete_and_unsubscribe_port     called with grp->list_mutex held
->          midisynth_unuse                  seq_midi.c:298
->           snd_rawmidi_drain_output        sleeps 10*HZ per substream
->            schedule_timeout
+> Could you please check if the DMI entry for 21JN can be added to sound/soc/amd/yc/acp6x-mach.c?
 > 
-> delete_and_unsubscribe_port() holds grp->list_mutex for write while the
-> unuse callback runs, and midisynth_unuse() ends up in
-> snd_rawmidi_drain_output(), which waits 10*HZ per substream. With ~8
-> substreams I measured close() taking 82 seconds. Anything calling
-> snd_seq_port_connect() blocks on the same rwsem, and in the OSS path that
-> connect runs under register_mutex, so every other odev_open() piles up
-> behind it and the hung task detector fires.
+> Thank you for your help.
 > 
-> I tried narrowing register_mutex in odev_release, and then open_mutex in
-> snd_seq_oss_midi_close. Both build, both still hang - the wait just moves
-> down a level each time, ending up in snd_seq_port_connect().
+> Best regards,
+> Seiji
 > 
-> Moving unsubscribe_port() out of the rwsem looked wrong to me: grp->count
-> is protected by it, and the comment above subscribe_port() says open and
-> close are only invoked on the 0->1 and 1->0 transitions. If close ran
-> unlocked, a concurrent subscribe could call open first.
 > 
-> That pairing also means an opener of the same port has to wait for a close
-> in progress anyway, so I don't think lock narrowing can fix this - the
-> teardown just has to stop taking tens of seconds.
-> 
-> So the drain has to stop blocking the teardown. I can see three ways to do
-> that, but all of them change when or whether pending MIDI output gets
-> flushed, and that's not something I want to decide on my own:
-> 
->   - drop the output instead of draining it in midisynth_unuse()
->   - move the drain to a workqueue so the unuse callback doesn't sleep
->   - keep draining but cap the total wait
-> 
-> Which of those would you take? I can write it and test it.
-> 
-> (v7.3-rc3, 9b87fdc9af2f, qemu with dummy_hcd + raw-gadget. The syz repro
-> alone didn't trigger it for me - I needed a second thread opening
-> /dev/sequencer2 while another one closes it. That hits the hang in under a
-> minute.)
-
-IIUC, this is no real "hang" that locks up forever but just went over
-threshold in mutex?  If so, we can avoid taking too long mutex like
-the (totally untested) patch below?
-
-
-thanks,
-
-Takashi
-
--- 8< --
-diff --git a/sound/core/seq/oss/seq_oss.c b/sound/core/seq/oss/seq_oss.c
-index 2835576040ed..c790b1cd451a 100644
---- a/sound/core/seq/oss/seq_oss.c
-+++ b/sound/core/seq/oss/seq_oss.c
-@@ -132,13 +132,19 @@ static int
- odev_release(struct inode *inode, struct file *file)
- {
- 	struct seq_oss_devinfo *dp;
-+	int index;
- 
- 	dp = file->private_data;
- 	if (!dp)
- 		return 0;
- 
--	guard(mutex)(&register_mutex);
-+	scoped_guard(mutex, &register_mutex)
-+		snd_seq_oss_detach(dp);
-+	index = dp->index;
- 	snd_seq_oss_release(dp);
-+	scoped_guard(mutex, &register_mutex)
-+		snd_seq_oss_detach_done(index);
-+
- 	return 0;
- }
- 
-@@ -149,6 +155,8 @@ odev_read(struct file *file, char __user *buf, size_t count, loff_t *offset)
- 	dp = file->private_data;
- 	if (snd_BUG_ON(!dp))
- 		return -ENXIO;
-+	if (dp->closing)
-+		return -EBADFD;
- 	return snd_seq_oss_read(dp, buf, count);
- }
- 
-@@ -160,6 +168,8 @@ odev_write(struct file *file, const char __user *buf, size_t count, loff_t *offs
- 	dp = file->private_data;
- 	if (snd_BUG_ON(!dp))
- 		return -ENXIO;
-+	if (dp->closing)
-+		return -EBADFD;
- 	return snd_seq_oss_write(dp, buf, count, file);
- }
- 
-diff --git a/sound/core/seq/oss/seq_oss_device.h b/sound/core/seq/oss/seq_oss_device.h
-index 935cf3df0b30..ee318ea1a096 100644
---- a/sound/core/seq/oss/seq_oss_device.h
-+++ b/sound/core/seq/oss/seq_oss_device.h
-@@ -72,6 +72,7 @@ struct seq_oss_devinfo {
- 	int cseq;	/* sequencer client number */
- 	int port;	/* sequencer port number */
- 	int queue;	/* sequencer queue number */
-+	bool closing;
- 
- 	struct snd_seq_addr addr;	/* address of this device */
- 
-@@ -107,7 +108,9 @@ int snd_seq_oss_delete_client(void);
- 
- /* device file interface */
- int snd_seq_oss_open(struct file *file, int level);
-+void snd_seq_oss_detach(struct seq_oss_devinfo *dp);
- void snd_seq_oss_release(struct seq_oss_devinfo *dp);
-+void snd_seq_oss_detach_done(int index);
- int snd_seq_oss_ioctl(struct seq_oss_devinfo *dp, unsigned int cmd, unsigned long arg);
- int snd_seq_oss_read(struct seq_oss_devinfo *dev, char __user *buf, int count);
- int snd_seq_oss_write(struct seq_oss_devinfo *dp, const char __user *buf, int count, struct file *opt);
-diff --git a/sound/core/seq/oss/seq_oss_init.c b/sound/core/seq/oss/seq_oss_init.c
-index 6586e07431c3..3aece0d2981a 100644
---- a/sound/core/seq/oss/seq_oss_init.c
-+++ b/sound/core/seq/oss/seq_oss_init.c
-@@ -33,6 +33,7 @@ static int system_port __ro_after_init = -1;
- static int num_clients;
- static struct seq_oss_devinfo *client_table[SNDRV_SEQ_OSS_MAX_CLIENTS];
- 
-+#define SEQ_OSS_DETACHED	((struct seq_oss_devinfo *)-1)
- 
- /*
-  * prototypes
-@@ -396,14 +397,23 @@ free_devinfo(void *private)
- /*
-  * close sequencer device
-  */
-+void snd_seq_oss_detach(struct seq_oss_devinfo *dp)
-+{
-+	dp->closing = true;
-+	client_table[dp->index] = SEQ_OSS_DETACHED;
-+	num_clients--;
-+}
-+
-+void snd_seq_oss_detach_done(int index)
-+{
-+	client_table[index] = NULL;
-+}
-+
- void
- snd_seq_oss_release(struct seq_oss_devinfo *dp)
- {
- 	int queue;
- 
--	client_table[dp->index] = NULL;
--	num_clients--;
--
- 	snd_seq_oss_reset(dp);
- 
- 	snd_seq_oss_synth_cleanup(dp);
-@@ -475,7 +485,7 @@ snd_seq_oss_system_info_read(struct snd_info_buffer *buf)
- 	for (i = 0; i < num_clients; i++) {
- 		snd_iprintf(buf, "\nApplication %d: ", i);
- 		dp = client_table[i];
--		if (!dp) {
-+		if (!dp || dp == SEQ_OSS_DETACHED) {
- 			snd_iprintf(buf, "*empty*\n");
- 			continue;
- 		}
-diff --git a/sound/core/seq/oss/seq_oss_ioctl.c b/sound/core/seq/oss/seq_oss_ioctl.c
-index f1a79776773f..2b4930a56a22 100644
---- a/sound/core/seq/oss/seq_oss_ioctl.c
-+++ b/sound/core/seq/oss/seq_oss_ioctl.c
-@@ -66,6 +66,9 @@ snd_seq_oss_ioctl(struct seq_oss_devinfo *dp, unsigned int cmd, unsigned long ca
- 	void __user *arg = (void __user *)carg;
- 	int __user *p = arg;
- 
-+	if (dp->closing)
-+		return -EBADFD;
-+
- 	switch (cmd) {
- 	case SNDCTL_TMR_TIMEBASE:
- 	case SNDCTL_TMR_TEMPO:
+> On Fri, Jul 17, 2026 at 02:22:27PM +0800, Seiji Adachi wrote:
+> > Hi,
+> > 
+> > An update on this: I have just upgraded my system kernel to the latest available version, 7.0.13. 
+> > 
+> > However, the internal digital microphone (DMIC) is still not detected (`arecord -l` shows the same result as before). 
+> > 
+> > So the quirk entry for "21JN" is definitely still needed in the latest kernel version.
+> > 
+> > Best regards,
+> > 
+> > Seiji
+> > 
+> > On Fri, Jul 17, 2026 at 11:17:58AM +0800, Seiji Adachi wrote:
+> > > Hi,
+> > > 
+> > > I have a Lenovo ThinkPad E16 Gen 2 (AMD Ryzen 7 7735HS) with machine type "21JN".
+> > > Currently, the internal digital microphone (DMIC) is not detected on Debian 13 (kernel 6.18).
+> > > 
+> > > Similar to the "21M5" model, this "21JN" model also requires a DMI quirk entry to enable the internal microphone.
+> > > 
+> > > Could you please add the "21JN" model to the quirk list in `sound/soc/amd/yc/acp6x-mach.c`?
+> > > 
+> > > DMI info:
+> > > - Vendor: LENOVO
+> > > - Product Name: 21JN
+> > > 
+> > > Thank you,
+> > > 
+> > > Seiji Adachi
