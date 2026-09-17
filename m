@@ -1,494 +1,251 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28E7741A4F8
-	for <linux-sound@vger.kernel.org>; Thu, 17 Sep 2026 10:43:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789641819; cv=none; b=H8MXE9VI9KitehZ9/UkdMtxsto9AOVBd3kRzoc5bdR6HCnoLMBAvqlPY5aQ0kE0D9/UKhMpJ4MreSB68jGinODz3BeeUABrT+td2PIMc09kF5ye5BokJzxjPq6BiNCNjZLxLqYLKb6VjlGa87ouFK2Y79W9pAlBi+lZde9S3b2A=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789641819; c=relaxed/simple;
-	bh=fEh3Ctr+kn7qeMvGXEdDRJEr9cWC8V22jo7DeJxxG9A=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=eBg4i6QMQUpwOhdjO6++yAqu1hXwee9YiwkDTt8Q85Z9BJST6NAMwGYoWbw9ioZYUCkYWNUF124agUatoAdK3R9ezVb9cNn8wlcc8sIkEPBs2j68VuevskqmN+YYw6gc04N3RN+wSGxWq7M23UaVnhrS5nn1P/3QQ1xkqS4dA3U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=IytrdX2Q; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E897E4C4F48;
+	Thu, 17 Sep 2026 10:49:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.135.77
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789642179; cv=fail; b=RogzwBSenEG+RCCnLUR6Baq9wAeGOobRDKHJgGLjcBXo6Jq+Frl0uMmdDqc1we147aDrIM8SCtSLvKX77Lqche+nnMnjKDPlVk4rbjI6kphB9KHG3x3K6D653op/zNxbxbeGAh/82m6biH/MBgk1Ato7+0APjTTKsmr0iBjW4JA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789642179; c=relaxed/simple;
+	bh=Ip6B/rsY6T0bkWIWvQjn8aDoevK2LpzunHJOdsbOyp4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=nxTEk+smHndbup1K34gF0d5u5ajost/LsRyjjyPNJn4N6heuxnLWWiGsAVCLWJAweeeKqK59AWR1+14NCzdm4fYTkT4aBUDG0eIS+llrgLG8roDsUPGmh2juHpSafLLzGDGDhN+9f5tnolNjJ0i068bgNSPLH0gx0toAztVYs68=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=gG/gMBtv; arc=fail smtp.client-ip=148.163.135.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="IytrdX2Q"
-X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 68HAh5fE53215681, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
-	t=1789641785; bh=VRrqgULSF65aWfb+FwY/HIOWi+Mi5vSd4Eiss7PEek8=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:
-	 Content-Transfer-Encoding:Content-Type;
-	b=IytrdX2QiAk7eyshR2V3e3ak5I9iE2UmvrGzsIXW0MC6T4YlnKcZq7Ywr3U4jPIb9
-	 uyrPPBf0hRDR+XVgzEiWvAI5Yre18SZvOnC49SBbJFIkeVrhQs53v+gWoPJ7uUMfFI
-	 cYLBX1M4rA+PdYDbwR4+wKn1WoOSalR/dSHCHGKGrW/jnTEqYF6R/LHRqRYzzvaBj0
-	 6d9r58WfXPrruOHnNYBzEUE0tnbSz4VwDIz5Pewpva38DifeaDITjWy7b5BYlsA9XT
-	 T33VEZMdioW82mn3SEMOLD6tP5stdeMofW6RHWyCjrmncT42/a+5oZzY7TNEgWEVnR
-	 DF4e34WCfQ9cQ==
-Received: from mail.realtek.com (rtkexhmbs03.realtek.com.tw[10.21.1.53])
-	by rtits2.realtek.com.tw (8.15.2/3.29/5.94) with ESMTPS id 68HAh5fE53215681
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Thu, 17 Sep 2026 18:43:05 +0800
-Received: from RTKEXHMBS05.realtek.com.tw (10.21.1.55) by
- RTKEXHMBS03.realtek.com.tw (10.21.1.53) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.49; Thu, 17 Sep 2026 18:43:05 +0800
-Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
- RTKEXHMBS05.realtek.com.tw (10.21.1.55) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.49; Thu, 17 Sep 2026 18:43:04 +0800
-Received: from sw-server.localdomain (172.24.54.4) by
- RTKEXHMBS06.realtek.com.tw (10.21.1.56) with Microsoft SMTP Server id
- 15.2.2562.49 via Frontend Transport; Thu, 17 Sep 2026 18:43:04 +0800
-From: Oder Chiou <oder_chiou@realtek.com>
-To: <broonie@kernel.org>, <lgirdwood@gmail.com>
-CC: <linux-sound@vger.kernel.org>, <lars@metafoo.de>, <flove@realtek.com>,
-	<shumingf@realtek.com>, <jack.yu@realtek.com>, <derek.fang@realtek.com>,
-	"Oder Chiou" <oder_chiou@realtek.com>
-Subject: [PATCH] ASoC: rt721: Add support for the RT721_U and RT718 codec variants
-Date: Thu, 17 Sep 2026 18:42:44 +0800
-Message-ID: <20260917104244.2512641-1-oder_chiou@realtek.com>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="gG/gMBtv"
+Received: from pps.filterd (m0375855.ppops.net [127.0.0.1])
+	by mx0b-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68H9dAcW1007528;
+	Thu, 17 Sep 2026 06:48:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=DKIM; bh=D8X2g
+	FFFAFAXAEvOL30d2pYSgGt6B0I5NslDSLWYuko=; b=gG/gMBtvJPqfxpXEKr34I
+	T8gliqt8k5AkYui//7i54zElQZjMBwWbo7IbzIn1EVME0cjR5jjcR1suyMW2A/IQ
+	Lvv+3z6Omi/9Zc09drXuD3RH/j6EtZAXTFDneCbLURETgBTtLeom+Y0kjUN0cPDf
+	ge+NPNcPApv/clxUisCYVV+yoW/bhl7jzJZJYjfkhbfgwin0ZAveyrqOxaSeTZkI
+	792HkZjlWjjDMD1P49Yj4V9Ql6B0i1dkObj2zDSH68qIKkI4q3RxhQpjN/prfAnY
+	1UuzZjuTOrN5KzcgWmMagwZo9uXqWIC5FjnrdeARLG6vHk2mU52ffYsJGTXRNpad
+	Q==
+Received: from co1pr03cu002.outbound.protection.outlook.com (mail-westus2azon11010056.outbound.protection.outlook.com [52.101.46.56])
+	by mx0b-00128a01.pphosted.com (PPS) with ESMTPS id 4gqj57qftd-2
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Thu, 17 Sep 2026 06:48:36 -0400 (EDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=h1BPwIlcd87fGlutjFoMbgB+ncG6sCDmQlZgIo8Oode1kCJixtM9+UAw00MBukpi1HqA8gJ0+gqyOW58Y4feOygFPswEQerabIEp9EBQ6IVOHpy2nSZjNr5lSkBHZTpfWmIbla4x8QfL3p4QNtTPYcCXWP2/yL41A0lTm4PtFvKqGceisYiNDctUKwFhPv2qTfmM96/g0BY6HaU2ENCLGvrS02MMeqgvk+qbTkfyiiQUJEDgHw4uYWTrae1HWCJUbKcx8DM7ExupRHiX7nOjsNHLEE+iOpmbwliJtj1FxmnGjg3g5tLOoHB1yCc+tg+2kk92uyVlXaMvWsn2bipK8Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=D8X2gFFFAFAXAEvOL30d2pYSgGt6B0I5NslDSLWYuko=;
+ b=o2uf2sdWnTdFDkhi0KcMMmMezdZMBYdFJRYYTIgIfgT5pdUEc/45CA89ONLlIH/vgxSMPrBSpTnlOmWD/pCctlmqFXN9E2wp7WX7M3VNHVcDQes3L1gEQeOONdyJWd5sErBtLxxj/kBcQtB6Jsj2O4HKwnJuGDvQleJjn3WU8b/0cbJnE1koHoa6HXJg9GNTG/3DioD2Cx+KG8bsviiOQaLTqNdhhp35tWm6+vaywXiSLqj3P1I9GK9VNPhdRKERfTL2/zGp1Usymv1ioSVE+vcV1cYxTTrkve0YYNaRxEdJXhvaaFhpFXuyJP9jZVEHeriZHJx/LUVIJUSmt6V5gg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=analog.com; dmarc=pass action=none header.from=analog.com;
+ dkim=pass header.d=analog.com; arc=none
+Received: from SJ0PR03MB5469.namprd03.prod.outlook.com (2603:10b6:a03:28a::17)
+ by SA3PR03MB7371.namprd03.prod.outlook.com (2603:10b6:806:381::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.12; Thu, 17 Sep
+ 2026 10:48:32 +0000
+Received: from SJ0PR03MB5469.namprd03.prod.outlook.com
+ ([fe80::2a19:76b2:e731:8c5a]) by SJ0PR03MB5469.namprd03.prod.outlook.com
+ ([fe80::2a19:76b2:e731:8c5a%6]) with mapi id 15.21.0406.007; Thu, 17 Sep 2026
+ 10:48:31 +0000
+Date: Thu, 17 Sep 2026 11:49:46 +0100
+From: Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>
+To: Frank Li <Frank.li@oss.nxp.com>
+Cc: Andy Shevchenko <andriy.shevchenko@intel.com>,
+        linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org, linux-iio@vger.kernel.org,
+        linux-sound@vger.kernel.org, linux-spi@vger.kernel.org,
+        Vinod Koul <vkoul@kernel.org>, Frank Li <Frank.Li@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
+        =?utf-8?Q?Am=C3=A9lie?= Delaunay <amelie.delaunay@foss.st.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        David Lechner <dlechner@baylibre.com>,
+        Andy Shevchenko <andy@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, Mark Brown <broonie@kernel.org>
+Subject: Re: [PATCH v4 01/10] dmaengine: Move enum dma_slave_buswidth to a
+ new header
+Message-ID: <aqvFFg5Uh1cXln0y@nsa>
+References: <20260911-dmaengine-support-wider-dma-masks-v4-0-72b8fd4cc78e@analog.com>
+ <20260911-dmaengine-support-wider-dma-masks-v4-1-72b8fd4cc78e@analog.com>
+ <aqgCQvRw9fns__0d@SMW015318>
+ <aqjzvxI4ecoFvRLT@ashevche-desk.local>
+ <aqlYOHIFU_dB72I3@SMW015318>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aqlYOHIFU_dB72I3@SMW015318>
+X-ClientProxiedBy: PA7P264CA0174.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:102:36f::19) To SJ0PR03MB5469.namprd03.prod.outlook.com
+ (2603:10b6:a03:28a::17)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR03MB5469:EE_|SA3PR03MB7371:EE_
+X-MS-Office365-Filtering-Correlation-Id: d7f20dfb-5eb2-4441-948d-08df14a9372d
+X-LD-Processed: eaa689b4-8f87-40e0-9c6f-7228de4d754a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+ BCL:0;ARA:13230040|23010399003|7416014|366016|376014|1800799024|4143699003|56012099006|5023799004|10067099003|11063799006|18002099003|22082099003|6133799003;
+X-Microsoft-Antispam-Message-Info:
+ 1bQEdSzsnfeV7eRNrdJTR3OpgJJC4cPgiuQbYlcYSyR41JYVI+L7eRxN5lMQBkVfSODJ2b/A2vUSOHNijIebVEq68Qa9UBC/z9XBvSKZVqrbcaGtbg6NaaNUHywLVzh9/91Lm08z8l2R/IpeaWeE/hA+fAL8BIaiOuiPTjifqcX1rBcmdzRIhkVPWW/tOwbvaVPmp8vsCIJo/UAj0Ktcxe5NtW4ALxZg+MbDe3+A9X8+GLimWYC+Evhn7Sfmfj0/C32I+/bz59yssXlBv+K76mLYl2ZEXd+1OUbAtclOb+z9P9v2XKOV9+ClBU1FKygsYhdNq4AFxwNMfyzM9sH4wVKHcs4z4VthH2Gk1qiNl8+Li0VX/79VVx0hvoiO30ln2Om63DhCzWrqMPH8/TJKYqYcLZ4iECMBtMvSS2ynBexITeIzBfDiTcXx65ObvFHmY9hpS11Ryu9M9CMP9F3mjg+F7YEYoUVKLk5vxLrLqAG38W3EYFAg9E19/vMxFT0N+DAQnStEYLhC43B+6KG4iA7Y1ZavAbvwU9Lj++ooUiIvUYxzEkYUTIYuf3LC3EaPQr9xSsejTp+m9P330UjKHjVgP7a+w0BjbEnmhIoCQgnDSF2Pk7cUz1G7bTQn6l08eXrM0cLLwbGQvTRmZTXP3wsQTFbmziXxR9jD9Z4sRVo=
+X-Forefront-Antispam-Report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR03MB5469.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(7416014)(366016)(376014)(1800799024)(4143699003)(56012099006)(5023799004)(10067099003)(11063799006)(18002099003)(22082099003)(6133799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+ =?utf-8?B?UGhJbDlJWUptMHdWMWRuektzK1NKUEZCUmdlQjh4V2FtRS9lbFZpMUVqd1ZX?=
+ =?utf-8?B?aWNvdEV1VkhkcWVyVmpMUWJxdmJ5Wk9vb3oxOUNpOHVqaGYwSmJVeXU3ZFh4?=
+ =?utf-8?B?cGVKWWhmQUJJalJVejd2T3JhdTl2bGx0ZzZvMVh5dWxlN1NiYlFsQTVVWnAx?=
+ =?utf-8?B?ZkwxL1FJaHZIYUdldW9IZ0g5NmxTZThlQzJGU3ppSVZkTXVhMHpDOHN3UkhH?=
+ =?utf-8?B?Y2twNVhZY1pwQTFldkVkbmlaZHlEbHVFdjVxc0xJVmNnMmtKeDRqaitKVnE5?=
+ =?utf-8?B?TXFJaGtwQ1Q4L1h2ZUVXa0xCdFJwVWpsYk5SWmJaVkd6THZzdVBMT25BaWxB?=
+ =?utf-8?B?TWgxamxTN3kwWEd4MGFydFYyMndjOWp1cFY5Q0dpVFFNQmF3NjN3VERwSUNh?=
+ =?utf-8?B?SWFSWWdBZ2w5WjJvc3lmOUcrc3Q2cXRHblR2dXdUOTkrWS9NUlpGWjdIRENH?=
+ =?utf-8?B?Rlg3SUpZOWYvR2tLdjRDRzVOYjloNGRiSlBMQk94OFlrdFlKZFRjSFVuT0ZQ?=
+ =?utf-8?B?NFg1WHlDdCtubW5IdGpTaTJlQVlFRzZocGJQR05PTjlqMGNRaXNLdUpOZHE3?=
+ =?utf-8?B?TW5mNUVidnlnTGF1N2FCOHlrNkxNYXV0S0RJdDJGNWFuOWxPNVhRM2d5WFFv?=
+ =?utf-8?B?ZnNNZDQ5dE5ubTBqY2ZRbHRCSFJKZDZsYW41S3FxeFoya3UyYnNEb1ZucldW?=
+ =?utf-8?B?Qk53bEJ0ZllqWE1JUzk0Nk1QK3NtK3g3cmhER2hHdnBhNkdnVnd0cGt0Slpv?=
+ =?utf-8?B?ckFXZ1Q4RzluN0pOWlYxYjFwTk03OUhmUWlzVFk3SVAxOU5YQ2NvYVJzd0ha?=
+ =?utf-8?B?V3o1dVlsdUdvRGNMWEhMOHhGRHFMbDVHbHNqSFJ0OExRY2RuRUMyd2l0OGl5?=
+ =?utf-8?B?MklDSWxIOXpPajFMa1hKVndjUm1pZXpOcjBOQjN2SXA3MnpRT2M1VWsxTllQ?=
+ =?utf-8?B?ZjVKVWNBVkxKUXBJWWRXdk9hSUpkbHBUdTcvUU9zMW1GUStyRDZlWkNnL3J6?=
+ =?utf-8?B?VFlMZnRFQVlQRU1kcFExZHFCbU83cTVYdGsvYklxM210K3dUNTJ0MkNoRmZt?=
+ =?utf-8?B?TWxvSXJidVBDaFJCRGpQc1I2Y1NERnlDSk0wVjNvN1RjRCs4azFBTndMR0Nj?=
+ =?utf-8?B?bExTZENnUENzZXlGZjgwczRuS0pkSVRRYUNGdCtRMmNFN3F1RGgreGhRNGZU?=
+ =?utf-8?B?R0NUbzJTUEdkWEg1cTNDTmpHL3VKRG0xdUg5R0ZxNnJGaGd1YUFSOG1rVVVT?=
+ =?utf-8?B?RWxGb0Q4STVWNVVuRTBta1A1d01jRFd3eWozYWh3VFRqS3JvTGdjenFIM2xO?=
+ =?utf-8?B?QnoyZlNFZzdDZHJVOE9LWlp5OFJ4UlowSkhBZXJoTElFcVNLYmRlUUd1YWE1?=
+ =?utf-8?B?emY4YjNkWm4wSThiMFZUUGtEQlAzengwZ2N2UkJURXNoa0x3Z3d1STZvQVFL?=
+ =?utf-8?B?SXFKQVp0UHZHVXRIK3RlMDhlcGxVQ211SzF0aFBJUUcwc3ZmVDN1Vit4a2R0?=
+ =?utf-8?B?RUZvZ1B6ZTNEUmdyb0g2Wk9zbzNPV3hhZ1pXUEU0VDVLSjdlWFdFSWtnb1Jj?=
+ =?utf-8?B?K0xOSThSakltemFuZGRodVdYaGJuTS8xTVozWWpJd0NzNk9icXdid04vZFZz?=
+ =?utf-8?B?bnlpalNBUGNTSjlYMXcwL09PT3kwRUthcUloUVQ5L0NST3o2OU5Td3pWZ1lP?=
+ =?utf-8?B?bVE4cFpKeWJFZlRRYnpyWjJSd29HendwNFpDYlIyNTJwclo0ZDYzeGtoSC9T?=
+ =?utf-8?B?K09KRldoVkpNRnVQVW1NV1JDY2o3aHdXM0NiUk5yTzJ2T25kOWRHSDBsQzdO?=
+ =?utf-8?B?dGhaT2RZU1dkTG53eHM0RnZFYTl3a1dGQjB5eTZuTHB1UzNpdmlPZ05ZZDE5?=
+ =?utf-8?B?dk1GRDdwOWZNQXBVV2lKVnlCb0F2ajFhOFRuWmdsM2IwdUkxZHNYUUt4UVZC?=
+ =?utf-8?B?RG1LV3ovZUUxZXdpdExYTUQ4TjFXMFhVYXh5NkVuOXNYNVQ5K2VBcjdBUS9p?=
+ =?utf-8?B?TnNSSHQ2eXZDZjk1d1RPbWpFWlNSY0NuaDhHTVpQSU9KNE9xNHNaMTk5M29B?=
+ =?utf-8?B?K1lHcGcwOW9WK004dmtZU055Wm9IMkZlRUt0ZC9aS2xKSGhNV2tqQ2l1UFF0?=
+ =?utf-8?B?NkkwS0Z1YWh4dHdGemtQazVGSHZCUXpDbVB6K21TZVl6ZzQ2SGtXS2U3RjRq?=
+ =?utf-8?B?NkxoSGw1YnZPeGhKOS8xWnMvSkpGM3JRUnBzZlp0Sk9DNVNDV3g2SDc5TmhG?=
+ =?utf-8?B?d1NwNE9yZ2d0OEVrUll4Y1hXMlV2STVCNHhQTXJyZDg2S3hISlVsb3hSQ0Jn?=
+ =?utf-8?B?V1NiUWtjVmNUVWQ0WlBOUnpRd25GTHdXbCtWSXRJUmp0R1RHSFNkdz09?=
+X-Exchange-RoutingPolicyChecked:
+	CP+biRXUxrMNtOeABh734c5VJwm+y4W76Y6XyZTTzegznIrUyr3mVQjQQEiYJ/d2qV1e/v4UUfrwNwDplL50nD+XXrKQlx1dn5mHHfkOdRLba12PBYLvqArMCexGTPydKo0IGOCu7kDZf8QJT6ZSMZFUhfArgUP7WFSdB0cCsGG5gIIj0JmdBQPBgSW449lERrcgPzhmZRKCFCD6BWHCP0B2SRDfq0R/AvuN8lZSW7fB9JQYE5yYKGslbB0+U/KKAfDgqRJ1DSpY+TbdYHAjByF5gjnamnNkNc/D+8Ffe0R4ZVoMMrmzCbVVRhVp3/midcRWszQ2Q9q0qZdR7BfRyw==
+X-OriginatorOrg: analog.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d7f20dfb-5eb2-4441-948d-08df14a9372d
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR03MB5469.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Sep 2026 10:48:31.9218
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: eaa689b4-8f87-40e0-9c6f-7228de4d754a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1yfsERTLS92iTuHNHpIpBzXVqNuRI0zHAfGvDwedZU9FVIKRxXq2Ndlk6K2O/eJCy9sZoqXaSj3zw41oSMGLeg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR03MB7371
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTE3MDE0OSBTYWx0ZWRfX2/wKP2VWx2kq
+ Sf1S2itB01nj005JU/FjwmHwspAdboq3oVXhrthaF8znQTpQmgezBO7V+UGj5dulICX76dMoh2L
+ Flp4zdjzpW4U5WZYgvPcpUs+UjS5ErFSzuSvqhMjzMZrp6mBFvIP
+X-Authority-Analysis: v=2.4 cv=HfuB3SE8 c=1 sm=1 tr=0 ts=6aabc584 cx=c_pps
+ a=0PDhd3HO6khzWhHQYbQRQA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=M51BFTxLslgA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=0sLvza09kfJOxVLZPwjg:22 a=N--XFCr6TIEc_64PeIT2:22
+ a=-FiQAyX2zloPSlR5Y5kA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: ZiUA48QYJtR8R8qm5HwompJTvxhT4xGr
+X-Proofpoint-GUID: ZiUA48QYJtR8R8qm5HwompJTvxhT4xGr
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE3MDE0OSBTYWx0ZWRfX8PCdoN6oIZHV
+ ys+jSiv/gr9YNZUQvHQaU2pYBBG/q1VOaX9/PInqfpk2bWUyOKakb2NfbzDiV4+LH98GOzTfkon
+ QcVwvxvKGQpF2zrHokR2Bl+SepY5J+udOj9PtRPwFbe2Z6chkephuAChUPuKkItkYGCOQRLPCHw
+ rxZklobzA3BHSvfxHlB1EYaj8FG0putW3EGaZbM4MbxGYZ+eKxl+JoZ6hpvB+4z8G0USeAWv1c9
+ 1qiNxlL35Oy4UeZnDtylRQrm/dv2gIPcfjnQFfw/6OYwBu3lmqQ8EC/DTFYgcJQdHMDysLd0TBM
+ 8P4OAGCHJtF01MarXKilOQIL5m6bpyvyPdYpCex7WcgHHr0V+2yt+3G2bfLcg1/gR5lEoA0gMih
+ 3A/KDdbdUqwyqelduR/hicPHPkNQ/GNvhH1grx5K32fJEm0qKEffSZu6ikB1W7gRiuiaTmG2rHv
+ 0AAQA8h32ohbkycGcrw==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-17_02,2026-09-16_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 adultscore=0 priorityscore=1501 suspectscore=0 phishscore=0
+ bulkscore=0 lowpriorityscore=0 impostorscore=0 malwarescore=0 clxscore=1015
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609170149
 
-The RT721_U and RT718 variants share most of the register layout and
-driver behavior with RT721. Extend the existing RT721 driver to
-recognize these variants and apply variant-specific settings where
-required.
+On Tue, Sep 15, 2026 at 09:37:44AM -0500, Frank Li wrote:
+> On Tue, Sep 15, 2026 at 10:29:03AM +0300, Andy Shevchenko wrote:
+> > On Mon, Sep 14, 2026 at 09:18:42AM -0500, Frank Li wrote:
+> > > On Fri, Sep 11, 2026 at 06:25:36PM +0100, Nuno Sá wrote:
+> > > > In preparation for the bitmap based bus width capabilities, move
+> > > > enum dma_slave_buswidth out of linux/dmaengine.h into a new
+> > > > include/linux/dma/engine/types.h.
+> > > >
+> > > > linux/dmaengine.h is included nearly everywhere, so growing it with the
+> > > > new interface would make every one of its users pay for it. Keeping the
+> > > > basic types in a separate header lets the new interface live next to it
+> > > > without that cost. linux/dmaengine.h includes the new header, so its
+> > > > users are unaffected.
+> > > >
+> > > > While at it, add the missing kernel-doc for the enum members. The block
+> > > > already opened with /**, so kernel-doc expected every member to be
+> > > > described and warned about each one of them. Describe the UNDEFINED case
+> > > > in particular, as its meaning depends on where the value is used.
+> >
+> > ...
+> >
+> > > >  include/linux/dmaengine.h        | 20 +++-----------------
+> > >
+> > > I think it is good to split dmengine consumer and provider header files to
+> > > hidden dmaengine's detail.
+> >
+> > It's indeed desirable change. but isn't it a bit out of scope of the series?
+> > I suggest to do one step at a time. Would it work for you?
+> 
+> Yes, but I hope the file name is finial expected file name. it is okay
+> just move enum dma_slave_buswidth to there now.
 
-Signed-off-by: Oder Chiou <oder_chiou@realtek.com>
----
- sound/soc/codecs/rt721-sdca-sdw.c   |   3 +
- sound/soc/codecs/rt721-sdca.c       | 199 +++++++++++++++++++++++++---
- sound/soc/codecs/rt721-sdca.h       |  12 ++
- sound/soc/sdw_utils/soc_sdw_utils.c |  46 +++++++
- 4 files changed, 242 insertions(+), 18 deletions(-)
+Hi Frank, if I understood you, you mean to have an engine.h as kind of a
+consumer and have enum dma_slave_buswidth on it?
 
-diff --git a/sound/soc/codecs/rt721-sdca-sdw.c b/sound/soc/codecs/rt721-sdca-sdw.c
-index 0ebb5688f848..a8c7b42898db 100644
---- a/sound/soc/codecs/rt721-sdca-sdw.c
-+++ b/sound/soc/codecs/rt721-sdca-sdw.c
-@@ -91,6 +91,7 @@ static bool rt721_sdca_mbq_readable_register(struct device *dev, unsigned int re
- 	case 0x5810037:
- 	case 0x5810038:
- 	case 0x5810039:
-+	case 0x5810100:
- 	case 0x5b10018:
- 	case 0x5b10019:
- 	case 0x5f00045:
-@@ -167,6 +168,7 @@ static bool rt721_sdca_mbq_volatile_register(struct device *dev, unsigned int re
- 	case 0x5810037:
- 	case 0x5810038:
- 	case 0x5810039:
-+	case 0x5810100:
- 	case 0x5b10018:
- 	case 0x5b10019:
- 	case 0x6100006:
-@@ -448,6 +450,7 @@ static void rt721_sdca_sdw_remove(struct sdw_slave *slave)
- 
- static const struct sdw_device_id rt721_sdca_id[] = {
- 	SDW_SLAVE_ENTRY_EXT(0x025d, 0x721, 0x3, 0x1, 0),
-+	SDW_SLAVE_ENTRY_EXT(0x025d, 0x718, 0x3, 0x1, 0),
- 	{},
- };
- MODULE_DEVICE_TABLE(sdw, rt721_sdca_id);
-diff --git a/sound/soc/codecs/rt721-sdca.c b/sound/soc/codecs/rt721-sdca.c
-index dbf61fa382a2..ef003c93f533 100644
---- a/sound/soc/codecs/rt721-sdca.c
-+++ b/sound/soc/codecs/rt721-sdca.c
-@@ -169,8 +169,12 @@ static void rt721_sdca_dmic_preset(struct rt721_sdca_priv *rt721)
- 			RT721_ENT_FLOAT_CTL8, 0x1e00);
- 		rt_sdca_index_write(rt721->mbq_regmap, RT721_HDA_SDCA_FLOAT,
- 			RT721_ENT_FLOAT_CTL7, 0x1515);
--		rt_sdca_index_write(rt721->mbq_regmap, RT721_HDA_SDCA_FLOAT,
--			RT721_CH_FLOAT_CTL3, 0x0304);
-+		if (rt721->wf_id == RT721_S)
-+			rt_sdca_index_write(rt721->mbq_regmap, RT721_HDA_SDCA_FLOAT,
-+				RT721_CH_FLOAT_CTL3, 0x0304);
-+		else
-+			rt_sdca_index_write(rt721->mbq_regmap, RT721_HDA_SDCA_FLOAT,
-+				RT721_CH_FLOAT_CTL5, 0x0304);
- 		rt_sdca_index_write(rt721->mbq_regmap, RT721_HDA_SDCA_FLOAT,
- 			RT721_CH_FLOAT_CTL4, 0x0304);
- 		rt_sdca_index_write(rt721->mbq_regmap, RT721_HDA_SDCA_FLOAT,
-@@ -183,7 +187,12 @@ static void rt721_sdca_dmic_preset(struct rt721_sdca_priv *rt721)
- 			RT721_RC_CALIB_CTRL0, 0x0b00);
- 		rt_sdca_index_write(rt721->mbq_regmap, RT721_RC_CALIB_CTRL,
- 			RT721_RC_CALIB_CTRL0, 0x0b40);
--		regmap_write(rt721->regmap, 0x2f5c, 0x25);
-+		if (rt721->wf_id == RT721_S) {
-+			regmap_write(rt721->regmap, 0x2f5c, 0x25);
-+		} else {
-+			regmap_write(rt721->regmap, 0x2f5c, 0x01);
-+			regmap_write(rt721->regmap, 0x2f52, 0x00);
-+		}
- 		/* clear flag */
- 		regmap_write(rt721->regmap,
- 			SDW_SDCA_CTL(FUNC_NUM_MIC_ARRAY, RT721_SDCA_ENT0,
-@@ -208,9 +217,11 @@ static void rt721_sdca_amp_preset(struct rt721_sdca_priv *rt721)
- 			RT721_VREF1_HV_CTRL1, 0xe000);
- 		rt_sdca_index_write(rt721->mbq_regmap, RT721_VENDOR_ANA_CTL,
- 			RT721_MISC_POWER_CTL31, 0x8007);
--		regmap_write(rt721->mbq_regmap, 0x5810000, 0x6420);
--		regmap_write(rt721->mbq_regmap, 0x5810000, 0x6421);
--		regmap_write(rt721->mbq_regmap, 0x5810000, 0xe421);
-+		if (rt721->wf_id == RT721_S) {
-+			regmap_write(rt721->mbq_regmap, 0x5810000, 0x6420);
-+			regmap_write(rt721->mbq_regmap, 0x5810000, 0x6421);
-+			regmap_write(rt721->mbq_regmap, 0x5810000, 0xe421);
-+		}
- 		rt_sdca_index_write(rt721->mbq_regmap, RT721_HDA_SDCA_FLOAT,
- 			RT721_CH_FLOAT_CTL6, 0x5561);
- 		rt_sdca_index_write(rt721->mbq_regmap, RT721_VENDOR_REG,
-@@ -231,6 +242,8 @@ static void rt721_sdca_amp_preset(struct rt721_sdca_priv *rt721)
- 			SDW_SDCA_CTL(FUNC_NUM_AMP, RT721_SDCA_ENT_FU55,
- 				RT721_SDCA_CTL_FU_MUTE, CH_02), 0x00);
- 		regmap_write(rt721->regmap, 0x2f5d, 0x1);
-+		if (rt721->wf_id == RT721_U)
-+			regmap_write(rt721->regmap, 0x2f54, 0x00);
- 		/* clear flag */
- 		regmap_write(rt721->regmap,
- 			SDW_SDCA_CTL(FUNC_NUM_AMP, RT721_SDCA_ENT0, RT721_SDCA_CTL_FUNC_STATUS, 0),
-@@ -245,7 +258,7 @@ static void rt721_sdca_jack_preset(struct rt721_sdca_priv *rt721)
- 
- 	regmap_read(rt721->regmap,
- 		SDW_SDCA_CTL(FUNC_NUM_JACK_CODEC, RT721_SDCA_ENT0, RT721_SDCA_CTL_FUNC_STATUS, 0),
--			&jack_func_status);
-+		&jack_func_status);
- 	dev_dbg(dev, "%s jack func_status=0x%x\n", __func__, jack_func_status);
- 
- 	if ((jack_func_status & FUNCTION_NEEDS_INITIALIZATION) || (!rt721->first_hw_init)) {
-@@ -330,6 +343,113 @@ static void rt721_sdca_jack_preset(struct rt721_sdca_priv *rt721)
- 	}
- }
- 
-+static void rt721u_sdca_jack_preset(struct rt721_sdca_priv *rt721)
-+{
-+	unsigned int jack_func_status, calibration_status, i;
-+	int ret;
-+	struct device *dev = &rt721->slave->dev;
-+
-+	regmap_read(rt721->regmap,
-+		SDW_SDCA_CTL(FUNC_NUM_JACK_CODEC, RT721_SDCA_ENT0, RT721_SDCA_CTL_FUNC_STATUS, 0),
-+		&jack_func_status);
-+	dev_dbg(dev, "%s jack func_status=0x%x\n", __func__, jack_func_status);
-+
-+	if ((jack_func_status & BIT(5)) || (!rt721->first_hw_init)) {
-+		rt_sdca_index_write(rt721->mbq_regmap, RT721_VENDOR_ANA_CTL,
-+			RT721_MISC_POWER_CTL31, 0x8000);
-+		rt_sdca_index_write(rt721->mbq_regmap, RT721_ANA_POW_PART,
-+			RT721_VREF1_HV_CTRL1, 0xe000);
-+		rt_sdca_index_write(rt721->mbq_regmap, RT721_VENDOR_ANA_CTL,
-+			RT721_MISC_POWER_CTL31, 0x8007);
-+		rt_sdca_index_write(rt721->mbq_regmap, RT721_VENDOR_ANA_CTL,
-+			0x10, 0xffb7);
-+		rt_sdca_index_write(rt721->mbq_regmap, RT721_VENDOR_ANA_CTL,
-+			0x20, 0xffb7);
-+		rt_sdca_index_write(rt721->mbq_regmap, RT721_VENDOR_ANA_CTL,
-+			0x30, 0xffb7);
-+		rt_sdca_index_write(rt721->mbq_regmap, RT721_VENDOR_ANA_CTL,
-+			RT721_UAJ_TOP_TCON13, 0x6048);
-+		rt_sdca_index_write(rt721->mbq_regmap, RT721_HDA_SDCA_FLOAT,
-+			RT721_GE_REL_CTRL1, 0x8011);
-+		rt_sdca_index_write(rt721->mbq_regmap, RT721_HDA_SDCA_FLOAT,
-+			RT721_UMP_HID_CTRL3, 0xcf00);
-+		rt_sdca_index_write(rt721->mbq_regmap, RT721_HDA_SDCA_FLOAT,
-+			RT721_UMP_HID_CTRL4, 0x000f);
-+		rt_sdca_index_write(rt721->mbq_regmap, RT721_HDA_SDCA_FLOAT,
-+			RT721_UMP_HID_CTRL1, 0x1100);
-+		rt_sdca_index_write(rt721->mbq_regmap, RT721_HDA_SDCA_FLOAT,
-+			RT721_UMP_HID_CTRL5, 0x0c12);
-+		rt_sdca_index_write(rt721->mbq_regmap, RT721_JD_CTRL,
-+			RT721_JD_1PIN_GAT_CTRL2, 0xc004);
-+		rt_sdca_index_write(rt721->mbq_regmap, RT721_RC_CALIB_CTRL,
-+			RT721_RC_CALIB_CTRL0, 0x0b00);
-+		rt_sdca_index_write(rt721->mbq_regmap, RT721_RC_CALIB_CTRL,
-+			RT721_RC_CALIB_CTRL0, 0x0b40);
-+		rt_sdca_index_write(rt721->mbq_regmap, RT721_VENDOR_ANA_CTL,
-+			RT721_UAJ_TOP_TCON14, 0x333b);
-+		regmap_write(rt721->mbq_regmap, 0x5810135, 0x8036);
-+		regmap_write(rt721->mbq_regmap, 0x5810130, 0xee03);
-+		regmap_write(rt721->mbq_regmap, 0x5810133, 0x6000);
-+		rt_sdca_index_write(rt721->mbq_regmap, RT721_CAP_PORT_CTRL,
-+			RT721_HP_AMP_2CH_CAL1, 0x4140);
-+		regmap_write(rt721->mbq_regmap, 0x5810100, 0x0006);
-+		regmap_write(rt721->mbq_regmap, 0x5810100, 0x8006);
-+		for (i = 0; i < 5; i++) {
-+			ret = regmap_read(rt721->mbq_regmap, 0x5810100,
-+				&calibration_status);
-+			if (ret < 0)
-+				dev_dbg(dev, "calibration failed!, ret=%d\n",
-+					ret);
-+			if (!(calibration_status & 0x8000))
-+				break;
-+		}
-+		if (rt721->hw_vid == RT721_U_VB)
-+			rt_sdca_index_write(rt721->mbq_regmap, RT721_CBJ_CTRL,
-+				RT721_CBJ_A0_GAT_CTRL1, 0x2205);
-+		else
-+			rt_sdca_index_write(rt721->mbq_regmap, RT721_CBJ_CTRL,
-+				RT721_CBJ_A0_GAT_CTRL1, 0x2e05);
-+		rt_sdca_index_write(rt721->mbq_regmap, RT721_VENDOR_ANA_CTL,
-+			RT721_UAJ_TOP_TCON14, 0x3b3b);
-+		regmap_write(rt721->mbq_regmap, 0x310400, 0x3043);
-+		rt_sdca_index_write(rt721->mbq_regmap, RT721_VENDOR_ANA_CTL,
-+			RT721_UAJ_TOP_TCON14, 0x3f33);
-+		regmap_write(rt721->mbq_regmap, 0x310401, 0x3000);
-+		regmap_write(rt721->mbq_regmap, 0x310402, 0x1b00);
-+		regmap_write(rt721->mbq_regmap, 0x310300, 0x000f);
-+		regmap_write(rt721->mbq_regmap, 0x310301, 0x3000);
-+		regmap_write(rt721->mbq_regmap, 0x310302, 0x1b00);
-+		rt_sdca_index_write(rt721->mbq_regmap, RT721_VENDOR_ANA_CTL,
-+			RT721_UAJ_TOP_TCON17, 0x0008);
-+		rt_sdca_index_write(rt721->mbq_regmap, RT721_HDA_SDCA_FLOAT,
-+			RT721_ENT_FLOAT_CTL2, 0x1234);
-+		rt_sdca_index_write(rt721->mbq_regmap, RT721_HDA_SDCA_FLOAT,
-+			RT721_ENT_FLOAT_CTL3, 0x3512);
-+		rt_sdca_index_write(rt721->mbq_regmap, RT721_HDA_SDCA_FLOAT,
-+			RT721_ENT_FLOAT_CTL1, 0x4040);
-+		rt_sdca_index_write(rt721->mbq_regmap, RT721_HDA_SDCA_FLOAT,
-+			RT721_ENT_FLOAT_CTL4, 0x1201);
-+		regmap_write(rt721->regmap, 0x2f58, 0x01);
-+		regmap_write(rt721->regmap, 0x2f59, 0x01);
-+		regmap_write(rt721->regmap, 0x2f51, 0x00);
-+		rt_sdca_index_write(rt721->mbq_regmap, RT721_VENDOR_ANA_CTL,
-+			RT721_UAJ_TOP_TCON13, 0x6040);
-+		regmap_write(rt721->mbq_regmap, 0x910001, 0x3256);
-+		regmap_write(rt721->mbq_regmap, 0x910002, 0x0000);
-+		regmap_write(rt721->mbq_regmap, 0x910003, 0x0000);
-+		regmap_write(rt721->mbq_regmap, 0x900004, 0x7778);
-+		regmap_write(rt721->mbq_regmap, 0x910202, 0x02e4);
-+		regmap_write(rt721->mbq_regmap, 0x800002, 0xcc04);
-+		rt_sdca_index_write(rt721->mbq_regmap, RT721_CAP_PORT_CTRL,
-+			RT721_HP_AMP_2CH_CAL4, 0xa105);
-+		rt_sdca_index_write(rt721->mbq_regmap, 0x0b, 0x01, 0x0000);
-+		/* clear flag */
-+		regmap_write(rt721->regmap,
-+			SDW_SDCA_CTL(FUNC_NUM_JACK_CODEC, RT721_SDCA_ENT0,
-+			RT721_SDCA_CTL_FUNC_STATUS, 0), FUNCTION_NEEDS_INITIALIZATION);
-+	}
-+}
-+
- static void rt721_sdca_jack_init(struct rt721_sdca_priv *rt721)
- {
- 	guard(mutex)(&rt721->calibrate_mutex);
-@@ -733,19 +853,47 @@ static int rt721_sdca_dmic_set_gain_put(struct snd_kcontrol *kcontrol,
- 	return changed;
- }
- 
--static const DECLARE_TLV_DB_SCALE(out_vol_tlv, -6525, 75, 0);
-+static const DECLARE_TLV_DB_SCALE(out_vol_tlv_s, -6525, 75, 0);
-+static const DECLARE_TLV_DB_SCALE(out_vol_tlv_u, -9225, 75, 0);
- static const DECLARE_TLV_DB_SCALE(mic_vol_tlv, -1725, 75, 0);
- static const DECLARE_TLV_DB_SCALE(boost_vol_tlv, 0, 1000, 0);
- static const DECLARE_TLV_DB_SCALE(mic2_boost_vol_tlv, -200, 200, 0);
- 
--static const struct snd_kcontrol_new rt721_sdca_controls[] = {
-+static const struct snd_kcontrol_new rt721s_sdca_controls[] = {
- 	/* Headphone playback settings */
- 	SOC_DOUBLE_R_EXT_TLV("FU05 Playback Volume",
- 		SDW_SDCA_CTL(FUNC_NUM_JACK_CODEC, RT721_SDCA_ENT_USER_FU05,
- 			RT721_SDCA_CTL_FU_VOLUME, CH_L),
- 		SDW_SDCA_CTL(FUNC_NUM_JACK_CODEC, RT721_SDCA_ENT_USER_FU05,
- 			RT721_SDCA_CTL_FU_VOLUME, CH_R), 0, 0x57, 0,
--		rt721_sdca_set_gain_get, rt721_sdca_set_gain_put, out_vol_tlv),
-+		rt721_sdca_set_gain_get, rt721_sdca_set_gain_put, out_vol_tlv_s),
-+	/* AMP playback settings */
-+	SOC_DOUBLE_R_EXT_TLV("FU06 Playback Volume",
-+		SDW_SDCA_CTL(FUNC_NUM_AMP, RT721_SDCA_ENT_USER_FU06,
-+			RT721_SDCA_CTL_FU_VOLUME, CH_L),
-+		SDW_SDCA_CTL(FUNC_NUM_AMP, RT721_SDCA_ENT_USER_FU06,
-+			RT721_SDCA_CTL_FU_VOLUME, CH_R), 0, 0x57, 0,
-+		rt721_sdca_set_gain_get, rt721_sdca_set_gain_put, out_vol_tlv_s),
-+};
-+
-+static const struct snd_kcontrol_new rt721u_sdca_controls[] = {
-+	/* Headphone playback settings */
-+	SOC_DOUBLE_R_EXT_TLV("FU05 Playback Volume",
-+		SDW_SDCA_CTL(FUNC_NUM_JACK_CODEC, RT721_SDCA_ENT_USER_FU05,
-+			RT721_SDCA_CTL_FU_VOLUME, CH_L),
-+		SDW_SDCA_CTL(FUNC_NUM_JACK_CODEC, RT721_SDCA_ENT_USER_FU05,
-+			RT721_SDCA_CTL_FU_VOLUME, CH_R), 0, 0x7b, 0,
-+		rt721_sdca_set_gain_get, rt721_sdca_set_gain_put, out_vol_tlv_u),
-+	/* AMP playback settings */
-+	SOC_DOUBLE_R_EXT_TLV("FU06 Playback Volume",
-+		SDW_SDCA_CTL(FUNC_NUM_AMP, RT721_SDCA_ENT_USER_FU06,
-+			RT721_SDCA_CTL_FU_VOLUME, CH_L),
-+		SDW_SDCA_CTL(FUNC_NUM_AMP, RT721_SDCA_ENT_USER_FU06,
-+			RT721_SDCA_CTL_FU_VOLUME, CH_R), 0, 0x7b, 0,
-+		rt721_sdca_set_gain_get, rt721_sdca_set_gain_put, out_vol_tlv_u),
-+};
-+
-+static const struct snd_kcontrol_new rt721_sdca_controls[] = {
- 	/* Headset mic capture settings */
- 	SOC_DOUBLE_EXT("FU0F Capture Switch", SND_SOC_NOPM, 0, 1, 1, 0,
- 		rt721_sdca_fu0f_capture_get, rt721_sdca_fu0f_capture_put),
-@@ -761,13 +909,6 @@ static const struct snd_kcontrol_new rt721_sdca_controls[] = {
- 		SDW_SDCA_CTL(FUNC_NUM_JACK_CODEC, RT721_SDCA_ENT_PLATFORM_FU44,
- 			RT721_SDCA_CTL_FU_CH_GAIN, CH_R), 1, 0x15, 0,
- 		rt721_sdca_set_gain_get, rt721_sdca_set_gain_put, mic2_boost_vol_tlv),
--	/* AMP playback settings */
--	SOC_DOUBLE_R_EXT_TLV("FU06 Playback Volume",
--		SDW_SDCA_CTL(FUNC_NUM_AMP, RT721_SDCA_ENT_USER_FU06,
--			RT721_SDCA_CTL_FU_VOLUME, CH_L),
--		SDW_SDCA_CTL(FUNC_NUM_AMP, RT721_SDCA_ENT_USER_FU06,
--			RT721_SDCA_CTL_FU_VOLUME, CH_R), 0, 0x57, 0,
--		rt721_sdca_set_gain_get, rt721_sdca_set_gain_put, out_vol_tlv),
- 	/* DMIC capture settings */
- 	RT_SDCA_FU_CTRL("FU1E Capture Switch",
- 		SDW_SDCA_CTL(FUNC_NUM_MIC_ARRAY, RT721_SDCA_ENT_USER_FU1E,
-@@ -1276,6 +1417,15 @@ static int rt721_sdca_probe(struct snd_soc_component *component)
- 	if (ret < 0 && ret != -EACCES)
- 		return ret;
- 
-+	if (rt721->wf_id == RT721_S)
-+		snd_soc_add_component_controls(component,
-+			rt721s_sdca_controls,
-+			ARRAY_SIZE(rt721s_sdca_controls));
-+	else
-+		snd_soc_add_component_controls(component,
-+			rt721u_sdca_controls,
-+			ARRAY_SIZE(rt721u_sdca_controls));
-+
- 	return 0;
- }
- 
-@@ -1533,6 +1683,7 @@ int rt721_sdca_init(struct device *dev, struct regmap *regmap,
- 	rt721->fu0f_mixer_l_mute = rt721->fu0f_mixer_r_mute = true;
- 	rt721->fu1e_mixer_mute[0] = rt721->fu1e_mixer_mute[1] =
- 		rt721->fu1e_mixer_mute[2] = rt721->fu1e_mixer_mute[3] = true;
-+	rt721->wf_id = -1;
- 
- 	return devm_snd_soc_register_component(dev,
- 			&soc_sdca_dev_rt721, rt721_sdca_dai, ARRAY_SIZE(rt721_sdca_dai));
-@@ -1550,6 +1701,7 @@ static void rt721_sdca_reset(struct rt721_sdca_priv *rt721)
- int rt721_sdca_io_init(struct device *dev, struct sdw_slave *slave)
- {
- 	struct rt721_sdca_priv *rt721 = dev_get_drvdata(dev);
-+	int val;
- 
- 	rt721->disable_irq = false;
- 
-@@ -1581,12 +1733,23 @@ int rt721_sdca_io_init(struct device *dev, struct sdw_slave *slave)
- 
- 	pm_runtime_get_noresume(&slave->dev);
- 
-+	if (rt721->wf_id < 0) {
-+		rt_sdca_index_read(rt721->mbq_regmap, RT721_VENDOR_REG,
-+			RT721_JD_PRODUCT_NUM, &val);
-+		rt721->wf_id = (val >> 4) & 0xf;
-+		rt721->hw_vid = val & 0xf;
-+		dev_dbg(&slave->dev, "wf_id = %d hw_vid = %d\n", rt721->wf_id, rt721->hw_vid);
-+	}
-+
- 	if (!rt721->first_hw_init)
- 		rt721_sdca_reset(rt721);
- 
- 	rt721_sdca_dmic_preset(rt721);
- 	rt721_sdca_amp_preset(rt721);
--	rt721_sdca_jack_preset(rt721);
-+	if (rt721->wf_id == RT721_S)
-+		rt721_sdca_jack_preset(rt721);
-+	else
-+		rt721u_sdca_jack_preset(rt721);
- 
- 	if (rt721->hs_jack && (!rt721->first_hw_init))
- 		rt721_sdca_jack_init(rt721);
-diff --git a/sound/soc/codecs/rt721-sdca.h b/sound/soc/codecs/rt721-sdca.h
-index b8873b18a648..16cf40cd88de 100644
---- a/sound/soc/codecs/rt721-sdca.h
-+++ b/sound/soc/codecs/rt721-sdca.h
-@@ -40,6 +40,8 @@ struct  rt721_sdca_priv {
- 	/* For DMIC */
- 	bool fu1e_dapm_mute;
- 	bool fu1e_mixer_mute[4];
-+	int wf_id;
-+	int hw_vid;
- };
- 
- struct rt721_sdca_dmic_kctrl_priv {
-@@ -273,6 +275,16 @@ enum {
- 	RT721_AIFS,
- };
- 
-+enum rt721_wf_id {
-+	RT721_S,
-+	RT721_U,
-+};
-+
-+enum rt721u_hw_ver {
-+	RT721_U_VB = 1,
-+	RT721_U_VD = 3,
-+};
-+
- int rt721_sdca_io_init(struct device *dev, struct sdw_slave *slave);
- int rt721_sdca_init(struct device *dev, struct regmap *regmap,
- 			struct regmap *mbq_regmap, struct sdw_slave *slave);
-diff --git a/sound/soc/sdw_utils/soc_sdw_utils.c b/sound/soc/sdw_utils/soc_sdw_utils.c
-index 88031238c04e..dccc27921272 100644
---- a/sound/soc/sdw_utils/soc_sdw_utils.c
-+++ b/sound/soc/sdw_utils/soc_sdw_utils.c
-@@ -685,6 +685,52 @@ struct asoc_sdw_codec_info codec_info_list[] = {
- 		},
- 		.dai_num = 3,
- 	},
-+	{
-+		.vendor_id = 0x025d,
-+		.part_id = 0x718,
-+		.name_prefix = "rt721",
-+		.version_id = 3,
-+		.dais = {
-+			{
-+				.direction = {true, true},
-+				.dai_name = "rt721-sdca-aif1",
-+				.dai_type = SOC_SDW_DAI_TYPE_JACK,
-+				.dailink = {SOC_SDW_JACK_OUT_DAI_ID, SOC_SDW_JACK_IN_DAI_ID},
-+				.init = asoc_sdw_rt_sdca_jack_init,
-+				.exit = asoc_sdw_rt_sdca_jack_exit,
-+				.rtd_init = asoc_sdw_rt_sdca_jack_rtd_init,
-+				.controls = generic_jack_controls,
-+				.num_controls = ARRAY_SIZE(generic_jack_controls),
-+				.widgets = generic_jack_widgets,
-+				.num_widgets = ARRAY_SIZE(generic_jack_widgets),
-+			},
-+			{
-+				.direction = {true, false},
-+				.dai_name = "rt721-sdca-aif2",
-+				.component_name = "rt721",
-+				.dai_type = SOC_SDW_DAI_TYPE_AMP,
-+				/* No feedback capability is provided by rt721-sdca codec driver*/
-+				.dailink = {SOC_SDW_AMP_OUT_DAI_ID, SOC_SDW_UNUSED_DAI_ID},
-+				.init = asoc_sdw_rt_amp_init,
-+				.exit = asoc_sdw_rt_amp_exit,
-+				.rtd_init = asoc_sdw_rt_mf_sdca_spk_rtd_init,
-+				.controls = generic_spk_controls,
-+				.num_controls = ARRAY_SIZE(generic_spk_controls),
-+				.widgets = generic_spk_widgets,
-+				.num_widgets = ARRAY_SIZE(generic_spk_widgets),
-+			},
-+			{
-+				.direction = {false, true},
-+				.dai_name = "rt721-sdca-aif3",
-+				.dai_type = SOC_SDW_DAI_TYPE_MIC,
-+				.dailink = {SOC_SDW_UNUSED_DAI_ID, SOC_SDW_DMIC_DAI_ID},
-+				.rtd_init = asoc_sdw_rt_dmic_rtd_init,
-+				.quirk = SOC_SDW_CODEC_MIC,
-+				.quirk_exclude = true,
-+			},
-+		},
-+		.dai_num = 3,
-+	},
- 	{
- 		.vendor_id = 0x025d,
- 		.part_id = 0x722,
--- 
-2.54.0
+If so, note that enum is used both by consumers and providers so having
+them in types kind of header makes sense to me. Kind of the same as with
+the new widthmask header. It's used by both.
 
+- Nuno Sá
+
+> 
+> Frank
+> 
+> >
+> > > suggest name
+> > > 	dma/engine.h
+> > >
+> > > so we can start move more API to this files.
+> > >
+> > > after all user include this consumer header file,  old
+> > > include/linux/dmaengine.h rename to include/linux/dmaengine-provider.h,
+> > > which only include by dmaengine drivers.
+> >
+> > Traditional naming would be
+> > dma/engine/provider.h
+> > dma/engine/consumer.h
+> >
+> > --
+> > With Best Regards,
+> > Andy Shevchenko
+> >
+> >
