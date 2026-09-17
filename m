@@ -1,93 +1,63 @@
-Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99E6352CCE6;
-	Thu, 17 Sep 2026 17:01:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFD41502798;
+	Thu, 17 Sep 2026 17:13:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789664466; cv=none; b=KJiTJaR5imy7anHD1VfhfLmVz5WZ8//JTjYKt+1+omRBwWJGdHLXn/iFZNeV5oyyFdWYRyt+EzCdrC8zzKGv/9JAaslJ9q5bra/O8vI97ud5+qEt8s/guXisVnFs1tFulIK0UjdlqvhG6kNyk3crPOhe0HkoIzd/1UflRcAqbcw=
+	t=1789665221; cv=none; b=VA59BIvuLUVx9ssBZ7oj2sT6owUTfjylMqOcogX5uwNQqoV4quFrFaX43jADm+VfbN869CkpZZE2o8drrX3TEywDgFnQOrKOHzmeCbi2Sj0K/5xVc0BP7yx7p8h+kzcScfzdijwNYEqwyfe/1fFjFYm7BZqAOT/rBLBXUUS55q0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789664466; c=relaxed/simple;
-	bh=XwRE6lz8zzUWQqfe5tl5Xvwgi8WlYNQ6+FgbwConfCE=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=B9UJ9ROrBpud2Z0UV/Ci3LdQGEwJ9lXluhn12QJf3gLbqg0N3pTFM2N8juBI8PtV3MCPr8fizJFZx8s25jdkW6RIDx7mzHxf+1l1XC2b8wyzrnSPoE8wPcHB+T7/g5qMAyA5OcLnKvT6IvGMdeJQ3A5MwnOX0Qsv4SmM9fEcB9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from dfae2b116770.home.arpa (unknown [36.110.52.2])
-	by APP-05 (Coremail) with SMTP id zQCowAB3pkDDHKxqzfaECA--.7220S2;
-	Fri, 18 Sep 2026 01:00:52 +0800 (CST)
-From: Wentao Liang <vulab@iscas.ac.cn>
-To: broonie@kernel.org
-Cc: cezary.rojewski@intel.com,
-	hansg@kernel.org,
-	kai.vehmanen@linux.intel.com,
-	liam.r.girdwood@linux.intel.com,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	perex@perex.cz,
-	peter.ujfalusi@linux.intel.com,
-	pierre-louis.bossart@linux.dev,
-	tiwai@suse.com,
-	yung-chuan.liao@linux.intel.com,
-	Wentao Liang <vulab@iscas.ac.cn>,
-	stable@vger.kernel.org
-Subject: [PATCH] ASoC: Intel: bytcr_rt5640: Fix use-after-free in snd_byt_rt5640_mc_probe()
-Date: Thu, 17 Sep 2026 17:00:52 +0000
-Message-Id: <20260917170052.2163636-1-vulab@iscas.ac.cn>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1789665221; c=relaxed/simple;
+	bh=kU9u7aPQiDXpsU3KZIRIVdwhOcynvHchZvkMNomGDRM=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=Rtd3DcB49/fdbaqH8p2DF4TWk10jhNDGOTVkdeNHAlQdrHW96XoaXRp+afwDpluTsxgZ5j7wrWH0l9LxO9SmEqCgUgS3GeH/PvUkYq/+wtdBkSN6jbqCP+34kiG431BIkU4gVSInz7HSG20lwaW7XYdCxaS2hcJOVjaNAU8UKy8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PTWRJtSc; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PTWRJtSc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C69611F00893;
+	Thu, 17 Sep 2026 17:13:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789665219;
+	bh=2KwG4KNE5UJytbEWhR9h/JJwxFpzdyFeN1foNaKQRxc=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc;
+	b=PTWRJtScNuoehKaGFF1WnAt8kgzsstav9Pob9nJI/GZPN9TP6dnW1N8D2xODu2siz
+	 V1H1sCM5wLDn9Qy5QUgAfr7qq6VtUqK1RMhrfyDW74u4w9VokNc3BeBLTDy2YzNlI/
+	 h3uoSNHldRnOf6CD8No5yE5NbZEpWa/fLJ9YcPiSK7Kr1vZ1pnbCbObQfgHHJ8pNqD
+	 8Qgq8VBw6YzhDVVApXLXhaiegLAEkTzlTSbIE0KsSBWE0bx6e+Ip2dDJ/jUuri5l4A
+	 G+2dNS1oXRB+fR2O/AAHls1SCD8C6neb/IfdsftfUE/SVBoW1IvQrRZCTxrDzy6P6+
+	 XQgUEIr3cPx0Q==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 939C7381197E;
+	Thu, 17 Sep 2026 17:12:34 +0000 (UTC)
+Subject: Re: [GIT PULL] sound fixes for 7.3-rc4
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <87ecesgeet.wl-tiwai@suse.de>
+References: <87ecesgeet.wl-tiwai@suse.de>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <87ecesgeet.wl-tiwai@suse.de>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-7.3-rc4
+X-PR-Tracked-Commit-Id: 546b928da0427b0d6c663cbb992bd7bfa9ac7971
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 4982d3552a3bf94de503acf93433277d08421de6
+Message-Id: <178966515302.3773542.3694353447037190118.pr-tracker-bot@kernel.org>
+Date: Thu, 17 Sep 2026 17:12:33 +0000
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowAB3pkDDHKxqzfaECA--.7220S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7Xr13CF47Jr48Cry7Zw1fWFg_yoWkXwcEka
-	4j9348Xa48CFsa9rs8AasIkwn7Xr13tFW0g3WxtF4kJFWrXFWfJa98KrZ09F4DWw4vgryj
-	93Wj9rWxCryS9jkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbfkFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AK
-	wVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20x
-	vE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vEx4A2
-	jsIE14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAS0I0E0xvYzx
-	vE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWU
-	tVWrXwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7V
-	AKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kIc2xKxwCY1x02
-	62kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r48ZrWUJr
-	1UMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xv
-	wVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjx
-	v20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1lIxAIcVCF04k2
-	6cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxV
-	AFwI0_Gr1j6F4UJbIYCTnIWIevJa73UjIFyTuYvjfU5byZUUUUU
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiBgINA2qr889g2wAAsM
 
-When the device found by name is not an i2c_client, the reference taken
-by bus_find_device_by_name() is dropped, but execution continues with
-the stale codec_dev pointer, which is stored in priv->codec_dev and
-dereferenced later in the probe.
+The pull request you sent on Thu, 17 Sep 2026 16:07:06 +0200:
 
-The device is not usable as the codec, so return an error after dropping
-the reference.
+> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-7.3-rc4
 
-Fixes: d48696b91552 ("ASoC: Intel: bytcr_rt5640: Add support for non ACPI instantiated codec")
-Cc: stable@vger.kernel.org
-Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
----
- sound/soc/intel/boards/bytcr_rt5640.c | 1 +
- 1 file changed, 1 insertion(+)
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/4982d3552a3bf94de503acf93433277d08421de6
 
-diff --git a/sound/soc/intel/boards/bytcr_rt5640.c b/sound/soc/intel/boards/bytcr_rt5640.c
-index 40da3eea5fa7..557486c6f28d 100644
---- a/sound/soc/intel/boards/bytcr_rt5640.c
-+++ b/sound/soc/intel/boards/bytcr_rt5640.c
-@@ -1764,6 +1764,7 @@ static int snd_byt_rt5640_mc_probe(struct platform_device *pdev)
- 			dev_err(dev, "Error '%s' is not an i2c_client\n",
- 				BYT_RT5640_FALLBACK_CODEC_DEV_NAME);
- 			put_device(codec_dev);
-+			return -ENODEV;
- 		}
- 
- 		/* fixup codec name */
+Thank you!
+
 -- 
-2.34.1
-
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
