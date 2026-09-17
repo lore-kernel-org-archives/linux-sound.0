@@ -1,46 +1,46 @@
-Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011019.outbound.protection.outlook.com [52.101.62.19])
+Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010037.outbound.protection.outlook.com [52.101.56.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C38E04A384B;
-	Thu, 17 Sep 2026 09:06:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.62.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 840A342467E;
+	Thu, 17 Sep 2026 09:06:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.37
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789635967; cv=fail; b=k2bMDOmrtyfXJI36SAFeyNiGzZBCF83jyXUS3lofC845eg/wmIz/8+1CK7MRPO9+ObSJiKg9K1unsECuXsR/Dly2+E51fSRJpj3r/2OLHEWRxz33mmXbVbSabQMVvOhk6ZGwKmTbbEmPXWTsVpDNeDOuoHspBpfSHkZdBj4oLYI=
+	t=1789635968; cv=fail; b=eClPPz+IBeapy2Gg/RPmGPukwlKkv0ImEmeMUxyWdamBXCXASS40+p2n5zDYA3l8DpKaS/ItCAacfOMysJyD+GfLleJb2BVQ4q3A0Nq7OZwHxv4JURgJ+SdPbkSnVdOjEoSufKs4I/hC1tn6HNPCX/bh52uGhTkCc9ao/3O7/4A=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789635967; c=relaxed/simple;
-	bh=UrJLV5j22ucMTTkqxzRN3/ifOVkUnncYOyVaEaXU5Oo=;
+	s=arc-20240116; t=1789635968; c=relaxed/simple;
+	bh=pXWIYcdG1qKP9MYbN39O3KdHYuzg/IJje/53l62UrGg=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=SV+Q8f2rWGUNt3Ex7vK/O+jBv8iM/aIsag+zF1v5pJJlEPf5mbkXybjbmtxWaBth3zp2InhZkx70vSJimjY6CMFqtfMjW9uK8ZeZ+SisgHJcLmJ046VJTQMCyBZVURSzTCw9PeoB+FAXPQaWKwP5nS5RG6Q7KvRCUnLGyAO0hFA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Iq+ElTfj; arc=fail smtp.client-ip=52.101.62.19
+	 MIME-Version:Content-Type; b=Qtxs7wEfHu/K9AAYkpMhLfdldSCCu4QqEQCehg4ccTi/AxKR8xgptPLDwR0h2nMQH12G06m758eqPa005fvZU2MSI91VE532QRZbD5P8jHgsRVFrU1N14hEyYDj0XZylDcl9yQSGegJ1kkJvwUzPa08PIBSftpwNeobbbLitumI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=eF2wkiIY; arc=fail smtp.client-ip=52.101.56.37
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Iq+ElTfj"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="eF2wkiIY"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=muAWhO9zkiKX+YzmT5Urm5ZtnP1dWLkBFmFs83mBySvxeGa1GLhq/6p/6RmTZb7K5O6OjjsqeOrBE+AnFcVWApG0EU+T7dTP5513CGufxsAiGWbiLI+oBcFCTIdB2giSfX1w9IZVAAILX0ArGVNIweZ98xzKzGgSMESF7nmv47Y81y+iSaQyAqbnSPI7kW6NyPxqw7nbc13YSX6i81SsChdHYKcBweJAXjT/CE8MBIU+sho/q5Yz3Cfo6gH90RGnexVbB1xKfuNlNdseCe+TRRppWOnHQMAg43h9CPbhzYMlazKGvnYbMgwRp5tWpzSLxUBG9FI6aWKhp8wxYAqDZg==
+ b=T9zjKAz9zacORJM+dkBq26DhG/48wpL5o/TJ8077dJgAR4aTANRCQYqIElUJI0UVJ5WfByvr8Li4ZFeuwtH/co8+cVdNy3e9j4u0fD6SJljKXkr2nMeqw41OfQVf2a6szcCVNdrABOoXTXGYXU4Ix5XCS74ZkXiTkU8wqg2nYs2uMKMd973A+hQjNvKCEL+wT6281F9YRf75ojmlnSdBCB+MdfgD1OxOVrIIYqocV1BTTWAnHPdHBTghR/wup7CRHuF97NLm+OfHZDg4I7ioAeGhGgEyBRcIC/QQ0fZWZqZtlrunIIQz9sSRp8/AVMCgZjJ1HSxvBOzfOm02reZkag==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aa1yFdGIVC5IukFuOHlA2VCb3GjKpZFAkPuHbsg5pko=;
- b=HyfPi0WZKDTzEOG8A5vuFo/BFaUDhYePXOFdJhJ23k3S25WSYwnZEl2sPpf3YVQLXDjAzEQv9coFoNMSAH+GQSSZfke0DNWX5QTa5XC+kMSixztjxWMTCxqltIdOsfx5vJOkHddQ9CsVL1GqBu8IMr5/pRlcSaJ9JLvC8AaAdFkADy8Vup2RMUjbrr2GUVFviZmSy49U8Bvfx7tdLAoAQvwi0a3C2dzeLsog1E7n0St5NasJCAOCO4Q/vE0j1AvyUeeuG/WuTD5dOv29wDrtrZ8xchmWz67IqMqHVUTWc3Gm+kmw6Pzsnjilkgb/8ye2vDXSyaok35ZILKHwPyDhDQ==
+ bh=CoXbQcFEfBr4GVbUdGf8HnG7o+uhYerypKlU6TNFfTk=;
+ b=caXRc+FZNLkinef76vBUlgAgd6X6JCZyru6x53hjcbazSZuvId0ZNWzGf08GdrVPcnQMT/Em3dyMR/sx1j2uyVyRfzIBrV3glE5hT01Vucor2DX5iDAxVBu+FX7i2lNZtSyvDfJrXSjL3z7b4k8EGVhM8B/JBWrMuPCtUWe8op6iReZUN7FwAgFOE2br5q7zZ0mISrhiWFnnwOdjwSdqSVsKYn5s5EA19vg00qcXzPFXIIrhI568QsqnhMwbWEnMD9Cs+mWWD7yKewP/oBIfFjxmOAISV947yKWA1Aqgq4irQcrD7TYQRmHpn6f28Zbn813YQH78D3aLJCWjLs1vwg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aa1yFdGIVC5IukFuOHlA2VCb3GjKpZFAkPuHbsg5pko=;
- b=Iq+ElTfjsKMVO0pUFMmWLtjWJy8WDAPRoUFQsoeYhniHFwJgH5YdPEQJYajeyGUpRPehoXyTSQTWawZ59WHkQ+1gMbgoHBNybG2/UITSf9EPs/nDaoY0OH75PC913a5sH58YbG7b8T1ogn0tTI80+eKnTN0N8chsu1ra35IfRow=
-Received: from SA1P222CA0133.NAMP222.PROD.OUTLOOK.COM (2603:10b6:806:3c2::18)
- by IA1PR12MB6043.namprd12.prod.outlook.com (2603:10b6:208:3d5::20) with
+ bh=CoXbQcFEfBr4GVbUdGf8HnG7o+uhYerypKlU6TNFfTk=;
+ b=eF2wkiIYwkg6oc0eaqFIxbW54FZ0rOaDJv9WYQH+mXgULHcPTmAFvTox+Y89h/bAkOp+nXdHVewom6OGg78QQs2VIy3I+AjXaqtErk5tDDAL/w/+LFf/UrqB7fevqdU1CHpFMIdmMEho4KUACbgN8GeRnI0XAtnyzbP0SKEuOfU=
+Received: from BY5PR03CA0017.namprd03.prod.outlook.com (2603:10b6:a03:1e0::27)
+ by MN0PR12MB6199.namprd12.prod.outlook.com (2603:10b6:208:3c4::20) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.9; Thu, 17 Sep
- 2026 09:05:45 +0000
-Received: from SJ1PEPF00002311.namprd03.prod.outlook.com
- (2603:10b6:806:3c2:cafe::24) by SA1P222CA0133.outlook.office365.com
- (2603:10b6:806:3c2::18) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.428.11 via Frontend Transport; Thu,
- 17 Sep 2026 09:05:45 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.12; Thu, 17 Sep
+ 2026 09:05:57 +0000
+Received: from SJ1PEPF00002316.namprd03.prod.outlook.com
+ (2603:10b6:a03:1e0:cafe::5) by BY5PR03CA0017.outlook.office365.com
+ (2603:10b6:a03:1e0::27) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.360.13 via Frontend Transport; Thu,
+ 17 Sep 2026 09:05:57 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -48,16 +48,16 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
 Received: from satlexmb07.amd.com (165.204.84.17) by
- SJ1PEPF00002311.mail.protection.outlook.com (10.167.242.165) with Microsoft
+ SJ1PEPF00002316.mail.protection.outlook.com (10.167.242.170) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.451.8 via Frontend Transport; Thu, 17 Sep 2026 09:05:45 +0000
+ 15.21.451.8 via Frontend Transport; Thu, 17 Sep 2026 09:05:57 +0000
 Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb07.amd.com
  (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.49; Thu, 17 Sep
- 2026 04:05:39 -0500
+ 2026 04:05:51 -0500
 Received: from amd-System-Product-Name.amd.com (10.180.168.240) by
  satlexmb08.amd.com (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.49
- via Frontend Transport; Thu, 17 Sep 2026 04:05:35 -0500
+ via Frontend Transport; Thu, 17 Sep 2026 04:05:47 -0500
 From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
 To: <vkoul@kernel.org>
 CC: <broonie@kernel.org>, <alsa-devel@alsa-project.org>,
@@ -67,9 +67,9 @@ CC: <broonie@kernel.org>, <alsa-devel@alsa-project.org>,
 	<Mario.Limonciello@amd.com>, <Richard.Gong@amd.com>,
 	<linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Vijendar
  Mukunda" <Vijendar.Mukunda@amd.com>
-Subject: [PATCH 5/9] soundwire: amd: remove unused AMD_SDW_MAX_FREQ_NUM define
-Date: Thu, 17 Sep 2026 14:32:53 +0530
-Message-ID: <20260917090407.3828816-6-Vijendar.Mukunda@amd.com>
+Subject: [PATCH 8/9] soundwire: amd: wire amd_acp63_*() call sites through acp_*() helpers
+Date: Thu, 17 Sep 2026 14:32:56 +0530
+Message-ID: <20260917090407.3828816-9-Vijendar.Mukunda@amd.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20260917090407.3828816-1-Vijendar.Mukunda@amd.com>
 References: <20260917090407.3828816-1-Vijendar.Mukunda@amd.com>
@@ -83,51 +83,645 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF00002311:EE_|IA1PR12MB6043:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5587ee74-97b1-4055-4c2f-08df149adb96
+X-MS-TrafficTypeDiagnostic: SJ1PEPF00002316:EE_|MN0PR12MB6199:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3d5bc73d-7837-4556-cdbf-08df149ae2de
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|376014|36860700016|23010399003|1800799024|10067099003|22082099003|56012099006|11063799006|18002099003;
+	BCL:0;ARA:13230040|1800799024|23010399003|376014|82310400026|36860700016|6133799003|18002099003|22082099003|10067099003|56012099006|11063799006;
 X-Microsoft-Antispam-Message-Info:
-	4sYwems6GoWq9/ozaBKBBmMOTxCF5v1ufT/rXiPlDGT41dWDmWgVKEUDS9b1SPJoNZT4UOZM5kqRyCoN0u7PdWSqYRelvDfrLsZGFi5/SaQJkr2ItZfdGU6vNI5Q7cX+AprMGTTicg+qRLLpU01+QFeRaZPFaVhF6XvBY1kppOfNLS/TmTk8JLCY9sQSDu0RCg1NQaCFMM2cu3OG7jVwW+PnCBXyBbQIiyaTsO/4zDxlNPHbprZRa7uxA3VkzTZMysqjl2jp6OuflDgXImrwpi5pTU1XbbygH5QKdYzWpxdCtGFblhgKQSYJwRBZ5ZwWCZL/3IWkrx1gI0vkOfShXpjvkSdqp3/IDK/lmzP1b9G7qL+h3wFTmqUol5m+x8YnBJOtHCAraK1RqHU/hWfYGPImiVXjHvDwVAyEVZhAiklbCAZp4rSfJKMO/yAMMd87WMEfOzja5NjVBvjZxo6CQMF2vGGnKeGRwqQ2qfQg4i7pd+ij2DffYJPEiwy2itoYqN189dBYVcZOD/gEcbxlWpp3f5dN8/sz9vFJb5VsUA1tH6zVcPUoU87JyRCAIB1J0S9lqiW4bdAwzQhO/3U4W/ZLZN/R6XXF31YPbXL9/z0wExl7YYMZnpYGsG9MvKbg/rI8wW4H+Dcisb65qdskTJ1Pn+QSeV0KHy4GoP8tZUV/MzhnfQckr2Zo+R/NkbYNl5MQ3m+Eedj14sZCclAwKQ==
+	j4zc44qqkNfTMf/n0qewYd7CLvGJxS8EoIraIyqRN9vsCXCQ1vMVB0t0UssjALyCIWBokUUc+3DLRiyI2hnnD3rrAVvgkybdz1jvbBpfAX0BlzDAyEKDmVCfo1EFcwT5ovIywuKRZv03EdtFwfhq5n6xP2SGH6ykBRsDABnvR2Karj4xJz4aJPP8ma6ptWFEPoUBNjmC6KUgfGwHwRzgTEyFGW25t+IZ0U1rvCGRFEr4otd88cuKOnurngEE/idxF1VfCGi+IGrf/q0v75N6vmGiF20YPfl+jhXNH/nsdAG5GLLhY83EHGz3G8E/PlyqPV6Dvpodoy/9CR3RGK6/iukrXNz72q6AVwkKgkb2bCJ72CXOVdWSvGBNnIwles4+Sp4QTUzVEzIrT3JqSBO7isC/Vmgd6/DTa39pOnoeFGylRKqippyzLMEjiaFzfClfC/ucVjIu08jyoH6++4s5LHagn0EqdqgJFu1FpCGOqJtrDO6mYBHgjxMu91C4iNaA058hxwao4CdguzU9Tkem4lFBE2dvK4DkgiDkoPsS46f2j2L8xtm9aGP6P7G+W6huyIhNny+ZUhWKBV5eiy99fYcaDMtHZR6C5BtI2KjTsi+uHC9VA2chy7kkh7JsVcftszt0hvfjS0K7uAezNlWW/8cP+BhQX2u8TmgeoP4FAwDKbIbzVsMzn2QYOGR3k9iKjyPyd+KWor69M6SNZ+ceMQ==
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(376014)(36860700016)(23010399003)(1800799024)(10067099003)(22082099003)(56012099006)(11063799006)(18002099003);DIR:OUT;SFP:1101;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(376014)(82310400026)(36860700016)(6133799003)(18002099003)(22082099003)(10067099003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	5Vn4DjLgCGEo7865oMScwzb+1klP5V0BVPVIOl+r+VSoVevj9cDVOhsSVeRpN5stj6fTqrSU3Abo+EWawIQE1ccwdu3KQSQBRZI/fTzLV0f/FKOo7EvbuBVzxVZe85v1orhEtdDXUoeJ0up7jDuQnN9Ln3rmcsO16Bj2soMTnrPMoI3Ku0SEQso/tkDMG29N6Lzz1d1vMhTcOLwCxcs4fgFBFmJQCL04XrOZS7jRc4TNcmeOhQ1ctNbAECqXhmWVTml/N/0Lv7YWZPD95iZu0UpjTMstOesKR7H4ksoDSMv7vOY6QhMyRaEGaNrFyYLe8OJ0ftblg/8mqtD0b9LNA4oPEHm8Ccf0aSfv21FJwhOUeG3W5oGHy2YYddlaAVwR0W99rVdVr1aoRcNg68OQ4IBEr4ON1sm4qYI+mY3glNmyUAWE0cDzatYr6FnMzY+B
+	0eW4hhXeUVj/RRzZrViZN8KsObn2VX4GIoadCCnBKty4u+216Fvge1uJYt83UaHdKbKMqja+Wwhrj6LcMJZziTx87wDBEkhsSJJBNO66O6vaJdscg1/4FgvO1AAeiN41QMTpS5Pm41Y8GqK9TKOHUl8Ml6Ley0oJ0mhPFa15vA3TxQs1KEexoMSF1NKroK3Y6nn99gZ26EoV24UWFrBZ6xaG2l44Qlo+iv/5ztguJbukGKvYtCjh8S35qPqxMIB1fouRicCqgSIl1pFozCsTvUe42ZdItZhpw8gXyPHkLKiHMa+HEGvzZds8Vgc3xDqqw3w4guN1DY7kA5zgyoKBFsriH6BDG14TDxlCuBoaqq/8q37quo6Qbsg/aRcY5hDrNXEBgJ0a4YIk7sMJ0zGc1M/PtJQ9BtYGNljjWU+o4kSKU4AxTGOB3OAsSN5PpKTr
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Sep 2026 09:05:45.0466
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Sep 2026 09:05:57.2641
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5587ee74-97b1-4055-4c2f-08df149adb96
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3d5bc73d-7837-4556-cdbf-08df149ae2de
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	SJ1PEPF00002311.namprd03.prod.outlook.com
+	SJ1PEPF00002316.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6043
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6199
 
-The AMD_SDW_MAX_FREQ_NUM macro has no users anywhere in the driver.
-Remove it as a straightforward cleanup with no functional change.
+Extract PM logic into amd_acp63_sdw_suspend(),
+amd_acp63_sdw_suspend_runtime() and
+amd_acp63_sdw_resume_runtime() hw_ops callbacks, each taking
+struct amd_sdw_manager * instead of struct device *.
+
+Replace the existing amd_suspend(), amd_suspend_runtime() and
+amd_resume_runtime() static wrappers with thin one-liners that
+delegate to the corresponding acp_sdw_*() dispatch helpers.
+
+Introduce a static const struct amd_sdw_hw_ops amd_acp63_hw_ops
+table that populates all 19 hw_ops slots with the amd_acp63_*()
+callbacks. Introduce amd_sdw_hw_init_ops() to assign a pointer
+to this table based on acp_rev, and call it from
+amd_sdw_manager_probe() to wire up the dispatch table at probe
+time.
+
+Convert all remaining direct amd_acp63_*() call sites in the
+start, PM, interrupt, and remove paths to use the corresponding
+acp_*() wrappers.
+
+Place amd_acp63_hw_ops and amd_sdw_hw_init_ops() after
+amd_sdw_manager_remove() so all amd_acp63_*() functions they
+reference are already defined. Add a forward declaration of
+amd_sdw_hw_init_ops() before amd_sdw_manager_probe() to resolve
+the call site ordering.
 
 Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
 ---
- drivers/soundwire/amd_manager.h | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/soundwire/amd_manager.c | 366 ++++++++++++++++++--------------
+ 1 file changed, 210 insertions(+), 156 deletions(-)
 
-diff --git a/drivers/soundwire/amd_manager.h b/drivers/soundwire/amd_manager.h
-index adde192f61fe..63fecff62079 100644
---- a/drivers/soundwire/amd_manager.h
-+++ b/drivers/soundwire/amd_manager.h
-@@ -159,7 +159,6 @@
- #define AMD_SDW_IRQ_MASK_0TO7		0x77777777
- #define AMD_SDW_IRQ_MASK_8TO11		0x000c7777
- #define AMD_SDW_IRQ_ERROR_MASK		0xff
--#define AMD_SDW_MAX_FREQ_NUM		1
- #define AMD_ACP63_SDW0_MAX_TX_PORTS		3
- #define AMD_ACP63_SDW0_MAX_RX_PORTS		3
- #define AMD_ACP63_SDW1_MAX_TX_PORTS		1
+diff --git a/drivers/soundwire/amd_manager.c b/drivers/soundwire/amd_manager.c
+index 87a2e779dd4e..834e943b040b 100644
+--- a/drivers/soundwire/amd_manager.c
++++ b/drivers/soundwire/amd_manager.c
+@@ -303,8 +303,7 @@ amd_program_scp_addr(struct amd_sdw_manager *amd_manager, struct sdw_msg *msg)
+ 	scp_msg.buf = &msg->addr_page1;
+ 	scp_msg.flags = SDW_MSG_FLAG_WRITE;
+ 	amd_sdw_ctl_word_prep(&lower_data, &upper_data, &scp_msg, 0);
+-	if (amd_acp63_sdw_send_cmd_get_resp(amd_manager, lower_data, upper_data,
+-					    &response_buf[0])) {
++	if (acp_sdw_send_cmd_get_resp(amd_manager, lower_data, upper_data, &response_buf[0])) {
+ 		dev_err_ratelimited(amd_manager->dev,
+ 				    "SCP_addrpage command timeout for Slave %d\n", msg->dev_num);
+ 		return SDW_CMD_TIMEOUT;
+@@ -312,8 +311,7 @@ amd_program_scp_addr(struct amd_sdw_manager *amd_manager, struct sdw_msg *msg)
+ 	scp_msg.addr = SDW_SCP_ADDRPAGE2;
+ 	scp_msg.buf = &msg->addr_page2;
+ 	amd_sdw_ctl_word_prep(&lower_data, &upper_data, &scp_msg, 0);
+-	if (amd_acp63_sdw_send_cmd_get_resp(amd_manager, lower_data, upper_data,
+-					    &response_buf[1])) {
++	if (acp_sdw_send_cmd_get_resp(amd_manager, lower_data, upper_data, &response_buf[1])) {
+ 		dev_err_ratelimited(amd_manager->dev,
+ 				    "SCP_addrpage command timeout for Slave %d\n", msg->dev_num);
+ 		return SDW_CMD_TIMEOUT;
+@@ -386,7 +384,7 @@ static unsigned int _amd_sdw_xfer_msg(struct amd_sdw_manager *amd_manager, struc
+ 	u32 upper_data = 0, lower_data = 0;
+ 
+ 	amd_sdw_ctl_word_prep(&lower_data, &upper_data, msg, cmd_offset);
+-	if (amd_acp63_sdw_send_cmd_get_resp(amd_manager, lower_data, upper_data, &response)) {
++	if (acp_sdw_send_cmd_get_resp(amd_manager, lower_data, upper_data, &response)) {
+ 		dev_err_ratelimited(amd_manager->dev, "command timeout for Slave %d\n",
+ 				    msg->dev_num);
+ 		return SDW_CMD_TIMEOUT;
+@@ -449,7 +447,7 @@ static void amd_acp63_sdw_read_and_process_ping_status(struct amd_sdw_manager *a
+ 	u64 response;
+ 
+ 	mutex_lock(&amd_manager->bus.msg_lock);
+-	if (amd_acp63_sdw_send_cmd_get_resp(amd_manager, 0, 0, &response)) {
++	if (acp_sdw_send_cmd_get_resp(amd_manager, 0, 0, &response)) {
+ 		mutex_unlock(&amd_manager->bus.msg_lock);
+ 		dev_err_ratelimited(amd_manager->dev, "SDW%x ping status timeout\n",
+ 				    amd_manager->instance);
+@@ -471,7 +469,7 @@ static u32 amd_acp63_sdw_read_ping_status(struct sdw_bus *bus)
+ 	/* Called by sdw_show_ping_status() which holds msg_lock. */
+ 	lockdep_assert_held(&bus->msg_lock);
+ 
+-	if (amd_acp63_sdw_send_cmd_get_resp(amd_manager, 0, 0, &response)) {
++	if (acp_sdw_send_cmd_get_resp(amd_manager, 0, 0, &response)) {
+ 		dev_err_ratelimited(amd_manager->dev, "SDW%x ping status timeout\n",
+ 				    amd_manager->instance);
+ 		return amd_manager->ping_slave_stat == U32_MAX ? 0 : amd_manager->ping_slave_stat;
+@@ -974,7 +972,7 @@ static void amd_acp63_sdw_update_slave_status_work(struct amd_sdw_manager *amd_m
+ 			       ACP_SW_STATE_CHANGE_STATUS_MASK_0TO7);
+ 			writel(AMD_SDW_IRQ_MASK_8TO11, amd_manager->mmio +
+ 			       ACP_SW_STATE_CHANGE_STATUS_MASK_8TO11);
+-			amd_acp63_sdw_read_and_process_ping_status(amd_manager);
++			acp_sdw_read_and_process_ping_status(amd_manager);
+ 			goto update_status;
+ 		} else {
+ 			dev_err_ratelimited(amd_manager->dev,
+@@ -989,7 +987,7 @@ static void amd_sdw_update_slave_status_work(struct work_struct *work)
+ 	struct amd_sdw_manager *amd_manager =
+ 		container_of(work, struct amd_sdw_manager, amd_sdw_work);
+ 
+-	amd_acp63_sdw_update_slave_status_work(amd_manager);
++	acp_sdw_update_slave_status_work(amd_manager);
+ }
+ 
+ static void amd_sdw_update_slave_status(u32 status_change_0to7, u32 status_change_8to11,
+@@ -1037,10 +1035,10 @@ static void amd_acp63_sdw_irq_thread(struct amd_sdw_manager *amd_manager)
+ 	dev_dbg(amd_manager->dev, "[SDW%d] SDW INT: 0to7=0x%x, 8to11=0x%x\n",
+ 		amd_manager->instance, status_change_0to7, status_change_8to11);
+ 	if (status_change_8to11 & AMD_SDW_WAKE_STAT_MASK)
+-		return amd_acp63_sdw_process_wake_event(amd_manager);
++		return acp_sdw_process_wake_event(amd_manager);
+ 
+ 	if (status_change_8to11 & AMD_SDW_PREQ_INTR_STAT) {
+-		amd_acp63_sdw_read_and_process_ping_status(amd_manager);
++		acp_sdw_read_and_process_ping_status(amd_manager);
+ 	} else {
+ 		/* Check for the updated status on peripheral device */
+ 		amd_sdw_update_slave_status(status_change_0to7, status_change_8to11, amd_manager);
+@@ -1056,7 +1054,7 @@ static void amd_sdw_interrupt_thread(struct work_struct *work)
+ 	struct amd_sdw_manager *amd_manager =
+ 			container_of(work, struct amd_sdw_manager, amd_sdw_irq_thread);
+ 
+-	amd_acp63_sdw_irq_thread(amd_manager);
++	acp_sdw_irq_thread(amd_manager);
+ }
+ 
+ int amd_sdw_manager_start(struct amd_sdw_manager *amd_manager)
+@@ -1066,17 +1064,17 @@ int amd_sdw_manager_start(struct amd_sdw_manager *amd_manager)
+ 
+ 	prop = &amd_manager->bus.prop;
+ 	if (!prop->hw_disabled) {
+-		ret = amd_acp63_sdw_clk_init_ctrl(amd_manager);
++		ret = acp_sdw_clk_init_ctrl(amd_manager);
+ 		if (ret)
+ 			return ret;
+-		ret = amd_acp63_init_sdw_manager(amd_manager);
++		ret = acp_init_sdw_manager(amd_manager);
+ 		if (ret)
+ 			return ret;
+-		amd_acp63_enable_sdw_interrupts(amd_manager);
+-		ret = amd_acp63_enable_sdw_manager(amd_manager);
++		acp_enable_sdw_interrupts(amd_manager);
++		ret = acp_enable_sdw_manager(amd_manager);
+ 		if (ret)
+ 			return ret;
+-		amd_acp63_sdw_set_frameshape(amd_manager);
++		acp_sdw_set_frameshape(amd_manager);
+ 	}
+ 	/* Enable runtime PM */
+ 	pm_runtime_set_autosuspend_delay(amd_manager->dev, AMD_SDW_MASTER_SUSPEND_DELAY_MS);
+@@ -1087,117 +1085,6 @@ int amd_sdw_manager_start(struct amd_sdw_manager *amd_manager)
+ 	return 0;
+ }
+ 
+-static int amd_sdw_manager_probe(struct platform_device *pdev)
+-{
+-	const struct acp_sdw_pdata *pdata = pdev->dev.platform_data;
+-	struct resource *res;
+-	struct device *dev = &pdev->dev;
+-	struct sdw_master_prop *prop;
+-	struct amd_sdw_manager *amd_manager;
+-	int ret;
+-
+-	amd_manager = devm_kzalloc(dev, sizeof(struct amd_sdw_manager), GFP_KERNEL);
+-	if (!amd_manager)
+-		return -ENOMEM;
+-
+-	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-	if (!res)
+-		return -ENOMEM;
+-
+-	amd_manager->acp_mmio = devm_ioremap(dev, res->start, resource_size(res));
+-	if (!amd_manager->acp_mmio) {
+-		dev_err(dev, "mmio not found\n");
+-		return -ENOMEM;
+-	}
+-	amd_manager->ping_slave_stat = U32_MAX;
+-	amd_manager->instance = pdata->instance;
+-	amd_manager->mmio = amd_manager->acp_mmio +
+-			    (amd_manager->instance * ACP63_SDW_MANAGER_REG_OFFSET);
+-	amd_manager->acp_sdw_lock = pdata->acp_sdw_lock;
+-	amd_manager->acp_rev = pdata->acp_rev;
+-	amd_manager->cols_index = sdw_find_col_index(AMD_SDW_DEFAULT_COLUMNS);
+-	amd_manager->rows_index = sdw_find_row_index(AMD_SDW_DEFAULT_ROWS);
+-	amd_manager->dev = dev;
+-	amd_manager->bus.ops = &amd_acp63_sdw_ops;
+-	amd_manager->bus.port_ops = &amd_acp63_sdw_port_ops;
+-	amd_manager->bus.compute_params = &amd_acp63_sdw_compute_params;
+-	amd_manager->bus.clk_stop_timeout = 200;
+-	amd_manager->bus.link_id = amd_manager->instance;
+-
+-	/*
+-	 * Due to BIOS compatibility, the two links are exposed within
+-	 * the scope of a single controller. If this changes, the
+-	 * controller_id will have to be updated with drv_data
+-	 * information.
+-	 */
+-	amd_manager->bus.controller_id = 0;
+-	dev_dbg(dev, "acp_rev:0x%x\n", amd_manager->acp_rev);
+-	switch (amd_manager->acp_rev) {
+-	case ACP63_PCI_REV_ID:
+-		switch (amd_manager->instance) {
+-		case ACP_SDW0:
+-			amd_manager->num_dout_ports = AMD_ACP63_SDW0_MAX_TX_PORTS;
+-			amd_manager->num_din_ports = AMD_ACP63_SDW0_MAX_RX_PORTS;
+-			break;
+-		case ACP_SDW1:
+-			amd_manager->num_dout_ports = AMD_ACP63_SDW1_MAX_TX_PORTS;
+-			amd_manager->num_din_ports = AMD_ACP63_SDW1_MAX_RX_PORTS;
+-			break;
+-		default:
+-			return -EINVAL;
+-		}
+-		break;
+-	case ACP70_PCI_REV_ID:
+-	case ACP71_PCI_REV_ID:
+-	case ACP72_PCI_REV_ID:
+-		amd_manager->num_dout_ports = AMD_ACP70_SDW_MAX_TX_PORTS;
+-		amd_manager->num_din_ports = AMD_ACP70_SDW_MAX_RX_PORTS;
+-		break;
+-	default:
+-		return -EINVAL;
+-	}
+-	amd_manager->max_ports = amd_manager->num_dout_ports + amd_manager->num_din_ports;
+-	amd_manager->port_offset_map = devm_kcalloc(dev, amd_manager->max_ports,
+-						    sizeof(int), GFP_KERNEL);
+-	if (!amd_manager->port_offset_map)
+-		return -ENOMEM;
+-
+-	prop = &amd_manager->bus.prop;
+-	prop->mclk_freq = AMD_SDW_BUS_BASE_FREQ;
+-
+-	ret = sdw_bus_master_add(&amd_manager->bus, dev, dev->fwnode);
+-	if (ret) {
+-		dev_err(dev, "Failed to register SoundWire manager(%d)\n", ret);
+-		return ret;
+-	}
+-	ret = amd_sdw_register_dais(amd_manager);
+-	if (ret) {
+-		dev_err(dev, "CPU DAI registration failed\n");
+-		sdw_bus_master_delete(&amd_manager->bus);
+-		return ret;
+-	}
+-	dev_set_drvdata(dev, amd_manager);
+-	INIT_WORK(&amd_manager->amd_sdw_irq_thread, amd_sdw_interrupt_thread);
+-	INIT_WORK(&amd_manager->amd_sdw_work, amd_sdw_update_slave_status_work);
+-	return 0;
+-}
+-
+-static void amd_sdw_manager_remove(struct platform_device *pdev)
+-{
+-	struct amd_sdw_manager *amd_manager = dev_get_drvdata(&pdev->dev);
+-	int ret;
+-
+-	if (pm_runtime_enabled(&pdev->dev))
+-		pm_runtime_disable(&pdev->dev);
+-	amd_acp63_disable_sdw_interrupts(amd_manager);
+-	cancel_work_sync(&amd_manager->amd_sdw_irq_thread);
+-	cancel_work_sync(&amd_manager->amd_sdw_work);
+-	sdw_bus_master_delete(&amd_manager->bus);
+-	ret = amd_acp63_disable_sdw_manager(amd_manager);
+-	if (ret)
+-		dev_err(&pdev->dev, "Failed to disable device (%pe)\n", ERR_PTR(ret));
+-}
+-
+ /*
+  * AMD SoundWire clock-stop sequence shared across all ACP revisions.
+  * Differences between revisions in this path are minimal; a switch/case
+@@ -1327,7 +1214,7 @@ static int amd_sdw_host_wake_enable_by_rev(struct amd_sdw_manager *amd_manager,
+ 	case ACP70_PCI_REV_ID:
+ 	case ACP71_PCI_REV_ID:
+ 	case ACP72_PCI_REV_ID:
+-		return amd_acp63_sdw_host_wake_enable(amd_manager, enable);
++		return acp_sdw_host_wake_enable(amd_manager, enable);
+ 	default:
+ 		dev_err(amd_manager->dev, "unexpected acp_rev 0x%x\n", amd_manager->acp_rev);
+ 		return -EINVAL;
+@@ -1335,9 +1222,8 @@ static int amd_sdw_host_wake_enable_by_rev(struct amd_sdw_manager *amd_manager,
+ 	return 0;
+ }
+ 
+-static int __maybe_unused amd_suspend(struct device *dev)
++static int amd_acp63_sdw_suspend(struct amd_sdw_manager *amd_manager)
+ {
+-	struct amd_sdw_manager *amd_manager = dev_get_drvdata(dev);
+ 	struct sdw_bus *bus = &amd_manager->bus;
+ 	int ret;
+ 
+@@ -1348,22 +1234,22 @@ static int __maybe_unused amd_suspend(struct device *dev)
+ 	}
+ 
+ 	if (amd_manager->power_mode_mask & AMD_SDW_CLK_STOP_MODE) {
+-		amd_acp63_disable_sdw_interrupts(amd_manager);
++		acp_disable_sdw_interrupts(amd_manager);
+ 		cancel_work_sync(&amd_manager->amd_sdw_irq_thread);
+ 		cancel_work_sync(&amd_manager->amd_sdw_work);
+-		amd_acp63_sdw_wake_enable(amd_manager, false);
++		acp_sdw_wake_enable(amd_manager, false);
+ 		ret = amd_sdw_host_wake_enable_by_rev(amd_manager, false);
+ 		if (ret)
+ 			return ret;
+ 		ret = amd_sdw_clock_stop(amd_manager);
+ 		if (ret)
+ 			return ret;
+-		amd_acp63_enable_sdw_interrupts(amd_manager);
++		acp_enable_sdw_interrupts(amd_manager);
+ 	} else if (amd_manager->power_mode_mask & AMD_SDW_POWER_OFF_MODE) {
+-		amd_acp63_disable_sdw_interrupts(amd_manager);
++		acp_disable_sdw_interrupts(amd_manager);
+ 		cancel_work_sync(&amd_manager->amd_sdw_irq_thread);
+ 		cancel_work_sync(&amd_manager->amd_sdw_work);
+-		amd_acp63_sdw_wake_enable(amd_manager, false);
++		acp_sdw_wake_enable(amd_manager, false);
+ 		ret = amd_sdw_host_wake_enable_by_rev(amd_manager, false);
+ 		if (ret)
+ 			return ret;
+@@ -1374,7 +1260,7 @@ static int __maybe_unused amd_suspend(struct device *dev)
+ 		ret = amd_sdw_clock_stop(amd_manager);
+ 		if (ret)
+ 			return ret;
+-		ret = amd_acp63_disable_sdw_manager(amd_manager);
++		ret = acp_disable_sdw_manager(amd_manager);
+ 		if (ret)
+ 			return ret;
+ 	}
+@@ -1384,7 +1270,7 @@ static int __maybe_unused amd_suspend(struct device *dev)
+ 	case ACP70_PCI_REV_ID:
+ 	case ACP71_PCI_REV_ID:
+ 	case ACP72_PCI_REV_ID:
+-		ret = amd_acp63_sdw_set_device_state(amd_manager, AMD_SDW_DEVICE_STATE_D3);
++		ret = acp_sdw_set_device_state(amd_manager, AMD_SDW_DEVICE_STATE_D3);
+ 		if (ret)
+ 			return ret;
+ 		break;
+@@ -1395,9 +1281,8 @@ static int __maybe_unused amd_suspend(struct device *dev)
+ 	return 0;
+ }
+ 
+-static int __maybe_unused amd_suspend_runtime(struct device *dev)
++static int amd_acp63_sdw_suspend_runtime(struct amd_sdw_manager *amd_manager)
+ {
+-	struct amd_sdw_manager *amd_manager = dev_get_drvdata(dev);
+ 	struct sdw_bus *bus = &amd_manager->bus;
+ 	int ret;
+ 	u32 val;
+@@ -1408,29 +1293,29 @@ static int __maybe_unused amd_suspend_runtime(struct device *dev)
+ 		return 0;
+ 	}
+ 	if (amd_manager->power_mode_mask & AMD_SDW_CLK_STOP_MODE) {
+-		amd_acp63_disable_sdw_interrupts(amd_manager);
++		acp_disable_sdw_interrupts(amd_manager);
+ 		cancel_work_sync(&amd_manager->amd_sdw_irq_thread);
+ 		cancel_work_sync(&amd_manager->amd_sdw_work);
+-		amd_acp63_sdw_wake_enable(amd_manager, true);
++		acp_sdw_wake_enable(amd_manager, true);
+ 		ret = amd_sdw_host_wake_enable_by_rev(amd_manager, true);
+ 		if (ret)
+ 			return ret;
+ 		ret = amd_sdw_clock_stop(amd_manager);
+ 		if (ret)
+ 			return ret;
+-		amd_acp63_enable_sdw_interrupts(amd_manager);
++		acp_enable_sdw_interrupts(amd_manager);
+ 	} else if (amd_manager->power_mode_mask & AMD_SDW_POWER_OFF_MODE) {
+-		amd_acp63_disable_sdw_interrupts(amd_manager);
++		acp_disable_sdw_interrupts(amd_manager);
+ 		cancel_work_sync(&amd_manager->amd_sdw_irq_thread);
+ 		cancel_work_sync(&amd_manager->amd_sdw_work);
+-		amd_acp63_sdw_wake_enable(amd_manager, true);
++		acp_sdw_wake_enable(amd_manager, true);
+ 		ret = amd_sdw_host_wake_enable_by_rev(amd_manager, true);
+ 		if (ret)
+ 			return ret;
+ 		ret = amd_sdw_clock_stop(amd_manager);
+ 		if (ret)
+ 			return ret;
+-		ret = amd_acp63_disable_sdw_manager(amd_manager);
++		ret = acp_disable_sdw_manager(amd_manager);
+ 		if (ret)
+ 			return ret;
+ 	}
+@@ -1440,7 +1325,7 @@ static int __maybe_unused amd_suspend_runtime(struct device *dev)
+ 	case ACP70_PCI_REV_ID:
+ 	case ACP71_PCI_REV_ID:
+ 	case ACP72_PCI_REV_ID:
+-		ret = amd_acp63_sdw_set_device_state(amd_manager, AMD_SDW_DEVICE_STATE_D3);
++		ret = acp_sdw_set_device_state(amd_manager, AMD_SDW_DEVICE_STATE_D3);
+ 		if (ret)
+ 			return ret;
+ 		if (amd_manager->wake_en_mask) {
+@@ -1459,9 +1344,8 @@ static int __maybe_unused amd_suspend_runtime(struct device *dev)
+ 	return 0;
+ }
+ 
+-static int __maybe_unused amd_resume_runtime(struct device *dev)
++static int amd_acp63_sdw_resume_runtime(struct amd_sdw_manager *amd_manager)
+ {
+-	struct amd_sdw_manager *amd_manager = dev_get_drvdata(dev);
+ 	struct sdw_bus *bus = &amd_manager->bus;
+ 	int ret;
+ 	u32 val;
+@@ -1473,7 +1357,7 @@ static int __maybe_unused amd_resume_runtime(struct device *dev)
+ 	}
+ 
+ 	if (amd_manager->power_mode_mask & AMD_SDW_CLK_STOP_MODE) {
+-		ret = amd_acp63_sdw_clock_stop_exit(amd_manager);
++		ret = acp_sdw_clock_stop_exit(amd_manager);
+ 		if (ret)
+ 			return ret;
+ 		ret = amd_sdw_host_wake_enable_by_rev(amd_manager, false);
+@@ -1508,17 +1392,17 @@ static int __maybe_unused amd_resume_runtime(struct device *dev)
+ 			}
+ 		}
+ 		sdw_clear_slave_status(bus, SDW_UNATTACH_REQUEST_MASTER_RESET);
+-		ret = amd_acp63_sdw_clk_init_ctrl(amd_manager);
++		ret = acp_sdw_clk_init_ctrl(amd_manager);
+ 		if (ret)
+ 			return ret;
+-		ret = amd_acp63_init_sdw_manager(amd_manager);
++		ret = acp_init_sdw_manager(amd_manager);
+ 		if (ret)
+ 			return ret;
+-		amd_acp63_enable_sdw_interrupts(amd_manager);
+-		ret = amd_acp63_enable_sdw_manager(amd_manager);
++		acp_enable_sdw_interrupts(amd_manager);
++		ret = acp_enable_sdw_manager(amd_manager);
+ 		if (ret)
+ 			return ret;
+-		amd_acp63_sdw_set_frameshape(amd_manager);
++		acp_sdw_set_frameshape(amd_manager);
+ 	}
+ 	switch (amd_manager->acp_rev) {
+ 	case ACP63_PCI_REV_ID:
+@@ -1526,7 +1410,7 @@ static int __maybe_unused amd_resume_runtime(struct device *dev)
+ 	case ACP70_PCI_REV_ID:
+ 	case ACP71_PCI_REV_ID:
+ 	case ACP72_PCI_REV_ID:
+-		ret = amd_acp63_sdw_set_device_state(amd_manager, AMD_SDW_DEVICE_STATE_D0);
++		ret = acp_sdw_set_device_state(amd_manager, AMD_SDW_DEVICE_STATE_D0);
+ 		if (ret)
+ 			return ret;
+ 		break;
+@@ -1537,6 +1421,176 @@ static int __maybe_unused amd_resume_runtime(struct device *dev)
+ 	return 0;
+ }
+ 
++static int __maybe_unused amd_suspend(struct device *dev)
++{
++	return acp_sdw_suspend(dev);
++}
++
++static int __maybe_unused amd_suspend_runtime(struct device *dev)
++{
++	return acp_sdw_suspend_runtime(dev);
++}
++
++static int __maybe_unused amd_resume_runtime(struct device *dev)
++{
++	return acp_sdw_resume_runtime(dev);
++}
++
++static int amd_sdw_hw_init_ops(struct amd_sdw_manager *amd_manager);
++
++static int amd_sdw_manager_probe(struct platform_device *pdev)
++{
++	const struct acp_sdw_pdata *pdata = pdev->dev.platform_data;
++	struct resource *res;
++	struct device *dev = &pdev->dev;
++	struct sdw_master_prop *prop;
++	struct amd_sdw_manager *amd_manager;
++	int ret;
++
++	amd_manager = devm_kzalloc(dev, sizeof(struct amd_sdw_manager), GFP_KERNEL);
++	if (!amd_manager)
++		return -ENOMEM;
++
++	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
++	if (!res)
++		return -ENOMEM;
++
++	amd_manager->acp_mmio = devm_ioremap(dev, res->start, resource_size(res));
++	if (!amd_manager->acp_mmio) {
++		dev_err(dev, "mmio not found\n");
++		return -ENOMEM;
++	}
++	amd_manager->ping_slave_stat = U32_MAX;
++	amd_manager->instance = pdata->instance;
++	amd_manager->mmio = amd_manager->acp_mmio +
++			    (amd_manager->instance * ACP63_SDW_MANAGER_REG_OFFSET);
++	amd_manager->acp_sdw_lock = pdata->acp_sdw_lock;
++	amd_manager->acp_rev = pdata->acp_rev;
++	amd_manager->cols_index = sdw_find_col_index(AMD_SDW_DEFAULT_COLUMNS);
++	amd_manager->rows_index = sdw_find_row_index(AMD_SDW_DEFAULT_ROWS);
++	amd_manager->dev = dev;
++	amd_manager->bus.ops = &amd_acp63_sdw_ops;
++	amd_manager->bus.port_ops = &amd_acp63_sdw_port_ops;
++	amd_manager->bus.compute_params = &amd_acp63_sdw_compute_params;
++	amd_manager->bus.clk_stop_timeout = 200;
++	amd_manager->bus.link_id = amd_manager->instance;
++	ret = amd_sdw_hw_init_ops(amd_manager);
++	if (ret) {
++		dev_err(dev, "Failed to initialize hw ops (%d)\n", ret);
++		return ret;
++	}
++
++	/*
++	 * Due to BIOS compatibility, the two links are exposed within
++	 * the scope of a single controller. If this changes, the
++	 * controller_id will have to be updated with drv_data
++	 * information.
++	 */
++	amd_manager->bus.controller_id = 0;
++	dev_dbg(dev, "acp_rev:0x%x\n", amd_manager->acp_rev);
++	switch (amd_manager->acp_rev) {
++	case ACP63_PCI_REV_ID:
++		switch (amd_manager->instance) {
++		case ACP_SDW0:
++			amd_manager->num_dout_ports = AMD_ACP63_SDW0_MAX_TX_PORTS;
++			amd_manager->num_din_ports = AMD_ACP63_SDW0_MAX_RX_PORTS;
++			break;
++		case ACP_SDW1:
++			amd_manager->num_dout_ports = AMD_ACP63_SDW1_MAX_TX_PORTS;
++			amd_manager->num_din_ports = AMD_ACP63_SDW1_MAX_RX_PORTS;
++			break;
++		default:
++			return -EINVAL;
++		}
++		break;
++	case ACP70_PCI_REV_ID:
++	case ACP71_PCI_REV_ID:
++	case ACP72_PCI_REV_ID:
++		amd_manager->num_dout_ports = AMD_ACP70_SDW_MAX_TX_PORTS;
++		amd_manager->num_din_ports = AMD_ACP70_SDW_MAX_RX_PORTS;
++		break;
++	default:
++		return -EINVAL;
++	}
++	amd_manager->max_ports = amd_manager->num_dout_ports + amd_manager->num_din_ports;
++	amd_manager->port_offset_map = devm_kcalloc(dev, amd_manager->max_ports,
++						    sizeof(int), GFP_KERNEL);
++	if (!amd_manager->port_offset_map)
++		return -ENOMEM;
++
++	prop = &amd_manager->bus.prop;
++	prop->mclk_freq = AMD_SDW_BUS_BASE_FREQ;
++
++	ret = sdw_bus_master_add(&amd_manager->bus, dev, dev->fwnode);
++	if (ret) {
++		dev_err(dev, "Failed to register SoundWire manager(%d)\n", ret);
++		return ret;
++	}
++	ret = amd_sdw_register_dais(amd_manager);
++	if (ret) {
++		dev_err(dev, "CPU DAI registration failed\n");
++		sdw_bus_master_delete(&amd_manager->bus);
++		return ret;
++	}
++	dev_set_drvdata(dev, amd_manager);
++	INIT_WORK(&amd_manager->amd_sdw_irq_thread, amd_sdw_interrupt_thread);
++	INIT_WORK(&amd_manager->amd_sdw_work, amd_sdw_update_slave_status_work);
++	return 0;
++}
++
++static void amd_sdw_manager_remove(struct platform_device *pdev)
++{
++	struct amd_sdw_manager *amd_manager = dev_get_drvdata(&pdev->dev);
++	int ret;
++
++	if (pm_runtime_enabled(&pdev->dev))
++		pm_runtime_disable(&pdev->dev);
++	acp_disable_sdw_interrupts(amd_manager);
++	cancel_work_sync(&amd_manager->amd_sdw_irq_thread);
++	cancel_work_sync(&amd_manager->amd_sdw_work);
++	sdw_bus_master_delete(&amd_manager->bus);
++	ret = acp_disable_sdw_manager(amd_manager);
++	if (ret)
++		dev_err(&pdev->dev, "Failed to disable device (%pe)\n", ERR_PTR(ret));
++}
++
++static const struct amd_sdw_hw_ops amd_acp63_hw_ops = {
++	.init_sdw_manager		= amd_acp63_init_sdw_manager,
++	.enable_sdw_manager		= amd_acp63_enable_sdw_manager,
++	.disable_sdw_manager		= amd_acp63_disable_sdw_manager,
++	.enable_sdw_interrupts		= amd_acp63_enable_sdw_interrupts,
++	.disable_sdw_interrupts		= amd_acp63_disable_sdw_interrupts,
++	.set_frameshape			= amd_acp63_sdw_set_frameshape,
++	.send_cmd_get_resp		= amd_acp63_sdw_send_cmd_get_resp,
++	.wake_enable			= amd_acp63_sdw_wake_enable,
++	.host_wake_enable		= amd_acp63_sdw_host_wake_enable,
++	.set_device_state		= amd_acp63_sdw_set_device_state,
++	.read_and_process_ping_status	= amd_acp63_sdw_read_and_process_ping_status,
++	.process_wake_event		= amd_acp63_sdw_process_wake_event,
++	.irq_thread			= amd_acp63_sdw_irq_thread,
++	.update_slave_status_work	= amd_acp63_sdw_update_slave_status_work,
++	.clk_init_ctrl			= amd_acp63_sdw_clk_init_ctrl,
++	.clock_stop_exit		= amd_acp63_sdw_clock_stop_exit,
++	.suspend			= amd_acp63_sdw_suspend,
++	.suspend_runtime		= amd_acp63_sdw_suspend_runtime,
++	.resume_runtime			= amd_acp63_sdw_resume_runtime,
++};
++
++static int amd_sdw_hw_init_ops(struct amd_sdw_manager *amd_manager)
++{
++	switch (amd_manager->acp_rev) {
++	case ACP63_PCI_REV_ID:
++	case ACP70_PCI_REV_ID:
++	case ACP71_PCI_REV_ID:
++	case ACP72_PCI_REV_ID:
++		amd_manager->hw_ops = &amd_acp63_hw_ops;
++		break;
++	default:
++		return -EINVAL;
++	}
++	return 0;
++}
++
+ static const struct dev_pm_ops amd_pm = {
+ 	.prepare = amd_pm_prepare,
+ 	SET_SYSTEM_SLEEP_PM_OPS(amd_suspend, amd_resume_runtime)
 -- 
 2.48.1
 
