@@ -1,51 +1,82 @@
-Received: from outbound.qs.icloud.com (qs-2006c-snip4-11.eps.apple.com [57.103.85.161])
+Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012053.outbound.protection.outlook.com [52.101.43.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97F7F44239F
-	for <linux-sound@vger.kernel.org>; Thu, 17 Sep 2026 07:23:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.85.161
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789629836; cv=none; b=t2U0aExK806qjwy9ab7D9OVs1f+RcA+5XnsrqUzXHTptxWVBI6q7/cAaxEjcUUVQvhzrEktvacb3U1pDYoqXfQyxa66RAz+nT1yRMKGcFYdyq6hEUoDmXvmZH2++IRc/ZVyEDU9Jx0AYlWabQ292MdBPL1pz5Rlj9QIkQPNkBx0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789629836; c=relaxed/simple;
-	bh=c5d9wVHghXAs3fldwRdBDEV9dgh79bdF4SijC5h1xlA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=phTx+EJfo0ZnQu3enUWlgnWIdyhpFOQg94fx9oWWMmRcevrSUDb+RKDqKOhfq5jygp0CNMLj1NSYbhopaj4VVPQLugRYmDOs/5ZKWPz/vrt5OZ+TpS2rLvVbN66ddyazkIo+24H/q3xM8iMuA4thTPqEXFJH5zAKynyeCxdPXpc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=aurorasilicon.org; spf=pass smtp.mailfrom=aurorasilicon.org; dkim=pass (2048-bit key) header.d=aurorasilicon.org header.i=@aurorasilicon.org header.b=YlHVUkf0; arc=none smtp.client-ip=57.103.85.161
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=aurorasilicon.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aurorasilicon.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C9C443E07A;
+	Thu, 17 Sep 2026 08:38:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789634344; cv=fail; b=dxMyWLcMR5PJYleY3fQ5GcREXOflxXaj2X6mZF5Mzg6qD4rLrkL5yb5B24MaZqXxYuPAKi/JL+TXYx2kGxqk77V4yPgLBpZ251qNSvEsi5d/18xVEOhfeUk1/RDd47y77ZXu26AfPEQsLBJZ5JbCWUcN6JCUJeZpDQ6k7igDIA4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789634344; c=relaxed/simple;
+	bh=ZKuWWTIxu/Ud6TZmMc46vnK29MCBiWRu26Yx6p8ZfiU=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=uhNGy9hmfCnDfpURnyg4USdrFisQl99ya0ijeQoVLitgJigTj3UBfhwfgQLBFZIQ8yiWrURMjG7hb5c6t7iA4AOif2zkSX2LvV3PAXN1x3FTqCWZvJLTS0NYp6HBVQIbgNQRZgwHDU0K4VIryqJVncoQccH251WICw5WuB1vol8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=n7dobRZV; arc=fail smtp.client-ip=52.101.43.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=aurorasilicon.org header.i=@aurorasilicon.org header.b="YlHVUkf0"
-Received: from outbound.qs.icloud.com (unknown [127.0.0.2])
-	by p00-icloudmta-asmtp-us-east-2d-100-percent-9 (Postfix) with ESMTPS id BB2B8180015A;
-	Thu, 17 Sep 2026 07:23:51 +0000 (UTC)
-X-ICL-RepId: 01a0ae40-19e4-7295-baca-e6a793b45cef
-X-ICL-Out-Info: HUtFAUMHWwJACUgBTUQeDx5WFlZNRAJCTQFPHVwFWhxCDUEdXANYEhVdRUEUVgVyEUwKXB9WGFscUBtcAxkEQBcZHldQVh5AH0sZQARbAlEfV1ZcH1BLQBMESQFNXw5eHwQXRhlVBEceXVZCHhkCURxWDVdDVARfUEkMQVBsWgBHF0gdXRlZb1BdHA4MQhldAlgLWgFeCF0eFxdBChcGWxQERFVbAw8KEQwaUlUACgBDAUkEWgJdBkABSQQOBV8HFQFPAQxVUlMTCBkdXABTC0YLSABeA0VVGU1WQRRWBXIRTApcH1YYWxxQG1wDGQRAFwdYRxRHDg8TTAtHAlo0Vh9UGVoD
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aurorasilicon.org; s=sig1; t=1789629833; x=1792221833; bh=SN67ss+oaOyYTZGpxW9XKmUD0sh/EGH78bfhp/3LrEY=; h=From:To:Subject:Date:Message-ID:MIME-Version:x-icloud-hme; b=YlHVUkf0u16XqNH3XhbmVQirHSk2RTVEY2YXZjhlZ70q2vqJq0hoQ+ZYI1lYMjNK0zLfhnj0TWv1nOTgo4uhqXZWQak5cWqFK0vVUYHBiTzD/Oe/jUF8dMs3CJ5miCBhxhykz9JIT4yxETDK4CnfKRCkxxYjs73dmMXimqrCx8GQOF2ociBNNp6lh/olNbKVLz62Zg9UjwhSl+NqRaV56Y+qY8VgKhxHfcajvquT8/wV06RtUGGGyf7b6Q+C6y9WZnfn+ihzEnESVcGyD3t4r4WPG3yLW9cnLPRAq4Ha1jUkqsHziv+XCiv1clXgCgJxdQ8jQ6eU273o7AOwT5M9Yg==
-mail-alias-created-date: 1786334582283
-Received: from localhost.localdomain (unknown [17.57.155.37])
-	by p00-icloudmta-asmtp-us-east-2d-100-percent-9 (Postfix) with ESMTPSA id 327171800108;
-	Thu, 17 Sep 2026 07:23:47 +0000 (UTC)
-From: Ryan Murray <ryan@aurorasilicon.org>
-To: patches@opensource.cirrus.com,
-	linux-sound@vger.kernel.org
-Cc: david.rhodes@cirrus.com,
-	rf@opensource.cirrus.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	james.schulman@cirrus.com,
-	povik+lin@cutebit.org,
-	asahi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [RFC PATCH 2/2] ASoC: cs42l42: support Apple headset remotes on CS42L83
-Date: Thu, 17 Sep 2026 17:23:44 +1000
-Message-ID: <f64d8a5ba87a2381775640817c245e872ab9ac1a.1789620334.git.ryan@aurorasilicon.org>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <cover.1789620318.git.ryan@aurorasilicon.org>
-References: <cover.1789620318.git.ryan@aurorasilicon.org>
-Reply-To: ryan@aurorasilicon.org
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="n7dobRZV"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=y35MsgjTWOEHMRe01QeQOfNrcNXLk0dJes5LPc0BhlCVlaigUq3mwCfgo775RJJtne2Xr8Cergh+1qWmLeX1vRoce1vuHTKPPYZaO6Iy2VjMsSwpCTegDPQXvFC935AEU7U+IOXEravVgU/EqHQxsVmdLbMChFgCUEvu7p9r9s9WjvUy4fBa9fFsyAPra3BWgo5YNUmWXluw6Q9xssJSGn3EHPPrOY3NpocR+wfgi2FrdNwBfkGF76/tpnxuaxV/4k7CFYeVXTfeJlJ01KnG8ZImZMaBvhV4EYPPJNJ6IH8ZqBs9xQQuW0+5ckRfLD9Qiy4pz2Fa8v0qGVC3sdtQjg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vuaCfIoV0IQbSRxWRy4R0KsnVQNCZn6kMmI6GBuuzfI=;
+ b=nHg+kdpMtaQ3Lbavjn7CV/TZzw1NWlj/FATrCai8HQRnUmkTlmS0s+ga6vgkiyXHG5xAGVWeUmvNyjrnQzgJv9xIRuu3482Tzl97RUiUJ9wymenebXXhOQLY73F0zdC2tkJLop8j1HmHJ3L6zejzzy5N15wi2Ae3eJ5samQ7P/QL8wpLC+PPx+w717OH0NDqqoEy8Lrn6mJF4dMTNtngCxBaH3lVvFBp1RyU29Y5YCsDcAlEGa7420q5h80s0iUik8ZPeTEpmXFhgNh6yep+0Q6/kSQ85UkHhghUCT0UMtqvFSqw3XTdH7KAJMdWEFdwrZ9VztRnf2vYbKJv05lipg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vuaCfIoV0IQbSRxWRy4R0KsnVQNCZn6kMmI6GBuuzfI=;
+ b=n7dobRZVUhF07ryzCSwfWkdUy9EBgcLRpPbqGB0joQ7JaTQDG6QGmLdvSlEJTAghnL5CSK6h/VzgXHZ8BkF2c5qhSx+abZci47gih1AP8MIAeBouehkGZhzdBBAPBoGlkDrIr+TUgiHliDD0QAKhJdpYiGW9RaxAFnnJV9I0Jpk=
+Received: from BN9PR03CA0571.namprd03.prod.outlook.com (2603:10b6:408:10d::6)
+ by DM4PR12MB7549.namprd12.prod.outlook.com (2603:10b6:8:10f::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.428.12; Thu, 17 Sep
+ 2026 08:38:49 +0000
+Received: from BN1PEPF00004685.namprd03.prod.outlook.com
+ (2603:10b6:408:10d:cafe::6b) by BN9PR03CA0571.outlook.office365.com
+ (2603:10b6:408:10d::6) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.428.12 via Frontend Transport; Thu,
+ 17 Sep 2026 08:38:49 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ BN1PEPF00004685.mail.protection.outlook.com (10.167.243.86) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.451.8 via Frontend Transport; Thu, 17 Sep 2026 08:38:48 +0000
+Received: from Satlexmb09.amd.com (10.181.42.218) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.49; Thu, 17 Sep
+ 2026 03:38:48 -0500
+Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb09.amd.com
+ (10.181.42.218) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.49; Thu, 17 Sep
+ 2026 03:38:48 -0500
+Received: from amd-System-Product-Name.amd.com (10.180.168.240) by
+ satlexmb07.amd.com (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.49
+ via Frontend Transport; Thu, 17 Sep 2026 03:38:44 -0500
+From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+To: <vkoul@kernel.org>
+CC: <broonie@kernel.org>, <alsa-devel@alsa-project.org>,
+	<yung-chuan.liao@linux.intel.com>, <pierre-louis.bossart@linux.dev>,
+	<Basavaraj.Hiregoudar@amd.com>, <Sunil-kumar.Dommati@amd.com>,
+	<venkataprasad.potturu@amd.com>, <Syed.SabaKareem@amd.com>,
+	<Mario.Limonciello@amd.com>, <Richard.Gong@amd.com>,
+	<linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Vijendar
+ Mukunda" <Vijendar.Mukunda@amd.com>
+Subject: [PATCH V2 1/9] soundwire: amd: fix SDW command timeout return value handling
+Date: Thu, 17 Sep 2026 14:04:12 +0530
+Message-ID: <20260917083732.3803526-2-Vijendar.Mukunda@amd.com>
+X-Mailer: git-send-email 2.48.1
+In-Reply-To: <20260917083732.3803526-1-Vijendar.Mukunda@amd.com>
+References: <20260917083732.3803526-1-Vijendar.Mukunda@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -53,416 +84,171 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: Ohcgxlyr_NSAoWeyYpPgOwbIcpIfEong
-X-Authority-Info-Out: v=2.4 cv=Tp7rRTXh c=1 sm=1 tr=0 ts=6aab9588
- cx=c_apl:c_pps:t_out a=bsP7O+dXZ5uKcj+dsLqiMw==:117
- a=bsP7O+dXZ5uKcj+dsLqiMw==:17 a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=CKCxWeCRAAAA:8 a=iiW-TkCOkVL_QCY16vAA:9 a=98DSvwJP-PC3Li7B9DIO:22
-X-Proofpoint-GUID: Ohcgxlyr_NSAoWeyYpPgOwbIcpIfEong
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE3MDA5OSBTYWx0ZWRfX0g6arNLUEdXY
- KmMjOmK0huZTNkjEQufVHZz8w5MIvHqd4upb78pGI1dCChHzhvY2gds/iYAVGf3uSNJbHty5TiZ
- a+vfsrPHpnhKzGPZgZSrW369GzaJQwFPFnYCy2lYGe7b0wDludpW8saccnJiXGz5TA+O9ItYVcx
- hBSt5S7z21H35VHB7aSLVhHcLpSpo4Q3p3UFNU+ObPm3AkxqvYM2/W440M3UU//pcClkqRrB995
- ZxFVDLVpjEfR7DHQnn+Zaecgtp+3BXAqT/7NLUf4bvVvcToLliumC4An1lt0b7dm3wpiFyyaOib
- R3hQ5oAf9rWctmw22fATsaBCU1Ftc6eRo0dQyicGDro7LsJsemuKEVEVk1alcA=
-X-JNJ: AAAAAAABi9kWgPWl95JD7tpMI19F1fsZnnRhZtUZTtPV37K+c42kv50Fmss5WBuz1Urqxq6J1EsrOU25GfC0aLmIIiVazBbDXfvZXLs6KH0WAqHBP8H5+DV5jd7NHQtxgavG+qWppRMoTnwW44N/9N4s8PtOMRWODw9AxGWjeVp9wGyaz0lp0EuEBozv337K9Vd7hw00XqiBtB+ax/ORSQuiObSY68LvNEv7YMFYj9i0zNchb8PrEXZmTcnU84SpmBOCMwa+ZMWsyo0lWDmZP8M0WNmfvS8jQbo5ZUJA+y0cNA2AA2TEhmq5sfh9/mcUigQ+aZgzGi/GQ8orhiCRZ0nnzvpkMvd0UHo0LVW1S3NRJPTxHdpfFEHzZ5nVmO1yF4ZnxZnQ9G+Saocl2gYkFRhrXINgjeD1JN4IAdhpClHKU9sPYI6UGIEsWRKqNzcl9B9dx88ZjcKpMasSR9BUcMdgspNqEDZBq+FzjcfL+m+3fiqQ/NyGjxQmz81N3GGCaSLdHnQVjqQT6gCxrQOwPfnYze4dob6no/8cGv6jliNeglejb43TLC+9ulsjKueI9xpXRduekqFq3cBYRFCBG96RkOXjqnCC9GhGxdJU9n5COJkt0wnAuGxMpS2lK0RzddYxau04cE9McNa9WVWfOi2DRqUG79INsBYdBboTmdQhqlzYIzLGd8YM1TsRBWbjH9p0BTfBMQYzWcmJPi7vuZhz8mFCaujMktptxcRDGIQD/bMiVy2NEJ+jkWBeSDve/lDEZbmM/uMTqLyrTthxg/nJwcPGr1YIRDeIQx7en6xBZkooB+UkAa1a3V9jTBFGRn8LcGInMaBv8J3pGNand8PkoZJFGw4/4KWSbk902HM/qjEuUkU5K8XjMTlKMMlBw7UGgt+LGZuuPrcH+QBKOueU1RM93Ko1gCt8FVldUwxposyoypq57vIUUVcIRzmOLEmG24sgGGxFIiOgJqD/jJizF/KKiUd
- 9UmYBhlMcXWNU0oNUvRAA7WIG/XATZH4LrTQ93V09ABylafGWV3A5L5bQ/X7pbXdmwCrp5qJ5YRzljPYgCHukYREEgkLZqk3Zgfe/Ry5VM91Veext0plac9w4mpDK4FFu9f29LhQAl5iiLddXZddy4GgCu0iDukQqS8srBnfF5XmDdvtrC1P/s9k4Rb1xnfQIbr2RBZuaZWWbCFH14wmc2P1SmU+divOumXAOnlaK/+SUk65L8VjG9fEp6IxEoLWd6WEnH+MdsEvznSAcwQ++wPbqvOf/ly+kkFeVmWn2aTd7I6hhaahW3hi2ZOWP/I4m2bsA7l8B9xKwjk1ojnAZqxqZ7sBEWTMbkytHS3Zy1qheA0jnhL2Tez34TqOqVLY767Qp2nkj3X680zKKn+Vp0BuaKXuqFMHflBAId7WcGS0k/iePrHzBtuE=
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN1PEPF00004685:EE_|DM4PR12MB7549:EE_
+X-MS-Office365-Filtering-Correlation-Id: 82f37166-8f17-4ebe-bddf-08df14971831
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700016|376014|23010399003|82310400026|1800799024|56012099006|11063799006|10067099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	fnE9N/eadQEIp4vAesfCeIAPIdJS/oMAyzeH6yqJ95T44TFMN3hU+6BWDKdys8YLeyWn7MI1VXafwxulkzz3/F4B/mEW1gSSKygdiutB4WrZyGUFCK07GexxE4eqRi4zHN/VEoTwM8y5euS3lH1hjZ3jQdAYLMBgJ0N5eNVyO0q+1LG7V+oWs0XLv0mJLBF+yCvFM87ktbb4tNlipRZcubNzZJv5FrEWz0CYhiURUc9gchuEzKn9iU1tMKE13yHz5McTSPai63+9fCIuoz1uQW/Am5RRLbDvRx8ip9midVDm/Ae4MaHwEcWhfpK5vakhi3u0/7AEL898TWRjnuyrSn7UCkoe+4lhjZ4zDc/MLl1JfBEDCoUh9UHMy4U+Eq4MXhKL0Lw8pdMYFVF6BVUmvW42TVbflGKQHiRA2vN6G5K/44rS6daERUPVXoKMLoDZDoWtdU4TdqW+zUkHlcRmDZQ0Vwb4dsDgsiwrKIkVNww8vtLPqB6UbjQGS4rQC1/KOkeEsAY3YnFwPdSiM9k4iSHcs67kwYQTSYLCpCAcAPi82OuBnjfhCp9U52pSUQ/UTwB4zdDlM9ac7xOVpm34bbm9q1MjItguGes/VhnSV9NT4rrmVwFl+Kutpuegrynl5vVckiUaFpqKGKp6OA++aE5/Qn0eKyxgcM2Yv0VznD98pw4n4uBwd+PpiltuBuxcm1EA0rAZmnHtGsExxZL/hg==
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(376014)(23010399003)(82310400026)(1800799024)(56012099006)(11063799006)(10067099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	8KiQC/tG8gLIgGFcabQbln77OoJOvOkNUpn9sTuHmDZpTV4y1i5sn1ZqpR0t7fldDQzYb/micZfCxqUSljnKQxuRum71r/xmMk2dTrccnVJ/LrW4mqnk8OgUJppgSe0IsgiFbQ1IsMsTpR3wnOePVqaDv4MXlOyLrZtG4i9yuNElj/4nLkUwD4dH/yFOVEqQm3zjKZbMV8+qSPM0XJxZn/oj8V1e3N6gNEBCL59sV8uKUNDY5fY2d4AAv8pNPhZzu4nT2NsY6wfvWJG7VjzPTLumdF3FGwoEPfM3lJCXU84S1YbaJ2nu+ji32rRh0Smv2QWwxD19CkIngaUN9clE3NOMCOJB2R59CkZbj9yZcjxEIo6bWqPiGwUfeWYMszdolxsYBN+vq767HfFUZ+oFSz12ktBOtaOwaSlyobWciPO7/eYgpDc9Vh9YvT3wHAki
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Sep 2026 08:38:48.8036
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 82f37166-8f17-4ebe-bddf-08df14971831
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN1PEPF00004685.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB7549
 
-Apple wired headset volume buttons use a microphone-bias signalling
-protocol instead of the resistor levels handled by the analogue detector.
-The CS42L83 can identify these remotes and decode their button indications
-without an audio stream or an external serial clock.
+amd_sdw_send_cmd_get_resp() returned u64 but was returning -ETIMEDOUT
+(a negative int) on readl_poll_timeout() failures, which silently
+widens to a large u64 value.
 
-After CTIA or OMTP detection, perform a bounded identification exchange on
-CS42L83. Wait for the receive acknowledgment rather than the earlier
-transmit-complete indication, which can expose an incomplete identifier.
-Validate all three identifier symbols before enabling remote reception.
-Restore the analogue detector on timeout, a short, an invalid identifier,
-or a register-access error.
+Change the return type to int and pass the raw u64 response through an
+out-parameter. Timeout is detected directly from readl_poll_timeout()
+return value.
 
-Preserve the receiver's raw volume indications before applying the
-analogue interrupt masks. Report volume indications as press/release
-pairs and use short-detect transitions for the centre button. Discard
-pre-identification button state and restore the saved detector settings
-on unplug, redetection and suspend under the existing IRQ mutex.
+Update all callers: amd_program_scp_addr(), _amd_sdw_xfer_msg(),
+amd_sdw_read_and_process_ping_status(), and amd_sdw_read_ping_status()
+to check the return value and handle timeout explicitly. In
+amd_sdw_read_and_process_ping_status(), the mutex unlock is also moved
+to after amd_sdw_process_ping_status() so the lock is held across the
+full status processing step.
 
-Select this capability from the CS42L83 device identity. No board-specific
-property, clock provider, work item or extra power reference is needed.
-The CS42L42 continues to use its analogue detector.
-
-The undocumented CS42L83 sequence was independently implemented from
-register-level reverse engineering and validated on a J700 with a B0
-codec and Apple wired earbuds. Other boards and codec revisions have not
-been hardware-tested. The machine driver must expose the appropriate
-SND_JACK_BTN capabilities and key mappings.
-
-Assisted-by: LLM
-Signed-off-by: Ryan Murray <ryan@aurorasilicon.org>
+Fixes: d8f48fbdfd9a ("soundwire: amd: Add support for AMD Manager driver")
+Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
 ---
- sound/soc/codecs/cs42l42.c | 263 ++++++++++++++++++++++++++++++++++++-
- sound/soc/codecs/cs42l42.h |  15 +++
- 2 files changed, 276 insertions(+), 2 deletions(-)
+ drivers/soundwire/amd_manager.c | 56 +++++++++++++++++++--------------
+ 1 file changed, 33 insertions(+), 23 deletions(-)
 
-diff --git a/sound/soc/codecs/cs42l42.c b/sound/soc/codecs/cs42l42.c
-index 2d1b45ea1..c510ceae8 100644
---- a/sound/soc/codecs/cs42l42.c
-+++ b/sound/soc/codecs/cs42l42.c
-@@ -15,6 +15,7 @@
- #include <linux/types.h>
- #include <linux/init.h>
- #include <linux/delay.h>
-+#include <linux/jiffies.h>
- #include <linux/regmap.h>
- #include <linux/slab.h>
- #include <linux/acpi.h>
-@@ -1257,6 +1258,240 @@ static void cs42l42_manual_hs_type_detect(struct cs42l42_private *cs42l42)
- 				(CS42L42_HSDET_COMP2_LVL_DEFAULT << CS42L42_HSDET_COMP2_LVL_SHIFT));
+diff --git a/drivers/soundwire/amd_manager.c b/drivers/soundwire/amd_manager.c
+index a3316efdf8ac..fa3f4e797edd 100644
+--- a/drivers/soundwire/amd_manager.c
++++ b/drivers/soundwire/amd_manager.c
+@@ -250,10 +250,9 @@ static void amd_sdw_ctl_word_prep(u32 *lower_word, u32 *upper_word, struct sdw_m
+ 	*lower_word = lower_data;
  }
  
-+/*
-+ * CS42L83 receives Apple headset remote data over the microphone-bias line.
-+ * The receiver operates on the internal oscillator, including while audio
-+ * is idle. These control values and status bits are specific to CS42L83.
-+ */
-+#define CS42L83_REMOTE_TX_START		BIT(7)
-+#define CS42L83_REMOTE_RX_ACK		BIT(3)
-+#define CS42L83_REMOTE_BUTTON_IRQ		BIT(5)
-+#define CS42L83_REMOTE_BUTTONS		GENMASK(4, 0)
-+#define CS42L83_REMOTE_VOLUME_DOWN	BIT(0)
-+#define CS42L83_REMOTE_VOLUME_UP		BIT(1)
-+
-+/* Complete receiver control values; these are not CS42L42 detect modes. */
-+#define CS42L83_REMOTE_BIAS_RESET		0x03
-+#define CS42L83_REMOTE_BIAS_IDENTIFY	0x9e
-+#define CS42L83_REMOTE_BIAS_BUTTONS	0x5f
-+#define CS42L83_REMOTE_RX_CONFIG		0x8f
-+#define CS42L83_REMOTE_LEVEL_IDENTIFY	0x36
-+#define CS42L83_REMOTE_LEVEL_BUTTONS	0x3c
-+
-+static const unsigned int cs42l83_remote_regs[] = {
-+	[CS42L83_REMOTE_SAVED_HSBIAS_SC_AUTOCTL] = CS42L42_HSBIAS_SC_AUTOCTL,
-+	[CS42L83_REMOTE_SAVED_WAKE_CTL] = CS42L42_WAKE_CTL,
-+	[CS42L83_REMOTE_SAVED_MISC_DET_CTL] = CS42L42_MISC_DET_CTL,
-+	[CS42L83_REMOTE_SAVED_MIC_DET_CTL1] = CS42L42_MIC_DET_CTL1,
-+	[CS42L83_REMOTE_SAVED_MIC_DET_CTL2] = CS42L42_MIC_DET_CTL2,
-+	[CS42L83_REMOTE_SAVED_DET_INT1_MASK] = CS42L42_DET_INT1_MASK,
-+	[CS42L83_REMOTE_SAVED_DET_INT2_MASK] = CS42L42_DET_INT2_MASK,
-+	[CS42L83_REMOTE_SAVED_HS_BIAS_CTL] = CS42L42_HS_BIAS_CTL,
-+	[CS42L83_REMOTE_SAVED_HSDET_CTL2] = CS42L42_HSDET_CTL2,
-+};
-+
-+static void cs42l83_remote_restore(struct cs42l42_private *cs42l42)
-+{
-+	int i, ret;
-+
-+	for (i = 0; i < ARRAY_SIZE(cs42l83_remote_regs); i++) {
-+		ret = regmap_write(cs42l42->regmap, cs42l83_remote_regs[i],
-+				   cs42l42->remote_saved[i]);
-+		if (ret)
-+			dev_warn(cs42l42->dev, "Failed to restore headset detection register %#x: %d\n",
-+				 cs42l83_remote_regs[i], ret);
-+	}
-+	cs42l42->remote_active = false;
-+}
-+
-+/*
-+ * Hold the bias reference during a bias-mode change and allow it to settle
-+ * before starting transmission. Apply the TX bit only after the bias bits.
-+ */
-+static int cs42l83_remote_set_detect(struct cs42l42_private *cs42l42, unsigned int value)
-+{
-+	unsigned int old;
-+	bool changed;
-+	int ret;
-+
-+	ret = regmap_read(cs42l42->regmap, CS42L42_MISC_DET_CTL, &old);
-+	if (ret)
-+		return ret;
-+	changed = (old & CS42L42_HSBIAS_CTL_MASK) != (value & CS42L42_HSBIAS_CTL_MASK);
-+	if (changed) {
-+		/* CS42L83 bias transitions require clearing this undocumented field. */
-+		ret = regmap_update_bits(cs42l42->regmap, CS42L42_HS_BIAS_CTL, GENMASK(3, 2), 0);
-+		if (ret)
-+			return ret;
-+		ret = regmap_update_bits(cs42l42->regmap, CS42L42_HSDET_CTL2,
-+					 CS42L42_HSBIAS_REF_MASK, CS42L42_HSBIAS_REF_MASK);
-+		if (ret)
-+			return ret;
-+	}
-+	ret = regmap_update_bits(cs42l42->regmap, CS42L42_MISC_DET_CTL,
-+				 value & CS42L83_REMOTE_TX_START ? 0x7f : 0xff, value);
-+	if (ret)
-+		return ret;
-+	if (!!(old & BIT(2)) != !!(value & BIT(2)))
-+		usleep_range(10000, 11000);
-+	if (value & CS42L83_REMOTE_TX_START) {
-+		ret = regmap_write(cs42l42->regmap, CS42L42_MISC_DET_CTL, value);
-+		if (ret)
-+			return ret;
-+	}
-+	if (changed)
-+		return regmap_update_bits(cs42l42->regmap, CS42L42_HSDET_CTL2,
-+					  CS42L42_HSBIAS_REF_MASK, 0);
+-static u64 amd_sdw_send_cmd_get_resp(struct amd_sdw_manager *amd_manager, u32 lower_data,
+-				     u32 upper_data)
++static int amd_sdw_send_cmd_get_resp(struct amd_sdw_manager *amd_manager, u32 lower_data,
++				     u32 upper_data, u64 *response)
+ {
+-	u64 resp;
+ 	u32 lower_resp, upper_resp;
+ 	u32 sts;
+ 	int ret;
+@@ -291,9 +290,8 @@ static u64 amd_sdw_send_cmd_get_resp(struct amd_sdw_manager *amd_manager, u32 lo
+ 			amd_manager->instance);
+ 		return ret;
+ 	}
+-	resp = upper_resp;
+-	resp = (resp << 32) | lower_resp;
+-	return resp;
++	*response = ((u64)upper_resp << 32) | lower_resp;
 +	return 0;
-+}
-+
-+/* Called with irq_lock held; every attempt is bounded and has analogue fallback. */
-+static void cs42l83_remote_start(struct cs42l42_private *cs42l42)
-+{
-+	static const struct reg_sequence identify[] = {
-+		{ CS42L42_DET_INT2_MASK, 0xff },
-+		{ CS42L42_HSBIAS_SC_AUTOCTL, 0x03 },
-+		{ CS42L42_WAKE_CTL, CS42L42_M_HP_WAKE_MASK | CS42L42_M_MIC_WAKE_MASK },
-+		{ CS42L42_MIC_DET_CTL2, CS42L83_REMOTE_RX_CONFIG },
-+	};
-+	unsigned int int1, int2, status1, status2, symbols, symbol[3];
-+	unsigned long deadline;
-+	int i, ret;
-+
-+	if (cs42l42->devid != CS42L83_CHIP_ID ||
-+	    (cs42l42->hs_type != CS42L42_PLUG_CTIA &&
-+	     cs42l42->hs_type != CS42L42_PLUG_OMTP))
+ }
+ 
+ static enum sdw_command_response
+@@ -309,19 +307,22 @@ amd_program_scp_addr(struct amd_sdw_manager *amd_manager, struct sdw_msg *msg)
+ 	scp_msg.buf = &msg->addr_page1;
+ 	scp_msg.flags = SDW_MSG_FLAG_WRITE;
+ 	amd_sdw_ctl_word_prep(&lower_data, &upper_data, &scp_msg, 0);
+-	response_buf[0] = amd_sdw_send_cmd_get_resp(amd_manager, lower_data, upper_data);
++	if (amd_sdw_send_cmd_get_resp(amd_manager, lower_data, upper_data, &response_buf[0])) {
++		dev_err_ratelimited(amd_manager->dev,
++				    "SCP_addrpage command timeout for Slave %d\n", msg->dev_num);
++		return SDW_CMD_TIMEOUT;
++	}
+ 	scp_msg.addr = SDW_SCP_ADDRPAGE2;
+ 	scp_msg.buf = &msg->addr_page2;
+ 	amd_sdw_ctl_word_prep(&lower_data, &upper_data, &scp_msg, 0);
+-	response_buf[1] = amd_sdw_send_cmd_get_resp(amd_manager, lower_data, upper_data);
++	if (amd_sdw_send_cmd_get_resp(amd_manager, lower_data, upper_data, &response_buf[1])) {
++		dev_err_ratelimited(amd_manager->dev,
++				    "SCP_addrpage command timeout for Slave %d\n", msg->dev_num);
++		return SDW_CMD_TIMEOUT;
++	}
+ 
+ 	for (index = 0; index < 2; index++) {
+-		if (response_buf[index] == -ETIMEDOUT) {
+-			dev_err_ratelimited(amd_manager->dev,
+-					    "SCP_addrpage command timeout for Slave %d\n",
+-					    msg->dev_num);
+-			return SDW_CMD_TIMEOUT;
+-		} else if (!(response_buf[index] & AMD_SDW_MCP_RESP_ACK)) {
++		if (!(response_buf[index] & AMD_SDW_MCP_RESP_ACK)) {
+ 			if (response_buf[index] & AMD_SDW_MCP_RESP_NACK) {
+ 				dev_err_ratelimited(amd_manager->dev,
+ 						    "SCP_addrpage NACKed for Slave %d\n",
+@@ -366,11 +367,7 @@ static enum sdw_command_response amd_sdw_fill_msg_resp(struct amd_sdw_manager *a
+ 		if (msg->flags == SDW_MSG_FLAG_READ)
+ 			msg->buf[offset] = FIELD_GET(AMD_SDW_MCP_RESP_RDATA, response);
+ 	} else {
+-		if (response == -ETIMEDOUT) {
+-			dev_err_ratelimited(amd_manager->dev, "command timeout for Slave %d\n",
+-					    msg->dev_num);
+-			return SDW_CMD_TIMEOUT;
+-		} else if (response & AMD_SDW_MCP_RESP_NACK) {
++		if (response & AMD_SDW_MCP_RESP_NACK) {
+ 			dev_err_ratelimited(amd_manager->dev,
+ 					    "command response NACK received for Slave %d\n",
+ 					    msg->dev_num);
+@@ -390,7 +387,11 @@ static unsigned int _amd_sdw_xfer_msg(struct amd_sdw_manager *amd_manager, struc
+ 	u32 upper_data = 0, lower_data = 0;
+ 
+ 	amd_sdw_ctl_word_prep(&lower_data, &upper_data, msg, cmd_offset);
+-	response = amd_sdw_send_cmd_get_resp(amd_manager, lower_data, upper_data);
++	if (amd_sdw_send_cmd_get_resp(amd_manager, lower_data, upper_data, &response)) {
++		dev_err_ratelimited(amd_manager->dev, "command timeout for Slave %d\n",
++				    msg->dev_num);
++		return SDW_CMD_TIMEOUT;
++	}
+ 	return amd_sdw_fill_msg_resp(amd_manager, msg, response, cmd_offset);
+ }
+ 
+@@ -446,9 +447,14 @@ static void amd_sdw_read_and_process_ping_status(struct amd_sdw_manager *amd_man
+ 	u64 response;
+ 
+ 	mutex_lock(&amd_manager->bus.msg_lock);
+-	response = amd_sdw_send_cmd_get_resp(amd_manager, 0, 0);
+-	mutex_unlock(&amd_manager->bus.msg_lock);
++	if (amd_sdw_send_cmd_get_resp(amd_manager, 0, 0, &response)) {
++		mutex_unlock(&amd_manager->bus.msg_lock);
++		dev_err_ratelimited(amd_manager->dev, "SDW%x ping status timeout\n",
++				    amd_manager->instance);
 +		return;
-+
-+	for (i = 0; i < ARRAY_SIZE(cs42l83_remote_regs); i++) {
-+		ret = regmap_read(cs42l42->regmap, cs42l83_remote_regs[i],
-+				  &cs42l42->remote_saved[i]);
-+		if (ret)
-+			return;
 +	}
-+
-+	ret = regmap_multi_reg_write(cs42l42->regmap, identify, ARRAY_SIZE(identify));
-+	if (ret)
-+		goto fallback;
-+	/* Reset the bias before applying the identification threshold. */
-+	ret = cs42l83_remote_set_detect(cs42l42, CS42L83_REMOTE_BIAS_RESET);
-+	if (ret)
-+		goto fallback;
-+	usleep_range(10000, 11000);
-+	ret = regmap_update_bits(cs42l42->regmap, CS42L42_MIC_DET_CTL1,
-+				 CS42L42_HS_DET_LEVEL_MASK, CS42L83_REMOTE_LEVEL_IDENTIFY);
-+	if (ret)
-+		goto fallback;
-+	ret = regmap_read(cs42l42->regmap, CS42L42_DET_INT_STATUS1, &int1);
-+	if (ret)
-+		goto fallback;
-+	ret = regmap_read(cs42l42->regmap, CS42L42_DET_INT_STATUS2, &int2);
-+	if (ret)
-+		goto fallback;
-+	/* Start identification after the controlled bias rise. */
-+	ret = cs42l83_remote_set_detect(cs42l42, CS42L83_REMOTE_BIAS_IDENTIFY);
-+	if (ret)
-+		goto fallback;
-+
-+	/*
-+	 * Bit 4 signals TX completion, before the remote reply is ready. Wait
-+	 * for RX acknowledgment (bit 3), with a bounded analogue fallback.
-+	 */
-+	msleep(35);
-+	deadline = jiffies + msecs_to_jiffies(500);
-+	do {
-+		ret = regmap_read(cs42l42->regmap, CS42L42_DET_INT_STATUS2, &int2);
-+		if (ret)
-+			goto fallback;
-+		if (int2 & CS42L83_REMOTE_RX_ACK)
-+			break;
-+		usleep_range(5000, 6000);
-+	} while (time_before(jiffies, deadline));
-+	if (!(int2 & CS42L83_REMOTE_RX_ACK)) {
-+		ret = -ETIMEDOUT;
-+		goto fallback;
+ 	amd_sdw_process_ping_status(response, amd_manager);
++	mutex_unlock(&amd_manager->bus.msg_lock);
+ }
+ 
+ static u32 amd_sdw_read_ping_status(struct sdw_bus *bus)
+@@ -457,7 +463,11 @@ static u32 amd_sdw_read_ping_status(struct sdw_bus *bus)
+ 	u64 response;
+ 	u32 slave_stat;
+ 
+-	response = amd_sdw_send_cmd_get_resp(amd_manager, 0, 0);
++	if (amd_sdw_send_cmd_get_resp(amd_manager, 0, 0, &response)) {
++		dev_err_ratelimited(amd_manager->dev, "SDW%x ping status timeout\n",
++				    amd_manager->instance);
++		return 0;
 +	}
-+	ret = regmap_read(cs42l42->regmap, CS42L42_DET_INT_STATUS1, &int1);
-+	if (ret)
-+		goto fallback;
-+	ret = regmap_read(cs42l42->regmap, CS42L42_DET_STATUS1, &status1);
-+	if (ret)
-+		goto fallback;
-+	ret = regmap_read(cs42l42->regmap, CS42L42_DET_STATUS2, &status2);
-+	if (ret)
-+		goto fallback;
-+	symbols = (status2 >> 4) | ((status1 & 0x1f) << 4);
-+	for (i = 0; i < ARRAY_SIZE(symbol); i++)
-+		symbol[i] = (symbols >> (i * 3)) & 7;
-+	/* A short or an invalid identifier must retain the analogue detector. */
-+	if (status2 & CS42L42_SHORT_TRUE_MASK) {
-+		ret = -ENODEV;
-+		goto fallback;
-+	}
-+	for (i = 0; i < ARRAY_SIZE(symbol); i++) {
-+		if (symbol[i] < 1 || symbol[i] > 4) {
-+			ret = -ENODEV;
-+			goto fallback;
-+		}
-+	}
-+
-+	/* Use the remote-button threshold only after a valid identification. */
-+	ret = regmap_update_bits(cs42l42->regmap, CS42L42_MIC_DET_CTL1,
-+				 CS42L42_HS_DET_LEVEL_MASK, CS42L83_REMOTE_LEVEL_BUTTONS);
-+	if (ret)
-+		goto fallback;
-+
-+	/* The receiver now decodes remote button pulses autonomously. */
-+	ret = cs42l83_remote_set_detect(cs42l42, CS42L83_REMOTE_BIAS_BUTTONS);
-+	if (ret)
-+		goto fallback;
-+	msleep(35);
-+	ret = regmap_write(cs42l42->regmap, CS42L42_HSBIAS_SC_AUTOCTL,
-+			   (cs42l42->hs_bias_sense_en << CS42L42_HSBIAS_SENSE_EN_SHIFT) | 3);
-+	if (ret)
-+		goto fallback;
-+	ret = regmap_write(cs42l42->regmap, CS42L42_DET_INT1_MASK,
-+			   cs42l42->remote_saved[CS42L83_REMOTE_SAVED_DET_INT1_MASK] &
-+			   ~(cs42l42->hs_bias_sense_en << CS42L42_HSBIAS_SENSE_SHIFT));
-+	if (ret)
-+		goto fallback;
-+	ret = regmap_write(cs42l42->regmap, CS42L42_DET_INT2_MASK,
-+			   0xff & ~(CS42L83_REMOTE_BUTTON_IRQ |
-+				    CS42L42_M_SHORT_DET_MASK | CS42L42_M_SHORT_RLS_MASK));
-+	if (ret)
-+		goto fallback;
-+	cs42l42->remote_active = true;
-+	dev_dbg(cs42l42->dev, "Apple headset remote enabled\n");
-+	return;
-+
-+fallback:
-+	dev_dbg(cs42l42->dev, "Headset remote identification failed: %d\n", ret);
-+	cs42l83_remote_restore(cs42l42);
-+}
-+
-+static void cs42l83_remote_buttons(struct cs42l42_private *cs42l42,
-+				 unsigned int int1, unsigned int int2)
-+{
-+	unsigned int buttons = 0;
-+
-+	/* Volume indications are pulses, without a separate release event. */
-+	if (int1 & CS42L83_REMOTE_BUTTONS) {
-+		if (int1 & CS42L83_REMOTE_VOLUME_DOWN)
-+			buttons |= SND_JACK_BTN_2;
-+		if (int1 & CS42L83_REMOTE_VOLUME_UP)
-+			buttons |= SND_JACK_BTN_1;
-+		if (buttons)
-+			snd_soc_jack_report(cs42l42->jack, buttons,
-+					    SND_JACK_BTN_1 | SND_JACK_BTN_2);
-+		snd_soc_jack_report(cs42l42->jack, 0,
-+					    SND_JACK_BTN_1 | SND_JACK_BTN_2);
-+	}
-+	if (int2 & CS42L42_M_SHORT_DET_MASK)
-+		snd_soc_jack_report(cs42l42->jack, SND_JACK_BTN_0, SND_JACK_BTN_0);
-+	if (int2 & CS42L42_M_SHORT_RLS_MASK)
-+		snd_soc_jack_report(cs42l42->jack, 0, SND_JACK_BTN_0);
-+}
-+
- static void cs42l42_process_hs_type_detect(struct cs42l42_private *cs42l42)
- {
- 	unsigned int hs_det_status;
-@@ -1398,6 +1633,9 @@ static void cs42l42_process_hs_type_detect(struct cs42l42_private *cs42l42)
- 
- static void cs42l42_init_hs_type_detect(struct cs42l42_private *cs42l42)
- {
-+	if (cs42l42->remote_active)
-+		cs42l83_remote_restore(cs42l42);
-+
- 	/* Mask tip sense interrupts */
- 	regmap_update_bits(cs42l42->regmap,
- 				CS42L42_TSRS_PLUG_INT_MASK,
-@@ -1485,6 +1723,9 @@ static void cs42l42_init_hs_type_detect(struct cs42l42_private *cs42l42)
- 
- static void cs42l42_cancel_hs_type_detect(struct cs42l42_private *cs42l42)
- {
-+	if (cs42l42->remote_active)
-+		cs42l83_remote_restore(cs42l42);
-+
- 	/* Mask button detect interrupts */
- 	regmap_update_bits(cs42l42->regmap,
- 		CS42L42_DET_INT2_MASK,
-@@ -1664,6 +1905,7 @@ irqreturn_t cs42l42_irq_thread(int irq, void *data)
- 	struct cs42l42_private *cs42l42 = (struct cs42l42_private *)data;
- 	unsigned int stickies[12];
- 	unsigned int masks[12];
-+	unsigned int raw_remote_buttons = 0;
- 	unsigned int current_plug_status;
- 	unsigned int current_button_status;
- 	unsigned int i;
-@@ -1686,8 +1928,11 @@ irqreturn_t cs42l42_irq_thread(int irq, void *data)
- 				  &masks[i]);
- 		if (ret)
- 			goto out_error;
--		stickies[i] = stickies[i] & (~masks[i]) &
--				irq_params_table[i].mask;
-+		if (cs42l42->remote_active && i == 6)
-+			raw_remote_buttons = stickies[i] & CS42L83_REMOTE_BUTTONS;
-+		stickies[i] &= ~masks[i];
-+		if (!(cs42l42->remote_active && i == 7))
-+			stickies[i] &= irq_params_table[i].mask;
- 	}
- 
- 	/* Read tip sense status before handling type detect */
-@@ -1709,6 +1954,13 @@ irqreturn_t cs42l42_irq_thread(int irq, void *data)
- 	if ((~masks[5]) & irq_params_table[5].mask) {
- 		if (stickies[5] & CS42L42_HSDET_AUTO_DONE_MASK) {
- 			cs42l42_process_hs_type_detect(cs42l42);
-+			if (cs42l42->devid == CS42L83_CHIP_ID) {
-+				cs42l83_remote_start(cs42l42);
-+				/* Do not interpret pre-identification events as keys. */
-+				current_button_status = 0;
-+				stickies[7] = 0;
-+				raw_remote_buttons = 0;
-+			}
- 			switch (cs42l42->hs_type) {
- 			case CS42L42_PLUG_CTIA:
- 			case CS42L42_PLUG_OMTP:
-@@ -1759,6 +2011,11 @@ irqreturn_t cs42l42_irq_thread(int irq, void *data)
- 		}
- 	}
- 
-+	if (cs42l42->remote_active && cs42l42->plug_state == CS42L42_TS_PLUG) {
-+		cs42l83_remote_buttons(cs42l42, raw_remote_buttons, stickies[7]);
-+		return IRQ_HANDLED;
-+	}
-+
- 	/* Check button detect status */
- 	if (cs42l42->plug_state == CS42L42_TS_PLUG && ((~masks[7]) & irq_params_table[7].mask)) {
- 		if (!(current_button_status &
-@@ -2169,6 +2426,8 @@ int cs42l42_suspend(struct device *dev)
- 	 * is shared.
- 	 */
- 	scoped_guard(mutex, &cs42l42->irq_lock) {
-+		if (cs42l42->remote_active)
-+			cs42l83_remote_restore(cs42l42);
- 		cs42l42->suspended = true;
- 
- 		/* Save register values that will be overwritten by shutdown sequence */
-diff --git a/sound/soc/codecs/cs42l42.h b/sound/soc/codecs/cs42l42.h
-index 3d85ebc59..1065d8cd6 100644
---- a/sound/soc/codecs/cs42l42.h
-+++ b/sound/soc/codecs/cs42l42.h
-@@ -24,6 +24,19 @@
- #include <sound/soc-component.h>
- #include <sound/soc-dai.h>
- 
-+enum cs42l83_remote_saved_reg {
-+	CS42L83_REMOTE_SAVED_HSBIAS_SC_AUTOCTL,
-+	CS42L83_REMOTE_SAVED_WAKE_CTL,
-+	CS42L83_REMOTE_SAVED_MISC_DET_CTL,
-+	CS42L83_REMOTE_SAVED_MIC_DET_CTL1,
-+	CS42L83_REMOTE_SAVED_MIC_DET_CTL2,
-+	CS42L83_REMOTE_SAVED_DET_INT1_MASK,
-+	CS42L83_REMOTE_SAVED_DET_INT2_MASK,
-+	CS42L83_REMOTE_SAVED_HS_BIAS_CTL,
-+	CS42L83_REMOTE_SAVED_HSDET_CTL2,
-+	CS42L83_REMOTE_NUM_SAVED_REGS,
-+};
-+
- struct  cs42l42_private {
- 	struct regmap *regmap;
- 	struct device *dev;
-@@ -51,6 +64,8 @@ struct  cs42l42_private {
- 	u8 hs_bias_ramp_time;
- 	u8 hs_bias_sense_en;
- 	u8 stream_use;
-+	bool remote_active;
-+	unsigned int remote_saved[CS42L83_REMOTE_NUM_SAVED_REGS];
- 	bool hp_adc_up_pending;
- 	bool suspended;
- 	bool sdw_waiting_first_unattach;
+ 	/* slave status from ping response */
+ 	slave_stat = FIELD_GET(AMD_SDW_MCP_SLAVE_STAT_0_3, response);
+ 	slave_stat |= FIELD_GET(AMD_SDW_MCP_SLAVE_STAT_4_11, response) << 8;
+-- 
+2.48.1
+
