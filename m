@@ -1,136 +1,89 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84EDA49C4D3;
-	Thu, 17 Sep 2026 12:37:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EA6D4F55C2;
+	Thu, 17 Sep 2026 13:59:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789648652; cv=none; b=eFUU0LLwdU80YnOt+ZJpeTZttSymT8hd+0A33QpgbgOaUCKdj3fAAzXxVqU5nijEaXPp9zX7QfIfTqU/+Xb23W+yRftoDPbD6hfV1INy3V8t8jclzVhywud0SDXciCYlE86GmF/DwJzvlWrGwWaqgDXk2VdOao/cWm3nwLAa9xo=
+	t=1789653599; cv=none; b=aVT37E6PtkFrdMhH1vh9JrV7/M7CnLikDJ+jk7oso4i9VsSLcSzQ8LBm4yMlIoGcZYAAm9qA85Ot4rdenm1kS2je7Rc1S/GFOxGj3GQyV7Ma53y0F4bFwXgMKip+ugu8Xp9BZoRxclE1jVuuSL6+x8MQluh745Gp/1GUhGjLueY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789648652; c=relaxed/simple;
-	bh=cdlHw7kaZBru7Db0ys7AceoZFYCOW7iYpbcZggcZFgY=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mnH7G3HadP2kc/PaTjxC7I6BWVkrlgrWUBJ/XSPKT8nnczgMRoqnhkn0d3qSzWKkQiv+wG5r0Cumjem6NRPnxB3RqXJtNUKqzkhY/lv2B0gZcshakWP29sXsPrN5v1ipOwr7W3qyQHCwywV/zWp3ddvDLN9zzgCv9QYdZ6na1F8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=BkaSSE+O; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=tgxwyj0X; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Hjv4dpIL; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pg9pc5dp; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1789653599; c=relaxed/simple;
+	bh=41APIPiDwNLyCoRynVUqJyFkALdwIcljHzQTQUJ42ec=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=V0TO1pwuX3xiIJ9xOWrjshJ6xmhwIJX1qSljRgrjtQnGs6zB/uV1k86jd1Fa4CFlNv9IQIYqr2de9wDH4puTk4R5mOAwnnDs9L/r31lY+uxP9c+XGIjH0NYYgQK4wfK2lc5jfUWXs3A7vAjpYNERWwXMjFCIyjJ3B7S/AtHEBJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a62qPWsL; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="BkaSSE+O";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="tgxwyj0X";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Hjv4dpIL";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pg9pc5dp"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 8B04B21B07;
-	Thu, 17 Sep 2026 12:37:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1789648637; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jWc3jf84fBt6+w/a5ZtwrpnpqLcK2LtnBZ8g5jbNWrw=;
-	b=BkaSSE+Onrb0jnDe1fLtNKWo1dTmBD3s6bl8+OSwGpDJ2vJ52VGeU0ml3jq4l+kKzFRrV5
-	KERv7loJZ6pQwinQmShmhs+rNvObAInRkhZjKueypBp9v3h6OTgvCemFDaO7D6B7i+vIHg
-	ka8rLsT37qNtvjX1MMG49c97r6DveqE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1789648637;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jWc3jf84fBt6+w/a5ZtwrpnpqLcK2LtnBZ8g5jbNWrw=;
-	b=tgxwyj0XquTo10qsxSkhVcvkYaQSjYnHSMcSc1OG9L16hzFFv8jE2Rri22B4QhF6jQlkQD
-	dluhGIVuayY7zSCQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1789648633; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jWc3jf84fBt6+w/a5ZtwrpnpqLcK2LtnBZ8g5jbNWrw=;
-	b=Hjv4dpILuakX6y74fztR6lgWopixPzIYoCyw9wmgjpn2e4I6sfqiQ84jhAwxNOlyXSbH68
-	6kX+2JpuaDRqPmOVueSe/mYfWda8avNlGXHYcxAa4GzHlL4ky3bUmpv70eKimbieAhlaRi
-	lWKY6FBp0SBF6E6Eu4zzyiat+KmmYXU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1789648633;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jWc3jf84fBt6+w/a5ZtwrpnpqLcK2LtnBZ8g5jbNWrw=;
-	b=pg9pc5dpQb18XJfusF4YlMkc7Ge9VIEwTs8TM3sHQc6p8Ox9D3TNqp87oIqypJSzJVm8XR
-	6YikXtsisbYs3oCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 201BC134B3;
-	Thu, 17 Sep 2026 12:37:13 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id d7p9N/jeq2oECQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 17 Sep 2026 12:37:13 +0000
-Date: Thu, 17 Sep 2026 14:37:12 +0200
-Message-ID: <87mrtggikn.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-kernel@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-doc@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a62qPWsL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A159B1F000FF;
+	Thu, 17 Sep 2026 13:59:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789653598;
+	bh=YMv7NzaebzCtt1k7frWIon/WX9SNk6RB6KvCRpGtXek=;
+	h=From:To:Cc:Subject:Date;
+	b=a62qPWsLZ1AjKY6u8vZ4UKez6ynqtC1Tz/WhHvy6C3IweC1Q5M9itr3WKEDuShhfQ
+	 9Vk6mCBQWHb+IKM8qpnwq+1Gl2PZdlcmntYFCFYGtC4rkClJrQn7dxfrs6cwoaDepq
+	 Kp0hkxDvulMFW2z9DDUP/R/b9WHWtrVE2xKukyvpn4kLdDQik0y1qe+8PwYafhogL+
+	 GruFvl0kl4siPYuTLbNlTIKqetLzrpAfN6k8s8xyYNSkEwzRSCba8D9MieoImulaXl
+	 g7xcgf2Sc+Bh35+kh3FZGAlXz+LKP1XwycTPzS66LsTbU2qBNckq+H1lCTo/IsTST+
+	 /7+2HAEN7bcLw==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
 	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2] docs: sound: hdspm: clean up driver doc.
-In-Reply-To: <20260914195806.1544938-1-rdunlap@infradead.org>
-References: <20260914195806.1544938-1-rdunlap@infradead.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	Shuming Fan <shumingf@realtek.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] [v2] ASoC: rt766: fix HID dependency for SND_SOC_SDCA_HID
+Date: Thu, 17 Sep 2026 15:58:51 +0200
+Message-ID: <20260917135950.405423-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spam-Score: -3.30
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.996];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[infradead.org:email,imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Mon, 14 Sep 2026 21:58:06 +0200,
-Randy Dunlap wrote:
-> 
-> Do some overall document cleanups:
-> 
-> - add driver name for clarification
-> - fix some punctuation issues
-> - correct some capitalization
-> - correct some grammar
-> - convert a few words from German to English
-> - eliminate double use of "note:"
-> - unindent Precise Pointer bullets so that they are not part of the Hint
-> - drop precise_ptr documentation since it has been modified to be
->   "always on"
-> 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+From: Arnd Bergmann <arnd@arndb.de>
 
-Applied to for-next branch now.  Thanks.
+Selecting SND_SOC_SDCA_HID only works if HID is enabled:
 
+WARNING: unmet direct dependencies detected for SND_SOC_SDCA_HID
+  Depends on [n]: SOUND [=y] && SND [=y] && SND_SOC [=y] && SND_SOC_SDCA [=y] && (HID [=n]=y [=y] || HID [=n]=SND_SOC_SDCA [=y])
+  Selected by [y]:
+  - SND_SOC_RT766_SDCA_SDW [=y] && SOUND [=y] && SND [=y] && SND_SOC [=y] && SOUNDWIRE [=y] && SND_SOC_SDCA [=y]
 
-Takashi
+Change the dependency to require SND_SOC_SDCA_CLASS instead, which
+solves the problem without extra selects.
+
+Fixes: b50ecf5873df ("ASoC: rt766: add RT766/RT767 SDCA driver")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+v2: replace the original approach that added a still insufficient dependency.
+---
+ sound/soc/codecs/Kconfig | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
+index e78d725e61e2..f88381523ea3 100644
+--- a/sound/soc/codecs/Kconfig
++++ b/sound/soc/codecs/Kconfig
+@@ -1991,9 +1991,7 @@ config SND_SOC_RT715_SDCA_SDW
+ config SND_SOC_RT766_SDCA_SDW
+ 	tristate "Realtek RT766 SDCA Codec - SDW"
+ 	depends on SOUNDWIRE
+-	depends on SND_SOC_SDCA
+-	select SND_SOC_SDCA_HID
+-	select SND_SOC_SDCA_IRQ
++	depends on SND_SOC_SDCA_CLASS
+ 	select REGMAP_SOUNDWIRE
+ 	select REGMAP_SOUNDWIRE_MBQ
+ 
+-- 
+2.53.0
+
