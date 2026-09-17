@@ -1,35 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AD2243DEA2;
-	Thu, 17 Sep 2026 22:51:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC5FD4AAC5F;
+	Thu, 17 Sep 2026 22:51:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789685491; cv=none; b=FbZJ19eKUsaByaj70XtMaBlg+Tyo/jXziQqVkRgvec9c0K6tM4hBImZPE7UblvTnRNsqbdXP48eJADnqFXity70L4FUXVd/s3VFIZltEP0kyiEgwfRMtBpmBHNtZRLIDJ9KD8uH1a0upTnl+z9p0gsuCR7SxVnkactmg48A26O8=
+	t=1789685494; cv=none; b=q/5eYol8Pf4pXyqYG9PFznvKXYoyqEqOvde4puuzsUyMex0mLDaNEp7MghEC6J+L/o+tS625j+eYGFdCdX8gVdu/1bRWYc6Nee9hZYjovFDDbs6sV+WcJF/Btug2YL3TY7ad+9NR85btZv0OGSkJYd77oB8caQg8/JZLtLL9V08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789685491; c=relaxed/simple;
-	bh=uvqh92Xe5DAXsKtJK59VIxL0PId03+Lt2/jmPzZf/ro=;
+	s=arc-20240116; t=1789685494; c=relaxed/simple;
+	bh=v0fXLc0uCridS0eknqfBpG/MdBlnR+n39YKoS54fero=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=aPJ0dw4MUiclKHP2EYusUa76LwTLCXQc61xq0/LElI9DuWl/VHKnicwnlxlC42063l+2kaqxj0S5JE1tMNx2F53/9OBBPSiwFSc8fk8z/cTQWWX+nCtE9qNA09suXpagzvCYAbhh1hSCetBwkXu/dubzsGYEKj1Efvv9F65RAqw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cycpC/OI; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=X8pF0UYWf1HmE+DFOwvPgkq48h6tdOMHZU0/yHTUgM9mDhlnX4WjcVWwhaknzZS+T+bL4rGKNSG27TqVlJMUhnyVQ3h2l+B8siqeKset/mMvtEuwwGoKpWqPgh/6Pg+RcyvjbWV0MIdXLXTeoeeFfQQfJbR/gMi/XNkxbGITIpg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nEScZg8F; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cycpC/OI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E631D1F00893;
-	Thu, 17 Sep 2026 22:51:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nEScZg8F"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F381B1F00898;
+	Thu, 17 Sep 2026 22:51:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789685489;
-	bh=FAa29gK/8UULocx5cuSPBO0a1jW8IQmG8IjVqHN4WGU=;
+	s=k20260515; t=1789685492;
+	bh=ntQr5Kwp+JxpYseYXVfMOulEzwfc6JZnaje7W/ng9wc=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=cycpC/OIPtCn+gwmTarKk0X/xbH3xdmLB60TVTN+70Vt8MELpFw+57gJhOaqKBckK
-	 p+ErTHpUptiFzSpC2mGtT5m3NUlcJI83014iD9UkhhdSaWYNzuiArfLD25JKWQspH3
-	 QU95Wp8ujbE/MTZKYQDNhOfeFJKO1o2fqFkaLuvKza4vbCq491ZznLvfxIi8KYVkFM
-	 ym/1AQ4waKW68e6w1rAoie0PDHq0xWGoA80WshCoJXpS+Mmfrbnqxziwvim2KFVieO
-	 y2gLTi2yffUXdbllMaGF+ZMAyI0wbTl2zzQ2ZnEHZenvkvTvRAtPJrsOHhcWDBwqAA
-	 z7GJvWNZvwP+A==
+	b=nEScZg8FT2/zYD52xtp/IBi1f1gjtQU55AOPQdhfQYMI3h7Jh8hX8DqOVO7E2qB9K
+	 F3o6P0wV1coW1wMMTlzHbVUR75ojjlF4xSuJl/7DaKah8PE7qEEMuXMtTtECqqtsLo
+	 nA+LWvLTj5U5amcVpEmbypVb2dYkymfZX58sVNiWA4r3iClmiL+vgSRtUxILTyQizZ
+	 5xxcqkGhHIXwGJ+eo23/Gfx38HKVjsP2Mi0Q7hfBElaby4d7EjMO78kCuuO8liFZqh
+	 rPwMchvO0Kv5Zmv2WDrjo7aL/i68R+RgZecdICPvXdaUyUCPhUEyye+hHC/R21FYQ3
+	 L4MaXvN3nU7MQ==
 From: Linus Walleij <linusw@kernel.org>
-Date: Fri, 18 Sep 2026 00:51:05 +0200
-Subject: [PATCH v2 7/9] ARM: dts: ux500: Convert HREF audio to
- audio-graph-card2
+Date: Fri, 18 Sep 2026 00:51:06 +0200
+Subject: [PATCH v2 8/9] ARM: dts: ux500: Add Samsung phone audio graphs
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -38,7 +37,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260918-ux500-simple-sound-v2-7-88d29416e3c3@kernel.org>
+Message-Id: <20260918-ux500-simple-sound-v2-8-88d29416e3c3@kernel.org>
 References: <20260918-ux500-simple-sound-v2-0-88d29416e3c3@kernel.org>
 In-Reply-To: <20260918-ux500-simple-sound-v2-0-88d29416e3c3@kernel.org>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
@@ -49,299 +48,176 @@ Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
  mfd@lists.linux.dev, Linus Walleij <linusw@kernel.org>
 X-Mailer: b4 0.14.3
 
-Describe the HREF500 and HREF520 sound hardware with two-link audio
-graph cards in their PMIC-specific HREF DTSIs, and name the card
-HREF-500. Connect MSP1 to codec DAI 0 for playback and MSP3 to codec
-DAI 1 for capture.
+The released Samsung product kernels all connect codec DAI 0 to MSP1
+for playback and codec DAI 1 to MSP3 for capture. The codec provides
+the bit and frame clocks, while ULPCLK is the machine driver's default
+audio clock parent. Keep the codec-provided clocks continuous as in the
+product kernels.
 
-Describe the DSP_A format, codec-provided bit and frame clocks,
-16-by-16-bit TDM frame and active slots on the graph endpoints. Keep the
-clocks running continuously, matching the legacy machine driver's normal
-one- and two-channel mode.
+Add a common two-link audio graph card and include it from Codina,
+Codina-TMO, Gavini, Skomer, Kyle, Golden and Janice. Use the generic
+card name "Samsung". The later product kernels use DSP_A with an
+8-by-16-bit TDM frame, playback slots 0 and 1 and capture slot 0.
 
-Keep each complete card, including its endpoint graph, connector
-widgets and routes, in the existing PMIC-specific HREF DTSI. The AB8500
-variant exposes six digital microphone endpoints. AB8505 has neither
-the digital microphone interface nor its VDMIC regulator, so leave
-these endpoints out of HREF520 and remove its stale regulator and pin
-configuration nodes.
+Codina and HD Codina retain their older DSP_B configuration with a
+16-by-16-bit frame and playback slots 1 and 3. Preserve Gavini's
+AMIC1A-to-VAMIC2 bias routing. Golden and Janice use the configuration
+from the newest Codina-TMO product source; their board files are
+byte-for-byte identical across the available later product releases.
 
-Select ULPCLK as the fixed parent of the codec audio clock in the
-HREF-specific codec DTSIs. This replaces the machine driver clock
-control with declarative board policy.
+Kyle's audio I2C bus contains only a disabled placeholder, so AB8505
+remains its sole active codec.
 
-Fixes: 4ecae2ae9535 ("ARM: dts: ux500-href: Switch HREF520 to AB8505")
 Assisted-by: LLM
 Signed-off-by: Linus Walleij <linusw@kernel.org>
 ---
- arch/arm/boot/dts/st/ste-ab8500.dtsi      |   6 --
- arch/arm/boot/dts/st/ste-ab8505.dtsi      |   6 --
- arch/arm/boot/dts/st/ste-dbx5x0.dtsi      |   5 --
- arch/arm/boot/dts/st/ste-href-ab8500.dtsi | 104 ++++++++++++++++++++++++++
- arch/arm/boot/dts/st/ste-href-ab8505.dtsi | 118 +++++++++++++++++++++++-------
- 5 files changed, 196 insertions(+), 43 deletions(-)
+ .../boot/dts/st/ste-ux500-samsung-codina-tmo.dts   |  1 +
+ arch/arm/boot/dts/st/ste-ux500-samsung-codina.dts  | 21 ++++++
+ arch/arm/boot/dts/st/ste-ux500-samsung-gavini.dts  |  5 ++
+ arch/arm/boot/dts/st/ste-ux500-samsung-golden.dts  |  1 +
+ arch/arm/boot/dts/st/ste-ux500-samsung-janice.dts  |  1 +
+ arch/arm/boot/dts/st/ste-ux500-samsung-kyle.dts    |  1 +
+ arch/arm/boot/dts/st/ste-ux500-samsung-skomer.dts  |  1 +
+ arch/arm/boot/dts/st/ste-ux500-samsung.dtsi        | 77 ++++++++++++++++++++++
+ 8 files changed, 108 insertions(+)
 
-diff --git a/arch/arm/boot/dts/st/ste-ab8500.dtsi b/arch/arm/boot/dts/st/ste-ab8500.dtsi
-index 8bf083addd66..c8c8521516e4 100644
---- a/arch/arm/boot/dts/st/ste-ab8500.dtsi
-+++ b/arch/arm/boot/dts/st/ste-ab8500.dtsi
-@@ -365,12 +365,6 @@ ab8500_ldo_ana_reg: ab8500_ldo_ana {
- 			};
- 		};
- 
--		sound {
--			stericsson,audio-codec = <&codec>;
--			clocks = <&prcmu_clk PRCMU_SYSCLK>, <&ab8500_clock AB8500_SYSCLK_ULP>, <&ab8500_clock AB8500_SYSCLK_INT>;
--			clock-names = "sysclk", "ulpclk", "intclk";
--		};
--
- 		mcde@a0350000 {
- 			vana-supply = <&ab8500_ldo_ana_reg>;
- 
-diff --git a/arch/arm/boot/dts/st/ste-ab8505.dtsi b/arch/arm/boot/dts/st/ste-ab8505.dtsi
-index e61beb8b5ac3..0bf85b12808d 100644
---- a/arch/arm/boot/dts/st/ste-ab8505.dtsi
-+++ b/arch/arm/boot/dts/st/ste-ab8505.dtsi
-@@ -302,12 +302,6 @@ ab8500_ldo_ana_reg: ab8500_ldo_ana {
- 			};
- 		};
- 
--		sound {
--			stericsson,audio-codec = <&codec>;
--			clocks = <&prcmu_clk PRCMU_SYSCLK>, <&ab8500_clock AB8500_SYSCLK_ULP>, <&ab8500_clock AB8500_SYSCLK_INT>;
--			clock-names = "sysclk", "ulpclk", "intclk";
--		};
--
- 		mcde@a0350000 {
- 			vana-supply = <&ab8500_ldo_ana_reg>;
- 
-diff --git a/arch/arm/boot/dts/st/ste-dbx5x0.dtsi b/arch/arm/boot/dts/st/ste-dbx5x0.dtsi
-index e6585eeb4553..912d2505318e 100644
---- a/arch/arm/boot/dts/st/ste-dbx5x0.dtsi
-+++ b/arch/arm/boot/dts/st/ste-dbx5x0.dtsi
-@@ -1071,11 +1071,6 @@ mmc@80008000 {
- 			status = "disabled";
- 		};
- 
--		sound {
--			compatible = "stericsson,snd-soc-mop500";
--			stericsson,cpu-dai = <&msp1 &msp3>;
--		};
--
- 		msp0: msp@80123000 {
- 			compatible = "stericsson,ux500-msp-i2s";
- 			#sound-dai-cells = <0>;
-diff --git a/arch/arm/boot/dts/st/ste-href-ab8500.dtsi b/arch/arm/boot/dts/st/ste-href-ab8500.dtsi
-index 5eeb44c5e932..ff72f5f6d652 100644
---- a/arch/arm/boot/dts/st/ste-href-ab8500.dtsi
-+++ b/arch/arm/boot/dts/st/ste-href-ab8500.dtsi
-@@ -6,6 +6,48 @@
- #include "ste-ab8500.dtsi"
- 
- / {
-+	href_sound: sound {
-+		compatible = "audio-graph-card2";
-+		label = "HREF-500";
-+		widgets =
-+			"Headphone", "Headset",
-+			"Speaker", "Earpiece Speaker",
-+			"Speaker", "Loudspeaker",
-+			"Line", "Line Out",
-+			"Speaker", "Vibra 1 Motor",
-+			"Speaker", "Vibra 2 Motor",
-+			"Microphone", "Mic 1 Jack",
-+			"Microphone", "Mic 2 Jack",
-+			"Line", "Line In",
-+			"Microphone", "Digital Mic 1",
-+			"Microphone", "Digital Mic 2",
-+			"Microphone", "Digital Mic 3",
-+			"Microphone", "Digital Mic 4",
-+			"Microphone", "Digital Mic 5",
-+			"Microphone", "Digital Mic 6";
-+		routing =
-+			"Headset", "Headset Left",
-+			"Headset", "Headset Right",
-+			"Earpiece Speaker", "Earpiece",
-+			"Loudspeaker", "Speaker Left",
-+			"Loudspeaker", "Speaker Right",
-+			"Line Out", "LineOut Left",
-+			"Line Out", "LineOut Right",
-+			"Vibra 1 Motor", "Vibra 1",
-+			"Vibra 2 Motor", "Vibra 2",
-+			"Mic 1", "Mic 1 Jack",
-+			"Mic 2", "Mic 2 Jack",
-+			"LineIn Left", "Line In",
-+			"LineIn Right", "Line In",
-+			"DMic 1", "Digital Mic 1",
-+			"DMic 2", "Digital Mic 2",
-+			"DMic 3", "Digital Mic 3",
-+			"DMic 4", "Digital Mic 4",
-+			"DMic 5", "Digital Mic 5",
-+			"DMic 6", "Digital Mic 6";
-+		links = <&href_msp1_port &href_msp3_port>;
-+	};
-+
- 	soc {
- 		prcmu@80157000 {
- 			ab8500 {
-@@ -488,3 +530,65 @@ ab8500_chargalg {
- 		};
- 	};
- };
-+
-+&codec {
-+	assigned-clocks = <&ab8500_clock AB8500_SYSCLK_INT>;
-+	assigned-clock-parents = <&ab8500_clock AB8500_SYSCLK_ULP>;
-+
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		port@0 {
-+			reg = <0>;
-+
-+			href_codec_playback: endpoint {
-+				remote-endpoint = <&href_msp1_endpoint>;
-+				bitclock-master;
-+				frame-master;
-+				dai-tdm-slot-num = <16>;
-+				dai-tdm-slot-width = <16>;
-+				dai-tdm-slot-tx-mask = <0 1 0 1>;
-+			};
-+		};
-+
-+		port@1 {
-+			reg = <1>;
-+
-+			href_codec_capture: endpoint {
-+				remote-endpoint = <&href_msp3_endpoint>;
-+				bitclock-master;
-+				frame-master;
-+				dai-tdm-slot-num = <16>;
-+				dai-tdm-slot-width = <16>;
-+				dai-tdm-slot-rx-mask = <1>;
-+			};
-+		};
-+	};
-+};
-+
-+&msp1 {
-+	href_msp1_port: port {
-+		href_msp1_endpoint: endpoint {
-+			continuous-clock;
-+			remote-endpoint = <&href_codec_playback>;
-+			dai-format = "dsp_a";
-+			dai-tdm-slot-num = <16>;
-+			dai-tdm-slot-width = <16>;
-+			dai-tdm-slot-tx-mask = <0 1 0 1>;
-+		};
-+	};
-+};
-+
-+&msp3 {
-+	href_msp3_port: port {
-+		href_msp3_endpoint: endpoint {
-+			continuous-clock;
-+			remote-endpoint = <&href_codec_capture>;
-+			dai-format = "dsp_a";
-+			dai-tdm-slot-num = <16>;
-+			dai-tdm-slot-width = <16>;
-+			dai-tdm-slot-rx-mask = <1>;
-+		};
-+	};
-+};
-diff --git a/arch/arm/boot/dts/st/ste-href-ab8505.dtsi b/arch/arm/boot/dts/st/ste-href-ab8505.dtsi
-index 268db68ccf87..eba6f674c691 100644
---- a/arch/arm/boot/dts/st/ste-href-ab8505.dtsi
-+++ b/arch/arm/boot/dts/st/ste-href-ab8505.dtsi
-@@ -6,6 +6,36 @@
+diff --git a/arch/arm/boot/dts/st/ste-ux500-samsung-codina-tmo.dts b/arch/arm/boot/dts/st/ste-ux500-samsung-codina-tmo.dts
+index 8f1780d560ff..3350fc775cc9 100644
+--- a/arch/arm/boot/dts/st/ste-ux500-samsung-codina-tmo.dts
++++ b/arch/arm/boot/dts/st/ste-ux500-samsung-codina-tmo.dts
+@@ -21,6 +21,7 @@
+ #include "ste-db8500.dtsi"
  #include "ste-ab8505.dtsi"
- 
- / {
-+	href_sound: sound {
-+		compatible = "audio-graph-card2";
-+		label = "HREF-500";
-+		widgets =
-+			"Headphone", "Headset",
-+			"Speaker", "Earpiece Speaker",
-+			"Speaker", "Loudspeaker",
-+			"Line", "Line Out",
-+			"Speaker", "Vibra 1 Motor",
-+			"Speaker", "Vibra 2 Motor",
-+			"Microphone", "Mic 1 Jack",
-+			"Microphone", "Mic 2 Jack",
-+			"Line", "Line In";
-+		routing =
-+			"Headset", "Headset Left",
-+			"Headset", "Headset Right",
-+			"Earpiece Speaker", "Earpiece",
-+			"Loudspeaker", "Speaker Left",
-+			"Loudspeaker", "Speaker Right",
-+			"Line Out", "LineOut Left",
-+			"Line Out", "LineOut Right",
-+			"Vibra 1 Motor", "Vibra 1",
-+			"Vibra 2 Motor", "Vibra 2",
-+			"Mic 1", "Mic 1 Jack",
-+			"Mic 2", "Mic 2 Jack",
-+			"LineIn Left", "Line In",
-+			"LineIn Right", "Line In";
-+		links = <&href_msp1_port &href_msp3_port>;
-+	};
-+
- 	soc {
- 		prcmu@80157000 {
- 			ab8505 {
-@@ -48,10 +78,6 @@ ab8500_ldo_anamic2_reg: ab8500_ldo_anamic2 {
- 						regulator-name = "V-AMIC2";
- 					};
- 
--					ab8500_ldo_dmic_reg: ab8500_ldo_dmic {
--						regulator-name = "V-DMIC";
--					};
--
- 					ab8500_ldo_ana_reg: ab8500_ldo_ana {
- 						regulator-name = "V-CSI/DSI";
- 					};
-@@ -80,7 +106,6 @@ gpio {
- 						    <&pwm_default_mode>,
- 						    <&adi1_default_mode>,
- 						    <&usbuicc_default_mode>,
--						    <&dmic_default_mode>,
- 						    <&extcpena_default_mode>,
- 						    <&modsclsda_default_mode>;
- 
-@@ -365,27 +390,6 @@ default_cfg {
- 							};
- 						};
- 					};
--					/* This sets up the microphone pins */
--					dmic {
--						dmic_default_mode: dmic_default {
--							default_mux {
--								function = "dmic";
--								groups = "dmic12_d_1",
--									 "dmic34_d_1",
--									 "dmic56_d_1";
--							};
--							default_cfg {
--								pins = "GPIO27_J6",
--									 "GPIO28_K6",
--									 "GPIO29_G6",
--									 "GPIO30_H6",
--									 "GPIO31_F5",
--									 "GPIO32_G5";
--								input-enable;
--								bias-pull-down;
--							};
--						};
--					};
- 					extcpena {
- 						extcpena_default_mode: extcpena_default {
- 							default_mux {
-@@ -488,3 +492,65 @@ ab8500_chargalg {
- 		};
+ #include "ste-dbx5x0-pinctrl.dtsi"
++#include "ste-ux500-samsung.dtsi"
+ #include <dt-bindings/gpio/gpio.h>
+ #include <dt-bindings/leds/common.h>
+ #include <dt-bindings/input/input.h>
+diff --git a/arch/arm/boot/dts/st/ste-ux500-samsung-codina.dts b/arch/arm/boot/dts/st/ste-ux500-samsung-codina.dts
+index 9f58a3c2d06d..857396201147 100644
+--- a/arch/arm/boot/dts/st/ste-ux500-samsung-codina.dts
++++ b/arch/arm/boot/dts/st/ste-ux500-samsung-codina.dts
+@@ -22,6 +22,7 @@
+ #include "ste-db8500.dtsi"
+ #include "ste-ab8500.dtsi"
+ #include "ste-dbx5x0-pinctrl.dtsi"
++#include "ste-ux500-samsung.dtsi"
+ #include <dt-bindings/gpio/gpio.h>
+ #include <dt-bindings/leds/common.h>
+ #include <dt-bindings/input/input.h>
+@@ -667,6 +668,26 @@ display_out: endpoint {
  	};
  };
+ 
++&samsung_playback_cpu {
++	dai-format = "dsp_b";
++	dai-tdm-slot-num = <16>;
++	dai-tdm-slot-tx-mask = <0 1 0 1>;
++};
++
++&samsung_codec_playback {
++	dai-tdm-slot-num = <16>;
++	dai-tdm-slot-tx-mask = <0 1 0 1>;
++};
++
++&samsung_capture_cpu {
++	dai-format = "dsp_b";
++	dai-tdm-slot-num = <16>;
++};
++
++&samsung_codec_capture {
++	dai-tdm-slot-num = <16>;
++};
++
+ &pinctrl {
+ 	/*
+ 	 * This extends the MC0_A_2 default config to include
+diff --git a/arch/arm/boot/dts/st/ste-ux500-samsung-gavini.dts b/arch/arm/boot/dts/st/ste-ux500-samsung-gavini.dts
+index 0c3eef7a294a..d99ee1581eb7 100644
+--- a/arch/arm/boot/dts/st/ste-ux500-samsung-gavini.dts
++++ b/arch/arm/boot/dts/st/ste-ux500-samsung-gavini.dts
+@@ -7,6 +7,7 @@
+ #include "ste-db8500.dtsi"
+ #include "ste-ab8500.dtsi"
+ #include "ste-dbx5x0-pinctrl.dtsi"
++#include "ste-ux500-samsung.dtsi"
+ #include <dt-bindings/gpio/gpio.h>
+ #include <dt-bindings/leds/common.h>
+ #include <dt-bindings/input/input.h>
+@@ -604,6 +605,10 @@ display_out: endpoint {
+ 	};
+ };
+ 
++&codec {
++	stericsson,amic1a-bias-vamic2;
++};
++
+ &pinctrl {
+ 	/*
+ 	 * This extends the MC0_A_2 default config to include
+diff --git a/arch/arm/boot/dts/st/ste-ux500-samsung-golden.dts b/arch/arm/boot/dts/st/ste-ux500-samsung-golden.dts
+index f736888474e7..730818fe073f 100644
+--- a/arch/arm/boot/dts/st/ste-ux500-samsung-golden.dts
++++ b/arch/arm/boot/dts/st/ste-ux500-samsung-golden.dts
+@@ -4,6 +4,7 @@
+ #include "ste-db8500.dtsi"
+ #include "ste-ab8505.dtsi"
+ #include "ste-dbx5x0-pinctrl.dtsi"
++#include "ste-ux500-samsung.dtsi"
+ #include <dt-bindings/gpio/gpio.h>
+ #include <dt-bindings/leds/common.h>
+ #include <dt-bindings/input/input.h>
+diff --git a/arch/arm/boot/dts/st/ste-ux500-samsung-janice.dts b/arch/arm/boot/dts/st/ste-ux500-samsung-janice.dts
+index 18fb7263058e..5f69b931d173 100644
+--- a/arch/arm/boot/dts/st/ste-ux500-samsung-janice.dts
++++ b/arch/arm/boot/dts/st/ste-ux500-samsung-janice.dts
+@@ -7,6 +7,7 @@
+ #include "ste-db8500.dtsi"
+ #include "ste-ab8500.dtsi"
+ #include "ste-dbx5x0-pinctrl.dtsi"
++#include "ste-ux500-samsung.dtsi"
+ #include <dt-bindings/gpio/gpio.h>
+ #include <dt-bindings/leds/common.h>
+ #include <dt-bindings/input/input.h>
+diff --git a/arch/arm/boot/dts/st/ste-ux500-samsung-kyle.dts b/arch/arm/boot/dts/st/ste-ux500-samsung-kyle.dts
+index c34d43a2b750..dc1c3d134199 100644
+--- a/arch/arm/boot/dts/st/ste-ux500-samsung-kyle.dts
++++ b/arch/arm/boot/dts/st/ste-ux500-samsung-kyle.dts
+@@ -11,6 +11,7 @@
+ #include "ste-db8500.dtsi"
+ #include "ste-ab8505.dtsi"
+ #include "ste-dbx5x0-pinctrl.dtsi"
++#include "ste-ux500-samsung.dtsi"
+ #include <dt-bindings/gpio/gpio.h>
+ #include <dt-bindings/leds/common.h>
+ #include <dt-bindings/input/input.h>
+diff --git a/arch/arm/boot/dts/st/ste-ux500-samsung-skomer.dts b/arch/arm/boot/dts/st/ste-ux500-samsung-skomer.dts
+index 7bf4287f6e13..9ed01cc4fa9a 100644
+--- a/arch/arm/boot/dts/st/ste-ux500-samsung-skomer.dts
++++ b/arch/arm/boot/dts/st/ste-ux500-samsung-skomer.dts
+@@ -7,6 +7,7 @@
+ #include "ste-db8500.dtsi"
+ #include "ste-ab8505.dtsi"
+ #include "ste-dbx5x0-pinctrl.dtsi"
++#include "ste-ux500-samsung.dtsi"
+ #include <dt-bindings/gpio/gpio.h>
+ #include <dt-bindings/leds/common.h>
+ #include <dt-bindings/input/input.h>
+diff --git a/arch/arm/boot/dts/st/ste-ux500-samsung.dtsi b/arch/arm/boot/dts/st/ste-ux500-samsung.dtsi
+new file mode 100644
+index 000000000000..2b46145f68c9
+--- /dev/null
++++ b/arch/arm/boot/dts/st/ste-ux500-samsung.dtsi
+@@ -0,0 +1,77 @@
++// SPDX-License-Identifier: GPL-2.0-only
++
++/ {
++	samsung_sound: sound {
++		compatible = "audio-graph-card2";
++		label = "Samsung";
++		links = <&samsung_msp1_port &samsung_msp3_port>;
++	};
++};
 +
 +&codec {
 +	assigned-clocks = <&ab8500_clock AB8500_SYSCLK_INT>;
@@ -354,24 +230,24 @@ index 268db68ccf87..eba6f674c691 100644
 +		port@0 {
 +			reg = <0>;
 +
-+			href_codec_playback: endpoint {
-+				remote-endpoint = <&href_msp1_endpoint>;
++			samsung_codec_playback: endpoint {
++				remote-endpoint = <&samsung_playback_cpu>;
 +				bitclock-master;
 +				frame-master;
-+				dai-tdm-slot-num = <16>;
++				dai-tdm-slot-num = <8>;
 +				dai-tdm-slot-width = <16>;
-+				dai-tdm-slot-tx-mask = <0 1 0 1>;
++				dai-tdm-slot-tx-mask = <1 1>;
 +			};
 +		};
 +
 +		port@1 {
 +			reg = <1>;
 +
-+			href_codec_capture: endpoint {
-+				remote-endpoint = <&href_msp3_endpoint>;
++			samsung_codec_capture: endpoint {
++				remote-endpoint = <&samsung_capture_cpu>;
 +				bitclock-master;
 +				frame-master;
-+				dai-tdm-slot-num = <16>;
++				dai-tdm-slot-num = <8>;
 +				dai-tdm-slot-width = <16>;
 +				dai-tdm-slot-rx-mask = <1>;
 +			};
@@ -380,25 +256,31 @@ index 268db68ccf87..eba6f674c691 100644
 +};
 +
 +&msp1 {
-+	href_msp1_port: port {
-+		href_msp1_endpoint: endpoint {
++	pinctrl-names = "default";
++	pinctrl-0 = <&msp1txrx_a_1_default>;
++	status = "okay";
++
++	samsung_msp1_port: port {
++		samsung_playback_cpu: endpoint {
 +			continuous-clock;
-+			remote-endpoint = <&href_codec_playback>;
++			remote-endpoint = <&samsung_codec_playback>;
 +			dai-format = "dsp_a";
-+			dai-tdm-slot-num = <16>;
++			dai-tdm-slot-num = <8>;
 +			dai-tdm-slot-width = <16>;
-+			dai-tdm-slot-tx-mask = <0 1 0 1>;
++			dai-tdm-slot-tx-mask = <1 1>;
 +		};
 +	};
 +};
 +
 +&msp3 {
-+	href_msp3_port: port {
-+		href_msp3_endpoint: endpoint {
++	status = "okay";
++
++	samsung_msp3_port: port {
++		samsung_capture_cpu: endpoint {
 +			continuous-clock;
-+			remote-endpoint = <&href_codec_capture>;
++			remote-endpoint = <&samsung_codec_capture>;
 +			dai-format = "dsp_a";
-+			dai-tdm-slot-num = <16>;
++			dai-tdm-slot-num = <8>;
 +			dai-tdm-slot-width = <16>;
 +			dai-tdm-slot-rx-mask = <1>;
 +		};
