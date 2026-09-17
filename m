@@ -1,46 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34A1632E13B;
-	Fri, 18 Sep 2026 09:31:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3806427F8F;
+	Fri, 18 Sep 2026 09:48:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789723880; cv=none; b=OJtnWH/ZAQiyuwZ8qQQnIOGeCjZll4Dmn3BTZeRW2ZLj50x5RJ9XhwS+v1XTQ/PJffDQP7/dO8COhWJZoBk44EguGW831y9MGvHlaGNvQqcfsoDnWhrTJO5pkocVEuK3FAOgSVpkrMQ8PiCLlnRPH1ST9UJw2YDxKbDpXUCjJbA=
+	t=1789724911; cv=none; b=DNRBftiOZGE2JcDt+4V792DmsfuxF9kDgCPnXfzPOSwdM58ytA6IzEIaKrB/y8hOAWzHZLEtNVVJv4KJQ6d9MQyA/GPhn0YqJXrdMGnILRX6aM9YG5++Ch/bVpWSDGaKzeh1+sQ4/ggCSwaHrtH4oq2V4oVSOhGTj7uXh+wUxTk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789723880; c=relaxed/simple;
-	bh=+x1vsXeiK2OueYvPkRtic76PEOrb1bBDEoW8fqqpLHo=;
+	s=arc-20240116; t=1789724911; c=relaxed/simple;
+	bh=0xJlfhEtS7rP+cIQGSbdXqP0rAyv7gYirXsnZ/0eJCA=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=MXyOED1Pjd4xTEvV8jSfvzY23W6XxN+/dWp+FdK1RDUDBsXV6l7E8zYac5KO34F3J9/9y5cpq/Rx6B29wzdOsjmZIG+3xXM/SYWNVsDAOAed1AgF2/7aZYyRfGYjjkuLaWqsx4RM9wLVCEZ8ruqUmElLBqLR5Muh7/POuAYmaic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DJ2+7PXX; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=aUZY7ympieKrD0PKdNiH7XYiokUvNqOtX8GQZpcG2KZL89q5gb5ZZOll8W3YhyNOUBuLR+4LV8yJxVUafYvE3bOwyEQEUqLDE429W5PN62ZlVOwSBf6WhTHoo2/IFUb1TDwy6bg3yKW2jgJv3W9jE6n4oiTeYj+1Yv1YKP7tazs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TUrcbOLi; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DJ2+7PXX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB4271F000FF;
-	Fri, 18 Sep 2026 09:31:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TUrcbOLi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 359AE1F000FF;
+	Fri, 18 Sep 2026 09:48:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789723878;
-	bh=q/6D673KNUj0CgskaDcgX/3a6KKrhwBSVGi57Q+uxGk=;
+	s=k20260515; t=1789724907;
+	bh=hubMP+qeA9OQW4X4+cRxFhZ+FwJ/0Bm3jEI+zxjXKlg=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=DJ2+7PXX04ev9Sc9en7UiJZBPJa6suA/p1drNursm2NVCOb5kKfnO4OOc9htWsoJn
-	 YkXBQwlg+ue7XIxDoSae/trYEdIrNoSNyA7xfrh1rIRo8hV3zc5aAVYWtE9a2Qauhb
-	 VZcTEaaddc98Luc6MMEbcxQr++/5OLMR9E+JgsViJtrZH4uKguoG5m9/5zTqhojiTc
-	 zNAVbdrb782eVuV8uWgLCCQqQzTLXaK602IuBaafa0Nsfz4lVDMcbleOvhFBi5EOle
-	 J7FbOpfuOfu5lLWQC8qvwrbLKgj39Uz89qTiFb7TwigDcclHw6i7GW1X4JlYAynQhq
-	 zShKexqvO4C+w==
+	b=TUrcbOLiC+Lc06p71uqurDkZ5oPWHF/+Lsaaz67l24jE+hjzkuGBm5+uZCOTqBitb
+	 qAqcagJf+GEEOVGJxQR8F7gE91RShKIUaE7k1Qo28T70yG1i1h5uqB8sOlxHlfAYOF
+	 NsAiWbfX4+HRdQm4vAjuvBCu4Xpst2rMqCETrYIpsuiIBPSt0kflc+7cOT8YgSvq+P
+	 oTELMOsn/l2gyJsM5ddWL6xYL2crfXsVAmTgDJw4gpDoHpmhR2qpps+dZhHsQ3uQ0M
+	 hq9WO7OZcmTl00j9oY1DlG4BNIv38WNsnGU8cgSGtiLERfyHH5AJtTg7heq+7pDv9R
+	 sGSEHmasD9ASg==
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Shuming Fan <shumingf@realtek.com>, 
- Charles Keepax <ckeepax@opensource.cirrus.com>, 
- Arnd Bergmann <arnd@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>, 
- Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20260917135950.405423-1-arnd@kernel.org>
-References: <20260917135950.405423-1-arnd@kernel.org>
-Subject: Re: [PATCH] [v2] ASoC: rt766: fix HID dependency for
- SND_SOC_SDCA_HID
-Message-Id: <178967312351.285745.16568648284564941465.b4-ty@b4>
-Date: Thu, 17 Sep 2026 20:25:23 +0100
+To: alsa-devel@alsa-project.org, Syed Saba Kareem <syed.sabakareem@amd.com>
+Cc: Vijendar.Mukunda@amd.com, anson.tsao@amd.com, 
+ Sunil-kumar.Dommati@amd.com, mario.limonciello@amd.com, 
+ Syed Saba Kareem <Syed.SabaKareem@amd.com>, 
+ Venkata Prasad Potturu <venkataprasad.potturu@amd.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Randy Dunlap <rdunlap@infradead.org>, 
+ Simon Trimmer <simont@opensource.cirrus.com>, Baojun Xu <baojun.xu@ti.com>, 
+ Ville Saarinen <wiza@saarinenkoti.fi>, Hasun Park <hasunpark@gmail.com>, 
+ "open list:AMD ASoC DRIVERS" <linux-sound@vger.kernel.org>, 
+ open list <linux-kernel@vger.kernel.org>
+In-Reply-To: <20260917165314.1880855-1-syed.sabakareem@amd.com>
+References: <20260917165314.1880855-1-syed.sabakareem@amd.com>
+Subject: Re: [PATCH] ASoC: amd: acp: enable TAS2783 and add RT712-VB
+ SoundWire machine
+Message-Id: <178968348634.285745.3236296235637083568.b4-ty@b4>
+Date: Thu, 17 Sep 2026 23:18:06 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -50,20 +53,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1123; i=broonie@kernel.org;
- h=from:subject:message-id; bh=+x1vsXeiK2OueYvPkRtic76PEOrb1bBDEoW8fqqpLHo=;
- b=kA0DAAoBJNaLcl1Uh9AByyZiAGqtBOKhaQYvZp632ujQocl8o8spiAZthffsUZiR85d77htwd
- okBMwQAAQoAHRYhBK3maKpnVxi1n+Kf6iTWi3JdVIfQBQJqrQTiAAoJECTWi3JdVIfQEGEH/ian
- eDY2tzfJZH5KdZzVkLv/gLC0PfHh0nXciGVLNZLau/fRq2pL73AYzZ9Sb5Gm8tb83ckeBqN5H7D
- 0AZICoHb+eRlfnK9un8TDL/bdTatMgDMLFyaZ82eJNMrsYzgcmD5hXhMmYbf6b4mbOy+RTFhNpj
- jnlMBRaQn08tyfwsRWtycSdz3XcTr9Rjm41Bl1jbJbzXYKgSV6gtXq90YKTnsXCxvjZNQg/4MUl
- yXEWyeg9Upi8SMHjLqiVMDQj3BlnZcpVHd2HT8xokbn+D0IvcrYB+3dtv7+YbIAwSdiPnn/6jCJ
- 9Vbe5VNNbVq5PDm1AmYbv4lN8wCpwlsyodRZDtQ=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1152; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=0xJlfhEtS7rP+cIQGSbdXqP0rAyv7gYirXsnZ/0eJCA=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqrQjlqj6fyAmTQRpiBgkaiMjMVz5x/506/qNxu
+ oFo0hBtNq2JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaq0I5QAKCRAk1otyXVSH
+ 0Hg2B/9X5dBztILpHb18qDJx2sn0koMp+TDojKWRMQBG6EhNlw/PKcoa+3fi/ZzCwaQL1x1+Chd
+ 7e/Hxa/jFKsX3m+IADYGuNsUxm5c6Uh3mcZ/yh5ZLYeGNRoZ0ayvoO3ylRI5g5zRVgiJ+JNUNwJ
+ DR+VsqVAg9JwgVOFZEVqdD/tslutfwudjn22UbklmEmFHsfbYKbuG3jMVHXZLz16Q+d5u4/04C9
+ 22gnGsiq+Gybx0wP2Ab4RMfFA06Nf7bjT4gaiOMctNC1zzJuZ6QEsQqjrghvVQHstdlo7DmfuQh
+ nSvCUXj5DSVYGkMU7vANIUHFYynJKVciW/tKEqREm6ERlNHf
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Thu, 17 Sep 2026 15:58:51 +0200, Arnd Bergmann wrote:
-> ASoC: rt766: fix HID dependency for SND_SOC_SDCA_HID
+On Thu, 17 Sep 2026 22:21:49 +0530, Syed Saba Kareem wrote:
+> ASoC: amd: acp: enable TAS2783 and add RT712-VB SoundWire machine
 
 Applied to
 
@@ -71,8 +74,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: rt766: fix HID dependency for SND_SOC_SDCA_HID
-      https://git.kernel.org/broonie/sound/c/8d78e4f906cf
+[1/1] ASoC: amd: acp: enable TAS2783 and add RT712-VB SoundWire machine
+      https://git.kernel.org/broonie/sound/c/28114992dd2f
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
