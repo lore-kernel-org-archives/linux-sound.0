@@ -1,88 +1,89 @@
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AA4F2EC0A2
-	for <linux-sound@vger.kernel.org>; Thu, 17 Sep 2026 02:16:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 908BF384CCB
+	for <linux-sound@vger.kernel.org>; Thu, 17 Sep 2026 02:16:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789611394; cv=none; b=sr1hNK0A+wqH6Kv6RWzSGXWlTXhtjtou3KDBQOyeB1/lXXowwyMPUmR97VGBxjfhhL//Rxdu4dLUrP5AvS4T4JyT4ewVM/wUJjaCnc4fDvTh7CLL1eGbfYdaW5cYMAyOhjo1DM6SyaEZeAaG2cQvF5cjBfYiNB9JvNxRFgYG6FI=
+	t=1789611399; cv=none; b=cOZpkIu6UdNmAPyU4Iy6AewBx36ZKuzrB5hlLOy3S4yu0oFx0f/UiTBmzVXyzbp+amxcHblDJtLzohkp5PR4CPQOF51314C+XZPSErDVIW9s+9XZmxtqHY4rPnAnn4clu47DxffqKB1taCd5U3VNeciAThtqNzJ7mVaY/mS0JjM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789611394; c=relaxed/simple;
-	bh=TNh1gyWxvhyIuk3KUa6OUnrXU3MnUQqzN4fQgAGJu18=;
+	s=arc-20240116; t=1789611399; c=relaxed/simple;
+	bh=0tc4pJYDNJZpwQ+BTiOo25tuHYzosxRAGmHIbeFsyQ8=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=YaMOP5wS2byCy879G6ym1n7vn6slYz9Xg9UBt0rxkSxoT+4Dlj+5ZOKpSxVXMGeftTtTDhVQ+B2B//AJ2uTDSe9Ow8KU8uPotaOsHs2kjIJrLCLkdIyVCC9mH1kjDeZqSRYIK1GuszcUc0+hGbXZHj/kzczd9NierQ1ijRT930Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=mdVGqnPO; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=fXLhsDma; arc=none smtp.client-ip=205.220.180.131
+	 In-Reply-To:To:Cc; b=dCOzNJNnaH6y07GKVAstfg/a7ToVExD1bgJk0sq2srgKhZAVJ3lTLWFWjAulj9wna58guAPV/1EZX5thbAHz0nrycYk3YYUjH+b68wJUAu8s4Od3F6rA6HOAMgENN7SEvA+0Kp356bB6TXLC9wyZBgb5rIiVf2BgbrnqIx17O1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Vwrah4Uw; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=fUEqFI00; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="mdVGqnPO";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="fXLhsDma"
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68GMV0xJ2471486
-	for <linux-sound@vger.kernel.org>; Thu, 17 Sep 2026 02:16:31 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Vwrah4Uw";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="fUEqFI00"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68H1W1R63898377
+	for <linux-sound@vger.kernel.org>; Thu, 17 Sep 2026 02:16:35 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	21Km1m/wFxEv+YITZInOLUIaDFtCvmQJhp0tjGfhUkE=; b=mdVGqnPOZZJSa8ng
-	l00HGyV2qQcsKiw34KAxdjuEa2JhrREjv2DBVGONN6jEbSawMC/pBUalI1SsLjnw
-	NzRIHY2YIU7zar29uBezLNs+K4PN95FjiS5vq4WVcbt3KZANRkw7Q5gYf5OoIKh2
-	iG3Gzu3qcii7krrhQhf+GiqEWJlpIHNvGa9rcOGdRcJhM/K6wlmCkKwtk+V7mHhG
-	pIlwdyRlvDRzydhPwwGeEiOf7HVsV13gNiTylWA+VI8vW7gMG37qqyQnKcSud+eZ
-	sDxPf7OAUWX4RiPjRB8xtZQaGVPcHKiai9qTwoxFIbUlxtMgzGwOITvRghzT8FB9
-	myjVaw==
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gqtn539av-1
+	DUcTC9r3J9GPoSACBkrMA0cBnB3tCe0jaTderQke2D4=; b=Vwrah4Uw/6+9Et0h
+	6riAfncgDAzMOmmbXVe+8UhYH2iOawfDjPLY89QlKkxe6/pRvQtyhAJz4UfJb61I
+	z3TxuRDIl3Go0k4TSTy85s0HbioBD5Lj+6klEZeOVtC/X+uZ51LfOS2l5i+QTiHg
+	mcRiJlm5VOkLKf2+QzuGbFvrOXPxs6ie7VyglTXYSfBV0Hqqt2ZrSQPIQ3R4N0fK
+	swamq2LUr+9he4JEgJu1P5Wl75tqDUUCFdaPUmBhPuNfjC0WQd2sA2ID53waod8g
+	L8q2tGF+yxPUySjD4f1svhfgIv4pTt5BjU7T+C44pBSjolFMPuYzVJnV0+94adVb
+	JMdh6A==
+Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com [209.85.210.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gqy6asvqm-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Thu, 17 Sep 2026 02:16:31 +0000 (GMT)
-Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-3965ba1ba3eso484480a91.2
-        for <linux-sound@vger.kernel.org>; Wed, 16 Sep 2026 19:16:30 -0700 (PDT)
+	for <linux-sound@vger.kernel.org>; Thu, 17 Sep 2026 02:16:35 +0000 (GMT)
+Received: by mail-ot1-f70.google.com with SMTP id 46e09a7af769-805da97443aso623744a34.2
+        for <linux-sound@vger.kernel.org>; Wed, 16 Sep 2026 19:16:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1789611390; x=1790216190; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1789611394; x=1790216194; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=21Km1m/wFxEv+YITZInOLUIaDFtCvmQJhp0tjGfhUkE=;
-        b=fXLhsDmaaZT49Up0vO2J1O6eDo37ZbFGMHb8xZofEzCjaZKZvkyi28Ja4QvV2p63A0
-         6uPfy5hpxIWJZHV3S9EBJMi2PCXI9fK/Uf1g0us8erT5JRYMLUu7z6cxDmuuh4tCWzzz
-         eEGryutaUdaDVKYvBj0Wgdwidia+1+Za7iFCvICsjrU4LyQ1fkaDgssditv0EsPP3SAt
-         2nCsq8onCC0WtOQqzb6AdkhcV2eE+9KrVkYk8HsfgDjdi/JQUwBR4VYu2ly4kxzgddJx
-         iYmvyTGQcLDN5EmoB88TDU78D5gJmlNqoCr5/V65gWNn44K/gPsYtyUYB5avBL96MTUc
-         mHeA==
+        bh=DUcTC9r3J9GPoSACBkrMA0cBnB3tCe0jaTderQke2D4=;
+        b=fUEqFI00R/McTtSe2tw5uNukKPl6O//VRNndwED2PwhALllgpNe88eVSQ4k4/OT21y
+         8LY+ezszl5Qz3lKcS7XTI40NkYqy088ch5irD1zkzyEdPSobf35J0luun67eJE82SlPi
+         as3v7a5o0YxbkWwtjfLEttWUS7g9ebEZf38137ld7FxZ4hKLgGisj55icesJm11omats
+         qx2xW1flVDEIiLqTCDO06I/JLfnx+FrSAAA0f6vrB6rkk5nok/QZGivQbNFsHru+8um6
+         bklVj3uBLfo5MEZByB2iuL6Elw8fuFGcObSeH8A8tYWKCe07SEEvL7T7ljrX77XyIWxN
+         CaQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789611390; x=1790216190;
+        d=1e100.net; s=20260707; t=1789611394; x=1790216194;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=21Km1m/wFxEv+YITZInOLUIaDFtCvmQJhp0tjGfhUkE=;
-        b=NGtiDE0nUNTp9YUy7pyevkC+3bREsZfYs23p7upXtVCb9lK7RdA9YJc16yukQG+cvI
-         D/X2C+qDu8SkyQo0GlRZ4wfCYI625lSFsv2zApnAfsoONfeISOypcCYAx8GQhUxu9BjN
-         oZJdGD3VqEIr0VILWTbzvPG49/LuwROXadHs2KiO66nGxMReQHiKE1APq/0xPMrSP1Nn
-         d7Dok7dvRmUnSwbqTnL635eLL89F/TvaVae0dwmkYaFRhwrKxtnt+cK2ZoEUm2eFkry7
-         IikKzmSF6Hti7RY/Fc/cFFIiCK85JbjHE8OhdaU4UV8056jLgJAcNTdKQmT87A+JIqBp
-         u6uw==
-X-Forwarded-Encrypted: i=1; AKwUvBwpH80vhrjKYdmasdTG0yCJ8IoHICWYqzPqqPiThEz3lVkTiS8IGsoRMkORkP9CEgR3bQH0z8mFOImmgw==@vger.kernel.org
-X-Gm-Message-State: AFuF++nWg/EkJzVLPPm4guHfm7f3QmG1sOw5Jyz51sFDeRDarYxHsLJo
-	2qfG09sDkP2jCZ4to4YrSa4oqyzKX9buFgynmwhy6e7iQeeUOB78SKmxATE0gcNTD2pgxzZMSSG
-	+N7a2NAi9B8+2tLZ9p2BjQEL0g9S5HMhtBu+JwA3ShXBwqxGV59zCV9p/jZDi+YgIuA==
-X-Gm-Gg: AYBFou0C6W79bBdr1zxUeQKiWWqK6GQvMN97B7XEqtOQ4NJj5a5pew0QCFfHtRfx0Cf
-	9OHo0c+X9e6XRALMEMofO1jVbgs9XWU3PYBmSIafW6bjlTa0HcnLtEcRCUSX3D3yoaCFB5A8k1r
-	LtANXpWxPNdvC9nYE9lwC65G7swCysiiVvpmCJw/3uXJ48ylGjkkrgI+rnx6A0cZWkSPmRT74i/
-	A15nn4tBG5TWZ0fnx9DlNSkh/z4IdM5e1+EGaQl63Qm6Oky8oogigYFzYEJSPEUgwKid8QfXoiF
-	oNF2wwibEHfBVF1DlW6h3f+CnV9zdVPskBJegq5iKMdXOPPobJ5SWCnHNyKyvw0GTSF9WtBImT3
-	PzJTYnGks0qyilhDIruqmCZrIJOtSi9vwkEaJ
-X-Received: by 2002:a17:90b:2744:b0:38e:bbf1:de3f with SMTP id 98e67ed59e1d1-39e1e4907ddmr15297305a91.12.1789611389918;
-        Wed, 16 Sep 2026 19:16:29 -0700 (PDT)
-X-Received: by 2002:a17:90b:2744:b0:38e:bbf1:de3f with SMTP id 98e67ed59e1d1-39e1e4907ddmr15297167a91.12.1789611389296;
-        Wed, 16 Sep 2026 19:16:29 -0700 (PDT)
+        bh=DUcTC9r3J9GPoSACBkrMA0cBnB3tCe0jaTderQke2D4=;
+        b=PeIWKJEN+0rMfOSrt1YUK7XAdwtKvGs4nuG2b2G/K4mWErGEomYfoGqfnVR2mfLB46
+         03GxSBA11yPzW3trTXI3jImLx8HnN7OO9iFOiTLFglOotjZ2a8Qt4TpKJYl37OHjRFar
+         Grn+NQ2pm9S9P81CDKMnQTppSWBP3nTu97c8j+9R6nx8nEzwf8d7wZKznKE4GQOvt850
+         jsysXPGWkUyo2M78MFthacIRKQ2lj7NiZV9nylfB5dzgHQWSdU3m/Ms1k0wkEVd0SYl4
+         UgPKtDcritqxkve9QDfkHRrE4sgOBErfBXa5QxNWxPV96WMYlQbrSMdSisfbAf+MMmTW
+         X3+A==
+X-Forwarded-Encrypted: i=1; AKwUvBzW+VW8GO541KAchLvm/a2tLvRTkuK9qdss6ZfdIdM2N5spqHJVL8m/SVTXlCA7O02ekWjY4XBd4JCtRQ==@vger.kernel.org
+X-Gm-Message-State: AFuF++nxSsjDryzXLEHLletF61wWDMcpV4r7Bwq3Mbuq4yEmm2cVVrJ6
+	a8R+9aNMzsa5wZbcsv44AjMw7s0+HWrmLkJ2fsunOTW3bnq5v7l5+dbBZhfgV4uC0xO8OiMFDXv
+	3aL8mz4onwZ2+c7wuWZS5nb8o91wmtUutLm4GUNi285nm0ODGToP390zbTKlCCY+zhPPaLZ0MSA
+	==
+X-Gm-Gg: AYBFou0sGFDfgVOcMKi0tKXw/rhG733iaLGKnDHMU9rHjj9HallHIqRFnr7ULrNqirx
+	9+nx1bvsODBZ8glSNKk3U+nea+FxZeqOw4kdZvJRSiAFqZSlK/a0rQVr0Zpn+fb+K3KvoGtxvnQ
+	caPH68bvb58grT7mGaY3bpM0rZX902Nu35zHhxbO5zNGZdd7BOJAZ1TqcWOo8ebfQ+vbh9LykLD
+	ZWAql1yw7gs4cJLiSsPOLN2IpK+HEZ1hE/QpkAFF0vZMwlOFMKhxVKXTZ5t3iAS2Y9cojqljxy7
+	DeHVMsVHrSnoXjq+0WHVQkyd0K8YFKEd+O9rAtQMkKIHUY+ObmqixtjD4wYhz+drxjhh4K3wnUT
+	IrsASJ1RaI/6KQgGKo92skQDPIq4qZGBAJYkv
+X-Received: by 2002:a05:6820:607:b0:6b7:46fc:1c4 with SMTP id 006d021491bc7-6c7d36f99afmr4614992eaf.35.1789611394393;
+        Wed, 16 Sep 2026 19:16:34 -0700 (PDT)
+X-Received: by 2002:a05:6820:607:b0:6b7:46fc:1c4 with SMTP id 006d021491bc7-6c7d36f99afmr4614969eaf.35.1789611393918;
+        Wed, 16 Sep 2026 19:16:33 -0700 (PDT)
 Received: from hu-mohs-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33bfb19f8cesm14372881eec.2.2026.09.16.19.16.24
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33bfb19f8cesm14372881eec.2.2026.09.16.19.16.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Sep 2026 19:16:28 -0700 (PDT)
+        Wed, 16 Sep 2026 19:16:33 -0700 (PDT)
 From: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-Date: Thu, 17 Sep 2026 07:45:35 +0530
-Subject: [PATCH v3 v3 4/5] ASoC: qcom: lpass-va-macro: Add shikra
- compatible
+Date: Thu, 17 Sep 2026 07:45:36 +0530
+Subject: [PATCH v3 v3 5/5] ASoC: qcom: lpass-va-macro: Add SoundWire
+ microphone mux support
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -91,7 +92,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260917-add_shikra_support-v3-4-fc0e79c341aa@oss.qualcomm.com>
+Message-Id: <20260917-add_shikra_support-v3-5-fc0e79c341aa@oss.qualcomm.com>
 References: <20260917-add_shikra_support-v3-0-fc0e79c341aa@oss.qualcomm.com>
 In-Reply-To: <20260917-add_shikra_support-v3-0-fc0e79c341aa@oss.qualcomm.com>
 To: Srinivas Kandagatla <srini@kernel.org>,
@@ -104,425 +105,253 @@ Cc: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>,
         linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1789611366; l=14552;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1789611366; l=8497;
  i=mohammad.rafi.shaik@oss.qualcomm.com; s=20260424;
- h=from:subject:message-id; bh=TNh1gyWxvhyIuk3KUa6OUnrXU3MnUQqzN4fQgAGJu18=;
- b=LwwRyt6gnMQAw3s2VLr1j/unqg9i2GCYc5oprT8vCw5SfZ8bigSySkKlYWRvYf+gL20+fAVxR
- pA8+QqRAj3VCjfpI8zCIEcL+KJSwwYUGWJQeqlqV2v0CtiwfLuil1jg
+ h=from:subject:message-id; bh=0tc4pJYDNJZpwQ+BTiOo25tuHYzosxRAGmHIbeFsyQ8=;
+ b=7nWN/cFLw0UsPkGkIq9wgcNOt73Ev0r0scAjKcfNXR/dKffGb6wknmq0GAg6ljV0QyX4+t2TY
+ hen+L7pMBBuDEFXxqE85vpVPm3LqpyzF7mJ3a4gNUYTZiq7CoV7eMIr
 X-Developer-Key: i=mohammad.rafi.shaik@oss.qualcomm.com; a=ed25519;
  pk=KZedmYgMGYOzuTpLGv56tdrL+pTLDP8pdmfQ91xemiA=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE3MDAyOSBTYWx0ZWRfX7Su9mePTD4q5
- 5uxfyOW+wlZYOh2DvrhGl9E0So7yCOsfIqgdJdXWxDmvEmpfvNbDTjrXeYvRftzIFFQKwQd0fr5
- PDpXpYaFULfQVjbRkkuksPIpeVQp1PlUpHDunlYl7nLn9lh2c8uQlM04UPJVqigeZbY30yXTajc
- IT0TCCmX/fYtuksHcdNHH4UHLf/MKpq4+fcO6QJ9j8L7hfMjGaYnK3y7th+Uzqw9c/G7a+78kyw
- lpaCDiz9nwBYYyVitDVgE8eTD5tLuMZ7YDKsB/+HTb3cZzoah510Y86cGKRb2tHCjB22R1RZovw
- 2/hRTpsehkcAQwh2L0WlVusmVVEAce96l77XwbdO1eWpNq1WXogUGkY9XxzRDoiiR+OWqlepkaK
- XVsRgCjGS/TTmn/NW5UaEutqkyssl8v3Hh26i5TTmYnEpFyXlun9DoQbtm+L8NCBY+MkEFO7x1f
- S68Ckaa5F20LwFURv7w==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTE3MDAyOSBTYWx0ZWRfXxP9pyf201qaa
- SHGoRbKIZ36ljeecU4XR8zImHVte+bhFPz3bEOz1BxdxQwqdhkEZufQ/hWgvwR3Nf1Wc8weMYsE
- rm/HI68aKz9AUDoNyPq/ybn0dDt+KYA=
-X-Proofpoint-ORIG-GUID: Zuor8gzmJ2bCBV5CLSCUIUYRpQty0r9-
-X-Authority-Analysis: v=2.4 cv=K7O3jCWI c=1 sm=1 tr=0 ts=6aab4d7f cx=c_pps
- a=0uOsjrqzRL749jD1oC5vDA==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+X-Proofpoint-GUID: t8bMFObOmGEL3Q82dj7F3fCBKQw_gPmf
+X-Proofpoint-ORIG-GUID: t8bMFObOmGEL3Q82dj7F3fCBKQw_gPmf
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE3MDAyOSBTYWx0ZWRfXy4Gh+CWF7An4
+ ZoluzFhS3CgEahnSaOUr89XifN7/YvrOXHTGXcIFA5uHevTdBuiB4SXzjQvW7QlHrJg3WZgLoj/
+ 1MgZAHCODQNeSR2fGx5C7LVIxcu/jaMZH2Ft47M8b7DYRcKf5tA53DRIRQH8JjP1+LtMm4fJOS3
+ 3C43FHHGtNtz16EPU1LNb14c3CjfGoK74cSg5ajIY2ZVsOQ/16hstpkmlI1/jctS7aVHD3agWGm
+ /CbE/Z9RiGTMkVrO8xKLOl7EnQFp9DnkStkExCpdtIDSY9gxMRTcw+Bt1qkU3+JUHR+jMBkCqWF
+ ziGKvmX1AFTKgwM9QSqWqRVjHpD8Mu6ZIdU8n4yFLXqUQOnY+JnDqAtAkRwd3uzUdjw2o0RTtSN
+ lGFVzUTUSKOJ1XUyqzkymqFsGPJVdZb721cF3NiHinFlkYouTJf0ALVv0fP0GMuDt55lH/2c98S
+ Kg/3KY1P5898klgHF2A==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTE3MDAyOSBTYWx0ZWRfX95kVbUGdrG8o
+ dp8Ybx/gqimuhbwkweaq6/whgdmRx2u7A+cHQ7P0X0yBHdIPHSmFSr+xRCXhGrn/xW4NVa6/HWp
+ ZaRevt49l9R2txHqMepcANm5ImAXboM=
+X-Authority-Analysis: v=2.4 cv=VIRIDNPX c=1 sm=1 tr=0 ts=6aab4d83 cx=c_pps
+ a=7uPEO8VhqeOX8vTJ3z8K6Q==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
  a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22
- a=EUspDBNiAAAA:8 a=oQOQ4skFxVlnexBxzNIA:9 a=QEXdDO2ut3YA:10
- a=mQ_c8vxmzFEMiUWkPHU9:22
-X-Proofpoint-GUID: Zuor8gzmJ2bCBV5CLSCUIUYRpQty0r9-
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
+ a=EUspDBNiAAAA:8 a=76V9-zZnIusTmnIAdMMA:9 a=QEXdDO2ut3YA:10
+ a=EXS-LbY8YePsIyqnH6vw:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-09-16_03,2026-09-16_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 impostorscore=0 phishscore=0 bulkscore=0 priorityscore=1501
- lowpriorityscore=0 spamscore=0 adultscore=0 suspectscore=0 clxscore=1015
+ impostorscore=0 spamscore=0 adultscore=0 priorityscore=1501 bulkscore=0
+ lowpriorityscore=0 suspectscore=0 clxscore=1015 phishscore=0 malwarescore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609170029
 
-Add shikra specific VA macro data and register programming needed by
-the LPASS codec v4.1 implementation.
+The VA decimators can currently capture audio only from DMIC inputs.
+Add support for routing audio from SoundWire microphone (SMIC) inputs
+as well.
 
-LPASS codec v4.1 extends the VA macro with four adaptive filter (ADPT)
-blocks at 0x0800..0x09a4 and requires the FS counter to be bypassed
-before it is enabled.
+Update the decimator source selection logic to switch between DMIC and
+SMIC sources based on the active input path.
 
-Add the new registers as a separate reg_default array that is
-concatenated with the common defaults at probe time.
+Add a helper to detect whether a decimator is using a SoundWire microphone
+input. Use this information to skip DMIC-specific HPF programming sequences
+when the decimator is configured for an SMIC source.
 
-The register layout has to be chosen before the regmap exists, i.e.
-before CDC_VA_TOP_CSR_CORE_ID_* can be read, so it comes from match data;
-probe then cross checks it against the version reported by the hardware.
+This enables VA decimators to capture audio from either DMIC or SoundWire
+microphone inputs.
 
 Signed-off-by: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
 ---
- sound/soc/codecs/lpass-va-macro.c | 233 ++++++++++++++++++++++++++++++++++++--
- 1 file changed, 226 insertions(+), 7 deletions(-)
+ sound/soc/codecs/lpass-va-macro.c | 133 +++++++++++++++++++++++++++++++++++---
+ 1 file changed, 124 insertions(+), 9 deletions(-)
 
 diff --git a/sound/soc/codecs/lpass-va-macro.c b/sound/soc/codecs/lpass-va-macro.c
-index 03d6434a4..31d399dfa 100644
+index 31d399dfa..50673b012 100644
 --- a/sound/soc/codecs/lpass-va-macro.c
 +++ b/sound/soc/codecs/lpass-va-macro.c
-@@ -26,6 +26,7 @@
- #define CDC_VA_CLK_RST_CTRL_FS_CNT_CONTROL	(0x0004)
- #define CDC_VA_FS_CONTROL_EN			BIT(0)
- #define CDC_VA_FS_COUNTER_CLR			BIT(1)
-+#define CDC_VA_FS_CNT_BYPASS			BIT(7)
- #define CDC_VA_CLK_RST_CTRL_SWR_CONTROL		(0x0008)
- #define CDC_VA_SWR_RESET_MASK		BIT(1)
- #define CDC_VA_SWR_RESET_ENABLE		BIT(1)
-@@ -156,7 +157,54 @@
- #define CDC_VA_TX3_TX_PATH_SEC5			(0x05A4)
- #define CDC_VA_TX3_TX_PATH_SEC6			(0x05A8)
- 
-+/* LPASS codec v4.1 adaptive filter (ADPT) blocks */
-+#define CDC_VA_CDC_ADPT0_ADPT_CTRL		0x0800
-+#define CDC_VA_ADPT_CTRL_EN_MASK		GENMASK(7, 0)
-+#define CDC_VA_CDC_ADPT0_ADPT_GAIN_0		0x0804
-+#define CDC_VA_CDC_ADPT0_ADPT_GAIN_1		0x0808
-+#define CDC_VA_CDC_ADPT0_DH_FSM_CTRL		0x080c
-+#define CDC_VA_CDC_ADPT0_CUTOFF_FSM_CTRL_0	0x0810
-+#define CDC_VA_CDC_ADPT0_CUTOFF_FSM_CTRL_1	0x0814
-+#define CDC_VA_CDC_ADPT0_CUTOFF_FSM_CTRL_2	0x0818
-+#define CDC_VA_CDC_ADPT0_CUTOFF_FSM_CTRL_3	0x081c
-+#define CDC_VA_CDC_ADPT0_CUTOFF_FSM_CTRL_4	0x0820
-+#define CDC_VA_CDC_ADPT0_CUTOFF_FSM_CTRL_5	0x0824
-+
-+#define CDC_VA_CDC_ADPT1_ADPT_CTRL		0x0880
-+#define CDC_VA_CDC_ADPT1_ADPT_GAIN_0		0x0884
-+#define CDC_VA_CDC_ADPT1_ADPT_GAIN_1		0x0888
-+#define CDC_VA_CDC_ADPT1_DH_FSM_CTRL		0x088c
-+#define CDC_VA_CDC_ADPT1_CUTOFF_FSM_CTRL_0	0x0890
-+#define CDC_VA_CDC_ADPT1_CUTOFF_FSM_CTRL_1	0x0894
-+#define CDC_VA_CDC_ADPT1_CUTOFF_FSM_CTRL_2	0x0898
-+#define CDC_VA_CDC_ADPT1_CUTOFF_FSM_CTRL_3	0x089c
-+#define CDC_VA_CDC_ADPT1_CUTOFF_FSM_CTRL_4	0x08a0
-+#define CDC_VA_CDC_ADPT1_CUTOFF_FSM_CTRL_5	0x08a4
-+
-+#define CDC_VA_CDC_ADPT2_ADPT_CTRL		0x0900
-+#define CDC_VA_CDC_ADPT2_ADPT_GAIN_0		0x0904
-+#define CDC_VA_CDC_ADPT2_ADPT_GAIN_1		0x0908
-+#define CDC_VA_CDC_ADPT2_DH_FSM_CTRL		0x090c
-+#define CDC_VA_CDC_ADPT2_CUTOFF_FSM_CTRL_0	0x0910
-+#define CDC_VA_CDC_ADPT2_CUTOFF_FSM_CTRL_1	0x0914
-+#define CDC_VA_CDC_ADPT2_CUTOFF_FSM_CTRL_2	0x0918
-+#define CDC_VA_CDC_ADPT2_CUTOFF_FSM_CTRL_3	0x091c
-+#define CDC_VA_CDC_ADPT2_CUTOFF_FSM_CTRL_4	0x0920
-+#define CDC_VA_CDC_ADPT2_CUTOFF_FSM_CTRL_5	0x0924
-+
-+#define CDC_VA_CDC_ADPT3_ADPT_CTRL		0x0980
-+#define CDC_VA_CDC_ADPT3_ADPT_GAIN_0		0x0984
-+#define CDC_VA_CDC_ADPT3_ADPT_GAIN_1		0x0988
-+#define CDC_VA_CDC_ADPT3_DH_FSM_CTRL		0x098c
-+#define CDC_VA_CDC_ADPT3_CUTOFF_FSM_CTRL_0	0x0990
-+#define CDC_VA_CDC_ADPT3_CUTOFF_FSM_CTRL_1	0x0994
-+#define CDC_VA_CDC_ADPT3_CUTOFF_FSM_CTRL_2	0x0998
-+#define CDC_VA_CDC_ADPT3_CUTOFF_FSM_CTRL_3	0x099c
-+#define CDC_VA_CDC_ADPT3_CUTOFF_FSM_CTRL_4	0x09a0
-+#define CDC_VA_CDC_ADPT3_CUTOFF_FSM_CTRL_5	0x09a4
-+
- #define VA_MAX_OFFSET				(0x07A8)
-+#define VA_4_1_MAX_OFFSET			0x09a4
- 
- #define VA_MACRO_NUM_DECIMATORS 4
- #define VA_MACRO_RATES (SNDRV_PCM_RATE_8000 | SNDRV_PCM_RATE_16000 |\
-@@ -210,7 +258,8 @@ struct va_macro {
- 	u16 dmic_clk_div;
- 	bool has_swr_master;
- 	bool has_npl_clk;
--
-+	bool fs_cnt_bypass;
-+	bool has_adpt;
- 	int dec_mode[VA_MACRO_NUM_DECIMATORS];
- 	struct regmap *regmap;
- 	struct clk *mclk;
-@@ -237,6 +286,7 @@ struct va_macro_data {
- 	bool has_swr_master;
- 	bool has_npl_clk;
- 	int version;
-+	const struct regmap_config *regmap_config;
- };
- 
- static const struct va_macro_data sm8250_va_data = {
-@@ -357,6 +407,127 @@ static const struct reg_default va_defaults[] = {
- 	{ CDC_VA_TX3_TX_PATH_SEC6, 0x00},
- };
- 
-+static const struct reg_default va_4_1_defaults[] = {
-+	/* VA macro */
-+	{ CDC_VA_CLK_RST_CTRL_MCLK_CONTROL, 0x00},
-+	{ CDC_VA_CLK_RST_CTRL_FS_CNT_CONTROL, 0x00},
-+	{ CDC_VA_CLK_RST_CTRL_SWR_CONTROL, 0x00},
-+	{ CDC_VA_TOP_CSR_TOP_CFG0, 0x00},
-+	{ CDC_VA_TOP_CSR_DMIC0_CTL, 0x00},
-+	{ CDC_VA_TOP_CSR_DMIC1_CTL, 0x00},
-+	{ CDC_VA_TOP_CSR_DMIC2_CTL, 0x00},
-+	{ CDC_VA_TOP_CSR_DMIC3_CTL, 0x00},
-+	{ CDC_VA_TOP_CSR_DMIC_CFG, 0x80},
-+	{ CDC_VA_TOP_CSR_DEBUG_BUS, 0x00},
-+	{ CDC_VA_TOP_CSR_DEBUG_EN, 0x00},
-+	{ CDC_VA_TOP_CSR_TX_I2S_CTL, 0x0C},
-+	{ CDC_VA_TOP_CSR_I2S_CLK, 0x00},
-+	{ CDC_VA_TOP_CSR_I2S_RESET, 0x00},
-+	{ CDC_VA_TOP_CSR_CORE_ID_0, 0x00},
-+	{ CDC_VA_TOP_CSR_CORE_ID_1, 0x00},
-+	{ CDC_VA_TOP_CSR_CORE_ID_2, 0x00},
-+	{ CDC_VA_TOP_CSR_CORE_ID_3, 0x00},
-+	{ CDC_VA_TOP_CSR_SWR_MIC_CTL0, 0xEE},
-+	{ CDC_VA_TOP_CSR_SWR_MIC_CTL1, 0xEE},
-+	{ CDC_VA_TOP_CSR_SWR_MIC_CTL2, 0xEE},
-+	{ CDC_VA_TOP_CSR_SWR_CTRL, 0x06},
-+	/* VA core */
-+	{ CDC_VA_INP_MUX_ADC_MUX0_CFG0, 0x00},
-+	{ CDC_VA_INP_MUX_ADC_MUX0_CFG1, 0x00},
-+	{ CDC_VA_INP_MUX_ADC_MUX1_CFG0, 0x00},
-+	{ CDC_VA_INP_MUX_ADC_MUX1_CFG1, 0x00},
-+	{ CDC_VA_INP_MUX_ADC_MUX2_CFG0, 0x00},
-+	{ CDC_VA_INP_MUX_ADC_MUX2_CFG1, 0x00},
-+	{ CDC_VA_INP_MUX_ADC_MUX3_CFG0, 0x00},
-+	{ CDC_VA_INP_MUX_ADC_MUX3_CFG1, 0x00},
-+	{ CDC_VA_TX0_TX_PATH_CTL, 0x04},
-+	{ CDC_VA_TX0_TX_PATH_CFG0, 0x10},
-+	{ CDC_VA_TX0_TX_PATH_CFG1, 0x0B},
-+	{ CDC_VA_TX0_TX_VOL_CTL, 0x00},
-+	{ CDC_VA_TX0_TX_PATH_SEC0, 0x00},
-+	{ CDC_VA_TX0_TX_PATH_SEC1, 0x00},
-+	{ CDC_VA_TX0_TX_PATH_SEC2, 0x01},
-+	{ CDC_VA_TX0_TX_PATH_SEC3, 0x3C},
-+	{ CDC_VA_TX0_TX_PATH_SEC4, 0x20},
-+	{ CDC_VA_TX0_TX_PATH_SEC5, 0x00},
-+	{ CDC_VA_TX0_TX_PATH_SEC6, 0x00},
-+	{ CDC_VA_TX0_TX_PATH_SEC7, 0x25},
-+	{ CDC_VA_TX1_TX_PATH_CTL, 0x04},
-+	{ CDC_VA_TX1_TX_PATH_CFG0, 0x10},
-+	{ CDC_VA_TX1_TX_PATH_CFG1, 0x0B},
-+	{ CDC_VA_TX1_TX_VOL_CTL, 0x00},
-+	{ CDC_VA_TX1_TX_PATH_SEC0, 0x00},
-+	{ CDC_VA_TX1_TX_PATH_SEC1, 0x00},
-+	{ CDC_VA_TX1_TX_PATH_SEC2, 0x01},
-+	{ CDC_VA_TX1_TX_PATH_SEC3, 0x3C},
-+	{ CDC_VA_TX1_TX_PATH_SEC4, 0x20},
-+	{ CDC_VA_TX1_TX_PATH_SEC5, 0x00},
-+	{ CDC_VA_TX1_TX_PATH_SEC6, 0x00},
-+	{ CDC_VA_TX2_TX_PATH_CTL, 0x04},
-+	{ CDC_VA_TX2_TX_PATH_CFG0, 0x10},
-+	{ CDC_VA_TX2_TX_PATH_CFG1, 0x0B},
-+	{ CDC_VA_TX2_TX_VOL_CTL, 0x00},
-+	{ CDC_VA_TX2_TX_PATH_SEC0, 0x00},
-+	{ CDC_VA_TX2_TX_PATH_SEC1, 0x00},
-+	{ CDC_VA_TX2_TX_PATH_SEC2, 0x01},
-+	{ CDC_VA_TX2_TX_PATH_SEC3, 0x3C},
-+	{ CDC_VA_TX2_TX_PATH_SEC4, 0x20},
-+	{ CDC_VA_TX2_TX_PATH_SEC5, 0x00},
-+	{ CDC_VA_TX2_TX_PATH_SEC6, 0x00},
-+	{ CDC_VA_TX3_TX_PATH_CTL, 0x04},
-+	{ CDC_VA_TX3_TX_PATH_CFG0, 0x10},
-+	{ CDC_VA_TX3_TX_PATH_CFG1, 0x0B},
-+	{ CDC_VA_TX3_TX_VOL_CTL, 0x00},
-+	{ CDC_VA_TX3_TX_PATH_SEC0, 0x00},
-+	{ CDC_VA_TX3_TX_PATH_SEC1, 0x00},
-+	{ CDC_VA_TX3_TX_PATH_SEC2, 0x01},
-+	{ CDC_VA_TX3_TX_PATH_SEC3, 0x3C},
-+	{ CDC_VA_TX3_TX_PATH_SEC4, 0x20},
-+	{ CDC_VA_TX3_TX_PATH_SEC5, 0x00},
-+	{ CDC_VA_TX3_TX_PATH_SEC6, 0x00},
-+	/* ADPT blocks */
-+	{ CDC_VA_CDC_ADPT0_ADPT_CTRL, 0x51},
-+	{ CDC_VA_CDC_ADPT0_ADPT_GAIN_0, 0x11},
-+	{ CDC_VA_CDC_ADPT0_ADPT_GAIN_1, 0x01},
-+	{ CDC_VA_CDC_ADPT0_DH_FSM_CTRL, 0x02},
-+	{ CDC_VA_CDC_ADPT0_CUTOFF_FSM_CTRL_0, 0x77},
-+	{ CDC_VA_CDC_ADPT0_CUTOFF_FSM_CTRL_1, 0x64},
-+	{ CDC_VA_CDC_ADPT0_CUTOFF_FSM_CTRL_2, 0x00},
-+	{ CDC_VA_CDC_ADPT0_CUTOFF_FSM_CTRL_3, 0x41},
-+	{ CDC_VA_CDC_ADPT0_CUTOFF_FSM_CTRL_4, 0x04},
-+	{ CDC_VA_CDC_ADPT0_CUTOFF_FSM_CTRL_5, 0x01},
-+	{ CDC_VA_CDC_ADPT1_ADPT_CTRL, 0x51},
-+	{ CDC_VA_CDC_ADPT1_ADPT_GAIN_0, 0x11},
-+	{ CDC_VA_CDC_ADPT1_ADPT_GAIN_1, 0x01},
-+	{ CDC_VA_CDC_ADPT1_DH_FSM_CTRL, 0x02},
-+	{ CDC_VA_CDC_ADPT1_CUTOFF_FSM_CTRL_0, 0x77},
-+	{ CDC_VA_CDC_ADPT1_CUTOFF_FSM_CTRL_1, 0x64},
-+	{ CDC_VA_CDC_ADPT1_CUTOFF_FSM_CTRL_2, 0x00},
-+	{ CDC_VA_CDC_ADPT1_CUTOFF_FSM_CTRL_3, 0x41},
-+	{ CDC_VA_CDC_ADPT1_CUTOFF_FSM_CTRL_4, 0x04},
-+	{ CDC_VA_CDC_ADPT1_CUTOFF_FSM_CTRL_5, 0x01},
-+	{ CDC_VA_CDC_ADPT2_ADPT_CTRL, 0x51},
-+	{ CDC_VA_CDC_ADPT2_ADPT_GAIN_0, 0x11},
-+	{ CDC_VA_CDC_ADPT2_ADPT_GAIN_1, 0x01},
-+	{ CDC_VA_CDC_ADPT2_DH_FSM_CTRL, 0x02},
-+	{ CDC_VA_CDC_ADPT2_CUTOFF_FSM_CTRL_0, 0x77},
-+	{ CDC_VA_CDC_ADPT2_CUTOFF_FSM_CTRL_1, 0x64},
-+	{ CDC_VA_CDC_ADPT2_CUTOFF_FSM_CTRL_2, 0x00},
-+	{ CDC_VA_CDC_ADPT2_CUTOFF_FSM_CTRL_3, 0x41},
-+	{ CDC_VA_CDC_ADPT2_CUTOFF_FSM_CTRL_4, 0x04},
-+	{ CDC_VA_CDC_ADPT2_CUTOFF_FSM_CTRL_5, 0x01},
-+	{ CDC_VA_CDC_ADPT3_ADPT_CTRL, 0x51},
-+	{ CDC_VA_CDC_ADPT3_ADPT_GAIN_0, 0x11},
-+	{ CDC_VA_CDC_ADPT3_ADPT_GAIN_1, 0x01},
-+	{ CDC_VA_CDC_ADPT3_DH_FSM_CTRL, 0x02},
-+	{ CDC_VA_CDC_ADPT3_CUTOFF_FSM_CTRL_0, 0x77},
-+	{ CDC_VA_CDC_ADPT3_CUTOFF_FSM_CTRL_1, 0x64},
-+	{ CDC_VA_CDC_ADPT3_CUTOFF_FSM_CTRL_2, 0x00},
-+	{ CDC_VA_CDC_ADPT3_CUTOFF_FSM_CTRL_3, 0x41},
-+	{ CDC_VA_CDC_ADPT3_CUTOFF_FSM_CTRL_4, 0x04},
-+	{ CDC_VA_CDC_ADPT3_CUTOFF_FSM_CTRL_5, 0x01},
-+};
-+
- static bool va_is_rw_register(struct device *dev, unsigned int reg)
- {
- 	switch (reg) {
-@@ -430,6 +601,10 @@ static bool va_is_rw_register(struct device *dev, unsigned int reg)
- 	case CDC_VA_TX3_TX_PATH_SEC4:
- 	case CDC_VA_TX3_TX_PATH_SEC5:
- 	case CDC_VA_TX3_TX_PATH_SEC6:
-+	case CDC_VA_CDC_ADPT0_ADPT_CTRL:
-+	case CDC_VA_CDC_ADPT1_ADPT_CTRL:
-+	case CDC_VA_CDC_ADPT2_ADPT_CTRL:
-+	case CDC_VA_CDC_ADPT3_ADPT_CTRL:
- 		return true;
+@@ -758,10 +758,22 @@ static int va_macro_put_dec_enum(struct snd_kcontrol *kcontrol,
+ 		return -EINVAL;
  	}
  
-@@ -463,6 +638,27 @@ static const struct regmap_config va_regmap_config = {
- 	.writeable_reg = va_is_rw_register,
- };
+-	if (val != 0)
+-		snd_soc_component_update_bits(component, mic_sel_reg,
+-					      CDC_VA_TX_PATH_ADC_DMIC_SEL_MASK,
+-					      CDC_VA_TX_PATH_ADC_DMIC_SEL_DMIC);
++	if (val != 0) {
++		/*
++		 * SMIC enums use shift 0 (lower nibble of CFG0),
++		 * DMIC enums use shift 4 (upper nibble of CFG0).
++		 * Use e->shift_l to distinguish them without relying
++		 * on widget name comparisons.
++		 */
++		if (e->shift_l == 0)
++			snd_soc_component_update_bits(component, mic_sel_reg,
++						      CDC_VA_TX_PATH_ADC_DMIC_SEL_MASK,
++						      CDC_VA_TX_PATH_ADC_DMIC_SEL_ADC);
++		else
++			snd_soc_component_update_bits(component, mic_sel_reg,
++						      CDC_VA_TX_PATH_ADC_DMIC_SEL_MASK,
++						      CDC_VA_TX_PATH_ADC_DMIC_SEL_DMIC);
++	}
  
-+static const struct regmap_config va_4_1_regmap_config = {
-+	.name = "va_macro",
-+	.reg_bits = 32,
-+	.val_bits = 32,
-+	.reg_stride = 4,
-+	.cache_type = REGCACHE_MAPLE,
-+	.reg_defaults = va_4_1_defaults,
-+	.num_reg_defaults = ARRAY_SIZE(va_4_1_defaults),
-+	.max_register = VA_4_1_MAX_OFFSET,
-+	.volatile_reg = va_is_volatile_register,
-+	.readable_reg = va_is_readable_register,
-+	.writeable_reg = va_is_rw_register,
-+};
+ 	return snd_soc_dapm_put_enum_double(kcontrol, ucontrol);
+ }
+@@ -942,6 +954,16 @@ static int va_macro_enable_dmic(struct snd_soc_dapm_widget *w,
+ 	return 0;
+ }
+ 
++static bool is_amic_enabled(struct snd_soc_component *comp, int decimator)
++{
++	u16 adc_mux_reg;
 +
-+static const struct va_macro_data shikra_va_data = {
-+	.has_swr_master = true,
-+	.has_npl_clk = true,
-+	.version = LPASS_CODEC_VERSION_4_1,
-+	.regmap_config = &va_4_1_regmap_config,
-+};
++	adc_mux_reg = CDC_VA_INP_MUX_ADC_MUX0_CFG1 +
++		      VA_MACRO_ADC_MUX_CFG_OFFSET * decimator;
 +
- static int va_clk_rsc_fs_gen_request(struct va_macro *va, bool enable)
++	return snd_soc_component_read(comp, adc_mux_reg) & BIT(0);
++}
++
+ static int va_macro_enable_dec(struct snd_soc_dapm_widget *w,
+ 			       struct snd_kcontrol *kcontrol, int event)
  {
- 	struct regmap *regmap = va->regmap;
-@@ -471,10 +667,14 @@ static int va_clk_rsc_fs_gen_request(struct va_macro *va, bool enable)
- 		regmap_update_bits(regmap, CDC_VA_CLK_RST_CTRL_MCLK_CONTROL,
- 				   CDC_VA_MCLK_CONTROL_EN,
- 				   CDC_VA_MCLK_CONTROL_EN);
--		/* clear the fs counter */
-+
- 		regmap_update_bits(regmap, CDC_VA_CLK_RST_CTRL_FS_CNT_CONTROL,
- 				   CDC_VA_FS_CONTROL_EN | CDC_VA_FS_COUNTER_CLR,
- 				   CDC_VA_FS_CONTROL_EN | CDC_VA_FS_COUNTER_CLR);
-+
-+		if (va->fs_cnt_bypass)
-+			regmap_set_bits(regmap, CDC_VA_CLK_RST_CTRL_FS_CNT_CONTROL,
-+					CDC_VA_FS_CNT_BYPASS);
- 		regmap_update_bits(regmap, CDC_VA_CLK_RST_CTRL_FS_CNT_CONTROL,
- 				   CDC_VA_FS_CONTROL_EN | CDC_VA_FS_COUNTER_CLR,
- 				   CDC_VA_FS_CONTROL_EN);
-@@ -503,7 +703,7 @@ static int va_macro_mclk_enable(struct va_macro *va, bool mclk_enable)
- 	if (mclk_enable) {
- 		va_clk_rsc_fs_gen_request(va, true);
- 		regcache_mark_dirty(regmap);
--		regcache_sync_region(regmap, 0x0, VA_MAX_OFFSET);
-+		regcache_sync_region(regmap, 0x0, regmap_get_max_register(regmap));
- 	} else {
- 		va_clk_rsc_fs_gen_request(va, false);
- 	}
-@@ -749,6 +949,7 @@ static int va_macro_enable_dec(struct snd_soc_dapm_widget *w,
- 	unsigned int decimator;
- 	u16 tx_vol_ctl_reg, dec_cfg_reg, hpf_gate_reg;
+@@ -951,7 +973,6 @@ static int va_macro_enable_dec(struct snd_soc_dapm_widget *w,
  	u16 tx_gain_ctl_reg;
-+	u16 adpt_ctrl_reg;
+ 	u16 adpt_ctrl_reg;
  	u8 hpf_cut_off_freq;
- 
+-
  	struct va_macro *va = snd_soc_component_get_drvdata(comp);
-@@ -763,6 +964,7 @@ static int va_macro_enable_dec(struct snd_soc_dapm_widget *w,
- 				VA_MACRO_TX_PATH_OFFSET * decimator;
- 	tx_gain_ctl_reg = CDC_VA_TX0_TX_VOL_CTL +
- 				VA_MACRO_TX_PATH_OFFSET * decimator;
-+	adpt_ctrl_reg = CDC_VA_CDC_ADPT0_ADPT_CTRL + decimator * VA_MACRO_TX_PATH_OFFSET;
  
- 	switch (event) {
- 	case SND_SOC_DAPM_PRE_PMU:
-@@ -772,6 +974,10 @@ static int va_macro_enable_dec(struct snd_soc_dapm_widget *w,
- 		/* Enable TX PGA Mute */
- 		break;
- 	case SND_SOC_DAPM_POST_PMU:
-+		if (va->has_adpt)
-+			snd_soc_component_update_bits(comp, adpt_ctrl_reg,
-+						      CDC_VA_ADPT_CTRL_EN_MASK, 0x00);
-+
- 		/* Enable TX CLK */
+ 	decimator = w->shift;
+@@ -982,9 +1003,10 @@ static int va_macro_enable_dec(struct snd_soc_dapm_widget *w,
  		snd_soc_component_update_bits(comp, tx_vol_ctl_reg,
  					      CDC_VA_TX_PATH_CLK_EN_MASK,
-@@ -1526,6 +1732,14 @@ static int va_macro_set_lpass_codec_version(struct va_macro *va)
- 		default:
- 			break;
+ 					      CDC_VA_TX_PATH_CLK_EN);
+-		snd_soc_component_update_bits(comp, hpf_gate_reg,
+-					      CDC_VA_TX_HPF_ZERO_GATE_MASK,
+-					      CDC_VA_TX_HPF_ZERO_GATE);
++		if (!is_amic_enabled(comp, decimator))
++			snd_soc_component_update_bits(comp, hpf_gate_reg,
++						      CDC_VA_TX_HPF_ZERO_GATE_MASK,
++						      CDC_VA_TX_HPF_ZERO_GATE);
+ 
+ 		usleep_range(1000, 1010);
+ 		hpf_cut_off_freq = (snd_soc_component_read(comp, dec_cfg_reg) &
+@@ -1010,7 +1032,6 @@ static int va_macro_enable_dec(struct snd_soc_dapm_widget *w,
+ 				0x0);
  		}
-+	} else if (maj == 4) {
-+		switch (min) {
-+		case 1:
-+			version = LPASS_CODEC_VERSION_4_1;
-+			break;
-+		default:
-+			break;
-+		}
- 	}
  
- 	if (version == LPASS_CODEC_VERSION_UNKNOWN) {
-@@ -1556,6 +1770,7 @@ static int va_macro_probe(struct platform_device *pdev)
- 		return -ENOMEM;
- 
- 	va->dev = dev;
-+	data = of_device_get_match_data(dev);
- 
- 	va->macro = devm_clk_get_optional(dev, "macro");
- 	if (IS_ERR(va->macro))
-@@ -1592,15 +1807,15 @@ static int va_macro_probe(struct platform_device *pdev)
- 		goto err;
- 	}
- 
--	va->regmap = devm_regmap_init_mmio(dev, base,  &va_regmap_config);
-+	dev_set_drvdata(dev, va);
-+
-+	va->regmap = devm_regmap_init_mmio(dev, base,
-+					   data->regmap_config ?: &va_regmap_config);
- 	if (IS_ERR(va->regmap)) {
- 		ret = -EINVAL;
- 		goto err;
- 	}
- 
--	dev_set_drvdata(dev, va);
 -
--	data = of_device_get_match_data(dev);
- 	va->has_swr_master = data->has_swr_master;
- 	va->has_npl_clk = data->has_npl_clk;
- 
-@@ -1654,6 +1869,9 @@ static int va_macro_probe(struct platform_device *pdev)
- 			goto err_rpm_put;
- 	}
- 
-+	va->fs_cnt_bypass = (lpass_macro_get_codec_version() == LPASS_CODEC_VERSION_4_1);
-+	va->has_adpt = (lpass_macro_get_codec_version() == LPASS_CODEC_VERSION_4_1);
-+
- 	if (va->has_swr_master) {
- 		/* Set default CLK div to 1 */
- 		regmap_update_bits(va->regmap, CDC_VA_TOP_CSR_SWR_MIC_CTL0,
-@@ -1775,6 +1993,7 @@ static const struct of_device_id va_macro_dt_match[] = {
- 	{ .compatible = "qcom,sm8450-lpass-va-macro", .data = &sm8450_va_data },
- 	{ .compatible = "qcom,sm8550-lpass-va-macro", .data = &sm8550_va_data },
- 	{ .compatible = "qcom,sc8280xp-lpass-va-macro", .data = &sm8450_va_data },
-+	{ .compatible = "qcom,shikra-lpass-va-macro", .data = &shikra_va_data },
- 	{}
+ 		usleep_range(1000, 1010);
+ 		snd_soc_component_update_bits(comp, hpf_gate_reg,
+ 					      CDC_VA_TX_HPF_ZERO_GATE_MASK,
+@@ -1210,6 +1231,39 @@ static const char * const adc_mux_text[] = {
+ 	"VA_DMIC", "SWR_MIC"
  };
- MODULE_DEVICE_TABLE(of, va_macro_dt_match);
+ 
++static const char * const smic_mux_text[] = {
++	"ZERO", "ADC0", "ADC1", "ADC2", "ADC3", "SWR_MIC0", "SWR_MIC1",
++	"SWR_MIC2", "SWR_MIC3", "SWR_MIC4", "SWR_MIC5", "SWR_MIC6", "SWR_MIC7"
++};
++
++static SOC_ENUM_SINGLE_DECL(va_smic0_enum, CDC_VA_INP_MUX_ADC_MUX0_CFG0,
++			0, smic_mux_text);
++
++static SOC_ENUM_SINGLE_DECL(va_smic1_enum, CDC_VA_INP_MUX_ADC_MUX1_CFG0,
++			0, smic_mux_text);
++
++static SOC_ENUM_SINGLE_DECL(va_smic2_enum, CDC_VA_INP_MUX_ADC_MUX2_CFG0,
++			0, smic_mux_text);
++
++static SOC_ENUM_SINGLE_DECL(va_smic3_enum, CDC_VA_INP_MUX_ADC_MUX3_CFG0,
++			0, smic_mux_text);
++
++static const struct snd_kcontrol_new va_smic0_mux = SOC_DAPM_ENUM_EXT("va_smic0",
++			 va_smic0_enum, snd_soc_dapm_get_enum_double,
++			 va_macro_put_dec_enum);
++
++static const struct snd_kcontrol_new va_smic1_mux = SOC_DAPM_ENUM_EXT("va_smic1",
++			 va_smic1_enum, snd_soc_dapm_get_enum_double,
++			 va_macro_put_dec_enum);
++
++static const struct snd_kcontrol_new va_smic2_mux = SOC_DAPM_ENUM_EXT("va_smic2",
++			 va_smic2_enum, snd_soc_dapm_get_enum_double,
++			 va_macro_put_dec_enum);
++
++static const struct snd_kcontrol_new va_smic3_mux = SOC_DAPM_ENUM_EXT("va_smic3",
++			 va_smic3_enum, snd_soc_dapm_get_enum_double,
++			 va_macro_put_dec_enum);
++
+ static SOC_ENUM_SINGLE_DECL(va_dec0_enum, CDC_VA_INP_MUX_ADC_MUX0_CFG1,
+ 		   0, adc_mux_text);
+ static SOC_ENUM_SINGLE_DECL(va_dec1_enum, CDC_VA_INP_MUX_ADC_MUX1_CFG1,
+@@ -1345,6 +1399,11 @@ static const struct snd_soc_dapm_widget va_macro_dapm_widgets[] = {
+ 	SND_SOC_DAPM_MUX("VA DMIC MUX2", SND_SOC_NOPM, 0, 0, &va_dmic2_mux),
+ 	SND_SOC_DAPM_MUX("VA DMIC MUX3", SND_SOC_NOPM, 0, 0, &va_dmic3_mux),
+ 
++	SND_SOC_DAPM_MUX("VA SMIC MUX0", SND_SOC_NOPM, 0, 0, &va_smic0_mux),
++	SND_SOC_DAPM_MUX("VA SMIC MUX1", SND_SOC_NOPM, 0, 0, &va_smic1_mux),
++	SND_SOC_DAPM_MUX("VA SMIC MUX2", SND_SOC_NOPM, 0, 0, &va_smic2_mux),
++	SND_SOC_DAPM_MUX("VA SMIC MUX3", SND_SOC_NOPM, 0, 0, &va_smic3_mux),
++
+ 	SND_SOC_DAPM_REGULATOR_SUPPLY("vdd-micb", 0, 0),
+ 	SND_SOC_DAPM_INPUT("DMIC0 Pin"),
+ 	SND_SOC_DAPM_INPUT("DMIC1 Pin"),
+@@ -1489,6 +1548,62 @@ static const struct snd_soc_dapm_route va_audio_map[] = {
+ 	{"VA DMIC MUX3", "DMIC6", "VA DMIC6"},
+ 	{"VA DMIC MUX3", "DMIC7", "VA DMIC7"},
+ 
++	{"VA DEC0 MUX", "SWR_MIC", "VA SMIC MUX0"},
++	{"VA SMIC MUX0", "ADC0", "VA SWR_ADC0"},
++	{"VA SMIC MUX0", "ADC1", "VA SWR_ADC1"},
++	{"VA SMIC MUX0", "ADC2", "VA SWR_ADC2"},
++	{"VA SMIC MUX0", "ADC3", "VA SWR_ADC3"},
++	{"VA SMIC MUX0", "SWR_MIC0", "VA SWR_MIC0"},
++	{"VA SMIC MUX0", "SWR_MIC1", "VA SWR_MIC1"},
++	{"VA SMIC MUX0", "SWR_MIC2", "VA SWR_MIC2"},
++	{"VA SMIC MUX0", "SWR_MIC3", "VA SWR_MIC3"},
++	{"VA SMIC MUX0", "SWR_MIC4", "VA SWR_MIC4"},
++	{"VA SMIC MUX0", "SWR_MIC5", "VA SWR_MIC5"},
++	{"VA SMIC MUX0", "SWR_MIC6", "VA SWR_MIC6"},
++	{"VA SMIC MUX0", "SWR_MIC7", "VA SWR_MIC7"},
++
++	{"VA DEC1 MUX", "SWR_MIC", "VA SMIC MUX1"},
++	{"VA SMIC MUX1", "ADC0", "VA SWR_ADC0"},
++	{"VA SMIC MUX1", "ADC1", "VA SWR_ADC1"},
++	{"VA SMIC MUX1", "ADC2", "VA SWR_ADC2"},
++	{"VA SMIC MUX1", "ADC3", "VA SWR_ADC3"},
++	{"VA SMIC MUX1", "SWR_MIC0", "VA SWR_MIC0"},
++	{"VA SMIC MUX1", "SWR_MIC1", "VA SWR_MIC1"},
++	{"VA SMIC MUX1", "SWR_MIC2", "VA SWR_MIC2"},
++	{"VA SMIC MUX1", "SWR_MIC3", "VA SWR_MIC3"},
++	{"VA SMIC MUX1", "SWR_MIC4", "VA SWR_MIC4"},
++	{"VA SMIC MUX1", "SWR_MIC5", "VA SWR_MIC5"},
++	{"VA SMIC MUX1", "SWR_MIC6", "VA SWR_MIC6"},
++	{"VA SMIC MUX1", "SWR_MIC7", "VA SWR_MIC7"},
++
++	{"VA DEC2 MUX", "SWR_MIC", "VA SMIC MUX2"},
++	{"VA SMIC MUX2", "ADC0", "VA SWR_ADC0"},
++	{"VA SMIC MUX2", "ADC1", "VA SWR_ADC1"},
++	{"VA SMIC MUX2", "ADC2", "VA SWR_ADC2"},
++	{"VA SMIC MUX2", "ADC3", "VA SWR_ADC3"},
++	{"VA SMIC MUX2", "SWR_MIC0", "VA SWR_MIC0"},
++	{"VA SMIC MUX2", "SWR_MIC1", "VA SWR_MIC1"},
++	{"VA SMIC MUX2", "SWR_MIC2", "VA SWR_MIC2"},
++	{"VA SMIC MUX2", "SWR_MIC3", "VA SWR_MIC3"},
++	{"VA SMIC MUX2", "SWR_MIC4", "VA SWR_MIC4"},
++	{"VA SMIC MUX2", "SWR_MIC5", "VA SWR_MIC5"},
++	{"VA SMIC MUX2", "SWR_MIC6", "VA SWR_MIC6"},
++	{"VA SMIC MUX2", "SWR_MIC7", "VA SWR_MIC7"},
++
++	{"VA DEC3 MUX", "SWR_MIC", "VA SMIC MUX3"},
++	{"VA SMIC MUX3", "ADC0", "VA SWR_ADC0"},
++	{"VA SMIC MUX3", "ADC1", "VA SWR_ADC1"},
++	{"VA SMIC MUX3", "ADC2", "VA SWR_ADC2"},
++	{"VA SMIC MUX3", "ADC3", "VA SWR_ADC3"},
++	{"VA SMIC MUX3", "SWR_MIC0", "VA SWR_MIC0"},
++	{"VA SMIC MUX3", "SWR_MIC1", "VA SWR_MIC1"},
++	{"VA SMIC MUX3", "SWR_MIC2", "VA SWR_MIC2"},
++	{"VA SMIC MUX3", "SWR_MIC3", "VA SWR_MIC3"},
++	{"VA SMIC MUX3", "SWR_MIC4", "VA SWR_MIC4"},
++	{"VA SMIC MUX3", "SWR_MIC5", "VA SWR_MIC5"},
++	{"VA SMIC MUX3", "SWR_MIC6", "VA SWR_MIC6"},
++	{"VA SMIC MUX3", "SWR_MIC7", "VA SWR_MIC7"},
++
+ 	{ "VA DMIC0", NULL, "DMIC0 Pin" },
+ 	{ "VA DMIC1", NULL, "DMIC1 Pin" },
+ 	{ "VA DMIC2", NULL, "DMIC2 Pin" },
 
 -- 
 2.34.1
