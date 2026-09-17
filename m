@@ -1,902 +1,638 @@
-Received: from mail-wm2-f6.google.com (mail-wm2-f6.google.com [74.125.225.134])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 340BF59E327
-	for <linux-sound@vger.kernel.org>; Thu, 17 Sep 2026 14:41:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.134
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C17503859FD;
+	Thu, 17 Sep 2026 14:49:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789656126; cv=none; b=U1m7pniTTgNPjiS+gSNyNFoa1S6JhcIyn3iXLHTU2PEW6gBmOmsz49SXAbZVySN9d1qfRzBwRqFX5I0rxYBY37aZiAHLacvEyVaVvFPT1LIvKmbltxsvbEtU/Nz9DqtPcfT8ehn48apCD7LVCgz7SCvnMaBEGDDGt7qLIqGhmE4=
+	t=1789656603; cv=none; b=hc/f3HgsInY6r28OE4C9m2GtFZhR/X9oRYlAahXe2raVanpBJ/aMsoCvapysLZhkgsyI1EyvRVBRmwmr9ncn6fsgLiykPDKJe/rk+kv07Nu0+kDkVWmoxe5OhpGQYScoXjEVs6Pd3XX0QyOTx1nE5kowYB5rc4XFxV+OdsvwzE8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789656126; c=relaxed/simple;
-	bh=VR+kwkFmvRt7IIsiF048mZ3MVYW3SZjOswQQ6TsOoRc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=k7gP5GE4XM/MVhme2qIh2i3XZXHnFoDss5ZJnigKyYw9PdC12j3p4ZN51ROH305EzJwbubcvlDs72FytJASOPx/7KBvVh7jGKej6sid847JR/GdsxNy1+LWcC1SfIjH3jHT7uMlCTSO2QeuuCKm/yCUUVhTlmPmtZ6YsWeDzyUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ownwRosl; arc=none smtp.client-ip=74.125.225.134
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789656603; c=relaxed/simple;
+	bh=gp0omg+vJh0hcD9rQaRNT2LAMaPYdGlQz0uwul7VZBI=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=SCEUCb2WSn6Bo9IHsbuK1C9UqNbBTQGYZ7ZMnGk1tFsOqtwPboQASIhvGZ4qGDAwTpcPlBxpB6n5zKPuwr8Vy+O0y2XuRNb6srIU30e7wjsX9uFZfFF2jveFpK9CeC9rQ5ruQ4cNSulP2rN+PTIqZLJgqnuVB5bWW9QEIaXGr30=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=UMpxUxqs; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ScTpOTQV; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=jkfgq9Lc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=YdUtcS/d; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ownwRosl"
-Received: by mail-wm2-f6.google.com with SMTP id 5b1f17b1804b1-49b0dd21eb8so1716865e9.0
-        for <linux-sound@vger.kernel.org>; Thu, 17 Sep 2026 07:41:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789656102; x=1790260902; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=uxdo04KgC3ZopuNd4o1TqXYNrHfISkm+8Ow6DwBarvc=;
-        b=ownwRoslxpBe+VrITDjoJh5NP5OC/PbjEVs6NfnVsETHyRqcS5QpjBC5JqKaEsvpr9
-         heiLv8qUryFbHpUvPZzDBsl04uz99A0Q9YiHHYB3bdIFkwkDxAByNlm68PSLVMSe4MCg
-         cyOTmfd1whQmK6RwMlK9euMXmXdddQiYB+pXL2Ltt6Wl9TlhutIah09rWJc8vzw0lLFz
-         ZjE7IYtEZyr26R6v2mCU4k70aQO6L1ebss5it7KUXAGz8gU+IuX/4otWhYdt9rreAuUH
-         5mPQd4GUaNg5h/xIYHQmudCeJVLhVLNj1tanEfz+xeGWbF4qi4ArNW/4QUe7j2VF/Iqs
-         L19g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789656102; x=1790260902;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=uxdo04KgC3ZopuNd4o1TqXYNrHfISkm+8Ow6DwBarvc=;
-        b=PlU6bUpP7Rh3AQeBJZhW7QlJEFzmBZzwDY/9uWeZfuwM6ckwHmsSAMQbRiYjKJLQpo
-         posG6ucfv7YccWBEFApYcU952Ol+0jPbzx1G0ai+K1SZRhf6s2gfXL3jffEbLraFPbdJ
-         /xzuVmoKHYDiI132Aab9mdmc5B6unVpfnLDEGTXxP96hUJ4+xdIwWGGTGs2njlAnslgL
-         0HKf/mmY4YNqtgRrxPlOJDKVVf9UpJGLI96JNhojAWsHOIHBjlpZkZofKrQP1+b4Kxbu
-         yLdXsfJr3IjfV4H+G1x9uj5i4qmeaTx+bCnvMhbn16mURN/UHPWMBY7XLwL2UpIhjjBm
-         BmHg==
-X-Forwarded-Encrypted: i=1; AKwUvBwOk+PSV+6T83RWz09AC7aIPt4+fzP82UtaExnD5SF8rGnRZ8VN0Ka6tE4Z9wsb8rPvpAKAK+i24wWqRw==@vger.kernel.org
-X-Gm-Message-State: AFuF++nI0eHwCMzmn1yl4HYnfNF2LPXNNOnBwva1G82oaQ/OUwhM/IHr
-	EssBUGtZiEbBcoZW/sUuv5NheTDEPrtA7NppWxsNg7EdMTS3nMNMVIGn
-X-Gm-Gg: AYBFou1HIWQnZ8f7LVbEDM8UphXL7UF4LbjlmbdjnRJzloZZGWdziMWmhWHXIOD6Gv9
-	F8JZ4NFps87F+m0yLsYw24mknDSj8Vd7TTvV8OW9ZYub+zw1DrWDxc4b/buU5KuIMYi7vREe1uP
-	+Tt+3QpoKed7FCPUGGHdQZ3i9J4j5zzwaGj/+bDOcVH1qi6RRqADq5lEtWHxVW8ZO4tEyE7fj/D
-	wfJhaZ+/0iJYUf1Tc1pKza2+TJyB5vMC+D37u2f/+15PoUOS2uQLys2XlGNTt71odbwC5o1UMBe
-	K/UbR7tOxpOe3s+D0awUNjf6yMXpzxYMUDCtmUJGpXzabYlo5OSY/iZBRu0G0jDwISN63dDUaj0
-	4bYaO3L5pLFXcw20Gq8m/r5QjJlr2yXp6KfF8P7VF9u085ZooqvHJNqsTuEPsBv7kEVidftgEOz
-	ccmU/45OfVJLgUf7QEsVSTn1J3nbgXJcito11r1Klq5JqZX/vkxuVayTsrmTDSL5PQqROWlnVzt
-	kZrHw==
-X-Received: by 2002:a05:600c:1546:b0:49e:67bf:7e97 with SMTP id 5b1f17b1804b1-49ead86eb48mr87880525e9.10.1789656101568;
-        Thu, 17 Sep 2026 07:41:41 -0700 (PDT)
-Received: from chicken.. ([2a02:2f02:5101:7300:44c:8311:3d26:e514])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fbd691d8esm33238755e9.0.2026.09.17.07.41.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Sep 2026 07:41:41 -0700 (PDT)
-From: Daniel Matyas <matyasdaniel006@gmail.com>
-To: Shenghao Ding <shenghao-ding@ti.com>,
-	Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>,
-	Sen Wang <sen@ti.com>,
-	Peter Huewe <peterhuewe@gmx.de>,
-	Jarkko Sakkinen <jarkko@kernel.org>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Chunfeng Yun <chunfeng.yun@mediatek.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Dharma Balasubiramani <dharma.b@microchip.com>,
-	Jeff LaBundy <jeff@labundy.com>,
-	Simon Glass <sjg@chromium.org>,
-	Linus Walleij <linusw@kernel.org>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-	Jose Abreu <joabreu@synopsys.com>,
-	Atish Patra <atishp@rivosinc.com>,
-	Shawn Guo <shawn.guo@linaro.org>,
-	Dmitry Osipenko <digetx@gmail.com>,
-	Ibrahim Tilki <Ibrahim.Tilki@analog.com>,
-	Okan Sahin <Okan.Sahin@analog.com>,
-	devicetree@vger.kernel.org,
-	linux-rtc@vger.kernel.org,
-	Ricard Wanderlof <ricardw@axis.com>,
-	patches@opensource.cirrus.com,
-	Lukas Wunner <lukas@wunner.de>,
-	Eugen Hristev <ehristev@kernel.org>
-Cc: mfd@lists.linux.dev,
-	linux-samsung-soc@vger.kernel.org,
-	linux-mmc@vger.kernel.org,
-	linux-mtd@lists.infradead.org,
-	linux-amlogic@lists.infradead.org,
-	netdev@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-perf-users@vger.kernel.org,
-	linux-phy@lists.infradead.org,
-	linux-tegra@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="UMpxUxqs";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ScTpOTQV";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="jkfgq9Lc";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YdUtcS/d"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 4A9E81F820;
+	Thu, 17 Sep 2026 14:49:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1789656580; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mNCvDycunCg3tBijiCl7UAJ+SQVGZhaWLIuNXpm/6sg=;
+	b=UMpxUxqsZqYyvkPqHjdn42b4sbYm8JtuagKhHgsFdtwptQDHuBp/Lm7VHf0sSNpxmjPrAg
+	3AzCF7YhYZbYLlaACAKn2VleDnOjCL8vXE73pigrKifKRTL7H4/a7CKLclZ5cegMUKPoc5
+	Qfgh+v3DBL7VTpAcELALDus25oiBQYg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1789656580;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mNCvDycunCg3tBijiCl7UAJ+SQVGZhaWLIuNXpm/6sg=;
+	b=ScTpOTQVLS2rqX5q+hAD2m0rXCXAgCdFchzqVLigfXzPly88/Cs3ZckIZtyyQs9aHwQV2O
+	EX6cum+NX7rfsvCQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=jkfgq9Lc;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="YdUtcS/d"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1789656576; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mNCvDycunCg3tBijiCl7UAJ+SQVGZhaWLIuNXpm/6sg=;
+	b=jkfgq9LcSoLul4/Ew52OquP0O8R9/iUzaCeS4N/Zp8siVP2zFdL+XVBBvWz5RG3hwLQsBe
+	KLofDBuFsHfeTT+0VLWgOZ1ygblF33x5felH5q4einNz3GkSiJjNQyzLBRRUWqk6lfMopW
+	4adBm3DSFN9Unt0nh0a3+mHoeQMYrC8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1789656576;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mNCvDycunCg3tBijiCl7UAJ+SQVGZhaWLIuNXpm/6sg=;
+	b=YdUtcS/dbS6N7w4FLRCKSxMulr499rzEcmUH8LjdYl+aEZm3W8GrsfL1w8BbDC5nRzxocO
+	HxRhnx1Ly+DzMUCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E64BE1374A;
+	Thu, 17 Sep 2026 14:49:35 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 3Fu9Lv/9q2p9GgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 17 Sep 2026 14:49:35 +0000
+Date: Thu, 17 Sep 2026 16:49:35 +0200
+Message-ID: <875x04gcg0.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Zipdox <zipdox@zipdox.net>
+Cc: Takashi Iwai <tiwai@suse.de>,
 	linux-sound@vger.kernel.org,
-	linux-integrity@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	linux-watchdog@vger.kernel.org,
-	Daniel Matyas <matyasdaniel006@gmail.com>
-Subject: [PATCH] dt-bindings: Expand flow lists to block lists
-Date: Thu, 17 Sep 2026 17:41:34 +0300
-Message-ID: <20260917144134.459819-1-matyasdaniel006@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	perex@perex.cz,
+	linux-kernel@vger.kernel.org,
+	tiwai@suse.com
+Subject: Re: [PATCH] USB Audio Class 2 Mixer unit support for GET_CUR, SET_CUR and RANGE
+In-Reply-To: <895b9e3d-bc81-4688-8513-8aa42d40e4fa@zipdox.net>
+References: <d46fcac6-bd7e-4fc4-95e1-4e8d39f92ad3@zipdox.net>
+	<87bj9yn55n.wl-tiwai@suse.de>
+	<59b3dc9b-f324-42e7-ab03-a01c04e8b915@zipdox.net>
+	<8733vamwaz.wl-tiwai@suse.de>
+	<da56664f-901e-497b-a74c-ae41cbc5cac4@zipdox.net>
+	<87a4phjjay.wl-tiwai@suse.de>
+	<8733v9jfp1.wl-tiwai@suse.de>
+	<87y0d1hx9y.wl-tiwai@suse.de>
+	<895b9e3d-bc81-4688-8513-8aa42d40e4fa@zipdox.net>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: multipart/mixed;
+ boundary="Multipart_Thu_Sep_17_16:49:35_2026-1"
+X-Spam-Score: -3.51
+X-Rspamd-Queue-Id: 4A9E81F820
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[multipart/mixed,text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+,1:+,2:~,3:~,4:~];
+	ARC_NA(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid];
+	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid];
+	HAS_ATTACHMENT(0.00)[]
+X-Spam-Flag: NO
 
-Running dt_bindings_check returned:
-[error] string value is redundantly quoted with any quotes (quoted-strings)
+--Multipart_Thu_Sep_17_16:49:35_2026-1
+Content-Type: text/plain; charset=US-ASCII
 
-The files used quotation marks in flow lists because the strings had
-commas and these commas were interpreted as separators. Convert flow
-style lists to block style lists, so that there is no problems with the
-commas.
+On Thu, 17 Sep 2026 16:23:41 +0200,
+Zipdox wrote:
+> 
+> 
+> 
+> On 9/16/26 8:22 PM, Takashi Iwai wrote:
+> > 
+> > ... or maybe a less cryptic version like below.
+> > 
+> > 
+> > Takashi
+> > 
+> > -- 8< --
+> > diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
+> > index 33a6a1281410..c6639a45fb24 100644
+> > --- a/sound/usb/mixer.c
+> > +++ b/sound/usb/mixer.c
+> > @@ -335,6 +335,16 @@ static int get_ctl_value_v1(struct usb_mixer_elem_info *cval, int request,
+> >   	return -EINVAL;
+> >   }
+> >   +/* convert the given UAC1 wValue (ICN+1|OCN+1) to UAC2 MCN */
+> > +static unsigned int to_mcn(const struct usb_mixer_elem_info *cval,
+> > +			   unsigned int validx)
+> > +{
+> > +	unsigned char m = (validx >> 8) & 0xff;
+> > +	unsigned char v = validx & 0xff;
+> > +
+> > +	return (m - 1) * cval->num_outputs * (v - 1);
+> > +}
+> You used multiplication instead of addition for the last part. I
+> assume this is a mistake?
 
-Signed-off-by: Daniel Matyas <matyasdaniel006@gmail.com>
+Yes, an obvious typo.
+
+> Also you should probably also bitwise and
+> that with 0xFF to make sure it's not more than one byte. The product
+> of the number of input and output channels must be no greater than 256
+> according to the spec. I don't know if this is checked
+> elsewhere.
+
+Right, that's already done in another patch, I didn't send the whole
+series.  Now attached below.
+
+> Other than that it looks good for a patch to get it
+> working. I'll try it out and send a follow-up email shortly.
+
+
+thanks,
+
+Takashi
+
+
+--Multipart_Thu_Sep_17_16:49:35_2026-1
+Content-Type: application/octet-stream; type=patch; name="0001-ALSA-usb-audio-Check-mixer-matrix-size-for-UAC2-3-at.patch"
+Content-Disposition: attachment; filename="0001-ALSA-usb-audio-Check-mixer-matrix-size-for-UAC2-3-at.patch"
+Content-Transfer-Encoding: 7bit
+
+From f4276ae989dbfc13209c7630779068dcdec917e8 Mon Sep 17 00:00:00 2001
+From: Takashi Iwai <tiwai@suse.de>
+Date: Thu, 17 Sep 2026 10:02:02 +0200
+Subject: [PATCH 1/3] ALSA: usb-audio: Check mixer matrix size for UAC2/3 at
+ parsing
+
+The matrix of input/output channels specified in a UAC2/3 mixer unit
+must fit to the upper limit 256.  Add a sanity check and returns an
+error if an invalid size is detected.
+
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- .../bindings/display/atmel,lcdc-display.yaml  |  9 ++++---
- .../devicetree/bindings/eeprom/at24.yaml      |  4 +++-
- .../devicetree/bindings/example-schema.yaml   |  6 +++--
- .../bindings/hwmon/pmbus/adi,max20830.yaml    |  6 +++--
- .../bindings/iio/adc/ti,ads112c14.yaml        |  6 +++--
- .../bindings/iio/frequency/adi,adf41513.yaml  |  3 ++-
- .../bindings/iio/frequency/adi,adrf6780.yaml  |  6 +++--
- .../bindings/iio/temperature/adi,ltc2983.yaml |  6 +++--
- .../bindings/input/azoteq,iqs7222.yaml        | 12 ++++++----
- .../bindings/input/google,cros-ec-keyb.yaml   |  6 +++--
- .../devicetree/bindings/input/input.yaml      |  3 ++-
- .../devicetree/bindings/input/iqs269a.yaml    | 12 ++++++----
- .../devicetree/bindings/input/iqs626a.yaml    | 15 ++++++++----
- .../input/touchscreen/azoteq,iqs7211.yaml     | 24 ++++++++++++-------
- .../interrupt-controller/riscv,aplic.yaml     |  3 ++-
- .../bindings/mfd/maxim,max8998.yaml           |  6 +++--
- .../bindings/mfd/samsung,s5m8767.yaml         | 21 +++++++++++-----
- .../devicetree/bindings/mmc/arm,pl18x.yaml    |  9 ++++---
- .../bindings/mtd/amlogic,meson-nand.yaml      |  8 +++++--
- .../devicetree/bindings/net/snps,dwmac.yaml   |  6 +++--
- .../bindings/pci/brcm,iproc-pcie.yaml         |  3 ++-
- .../devicetree/bindings/perf/riscv,pmu.yaml   |  3 ++-
- .../phy/hisilicon,hi3798cv200-combphy.yaml    |  6 +++--
- .../bindings/phy/nvidia,tegra20-usb-phy.yaml  |  6 +++--
- .../bindings/regulator/adi,max77857.yaml      |  6 +++--
- .../bindings/regulator/maxim,max8997.yaml     |  9 ++++---
- .../regulator/samsung,s2mpg10-regulator.yaml  |  3 ++-
- .../regulator/samsung,s2mpg11-regulator.yaml  |  3 ++-
- .../bindings/regulator/ti,tps65132.yaml       |  3 ++-
- .../devicetree/bindings/riscv/cpus.yaml       |  6 +++--
- .../bindings/rtc/abracon,abx80x.yaml          |  6 +++--
- .../soc/tegra/nvidia,tegra20-pmc.yaml         | 10 +++++---
- .../bindings/sound/ti,tlv320adc3xxx.yaml      |  6 +++--
- .../devicetree/bindings/sound/wlf,wm8904.yaml | 18 ++++++++++----
- .../devicetree/bindings/tpm/tpm-common.yaml   |  6 +++--
- .../bindings/usb/mediatek,mtk-xhci.yaml       |  3 ++-
- .../bindings/usb/mediatek,mtu3.yaml           | 12 ++++++----
- .../bindings/watchdog/atmel,at91sam9-wdt.yaml |  3 ++-
- 38 files changed, 192 insertions(+), 91 deletions(-)
+ sound/usb/mixer.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/atmel,lcdc-display.yaml b/Documentation/devicetree/bindings/display/atmel,lcdc-display.yaml
-index a5cf040ab4ea..51aa13f6a348 100644
---- a/Documentation/devicetree/bindings/display/atmel,lcdc-display.yaml
-+++ b/Documentation/devicetree/bindings/display/atmel,lcdc-display.yaml
-@@ -23,9 +23,12 @@ description:
- 
- select:
-   anyOf:
--    - required: [ 'atmel,dmacon' ]
--    - required: [ 'atmel,lcdcon2' ]
--    - required: [ 'atmel,guard-time' ]
-+    - required:
-+        - atmel,dmacon
-+    - required:
-+        - atmel,lcdcon2
-+    - required:
-+        - atmel,guard-time
- 
- properties:
-   atmel,dmacon:
-diff --git a/Documentation/devicetree/bindings/eeprom/at24.yaml b/Documentation/devicetree/bindings/eeprom/at24.yaml
-index ef88f46928a4..6d9167cfd12d 100644
---- a/Documentation/devicetree/bindings/eeprom/at24.yaml
-+++ b/Documentation/devicetree/bindings/eeprom/at24.yaml
-@@ -20,7 +20,9 @@ select:
-       contains:
-         anyOf:
-           - pattern: "^atmel,(24(c|cs|mac)[0-9]+|spd)$"
--          - enum: ["microchip,24aa025e48", "microchip,24aa025e64"]
-+          - enum:
-+              - microchip,24aa025e48
-+              - microchip,24aa025e64
-   required:
-     - compatible
- 
-diff --git a/Documentation/devicetree/bindings/example-schema.yaml b/Documentation/devicetree/bindings/example-schema.yaml
-index b04f3cc4312c..4ff46f1384b9 100644
---- a/Documentation/devicetree/bindings/example-schema.yaml
-+++ b/Documentation/devicetree/bindings/example-schema.yaml
-@@ -206,10 +206,12 @@ properties:
- dependencies:
-   # 'vendor,bool-property' is only allowed when 'vendor,string-array-property'
-   # is present
--  vendor,bool-property: [ 'vendor,string-array-property' ]
-+  vendor,bool-property:
-+    - vendor,string-array-property
-   # Expressing 2 properties in both orders means all of the set of properties
-   # must be present or none of them.
--  vendor,string-array-property: [ 'vendor,bool-property' ]
-+  vendor,string-array-property:
-+    - vendor,bool-property
- 
- required:
-   - compatible
-diff --git a/Documentation/devicetree/bindings/hwmon/pmbus/adi,max20830.yaml b/Documentation/devicetree/bindings/hwmon/pmbus/adi,max20830.yaml
-index cc50a4ee44a2..7904dacff789 100644
---- a/Documentation/devicetree/bindings/hwmon/pmbus/adi,max20830.yaml
-+++ b/Documentation/devicetree/bindings/hwmon/pmbus/adi,max20830.yaml
-@@ -67,8 +67,10 @@ required:
-   - vddh-supply
- 
- dependencies:
--  adi,vout-rfb1-ohms: ['adi,vout-rfb2-ohms']
--  adi,vout-rfb2-ohms: ['adi,vout-rfb1-ohms']
-+  adi,vout-rfb1-ohms:
-+    - adi,vout-rfb2-ohms
-+  adi,vout-rfb2-ohms:
-+    - adi,vout-rfb1-ohms
- 
- unevaluatedProperties: false
- 
-diff --git a/Documentation/devicetree/bindings/iio/adc/ti,ads112c14.yaml b/Documentation/devicetree/bindings/iio/adc/ti,ads112c14.yaml
-index facfeee61330..6dd59552a41f 100644
---- a/Documentation/devicetree/bindings/iio/adc/ti,ads112c14.yaml
-+++ b/Documentation/devicetree/bindings/iio/adc/ti,ads112c14.yaml
-@@ -132,8 +132,10 @@ dependencies:
-   refn-supply: [ refp-supply ]
- 
- oneOf:
--  - required: [ refp-supply ]
--  - required: [ "ti,refp-refn-resistor-ohms" ]
-+  - required:
-+      - refp-supply
-+  - required:
-+      - ti,refp-refn-resistor-ohms
-   - properties:
-       refp-supply: false
-       refn-supply: false
-diff --git a/Documentation/devicetree/bindings/iio/frequency/adi,adf41513.yaml b/Documentation/devicetree/bindings/iio/frequency/adi,adf41513.yaml
-index f4fae9210382..c71ebc039af2 100644
---- a/Documentation/devicetree/bindings/iio/frequency/adi,adf41513.yaml
-+++ b/Documentation/devicetree/bindings/iio/frequency/adi,adf41513.yaml
-@@ -166,7 +166,8 @@ properties:
-     type: boolean
- 
- dependencies:
--  adi,charge-pump-resistor-ohms: [ 'adi,charge-pump-current-microamp' ]
-+  adi,charge-pump-resistor-ohms:
-+    - adi,charge-pump-current-microamp
- 
- required:
-   - compatible
-diff --git a/Documentation/devicetree/bindings/iio/frequency/adi,adrf6780.yaml b/Documentation/devicetree/bindings/iio/frequency/adi,adrf6780.yaml
-index f11391ab4b62..2bb3ddd252c9 100644
---- a/Documentation/devicetree/bindings/iio/frequency/adi,adrf6780.yaml
-+++ b/Documentation/devicetree/bindings/iio/frequency/adi,adrf6780.yaml
-@@ -104,8 +104,10 @@ properties:
-     const: 0
- 
- dependencies:
--  adi,lo-x2-en: [ "adi,lo-en" ]
--  adi,lo-ppf-en: [ "adi,lo-en" ]
-+  adi,lo-x2-en:
-+    - adi,lo-en
-+  adi,lo-ppf-en:
-+    - adi,lo-en
- 
- required:
-   - compatible
-diff --git a/Documentation/devicetree/bindings/iio/temperature/adi,ltc2983.yaml b/Documentation/devicetree/bindings/iio/temperature/adi,ltc2983.yaml
-index 13e5f29f0588..19fc978deb76 100644
---- a/Documentation/devicetree/bindings/iio/temperature/adi,ltc2983.yaml
-+++ b/Documentation/devicetree/bindings/iio/temperature/adi,ltc2983.yaml
-@@ -284,7 +284,8 @@ patternProperties:
-               type: boolean
- 
-           dependencies:
--            adi,current-rotate: [ 'adi,rsense-share' ]
-+            adi,current-rotate:
-+              - adi,rsense-share
- 
-       - if:
-           properties:
-@@ -368,7 +369,8 @@ patternProperties:
-       - adi,rsense-handle
- 
-     dependencies:
--      adi,current-rotate: [ 'adi,rsense-share' ]
-+      adi,current-rotate:
-+        - adi,rsense-share
- 
-     allOf:
-       - if:
-diff --git a/Documentation/devicetree/bindings/input/azoteq,iqs7222.yaml b/Documentation/devicetree/bindings/input/azoteq,iqs7222.yaml
-index 418c168b223b..5043ed4cbd5c 100644
---- a/Documentation/devicetree/bindings/input/azoteq,iqs7222.yaml
-+++ b/Documentation/devicetree/bindings/input/azoteq,iqs7222.yaml
-@@ -396,8 +396,10 @@ patternProperties:
-         description: Specifies the cycle's current reference trim.
- 
-     dependencies:
--      azoteq,iref-level: ["azoteq,iref-enable"]
--      azoteq,iref-trim: ["azoteq,iref-enable"]
-+      azoteq,iref-level:
-+        - azoteq,iref-enable
-+      azoteq,iref-trim:
-+        - azoteq,iref-enable
- 
-     additionalProperties: false
- 
-@@ -627,8 +629,10 @@ patternProperties:
-         additionalProperties: false
- 
-     dependencies:
--      azoteq,ref-weight: ["azoteq,ref-select"]
--      azoteq,use-prox: ["azoteq,ref-select"]
-+      azoteq,ref-weight:
-+        - azoteq,ref-select
-+      azoteq,use-prox:
-+        - azoteq,ref-select
- 
-     additionalProperties: false
- 
-diff --git a/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml b/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
-index fefaaf46a240..a8e61ad5b52a 100644
---- a/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
-+++ b/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
-@@ -45,8 +45,10 @@ properties:
-       when the keyboard has a custom design for the top row keys.
- 
- dependencies:
--  function-row-physmap: [ 'linux,keymap' ]
--  google,needs-ghost-filter: [ 'linux,keymap' ]
-+  function-row-physmap:
-+    - linux,keymap
-+  google,needs-ghost-filter:
-+    - linux,keymap
- 
- required:
-   - compatible
-diff --git a/Documentation/devicetree/bindings/input/input.yaml b/Documentation/devicetree/bindings/input/input.yaml
-index 64d1c46cb2f2..7181af1ac8c2 100644
---- a/Documentation/devicetree/bindings/input/input.yaml
-+++ b/Documentation/devicetree/bindings/input/input.yaml
-@@ -75,6 +75,7 @@ properties:
-     default: 0
- 
- dependencies:
--  linux,input-type: [ "linux,code" ]
-+  linux,input-type:
-+    - linux,code
- 
- additionalProperties: true
-diff --git a/Documentation/devicetree/bindings/input/iqs269a.yaml b/Documentation/devicetree/bindings/input/iqs269a.yaml
-index 2c3f693b8982..e77702feaeca 100644
---- a/Documentation/devicetree/bindings/input/iqs269a.yaml
-+++ b/Documentation/devicetree/bindings/input/iqs269a.yaml
-@@ -272,10 +272,14 @@ properties:
-       in order to be interpreted as a flick or swipe.
- 
- dependencies:
--  azoteq,gesture-swipe: ["linux,keycodes"]
--  azoteq,timeout-tap-ms: ["linux,keycodes"]
--  azoteq,timeout-swipe-ms: ["linux,keycodes"]
--  azoteq,thresh-swipe: ["linux,keycodes"]
-+  azoteq,gesture-swipe:
-+    - linux,keycodes
-+  azoteq,timeout-tap-ms:
-+    - linux,keycodes
-+  azoteq,timeout-swipe-ms:
-+    - linux,keycodes
-+  azoteq,thresh-swipe:
-+    - linux,keycodes
- 
- patternProperties:
-   "^channel@[0-7]$":
-diff --git a/Documentation/devicetree/bindings/input/iqs626a.yaml b/Documentation/devicetree/bindings/input/iqs626a.yaml
-index e424d67b0542..534ee0742fdb 100644
---- a/Documentation/devicetree/bindings/input/iqs626a.yaml
-+++ b/Documentation/devicetree/bindings/input/iqs626a.yaml
-@@ -500,7 +500,8 @@ patternProperties:
-         additionalProperties: false
- 
-     dependencies:
--      azoteq,assoc-weight: ["azoteq,assoc-select"]
-+      azoteq,assoc-weight:
-+        - azoteq,assoc-select
- 
-     additionalProperties: false
- 
-@@ -722,10 +723,14 @@ patternProperties:
-         additionalProperties: false
- 
-     dependencies:
--      azoteq,gesture-swipe: ["linux,keycodes"]
--      azoteq,timeout-tap-ms: ["linux,keycodes"]
--      azoteq,timeout-swipe-ms: ["linux,keycodes"]
--      azoteq,thresh-swipe: ["linux,keycodes"]
-+      azoteq,gesture-swipe:
-+        - linux,keycodes
-+      azoteq,timeout-tap-ms:
-+        - linux,keycodes
-+      azoteq,timeout-swipe-ms:
-+        - linux,keycodes
-+      azoteq,thresh-swipe:
-+        - linux,keycodes
- 
-     additionalProperties: false
- 
-diff --git a/Documentation/devicetree/bindings/input/touchscreen/azoteq,iqs7211.yaml b/Documentation/devicetree/bindings/input/touchscreen/azoteq,iqs7211.yaml
-index e4dbbafb3779..bb5407649717 100644
---- a/Documentation/devicetree/bindings/input/touchscreen/azoteq,iqs7211.yaml
-+++ b/Documentation/devicetree/bindings/input/touchscreen/azoteq,iqs7211.yaml
-@@ -347,9 +347,12 @@ properties:
-         additionalProperties: false
- 
-     dependencies:
--      azoteq,rx-enable: ["azoteq,tx-enable"]
--      azoteq,tx-enable: ["azoteq,rx-enable"]
--      azoteq,channel-select: ["azoteq,rx-enable"]
-+      azoteq,rx-enable:
-+        - azoteq,tx-enable
-+      azoteq,tx-enable:
-+        - azoteq,rx-enable
-+      azoteq,channel-select:
-+        - azoteq,rx-enable
- 
-     additionalProperties: false
- 
-@@ -592,11 +595,16 @@ properties:
-   touchscreen-swapped-x-y: true
- 
- dependencies:
--  touchscreen-size-x: ["azoteq,num-contacts"]
--  touchscreen-size-y: ["azoteq,num-contacts"]
--  touchscreen-inverted-x: ["azoteq,num-contacts"]
--  touchscreen-inverted-y: ["azoteq,num-contacts"]
--  touchscreen-swapped-x-y: ["azoteq,num-contacts"]
-+  touchscreen-size-x:
-+    - azoteq,num-contacts
-+  touchscreen-size-y:
-+    - azoteq,num-contacts
-+  touchscreen-inverted-x:
-+    - azoteq,num-contacts
-+  touchscreen-inverted-y:
-+    - azoteq,num-contacts
-+  touchscreen-swapped-x-y:
-+    - azoteq,num-contacts
- 
- required:
-   - compatible
-diff --git a/Documentation/devicetree/bindings/interrupt-controller/riscv,aplic.yaml b/Documentation/devicetree/bindings/interrupt-controller/riscv,aplic.yaml
-index 0718071444d2..20a52bd25bd8 100644
---- a/Documentation/devicetree/bindings/interrupt-controller/riscv,aplic.yaml
-+++ b/Documentation/devicetree/bindings/interrupt-controller/riscv,aplic.yaml
-@@ -101,7 +101,8 @@ properties:
-       that is mentioned in the "interrupts-extended"
- 
- dependencies:
--  riscv,delegation: [ "riscv,children" ]
-+  riscv,delegation:
-+    - riscv,children
- 
- required:
-   - compatible
-diff --git a/Documentation/devicetree/bindings/mfd/maxim,max8998.yaml b/Documentation/devicetree/bindings/mfd/maxim,max8998.yaml
-index f3c3f64fd012..a4fd1805b13f 100644
---- a/Documentation/devicetree/bindings/mfd/maxim,max8998.yaml
-+++ b/Documentation/devicetree/bindings/mfd/maxim,max8998.yaml
-@@ -130,8 +130,10 @@ properties:
-           - regulator-name
- 
- dependencies:
--  max8998,pmic-buck1-dvs-gpios: [ "max8998,pmic-buck1-dvs-voltage" ]
--  max8998,pmic-buck2-dvs-gpio: [ "max8998,pmic-buck2-dvs-voltage" ]
-+  max8998,pmic-buck1-dvs-gpios:
-+    - max8998,pmic-buck1-dvs-voltage
-+  max8998,pmic-buck2-dvs-gpio:
-+    - max8998,pmic-buck2-dvs-voltage
- 
- required:
-   - compatible
-diff --git a/Documentation/devicetree/bindings/mfd/samsung,s5m8767.yaml b/Documentation/devicetree/bindings/mfd/samsung,s5m8767.yaml
-index 249248078c59..df0640423757 100644
---- a/Documentation/devicetree/bindings/mfd/samsung,s5m8767.yaml
-+++ b/Documentation/devicetree/bindings/mfd/samsung,s5m8767.yaml
-@@ -143,12 +143,21 @@ required:
-   - s5m8767,pmic-buck-ds-gpios
- 
- dependencies:
--  s5m8767,pmic-buck2-dvs-voltage: [ 's5m8767,pmic-buck-dvs-gpios' ]
--  s5m8767,pmic-buck3-dvs-voltage: [ 's5m8767,pmic-buck-dvs-gpios' ]
--  s5m8767,pmic-buck4-dvs-voltage: [ 's5m8767,pmic-buck-dvs-gpios' ]
--  s5m8767,pmic-buck2-uses-gpio-dvs: [ 's5m8767,pmic-buck-dvs-gpios', 's5m8767,pmic-buck2-dvs-voltage' ]
--  s5m8767,pmic-buck3-uses-gpio-dvs: [ 's5m8767,pmic-buck-dvs-gpios', 's5m8767,pmic-buck3-dvs-voltage' ]
--  s5m8767,pmic-buck4-uses-gpio-dvs: [ 's5m8767,pmic-buck-dvs-gpios', 's5m8767,pmic-buck4-dvs-voltage' ]
-+  s5m8767,pmic-buck2-dvs-voltage:
-+    - s5m8767,pmic-buck-dvs-gpios
-+  s5m8767,pmic-buck3-dvs-voltage:
-+    - s5m8767,pmic-buck-dvs-gpios
-+  s5m8767,pmic-buck4-dvs-voltage:
-+    - s5m8767,pmic-buck-dvs-gpios
-+  s5m8767,pmic-buck2-uses-gpio-dvs:
-+    - s5m8767,pmic-buck-dvs-gpios
-+    - s5m8767,pmic-buck2-dvs-voltage
-+  s5m8767,pmic-buck3-uses-gpio-dvs:
-+    - s5m8767,pmic-buck-dvs-gpios
-+    - s5m8767,pmic-buck3-dvs-voltage
-+  s5m8767,pmic-buck4-uses-gpio-dvs:
-+    - s5m8767,pmic-buck-dvs-gpios
-+    - s5m8767,pmic-buck4-dvs-voltage
- 
- additionalProperties: false
- 
-diff --git a/Documentation/devicetree/bindings/mmc/arm,pl18x.yaml b/Documentation/devicetree/bindings/mmc/arm,pl18x.yaml
-index 8d62be4355a0..fec8ecbb56d5 100644
---- a/Documentation/devicetree/bindings/mmc/arm,pl18x.yaml
-+++ b/Documentation/devicetree/bindings/mmc/arm,pl18x.yaml
-@@ -168,9 +168,12 @@ properties:
-       The GPIO matching the CKIN pin.
- 
- dependencies:
--  st,cmd-gpios: [ "st,use-ckin" ]
--  st,ck-gpios: [ "st,use-ckin" ]
--  st,ckin-gpios: [ "st,use-ckin" ]
-+  st,cmd-gpios:
-+    - st,use-ckin
-+  st,ck-gpios:
-+    - st,use-ckin
-+  st,ckin-gpios:
-+    - st,use-ckin
- 
- unevaluatedProperties: false
- 
-diff --git a/Documentation/devicetree/bindings/mtd/amlogic,meson-nand.yaml b/Documentation/devicetree/bindings/mtd/amlogic,meson-nand.yaml
-index fa2aa29be794..00079edc7dd3 100644
---- a/Documentation/devicetree/bindings/mtd/amlogic,meson-nand.yaml
-+++ b/Documentation/devicetree/bindings/mtd/amlogic,meson-nand.yaml
-@@ -85,8 +85,12 @@ patternProperties:
-     dependencies:
-       nand-ecc-strength: [nand-ecc-step-size]
-       nand-ecc-step-size: [nand-ecc-strength]
--      amlogic,boot-pages: [nand-is-boot-medium, "amlogic,boot-page-step"]
--      amlogic,boot-page-step: [nand-is-boot-medium, "amlogic,boot-pages"]
-+      amlogic,boot-pages:
-+        - nand-is-boot-medium
-+        - amlogic,boot-page-step
-+      amlogic,boot-page-step:
-+        - nand-is-boot-medium
-+        - amlogic,boot-pages
- 
- required:
-   - compatible
-diff --git a/Documentation/devicetree/bindings/net/snps,dwmac.yaml b/Documentation/devicetree/bindings/net/snps,dwmac.yaml
-index 2449311c6d28..8eb84942ce3f 100644
---- a/Documentation/devicetree/bindings/net/snps,dwmac.yaml
-+++ b/Documentation/devicetree/bindings/net/snps,dwmac.yaml
-@@ -605,8 +605,10 @@ required:
-   - phy-mode
- 
- dependencies:
--  snps,reset-active-low: ["snps,reset-gpio"]
--  snps,reset-delays-us: ["snps,reset-gpio"]
-+  snps,reset-active-low:
-+    - snps,reset-gpio
-+  snps,reset-delays-us:
-+    - snps,reset-gpio
- 
- allOf:
-   - $ref: ethernet-controller.yaml#
-diff --git a/Documentation/devicetree/bindings/pci/brcm,iproc-pcie.yaml b/Documentation/devicetree/bindings/pci/brcm,iproc-pcie.yaml
-index 18e7981241b5..2f1be6420e23 100644
---- a/Documentation/devicetree/bindings/pci/brcm,iproc-pcie.yaml
-+++ b/Documentation/devicetree/bindings/pci/brcm,iproc-pcie.yaml
-@@ -82,7 +82,8 @@ properties:
-   msi-parent: true
- 
- dependencies:
--  brcm,pcie-ob-axi-offset: ["brcm,pcie-ob"]
-+  brcm,pcie-ob-axi-offset:
-+    - brcm,pcie-ob
-   brcm,pcie-msi-inten: [msi-controller]
- 
- required:
-diff --git a/Documentation/devicetree/bindings/perf/riscv,pmu.yaml b/Documentation/devicetree/bindings/perf/riscv,pmu.yaml
-index d01c677ad3c7..aa2ccf00d136 100644
---- a/Documentation/devicetree/bindings/perf/riscv,pmu.yaml
-+++ b/Documentation/devicetree/bindings/perf/riscv,pmu.yaml
-@@ -90,7 +90,8 @@ properties:
-             bitmap of all MHPMCOUNTERx that can monitor the range of events
- 
- dependencies:
--  riscv,event-to-mhpmevent: [ "riscv,event-to-mhpmcounters" ]
-+  riscv,event-to-mhpmevent:
-+    - riscv,event-to-mhpmcounters
- 
- required:
-   - compatible
-diff --git a/Documentation/devicetree/bindings/phy/hisilicon,hi3798cv200-combphy.yaml b/Documentation/devicetree/bindings/phy/hisilicon,hi3798cv200-combphy.yaml
-index 81001966f657..2040723f5297 100644
---- a/Documentation/devicetree/bindings/phy/hisilicon,hi3798cv200-combphy.yaml
-+++ b/Documentation/devicetree/bindings/phy/hisilicon,hi3798cv200-combphy.yaml
-@@ -48,8 +48,10 @@ required:
-   - resets
- 
- oneOf:
--  - required: ['hisilicon,fixed-mode']
--  - required: ['hisilicon,mode-select-bits']
-+  - required:
-+      - hisilicon,fixed-mode
-+  - required:
-+      - hisilicon,mode-select-bits
- 
- additionalProperties: false
- 
-diff --git a/Documentation/devicetree/bindings/phy/nvidia,tegra20-usb-phy.yaml b/Documentation/devicetree/bindings/phy/nvidia,tegra20-usb-phy.yaml
-index a37e8322dc50..90eba0e6ecdb 100644
---- a/Documentation/devicetree/bindings/phy/nvidia,tegra20-usb-phy.yaml
-+++ b/Documentation/devicetree/bindings/phy/nvidia,tegra20-usb-phy.yaml
-@@ -251,8 +251,10 @@ allOf:
-         - nvidia,xcvr-lsrslew
- 
-       anyOf:
--        - required: ["nvidia,xcvr-setup"]
--        - required: ["nvidia,xcvr-setup-use-fuses"]
-+        - required:
-+            - nvidia,xcvr-setup
-+        - required:
-+            - nvidia,xcvr-setup-use-fuses
- 
-       if:
-         properties:
-diff --git a/Documentation/devicetree/bindings/regulator/adi,max77857.yaml b/Documentation/devicetree/bindings/regulator/adi,max77857.yaml
-index d1fa74aca721..4191c5f3dcd0 100644
---- a/Documentation/devicetree/bindings/regulator/adi,max77857.yaml
-+++ b/Documentation/devicetree/bindings/regulator/adi,max77857.yaml
-@@ -43,8 +43,10 @@ properties:
-     description: Bottom feedback resistor value in ohms for external feedback.
- 
- dependencies:
--  adi,rtop-ohms: [ 'adi,rbot-ohms' ]
--  adi,rbot-ohms: [ 'adi,rtop-ohms' ]
-+  adi,rtop-ohms:
-+    - adi,rbot-ohms
-+  adi,rbot-ohms:
-+    - adi,rtop-ohms
- 
- required:
-   - compatible
-diff --git a/Documentation/devicetree/bindings/regulator/maxim,max8997.yaml b/Documentation/devicetree/bindings/regulator/maxim,max8997.yaml
-index 2b266ea43716..acc493840588 100644
---- a/Documentation/devicetree/bindings/regulator/maxim,max8997.yaml
-+++ b/Documentation/devicetree/bindings/regulator/maxim,max8997.yaml
-@@ -251,9 +251,12 @@ required:
-   - regulators
- 
- dependencies:
--  max8997,pmic-buck1-uses-gpio-dvs: [ 'max8997,pmic-buck125-dvs-gpios' ]
--  max8997,pmic-buck2-uses-gpio-dvs: [ 'max8997,pmic-buck125-dvs-gpios' ]
--  max8997,pmic-buck5-uses-gpio-dvs: [ 'max8997,pmic-buck125-dvs-gpios' ]
-+  max8997,pmic-buck1-uses-gpio-dvs:
-+    - max8997,pmic-buck125-dvs-gpios
-+  max8997,pmic-buck2-uses-gpio-dvs:
-+    - max8997,pmic-buck125-dvs-gpios
-+  max8997,pmic-buck5-uses-gpio-dvs:
-+    - max8997,pmic-buck125-dvs-gpios
- 
- additionalProperties: false
- 
-diff --git a/Documentation/devicetree/bindings/regulator/samsung,s2mpg10-regulator.yaml b/Documentation/devicetree/bindings/regulator/samsung,s2mpg10-regulator.yaml
-index 7252f94b3a8f..506b61175ae9 100644
---- a/Documentation/devicetree/bindings/regulator/samsung,s2mpg10-regulator.yaml
-+++ b/Documentation/devicetree/bindings/regulator/samsung,s2mpg10-regulator.yaml
-@@ -139,7 +139,8 @@ $defs:
-           property describes the GPIO line used.
- 
-     dependentRequired:
--      enable-gpios: [ "samsung,ext-control" ]
-+      enable-gpios:
-+        - samsung,ext-control
- 
- allOf:
-   # Bucks 8, 9, and LDO 1 can not be controlled externally - above definition
-diff --git a/Documentation/devicetree/bindings/regulator/samsung,s2mpg11-regulator.yaml b/Documentation/devicetree/bindings/regulator/samsung,s2mpg11-regulator.yaml
-index 119386325d1b..3a8a2945efd7 100644
---- a/Documentation/devicetree/bindings/regulator/samsung,s2mpg11-regulator.yaml
-+++ b/Documentation/devicetree/bindings/regulator/samsung,s2mpg11-regulator.yaml
-@@ -116,7 +116,8 @@ $defs:
-           property describes the GPIO line used.
- 
-     dependentRequired:
--      enable-gpios: [ "samsung,ext-control" ]
-+      enable-gpios:
-+        - samsung,ext-control
- 
- allOf:
-   # Bucks 4, 6, 7 and 10 can not be controlled externally - above definition
-diff --git a/Documentation/devicetree/bindings/regulator/ti,tps65132.yaml b/Documentation/devicetree/bindings/regulator/ti,tps65132.yaml
-index 873d92738eb0..f120f82398dc 100644
---- a/Documentation/devicetree/bindings/regulator/ti,tps65132.yaml
-+++ b/Documentation/devicetree/bindings/regulator/ti,tps65132.yaml
-@@ -48,7 +48,8 @@ patternProperties:
-         description: Regulator active discharge time in microseconds.
- 
-     dependencies:
--      active-discharge-gpios: [ 'ti,active-discharge-time-us' ]
-+      active-discharge-gpios:
-+        - ti,active-discharge-time-us
- 
- required:
-   - compatible
-diff --git a/Documentation/devicetree/bindings/riscv/cpus.yaml b/Documentation/devicetree/bindings/riscv/cpus.yaml
-index 5feeb2203050..26914597d049 100644
---- a/Documentation/devicetree/bindings/riscv/cpus.yaml
-+++ b/Documentation/devicetree/bindings/riscv/cpus.yaml
-@@ -151,8 +151,10 @@ anyOf:
-       - riscv,isa-base
- 
- dependencies:
--  riscv,isa-base: [ "riscv,isa-extensions" ]
--  riscv,isa-extensions: [ "riscv,isa-base" ]
-+  riscv,isa-base:
-+    - riscv,isa-extensions
-+  riscv,isa-extensions:
-+    - riscv,isa-base
- 
- required:
-   - interrupt-controller
-diff --git a/Documentation/devicetree/bindings/rtc/abracon,abx80x.yaml b/Documentation/devicetree/bindings/rtc/abracon,abx80x.yaml
-index 355b0598411a..9990de48bdd3 100644
---- a/Documentation/devicetree/bindings/rtc/abracon,abx80x.yaml
-+++ b/Documentation/devicetree/bindings/rtc/abracon,abx80x.yaml
-@@ -53,8 +53,10 @@ properties:
-     enum: [0, 3, 6, 11]
- 
- dependentRequired:
--  abracon,tc-diode: ["abracon,tc-resistor"]
--  abracon,tc-resistor: ["abracon,tc-diode"]
-+  abracon,tc-diode:
-+    - abracon,tc-resistor
-+  abracon,tc-resistor:
-+    - abracon,tc-diode
- 
- required:
-   - compatible
-diff --git a/Documentation/devicetree/bindings/soc/tegra/nvidia,tegra20-pmc.yaml b/Documentation/devicetree/bindings/soc/tegra/nvidia,tegra20-pmc.yaml
-index f516960dbbef..819adf7e005e 100644
---- a/Documentation/devicetree/bindings/soc/tegra/nvidia,tegra20-pmc.yaml
-+++ b/Documentation/devicetree/bindings/soc/tegra/nvidia,tegra20-pmc.yaml
-@@ -365,9 +365,13 @@ allOf:
- additionalProperties: false
- 
- dependencies:
--  nvidia,suspend-mode: ['nvidia,core-pwr-off-time', 'nvidia,cpu-pwr-off-time']
--  nvidia,core-pwr-off-time: ['nvidia,core-pwr-good-time']
--  nvidia,cpu-pwr-off-time: ['nvidia,cpu-pwr-good-time']
-+  nvidia,suspend-mode:
-+    - nvidia,core-pwr-off-time
-+    - nvidia,cpu-pwr-off-time
-+  nvidia,core-pwr-off-time:
-+    - nvidia,core-pwr-good-time
-+  nvidia,cpu-pwr-off-time:
-+    - nvidia,cpu-pwr-good-time
- 
- examples:
-   - |
-diff --git a/Documentation/devicetree/bindings/sound/ti,tlv320adc3xxx.yaml b/Documentation/devicetree/bindings/sound/ti,tlv320adc3xxx.yaml
-index 66b76656229f..4e02f2dc5aa8 100644
---- a/Documentation/devicetree/bindings/sound/ti,tlv320adc3xxx.yaml
-+++ b/Documentation/devicetree/bindings/sound/ti,tlv320adc3xxx.yaml
-@@ -125,8 +125,10 @@ properties:
-       Mic bias voltage output on MICBIAS2 pin
- 
- dependencies:
--  ti,micbias1-gpo: ['ti,micbias1-vg']
--  ti,micbias2-gpo: ['ti,micbias2-vg']
-+  ti,micbias1-gpo:
-+    - ti,micbias1-vg
-+  ti,micbias2-gpo:
-+    - ti,micbias2-vg
- 
- required:
-   - compatible
-diff --git a/Documentation/devicetree/bindings/sound/wlf,wm8904.yaml b/Documentation/devicetree/bindings/sound/wlf,wm8904.yaml
-index 3029a868e5e1..eb0cf2002865 100644
---- a/Documentation/devicetree/bindings/sound/wlf,wm8904.yaml
-+++ b/Documentation/devicetree/bindings/sound/wlf,wm8904.yaml
-@@ -107,12 +107,20 @@ properties:
-       maxItems: 24
- 
- dependencies:
--  wlf,drc-cfg-names: [ 'wlf,drc-cfg-regs' ]
--  wlf,drc-cfg-regs: [ 'wlf,drc-cfg-names' ]
-+  wlf,drc-cfg-names:
-+    - wlf,drc-cfg-regs
-+  wlf,drc-cfg-regs:
-+    - wlf,drc-cfg-names
- 
--  wlf,retune-mobile-cfg-names: [ 'wlf,retune-mobile-cfg-hz', 'wlf,retune-mobile-cfg-regs' ]
--  wlf,retune-mobile-cfg-regs: [ 'wlf,retune-mobile-cfg-names', 'wlf,retune-mobile-cfg-hz' ]
--  wlf,retune-mobile-cfg-hz: [ 'wlf,retune-mobile-cfg-names', 'wlf,retune-mobile-cfg-regs' ]
-+  wlf,retune-mobile-cfg-names:
-+    - wlf,retune-mobile-cfg-hz
-+    - wlf,retune-mobile-cfg-regs
-+  wlf,retune-mobile-cfg-regs:
-+    - wlf,retune-mobile-cfg-names
-+    - wlf,retune-mobile-cfg-hz
-+  wlf,retune-mobile-cfg-hz:
-+    - wlf,retune-mobile-cfg-names
-+    - wlf,retune-mobile-cfg-regs
- 
- required:
-   - compatible
-diff --git a/Documentation/devicetree/bindings/tpm/tpm-common.yaml b/Documentation/devicetree/bindings/tpm/tpm-common.yaml
-index 3c1241b2a43f..b8853c39ebbf 100644
---- a/Documentation/devicetree/bindings/tpm/tpm-common.yaml
-+++ b/Documentation/devicetree/bindings/tpm/tpm-common.yaml
-@@ -50,8 +50,10 @@ properties:
- 
- # must always have both linux,sml-base and linux,sml-size
- dependentRequired:
--  linux,sml-base: ['linux,sml-size']
--  linux,sml-size: ['linux,sml-base']
-+  linux,sml-base:
-+    - linux,sml-size
-+  linux,sml-size:
-+    - linux,sml-base
- 
- # must only have either memory-region or linux,sml-base
- # as well as either resets or reset-gpios
-diff --git a/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml b/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
-index 231e6f35a986..af13035f94dc 100644
---- a/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
-+++ b/Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.yaml
-@@ -194,7 +194,8 @@ patternProperties:
-     description: The hard wired USB devices.
- 
- dependencies:
--  wakeup-source: [ 'mediatek,syscon-wakeup' ]
-+  wakeup-source:
-+    - mediatek,syscon-wakeup
- 
- required:
-   - compatible
-diff --git a/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml b/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
-index d148e938d647..27d512ada717 100644
---- a/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
-+++ b/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
-@@ -227,10 +227,14 @@ patternProperties:
-       example if the host mode is enabled.
- 
- dependencies:
--  connector: [ usb-role-switch ]
--  port: [ usb-role-switch ]
--  role-switch-default-mode: [ usb-role-switch ]
--  wakeup-source: [ 'mediatek,syscon-wakeup' ]
-+  connector:
-+    - usb-role-switch
-+  port:
-+    - usb-role-switch
-+  role-switch-default-mode:
-+    - usb-role-switch
-+  wakeup-source:
-+    - mediatek,syscon-wakeup
- 
- required:
-   - compatible
-diff --git a/Documentation/devicetree/bindings/watchdog/atmel,at91sam9-wdt.yaml b/Documentation/devicetree/bindings/watchdog/atmel,at91sam9-wdt.yaml
-index ad27bc518670..fea4f510aa6c 100644
---- a/Documentation/devicetree/bindings/watchdog/atmel,at91sam9-wdt.yaml
-+++ b/Documentation/devicetree/bindings/watchdog/atmel,at91sam9-wdt.yaml
-@@ -104,7 +104,8 @@ allOf:
-           const: hardware
- 
- dependencies:
--  atmel,reset-type: ['atmel,watchdog-type']
-+  atmel,reset-type:
-+    - atmel,watchdog-type
- 
- unevaluatedProperties: false
+diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
+index 33a6a1281410..ddfd7e01a3ef 100644
+--- a/sound/usb/mixer.c
++++ b/sound/usb/mixer.c
+@@ -2436,6 +2436,16 @@ static int parse_audio_mixer_unit(struct mixer_build *state, int unitid,
+ 	num_outs = err;
+ 	input_pins = desc->bNrInPins;
+ 
++	if (state->mixer->protocol == UAC_VERSION_2 ||
++	    state->mixer->protocol == UAC_VERSION_3) {
++		if (input_pins * num_outs > 256) {
++			usb_audio_err(state->chip,
++				      "invalid channels for MIXER UNIT %d: input=%d, output=%d\n",
++				      unitid, input_pins, num_outs);
++			return -EINVAL;
++		}
++	}
++
+ 	num_ins = 0;
+ 	ich = 0;
+ 	for (pin = 0; pin < input_pins; pin++) {
+-- 
+2.55.0
+
+
+--Multipart_Thu_Sep_17_16:49:35_2026-1
+Content-Type: application/octet-stream; type=patch; name="0002-ALSA-usb-audio-Fix-UAC2-mixer-unit-request-handling.patch"
+Content-Disposition: attachment; filename="0002-ALSA-usb-audio-Fix-UAC2-mixer-unit-request-handling.patch"
+Content-Transfer-Encoding: 7bit
+
+From be27b714aaa57aa5f07a0c5ebcfc63743231b984 Mon Sep 17 00:00:00 2001
+From: Takashi Iwai <tiwai@suse.de>
+Date: Thu, 17 Sep 2026 09:49:19 +0200
+Subject: [PATCH 2/3] ALSA: usb-audio: Fix UAC2 mixer unit request handling
+
+For a request for a Mixer Unit on UAC2 (also UAC3), the wValue is
+different from UAC1 and an incompatible value must be passed.
+Namely, UAC1 takes a word consisting of 1-based input channel in the
+high byte and 1-based output channel in the low byte.
+Meanwhile, UAC2/3 takes UAC2_MU_MIXER in the high byte and a MCN
+(0-based bit position of input/output channels) in the low byte.
+The current driver implementation blindly assumes the UAC1 way, hence
+it would cause a firmware error.
+
+This patch attempts to implement the conversion to UAC2 MCN at
+get_ctl_value_v2() and snd_usb_mixer_set_ctl_value() for mixer units.
+At the points above, the old wValue containing ICN and OCN is
+converted to the corresponding MCN, and it's used as the proper
+wValue.
+
+Reported-by: Zipdox <zipdox@zipdox.net>
+Closes: https://lore.kernel.org/d46fcac6-bd7e-4fc4-95e1-4e8d39f92ad3@zipdox.net
+Fixes: 23caaf19b11e ("ALSA: usb-mixer: Add support for Audio Class v2.0")
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ sound/usb/mixer.c | 22 ++++++++++++++++++++++
+ sound/usb/mixer.h |  2 ++
+ 2 files changed, 24 insertions(+)
+
+diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
+index ddfd7e01a3ef..54a512fb5fa8 100644
+--- a/sound/usb/mixer.c
++++ b/sound/usb/mixer.c
+@@ -335,6 +335,16 @@ static int get_ctl_value_v1(struct usb_mixer_elem_info *cval, int request,
+ 	return -EINVAL;
+ }
+ 
++/* convert the given UAC1 wValue (ICN|OCN) to UAC2 MCN */
++static unsigned int to_mcn(const struct usb_mixer_elem_info *cval,
++			   unsigned int validx)
++{
++	unsigned char m = (validx >> 8) & 0xff; /* 1-based input channel */
++	unsigned char v = validx & 0xff; /* 1-based output channel */
++
++	return (m - 1) * cval->num_outputs + (v - 1);
++}
++
+ static int get_ctl_value_v2(struct usb_mixer_elem_info *cval, int request,
+ 			    int validx, int *value_ret)
+ {
+@@ -347,6 +357,10 @@ static int get_ctl_value_v2(struct usb_mixer_elem_info *cval, int request,
+ 
+ 	val_size = uac2_ctl_value_size(cval->val_type);
+ 
++	/* correct wValue for UAC2 mixer control with MCN */
++	if (cval->v2_mixer)
++		validx = (UAC2_MU_MIXER << 8) | to_mcn(cval, validx);
++
+ 	if (request == UAC_GET_CUR) {
+ 		bRequest = UAC2_CS_CUR;
+ 		size = val_size;
+@@ -478,6 +492,10 @@ int snd_usb_mixer_set_ctl_value(struct usb_mixer_elem_info *cval,
+ 		}
+ 
+ 		request = UAC2_CS_CUR;
++
++		/* correct wValue for UAC2 mixer control with MCN */
++		if (cval->v2_mixer)
++			validx = (UAC2_MU_MIXER << 8) | to_mcn(cval, validx);
+ 	}
+ 
+ 	value_set = convert_bytes_value(cval, value_set);
+@@ -2345,6 +2363,10 @@ static void build_mixer_unit_ctl(struct mixer_build *state,
+ 
+ 	snd_usb_mixer_elem_init_std(&cval->head, state->mixer, unitid);
+ 	cval->control = in_ch + 1; /* based on 1 */
++	if (state->mixer->protocol == UAC_VERSION_2 ||
++	    state->mixer->protocol == UAC_VERSION_3)
++		cval->v2_mixer = true;
++	cval->num_outputs = num_outs;
+ 	cval->val_type = USB_MIXER_S16;
+ 	for (i = 0; i < num_outs; i++) {
+ 		__u8 *c = uac_mixer_unit_bmControls(desc, state->mixer->protocol);
+diff --git a/sound/usb/mixer.h b/sound/usb/mixer.h
+index 037b446d8b6f..cf45c39cbccc 100644
+--- a/sound/usb/mixer.h
++++ b/sound/usb/mixer.h
+@@ -97,6 +97,8 @@ struct usb_mixer_elem_info {
+ 	u8 initialized;
+ 	u8 min_mute;
+ 	u8 get_cur_broken;
++	u8 num_outputs;
++	bool v2_mixer;
+ 	void *private_data;
+ };
  
 -- 
-2.43.0
+2.55.0
 
+
+--Multipart_Thu_Sep_17_16:49:35_2026-1
+Content-Type: application/octet-stream; type=patch; name="0003-ALSA-usb-audio-Optimize-min-max-res-parse-for-UAC2.patch"
+Content-Disposition: attachment; filename="0003-ALSA-usb-audio-Optimize-min-max-res-parse-for-UAC2.patch"
+Content-Transfer-Encoding: 7bit
+
+From 0f8d881464f94d46687854251056156e492fe35e Mon Sep 17 00:00:00 2001
+From: Takashi Iwai <tiwai@suse.de>
+Date: Thu, 17 Sep 2026 11:20:30 +0200
+Subject: [PATCH 3/3] ALSA: usb-audio: Optimize min/max/res parse for UAC2
+
+UAC2 feature and mixer units provide the mixer information about
+minimum and max channels as well as the resolution in a single
+UAC2_CS_RANGE request, but the current code tries to extract each of
+them in an old way of UAC1.
+
+This patch refactors the code to optimize the range info extraction
+for UAC2.  Now the code for obtaining min/max/res info is done in
+get_ctl_range() function.  For UAC1, this will call UAC_GET_MIN,
+UAC_GET_MAX and UAC_GET_RES requests, while it calls a single
+UAC2_CS_RANGE for UAC2/3.
+
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ sound/usb/mixer.c | 209 ++++++++++++++++++++++++++--------------------
+ 1 file changed, 117 insertions(+), 92 deletions(-)
+
+diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
+index 54a512fb5fa8..6af51c50a542 100644
+--- a/sound/usb/mixer.c
++++ b/sound/usb/mixer.c
+@@ -304,8 +304,9 @@ static inline int mixer_ctrl_intf(struct usb_mixer_interface *mixer)
+ 	return get_iface_desc(mixer->hostif)->bInterfaceNumber;
+ }
+ 
+-static int get_ctl_value_v1(struct usb_mixer_elem_info *cval, int request,
+-			    int validx, int *value_ret)
++/* send a request for UAC1 feature & mixer unit */
++static int request_ctl_v1(struct usb_mixer_elem_info *cval, u8 request,
++			  int validx, int *value_ret)
+ {
+ 	struct snd_usb_audio *chip = cval->head.mixer->chip;
+ 	unsigned char buf[2];
+@@ -345,98 +346,72 @@ static unsigned int to_mcn(const struct usb_mixer_elem_info *cval,
+ 	return (m - 1) * cval->num_outputs + (v - 1);
+ }
+ 
+-static int get_ctl_value_v2(struct usb_mixer_elem_info *cval, int request,
+-			    int validx, int *value_ret)
++/* send a request for UAC2 feature & mixer unit */
++static int request_ctl_v2(struct usb_mixer_elem_info *cval, u8 request,
++			  int validx, unsigned char *buf, int size)
+ {
+ 	struct snd_usb_audio *chip = cval->head.mixer->chip;
+-	/* enough space for one range */
+-	unsigned char buf[sizeof(__u16) + 3 * sizeof(__u32)];
+-	unsigned char *val;
+-	int idx = 0, ret, val_size, size;
+-	__u8 bRequest;
++	int idx, ret;
+ 
+-	val_size = uac2_ctl_value_size(cval->val_type);
++	CLASS(snd_usb_lock, pm)(chip);
++	if (pm.err)
++		return -EIO;
+ 
+ 	/* correct wValue for UAC2 mixer control with MCN */
+ 	if (cval->v2_mixer)
+ 		validx = (UAC2_MU_MIXER << 8) | to_mcn(cval, validx);
+ 
+-	if (request == UAC_GET_CUR) {
+-		bRequest = UAC2_CS_CUR;
+-		size = val_size;
+-	} else {
+-		bRequest = UAC2_CS_RANGE;
+-		size = sizeof(__u16) + 3 * val_size;
+-	}
+-
+-	memset(buf, 0, sizeof(buf));
+-
+-	{
+-		CLASS(snd_usb_lock, pm)(chip);
+-		if (pm.err)
+-			return -EIO;
+-
+-		idx = mixer_ctrl_intf(cval->head.mixer) | (cval->head.id << 8);
+-		ret = snd_usb_ctl_msg(chip->dev, usb_rcvctrlpipe(chip->dev, 0), bRequest,
+-				      USB_RECIP_INTERFACE | USB_TYPE_CLASS | USB_DIR_IN,
+-				      validx, idx, buf, size);
+-	}
+-
+-	if (ret < 0) {
++	memset(buf, 0, size);
++	idx = mixer_ctrl_intf(cval->head.mixer) | (cval->head.id << 8);
++	ret = snd_usb_ctl_msg(chip->dev, usb_rcvctrlpipe(chip->dev, 0),
++			      request,
++			      USB_RECIP_INTERFACE | USB_TYPE_CLASS | USB_DIR_IN,
++			      validx, idx, buf, size);
++	if (ret < 0)
+ 		usb_audio_dbg(chip,
+ 			"cannot get ctl value: req = %#x, wValue = %#x, wIndex = %#x, type = %d\n",
+ 			request, validx, idx, cval->val_type);
++
++	return ret;
++}
++
++/* read the current value for UAC2 */
++static int get_ctl_value_v2(struct usb_mixer_elem_info *cval,
++			    int validx, int *value_ret)
++{
++	/* enough space for one value */
++	unsigned char buf[sizeof(__u32)];
++	int ret, val_size;
++
++	val_size = uac2_ctl_value_size(cval->val_type);
++
++	ret = request_ctl_v2(cval, UAC2_CS_CUR, validx, buf, val_size);
++	if (ret < 0)
+ 		return ret;
+-	}
+-
+-	/* FIXME: how should we handle multiple triplets here? */
+-
+-	switch (request) {
+-	case UAC_GET_CUR:
+-		val = buf;
+-		break;
+-	case UAC_GET_MIN:
+-		val = buf + sizeof(__u16);
+-		break;
+-	case UAC_GET_MAX:
+-		val = buf + sizeof(__u16) + val_size;
+-		break;
+-	case UAC_GET_RES:
+-		val = buf + sizeof(__u16) + val_size * 2;
+-		break;
+-	default:
+-		return -EINVAL;
+-	}
+ 
+ 	*value_ret = convert_signed_value(cval,
+-					  snd_usb_combine_bytes(val, val_size));
+-
++					  snd_usb_combine_bytes(buf, val_size));
+ 	return 0;
+ }
+ 
+-static int get_ctl_value(struct usb_mixer_elem_info *cval, int request,
+-			 int validx, int *value_ret)
++/* read the current value */
++static int get_cur_ctl_value(struct usb_mixer_elem_info *cval,
++			     int validx, int *value_ret)
+ {
+ 	validx += cval->idx_off;
+ 
+ 	return (cval->head.mixer->protocol == UAC_VERSION_1) ?
+-		get_ctl_value_v1(cval, request, validx, value_ret) :
+-		get_ctl_value_v2(cval, request, validx, value_ret);
+-}
+-
+-static int get_cur_ctl_value(struct usb_mixer_elem_info *cval,
+-			     int validx, int *value)
+-{
+-	return get_ctl_value(cval, UAC_GET_CUR, validx, value);
++		request_ctl_v1(cval, UAC_GET_CUR, validx, value_ret) :
++		get_ctl_value_v2(cval, validx, value_ret);
+ }
+ 
+ /* channel = 0: master, 1 = first channel */
+ static inline int get_cur_mix_raw(struct usb_mixer_elem_info *cval,
+ 				  int channel, int *value)
+ {
+-	return get_ctl_value(cval, UAC_GET_CUR,
+-			     (cval->control << 8) | channel,
+-			     value);
++	return get_cur_ctl_value(cval,
++				 (cval->control << 8) | channel,
++				 value);
+ }
+ 
+ int snd_usb_get_cur_mix_value(struct usb_mixer_elem_info *cval,
+@@ -466,6 +441,77 @@ int snd_usb_get_cur_mix_value(struct usb_mixer_elem_info *cval,
+ 	return 0;
+ }
+ 
++/* extract the mixer min/max/res info from UAC1 feature / mixer unit */
++static int get_ctl_range_v1(struct usb_mixer_elem_info *cval, int validx)
++{
++	int last_valid_res = cval->res;
++
++	if (request_ctl_v1(cval, UAC_GET_MAX, validx, &cval->max) < 0 ||
++	    request_ctl_v1(cval, UAC_GET_MIN, validx, &cval->min) < 0) {
++		usb_audio_err(cval->head.mixer->chip,
++			      "%d:%d: cannot get min/max values for control %d (id %d)\n",
++			      cval->head.id, mixer_ctrl_intf(cval->head.mixer),
++			      cval->control, cval->head.id);
++		return -EAGAIN;
++	}
++
++	if (request_ctl_v1(cval, UAC_GET_RES, validx, &cval->res) < 0) {
++		cval->res = 1;
++		return 0;
++	}
++
++	last_valid_res = cval->res;
++	while (cval->res > 1) {
++		if (snd_usb_mixer_set_ctl_value(cval, UAC_SET_RES,
++						validx, cval->res / 2) < 0)
++			break;
++		cval->res /= 2;
++	}
++	if (request_ctl_v1(cval, UAC_GET_RES, validx, &cval->res) < 0)
++		cval->res = last_valid_res;
++
++	return 0;
++}
++
++/* extract the mixer min/max/res info from UAC2 feature / mixer unit */
++static int get_ctl_range_v2(struct usb_mixer_elem_info *cval, int validx)
++{
++	/* enough space for one range */
++	unsigned char buf[sizeof(__u16) + 3 * sizeof(__u32)];
++	unsigned char *val;
++	int ret, val_size, size;
++
++	val_size = uac2_ctl_value_size(cval->val_type);
++	size = sizeof(__u16) + 3 * val_size;
++
++	ret = request_ctl_v2(cval, UAC2_CS_RANGE, validx, buf, size);
++	if (ret < 0)
++		return ret;
++
++	/* FIXME: how should we handle multiple triplets here? */
++	val = buf + 2;
++	cval->min = convert_signed_value(cval, snd_usb_combine_bytes(val, val_size));
++	val += val_size;
++	cval->max = convert_signed_value(cval, snd_usb_combine_bytes(val, val_size));
++	val += val_size;
++	cval->res = convert_signed_value(cval, snd_usb_combine_bytes(val, val_size));
++	return 0;
++}
++
++/* extract the mixer min/max/res info */
++static int get_ctl_range(struct usb_mixer_elem_info *cval, int validx)
++{
++	switch (cval->head.mixer->protocol) {
++	case UAC_VERSION_1:
++		return get_ctl_range_v1(cval, validx);
++	case UAC_VERSION_2:
++	case UAC_VERSION_3:
++		return get_ctl_range_v2(cval, validx);
++	default:
++		return -EINVAL;
++	}
++}
++
+ /*
+  * set a mixer value
+  */
+@@ -1362,32 +1408,11 @@ static int get_min_max_with_quirks(struct usb_mixer_elem_info *cval,
+ 					break;
+ 				}
+ 		}
+-		if (get_ctl_value(cval, UAC_GET_MAX, (cval->control << 8) | minchn, &cval->max) < 0 ||
+-		    get_ctl_value(cval, UAC_GET_MIN, (cval->control << 8) | minchn, &cval->min) < 0) {
+-			usb_audio_err(cval->head.mixer->chip,
+-				      "%d:%d: cannot get min/max values for control %d (id %d)\n",
+-				   cval->head.id, mixer_ctrl_intf(cval->head.mixer),
+-							       cval->control, cval->head.id);
+-			return -EAGAIN;
+-		}
+-		if (get_ctl_value(cval, UAC_GET_RES,
+-				  (cval->control << 8) | minchn,
+-				  &cval->res) < 0) {
+-			cval->res = 1;
+-		} else if (cval->head.mixer->protocol == UAC_VERSION_1) {
+-			int last_valid_res = cval->res;
+ 
+-			while (cval->res > 1) {
+-				if (snd_usb_mixer_set_ctl_value(cval, UAC_SET_RES,
+-								(cval->control << 8) | minchn,
+-								cval->res / 2) < 0)
+-					break;
+-				cval->res /= 2;
+-			}
+-			if (get_ctl_value(cval, UAC_GET_RES,
+-					  (cval->control << 8) | minchn, &cval->res) < 0)
+-				cval->res = last_valid_res;
+-		}
++		ret = get_ctl_range(cval, (cval->control << 8) | minchn);
++		if (ret < 0)
++			return ret;
++
+ 		if (cval->res == 0)
+ 			cval->res = 1;
+ 
+-- 
+2.55.0
+
+
+--Multipart_Thu_Sep_17_16:49:35_2026-1--
