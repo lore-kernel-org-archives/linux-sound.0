@@ -1,64 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAFE244607E;
-	Thu, 17 Sep 2026 22:38:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B7BD49505E;
+	Thu, 17 Sep 2026 22:51:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789684740; cv=none; b=eNq0NwVEF4OMi17NnnkyeIfsZeE2rNjXUNa1VqdPtUdIxJaQ1DNm6XIDsk07JuhtMFMjWzsDkoZMozpJEinKUPcksbPFjhcivxNzlqej4iBSC0FCS7ef0hPXa1Gu2cDGOSeapKtU6kRQsOFY8dUsRl5bbq01bNzS+91kRScvQtQ=
+	t=1789685469; cv=none; b=TN3/jNhoHZq6WeWGpN80I82szYfssSNWfqc+Z2d/aUobnq0GnDkUtbIQ4OQK2kHlIF+Z1jWlwVlEslYFFv0qtv3ju+HQsHdo96VMEqaxDK8mfSDdVOeRcrhBNLswp8FLRDJTD+KGkKjjohVisLKH7GNmBAq/2bpDXvT8RZay1ho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789684740; c=relaxed/simple;
-	bh=DI13kaWhMR7VVEXysPrSREcpe7Iqfs/kvZYijSu02eA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Eq6+DVAE6CbEWgCWjbTZ8xRzAF+ItPPpN99UEkvPjgqD4TbeF6v/m5sgeExyvokqy6g0AbqQiBAtLLsIiIhssIfnwCS1LadyKiVbqiHZSrE+DPtmNuIZdq5lBThVZ992LObqrIhztQK7lemkTv5a2XOyAS3NyQRHvoAr1sxkFM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DzwVsXoX; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789685469; c=relaxed/simple;
+	bh=7i01UYm+SKffohRu1J2ywe9XF1gj1a3Dd6BO4ulKdF8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=ly12zC3sxiqbJL9kOvVAVSuMwOW2vDvqnv26VHH8u0kJZ7Jbc9ooayhk22NLYBLx7QXN0guzJcBmZkFgvhWOztkPT/Jc7KG2fNbE6sBbSjcZEZ60ngkrpi7STu2iPf7Z1FVAGnnaO2bN7hPSnsmy8e83qd3Go0GQcqKQi7k6vIk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B0E2iWt+; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DzwVsXoX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 986F41F00893;
-	Thu, 17 Sep 2026 22:38:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B0E2iWt+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 582381F000FF;
+	Thu, 17 Sep 2026 22:51:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789684738;
-	bh=FYqD+8EuHNbP6ZIkLeQ20YUnJezRRXMcecWfjRiQZw0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=DzwVsXoXHLMEaSwh8pkPEtTZNMxKgNsQlbsMxoVgE6nuxkw3wcNDQaK6f+HiIiWIR
-	 VuedDSXpyvp/BYW+rDGHCPD7sripNpVxMuH6d63EF1h90INd98Ajq2S3kIt64SZp4C
-	 QcjWZpTzIX1/K+PiEnIjwv0K3aZyl7SJy8m+xYkqj1//ac48wqkrz8Y+fOYdwk9G2H
-	 mzADuqrUn/xju4AAj9rY1p/FSZ5xZcdq3upVmldTPYTgsehphCm0wthg9NZi1vjNxd
-	 ZsqAiD5E+9vIz2H8d5MNFMZ/aejOTey6vbLh48rAn2we7H2OneoLeAcZ0mf5B0kkyD
-	 46uX+D4jfGQkQ==
-From: Srinivas Kandagatla <srini@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
- Madhavan Srinivasan <maddy@linux.ibm.com>, 
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
- "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
- Andi Shyti <andi.shyti@kernel.org>, "Joerg Roedel (AMD)" <joro@8bytes.org>, 
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- Doug Berger <opendmb@gmail.com>, 
- Florian Fainelli <florian.fainelli@broadcom.com>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Ulf Hansson <ulfh@kernel.org>, Frank Li <Frank.Li@nxp.com>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Lee Jones <lee@kernel.org>, 
- Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, 
- Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: brgl@kernel.org, driver-core@lists.linux.dev, 
- linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
- linux-i2c@vger.kernel.org, iommu@lists.linux.dev, netdev@vger.kernel.org, 
- linux-pm@vger.kernel.org, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, mfd@lists.linux.dev, 
- linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org
-In-Reply-To: <20260720-pdev-set-fwnode-instead-of-of-node-v1-0-2dee93f42c54@oss.qualcomm.com>
-References: <20260720-pdev-set-fwnode-instead-of-of-node-v1-0-2dee93f42c54@oss.qualcomm.com>
-Subject: Re: (subset) [PATCH 0/8] driver core: prefer
- platform_device_set_fwnode()
-Message-Id: <178968473139.466806.13272492778306156816.b4-ty@kernel.org>
-Date: Thu, 17 Sep 2026 23:38:51 +0100
+	s=k20260515; t=1789685467;
+	bh=polrahPXrGaDJCpkbyBjwWQhcyyfprcdb/a+QUCF9lQ=;
+	h=From:Subject:Date:To:Cc;
+	b=B0E2iWt++m5KrQLCE0PcKkJ73EVoRvL3tuarBnTAnDWYjq5XCKcBuP71FlVmrBGox
+	 elaBeDYGhpBPGGMPMdIZbywElJC40tlhfCJbnrLPR49E8ApH0m0stw689DrfYEnBH7
+	 ctcRf+cCw7mLM8j/AaIDiyb+wERM8oyp19VyMC8m8l0t86NEdMGgZoCfzlHAcEK0jO
+	 89Lgf2U5wD05X7cp+diWXxaVKcEmkQVSdrTaLL8UBA3J3gMFBYeVuC+vDTnTJtnDsc
+	 KsxmzLuTgEDCwBIAlfMiETbgFaWjmaMM+PzbmtZEdHKnXp28KX5LNcVCLNcFZ1SZlg
+	 P8j3FXC53Lggw==
+From: Linus Walleij <linusw@kernel.org>
+Subject: [PATCH v2 0/9] ASoC: ux500: Migrate HREF and Samsung audio to
+ audio-graph-card2
+Date: Fri, 18 Sep 2026 00:50:58 +0200
+Message-Id: <20260918-ux500-simple-sound-v2-0-88d29416e3c3@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -67,28 +38,104 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/22NQQ6CMBBFr0Jm7ZhpBYquvIdhQegIE7ElrRAM4
+ e5W4tLle8l/f4XIQTjCJVsh8CxRvEugDxm0feM6RrGJQZMu6UwnnJaCCKM8x4Ex+slZtGSMLfK
+ qbIyGNBwD32XZo7c6cS/x5cN7/5jV1/5ySv3LzQoJS2NU0xqVc6WvDw6Oh6MPHdTbtn0A58++j
+ rUAAAA=
+X-Change-ID: 20260903-ux500-simple-sound-d077d5486a72
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ mfd@lists.linux.dev, Linus Walleij <linusw@kernel.org>
 X-Mailer: b4 0.14.3
 
+The Ux500 HREF500 and HREF520 audio support still relies on a
+MOP500-specific machine driver and ad-hoc text bindings.
 
-On Mon, 20 Jul 2026 11:24:47 +0200, Bartosz Golaszewski wrote:
-> With the final platform device and software node rework changes having
-> been queued in the driver core tree, Danilo pointed out that
-> platform_device_set_fwnode() is no longer used and should be removed. I
-> argued that instead we should prefer it over the OF-specific
-> platform_device_set_of_node().
-> 
-> This series converts drivers using platform_device_set_of_node() to
-> platform_device_set_fwnode() and does not intend any functional change
-> as the semantics of:
-> 
-> [...]
+Convert the MSP binding to DT schema and make the MSP and AB8500 codec
+nodes proper sound DAI providers with audio graph ports. Document the
+sparse TDM slot masks already parsed from audio graph endpoints.
 
-Applied, thanks!
+Describe the fixed DSP_A or DSP_B format, codec clock-provider role,
+TDM frame and active slots through endpoint graphs. Add two-link
+audio-graph-card2 cards for HREF500, HREF520 and the seven supported
+Samsung U8500 phones.
 
-[8/8] slimbus: qcom-ngd-ctrl: use platform_device_set_fwnode()
-      commit: bb74fae19700fd1fa92def9daf49e6fbdea26006
+Keep the codec-provided bit and frame clocks running continuously on the
+HREF and Samsung links. This matches the legacy machine driver for HREF
+and the product kernels for Samsung, and was verified on Skomer.
+
+Remove the MOP500 machine driver after moving its fixed clock and link
+policy into the device trees.
+
+This intentionally breaks the device tree ABI with older Ux500 HREF
+device trees. The old binding and driver have been broken for years and
+need a clean restart.
+
+The series has been tested on HREF500, HREF520 and Samsung phones.
+
+MERGING STRATEGY:
+
+- Get DT bindings ACKed
+- Lee merges the MFD binding patch
+- Mark merges the ASoC bits including the MOP500 binding removal
+- I merge the top commits with DTS changes and defconfig
+
+Assisted-by: LLM
+Signed-off-by: Linus Walleij <linusw@kernel.org>
+---
+Changes in v2:
+- Keep the HREF and Samsung codec clocks running continuously.
+- Rework the HREF and Samsung cards around audio-graph-card2.
+- Describe the DAI links through provider endpoint graphs.
+- Document sparse TDM slot masks on audio graph endpoints.
+- Link to v1: https://lore.kernel.org/r/20260911-ux500-simple-sound-v1-0-6771ac714e82@kernel.org
+
+---
+Linus Walleij (9):
+      ASoC: dt-bindings: sound: Prepare Ux500 audio graph links
+      mfd: dt-bindings: ab8500: Describe codec graph and microphone wiring
+      ASoC: dt-bindings: ux500: Remove MOP500 sound card binding
+      ASoC: ab8500: Skip digital microphone support on AB8505
+      ASoC: ux500: Remove the MOP500 machine driver
+      ARM: dts: ux500: Add sound DAI provider cells
+      ARM: dts: ux500: Convert HREF audio to audio-graph-card2
+      ARM: dts: ux500: Add Samsung phone audio graphs
+      ARM: config: u8500: Enable audio graph card2
+
+ .../devicetree/bindings/mfd/stericsson,ab8500.yaml |  28 ++
+ .../bindings/sound/audio-graph-port.yaml           |  10 +-
+ .../bindings/sound/stericsson,ux500-msp-i2s.yaml   |  96 +++++
+ .../devicetree/bindings/sound/ux500-mop500.txt     |  39 --
+ .../devicetree/bindings/sound/ux500-msp.txt        |  42 --
+ arch/arm/boot/dts/st/ste-ab8500.dtsi               |   7 +-
+ arch/arm/boot/dts/st/ste-ab8505.dtsi               |   7 +-
+ arch/arm/boot/dts/st/ste-dbx5x0.dtsi               |   9 +-
+ arch/arm/boot/dts/st/ste-href-ab8500.dtsi          | 104 +++++
+ arch/arm/boot/dts/st/ste-href-ab8505.dtsi          | 118 ++++--
+ .../boot/dts/st/ste-ux500-samsung-codina-tmo.dts   |   1 +
+ arch/arm/boot/dts/st/ste-ux500-samsung-codina.dts  |  21 +
+ arch/arm/boot/dts/st/ste-ux500-samsung-gavini.dts  |   5 +
+ arch/arm/boot/dts/st/ste-ux500-samsung-golden.dts  |   1 +
+ arch/arm/boot/dts/st/ste-ux500-samsung-janice.dts  |   1 +
+ arch/arm/boot/dts/st/ste-ux500-samsung-kyle.dts    |   1 +
+ arch/arm/boot/dts/st/ste-ux500-samsung-skomer.dts  |   1 +
+ arch/arm/boot/dts/st/ste-ux500-samsung.dtsi        |  77 ++++
+ arch/arm/configs/u8500_defconfig                   |   2 +-
+ sound/soc/codecs/ab8500-codec.c                    | 144 ++++---
+ sound/soc/ux500/Kconfig                            |  23 +-
+ sound/soc/ux500/Makefile                           |   3 -
+ sound/soc/ux500/mop500.c                           | 167 --------
+ sound/soc/ux500/mop500_ab8500.c                    | 437 ---------------------
+ sound/soc/ux500/mop500_ab8500.h                    |  17 -
+ 25 files changed, 528 insertions(+), 833 deletions(-)
+---
+base-commit: f41d0fbffacda2322a25d2918191a462fe79667e
+change-id: 20260903-ux500-simple-sound-d077d5486a72
 
 Best regards,
 -- 
-Srinivas Kandagatla <srini@kernel.org>
+Linus Walleij <linusw@kernel.org>
 
