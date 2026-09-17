@@ -1,191 +1,546 @@
-Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011049.outbound.protection.outlook.com [52.101.62.49])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19BD436F41C;
-	Thu, 17 Sep 2026 09:06:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.62.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789635970; cv=fail; b=FjTSg0Ou3TmbFzJqUcUUZ3gKmw3X+29Lr38y0ZvwT76cGXFl29V8aBAG8FwX8zn8Bn8tsyeQDBsF1Mmyd+hbZsOwMgomk5OpuXOiHKhaKVujJiKDze1r0AAWfrWGMvRjWfBhWAxqejbVgSBhe5FkJC8FfRE20PGH+l+pK2vxstE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789635970; c=relaxed/simple;
-	bh=inmCZD/bAPxwY79dm0Na1075YpZjKLjr0vwhZ0emzxQ=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fJyy54ajKDeKCFFDZ6Q1NqoJcgKivW+/tpVkkRb+ru5rrGLXQGgP1YWSJCHIkLMCw8fS4kQW4tC+bLwewGsHYx5SyGmNIGVvVbob7vi4GBs+cOj2yDRkpISdJxr5Qom6j25AMZ41vsDZXFbi32+WTqcoIO1q6CQ+uEZ6br+Bn3Y=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=ftnlHa3d; arc=fail smtp.client-ip=52.101.62.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37DF74AF9F2;
+	Thu, 17 Sep 2026 09:34:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789637700; cv=none; b=DRXRZ7ybKPSo5rIVDOespK+vIWauKV+mTbTmjxwb/7GyinDiWKjHBQowZCJUTLEFPugbwN46zpvQbvS4NrVfo+uLjAS4Wd+gPlCTEPYdzKoK8ee7OJHy92J4UoWlrm7DIpMcQ843YZS2DODuXmWG9lNIkasUXKUuO7cRZcw5Hng=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789637700; c=relaxed/simple;
+	bh=UwQogQImfx6gz9cgQfytrWBz7mAIVYf/9HJKaFeF/4Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uxwVZIUHNNz6Aoyg0zk4z3WNcwbjqis26yEfV0MAFrt4mNB8QgiJeW0x4WgLVOgx8XEXfW1BLCpEb0sHLQITk73oat+oYG2Yl3USLNH+Pc0GIbVn2sc5dMrvrG4Lp2qOGt/EXoVVneah54vOhjhl/jnAlMDGTMfRX9CfD29phLo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ncq//vPx; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="ftnlHa3d"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Y7bMSyh28TwIllD44mPNAFrsqeTCo3gi2arMZd2BPCzWvK4Kp2q84GOU1LWzNTSAv65WUUpKldw68yzcGpD3TWgNL/yHa1A8J73n8IgiB2D2KsPYHhimnaWjDlQoaI8zJkh7JRXOYtAN51uwzkYP+kPjQS1C98NRNiRX8YWQ1wTeiCC/yDOy0OJUUeGYNbE+vLDXCu+XGEqHjk9pgT5UzwAI8wUWeGcXqDUaDbj3xO2jiSJ7VOxK0wJSK41zrB+1vH1iOuhGnRBH2WHYEBnxLHEtjD4L16Yx3nULS7O3Y/OdBkEH2ANleU81wuNwnIFBZr1bKZmjwkhqfrc+yTwtSQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ythecsojjHVRfZtH8zEVJ9w+aIjT8oQkUtP4G2ZGwrc=;
- b=Od8YgRLf0CGfoATqXX2YMEANhSTyQqq75oVZ3z82UEVF5FbCoYsMiCWb9iyS/G9Jq+kdsVE8q71h0ORap3/zfO2234U2/Aevu3+9bef0RUJ/eKELdXXjnF2IB7nwjuQ4WvZzU5WXfRlV4cuqqqWzRG6QWQOQwFOkzKL88JRb16W6s5SV/W41t4mXv3/x21JzuPlKlIkpp3JmHns7/HCXsJiBTH7d/vcZyqLOE32+cm2DbXMNPUPKTq5Fa0LxFz5xu0x9e9kmsbRO0s1I+xdPeNy/fJhipMBxXT5eqR47Q67uSOpJ1nGiCZEac8j4rZ7858VdJVyee0o5pvPPOkg5uA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ythecsojjHVRfZtH8zEVJ9w+aIjT8oQkUtP4G2ZGwrc=;
- b=ftnlHa3dbG2JxsgUOxKBAyEKJ5RLFaAuFYChaLJAcPBtUVl73i9EPdqxwE9wrGTEjBLFmKxXYcMOUxZJhVNAeW5ZLMfWtd8MHaYYoWTB1WAe6CNMedPQe28dY6W3vob5uulh+3moGLDwgNVgJQHyDy+PptcUNHHoepp+P5way4I=
-Received: from BY5PR03CA0011.namprd03.prod.outlook.com (2603:10b6:a03:1e0::21)
- by PH8PR12MB6796.namprd12.prod.outlook.com (2603:10b6:510:1c7::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.428.9; Thu, 17 Sep
- 2026 09:06:00 +0000
-Received: from SJ1PEPF00002316.namprd03.prod.outlook.com
- (2603:10b6:a03:1e0:cafe::9a) by BY5PR03CA0011.outlook.office365.com
- (2603:10b6:a03:1e0::21) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.360.13 via Frontend Transport; Thu,
- 17 Sep 2026 09:06:00 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- SJ1PEPF00002316.mail.protection.outlook.com (10.167.242.170) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.451.8 via Frontend Transport; Thu, 17 Sep 2026 09:06:00 +0000
-Received: from satlexmb10.amd.com (10.181.42.219) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.49; Thu, 17 Sep
- 2026 04:05:56 -0500
-Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb10.amd.com
- (10.181.42.219) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.49; Thu, 17 Sep
- 2026 04:05:55 -0500
-Received: from amd-System-Product-Name.amd.com (10.180.168.240) by
- satlexmb08.amd.com (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.49
- via Frontend Transport; Thu, 17 Sep 2026 04:05:52 -0500
-From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-To: <vkoul@kernel.org>
-CC: <broonie@kernel.org>, <alsa-devel@alsa-project.org>,
-	<yung-chuan.liao@linux.intel.com>, <pierre-louis.bossart@linux.dev>,
-	<Basavaraj.Hiregoudar@amd.com>, <Sunil-kumar.Dommati@amd.com>,
-	<venkataprasad.potturu@amd.com>, <Syed.SabaKareem@amd.com>,
-	<Mario.Limonciello@amd.com>, <Richard.Gong@amd.com>,
-	<linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Vijendar
- Mukunda" <Vijendar.Mukunda@amd.com>
-Subject: [PATCH 9/9] soundwire: amd: consolidate revision-specific probe setup
-Date: Thu, 17 Sep 2026 14:32:57 +0530
-Message-ID: <20260917090407.3828816-10-Vijendar.Mukunda@amd.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20260917090407.3828816-1-Vijendar.Mukunda@amd.com>
-References: <20260917090407.3828816-1-Vijendar.Mukunda@amd.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ncq//vPx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05AD61F000FF;
+	Thu, 17 Sep 2026 09:33:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789637662;
+	bh=uo7+xpUESC4/Wh9nmp10T9dtdzzBLaBKi8SgiW52Kk4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Ncq//vPxo5KTfgIfY3yk9hhZC6SrgTADMM3nsAWg60z7VM8oH4orbZURS7bGHB9yG
+	 n3o0PA8rtbmTxDYIJwetJ0ZC2raoqkCU+tgd2/SgIDmXvp9Ie2lBNN6GYF8JfCysf9
+	 hLU5oq4hROQRHaX311aqmU2KpPT5mogMwoUO88T9AvM+vTuNvfR4jN/PmRSooygsUA
+	 qXkmlsWkNVH6zMect3N4QOJ0+TkrR8KTxiYv1FS1ewDbHC+qfyIeXbVgY1LIWKfrhu
+	 szwOunHgTHKOnDzdZbYLaj26NYWbYm3Y4T/NxXbD2XZf49FMtgTI4GrbodTZvgC7TN
+	 ph6gyZaJ8fY3A==
+Date: Thu, 17 Sep 2026 12:33:41 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>,
+	Pedro Falcato <pfalcato@suse.de>,
+	David Hildenbrand <david@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
+	Paul Moore <paul@paul-moore.com>,
+	Stephen Smalley <stephen.smalley.work@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Nico Pache <nico.pache@linux.dev>,
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+	Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
+	Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>,
+	Doug Gilbert <dgilbert@interlog.com>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	"Martin K. Petersen" <mkp@kernel.org>,
+	Jaya Kumar <jayalk@intworks.biz>, Simona Vetter <simona@ffwll.ch>,
+	Helge Deller <deller@gmx.de>, Sebastian Reichel <sre@kernel.org>,
+	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>,
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
+	Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
+	Muchun Song <muchun.song@linux.dev>,
+	Oscar Salvador <osalvador@suse.de>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Jan Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oupton@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Janosch Frank <frankja@linux.ibm.com>,
+	Claudio Imbrenda <imbrenda@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Andreas Larsson <andreas@gaisler.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+	Byungchul Park <byungchul@sk.com>,
+	Gregory Price <gourry@gourry.net>,
+	Ying Huang <ying.huang@linux.alibaba.com>,
+	Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>,
+	Kairui Song <kasong@tencent.com>,
+	Kemeng Shi <shikemeng@huaweicloud.com>,
+	Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>,
+	Youngjun Park <youngjun.park@lge.com>,
+	Johannes Weiner <hannes@cmpxchg.org>, Qi Zheng <qi.zheng@linux.dev>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
+	Chengming Zhou <chengming.zhou@linux.dev>,
+	Michal Hocko <mhocko@kernel.org>,
+	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>,
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-rdma@vger.kernel.org, selinux@vger.kernel.org,
+	linux-sound@vger.kernel.org, bpf@vger.kernel.org,
+	linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org,
+	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
+	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org,
+	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+	sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev
+Subject: Re: [PATCH v2 01/40] mm/vma: fix mmap_prepare file handling, remove
+ file_doesnt_need_get
+Message-ID: <aquz9Z9JrK_H_E0g@kernel.org>
+References: <20260914-b4-mmap-prepare-vma-flag-sanify-v2-0-7d9781ed5361@kernel.org>
+ <20260914-b4-mmap-prepare-vma-flag-sanify-v2-1-7d9781ed5361@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF00002316:EE_|PH8PR12MB6796:EE_
-X-MS-Office365-Filtering-Correlation-Id: 55f18229-3814-4ee6-fde6-08df149ae49a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|36860700016|82310400026|376014|23010399003|18002099003|22082099003|10067099003|11063799006|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	AqxVN8oW7dYkGdB8Qv9zzpKblo17UKqZjE2wWulkVTsZ0kFbDKS1V+fB2vbgiNOyiY88O9i+Kf1NIz8DMhYyJvkqeC7XIKiIN+0+toLzM5j2iEdniRl7PuGN8dd8uK69iQV+FmmyJW9z1bt6reiaZ/6OIx7nD9/THpISXISncp4rpIE9a8p9s1e6Md5P2GZ9oSxaggZnZmVo75uYtPorVlsBnBSq2BmTsIaHbjWVHpkkY8LBkTs2HakcseeYIoL4GHcNrPkZMWbWLeJbAUPomFBBJwFFVjivfEKMSDRno/l37kh7ACxxf5l4ddgjhGLDXgmr6s8XyNY3NxvmbI4EjCyWi+IZ57uBSWyh/DbrvKDMvW4XTKGuYtXARvTZV6uhTGuNFeQFAhWmPOPoZQdHAaeMMwW3Ab43GjdvALxElyY7V9wcK/iOfs2lVfcCSI1K/nNsOT35w2M8d+esrK6uwURLKSbUeOmJDJ358e+jrxrgCVUfF8ozBwuHppwL/UYcqGJPspJdXaZk5+Cb5zLB+6UTyFge/EgmcSuM4l9gCElgdF+nBtJV8/NrsRzkkmd5a4jfLHXznWhTWUtG/r8s2kQK+3Ad+dpp44fmJ2fjhFpVV0E0QidkYwhzW0EYlW2NBhn0lpcnKFUfv4ao3K3Z/M8DdW4UYOQzFlhsx0MpVaeh2t7CaRKPc/DTJvpqHs4Rns6hQo84kVCodcSoI3wiJw==
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(36860700016)(82310400026)(376014)(23010399003)(18002099003)(22082099003)(10067099003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	XhPbbjCeq2LQWZIXAhItxi8w1Mt6EecBYAH0KyK/u5BVQ73WLlOZS7bD0vfHnkW7gWgP2Znub4CbrYIoWqlhGSUUfSwBszsp4esNjTpiPoYT6FsAzQ0xohngSrdkwJzcLSjOZPpmcuZ7difhTkx5b0Z+hJltC+RYi+OMo1ICAZiEH3gVPgLcpt4kDwbRFiHnAnAZfn6xBf+0uygGWS8j9ZoyIfJ7M6rZqSte7+09bDUcXnmq6hd5KSYGxXDa1LYIgbRW4BZLlFxi2dkYQXhQV3tC7ag7966u+VpZP/4QZVUUinSRKR8dLpWPUD0m9TaYHDRaDXKUqEldYRNT+BQBke2GeFF/d+hGCPjD6cqdqwxjUTob9wS4MWnBVTveCA82PAZQPggSJVNahcda4V2KOYYYnHyuuPaztMQy+LVL+3O2a/XB3T3KedE4UKH8uegx
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Sep 2026 09:06:00.1817
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 55f18229-3814-4ee6-fde6-08df149ae49a
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ1PEPF00002316.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6796
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260914-b4-mmap-prepare-vma-flag-sanify-v2-1-7d9781ed5361@kernel.org>
 
-Determine port counts first via a switch on acp_rev, compute max_ports,
-then consolidate all remaining revision-specific assignments
-(mmio offset, bus ops, port ops, compute_params, and port_offset_map
-allocation) into a single second switch. Both switches reject unknown
-revisions with dev_err() and -EINVAL, keeping each switch
-self-contained so an incomplete addition of a new revision is caught
-at whichever switch it is missing from.
+On Mon, Sep 14, 2026 at 03:57:21PM +0100, Lorenzo Stoakes (ARM) wrote:
+> The map->file_doesnt_need_get flag is confusing and the existing
+> implementation has holes.
+> 
+> Drivers are permitted to change the owning file of a mapping. If they do
+> so, they are required to take a reference on that file.
+> 
+> The mmap() operation which ultimately invokes __mmap_region() is guaranteed
+> to drop the refcount for the original file the mapping was made under, but
+> this is not true for the replaced file.
+> 
+> This has been addressed so far by tracking map->file_doesnt_need_get, which
+> is rather poorly named and unfortunately fails to correctly track whether
+> or not an additional put were needed in a number of cases.
+> 
+> Make life easier by removing this flag, and instead drop the reference for
+> both mmap_prepare and the deprecated mmap callback in a new function
+> put_map().
+> 
+> Track whether this needs to be done by aligning mmap_state with
+> vm_area_desc and store the original file in the map->file field, keeping
+> the updated file in map->vm_file.
+> 
+> In order to have the same behaviour for both types of hooks, only drop the
+> reference __mmap_new_file_vma() itself took in its error path, deferring
+> the replaced file's reference to put_map().
+> 
+> To make this work correctly, map->vm_file has to be updated before any
+> error handling, so update __mmap_new_file_vma() and call_mmap_prepare() to
+> set this field first.
+> 
+> Also when mmap_prepare() changes the file and is then merged, the reference
+> count also must be decremented, so update the logic to call put_map() in
+> this case too.
+> 
+> Also update __compat_vma_mmap() to manually perform this step for stacked
+> file systems using the compatibility layer, and update
+> compat_set_vma_from_desc() to replace vma_set_file() with a correct
+> refcount/file update.
+> 
+> No in-tree driver is impacted by the incorrect implementation of this
+> currently (no driver that does this is mergeable for one), so this does not
+> need to be a fix.
 
-cols_index and rows_index are no longer initialised at probe time;
-acp_sdw_clk_init_ctrl() sets them from the actual bus clock and frame
-shape before amd_acp63_sdw_set_frameshape() is ever called, so no
-early initialisation is needed.
+But the patch iteslf needs to be fixed :)
 
-Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
----
- drivers/soundwire/amd_manager.c | 32 +++++++++++++++++++++-----------
- 1 file changed, 21 insertions(+), 11 deletions(-)
+It seems to be the change that broke the CI.
 
-diff --git a/drivers/soundwire/amd_manager.c b/drivers/soundwire/amd_manager.c
-index 834e943b040b..c660f4c8d0e6 100644
---- a/drivers/soundwire/amd_manager.c
-+++ b/drivers/soundwire/amd_manager.c
-@@ -1462,16 +1462,9 @@ static int amd_sdw_manager_probe(struct platform_device *pdev)
- 	}
- 	amd_manager->ping_slave_stat = U32_MAX;
- 	amd_manager->instance = pdata->instance;
--	amd_manager->mmio = amd_manager->acp_mmio +
--			    (amd_manager->instance * ACP63_SDW_MANAGER_REG_OFFSET);
- 	amd_manager->acp_sdw_lock = pdata->acp_sdw_lock;
- 	amd_manager->acp_rev = pdata->acp_rev;
--	amd_manager->cols_index = sdw_find_col_index(AMD_SDW_DEFAULT_COLUMNS);
--	amd_manager->rows_index = sdw_find_row_index(AMD_SDW_DEFAULT_ROWS);
- 	amd_manager->dev = dev;
--	amd_manager->bus.ops = &amd_acp63_sdw_ops;
--	amd_manager->bus.port_ops = &amd_acp63_sdw_port_ops;
--	amd_manager->bus.compute_params = &amd_acp63_sdw_compute_params;
- 	amd_manager->bus.clk_stop_timeout = 200;
- 	amd_manager->bus.link_id = amd_manager->instance;
- 	ret = amd_sdw_hw_init_ops(amd_manager);
-@@ -1510,13 +1503,30 @@ static int amd_sdw_manager_probe(struct platform_device *pdev)
- 		amd_manager->num_din_ports = AMD_ACP70_SDW_MAX_RX_PORTS;
- 		break;
- 	default:
-+		dev_err(dev, "unsupported ACP revision: 0x%x\n", amd_manager->acp_rev);
- 		return -EINVAL;
- 	}
- 	amd_manager->max_ports = amd_manager->num_dout_ports + amd_manager->num_din_ports;
--	amd_manager->port_offset_map = devm_kcalloc(dev, amd_manager->max_ports,
--						    sizeof(int), GFP_KERNEL);
--	if (!amd_manager->port_offset_map)
--		return -ENOMEM;
-+
-+	switch (amd_manager->acp_rev) {
-+	case ACP63_PCI_REV_ID:
-+	case ACP70_PCI_REV_ID:
-+	case ACP71_PCI_REV_ID:
-+	case ACP72_PCI_REV_ID:
-+		amd_manager->mmio = amd_manager->acp_mmio +
-+				    (amd_manager->instance * ACP63_SDW_MANAGER_REG_OFFSET);
-+		amd_manager->bus.ops = &amd_acp63_sdw_ops;
-+		amd_manager->bus.port_ops = &amd_acp63_sdw_port_ops;
-+		amd_manager->bus.compute_params = &amd_acp63_sdw_compute_params;
-+		amd_manager->port_offset_map = devm_kcalloc(dev, amd_manager->max_ports,
-+							    sizeof(int), GFP_KERNEL);
-+		if (!amd_manager->port_offset_map)
-+			return -ENOMEM;
-+		break;
-+	default:
-+		dev_err(dev, "unsupported ACP revision: 0x%x\n", amd_manager->acp_rev);
-+		return -EINVAL;
-+	}
+The rest is from LLM, take it with a grain of salt :)
+
+mm-ci mm-unstable red build - bisect analysis
+==============================================
+
+Bad commit: 2a937a04babf1 "mm/vma: fix mmap_prepare file handling, remove
+file_doesnt_need_get" - first patch of Lorenzo Stoakes' 40-patch series
+"mm: make VMA flag semantics explicit, eliminate VM_SPECIAL" (v2).
+https://lore.kernel.org/all/20260914-b4-mmap-prepare-vma-flag-sanify-v2-0-7d9781ed5361@kernel.org
+
+Symptom: tools/testing/selftests/mm/pfnmap.c triggers
+"BUG: Bad page map in process pfnmap" during __zap_vma_range()/vm_normal_page(),
+seen on process exit/munmap. CI's run-mm-selftests.sh greps guest dmesg for
+BUG|WARNING and fails the job regardless of the test's own exit code.
+
+Root cause:
+In call_mmap_prepare() (mm/vma.c), the commit reordered:
+
+    map->vma_flags = desc->vma_flags;
+
+to run BEFORE call_action_prepare(). For PFN-remap mmap_prepare drivers
+(e.g. /dev/mem), VMA_PFNMAP_BIT/VMA_IO_BIT are only added to
+desc->vma_flags inside remap_pfn_range_prepare(), which runs as part of
+call_action_prepare(). Snapshotting vma_flags too early means VM_PFNMAP/
+VM_IO get silently dropped from the resulting VMA, while the PTEs are
+still installed as pte_special (real PFN remap).
+
+vm_normal_page() then sees a pte_special PTE in a VMA lacking
+VM_PFNMAP/VM_MIXEDMAP and calls print_bad_page_map(), producing the
+splat. Confirmed: crash log shows vm_flags:080000d1, missing VM_PFNMAP
+(0x400).
+
+This is a plain ordering bug in this one commit - not a driver-conversion
+or vma_can_gup()/predicate-logic issue.
+
+Bisect method: built/booted via virtme-ng, ran pfnmap selftest directly,
+restricted to range 2a937a04babf1~1..0a80aa0fb08f1 (the 40-commit series;
+tip = mm-unstable-2026-09-17). Pre-series commit: clean. First commit of
+series: already reproduces the bug. All scratch worktrees/branches and
+bisect state removed after; mm-unstable-2026-09-17/mm-new-2026-09-17 and
+mmotm remote untouched.
+
+Diagnosis only - no fix proposed/applied.
  
- 	prop = &amd_manager->bus.prop;
- 	prop->mclk_freq = AMD_SDW_BUS_BASE_FREQ;
--- 
-2.48.1
+> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> ---
+>  mm/internal.h |  1 +
+>  mm/util.c     |  5 +++-
+>  mm/vma.c      | 95 ++++++++++++++++++++++++++++++++++-------------------------
+>  mm/vma.h      |  6 ++--
+>  4 files changed, 64 insertions(+), 43 deletions(-)
+> 
+> diff --git a/mm/internal.h b/mm/internal.h
+> index 0dca33db068f..fe576d468af4 100644
+> --- a/mm/internal.h
+> +++ b/mm/internal.h
+> @@ -7,6 +7,7 @@
+>  #ifndef __MM_INTERNAL_H
+>  #define __MM_INTERNAL_H
+>  
+> +#include <linux/file.h>
+>  #include <linux/fs.h>
+>  #include <linux/khugepaged.h>
+>  #include <linux/mm.h>
+> diff --git a/mm/util.c b/mm/util.c
+> index bf0513d1d3d0..016932780925 100644
+> --- a/mm/util.c
+> +++ b/mm/util.c
+> @@ -1228,8 +1228,11 @@ int __compat_vma_mmap(struct vm_area_desc *desc,
+>  
+>  	/* Perform any preparatory tasks for mmap action. */
+>  	err = mmap_action_prepare(desc);
+> -	if (err)
+> +	if (err) {
+> +		if (desc->vm_file != vma->vm_file)
+> +			fput(desc->vm_file);
+>  		return err;
+> +	}
+>  	/* Update the VMA from the descriptor. */
+>  	compat_set_vma_from_desc(vma, desc);
+>  	/* Complete any specified mmap actions. */
+> diff --git a/mm/vma.c b/mm/vma.c
+> index 55917d097933..a319a9fc2f29 100644
+> --- a/mm/vma.c
+> +++ b/mm/vma.c
+> @@ -24,7 +24,8 @@ struct mmap_state {
+>  		vm_flags_t vm_flags;
+>  		vma_flags_t vma_flags;
+>  	};
+> -	struct file *file;
+> +	struct file *file;	/* mmap()-specified file. */
+> +	struct file *vm_file;	/* May be updated by mmap_prepare. */
+>  	pgprot_t page_prot;
+>  
+>  	/* User-defined fields, perhaps updated by .mmap_prepare(). */
+> @@ -43,8 +44,6 @@ struct mmap_state {
+>  
+>  	/* Determine if we can check KSM flags early in mmap() logic. */
+>  	bool check_ksm_early :1;
+> -	/* If .mmap_prepare changed the file, we don't need to pin. */
+> -	bool file_doesnt_need_get :1;
+>  };
+>  
+>  #define MMAP_STATE(name, mm_, vmi_, addr_, len_, pgoff_, anon_pgoff_, vma_flags_, file_) \
+> @@ -58,6 +57,7 @@ struct mmap_state {
+>  		.pglen = PHYS_PFN(len_),				\
+>  		.vma_flags = vma_flags_,				\
+>  		.file = file_,						\
+> +		.vm_file = file_,					\
+>  		.page_prot = vma_flags_to_page_prot(vma_flags_),	\
+>  	}
+>  
+> @@ -70,7 +70,7 @@ struct mmap_state {
+>  		.vma_flags = (map_)->vma_flags,				\
+>  		.pgoff = (map_)->pgoff,					\
+>  		.anon_pgoff = (map_)->anon_pgoff,			\
+> -		.file = (map_)->file,					\
+> +		.file = (map_)->vm_file,				\
+>  		.prev = (map_)->prev,					\
+>  		.middle = vma_,						\
+>  		.next = (vma_) ? NULL : (map_)->next,			\
+> @@ -2447,7 +2447,7 @@ void mm_drop_all_locks(struct mm_struct *mm)
+>   */
+>  static bool accountable_mapping(struct mmap_state *map)
+>  {
+> -	const struct file *file = map->file;
+> +	const struct file *file = map->vm_file;
+>  
+>  	/*
+>  	 * hugetlb has its own accounting separate from the core VM
+> @@ -2496,7 +2496,7 @@ static void vms_abort_munmap_vmas(struct vma_munmap_struct *vms,
+>  
+>  static void update_ksm_flags(struct mmap_state *map)
+>  {
+> -	map->vma_flags = ksm_vma_flags(map->mm, map->file, map->vma_flags);
+> +	map->vma_flags = ksm_vma_flags(map->mm, map->vm_file, map->vma_flags);
+>  }
+>  
+>  static void set_desc_from_map(struct vm_area_desc *desc,
+> @@ -2506,7 +2506,7 @@ static void set_desc_from_map(struct vm_area_desc *desc,
+>  	desc->end = map->end;
+>  
+>  	desc->pgoff = map->pgoff;
+> -	desc->vm_file = map->file;
+> +	desc->vm_file = map->vm_file;
+>  	desc->vma_flags = map->vma_flags;
+>  	desc->page_prot = map->page_prot;
+>  }
+> @@ -2586,6 +2586,10 @@ static int __mmap_setup(struct mmap_state *map, struct vm_area_desc *desc,
+>  	return 0;
+>  }
+>  
+> +static bool map_same_file(struct mmap_state *map)
+> +{
+> +	return map->vm_file == map->file;
+> +}
+>  
+>  static int __mmap_new_file_vma(struct mmap_state *map,
+>  			       struct vm_area_struct *vma)
+> @@ -2593,20 +2597,23 @@ static int __mmap_new_file_vma(struct mmap_state *map,
+>  	struct vma_iterator *vmi = map->vmi;
+>  	int error;
+>  
+> -	vma->vm_file = map->file;
+> -	if (!map->file_doesnt_need_get)
+> -		get_file(map->file);
+> +	vma->vm_file = map->vm_file;
+> +	if (map_same_file(map))
+> +		get_file(map->vm_file);
+>  
+> -	if (!map->file->f_op->mmap)
+> +	if (!map->vm_file->f_op->mmap)
+>  		return 0;
+>  
+>  	error = mmap_file(vma->vm_file, vma);
+> +	map->vm_file = vma->vm_file;
+> +
+>  	if (error) {
+>  		UNMAP_STATE(unmap, vmi, vma, vma->vm_start, vma->vm_end,
+>  			    map->prev, map->next);
+> -		fput(vma->vm_file);
+> -		vma->vm_file = NULL;
+> +		if (map_same_file(map))
+> +			fput(map->vm_file);
+>  
+> +		vma->vm_file = NULL;
+>  		vma_iter_set(vmi, vma->vm_end);
+>  		/* Undo any partial mapping done by a device driver. */
+>  		unmap_region(&unmap);
+> @@ -2623,7 +2630,6 @@ static int __mmap_new_file_vma(struct mmap_state *map,
+>  			!vma_flags_test(&map->vma_flags, VMA_MAYWRITE_BIT) &&
+>  			vma_test(vma, VMA_MAYWRITE_BIT));
+>  
+> -	map->file = vma->vm_file;
+>  	map->vma_flags = vma->flags;
+>  
+>  	return 0;
+> @@ -2631,7 +2637,7 @@ static int __mmap_new_file_vma(struct mmap_state *map,
+>  
+>  static void map_set_anon(struct mmap_state *map)
+>  {
+> -	map->file = NULL;
+> +	map->vm_file = NULL;
+>  	map->vm_ops = NULL;
+>  	map->pgoff = map->addr >> PAGE_SHIFT;
+>  }
+> @@ -2643,7 +2649,7 @@ static bool map_is_private(const struct mmap_state *map)
+>  
+>  static bool map_is_anon(const struct mmap_state *map)
+>  {
+> -	return map_is_private(map) && !map->file;
+> +	return map_is_private(map) && !map->vm_file;
+>  }
+>  
+>  /*
+> @@ -2688,7 +2694,7 @@ static int __mmap_new_vma(struct mmap_state *map, struct vm_area_struct **vmap,
+>  	}
+>  
+>  	/* Invoke callbacks. */
+> -	if (map->file)
+> +	if (map->vm_file)
+>  		error = __mmap_new_file_vma(map, vma);
+>  	else if (!is_anon)
+>  		error = shmem_zero_setup(vma);
+> @@ -2797,36 +2803,34 @@ static int call_mmap_prepare(struct mmap_state *map,
+>  	int err;
+>  
+>  	/* Invoke the hook. */
+> -	err = vfs_mmap_prepare(map->file, desc);
+> -	if (err)
+> -		return err;
+> -
+> -	/* It's invalid for mmap_preprare hooks to clear vm_ops. */
+> -	if (!desc->vm_ops)
+> -		return -EINVAL;
+> -
+> -	err = call_action_prepare(map, desc);
+> +	err = vfs_mmap_prepare(map->vm_file, desc);
+>  	if (err)
+>  		return err;
+>  
+>  	/* Update fields permitted to be changed. */
+>  	map->pgoff = desc->pgoff;
+> -	if (desc->vm_file != map->file) {
+> -		map->file_doesnt_need_get = true;
+> -		map->file = desc->vm_file;
+> -	}
+> +	if (desc->vm_file != map->vm_file)
+> +		map->vm_file = desc->vm_file;
+>  	map->vma_flags = desc->vma_flags;
+>  	map->page_prot = desc->page_prot;
+>  	/* User-defined fields. */
+>  	map->vm_ops = desc->vm_ops;
+>  	map->vm_private_data = desc->private_data;
+>  
+> +	/* It's invalid for mmap_prepare hooks to clear vm_ops. */
+> +	if (!desc->vm_ops)
+> +		return -EINVAL;
+> +
+> +	err = call_action_prepare(map, desc);
+> +	if (err)
+> +		return err;
+> +
+>  	/*
+>  	 * MAP_PRIVATE-/dev/zero mappings are an ancient way of getting
+>  	 * anonymous mappings. Rather than allowing these mappings to be odd
+>  	 * outliers, simply make them truly anonymous.
+>  	 */
+> -	if (map_is_private(map) && file_is_dev_zero(map->file))
+> +	if (map_is_private(map) && file_is_dev_zero(map->vm_file))
+>  		map_set_anon(map);
+>  
+>  	return 0;
+> @@ -2845,7 +2849,7 @@ static void set_vma_user_defined_fields(struct vm_area_struct *vma,
+>   */
+>  static bool can_set_ksm_flags_early(struct mmap_state *map)
+>  {
+> -	struct file *file = map->file;
+> +	struct file *file = map->vm_file;
+>  
+>  	/* Anonymous mappings have no driver which can change them. */
+>  	if (!file)
+> @@ -2868,6 +2872,20 @@ static bool can_set_ksm_flags_early(struct mmap_state *map)
+>  	return false;
+>  }
+>  
+> +static void put_map(struct mmap_state *map)
+> +{
+> +	/*
+> +	 * An error occurred or the VMA was merged.
+> +	 *
+> +	 * If the file was changed by the driver (which is required to increment
+> +	 * the replacement file's reference count), drop its reference count.
+> +	 *
+> +	 * On error, the caller always drops the original file regardless.
+> +	 */
+> +	if (map->vm_file && !map_same_file(map))
+> +		fput(map->vm_file);
+> +}
+> +
+>  static unsigned long __mmap_region(struct file *file, unsigned long addr,
+>  		unsigned long len, vma_flags_t vma_flags,
+>  		unsigned long pgoff, struct list_head *uf)
+> @@ -2922,7 +2940,10 @@ static unsigned long __mmap_region(struct file *file, unsigned long addr,
+>  
+>  	__mmap_complete(&map, vma);
+>  
+> -	if (have_mmap_prepare && allocated_new) {
+> +	if (!allocated_new) {
+> +		/* Merged, so need to drop refcount. */
+> +		put_map(&map);
+> +	} else if (have_mmap_prepare) {
+>  		error = mmap_action_complete(vma, &desc.action,
+>  					     /*is_compat=*/false);
+>  		if (error)
+> @@ -2936,13 +2957,7 @@ static unsigned long __mmap_region(struct file *file, unsigned long addr,
+>  	if (map.charged)
+>  		vm_unacct_memory(map.charged);
+>  abort_munmap:
+> -	/*
+> -	 * This indicates that .mmap_prepare has set a new file, differing from
+> -	 * desc->vm_file. But since we're aborting the operation, only the
+> -	 * original file will be cleaned up. Ensure we clean up both.
+> -	 */
+> -	if (map.file_doesnt_need_get)
+> -		fput(map.file);
+> +	put_map(&map);
+>  	vms_abort_munmap_vmas(&map.vms, &map.mas_detach);
+>  	return error;
+>  }
+> diff --git a/mm/vma.h b/mm/vma.h
+> index e97bd2dfa786..f15faa83f3d6 100644
+> --- a/mm/vma.h
+> +++ b/mm/vma.h
+> @@ -394,8 +394,10 @@ static inline void compat_set_vma_from_desc(struct vm_area_struct *vma,
+>  
+>  	/* Mutable fields. Populated with initial state. */
+>  	vma_set_pgoff(vma, desc->pgoff);
+> -	if (desc->vm_file != vma->vm_file)
+> -		vma_set_file(vma, desc->vm_file);
+> +	if (desc->vm_file != vma->vm_file) {
+> +		fput(vma->vm_file);
+> +		vma->vm_file = desc->vm_file;
+> +	}
+>  	vma->flags = desc->vma_flags;
+>  	vma->vm_page_prot = desc->page_prot;
+>  
+> 
+> -- 
+> 2.55.0
+> 
 
+-- 
+Sincerely yours,
+Mike.
