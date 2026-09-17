@@ -1,50 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2469449AA47;
-	Thu, 17 Sep 2026 21:11:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A54438F253;
+	Thu, 17 Sep 2026 21:14:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789679480; cv=none; b=lbS4NbanRysdvETF5bRQPRCWLsXrFCzXYCDGGr5mqM3UKq4AQGZySNa/Eb7RDzYL2uuGwPlnfPxSdq3puG87P+tMK1GjRaHRoTz0Vc8gPwPDHEczUcgIOL5mtcOWR7hMJJPyahnmpH6xc2E3Y2b2WnZ1V+JYHgRfSrS7IOq+ZVQ=
+	t=1789679646; cv=none; b=cJ9V3aCrbIJAuIbnDtliFBiS8psWu5q4gZnF2o6SX+fm2kt2BBP19b89sPRp8tzOI+7Fkx0UYwNW9sr46cWXx1raBwWB/bbZOvcHXq4lQvo14NqmN5ZUkGINzSmIPLFs0eoY3HtPUrgBuWLZ3lWDcb8feuSpqeK1+1I2vBjTwls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789679480; c=relaxed/simple;
-	bh=eUxRmespgWLKrYlTz/sxYsBdtVhmaTF2Z9wtqFFly44=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=de4d9mlpHMAzWY///ghNp2Viqdu1XoS1RMPwDA9hmdw6tCyGO0JBU3434EGWWazRUVfiMNDKJglwrP9Q10lzbcj7Fzf5qUBPRHkMBDqeWUplOQmiWMZjqSc4T0OKY0ay/trtsUK8d4xClUznXOUy5j9HCD1JF8d5qTFciTSB6RE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HZlskvZJ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789679646; c=relaxed/simple;
+	bh=lP8jGFyRHTaPDaOe8j0khplskj1tqPo0xw3k/wtu5Ik=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=u6qJahvTbbjuE/RRowXFJObvapNEfjh+H2Nl37SbHp/gRGxipxgfU0Ey+pOgjTsYqaKzHaPjhhkcgL6yFt1GoqbGjrk4GFEXIjtyqk5VrASM4avillVk4gijpCdOub5u8nrUfDYi7vrODVHKese8J7HO3Nlvw+W535sUUe8asQg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aYz3VNie; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HZlskvZJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFBEA1F000FF;
-	Thu, 17 Sep 2026 21:11:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aYz3VNie"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E08C41F000FF;
+	Thu, 17 Sep 2026 21:14:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789679478;
-	bh=o2f6ofe9RVUjtVmR6yTawOUgE2Y1TI9IaIzpGF9B6G4=;
+	s=k20260515; t=1789679644;
+	bh=vVLWU6hu9o3St41DNREmW0G/Wl2S2sbPor3jCAzvQLc=;
 	h=From:To:Cc:Subject:Date;
-	b=HZlskvZJ7DRreTTAxKxrGfeXZ0whq98U6Zc18yWY9WMW3gPMRFXbv4EC+8W41/ACy
-	 9mXKtc5CMEWBOxFQsoEGsxY45MDR5MUK/K33YWV0KupoV7ZtNpUkAx1JOxtqav8tX7
-	 4b88aWQtS/beRLTZchwAsIwKcnTrIExjCPG3jKAv3xqFMliugXKttNMWrnk6ppyFi0
-	 90sYqS1aD89VU1kFKNrvyGkYD/eXdU7XSI8lPeTQcJMOoSs/1PCync6iz5749AARGW
-	 hAba3FUuroqXTTz+joVx+wSqoGqBfywhrfQpwZ2j/YIk/P3/Iw/XXWfFUwmL8oi2oT
-	 y2eQNiDSK0qIw==
+	b=aYz3VNieHISjVjRl171VfOM1LIF536Ca1nZL2yVVTPZQapY9GAzBiarIG/YGuQ1cV
+	 51cytjyxRlRu4oSHK1VdA4XDKycd6a7kwhdW/ZH1JiJM0d6iS1vhxCziA7/1/CcC1G
+	 8e7IJNhGKl33ER18KO8QCnsY/KyUTjB1QJ9/Yz1OsPIB+2FV5/XGfl+jwKssnA4gpn
+	 7N3utaSb4nyeP6GMhli17QIRfy36U/w+MSMjgZbNaW18KLWLLHavHfQkHwfso28UjP
+	 I6vh8RRsbotRB3LWHAPIf99EuKa007Q5BbXfci/3sX8uwi/NQBr/Js6JS1TWhiaiNB
+	 e4tZMnYzAmpng==
 From: Kees Cook <kees@kernel.org>
 To: Liam Girdwood <lgirdwood@gmail.com>
 Cc: Kees Cook <kees@kernel.org>,
 	Kees Cook <kees+treewide@kernel.org>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
 	Mark Brown <broonie@kernel.org>,
 	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
-	sound-open-firmware@alsa-project.org,
+	Heiko Stuebner <heiko@sntech.de>,
 	linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	linux-hardening@vger.kernel.org
-Subject: [PATCH] ASoC: SOF: topology: Add const to tplg_files allocation type
-Date: Thu, 17 Sep 2026 14:11:18 -0700
-Message-Id: <20260917211117.i.991-kees@kernel.org>
+Subject: [PATCH] ASoC: rockchip: rk3399_gru_sound: Allocate dai_link with ARRAY_SIZE()
+Date: Thu, 17 Sep 2026 14:14:04 -0700
+Message-Id: <20260917211403.i.984-kees@kernel.org>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -52,58 +48,55 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1925; i=kees@kernel.org; h=from:subject:message-id; bh=3krwtb8WAYATfpTi1iNtXjadDT06f+YgXEDQn89xwgk=; b=owGbwMvMwCVmps19z/KJym7G02pJDFlrwku/RCWlzvIP//niYrJzOQPf3p0CW7meKGZsMT31I zb2YOGdjlIWBjEuBlkxRZYgO/c4F4+37eHucxVh5rAygQxh4OIUgIkozWD473xbaZl4MbvTBQsT PsdNX25fOGTp1Ssn/8Sxds9WubdGyxgZ7jSE9rukPeLwSE51qzlwTv21nU3ILgGt85vUij6436x mBAA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1851; i=kees@kernel.org; h=from:subject:message-id; bh=YPscJPXSG26pxamepuqPmb0syryk1A1xxqn90YUkCNs=; b=owGbwMvMwCVmps19z/KJym7G02pJDFlrIqRtar7o9xS/7437YbSZ/UfXxtXHMnPN8w7lbWDJM 7HMKw/rKGVhEONikBVTZAmyc49z8XjbHu4+VxFmDisTyBAGLk4BmMgmZ0aGDWKO6+fPbv0U+k57 qbuyROimQsv+2RYXV92Z/nvxyziJ+YwMK4RrfjYddeHi9Y2a/SfqfZ2gp08by0655vUzLv3f9im JHwA=
 X-Developer-Key: i=kees@kernel.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 
 From: Kees Cook <kees+treewide@kernel.org>
 
-In preparation for converting the kmalloc family of allocators to the
-type-aware kmalloc_obj family, we need to make sure that the returned
-type from the allocation matches the type of the variable being
-assigned. (The kmalloc family returns "void *", which can be implicitly
-cast to any pointer type.)
+In preparation for making the devm_kmalloc family of allocators type
+aware, we need to make sure that the returned type from the allocation
+matches the type of the variable being assigned. (Before, the allocator
+would always return "void *", which can be implicitly cast to any
+pointer type.)
 
-The assigned type is "const char **", but the converted allocation type
-would be "char **", which is the same type without the const qualifier.
-As there is no general way to safely add const qualifiers, take the size
-from the assignment target instead. No change in allocation size
-results.
+This is allocating a copy of rockchip_dais, which is an array of struct
+snd_soc_dai_link, but the size was taken from the whole array, which
+would make the allocation type a pointer to the array rather than the
+"struct snd_soc_dai_link *" being assigned. Allocate ARRAY_SIZE-many
+entries instead. The resulting allocation size is the same.
 
 Build tested ARCH=x86_64 allmodconfig with GCC 16.2.0:
-sound/soc/sof/topology.o
+sound/soc/rockchip/rk3399_gru_sound.o
 
 Assisted-by: LLM coccinelle
 Signed-off-by: Kees Cook <kees+treewide@kernel.org>
 ---
 Cc: Liam Girdwood <lgirdwood@gmail.com>
-Cc: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: Daniel Baluta <daniel.baluta@nxp.com>
-Cc: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-Cc: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
 Cc: Mark Brown <broonie@kernel.org>
 Cc: Jaroslav Kysela <perex@perex.cz>
 Cc: Takashi Iwai <tiwai@suse.com>
-Cc: <sound-open-firmware@alsa-project.org>
+Cc: Heiko Stuebner <heiko@sntech.de>
 Cc: <linux-sound@vger.kernel.org>
+Cc: <linux-arm-kernel@lists.infradead.org>
+Cc: <linux-rockchip@lists.infradead.org>
 ---
- sound/soc/sof/topology.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ sound/soc/rockchip/rk3399_gru_sound.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/sound/soc/sof/topology.c b/sound/soc/sof/topology.c
-index 8338133899ab..145bad472118 100644
---- a/sound/soc/sof/topology.c
-+++ b/sound/soc/sof/topology.c
-@@ -2517,7 +2517,8 @@ int snd_sof_load_topology(struct snd_soc_component *scomp, const char *file)
- 	int i;
+diff --git a/sound/soc/rockchip/rk3399_gru_sound.c b/sound/soc/rockchip/rk3399_gru_sound.c
+index b80acb221d24..04e7bed8275d 100644
+--- a/sound/soc/rockchip/rk3399_gru_sound.c
++++ b/sound/soc/rockchip/rk3399_gru_sound.c
+@@ -505,8 +505,8 @@ static int rockchip_sound_of_parse_dais(struct device *dev,
+ 	int i, index;
+ 	int num_routes;
  
- 	const char **tplg_files __free(kfree) =
--		kcalloc(scomp->card->num_links, sizeof(char *), GFP_KERNEL);
-+		kcalloc(scomp->card->num_links, sizeof(*tplg_files),
-+			GFP_KERNEL);
- 	if (!tplg_files)
+-	card->dai_link = devm_kzalloc(dev, sizeof(rockchip_dais),
+-				      GFP_KERNEL);
++	card->dai_link = devm_kcalloc(dev, ARRAY_SIZE(rockchip_dais),
++				      sizeof(*card->dai_link), GFP_KERNEL);
+ 	if (!card->dai_link)
  		return -ENOMEM;
  
 -- 
