@@ -1,40 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A8EA43C076;
-	Fri, 18 Sep 2026 09:59:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F117B438FE6
+	for <linux-sound@vger.kernel.org>; Fri, 18 Sep 2026 09:59:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789725588; cv=none; b=Nfc1mThl861Qqt8SFDG0vWzyRqg5XhxajmTvcb2LMM1WHnW2dBnT86+xeX+h9Mk8O/30JJ2CA0KjDIupmKlJzQJ94/0s1mjPYhbmJ3eSDpL43g5Cm7AWnn6J42dWE0DsA7BqdYhQSmXJi0S7CI8HkwpQy6FCLFxzYiqAo+QPwFU=
+	t=1789725594; cv=none; b=BQghTty23SQm0v4hMHOO6rx1fPiCuZkEADfINziFGhPwwb2LEIQnvgE5zPOTqzRqBXp0UdCNi7Hx6e7FOdjL5Be4qC4g9O2gNCtzXnK6xhUxeiQJ+x6KaisRh33KYXn5mJznFryHtKLT3nAQsosY46gD8y2h4DJ/Y9McquFAZ/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789725588; c=relaxed/simple;
-	bh=vonfNZic0FRILTkniWzlUJ6BwPQV0MvyIG1Aye4fDH0=;
+	s=arc-20240116; t=1789725594; c=relaxed/simple;
+	bh=1JaBGORmLNeLkIFrp0Q4nFSxa1QgGtqNJy0GFodyS3I=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ObIoMJVFv9tkKdxUg17soS9x9PHeRbJ6HbcNDlkuCvgpc3vNF4jKaO8OoeOv8dNgWG+coyyqORqginxgbM7KXkLhpf5UEY4O3wWBissB0E5x7/qfRsL+WiAf2W1dHyRlngThoQPh2Ev5EbeGR0SQu1Jwj57yvBfISTiMpdNhTk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Vp7Xw+zT; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=EFB8w5gXtHDxS3imvPTMZ0ZabIB8mdfgK7AimfC6qEOA5OCaJXNNVXc2ltRRCBcwV0z+5b/JOfxfMPNmqQzGSC+KDqZi0zjFBi4AilYSTpxjk5YQJ2ydiXC6wVPwD0VNXqswfszCZYxbAyM5GoANxzwur9mgC3ds/Aje0/iUBXQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M2l7qoHB; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Vp7Xw+zT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA3701F000FF;
-	Fri, 18 Sep 2026 09:59:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M2l7qoHB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D88271F000FF;
+	Fri, 18 Sep 2026 09:59:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789725586;
-	bh=s2x/hUKOrpwshD5XLyDwpeMawSpqUEFzG89yojrc9SY=;
+	s=k20260515; t=1789725590;
+	bh=jrkc5e08goSGBeC68Jd/mSy+h84vjdGzywA789gTat0=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=Vp7Xw+zT6rzSXK9PRXPvwZsv7ktqbNx1BLzheBnpBUPzvr8fJl9tPjfoxcNpE8Q4k
-	 qzSUDLk76+MO90+qvOvdnxsbREpeYhnApn0Bc3uYpAYN9QPzUa1XOTbBoDDhUEvkm+
-	 mX38eu5J9sTCjW4kB7ZCRxNbeEZabZmxWjmIG3yjlk9XSM/i3vt9rD+pkquE9/vzXc
-	 VD0FWK3sEO4kJiqCLWDgXFvHlSKW7oof2AxPTcmSDttwd3twMY8bnGocAIYw7FUInV
-	 jPLN3iyUsrpWpSvYBdHgd1T8Nb4pH6SLDIVlkoHqZ8J4MI6JC+dLp3fMDlxfS20d40
-	 ivmU3SpQqei3Q==
+	b=M2l7qoHBXThVH5QZExs7GF/fj/2O040hFNIy96W3TcvMc3kYSSE1NTy+O5hMLFXet
+	 IjAdXnj8aPwm5JwZ4SSvXi3xDXMkgGTXjI2p0ijf2UA8aygyhCnxZarTe8O11WntHC
+	 4YBvKBud7BAaPjO7TX6eVCZ7Udcd8dhzjWnXT7/e52zDlZTtmUtaznpYa870dme7x7
+	 lVhVtzAUyRuFj2aOZ1zN5Oa0ToW9TIYTvNC2O7U+8AJPyQ1jPl7ZRDvmxl8oZWnqHz
+	 i7sSHQYMAeT2soaDT7gs28SgBQ9H+vWPjCBA3rciXuVSPlWbvoddU3Yrzg9wc58ykr
+	 ixc9A7DLRbJTQ==
 From: Mark Brown <broonie@kernel.org>
-To: linux-sound@vger.kernel.org, Rosen Penev <rosenp@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, linux-kernel@vger.kernel.org
-In-Reply-To: <20260916220453.260472-1-rosenp@gmail.com>
-References: <20260916220453.260472-1-rosenp@gmail.com>
-Subject: Re: [PATCH] ASoC: fsl: mpc5200: gate AC97 driver on PPC_MPC52xx
-Message-Id: <178967135736.285745.8925263446043052641.b4-ty@b4>
-Date: Thu, 17 Sep 2026 19:55:57 +0100
+To: Khanh Le <khanh.le.xr@renesas.com>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <87a4pgzijx.wl-kuninori.morimoto.gx@renesas.com>
+References: <87a4pgzijx.wl-kuninori.morimoto.gx@renesas.com>
+Subject: Re: [PATCH] ASoC: ak4619: Add suspend and resume callbacks
+Message-Id: <178966070753.285745.11103059130857819872.b4-ty@b4>
+Date: Thu, 17 Sep 2026 16:58:27 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -44,20 +44,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1119; i=broonie@kernel.org;
- h=from:subject:message-id; bh=vonfNZic0FRILTkniWzlUJ6BwPQV0MvyIG1Aye4fDH0=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqrQuPTSapOvwhYd2SbKQOXhtggvBhvfy7oXjha
- ipoAKABrpeJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaq0LjwAKCRAk1otyXVSH
- 0NjPB/9z5TDiSYvgMAuszySnmQDW0w70jBHOFw1IGI4VxqUPV+r83i/GLKOuhF5ioLlE0DFvtOc
- dG70PaOYakrJdZ2xClZneUp/8GS5nfF/Yt7Gf+DbhLuihfIun2VGkCMlDxeGWvUoEHpeoBRiKbP
- oKMJJZhDcRlGWo8Nj9bPYG7PP01ufGwQAyxeHkrqW9AvYucM7o0LOtZQE93nmavzw8DWzrb1N2i
- HfAFk5VFQ6A77KdCNFf7mTuZ4gI68Nnxg3QvTK4QWBGhXMIjxQk0UjeVLkBvEN8t/aQwfnOgHLV
- s7TwP8et1CrfZX8ZKQ7vNq7TWEcHb6CTkCY7aAAVVXF3yzqf
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1115; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=1JaBGORmLNeLkIFrp0Q4nFSxa1QgGtqNJy0GFodyS3I=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqrQuTJals8ucL3Qd0b5EW4Mnn0ddcz3DM2CnPi
+ MXfcehfst2JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaq0LkwAKCRAk1otyXVSH
+ 0DM8B/9gpKRtX5phcstA+xpJOyRoI1aB0MxRmoi0KkwcxzTswZegecWZB6Z72RpTYKFdxlnRTp5
+ RgM1buyG6s7rVF/EvqcX/klRFL3vk+coP4FmCpSXeWPv0NsZjBu2XE2agOyqtV/+Sxacw9YFaBH
+ lwreSjOBa5HxVA5v4K3I3TEJSdT8R+3rYm7+1NxbV1HkZd10s4iEKsWFIt96rrvAB3EpS52MYYK
+ s/D/o+7dujJtjd9R8GDvpTlOS7dJVBJxR6Oa+0lO7YOiaCyMpt41RbtMS2H599kuhMAmq0s9MC4
+ A0YWzcvC05dqIxGaNwv1O4xwFdTWg6bGRZsmzHbhfP2jCDCC
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Wed, 16 Sep 2026 15:04:53 -0700, Rosen Penev wrote:
-> ASoC: fsl: mpc5200: gate AC97 driver on PPC_MPC52xx
+On Thu, 17 Sep 2026 03:02:42 +0000, Kuninori Morimoto wrote:
+> ASoC: ak4619: Add suspend and resume callbacks
 
 Applied to
 
@@ -65,8 +65,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: fsl: mpc5200: gate AC97 driver on PPC_MPC52xx
-      https://git.kernel.org/broonie/sound/c/ebdc596c4262
+[1/1] ASoC: ak4619: Add suspend and resume callbacks
+      https://git.kernel.org/broonie/sound/c/d5212d2d50f3
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
