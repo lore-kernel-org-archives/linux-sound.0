@@ -1,38 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1859F41C2E0
-	for <linux-sound@vger.kernel.org>; Thu, 17 Sep 2026 22:33:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 583A54A1E05;
+	Thu, 17 Sep 2026 22:34:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789684406; cv=none; b=JYHcFP1heTtpcyLaQlts+UAetX+WYSUc2RgLl2G4zB70JgQsqJLK6H7MxpacZJVKgCy5FuRbKmUwbQ5gl+yIzopH2QlPbPMzjr4YfVYNsvYSzEK6hhmsARdy2SYKJXTpSLSFSb2KXya0K52b2HXSVHCWsm2ytWgQglx4l0VnzAA=
+	t=1789684441; cv=none; b=U81WjfOgXcz6fQSFSbrsqvDgC5Xtmss9o/3GI0JxIc8K/aneRm1eF01JFFqK4A0XlQT6hSD1ZhiqNFEHOXAdgqPxSvdoiaaBCoRH32EaozqxNkVZyINcb5l61JU/G9yr5z2DIyw5IyUeG8YFkmZBy+KFARnLnrRT0vW5AuZ4DlY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789684406; c=relaxed/simple;
-	bh=gMgkxCdp5ZQaN9WwxzxlOcH0YMNLeV1GIyQxomcfK+4=;
+	s=arc-20240116; t=1789684441; c=relaxed/simple;
+	bh=tXkh16j/Thv+s9cP7UX0gqw0LlvCxf76Arv3zXbeDrY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cfEDZHiPMmjn3VVj/zvvx2KTq1GTK7KayxvdhXoAFdNIt8FYgOSK91/v7oWux8XqeUFqFNchekyI2ED1wSHcUi83Y+3rqK+pjBPFM0PuWEPwmcdNHDiwmUjVGaJ8w/mGWqiWv6MyjoaP3vNAsAXpxaATmhXlocaLYBB9PwlGUv4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g8jERCnR; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=fFPEGXz1/zlZrkmwJDt12sfuy9uH2VfWbB8GsnC6N3aGqXc1GC5KT6tW4OEZN3duYtvihKqCUOhScAP7AWVR3+IVMAUhzFMy0ngfICjGAFwDA/B50W8VnabXkHN7iS82sF3QrzuxuDIF9mYka8+lFD+c31ZCg5pPDbcgXVvl8x8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WNdgG5DS; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g8jERCnR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F2BB1F000FF;
-	Thu, 17 Sep 2026 22:33:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WNdgG5DS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93EE61F000FF;
+	Thu, 17 Sep 2026 22:33:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789684404;
-	bh=gMgkxCdp5ZQaN9WwxzxlOcH0YMNLeV1GIyQxomcfK+4=;
+	s=k20260515; t=1789684440;
+	bh=tXkh16j/Thv+s9cP7UX0gqw0LlvCxf76Arv3zXbeDrY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=g8jERCnRh1LUXwnadXzyTa4fWA6ynQpIksd6KfsKwpy0i7rmjohPYHyqi9ZpQRaCJ
-	 fKpLOhAQq/dNCOntab95/FPhbnWh6mJzOeyz/1JCjOXKLVbdPghc/3WD0fy1zzYow8
-	 yautoTTfk9l8xUJtVMKUu+2cyyRGHLE6K90b7zrlfM6TaCZU1GyaGuAbaShHjSl4/X
-	 xLtaeYHUh4XipEE94ukl3Y0wo4S3UaucAAYuIFWaIhIQnB8Jjv3J0F15Cr3uNPhqNP
-	 C7skVBV4AIkHEKmTpiqqfrvQRSrojy+uAFmOIn1Ac0dYpes1Ubl20yo3fwmOBiz1lG
-	 08S014oSKEpDQ==
-Date: Thu, 17 Sep 2026 23:33:21 +0100
+	b=WNdgG5DS3KQnHaWNU+TDLlgSaj3d54kvjXav4ma5fjCLAES1Bl113qxoQgiY1TrOj
+	 ZlqxNeiNKMsMqahjxk8FGzgsO30737PX2VT2GFlnoRCCvSqj92vT469DaDPG/Om2ah
+	 IdB7ICbLYWpxYHUbPz8OEpfkay4B2wVB1caQskAy1McvHiwpmp4ZJiqTMF5fciQ77S
+	 1ZG0i55cgy5rJd1ZiC20J0IlOfAewOjliScvCe21NmzCV382tiCh5/Zy+qmcrw02wL
+	 ojG+6OmI/81SJ8L19Jkn+tAHoUJtBLvwBipUpKeDSsaFeYt4qrn0CUzP56I6ldCqgG
+	 8pvulrTcU4XyA==
+Date: Thu, 17 Sep 2026 23:33:55 +0100
 From: Mark Brown <broonie@kernel.org>
-To: Ruslan Vagner <rusya92266@gmail.com>
-Cc: linux-sound@vger.kernel.org
-Subject: Re: [PATCH] ASoC: fix comment typos in codecs and atmel driver
-Message-ID: <2e3f4adc-d214-4a06-a864-cee9a53d40e9@sirena.org.uk>
-References: <CAF9RqJ5xANuq+=b2Cfaz42zufDp5f=E_vpncKCO9ap_neqi_ng@mail.gmail.com>
+To: Wentao Liang <vulab@iscas.ac.cn>
+Cc: Xiubo.Lee@gmail.com, festevam@gmail.com, lgirdwood@gmail.com,
+	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, nicoleotsuka@gmail.com,
+	perex@perex.cz, shengjiu.wang@gmail.com, tiwai@suse.com,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] ASoC: fsl-asoc-card: Fix ASRC device leak in
+ fsl_asoc_card_probe()
+Message-ID: <1d80b89f-7b33-4036-a450-bf32c603a238@sirena.org.uk>
+References: <20260917165430.2163372-1-vulab@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -40,34 +45,38 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="fplYvgn7Esh2kAHS"
+	protocol="application/pgp-signature"; boundary="P1ZmkZ7HWziaZSjA"
 Content-Disposition: inline
-In-Reply-To: <CAF9RqJ5xANuq+=b2Cfaz42zufDp5f=E_vpncKCO9ap_neqi_ng@mail.gmail.com>
+In-Reply-To: <20260917165430.2163372-1-vulab@iscas.ac.cn>
 X-Cookie: Whip it, whip it good!
 
 
---fplYvgn7Esh2kAHS
+--P1ZmkZ7HWziaZSjA
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Tue, Sep 15, 2026 at 07:56:10AM -0500, Ruslan Vagner wrote:
-> Fix the spelling in comments. No functional change.
+On Thu, Sep 17, 2026 at 04:54:30PM +0000, Wentao Liang wrote:
+> of_find_device_by_node() returns the ASRC platform device with a
+> reference taken, but asrc_pdev is only used during probe to set up the
+> DPCM DAI links and is never released. The shared exit path already drops
+> the CPU device reference, so release the ASRC one there too, covering
+> both the error paths and the successful registration path.
 
 This doesn't apply against current code, please check and resend.
 
---fplYvgn7Esh2kAHS
+--P1ZmkZ7HWziaZSjA
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqsarAACgkQJNaLcl1U
-h9AP+Af+KNO6MsIEgs6lIMPYj9zw570VLcx3q+8i1zt2gVyNUpS7bwddXC6aIIo4
-U9Dk91Dg1QH0OuAVQJcqv5LGv84wEU1YRnnuWWpVbfC+wuSq4yMA6cD/QDq6/qbS
-LjREuwFrOYBHcKj3MGBW2K/inKQ6pjKCWzMpP8qYF7QdEZBj7ytIpmVAK74XrbqB
-CTHsDFkzO3dDNvtg1ftgYNRPpUkswp4uiyMn5fKpnB22plbOsumT2y4C2Ge62xF1
-gl60qissR95l9zJERDNz+Th4HbbYbgqfsEoylbbbL6N2upH41E/8sNHcKRINBcNh
-KtulWp+cWSYZsUScjyveMhmIoeJrhA==
-=Z3QK
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqsatIACgkQJNaLcl1U
+h9C0Ygf/RPsRzvwwH4gsQUTDa5a8UQsKSpt0ClJpUzd9B3N82yCZlVAtHxZBcgUj
+tHCfZEKD+1B9Glr+QJGAN+8NesYn3HRKfbKiW4Jt5NESTK5QAIAjsMrWxhNrFN3x
+KD3sph6e2rbMmYV0ghCw0/S5EZ/uEtePvuWKIZ+c2bgfx5XVFfG1TvUOOlj6kXP8
+U8PLUZQeyUmnhexe09hMc5+i0SDW4IiM5p+vB4fHy6Aip6qz+zIX/NocqexZhrhd
+j22M3Qgvz3klweIoHpxTZqR/MLYY6lxLcL7Wj9mVCG8qzL/8dZh5HcE83TCzc139
+7+M0UMSahUdK1AC4hZiK15UGanLF7g==
+=+L6c
 -----END PGP SIGNATURE-----
 
---fplYvgn7Esh2kAHS--
+--P1ZmkZ7HWziaZSjA--
