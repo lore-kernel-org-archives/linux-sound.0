@@ -1,65 +1,65 @@
-Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
+Received: from mail-pj2-f43.google.com (mail-pj2-f43.google.com [74.125.227.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1D31513575
-	for <linux-sound@vger.kernel.org>; Fri, 18 Sep 2026 13:40:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04C01511E8F
+	for <linux-sound@vger.kernel.org>; Fri, 18 Sep 2026 13:40:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789738823; cv=none; b=nRM1zHNj0U/dXqNthqMiGJgkM//rk2sxM6u0v7UXXWHnYWgv1bQtUcpljwKw1ZWS/NsuT6+ozxbifkCHyq7LG91o/NnBBeNqwKIfL1DSRtBCM3av9SUfQBBlR0qgzwYsR/Q9eXhDCRIU+JUQbQwOdn71qLtUWYaNcebnx1D8RcU=
+	t=1789738831; cv=none; b=bnnSaKahlKMR+tgQdVmpEt1u3xvtnlV5j4ekxj1D4Sdb/YVYGnhEudp2QUYll0N7f2HXia7KroQW5WmN4freSJZ1Ou3HS/zZJ4zuYPJVYQXENcUJkZ3dSWr8pZ1ksPltvaTYxTpGuRhcpFvAUvLN+kzvK6Y6Q0dxLYF00ZiaBAc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789738823; c=relaxed/simple;
-	bh=Qitf22YVUG4a6YGRxlpw/22OK6F5q8rrk5pZg2Nyz2k=;
+	s=arc-20240116; t=1789738831; c=relaxed/simple;
+	bh=Yy+a2QIzttLzB4xrbb9+hlL2vQihJOKUyGFWwX/pyo0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sR+ENI/W5KM2tVz0ZZ8GahL9zM1gMW/b8TpdkxgS1tEfSwx67zpZ452Y0P/xaYRDl0C2xdWxRIFSjIvS6NX+X4pujiZJI2/gt5EEVA0GfEyPTj3iYeZzZaSW2mVEqzEZmaOLUzfyFhhwBUdZ0kDYWIf6qQy+Hv30a9D/SErp9pw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GIbSqY3l; arc=none smtp.client-ip=74.125.227.140
+	 MIME-Version; b=foHXdlE57iT+uCfi9vs12e8AQbVEnAOTgl32Ue5HGXc9Srp154P+Tcqoc/vZwaoL5jjtqczHulEO8Ce9qwRbRuJQ1fx3qTv6CClBrrVjkavlQkKfCWLq/jPjrXXfLkLKQV64Pl5Co34ld+Z92eyNd8mjy/oWclGEOpsrNxfA7jM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Mldn/JzH; arc=none smtp.client-ip=74.125.227.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GIbSqY3l"
-Received: by mail-pj2-f12.google.com with SMTP id 98e67ed59e1d1-39dacf053eeso553933a91.2
-        for <linux-sound@vger.kernel.org>; Fri, 18 Sep 2026 06:40:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Mldn/JzH"
+Received: by mail-pj2-f43.google.com with SMTP id 98e67ed59e1d1-39b9184fa80so735736a91.2
+        for <linux-sound@vger.kernel.org>; Fri, 18 Sep 2026 06:40:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789738821; x=1790343621; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1789738829; x=1790343629; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=GDhRsljiXwH4R/2v4DqxrYu1sHb7R4NiCX/UTlOHxi0=;
-        b=GIbSqY3lrmXgRoYuGGGFoAgTL8KdZvizcEN69GBeV7iMMxezR7hzui1OKdqOQZ1KkM
-         ALrzjPDbRfjqcqcBtuu1QcDdmVwiXyh++WTaxjFiSy362BEs5cCdO7Kx8FKjYW+8lxws
-         rKeNHjFVrOgoAtpSQ0plwkdmR9uOu5pSPFGjCUtMfUm6AGr5pbjwppticNF1zMaLpF/8
-         EqGo32lzpyTkI9QLI2h75zECSkxMRxcB7oWU50lFaSwR4BEZI+D1AIBXgTZKe4i268R5
-         PIep+x/5PmwN2E1SP3/zuVRO8IiiGmiXtfiKr8TcYRCPYD6W1TcZy2h6aGNDn9YXJHJj
-         /R1Q==
+        bh=1yYuhRQnt/ijyPiiXvVWhWtV+eciNeujLBpVlIUSi5E=;
+        b=Mldn/JzHLZTQ1j5AdfCQ/eoik+79+b+6mJMsuJlCPX4zv2KUJqRDPTHAtxklEa3ICq
+         8c1ccLCadNHFyvqXddawhw7ed8Zy/dX2VLLK4v2GfMUpW+jUcUA2YPY9kQhZ+FTw3cgP
+         rZer5ngz8lkR+BA2roivgRIUB2GoirBwf0DgAT/vnE2YH7RaWKl7Og2S2vsnuw6+K0VS
+         oPHvOLMFMQxMROJLvfHZ46wGNQgALgFrCBC3pCWg54uDyS48VVChSpA8eQ4BwAdP0lkm
+         Za7qBJ2POkijl2AMFs6WsxBNEVtR2u91wYsU19lce1yK8FAnxk92RGFWktQwBN6ZitVe
+         5u9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789738821; x=1790343621;
+        d=1e100.net; s=20260707; t=1789738829; x=1790343629;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=GDhRsljiXwH4R/2v4DqxrYu1sHb7R4NiCX/UTlOHxi0=;
-        b=YO2/qzfG9HubiNTn+8jZLKzZrQxM57jlLXTkBKDrv8DT1iYKx1KtgB9+n5h74JOdcW
-         4G216abDO+eiOpA9+raOxpSiwWODGs1vpWRRtmNwCQaf/VgpOFq1AAKxOMxK8lj7tplc
-         tTckyjI7F3Ja6a8x/jPdr4/psNQubClz0mxqFGpN+hfs6YZPXr45UtOuNyI4MVEb7k2U
-         MHt3J2K62M9+U7giVkqrCXE0IMsRy+0lZPimC9Ya+lTUgyIsc0KJWqHP1LS8ETKOgTEE
-         D9yIIehck8BPuGfdI45lq+J8Qyfx6LX7MvmyywyZCgscN5KdP6BJSzVKI3JRrpLfFuJm
-         Lcug==
-X-Forwarded-Encrypted: i=1; AKwUvBxccM5xC6a2ags3tlR/WiA5925eNFXih//Jz9PqscFqcyYra+KcjlC+/I6hg1Dv9h+0tv3ThzzUNwYV3g==@vger.kernel.org
-X-Gm-Message-State: AFuF++k4Y9g2NsOIn2mi+qMmVNi9CZYdmas93ONTvAO9XjKCcT81TRSX
-	bZyBWRCrM9W7tACuU5epjB/DIjeO/esNHQvOKuUpaAyQE15vv8Y3Hpdg
-X-Gm-Gg: AYBFou3qNe3Z5TLuBi0lxA9Q0/HmBOnCLlGeRe/Vz2TtT/cQ7XnqIAVjLYbw5haI2wv
-	NsArbzBq78b9QEBBUoIxCVJ7Ok63xv13wtR0xcNZ5xXD0TE1M4jt84PhSti+WHhhFVjbSwpVu0P
-	vLrfQ1lQ0/t1uFbiMd32//7XbxGqukt+XBb+287BFpn/a4y42BCoV19sZC2bjx/A6aKMo68zNtx
-	+qPRzKeB5foQPtrB8CpP2yvW7oCYJYgNcaRGFMaGkVOnqHeCkHKuYPcsCgqAqJHdfCKzJw+KbmJ
-	WagJNlXyrtJ1IMAU+33rHLWWDqGwbh1rURJoDa3VgCKE8zVBmmmXLWJNidFx9oHVDPbuXtNhsf5
-	PvFAB++tdzJyveKRf1idAONoHPZF+6z7Njeuy60tqim1PZ4+B7yT9IyRMesFoAtcnffFXYGMlEY
-	CJrAGVvVChdKL4Gf7E2EYt34cHalWFcxRyTqmkxqHeZy7+GJIRtqRt8/g7RXZnFk+K4x2L6ydmk
-	aZwhSaH9MRxN2TB4Ka1vqm8ddB5z8NV8bv0xJpoI+bNl5Lqi2NvEAZM20Nd45wYQ6nwGj+b34zt
-	Wwkzg1XNXZoRzg==
-X-Received: by 2002:a17:90b:3b85:b0:39e:4c7f:7305 with SMTP id 98e67ed59e1d1-39e5504d3d9mr5689902a91.28.1789738820802;
-        Fri, 18 Sep 2026 06:40:20 -0700 (PDT)
+        bh=1yYuhRQnt/ijyPiiXvVWhWtV+eciNeujLBpVlIUSi5E=;
+        b=Gkh67qo6yuKIHQNM/rT+dNH4weXmvTvklHTcvi8A5iRpm1EWfe+m6DxsrlC1PWBLgv
+         /LU/1RqTbWVjsrSLFdgXD8iUQYWX43FyC++dmyUUv+K2BJ90TFaE129r8B1PE7zWTcX+
+         iC2omjCezt3ZLQBq0Xk4IPbk8TT2e5IBozvoVhLyH2KkYWz4LxhcA3OlUjiNWXk2d4J8
+         nzzPciVNtWIPQgOJU93m+Fx3u3KKEtJaU3V/XwyfGHnIMPzlLKYX0eDgIPbrHaJgoKa6
+         9itg1dhlSpdQft2zXI+ugIO7DCcFuB4N5oO9W89D10zxT0bsS/IlLRpmQqTmhLThYN5x
+         tt8w==
+X-Forwarded-Encrypted: i=1; AKwUvBxUos3o3HPyEb7m1FZZlel8WI9g23qXHreN2qII5i9Ulu3UxbmnerUoncpIJMq6jDrnc/A4GhMLznzM6Q==@vger.kernel.org
+X-Gm-Message-State: AFuF++kqTj2RE2gflwuki5EJ5gIyZFUcK/tIRml4HR1r/n2zf6MDRRzs
+	bTnhEIJMHlJAd3SlMW3T+3RxeO4AS7VuzJ3qTgT/7Kr86ofyQoeUCcnG
+X-Gm-Gg: AYBFou0mN5OQCHtGvrVH9T/io4aFljwj4xwTIqa6wGyTj6dNl3mDFjdaTwITI4X4uTD
+	frZann08JlL28usYK8I9rITxOhBqDfGO+sToX7N6MQPvtDWdNjSmhxeInDIGvWvrczuEyJDlNmV
+	RQmHZjhk8yZfZ5+y+DzInw2ezRoUVPQcL7x5eZeQwgLjJTmchTiCxmGLai7NaTdLN4H/Rwys+Os
+	YEgvn6Tm7HEs9z3vAiyYFJuB1X/L+Q/yhBb2uw2xBvZmLravSDPX3cxVGIJUrKWfxA+nQDefg/t
+	Rog2ZvF9J/kOiIlsoantEgFVkfx2HoGbAJpuBCtw3f3fJZtY80C/hQsSaQCegZCow8UqeyXsY71
+	zxOTcrgetDT5I+Niz5MXfmYHr6aYaK9I432gZHLdp/t6jKVCfHD4rDBwzY2lJnp4c6t630SYj6h
+	gOT0qQlFxTN2hQmkNaJ39Dgilsf01n/PNBmT3zpKSPvAIgbpBVFmBnFwYoNXJPpkO992N1mZEW9
+	u0z68qvUTvBl19cfQQi/aqXhnYoklVCAPRo2dSj1RsT+eKWdeiREq7TajIcttDsXTyPS9dQyWvt
+	bg3oRHzUAEJYAQ==
+X-Received: by 2002:a17:90a:d005:b0:39d:ba21:fd90 with SMTP id 98e67ed59e1d1-39e54f2bf77mr10812405a91.16.1789738825626;
+        Fri, 18 Sep 2026 06:40:25 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39e3617443asm13253792a91.9.2026.09.18.06.40.16
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39e3617443asm13253792a91.9.2026.09.18.06.40.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Sep 2026 06:40:20 -0700 (PDT)
+        Fri, 18 Sep 2026 06:40:25 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>,
 	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
@@ -78,9 +78,9 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	linux-mediatek@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 08/15] ASoC: mediatek: mt8192: Use dev_err_probe() for devm_pinctrl_get()
-Date: Fri, 18 Sep 2026 20:39:04 +0700
-Message-ID: <20260918133912.133799-9-phucduc.bui@gmail.com>
+Subject: [PATCH 09/15] ASoC: mediatek: mt8192: check return values in mt8192_afe_gpio_init()
+Date: Fri, 18 Sep 2026 20:39:05 +0700
+Message-ID: <20260918133912.133799-10-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260918133912.133799-1-phucduc.bui@gmail.com>
 References: <20260918133912.133799-1-phucduc.bui@gmail.com>
@@ -94,33 +94,45 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-Use dev_err_probe() when obtaining clocks to avoid redundant error
-messages, particularly for probe deferral.
+Currently, mt8192_afe_gpio_init() ignores the return values of
+mt8192_afe_gpio_select() and mt8192_afe_gpio_request(). If configuring
+GPIO states or requesting GPIOs fails during initialization, the function
+still proceeds and returns 0, masking the initialization failure.
 
+Fix this by checking and propagating the return values properly.
+
+Fixes: 125ab5d588b0 ("ASoC: mediatek: mt8192: add platform driver")
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/mediatek/mt8192/mt8192-afe-gpio.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ sound/soc/mediatek/mt8192/mt8192-afe-gpio.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
 diff --git a/sound/soc/mediatek/mt8192/mt8192-afe-gpio.c b/sound/soc/mediatek/mt8192/mt8192-afe-gpio.c
-index ed6dfdf2589b..d4218f9708f7 100644
+index d4218f9708f7..d2e99c55b8c6 100644
 --- a/sound/soc/mediatek/mt8192/mt8192-afe-gpio.c
 +++ b/sound/soc/mediatek/mt8192/mt8192-afe-gpio.c
-@@ -132,12 +132,8 @@ int mt8192_afe_gpio_init(struct device *dev)
- 	int i, ret;
+@@ -147,13 +147,17 @@ int mt8192_afe_gpio_init(struct device *dev)
+ 		}
+ 	}
  
- 	aud_pinctrl = devm_pinctrl_get(dev);
--	if (IS_ERR(aud_pinctrl)) {
--		ret = PTR_ERR(aud_pinctrl);
--		dev_err(dev, "%s(), ret %d, cannot get aud_pinctrl!\n",
--			__func__, ret);
--		return ret;
--	}
-+	if (IS_ERR(aud_pinctrl))
-+		return dev_err_probe(dev, PTR_ERR(aud_pinctrl), "cannot get aud_pinctrl!\n");
+-	mt8192_afe_gpio_select(dev, MT8192_AFE_GPIO_CLK_MOSI_ON);
++	ret = mt8192_afe_gpio_select(dev, MT8192_AFE_GPIO_CLK_MOSI_ON);
++	if (ret)
++		return ret;
  
- 	for (i = 0; i < ARRAY_SIZE(aud_gpios); i++) {
- 		aud_gpios[i].gpioctrl = pinctrl_lookup_state(aud_pinctrl,
+ 	/* gpio status init */
+-	mt8192_afe_gpio_request(dev, false, MT8192_DAI_ADDA, 0);
+-	mt8192_afe_gpio_request(dev, false, MT8192_DAI_ADDA, 1);
++	ret = mt8192_afe_gpio_request(dev, false, MT8192_DAI_ADDA, 0);
++	if (ret)
++		return ret;
++	ret = mt8192_afe_gpio_request(dev, false, MT8192_DAI_ADDA, 1);
+ 
+-	return 0;
++	return ret;
+ }
+ EXPORT_SYMBOL(mt8192_afe_gpio_init);
+ 
 -- 
 2.43.0
 
