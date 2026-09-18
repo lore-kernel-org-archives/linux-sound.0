@@ -1,86 +1,65 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E7C4372EF3;
-	Fri, 18 Sep 2026 06:33:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C43C38E5C5;
+	Fri, 18 Sep 2026 06:45:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789713224; cv=none; b=f8cC0j3NdKs91NSIoMcCjcNXNlkbpqr7cEWa34vGXhWFRb9acDfzRunX+17mcXOqjgJmCQOaWk6NYoBtBk/DbipZQh8x5rB3cLhw7/jGvHT73wea8RiZMaOZcvPW9acI4pwuCAfl4SubOTGoqlDyMqEmTL3DOkpVuVqRZYKAo38=
+	t=1789713904; cv=none; b=D9zgAgoGkTrKSRgEonMlGUFYDzUP6i4DjcOh264uilvWOxIXqfKUq6OBnne0pzgIZcqwJrpuRCxahd98AfsLSGkOeqt+SzkfCMf4RlsGKVpxp7YgDrNcdZ4f5Tey7PV6SkT5j/9m1AabTqpd05fOWjd/x4Z91RnUqmmsTRi0kNk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789713224; c=relaxed/simple;
-	bh=c6lHG2+BOGP1n5lfEZzpEidb3oiza5tftAB3gGU5xys=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NWw+qAk5hKgxUy8c7cLI2C4vN4hb/55/rkoqDZSNq1Y8BC++ZGjNrbL0QvIdwpaH3dSfx95FamAUqUPjKsFAnch6B7S/wN/QBOtZ1eRcVgJAsm+RDMaH4uws3tN7RiT+4WF+7uBppdojk5UZREYCtmCo4xbAlX8pp+E/XnOiR8U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V5y2GaKw; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789713904; c=relaxed/simple;
+	bh=DzNuSGeZ/DolGL5u8O2gqaTmdQDHaPMhZDPatt02kO4=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=AfL9Tw1YGuQkRiQd+JUqSdZ8K+gNSYlcd/zxAtcJalQpLsCxm55gHeSD+Qk9kkc/4O5Z7Cgyib0LNDpxrBPgrkRtCfaRMt2Yh3p6CGRRuQCuUvUkU7jBab9YTH0TMjlb8hb8HSjRgAWXJ4c7/BL+nzqQk2bsD5XqJeoosQz0NtY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QOq+HnsZ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V5y2GaKw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D11BC1F000FF;
-	Fri, 18 Sep 2026 06:33:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QOq+HnsZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE4361F000FF;
+	Fri, 18 Sep 2026 06:45:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789713222;
-	bh=UEMp/ok56d/H1fXbEjoAxkfOqK2lewL3gNlPrwEc3g0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=V5y2GaKwmTJFmYeJOk6m1rb0E41zqgktErPPOApKE4mgnqiJMN3uyzUVQKFQdUFBe
-	 4deYF1YDBX9ZzPHkiLzhtKm0+YhYbOnxKqOIveK7SU4hE0fbXtrV9zBlsDSyk+xVhb
-	 RAAZdGjXXTF8YDoGEIYRxiklqcPmTtg5HijajdZaRQ63llfc2ogOOxhJRyF3YHGMDX
-	 OkhuWTYaJidEpmendWZbOekruBnx5WV8lQwFnirETRCu7BvZx3RI+2LuvRJQf8n9Nc
-	 KbDF/o/fkJKzpD9+IEZXBHhmufrUcIBIaluOtOcyZFLuSDYXzWLN7IzgJCqA+0+N7Z
-	 aj/mEjc1DOncw==
-Message-ID: <7faa1a14-92f4-4a96-b7c3-da7c385724d7@kernel.org>
-Date: Fri, 18 Sep 2026 07:33:40 +0100
+	s=k20260515; t=1789713902;
+	bh=BupREwgr8lIWPTO67ce1QyKMJSvgG137+DPZFjLq88U=;
+	h=From:To:In-Reply-To:References:Subject:Date;
+	b=QOq+HnsZgFvQ0FRxFgP9jioiA8WkxyQe2IRZZxNiteQZCF+wE1vpQfrSuaijLojvL
+	 WXPS6w/8eb8jUOIq/FFBbxnn/P6I5No/icMjocrphwJ0R7KraeC6IQi6+vWWivZXII
+	 773egRdRESr/qsrQGk0/iufHrngS1FB7LAD6IBtEVQ3wOXGfkD7kWfUucJBniOO+zF
+	 vwtFZuOZ0h4jcBHa6fZGheW6HgH5L1ngWQromEaQPBB9KghhKxOJpFiVtHk/zWZa8e
+	 NEww3iNkswbvrcf7lGd2H+9Pj6fnvadxzN5RKgkY8lojv09OrBkqzmE8QkPZZsJR09
+	 ExYoKoYoTgMYQ==
+From: Srinivas Kandagatla <srini@kernel.org>
+To: linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Pan Chuang <panchuang@vivo.com>
+In-Reply-To: <20260716132227.589778-1-panchuang@vivo.com>
+References: <20260716132227.589778-1-panchuang@vivo.com>
+Subject: Re: [PATCH] slimbus: qcom-ngd-ctrl: Remove redundant
+ dev_err_probe()
+Message-Id: <178971390167.472168.15708697692953474439.b4-ty@kernel.org>
+Date: Fri, 18 Sep 2026 07:45:01 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] slimbus: messaging: Fix runtime PM leak in
- slim_do_transfer()
-To: Wentao Liang <vulab@iscas.ac.cn>, gregkh@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
- srini@kernel.org, stable@vger.kernel.org
-References: <20260917152234.2158902-1-vulab@iscas.ac.cn>
-Content-Language: en-US
-From: Srinivas Kandagatla <srini@kernel.org>
-In-Reply-To: <20260917152234.2158902-1-vulab@iscas.ac.cn>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.3
 
 
-
-On 9/17/26 4:22 PM, Wentao Liang wrote:
-> slim_do_transfer() takes a runtime PM reference with
-> pm_runtime_get_sync() before allocating a transaction id.  The
-> slim_alloc_txn_tid() failure path returns directly, skipping the
-> slim_xfer_err cleanup that drops this reference.
+On Thu, 16 Jul 2026 21:22:27 +0800, Pan Chuang wrote:
+> Since commit 55b48e23f5c4 ("genirq/devres: Add error handling in
+> devm_request_*_irq()"), devm_request_irq() automatically logs
+> detailed error messages on failure. Remove the now-redundant
+> driver-specific dev_err_probe() calls.
 > 
-> Jump to slim_xfer_err so the reference is always released.
 > 
-Same question as your other patch,
 
-BTW, please check the list before sending duplicate patch, there is
-already an identical patch on the list.
+Applied, thanks!
 
---srini
-> Fixes: d3062a210930 ("slimbus: messaging: add slim_alloc/free_txn_tid()")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
-> ---
->  drivers/slimbus/messaging.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/slimbus/messaging.c b/drivers/slimbus/messaging.c
-> index e2dbe4a66b70..ee127ef42046 100644
-> --- a/drivers/slimbus/messaging.c
-> +++ b/drivers/slimbus/messaging.c
-> @@ -139,7 +139,7 @@ int slim_do_transfer(struct slim_controller *ctrl, struct slim_msg_txn *txn)
->  	if (need_tid) {
->  		ret = slim_alloc_txn_tid(ctrl, txn);
->  		if (ret)
-> -			return ret;
-> +			goto slim_xfer_err;
->  
->  		if (!txn->msg->comp)
->  			txn->comp = &done;
+[1/1] slimbus: qcom-ngd-ctrl: Remove redundant dev_err_probe()
+      commit: 37052fa3297966e28e6f0903c6ba448b2afaf8f9
+
+Best regards,
+-- 
+Srinivas Kandagatla <srini@kernel.org>
 
