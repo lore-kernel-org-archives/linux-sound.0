@@ -1,45 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B59F5FDA7;
-	Fri, 18 Sep 2026 21:04:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B49752BE29;
+	Fri, 18 Sep 2026 21:04:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789765453; cv=none; b=NQz1FnlD5TfO7b8tM2HUPdFNGwRz6Vbj3TdTP2fwhNnBEyR8yLvrck3YKsxhEMGtbLDuosK4K2AiWdG9Ti/eBqmufGt1ourkJMfxhUG1hN20D9vNLohNEvlekML/mszCnEp/MOUatOs+d5LtTw5yRqfxW/sKwRfcyHzWdlKw5oc=
+	t=1789765465; cv=none; b=uEc1xbR/lNcg6OM+0xiqWuOiZG+TkRHt19OIqagNA+JZ7CRNUVczYGjDTc3oAShrVfGvKtoKfj2CWL+YG4le3L3APdzmcafien12HpeqawtB+A5/4bwm9Q0aHN+CZma305u3Fjx4BDeVQgu7OHljAGMi+3yUQwOcHp33rFvq8ls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789765453; c=relaxed/simple;
-	bh=2IgMWOiPnBsAsq7j410yrhnNiL6EjnhpUaSVjEfrMlk=;
+	s=arc-20240116; t=1789765465; c=relaxed/simple;
+	bh=5AJlRz9VmMd0OmWTXop9FJL4TPvwVoWnT9Jf+6NkEaA=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=BJNnGk1Fp6RJAtJaR1X06f/pMnsT2fVwxHAUR6XKNJEOQtf/sUk/BRhMyI+E7Fc4BNh9R4TVPldy2uoAoo2SYKEZ27W5YvvOawTacYLol/eP5+5i+wDW3wQ1SPn2160Ge/pBln2RRDBW7bZ+NDX29hwYVhmK0xbCoKJdQvgEwLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f2Nd0eUB; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=q82bFR30zBJa/YEMu8x4YEs6BKCScKraPf4RPoVgqHLq8PZbe8qhs1V0qSAq3s98tXTq28ygNXFUyOVwTICu522mHtbTyTIBQd9Z7DJvBK2FqKuPgwtbjzVBIlS1uICpe1hoX7B8t6IPT+nOYDc5V6BmdhV3AAGsLNMZAo8KNRY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W2UINi1L; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f2Nd0eUB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB1121F000FF;
-	Fri, 18 Sep 2026 21:04:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W2UINi1L"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4328A1F00899;
+	Fri, 18 Sep 2026 21:04:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789765452;
-	bh=P0f6hKykIWu5AgC08cLFx1yh7J46Gywf1CQqqaow/LA=;
+	s=k20260515; t=1789765464;
+	bh=ApD+IxRfwZUnT2P7M+n95fYPEL8KAIfr7X/2oYpfSuQ=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=f2Nd0eUBM+w2wCWZG/qkVfhDbBEkqz8xjbHzUHgUB5xw5gPC9kN0wTxYHR8cT2x6Q
-	 XauhBC5qrGbETvjTl166TRPxAFE0DgskI97vdCX+pXDIZDkq37TNevvatJsX9TnXKY
-	 vUppwrCnDWadlTKE9JQEEQ48hxYSutES4Z35AAMvqEnQzRQ2EBmMvXq5FuxD1c1BM/
-	 UJ4ix0UdNkZtjChXQ2rYCg8R2bS8TDNDwmMKlRSSgDZOEl4JpsH5onEopIveX7GeCH
-	 s+CiMnzVTbKfprME8nFFm3aYj8gnmEErPBfXF9FJePsmQ3qC7VV2b7ysKJkDOfxMqV
-	 fQA0SMy4eK9fA==
+	b=W2UINi1LQ06TsZlVrYZ91Z8a5wH67ZqHsW7XguLmauRTQvn7Smjnb0w7SZ3WIz1lD
+	 dU7AuzpxxuY/SadZnYDKZnbPMiF0zacU47uPSvB05Heof2rK6qdV253sHpYGhv1naS
+	 OSLzK7WLLE1sY6XyneC7d1dVTE27f/R7J8HzfMCYDZVt9iLAMOhnE4KiBDQidYTTPY
+	 TJxTcjJ8abSCyRmn4+rhbCwWMZg9KjxVbo9Mw1m3+ccxzC/l3w4WBTNY/oHRk281Ex
+	 Wz2ie2A2olaE3b6PjPmToLRpeJev/JQiO8xMQgkpg7/AUUfcc5dukZUt7deavaWzRn
+	 SzRTOz3m4LC2w==
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Linus Walleij <linusw@kernel.org>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- mfd@lists.linux.dev
-In-Reply-To: <20260918-ux500-simple-sound-v2-0-88d29416e3c3@kernel.org>
-References: <20260918-ux500-simple-sound-v2-0-88d29416e3c3@kernel.org>
-Subject: Re: (subset) [PATCH v2 0/9] ASoC: ux500: Migrate HREF and Samsung
- audio to audio-graph-card2
-Message-Id: <178975186398.1812520.14399975775525322676.b4-ty@b4>
-Date: Fri, 18 Sep 2026 18:17:43 +0100
+To: Wentao Liang <vulab@iscas.ac.cn>
+Cc: kuninori.morimoto.gx@renesas.com, lgirdwood@gmail.com, 
+ linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, perex@perex.cz, 
+ tiwai@suse.com, stable@vger.kernel.org
+In-Reply-To: <20260917165851.2163548-1-vulab@iscas.ac.cn>
+References: <20260917165851.2163548-1-vulab@iscas.ac.cn>
+Subject: Re: [PATCH] ASoC: audio-graph-card2: Fix use-after-free in
+ audio_graph2_link_c2c()
+Message-Id: <178975107344.1812520.14001092387774117021.b4-ty@b4>
+Date: Fri, 18 Sep 2026 18:04:33 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,29 +46,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1860; i=broonie@kernel.org;
- h=from:subject:message-id; bh=2IgMWOiPnBsAsq7j410yrhnNiL6EjnhpUaSVjEfrMlk=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqradEN1W3/YrztXr+VZQe0dxlFCLzeQ9RN8OU/
- 45CLWYBYOmJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaq2nRAAKCRAk1otyXVSH
- 0MCHB/kBfxeWjME/6BZ+Edid3En2dX0Yj0pK1qZNDExppS4/tOM5rsnFe7GZv7GhcCSVc2kVhKj
- IJjdNRDkb0SETFIYFv40yvX9wmufAyeGF/OyIXXvae9HKLGhRjbi8/oz4ucGgzR2vGnm0KSId91
- /GRdyg2Ld+fcJXqsFMOqloxYgCKeqvJedvrHCx2DQPZm4/uor71NujCHPjN1XnMi0tsVIp/dYDE
- Vh8tthRQQ8bJcOG8bsHvYZXDBu7ddkncMLz1q1lArmYUdFCrH4b/sW/3MklXqntXotljIcoy6re
- awOkfnHQEsl7dFLGaM+5SYdhoIlmWpZHROEZTIkaCdfZjdi6
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1158; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=5AJlRz9VmMd0OmWTXop9FJL4TPvwVoWnT9Jf+6NkEaA=;
+ b=owGbwMvMwMWocq27KDak/QLjabUkhqy1y4MDDCI+ZfnraG78y7xqrfPDOKHatKtPpm69/jLB4
+ aQsqxFPJ6MxCwMjF4OsmCLL2mcZq9LDJbbOfzT/FcwgViaQKQxcnAIwkVVP2P9X7l9WqqKu69F1
+ 5JbDzKaA5Z3fP/rznv/0KflsqtLxiCkWraK8NWVhb7uOcqm2uvFPCfmzaM6JKTXcHi4WUTETX/0
+ 8GcMqUfmW/S1bgdhswycXpDuC6jxFZI+5BL2bst035u2c9FciZprnjGQ2he/eqq1QouWu2aFj9p
+ flYfbjjMvT2pi8bHY0PPTW5J7TmbRI8OjycIWtGcdMOXwipvM/yXF88XLNIhf2Y52qyQluX2NT/
+ GdGs38SizWV/RV5gfGhBcPyEGWGn5P/v9x11LO4oLFrR++EtGWSy2r/us+o0LV2z2qdJKR+5Lni
+ KlGh/e5rjj7heNq2p6s3q3+LmdIPdQP+5p0J/FwcTJp6AA==
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Fri, 18 Sep 2026 00:50:58 +0200, Linus Walleij wrote:
-> ASoC: ux500: Migrate HREF and Samsung audio to audio-graph-card2
-> 
-> The Ux500 HREF500 and HREF520 audio support still relies on a
-> MOP500-specific machine driver and ad-hoc text bindings.
-> 
-> Convert the MSP binding to DT schema and make the MSP and AB8500 codec
-> nodes proper sound DAI providers with audio graph ports. Document the
-> sparse TDM slot masks already parsed from audio graph endpoints.
-> 
-> [...]
+On Thu, 17 Sep 2026 16:58:51 +0000, Wentao Liang wrote:
+> ASoC: audio-graph-card2: Fix use-after-free in audio_graph2_link_c2c()
 
 Applied to
 
@@ -79,14 +67,8 @@ Applied to
 
 Thanks!
 
-[1/9] ASoC: dt-bindings: sound: Prepare Ux500 audio graph links
-      https://git.kernel.org/broonie/sound/c/cc47a544d4f7
-[3/9] ASoC: dt-bindings: ux500: Remove MOP500 sound card binding
-      https://git.kernel.org/broonie/sound/c/661b5aa81093
-[4/9] ASoC: ab8500: Skip digital microphone support on AB8505
-      https://git.kernel.org/broonie/sound/c/0d46182a1be7
-[5/9] ASoC: ux500: Remove the MOP500 machine driver
-      https://git.kernel.org/broonie/sound/c/f25d142baa23
+[1/1] ASoC: audio-graph-card2: Fix use-after-free in audio_graph2_link_c2c()
+      https://git.kernel.org/broonie/sound/c/5ea495bccfd7
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
