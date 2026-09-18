@@ -1,754 +1,178 @@
-Received: from mail-wr2-f14.google.com (mail-wr2-f14.google.com [74.125.225.78])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from TYPPR03CU001.outbound.protection.outlook.com (mail-japaneastazon11022137.outbound.protection.outlook.com [52.101.126.137])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02D9F4E80B4
-	for <linux-sound@vger.kernel.org>; Fri, 18 Sep 2026 11:40:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.78
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789731630; cv=none; b=Be3f5UuKySJx/6wMzbM7qzqSobHtJ0inNHbtPegSIq1DZL/7r11HJulM0Su/oQcNp5TjAYt4XUeZDojywDxAL72d9uM+51n2fEPe/G2JTEXnBopS7cxydtDnQe7sy0MIesY8FLM9U+td5ulJmur+5O98jvZB/mLKVrsxRFgyoIM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789731630; c=relaxed/simple;
-	bh=nGdaVHIDdm7Lnz/UUpyiteODeazsNQy+ucVCEawYPDE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DGovOHKZ+Grq6XD0aAKpp5aawBiim0rMNsuiiMbAjiRykV9+uaKokZc7mUZlov1yEYKNSVYwK7rnFd6eQb/D9ULMRfFV5ZfIApY9O0o0weYLeYtIkdpPAAacSW5HVe9XJYQkpuLP3DkqffVKVC+kZhxPho2qfZ76Q8VcphlLJik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aUJsCgmZ; arc=none smtp.client-ip=74.125.225.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 985C0430CD8;
+	Fri, 18 Sep 2026 12:57:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.126.137
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789736245; cv=fail; b=QUYcQ62LMiQgw8IRP+iYHl78RiQP+lFLcqoREgXHV17sotXQNjJgmO1v1oR4qHUqAO1CnQJ8YLjv3Z9jh1H7lBgJNZ9++e8p1j9odWYB+30/srTSziLGSOlIbS+5As+C6IB+sM+1r3HPgEx7Q0NAVuCry1gPflvMZOVNfsf5f6Q=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789736245; c=relaxed/simple;
+	bh=/1TJGjhscnB+TwPUOP43IG24xcxRfgX10gXDOD1ghhM=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=X7DCpW5uBjZUUQMFqgIF0efQu3jfK6J+sajze76xNjsZNOnXAO/oQsmICrGf+suW5sEaxG2igb7/ffVk00OmIw0qtceVCqQkOWaTSe3MqDRn8nq0Wj01pmV2t0JWdtLVNhlq1CaNyHS3sRrZ92+RUNmgE6gh0vBYu40JILoQ6dE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crepuse.com; spf=pass smtp.mailfrom=crepuse.com; dkim=pass (2048-bit key) header.d=crepuse.com header.i=@crepuse.com header.b=peX6zdCV; arc=fail smtp.client-ip=52.101.126.137
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crepuse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crepuse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aUJsCgmZ"
-Received: by mail-wr2-f14.google.com with SMTP id ffacd0b85a97d-482f6350f88so389027f8f.2
-        for <linux-sound@vger.kernel.org>; Fri, 18 Sep 2026 04:40:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789731618; x=1790336418; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Y9YT/JGHlaeaHRmu05US8OqWgY9AfDZLvSbipHJ1zIM=;
-        b=aUJsCgmZ+VYKM0E6MjzPl4dM1DNAje3rTkFMwZnrQQPqlvlrgK7/i2LYfiqaUoCQyU
-         d34lWg8hixGdPwoTQZI9D1t3lP81wxCrLcz+4ZPX9rZ5MLaPkIi+a8lTS0qwKYWlXE8U
-         IuYsQcmPnNeKb1HlkneeLQUEJdBBTF1xXn4K+zoc3DXDtnuXCVG4uiq7CB8jnmeRM8M2
-         DlGam+/Aupn03PZg78+vEHinTfeYtVLsToZq9UvOyGEqsSIGLBD8xpG5MANV6PBwUgcR
-         BFNv8ZAMjl7yM2oOJuz0Y0wLlp3yX+VTe2zTmhH7zDNuhnpVQsWc9708eBbORvu2+tCD
-         I1ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789731618; x=1790336418;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Y9YT/JGHlaeaHRmu05US8OqWgY9AfDZLvSbipHJ1zIM=;
-        b=TP/h8ypBbU+2nnVw76qiKkQUKt7rmpzYR/Rdn0raHfI5ohNNcSfVmQlVBZNa346MFv
-         30FtebWxqgl9DzYU/7rkC+GvvXHdx4PxVdgrlqFUFdH/ixwWBKgv7jM2bN0Wk5edaA2T
-         hKD5xmbcWYfSp12i6CTcwuuHXF/Xm90eQGAiSUrhf9curQL66jln0OV8EwJhJaxp+ZCM
-         K+XOB/SiwNYt3nvpTJdmL7jgvjkdGWOa0tyr8NAf+jh8Csw53acl3Ia3z998fh3jmSHC
-         KYY8S5u5imihhcCPOu35DjIwlD0s6JXCKFfcjs6czI0cttYg9d5ZCyWg85wXfA9/2p7E
-         W2fw==
-X-Gm-Message-State: AFuF++k90KDtqzaHx8OGi9U5pWMw/M9E4y3Fp4UiBb8cyGx2MdaUOyur
-	s1dq4XR6nWFUhnBdnMPV9os5onMRUW1P+98gCJKBFLoKCNN5bkj6pg68nA8j02lS
-X-Gm-Gg: AYBFou2PEbxQrURNcISYQkLt0zsThkBRZRI754HmIdx0EEB6QFPHA98igycWRHAMNax
-	htmfvqlt/1DhHXvH1m/T7X+vY1XwynelO5XyAG4TIF0WpNAOIBXB2+J0ECHVVyzWuP2vGqnokiw
-	UvZZEmRxyKN+6tCp4iEqSgJi2W9JqWS3mKp9FdcqfW7xMJygEoMEbNLkSeR8jRALfd2Dpgo6wTO
-	ZSl5YW/RoDHr/t9MS8/vzTOQRmgRZ9Fp0p0pSUQoVMhTl6BHt35W1/ytccijo+mYvFswJIl3fHJ
-	h/3F27nQXeY0bFO0frACOt+n1GPKdOmsqzA2uVnlktGfTUBaoCbaaC+em/cJLyho5EZ1NFa2rDT
-	Vupb8oy1d/D9ORRlb4WdqZsFbgFvnyR2y5iQFh2yREHLzarVbmDZ3ItGT/nlBSWl8nDAvKMMg92
-	WvW6dOnAEs4NIBj9ai9d/V3E2TB8sa1hbU6UcNJdCErMzBeCL/rYqjIvi4Cg/2iE280/F4zpku5
-	FB/a84Hlsy7i5PXWvAVpBLoc10=
-X-Received: by 2002:a05:6000:714:b0:487:1617:17d8 with SMTP id ffacd0b85a97d-4871e20b3e7mr2698722f8f.11.1789731618322;
-        Fri, 18 Sep 2026 04:40:18 -0700 (PDT)
-Received: from cachyos ([41.143.99.116])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4871feb5636sm3734893f8f.5.2026.09.18.04.40.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Sep 2026 04:40:17 -0700 (PDT)
-From: =?UTF-8?q?Isma=C3=AFl=20Bahloul?= <i.bahloul01@gmail.com>
-To: linux-sound@vger.kernel.org
-Cc: linux-usb@vger.kernel.org,
-	alsa-devel@alsa-project.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-kernel@vger.kernel.org,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	linux-doc@vger.kernel.org,
-	=?UTF-8?q?Isma=C3=AFl=20Bahloul?= <i.bahloul01@gmail.com>
-Subject: [RFC PATCH v5 7/8] ALSA: usb: babyfacepro: add the hardware DSP EQ
-Date: Fri, 18 Sep 2026 12:39:43 +0100
-Message-ID: <20260918113944.76871-8-i.bahloul01@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260918113944.76871-1-i.bahloul01@gmail.com>
-References: <20260918113944.76871-1-i.bahloul01@gmail.com>
+	dkim=pass (2048-bit key) header.d=crepuse.com header.i=@crepuse.com header.b="peX6zdCV"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=W8rU08io5bf6mnCKjVz6Ec0W4y6fR39zJmrKOWSuMtz3pQ8t4XuFBiGUEoGGpkCmCs2DVtiuCxZqFdT9rlnsLl31HJiVUeDCt57MmfMeawfXBgtjHdMwRKvPxAXPzsqsKjpDWJdUI3CmCgM3d/uR6UvtQA79+zKgGoxOogikKICePuoYvccmW9OhyIZSFH5NKR9TrhBs2P5K3RvIeAxTaHo5+CF+VJjwFR4NItNnnoHA+wK9NrlDp3NhJodHWYx2uMXLTmYJxg8YtW4JlkxpIgL30B27kvoHcVxhP4oir2AfQiNbj0uFpjB8RKeUsXr90RVtpuE4XZ5pczIDSabjlg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7yfs9HWIx8BRHnKOBh0Nq50Gbh9QbKPPzqllUr7EVQs=;
+ b=hAaXx1refNMmj02i7XAgpasHw4BpOxgVk9xzjscRBXiDtQHC3DYyfjFi1DU7e0+3Ii2JNgWnX15nnVMMVkmHP29IGr3W2L57mvpT6fH5lLLNhYwVr5B08IWzCTbJzpPRzWEMWVWxFTaTa7j1zU543RBY7jbL4H8R5MKP+8sfqgBCtruZKUa+iGPymqN8NQ+7cH2zP9/XT37YtEgcvK0YAYpG7ogxAP1VY8BzF/AB0WwX21QeCRyd3MSpWl4X6g9FxJhlETcalj0wmwmfoHqiikoovLJ+scgo5Vmik/y5nn58gXAh1KMGAF7+hJaLDXH8gVsFjjsWMl3bRuHpmSwY2Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=crepuse.com; dmarc=pass action=none header.from=crepuse.com;
+ dkim=pass header.d=crepuse.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crepuse.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7yfs9HWIx8BRHnKOBh0Nq50Gbh9QbKPPzqllUr7EVQs=;
+ b=peX6zdCVbsxIW7RBPyFnEbX9cyeCZ92fmAbUqwDwfIhuaVE588DDZwTGvlcC39ZuKMmZ961KbutgCaq/vLj10XQ19Y3johL6vNLAdqdorTqyPd7TSZbBB8DNo3HK6IYoV+uBP9SbU+SPh9HIB24quD6ydr36zt+0OTOQO4+HvCFzWpTF2ZS9uor5T58ESPoO6uo55tKBJgg3nrCqM+FAjmwrka+rNjOqKsC4xVdf7iTIYjaqpM71cyzErieQxihMXSDHTsRKt4OA6BtP3KpMaAhNHaE1kY0ARwistSfoiqPqSfIMeodvajL8e2RK8Musjy4gRmqWR7h2/d9v2sb+uA==
+Received: from PS1PPF6469DE8C6.apcprd06.prod.outlook.com (2603:1096:308::253)
+ by TYUPR06MB5980.apcprd06.prod.outlook.com (2603:1096:400:357::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.428.11; Fri, 18 Sep
+ 2026 12:57:19 +0000
+Received: from PS1PPF6469DE8C6.apcprd06.prod.outlook.com
+ ([fe80::e60a:2617:6895:a0cf]) by PS1PPF6469DE8C6.apcprd06.prod.outlook.com
+ ([fe80::e60a:2617:6895:a0cf%6]) with mapi id 15.21.0406.007; Fri, 18 Sep 2026
+ 12:57:18 +0000
+From: Mizuno Miotsuki <founder@crepuse.com>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>, Mark Brown <broonie@kernel.org>
+CC: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, Heiko Stuebner <heiko@sntech.de>,
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-rockchip@lists.infradead.org"
+	<linux-rockchip@lists.infradead.org>
+Subject: [RFC PATCH 0/1] ASoC: codecs: rk3308: add support for codec revision
+ B
+Thread-Topic: [RFC PATCH 0/1] ASoC: codecs: rk3308: add support for codec
+ revision B
+Thread-Index: AQHdR2084WOWJLbj5kaUO71XLMNpEA==
+Date: Fri, 18 Sep 2026 12:57:18 +0000
+Message-ID: <20260918125711.94361-1-founder@crepuse.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=crepuse.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PS1PPF6469DE8C6:EE_|TYUPR06MB5980:EE_
+x-ms-office365-filtering-correlation-id: 53095bbc-3bcf-4d37-aa7f-08df15845f4a
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|366016|376014|23010399003|1800799024|7416014|6133799003|18002099003|56012099006|10067099003|3023799007|38070700021;
+x-microsoft-antispam-message-info:
+ ePzJN2hY4X/ieL2Og29ixmcqoD2G7M6JDb7pCTRPeKkBNnwS8CTWr40dHHTjSV6gmQw5soPpyEwuBaNyVv1WNV6qMa+DRR546U756v/8PTDhe91ZRCYmtnutLjCAwZKSfFI0iRcoTLPBThgarb/V7Rs/hxIyJ3capRDnshEQk3dlxAUS4cHIvhSxDBKdiqRoQHaXIP0gZkU9BJq0hvgMgM2T+yi3FaxAEe4kwTGxLVy+iXC1xTFGQ0pO6gPrVnBc+nm78F2l/wQbvXY4bdaSqyRLDPAuD4aOHhZiNzLtntzH+VXs1dFEJxKqz3Rihv6MKPKsTx2NRQ4uNbVMzNcc33oBJmrygYUnjWU9pHxdg74dQ/kbYpWk/aijsJESM+E0mdWY2yLMw9Uf4UtzvIoiuvqg17cTO3nsoa2Oe1n4/GeMRJcvToXeM4YNew3Jp/rylutXgsivQsu5w+Z+7czhMkEIPjverQx1R9YW/7lLD8SjyzTiLiNuYtnJKIs9AUkMKkh48TNdM1ZE2s6LQS8ZW96J4fHFc2SWETF4P/GtxNQRb5eALOpOW2Y1AEL945boFUCE4C4KtLxFx03kiQnr9autGnu9lf5G6RBR0MJIpracWZiSw6DvZdimeh/O7MPXbDaEgqTWFPi7nIt/azIyls6Q8J0yYLL6EwLLBjQzG4TSq/2Sp3omrwRFoxGM2hVfkeNHfK3dcuL7d47jdoK5IA==
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PS1PPF6469DE8C6.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(23010399003)(1800799024)(7416014)(6133799003)(18002099003)(56012099006)(10067099003)(3023799007)(38070700021);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?pSV6jWZW6vAxvtvr6caiH0JOtx2WJLm6C+Q84lFlhBzleN/UrBRR9DEbs0?=
+ =?iso-8859-1?Q?7kgR0X6V46HZqKuLKO1xCB+vLXr1t1H+8dBauoGuoD9nR8YBWWfQtGZtmm?=
+ =?iso-8859-1?Q?v2rMJz/gC4pj5n3CqeYLWksslzg3QfaL/cBJeaCkxE/Yf745gbIhXc47Ri?=
+ =?iso-8859-1?Q?CN8w9SzywVt0/1NuF1dzTCtZ32vFRoXINF5qFywX3fUaICRIgtmAAHvgXM?=
+ =?iso-8859-1?Q?ANE8w3FYqb6G2hd2qxATOtSFlELiFwQ7pfKKLcpzEN7ix+dbLS/pPzNZt/?=
+ =?iso-8859-1?Q?2qhLpFg68Q9IVPtFIlmd/3HbqyYSTZHNMsEw6RuGnrLYT6HjyWuosi30QV?=
+ =?iso-8859-1?Q?Fnewi8k0+AV+n93wFfkl7rWimy1z0LUmSLAXG+r4UxoCIdHrVve+jwpFAJ?=
+ =?iso-8859-1?Q?qMhj/KrNdFIwGesaINkxrFB6eU0ZsVXdHWhv07pc1oKi265Q9Mw77P8PBO?=
+ =?iso-8859-1?Q?+jTGJE8q4q/YjBQIHG5AlUc0YLLVTEubqHGgNdRF+mSEQv0ha0jhQHHGoR?=
+ =?iso-8859-1?Q?8/W9aMszd0B+SLcm2u3Q/+ezv8mnyRp+GCQ+AmijWYiMJRU9VbvAAzvXTe?=
+ =?iso-8859-1?Q?YyNAZQDfgVZEL6Uhcfb8xINJdDTpOfHzVLk6hpJAI4jjN9lrmPlJ/x2485?=
+ =?iso-8859-1?Q?U0NNf1mAdNXyqPwLS9c0MtA3XHBcNObFgf4NanEscMccxWHXMopnFWhC+2?=
+ =?iso-8859-1?Q?Z/zVhTGtMPn+LVtS33bHvNbpNPNh3P4LECD9elZ6DgpAD4vZdBs5ZixnGF?=
+ =?iso-8859-1?Q?BnFhaORnAABY81sCA6VNykLwahEpHCm22jBZsGp6XzOhlvfjXk5GbbCvEf?=
+ =?iso-8859-1?Q?G+U8TdP+IFOKNMUHrV/s0FsSfDKXI2qD8no/e+Wg3tfrYmAtJZegt2Og1K?=
+ =?iso-8859-1?Q?gDyF33MpRB6dkwIfuoSrEsy8AtyXJSVuSTbk5YGMQM3J74ZwboEnv15Umq?=
+ =?iso-8859-1?Q?/nouuX/9vuSBcA3HjaRhOejNdRQElU2SBtMmHAAehSF26hBSpqzEHxHipG?=
+ =?iso-8859-1?Q?HkDVuj0RyLk0J2SouKRamSEuKbkJ9U96rCtulxN5kQ17FbhV28fGH5C+5A?=
+ =?iso-8859-1?Q?PtttietqaIXUd2g1SwE4YRkeH9gQQ/bRJWaBk25QB7wHtn8Nvn/3o4Neud?=
+ =?iso-8859-1?Q?Ef8nkIA69ubR8uFnycreQV8Rhjj1rKJPz/K2Xu8AhckgIUhLFKSUjjVAIu?=
+ =?iso-8859-1?Q?wKPvDwMjjWIUQAQIV0nQJSjGkm/JMHei7SI7M4tbYzvpZkPMH7r2YgmsqX?=
+ =?iso-8859-1?Q?TiaTXm5UBQRPBRN5PitqTlw1VpEo7G19pblS80sCRUNudXaUfZtj3nOFHy?=
+ =?iso-8859-1?Q?lh3u7fGQMiVey/DshhsrP1nALH1YZEcI+mdvc/AI1pzlxFrII4lrUDBczB?=
+ =?iso-8859-1?Q?fMRCZnt5jRj4+1XMhV6kzGzpTQCoOnSteakZiC1O5Sp5MPKK+HlU1pkQPT?=
+ =?iso-8859-1?Q?0doQbRCf/ez2Nd7OWPi9GiBuGd2UHpxPRlfqNay7f22WqYTRTvwDZNDtCY?=
+ =?iso-8859-1?Q?Puoh8OSG123sefzUbR1chg8Gsl2840N504wVxrJMO77ixm/ah7nhiBTgLr?=
+ =?iso-8859-1?Q?XeDV2DzA9D9i9ad3ag1+SlAet8BeMC1AhRgXAcGv5nKs04TpmdzoR3JRga?=
+ =?iso-8859-1?Q?t8as7ynHeCIaSxyubxDLQ6YroY9Ue8KCqLedgcyelMbv/QKQzRKsQJ/yyK?=
+ =?iso-8859-1?Q?31fkAb2O6OSnWdEMjnw015gnuZUFlG03iiTQ5Yxp0rnpqxu1igIhuk8XbY?=
+ =?iso-8859-1?Q?iZw9Un4rk/cLKKCdZ2xTOSm1TcEFg8uXpshmUJy+/nYu+t?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: crepuse.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PS1PPF6469DE8C6.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 53095bbc-3bcf-4d37-aa7f-08df15845f4a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Sep 2026 12:57:18.8412
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 1d352272-7d70-4a91-9c85-0db444db1bc9
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: pTNbWpQ38ukr0FvBxLCAnxqtu4oRueGsgEhGHvu0i085PEx0Mwlkwvx05kvnRxV0jiWtCNYoa7nlXTAD5lFkoA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYUPR06MB5980
 
-Adds the 4-strip (AN1-4) 3-band + low-cut parametric EQ: the CORDIC/
-fixed-point coefficient math, the 64-byte bulk-upload block format,
-and the 15 controls per strip.  hw_params() now re-uploads on a rate
-change, since the coefficients depend on fs.
-
-The three checkpatch CHECK nits this file gets (BIT() vs (1 << 27),
-'ang' x2) are the same known false positives already documented for
-this code: BIT() returns unsigned long, which is wrong for this
-file's signed Q27 math, and 'ang' is a real CORDIC angle variable.
-
-Signed-off-by: Ismaïl Bahloul <i.bahloul01@gmail.com>
----
- sound/usb/babyfacepro/babyfacepro-ctl.c | 575 ++++++++++++++++++++++++
- sound/usb/babyfacepro/babyfacepro.c     |   8 +
- sound/usb/babyfacepro/babyfacepro.h     |  19 +
- 3 files changed, 602 insertions(+)
-
-diff --git a/sound/usb/babyfacepro/babyfacepro-ctl.c b/sound/usb/babyfacepro/babyfacepro-ctl.c
-index eac97c895..fce1233cc 100644
---- a/sound/usb/babyfacepro/babyfacepro-ctl.c
-+++ b/sound/usb/babyfacepro/babyfacepro-ctl.c
-@@ -3198,3 +3198,578 @@ int babyface_create_panel(struct snd_usb_babyface *chip)
- 	return 0;
- }
- 
-+#define BF_EQ_Q27		(1 << 27)
-+#define BF_EQ_LC_OFF		0x04000000
-+#define BF_EQ_BLOCK_LEN		64
-+
-+/* atan(2^-i) x 2^27 (CORDIC). */
-+static const s64 bf_atan_tab[28] = {
-+	0x6487ED5, 0x3B58CE1, 0x1F5B760, 0xFEADD5,
-+	0x7FD56F, 0x3FFAAB, 0x1FFF55, 0xFFFEB,
-+	0x7FFFD, 0x40000, 0x20000, 0x10000,
-+	0x8000, 0x4000, 0x2000, 0x1000,
-+	0x800, 0x400, 0x200, 0x100,
-+	0x80, 0x40, 0x20, 0x10,
-+	0x8, 0x4, 0x2, 0x1,
-+};
-+
-+/* ---- fixed-point helpers (Q27 in/out, s64 intermediates) ---- */
-+
-+/* sin/cos of an angle in [0, pi/2] (Q27).  Simultaneous CORDIC, 28
-+ * iterations (~1e-8 residual).  eq_selftest.c verifies the whole
-+ * pipeline against the double-precision reference.
-+ */
-+static void bf_sincos(s64 ang, s64 *sn, s64 *cs)
-+{
-+	s64 x = 0x4DBA76D;	/* 1/1.64676 x 2^27 (CORDIC gain) */
-+	s64 y = 0;
-+	s64 z = ang;
-+	int i;
-+
-+	for (i = 0; i < 28; i++) {
-+		s64 d = z >= 0 ? 1 : -1;
-+		s64 nx = x - d * (y >> i);
-+		s64 ny = y + d * (x >> i);
-+
-+		x = nx;
-+		y = ny;
-+		z -= d * bf_atan_tab[i];
-+	}
-+	*cs = x;
-+	*sn = y;
-+}
-+
-+/* 2^u for u in Q27, u in [-2, 2] (gain-amplitude range). */
-+static s64 bf_exp2(s64 u)
-+{
-+	s64 n = u >> 27;
-+	s64 r = u - (n << 27);
-+	s64 rl = (r * 0x58B90C0 + (1 << 26)) >> 27;	/* r.ln2 */
-+	s64 e = BF_EQ_Q27;
-+	s64 term = BF_EQ_Q27;
-+	int k;
-+
-+	for (k = 1; k <= 10; k++) {
-+		term = div_s64((term * rl + (1 << 26)) >> 27, k);
-+		e += term;
-+	}
-+	return n >= 0 ? e << n : e >> -n;
-+}
-+
-+/* The 5 stored words (c0..c3 + shared c4) for one band.
-+ * type: 1 bell, 2 low shelf, 3 high shelf.  freq_hz, fs in Hz;
-+ * q100 = Q x 100; gain_x10 = dB x 10.  fs is the stream rate.
-+ */
-+void bf_eq_band_words(s32 *w, int type, s32 freq_hz, s32 q100,
-+		      s32 gain_x10, s32 fs)
-+{
-+	s64 f = freq_hz;
-+	s64 w0, c, s, alpha, A, sq;
-+	s64 b0, b1, b2, a0, a1, a2;
-+	s64 pi = 0x1921FB54;	/* pi, Q27 */
-+	s64 hpi = 0xC90FDAA;	/* pi/2, Q27 */
-+	s64 t;
-+	int both = 0, cflip = 0;
-+
-+	if (gain_x10 == 0 || q100 <= 0) {
-+		/* Inactive band: identity words (also guards the alpha
-+		 * division below against the default Q=0 the controls start
-+		 * with - a user setting gain before Q used to hit a kernel
-+		 * divide-by-zero oops).
-+		 */
-+		w[0] = 0;
-+		w[1] = 0;
-+		w[2] = 0;
-+		w[3] = 0;
-+		return;
-+	}
-+
-+	/* w0 = 2.pi.f/fs (Q27), reduced to [0, pi/2]. */
-+	w0 = div_s64(f * BF_EQ_Q27, fs);
-+	w0 = (w0 * 0x3243F6A9) >> 27;	/* x 2.pi */
-+	t = w0;
-+	if (t > pi) {
-+		t -= pi;
-+		both = 1;
-+	}
-+	if (t > hpi) {
-+		t = pi - t;
-+		cflip = 1;
-+	}
-+	bf_sincos(t, &s, &c);
-+	if (both) {
-+		s = -s;
-+		c = -c;
-+	}
-+	if (cflip)
-+		c = -c;
-+
-+	alpha = div64_s64(s * 100 + q100, 2 * (s64)q100);	/* sin(w0)/(2Q) */
-+	/* A = 10^(g/40), sqrt(A): g = gain_x10/10 dB */
-+	A = bf_exp2((s64)gain_x10 * 0x11021E);
-+	sq = bf_exp2((s64)gain_x10 * 0x8810F);
-+
-+	if (type == 1) {
-+		s64 ta = (alpha * A + (1 << 26)) >> 27;
-+
-+		b0 = BF_EQ_Q27 + ta;
-+		b1 = -2 * c;
-+		b2 = BF_EQ_Q27 - ta;
-+		a0 = BF_EQ_Q27 + div64_s64(alpha * BF_EQ_Q27 + A / 2, A);
-+		a1 = -2 * c;
-+		a2 = BF_EQ_Q27 - div64_s64(alpha * BF_EQ_Q27 + A / 2, A);
-+	} else {
-+		s64 ap1 = A + BF_EQ_Q27;
-+		s64 am1 = A - BF_EQ_Q27;
-+		s64 cp0 = (am1 * c + (1 << 26)) >> 27;	/* (A-1).c */
-+		s64 cp1 = (ap1 * c + (1 << 26)) >> 27;	/* (A+1).c */
-+		s64 ab = (2 * sq * alpha + (1 << 26)) >> 27;
-+
-+		if (type == 2) {	/* low shelf */
-+			b0 = (A * (ap1 - cp0 + ab) + (1 << 26)) >> 27;
-+			b1 = (2 * A * (am1 - cp1) + (1 << 26)) >> 27;
-+			b2 = (A * (ap1 - cp0 - ab) + (1 << 26)) >> 27;
-+			a0 = ap1 + cp0 + ab;
-+			a1 = -2 * (am1 + cp1);
-+			a2 = ap1 + cp0 - ab;
-+		} else {		/* high shelf */
-+			b0 = (A * (ap1 + cp0 + ab) + (1 << 26)) >> 27;
-+			b1 = (-2 * A * (am1 + cp1) + (1 << 26)) >> 27;
-+			b2 = (A * (ap1 + cp0 - ab) + (1 << 26)) >> 27;
-+			a0 = ap1 - cp0 + ab;
-+			a1 = -2 * (am1 - cp1);
-+			a2 = ap1 - cp0 - ab;
-+		}
-+	}
-+
-+	w[0] = (s32)div64_s64(a1 * BF_EQ_Q27 + a0 / 2, a0);
-+	w[1] = (s32)div64_s64(a2 * BF_EQ_Q27 + a0 / 2, a0);
-+	w[2] = (s32)div64_s64(b1 * BF_EQ_Q27 + b0 / 2, b0);
-+	w[3] = (s32)div64_s64(b2 * BF_EQ_Q27 + b0 / 2, b0);
-+	w[4] = (s32)div64_s64(b0 * BF_EQ_Q27 + a0 / 2, a0);
-+}
-+
-+/* ---- low cut ---- */
-+
-+/* Slope byte: 2^n-1 (n poles) -> 6/12/18/24 dB per oct; 0 = off. */
-+static u8 bf_eq_lc_slope_byte(s32 slope_db)
-+{
-+	switch (slope_db) {
-+	case 6:  return 0x01;
-+	case 12: return 0x03;
-+	case 18: return 0x07;
-+	case 24: return 0x0F;
-+	}
-+	return 0;
-+}
-+
-+/* The 0x38 low-cut frequency word: round(K.f'.(11656)/(11656+f')) with
-+ * K = 11508, f' = f x slope-compensation factor (cap_eq9 fit, 0.003%;
-+ * the slope factor keeps the composite -3 dB point constant).
-+ */
-+static u32 bf_eq_lc_freq_raw(s32 freq_hz, s32 slope_db)
-+{
-+	s64 f, word;
-+
-+	if (freq_hz <= 0)
-+		return BF_EQ_LC_OFF;
-+	f = freq_hz;
-+	switch (slope_db) {
-+	case 6:
-+		f = f * 15267 / 10000;
-+		break;
-+
-+	case 18:
-+		f = f * 8061 / 10000;
-+		break;
-+
-+	case 24:
-+		f = f * 6977 / 10000;
-+		break;
-+	}
-+	word = (11508 * f * 11656 + (11656 + f) / 2) / (11656 + f);
-+	return (u32)word;
-+}
-+
-+/* ---- block build + bulk write ---- */
-+
-+static void bf_eq_build_block(u8 *b, int ch, u8 slope,
-+			      const s32 bands[3][4], s32 shared, u32 lc)
-+{
-+	int slot, k;
-+
-+	memset(b, 0, BF_EQ_BLOCK_LEN);
-+	b[0] = ch;
-+	b[1] = slope;
-+	b[2] = ch;
-+	b[3] = 0x80;	/* EQ engine active */
-+	for (slot = 0; slot < 3; slot++) {
-+		for (k = 0; k < 4; k++) {
-+			put_unaligned_le32((u32)bands[slot][k],
-+					   b + 0x04 + slot * 0x10 + 4 * k);
-+		}
-+	}
-+	put_unaligned_le32((u32)shared, b + 0x34);
-+	put_unaligned_le32(lc, b + 0x38);
-+}
-+
-+/* Upload one 64-byte block on bulk OUT ep 0x0A (interface 1). */
-+static int bf_eq_upload(struct snd_usb_babyface *chip, const u8 *block)
-+{
-+	u8 *buf;
-+	int ret, len;
-+
-+	/* usb_bulk_msg DMA-maps the buffer: it must not be on the stack
-+	 * (usb_hcd_map_urb_for_dma returns -EAGAIN for stack buffers).
-+	 */
-+	buf = kmemdup(block, BF_EQ_BLOCK_LEN, GFP_KERNEL);
-+	if (!buf)
-+		return -ENOMEM;
-+	ret = usb_bulk_msg(chip->dev, usb_sndbulkpipe(chip->dev, 0x0a),
-+			   buf, BF_EQ_BLOCK_LEN, &len, 1000);
-+	kfree(buf);
-+	if (ret < 0)
-+		dev_err(&chip->dev->dev, "EQ bulk upload failed: %d\n", ret);
-+	return ret;
-+}
-+
-+/* Write the L+R block pair for one strip (channel base = strip x 2). */
-+static int bf_eq_write_strip(struct snd_usb_babyface *chip, int strip)
-+{
-+	struct bf_eq_channel *e = &chip->eq[strip];
-+	u8 b[BF_EQ_BLOCK_LEN];
-+	s32 identity[3][4] = { { 0 }, { 0 }, { 0 } };
-+	s32 shared = e->on ? e->shared : BF_EQ_Q27;
-+	u32 lc = e->on ? e->lc_raw : BF_EQ_LC_OFF;
-+	/* The header slope byte (b[1]) is only valid while the low cut is
-+	 * engaged: a stale slope with 0x38 = off made the device apply a
-+	 * garbage-frequency cut (ear-verified: "low cut off" left only
-+	 * highs).  cap_eq7: byte1 = 0x00 + 0x38 = 0x04000000 when off.
-+	 */
-+	u8 slope = (e->on && e->lc_hz > 0) ? e->slope : 0;
-+	int ch, ret;
-+
-+	for (ch = 0; ch < 2; ch++) {
-+		bf_eq_build_block(b, strip * 2 + ch, slope,
-+				  e->on ? e->words : identity, shared, lc);
-+		ret = bf_eq_upload(chip, b);
-+		if (ret < 0)
-+			return ret;
-+	}
-+	return 0;
-+}
-+
-+/* Recompute one strip's words + low cut from its params, re-upload.
-+ * Lock-free by convention: every caller must already hold chip->mutex
-+ * (bf_eq_put() and bf_eq_reupload() do) - asserting it here catches a
-+ * future caller that forgets, instead of a silent self-deadlock.
-+ */
-+static void bf_eq_update_strip(struct snd_usb_babyface *chip, int strip)
-+{
-+	struct bf_eq_channel *e = &chip->eq[strip];
-+	s32 fs = chip->rate ? chip->rate : 48000;
-+	s32 last_c4 = BF_EQ_Q27;
-+	int band, i;
-+
-+	lockdep_assert_held(&chip->mutex);
-+
-+	for (band = 0; band < 3; band++) {
-+		s32 w[5];
-+
-+		bf_eq_band_words(w, e->band_type[band], e->band_freq[band],
-+				 e->band_q[band], e->band_gain[band], fs);
-+		for (i = 0; i < 4; i++)
-+			e->words[band][i] = w[i];
-+		if (e->band_type[band] && e->band_gain[band])
-+			last_c4 = w[4];	/* shared scale: the last band */
-+	}
-+	e->shared = last_c4;
-+	e->lc_raw = bf_eq_lc_freq_raw(e->lc_hz, e->slope_db);
-+	e->slope = bf_eq_lc_slope_byte(e->slope_db);
-+	bf_eq_write_strip(chip, strip);
-+}
-+
-+/* Recompute + re-upload all four strips (rate change). Caller must
-+ * hold chip->mutex - bf_eq_update_strip()/bf_eq_write_strip() are
-+ * lock-free by convention (see bf_eq_put()) and the only caller,
-+ * babyface_pcm_hw_params(), already holds the lock across the rate
-+ * change; locking here too self-deadlocked it (hung-task: "blocked
-+ * on a mutex likely owned by" itself, hit via regress.sh's rate
-+ * sweep).
-+ */
-+void bf_eq_reupload(struct snd_usb_babyface *chip)
-+{
-+	int strip;
-+
-+	for (strip = 0; strip < 4; strip++)
-+		bf_eq_update_strip(chip, strip);
-+}
-+
-+/* ---- ALSA controls (4 strips x 19 controls) ---- */
-+
-+#define EQ_STRIP(pv)	((pv) >> 8)
-+#define EQ_PARAM(pv)	((pv) & 0xff)
-+/* params: 0 enable, 1-3 type, 4-6 freq, 7-9 q, 10-12 gain, 13 lc freq, 14 lc slope */
-+
-+static const char *const bf_eq_type_texts[] = {
-+	"Off", "Bell", "Low Shelf", "High Shelf", NULL
-+};
-+
-+static const char *const bf_eq_slope_texts[] = {
-+	"6 dB/oct", "12 dB/oct", "18 dB/oct", "24 dB/oct", NULL
-+};
-+
-+static int bf_eq_info(struct snd_kcontrol *kctl,
-+		      struct snd_ctl_elem_info *uinfo)
-+{
-+	int param = EQ_PARAM(kctl->private_value);
-+
-+	if (param == 0) {
-+		uinfo->type = SNDRV_CTL_ELEM_TYPE_BOOLEAN;
-+		uinfo->count = 1;
-+		return 0;
-+	}
-+	if (param == 1 || param == 2 || param == 3)
-+		return snd_ctl_enum_info(uinfo, 1, 4, bf_eq_type_texts);
-+	if (param == 14)
-+		return snd_ctl_enum_info(uinfo, 1, 4, bf_eq_slope_texts);
-+
-+	uinfo->type = SNDRV_CTL_ELEM_TYPE_INTEGER;
-+	uinfo->count = 1;
-+	uinfo->value.integer.min = (param == 10 || param == 11 ||
-+				    param == 12) ? -240 :
-+				   (param == 7 || param == 8 ||
-+				    param == 9) ? 5 : 0;
-+	uinfo->value.integer.max = (param == 7 || param == 8 ||
-+				    param == 9) ? 1000 :
-+				   (param == 10 || param == 11 ||
-+				    param == 12) ? 240 : 20000;
-+	uinfo->value.integer.step = 1;
-+	return 0;
-+}
-+
-+static int bf_eq_get(struct snd_kcontrol *kctl,
-+		     struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_usb_babyface *chip = snd_kcontrol_chip(kctl);
-+	struct bf_eq_channel *e = &chip->eq[EQ_STRIP(kctl->private_value)];
-+	int param = EQ_PARAM(kctl->private_value);
-+	int band = (param - 1) % 3;
-+	s32 *v = NULL;
-+
-+	switch (param) {
-+	case 0:
-+		break;
-+
-+	case 1:
-+	case 2:
-+	case 3:
-+		v = &e->band_type[band];
-+		break;
-+
-+	case 4:
-+	case 5:
-+	case 6:
-+		v = &e->band_freq[band];
-+		break;
-+
-+	case 7:
-+	case 8:
-+	case 9:
-+		v = &e->band_q[band];
-+		break;
-+
-+	case 10:
-+	case 11:
-+	case 12:
-+		v = &e->band_gain[band];
-+		break;
-+
-+	case 13:
-+		v = &e->lc_hz;
-+		break;
-+
-+	case 14:
-+		v = &e->slope_db;
-+		break;
-+	}
-+	if (param == 0) {
-+		ucontrol->value.integer.value[0] = e->on;
-+	} else if (param == 14) {
-+		/* Inverse of put's index->dB map: slope_db stores the raw
-+		 * 6/12/18/24 dB/oct value, but an ENUMERATED control's .get
-+		 * must return the enum item index (0-3), same as .put
-+		 * receives - returning the raw dB value here (the bug this
-+		 * replaces) fed back an out-of-range index to every ALSA
-+		 * consumer (confirmed via amixer: writing index 1 read back
-+		 * as value 12, not 1).
-+		 */
-+		s32 slope = v ? *v : 6;
-+
-+		ucontrol->value.enumerated.item[0] =
-+			slope >= 24 ? 3 : slope >= 18 ? 2 : slope >= 12 ? 1 : 0;
-+	} else if (param == 1 || param == 2 || param == 3) {
-+		/* ENUMERATED band type: use the enumerated union member. */
-+		ucontrol->value.enumerated.item[0] = v ? *v : 0;
-+	} else {
-+		ucontrol->value.integer.value[0] = v ? *v : 0;
-+	}
-+	return 0;
-+}
-+
-+static int bf_eq_put(struct snd_kcontrol *kctl,
-+		     struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_usb_babyface *chip = snd_kcontrol_chip(kctl);
-+	int strip = EQ_STRIP(kctl->private_value);
-+	int param = EQ_PARAM(kctl->private_value);
-+	struct bf_eq_channel *e = &chip->eq[strip];
-+	int band = (param - 1) % 3;
-+	s32 nv;
-+	s32 *v = NULL;
-+	int ret = 0;
-+
-+	/* Read from the union member matching the control type: ENUMERATED
-+	 * params (band type 1-3, slope 14) use .enumerated.item, everything
-+	 * else (BOOL 0, INTEGER) uses .integer.value.
-+	 */
-+	if (param == 1 || param == 2 || param == 3 || param == 14)
-+		nv = (s32)ucontrol->value.enumerated.item[0];
-+	else
-+		nv = (s32)ucontrol->value.integer.value[0];
-+
-+	/* Validate against the bounds bf_eq_info() declares.  The ALSA core
-+	 * only checks these when CONFIG_SND_CTL_INPUT_VALIDATION is set, so
-+	 * an out-of-range value here could otherwise reach the Q27
-+	 * coefficient math (bf_eq_band_words/bf_exp2) and shift by >= width
-+	 * (undefined behaviour).
-+	 */
-+	switch (param) {
-+	case 0:
-+		if (nv < 0 || nv > 1)
-+			return -EINVAL;
-+		break;
-+	case 1:
-+	case 2:
-+	case 3:
-+	case 14:
-+		if (nv < 0 || nv > 3)
-+			return -EINVAL;
-+		break;
-+	case 4:
-+	case 5:
-+	case 6:
-+	case 13:
-+		if (nv < 0 || nv > 20000)
-+			return -EINVAL;
-+		break;
-+	case 7:
-+	case 8:
-+	case 9:
-+		if (nv < 5 || nv > 1000)
-+			return -EINVAL;
-+		break;
-+	case 10:
-+	case 11:
-+	case 12:
-+		if (nv < -240 || nv > 240)
-+			return -EINVAL;
-+		break;
-+	}
-+
-+	switch (param) {
-+	case 0:
-+		v = NULL;
-+		break;
-+
-+	case 1:
-+	case 2:
-+	case 3:
-+		v = &e->band_type[band];
-+		break;
-+
-+	case 4:
-+	case 5:
-+	case 6:
-+		v = &e->band_freq[band];
-+		break;
-+
-+	case 7:
-+	case 8:
-+	case 9:
-+		v = &e->band_q[band];
-+		break;
-+
-+	case 10:
-+	case 11:
-+	case 12:
-+		v = &e->band_gain[band];
-+		break;
-+
-+	case 13:
-+		v = &e->lc_hz;
-+		break;
-+
-+	case 14:
-+		v = &e->slope_db;
-+		break;
-+	}
-+	if (param == 14)	/* slope enum items are 6/12/18/24 */
-+		nv = nv == 0 ? 6 : nv == 1 ? 12 : nv == 2 ? 18 : 24;
-+
-+	mutex_lock(&chip->mutex);
-+	if (param == 0) {
-+		if (e->on != !!nv) {
-+			e->on = !!nv;
-+			bf_eq_update_strip(chip, strip);
-+			ret = 1;
-+		}
-+	} else if (v && *v != nv) {
-+		*v = nv;
-+		bf_eq_update_strip(chip, strip);
-+		ret = 1;
-+	}
-+	mutex_unlock(&chip->mutex);
-+	return ret;
-+}
-+
-+int babyface_create_eq(struct snd_usb_babyface *chip)
-+{
-+	static const char *const names[4] = { "AN1", "AN2", "AN3", "AN4" };
-+	static const char *const params[] = {
-+		"EQ Enable",
-+		"EQ Band 1 Type", "EQ Band 2 Type", "EQ Band 3 Type",
-+		"EQ Band 1 Freq", "EQ Band 2 Freq", "EQ Band 3 Freq",
-+		"EQ Band 1 Q", "EQ Band 2 Q", "EQ Band 3 Q",
-+		"EQ Band 1 Gain", "EQ Band 2 Gain", "EQ Band 3 Gain",
-+		"EQ Low Cut Freq", "EQ Low Cut Slope",
-+	};
-+	int strip, i, err;
-+
-+	for (strip = 0; strip < 4; strip++) {
-+		for (i = 0; i < 15; i++) {
-+			struct snd_kcontrol *kctl;
-+			char name[64];
-+
-+			snprintf(name, sizeof(name), "%s %s", names[strip],
-+				 params[i]);
-+			kctl = snd_ctl_new1(&(struct snd_kcontrol_new){
-+				.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+				.name = "EQ",
-+				.index = 0,
-+				.info = bf_eq_info,
-+				.get = bf_eq_get,
-+				.put = bf_eq_put,
-+				.private_value = (strip << 8) | i,
-+			}, chip);
-+			if (!kctl)
-+				return -ENOMEM;
-+			strscpy(kctl->id.name, name, sizeof(kctl->id.name));
-+			err = snd_ctl_add(chip->card, kctl);
-+			if (err < 0)
-+				return err;
-+		}
-+	}
-+	return 0;
-+}
-+
-diff --git a/sound/usb/babyfacepro/babyfacepro.c b/sound/usb/babyfacepro/babyfacepro.c
-index 8cf68e404..2e406fb90 100644
---- a/sound/usb/babyfacepro/babyfacepro.c
-+++ b/sound/usb/babyfacepro/babyfacepro.c
-@@ -1188,6 +1188,8 @@ static int babyface_pcm_hw_params(struct snd_pcm_substream *subs,
- 		chip->rate = r->rate;
- 		chip->alt = r->alt;
- 		chip->frame_bytes = r->frame_bytes;
-+		/* The DSP EQ coefficients depend on fs: re-upload. */
-+		bf_eq_reupload(chip);
- 		/* Publish the new geometry before restarting either stream. */
- 		schedule_work(&chip->stream_work);
- 		dev_dbg(&chip->dev->dev, "rate %u Hz (alt %u)\n",
-@@ -1535,6 +1537,12 @@ static int babyface_probe(struct usb_interface *intf,
- 		goto error;
- 	}
- 
-+	err = babyface_create_eq(chip);
-+	if (err < 0) {
-+		dev_err(&intf->dev, "EQ control creation failed: %d\n", err);
-+		goto error;
-+	}
-+
- 	err = snd_card_register(chip->card);
- 	if (err < 0) {
- 		dev_err(&intf->dev, "snd_card_register failed: %d\n", err);
-diff --git a/sound/usb/babyfacepro/babyfacepro.h b/sound/usb/babyfacepro/babyfacepro.h
-index ba1225de6..cfb20aa7b 100644
---- a/sound/usb/babyfacepro/babyfacepro.h
-+++ b/sound/usb/babyfacepro/babyfacepro.h
-@@ -405,6 +405,21 @@ struct snd_usb_babyface {
- 					 * so the input VU follows the wheel)
- 					 */
- 	struct snd_kcontrol *panel_kctl[7]; /* for snd_ctl_notify */
-+
-+	/* DSP EQ (babyfacepro-ctl.c) - 4 analog-input strips, params kept in state */
-+	struct bf_eq_channel {
-+		bool on;		/* EQ engaged (else identity blocks) */
-+		s32 slope_db;		/* low-cut slope 6/12/18/24 (0 = off) */
-+		s32 lc_hz;		/* low-cut freq, 0 = off */
-+		u32 lc_raw;		/* cached 0x38 word */
-+		u8 slope;		/* cached slope byte (2^n - 1) */
-+		s32 band_type[3];	/* 0 off, 1 bell, 2 low shelf, 3 high shelf */
-+		s32 band_freq[3];	/* Hz */
-+		s32 band_q[3];		/* Q x 100 */
-+		s32 band_gain[3];	/* dB x 10 */
-+		s32 words[3][4];	/* cached c0..c3 */
-+		s32 shared;		/* cached c4 (shared by the slots) */
-+	} eq[4];
- };
- 
- /* The mixer state cached across interface re-probes/resume (see
-@@ -494,6 +509,10 @@ int babyface_create_panel(struct snd_usb_babyface *chip);
- void babyface_panel_start(struct snd_usb_babyface *chip);
- void babyface_panel_stop(struct snd_usb_babyface *chip);
- void babyface_panel_work(struct work_struct *work);
-+void bf_eq_band_words(s32 *w, int type, s32 freq_hz, s32 q100,
-+		      s32 gain_x10, s32 fs);
-+void bf_eq_reupload(struct snd_usb_babyface *chip);
-+int babyface_create_eq(struct snd_usb_babyface *chip);
- 
- /* Master gain-law helpers - shared with the front-panel wheels once
-  * the front panel lands.
--- 
-2.55.0
-
+Hi,=0A=
+=0A=
+The current RK3308 internal codec driver detects codec revision B=0A=
+(chip ID 0x3308) but explicitly rejects it. The initial 2022 driver=0A=
+supported revision B with a monolithic power sequence; the later DAPM=0A=
+rewrite left it unsupported.=0A=
+=0A=
+This RFC restores the revision-specific DAC output VCM/current sequence=0A=
+as a playback-only DAPM supply shared by HPOUT and LINEOUT. Per-channel=0A=
+LINEOUT events override the shared DC baseline only while LINEOUT is=0A=
+enabled. It does not restore the old codec-global power-on/off=0A=
+functions, and capture-only streams do not touch DAC_ANA_CON14/15.=0A=
+=0A=
+The original 2022 upstream v1 selected LINEOUT_FROM_INTERNAL for=0A=
+revision B even for HPOUT-only playback. A newer Rockchip 6.1=0A=
+downstream driver instead keeps CON15 at DC_FROM_INTERNAL for=0A=
+HPOUT-only and selects LINEOUT_FROM_INTERNAL only for LINEOUT or=0A=
+LINEOUT+HPOUT. This RFC follows the newer behaviour. Is that a hardware=0A=
+sequencing fix that should be preserved?=0A=
+=0A=
+On a DFRobot UNIHIKER M10 V1.2, revision-B probe, the board MICBIAS1=0A=
+route, capture/playback PCM operation, capture isolation from CON14/15,=0A=
+and the LINEOUT DAPM/register states were verified with the preceding=0A=
+clean candidate. Physical onboard microphone capture was also=0A=
+confirmed. A short transient at capture startup is also present with=0A=
+the Rockchip vendor driver unless a longer wait is added, so it is not=0A=
+treated as a regression and this RFC does not add a generic 250 ms mute=0A=
+delay.=0A=
+=0A=
+The shared-output revision is compile-tested but was not deployed.=0A=
+Physical LINEOUT and HPOUT audio remain untested because suitable=0A=
+hardware endpoints were unavailable. In particular, the HPOUT-only=0A=
+CON15=3D0x22 choice still needs maintainer guidance or real-hardware=0A=
+confirmation.=0A=
+=0A=
+The M10 microphone route, its overly broad output topology, microphone PGA=
+=0A=
+controls, and capture-startup transient are deliberately kept outside this=
+=0A=
+codec RFC.=0A=
+=0A=
+Regards,=0A=
+Mizuno Miotsuki=0A=
+=0A=
+Mizuno Miotsuki (1):=0A=
+  ASoC: codecs: rk3308: add support for codec revision B=0A=
+=0A=
+ sound/soc/codecs/rk3308_codec.c | 102 +++++++++++++++++++++++++++++++-=0A=
+ 1 file changed, 99 insertions(+), 3 deletions(-)=0A=
+=0A=
+-- =0A=
+2.55.0=0A=
