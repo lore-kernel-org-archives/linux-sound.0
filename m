@@ -1,108 +1,104 @@
-Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB4C031A55B
-	for <linux-sound@vger.kernel.org>; Sat, 19 Sep 2026 05:29:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 300B61A38F9;
+	Sat, 19 Sep 2026 09:16:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789795752; cv=none; b=AjgMg/5+Ei8GlRH11azrPa+AE5lNSKie7QaOCkT3OFUhNvOsDoLhR/NrjXwT/lUKkmUAR6hK/h4U9mibjKP144guta0dEimcRtnc40AI1eJMXuHw9nioxCbU9dRdtpY88xQvKlYf2r8ssPnOLALNmjODfXX79JlYl67bfr4eKfw=
+	t=1789809403; cv=none; b=Nja85eThY0y4zHl9Gt3pjn3jgSi2HfH7AEKPh2Qz+71Mtix5qeWXnXhyKhJt1EvSJFTosfh0Yoax4OpHQMmU9JUttDZysJek6wFyvTtxKvgvMDPzjRUIkDFreyJyAQ/e0kkqMDr+VAdig3l1xIF5KH4XrX2vbw8nxmrNvDNfNDE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789795752; c=relaxed/simple;
-	bh=ekSDbC6S/5AfZ2Iah9TGW0ydX/g6qRFKlYWSxfRX59A=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hIwvkcHMD+/v+jsgan2LAxgpquULd0CmT8Fe0WdGalSJxm2yqurNt2cSv+VURZAUIxJUfN1S3cRB8bWAhSGS+m+wDRDIIH74rJZX7ymkzuhQytxh5qbK9VBswBmiULT7mu2nPdT2MAzUE+ERuAC9gsWmx2Ukdjq29AS7cxwtLlo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IJKLTzOY; arc=none smtp.client-ip=74.125.225.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789809403; c=relaxed/simple;
+	bh=qnd/nkXcuexVseV8EYVmcbGzT1DYZ2xFuSzOikjh8y4=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=BijCwVzDDp28x5Ma8HK+oYX6hkxKYInahYEWX9RAn29yrk7FnwNniYiUQd7+81Qdjj/EXephRuty3ZKAdT/MFLAAAxsoMJ/+pJYEzIENZ4juR1CIqzdP5omzXmjLN344clSMIcuA7t8MjuN+bwF8FlEV5QqqJ++aARMS/9CTigU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D6bTLqfU; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IJKLTzOY"
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49ccff31419so11723985e9.3
-        for <linux-sound@vger.kernel.org>; Fri, 18 Sep 2026 22:29:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789795749; x=1790400549; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ekSDbC6S/5AfZ2Iah9TGW0ydX/g6qRFKlYWSxfRX59A=;
-        b=IJKLTzOYSCrsRRFWzva18ymo0fxc8p23icvyB41lEzhUTKksA+L3AZuA4HqgINmgku
-         mBdabaHYIXe5mMVok9iRle8X/tCJIakd+3sDgTz6DBPtvuo9I4zXvtl+kQ66SoWv49Y+
-         CnC3C5iY+I2Rg7Pm9AECE4h1mF8wD1XD10PxuUE+u9QRWDVFkTk5C1Ex/opZm94/K7To
-         9TTpJALXzSvetc4K2Pg/1rrJzidDIQLasisu1KZPVnaH4Zaxvfd5qaekNbS2EzZAxozQ
-         luDjGOXZaSwBdtYBwr9uHN9Zt59gUKt87JCSkdLHn6dmERiLktz8Bg4fcO1uU3qgLaOV
-         4Fgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789795749; x=1790400549;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ekSDbC6S/5AfZ2Iah9TGW0ydX/g6qRFKlYWSxfRX59A=;
-        b=QUkW8+NyoFNuy/a+IZzIgzmAL2mLEAubiJmS13JYGvUNY+wEjCc+/LMXJyiL8BIXgH
-         v8yhgEz50B3TU6DVzH0RoQu/Tc4pJefYPV3wwsRFIPV5EkRhAR+3YQPpoZ3sHlTrZJ8p
-         /9Y56308Ann3rEGK+KN/EUOf/bjGD7YKblULHD+7K9QCu+mTErvjdmE1UpDlIssqCAkY
-         bcaa/WYUzP3rw+kWTqo/ThAcLzctDUekXhMJ2jsSQqgGjxwL8tCKWIXhqcYiQgdLaZrz
-         ysY4fx7HePV42ozLz4hR/8XJ9hMlxN9VTwC14V0WNqcuSe4g1TtJtAfRErM2PvhyViYX
-         gceg==
-X-Forwarded-Encrypted: i=1; AKwUvBwRM4fbmWK1RoqTkOo1Vdi3gWMHmgLbX7lZfH7uDuRe80FMtOQgabcitNQs7aWD5ux1hoWOdQzj8BGJCw==@vger.kernel.org
-X-Gm-Message-State: AFuF++mFAGwoqjUKEo9wI8Zkvqb9b948QBMFv2o/yZoVwRG98mT51yLL
-	76ruqT3sqcr83XVQvTNRN8q5BRr2kI/d7Pt5rrzYGziiMlfRT4pZzhMk
-X-Gm-Gg: AYBFou0rRBhpDnEiFRbkS6TQzhP0B4WXk2K/lhzxjar1J7KP++64iajeJi52HpEWcRV
-	GrkIs/pK8UYx2CXSuRX2zf1v6URhyd+v+07frtbNz4eja0ShJL+18RgxjlsZg27pm3Fj8FK9VwY
-	7ZxLh+hSE2JwAliT63o4eY9VNwEH9eXx0myuWqJJ9zoulhesjBtsfZ7zpDVkP4v5QvICl6T9hdN
-	sWTKqy8IOCGNR7xd0u60vtJY8NY0Nr6uSfpTYPQz2r2MjrU98iu0f/RPQ6UovHx7TklHDiuqyIB
-	r2sD8Kdc8QqQZyuSz/HhwoM4Q73GXRKQ3gy+1OsR4Bk8dWujjTQ9j7gszkD2xlw2BTR9vwd42ee
-	eXZ3iqimlfmBMppxCOcHVaHrf76UwcZVRXZemQFtkZmwOExQLwx7+fUaVW2NWSCgkz9DDf7volX
-	hPcpYibI1BK7PjazJPvROTiosdFr5DdCdrBQ0Bhoi6QdoRcXw+JeZX4Q7GMDvv4Z+x7VzM2G0D9
-	oUNjxCoaFRoQL/x21WQgO1mRJ7zCju+RSWNCVAOxobxA4ARzQiT/cqkl7lXvJBueCTfXVJVVKRX
-	ghc/8Awq0ajPAP3O/nkuXTfJB/CO7MSDszNinFo7h+SnELxT8MogDpW45hWngr4O+RgtqubGH45
-	mBmBqR1BFASgvgxw/
-X-Received: by 2002:a05:600c:3b05:b0:49f:c196:47b9 with SMTP id 5b1f17b1804b1-49fc567318bmr60705515e9.4.1789795749070;
-        Fri, 18 Sep 2026 22:29:09 -0700 (PDT)
-Received: from MacBook-Pro-von-Karl.localdomain (dynamic-2a02-3100-a017-2b01-05fe-203b-7cd2-a640.310.pool.telefonica.de. [2a02:3100:a017:2b01:5fe:203b:7cd2:a640])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4872459d409sm4258691f8f.33.2026.09.18.22.29.07
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 18 Sep 2026 22:29:08 -0700 (PDT)
-From: Karl Mehltretter <kmehltretter@gmail.com>
-To: Maxime Ripard <mripard@kernel.org>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: Karl Mehltretter <kmehltretter@gmail.com>,
-	=?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Cezary Rojewski <cezary.rojewski@intel.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	linux-sound@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v3] drm/vc4: hdmi: Unregister the ASoC card on unbind
-Date: Sat, 19 Sep 2026 07:29:05 +0200
-Message-Id: <20260919052905.26038-1-kmehltretter@gmail.com>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-In-Reply-To: <20260825063735.14676-1-kmehltretter@gmail.com>
-References: <20260825063735.14676-1-kmehltretter@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D6bTLqfU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D11DF1F00898;
+	Sat, 19 Sep 2026 09:16:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789809401;
+	bh=Awg67cxHl18a2D/zvjxAJGydZiXsMD2cX9Cd0uol1eY=;
+	h=From:To:In-Reply-To:References:Subject:Date;
+	b=D6bTLqfUcwgwHXNN2m8iiQmju3ywMCqfUeA8Pxi83jxqjKXay6zBuctYKlYwrKJhA
+	 Ooni5TFUpqMA9Sb5sSEvvwXHNLyzfJ+cZ5X72yu3cv7wwZESuuqCEFd+t4ibZ10NEO
+	 Bu+UJRtBBMGOFdgZKofYdY0rDHQZ/sO1WLtuE/S27fEqXuJ92zZQDexgbIbStF27kY
+	 cmolrPno6YL/0ofzxDFVaANbY87g1ti0ihrIJobilNiO8imtHCDFEBC3eR/CfOFC3h
+	 qJTCN8JcY1idmW2VjWjUN3TsfcRgkjOuRPPq3d7Ras1fjmcBqjpBEL1g0swX+iL2Eo
+	 xYouV74JzK4KA==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Cyril Chao <Cyril.Chao@mediatek.com>, Darren Ye <darren.ye@mediatek.com>, 
+ Rosen Penev <rosenp@gmail.com>, Daniel Golle <daniel@makrotopia.org>, 
+ bui duc phuc <phucduc.bui@gmail.com>, linux-sound@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ Christian Marangi <ansuelsmth@gmail.com>
+In-Reply-To: <20260908090448.3332-1-ansuelsmth@gmail.com>
+References: <20260908090448.3332-1-ansuelsmth@gmail.com>
+Subject: Re: [PATCH v6 0/5] ASoC: Add support for Airoha AN7581
+Message-Id: <178976668737.1863384.7459518219395606759.b4-ty@b4>
+Date: Fri, 18 Sep 2026 23:24:47 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
 
-On Tue, 25 Aug 2026 08:37:35 +0200, I wrote:
-> Register the card without devm and unregister it from the component unbind
-> callback, where both the HDMI device resources and vc4_hdmi are alive. This
-> makes the card lifetime independent of when the final DRM reference is
-> dropped.
+On Tue, 08 Sep 2026 11:04:42 +0200, Christian Marangi wrote:
+> ASoC: Add support for Airoha AN7581
+> 
+> Add all the patch and documentation to support Airoha AN7581
+> sound driver.
+> 
+> The card follows similar implementation with Mediatek with
+> the codec present on i2c but with a simplified implementation
+> register wise and additional frequency supported.
+> 
+> [...]
 
-Friendly ping on v3. Is anything else needed from my side before this
-can be picked up?
+Applied to
+
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
+
+Thanks!
+
+[1/5] ASoC: dt-bindings: Add Airoha AN7581 AFE Sound card
+      https://git.kernel.org/broonie/sound/c/78da571393da
+[2/5] ASoC: dt-bindings: Add Airoha AN7581 AFE with WM8960 Codec schema
+      https://git.kernel.org/broonie/sound/c/8fcf0497e6da
+[3/5] ASoC: mediatek: common: permit to provide dedicated regmap for irq
+      https://git.kernel.org/broonie/sound/c/b49799e40313
+[4/5] ASoC: airoha: Add AFE driver for Airoha AN7581
+      https://git.kernel.org/broonie/sound/c/4974ffa0d6c2
+[5/5] ASoC: airoha: Add machine driver for Airoha AN7581
+      https://git.kernel.org/broonie/sound/c/272d6e51bc1f
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
 Thanks,
-Karl
+Mark
+
