@@ -1,82 +1,163 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2436A4E325A;
-	Fri, 18 Sep 2026 11:23:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E5783914E9;
+	Fri, 18 Sep 2026 11:37:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789730604; cv=none; b=fXJ+ymIRD5eqbM5P+V1sNcGjoL2r2PDxU4wRhHS48uGODHZG/Ez2ibvUeV+jxgphhmgHiNpd/II79MCRQj4Fqwakptze96ItVLFkxW4GJlZDJFpd+cFl7IYMc0Sm+0FwbwecTwFDCl03ReqeHpVqeBsCbdcRELcFP62bLuTIdC8=
+	t=1789731458; cv=none; b=d7ACoa7EJuiMVuiFqKEpHG6RDCfRAik1Tlka8q9OPPgzLuHY96sZgBnOJfztXRI+XOtRVVZTS9c9dLi4ZzpPKQGh34oFDfSJD2+Px834qdZmuCq5l7QncnApEmkHxOkSTU7Uy/gO3rnVuHyu+UqLx2NL8BlpopJVzm41eivnX5Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789730604; c=relaxed/simple;
-	bh=MBjXKEfWWr11hzur3gEGlv6RLUdxnjeB53fR+cF3SJk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=esuqatwtcvDUBVMeGXBO3tJRnbbpRoT0pzxrElcOrDYPPXTPXsY9MxvEVz6sP7wFlK+tpSM/aRhi6KNKpnlm0TQICwBm13fajdWlvKkBivtDP1hDF/yzETJw+HkRIPgB9GyK5LS7I+of+gk7xZRPxVytD5qzdEFNmtbOlH29mZ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cViJnNIs; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789731458; c=relaxed/simple;
+	bh=3kWwrnL64mx1dLXwcHsMMT0BAa2zKW4PRgmp1oM+8L4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Nb+myDIlnEL+3wzqxVwAZeGBgamtvm+5xPYOvlVOIoajKhTeOAdwg6REzDx9A54vQj+/cuVFQtAErxMkazIxNjdpwqfl5aZZ/VuZr3ulW3g7RC2E9gwxNlUzAa+uaLz4oFqVjqFeOFG+aKbxlyZLa9TmFys+VfCXIbiHUfGhc8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TpbMFl7a; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cViJnNIs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 107EA1F000FF;
-	Fri, 18 Sep 2026 11:23:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789730597;
-	bh=MBjXKEfWWr11hzur3gEGlv6RLUdxnjeB53fR+cF3SJk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=cViJnNIsDtmYAxQ5FDKaFAygCRWgk7RXqG30Kw6B64vzeEGZXWDRksorXI1WrCoz+
-	 nXCHVMxZtdMdOc8NwUvXflcZ1/CQI80cUj4ZGKSTiDypMU50g2ZqSB0c78FoAMVp0I
-	 zlvnuThJJQBxs7WJPQdhxP4FXYFNtFGSU726cfRZHAQT9QZoCpOdpVB6sYttHx9N8V
-	 x0tDzmPUQZwJjgTyGZVXOcvasgDna4oNsYiixkrVkFkzFx0fb6VBg5wyY57VXIFhgH
-	 wvTkxHrQSGZPhrMIvYLpJTVA0HVqYjumQoWgleScibBAwQOARx0ZauFlebUQfz5cKG
-	 BFM9dSJ4Im/yQ==
-Date: Fri, 18 Sep 2026 12:23:12 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Karl Asseily <karl@asseily.com>
-Cc: lgirdwood@gmail.com, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, perex@perex.cz, tiwai@suse.com,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 3/4] ASoC: es9039q2m: add ESS Technology ES9039Q2M
- codec driver
-Message-ID: <2b497c5a-7f55-4f93-a6b3-ee07645d7467@sirena.org.uk>
-References: <20260918031326.68542-1-karl@asseily.com>
- <20260918031326.68542-4-karl@asseily.com>
- <321e417b-55cf-4667-9c52-cbf3548561e6@sirena.org.uk>
- <CA+gvwbrep8j5R5c2o+oMAK9NF=K7EcXFswNCfaVnmfnsBd4v9A@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TpbMFl7a"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1789731457; x=1821267457;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=3kWwrnL64mx1dLXwcHsMMT0BAa2zKW4PRgmp1oM+8L4=;
+  b=TpbMFl7athYqFbOgZq1vAX5zTqwGJM0d4z+gB7lI32rN1bFYuGRSw8BZ
+   zZ5N4obdV8U/M2VecjGSq+NXNScPZblyAH9Du3NJ9XVmpgse4/vKVqrA8
+   48gGT2xLDkENRr/7EIPGaWau5H1LlwUIHz1eKoXT1IigT2wa79guaooUq
+   ZrbrVUy0FIWwJhyuPe/PdNAvGnrcZLIp3Fh/BQPDOKClKUNyYrkOVjUTW
+   CKC0mBPz/oEVDeFjVDM0lGJOCyI0m/h4ctSliwkJFPED98UMh5pb5AX+3
+   d0q0oTGiG5HLIEvotEnvHQxcGiMZ4ttCYntDrf1yxkdZEKL5vskb0BiLb
+   A==;
+X-CSE-ConnectionGUID: ly+nxso2SOqk39i5QOf78g==
+X-CSE-MsgGUID: NDPwkaF/S3aHfqjcMQ4zjQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11908"; a="89367423"
+X-IronPort-AV: E=Sophos;i="6.27,108,1787036400"; 
+   d="scan'208";a="89367423"
+Received: from fmviesa013.fm.intel.com ([10.60.135.153])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2026 04:37:36 -0700
+X-CSE-ConnectionGUID: 1R6KiivqQbSH2qbKz/O6QA==
+X-CSE-MsgGUID: CLf4k4XbTtOWa//DNCduFA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,108,1787036400"; 
+   d="scan'208";a="2783655"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa013.fm.intel.com with ESMTP; 18 Sep 2026 04:37:30 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1003)
+	id 6253F9D; Fri, 18 Sep 2026 13:37:29 +0200 (CEST)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Frank Li <Frank.Li@nxp.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Mark Brown <broonie@kernel.org>,
+	Shengjiu Wang <shengjiu.wang@nxp.com>,
+	bui duc phuc <phucduc.bui@gmail.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	linux-kernel@vger.kernel.org,
+	dmaengine@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com
+Cc: Dave Penkler <dpenkler@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Frank Li <Frank.Li@kernel.org>,
+	Shengjiu Wang <shengjiu.wang@gmail.com>,
+	Xiubo Li <Xiubo.Lee@gmail.com>,
+	Fabio Estevam <festevam@gmail.com>,
+	Nicolin Chen <nicoleotsuka@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Daniel Mack <daniel@zonque.org>,
+	Haojian Zhuang <haojian.zhuang@gmail.com>,
+	Robert Jarzmik <robert.jarzmik@free.fr>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Olivier Moysan <olivier.moysan@foss.st.com>,
+	Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>
+Subject: [PATCH v2 2/7] ASoC: sprd: Replace dma_request_slave_channel() by dma_request_chan()
+Date: Fri, 18 Sep 2026 13:34:06 +0200
+Message-ID: <20260918113727.1898998-3-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20260918113727.1898998-1-andriy.shevchenko@linux.intel.com>
+References: <20260918113727.1898998-1-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="eGMNy7Tl9AIoiErQ"
-Content-Disposition: inline
-In-Reply-To: <CA+gvwbrep8j5R5c2o+oMAK9NF=K7EcXFswNCfaVnmfnsBd4v9A@mail.gmail.com>
-X-Cookie: Dental health is next to mental health.
+Content-Transfer-Encoding: 8bit
 
+Replace dma_request_slave_channel() by dma_request_chan() as suggested
+since the former is deprecated. With this, propagate all possible errors
+to the caller.
 
---eGMNy7Tl9AIoiErQ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ sound/soc/sprd/sprd-pcm-compress.c | 9 +++++----
+ sound/soc/sprd/sprd-pcm-dma.c      | 9 +++++----
+ 2 files changed, 10 insertions(+), 8 deletions(-)
 
-On Fri, Sep 18, 2026 at 01:59:43PM +0300, Karl Asseily wrote:
+diff --git a/sound/soc/sprd/sprd-pcm-compress.c b/sound/soc/sprd/sprd-pcm-compress.c
+index e5249924b54d..f394121d417a 100644
+--- a/sound/soc/sprd/sprd-pcm-compress.c
++++ b/sound/soc/sprd/sprd-pcm-compress.c
+@@ -145,6 +145,7 @@ static int sprd_platform_compr_dma_config(struct snd_soc_component *component,
+ 	enum dma_slave_buswidth bus_width;
+ 	int period, period_cnt, sg_num = 2;
+ 	dma_addr_t src_addr, dst_addr;
++	struct dma_chan *chan;
+ 	unsigned long flags;
+ 	int ret, j;
+ 
+@@ -153,12 +154,12 @@ static int sprd_platform_compr_dma_config(struct snd_soc_component *component,
+ 		return -EINVAL;
+ 	}
+ 
+-	dma->chan = dma_request_slave_channel(dev,
+-					      dma_params->chan_name[channel]);
+-	if (!dma->chan) {
++	chan = dma_request_chan(dev, dma_params->chan_name[channel]);
++	if (IS_ERR(chan)) {
+ 		dev_err(dev, "failed to request dma channel\n");
+-		return -ENODEV;
++		return PTR_ERR(chan);
+ 	}
++	dma->chan = chan;
+ 
+ 	sgt = sg = kzalloc_objs(*sg, sg_num);
+ 	if (!sg) {
+diff --git a/sound/soc/sprd/sprd-pcm-dma.c b/sound/soc/sprd/sprd-pcm-dma.c
+index 2d5ffbe17e81..2a89dc7616bf 100644
+--- a/sound/soc/sprd/sprd-pcm-dma.c
++++ b/sound/soc/sprd/sprd-pcm-dma.c
+@@ -170,15 +170,16 @@ static int sprd_pcm_request_dma_channel(struct snd_soc_component *component,
+ 
+ 	for (i = 0; i < channels; i++) {
+ 		struct sprd_pcm_dma_data *data = &dma_private->data[i];
++		struct dma_chan *chan;
+ 
+-		data->chan = dma_request_slave_channel(dev,
+-						       dma_params->chan_name[i]);
+-		if (!data->chan) {
++		chan = dma_request_chan(dev, dma_params->chan_name[i]);
++		if (IS_ERR(chan)) {
+ 			dev_err(dev, "failed to request dma channel:%s\n",
+ 				dma_params->chan_name[i]);
+ 			sprd_pcm_release_dma_channel(substream);
+-			return -ENODEV;
++			return PTR_ERR(chan);
+ 		}
++		data->chan = chan;
+ 	}
+ 
+ 	return 0;
+-- 
+2.50.1
 
-> I will hold v4 until your review is finished rather than resending
-> piecemeal.
-
-I think that was pretty much it from the pass I did.
-
---eGMNy7Tl9AIoiErQ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqtHx8ACgkQJNaLcl1U
-h9BMAQgAhNjPmuRSdwaEAsNU1pHd+lrGhyCcpnfvBu3rBxdxJ4gZZ4kFH4ldpJ1b
-f4boZ2YG38DWcvGgk0tlAB94ky+NCcOgqfGvNYUa7TYyFg68dqbw13fcnul9erRx
-UGw+dX+ovdjOr3uV1jp45Nn10I5tWoRjYWgmHpVPOO1B25ceQOvoWEH2AT0Ncgh5
-+ixzm0jynwH0HrdYSiL5yDFfUTiZO+2S/06JwHxj1zXRCZ0U+eSK+B72Y81ZIqv7
-ufBe/9H9Z8s87xV0fFdh9Ak/zaf0xrfRsrjCV8khLebQHzw4B/mdvbJrOBRcB3At
-qy6YhVAG+YtXZM4RmSngXm3o3SW+7Q==
-=IjHD
------END PGP SIGNATURE-----
-
---eGMNy7Tl9AIoiErQ--
