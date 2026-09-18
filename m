@@ -1,46 +1,58 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB4524E1C9E;
-	Fri, 18 Sep 2026 11:03:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E231543A81A
+	for <linux-sound@vger.kernel.org>; Fri, 18 Sep 2026 11:11:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789729421; cv=none; b=BIOvhg65lHVdXpQBrftb9UqYfi+AcHGZwWmHPk4/yo3CBt8L0ZhJJFfVcxfU3N4Zis504ycOYM6T28iGkYtyYQVF1MsEdmP+dDvg2dEmyxQV6QUuU+J5dh81AW25wTj8Muc8Ehfpsw2r6g5bNMBXT7hMmEqrOXBHrgbPb4xF82o=
+	t=1789729882; cv=none; b=QPcCmvBN7Jraz9a9CxrsesSD4uMsYmujUtV4qr+SMhVD1wIOLoMFBa7K9Bv9oHbtt4wBMG7Rfv11IpE/O6FPoLa5bd230wtiLmOqiOCpuQ6ExCNPxQvZg9ZAO4JvP0oF8z0n3J92SgHIu2ezeNk1QrQkqP9PAPSwS8M+oHqJdl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789729421; c=relaxed/simple;
-	bh=7hMlHQ92Hi0PHYL588/AFKKpnxpCCAmFuPG4bnG4VA4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=FhgdTZwJafzT17xSOuL0NP1sjJmXjN/1oPGjKcRfSLEOU7lItDhEQZ6BmgMFHs3DAn0ZG4Cnj9fjFPYPdH2FA02ZHiiab0ETYucLh7BKK2T5wzIN50VTXijjNySIfbiSq4h6zl4rwsVrRXOFOYRxWBpbaA8jtedDPLOYCU84+g0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 955b2cf0b35011f19a56ed5b684f684d-20260918
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:aa12bb74-f4b9-445f-b6eb-d3f544b44b73,IP:0,U
-	RL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:25
-X-CID-META: VersionHash:7db8b62,CLOUDID:25106767b6994b114a5c269aec4a3213,BulkI
-	D:nil,BulkQuantity:0,SF:102|850|865|898,TC:nil,Content:0|15|50|99,EDM:5,IP
-	:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV
-	:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 955b2cf0b35011f19a56ed5b684f684d-20260918
-X-User: zhangheng@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <zhangheng@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 1348284196; Fri, 18 Sep 2026 19:03:30 +0800
-From: Zhang Heng <zhangheng@kylinos.cn>
-To: tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Zhang Heng <zhangheng@kylinos.cn>
-Subject: [PATCH] ALSA: hda/realtek: Add quirk for Acer Nitro ANV16-41
-Date: Fri, 18 Sep 2026 19:03:01 +0800
-Message-Id: <20260918110301.664172-1-zhangheng@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1789729882; c=relaxed/simple;
+	bh=iYY7WaxE6Ml/re9Qna2pQjibt+yQeaeHdX/vUWyCqAU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=hZ4lHJHIBmZ6ahciyZqTVwgRGXKIUIymHbArZz0HqeIizZ85iTLX4YntQaCvZl0rDkwbn4dGMkC89VZc0Xhk8iG2iMBnzEoHbh6UjVmg8gPbQ6qfrkI5EviY+jOrbwjgJqVhsIx5qhADhJf4INpud/2A4d+YjovRkCeklDqe85Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AN9A+L7h; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AN9A+L7h"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1789729879; x=1821265879;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=iYY7WaxE6Ml/re9Qna2pQjibt+yQeaeHdX/vUWyCqAU=;
+  b=AN9A+L7huX1iAN0g+q0FqNcs99gLKbhOQ84hrWJolu3uVgyRGqGrJz1T
+   hcc4Xit/ZLW5MGbH29XVszeH6Y8g5voRNAHnmMlQRTa6MMKeHwf7pxxAa
+   Y+AQhlpKjZI5JYF9Dh3qkAbfrp7YH3KKJC6d1/8R/xLraNajZCf+sGh1J
+   ft69wLZNP9XxyouAJZUQXVXStGLeUvBGHecVGmccN8wMJ3YG8Orfqt6vI
+   yFtJT/mMhLS29R4Uwnnng1gSdjCa9jl7ZRA9hRJnWW2Di00q0XA1O1guE
+   yPfN74lwlXc2pJeEbYDzpA8kg8n6+FA+l2GoL7Qkq1N6YrSZybBvwz5AF
+   A==;
+X-CSE-ConnectionGUID: N91RZU5pSPqMfhsGvvis5g==
+X-CSE-MsgGUID: +ByhFhqRTDm3CHPSnzx7Ow==
+X-IronPort-AV: E=McAfee;i="6800,10657,11908"; a="90095327"
+X-IronPort-AV: E=Sophos;i="6.27,108,1787036400"; 
+   d="scan'208";a="90095327"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2026 04:11:14 -0700
+X-CSE-ConnectionGUID: tTyLwItbR4yUGw8TQ4an3Q==
+X-CSE-MsgGUID: gZuvIhWgR5C2h9hbwOq2VA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,108,1787036400"; 
+   d="scan'208";a="297824460"
+Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
+  by fmviesa002.fm.intel.com with ESMTP; 18 Sep 2026 04:11:12 -0700
+From: Cezary Rojewski <cezary.rojewski@intel.com>
+To: broonie@kernel.org
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	amade@asmblr.net,
+	linux-sound@vger.kernel.org,
+	Cezary Rojewski <cezary.rojewski@intel.com>
+Subject: [PATCH] ASoC: codecs: rt5514: Fix the pm_ops constant name
+Date: Fri, 18 Sep 2026 13:15:30 +0200
+Message-Id: <20260918111530.3589280-1-cezary.rojewski@intel.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,27 +61,35 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The Acer Nitro ANV16-41 requires the ALC2XX_FIXUP_HEADSET_MIC quirk
-to make the headset microphone work properly.
+To improve readability.
 
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=221953
-Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
+Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
 ---
- sound/hda/codecs/realtek/alc269.c | 1 +
- 1 file changed, 1 insertion(+)
+ sound/soc/codecs/rt5514.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index 618ff25eff18..ae029094e3dc 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -7243,6 +7243,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1025, 0x1679, "Acer Nitro 16 AN16-41", ALC2XX_FIXUP_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1025, 0x169a, "Acer Swift SFG16", ALC256_FIXUP_ACER_SFG16_MICMUTE_LED),
- 	SND_PCI_QUIRK(0x1025, 0x171e, "Acer Nitro ANV15-51", ALC245_FIXUP_ACER_MICMUTE_LED),
-+	SND_PCI_QUIRK(0x1025, 0x172c, "Acer Nitro ANV16-41", ALC2XX_FIXUP_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1025, 0x1731, "Acer Predator PHN16-72", ALC2XX_FIXUP_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1025, 0x173a, "Acer Swift SFG14-73", ALC245_FIXUP_ACER_MICMUTE_LED),
- 	SND_PCI_QUIRK(0x1025, 0x1758, "Acer Nitro ANV15-41", ALC245_FIXUP_ACER_MICMUTE_LED),
+diff --git a/sound/soc/codecs/rt5514.c b/sound/soc/codecs/rt5514.c
+index 8dad8ba0fe0f..753143e2d11f 100644
+--- a/sound/soc/codecs/rt5514.c
++++ b/sound/soc/codecs/rt5514.c
+@@ -1332,7 +1332,7 @@ static int rt5514_i2c_probe(struct i2c_client *i2c)
+ 			rt5514_dai, ARRAY_SIZE(rt5514_dai));
+ }
+ 
+-static const struct dev_pm_ops rt5514_i2_pm_ops = {
++static const struct dev_pm_ops rt5514_i2c_pm_ops = {
+ 	SYSTEM_SLEEP_PM_OPS(NULL, rt5514_i2c_resume)
+ };
+ 
+@@ -1341,7 +1341,7 @@ static struct i2c_driver rt5514_i2c_driver = {
+ 		.name = "rt5514",
+ 		.acpi_match_table = ACPI_PTR(rt5514_acpi_match),
+ 		.of_match_table = of_match_ptr(rt5514_of_match),
+-		.pm = pm_ptr(&rt5514_i2_pm_ops),
++		.pm = pm_ptr(&rt5514_i2c_pm_ops),
+ 	},
+ 	.probe = rt5514_i2c_probe,
+ 	.id_table = rt5514_i2c_id,
 -- 
-2.25.1
+2.34.1
 
