@@ -1,424 +1,346 @@
-Received: from SY8PR01CU002.outbound.protection.outlook.com (mail-australiaeastazolkn19010021.outbound.protection.outlook.com [52.103.72.21])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5403CFC0A
-	for <linux-sound@vger.kernel.org>; Sat, 19 Sep 2026 13:46:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.72.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 712D6FC0A;
+	Sat, 19 Sep 2026 13:47:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789825602; cv=fail; b=cGdogHsQhDYeWmupKgwCpzCgjBC7H327l8RNKvzvRqIfs0mrl8JzKOFezdUcR/A56/KKJejcseFoYJG60bQRWvgc/LZ6gqHdVKOgXxSjM3/coap7kUXZbCPoKX0PwH60GDpdyvdhIrok96Y8KVgJCAHThG5Aty9S2DXaY//P3Z4=
+	t=1789825662; cv=fail; b=gAMbSzlfV7F9fbl/a+WXjCYZ0hltEWCwWCTJVyXxaplGecS2kyxLO+n0yA+UNG5bs8WJryopke/ES+OMTSA64XuVAyj1d13ddCbiJKUqjAK7NhYohq5HMt41Szwrv6zNrmAGVvv8Hx67BYc0BqlbjmpY2WwjWO9pK82g0coExx4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789825602; c=relaxed/simple;
-	bh=EJNCw2nqLJ/pqxYc064mUZJF34bOPYSP/Nqc3XRXvzY=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=Dv5VpoUPmmOCy8+GI8/kVmtSNC683yys4wMFnBxp5eTWVY4mzeIfYOGt4fXH10R0lloRNpL/tLqpTuUNpyyh8MU030MDcGCJLr5qMwRWRwssoTi9P5GDYVey5jSSLBDhoN1fqx956KDlZMfu7yWs6+b+n/ZHSHv02626nyLpwwM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=kbXhWEoG; arc=fail smtp.client-ip=52.103.72.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
+	s=arc-20240116; t=1789825662; c=relaxed/simple;
+	bh=5L8cUQt16sYANAQosW16Qh14/wzLehSlMcwKrGQGUb4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=eoq0gmVPvGnPPIrw/7yPYXg6RSE6u/uX4ReEpMSekaPZt70QGUGwIIinOtf78AH3sztLZKL6JVFtuV6xm8e33It4tKLVkm1gfu+2zogZ+sfWjhnajxDO/KtDEy1K8CDAsSdyNeKgUSdmWpmTNSGV02pUMGwHpkdxLMtpmDrRNi8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=NMWI1hQp; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=gYk0Ee/i; arc=fail smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="kbXhWEoG"
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="NMWI1hQp";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="gYk0Ee/i"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68JDSeWb923208;
+	Sat, 19 Sep 2026 08:47:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PODMain02222019; bh=Yuz7KD5PDM1De8zQ
+	4iYkZJuNrmPxHKwh/0JFgRo/M3c=; b=NMWI1hQp79nBQHYzsxziOWl12DELPLUa
+	OS2zb+YO9wvfvdQ3a4Ae4GBabI50EA9oMeTV/2qnwGlXaNkuytgTwbbUyRYJoVaX
+	NfPzbH98JGyFOiY8nbRoYcj4yz1zRgnObai0wBVt+ykzl5ZZ2+ALGsFDvDMyvbIe
+	gbxHfcvTgcfnnS//0P9OsuK01iomdVxjvZkNAoPajODGWjmANF9Ky5dJ9eNSXwJb
+	RRWW5tkMPjIo/b7ChHVK36ZgS6d7IEJFucr5WrY8n5036IhLfgjXDyvRAkUobiI/
+	GxmSlgcOvFr7hd2qnRiHIkCtrswjy1AYdltpsgY0kR0pgj9cWhnaTA==
+Received: from mw6pr02cu001.outbound.protection.outlook.com (mail-westus2azon11022118.outbound.protection.outlook.com [52.101.48.118])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4gsqt084jk-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Sat, 19 Sep 2026 08:47:38 -0500 (CDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=QWnNjqLvq9fLXoJ7kbi0C+52feZykWPt3ODoOUlNsnz74WAD+43Trmn5bSpGEKrrk2ua3oxJkf5K1SEXEKnBVtCNU5YsuKouvNqWckfnRD/QrFyffiPLJX1fA785xyu1MNHLCM/MW8bYBhKwnESGLsAsAfQaklfzxU32RrEm7wuhb9q9GeV2+kUhPeBs3h9hHrrDzM8dgFrA9t+ZnDtTXlRVgT+UDFA3hPtLDltt43PlGHXAwBgjX9elHDkCHJO1GdtExwcthDDSNbKadMIcMF2ZNigOoo5qFzw+30b8rwonJafCoVSFf6OsGHA94gNcvwybqM1Fg40wih558CpkHQ==
+ b=bPgnSuZUqq4oOQoSq2Mh548+8l2Dj3PuMklMTZTtjr9WpSvCK1Ahs/U/YdTryJYDdJjnI5FecB8Z/SmcEpDukSUk3s2ZNwYQJRqD3iljf2i4QlLidqgDOaH1Dz/8MI6qJ65JOO1lTe4hpfEx5RNoagYpU7EtJBV2aVflqAKX/v1in0ndXIZsJ/p1j7XzYx/mKizeiiSafXSl8oU6HPS+k53/HGThF4nD2jJfCwIgRX83+rU+4L/6wEGCnpl9Dss5AxN5pFazYnpPziSx6QbPd3CeS9Vdl37ocJGkmggSF4aLgT48XPQV7FXO8tC1vrxh+jSSxUxzDrSumFsMBeCCJA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1LXaZES5kTTu2mzOZYbvv+r8oz27SOY/97RVA93K+Nc=;
- b=QdQDBNx1F1stdoOT9k8wj8feQenWC8YwaKlf29F3blqOGvjYYHE9cuAboEeWO+wqQzSBjJmEBAnvX57JT5Js1EPInHE/Y5mMCPUuZuQfnHa26BHGhOFI8HA+56z3nb0lmPNzJbaBoyAMrN1Agrc29dolTJ15SFhU430SVQkll3u2BiZwnVSmD1jgCaeWxV6jvX0VwESBg+jlCvFhvb8Ab4gaH7AGpUFMyAX2P3Rj+2sLOEt5X5y931bXdZtxMha5JNtMGXwuO2CKHXZzeXr6LALeSzO3H+4X40t3aGAVTmnfJB4L/GyKpSd8FHAX8wnwTTKi2UhvN/raFO4akwEc2g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
+ bh=Yuz7KD5PDM1De8zQ4iYkZJuNrmPxHKwh/0JFgRo/M3c=;
+ b=RhHzHXSXXyEIgshHPOvJjFxo0V/mwtB+CbvKnwn8ygKmTDPYQZf9G4UUbhYYYphEh5AjR7FRJR7zkZepr3d2XwqwNNHc38deWFy89hvJA8N9Hnnn424s39S6lFdacQpAexqBP6uEnmzxZYMkT7bzo2rsj+hp2gu4uFEu/brmilba3xBr00b7kQ1WUyQyIpmDOmIek97MXJ9e7GSiId7FcwnOZWGmqOcXXVYqfCcqGYwHJhVbVM3BbfWoLT4hZHPRuW1dFrhAckKwIre9zyKILJhAdqAhUAJ2DxmJgBr3j2XVyt+CX4r7FmXar90BONNUe4whe+IQKsDapsrLGXjv/Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1LXaZES5kTTu2mzOZYbvv+r8oz27SOY/97RVA93K+Nc=;
- b=kbXhWEoGQSXBiKSppLOZLK2lapyF2c6uGo+BDmPW4n6k1wcd1mD1P/+EW28cIrI+i+DlIYmyY3c+cUI7Pjnazxglr8TeAAs5zu7976TamARfk77x7MBAQivchlnd/9kqdw5MSzIpYq7jG31tTOUW7g58Eu1UtjI4tTIZ+aJGJ7lvls4yFm2hWxgUdED3pTSZiqnhkg4ec2Y8uHth35O+eCa0KOrxNWR919XtX35Vd38oZMafPFXNFLszj40zETmrZ8sHNL6sI4BsVmpfX5sSjFPcCudA8EsS9KifE8z9Mxg2cgPrD1psmdI/R98FweDrPcAKx+8pWbmmmI7V2bqcxw==
-Received: from ME3PR01MB7504.ausprd01.prod.outlook.com (2603:10c6:220:135::15)
- by SY0PR01MB11036.ausprd01.prod.outlook.com (2603:10c6:10:33c::13) with
+ bh=Yuz7KD5PDM1De8zQ4iYkZJuNrmPxHKwh/0JFgRo/M3c=;
+ b=gYk0Ee/iXYK+F3W7Clm15hrNrtr3ho2PBKyhAnK5PAX9iJ1/8VeQcrzBSOLixzSqaqdR8k2Sp+xh9cU9qVdKIVCoJugWZHD/NA9BCnF2YGcDbjFaX7Hj4qhNtQO0QVjEUgpdjKyC2GzgOriEfJRemKHPkxMQRirZf3iXE6eRX3c=
+Received: from SJ0PR13CA0232.namprd13.prod.outlook.com (2603:10b6:a03:2c1::27)
+ by SA1PR19MB8997.namprd19.prod.outlook.com (2603:10b6:806:45b::12) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.9; Sat, 19 Sep
- 2026 13:46:34 +0000
-Received: from ME3PR01MB7504.ausprd01.prod.outlook.com
- ([fe80::98f7:12f3:4e95:414a]) by ME3PR01MB7504.ausprd01.prod.outlook.com
- ([fe80::98f7:12f3:4e95:414a%4]) with mapi id 15.21.0451.004; Sat, 19 Sep 2026
- 13:46:34 +0000
-From: =?gb2312?B?wfUgtrA=?= <liudongxjtu@outlook.com>
-To: Takashi Iwai <tiwai@suse.de>
-CC: "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
-	"perex@perex.cz" <perex@perex.cz>
-Subject: Re: ALSA: hda/conexant: Fix silent speaker on Huawei MateBook 14
-  (SN6140)
-Thread-Topic: ALSA: hda/conexant: Fix silent speaker on Huawei MateBook 14
-  (SN6140)
-Thread-Index: AQHdQr9RtiNUdcaHGkCDaOZNUr6OCrbOQAAAgAe0ot0=
-Date: Sat, 19 Sep 2026 13:46:33 +0000
-Message-ID:
- <ME3PR01MB75042406F30EE48AB6DA3595BD862@ME3PR01MB7504.ausprd01.prod.outlook.com>
-References:
- <ME3PR01MB7504E1F31E26F760F73DF639BDBD2@ME3PR01MB7504.ausprd01.prod.outlook.com>
- <87a4pjom3r.wl-tiwai@suse.de>
-In-Reply-To: <87a4pjom3r.wl-tiwai@suse.de>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: yes
-X-MS-TNEF-Correlator:
-msip_labels:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: ME3PR01MB7504:EE_|SY0PR01MB11036:EE_
-x-ms-office365-filtering-correlation-id: 7568c31d-338e-42f5-d3ca-08df16546b1a
-x-ms-exchange-slblob-mailprops:
- AlkLxVwsndm0VyxXF8Qt58maZsxVls0azCw2UiBxJOJEiTIRrjGId0n/JgO1LV4QCOdDFNV9G/abj/fbx5t5ZiOjxp5sBZN/LMuyrj7ot0uzi5ExKPYr7kC8zkCKDTNTsV1gn2gROa1yTXTYemNFWxjuxf2lQcnX/7MoT+T4YmHKTBeLCW0YD9XSrm97FuubN/3IbmvqBuq8wBFoehiyLx8ZzVknBm7Pe1r2STaiNy1fxOKGxUN6/ndNBLKFx4edg3Jt3bQVEoyGxk6tBcRBA+Xec7JSWWVypsU9LoK+HX5TuFrPGpAgz6i7L/CvmnN+gr2JuilXy/tG+LNTOLiQ+9H0s/KdcEUWINEBKvZNHXh9CrBuZEKTnJ+NBoWYUjQKKSURLR8U/y2u6+l1s9wT983b68usQHxBcyff6ojvtttURrRGk0+LDH0pxY5dtqR1bHYdDLSyUIuJWp6na97zpoXXQUH//BJMiQ3FpSJrx6rRl6Nv6ka9TWkv1g4ovTntyVVGJtK5778d0atdmDc3250iKYdlEVJF1lye3evEUuGgAU7PKicT1tQqkhM3U96Mcre45kCvqCz6IaYL4WP/flIJHYkrQ9PesTCawonw6y8YOzI3AIQmQ4T4dt6rwjX+w1BEdzCWeEV6qTiC0dDGtUwTVVo0GkpHmRqWy1AzJaYhDQjLWGsSCy4J3W4qp3A+t0G0L4+59SoHYHWk7WKFw3zDDWhTirRPnpRuO8Vzdcxz+v3pjAkrD1v+GjWMz+++fJnG0LHNWdBoW6Ptr9A6N+LgD8UgxkdR
-x-microsoft-antispam:
- BCL:0;ARA:14566002|15030799006|31061999003|24021099003|15080799012|6092099016|19110799012|51005399006|8062599012|8060799015|25010399006|40105399003|2607281247196008|102099032|440099028|3412199025|26104999009;
-x-microsoft-antispam-message-info:
- =?gb2312?B?Y3FuTkhHY1RWckllZzkxMkZhaXdNUXhGMFNoNVFwcVhyWE5MMnZLUWhJRTlL?=
- =?gb2312?B?cnlhczFpR21LQlc4cG10UWhxY25oOWgrNkQwUlc4dURQTWhXQTJPTENQZW5X?=
- =?gb2312?B?dmt0UDlERlM0WHlKNkp2WlNKb3F1SDAzWVd2VVJqUnZadWFGUkdidEtjaFlW?=
- =?gb2312?B?MklOdjBYbS85V01Da05OZGlBbmY1enRQRy9yMkswSUlxdGxPcmc0THZ1MWM4?=
- =?gb2312?B?d21SOGRmamhqNGRBZmpIdTBkVlc3SjJXTzBkMk82MzZkZDdQVmJVcE9tTzJw?=
- =?gb2312?B?cjlXcnVqSXR4Y1k1MTdTT3FFbWhJSnpGdnpucVlQL1o4dmFvdVdua2daY0pn?=
- =?gb2312?B?MU9JMzdQZ0ZUVnFuV1RwSUgrc0dJQVkrMy9qUEhDTzZkckZYT2U3MnhLUTlI?=
- =?gb2312?B?Y0dJdnZ2T3ZMQ3AyQUpRMThtcTR4S3F2YS9ZQnA0QnJyRmVhMUVUVTJOQTZv?=
- =?gb2312?B?bUd0VURhTWRrTzRRZUJzTXQ1WWlRTy93YVpnb1VBdWJFbGV6WTlMaHpjMk5p?=
- =?gb2312?B?YlBWZXpUWU1CUHpQNEpONFJoaFBnWFJvYVB6OVVpdmdZKzhxTGsvZyszQVdx?=
- =?gb2312?B?MmZTUmk5dUNzME5KSXBTcGprRTRpMHNITGhDY2hKLzh3TjJlTCtrUVV4QTFV?=
- =?gb2312?B?UDZkYS9ERlBMaFFRK0pkZWRDc0h3azIvVTUyS2JQQ3JuZUpnY3RJenVYendK?=
- =?gb2312?B?ZXBwb3BRM2UrQmcvWG9lWHR5VlBQb0hvbk93bWcvS2tXZlhvWUFsaXdKZlht?=
- =?gb2312?B?dThHVkI1VkVDd2k5KzQrV1lmenUxclZoUzV3NzIvMUlqYk41ZDFBdEJFU09y?=
- =?gb2312?B?RVIwY2c0Yit5QzBBWi9XbEZXNE5xc0FuZnFXZWJKV0VITWFrMGIzTk5uY2NC?=
- =?gb2312?B?YWEraUZYSGY3MTFLd1lkNzJmb1Q3NllxSXREd2U3NmNsVTc4UXV4K2cveFE1?=
- =?gb2312?B?Wm9kejBxNUZjWUVLdzJuS0pJUWdXY2EzbXZidGpPMTNjaUtmQmp4b2w1SnJa?=
- =?gb2312?B?US95OGdOQ3N1bEF5eHp2c2R3MFlJUWtqREpva3NHTlBVYWRIay9ta0pJRktq?=
- =?gb2312?B?NWNKRFRuekt5TUw4Y2xxamFkdFhWaFJLVXpJcE9icHlaVEFZSWZWOVFESTVX?=
- =?gb2312?B?OWJmeWIrRFRuaVVpa0h0L1hORlNYL2d6VVRaMmJ5dGNOQ3Z6SWpVcHNWMzlT?=
- =?gb2312?B?VjZaRUpkeTE0SkRISndOYkdaSHlXaVhZdHlmSUVOZll4dk04Ym5paGY1bXVJ?=
- =?gb2312?B?dG45cUZnbHM0VmJPSHNsa2FHR0dYT1JwNkVnQU5GVGFXcUJ0K1pCZVJ1TDN4?=
- =?gb2312?Q?O/JtFpK+o0lv46BdfFzRPf8Ofz0VhW0vki?=
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?gb2312?B?NkR0bXJod3N3d2dqYzZ2ZC8vb3E2RndBVnNwZTI0M2dvQVNyV0RCQWhqT0E0?=
- =?gb2312?B?NCt1RGFHdnFDR3QveXB6UVd1UXlxK1MwWk5pU1RxVC9Ed1BIWEJjZUNIK1Ji?=
- =?gb2312?B?bmtSYXljSTZiTWNPZ1lPNDYrc1NwMmNLSURqOUlEem1BUW0wdXYxMzRwMUN3?=
- =?gb2312?B?MTBIZmNqaFdIVFo3WjIxK2grcWhxc1BweFBPOTkzTVhzbE1zNkpxTTZDOTZv?=
- =?gb2312?B?MG1xa0VlYk5adXN5bW5rRERzb0Z0cS94V1Fadk80VW40U1BOYzFkOG9BeXVy?=
- =?gb2312?B?QnRjRC9BOG4wSnNpeTlEaGpCUVpDVk1wc0hhNHF0NlZXNWh5ZVRyQW1JUGly?=
- =?gb2312?B?REZEYmM2SFl4TjNrT0hxQmQ1SHlzbm9ueE15YXVvVnFLYWNTN0VpUkNsMzdI?=
- =?gb2312?B?TWZwbTQyTEEyOVRWa3dONkZaVFNYYnhnenRZWThWQVJ5V2lTRURGcmw5WDZC?=
- =?gb2312?B?aFdVKzhMVEFaTlhkcG05bDVRK3NXeDNoYmZJRnAxSkZSenlQSkFabHlyZEhM?=
- =?gb2312?B?R2hSN3RhQVVhQUdVc3RjNk9QTGRETk5JRlNhbnJ4dXZSLzlpT0RST1NVbndB?=
- =?gb2312?B?REkxNDNRQnpXcHFNQjBacG1oMng1b21qSWdqSklQdmR5SVNWUXNzZXZuVllm?=
- =?gb2312?B?NDlqWHE0cnQvaTFzUkNDNXlXV21NcGlXS1g4VEdLdWZMZlFQcG5LS2Vsd3Yr?=
- =?gb2312?B?VVRYcHFRWXZjdXphUE9WYnEvTGRoSU9IZXlQRmp2em95WXBKK2lteC8xSmRJ?=
- =?gb2312?B?d0NOcDA1Uy8rY1hHa2hocDdtQk4wbG1ROUM3N3B1NDh3M3NHYWV2SGpMMmo4?=
- =?gb2312?B?ZTREU1hWVGg1UWU2cXEzZUtrcW1FNTJqczd5a00va3psZWxZemozMy9WRTQ1?=
- =?gb2312?B?aGM1ZDlXVlkrbGhidjRtYlZpN2gvU1hsOVFoYjdRcENEbUpZQlhKbUZiTEIx?=
- =?gb2312?B?TDhvV0RucEpMVVdLalZxV29jeHIwS0FWYTkxZEJwSjFGVVBoaUQ4NC9neXpU?=
- =?gb2312?B?amY5aHNLQWtiZ2NoNnZHMmhiRFh1YnlGOHkxeEdxK1dFVlZuQ3htU0hFUkdP?=
- =?gb2312?B?NjR0dlR1UWRpMDl5V3FGWktZeXJ5MS9hZXdtNE9qZUkwS0xrU0MydXpqbWV4?=
- =?gb2312?B?WktBS3NuNHUvUjYwUUVLU1A2djQxcjYya3Q1c0wwaEY0ejZWRHU3NjczMEdZ?=
- =?gb2312?B?cU5TNDJNWW8ya25iSXcrbk5XSGdqL3VQMENrTDBid2s3cXVmcGhVOGZWZmha?=
- =?gb2312?B?TEdDaTNzSW9JZkxoWlgrR09hZXRMOThSMGVlL1ZmczI4TTRCZTBxVWZNM3dY?=
- =?gb2312?B?cFc3ZmxWQ3hCSjg5LzU3a2ZjODhDNWt2bkcwNzdwWVd0ZjFOMVRycnUvd2ZN?=
- =?gb2312?B?QkQ4UVd1ajJlMXlDMElTYUIzTnpvanMydElmTWFDUmtnRVc3ZU16dDhzZVdo?=
- =?gb2312?B?NGt2d29ETU9rNC9Ja2dBNlkvM1JvSjQzOW5ObDFDc2FpYTd2YWN2K3RHSjIx?=
- =?gb2312?B?QS9OOGJlNUhiMVFkK09OSjRjSVZ1YlRLcWNBYlErUzFZK2l2SDlHekoySGd4?=
- =?gb2312?B?QzJZRlpqS2gwVDFPK1lGK2JUWHE0MXlpWEhqM1hoYUhJV1VscjhCRWFaNFVN?=
- =?gb2312?B?KytnTHdpRjViNUtsS0FLUkwxWjZ5M2tMbDdnYVNTbWpydUVHbHNhR2p0WmtD?=
- =?gb2312?B?QXlmbmVKZVJjd2tVY3ZDblQzZXRNbUNtRmh3T3d1bldmK0VKcDNObW5CeFlv?=
- =?gb2312?B?Y3NYTW1RbGsrUzcvdEF0VFZZUjBCT1laTGNrNmgxdldhS0NtTDZpR2N5Mk9o?=
- =?gb2312?Q?yNKcB4EEAYKxtsyFkdnbFgbOqOIoKNz9oCRz4=3D?=
-Content-Type: multipart/mixed;
-	boundary="_004_ME3PR01MB75042406F30EE48AB6DA3595BD862ME3PR01MB7504ausp_"
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.428.13; Sat, 19 Sep
+ 2026 13:47:33 +0000
+Received: from SJ1PEPF000037B8.namprd05.prod.outlook.com
+ (2603:10b6:a03:2c1:cafe::69) by SJ0PR13CA0232.outlook.office365.com
+ (2603:10b6:a03:2c1::27) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.451.10 via Frontend Transport; Sat,
+ 19 Sep 2026 13:47:33 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ SJ1PEPF000037B8.mail.protection.outlook.com (10.167.244.197) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.451.8
+ via Frontend Transport; Sat, 19 Sep 2026 13:47:33 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 2FC28406542;
+	Sat, 19 Sep 2026 13:47:31 +0000 (UTC)
+Received: from ediswws06.ad.cirrus.com (ediswws06.ad.cirrus.com [198.90.208.11])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 0AED1820247;
+	Sat, 19 Sep 2026 13:47:31 +0000 (UTC)
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+To: broonie@kernel.org
+Cc: linux-spi@vger.kernel.org, linux-sound@vger.kernel.org,
+        linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
+Subject: [PATCH] spi: cs42l43: Workaround for wrong speaker ID on Dell XPS 13 DX13260
+Date: Sat, 19 Sep 2026 14:47:30 +0100
+Message-ID: <20260919134730.895381-1-rf@opensource.cirrus.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: ME3PR01MB7504.ausprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7568c31d-338e-42f5-d3ca-08df16546b1a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Sep 2026 13:46:33.9317
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF000037B8:EE_|SA1PR19MB8997:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: 02fd68b3-b8e5-48c2-a1bf-08df16548e83
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|82310400026|61400799027|23010399003|36860700016|13003099007|16102099003|18002099003|56012099006|11063799006|6133799003|10067099003;
+X-Microsoft-Antispam-Message-Info:
+	3YzaQMddssxz32EW++gcJw+4kGDaQanjFhweppRd3kgJPMpVEC3Q3gAmo2tmwq6MdUVkSbFJ95RoY64ErZL3BZPm1AUG/DzUdZO3NsCmq+UtyZI+QuoK6QvYNQcFSDJu84UOwdGqP23b0LtMAfzwt2VeQfeWEBOUkxQ1k9MVR8F9SxrZgieB0UK+XB5WxwSUObG1DddvubvRIRKKGoxuvr/btsGptzUIxJQ8Zw/rvlVglU5l0LBdTjcL4Z5lQiH8vZyYiwJ9ieKui2CcYuFlfSencAL0TtghaDBfPt0IibLEjes3v2745MYairjKo+TPwRLeGYKxQK+W+Ocx/1SlgI0zOmIZSnwQ2T3kywB4PTXFuSrMe5FKby2e/TGpB1PsjP4/YvaX20NzX0hNdxjvv9/5tz6oXou4LlKzcz32YxwgMKQ3xQshO+63zr7iiOm+ZaUwrIKZCAarm3B4C60UVmgXS6yuWkYLiqmtTX7hQ/lQygvmwnwK6Qk6zGcy0xbtk1XuPcrS4u/X3H/SUOTcF0BjwGs5BmYxvWsUCW4giXES1uyCCK/SRPvE4aPRHr2fjv579hk2sjAChg519IXUZRgWZkNIjuXMlGGBFHuKHAChwVnUt7XOlny1E4ZpWtGiGGqmpGfHjETsaNMT9B2GAOz7mEfqSn9+9ICIH7zpqKZ6xiBOJ1MFqG6RVB2MUkhNcpxWJbh/DLjMe5N4Rw72Tw==
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(82310400026)(61400799027)(23010399003)(36860700016)(13003099007)(16102099003)(18002099003)(56012099006)(11063799006)(6133799003)(10067099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	A6ui1sQOHKcfWN/jw1NhH4hnYEr4QfHsXjznS+S9PoNOJLCRKp+2utBoy4HezAjD2SaWe/6ikIpbnaY7bg4iwVje8CRif85CwyIU8+N4qXwMO8sUyFrJBjFHXV62g49A4ptNzbxNaeZobDvXi65+hEWcMfx34aF89MvsDkinl5KKFjDfwiDOYYr4k+WUWN7WSnrOcGIxVVnYjqXZ0ch9h2TnXJEQBXGX9sSL8Iqk94i20u+eoM8W0tLvOTzAhfqCwtsr0o6+QlsnC35MupUcHKCFCXTv8+BSW4Bjfxxg3JHnDPs3letKZSpoh0njfzYNzPbJKk68Rl5WYZH/AAWMO8jBw45E69arU9t5r2WoNDuSjnaqx24YERp44tZNeuS2KLxhouWdATmN7/0aWXO9Cm9d+Byujd9TwYg8XKTC1mOKpCW8bFop4TOTVtcT7ztZ
+X-Exchange-RoutingPolicyChecked:
+	Z1uTvW1ypHpx8k2rJUZYc2ejJ/UdLCyxDjXq7izaW8MMS9oW08WXpFBj8a5KRfX/NfVtNuFqG0fiv1zJ89iFb5gTjYFszw7PnRmE3mr+YIH62+21VsxGapD2CNqPGNJ2zO72UgFvjqugM3MkqXVf9Dv6zM7Swxlpn8ZXkuuMC3tOdR9ro8/XrJe8uYOk+VxnnrP76ddklmvKcJgyKC9eaKoCu0jr49HjVKd5q/2SAYZDkRy9jxhJcQYqdVik+EV/xZ5flMszytA+5/3BMRsusMKJ5EsRVG75/wHc6jNWcQL5popAKPZtZ82yOrJ9F7oRyZIF2t4XlMxOe8PwMtxOuw==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Sep 2026 13:47:33.0712
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SY0PR01MB11036
+X-MS-Exchange-CrossTenant-Network-Message-Id: 02fd68b3-b8e5-48c2-a1bf-08df16548e83
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-SJ1PEPF000037B8.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR19MB8997
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE5MDE5OCBTYWx0ZWRfX+KcxFVH83oI/
+ z1FlVJmoGS8mZHCju3JX72F5hpJwDUS/FFSITqQNQOpQcH20lH7pjbAR5U5O6IXWnhlP2HKBv6z
+ McINpx/HMmTdwL7+lQXknLm7+hvPV/t3EI3jLaYVWxwSyyPurdoDTOv5m+A+WmgWBKYA7mf46aE
+ E6gbMaZrC7QRpjxqzJGAWuERpsRo8ih6d1+PgCKCkDBVBDL4mTBOWHbEJygTSUo3dyD/YB+cZVR
+ +ym0A3bpA3IzeicwZIuhI0KOGBdvnuCSbp6KJkgLZFD1jhPQHzLhTj7svCel6XgWLYs9HSZ0b4W
+ bASi+KQpV/FXBUqgZwaSskS48OtUOwmL3p/NHcPqClN15HjOdezezaPTYYWu1AVPXx/M510r1LQ
+ dNcGZK0zdeRSwnqkVVjirmg4DGP81yl7RmB3hX9R0Ncz2LYiGE2UmgvdzhGuQ8Y/oACS1/mNae8
+ R8pNVIVEZAdthoMZj7g==
+X-Authority-Analysis: v=2.4 cv=TPTQ2Fla c=1 sm=1 tr=0 ts=6aae927a cx=c_pps
+ a=Jb17x8V3W++mjBIvuY/Z3g==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=VdqzKS8jKosA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
+ a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8 a=w1d2syhTAAAA:8 a=agGuP1jirnaObcj7zIIA:9
+X-Proofpoint-ORIG-GUID: i4Tks2zn4DoVY2NMnmX0x7IPm-9zUapu
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTE5MDE5OCBTYWx0ZWRfX09Ew0EuGXIFf
+ w9BoDsxiM6x4D5T5k6rvtj2GUPRVc/q8CTglDsv57uHVZrwdvT0yTSfbO/1S2m50f4/cth5oMjt
+ PTAHxZNTnV9YWnrA4LqMVOLP0N8jqaI=
+X-Proofpoint-GUID: i4Tks2zn4DoVY2NMnmX0x7IPm-9zUapu
+X-Proofpoint-Spam-Reason: safe
 
---_004_ME3PR01MB75042406F30EE48AB6DA3595BD862ME3PR01MB7504ausp_
-Content-Type: multipart/alternative;
-	boundary="_000_ME3PR01MB75042406F30EE48AB6DA3595BD862ME3PR01MB7504ausp_"
+Create an acpi_gpio_mapping so that speaker ID GPIOs can be read directly
+from the ACPI GpioIo() instead of relying on the spk-id-gpios property to
+have the correct number of pins. Change the reading loop to read each pin
+one at a time until it reaches a pin index that doesn't exist.
 
---_000_ME3PR01MB75042406F30EE48AB6DA3595BD862ME3PR01MB7504ausp_
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+This fixes problems on Dell XPS 13 DX13260:
 
-UmVzdWJtaXR0aW5nIGFzIHYyIHdpdGggdGhlIHBhdGNoIGF0dGFjaGVkLCBzaW5jZSB0aGUgd2Vi
-IG1haWxlcg0KbWFuZ2xlcyB3aGl0ZXNwYWNlIGluIGlubGluZSB0ZXh0LiAgUGxlYXNlIGFwcGx5
-IGZyb20gdGhlIGF0dGFjaG1lbnQuDQoNCkNoYW5nZXMgaW4gdjIgYXJlIGxpc3RlZCBhZnRlciB0
-aGUgLS0tIGxpbmUgaW4gdGhlIHBhdGNoIGZpbGUuDQoNCl9fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fDQq3orz+yMs6IFRha2FzaGkgSXdhaSA8dGl3YWlAc3VzZS5kZT4NCreiy83Ksbzk
-OiAyMDI2xOo51MIxNcjVIDA6MDQNCsrVvP7IyzogwfUgtrAgPGxpdWRvbmd4anR1QG91dGxvb2su
-Y29tPg0Ks63LzTogbGludXgtc291bmRAdmdlci5rZXJuZWwub3JnIDxsaW51eC1zb3VuZEB2Z2Vy
-Lmtlcm5lbC5vcmc+OyB0aXdhaUBzdXNlLmRlIDx0aXdhaUBzdXNlLmRlPjsgcGVyZXhAcGVyZXgu
-Y3ogPHBlcmV4QHBlcmV4LmN6Pg0K1vfM4jogUmU6IEFMU0E6IGhkYS9jb25leGFudDogRml4IHNp
-bGVudCBzcGVha2VyIG9uIEh1YXdlaSBNYXRlQm9vayAxNCAoU042MTQwKQ0KDQpPbiBTYXQsIDEy
-IFNlcCAyMDI2IDE2OjAzOjU1ICswMjAwLA0KwfUgtrAgd3JvdGU6DQo+DQo+DQo+IFNpci9NYWRh
-bSwNCj4NCj4gT24gdGhlIEh1YXdlaSBNYXRlQm9vayAxNCAoUENJIFNTSUQgMTllNTozMjllKSwg
-dGhlIFNONjE0MCBjb2RlYw0KPiBzaWxlbnRseSByb3V0ZXMgdGhlIHNwZWFrZXIgb3V0cHV0IHRo
-cm91Z2ggdGhlIGhlYWRwaG9uZSBwaW4ncw0KPiBjb25uZWN0aW9uIHNlbGVjdDogd2hhdGV2ZXIg
-REFDIHRoZSBoZWFkcGhvbmUgcGluIDB4MTYgaXMgY29ubmVjdGVkIHRvLA0KPiB0aGUgc3BlYWtl
-ciBwaW4gMHgxNyBmb2xsb3dzLiBUaGUgZ2VuZXJpYyBwYXJzZXIgYXR0YWNoZXMgdGhlIHBsYXli
-YWNrDQo+IHN0cmVhbSB0byBEQUMgMHgxMCAoc2hhcmVkIGJ5IHRoZSBoZWFkcGhvbmUgcGF0aCkg
-YW5kIG11dGVzIHRoYXQgREFDDQo+IHdoZW4gbm8gaGVhZHBob25lIGlzIHBsdWdnZWQsIHNpbGVu
-Y2luZyB0aGUgaW50ZXJuYWwgc3BlYWtlciB3aGlsZSB0aGUNCj4gaGVhZHBob25lIGphY2sga2Vl
-cHMgd29ya2luZy4NCj4NCj4gQWRkIGEgcXVpcmsgZm9yIHRoaXMgbWFjaGluZSB0aGF0IHN1cHBy
-ZXNzZXMgdGhlIGF1dG8tbXV0ZSwgYmluZHMgdGhlDQo+IHNwZWFrZXIgcGluIHRvIHRoZSBzaGFy
-ZWQgREFDIDB4MTAsIHJlbW92ZXMgdGhlIG11dGUgc3dpdGNoIG9uIHRoYXQgREFDDQo+IHNvIHVz
-ZXJzcGFjZSBjYW5ub3QgbXV0ZSBpdCwgYW5kIHJlLWFwcGxpZXMgdGhlIHJvdXRpbmcgYWZ0ZXIg
-ZXZlcnkNCj4gb3V0cHV0IHVwZGF0ZTsgYXQgaW5pdCBpdCByb3V0ZXMgYm90aCBwaW5zIHRvIERB
-QyAweDEwLCBlbmFibGVzIHRoZQ0KPiBzcGVha2VyIEVBUEQgKHdoaWNoIHRoZSBkcml2ZXIgb3Ro
-ZXJ3aXNlIGxlYXZlcyBvZmYpIGFuZCB1bm11dGVzIHRoZQ0KPiBEQUMuDQo+DQo+IE5vdGUgdGhh
-dCB0aGlzIGlzIGEgZGlmZmVyZW50IHByb2JsZW0gdGhhbiB0aGUgZXhpc3RpbmcgSHVhd2VpDQo+
-IE1hdGVib29rIHF1aXJrIGZvciBTU0lEIDE5ZTU6MzI4OSAoY29tbWl0IGQxNTJhZmQxY2Q3YSks
-IHdoaWNoIGZpeGVzIGENCj4gbWlzc2luZyBoZWFkcGhvbmUgamFjazsgdGhhdCBtYWNoaW5lIGhh
-cyB3b3JraW5nIHNwZWFrZXJzLg0KPg0KPiBUZXN0ZWQgb24gVWJ1bnR1IDI2LjA0IChrZXJuZWxz
-IDcuMC4wLTMwIGFuZCA3LjAuMC0zMSk6IHRoZSBzcGVha2VyDQo+IHBsYXlzIGF0IGJvb3Qgd2l0
-aG91dCBhbnkgdXNlcnNwYWNlIGhlbHBlciwgYW5kIGtlZXBzIHdvcmtpbmcgYWNyb3NzDQo+IHN1
-c3BlbmQvcmVzdW1lLg0KPg0KPiBTaWduZWQtb2ZmLWJ5OiBsaXVkb25neGp0dSA8bGl1ZG9uZ3hq
-dHVAb3V0bG9vay5jb20+DQoNClRoZSBwYXRjaCBjYW4ndCBiZSBhcHBsaWVkIGJlY2F1c2UgeW91
-ciBtYWlsZXIgYnJva2UgdGhlIHNwYWNlcy4NCg0KUGxlYXNlIHRyeSB0byByZXN1Ym1pdCB3aXRo
-IGEgZml4ZWQgbWFpbGVyIHNldHVwOyBhdCBiZXN0IHVzZQ0KZ2l0LXNlbmQtZW1haWwuDQoNCkFi
-b3V0IHRoZSBwYXRjaDogcGxlYXNlIGRyb3AgdGhlIGhlYWRpbmcgIlNpci9NYWRhbSIuICBUaGUg
-cGF0Y2gNCmRlc2NyaXB0aW9uIHdpbGwgYmUgdGFrZW4gYXMgdGhlIGNvbW1pdCBsb2cgYXMgaXMs
-IHNvIHN1Y2ggYSBncmVldGluZw0KZG9lc24ndCBmaXQgYXQgYWxsLg0KDQpBbHNvLCBzcGVsbGlu
-ZyB5b3VyIG5hbWUgaW4gYSBiaXQgbW9yZSBXZXN0ZXJuIHN0eWxlICh1c2luZw0KY2FwaXRhbC9s
-b3dlciBsZXR0ZXJzIGFuZCBwdXR0aW5nIGEgc3BhY2UgYmV0d2VlbiBmaXJzdCBuYW1lIGFuZCBs
-YXN0DQpuYW1lKSB3b3VsZCBiZSBiZXR0ZXIuDQoNCg0KdGhhbmtzLA0KDQpUYWthc2hpDQo=
+- No speaker audio
+- The wrong firmware was loaded so the speaker protection did not match
+  the speaker characteristics.
 
---_000_ME3PR01MB75042406F30EE48AB6DA3595BD862ME3PR01MB7504ausp_
-Content-Type: text/html; charset="gb2312"
-Content-Transfer-Encoding: quoted-printable
+The Dell XPS 13 DX13260 has two speaker ID GPIOs, to form a 2-bit ID. The
+ACPI GpioIo() has both pins but the Linux-specific spk-id-gpios property
+only has a mapping to the first pin. This meant that the speaker ID was
+wrong in most cases, and that would lead to the codec driver loading the
+wrong amp firmware, or not finding a firmware (as 0 is not valid on this
+laptop).
 
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dgb2312">
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
-Resubmitting as v2 with the patch attached, since the web mailer</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-mangles whitespace in inline text. &nbsp;Please apply from the attachment.<=
-/div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
-Changes in v2 are listed after the --- line in the patch file.</div>
-<div id=3D"appendonsend"></div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
-<br>
-</div>
-<hr style=3D"display: inline-block; width: 98%;">
-<div id=3D"divRplyFwdMsg">
-<div style=3D"direction: ltr; font-family: Calibri, sans-serif; font-size: =
-11pt; color: rgb(0, 0, 0);">
-<b>=B7=A2=BC=FE=C8=CB:</b> Takashi Iwai &lt;tiwai@suse.de&gt;<br>
-<b>=B7=A2=CB=CD=CA=B1=BC=E4:</b> 2026=C4=EA9=D4=C215=C8=D5 0:04<br>
-<b>=CA=D5=BC=FE=C8=CB:</b> =C1=F5 =B6=B0 &lt;liudongxjtu@outlook.com&gt;<br=
->
-<b>=B3=AD=CB=CD:</b> linux-sound@vger.kernel.org &lt;linux-sound@vger.kerne=
-l.org&gt;; tiwai@suse.de &lt;tiwai@suse.de&gt;; perex@perex.cz &lt;perex@pe=
-rex.cz&gt;<br>
-<b>=D6=F7=CC=E2:</b> Re: ALSA: hda/conexant: Fix silent speaker on Huawei M=
-ateBook 14 (SN6140)</div>
-<div style=3D"direction: ltr;">&nbsp;</div>
-</div>
-<div style=3D"font-size: 11pt;">On Sat, 12 Sep 2026 16:03:55 +0200,<br>
-=C1=F5 =B6=B0 wrote:<br>
-&gt;<br>
-&gt;<br>
-&gt; Sir/Madam,<br>
-&gt;<br>
-&gt; On the Huawei MateBook 14 (PCI SSID 19e5:329e), the SN6140 codec<br>
-&gt; silently routes the speaker output through the headphone pin's<br>
-&gt; connection select: whatever DAC the headphone pin 0x16 is connected to=
-,<br>
-&gt; the speaker pin 0x17 follows. The generic parser attaches the playback=
-<br>
-&gt; stream to DAC 0x10 (shared by the headphone path) and mutes that DAC<b=
-r>
-&gt; when no headphone is plugged, silencing the internal speaker while the=
-<br>
-&gt; headphone jack keeps working.<br>
-&gt;<br>
-&gt; Add a quirk for this machine that suppresses the auto-mute, binds the<=
-br>
-&gt; speaker pin to the shared DAC 0x10, removes the mute switch on that DA=
-C<br>
-&gt; so userspace cannot mute it, and re-applies the routing after every<br=
->
-&gt; output update; at init it routes both pins to DAC 0x10, enables the<br=
->
-&gt; speaker EAPD (which the driver otherwise leaves off) and unmutes the<b=
-r>
-&gt; DAC.<br>
-&gt;<br>
-&gt; Note that this is a different problem than the existing Huawei<br>
-&gt; Matebook quirk for SSID 19e5:3289 (commit d152afd1cd7a), which fixes a=
-<br>
-&gt; missing headphone jack; that machine has working speakers.<br>
-&gt;<br>
-&gt; Tested on Ubuntu 26.04 (kernels 7.0.0-30 and 7.0.0-31): the speaker<br=
->
-&gt; plays at boot without any userspace helper, and keeps working across<b=
-r>
-&gt; suspend/resume.<br>
-&gt;<br>
-&gt; Signed-off-by: liudongxjtu &lt;liudongxjtu@outlook.com&gt;<br>
-<br>
-The patch can't be applied because your mailer broke the spaces.<br>
-<br>
-Please try to resubmit with a fixed mailer setup; at best use<br>
-git-send-email.<br>
-<br>
-About the patch: please drop the heading &quot;Sir/Madam&quot;.&nbsp; The p=
-atch<br>
-description will be taken as the commit log as is, so such a greeting<br>
-doesn't fit at all.<br>
-<br>
-Also, spelling your name in a bit more Western style (using<br>
-capital/lower letters and putting a space between first name and last<br>
-name) would be better.<br>
-<br>
-<br>
-thanks,<br>
-<br>
-Takashi</div>
-</body>
-</html>
+Instead of quirking this specific system, the code can be rewritten so
+that it will always use the direct GpioIo() mapping. This works on all
+ACPI systems, so avoids having to keep adding quirks for other systems
+that have the same ACPI error.
 
---_000_ME3PR01MB75042406F30EE48AB6DA3595BD862ME3PR01MB7504ausp_--
+Assisted-by: Codex:gpt-5.6-sol
+Reported-by: Wiza Jalakasi <wjalakasi@gmail.com>
+Closes: https://bugzilla.kernel.org/show_bug.cgi?id=221956
+Tested-by: Wiza Jalakasi <wjalakasi@gmail.com>
+Fixes: f3c605147741e ("spi: cs42l43: Add GPIO speaker id support to the bridge configuration")
+Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+---
+ drivers/spi/spi-cs42l43.c | 131 ++++++++++++++++++++++++++++++++------
+ 1 file changed, 113 insertions(+), 18 deletions(-)
 
---_004_ME3PR01MB75042406F30EE48AB6DA3595BD862ME3PR01MB7504ausp_
-Content-Type: text/x-patch;
-	name="0001-ALSA-hda-conexant-Fix-silent-speaker-on-Huawei-MateB.patch"
-Content-Description:
- 0001-ALSA-hda-conexant-Fix-silent-speaker-on-Huawei-MateB.patch
-Content-Disposition: attachment;
-	filename="0001-ALSA-hda-conexant-Fix-silent-speaker-on-Huawei-MateB.patch";
-	size=5746; creation-date="Sat, 19 Sep 2026 13:46:01 GMT";
-	modification-date="Sat, 19 Sep 2026 13:46:26 GMT"
-Content-Transfer-Encoding: base64
+diff --git a/drivers/spi/spi-cs42l43.c b/drivers/spi/spi-cs42l43.c
+index 7106a8a4f2805..ee227205010f7 100644
+--- a/drivers/spi/spi-cs42l43.c
++++ b/drivers/spi/spi-cs42l43.c
+@@ -19,6 +19,7 @@
+ #include <linux/mfd/cs42l43-regs.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
++#include <linux/overflow.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/property.h>
+@@ -29,6 +30,7 @@
+ #define CS42L43_FIFO_SIZE		16
+ #define CS42L43_SPI_ROOT_HZ		49152000
+ #define CS42L43_SPI_MAX_LENGTH		65532
++#define CS42L43_MAX_SPK_ID_GPIOS	8
+ 
+ enum cs42l43_spi_cmd {
+ 	CS42L43_WRITE,
+@@ -41,6 +43,12 @@ struct cs42l43_spi {
+ 	struct spi_controller *ctlr;
+ };
+ 
++struct cs42l43_spk_id_gpio_mapping {
++	struct fwnode_handle *fwnode;
++	struct acpi_gpio_params params[CS42L43_MAX_SPK_ID_GPIOS];
++	struct acpi_gpio_mapping mappings[2];
++};
++
+ static const unsigned int cs42l43_clock_divs[] = {
+ 	2, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30
+ };
+@@ -215,31 +223,118 @@ static size_t cs42l43_spi_max_length(struct spi_device *spi)
+ 	return CS42L43_SPI_MAX_LENGTH;
+ }
+ 
+-static int cs42l43_get_speaker_id_gpios(struct cs42l43_spi *priv, int *result)
++static struct cs42l43_spk_id_gpio_mapping *
++cs42l43_add_speaker_id_gpio_mapping(struct cs42l43_spi *priv)
+ {
+-	struct gpio_descs *descs;
+-	u32 spkid;
++	struct fwnode_reference_args args;
++	struct acpi_device *adev;
+ 	int i, ret;
+ 
+-	descs = gpiod_get_array_optional(priv->dev, "spk-id", GPIOD_IN);
+-	if (!descs)
+-		return 0;
+-	else if (IS_ERR(descs))
+-		return PTR_ERR(descs);
+-
+-	spkid = 0;
+-	for (i = 0; i < descs->ndescs; i++) {
+-		ret = gpiod_get_value_cansleep(descs->desc[i]);
++	struct cs42l43_spk_id_gpio_mapping *mapping __free(kfree) = kzalloc_obj(*mapping,
++										GFP_KERNEL);
++
++	if (!mapping)
++		return ERR_PTR(-ENOMEM);
++
++	ret = fwnode_property_get_reference_args(dev_fwnode(priv->dev), "spk-id-gpios",
++						 NULL, 3, 0, &args);
++	if (ret)
++		return ERR_PTR(ret);
++
++	struct fwnode_handle *fwnode __free(fwnode_handle) = args.fwnode;
++
++	if (args.nargs < 3)
++		return ERR_PTR(-EINVAL);
++
++	if (overflows_type(args.args[0], mapping->params[0].crs_entry_index))
++		return ERR_PTR(-EOVERFLOW);
++
++	adev = to_acpi_device_node(fwnode);
++	if (!adev)
++		return ERR_PTR(-EINVAL);
++
++	for (i = 0; i < ARRAY_SIZE(mapping->params); i++) {
++		mapping->params[i].crs_entry_index = args.args[0];
++		mapping->params[i].line_index = i;
++		mapping->params[i].active_low = !!args.args[2];
++	}
++
++	mapping->mappings[0] = (struct acpi_gpio_mapping) {
++		.name = "spk-id-gpios",
++		.data = mapping->params,
++		.size = ARRAY_SIZE(mapping->params),
++	};
++
++	ret = acpi_dev_add_driver_gpios(adev, mapping->mappings);
++	if (ret)
++		return ERR_PTR(ret);
++
++	mapping->fwnode = no_free_ptr(fwnode);
++
++	return no_free_ptr(mapping);
++}
++
++static void cs42l43_remove_speaker_id_gpio_mapping(struct cs42l43_spk_id_gpio_mapping *mapping)
++{
++	if (!mapping)
++		return;
++
++	if (mapping->fwnode) {
++		acpi_dev_remove_driver_gpios(to_acpi_device_node(mapping->fwnode));
++		fwnode_handle_put(mapping->fwnode);
++	}
++
++	kfree(mapping);
++}
++
++static int cs42l43_get_speaker_id_gpios(struct cs42l43_spi *priv, int *result)
++{
++	struct fwnode_handle *gpio_fwnode = dev_fwnode(priv->dev);
++	struct cs42l43_spk_id_gpio_mapping *mapping = NULL;
++	struct gpio_desc *desc;
++	u32 spkid = 0;
++	int i, ret = 0;
++
++	if (is_acpi_node(gpio_fwnode)) {
++		mapping = cs42l43_add_speaker_id_gpio_mapping(priv);
++		if (IS_ERR(mapping)) {
++			ret = PTR_ERR(mapping);
++			if (ret == -ENOENT)
++				return 0;
++
++			return ret;
++		}
++
++		gpio_fwnode = mapping->fwnode;
++	}
++
++	for (i = 0; i < CS42L43_MAX_SPK_ID_GPIOS; i++) {
++		desc = fwnode_gpiod_get_index(gpio_fwnode, "spk-id", i, GPIOD_IN,
++					      dev_name(priv->dev));
++		if (IS_ERR(desc)) {
++			ret = PTR_ERR(desc);
++			if (ret == -ENOENT)
++				break;
++
++			goto out;
++		}
++
++		ret = gpiod_get_value_cansleep(desc);
++		gpiod_put(desc);
+ 		if (ret < 0)
+-			goto err;
++			goto out;
+ 
+-		spkid |= (ret << i);
++		spkid |= (u32)ret << i;
+ 	}
+ 
+-	dev_dbg(priv->dev, "spk-id-gpios = %d\n", spkid);
+-	*result = spkid;
+-err:
+-	gpiod_put_array(descs);
++	if (i) {
++		dev_dbg(priv->dev, "spk-id-gpios = %u from %d GPIOs\n", spkid, i);
++		*result = spkid;
++	}
++
++	ret = 0;
++out:
++	cs42l43_remove_speaker_id_gpio_mapping(mapping);
+ 
+ 	return ret;
+ }
+-- 
+2.47.3
 
-RnJvbSA4YzkyNDE0MjIxMjg3ZmZkODRiNjMwYzA3ZTU2MGFjZGU5ZjM0MGVhIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBMaXUgRWFzb24gPGxpdWRvbmd4anR1QG91dGxvb2suY29tPgpE
-YXRlOiBTYXQsIDE5IFNlcCAyMDI2IDIxOjA4OjEzICswODAwClN1YmplY3Q6IFtQQVRDSCB2Ml0g
-QUxTQTogaGRhL2NvbmV4YW50OiBGaXggc2lsZW50IHNwZWFrZXIgb24gSHVhd2VpIE1hdGVCb29r
-CiAxNCAoU042MTQwKQoKT24gdGhlIEh1YXdlaSBNYXRlQm9vayAxNCAoUENJIFNTSUQgMTllNToz
-MjllKSwgdGhlIFNONjE0MCBjb2RlYwpzaWxlbnRseSByb3V0ZXMgdGhlIHNwZWFrZXIgb3V0cHV0
-IHRocm91Z2ggdGhlIGhlYWRwaG9uZSBwaW4ncwpjb25uZWN0aW9uIHNlbGVjdDogd2hhdGV2ZXIg
-REFDIHRoZSBoZWFkcGhvbmUgcGluIDB4MTYgaXMgY29ubmVjdGVkIHRvLAp0aGUgc3BlYWtlciBw
-aW4gMHgxNyBmb2xsb3dzLiAgVGhlIGdlbmVyaWMgcGFyc2VyIGF0dGFjaGVzIHRoZSBwbGF5YmFj
-awpzdHJlYW0gdG8gREFDIDB4MTAgKHNoYXJlZCBieSB0aGUgaGVhZHBob25lIHBhdGgpIGFuZCBt
-dXRlcyB0aGF0IERBQwp3aGVuIG5vIGhlYWRwaG9uZSBpcyBwbHVnZ2VkLCBzaWxlbmNpbmcgdGhl
-IGludGVybmFsIHNwZWFrZXIgd2hpbGUgdGhlCmhlYWRwaG9uZSBqYWNrIGtlZXBzIHdvcmtpbmcu
-CgpBZGQgYSBxdWlyayBmb3IgdGhpcyBtYWNoaW5lIHRoYXQgc3VwcHJlc3NlcyB0aGUgYXV0by1t
-dXRlLCBiaW5kcyB0aGUKc3BlYWtlciBwaW4gdG8gdGhlIHNoYXJlZCBEQUMgMHgxMCwgcmVtb3Zl
-cyB0aGUgbXV0ZSBzd2l0Y2ggb24gdGhhdCBEQUMKc28gdXNlcnNwYWNlIGNhbm5vdCBtdXRlIGl0
-LCBhbmQgcmUtYXBwbGllcyB0aGUgcm91dGluZyBhZnRlciBldmVyeQpvdXRwdXQgdXBkYXRlOyBh
-dCBpbml0IGl0IHJvdXRlcyBib3RoIHBpbnMgdG8gREFDIDB4MTAsIGVuYWJsZXMgdGhlCnNwZWFr
-ZXIgRUFQRCAod2hpY2ggdGhlIGRyaXZlciBvdGhlcndpc2UgbGVhdmVzIG9mZikgYW5kIHVubXV0
-ZXMgdGhlCkRBQy4KCk5vdGUgdGhhdCB0aGlzIGlzIGEgZGlmZmVyZW50IHByb2JsZW0gdGhhbiB0
-aGUgZXhpc3RpbmcgSHVhd2VpCk1hdGVib29rIHF1aXJrIGZvciBTU0lEIDE5ZTU6MzI4OSAoY29t
-bWl0IGQxNTJhZmQxY2Q3YSksIHdoaWNoIGZpeGVzIGEKbWlzc2luZyBoZWFkcGhvbmUgamFjazsg
-dGhhdCBtYWNoaW5lIGhhcyB3b3JraW5nIHNwZWFrZXJzLgoKVGVzdGVkIG9uIFVidW50dSAyNi4w
-NCAoa2VybmVscyA3LjAuMC0zMCBhbmQgNy4wLjAtMzEpOiB0aGUgc3BlYWtlcgpwbGF5cyBhdCBi
-b290IHdpdGhvdXQgYW55IHVzZXJzcGFjZSBoZWxwZXIsIGFuZCBrZWVwcyB3b3JraW5nIGFjcm9z
-cwpzdXNwZW5kL3Jlc3VtZS4KClNpZ25lZC1vZmYtYnk6IExpdSBFYXNvbiA8bGl1ZG9uZ3hqdHVA
-b3V0bG9vay5jb20+Ci0tLQpDaGFuZ2VzIGluIHYyOgotIE1vdmUgdGhlIGFtcC1jYXBzIG92ZXJy
-aWRlIHRvIEhEQV9GSVhVUF9BQ1RfUFJPQkU6IGF0IHByZS1wcm9iZSB0aW1lCiAgdGhlIGNvZGVj
-IHJlZ21hcCBpcyBub3QgYXZhaWxhYmxlIHlldCwgc28gdGhlIG11dGUtc3dpdGNoIHJlbW92YWwg
-d2FzCiAgYSBzaWxlbnQgbm8tb3AgdGhlcmUKLSBSZS1hcHBseSB0aGUgcGluIHJvdXRpbmcgYWZ0
-ZXIgZXZlcnkgb3V0cHV0IHVwZGF0ZSB2aWEgdGhlIGF1dG8tbXV0ZQogIGhvb2sKLSBVbm11dGUg
-dGhlIHNoYXJlZCBEQUMgYXQgLTMwZEIgaW5zdGVhZCBvZiAwZEIgc28gdGhhdCB0aGUgdm1hc3Rl
-cgogIHZvbHVtZSBrZWVwcyBhIHVzYWJsZSByYW5nZSB1bnRpbCB1c2Vyc3BhY2UgdGFrZXMgb3Zl
-cgotIFVwZGF0ZSB0aGUgdGVzdGVkIG5vdGVzIHdpdGggc3VzcGVuZC9yZXN1bWUgYW5kIHRoZSBr
-ZXJuZWwgdXBkYXRlCiAgZnJvbSA3LjAuMC0zMCB0byA3LjAuMC0zMQoKIHNvdW5kL2hkYS9jb2Rl
-Y3MvY29uZXhhbnQuYyB8IDY3ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysK
-IDEgZmlsZSBjaGFuZ2VkLCA2NyBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvc291bmQvaGRh
-L2NvZGVjcy9jb25leGFudC5jIGIvc291bmQvaGRhL2NvZGVjcy9jb25leGFudC5jCmluZGV4IDcz
-NTdkYzkuLjVkYTUwNzcgMTAwNjQ0Ci0tLSBhL3NvdW5kL2hkYS9jb2RlY3MvY29uZXhhbnQuYwor
-KysgYi9zb3VuZC9oZGEvY29kZWNzL2NvbmV4YW50LmMKQEAgLTI5Myw2ICsyOTMsNyBAQCBlbnVt
-IHsKIAlDWFRfRklYVVBfSFBfQV9VLAogCUNYVF9GSVhVUF9BQ0VSX1NXSUZUX0hQLAogCUNYVF9G
-SVhVUF9IVUFXRUlfTUFURUJPT0tfSFAsCisJQ1hUX0ZJWFVQX01BVEVCT09LMTRfU042MTQwLAog
-fTsKIAogLyogZm9yIGhkYV9maXh1cF90aGlua3BhZF9hY3BpKCkgKi8KQEAgLTc5OCw2ICs3OTks
-NjcgQEAgc3RhdGljIHZvaWQgY3h0X2ZpeHVwX2hwX2FfdShzdHJ1Y3QgaGRhX2NvZGVjICpjb2Rl
-YywKIAkJY3h0X3NldHVwX2dwaW9fdW5tdXRlKGNvZGVjLCAweDIpOwogfQogCisvKiBIdWF3ZWkg
-TWF0ZUJvb2sgMTQgKFNONjE0MCk6IHRoZSBzcGVha2VyIG91dHB1dCBmb2xsb3dzIHRoZSBoZWFk
-cGhvbmUKKyAqIHBpbidzIGNvbm5lY3Rpb24gc2VsZWN0IGluIGhhcmR3YXJlLiAgQm90aCBwaW5z
-IG11c3QgYmUgcm91dGVkIHRvIHRoZQorICogc2hhcmVkIERBQyAweDEwLCB3aGljaCBjYXJyaWVz
-IHRoZSBwbGF5YmFjayBzdHJlYW07IHRoZSBnZW5lcmljCisgKiBwYXJzZXIgbXV0ZXMgdGhhdCBE
-QUMgd2hlbiBubyBoZWFkcGhvbmUgaXMgcGx1Z2dlZCwgc2lsZW5jaW5nIHRoZQorICogc3BlYWtl
-ci4gIFN1cHByZXNzIHRoZSBhdXRvLW11dGUsIGJpbmQgdGhlIHNwZWFrZXIgcGluIHRvIHRoZSBz
-aGFyZWQKKyAqIERBQywgcmVtb3ZlIGl0cyBtdXRlIHN3aXRjaCBhbmQga2VlcCBpdCB1bm11dGVk
-OyB0aGUgYXV0by1tdXRlIGhvb2sKKyAqIHJlLWFwcGxpZXMgdGhlIHJvdXRpbmcgYWZ0ZXIgZXZl
-cnkgb3V0cHV0IHVwZGF0ZS4KKyAqLworc3RhdGljIHZvaWQgY3h0X21iMTRfcm91dGVfdW5tdXRl
-KHN0cnVjdCBoZGFfY29kZWMgKmNvZGVjKQoreworCS8qIHJvdXRlIGJvdGggcGlucyB0byB0aGUg
-c2hhcmVkIERBQyAweDEwLCBlbmFibGUgdGhlIHNwZWFrZXIKKwkgKiBFQVBEIGFuZCB1bm11dGUg
-dGhlIERBQyBhdCBhIG1vZGVyYXRlIGdhaW47IHRoZSB2bWFzdGVyCisJICogdm9sdW1lIHRha2Vz
-IG92ZXIgb25jZSB1c2Vyc3BhY2Ugc3RhcnRzCisJICovCisJc25kX2hkYV9jb2RlY193cml0ZShj
-b2RlYywgMHgxNiwgMCwgQUNfVkVSQl9TRVRfQ09OTkVDVF9TRUwsIDApOworCXNuZF9oZGFfY29k
-ZWNfd3JpdGUoY29kZWMsIDB4MTcsIDAsIEFDX1ZFUkJfU0VUX0NPTk5FQ1RfU0VMLCAwKTsKKwlz
-bmRfaGRhX2NvZGVjX3dyaXRlKGNvZGVjLCAweDE3LCAwLCBBQ19WRVJCX1NFVF9FQVBEX0JUTEVO
-QUJMRSwgMHgwMik7CisJc25kX2hkYV9jb2RlY19hbXBfc3RlcmVvKGNvZGVjLCAweDEwLCBIREFf
-T1VUUFVULCAwLAorCQkJCSBIREFfQU1QX1ZPTE1BU0sgfCBIREFfQU1QX01VVEUsIDB4NDApOwor
-fQorCitzdGF0aWMgdm9pZCBjeHRfbWIxNF9hdXRvbXV0ZShzdHJ1Y3QgaGRhX2NvZGVjICpjb2Rl
-YykKK3sKKwlzbmRfaGRhX2dlbl91cGRhdGVfb3V0cHV0cyhjb2RlYyk7CisJY3h0X21iMTRfcm91
-dGVfdW5tdXRlKGNvZGVjKTsKK30KKworc3RhdGljIHZvaWQgY3h0X2ZpeHVwX21hdGVib29rMTRf
-c242MTQwKHN0cnVjdCBoZGFfY29kZWMgKmNvZGVjLAorCQkJCQljb25zdCBzdHJ1Y3QgaGRhX2Zp
-eHVwICpmaXgsIGludCBhY3Rpb24pCit7CisJc3RydWN0IGNvbmV4YW50X3NwZWMgKnNwZWMgPSBj
-b2RlYy0+c3BlYzsKKworCWlmIChhY3Rpb24gPT0gSERBX0ZJWFVQX0FDVF9QUkVfUFJPQkUpIHsK
-KwkJc3RhdGljIGNvbnN0IGhkYV9uaWRfdCBkYWNfMHgxMFtdID0geyAweDEwIH07CisKKwkJc3Bl
-Yy0+Z2VuLnN1cHByZXNzX2F1dG9fbXV0ZSA9IDE7CisJCXNwZWMtPmdlbi5hdXRvbXV0ZV9ob29r
-ID0gY3h0X21iMTRfYXV0b211dGU7CisJCS8qIEJpbmQgdGhlIHNwZWFrZXIgcGluIHRvIHRoZSBz
-aGFyZWQgREFDIDB4MTAuCisJCSAqLworCQlzbmRfaGRhX292ZXJyaWRlX2Nvbm5fbGlzdChjb2Rl
-YywgMHgxNywgMSwgZGFjXzB4MTApOworCQlyZXR1cm47CisJfQorCWlmIChhY3Rpb24gPT0gSERB
-X0ZJWFVQX0FDVF9QUk9CRSkgeworCQl1bnNpZ25lZCBpbnQgY2FwczsKKworCQkvKiBSZW1vdmUg
-dGhlIG11dGUgc3dpdGNoIG9uIHRoZSBzaGFyZWQgREFDIHNvIHRoYXQKKwkJICogdXNlcnNwYWNl
-IChXaXJlUGx1bWJlcikgY2Fubm90IG11dGUgaXQgd2hlbiB0aGUKKwkJICogaGVhZHBob25lIHJv
-dXRlIGJlY29tZXMgdW5hdmFpbGFibGUgKGUuZy4gYWZ0ZXIKKwkJICogcmVzdW1lKS4gIE11c3Qg
-YmUgZG9uZSBoZXJlOiB0aGUgY29kZWMgcmVnbWFwIGlzIG5vdAorCQkgKiBhdmFpbGFibGUgYXQg
-cHJlLXByb2JlIHRpbWUuCisJCSAqLworCQljYXBzID0gcXVlcnlfYW1wX2NhcHMoY29kZWMsIDB4
-MTAsIEhEQV9PVVRQVVQpOworCQlzbmRfaGRhX292ZXJyaWRlX2FtcF9jYXBzKGNvZGVjLCAweDEw
-LCBIREFfT1VUUFVULAorCQkJCQkgIGNhcHMgJiB+QUNfQU1QQ0FQX01VVEUpOworCQlyZXR1cm47
-CisJfQorCWlmIChhY3Rpb24gIT0gSERBX0ZJWFVQX0FDVF9JTklUKQorCQlyZXR1cm47CisJY3h0
-X21iMTRfcm91dGVfdW5tdXRlKGNvZGVjKTsKK30KKwogLyogVGhpbmtQYWQgWDIwMCAmIGNvIHdp
-dGggY3h0NTA1MSAqLwogc3RhdGljIGNvbnN0IHN0cnVjdCBoZGFfcGludGJsIGN4dF9waW5jZmdf
-bGVub3ZvX3gyMDBbXSA9IHsKIAl7IDB4MTYsIDB4MDQyMTQwZmYgfSwgLyogSFAgKHNlcSMgb3Zl
-cnJpZGRlbikgKi8KQEAgLTEwNDMsNiArMTEwNSwxMCBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGhk
-YV9maXh1cCBjeHRfZml4dXBzW10gPSB7CiAJCQl7IH0KIAkJfSwKIAl9LAorCVtDWFRfRklYVVBf
-TUFURUJPT0sxNF9TTjYxNDBdID0geworCQkudHlwZSA9IEhEQV9GSVhVUF9GVU5DLAorCQkudi5m
-dW5jID0gY3h0X2ZpeHVwX21hdGVib29rMTRfc242MTQwLAorCX0sCiB9OwogCiBzdGF0aWMgY29u
-c3Qgc3RydWN0IGhkYV9xdWlyayBjeHQ1MDQ1X2ZpeHVwc1tdID0gewpAQCAtMTE0NSw2ICsxMjEx
-LDcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBoZGFfcXVpcmsgY3h0NTA2Nl9maXh1cHNbXSA9IHsK
-IAlTTkRfUENJX1FVSVJLKDB4MTdhYSwgMHgzOTdiLCAiTGVub3ZvIFMyMDUiLCBDWFRfRklYVVBf
-U1RFUkVPX0RNSUMpLAogCVNORF9QQ0lfUVVJUktfVkVORE9SKDB4MTdhYSwgIlRoaW5rcGFkL0lk
-ZWFwYWQiLCBDWFRfRklYVVBfTEVOT1ZPX1hQQURfQUNQSSksCiAJU05EX1BDSV9RVUlSSygweDE5
-ZTUsIDB4MzI4OSwgIkh1YXdlaSBNYXRlYm9vayIsIENYVF9GSVhVUF9IVUFXRUlfTUFURUJPT0tf
-SFApLAorCVNORF9QQ0lfUVVJUksoMHgxOWU1LCAweDMyOWUsICJIdWF3ZWkgTWF0ZUJvb2sgMTQi
-LCBDWFRfRklYVVBfTUFURUJPT0sxNF9TTjYxNDApLAogCVNORF9QQ0lfUVVJUksoMHgxYzA2LCAw
-eDIwMTEsICJMZW1vdGUgQTEwMDQiLCBDWFRfUElOQ0ZHX0xFTU9URV9BMTAwNCksCiAJU05EX1BD
-SV9RVUlSSygweDFjMDYsIDB4MjAxMiwgIkxlbW90ZSBBMTIwNSIsIENYVF9QSU5DRkdfTEVNT1RF
-X0ExMjA1KSwKIAlTTkRfUENJX1FVSVJLKDB4MWQwNSwgMHgzMDEyLCAiTUVDSFJFVk8gV3VqaWUg
-MTVYIFBybyIsIENYVF9GSVhVUF9IRUFEU0VUX01JQyksCi0tIAoyLjUzLjAKCg==
-
---_004_ME3PR01MB75042406F30EE48AB6DA3595BD862ME3PR01MB7504ausp_--
