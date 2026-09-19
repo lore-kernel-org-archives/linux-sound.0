@@ -1,171 +1,171 @@
-Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+Received: from mail-qv2-f12.google.com (mail-qv2-f12.google.com [74.125.230.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A47F13FEE
-	for <linux-sound@vger.kernel.org>; Sat, 19 Sep 2026 00:07:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789776435; cv=none; b=g7lXkDfRLj6didDe/+0xc9jyB2tNg4XzhLmEOxjexUURj621aEEB56VMWatzeLMu3AlC5yGYSBGnU4MvZ4hzfr9IYJj6eAch3pGZzlbZC3uzQGUV0oFVSTav6EKeuSkk1Q+rATN9q/8sAGzsWy1gr3uJ9yS7AVM8csg8kehZXpI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789776435; c=relaxed/simple;
-	bh=m+H9IiGjgbVmxw7kpPcgvv9LsJPSDDncK95XxpbsjCc=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=Fw/CcpQG45yG1jfWkVFgEA0CIBtOvy0B82fprYykdsmkNCd4g+xqgUgAhzRQfX99surig/yqE7kXWmDB+hpMNv9dhrAecayAuOycoE0f2rwZ5Pgs/SNE3z53afj3i5Ff+48wXnh1bKdE0w//aQAJdeio1WLF0i/y167Fn27F9Bs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=q8kx7wpE; arc=none smtp.client-ip=74.125.225.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 339032AF1D
+	for <linux-sound@vger.kernel.org>; Sat, 19 Sep 2026 00:09:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.230.140
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789776559; cv=pass; b=BGqvP4uyGkuthhPab+s0enW5S+Y19JaPd6nXknl7/fuUgSiNMxAdhlxlT8YmAUbcZQx9S91tCT5/xXaBewVk+LnOqFvPbRf12C2I3bKXS0J3T+EpSz6yVLJrPmwnD6bnmkOYMtyPzTWTBAGlT96cdCdw78DSyeJ8R2ogf/hcxno=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789776559; c=relaxed/simple;
+	bh=PU+L/CdtC8xOCmRNhBf0E5me78uniQkeih3uFXRDgt4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=aO7akbtVb5nWXQZlTNiuLBi1fp8JlCaGKxALZnFUThqGpdQWVjMC08YVJ6SecsXDiSRuHQcN/qKZJQK2qdkfLRCPhI6yKW9ZiZcKAtuA34+JmAbG2f1PGUh2HeRvIv4sCpACQSIxWk9IQxu6wVoeZyBj31UPwhdjtBZrqn+UQpM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=asu.edu; spf=pass smtp.mailfrom=asu.edu; dkim=pass (2048-bit key) header.d=asu.edu header.i=@asu.edu header.b=D6ZZ6QdG; arc=pass smtp.client-ip=74.125.230.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=asu.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asu.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="q8kx7wpE"
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49e83a388f8so8193785e9.1
-        for <linux-sound@vger.kernel.org>; Fri, 18 Sep 2026 17:07:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=asu.edu header.i=@asu.edu header.b="D6ZZ6QdG"
+Received: by mail-qv2-f12.google.com with SMTP id 6a1803df08f44-91205165f71so8931726d6.2
+        for <linux-sound@vger.kernel.org>; Fri, 18 Sep 2026 17:09:16 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789776556; cv=none;
+        d=google.com; s=arc-20260327;
+        b=sgBkZl2ekR8yxuItMVJMyistW73Pl7CNkXZhxTyig5BBe5gzYS4hxeOh6f/eJYyiSK
+         Hds5ik5IiGaHRs/PN8dV7kTnlM4Ad0x9FnDs5BkJooZf/HF5+5Ycz1fiVoDDpbequuQc
+         5U5ECDm6EMDGiGTjImnAtp5tq8c3CusIAC9MKp7vb/yrOZIXEMZ3FI1K31r8B38TJMPc
+         gabZdLVM5tN5FXCodP80o+ijQ1q5yDp3hMutRBrRCjko2n2t2Ivp01Ux2/1VKCulrZ9p
+         IbdG6djxNDYwpI4fhdXe+zL+adMQTjr51GLCkgpT96C9ql4ly2jzMOQSIwY08ZAG2Z9r
+         ctlw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=gVNibac69RIusTZEUWTx905GNnSCni+ehiSaDallFpI=;
+        fh=Mu7kbbM+qUe/V+57/pQkIrrBhYNtQwMntKZQV8zckFw=;
+        b=RHlPIv9Sq6SkA2xAK4QMs1KSr+WKpnCrmsUB0LpJzbxafw09oBClPYQOV0wpcg459d
+         wBZlJtY+T98Pg5Dmak5uEo5wwdNr1wHGJWnbGDZVIusZZ7q2Cpn2GzcPSoLnHBCWFKPD
+         BqvbrGvXRec0HZZjkitZSpsrS1gNF6vvpXNRXNZLBpc71s49EvxMs+vWMFCMPt+DNZte
+         qFYkx0lTTFvgpIKC9dHjCvgBRgZVlXwudSJAYvF1dPFx/3vdIKAreB6jYvYp5wzoIckx
+         0BBApaBTk2OG2tfjcvx8ziYA6AKfXeWRNIFbtm00+RCTCXA8QbWQKnxTjIg2psnAfG01
+         gcwg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789776432; x=1790381232; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:subject:from:cc:to
-         :content-language:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=lNllEQr9d4agc0XlnLX37IAqp2k/fyVFgNuR6/ZuNT8=;
-        b=q8kx7wpEXEwrJFzsXzbjkTNCtRGiYbItlA0NzmtRjv9JgCvHEA9w9WZTrY5VusO0Lu
-         IXvnuXo4tmIVO1nIaTkKkVaWDOglaMAkIhVKAOH/9i4KGueeORSQtBNobaXf7PNEU8rV
-         znVr0XegxmJoX9iHwGW17DQso5Kpx83JKlaxworbMaepAjxEt396VzlLXqCPZ/EpCrc4
-         C7Q6Z/IyQd+7/o4DWQeJHgKMHgEjcIdjeZ3p0SmjWX++6/9FEuwOVlGJ+hG/IShEahZN
-         btITNqz/EnNQ+DLM7SZO2v8vZzU7cEl3whZrGM9wy3MvFfFEcEwSF9sBl0E4uuWjVW3F
-         wO5g==
+        d=asu.edu; s=google; t=1789776556; x=1790381356; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=gVNibac69RIusTZEUWTx905GNnSCni+ehiSaDallFpI=;
+        b=D6ZZ6QdG2JAgYwEEX/SLW1Iv3TC3qoqNr0ZpUCcUdQT1CbZxHzsHEidgy63BvwJri6
+         AkbSD5K3Cg88r40G4X70eRGGJrm/ThIk17HI6jyCfpjuKtMxma2UU93xGZjlBYruIsEG
+         VN/ZYCvU/kD7oep01vdqnvAzsDGnZNDgLJ50fDVIoZ/4R/nWqYYspF7gyAuleCGx9oTA
+         dCldyLfR5wODDvO49AU8FLEJe9M0m5/UDkFSiTcn5K3xebt8orerp6Scxj3VKt6BOU9p
+         /vxZQ4UprImXC57ejg+wdkGSKWSgm3ylrSIGRo8QNK4/UH9XZdhjvll7tykwbBDyX0sY
+         g5ZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789776432; x=1790381232;
-        h=content-transfer-encoding:content-type:subject:from:cc:to
-         :content-language:user-agent:mime-version:date:message-id:x-gm-gg
+        d=1e100.net; s=20260707; t=1789776556; x=1790381356;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=lNllEQr9d4agc0XlnLX37IAqp2k/fyVFgNuR6/ZuNT8=;
-        b=Z3pn6rp07RPuxQZLSSpvW97nGIFYjLF/pAOV97ZE68Qv5aOtaIFBPxGRTJOUaJwn4W
-         vThORA44UX7dCVS7uGVpAYoPorvDrl1X2vOAD0azHgxLURP5gqWtULwVXA4PQMfqNpbm
-         koNJ8l9Zp0vn/YcZyRhlZm5WSrO8L+99rBl5AtgS8aDdzDgb/wLHh5QkQ7pDf2aryzHc
-         s9u4zXQ1LKC2GORGzF7foReOhRbyvvzjZ31zYsJKcfdIQS6+dyeRwPOIQ35SUb3jj75d
-         ZhTZDQDTZo2H+7Dangx0rEN99eqU3SQ92LpgfJ+0HFvYbiwkdRPfOkBWsUOJ8sv3Lvvr
-         V3Nw==
-X-Forwarded-Encrypted: i=1; AKwUvBzdZRg4MEtuUGajhcuS+0d1vPrcp8dSd+WHp5Ts1adUJ4H3Hzmb5K4+mNcDPgS2z5hJ4mPgHTbtmO8x8A==@vger.kernel.org
-X-Gm-Message-State: AFuF++mOT9vZYm7+8p9kXsg/scWjM+JCTACqd2zdE2VCDXTR5jHRflLJ
-	X1mfOVU/gxsLV+7Sx8m/Oyurxw+LsRTZMf/Z1R9jdvvXbJek0GWg0p7LNWQ9rKJaafg=
-X-Gm-Gg: AYBFou2uBym/X6RMEYn5sr+LvkTzW7mpl3hmqQuKZkfh4qxghT+ErHZtE3Qcl7xWsEF
-	8Q4vWofgdJdbwR64fed8EurZMdboZxD9+YOj76iatiShT8eb8Si5gHL5iYgmO/QHVRErOvssSqf
-	fTaX09L7/ES6dKKOIZnsK8DaOPfjNnF8c45pRsawGVmYi7/ThJCFEPXEaen+0vqsbd2aTI5eZ4f
-	6d20QlkSsscTa0rZ51ghSG9Z5RR8pFX64mGp441qyis/3fnBnOJELFRpvqso0psx9adGRneaUT+
-	dxlp2EBxlEQD98RO6y/djTbyPU1qTJPE/MIdwwMqWgrZTwqOgJynJqwdbjWZGL3GGGZssUXytqV
-	Q9gxktoB5P1CczHmfo0mNH5awxrm206hlBWRPiCkDBZoj1RPbhNDneSlU+lByvhIMmolmzlswfl
-	srWqGOzQWZtI6oCFnTRFhiwKcxts05kNSg2EHYAwgAevfpAIkXVsm+sBPl8lvUMZgjxIWUJfUfE
-	jRdlLWAZOuhW58829KPEaq1yOpvQUyjnjqnFNSVTzzEjHHoDnzvHWwYXHQ0CfwGGcinBsQVXyZw
-	TuQZOZcHGngJsn6j5yCI
-X-Received: by 2002:a05:600c:46c5:b0:493:f140:c3fb with SMTP id 5b1f17b1804b1-49fc566e635mr53731645e9.7.1789776432153;
-        Fri, 18 Sep 2026 17:07:12 -0700 (PDT)
-Received: from ?IPV6:2400:adc1:1d9:bf00::3? ([2400:adc1:1d9:bf00::3])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fcce144b1sm48238045e9.0.2026.09.18.17.07.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 18 Sep 2026 17:07:11 -0700 (PDT)
-Message-ID: <065927dd-cabf-449a-992d-64887eedda01@gmail.com>
-Date: Sat, 19 Sep 2026 05:07:09 +0500
+        bh=gVNibac69RIusTZEUWTx905GNnSCni+ehiSaDallFpI=;
+        b=UkmVhgoDCS5AjTdyq07u3kbgbHTmsap/WzQdk47C+VS6CfFhHJuS1MYL31y0eRUIyg
+         hdhv84LjwcP7jLCRcPFtLdiDnP0VlvjmErB8zPUGTA7Fk1XFvAZehWWOXqnDGE+kabtu
+         T70J/ecvSGYVgtw/gbjUxAFWhFk2HKgWyXtJ7+sjOj5eCJ7Ur9YS9dApgViHVCEZ96F9
+         Cy2jDrKo6goKddOAKMqAI98ar5iy98gUyrxhj6B/4OwFECkqCmL99Gib2I2hLX9vfhko
+         BsW+Pjp+c/2DnlXPdCwpEquj0XfbJACbOgIvqUd+zEjuirIRzuORCMrTg3Qff6p+4arO
+         LTkA==
+X-Forwarded-Encrypted: i=1; AKwUvBwTx5EpF4hQhDcIf/i7E43LKC9/uA9eLdfUvL5LQQQZ4zwAFiWYsiKyjTxPZQF2VH4eyEuXoDHwURKP7w==@vger.kernel.org
+X-Gm-Message-State: AFuF++nqjpIgfX53lT3q3bKQEFOkUgcpZQOl4VzOKCYNWNmwp6WeU9RZ
+	TuGt+BcACotKDWyGsuqJUTduDvUeW/lfSwU7bJMX1716158kVMgbiFLy5cPGpvfKLL9vf+Wl5ml
+	5st9SquO9F2syO5IYNIDLDYs4ce1CyhpYUBXOMLZ+
+X-Gm-Gg: AYBFou15j88vB0mlGQ/99d659g7TwMleRKrd74c3CCCxKmVG+ccEXfC/KRRUk581G3u
+	efxlnvXQApAo+P6KtTRAaM6Qn/Z76hVamPyaBVDPjugevl26DNbxX0HvMxfHBZQAAF04KbzZnYY
+	aPlhU/zK7pfDvLqt3fqS2Uuw2UpA8649ImJjQtGNQKtDqHzamNTFdc6bKmJNfTeioQZ8chJJm8U
+	GCL+Mww2Vn+RqQ14eZlKkKFkA4YpCmei9A3vhVwiB3dRSuqmEiHSf+hHHtYxvT/EUeoAhZg7Fps
+	FAxMpB2sVl94vCpyvLSQ/tuAqsEJojloZGX+1awusCv0I6QQYXWws4GWjp2ijMrBS9jNEeFFncv
+	uJL32RU1qEldSya++LFTgOw==
+X-Received: by 2002:a05:6214:3982:b0:912:59f5:7178 with SMTP id
+ 6a1803df08f44-91259f572b9mr51296146d6.31.1789776555939; Fri, 18 Sep 2026
+ 17:09:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: tiwai@suse.com
-Cc: perex@perex.cz, linux-sound@vger.kernel.org
-From: Saim Masood <s.m.saim074@gmail.com>
-Subject: [PATCH] ALSA: hda/realtek: Fix speakers on ASUS ExpertBook PM3606CHA
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260918212231.1193758-1-xmei5@asu.edu>
+In-Reply-To: <20260918212231.1193758-1-xmei5@asu.edu>
+From: Xiang Mei <xmei5@asu.edu>
+Date: Fri, 18 Sep 2026 17:09:02 -0700
+X-Gm-Features: AcwNN1VEk0TFmo665Y4k-d2dWdC5cPVRtdRowVAey1-mRjtQf5TJXnzVkPticXg
+Message-ID: <CAPpSM+TuDm2GRg=JTn_Qb6GzWQfik1j2iVt6AO9Ooa3HyvsD2w@mail.gmail.com>
+Subject: Re: [PATCH] ALSA: line6: Clamp the playback URB size to the OUT
+ endpoint packet size
+To: perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org
+Cc: dev@andree.sk, co+f595d33a1b0a565b@bugs.sh, stable@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The internal speakers of the ASUS ExpertBook PM3606CHA (Realtek ALC256,
-PCI SSID 1043:3501) stay silent with the default codec setup, and the
-headphone jack is not detected either.  The codec needs COEF values that
-differ from its power-on defaults: COEF 0x10, 0x16, 0x35, 0x37 and 0x57
-on NID 0x20 have to be set to the values used by the Windows driver.
-Toggling the codec GPIOs, and the existing ALC256 fixups alone, make no
-difference.
+On Fri, Sep 18, 2026 at 2:22=E2=80=AFPM Xiang Mei <xmei5@asu.edu> wrote:
+>
+> The playback buffer is sized from the OUT endpoint's max_packet_size_out,
+> but submit_audio_out_urb() takes the length to write into it from
+> prev_fsize, which audio_in_callback() derived from the IN endpoint.  Both
+> come from the device's own descriptors and nothing relates them, so a
+> device declaring a large iso IN and a small iso OUT wMaxPacketSize
+> overflows the buffer.  usb_submit_urb() rejects the oversized URB, but
+> only after the write has run.
+>
+> Attaching the device is the whole trigger: toneport_startup() acquires th=
+e
+> monitor stream and starts both URB streams on its own, so the overflow
+> happens in the URB completion handler with no local process involved.
+>
+> Clamp the length to max_packet_size_out.  A device whose OUT endpoint
+> matches the audio format it announces never reaches the limit.
+>
+> BUG: KASAN: slab-out-of-bounds in submit_audio_out_urb (sound/usb/line6/p=
+layback.c:242)
+> Write of size 1024 at addr ffff88801b94bc00 by task vhci_rx/183
+>
+> Call Trace:
+>  kasan_report (mm/kasan/report.c:595)
+>  kasan_check_range (mm/kasan/generic.c:186 mm/kasan/generic.c:200)
+>  __asan_memset (mm/kasan/shadow.c:84)
+>  submit_audio_out_urb (sound/usb/line6/playback.c:242)
+>  audio_out_callback (sound/usb/line6/playback.c:354)
+>  __usb_hcd_giveback_urb (drivers/usb/core/hcd.c:1657)
+>  usb_hcd_giveback_urb (drivers/usb/core/hcd.c:1741)
+>  vhci_rx_loop (drivers/usb/usbip/vhci_rx.c:107)
+>  kthread (kernel/kthread.c:436)
+>  ret_from_fork (arch/x86/kernel/process.c:158)
+>  ret_from_fork_asm (arch/x86/entry/entry_64.S:245)
+>
+> The buggy address belongs to the object at ffff88801b94bc00
+>  which belongs to the cache kmalloc-512 of size 512
+>
+> Cc: stable@vger.kernel.org
+> Fixes: 7a0f55aeeb8f ("ALSA: line6: Support assymetrical in/out configurat=
+ions")
+> Reported-by: <co+f595d33a1b0a565b@bugs.sh>
+> Assisted-by: LLM
+> Signed-off-by: Xiang Mei <xmei5@asu.edu>
+> ---
+>  sound/usb/line6/playback.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/sound/usb/line6/playback.c b/sound/usb/line6/playback.c
+> index 7ebaf125f969..cfb20585c5ea 100644
+> --- a/sound/usb/line6/playback.c
+> +++ b/sound/usb/line6/playback.c
+> @@ -181,6 +181,7 @@ static int submit_audio_out_urb(struct snd_line6_pcm =
+*line6pcm)
+>                 }
+>
+>                 fsize *=3D bytes_per_frame;
+> +               fsize =3D min(fsize, line6pcm->max_packet_size_out);
+>
+>                 fout->offset =3D urb_size;
+>                 fout->length =3D fsize;
+> --
+> 2.43.0
+>
 
-Apply the COEFs from a new fixup at the INIT action, so that they are
-restored after resume as well.  Chain to ALC256_FIXUP_ASUS_MIC_NO_PRESENCE
-to keep the headset mic and the jack detection working, which the
-fallback pin quirk provided before for this machine.
+Please disregard this patch. It duplicates my other submission
+addressing the same out-of-bounds write in submit_audio_out_urb().
 
-The COEF values were found by the reporter of the Ubuntu bug below, who
-compared the codec state against the one under the Windows driver.
+Sorry for the duplicate submission and noise.
 
-Tested on an ASUS ExpertBook PM3606CHA (BIOS PM3606CHA.304) with the
-change applied to v7.2.5: with this fixup alone, the speakers, the
-headphones with jack detection, and the headset mic all work, also
-after suspend and resume.
-
-Link: https://bugs.launchpad.net/bugs/2167288
-Signed-off-by: Saim Masood <s.m.saim074@gmail.com>
----
- sound/hda/codecs/realtek/alc269.c | 29 +++++++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
-
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index 8f55c3c00..f8efe6c88 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -3552,6 +3552,27 @@ static void alc233_fixup_no_audio_jack(struct hda_codec *codec,
- 	alc_process_coef_fw(codec, alc233_fixup_no_audio_jack_coefs);
- }
- 
-+static const struct coef_fw alc256_asus_speaker_coefs[] = {
-+	WRITE_COEF(0x10, 0x7f20), WRITE_COEF(0x16, 0x0c50), WRITE_COEF(0x35, 0x8d6a),
-+	WRITE_COEF(0x37, 0xfe06), WRITE_COEF(0x57, 0x7f7f),
-+	{}
-+};
-+
-+static void alc256_fixup_asus_speaker_coefs(struct hda_codec *codec,
-+					    const struct hda_fixup *fix,
-+					    int action)
-+{
-+	/*
-+	 * The internal speakers of the ASUS ExpertBook PM3606CHA stay silent
-+	 * with the default COEF values. These are the values set by the
-+	 * Windows driver. They are applied on every init so that they are
-+	 * restored after resume, too.
-+	 */
-+	if (action != HDA_FIXUP_ACT_INIT)
-+		return;
-+	alc_process_coef_fw(codec, alc256_asus_speaker_coefs);
-+}
-+
- static void alc256_fixup_mic_no_presence_and_resume(struct hda_codec *codec,
- 						    const struct hda_fixup *fix,
- 						    int action)
-@@ -4398,6 +4419,7 @@ enum {
- 	ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN_HEADSET,
- 	ALC285_LENOVO_DAC_RENAME,
- 	ALC287_FIXUP_YOGA9_SPEAKER2_TO_DAC1,
-+	ALC256_FIXUP_ASUS_SPEAKER_COEFS,
- };
- 
- /* A special fixup for Lenovo C940 and Yoga Duet 7;
-@@ -7142,6 +7164,12 @@ static const struct hda_fixup alc269_fixups[] = {
- 		.chained = true,
- 		.chain_id = ALC287_FIXUP_TXNW2781_I2C,
- 	},
-+	[ALC256_FIXUP_ASUS_SPEAKER_COEFS] = {
-+		.type = HDA_FIXUP_FUNC,
-+		.v.func = alc256_fixup_asus_speaker_coefs,
-+		.chained = true,
-+		.chain_id = ALC256_FIXUP_ASUS_MIC_NO_PRESENCE,
-+	},
- };
- 
- static const struct hda_quirk alc269_fixup_tbl[] = {
-@@ -7900,6 +7928,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1043, 0x31e1, "ASUS B5605CCA", ALC294_FIXUP_ASUS_CS35L41_SPI_2),
- 	SND_PCI_QUIRK(0x1043, 0x31f1, "ASUS B3605CCA", ALC294_FIXUP_ASUS_CS35L41_SPI_2),
- 	SND_PCI_QUIRK(0x1043, 0x3391, "ASUS PM3606CKA", ALC287_FIXUP_CS35L41_I2C_2),
-+	SND_PCI_QUIRK(0x1043, 0x3501, "ASUS PM3606CHA", ALC256_FIXUP_ASUS_SPEAKER_COEFS),
- 	SND_PCI_QUIRK(0x1043, 0x3601, "ASUS PM5406CGA", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x1043, 0x3611, "ASUS PM5606CGA", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x1043, 0x3701, "ASUS P5406CCA", ALC245_FIXUP_CS35L41_SPI_2),
--- 
-2.55.0
-
-
+Thanks,
+Xiang
