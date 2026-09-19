@@ -1,171 +1,108 @@
-Received: from mail-qv2-f12.google.com (mail-qv2-f12.google.com [74.125.230.140])
+Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 339032AF1D
-	for <linux-sound@vger.kernel.org>; Sat, 19 Sep 2026 00:09:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.230.140
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789776559; cv=pass; b=BGqvP4uyGkuthhPab+s0enW5S+Y19JaPd6nXknl7/fuUgSiNMxAdhlxlT8YmAUbcZQx9S91tCT5/xXaBewVk+LnOqFvPbRf12C2I3bKXS0J3T+EpSz6yVLJrPmwnD6bnmkOYMtyPzTWTBAGlT96cdCdw78DSyeJ8R2ogf/hcxno=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789776559; c=relaxed/simple;
-	bh=PU+L/CdtC8xOCmRNhBf0E5me78uniQkeih3uFXRDgt4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aO7akbtVb5nWXQZlTNiuLBi1fp8JlCaGKxALZnFUThqGpdQWVjMC08YVJ6SecsXDiSRuHQcN/qKZJQK2qdkfLRCPhI6yKW9ZiZcKAtuA34+JmAbG2f1PGUh2HeRvIv4sCpACQSIxWk9IQxu6wVoeZyBj31UPwhdjtBZrqn+UQpM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=asu.edu; spf=pass smtp.mailfrom=asu.edu; dkim=pass (2048-bit key) header.d=asu.edu header.i=@asu.edu header.b=D6ZZ6QdG; arc=pass smtp.client-ip=74.125.230.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=asu.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asu.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB4C031A55B
+	for <linux-sound@vger.kernel.org>; Sat, 19 Sep 2026 05:29:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789795752; cv=none; b=AjgMg/5+Ei8GlRH11azrPa+AE5lNSKie7QaOCkT3OFUhNvOsDoLhR/NrjXwT/lUKkmUAR6hK/h4U9mibjKP144guta0dEimcRtnc40AI1eJMXuHw9nioxCbU9dRdtpY88xQvKlYf2r8ssPnOLALNmjODfXX79JlYl67bfr4eKfw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789795752; c=relaxed/simple;
+	bh=ekSDbC6S/5AfZ2Iah9TGW0ydX/g6qRFKlYWSxfRX59A=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=hIwvkcHMD+/v+jsgan2LAxgpquULd0CmT8Fe0WdGalSJxm2yqurNt2cSv+VURZAUIxJUfN1S3cRB8bWAhSGS+m+wDRDIIH74rJZX7ymkzuhQytxh5qbK9VBswBmiULT7mu2nPdT2MAzUE+ERuAC9gsWmx2Ukdjq29AS7cxwtLlo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IJKLTzOY; arc=none smtp.client-ip=74.125.225.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=asu.edu header.i=@asu.edu header.b="D6ZZ6QdG"
-Received: by mail-qv2-f12.google.com with SMTP id 6a1803df08f44-91205165f71so8931726d6.2
-        for <linux-sound@vger.kernel.org>; Fri, 18 Sep 2026 17:09:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789776556; cv=none;
-        d=google.com; s=arc-20260327;
-        b=sgBkZl2ekR8yxuItMVJMyistW73Pl7CNkXZhxTyig5BBe5gzYS4hxeOh6f/eJYyiSK
-         Hds5ik5IiGaHRs/PN8dV7kTnlM4Ad0x9FnDs5BkJooZf/HF5+5Ycz1fiVoDDpbequuQc
-         5U5ECDm6EMDGiGTjImnAtp5tq8c3CusIAC9MKp7vb/yrOZIXEMZ3FI1K31r8B38TJMPc
-         gabZdLVM5tN5FXCodP80o+ijQ1q5yDp3hMutRBrRCjko2n2t2Ivp01Ux2/1VKCulrZ9p
-         IbdG6djxNDYwpI4fhdXe+zL+adMQTjr51GLCkgpT96C9ql4ly2jzMOQSIwY08ZAG2Z9r
-         ctlw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=gVNibac69RIusTZEUWTx905GNnSCni+ehiSaDallFpI=;
-        fh=Mu7kbbM+qUe/V+57/pQkIrrBhYNtQwMntKZQV8zckFw=;
-        b=RHlPIv9Sq6SkA2xAK4QMs1KSr+WKpnCrmsUB0LpJzbxafw09oBClPYQOV0wpcg459d
-         wBZlJtY+T98Pg5Dmak5uEo5wwdNr1wHGJWnbGDZVIusZZ7q2Cpn2GzcPSoLnHBCWFKPD
-         BqvbrGvXRec0HZZjkitZSpsrS1gNF6vvpXNRXNZLBpc71s49EvxMs+vWMFCMPt+DNZte
-         qFYkx0lTTFvgpIKC9dHjCvgBRgZVlXwudSJAYvF1dPFx/3vdIKAreB6jYvYp5wzoIckx
-         0BBApaBTk2OG2tfjcvx8ziYA6AKfXeWRNIFbtm00+RCTCXA8QbWQKnxTjIg2psnAfG01
-         gcwg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IJKLTzOY"
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49ccff31419so11723985e9.3
+        for <linux-sound@vger.kernel.org>; Fri, 18 Sep 2026 22:29:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=asu.edu; s=google; t=1789776556; x=1790381356; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+        d=gmail.com; s=20251104; t=1789795749; x=1790400549; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=gVNibac69RIusTZEUWTx905GNnSCni+ehiSaDallFpI=;
-        b=D6ZZ6QdG2JAgYwEEX/SLW1Iv3TC3qoqNr0ZpUCcUdQT1CbZxHzsHEidgy63BvwJri6
-         AkbSD5K3Cg88r40G4X70eRGGJrm/ThIk17HI6jyCfpjuKtMxma2UU93xGZjlBYruIsEG
-         VN/ZYCvU/kD7oep01vdqnvAzsDGnZNDgLJ50fDVIoZ/4R/nWqYYspF7gyAuleCGx9oTA
-         dCldyLfR5wODDvO49AU8FLEJe9M0m5/UDkFSiTcn5K3xebt8orerp6Scxj3VKt6BOU9p
-         /vxZQ4UprImXC57ejg+wdkGSKWSgm3ylrSIGRo8QNK4/UH9XZdhjvll7tykwbBDyX0sY
-         g5ZQ==
+        bh=ekSDbC6S/5AfZ2Iah9TGW0ydX/g6qRFKlYWSxfRX59A=;
+        b=IJKLTzOYSCrsRRFWzva18ymo0fxc8p23icvyB41lEzhUTKksA+L3AZuA4HqgINmgku
+         mBdabaHYIXe5mMVok9iRle8X/tCJIakd+3sDgTz6DBPtvuo9I4zXvtl+kQ66SoWv49Y+
+         CnC3C5iY+I2Rg7Pm9AECE4h1mF8wD1XD10PxuUE+u9QRWDVFkTk5C1Ex/opZm94/K7To
+         9TTpJALXzSvetc4K2Pg/1rrJzidDIQLasisu1KZPVnaH4Zaxvfd5qaekNbS2EzZAxozQ
+         luDjGOXZaSwBdtYBwr9uHN9Zt59gUKt87JCSkdLHn6dmERiLktz8Bg4fcO1uU3qgLaOV
+         4Fgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789776556; x=1790381356;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20260707; t=1789795749; x=1790400549;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=gVNibac69RIusTZEUWTx905GNnSCni+ehiSaDallFpI=;
-        b=UkmVhgoDCS5AjTdyq07u3kbgbHTmsap/WzQdk47C+VS6CfFhHJuS1MYL31y0eRUIyg
-         hdhv84LjwcP7jLCRcPFtLdiDnP0VlvjmErB8zPUGTA7Fk1XFvAZehWWOXqnDGE+kabtu
-         T70J/ecvSGYVgtw/gbjUxAFWhFk2HKgWyXtJ7+sjOj5eCJ7Ur9YS9dApgViHVCEZ96F9
-         Cy2jDrKo6goKddOAKMqAI98ar5iy98gUyrxhj6B/4OwFECkqCmL99Gib2I2hLX9vfhko
-         BsW+Pjp+c/2DnlXPdCwpEquj0XfbJACbOgIvqUd+zEjuirIRzuORCMrTg3Qff6p+4arO
-         LTkA==
-X-Forwarded-Encrypted: i=1; AKwUvBwTx5EpF4hQhDcIf/i7E43LKC9/uA9eLdfUvL5LQQQZ4zwAFiWYsiKyjTxPZQF2VH4eyEuXoDHwURKP7w==@vger.kernel.org
-X-Gm-Message-State: AFuF++nqjpIgfX53lT3q3bKQEFOkUgcpZQOl4VzOKCYNWNmwp6WeU9RZ
-	TuGt+BcACotKDWyGsuqJUTduDvUeW/lfSwU7bJMX1716158kVMgbiFLy5cPGpvfKLL9vf+Wl5ml
-	5st9SquO9F2syO5IYNIDLDYs4ce1CyhpYUBXOMLZ+
-X-Gm-Gg: AYBFou15j88vB0mlGQ/99d659g7TwMleRKrd74c3CCCxKmVG+ccEXfC/KRRUk581G3u
-	efxlnvXQApAo+P6KtTRAaM6Qn/Z76hVamPyaBVDPjugevl26DNbxX0HvMxfHBZQAAF04KbzZnYY
-	aPlhU/zK7pfDvLqt3fqS2Uuw2UpA8649ImJjQtGNQKtDqHzamNTFdc6bKmJNfTeioQZ8chJJm8U
-	GCL+Mww2Vn+RqQ14eZlKkKFkA4YpCmei9A3vhVwiB3dRSuqmEiHSf+hHHtYxvT/EUeoAhZg7Fps
-	FAxMpB2sVl94vCpyvLSQ/tuAqsEJojloZGX+1awusCv0I6QQYXWws4GWjp2ijMrBS9jNEeFFncv
-	uJL32RU1qEldSya++LFTgOw==
-X-Received: by 2002:a05:6214:3982:b0:912:59f5:7178 with SMTP id
- 6a1803df08f44-91259f572b9mr51296146d6.31.1789776555939; Fri, 18 Sep 2026
- 17:09:15 -0700 (PDT)
+        bh=ekSDbC6S/5AfZ2Iah9TGW0ydX/g6qRFKlYWSxfRX59A=;
+        b=QUkW8+NyoFNuy/a+IZzIgzmAL2mLEAubiJmS13JYGvUNY+wEjCc+/LMXJyiL8BIXgH
+         v8yhgEz50B3TU6DVzH0RoQu/Tc4pJefYPV3wwsRFIPV5EkRhAR+3YQPpoZ3sHlTrZJ8p
+         /9Y56308Ann3rEGK+KN/EUOf/bjGD7YKblULHD+7K9QCu+mTErvjdmE1UpDlIssqCAkY
+         bcaa/WYUzP3rw+kWTqo/ThAcLzctDUekXhMJ2jsSQqgGjxwL8tCKWIXhqcYiQgdLaZrz
+         ysY4fx7HePV42ozLz4hR/8XJ9hMlxN9VTwC14V0WNqcuSe4g1TtJtAfRErM2PvhyViYX
+         gceg==
+X-Forwarded-Encrypted: i=1; AKwUvBwRM4fbmWK1RoqTkOo1Vdi3gWMHmgLbX7lZfH7uDuRe80FMtOQgabcitNQs7aWD5ux1hoWOdQzj8BGJCw==@vger.kernel.org
+X-Gm-Message-State: AFuF++mFAGwoqjUKEo9wI8Zkvqb9b948QBMFv2o/yZoVwRG98mT51yLL
+	76ruqT3sqcr83XVQvTNRN8q5BRr2kI/d7Pt5rrzYGziiMlfRT4pZzhMk
+X-Gm-Gg: AYBFou0rRBhpDnEiFRbkS6TQzhP0B4WXk2K/lhzxjar1J7KP++64iajeJi52HpEWcRV
+	GrkIs/pK8UYx2CXSuRX2zf1v6URhyd+v+07frtbNz4eja0ShJL+18RgxjlsZg27pm3Fj8FK9VwY
+	7ZxLh+hSE2JwAliT63o4eY9VNwEH9eXx0myuWqJJ9zoulhesjBtsfZ7zpDVkP4v5QvICl6T9hdN
+	sWTKqy8IOCGNR7xd0u60vtJY8NY0Nr6uSfpTYPQz2r2MjrU98iu0f/RPQ6UovHx7TklHDiuqyIB
+	r2sD8Kdc8QqQZyuSz/HhwoM4Q73GXRKQ3gy+1OsR4Bk8dWujjTQ9j7gszkD2xlw2BTR9vwd42ee
+	eXZ3iqimlfmBMppxCOcHVaHrf76UwcZVRXZemQFtkZmwOExQLwx7+fUaVW2NWSCgkz9DDf7volX
+	hPcpYibI1BK7PjazJPvROTiosdFr5DdCdrBQ0Bhoi6QdoRcXw+JeZX4Q7GMDvv4Z+x7VzM2G0D9
+	oUNjxCoaFRoQL/x21WQgO1mRJ7zCju+RSWNCVAOxobxA4ARzQiT/cqkl7lXvJBueCTfXVJVVKRX
+	ghc/8Awq0ajPAP3O/nkuXTfJB/CO7MSDszNinFo7h+SnELxT8MogDpW45hWngr4O+RgtqubGH45
+	mBmBqR1BFASgvgxw/
+X-Received: by 2002:a05:600c:3b05:b0:49f:c196:47b9 with SMTP id 5b1f17b1804b1-49fc567318bmr60705515e9.4.1789795749070;
+        Fri, 18 Sep 2026 22:29:09 -0700 (PDT)
+Received: from MacBook-Pro-von-Karl.localdomain (dynamic-2a02-3100-a017-2b01-05fe-203b-7cd2-a640.310.pool.telefonica.de. [2a02:3100:a017:2b01:5fe:203b:7cd2:a640])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4872459d409sm4258691f8f.33.2026.09.18.22.29.07
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Fri, 18 Sep 2026 22:29:08 -0700 (PDT)
+From: Karl Mehltretter <kmehltretter@gmail.com>
+To: Maxime Ripard <mripard@kernel.org>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: Karl Mehltretter <kmehltretter@gmail.com>,
+	=?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Mark Brown <broonie@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Cezary Rojewski <cezary.rojewski@intel.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	linux-sound@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v3] drm/vc4: hdmi: Unregister the ASoC card on unbind
+Date: Sat, 19 Sep 2026 07:29:05 +0200
+Message-Id: <20260919052905.26038-1-kmehltretter@gmail.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+In-Reply-To: <20260825063735.14676-1-kmehltretter@gmail.com>
+References: <20260825063735.14676-1-kmehltretter@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260918212231.1193758-1-xmei5@asu.edu>
-In-Reply-To: <20260918212231.1193758-1-xmei5@asu.edu>
-From: Xiang Mei <xmei5@asu.edu>
-Date: Fri, 18 Sep 2026 17:09:02 -0700
-X-Gm-Features: AcwNN1VEk0TFmo665Y4k-d2dWdC5cPVRtdRowVAey1-mRjtQf5TJXnzVkPticXg
-Message-ID: <CAPpSM+TuDm2GRg=JTn_Qb6GzWQfik1j2iVt6AO9Ooa3HyvsD2w@mail.gmail.com>
-Subject: Re: [PATCH] ALSA: line6: Clamp the playback URB size to the OUT
- endpoint packet size
-To: perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org
-Cc: dev@andree.sk, co+f595d33a1b0a565b@bugs.sh, stable@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, Sep 18, 2026 at 2:22=E2=80=AFPM Xiang Mei <xmei5@asu.edu> wrote:
->
-> The playback buffer is sized from the OUT endpoint's max_packet_size_out,
-> but submit_audio_out_urb() takes the length to write into it from
-> prev_fsize, which audio_in_callback() derived from the IN endpoint.  Both
-> come from the device's own descriptors and nothing relates them, so a
-> device declaring a large iso IN and a small iso OUT wMaxPacketSize
-> overflows the buffer.  usb_submit_urb() rejects the oversized URB, but
-> only after the write has run.
->
-> Attaching the device is the whole trigger: toneport_startup() acquires th=
-e
-> monitor stream and starts both URB streams on its own, so the overflow
-> happens in the URB completion handler with no local process involved.
->
-> Clamp the length to max_packet_size_out.  A device whose OUT endpoint
-> matches the audio format it announces never reaches the limit.
->
-> BUG: KASAN: slab-out-of-bounds in submit_audio_out_urb (sound/usb/line6/p=
-layback.c:242)
-> Write of size 1024 at addr ffff88801b94bc00 by task vhci_rx/183
->
-> Call Trace:
->  kasan_report (mm/kasan/report.c:595)
->  kasan_check_range (mm/kasan/generic.c:186 mm/kasan/generic.c:200)
->  __asan_memset (mm/kasan/shadow.c:84)
->  submit_audio_out_urb (sound/usb/line6/playback.c:242)
->  audio_out_callback (sound/usb/line6/playback.c:354)
->  __usb_hcd_giveback_urb (drivers/usb/core/hcd.c:1657)
->  usb_hcd_giveback_urb (drivers/usb/core/hcd.c:1741)
->  vhci_rx_loop (drivers/usb/usbip/vhci_rx.c:107)
->  kthread (kernel/kthread.c:436)
->  ret_from_fork (arch/x86/kernel/process.c:158)
->  ret_from_fork_asm (arch/x86/entry/entry_64.S:245)
->
-> The buggy address belongs to the object at ffff88801b94bc00
->  which belongs to the cache kmalloc-512 of size 512
->
-> Cc: stable@vger.kernel.org
-> Fixes: 7a0f55aeeb8f ("ALSA: line6: Support assymetrical in/out configurat=
-ions")
-> Reported-by: <co+f595d33a1b0a565b@bugs.sh>
-> Assisted-by: LLM
-> Signed-off-by: Xiang Mei <xmei5@asu.edu>
-> ---
->  sound/usb/line6/playback.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/sound/usb/line6/playback.c b/sound/usb/line6/playback.c
-> index 7ebaf125f969..cfb20585c5ea 100644
-> --- a/sound/usb/line6/playback.c
-> +++ b/sound/usb/line6/playback.c
-> @@ -181,6 +181,7 @@ static int submit_audio_out_urb(struct snd_line6_pcm =
-*line6pcm)
->                 }
->
->                 fsize *=3D bytes_per_frame;
-> +               fsize =3D min(fsize, line6pcm->max_packet_size_out);
->
->                 fout->offset =3D urb_size;
->                 fout->length =3D fsize;
-> --
-> 2.43.0
->
+On Tue, 25 Aug 2026 08:37:35 +0200, I wrote:
+> Register the card without devm and unregister it from the component unbind
+> callback, where both the HDMI device resources and vc4_hdmi are alive. This
+> makes the card lifetime independent of when the final DRM reference is
+> dropped.
 
-Please disregard this patch. It duplicates my other submission
-addressing the same out-of-bounds write in submit_audio_out_urb().
-
-Sorry for the duplicate submission and noise.
+Friendly ping on v3. Is anything else needed from my side before this
+can be picked up?
 
 Thanks,
-Xiang
+Karl
