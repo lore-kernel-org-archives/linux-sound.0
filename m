@@ -1,69 +1,69 @@
-Received: from mail-pj2-f23.google.com (mail-pj2-f23.google.com [74.125.227.151])
+Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DE7D36C5B4
-	for <linux-sound@vger.kernel.org>; Sun, 20 Sep 2026 04:55:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0A073CDBAA
+	for <linux-sound@vger.kernel.org>; Sun, 20 Sep 2026 04:55:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789880139; cv=none; b=GMVhwAULdABUuCH8iGU+hdaD5qLKakuXM3FItu0i71fcBU7jWdOggzAg7OdPCTBm+fP/tDfokAbeZLKjDejB7ZlbHPQjasgy3SY04u05OQjHuzCQWUGkPK5nfPba6GG+iVI84fmu6rF1hick/ZC5ZhUDTCzu5hNE+2NOwbb/IEk=
+	t=1789880148; cv=none; b=cVDywWtzhrDfjlf3SU1ZFg+uQ7QrMfBZLMYzqyQZRQIaPZ4fr+tkTJAKECIxGnTP/O3PmDCBoKOOhrNDw0sAroIn6uJem2opCoVluoGzKGwKLfmXuZBwnHaKpgCH9FIZ62RO7AkOSCM9FQkd6Xc4yEMZST1/o0Vj5r+G11G/8ps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789880139; c=relaxed/simple;
-	bh=vjc8kzENgz6iKNAy+aA+ET9iiFQ96+MVJmNToH4ibVY=;
+	s=arc-20240116; t=1789880148; c=relaxed/simple;
+	bh=kMBkAaHfXaz58m08vArU+hc+2lbzFG3sRy/QCWibQdk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=UGasJcr7Gk5WFnTl2pGSQca1mjAedE02a+9GHvTaT/sSoSWZ+mIdPGmaBQ34l9rIN9uqCHjOEkCKt/8q79oGKDm3ICd62szb7AA2PMMKOhfqHbJlQs84R3mgfJxnc0gl00wEEds3vOwEliyVAQMYIbaN2bFwYHQcCa7wrSlxU9k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YhNsfMsK; arc=none smtp.client-ip=74.125.227.151
+	 In-Reply-To:To:Cc; b=SgQbtFPwzFc43O5pb1WeSNJONd+JnjYZvMQWyO3ILin04/qOkI6Hwzg/DTYjOg8PAYSN7aRcRtWYj6/GhSc0+Fif4PjVGJ/UTXtVArzVWpKsD2VbVUP1/n27PNRs2+17fqF5PZTh6PBhKiPgWk/I0HqUUjLkojvtg8pghUwW1ok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FI+a3251; arc=none smtp.client-ip=74.125.227.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YhNsfMsK"
-Received: by mail-pj2-f23.google.com with SMTP id d9443c01a7336-2d747f066d8so6961945ad.1
-        for <linux-sound@vger.kernel.org>; Sat, 19 Sep 2026 21:55:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FI+a3251"
+Received: by mail-pj2-f12.google.com with SMTP id d9443c01a7336-2d8fdc579daso22626165ad.1
+        for <linux-sound@vger.kernel.org>; Sat, 19 Sep 2026 21:55:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789880137; x=1790484937; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1789880146; x=1790484946; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=guh9SUKBNUNAFe1CPJL5pC07OGZIVIcs9iIVSylPf+8=;
-        b=YhNsfMsK0qk6onzsVi58+SzI9I3WoyBfqN4CqEjUIBImnWEhhFpsM0ryqMru1niaN/
-         TtBpZo/vEaOmhVFIp+tzkY4D9aJt6pwTlv0iEFtgCTEnXIX2aRPQuVph9lfLhLDf09Qh
-         rEnips7XyrbCo8HIRrawhZBA2wkgrEohk1ILg0/RSsG2t5hky4HLwVJu4qCYTdis+XbL
-         9f88hWyjeJkiN7qJSPxDZcuigFbPnSUU9rWpHr6oKgKO2qZRXIT3lNY7ErKCWY+zKQo5
-         nHKEUpYaPbdBg26ozTzWt3LaHhDqJusFr0DtsSvAND35I0+Nhx/by8XPxbw32ppfI0KI
-         7E2w==
+        bh=SAVOL9koiJ+YcQGa1QFT/np1LbpIAAvGvOBmeTVIdhA=;
+        b=FI+a3251o47vrl9qhpBO9pRnUVmARw/dpGb6QXeAsUaxf8JWwC2U6py7UuzwTjKSpT
+         8DneJxtc4/U5OGFg4ylGhVdrfcJzdnl+4rsSlnBpKvShj4qVnwbFy+uLlCj1C42TcZgP
+         bfJKtAtA8d0+q4Lj5Ibkx07j04BwtRe+NV8vvYcVUC9YHNtRk2IDAWoTBAv/BPnf4O6X
+         uWRMw9qaS/u4sdkmDNvIFOxtGtfqBgfNKHeVGeg2MuIUGa7yhUMxaYuCwOd+klSbsSCn
+         NaepW2dklmjRRaPGspYfMPaGbzLAqvx9NNPY39rfS25i6jBt0enUDuZpamBvPK3+hkaa
+         N8eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789880137; x=1790484937;
+        d=1e100.net; s=20260707; t=1789880146; x=1790484946;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=guh9SUKBNUNAFe1CPJL5pC07OGZIVIcs9iIVSylPf+8=;
-        b=MPx91LmOdEJ0wWoCGO4Qzb91sfITsm/CqbFHdcRtEgdOzFeHqbKYne7xHhuulDICdj
-         sxW3MidC9o7jLl7esBoeQVqI3jV8tbSpZYf+4A7IMbh0AA61JxJm+h5SsrQTh5Ybxzf0
-         z12Q1vYua+aNzAa7wtMEafNHMmmLTLzDxoO5OcX+pDm7D1Z/sigbyzlqLNRqLElAeIN4
-         Z/u3cHyeI8rAuqOcw6TXi8rFZ5dl3H7ZScVyRlDPJuN5H3QOQ8ICPO9D8hEOi09870Ub
-         PFf9tWTn9WBU0Gx65WdAJiLPoQFwNj0PiTpEiyt1sfxZL1/IuQo8xnl155X6PWZsh+EU
-         FLWg==
-X-Forwarded-Encrypted: i=1; AKwUvBzz8j2m6H8mrP5es8l7neorcIgeyH2oBoUGzQBlJB3/slvydxxK9UhoxhiyvWyBYxRsvPMAeTZfjENAUA==@vger.kernel.org
-X-Gm-Message-State: AFuF++m+8WdbM2yIX2lfpsVuydj9gsg5w1rrpNw6mPCAbr4nfqRstMcj
-	P63TpEY9tiCYDFXDZwQxr4tOKOnVyYQuSEy2ZYFdn5bvqntb0dFpBkEa
-X-Gm-Gg: AYBFou2hCTgOie1UYhdQ3+C76eqxyoYTkqLOPMFUCIlz0y3TZRqDmX9y29H4Z/5YBIt
-	xfDr25fR6CYiq/s0LpJAnpI4vzRbc8ZDDGQulVQZ3lI4EAR3WV+DGIP4npIfaz+eInCJeUZg/Je
-	ra+WwvJp4qeWO4kjNmeDm3oQTFhG0NDpreAMm11rT5hGUq/1oOe47O5Iw7VTreoUYB2wAHjqS71
-	Fwg0q4Ly1PA3Yu5UPh+Vklq18WLXWo8QLd0SbUSmGfepeBRMeCoSxsSoZbWJKHg9aAbj838buvZ
-	2ufJfr0tO3A1bbx8araz3x7USjJwYWOFDp5lo08toD5GI93gXW+mbrO714IBgwFS+KNZjF8XySu
-	y/AiSoMjvDOca7qCe6TlbcyGR9QNhRC01rs1iPrRB8R7rBLp5rGNK0xjj8ArCapS7xE8HUIa6BD
-	wKKIzyz5eNHp5y7Z8a3APCSBWjOphEhXKTvxDgjSmVj3zTVn/wfilzLJ0eq5GfV/mY18ISvkdGT
-	gqNfVl6DxOuQGQuNsyNdfkNzmRfzBaoQWPT4C03pHvn1ha7OyS4MERcETGIOU0g3jIkRbhIy5T+
-	kecNmu5p0+xIQ1BlMSxjy7NXn4wLJTlu/h2Z2dGzzOf/tMw=
-X-Received: by 2002:a17:903:3b90:b0:2dd:c100:251c with SMTP id d9443c01a7336-2ddc1002582mr42342795ad.37.1789880136783;
-        Sat, 19 Sep 2026 21:55:36 -0700 (PDT)
+        bh=SAVOL9koiJ+YcQGa1QFT/np1LbpIAAvGvOBmeTVIdhA=;
+        b=xjKo7dWP4g3aeD4XY8CxQjojgLMXslKz3HMjjFAF8yTVGFHQxec1tQDFMh3QyvGMlY
+         PQsBKfcfpEP3KjvyPGdXBs0nyhPpYFIpOyffz/EonWubj//WdiyyqHZViThYGH++jg6a
+         KX48FmYg1XSekKyIo7kxz1b7YNbtp/yMutdwswZHEV65RtN8VHhmRiEbPbTBRSvKPt3T
+         1tLMOJim4Sb61Col+skcjnNShEEud2mJWL168+DEkZTBLlT9ta+UEeDbk4FQVDJmxYmd
+         LE1KzqkaS14sDaDQgZq5EeHnC1IZiAoB4fu93kQZSIzMXseaTQen/DxBg7o2INNUYkZW
+         Dx8g==
+X-Forwarded-Encrypted: i=1; AKwUvBwohun9n9egzncksME+e3YNbcP/6XrwobsWnnEcDw7nSTzi0e/3Z88rs7SndU1DYR93UhfL6kGubM3e1A==@vger.kernel.org
+X-Gm-Message-State: AFuF++kWuJsMqgQ0VKYz9cCky2a75PqhTJkG90usMuMdWHC+s1Km10Qh
+	bYjbv+uNGW66klZWSEjl6t0Yq7q5Uxe0k7OhXvBvuCixF3k148W2InXW
+X-Gm-Gg: AYBFou2gaQncjK+GZR34eCmeOD2gEuFxTaR7N4H7piaVWfKGmI6p226A6NNJx4YdQu6
+	MFsE+tcX5Mb0y+lm3/YwO8s+iHWMj9VCFidjpFICIt5dR67eVtte+BZXcAb+dUl9Ck1Gtt0uv4s
+	vYR9xqmgNtlUJzWRU0O3wHBTQUIs4E7wMQZUvOWQFCTt+N5vAOrc+HjAeiWE//lfSInF08utqGl
+	E8r3trxnoCaaAuPCTYXBmwJyks/cAZmP576FSPoXHq+hiVdVWYyrDKbingKuenZWVKWafNtR3kL
+	YFgOiMeMV+mcjHumi1yECDN8ao46pPhC/oauekrqgmvOsuguCRcbp+KRoassFPGKY+sjV0H6UtT
+	puG8Prgp52pleUhdm7ygsje3j6UI/p5192Beb+2yD4hi7riATQ7BgPkPxcTLDIbG5wY+mAPttY5
+	OzZ/4ooNQpU5gIE9AnIrjgzfqnq1HRsmuzLNQcvli0BMpj+gd32S82nQ4CNP1Y0jeVh/flUUFZS
+	xAbddagkmTuQynvcAW4OyDzk7jtUZoIxGXlbQZDu0E5AmNjOlWsUaMEAafvbMv9rnccif8/Yz8g
+	HLUF1VP6bEQuJB+ZPswX88aF/mx8Z1R2tlnqP1kiHQo7Xeh+MYCES2ROgA==
+X-Received: by 2002:a17:902:d4c6:b0:2dd:c100:3130 with SMTP id d9443c01a7336-2ddc100319amr56593615ad.44.1789880146239;
+        Sat, 19 Sep 2026 21:55:46 -0700 (PDT)
 Received: from [192.168.2.3] ([2403:581e:d87e:0:fc2d:ed31:e80e:412d])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ddc17d712dsm16026765ad.64.2026.09.19.21.55.28
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ddc17d712dsm16026765ad.64.2026.09.19.21.55.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Sep 2026 21:55:36 -0700 (PDT)
+        Sat, 19 Sep 2026 21:55:45 -0700 (PDT)
 From: James Calligeros <jcalligeros99@gmail.com>
-Date: Sun, 20 Sep 2026 14:53:42 +1000
-Subject: [PATCH 03/28] ASoC: cs42l42: Set a faster digital ramp-up rate
+Date: Sun, 20 Sep 2026 14:53:43 +1000
+Subject: [PATCH 04/28] ASoC: apple: mca: Fix PD link double-frees
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -72,7 +72,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260920-macaudio-v1-3-741cc20a74e5@gmail.com>
+Message-Id: <20260920-macaudio-v1-4-741cc20a74e5@gmail.com>
 References: <20260920-macaudio-v1-0-741cc20a74e5@gmail.com>
 In-Reply-To: <20260920-macaudio-v1-0-741cc20a74e5@gmail.com>
 To: =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
@@ -98,71 +98,84 @@ Cc: asahi@lists.linux.dev, linux-sound@vger.kernel.org,
  Takashi Iwai <tiwai@suse.de>, linux-mediatek@lists.infradead.org, 
  Hector Martin <marcan@marcan.st>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2168;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2173;
  i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=OmSPjK7SUuOGMGgXmxuIo+R2IFqwguXc6h4eMDL7B9Y=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDFnr0+UPyfalrpv1r+xTfu2HLE4JBaWJnIbuCs4xLr/5f
- j7JPX+yYyILgxgXg6WYIsuGJiGP2UZsN/tFKvfCzGFlAhkiLdLAAAQsDHy5iXmlRjpGeqbahnqG
- RjrGOkYMXJwCMNU3NBj+6VWfZumKncEUeYQh9bx1/ZJCiWl7v/0OePDm0bym69Z1Oxn+F3iHLD6
- yt/urYQ8zk7cEo0T99E9aWpIxG7Ysk69699SeDQA=
+ bh=l6ILyllDJHogvaPe0jQmA0G3c3totE6rg0ScLhCeibc=;
+ b=owGbwMvMwCV2xczoYuD3ygTG02pJDFnr0+U5j3Q8K1d7n3zG7LTOxmmXz5Q2XzaeunGxT7HUc
+ 45m1SaHjoksDGJcDJZiiiwbmoQ8Zhux3ewXqdwLM4eVCWSItEgDAxCwMPDlJuaVGukY6ZlqG+oZ
+ GukY6xgxcHEKwFRPesTwT+HVJhMTvqn60VdsGRn0HgazSXQf/Jq76funXvH8tlWL1RgZWk4ftrd
+ /oNc+ddnUN1O2mJZWhlTNltBy1Hz0+n246IQNHAA=
 X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
  fpr=B08212489B3206D98F1479BDD43632D151F77960
 
 From: Hector Martin <marcan@marcan.st>
 
-With the default ramp-up rate, there is a noticeable fade-in when
-streams start. This can be undesirable with aggressive muting for power
-saving, since the beginning of the stream is lost.
+Add additional checks to ensure MCA PD links are not double freed.
 
-Lower the digital output ramp-up time from 8 samples per period to 2
-samples per period. This still leaves some fade-in to avoid pops, but it
-is a lot less noticeable and no longer feels like the stream is fading
-in.
-
-Fixes: 2c394ca79604 ("ASoC: Add support for CS42L42 codec")
+Fixes: 3df5d0d97289 ("ASoC: apple: mca: Start new platform driver")
 Signed-off-by: Hector Martin <marcan@marcan.st>
 Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
 ---
- include/sound/cs42l42.h    |  4 ++++
- sound/soc/codecs/cs42l42.c | 10 ++++++++++
- 2 files changed, 14 insertions(+)
+ sound/soc/apple/mca.c | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
 
-diff --git a/include/sound/cs42l42.h b/include/sound/cs42l42.h
-index 1bd8eee54f66..b3657965d491 100644
---- a/include/sound/cs42l42.h
-+++ b/include/sound/cs42l42.h
-@@ -62,6 +62,10 @@
- #define CS42L42_INTERNAL_FS_MASK	(1 << CS42L42_INTERNAL_FS_SHIFT)
+diff --git a/sound/soc/apple/mca.c b/sound/soc/apple/mca.c
+index be702b2942a5..66196c6a9273 100644
+--- a/sound/soc/apple/mca.c
++++ b/sound/soc/apple/mca.c
+@@ -303,6 +303,7 @@ static int mca_fe_enable_clocks(struct mca_cluster *cl)
+ 	 * the power state driver would error out on seeing the device
+ 	 * as clock-gated.
+ 	 */
++	WARN_ON(cl->pd_link);
+ 	cl->pd_link = device_link_add(mca->dev, cl->pd_dev,
+ 				      DL_FLAG_STATELESS | DL_FLAG_PM_RUNTIME |
+ 					      DL_FLAG_RPM_ACTIVE);
+@@ -326,7 +327,11 @@ static void mca_fe_disable_clocks(struct mca_cluster *cl)
+ 	mca_modify(cl, REG_SYNCGEN_STATUS, SYNCGEN_STATUS_EN, 0);
+ 	mca_modify(cl, REG_STATUS, STATUS_MCLK_EN, 0);
  
- #define CS42L42_SFTRAMP_RATE		(CS42L42_PAGE_10 + 0x0A)
-+#define CS42L42_SFTRAMP_ASR_RATE_MASK	GENMASK(7, 4)
-+#define CS42L42_SFTRAMP_ASR_RATE_SHIFT	4
-+#define CS42L42_SFTRAMP_DSR_RATE_MASK	GENMASK(3, 0)
-+#define CS42L42_SFTRAMP_DSR_RATE_SHIFT	0
- #define CS42L42_SLOW_START_ENABLE	(CS42L42_PAGE_10 + 0x0B)
- #define CS42L42_SLOW_START_EN_MASK	GENMASK(6, 4)
- #define CS42L42_SLOW_START_EN_SHIFT	4
-diff --git a/sound/soc/codecs/cs42l42.c b/sound/soc/codecs/cs42l42.c
-index b5d69d5516a6..c40e8da8f6eb 100644
---- a/sound/soc/codecs/cs42l42.c
-+++ b/sound/soc/codecs/cs42l42.c
-@@ -2422,6 +2422,16 @@ int cs42l42_init(struct cs42l42_private *cs42l42)
- 			(1 << CS42L42_ADC_PDN_SHIFT) |
- 			(0 << CS42L42_PDN_ALL_SHIFT));
- 
-+	/*
-+	 * Configure a faster digital ramp time, to avoid an audible
-+	 * fade-in when streams start.
-+	 */
-+	regmap_update_bits(cs42l42->regmap, CS42L42_SFTRAMP_RATE,
-+			   CS42L42_SFTRAMP_ASR_RATE_MASK |
-+			   CS42L42_SFTRAMP_DSR_RATE_MASK,
-+			   (10 << CS42L42_SFTRAMP_ASR_RATE_SHIFT) |
-+			   (1 << CS42L42_SFTRAMP_DSR_RATE_SHIFT));
+-	device_link_del(cl->pd_link);
++	if (cl->pd_link) {
++		device_link_del(cl->pd_link);
++		cl->pd_link = NULL;
++	}
 +
- 	ret = cs42l42_handle_device_data(cs42l42->dev, cs42l42);
- 	if (ret != 0)
- 		goto err_shutdown;
+ 	clk_disable_unprepare(cl->clk_parent);
+ }
+ 
+@@ -392,6 +397,7 @@ static int mca_fe_prepare(struct snd_pcm_substream *substream,
+ 	if (!cl->syncgen_in_use) {
+ 		int port = ffs(mca_fe_get_portmask(substream));
+ 
++		WARN_ON(cl->pd_link);
+ 		cl->pd_link = device_link_add(mca->dev, cl->pd_dev,
+ 					      DL_FLAG_STATELESS | DL_FLAG_PM_RUNTIME |
+ 						DL_FLAG_RPM_ACTIVE);
+@@ -423,8 +429,10 @@ static int mca_fe_hw_free(struct snd_pcm_substream *substream,
+ 		return 0;
+ 
+ 	mca_modify(cl, REG_SYNCGEN_STATUS, SYNCGEN_STATUS_EN, 0);
+-	if (cl->pd_link)
++	if (cl->pd_link) {
+ 		device_link_del(cl->pd_link);
++		cl->pd_link = NULL;
++	}
+ 
+ 	return 0;
+ }
+@@ -1145,8 +1153,10 @@ static void apple_mca_release(struct mca_data *mca)
+ 			dev_pm_domain_detach(cl->pd_dev, true);
+ 	}
+ 
+-	if (mca->pd_link)
++	if (mca->pd_link) {
+ 		device_link_del(mca->pd_link);
++		mca->pd_link = NULL;
++	}
+ 
+ 	if (!IS_ERR_OR_NULL(mca->pd_dev))
+ 		dev_pm_domain_detach(mca->pd_dev, true);
 
 -- 
 2.55.0
