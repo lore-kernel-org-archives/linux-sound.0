@@ -1,69 +1,69 @@
-Received: from mail-pj2-f33.google.com (mail-pj2-f33.google.com [74.125.227.161])
+Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37D3B3D16E4
-	for <linux-sound@vger.kernel.org>; Sun, 20 Sep 2026 04:57:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.161
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3B4B3D1A98
+	for <linux-sound@vger.kernel.org>; Sun, 20 Sep 2026 04:57:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789880239; cv=none; b=ocpCCMEiaFb6tBvRp26IzXaYBzht50FG3/LcpV6KbbthPQvyU2JeXjbhrbUpkkNIUiZPn28hN25GWqZfsEyBYRcNeUOZTuSQsTUy6BGNACkHMNqP9+O1hD2Bqy34HyqAMH9+pdpQ5iEyBS9EKoZ+Ihc2d3h33QR2BsupNfL7Qok=
+	t=1789880248; cv=none; b=fl9mMFwbbUhwXNlpIG4/ZZpWHDDwz8hR72MQ783tgB3LPidMNOFHxXbUk9QrKbPz7GEzxYCRckkoNG4QGnWS+eum44H4TSWK8cxqRhfz2zpTkhT0IcgbFdemxbsQgTo6iSmwp4fnQxewqWj1v3Z+vhLVz1f7X1AAHKcbEk1WPnU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789880239; c=relaxed/simple;
-	bh=qRwfoN5qNNqVQr8Wt/TWmwL741AZzzHX5UMTWlL06v0=;
+	s=arc-20240116; t=1789880248; c=relaxed/simple;
+	bh=fow1KNfeFBOwUBq/AuCok83xrJa9sG69vnUGOaB1hgI=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=tJoVk1hWFCZHTyo5U1eE2phjyeL32J3VxtLGrduYwsgsDq08MecJ4nWV5Oy95GHYPx2Z/gJNzo4IDOO3cEQxOPkkGtaIL5brkyeK+SQhw2tNnK+yqzH3aqdaC2iJtUsBQI4FYa8YcVg30rGs2rLbfwy7KpogyEAWnurw/E1JlkI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hIp0EVLu; arc=none smtp.client-ip=74.125.227.161
+	 In-Reply-To:To:Cc; b=Yt7aAx7l8B2DbuPxC0B8JYT5+sjQyS+uHs2y8i2J4ertRPIuWVE6Zow6HLAXp5mfKZ1K+YQjzTQXn6OyIksXO9m9k4UjD7Gx2MS98yjRU4NjYuFOVNdFdq6n7v85ilAorWDDJp4k/9GkKv02/zlnjzQO/A6xz02dsHxkgtoSfA8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J/Oo2mKt; arc=none smtp.client-ip=74.125.227.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hIp0EVLu"
-Received: by mail-pj2-f33.google.com with SMTP id d9443c01a7336-2d747ed1368so24899885ad.1
-        for <linux-sound@vger.kernel.org>; Sat, 19 Sep 2026 21:57:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J/Oo2mKt"
+Received: by mail-pj2-f12.google.com with SMTP id d9443c01a7336-2d747ec6185so12089595ad.0
+        for <linux-sound@vger.kernel.org>; Sat, 19 Sep 2026 21:57:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789880237; x=1790485037; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1789880246; x=1790485046; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=gWumTWBsv9GByVmif5mlGmCyRKrpCmaiWOQWTcHmLkY=;
-        b=hIp0EVLuJ97tGVt5wly2XwmCN6Ot4IHrTn7hqm+HuuW280vwhLo6w22bS4J/1Opky4
-         sgkxofP1aInvEbkqvjyIOaIkzdUnxx6b0efovHfD306H+73HYfRl26ZkLjw0jE2k7ZVD
-         wfmlAzeGQaN4NBVU5r4dP2ICbYHynZMa1mSYFLB6UG+S4oUWTYPuoQMuf0kaK3bjfIeP
-         NwYu4TvazeDrzdyQU+SnpmUJfkWl9tbsTc4pvXo1qKqTcCsSSNGWA+k/9vXge9AUd9jv
-         /gAGnxO7atNOv/jFOaE3Mj/ejGNaBbnW7Xgq9FV70dnbz/+LSbzhnvQWtBYpXLFM0KoD
-         6kdQ==
+        bh=UhSaVgPZF5rm02UijUctP+1GziT6CoSBtc+R2AKZdGQ=;
+        b=J/Oo2mKtTIQoq5cyjzqWlKGA4Bd6OtR+BLMia4d40c/CjS8qq7cjHiBtL5c0l67RZb
+         2k7NLOYSg047iSUWJ8hPndh8gfI6pcTmRL8iTkkGclI62fYFheEOgYZXe5EtwQFClW1o
+         5KY8cTnWml2xQic+ZB03oaeTbsT5t/2a/TWjEW/3q79Zyzx52UYFtj6noEpbB9aPCPF0
+         ZGuZ1IcLm0poRJaEZ0U8jDIzaX6MxS/+a1dK72t2m7wJyJRI28J9W3Nsp4MZmO3CdKze
+         ui91u6OgoyLpYvahsHlzqqojIU+tEuHeoEnziPtdyYN5tY8IrpOXJzsICLITRajvq87E
+         z+Iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789880237; x=1790485037;
+        d=1e100.net; s=20260707; t=1789880246; x=1790485046;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=gWumTWBsv9GByVmif5mlGmCyRKrpCmaiWOQWTcHmLkY=;
-        b=c/rgvQw0HCT+aNpGiktptpQOmrnfHhtGXk29GfpSqwm4/uOXeiQu3W+bPBC8Fu0Jyi
-         GV8uuTptIM5opNi/EZADLiZ/+zPmDfWt8ayZQVD250BN7ScQbH5lBfug0q518uh25jk+
-         NfCBY9hYgSgA59IfCTE/YujDTsJ35oZ0hVM4hiraS4vG5mF2CVJWmx1Ggb/DV7nEuRUh
-         qMR/uf4f3pudqQfPe5dDS5Oe6o1iFTk2V5zfFPtQ+LAB0AGCUvPuPbWYv658EG1ydPNd
-         jx1G2mnG7VRLPcrknjAssRZ8GjTD7jJo5X8MpBRNWTxNrvpykXoYw/6DiraHsw2oI/tT
-         8YZg==
-X-Forwarded-Encrypted: i=1; AKwUvByuZf6G9a1AUS/j/JZrn+xPq81PqkbHkbeEBW/FNbaci3aUx3Dzbfg/Qaf0yXsxsKxGDfT5s8zU9fXdMg==@vger.kernel.org
-X-Gm-Message-State: AFuF++lFGVgTPRWmuYKWyGB/0JFtEYSvAjHRkmD4m0G2XuBL4ag9FgX9
-	GTX116gB6BbwXKEZik+IxTTabWzItKoPt5xe4ld04n7DuxPTPtnM1Kq5
-X-Gm-Gg: AYBFou0TYe672rGYkSDl4gubh+pHJ6MmF7U2teSoLNhhH233Htzptn+wRokWwHmi9d6
-	iArcNXJRcE/JD59nfqLe7NmOJVFjVFp8ECI1nD+JCA+cXcUKpRJ+7m9rvQ+Us1T3nbE1Ofkxn/o
-	Rr2SFki24sVZ0LPLCk4Kh7c25aRMvioPZT75QAmJuKi8zkPZP4zHVnkNE7wqDZk6wPdzU7SGmCc
-	IqHUKMitPL2gErsX+SaNvOIex7TKWr9CAZ+sAU823t/Kd2Oiy/XTTlMtjHna9JxlJQ5qV8BdUNF
-	x+erS+1QM87jFyPZN99o86OhGuzuGHTfxgLBiWGDj+iSRw9tbKtyI+u+tKV+cuaVaWZ7F4P+8IU
-	LVLrh3jqLhnA5LlRi0yVBs2k3StmZewSsLccJfm8TIsGDFhaHkvCsf2GA0gAiR4oOp+tiYIbbI9
-	HaBEET6mdEUd6kauapyR0NvFS88XvLzPJYk0qEgDHkXGhavLrkcBeo5Gq5UbheOketNaypRtKyO
-	l0tnHCcg1cOLni4nAzb86GXc+GcNXTY6orgQzv2FGEa6JAwEsYfT8LRmG6ioXaHQH7v1NfpRQN0
-	HnZga1IxuhvfaHMPR0O47K4Sr5UzmRCXJct02hCFivNCcLU=
-X-Received: by 2002:a17:903:2350:b0:2d8:d4d0:7932 with SMTP id d9443c01a7336-2ddb1b99472mr110221825ad.22.1789880237323;
-        Sat, 19 Sep 2026 21:57:17 -0700 (PDT)
+        bh=UhSaVgPZF5rm02UijUctP+1GziT6CoSBtc+R2AKZdGQ=;
+        b=t9tq44sqwCdBHdni5FIO7fDwHMpwTjB7TCxdGTGw/MBKoHXfF6rXlD7S1hicF0UDqq
+         JiHtNBor6NPsdNY7Xd8ryxlCQFN3c7mSSkAO+uejm/kk9ATzeathIwZY+6M2G8Hv4ju+
+         HbItxu8/y/pq3y8eYPH8GzGyX4OCYpyUAfFsR7+iAu5VtFWHk+IP4HoOjde4u5lLCZEr
+         coD7Pg8KQina1cVNVClEWPYTyp7lQgZdfICMC62P0Y7ttMXLVe7v1wnmmwfQvB4C9w7A
+         M5XJ4D1H3xEk6Vv8hzaP2a1VhiVQAc5yJk7TXtiw2UBG2zg09jIH7oKGDX/Qznx8c0z0
+         yr+w==
+X-Forwarded-Encrypted: i=1; AKwUvBzcTHylnI6OceivWy3x8nBoz7+139f9P64R4vxAOKBNyEVjV4zd1UlE65fpd6ikRywUMlZM3VBKMm6gbg==@vger.kernel.org
+X-Gm-Message-State: AFuF++nV+kJ0ZHxkZDIkKh36hH8QgkGMQvM2xH1Pnu8cHriEFpGPZ4gA
+	pmrSgDjmy8HBajFBZAKJ4vOnXnCnzxtF3kN50pznmRtN0vYSRxvW9qvu
+X-Gm-Gg: AYBFou39bar4kmQnv4Q1Bs+2EeiAaWtn2V1rbTpS43h+sAX1d3Bfg/yKC2pRahUQcl8
+	HdHZIReIluuTghy6KK4RUPuTt5kcwjl4FrxBJLxqhAZAWXbEsLAWtNm7gVO2HJRNe/MJD4Ctlnv
+	zhqb3rMIIWcN8pi+lWMIUYHJJRo4ad+nI4hMoqhAoQoy67UX2ewA3EUBWrWrtauI+toE/wc3awt
+	a7IiThyD+J6N7S9BPBm7aNscM1IH113EeOq4W+68ba8iWGmjixdtHnkEmVRgeK30wrUd7HHR1YX
+	qKMS9/uKl6ILBnltme2pNbi8wqiIxbMjqBOi4z3R2YcGa3XiGE0pVStvr0mtOMY2w1WLL3ve8K+
+	/EM4lFl2j3NQz/ZQ7FMuEP2aYuOnFyljR2SP3Acf+ZSMnvvIZ8Ct74kcB+VT+NW1Gqb8RTrNF0T
+	iAiwCRatTR1r/JlRUn9/NDZEtbekL62wOgJfafUk0VxWX7mr0HXrFZXWRPqj51kWrvMazqI7AMS
+	ld7BDd8EmiTo0CwDJSom0+yqvqJAb7el8ClLMR05twDhdO1mfuAX8tekKq+RLDZhDk5ESAOihTe
+	8wQnL+d796aCXb0IfWEXNekcmiSRAdOXiFDfRO0TeigC/6g=
+X-Received: by 2002:a17:903:3205:b0:2d8:f965:7e48 with SMTP id d9443c01a7336-2ddb1ab3990mr125558885ad.1.1789880246135;
+        Sat, 19 Sep 2026 21:57:26 -0700 (PDT)
 Received: from [192.168.2.3] ([2403:581e:d87e:0:fc2d:ed31:e80e:412d])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ddc17d712dsm16026765ad.64.2026.09.19.21.57.08
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ddc17d712dsm16026765ad.64.2026.09.19.21.57.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Sep 2026 21:57:17 -0700 (PDT)
+        Sat, 19 Sep 2026 21:57:25 -0700 (PDT)
 From: James Calligeros <jcalligeros99@gmail.com>
-Date: Sun, 20 Sep 2026 14:53:53 +1000
-Subject: [PATCH 14/28] ASoC: ops: Export snd_soc_control_matches()
+Date: Sun, 20 Sep 2026 14:53:54 +1000
+Subject: [PATCH 15/28] ASoC: tas2764: Set up V/ISENSE on codec probe
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -72,7 +72,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260920-macaudio-v1-14-741cc20a74e5@gmail.com>
+Message-Id: <20260920-macaudio-v1-15-741cc20a74e5@gmail.com>
 References: <20260920-macaudio-v1-0-741cc20a74e5@gmail.com>
 In-Reply-To: <20260920-macaudio-v1-0-741cc20a74e5@gmail.com>
 To: =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
@@ -95,93 +95,133 @@ To: =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>,
 Cc: asahi@lists.linux.dev, linux-sound@vger.kernel.org, 
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-arm-kernel@lists.infradead.org, patches@opensource.cirrus.com, 
- Takashi Iwai <tiwai@suse.de>, linux-mediatek@lists.infradead.org, 
- Hector Martin <marcan@marcan.st>
+ Takashi Iwai <tiwai@suse.de>, linux-mediatek@lists.infradead.org
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2678;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3680;
  i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=uxLGzSeW/mzW8E6v3Cg7Wd+ZjxhCKdm9ELh/X2EAU88=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDFnr0xWLO9eyfbBor06vLstcdaLicvofUeZTBl/eBvFfe
- rmvsK22YyILgxgXg6WYIsuGJiGP2UZsN/tFKvfCzGFlAhkiLdLAAAQsDHy5iXmlRjpGeqbahnqG
- RjrGOkYMXJwCMNX9PAz/s8qDIsvmh53P8D5Tz/lWc7XhN7NFpw+lskz3vNL/72d9IMP/oKod8dP
- Mjuve2bEroJZ3o1lo9uWXh9+oOpofqjxhlufLDQA=
+ bh=fow1KNfeFBOwUBq/AuCok83xrJa9sG69vnUGOaB1hgI=;
+ b=owGbwMvMwCV2xczoYuD3ygTG02pJDFnr0xVrK2bPvZvHF6X2dCXrwu1KRTPjZ9y5ViY06av2h
+ xdHm9cVdUxkYRDjYrAUU2TZ0CTkMduI7Wa/SOVemDmsTCBDpEUaGICAhYEvNzGv1EjHSM9U21DP
+ 0EjHWMeIgYtTAKZ6+UyG/6nut++9+/rpg8y69fskunk8ZVavXr+WVdSMRfcYq+WiK0sY/qmdUP2
+ 7/MWbypxjaSUxbA7lme6/Pk5q07ZaOU/qrPlOZ3YA
 X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
  fpr=B08212489B3206D98F1479BDD43632D151F77960
 
-From: Hector Martin <marcan@marcan.st>
+Setup V/ISENSE on codec probe rather than doing so on every hw_params
+or TDM slot call so that it is configured at the same time as the
+rest of the codec.
 
-This helper is useful for drivers that want to do their own control
-lookups and matching as part of more complex logic than the existing
-operations.
-
-Signed-off-by: Hector Martin <marcan@marcan.st>
 Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
 ---
- include/sound/soc.h | 2 ++
- sound/soc/soc-ops.c | 9 +++++----
- 2 files changed, 7 insertions(+), 4 deletions(-)
+ sound/soc/codecs/tas2764.c | 61 ++++++++-----------------
+ 1 file changed, 20 insertions(+), 41 deletions(-)
 
-diff --git a/include/sound/soc.h b/include/sound/soc.h
-index d638fc69925c..6c4689ef8973 100644
---- a/include/sound/soc.h
-+++ b/include/sound/soc.h
-@@ -576,6 +576,8 @@ int snd_soc_get_volsw_sx(struct snd_kcontrol *kcontrol,
- 	struct snd_ctl_elem_value *ucontrol);
- int snd_soc_put_volsw_sx(struct snd_kcontrol *kcontrol,
- 	struct snd_ctl_elem_value *ucontrol);
-+bool snd_soc_control_matches(struct snd_kcontrol *kcontrol,
-+	const char *pattern);
- int snd_soc_limit_volume(struct snd_soc_card *card,
- 	const char *name, int max);
- int snd_soc_deactivate_kctl(struct snd_soc_card *card,
-diff --git a/sound/soc/soc-ops.c b/sound/soc/soc-ops.c
-index dc27d1c409ab..94d0514be66d 100644
---- a/sound/soc/soc-ops.c
-+++ b/sound/soc/soc-ops.c
-@@ -403,7 +403,7 @@ int snd_soc_put_volsw_sx(struct snd_kcontrol *kcontrol,
- }
- EXPORT_SYMBOL_GPL(snd_soc_put_volsw_sx);
- 
--static bool soc_control_matches(struct snd_kcontrol *kctl,
-+bool snd_soc_control_matches(struct snd_kcontrol *kctl,
- 	const char *pattern)
+diff --git a/sound/soc/codecs/tas2764.c b/sound/soc/codecs/tas2764.c
+index 6654100ac91d..39372d0446d0 100644
+--- a/sound/soc/codecs/tas2764.c
++++ b/sound/soc/codecs/tas2764.c
+@@ -266,8 +266,6 @@ static int tas2764_mute(struct snd_soc_dai *dai, int mute, int direction)
+ static int tas2764_set_bitwidth(struct tas2764_priv *tas2764, int bitwidth)
  {
- 	const char *name = kctl->id.name;
-@@ -425,6 +425,7 @@ static bool soc_control_matches(struct snd_kcontrol *kctl,
+ 	struct snd_soc_component *component = tas2764->component;
+-	int sense_en;
+-	int val;
+ 	int ret;
  
- 	return !strcmp(name, pattern);
+ 	switch (bitwidth) {
+@@ -297,32 +295,6 @@ static int tas2764_set_bitwidth(struct tas2764_priv *tas2764, int bitwidth)
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	val = snd_soc_component_read(tas2764->component, TAS2764_PWR_CTRL);
+-	if (val < 0)
+-		return val;
+-
+-	if (val & (1 << TAS2764_VSENSE_POWER_EN))
+-		sense_en = 0;
+-	else
+-		sense_en = TAS2764_TDM_CFG5_VSNS_ENABLE;
+-
+-	ret = snd_soc_component_update_bits(tas2764->component, TAS2764_TDM_CFG5,
+-					    TAS2764_TDM_CFG5_VSNS_ENABLE,
+-					    sense_en);
+-	if (ret < 0)
+-		return ret;
+-
+-	if (val & (1 << TAS2764_ISENSE_POWER_EN))
+-		sense_en = 0;
+-	else
+-		sense_en = TAS2764_TDM_CFG6_ISNS_ENABLE;
+-
+-	ret = snd_soc_component_update_bits(tas2764->component, TAS2764_TDM_CFG6,
+-					    TAS2764_TDM_CFG6_ISNS_ENABLE,
+-					    sense_en);
+-	if (ret < 0)
+-		return ret;
+-
+ 	return 0;
  }
-+EXPORT_SYMBOL_GPL(snd_soc_control_matches);
  
- static int snd_soc_clip_to_platform_max(struct snd_kcontrol *kctl)
+@@ -452,7 +424,6 @@ static int tas2764_set_dai_tdm_slot(struct snd_soc_dai *dai,
+ 				int slots, int slot_width)
  {
-@@ -492,7 +493,7 @@ int snd_soc_limit_volume(struct snd_soc_card *card, const char *name, int max)
- 		return -EINVAL;
+ 	struct snd_soc_component *component = dai->component;
+-	struct tas2764_priv *tas2764 = snd_soc_component_get_drvdata(component);
+ 	int left_slot, right_slot;
+ 	int slots_cfg;
+ 	int slot_size;
+@@ -499,15 +470,26 @@ static int tas2764_set_dai_tdm_slot(struct snd_soc_dai *dai,
+ 	if (ret < 0)
+ 		return ret;
  
- 	list_for_each_entry(kctl, &card->snd_card->controls, list) {
--		if (!soc_control_matches(kctl, name))
-+		if (!snd_soc_control_matches(kctl, name))
- 			continue;
+-	ret = snd_soc_component_update_bits(component, TAS2764_TDM_CFG5,
++	return 0;
++}
++
++static int tas2764_set_visense(struct tas2764_priv *tas2764, int vslot, int islot)
++{
++	int ret;
++
++	ret = snd_soc_component_update_bits(tas2764->component, TAS2764_TDM_CFG5,
++					    TAS2764_TDM_CFG5_VSNS_ENABLE |
+ 					    TAS2764_TDM_CFG5_50_MASK,
+-					    tas2764->v_sense_slot);
++					    TAS2764_TDM_CFG5_VSNS_ENABLE |
++					    vslot);
+ 	if (ret < 0)
+ 		return ret;
  
- 		ret = soc_limit_volume(kctl, max);
-@@ -534,7 +535,7 @@ int snd_soc_deactivate_kctl(struct snd_soc_card *card,
- 		return -EINVAL;
+-	ret = snd_soc_component_update_bits(component, TAS2764_TDM_CFG6,
++	ret = snd_soc_component_update_bits(tas2764->component, TAS2764_TDM_CFG6,
++					    TAS2764_TDM_CFG6_ISNS_ENABLE |
+ 					    TAS2764_TDM_CFG6_50_MASK,
+-					    tas2764->i_sense_slot);
++					    TAS2764_TDM_CFG6_ISNS_ENABLE |
++					    islot);
+ 	if (ret < 0)
+ 		return ret;
  
- 	list_for_each_entry(kctl, &card->snd_card->controls, list) {
--		if (!soc_control_matches(kctl, name))
-+		if (!snd_soc_control_matches(kctl, name))
- 			continue;
+@@ -821,15 +803,12 @@ static int tas2764_codec_probe(struct snd_soc_component *component)
+ 			dev_warn(tas2764->dev, "failed to request IRQ: %d\n", ret);
+ 	}
  
- 		ret = snd_ctl_activate_id(card->snd_card, &kctl->id, active);
-@@ -604,7 +605,7 @@ int snd_soc_set_enum_kctl(struct snd_soc_card *card,
- 		return -EINVAL;
+-	ret = snd_soc_component_update_bits(tas2764->component, TAS2764_TDM_CFG5,
+-					    TAS2764_TDM_CFG5_VSNS_ENABLE, 0);
+-	if (ret < 0)
+-		return ret;
++	if (tas2764->v_sense_slot != -1 || tas2764->i_sense_slot != -1) {
++		ret = tas2764_set_visense(tas2764, tas2764->v_sense_slot, tas2764->i_sense_slot);
++		if (ret < 0)
++			return ret;
++	}
  
- 	list_for_each_entry(kctl, &card->snd_card->controls, list) {
--		if (!soc_control_matches(kctl, name))
-+		if (!snd_soc_control_matches(kctl, name))
- 			continue;
+-	ret = snd_soc_component_update_bits(tas2764->component, TAS2764_TDM_CFG6,
+-					    TAS2764_TDM_CFG6_ISNS_ENABLE, 0);
+-	if (ret < 0)
+-		return ret;
  
- 		ret = soc_set_enum_kctl(kctl, value);
+ 	switch (tas2764->devid) {
+ 	case DEVID_SN012776:
 
 -- 
 2.55.0
