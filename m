@@ -1,120 +1,119 @@
-Received: from mail-oi2-f13.google.com (mail-oi2-f13.google.com [74.125.231.205])
+Received: from mail-vs2-f12.google.com (mail-vs2-f12.google.com [74.125.227.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95FE430F7FB
-	for <linux-sound@vger.kernel.org>; Sat, 19 Sep 2026 17:37:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.231.205
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789839476; cv=pass; b=Ptatc2LcdHVWzJwx9kXKDdZOWQdnCcpLOzALzSUX8PhqJMETf0OHAIOWQXJ6YBmfKXItsVHGQpA2sWzIYNDgyJTG9E3kUEWMYZgngIXdEFXJcnO3GHRnVb10sg5ZWLfP0cJl+gaV9nb9FJghlXSbb0Lrch6WKkVK9lo4HfqRS3M=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789839476; c=relaxed/simple;
-	bh=3M3Ly8PtfuuDQudfR3+28sw5EfN2/wDbZ9K6hoePcXE=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=Ovuvat/ZkE152F2j4TUItkN9bDXeNPZYyewk1AK3HZ8f9PTO3+vhIVIdPSsKNS8e03yZGuiNq6izo5emFsnQg/YYl4y5+8T5HRLE2t9ZGRxDy6mjfRcXApz31V6dXmT8i5fCwgZFlAmpshpHoaXSTxQA75eEm2DGzV/O/m+j9tE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J3cqfnVL; arc=pass smtp.client-ip=74.125.231.205
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E145223ABBE
+	for <linux-sound@vger.kernel.org>; Sun, 20 Sep 2026 01:21:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.12
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789867281; cv=none; b=XifokI2W1h5U77NjN6KVT/aDO/QB6MAxlVaI7O2dPgBQclcljY/3PX3wYXdqfKU1m3k1j08eLUQZbn/Wqb9DairU9dAlvf4VMqBitQqShY3JKuRCZixnnGf3JniBDGwBr9BSRf1wTIfAOU1Mhjy69ixgGE3b3qRfvzFZTGRlKaY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789867281; c=relaxed/simple;
+	bh=2zaSWf5r9NwHO8bq30a3+zlb6fuk3dWRT56RBawh42A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Nkpo0z9qGvy+OGdF6WUror/X2KFS8loKEStvYDi0gffhJufjA4hIU+3llZknA0LizuxgbhtD2SNQ7e0zARt5UCT6Vn1JRNwLnB4BPhMvZS96qPxq60P0ukqMmfcOsGJu8KiuQ0fLpt83RQBCnR8Pm/goEvUqzI4fu6oj08FxUz8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H3G44PZz; arc=none smtp.client-ip=74.125.227.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J3cqfnVL"
-Received: by mail-oi2-f13.google.com with SMTP id 5614622812f47-4b37a36887bso976503b6e.2
-        for <linux-sound@vger.kernel.org>; Sat, 19 Sep 2026 10:37:54 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789839473; cv=none;
-        d=google.com; s=arc-20260327;
-        b=asNOsZS5lo7JkCwWQEp3vdLxn502kjG6Tzd2p8mt6HG+O93FnXszmxRWcEWYQKIvb0
-         xV+TWx8WFslykcMzdhZF8gCVwnfe0Zc+qRjzbyJSLrTuDUfvVbyMGPCl0offNdvRXtxx
-         6fIIQifbg0Z7yxQR19kOUS2PrPSwGUi4aQsIVHxhylf69LQSxqONnpODVauBYRMVubp/
-         UZmRBD+0l+ZtrO0dlbdB08SWj/timmgt0FsVlmjZFNlY53i1LqRp5Qgreg2I2Zi93+XU
-         RVUxyAilGt4nLgE9vr9JTmfNFc1VQv6sqT9O8UP1SXASU9VYNV9eDieFqOe7RuVm3DQq
-         P6eg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=urXzmInWVRHneRjWpEj4c3oyfAKdN4ZIpc92YRdUpZI=;
-        fh=XP+86SuuTInMcKI8+0dTVoT3DC3lJDXHAdu/2ISOv7A=;
-        b=FLALIL162MNGlLWEjT7dOMWosfFpOjIgYEdLcLT3yfoUma6Z8OfWsdQ+OsxoBuocjp
-         rnBG5udtlOFWcUX7rMbTClumxJmewEU1c4s6XDSP2i0rGngHi6n+iNaipU2zXFbutT0H
-         mJITI8qK2AGkt0rxsOoygHkQDyFyq/7MFk3Gg8nw3puwjb7lFn7D0By4qtci4lqq8Nnf
-         JkSBzZvuE9GK1hhPjXZKDl5EiH9rHKTFKer/AsRn1c0RMdgaxmbgPuj3iCq2Mq96XMqo
-         7ZeZw/8wk7CiI4ZwfLwcnLADTMrKcpG3C/F3VsX4NbY4IKwcyMbKIJdazhTVxjXhTFni
-         NHYA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H3G44PZz"
+Received: by mail-vs2-f12.google.com with SMTP id 71dfb90a1353d-5c67e529da9so607690e0c.2
+        for <linux-sound@vger.kernel.org>; Sat, 19 Sep 2026 18:21:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789839473; x=1790444273; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=urXzmInWVRHneRjWpEj4c3oyfAKdN4ZIpc92YRdUpZI=;
-        b=J3cqfnVL9RD+0cki21EAZttOH10vGBFnFvC/DByMmpIXEt2A0kRoMYRbTRrxYskD5b
-         61kSYjS4J6uitlRBYgN9Ol6s9egI/FcujXizg7FHkx1F0yCP5zU19rEY+rpgAvsdcc9T
-         dl0jmmAGCm45L+PPd2lBIlVNnYHyFWGHLDWmvnntivrnT3m4sawxy+7htB6LqMIG2PoX
-         E2O+ZD8RySmGIoXNDTOsvf4C/a1c4xRO2rg9EJLzdjVckbMm5o0QxbKEXSM1ajT9G6uq
-         SaYBPaYvlGDGvZFKSKdifpRoZr3cJI84TgM3k5x1uQD049F4v1rkXNk1yiSvGyZr6Y5o
-         Mlhg==
+        d=gmail.com; s=20251104; t=1789867279; x=1790472079; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=n7dETFL01Uf/V8b/sJtlYLOgTsT5+0OY9xqQKkVwMJU=;
+        b=H3G44PZzgdTZOnwKmIw3EfAOWZV8DplBDKkbWkjwyy7wB6EfswLhgeKgMFJZEAj+VW
+         n0OcUcITPU10YpZW+9qgeV2fXNWLyA0UVETSuHv4YWmKIhgNJdn9liLECsfe9iJZvmNw
+         8zKWLHpDEpjvQ5hCGKYDsvnWUycdt0HYpgBGaGNq4vUWsrJm8AMr/hFEjXCEkRESCxM8
+         RuOn1SoltfgonOAr1twZTSw3uHuAFyOS2P9IKJdDrF+gvHT7+5uEC017VLyCzZ/e5Zyi
+         OaZc3L0jAKaDPmkXo/egZ5B6CiakuTn0fRuGhGuUvv8kCI37xMJznn7tAuH0HlbwolkZ
+         nJSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789839473; x=1790444273;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=urXzmInWVRHneRjWpEj4c3oyfAKdN4ZIpc92YRdUpZI=;
-        b=xO6G312gRLN8v/W/wqNJQobtKv0hIrlddT5aIM8UtYx0ZR3DIL7NPG6w8wUQajbB3H
-         QgXxf0E5ew7QiRXurDYhEt0PiQGDv/LWdj7oYvE2GeOgp1iVaOPqMetxU6KOQ4fZgEMb
-         qAmumYeGzjtAy32iCbN96Sl6JQZWrofFGTRcf240DnvPYMCCU85YgTBvS1cB42v8LFF3
-         pDYeVzZDSyNcUP7nZ3WaQiCcZXN6AiMOVIclPvu62rHElchpHNOgyq8a0raDat3eTPxg
-         QwdgUTpRU/PP5Z6c6BdLSM7uXomfQH4dVdRht8Cjwrti9ZpA+Ua3qccB1qi8EAsxjjJR
-         n1aA==
-X-Gm-Message-State: AFuF++nBryaXC7Jya6jbenqkS2j+6ti2X0IgGWCW4+QEgj3O6yqqhqIw
-	gwcbtS/7+QrqBkNoEoWdM5/Nk7JHSJeVAVKVpsbLHcOn/LRntWbHvVYqCF9KFpkWXiIm82c+MCI
-	9qUvpLAfc0E0lDK61bIXgR8tc15UZ9jg=
-X-Gm-Gg: AYBFou24DITHayAj2NrlgrASl3HIWu25QQcCMvNv0OTR6NFi20vmWWARcOCeRhDnjxy
-	2ogdffmbsR2uEqdUhB9MLo7991tZ7URVBjA1PyDQgNYCYDz0qgxHw/+w3VlVGElr9AajOr3ahyq
-	h+ka3CswhLNX+HUgHnym8lRmzh7LQfDpBUBtNCIsZzj4iwVAbpwDlyKBmmswvaax2zytwi0Ix/8
-	49uKOGGD1Y29U6gbFXHgy63FmGnmsXzy+1B5p+8zWnvkA/6uDGAUDBKezgxJJxdDq1GI6YL5fD8
-	J5PmqH0ceiIGE/ntfi/ywpW8lGkes08Yin+eFO9bTF5sF3TAPRveyGRmSEu+PVp8njIYIH2Zcqq
-	J1qlIB00cgUII4XiLoXt4jCrqxS/Dqs6ry7idXa/RzKTI4oquq9DW3k1Wy315HNd0ogwNJxBDXN
-	VmrQECRAR5owVZo8ODbCwIaTMPY+DvmHw=
-X-Received: by 2002:a05:6820:188f:b0:6a3:1dc5:3570 with SMTP id
- 006d021491bc7-6ca9be4ff96mr5127192eaf.31.1789839473388; Sat, 19 Sep 2026
- 10:37:53 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1789867279; x=1790472079;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=n7dETFL01Uf/V8b/sJtlYLOgTsT5+0OY9xqQKkVwMJU=;
+        b=iKucFRG4YSLhSFzfXO16iTgSoR3rAn4hHDPvaKw0zOn0aHlATJdn2+DySph/UCF6td
+         VHzU4o2JXCQyDRLjObrLLfZ509bu37klJLtGkpS9njOaEu0wrJiPZ872B2SKjmL7J62g
+         7RYJ5mxShFFNBSxMRQV2my4qWFFqgxVGBiG9OlijVIYfcefF3NnNbbMKS18PNx4YNg6e
+         L0V06pi19BwFk9aywHPhlHcC8GMSYP9tr3o9KLWVbKo4FX8As1OpEelUYsD+w4IBlZrX
+         3Tdsc2db1475+TEPRxssldKaFUx9ZFySS7o4GzGTSxUnMB+iFYCYn57mmclAK10Cw5i3
+         aODQ==
+X-Forwarded-Encrypted: i=1; AKwUvBw2bPO+wKBe6ch1YSK1GpX1kt2Ew3dgB0S4qZhVxyOQk8II+DZ0T7ABiM1ZWitO7Jgtbw4VO5IsxUbUhw==@vger.kernel.org
+X-Gm-Message-State: AFuF++lzxT3dNqzGmVR/JOcG/pGa87Ro1PVmDzMf3N91aQi7zftglNnb
+	gwKkWI/LIE45rQFu+OfUs8tKt/SuOi/DD9uORQ8KPz/AFHRvNZQdUyUb
+X-Gm-Gg: AYBFou1dIastw6hiY5v/rRVQ53UNVPq8TN5HN+ISX94GxDg1L1NnBJmVmYVEoWHyl7M
+	P8F+ff6/p66wdZlO+A7GQ4FV5Y677RczuUIt0rIyYim9ZW92Oe4Ne0M7EKeimYFQq1L0gbSYSL/
+	RJ5R+IFzG13go8XpM2pQmeK8W4b16kvvff86iIAw0ha2dhlviNCmTLKJB2fdhsz9aB/iPMNqADP
+	zcXU2hXi4Zh2LxiaLOt2tq978GdkmVNllb7PtoqjDg6ndUgU1fufhctAc735u2DSb7Ggu/M07JB
+	N9rSFztwb6G/leT1HS6gGIKqtWUInMaRq+9fvW8xC73dzGg2FRWqRuGlhIxMoJXF2WSItK7n/dq
+	UxAs+l57FNc4ZYJl97qQN9KE3VvNIRnAsPNNZS/zDnKvwwOqmvHpvkI1FjymUfXpUNMiSYGSIeD
+	wwnBzWrHWu/98e5JsekivoHfXTMvgEeePoI82vUn31k8EhhiJbFvcDZO79oujKN1VlSnfM
+X-Received: by 2002:a05:6102:2922:b0:7a2:2a6b:e7b4 with SMTP id ada2fe7eead31-7a55a0253damr2427061137.2.1789867278724;
+        Sat, 19 Sep 2026 18:21:18 -0700 (PDT)
+Received: from danozmo ([38.51.243.36])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7a6ac5e08c7sm4064319137.8.2026.09.19.18.21.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 19 Sep 2026 18:21:17 -0700 (PDT)
+From: Daniel Ortiz <letargopausado@gmail.com>
+To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+	Mark Brown <broonie@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>
+Cc: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: amd: yc: Add DMI quirk for Lenovo V15 G6 ARP
+Date: Sat, 19 Sep 2026 20:19:20 -0500
+Message-ID: <20260920011920.2482786-1-letargopausado@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Bartosz Brom <bartosz.brom06@gmail.com>
-Date: Sat, 19 Sep 2026 19:37:14 +0200
-X-Gm-Features: AcwNN1VoogZIq0FCgYpuaMQJlESNWEeYCUSCBaNQtgaYhZ4PzJxlUMUv0QsqjvE
-Message-ID: <CAN3WbsSrR_gXGO2Dco4kBuPOw5LGAzHFJgeTW6rXYYvvjkC6Rg@mail.gmail.com>
-Subject: [PATCH] ALSA: hda/realtek: Add mute LED quirk for HP Laptop 15-dw1xxx
-To: perex@perex.cz, tiwai@suse.de
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-The HP Laptop 15-dw1xxx with an ALC236 codec requires the
-ALC236_FIXUP_HP_MUTE_LED_MICMUTE_GPIO fixup for its mute LED to work correctly.
+The Lenovo V15 G6 ARP (product name 83UU) uses the ACP6x PDM interface
+for its internal digital microphone array. Its firmware exposes neither
+the AcpDmicConnected _DSD property nor the _WOV method, so acp6x_probe()
+falls through to the DMI check and returns -ENODEV, leaving
+acp_yc_mach.0 unbound and no capture device registered.
 
-Add subsystem ID 0x103c:0x85f1 to the quirk table to apply the existing fixup.
+Add a DMI quirk entry for this model. With it, the machine driver binds
+and the DMIC capture device is created:
 
-Tested on an HP Laptop 15-dw1xxx; the mute LED now follows the speaker
-mute state.
+  acp_yc_mach acp_yc_mach.0: Enabling ACP DMIC support via DMI
+  card 2: acp6x [acp6x], device 0: DMIC capture dmic-hifi-0
+
+Capture was verified working with arecord and PipeWire.
+
+Signed-off-by: Daniel Ortiz <letargopausado@gmail.com>
 ---
-Signed-off-by: Bartosz Brom <bartosz.brom06@gmail.com>
----
-diff --git a/sound/hda/codecs/realtek/alc269.c
-b/sound/hda/codecs/realtek/alc269.c
-index 5127a111c59c..bf7a20404233 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -7388,6 +7388,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
-        SND_PCI_QUIRK(0x103c, 0x85c6, "HP Pavilion x360 Convertible
-14-dy1xxx", ALC295_FIXUP_HP_MUTE_LED_COEFBIT11),
-        SND_PCI_QUIRK(0x103c, 0x85de, "HP Envy x360 13-ar0xxx",
-ALC285_FIXUP_HP_ENVY_X360),
-        SND_PCI_QUIRK(0x103c, 0x85f0, "HP Laptop 15-dw0xxx",
-ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
-+       SND_PCI_QUIRK(0x103c, 0x85f1, "HP Laptop 15-dw1xxx",
-ALC236_FIXUP_HP_MUTE_LED_MICMUTE_GPIO),
-        SND_PCI_QUIRK(0x103c, 0x85f3, "HP 250 G8 Notebook PC",
-ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
-        SND_PCI_QUIRK(0x103c, 0x8603, "HP Omen 17-cb0xxx",
-ALC285_FIXUP_HP_MUTE_LED),
-        SND_PCI_QUIRK(0x103c, 0x860c, "HP ZBook 17 G6",
-ALC285_FIXUP_HP_GPIO_AMP_INIT),
+ sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
+index 79858fc..f3f3592 100644
+--- a/sound/soc/amd/yc/acp6x-mach.c
++++ b/sound/soc/amd/yc/acp6x-mach.c
+@@ -381,6 +381,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "83Q3"),
+ 		}
+ 	},
++	{
++		.driver_data = &acp6x_card,
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "83UU"),
++		}
++	},
+ 	{
+ 		.driver_data = &acp6x_card,
+ 		.matches = {
+-- 
+2.55.0
+
