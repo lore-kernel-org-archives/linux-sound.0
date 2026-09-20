@@ -1,75 +1,78 @@
-Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
+Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3F1743E070
-	for <linux-sound@vger.kernel.org>; Sun, 20 Sep 2026 12:27:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C201306741
+	for <linux-sound@vger.kernel.org>; Sun, 20 Sep 2026 13:06:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789907235; cv=none; b=uDzhbYfLKOyO9FLiKsAkfUfhyEMSQmbrS5ybbDhiXuBgROF4ZGGKXmufUoLgxVj3eahAdZ2qlMY2DquNA8ss0XSDqF4OvqQWK+C3+Z3ATQGAsNR22lhyZtsG6uHNZceLJVpVUJ1yvO7hUJoxyzTlKuXbGJE8u4mzTm2TbgaBMZU=
+	t=1789909598; cv=none; b=AF027opeVFdXLcRgYGukfy3F/ejejF/saMEVkO9JGfL8jGl3WO/UOIM0RNJ2W9srhq8z2lRUFnUgsAjcQ8uoF1Jre1nW53FTJ8jdau6pWXu7hz/lqxjuoNth7pO/AfEAqKQTWjm61J5nsizi6vcjkqz08jAkRlW5BXk1Amc8zKw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789907235; c=relaxed/simple;
-	bh=x0Td9IYTKICH7n7tSTZQ9CEcZmy7GnUj8l+oc+qoRTY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=edgRc/jfz1xitzOR0OuO3xO8aX5QyGEE3c0vFaDN+zAdoOvoYnieGK6fOLBC2TIyCz7Ptugo4Fa6zzqbxR/BpTiH3MjCC9KuWmx9bjiexVh3KyPeiZxvaB9OIEWFS62UK3nItnzUir6MtGZO2KTkUaHH80nWh8ozOSoKAgKfy18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OI9C9MFm; arc=none smtp.client-ip=74.125.227.141
+	s=arc-20240116; t=1789909598; c=relaxed/simple;
+	bh=+v/ikmMWC6yEM2Ezt6o53dF45zpVrAbmByCIImfeL3I=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Jfm+haUityFSsst4Rd1x9A4Gw/htj/6cLHIefeP9IqT/1nXdMS2T7+ocL5aUdyLQAUp7aTXoUA1hqKH2pZV2/XNms7OtDh/K8iVLz0PBoQHeCXxdytLonVtswv8Y2ojkhWMm+YkDGnHST+RKsUi5lVpTZ54DwUzqULUhEssP9p8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rGJ0zzE1; arc=none smtp.client-ip=74.125.227.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OI9C9MFm"
-Received: by mail-pj2-f13.google.com with SMTP id 98e67ed59e1d1-398c066106cso1693893a91.1
-        for <linux-sound@vger.kernel.org>; Sun, 20 Sep 2026 05:27:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rGJ0zzE1"
+Received: by mail-pj2-f12.google.com with SMTP id 98e67ed59e1d1-396ccc09d65so1992377a91.3
+        for <linux-sound@vger.kernel.org>; Sun, 20 Sep 2026 06:06:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789907218; x=1790512018; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=7vjWBQwN3dE/GJAyD7dmJglKHoaPsNUHMSjnNpDOIVk=;
-        b=OI9C9MFm3A82XvbVeEvWQ23VKk7y434ahM3Uyd3RIbKWJx0NgkRpK6NXrNaPh8Wt0G
-         f+wo+ltlOxpYFeZYYTCZarQ05j0+b1CEBcEpunrDTie2fGWMJls0IbdVG0OJeKTy1SVE
-         9/UOL9OfKS74sOcA0VTnjGNI6oz2Au7zvpF6QKrNkBo4506JQU2L07EqhHUchI5PWigf
-         wOgwRfGOdzv2Sug49dZ8nL6GAFPLOqy8MkqZ0iJK7Dt9RkY3TxJcA7AM+oM2ocjuzjwA
-         b1bMg9Ys0pUyDXCCONmJl356taa8bixVPOzk8IUKF1rChDokvpe9Tdohetx45EfM40XB
-         krxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789907218; x=1790512018;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1789909593; x=1790514393; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=7vjWBQwN3dE/GJAyD7dmJglKHoaPsNUHMSjnNpDOIVk=;
-        b=bjTEhVCvQOkE0BnmDB5dgNTHj/8Mnal33LKH7L05NK6jjvzUX03+Noc3+AobM/X+3Y
-         ujldFLbTAM6jktknOeUk/X1Rs2dztzoyJ3icIzusRcrcY3AiZK7XabroNhPxjXzGZRS7
-         mtpTs8K/1XKGF1BYIKYzd2KKjh5TmMdJzgx6vSvwfKm6NRAaROrvU7csKwJLNPIkyx4G
-         dc2lPdSgJYAeI+xncmhvQrMIjdZRqIiBzAaGxbshJFU7qOuQto5/fEy8YP3m6EoM0dzm
-         MGuyC4HqfRFzIJVm4E3uITqv8JuiWiir2DISA6roLTANwQPwCBQ5mTNUMm5E1bBAxd4F
-         clXg==
-X-Forwarded-Encrypted: i=1; AKwUvBzJr/R3uGY22NOuF36AbSRnq5nkkmZkqAS/QQIyozcAZ9IOubNHOXAzYHXeK5+Kr1QoqbdvlAStZPACBw==@vger.kernel.org
-X-Gm-Message-State: AFuF++nsuufh2aXEMDRcUyo/TLG0XAm1zVPpqyOEIQ3AMTxWi6TiuHBU
-	m+v0f7eqr5o+aeGYp0Yu0zb45DEZbo19KX9NLgwsF6SZh1r3ag2HUvsP
-X-Gm-Gg: AYBFou1w1iZ2NxLkSSSaD9BzMlJzdw2GXgPlQvS6AgmgyYoty21LFkytywP9fhjSgSz
-	WcDYrpCBbHIBTwOM+cDWDDnzauUo3V2n3c8iIq6U2LolgmfrnbG/XgjwZ52SNKWhUTd6EHMtGcu
-	6gtIrggZexDcehZsUFGRp6ZlVs902MSfgz7OjDQ0Kt83USqUHOZWOo0+gm+ZaFl4Y2YCdrxX640
-	8EJl/Pu5ZGB1DziLzLerS2N8ODibzjXUJGLwAboM4l/TsDi0adLLHDFl1YAAOKCp+QFS3T5uE0P
-	oHGK1n65A0jXbqP4Gpt9BpBkE8vt64C/ZjwNPua7bSG8scG8Dt9AGgCnieHQfCxgE3gjsP29pp9
-	oaxIFrSjMSSGe454ruf9CoZtowEVjxxIv2YcODWXut8qUF+X/0TmKlrHgs7co8XvoHG6CqQ09DJ
-	RssqIsv84aQh5wso57e6Iv8to7y1L/13ohr3cVqbRNMnb4xLg41nwCcsmdOTZPGsX+0hJe01jjz
-	uJlQFSMKVG1DOUwxmXKP2rH
-X-Received: by 2002:a17:90a:c089:b0:39e:6c68:155a with SMTP id 98e67ed59e1d1-39e6c683333mr5944433a91.34.1789907218266;
-        Sun, 20 Sep 2026 05:26:58 -0700 (PDT)
-Received: from archlinux (061093018190.ctinets.com. [61.93.18.190])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a038ff8c39sm3188791a91.7.2026.09.20.05.26.55
+        bh=8sfiGtmsyzJ28id24H9Dlhgf8NW0ehv6M/d4V6czheQ=;
+        b=rGJ0zzE15teNsRaKYrNHVC1XtJ0BgeQqYC3lqYRKVm5y63CIGGJfqNQe9p12QRGxSR
+         6MUlETDSTBug55h8GPM7lGZQTiSygZglIGxSc6kdlWrFoHZWAMwdJyOJxhLmcrxr24aW
+         DxDCWPiIwu9xS1nspoqETj0Te1e5iG46kXcQ5ZT97kJVxUrqw/r8UeZu/GR4TTdhKx8p
+         62R0EVDdmYqACIa/T1X7XAJiOVvtqpVlKDC/ONnmpRTg2lyQGDC9pdRZzv4JlX6BXZy3
+         lBJ59954Giv7fpNiitavSNHCPZHZRkyqlU/qxlehTx1milnPPbtPbSeLIq57eMK8kACk
+         qu+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789909593; x=1790514393;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=8sfiGtmsyzJ28id24H9Dlhgf8NW0ehv6M/d4V6czheQ=;
+        b=MuuHaYYvh5uKBEyAguNni8DBxdHjndk3QfdrLInA60ClkC5V4M9HJW84WEDnSm7fJT
+         hsrrXSwgaPIn5OfwkjPiGWUX2RoViiMZwkQvzvAMhP0U/IEKS1OEMNixwe6WDJDIDZNs
+         OG/zyo4PfDlCuZvoM0rmetQLacN8ufct1rJJgQvJvh73ELwVgoRvgFy41EpOo0l0QpMx
+         v9ICM+fgnJkPnKkqiGAOn8mgw1SimZDoe7nzgYk3TI6MJBsM+Q72l1YnzXbhqJ6QTfSp
+         /Q4Mefi2s5jQBCM4WvzOGM8ugxsAYeexl+AzEYla/dtbdXZFsv0l78yshA3/cYoXuAhO
+         j58g==
+X-Gm-Message-State: AFuF++l/9Tv8bqCoLLtbnLaPLuYAr4K1q8Bryzge7ahitFnQSZEEdxs8
+	Ke8+yzc0SG81ri66ZsIFuf4JZEzWeobOxTt2BgUMc2ycYX4ObehMek/P
+X-Gm-Gg: AYBFou09/qKfheSz/YUTrKiyPUJ4+fAgXs2EjgXEzeNkPLfh5qXu1km2yrcwT82Yi8V
+	TP9SgQk8QahHvt2I0OyxQV7VRspmml6ofnUDvp3rm7CG+WQq0qdncMSvF4P7th02NIQV8K06I7y
+	44uNKH91F5txO7pECudtNjW66i/ksEDwJmd14WgT8uBs4Gq4XaHClPhgoRtLXyTB0KRDX/vpVI+
+	hxqIXywO1mGbksAx0uycgTa8IDz4+vQ0Sb8wF8u6v3QCdMdHIo6cchLO+9iH4H070w9wRCG7UKf
+	boPcJVCCidVf567Yp1X++CH28vdCF/X7cOQc5PRVsUZzgPtgLsWnG7zm4Y+3l+WisoG7KS5kjow
+	1NFG0Wmg3DsJnelEC57ZP2DnbuiVKazu6jEYB9AFy1LXbRMrP2K9jHEonzZI7sgil04mn2cHwIC
+	j1Q6cqBaFgz69RNEPHQZIDfsOT+DtFLZMAIXBSd1Mr9NvEbY08pWpKwdJ6cfhPs6F3txZwLQAgw
+	UxlY5am3V96FbsCRj75VnJHjA==
+X-Received: by 2002:a17:90b:2802:b0:39e:2c5c:a69a with SMTP id 98e67ed59e1d1-39e54cb0e34mr11539482a91.5.1789909593487;
+        Sun, 20 Sep 2026 06:06:33 -0700 (PDT)
+Received: from akhil ([59.182.252.222])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33c331b0d6esm10461781eec.27.2026.09.20.06.06.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Sep 2026 05:26:57 -0700 (PDT)
-From: Darren Chang <darrenchangjr01@gmail.com>
-To: perex@perex.cz,
-	tiwai@suse.com
-Cc: corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	linux-sound@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: usb-audio: Add quirk for inverted sample rates on NUX NAI-24
-Date: Sun, 20 Sep 2026 20:26:53 +0800
-Message-ID: <20260920122653.41993-1-darrenchangjr01@gmail.com>
+        Sun, 20 Sep 2026 06:06:32 -0700 (PDT)
+From: Akhil Arul <akhilarul324@gmail.com>
+To: tiwai@suse.com,
+	tiwai@suse.de,
+	perex@perex.cz
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	syzkaller-bugs@googlegroups.com,
+	Akhil Arul <akhilarul324@gmail.com>,
+	syzbot+825b7e3a03dd072c187f@syzkaller.appspotmail.com
+Subject: [PATCH] ALSA: rawmidi: give up draining output when the device stops draining
+Date: Sun, 20 Sep 2026 18:36:20 +0530
+Message-ID: <20260920130620.61431-1-akhilarul324@gmail.com>
 X-Mailer: git-send-email 2.55.0
+In-Reply-To: <87tsnng8kl.wl-tiwai@suse.de>
+References: <87tsnng8kl.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -78,153 +81,204 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The NUX NAI-24 (USB 3703:2000) has a UAC2 clock source that reports
-bmAttributes = 0x01 (internal fixed clock) and bmControls = 0x07, so the
-driver treats its sample rate as programmable.  When the driver sends
-SET_CUR(SAMPLING_FREQ_CONTROL), the firmware acknowledges the request and
-then runs the clock on the opposite base-rate family: asking for 44100 Hz
-makes the device run at 48000 Hz, and asking for 48000 Hz makes it run at
-44100 Hz.
+snd_rawmidi_drain_output() waits up to 10 seconds for the output buffer
+to empty.  The wait is unconditional, so a substream that has stopped
+being consumed costs the full timeout on every call.
 
-The result is playback that is about 8.8% fast, or 8.4% slow with heavy
-static on the 48000 Hz family.  macOS and Windows ignore bmControls, treat
-the clock as fixed and resample, so they are unaffected.
+The sequencer OSS emulation makes that expensive.  midisynth_unuse() runs
+as the port unuse callback with grp->list_mutex held for write, and calls
+snd_rawmidi_drain_output().  A single teardown closes every OSS midi port
+of the device, so an unresponsive device exposing many ports holds the
+rwsem for minutes.  snd_seq_port_connect() needs the same rwsem, and in
+the OSS path it runs under register_mutex, so every other odev_open()
+queues up behind it until the hung task detector fires:
 
-Work around it by sending the partner rate in SET_CUR for this device, so
-the device runs at the requested rate.  A new QUIRK_FLAG_SWAP_RATES flag
-controls this, applied through the quirk flags table.
+  INFO: task syz.4.21:6176 blocked for more than 143 seconds.
+    __mutex_lock
+    odev_open
+    chrdev_open
+    vfs_open
+    path_openat
 
-Only the 44.1/48 kHz pair has been verified on hardware; the 88.2/96 kHz
-and 176.4/192 kHz pairs are untested but follow the same pattern.
+Detect a stalled drain by sampling the free space instead of always
+sleeping for the whole timeout, and give up once it has not increased for
+a second.  A substream that is still making progress is given as long as
+it needs, within the same overall 10 second limit as before, and each
+wait is clipped to the remaining time so that limit is not overshot.
 
-Testing: the equivalent change ran on the device as a locally built
-module (44100 Hz PCM, device clock 44100 Hz, no xruns, correct tempo, no
-static).  This upstream form compiles for sound/usb without warnings and
-passes checkpatch, but has not been built in a full kernel tree or
-load-tested.
+The warning is rate limited because a stalled drain is now detected much
+more often than once per 10 seconds.
 
-Assisted-by: LLM
-Signed-off-by: Darren Chang <darrenchangjr01@gmail.com>
+Closing one such device in qemu, with the syzkaller reproducer supplying
+the gadget, took 72-103 seconds before and 9-11 seconds after.
+
+Reported-by: syzbot+825b7e3a03dd072c187f@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=825b7e3a03dd072c187f
+Signed-off-by: Akhil Arul <akhilarul324@gmail.com>
 ---
- Documentation/sound/alsa-configuration.rst |  6 +++++
- sound/usb/clock.c                          | 27 ++++++++++++++++++++++
- sound/usb/quirks.c                         |  3 +++
- sound/usb/usbaudio.h                       |  6 +++++
- 4 files changed, 42 insertions(+)
+Went with the adaptive one in the end.
 
-diff --git a/Documentation/sound/alsa-configuration.rst b/Documentation/sound/alsa-configuration.rst
-index e500ec84e..689eccf6a 100644
---- a/Documentation/sound/alsa-configuration.rst
-+++ b/Documentation/sound/alsa-configuration.rst
-@@ -2407,6 +2407,12 @@ quirk_flags
-           the requested rate.  A device advertising a single rate is otherwise
-           never sent the request at all, and some require it before streaming
-           will start.
-+        * bit 33: ``swap_rates``
-+          The clock source applies a requested rate to the other base-rate
-+          family, i.e. asking for 44100 makes the device run at 48000 and vice
-+          versa (same for 88200 <-> 96000 and 176400 <-> 192000).  The driver
-+          sends the partner rate in SET_CUR so the device ends up running at the
-+          requested one.
+I tried the fixed cap first and couldn't make it stand up. buffer_size is
+PAGE_SIZE, so 16K or 64K on arm64, and PARAMS goes to 1MiB, so any constant
+I pick is really a guess about the buffer. Test device consuming at the
+MIDI-1 wire rate:
+
+  buffer    unpatched      2*HZ cap        adaptive
+   4096     ok 1.42s       ok 1.44s        ok 1.43s
+  16384     ok 5.60s       -EIO 2.06s      ok 5.63s
+  65536     -EIO 10.06s    -EIO 2.06s      -EIO 10.06s
+
+The middle row is a healthy device at full rate failing because the kernel
+has 16K pages. That killed it for me.
+
+The adaptive version keeps the 10s ceiling and only bails out when avail
+hasn't moved for a second, so those rows stay as they are. It also happens
+to fix the hang better than the cap did. Closing one /dev/sequencer2 with
+the syzkaller gadget attached, three runs each:
+
+  unpatched   72.0s   102.7s   102.3s
+  adaptive    10.7s     8.7s    11.6s
+  2*HZ cap    18.4s    12.4s    16.5s
+
+The teardown still calls the drain the same ~31 times either way, 9 to 15
+of which time out; only the cost of each timeout moves. Hung task detector
+at the default 120s stays quiet over three runs of about four minutes, with
+the repro plus two threads opening /dev/sequencer2.
+
+The cost is that a substream which goes quiet for a second with data still
+queued now gets -EIO. Same device, pausing once and then resuming:
+
+  pause    unpatched     patched
+   950ms   ok 3.53s      ok 3.53s
+  1050ms   ok 3.83s      ok 3.84s
+  1200ms   ok 4.28s      -EIO 1.30s
+  2000ms   ok 6.68s      -EIO 1.31s
+
+So it's 1.05-1.2s rather than exactly a second. The poll grid is 200ms and
+the cutoff drifts depending on where the pause lands against it.
+
+I said 400ms in my last mail. That turned out to cut off a device pausing
+for half a second, which a real one might do, so I widened it to a second.
+
+Worth saying that avail isn't monotonic here - drain doesn't gate writers,
+it only forces the wakeup in snd_rawmidi_transmit_ack(). That's why the
+test is whether avail increased rather than whether it reached buffer_size.
+I checked a shared append substream with a second writer refilling it, in
+case that read as a stall. It doesn't: avail jitters instead of sitting
+flat, the counter keeps resetting and the drain runs the full deadline.
+With the refill matched to the consumption rate, unpatched gives -EIO at
+10.07s and patched at 10.06s.
+
+I couldn't find a way to bound the teardown without putting a cutoff
+somewhere. Whether a second of silence is enough to call a device stopped
+is your call.
+
+No Fixes: tag, the 10s wait predates git.
+
+ sound/core/rawmidi.c | 67 ++++++++++++++++++++++++++++++++++++++------
+ 1 file changed, 58 insertions(+), 9 deletions(-)
+
+diff --git a/sound/core/rawmidi.c b/sound/core/rawmidi.c
+index 2617bb5b4..3df9366d7 100644
+--- a/sound/core/rawmidi.c
++++ b/sound/core/rawmidi.c
+@@ -36,6 +36,13 @@ module_param_array(amidi_map, int, NULL, 0444);
+ MODULE_PARM_DESC(amidi_map, "Raw MIDI device number assigned to 2nd OSS device.");
+ #endif /* CONFIG_SND_OSSEMUL */
  
- This module supports multiple devices, autoprobe and hotplugging.
- 
-diff --git a/sound/usb/clock.c b/sound/usb/clock.c
-index 34832183a..cc77eace7 100644
---- a/sound/usb/clock.c
-+++ b/sound/usb/clock.c
-@@ -549,6 +549,30 @@ static int get_sample_rate_v2v3(struct snd_usb_audio *chip, int iface,
- 	return le32_to_cpu(data);
++/* upper bound for draining the output buffer */
++#define SNDRV_RAWMIDI_DRAIN_TIMEOUT	(10 * HZ)
++/* interval at which drain progress is re-checked */
++#define SNDRV_RAWMIDI_DRAIN_POLL	(HZ / 5)
++/* polls without progress before the drain is considered stalled */
++#define SNDRV_RAWMIDI_DRAIN_STALLS	5
++
+ static int snd_rawmidi_dev_free(struct snd_device *device);
+ static int snd_rawmidi_dev_register(struct snd_device *device);
+ static int snd_rawmidi_dev_disconnect(struct snd_device *device);
+@@ -246,11 +253,20 @@ int snd_rawmidi_drop_output(struct snd_rawmidi_substream *substream)
  }
+ EXPORT_SYMBOL(snd_rawmidi_drop_output);
  
-+/*
-+ * Return the partner rate in the other base-rate family.
-+ * See QUIRK_FLAG_SWAP_RATES.
-+ */
-+static unsigned int swap_base_rate(unsigned int rate)
++static bool output_drained(struct snd_rawmidi_runtime *runtime)
 +{
-+	switch (rate) {
-+	case 44100:
-+		return 48000;
-+	case 48000:
-+		return 44100;
-+	case 88200:
-+		return 96000;
-+	case 96000:
-+		return 88200;
-+	case 176400:
-+		return 192000;
-+	case 192000:
-+		return 176400;
-+	default:
-+		return rate;
-+	}
++	return runtime->avail >= runtime->buffer_size;
 +}
 +
- /*
-  * Try to set the given sample rate:
-  *
-@@ -585,6 +609,9 @@ int snd_usb_set_sample_rate_v2v3(struct snd_usb_audio *chip,
- 	if (!writeable)
- 		return 0;
+ int snd_rawmidi_drain_output(struct snd_rawmidi_substream *substream)
+ {
+-	int err = 0;
+-	long timeout;
+ 	struct snd_rawmidi_runtime *runtime;
++	size_t avail, prev_avail;
++	unsigned int stalls = 0;
++	unsigned long deadline;
++	long timeout, wait;
++	bool done;
++	int err = 0;
  
-+	if (chip->quirk_flags & QUIRK_FLAG_SWAP_RATES)
-+		rate = swap_base_rate(rate);
+ 	scoped_guard(spinlock_irq, &substream->lock) {
+ 		runtime = substream->runtime;
+@@ -258,19 +274,52 @@ int snd_rawmidi_drain_output(struct snd_rawmidi_substream *substream)
+ 			return -EINVAL;
+ 		snd_rawmidi_buffer_ref(runtime);
+ 		runtime->drain = 1;
++		prev_avail = runtime->avail;
++	}
 +
- 	data = cpu_to_le32(rate);
- 	err = snd_usb_ctl_msg(chip->dev, usb_sndctrlpipe(chip->dev, 0), UAC2_CS_CUR,
- 			      USB_TYPE_CLASS | USB_RECIP_INTERFACE | USB_DIR_OUT,
-diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index c5870901a..03e3e5ae4 100644
---- a/sound/usb/quirks.c
-+++ b/sound/usb/quirks.c
-@@ -2550,6 +2550,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
- 		   QUIRK_FLAG_GET_SAMPLE_RATE | QUIRK_FLAG_MIC_RES_16),
- 	DEVICE_FLG(0x36f9, 0xc009, /* XIBERIA K03S */
- 		   QUIRK_FLAG_FORCE_IFACE_RESET | QUIRK_FLAG_IFACE_DELAY),
-+	DEVICE_FLG(0x3703, 0x2000, /* NUX NAI-24 */
-+		   QUIRK_FLAG_SWAP_RATES),
- 	DEVICE_FLG(0x3c20, 0x3d21, /* AB13X USB Audio */
- 		   QUIRK_FLAG_FORCE_IFACE_RESET | QUIRK_FLAG_IFACE_DELAY),
- 	DEVICE_FLG(0x413c, 0xa506, /* Dell AE515 sound bar */
-@@ -2675,6 +2677,7 @@ static const char *const snd_usb_audio_quirk_flag_names[] = {
- 	QUIRK_STRING_ENTRY(MIXER_GET_CUR_OK),
- 	QUIRK_STRING_ENTRY(PLAYBACK_URB_FIXUP),
- 	QUIRK_STRING_ENTRY(ALWAYS_SET_RATE),
-+	QUIRK_STRING_ENTRY(SWAP_RATES),
- 	NULL
- };
++	/*
++	 * Wait for the device to consume the buffer.  Rather than always
++	 * sleeping for the whole timeout, sample the free space and stop
++	 * early once it has not increased for a second.  A substream that
++	 * is still making progress is given as long as it needs, within the
++	 * same overall limit as before.
++	 */
++	deadline = jiffies + SNDRV_RAWMIDI_DRAIN_TIMEOUT;
++	for (;;) {
++		/* signed difference, so this is safe across a jiffies wrap */
++		wait = (long)(deadline - jiffies);
++		if (wait <= 0) {
++			timeout = 0;
++			break;
++		}
++		wait = min_t(long, SNDRV_RAWMIDI_DRAIN_POLL, wait);
++		timeout = wait_event_interruptible_timeout(runtime->sleep,
++							   output_drained(runtime), wait);
++		scoped_guard(spinlock_irq, &substream->lock) {
++			avail = runtime->avail;
++			done = output_drained(runtime);
++		}
++		if (done || signal_pending(current))
++			break;
++		if (avail == prev_avail) {
++			if (++stalls >= SNDRV_RAWMIDI_DRAIN_STALLS) {
++				timeout = 0;
++				break;
++			}
++		} else {
++			stalls = 0;
++			prev_avail = avail;
++		}
+ 	}
  
-diff --git a/sound/usb/usbaudio.h b/sound/usb/usbaudio.h
-index 244364739..c6d59218d 100644
---- a/sound/usb/usbaudio.h
-+++ b/sound/usb/usbaudio.h
-@@ -258,6 +258,10 @@ extern bool snd_usb_skip_validation;
-  *  Issue SET_CUR for the sample rate even when the clock already reports the
-  *  requested rate.  A device advertising a single rate is otherwise never sent
-  *  the request at all, and some require it before streaming will start.
-+ * QUIRK_FLAG_SWAP_RATES
-+ *  The device applies a requested sample rate to the other base-rate family
-+ *  (44100 <-> 48000, 88200 <-> 96000, 176400 <-> 192000).  Send the partner
-+ *  rate in SET_CUR so that the device runs at the requested rate.
-  */
- 
- enum {
-@@ -294,6 +298,7 @@ enum {
- 	QUIRK_TYPE_MIXER_GET_CUR_OK		= 30,
- 	QUIRK_TYPE_PLAYBACK_URB_FIXUP		= 31,
- 	QUIRK_TYPE_ALWAYS_SET_RATE		= 32,
-+	QUIRK_TYPE_SWAP_RATES			= 33,
- /* Please also edit snd_usb_audio_quirk_flag_names and alsa-configuration.rst */
- };
- 
-@@ -332,5 +337,6 @@ enum {
- #define QUIRK_FLAG_MIXER_GET_CUR_OK		QUIRK_FLAG(MIXER_GET_CUR_OK)
- #define QUIRK_FLAG_PLAYBACK_URB_FIXUP		QUIRK_FLAG(PLAYBACK_URB_FIXUP)
- #define QUIRK_FLAG_ALWAYS_SET_RATE		QUIRK_FLAG(ALWAYS_SET_RATE)
-+#define QUIRK_FLAG_SWAP_RATES			QUIRK_FLAG(SWAP_RATES)
- 
- #endif /* __USBAUDIO_H */
+-	timeout = wait_event_interruptible_timeout(runtime->sleep,
+-				(runtime->avail >= runtime->buffer_size),
+-				10*HZ);
+-
+ 	scoped_guard(spinlock_irq, &substream->lock) {
+ 		if (signal_pending(current))
+ 			err = -ERESTARTSYS;
+ 		if (runtime->avail < runtime->buffer_size && !timeout) {
+-			rmidi_warn(substream->rmidi,
+-				   "rawmidi drain error (avail = %li, buffer_size = %li)\n",
+-				   (long)runtime->avail, (long)runtime->buffer_size);
++			dev_warn_ratelimited(substream->rmidi->dev,
++					     "rawmidi drain error (avail = %li, buffer_size = %li)\n",
++					     (long)runtime->avail,
++					     (long)runtime->buffer_size);
+ 			err = -EIO;
+ 		}
+ 		runtime->drain = 0;
 -- 
 2.55.0
 
