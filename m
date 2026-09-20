@@ -1,126 +1,165 @@
-Received: from mail-pz2-f0.google.com (mail-pz2-f0.google.com [74.125.228.0])
+Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9357147B435
-	for <linux-sound@vger.kernel.org>; Sun, 20 Sep 2026 19:38:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07E503E49C3
+	for <linux-sound@vger.kernel.org>; Sun, 20 Sep 2026 21:14:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789933135; cv=none; b=iQu+uSLv3ZZ9kMkpctLz+8dMOM2QsinpObiz/Gwm7Vbc+vVcFJvIAjsZTWQJhP77g3xlRZ3XNqcnjcx26lUlvcly/cfH1ZQlDXAUWl/FWP3MJxTdkHIcnH9jk0lGzPxV74Vx6JAxIqzE6lEP0NfWhYTjCywtiDy4Ql1nGdQVrC0=
+	t=1789938879; cv=none; b=Kl6RWA5V+BCXFj10GjS+x9rlTwPYqXmDSrg3TQCbwjikTr1MpggmaD69Q+vUBb/hWWnS0sE7x635MiSO4kXoPGx5DVeejag5057cMk4BqdWK7hvMTDRYvDHr/GoDZg9WK2bia1+RdmyuACzHfAFH+b85EbfVRJ2EbRwr58fC1p4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789933135; c=relaxed/simple;
-	bh=19HvXXEGNkAEh7k742QsXcb6guSh20svj/hb0jKC2xw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GJgsGbJHy3Np5rF9RAsbAahx5IFYTBQ/ufLDaF/l2//yGuNGEO3H536JYns0MgSM+xHn9x6841ebg6TOyLDJODinHHzIhkbrgGC25jr8siOrSGrjhlDzEMvwEuyq2Z2mVOIGFHfOh4LuXijFdGV3VeW/Q1qoUgO6zzJXrWyvflY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lizi.moe; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=74.125.228.0
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lizi.moe
+	s=arc-20240116; t=1789938879; c=relaxed/simple;
+	bh=XZi511PqZprMyFi1XP7qILISSNX1tU1ncsOdgRoh4/g=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:From:To; b=ThjVoZBMWO0uFb9RMtvX4JIuq1nrcH+Gb3fQ7eMIDS5NoDvVWx+mh8BKrruPtIurg9hruTNPfhwX6P2XKFM8kqOgGhHW6DRQuuuPdM4wjmwNPTmESYQbT+M5IGY9L/OjMgtHeb8wdGiRAmn/H1LonEsfmYEYuTV3TuS3FDnyk4Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VhDQOH1e; arc=none smtp.client-ip=74.125.227.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pz2-f0.google.com with SMTP id 41be03b00d2f7-ca7fcfe1669so1311853a12.0
-        for <linux-sound@vger.kernel.org>; Sun, 20 Sep 2026 12:38:53 -0700 (PDT)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VhDQOH1e"
+Received: by mail-pj2-f13.google.com with SMTP id 98e67ed59e1d1-39e03468a5fso2068228a91.0
+        for <linux-sound@vger.kernel.org>; Sun, 20 Sep 2026 14:14:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789938877; x=1790543677; darn=vger.kernel.org;
+        h=to:from:cc:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ADMTsZ1OUY/8FESWFtVP3Myx8n13Fc2DdH55tYJ3tmg=;
+        b=VhDQOH1e/0xFSqM+ca61iGJYtZGk3GzeFI1IuwuQuz+OBxavnMK3FqmhnA1GHyURvc
+         mQ3wc3MPtsq+M1cmlEEQzyIN+8p0+fiZdrWcBH519rDwoKX/yee0AaZ1slB2qy/cOPTh
+         EXVhk3zXKXZyuMgEUNj6zQ6aPPd5n6FHE290HYJxUkTVpPz0+/YPkfJ/rce5PrM9LjBX
+         ha/FxzaT+QDSvxaRx1MqgFeFN0XE2cgNAh0VMt/UvKvCd38xALL+3dbLJmocV36DmDw8
+         HpTFSaVkXSwQ632U1YNreEpJcdxj+jvZ36uj8JvH8oAkSzLdR8VlxCg1EQ3e/ToP7Rqm
+         3kPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789933133; x=1790537933;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=f7TXkf8HfG5PaX8N7Gibawm3cKOzVqiXxqGBVj7YLTM=;
-        b=ZSy9RgP53DTFtXcs7nG8WG97nSTdB5jjT30ewp/a7vkmiZT779RBo1Yy8Oss8EehQy
-         Xb0KPb0kiQ+4O2pPCq9GfNoIY/ls6YR+eluRwIDOC9gDFkrk5vIrSQCF+qT3skXYTF3P
-         cEP2rh2vPneQL82jwUzc29u+Ne1/UCzl48Arz2D6fVYH733oEGfwyCIJpMI9c7TSARzm
-         YqFbrWf359j0HSk8A2+4Qwj18xqATmJ7Azx15uIjK8e2N0swyS6qn3p62WFYHKO0t5R2
-         j8CR8Ai1GXGaH+YDnVxXrq+qPKpSJxDh/Cuswqe60QAOrArnwu80/nmyUoYT8Ofza1FO
-         O2NQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxgIQXK50u/CIhG760fmWpObfCpJBJcIKKJ7fQKRM1Gpgo5hNOnmztpKukQowM9X/Ckn5z5N3oHGpWyRQ==@vger.kernel.org
-X-Gm-Message-State: AFuF++l19YrHgBy2L7MND9qpdh/h9L4v8dq5qIckyW/CKCist0Zbgq4m
-	Z+kstTSWIi1l9VMaKv5+dJdSxPmv1HzXSwa9nJrtsqsdXoK3BB9uCe/b
-X-Gm-Gg: AYBFou2IEni0RytosTOmQnGQO7auAhuyZYVPpb31TCqGAhUPeRdyyI0iJ9Emr2H8nZH
-	lGyfK4PDdAm6R6iiabiFVAZFYtO9fN0ZernRsRc/QPKbFsXnDZLLewzGdu0zZYulHBQAUAkOTtX
-	EXdQztE9AEpCBFNYBSpFMBdQLrcqLBlxb8RUIpASNQiv3fT86PtrPkbaBon5LY2Pr8GQGdZsvOU
-	q3+5htVDeWemOjTpdnrjWbCLmguVDIRp79NTgwqJIkpk95PZO1YMrGwhgKVCPmW46xCjCf0Sd7E
-	Nv42pnK2rn4GKEEYeKnHM09xjuiBAilhlu+tXhg1XVFM7wfBh4+9InKOX4KbuadLe/jJ+QX754r
-	gdvrsWUTc5B0h1coFpeJ9sySe/1RfoKZRxZKeBHZ5J8yFbjJQZdGEsIyO3TC4ZBR5sgieLaSI5U
-	/oQbN2CdaTSpeO+rBuHqDB8eU7HiiQa5d8jTrh2SCRXdzcqGVQ/YQOMIw9cmsFsg==
-X-Received: by 2002:a05:6a00:f86:b0:848:76c4:fba9 with SMTP id d2e1a72fcca58-874dbee3c12mr12028698b3a.7.1789933133005;
-        Sun, 20 Sep 2026 12:38:53 -0700 (PDT)
-Received: from navi ([61.185.198.198])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-877a9b0c516sm2222132b3a.34.2026.09.20.12.38.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Sep 2026 12:38:52 -0700 (PDT)
-From: Zimeng Li <me@lizi.moe>
-To: srini@kernel.org,
-	broonie@kernel.org
-Cc: lgirdwood@gmail.com,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	stable@vger.kernel.org,
-	Zimeng Li <me@lizi.moe>
-Subject: [PATCH v2] ASoC: qcom: lpass-cpu: use DAI table index for playback constraints
-Date: Mon, 21 Sep 2026 03:38:30 +0800
-Message-ID: <20260920193830.53706-1-me@lizi.moe>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260920145848.44521-1-me@lizi.moe>
-References: <20260920145848.44521-1-me@lizi.moe>
+        d=1e100.net; s=20260707; t=1789938877; x=1790543677;
+        h=to:from:cc:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ADMTsZ1OUY/8FESWFtVP3Myx8n13Fc2DdH55tYJ3tmg=;
+        b=l8l7MQ35N5T2lUIpKcB6Sx79R41yJZOlGuF9jV8ZbdKPLbfBkOJVIzNjSvXYpVrEO/
+         zW8n7loKmXWpBlRblN6RdTBTw0U2P3rnbh5DlCxPbKy6uBcaCY0ql3x0OrKI9/0iRS5e
+         9vYvOlwje6JkW7oFE500HQwb5UumO7d1oHJZXrOrc6LMZDg0GzQlOwH/muY90Q42RW/A
+         nLIy6gNfRqIDGDoIlrlb4UJf0rx/5dFZV54FA1DE4qkok0IKxwMC3/FsZYguJBTLN5RE
+         sTGhtfn752AjjDgZRptyDcRg5a6pf06JkrkW6J/yOYQYtuj7OsX33o/QxovUy43WTkfJ
+         wLdw==
+X-Gm-Message-State: AFuF++mgOqPOKgnUGoh+2GPJInA8moHff0pisDdAf3d+DR4qC2qBLzCn
+	h//vQn1jD90War5cE+1s2hH0hV/Ty3y0xhZ7BXYZNBT4Aw2wDNHA3yOZswCHw4TIkcM=
+X-Gm-Gg: AYBFou0vrQSmS/cvklDs3PWplhD0eHcRuY7AfEQHIhnkkzY66RCHGjTjJABdtTZPJHr
+	cN8Km9jfjy+lq5509p4IYkFMrEC5DrHCE+HThURanjB2VfQoXBLVaHYb8OBaqFKghDGY88fCAoN
+	2t14UISP44EZGIrJ3TQvCjTh2nVqrM8uqopssDP6VPdmc3ge8vyZvEtz+1csICsDKmocjV+/vzt
+	m9zpEK82x79BcFvllVMSbup80UV7qfflfKyLjPcACAR52Vc2C+/8m4JrXHsmjUIQ8s4BDO5Qp3L
+	fVSmc/7D/QnqI875IxMTfBZ/cOmdC//rW+ZtrU2jAwLYbv+mLWVp9c5Pleo0x2jImwro/1aX/l5
+	nngAr1bZLdJNaHtBaRx1tFaDY+u6FSHp5NsqA2RxLsxxJHxjm3FsiDzim8yBOtm1jsJhUJsSrSh
+	Ocp6Ne5/LNDASPLOarxSznkMwWFIJIf6i0dwPImtonEUg12cPtIwz+P512S/1Oxzr1VFt2Mp1ba
+	m4nXvpg7WaxIhi7sRTS12VjTpFVemVD
+X-Received: by 2002:a17:90b:55cf:b0:3a0:516d:9f7e with SMTP id 98e67ed59e1d1-3a0516da732mr179082a91.45.1789938876990;
+        Sun, 20 Sep 2026 14:14:36 -0700 (PDT)
+Received: from localhost (ip68-107-67-45.sd.sd.cox.net. [68.107.67.45])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-144da432647sm22049842c88.5.2026.09.20.14.14.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 20 Sep 2026 14:14:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sun, 20 Sep 2026 14:14:35 -0700
+Message-Id: <DLKGDJMA0NY6.2C34FXZUHFK7C@gmail.com>
+Subject: [RFC] ALSA: usb-audio: Blue Yeti 046d:0ab7 fw 0.20 capture fails
+ until device-side MCU reset
+Cc: <linux-usb@vger.kernel.org>, <tiwai@suse.com>, <perex@perex.cz>
+From: "Jasmeet (Jazz) Bhatia" <jasmeet.bhatia.us@gmail.com>
+To: <linux-sound@vger.kernel.org>
+X-Mailer: aerc 0.22.0-0-gc2f86b7abde3
 
-The DAI ID is a hardware port ID and is not necessarily the index of
-the corresponding entry in variant->dai_driver.
+Hello,
 
-When configuring a DAI with LPAIF_I2SCTL_MODE_QUAD01, the probe code
-currently uses dai_id to index variant->dai_driver. This is incorrect
-for platforms where DAI IDs are sparse. For example, the IPQ806x MI2S
-DAI has ID 4 while it is the only entry in the DAI driver table. If
-that DAI is configured for QUAD01 and probe reaches this branch, the
-code writes beyond that single entry via dai_driver[4] instead of
-updating the DAI being processed.
+I'm encountering a reproducible capture failure with multiple Logitech/Blue=
+ Yeti
+Classic USB microphone and wanted to ask where the best place for this
+workaround to live, as I feel it may belong in snd-usb-audio instead of
+userspace but wanted a more experienced opinion.
 
-Use the loop index i when updating the current DAI's playback channel
-constraints, while retaining dai_id for indexing the hardware-port
-specific playback SD-line mode array.
+Device:=20
 
-This fixes the incorrect DAI table access for platforms where the DAI
-ID does not match its position in the driver table.
+ID 046d:0ab7 Logitech, Inc. Blue Microphones
+bcdDevice: 0.20
+USB Audio Class: UAC1
 
-Fixes: c223f41c1a52 ("ASoC: qcom: Add four speaker support on MI2S secondary")
-Cc: stable@vger.kernel.org
-Signed-off-by: Zimeng Li <me@lizi.moe>
-Assisted-by: GPT-6 Astra
----
-Changes in v2:
-- Add stable to Cc.
-- Identify the model in the Assisted-by trailer.
-- Clarify that the IPQ806x out-of-bounds access requires QUAD01 mode
-  and probe to reach the affected branch.
+System:
+Linux 7.2.6-arch2-1 x86_64
+xHCI
+snd-usb-audio
 
-Compile-tested with LLVM for ARM using multi_v7_defconfig with
-CONFIG_SND_SOC_STORM=m. The lpass-cpu.o, lpass-ipq806x.o and
-lpass-platform.o targets built successfully. Not hardware-tested;
-the IPQ806x example is based on static analysis, not a reproduced crash.
-The code change is unchanged from v1.
+When booting with the microphone already connected, USB enumeration
+succeeds normally. snd-usb-audio binds, ALSA creates PCM device, and
+Pipewire also sees the microphone.
 
- sound/soc/qcom/lpass-cpu.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Example:
 
-diff --git a/sound/soc/qcom/lpass-cpu.c b/sound/soc/qcom/lpass-cpu.c
-index 242bc16da..079177a6d 100644
---- a/sound/soc/qcom/lpass-cpu.c
-+++ b/sound/soc/qcom/lpass-cpu.c
-@@ -1234,8 +1234,8 @@ int asoc_qcom_lpass_cpu_platform_probe(struct platform_device *pdev)
- 		}
- 		if (drvdata->mi2s_playback_sd_mode[dai_id] ==
- 			LPAIF_I2SCTL_MODE_QUAD01) {
--			variant->dai_driver[dai_id].playback.channels_min = 4;
--			variant->dai_driver[dai_id].playback.channels_max = 4;
-+			variant->dai_driver[i].playback.channels_min = 4;
-+			variant->dai_driver[i].playback.channels_max = 4;
- 		}
- 	}
- 
+$ arecord -D hw:Microphones,0 \=20
+      -f S16_LE -r 48000 -c 2 \=20
+	  -d 5 -vv /tmp/yeti.wav
 
-base-commit: 0ed6f7f62318a581fe9698f8a4e98c7ca01160e4
--- 
-2.55.0
+Recording WAVE '/tmp/yeti.wav' : Signed 16 bit Little Endian, Rate 48000 Hz=
+,=20
+Stereo arecord: pcm_read:2285: read error: Input/output error
+
+The same thing happens at 44100 Hz.=20
+
+I tested a couple recovery methods with the device in this failing
+state:
+
+- 44100 Hz Capture      -> EIO
+- 48000 Hz Capture      -> EIO
+- host USB reset        -> EIO
+- USB unbind/rebinding  -> EIO
+- device-side MCU reset -> Capture works immediately
+
+Digging deeper, I tested an existing blue-yeti-autoreset userspace
+utility for this exact bug, which sends a UAC Extension Unit SET_CUR
+Request:
+
+bmRequestType =3D 0x21
+bRequest      =3D 0x01
+wValue        =3D 0x0a00
+wIndex        =3D 0x1900
+xLength       =3D 8
+
+payload =3D 00 09 00 00 00 00 00 00
+
+After this is done, the Yeti will disconnect and reenumerate, with my
+system having the device change from 002 to 003, and arecord begins to
+work normally. Physically unplugging/replugging the device also does the
+same fix.
+
+At the end of the day, this looks like a firmware issue with the=20
+Blue Yeti, as USB enumeration and snd-usb-audio are working as=20
+intended and succeeding, but some internal device state survives=20
+host-side USB reset not allowing the capture engine to operate,
+with the device-specific MCU appearing to be the cause.
+
+With there being no obvious xHCI disconnect or USB transport errors in
+the kernel log, I'm left to assume this a quirk within the firmware of the
+microphone itself. A couple other Bugzilla reports I found seem to show
+the same issue I'm reporting here, with Bugzilla #220238 showing a
+same bug I'm describing.=20
+
+https://bugzilla.kernel.org/show_bug.cgi?id=3D220238
+
+My main question is whether the kernel should work around this in
+snd-usb-audio or whether maintainers would prefer the device-specific
+reset to remain in userspace because it intentionally causes a USB
+disconnect/enumeration.
+
+If a snd-usb-audio workaround is considered ok, I would be interested in
+working on the patch and can test it reliably.
+
+Please let me know if any additional usbmon traces, dmesg outputs or
+other diagnostics would be useful.
+
+Thanks,
+
+Jazz
