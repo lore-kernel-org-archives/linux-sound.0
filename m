@@ -1,42 +1,75 @@
-Received: from forward101b.mail.yandex.net (forward101b.mail.yandex.net [178.154.239.148])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B69503EF672
-	for <linux-sound@vger.kernel.org>; Sun, 20 Sep 2026 09:47:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3F1743E070
+	for <linux-sound@vger.kernel.org>; Sun, 20 Sep 2026 12:27:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789897639; cv=none; b=TGFY6GYNPtS0o8ZaYuQYnuaehaT3hw4hi+1bgI04WxfqmtIaPlgEOIwAG3fsNTLl6jlxsieiHzfNpUqNDcZYZEPmgM7n6mTXygEeRKbKz3El52BfidZygfQ3cgfmy4Ut6kDVX6p7CzgxwPeGcwjTMoIX5CFdAPjUe9nZko14nfg=
+	t=1789907235; cv=none; b=uDzhbYfLKOyO9FLiKsAkfUfhyEMSQmbrS5ybbDhiXuBgROF4ZGGKXmufUoLgxVj3eahAdZ2qlMY2DquNA8ss0XSDqF4OvqQWK+C3+Z3ATQGAsNR22lhyZtsG6uHNZceLJVpVUJ1yvO7hUJoxyzTlKuXbGJE8u4mzTm2TbgaBMZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789897639; c=relaxed/simple;
-	bh=juAbVDbXWVwdclRdyUAuVrgjmjod79dRpwb4O+mnDDg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=itIAMVDCQw2H0jlX0TsSaH4feTU3LsZ07Xmoye8Y0D/uoFO6yHUmWL6f+6zvkapbnKeFnGxdVnTUoNLBO+XSDLWxuYNAYxAojcKMi+6kRY1njMqs+Yo84tWfiAc1IJU8A3boVJskWb7x7eoJmRbaoUSCCe63sbHkVS0R2CCcN7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ya.ru; spf=pass smtp.mailfrom=ya.ru; dkim=pass (1024-bit key) header.d=ya.ru header.i=@ya.ru header.b=KocL9yye; arc=none smtp.client-ip=178.154.239.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ya.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ya.ru
+	s=arc-20240116; t=1789907235; c=relaxed/simple;
+	bh=x0Td9IYTKICH7n7tSTZQ9CEcZmy7GnUj8l+oc+qoRTY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=edgRc/jfz1xitzOR0OuO3xO8aX5QyGEE3c0vFaDN+zAdoOvoYnieGK6fOLBC2TIyCz7Ptugo4Fa6zzqbxR/BpTiH3MjCC9KuWmx9bjiexVh3KyPeiZxvaB9OIEWFS62UK3nItnzUir6MtGZO2KTkUaHH80nWh8ozOSoKAgKfy18=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OI9C9MFm; arc=none smtp.client-ip=74.125.227.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ya.ru header.i=@ya.ru header.b="KocL9yye"
-Received: from mail-nwsmtp-smtp-production-canary-88.sas.yp-c.yandex.net (mail-nwsmtp-smtp-production-canary-88.sas.yp-c.yandex.net [IPv6:2a02:6b8:c11:4021:0:640:30fc:0])
-	by forward101b.mail.yandex.net (postfix) with ESMTPS id CAB93C0074;
-	Sun, 20 Sep 2026 12:47:05 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-canary-88.sas.yp-c.yandex.net (smtp) with ESMTPSA id qkVL0bUfYmI0-mYjTgxm5;
-	Sun, 20 Sep 2026 12:47:05 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ya.ru; s=mail;
-	t=1789897625; bh=XivLuPnNLJ7QQFY4NuX99E26pUgzrXz0Atyy7W7mkG0=;
-	h=Message-ID:Date:Cc:Subject:To:From;
-	b=KocL9yyeB6GY6Jqzx+lUPhAG++5Qa7ZmsjkeTn2IIlT4CIYEjaRRmUa79Uq3b/lNX
-	 S0cDTcfO87fUpOIZZDRthpxKXv15XXOK+PT9PX8ZWc1ggpx/J8B23wk3HzxJ5bNgex
-	 tXeW8RQ3vKbGLbXTxeZWUlrPNJJGzGNr4ZNgoLLg=
-Authentication-Results: mail-nwsmtp-smtp-production-canary-88.sas.yp-c.yandex.net; dkim=pass header.i=@ya.ru
-From: Ilya Pavlukhin <i.pavluhin@ya.ru>
-To: patches@opensource.cirrus.com
-Cc: Richard Fitzgerald <rf@opensource.cirrus.com>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	linux-sound@vger.kernel.org
-Subject: CS35L41 firmware for Lenovo Yoga Slim 7 Carbon 14ACN6 (17aa3856)
-Date: Sun, 20 Sep 2026 12:46:47 +0300
-Message-ID: <20260920094647.18820-1-i.pavluhin@ya.ru>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OI9C9MFm"
+Received: by mail-pj2-f13.google.com with SMTP id 98e67ed59e1d1-398c066106cso1693893a91.1
+        for <linux-sound@vger.kernel.org>; Sun, 20 Sep 2026 05:27:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789907218; x=1790512018; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=7vjWBQwN3dE/GJAyD7dmJglKHoaPsNUHMSjnNpDOIVk=;
+        b=OI9C9MFm3A82XvbVeEvWQ23VKk7y434ahM3Uyd3RIbKWJx0NgkRpK6NXrNaPh8Wt0G
+         f+wo+ltlOxpYFeZYYTCZarQ05j0+b1CEBcEpunrDTie2fGWMJls0IbdVG0OJeKTy1SVE
+         9/UOL9OfKS74sOcA0VTnjGNI6oz2Au7zvpF6QKrNkBo4506JQU2L07EqhHUchI5PWigf
+         wOgwRfGOdzv2Sug49dZ8nL6GAFPLOqy8MkqZ0iJK7Dt9RkY3TxJcA7AM+oM2ocjuzjwA
+         b1bMg9Ys0pUyDXCCONmJl356taa8bixVPOzk8IUKF1rChDokvpe9Tdohetx45EfM40XB
+         krxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789907218; x=1790512018;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=7vjWBQwN3dE/GJAyD7dmJglKHoaPsNUHMSjnNpDOIVk=;
+        b=bjTEhVCvQOkE0BnmDB5dgNTHj/8Mnal33LKH7L05NK6jjvzUX03+Noc3+AobM/X+3Y
+         ujldFLbTAM6jktknOeUk/X1Rs2dztzoyJ3icIzusRcrcY3AiZK7XabroNhPxjXzGZRS7
+         mtpTs8K/1XKGF1BYIKYzd2KKjh5TmMdJzgx6vSvwfKm6NRAaROrvU7csKwJLNPIkyx4G
+         dc2lPdSgJYAeI+xncmhvQrMIjdZRqIiBzAaGxbshJFU7qOuQto5/fEy8YP3m6EoM0dzm
+         MGuyC4HqfRFzIJVm4E3uITqv8JuiWiir2DISA6roLTANwQPwCBQ5mTNUMm5E1bBAxd4F
+         clXg==
+X-Forwarded-Encrypted: i=1; AKwUvBzJr/R3uGY22NOuF36AbSRnq5nkkmZkqAS/QQIyozcAZ9IOubNHOXAzYHXeK5+Kr1QoqbdvlAStZPACBw==@vger.kernel.org
+X-Gm-Message-State: AFuF++nsuufh2aXEMDRcUyo/TLG0XAm1zVPpqyOEIQ3AMTxWi6TiuHBU
+	m+v0f7eqr5o+aeGYp0Yu0zb45DEZbo19KX9NLgwsF6SZh1r3ag2HUvsP
+X-Gm-Gg: AYBFou1w1iZ2NxLkSSSaD9BzMlJzdw2GXgPlQvS6AgmgyYoty21LFkytywP9fhjSgSz
+	WcDYrpCBbHIBTwOM+cDWDDnzauUo3V2n3c8iIq6U2LolgmfrnbG/XgjwZ52SNKWhUTd6EHMtGcu
+	6gtIrggZexDcehZsUFGRp6ZlVs902MSfgz7OjDQ0Kt83USqUHOZWOo0+gm+ZaFl4Y2YCdrxX640
+	8EJl/Pu5ZGB1DziLzLerS2N8ODibzjXUJGLwAboM4l/TsDi0adLLHDFl1YAAOKCp+QFS3T5uE0P
+	oHGK1n65A0jXbqP4Gpt9BpBkE8vt64C/ZjwNPua7bSG8scG8Dt9AGgCnieHQfCxgE3gjsP29pp9
+	oaxIFrSjMSSGe454ruf9CoZtowEVjxxIv2YcODWXut8qUF+X/0TmKlrHgs7co8XvoHG6CqQ09DJ
+	RssqIsv84aQh5wso57e6Iv8to7y1L/13ohr3cVqbRNMnb4xLg41nwCcsmdOTZPGsX+0hJe01jjz
+	uJlQFSMKVG1DOUwxmXKP2rH
+X-Received: by 2002:a17:90a:c089:b0:39e:6c68:155a with SMTP id 98e67ed59e1d1-39e6c683333mr5944433a91.34.1789907218266;
+        Sun, 20 Sep 2026 05:26:58 -0700 (PDT)
+Received: from archlinux (061093018190.ctinets.com. [61.93.18.190])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a038ff8c39sm3188791a91.7.2026.09.20.05.26.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 20 Sep 2026 05:26:57 -0700 (PDT)
+From: Darren Chang <darrenchangjr01@gmail.com>
+To: perex@perex.cz,
+	tiwai@suse.com
+Cc: corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	linux-sound@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: usb-audio: Add quirk for inverted sample rates on NUX NAI-24
+Date: Sun, 20 Sep 2026 20:26:53 +0800
+Message-ID: <20260920122653.41993-1-darrenchangjr01@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,40 +78,153 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi,
+The NUX NAI-24 (USB 3703:2000) has a UAC2 clock source that reports
+bmAttributes = 0x01 (internal fixed clock) and bmControls = 0x07, so the
+driver treats its sample rate as programmable.  When the driver sends
+SET_CUR(SAMPLING_FREQ_CONTROL), the firmware acknowledges the request and
+then runs the clock on the opposite base-rate family: asking for 44100 Hz
+makes the device run at 48000 Hz, and asking for 48000 Hz makes it run at
+44100 Hz.
 
-I have just submitted a patch series adding support for the two CS35L41
-amplifiers of the Lenovo Yoga Slim 7 Carbon 14ACN6 (82L0), ACPI HID CLSA0102:
+The result is playback that is about 8.8% fast, or 8.4% slow with heavy
+static on the 48000 Hz family.  macOS and Windows ignore bmControls, treat
+the clock as fixed and resample, so they are unaffected.
 
-https://lore.kernel.org/linux-sound/20260920092808.17234-1-i.pavluhin@ya.ru/T/
+Work around it by sending the partner rate in SET_CUR for this device, so
+the device runs at the requested rate.  A new QUIRK_FLAG_SWAP_RATES flag
+controls this, applied through the quirk flags table.
 
-With those patches both amplifiers bind and the bass speakers work. What is
-missing is the firmware and tuning in linux-firmware. The driver looks for:
+Only the 44.1/48 kHz pair has been verified on hardware; the 88.2/96 kHz
+and 176.4/192 kHz pairs are untested but follow the same pattern.
 
-  cirrus/cs35l41-dsp1-spk-prot-17aa3856.wmfw
-  cirrus/cs35l41-dsp1-spk-prot-17aa3856-l0.bin
-  cirrus/cs35l41-dsp1-spk-prot-17aa3856-r0.bin
+Testing: the equivalent change ran on the device as a locally built
+module (44100 Hz PCM, device clock 44100 Hz, no xruns, correct tempo, no
+static).  This upstream form compiles for sound/usb without warnings and
+passes checkpatch, but has not been built in a full kernel tree or
+load-tested.
 
-Could Cirrus release these for this machine?
+Assisted-by: LLM
+Signed-off-by: Darren Chang <darrenchangjr01@gmail.com>
+---
+ Documentation/sound/alsa-configuration.rst |  6 +++++
+ sound/usb/clock.c                          | 27 ++++++++++++++++++++++
+ sound/usb/quirks.c                         |  3 +++
+ sound/usb/usbaudio.h                       |  6 +++++
+ 4 files changed, 42 insertions(+)
 
-For testing I used the files from Lenovo's Windows audio driver package
-(support.lenovo.com, DS552749, "Audio Driver for Windows 11 (64-bit)" for
-Yoga Slim 7 Carbon 14ACN06, v6.0.9366.1). In the CsAudio part of that package,
-csaudioext.inf maps ACPI\VEN_CLSA&DEV_0102 to the configuration named "S760":
+diff --git a/Documentation/sound/alsa-configuration.rst b/Documentation/sound/alsa-configuration.rst
+index e500ec84e..689eccf6a 100644
+--- a/Documentation/sound/alsa-configuration.rst
++++ b/Documentation/sound/alsa-configuration.rst
+@@ -2407,6 +2407,12 @@ quirk_flags
+           the requested rate.  A device advertising a single rate is otherwise
+           never sent the request at all, and some require it before streaming
+           will start.
++        * bit 33: ``swap_rates``
++          The clock source applies a requested rate to the other base-rate
++          family, i.e. asking for 44100 makes the device run at 48000 and vice
++          versa (same for 88200 <-> 96000 and 176400 <-> 192000).  The driver
++          sends the partner rate in SET_CUR so the device ends up running at the
++          requested one.
+ 
+ This module supports multiple devices, autoprobe and hotplugging.
+ 
+diff --git a/sound/usb/clock.c b/sound/usb/clock.c
+index 34832183a..cc77eace7 100644
+--- a/sound/usb/clock.c
++++ b/sound/usb/clock.c
+@@ -549,6 +549,30 @@ static int get_sample_rate_v2v3(struct snd_usb_audio *chip, int iface,
+ 	return le32_to_cpu(data);
+ }
+ 
++/*
++ * Return the partner rate in the other base-rate family.
++ * See QUIRK_FLAG_SWAP_RATES.
++ */
++static unsigned int swap_base_rate(unsigned int rate)
++{
++	switch (rate) {
++	case 44100:
++		return 48000;
++	case 48000:
++		return 44100;
++	case 88200:
++		return 96000;
++	case 96000:
++		return 88200;
++	case 176400:
++		return 192000;
++	case 192000:
++		return 176400;
++	default:
++		return rate;
++	}
++}
++
+ /*
+  * Try to set the given sample rate:
+  *
+@@ -585,6 +609,9 @@ int snd_usb_set_sample_rate_v2v3(struct snd_usb_audio *chip,
+ 	if (!writeable)
+ 		return 0;
+ 
++	if (chip->quirk_flags & QUIRK_FLAG_SWAP_RATES)
++		rate = swap_base_rate(rate);
++
+ 	data = cpu_to_le32(rate);
+ 	err = snd_usb_ctl_msg(chip->dev, usb_sndctrlpipe(chip->dev, 0), UAC2_CS_CUR,
+ 			      USB_TYPE_CLASS | USB_RECIP_INTERFACE | USB_DIR_OUT,
+diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
+index c5870901a..03e3e5ae4 100644
+--- a/sound/usb/quirks.c
++++ b/sound/usb/quirks.c
+@@ -2550,6 +2550,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
+ 		   QUIRK_FLAG_GET_SAMPLE_RATE | QUIRK_FLAG_MIC_RES_16),
+ 	DEVICE_FLG(0x36f9, 0xc009, /* XIBERIA K03S */
+ 		   QUIRK_FLAG_FORCE_IFACE_RESET | QUIRK_FLAG_IFACE_DELAY),
++	DEVICE_FLG(0x3703, 0x2000, /* NUX NAI-24 */
++		   QUIRK_FLAG_SWAP_RATES),
+ 	DEVICE_FLG(0x3c20, 0x3d21, /* AB13X USB Audio */
+ 		   QUIRK_FLAG_FORCE_IFACE_RESET | QUIRK_FLAG_IFACE_DELAY),
+ 	DEVICE_FLG(0x413c, 0xa506, /* Dell AE515 sound bar */
+@@ -2675,6 +2677,7 @@ static const char *const snd_usb_audio_quirk_flag_names[] = {
+ 	QUIRK_STRING_ENTRY(MIXER_GET_CUR_OK),
+ 	QUIRK_STRING_ENTRY(PLAYBACK_URB_FIXUP),
+ 	QUIRK_STRING_ENTRY(ALWAYS_SET_RATE),
++	QUIRK_STRING_ENTRY(SWAP_RATES),
+ 	NULL
+ };
+ 
+diff --git a/sound/usb/usbaudio.h b/sound/usb/usbaudio.h
+index 244364739..c6d59218d 100644
+--- a/sound/usb/usbaudio.h
++++ b/sound/usb/usbaudio.h
+@@ -258,6 +258,10 @@ extern bool snd_usb_skip_validation;
+  *  Issue SET_CUR for the sample rate even when the clock already reports the
+  *  requested rate.  A device advertising a single rate is otherwise never sent
+  *  the request at all, and some require it before streaming will start.
++ * QUIRK_FLAG_SWAP_RATES
++ *  The device applies a requested sample rate to the other base-rate family
++ *  (44100 <-> 48000, 88200 <-> 96000, 176400 <-> 192000).  Send the partner
++ *  rate in SET_CUR so that the device runs at the requested rate.
+  */
+ 
+ enum {
+@@ -294,6 +298,7 @@ enum {
+ 	QUIRK_TYPE_MIXER_GET_CUR_OK		= 30,
+ 	QUIRK_TYPE_PLAYBACK_URB_FIXUP		= 31,
+ 	QUIRK_TYPE_ALWAYS_SET_RATE		= 32,
++	QUIRK_TYPE_SWAP_RATES			= 33,
+ /* Please also edit snd_usb_audio_quirk_flag_names and alsa-configuration.rst */
+ };
+ 
+@@ -332,5 +337,6 @@ enum {
+ #define QUIRK_FLAG_MIXER_GET_CUR_OK		QUIRK_FLAG(MIXER_GET_CUR_OK)
+ #define QUIRK_FLAG_PLAYBACK_URB_FIXUP		QUIRK_FLAG(PLAYBACK_URB_FIXUP)
+ #define QUIRK_FLAG_ALWAYS_SET_RATE		QUIRK_FLAG(ALWAYS_SET_RATE)
++#define QUIRK_FLAG_SWAP_RATES			QUIRK_FLAG(SWAP_RATES)
+ 
+ #endif /* __USBAUDIO_H */
+-- 
+2.55.0
 
-  Playback_6.47.0/Firmware/CS35L41/RevB2/halo_cspl_RAM_revB2_29.49.0.wmfw
-  tunings/Lenovo-S760-17AA383D_20210811/17AA383D_20210811_A0.bin  (amp at 0x40)
-  tunings/Lenovo-S760-17AA383D_20210811/17AA383D_20210811_A1.bin  (amp at 0x41)
-
-The INF also sets ExternalVspkControl=1 and an init sequence with BST_EN=00,
-which is why the patches use CS35L41_EXT_BOOST for CLSA0102.
-
-The amplifiers report "Firmware Loaded - Type: spk-prot, Gain: 17" with those
-files and play without errors, but I have no way to verify that this is the
-right, complete set, and those files cannot be redistributed, so a proper
-linux-firmware submission from Cirrus would be much better.
-
-I am happy to test anything on this machine.
-
-Thanks,
-Ilya Pavlukhin
