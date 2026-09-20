@@ -1,74 +1,63 @@
-Received: from mail-vs2-f12.google.com (mail-vs2-f12.google.com [74.125.227.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E145223ABBE
-	for <linux-sound@vger.kernel.org>; Sun, 20 Sep 2026 01:21:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7653C175A9C;
+	Sun, 20 Sep 2026 02:42:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789867281; cv=none; b=XifokI2W1h5U77NjN6KVT/aDO/QB6MAxlVaI7O2dPgBQclcljY/3PX3wYXdqfKU1m3k1j08eLUQZbn/Wqb9DairU9dAlvf4VMqBitQqShY3JKuRCZixnnGf3JniBDGwBr9BSRf1wTIfAOU1Mhjy69ixgGE3b3qRfvzFZTGRlKaY=
+	t=1789872169; cv=none; b=E411hgibFM09eV4Z77Z0GH0IlHI8XomPd9nnELxFVG9QoJ9KHMI4z9E6YVpgWZS+TV9t4byqHgJ5gvC1B5k0wjQY3SglYQN/apGbB5ND2U8NPArF/BEFofyGv0nESWNBTbzdUFlwXtt21rYDys0XbKJrmj897he0Mx4qV2IsD1s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789867281; c=relaxed/simple;
-	bh=2zaSWf5r9NwHO8bq30a3+zlb6fuk3dWRT56RBawh42A=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Nkpo0z9qGvy+OGdF6WUror/X2KFS8loKEStvYDi0gffhJufjA4hIU+3llZknA0LizuxgbhtD2SNQ7e0zARt5UCT6Vn1JRNwLnB4BPhMvZS96qPxq60P0ukqMmfcOsGJu8KiuQ0fLpt83RQBCnR8Pm/goEvUqzI4fu6oj08FxUz8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H3G44PZz; arc=none smtp.client-ip=74.125.227.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789872169; c=relaxed/simple;
+	bh=odp0zXhuJ25xtcNo60On5RQmjhndEnyqpfoyX1JO9rs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FxyawdluRsznWsZlTGFt37aZQsnEsSMdrKGlCZzWZeRbLCRDcX2kug9nmVJ6hz7ZSOhzpzVSPllgQsnvBdqeLz8E3ULqCUkiFKYfOxtQ+cu4HIquV+4Fo3t+l/CkDR65f4dApKMoB8dswRCwR9Z2dJgnZ8dWle4Xa+C7vuOzICs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vbk3QDwF; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H3G44PZz"
-Received: by mail-vs2-f12.google.com with SMTP id 71dfb90a1353d-5c67e529da9so607690e0c.2
-        for <linux-sound@vger.kernel.org>; Sat, 19 Sep 2026 18:21:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789867279; x=1790472079; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=n7dETFL01Uf/V8b/sJtlYLOgTsT5+0OY9xqQKkVwMJU=;
-        b=H3G44PZzgdTZOnwKmIw3EfAOWZV8DplBDKkbWkjwyy7wB6EfswLhgeKgMFJZEAj+VW
-         n0OcUcITPU10YpZW+9qgeV2fXNWLyA0UVETSuHv4YWmKIhgNJdn9liLECsfe9iJZvmNw
-         8zKWLHpDEpjvQ5hCGKYDsvnWUycdt0HYpgBGaGNq4vUWsrJm8AMr/hFEjXCEkRESCxM8
-         RuOn1SoltfgonOAr1twZTSw3uHuAFyOS2P9IKJdDrF+gvHT7+5uEC017VLyCzZ/e5Zyi
-         OaZc3L0jAKaDPmkXo/egZ5B6CiakuTn0fRuGhGuUvv8kCI37xMJznn7tAuH0HlbwolkZ
-         nJSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789867279; x=1790472079;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=n7dETFL01Uf/V8b/sJtlYLOgTsT5+0OY9xqQKkVwMJU=;
-        b=iKucFRG4YSLhSFzfXO16iTgSoR3rAn4hHDPvaKw0zOn0aHlATJdn2+DySph/UCF6td
-         VHzU4o2JXCQyDRLjObrLLfZ509bu37klJLtGkpS9njOaEu0wrJiPZ872B2SKjmL7J62g
-         7RYJ5mxShFFNBSxMRQV2my4qWFFqgxVGBiG9OlijVIYfcefF3NnNbbMKS18PNx4YNg6e
-         L0V06pi19BwFk9aywHPhlHcC8GMSYP9tr3o9KLWVbKo4FX8As1OpEelUYsD+w4IBlZrX
-         3Tdsc2db1475+TEPRxssldKaFUx9ZFySS7o4GzGTSxUnMB+iFYCYn57mmclAK10Cw5i3
-         aODQ==
-X-Forwarded-Encrypted: i=1; AKwUvBw2bPO+wKBe6ch1YSK1GpX1kt2Ew3dgB0S4qZhVxyOQk8II+DZ0T7ABiM1ZWitO7Jgtbw4VO5IsxUbUhw==@vger.kernel.org
-X-Gm-Message-State: AFuF++lzxT3dNqzGmVR/JOcG/pGa87Ro1PVmDzMf3N91aQi7zftglNnb
-	gwKkWI/LIE45rQFu+OfUs8tKt/SuOi/DD9uORQ8KPz/AFHRvNZQdUyUb
-X-Gm-Gg: AYBFou1dIastw6hiY5v/rRVQ53UNVPq8TN5HN+ISX94GxDg1L1NnBJmVmYVEoWHyl7M
-	P8F+ff6/p66wdZlO+A7GQ4FV5Y677RczuUIt0rIyYim9ZW92Oe4Ne0M7EKeimYFQq1L0gbSYSL/
-	RJ5R+IFzG13go8XpM2pQmeK8W4b16kvvff86iIAw0ha2dhlviNCmTLKJB2fdhsz9aB/iPMNqADP
-	zcXU2hXi4Zh2LxiaLOt2tq978GdkmVNllb7PtoqjDg6ndUgU1fufhctAc735u2DSb7Ggu/M07JB
-	N9rSFztwb6G/leT1HS6gGIKqtWUInMaRq+9fvW8xC73dzGg2FRWqRuGlhIxMoJXF2WSItK7n/dq
-	UxAs+l57FNc4ZYJl97qQN9KE3VvNIRnAsPNNZS/zDnKvwwOqmvHpvkI1FjymUfXpUNMiSYGSIeD
-	wwnBzWrHWu/98e5JsekivoHfXTMvgEeePoI82vUn31k8EhhiJbFvcDZO79oujKN1VlSnfM
-X-Received: by 2002:a05:6102:2922:b0:7a2:2a6b:e7b4 with SMTP id ada2fe7eead31-7a55a0253damr2427061137.2.1789867278724;
-        Sat, 19 Sep 2026 18:21:18 -0700 (PDT)
-Received: from danozmo ([38.51.243.36])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7a6ac5e08c7sm4064319137.8.2026.09.19.18.21.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Sep 2026 18:21:17 -0700 (PDT)
-From: Daniel Ortiz <letargopausado@gmail.com>
-To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
-	Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>
-Cc: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vbk3QDwF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1789872167; x=1821408167;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=odp0zXhuJ25xtcNo60On5RQmjhndEnyqpfoyX1JO9rs=;
+  b=Vbk3QDwFstRWANnbabw55hH/mAuzGLVsdW/BGCZTU99rMofUgpSK1z9A
+   YSOT+KUB2PJIOqLOuPmQpjjaRdi/0APc1uNTZxTiZ2H5BCKJJLndOxKQk
+   rh0wh07Aj34KJgLvXacTroMqu0n1t/jmY9eJvg1Je2h9ysWqPoGtxMF2x
+   k+7fD1DFJtI7pfVbP+2LjvGgqEnhJsE2FJEHiOX2kNG7nOgyQsneHsYwl
+   Sct/RijW+GD08MWiD4/DDdRpPEljVX/gnqY/opv0i+n/DaKTt9Rvvg2Wn
+   Q6+E9hqx4Y+lmKnSfwAnVIUVf57S8YwRLlAXoleFfrqY2IIKmNFi6SDH3
+   Q==;
+X-CSE-ConnectionGUID: YT9bdpMTT0K3/j7H2OMJuQ==
+X-CSE-MsgGUID: IjIKXbd3RF2byuebOVfHfg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11910"; a="77949180"
+X-IronPort-AV: E=Sophos;i="6.27,111,1787036400"; 
+   d="scan'208";a="77949180"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2026 19:42:45 -0700
+X-CSE-ConnectionGUID: n2KMD/YsRhe1p1QNkYIEdg==
+X-CSE-MsgGUID: X2t4uyOtR3qnkvOmM9ZWNg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,111,1787036400"; 
+   d="scan'208";a="280184439"
+Received: from junjie-desk-dev.bj.intel.com ([10.238.152.71])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2026 19:42:43 -0700
+From: Junjie Cao <junjie.cao@intel.com>
+To: Mark Brown <broonie@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Oder Chiou <oder_chiou@realtek.com>
+Cc: Shuming Fan <shumingf@realtek.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
 	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: amd: yc: Add DMI quirk for Lenovo V15 G6 ARP
-Date: Sat, 19 Sep 2026 20:19:20 -0500
-Message-ID: <20260920011920.2482786-1-letargopausado@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH] ASoC: rt712-sdca-dmic: fix drvdata type in the gain controls
+Date: Sun, 20 Sep 2026 10:42:32 +0800
+Message-ID: <20260920024232.710189-1-junjie.cao@intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -77,43 +66,61 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The Lenovo V15 G6 ARP (product name 83UU) uses the ACP6x PDM interface
-for its internal digital microphone array. Its firmware exposes neither
-the AcpDmicConnected _DSD property nor the _WOV method, so acp6x_probe()
-falls through to the DMI check and returns -ENODEV, leaving
-acp_yc_mach.0 unbound and no capture device registered.
+rt712_sdca_dmic_set_gain_get() and rt712_sdca_dmic_set_gain_put() take
+the component drvdata as struct rt712_sdca_priv, but this driver stores
+a struct rt712_sdca_dmic_priv.
 
-Add a DMI quirk entry for this model. With it, the machine driver binds
-and the DMIC capture device is created:
+regmap and mbq_regmap are at the same offsets in both structs, so the
+register accesses work. slave is not: rt712_sdca_priv has dmic_component
+in front of it, so its slave overlays rt712_sdca_dmic_priv's params,
+which this driver never writes. When regmap_write() fails in the put
+handler, dev_err() is called with &NULL->dev (RSI below):
 
-  acp_yc_mach acp_yc_mach.0: Enabling ACP DMIC support via DMI
-  card 2: acp6x [acp6x], device 0: DMIC capture dmic-hifi-0
+  rt712-sdca-dmic sdw:0:3:025d:1713:01: Defer on undeferrable control: 40800f13
+  BUG: kernel NULL pointer dereference, address: 0000000000000058
+  RIP: 0010:__dev_printk+0x10/0x70
+  RDX: ffffcdac45f83cd0 RSI: 0000000000000008 RDI: ffffffffa09cb5cb
+  Call Trace:
+   _dev_err+0x7f/0x99
+   rt712_sdca_dmic_set_gain_put.cold+0x20/0x25 [snd_soc_rt712_sdca_dmic]
+   snd_ctl_elem_write+0x19a/0x1f0 [snd]
+   snd_ctl_ioctl+0x658/0x8a0 [snd]
 
-Capture was verified working with arecord and PipeWire.
+Seen on a Dell Precision 5690 running 7.2.5-200.fc44, with alsactl
+writing the control during boot. Compile-tested only.
 
-Signed-off-by: Daniel Ortiz <letargopausado@gmail.com>
+Fixes: 63a511284c9e ("ASoC: rt712-sdca: Add RT712 SDCA driver for Mic topology")
+Closes: https://bugzilla.redhat.com/show_bug.cgi?id=2532834
+Cc: stable@vger.kernel.org
+Signed-off-by: Junjie Cao <junjie.cao@intel.com>
 ---
- sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ sound/soc/codecs/rt712-sdca-dmic.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
-index 79858fc..f3f3592 100644
---- a/sound/soc/amd/yc/acp6x-mach.c
-+++ b/sound/soc/amd/yc/acp6x-mach.c
-@@ -381,6 +381,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "83Q3"),
- 		}
- 	},
-+	{
-+		.driver_data = &acp6x_card,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "83UU"),
-+		}
-+	},
- 	{
- 		.driver_data = &acp6x_card,
- 		.matches = {
+diff --git a/sound/soc/codecs/rt712-sdca-dmic.c b/sound/soc/codecs/rt712-sdca-dmic.c
+index a9f3aa4e143ae..882390890738e 100644
+--- a/sound/soc/codecs/rt712-sdca-dmic.c
++++ b/sound/soc/codecs/rt712-sdca-dmic.c
+@@ -246,7 +246,7 @@ static int rt712_sdca_dmic_set_gain_get(struct snd_kcontrol *kcontrol,
+ 		struct snd_ctl_elem_value *ucontrol)
+ {
+ 	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
+-	struct rt712_sdca_priv *rt712 = snd_soc_component_get_drvdata(component);
++	struct rt712_sdca_dmic_priv *rt712 = snd_soc_component_get_drvdata(component);
+ 	struct rt712_sdca_dmic_kctrl_priv *p =
+ 		(struct rt712_sdca_dmic_kctrl_priv *)kcontrol->private_value;
+ 	unsigned int regvalue, ctl, i;
+@@ -277,7 +277,7 @@ static int rt712_sdca_dmic_set_gain_put(struct snd_kcontrol *kcontrol,
+ 	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
+ 	struct rt712_sdca_dmic_kctrl_priv *p =
+ 		(struct rt712_sdca_dmic_kctrl_priv *)kcontrol->private_value;
+-	struct rt712_sdca_priv *rt712 = snd_soc_component_get_drvdata(component);
++	struct rt712_sdca_dmic_priv *rt712 = snd_soc_component_get_drvdata(component);
+ 	unsigned int gain_val[4];
+ 	unsigned int i, adc_vol_flag = 0, changed = 0;
+ 	unsigned int regvalue[4];
+
+base-commit: 174d160884199cad97413f33fe1b56027dc0d3e1
 -- 
-2.55.0
+2.43.0
 
