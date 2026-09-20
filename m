@@ -1,50 +1,41 @@
-Received: from forward400a.mail.yandex.net (forward400a.mail.yandex.net [178.154.239.95])
+Received: from forward101b.mail.yandex.net (forward101b.mail.yandex.net [178.154.239.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82F84352031;
-	Sun, 20 Sep 2026 09:35:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B69503EF672
+	for <linux-sound@vger.kernel.org>; Sun, 20 Sep 2026 09:47:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789896915; cv=none; b=sefYrEyE3V67e1mECWgBnB/ewbyCQuKZL+X4MpSjMaQsjGLixAIXH11BVWWe1fUt9KJb+ERlotTfb/9aR9rq375/b1YOOI7j6S0MYm/kXDAj+EWsAzF6koaK2v4lsjd8cGbaU19TLTlMf+bgLz+Qz7pUDxlVuxgMT3hH7LHg3qs=
+	t=1789897639; cv=none; b=TGFY6GYNPtS0o8ZaYuQYnuaehaT3hw4hi+1bgI04WxfqmtIaPlgEOIwAG3fsNTLl6jlxsieiHzfNpUqNDcZYZEPmgM7n6mTXygEeRKbKz3El52BfidZygfQ3cgfmy4Ut6kDVX6p7CzgxwPeGcwjTMoIX5CFdAPjUe9nZko14nfg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789896915; c=relaxed/simple;
-	bh=woZI6uPGoA8KASrI3mT1kqL/a3UB0rXDWmryPhTwy+Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HmsiIyMTBIFXQ15Liq135K1o853rMe6fr3n65mPBx6XJ2T8RJpaWVrDKyp3C3S7f+hLvKxrv/f9cxYVbbPfwavqXAj0Vu0Zk18TA6No47DVKHIwxMjybMzvKnRSc1ib3OXN/eM1ns3HfMd+BWjxhoZNeJHJ0EectEBPE89hTa78=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ya.ru; spf=pass smtp.mailfrom=ya.ru; dkim=pass (1024-bit key) header.d=ya.ru header.i=@ya.ru header.b=PRrnJOlp; arc=none smtp.client-ip=178.154.239.95
+	s=arc-20240116; t=1789897639; c=relaxed/simple;
+	bh=juAbVDbXWVwdclRdyUAuVrgjmjod79dRpwb4O+mnDDg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=itIAMVDCQw2H0jlX0TsSaH4feTU3LsZ07Xmoye8Y0D/uoFO6yHUmWL6f+6zvkapbnKeFnGxdVnTUoNLBO+XSDLWxuYNAYxAojcKMi+6kRY1njMqs+Yo84tWfiAc1IJU8A3boVJskWb7x7eoJmRbaoUSCCe63sbHkVS0R2CCcN7E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ya.ru; spf=pass smtp.mailfrom=ya.ru; dkim=pass (1024-bit key) header.d=ya.ru header.i=@ya.ru header.b=KocL9yye; arc=none smtp.client-ip=178.154.239.148
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ya.ru
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ya.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ya.ru header.i=@ya.ru header.b="PRrnJOlp"
-Received: from mail-nwsmtp-smtp-production-main-84.vla.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-84.vla.yp-c.yandex.net [IPv6:2a02:6b8:c0f:39a:0:640:15c4:0])
-	by forward400a.mail.yandex.net (postfix) with ESMTPS id 117C4C064C;
-	Sun, 20 Sep 2026 12:28:21 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-84.vla.yp-c.yandex.net (smtp) with ESMTPSA id ASVxuRVdNKo0-aVVBHvJF;
-	Sun, 20 Sep 2026 12:28:20 +0300
+	dkim=pass (1024-bit key) header.d=ya.ru header.i=@ya.ru header.b="KocL9yye"
+Received: from mail-nwsmtp-smtp-production-canary-88.sas.yp-c.yandex.net (mail-nwsmtp-smtp-production-canary-88.sas.yp-c.yandex.net [IPv6:2a02:6b8:c11:4021:0:640:30fc:0])
+	by forward101b.mail.yandex.net (postfix) with ESMTPS id CAB93C0074;
+	Sun, 20 Sep 2026 12:47:05 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-canary-88.sas.yp-c.yandex.net (smtp) with ESMTPSA id qkVL0bUfYmI0-mYjTgxm5;
+	Sun, 20 Sep 2026 12:47:05 +0300
 X-Yandex-Fwd: 1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ya.ru; s=mail;
-	t=1789896500; bh=Q/Y8k4bWmd1QSaHxBP9PRRfReRKW0CUt7aj4ZkfTEQU=;
+	t=1789897625; bh=XivLuPnNLJ7QQFY4NuX99E26pUgzrXz0Atyy7W7mkG0=;
 	h=Message-ID:Date:Cc:Subject:To:From;
-	b=PRrnJOlpg3eGawGLTFPuzzSNTsHI0I2+8egeAZqz3QJl6zml0NfjJaA6Kwo4WOCkI
-	 xJjuDgptbOwcro6K1UWlMLvXdWPTsUyirY+3bdMjQw9rbuz7GaCoav+uMusuVfp7/p
-	 fwnYTD+oo7+QIwsFjDyLmpYJrXoQgg2hCjfuNiic=
-Authentication-Results: mail-nwsmtp-smtp-production-main-84.vla.yp-c.yandex.net; dkim=pass header.i=@ya.ru
+	b=KocL9yyeB6GY6Jqzx+lUPhAG++5Qa7ZmsjkeTn2IIlT4CIYEjaRRmUa79Uq3b/lNX
+	 S0cDTcfO87fUpOIZZDRthpxKXv15XXOK+PT9PX8ZWc1ggpx/J8B23wk3HzxJ5bNgex
+	 tXeW8RQ3vKbGLbXTxeZWUlrPNJJGzGNr4ZNgoLLg=
+Authentication-Results: mail-nwsmtp-smtp-production-canary-88.sas.yp-c.yandex.net; dkim=pass header.i=@ya.ru
 From: Ilya Pavlukhin <i.pavluhin@ya.ru>
-To: Takashi Iwai <tiwai@suse.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
+To: patches@opensource.cirrus.com
+Cc: Richard Fitzgerald <rf@opensource.cirrus.com>,
 	David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>,
-	Hans de Goede <hansg@kernel.org>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	linux-acpi@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 0/4] Add support for the bass speakers of Lenovo Yoga Slim 7 Carbon 14ACN6
-Date: Sun, 20 Sep 2026 12:28:04 +0300
-Message-ID: <20260920092808.17234-1-i.pavluhin@ya.ru>
+	linux-sound@vger.kernel.org
+Subject: CS35L41 firmware for Lenovo Yoga Slim 7 Carbon 14ACN6 (17aa3856)
+Date: Sun, 20 Sep 2026 12:46:47 +0300
+Message-ID: <20260920094647.18820-1-i.pavluhin@ya.ru>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -54,44 +45,40 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The Lenovo Yoga Slim 7 Carbon 14ACN6 (82L0, Ryzen 5000) has four
-speakers. The two tweeters are driven directly by the ALC287, the two
-bass speakers by a pair of CS35L41 amplifiers on I2C. On Linux only
-the tweeters work [1].
+Hi,
 
-The amplifiers are described by ACPI HID CLSA0102, without _DSD, in a
-single node with both I2C addresses, the same way as CLSA0100/CLSA0101
-on the Legion 7. Patches 1-3 add CLSA0102 next to them. The Windows
-Cirrus driver configures CLSA0102 with an external speaker supply, so
-external boost is used.
+I have just submitted a patch series adding support for the two CS35L41
+amplifiers of the Lenovo Yoga Slim 7 Carbon 14ACN6 (82L0), ACPI HID CLSA0102:
 
-Patch 4 adds the codec quirk. The ALC287 only clocks the I2S bus to the
-amplifiers while pin 0x17 is enabled, and the BIOS marks that pin as
-unconnected.
+https://lore.kernel.org/linux-sound/20260920092808.17234-1-i.pavluhin@ya.ru/T/
 
-Tested on a Yoga Slim 7 Carbon 14ACN6 (BIOS H5CN42WW) with all four
-speakers playing. The DSP firmware (cs35l41-dsp1-spk-prot-17aa3856*)
-is not in linux-firmware yet. For testing it was taken from the Lenovo
-Windows driver package (tuning "Lenovo-S760-17AA383D"). Without it the
-driver falls back to the default spk-prot firmware.
+With those patches both amplifiers bind and the bass speakers work. What is
+missing is the firmware and tuning in linux-firmware. The driver looks for:
 
-[1] https://bugzilla.kernel.org/show_bug.cgi?id=215632
+  cirrus/cs35l41-dsp1-spk-prot-17aa3856.wmfw
+  cirrus/cs35l41-dsp1-spk-prot-17aa3856-l0.bin
+  cirrus/cs35l41-dsp1-spk-prot-17aa3856-r0.bin
 
-Ilya Pavlukhin (4):
-  ACPI: scan: Add CLSA0102 to the serial bus ignore list
-  platform/x86: serial-multi-instantiate: Add CLSA0102
-  ALSA: hda: cs35l41: Add support for CLSA0102
-  ALSA: hda/realtek: Add quirk for Lenovo Yoga Slim 7 Carbon 14ACN6
+Could Cirrus release these for this machine?
 
- drivers/acpi/scan.c                           |  1 +
- .../platform/x86/serial-multi-instantiate.c   |  1 +
- sound/hda/codecs/realtek/alc269.c             | 28 +++++++++++++++++++
- .../hda/codecs/side-codecs/cs35l41_hda_i2c.c  |  3 ++
- .../codecs/side-codecs/cs35l41_hda_property.c | 28 +++++++++++++++++++
- 5 files changed, 61 insertions(+)
+For testing I used the files from Lenovo's Windows audio driver package
+(support.lenovo.com, DS552749, "Audio Driver for Windows 11 (64-bit)" for
+Yoga Slim 7 Carbon 14ACN06, v6.0.9366.1). In the CsAudio part of that package,
+csaudioext.inf maps ACPI\VEN_CLSA&DEV_0102 to the configuration named "S760":
 
+  Playback_6.47.0/Firmware/CS35L41/RevB2/halo_cspl_RAM_revB2_29.49.0.wmfw
+  tunings/Lenovo-S760-17AA383D_20210811/17AA383D_20210811_A0.bin  (amp at 0x40)
+  tunings/Lenovo-S760-17AA383D_20210811/17AA383D_20210811_A1.bin  (amp at 0x41)
 
-base-commit: 4d4bc656580bcc448f8e6d6b3b3a903120eb29bb
--- 
-2.43.0
+The INF also sets ExternalVspkControl=1 and an init sequence with BST_EN=00,
+which is why the patches use CS35L41_EXT_BOOST for CLSA0102.
 
+The amplifiers report "Firmware Loaded - Type: spk-prot, Gain: 17" with those
+files and play without errors, but I have no way to verify that this is the
+right, complete set, and those files cannot be redistributed, so a proper
+linux-firmware submission from Cirrus would be much better.
+
+I am happy to test anything on this machine.
+
+Thanks,
+Ilya Pavlukhin
