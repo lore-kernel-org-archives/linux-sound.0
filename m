@@ -1,258 +1,217 @@
-Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 584524E73D8
-	for <linux-sound@vger.kernel.org>; Mon, 21 Sep 2026 18:18:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790014691; cv=none; b=AQ52qra5OTxXM1M2g04/lCT46fDMadcDvRMHxeF7NmLS3g7vl5OWwvRLDV9v1Kn7VtfXr4h0Qr1jfZJYeUfcBgMC5/DkAYy/W7owBofieApUJYwywx/i4FHqXPteRdUnHbYEm31awOvDhfTq+j5OkMkhOZ2pvGP6j5OvxIvG9zk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790014691; c=relaxed/simple;
-	bh=ohYHDByr63mq2w127BbroFdh1YTyjJmc5GrT/NjLTW4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ALweyl7wZKIk5Gi9l0POiZWyBu6EeQsNOrfT4qGlj/mMskprm5rANHUI7britHQQ4KJhyzgREnysaCtaljS7C/NXtAB/MCcJdb522k5xWfXh2SNIk99p6XQiYqj59ipFE5q3lXN3OO0Zsj+vAUXd7dTe5nj49zG3j8BCK2+Ihj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PJQPjBJv; arc=none smtp.client-ip=74.125.225.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40ADC4F55C7;
+	Mon, 21 Sep 2026 18:28:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.19
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790015310; cv=fail; b=V78o099ruS5vGRgTRFqY++jnebPLNZByLZWgwXNHR6Qj/nP4U1VCD6bvsdlkxIPkMrpkFtvuIK0D05zx4b9gwew4A5ZOg+6xU/vB2CQvwUVxHYPOlvirxwzbRpq9dU7lJPyTwVahHesbxxqJWDSCY9oyg1faKjlmp7+CEhNFbrs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790015310; c=relaxed/simple;
+	bh=1MugojLe+9OVbOeNMfo18LtAn/j4+/8+Zk2Hx5O2XJA=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=NEXovYZMJUSEPXhJrOPyUf66SdlQOYOrqtsyOIJAaaqRFYJWdGQoQUFD3t5Tw4UOOa4obtmhq5J/6ootOb0G4OIstibsuZr/42hnEjRUittgiCZfG+qdCboHrJPJNjJIatlrvqLJtKFGilyxN/RHWAa9PShJQCCncQtD7JnrU1E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CCcXvG5P; arc=fail smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PJQPjBJv"
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49e8185e037so19069735e9.3
-        for <linux-sound@vger.kernel.org>; Mon, 21 Sep 2026 11:18:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790014687; x=1790619487; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=hsxOL19hMW7EQtC7VpFSa5vo6iszWm6pjBLLvFrMpHg=;
-        b=PJQPjBJvKCQU5/Kwo+upHzCqM/HxKMnJ9pbHNaC7CJKg1CKTxoV7oAC7n+PVb1HBkS
-         55pUEft77+17h8zu3OAqevStSUQ5dzUuK01FQLjTINjp50QKb7IDy+5kxw7ZoQtiedSl
-         4yL2YnRf+vnqfctl3bEHZeILpyq5Uz7w1dU3lLwZ71y8z5WwhYw5c0iLei0elNGUi2QM
-         ndtdOMDlo+V0X3SD+np3wMi+P3s8WbsQPXOeHjwPfTbyzISef/4KG/JCR/FjWtaAniH0
-         hkYoECbkazByyt44Y4ITeD1RXjSMoukHB+d93QI6y7etoJ0tJdOJt7jLX7BSDjrYrI6p
-         5ZFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790014687; x=1790619487;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=hsxOL19hMW7EQtC7VpFSa5vo6iszWm6pjBLLvFrMpHg=;
-        b=QYjcZPK0mFmy/FLdtG1nz8qLyivIOCBuHP4QJ1LJJygebfKu5Ou+sIjxFBRpkIX4YW
-         8Q0NAmcRTp1MNFrjyKkqjxHQr/0U41oOIgOw3THmzRFDeg5ACfL+/LMMgSwPZR/ye+jL
-         WRI1UD6ZpBoZTsLsbB2AjZCpEBbIO4knDwBshisx5/HkI78gVnC9RkVNN1CfECMUAgUi
-         ERjcDBo/HJP+z4Zgh2h+G+/GZc44UuOwae1nqZAXCERjRK9gXPTkILf2lrinXgRisN7Y
-         9JBZs7VN5sGJUZmowHhs/lAi3rbIcj3bSRyXIo6jiOMmeleTos3Sa0MElJykdClRKb22
-         XpIw==
-X-Forwarded-Encrypted: i=1; AKwUvBwC8ZeB/Wobpv2RfSTVOg8n5KLEGd/rjrLIz3RVmFeiAXK135Xj3Pk8ygZgQVkKi1KxhoKvWN0g6S345Q==@vger.kernel.org
-X-Gm-Message-State: AFuF++lrrNibYbh4ljjMmfys0aRsfK7xa30xZBbzzNTOBD1j6chS1yLq
-	gJp0iPxvMtYEwjXlphJFyRbDd/wF/UGYtfEvNpjAUBUtASPhbjHgTRU=
-X-Gm-Gg: AYBFou2uun6BjSdOnH3iuJ0BWB11nmqanrepUqKGfkY1u+GZyyZUQjZwxxOYUZnl5SG
-	SHZGC5O/dhzrrqiSW2PljirTSgKP8Uo5aiG+9RJFJoAexCeYHaJ8C7ZR+taOj1vAuCXPpLww0L4
-	uEKEzR8lK4uLSca0nGPeBw55/4BlcgSuVITx3LKlYAMyl15F1/SC/kCX69ne0VvLtwhOmUlGkXn
-	4h3GRXD4l3KsfzD4w0UoEGc8My3iu9Muvpfrp3GjuFrgHV+FEzMOlClsaEV0oK9xtrYiKiRxfzm
-	2fNDybvjZ4lAhVM6H/tBZcAt+SqN1d2JPY5N0Q7kaVtg3e6FGZLcdc6998opiMv8RRr9Mxs2EUT
-	ALO9zXzumtIJBrGIKp4CvGzVmw5FHCRn0umZ7AP9WOPpmb/Y2C3zvPudzAzQJJ5DDuS/77rgXic
-	2sZ6pq3fKcft5H5sh+gPD8LW2zlli94uv4LKdai6YgX1/fIAqY2ILfQQi7/G3W+IyFuYmoWtLRw
-	8EXAMlTi+bOfEao9rEIqWIJJ9Xn1TOZkeGdryDcoWLDQbjzcMsOG5ZaK+EGrz4=
-X-Received: by 2002:a05:600c:83c8:b0:49d:2536:402e with SMTP id 5b1f17b1804b1-49fc5851e92mr153913555e9.30.1790014687244;
-        Mon, 21 Sep 2026 11:18:07 -0700 (PDT)
-Received: from yoga.fritz.box (p200300f3cf01bb00103cf82222a83fe3.dip0.t-ipconnect.de. [2003:f3:cf01:bb00:103c:f822:22a8:3fe3])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fd8cd5214sm8957605e9.9.2026.09.21.11.18.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Sep 2026 11:18:06 -0700 (PDT)
-From: Georg Wenzel <g.wenzel@gmail.com>
-To: shenghao-ding@ti.com,
-	kevin-lu@ti.com,
-	baojun.xu@ti.com,
-	sen@ti.com
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Georg Wenzel <g.wenzel@gmail.com>
-Subject: [PATCH] ALSA: hda/tas2781: Enable bass speakers support
-Date: Mon, 21 Sep 2026 20:18:44 +0200
-Message-ID: <20260921181845.17923-1-g.wenzel@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CCcXvG5P"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1790015308; x=1821551308;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=1MugojLe+9OVbOeNMfo18LtAn/j4+/8+Zk2Hx5O2XJA=;
+  b=CCcXvG5PJ1bz87t7jbPomayeV8lpA/i+EqtK0mQu9e2lly16KDE6YmM2
+   QS7HJhD2PMKnnHCHTHShL+8k/+Tf7Eg8SwFofOPGj8vdIJFhV+fD17+d3
+   bjKzdDMqEXMD4tC1D5TieuhwGl6OwSkb3OprsYrcG6Vb3WoZFytag8yNf
+   rtauLVXoiQ8Kds/bZ9DPc6R6td8qxWhwKDboRA8JoOevtJ1Ed0p2dxRjN
+   ysoPGWdylNYaB7rdm2abWxQyV93Apmu2j5gKLLkjTcWbEJd3nptjQ2AxI
+   HPLp4xlc30ahAaRu+3XGu32I0Y0CFbQ+CxQ5YKlKmwzQSYfwTMvir+QqG
+   A==;
+X-CSE-ConnectionGUID: aVjyUX8VTOaVA23BLq/eMA==
+X-CSE-MsgGUID: 6OVi+Bm0RN+lKVEghnQKWA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11912"; a="89483799"
+X-IronPort-AV: E=Sophos;i="6.27,115,1787036400"; 
+   d="scan'208";a="89483799"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2026 11:28:28 -0700
+X-CSE-ConnectionGUID: ZU6YgBXYRQu7g0vvqelFLQ==
+X-CSE-MsgGUID: lQNuSUlyR6Cdl+jOvzR28Q==
+X-ExtLoop1: 1
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2026 11:28:27 -0700
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.46; Mon, 21 Sep 2026 11:28:26 -0700
+Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.46 via Frontend Transport; Mon, 21 Sep 2026 11:28:26 -0700
+Received: from PH8PR06CU001.outbound.protection.outlook.com (40.107.209.61) by
+ edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.46; Mon, 21 Sep 2026 11:28:25 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=WB3XtvhRTvzcoykZF3gtvSr3Y3gDW9XqYmb/39HaRsa/z2zTvfZOzbrJeTRiwmrQRX1azj8qygTiQ4d+P3+STdFhdvkMEQ/DL/kinoN9Ch3oeVfUo7RzWvfeMG5Cq5+44gAXDISpEX2XxzWLMT8NVNphfecBjrvVV9evOCijMaa4FfGRf9FLA6jrarpNl249RXgsKenIJbdWxVyaRHWA/6ytaz+ky/3dSXBgXPOOgK345/Kr5DG9iSIlhP4L8KP7vWP/UAczIBmCoIfEF87WjqSy/1bvPrG/N95jnRocyiZZsf/gtDl7bOo39Ms+IGnzB2D5TYlXrS7k2KV/3edKNw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=sfZXWDieHABlLbediaH8uiMqH7tL3/59aoKAXnAsTBM=;
+ b=IwEHbJ2n/ESLOeedyshMDKkfcHVhnJanNvDIEAq0A56VKb27qSVi5qKU8kWidfeeAHLzb/km/qWmYCXE2eM3Kh3EzQCmn4iCxERFVLQIGCfdwIHvAC1+6YzUB7uq1EqH/XFxxzEDak71QnP5vKx1N2QwW2+SoG9jsQUKQlrsNUu4HCTLSDkEgT/hBFI/3i+rYrMwAcnQtk53RYIVaGvzalCjb1hWwlcqWY1tIsOTsDJcTUrT8TDpLZu5yzPa6VySXvfOfia0nS0yPYzEqWVcxut0YlQ5cDMKiKocn800tmcdyFW4IHo4sTCpzjvBMCXpzGh2KPJfKnG9lUBP9aniWw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB6006.namprd11.prod.outlook.com (2603:10b6:510:1e1::13)
+ by DM3PPF341F90799.namprd11.prod.outlook.com (2603:10b6:f:fc00::f19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.428.16; Mon, 21 Sep
+ 2026 18:28:22 +0000
+Received: from PH7PR11MB6006.namprd11.prod.outlook.com
+ ([fe80::4e2d:28f0:ede9:73bd]) by PH7PR11MB6006.namprd11.prod.outlook.com
+ ([fe80::4e2d:28f0:ede9:73bd%6]) with mapi id 15.21.0428.015; Mon, 21 Sep 2026
+ 18:28:22 +0000
+Message-ID: <e0825225-9616-4c3e-82de-346da017d600@intel.com>
+Date: Mon, 21 Sep 2026 20:28:16 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 09/21] ASoC: rt5640: Move mclk acquisition to the i2c
+ probe
+To: Chancel Liu <chancel.liu@oss.nxp.com>
+CC: Support Opensource <support.opensource@diasemi.com>,
+	<linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<patches@opensource.cirrus.com>, Mark Brown <broonie@kernel.org>, "Liam
+ Girdwood" <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, "Takashi
+ Iwai" <tiwai@suse.com>, Charles Keepax <ckeepax@opensource.cirrus.com>, "Oder
+ Chiou" <oder_chiou@realtek.com>
+References: <20260921104640.1941554-1-chancel.liu@oss.nxp.com>
+ <20260921104640.1941554-10-chancel.liu@oss.nxp.com>
+Content-Language: en-US
+From: Cezary Rojewski <cezary.rojewski@intel.com>
+In-Reply-To: <20260921104640.1941554-10-chancel.liu@oss.nxp.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: VI1PR0102CA0102.eurprd01.prod.exchangelabs.com
+ (2603:10a6:803:15::43) To PH7PR11MB6006.namprd11.prod.outlook.com
+ (2603:10b6:510:1e1::13)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6006:EE_|DM3PPF341F90799:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3b33694e-841a-4e06-689e-08df180e1e4e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|23010399003|376014|7416014|11063799006|10067099003|56012099006|4143699003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info: iStGTxQMR3uPfn+FMPbsgqaJn2l5IEEd47XvgfXJo1QdtUDiF/aZFFRdJXxqU26IfqNKJLRKfroC6bKb1GZrtzs5hd7ratYt09ooBn/Pwb75lze4prN3FEHxt7Em1ZbbH5DOGlCCnOAcU9/DjW9bhDNzwr1pBNf3fE9zrPJGl9ioyNW0pQ0GW3e9UUPU/MQrF0aBqVbieXYgUOfQiNblQFrVKKrpBzHEL9EGZAhQEIz3pZCVsyuHDVbs4iLJmxKwTpVtMrPPU26ZiXyeRQk+k7KlG6JvqPgqYha4lH9At74GHeYyg16QnG4i4cu5LVPKqZKyBFbwcYSACJdrWFykqKYLvWZcWmaSqLImpGeIVTnhxRugvG+zahC6531mfGSxgHp9cPT88BJA1D3gNoMUc6P/UOWPRoS27+xlHgXFNh48ZaljUwKqlzh6Hg7tn8VXo/fLjFvevia/N7YyRDpwcJqq4Dogcpzy7dkhu6IMGbR9ExHUYSb00Nz0nXjTpK/npagcvjt7uoZKrxbFU+oqxelSID4iRFq2p1pvIiDhNrFGtmNIjfFHWRZVFMZsrpjwEBQatVNiFDeCrmARVG545ZaZcsJmRNf4wn++mMfA+fjL7F07fLfl9hUqEIwVsxnJhZgKzJ5Zp+GbukXDGTWkBTJtKu7Ob9Xo8oNTcC6UCEg=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB6006.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(376014)(7416014)(11063799006)(10067099003)(56012099006)(4143699003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TzlGaWZobmNKNlE0M3VqNmlmb3BicjRrclZROWZzYjdvbm9NQS9wWW1zbTNO?=
+ =?utf-8?B?STVXK2V5TE5PQ3BCM1M2Y0ZzYTU5SlRLM2RqTTE5MnlwSmpFbVVaVnZQN3Q2?=
+ =?utf-8?B?L05ONVNqOExTZm9HY0VTdzNOQ0svWitYVTlVczBpSTN6V0NQckdBckxGSnhC?=
+ =?utf-8?B?QW5BeWtvLzNiQTFEWC9aZUt1Yi8vRHJKaVE3ZXdGQXJOM0RrekZFejhVOVRE?=
+ =?utf-8?B?UzVMOUUvUzhFcTBsTjRqNVFyditMVFdNU2V5OWwzUmt5RDFmQUtidlVSeno5?=
+ =?utf-8?B?a1RFTTFVMHhrdzhPaVNmRkttYnF2bHFPNHQxajZBS1VNT3l0eTllMk93Mis5?=
+ =?utf-8?B?MHp6eWxRaFBWR0VQMkd0ZkNEZHBvamFkVWpOY1Z4REdJRFdPTThmbitlRVVj?=
+ =?utf-8?B?ZllpQ2hMcnEzdXlGQkhlSFFORlJUdUkrOXdIZ2lqZFlxejdMQi9MR0FKSTBM?=
+ =?utf-8?B?U0dVNVg2UFBnK3R1dUdWa21RcWxKVWYzREM2ZUQ5Y3l3b1ZuRjF5VGVxcVpk?=
+ =?utf-8?B?aTZLZ1grM2dUVTdIb2tDclQ5UksvUzFUdmsxM3B2U2NTWFpaS0t0ZGZtTVFZ?=
+ =?utf-8?B?NDdwYklKY1ZKTlJCWVAxM1lqVEJxUUhicHFHVyswM2Raa2V5TWV6QU5XTXZX?=
+ =?utf-8?B?TzVHK3F2b2N4OWFoS3VBV0V5UW56cm4vVHluOEhDcW5ETC9LT0czeEcvL29l?=
+ =?utf-8?B?RngyT3ZWZ1QzRmZtTTdWNW1wSzY4aEpiMHNaM2kyYlZ1RU5OMXJvNzJpdEZS?=
+ =?utf-8?B?TkNUYTJzMTVpRWcvbUd5VkUyV1RJN1pvRmVCUHVTb3BoVGM2azJwcm5oMzNC?=
+ =?utf-8?B?REhnN2VEeTFmWVdiMnZRRHN2R05RWkpqQ2FqaWh5RUhBT2pZUS9id0p4OTBV?=
+ =?utf-8?B?bS9VN2FzOXMxMzE2N3ZzNjZTODBsQ21VTmtrNlh5d0oxVCtxWlNOK1B1cmFU?=
+ =?utf-8?B?R3NPYjQwV1dWU05PaWFmQWtKcWpNenRHdmYzSFU1WkVCRkRtbVlLc1N2WGMw?=
+ =?utf-8?B?emdjUFc2cDZ2aCtDS2xpYmQvN2lDK2tsbSsxNGJySEdWYlRhU0hPVUlscmYx?=
+ =?utf-8?B?c3FBdiszOWczRHg4RXZUVTlBbi9yeFgrYlovNndnclo0V3AwT3ZlV3dKNUZP?=
+ =?utf-8?B?RGU0K2VKeGVBZjJZb1FUUks4ekxJRjJWNkZpMTArdmEvQTZOdHc0K2phRUdP?=
+ =?utf-8?B?bjlEWjhueUdDQ25XWjlUZ0tMVXRZbEhOWDRxOUhSZ0hYNEdSWFptRlhXYlZa?=
+ =?utf-8?B?cHlFbFdwenpodTVBOGN1U2NhbTJUN1NaZTlqNXBUWmxuZmFucDdmajdwLzRL?=
+ =?utf-8?B?MUpyL0t5RmQ2MytNOVJsME1idXhEb1NDcWdBU0dkYVhpQWlVVUVJeHh4MXdQ?=
+ =?utf-8?B?NnRpTTQxV1VSeWZvalZSRjZLays5OWhxeW9XZ0lJM21VdjhDay8rVjR4T3Bj?=
+ =?utf-8?B?eTBXRnExMzVXYTFybEtGM0VFWE9oOEtsc0MrblM4eWViVG1yZ1c1emtUY1BK?=
+ =?utf-8?B?MlI2SkJiT092VU5ndVlTR084ckZXTEN4UlJ2UTlJdWxpVmpTMC9YMm1oTS96?=
+ =?utf-8?B?UEIzNEU1YklTZWd3bUJYZDFyckQ0Ylh0MnZHM3dqc08vc3FLeXRLeHFxVlgw?=
+ =?utf-8?B?Mk5KQjREK2l0N3VjUEE3RzVCNyt5NEh4KzR4Mm5sQ09iRktLU0ROaWIrVDdq?=
+ =?utf-8?B?NENESUJ2dTZobksxa3U1eGozZ1djOHNnRENjc3RMdCtFS1EwUHlYSFhhWnVT?=
+ =?utf-8?B?OVM0a0RpbWpGa3BaTnlqSHZvbTFpR2JTN1ZLVjA5cm1vWXJNNEk1QmpxWmJr?=
+ =?utf-8?B?anovMDhoVWFFZUFYZDMySW1LSVAzRDk2NlovQWM5Q2FNZFJYc1kxaTNsVzVk?=
+ =?utf-8?B?RkNtWlM1VWV4bGpIdUFheENjbm5vNTNLYTA1dUpScmtWalRpNzBnMUZBZUNo?=
+ =?utf-8?B?b1VSNjIvYVQvYnY3OXNWUzhNUmZkS2tRUWxxZDBxUW0wdThVZGhDOTFPOHll?=
+ =?utf-8?B?enZEaTRSTm0vcUVxZVlVQTdHUk8xcGcxeWVBSHVyaDQxUEx5VnpGZzJzOUNQ?=
+ =?utf-8?B?cDFvR01yRVRvVFFKVUNYeGFRVit5Z1lJUWlMOFBFTzhhK0JjQWZjaDBpWE1p?=
+ =?utf-8?B?MTFSVncxSjVhRUVaaEV3aU5aRlkzTDFLYmMxY2tOdVFPTWJuKzhES0RBZlN4?=
+ =?utf-8?B?SXI0aS9icCtXMU1kRW9PYStvQWpMc2d5ekUvaFBVUW5nZmZNNkpUVXFnWnMr?=
+ =?utf-8?B?eTNUWEo0QnpBMkR2QU1kOXhWUTEwV0RHdG5LY0g4OVNGSE5ZQnNyc2VNUCtL?=
+ =?utf-8?B?Y25rNlZ0MU91czY1MmNQbUZJMFE2dkZvRlBkKzlmSjR1dnBxeGpkTnE3dnUr?=
+ =?utf-8?Q?4LRfJ5Y/HM6uIds4=3D?=
+X-Exchange-RoutingPolicyChecked: ehfArKp2KsQF2FCHblbDZnl1pUJW92oyH8UIrqf1VunLCISQIATEcZ7ymaJPts3m1wGN69UkHlrzS2fBRIUf31Ie5HDoyfih8R4MxVO04mvJQzicKcDga99ZDZMgZRpi17YuzZ+54YpkhsvMWRUCXR5EDU0vrouxKS4qZmK3/Aj11t51h4rCPj79WNxmVwNCw7Md63cGLhrlz9WyHvyh81g5VnM5hB6L1uVtDMQ3kj+y8Ar13AzbGRHm/l7PGLKL8MoiLr/QA62eVnk8GJk7WuGxbbWAz1EJw3V3/UvFWs6+bWZYQQp/HyCuCt97YxvE9siwv26/7oh+bCkJK4kqNw==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3b33694e-841a-4e06-689e-08df180e1e4e
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6006.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Sep 2026 18:28:22.7898
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: QrdXAHV3rNoFLtDLVFVMCvSOvMeEEsao+HWDo6OBWFlHRYmDHgsUwUfJxl011g8lC3dnfHMR/Zp4MoPMeFjTnVlPHNP+CV8mJT8RanaV/io=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PPF341F90799
+X-OriginatorOrg: intel.com
 
-Configure the driver to correctly initialize and enable the bass speakers
-on devices utilizing the TAS2781 amplifier. Without this change, only the
-tweeters or main speakers are active, leading to thin audio output.
+On 9/21/2026 12:46 PM, Chancel Liu wrote:
+> From: Chancel Liu <chancel.liu@nxp.com>
+> 
+> component->dev is the underlying i2c device whose devres is only
+> released on physical device removal, not on ASoC card unbind. Getting
+> the codec clock with devm_clk_get_optional(component->dev, ...) in the
+> component probe therefore leaks a clk reference on every card
+> bind/unbind cycle.
+> 
+> Move the devm_clk_get_optional() to rt5640_i2c_probe() so the clk
+> reference is tied to the physical device lifetime.
+> 
+> Signed-off-by: Chancel Liu <chancel.liu@nxp.com>
+> ---
+>  sound/soc/codecs/rt5640.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/sound/soc/codecs/rt5640.c b/sound/soc/codecs/rt5640.c
+> index 03d0ac3359f5..1a45346cf6b9 100644
+> --- a/sound/soc/codecs/rt5640.c
+> +++ b/sound/soc/codecs/rt5640.c
+> @@ -2667,11 +2667,6 @@ static int rt5640_probe(struct snd_soc_component *component)
+>  	bool dmic_en = false;
+>  	u32 val;
+>  
+> -	/* Check if MCLK provided */
+> -	rt5640->mclk = devm_clk_get_optional(component->dev, "mclk");
+> -	if (IS_ERR(rt5640->mclk))
+> -		return PTR_ERR(rt5640->mclk);
+> -
+>  	rt5640->component = component;
+>  
+>  	snd_soc_dapm_force_bias_level(dapm, SND_SOC_BIAS_OFF);
+> @@ -3053,6 +3048,11 @@ static int rt5640_i2c_probe(struct i2c_client *i2c)
+>  	regmap_update_bits(rt5640->regmap, RT5640_GCTL1,
+>  				RT5640_MCLK_DET, RT5640_MCLK_DET);
+>  
+> +	/* Check if MCLK provided */
+> +	rt5640->mclk = devm_clk_get_optional(&i2c->dev, "mclk");
+> +	if (IS_ERR(rt5640->mclk))
+> +		return PTR_ERR(rt5640->mclk);
+> +
+>  	rt5640->hp_mute = true;
+>  	rt5640->irq = i2c->irq;
+>  	INIT_DELAYED_WORK(&rt5640->bp_work, rt5640_button_press_work);
 
-Set up the required register sequences and routing to ensure the bass
-channels are properly powered and mixed into the audio stream.
 
-Signed-off-by: Georg Wenzel <g.wenzel@gmail.com>
----
- include/sound/tas2781.h                       | 12 +++
- .../hda/codecs/side-codecs/tas2781_hda_i2c.c  | 97 +++++++++++++++++++
- 2 files changed, 109 insertions(+)
+nitpick: update the title tags so it starts with:
+	ASoC: codecs: rt5640:
 
-diff --git a/include/sound/tas2781.h b/include/sound/tas2781.h
-index b763da613769..ccc0142fbad5 100644
---- a/include/sound/tas2781.h
-+++ b/include/sound/tas2781.h
-@@ -91,6 +91,18 @@
- /* prm_TE_1_Beta1 */
- #define TAS2563_TE_DT_REG		TASDEVICE_REG(0x00, 0x0f, 0x70)
- 
-+/* TAS2563 ASI (Audio Serial Interface) Register Definitions */
-+#define TAS2563_ASI_CFG_REG			TASDEVICE_REG(0x00, 0x00, 0x06)
-+#define TAS2563_ASI_SR_REG			TASDEVICE_REG(0x00, 0x00, 0x07)
-+#define TAS2563_ASI_FS_REG			TASDEVICE_REG(0x00, 0x00, 0x08)
-+#define TAS2563_ASI_DA_REG			TASDEVICE_REG(0x00, 0x00, 0x0a)
-+#define TAS2563_ASI_TDM_REG			TASDEVICE_REG(0x00, 0x00, 0x0b)
-+#define TAS2563_ASI_DL_REG			TASDEVICE_REG(0x00, 0x00, 0x0c)
-+#define TAS2563_ASI_SLOT_REG		TASDEVICE_REG(0x00, 0x00, 0x30)
-+
-+/* TAS2563 ASI Apply Register (triggers configuration update) */
-+#define TAS2563_ASI_APPLY_REG			TASDEVICE_REG(0x00, 0x00, 0x02)
-+
- #define TAS2781_PRM_INT_MASK_REG	TASDEVICE_REG(0x00, 0x00, 0x3b)
- #define TAS2781_PRM_CLK_CFG_REG		TASDEVICE_REG(0x00, 0x00, 0x5c)
- #define TAS2781_PRM_RSVD_REG		TASDEVICE_REG(0x00, 0x01, 0x19)
-diff --git a/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c b/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
-index 624db967f17b..101d6cee6da2 100644
---- a/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
-+++ b/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
-@@ -46,6 +46,83 @@
- #define TAS2563_CAL_TLIM		TASDEVICE_REG(0, 0x10, 0x14)
- #define TAS2563_CAL_R0			TASDEVICE_REG(0, 0x0f, 0x34)
- 
-+/*
-+ * TAS2563 Post-Firmware ASI Configuration.
-+ *
-+ * The DSP firmware loading can overwrite the ASI (Audio Serial Interface)
-+ * registers that configure the I2S/TDM audio path to the amplifier.
-+ * This function re-applies the correct ASI configuration after firmware load,
-+ * matching the reference initialization sequence used by the vendor script:
-+ *   - Software reset
-+ *   - ASI_CFG  = 0x09 (I2S mode, master/slave config)
-+ *   - ASI_SR   = 0x02 (sample rate divider for 48 kHz)
-+ *   - ASI_DA   = 0xf1 (data alignment / slot assignment)
-+ *   - ASI_TDM  = 0x02 (TDM mode select)
-+ *   - ASI_DL   = 0x00 (delay line off)
-+ *   - ASI_SLOT = 0x99 (slot enable mask for 2-channel stereo)
-+ *   - CHNL_0   = 0x02 (channel mapping)
-+ *   - ASI_FS   = 0x1e or 0x2e (frame sync, device-specific: bit4 selects
-+ *                which of the two devices is the "primary" for FS generation)
-+ *   - ASI_APPLY= 0x00 (trigger configuration update)
-+ */
-+static void tas2563_post_fw_init(struct tasdevice_priv *tas_priv)
-+{
-+	int i, ret;
-+
-+	dev_info(tas_priv->dev, "%s: ndev=%d, chip_id=%d\n",
-+		 __func__, tas_priv->ndev, tas_priv->chip_id);
-+
-+	for (i = 0; i < tas_priv->ndev; i++) {
-+		struct tasdevice *tasdev = &tas_priv->tasdevice[i];
-+		u8 fs_val;
-+
-+		dev_info(tas_priv->dev,
-+			 "%s: device[%d] dev_addr=0x%02x\n",
-+			 __func__, i, tasdev->dev_addr);
-+
-+		/* Step 1: Software reset (matches script: 0x01 = 0x01) */
-+		ret = tasdevice_dev_write(tas_priv, i, TASDEVICE_REG_SWRESET,
-+					  TASDEVICE_REG_SWRESET_RESET);
-+		dev_info(tas_priv->dev,
-+			 "%s: chn=%d SWRESET ret=%d\n", __func__, i, ret);
-+		usleep_range(1000, 2000);
-+
-+		/* Step 2: ASI configuration registers */
-+		ret = tasdevice_dev_write(tas_priv, i, TAS2563_ASI_CFG_REG, 0x09);
-+		dev_info(tas_priv->dev, "%s: chn=%d ASI_CFG=0x09 ret=%d\n", __func__, i, ret);
-+
-+		ret = tasdevice_dev_write(tas_priv, i, TAS2563_ASI_SR_REG, 0x02);
-+		dev_info(tas_priv->dev, "%s: chn=%d ASI_SR=0x02 ret=%d\n", __func__, i, ret);
-+
-+		ret = tasdevice_dev_write(tas_priv, i, TAS2563_ASI_DA_REG, 0xf1);
-+		dev_info(tas_priv->dev, "%s: chn=%d ASI_DA=0xf1 ret=%d\n", __func__, i, ret);
-+
-+		ret = tasdevice_dev_write(tas_priv, i, TAS2563_ASI_TDM_REG, 0x02);
-+		dev_info(tas_priv->dev, "%s: chn=%d ASI_TDM=0x02 ret=%d\n", __func__, i, ret);
-+
-+		ret = tasdevice_dev_write(tas_priv, i, TAS2563_ASI_DL_REG, 0x00);
-+		dev_info(tas_priv->dev, "%s: chn=%d ASI_DL=0x00 ret=%d\n", __func__, i, ret);
-+
-+		ret = tasdevice_dev_write(tas_priv, i, TAS2563_ASI_SLOT_REG, 0x99);
-+		dev_info(tas_priv->dev, "%s: chn=%d ASI_SLOT=0x99 ret=%d\n", __func__, i, ret);
-+
-+		ret = tasdevice_dev_write(tas_priv, i, TAS2781_PRM_CHNL_0_REG, 0x02);
-+		dev_info(tas_priv->dev, "%s: chn=%d CHNL_0=0x02 ret=%d\n", __func__, i, ret);
-+
-+		/* Step 3: Device-specific frame sync (0x1e for dev0, 0x2e for dev1) */
-+		fs_val = 0x1e | ((i & 0x01) << 4);
-+		ret = tasdevice_dev_write(tas_priv, i, TAS2563_ASI_FS_REG, fs_val);
-+		dev_info(tas_priv->dev, "%s: chn=%d ASI_FS=0x%02x ret=%d\n",
-+				__func__, i, fs_val, ret);
-+
-+		/* Step 4: Apply ASI configuration */
-+		ret = tasdevice_dev_write(tas_priv, i, TAS2563_ASI_APPLY_REG, 0x00);
-+		dev_info(tas_priv->dev, "%s: chn=%d ASI_APPLY ret=%d\n", __func__, i, ret);
-+
-+		usleep_range(1000, 2000);
-+	}
-+}
-+
- enum device_chip_id {
- 	HDA_TAS2563,
- 	HDA_TAS2770,
-@@ -174,6 +251,12 @@ static void tas2781_hda_playback_hook(struct device *dev, int action)
- 		pm_runtime_get_sync(dev);
- 		scoped_guard(mutex, &tas_hda->priv->codec_lock) {
- 			tasdevice_tuning_switch(tas_hda->priv, 0);
-+			/* Re-apply ASI configuration for TAS2563 after
-+			 * tuning switch — DSP firmware loading can
-+			 * overwrite ASI registers.
-+			 */
-+			if (tas_hda->priv->chip_id == TAS2563)
-+				tas2563_post_fw_init(tas_hda->priv);
- 			tas_hda->priv->playback_started = true;
- 		}
- 		break;
-@@ -477,6 +560,12 @@ static void tasdevice_dspfw_init(void *context)
- 			tas_priv->rcabin.init_profile_id,
- 			TASDEVICE_BIN_BLK_PRE_POWER_UP);
- 
-+	/* Apply ASI configuration for TAS2563 after firmware load.
-+	 * DSP firmware loading can overwrite ASI registers.
-+	 */
-+	if (tas_hda->priv->chip_id == TAS2563)
-+		tas2563_post_fw_init(tas_hda->priv);
-+
- 	/* If calibrated data occurs error, dsp will still works with default
- 	 * calibrated data inside algo.
- 	 */
-@@ -661,6 +750,7 @@ static int tas2781_hda_i2c_probe(struct i2c_client *clt)
- 		 */
- 		device_name = "INT8866";
- 		hda_priv->hda_chip_id = HDA_TAS2563;
-+		tas_hda->priv->chip_id = TAS2563;
- 		hda_priv->save_calibration = tas2563_save_calibration;
- 		tas_hda->priv->global_addr = TAS2563_GLOBAL_ADDR;
- 	} else if (strstarts(dev_name(&clt->dev), "i2c-TXNW5825")) {
-@@ -784,6 +874,13 @@ static int tas2781_system_resume(struct device *dev)
- 			tas_hda->priv->rcabin.init_profile_id,
- 			TASDEVICE_BIN_BLK_PRE_POWER_UP);
- 
-+	/* Re-apply ASI configuration for TAS2563 after system sleep
-+	 * resume — amplifiers may lose their register state during
-+	 * suspend-to-ram or suspend-to-disk regardless of playback state.
-+	 */
-+	if (tas_hda->priv->chip_id == TAS2563)
-+		tas2563_post_fw_init(tas_hda->priv);
-+
- 	if (tas_hda->priv->playback_started)
- 		tasdevice_tuning_switch(tas_hda->priv, 0);
- 
--- 
-2.55.0
-
+Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
