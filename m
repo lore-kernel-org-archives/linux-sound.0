@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94FC549CF34;
-	Mon, 21 Sep 2026 13:18:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB7703C09F5;
+	Mon, 21 Sep 2026 13:23:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789996715; cv=none; b=hRojODyJoP92kUQb2mRmy5dbyERd/JULSlA7lHWlExEQlr9uW0fonC4/kuk/17Ro51sMCByCsrJynITMWf2Rc9RY3SymI5GtO46oFYFEldexDGGwJHkwZwkezfS7ZDGtKPtZhqmCElEPklR5UAMSCEqGoC1fCO2GYlbXroM2QIg=
+	t=1789997022; cv=none; b=nVTuI4PRehTBpxq4K6+mB70Yx68Zb5rO9ujGsBCPadWSIjzEM7VQWy013UWvp0aEYrUGfcxME+LgPDDTBVPab20dPmggAgTBHHulQqohSHu38w+a3j4bOFOYAXoY0ML9HWU2+T0lTN3Kqrp0Q8ICH03W9OTE436R0PxN44STJOg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789996715; c=relaxed/simple;
-	bh=NS73iJrn+raxR5BcOY5mVGjEP110dw52cnSqDsOPPvc=;
+	s=arc-20240116; t=1789997022; c=relaxed/simple;
+	bh=ILTlNDUYmEiSeY4lDQxdQhoDTJaXJe9qCRQvipA5z9Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZfuE9iLspdkQ48zxkoOsMXFpWyDZ6MLEP4ofK3Fqh7uuNxahGcMntG403y8rggxJ3LiO5U3sSrmq+8EO7bR6XfLnm6JJt4Srrte3O4lMBcpMpoYwWNxq1XbX0ngAF2JEaDE/J3WYPF1fTW8yXFemdTlhave/sgmLJFdpcSCV1mA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BQ2Ef+W0; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=UT+O/trOhIXu9ngWED+YNXSt1XIg8hTR1bzsmu6622o9R4uSqkn8GUgnpjUYl9ywoqRwupOi7i2LT/0Ky3xg3VSkUuECeFzT6jiu4xbQpV3OaTpsYTVrZWa0DmWkhuMRV2FbXA4OBIR9zLeAM4nuF32EEdGe6ABqSBxCkS1ZMeU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EGOY+fMq; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BQ2Ef+W0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 271FD1F000FF;
-	Mon, 21 Sep 2026 13:18:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EGOY+fMq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AC911F000FF;
+	Mon, 21 Sep 2026 13:23:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789996714;
-	bh=NS73iJrn+raxR5BcOY5mVGjEP110dw52cnSqDsOPPvc=;
+	s=k20260515; t=1789997021;
+	bh=fLwZek4EyJluuj8Pslnv2cjb+sz2TFrNPKCV32ADyLg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=BQ2Ef+W0sH5cls2TiFWvpr6nTM0KEsLVvbANROZLvMjKLI3g9P5DQx1EjmYW0dUJN
-	 e9lqtRwYdKBEdD9epr6Mm03nMpx5L+76A/xAwWUiob+tIjf3d6WMrp3Ca8eBpjVL0v
-	 8DWblPiFO7+P1eN5Uf32fxG+nFL+hVd3tlbDiwS+MQYO1JYKRSJTS2KSZ9dAHCrt7P
-	 gg44Sp5NQyERWXVRbRQJvxACwkGlDvxT66tE+FWpWlqdW9RNhrUxjq5yIlLBKpcu2T
-	 UgX7sXyFbxACDzIIHOQ9q1o3PXuBz6plBTiPpPUZB7B5O95jlxZ2gQYY28ThzsS2AC
-	 2CkXmSCVyLS8A==
+	b=EGOY+fMqNA5ylxoHB89dFuqDWrLclQxP2VnMwnynEE9TCqwkecRAE/+qaVhX0EWf6
+	 5pTUFes28jkjQsYb0w836v3Ll86VCBLOr8wFY5J1IzU0jSGtQ55dzcCZen3E9gDPc5
+	 O4iZ804j0Zva0wJvybhHDohraX6mag++v3tYaL3eEPitJLZClauPkyc6eG2DAwysQz
+	 kYk6I/65Q7SbpDZKrmeE+034ONkai+df34OnzaOFDSWKXovSoRGOnac0GCA0oW+GT1
+	 grDWNUWlDupQHlH+8504vYXy1235/1VRMqPB+PxUFCTBrC+AGZaPgDYGBcoSTnXNPX
+	 1MEWUBKgyS5ng==
 Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id 5FCFD1AC55A7; Mon, 21 Sep 2026 14:18:31 +0100 (BST)
-Date: Mon, 21 Sep 2026 15:18:31 +0200
+	id 124771AC55A7; Mon, 21 Sep 2026 14:23:38 +0100 (BST)
+Date: Mon, 21 Sep 2026 15:23:38 +0200
 From: Mark Brown <broonie@kernel.org>
 To: Chancel Liu <chancel.liu@oss.nxp.com>
 Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
@@ -38,12 +38,11 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
 	Support Opensource <support.opensource@diasemi.com>,
 	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
 	patches@opensource.cirrus.com
-Subject: Re: [PATCH 06/21] ASoC: es8323: Move mclk acquisition to the i2c
- probe
-Message-ID: <arEup68eG4XrhnpI@sirena.co.uk>
+Subject: Re: [PATCH 21/21] ASoC: rt5514-spi: Free the DSP context on
+ component remove
+Message-ID: <arEv2rLNkSo_2yXm@sirena.co.uk>
 References: <20260921104640.1941554-1-chancel.liu@oss.nxp.com>
- <20260921104640.1941554-7-chancel.liu@oss.nxp.com>
- <arEuUlpxzLbIYetu@sirena.co.uk>
+ <20260921104640.1941554-22-chancel.liu@oss.nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -51,48 +50,55 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="euY1IN0dHp66xbny"
+	protocol="application/pgp-signature"; boundary="D9aeZTtAVC3gseBa"
 Content-Disposition: inline
-In-Reply-To: <arEuUlpxzLbIYetu@sirena.co.uk>
+In-Reply-To: <20260921104640.1941554-22-chancel.liu@oss.nxp.com>
 X-Cookie: Too clever is dumb.
 
 
---euY1IN0dHp66xbny
+--D9aeZTtAVC3gseBa
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Sep 21, 2026 at 03:17:07PM +0200, Mark Brown wrote:
-> On Mon, Sep 21, 2026 at 07:46:25PM +0900, Chancel Liu wrote:
-> > From: Chancel Liu <chancel.liu@nxp.com>
-> >=20
-> > component->dev is the underlying i2c device whose devres is only
-> > released on physical device removal, not on ASoC card unbind. Getting
-> > the mclk with devm_clk_get_optional(component->dev, ...) in the
-> > component probe therefore leaks a clk reference on every card
-> > bind/unbind cycle.
-> >=20
-> > Move the devm_clk_get_optional() to es8323_i2c_probe() so the clk
-> > reference is tied to the i2c device lifetime.
->=20
-> There's also some devm memory allocations in the DT parser which is run
-> in component probe.
+On Mon, Sep 21, 2026 at 07:46:40PM +0900, Chancel Liu wrote:
+>  	if (rt5514_spi->irq) {
+> -		ret = devm_request_threaded_irq(&rt5514_spi->dev,
+> -			rt5514_spi->irq, NULL, rt5514_spi_irq,
+> -			IRQF_TRIGGER_RISING | IRQF_ONESHOT, "rt5514-spi",
+> -			rt5514_dsp);
+> -		if (ret)
+> +		ret = request_threaded_irq(rt5514_spi->irq, NULL,
+> +					   rt5514_spi_irq,
+> +					   IRQF_TRIGGER_RISING | IRQF_ONESHOT,
+> +					   "rt5514-spi", rt5514_dsp);
+> +		if (ret) {
+>  			dev_err(&rt5514_spi->dev,
+>  				"%s Failed to request IRQ: %d\n", __func__,
+>  				ret);
+> -		else
+> -			device_init_wakeup(rt5514_dsp->dev, true);
+> +			kfree(rt5514_dsp);
+> +			return ret;
+> +		}
+> +
+> +		device_init_wakeup(rt5514_dsp->dev, true);
 
-Sorry, meant to send this on the da7218.
+Previously we would ignore the error and carry on without the IRQ, now
+we pay attention.  I don't know if the device actually worked or not.
 
---euY1IN0dHp66xbny
+--D9aeZTtAVC3gseBa
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqxLqYACgkQJNaLcl1U
-h9DmsQgAhiCoHYwR163qCrxkQV9Ox5z+W5yFU8JuM8zF+85X/YwaGGFe0BEGOehy
-fWps06UxAo+nsJ3aU1jgPYW+GUw4T+hUbwynW1pFmtFptLX3WAhGVSZfeIOLGIXT
-uQwH0MW/D1Mkya8nYwktRnaKYg2L500OPCslJ1J+MSjFGgZqpISxi6nmJ6hMofm5
-w5mBu1SS1ZUB56jHpjl9wkWZ7ekET2H5x7vTSUiW2PMQUqyRBMWyZdg57cKq7+lc
-6e/WqrY0Mhy8UM636o57UK8tqV+P2f4l14vY0nrG8+rstvYrjCO4LOTFHyfe+q+0
-idclyyiVbLlMy0Gr6idLNC8JdQGGgw==
-=f+BP
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqxL9kACgkQJNaLcl1U
+h9ATtgf/a/Fz3QCAlWQKG+ReZJ9hu/D2Y7X7qK2QviFDO5Va2LdEZ0zw3TSctUls
+Jx3C/OrpB+z7IE5EkMZme6tF2jdm4aHu1imze2LLQvwMjyCNeGX5ZoiIIq6NB7RJ
+49nijn4N3xfMyE6JHPZfOSJv8xVP36B7TCP6T2mivNEyq1qmdN4ohpb86aCOW9U7
+pVvY8wOSXjp7gyItxmzTcsxp6Aa560SUpMpx0UT0I5uLJ3TWPN+mhvchlHMBPSdI
+QFDU/Z6I5RDToKUPehIINn2CXAXAScNZFx8DMh9+XY9uPn3sG+ayZYB+hiWZ+6H2
+Ci2ZH/ubz1N/gEcDQK0e3GTrSCPDdg==
+=/VAv
 -----END PGP SIGNATURE-----
 
---euY1IN0dHp66xbny--
+--D9aeZTtAVC3gseBa--
