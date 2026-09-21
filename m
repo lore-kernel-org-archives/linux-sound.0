@@ -1,62 +1,83 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E6AF49B213;
-	Mon, 21 Sep 2026 12:52:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE22B48489A;
+	Mon, 21 Sep 2026 12:58:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789995166; cv=none; b=Z1+UH34Da3UmFepr7xkA0Hcg1GoYqcm/mdFRAJlvQRm7zm44k8MfunP+tf3uuYp/yiFxMozPHkFzgdj4rsxcZpGJI1r+8lfj69sfBm0tAO4KwZNEiaNBq+7IYFT2EfzyLrVZNL3xVIvMTc9KQMftdcbz7/X2f8q/KNckmpU1GAw=
+	t=1789995504; cv=none; b=M/nIyhf0sO+NsBfurN0Duci4Hhr39btFHKefhQeNlIQA3MSHLWBKK88WkwCiLLTRTubbyGJDsmBQHJPTB5AcaedDdi1FZP0F2oUjgFyeeKkP9vFxfmLN/kVGUPDbSEDtxVbo8/C9poDk7QS3MDUgncwXxAbCAC/uKI3eySEWWh0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789995166; c=relaxed/simple;
-	bh=C0Cs4iWr8Qi8H9glYhxuLK6songTDqO+vH+YzsttNRY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RgXjCqCdAu1YDH1F6wmS+K+pn0hHYJgqFq1NvG5IGXodUPYEGGhijua4jF03uvHKIb4A9a616B9dzeUSTdgx7guc+oG52BPtXxlVYolrw0oEzxbzqo/g5NceZ/AZc20zZA6Fpk7PkuY/uEetWX+H7uOS8Ek7B4YhvOGhi3xYdPA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 5168e074b5bb11f19a56ed5b684f684d-20260921
-X-CID-CACHE: Type:Local,Time:202609212022+08,HitQuantity:1
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:9b626bd7-c8ce-43ad-98aa-108af7556f49,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:7db8b62,CLOUDID:7688aba5cf08f42704ac9fb13d48a1df,BulkI
-	D:nil,BulkQuantity:0,SF:81|82|83|102|865|898,TC:nil,Content:0|15|50|99,EDM
-	:-3,IP:nil,URL:1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0
-	,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 5168e074b5bb11f19a56ed5b684f684d-20260921
-X-User: zhangheng@kylinos.cn
-Received: from [172.25.120.77] [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <zhangheng@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
-	with ESMTP id 1236486933; Mon, 21 Sep 2026 20:52:35 +0800
-Message-ID: <3c782f01-209a-4977-a82b-15dd0c7c40e8@kylinos.cn>
-Date: Mon, 21 Sep 2026 20:52:32 +0800
+	s=arc-20240116; t=1789995504; c=relaxed/simple;
+	bh=pQi0J0YunJhXplLL+sgbHaVGA7/QXtJTj3Tofd0S8xA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PQRFxxxIjuIOUJFD7QiTWgBFOMTTjUOsuB1Dpz/rxG8sMWdhrwSYDIsP2MbJ6NVDiwqyFjIBR7eZPacU1e6uhLl02fNy00NlWlRw/yUDy407LhP/JDPST/90H/z/lM2w56dZusJADmVvFGKhTtlLsc3KWfFg2EEvGHemReygsKI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qp9kT314; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qp9kT314"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EFAD1F000FF;
+	Mon, 21 Sep 2026 12:58:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789995503;
+	bh=3VbWLlyaEHg2UathF2G5uSXnVwszyfXrtQOLlzDwmEU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Qp9kT314S8DVOXWEpmL26eB7SeAdPfAMdxyzLR6vSauewv88aaZnqUzs1EjJaGRuM
+	 T2Hvwte6rRPHIMV4o/yA4MKiEkER67S5P4vvtW9IBxoCF3YioXl6peIDgHZwHftk08
+	 9WCbG0b7q9w/C4nFwdhX/yPGR6D0YnXqns/sC1BmhQWKeAeRYV2QCF9ptfXFfrIZup
+	 1FB8U8dAYnngi6mxvyqB8GoLvzwaMDnKswL6pH5sJaDEAlzXh2byiU1nzDzqdydlqy
+	 IzzWtEI1Ytcgx4qq4PBFsWggkna5IaKogH1dA9eTcmYp4hUeM4O32p+8Xw+Rywm9qK
+	 k1XXyOVlKScag==
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+	id 96CE51AC5376; Mon, 21 Sep 2026 13:58:19 +0100 (BST)
+Date: Mon, 21 Sep 2026 14:58:19 +0200
+From: Mark Brown <broonie@kernel.org>
+To: Zhang Heng <zhangheng@kylinos.cn>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: amd: yc: Add DMI quirk for MSI Thin A15 B7UCX
+Message-ID: <arEp6425iJfq-fla@sirena.co.uk>
+References: <20260918104944.649403-1-zhangheng@kylinos.cn>
+ <arEHjbt3AY06j_Vc@sirena.co.uk>
+ <fe055bde-3542-40ea-aec3-8d379c9599a1@kylinos.cn>
+ <arEls1VrT5hZbUZb@sirena.co.uk>
+ <3c782f01-209a-4977-a82b-15dd0c7c40e8@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: amd: yc: Add DMI quirk for MSI Thin A15 B7UCX
-To: Mark Brown <broonie@kernel.org>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260918104944.649403-1-zhangheng@kylinos.cn>
- <arEHjbt3AY06j_Vc@sirena.co.uk>
- <fe055bde-3542-40ea-aec3-8d379c9599a1@kylinos.cn>
- <arEls1VrT5hZbUZb@sirena.co.uk>
-Content-Language: en-US
-From: Zhang Heng <zhangheng@kylinos.cn>
-In-Reply-To: <arEls1VrT5hZbUZb@sirena.co.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="67wT7du4SRqCHX6r"
+Content-Disposition: inline
+In-Reply-To: <3c782f01-209a-4977-a82b-15dd0c7c40e8@kylinos.cn>
+X-Cookie: Too clever is dumb.
 
 
-You're right, DMI_MATCH uses strstr() for matching, so the existing 
-"Thin A15 B7UC" entry already covers "Thin A15 B7UCX". This patch is 
-unnecessary; please ignore it.
+--67wT7du4SRqCHX6r
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Mon, Sep 21, 2026 at 08:52:32PM +0800, Zhang Heng wrote:
+
+> You're right, DMI_MATCH uses strstr() for matching, so the existing "Thin
+> A15 B7UC" entry already covers "Thin A15 B7UCX". This patch is unnecessary;
+> please ignore it.
+
+Great, thanks for confirming.  Hopefully the existing change will make
+it back to user kernels soon enough.
+
+--67wT7du4SRqCHX6r
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEyBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqxKeoACgkQJNaLcl1U
+h9A+8Af3amQw78vzj90vcuXuX9/hWwo4X1pkdPfCsZDP+h2tPvaS5QaUxnkZNUyU
+TrHQ8UGok2eIZG/T64mc4yJ07UNeDUQhNqxmUCIdvYMloav733Wc9eMLwP55kQJv
+oLcNhyA7UIxF92FjuJQ/qEERk30wWPkui6xVaTpMgIU5AP2PB//V5r8MqyKixoJU
+9YYn3a+sn44ic/2XnrN3oB0XN5xCZUrk0c6qxMRyP3I5TzxnQ96X12RtiJRPqqJv
+SXgePUXi5U2gNa8Zt++2dz4V5b2ukPk30+uqCgjOsh0PSaYNX5VfVLXQlxPmKpU4
+Rnzr3BQZemXm5Sd+Mgf4i35Vt7LP
+=p2QQ
+-----END PGP SIGNATURE-----
+
+--67wT7du4SRqCHX6r--
