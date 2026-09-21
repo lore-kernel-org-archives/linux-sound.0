@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 640BF3C13EE;
-	Mon, 21 Sep 2026 11:38:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3918450415;
+	Mon, 21 Sep 2026 11:50:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789990687; cv=none; b=p4LCHkGW76Nbdl5wYiHGQBIiNhSFN1V90NXm3zVCDcss7j8t14X8CjxG4Yw6FIhvJ2z3TYWGmBefSjD8DBjTImjx08TCZGGxcHxzMydqTsWMmKf2arWyh93+s5N5AB7xy6DZzNHHykY5o5h2Yuq9wuNRKQADRDzU7z+WASVlBdc=
+	t=1789991413; cv=none; b=OtcgumG+rXSKIdMv+7Z3bpT6VRdx0aHKqvZbsP7UsSVlmlhDT7KG3LsFLWFjsFmWde+/JsROk3Ew/2K7IxOY4KkSXhLE63GVlp6/VhrPJJNQ1avxf3XfR+t0/uEomjifMMvXYW+fb3gkKgreDTuALMbwSCfDH6F9wNoZ7ZYs9aw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789990687; c=relaxed/simple;
-	bh=LKzXbI2kLcQJ7w35riUsFzshPNRq5HS2uht/PL7RcmA=;
+	s=arc-20240116; t=1789991413; c=relaxed/simple;
+	bh=BuYCbG4609uclEMiwwu1T1LUi0se/44kkBsJzTS6KKI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aGP/8943CFq863spZI2My2h8fVMR77sfK1f6gn3rTwDEXgtxMkfSTMBLmUoKsi/LDH83T2tJgvdzUmlfyPcTZzf5iLKuUVg3aF5LIXd6PVc73oXo1wbsMaZnjifde6NgTi/pCpcFpl+IEYu0L8raRdz4TsTKeTdKoGMQ/6mL86Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YxXvIXzW; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ot+Q+AfivfkzNRZFGzAfwFf2ff0c3pRZeZX0nDQ0SdJbkDVWYOrKj7at1Zi7IxN+AxHIv9MLLzg3+QPnMVhppnVW1bCuSXF3j993T3zOhCUv7Qpz7Fw7RT3NgLVNz+bMVo1tUFfTRqfreGob60w92aPdVSXlF7cdTDsk8swifhI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ChroMDjY; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YxXvIXzW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79E1E1F000FF;
-	Mon, 21 Sep 2026 11:38:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ChroMDjY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBB501F000FF;
+	Mon, 21 Sep 2026 11:50:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789990686;
-	bh=JiJpxQysYV6fSk6CEK85PfNN5plE47nRat7u1KxeH5o=;
+	s=k20260515; t=1789991411;
+	bh=11cfo609n2zF2bKHSoLIybH1BMS+6xWU1lGWi8txzk0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=YxXvIXzWmpbfn4wiGS/Zihc0Chst28a/ZInVrs25B36OOncqO1/xUqHXDA6NlTPmq
-	 SHRHG5wJJQ9w9nNN6tBypN+1/DQ4BV7j39R7BNxp4GTi4OUaIT3uyz44t4/F0fceQA
-	 oLO9kLorTHqkKKUYqOKe+O5MG/3zSYczteE88s6LjJ91DVF0kbPBkFV0UtHS3DAAeD
-	 P8qgUQXH7JGTomS2tdPZajuOjgK2hUxKwnXCa3O2ck9u9U04CltSSHZJa138qER7UI
-	 zs26QRTg+3BJF7+GgaL17gaiLhpOY94XoPBDpUemuejxXOOjzUWqDgNXc/bYr4DEv7
-	 EWXdTYNa8fUlA==
-Date: Mon, 21 Sep 2026 13:38:03 +0200
+	b=ChroMDjY3X4zE9Pd/uKNUTiIFatEPF/yJ134c+PDVNorxj8i5rvRC57BSQO1Z+14Y
+	 TKF4XAjauGcGnU/kFLufTPulb+8rT9i0tUeVDAooswlB4JtNm6yWo2sk4gD/P5lU1k
+	 H0BBo3rHzHiiQ9RfLROjCrcYO0wPX7Z9VtAlfcu4C8BjWeuLDRrRAc9dVjMsVfUE3N
+	 gqg1InkdxMut4fd7FVf3CjUVGU85jpan2OUnKC0qC524YMA4op246TdagphfcZTTM1
+	 LDf+6iTH19r9sNev+/8SRZdUGyTqXJ8ft7F1tmNyzN6r2jRTpHu+iAqh2QNghF5l1e
+	 WU14HLKpEPREw==
+Date: Mon, 21 Sep 2026 13:50:08 +0200
 From: Thierry Reding <thierry.reding@kernel.org>
 To: Sheetal <sheetal@nvidia.com>
 Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
@@ -34,11 +34,10 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
 	Jonathan Hunter <jonathanh@nvidia.com>, Sameer Pujar <spujar@nvidia.com>, 
 	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Mohan Kumar <mkumard@nvidia.com>, linux-sound@vger.kernel.org, 
 	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 1/3] ASoC: tegra: Fix ASRC Stream6 input threshold
- control
-Message-ID: <arEWz1DC2sg266Kv@orome>
+Subject: Re: [RFC PATCH 2/3] ASoC: tegra: Update ASRC ratio controls
+Message-ID: <arEYfjIHa4w--rTE@orome>
 References: <20260921085704.1248920-1-sheetal@nvidia.com>
- <20260921085704.1248920-2-sheetal@nvidia.com>
+ <20260921085704.1248920-3-sheetal@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,57 +45,258 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="bnyufgwgkmpbjrmp"
+	protocol="application/pgp-signature"; boundary="pjqavvxthiz3kxji"
 Content-Disposition: inline
-In-Reply-To: <20260921085704.1248920-2-sheetal@nvidia.com>
+In-Reply-To: <20260921085704.1248920-3-sheetal@nvidia.com>
 
 
---bnyufgwgkmpbjrmp
+--pjqavvxthiz3kxji
 Content-Type: text/plain; protected-headers=v1; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [RFC PATCH 1/3] ASoC: tegra: Fix ASRC Stream6 input threshold
- control
+Subject: Re: [RFC PATCH 2/3] ASoC: tegra: Update ASRC ratio controls
 MIME-Version: 1.0
 
-On Mon, Sep 21, 2026 at 08:57:02AM +0000, Sheetal wrote:
-> The Stream6 Input Threshold control points at stream index 4, which is
-> already used by Stream5. The threshold get and put callbacks derive the
-> lane ID from the register offset, so the duplicate index makes Stream6
-> operate on lane 4 and leaves lane 5 inaccessible from userspace.
+On Mon, Sep 21, 2026 at 08:57:03AM +0000, Sheetal wrote:
+> Replace the separate integer and fractional ASRC ratio controls with a
+> single two-value control for each stream. This is a userspace-visible
+> control ABI change, but:
 >=20
-> Use stream index 5 for Stream6.
+> 1. Keeping writable compatibility controls would preserve the non-atomic
+>    update path that can expose a transient mixed ratio to hardware.
+> 2. This is limited to only the Tegra ASRC driver.
 >=20
-> Fixes: a2df8c2d5b36 ("ASoC: tegra: Add Tegra186 based ASRC driver")
+> Validate both values before programming hardware. The fractional field
+> keeps the existing 32-bit maximum, while the integer field is rejected
+> when it exceeds the hardware field width.
+>=20
+> ALSA exposes one min and max range for all values in an integer-array
+> control, so the paired ratio controls advertise the fractional field's
+> full 32-bit range. The put callback validates the integer part separately
+> against the hardware field width.
+>=20
+> Serialize ratio-source changes, stream setup, and ratio updates with a
+> driver mutex so cached ratio state and paired hardware programming remain
+> consistent.
+>=20
+> Unlock and re-lock the ASRC stream before programming a software ratio
+> when the new ratio differs from the cached ratio by more than 20%.
+> Large ratio jumps require the hardware lock to be refreshed around the
+> paired integer/fractional update.
+>=20
+> Roll back the previous hardware pair and lock state if a paired ratio
+> update fails after partially programming the hardware.
+>=20
 > Signed-off-by: Sheetal <sheetal@nvidia.com>
 > ---
->  sound/soc/tegra/tegra186_asrc.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  sound/soc/tegra/tegra186_asrc.c | 443 ++++++++++++++++++++------------
+>  sound/soc/tegra/tegra186_asrc.h |   4 +
+>  2 files changed, 276 insertions(+), 171 deletions(-)
+>=20
+> diff --git a/sound/soc/tegra/tegra186_asrc.c b/sound/soc/tegra/tegra186_a=
+src.c
+> index d8ae5d997615..2b67d23f5fa7 100644
+> --- a/sound/soc/tegra/tegra186_asrc.c
+> +++ b/sound/soc/tegra/tegra186_asrc.c
+> @@ -19,6 +19,9 @@
+>  #include "tegra186_asrc.h"
+>  #include "tegra_cif.h"
+> =20
+> +#define TEGRA186_ASRC_RATIO_PERCENT_SCALE		100
+> +#define TEGRA186_ASRC_RATIO_UNLOCK_THRESHOLD_PERCENT	20
+> +
+>  #define ASRC_STREAM_SOURCE_SELECT(id)					       \
+>  	(TEGRA186_ASRC_CFG + ((id) * TEGRA186_ASRC_STREAM_STRIDE))
+> =20
+> @@ -65,13 +68,125 @@ static const struct reg_default tegra186_asrc_reg_de=
+faults[] =3D {
+>  	{ TEGRA186_ASRC_CYA, 0x0},
+>  };
+> =20
+> -static void tegra186_asrc_lock_stream(struct tegra186_asrc *asrc,
+> -				      unsigned int id)
+> +static int tegra186_asrc_set_stream_lock(struct tegra186_asrc *asrc,
+> +					 unsigned int id, bool lock)
+>  {
+> -	regmap_write(asrc->regmap,
+> -		     ASRC_STREAM_REG(TEGRA186_ASRC_RATIO_LOCK_STATUS,
+> -				     id),
+> -		     1);
+> +	return regmap_write(asrc->regmap,
+> +			    ASRC_STREAM_REG(TEGRA186_ASRC_RATIO_LOCK_STATUS,
+> +					    id),
+> +			    lock);
+> +}
+> +
+> +static int tegra186_asrc_write_ratio_pair(struct tegra186_asrc *asrc,
+> +					  unsigned int id,
+> +					  unsigned int int_part,
+> +					  unsigned int frac_part)
+> +{
+> +	int ret;
+> +
+> +	ret =3D regmap_write(asrc->regmap,
+> +			   ASRC_STREAM_REG(TEGRA186_ASRC_RATIO_INT_PART, id),
+> +			   int_part);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return regmap_write(asrc->regmap,
+> +			    ASRC_STREAM_REG(TEGRA186_ASRC_RATIO_FRAC_PART, id),
+> +			    frac_part);
+> +}
+> +
+> +static int tegra186_asrc_read_ratio_pair(struct tegra186_asrc *asrc,
+> +					 unsigned int id, unsigned int *int_part,
+> +					 unsigned int *frac_part)
+> +{
+> +	int ret;
+> +
+> +	ret =3D regmap_read(asrc->regmap,
+> +			  ASRC_STREAM_REG(TEGRA186_ASRC_RATIO_INT_PART, id),
+> +			  int_part);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return regmap_read(asrc->regmap,
+> +			   ASRC_STREAM_REG(TEGRA186_ASRC_RATIO_FRAC_PART, id),
+> +			   frac_part);
+> +}
+> +
+> +static void tegra186_asrc_cache_ratio(struct tegra186_asrc *asrc,
+> +				      unsigned int id, unsigned int int_part,
+> +				      unsigned int frac_part)
+> +{
+> +	asrc->lane[id].int_part =3D int_part;
+> +	asrc->lane[id].frac_part =3D frac_part;
+> +}
+> +
+> +static int tegra186_asrc_apply_ratio(struct tegra186_asrc *asrc,
+> +				     unsigned int id, unsigned int int_part,
+> +				     unsigned int frac_part, bool unlock)
+> +{
+> +	unsigned int old_int_part, old_frac_part, old_lock;
+> +	int ret, restore_ret;
+> +
+> +	ret =3D tegra186_asrc_read_ratio_pair(asrc, id, &old_int_part,
+> +					    &old_frac_part);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret =3D regmap_read(asrc->regmap,
+> +			  ASRC_STREAM_REG(TEGRA186_ASRC_RATIO_LOCK_STATUS, id),
+> +			  &old_lock);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (unlock) {
+> +		ret =3D tegra186_asrc_set_stream_lock(asrc, id, false);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	ret =3D tegra186_asrc_write_ratio_pair(asrc, id, int_part, frac_part);
+> +	if (ret)
+> +		goto restore_ratio;
+> +
+> +	ret =3D tegra186_asrc_set_stream_lock(asrc, id, true);
+> +	if (!ret)
+> +		return 0;
+> +
+> +restore_ratio:
+> +	restore_ret =3D tegra186_asrc_write_ratio_pair(asrc, id,
+> +						     old_int_part,
+> +						     old_frac_part);
+> +	if (!restore_ret) {
+> +		if (old_lock)
+> +			restore_ret =3D tegra186_asrc_set_stream_lock(asrc, id,
+> +								    true);
+> +		else
+> +			restore_ret =3D tegra186_asrc_set_stream_lock(asrc, id,
+> +								    false);
+> +	}
+> +
+> +	return ret ?: restore_ret;
+> +}
+> +
+> +static int tegra186_asrc_apply_cached_ratio(struct tegra186_asrc *asrc,
+> +					    unsigned int id)
+> +{
+> +	return tegra186_asrc_apply_ratio(asrc, id, asrc->lane[id].int_part,
+> +					asrc->lane[id].frac_part, false);
+> +}
+> +
+> +static bool tegra186_asrc_need_unlock(u64 old_ratio, u64 new_ratio)
+> +{
+> +	u64 ratio_diff;
+> +
+> +	if (!old_ratio || !new_ratio)
+> +		return false;
+> +
+> +	ratio_diff =3D (old_ratio > new_ratio) ?
+> +		     (old_ratio - new_ratio) : (new_ratio - old_ratio);
+> +
+> +	return ((ratio_diff * TEGRA186_ASRC_RATIO_PERCENT_SCALE) >
+> +		(old_ratio * TEGRA186_ASRC_RATIO_UNLOCK_THRESHOLD_PERCENT));
+>  }
 
-This should be a separate patch since it fixes an existing problem and
-is not related to the rework in subsequent patches. It also shouldn't be
-blocked on any discussion regarding the ABI change.
+There's a fair bit of complication introduced by the concept of locking
+here, so I wonder what the impact of this is. The function name implies
+that sometimes unlocking is needed and sometimes it isn't.
 
-Reviewed-by: Thierry Reding <treding@nvidia.com>
+What if we unlock unconditionally? That doesn't get rid of all the
+locking and unlocking, but at least it would avoid the need to track the
+current locking status.
 
---bnyufgwgkmpbjrmp
+The unlock operation doesn't seem overly expensive, so maybe it isn't
+worth trying to avoid it?
+
+[...]
+> diff --git a/sound/soc/tegra/tegra186_asrc.h b/sound/soc/tegra/tegra186_a=
+src.h
+> index 0c98e26d5e72..9cc8cec6c204 100644
+> --- a/sound/soc/tegra/tegra186_asrc.h
+> +++ b/sound/soc/tegra/tegra186_asrc.h
+> @@ -7,6 +7,8 @@
+>  #ifndef __TEGRA186_ASRC_H__
+>  #define __TEGRA186_ASRC_H__
+> =20
+> +#include <linux/mutex.h>
+> +
+>  /* ASRC stream related offset */
+>  #define TEGRA186_ASRC_CFG				0x0
+>  #define TEGRA186_ASRC_RATIO_INT_PART			0x4
+> @@ -111,6 +113,8 @@ struct tegra186_asrc {
+>  	const struct tegra_asrc_soc_data *soc_data;
+>  	struct tegra186_asrc_lane lane[TEGRA186_ASRC_STREAM_MAX];
+>  	struct regmap *regmap;
+> +	/* Serializes ratio source, cache, and paired register updates. */
+> +	struct mutex ratio_lock;
+
+All of the operations that are serialized by this lock seem to be non-
+sleeping register or cache updates. Could the lock be turned into a
+spinlock instead?
+
+Thierry
+
+--pjqavvxthiz3kxji
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmqxFxsACgkQ3SOs138+
-s6FBhxAAwn7+5OArHzxwqtAvb9IGEm680jpBzw++Kd8hHuDox2MQCqMzIZrlutUV
-w1ht9pDZwPfFp+46mnm4HDaVQMlFnG910O/r+2AFn7XLKzyYoc9257nL/C08fmuE
-Qpku/MoJGC+Tdiknfxx9kqTgo1G/A3SM1GK1O7mTZKOhZFVGCsxBrMYBx1AXFNGh
-SbOV3SrihaxIU5mCLvGGTLquDi1AjR+hccTJTLg9V6LlvamOiJAPDVwS7nfSZ2cv
-+w9R9nRMDJNQ6UbZyt5szFtfjb9VMdv3KOhy7MoDqw39cA7vW5ZrFSaSaOZuo2Ee
-hzA6ci5OlEE556y7oTYoA7CDm6NdFVu2zcBAlx20yuaPbHaQnpYoOL41mAwhuKKf
-HRGxlVrnB0dndmp1Em94tYBL5j3NGirPoas1zLf+1RQF1ynb1tsZaknwi0LBuxyV
-asnJBnVhgKB6LNB3fy9bu86lmNy6/0PKcCj//IzDHq3tLR4EJzpcH67nMQB/Vpq+
-+eigGu6wQXVYs7IAcKWZZ/Y7MKVSnMgY7BP2x2kIjqAevrHVBx63rMgQdte+qUMT
-+cZ4O4sNYZy1m9aIqtV7n3GYf39JFYa/z81KZtV/MsQ9tTYLU56oiMgt82tXZAC2
-yb3G+2kt5ASJcCkHGl4+htvxRUxTuYKZfTGtIv3UAvHpNTnS1Jk=
-=ibKJ
+iQIzBAABCgAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmqxGe4ACgkQ3SOs138+
+s6Hglw/+ML3dqtWuuEXPljPWWKlU5V6CxzKflHbjTE2wgyj5x4/Bl6tqpeAtFiQG
+pROG5x+CfLnvYzQ7FpJumlJb0w6oIjj3jfDgtmfVSVmkeQXu/dBG8uwJ4G2u6Ryq
+vqle7nonPNOUfZFyRbG4WRKOvsOEbRqp5ZLmrHqNRByIWpt3e4/jE3NtFVS2NBgj
+lFRxJpHubHh9q0/qys9ZqCBy1YDWb3ToteVDKC9mHcrIswB4FUic1nsbPb/QJbX1
+fYA+A9i21I84TpGg/AXnyT5oWPi9rmBfjjvPWnOLd/1i2GQLM4WYXlGdb5Rcnev3
+fCja6odKZezfEJBk/Bp3u4khtYff311PZZ4cdwwNUl8SzcMJi6IUzbyyxV+OXz+Z
+x/rLFV4Ih2vnLw14MlUnNBrsZdZjf74kaVyppINvdvcUOVlLlJLstI8ThEA/tOoO
+/9TPWZlmFqSKRGPTZCTH0nAG8yilAEW4nkK8M254v5aHyd+iBKRM1+uvu8N11Khr
+q0c6HSjd0KcsxongHCcPo+I+rQlQxi8u+TPnsh73K1ESh7VZjXw770dE/I3SAGTD
+UoGTMAhWP4Xr/nmaf8RkWMmp+31FD/PDfM5iJghP2MBOownIIEzv80itADESBK/L
+rBVwhiSASYOLeFjU4iaJ79yfpaWXHomMiVkDDhXkaFLW+REJDaE=
+=JBb1
 -----END PGP SIGNATURE-----
 
---bnyufgwgkmpbjrmp--
+--pjqavvxthiz3kxji--
