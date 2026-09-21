@@ -1,111 +1,113 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DFEA4B1B24;
-	Mon, 21 Sep 2026 15:12:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC113495500;
+	Mon, 21 Sep 2026 15:14:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790003549; cv=none; b=mtNwQqf9vxSCU11Ox97jiut01mwpI1pneXjCIPK7rZRTEOKZaZKgM8WdpBmOmalZqkU22NzfRaC4pkXD7ENXpJwXi6dGUd02u8k/nKX/JlH0tVQsIPDMswXZSlRX/OWgnVDk+T3JroPeVA8LlHhqY5x8H7APlXlHAtx9SdinC+0=
+	t=1790003655; cv=none; b=Ph5khz/QwEAYUgvijalB7iXfupMRQsZxsrr1hWM4uvaXssn2TvvKG6YrAasxi5LFLK53XCtLXKWaPcRPaSc1NmqftOzuZsFQUqpElVaCFgGvc7ZzTiQJX2kIX+xmBMFcPMSnGNIMcIHWEeMRlm7sdBCroQylTWIVliu40yEpe5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790003549; c=relaxed/simple;
-	bh=LAciJTKpRwJnWObq9nGHD5XkrGVwEpdzJh+RGirshCw=;
+	s=arc-20240116; t=1790003655; c=relaxed/simple;
+	bh=bR6K029sGNSyhgaZTWyi7W10rvwXcbXNTGYn/TM7BYg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pOx9f6gKL+3qZAZ8AZdBS6Y7MUFoyPC3PkBnOR3Zt4UAc6QHy0TkaN7jCC0uTufRAdBX3I3+ptjvV4xw8P/v5xkKRZ58kQW5AfbG/WbRnRVxywV1JgqRKqv/og/Rja4gofNtNE9LMbe8pnxC+9q0+occTX6Ac1VNN7ArWRrF1wI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Kkkem6Rz; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=cqSq2N84ipe0tdaq1WHmJefmd5ypZiD3mPcUoT80rtrdF4TjdWLubWFrhu+FRUP8N3VVdX10K7ZbGhYlksC7pcJDpzRVWH7/u5JVu0szvqqCK3M7Gw38FOzzu+gay39l5RmsXiVTj+ZfJj31NlwWF4tnw4beZL5HrxgpK4SQMr0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RCxq22/+; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Kkkem6Rz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCD8D1F00893;
-	Mon, 21 Sep 2026 15:12:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RCxq22/+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B9121F000FF;
+	Mon, 21 Sep 2026 15:14:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790003547;
-	bh=o8UxhF58k+iaCX3wK6PvC//NB+h9K2uQAHX4G8biYo8=;
+	s=k20260515; t=1790003653;
+	bh=A1vpA9Vu/anVUkgqQq6JZrIZF54n9p7jw4+5ezh/lQY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Kkkem6Rz9nbgHhsk0FSU+V9gPTTVQZRitviKsPNgWsaxtrEErBZcTRzDrsFTY9c8F
-	 onBFOHeg2t0A0daT87XeW0TM3rs9J6765xgWyQdCd9zXLVMze4CIGxM+zU5gM7Eh2q
-	 U9O3MMmjTwxOQQgZgHwhbc93J4+fxJmnGrVWfRrLExYJViCo9xW1TxpkYs/OshOfnd
-	 VAq4jHfh0VvOyP95xgMYTxe7RN010zPv4vzZTaxJCIJ1wCgr5orBBQA4hWbJbLBPUE
-	 +1IBXBOoMFHdh9UxACogvjjakparQpSzYfAlKC2XNUcpoicDHYSzpHysWlX0MAoZf/
-	 sOsDUE4UnC3Pw==
-Date: Mon, 21 Sep 2026 17:12:24 +0200
-From: krzk@kernel.org
-To: Guangshuo Li <lgs201920130244@gmail.com>
-Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
-	Thorsten Blum <thorsten.blum@linux.dev>, Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
-	Takashi Iwai <tiwai@suse.com>, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
-	Cezary Rojewski <cezary.rojewski@intel.com>, Liam Girdwood <liam.r.girdwood@linux.intel.com>, 
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Bard Liao <yung-chuan.liao@linux.intel.com>, stable@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>, 
-	Mark Brown <broonie@kernel.org>
-Subject: Re: [PATCH] ASoC: Intel: SST: fix platform device leak on probe
- failure
-Message-ID: <arFJVyhJK57m5oyd@quoll>
-References: <20260921073847.63505-1-lgs201920130244@gmail.com>
+	b=RCxq22/+ukarhuU4fLef1DBuO4WHwye2i/enhDbY/fN5vk+yc2q8glQdtTR4ar+R4
+	 kpaMNBUNGuZ2D9F7anJo8Tc7jUFessC92tZxVWklyiekG+W3GLDrLW80AZc4gMsvO8
+	 F1m0hqtosUiriuVusd21Dt9o31B5JZSVyrosgeImxruP1y7EXTOX3z3gam7EzpER3H
+	 z0Wcet/tUJg/ft7kI5gfVs//vOKXF69BeEsw6tJu8u7I5VNU37z9OJeWUJlLvNafDM
+	 ot7CzGLz37k3RgxiKDycEa/R/E80OkP5L0jlyZpjZRxgTAKetXHsS+LVitSS+VLOrv
+	 G3p3Ha4HzcvCQ==
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+	id 010351AC56A7; Mon, 21 Sep 2026 16:14:09 +0100 (BST)
+Date: Mon, 21 Sep 2026 17:14:09 +0200
+From: Mark Brown <broonie@kernel.org>
+To: James Calligeros <jcalligeros99@gmail.com>
+Cc: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
+	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Sven Peter <sven@kernel.org>,
+	Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Ulf Hansson <ulfh@kernel.org>,
+	Amit Kucheria <amit.kucheria@linaro.org>,
+	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+	Lars-Peter Clausen <lars@metafoo.de>, Vinod Koul <vkoul@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>,
+	James Schulman <james.schulman@cirrus.com>, asahi@lists.linux.dev,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	patches@opensource.cirrus.com, Takashi Iwai <tiwai@suse.de>,
+	linux-mediatek@lists.infradead.org,
+	Martin =?utf-8?Q?Povi=C5=A1er?= <povik@protonmail.com>,
+	Hector Martin <marcan@marcan.st>,
+	Sasha Finkelstein <k@chaosmail.tech>
+Subject: Re: [PATCH 00/28] Add speaker and headset jack support for Apple
+ Silicon Macs
+Message-ID: <arFJwcfSWqyawDYp@sirena.co.uk>
+References: <20260920-macaudio-v1-0-741cc20a74e5@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="jhwW/VhgT1w2TOjQ"
+Content-Disposition: inline
+In-Reply-To: <20260920-macaudio-v1-0-741cc20a74e5@gmail.com>
+X-Cookie: Too clever is dumb.
+
+
+--jhwW/VhgT1w2TOjQ
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260921073847.63505-1-lgs201920130244@gmail.com>
+Content-Transfer-Encoding: quoted-printable
 
+On Sun, Sep 20, 2026 at 02:53:39PM +1000, James Calligeros wrote:
+> Hi folks,
+>=20
+> This series finalises support for the main
+> audio subsystem on Apple Silicon Macs. It adds a machine driver
+> called macaudio, which is based on an RFC sent many years ago
+> by Martin Povi=C5=A1er[1]. The driver uses the DPCM model to dynamically
+> glue a backend DAI (combination of MCA ports and codecs) to a
+> frontend PCM. While this theoretically allows us to route any
+> backend to any frontend, this is not used in practice; the "Primary"
+> frontend is always used for the headset codec and the "Secondary"
+> is always used for the speakers.
 
-On Mon, 21 Sep 2026 15:38:47 +0800, Guangshuo Li wrote:
-> sst_acpi_probe() registers platform devices for the SST platform and
-> machine drivers using platform_device_register_data(), but does not
-> unregister them when later probe steps fail.
-> 
-> If machine device registration fails, the already registered SST platform
-> device is left registered. The same leak happens when
-> sst_platform_get_resources() or sst_context_init() fails after both
-> platform devices have been successfully registered.
-> 
-> A registered platform device owns resources allocated by the platform
-> device core and must be released with platform_device_unregister() so
-> that the device reference is dropped and platform_device_release() can
-> free the backing platform_object.
-> 
-> Unregister the created platform devices on all failure paths to restore
-> the missing cleanup.
-> 
-> The issue was identified by a static analysis tool I developed and
-> confirmed by manual review.
-> 
-> Fixes: caf94ed8629a ("ASoC: Intel: bytcr_rt5640: fixup DAI codec_name with HID")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
-> ---
->  sound/soc/intel/atom/sst/sst_acpi.c | 13 ++++++++++---
->  1 file changed, 10 insertions(+), 3 deletions(-)
-> 
+This has got a lot of different stuff in it, there's several different
+sets of fixes, a number of framework features, as well as the new driver
+and a huge pile of DT updates.  It would be a lot more digestable were
+these things to be split out, especially the fixes.
 
+--jhwW/VhgT1w2TOjQ
+Content-Type: application/pgp-signature; name="signature.asc"
 
-You sent multiple independent patches, to multiple independent
-subsystems. The amount of these patches clearly suggest this was
-AI generated and most likely not tested.
+-----BEGIN PGP SIGNATURE-----
 
-More importantly, you sent all this work without properly organizing
-relevant patches into patchsets. This makes reviewing difficult
-and might cause multiple reviewers to address the same issue.
-Replying to the entire set is impossible and requires handling each
-patch independently, instead of applying or discarding the set.
-Maintainers also won't see the bigger picture of your work. Quite
-worrying.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqxSb4ACgkQJNaLcl1U
+h9ApuAf/ZwCUmddLEXrzSNnteIkRCaFhvQG/Ig3/Uo79xixZgarNV9EQrRh0cr/+
+wF4WqgVixB1t/yQr/ZvXeb2E1cuVxIY5MnqrXVqnFDxy0gZmr3kd1mKGvub6VstW
+E1auraBBQFDoz4/mBlBstM8YiWqmdgerxvqEGsHkjWMagDD/d8YG618XoY668mGW
+jn/w9JtTv9eyrrO3SX4N+MlVvLii06XTCi9Oegvjdo/uvF5tcICk9fZRY7bqXLGF
+KE1vXeSEdwr2ivDAjwMvYd1fjdBx1Ew+UL2mvTO3F1lAeA7o3zVieczdoP97C98C
+XEk5G4Q7u56Q1J2d8Vo0C0yXTyTVCg==
+=6yVp
+-----END PGP SIGNATURE-----
 
-This is on the verge of hostile patch: bomb us with so many
-contributions, we won't be able to handle them in efficient manner,
-like responding ONCE to ask you to slow down.  Considering all this
-is untested and LLM generated, I have even more doubts whether this
-should be considered for review.
-
-Please read kernel documentation BEFORE posting more work. It will
-explain you how to identify subsystems, how to organize your work per
-subsystem, how to document usage of LLM and how what you should not
-do if this was posted in a good faith.
-
-Best regards,
-Krzysztof
-
-
-
+--jhwW/VhgT1w2TOjQ--
