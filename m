@@ -1,71 +1,78 @@
-Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+Received: from mail-qk2-f42.google.com (mail-qk2-f42.google.com [74.125.230.234])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8C2033509B
-	for <linux-sound@vger.kernel.org>; Mon, 21 Sep 2026 23:03:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E0EC47ACF1
+	for <linux-sound@vger.kernel.org>; Mon, 21 Sep 2026 23:57:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.234
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790031783; cv=none; b=tfDidUVKG2QjXBqiRyGaUwWY3rB9Hcv9amvvh/KiWxbOSXeeINDaGUqL0nrBGWYBaBa+a9E5FwRScobEpV751kXqaZ63EJ+9bEurvI54kXv+lzwtQ8wE3VFsM0sjNOabESnI4ILhWJmls3xyBPzR4tTzICgTwtuXOLfPUWU2fuc=
+	t=1790035051; cv=none; b=hq0UoqTLQtBcTNwOGn99YxfpApBGfsY6lnV0TEdb/8zxjk/jH03lOJwJ36bBfugD3f/VmyOR28wW8XZFMpTaEgUJ+a3qd0k8D28dkx7nhpTYtYp+jq191oieDPI9Huy2RwaXYkF7FB6EMAgSGt4n5oVSQcOrKr0PMBtXKkIqcJM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790031783; c=relaxed/simple;
-	bh=CpNVuQQxaLMGLZLzAMlpQ1X0LRGLskBKSU4x3H+TOJY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cjvkO7gqWKYSOo+ULD2CBFFhHwf7RM04gql+xSlXy7mTZD01R4RNvkFCtrUPZgQKEwleS4nvd3sCKIlfP5gof+Zmz31yc6fA9Yv17wwUawha2X6ttl1g0KWBVJ3N/eErTpKcvg7E1eHvp8XerX+zSyvusKcxEGbG0gMjvikt49k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GLsOmgTA; arc=none smtp.client-ip=74.125.225.141
+	s=arc-20240116; t=1790035051; c=relaxed/simple;
+	bh=YDBw5U2KrTFoLtn1ePgXe55ZEirZT68PAU8v7TTN/74=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BUH/pJNI1RSAuHqXpmW8sHOSGjRkAtwL4hQAU7oBYwF8ySwOzs4nIH2tp8mIKYJK5QPki23F7CAbNWuYpWOvwRvZ7UXfAPU42cRKtM6JkODQcgLxbfMv0GcIitdVr1c1C4akKgwCQ7JRlTiVmJ1W10B/fVynF9qiEpM9WkK+k2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sDk6430J; arc=none smtp.client-ip=74.125.230.234
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GLsOmgTA"
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49e6598dd44so18487345e9.1
-        for <linux-sound@vger.kernel.org>; Mon, 21 Sep 2026 16:03:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sDk6430J"
+Received: by mail-qk2-f42.google.com with SMTP id d75a77b69052e-5329fc7e0bcso41280611cf.1
+        for <linux-sound@vger.kernel.org>; Mon, 21 Sep 2026 16:57:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790031780; x=1790636580; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1790035049; x=1790639849; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=38fEDIl4nyM2EG6gN77rRbJvzYvv8oP+axJ0oOB0XQI=;
-        b=GLsOmgTArCvVtlz8B8X9jQQ+9CzENu3mDdQqBjrdflKxdpKsZM2u5lEr37fDjFPvOf
-         An8nvEwAJV6uBFhX4Ze1H1bgEUK1A5SSc7N4qNY0Pr4kLyHOLrHKNvx84pcmw0iK+OBo
-         HhUo1Qgdc0ro5wlKk2cENpTaCuACJF9i8nG9xWWTEc6F+f+UqKpW0QWSJ4pVuCqB1Gnn
-         RtbKIEdiGviTtEgCoqLwkD3FdvDD9OJUnqxOSvFBlj9oCzdSbqZ34kFxX4ksLSwnUKsh
-         Nh+byfay0Bs8nYrXR1e4ZY0NE7mDPBNNxXtsKhMeN2q8B9GIWwz7GA4oEUI9kIRFGE6T
-         u3lw==
+        bh=hO6e7g4iL/yYUT0YGjmRQ7zN/k9vF/YGJ0T17OVHKgc=;
+        b=sDk6430JqzkgDsIKxWBgAMMnwTR9DC7pYrMfbGoPUqNH7NgstmUKlEEuVTLcmnU3x/
+         rFa287qMzd3ZzLyK2mpNtHXJmiG7CiTqs5GshWbBRJFnt43RmXo7PUrnYzCf/rJbuqRX
+         9isDhzP3mh7fsfxn7k14HmGez2k+jszVH8ZegnckULPCQnUAysRvLRGbHINT1CTV3nvI
+         zZ8+8U702c6napv8V4eyt+Ns8TCJQpAHz/vHbidQvRx2uzmq5oS4Z9SzhUz/elhNpl1J
+         Umtsz7WcyEJCBGGE7rlNStCCH7tiiG1TUfBsJqrD/V8bvZOVwrKguy7eVs7NsePVbJzo
+         xfHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790031780; x=1790636580;
+        d=1e100.net; s=20260707; t=1790035049; x=1790639849;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=38fEDIl4nyM2EG6gN77rRbJvzYvv8oP+axJ0oOB0XQI=;
-        b=Ej9fH6QuYFT3GyBuDgyAoXHcvn0P137KOdNORiERXqOSPYC8XbbeO0auFSDTSYFuwQ
-         sWG+sTDrHLGa2Zz2uhAoIjJI9mbrjgAlWF6iLoF0Xka9B63qdiQR6bg/zGhcgtJqMyOA
-         jAA2NRXxZhBdBOaNdGeV8OMHXlamLdXx+FjDaUZRHzOk9DdZHaBQnafbvcXKxQRBt3qC
-         q8tXqR3TEsJNPHN1wyMbqddzqbTCJVzqsrvAm0SdjQ7o1aSw3klPpv/OV0Kgl8RhUsCB
-         PX20MoMHsPq1zsXXFPMjGEZ0973v0P4aQ/zFeuywUtop22K3dR147Lws5IrR3WCPVtgU
-         i0AQ==
-X-Gm-Message-State: AFuF++mRE8xWfaemXTbTsJqiJ5VrbHqV9t9H/gg5R6169x2RZzpCJ200
-	mI2MM0AtJVdp1hgb3+uHd7gGApJ57s6CujXRV8g6bGOZCwJSo61aNl8p
-X-Gm-Gg: AYBFou0TiKHZ3ghMPhnha1PSLzgHIJyW3L57+lx5eUUpXaqPHUC1LXw22hNI9SdCGoG
-	FJ9sVn6/kWI7PqWAQ4ljKGAJM9lKM3TsmTypfYk8TcLebINJvqT2KfgZA/bvDzJgYUH+ffbke5h
-	BbHwhtLxykUg712APvZg2rcxOmR2tHsMOuOYNDkwL81d6BJjiWPZmgHl5dSGY2qx9bCMbEBsuzA
-	ep1HeLxl5fmCThAkKkiEjQrb0g3F+qRnlbd/SfqLoePKd0gD9WLnIqyW2H6I1YHq0bvdx6J+bLY
-	CCLikeQu0bJ8DgEhlL0fjzRfVXF0ysrczKK4bL3MxatBUidmPZm+nIYui8gjgMWEdoSIYMHjjup
-	CO2XXxUqTeJudEtpR/vvtaMj+sKGI6EY0eqK9Q+PPd7AW2eFCqEWn/io/WMkP7sEMaab6VsUtZF
-	Wfyi4TVcsBVk4U2IxriDVkfycf6hp4+OxcbXyiyXvJ+bm3e1RH9ifFg0ATRsulLW4psgVoH0F9o
-	cOwSwRIzazw
-X-Received: by 2002:a05:600c:1986:b0:49e:7d25:f397 with SMTP id 5b1f17b1804b1-49fc56b60d7mr163760275e9.15.1790031779792;
-        Mon, 21 Sep 2026 16:02:59 -0700 (PDT)
-Received: from nixos.lan ([2001:818:eb2c:ea00:a196:3a20:d9e2:3f91])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fdaab0497sm3844715e9.3.2026.09.21.16.02.56
+        bh=hO6e7g4iL/yYUT0YGjmRQ7zN/k9vF/YGJ0T17OVHKgc=;
+        b=kSK2JK0iLDYCYpRuoNQ5UEvp+bF1xUHYWdO7od4Uqsh6VlAyxgarZvvQuv/QmjCVUJ
+         tm4GPKpDaOJOoZxQU0ybRqG6ZTC1k63q5zXIbfTC/V4AiqjX9Hje6cU8xUcjZDi3ect7
+         AYY3jCDAF7JS3qihY+MP+Zhy++6MF4XJqzGDkLo+e52Rfz7TZzvJLJzElwRJzNoO5xDO
+         j8v3TyCos2TRJEmvqAymembcDlu9NxBRpeynuVTjc7qG/OgW9sWo15Fc1t5XHel6uQdy
+         2YWi/gFDMjrtojH1mjM21IMbF0Zf0DOpLzZmP7jaiL7mHo7TeWpxfThwH0x5QphjV3o/
+         XVWQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzN5g7TUnobwxIB0/yx3SjLb0+SK136zILFPxfS30hVYq1rAUYTHeAId8zmvUV6+EyKM2nF+zMoRM8KOA==@vger.kernel.org
+X-Gm-Message-State: AFuF++nkaYGgYFCLy6J3a8b6KtxgOCqnV64oNcCrNzSCweS+bK7tu3km
+	lbbqB4QL9qpB5AqiBedzsSWl1x0B4JRGNRr1DL1W9zFjaGDKHQQrM64=
+X-Gm-Gg: AYBFou3OzC9Qre6X5ZocQXWbCdvysHLxMZlSpYMiwYnkJ4w+NdjS+qKesHr+h9HaYIu
+	1MRe+yMYGBS6Rr296ktXhjJXHcMc45eaz3A70a+nVDUwTxPZNJleYKhTFaLukDuQ8rKWDna4ceL
+	mvvWqZEOSKiXk1OP9JHDEnufj9wUzd0gZKF4hLW29/bRtlxW1QVPgXJgmK44peX8Xb2tCUoDn7Y
+	xEJxjeIi84uus/5cJlXzFpS4qC6mGWfaU4AzVCykxrNH95uo01GHGJ2NhJb3kAwlKdrOBSWo9EJ
+	RO9MgwYXTk/YQeTOSKQsHhefJQr1xoUq9i6bgTvc/xDGQXW+0Hq4axBYzTD+47vaa6dsHBamKEv
+	UP5TS4DNwMvQgKYf222KoJwoiLpyZIw6oA8JHaSAOA+y2VUoxzm/YFujTdKhoO9+3zCdL3R9mT5
+	Awit+dXqJ6MliEOtN9VHPyefHF7Jd8qDNgYb0Txq8+iu+ZjxW/92aEGgFUqbR/wtMWRldF255f5
+	tT3LmWkfBzwmJltmkZpb1J3HP5VWuOqrJyD3D8NvndqEIxvrDqi1OTUgTCjSJc0scJfPkaZRaSo
+	uzqapUKJT5NaErcrxi5AVHQutU35snvLrPERXPg=
+X-Received: by 2002:ac8:7f51:0:b0:530:f214:6240 with SMTP id d75a77b69052e-532d8e9673amr31330151cf.60.1790035049081;
+        Mon, 21 Sep 2026 16:57:29 -0700 (PDT)
+Received: from i4-gl-tmk5904-1.ad.psu.edu ([130.203.156.90])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-532df30470asm3009161cf.14.2026.09.21.16.57.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Sep 2026 16:02:59 -0700 (PDT)
-From: Luis Banha <luisbanha26@gmail.com>
-To: tiwai@suse.com,
-	perex@perex.cz
-Cc: linux-sound@vger.kernel.org,
+        Mon, 21 Sep 2026 16:57:26 -0700 (PDT)
+From: Myeonghun Pak <mhun512@gmail.com>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: Myeonghun Pak <mhun512@gmail.com>,
+	patches@opensource.cirrus.com,
+	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Luis Banha <luisbanha26@gmail.com>
-Subject: [PATCH] ALSA: hda/realtek: Add mute LED quirk for HP Pavilion 15-ec1xxx
-Date: Tue, 22 Sep 2026 00:01:05 +0100
-Message-ID: <20260921230105.16844-1-luisbanha26@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	stable@vger.kernel.org,
+	Ijae Kim <ae878000@gmail.com>
+Subject: [PATCH] ASoC: wm8962: Prevent mic_work rearm during removal
+Date: Mon, 21 Sep 2026 19:57:24 -0400
+Message-ID: <20260921235724.533472-1-mhun512@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -74,27 +81,64 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The mute LED on the HP Pavilion Gaming Laptop 15-ec1xxx (103c:87b2)
-does not work automatically. Add the ALC285_FIXUP_HP_MUTE_LED quirk
-to fix this behavior.
+wm8962_remove() cancels mic_work, but on unbind that cancel runs
+before the interrupt that queues it is released.
 
-Signed-off-by: Luis Banha <luisbanha26@gmail.com>
+wm8962_i2c_probe() requests the interrupt with
+devm_request_threaded_irq() and registers the component afterwards.
+devres releases in LIFO order, so wm8962_remove() runs before
+free_irq().  A MICD or MICSCD event in between makes wm8962_irq()
+queue mic_work again, and the delayed work then calls
+snd_soc_component_read() and snd_soc_jack_report() on the freed
+component.
+
+Commit ca50410b731c ("ASoC: wm8962: Move interrupt initalisation to
+probe()") dropped the free_irq() that used to precede
+cancel_delayed_work_sync() in wm8962_remove().
+
+Disable the interrupt in wm8962_i2c_remove(), which runs before devres
+release.  disable_irq() waits for the threaded handler, and the
+existing cancel then drains mic_work with no producer left.
+
+This issue was identified during our ongoing static-analysis research
+while reviewing kernel code.
+
+Fixes: ca50410b731c ("ASoC: wm8962: Move interrupt initalisation to probe()")
+Cc: stable@vger.kernel.org
+Assisted-by: LLM
+Co-developed-by: Ijae Kim <ae878000@gmail.com>
+Signed-off-by: Ijae Kim <ae878000@gmail.com>
+Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
 ---
- sound/hda/codecs/realtek/alc269.c | 1 +
- 1 file changed, 1 insertion(+)
+Found by inspection; I do not have the hardware, so this is not runtime
+tested.
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index c31fed171..097a41a1e 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -7187,6 +7187,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x8786, "HP OMEN 15", ALC285_FIXUP_HP_MUTE_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8787, "HP OMEN 15", ALC285_FIXUP_HP_MUTE_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8788, "HP OMEN 15", ALC285_FIXUP_HP_MUTE_LED),
-+	SND_PCI_QUIRK(0x103c, 0x87b2, "HP Pavilion Gaming Laptop 15-ec1xxx", ALC285_FIXUP_HP_MUTE_LED),
- 	SND_PCI_QUIRK(0x103c, 0x87b7, "HP Laptop 14-fq0xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
- 	SND_PCI_QUIRK(0x103c, 0x87c8, "HP", ALC287_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x87cb, "HP Pavilion 15-eg0xxx", ALC287_FIXUP_HP_GPIO_LED),
+ sound/soc/codecs/wm8962.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/sound/soc/codecs/wm8962.c b/sound/soc/codecs/wm8962.c
+index 8a9598161b35..210ec96fab4c 100644
+--- a/sound/soc/codecs/wm8962.c
++++ b/sound/soc/codecs/wm8962.c
+@@ -3890,6 +3890,16 @@ static int wm8962_i2c_probe(struct i2c_client *i2c)
+ 
+ static void wm8962_i2c_remove(struct i2c_client *client)
+ {
++	struct wm8962_priv *wm8962 = i2c_get_clientdata(client);
++
++	/*
++	 * The IRQ is devm-managed, so it is freed only after the component
++	 * has been unregistered and wm8962_remove() has already cancelled
++	 * mic_work.  Silence the producer here instead.
++	 */
++	if (wm8962->irq)
++		disable_irq(wm8962->irq);
++
+ 	pm_runtime_disable(&client->dev);
+ }
+ 
+
+base-commit: 238650ef6c7c7cca08e032527329424c9fbd70e5
 -- 
-2.55.0
+2.53.0
 
