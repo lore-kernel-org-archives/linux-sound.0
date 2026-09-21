@@ -1,69 +1,81 @@
-Received: from mail-pz2-f43.google.com (mail-pz2-f43.google.com [74.125.228.43])
+Received: from mail-lr2-f7.google.com (mail-lr2-f7.google.com [74.125.230.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99286194C96
-	for <linux-sound@vger.kernel.org>; Mon, 21 Sep 2026 02:44:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6988A367F36
+	for <linux-sound@vger.kernel.org>; Mon, 21 Sep 2026 06:15:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.71
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789958653; cv=none; b=jcGkJAtAcU37X1dEORNgqYaPpqjpSJJocZ1lSL482t0bqawJU5gWmBKJAIfWQKdCxBlRIxcp03NSF5cu+pyyoMtXXOPG+Ud3XvmO5YpGKVtzQT2YEUBaKGEgmSgHKIoavUe9j/kaaIceROr6ZZqn6O3/7goVU92Ib9a11xF0QSc=
+	t=1789971312; cv=none; b=KpmNW4zOg9eY+PIAEeCXckUoW/AWLnZYpxd2WK1ShJ9XTPpR4nb8fxE/8ueeq8MLvQFNOpClEkJ8a3mZdNlJgX3QL9zSXRzcTAtoQvJWfMxGkcO3rW5jbv5kBKCQEdWJ8J353HW1TQABNTzo9t6sx06lAWlrjeCNrfDbQsYJNeM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789958653; c=relaxed/simple;
-	bh=6QsF3BJyS1Tx2+Q734PigXUlUsK6C2ZWsao8yBHz3F8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OHOC+XCSzRq2PkJWmnpgBTgPUrrCylPJdxs5hY7XR9qkiZU37hvVOewZWQt3EgsAgEiPDSZ5vTtNr3BQ+AV4avRAmskGBW4S17ajC7/D9YkyLg0PRAY+hXmxb1+DI9b8sho7WjPGvq2aVVY9qG+3J0J4RZ1W5xH3MEAuvdClEYo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Fdc5KBeI; arc=none smtp.client-ip=74.125.228.43
+	s=arc-20240116; t=1789971312; c=relaxed/simple;
+	bh=sV5QPs7DGYBPvqnJ7zT3vnO9o4CqLIZs3EEy4fJGu5o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iWPM3I1qEzVteVAidvl4SOYXMupi3lnQFGZad04ufCKHzImXK07oxyCzit8FaNZdfgUrUprCikLFEQSP+7+wQ2cWg/iIVnbwemACbsEjxhVJdadk/k5pXurFUrm0NmreV2FSx8wB3MUq5ldZkgcxy7IhYaGRuc8MwDX9Yf3Bm1M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ki+hoG2d; arc=none smtp.client-ip=74.125.230.71
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fdc5KBeI"
-Received: by mail-pz2-f43.google.com with SMTP id d2e1a72fcca58-85469a34908so2261946b3a.0
-        for <linux-sound@vger.kernel.org>; Sun, 20 Sep 2026 19:44:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ki+hoG2d"
+Received: by mail-lr2-f7.google.com with SMTP id 38308e7fff4ca-3a5acb204daso17687521fa.0
+        for <linux-sound@vger.kernel.org>; Sun, 20 Sep 2026 23:15:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789958652; x=1790563452; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1789971308; x=1790576108; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=GA8yU0qhjadXwW8wCXQaNUsG3cJ9ydAokzsVwPJZYp8=;
-        b=Fdc5KBeIShlZKBu+iMzSmU3X5+SfL2+i7I/o7/sjmLUVBVymzXDHpf0juP3QWj53Pc
-         EjS8rG3fpdHhhMdiSKbHk7Pk96GRP3LMNvH31eHtjFyzgrF2za/tkU880E8aYT+CJHwQ
-         M2lMCp3yl5GLiIny7QCokr3FAyDc7Vgku6GX6TC13ww248J9jSnVk4wpIESJhRLZ4uNH
-         su2bnPVBsZw/FQ8KKfwUg2+sK4qWINcJC/orUBpnhvM0IfNh2XnO93TXDWX/lmmlEY9C
-         G45tBNf5ZY1rNKG0OluG1vPJh6C946DpCvM0dGd6jtz2xJPT5CyCtrIqxgMLlLKh75nD
-         v+SQ==
+        bh=fuvF+SRLtU99nQlp2cXtrtRQVtC6maysR3JY+sX0IuU=;
+        b=Ki+hoG2dgElKjTuWJovhLh6if2bZBfaMh7tSjk00I1lpc9ai4LKH56g/YNScyxflVT
+         /fcvX1aXW9sKQhUDb+BYpDzMpRhg5fr59P8HKz9Cczs3uDqPgm3M7O1cchyT8v/lxzab
+         YdMIfAY64edIxeio+lEylxd+W+wINk7h5ARsLrZJOV6eK26mCuvWYtNdzbmTPTP1bOEG
+         HX3V6w1W1O5CcnjYBhg4lYEyoHpZ6oEjxY9GDr/kT7P7sF8VLk5IjYTLATon+n1gxsF8
+         /XocNsvFdnOtcbCnvXCd5YGy8AE26Sz1EYKE2ocd4tKNK3+H9cWxuKKSlF1iHBFmGV9k
+         spLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789958652; x=1790563452;
+        d=1e100.net; s=20260707; t=1789971308; x=1790576108;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=GA8yU0qhjadXwW8wCXQaNUsG3cJ9ydAokzsVwPJZYp8=;
-        b=mEBLyI+PZHyAFeYd09qn3PBlbRgZ5J+clih8wmS+PBXlxbai3t1aIhY3IrW2Zq1IGU
-         holUx5QIC+URCoOtfa74+CO86UnaAznle6nWbLJ6NfGghM6/D5EzRaqhrdiFXbVkezZr
-         NRyiP1fWImMrZLQTzRyz5DLr50s8c+KRceAdmt2WtAUjG/m7TaRJ8NHj4IqEnLDFS1D0
-         SRFZdg6ggJfL8fY1WcX/sCWJ1iY9zSQFfvwH6kIE5RUdlbemra0YXKGLNqVEMkULxq4p
-         hmvzU/SL18eNzQAxZRe9EsBO+BVG6DVj9HUBTpnb82g8eIuUfLg7SBJYL6iKmLBwVc9S
-         uTYA==
-X-Gm-Message-State: AFuF++naPfrC7UrYvl7jjQHl+4xDw35eQx3u3bOuJTgeNJJWiqvNZXT1
-	PpQgEirA+qTKdBmT3H+5tEos2edneww7LB2GWNuW+/5/pfj1aRpkUPRE
-X-Gm-Gg: AYBFou3sz9GfBV+wh4sld2VMjgaMYXoAzhV4mDX1Y1Fbslf/6EB6LZiNFR2KDdubwdj
-	GPgBUQB6EzyGsWYwRNBN7qyF2zKAdPkk/wdo2Mlsq5SHrVF3U0GDGMiswIsKY0Uutre23iVtwYu
-	MoUG/76NePDtdA7zyq0swcZ15gKMeKGAxWw/T73Y3R05qzYB43wfFiExMGT5VFmMuQFVOWoNRpx
-	jNRWbUhja91dGg5Q7qiYOuItpN9vtXFiT94Cn7xwYwG7f5LM/zHdW1qBoCyyhiFJ231Nv76x6tz
-	VYdGEf9yxOABf8myEVxUCzdHtq6vdqb29KE/xSyd603YK2R3BtR0dfoS+2UFbx93bRXMA8E1i5h
-	vsAWDx+EWXsCFdfchtBQ7cMOYb4mUgwOW4+f9etmRL8YSjgRGQtap1bYIP5yBfb6NTeRiHBqTzd
-	X8Cj+uTrvQXITmWD1gfFkSvQjD2AIqeSO5l9T6QxlmuRBaLXu5ds8nfqakCjkNJXjsPkJ77FFrj
-	tFlmZ+UCnn9HaTSiKbOJtAF7FkfISkl9MSyYrG1bLglfX6TJ4D8zySGF7ZVHa4m5vk42bIxKQbM
-X-Received: by 2002:a05:6a00:4403:b0:870:ef71:e8c8 with SMTP id d2e1a72fcca58-874dc1f748amr14067287b3a.12.1789958651857;
-        Sun, 20 Sep 2026 19:44:11 -0700 (PDT)
-Received: from achilles-zhang-ubuntu (ec2-3-39-185-208.ap-northeast-2.compute.amazonaws.com. [3.39.185.208])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-877aa5f8098sm2463684b3a.54.2026.09.20.19.44.09
+        bh=fuvF+SRLtU99nQlp2cXtrtRQVtC6maysR3JY+sX0IuU=;
+        b=kptqfHK7jfC3kK47aC+5w+0f2YfXGp/YEws4+qw5H8X/+JuhOXg9NT3bO910ybN/e+
+         +xmvmVSg3UcXEF2infS2raF1Ty/PWCz0JfLM8r1ivNhbLxBw7FUbO5yXi59svOxTG2AI
+         F25OAnuC6WscxvZ7s5IOQmWybZrESrg9v7EP3UoJW5UAsH1u/wILBlocpG6f4RCuryA6
+         h+z33SAhO/+P78CBtt2/YeFHgKSpjZgSpYBZ9Z7EWTuW80+nt+M2H0MTxfyQDBI36C0q
+         0E2ROpznTcVHedacPhP9zH1HQAyy1dYyYPIUJ+tzM+AsMp7tPBoVoE6x/3hiVh3R7Fau
+         KbIg==
+X-Forwarded-Encrypted: i=1; AKwUvBxUarWZRSETCz2DyGLIJmp+VwyrdGFVVjdQOcloxfB3kmZIy7SR/AX45/o/o0yStMdBkH+iyWovJMyq3Q==@vger.kernel.org
+X-Gm-Message-State: AFuF++lR6OeTOz06xCPB5Fl9ZeGczujNdneBIdkjytexmyuKvsZ5XcnI
+	2ibgODACXMwbekcMNQ9G1eLdDzEsl+pkYqPvtWLjdS/YQxpHWJtZ00N1
+X-Gm-Gg: AYBFou00u3hsu71ckDZ7wqxrgxnNjh7B9X90v3gG9mVqm/K48VcwsWthB9GSkOMsPZc
+	MmdJuTTnLQFuW7RcujgwZag//JeD5QjaLRTWwyIXJnPAHxfO4oKPok4LBmKdV7tbd1WvmYA5dZz
+	zWeDxFmtI1qalKIvKdM6qU+LQTJEnj5vPx2337wurw9/4C9mCjZeGxXxRd1h3CkNlYFigPrdHTs
+	agqcnd40fOcmcjMeA3D7jVI+F7qOG2fZuxLzfIF6HA2uIrXgFTo7iLG3w7sm9PkTHx37D5W5ggM
+	d1OrpzCItAL0s4QyNrVr2/IFIQ6AX2PIxJsmfLBca+2c64c9HMhEHIdbQJdc0p0/3IjC22s7zSD
+	E54+9jLxTBVBLb8lGLjxGDSZDgtuOvP7YXFoaCkmwYAQq9VQKNQYB6mFgYghh+5UR1tZnOMC7Ub
+	lsWIiWbsUWEQroGvlW/4eEO0TAo0Hf4CVCgbzo7AWDMBujy0aRB3R2TuZ7gEgYt9QUl+efTTgwe
+	kIP3IEHql/NTUWe
+X-Received: by 2002:a05:6512:1090:b0:5b6:183c:5c9f with SMTP id 2adb3069b0e04-5b8c195a1c4mr3040448e87.61.1789971307991;
+        Sun, 20 Sep 2026 23:15:07 -0700 (PDT)
+Received: from localhost.localdomain ([78.40.184.2])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b8c78c1398sm1691835e87.7.2026.09.20.23.15.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Sep 2026 19:44:11 -0700 (PDT)
-From: Achilles Zhang <bnqzzdf@gmail.com>
-To: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>
-Cc: linux-sound@vger.kernel.org,
-	Achilles Zhang <bnqzzdf@gmail.com>
-Subject: [PATCH] ALSA: usb-audio: Add native DSD quirk for HiBy FC4
-Date: Mon, 21 Sep 2026 10:43:43 +0800
-Message-ID: <20260921024344.391912-1-bnqzzdf@gmail.com>
+        Sun, 20 Sep 2026 23:15:07 -0700 (PDT)
+From: Roman Demidov <roman.demidov.nn@gmail.com>
+To: stable@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Roman Demidov <roman.demidov.nn@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	=?UTF-8?q?C=C3=A1ssio=20Gabriel?= <cassiogabrielcontato@gmail.com>,
+	HyeongJun An <sammiee5311@gmail.com>,
+	bui duc phuc <phucduc.bui@gmail.com>,
+	Kyle Zeng <kylebot@openai.com>,
+	HanQuan <eilaimemedsnaimel@gmail.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	lvc-project@linuxtesting.org,
+	Takashi Iwai <tiwai@suse.de>,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 5.10] ALSA: seq: Clear variable event pointer on read
+Date: Mon, 21 Sep 2026 09:14:53 +0300
+Message-ID: <20260921061454.6421-1-roman.demidov.nn@gmail.com>
 X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -73,37 +85,49 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The HiBy FC4 with USB ID 32bb:0004 advertises its native DSD
-stream as UAC2 RAW_DATA with a 4-byte, 32-bit subslot. Without a
-quirk snd-usb-audio leaves this alternate setting as
-SNDRV_PCM_FORMAT_SPECIAL, so userspace cannot select a native DSD
-format.
+From: Kyle Zeng <kylebot@openai.com>
 
-Mark the device with QUIRK_FLAG_DSD_RAW so the existing generic raw
-DSD handling exposes the stream as DSD_U32_BE.
+commit 705dd6dcbc0ea87351c660c1a6443f85f1001c76 upstream.
 
-Tested on an FC4 at DSD256. With the quirk the playback alternate
-setting changes from SPECIAL to DSD_U32_BE and reports DOP=0,
-bitrev=0; native DSD256 playback works correctly.
+snd_seq_read() copies a queued variable-length event header to userspace
+before expanding the payload. Queued variable-length events use
+SNDRV_SEQ_EXT_CHAINED internally, and data.ext.ptr points at the first
+extension cell.
 
-Signed-off-by: Achilles Zhang <bnqzzdf@gmail.com>
+The read side strips SNDRV_SEQ_EXT_* bits from data.ext.len before the
+copy, but it leaves data.ext.ptr untouched. A userspace sequencer client
+can therefore write a direct variable event to itself and read back the
+extension-cell kernel address from the returned header.
+
+Clear the temporary header pointer before copy_to_user(). The original
+queued event remains unchanged and is still passed to
+snd_seq_expand_var_event(), so payload expansion keeps using the
+internal chain.
+
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Signed-off-by: Kyle Zeng <kylebot@openai.com>
+Link: https://patch.msgid.link/20260607004129.61345-1-kylebot@openai.com
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Roman Demidov <roman.demidov.nn@gmail.com>
 ---
- sound/usb/quirks.c | 2 ++
- 1 file changed, 2 insertions(+)
+Backport fix for CVE-2026-74339
 
-diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index c587090..924d930 100644
---- a/sound/usb/quirks.c
-+++ b/sound/usb/quirks.c
-@@ -2542,6 +2542,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
- 		   QUIRK_FLAG_IGNORE_CTL_ERROR),
- 	DEVICE_FLG(0x3255, 0x0000, /* Luxman D-10X */
- 		   QUIRK_FLAG_ITF_USB_DSD_DAC | QUIRK_FLAG_CTL_MSG_DELAY),
-+	DEVICE_FLG(0x32bb, 0x0004, /* HiBy FC4 */
-+		   QUIRK_FLAG_DSD_RAW),
- 	DEVICE_FLG(0x3302, 0x17c2, /* TTGK Technology USB-C Audio */
- 		   QUIRK_FLAG_FORCE_IFACE_RESET | QUIRK_FLAG_IFACE_DELAY),
- 	DEVICE_FLG(0x339b, 0x3a07, /* Synaptics HONOR USB-C HEADSET */
+ sound/core/seq/seq_clientmgr.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/sound/core/seq/seq_clientmgr.c b/sound/core/seq/seq_clientmgr.c
+index 0363670a56e7..27c8af14a39e 100644
+--- a/sound/core/seq/seq_clientmgr.c
++++ b/sound/core/seq/seq_clientmgr.c
+@@ -441,6 +441,7 @@ static ssize_t snd_seq_read(struct file *file, char __user *buf, size_t count,
+ 			struct snd_seq_event tmpev;
+ 			tmpev = cell->event;
+ 			tmpev.data.ext.len &= ~SNDRV_SEQ_EXT_MASK;
++			tmpev.data.ext.ptr = NULL;
+ 			if (copy_to_user(buf, &tmpev, sizeof(struct snd_seq_event))) {
+ 				err = -EFAULT;
+ 				break;
 -- 
 2.53.0
 
