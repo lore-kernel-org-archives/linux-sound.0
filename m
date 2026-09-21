@@ -1,133 +1,98 @@
-Received: from mail-lr2-f7.google.com (mail-lr2-f7.google.com [74.125.230.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6988A367F36
-	for <linux-sound@vger.kernel.org>; Mon, 21 Sep 2026 06:15:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B22EE331EC5;
+	Mon, 21 Sep 2026 06:26:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789971312; cv=none; b=KpmNW4zOg9eY+PIAEeCXckUoW/AWLnZYpxd2WK1ShJ9XTPpR4nb8fxE/8ueeq8MLvQFNOpClEkJ8a3mZdNlJgX3QL9zSXRzcTAtoQvJWfMxGkcO3rW5jbv5kBKCQEdWJ8J353HW1TQABNTzo9t6sx06lAWlrjeCNrfDbQsYJNeM=
+	t=1789972005; cv=none; b=j90LgNy9e+i6rfxfZ+KzVyGPaa/zXjlE7q7/Gl9NirRo6Rb+RDSOzbxs5gAetcH6ooNN27MGT97TS64WDV3LL60oulf9Qm5Oxvzup2H6ESoqYGbEKDgSUZ2DmdJHKzZWWMr3QBU9oo0/cgpxoz7C5Q6NqvGeefKj9tInP23foPo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789971312; c=relaxed/simple;
-	bh=sV5QPs7DGYBPvqnJ7zT3vnO9o4CqLIZs3EEy4fJGu5o=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iWPM3I1qEzVteVAidvl4SOYXMupi3lnQFGZad04ufCKHzImXK07oxyCzit8FaNZdfgUrUprCikLFEQSP+7+wQ2cWg/iIVnbwemACbsEjxhVJdadk/k5pXurFUrm0NmreV2FSx8wB3MUq5ldZkgcxy7IhYaGRuc8MwDX9Yf3Bm1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ki+hoG2d; arc=none smtp.client-ip=74.125.230.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ki+hoG2d"
-Received: by mail-lr2-f7.google.com with SMTP id 38308e7fff4ca-3a5acb204daso17687521fa.0
-        for <linux-sound@vger.kernel.org>; Sun, 20 Sep 2026 23:15:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789971308; x=1790576108; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=fuvF+SRLtU99nQlp2cXtrtRQVtC6maysR3JY+sX0IuU=;
-        b=Ki+hoG2dgElKjTuWJovhLh6if2bZBfaMh7tSjk00I1lpc9ai4LKH56g/YNScyxflVT
-         /fcvX1aXW9sKQhUDb+BYpDzMpRhg5fr59P8HKz9Cczs3uDqPgm3M7O1cchyT8v/lxzab
-         YdMIfAY64edIxeio+lEylxd+W+wINk7h5ARsLrZJOV6eK26mCuvWYtNdzbmTPTP1bOEG
-         HX3V6w1W1O5CcnjYBhg4lYEyoHpZ6oEjxY9GDr/kT7P7sF8VLk5IjYTLATon+n1gxsF8
-         /XocNsvFdnOtcbCnvXCd5YGy8AE26Sz1EYKE2ocd4tKNK3+H9cWxuKKSlF1iHBFmGV9k
-         spLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789971308; x=1790576108;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=fuvF+SRLtU99nQlp2cXtrtRQVtC6maysR3JY+sX0IuU=;
-        b=kptqfHK7jfC3kK47aC+5w+0f2YfXGp/YEws4+qw5H8X/+JuhOXg9NT3bO910ybN/e+
-         +xmvmVSg3UcXEF2infS2raF1Ty/PWCz0JfLM8r1ivNhbLxBw7FUbO5yXi59svOxTG2AI
-         F25OAnuC6WscxvZ7s5IOQmWybZrESrg9v7EP3UoJW5UAsH1u/wILBlocpG6f4RCuryA6
-         h+z33SAhO/+P78CBtt2/YeFHgKSpjZgSpYBZ9Z7EWTuW80+nt+M2H0MTxfyQDBI36C0q
-         0E2ROpznTcVHedacPhP9zH1HQAyy1dYyYPIUJ+tzM+AsMp7tPBoVoE6x/3hiVh3R7Fau
-         KbIg==
-X-Forwarded-Encrypted: i=1; AKwUvBxUarWZRSETCz2DyGLIJmp+VwyrdGFVVjdQOcloxfB3kmZIy7SR/AX45/o/o0yStMdBkH+iyWovJMyq3Q==@vger.kernel.org
-X-Gm-Message-State: AFuF++lR6OeTOz06xCPB5Fl9ZeGczujNdneBIdkjytexmyuKvsZ5XcnI
-	2ibgODACXMwbekcMNQ9G1eLdDzEsl+pkYqPvtWLjdS/YQxpHWJtZ00N1
-X-Gm-Gg: AYBFou00u3hsu71ckDZ7wqxrgxnNjh7B9X90v3gG9mVqm/K48VcwsWthB9GSkOMsPZc
-	MmdJuTTnLQFuW7RcujgwZag//JeD5QjaLRTWwyIXJnPAHxfO4oKPok4LBmKdV7tbd1WvmYA5dZz
-	zWeDxFmtI1qalKIvKdM6qU+LQTJEnj5vPx2337wurw9/4C9mCjZeGxXxRd1h3CkNlYFigPrdHTs
-	agqcnd40fOcmcjMeA3D7jVI+F7qOG2fZuxLzfIF6HA2uIrXgFTo7iLG3w7sm9PkTHx37D5W5ggM
-	d1OrpzCItAL0s4QyNrVr2/IFIQ6AX2PIxJsmfLBca+2c64c9HMhEHIdbQJdc0p0/3IjC22s7zSD
-	E54+9jLxTBVBLb8lGLjxGDSZDgtuOvP7YXFoaCkmwYAQq9VQKNQYB6mFgYghh+5UR1tZnOMC7Ub
-	lsWIiWbsUWEQroGvlW/4eEO0TAo0Hf4CVCgbzo7AWDMBujy0aRB3R2TuZ7gEgYt9QUl+efTTgwe
-	kIP3IEHql/NTUWe
-X-Received: by 2002:a05:6512:1090:b0:5b6:183c:5c9f with SMTP id 2adb3069b0e04-5b8c195a1c4mr3040448e87.61.1789971307991;
-        Sun, 20 Sep 2026 23:15:07 -0700 (PDT)
-Received: from localhost.localdomain ([78.40.184.2])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b8c78c1398sm1691835e87.7.2026.09.20.23.15.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Sep 2026 23:15:07 -0700 (PDT)
-From: Roman Demidov <roman.demidov.nn@gmail.com>
-To: stable@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Roman Demidov <roman.demidov.nn@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	=?UTF-8?q?C=C3=A1ssio=20Gabriel?= <cassiogabrielcontato@gmail.com>,
-	HyeongJun An <sammiee5311@gmail.com>,
-	bui duc phuc <phucduc.bui@gmail.com>,
-	Kyle Zeng <kylebot@openai.com>,
-	HanQuan <eilaimemedsnaimel@gmail.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	lvc-project@linuxtesting.org,
-	Takashi Iwai <tiwai@suse.de>,
-	Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 5.10] ALSA: seq: Clear variable event pointer on read
-Date: Mon, 21 Sep 2026 09:14:53 +0300
-Message-ID: <20260921061454.6421-1-roman.demidov.nn@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	s=arc-20240116; t=1789972005; c=relaxed/simple;
+	bh=NmGN6e8J6coRAC42nWLIGI+S2PP+7A8W5HG1gMG093I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gxqx3qgfzo866W8PRNV/I1cw2I/l0XOnAAlcGM7UfGIsMkcyeZUs8+oZbcL4A3lz7HYXKgt4FhAxnDOCtQHS3mz6FpbsRn7qW+DWE5Q6ZwhRGJDE8tOApsQ02PklVsbhDpJBj/uc+tWbhof2hXrjlnaMx6S+bKypBSwbXEuvbtU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 66f378e0b58511f19a56ed5b684f684d-20260921
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:f32c37c2-ce9e-4767-a67b-29758daf25ef,IP:0,U
+	RL:0,TC:0,Content:0,EDM:-25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:-25
+X-CID-META: VersionHash:7db8b62,CLOUDID:2deeda972b34a92ef3b5b386088d1f70,BulkI
+	D:nil,BulkQuantity:0,SF:81|82|83|102|865|898,TC:nil,Content:0|15|50|99,EDM
+	:2,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,
+	AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 66f378e0b58511f19a56ed5b684f684d-20260921
+X-User: zhangheng@kylinos.cn
+Received: from [172.25.120.77] [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <zhangheng@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
+	with ESMTP id 308103737; Mon, 21 Sep 2026 14:26:38 +0800
+Message-ID: <cff155e7-5391-4704-9f8c-915663e23071@kylinos.cn>
+Date: Mon, 21 Sep 2026 14:26:35 +0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ALSA: hda/realtek: Match Yoga Pro 9 16IAH10 quirk by
+ codec SSID
+To: Matt Barr <matthewjaybarr@gmail.com>, tiwai@suse.com, perex@perex.cz
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260921024011.2115055-1-matthewjaybarr@gmail.com>
+Content-Language: en-US
+From: Zhang Heng <zhangheng@kylinos.cn>
+In-Reply-To: <20260921024011.2115055-1-matthewjaybarr@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Kyle Zeng <kylebot@openai.com>
+Thanks for the patch.
+I agree this needs to be fixed, since it affects other sound cards.
 
-commit 705dd6dcbc0ea87351c660c1a6443f85f1001c76 upstream.
+I think it might be cleaner to reuse the existing quirk and drop the 
+separate entry, something like this:
 
-snd_seq_read() copies a queued variable-length event header to userspace
-before expanding the payload. Queued variable-length events use
-SNDRV_SEQ_EXT_CHAINED internally, and data.ext.ptr points at the first
-extension cell.
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -8214,7 +8214,6 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+         SND_PCI_QUIRK(0x17aa, 0x3834, "Lenovo IdeaPad Slim 9i 14ITL5", 
+ALC287_FIXUP_YOGA7_14ITL_SPEAKERS),
+         SND_PCI_QUIRK(0x17aa, 0x383d, "Legion Y9000X 2019", 
+ALC285_FIXUP_LEGION_Y9000X_SPEAKERS),
+         SND_PCI_QUIRK(0x17aa, 0x3843, "Lenovo Yoga 9i / Yoga Book 9i", 
+ALC287_FIXUP_LENOVO_YOGA_BOOK_9I),
+-       SND_PCI_QUIRK(0x17aa, 0x3846, "Lenovo Yoga Pro 9 16IAH10", 
+ALC287_FIXUP_YOGA9_SPEAKER2_TO_DAC1),
+         /* Yoga Pro 7 14IMH9 shares PCI SSID 17aa:3847 with Legion 7 
+16ACHG6;
+          * use codec SSID to distinguish them
+          */
+@@ -8308,7 +8307,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+         SND_PCI_QUIRK(0x17aa, 0x3912, "Lenovo Xiaoxin 14 GT", 
+ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
+         SND_PCI_QUIRK(0x17aa, 0x3913, "Lenovo 145", 
+ALC236_FIXUP_LENOVO_INV_DMIC),
+         SND_PCI_QUIRK(0x17aa, 0x391f, "Yoga S990-16 pro Quad YC Quad", 
+ALC287_FIXUP_TXNW2781_I2C),
+-       SND_PCI_QUIRK(0x17aa, 0x3920, "Yoga S990-16 pro Quad VECO Quad", 
+ALC287_FIXUP_TXNW2781_I2C),
++       SND_PCI_QUIRK(0x17aa, 0x3920, "Yoga S990-16 pro Quad VECO Quad", 
+ALC287_FIXUP_YOGA9_SPEAKER2_TO_DAC1),
+         SND_PCI_QUIRK(0x17aa, 0x3929, "Thinkbook 13x Gen 5", 
+ALC287_FIXUP_MG_RTKC_CSAMP_CS35L41_I2C_THINKPAD),
+         SND_PCI_QUIRK(0x17aa, 0x392b, "Thinkbook 13x Gen 5", 
+ALC287_FIXUP_MG_RTKC_CSAMP_CS35L41_I2C_THINKPAD),
+         HDA_CODEC_QUIRK(0x17aa, 0x3936, "Legion R9000P ADR10H", 
+ALC287_FIXUP_LENOVO_LEGION_AW88399),
 
-The read side strips SNDRV_SEQ_EXT_* bits from data.ext.len before the
-copy, but it leaves data.ext.ptr untouched. A userspace sequencer client
-can therefore write a direct variable event to itself and read back the
-extension-cell kernel address from the returned header.
+Since both entries use the same external amplifier,
+reusing the existing quirk seems more consistent.
 
-Clear the temporary header pointer before copy_to_user(). The original
-queued event remains unchanged and is still passed to
-snd_seq_expand_var_event(), so payload expansion keeps using the
-internal chain.
-
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Signed-off-by: Kyle Zeng <kylebot@openai.com>
-Link: https://patch.msgid.link/20260607004129.61345-1-kylebot@openai.com
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
-Signed-off-by: Roman Demidov <roman.demidov.nn@gmail.com>
----
-Backport fix for CVE-2026-74339
-
- sound/core/seq/seq_clientmgr.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/sound/core/seq/seq_clientmgr.c b/sound/core/seq/seq_clientmgr.c
-index 0363670a56e7..27c8af14a39e 100644
---- a/sound/core/seq/seq_clientmgr.c
-+++ b/sound/core/seq/seq_clientmgr.c
-@@ -441,6 +441,7 @@ static ssize_t snd_seq_read(struct file *file, char __user *buf, size_t count,
- 			struct snd_seq_event tmpev;
- 			tmpev = cell->event;
- 			tmpev.data.ext.len &= ~SNDRV_SEQ_EXT_MASK;
-+			tmpev.data.ext.ptr = NULL;
- 			if (copy_to_user(buf, &tmpev, sizeof(struct snd_seq_event))) {
- 				err = -EFAULT;
- 				break;
--- 
-2.53.0
-
+Does that look reasonable to you?
