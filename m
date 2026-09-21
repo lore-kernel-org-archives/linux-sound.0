@@ -1,165 +1,123 @@
-Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
+Received: from mail-qv2-f12.google.com (mail-qv2-f12.google.com [74.125.230.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07E503E49C3
-	for <linux-sound@vger.kernel.org>; Sun, 20 Sep 2026 21:14:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45D7C30D404
+	for <linux-sound@vger.kernel.org>; Mon, 21 Sep 2026 02:40:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789938879; cv=none; b=Kl6RWA5V+BCXFj10GjS+x9rlTwPYqXmDSrg3TQCbwjikTr1MpggmaD69Q+vUBb/hWWnS0sE7x635MiSO4kXoPGx5DVeejag5057cMk4BqdWK7hvMTDRYvDHr/GoDZg9WK2bia1+RdmyuACzHfAFH+b85EbfVRJ2EbRwr58fC1p4=
+	t=1789958450; cv=none; b=Tdcw4NTciAKgisRiKuYL6CwxLBu4UhAdZCVHXxzt7k4J8FiIawSFTVHIG5Tsa06nG3Ss6cLEFwEQTUSZo/oa6ESCo4EMnSzk36SJsidB25AZv3a7libe1HTwN+77DFGX93kqvsErSw8fBKDXiCcGLm7jz50RvK881wxozZif+ss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789938879; c=relaxed/simple;
-	bh=XZi511PqZprMyFi1XP7qILISSNX1tU1ncsOdgRoh4/g=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:From:To; b=ThjVoZBMWO0uFb9RMtvX4JIuq1nrcH+Gb3fQ7eMIDS5NoDvVWx+mh8BKrruPtIurg9hruTNPfhwX6P2XKFM8kqOgGhHW6DRQuuuPdM4wjmwNPTmESYQbT+M5IGY9L/OjMgtHeb8wdGiRAmn/H1LonEsfmYEYuTV3TuS3FDnyk4Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VhDQOH1e; arc=none smtp.client-ip=74.125.227.141
+	s=arc-20240116; t=1789958450; c=relaxed/simple;
+	bh=dnn167SjliHZ3+2HgYfhJm06KJ5BUtAwQ74yJR2gUu4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tjdzKf092sgPsWipuvkXnO5zcg/pyYkjOa7z3bTeLwsZFpSYb7M5MoQ/y8MMNxM67oC0hwjBtf64H6eC/1H7nUDcyKbnWilUfcNpjPcdzDGkZh8gHQAr9bAJH3kzzSagrAT4iVPmhVfhETxMIVDkVgCn/mN/k94F8gh3+tMxZfo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iyL4y2RX; arc=none smtp.client-ip=74.125.230.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VhDQOH1e"
-Received: by mail-pj2-f13.google.com with SMTP id 98e67ed59e1d1-39e03468a5fso2068228a91.0
-        for <linux-sound@vger.kernel.org>; Sun, 20 Sep 2026 14:14:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iyL4y2RX"
+Received: by mail-qv2-f12.google.com with SMTP id 6a1803df08f44-90cdfc6db0aso23798386d6.1
+        for <linux-sound@vger.kernel.org>; Sun, 20 Sep 2026 19:40:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789938877; x=1790543677; darn=vger.kernel.org;
-        h=to:from:cc:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ADMTsZ1OUY/8FESWFtVP3Myx8n13Fc2DdH55tYJ3tmg=;
-        b=VhDQOH1e/0xFSqM+ca61iGJYtZGk3GzeFI1IuwuQuz+OBxavnMK3FqmhnA1GHyURvc
-         mQ3wc3MPtsq+M1cmlEEQzyIN+8p0+fiZdrWcBH519rDwoKX/yee0AaZ1slB2qy/cOPTh
-         EXVhk3zXKXZyuMgEUNj6zQ6aPPd5n6FHE290HYJxUkTVpPz0+/YPkfJ/rce5PrM9LjBX
-         ha/FxzaT+QDSvxaRx1MqgFeFN0XE2cgNAh0VMt/UvKvCd38xALL+3dbLJmocV36DmDw8
-         HpTFSaVkXSwQ632U1YNreEpJcdxj+jvZ36uj8JvH8oAkSzLdR8VlxCg1EQ3e/ToP7Rqm
-         3kPg==
+        d=gmail.com; s=20251104; t=1789958448; x=1790563248; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=1OyDavOh5ODDbB86rDKnFpt0r7GVlU1nYGe54SQyoqs=;
+        b=iyL4y2RXD7Mc9ymCiHyBNS6N9oskbZFmTOTyZL3PDpste2oJ2u7io+QOUUf5nYh8oe
+         cNpb0mqPLCcBfuhm4Ntv1uEELvSQlIZyHIapjmXYJMcVZBjdsraSespQFrhcvZBnwTKT
+         ktH7hG8JzumEqjR8Z3c7enkeMI+YqDvSQI39AkCH1GncC7hG+vdydEGYaxwnhR7bNEp6
+         pl2D5RrUQ8TgdtCmimdzrdvBx1I040WRGZgC7Trdokl8kFEQpSQPuPVQbZ+3VISqex4/
+         1cI+cgDepzYqcEpxpzb9zsK4gQMbhmg+lyaua/c7O9Qc696t/6TksIrbo4OrmegNxIu9
+         Kdcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789938877; x=1790543677;
-        h=to:from:cc:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ADMTsZ1OUY/8FESWFtVP3Myx8n13Fc2DdH55tYJ3tmg=;
-        b=l8l7MQ35N5T2lUIpKcB6Sx79R41yJZOlGuF9jV8ZbdKPLbfBkOJVIzNjSvXYpVrEO/
-         zW8n7loKmXWpBlRblN6RdTBTw0U2P3rnbh5DlCxPbKy6uBcaCY0ql3x0OrKI9/0iRS5e
-         9vYvOlwje6JkW7oFE500HQwb5UumO7d1oHJZXrOrc6LMZDg0GzQlOwH/muY90Q42RW/A
-         nLIy6gNfRqIDGDoIlrlb4UJf0rx/5dFZV54FA1DE4qkok0IKxwMC3/FsZYguJBTLN5RE
-         sTGhtfn752AjjDgZRptyDcRg5a6pf06JkrkW6J/yOYQYtuj7OsX33o/QxovUy43WTkfJ
-         wLdw==
-X-Gm-Message-State: AFuF++mgOqPOKgnUGoh+2GPJInA8moHff0pisDdAf3d+DR4qC2qBLzCn
-	h//vQn1jD90War5cE+1s2hH0hV/Ty3y0xhZ7BXYZNBT4Aw2wDNHA3yOZswCHw4TIkcM=
-X-Gm-Gg: AYBFou0vrQSmS/cvklDs3PWplhD0eHcRuY7AfEQHIhnkkzY66RCHGjTjJABdtTZPJHr
-	cN8Km9jfjy+lq5509p4IYkFMrEC5DrHCE+HThURanjB2VfQoXBLVaHYb8OBaqFKghDGY88fCAoN
-	2t14UISP44EZGIrJ3TQvCjTh2nVqrM8uqopssDP6VPdmc3ge8vyZvEtz+1csICsDKmocjV+/vzt
-	m9zpEK82x79BcFvllVMSbup80UV7qfflfKyLjPcACAR52Vc2C+/8m4JrXHsmjUIQ8s4BDO5Qp3L
-	fVSmc/7D/QnqI875IxMTfBZ/cOmdC//rW+ZtrU2jAwLYbv+mLWVp9c5Pleo0x2jImwro/1aX/l5
-	nngAr1bZLdJNaHtBaRx1tFaDY+u6FSHp5NsqA2RxLsxxJHxjm3FsiDzim8yBOtm1jsJhUJsSrSh
-	Ocp6Ne5/LNDASPLOarxSznkMwWFIJIf6i0dwPImtonEUg12cPtIwz+P512S/1Oxzr1VFt2Mp1ba
-	m4nXvpg7WaxIhi7sRTS12VjTpFVemVD
-X-Received: by 2002:a17:90b:55cf:b0:3a0:516d:9f7e with SMTP id 98e67ed59e1d1-3a0516da732mr179082a91.45.1789938876990;
-        Sun, 20 Sep 2026 14:14:36 -0700 (PDT)
-Received: from localhost (ip68-107-67-45.sd.sd.cox.net. [68.107.67.45])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-144da432647sm22049842c88.5.2026.09.20.14.14.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 20 Sep 2026 14:14:36 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1789958448; x=1790563248;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=1OyDavOh5ODDbB86rDKnFpt0r7GVlU1nYGe54SQyoqs=;
+        b=hPBJpWNLZcc1edjwCmi0YyCmwL2ut+QBREvzDUUyQoPt9/nR1OX1AhPMfDDUVKbUqY
+         J1DtjL4NCggdwrsrtEuWKDCLKW3RHQ0QV+Fgnx/o5fRM/IOkxn+vbLTtRP/xOyLJuHC8
+         wD26uQOxzAnHOQZtuGtmOhve11WcBphqYKjSTM1rQqaxrsWrC3q7qLBqUHcs3EaRJiGo
+         qVZu1f/VwW5A9DhWy3mAW8ZvBQSQ/xRnw/NrDAZCTpsLLpUlYrz3S8oOBC04Syk7FTIA
+         xYrZpf2cFclAc9hbYCUc6yumYzevlLHgRZjPkbjMWotLGIDdFDGOKH5++SXgHIoEsxbR
+         Pe1w==
+X-Forwarded-Encrypted: i=1; AKwUvBwehnNz8zkGNKle1Ly30Sfwacs+pA2+1ANsSCK+d8F9tT6mZjFjCBpEMvJ/qgEKIS8s56JNbt/L1KZNHg==@vger.kernel.org
+X-Gm-Message-State: AFuF++mM+MRhJmVgSM5H8zwYDzsTUnYf7z9KeqsBwZiBthKP1BveqAJ/
+	0SnMwzJs+V+lBhnz6c71HMk9oTMrrKWUvhtuMtugLcnCL2A8MYPuasbxx5SYpgou1rqf5A==
+X-Gm-Gg: AYBFou3dvFx8Myww6aG6NgPob3vtJYB+mfx71XF3bR5vsoy23eM+Vs1DeYYdo/MbkyQ
+	iYLs2ad5wkk1ObFuWBwtZhD2pK4WSUrTpa1AqL8JV/QhTjmwhoPMhzRhTjc6V9riUn0FGf87Hgb
+	zePMhH8+bmxCfsnX7l3Xi4BlNDOkQmNKiLCmIQNvh9q7Fnj5a9Abc+f7+YCc14XKbHrlNo+RADl
+	CVOxV7u/LUFhfu8SVWr4Mn/e/aSzotKJd1LUTnoakvkJMvCd9PryxqbQCT5dKwZPt5KStvzmLr6
+	znpjGD7WNK/xAZsN9V5GJs+IdbJVlKgccQxgYXdRsXhcDL+u2nUQHj7l6F9IC0OIN+UyAhQaxNQ
+	Z1JfOFjnjRO29iuyRS1QPIdH3AH2jvGY48uduQe1s2Rnefx8JzQYWQ3t2l/nDE4f0w1x2o6+9Ei
+	KDNrq7IsYXf0Qj4MaFSuj4UHhssA4ctjN0Puo+R4kO7C7Kj6Vz9qRwn60WzAh6clBGb6bWBWscA
+	KH8k3FTVoL5JQ/wLfI=
+X-Received: by 2002:a05:6214:4a92:b0:912:517b:842 with SMTP id 6a1803df08f44-912a803dd5dmr92522456d6.38.1789958448163;
+        Sun, 20 Sep 2026 19:40:48 -0700 (PDT)
+Received: from matthewjaybarr-png.lan ([199.79.241.62])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91260a30d13sm58291716d6.11.2026.09.20.19.40.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 20 Sep 2026 19:40:45 -0700 (PDT)
+From: Matt Barr <matthewjaybarr@gmail.com>
+To: tiwai@suse.com,
+	perex@perex.cz
+Cc: Zhang Heng <zhangheng@kylinos.cn>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Matt Barr <matthewjaybarr@gmail.com>
+Subject: [PATCH] ALSA: hda/realtek: Match Yoga Pro 9 16IAH10 quirk by codec SSID
+Date: Sun, 20 Sep 2026 22:40:11 -0400
+Message-ID: <20260921024011.2115055-1-matthewjaybarr@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sun, 20 Sep 2026 14:14:35 -0700
-Message-Id: <DLKGDJMA0NY6.2C34FXZUHFK7C@gmail.com>
-Subject: [RFC] ALSA: usb-audio: Blue Yeti 046d:0ab7 fw 0.20 capture fails
- until device-side MCU reset
-Cc: <linux-usb@vger.kernel.org>, <tiwai@suse.com>, <perex@perex.cz>
-From: "Jasmeet (Jazz) Bhatia" <jasmeet.bhatia.us@gmail.com>
-To: <linux-sound@vger.kernel.org>
-X-Mailer: aerc 0.22.0-0-gc2f86b7abde3
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Hello,
+The PCI SSID quirk added for the Lenovo Yoga Pro 9 16IAH10 (PCI SSID
+17aa:3846, codec SSID 17aa:3920) also matches every other machine that
+shares PCI SSID 17aa:3846. snd_hda_pick_fixup() tries all PCI SSID entries
+before it falls back to the codec SSID, so those machines now get
+ALC287_FIXUP_YOGA9_SPEAKER2_TO_DAC1 and never reach their own
+codec-SSID quirk.
 
-I'm encountering a reproducible capture failure with multiple Logitech/Blue=
- Yeti
-Classic USB microphone and wanted to ask where the best place for this
-workaround to live, as I feel it may belong in snd-usb-audio instead of
-userspace but wanted a more experienced opinion.
+The Lenovo Legion Pro 7 16IRX8H (product 82WQ) is one such machine: PCI
+SSID 17aa:3846, codec SSID 17aa:3884. Before this quirk it picked
+ALC287_FIXUP_TAS2781_I2C via the 17aa:3884 codec SSID fallback and bound
+its TAS2781 amplifier. With it, the codec never binds the amplifier and
+the internal speakers are silent:
 
-Device:=20
+  snd_hda_codec_alc269 hdaudioC0D0: ALC287: picked fixup  for PCI SSID 17aa:3846
 
-ID 046d:0ab7 Logitech, Inc. Blue Microphones
-bcdDevice: 0.20
-USB Audio Class: UAC1
+versus, on a kernel without the quirk:
 
-System:
-Linux 7.2.6-arch2-1 x86_64
-xHCI
-snd-usb-audio
+  snd_hda_codec_alc269 hdaudioC0D0: ALC287: picked fixup  for codec SSID 17aa:3884
+  snd_hda_codec_alc269 hdaudioC0D0: bound i2c-TIAS2781:00 (ops tas2781_hda_comp_ops ...)
 
-When booting with the microphone already connected, USB enumeration
-succeeds normally. snd-usb-audio binds, ALSA creates PCM device, and
-Pipewire also sees the microphone.
+Match the Yoga Pro 9 16IAH10 by its codec SSID instead, as was done for
+the Yoga Pro 7 14IMH9 / Legion 7 16ACHG6 and Yoga Slim 7 14AKP10 / Legion
+Slim 7 16IRH8 collisions. The Yoga Pro 9 16IAH10 still matches, through
+codec SSID 17aa:3920. That codec SSID is also used by the Yoga S990-16
+entry further down, which will now get the same DAC routing fix. That
+looks like the same product, but I could not verify it.
 
-Example:
-
-$ arecord -D hw:Microphones,0 \=20
-      -f S16_LE -r 48000 -c 2 \=20
-	  -d 5 -vv /tmp/yeti.wav
-
-Recording WAVE '/tmp/yeti.wav' : Signed 16 bit Little Endian, Rate 48000 Hz=
-,=20
-Stereo arecord: pcm_read:2285: read error: Input/output error
-
-The same thing happens at 44100 Hz.=20
-
-I tested a couple recovery methods with the device in this failing
-state:
-
-- 44100 Hz Capture      -> EIO
-- 48000 Hz Capture      -> EIO
-- host USB reset        -> EIO
-- USB unbind/rebinding  -> EIO
-- device-side MCU reset -> Capture works immediately
-
-Digging deeper, I tested an existing blue-yeti-autoreset userspace
-utility for this exact bug, which sends a UAC Extension Unit SET_CUR
-Request:
-
-bmRequestType =3D 0x21
-bRequest      =3D 0x01
-wValue        =3D 0x0a00
-wIndex        =3D 0x1900
-xLength       =3D 8
-
-payload =3D 00 09 00 00 00 00 00 00
-
-After this is done, the Yeti will disconnect and reenumerate, with my
-system having the device change from 002 to 003, and arecord begins to
-work normally. Physically unplugging/replugging the device also does the
-same fix.
-
-At the end of the day, this looks like a firmware issue with the=20
-Blue Yeti, as USB enumeration and snd-usb-audio are working as=20
-intended and succeeding, but some internal device state survives=20
-host-side USB reset not allowing the capture engine to operate,
-with the device-specific MCU appearing to be the cause.
-
-With there being no obvious xHCI disconnect or USB transport errors in
-the kernel log, I'm left to assume this a quirk within the firmware of the
-microphone itself. A couple other Bugzilla reports I found seem to show
-the same issue I'm reporting here, with Bugzilla #220238 showing a
-same bug I'm describing.=20
-
-https://bugzilla.kernel.org/show_bug.cgi?id=3D220238
-
-My main question is whether the kernel should work around this in
-snd-usb-audio or whether maintainers would prefer the device-specific
-reset to remain in userspace because it intentionally causes a USB
-disconnect/enumeration.
-
-If a snd-usb-audio workaround is considered ok, I would be interested in
-working on the patch and can test it reliably.
-
-Please let me know if any additional usbmon traces, dmesg outputs or
-other diagnostics would be useful.
-
-Thanks,
-
-Jazz
+Fixes: 41d60cbfde10 ("ALSA: hda/realtek: Fix bass speaker DAC routing for Lenovo Yoga Pro 9 16IAH10")
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=220540
+Signed-off-by: Matt Barr <matthewjaybarr@gmail.com>
+---
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -8164,7 +8164,10 @@
+ 	SND_PCI_QUIRK(0x17aa, 0x3834, "Lenovo IdeaPad Slim 9i 14ITL5", ALC287_FIXUP_YOGA7_14ITL_SPEAKERS),
+ 	SND_PCI_QUIRK(0x17aa, 0x383d, "Legion Y9000X 2019", ALC285_FIXUP_LEGION_Y9000X_SPEAKERS),
+ 	SND_PCI_QUIRK(0x17aa, 0x3843, "Lenovo Yoga 9i / Yoga Book 9i", ALC287_FIXUP_LENOVO_YOGA_BOOK_9I),
+-	SND_PCI_QUIRK(0x17aa, 0x3846, "Lenovo Yoga Pro 9 16IAH10", ALC287_FIXUP_YOGA9_SPEAKER2_TO_DAC1),
++	/* Legion Pro 7 16IRX8H shares PCI SSID 17aa:3846 with Yoga Pro 9 16IAH10;
++	 * use codec SSID to distinguish them
++	 */
++	HDA_CODEC_QUIRK(0x17aa, 0x3920, "Lenovo Yoga Pro 9 16IAH10", ALC287_FIXUP_YOGA9_SPEAKER2_TO_DAC1),
+ 	/* Yoga Pro 7 14IMH9 shares PCI SSID 17aa:3847 with Legion 7 16ACHG6;
+ 	 * use codec SSID to distinguish them
+ 	 */
