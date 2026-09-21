@@ -1,78 +1,101 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBEBA48EC7B;
-	Mon, 21 Sep 2026 12:45:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A9FF4963D2;
+	Mon, 21 Sep 2026 12:51:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789994711; cv=none; b=mpJcnp9sBcWR0Zse1UwVpVyruAXJhBxtmyxzx46liIEv4lqqd8O90QPt8wOSh5pZTmLkiddXh9K+/rMnI5l1CADyQ5OPsIB73dviFb+zmNysN85m4VTV4wtULjUNtGPgJHvc1SRwo9gFdbgMgCMLmQ/dkyajA7TKi5ElIbJ7C/4=
+	t=1789995065; cv=none; b=HljoypAOeUOY7bWNMk3NSHO82jgQqAgWAIbqK+n+iKYd1jcB8g72U3BTEGKfCmt5vvD2NuB+nBXq/Ps9GYBx7yzVtonjMm3UOJK65MWPSUubE+VmpzT71UR9fAn8pBcDGH5KwwWQV8WOdx5sAeOHtJE+chOBnXku8V3ZP1VBK0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789994711; c=relaxed/simple;
-	bh=9ZW12DPr9mtKHKYLKlA9Je30JOBQTafWx2v6KJ2bGpM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=pltFulwFEsWZIDkmzIR7EJm9NeWY0UKUDG1LQruHbXLQuGwu8O4ozfsxDvCIB+wZShwdGIJgDc+xzRBVlWCLyypAnsEY63ws06emy92WWWq6163mSSZv7iFJPkSwc7ouxP+zQD2+poEARO/qMq3a6fet87hH/w+xKxzs0immUWM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 416149d8b5ba11f19a56ed5b684f684d-20260921
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:5acf492a-ebd3-452c-a085-5c6ff6b91a0a,IP:0,U
-	RL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:25
-X-CID-META: VersionHash:7db8b62,CLOUDID:a266d29c59bfaaad1d311ffa8bd4feff,BulkI
-	D:nil,BulkQuantity:0,SF:81|82|102|850|865|898,TC:nil,Content:0|15|50|99,ED
-	M:5,IP:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OS
-	A:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 416149d8b5ba11f19a56ed5b684f684d-20260921
-X-User: zhangheng@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <zhangheng@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 1771036371; Mon, 21 Sep 2026 20:44:59 +0800
-From: Zhang Heng <zhangheng@kylinos.cn>
-To: tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Zhang Heng <zhangheng@kylinos.cn>
-Subject: [PATCH 2/2] ALSA: hda/realtek: Add quirk for Acer Nitro AN515-45
-Date: Mon, 21 Sep 2026 20:44:50 +0800
-Message-Id: <20260921124450.639601-2-zhangheng@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20260921124450.639601-1-zhangheng@kylinos.cn>
-References: <20260921124450.639601-1-zhangheng@kylinos.cn>
+	s=arc-20240116; t=1789995065; c=relaxed/simple;
+	bh=tWjhtlSmNitNe/RV24G2Ic0DpfRB6aqKBFyMVbKS+uY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TADVsHYAhqyIkPHRjlGWSEdazHpQgm8CXDKUu+YM3CrZ10d7UxSXsHsTHOcP6b/+z20I4FsUuuGWozbxRz1gCdqAmFNLII8qipbsnHn/YP7QQ2+AaAQUwU9WeT3ChBA0W5O/FihRJYeVB0WRlPNaXUAZ6tgpB7BaN8C+ATQCGDk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JzHyLd0X; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JzHyLd0X"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4ED541F000FF;
+	Mon, 21 Sep 2026 12:51:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789995063;
+	bh=4/yFLn+o15BprTqPsawaFIBezfUtDv5pEFxxxaLrCRs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=JzHyLd0XpsfgMH78TsESHQI0kAOiRQG63YkLwNG0ek3LStt5aUXAT2CHkx/60wT/F
+	 wAjcrwqtLjkp74QMrfyAqpBh1N2+q8zZdlzQJGguCVSGmCdtiwS5+lPf7Ku6DSfvQr
+	 W7E9PY27NC/TIFEN3/r6PY1enFmjJCxxBqcBLQv9c6D5Wkj09UqNDIO4p8INgWiAgy
+	 WdJlKI5UIrhnYZuGgX1M2/RT0CTx1pTMgBCVShTB1nZRz3HBGy6SvYxERYgviKGEVL
+	 bJLEyHMPlvpPI+hdYopFCiySz+YpRIELzPVOV7z+GUjkpKQutziNnd60fNiWzitLts
+	 osD5CrCV61ClQ==
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+	id A6BE91AC5376; Mon, 21 Sep 2026 13:51:00 +0100 (BST)
+Date: Mon, 21 Sep 2026 14:51:00 +0200
+From: Mark Brown <broonie@kernel.org>
+To: Thierry Reding <thierry.reding@kernel.org>
+Cc: Sheetal <sheetal@nvidia.com>, Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sameer Pujar <spujar@nvidia.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Mohan Kumar <mkumard@nvidia.com>, linux-sound@vger.kernel.org,
+	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH 0/3] ASoC: tegra: ASRC control fixes and ratio caching
+Message-ID: <arEoNAC729MT5Bqr@sirena.co.uk>
+References: <20260921085704.1248920-1-sheetal@nvidia.com>
+ <arEaioTIrCyJqwKn@orome>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="UT4EMBkDKh9XPIOk"
+Content-Disposition: inline
+In-Reply-To: <arEaioTIrCyJqwKn@orome>
+X-Cookie: Too clever is dumb.
 
-The Acer Nitro AN515-45 requires ALC2XX_FIXUP_HEADSET_MIC to make the
-headset microphone work properly.
 
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=221925
-Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
----
- sound/hda/codecs/realtek/alc269.c | 1 +
- 1 file changed, 1 insertion(+)
+--UT4EMBkDKh9XPIOk
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index 00d216047278..39dbd876bc1a 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -7230,6 +7230,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1025, 0x142b, "Acer Swift SF314-42", ALC255_FIXUP_ACER_MIC_NO_PRESENCE),
- 	SND_PCI_QUIRK(0x1025, 0x1430, "Acer TravelMate B311R-31", ALC256_FIXUP_ACER_MIC_NO_PRESENCE),
- 	SND_PCI_QUIRK(0x1025, 0x1466, "Acer Aspire A515-56", ALC255_FIXUP_ACER_HEADPHONE_AND_MIC),
-+	SND_PCI_QUIRK(0x1025, 0x151e, "Acer Nitro AN515-45", ALC2XX_FIXUP_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1025, 0x1534, "Acer Predator PH315-54", ALC255_FIXUP_ACER_MIC_NO_PRESENCE),
- 	SND_PCI_QUIRK(0x1025, 0x1539, "Acer Nitro 5 AN515-57", ALC2XX_FIXUP_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1025, 0x159c, "Acer Nitro 5 AN515-58", ALC287_FIXUP_ACER_MICMUTE_LED),
--- 
-2.25.1
+On Mon, Sep 21, 2026 at 02:07:19PM +0200, Thierry Reding wrote:
 
+> Given the ABI change, do we have a good understanding of who might be
+> using these features? My understanding is that these are used for the
+> setup of hardware pipelines involving sample rate conversions. So these
+> are likely not your regular users that just want to change the volume
+> for headphones and such. This is for highly specific use-cases. Do we
+> know if people use extra userspace software on top of ALSA to set these
+> up, or are they typically dealing with fixed configuration files for
+> specifying these values?
+
+=2E..
+
+> Mark, Liam, do you have any guidelines on how to handle such ABI
+> changes?
+
+I don't really, beyond your already very good summary.  It depends a lot
+on knowledge of the users for the device, their level of expertise and
+how likely anyone is to be using the individual feature in the first
+place.  Obviously it's an ABI break so we shouldn't really be doing it
+if we can avoid it, but if everyone involved is happy and has a good way
+to deal with the changes then it's not really a problem. =20
+
+--UT4EMBkDKh9XPIOk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqxKDMACgkQJNaLcl1U
+h9BWJQf/bjhcoK/uZuZxiYOxhzHzfC/k+m9JWXSCqbAguDQONHhzmGu1lisC/C1N
+yBncc4DlJtY5wPiw1lKTXA5ukf/nNmkOUxFJE61eAyHD59Bh6I8JDgADNzKxlAsK
+inJ76p2doCQ6xnoofAEt9zfqieZGYqZf0Zuws3GWDat0m5UkVqKXNda05opvYMWb
+gsCcni7ab8XS8CXkr69VaLirKAJ/XSVG0elNJ0B5cPLFEUX8/FTfU6mBrplru4e4
+qkZxwvOnzG+yeWM8LYbwnO/fhHAHs0b3vydTTqkzwV3XdzeFYASSGotln7g9mwc0
+b6FLtnimS1SREUAarKKT5z+f68xcKw==
+=fjYI
+-----END PGP SIGNATURE-----
+
+--UT4EMBkDKh9XPIOk--
