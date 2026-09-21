@@ -1,85 +1,75 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5638A3264EA;
-	Mon, 21 Sep 2026 12:40:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73866499F2E;
+	Mon, 21 Sep 2026 12:45:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789994424; cv=none; b=LUiYgUEMiMM1Jl251TDGEnGNARx36cTIEAcKDqLbrO6ofZEW0hcq/4NRWk56CxzKc3u8J+AFnuapjn39L8AoBkhRkmnmtIzCzJ81RFSN2sukf0DKQgtFChvnvhhKynIKMHC8o9tsqlCf06TpexPaHWBJyKUwhuQvutIROTCfUW0=
+	t=1789994709; cv=none; b=G53QDyw8qoXd0JKKJWdJDVdfo7Ly9K+lkSm9Bcmfk+AjWmQ/wD2zJuxL4k2KKxtgwtu31eA4l97BGEN7dP8bPrhKoFJJ1GDMZ2DB5suLJM2lcGuqGwNibt2Id9thnZCd/dmx94doaiJ2Do601jkfLW5WFmUCoZfMHYqWQFiPuGg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789994424; c=relaxed/simple;
-	bh=Jn+IyPTQ0qG4hBhlZNg0ZG68y9FoVMiRBzB4/vs7jLk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tUGzDxQUv2HM8oYe0yM8jVM14h1vZF3ls03/OQ3GKL7FNA5EjF1cWwNkYg4LuuAGqUBP2yKXl53OQ49EdaNEEO8+lBOfS1hNLqcZMDtJJJKWGk0zCGlDJ9V2XfQcRP9WaxPXNHth6buH2+Dz/4DQsbaJVa8d6ckNMgE5ldlVMms=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L+z3z++4; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L+z3z++4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFE211F000FF;
-	Mon, 21 Sep 2026 12:40:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789994423;
-	bh=Jn+IyPTQ0qG4hBhlZNg0ZG68y9FoVMiRBzB4/vs7jLk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=L+z3z++4299gxMKIF8izR/C56DHctx3uGgo6cDoIm6wVVOip0SWZPmrl491u91w7E
-	 /PI4901QUJXIPPGRoY/UCaHMlWbhvZKHrtziXqX7pHscCCJmagXkqDy1mrGrIl+D9g
-	 glEfjUpAv/1p+Te5dOwkhYfDR6SMefSc6Jo0LSg/lWL2Q5exmAoQK6wIvI4c3pM8Ca
-	 qs5YAXhAUyfzL7ZGFWz7ypWeNegIdeHM5X0TwEizaWxCN2qzcidXMF7dF7yUSijpd6
-	 mZPSdkEGbTex1tsqkEY6+cLeU9Jm8zh5Jap6P72Rt0ozxYtQeiXT9VEsmwQDF6KbkB
-	 j4OH9pJuqoglw==
-Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id ADD3A1AC5376; Mon, 21 Sep 2026 13:40:19 +0100 (BST)
-Date: Mon, 21 Sep 2026 14:40:19 +0200
-From: Mark Brown <broonie@kernel.org>
-To: Zhang Heng <zhangheng@kylinos.cn>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ASoC: amd: yc: Add DMI quirk for MSI Thin A15 B7UCX
-Message-ID: <arEls1VrT5hZbUZb@sirena.co.uk>
-References: <20260918104944.649403-1-zhangheng@kylinos.cn>
- <arEHjbt3AY06j_Vc@sirena.co.uk>
- <fe055bde-3542-40ea-aec3-8d379c9599a1@kylinos.cn>
+	s=arc-20240116; t=1789994709; c=relaxed/simple;
+	bh=C/9kk2VbZ5fJ7/ojhEdzaYim4HcUhkf2hMUUzFzV618=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=fQiSYRPTof/SuiDbOlS7IqM0nn1ZGdiSHrCMLfVM7rYpeN221q4ZZs4lVISajEpOTK9ZgiGPEDpCVoAkuYS9/Z2vIR7IqoPCJxfAGNt0llRcFhh/xwkEJEI+3Dw85cgJQ/h7RdGie0aP4p8YufjX8Ksk5T4ZNmWt9ht1qBW0dWQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 4017a306b5ba11f19a56ed5b684f684d-20260921
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:0698f3fc-3630-47d1-9a75-e08c98877b09,IP:0,U
+	RL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:25
+X-CID-META: VersionHash:7db8b62,CLOUDID:b58b72e730a36f299e859b1490b1d6ae,BulkI
+	D:nil,BulkQuantity:0,SF:102|850|865|898,TC:nil,Content:0|15|50|99,EDM:5,IP
+	:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV
+	:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_ULS,TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 4017a306b5ba11f19a56ed5b684f684d-20260921
+X-User: zhangheng@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <zhangheng@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1052381791; Mon, 21 Sep 2026 20:44:56 +0800
+From: Zhang Heng <zhangheng@kylinos.cn>
+To: tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Zhang Heng <zhangheng@kylinos.cn>
+Subject: [PATCH 1/2] ALSA: hda/realtek: Add quirk for Lenovo ThinkBook G8+
+Date: Mon, 21 Sep 2026 20:44:49 +0800
+Message-Id: <20260921124450.639601-1-zhangheng@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="q4zommVywJT0caDp"
-Content-Disposition: inline
-In-Reply-To: <fe055bde-3542-40ea-aec3-8d379c9599a1@kylinos.cn>
-X-Cookie: Too clever is dumb.
+Content-Transfer-Encoding: 8bit
 
+Fix Bass Speaker volume control on Lenovo ThinkBook G8+ by adding
+quirk 17aa:38dc with ALC285_FIXUP_SPEAKER2_TO_DAC1.
 
---q4zommVywJT0caDp
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=221799
+Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
+---
+ sound/hda/codecs/realtek/alc269.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-On Mon, Sep 21, 2026 at 08:22:37PM +0800, Zhang Heng wrote:
-> DMI_BOARD_VENDOR: Micro-Star International Co., Ltd.
-> DMI_BOARD_NAME: MS-16RK
-> DMI_PRODUCT_NAME: Thin A15 B7UCX
->=20
-> This is the DMI information provided by the reporter.The Launchpad bug
-> https://bugs.launchpad.net/ubuntu/+source/linux/+bug/2167333 also mentions
-> the "Thin A15 B7UC" quirk, and their names are indeed different.
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index 618ff25eff18..00d216047278 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -8288,6 +8288,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x17aa, 0x38d5, "Yoga S990-16 Pro IMH YC Quad", ALC287_FIXUP_TAS2781_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x38d6, "Yoga S990-16 Pro IMH VECO Quad", ALC287_FIXUP_TAS2781_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x38d7, "Lenovo Yoga 9 14IMH9", ALC287_FIXUP_YOGA9_14IMH9_BASS_SPK_PIN),
++	SND_PCI_QUIRK(0x17aa, 0x38dc, "Lenovo ThinkBook G8", ALC285_FIXUP_SPEAKER2_TO_DAC1),
+ 	SND_PCI_QUIRK(0x17aa, 0x38df, "Yoga Y990 Intel YC Dual", ALC287_FIXUP_TAS2781_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x38e0, "Yoga Y990 Intel VECO Dual", ALC287_FIXUP_TAS2781_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x38f8, "Yoga Book 9i", ALC287_FIXUP_TAS2781_I2C),
+-- 
+2.25.1
 
-The names are different, but DMI matches work on substrings so a match
-on B7UC will also hit for a system with B7UCX.
-
---q4zommVywJT0caDp
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqxJbIACgkQJNaLcl1U
-h9DXVAf/deTH67GX33bAh5em4FK2E6NR5iLfu/68Zs5NxN1Pw6/cFbOPcovYFVRn
-oTul5By6ehnKtBqKppFVXEF0ggA5pyCH0owHh6W4Ek8Mz0HsAJEQyAqRigD8W0yI
-9WoU54dcC4Xa5HRrXeRLPmb/hDG6J48gy/3XMJ0iovToN3QkMqNgUBMwkeN7Tomb
-eBA8jXyj7Z2ebr8NWJC1G57c5KUlDxdKBWcvgNpFjJG3QBXZHAqTrgyNCBer/Vxr
-7Ph9eHckRwwsIHYBN9WVdb5wyKFse8bSRwGdS09yus8yXnnIugayp0S1OgPmry4s
-lb1eUBHYyJo2c8ZvAbnHk5DKRH8aDA==
-=q06a
------END PGP SIGNATURE-----
-
---q4zommVywJT0caDp--
