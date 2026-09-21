@@ -1,104 +1,92 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB7703C09F5;
-	Mon, 21 Sep 2026 13:23:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34D0F4AA00D;
+	Mon, 21 Sep 2026 14:55:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789997022; cv=none; b=nVTuI4PRehTBpxq4K6+mB70Yx68Zb5rO9ujGsBCPadWSIjzEM7VQWy013UWvp0aEYrUGfcxME+LgPDDTBVPab20dPmggAgTBHHulQqohSHu38w+a3j4bOFOYAXoY0ML9HWU2+T0lTN3Kqrp0Q8ICH03W9OTE436R0PxN44STJOg=
+	t=1790002507; cv=none; b=APIN62BcoOyhHHb3PDT34FioAbHkoIkmD6tNnS069CBQ8pRxDojzK2EuwZIky1piusS+V2Ql1OKAEtGDPcxYyZKcUNEzAQ7vXWb3UfhrF3VHkRYJC04IIuqDpPe//2QM/+A3mmlhFG/XhsFsR9e6Qaq75a+rzumjH22BjUvH7Cg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789997022; c=relaxed/simple;
-	bh=ILTlNDUYmEiSeY4lDQxdQhoDTJaXJe9qCRQvipA5z9Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UT+O/trOhIXu9ngWED+YNXSt1XIg8hTR1bzsmu6622o9R4uSqkn8GUgnpjUYl9ywoqRwupOi7i2LT/0Ky3xg3VSkUuECeFzT6jiu4xbQpV3OaTpsYTVrZWa0DmWkhuMRV2FbXA4OBIR9zLeAM4nuF32EEdGe6ABqSBxCkS1ZMeU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EGOY+fMq; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790002507; c=relaxed/simple;
+	bh=3B+XdrnK9k0v7LXUKi9ISbYlmKUyaa36XlCHL1ErWcA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Kwe4eocG8M6uGGFAJr69pBb59nc3F57zfDFxeQeTdnaBX1QsvLVdLllDsQoU60oCejefWX10mdKI+CA9ac02ZNoYDpioxteVCqXu6wii99sDXiiVgobd4lioI1FAw/HgOppraBCrLQ9gpEugFJLJ+B1+IOKn5FFuzVihjz5FakM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Le+k5UzZ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EGOY+fMq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AC911F000FF;
-	Mon, 21 Sep 2026 13:23:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Le+k5UzZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB4621F000FF;
+	Mon, 21 Sep 2026 14:54:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789997021;
-	bh=fLwZek4EyJluuj8Pslnv2cjb+sz2TFrNPKCV32ADyLg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=EGOY+fMqNA5ylxoHB89dFuqDWrLclQxP2VnMwnynEE9TCqwkecRAE/+qaVhX0EWf6
-	 5pTUFes28jkjQsYb0w836v3Ll86VCBLOr8wFY5J1IzU0jSGtQ55dzcCZen3E9gDPc5
-	 O4iZ804j0Zva0wJvybhHDohraX6mag++v3tYaL3eEPitJLZClauPkyc6eG2DAwysQz
-	 kYk6I/65Q7SbpDZKrmeE+034ONkai+df34OnzaOFDSWKXovSoRGOnac0GCA0oW+GT1
-	 grDWNUWlDupQHlH+8504vYXy1235/1VRMqPB+PxUFCTBrC+AGZaPgDYGBcoSTnXNPX
-	 1MEWUBKgyS5ng==
-Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id 124771AC55A7; Mon, 21 Sep 2026 14:23:38 +0100 (BST)
-Date: Mon, 21 Sep 2026 15:23:38 +0200
+	s=k20260515; t=1790002501;
+	bh=RHx+eXyS0dYmACF7sNod0lM9zWrOoctLgr/u6KoqGlA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=Le+k5UzZahEOQB+XTfdY/yV5Wd5HuzhpzZ20oeYPMVx9EqENi7pBL/9XRa9CPRLPg
+	 BxZFEk7gbmn0NeyvFCUFJM2S8qjXKpobDva6xqPwyza36v07ZjCfMD68kpnSM6G2K1
+	 QHN1mA+S33qvj3euuHB2OoHg8q35odk85MCwxyAd9DYY7/3pKxl8yJoYAxh9IPt0up
+	 nRmqVvGlyuqvS/YNb3UYwvPcdlSgzXKpWCoyVFuvPFL+dEchK3eweahNOTz5DLsF5G
+	 swt36HXbct3JGC/P6zrSq3IWaAwH1pmyauUDoLGOCY4ZbajJid6F29liXLg/1iBez+
+	 zOLewdjJHN6EA==
 From: Mark Brown <broonie@kernel.org>
-To: Chancel Liu <chancel.liu@oss.nxp.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Oder Chiou <oder_chiou@realtek.com>,
-	Support Opensource <support.opensource@diasemi.com>,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	patches@opensource.cirrus.com
-Subject: Re: [PATCH 21/21] ASoC: rt5514-spi: Free the DSP context on
- component remove
-Message-ID: <arEv2rLNkSo_2yXm@sirena.co.uk>
-References: <20260921104640.1941554-1-chancel.liu@oss.nxp.com>
- <20260921104640.1941554-22-chancel.liu@oss.nxp.com>
+To: Maciej Strozek <mstrozek@opensource.cirrus.com>
+Cc: lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com, 
+ pierre-louis.bossart@linux.dev, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
+In-Reply-To: <20260917103400.2032913-1-mstrozek@opensource.cirrus.com>
+References: <20260917103400.2032913-1-mstrozek@opensource.cirrus.com>
+Subject: Re: [PATCH 1/2] ASoC: SDCA: Improve scanning the SWFT during FDL
+Message-Id: <178998555390.191028.4550913416185996743.b4-ty@b4>
+Date: Mon, 21 Sep 2026 12:12:33 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="D9aeZTtAVC3gseBa"
-Content-Disposition: inline
-In-Reply-To: <20260921104640.1941554-22-chancel.liu@oss.nxp.com>
-X-Cookie: Too clever is dumb.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1246; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=3B+XdrnK9k0v7LXUKi9ISbYlmKUyaa36XlCHL1ErWcA=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqsUVAzBSaEAzdqR+8gaXs92mam7YDcvd/NIyJJ
+ fi7TmTU7EaJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCarFFQAAKCRAk1otyXVSH
+ 0ITtB/47JvFb3GCKKdKQtEFhW6ZIxdBtiXYrPwKJXE504mxwMGfyJM+244wFHn5tU9S0ZLkbZMV
+ T+gej9PYAQX+kV2VN9ktCYRl0vO0SUcj2Eo9T1gwwj4RoZ/N8J23Sr2lFozzb2Iaxp5foXNW24S
+ laS1nbF+z31c4bCklbjRDQcWMZef6aU4Ip6fY4W+c84DQNxgiy651N0JSZI2vf4aq13WZcKK7+V
+ I2KSSjoJWTMTzHsHTyoW6yTIDnGxx+OgmB4GJVoI1Q1wf8Wicn/vYQuTMKR3eRMziT8LUMR1hiS
+ RaLKcQ2QNvsg66ulqHHMPM9PQpuND2LOVlCw4mkZJinOZ8pZ
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
+On Thu, 17 Sep 2026 11:33:59 +0100, Maciej Strozek wrote:
+> ASoC: SDCA: Improve scanning the SWFT during FDL
 
---D9aeZTtAVC3gseBa
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied to
 
-On Mon, Sep 21, 2026 at 07:46:40PM +0900, Chancel Liu wrote:
->  	if (rt5514_spi->irq) {
-> -		ret = devm_request_threaded_irq(&rt5514_spi->dev,
-> -			rt5514_spi->irq, NULL, rt5514_spi_irq,
-> -			IRQF_TRIGGER_RISING | IRQF_ONESHOT, "rt5514-spi",
-> -			rt5514_dsp);
-> -		if (ret)
-> +		ret = request_threaded_irq(rt5514_spi->irq, NULL,
-> +					   rt5514_spi_irq,
-> +					   IRQF_TRIGGER_RISING | IRQF_ONESHOT,
-> +					   "rt5514-spi", rt5514_dsp);
-> +		if (ret) {
->  			dev_err(&rt5514_spi->dev,
->  				"%s Failed to request IRQ: %d\n", __func__,
->  				ret);
-> -		else
-> -			device_init_wakeup(rt5514_dsp->dev, true);
-> +			kfree(rt5514_dsp);
-> +			return ret;
-> +		}
-> +
-> +		device_init_wakeup(rt5514_dsp->dev, true);
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
 
-Previously we would ignore the error and carry on without the IRQ, now
-we pay attention.  I don't know if the device actually worked or not.
+Thanks!
 
---D9aeZTtAVC3gseBa
-Content-Type: application/pgp-signature; name="signature.asc"
+[1/2] ASoC: SDCA: Improve scanning the SWFT during FDL
+      https://git.kernel.org/broonie/sound/c/4454102d6565
+[2/2] ASoC: SDCA: Check return value on a missing FDL_Set_Index Range
+      https://git.kernel.org/broonie/sound/c/dfd8940277c9
 
------BEGIN PGP SIGNATURE-----
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqxL9kACgkQJNaLcl1U
-h9ATtgf/a/Fz3QCAlWQKG+ReZJ9hu/D2Y7X7qK2QviFDO5Va2LdEZ0zw3TSctUls
-Jx3C/OrpB+z7IE5EkMZme6tF2jdm4aHu1imze2LLQvwMjyCNeGX5ZoiIIq6NB7RJ
-49nijn4N3xfMyE6JHPZfOSJv8xVP36B7TCP6T2mivNEyq1qmdN4ohpb86aCOW9U7
-pVvY8wOSXjp7gyItxmzTcsxp6Aa560SUpMpx0UT0I5uLJ3TWPN+mhvchlHMBPSdI
-QFDU/Z6I5RDToKUPehIINn2CXAXAScNZFx8DMh9+XY9uPn3sG+ayZYB+hiWZ+6H2
-Ci2ZH/ubz1N/gEcDQK0e3GTrSCPDdg==
-=/VAv
------END PGP SIGNATURE-----
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
---D9aeZTtAVC3gseBa--
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
