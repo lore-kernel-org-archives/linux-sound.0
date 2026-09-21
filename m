@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5ED247B408;
-	Mon, 21 Sep 2026 15:06:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81C8D4A4EEB;
+	Mon, 21 Sep 2026 15:09:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790003191; cv=none; b=lVWD8pKtM4IeDq+CFYNR7Y2KuMmDBdWRz9R7NTCeouQxat+CBKWffPtlr8ymKAAtrvMEGlSoMNzCaDG8jKLnXbuOK5fYBYTn/k6Fd4ZUG2Zlg9rgcSaQdfwhesSJdnbee4K10c7VC4yH3hAEQv9GthfNb/GuBWqvbD3vy091o0s=
+	t=1790003354; cv=none; b=lEsvZq9+bIqAcrxi0tQF85TAUR4OoqMMT7QcMLCv5FmwX1whWkbvopRXD+RvnNwMWB0CgwTcJCcjy2VgNBpo3YmWRwvUXP40V5ZPpCyWpcJm99CZLw4RNZilzFMbFJBHB7H/ROmLlBNhi62kEAMm/VV3yl5MqW0Op3Yk/WqTGdw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790003191; c=relaxed/simple;
+	s=arc-20240116; t=1790003354; c=relaxed/simple;
 	bh=LAciJTKpRwJnWObq9nGHD5XkrGVwEpdzJh+RGirshCw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZoSq9Mgz/qJRtGAT6zPB0guDmXjBwStAx+ZDfoeLWFP43Gc6CFmRw+nu4GahMi3LLxmo9NRF+7WJxOKBTpxjyc/2IbRVzhxJUAY917+DMsQM6zpm6d/Ygd38EjewyT916jIdiZm07RxOKo3GrNmyhZqG9IUtl7lXDwnrrpgHyhE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D8RDW8Wz; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=pJBQCNmrOZ1HiRkP1ZyDVbDZwSPSiYW1sGRDxWBi0Fj+dgm1d/Nl4ZRfX3nmjwp3PQjtBZsWZ69tCbKFBUca4DpCw9723jtgcwZXCZQm07wwKb6YCbGlNHJf2+OTDB9+/U1BVVPqD6kFlZT35wsd5Eotb6pV37BPjRwcXBLscSE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fTvaV/Mo; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D8RDW8Wz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD66A1F00893;
-	Mon, 21 Sep 2026 15:06:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fTvaV/Mo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DE401F00893;
+	Mon, 21 Sep 2026 15:09:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790003184;
+	s=k20260515; t=1790003353;
 	bh=o8UxhF58k+iaCX3wK6PvC//NB+h9K2uQAHX4G8biYo8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=D8RDW8WzG4OpVxumPDO8TlLVwz9/nnxdk9cLCQtBcShI/0svLDkEkkC3Q9SuyjWk5
-	 H1HgCYakN/jK7CbTOk71TQT200FRwLh4E3PrLoqENo8w7DIRYWB3j3HETG/rAOGaxf
-	 2tuZFWe3gp+hP0PQ3BA+a/NfqPJG3mmLUpVzKM61aHJAY8yXqvIfJ2RjldBHL1Ix6s
-	 dd+D8UdnsBYMWepRkXQrJpDpqo+A7jiRU2UzhL8Q/Uh4mqLZYbubdxCHFkFo/9X9/E
-	 kyIA7fPxfetPDCl9SIT57j0tkv1oXYBnyEQdWWz879XpuhoeRbzR59iHuozn3I6IAP
-	 0K6UxKaYq3+hg==
-Date: Mon, 21 Sep 2026 17:06:21 +0200
+	b=fTvaV/MoQu8wj+zrBmUwZE8wh8FxWzufcvu6B6NZmI2qMvSvlXGXibBUsSbkqD6Dq
+	 utqLArfucl9AG2xdDrcR55CkXEdaawYr2rqMoTH8ilRvHwbypN5sC+IkynIqwnszqS
+	 rLcdyB73cj5zYKxR+ot+gc2pJiOu+ai3Yxw4baGVtQM63Y5H2VgOULQL6RsJ1H8re8
+	 I7GRstr91pWdYouzhRvzzZCMMkPTopDlIMilED2xhu1VT5si5ckn56bgrhQ60PsSkr
+	 +YkOr0PnzxQt5bZQ1iiJG3+gzWdqMeVuvbw+3ncW3kiCU1HRlCv0d0H7BWwBC2Av6d
+	 6rZRe/ri1kIUw==
+Date: Mon, 21 Sep 2026 17:09:10 +0200
 From: krzk@kernel.org
 To: Guangshuo Li <lgs201920130244@gmail.com>
-Cc: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
-	linux-sound@vger.kernel.org, stable@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>, 
-	Thorsten Blum <thorsten.blum@linux.dev>, Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
-	Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>, 
-	Cezary Rojewski <cezary.rojewski@intel.com>, Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
-	Liam Girdwood <liam.r.girdwood@linux.intel.com>, Bard Liao <yung-chuan.liao@linux.intel.com>, 
-	linux-kernel@vger.kernel.org
+Cc: Liam Girdwood <liam.r.girdwood@linux.intel.com>, 
+	linux-sound@vger.kernel.org, Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+	Mark Brown <broonie@kernel.org>, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+	stable@vger.kernel.org, Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+	Thorsten Blum <thorsten.blum@linux.dev>, linux-kernel@vger.kernel.org, 
+	Bard Liao <yung-chuan.liao@linux.intel.com>, Takashi Iwai <tiwai@suse.com>, 
+	Cezary Rojewski <cezary.rojewski@intel.com>, Jaroslav Kysela <perex@perex.cz>
 Subject: Re: [PATCH] ASoC: Intel: SST: fix platform device leak on probe
  failure
-Message-ID: <arFH7F944RO7TUqN@quoll>
+Message-ID: <arFIkzfs0FGy4W7E@quoll>
 References: <20260921073847.63505-1-lgs201920130244@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
