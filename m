@@ -1,128 +1,105 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 692CB478E20;
-	Mon, 21 Sep 2026 14:55:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51D994AD4B7;
+	Mon, 21 Sep 2026 15:02:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790002563; cv=none; b=W6hK7lXZ6oxb9ucC+V7i9enagBAI/jrvNSXpGlxYQe1bok+sMBk0sKQVPrYXtnjazAuxvlw+w+l1akhflFpd3GqnevvDsyoZKUmIRo7WOHPnWGTeJJNT4J/AqBWct6IhXhTJV0cDz+ct4W9BtahajZGiS9jSgS0XCZ26kdYFFDU=
+	t=1790002941; cv=none; b=jTXZqX83nUGz7T6GZ7u9PSYLbToKOXX1OI39E+KVNdMkefrj2dqpQRNBmdgL8cUS6Ps6+CGQEwP1IALOAiW9mI67mgpqeJrhh/yFDommR4iqnxZQ46TU879wWRrF8JFuh2lZNHbrna4lDAe+aUzEyTvNPWQWnoGSdR1QNimFaUc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790002563; c=relaxed/simple;
-	bh=kSFqLXrCqtYramPo5FETtrEaxmX5mPIc5IINEnzZwmQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=qoh2xYqLUGDtglR54Gpl6pf0BScTNoWbJsYHMGu5foUNr0WzJ3E4Mnh43kH7roNwvcdHYGjoOfvSajprtO9F3KJfHmarzniQfQlCWV9CIA1WYTsvbdnjB2aucRIlCuEpY7u/VXiMUYu7vT/vAE0Z3PSoiW34Uh5pRBOMfKCOb1g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IIMGOq8b; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790002941; c=relaxed/simple;
+	bh=v4UVAeTU1JJaiw4t/Qj/n7SDGMX+yxvPEzMCHsSdNF0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aoLp23yPf0EWj6QwHHrqoWbQ1aHkAS5oP4ov1eAEq60p6JnDZ4uCDAkn6v2h+qoHs8euHDdXufu6dCrsRZDUMZbNQDQpNoemEAmHeW5UIbOsMW3jfEIRxnReC44yBbkiiK6+GHikdts3mDttsVHkVwUdpfeuoqG2MSOXqFBFl6U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CVSpmy71; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IIMGOq8b"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 042A31F000FF;
-	Mon, 21 Sep 2026 14:55:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CVSpmy71"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD5E91F00893;
+	Mon, 21 Sep 2026 15:02:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790002550;
-	bh=v1GjqGQQoxt79os+ov4EVe4KIwj5vEx0J7/3S3AOIks=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=IIMGOq8bqQn3iyvrYAg8YT4v4PABW/DOZeC9v0TZbj/Q1hCAM1YTsPaH2pdUEZurl
-	 zGP7058SF5MhERAr3+JV22GbPZea09coCO0vGHg2n0ryE5qLyGU25gLI9+wKQp1jtl
-	 RkAxddj8QBjH+xGOS2UX4sRlD/ffq6t1ZeoHDfQlMyYMO31yLuGZP1IIJ5RWMrf5tB
-	 QkX6F+SZ4TCs4UCGHU8RcheXYc9mTjkXUOW0yUqxcac/cxJ0BwDDLSGKcyhSbI8WGn
-	 nvxWJ1qqpLuZtC/OfBkkmD2opIfyTCK9WiUX7nwb7I97zHPEYk8rcOW6EyBKTyD/Bk
-	 XtoMaomLfeHgA==
+	s=k20260515; t=1790002940;
+	bh=v4UVAeTU1JJaiw4t/Qj/n7SDGMX+yxvPEzMCHsSdNF0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=CVSpmy71UmB2ms8Rjz8minaI4YrhlvUAq/hKG21gKu5n5xyDm5fsQW8CZ2JM3NuMJ
+	 JhfkZ/BG2dYqYExJdfI56O4f6W/zamyRSG2c0P6fQQaUUz9omjbvee6GFxe9M6Z79N
+	 g/IVuovmT/fyf9DsTWq7xtHxuCAHg9JbnckZYYOKoNVswX0rNP3d7xsiKNR0FExLqs
+	 LD0v5GA0KX+gJyCUw8hogylsV/F8FMEhJE4N3ZweV/dc0HVrspkxn1m9EJBW4jC2S0
+	 17XVnA8L8KAJ9KzOp+kYbVYmYklvat1VXWsEJT38xNGNDnjkckDAmfkinUZSfnWgmy
+	 FnXzF3NE0sv9g==
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+	id 198661AC56A7; Mon, 21 Sep 2026 16:02:16 +0100 (BST)
+Date: Mon, 21 Sep 2026 17:02:16 +0200
 From: Mark Brown <broonie@kernel.org>
-To: Frank Li <Frank.Li@nxp.com>, Vinod Koul <vkoul@kernel.org>, 
- Shengjiu Wang <shengjiu.wang@nxp.com>, bui duc phuc <phucduc.bui@gmail.com>, 
- linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org, 
- linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
- linux-arm-kernel@lists.infradead.org, 
- linux-stm32@st-md-mailman.stormreply.com, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Dave Penkler <dpenkler@gmail.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Frank Li <Frank.Li@kernel.org>, Shengjiu Wang <shengjiu.wang@gmail.com>, 
- Xiubo Li <Xiubo.Lee@gmail.com>, Fabio Estevam <festevam@gmail.com>, 
- Nicolin Chen <nicoleotsuka@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Daniel Mack <daniel@zonque.org>, Haojian Zhuang <haojian.zhuang@gmail.com>, 
- Robert Jarzmik <robert.jarzmik@free.fr>, 
- Lars-Peter Clausen <lars@metafoo.de>, Orson Zhai <orsonzhai@gmail.com>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>, 
- Chunyan Zhang <zhang.lyra@gmail.com>, 
- Olivier Moysan <olivier.moysan@foss.st.com>, 
- Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>
-In-Reply-To: <20260918113727.1898998-1-andriy.shevchenko@linux.intel.com>
-References: <20260918113727.1898998-1-andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH v2 0/7] ASoC et alia: Convert to use dma_request_chan()
-Message-Id: <178999208921.228132.383663695123110596.b4-ty@b4>
-Date: Mon, 21 Sep 2026 14:01:29 +0200
+To: James Calligeros <jcalligeros99@gmail.com>
+Cc: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
+	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Sven Peter <sven@kernel.org>,
+	Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Ulf Hansson <ulfh@kernel.org>,
+	Amit Kucheria <amit.kucheria@linaro.org>,
+	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+	Lars-Peter Clausen <lars@metafoo.de>, Vinod Koul <vkoul@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>,
+	James Schulman <james.schulman@cirrus.com>, asahi@lists.linux.dev,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	patches@opensource.cirrus.com, Takashi Iwai <tiwai@suse.de>,
+	linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH 01/28] dt-bindings: sound: Add Apple Macs sound
+ peripherals
+Message-ID: <arFG-KXA9aGlXQ27@sirena.co.uk>
+References: <20260920-macaudio-v1-0-741cc20a74e5@gmail.com>
+ <20260920-macaudio-v1-1-741cc20a74e5@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2253; i=broonie@kernel.org;
- h=from:subject:message-id; bh=kSFqLXrCqtYramPo5FETtrEaxmX5mPIc5IINEnzZwmQ=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqsUVsIh4aMtMKW5FL3/10LMQXsAUka312rSZ1c
- X/NDKHexryJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCarFFbAAKCRAk1otyXVSH
- 0Nt6B/4ybTg2hVjgxuwO8esnP4BKkcHlg5MfVJu2ojE9IxQLwji7gZzm2RAFiydXjt5y/Ww/Bfo
- ttJHw4aqglMKs/76apulh5YhX5sXEw65LRWXn5h2imWZTNfsdAJdl1An7x1j5FD/EShJ9KQI/Qz
- TEqAK0SrEu32jg2mrsZWuR5ajDHwvvAlplqHnHi0tbD8250AB5gN00bZwn3F6vyzZ9C97qAhW55
- MOGL1mfEPX/XVyD+2tj7+Lc1cp/jOQyurldcWRLgG56zifJpb9hPJV42AA7eZbEyWkHkE1Poxis
- s0wpfOs0+4wgg7UPmZLPFyrI6/cAyOv4p/UG07x6JNVbA7uK
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="mBqIcINAN3k6lMdu"
+Content-Disposition: inline
+In-Reply-To: <20260920-macaudio-v1-1-741cc20a74e5@gmail.com>
+X-Cookie: Too clever is dumb.
 
-On Fri, 18 Sep 2026 13:34:04 +0200, Andy Shevchenko wrote:
-> ASoC et alia: Convert to use dma_request_chan()
-> 
-> Convert the last users (mostly in ASoC) to use dma_request_chan() and
-> drop deprecated dma_request_slave_channel() completely.
-> 
-> I think the best is to allow Mark to take the whole lot and provide an
-> immutable tag or branch to others (DMAengine and GPIB).
-> 
-> [...]
 
-Applied to
+--mBqIcINAN3k6lMdu
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
+On Sun, Sep 20, 2026 at 02:53:40PM +1000, James Calligeros wrote:
+> From: Martin Povi=C5=A1er <povik+lin@cutebit.org>
+>=20
+> Add binding for Apple Silicon Macs machine-level integration of sound
+> peripherals.
 
-Thanks!
+Please submit patches using subject lines reflecting the style for the
+subsystem, this makes it easier for people to identify relevant patches.
+Look at what existing commits in the area you're changing are doing and
+make sure your subject lines visually resemble what they're doing.
+There's no need to resubmit to fix this alone.
 
-[1/7] ASoC: stm32: spdifrx: Drop mention of the deprecated and unused call
-      https://git.kernel.org/broonie/sound/c/a389c4dd55d5
-[2/7] ASoC: sprd: Replace dma_request_slave_channel() by dma_request_chan()
-      https://git.kernel.org/broonie/sound/c/08d77e31df21
-[3/7] ASoC: soc-generic-dmaengine-pcm: Replace dma_request_slave_channel() by dma_request_chan()
-      https://git.kernel.org/broonie/sound/c/77593bbdb8aa
-[4/7] ASoC: pxa: Replace dma_request_slave_channel() by dma_request_chan()
-      https://git.kernel.org/broonie/sound/c/ca11bc272ab4
-[5/7] ASoC: fsl_asrc: Replace dma_request_slave_channel() by dma_request_chan()
-      https://git.kernel.org/broonie/sound/c/b045248399d0
-[6/7] gpib: fmh_gpib: Replace dma_request_slave_channel() by dma_request_chan()
-      https://git.kernel.org/broonie/sound/c/4f846b8b69fd
-[7/7] dmaengine: Remove deprecated dma_request_slave_channel()
-      https://git.kernel.org/broonie/sound/c/ae710b66c715
+--mBqIcINAN3k6lMdu
+Content-Type: application/pgp-signature; name="signature.asc"
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+-----BEGIN PGP SIGNATURE-----
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqxRvcACgkQJNaLcl1U
+h9Bnswf5Aa0Iwjwij4bsZ+RZaKJ4PAN5qntk+PDpED8uFPRsFPjxayfQQpln/+YE
+sDuji25SQZ7OypbShQhRshvEwun3ovaP2m+Ha4hMrWdOFbsyUBT4/IYUaK7iGUF8
+QU58uLXPlqNSj8Ea7cgKSEcnMMhcIYcvgDKxpbWcugCdpoJEWwLEpSGeRjQNHlzA
+0PMiHY2MlW7mTys8yaPlq0b4N41vHWxzZN+zOD0pRWLf4K33boQziryFUy3K9wfH
+mPY+XVYWGwsPVEq9P/9zFHg9GbLNDIx4LoMBDC1zOgK05uuGRrM5QVgtWp5jqWR8
+G5J4yfk6TU1ORHvckcmhQbBuP1KTsw==
+=Gras
+-----END PGP SIGNATURE-----
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+--mBqIcINAN3k6lMdu--
