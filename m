@@ -1,104 +1,111 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1391049E127;
-	Mon, 21 Sep 2026 15:03:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5ED247B408;
+	Mon, 21 Sep 2026 15:06:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790002989; cv=none; b=ugUqJH1dNw7dWWCCEJDaeTKS2nj7KukZv1MNfbVmvT64Daw3H9XQwIavXNisAMAf+IVmaGmhW2CLQKCNGVF8sP+kPtAaPkNJOfKToBERQmyYYbYiOLrwG0ZpomnuG4KKW6wAY3silVVSowhm415aqhSFoFU6YXQgDsUFMtS22Nk=
+	t=1790003191; cv=none; b=lVWD8pKtM4IeDq+CFYNR7Y2KuMmDBdWRz9R7NTCeouQxat+CBKWffPtlr8ymKAAtrvMEGlSoMNzCaDG8jKLnXbuOK5fYBYTn/k6Fd4ZUG2Zlg9rgcSaQdfwhesSJdnbee4K10c7VC4yH3hAEQv9GthfNb/GuBWqvbD3vy091o0s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790002989; c=relaxed/simple;
-	bh=ev9JnqYn8mQmOCRku707kjkP1oz2wBTVDOe4Yv6Gfno=;
+	s=arc-20240116; t=1790003191; c=relaxed/simple;
+	bh=LAciJTKpRwJnWObq9nGHD5XkrGVwEpdzJh+RGirshCw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gE0IjnfF7OeCUO8v/xXJS12oKm5Na5pXRfOfhUt+BzYWrhaE1Mnur/s06TQSrjfzAmcOPh/4yk0Al023i+NIEbFZnpBEP92ssuhBpd2QW41u+3TX7U0HzAmB/A+nI+1SY0R6taTkOf3C2PzQpf0JW8Q7MCjMeuTKx/El9Y3+GcM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n9HQdLe3; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZoSq9Mgz/qJRtGAT6zPB0guDmXjBwStAx+ZDfoeLWFP43Gc6CFmRw+nu4GahMi3LLxmo9NRF+7WJxOKBTpxjyc/2IbRVzhxJUAY917+DMsQM6zpm6d/Ygd38EjewyT916jIdiZm07RxOKo3GrNmyhZqG9IUtl7lXDwnrrpgHyhE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D8RDW8Wz; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n9HQdLe3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 137C01F000FF;
-	Mon, 21 Sep 2026 15:03:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D8RDW8Wz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD66A1F00893;
+	Mon, 21 Sep 2026 15:06:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790002987;
-	bh=ev9JnqYn8mQmOCRku707kjkP1oz2wBTVDOe4Yv6Gfno=;
+	s=k20260515; t=1790003184;
+	bh=o8UxhF58k+iaCX3wK6PvC//NB+h9K2uQAHX4G8biYo8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=n9HQdLe31TtwecPF6AJ5SjUg6DGRjA+JJ/rh8Fvb8J5TD/fbYzOcfr1XR0yzxWW5C
-	 p8kZxYMkGcECWBdR0heb1a+WGiVmw9CkPkCvXVB/Gyq3jcPFhKQjnCbpIJZhGqI8xx
-	 kOZrVHVMh705FILqAl7rQDG41W97PAJRrBiH8bON3XmyWxsUE/0MoZYCCLLTL9FCbp
-	 YqEfm39wrWWt+I3mEztHl+qtQtqkbOzuuu6Aa1P9L3xuYLf1v9Lbfo7TU+Uz/u2/aJ
-	 pR5jNOydJwr0r7qfWZVBWKoiinEwYei3/WEsD0W7xJYD3OrOaFKWpt/30BCJG8FA4K
-	 wF29OnFNpM3OQ==
-Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id 07E7F1AC56A7; Mon, 21 Sep 2026 16:03:04 +0100 (BST)
-Date: Mon, 21 Sep 2026 17:03:03 +0200
-From: Mark Brown <broonie@kernel.org>
-To: James Calligeros <jcalligeros99@gmail.com>
-Cc: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
-	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Sven Peter <sven@kernel.org>,
-	Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Ulf Hansson <ulfh@kernel.org>,
-	Amit Kucheria <amit.kucheria@linaro.org>,
-	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-	Lars-Peter Clausen <lars@metafoo.de>, Vinod Koul <vkoul@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>,
-	James Schulman <james.schulman@cirrus.com>, asahi@lists.linux.dev,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	patches@opensource.cirrus.com, Takashi Iwai <tiwai@suse.de>,
-	linux-mediatek@lists.infradead.org,
-	Hector Martin <marcan@marcan.st>
-Subject: Re: [PATCH 05/28] alsa: pcm: Remove the qos request only if active
-Message-ID: <arFHJ44K0Obi97uD@sirena.co.uk>
-References: <20260920-macaudio-v1-0-741cc20a74e5@gmail.com>
- <20260920-macaudio-v1-5-741cc20a74e5@gmail.com>
+	b=D8RDW8WzG4OpVxumPDO8TlLVwz9/nnxdk9cLCQtBcShI/0svLDkEkkC3Q9SuyjWk5
+	 H1HgCYakN/jK7CbTOk71TQT200FRwLh4E3PrLoqENo8w7DIRYWB3j3HETG/rAOGaxf
+	 2tuZFWe3gp+hP0PQ3BA+a/NfqPJG3mmLUpVzKM61aHJAY8yXqvIfJ2RjldBHL1Ix6s
+	 dd+D8UdnsBYMWepRkXQrJpDpqo+A7jiRU2UzhL8Q/Uh4mqLZYbubdxCHFkFo/9X9/E
+	 kyIA7fPxfetPDCl9SIT57j0tkv1oXYBnyEQdWWz879XpuhoeRbzR59iHuozn3I6IAP
+	 0K6UxKaYq3+hg==
+Date: Mon, 21 Sep 2026 17:06:21 +0200
+From: krzk@kernel.org
+To: Guangshuo Li <lgs201920130244@gmail.com>
+Cc: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+	linux-sound@vger.kernel.org, stable@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>, 
+	Thorsten Blum <thorsten.blum@linux.dev>, Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+	Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>, 
+	Cezary Rojewski <cezary.rojewski@intel.com>, Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+	Liam Girdwood <liam.r.girdwood@linux.intel.com>, Bard Liao <yung-chuan.liao@linux.intel.com>, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: Intel: SST: fix platform device leak on probe
+ failure
+Message-ID: <arFH7F944RO7TUqN@quoll>
+References: <20260921073847.63505-1-lgs201920130244@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="GTYDC3kvYvkjH6S7"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260920-macaudio-v1-5-741cc20a74e5@gmail.com>
-X-Cookie: Too clever is dumb.
+In-Reply-To: <20260921073847.63505-1-lgs201920130244@gmail.com>
 
 
---GTYDC3kvYvkjH6S7
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, 21 Sep 2026 15:38:47 +0800, Guangshuo Li wrote:
+> sst_acpi_probe() registers platform devices for the SST platform and
+> machine drivers using platform_device_register_data(), but does not
+> unregister them when later probe steps fail.
+> 
+> If machine device registration fails, the already registered SST platform
+> device is left registered. The same leak happens when
+> sst_platform_get_resources() or sst_context_init() fails after both
+> platform devices have been successfully registered.
+> 
+> A registered platform device owns resources allocated by the platform
+> device core and must be released with platform_device_unregister() so
+> that the device reference is dropped and platform_device_release() can
+> free the backing platform_object.
+> 
+> Unregister the created platform devices on all failure paths to restore
+> the missing cleanup.
+> 
+> The issue was identified by a static analysis tool I developed and
+> confirmed by manual review.
+> 
+> Fixes: caf94ed8629a ("ASoC: Intel: bytcr_rt5640: fixup DAI codec_name with HID")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
+> ---
+>  sound/soc/intel/atom/sst/sst_acpi.c | 13 ++++++++++---
+>  1 file changed, 10 insertions(+), 3 deletions(-)
+> 
 
-On Sun, Sep 20, 2026 at 02:53:44PM +1000, James Calligeros wrote:
-> From: Hector Martin <marcan@marcan.st>
->=20
-> Fixes warning:
 
-Please submit patches using subject lines reflecting the style for the
-subsystem, this makes it easier for people to identify relevant patches.
-Look at what existing commits in the area you're changing are doing and
-make sure your subject lines visually resemble what they're doing.
-There's no need to resubmit to fix this alone.
+You sent multiple independent patches, to multiple independent
+subsystems. The amount of these patches clearly suggest this was
+AI generated and most likely not tested.
 
---GTYDC3kvYvkjH6S7
-Content-Type: application/pgp-signature; name="signature.asc"
+More importantly, you sent all this work without properly organizing
+relevant patches into patchsets. This makes reviewing difficult
+and might cause multiple reviewers to address the same issue.
+Replying to the entire set is impossible and requires handling each
+patch independently, instead of applying or discarding the set.
+Maintainers also won't see the bigger picture of your work. Quite
+worrying.
 
------BEGIN PGP SIGNATURE-----
+This is on the verge of hostile patch: bomb us with so many
+contributions, we won't be able to handle them in efficient manner,
+like responding ONCE to ask you to slow down.  Considering all this
+is untested and LLM generated, I have even more doubts whether this
+should be considered for review.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqxRycACgkQJNaLcl1U
-h9ABPQf/bkaR3SLlw7Iix+Fi/ktcWjdvjZKNoq/KPUuFQz6wTPJ2LQ/x+HAyuGfV
-qLj88DOA4jrs8z22KqbX7t17fadvBRLqVpWlGfCsBIQyF2pAzhdqF5zAMlGJIMFp
-gYLGzFKXCg3K4ebDdpJvRhwtm6pzbV9yQ3QXI91fMB5aeB0TdBMdT7JEeO+HolXH
-7s3qTenDOVZHgMKcmwBquc98Fwj2X/Hs7MzIPTBjWoaZ9sPwWFIZqMRBvlRxb9Vx
-RZo3j4hW5lJvL/bqpLJjeKZA67Tx6RLGUrAYt8Who7ruwqj8dtcG1L9WOO/NSd0Y
-oso1OQUMbRZAy/skLqsVe7ocnexJ8A==
-=60k5
------END PGP SIGNATURE-----
+Please read kernel documentation BEFORE posting more work. It will
+explain you how to identify subsystems, how to organize your work per
+subsystem, how to document usage of LLM and how what you should not
+do if this was posted in a good faith.
 
---GTYDC3kvYvkjH6S7--
+Best regards,
+Krzysztof
+
+
+
