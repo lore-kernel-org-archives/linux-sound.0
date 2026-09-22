@@ -1,97 +1,90 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E192054EEA4;
-	Tue, 22 Sep 2026 15:49:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 124925625F0;
+	Tue, 22 Sep 2026 15:53:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790092171; cv=none; b=ZqoQuaEnce01HmX8rbbdvBXQ20f5/s0AA6aTZgFm1wayacOP3jdCN2RXiVJeluvyId1XsguwBkgMK7rW/h0oSKz621JC6v/HMwGQW5deSrJwP3mFihyUOVTHx/3LRYB8n6yov7HJcwpxQcJsV/VjGQKaAI//jHC6JpIwpa8QQno=
+	t=1790092425; cv=none; b=RbOvsdZ1PG+OAao1QKa2rGOMfi3bCENr7fBmYqJ8YKDEB0r6n/PXeiimXrfshtEcfoIRYQdrQBs31sAFzjPN5FpK7HU1bt78AASuD1ec+vPTMcFwFEiO7zyac4JrzuGCSqtWG2TGbdVTh9oQ7cRBmE8itqW1h+ul2jkaP+ZiK1w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790092171; c=relaxed/simple;
-	bh=lusiA89n3+ZBjBZaqDHKRwZ68pnDNciZFIw82Gre4a0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ev7PmtpUY5b/2aWxCXuxwzG8SbF8AM5CKHnZ7/j+g7AgQ2unf2rvUQoVqWnqcnJYxg0livaoi7YTsOOWFscNDeHmndxiyhR19DPMRBBqDy8nS1A09rJCsjj9dNVI4mWB/cIyubjJPcddyYAxzPDCY+z6whVMD5cznoAJtaFb3p8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GYYxh2ct; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790092425; c=relaxed/simple;
+	bh=3ChWs2pDTHO7QEV7kj6pltlXtP5WYrjjXaAW9FYHphk=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=OlnbMdieJ+6SC/69OZiao+2+vuA18h19qcEwDRAPN3ZRKxIS5CD/zMPX3xBAvvoItHKNINMGcSTeVIYIl/AKyV6gYd907JiCJOeWvc0/WohyImFR3dxhCRW3DV/GeaSCt5R4V4wqN3uuo0lFJ3nzcgXfy5PSP0tao0/bKpBzMNw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lUEjF71t; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GYYxh2ct"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D3741F00893;
-	Tue, 22 Sep 2026 15:49:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lUEjF71t"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70BE61F000FF;
+	Tue, 22 Sep 2026 15:53:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790092169;
-	bh=dFHGbR/j7IpZnrkF5xSgQFbZ+Wn4X684fiKHsZbkh8w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=GYYxh2ctELmLJj6hoKigIQKb6IoarGn26DdO1NqYlvwYtTTBF6KRbjJ77MZxsn7Js
-	 PsHo2pjXnSNJCkANQaWUrDwVhzWnIrgOFt118qe4t2EmIyY7+JddTIM+3oJ27zLdPC
-	 nNCB8vfe4hlMOzLO9+Sj/XfyTzsNu+wYtv4UomS0MLJTEjYXb2wv31wqjheDe2jSBl
-	 Lg3M6XqhKXHSQrdEkJxDlpa25Mkle2LB794JPgCdLnwTREyMVFeiu8ew6F+1PR5sTM
-	 Sbqo8m+xusrChE94hJ17oUsFD1pHiZYDWMDgYGX9AyxBnurIQJMv90PPaU+1FZR2/4
-	 z+KUKWAy8D1oA==
-Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id 83AEB1AC56E2; Tue, 22 Sep 2026 16:49:26 +0100 (BST)
-Date: Tue, 22 Sep 2026 17:49:26 +0200
+	s=k20260515; t=1790092423;
+	bh=e1H6Ovd4dWoYmSpU/twmjVJE7c1SE1Plmm0YxmV2orQ=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=lUEjF71tb31xLRAv0LiSHC+gmn19aiu/DxqgcZPT60srF0Q9NQDWD8FFCbENVZZjb
+	 f81/TBdeczpuuQEEy7vmAD9UbgD+AgIaZg12cfrMW0V1MG2l+uFyeBUYKqa/NyRILz
+	 K02cq9oMG+5yWC41LJKJWydi2JbswRiQFNz+q3osZVGkB2MmjZF5/Ja9GnzhcphnZm
+	 Akqch4ufj/4cTkD89tmVf2Rxns8S4pBUNOb48qUewatXowo+FxFlerxS5kFaYCfDx0
+	 7YQcu2Zku+4mB6wQE2qZpoEIfte1tO9/LV3u0n+VFodMf2fGqbKf34rF5hPrHb4FVX
+	 b9R9Z7dkHsf+A==
 From: Mark Brown <broonie@kernel.org>
-To: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-Cc: Srinivas Kandagatla <srini@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>,
-	Sarath Ganapathiraju <sarath.ganapathiraju@oss.qualcomm.com>
-Subject: Re: [PATCH v4 7/8] ASoC: qcom: lpass-tx-macro: Add support for
- Bolero v4.0
-Message-ID: <arKjhitHzi1rqKCV@sirena.co.uk>
-References: <20260922-add_shikra_support-v1-0-6c6cb6444caf@oss.qualcomm.com>
- <20260922-add_shikra_support-v1-7-6c6cb6444caf@oss.qualcomm.com>
+To: Zhang Heng <zhangheng@kylinos.cn>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Mikail <mikailb1998@gmail.com>
+In-Reply-To: <20260922123029.534152-1-zhangheng@kylinos.cn>
+References: <20260922123029.534152-1-zhangheng@kylinos.cn>
+Subject: Re: [PATCH] ASoC: amd: acp: Add DMI quirk for Lenovo Yoga Pro 7
+ 14ASP9
+Message-Id: <179008364624.322763.16751157398960636794.b4-ty@b4>
+Date: Tue, 22 Sep 2026 15:27:26 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="TNUS4WmuFywvXt+E"
-Content-Disposition: inline
-In-Reply-To: <20260922-add_shikra_support-v1-7-6c6cb6444caf@oss.qualcomm.com>
-X-Cookie: Too clever is dumb.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1132; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=3ChWs2pDTHO7QEV7kj6pltlXtP5WYrjjXaAW9FYHphk=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqsqSDEVxO8Dev8CRVYNjmG0XPReUBnYyjB64CU
+ GTPwQlNgL2JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCarKkgwAKCRAk1otyXVSH
+ 0CjKB/9Bgl/AW5bVxTucj22ha13AigyN1NB5JX4W81fgCO8CadSkam68fjfrvLJkaQ7uYwmuDz2
+ n3/ozv3N2Baxrvcf/hu0nfU+bhbKutKx+8z0ToEoTMEiRqnVk+sVZdGYTBwsPm9cAyDRx+9v1PF
+ EfgHXz/fhf7YJmft8KEpKzimAMZ81426EwYF9wXqdanmNFqevtOxTlxBRPQuEaYIKY4OF6e4Xle
+ /QJz4cV7Uc3FTzR7XvmgSw4hzFBpG3Mn9OzETgMqRN9Cw8qOb912so2OkaG1/kg4z+0YvVkvy49
+ JipIm43V43uJYPfdlIZwAAGgIGzzQ/QJrmIO8f6KK2SUgtVI
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
+On Tue, 22 Sep 2026 20:30:29 +0800, Zhang Heng wrote:
+> ASoC: amd: acp: Add DMI quirk for Lenovo Yoga Pro 7 14ASP9
 
---TNUS4WmuFywvXt+E
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied to
 
-On Tue, Sep 22, 2026 at 03:12:36PM +0530, Mohammad Rafi Shaik wrote:
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
 
-> +static const struct snd_soc_dapm_widget tx_macro_dapm_widgets_v15[] = {
-> +	SND_SOC_DAPM_MUX("TX DEC0 MUX", SND_SOC_NOPM, 0, 0, &tx_dec0_mux_v9_3),
-> +	SND_SOC_DAPM_MUX("TX DEC1 MUX", SND_SOC_NOPM, 0, 0, &tx_dec1_mux_v9_3),
-> +	SND_SOC_DAPM_MUX("TX DEC2 MUX", SND_SOC_NOPM, 0, 0, &tx_dec2_mux_v9_3),
-> +	SND_SOC_DAPM_MUX("TX DEC3 MUX", SND_SOC_NOPM, 0, 0, &tx_dec3_mux_v9_3),
-> +	SND_SOC_DAPM_MUX("TX DEC4 MUX", SND_SOC_NOPM, 0, 0, &tx_dec4_mux_v9_3),
-> +	SND_SOC_DAPM_MUX("TX DEC5 MUX", SND_SOC_NOPM, 0, 0, &tx_dec5_mux_v9_3),
-> +	SND_SOC_DAPM_MUX("TX DEC6 MUX", SND_SOC_NOPM, 0, 0, &tx_dec6_mux_v9_3),
-> +	SND_SOC_DAPM_MUX("TX DEC7 MUX", SND_SOC_NOPM, 0, 0, &tx_dec7_mux_v9_3),
+Thanks!
 
-There are existing widgets of these names in the base widgets that are
-unconditionally registered so these should collide and get an -EBUSY
-during registration.  If you need something different for the newer
-devices you should move the base copy out of the shared table.
+[1/1] ASoC: amd: acp: Add DMI quirk for Lenovo Yoga Pro 7 14ASP9
+      https://git.kernel.org/broonie/sound/c/5d35f9be9b54
 
---TNUS4WmuFywvXt+E
-Content-Type: application/pgp-signature; name="signature.asc"
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
------BEGIN PGP SIGNATURE-----
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqyo4UACgkQJNaLcl1U
-h9BCaQf+LEopVYB106VRfJ4chXp/VRdl1auKfVZQwHrrJLtAyvhXwvTH0oM4NamF
-QuklMuXq9wAi0xnHfhSfjR9ZH4ILHw74X0ue/NAzBNhX+OA+KIRetFhx0m5igjPH
-XQuGtiAInwroYY9Zqgvo/lFouGllUY86RehZVudPWrT7gP3858lvgc6TdCg0t3Hw
-bw11oo6wVc0iuL8Dq4IoT5n86kFSsQrhQL3HvKkNfX43tE7oaZFEz1KXJVpX7oXU
-e7raiCWDwc4eVGdF7ayp980LGn3VPIv68hoNAPPRSXwpnflfMudVLoobPeYwetYx
-x5IbGzGfV/KG6pmdxuhe5YlLm3mIyg==
-=tQMg
------END PGP SIGNATURE-----
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
---TNUS4WmuFywvXt+E--
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
