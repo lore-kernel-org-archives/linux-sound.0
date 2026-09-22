@@ -1,132 +1,89 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2B07463B70;
-	Wed, 23 Sep 2026 08:06:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D0B23101A5
+	for <linux-sound@vger.kernel.org>; Wed, 23 Sep 2026 08:09:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790150768; cv=none; b=PpyFmr2FAtM/YLxoJG02UhkTb9+KBv+LqbZXgVJArMrPmX99XmVucL3UIoQP1QyBwlFVs/ED6LlKMh/C3juq06Zb3KaWsnKObGV0/dloepAzmHfxsptsbIqi1Vp+oLtAU+166PBrRAldMe6z4xbOJut0H4DYTJJCya8FL0Df8OQ=
+	t=1790150979; cv=none; b=IOAGpxdSckKks3p7itGhmS3an5cUHb0AquOgt2woRqZB8a5kGpH68bojMC/YCT7ak22Yn5vXa4U48vTeGik+Kp4ixLyMOUxDFcKjsesZtNNSxmQ5aOmnH+fTu+ZngTJCHVFXb4jvwuiirBKhPcC74YtNIGW3XDPLln19GLjChvM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790150768; c=relaxed/simple;
-	bh=1PZwIE8TVU5soElAe+9hqBxDNKLiuQmotjGe3sg8bxA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Zx4/HZmlG0xqaB1DbUmOYIeqHhY3R7qRv0+jgsL2tawJpv3jUeX/nGvzUkPIxTvyY+csNCg6oIOLbDDqi9MnEENb38dRce5IY8Zgs/213LcP9htq/Z6Eb3YfJ5lwnrYgG5mJhfMq/vqSO6TGB86O7uRBbOdXLuPz5IH2lIKLDPE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m/1ZYNir; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790150979; c=relaxed/simple;
+	bh=jN5LJi78RhLD4l3gXcgcgFpviTF/5+q3wCcOiWnq/74=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=j3oi4a/SuB2qY036zLilglvzLB0mbC/Z7pmVIQz+NyQirnsPyhxadhFZo/b2e8tmTOVPZiRBGl2Teb8yV3rVcuD3U1BzhdzzHmcRX2nvuds7YZVoXQa+QUG1cZvwMFukrPlyc2IQDAPZn4Fzhkrkv5E0y/UEhjejKEPr3w6+mNs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PsDKodlc; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m/1ZYNir"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 567B11F000FF;
-	Wed, 23 Sep 2026 08:06:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PsDKodlc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3CF81F000FF;
+	Wed, 23 Sep 2026 08:09:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790150766;
-	bh=Xil8py5E3/ndIBs9IcR+eVULmt4f0WzoAU5Rtvj5GqA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=m/1ZYNirgaoPCynZpFJy/4+yEbz3WvWqPgEpgsFnWqQZ7y/UKyBvF9rUuS1qoHN8j
-	 pDibh2CeJH6fXVmwlF6WQ1eh+9WIJExXiP6cC3M6/s7ns32q3GIFvJgiW1JeXpsc8c
-	 mKR5tvDNeHrS2DpQjoWz7U1keT+Wg0MrdvkjQooIEAh17fnh8I+kcHIqMifEvBSvx5
-	 0lIY/xIleJr8B1hSC+ASQKXZynZyiInQX53cfcStII+GE5yd7GUKrxGf/K03CXSVX3
-	 o44XS1vz/M5hCpWSODu7eou6pUSpo+tLuSZsT/yjpOhrDWPWLzd2axlo8e2lPx4r9e
-	 KkSnHNDqfm+NA==
-Message-ID: <26d37b51-fa03-4d91-b160-3c0b8b7e1bb3@kernel.org>
-Date: Wed, 23 Sep 2026 10:05:55 +0200
+	s=k20260515; t=1790150975;
+	bh=K1bfegONpQWDDcu7k2q3zhJ3hx+HNx+Co/OQK37AJac=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=PsDKodlc28uC+kYVrft+/9Xrzza4mPQT1ov2GUQ+qb//71gpP0kJEB4Q0kv89y8R7
+	 di0+hTpe9/4fJDPtP8JoLyPjfxTVX2mdeVW7o6aNg/hU0fweU4DCJ6MwW4FZpLaMm2
+	 y2B0h7MEbmftv8rJ4oP/a5SlxrgaLcqE/yl0tt/BsYv6kqDwTZ4S3q7/s01M2QwrMQ
+	 TSEYmzZm2x1jG0E41J1W01NJQV+0tS49SQZTng5jAt8E7MJmAt/idqyBEXWvIwkUpt
+	 UuJe/9hcLaEd80nEbAE2L3BAnngdWBF5eSgR0whz58sX0mZloybJVUifLW3IUpaC7L
+	 1NkiIgH2IWzTg==
+From: Mark Brown <broonie@kernel.org>
+To: lgirdwood@gmail.com, shumingf@realtek.com
+Cc: linux-sound@vger.kernel.org, lars@metafoo.de, flove@realtek.com, 
+ oder_chiou@realtek.com, jack.yu@realtek.com, derek.fang@realtek.com
+In-Reply-To: <20260917090120.2506160-1-shumingf@realtek.com>
+References: <20260917090120.2506160-1-shumingf@realtek.com>
+Subject: Re: [PATCH v2] ASoC: rt712: add GPIOs for LED control
+Message-Id: <179008505990.322763.3440285058526382665.b4-ty@b4>
+Date: Tue, 22 Sep 2026 15:50:59 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 7/8] dt-bindings: sound: qcom: add Tambora WCD9378 SDCA
- codec
-To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
- Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- Maciej Strozek <mstrozek@opensource.cirrus.com>
-Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- patches@opensource.cirrus.com
-References: <20260918131914.681588-1-srinivas.kandagatla@oss.qualcomm.com>
- <20260918131914.681588-8-srinivas.kandagatla@oss.qualcomm.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <20260918131914.681588-8-srinivas.kandagatla@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1102; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=jN5LJi78RhLD4l3gXcgcgFpviTF/5+q3wCcOiWnq/74=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqs4kyARpmXTWrh7riEBsylEJSA4Z5iycFjZNM0
+ hhEAi+wwmWJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCarOJMgAKCRAk1otyXVSH
+ 0AaBB/4hcdZL2DEGsfwUG1lDGERS62JfdOOy+hRHdoADOj1wiuYXGpEkwpiZi4dK4TOVZgJaGMv
+ gqCWgiiv5+dWyA1bT5jcPLExqx/VPA/yeMq7CeM9U7Tnrvt6CkhN8IMtGICWXGeZ1kXHjtXbNcr
+ SJrhhD+o/R+AY+BucBKoraRh6pdqBhiyGttyDcBU/ub2MUeOyirF/UYOrDhZrT2v3iF/QDfIvey
+ dDTmwUDmgImNe8UF0/3M/5IOLPPo2mkSzAR8TT//kKNxY1vgplMYny+TtcZcvn/MSR+yrCW7Pi6
+ GesVE4c+uQtk7fjopIM1x0s+DDYQzbPEnVR3NahxD97anENd
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On 18/09/2026 15:19, Srinivas Kandagatla wrote:
-> +  vdd-mic-bias-supply:
-> +    description: Mic bias supply.
-> +
-> +  '#sound-dai-cells':
-> +    const: 1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - qcom,sdca-compliant
-> +  - qcom,port-mapping
-> +  - reset-gpios
-> +  - vdd-buck-supply
-> +  - vdd-rxtx-supply
-> +  - vdd-io-supply
-> +  - vdd-mic-bias-supply
-> +  - '#sound-dai-cells'
-> +
+On Thu, 17 Sep 2026 17:01:20 +0800, shumingf@realtek.com wrote:
+> ASoC: rt712: add GPIOs for LED control
 
-You need $ref to dai-common.yaml
+Applied to
 
-> +additionalProperties: false
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
 
-And this becomes unevaluatedProperties.
+Thanks!
 
+[1/1] ASoC: rt712: add GPIOs for LED control
+      https://git.kernel.org/broonie/sound/c/e845b86c58e8
 
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-Best regards,
-Krzysztof
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
