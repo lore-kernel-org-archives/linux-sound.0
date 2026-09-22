@@ -1,106 +1,106 @@
-Received: from canpmsgout04.his.huawei.com (canpmsgout04.his.huawei.com [113.46.200.219])
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55B8247C106;
-	Tue, 22 Sep 2026 06:07:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.219
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3416635FF58;
+	Tue, 22 Sep 2026 07:33:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.2
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790057242; cv=none; b=Exlfud+67tp0f3wg4w1x84+fwF20pbPNoUDiG0OelEPectw1t0zHoOBwrqRMst9H98hnOPPa2WGhLuthAJK3jf4PCQ9JX5CNst9r+44XIG15xkKN5g1ysY9+lizau2KDIvlqA3ghq9zqVGuKStrU3IVci9h2zXhQhmnTcAJsHKs=
+	t=1790062400; cv=none; b=gm1aT8bL2ymb1KzC2iR+KoIlD+ZyGlpEdXmZgmlytWzDL44qDBHxYwWVfeRRNg0++9Daq8UKAqvw65YL4SuAB0GLRe22ebBdkIPtmHILwNYkmfq2cUgPyMa6qnsmzSwmxXHoEed5TocT+3nvS04MZMMyOOy68ZTEkX6eBQ+nLFw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790057242; c=relaxed/simple;
-	bh=a2HIyQTUPGerAKK4KAQO5LxPEq1Q8QzWIgJhmWSrADc=;
-	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=oCxk4qtTuZOgko2dAbmhUHJ362vRQd3BVCJrKfgnsyPRsf1lu6uFEvtb+DctVTZTJF6qx3jTbSO82B/HzRTasA43xSoRNCdbPxr/BKugHY0asMh57C6KOdTUPv6fRD6AOUOvi0cBqzqo8NzpU1UZPANTXt5QpmA/iTZuR9QONcM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=Ee/wrjoq; arc=none smtp.client-ip=113.46.200.219
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1790062400; c=relaxed/simple;
+	bh=61vq8H5wEUlSO2o9OUglIHM1SsU5H34QMbzCreHW/Go=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YpohPwo81kKu36psEQpiRon8GRWx35Ltst3XyPsHdgu2fQLFKloxAJvGf3rm2qWhODNjcUvmXkpbBJG2r+ubsKPCFZaljbdE+HpEqykMpfhYY2fK0sPwBTOJ1mi9F7fPo/wPYJlkKb73EwCc2jCdiZFRs+PfvH2m98ANl/cHsdc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=prQcRd5+; arc=none smtp.client-ip=117.135.210.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="Ee/wrjoq"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=aInSbDS30ifoUmnc/fUpkyf8/+8QUMzPPs2qqKBSlX8=;
-	b=Ee/wrjoqSFYP8zBYhNu5w3jqjS6jExtcX3HaT7hT0uCzGwRpFupGftWHBERtLfm9OtJy/fygn
-	E5/Ye4VELn6Uuw6hEUgrQ21+ZLAi6Qm/UdYR5LgSVpF2qgmQ3nnmpfl0DSKvvV1Wunacm8ENvz2
-	Xo0fKsc+HiFcEG7ju9V5WpU=
-Received: from mail.maildlp.com (unknown [172.19.163.0])
-	by canpmsgout04.his.huawei.com (SkyGuard) with ESMTPS id 4hpq8p1t10z1prN4;
-	Tue, 22 Sep 2026 13:56:10 +0800 (CST)
-Received: from whupemk200014.china.huawei.com (unknown [7.152.185.79])
-	by mail.maildlp.com (Postfix) with ESMTPS id CA75140537;
-	Tue, 22 Sep 2026 14:07:13 +0800 (CST)
-Received: from [10.174.179.24] (10.174.179.24) by
- whupemk200014.china.huawei.com (7.152.185.79) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Tue, 22 Sep 2026 14:07:10 +0800
-Subject: Re: [PATCH v1 02/17] ACPI: amba: Switch to use
- acpi_bus_get_primary_device()
-To: "Rafael J. Wysocki" <rafael@kernel.org>, Linux ACPI
-	<linux-acpi@vger.kernel.org>
-CC: LKML <linux-kernel@vger.kernel.org>, Andy Shevchenko
-	<andriy.shevchenko@linux.intel.com>, Mika Westerberg
-	<mika.westerberg@linux.intel.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Sudeep Holla <sudeep.holla@kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, Ard Biesheuvel <ardb@kernel.org>,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, <linux-efi@vger.kernel.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, "Joerg
- Roedel (AMD)" <joro@8bytes.org>, Mark Pearson <mpearson-lenovo@squebb.ca>,
-	"Derek J. Clark" <derekjohn.clark@gmail.com>, Hans de Goede
-	<hansg@kernel.org>, =?UTF-8?Q?Ilpo_J=c3=a4rvinen?=
-	<ilpo.jarvinen@linux.intel.com>, <platform-driver-x86@vger.kernel.org>, David
- Rhodes <david.rhodes@cirrus.com>, Richard Fitzgerald
-	<rf@opensource.cirrus.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
-	<tiwai@suse.com>, <linux-sound@vger.kernel.org>, Shenghao Ding
-	<shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, Baojun Xu
-	<baojun.xu@ti.com>, Sen Wang <sen@ti.com>, Vijendar Mukunda
-	<Vijendar.Mukunda@amd.com>, Venkata Prasad Potturu
-	<venkataprasad.potturu@amd.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark
- Brown <broonie@kernel.org>, Cezary Rojewski <cezary.rojewski@intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, Bard Liao
-	<yung-chuan.liao@linux.intel.com>, Kai Vehmanen
-	<kai.vehmanen@linux.intel.com>, Pierre-Louis Bossart
-	<pierre-louis.bossart@linux.dev>, Binbin Zhou <zhoubinbin@loongson.cn>,
-	Andreas Noever <andreas.noever@gmail.com>, Mika Westerberg
-	<westeri@kernel.org>, Yehezkel Bernat <YehezkelShB@gmail.com>
-References: <7995179.EvYhyI6sBW@rafael.j.wysocki>
- <3362405.5fSG56mABF@rafael.j.wysocki>
-From: Hanjun Guo <guohanjun@huawei.com>
-Message-ID: <7eeeb332-ece6-4396-5871-91ece6d6f18e@huawei.com>
-Date: Tue, 22 Sep 2026 14:07:09 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="prQcRd5+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Message-ID:Date:MIME-Version:Subject:To:From:
+	Content-Type; bh=2s3ccr0Xt/4hsrGr/oXfiN6VUE4GGZqaw2d0V7IoXbc=;
+	b=prQcRd5+ku50IN5ncoHGh/5LUFG3FaYnvhEDUar7+1fSSKa74VoVA/uUA7GDiW
+	Xg5yzo4vUZ+dpRCOzqmpEf8VCQDKpM2fa57fzPHLhJEK9B6KoNNsyDgE+I5FcWx8
+	9Oq2B6ZkHD+Buosaqg79PUaLSnYwUMPtMK3VRjj6ERc0c=
+Message-ID: <e76a151b-4dde-4bdd-91ee-e025e9bcc994@163.com>
+Date: Tue, 22 Sep 2026 15:32:53 +0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <3362405.5fSG56mABF@rafael.j.wysocki>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
- whupemk200014.china.huawei.com (7.152.185.79)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] slimbus: messaging: fix leaked PM vote on tid allocation
+ failure
+To: Srinivas Kandagatla <srini@kernel.org>, gregkh@linuxfoundation.org
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Zongmin Zhou <zhouzongmin@kylinos.cn>
+References: <20260827021409.24500-1-min_halo@163.com>
+ <d885255a-c3f6-4c96-8ebb-f611ffa29418@kernel.org>
+Content-Language: en-US
+From: Zongmin Zhou <min_halo@163.com>
+In-Reply-To: <d885255a-c3f6-4c96-8ebb-f611ffa29418@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wD3H9IlL7Jqq1tMAA--.33768S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7AF18XFy7CryfWFy5ZF1kZrb_yoW8ur1rpF
+	45X3W2yFsYqry2vFnF9rWvqFy3Za9a93yDGa18t3W3Zw15J3Z2qrW8KryYyFWqyr1xCw1q
+	qFn8Wa40yFn8uFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UciSLUUUUU=
+X-CM-SenderInfo: pplqsxxdorqiywtou0bp/xtbC9AYcx2qyLyYe5wAA3B
 
-On 2026/9/22 3:46, Rafael J. Wysocki wrote:
-> From: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
-> 
-> Replace acpi_get_first_physical_node() that is slated for removal
-> with acpi_bus_get_primary_device() that takes a reference to the
-> device it is about to return.
-> 
-> This addresses a potential use-after-free that may occur if the
-> device returned by acpi_get_first_physical_node() is removed right
-> after dropping its ACPI companion's physical_node_lock in that
-> function.
-> 
-> Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-> ---
->   drivers/acpi/arm64/amba.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
-> 
 
-Acked-by: Hanjun Guo <guohanjun@huawei.com>
+在 2026/9/18 06:10, Srinivas Kandagatla 写道:
+>
+> On 8/27/26 3:14 AM, Zongmin Zhou wrote:
+>> From: Zongmin Zhou <zhouzongmin@kylinos.cn>
+>>
+>> In slim_do_transfer(), when a transaction needs a tid and
+>> slim_alloc_txn_tid() fails, the function returns directly instead of
+>> jumping to slim_xfer_err. The runtime PM vote taken earlier with
+>> pm_runtime_get_sync() is then never released, leaving the controller
+>> permanently powered up.
+>>
+>> As txn->tid is still 0 at that point, jumping to slim_xfer_err drops
+>> the vote exactly like it is done for other failed transactions.
+>>
+Hi Srinivas,
+Thanks for the review.
+> Patch itself looks fine, was this bug hit on real hardware or is this
+> generated from some AI.
+Found during code review while porting patches, not on real hardware.
+The trigger requires an exhausted tid space, which is unlikely to occur
+naturally.
+>
+> How are you testing this patch?
+Tested in a VM with a stub controller that exhausts the tid space
+(255 allocations, SLIM_MAX_TIDS is 256) and then issues a need_tid
+transfer, so slim_alloc_txn_tid() fails with -ENOSPC inside
+slim_do_transfer():
+   unpatched: slim_do_transfer() returns -ENOSPC, usage_count stays 1,
+              device never suspends
+   patched:   same return value, usage_count 0, device autosuspends
+>
+>> Fixes: d3062a2109309 ("slimbus: messaging: add slim_alloc/free_txn_tid()")
+> Missing CC stable
+Will add in v2, thanks.
+>> Signed-off-by: Zongmin Zhou <zhouzongmin@kylinos.cn>
+>> ---
+>>   drivers/slimbus/messaging.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/slimbus/messaging.c b/drivers/slimbus/messaging.c
+>> index e2dbe4a..ee127ef 100644
+>> --- a/drivers/slimbus/messaging.c
+>> +++ b/drivers/slimbus/messaging.c
+>> @@ -139,7 +139,7 @@ int slim_do_transfer(struct slim_controller *ctrl, struct slim_msg_txn *txn)
+>>   	if (need_tid) {
+>>   		ret = slim_alloc_txn_tid(ctrl, txn);
+>>   		if (ret)
+>> -			return ret;
+>> +			goto slim_xfer_err;
+>>   
+>>   		if (!txn->msg->comp)
+>>   			txn->comp = &done;
 
-Thanks
-Hanjun
