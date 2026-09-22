@@ -1,42 +1,56 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A747559C90;
-	Tue, 22 Sep 2026 13:28:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02BF65172DA;
+	Tue, 22 Sep 2026 13:29:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790083717; cv=none; b=fDuLL0O9/OmHt6cggr1rFfeWDs1yfjdurvBfHcnsUrcNg5qu27c3VAoGFXHZui0Sm83o0p8227DzCNs+nyQHEMgW26kIK2hOgQOPrk9v50ultrD/a2nM+nA1xsYWxsvoJVGghdpeLgUNPtOWS8tWUvGhBzrgHH6txN1oQDUEj7k=
+	t=1790083789; cv=none; b=VyfqGCRyqE6lVcnLyenMsKc7Xh3RAPiwNcz6/7hZRf7wEvS7tj2k7nocDqA8B2WGUZu5g1GYqipz8S2iC7zi/RSzqw2BTmyx0pYhdCI+EKvAfaFnH34DjTsOvli8OtgJIhacMEPgiHu5ys8cAQ4Zk2QOYoD8u2scE9S47FtjG+Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790083717; c=relaxed/simple;
-	bh=9eW88c8S/aoJHrxkAcI5AZAZsyv2cxHqMlwEPDgTMNA=;
+	s=arc-20240116; t=1790083789; c=relaxed/simple;
+	bh=xtcNsLl5jTOZXJyrT7tx34yxMh7qbBAnY20/Q9krXqA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Db7K++3j/NXtQuAVkg6CitFXl0NOex4AJX/xE67eH6CiECBTeXWQ2qK/cbKzbMrzsYAYUi6at4Vb32h81x2bIQUf3Kc+RqA+eAm1mo5TJ81tYwNBw6nOzhFZ4oKMWbEq9h9R2AN9ZzPEgWBRhCIGQJae3cSltYWeR/7Hy6XLmSE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cebMgg/L; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=Obq+xQOXHgWCzUSaTpjrcYgvphFN2xZW9vHg8b5aAJpaWWDTVfMltaVkkVxHpmZcjh1JDZ+afFjYv1qMGMmvbI3rlYBBgiu/UzRxBbCJ376YZd5YrIfRt/nHR7qidMnXpUMyqeURNsKsV02FZT2LN9YhZY8ZrJWhH8P90AFegsE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CybFtnFG; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cebMgg/L"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FB981F000FF;
-	Tue, 22 Sep 2026 13:28:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CybFtnFG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40A4B1F000FF;
+	Tue, 22 Sep 2026 13:29:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790083715;
-	bh=9eW88c8S/aoJHrxkAcI5AZAZsyv2cxHqMlwEPDgTMNA=;
+	s=k20260515; t=1790083787;
+	bh=xtcNsLl5jTOZXJyrT7tx34yxMh7qbBAnY20/Q9krXqA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=cebMgg/Low4lc+immEscrsxOFPXyB748Cyh3g4XYPTBw+Nzv0rhkyVEk2wpjEIjuF
-	 6pn/B/e7osLnLAHsJBZuRSfmfQ40BQJ7b+7S6+1hoAqcXA7EmpF/kTswl6r1y3km7Q
-	 5Hu1HAFeQHmo+ktX4Nm6jxeLg9KdAy4sKJYC0bBs/+9VighzSNmkfL6yKHZOPg73Xi
-	 ySXUHQ53jT9ncWtQ6zAhy2ydAXjch2nTr5eDMcU1XsPlMw57aBOJwzRQVq12eSIiNj
-	 +GSCGIMVtMM4+qNVJV4MbUgGaTKUMmhANeaA/Gp73kBrpJybBwQiXX92VsNZoy/6D7
-	 AW5U0jJOT9bCg==
+	b=CybFtnFGf6HBhhWrePPT0mGJ4VgsXz4HEu7VBlfYvJsa0NhJwIP7LpOJFUQBouljY
+	 jkSPW0MWjoHuAgc2LQUTuccyFa2h8nRtPrJNaO9lAtL9RWAv8fU69B9hxx747+duio
+	 S1mNJlYeX8ynJ1XnNsuhGaQgsDZT0K8t+T+MSqJGiZhRzjmS4RLrne4E4wvuiJqEVU
+	 AmpumND+w31suhe5tenQuAdVZJcnjLEDGdtqgusmOYn/vceuNn0rxCIlLHSJ/Fr+mC
+	 KUOoc+N1g0Uc4T610ubRrdOSw14XwO9KzbFHW60eC0u5oc5rhGFUnFR83eF3gPuIp3
+	 je/YLZzcTrYfg==
 Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id D468D1AC56C0; Tue, 22 Sep 2026 14:28:22 +0100 (BST)
-Date: Tue, 22 Sep 2026 15:28:22 +0200
+	id C20601AC56C0; Tue, 22 Sep 2026 14:29:44 +0100 (BST)
+Date: Tue, 22 Sep 2026 15:29:44 +0200
 From: Mark Brown <broonie@kernel.org>
-To: Zhang Heng <zhangheng@kylinos.cn>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Mikail <mikailb1998@gmail.com>
-Subject: Re: [PATCH] ASoC: amd: acp: Add DMI quirk for Lenovo Yoga Pro 7
- 14ASP9
-Message-ID: <arKCdpOu3C85owdO@sirena.co.uk>
-References: <20260922123029.534152-1-zhangheng@kylinos.cn>
+To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Maciej Strozek <mstrozek@opensource.cirrus.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>,
+	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org, patches@opensource.cirrus.com,
+	linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH 7/8] dt-bindings: sound: qcom: add Tambora WCD9378
+ SDCA codec
+Message-ID: <arKCyGhrncxnO1ss@sirena.co.uk>
+References: <20260722234221.884765-1-srinivas.kandagatla@oss.qualcomm.com>
+ <20260722234221.884765-8-srinivas.kandagatla@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -44,40 +58,40 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ALKfgzAUxzWYfjey"
+	protocol="application/pgp-signature"; boundary="Spp2tVMuXoBfp6rb"
 Content-Disposition: inline
-In-Reply-To: <20260922123029.534152-1-zhangheng@kylinos.cn>
+In-Reply-To: <20260722234221.884765-8-srinivas.kandagatla@oss.qualcomm.com>
 X-Cookie: Too clever is dumb.
 
 
---ALKfgzAUxzWYfjey
+--Spp2tVMuXoBfp6rb
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Tue, Sep 22, 2026 at 08:30:29PM +0800, Zhang Heng wrote:
-> The Lenovo Yoga Pro 7 14ASP9 (83HN) has no digital microphone on the ACP
-> PDM interface; all internal mics are wired to the Realtek ALC287 codec.
-> Add 83HN to acp70_acpi_flag_override_table to prevent the legacy ACP
-> driver from binding and exposing a non-functional PDM capture device,
-> consistent with the sibling 83W5/83V9 entries.
+On Thu, Jul 23, 2026 at 12:42:17AM +0100, Srinivas Kandagatla wrote:
+> Describe the WCD9378 SDCA peripheral node (compatible sdw20217011000)
+> driven by the wcd9378-sdca codec driver for headphone playback, headset
+> mic capture and jack detection via the SimpleJack SDCA function type.
 
-This is good, but does show that we have what looks like a quirk in the
-wrong driver from a28206060dc58 (ASoC: amd: yc: Add quirk for Lenovo
-Yoga Pro 7 14ASP9), unless they reused a name or something.
+Please submit patches using subject lines reflecting the style for the
+subsystem, this makes it easier for people to identify relevant patches.
+Look at what existing commits in the area you're changing are doing and
+make sure your subject lines visually resemble what they're doing.
+There's no need to resubmit to fix this alone.
 
---ALKfgzAUxzWYfjey
+--Spp2tVMuXoBfp6rb
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqygnUACgkQJNaLcl1U
-h9A8/Qf/fLXTheSP3Z6M7OK9AK8OnELUW79jbfgRuMksHQKHyglZaAGWEXmUK/d+
-DnXLZKlz6YkV1SK5O4V02K/XOV5B6MalMJdKwBHljikUkD2/9EJsQ+Myv6LVPv19
-DjUQn2iDlyey6Vq+//O05Vbb7SAm4hiLp4ijnDRbNH5L+p0eyhhwDUjOWbn6RwoE
-dkQxlqyULIGPb5L+i8CvBE6XaQ3Bp6sPXy878NB5l8ooi+MvPwCKGMw5Yz0v32wz
-YAlzSU4KKYYGT00SRvuiMyTPPCKjhF1U0qE5YvlPMBq14fUf3DxE5Dv6/YwrT1xi
-0w+VrTQ4fnrA54HbRdZy6MS8JfME2Q==
-=uohW
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqygscACgkQJNaLcl1U
+h9AUtAf+NOLkuo+uf0k1OWo2RX+JhZeRNKGYRJyAh3O8YVKUgZNCgcF7JKiFy66t
+Z2okenl4ypJLf7YWXmilQSn2Tvso5VlkeKBKg4xSrKNHt5vZ7YONGsOWeG51MPvv
+Py5wNpHE47qa5UUR2EC6XBzJc+6ntvTjIRwpBEtLzcd/e+vqIuyV8sKyJhNwmdXP
+eVspx6mMOS4I8IytyhzdE+5ELDddV+WyIY9e4e1KJFZ696AB/8oVAxyG3VfSfRUQ
+UL+O2p6On0ty6PDHPWFO1KjaAOeat/o3BStUJR7c4Km0QQxm4J3tt8NyymwRJqlj
+Fl2YyLtGZ+c592IdOS81t5TvUW0rPw==
+=j7Iu
 -----END PGP SIGNATURE-----
 
---ALKfgzAUxzWYfjey--
+--Spp2tVMuXoBfp6rb--
