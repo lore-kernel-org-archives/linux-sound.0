@@ -1,42 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B5713C1D75;
-	Wed, 23 Sep 2026 08:09:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 900AD39CCED
+	for <linux-sound@vger.kernel.org>; Wed, 23 Sep 2026 08:09:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790150983; cv=none; b=Nae1YvCHGPXn6OwDDr1DDAGDu5taBUAgA7Uc8+/MJJWjEaIZthElPNJYxDTPMFbtjFnoXOzkCciXOM7AOdT5RfqAZyah3kflyuNCEDjD5yJ27FDzO7Lr5+0k3Vw2zTNFiyOYwueKczSg7X9WZd4ZWCr+9hueFmaK9wzMsEJ6Dd4=
+	t=1790150988; cv=none; b=LLvzWLAF9JiuU49S8D5+8+7ZBfHut8fYObRRmMx+wCjo0JQUN65a+oStWHyh3UnAPPwhZFhx2GsH4AnkAvJfaffIkvHPMXI8FhdjrDoX7x5Qe9/k4bT45Iy+5CdkhmZaq2i2f96VoBT9NVQKva06wUOn5rhEyjAmRco7B2LB7zU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790150983; c=relaxed/simple;
-	bh=cBkoYkEUgWXbFok1WbESfD05Q8+1YvgrO3rwKxJEqUA=;
+	s=arc-20240116; t=1790150988; c=relaxed/simple;
+	bh=qpPxJG6e3+eIQHIpNT6yKeyEoxSzhAAXAoOVx0x+p8A=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ksDoiUjNHuZsF4ckhLqBUZDueYDfzt32CA1f1fFQuQ+w6Jomd6e51657OlwBE/DD1HoGt9BmcldiD+Lrq4HTFYyTd7ORY6nQweYocNAiyEmS9B88DjUO1GJvS39sO3tQfPh4mWFlXGCc+VDs+VjdyrrYaiTGvx/7oHNu//orTK4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iyyjrijj; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=a8+nATrbCga/nFtGY1IP8Q7FcCZjxIunreE97la1mDmZkrZUtaJ5UKaB9ZGwnGXUsGWM48hmqI8uBMOKBrqjDYBB8MZVd2U4Z49zaH+xYqKqDGsGgDIbagjaIlqD3oq4ka44NBvBnnQuTQi5MkWSHcTPWBMOrSx2Rlp5D8sZruk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KwbllpID; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iyyjrijj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28ABE1F000FF;
-	Wed, 23 Sep 2026 08:09:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KwbllpID"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFD001F000FF;
+	Wed, 23 Sep 2026 08:09:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790150982;
-	bh=SrDyYQJxBvyWdWh2KnL9I5MwXJFAZqZc24zljiQayvQ=;
+	s=k20260515; t=1790150987;
+	bh=HpZPtml+xMQT95FcRZ2jMHhg5Tfyxjxq0jUtxQU5bcY=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=iyyjrijjXYprauRWpm+UtZGtsyrfChJJ2fgUgahc3mpcUBldni3xrbZKPoAj3HLol
-	 ZkcsXs4gbg3kLbCkUuFDBtEbeZEHO0D1fs6qgt0e7qsQIZfjw9wUnKMn/XL1NVfJf5
-	 Q7wSuNh0wZ1vGyc5sVkUVQIeeKe8kqkjDeu/nsCeL01gjXpnFwrS/NOe8gsrICiTHB
-	 AmfZTEnkfZe8tpjuJ4jH7Ny/GLH0sxouanSFLwASZOnWM5qICMZKbUeWSaZygWI4XD
-	 NdHymKzCVBN+diYTdmA+3mQK0e6i9PuGQ0Ao/mEqrlZJC92sGr8uD+Om2tjcjIZTkv
-	 U88OjnVgO+TTA==
+	b=KwbllpIDAXW+cYrgUHZD6QuUuTP0nRHNugTyiY8DpCfFcdLzhhi2EoPEu3uP5eap8
+	 FAdUu3YS+3FJW7NR9zrLuZYPzaZv0cBO/t19Kedtu4JZ0NNn7C75BpvrTLC8nRrUJ3
+	 029jfc6JUR5QDnNmBDYH/6yid8oBH4hUOp8ICgHo9mywYREvwSbePgZ+YTKNyoQ4Zg
+	 Y4aHc0F62AKxZSTEdbqQ2xhONPmn1b29TF/sneAIAvWYZeeOpkB3Iyb3qR+glPH0R8
+	 D+CljsDDPyjEbakUDP659WOdu/Cg2Z8kiuVBpKGv/gva4FP9gM0OuCswGld2XaE7RM
+	 8YCm5N8km/oHw==
 From: Mark Brown <broonie@kernel.org>
-To: Wentao Liang <vulab@iscas.ac.cn>
-Cc: lgirdwood@gmail.com, linux-kernel@vger.kernel.org, 
- linux-sound@vger.kernel.org, perex@perex.cz, sen@ti.com, tiwai@suse.com, 
- zonque@gmail.com, stable@vger.kernel.org
-In-Reply-To: <20260916073136.1971673-1-vulab@iscas.ac.cn>
-References: <20260916073136.1971673-1-vulab@iscas.ac.cn>
-Subject: Re: [PATCH] ASoC: ti: davinci-mcasp: Fix runtime PM imbalance in
- __davinci_mcasp_set_clkdiv()
-Message-Id: <179008516133.322763.10344212401091933999.b4-ty@b4>
-Date: Tue, 22 Sep 2026 15:52:41 +0200
+To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, bard.liao@intel.com, 
+ peter.ujfalusi@linux.intel.com
+In-Reply-To: <20260922092316.2296039-1-yung-chuan.liao@linux.intel.com>
+References: <20260922092316.2296039-1-yung-chuan.liao@linux.intel.com>
+Subject: Re: [PATCH 0/7] ALSA/ASoC: Intel: add I2S function topology
+ support
+Message-Id: <179008316318.322763.12415774803120622524.b4-ty@b4>
+Date: Tue, 22 Sep 2026 15:19:23 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,20 +45,28 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1180; i=broonie@kernel.org;
- h=from:subject:message-id; bh=cBkoYkEUgWXbFok1WbESfD05Q8+1YvgrO3rwKxJEqUA=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqs4lA7V6ZWkWpYVBuT/3a6D6rY1GWAYZRiz7tb
- 3H1b4KxWGKJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCarOJQAAKCRAk1otyXVSH
- 0OD7B/0brEHQKzdGRDP+vVITgVtk8ETM0jhzJ8ydOWEwzDUYxPGE7xVG46nfkMYbCjREcBehLPw
- NLucMxllQHv0vuGHSgHA55escw0g97hH7icsZ3/BxxYQlLchKI0rBGmqE5Czs1vqv/8OAq8DUJa
- iqSr5xqT/JD+fgepciRovejXfgB5VzLfuC5BoR+OgA3p6qoxUx3wUcJMfaivgYi3f+uL1K5EqUp
- bY/iG8ee/ZDwuvuvgyc1uc0HU1mhA3gLf7pCvMIhb8dREsYny+drqQziHLuw8P7c46WaXIzGGXW
- oMtkcrbXc3EtzvT/0tkAEosV19xwJjA8/SUiERiNmKwXkSmW
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2160; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=qpPxJG6e3+eIQHIpNT6yKeyEoxSzhAAXAoOVx0x+p8A=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqs4lGOoS5YDly0S4FYZRz7zK5VTAFBk/ghmcY4
+ P7BHc19/zyJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCarOJRgAKCRAk1otyXVSH
+ 0CnDB/9k4mVzyDCMXXzeF7vCyDL3iEm57rgdKXomrn4ZRzsn9JDv7dG+VMYugqWczbHGQz0lXvy
+ R03FwT7FYybsazhYNQsXM7f4aAIXPf587yerktcKN3AvePp91flErss2KXPrX6MWEdkStK8jJ/1
+ JEGyVtmXxGAGNGOD3KoCzlczzrIIJ3g5oNOHJ8jh/Dtd6GBw02976+ltFRYAvzzUvUPbwMlTY6u
+ bHDSxSqIzlqdLn7JDn+3iWY21r+xao0UEqzYR75hSNgsxoyjk2xn69yECQHEatiCwcyMK1PX8vM
+ V0PXe0cdz3whyV1gLbDGNZN+bNr1UV/UuQPMNQaKXNQ+qCSY
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Wed, 16 Sep 2026 07:31:36 +0000, Wentao Liang wrote:
-> ASoC: ti: davinci-mcasp: Fix runtime PM imbalance in __davinci_mcasp_set_clkdiv()
+On Tue, 22 Sep 2026 17:23:09 +0800, Bard Liao wrote:
+> ALSA/ASoC: Intel: add I2S function topology support
+> 
+> Currently, function topology is only used by the SoundWire machines.
+> Extend the support to the I2S machines.
+> 
+> The only ALSA change is to lower the log level. Let's go through the
+> ASoC tree.
+> 
+> [...]
 
 Applied to
 
@@ -67,8 +74,20 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: ti: davinci-mcasp: Fix runtime PM imbalance in __davinci_mcasp_set_clkdiv()
-      https://git.kernel.org/broonie/sound/c/ba593d662183
+[1/7] ASoC: SOF: get nhlt from all topologies
+      https://git.kernel.org/broonie/sound/c/6d3400863bae
+[2/7] ALSA: intel-nhlt: lower intel_nhlt_ssp_device_type log level
+      https://git.kernel.org/broonie/sound/c/3313c59b1888
+[3/7] ASoC: Intel: sof-function-topology-lib: create common helpers
+      https://git.kernel.org/broonie/sound/c/5a0601364c32
+[4/7] ASoC: Intel: sof-function-topology-lib: skip non-exist file in best_effort mode
+      https://git.kernel.org/broonie/sound/c/aa436d8744af
+[5/7] ASoC: Intel: sof-function-topology-lib: add I2S support for sof_sdw_get_tplg_files
+      https://git.kernel.org/broonie/sound/c/6736426f31e8
+[6/7] ASoC: Intel: sof-function-topology-lib: add get_function_topology for I2S machines
+      https://git.kernel.org/broonie/sound/c/21465d348777
+[7/7] ASoC: soc-acpi-intel-ptl-match: I2S machines: use function topology
+      https://git.kernel.org/broonie/sound/c/7f1040813b63
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
