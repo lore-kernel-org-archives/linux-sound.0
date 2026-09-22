@@ -1,121 +1,106 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from canpmsgout04.his.huawei.com (canpmsgout04.his.huawei.com [113.46.200.219])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D10D495038
-	for <linux-sound@vger.kernel.org>; Tue, 22 Sep 2026 06:02:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55B8247C106;
+	Tue, 22 Sep 2026 06:07:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.219
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790056956; cv=none; b=V8TW92gcPynYxKefjPPO84hot7Yr+5g/nmY26Ec3D9UxQEYJafprXNBrgtNevWpp2arubo/O8z42dFzebuSfleUP95cccKH8fQEbbqCOQQtGjE5EqfCKmTZfzVlqKDYgbk5QJclwXtM2emMGN16jaNlbKWRXcWyNXP3S67PrhbM=
+	t=1790057242; cv=none; b=Exlfud+67tp0f3wg4w1x84+fwF20pbPNoUDiG0OelEPectw1t0zHoOBwrqRMst9H98hnOPPa2WGhLuthAJK3jf4PCQ9JX5CNst9r+44XIG15xkKN5g1ysY9+lizau2KDIvlqA3ghq9zqVGuKStrU3IVci9h2zXhQhmnTcAJsHKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790056956; c=relaxed/simple;
-	bh=UTGrp+lZOAxLFmkLKsLGysXMTNUwZ9BjO56kp90DTuQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YfIrVPo6EI0JPFrr4kDLEBI9Bc5NNrey4L8i0gGFW6yXOgHFRxbOIZOPDtvPKniUrpeMMVfiaqIb2tdRDc5wGnYHk+PhXrHVk1H4ynhemNqMOyQYOlqnwl95TzhwEG9iidb6PpdJOV4oQyIFwZFLIDdo7N13IoVDuWZ5WQHOxTQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RHJqr6rJ; arc=none smtp.client-ip=209.85.216.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790057242; c=relaxed/simple;
+	bh=a2HIyQTUPGerAKK4KAQO5LxPEq1Q8QzWIgJhmWSrADc=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=oCxk4qtTuZOgko2dAbmhUHJ362vRQd3BVCJrKfgnsyPRsf1lu6uFEvtb+DctVTZTJF6qx3jTbSO82B/HzRTasA43xSoRNCdbPxr/BKugHY0asMh57C6KOdTUPv6fRD6AOUOvi0cBqzqo8NzpU1UZPANTXt5QpmA/iTZuR9QONcM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=Ee/wrjoq; arc=none smtp.client-ip=113.46.200.219
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RHJqr6rJ"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-3a02551822eso634019a91.1
-        for <linux-sound@vger.kernel.org>; Mon, 21 Sep 2026 23:02:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790056953; x=1790661753; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=uQ3bgQN5Dp8+Qvmy62hDVi5O4cZCEw7wjVOCUUXKBjk=;
-        b=RHJqr6rJLj0ADth1Gzp5fs7TVlYaC7iSRvFWsxRrSNeRF6snO6Up+q95yCrg867gd9
-         tQ4uKmHVb6DER5yYJ5H4pIBlmQ7nN2T2nY+y+1k3rJI7rj1O/LPvgk0Kr3W0gzv31vdD
-         shVbdE/5qVAHh2Fvojwki2cvkqBVWU42VSP0Dh+ESW7hTCdZDGkoJXPrlUnU9VYC7OBx
-         w7XXdC60ihivG1UepRyAtbd9Z7dr0JY4TLT0Ncp7TzXDeeQNCoj4nafLsoYPwoW6Un/l
-         RaJF+obAZuhob7uMBCXhII99hMXCrrh05xN6bEHkwkPOxenCCv3unmuuPkoJ3kfoTbrQ
-         AYsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790056953; x=1790661753;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=uQ3bgQN5Dp8+Qvmy62hDVi5O4cZCEw7wjVOCUUXKBjk=;
-        b=yiyuzb+KKpmeZvaM+qpxrg5H84ULfQNdYTXuSxQxK4Rnr6Cjptg+XBd3nCFXiTrf54
-         qKOggS2zLthF4U3TUtIczO+KBzjlcYWd6A+XsVSIArHa360EXbF3FJnT5WteAE66y2dl
-         schauSN6ZTNIOuwEFuIHfaHyK6KWp6l3OYaIKmRkc7R4o24gG4yLi+JC4WxRAEhkH/lH
-         I0GdGfVrcZh3DRLJ7r1iQhTHvun0dA+oBQF/VdzISTRRVbFvmxB52fjflI3dqIv1avwo
-         PhPD3124GKmUJA1p/Y/zsxO6MQtDAUxUtvIluoVYwCpYqJ1Vqr1GrlEkv7wsIuYaGj4n
-         x6nw==
-X-Forwarded-Encrypted: i=1; AKwUvBxaIxYALkkYD0XFlARKyVUVtaXc4L3XOhKDMBUY5dv9E+7Br4P5j1zIijW1opYXQYuubQx3vVdyL/nsmw==@vger.kernel.org
-X-Gm-Message-State: AFuF++nlyIGj/KXI37uUhV8A05y/1UYZfs3qWMo/hV7x36AgTqenAYO9
-	VzYsks818WsgDBeSiMLG2wyNpSLTfDZAYbyyKdPrlRDHU/KiidVLMiHp
-X-Gm-Gg: AYBFou2njkqAe9iEUkdtyv6FQfR/S3WFOtQaqH2tYNgA2y9KUAuWNCMu2a/AIBB7R3A
-	rfO0s2+Esaaz4Y1iukk2hM4MvaBhrIJlaWm6FKaz6gqkL6kTwreubb+7+qChpML7ZPWS/ci1ATo
-	/tDwyCyGnBZiBJp3Zwcjk8xjV7v/fK11+JXSMAUiBz2ca4u2temq5Iuc6hONK1gVecx5kb2GO9y
-	YsA29LPyyAtLyQF/7QlV/j1FGfDdY0i/SSl28324PNwKRUHXMPsaB6DZ+Kzu+l4p+cPexRG1js4
-	bQbR/eqBGtHv9aCNIt7szz3Zavouirbm5uvmsGNZLS89jH9MEdJvYz8BAKNmHLRZTTXi8uObv61
-	S25xT6VLQCYZs70G1JUR1w5k742f2v5NOyUrVibqtb33vkb4Xnmn9qqbPAOetR/NLEkliH5psa/
-	XyeoMuPgx65lZAaAl5phYhuOBsOuoJCSZLEGsa4HN45SfWPCB/aYNep3m2pKDVHW0QNato8uBEp
-	qOZ2YcReRnoVAEAQW8=
-X-Received: by 2002:a17:90b:3fcc:b0:39d:e78d:32d2 with SMTP id 98e67ed59e1d1-3a0730cbed4mr111836a91.13.1790056953102;
-        Mon, 21 Sep 2026 23:02:33 -0700 (PDT)
-Received: from [10.25.133.25] ([165.85.205.162])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33e61340e56sm3366245eec.30.2026.09.21.23.02.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Sep 2026 23:02:32 -0700 (PDT)
-Message-ID: <976f828a-bf48-4788-adb1-7204c27dda60@gmail.com>
-Date: Tue, 22 Sep 2026 14:02:24 +0800
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="Ee/wrjoq"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=aInSbDS30ifoUmnc/fUpkyf8/+8QUMzPPs2qqKBSlX8=;
+	b=Ee/wrjoqSFYP8zBYhNu5w3jqjS6jExtcX3HaT7hT0uCzGwRpFupGftWHBERtLfm9OtJy/fygn
+	E5/Ye4VELn6Uuw6hEUgrQ21+ZLAi6Qm/UdYR5LgSVpF2qgmQ3nnmpfl0DSKvvV1Wunacm8ENvz2
+	Xo0fKsc+HiFcEG7ju9V5WpU=
+Received: from mail.maildlp.com (unknown [172.19.163.0])
+	by canpmsgout04.his.huawei.com (SkyGuard) with ESMTPS id 4hpq8p1t10z1prN4;
+	Tue, 22 Sep 2026 13:56:10 +0800 (CST)
+Received: from whupemk200014.china.huawei.com (unknown [7.152.185.79])
+	by mail.maildlp.com (Postfix) with ESMTPS id CA75140537;
+	Tue, 22 Sep 2026 14:07:13 +0800 (CST)
+Received: from [10.174.179.24] (10.174.179.24) by
+ whupemk200014.china.huawei.com (7.152.185.79) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Tue, 22 Sep 2026 14:07:10 +0800
+Subject: Re: [PATCH v1 02/17] ACPI: amba: Switch to use
+ acpi_bus_get_primary_device()
+To: "Rafael J. Wysocki" <rafael@kernel.org>, Linux ACPI
+	<linux-acpi@vger.kernel.org>
+CC: LKML <linux-kernel@vger.kernel.org>, Andy Shevchenko
+	<andriy.shevchenko@linux.intel.com>, Mika Westerberg
+	<mika.westerberg@linux.intel.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Sudeep Holla <sudeep.holla@kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, Ard Biesheuvel <ardb@kernel.org>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, <linux-efi@vger.kernel.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, "Joerg
+ Roedel (AMD)" <joro@8bytes.org>, Mark Pearson <mpearson-lenovo@squebb.ca>,
+	"Derek J. Clark" <derekjohn.clark@gmail.com>, Hans de Goede
+	<hansg@kernel.org>, =?UTF-8?Q?Ilpo_J=c3=a4rvinen?=
+	<ilpo.jarvinen@linux.intel.com>, <platform-driver-x86@vger.kernel.org>, David
+ Rhodes <david.rhodes@cirrus.com>, Richard Fitzgerald
+	<rf@opensource.cirrus.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+	<tiwai@suse.com>, <linux-sound@vger.kernel.org>, Shenghao Ding
+	<shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, Baojun Xu
+	<baojun.xu@ti.com>, Sen Wang <sen@ti.com>, Vijendar Mukunda
+	<Vijendar.Mukunda@amd.com>, Venkata Prasad Potturu
+	<venkataprasad.potturu@amd.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark
+ Brown <broonie@kernel.org>, Cezary Rojewski <cezary.rojewski@intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, Bard Liao
+	<yung-chuan.liao@linux.intel.com>, Kai Vehmanen
+	<kai.vehmanen@linux.intel.com>, Pierre-Louis Bossart
+	<pierre-louis.bossart@linux.dev>, Binbin Zhou <zhoubinbin@loongson.cn>,
+	Andreas Noever <andreas.noever@gmail.com>, Mika Westerberg
+	<westeri@kernel.org>, Yehezkel Bernat <YehezkelShB@gmail.com>
+References: <7995179.EvYhyI6sBW@rafael.j.wysocki>
+ <3362405.5fSG56mABF@rafael.j.wysocki>
+From: Hanjun Guo <guohanjun@huawei.com>
+Message-ID: <7eeeb332-ece6-4396-5871-91ece6d6f18e@huawei.com>
+Date: Tue, 22 Sep 2026 14:07:09 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RESEND PATCH v5 5/5] ASoC: fsl_easrc: expose individual DAIs per
- conversion path
-To: shengjiu.wang@oss.nxp.com, lgirdwood@gmail.com, broonie@kernel.org,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, Frank.Li@nxp.com,
- s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
- shawnguo@kernel.org, linux-sound@vger.kernel.org,
- devicetree@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, nicoleotsuka@gmail.com,
- perex@perex.cz, tiwai@suse.com, linuxppc-dev@lists.ozlabs.org
-Cc: Shengjiu Wang <shengjiu.wang@nxp.com>
-References: <20260922033428.1690822-1-shengjiu.wang@oss.nxp.com>
- <20260922033428.1690822-6-shengjiu.wang@oss.nxp.com>
-Content-Language: en-US
-From: Chancel Liu <chancel.liu@gmail.com>
-In-Reply-To: <20260922033428.1690822-6-shengjiu.wang@oss.nxp.com>
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <3362405.5fSG56mABF@rafael.j.wysocki>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
+ whupemk200014.china.huawei.com (7.152.185.79)
 
-On 9/22/2026 11:34 AM, shengjiu.wang@oss.nxp.com wrote:
-> From: Shengjiu Wang <shengjiu.wang@nxp.com>
+On 2026/9/22 3:46, Rafael J. Wysocki wrote:
+> From: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
 > 
-> The i.MX EASRC hardware supports four independent conversion contexts
-> (A, B, C, D). The driver previously registered a single DAI with generic
-> stream names "ASRC-Playback" and "ASRC-Capture", which prevents
-> multiple independent conversion paths from being used simultaneously.
+> Replace acpi_get_first_physical_node() that is slated for removal
+> with acpi_bus_get_primary_device() that takes a reference to the
+> device it is about to return.
 > 
-> Replace the single fsl_easrc_dai instance with an array of four DAI
-> drivers to allow up to four independent conversion paths to be active
-> at the same time:
+> This addresses a potential use-after-free that may occur if the
+> device returned by acpi_get_first_physical_node() is removed right
+> after dropping its ACPI companion's physical_node_lock in that
+> function.
 > 
->   easrc-0 -- ASRC-Playback / ASRC-Capture (backward compatible)
->   easrc-1 -- ASRC1-Playback / ASRC1-Capture
->   easrc-2 -- ASRC2-Playback / ASRC2-Capture
->   easrc-3 -- ASRC3-Playback / ASRC3-Capture
+> Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> ---
+>   drivers/acpi/arm64/amba.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> easrc-0 retains the original generic stream names to preserve backward
-> compatibility with existing machine drivers and board configurations.
-> Each DAI retains the same channel, rate and format capabilities as the
-> original, including IEC958 subframe support on the capture side. Update
-> the devm_snd_soc_register_component() call to register all four DAIs.
-> 
-> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
 
-Reviewed-by: Chancel Liu <chancel.liu@gmail.com>
+Acked-by: Hanjun Guo <guohanjun@huawei.com>
 
-Regards,
-Chancel Liu
-
+Thanks
+Hanjun
