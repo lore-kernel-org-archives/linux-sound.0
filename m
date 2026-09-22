@@ -1,244 +1,116 @@
-Received: from mail-yx2-f43.google.com (mail-yx2-f43.google.com [74.125.224.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6100A418368
-	for <linux-sound@vger.kernel.org>; Tue, 22 Sep 2026 08:17:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.171
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790065054; cv=pass; b=sxE1ZjF6ABle02Yq1SrdvqWRTHwnLA0bkMrZ6a57S3TrzlIXiYTOQua3D86Bnpbg06h0t8814YGYgCNDTzbaEmUZtJd6RhYbxOgQBsRJGmWFjYnMaOblYje4SIiuzUxCRrnH2fVXYV4FkJ+4UPzuKKmNSciQKT+f5NQNqdJuP3c=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790065054; c=relaxed/simple;
-	bh=j8oOfovRmLewVX/ZIXchvTplxAiNODpkmMBMcI+S5WQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pXIz/6OpqKXdqKGy3vWLbQroYUL71eiKtV/HP5XuYHkRggN2HUPwcTNgV/EJAQiq/D+oiYlQv6Gp3p1QTAWFbkBk54w99Yj9FYx2ieHz07HS+PE33LsvrwSVzfahFNoDNcSaw1H95m7YElfThh7SgGdPKGrDDy7NDfpneZqoHNs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GlTbhVxO; arc=pass smtp.client-ip=74.125.224.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49F74418A33;
+	Tue, 22 Sep 2026 08:19:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790065173; cv=none; b=BFEnAHlequ5zsl2lxoxG1L3foZ+UHYGIGEYcP1UYKxGaY6nFW+g31CpHpWfrJiMj/eKKfnnXQR9A8w+ATOrBNHuO5pLmfFtqORy0W/a3x6gMR6cpRwAW1PbS5HBk1Qi9pzdEzvDSAZyJEIzSyZP70fAF5gR1uhzJqBpRkuAEBfc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790065173; c=relaxed/simple;
+	bh=HC4/JUWknuRlDmTPWvUCZL5/IBX6KNizhyFicMFHfRI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=D2DVyT1qaPTxu5yejSNjkz2i5T5Sbw12KeErpKY6pfJ2dZ7BlA10l2HzwV4rTaui0VW2QoeK218g/sanuho3KoxD4wHa+LQsPF+Jre5gZZZum2AicQJyDSiE1CP8wWgY7v6pCkSxfeq+6bo66x9bzUTbB6Tj8BMmVBvnMedewhw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Kvig3ccl; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GlTbhVxO"
-Received: by mail-yx2-f43.google.com with SMTP id 956f58d0204a3-67109935888so3795650d50.3
-        for <linux-sound@vger.kernel.org>; Tue, 22 Sep 2026 01:17:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790065051; cv=none;
-        d=google.com; s=arc-20260327;
-        b=ZJDMo+agkqhU/Y0ck0A+YSGXT4j5XSPZiZg6r1leETz3/Tmr+4ySW3/AGI4bVCjsrf
-         wymskdaTiKNexmvU4idCvMLkYm4VrBU0FSUHQSz+j+8bZ91ox0JqOm/1s87KudcnzF5A
-         BR5/I5TtxXRtNSJ9RZClbzRC5uzVHhWxGIrZL+NdNzPJ6IDqX3v6gyTXivQdXrh+mWs3
-         X6vgHKDbKTciwA906t4ajGNRNgG2dRHFevifCYZIxxcS8jwRJfD11pxAJiyvgMyadH6x
-         loM9wqCy3Jwm0h4zavvqBXDk5m8AYK/WTvKF77v3oxUdl6BVFqYJbr5qZMJnKGktjMAB
-         8CSA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=vBfgPYH3xqS4b5IB6dzOxOSHigmrLH/EHKKr5wvFYwc=;
-        fh=m6c1ODFl4BhJljE4IriBCqhy/ymdZPss6JrvK2f8lxw=;
-        b=NrQ5dFF4jVxZI6ZaWqkpTjrdNhGBnnDKSDYPFX7qZbM7oMdnU9TU0iMrfRwm0fJeYB
-         CyBgnkZTuTlaOBmZKsGw5wQwZvyNXg/vruUXw8U+qT7ZSeBLyCl2G+1+nYdLH4bpQ203
-         EY++BSQ4QtG1E3xGR8LOxnB+cs90GqUg+nxV7yDYr2pFsuNdNxrnpmOXYi7sJJnA6mYp
-         H40CDVLq9B8N4T+PXLGMRthS1+AjTHZd8PrnwoDeyD8uYc77lwV9/597LezV1wXw8wL+
-         GL8hSK1bY5kQZbhlRxwPSSVA/ts/w3T6Cau63D5bSsEre1SwABdorDDZjpaoZCL2r6Zk
-         2OyA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790065051; x=1790669851; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=vBfgPYH3xqS4b5IB6dzOxOSHigmrLH/EHKKr5wvFYwc=;
-        b=GlTbhVxO2A6vPW+hwN87bN12BcwLVeelMIFP2m2Xg7uLsR5l+i3M09HKoai/m5vc+y
-         hHkm58Me2TK6RpmpdTc8M5BSIMz1NqkqFaBojHpA0J26sLZsomrQ4Y5bcWTr8nwu28wA
-         QyU2AjKjVgvwqU/Yic5cq/VfEN98FWHZCFyo3JvUxF1fYIIstXHnBEn+WGq4jhW2Lshl
-         tDmA8zGbFQM8RmmduyT75awLNgzIYbKjJGVcHVdz9Ss0Tyjue/smRa0WuoW6HUEVn2CA
-         1BOi1eGGZKpjv+FneCH4r0+d6ec9LF93UwRP600heNMVVmASSs7zOs/dh3Pc1eJZ6DWU
-         o9Jg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790065051; x=1790669851;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=vBfgPYH3xqS4b5IB6dzOxOSHigmrLH/EHKKr5wvFYwc=;
-        b=nke6SQHJGxufoJP4SN0vJGz2ugqJcitJcDqlH30zrgYz6euZMnEaCfEfFxYpnNwHG0
-         yuLX6UePvvm4YQvQ+hDBvUK09o+smz2jLO5zf2l98LckVU9AsYy/iTrpZCiizaxHHfMv
-         1/Uzwv+o9IoEZdqf4cmz0AeRWrZZ1JsGso7pBMpxsLAZ6HOgeJS6R3aZ4aRA4R7aQamI
-         9VWCfJoKWOY3flKQDSJpb5yr7wvNVAD6/bBEuSicKBN1ewEQ1IpK9thSjrdWufzwfYsc
-         abATMq5i1W6rma0Gxr3PMzOsl/hIQRlJtWD/j4bX41Zg4nueBQiV4qfdHhHUEEBbxMXB
-         es1g==
-X-Forwarded-Encrypted: i=1; AKwUvBxLh/vimIlici73dLlO0d78DhLUDQWxnLdzVqqamATLtzkZmP7PxZAyx7bRnYlNfUXbWK6Al98B7e176A==@vger.kernel.org
-X-Gm-Message-State: AFuF++mWDoy9P8Qa8iORUSIlJSHclRx9XasYaHVHkOZaOqe20gdwtZTB
-	wNn7bOd9UeBXhGh1YSKpBHrDQHEvhHDGMxwqrCLCS0nJE1B655F6Ud3TqFQ5jfFkA2ikKClnHLF
-	Jbjpc+jIcjvBAn3+mW+DAuoKo/NZGuEFfoBNX+WG+DLp8
-X-Gm-Gg: AYBFou0SgwfjyUGxb9fzDAry/3nLHCnDmmo4Qp0ecMBY3ig0mdotw3ICNjLeN2FAu+E
-	BSDIiDR8Rd/Ci73fc/fgfUBtNAQdUvFH7G4VUd/xRQormjRaZPI0x0Dimlu7ex51q4L3nwmKmID
-	kRFz+i2eWLZ+93ktvc3z9BCwSw2185Df6MjXqKMtibEDe+pt+dFKzI5hbOuz0gyevVejyA8oIRI
-	NqQh5XcsQN6Ztamw2qT8XBf2EATNj27hzp+tWwU5NzBK7EXReF+UiV0/KEQi6tR49Bg5SjdLMkG
-	h27btoggB+ttC9gyVceMzgLyEpd5iSj37sSroacdLEV4V+M8zNB/iOMyFZHaf/Cq9C+mpUU5QmD
-	sg/M=
-X-Received: by 2002:a05:690e:1181:b0:671:70d2:527b with SMTP id
- 956f58d0204a3-6717fd6a661mr4552451d50.62.1790065051220; Tue, 22 Sep 2026
- 01:17:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Kvig3ccl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91A981F000FF;
+	Tue, 22 Sep 2026 08:19:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790065171;
+	bh=HC4/JUWknuRlDmTPWvUCZL5/IBX6KNizhyFicMFHfRI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Kvig3ccl5HE4pxQr3PQ2Fbl5qfBzi54hak7xsY46yImVe9s8c6x3djMYojEOALfc0
+	 6cwbAzDbCILc13LrY0PwRYfva+uonCbGzp8K3ZGUhtwVNL9AYUnM+U/7AbH1zH/4kj
+	 1tBuWYOEbdZbpUyzfiss20T3dkcLRgUip8z/ulamXJ1wvlccDStjqDP6Kha0AiR0ru
+	 vOSlGl5adOaekke3rvueLgeDd2tksdbcz0mdLxT/2sVEeEA4Wc0jYZMSLLFyvgYRJi
+	 YWCtGNvZzgZNq1OvqzUI+kjRr9z2ctehrcb1iisCCbv0FLWYrdMppb+CTT0Uepua2s
+	 mTZZgAIbPGgUA==
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+	id 029161AC56A7; Tue, 22 Sep 2026 09:19:27 +0100 (BST)
+Date: Tue, 22 Sep 2026 10:19:27 +0200
+From: Mark Brown <broonie@kernel.org>
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Linux ACPI <linux-acpi@vger.kernel.org>,
+	LKML <linux-kernel@vger.kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Hanjun Guo <guohanjun@huawei.com>,
+	Sudeep Holla <sudeep.holla@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+	linux-efi@vger.kernel.org, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Mark Pearson <mpearson-lenovo@squebb.ca>,
+	"Derek J. Clark" <derekjohn.clark@gmail.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	platform-driver-x86@vger.kernel.org,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org, Shenghao Ding <shenghao-ding@ti.com>,
+	Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>,
+	Sen Wang <sen@ti.com>, Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+	Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Cezary Rojewski <cezary.rojewski@intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Binbin Zhou <zhoubinbin@loongson.cn>,
+	Andreas Noever <andreas.noever@gmail.com>,
+	Mika Westerberg <westeri@kernel.org>,
+	Yehezkel Bernat <YehezkelShB@gmail.com>
+Subject: Re: [PATCH v1 13/17] ASoC: amd: acp-es8336: Switch to use
+ acpi_bus_get_primary_device()
+Message-ID: <arI6Dz3lQiiSzWkl@sirena.co.uk>
+References: <7995179.EvYhyI6sBW@rafael.j.wysocki>
+ <2063881.yKVeVyVuyW@rafael.j.wysocki>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260921073847.63505-1-lgs201920130244@gmail.com> <dd60ce64-4af1-479e-99d3-1787a06da882@intel.com>
-In-Reply-To: <dd60ce64-4af1-479e-99d3-1787a06da882@intel.com>
-From: Guangshuo Li <lgs201920130244@gmail.com>
-Date: Tue, 22 Sep 2026 16:17:18 +0800
-X-Gm-Features: AcwNN1VVB2-e-7AnvOjQHk0rNG0E7RaHB9itWJcRpS2P7W5iTDsETsT01Vfbeag
-Message-ID: <CANUHTR9F+D1C49MLiiy5z1snyKtbBtdU1cnuhsgr0cysp+yOcQ@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: Intel: SST: fix platform device leak on probe failure
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: stable@vger.kernel.org, Liam Girdwood <liam.r.girdwood@linux.intel.com>, 
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
-	Bard Liao <yung-chuan.liao@linux.intel.com>, 
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Thorsten Blum <thorsten.blum@linux.dev>, 
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="g9wLfpB3a5wcy/uF"
+Content-Disposition: inline
+In-Reply-To: <2063881.yKVeVyVuyW@rafael.j.wysocki>
+X-Cookie: Too clever is dumb.
 
-Hi Czarek,
 
-Thanks for the review.
+--g9wLfpB3a5wcy/uF
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 21 Sept 2026 at 17:31, Cezary Rojewski
-<cezary.rojewski@intel.com> wrote:
->
-> On 9/21/2026 9:38 AM, Guangshuo Li wrote:
-> > sst_acpi_probe() registers platform devices for the SST platform and
-> > machine drivers using platform_device_register_data(), but does not
-> > unregister them when later probe steps fail.
->
-> s/machine drivers/machine board/
->
-> The above paragraph alone is sufficient, please drop everything else in
-> the commit message.  There is no need to write wall-of-text for a fix
-> addressing a missing error path.  In case this wall was provided by an
-> agent, relevant Assisted-by: tag is needed in the tag area.
->
-> You can keep the very last sentence if you want to.
->
-> > If machine device registration fails, the already registered SST platform
-> > device is left registered. The same leak happens when
-> > sst_platform_get_resources() or sst_context_init() fails after both
-> > platform devices have been successfully registered.
-> >
-> > A registered platform device owns resources allocated by the platform
-> > device core and must be released with platform_device_unregister() so
-> > that the device reference is dropped and platform_device_release() can
-> > free the backing platform_object.
-> >
-> > Unregister the created platform devices on all failure paths to restore
-> > the missing cleanup.
-> >
-> > The issue was identified by a static analysis tool I developed and
-> > confirmed by manual review.
-> >
-> > Fixes: caf94ed8629a ("ASoC: Intel: bytcr_rt5640: fixup DAI codec_name with HID")
-> > Cc: stable@vger.kernel.org
-> > Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
->
-> For the commit title: please update to:
->         ASoC: Intel: atom: Fix (...)
->
-> Provided both the commit title and message are updated, feel free to add:
-> Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
->
-> > ---
-> >  sound/soc/intel/atom/sst/sst_acpi.c | 13 ++++++++++---
-> >  1 file changed, 10 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/sound/soc/intel/atom/sst/sst_acpi.c b/sound/soc/intel/atom/sst/sst_acpi.c
-> > index 73624e1b138a..a1f16083bd3d 100644
-> > --- a/sound/soc/intel/atom/sst/sst_acpi.c
-> > +++ b/sound/soc/intel/atom/sst/sst_acpi.c
-> > @@ -352,7 +352,8 @@ static int sst_acpi_probe(struct platform_device *pdev)
-> >       if (IS_ERR(mdev)) {
-> >               dev_err(dev, "Failed to create machine device: %s\n",
-> >                       mach->drv_name);
-> > -             return PTR_ERR(mdev);
-> > +             ret = PTR_ERR(mdev);
-> > +             goto err_unregister_plat_dev;
-> >       }
-> >
-> >       /* Fill sst platform data */
-> > @@ -361,15 +362,21 @@ static int sst_acpi_probe(struct platform_device *pdev)
-> >
-> >       ret = sst_platform_get_resources(ctx);
-> >       if (ret)
-> > -             return ret;
-> > +             goto err_unregister_mdev;
-> >
-> >       ret = sst_context_init(ctx);
-> >       if (ret < 0)
-> > -             return ret;
-> > +             goto err_unregister_mdev;
-> >
-> >       sst_configure_runtime_pm(ctx);
-> >       platform_set_drvdata(pdev, ctx);
-> >       return ret;
-> > +
-> > +err_unregister_mdev:
-> > +     platform_device_unregister(mdev);
-> > +err_unregister_plat_dev:
-> > +     platform_device_unregister(plat_dev);
-> > +     return ret;
-> >  }
->
-> Looks like sst_acpi_remove() does not unregister the devices either.
-> That could be fixed by enlisting devm_add_action_or_reset() in
-> sst_acpi_probe() without altering sst_acpi_remove() at all.
->
-> Would you mind sending a separate patch updating the function so both
-> the error path and the driver-unload clean up the device objects?
->
->
-> Kind regards,
-> Czarek
+On Mon, Sep 21, 2026 at 09:53:51PM +0200, Rafael J. Wysocki wrote:
+> From: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
+>=20
+> Replace acpi_get_first_physical_node() that is slated for removal
+> with acpi_bus_get_primary_device() that takes a reference to the
+> device it is about to return.
 
-I'll update the title to:
+Acked-by: Mark Brown <broonie@kerenl.org>
 
-ASoC: Intel: atom: Fix platform device leak on probe failure
+--g9wLfpB3a5wcy/uF
+Content-Type: application/pgp-signature; name="signature.asc"
 
-and trim the commit message as suggested, including the
-s/machine drivers/machine board/ change. I'll also add your Reviewed-by.
+-----BEGIN PGP SIGNATURE-----
 
-For the separate cleanup patch, do you mean something like this?
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqyOg8ACgkQJNaLcl1U
+h9AtUAf/WrIx+1IBC/UCxyrfh6fRaiYU9rQ+OYNSO1bYP7b5ypcETGIH5hluHriB
+80NoC7AO1Jgl6ZA30C8zMRGGlAw8r92sskZ51+sFEv3SzOegWgM0emRP2hM0H30v
+0O4wZVu32zEC6aerkzPsGSthKygZa7hcl0Hy0oD9s6u4OmP7c8+LHadujlcD0uob
+slUDG1TpAhDS4Uu5YKUTvqc1yMxvr2O8DfzIPiGHDh0aEeocrtbe5cgnrxQwGJBJ
++pj46e7cPjW3IKg0q8uOEyliL63BAeAaw1VQ49CoIDt2/LE93qGx9DUO1njPeZ9z
+Llty1bZVqnhIOR0frCQwA1pyak3New==
+=lFHR
+-----END PGP SIGNATURE-----
 
-+static void sst_unregister_platform_device(void *data)
-+{
-+        platform_device_unregister(data);
-+}
-+
-        plat_dev = platform_device_register_data(...);
-        if (IS_ERR(plat_dev))
-                return PTR_ERR(plat_dev);
-+
-+       ret = devm_add_action_or_reset(dev, sst_unregister_platform_device,
-+                                      plat_dev);
-+       if (ret)
-+               return ret;
-
-        ...
-
-        mdev = platform_device_register_data(...);
-        if (IS_ERR(mdev))
-                return PTR_ERR(mdev);
-+
-+       ret = devm_add_action_or_reset(dev, sst_unregister_platform_device,
-+                                      mdev);
-+       if (ret)
-+               return ret;
-
-This would let devres clean up both devices on later probe failure and on
-driver unload, so the explicit unregister error paths from the first patch
-would no longer be needed after this patch.
-
-Would this be what you had in mind? If so, I'll follow Krzysztof's
-suggestion, organize the related changes into a proper patch series,
-and send a two-patch v2.
-
-Thanks,
-Guangshuo
+--g9wLfpB3a5wcy/uF--
