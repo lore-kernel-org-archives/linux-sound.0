@@ -1,41 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6497541453
-	for <linux-sound@vger.kernel.org>; Tue, 22 Sep 2026 12:35:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22671542EE6
+	for <linux-sound@vger.kernel.org>; Tue, 22 Sep 2026 12:35:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790080515; cv=none; b=RBk+ZxEicTQPNcewizWFtCIBM+cw+xdxQb9Zq44kHtJqYwNYnMelKtfgmVY5+9Tf1xPyZPK+aiwRiM5vAvB7WhOOsSHbMovPbI5RFcyj71g4gi/3X7tKZob91xY7Z/s4Anyi1NdQ4sraTT+NTvM7rCz1elJJdk/STVg2YdJiQLk=
+	t=1790080540; cv=none; b=SjMHR3wZlZdnoUQo50EpN6aTAK1Y9lxP1nr676xKsWkA9P2B28SnkvV5pk55+UHVKlhylsIP+96lxYX5zQ/Rf08/A5bun8hgLupDqMrH/qrdCStXS29M9zF1zWh7VcpnuLAkyx2M3a0EESNSXeADY0F5+fo1IOOIpI0UDvjoGtQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790080515; c=relaxed/simple;
-	bh=nEH+lIzXfchBqFvZ01FvHRuzLRNXHE2TnezFpLnEfww=;
+	s=arc-20240116; t=1790080540; c=relaxed/simple;
+	bh=KmnsOJMnMIdNvEuuZZpMQM5Dje8tGHikRHefz11sqPQ=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=MnkpC1GRMxApWi5Xodg4n4pDOCqHkF/CPBpu3Y6XkZl4uKDMpkMZ/+Qt3+ht0RSp7Z04WclKP5KJwq86zkydhsQGCHPgydXHoSubTGqZCL4uWz5qLxzYifOzdPLDznzOye8zYfLPTSEJO87jkUqz8u+1pCyHFsP2JjaBf1EVdGo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FTqlXKnP; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=FxiOmH+y7SwmaoyyiDnR2JaxV7L5gZR82CfiMJLQvHtGB6aVaVAy+RA6XLEjK1rJOzSF5YCkRVM3z0WrssiAUSfISspZP3aLO53dW0aIzL2QbILitIvh81DvuXjgWAaYBdTx4+hiC+qdWfYvV/YWvBe62dKTgXHQzfyIs+5olxU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cZMlp2L6; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FTqlXKnP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBF481F000FF;
-	Tue, 22 Sep 2026 12:35:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cZMlp2L6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF3991F000FF;
+	Tue, 22 Sep 2026 12:35:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790080513;
-	bh=RoHm1u50jrGFwY4HdVApWcvmIcqj6idxogrAZv/2N58=;
+	s=k20260515; t=1790080537;
+	bh=I8zmFqP240sfdYm7mvNOv45ANXcN/DPs2nvI82nrZg0=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=FTqlXKnPPVqfOEIDq+pdSQmfUwDdJJ1DXyc2vbuxayZ8Kme91FtDRcrFk65I46zl5
-	 AAPIU6C/LJnpvlSXLRyM7ZjCZZDlGgp0QnSAhTg/ohNDdyqNIuFic/rANzL1D9uxN3
-	 tu+WRVfJGQVfXregweJkXCTCIjt7BVVy0O+aBDLuDEZth0T1LJwBkJ6T29QiEFYHWB
-	 flHrPPOaisBgy5blHkVOHtsTbxV4l6uHZgPNjwsXz6Iak37LAGoFjnhQUFXelco6rK
-	 pLuuH0Ag4yZDTB86SDRdwzYoPVjiqxZjN1eI/4HYCo5Q8ySSajMHY0bVr80eY6u89e
-	 fwG/F3R1C6WnQ==
+	b=cZMlp2L6WQrMW1bT1KGU8ip2Co2bf1qXlbbQToXHYM7+JYqk8bBcXgKlvJyZO3LVC
+	 vO7aKHKbqGm9V/s2IhnlKXQlDsP/Ni0ru1l8jliSLCvJAU4I9pdr07taIqRoibDtu9
+	 MCODqCptUzoH/xa7nckQQyJMkHjL4zL7WnWwFUMgj+njOXOCRatKrjJ0StUVpNAhZk
+	 mB8QnEK711JSz92AWdLAFs3425KWLDo5+PFXKgv97b7w29GuRGIfyTGvsottJ8OzEM
+	 LSsWIuMLncOuxrv2CqEfljyvGyLcKItI7uLxgKg0OmHrhVkVMeYiBYozzm5UOi6nOA
+	 OFadd9hZwL6dw==
 From: Mark Brown <broonie@kernel.org>
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: tiwai@suse.com, perex@perex.cz, amade@asmblr.net, 
- linux-sound@vger.kernel.org
-In-Reply-To: <20260918111745.3589393-1-cezary.rojewski@intel.com>
-References: <20260918111745.3589393-1-cezary.rojewski@intel.com>
-Subject: Re: [PATCH 1/2] ASoC: codecs: rt286: Revert delay value for jack
- setup
-Message-Id: <179007280227.322763.10999770855697185790.b4-ty@b4>
-Date: Tue, 22 Sep 2026 12:26:42 +0200
+To: lgirdwood@gmail.com, Oder Chiou <oder_chiou@realtek.com>
+Cc: linux-sound@vger.kernel.org, lars@metafoo.de, flove@realtek.com, 
+ shumingf@realtek.com, jack.yu@realtek.com, derek.fang@realtek.com
+In-Reply-To: <20260917104244.2512641-1-oder_chiou@realtek.com>
+References: <20260917104244.2512641-1-oder_chiou@realtek.com>
+Subject: Re: [PATCH] ASoC: rt721: Add support for the RT721_U and RT718
+ codec variants
+Message-Id: <179007411243.322763.4743058105036896640.b4-ty@b4>
+Date: Tue, 22 Sep 2026 12:48:32 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,31 +45,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1250; i=broonie@kernel.org;
- h=from:subject:message-id; bh=nEH+lIzXfchBqFvZ01FvHRuzLRNXHE2TnezFpLnEfww=;
- b=owGbwMvMwMWocq27KDak/QLjabUkhqxNpX8+ak1YutbLJN78ld6zFp23x0qKlj/h09jz4H5T9
- 75FPzJKOxmNWRgYuRhkxRRZ1j7LWJUeLrF1/qP5r2AGsTKBTGHg4hSAicQ/5GBommK2R+L8MidD
- lrWGi6VaZHfyF+7wabbjriu4FjilvjVMK1qi5+XMovnaieHVy56WpS22M7oUmiFVNV1ytcZTVvc
- EqcwQhpur/03pNuy5fNU4/V5/ZGK0eA37oQW73S0m3+j/k+d7z3n79RcHj0jsORLhfyjggu/Gk9
- cjCowOO+11560KbH/8x2RPqckqzy2Wnab7ciPWf6nhncshw2XnLXBMrumI8SmdyO/MjwTtgw2Ov
- BLnPKShEn1JgevudAMBOb5b94+6FBrkyJ+f6bqarZrVRNlmxWe+na+OdLGmGChmxrK3ZN2fHyop
- bl6RKjJXyMO/37l3/4aF4jkaE48xNu1VesasljqXY+dqAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1146; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=KmnsOJMnMIdNvEuuZZpMQM5Dje8tGHikRHefz11sqPQ=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqsnYTBGU3ywbvg8+KQ6eGyypR4MMfNFx6t/b24
+ 2h5TUyho8yJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCarJ2EwAKCRAk1otyXVSH
+ 0NPBB/48EE9F/27U1SNN8uamvmjjmBhDhY74BhJGPzFMULqD+LzqMS6OPadwGT6Qn6DvATPFWBs
+ Q00vXsY6mqdCt6T5dDr/b6QqFmv2ooPH8stQzPNk0iT7RFjH2ahTKQ8lzTC6Y3oMMT1CfvSpKx8
+ fR6O5aB2TZi3b3s377Macpc6cCt0DvBXVxw8Cc/p88ROdeEfGSahs4IsELGKjDD16wll7joJ/dJ
+ Lpc9VmNP7JS3ABeUAYjjOknrRXZXRzYpOom8vHngUtznpFiI8jmCfhme3Emn+l7ECIEV4PMbG9k
+ Wsq7VYoQvXum0/XJGNF0zURKSqD0zCYwaX6OovT8pgGdq85T
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Fri, 18 Sep 2026 13:17:44 +0200, Cezary Rojewski wrote:
-> ASoC: codecs: rt286: Revert delay value for jack setup
+On Thu, 17 Sep 2026 18:42:44 +0800, Oder Chiou wrote:
+> ASoC: rt721: Add support for the RT721_U and RT718 codec variants
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
 
 Thanks!
 
-[1/2] ASoC: codecs: rt286: Revert delay value for jack setup
-      https://git.kernel.org/broonie/sound/c/d30fba93ebfc
-[2/2] ASoC: codecs: rt274: Fix format setting for 44100 rate
-      https://git.kernel.org/broonie/sound/c/6eda8938a790
+[1/1] ASoC: rt721: Add support for the RT721_U and RT718 codec variants
+      https://git.kernel.org/broonie/sound/c/7325b35a12d7
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
