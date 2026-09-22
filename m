@@ -1,90 +1,96 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22671542EE6
-	for <linux-sound@vger.kernel.org>; Tue, 22 Sep 2026 12:35:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 155405448BD;
+	Tue, 22 Sep 2026 12:46:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790080540; cv=none; b=SjMHR3wZlZdnoUQo50EpN6aTAK1Y9lxP1nr676xKsWkA9P2B28SnkvV5pk55+UHVKlhylsIP+96lxYX5zQ/Rf08/A5bun8hgLupDqMrH/qrdCStXS29M9zF1zWh7VcpnuLAkyx2M3a0EESNSXeADY0F5+fo1IOOIpI0UDvjoGtQ=
+	t=1790081204; cv=none; b=ipJ6/taBrKgFji/aqRUoLR/fvyqdbNni1kOeUNpLaP6gHE29ghXILSxW2/jv67Qr+ts/CYNEkwdr2n+p+5uBJ2sxPw/zXyTjzNN3D44gINZ+VmR0wKUrrhJyzH2Xj0fbCGPfxspPx5TWwWfOPbHjGuEXpLIorsQKFWvCcU8kD94=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790080540; c=relaxed/simple;
-	bh=KmnsOJMnMIdNvEuuZZpMQM5Dje8tGHikRHefz11sqPQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=FxiOmH+y7SwmaoyyiDnR2JaxV7L5gZR82CfiMJLQvHtGB6aVaVAy+RA6XLEjK1rJOzSF5YCkRVM3z0WrssiAUSfISspZP3aLO53dW0aIzL2QbILitIvh81DvuXjgWAaYBdTx4+hiC+qdWfYvV/YWvBe62dKTgXHQzfyIs+5olxU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cZMlp2L6; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790081204; c=relaxed/simple;
+	bh=vNIpBp7Mq3xucD0bjJbsHf7WV4eFM3nPd//WD4a1MoU=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=lcDnC/t1YFEUu1GfsIPNdy01QLvsWbn7yBZRfL34iLafWFazGsh+1FxG3JZaFPJ6fuXoGoItQzxupJYNXxxYsTKhkP/+IJUD94Nhzmhm+PFPhLX7wnSFG7VHI7bAPcDpcNV/PNc++QeM0I8AgWx8VUNHb8qwfCoTozWdulzqzOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I5rB4Ibk; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cZMlp2L6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF3991F000FF;
-	Tue, 22 Sep 2026 12:35:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I5rB4Ibk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70A4D1F00893;
+	Tue, 22 Sep 2026 12:46:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790080537;
-	bh=I8zmFqP240sfdYm7mvNOv45ANXcN/DPs2nvI82nrZg0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=cZMlp2L6WQrMW1bT1KGU8ip2Co2bf1qXlbbQToXHYM7+JYqk8bBcXgKlvJyZO3LVC
-	 vO7aKHKbqGm9V/s2IhnlKXQlDsP/Ni0ru1l8jliSLCvJAU4I9pdr07taIqRoibDtu9
-	 MCODqCptUzoH/xa7nckQQyJMkHjL4zL7WnWwFUMgj+njOXOCRatKrjJ0StUVpNAhZk
-	 mB8QnEK711JSz92AWdLAFs3425KWLDo5+PFXKgv97b7w29GuRGIfyTGvsottJ8OzEM
-	 LSsWIuMLncOuxrv2CqEfljyvGyLcKItI7uLxgKg0OmHrhVkVMeYiBYozzm5UOi6nOA
-	 OFadd9hZwL6dw==
-From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, Oder Chiou <oder_chiou@realtek.com>
-Cc: linux-sound@vger.kernel.org, lars@metafoo.de, flove@realtek.com, 
- shumingf@realtek.com, jack.yu@realtek.com, derek.fang@realtek.com
-In-Reply-To: <20260917104244.2512641-1-oder_chiou@realtek.com>
-References: <20260917104244.2512641-1-oder_chiou@realtek.com>
-Subject: Re: [PATCH] ASoC: rt721: Add support for the RT721_U and RT718
- codec variants
-Message-Id: <179007411243.322763.4743058105036896640.b4-ty@b4>
-Date: Tue, 22 Sep 2026 12:48:32 +0200
+	s=k20260515; t=1790081202;
+	bh=G1rkZ0T46UId3nWIoXsTfrSshnJUSXvrkqOmBXIvNK8=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject;
+	b=I5rB4IbkwqDsxM+HeEmlyqq+u8L6ZoI2BXDwVR/HMoHSdfaQSJ48oeo5/mRJ7Wecf
+	 t5nrvUYxyanw6t7S1Jys0Jv1/aZ1/SESZII8G8MSTF/rOBdZu/5Ohp6ZLV3PMXxNqQ
+	 R5H5/1LUXGfLfnoQMMMIiwdP7I4TIvHPhHNHoEg6n1+TKFLgCOO9n42zZJu1SlJ6JG
+	 rVFoe4puudVX6xdyV+E3WbKVFCoDVo51wHOaPrzX7BIiejPrDuNIohJV8mOFx3NLwq
+	 +Lw+4DIn+p9dtbNd6Nc7RSZoyqSSAfI2fjtk31kkmtPX7P53Ww1eLim6wzqgBURyN1
+	 HGjkrSMGLT2BA==
+Date: Tue, 22 Sep 2026 07:46:40 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1146; i=broonie@kernel.org;
- h=from:subject:message-id; bh=KmnsOJMnMIdNvEuuZZpMQM5Dje8tGHikRHefz11sqPQ=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqsnYTBGU3ywbvg8+KQ6eGyypR4MMfNFx6t/b24
- 2h5TUyho8yJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCarJ2EwAKCRAk1otyXVSH
- 0NPBB/48EE9F/27U1SNN8uamvmjjmBhDhY74BhJGPzFMULqD+LzqMS6OPadwGT6Qn6DvATPFWBs
- Q00vXsY6mqdCt6T5dDr/b6QqFmv2ooPH8stQzPNk0iT7RFjH2ahTKQ8lzTC6Y3oMMT1CfvSpKx8
- fR6O5aB2TZi3b3s377Macpc6cCt0DvBXVxw8Cc/p88ROdeEfGSahs4IsELGKjDD16wll7joJ/dJ
- Lpc9VmNP7JS3ABeUAYjjOknrRXZXRzYpOom8vHngUtznpFiI8jmCfhme3Emn+l7ECIEV4PMbG9k
- Wsq7VYoQvXum0/XJGNF0zURKSqD0zCYwaX6OovT8pgGdq85T
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: linux-sound@vger.kernel.org, Mark Brown <broonie@kernel.org>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+ Jaroslav Kysela <perex@perex.cz>, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>, 
+ devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Srinivas Kandagatla <srini@kernel.org>, Takashi Iwai <tiwai@suse.com>
+To: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
+In-Reply-To: <20260922-vmid-v4-v5-3-e79cfd7af5b3@oss.qualcomm.com>
+References: <20260922-vmid-v4-v5-0-e79cfd7af5b3@oss.qualcomm.com>
+ <20260922-vmid-v4-v5-3-e79cfd7af5b3@oss.qualcomm.com>
+Message-Id: <179008111464.3145305.16495726545311526155.robh@kernel.org>
+Subject: Re: [PATCH v5 3/4] dt-bindings: sound: qcom,q6apm-dai: add
+ memory-region and relax iommus
 
-On Thu, 17 Sep 2026 18:42:44 +0800, Oder Chiou wrote:
-> ASoC: rt721: Add support for the RT721_U and RT718 codec variants
 
-Applied to
+On Tue, 22 Sep 2026 00:38:11 +0530, Ajay Kumar Nandam wrote:
+> On modem-DSP (mDSP) platforms the DSP runs in a stage-2 protected
+> context and cannot use the SMMU. PCM buffers must live in reserved-memory
+> carveouts that are SCM-assigned to the appropriate VMIDs.
+> 
+> Add an optional memory-region property (1-2 entries) for the
+> control-path and data-path carveouts, and remove iommus from the
+> required list since mDSP platforms have neither IOMMU nor VMID DT
+> properties.
+> 
+> Signed-off-by: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
+> ---
+>  Documentation/devicetree/bindings/sound/qcom,q6apm-dai.yaml | 12 +++++++++++-
+>  1 file changed, 11 insertions(+), 1 deletion(-)
+> 
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
+My bot found errors running 'make dt_binding_check' on your patch:
 
-Thanks!
+yamllint warnings/errors:
 
-[1/1] ASoC: rt721: Add support for the RT721_U and RT718 codec variants
-      https://git.kernel.org/broonie/sound/c/7325b35a12d7
+dtschema/dtc warnings/errors:
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/sound/qcom,q6apm-dai.yaml: properties:memory-region: {'minItems': 1, 'maxItems': 2, 'items': [{'description': 'Control-path buffer (audio_heap_mem) for platforms where the DSP runs in a stage-2 protected context (e.g. modem-DSP).'}, {'description': 'Data-path buffer pool from which per-stream DMA buffers are allocated.'}]} should not be valid under {'required': ['maxItems']}
+	hint: "maxItems" is not needed with an "items" list
+	from schema $id: http://devicetree.org/meta-schemas/items.yaml
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+doc reference errors (make refcheckdocs):
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+See https://patchwork.kernel.org/project/devicetree/patch/20260922-vmid-v4-v5-3-e79cfd7af5b3@oss.qualcomm.com
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
 
-Thanks,
-Mark
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
