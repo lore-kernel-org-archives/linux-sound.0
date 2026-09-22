@@ -1,156 +1,181 @@
-Received: from mail-qk2-f12.google.com (mail-qk2-f12.google.com [74.125.230.204])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11011052.outbound.protection.outlook.com [52.101.65.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 346733264D2
-	for <linux-sound@vger.kernel.org>; Tue, 22 Sep 2026 01:53:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.204
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790042014; cv=none; b=CSpH1iKxTHrjcK1j75iUdv20EyLwilonWQddeuB19EVRfE9v+uXJsJp9PcuI7VzmZXiDZUTgl5pamEpi3W5sqlOEBkLwHWtAw3M17KNNo2ex0COdpnshMJcMheC3Zzge/wJ3Z94fLUbF9pDeMAEINcO+ZdxbiVtCWpn4G6f+rtc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790042014; c=relaxed/simple;
-	bh=3BgYikqSax4HF0A6zgnHHnuQB1alfzJJhKARWIQRbhE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PncAyV0l/nGDXCrN1Pg0NqF5MEIYa01R0n3/ho4nDMsAvBwZKfTZRk6eMk9PFnx+RLROyVaL14hQpGdNpD/FN4r+BCs+3e9x35q4/4QHEhXRvRJt3lpH++spZrwPDXSqYXbtqxt93YTD4wdlIs0xLlB4nbEPnCwXPv9c116yfng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g0A7KPqD; arc=none smtp.client-ip=74.125.230.204
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08F79372EC0;
+	Tue, 22 Sep 2026 02:01:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.65.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790042503; cv=fail; b=ZyUvgxRA64sWPH1fkOYn/HeEOSyJL6FZQJ1IUXlKVR073JeBUhOYqeNBgT24lIisea8HDtf80rQV0w7IbHlIfgjM5CuOKmtnYzfqovWRAd1zTxG/tavnjIm5Y2UWvKN+x0I5Ur+pj1zoaF8J0wCGSah7uQjqACPNaovzkNAokYA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790042503; c=relaxed/simple;
+	bh=tcSliTw+XM0SAl7EPFcdMyL4Kjk86leHzsTZeI8hYNM=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=naZL4d++Wg46K2lHb0cY+5bc6tLSmbGb0rEpPVqv2pjO7ewblGIPa/00SK4kBEiL7t0M3FIPb/miIzeVRszqaf0bsjoFv01WO+quHaXikuHjSMZwqTTPbnQ0hD7aDliIjyg06XbAJPrBQ2fnkuNN7ZSiY11PkmNUYQ44OYZ/Kvc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=TaBVI7hr; arc=fail smtp.client-ip=52.101.65.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g0A7KPqD"
-Received: by mail-qk2-f12.google.com with SMTP id af79cd13be357-93910cc46c4so349249085a.2
-        for <linux-sound@vger.kernel.org>; Mon, 21 Sep 2026 18:53:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790042012; x=1790646812; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ByHXe55/uuBbCQG8Zppw6bo6YHny9xMuvL7YZ42cUcg=;
-        b=g0A7KPqDAU/BRD52u0DeQ795PUnt4z2wxmWUcKMnccLBXUfZ/JecrDV7N2Dsc0n0Qw
-         +wu8Vrbb57fIYTs1FWnNHxI/p6G2uwMe0rJTc2SnmS7sD4SzFLA11m54grNk7CNkmAcw
-         VHwYPVqmn/CjO7amfRXJ4Hw12rfg31Duqk2jJ9YVnB568rFnY030N32UkUdx98MJE5Tl
-         Tsx+EDhBgx2QvDT+i7/v3OA576RpLZCvGQ7grePqO9dhY5YcdON3QUGnSTEvKdMhZQK/
-         aD8f4uITXi3r2S8lAadDQNpxiTwnlTZnENhQGuBfLPWPj4jb8xrAXZGjvainyQ7dAN8B
-         AmVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790042012; x=1790646812;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ByHXe55/uuBbCQG8Zppw6bo6YHny9xMuvL7YZ42cUcg=;
-        b=HP5XPoAhimAUtg0sDjd+S0b0gc1d948amnwlFPAvyybX+NOTmyP68kGsKCH3O/sR02
-         lyQobCe1brt6dbNjzfiAqDK/XtteaPPgsFgpOxh85EwK4vB0ks10l+p7VB/NR7tANeKA
-         RCfys8ygvz9CGQqNEaeDOqfNNXQgged2mv3clbSi1dIvjyZUx6zq4eR9BSGBA4/z4JMZ
-         TeLw2CEQ/0RUzpNHDO3KNSjcaAJcrWMmkn9oCmecyQ0am+69Gsx8OvxKbhj0U7/7Jic/
-         5N61g7Iu2LS2COv9XMgl8F+5kigjaeuLCrThmWymVrjaf8BpRjPGUt4+2OlJ/dFvJHEz
-         frUA==
-X-Forwarded-Encrypted: i=1; AKwUvBz/nbiYdYRCx/DhVlRqE2EHthFczwTECoPFFPzhat45KFjW2GurqNbIzL/3NhY8nw8it9YxQMwKRrss2g==@vger.kernel.org
-X-Gm-Message-State: AFuF++koHPHMRYoiSrgx9N9cNMLv3xqm9PApYebjB3ZfuvLWLVVQuJNr
-	joCDUvZ1EKJEQucB+Uoa3WBCdiTZhM/n4cL9ijpZpfg2NNsHUwsz7+c=
-X-Gm-Gg: AYBFou2RGb55HpGb+Ya4DXA9mBOzAGYwnSqloyI/j/lZNuZOzoXWZflTMjL5kXYiUYm
-	OMK8+KtBNvosRZQrDsG+yCkMq6Zch5upc/a0fvB+Ky5oRb6/0cOkKloWwMkcYjk4laPP1SB0e0E
-	PuEEua6bfKW4+lHS15idgDyju6/SrAG0ipQAIuIO8CyDLhyIwhH0Vc5QclO8633ZRTkMXOMVzwp
-	31WMoC+fgGe103OL6F45DNSc3ldEZhB2ou02LntCI4rIrm4xn2vZSbLmxVRWUYjYexqzLVOMqJg
-	AnXp7+rJsXquFCYoRhS652JApZ8Cebqvac3C8BIFCpAiU6Na2c+DuzL76ldwvj8n1xnYRijgQ7I
-	/+59Ukdm4rCCwbQUj57GT59c0/uxVGI73UUkObJsJOaVNpxUzfySa607JHy1i3/d5TPb+/FwLvx
-	hszO9SCBjAR/7VdO7v35+nitZJUTRxD6092ldbGx4fz3RS1uKj9CcIGhGct8Zq1qy8py5pvJ1PS
-	vOJ3qSd1B3mi5BhYSRMClbJhFpsTuAflG4Nok1hwWb2ivBhgRIL8OIzajeneCdnG3XY1aAdVHMn
-	JoBMfgh58DsFCm5JMGmCnHwfAJ7j
-X-Received: by 2002:a05:6214:2128:b0:910:345b:4c5e with SMTP id 6a1803df08f44-914008bbd47mr17891176d6.37.1790042012011;
-        Mon, 21 Sep 2026 18:53:32 -0700 (PDT)
-Received: from i4-gl-tmk5904-1.ad.psu.edu ([130.203.156.90])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91402536633sm3857706d6.49.2026.09.21.18.53.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Sep 2026 18:53:30 -0700 (PDT)
-From: Myeonghun Pak <mhun512@gmail.com>
-To: Oder Chiou <oder_chiou@realtek.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Myeonghun Pak <mhun512@gmail.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH] ASoC: rt5663: Cancel jack detect work on unbind
-Date: Mon, 21 Sep 2026 21:53:27 -0400
-Message-ID: <20260922015327.637137-1-mhun512@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="TaBVI7hr"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=XNM3ZPUiL/uDpnHWy3qvtWzEsMpcS12R1v7B8E2Zb8U/fTNWP19+/Tn+35ehD7uaF1TKc2dOtXZY50wXTz77o0YjQKwg3Ksr1NO+cnDhQMAgeEOnf9wj7+uGdClI1X9O9xS2WYWyS//QIUpVAJdEfD00HvdadS23NBFjbY+4JTBn8qIGFmcWTZYcTSsExdUPLnXFD3zlZYppDElD5x8f68SZNZQy0DZn88uQBX3/ZNN6Uu3llyXfuYxKLvdz2dUbCoP/oj41um2/N9Ll5sHtxTK1X5kA3Sanka1WSh3ey+fcOZWjmu5UOv78nIDoxSdz9V2Cx02iZy7DDkFGWH5O4Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6jN5PYVF8MPwYaqFtg/6xwR7dPiJsGXG3yDgTNiFVMI=;
+ b=FP/OynCJr78xX7AOFlh+jzPxKGwxpbFGp6X5Adz1PRJprdmppmPh8aPq9GRUIKNpLCrtBhiR5Igfr3t5moBOQnRCWyR49u5HLIM0C24kMsr5RaLeJQVZKqQHiokAne9x80G8xj38agfmYVxkwWqDNnxIhsKHwMS06xewZlIm2Ue9tmO4mjxWHCzExn0gHXx+9YJ9KPB86/y8loqB/JEBggwrnZLV5AzuoupV9oiPT4Za995bkQC0nJQ5fOyW0rGhhpH59Ap8P7/an3WOeRu2BmuLzJ3jVul7goVIgJZyjodjaWi7fL4/CMhc5G9CEEU74SrxcwgzbuNRQu2kS0UVDw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6jN5PYVF8MPwYaqFtg/6xwR7dPiJsGXG3yDgTNiFVMI=;
+ b=TaBVI7hrPW/hi3vm1HAq4HQMv3zVBWSMd35yIeHEm1HM+WkwAhlyy6TRnIlG4Ts6ucFZrXtHirYVFZquH10py5CEc83qqUzoAfY+fk9IsmvjLHsvOSwUVMepKyzlgJARj7Wr79Sg8CVMoTHIIOEE9ETvMK9N+c0x4Z5+r99C0KxLNpKdLNzR3Mn7Mw2yIxUEhl99ahhyqPEona2WW2d7oDt5Lk8qf80Wnpb1hw14P1HSkpHXMRdn8CW3Lb8lKXjMwLoGXymnp7ZPF5XuD3uGIekTvJpdTBMebjGktFV4gFJXLjiF9Ek7sxtaY+Hg7FgZL+3QDJ+uevjtMyjq97FBuA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from AM9PR04MB8353.eurprd04.prod.outlook.com (2603:10a6:20b:3ef::22)
+ by VI0PR04MB12235.eurprd04.prod.outlook.com (2603:10a6:800:333::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.428.16; Tue, 22 Sep
+ 2026 02:01:36 +0000
+Received: from AM9PR04MB8353.eurprd04.prod.outlook.com
+ ([fe80::46ae:f774:f04c:a1bc]) by AM9PR04MB8353.eurprd04.prod.outlook.com
+ ([fe80::46ae:f774:f04c:a1bc%3]) with mapi id 15.21.0451.012; Tue, 22 Sep 2026
+ 02:01:36 +0000
+Message-ID: <ad8b7cb4-f6f1-4977-b67b-9644204721e1@oss.nxp.com>
+Date: Tue, 22 Sep 2026 10:01:29 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 15/21] ASoC: wm8985: Move regulator acquisition to the bus
+ probe
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Oder Chiou <oder_chiou@realtek.com>,
+ Support Opensource <support.opensource@diasemi.com>,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ patches@opensource.cirrus.com
+References: <20260921104640.1941554-1-chancel.liu@oss.nxp.com>
+ <20260921104640.1941554-16-chancel.liu@oss.nxp.com>
+ <arEalD61KwxqRt1g@opensource.cirrus.com>
+Content-Language: en-US
+From: Chancel Liu <chancel.liu@oss.nxp.com>
+In-Reply-To: <arEalD61KwxqRt1g@opensource.cirrus.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SG2P153CA0054.APCP153.PROD.OUTLOOK.COM (2603:1096:4:c6::23)
+ To AM9PR04MB8353.eurprd04.prod.outlook.com (2603:10a6:20b:3ef::22)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM9PR04MB8353:EE_|VI0PR04MB12235:EE_
+X-MS-Office365-Filtering-Correlation-Id: e1794230-c6f5-48c2-a55b-08df184d6ec7
+X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|366016|23010399003|19092799006|1800799024|10067099003|11063799006|22082099003|18002099003|56012099006|4143699003;
+X-Microsoft-Antispam-Message-Info:
+	4UkfJorWzo7Itkc+kEaEfo/Lz0obeNN1Vpn5+MlFYW3UzmSiy0VAsu3Nph83W6GMgRpf1hH5JqYyOffnGMDaCUWus5WB9yKqQm4i3Ha20qZr0nvgwFLkyEumep116jOqRrFre9R8zeIcTdl94sfp2mLTKVBVQPv8G4ch6opJ8jQNyDmo0Qn69eHYnZ9ZWCnEBxqTpTqN5k60l66blAGk+vgW14tLxu2p1lGFvCOHPPbyfk4V+R4ys/Ifyp5I3Co2p88ZT1uszmeOVsSWqnrgL014itFOkWPbVTpMlUeg/u/S1jZiVrTY0vei8b1wQjkuP4sM4D0RApHLklpqgGjwR671lklzgJ5psrDSY1dZDK4jUu1EMhEp1eSrmmfenVymg1vCXF7UqCJGC8Uwk671PvbbiJ5jvdAJJhBoC4zZgNkN7dTUS9FSPA+0EKxBlGFw1SLBLtGCbl3BDgXSyVNQ42SnAypbgq678wgcU5Po47DVRjHuegr0dwi4iRWPavdYz+juwZ+lRR9GOU7lNqsuJyQFIvxeO8Vqm1lLlVu1MIwA0XTgBuLBJ1l2YlnmmJRj3gcHS+tLLtW5XXwHYjyz+AGBUhaImCC/hf+G6LZpfnl3pgC8gMIi+LETYmyO56smxtz0Plog7F36Z9qXMgyFl9+utcY53l5om/cV2kDHokk=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8353.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(23010399003)(19092799006)(1800799024)(10067099003)(11063799006)(22082099003)(18002099003)(56012099006)(4143699003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?cWpaelY2UDl3b0cxWDI1dmNweVlibnpmYXNRTkVhVnN5ZCt0b3VhWVNJcU1L?=
+ =?utf-8?B?dFA2MW5BTnB3S0hQTU04TENnOTF6N21ZZmhMeE10bzY0Mk9QY3RXR0x2dmUy?=
+ =?utf-8?B?cTdrU0N4MmNJVG02SE5xSmliSnN4L2p2Z3hPMXdxR29abWtWVWttaXdJK1Av?=
+ =?utf-8?B?L1k4N2l6bzkxVUUvNU1USWVYcEtna3F5SkJ1eHJxa3F2RVc2QzAwL0xyN2tu?=
+ =?utf-8?B?MWdkMFFDSXJUVmZuV0IzcUhlckVWUzBEaXRxdWgyY2NNeUZOWEVmQnFTUGdn?=
+ =?utf-8?B?andrNVVCQnVpNXZZNFNnZTNIQ2V5SDN1d29SdkpvV29Icm5na295WFRuZUhm?=
+ =?utf-8?B?N0pmUTEyeTk0bW1iMis5V3h6VGtTd242Kzd4dEFYT3l0VzBucEZRNy9kM054?=
+ =?utf-8?B?ekZqa0FFRXVxK2c5MHNiQU1jK3dEYXRDZlh1NnVqZkhOclNnVEVBVXY5WnIv?=
+ =?utf-8?B?cXQyWEFMVmxlSlIyNHFwWGlCaFlVTGtEanJiYW5yclpxY2Z6dWs2NitFYVRF?=
+ =?utf-8?B?UnR2Z1NIaEZtUWxKQU9GNkVRT1RvUG8zdTYzZ2d0VUFRZjhCbktwWWs5T1Ey?=
+ =?utf-8?B?dTF5U2NveWFhZy9jVkhWQlRHV2V6Y1RoeEpEWHJXMmx5dThvL1pCQ2ZqYmVv?=
+ =?utf-8?B?QjNlTS85TUoxVEV4SGhMZ1d5YVdleFJ5MzVKbkROMFF2K1VRZXhaM2lUYUFM?=
+ =?utf-8?B?TmZpNFJFcHVic01nMUswbmFXUE5GVk5yZ0piSFpKMXJuRUNIbDFhNnBwU3VK?=
+ =?utf-8?B?YnpCalM0V3Q3Vkd0djJ6Y1hud3JrZUxvbVA4Mk5jTXZ2ZUg5T2lWK0RGVW4y?=
+ =?utf-8?B?bjlaOEZUWk13dVAzaVhDbGwrS2h5ZzdFQ3ZrOU55MzJ1a3R6UXN4b0JiMDlC?=
+ =?utf-8?B?NklNajZ4VkRvZWVudDdZWkpXeitTc2Q5SmlKZWIvVkg4QUFnK3piVmJ0a1BS?=
+ =?utf-8?B?bEZZNFBXNVlyc1pCRm9rRThYLzNvdWhUT0xldisxYUZtRUM1enkreXc4VnBS?=
+ =?utf-8?B?cDlnblNxRmF0QUN3Y3RER2MxNUlJbFhMc3BKVnArOUd0S1B5ZnpKUktUMllZ?=
+ =?utf-8?B?VU02MHlFZmx3M0JucDJJZlk2dy9PMlNQUjduNnBCbHQ3ZGVidFUyeWNXKzRI?=
+ =?utf-8?B?TE9ad0xKMHRjNWpvNXVhOWQwZnBlRmJTMC9oL2hERTUzWUF1dTRiRlI0Vy9E?=
+ =?utf-8?B?YUVITXhXbWFRUXdlNXhNdGJidGdycWc3ZzRERGJjelBwbWFXcFlMckhlNDAy?=
+ =?utf-8?B?b3pLQXplTXNtWGlveXFvQ01GaThPYnluM240TC9zZ1Vock1raHJkeEhVR0dX?=
+ =?utf-8?B?NzM1VlNMbUppR2VjQXowb1lUSDRKRCtnZlVoUFZZbjNPM3NuMk1oVk9FZU5p?=
+ =?utf-8?B?RkMvM1RZZXF6VVU5d2VEZ2tQVXhRS1ZOS0pCMzlvQVVWdE5ROFBOTE5wTVMr?=
+ =?utf-8?B?NW1VdFd3WEZxMEI3WThhUk4remUzeFJTdWR5eHQ3eXhrNHB6V2lHUjIrQS9a?=
+ =?utf-8?B?ZG8rMlNLRDZza1p1d0Q2YjBYOWNEdm81b012ZDNWZTZ5OW9wQlIzVUI1eE51?=
+ =?utf-8?B?U2tKbVNZL3JHOWRjRm5TRERvNmNkejNHZzk2TTZOck5qdXUrT3kwTDhISWk0?=
+ =?utf-8?B?TkhWWWtmeDEyMjRYSk11bW5SOUsvZEoyZUlrZk1nTW9xeW8yTVdZcDBIdWhK?=
+ =?utf-8?B?dWtucU9Vc2F3ci9IVzV4WHhwTnlTSVJnWDBQbENUUmxKNDBxK25xNEx3UmZ6?=
+ =?utf-8?B?bDJaZDBiUFFMYXdYbVd1Q0cvc3dhdlBlVlNjZnJ5WGtxMy9WKzkzYk91WHhX?=
+ =?utf-8?B?VFFCNVRFTGxlaisxelBXVEgyOEdzZXFRUHM1Z3VEMEhsMGl0TmVzWWpLUHVj?=
+ =?utf-8?B?b2RmajNZV3c2ejBpNmVkeGFYMXA5NkI4WE12TmtaQ1hBVmZHSjJacGZWRTd6?=
+ =?utf-8?B?SnZJM21tVkJxblZBVWNuY0YwTFNCd0ZZSUpXem5XMDRLNnFaTHFOTEtZL3Na?=
+ =?utf-8?B?Um9FZm0ramNGRUx2ZEc2bTcvQWo1WStoVDBvZHg1N29Tall6d2pIUVcwV1JV?=
+ =?utf-8?B?OGhsb0VhZ2xEcXlwMTdnbzhtUi9oRjNYYkJpc01pMkpmWTdYZzIyVlIreTRk?=
+ =?utf-8?B?eGRJVVVkUDBVd1hYaS9naG5IRXhpS0xTYTE3cEdRbkFTa0tZM1ZGM1lhbmJN?=
+ =?utf-8?B?OC8remhuMHU3Q0FZeWZRWWNVVXE3OFBOZDRGRzBXd0JlcVhiUlJhb2Z2L01o?=
+ =?utf-8?B?Y1lRSGg1TzFkclREWFpVRTdNZ2VWTWRwZi9PdzYwUjFEV1RiM05FSzJCdW5B?=
+ =?utf-8?B?cjdieDhSM04rZXJPMlVPUUplM1RNbVNRNTBqa2M1Vlg1T2crWEY5Zz09?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e1794230-c6f5-48c2-a55b-08df184d6ec7
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8353.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2026 02:01:36.4557
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Veq5itpsTcL2bfFCkdn+CbJMNGYKTEh7dmxP7ukTgkucrTVVcesC6NCjxMtuhXwDwrVKHaEK1fA1TD4TWF8RPQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR04MB12235
 
-ASoC: rt5663: Cancel jack detect work on unbind
+Hi Charles,
 
-jack_detect_work and jd_unplug_work live in struct rt5663_priv, which
-devres frees after rt5663_i2c_remove() returns.  The IRQ queues the
-first work, a button press queues the second, and jd_unplug_work
-rearms itself while the jack stays inserted.  Both callbacks load
-rt5663->component before checking it, and nothing clears that pointer.
-rt5663_suspend() cancels the works; unbind does not.
+Many thanks for your review.
 
-rt5663_remove() alone does not cover unbind.
-snd_soc_del_component_unlocked() skips it when component->card is
-NULL, which is true if the codec was never bound or the card was
-already unbound.  The jack IRQ is requested before the component is
-registered, so it can arm the work with no card, and it stays live
-across a card unbind.
+On 9/21/2026 7:52 PM, Charles Keepax wrote:
+> On Mon, Sep 21, 2026 at 07:46:34PM +0900, Chancel Liu wrote:
+>> From: Chancel Liu <chancel.liu@nxp.com>
+>>
+>> component->dev is the underlying i2c/spi device whose devres is only
+>> released on physical device removal, not on ASoC card unbind.  Getting
+>> the regulator supplies with devm_regulator_bulk_get(component->dev, ...)
+>> in the component probe therefore leaks the regulator references on every
+>> card bind/unbind cycle.
+>>
+>> Move the devm_regulator_bulk_get() into a helper called from the i2c and
+>> spi probes so the supplies are tied to the physical device lifetime.
+>>
+>> Signed-off-by: Chancel Liu <chancel.liu@nxp.com>
+>> ---
+>> @@ -1176,6 +1178,12 @@ static int wm8985_spi_probe(struct spi_device *spi)
+>> +	ret = wm8985_get_regulators(&spi->dev, wm8985);
+>> +	if (ret) {
+>> +		dev_err(&spi->dev, "Failed to request supplies: %d\n", ret);
+>> +		return ret;
+>> +	}
+>> @@ -1212,6 +1220,12 @@ static int wm8985_i2c_probe(struct i2c_client *i2c)
+>> +	ret = wm8985_get_regulators(&i2c->dev, wm8985);
+>> +	if (ret) {
+>> +		dev_err(&i2c->dev, "Failed to request supplies: %d\n", ret);
+>> +		return ret;
+>> +	}
+> 
+> Probably slightly nicer to include the error message in the
+> helper rather than duplicating it in each probe.
+> 
+> Thanks,
+> Charles
 
-rt5663_i2c_remove() alone is not enough either.
-rt5663_set_jack_detect() queues jack_detect_work even when clearing
-the jack.  On a bound I2C unbind that call comes from
-snd_soc_link_exit() after rt5663_i2c_remove() has returned.
+Agreed, It looks better this way. I'll improve it in the next revision.
 
-Cancel both works after free_irq() in rt5663_i2c_remove(), and again
-in rt5663_remove().  Cancel jack_detect_work first; it can queue
-jd_unplug_work.
+Regards,
+Chancel Liu
 
-This issue was identified during our ongoing static-analysis research
-while reviewing kernel code.
-
-Fixes: df7c52168ee1 ("ASoC: add rt5663 codec driver")
-Cc: stable@vger.kernel.org
-Assisted-by: LLM
-Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
----
-Found by inspection; not runtime tested.
-
- sound/soc/codecs/rt5663.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
-
-diff --git a/sound/soc/codecs/rt5663.c b/sound/soc/codecs/rt5663.c
-index 262d3bba1f3d..2430bce31b3b 100644
---- a/sound/soc/codecs/rt5663.c
-+++ b/sound/soc/codecs/rt5663.c
-@@ -3179,6 +3179,13 @@ static void rt5663_remove(struct snd_soc_component *component)
- {
- 	struct rt5663_priv *rt5663 = snd_soc_component_get_drvdata(component);
- 
-+	/*
-+	 * Bound teardown runs this after snd_soc_link_exit().  set_jack()
-+	 * there can queue jack_detect_work, which can queue jd_unplug_work.
-+	 */
-+	cancel_delayed_work_sync(&rt5663->jack_detect_work);
-+	cancel_delayed_work_sync(&rt5663->jd_unplug_work);
-+
- 	regmap_write(rt5663->regmap, RT5663_RESET, 0);
- }
- 
-@@ -3728,6 +3735,13 @@ static void rt5663_i2c_remove(struct i2c_client *i2c)
- 	if (i2c->irq)
- 		free_irq(i2c->irq, rt5663);
- 
-+	/*
-+	 * component .remove is skipped when component->card is NULL.
-+	 * jack_detect_work can queue jd_unplug_work, so cancel it first.
-+	 */
-+	cancel_delayed_work_sync(&rt5663->jack_detect_work);
-+	cancel_delayed_work_sync(&rt5663->jd_unplug_work);
-+
- 	regulator_bulk_disable(ARRAY_SIZE(rt5663->supplies), rt5663->supplies);
- }
- 
-
-base-commit: 238650ef6c7c7cca08e032527329424c9fbd70e5
--- 
-2.53.0
