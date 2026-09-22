@@ -1,96 +1,151 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 155405448BD;
-	Tue, 22 Sep 2026 12:46:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 185164248DC;
+	Tue, 22 Sep 2026 12:47:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790081204; cv=none; b=ipJ6/taBrKgFji/aqRUoLR/fvyqdbNni1kOeUNpLaP6gHE29ghXILSxW2/jv67Qr+ts/CYNEkwdr2n+p+5uBJ2sxPw/zXyTjzNN3D44gINZ+VmR0wKUrrhJyzH2Xj0fbCGPfxspPx5TWwWfOPbHjGuEXpLIorsQKFWvCcU8kD94=
+	t=1790081240; cv=none; b=ZBuSV2r3gsEFOzs2epPGt+93qpIpWzij+Gfyd872kPhyMPGOOcwuWbcT+BFiaAz/8OjQzMwY/zVwVuDG7CimwBV4MJBwQcv1nf072DN6U6OoPn6B/3cUMCtE4DJfg+OgsV+a0ixDGfQ5dhcSRT9L6hERAHpq1Fn0OzqiqcHOYc4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790081204; c=relaxed/simple;
-	bh=vNIpBp7Mq3xucD0bjJbsHf7WV4eFM3nPd//WD4a1MoU=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=lcDnC/t1YFEUu1GfsIPNdy01QLvsWbn7yBZRfL34iLafWFazGsh+1FxG3JZaFPJ6fuXoGoItQzxupJYNXxxYsTKhkP/+IJUD94Nhzmhm+PFPhLX7wnSFG7VHI7bAPcDpcNV/PNc++QeM0I8AgWx8VUNHb8qwfCoTozWdulzqzOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I5rB4Ibk; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790081240; c=relaxed/simple;
+	bh=8ZKyqOu0mEmRU4MJJjqfKU5OT/hrxhKmNGxrkJ1omVE=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=jTHODBDjbrTfN+qVeWhfHPHtTPKmSeObFYVu+C3PwUiBbR+S75bR+0I6qpzaWwTfkB1077Op+OzGZWejsbTM9cPH1kQAn+phVrAwBOfrxafuZfBFjRASlhAQRxh0eaM82YiVbQeE5s1r73G+qefImF7OdWBEA0CTuljSZ9kLa/Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W8tUvca5; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I5rB4Ibk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70A4D1F00893;
-	Tue, 22 Sep 2026 12:46:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790081202;
-	bh=G1rkZ0T46UId3nWIoXsTfrSshnJUSXvrkqOmBXIvNK8=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject;
-	b=I5rB4IbkwqDsxM+HeEmlyqq+u8L6ZoI2BXDwVR/HMoHSdfaQSJ48oeo5/mRJ7Wecf
-	 t5nrvUYxyanw6t7S1Jys0Jv1/aZ1/SESZII8G8MSTF/rOBdZu/5Ohp6ZLV3PMXxNqQ
-	 R5H5/1LUXGfLfnoQMMMIiwdP7I4TIvHPhHNHoEg6n1+TKFLgCOO9n42zZJu1SlJ6JG
-	 rVFoe4puudVX6xdyV+E3WbKVFCoDVo51wHOaPrzX7BIiejPrDuNIohJV8mOFx3NLwq
-	 +Lw+4DIn+p9dtbNd6Nc7RSZoyqSSAfI2fjtk31kkmtPX7P53Ww1eLim6wzqgBURyN1
-	 HGjkrSMGLT2BA==
-Date: Tue, 22 Sep 2026 07:46:40 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W8tUvca5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1790081238; x=1821617238;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=8ZKyqOu0mEmRU4MJJjqfKU5OT/hrxhKmNGxrkJ1omVE=;
+  b=W8tUvca5PHakNVU8W3KdzzvE0tupjrBHcBYq7mWmCNvvzo2dZlTE+5ZE
+   GE6IsywKUUP9K+YwIRfUU7qVELFGEHd/bkVvcWUzoqN1qmxTzafPTcbtu
+   OZkUu5zYfywIp+Sp8IgFF+E4cF42/yeqQP+4FwMzeDseUF0y6VY9EXsUP
+   /EfAQaJvRkp8IQ+/BudyKZObao6Yv+hte28+9qKD+zWydQVsEMzRI1eND
+   p8pU5bO6BxsFhkzUCVg0fkxyuZ7a9hpPLz+/bAYXGi8BigZXPq5ad6Klm
+   W4FBDVXx0TDjs6eHegtpalGJWsxZV3jQVfQodlSa7RD8WmGvNlllO+liG
+   A==;
+X-CSE-ConnectionGUID: CtV3F+JGRmOcwzbDpOboog==
+X-CSE-MsgGUID: pc0tHu51RJqcmwNb4FXOXg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11912"; a="94509130"
+X-IronPort-AV: E=Sophos;i="6.27,116,1787036400"; 
+   d="scan'208";a="94509130"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2026 05:47:15 -0700
+X-CSE-ConnectionGUID: ZNKd8pjLSDqm/Bu8+RVLxA==
+X-CSE-MsgGUID: Y5imD72iRmm/cXg8yK2ddw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,116,1787036400"; 
+   d="scan'208";a="272318929"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.80])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2026 05:47:02 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Tue, 22 Sep 2026 15:46:56 +0300 (EEST)
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+cc: Linux ACPI <linux-acpi@vger.kernel.org>, 
+    LKML <linux-kernel@vger.kernel.org>, 
+    Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+    Mika Westerberg <mika.westerberg@linux.intel.com>, 
+    Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+    Hanjun Guo <guohanjun@huawei.com>, Sudeep Holla <sudeep.holla@kernel.org>, 
+    linux-arm-kernel@lists.infradead.org, Ard Biesheuvel <ardb@kernel.org>, 
+    Ilias Apalodimas <ilias.apalodimas@linaro.org>, linux-efi@vger.kernel.org, 
+    Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
+    "Joerg Roedel (AMD)" <joro@8bytes.org>, 
+    Mark Pearson <mpearson-lenovo@squebb.ca>, 
+    "Derek J. Clark" <derekjohn.clark@gmail.com>, 
+    Hans de Goede <hansg@kernel.org>, platform-driver-x86@vger.kernel.org, 
+    David Rhodes <david.rhodes@cirrus.com>, 
+    Richard Fitzgerald <rf@opensource.cirrus.com>, 
+    Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+    linux-sound@vger.kernel.org, Shenghao Ding <shenghao-ding@ti.com>, 
+    Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, 
+    Sen Wang <sen@ti.com>, Vijendar Mukunda <Vijendar.Mukunda@amd.com>, 
+    Venkata Prasad Potturu <venkataprasad.potturu@amd.com>, 
+    Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+    Cezary Rojewski <cezary.rojewski@intel.com>, 
+    Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+    Bard Liao <yung-chuan.liao@linux.intel.com>, 
+    Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+    Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+    Binbin Zhou <zhoubinbin@loongson.cn>, 
+    Andreas Noever <andreas.noever@gmail.com>, 
+    Mika Westerberg <westeri@kernel.org>, 
+    Yehezkel Bernat <YehezkelShB@gmail.com>
+Subject: Re: [PATCH v1 08/17] platform/x86: x86-android-tablets: Use
+ acpi_bus_get_primary_device()
+In-Reply-To: <3912360.MHq7AAxBmi@rafael.j.wysocki>
+Message-ID: <b5e7637d-e189-6ac7-6e47-9f4a21aab2ca@linux.intel.com>
+References: <7995179.EvYhyI6sBW@rafael.j.wysocki> <3912360.MHq7AAxBmi@rafael.j.wysocki>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: linux-sound@vger.kernel.org, Mark Brown <broonie@kernel.org>, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
- Jaroslav Kysela <perex@perex.cz>, linux-arm-msm@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>, 
- devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Srinivas Kandagatla <srini@kernel.org>, Takashi Iwai <tiwai@suse.com>
-To: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
-In-Reply-To: <20260922-vmid-v4-v5-3-e79cfd7af5b3@oss.qualcomm.com>
-References: <20260922-vmid-v4-v5-0-e79cfd7af5b3@oss.qualcomm.com>
- <20260922-vmid-v4-v5-3-e79cfd7af5b3@oss.qualcomm.com>
-Message-Id: <179008111464.3145305.16495726545311526155.robh@kernel.org>
-Subject: Re: [PATCH v5 3/4] dt-bindings: sound: qcom,q6apm-dai: add
- memory-region and relax iommus
+Content-Type: multipart/mixed; boundary="8323328-1698044991-1790081216=:1233"
 
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-On Tue, 22 Sep 2026 00:38:11 +0530, Ajay Kumar Nandam wrote:
-> On modem-DSP (mDSP) platforms the DSP runs in a stage-2 protected
-> context and cannot use the SMMU. PCM buffers must live in reserved-memory
-> carveouts that are SCM-assigned to the appropriate VMIDs.
-> 
-> Add an optional memory-region property (1-2 entries) for the
-> control-path and data-path carveouts, and remove iommus from the
-> required list since mDSP platforms have neither IOMMU nor VMID DT
-> properties.
-> 
-> Signed-off-by: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
+--8323328-1698044991-1790081216=:1233
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+
+On Mon, 21 Sep 2026, Rafael J. Wysocki wrote:
+
+> From: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
+>=20
+> Replace acpi_get_first_physical_node() that is slated for removal
+> with acpi_bus_get_primary_device() that takes a reference to the
+> device it is about to return.
+>=20
+> This addresses a potential use-after-free that may occur if the
+> device returned by acpi_get_first_physical_node() is removed right
+> after dropping its ACPI companion's physical_node_lock in that
+> function.
+>=20
+> Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 > ---
->  Documentation/devicetree/bindings/sound/qcom,q6apm-dai.yaml | 12 +++++++++++-
->  1 file changed, 11 insertions(+), 1 deletion(-)
-> 
+>  drivers/platform/x86/x86-android-tablets/core.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/platform/x86/x86-android-tablets/core.c b/drivers/pl=
+atform/x86/x86-android-tablets/core.c
+> index cfff7f5eac5d..2c262f117235 100644
+> --- a/drivers/platform/x86/x86-android-tablets/core.c
+> +++ b/drivers/platform/x86/x86-android-tablets/core.c
+> @@ -390,7 +390,6 @@ static int gpio_secondary_fwnode_init(struct device *=
+parent,
+>  {
+>  =09const struct software_node *const *swnode;
+>  =09struct fwnode_handle *fwnode;
+> -=09struct device *phys_dev;
+>  =09int ret;
+> =20
+>  =09if (!node_group)
+> @@ -418,7 +417,8 @@ static int gpio_secondary_fwnode_init(struct device *=
+parent,
+>  =09=09if (WARN_ON(!fwnode))
+>  =09=09=09return -ENOENT;
+> =20
+> -=09=09phys_dev =3D acpi_get_first_physical_node(to_acpi_device(dev));
+> +=09=09struct device *phys_dev __free(put_device) =3D
+> +=09=09=09=09acpi_bus_get_primary_device(to_acpi_device(dev));
+>  =09=09if (!phys_dev)
+>  =09=09=09return dev_err_probe(parent, -ENODEV,
+>  =09=09=09=09=09     "No physical device for ACPI GPIO dev: %pfwP\n",
+>=20
 
-My bot found errors running 'make dt_binding_check' on your patch:
+Seems to be based on the latest code,
 
-yamllint warnings/errors:
+Reviewed-by: Ilpo J=C3=A4rvinen <ilpo.jarvinen@linux.intel.com>
 
-dtschema/dtc warnings/errors:
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/sound/qcom,q6apm-dai.yaml: properties:memory-region: {'minItems': 1, 'maxItems': 2, 'items': [{'description': 'Control-path buffer (audio_heap_mem) for platforms where the DSP runs in a stage-2 protected context (e.g. modem-DSP).'}, {'description': 'Data-path buffer pool from which per-stream DMA buffers are allocated.'}]} should not be valid under {'required': ['maxItems']}
-	hint: "maxItems" is not needed with an "items" list
-	from schema $id: http://devicetree.org/meta-schemas/items.yaml
+--=20
+ i.
 
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.kernel.org/project/devicetree/patch/20260922-vmid-v4-v5-3-e79cfd7af5b3@oss.qualcomm.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+--8323328-1698044991-1790081216=:1233--
