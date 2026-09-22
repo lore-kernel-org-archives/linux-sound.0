@@ -1,188 +1,209 @@
-Received: from mail-yx2-f43.google.com (mail-yx2-f43.google.com [74.125.224.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011024.outbound.protection.outlook.com [52.101.70.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99CEF275AEB
-	for <linux-sound@vger.kernel.org>; Tue, 22 Sep 2026 02:47:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E14F9351C34;
+	Tue, 22 Sep 2026 03:29:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.24
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790045260; cv=pass; b=hv0T+u31KowsOv03QX/FCThNGWBD5GrOflnNj09GDMkEF1FGFJsFXi3TF29ZysLrHEeX1mr0N77fFQdzI/VGh2WbCGOut6gGUZLXWHk1oBSOlMMlIguOBZrl38uE6LglFJai8zydQtFxgyHBgctVnkA9nzOuxO9BgRGjV4qpqIw=
+	t=1790047785; cv=fail; b=PpxAghQ57TrOKuADeKQYGF6HU/hQmGE+B8cFgzMQZu5rkc4IS/jbn+XfJ6yWVOTk33PtunSR9Zls6PWipmf8TAkJnQPjKuivkSwlJIUynZPHgDqtpR8TMr/907Dhf3S8gsgiq84DIIBOzl5ZmarqAVzSXyvpB3DamBZL7KZI6Hg=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790045260; c=relaxed/simple;
-	bh=/bF+2i7J9tw/SU9Y8Ch+X0ErYTFXTPP1J7KPqLHGa9U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IxEzut2qLjiAzCMhLuYKV7hIgARoWyWj7URELILI70Xq+qulZCNnqxzmrlYsFcDKiuqDid4wUXOBQqNVQWsYN+GgRss3t2AY0ipvWKSObgoBj3Xv8gGTU3WWlzyRAC4Lq3UrdxBXW/PtYHWLewa5csUmf8er708ttWYxp4k157E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AuLhNOa0; arc=pass smtp.client-ip=74.125.224.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790047785; c=relaxed/simple;
+	bh=h+dR2jd9pdQNcUREAyAISUsBNqNe4lcm4RDxZN8Ky9k=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=sFD+A2pUCOevAEvBdI/60aRaMR4t9KUL9RiDrgTw7b4oTb7O6m0749Qw3JqYENb4oZsoXTYD8UOB7VIEoIvjnSOqGnkJDsnSwv3ZhMPRBIu2frCTMwmNjsIgfoGaErghu7cnFZuo11AH1CYTdc+R8bEAqrSEqHjbF4pJfVJNOG0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=Pbu3zxKV; arc=fail smtp.client-ip=52.101.70.24
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AuLhNOa0"
-Received: by mail-yx2-f43.google.com with SMTP id 956f58d0204a3-671563fb8beso3460695d50.3
-        for <linux-sound@vger.kernel.org>; Mon, 21 Sep 2026 19:47:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790045257; cv=none;
-        d=google.com; s=arc-20260327;
-        b=N1Xb0r5QgmhTejdMbanOK+uMY7xkWMVNhs4J7J9CiHXjnW6uImNiwLh1T9WLvhGodn
-         QEuFMEaz+/ldfaw/+h/JfyK839MhwJ7EqKT8LgDYN0cpHTaW0YVz1YTcIbajEb2RoHtM
-         FYsBW9DtxF3sCEtRVtwyNRCWdUJYIh05kERfKdvgi2ez9vBNcLkNTGYw5yVa/EsQIoYy
-         owfo1GQa0RPPoENF32ZVANhzP6kk0Po+sP7vEHYYBNdptP7cDY1iL8dwrbU8tKNFX9sj
-         kW9oTE+2jWvkBpXoT1JQxtix32t1/CO7zv/vYp23uqJsnC1RJfjUBmbRxPq9pY1mZSoP
-         qGDQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=K/Pzgg7o0qrlVK5qFQbvKisrC2SDvw/OqmX88foRwCs=;
-        fh=kihkj9h37jPKlXzfG6wQ5YFY+1u5dbyiiLn4dUDnoT0=;
-        b=Zl7L7v4cVhZhdCATHdPGCTYKg2j6xTltV+cOZDgnPanLPFqLDFd/biCqDaSmoHdDVN
-         to1MCtLQo4/FJWtUgHUKeOBVU2R+7DuMP5d6eWBslztqaWFcPG9bCO9/yDvgiPqIFtq1
-         0v0XHSIMeSN38HpkvmxA1mIeO7SGiydNNkHwGjeTzQ0JgH8UC5asGL9I9I/Pd9LEt7av
-         6AKyrsrfzXmcWm3vL098OYBmUQ73dVkQlJ50kakUOHFZjS7NdEfAXcK1N75tEv7Iuqw+
-         bqy5JHVX23TUEtdgLEJxFjn8RrVewALoUSoBvaRdtztIZAL8uX5REjkDmrhOIzSX+hcv
-         45HA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790045257; x=1790650057; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=K/Pzgg7o0qrlVK5qFQbvKisrC2SDvw/OqmX88foRwCs=;
-        b=AuLhNOa0yPL9n4hIKdsmoKbEnxfAuuK/HKtO7P3kdusbH5x7hG67dS6slg21oqqMbg
-         cDyWlzyF2x/28pOi5Fl8T/RIaFd6Rjo0MQYcMzadjD+4UENR1PxRRxs87oR+B6Qws690
-         feROsiscLY5pVaXM4pP46S1YHdsoShHCTC+QhpmUTCOl30+ifYBaiosiNwHH3VuHfZAB
-         nVYqcFnrEttaaf9UVTCXUDWVCgw2bfgmwhMJ31UPwTk2vBwjXgjrmYdrBC08YVpw4F69
-         SURYQi6jSnhJWWINrDZnJWp1Y3YNntdOtAhJJYRmUFg6jndk4CwP9X94B6w73xvr6l14
-         zZNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790045257; x=1790650057;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=K/Pzgg7o0qrlVK5qFQbvKisrC2SDvw/OqmX88foRwCs=;
-        b=xtzyKb35W3+SP3i99Q9mNmb/kI61gETvi1qvl06dkkboGEpV+wTjOgzEoHLRl1DFbo
-         hs5Gn2ujqmKAq3tanCu5HOcARZHdB4iPNlZ01wByIIcutjfQMZdafTMqhmpV7AeDtKvk
-         qx5qlZ2/Z0VK82PrHX752I2W11rSGMwHh1PmzaFDqmP+QbOigGR6aZudjSSdFL0l0CnR
-         ifyGQzK+Xj+g2DJQccAce9dz4V8UDUqju64fvKMKj8XaUYaQd/jTIaluPlh1SbuYNl4G
-         /KMr7rIpWGrGF37zL4SAI0aRS7pYpaQd4FGJT5XdRuU7moK35hkXAFP7u/RaYTupAAnV
-         G4Ng==
-X-Forwarded-Encrypted: i=1; AKwUvBwbCgEk/QoOAYKAXVesluqEt2UQKJwizt0SyNK5CtuHiJAvYsTpuW33ZxVnWcd8OOO6fTPtFXrIUu7H3w==@vger.kernel.org
-X-Gm-Message-State: AFuF++kZgYRV2cXZKr1uSHevAIExe7WyoxuN95G987h4+8Vjc6FNacz0
-	867zL3kwk8F149Anqb+S6i/d1MEI+ZmSqYS8LD7Uo9bpEoeWLepVMDaVcIrC2tt/0vU//vsZ+rP
-	CUJHi+51cuXALO1O6eqd9viYnb+KI5dk=
-X-Gm-Gg: AYBFou3umsFh1ceQPB7jj4IbLlNv9WGI5q6fuvdsKegDkFSmHi+BU18vTETWcCoNLnR
-	tQxNo/nRZvqEnYFZIQwoEI7C+ymgezi1Q2XGLf56iDTRvNcLrQplr1vlQrp3xMXNnfNtuLnlDRy
-	E5vJyqUAPZavJr3aMHka8G0aWLQshn7CC+JzBz7S6INelPfxD6OoeF9RlfjItgbaNBopg43zGSO
-	aTU0vynmr5dMatb+Dz+oqA3wV87WBL62nlPm0yaT0a9Jxe81T9NopF7sKylSNlDNRU888WW42ST
-	BLTzVHbyF9kxRL1jiHETvZyPeQV2gChuaTGtnHf5naicdvAaxjvpfJl7Xbc=
-X-Received: by 2002:a05:690e:441b:b0:66f:c1be:84e1 with SMTP id
- 956f58d0204a3-672c54b6fb5mr245756d50.79.1790045257564; Mon, 21 Sep 2026
- 19:47:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="Pbu3zxKV"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=kHzC8AarB49qv6kI69323cZeo23vy7Q1CDxlZqPPP6gZZAJIzO4Ryovby3WK+uR6lehm8BvzKhoPmOwgs0Kg7sJ3UwIxMOdw1JpF8f+tdgSMUrIE86ck5yTeg37nONdgMwGkHJAk4n68FWZJ88UdCWk9n+qrxTqB0f4ZREc3PheuxcBsby2MIQQnmjBp+5u+8U5AZsmSC9NvH6pSa8Q1MtMPbU7IgnCtSMwhR49iwWDs7UVPS+MEugUJCaaaeBW5X5hFWUVI1BbzhoujsfJbny3GU23qw3a3/Wq2Yk2vElHmgfuVeBgVRV96uvcLaYGlJh5A0K+gln4x6OY1tRyMAg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GKYfn+QTFMKSxRRGZOhU1Q1saK+2DGd+mdOZM0oSkjo=;
+ b=AI49SiA6I96sZP5ni9INVbcPNqCbbNA/1K9dl/UYeh/4Bq4/L7l2STlhUNrpmokhjIiOzgiBJS9wzY/I4zJADZAOiQoMVeUqeW0gBsVt7pVuPdsV4KsyIwoRjwRbQUMnX+I9QLNSfM5I2bByHFP2xsE579RcNRYbJNvtvF6XAdbPMSv/H24raV5Yp8aAXCFFm5fBFKKnYhccY5RYy8xAoCnrrCydTfqUSsjEI691Xm+rhuvBa84WtC28Bn1M6RgBD88tjebsu5mSH6n+J0Qs/noATCTYgCMNT0st8ShxwarGZ8FCBIyB1+gB/sgZtewWuC+e0qkxwZI4U+mGUIz2Pg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GKYfn+QTFMKSxRRGZOhU1Q1saK+2DGd+mdOZM0oSkjo=;
+ b=Pbu3zxKVr0SU9CnpSj7m1tlxmTVOEUEdkrM/WFv+I0ag4YrLgHxOWjcW5U5izrMyKdYBsmyeVQslCuVW3fJWzWOYfWstwcGtZDrHKW9hcMQsUYTP/O/fGmoD7w9lXJntQqFIeS0WOVZl8qZrAWh+dVhMoBiHB3qkm3PiIfS1AwX9lkIla/B6XEM4NSXg0VJNbPNkU33retaqJa3OQ3Msz6xoQmh6h4CYmZvo5CnvYTAxvfAP3ycXsrgIFi+T4j3WVzQGpcKbmBGfANQqYW5gBUgzdQpTRXlWfkvRQ88BIywtEKmBlAB2vt13Q6R+KfGY9kISKl8evtt6sG/v8vW41w==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from PAXPR04MB9351.eurprd04.prod.outlook.com (2603:10a6:102:2b6::17)
+ by GV1PR04MB10941.eurprd04.prod.outlook.com (2603:10a6:150:201::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.428.16; Tue, 22 Sep
+ 2026 03:29:40 +0000
+Received: from PAXPR04MB9351.eurprd04.prod.outlook.com
+ ([fe80::1058:a430:52c1:5aa]) by PAXPR04MB9351.eurprd04.prod.outlook.com
+ ([fe80::1058:a430:52c1:5aa%6]) with mapi id 15.21.0428.011; Tue, 22 Sep 2026
+ 03:29:39 +0000
+From: shengjiu.wang@oss.nxp.com
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	Frank.Li@nxp.com,
+	s.hauer@pengutronix.de,
+	kernel@pengutronix.de,
+	festevam@gmail.com,
+	shawnguo@kernel.org,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	shengjiu.wang@gmail.com,
+	Xiubo.Lee@gmail.com,
+	nicoleotsuka@gmail.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linuxppc-dev@lists.ozlabs.org
+Cc: Shengjiu Wang <shengjiu.wang@nxp.com>
+Subject: [RESEND PATCH v5 0/5] ASoC: fsl_asrc/fsl_easrc: expose per-pair/context DAIs and fix DMA race
+Date: Tue, 22 Sep 2026 11:34:23 +0800
+Message-Id: <20260922033428.1690822-1-shengjiu.wang@oss.nxp.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: MA0PR01CA0001.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:80::14) To PAXPR04MB9351.eurprd04.prod.outlook.com
+ (2603:10a6:102:2b6::17)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260921073847.63505-1-lgs201920130244@gmail.com> <arFH7F944RO7TUqN@quoll>
-In-Reply-To: <arFH7F944RO7TUqN@quoll>
-From: Guangshuo Li <lgs201920130244@gmail.com>
-Date: Tue, 22 Sep 2026 10:47:24 +0800
-X-Gm-Features: AcwNN1VMKLPliQEBYI3cwmxMjQMSd7JsGwSa33n2dtOWCSkj81z1Dp0OO7Y38vg
-Message-ID: <CANUHTR-KMdRmJwjpqqk5tsfnQkrwRBroCqkYOr6f9o=6yVewJw@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: Intel: SST: fix platform device leak on probe failure
-To: krzk@kernel.org
-Cc: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, linux-sound@vger.kernel.org, 
-	stable@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>, 
-	Thorsten Blum <thorsten.blum@linux.dev>, 
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Mark Brown <broonie@kernel.org>, 
-	Takashi Iwai <tiwai@suse.com>, Cezary Rojewski <cezary.rojewski@intel.com>, 
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
-	Liam Girdwood <liam.r.girdwood@linux.intel.com>, 
-	Bard Liao <yung-chuan.liao@linux.intel.com>, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB9351:EE_|GV1PR04MB10941:EE_
+X-MS-Office365-Filtering-Correlation-Id: 19aad4ce-38b4-4309-1f3e-08df1859bbd9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|1800799024|19092799006|366016|23010399003|921020|6133799003|10067099003|56012099006|11063799006|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	1GUwtuXSRNlTb729gWrSb19E/NLmyUweY26jDBUfvFPIrWXC5cZiK6TPSnqKv7AkHhNh+uQOxPYEEa4JDr9i1GpkgO22Jy6JY8aE9JuidtHsruJ3QHyV6Wa1HsQAT/2Q7evRVsEUEFnLgRTl6qLU7k81rzO0+aUMDaLHpAY7vaYoLWD1t4RTEU+VMH35VVdchiYh/5cgwy4Ht0HVe09TpV0uHmVtO8b7FpjxRiOqQidgQ4iqhtzQaPq+aRLMwiz773iVbRqH4kz/jqgzJuIhJGt0zVfxxdWmmbCopGFPX3cM2/sF/BNha6a8tHs0rU1gw/jqa0ttnYxkKosjl/kxCMUVNTQjW5klGDmrdixmRAhCwRACVK2xR79RyulPSEX1K301seaCItjGe/sjmGBf4OJgxi0dWKSWnds5ytZCRMCx6m8efq4bSWft0Z/w5qsHF9V2bKDz9hQvEer5E2qTsFgpaopU/TUjCpoE3tXosJL9XUj4V0auqghBIYMlD3maxtq6TpgZqteKMU0AhpwHCCGyBIr2+gB/iQzBWz+QEk73iQSdW4dND6udzxpnRZcjpbRsVt53AUtaTejoeXl3963PqQrdgCs4jGX34iJo3OthxcJmlFyeDVBAEaueaQYrsvrO19RTA7/vuu1nPlpVh4qLPDvwp7rhRzAPZJ99TImRtgnZblH2BQbnQ38QG4PFPdf5J4/PcgWMelGmUFQTDA==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9351.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(19092799006)(366016)(23010399003)(921020)(6133799003)(10067099003)(56012099006)(11063799006)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?YpYLMkxSupYpBJ8UXqRmqAZers1qZxHdx0BaeQHjr50xlluNY+FOfeS4dTDa?=
+ =?us-ascii?Q?zTU5DCvfXletjgIMiF7X23z2uDQMV3q4e4lCfTT2tPo+Q6JpdF74qm70FoWC?=
+ =?us-ascii?Q?EdN92sXstA/mSowXy6/qkQSF/L5vmBwsWFj7c2HeHl+Svm3bf1eDjFCfWaM8?=
+ =?us-ascii?Q?xhGLotF4e5GK4aCL8V15F4q9z2BlwZMWFr27zDyQqnfhkyARn6tXDEtRiiXT?=
+ =?us-ascii?Q?JpLLbWITMJ0aC/B9CFcEOCohduyDn2By9m5uOLn0BnNSFEnsq+X5U1i1tYg/?=
+ =?us-ascii?Q?1cYQRo7NJzyuhMXcZMYlnA636sSHOS16W8MQwCOakXUkYTItPqg0N2cXpNqn?=
+ =?us-ascii?Q?BedWYAnDAZkVCfbRpxKuT4Z3+hwH+qGz/+L2xsaVTS52+s+UVX5etKYNSeVN?=
+ =?us-ascii?Q?7LGorKcaMv7NZdQhPyFhBSj/RCs4xD/7zjesFmITY6fMqx6xyso8vB1moV2t?=
+ =?us-ascii?Q?YqNzCYy1r/pa2rk97RpNN7W7Rm+xaj1KDjx2S3WLFk8tYgcylV0ZexzpCERK?=
+ =?us-ascii?Q?WUUye0QegBXYKV2RCG3XBmvmdMRZaQZCW0Gr/L3tlQLMA16eFrvW4qe2gJ3p?=
+ =?us-ascii?Q?2o7PmYCDZmTyrFCGBGBUDTh8delT8Dq3LjeNs9mpAP7Bfe30I0nW7vZt1LAQ?=
+ =?us-ascii?Q?/JV/3/E7UZsAbX8CSFfzM2LDDeMvnElMUZvDeJTlZrVTGXF/3jLQYEhYQwPH?=
+ =?us-ascii?Q?DRKMgVSGAR/DfLKAcNcJRQGQYuTDOvdHw3xZTt+fVLMQANThkKj/HTJOQCVO?=
+ =?us-ascii?Q?FRGKXq61Wadk2MYIGo66LuCbiNThYFLf6VdjJMrOcbiEbwRmQzNugYl7tAmq?=
+ =?us-ascii?Q?nGHJiRYK/naogEM3yU9SWfmBAXGyJ6qaJTPX0f9LFMf8RpwaPEmF+6AAkD2a?=
+ =?us-ascii?Q?PSsCeHty1bQJMmR1AIhC27ALxghugooHtIeGxRm76SRJ5NhCZQMGxwEHe/qg?=
+ =?us-ascii?Q?yWbReC1iFytwZoPC3gp9WW9u3D+J70/Ln6oVmvkYOREAvAoP7BoQOeAxkrmN?=
+ =?us-ascii?Q?1slPzyFNYZCuWQZFRieXYoZTTM03G4FUQttIovvaIw2MA4HY8RNeMV+MwDqC?=
+ =?us-ascii?Q?WnZiVQhlJuN/1HS45mhaMUofWbUDZASsAabcOlc9/bmg3My93pBD6MYhVbPF?=
+ =?us-ascii?Q?zG7tN6cx4Ezgs+ZoMOUZSsN0MhsbdBEPRvexNwtwKQKdcih8kJkIWD2IMqY9?=
+ =?us-ascii?Q?hw++BFGdvDg9xih2UhtYswpVZuo89ttJ+oPBKQqY9ncIipeES59xsKAjtBQ7?=
+ =?us-ascii?Q?0akBoVYboDLrL8s75PHAynmKeQ8G7F+4A6e9IjwJRuFmjOwR1WM6bIm4kZzQ?=
+ =?us-ascii?Q?AM3P4crYcrjOnqjEbES39FtbwoJBfNbZYSwIoIJWNnrFhxNOLeR9YHkE4xMF?=
+ =?us-ascii?Q?Zf3do7+ZVHnLpMbXiSN5rce/6C/nbgF34rojFv/Xf9jGmdIAcSuEgqIwdEwt?=
+ =?us-ascii?Q?gn6MlLQYMvWyElLvD5ia5LpGA6pSz911JF1yDonT0f6bZemHBljv176aIyy7?=
+ =?us-ascii?Q?SGTwZDd/jJycaYgc7NtYXkI9oRHfkKNzUIDZYLCX548Q08haUB/3fHUHsgob?=
+ =?us-ascii?Q?guarz9sooIlAYDQ56qxXg36EUYh+rg8gnPgUiMBUnwLtNYS1fnRrZu6JXy2G?=
+ =?us-ascii?Q?RV/cXVFP14jXIFeJtuzfSp4rT1hGTA2yoK0GshGVeSD/O9m76z39Q1dTJ80a?=
+ =?us-ascii?Q?qnhcl7leIUzYgVEAJO5FzwBdI0WEAYv/5/szRmb6tNRgMH/gjr/DrxBarVmv?=
+ =?us-ascii?Q?OM+8KVNbvZAKoQSZ9ZgE6KLKglV16MAKC+7yfke51eplbRbShMQw?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 19aad4ce-38b4-4309-1f3e-08df1859bbd9
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9351.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2026 03:29:39.7848
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: JgICph/gxR5IJplABVu37LocXn+VTvFPl4O9jB3YDWkFjASs2wV5TO1euFI0BPERFiUq6yQMOvj6nLeNALD8DryLHlS02GEOz/J1HxUnDt5CSzoVlqV3/AgsyISUJDSk
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR04MB10941
 
-Hi Krzysztof,
+From: Shengjiu Wang <shengjiu.wang@nxp.com>
 
-Thank you for your feedback.
+This series extends the i.MX ASRC and EASRC drivers to expose one DAI
+per hardware conversion pair/context, allowing multiple independent
+conversion paths to be active simultaneously.
 
-On Mon, 21 Sept 2026 at 23:06, <krzk@kernel.org> wrote:
->
->
-> On Mon, 21 Sep 2026 15:38:47 +0800, Guangshuo Li wrote:
-> > sst_acpi_probe() registers platform devices for the SST platform and
-> > machine drivers using platform_device_register_data(), but does not
-> > unregister them when later probe steps fail.
-> >
-> > If machine device registration fails, the already registered SST platform
-> > device is left registered. The same leak happens when
-> > sst_platform_get_resources() or sst_context_init() fails after both
-> > platform devices have been successfully registered.
-> >
-> > A registered platform device owns resources allocated by the platform
-> > device core and must be released with platform_device_unregister() so
-> > that the device reference is dropped and platform_device_release() can
-> > free the backing platform_object.
-> >
-> > Unregister the created platform devices on all failure paths to restore
-> > the missing cleanup.
-> >
-> > The issue was identified by a static analysis tool I developed and
-> > confirmed by manual review.
-> >
-> > Fixes: caf94ed8629a ("ASoC: Intel: bytcr_rt5640: fixup DAI codec_name with HID")
-> > Cc: stable@vger.kernel.org
-> > Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
-> > ---
-> >  sound/soc/intel/atom/sst/sst_acpi.c | 13 ++++++++++---
-> >  1 file changed, 10 insertions(+), 3 deletions(-)
-> >
->
->
-> You sent multiple independent patches, to multiple independent
-> subsystems. The amount of these patches clearly suggest this was
-> AI generated and most likely not tested.
->
-> More importantly, you sent all this work without properly organizing
-> relevant patches into patchsets. This makes reviewing difficult
-> and might cause multiple reviewers to address the same issue.
-> Replying to the entire set is impossible and requires handling each
-> patch independently, instead of applying or discarding the set.
-> Maintainers also won't see the bigger picture of your work. Quite
-> worrying.
->
-> This is on the verge of hostile patch: bomb us with so many
-> contributions, we won't be able to handle them in efficient manner,
-> like responding ONCE to ask you to slow down.  Considering all this
-> is untested and LLM generated, I have even more doubts whether this
-> should be considered for review.
->
-> Please read kernel documentation BEFORE posting more work. It will
-> explain you how to identify subsystems, how to organize your work per
-> subsystem, how to document usage of LLM and how what you should not
-> do if this was posted in a good faith.
->
-> Best regards,
-> Krzysztof
->
->
->
-I would like to clarify that these patches were manually reviewed and
-audited by us; they were not simply generated and submitted by an LLM.
-However, I understand why the recent submission pattern may have given
-that impression. We sent too many patches in a short period of time,
-and we also failed to respond to some discussions in a timely manner,
-which made the situation look worse.
+Patches 1-2 update the DT bindings to add a ports container so each
+conversion path can be wired independently in the audio graph.  The old
+single port property is kept but marked deprecated.
 
-Many of the recent patches, especially the v2 revisions, are
-corrections and improvements based on previous review feedback rather
-than completely new untested changes. That said, we recognize that the
-way we submitted them increased the burden on maintainers and
-reviewers.
+Patch 3 moves dma_params into struct fsl_asrc_pair so each pair owns its
+own copy, and registers it with the cpu DAI using per-direction setters in
+fsl_asrc_dma_startup().  This removes the per-DAI probe callbacks from
+fsl_asrc.c and fsl_easrc.c, which are no longer needed.
 
-We apologize for the pressure this caused to the community. We will be
-more careful about organizing patches by subsystem, preparing proper
-patchsets, and following the kernel contribution guidelines before
-sending future work.
+Patches 4-5 expose the individual DAIs: fsl_asrc registers three DAIs
+(asrc-0/1/2) and fsl_easrc registers four (easrc-0/1/2/3).  The first
+DAI in each driver retains the original generic stream names for
+backward compatibility with existing machine drivers.
 
-Thank you again for pointing this out.
+Changes since v5:
+- rebase to latest master of linux-next
 
-Best regards,
-Guangshuo
+Changes since v4:
+- update commit message of Patch 1/5 to add all variants
+- add Frank's review tag in Patch 3/5
+- add Krzysztof's review tag in Patch 2/5
+
+Changes since v3:
+- Update commit message of Patch 1/5 to remove reduntant sentence.
+- add Frank's review tag in Patch 2/5
+
+Changes since v2:
+- add ports example to original example case in yaml file as port is
+  deprecated
+- remove the label in example.
+
+Changes since v1:
+- Patch 3 is new: moves dma_params into struct fsl_asrc_pair (one per pair)
+- Per-direction snd_soc_dai_dma_data_set_playback/capture used instead
+  of snd_soc_dai_init_dma_data to avoid clearing the other direction
+- dma_params_tx/rx removed from struct fsl_asrc; single dma_params per
+  pair suffices because each pair is unidirectional
+- per-DAI probe callbacks removed (startup now sets dma_data)
+- Cover letter and commit messages updated to reflect the above
+- DAI names changed: paira/pairb/pairc -> asrc-0/asrc-1/asrc-2,
+  ctxa/ctxb/ctxc/ctxd -> easrc-0/easrc-1/easrc-2/easrc-3; use index-based
+  naming consistent with port@N in the DT binding
+- Stream names changed: ASRCB/ASRCC/ASRCD -> ASRC1/ASRC2/ASRC3; align with
+  the index-based DAI names above
+- Binding port descriptions updated: pair A/B/C -> conversion path 0/1/2;
+  hardware-agnostic wording to match port@N numbering
+
+Shengjiu Wang (5):
+  ASoC: dt-bindings: fsl,imx-asrc: update port binding to support
+    multiple paths
+  ASoC: dt-bindings: fsl,easrc: add ports binding for multiple
+    conversion paths
+  ASoC: fsl_asrc/fsl_easrc: move DMA params into pair/context struct
+  ASoC: fsl_asrc: expose individual DAIs per conversion path
+  ASoC: fsl_easrc: expose individual DAIs per conversion path
+
+ .../devicetree/bindings/sound/fsl,easrc.yaml  |  45 +++++++
+ .../bindings/sound/fsl,imx-asrc.yaml          |  43 +++++-
+ sound/soc/fsl/fsl_asrc.c                      | 100 +++++++++-----
+ sound/soc/fsl/fsl_asrc_common.h               |   7 +-
+ sound/soc/fsl/fsl_asrc_dma.c                  |  14 ++
+ sound/soc/fsl/fsl_easrc.c                     | 123 +++++++++++++-----
+ 6 files changed, 262 insertions(+), 70 deletions(-)
+
+-- 
+2.34.1
+
