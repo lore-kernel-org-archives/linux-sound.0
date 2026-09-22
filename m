@@ -1,93 +1,97 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B637D559C92;
-	Tue, 22 Sep 2026 15:35:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E192054EEA4;
+	Tue, 22 Sep 2026 15:49:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790091314; cv=none; b=daBHjDkUi7msAjFEYYkNXc7RR4OvbLjyqGqGiNzQezTmXelUjRiUZJV2xg6o1lgQGsjTDhtNih7zEFfhVvhW61Nx8JlYHp9fdikbwKaWEMQFEjVKWN2T7O2ziDdUR6AZw1R2IrBTkxplVacNyvne/zziA3ZXoGydPkuJo3WCCEU=
+	t=1790092171; cv=none; b=ZqoQuaEnce01HmX8rbbdvBXQ20f5/s0AA6aTZgFm1wayacOP3jdCN2RXiVJeluvyId1XsguwBkgMK7rW/h0oSKz621JC6v/HMwGQW5deSrJwP3mFihyUOVTHx/3LRYB8n6yov7HJcwpxQcJsV/VjGQKaAI//jHC6JpIwpa8QQno=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790091314; c=relaxed/simple;
-	bh=8c9mOEfPLVh+05JwkGqkDFhZ4eGD9h3DRTAtQNs4Izk=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=lZTJ8EDCJAgnzIquWSdeLK58bHYsoy6vw3ql1x/mUaMFMeNzx3haxUVFLzq7R+CYKLikSBI1+ekC58e092meZgsfsBVMHHTXfUiAmm8mv8vA0nWd+Bps+iDguvS9LhaK5H1gLhTRBcOCxSuiTLykzu/yMqEtakWUQAMSm9UfPpY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FAEuAuUn; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790092171; c=relaxed/simple;
+	bh=lusiA89n3+ZBjBZaqDHKRwZ68pnDNciZFIw82Gre4a0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ev7PmtpUY5b/2aWxCXuxwzG8SbF8AM5CKHnZ7/j+g7AgQ2unf2rvUQoVqWnqcnJYxg0livaoi7YTsOOWFscNDeHmndxiyhR19DPMRBBqDy8nS1A09rJCsjj9dNVI4mWB/cIyubjJPcddyYAxzPDCY+z6whVMD5cznoAJtaFb3p8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GYYxh2ct; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FAEuAuUn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67D1C1F00893;
-	Tue, 22 Sep 2026 15:35:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GYYxh2ct"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D3741F00893;
+	Tue, 22 Sep 2026 15:49:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790091313;
-	bh=l0v14wN/DvIVEXrfeeixUuljRDiJFlaL5YhfUPp5MGg=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject;
-	b=FAEuAuUn7kgoyZZ5n2Ox49MDzAdPBYxMURL/+BCnLWgBGp3kM2N5Ov5hzVAm5GnW0
-	 bXGEil0Yiot1b8wRlwG/cD3mqBpEEaugJZ3dHLjjclotRwwecwJwQMIicScFoR6CMG
-	 UjhGV9ooobke83LAdjenFv6oZQT9nTYoIef3dgM0dQkWdbTvg5roJrjmpuZUqPbpWJ
-	 /yeprhGcOEwvD+DvumQLp753vt01BUoJWTFX3kJ6PbjheWdRKufgwQ069vDXW0sLXb
-	 E46tU47X/251YQSxrzr2YNuehN9c/zL/gx9uVwJZUV83IuBc37GMduyggKYy4RzHQR
-	 T/e1aJAx8ka5g==
-Date: Tue, 22 Sep 2026 10:35:12 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=k20260515; t=1790092169;
+	bh=dFHGbR/j7IpZnrkF5xSgQFbZ+Wn4X684fiKHsZbkh8w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=GYYxh2ctELmLJj6hoKigIQKb6IoarGn26DdO1NqYlvwYtTTBF6KRbjJ77MZxsn7Js
+	 PsHo2pjXnSNJCkANQaWUrDwVhzWnIrgOFt118qe4t2EmIyY7+JddTIM+3oJ27zLdPC
+	 nNCB8vfe4hlMOzLO9+Sj/XfyTzsNu+wYtv4UomS0MLJTEjYXb2wv31wqjheDe2jSBl
+	 Lg3M6XqhKXHSQrdEkJxDlpa25Mkle2LB794JPgCdLnwTREyMVFeiu8ew6F+1PR5sTM
+	 Sbqo8m+xusrChE94hJ17oUsFD1pHiZYDWMDgYGX9AyxBnurIQJMv90PPaU+1FZR2/4
+	 z+KUKWAy8D1oA==
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+	id 83AEB1AC56E2; Tue, 22 Sep 2026 16:49:26 +0100 (BST)
+Date: Tue, 22 Sep 2026 17:49:26 +0200
+From: Mark Brown <broonie@kernel.org>
+To: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+Cc: Srinivas Kandagatla <srini@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>,
+	Sarath Ganapathiraju <sarath.ganapathiraju@oss.qualcomm.com>
+Subject: Re: [PATCH v4 7/8] ASoC: qcom: lpass-tx-macro: Add support for
+ Bolero v4.0
+Message-ID: <arKjhitHzi1rqKCV@sirena.co.uk>
+References: <20260922-add_shikra_support-v1-0-6c6cb6444caf@oss.qualcomm.com>
+ <20260922-add_shikra_support-v1-7-6c6cb6444caf@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: devicetree@vger.kernel.org, broonie@kernel.org, tiwai@suse.com, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-sound@vger.kernel.org, cix-kernel-upstream@cixtech.com, 
- perex@perex.cz, lgirdwood@gmail.com, krzk+dt@kernel.org, 
- p.zabel@pengutronix.de, conor+dt@kernel.org
-To: joakim.zhang@cixtech.com
-In-Reply-To: <20260922112134.4167305-4-joakim.zhang@cixtech.com>
-References: <20260922112134.4167305-1-joakim.zhang@cixtech.com>
- <20260922112134.4167305-4-joakim.zhang@cixtech.com>
-Message-Id: <179009091298.3383748.7497658110500328179.robh@kernel.org>
-Subject: Re: [PATCH 3/4] ASoC: dt-bindings: Add Cadence I2S-MC controller
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="TNUS4WmuFywvXt+E"
+Content-Disposition: inline
+In-Reply-To: <20260922-add_shikra_support-v1-7-6c6cb6444caf@oss.qualcomm.com>
+X-Cookie: Too clever is dumb.
 
 
-On Tue, 22 Sep 2026 19:21:33 +0800, joakim.zhang@cixtech.com wrote:
-> From: Joakim Zhang <joakim.zhang@cixtech.com>
-> 
-> Add the DT binding for the Cadence I2S-MC multi-channel controller
-> integrated in the CIX SKY1 audio subsystem. The controller exposes a
-> transmit DAI and a receive DAI and moves audio through a configurable
-> set of its 8 data pins. Which pins are wired out and in which
-> direction is fixed by the board design and described by the
-> cix,pin-out-num, cix,pin-rx-mask and cix,pin-tx-mask properties.
-> 
-> Signed-off-by: Joakim Zhang <joakim.zhang@cixtech.com>
-> ---
->  .../bindings/sound/cix,sky1-i2s-mc.yaml       | 124 ++++++++++++++++++
->  1 file changed, 124 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/sound/cix,sky1-i2s-mc.yaml
-> 
+--TNUS4WmuFywvXt+E
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-My bot found errors running 'make dt_binding_check' on your patch:
+On Tue, Sep 22, 2026 at 03:12:36PM +0530, Mohammad Rafi Shaik wrote:
 
-yamllint warnings/errors:
+> +static const struct snd_soc_dapm_widget tx_macro_dapm_widgets_v15[] = {
+> +	SND_SOC_DAPM_MUX("TX DEC0 MUX", SND_SOC_NOPM, 0, 0, &tx_dec0_mux_v9_3),
+> +	SND_SOC_DAPM_MUX("TX DEC1 MUX", SND_SOC_NOPM, 0, 0, &tx_dec1_mux_v9_3),
+> +	SND_SOC_DAPM_MUX("TX DEC2 MUX", SND_SOC_NOPM, 0, 0, &tx_dec2_mux_v9_3),
+> +	SND_SOC_DAPM_MUX("TX DEC3 MUX", SND_SOC_NOPM, 0, 0, &tx_dec3_mux_v9_3),
+> +	SND_SOC_DAPM_MUX("TX DEC4 MUX", SND_SOC_NOPM, 0, 0, &tx_dec4_mux_v9_3),
+> +	SND_SOC_DAPM_MUX("TX DEC5 MUX", SND_SOC_NOPM, 0, 0, &tx_dec5_mux_v9_3),
+> +	SND_SOC_DAPM_MUX("TX DEC6 MUX", SND_SOC_NOPM, 0, 0, &tx_dec6_mux_v9_3),
+> +	SND_SOC_DAPM_MUX("TX DEC7 MUX", SND_SOC_NOPM, 0, 0, &tx_dec7_mux_v9_3),
 
-dtschema/dtc warnings/errors:
-Documentation/devicetree/bindings/sound/cix,sky1-i2s-sc.example.dtb: /example-0/dma-controller: failed to match any schema with compatible: ['cix,sky1-audss-dmac']
-Documentation/devicetree/bindings/sound/cix,sky1-i2s-mc.example.dtb: /example-0/dma-controller: failed to match any schema with compatible: ['cix,sky1-audss-dmac']
+There are existing widgets of these names in the base widgets that are
+unconditionally registered so these should collide and get an -EBUSY
+during registration.  If you need something different for the newer
+devices you should move the base copy out of the shared table.
 
-doc reference errors (make refcheckdocs):
+--TNUS4WmuFywvXt+E
+Content-Type: application/pgp-signature; name="signature.asc"
 
-See https://patchwork.kernel.org/project/devicetree/patch/20260922112134.4167305-4-joakim.zhang@cixtech.com
+-----BEGIN PGP SIGNATURE-----
 
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqyo4UACgkQJNaLcl1U
+h9BCaQf+LEopVYB106VRfJ4chXp/VRdl1auKfVZQwHrrJLtAyvhXwvTH0oM4NamF
+QuklMuXq9wAi0xnHfhSfjR9ZH4ILHw74X0ue/NAzBNhX+OA+KIRetFhx0m5igjPH
+XQuGtiAInwroYY9Zqgvo/lFouGllUY86RehZVudPWrT7gP3858lvgc6TdCg0t3Hw
+bw11oo6wVc0iuL8Dq4IoT5n86kFSsQrhQL3HvKkNfX43tE7oaZFEz1KXJVpX7oXU
+e7raiCWDwc4eVGdF7ayp980LGn3VPIv68hoNAPPRSXwpnflfMudVLoobPeYwetYx
+x5IbGzGfV/KG6pmdxuhe5YlLm3mIyg==
+=tQMg
+-----END PGP SIGNATURE-----
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+--TNUS4WmuFywvXt+E--
