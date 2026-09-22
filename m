@@ -1,107 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 107943C2786;
-	Tue, 22 Sep 2026 12:30:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B2062C08D0;
+	Tue, 22 Sep 2026 12:30:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790080207; cv=none; b=UBZvUnAmEO/sMQWRk+tYf5cmoK9+g763+oEbNzvpFy992jMfL+qU8fKIkrm7wkcLHkJU/8ihiGWbaJCjs3MxGCed+DX0JS610yz7XDoRJQ4lGvPxMJv6PZlyotZ/tlWnJWzO8IBVX7jzyQr9CBZtZIZ5B0qZE/zsOuL+RM17Ey4=
+	t=1790080263; cv=none; b=cbn0N1w/P5Dx2Cc+n+FtVg+NIDSX1pz5x+0hIxvbJYvGozr66OdBdwvGQ9uB3LkRmc+jKoutyVRv3pV5WYJAJepxpMZdVP6eei4wzYsKMRwTgHL7144OZpyClEH71u+omU2vF30qKci9ey93qtKzaF9WjyvPSSUMzDXxMh/dYSg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790080207; c=relaxed/simple;
-	bh=PqAl+HVHkrrL9FczVZg0CI96bYcpxGqt/65ScF4a6Rs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mcM/PLKwCJsC7EsXVGrM2U+6fjO1+oqTbC47qIZCUQBWFW1DOlYm1KMCapFJ/9ga/QoArmLUambFY2wMIaXuDyqNjT8RIr3s3nk4y1ZBYvq5a0W1jCnJGFe/Km74eL6pIV6CAeoUMPEexgH095PkD5lPoqbmHLFJb1H7i4LdmT0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KXq+uf+V; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KXq+uf+V"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 295E51F000FF;
-	Tue, 22 Sep 2026 12:30:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790080205;
-	bh=nodtLQld92H/w+87PrKqNfiLf6/OH3/Vw26rljGaiF4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=KXq+uf+VbaOn4N3HiwTtMMdh26MYFiYMJg4o7+mFAljlqysCl43T6C3U5UXVdm1Q0
-	 3/Mxcfnw50/GvLr64Zk0v0X0BxrvIl8pH3hD8Sor4t5sW1+6QFNuQbwxtAiSRByQ1m
-	 ZEvpT++srYAbrRE6YJM19HNa0r/hf0D+X7Wt5NKD+Isv1natB/1NB7rQoJKokWhZAw
-	 4nxCodcIqrTk4JaATRUd82BhO32bQ6dUiVDjU8F9onDSkr4urP5D9AMwOvpAifltpq
-	 CegDTJXenU72Z8Emu1AhPtnrShrCucZmX44GRpjpFCpuSR/VPAG/OMeqYctbBSrjPr
-	 iHKhKeQzMG4gw==
-Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id C58D61AC56BF; Tue, 22 Sep 2026 13:30:00 +0100 (BST)
-Date: Tue, 22 Sep 2026 14:30:00 +0200
-From: Mark Brown <broonie@kernel.org>
-To: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
-Cc: Srinivas Kandagatla <srini@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Mohit Sharma <mohit.sharma@oss.qualcomm.com>
-Subject: Re: [PATCH v5 4/4] ASoC: qcom: q6apm-dai: add SCM buffer assignment
- for mDSP platforms
-Message-ID: <arJ0yBdeDfjYihRd@sirena.co.uk>
-References: <20260922-vmid-v4-v5-0-e79cfd7af5b3@oss.qualcomm.com>
- <20260922-vmid-v4-v5-4-e79cfd7af5b3@oss.qualcomm.com>
+	s=arc-20240116; t=1790080263; c=relaxed/simple;
+	bh=+zubclXXzv5dDxzs7ePA6amqnQVwWQGXkHQqEjlO//4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=YIK+8BAb8309F98hq4jg/OiOcGp+aw1zLTofDsxUjs0bTkCrbQQMyRnkuQIJ5DamaUHBpUkOo/7KLijEvkyCjAAo1VKl6GZm64vWGg9dcKDlUw7fLpkKSigxCa3cU596ZotVCK4OObnqfKKIzGcexn/ySYPzK80CtGVos2sXJzI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 72d994f8b68111f19a56ed5b684f684d-20260922
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:37410444-193a-429f-b98a-3072450753d7,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:7db8b62,CLOUDID:f1e7d2dbc855937939474a80473932a6,BulkI
+	D:nil,BulkQuantity:0,SF:102|850|865|898,TC:nil,Content:0|15|50|99,EDM:-3,I
+	P:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,A
+	V:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 72d994f8b68111f19a56ed5b684f684d-20260922
+X-User: zhangheng@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <zhangheng@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1203561736; Tue, 22 Sep 2026 20:30:51 +0800
+From: Zhang Heng <zhangheng@kylinos.cn>
+To: broonie@kernel.org
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Zhang Heng <zhangheng@kylinos.cn>,
+	Mikail <mikailb1998@gmail.com>
+Subject: [PATCH] ASoC: amd: acp: Add DMI quirk for Lenovo Yoga Pro 7 14ASP9
+Date: Tue, 22 Sep 2026 20:30:29 +0800
+Message-Id: <20260922123029.534152-1-zhangheng@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="+qbF2DyA2aioe+8b"
-Content-Disposition: inline
-In-Reply-To: <20260922-vmid-v4-v5-4-e79cfd7af5b3@oss.qualcomm.com>
-X-Cookie: Too clever is dumb.
+Content-Transfer-Encoding: 8bit
 
+The Lenovo Yoga Pro 7 14ASP9 (83HN) has no digital microphone on the ACP
+PDM interface; all internal mics are wired to the Realtek ALC287 codec.
+Add 83HN to acp70_acpi_flag_override_table to prevent the legacy ACP
+driver from binding and exposing a non-functional PDM capture device,
+consistent with the sibling 83W5/83V9 entries.
 
---+qbF2DyA2aioe+8b
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Reported-by: Mikail <mikailb1998@gmail.com>
+Closes: https://bugzilla.kernel.org/show_bug.cgi?id=221886
+Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
+---
+ sound/soc/amd/acp-config.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-On Tue, Sep 22, 2026 at 12:38:12AM +0530, Ajay Kumar Nandam wrote:
-> On platforms such as Qualcomm Shikra, audio is served by the modem DSP
-> (mDSP) which runs in a stage-2 protected context. Unlike ADSP targets
-> where SMMU-mapped system RAM is directly accessible, the mDSP cannot
-> reach the PCM buffers unless they are explicitly SCM-assigned to the
-> appropriate Virtual Machine IDs (VMIDs). Without this assignment, audio
-> does not function on these platforms.
+diff --git a/sound/soc/amd/acp-config.c b/sound/soc/amd/acp-config.c
+index 2d50be8190c1..4d8f86aa3d16 100644
+--- a/sound/soc/amd/acp-config.c
++++ b/sound/soc/amd/acp-config.c
+@@ -51,6 +51,13 @@ static const struct dmi_system_id acp70_acpi_flag_override_table[] = {
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "83V9"),
+ 		},
+ 	},
++	{
++		/* Lenovo Yoga Pro 7 14ASP9 (Strix Point, ACP 7.0) */
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "83HN"),
++		},
++	},
+ 	{
+ 		.matches = {
+ 			DMI_MATCH(DMI_BOARD_VENDOR, "ASUSTeK COMPUTER INC"),
+-- 
+2.25.1
 
-> +static int q6apm_dai_scm_assign(struct q6apm_dai_data *pdata,
-> +				phys_addr_t addr, size_t size)
-> +{
-
-> +	r = &pdata->scm_regions[pdata->num_scm_regions++];
-
-This needs a lock.
-
-> @@ -1021,6 +1168,7 @@ static int q6apm_dai_probe(struct platform_device *pdev)
->  {
-
-> +			if (per_stream <= POS_BUFFER_BYTES + PAGE_SIZE) {
-> +				dev_err(dev,
-> +					"reserved-memory pool too small: %llu bytes\n",
-> +					(u64)rmem->size);
-
-%pa
-
---+qbF2DyA2aioe+8b
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqydMcACgkQJNaLcl1U
-h9BZpgf/XmDQSosVZWiiFhI9qhxndjmrRD2T1B1eUdBZEaqFVhup2hCgJ1QWIJdz
-/6CRhZ3M6nU1p055uykGpQYT38IEyAidvXQ5iDuFUuHrJqXU9odXo/ypOr31QZRx
-HVBofsbARP31irqFg+GqJj9YawvL0idJA5JIJRmmXWU47ox/pdMGYd8tnrsSlCRq
-SS71L4hq0Du2/7Z0bo6ySxVBwSKcWvclWAF1bR828WcKdzB3/gpyv7RCCf03ilcv
-jaq624qp6aCZoItwxPqzCVKsaZAv+PMS/ildbMxQ0ohkILuTpCelpBVhdPyZBgOj
-/r3fDG0ntChBQHhpWtGJFcdsizzmAg==
-=WtKL
------END PGP SIGNATURE-----
-
---+qbF2DyA2aioe+8b--
