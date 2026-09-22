@@ -1,39 +1,43 @@
-Received: from mail-m49198.qiye.163.com (mail-m49198.qiye.163.com [45.254.49.198])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85DB148F031;
-	Tue, 22 Sep 2026 18:51:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10D2051EDE0;
+	Tue, 22 Sep 2026 21:21:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790103112; cv=none; b=TW7ncMbchvvcbN3dp2tKM4iC1FPEVGj6AeN6TCLr8NwfqeI6vUbIuhoFHb0epdFHraujsAGSd8UcpiLO754vJKLvn6iVqJ8nbeE6iWt6w6Lf6T4n5ukOEsa+eOG1VjQKxlJXjzWCSXaRzQBE6xfASsViJ//WiEtEcRtz+bCj1o8=
+	t=1790112110; cv=none; b=dtBmZt8He6DG4qHxz+O+1PTNF2oocZSJilCzb9ki6141uHzDKw1BrycGl3k3gFfIAfdW+x036lyYD0EAtvNDZB/lDpDAyIB6hMLYQk7o9i8RY+HUOUAirTNpF6a/EOL3Jzrms3Sr4hXg9B+i6v0YArV6ecOWEY29uNURFcXV2p8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790103112; c=relaxed/simple;
-	bh=KjFlhvPPAexVMiE7rXYAYzQzoNnnhsZPKZsY8E6du3I=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=UvZXwUTZDvan9LBOSlYSzmjcnzO+jQxYpyUYRul4RYs4C6SVFlqIrrmYwBXLbmPTqXcbh4AXz5v2IxUREiMDaY4PmaoC6T8a3mm1SXg/Zyyd3hAkCmItBMfwyvJ8U/wRrVodNU3zqIqP4rbZRHVIltRPN8fIuuq+cSw8mXk11vo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tju.edu.cn; spf=pass smtp.mailfrom=tju.edu.cn; dkim=pass (1024-bit key) header.d=tju.edu.cn header.i=@tju.edu.cn header.b=D7kYlUxy; arc=none smtp.client-ip=45.254.49.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tju.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tju.edu.cn
+	s=arc-20240116; t=1790112110; c=relaxed/simple;
+	bh=lOMseSHWIsudkCCb79ow5JV7GEZEvs7VqkveSuaOwcg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XliojcGz++a7EaMk1BhPVUdAbh9NtfWijg2udKpD4/ezMLKyJIJt1C8fTiUXhbT1j+CloAsOUF8yfYQiU3oYXkZBIsf4QEgfc+CvbTZBHgmJEn3Rx9k5CLjyU5iaSRWInWL1VDi1hukafLkzXhHmCZIwm5yPFUkrUktOD5bvEFo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lpbR9rdH; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tju.edu.cn header.i=@tju.edu.cn header.b="D7kYlUxy"
-Received: from tju.edu.cn (gy-adaptive-ssl-proxy-4-entmail-virt151.gy.ntes [183.242.150.9])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 4ec0d7bbf;
-	Wed, 23 Sep 2026 02:51:41 +0800 (GMT+08:00)
-From: Yibo Tan <lhfff@tju.edu.cn>
-To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
-	Mark Brown <broonie@kernel.org>
-Cc: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lpbR9rdH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BB801F000FF;
+	Tue, 22 Sep 2026 21:21:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790112092;
+	bh=aRj2Pfut3w4gPlraMQFDMz6M4M2ctzv1ixckYhyIY2Y=;
+	h=From:To:Cc:Subject:Date;
+	b=lpbR9rdHU/K1iDh/Uok82Dr0KnU5HiLjeEfmMuZcZPtLPFOtLu+EKT60NoTfBd4aB
+	 pDN8R/4qL9B1mjQMkrw1zHIjoqixCBMRpy+8WgvhSDBDuqAj6VUwlqdVQQPfGqRoX1
+	 ENgHSbLXED6wwsy1oNX8zdbiG3DHy8c7I5ZVSnKIrt1sY7tlTgpr93cvBRii4+Tdj/
+	 y2RrwKd7yNpYPpWDjk4J8sWGeXCdN+VUmPbB/JrlHNfHsoede8VT6moYHGIILO3t4J
+	 yrAnjdaShOA/N+tJwIM1pU8vOvKeuUukeV2NjZunrKp9TWbNSNDkJDImvsN18IxvC2
+	 tmiWpbSAHDD8g==
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Shenghao Ding <shenghao-ding@ti.com>
+Cc: linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/2] ASoC: amd: acp3x-es83xx: Keep an owned codec device reference
-Date: Wed, 23 Sep 2026 02:50:57 +0800
-Message-Id: <20260922185057.954150-3-lhfff@tju.edu.cn>
-In-Reply-To: <20260922185057.954150-1-lhfff@tju.edu.cn>
-References: <20260919121318.1613824-1-lhfff@tju.edu.cn>
- <20260922185057.954150-1-lhfff@tju.edu.cn>
+Subject: [PATCH] ASoC: dt-bindings: Fix TAS2563 address constraints
+Date: Tue, 22 Sep 2026 16:21:21 -0500
+Message-ID: <20260922212122.1116270-1-robh@kernel.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -41,93 +45,32 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0aa0ca75a22b03a1kunmdcb19010a00f3
-X-HM-MType: 10
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlDGB5JVk5JQh9KTRofTUpOTlYeHw
-	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlKQ0hVSU9JVUpOS1VCWVdZFhoPEhUdFFlBWUtVS1VLVUtZBg
-	++
-DKIM-Signature: a=rsa-sha256;
-	b=D7kYlUxy19JLfIdlrJwDTTLP6rQ90Ri7e8NYaKF7qmd6+fKubsR+ABr/HW9LKISU7RVA1r8YxLJBHCpyYaq08qRrVSkzHkX1C9BkkN5l2bGZdOz7CvKKJFTDwA3sT20VjYSyGNrg81nrFFEkmwHO8zXzzV/5iu58lqSRCL8Tb14=; c=relaxed/relaxed; s=default; d=tju.edu.cn; v=1;
-	bh=utpaX38nsiRCRhDjukPJzz7j3yLAqdRynwQ+tkqWY+A=;
-	h=date:mime-version:subject:message-id:from;
 
-acpi_get_first_physical_node() returns a borrowed device pointer. The
-private data allocation failure path in acp3x_es83xx_probe() puts that
-pointer despite not owning a reference. The successful path also saves the
-borrowed pointer for later card operations.
+Apply the TAS2781 register range only when the compatible is exactly
+ti,tas2781. This avoids applying the TAS2781 single-address rule to
+TAS2563 nodes with 0x4c-0x4f addresses.
 
-This was reproduced on current mainline with failslab restricted to the
-real static callback. The rejected devm_kzalloc() returned -ENOMEM, and
-normal codec platform-device unregister then produced a KASAN
-slab-use-after-free in device_del(), with allocation in
-acpi_create_platform_device() and release in acpi_unbind_one().
-
-Use acpi_bus_get_primary_device() to acquire the reference while the
-physical-node lock is held. After allocating private data, register a
-devres put action before publishing the pointer. This balances action
-allocation and later probe failures, keeps the saved pointer alive during
-card use, and drops the reference after ASoC card unregister during
-successful teardown. The existing OOM put now correctly balances the owned
-lookup.
-
-The same filtered KASAN guest with this change reached the same -ENOMEM and
-unregister path without KASAN, WARNING, Oops or panic. The test directly
-invoked the production callback and did not emulate a complete ACP/ASoC
-card or physical Huawei hardware.
-
-Fixes: 54fcd9dd44b2 ("ASoC: amd: acp: Add machine driver that enables sound for systems with a ES8336 codec")
-Signed-off-by: Yibo Tan <lhfff@tju.edu.cn>
+Assisted-by: LLM
+Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
 ---
- sound/soc/amd/acp/acp3x-es83xx/acp3x-es83xx.c | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+ Documentation/devicetree/bindings/sound/ti,tas2781.yaml | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/sound/soc/amd/acp/acp3x-es83xx/acp3x-es83xx.c b/sound/soc/amd/acp/acp3x-es83xx/acp3x-es83xx.c
-index 3a640e652314..eb0e9a6af6ef 100644
---- a/sound/soc/amd/acp/acp3x-es83xx/acp3x-es83xx.c
-+++ b/sound/soc/amd/acp/acp3x-es83xx/acp3x-es83xx.c
-@@ -10,6 +10,7 @@
- #include <sound/soc-dapm.h>
- #include <sound/jack.h>
- #include <sound/soc-acpi.h>
-+#include <acpi/acpi_bus.h>
- #include <linux/clk.h>
- #include <linux/gpio/consumer.h>
- #include <linux/module.h>
-@@ -41,6 +42,11 @@ struct acp3x_es83xx_private {
- 	struct snd_soc_dapm_route mic_map[2];
- };
- 
-+static void acp3x_es83xx_put_codec_device(void *data)
-+{
-+	put_device(data);
-+}
-+
- static const unsigned int channels[] = {
- 	DUAL_CHANNEL,
- };
-@@ -428,7 +434,7 @@ static int acp3x_es83xx_probe(struct snd_soc_card *card)
- 			return -ENXIO;
- 		}
- 
--		codec_dev = acpi_get_first_physical_node(adev);
-+		codec_dev = acpi_bus_get_primary_device(adev);
- 		acpi_dev_put(adev);
- 		if (!codec_dev) {
- 			dev_warn(dev, "Error cannot find codec device, will defer probe\n");
-@@ -441,6 +447,12 @@ static int acp3x_es83xx_probe(struct snd_soc_card *card)
- 			return -ENOMEM;
- 		}
- 
-+		ret = devm_add_action_or_reset(dev,
-+					       acp3x_es83xx_put_codec_device,
-+					       codec_dev);
-+		if (ret)
-+			return ret;
-+
- 		priv->codec_dev = codec_dev;
- 		priv->quirk = (unsigned long)dmi_id->driver_data;
- 		acp_drvdata->mach_priv = priv;
+diff --git a/Documentation/devicetree/bindings/sound/ti,tas2781.yaml b/Documentation/devicetree/bindings/sound/ti,tas2781.yaml
+index aa5a317b5a36..50c7792b24f8 100644
+--- a/Documentation/devicetree/bindings/sound/ti,tas2781.yaml
++++ b/Documentation/devicetree/bindings/sound/ti,tas2781.yaml
+@@ -219,9 +219,7 @@ allOf:
+   - if:
+       properties:
+         compatible:
+-          contains:
+-            enum:
+-              - ti,tas2781
++          const: ti,tas2781
+     then:
+       properties:
+         reg:
 -- 
-2.39.5
+2.53.0
 
