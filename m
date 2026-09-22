@@ -1,44 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B7A52D12F3;
-	Tue, 22 Sep 2026 12:51:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0783C4CB8C0
+	for <linux-sound@vger.kernel.org>; Tue, 22 Sep 2026 13:18:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790081517; cv=none; b=f32s30sEpFV8Nie10zksypwv+AM/uR2c8Sw9n/Zbe6pnVpsVZH8R8f2RTcLOIhJdgy7fSP8bfMgIWHZZN1h4bchU8PsMQDq+ylQZcSTi4tF1MfpyzP53Y/46azcFJ+PwAZkz7JyCVfcNzc58nEYLRDqaxeEglhAkx4Z2fqgD5W4=
+	t=1790083109; cv=none; b=Oo2GXyGJLM5WC7zTeg8P2PYPAoC+vH9xTcfKwpkaFAY6CPf//LFiu0EbtVTdmQVx0wMOjpLlicLHQ7usJVPm8tNf/NryH8lDs1/WA0fNaXFbDRUsAei311iQu5Qc4iqZCXU8iHC1zAop5chg8v/+hE6pAI6O4XWjyDdUr7KF80A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790081517; c=relaxed/simple;
-	bh=xFpxlzu1SH7kFoX4Fmr5tfR2CvWslninUOlAtwBKpFU=;
+	s=arc-20240116; t=1790083109; c=relaxed/simple;
+	bh=uYMXgYr0sYXBK/0E9XSciBC5oa2ToqQFPZowW16A4b0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U2Gc0WAot6dIkeyCb/Y8MwwJgd7XZZlQDUnkZlRWv26VYfs386fe7zi08gM4sElzbgFGfNQq+rFk0OSE4b1iIZQ+2ysZBDgjd33fp4y9YHifR4PPdkWxxPinoUMQcr9JWJBEKvb5YsOu7uqXVj1MNIDyQiGKjxkFXJhwc35XSzA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gvegNx+y; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=FAE3kJDirsrf470BhRi51ELFWt+Mb7u3ISz0M8Il7BN/mDCP50rujWFWDUHWmOz0X4Y8fe2nTDKvObACitp6WuPW29cBeIPsytpn88f233qWJR4HZpt5YTFoPWSojnr+DBwSTBwui91bAPJrXBagKhJq320D1ylBRGYm98qsnmA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TATjQvIN; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gvegNx+y"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87D2E1F000FF;
-	Tue, 22 Sep 2026 12:51:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TATjQvIN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73BD41F000FF;
+	Tue, 22 Sep 2026 13:18:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790081515;
-	bh=fiMlgP1e00pJ9OYBpmJDP/4QtkAS97V78LW/zmFPMUg=;
+	s=k20260515; t=1790083107;
+	bh=eoUkcgnQ4Db5APz9JvjQYP6nFegEEdYEPI95TvwEljc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=gvegNx+yhAzmeRvs+R3bUP32kC367DnxpOccZ0a9Ui3XILxfJ8BjbLuBhgPrxJkU6
-	 nDfRDCYpBz6W92/Aoli556lGZYo6nAq4s+bEMdcY5u+to/vG9Y2zOI6D0o208it25x
-	 aLC3kD0RlDS7zRJp4MzrZxnYzY7nVpOsaB7MW5z8ATZu6VeU1M7WIW9GIWEtdaNVB3
-	 /q0sbGVkUFS8koHsZjdGqnkVqb4JAtSOS7UzP1UmgWAoMVJqCc5DrU8qo/rChVeLQr
-	 a71nIpbBrkB+YbdEZnAIsirzeMhKmRAQRmOPAXIaJ802lbEFtjaSIgYZzfeaipeLQ9
-	 LyFMi/XCihlyQ==
+	b=TATjQvINbDziZf7+wFdASm+NpAYtepeR2piNoa+zZNqeHgTpfHGVcS4dDYNlhsBQa
+	 Bha6QISeAD+kiuuS+FW1NN8xf6p3Y+e3iezN0BmgaqzYr7NS8M6x2ogiAhOlx9tRQ9
+	 i2XEE1ry/igN5CjL+S8tqv6WwgEj3LOHnYCanqhH87nX22S0FjH6lpSKwzwJiHI2Ev
+	 NuEGi9rrwaFCY/yEQjmdPvxKlNMzFY1y5YJ7tiYmN2dl/nnwftIBelUUlUjUmdZzgP
+	 I78DI9gWEyBNzxLwqBYVzGYB4ZjgZ0UJE4ewcoedndghYYXSvGgcXD8T8MxgO4Xtw1
+	 CFwzwVMOEdkBg==
 Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id 877FC1AC56BF; Tue, 22 Sep 2026 13:51:51 +0100 (BST)
-Date: Tue, 22 Sep 2026 14:51:51 +0200
+	id B45E21AC56C0; Tue, 22 Sep 2026 14:18:24 +0100 (BST)
+Date: Tue, 22 Sep 2026 15:18:24 +0200
 From: Mark Brown <broonie@kernel.org>
-To: Myeonghun Pak <mhun512@gmail.com>
-Cc: Oder Chiou <oder_chiou@realtek.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] ASoC: rt5663: Cancel jack detect work on unbind
-Message-ID: <arJ551jJ9cXjAua8@sirena.co.uk>
-References: <20260922015327.637137-1-mhun512@gmail.com>
+To: Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: tiwai@suse.de, linux-sound@vger.kernel.org, bard.liao@intel.com,
+	peter.ujfalusi@linux.intel.com
+Subject: Re: [PATCH 5/7] ASoC: Intel: sof-function-topology-lib: add I2S
+ support for sof_sdw_get_tplg_files
+Message-ID: <arKAIIkESvrODYQ3@sirena.co.uk>
+References: <20260922092316.2296039-1-yung-chuan.liao@linux.intel.com>
+ <20260922092316.2296039-6-yung-chuan.liao@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,46 +45,62 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="PUUJfxvHa6/CLNO6"
+	protocol="application/pgp-signature"; boundary="iGT6ijX4LRonN7IG"
 Content-Disposition: inline
-In-Reply-To: <20260922015327.637137-1-mhun512@gmail.com>
+In-Reply-To: <20260922092316.2296039-6-yung-chuan.liao@linux.intel.com>
 X-Cookie: Too clever is dumb.
 
 
---PUUJfxvHa6/CLNO6
+--iGT6ijX4LRonN7IG
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Sep 21, 2026 at 09:53:27PM -0400, Myeonghun Pak wrote:
-> ASoC: rt5663: Cancel jack detect work on unbind
+On Tue, Sep 22, 2026 at 05:23:14PM +0800, Bard Liao wrote:
 
-This is an extra copy.
+> The Intel SOF SDW machine drive also supports I2S interface. Add related
+> supports for the sof_sdw_get_tplg_files() callback.
 
->=20
-> jack_detect_work and jd_unplug_work live in struct rt5663_priv, which
-> devres frees after rt5663_i2c_remove() returns.  The IRQ queues the
-> first work, a button press queues the second, and jd_unplug_work
-> rearms itself while the jack stays inserted.  Both callbacks load
-> rt5663->component before checking it, and nothing clears that pointer.
-> rt5663_suspend() cancels the works; unbind does not.
+> +static int get_ssp_tplg_dev(struct device *dev, struct snd_soc_dai_link *dai_link,
+> +			    u16 *hdmi_in_mask, int *tplg_dev, char **tplg_dev_name)
+> +{
+> +	unsigned int ssp_port;
+> +
+> +	if (sscanf(dai_link->name, "SSP%d", &ssp_port) != 1) {
 
-The same is true for the probe error handling, if we fail component
-registration the same situation can happen.
+Should be %u for unsigned, or a regular int for %d.
 
---PUUJfxvHa6/CLNO6
+> +	if (strstr(dai_link->name, "Codec")) {
+> +		/*
+> +		 * Assume DAI link 0 is jack which is true in all existing
+> +		 * machine drivers
+
+How about sof_ssp_amp.c?
+
+> +	} else if (strstr(dai_link->name, "HDMI")) {
+> +		*hdmi_in_mask |= BIT(ssp_port);
+> +		/* The number of HDMI in dai link is always 2 right now */
+> +		if (hweight16(*hdmi_in_mask) != 2)
+> +			return -EINVAL;
+> +
+> +		*tplg_dev = TPLG_DEVICE_SSP_HDMI_IN;
+> +		*tplg_dev_name = devm_kasprintf(dev, GFP_KERNEL,
+> +						"ssp%x-hdmiin", *hdmi_in_mask);
+
+Not %d?
+
+--iGT6ijX4LRonN7IG
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqyeeMACgkQJNaLcl1U
-h9Dwgwf/VLJ6cIAOqVazl1MbSP9/a7PBF7lNHSPlmhMWbvpE6H1r45MExf3+QHUY
-b2q38OILreuxCStw8dDQOAgLklqQz2aamyfI0spcuY/13nzztJzI4ufBJCyqGShd
-SE6JC8z8emA1Ie/w64EtYuqLt8gAQvmwsjSSjBOs5IUCAz2/4KTzFCWbIV8GoucE
-26nFwPNL3VChcnItHsiT4Qt7JgeLOuFngiK+fACeqsmjEZh4zuWMIW6BKzolSwYg
-45Vn1Yib6lFJsp8nljixGCV8lUy/EGj6ILopA2KT7/jFQ/STzXL3GWUB+KV7mqlR
-WpvI3mPupg9OCesR0ff9gN3cE9YwHg==
-=nKgT
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqygB8ACgkQJNaLcl1U
+h9AQYAf/WZ9csxhlevT28PUr5pegfretw7xj63/KcsCpJTCgiyuWvyQTV1YFwZR2
+Q6d3Y6fHRDkkx0b66od5VhR7jbGMX+VetbbJsHAiArbDyKPD6msLr/6Z5qaDnjpl
+dxcaRrXrCyoPgJ5p1rF4BP6LOp9TXbfVkDzpAMT0S6Yln8TJqZNbtj4lg9Zzd2eV
+GuRAXBIRX9w9xFFZe8dpny31XGRwswSL76036HBTvh2BZS2TjLxOc/6LTInYURRs
+uJjMbrsEGlwIuVZg2mnXgSU2ZjV6KoiJmphDOmGbmgTPfeSi/CRH28o5g0EtHWII
+UK/La7D8abJQHeqmAn2dcxwdHOhjjA==
+=NFQ1
 -----END PGP SIGNATURE-----
 
---PUUJfxvHa6/CLNO6--
+--iGT6ijX4LRonN7IG--
