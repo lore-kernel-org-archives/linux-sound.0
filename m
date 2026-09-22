@@ -1,252 +1,131 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7885F4E5327
-	for <linux-sound@vger.kernel.org>; Tue, 22 Sep 2026 09:43:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 803133DB62B;
+	Tue, 22 Sep 2026 09:50:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790070240; cv=none; b=qU5JWLKQpVmVr8lN3OkXcNKU3vTujiZ7NzQ5iRwVfy/wleXbqLYjPbqJ+5Ja5+4zr0dKyV4XLf7+ebekbE48fO44RILKzaXmIBTv10X7u+6RARup2oj7SlSe5YM0PWugVHJQMtLs213a5Olfbj2Ly5Q1l78niZL5yREkthjUXgE=
+	t=1790070643; cv=none; b=BuacgEOooafeV0JnK8NAtReD0Fb1YgmjXpJkdA1VBmknUmXNtByLXMQpvzbmIVMgga2Zc9kArlq172szwXFu/Mbr4m7+eBQLeQu8g4RjsTLo4IzU0TIgvRBerviRbESDi6+MgL/2ZcG3OyM2hJjaf7OUDcvLuzui/elS3TuY9gs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790070240; c=relaxed/simple;
-	bh=rtiApGBONz2xOyQ3xmfbQmagzxDjn+F9O4dO3vfbWvc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Vf2eQz+vfXHf5pGHTK4l8gBhVnEusUtIrfQtwDyxOs8HYks0Vr2NUvT7x9bHXh38nK0NKYxzfNE8mfJ6DKPdfj66ijZFBSLmaztWxRMS2jE5eKX3C8UoY0XJbPevSNx2saTWAy3geE7IwF5EPf9Z2KMh5jbMlTYGfJwDbqNP7zc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=CjkUvbi9; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=GDCNZbGF; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1790070643; c=relaxed/simple;
+	bh=QgKAaDdXC5l6/AbbVSVV5OAocDwDr0pZZQz7gHJpsvc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VAS5UlJZc2MWl/dkUhk/UYK7Vl2Bt50f58DUB38hiFD7igGDeDIF28mPZ4JNv26/09JYaR04lp9OGomahHgEYb4ys+h0Qm/9i6jV2q+A+6mEcPIOZLsVSSchqjVKV/hp6lXdWcN+9iTZyOWX4SCRGH8Iy0US597uUCdbNDMBgs0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MZTxaVWO; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="CjkUvbi9";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="GDCNZbGF"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68M78XA42165613
-	for <linux-sound@vger.kernel.org>; Tue, 22 Sep 2026 09:43:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	sWU8bsM4V81x9mWcfj7huJn45XrpXj4XJzzGRGFqFQA=; b=CjkUvbi9EdPGszH6
-	VM6J+8SAYnkcMKk8E17NSwrgnXlHVBzJC4/PEUS2Cw7hezLqPxv9iBxhVpT65ltf
-	+je6YBRME3Ps62+LsWbI397RjLx9+jJDeDeHIyYENR6JDIEJoZqii3AkRO8+iYyB
-	P73Gjs9IPeVrjjtC2J4nkorW0qFuGm+CnBohR9rajRyil4FZW37WteirJRtsH4lK
-	AtQTTP6PasqH2aVI/4Zjfd0jkfOL+Y2WhqBOPpnXLOQUyqt9oBcwWbb9S9LK8A+o
-	xSe7AVHpI3Tsrmh80sSR5O1DlM+UmNdZvc7NjyQDgE/funJ2gynhdSk+ajtLQDqQ
-	0ubpzw==
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gu8xeub7f-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Tue, 22 Sep 2026 09:43:57 +0000 (GMT)
-Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-38f283baf1fso4607241a91.3
-        for <linux-sound@vger.kernel.org>; Tue, 22 Sep 2026 02:43:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1790070237; x=1790675037; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=sWU8bsM4V81x9mWcfj7huJn45XrpXj4XJzzGRGFqFQA=;
-        b=GDCNZbGFJ9Yl/1xqC1MXUBXyZRNPfxBHknjCEJIcTAxPmyBZO1Jcs5Ra8nQyfaCu3B
-         7VtebRIwkS6LO2eHiUqHnpz1tb6V61g5sw/jejqBpqDn7lnIjDsekx+6rJDzu3PCRX+F
-         eVPKQJ1f+T8qGKa23KnXVchyTFNXpOgtjxB9Xi19Mm9ln/oOQ8fOGF7kxMZ5ddo5k/rE
-         Aw0K/EDm9aDBATpELCj7WJ4RXuRstkR/Jg9RSwMHiv8GI126Cj8ohNiA2zjJPnADwzmB
-         bg9etRiSfrJ2ESKpWAspiLozXNwVXLFbX4GZ3k98BskfSHBjuEwkMJyBCSthiESF5AS/
-         cPsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790070237; x=1790675037;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=sWU8bsM4V81x9mWcfj7huJn45XrpXj4XJzzGRGFqFQA=;
-        b=kQeapBV7224JPwwVJq92oBRBA26d9Ry/lmnx2aQ4EaQ9GdLQQOKoO5ycAb6RdBFQue
-         pihsYXWgj7pSf2lLkJxcaXtqN3ovnrbcQbffJuBy7YsgzqbJkZ5MvWzk3m1CDdDQT2DL
-         HdL0NXbAd7a0LrveJ93ttw3g/upar2ntAhvLUivYZ8ALVJ7Cx0kLD3NPDx0AXvS4e3yN
-         vRRXpnR2Y52nBEzvY+JacxBv3Hm+xTQXfVfJv+ter7saeiae1iGSVg8nf0+t/EI+/L1U
-         4jIIfmN1VoPtneAJ9BTTc87RM0kZKTu08G/sit2Jt3E0iJYvcnNJlDmXt2sl0nnLYqHi
-         1fqA==
-X-Forwarded-Encrypted: i=1; AKwUvBxuYmk+wBxIbSvg8ANCdhYYgGyzY6jlXtHsPSW8g3BOQmYxNkctmqgFYd3JWEKF1T97YQxL9AOWkXy5tQ==@vger.kernel.org
-X-Gm-Message-State: AFuF++kdiOTDkVue4dUymeJaw0Yr5o3l6a2KC7iVZzuE4hQD5VlLhohS
-	1sF1Azag9wf0VPjGHKvsUUEcaOxGtR2kqfiZE/ax3VHENh5oadPW8N1NYLVvadJ+FYrQg5C51Oa
-	zm2K4BWk4K1jvQJTHegUINYDDguL8aJV3yYuskaD9ga4Q1fCATm57VCL+xsrpxxNbVt5AcS3qyg
-	==
-X-Gm-Gg: AYBFou20KCi3KRxCXrepX2tNwFTDdhEKDch6OCjSTtlhEHEZvah2mUHzYV3xvWn+Lup
-	jE+PkqxvED4mb3Tg0eEJ4T/ISJN4nwoOE1jgKO8MJwvWOccyerJqeJsSeSmZfbivkFBNE/kISOl
-	7FuFyHyYgbHORbn+FNbhqzRiC84VDxQr361ZoAD1EWgaZtUytBqX8MIDT83LKfF5Su9zFijj1+r
-	dLQVDBtWMjOJurmfBVUFrydH82PPtP8w0xSb+2Y2LKNAu7z3qlvbin9pwDWbgracpy9c1d2a221
-	KK4nrzRwbMFU2u7/w9LWveiKcUPXaTC7jEmJwX3jhsuUudsagO5nKvEmqmFkJboBIstYccKxCBb
-	bXCWDQZJUBanHUbvet76be7eJzsa07C08J4Q=
-X-Received: by 2002:a17:90b:1c08:b0:39e:4c81:6c66 with SMTP id 98e67ed59e1d1-3a0731f95edmr579725a91.33.1790070236772;
-        Tue, 22 Sep 2026 02:43:56 -0700 (PDT)
-X-Received: by 2002:a17:90b:1c08:b0:39e:4c81:6c66 with SMTP id 98e67ed59e1d1-3a0731f95edmr579702a91.33.1790070236282;
-        Tue, 22 Sep 2026 02:43:56 -0700 (PDT)
-Received: from hu-mohs-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-144f2a44cc8sm3776183c88.13.2026.09.22.02.43.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Sep 2026 02:43:55 -0700 (PDT)
-From: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-Date: Tue, 22 Sep 2026 15:12:37 +0530
-Subject: [PATCH v4 8/8] ASoC: qcom: lpass: Add support for LPASS codec v4.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MZTxaVWO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EED171F000FF;
+	Tue, 22 Sep 2026 09:50:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790070642;
+	bh=sSGIPShcgFy3rov5FPMVkhjLmCaiM9komiyZM5pu8Gw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=MZTxaVWOeA4+lBd0O7j3wh13UHgZzUVdlLoDzWZdL5uwv6VQ2zb2xL5frLJHwBHYa
+	 b9otouh3/xIKb8wmOMqy9D7ls0GqVZRM4qTTijT1LUvQVelib/kcDF6pqjtlXR/O0u
+	 M0Ieyyyi9K8RIyOV2AHbnDm7pWIS2074LDjp7I/b0ExEzStz2toVkYYFoC5EGsUi5O
+	 2q72xu5s2zQzOohx+bAegYEBzYpT+49nRejVB1G2sD8Kf+2MjfOW7hKFRdNW1sfz/W
+	 cCcFoNNZhuLTlW1DPFQNBRZxvmNrNfpGd3q2moyh7f2s35dAZxrA5AfFoE51rY0b9c
+	 gBA/Szb1uHNKw==
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+	id A887D1AC56BF; Tue, 22 Sep 2026 10:50:38 +0100 (BST)
+Date: Tue, 22 Sep 2026 11:50:38 +0200
+From: Mark Brown <broonie@kernel.org>
+To: James Calligeros <jcalligeros99@gmail.com>
+Cc: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
+	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Sven Peter <sven@kernel.org>,
+	Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Ulf Hansson <ulfh@kernel.org>,
+	Amit Kucheria <amit.kucheria@linaro.org>,
+	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+	Lars-Peter Clausen <lars@metafoo.de>, Vinod Koul <vkoul@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>,
+	James Schulman <james.schulman@cirrus.com>, asahi@lists.linux.dev,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	patches@opensource.cirrus.com, Takashi Iwai <tiwai@suse.de>,
+	linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH 12/28] ASoC: ops: Introduce 'soc_set_enum_kctl'
+Message-ID: <arJPbqGxMrc5mGvI@sirena.co.uk>
+References: <20260920-macaudio-v1-0-741cc20a74e5@gmail.com>
+ <20260920-macaudio-v1-12-741cc20a74e5@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260922-add_shikra_support-v1-8-6c6cb6444caf@oss.qualcomm.com>
-References: <20260922-add_shikra_support-v1-0-6c6cb6444caf@oss.qualcomm.com>
-In-Reply-To: <20260922-add_shikra_support-v1-0-6c6cb6444caf@oss.qualcomm.com>
-To: Srinivas Kandagatla <srini@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>
-Cc: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>,
-        linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1790070193; l=4318;
- i=mohammad.rafi.shaik@oss.qualcomm.com; s=20260424;
- h=from:subject:message-id; bh=zH2ejRs7z26KYa4wJQEh/ci98ueSkbMEPcesHCoanHM=;
- b=wlMhugFsBBW0+tDX/xgzzp69o1UGq483cUt7d6nH3AEmVNsC8+wcHvfEWK+ApqYbwsgzBobQX
- RaojzYJaFwAC4spGRjDdFjh7GQ6IKlAC7N5gGMV2wgA8HV+JkqHhON1
-X-Developer-Key: i=mohammad.rafi.shaik@oss.qualcomm.com; a=ed25519;
- pk=KZedmYgMGYOzuTpLGv56tdrL+pTLDP8pdmfQ91xemiA=
-X-Proofpoint-ORIG-GUID: vFaSthSd5RZqbgtM6bR55_ZO_0Z3tgDb
-X-Authority-Analysis: v=2.4 cv=PZhqFShd c=1 sm=1 tr=0 ts=6ab24ddd cx=c_pps
- a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
- a=EUspDBNiAAAA:8 a=Pm4gKVr55SiOJ_VcJFcA:9 a=QEXdDO2ut3YA:10
- a=uKXjsCUrEbL0IQVhDsJ9:22
-X-Proofpoint-GUID: vFaSthSd5RZqbgtM6bR55_ZO_0Z3tgDb
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTIyMDEzOSBTYWx0ZWRfXwDtxoxX7xxCA
- r3zvPuE8xyr1h5aw2JlioZ2C1KF1QQbc0XeriMJggWV8yjedrbRnSqHHtXDZ0Uk2WNL0WJFMyNb
- 6vihS9y6V8zmmC5nUGeiSPmZI1Qan09xcNrOY/GJGZqFrP+IlbiQ2aUQJnJC3JgmAWEPog9nSpD
- db+vcbjGG34akWodywpXPVvRzenZsb9kEvnFMpgNo8JrpLCBIgQU0rSSV03UxYYyGnMNVs3e5Lc
- PzMSKdGqOaMyzZ4OhMU5VZU6i1v63MUzztLbVEK2ZPjw2u6v08z+PUz3hZBCc6dpO9nZ6P7GqlW
- 67lu9o/G6YvZth5PoZSIHexWHbKNASTGqHShavhx3NMuCVWTM2yjTYW+hSrZ22tNswBv4r71IWm
- VCEXWr6uVpjv9UiqL5b2/rZ/G+sKQwJ0/fLosYP4iXULSL6x+KalUE1Vr/iyoW2PcTEeONQBZux
- Hr+huvf1RMvfnPUF5Ug==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTIyMDEzOSBTYWx0ZWRfX7m6aS7r33WfA
- Pjs9KJtNguEnT5ijEWQx2/OQgSt+AwhVRw23ILpjVUTNMNl+RdNgPHSVjH10Y6Mxi6dFY44epzo
- l+7HuYDRiXfMPBrDfFHQOX7qxf1BZJU=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-21_07,2026-09-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 malwarescore=0 spamscore=0 impostorscore=0 priorityscore=1501
- lowpriorityscore=0 suspectscore=0 bulkscore=0 phishscore=0 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609220139
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="/Rmff83hTxLA41JR"
+Content-Disposition: inline
+In-Reply-To: <20260920-macaudio-v1-12-741cc20a74e5@gmail.com>
+X-Cookie: Too clever is dumb.
 
-From: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
 
-Hawi and Maili use the LPASS codec v4.0, which the macro drivers do not
-yet recognise.
+--/Rmff83hTxLA41JR
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Add LPASS_CODEC_VERSION_4_0 and its "v4.0" version string, and detect it
-in the VA macro when the hardware reports major version 4, minor 0.
+On Sun, Sep 20, 2026 at 02:53:51PM +1000, James Calligeros wrote:
+> From: Martin Povi=C5=A1er <povik+lin@cutebit.org>
+>=20
+> The new function is to be used to set enumerated controls to desired
+> values -- either a single control or many controls in bulk by pattern.
+> It is something a machine driver may call in fixup_controls.
 
-The RX macro register layout of LPASS codec v4.0 matches the v2.5+
-layout, so reuse the existing v2.5 register access helpers, controls,
-widgets and register defaults for it. Unlike v4.1, v4.0 does not need
-the FS counter bypass or the adaptive filter blocks, so those stay keyed
-off v4.1 only.
+> +static int soc_set_enum_kctl(struct snd_kcontrol *kctl, const char *strv=
+al)
+> +{
+> +	struct snd_ctl_elem_value value;
+> +	struct snd_ctl_elem_info info;
 
-Add the "qcom,hawi-lpass-rx-macro" and "qcom,hawi-lpass-va-macro"
-compatibles, both pointing at the sm8550 match data, so the version is
-read back from the hardware at probe.
+Probably best to fully initialise the value, in particular while I don't
+think anything currently does it we can have multiple enums in one
+control like with stereo volume controls.
 
-Signed-off-by: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
-Signed-off-by: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
----
- sound/soc/codecs/lpass-macro-common.h | 3 +++
- sound/soc/codecs/lpass-rx-macro.c     | 5 +++++
- sound/soc/codecs/lpass-va-macro.c     | 4 ++++
- 3 files changed, 12 insertions(+)
+> +	for (i =3D 0; i < info.count; i++)
+> +		value.value.enumerated.item[i] =3D sel;
+> +
+> +	return kctl->put(kctl, &value);
 
-diff --git a/sound/soc/codecs/lpass-macro-common.h b/sound/soc/codecs/lpass-macro-common.h
-index 707b22a6bda6..a51a6012a7ec 100644
---- a/sound/soc/codecs/lpass-macro-common.h
-+++ b/sound/soc/codecs/lpass-macro-common.h
-@@ -31,6 +31,7 @@ enum lpass_codec_version {
- 	LPASS_CODEC_VERSION_2_7,
- 	LPASS_CODEC_VERSION_2_8,
- 	LPASS_CODEC_VERSION_2_9,
-+	LPASS_CODEC_VERSION_4_0,
- 	LPASS_CODEC_VERSION_4_1,
- };
- 
-@@ -72,6 +73,8 @@ static inline const char *lpass_macro_get_codec_version_string(int version)
- 		return "v2.8";
- 	case LPASS_CODEC_VERSION_2_9:
- 		return "v2.9";
-+	case LPASS_CODEC_VERSION_4_0:
-+		return "v4.0";
- 	case LPASS_CODEC_VERSION_4_1:
- 		return "v4.1";
- 	default:
-diff --git a/sound/soc/codecs/lpass-rx-macro.c b/sound/soc/codecs/lpass-rx-macro.c
-index 93ceee878b78..b7c1eff05ce6 100644
---- a/sound/soc/codecs/lpass-rx-macro.c
-+++ b/sound/soc/codecs/lpass-rx-macro.c
-@@ -1615,6 +1615,7 @@ static bool rx_is_rw_register(struct device *dev, unsigned int reg)
- 	case LPASS_CODEC_VERSION_2_6:
- 	case LPASS_CODEC_VERSION_2_7:
- 	case LPASS_CODEC_VERSION_2_8:
-+	case LPASS_CODEC_VERSION_4_0:
- 	case LPASS_CODEC_VERSION_4_1:
- 		return rx_2_5_is_rw_register(dev, reg);
- 	default:
-@@ -3660,6 +3661,7 @@ static int rx_macro_component_probe(struct snd_soc_component *component)
- 	case LPASS_CODEC_VERSION_2_6:
- 	case LPASS_CODEC_VERSION_2_7:
- 	case LPASS_CODEC_VERSION_2_8:
-+	case LPASS_CODEC_VERSION_4_0:
- 	case LPASS_CODEC_VERSION_4_1:
- 		controls = rx_macro_2_5_snd_controls;
- 		num_controls = ARRAY_SIZE(rx_macro_2_5_snd_controls);
-@@ -3846,6 +3848,7 @@ static int rx_macro_probe(struct platform_device *pdev)
- 	case LPASS_CODEC_VERSION_2_6:
- 	case LPASS_CODEC_VERSION_2_7:
- 	case LPASS_CODEC_VERSION_2_8:
-+	case LPASS_CODEC_VERSION_4_0:
- 	case LPASS_CODEC_VERSION_4_1:
- 		rx->rxn_reg_stride = 0xc0;
- 		rx->rxn_reg_stride2 = 0x0;
-@@ -3959,6 +3962,8 @@ static const struct of_device_id rx_macro_dt_match[] = {
- 		.data = (void *)LPASS_MACRO_FLAG_HAS_NPL_CLOCK,
- 	}, {
- 		.compatible = "qcom,sm8550-lpass-rx-macro",
-+	}, {
-+		.compatible = "qcom,hawi-lpass-rx-macro",
- 	}, {
- 		.compatible = "qcom,sc8280xp-lpass-rx-macro",
- 		.data = (void *)LPASS_MACRO_FLAG_HAS_NPL_CLOCK,
-diff --git a/sound/soc/codecs/lpass-va-macro.c b/sound/soc/codecs/lpass-va-macro.c
-index 79abbdd158b7..46ae627ca594 100644
---- a/sound/soc/codecs/lpass-va-macro.c
-+++ b/sound/soc/codecs/lpass-va-macro.c
-@@ -1896,6 +1896,9 @@ static int va_macro_set_lpass_codec_version(struct va_macro *va)
- 		}
- 	} else if (maj == 4) {
- 		switch (min) {
-+		case 0:
-+			version = LPASS_CODEC_VERSION_4_0;
-+			break;
- 		case 1:
- 			version = LPASS_CODEC_VERSION_4_1;
- 			break;
-@@ -2166,6 +2169,7 @@ static const struct of_device_id va_macro_dt_match[] = {
- 	{ .compatible = "qcom,sm8250-lpass-va-macro", .data = &sm8250_va_data },
- 	{ .compatible = "qcom,sm8450-lpass-va-macro", .data = &sm8450_va_data },
- 	{ .compatible = "qcom,sm8550-lpass-va-macro", .data = &sm8550_va_data },
-+	{ .compatible = "qcom,hawi-lpass-va-macro", .data = &sm8550_va_data },
- 	{ .compatible = "qcom,sc8280xp-lpass-va-macro", .data = &sm8450_va_data },
- 	{ .compatible = "qcom,shikra-lpass-va-macro", .data = &shikra_va_data },
- 	{}
+Should check that put exists.
 
--- 
-2.34.1
+> +/**
+> + * snd_soc_set_enum_kctl - Set enumerated controls matching a pattern
+> + *
+> + * @card: where to look for the controls
+> + * @name: name pattern
+> + * @value: string value to set the controls to
+> + *
+> + * Return number of matching and set controls on success, else error.
+> + * No controls need to match.
+> + */
+> +int snd_soc_set_enum_kctl(struct snd_soc_card *card,
+> +	const char *name, const char *value)
 
+We have both value and strval in different places.
+
+--/Rmff83hTxLA41JR
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqyT20ACgkQJNaLcl1U
+h9AhGQf+JVR+bwYYZADyxQTTS9vyQAjf+9I5HvHJnkKvFLUB1NZHijso2jQyMRZd
+Hy69TXkZH0NSH/oZnMUwSDVCZbhI5Wo8W/KClkb/jSQKbnO/3fQZqryxL5cr0OYf
+2Z76hVHIqmDZbmJgGX5SHF41yfCSO1ZW8YBvZuqwKzWa44XhOQVhl4FjkN+FMO4m
+yWqcsJS+Qmea0DVnEstz+oXCcUEUSbDnZ6bDJLTYuCjejHGarHVbhse2vCN2RrTF
+RX1UuF5Zbn9PJse8AmjxdKK+pGLw/uw2oEq4TMGGl5U1DJhmwurppOZ2HsxAcTQx
+4yikF8686OVfT+i5/PeT87Ii4biDSw==
+=Aec8
+-----END PGP SIGNATURE-----
+
+--/Rmff83hTxLA41JR--
