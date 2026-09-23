@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01F0F442B21;
-	Wed, 23 Sep 2026 11:35:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0A6749DBB5;
+	Wed, 23 Sep 2026 11:57:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790163362; cv=none; b=Rus/5nImPIwDkka6ZJ7+KpGxzQ3aY4a6SGGvbMra26D6Y697SP9FUiY2vc7pzzk8AsStTCk7fDQeRVk3Vyh2UXu0dv9ydhkUq19tfY4nlEhAQXNXdDw9GSKSCPYClL6CZa6TTzBdpY9uH5pcyA4cEwaH0vhhQqyyzmpOJW3xBi4=
+	t=1790164689; cv=none; b=DdvjrTA8zcP2iFfd5OFOjeXYpV0+6n8XJjxotlZGVjAUcY1hzKh1vVYO8/yv8FTN4pTaWbmE83SpKpS/ZzrbDD5fiYoug5kyx/3tY2zvmlhc/afIGuDrW9Qat3jYXsz0tJ0tqzgwxMUi32d/2lu3w6nRlau3XebJJgFZJVRxz8g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790163362; c=relaxed/simple;
-	bh=XQP2T1nHQoGZbB2qaQSrJqPp4ebZ4GdcjQQKoj3V04Y=;
+	s=arc-20240116; t=1790164689; c=relaxed/simple;
+	bh=cWvXrV+my2FQu7dTFED2drhd7CxfJCpDWyIVkGQEgHc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ik8Xqc8nZyUWmNIB56lVLEw3wEnQ05P1IvAakBxUu1zk0yHJI5kltc95nkxRl6V2hGnnvyuFXvgFeyl/k9m45OBxG3D8x55aOJ3xrZux+M6BQLx8fMz6CBfbRXgPCgGIrJI+Ks20oEh48UxvnTluAbt6DgIRpjEOovne+IyfaSE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jpOtDXFN; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=fT3ODVZaAE8C40OWfpNSaPNcYXXVNSDo0K26XPqKbRaJt4eILR3dcpDHYQCw+xZAEwUKI4CgQPZbdi3rw2JsXiP/oBbWnuMF43ju1ZUF+J8lfb1SjOe0sA9sXK1RNTPBKz04zu1Pzge6d+cVTlomyVIGYQLa4OYrgN3B+sCG330=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nrO4ol60; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jpOtDXFN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48F751F000FF;
-	Wed, 23 Sep 2026 11:35:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nrO4ol60"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BED0D1F000FF;
+	Wed, 23 Sep 2026 11:57:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790163342;
-	bh=HWPmCJVdQ8/Io06Lqs84cx0oI6m8O1OgDfmt/Vbbcoo=;
+	s=k20260515; t=1790164675;
+	bh=r0l7/XHKTd+jga0Pd8Q9o+u4rceRax13PA5OVBYyrSg=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=jpOtDXFNSeiiCWZZABz4Ju4Bb6iHITZbiOuKKGf2noe0o3c1+Z/zLiRVnyVyHCSrM
-	 jORXJN97VJEh/lx5+7qAXBRt96rtPSoKm6WKGOPcmLkllqAWSyIBYcJPeY0hzP/P2o
-	 arV9DfNgPc3wgVhWvERpgIlu9nK6ItFDIgG+TLNaXX53hTLz0oamXRKeuMt2zg73y/
-	 rpk4dnQsRSMSRhSWTetnXZzSfs0B9v99V3uoylQYadMBDC9gGQP639EDRvHYIZ8122
-	 mtGhYWzLXknD0gVWHyRPV38gTRp3FyrYEQHqUxzQ/2fCn8HIb3kWUVaFRw4xsY1Czd
-	 Zkv/+ptynn8Tg==
-Message-ID: <b1cd8166-2ede-4a47-88fe-e9d46f881000@kernel.org>
-Date: Wed, 23 Sep 2026 13:35:30 +0200
+	b=nrO4ol60X2LXvUhsLo43dS/e6Fr4Y+DpAn49E7uxfmmsWOaKSpMrpmiPEpYHagYda
+	 jtMWSA36ayyxP8TTACE4opYEuoHe50dj38YtJNnIL/mljbpISpTWflzFteQh2Tkr91
+	 gOkofMHmCCWLI/zWSBgQGzo0UmDoATqOiG/3irB0oGeKFM9nKUMLljuda5SB89lgd6
+	 fR33/Ej2VPUPZ7ViOGm2tbyIYQdy0JCefzMbRNzpE3OhgGPtqs+tBErr2SBDpFHdZG
+	 xmKjGZjeWz2p1o/In0ix8MnwwEJglD1P+CPJeyOQAictADTDbkDsme9a9x6swK6XZx
+	 aqzitItGPrRSA==
+Message-ID: <0d2a8e7b-6a7c-4cb8-a6e4-98a7a5615764@kernel.org>
+Date: Wed, 23 Sep 2026 13:57:48 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,31 +35,19 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/28] dt-bindings: sound: Add Apple Macs sound
- peripherals
-To: James Calligeros <jcalligeros99@gmail.com>,
- =?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+Subject: Re: [PATCH v5 3/4] dt-bindings: sound: qcom,q6apm-dai: add
+ memory-region and relax iommus
+To: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>,
+ Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Sven Peter <sven@kernel.org>,
- Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>,
- David Rhodes <david.rhodes@cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Ulf Hansson <ulfh@kernel.org>, Amit Kucheria <amit.kucheria@linaro.org>,
- "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
- Lars-Peter Clausen <lars@metafoo.de>, Vinod Koul <vkoul@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
- Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>,
- James Schulman <james.schulman@cirrus.com>
-Cc: asahi@lists.linux.dev, linux-sound@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, patches@opensource.cirrus.com,
- Takashi Iwai <tiwai@suse.de>, linux-mediatek@lists.infradead.org
-References: <20260920-macaudio-v1-0-741cc20a74e5@gmail.com>
- <20260920-macaudio-v1-1-741cc20a74e5@gmail.com>
+ Conor Dooley <conor+dt@kernel.org>
+Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+References: <20260922-vmid-v4-v5-0-e79cfd7af5b3@oss.qualcomm.com>
+ <20260922-vmid-v4-v5-3-e79cfd7af5b3@oss.qualcomm.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -105,274 +93,55 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  K9bCVaboTA2T77QYkRcRJYSsO1alGX0ome/hMLD1daXlkrNUp1HWa3K4iytLRXjCSIorWiGs
  n+q3krnpXu3TFkA8qtOFZMdnIiFuiq1yLT8hptsV5xh1TA2nsVvSYiaCr3q4s4BKjS/KrLDb
  qoxzw8ISjdUp4pA85vb6YLCmb39NgidD+7PmAr65lBNveIFynTgsja1rRQ4=
-In-Reply-To: <20260920-macaudio-v1-1-741cc20a74e5@gmail.com>
+In-Reply-To: <20260922-vmid-v4-v5-3-e79cfd7af5b3@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 20/09/2026 06:53, James Calligeros wrote:
-> index 000000000000..bd844c9928c9
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/sound/apple,macaudio.yaml
-> @@ -0,0 +1,235 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/sound/apple,macaudio.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Sound peripheral integration for Apple Silicon Macs
-> +
-> +description:
-> +  This binding represents the overall machine-level integration of sound
-
-Please rephrase to describe not what binding describes (circular) but
-just say what this device is.
-
-> +  peripherals on Apple Silicon Macs, starting with the M1 series.
-> +
-> +maintainers:
-> +  - James Calligeros <jcalligeros99@gmail.com>
-> +
-> +properties:
-> +  compatible:
-> +    oneOf:
-> +      - description: First-of-their-kind machines
-> +        items:
-> +          - enum:
-> +              - apple,j180-macaudio
-> +              - apple,j274-macaudio
-> +              - apple,j293-macaudio
-> +              - apple,j313-macaudio
-> +              - apple,j314-macaudio
-> +              - apple,j316-macaudio
-> +              - apple,j375-macaudio
-> +              - apple,j413-macaudio
-> +              - apple,j415-macaudio
-> +              - apple,j473-macaudio
-> +              - apple,j456-macaudio
-> +              - apple,j457-macaudio
-> +          - const: apple,macaudio
-
-As pointed out by Sven, please use specific compatible as fallback.
-Descriptions will be also redundant in such case, since the fllback will
-tell what is compatible with what.
-
-
-> +      - description: Machines compatible with J293
-> +        items:
-> +          - enum:
-> +              - apple,j493-macaudio
-> +          - const: apple,j293-macaudio
-> +          - const: apple,macaudio
-> +      - description: Machines compatible with J314
-> +        items:
-> +          - enum:
-> +              - apple,j414-macaudio
-> +              - apple,j504-macaudio
-> +              - apple,j514-macaudio
-> +          - const: apple,j314-macaudio
-> +          - const: apple,macaudio
-> +      - description: Machines compatible with J316
-> +        items:
-> +          - enum:
-> +              - apple,j416-macaudio
-> +              - apple,j516-macaudio
-> +          - const: apple,j316-macaudio
-> +          - const: apple,macaudio
-> +      - description: Machines compatible with J375
-> +        items:
-> +          - enum:
-> +              - apple,j475-macaudio
-> +              - apple,j575-macaudio
-> +          - const: apple,j375-macaudio
-> +          - const: apple,macaudio
-> +      - description: Machines compatible with J413
-> +        items:
-> +          - enum:
-> +              - apple,j613-macaudio
-> +          - const: apple,j413-macaudio
-> +          - const: apple,macaudio
-> +      - description: Machines compatible with J415
-> +        items:
-> +          - enum:
-> +              - apple,j615-macaudio
-> +          - const: apple,j415-macaudio
-> +          - const: apple,macaudio
-> +      - description: Machines compatible with J473
-> +        items:
-> +          - enum:
-> +              - apple,j474-macaudio
-> +          - const: apple,j473-macaudio
-> +          - const: apple,macaudio
-> +
-> +  "#address-cells":
-> +    const: 1
-> +
-> +  "#size-cells":
-> +    const: 0
-> +
-> +  model:
-> +    description:
-> +      Model name for presentation to users
-> +    $ref: /schemas/types.yaml#/definitions/string
-> +
-> +patternProperties:
-> +  "^dai-link(@[0-9a-f]+)?$":
-> +    description: |
-> +      Node for each sound peripheral such as the speaker array, headphones jack,
-> +      or microphone.
-> +    type: object
-> +    $ref: tdm-slot.yaml#
-> +
-> +    additionalProperties: false
-> +
-> +    properties:
-> +      reg:
-> +        maxItems: 1
-> +
-> +      link-name:
-> +        description: |
-> +          Name for the peripheral, expecting 'Speaker' or 'Speakers' if this is
-> +          the speaker array.
-
-If there is actual expectation, please encode it as schema, e.g.
-
-enum: [ Speaker, Speakers ]
-
-You can also drop | from description.
-
-> +        $ref: /schemas/types.yaml#/definitions/string
-> +
-> +      cpu:
-> +        type: object
-> +
-> +        properties:
-> +          sound-dai:
-> +            description: |
-> +              DAI list with CPU-side I2S ports involved in this peripheral.
-> +            minItems: 1
-> +            maxItems: 2
-> +
-> +        required:
-> +          - sound-dai
-> +
-> +      codec:
-> +        type: object
-> +
-> +        properties:
-> +          sound-dai:
-> +            minItems: 1
-> +            maxItems: 8
-> +            description: |
-> +              DAI list with the CODEC-side DAIs connected to the above CPU-side
-> +              DAIs and involved in this sound peripheral.
-> +
-> +              The list is in left/right order if applicable. If there are more
-> +              than one CPU-side DAIs (there can be two), the CODECs must be
-> +              listed first those connected to the first CPU, then those
-> +              connected to the second.
-> +
-> +              In addition, on some machines with many speaker codecs, the CODECs
-> +              are listed in this fixed order:
-> +
-> +              Four speakers: Left Front, Left Rear, Right Front, Right Rear
-> +              Six speakers: Left Woofer 1, Left Tweeter, Left Woofer 2,
-> +                            Right Woofer 1, Right Tweeter, Right Woofer 2
-> +
-> +        required:
-> +          - sound-dai
-> +
-> +    patternProperties:
-> +      "^dai-tdm-idle-mode-[0-9]$":
-> +        $ref: tdm-slot.yaml#/properties/dai-tdm-idle-mode
-> +
-> +      "^dai-tdm-slot-tx-idle-mask-[0-9]$":
-> +        $ref: /schemas/types.yaml#/definitions/uint32
-> +        description: Idle slot mask. A bit being set to 1 indicates
-> +          that the corresponding TDM slot is inactive/idle.
-> +
-> +    required:
-> +      - reg
-> +      - cpu
-> +      - codec
-> +
-> +required:
-> +  - compatible
-> +  - model
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    mca: mca@9b600000 {
-> +      compatible = "apple,t6000-mca", "apple,mca";
-> +      reg = <0x9b600000 0x10000>,
-> +            <0x9b500000 0x20000>;
-> +
-> +      clocks = <&nco 0>, <&nco 1>, <&nco 2>, <&nco 3>;
-> +      power-domains = <&ps_audio_p>, <&ps_mca0>, <&ps_mca1>,
-> +                      <&ps_mca2>, <&ps_mca3>;
-> +      dmas = <&admac 0>, <&admac 1>, <&admac 2>, <&admac 3>,
-> +             <&admac 4>, <&admac 5>, <&admac 6>, <&admac 7>,
-> +             <&admac 8>, <&admac 9>, <&admac 10>, <&admac 11>,
-> +             <&admac 12>, <&admac 13>, <&admac 14>, <&admac 15>;
-> +      dma-names = "tx0a", "rx0a", "tx0b", "rx0b",
-> +                  "tx1a", "rx1a", "tx1b", "rx1b",
-> +                  "tx2a", "rx2a", "tx2b", "rx2b",
-> +                  "tx3a", "rx3a", "tx3b", "rx3b";
-> +
-> +      #sound-dai-cells = <1>;
-> +    };
-> +
-
-Other nodes rarely need to be in the example. It's not even referenced
-(although that also does not matter). Please drop.
-
-
-> +    sound {
-> +      compatible = "apple,j416-macaudio", "apple,j316-macaudio", "apple,macaudio";
-> +      model = "MacBook Pro J416";
-> +
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +
-> +      dai-link@0 {
-> +        reg = <0>;
-> +        link-name = "Speakers";
-> +
-> +        dai-tdm-idle-mode-0 = "zero";
-> +        dai-tdm-idle-mode-3 = "zero";
-> +        dai-tdm-slot-tx-idle-mask-0 = <0xf0f0f0>;
-> +        dai-tdm-slot-tx-idle-mask-3 = <0x0f0f0f>;
-> +
-> +        cpu {
-> +          sound-dai = <&mca 0>, <&mca 1>;
-> +        };
-> +
-> +        codec {
-> +          sound-dai = <&speaker_left_woof1>,
-> +                      <&speaker_left_tweet>,
-> +                      <&speaker_left_woof2>,
-> +                      <&speaker_right_woof1>,
-> +                      <&speaker_right_tweet>,
-> +                      <&speaker_right_woof2>;
-> +        };
-> +      };
-> +
-> +      dai-link@1 {
-> +        reg = <1>;
-> +        link-name = "Headphones Jack";
-> +
-> +        cpu {
-> +          sound-dai = <&mca 2>;
-> +        };
-> +        codec {
-> +          sound-dai = <&jack_codec>;
-> +        };
-> +      };
-> +    };
+On 21/09/2026 21:08, Ajay Kumar Nandam wrote:
+> On modem-DSP (mDSP) platforms the DSP runs in a stage-2 protected
+> context and cannot use the SMMU. PCM buffers must live in reserved-memory
+> carveouts that are SCM-assigned to the appropriate VMIDs.
 > 
+> Add an optional memory-region property (1-2 entries) for the
+> control-path and data-path carveouts, and remove iommus from the
+> required list since mDSP platforms have neither IOMMU nor VMID DT
+> properties.
+> 
+> Signed-off-by: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
+> ---
+>  Documentation/devicetree/bindings/sound/qcom,q6apm-dai.yaml | 12 +++++++++++-
+>  1 file changed, 11 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/sound/qcom,q6apm-dai.yaml b/Documentation/devicetree/bindings/sound/qcom,q6apm-dai.yaml
+> index 9e5b30d9c6e6..7d0415f2463a 100644
+> --- a/Documentation/devicetree/bindings/sound/qcom,q6apm-dai.yaml
+> +++ b/Documentation/devicetree/bindings/sound/qcom,q6apm-dai.yaml
+> @@ -20,9 +20,19 @@ properties:
+>      minItems: 1
+>      maxItems: 2
+>  
+> +  memory-region:
+> +    minItems: 1
+> +    maxItems: 2
+> +    items:
+> +      - description:
+> +          Control-path buffer (audio_heap_mem) for platforms where the DSP
+> +          runs in a stage-2 protected context (e.g. modem-DSP).
+> +      - description:
+> +          Data-path buffer pool from which per-stream DMA buffers are
+> +          allocated.
+> +
+>  required:
+>    - compatible
+> -  - iommus
 
+I imagine you either have iommus or memory-region, no? IOW,
+oneOf:
+  - required:
+      - iommus
+  - required:
+      - memory-region
+?
 
 Best regards,
 Krzysztof
