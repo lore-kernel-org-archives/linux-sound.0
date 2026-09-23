@@ -1,171 +1,160 @@
-Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011033.outbound.protection.outlook.com [40.107.130.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B07A569F17
-	for <linux-sound@vger.kernel.org>; Wed, 23 Sep 2026 15:26:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790177170; cv=none; b=C3PSeiwfgjxo+uGljPRSE6pCu93n05cgrzmWOkalNx+d7x6YOk22P9K+1DTaAj722WlTK+7jNmRipBHrH70+h0S39P9NdGYL6TP4M4OYmVVL2sAGN5ioaDbANzpAb+AsALc/lvTMWb090RON7na5owCVfIhtSG2bF/DXGo51SIo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790177170; c=relaxed/simple;
-	bh=vbE28mKmHJtdJ1G6UqmQvPjlK7htfPMsesH5LIBkX/U=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZSsrCbpP5m1bcVpuedqoaOPqoFHMBXu1x4kWNv649OZ5RU9ven+ruYJsvemdCrXj2JdeTZDhwTcx9yASu0lSBcom1Y83ze1dl0/pHrU2hhJ1mv4D5bAFdxvN/wctyBXAx+SemlIkGEwKwhpe/FHXCaUFxi2Dgynih4T9xIEF8M8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k05lwKTS; arc=none smtp.client-ip=74.125.227.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B66CB542ED0;
+	Wed, 23 Sep 2026 15:28:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.130.33
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790177333; cv=fail; b=ovL5Pr0qr0drtxdhM7xJ4/ZLcaIy81Fpbpo5lYDpXjZBwFsfDSMtd72vTOa2dsEqsltTI0LsxMGuzL5jyas+dGzfI2Elrt6EvwA8HhzW8nOD/4hLD5BHtmaDUn1VldGGH2F0wlvgL2IB1E/9YtNmsheCYErIRi0u8tCuGAPuXLk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790177333; c=relaxed/simple;
+	bh=Gh2K7ZsTYvJPtFUFEQxSnSfJgNT7BLKt4oLxDpUJVjM=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=p61sg8C4tnXZwBlc9y7FEmlq7ywb7r1DcyKN9RudQsWuusATEjZtJd5gkq8ehPFrzapERD7JPmG4bK+WGWSMb1kC92ZkWStk4Vj9F3mUyG2i6C5Zshee5MGQacApr8Ew5k5Qgo+vXXYBi4pjAa+Y72SY1WPKXWPUUp0aO23/D60=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=gSnONWcC; arc=fail smtp.client-ip=40.107.130.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k05lwKTS"
-Received: by mail-pj2-f12.google.com with SMTP id 98e67ed59e1d1-396ccd4f99cso896842a91.0
-        for <linux-sound@vger.kernel.org>; Wed, 23 Sep 2026 08:26:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790177157; x=1790781957; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=XtmNEGmWjmwHVcwXZMqnTzmXNuimyMZDC016FlIST/k=;
-        b=k05lwKTSZFAoSzGgkPEFpdohEuULir9pJCvLNgIcazzwSyaixgiXPHKe1qghR1hzAe
-         GVGUnXhyzo5S7c/5A8A5V5lPaWox1wOkA/GqmSyOF51k1mpDNKgaM7O7HyoEkQPzbyPt
-         rhBqj6cl/tPqvPQPLx8IhxY6c6PRF8fDnAj55fBmHHgIaFfdC7nvJN1iu5XD+YhQRVp4
-         QLt7IHJ7ena+cap/cQw8vPPqMGodcsTL2cCNV2tbAnZNJPm7fZMIAcjBDEq+PTyvAI3a
-         NEGpIetDiNAPJayQA1vA2jTcUt04j7kDswgGnSe4YlUF/U/vimx6MQTXXirtJgH3XXkD
-         i0og==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790177157; x=1790781957;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=XtmNEGmWjmwHVcwXZMqnTzmXNuimyMZDC016FlIST/k=;
-        b=yC1EV7DIQgTRKcQIZaj2k3V1HfOcgI+haq1aky3s8pP2/ypzQm/1S6vszn1TmhMxSC
-         92Icxg9AdCWnPU0ZlTgUszdTTPKucs5zUKE4Sl+gSm98EjpJdXIHfMmoBXq6Sz/ydmUH
-         JtGR4HsRccEDN4Fw5o/pdaE3ljcndvsd6DiNfNVRAjBic2F5hc9E+t2FcG3F0MiRM2Ho
-         jFs+l68iBbrIdH/0pynVLbQU7ZTlRAG04QiiMoJNNXJ7JITZXzvOoTcy03u0Kh6V7KdJ
-         lzYtoBmYGQgoo19l85Cf9YZYoRU84++QuHmvTT1mFjqDpD2rFg/xpxgcbYgTFICStQvo
-         8PyA==
-X-Gm-Message-State: AFuF++nsv0Orymd7M9nTHRRKgtd41+xgzbOa7t1tp2m8ZJEq/IwNkLdZ
-	MlULolHPpze72I9n1GWhYtjBeZ869yJlsgaGCGvm6JuwCgULv6AhPVRJfplxl7TuIpM=
-X-Gm-Gg: AYBFou11QP4TZ+pz8F186yzhohKN1tKu1YhcBtKqG+dmWpvyIW0gLmWrAERkvpQmeIt
-	mac9NkDt09C5kC0Md1fBw7A4bg04jUfhQjlCQTWkedwMxOrGu7JSKofl9aw4vogqP0bMla+YltA
-	PpgQIp86NXslWFJGTslBiv3IhzbnXtxGQ2IDT3uBn9t01mIWyk7S4bsEBjD1yixOuXfYQpC0nOc
-	MTD9La8C3K3cnnGpOqS6BeUWeCxt4Y06g3n22dY4BGLA6UCtyj1K/O9bAMz2OlXU0qLcaZzvX6N
-	xzrGNtH0UAMqyUeqUpI9RlJD9umN1GtczRlTkUiV0QnEaavwnXyUPsaQsPH1CfUmcIpT9Bc4ipl
-	uPeA9qX1puEnR/pz++Lnrn2twN6OZEz66RoSJXtilt1Pvj5jUDsZGmQP8lEU5vjisIvgW7o/CKD
-	5tplq/f3kaA/AGUi3eQDURim1bz5fxZdrvHKxbBIE35eUwK2OxqT8upIgaUQ/BGhWmi/U/qKxDi
-	6DnTThVer87OKBvrB0NSxMBeYqk89gzHqe3K/f13LKQIIfXgkDhwHIwIlwpSu8=
-X-Received: by 2002:a17:90b:3dc3:b0:39e:4c81:6c96 with SMTP id 98e67ed59e1d1-3a07e56914bmr2435931a91.28.1790177156552;
-        Wed, 23 Sep 2026 08:25:56 -0700 (PDT)
-Received: from archlinux.taila79f6a.ts.net ([2407:cdc0:8003::1027])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a07de50cbdsm5587201a91.15.2026.09.23.08.25.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Sep 2026 08:25:56 -0700 (PDT)
-From: Xucheng Pan <panxucc@gmail.com>
-To: linux-sound@vger.kernel.org
-Cc: tiwai@suse.com,
-	perex@perex.cz,
-	linux-usb@vger.kernel.org,
-	Xucheng Pan <panxucc@gmail.com>
-Subject: [PATCH] ALSA: usb-audio: Re-read descriptors for Xiaomi 2717:d005
-Date: Wed, 23 Sep 2026 23:25:52 +0800
-Message-ID: <20260923152552.943151-1-panxucc@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="gSnONWcC"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=G5SFU5IxKb5orhHgBg4wEeCJnrlNxJ+2kdzRN4yXAft2RFnv6qs8LylWcsutlfB6RH9oxm/O2AojxLET6+bQ730e4H5c81atCuTuEV9UoZenKubvmgiXaWyfjl3mo3+ftcvtZ3u7kZb/HFvX4IiisMslNNJdGVJKJRK+3i280j9EE7S3jk4doGeCyPuxcr//xzCPmwL4MXsEmMm+3mqEaquKOLBsS7dfYDIcbib8oacvapV8h5PNQeJ3IZOLt3wIwosPaj0yYpLDxy9U7x1wwNVHkFcMRveMmcoUjnvBsRGPF4/Lpnhmb/TtUqpL8oVuW1gJa6rTGh1CC0XcNYsfaQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DMAJqk7+A6na5r3s5rqYK6aECQdXuZYcCimx1AokKIM=;
+ b=rbqt0K00szlft5jL7ivDSMkkorNDCvdlKXfFoGHwKifm+QK8/XBT+MwnJWUIOlKVFbbDIEbUomvcpwS7QWD5e9yJAsKEhq0uAaNbIMjGglwxgZ21+rUjqRmmwc6th3MaQENyp0coxYou1wQqdeK5bOO8M7c0lcPnYwy4m76ooB8O3j+EzLuCoQje8isksVhbikEcBoSuNHOdytSRleCXgJ/+ENx1JQx/qI7Pm5GhJbCXdiAx3lfJKahKTkEUeEDd2pyfo/nYhTA8RbE64FY4rsuJLUKIiirPEiwbpSjmRiOzgIL60rrIsVuZf0KzoFjJw5y4N/ZFcP/ZTTDn6+KliA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DMAJqk7+A6na5r3s5rqYK6aECQdXuZYcCimx1AokKIM=;
+ b=gSnONWcCq/UJxyWUh/FIfvVKhwMErcdpq0McNSjvsgwx+XiqzkOyYrqT1f26lbmnrPES0FOUpj30oiGOpGg1ys6Fl8zVUxp+jm7PgXIZ/gMP93OctHSGloFwFxeBczOCiWgcJYvq0Hp9/3YDnJNQeAKGqdqRT2HlVg4f6xG0UIO2G+ygkJYBtzws0MZVjt7+Dwd0VKGaak7+CJugL9E1WIBuSU8t84Bm1jkIUPhGFW/ru1O1Sl+OhUyhvkX+hQZNBZLahRfy5BiqiqvgNL2CrrDXLGbC4i+syeDKysJ+xNn2Ace/3mHQdJW5uVJWOO4aDFQ2owtUTZ1lzEp6Ycr3iA==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from GVXPR04MB12316.eurprd04.prod.outlook.com (2603:10a6:150:2c6::8)
+ by DU7PR04MB11161.eurprd04.prod.outlook.com (2603:10a6:10:5b3::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.14; Wed, 23 Sep
+ 2026 15:28:43 +0000
+Received: from GVXPR04MB12316.eurprd04.prod.outlook.com
+ ([fe80::fc6e:ca22:f065:def4]) by GVXPR04MB12316.eurprd04.prod.outlook.com
+ ([fe80::fc6e:ca22:f065:def4%5]) with mapi id 15.21.0451.014; Wed, 23 Sep 2026
+ 15:28:43 +0000
+Message-ID: <d0d03403-6216-4869-8c12-7356eca751f9@oss.nxp.com>
+Date: Wed, 23 Sep 2026 18:32:17 +0300
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RESEND PATCH v5 3/5] ASoC: fsl_asrc/fsl_easrc: move DMA params
+ into pair/context struct
+To: shengjiu.wang@oss.nxp.com, lgirdwood@gmail.com, broonie@kernel.org,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, Frank.Li@nxp.com,
+ s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+ shawnguo@kernel.org, linux-sound@vger.kernel.org,
+ devicetree@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, nicoleotsuka@gmail.com,
+ perex@perex.cz, tiwai@suse.com, linuxppc-dev@lists.ozlabs.org
+Cc: Shengjiu Wang <shengjiu.wang@nxp.com>
+References: <20260922033428.1690822-1-shengjiu.wang@oss.nxp.com>
+ <20260922033428.1690822-4-shengjiu.wang@oss.nxp.com>
+Content-Language: en-US
+From: Daniel Baluta <daniel.baluta@oss.nxp.com>
+In-Reply-To: <20260922033428.1690822-4-shengjiu.wang@oss.nxp.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR3P281CA0120.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a3::18) To GVXPR04MB12316.eurprd04.prod.outlook.com
+ (2603:10a6:150:2c6::8)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GVXPR04MB12316:EE_|DU7PR04MB11161:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9275fd45-7ae6-4b48-6576-08df19875a28
+X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|376014|23010399003|19092799006|7416014|1800799024|921020|10067099003|56012099006|11063799006|4143699003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	cUIAK0cnFR/xuL7kQi7M+3rGtyxTiV174WsHOANfqaaLA4mmrdOig03zmWopNjX6FFLPsrl9KwVq+31DuO/1DJcrzIm30/cnD7nYjHNp8hlMdSO+0HNJ+VD9Br/xJVOg8m8nz8BxjuLIxhaZIohxYOzimL7UEawqfG9wJkLBGp9CkzCkGpqM8wjtWLw3U9TlfHyVCQ+0FsDkdbrsj9GfYOpTNmAKuwJJagRwy8B7hMor47MI4FUc9l6lr6M8e2mGdopW7/mloZIvoiNw+g1RhdZ4IWDw0zdvHQK+vZ1YlZTxPeDnT5lfJp9ojphnTlqoXiohn7N27psx33PDbbqzYHUqzKi1SZylHF/FEos7bpipLr1UsWgGjftpaCFejXlI9dToWtYrCKPcW/IsVMxO5d29OfmVSPEcLf3nrIyQoVuDCoBEOGCJGBG7vO6eYOJw8K55UECiKHHoRWvoPpRp9Nil6VpG7NM966+nam7B+IMKRR6Mb0cZVFipjPMnHHIwuJdfyDE2X4TzoMiZtvmbm/B+WjEeSF13xh4hYH2grXi1+HkAnKhRvQptyHyWoQKZbDx/TDfg/iwDHuG66n75L6kN94J6U4J8HEVxa33bIqHNwaEnueSU3/Ta6VqMztbbrvwl+XQHcjFp1MZiQ51BbD82ZGKY90fWeyuJD+jAVpsAfCInklzGvQ/E/w5lDYeWIjD5/lTn8r9Rvr2tkdbqpQ==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GVXPR04MB12316.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(23010399003)(19092799006)(7416014)(1800799024)(921020)(10067099003)(56012099006)(11063799006)(4143699003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?UUdCVE5ZK0ZmVU44RUswZW83RDVWalpXRVUzcFcxTzlNTm9oWXNpSmtkOFBq?=
+ =?utf-8?B?a3lGSFdPUjljeU1VME84S2J6Rk92Q2h6eFpzSlQ2dWg1ZmNRczA3YmZxTjVx?=
+ =?utf-8?B?eXd6cEdpeGtaemUwTlhTN3Q1RWk3c3YwZnp0bUMyU1R6WnRhSGtZOXBJcmIy?=
+ =?utf-8?B?anp2YTB5TzQ0RVRQVytZNlYvSkNabHNGMFNBNUNkR0RFU09ZdStxMEwyQzRr?=
+ =?utf-8?B?RG9LQmtxWFhpTDlydEJQUFBmQWRYakprSEVnSFRUR1BUaUJBRHRyRndNSFZP?=
+ =?utf-8?B?VDA3U0NOVlpUblVnYzYxb2hoYVk2aytUVFp1czM3eGpTUHpGcE9hYTN4V2VS?=
+ =?utf-8?B?YWRpSWd6c2s1Vjc4Y000OXZmeW92M3hYZmlKZHFZak9xd0pYUDVFUU5YVHJl?=
+ =?utf-8?B?azNaWVJKTks0U3JUbFNTWjdpcDNPcXhXbDdyZXFNcUJ1d0lHUUx1S0V6MmZN?=
+ =?utf-8?B?NUtVNXB0U3A4UnVqeXJicUpRM0RpY2p3ZC9HRW1CQWRDSFhTdndIT0RNS2Rk?=
+ =?utf-8?B?WmdDUHRpL0U0OVdYRmg3NGZKWlVyNlJrUS9qWkpLaHdPWG1uVHcwUnRpTGw3?=
+ =?utf-8?B?bmlnRVFNZVJNTjdwbHA0SEdXWXpPdWZxaG1sd0UzdUgzaWpXNlBUa1VoSlc1?=
+ =?utf-8?B?NjlnY0t5ZXBPSEFSc29BUW9RSStDajFjOHo2ZFl6OUoyaG9xZDk0V29JbGQ2?=
+ =?utf-8?B?c3Bxc1oyS2QzcWE5blVNQVpGa1ZVVGRDMVgrTjlpYzcxNjl4K0lCUmN3ajM1?=
+ =?utf-8?B?N0NIVXJ2bVViL0dFNzQzQUpIZEN1Z2I4eXRoK01jOWdGZDZ5dU5QQUFQWWFN?=
+ =?utf-8?B?RTNxS1dGOWhleFJSNEVKMzZYa0NwclYxYTg5cnN0N2g5bGRqNUlFcG13SEY2?=
+ =?utf-8?B?Tm9PUGlZcU4rVFgzalIwMDhEc3BEOEtXN1ptRDhwMlJ6N2hnRUtQN2pxY1A0?=
+ =?utf-8?B?VEZ3K2lxQ095YTduMHMvd3BEUVNscmdZVmM0b1hxUXJOcG4xM1N5b3ZjU2o1?=
+ =?utf-8?B?NjNwUVRuZ2NVb2tnbGNyaGJlOXJ4a3VRK0pFS0N4dlN2VlAzc3JZQW1mWnpp?=
+ =?utf-8?B?V3RuQ2xUcmM2Wnk3emJ0YllzL2V1eS82SkZ5ODRReVhyUG5CZDg0dnhXeWtj?=
+ =?utf-8?B?aHUrdDNGOTJzamZKdVFqNEZlSVlzT01oVjJyb1llSW5WMmpMOUoweEF1YzZt?=
+ =?utf-8?B?UHJrMmlMODFjdC9mOXd0eGNmMEpXdXFDZHMxTnFVL3J0ZkRDRVluYnUrM3p3?=
+ =?utf-8?B?OXdGQXdFVWVIVjBiTENQaGlnL1BtVzF1RUNBK0o5aE5vdVpxeFVyR2hidzZO?=
+ =?utf-8?B?L3V2RHZpc2ZpL29MNmJBVmxaVEJjazNKdzVqeWlkVWxjS2hDaE1QQnprQ3hr?=
+ =?utf-8?B?WjVvbmV2blc0WndVRkQvRnhkY3R2MjBmUzZ2anhpK1llY3pLQTRJdlYyYkM0?=
+ =?utf-8?B?bnBlRFFveWNTREp1NjY0SFI1dWVnZUhkdmNJaHV4RWdENmd1cFcrM2RBY0Q4?=
+ =?utf-8?B?SHlxNXVjUEZzNzZ4clE5WHpwSythbitieTFGRjlJZExDV3QwT1hzV2xwazNU?=
+ =?utf-8?B?Y3gvaVJmZ0p0Q1J3RC90YmVsdllsTmluVVFQYTl2QVQ4NTg1c04xall6c3d4?=
+ =?utf-8?B?SXM3NWlielRkckgyNEtNcVc5d3dyc3BscjU4b3hTUm05cC96ZUlkQ3dKb1o3?=
+ =?utf-8?B?SHFUTUk0WTE4akd3eTk4d3o2VU55Y3NRR0RGeUUreUV5bC9wOUFGVHp0c1NL?=
+ =?utf-8?B?NVZZYTVqTWZudkdhVEt5b1E3V0ZwaE5NOCt1Z2haTzZiaFVxNnBiaXlOVU5P?=
+ =?utf-8?B?WW5oS2NzK3U3WWJQb0pDRXVlTWlZR2RKMnZkejh6b3lqdk9yUFpvaE4yUzFk?=
+ =?utf-8?B?SHdCemRBS1NPMEE3VHRyVGRaZFJOZXV4eHpQMko1MUxQbEViWTVxTHg3RmJX?=
+ =?utf-8?B?STZHYkh4Qm9HN0JRdWhqQzAvQWYzdGhpS1ZIZk5xYXBzcmE0THgrS3E3cmNE?=
+ =?utf-8?B?dWNZdmZMWk1DYVBzN1p4U2lpbGdQTXkyNGFXN2xsSElKb3hVUmJzMXZsN1Nl?=
+ =?utf-8?B?MVlMZFIzVUg2LzFta3N1aTc1YjVYOCs5em5BNElCUkRRU2RpamZ5RUdWR0g0?=
+ =?utf-8?B?SE1FSnovY1JBcjR1UEVJVmNRd2tJNTQva0lkZ0E0Sy9QbFQyM1dhOTJlWStP?=
+ =?utf-8?B?M1RnWHo4TzJ1YTY2YVNES3B0V0tvNXllcDRTSjBCM2ZPNXE2NThRczVaT2sv?=
+ =?utf-8?B?cFh4WGNuYlhpbXJ1WmZtSEJQbksvTGx4Zy8yK3paR0Zsb3lkUlBjUWdnL0dI?=
+ =?utf-8?B?VWRYT3pBbmpjdHg4elpNTHAzRUk1WTRkMFNzNmJxd1dHeE9sVWluQT09?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9275fd45-7ae6-4b48-6576-08df19875a28
+X-MS-Exchange-CrossTenant-AuthSource: GVXPR04MB12316.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2026 15:28:43.5153
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: yakx1Kv6td4S9NdwW0qI6Di/cgMSwFIO1eUOmVavu/+A5sTggGl6D6h66Q1HjFqbfzInhJ0cXK0nYhFYWJH/qg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU7PR04MB11161
 
-The Xiaomi 2717:d005 USB audio transmitter supports Sound 2 Pro and
-Sound 2 Max speakers. This issue was reproduced with two Sound 2 Pro
-speakers paired in stereo. After a USB replug, Linux detects the
-transmitter and exposes a hardware volume control, but moving the volume
-slider changes neither the audible level nor the speakers' volume LEDs.
-Windows controls the same speakers with its in-box USB Audio driver.
-USB captures show standard UAC2 volume SET_CUR requests on both systems.
+On 9/22/26 06:34, shengjiu.wang@oss.nxp.com wrote:
+> From: Shengjiu Wang <shengjiu.wang@nxp.com>
+> 
+> The shared dma_params_tx/rx fields in struct fsl_asrc were a single
+> instance written by every concurrent fsl_asrc_dma_hw_params() call.
+> With multiple DAIs registered (one per pair/context), parallel stream
+> open+hw_params races would corrupt addr and maxburst for all active
+> streams.
+> 
+> Fix by moving dma_params into struct fsl_asrc_pair so each pair owns
+> its own copy. Initialise them in fsl_asrc_dma_startup() where
+> the pair is allocated, which makes the per-DAI probe callbacks in
+> fsl_asrc.c and fsl_easrc.c redundant; remove those as well.
+> 
+> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+> Reviewed-by: Frank Li <Frank.Li@nxp.com>
 
-Re-reading the device descriptor (18 bytes), configuration header
-(9 bytes), and full configuration descriptor (184 bytes on the tested
-unit) after 2717:d005 is configured restores hardware volume control.
-The USBFS sequence recovered the device after multiple replug tests.
-Reading only the device descriptor did not restore volume control.
+Reviewed-by: Daniel Baluta <daniel.baluta@nxp.com>
 
-Perform these reads when snd-usb-audio first probes 2717:d005. Use the
-configuration header's wTotalLength for the final read. If a read fails,
-warn and continue probing so that playback remains available.
-
-Tested on 7.2.6-zen2-1-zen with the existing userspace workaround
-disabled. After a physical USB replug, the quirk ran when 2717:d005
-appeared, and both audible volume and the speakers' LEDs followed the
-KDE volume slider.
-
-Signed-off-by: Xucheng Pan <panxucc@gmail.com>
----
- sound/usb/quirks.c | 46 ++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 46 insertions(+)
-
-diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index c587090..f9b7036 100644
---- a/sound/usb/quirks.c
-+++ b/sound/usb/quirks.c
-@@ -870,6 +870,49 @@ static int snd_usb_cm1a_boot_quirk(struct usb_device *dev)
- 	return 0;
- }
- 
-+/*
-+ * The Xiaomi audio connector ignores UAC2 volume changes after reconnecting
-+ * until the device and configuration descriptors have been read again.
-+ */
-+#define XIAOMI_AUDIO_MAX_CONFIG_SIZE 1024
-+
-+static void snd_usb_xiaomi_boot_quirk(struct usb_device *dev)
-+{
-+	u8 *buf __free(kfree) = kmalloc(XIAOMI_AUDIO_MAX_CONFIG_SIZE, GFP_KERNEL);
-+	struct usb_config_descriptor *config;
-+	unsigned int length;
-+	int ret;
-+
-+	if (!buf)
-+		return;
-+
-+	ret = usb_get_descriptor(dev, USB_DT_DEVICE, 0, buf,
-+				 USB_DT_DEVICE_SIZE);
-+	if (ret != USB_DT_DEVICE_SIZE) {
-+		dev_warn(&dev->dev, "device descriptor re-read failed: %d\n", ret);
-+		return;
-+	}
-+
-+	ret = usb_get_descriptor(dev, USB_DT_CONFIG, 0, buf,
-+				 USB_DT_CONFIG_SIZE);
-+	if (ret != USB_DT_CONFIG_SIZE) {
-+		dev_warn(&dev->dev, "configuration header re-read failed: %d\n", ret);
-+		return;
-+	}
-+
-+	config = (struct usb_config_descriptor *)buf;
-+	length = le16_to_cpu(config->wTotalLength);
-+	if (length < USB_DT_CONFIG_SIZE ||
-+	    length > XIAOMI_AUDIO_MAX_CONFIG_SIZE) {
-+		dev_warn(&dev->dev, "unexpected configuration length: %u\n", length);
-+		return;
-+	}
-+
-+	ret = usb_get_descriptor(dev, USB_DT_CONFIG, 0, buf, length);
-+	if (ret != (int)length)
-+		dev_warn(&dev->dev, "configuration descriptor re-read failed: %d\n", ret);
-+}
-+
- /*
-  * Some sound cards from Native Instruments are in fact compliant to the USB
-  * audio standard of version 2 and other approved USB standards, even though
-@@ -1704,6 +1747,9 @@ int snd_usb_apply_boot_quirk_once(struct usb_device *dev,
- 		return snd_usb_motu_m_series_boot_quirk(dev);
- 	case USB_ID(0x1397, 0x1234): /* Behringer CM1A */
- 		return snd_usb_cm1a_boot_quirk(dev);
-+	case USB_ID(0x2717, 0xd005): /* Xiaomi audio connector */
-+		snd_usb_xiaomi_boot_quirk(dev);
-+		return 0;
- 	}
- 
- 	return 0;
--- 
-2.55.0
 
