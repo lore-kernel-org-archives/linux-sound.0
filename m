@@ -1,34 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B69D53793C3;
-	Wed, 23 Sep 2026 17:47:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D87A43D34B9;
+	Wed, 23 Sep 2026 17:48:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790185640; cv=none; b=kh9bWN/wD3X7wGEyyfQ3X2N2vZA5eRIAgI0faiNyiH4mcHcWlgMQ9nayX92kb1Awet2MgL5JMSjQo7QQM+NbseZaoYOBKrp7KG59E7RAds1PU/5UueQEVhpXn3xuM26SgwQRvuXLQQSw1hDot/ZK79cQup23OPUXiV4J5tEP4sY=
+	t=1790185731; cv=none; b=Ip2eW75shY6S+uTPWtemDGZVFmGaH8eFnoznDy2Bp/zmb/Rg4zEyQwnTKl9wC9eljafczsNeFi89FKXjlrZrTl3d3/v7Pilq3U3Yxj/dP9Mbjp50DY7R9FjVpVpjiiWGCX6bQGdaE3whOBdu42xnTdOqw8CXkaYPlhAHxZ9pRQE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790185640; c=relaxed/simple;
-	bh=HSg9fz3ChYnTuBZGtRM3JFZJhjj2NzjCEu0jHZu9nlA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=W5t0EHXQhVWzVkM4FKakrlZVTqoTxRyw6Pk6rPcb8qr9iM6xgIsJ22ghIKnMCl9DexLVsgNcSxz1KInWjR8qRdNcv29LAsmfNo8cXWn+BmhKyLmRB4jJBGP8AzxcqznV9KPUEbn0d+YhAeGdCOCHCZTLN2w1yson/SgQp8/qTDA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IuesDAvo; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790185731; c=relaxed/simple;
+	bh=csBgz0UvlGk13BjkrknwcaDES1Io3HiNouEVa0NHMo0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=s8vStvPt9uvCebjMOFiw8BFrVRilEruSbHzs8IW3TlOB8tYTxt3zt5GV/Vp/D4wadok28kw7TRUi+rOXOo4XeZDQm+ZflIfgEaRHdOFT+XqTZCIyBE76GE9d4VMx63v/RqRuusXwndgYx8SqhunnJL+smmPY9zSzfGH1Whk+3OU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UBE34Eew; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IuesDAvo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D93B01F000FF;
-	Wed, 23 Sep 2026 17:47:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UBE34Eew"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 238241F000FF;
+	Wed, 23 Sep 2026 17:48:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790185639;
-	bh=4OgXmOT1eR6dLDYiBYN6lgOZgsKUlnftPl3A6srdwPw=;
-	h=From:Date:Subject:To:Cc;
-	b=IuesDAvoP4zHkBxXnphX3H8TqZLCFEsd5P6KDU6D3ipYRw8W+bdGrJIsju7BQ7SvU
-	 EFsDpPeiFF4dLlb523L6DcL9wp4CWPUl1Ggv1QbPaHu8SxnTXIDbbhUuU1+/h5M/vi
-	 yjU9t/JUJWEISK4KPmJVBu+kyXBsD/yvlEH3vRgsv1ku/nfWqraD/N7xfohZEYOcYL
-	 GI295Y4fkx69YfHOukwVw/L/qKxz33UV7PK7tVQhfSb3iSkLarjHmon+gwUxhVWxiw
-	 u/qoYimmm/+DRwz9PTyThxsEwtnSAcdgJ2p6n8NpD7cEPgWH5R/4w+bsin2tkK63Mj
-	 l0qLuj8YvzrZw==
-From: Linus Walleij <linusw@kernel.org>
-Date: Wed, 23 Sep 2026 19:46:55 +0200
-Subject: [PATCH v3] mfd: dt-bindings: ab8500: Describe codec graph and
- microphone wiring
+	s=k20260515; t=1790185729;
+	bh=CckaMEVy4rBtm+MXQVmSU0YYsqGjTQ9dsOYaa56zuX8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=UBE34EewctOoaFl/jGAasB6iOrwZljRTfFJf1t2UTUHBey9b6QOXAI79+YrRUHZnT
+	 Z+wEiHybC65Jr8nW4g1s6XgUI8vn5wqzHFGXOOOHeODkPit/Cx3AfXyEXRXnnIW2L4
+	 6NSDLqpvT4ILhil9svj2SeensSxOzIvKm1CaEh6Wdgu1Xqx6fkZLuwe0nWB9skaWZ/
+	 SSAhlWy1vSmDt/tW+pb8gRnEOu0v74FQLI6oLKTs4zXcKnhAtSwAk4zXWK8DphlUXP
+	 qhnmY3ZUZ9ZTd0M7BAEmfYu2SFYfzKTXnrpNnEiZId2Zjk0iVMh0mp0GRryGTrAXp7
+	 RXsczxxGRL9aA==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ Charles Keepax <ckeepax@opensource.cirrus.com>, 
+ Oder Chiou <oder_chiou@realtek.com>, 
+ Cezary Rojewski <cezary.rojewski@intel.com>, 
+ Chancel Liu <chancel.liu@oss.nxp.com>
+Cc: Support Opensource <support.opensource@diasemi.com>, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ patches@opensource.cirrus.com
+In-Reply-To: <20260923061305.4041197-1-chancel.liu@oss.nxp.com>
+References: <20260923061305.4041197-1-chancel.liu@oss.nxp.com>
+Subject: Re: [PATCH v2 00/21] ASoC: codecs: Fix resource leaks across card
+ bind/unbind
+Message-Id: <179016644123.322763.10859857651424691180.b4-ty@b4>
+Date: Wed, 23 Sep 2026 14:27:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -37,138 +50,95 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260923-ux500-simple-sound-v3-1-56a771c3ea28@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/23NTQ6CMBCG4auQrh3TH2iLK+9hXBA6QiO2pJUGQ
- 7i7hbjQxOX7JfPMQiIGi5GcioUETDZa73KIQ0HavnEdgjW5Cadc0poKmOaKUoj2MQ4I0U/OgKF
- KmarUslGc5MMx4M3OO3q55u5tfPrw2n8ktq0fjrF/XGJAQSrFmlaxEjU/3zE4HI4+dGTzEv829
- F+DZ0Nrw+uSSRSt+DHWdX0DYrOb2vkAAAA=
-X-Change-ID: 20260903-ux500-simple-sound-d077d5486a72
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- mfd@lists.linux.dev, Linus Walleij <linusw@kernel.org>
-X-Mailer: b4 0.14.3
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4140; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=csBgz0UvlGk13BjkrknwcaDES1Io3HiNouEVa0NHMo0=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqtBD7xaK11m4j67QQ2n7B8ZODXSN/OJh66iRGz
+ Nk68xSENxuJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCarQQ+wAKCRAk1otyXVSH
+ 0D2+B/9sg9JSB9eSoS1RsIuyfhGl4EMtUDE9BGoe4qRFDmmDyidjcw7ahNVQwyZeB/DxjKRFDrC
+ DR9maazSONVtLduf3sLvWIjwC1u4rk476dUDMKfcAXc6eH3gmfdSUYOGl8oUsjs+fd3iTF4CFkU
+ LYYjSZmzrGoN+Czv7S29rqPxSCN0hsYmOPphjiB29JEdFjRi/GVLq2s8+BcbnP7AuCioTe5NQjJ
+ 0nBQUdXmYkoVUmXdMzEdGZRcwra7duJFyl4kVD1j8ICAL8C6xJYKkSt9xRfPuyVGzWXvJG1eqFo
+ yEwWgtmXsRe44lK5u1+wg7Nn2TpwdkP0evsockjpIXrZ5vtK
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-The AB8500 and AB8505 codec block exposes two digital audio
-interfaces. Define the codec as a one-cell sound DAI provider and allow
-it to expose both interfaces as audio graph ports.
+On Wed, 23 Sep 2026 15:12:44 +0900, Chancel Liu wrote:
+> ASoC: codecs: Fix resource leaks across card bind/unbind
+> 
+> From: Chancel Liu <chancel.liu@nxp.com>
+> 
+> For an ASoC component, component->dev is the underlying bus device
+> (I2C / SPI / platform). Its devres lifetime is tied to the physical
+> device's probe/remove, not to the ASoC card's bind/unbind.
+> 
+> [...]
 
-The codec binding conversion also omitted the analog microphone type
-and bias-routing properties supported by the driver and documented by
-the old text binding. Restore them so boards can describe the codec
-wiring without schema warnings.
+Applied to
 
-Assisted-by: LLM
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
-Signed-off-by: Linus Walleij <linusw@kernel.org>
----
-The Ux500 HREF500 and HREF520 audio support still relies on a
-MOP500-specific machine driver and ad-hoc text bindings.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
 
-Convert the MSP binding to DT schema and make the MSP and AB8500 codec
-nodes proper sound DAI providers with audio graph ports. Document the
-sparse TDM slot masks already parsed from audio graph endpoints.
+Thanks!
 
-Describe the fixed DSP_A or DSP_B format, codec clock-provider role,
-TDM frame and active slots through endpoint graphs. Add two-link
-audio-graph-card2 cards for HREF500, HREF520 and the seven supported
-Samsung U8500 phones.
+[01/21] ASoC: codecs: cpcap: Fix devm resource leaks across card bind/unbind
+        https://git.kernel.org/broonie/sound/c/3713c74a1b0a
+[02/21] ASoC: codecs: da7218: Fix devm resource leaks across card bind/unbind
+        https://git.kernel.org/broonie/sound/c/116f1bd60ae3
+[03/21] ASoC: codecs: tlv320aic32x4: Fix clock leak from runtime callbacks
+        https://git.kernel.org/broonie/sound/c/ef8caf5d2784
+[04/21] ASoC: codecs: twl4030: Acquire board params and hs_extmute GPIO in the platform probe
+        https://git.kernel.org/broonie/sound/c/99fff20db8de
+[05/21] ASoC: codecs: es8316: Move mclk acquisition to the i2c probe
+        https://git.kernel.org/broonie/sound/c/d009170e12ad
+[06/21] ASoC: codecs: es8323: Move mclk acquisition to the i2c probe
+        https://git.kernel.org/broonie/sound/c/be9bc47e2569
+[07/21] ASoC: codecs: es8311: Move mclk acquisition to the i2c probe
+        https://git.kernel.org/broonie/sound/c/5cc3c8f7264e
+[08/21] ASoC: codecs: es8328: Move clk acquisition to the bus probe
+        https://git.kernel.org/broonie/sound/c/10a45015665e
+[09/21] ASoC: codecs: rt5640: Move mclk acquisition to the i2c probe
+        https://git.kernel.org/broonie/sound/c/e68e66353b8e
+[10/21] ASoC: codecs: rt5616: Move mclk acquisition to the i2c probe
+        https://git.kernel.org/broonie/sound/c/b5c9df40ca56
+[11/21] ASoC: codecs: rt5514: Move clk acquisition to the i2c probe
+        https://git.kernel.org/broonie/sound/c/cc2977e80218
+[12/21] ASoC: codecs: rt5682s: Move mclk acquisition to the i2c probe
+        https://git.kernel.org/broonie/sound/c/c580cd416b68
+[13/21] ASoC: codecs: max98090: Move mclk acquisition to the i2c probe
+        https://git.kernel.org/broonie/sound/c/bf4379a7195e
+[14/21] ASoC: codecs: max98095: Move mclk acquisition to the i2c probe
+        https://git.kernel.org/broonie/sound/c/8635b9033d03
+[15/21] ASoC: codecs: wm8985: Move regulator acquisition to the bus probe
+        https://git.kernel.org/broonie/sound/c/fe15e876d9ee
+[16/21] ASoC: codecs: wm8955: Move regulator acquisition to the i2c probe
+        https://git.kernel.org/broonie/sound/c/07bcfafa4719
+[17/21] ASoC: codecs: es8389: Move regulator and mclk acquisition to the i2c probe
+        https://git.kernel.org/broonie/sound/c/5ef6e7ff52db
+[18/21] ASoC: codecs: rt5677-spi: Free the DSP context on component remove
+        https://git.kernel.org/broonie/sound/c/57d1e55c7b5a
+[19/21] ASoC: codecs: rt1011: Free the bq/drc coefficient arrays on component remove
+        https://git.kernel.org/broonie/sound/c/48f1dfbfe4e5
+[20/21] ASoC: codecs: rt5645: Free the hardware EQ parameters on component remove
+        https://git.kernel.org/broonie/sound/c/6e7f4c5b30a3
+[21/21] ASoC: codecs: rt5514-spi: Free the DSP context on component remove
+        https://git.kernel.org/broonie/sound/c/3943b84e063f
 
-Keep the codec-provided bit and frame clocks running continuously on the
-HREF and Samsung links. This matches the legacy machine driver for HREF
-and the product kernels for Samsung, and was verified on Skomer.
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-Remove the MOP500 machine driver after moving its fixed clock and link
-policy into the device trees.
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-This intentionally breaks the device tree ABI with older Ux500 HREF
-device trees. The old binding and driver have been broken for years and
-need a clean restart.
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-The series has been tested on HREF500, HREF520 and Samsung phones.
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
-MERGING STRATEGY:
-
-- Get DT bindings ACKed
-- Lee merges the MFD binding patch
-- Mark merges the ASoC bits including the MOP500 binding removal
-- I merge the top commits with DTS changes and defconfig
----
-Changes in v3:
-- Drop applied patches
-- Only one patch remains, for Lee.
-- Link to v2: https://lore.kernel.org/r/20260918-ux500-simple-sound-v2-0-88d29416e3c3@kernel.org
-
-Changes in v2:
-- Keep the HREF and Samsung codec clocks running continuously.
-- Rework the HREF and Samsung cards around audio-graph-card2.
-- Describe the DAI links through provider endpoint graphs.
-- Document sparse TDM slot masks on audio graph endpoints.
-- Link to v1: https://lore.kernel.org/r/20260911-ux500-simple-sound-v1-0-6771ac714e82@kernel.org
----
-Lee: just merge this separately when reviewed for DT and you think
-it looks good.
-
-NB: Rob's ACK lifted from the earlier titled version:
-https://lore.kernel.org/linux-devicetree/178976107058.1655739.6392532217175224491.robh@kernel.org/
----
- .../devicetree/bindings/mfd/stericsson,ab8500.yaml | 28 ++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
-
-diff --git a/Documentation/devicetree/bindings/mfd/stericsson,ab8500.yaml b/Documentation/devicetree/bindings/mfd/stericsson,ab8500.yaml
-index 0fdfbfdfe88a..873e08266a2b 100644
---- a/Documentation/devicetree/bindings/mfd/stericsson,ab8500.yaml
-+++ b/Documentation/devicetree/bindings/mfd/stericsson,ab8500.yaml
-@@ -312,6 +312,33 @@ properties:
-         items:
-           - const: audioclk
- 
-+      '#sound-dai-cells':
-+        description: Selects one of the two digital audio interfaces
-+        const: 1
-+
-+      ports:
-+        $ref: /schemas/sound/audio-graph-port.yaml#/definitions/ports
-+
-+      stericsson,amic1-type-single-ended:
-+        description: Configure analog microphone 1 as single-ended
-+        type: boolean
-+
-+      stericsson,amic2-type-single-ended:
-+        description: Configure analog microphone 2 as single-ended
-+        type: boolean
-+
-+      stericsson,amic1a-bias-vamic2:
-+        description: Supply analog microphone 1A from VAMIC2 instead of VAMIC1
-+        type: boolean
-+
-+      stericsson,amic1b-bias-vamic2:
-+        description: Supply analog microphone 1B from VAMIC2 instead of VAMIC1
-+        type: boolean
-+
-+      stericsson,amic2-bias-vamic1:
-+        description: Supply analog microphone 2 from VAMIC1 instead of VAMIC2
-+        type: boolean
-+
-       stericsson,earpeice-cmv:
-         description: Earpiece voltage
-         $ref: /schemas/types.yaml#/definitions/uint32
-@@ -319,6 +346,7 @@ properties:
- 
-     required:
-       - compatible
-+      - '#sound-dai-cells'
- 
-     additionalProperties: false
- 
-
----
-base-commit: 3d57e8f5073d85b08e9fd3044211c3645e552734
-change-id: 20260903-ux500-simple-sound-d077d5486a72
-
-Best regards,
--- 
-Linus Walleij <linusw@kernel.org>
+Thanks,
+Mark
 
