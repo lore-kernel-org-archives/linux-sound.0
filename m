@@ -1,190 +1,288 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AFBB52123D
-	for <linux-sound@vger.kernel.org>; Wed, 23 Sep 2026 16:22:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790180574; cv=none; b=KJFksu75vi6UGfcXnhI3ZrPlU0uPzjieFmAhs7LW636hWGu0Ksv5q/7/9DAsYZzGC3nVxlpagoHr4x+fahDmv4KPdTLMOJnjxO8h/5fkLLIXb+mwhAPKgHP07CT+wdd4RZiT8AP1bFzh+x/dUcdbMd+jW1hKz+tNWXg7ec4v2GU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790180574; c=relaxed/simple;
-	bh=+Fr2pb3MlceLafCJN3oInlXw5sC9AmlPwt+XBu/LWmY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uP51qrk9G0k8upNByqMDYgf+WTLyNejORRsgYTiBakI212+URrHLmwWCF3AZbmGuWsWJ6PssVwD2fYvkArTE8mrkWICIaAWtP+BZvG4VW55l/WVnUrqm9uKrCLas8bdfPUr7gn0JYUBT+nAyP6UHG+fRV3MHuaIf4bJEmA2fl5I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=JOUvwRZJ; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Ns1+rBnQ; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D96B53FD28
+	for <linux-sound@vger.kernel.org>; Wed, 23 Sep 2026 16:23:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.172
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790180644; cv=pass; b=V7tiCDAtJVBkkzM5b3IRexNPm8cNxI9YCcN5bdNwwP1cfx85fSvgGHmyKiYgU6XCle1RZB2Dfh+k8EwvGav0C4NaCBpwJklF/sCFmfDrYkvNySFAFgxtZe5FRmBj6WJhaRSm2hEy36KvDWFFccnjsHInG9UxY9Po7ZvVKOHKua4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790180644; c=relaxed/simple;
+	bh=2Oteq2LQAfmMQohvmzQdfax4JBAWgMtdwlOqmBNmox8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fXhLlaY9dz2MNk2pi1ss1KQ4HNlNNFHnEoQysKJRQES72k7nQXDE2w8Mn8TO/M4yeLO/iq3t48BhEo1pJp9dG5Bkw0oh4yNXKOUrGhz+GEhKvQ/9jInOmPry3BWD6snTb6h1HlEVdf+cB/7pKjGFZzOHYGbW7i/VaMbDl6kQyeo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=WEd/4zx7; arc=pass smtp.client-ip=209.85.160.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="JOUvwRZJ";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Ns1+rBnQ"
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68NG9Zex019956
-	for <linux-sound@vger.kernel.org>; Wed, 23 Sep 2026 16:22:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	pgBNUPHEEKVkm4oZQk6Lvcojji4szSfv3iV2gwgCPzc=; b=JOUvwRZJMomDM9DA
-	OznHK4Jr+4VZkFTDf0IMAZQWSmopNpAP3JSePnQEb55SzUuw78etHe7MMXpzDuPl
-	5iQmLeYva14qYS6EW3ZpiDrQEfBHYj3Amq7YT5BqicIn+iT/HRdymXNCq3HZZG1h
-	TPybkF+a3zzAoa43XefFi2B9jDXKHMAqdi1Fpv3cqC29OBEejT1KzcnTXNhPVTZR
-	jDplJZO6vULBdxAd08WctjkA2jvtwqvknzSAPLZQRLe24cBQ0oHQd3MElLu8dMBm
-	mVWfjKfrtPzUVqu1hUNmbKKmNyCEwTh7M2p61y8WivJmc7HR7p/FvbSBHbUd4rGY
-	SaWkhg==
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gvfkbgthu-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Wed, 23 Sep 2026 16:22:51 +0000 (GMT)
-Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-395543dc382so1163124a91.0
-        for <linux-sound@vger.kernel.org>; Wed, 23 Sep 2026 09:22:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WEd/4zx7"
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-530e8c6fb80so276891cf.1
+        for <linux-sound@vger.kernel.org>; Wed, 23 Sep 2026 09:23:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790180637; cv=none;
+        d=google.com; s=arc-20260327;
+        b=iyHMPchU+SBbnZd39QEYGzi2eRnrfGClElstqtkLitvR238n+zuoq+luHlD4qjt0Bm
+         ObeJ2mYfQYXkUGM4FFeHdSuL0bRWjH15noLVcJrSQUoeyJBgI9ijVDGxwY1IL9QYQbUe
+         JyZx8Rz3lOuzX8RST4Dlui8OG4J2tOUkfCSl9LIxiiWxJfm/ivgdXvCKbwLvV0FtuGXX
+         aNevv+7pgLlAMY36zHE4NMchxC8ZVQW3QxI0l7+XLN3JSPp1DjsIzO//aEsb49NAyNlq
+         ze9t3oyhXH672EuzTqWi6TYVTRVTyOw/MxAHJK3MwASjzhBXxMgDVMB1V8zsb26N6285
+         IRBg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=3FzOqkymgnKp+HaLHwhofGZjaEcw2lbzuDYsddlgiEM=;
+        fh=Bzzljy0gCTSTG1McAyuM5T0TQjHlGhzS397tGS7TTEU=;
+        b=ZskIMf9mgzS1H98b2ef+282zHBDEkhio69UX4S2xD97LJHa9TxxylYzUCKgGA+t2bh
+         6DwpscK5jcg6D7FUqdQ2epjSlG8RHMDSW18kWlOu4RsUPSKdb0xaKm8+Tigy2rnFGCjG
+         6kxUAgiOP7A4NVRJ7gnU2JQeCZxWH+VsEiwZFB8u6wGp/2GkEUey6KtU1h7IMF653LmJ
+         jiMYNyuMaruR0fe2Z4S0tCtxePLujVijx0BorLkGLr+I7UY1ntyuodyTHAORQTr+Rzcn
+         QZWaG+EJqJd1I+YNP8zkiQO1FY/bwcMAkS79YVvFdFNg2oqcghmDsTQjgjOdTw15ED8V
+         BQog==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1790180570; x=1790785370; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=pgBNUPHEEKVkm4oZQk6Lvcojji4szSfv3iV2gwgCPzc=;
-        b=Ns1+rBnQorCE0NFEIR53EjNuQh5hPWFEMY7pX9EfdAioMHRU/cqrTH5hote1mo8QUU
-         44Y+0atw8+m4seSaw3efVZCf2bYeUWz6jJdQPjqC/Fy7Yz5IuxxXVtm1hhFM49yopKXG
-         QpiiXb3xurO3v9CgmcU5QU6TuXsYO+ZUvU13ZNROe+Gb7Gljl3cfSUdkv8vGeK+e5s/u
-         //oRp2T3dAcTq7OW8xIXojx4a0ySYSWXABk1PbMU4PjFxwiDdUFFGraNCcC9xuZIAPCn
-         Z9gThQU2JY1Ue9XEGEwQIKJ6P/u9k0Ybodj66d+wbmOXcB7XiySEZBPkmrxRQ8miwCvL
-         G7gg==
+        d=google.com; s=20251104; t=1790180637; x=1790785437; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=3FzOqkymgnKp+HaLHwhofGZjaEcw2lbzuDYsddlgiEM=;
+        b=WEd/4zx7Jaw6N2UvE9ErsDRPD2W5F8+AuDISUgXBRyBoK9r3OWGBweIAd8Z/UpZzKH
+         p05za8XzaClAZW0REIguKzHb6Mxk1fy/wRxHFqwg4CfxETMqi1r41NObDpo6bjY0UfKs
+         Jyu4Po4SIkpeEBrcoPTQ5EK/lNGPcMVFGXgDnxUpUNjw9ZS+EFtfCGF/4BEtwtQiu07P
+         oyksd3surmOtyTiMVQzbuT2zgiB+VpgdJUB//IdsXOUSubfFgtpwt4uMdYFkhPGsaa91
+         StwUEYOtRyaHQXj4MdOBzhoLCYsqD+D2lAdGKqOpAnNG1gun5Gx3CL0lLu2mkVa/r81B
+         VwQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790180570; x=1790785370;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=pgBNUPHEEKVkm4oZQk6Lvcojji4szSfv3iV2gwgCPzc=;
-        b=bdrEpdo58zgTsVJIwm+ld8tQ/yUwuu5pOB8iI4adTvXtofWWNbJqlJdHpOx5rTtEwS
-         4K9BzEqkHCWUDiHNufL7Wz5YPRIW/wfrKxvzy/DSxTKwPrQ5b7LfT2QYAKszJTtadMBI
-         lHLwPpWdHs5DXCHhLoXdSEyxhRyL/yCHW72XX1b65E9Bj4LzR8UF7/v05WWZ2SmFF/18
-         NK55fVgFR5w+pVBfvn4dIBBqDXh/mXukL8P9MUkioods7ZJybNJnMvi5IlX75pr07NxX
-         R1XwGzibW2cdKoP1yFtpaci9+mHltPEV0MLIos8xEmI/Qx53Y4DM+eHGJercbiJshajD
-         Pogw==
-X-Gm-Message-State: AFuF++mmdGeJ/7I09XU24so9P6tI8Fgeg1wqAcLRd9TJgntkVXhHN/vo
-	H4YvfznHRxQ45Sz1eL9hqwtQ+24yvFtivzfAdfYSzVqwifRtbVS4y6evnZg5eo8ggHafWsk8MXk
-	I2WGGYd87lIQ8Jwj0dTDO8eK7awnyFuoVw27HSdA18ZCmAw6jT9deA4nXPCFpWJvcnI5kH4tYuQ
-	==
-X-Gm-Gg: AYBFou1BNFeKVBmGjzBSzeLcKfFuTQ3dLm3ty3AK7HvIfql5V3yhlooZgdpmz4mt9uI
-	dH9LvSyl/XVqxkrRl8to/dGzaK+ayP1nRRcUcBHaQr6KNen1LvdPSR9pAN4azOCEbHT9CilPJRm
-	erJd1Sc0eQyiNW9sBq4pfjRiUKXweHwj8bQj3mDtbhP84Fd4l1PpQIAeisM1N6ulddn4BUM09Xa
-	p9dX0IyM1cg98X6MYyW63fSNSpGcridS/Il89JusmfVMpuiLx7Lj000k0l0grntRo1NAuPHdNpx
-	twGe9dCjoskEDdIsgytQOzxSEfsF1L/oaejfgXvwJaryED+9lox/PS06sB1KLMy1BXlPvP53eIt
-	CWq9nBNOJkFNFbUVQQzlLSqtnlLjl
-X-Received: by 2002:a05:6a21:151b:b0:3dd:a196:3090 with SMTP id adf61e73a8af0-3ddf830c18amr3182996637.64.1790180570106;
-        Wed, 23 Sep 2026 09:22:50 -0700 (PDT)
-X-Received: by 2002:a05:6a21:151b:b0:3dd:a196:3090 with SMTP id adf61e73a8af0-3ddf830c18amr3182957637.64.1790180569474;
-        Wed, 23 Sep 2026 09:22:49 -0700 (PDT)
-Received: from [192.168.1.25] ([122.183.173.25])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-87d1cfbcc08sm1623120b3a.15.2026.09.23.09.22.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Sep 2026 09:22:49 -0700 (PDT)
-Message-ID: <50b1dabd-4e5f-49a6-b682-1059681b00a0@oss.qualcomm.com>
-Date: Wed, 23 Sep 2026 21:52:33 +0530
+        d=1e100.net; s=20260707; t=1790180637; x=1790785437;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=3FzOqkymgnKp+HaLHwhofGZjaEcw2lbzuDYsddlgiEM=;
+        b=d5QofoMk8virwl1X3176+L2eLUhBlTqZIKTtNMuFD3XMSwvXMP3NiOFoDYYrb5YOok
+         UiTfXc4ofNkcZfV1LFs+vkySmtoz80RHAWDEUiLpjrvOt+SLXpC9z6wx6KMLkqm7RHwh
+         ODIQGL6948F84/2lcsUjbfCEcJo/mPHqfmHLxKYWeB4N+l4+xmWt7CNRdwaphq9O3Nud
+         cKtegWSwxNkX8GBMxCeJbTmrAHkZP5dPRgzsE5Iav9UzA2FPuHHYqbcRV48snXfwWLYa
+         BHNhwt2j308Hcx3x85roXiuqc/3vdWTjE9dEdzr+rPg6dRkylvpw6Noo8BqW3TaD62gT
+         WCuw==
+X-Forwarded-Encrypted: i=1; AKwUvBzYvkU6Jo/hpyZeUUMqHuYph3QXt3xBzbH7N3pH8WFCNGTpyao9Yy8MbkWRMsbXRkWSdRILWGVxnJb+aw==@vger.kernel.org
+X-Gm-Message-State: AFuF++mHvx1Y8Vd7hjd74xShg6E+MMw3ZKfp61qDf5wo5GXEIp4M6P/I
+	WPAUDFgO8x//z/PiciRVpaMZREcufYfle4sNvQ+W4CeK2fUxlrVpQn4baWtw1PX1CtHctsm+7ca
+	UE1cEeMomSsPON891hUynHuvvP1iM+LXUQAPEPIQ4
+X-Gm-Gg: AYBFou2aZyjGj7M0FxPFeALFtxeZOgVusvaIsOrTtadKj4b1DeLu4e47Dx7Pum4eLcD
+	/NGSvVoUYX6d41LgbEMh4fIK2UBRfkqcT4tVV8l+jqaFTkCah78juEtFOAdvS2RYRlpkhXW56c/
+	I8E8WC6Gtwb/+jqLbRnNzbZ3l/hvJ3J6kjg21gSdu5S+yizbaT2p0+mWDJurPBdnKmjz1EU+9iP
+	EbxBen1nqSD9zejeZsToBRYt3F/pgM4ehluMZq1AIHRbzkG+C9UXjHtGm3OQE8vBjlSdDZBv5Dq
+	rVFm0goZeERtyCRI/bewzc/OHKCwZwxiYI1Kyh18p0cEQozY9TjdV2hz7IADj7qqY19vJMShOxd
+	j6DJuUtrFQA==
+X-Received: by 2002:a05:622a:609:b0:531:282:6560 with SMTP id
+ d75a77b69052e-532f9d4a86emr439391cf.15.1790180636277; Wed, 23 Sep 2026
+ 09:23:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 3/4] dt-bindings: sound: qcom,q6apm-dai: add
- memory-region and relax iommus
-To: Krzysztof Kozlowski <krzk@kernel.org>,
-        Srinivas Kandagatla <srini@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>
-Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-References: <20260922-vmid-v4-v5-0-e79cfd7af5b3@oss.qualcomm.com>
- <20260922-vmid-v4-v5-3-e79cfd7af5b3@oss.qualcomm.com>
- <0d2a8e7b-6a7c-4cb8-a6e4-98a7a5615764@kernel.org>
-Content-Language: en-US
-From: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
-In-Reply-To: <0d2a8e7b-6a7c-4cb8-a6e4-98a7a5615764@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTIzMDA2NSBTYWx0ZWRfX+D4ajeMoMLW+
- ozRF+Db+4FIWFqabO8opAvbPp22EYs6woelKB4Rh4dPoK1fBuqTvcjU+ihO+BvKeT3X+FUoRTHk
- B+yfZKXlWnET3LuJRCKmhimnp/GytCE=
-X-Proofpoint-GUID: YBsVDDAZYAzvG22HnxLQoIRL8HauaXAF
-X-Authority-Analysis: v=2.4 cv=RYMFmFtv c=1 sm=1 tr=0 ts=6ab3fcdb cx=c_pps
- a=0uOsjrqzRL749jD1oC5vDA==:117 a=uk8ae9/F1LYL5lfeGCaUoA==:17
- a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22
- a=t8jTToblx4jCBEoCdggA:9 a=QEXdDO2ut3YA:10 a=mQ_c8vxmzFEMiUWkPHU9:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTIzMDA2NSBTYWx0ZWRfX5q54UMNrW9tm
- SCnCfJygMI37Cz5di0Rsg8WumrAAZ3W3bUXtvMEJ0TNASx/OcFKZD9mo3GcfSe9XahhIlYGGIKk
- +91J8HE9AWlMrz+Va46q8RqXRacYbAVfIvvq/V4GA7wAdYTehVNoqnIAe7XkU5GT3IZ3TBzUn9N
- UkbJjaoSB4duNC0IPlEK9T4w9D9stle+XHH2LtVeOlf9U9trflJhHRWPEOtoON1lty63PKVc4y+
- gAllgyuRDDE29AI/lM3slJ6HzOiqJ7cmM0tRCxlnMkKe7jGb4EmZeyJfcMo2hyvmoZjzTbyUeE4
- wfcZ0Qh//AoWSQLInPLxs6re962UX9/Z0G/l11PWsznwfvfIVWPa1lesJTl7/A151ZcyilGj1nE
- KcBhD66YN5WwTCtFTcNGXUVdGtmjwfQt2nLrZhE4tUynGCl2lqQrTAfkfbjMXr4XauHcRCHLZHN
- tfFoY0b4bprAWDqOLBg==
-X-Proofpoint-ORIG-GUID: YBsVDDAZYAzvG22HnxLQoIRL8HauaXAF
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-23_05,2026-09-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 suspectscore=0 clxscore=1015 priorityscore=1501 phishscore=0
- adultscore=0 impostorscore=0 lowpriorityscore=0 bulkscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609230065
+References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
+ <20260917-b4-mmap-prepare-vma-flag-sanify-v3-3-4583d8a23bca@kernel.org>
+In-Reply-To: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-3-4583d8a23bca@kernel.org>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Wed, 23 Sep 2026 09:23:45 -0700
+X-Gm-Features: AcwNN1U-1rGp6GFHFrF0qqhOHTzivX5krrdmfBch0hMHABT_yaCwm6D93D-Dyz8
+Message-ID: <CAJuCfpE0WCr1Kp=+4EVJB7UdbH22HuCouOEtGMNCL+a8TnCQPQ@mail.gmail.com>
+Subject: Re: [PATCH v3 03/40] mm/vma: introduce and use vma_[flags_]can_merge()
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+	David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Leon Romanovsky <leon@kernel.org>, Paul Moore <paul@paul-moore.com>, 
+	Stephen Smalley <stephen.smalley.work@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+	Takashi Iwai <tiwai@suse.com>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
+	"Martin K. Petersen" <mkp@kernel.org>, Jaya Kumar <jayalk@intworks.biz>, Simona Vetter <simona@ffwll.ch>, 
+	Helge Deller <deller@gmx.de>, Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, 
+	Peter Xu <peterx@redhat.com>, Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
+	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Muchun Song <muchun.song@linux.dev>, 
+	Oscar Salvador <osalvador@suse.de>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
+	Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
+	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
+	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
+	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, 
+	Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, 
+	Ying Huang <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, 
+	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, 
+	Baoquan He <baoquan.he@linux.dev>, Youngjun Park <youngjun.park@lge.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Qi Zheng <qi.zheng@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-usb@vger.kernel.org, linux-rdma@vger.kernel.org, 
+	selinux@vger.kernel.org, linux-sound@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, 
+	kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
+	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, 
+	fuse-devel@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Thu, Sep 17, 2026 at 9:24=E2=80=AFAM Lorenzo Stoakes (ARM) <ljs@kernel.o=
+rg> wrote:
+>
+> Replace the open-coded VMA_SPECIAL_FLAGS check in the VMA merge logic wit=
+h
+> two new functions vma_flags_can_merge() and vma_can_merge() and update th=
+e
+> merge logic to use the former.
+>
+> This abstracts the check and expresses it in terms of the desired behavio=
+ur
+> rather than an arbitrary and confusing VMA flag.
+>
+> This also lays the groundwork for making further improvements in VMA flag
+> usage.
+>
+> Also update the userland VMA tests to reflect the change.
+>
+> No functional change intended.
+>
+> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 
+Reviewed-by: Suren Baghdasaryan <surenb@google.com>
 
-On 9/23/2026 5:27 PM, Krzysztof Kozlowski wrote:
->> diff --git a/Documentation/devicetree/bindings/sound/qcom,q6apm-dai.yaml b/Documentation/devicetree/bindings/sound/qcom,q6apm-dai.yaml
->> index 9e5b30d9c6e6..7d0415f2463a 100644
->> --- a/Documentation/devicetree/bindings/sound/qcom,q6apm-dai.yaml
->> +++ b/Documentation/devicetree/bindings/sound/qcom,q6apm-dai.yaml
->> @@ -20,9 +20,19 @@ properties:
->>       minItems: 1
->>       maxItems: 2
->>   
->> +  memory-region:
->> +    minItems: 1
->> +    maxItems: 2
->> +    items:
->> +      - description:
->> +          Control-path buffer (audio_heap_mem) for platforms where the DSP
->> +          runs in a stage-2 protected context (e.g. modem-DSP).
->> +      - description:
->> +          Data-path buffer pool from which per-stream DMA buffers are
->> +          allocated.
->> +
->>   required:
->>     - compatible
->> -  - iommus
-> I imagine you either have iommus or memory-region, no? IOW,
-> oneOf:
->    - required:
->        - iommus
->    - required:
->        - memory-region
-> ?
-
-Yes, that matches the intended split.
-
-For existing ADSP/SMMU platforms, q6apm-dais uses iommus. For the 
-mDSP/VMID path, the DSP cannot access normal SMMU-backed system 
-memory,so the buffers have to come from reserved-memory carveouts which 
-the driver SCM-assigns to the fixed VMIDs.
-
-I will add the oneOf constraint in v6 to require either iommus or 
-memory-region. VMIDs remain internal to the driver and are not described
-in DT.
-
-Thanks
-Ajay Kumar Nandam
-
-
-> 
-> Best regards,
-> Krzysztof
-
+> ---
+>  include/linux/mm.h              | 21 +++++++++++++++++++++
+>  mm/vma.c                        | 19 +++++++++++--------
+>  tools/testing/vma/include/dup.h |  5 +++++
+>  3 files changed, 37 insertions(+), 8 deletions(-)
+>
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index 969594074fd2..68250ece4219 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -1612,6 +1612,27 @@ static inline bool vma_is_shared_maywrite(const st=
+ruct vm_area_struct *vma)
+>         return is_shared_maywrite(&vma->flags);
+>  }
+>
+> +/**
+> + * vma_flags_can_merge() - Do the specified VMA flags permit the VMA to =
+be
+> + * merged with another?
+> + * @flags: The VMA flags to test.
+> + * Returns: true if the flags permit merging, false otherwise.
+> + */
+> +static inline bool vma_flags_can_merge(const vma_flags_t *flags)
+> +{
+> +       return !vma_flags_test_any_mask(flags, VMA_SPECIAL_FLAGS);
+> +}
+> +
+> +/**
+> + * vma_can_merge() - Do @vma's flags permit it to be merged with another=
+ VMA?
+> + * @vma: The VMA to test.
+> + * Returns: true if the flags permit merging, otherwise false.
+> + */
+> +static inline bool vma_can_merge(const struct vm_area_struct *vma)
+> +{
+> +       return vma_flags_can_merge(&vma->flags);
+> +}
+> +
+>  /**
+>   * vma_kernel_pagesize - Default page size granularity for this VMA.
+>   * @vma: The user mapping.
+> diff --git a/mm/vma.c b/mm/vma.c
+> index 4b74b48c29b7..05d2c676672e 100644
+> --- a/mm/vma.c
+> +++ b/mm/vma.c
+> @@ -924,13 +924,14 @@ static __must_check struct vm_area_struct *vma_merg=
+e_existing_range(
+>
+>         vmg->state =3D VMA_MERGE_NOMERGE;
+>
+> +       if (!vma_flags_can_merge(&vmg->vma_flags))
+> +               return NULL;
+>         /*
+> -        * If a special mapping or if the range being modified is neither=
+ at the
+> -        * furthermost left or right side of the VMA, then we have no cha=
+nce of
+> -        * merging and should abort.
+> +        * If the range being modified is neither at the furthermost left=
+ or
+> +        * right side of the VMA, then we have no chance of merging and s=
+hould
+> +        * abort.
+>          */
+> -       if (vma_flags_test_any_mask(&vmg->vma_flags, VMA_SPECIAL_FLAGS) |=
+|
+> -           (!left_side && !right_side))
+> +       if (!left_side && !right_side)
+>                 return NULL;
+>
+>         if (left_side)
+> @@ -1152,9 +1153,11 @@ struct vm_area_struct *vma_merge_new_range(struct =
+vma_merge_struct *vmg)
+>
+>         vmg->state =3D VMA_MERGE_NOMERGE;
+>
+> -       /* Special VMAs are unmergeable, also if no prev/next. */
+> -       if (vma_flags_test_any_mask(&vmg->vma_flags, VMA_SPECIAL_FLAGS) |=
+|
+> -           (!prev && !next))
+> +       if (!vma_flags_can_merge(&vmg->vma_flags))
+> +               return NULL;
+> +
+> +       /* VMAs with no prev/next are unmergeable. */
+> +       if (!prev && !next)
+>                 return NULL;
+>
+>         can_merge_left =3D can_vma_merge_left(vmg);
+> diff --git a/tools/testing/vma/include/dup.h b/tools/testing/vma/include/=
+dup.h
+> index 16c09dac59d9..2fd422789717 100644
+> --- a/tools/testing/vma/include/dup.h
+> +++ b/tools/testing/vma/include/dup.h
+> @@ -1647,3 +1647,8 @@ static inline bool file_is_dev_zero(const struct fi=
+le *file)
+>  {
+>         return file && file->f_op =3D=3D &zero_fops;
+>  }
+> +
+> +static inline bool vma_flags_can_merge(const vma_flags_t *flags)
+> +{
+> +       return !vma_flags_test_any_mask(flags, VMA_SPECIAL_FLAGS);
+> +}
+>
+> --
+> 2.55.0
+>
