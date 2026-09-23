@@ -1,161 +1,174 @@
-Received: from CH4PR04CU002.outbound.protection.outlook.com (mail-northcentralusazolkn19013091.outbound.protection.outlook.com [52.103.20.91])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A37053F4DDB;
-	Wed, 23 Sep 2026 17:42:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.20.91
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790185370; cv=fail; b=gHch2N5hmxck5WsPWvX4flEq5FtH5V/XcMVwlCElIUFcFhDwGdQqqpP6dSzTD6a8d3RLTOiMfJA1Sr0iDrVbrgqtFFMF9u6qUvw5UzvnnIfV4z6z73QQ/RiH2MIP9WB4epYXLEszYnVI0SHjtbA1RRPdcgkk/TCWICOvMbiG2+M=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790185370; c=relaxed/simple;
-	bh=3/AME8EthVIJ2G93mEctns6qAIW1tLlbq2W+qpHLFjI=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=o0IVclYZ2ckQO0xM78J9SM3is+9gdpXAcd1z8bbkNB0SZw398XN2rGtbOjihO9MPaAHxDWzbq8S9CCH5sGiJydghIuz+Q09m+oKr1zdfQlofjD6tW8102JmfaTXUXJD1YOuW1z5XCrpUpVCfY8hat87Iv0tWbLDbprZkPtEnIbI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.it; spf=pass smtp.mailfrom=outlook.it; dkim=pass (2048-bit key) header.d=OUTLOOK.IT header.i=@OUTLOOK.IT header.b=JGQ4X74D; arc=fail smtp.client-ip=52.103.20.91
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.it
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.it
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B69D53793C3;
+	Wed, 23 Sep 2026 17:47:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790185640; cv=none; b=kh9bWN/wD3X7wGEyyfQ3X2N2vZA5eRIAgI0faiNyiH4mcHcWlgMQ9nayX92kb1Awet2MgL5JMSjQo7QQM+NbseZaoYOBKrp7KG59E7RAds1PU/5UueQEVhpXn3xuM26SgwQRvuXLQQSw1hDot/ZK79cQup23OPUXiV4J5tEP4sY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790185640; c=relaxed/simple;
+	bh=HSg9fz3ChYnTuBZGtRM3JFZJhjj2NzjCEu0jHZu9nlA=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=W5t0EHXQhVWzVkM4FKakrlZVTqoTxRyw6Pk6rPcb8qr9iM6xgIsJ22ghIKnMCl9DexLVsgNcSxz1KInWjR8qRdNcv29LAsmfNo8cXWn+BmhKyLmRB4jJBGP8AzxcqznV9KPUEbn0d+YhAeGdCOCHCZTLN2w1yson/SgQp8/qTDA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IuesDAvo; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=OUTLOOK.IT header.i=@OUTLOOK.IT header.b="JGQ4X74D"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=NsUv/hQxhbF0oshzfrupHo20am+tFcK+dcxgjJMcsTAkQt2eYzXnb2AVOkiHm71EjUha3iXYC/iPb2pmOkc2dMX5nlmc5fITEieGj1P7+6/1U2Jn9AGHSiuAUFviXhNHr9SxZ77IttGNPot/I5ayS+I37ScZfHbBQAVtsDt7d92dmrThj7+gR2ALwX34Vh1F0HE0ospdI2EqSz37Otfcdb2SmxNmrP7mwmU4IH5J+5nA57+lS9x8ZttT6HFsdtQbA67ae9zK/UDv6HxNlhHRcBhXKKhNIKUZYYVcg2hiift+evjBkm7C6/LA/q7exGXc+l+TzH1ZwdeoSQUzGWpw6w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DcRiY9j3eUmGFcq1KvDlizJEeb390bh0YDwIVmUV8yg=;
- b=j/TAb/HBiL/oVp1xNi/rzrb2UYXp7U0PL6KC/hAfSHSR9o83ZYLxFGIYpzkz9MKfL+iTMhIhxuU1Gbg/VMbKRShxo+yKVP3/j9Y/byKgoI0XO001mWETEq661ZmAPBEPI8n4b/npXA9BZtpghxjp8dQ9EfI8DxnLZV2/gJOu/BCImypirwAdLBLwl5X6ayoyPiX1NiiNOvCtnT8A8/KeBuZuhzpdTgpDFusfm5koS2G80darmb1N4m9Xczp5esd098EZI3l/0G0XUD1ndKeiJKLUnscYEKeykacm7czCSMK7NhEEfMy9duyd2YcwNwORHozeyqvSMCYxLLqr465GQQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=OUTLOOK.IT;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DcRiY9j3eUmGFcq1KvDlizJEeb390bh0YDwIVmUV8yg=;
- b=JGQ4X74DkhNlTv5FbcbY+IeQxyx9auTSv6TYiIwvWfhpah7rFVNvLpYzeSzK9Q9On86BswnEm/7uRAiVgdXgHV82Yljuv+1gWittzPFnJN+h3n84M4nqYxiYHT9H/XPnbMIxYpltc4uI6Syo51wiD/xg3WCTEJbUPmF1utezWZXoqKCcj6VCslhSdbobmhgv0oC5LBNBnNcYSXlfj5RA4mDWTJO+Tp5YXId33kymOx27kyTJjKF52tYuWivvGPUWeg9wuJfFjpbxx9cgYI9Mv3a8+b+9LTtotNyB3+kbuqx1eXl/Dg2UzSKCqKWgvisC29qJ/aPJbRdCnyf1y1rqhA==
-Received: from SN6PR19MB2303.namprd19.prod.outlook.com (2603:10b6:805:56::19)
- by IA0PPF93600F82B.namprd19.prod.outlook.com (2603:10b6:20f:fc04::cb6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.14; Wed, 23 Sep
- 2026 17:42:43 +0000
-Received: from SN6PR19MB2303.namprd19.prod.outlook.com
- ([fe80::805c:7f80:c69f:876a]) by SN6PR19MB2303.namprd19.prod.outlook.com
- ([fe80::805c:7f80:c69f:876a%5]) with mapi id 15.21.0451.012; Wed, 23 Sep 2026
- 17:42:43 +0000
-From: Marco Giunta <marco_giunta@outlook.it>
-To: Takashi Iwai <tiwai@suse.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Marco Giunta <marco_giunta@outlook.it>
-Subject: [PATCH] MAINTAINERS: add entry for AW88399 HDA side codec driver
-Date: Wed, 23 Sep 2026 19:42:32 +0200
-Message-ID:
- <SN6PR19MB23036B2EBA9AD55D12961FA0FC822@SN6PR19MB2303.namprd19.prod.outlook.com>
-X-Mailer: git-send-email 2.55.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: MI1PEPF000008C2.ITAP293.PROD.OUTLOOK.COM
- (2603:10a6:298:1::43c) To SN6PR19MB2303.namprd19.prod.outlook.com
- (2603:10b6:805:56::19)
-X-Microsoft-Original-Message-ID:
- <20260923174232.18757-1-marco_giunta@outlook.it>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IuesDAvo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D93B01F000FF;
+	Wed, 23 Sep 2026 17:47:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790185639;
+	bh=4OgXmOT1eR6dLDYiBYN6lgOZgsKUlnftPl3A6srdwPw=;
+	h=From:Date:Subject:To:Cc;
+	b=IuesDAvoP4zHkBxXnphX3H8TqZLCFEsd5P6KDU6D3ipYRw8W+bdGrJIsju7BQ7SvU
+	 EFsDpPeiFF4dLlb523L6DcL9wp4CWPUl1Ggv1QbPaHu8SxnTXIDbbhUuU1+/h5M/vi
+	 yjU9t/JUJWEISK4KPmJVBu+kyXBsD/yvlEH3vRgsv1ku/nfWqraD/N7xfohZEYOcYL
+	 GI295Y4fkx69YfHOukwVw/L/qKxz33UV7PK7tVQhfSb3iSkLarjHmon+gwUxhVWxiw
+	 u/qoYimmm/+DRwz9PTyThxsEwtnSAcdgJ2p6n8NpD7cEPgWH5R/4w+bsin2tkK63Mj
+	 l0qLuj8YvzrZw==
+From: Linus Walleij <linusw@kernel.org>
+Date: Wed, 23 Sep 2026 19:46:55 +0200
+Subject: [PATCH v3] mfd: dt-bindings: ab8500: Describe codec graph and
+ microphone wiring
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN6PR19MB2303:EE_|IA0PPF93600F82B:EE_
-X-MS-Office365-Filtering-Correlation-Id: f3b19cf9-07f9-4f84-b059-08df199a11fb
-X-MS-Exchange-SLBlob-MailProps:
-	WaIXnCbdHrO+2YmbT5jW+WUSUt4IT5vR58x9xairHPIE7kkF9Ssv23x7qO0g2CtGpgaZ8RztOi0/uUY5sWoIhG0LiNC1ZLnfh/uBf78lEzib85FI5f5NasL52ddukpcT1a1CUvwsagamb7VmuvPi/eay1+M0MqgKpjObhHZ2HM4jdDhTl2EkvY9sh63DdgYTFcfqf0FbZTqgq/6gOJdTBFqNp9W7HlkZf6PpURzDYNoL8bs7Jr0b86gETKB5tujf3GpEvxOtEgFQGyLgPB/TVZTMuSmqgiZqlyYvFXeSzvfqxGBf2qMf5DUgT+lkfZwqdxTmxc1mjzU2uULtJKH5u8xdlZZJPhYxqdEizFykWnt/QL9qGfPD2YweS0fmb2tx1g9BfPfU2kBn1moinWDiHGKMTMD8+j96R+CXTfqVuDLzpQI6Wc9I4mpK0IztWF21lKCoPv5XfGSJpdo0ZnuVMWRkdGVu0KE05yvW9Ocw1fdMET/emi8VCF5dB1Plz2fn4gOqD1Oglb+I/rHQZMdAzuE4GNhINvL0WUFHMXY3DzjwVg8R7Fw4EJWrLy1ioY1Gc1b2Op2pqLXzebBkB8FojP5inA0UeX0vPjYzmFvf2vAIP2mmkM/ajwzwoolzjrEHXX1X08WUyzosnmuQ8OZCoyYwblTpZ8ki7pLOQxzhbC3AqXzRTRyKJLi8PLB+EQo8M1WF8so4Ly6quWZiArY3OuhU9Vz4n7D5efhTX9Lphv2YFDx2kOLr/76/uv+NKO+sHTF4zi+lmSo=
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|5062599005|15080799012|25010399006|23021999003|51005399006|5072599009|8060799015|19110799012|24021099003|55001999006|3412199025|440099028|2607281247196008|40105399003|1710799026;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?8qYAlHev/ykjIni691R2g2/G4RbS5Ml+Hhcdwpl+hoCtFUJ93NaxXCML4YoE?=
- =?us-ascii?Q?WcyXLVqE5swBeJkkRwf4w2VwnOK7ECqPtO9H8rZs7tKIzhPDchDlludC2AQw?=
- =?us-ascii?Q?6aRhQ0HRmFnSSBVTUtlsTxf1qeym0hMFT1AhBSOxzZ1ab9ep91snPqYbqMFG?=
- =?us-ascii?Q?LLZveDj0dj9n9QYzTk+ZZNx17aiPJaRBr/+8fBLVE4NUA+sV6UYTt4zzpEio?=
- =?us-ascii?Q?zZYGZ1HeEd/epJMgLCtAk10tCrikKD6fpurE8DA6yGzcTRnHdMAZG+GTr1J7?=
- =?us-ascii?Q?NRf3aCVBU9eaX3rE19GnHZs8qGu12EOt5VK7lNxWus8DjlADCxNIxw2Km7pa?=
- =?us-ascii?Q?1O6Km2vdZEJGwuB+sGmyCuNGtGOD8E2JD6bwFubdmC/QYahaycimPDG4Cy4m?=
- =?us-ascii?Q?q82EinIEmwqDfq4hyr9k0eE0je/q1EJrlH3RoOmGF9v5g0MEwdufLg1frAc4?=
- =?us-ascii?Q?y5oS6VoiIVHmtB/le12hG4ug1rNIE9BlOCieoeleV8nr5gpC6V3I594HU0aT?=
- =?us-ascii?Q?qFR9kWX/ef/lH0W6lZU80HsRXc2814lqvAntZF+JePG1v68UB40LuZTnmLdt?=
- =?us-ascii?Q?xe2wQmXsvyMHWS5+aADfGZLulESbGwteMgNpfUr3zPM8K7fV70aVIXiN/xDS?=
- =?us-ascii?Q?WVSHxRmFgSZqA5KB1uzVPRNftuNkybf7Tpn1YO37xYKlMOhWzfDHvcAfwuRq?=
- =?us-ascii?Q?TgCgRY+ka0MximaUzRGVkd2NqjoLap3bZk1SkKYeeTpP1cAJzqCQQsVO1dFE?=
- =?us-ascii?Q?mlV9/aog/DPcem4VYSetWfMLzYZ+IAqUpPqps0A7MElOgoKzYOZlQG1+NxCD?=
- =?us-ascii?Q?XkduoVBHESkpBYM1xITPynsMIvTGdx8C8stp0dPnEsffOFuLwnukv93bY1tk?=
- =?us-ascii?Q?06glo4kUlJVekwd63Pk9v9D1Gaxn6vewB/KVeGvcXsAth3WiP8VIukFo/SAh?=
- =?us-ascii?Q?iyrfFbPXrH9n2VyL6PgbIN8AflkN1PnsL+iGidrzOk1YN7WZ6f0hsrRHULly?=
- =?us-ascii?Q?dsFRWedLRm2VsXYfWmyUoa1EOQ=3D=3D?=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?R3M3SKW9FyILjnwwvQN2CQkPLXdfkMjYfsThu+PfFmUNlB6Tyw106358K3f+?=
- =?us-ascii?Q?46BuA/SHqyWeUscxbT0vu33YWtsyuIPLSohV6zRFQ7X7GIeE0Nm7v43qj0N1?=
- =?us-ascii?Q?D8yqZ5BlHRKCXNtJR65zZKDgUQOLut5uL5lmTGswehA0z+evju+ggGujP8dE?=
- =?us-ascii?Q?cOAtBsOsML42XiCQTpTjlYbT9uAyW66oJWj6YhPOIhOa51W4EbeOcQ2pSX+P?=
- =?us-ascii?Q?3nkZlJPBWlGn1rLFbSMNyZagZHEBZz4zCSfZp27b8g9zOim5/t3OfsR2OxqZ?=
- =?us-ascii?Q?eDWwe960kXe6qU8KqPgdkRhmMBBnHa+rLzt1T8Nu9/BpfrqjTyRkrnCWRkvl?=
- =?us-ascii?Q?o0ECLp7OxQK76EWEFM/XwGQn8wlS++yaJ34DZkiBfLtg7S/UQQ2nnx7zb3lR?=
- =?us-ascii?Q?t8cs66ZSBwsjW6naUXRlgFhCMabKP8NO8vXWHlCL0w8pT3wmRiuR7I8Ij5I4?=
- =?us-ascii?Q?MOkTC+1TJnicYny/UbuVndTQuactfpWSN/uSnEdd61JuJVd0MoTqNKKKYI3c?=
- =?us-ascii?Q?XBEKYt7ngwvof3Y6UygPUpzdUNnzPfi7mc0cCd/MYiUiffe1oQRRTlWmEWly?=
- =?us-ascii?Q?/CJr5tfo6geUBx4EmEYBwWHiKwKaTpt4jyc5oA7gLicsrDDJZ3DX2KE00zGX?=
- =?us-ascii?Q?w6K4A6og87qO5uPXHzYnP74z/ey7e0V3bL0bG1RUTh96Iija3F8QSEt0jdsv?=
- =?us-ascii?Q?65nfRJNM1vVOP8xY/WUVsSfVTq4pcmSdmqfrRHGk8rBDblusZOa1qf+MjXuX?=
- =?us-ascii?Q?851Up4YWRLa3aK2G0gCQ48vB3mYIBFW7FU1gJzg6ojE9eIGN5mpQ74TQsGzh?=
- =?us-ascii?Q?aPKFvaclT1XKmDCzvGU5dVfqJ2df88y5UQK7e3dZ3pbe3NXCzWkxGyc59cuy?=
- =?us-ascii?Q?K6HWayjHrR5M/8XdEs/Iqd2KLiErTFbJF7M5sQW1OlbjGa1NUjnXzSmwMODR?=
- =?us-ascii?Q?76m4WWRPPY7FB8OYOMfTM6T4SIzhFkAbvB6Zj7N2mOZVTHXDIrCJp3AsabRh?=
- =?us-ascii?Q?eiBQWa/FU8c/QqykmqgIW4pP+AAxxGJuT/WYWN7tZdm05b8nxkiaM3Ul1fwG?=
- =?us-ascii?Q?MjzpiZ9DnPdWIdMdyP1n38ycGUeWvogUZEgP7V7C4tbRTzH68nv7lNafxcP8?=
- =?us-ascii?Q?Ll7Ffh/74XVsh6ONzZSsRCAEGGW4edHKYm9TU5huMfmeuvBoqV7BNy7Xnzr3?=
- =?us-ascii?Q?BnDdOoloEtJI0hw24yQbquHWrUHnmVClsEMjq7eUeIru3C9Xw9F5/DMXi8tn?=
- =?us-ascii?Q?oC/NrU+8fOdv5Q2jCPzpvEFB4GMaUrpFMdhLRETrkxfufLEMlcx2gykM5S1r?=
- =?us-ascii?Q?VKnV0U6bHgP/MXHqEi4cOPUZfu7L4wBaR0U1azAPyP/X5NBLfp7/RglW7gXi?=
- =?us-ascii?Q?rXO2FeicoDp+vn0f9Ula0VtNQo8U?=
-X-OriginatorOrg: sct-15-20-9412-4-msonline-outlook-990eb.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: f3b19cf9-07f9-4f84-b059-08df199a11fb
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR19MB2303.namprd19.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2026 17:42:43.3005
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PPF93600F82B
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260923-ux500-simple-sound-v3-1-56a771c3ea28@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/23NTQ6CMBCG4auQrh3TH2iLK+9hXBA6QiO2pJUGQ
+ 7i7hbjQxOX7JfPMQiIGi5GcioUETDZa73KIQ0HavnEdgjW5Cadc0poKmOaKUoj2MQ4I0U/OgKF
+ KmarUslGc5MMx4M3OO3q55u5tfPrw2n8ktq0fjrF/XGJAQSrFmlaxEjU/3zE4HI4+dGTzEv829
+ F+DZ0Nrw+uSSRSt+DHWdX0DYrOb2vkAAAA=
+X-Change-ID: 20260903-ux500-simple-sound-d077d5486a72
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ mfd@lists.linux.dev, Linus Walleij <linusw@kernel.org>
+X-Mailer: b4 0.14.3
 
-Add a MAINTAINERS entry for the AW88399 HDA side codec driver,
-covering the I2C bus driver and core driver files under
-sound/hda/codecs/side-codecs/.
+The AB8500 and AB8505 codec block exposes two digital audio
+interfaces. Define the codec as a one-cell sound DAI provider and allow
+it to expose both interfaces as audio graph ports.
 
-Signed-off-by: Marco Giunta <marco_giunta@outlook.it>
+The codec binding conversion also omitted the analog microphone type
+and bias-routing properties supported by the driver and documented by
+the old text binding. Restore them so boards can describe the codec
+wiring without schema warnings.
+
+Assisted-by: LLM
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+Signed-off-by: Linus Walleij <linusw@kernel.org>
 ---
-Adding a dedicated entry so people don't have to Cc: me manually.
- MAINTAINERS | 6 ++++++
- 1 file changed, 6 insertions(+)
+The Ux500 HREF500 and HREF520 audio support still relies on a
+MOP500-specific machine driver and ad-hoc text bindings.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index c2414447892c..2b53bef7fd65 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -4419,6 +4419,12 @@ L:	linux-media@vger.kernel.org
- S:	Maintained
- F:	drivers/media/pci/hws/
+Convert the MSP binding to DT schema and make the MSP and AB8500 codec
+nodes proper sound DAI providers with audio graph ports. Document the
+sparse TDM slot masks already parsed from audio graph endpoints.
+
+Describe the fixed DSP_A or DSP_B format, codec clock-provider role,
+TDM frame and active slots through endpoint graphs. Add two-link
+audio-graph-card2 cards for HREF500, HREF520 and the seven supported
+Samsung U8500 phones.
+
+Keep the codec-provided bit and frame clocks running continuously on the
+HREF and Samsung links. This matches the legacy machine driver for HREF
+and the product kernels for Samsung, and was verified on Skomer.
+
+Remove the MOP500 machine driver after moving its fixed clock and link
+policy into the device trees.
+
+This intentionally breaks the device tree ABI with older Ux500 HREF
+device trees. The old binding and driver have been broken for years and
+need a clean restart.
+
+The series has been tested on HREF500, HREF520 and Samsung phones.
+
+MERGING STRATEGY:
+
+- Get DT bindings ACKed
+- Lee merges the MFD binding patch
+- Mark merges the ASoC bits including the MOP500 binding removal
+- I merge the top commits with DTS changes and defconfig
+---
+Changes in v3:
+- Drop applied patches
+- Only one patch remains, for Lee.
+- Link to v2: https://lore.kernel.org/r/20260918-ux500-simple-sound-v2-0-88d29416e3c3@kernel.org
+
+Changes in v2:
+- Keep the HREF and Samsung codec clocks running continuously.
+- Rework the HREF and Samsung cards around audio-graph-card2.
+- Describe the DAI links through provider endpoint graphs.
+- Document sparse TDM slot masks on audio graph endpoints.
+- Link to v1: https://lore.kernel.org/r/20260911-ux500-simple-sound-v1-0-6771ac714e82@kernel.org
+---
+Lee: just merge this separately when reviewed for DT and you think
+it looks good.
+
+NB: Rob's ACK lifted from the earlier titled version:
+https://lore.kernel.org/linux-devicetree/178976107058.1655739.6392532217175224491.robh@kernel.org/
+---
+ .../devicetree/bindings/mfd/stericsson,ab8500.yaml | 28 ++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/mfd/stericsson,ab8500.yaml b/Documentation/devicetree/bindings/mfd/stericsson,ab8500.yaml
+index 0fdfbfdfe88a..873e08266a2b 100644
+--- a/Documentation/devicetree/bindings/mfd/stericsson,ab8500.yaml
++++ b/Documentation/devicetree/bindings/mfd/stericsson,ab8500.yaml
+@@ -312,6 +312,33 @@ properties:
+         items:
+           - const: audioclk
  
-+AWINIC AW88399 HDA SIDE CODEC DRIVER
-+M:	Marco Giunta <marco_giunta@outlook.it>
-+L:	linux-sound@vger.kernel.org
-+S:	Maintained
-+F:	sound/hda/codecs/side-codecs/aw88399*
++      '#sound-dai-cells':
++        description: Selects one of the two digital audio interfaces
++        const: 1
 +
- AWINIC AW99706 WLED BACKLIGHT DRIVER
- M:	Junjie Cao <junjie.cao@linux.dev>
- S:	Maintained
++      ports:
++        $ref: /schemas/sound/audio-graph-port.yaml#/definitions/ports
++
++      stericsson,amic1-type-single-ended:
++        description: Configure analog microphone 1 as single-ended
++        type: boolean
++
++      stericsson,amic2-type-single-ended:
++        description: Configure analog microphone 2 as single-ended
++        type: boolean
++
++      stericsson,amic1a-bias-vamic2:
++        description: Supply analog microphone 1A from VAMIC2 instead of VAMIC1
++        type: boolean
++
++      stericsson,amic1b-bias-vamic2:
++        description: Supply analog microphone 1B from VAMIC2 instead of VAMIC1
++        type: boolean
++
++      stericsson,amic2-bias-vamic1:
++        description: Supply analog microphone 2 from VAMIC1 instead of VAMIC2
++        type: boolean
++
+       stericsson,earpeice-cmv:
+         description: Earpiece voltage
+         $ref: /schemas/types.yaml#/definitions/uint32
+@@ -319,6 +346,7 @@ properties:
+ 
+     required:
+       - compatible
++      - '#sound-dai-cells'
+ 
+     additionalProperties: false
+ 
 
-base-commit: 71bbe4c12f6c2ab82a4f1eaa9fffbc8679a0b97a
+---
+base-commit: 3d57e8f5073d85b08e9fd3044211c3645e552734
+change-id: 20260903-ux500-simple-sound-d077d5486a72
+
+Best regards,
 -- 
-2.55.0
+Linus Walleij <linusw@kernel.org>
 
