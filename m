@@ -1,255 +1,190 @@
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 127544F4CF3
-	for <linux-sound@vger.kernel.org>; Wed, 23 Sep 2026 16:09:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.178
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790179797; cv=pass; b=BmhL886QsHvmJbRHUMwIM9MSqCNGqGyqvZfgEYbjf10OJzgcxQWnH5iXyqUs2KdloOXM83PB/ohyKaZX/39qGF9/+tFjQ1L85jzVhIJntZJtZ6wtaO9cgcwq8sb8lCFx9d0EqhNi+kgoDNjVUlsZLxEuqNKn0nKNyByRmOIqaXQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790179797; c=relaxed/simple;
-	bh=LIPPg22fa+TonvxEf6vmQam+ZQ7bHd3Sz9GxpyKknbM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dzosOe8r/nxMuZqH/Z07Qvsx5dVMNjpfiJqaDpJD4nELqgcseydQyXM71uBfOcXGvSH8fvPIOhVxfWMph9KdewrwjsA9MY3EWkRxk1hnHCpSAHh+s5vWeZAiZCnnS4xgTQA73shUWT8ZmEXYSapl92MhTKPFqk6ASiA5/hIQnCo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ffAONYry; arc=pass smtp.client-ip=209.85.160.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AFBB52123D
+	for <linux-sound@vger.kernel.org>; Wed, 23 Sep 2026 16:22:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790180574; cv=none; b=KJFksu75vi6UGfcXnhI3ZrPlU0uPzjieFmAhs7LW636hWGu0Ksv5q/7/9DAsYZzGC3nVxlpagoHr4x+fahDmv4KPdTLMOJnjxO8h/5fkLLIXb+mwhAPKgHP07CT+wdd4RZiT8AP1bFzh+x/dUcdbMd+jW1hKz+tNWXg7ec4v2GU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790180574; c=relaxed/simple;
+	bh=+Fr2pb3MlceLafCJN3oInlXw5sC9AmlPwt+XBu/LWmY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uP51qrk9G0k8upNByqMDYgf+WTLyNejORRsgYTiBakI212+URrHLmwWCF3AZbmGuWsWJ6PssVwD2fYvkArTE8mrkWICIaAWtP+BZvG4VW55l/WVnUrqm9uKrCLas8bdfPUr7gn0JYUBT+nAyP6UHG+fRV3MHuaIf4bJEmA2fl5I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=JOUvwRZJ; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Ns1+rBnQ; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ffAONYry"
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-52faa58bff5so276661cf.0
-        for <linux-sound@vger.kernel.org>; Wed, 23 Sep 2026 09:09:53 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790179793; cv=none;
-        d=google.com; s=arc-20260327;
-        b=g5aLkIfqFcCkJbZw84XlVS//ealcLo+d7REMEv1eLfGIqEBVxjK/9SxUP5Ro1tOT6c
-         R+mgACyUzDF4YQTAngS47NTdvw1sIqpDMj/uQEkcSuy7bAeEDfjwv2rt0H/VCGpCHSeT
-         EayJ0qUVt/L1dWZav04fg44cr4SjnxlnhixeHewhlZaKWcr+bM1g1/k59GuKI2YVMsTl
-         cxyvbR9ERvq1Kn6/ffubw+iUA3wVccZMyQnRxcu8SV6of0H2tlpv1ZgOm0QRWCDJqxvY
-         jU0NEBveOFfO8P61yrq7TW6rB9jOgpaFrq3GtJNqqdJnzN9RTYfDpFIU31Viij7etPRU
-         HrJA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=HHWyBmRaGzTNumsbsfRRD90WYZuPVsFs3XssqLSLFrU=;
-        fh=g1xlg+Oo7uqPz00nVlBenAvWjCOdo8ZJEASzXBVsXmY=;
-        b=jcZ77wT61PIad59LxvdL1lVLB1XC1x88xuzGqUs7QtJNn9LCtM/ipQuvTz7Qj3cG4v
-         vdZeo5aMZm6YBXuaHYNKGUE1UTVnc7mcg+diMlzpgyKVCfM4O22JalfV5wCjZqt58rDH
-         jheov4ONvOLUuCmKzhDPTyWVg58p/zvlxWBs8bg88S0dhepj3N37Te9YOch9QYLRu0fp
-         zQI4VaITXbN4wEeOaL0rLF9esopAwM0qczbgyL/NCBv1A2cY036LlSHnS9cOQ6qSZgcV
-         5uDHqKOkig0PiQ2isPeqQ0W51HOg133OGmIJIj175X7H+cceii3nDkGSjXp4ASjZPt4E
-         bw8g==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="JOUvwRZJ";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Ns1+rBnQ"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68NG9Zex019956
+	for <linux-sound@vger.kernel.org>; Wed, 23 Sep 2026 16:22:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	pgBNUPHEEKVkm4oZQk6Lvcojji4szSfv3iV2gwgCPzc=; b=JOUvwRZJMomDM9DA
+	OznHK4Jr+4VZkFTDf0IMAZQWSmopNpAP3JSePnQEb55SzUuw78etHe7MMXpzDuPl
+	5iQmLeYva14qYS6EW3ZpiDrQEfBHYj3Amq7YT5BqicIn+iT/HRdymXNCq3HZZG1h
+	TPybkF+a3zzAoa43XefFi2B9jDXKHMAqdi1Fpv3cqC29OBEejT1KzcnTXNhPVTZR
+	jDplJZO6vULBdxAd08WctjkA2jvtwqvknzSAPLZQRLe24cBQ0oHQd3MElLu8dMBm
+	mVWfjKfrtPzUVqu1hUNmbKKmNyCEwTh7M2p61y8WivJmc7HR7p/FvbSBHbUd4rGY
+	SaWkhg==
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gvfkbgthu-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Wed, 23 Sep 2026 16:22:51 +0000 (GMT)
+Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-395543dc382so1163124a91.0
+        for <linux-sound@vger.kernel.org>; Wed, 23 Sep 2026 09:22:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1790179793; x=1790784593; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=HHWyBmRaGzTNumsbsfRRD90WYZuPVsFs3XssqLSLFrU=;
-        b=ffAONYryNjJ2EHoS5QHMRrqzT4ilT1/bzD4pQflN/w0SVWtQDM5iJJApRpsctD9FlE
-         d9m34qFn8hN698yQE4f92nXTgkQYbCc6icEX2oDBE7sL7M2sqnCjuc50zKeV4rGPaZ1Z
-         s8uDrU4CC4iId27Kuxmw2XnUF8Dbcoacyg6+R55QsN1miV28LLQ8/N8jmmqUEuyvroPc
-         522amINxI5m5mx3I/wzQPo+NHPt6F4Y9Fi62UVpStUpxHQKRuGVJlJc/il2H45jDxgR1
-         nC2+bUdaruNiRScOOZw2r/SRYDIrmzyGl7/JdJo2YcK+Q+8NHWdzWP0ffmEs8GnppU1T
-         J/3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790179793; x=1790784593;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=oss.qualcomm.com; s=google; t=1790180570; x=1790785370; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=HHWyBmRaGzTNumsbsfRRD90WYZuPVsFs3XssqLSLFrU=;
-        b=G0Dv9/DRQSqbwtZ6Um7VyrfYMfzgmsAn9BexTuVfqKZdExOZeuMb+MQuljzeATpTQv
-         AM2zy15fbPto4ZWkHOOiKENa6efRC1dtNCmQ2LgD4Td+t5V16ce8uiErY6V2UrVO46pM
-         U0HS9tFLjYrCFlcNaZn19EspuLE5WBnlsoDpZfJFFuDN4RbzTc1KVP087+chjKL7nm0N
-         PNn1woIekMrFiepUhwwudrrXvedRcUpIg8dpXBJj6JeiUHsWLTxQnJv2kyZbvW4HAeF/
-         3wjcHVXLIO4TBcI/qjvij0MdEL3SNteMBfPtbW1m0DG0EqvQILIYBtYkp0WP/pQkJ3r4
-         UqIw==
-X-Forwarded-Encrypted: i=1; AKwUvBw8Y4vdBZXlXd4j626P+9L9WaW3cVHzSKjP4PZVjcOZ6tr8cPaQEGpEg91th/QLNFRm3pRrZMmVOXR1uw==@vger.kernel.org
-X-Gm-Message-State: AFuF++kYiCpArDWKCC4H7kd8Ay1seMwO1WygxBrDm+fLu6P11/pFrK+m
-	Qg7TOyo6kfjJzZPCF5dPWxwITXw+xhoXSjun8YkU2zScdZHQRqIGwl7el/UAuii/RBU1Abdr1PV
-	UOsf21pnq28ysOl0A3Oi6zShsKFdtAMJhWqiuhUJ7
-X-Gm-Gg: AYBFou3EylCS12b0pUEfDIzr+FMK5IxY3ZAXLCyZCOTWyHb84/kH5Ei242ULBuVbr9c
-	STwpxEdbQZCyHZWt4hk5FLvcgzpfJs4bN16P8ODVsZZju6CnmYNCuXti4QfIXx/9/9TCbxnZmYu
-	BmaauijTaXZXJzg1ZkdOGw+mLRFSDorOCS13zMdBXaVY54QoAjZrKmFVa1cIVrd0r/xyTkjLiVG
-	bWH8C+/1oZXUSF3xKugE6QzylfpJ6pe2t79JQxfG8oKgraWvLZFTc/XMgYiopHRTqjQgtmloBBU
-	AuwI2dxfoUSWnU9vXsThmnoTwtCne/9UM7brHZx5RxjLeXZwEgjY0uYc6mKP/MBo+l8WF1rI4Ac
-	SkdFCK1EBdZM=
-X-Received: by 2002:a05:622a:591b:b0:52f:8389:29e0 with SMTP id
- d75a77b69052e-532f8b3b7d0mr1642301cf.0.1790179791981; Wed, 23 Sep 2026
- 09:09:51 -0700 (PDT)
+        bh=pgBNUPHEEKVkm4oZQk6Lvcojji4szSfv3iV2gwgCPzc=;
+        b=Ns1+rBnQorCE0NFEIR53EjNuQh5hPWFEMY7pX9EfdAioMHRU/cqrTH5hote1mo8QUU
+         44Y+0atw8+m4seSaw3efVZCf2bYeUWz6jJdQPjqC/Fy7Yz5IuxxXVtm1hhFM49yopKXG
+         QpiiXb3xurO3v9CgmcU5QU6TuXsYO+ZUvU13ZNROe+Gb7Gljl3cfSUdkv8vGeK+e5s/u
+         //oRp2T3dAcTq7OW8xIXojx4a0ySYSWXABk1PbMU4PjFxwiDdUFFGraNCcC9xuZIAPCn
+         Z9gThQU2JY1Ue9XEGEwQIKJ6P/u9k0Ybodj66d+wbmOXcB7XiySEZBPkmrxRQ8miwCvL
+         G7gg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790180570; x=1790785370;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=pgBNUPHEEKVkm4oZQk6Lvcojji4szSfv3iV2gwgCPzc=;
+        b=bdrEpdo58zgTsVJIwm+ld8tQ/yUwuu5pOB8iI4adTvXtofWWNbJqlJdHpOx5rTtEwS
+         4K9BzEqkHCWUDiHNufL7Wz5YPRIW/wfrKxvzy/DSxTKwPrQ5b7LfT2QYAKszJTtadMBI
+         lHLwPpWdHs5DXCHhLoXdSEyxhRyL/yCHW72XX1b65E9Bj4LzR8UF7/v05WWZ2SmFF/18
+         NK55fVgFR5w+pVBfvn4dIBBqDXh/mXukL8P9MUkioods7ZJybNJnMvi5IlX75pr07NxX
+         R1XwGzibW2cdKoP1yFtpaci9+mHltPEV0MLIos8xEmI/Qx53Y4DM+eHGJercbiJshajD
+         Pogw==
+X-Gm-Message-State: AFuF++mmdGeJ/7I09XU24so9P6tI8Fgeg1wqAcLRd9TJgntkVXhHN/vo
+	H4YvfznHRxQ45Sz1eL9hqwtQ+24yvFtivzfAdfYSzVqwifRtbVS4y6evnZg5eo8ggHafWsk8MXk
+	I2WGGYd87lIQ8Jwj0dTDO8eK7awnyFuoVw27HSdA18ZCmAw6jT9deA4nXPCFpWJvcnI5kH4tYuQ
+	==
+X-Gm-Gg: AYBFou1BNFeKVBmGjzBSzeLcKfFuTQ3dLm3ty3AK7HvIfql5V3yhlooZgdpmz4mt9uI
+	dH9LvSyl/XVqxkrRl8to/dGzaK+ayP1nRRcUcBHaQr6KNen1LvdPSR9pAN4azOCEbHT9CilPJRm
+	erJd1Sc0eQyiNW9sBq4pfjRiUKXweHwj8bQj3mDtbhP84Fd4l1PpQIAeisM1N6ulddn4BUM09Xa
+	p9dX0IyM1cg98X6MYyW63fSNSpGcridS/Il89JusmfVMpuiLx7Lj000k0l0grntRo1NAuPHdNpx
+	twGe9dCjoskEDdIsgytQOzxSEfsF1L/oaejfgXvwJaryED+9lox/PS06sB1KLMy1BXlPvP53eIt
+	CWq9nBNOJkFNFbUVQQzlLSqtnlLjl
+X-Received: by 2002:a05:6a21:151b:b0:3dd:a196:3090 with SMTP id adf61e73a8af0-3ddf830c18amr3182996637.64.1790180570106;
+        Wed, 23 Sep 2026 09:22:50 -0700 (PDT)
+X-Received: by 2002:a05:6a21:151b:b0:3dd:a196:3090 with SMTP id adf61e73a8af0-3ddf830c18amr3182957637.64.1790180569474;
+        Wed, 23 Sep 2026 09:22:49 -0700 (PDT)
+Received: from [192.168.1.25] ([122.183.173.25])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-87d1cfbcc08sm1623120b3a.15.2026.09.23.09.22.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Sep 2026 09:22:49 -0700 (PDT)
+Message-ID: <50b1dabd-4e5f-49a6-b682-1059681b00a0@oss.qualcomm.com>
+Date: Wed, 23 Sep 2026 21:52:33 +0530
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
- <20260917-b4-mmap-prepare-vma-flag-sanify-v3-2-4583d8a23bca@kernel.org>
- <CAJuCfpEa8tUmYJBjx-cRdAE8y-jcKY0C81kAOa1QZS7F6tKdfQ@mail.gmail.com> <arP0oJgrgZlgtrb6@gremlin>
-In-Reply-To: <arP0oJgrgZlgtrb6@gremlin>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Wed, 23 Sep 2026 09:09:38 -0700
-X-Gm-Features: AclHuK-pjLwt7GcAJrmXZc-kWYiEiXZ02rewi0rtPA2ju4vBD2OPEsiN1JlMpG0
-Message-ID: <CAJuCfpFPPGaK-grNx9qiQOhzAXbxU+SO+95Fht1571TGREx2oQ@mail.gmail.com>
-Subject: Re: [PATCH v3 02/40] mm/vma: predicate setting mmap_prepare VMA
- fields on new vma alloc
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Leon Romanovsky <leon@kernel.org>, Paul Moore <paul@paul-moore.com>, 
-	Stephen Smalley <stephen.smalley.work@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
-	Takashi Iwai <tiwai@suse.com>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	"Martin K. Petersen" <mkp@kernel.org>, Jaya Kumar <jayalk@intworks.biz>, Simona Vetter <simona@ffwll.ch>, 
-	Helge Deller <deller@gmx.de>, Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, 
-	Peter Xu <peterx@redhat.com>, Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
-	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Muchun Song <muchun.song@linux.dev>, 
-	Oscar Salvador <osalvador@suse.de>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
-	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
-	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, 
-	Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, 
-	Ying Huang <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, 
-	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, 
-	Baoquan He <baoquan.he@linux.dev>, Youngjun Park <youngjun.park@lge.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Qi Zheng <qi.zheng@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-usb@vger.kernel.org, linux-rdma@vger.kernel.org, 
-	selinux@vger.kernel.org, linux-sound@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, 
-	kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
-	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, 
-	fuse-devel@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 3/4] dt-bindings: sound: qcom,q6apm-dai: add
+ memory-region and relax iommus
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+        Srinivas Kandagatla <srini@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>
+Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+References: <20260922-vmid-v4-v5-0-e79cfd7af5b3@oss.qualcomm.com>
+ <20260922-vmid-v4-v5-3-e79cfd7af5b3@oss.qualcomm.com>
+ <0d2a8e7b-6a7c-4cb8-a6e4-98a7a5615764@kernel.org>
+Content-Language: en-US
+From: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
+In-Reply-To: <0d2a8e7b-6a7c-4cb8-a6e4-98a7a5615764@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTIzMDA2NSBTYWx0ZWRfX+D4ajeMoMLW+
+ ozRF+Db+4FIWFqabO8opAvbPp22EYs6woelKB4Rh4dPoK1fBuqTvcjU+ihO+BvKeT3X+FUoRTHk
+ B+yfZKXlWnET3LuJRCKmhimnp/GytCE=
+X-Proofpoint-GUID: YBsVDDAZYAzvG22HnxLQoIRL8HauaXAF
+X-Authority-Analysis: v=2.4 cv=RYMFmFtv c=1 sm=1 tr=0 ts=6ab3fcdb cx=c_pps
+ a=0uOsjrqzRL749jD1oC5vDA==:117 a=uk8ae9/F1LYL5lfeGCaUoA==:17
+ a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22
+ a=t8jTToblx4jCBEoCdggA:9 a=QEXdDO2ut3YA:10 a=mQ_c8vxmzFEMiUWkPHU9:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTIzMDA2NSBTYWx0ZWRfX5q54UMNrW9tm
+ SCnCfJygMI37Cz5di0Rsg8WumrAAZ3W3bUXtvMEJ0TNASx/OcFKZD9mo3GcfSe9XahhIlYGGIKk
+ +91J8HE9AWlMrz+Va46q8RqXRacYbAVfIvvq/V4GA7wAdYTehVNoqnIAe7XkU5GT3IZ3TBzUn9N
+ UkbJjaoSB4duNC0IPlEK9T4w9D9stle+XHH2LtVeOlf9U9trflJhHRWPEOtoON1lty63PKVc4y+
+ gAllgyuRDDE29AI/lM3slJ6HzOiqJ7cmM0tRCxlnMkKe7jGb4EmZeyJfcMo2hyvmoZjzTbyUeE4
+ wfcZ0Qh//AoWSQLInPLxs6re962UX9/Z0G/l11PWsznwfvfIVWPa1lesJTl7/A151ZcyilGj1nE
+ KcBhD66YN5WwTCtFTcNGXUVdGtmjwfQt2nLrZhE4tUynGCl2lqQrTAfkfbjMXr4XauHcRCHLZHN
+ tfFoY0b4bprAWDqOLBg==
+X-Proofpoint-ORIG-GUID: YBsVDDAZYAzvG22HnxLQoIRL8HauaXAF
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-23_05,2026-09-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 suspectscore=0 clxscore=1015 priorityscore=1501 phishscore=0
+ adultscore=0 impostorscore=0 lowpriorityscore=0 bulkscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609230065
 
-On Wed, Sep 23, 2026 at 8:54=E2=80=AFAM Lorenzo Stoakes (ARM) <ljs@kernel.o=
-rg> wrote:
->
-> On Wed, Sep 23, 2026 at 08:32:43AM -0700, Suren Baghdasaryan wrote:
-> > On Thu, Sep 17, 2026 at 9:24=E2=80=AFAM Lorenzo Stoakes (ARM) <ljs@kern=
-el.org> wrote:
-> > >
-> > > It only makes sense to manipulate VMA fields if we allocated a new VM=
-A,
-> > > rather than merged it.
-> > >
-> > > VMA merging does not compare vm_ops or vm_private_data, so a merged V=
-MA
-> > > keeps its own, which is also what the legacy f_op->mmap path does sin=
-ce it
-> > > never touches an existing VMA. Previously set_vma_user_defined_fields=
-()
-> > > overwrote the merged VMA's fields with those set for the new mapping.=
- In
-> > > practice these are the same values, with rare exceptions such as shme=
-m
-> > > selecting vm_ops based on whether the file has been unlinked, so no
-> > > user-visible change is expected.
-> > >
-> > > Make this dependency explicit, and additionally constify have_mmap_pr=
-epare
-> > > while we're here.
-> >
-> > The fact that we might be overriding attributes of an existing VMA
-> > that we merged with is technically a bug even if we never hit it,
-> > right? If so, should we have:
-> >
-> > Fixes: c84bf6dd2b83 ("mm: introduce new .mmap_prepare() file callback")
->
-> It's not a bug, it is an in-built assumption that the state used to asses=
-s
-> mergeability implies the same properties.
 
-Hmm. What prevents two VMAs with different vm_private_data members to
-be merged? IIUC is_mergeable_vma() does not check vm_private_data. In
-such a case set_vma_user_defined_fields() would override
-vm_private_data of an existing VMA, no?
 
->
-> And if it was, it'd need fixing a different way (check the field for inst=
-ance)
-> and would apply to the legacy mmap hook also.
->
-> This change is needed for the series though.
->
-> >
-> > >
-> > > Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> >
-> > Reviewed-by: Suren Baghdasaryan <surenb@google.com>
->
-> Thanks!
->
-> >
-> > > ---
-> > >  mm/vma.c | 4 ++--
-> > >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/mm/vma.c b/mm/vma.c
-> > > index fa784f069da4..4b74b48c29b7 100644
-> > > --- a/mm/vma.c
-> > > +++ b/mm/vma.c
-> > > @@ -2894,7 +2894,7 @@ static unsigned long __mmap_region(struct file =
-*file, unsigned long addr,
-> > >  {
-> > >         struct mm_struct *mm =3D current->mm;
-> > >         struct vm_area_struct *vma =3D NULL;
-> > > -       bool have_mmap_prepare =3D file && file->f_op->mmap_prepare;
-> > > +       const bool have_mmap_prepare =3D file && file->f_op->mmap_pre=
-pare;
-> > >         VMA_ITERATOR(vmi, mm, addr);
-> > >         const pgoff_t anon_pgoff =3D addr >> PAGE_SHIFT;
-> > >         MMAP_STATE(map, mm, &vmi, addr, len, pgoff, anon_pgoff, vma_f=
-lags, file);
-> > > @@ -2937,7 +2937,7 @@ static unsigned long __mmap_region(struct file =
-*file, unsigned long addr,
-> > >                 allocated_new =3D true;
-> > >         }
-> > >
-> > > -       if (have_mmap_prepare && !map_is_anon(&map))
-> > > +       if (have_mmap_prepare && allocated_new && !map_is_anon(&map))
-> > >                 set_vma_user_defined_fields(vma, &map);
-> > >
-> > >         __mmap_complete(&map, vma);
-> > >
-> > > --
-> > > 2.55.0
-> > >
->
-> --
-> Cheers, Lorenzo
+On 9/23/2026 5:27 PM, Krzysztof Kozlowski wrote:
+>> diff --git a/Documentation/devicetree/bindings/sound/qcom,q6apm-dai.yaml b/Documentation/devicetree/bindings/sound/qcom,q6apm-dai.yaml
+>> index 9e5b30d9c6e6..7d0415f2463a 100644
+>> --- a/Documentation/devicetree/bindings/sound/qcom,q6apm-dai.yaml
+>> +++ b/Documentation/devicetree/bindings/sound/qcom,q6apm-dai.yaml
+>> @@ -20,9 +20,19 @@ properties:
+>>       minItems: 1
+>>       maxItems: 2
+>>   
+>> +  memory-region:
+>> +    minItems: 1
+>> +    maxItems: 2
+>> +    items:
+>> +      - description:
+>> +          Control-path buffer (audio_heap_mem) for platforms where the DSP
+>> +          runs in a stage-2 protected context (e.g. modem-DSP).
+>> +      - description:
+>> +          Data-path buffer pool from which per-stream DMA buffers are
+>> +          allocated.
+>> +
+>>   required:
+>>     - compatible
+>> -  - iommus
+> I imagine you either have iommus or memory-region, no? IOW,
+> oneOf:
+>    - required:
+>        - iommus
+>    - required:
+>        - memory-region
+> ?
+
+Yes, that matches the intended split.
+
+For existing ADSP/SMMU platforms, q6apm-dais uses iommus. For the 
+mDSP/VMID path, the DSP cannot access normal SMMU-backed system 
+memory,so the buffers have to come from reserved-memory carveouts which 
+the driver SCM-assigns to the fixed VMIDs.
+
+I will add the oneOf constraint in v6 to require either iommus or 
+memory-region. VMIDs remain internal to the driver and are not described
+in DT.
+
+Thanks
+Ajay Kumar Nandam
+
+
+> 
+> Best regards,
+> Krzysztof
+
