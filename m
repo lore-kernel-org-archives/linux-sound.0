@@ -1,214 +1,160 @@
-Received: from mail-pz2-f43.google.com (mail-pz2-f43.google.com [74.125.228.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4805225B0BE
-	for <linux-sound@vger.kernel.org>; Wed, 23 Sep 2026 10:13:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790158428; cv=pass; b=SSNBv+YaS8mto59vq3w4TqBTfsy+/ppEBa3TiF5IQRfgpA80PSaHwZBynVQfrX/oPwIdmF4p8ZxAhh9z7ZMhSbKwEg0JkOWhSbwFbtGnM+8KST38Utn+eVnDI940byRarcoKaba2Wi0GeBt2ORRV7ySgmjzXk8/Dqu00LaGnKo0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790158428; c=relaxed/simple;
-	bh=6hNoicvQ9Qh0NY5PAdLmWCgVT7I2KnZ8VwidqirOaVY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FO3xtOs8Vp7mO6/Ufo93QLRjIb56IErXItDzHxlPYGyF5/7XqDUcaJjqy07DfTRYekWkGeGJZlJ0asRn3c4cRmtTMRJd+CqttaDTj7XRNL99Hp5E3cCl13gm8RgiK6Ncvr4glZh1LXR0udFNejWVFNFkrXDRSfqb5kv2cYQBJiI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ImiwyYv+; arc=pass smtp.client-ip=74.125.228.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1989483823;
+	Wed, 23 Sep 2026 10:16:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.164.118
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790158577; cv=none; b=jhlZfgXXBC4wj7cqH+nxz17j/cI4i6Q7yGf/puiC4xnnilKNlAEI7U1T6fnOMkPEgsvR7MycAQnuZ5pd7yoreMl03zreQbvIu8UsHZNuu7d8JXDURaAa8q7ixIlbn5PYvDQGIPVU7BS9QMEI3aVcxaQDSvE3vA3WeVPoSr1A3ZI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790158577; c=relaxed/simple;
+	bh=uYAgUWmDkt5tAnRAdtuAjtEyDUTVXyouusjoTlEzuDI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=T82QZRMULoKj9YB4/bsZuJRgwd4TT3Zub1CSnyndKiKN6lkJwbKXrZmnCuN7G2VyLy/utPLPY1n8e6denLvz381NvIMvlAkaqfndAz/p5y879Bn7FWaAyCVkLTeSl+EbcZ7Sf9N029+m79Wbi4mYreGnFszGr/RC0/vMh08co3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=stu.xidian.edu.cn; spf=pass smtp.mailfrom=stu.xidian.edu.cn; dkim=fail (0-bit key) header.d=stu.xidian.edu.cn header.i=@stu.xidian.edu.cn header.b=JOerReTe reason="key not found in DNS"; arc=none smtp.client-ip=162.243.164.118
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=stu.xidian.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=stu.xidian.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ImiwyYv+"
-Received: by mail-pz2-f43.google.com with SMTP id d2e1a72fcca58-85f0fc1fd8eso384272b3a.1
-        for <linux-sound@vger.kernel.org>; Wed, 23 Sep 2026 03:13:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790158411; cv=none;
-        d=google.com; s=arc-20260327;
-        b=M1a/ncup69eZsE9F9qbDshiX8OwYyIEY6FlMiNFJwH338dHIftapEDIJg1q7Y+5Tf6
-         NlDmOJPvdL43Q4xvdnbxEmlw+NPTghmOLwvToWbiG2zt3vpsNYtYKl6bGzqVzNZskcqs
-         mPZRpBbvBArV1Scjc+Bg17l0Ta4R2NE5pbPB+AU0dca65ht3ZPuVZVc/IZ48+YyK/FEV
-         Aqj3LFQthB7HZBZjxENeB7uKzkJ9nT7O4dvPU58nNrXCTYrEdfoHqcnusksvn5CM/8vk
-         r2OWl3Ua0/9h5HTBOis5XSiVw15Y9Ghie46Vpa7qWKJmDeFuNB/8DV4qs2tpk9krqjSA
-         wJ8Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=T8UPdY8cxlA6aoPjewzNTQu1SQVA5gFWIlU2oGV5oPs=;
-        fh=2LLcqfIjEvZ9eARLsZBsdJD+o2Fvf54vAXj0djZY2cA=;
-        b=i5XSS8tRisZ9EF6xsRfACMaACSbHkFBLENf//NtQKOGV4wvvFgE/EIN0giwXo89ZhS
-         XND2ecdkKPQHYMU48bjNFMzHGizLOq1IKzin1NuxJHpBt4I0xbrgQz48TwQ6UEAuy7J+
-         kP5sVS5w7XRrXuUhgpxZpFTQJpink/GwfSsFPaaB2Me78jWYDTgewEXC93POswamiZre
-         dP6ha07azdIjfx1PNWOnGoPImLfyZcSlEVXSRfaKCLbi3+/ATrqyRbUFPW55lQdtUXGp
-         F168QQwl23QDFKZmYZQgVzJB0deG68A8gz0ZI0RzKzhkRpdJlBd/nYgUSrW9puBFzRFW
-         Rn/A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=stu.xidian.edu.cn header.i=@stu.xidian.edu.cn header.b="JOerReTe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790158411; x=1790763211; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=T8UPdY8cxlA6aoPjewzNTQu1SQVA5gFWIlU2oGV5oPs=;
-        b=ImiwyYv+Szy9sBOTxAaUjzR7tF9JDGlVrujEaLSCmW+oKqiEeeyf19vKH1938mB4Ai
-         qcTH+2z/VZ88uOi+Q5eM9rml09l/OqPv0YfqHVF0siVgsKDQHSZnOIRFaLdGRAEqcYud
-         woX3dF6MUhHv8Rl9uQuG1OyGcWeAuYzmnvM1lRBctLw0lBr1MVOhMijAA0K559uVHXbO
-         aJioCmi6Sqk4Jb0/cgD3OpwsMVcjB/BO7x/gQKTF4/s7jxYgo+ctcGcuT98pN0BOeOLJ
-         qw74NpXqxq0D/fZojv1q60r/+3eCGAKaWLvqdRB4cWTUaeuOx5J6viMUdUlcdx+olQ7c
-         /IiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790158411; x=1790763211;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=T8UPdY8cxlA6aoPjewzNTQu1SQVA5gFWIlU2oGV5oPs=;
-        b=NIMdyNqt7IxjSk/GouokmJl6LjtPnrKeUGDQw/2R5DEIf0J5GJJPFVCxajyU49Mbqx
-         x1RK61fzlIFlUPPaz8arc2+vpp+PvQKsJyczmhcAPpfec98eJ1eoFxJLcKHtCTG0KHgF
-         tq92bcMVxryVP5ri7Fzu+LltL3cG6qOQyh6Z8z6qqTU2aoPDF67dqtUlCuK47FmrItyH
-         7L5A3HfbxQFrZ+ZW62jBKmS4EJDovgZtSkAi7Ervf+p06hhCPJaB0zs/F0CpdFrWWIsk
-         czUERecrJXjQaK6+XSzVRllieK+93A+5NXwwhslzkl/ynTSKyguoIqz1HFWNmLxPkJUA
-         5K5g==
-X-Forwarded-Encrypted: i=1; AKwUvBwXZ0P8YA9G5AJsqkT91acRls8bqvSVF7RVkdFpDju2sYPSyOP61797HQtlil2eFiZonT3PH1vuo60tvQ==@vger.kernel.org
-X-Gm-Message-State: AFuF++k1svHCQuSI0BIlqrzCY4jcrAi9gL3obyF/h4oBiTYNWtbHTQX5
-	i8Fv1503rS4yKQQdrDvkTlK78CiKVbrbf9FnlvHdw/CVGwO3sCiDWe8AM/SuB2ycNCF2N6MElf5
-	usIhG5Jq5vitoHRoks7wZxJvaP8xi5w0=
-X-Gm-Gg: AYBFou1I6hTuEfw+LirnbgTXYKHT6kPtsmXwS3U2UxXq4qCFc9ngkWMnADmBAD29sOj
-	SKPLlK9ihidaoXZjRhZvXEyw0Vi6gvYjXhykoaSKYZPpEVAV6A2GBCGxKw4byye6rxrgtycRBFs
-	BvHHh7GHJ7xqv+/LqQS4oL6yjpA3qqhn0WZ3NziiTUaO/HpP+6laiyrZcdwGyDlV8+zOpZk+4Cw
-	IhQrPsMzIwSUzVjg26zN0/R3tbsPxbTy5xReXj1cr61dKkd0F5IZXl0xZjE3FXBeMFAYWO/vDhz
-	jzEtYu0fwqmYiDqGGCUe4Fd2U/3EGYsxaXNDhzYOEMmSs+WTdoWNFpFT1HadVRnOQg==
-X-Received: by 2002:a05:6a00:1489:b0:845:ba94:a56 with SMTP id
- d2e1a72fcca58-87d1a7ade4amr1946462b3a.5.1790158411345; Wed, 23 Sep 2026
- 03:13:31 -0700 (PDT)
+	d=stu.xidian.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
+	Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=aN5+hXQh4QAljOgcLU7EeBC/zT8rIgkY33kRX/5zcK8=; b=JOerReTeQECsq
+	39qg5lPCJlAmYqJw065o2bAd1xHCK9759yr99IzaRteovXB4DIjd6sh7Itm+yzbj
+	F2G4VwMrWwxmNZjD8oaq7wZvvr/FbmTQ+iKIrg4ddhVG5TCewkYR/Utwmuq35xnk
+	yTsEASW9U5zGEDYCikUApNsmJNw610=
+Received: from localhost.localdomain (unknown [113.200.174.5])
+	by hzbj-edu-front-3.icoremail.net (Coremail) with SMTP id BbQMCkBWPDvXprNqKg0vAA--.3139S2;
+	Wed, 23 Sep 2026 18:15:52 +0800 (CST)
+From: Yuanzhe Liu <25031212351@stu.xidian.edu.cn>
+To: perex@perex.cz,
+	tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	dev@kicherer.org,
+	Yuanzhe Liu <25031212351@stu.xidian.edu.cn>
+Subject: [PATCH 0/1] ALSA: bcd2000: fix use-after-free of MIDI URBs on disconnect
+Date: Wed, 23 Sep 2026 18:15:31 +0800
+Message-ID: <20260923101533.423-1-25031212351@stu.xidian.edu.cn>
+X-Mailer: git-send-email 2.45.1.windows.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260923054017.93553-1-mhun512@gmail.com>
-In-Reply-To: <20260923054017.93553-1-mhun512@gmail.com>
-From: Shengjiu Wang <shengjiu.wang@gmail.com>
-Date: Wed, 23 Sep 2026 18:13:18 +0800
-X-Gm-Features: AcwNN1XtFHREsFLdPRUiEqLGtk9NvYoAB2IZLiGY3P6QqpB_FT8nAPCPpRvlyaw
-Message-ID: <CAA+D8AMQLkprPdOrT=oYR0dMmy0TqDdy1rZ3nXP6nPoigdsBuQ@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: fsl_xcvr: free IRQ before canceling reset work
-To: Myeonghun Pak <mhun512@gmail.com>
-Cc: Shengjiu Wang <shengjiu.wang@nxp.com>, Xiubo Li <Xiubo.Lee@gmail.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Fabio Estevam <festevam@gmail.com>, 
-	Nicolin Chen <nicoleotsuka@gmail.com>, linux-sound@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
-	stable@vger.kernel.org, Ijae Kim <ae878000@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:BbQMCkBWPDvXprNqKg0vAA--.3139S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxWF48Ww4rtrW5ur4rAFy8uFg_yoWrCrWrpF
+	WftrW7Ar1UZr9I9r42yF1kWr1Fyan7Aa4UurySq34FvFy5Zw17JF4xtFyruFW5CFy8J34Y
+	yF1DJay3WFs8CwUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUU9C14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j
+	6r4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr
+	1j6rxdM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVAC
+	Y4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJV
+	W8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI2
+	0VAGYxC7MxkF7I0En4kS14v26r126r1DMxkIecxEwVAFwVW8twCF04k20xvY0x0EwIxGrw
+	CFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE
+	14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2
+	IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxK
+	x2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI
+	0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUTCJdUUUUU=
+X-CM-SenderInfo: ysvqjiysrsjkur6v33wo0lvxldqovvfxof0/1tbiAQUFD2qyndaywgADsu
 
-On Wed, Sep 23, 2026 at 1:40=E2=80=AFPM Myeonghun Pak <mhun512@gmail.com> w=
-rote:
->
-> irq0_isr() schedules work_rst on a preamble error, and reset_rx_work()
-> touches regmap.  remove() cancels that work while the IRQ is still
-> registered, so the handler can queue it again during teardown.  The IRQ
-> is also requested before INIT_WORK() and spin_lock_init().  Probe
-> failure does not call remove(), so freeing the IRQ leaves queued work
-> running, and an earlier interrupt schedules uninitialized work.
->
-> Initialize the lock and devm_work_autocancel() before the IRQ.  Failed
-> probe then frees the IRQ and cancels the work.  Unbind frees the IRQ
-> before cancel_work_sync() and pm_runtime_disable().
->
-> Fixes: 1e5d0f106164 ("ASoC: fsl_xcvr: reset RX dpath after wrong preamble=
-")
-> Cc: stable@vger.kernel.org # 6.13+
-> Assisted-by: LLM
-> Co-developed-by: Ijae Kim <ae878000@gmail.com>
-> Signed-off-by: Ijae Kim <ae878000@gmail.com>
-> Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
+Hi,
 
-Reviewed-by: Shengjiu Wang <shengjiu.wang@gmail.com>
+this single-patch series addresses a slab-use-after-free in the
+snd-bcd2000 driver, observed on a Behringer BCD2000 USB DJ controller
+under a KASAN-enabled kernel (7.1.2, x86_64, CONFIG_SND_BCD2000=y).
 
-Best regards
-Shengjiu Wang
-> ---
->  sound/soc/fsl/fsl_xcvr.c | 26 +++++++++++++++++++-------
->  1 file changed, 19 insertions(+), 7 deletions(-)
->
-> diff --git a/sound/soc/fsl/fsl_xcvr.c b/sound/soc/fsl/fsl_xcvr.c
-> index 9828272..29929df 100644
-> --- a/sound/soc/fsl/fsl_xcvr.c
-> +++ b/sound/soc/fsl/fsl_xcvr.c
-> @@ -3,6 +3,7 @@
->
->  #include <linux/bitrev.h>
->  #include <linux/clk.h>
-> +#include <linux/devm-helpers.h>
->  #include <linux/firmware.h>
->  #include <linux/interrupt.h>
->  #include <linux/module.h>
-> @@ -57,6 +58,7 @@ struct fsl_xcvr {
->         struct snd_aes_iec958 tx_iec958;
->         u8 cap_ds[FSL_XCVR_CAPDS_SIZE];
->         struct work_struct work_rst;
-> +       int irq;
->         spinlock_t lock; /* Protect hw_reset and trigger */
->         struct snd_pcm_hw_constraint_list spdif_constr_rates;
->         u32 spdif_constr_rates_list[SPDIF_NUM_RATES];
-> @@ -1617,7 +1619,7 @@ static int fsl_xcvr_probe(struct platform_device *p=
-dev)
->         struct fsl_xcvr *xcvr;
->         struct resource *rx_res, *tx_res;
->         void __iomem *regs;
-> -       int ret, irq;
-> +       int ret;
->
->         xcvr =3D devm_kzalloc(dev, sizeof(*xcvr), GFP_KERNEL);
->         if (!xcvr)
-> @@ -1705,12 +1707,22 @@ static int fsl_xcvr_probe(struct platform_device =
-*pdev)
->                 return dev_err_probe(dev, PTR_ERR(xcvr->reset),
->                                      "failed to get XCVR reset control\n"=
-);
->
-> +       /*
-> +        * irq0_isr() schedules work_rst. Prepare the work and its lock
-> +        * before the IRQ, and register the cancel action first so a fail=
-ed
-> +        * probe frees the IRQ and then cancels any queued work.
-> +        */
-> +       spin_lock_init(&xcvr->lock);
-> +       ret =3D devm_work_autocancel(dev, &xcvr->work_rst, reset_rx_work)=
-;
-> +       if (ret)
-> +               return ret;
-> +
->         /* get IRQs */
-> -       irq =3D platform_get_irq(pdev, 0);
-> -       if (irq < 0)
-> -               return irq;
-> +       xcvr->irq =3D platform_get_irq(pdev, 0);
-> +       if (xcvr->irq < 0)
-> +               return xcvr->irq;
->
-> -       ret =3D devm_request_irq(dev, irq, irq0_isr, 0, pdev->name, xcvr)=
-;
-> +       ret =3D devm_request_irq(dev, xcvr->irq, irq0_isr, 0, pdev->name,=
- xcvr);
->         if (ret)
->                 return dev_err_probe(dev, ret, "failed to claim IRQ0\n");
->
-> @@ -1751,8 +1763,6 @@ static int fsl_xcvr_probe(struct platform_device *p=
-dev)
->                         fsl_xcvr_comp.name);
->         }
->
-> -       INIT_WORK(&xcvr->work_rst, reset_rx_work);
-> -       spin_lock_init(&xcvr->lock);
->         return ret;
->  }
->
-> @@ -1760,6 +1770,8 @@ static void fsl_xcvr_remove(struct platform_device =
-*pdev)
->  {
->         struct fsl_xcvr *xcvr =3D dev_get_drvdata(&pdev->dev);
->
-> +       /* Free the IRQ first so irq0_isr() cannot requeue work_rst. */
-> +       devm_free_irq(&pdev->dev, xcvr->irq, xcvr);
->         cancel_work_sync(&xcvr->work_rst);
->         pm_runtime_disable(&pdev->dev);
->  }
+Root-cause walkthrough
+----------------------
+
+The bug is a lifetime mismatch between driver disconnect and ALSA rawmidi
+file lifetime:
+
+1. A userspace process (e.g. amidi) opens /dev/snd/midiC0D0.
+2. The USB interface is unbound (via USBDEVFS_DISCONNECT ioctl or physical
+   unplug).
+3. bcd2000_disconnect() runs:
+     snd_card_disconnect(bcd2k->card);
+     bcd2000_free_usb_related_resources(bcd2k, interface);
+   snd_card_disconnect() only marks the card disconnected and stops new
+   opens, but returns immediately while open file descriptors still exist.
+   bcd2000_free_usb_related_resources() proceeds to free both
+   bcd2k->midi_out_urb and bcd2k->midi_in_urb via usb_free_urb().
+4. Later, the process closes the rawmidi fd (or exits):
+     snd_rawmidi_release -> close_substream -> bcd2000_midi_output_close()
+   Because bcd2k->midi_out_active was set (and left set by completion
+   re-submissions), bcd2000_midi_output_close() calls
+   usb_kill_urb(bcd2k->midi_out_urb), reading the already-freed URB
+   object (slab-use-after-free at urb->dev).
+
+Patch summary
+-------------
+
+Patch 1 fixes the bug via two complementary changes:
+
+ - Switch snd_card_disconnect() to snd_card_disconnect_sync(), which
+   waits for all open card files to be closed before returning. The
+   rawmidi close callbacks (and their usb_kill_urb()) run while the URBs
+   are still valid. devices_mutex held during disconnect is not taken by
+   rawmidi close, so the wait cannot deadlock.
+
+ - Add an atomic shutdown flag set at the beginning of disconnect and
+   checked in bcd2000_midi_send() and both URB completions, preventing
+   URBs from being re-submitted after disconnect. Also NULL the URB
+   pointers after usb_free_urb() so any stray access becomes an
+   immediate NULL dereference rather than a silent UAF.
+
+Crash report addressed
+----------------------
+
+  Report 1: slab-use-after-free in usb_kill_urb (read of size 8 at urb->dev,
+            sound/usb/bcd2000/bcd2000.c:182 <- sound/core/rawmidi.c:560).
+            Condensed splat appended below the diffstat.
+
+Yuanzhe Liu (1):
+  ALSA: bcd2000: fix use-after-free of MIDI URBs on file close after
+    disconnect
+
+ sound/usb/bcd2000/bcd2000.c | 25 ++++++++++++++++++++-----
+ 1 file changed, 20 insertions(+), 5 deletions(-)
+
+--
+Crash excerpt:
+
+  BUG: KASAN: slab-use-after-free in usb_kill_urb+0x74/0x80 drivers/usb/core/urb.c:706
+  Read of size 8 at addr ffff8880078e7d40 by task amidi/30287
+
+  Call Trace:
+   usb_kill_urb+0x74/0x80 drivers/usb/core/urb.c:706
+   bcd2000_midi_output_close+0xd4/0x140 sound/usb/bcd2000/bcd2000.c:182
+   close_substream.part.0+0x15f/0x8d0 sound/core/rawmidi.c:560
+   close_substream sound/core/rawmidi.c:585 [inline]
+   rawmidi_release_priv+0x21d/0x290 sound/core/rawmidi.c:580
+   snd_rawmidi_release+0x4e/0xa0 sound/core/rawmidi.c:610
+   __fput+0x3a6/0xac0 fs/file_table.c:510
+   task_work_run+0x158/0x220 kernel/task_work.c:233
+   do_exit+0x87b/0x22d0 kernel/exit.c:976
+
+  Allocated by task 34:
+   usb_alloc_urb+0x67/0x190 drivers/usb/core/urb.c:75
+   bcd2000_init_midi sound/usb/bcd2000/bcd2000.c:319 [inline]
+   bcd2000_probe+0x5a0/0x1350 sound/usb/bcd2000/bcd2000.c:401
+   usb_probe_interface+0x395/0x850 drivers/usb/core/driver.c:396
+
+  Freed by task 30294:
+   usb_free_urb+0xbb/0x100 drivers/usb/core/urb.c:96
+   bcd2000_free_usb_related_resources sound/usb/bcd2000/bcd2000.c:354 [inline]
+   bcd2000_disconnect+0xfc/0x280 sound/usb/bcd2000/bcd2000.c:433
+   usb_unbind_interface+0x188/0x770 drivers/usb/core/driver.c:458
+   usb_driver_release_interface+0x105/0x180 drivers/usb/core/driver.c:640
+   proc_ioctl drivers/usb/core/devio.c:2359 [inline]
+   usbdev_ioctl+0x6f05/0x86d0 drivers/usb/core/devio.c:2826
+
+  The buggy address belongs to the object at ffff8880078e7d00
+   which belongs to the cache kmalloc-192 of size 192
+  The buggy address is located 64 bytes inside of
+   freed 192-byte region [ffff8880078e7d00, ffff8880078e7dc0)
+
