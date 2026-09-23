@@ -1,90 +1,167 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70F854D37B6
-	for <linux-sound@vger.kernel.org>; Wed, 23 Sep 2026 12:33:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F83352268A
+	for <linux-sound@vger.kernel.org>; Wed, 23 Sep 2026 13:04:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790166807; cv=none; b=ps2r8tLtfUHPgD0hbkQrlGkBCN9mSDJk67q5CnTEv4QvcDZO3jwQOaF5gE4RwNQUIlFI1ahmiMAgHNCXs2q0kbS4ou4QA46RP7vCl59oLgDL6X9JBJ4YB+Ue88nftsj9PauQrzDFDH85J4cWExf16AljJR5POGIQtQE7jU5vAAE=
+	t=1790168662; cv=none; b=BsCUQkGyK0Jb40NGSz3RyJgxo60a3dtff1nlbLKG3WVG0SRxtmHBdJ9Sh6U+0xPm3Gy6xmvBwLMhUYPaN+SAtyikMg8us2/DcUWo3XozjPhbGTUFAvUjcne2gaMul1IV/RprD/pN5JK1YbQx7VJWzFrQS4RhggDSDp/4ZdsIuSw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790166807; c=relaxed/simple;
-	bh=w1rQy1g6j10nH83SP6Muw/3VnzCHjWnz9dNnww7SlWc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CbEUOz/y694q+u/jl2I5/+AWlIvaCbK7mGCpJR7pkPOExVun5hWijgwAB5VCtBRaD2yfxwKbH2vt6KUTuJuw6EcaPJs7qdZbOdk+MPYjDBPjj4aSsgWHfbNqmNKUGrOtP93jztl/McWhIteGJOOCt8fWCG2ORdnL231MZknGD4U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=khT2voD5; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790168662; c=relaxed/simple;
+	bh=jAtUvHOL+UcHTw/1yuGYltepxe1MNq2D2AIdAMygYQc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QAiDG89T3pbUvr9qb2jM6EL5A7QQuDtScSyVyQKQzKOvcsknhPSd5btAI30v47520z53GvOJdXUW8Dr0yUo163XVc4LEAtDUwQ43/uvxFQ+8yL4OGHwn0Sx+g28m/wY0nWUAqpmk+1anZfd20rs08vs495lK+J2VLc9Zh4/YJ/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=k7z4xXkA; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=kEWjqfy2; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="khT2voD5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D24611F00893;
-	Wed, 23 Sep 2026 12:33:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790166803;
-	bh=eskvzowqOUld37JtvvGU84KONMyrIHsBpXuk/j5kyW0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=khT2voD5uARlTYCNIpmG6pmXZUDNzK4psP/9I5hqMBHmzw5U0K5ZpLMGV8h9JtpFa
-	 doetNC6eNms1huK8O2jmzM8JmL2+n9527mTAxWcNSvMZQxtssL3TOBZXFp4Ilep4eL
-	 9vghAwx+Z2EUdCvdJFSX3O7bl8SmxLzOgSRSowFxi1o1nTTO53/klmzZAJ9n9CBb9m
-	 y7ezCH/tL6IRCU2TVzRM7fl8/aVLA4+6Fqzttgcmxa71ddGUub8B6z0pqbjdzUsl8E
-	 HoGp5YAQ5f6jNg+eNNQl1Eki/Lv66YdRjxv2YTgxrn7ng96FwfeESfGrJhP983fG4Y
-	 xTkKVarZIbs9g==
-Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id 1914B1AC5739; Wed, 23 Sep 2026 13:33:19 +0100 (BST)
-Date: Wed, 23 Sep 2026 14:33:18 +0200
-From: Mark Brown <broonie@kernel.org>
-To: shumingf@realtek.com
-Cc: lgirdwood@gmail.com, linux-sound@vger.kernel.org, lars@metafoo.de,
-	flove@realtek.com, oder_chiou@realtek.com, jack.yu@realtek.com,
-	derek.fang@realtek.com
-Subject: Re: [PATCH 1/3] soundwire: intel_auxdevice: add rt766/rt767 codec to
- wake_capable_list
-Message-ID: <arPHDk4C5U4xAonI@sirena.co.uk>
-References: <20260923110127.3419683-1-shumingf@realtek.com>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="k7z4xXkA";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="kEWjqfy2"
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68NBbSw33295494
+	for <linux-sound@vger.kernel.org>; Wed, 23 Sep 2026 13:04:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	SvBLCJ2t9221TW4KYx3Wqjeb6+sRVpVtJ6KavLSqfA0=; b=k7z4xXkA/SZHfuhi
+	vn9NYJh5Ahaxe+BXAwR8yjRZxLP4fJO9sswA51eQ1aMyN+KVgWKNMCTe9cfipXJG
+	47EY/ccDUuzZ3MMae9a9+i1GRZS2jCa2UuGzOFaTEbKdusyM7JRGBiw78iQkBXrI
+	Pj8hu5w1nBwa8GbTiBG0JBFKT3vDC4O0f1lQediXz8QuH8yUMXe/ZkDfyn+Pzzy0
+	n/KZk7UWuwkQ0pwQ4PJMqJ25CL1sxzflSMYIQokDuC2W0cCLyn45pZGZs0QdKASh
+	oV2Je+ZQvUeM6I+bo6xZ+NOQB+tJByfXS2u/YXRewmqRno/S5O11x+NSHRZJPZeI
+	6AHVtA==
+Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com [209.85.167.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gvbwm8x7a-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Wed, 23 Sep 2026 13:04:20 +0000 (GMT)
+Received: by mail-oi1-f198.google.com with SMTP id 5614622812f47-4c1a8def466so102886b6e.1
+        for <linux-sound@vger.kernel.org>; Wed, 23 Sep 2026 06:04:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1790168660; x=1790773460; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=SvBLCJ2t9221TW4KYx3Wqjeb6+sRVpVtJ6KavLSqfA0=;
+        b=kEWjqfy2G6PvHxPaetag+A1fHiHfnVsS2QSSlwbx0N2I4THTv/wBirtJDvRMuIBICA
+         ldABZBPPamygRBT4sGsAEfJBc91IFpGHJ6RENSb1DtaPoP3TIi94mm5bNUr+dcnT5NNm
+         1C7/NjyVYIWKCdVkTOH3Q2kACIsfX+p94mHi9pj2gEORLwLV2MzsrRrpJMK+KA20u3U1
+         lP1fF6Ry4Wqhj90dU7kZZ/CGO39Fcbm044hQslITRjZJ5K1tyHyEK52bs7sC+Zip0LLZ
+         r6O8im6jmd+DsZyJLMmSUKx0Pt448DvVPV0aHeRK8q8I9ODN9PtkcNtASqo10Qpjl/2n
+         zjBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790168660; x=1790773460;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=SvBLCJ2t9221TW4KYx3Wqjeb6+sRVpVtJ6KavLSqfA0=;
+        b=r6p+IE60PctXTQWEvMQifSbrJwJzMMYyIhO0MniVUOrNbh4YCW+FEKqYAy8v77S8r6
+         wVICMZwzOlQ0bMziyqoORzdVwr9i785Jwd3sLQA8vumrWfOqF03nvTsxcR8ZwE7FSljo
+         vMQns5WpptJpgVcVovgHz0BeciwqevdnjMGH/3IJj4gtXd5k2p6+jD1DcAYb9RnwxBb6
+         Wn3HxVFCuXTp7hqCLKisVk1Zi0w5HG7QQLgHPl9BnbtcDvFzcj0GKxPGTkej6ipdFLZS
+         794uyU8AECXZTohxpzCx386iSuI7I9Tjld4Y2L0BvQZ/euMlHqdieh47u0aJQw1rQTzw
+         K58A==
+X-Gm-Message-State: AFuF++m7AV8UJsP7Acc38nv3LEgM7EX4QIlgRUCFQdnGRUyg1uPlhaU5
+	RVuqgRYv7gBh4iCYkr0Wq8oAe+lpfOuKz0n1lQWf+knBFUuzi66zkmRgRz+LIq8je9mVx69rZvB
+	eJngn77A0FJn+sDnMD0MMjwpx1tqRFCwgSBxiqWy2bz9BMOUt01/fbEwyGkT9f8bBvw==
+X-Gm-Gg: AYBFou2z2I4XnyXvY6T+t0zOMXQDLYJynEavOFvOrv7iM52wngHsQY2lLL2vEXw61FF
+	Pf23oZoXmt5IeLmaHDVI3/EEAZ4IM95ishVOZt8gHFYs5kKjjXJzEub2UagN6GVsVLqYnUOVca3
+	qNW6vn9/zYjLWY5/8QQ3dSO+fu45o2ucsYRwb40jEHz43ek9CA3kq2rRQflxtBnoWNv0oGtgEs/
+	3m4LmUq0RkSAus6wkbeZbNw2ZJidi7ygVbRpE+TMdBGCsJ+sK7Xma5JWbl1T3BxeirFnVFdM/lw
+	hdb0WPOgmMizRCfI6HdvsqnOUU/z4/pPK5N3GWhpJqrCNbtDaOcLf/+BypsY0BscApqRo9VG1zp
+	qDMWW5zC0EuCiQdEsaMhK3NSokPLOHUGO
+X-Received: by 2002:a05:6808:10cc:b0:495:d9fc:238a with SMTP id 5614622812f47-4d5b8ddabeamr3350306b6e.3.1790168659801;
+        Wed, 23 Sep 2026 06:04:19 -0700 (PDT)
+X-Received: by 2002:a05:6808:10cc:b0:495:d9fc:238a with SMTP id 5614622812f47-4d5b8ddabeamr3350248b6e.3.1790168659264;
+        Wed, 23 Sep 2026 06:04:19 -0700 (PDT)
+Received: from [192.168.202.12] ([178.235.128.140])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2aae62dabcsm115627866b.31.2026.09.23.06.04.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Sep 2026 06:04:18 -0700 (PDT)
+Message-ID: <ab94b4e8-7de5-40ba-9306-03c4fb18fcea@oss.qualcomm.com>
+Date: Wed, 23 Sep 2026 15:04:15 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="vb0GQSsu/2uVchJY"
-Content-Disposition: inline
-In-Reply-To: <20260923110127.3419683-1-shumingf@realtek.com>
-X-Cookie: Too clever is dumb.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 6/6] arm64: dts: qcom: sdm845-google: Add basic audio
+ support
+To: David Heidelberg <david@ixit.cz>, Srinivas Kandagatla <srini@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        David Rhodes <david.rhodes@cirrus.com>,
+        Richard Fitzgerald <rf@opensource.cirrus.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        David Rhodes <drhodes@opensource.cirrus.com>,
+        Conor Dooley <conor+dt@kernel.org>
+Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, patches@opensource.cirrus.com,
+        devicetree@vger.kernel.org, phone-devel@vger.kernel.org
+References: <20260705-pixel3-audio-v1-0-3b66f33859f1@ixit.cz>
+ <20260705-pixel3-audio-v1-6-3b66f33859f1@ixit.cz>
+ <71e04eae-7826-4f51-bd6a-318ea1108c08@oss.qualcomm.com>
+ <e4b32a40-4432-40c0-8e57-f5602c98f096@ixit.cz>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <e4b32a40-4432-40c0-8e57-f5602c98f096@ixit.cz>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTIzMDA1MiBTYWx0ZWRfXzcfb8ph2ggoa
+ M7InthUu1QvuyuehsOAB4hIjcOub7ITSv5Udhqn+EgsDpcj+CNcG1JB+2NrRWR7K+kEWwZrYpIK
+ 26QCCqN4rAkj+mejeFd7gzUk759YCq8=
+X-Authority-Analysis: v=2.4 cv=R/6WitRX c=1 sm=1 tr=0 ts=6ab3ce54 cx=c_pps
+ a=4ztaESFFfuz8Af0l9swBwA==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
+ a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
+ a=80cRBlfBHqb0UARuMZ4A:9 a=QEXdDO2ut3YA:10 a=zgiPjhLxNE0A:10
+ a=TPnrazJqx2CeVZ-ItzZ-:22
+X-Proofpoint-GUID: Vb1Uoadlt7OG4XYnfIxUm3h11-8qiyRa
+X-Proofpoint-ORIG-GUID: Vb1Uoadlt7OG4XYnfIxUm3h11-8qiyRa
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTIzMDA1MiBTYWx0ZWRfXxdiRcYEEJxq0
+ x/VPlpmq2hBLaJ8xSXLwiVjSMZOeqw5f6MN0ZBZpjtmZTMSOuxf4HuUrwgPYLGVgWsAlGek7NGY
+ /T9NX3Mjv1z0vXd0GycE+PrFzFJ8T86AfcXQ2KAgXNalLj+Su1ViZD71DU17DmWYxWWP7tvlZfD
+ 0cbHZKbmIz9hin2NhTKD0VbG1cW182QrYDfZJMENdrwnCYM4WxO3r3z72Mpxai5UsK+i2XcInaY
+ P5TUFqzeEjTISWdWAmgNj3IoMd1gf8nNxpqbK5DmXEue6+U10OGRbCzhU6WyeekduK7Kz9lkWt4
+ lVq2Wfr+3FXxRh0p80fkpA8WRnL/ivLFZdDvWYLFMmRxiA2MIugnLS/PHlszBie5NdPkbKWaS1o
+ wloV8u62qKl0WgLF8qfvxiPYpN6dQ4vmPr8cgrFcaYO7qldHHvVd1z4cdpGHhMPFPtsnrQuS4Mo
+ SdwAftN1Nefm75zy3Pw==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-23_04,2026-09-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 clxscore=1015 malwarescore=0 impostorscore=0 priorityscore=1501
+ lowpriorityscore=0 spamscore=0 suspectscore=0 phishscore=0 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609230052
 
+On 9/3/26 7:02 PM, David Heidelberg wrote:
+> On 06/07/2026 14:00, Konrad Dybcio wrote:
+>> On 7/5/26 10:06 PM, David Heidelberg via B4 Relay wrote:
+>>> From: David Heidelberg <david@ixit.cz>
+>>>
+>>> Introduce support for sound card and wire two CS35L36 audio codecs for
+>>> top and bottom speakers.
 
---vb0GQSsu/2uVchJY
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+[...]
 
-On Wed, Sep 23, 2026 at 07:01:27PM +0800, shumingf@realtek.com wrote:
-> From: Shuming Fan <shumingf@realtek.com>
->=20
-> rt766/rt767 have wake capability. Add it to the wake_capable_list.
+>> nit: 'co'dec < 'cp'u < 'p'latform
+>>
+>> also 'c's35l36-dai-link < `m`m1-dai-link
+> 
+> ... aaaand **sorting nodes** broke audio.
+> 
+> Moving `mm1-dai-link` behind `cs35l36-dai-link` broke the audio.
+> 
+> For now I'm keeping m1-dai-link at the begging and added the comment why is it there, but I guess would be nice to have this solved properly.
 
-As I think I've mentioned before your patch serieses are always posted a
-bit strangely, they're not threaded together and you never supply a
-cover letter.  This makes it hard to work with them, tooling gets
-confused by the non-standard presentation.
+OK. But please take a look at what GPT told you below (I'm in no
+position to suggest what is best) since the automatic style checker
+will probably be deployed at some point and may mess with this..
 
-You might want to look at b4 to send the patches, especially it's web
-submission endpoint which avoids having to configure mail:
-
-   https://b4.docs.kernel.org/en/latest/contributor/overview.html
-
-
---vb0GQSsu/2uVchJY
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqzxwUACgkQJNaLcl1U
-h9B2NQf+NAd2/5GieAz7GliuAaKP1OjaINHGPIUpcbJ/HXQxtAPXr2uXi+nwcTme
-ZgwtbmqxnOkUiFHIhx/QJFZ2iolx7eRP51jaof4ErCJCIGqIEbTic/+dYCQRYNrd
-5m/HDO4X6BkAeaDDo7iATZkQRDrViy4wZcTHRN+t9FyrelvxV7sehWjv9PyxX+1S
-+iXmScOwzTREOfi+3sHA0Bq3Wx6w14dVe/YPKs6TwkkApNAWErgdsPOGAUEO0mbP
-H18iOX7euD1p56+sDenrR0B4yOGaguxWgWocwGrFn63QOIbia/JnVIil9yOG/LtD
-gZRCRKblspQBtl2nkGIFvlwmiT26jQ==
-=Yxoq
------END PGP SIGNATURE-----
-
---vb0GQSsu/2uVchJY--
+Konrad
