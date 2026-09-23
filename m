@@ -1,60 +1,84 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk2-f42.google.com (mail-qk2-f42.google.com [74.125.230.234])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 150FF42E8C8
-	for <linux-sound@vger.kernel.org>; Wed, 23 Sep 2026 05:28:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 622ED4399F2
+	for <linux-sound@vger.kernel.org>; Wed, 23 Sep 2026 05:40:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.234
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790141340; cv=none; b=fhjQhKjdnt6XcMtoDqGMp8XXCaT45Hjyk9EDY0oFFvEDnkFGU9+WZraS/s71phPnVlDMgIHqkW1IrZA6HR6OhAxhO09ULG2RA+MY36qRjShNgAgjTNZbuO+PmO0wrnGX3yehYv/VaUGucKHpQE3GwBNiMajAwPalsXo3zxQYltA=
+	t=1790142026; cv=none; b=PYZipcuaA+ajpMRseDlXdYOPMnN0o0frUixR6PQc849PMI+yM3AKBBefU6boqCExnBqiJp43TWbt6KH1zGnCjYM45J4pXUDmiAI8l+E9WR2Lmi3mOq2TuDYCNObIiB2UIwwerO0jejQOOycSrwULpzKOxRTqHqT55BayRgT9s3c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790141340; c=relaxed/simple;
-	bh=EV2Ge0bkGe7G93vwDJRvLD//Gzh8pqnIcKCjRbNs3K4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VakrgauDvaseSyb16ehMaLt7vQ+WMhyjUVlTCIcNfMw6DCpSer075elT01NFur+T1TTpRv1uf7g/o+rfVjM1wQzaaPTeQMrqA3CPziOPA5JOpO7qsqcLR4acfqqu42+GziFT5eRJgtE71teu+vTQih+JS/yvN7Vp5/IIjtICkQY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bGadFzYg; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1790142026; c=relaxed/simple;
+	bh=s3xFOpyusB+gbcdNu45N3zv7siv6m0mWV55Nz23kMrw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ox9Yf3FPGb6ShMaZ2IeIqKXLKZaTsNu0yctnF4ODW5N4z6b+8HjoiUDyh7OGwoIUFLGRtQA/h1dG85Tiog7PtQIZWkIcoE5JiSb27yjXmcTvWGDPMCfM0ja8HsqWZtnD/epqPfDX8WMLSyH7f5aN49Hz2kgh++923BqLINGxviU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ReiNCX2W; arc=none smtp.client-ip=74.125.230.234
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bGadFzYg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790141339; x=1821677339;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=EV2Ge0bkGe7G93vwDJRvLD//Gzh8pqnIcKCjRbNs3K4=;
-  b=bGadFzYgQdo2pK936JY0Lp2OHzmLC4n5PoI/jyR4qAFxLN2bQ/Z1dXLk
-   39kuKGGjr4GAvQp2U/Oh4JH8tGGNTsw1UVy8SzIAlSatW2Lixj9ZHwwGL
-   2JKJotD0gvkgN1fmaMPb1c50YQtpc3IhRt82IshGsRK37a2ppYFw54KN+
-   b+3AaYWQtRjyMobMrzdAUk3xFKlNBGE5JZ22SKvzPCuYVdQqooq88VZT3
-   N7Lc4TB/jB0JHCn+wBKq7JtFJHzpSxHtAcinhB8dZv/nc32vWEeT7b4WT
-   1mi+q/F80XcDcgX5ApCmqqnCH7nZoMQzeca0JbvJ0cXj1j6YM3Rhdy1EV
-   A==;
-X-CSE-ConnectionGUID: HtPVF/frSYO8viRJkYjHug==
-X-CSE-MsgGUID: vI5eiH32S1aZJL8TXsSmKA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11913"; a="90821752"
-X-IronPort-AV: E=Sophos;i="6.27,117,1787036400"; 
-   d="scan'208";a="90821752"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2026 22:28:59 -0700
-X-CSE-ConnectionGUID: O5jvQDN5RaC7HWxEmTLL1Q==
-X-CSE-MsgGUID: vRp2cOrGS4CkrlRbRtGOzA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,117,1787036400"; 
-   d="scan'208";a="272938569"
-Received: from yungchua-desk.itwn.intel.com ([10.227.8.136])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2026 22:28:57 -0700
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
-To: broonie@kernel.org,
-	tiwai@suse.de
-Cc: linux-sound@vger.kernel.org,
-	bard.liao@intel.com,
-	peter.ujfalusi@linux.intel.com
-Subject: [PATCH v2 7/7] ASoC: soc-acpi-intel-ptl-match: I2S machines: use function topology
-Date: Wed, 23 Sep 2026 13:28:32 +0800
-Message-ID: <20260923052832.2392758-8-yung-chuan.liao@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260923052832.2392758-1-yung-chuan.liao@linux.intel.com>
-References: <20260923052832.2392758-1-yung-chuan.liao@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ReiNCX2W"
+Received: by mail-qk2-f42.google.com with SMTP id af79cd13be357-93bd580489dso64074685a.1
+        for <linux-sound@vger.kernel.org>; Tue, 22 Sep 2026 22:40:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790142023; x=1790746823; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=4t2QKwvgTvrUqgLrxmE0i6NBCj41D7R9VJyZdg6puRQ=;
+        b=ReiNCX2Wknwb02PTP7CnNJBfhVDaCcNxdzWqxlhROjyjnu01WsOs1zUtP1ueFYT1IE
+         tnjog2Vidu6pzfnZ7R/OH+4qvPC/RTm0ZXm1ipiaVDIgbaQI2D39gGtsR2MmaVmNMtVQ
+         syxLvMdXdSHTAOg9KlPedGRBqPX9slpmdcra/4fy99zR8ZGKQ84dXjv88B+AmBKLgG01
+         Olu0e5dEFXJjVHWt63+jURAbOWmRhWtzyXP6r+RuZBKTvFv+mB5NpLsjMbhLUUGxymKF
+         IX48R3i7EnAcBdy0gI2A9+2XY1oxJmLT8x50Ca4PD041csmSKYlZZtRRKSYwZK/gCNX0
+         LAWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790142023; x=1790746823;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=4t2QKwvgTvrUqgLrxmE0i6NBCj41D7R9VJyZdg6puRQ=;
+        b=k/8SHmYn5P3eU+R17B5us1yLrD5ZbiNtRdbsIXt3JC3XxMDEPbD7o5flI70e3oB4mH
+         eJkHhFehQkiluwiTPNi0JXEDlDEtuvLdYhkixqOKs/76TjESpKtmg7PqNBeca5a8LuW5
+         2UWEnM0VSI4+F0XdGeCBab9mKDC345kJ8Pp7ONkfLzQYyzJqswuYspz+J1ZK7V611TMO
+         l8fiM6dAdqgE0OYz7nwEcS54HSFFGYX9tQzkHL1zgZ0tD+6PuLNO6h3jE5oCD3SGg+Ed
+         zkX3KFeqwhi/Lz4CwW6PvZq8sWD9nBUdZVDYisO9CrLbEv9SclFwzJw3ytYLquARw/4d
+         57Pg==
+X-Forwarded-Encrypted: i=1; AKwUvBw8pIZk5BuJ62jrELAz0MtdMgqw4OJ/9CEHHKEKxNModXtAkE7MK2vn2zZNrTAqtjDiA+jAhp5yqCaAJg==@vger.kernel.org
+X-Gm-Message-State: AFuF++nluGIwR4Gdu8Q0prvyYC5F0zaz7CptfgnMBk1REWBzAT5rHKke
+	HI1+6oGOXpqWgNmYGEzcdTeQ5t+h0THAF0dI3WJAmGuw3UMAKF51zkEmjT+xmJBiZ3mFu20=
+X-Gm-Gg: AYBFou0H/ZUKuBym3+p1FaVp5BiK5vIrUd9WQTsNqHYU2Od9ZM2tm+uUdCsECa84ogA
+	NGcTsqzChynFgD5ATZBtV3I7zF15nrYXHyIBgNJ1s+dk2M92H1smOiHMuJiWWMs+IrYx20SboTE
+	KaxKWl2BmoIKV8ULSq4TFhCiU0xPpP3SZVwifat+IkaaPL44odv1b5A4HLn83TUAmjmSXk4xNw2
+	P+6Q+z4MkSDsCaq4dwbrNVbFMBjy65FoC8qyf4QTcJgwX18E+Z+oJmfVvsdYnk7KzphOeH1tCcW
+	COlaJqnxTB5/V118Rq3HMenFz5KEm44bw3zQ3NyxsC99DI1IngSBHAOpLKR6eE373IWwxaFA967
+	64MaxRzVwEeFy/JfZQSLkv9Ic4F3S1X+zHyAgBbU5nnuoAbd18eazrYl3OEoTNVt2T/jcMUoOWh
+	bnvamsVcH9TsezxWFh3ELHm8uIzDxXeGNOvnmKCXSfRFcSGoM4K9qdhZins6ZEThe08hSV9dymj
+	uIAjIxdAZj652HHtS3ODGJ+f2uIqXsFpYZCV1GlJwxLV6hZaf+/yapWxgH2rMY2aFfCViS+YmSe
+	+JwAbC6Bt/76Eh2nFv/7B+0S5/EVg+KxgNVs11/4y0aTDU8RMm08BTMDeY1x2nQDi6+9Q0215gt
+	s4g==
+X-Received: by 2002:a05:620a:6409:b0:939:1483:55c with SMTP id af79cd13be357-93c25118d3fmr276086185a.19.1790142023287;
+        Tue, 22 Sep 2026 22:40:23 -0700 (PDT)
+Received: from localhost.localdomain (h16.44.55.139.dynamic.ip.windstream.net. [139.55.44.16])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-93c277636e4sm88496685a.41.2026.09.22.22.40.18
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Tue, 22 Sep 2026 22:40:20 -0700 (PDT)
+From: Myeonghun Pak <mhun512@gmail.com>
+To: Shengjiu Wang <shengjiu.wang@gmail.com>,
+	Shengjiu Wang <shengjiu.wang@nxp.com>,
+	Xiubo Li <Xiubo.Lee@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: Myeonghun Pak <mhun512@gmail.com>,
+	Fabio Estevam <festevam@gmail.com>,
+	Nicolin Chen <nicoleotsuka@gmail.com>,
+	linux-sound@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Ijae Kim <ae878000@gmail.com>
+Subject: [PATCH] ASoC: fsl_xcvr: free IRQ before canceling reset work
+Date: Wed, 23 Sep 2026 01:40:17 -0400
+Message-ID: <20260923054017.93553-1-mhun512@gmail.com>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -63,41 +87,98 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use sof_i2s_get_tplg_files() for SOF es83x6 machines.
+irq0_isr() schedules work_rst on a preamble error, and reset_rx_work()
+touches regmap.  remove() cancels that work while the IRQ is still
+registered, so the handler can queue it again during teardown.  The IRQ
+is also requested before INIT_WORK() and spin_lock_init().  Probe
+failure does not call remove(), so freeing the IRQ leaves queued work
+running, and an earlier interrupt schedules uninitialized work.
 
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
+Initialize the lock and devm_work_autocancel() before the IRQ.  Failed
+probe then frees the IRQ and cancels the work.  Unbind frees the IRQ
+before cancel_work_sync() and pm_runtime_disable().
+
+Fixes: 1e5d0f106164 ("ASoC: fsl_xcvr: reset RX dpath after wrong preamble")
+Cc: stable@vger.kernel.org # 6.13+
+Assisted-by: LLM
+Co-developed-by: Ijae Kim <ae878000@gmail.com>
+Signed-off-by: Ijae Kim <ae878000@gmail.com>
+Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
 ---
- sound/soc/intel/common/soc-acpi-intel-ptl-match.c | 3 +++
- 1 file changed, 3 insertions(+)
+ sound/soc/fsl/fsl_xcvr.c | 26 +++++++++++++++++++-------
+ 1 file changed, 19 insertions(+), 7 deletions(-)
 
-diff --git a/sound/soc/intel/common/soc-acpi-intel-ptl-match.c b/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
-index dd84e97836c9..0ce51c44bfe6 100644
---- a/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
-+++ b/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
-@@ -51,12 +51,14 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_ptl_machines[] = {
- 		.drv_name = "ptl_es83x6_c1_h02",
- 		.machine_quirk = snd_soc_acpi_codec_list,
- 		.quirk_data = &ptl_lt6911_hdmi,
-+		.get_function_tplg_files = sof_i2s_get_tplg_files,
- 		.sof_tplg_filename = "sof-ptl-es83x6-ssp1-hdmi-ssp02.tplg",
- 	},
- 	{
- 		.comp_ids = &ptl_essx_83x6,
- 		.drv_name = "sof-essx8336",
- 		.sof_tplg_filename = "sof-ptl-es8336", /* the tplg suffix is added at run time */
-+		.get_function_tplg_files = sof_i2s_get_tplg_files,
- 		.tplg_quirk_mask = SND_SOC_ACPI_TPLG_INTEL_SSP_NUMBER |
- 					SND_SOC_ACPI_TPLG_INTEL_SSP_MSB |
- 					SND_SOC_ACPI_TPLG_INTEL_DMIC_NUMBER,
-@@ -65,6 +67,7 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_ptl_machines[] = {
- 	{
- 		.id = "INTC10B0",
- 		.drv_name = "ptl_lt6911_hdmi_ssp",
-+		.get_function_tplg_files = sof_i2s_get_tplg_files,
- 		.sof_tplg_filename = "sof-ptl-hdmi-ssp02.tplg",
- 	},
- 	{},
--- 
-2.43.0
-
+diff --git a/sound/soc/fsl/fsl_xcvr.c b/sound/soc/fsl/fsl_xcvr.c
+index 9828272..29929df 100644
+--- a/sound/soc/fsl/fsl_xcvr.c
++++ b/sound/soc/fsl/fsl_xcvr.c
+@@ -3,6 +3,7 @@
+ 
+ #include <linux/bitrev.h>
+ #include <linux/clk.h>
++#include <linux/devm-helpers.h>
+ #include <linux/firmware.h>
+ #include <linux/interrupt.h>
+ #include <linux/module.h>
+@@ -57,6 +58,7 @@ struct fsl_xcvr {
+ 	struct snd_aes_iec958 tx_iec958;
+ 	u8 cap_ds[FSL_XCVR_CAPDS_SIZE];
+ 	struct work_struct work_rst;
++	int irq;
+ 	spinlock_t lock; /* Protect hw_reset and trigger */
+ 	struct snd_pcm_hw_constraint_list spdif_constr_rates;
+ 	u32 spdif_constr_rates_list[SPDIF_NUM_RATES];
+@@ -1617,7 +1619,7 @@ static int fsl_xcvr_probe(struct platform_device *pdev)
+ 	struct fsl_xcvr *xcvr;
+ 	struct resource *rx_res, *tx_res;
+ 	void __iomem *regs;
+-	int ret, irq;
++	int ret;
+ 
+ 	xcvr = devm_kzalloc(dev, sizeof(*xcvr), GFP_KERNEL);
+ 	if (!xcvr)
+@@ -1705,12 +1707,22 @@ static int fsl_xcvr_probe(struct platform_device *pdev)
+ 		return dev_err_probe(dev, PTR_ERR(xcvr->reset),
+ 				     "failed to get XCVR reset control\n");
+ 
++	/*
++	 * irq0_isr() schedules work_rst. Prepare the work and its lock
++	 * before the IRQ, and register the cancel action first so a failed
++	 * probe frees the IRQ and then cancels any queued work.
++	 */
++	spin_lock_init(&xcvr->lock);
++	ret = devm_work_autocancel(dev, &xcvr->work_rst, reset_rx_work);
++	if (ret)
++		return ret;
++
+ 	/* get IRQs */
+-	irq = platform_get_irq(pdev, 0);
+-	if (irq < 0)
+-		return irq;
++	xcvr->irq = platform_get_irq(pdev, 0);
++	if (xcvr->irq < 0)
++		return xcvr->irq;
+ 
+-	ret = devm_request_irq(dev, irq, irq0_isr, 0, pdev->name, xcvr);
++	ret = devm_request_irq(dev, xcvr->irq, irq0_isr, 0, pdev->name, xcvr);
+ 	if (ret)
+ 		return dev_err_probe(dev, ret, "failed to claim IRQ0\n");
+ 
+@@ -1751,8 +1763,6 @@ static int fsl_xcvr_probe(struct platform_device *pdev)
+ 			fsl_xcvr_comp.name);
+ 	}
+ 
+-	INIT_WORK(&xcvr->work_rst, reset_rx_work);
+-	spin_lock_init(&xcvr->lock);
+ 	return ret;
+ }
+ 
+@@ -1760,6 +1770,8 @@ static void fsl_xcvr_remove(struct platform_device *pdev)
+ {
+ 	struct fsl_xcvr *xcvr = dev_get_drvdata(&pdev->dev);
+ 
++	/* Free the IRQ first so irq0_isr() cannot requeue work_rst. */
++	devm_free_irq(&pdev->dev, xcvr->irq, xcvr);
+ 	cancel_work_sync(&xcvr->work_rst);
+ 	pm_runtime_disable(&pdev->dev);
+ }
