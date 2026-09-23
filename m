@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57641469845;
-	Wed, 23 Sep 2026 09:41:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCDFB414DF4;
+	Wed, 23 Sep 2026 09:45:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790156517; cv=none; b=ixdwNHc+7Ne5AnqdGhuPSQu5w9HLVoRjr9sPJM47twBGzE2I+o+FuVKF3VvZN+RnlmLTkpw6HBicGQVbqe2r3xkSdKsfe2TjrOhnDlEjkiD37gUSnX58C1WgfAZuRWZFaSr3Klla9MbDHiyBNZjzkAJXoOrQ2/Jwgn2FQJ20Ncs=
+	t=1790156735; cv=none; b=YWwR5kDcnHofuuAz7uaJnJjT4Xhhtt0C/xR24L1j7ge2REsCxOIIgfwt8OSIlh0ZzL9Gd9ojMQ5ABWqKTWLoUx5xLTBfc5csC10jQnKvS8+KOGSw02SYH6ULnSJe7pdOQeSQ64qLma4WfMAmeOW89ZFlMa15YQ0vj2R2Si/6oSU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790156517; c=relaxed/simple;
-	bh=A02vOJuOAUX1yuB8qhC53Ilzuq8zCHTbhTSk3rySytQ=;
+	s=arc-20240116; t=1790156735; c=relaxed/simple;
+	bh=Ube8kn2P3BCPhYrAYjq7xDwqyF9VEQh8pAgyIv1Rork=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=feJ5TDdDza0zUJ7vSl4q83J1djmKRxwaq8NNPVzHXnLmCgKHs8f3iTVX0LmvkC3FwVvudTUT8GINI7f9hAzCnS6miOoUiw1VuAXYGC2hkPOWpxN5+4tqrLpYBFkKLrrG8/WEU8WYb6S0BUTKvgjEUiTQF/7Tc0sXthcqxpbn1WY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OtyGGDbY; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=AR4oJQKjTQO6h6LxwsiuYJ/1RboxKbmec3UyWT7hfV8q9EeIO+sXaQodW5xU3vdefJ0rOwuNHFFnRD0Hk9yBhJ9fWhJTucZkx/vxNWu9XhIV8tV70jEOqyDXaGjBrmmItBE2NQ291MwmS0+pe2K81AeoXvRp9KwgpZBfhPNMcYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=okuFB37Z; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OtyGGDbY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A85F81F000FF;
-	Wed, 23 Sep 2026 09:41:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="okuFB37Z"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B3DC1F000FF;
+	Wed, 23 Sep 2026 09:45:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790156515;
-	bh=JXGpzpr9eYDCcEmviY7JNakpf4awCvczNC7Cmb023eI=;
+	s=k20260515; t=1790156733;
+	bh=YEEnur3s3rC0Mflr55H1yIyOHjYYmIlYX5pEaRs+FD4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=OtyGGDbYRS3jpN5c0sX2R1UPUThTo+H9ZxG2fdDgzYZKEKL81lnESR3Ax4VBKxGr5
-	 llYUFwubMm0SAuFR/Ge/YKR5TF/oBVSTyQdC0uiZ73+IVQYF0WYs45E9z26m0S68lr
-	 mDaohu8z32KDnnoLwU1sinkgQGA+T14mtTr8gdZB0Oj/L6A9C0kI3+sW9EnPt+ZtCB
-	 lohpsJuDNo00SefCeMzqW5bW6txCNLsAZIP9j2h+bIUZuTSgtCBJ2CWrSyFZU7ABfK
-	 jjYfr3B4x3vGrnUELZhGhbY3rINkcMch1z3IEZGsZ3G6G4XZhQLpfZFf0rOZWjUmJR
-	 QcV6uiFFh51kQ==
+	b=okuFB37ZHvRO94mQOXv9BeVw1Pg8xo1D93fFWqoOP1/tsnt7h52Dq+Xbj5lOMpVUG
+	 aTKJXOWzar3q7IEZtXL4B9ABUyyjM4ffTk8lpKXrod+mkpeVp+VJSuYQd4hCKreBS2
+	 +1N1EFmVMhTdzxnisZnip0xl2ZaYv8n0QI78IIZMUPW3dRWBlrV7TYeqxHSik8iIfL
+	 ISie0r/cl1hdEENOgdDxpeFD6W++gSllaDzH56JKHt5XZVlJLgxykO/M0qhdHlPiAt
+	 VACVOh7VXX6+XdWVZezdOk7iEYr/kELDTGbzV5LLaxx93rUx4vgY/ClhFc2//mPGJq
+	 RXYPNLdLerCnA==
 Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id C2F8C1AC5737; Wed, 23 Sep 2026 10:41:47 +0100 (BST)
-Date: Wed, 23 Sep 2026 11:41:47 +0200
+	id 87BE11AC5737; Wed, 23 Sep 2026 10:45:29 +0100 (BST)
+Date: Wed, 23 Sep 2026 11:45:29 +0200
 From: Mark Brown <broonie@kernel.org>
 To: Harendra Gautam <harendra.gautam@oss.qualcomm.com>
 Cc: Srinivas Kandagatla <srini@kernel.org>,
@@ -45,11 +45,10 @@ Cc: Srinivas Kandagatla <srini@kernel.org>,
 	Sarath Ganapathiraju <sarath.ganapathiraju@oss.qualcomm.com>,
 	Kumar Anurag Singh <kumar.singh@oss.qualcomm.com>,
 	Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-Subject: Re: [PATCH v7 04/10] ASoC: qcom: Add QAIF CPU DAI ops, regmap, DT
- parsing and platform init
-Message-ID: <arOe2yA4KOvhYqRb@sirena.co.uk>
+Subject: Re: [PATCH v7 07/10] ASoC: qcom: Add QAIF PCM operations
+Message-ID: <arOfufqav6zRT_Rd@sirena.co.uk>
 References: <20260923-b4-qaif-shikra-audio-v7-0-d5b6f056568e@oss.qualcomm.com>
- <20260923-b4-qaif-shikra-audio-v7-4-d5b6f056568e@oss.qualcomm.com>
+ <20260923-b4-qaif-shikra-audio-v7-7-d5b6f056568e@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -57,61 +56,62 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="A9+Hi3pv8GSHEQN9"
+	protocol="application/pgp-signature"; boundary="a5mAK43x4cyqjWo4"
 Content-Disposition: inline
-In-Reply-To: <20260923-b4-qaif-shikra-audio-v7-4-d5b6f056568e@oss.qualcomm.com>
+In-Reply-To: <20260923-b4-qaif-shikra-audio-v7-7-d5b6f056568e@oss.qualcomm.com>
 X-Cookie: Too clever is dumb.
 
 
---A9+Hi3pv8GSHEQN9
+--a5mAK43x4cyqjWo4
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 23, 2026 at 12:18:24PM +0530, Harendra Gautam wrote:
-> Add the QAIF CPU DAI driver to support Qualcomm audio interface paths
-> used for CDC DMA and serial AIF audio links.
+On Wed, Sep 23, 2026 at 12:18:27PM +0530, Harendra Gautam wrote:
+> Add the PCM platform callbacks needed to use QAIF DAIs for playback
+> and capture.
 
-> +static int qaif_aif_cpu_daiops_hw_params(struct snd_pcm_substream *substream,
-> +					 struct snd_pcm_hw_params *params,
-> +					 struct snd_soc_dai *dai)
+> +static int qaif_platform_pcmops_open(struct snd_soc_component *component,
+> +				     struct snd_pcm_substream *substream)
 > +{
 
-> +	/*
-> +	 * The sync, lane and frame configuration and the MI2S bit clock are
-> +	 * shared by both directions of an AIF. Concurrent playback and
-> +	 * capture on the same interface are therefore expected to use a
-> +	 * compatible format, rate and slot configuration.
-> +	 */
+> +	dma_mem_info->alloc_size =3D qaif_platform_hardware.buffer_bytes_max;
+> +	dma_mem_info->vaddr =3D dma_alloc_coherent(component->dev,
+> +						 dma_mem_info->alloc_size,
+> +						 &dma_mem_info->dma_addr,
+> +						 GFP_KERNEL);
 
-What enforces this?
 
-> +static int of_qaif_parse_aif_intf_cfg(struct device *dev,
-> +				      struct qaif_drv_data *data)
+snd_pcm_set_managed_buffer().
+
+> +static int qaif_platform_copy(struct snd_soc_component *component,
+> +			      struct snd_pcm_substream *substream,
+> +			      int channel, unsigned long pos,
+> +			      struct iov_iter *buf, unsigned long bytes)
 > +{
+> +	struct snd_pcm_runtime *rt =3D substream->runtime;
+> +	size_t buffer_bytes =3D snd_pcm_lib_buffer_bytes(substream);
+> +	size_t channel_bytes =3D buffer_bytes / rt->channels;
+> +	unsigned long offset;
+> +	void *dma_buf;
+> +	size_t copied;
 
-> +		switch (snd_soc_daifmt_parse_format(intf_np, NULL) &
-> +			SND_SOC_DAIFMT_FORMAT_MASK) {
-> +		case SND_SOC_DAIFMT_I2S:
-> +			cfg->sync_mode = QAIF_AIF_SYNC_MODE_LONG;
-> +			cfg->sync_delay = QAIF_AIF_SYNC_DELAY_ONE;
-> +			cfg->invert_sync = true;
-> +			break;
+If the buffers are already memory mapped why do we need a copy()
+operation? =20
 
-Does this line up with the clock inversion in set_fmt()?
-
---A9+Hi3pv8GSHEQN9
+--a5mAK43x4cyqjWo4
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqzntoACgkQJNaLcl1U
-h9DE3wf+OVwBsqCWbO+jqJh+VNvk2fMfVsXWKAMxmNu3mAcCPZgnh1I4kDalHg+F
-HvLdmzrL2eJe0V6k4cuaOM8YmdhAOHEcLAABI10/op0PyURZTzP2jvsKAVKtGMBo
-eVeL22Cee93PQM3Jx2WZds8CbmptAM87cS9XrGiIpDlSTqlGnfT5jtNyArMfvmpk
-J/NZncMGNfzNGKdlca4HxzgCqq1HPuPw6ZQJdqxysqLLXrjDq+upEZ4aWrJTql8y
-9KZ/J46O67NNaF6f/zhWUtKcWigN6L3XZh3gjGQHA5IyEnUh3unWXzbQwbOTFtlh
-nVRw9yiVf6NWIPc1ljoKdagPyO3tbw==
-=oTm5
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqzn7gACgkQJNaLcl1U
+h9CCrQf/dKYHsrN2nFZxcCWjZtrnWknBOss6IXlwY8bAVNMpIUoaBlduns0RLq1g
+MT/AupMLNasVO4K47cUZj5o1T4emjSqRHIW599Ls37nbiI9Y3JgqmfZysJkft89g
+vD+aPz/ZZfZOkRDG3kmcnOfNlof0Ye73/rUM8/KQsVLzetA45XMci/5o7e6pGt+J
+S/Qa5b0oojdIsboArDxekxejRkfeFx6lUS5axnlPPVxY8IkVIwsA/6NIU0Paebmd
+BLZh7YS67LvjcPvTi1MqyvVHeduGbvaBD2jcqgveldLqCkDr9m9ro0RAi8yNAvjg
+3tghhIriZ72F1Slqt89GsHfB9y1I1Q==
+=tfSA
 -----END PGP SIGNATURE-----
 
---A9+Hi3pv8GSHEQN9--
+--a5mAK43x4cyqjWo4--
