@@ -1,95 +1,85 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76CD54D0CC5;
-	Wed, 23 Sep 2026 13:29:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0CCF443E52;
+	Wed, 23 Sep 2026 13:36:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790170162; cv=none; b=i1yMMnoPUZgXA7HFJYuLgUNeF+atMej/10YlalqvhkNmH+vIqVbi6BjfFRPX+6qw8x5YFmedvpgg24N2HKC3yKqP27z3sejJL7V/GebjRoQ39pFOh1zdVi4jqrNJN66rrSTVwp6aNd3dZ2qn/hwXsSgG3wBhGFZnAFWQK4BMEGE=
+	t=1790170619; cv=none; b=VsSRf+PNJhF10fAQmwFLSoUqCrP+xwZ5AvVIZ1gxCC5rVdTVfvW+BXm2Q3flTn/Ik8OW6ibHmsbcQwntL6HHucxrVIQVakRSnQ1z+XG0/rw8DHu/xm5Xhikf61UBFJ05EYpiQ/r7vwYOtWLvpVncvNMGtGxOhl7b8oRgfIht1d8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790170162; c=relaxed/simple;
-	bh=gpCZr8u03L/1mMISk72o+fynNoTXxe+xC6jgX+XjSHc=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=tvPQ6nVNJ70UevrpZmjWSmbdkIGWiOTrLb37GBGRPhNO27LQypK8oeqSd59FV01MQTF9LSsAta2VugGj/ZIH+Lsr/C2+hPeOqYLtb2zFHMhQTNFciKnImOvX+GtqS42wu4k7VZ8eay1toN7D+aG3HsuGM3ueNKhbDpc15f/zHbg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PQLKHnVw; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790170619; c=relaxed/simple;
+	bh=rzq9cjij4GIzRVYAuct2Aa41rIPeUjx9wIWVvoCUrEA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=n/lj3gQabcxP5FOMML8lvCruMucNdFo+OR0xj5jFgkk2NkcC6ePW/paLSHSLnIMG/di3JV3eZaeTHjfN1SnyUT+tMVJvypJSyV23U9JegthoyyIPLnlCvnHS1tShcyY+vDG3IVeKTocaZO4nv+K9RDyniPqLt1yk3lOCtAteexo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PqRyZBdj; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PQLKHnVw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDF3B1F00898;
-	Wed, 23 Sep 2026 13:29:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PqRyZBdj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2802D1F000FF;
+	Wed, 23 Sep 2026 13:36:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790170161;
-	bh=yygsGnFltgurq/BUs7NOEEkRqO4i/4yT2EM6Ffixt0I=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=PQLKHnVwZUq992EwT9XxYunWy7StzJ8SDWlJuS6BXUx2ML2YcVcWa8deQ5S5+I1qm
-	 /f2tkB1o6819IlcnaM5Gl301ugGwLD4ytjK+wD2/7YwAaboC9Mntgpg8zsFuI64UrB
-	 cO8Bxns1uZSVecWG91i37F2kclYWFWxlsWBuKgOhC6FplmQXNC5YIG/XI/qT8F/3aj
-	 aaL6OLWfwoXSrgiCDQ5gZ6kEI8+cYSSfmsMyyR3O4L1GYZ7MtyD1UipwV9yGuwXpJn
-	 nqL9EI+ZzKHi+ue9YNWdd1kcNhgpY1vsLc6Grbl7h8YH0Lu1o9Aly+G37aGPVxbLW3
-	 wR56MBWFjAbdg==
+	s=k20260515; t=1790170618;
+	bh=rzq9cjij4GIzRVYAuct2Aa41rIPeUjx9wIWVvoCUrEA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=PqRyZBdjcX7hsiRuqmx4dSci++UIUGlnUTyow5F6WM7Xiz3xDICVvoNbcYVRhxuEb
+	 mUgooIE8+7e6Ih6fl4XwIsvrV5Dbqv07xqce+C6fp9H+zKJJTYzupyZBoH4rEsERlC
+	 7nOO5tSJ0CSPioiqxnt12Cgck7Qyji5wYKJcVK4EbQaf9HMxN7CIUoFxX6Xc6wwuQI
+	 smW7o1cP18L39e57pXWgRBeQmOdJChp6Y4toGATzRTfonn5iESRmrbFZRl7wjtbNyH
+	 Wts5aKQmZU8BzQ55ZBtN1naWcrcZ/Ebd+aciRsPp5yKXQZimNKcuBbuHzmEcVtHRt7
+	 R95z080cvreyA==
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+	id 637081AC573B; Wed, 23 Sep 2026 14:36:54 +0100 (BST)
+Date: Wed, 23 Sep 2026 15:36:54 +0200
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Eugen Hristev <ehristev@kernel.org>, "Rob Herring (Arm)" <robh@kernel.org>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org
-In-Reply-To: <20260922183121.289108-1-robh@kernel.org>
-References: <20260922183121.289108-1-robh@kernel.org>
-Subject: Re: [PATCH] ASoC: dt-bindings: mediatek: Fix MT7622 clock count
-Message-Id: <179015857689.322763.9242441046352881202.b4-ty@b4>
-Date: Wed, 23 Sep 2026 12:16:16 +0200
+To: Ginger Li <ginger.jzllee@gmail.com>
+Cc: claudiu.beznea@tuxon.dev, linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: mchp-spdiftx: Fix a deadlock with the interrupt
+ handler
+Message-ID: <arPV9kcq3hEv4F1v@sirena.co.uk>
+References: <20260923084401.65336-1-ginger.jzllee@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1125; i=broonie@kernel.org;
- h=from:subject:message-id; bh=gpCZr8u03L/1mMISk72o+fynNoTXxe+xC6jgX+XjSHc=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqs9QpI9twB4Gv9+NN/M39J9ZkvXSaphDuMFk1D
- LUDWGKB4Q6JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCarPUKQAKCRAk1otyXVSH
- 0BkHB/0emvTrVyY0TSqs/nlBVFZ1EdFmOq368Cx57Hemx9emyUYCl5jzvH02iZv5hWg1FPvo1hT
- id0Yhv0pXJpOYzoCnIIl+UQiPQ/OrCecp2QV44XCpcrXRvFwb6jHjeaypIILZ5oLkWx2bmo0CDC
- L1+tLjqO0hvP9F7mBevuMNtD2pwRtOhfL+h6tf+3B4tRA8l1XCDMXUXRQgnN3FVgiOQtHjYsmG2
- JXBX3mZyYF6HXNDdkg5yDFZ6peiYPfpDNFqjzrxXOPBTZc2Yc/wLF8FjwLM4W3uAuqk2J1W/4/m
- EofulVVN8f5l4dIRpUqwEVjDynkS0Z/R2qS/gT9QgSEP0SCA
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="TQ33EsQTOZpAHTLV"
+Content-Disposition: inline
+In-Reply-To: <20260923084401.65336-1-ginger.jzllee@gmail.com>
+X-Cookie: I've been there.
 
-On Tue, 22 Sep 2026 13:31:20 -0500, Rob Herring (Arm) wrote:
-> ASoC: dt-bindings: mediatek: Fix MT7622 clock count
 
-Applied to
+--TQ33EsQTOZpAHTLV
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
+On Wed, Sep 23, 2026 at 04:44:01PM +0800, Ginger Li wrote:
+> mchp_spdiftx_interrupt() is a hardirq handler and takes ctrl->lock to
+> serialize the user data and channel status updates, while
+> mchp_spdiftx_trigger() takes the same lock with spin_lock() from process
+> context.
 
-Thanks!
+> Interrupts stay enabled while the lock is held in mchp_spdiftx_trigger(), so
+> if an SPDIFTX interrupt is delivered on the CPU that is inside that critical
+> section, the hardirq handler spins on a lock that the interrupted code is
+> holding and can never release.
 
-[1/1] ASoC: dt-bindings: mediatek: Fix MT7622 clock count
-      https://git.kernel.org/broonie/sound/c/2a2d659b835c
+Are you sure, interrupts should be disabled during trigger...
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+--TQ33EsQTOZpAHTLV
+Content-Type: application/pgp-signature; name="signature.asc"
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+-----BEGIN PGP SIGNATURE-----
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqz1fUACgkQJNaLcl1U
+h9Av5Qf/d4/IgiSTC8fzKCpBHCrMVsnphB2Jc5rorm7lGmaRkL0dT6coUrbH9fH+
+C/l4BEe9W7cyaqq8Pwtvs0O9XaJAo3UW1vkJvYSylzBIMD+fxKbf6F2GzecOmpIA
+lh/auaVxy1KaMLlTc1bVEaQrCzVVV8jC49Y86i0YiEjuSI97QBjyMxahBYdpL8v6
+nf8yfg+PpjQGBsiM4AEJbRoHbTvEBlTmd/1JCHSvRg83eZpmBZqYvNeGvsSyvPdn
+111L1TSK0wGIz1REHu546Ngb7fKQajWRZbEn1i/D6djMt8caO04knmQgNQbjbBPq
+RtT95qdKdbuFCndQfeG8gLwdeYzheg==
+=Owna
+-----END PGP SIGNATURE-----
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+--TQ33EsQTOZpAHTLV--
