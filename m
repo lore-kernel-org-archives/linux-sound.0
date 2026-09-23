@@ -1,97 +1,90 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64BBB4A9D5B;
-	Wed, 23 Sep 2026 12:17:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70F854D37B6
+	for <linux-sound@vger.kernel.org>; Wed, 23 Sep 2026 12:33:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790165839; cv=none; b=QQUcx7+ZJqpMih5kaWdhkBdP8nATuL3iF6bS6wQa4AFHDc0abKmg9MG5qkbbAX5E0IUVLZDj4Wsn/la1y6Ooo/30jOcz9XKDjXBd75qVj/Zr6LHbVsyXRorqjCwdM5rzutL9UJLHZgBNOHo9W+492je5wNc5PuelUh5e+lZt6zg=
+	t=1790166807; cv=none; b=ps2r8tLtfUHPgD0hbkQrlGkBCN9mSDJk67q5CnTEv4QvcDZO3jwQOaF5gE4RwNQUIlFI1ahmiMAgHNCXs2q0kbS4ou4QA46RP7vCl59oLgDL6X9JBJ4YB+Ue88nftsj9PauQrzDFDH85J4cWExf16AljJR5POGIQtQE7jU5vAAE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790165839; c=relaxed/simple;
-	bh=I850guTHv9ywbIJlgUV+AXYkJLzJ9So4+Fs6bkitukM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ElxdUnou0kfsYUdfDg3AnFiQleHqGqwk9NXA+f6D5RONwJxNQEElOLunzZlYAFNjGxldKuJtGFBiWJlRGDOk4yBlpM+aFuY1VSaRmraMNEKcmGj/2X/1ySv3c9wNIgrgMqf8ToolB36Na3mQbzz2267Z9opW4y2oTV36Ce+m0Nk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: ac26e04ab74811f19a56ed5b684f684d-20260923
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:10f5ed81-2320-41cc-9a39-c12452002edd,IP:0,U
-	RL:0,TC:0,Content:-25,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTI
-	ON:release,TS:0
-X-CID-META: VersionHash:7db8b62,CLOUDID:09f6a7cfbc632e97a3e830ca77d6aa1f,BulkI
-	D:nil,BulkQuantity:0,SF:102|850|865|898,TC:nil,Content:0|15|50|99,EDM:5,IP
-	:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV
-	:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: ac26e04ab74811f19a56ed5b684f684d-20260923
-X-User: zhangheng@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <zhangheng@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 516464414; Wed, 23 Sep 2026 20:16:57 +0800
-From: Zhang Heng <zhangheng@kylinos.cn>
-To: perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Zhang Heng <zhangheng@kylinos.cn>,
-	stable@vger.kernel.org,
-	Baojun Xu <baojun.xu@ti.com>,
-	Antheas Kapenekakis <lkml@antheas.dev>,
-	Aleksei Arsenev <alesharik4@gmail.com>
-Subject: [PATCH] ALSA: hda/realtek: Fix square wave output on ASUS Strix G615LR
-Date: Wed, 23 Sep 2026 20:16:40 +0800
-Message-Id: <20260923121640.272509-1-zhangheng@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1790166807; c=relaxed/simple;
+	bh=w1rQy1g6j10nH83SP6Muw/3VnzCHjWnz9dNnww7SlWc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CbEUOz/y694q+u/jl2I5/+AWlIvaCbK7mGCpJR7pkPOExVun5hWijgwAB5VCtBRaD2yfxwKbH2vt6KUTuJuw6EcaPJs7qdZbOdk+MPYjDBPjj4aSsgWHfbNqmNKUGrOtP93jztl/McWhIteGJOOCt8fWCG2ORdnL231MZknGD4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=khT2voD5; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="khT2voD5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D24611F00893;
+	Wed, 23 Sep 2026 12:33:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790166803;
+	bh=eskvzowqOUld37JtvvGU84KONMyrIHsBpXuk/j5kyW0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=khT2voD5uARlTYCNIpmG6pmXZUDNzK4psP/9I5hqMBHmzw5U0K5ZpLMGV8h9JtpFa
+	 doetNC6eNms1huK8O2jmzM8JmL2+n9527mTAxWcNSvMZQxtssL3TOBZXFp4Ilep4eL
+	 9vghAwx+Z2EUdCvdJFSX3O7bl8SmxLzOgSRSowFxi1o1nTTO53/klmzZAJ9n9CBb9m
+	 y7ezCH/tL6IRCU2TVzRM7fl8/aVLA4+6Fqzttgcmxa71ddGUub8B6z0pqbjdzUsl8E
+	 HoGp5YAQ5f6jNg+eNNQl1Eki/Lv66YdRjxv2YTgxrn7ng96FwfeESfGrJhP983fG4Y
+	 xTkKVarZIbs9g==
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+	id 1914B1AC5739; Wed, 23 Sep 2026 13:33:19 +0100 (BST)
+Date: Wed, 23 Sep 2026 14:33:18 +0200
+From: Mark Brown <broonie@kernel.org>
+To: shumingf@realtek.com
+Cc: lgirdwood@gmail.com, linux-sound@vger.kernel.org, lars@metafoo.de,
+	flove@realtek.com, oder_chiou@realtek.com, jack.yu@realtek.com,
+	derek.fang@realtek.com
+Subject: Re: [PATCH 1/3] soundwire: intel_auxdevice: add rt766/rt767 codec to
+ wake_capable_list
+Message-ID: <arPHDk4C5U4xAonI@sirena.co.uk>
+References: <20260923110127.3419683-1-shumingf@realtek.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="vb0GQSsu/2uVchJY"
+Content-Disposition: inline
+In-Reply-To: <20260923110127.3419683-1-shumingf@realtek.com>
+X-Cookie: Too clever is dumb.
 
-ASUS ROG Strix G16 G615LR (PCI SSID 1043:3f20) outputs a loud
-full-scale square wave from internal speakers since the TAS2781
-amplifier driver started loading. The quirk was using
-ALC287_FIXUP_TXNW2781_I2C which chains to the ThinkPad headset
-jack fixup, but this is an ASUS device that should use
-ALC287_FIXUP_TXNW2781_I2C_ASUS which chains to ALC294_FIXUP_ASUS_SPK
-for proper EAPD and pin configuration.
 
-Fixes: f7cede182c96 ("ALSA: hda/realtek: Add Asus quirk for TAS amplifiers")
-Cc: stable@vger.kernel.org
-Cc: Baojun Xu <baojun.xu@ti.com>
-Cc: Antheas Kapenekakis <lkml@antheas.dev>
-Reported-by: Aleksei Arsenev <alesharik4@gmail.com>
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=222045
-Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
----
-Baojun, Antheas: several other ASUS Strix Gxx5 entries (0x3ee0, 0x3ef0,
-0x3f00, 0x3f10, 0x3f30) are still using ALC287_FIXUP_TXNW2781_I2C (the
-non-ASUS variant that chains to the ThinkPad fixup). Could you check
-whether they also need to be changed to ALC287_FIXUP_TXNW2781_I2C_ASUS?
-Ideally with testing on the affected hardware if possible.
----
- sound/hda/codecs/realtek/alc269.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--vb0GQSsu/2uVchJY
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index 39dbd876bc1a..d70e03061c91 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -7964,7 +7964,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1043, 0x3ef0, "ASUS Strix G635LR_LW_LX", ALC287_FIXUP_TXNW2781_I2C),
- 	SND_PCI_QUIRK(0x1043, 0x3f00, "ASUS Strix G815LH_LM_LP", ALC287_FIXUP_TXNW2781_I2C),
- 	SND_PCI_QUIRK(0x1043, 0x3f10, "ASUS Strix G835LR_LW_LX", ALC287_FIXUP_TXNW2781_I2C),
--	SND_PCI_QUIRK(0x1043, 0x3f20, "ASUS Strix G615LR_LW", ALC287_FIXUP_TXNW2781_I2C),
-+	SND_PCI_QUIRK(0x1043, 0x3f20, "ASUS Strix G615LR_LW", ALC287_FIXUP_TXNW2781_I2C_ASUS),
- 	SND_PCI_QUIRK(0x1043, 0x3f30, "ASUS Strix G815LR_LW", ALC287_FIXUP_TXNW2781_I2C),
- 	SND_PCI_QUIRK(0x1043, 0x3fd0, "ASUS B3605CVA", ALC245_FIXUP_CS35L41_SPI_2),
- 	SND_PCI_QUIRK(0x1043, 0x3ff0, "ASUS B5405CVA", ALC245_FIXUP_CS35L41_SPI_2),
--- 
-2.25.1
+On Wed, Sep 23, 2026 at 07:01:27PM +0800, shumingf@realtek.com wrote:
+> From: Shuming Fan <shumingf@realtek.com>
+>=20
+> rt766/rt767 have wake capability. Add it to the wake_capable_list.
 
+As I think I've mentioned before your patch serieses are always posted a
+bit strangely, they're not threaded together and you never supply a
+cover letter.  This makes it hard to work with them, tooling gets
+confused by the non-standard presentation.
+
+You might want to look at b4 to send the patches, especially it's web
+submission endpoint which avoids having to configure mail:
+
+   https://b4.docs.kernel.org/en/latest/contributor/overview.html
+
+
+--vb0GQSsu/2uVchJY
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqzxwUACgkQJNaLcl1U
+h9B2NQf+NAd2/5GieAz7GliuAaKP1OjaINHGPIUpcbJ/HXQxtAPXr2uXi+nwcTme
+ZgwtbmqxnOkUiFHIhx/QJFZ2iolx7eRP51jaof4ErCJCIGqIEbTic/+dYCQRYNrd
+5m/HDO4X6BkAeaDDo7iATZkQRDrViy4wZcTHRN+t9FyrelvxV7sehWjv9PyxX+1S
++iXmScOwzTREOfi+3sHA0Bq3Wx6w14dVe/YPKs6TwkkApNAWErgdsPOGAUEO0mbP
+H18iOX7euD1p56+sDenrR0B4yOGaguxWgWocwGrFn63QOIbia/JnVIil9yOG/LtD
+gZRCRKblspQBtl2nkGIFvlwmiT26jQ==
+=Yxoq
+-----END PGP SIGNATURE-----
+
+--vb0GQSsu/2uVchJY--
