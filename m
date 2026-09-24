@@ -1,91 +1,144 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D808D53A3B6;
-	Thu, 24 Sep 2026 17:46:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8106F3E3141
+	for <linux-sound@vger.kernel.org>; Thu, 24 Sep 2026 18:00:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790271973; cv=none; b=uYLOO4dmSvarkarit9tt9V2kxyr6549DaH4m4ZHK9TqJWpkSvTpapoWSOvv359GEENuhtS4aM7LjerekS85SnUNU74esu0NiYmmxF2IvZZth3Xmwym5iaOJ78GQGaf4+3yfB9n2dG8ycXGWaNlwyA1DAUV1qaBVW7l+Fg7P3cNQ=
+	t=1790272825; cv=none; b=ArxJmEcY9TIvJuGjZ/OXLShIqn0QvEUsmM+0mRSU5Cr25yuLlfdkqQOQ9+wGGT9RryQL41KEeg8I3dbvaFT41aLX3B/oZlfHTM8dUyNk9qQzM5Kw0LYB83RyVrPI9nmjzt63BF9u6HCD19kaG0/+fbGyVVVenrH3SgeFF6YqAwQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790271973; c=relaxed/simple;
-	bh=cHnIesqzRd3SzWjC4c0j6xgj40PQm3/+Hfd6Bj+Xj/w=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=u3VGnBNHyIzOViK3M+jaz2IZ8YB4nRLZsOGUGHnBbxD6Dpqj9gSwrPmVRNufJrGkoRTNV+K7+BQ1yFLgNxvQD4WulzA3z1VITPeqfl1LpiDRzGIMmk3DTxig8XVgGv5lELLPD6ySQ8HpI7lyDche4JMSfaI9zPMSMPJKNxjgUCw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ldDps6uo; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790272825; c=relaxed/simple;
+	bh=dIEo2BWot8KMA7bFyxIXMBMINiO703u3CNAgbTnUo2E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=t1GqOLMvD4I8VNInvl/B35hHV24/7TQkfLnoSgJejQkLY9gor1ZTy+nPpJoK6d66kpL4M1kxKuBkt//YcXR1p/cHPEslfbE20QzDXn2mkVa/l4MRUQD1DzcJe6Z3hqfvW2yNXGtfkxwhc6IVH6BB/hU9c5S+q9biqhKaEfM9lXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=qNcW8nj0; arc=none smtp.client-ip=209.85.160.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ldDps6uo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0CBE1F000FF;
-	Thu, 24 Sep 2026 17:46:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790271971;
-	bh=jr52o/MyKxapop4cQtK8c+3adSYTJhdKVLABlleZ+K4=;
-	h=From:To:In-Reply-To:References:Subject:Date;
-	b=ldDps6uo1ur2QkKdm3dLx9Q0sZpnHLoi8HRzYqfafXxTIjwrRjf6oNW1hxQeTltae
-	 2TyXWqeYkaJxIHqddmb3FqXy+rYBP7cgHtYmXnHJJVwxEiG7XrIzA/bF1oFaKQuIov
-	 J2g5AxW9vt7nW0RzCvXy79OpKB/Ckp17Qj0YL9YLqbjDalXWIHwe1MYuCilNGZ8Xih
-	 pSpR6LBzkiIZFdHV7nLSKB+q0U+5sPVStkjAHaQ35njnGGDSHJYFZcGoTZgiTvUAQT
-	 E/3i0cYDYH9GkbLv7x7z5ErB3sqCMOZi6BUiehZRrCE8AcszNzBLqoTSK1JpOfxgVl
-	 6OlIU7WZ5oBlw==
-From: Mark Brown <broonie@kernel.org>
-To: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
- nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
- linux-kernel@vger.kernel.org, shengjiu.wang@oss.nxp.com
-In-Reply-To: <20260916094043.1496709-1-shengjiu.wang@oss.nxp.com>
-References: <20260916094043.1496709-1-shengjiu.wang@oss.nxp.com>
-Subject: Re: [PATCH] ASoC: fsl_asrc: use regmap_write_bits to update clock
- source registers
-Message-Id: <179026940256.149798.11432270140920365951.b4-ty@b4>
-Date: Thu, 24 Sep 2026 18:03:22 +0100
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="qNcW8nj0"
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-52f9fc510e1so8275581cf.0
+        for <linux-sound@vger.kernel.org>; Thu, 24 Sep 2026 11:00:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1790272822; x=1790877622; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=yIrEACM/1hk8RvSSdnwytl7iIy1+VcppA4PP9Tt2BDk=;
+        b=qNcW8nj0/pDdjrHX+ELCleXyhNSH46+yVTvIwKXf0KEsO2lrNq/+t7BLtAJv/5kwUi
+         2AQLV5DG6nqODb54KYJ2Hhy8HyGJBZMXduXpgQLzeebEeIcn11k5EsbWxNYcGPXBaT1+
+         /qweihLG7noAHfK+Zx5EEGn0ruWcXq/Gj/S2WSYYG/9cAsBnCCVbDo0GQ6tr6T6jIO6M
+         OeOdtj4ZPY+H89quivLjIZrF0JngYycSDR0/nPJVKUYp/eeTnJbocj21+VpbAezcSeJb
+         3sQPtmZy9+wwtqCXvsR5dE5N64+9dWM26DJ4nK/0tsdNaizI0KONqxKZScMTirDGCpdM
+         wpaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790272822; x=1790877622;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=yIrEACM/1hk8RvSSdnwytl7iIy1+VcppA4PP9Tt2BDk=;
+        b=l0fe8Mm9DcXIEdd51FPNBJn0F036zKPD3kU8j4DOjuXB5m9rMtyFEaASyTixipUcfU
+         Gu1CJRCEKHVi5avscUQ2w4Yu+MbwbeV4gSkiEtk5oj1aBwIhdWELCn7HPoTTVYwfmCfI
+         +htyB0Q1vxXbyJUBj6eEtBJ8p5WKEoCEVwirNGWzvBmhCCxlrU2NQFHjdZ20MrQLXjBx
+         zIKTd3drzxiNrpGB/5QWsSwOfKZ/BSH6+t09qIV3Wmddx8tTnSXQdRiDqJWzkMPuVmDs
+         mDWYWamMdHbs8i8Gr5iRiDpstUVhSf5txJdG8P6f6G8wS4SC3vpRaCG0IXZlRxY44EPc
+         jftQ==
+X-Forwarded-Encrypted: i=1; AKwUvByEVwz+P5jjtktwCfRUfL7J4RePjaLcK2PRhcyZu2zB8yqBhjf6FYpF9X2hHtjTSk7mFP0QuxRSDBEEmw==@vger.kernel.org
+X-Gm-Message-State: AFuF++lmjQfukMTN4jxN5b9kDopmvQxC1/wxLcORi+F7OZSrBmId+4/1
+	5UHMhUrDcOv5/3pwu5+R7VsZ81ga3L2vfvlSHjKVBtbgSBafQh1/W0PpdJHUYaxJOt0=
+X-Gm-Gg: AYBFou2LyDxfUIBd1y4ymhPCfC5nNN18JtOaoEoGf49wvmXfXUU2JagbXuzgyFj2u50
+	+Z6WRFJFCmZiWxtNlLw48xD2TX866G7plvfw3tAXzRx7GdQ+8VW3ICmHvMWt8xmpoOcgprWYvmf
+	X1B79aMVO+PyPQO3Pb8jb5wMmTZ4PE2XVVJDnx/YPZNwV1EeVapZ/ejqCt5OTOuRf49q0NWyc3O
+	G45UCN0MMdtK+aNP8W6o8IpVhNuh254TvM9HHaGkMry9Vt1w0LZ9Y+A6CD3izATwK7wxRI5htCm
+	MnNZVJT4YnuJRzo0gb0xDRiMztmJv9BE6SEtuBWnJMuFh4sz/Id3heyDG4hfsJVS0wiQsHTQ3u5
+	pwBMhlv35jsPudpjWLDQsYlqoZ3kEPAkGSvNxeWKXXPfG3Sx8UNy1T+/Prc4xYNN9tWdHGjVFyh
+	5+F2jzUiasKRcyAFcINWgHT8uR6Ir7AujgeYAK5VcSfMjRIijfbFsYRVOvgy7nw3TwQ6zXeT/Cu
+	bQPCK41ZOgL18l8kEi0uuHqtDi0y6YND/36sFbjx8T6B+vLhc98tMY=
+X-Received: by 2002:ac8:5a46:0:b0:530:e682:87c with SMTP id d75a77b69052e-5330b6df434mr78501cf.33.1790272821894;
+        Thu, 24 Sep 2026 11:00:21 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-532eb38d347sm47450101cf.25.2026.09.24.11.00.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Sep 2026 11:00:21 -0700 (PDT)
+Date: Thu, 24 Sep 2026 14:00:18 -0400
+From: Gregory Price <gourry@gourry.net>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
+	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
+	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
+	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev
+Subject: Re: [PATCH v3 05/40] mm/vma: ensure mmap_prepare doesn't set actions
+ on a mergeable vma
+Message-ID: <arVkwC_wNoTLjRYf@gourry-fedora-PF4VCD3F>
+References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
+ <20260917-b4-mmap-prepare-vma-flag-sanify-v3-5-4583d8a23bca@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1171; i=broonie@kernel.org;
- h=from:subject:message-id; bh=cHnIesqzRd3SzWjC4c0j6xgj40PQm3/+Hfd6Bj+Xj/w=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqtWHWNnP1Di16WOvhFepRkg68S1ErVEn3Jj4E/
- EqJHFMmcPWJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCarVh1gAKCRAk1otyXVSH
- 0DuVB/4rWGF+cpqbPdU+ysLLjAs4Q2D6BtM7HEAdkfFe7MJkwqLr6bt2faqf6a9fCgBOkMaPiss
- pHpHV2ObYKOCCHovB+kbIz9HSnZ/EQvrQKFkY5lwvzpoTVfHA9L1NUWVNLBIsJJYS5o/m/LMT21
- YbPxsbWU5fpMlnNQ3jFi8U7YWqmLd567UK9XlkeRSAzC7+HDuYsN8JEswwVVbNRMJ/wbtJl4K6W
- BbW/OKW0dDg7+jMryBL57PXjKgjBdOVSEyNyOdVGCDu0hy4REUBqveTo1SH0TvO3TiqWPZZCKMb
- zFLrl/WTExcRM5HjGjmfJXfuccE+1UufIba2vSsMDTZdHO57
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-5-4583d8a23bca@kernel.org>
 
-On Wed, 16 Sep 2026 17:40:42 +0800, shengjiu.wang@oss.nxp.com wrote:
-> ASoC: fsl_asrc: use regmap_write_bits to update clock source registers
+On Thu, Sep 17, 2026 at 05:22:14PM +0100, Lorenzo Stoakes (ARM) wrote:
+> When a user requests an mmap_action be performed in mmap_prepare, this
+> involves populating the VMA range with data.
+> 
+> However, if the VMA is mergeable, it might then mistakenly be merged with
+> another VMA without having populated the range.
+> 
+> Every mmap action currently available sets VMA flags such that the VMA
+> cannot be merged.
+> 
+> However, to ensure that no future mmap action falls foul of this, assert
+> that this is the case upon mmap_prepare validation.
+> 
+> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> ---
+>  mm/vma.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/mm/vma.c b/mm/vma.c
+> index d6ed10cefc8f..62f2ce1ad5a1 100644
+> --- a/mm/vma.c
+> +++ b/mm/vma.c
+> @@ -2809,6 +2809,15 @@ static int mmap_validate(unsigned long prev_start, unsigned long prev_end,
+>  int mmap_prepare_validate(const struct vm_area_desc *prev_desc,
+>  			  const struct vm_area_desc *desc)
+>  {
+> +	/*
+> +	 * It is not valid to execute mmap actions for VMAs which can be merged,
+> +	 * as any such merge would leave portions of the mapping incorrectly
+> +	 * unmapped.
+> +	 */
+> +	if (vma_flags_can_merge(&desc->vma_flags) &&
+> +	    WARN_ON_ONCE(desc->action.type != MMAP_NOTHING))
+> +		return -EINVAL;
+> +
 
-Applied to
+If you wanted to make this unit-testable, you could pull it out into a
+separate function:
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
+static bool mmap_action_is_valid(const struct vm_area_desc *desc)
+{
+	return desc->action.type == MMAP_NOTHING ||
+		!vma_flags_can_merge(&desc->vma_flags);
+}
 
-Thanks!
+then write:
 
-[1/1] ASoC: fsl_asrc: use regmap_write_bits to update clock source registers
-      https://git.kernel.org/broonie/sound/c/92871abc1302
+if (WARN_ON_ONCE(!mmap_action_is_valid(desc)))
+	return -EINVAL;
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+And you can write a unit test directly against mmap_action_is_valid
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+otherwise
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Reviewed-by: Gregory Price (Meta) <gourry@gourry.net>
