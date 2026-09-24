@@ -1,120 +1,205 @@
-Received: from ixit.cz (ixit.cz [84.42.129.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx2-f12.google.com (mail-yx2-f12.google.com [74.125.224.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF19848E0C8;
-	Thu, 24 Sep 2026 13:25:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.42.129.46
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790256322; cv=none; b=oYP2WCUK8lPAivdsduKlRe0fJwdG1BdplSsGzgAHtxOBl5CxLMv7a3UPz7M6g7y/KOMh5eBoY04DDvESGIhlcFh4aLOqoKn5FZ18LlmvRTqV2EuA+TK/p1hZnUjf2x8N4RffXN+lkKl9dAQKgqOB/pF1oHABHsWWwEbLdHmnswM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790256322; c=relaxed/simple;
-	bh=zUvPeIy/hGth7FO+L8z556XJIROv6bWI6jYUUXoV0Dw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nziOc30rQqOOuDzo+99ngF4nykMuTiUKOZKspPJIhZ63zfeW6HecxmJhxwo9mbyeYJySqtag7E6gO8lhIE5MBhmCzqNWgktSvzQiaezKczrdK+t0+lghkHIcayg+A23zIXuo61oIZ15WqomI8nM3LEvgvCb+VyqawnzhCb8CYK8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=CX4IgkgT; arc=none smtp.client-ip=84.42.129.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B08EB495054
+	for <linux-sound@vger.kernel.org>; Thu, 24 Sep 2026 13:45:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.140
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790257522; cv=pass; b=UENcrB41lELsCYG+MQ+sgxGKzsFJKSb+kUvMe9sQExlt+iP5p6ykfmm1kBeI6tF5VEaqX1gt3UyWy5eKBockzMjG0k/TlcKvtI5DF1O7NZmc+p9kDlzqgnsBcbaxQuVSsEUXU4u35/o7vIMyulqploftZUJsbVv6P2MR9tz1hRc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790257522; c=relaxed/simple;
+	bh=jZQJkk3KHNIcE56oWvAfHwi1YqZoDB4/A8UkPIGIqKc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jpSISQ7StzEZXiDIBr9bpkj0uErpDRw268cgWxxacYtVAVyU2m+EUCGZAJIZlM2cVXlOJOJG6P9/JE7YxzkYiwG+9rWyT8BijWIV1qD1y1w6eu47kGoV0RZ+rPS9/5mK5ww1rK6B/g1a4Q+ob2MhfkblOpDfYU2nwSCJBMO4R8c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AkFm5kJP; arc=pass smtp.client-ip=74.125.224.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="CX4IgkgT"
-Received: from [IPV6:2a02:830a:f787:8f00:d622:eaa3:3dd6:8f5e] (unknown [IPv6:2a02:830a:f787:8f00:d622:eaa3:3dd6:8f5e])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id 6D6A7534030E;
-	Thu, 24 Sep 2026 15:25:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1790256309;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=r70L2wLN9BXZdlPbH4tNc1XiaYNt3v/+MQ+gnGC1P54=;
-	b=CX4IgkgTszcQaUI24i+RC9DJJLUiLH6/akXYi6OEVlnyKHUZSW0/fVxWw1xPg33/6oI8I6
-	jtUgGRQdTDWAOnTsYtgSQL68RQsgrVHxw692e+vL5eS8lNybxcm79P6Boq35rFHGODe3ZL
-	dnbz1ZAzi25B5H+e4Wtvi4TbUEunIaw=
-Message-ID: <7928f298-a355-4393-a232-7f33990d89bf@ixit.cz>
-Date: Thu, 24 Sep 2026 15:25:09 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AkFm5kJP"
+Received: by mail-yx2-f12.google.com with SMTP id 956f58d0204a3-66f7f72a284so2373503d50.2
+        for <linux-sound@vger.kernel.org>; Thu, 24 Sep 2026 06:45:17 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790257515; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Krnt09kkHU+PK0XEIL8BujCgTetGLZQXk9wFz0ZEE1cJD9bmFZsxXQKxz81x4feE/W
+         b3kLXOBRCosJu12yU0Qz4pRXOMJb+ep9o8s8BRgztYB9et0HMUrWeQHvOTuXgjHDnY3T
+         ZQxkk5nq4+Bn/k3dKUjuFzLZRcmBXjO7vFYB24r+P8+vW0cMK+KjkzCSb4OsjSVz+j96
+         bHWgHDkBTnvRkbsleiXgHHjiiRhxKPHqodYEZMOc+sHhTObqks2NK9E5EyTAZARrElQj
+         h9BSGbrAdPdSBclZDTPa/LCdKhFjAlH15cDkUoyUareX/ArjBjlwLiQWvzUIqoECWNZR
+         svOg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=FNNubV5ejx2bLbWQoB8ueW+/fkh0ACbiMkvSyTP+9DI=;
+        fh=fKMqETVO4QPGuQ6tsIANZ5rabplyJB5V/VpQ7pQ65Hg=;
+        b=c3Olu+t3tALn3DSEvXjAwmid/bnFZRwvLkNT0ocsFraCECyt8kIyTfxJJamor1Jp5S
+         q9f5AbjGuLw1pM1xS+ywdm1YP0Hys7zLeabWb8J0frtsHFUOF0/7WfFMaFCvN3O2EmTC
+         gUyXJ0uGETA0JDsN/LiwNyHzXDOXnikyg5TgRSUtGoh/A9Hm+8gBHY4rWt+z3trSbt9F
+         Zt9QyWH9hxZBZXUD5ORzWQGU7nRhPIG5WhGWpWGEmutX1IHgtsQ1j1OicwhBFhJEXcdw
+         WxwIw2+QyU2imWHWeJ0E2cSepjpezmUcHestbXjwXINQKD6ndSuO1WTfPNNLtUtP3L+d
+         VxYw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790257515; x=1790862315; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=FNNubV5ejx2bLbWQoB8ueW+/fkh0ACbiMkvSyTP+9DI=;
+        b=AkFm5kJPBWhEpym/Od1w9XRnCnR2bocmI+klD0GK7b8Ymlb9HOoL+GMivc3IJ2AE6X
+         yRt/DNeQika1XXDo/czBrYXzdZb6HDOgQR10fHCltgK+GmHC9QQFH/rkjoIPLSgTxcq2
+         K9WCyA2S0TswE4QOnbm8M8Jd2gcFpzFgRPW5jxL27QWTt3m3ukGYrd0mlTzVimC0spcf
+         zf/yxUrJSqwBwpTSfjKDSDqb8KSKNhGIxG/jjBNKJVfEdflNU1zW7taNbJxwXq1bVd5I
+         M/DF7KvXoJu7JFf2Knd2ebcNlDeD8eIM8pcFVLnun4yvyE8Qu27ajYBQl4Nv6Vm7HwNB
+         gYpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790257515; x=1790862315;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=FNNubV5ejx2bLbWQoB8ueW+/fkh0ACbiMkvSyTP+9DI=;
+        b=mpt1MkkLTAjLxF6fpwIAjQmwIcvvtGKfeVoEln4F3GAIiK2SOlh6HzaYTxqoCIhhnp
+         JhLovyRySWb3K+cl85sHBCGAtSgjRqg/LmpGb9KPyjy9Txjbtnfhq/kTd2MLiRBhKBFQ
+         mtAfLZO86YSZRr2/gc+s8mY0xRPibUXYVmd8sGjnwzAvAovvVhKNovsJuW63NlBEL4G1
+         r5fPa/YrWzsSZYoF67s0W53MN4bDeWTS2pmhQPCe0VqrF6ntUHWGvRG1lAByfYfP/z7U
+         xHs8n8IYZgmcQT09g5QgykFLTvDl1no15pjsYQ4gzzLMz5VmSuYR5wN4W1h1hXyqa1Ml
+         cVGQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzLhTgilhT2g6c9ADjIazzv9OGTHgfgxqa3o3/jDHjcaIEWRO8IUvb09kVHezaV0eJA0e5/XUIA0wDOag==@vger.kernel.org
+X-Gm-Message-State: AFuF++kEyOZ+Es142dFYKZ4FCZICrH1+OllR/6Q+yqqUd7SYoK+Ua6Y+
+	a+r/hdpjHHFP59Vt+EgYLaMvhELPJ4cuSbr2EkBuLp/kWM1cOh+4js0o+cJszKUK2RVnrVbpX7X
+	3R3mdvU3ccjxPoAbsCEPwJighNwu/imI=
+X-Gm-Gg: AYBFou1l6Qzk5cee2puLYT7LydsP8KV0f2uwOl5BKu6yZPvqMK61drbR4BH5ZmCO3+u
+	d+o+Fk82lL+HRK5B0PSf4WNm2AjS6zl1Bh68/x6ys3xs2e/70+h1C8D7X4AhIx9XGkmJ152zKlK
+	+aSXCFHnvvNxAiutYkRK6regfMU8hYiH+MmUogq3ncOa4JmYCMMyXDPG3GxLtSdzcde+CTBsKKo
+	s3qvutRai/y37IcPKuUSiwEXaEEi3Pg4fTWo/Ib70MIW+8kOu7Jore0Bjdl/tmzAb05ygEWdaZi
+	6zsSWmcuRFXzFKsxU3IgZzF+YBC+gvBWYuaF/lDfw7hJjbNoiM2jw1Lgng==
+X-Received: by 2002:a05:690e:118e:b0:672:d609:6bfe with SMTP id
+ 956f58d0204a3-672ed32167bmr1527450d50.39.1790257515508; Thu, 24 Sep 2026
+ 06:45:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/8] Speakers for Pixel 3 / 3 XL
-To: Mark Brown <broonie@kernel.org>
-Cc: Srinivas Kandagatla <srini@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, David Rhodes <david.rhodes@cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- David Rhodes <drhodes@opensource.cirrus.com>,
- Conor Dooley <conor+dt@kernel.org>, linux-sound@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- patches@opensource.cirrus.com, devicetree@vger.kernel.org,
- phone-devel@vger.kernel.org, Charles Keepax <ckeepax@opensource.cirrus.com>
-References: <20260924-pixel3-audio-v3-0-5d06460fc8a9@ixit.cz>
- <249d5240-f2cb-4f1a-8f22-449a516e28f6@sirena.org.uk>
-Content-Language: en-US, cs-CZ
-From: David Heidelberg <david@ixit.cz>
-Autocrypt: addr=david@ixit.cz; keydata=
- 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
-In-Reply-To: <249d5240-f2cb-4f1a-8f22-449a516e28f6@sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20260921073847.63505-1-lgs201920130244@gmail.com>
+ <dd60ce64-4af1-479e-99d3-1787a06da882@intel.com> <CANUHTR9F+D1C49MLiiy5z1snyKtbBtdU1cnuhsgr0cysp+yOcQ@mail.gmail.com>
+ <af20eb97-2fca-4ab9-9759-90b210b34802@intel.com>
+In-Reply-To: <af20eb97-2fca-4ab9-9759-90b210b34802@intel.com>
+From: Guangshuo Li <lgs201920130244@gmail.com>
+Date: Thu, 24 Sep 2026 21:45:05 +0800
+X-Gm-Features: AclHuK-k2HlTZ7P5DTUJL2j0cqyTUAaIHPGi3MajOMUrhuB7BSfKPVp4d38KpIc
+Message-ID: <CANUHTR99pQfVVjNiQbVFQ9y9EAgTgxu6WbdSAcMxpWHJJuTJJg@mail.gmail.com>
+Subject: Re: [PATCH] ASoC: Intel: SST: fix platform device leak on probe failure
+To: Cezary Rojewski <cezary.rojewski@intel.com>
+Cc: stable@vger.kernel.org, Liam Girdwood <liam.r.girdwood@linux.intel.com>, 
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+	Bard Liao <yung-chuan.liao@linux.intel.com>, 
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Thorsten Blum <thorsten.blum@linux.dev>, 
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 24/09/2026 15:04, Mark Brown wrote:
-> On Thu, Sep 24, 2026 at 02:46:44PM +0200, David Heidelberg via B4 Relay wrote:
->> This series address:
->>
->> 0. demistify the hex to BIT() macro and add left/right rx spk
-> 
-> This doesn't apply against current code, please check and resend.
+Hi Czarek,
 
-rebased on top of the breaking commit and next-20260923 :)
+Thanks for the clarification.
 
-Thanks
-David
+On Wed, 23 Sept 2026 at 16:15, Cezary Rojewski
+<cezary.rojewski@intel.com> wrote:
+>
+> On 9/22/2026 10:17 AM, Guangshuo Li wrote:
+> > Hi Czarek,
+> >
+> > Thanks for the review.
+>
+> >>> @@ -361,15 +362,21 @@ static int sst_acpi_probe(struct platform_device *pdev)
+> >>>
+> >>>       ret = sst_platform_get_resources(ctx);
+> >>>       if (ret)
+> >>> -             return ret;
+> >>> +             goto err_unregister_mdev;
+> >>>
+> >>>       ret = sst_context_init(ctx);
+> >>>       if (ret < 0)
+> >>> -             return ret;
+> >>> +             goto err_unregister_mdev;
+> >>>
+> >>>       sst_configure_runtime_pm(ctx);
+> >>>       platform_set_drvdata(pdev, ctx);
+> >>>       return ret;
+> >>> +
+> >>> +err_unregister_mdev:
+> >>> +     platform_device_unregister(mdev);
+> >>> +err_unregister_plat_dev:
+> >>> +     platform_device_unregister(plat_dev);
+> >>> +     return ret;
+> >>>  }
+> >>
+> >> Looks like sst_acpi_remove() does not unregister the devices either.
+> >> That could be fixed by enlisting devm_add_action_or_reset() in
+> >> sst_acpi_probe() without altering sst_acpi_remove() at all.
+> >>
+> >> Would you mind sending a separate patch updating the function so both
+> >> the error path and the driver-unload clean up the device objects?
+> >>
+> >>
+> >> Kind regards,
+> >> Czarek
+> >
+> > I'll update the title to:
+> >
+> > ASoC: Intel: atom: Fix platform device leak on probe failure
+> >
+> > and trim the commit message as suggested, including the
+> > s/machine drivers/machine board/ change. I'll also add your Reviewed-by.
+> >
+> > For the separate cleanup patch, do you mean something like this?
+> >
+> > +static void sst_unregister_platform_device(void *data)
+> > +{
+> > +        platform_device_unregister(data);
+> > +}
+> > +
+> >         plat_dev = platform_device_register_data(...);
+> >         if (IS_ERR(plat_dev))
+> >                 return PTR_ERR(plat_dev);
+> > +
+> > +       ret = devm_add_action_or_reset(dev, sst_unregister_platform_device,
+> > +                                      plat_dev);
+> > +       if (ret)
+> > +               return ret;
+> >
+> >         ...
+> >
+> >         mdev = platform_device_register_data(...);
+> >         if (IS_ERR(mdev))
+> >                 return PTR_ERR(mdev);
+> > +
+> > +       ret = devm_add_action_or_reset(dev, sst_unregister_platform_device,
+> > +                                      mdev);
+> > +       if (ret)
+> > +               return ret;
+> >
+> > This would let devres clean up both devices on later probe failure and on
+> > driver unload, so the explicit unregister error paths from the first patch
+> > would no longer be needed after this patch.
+> >
+> > Would this be what you had in mind? If so, I'll follow Krzysztof's
+> > suggestion, organize the related changes into a proper patch series,
+> > and send a two-patch v2.
+>
+> I do not mind either approach. There are two problems here:
+>         1) leak on probe() failure
+>         2) leak on driver remove()
+>
+> So, two patches-approach IMHO is perfectly fine. And yes, enlisting
+> devm_add_action_or_reset() closes both 1) and 2) in one go.
+>
+> Kind regards,
+> Czarek
+
+I'll use devm_add_action_or_reset() to handle both the probe failure and
+driver removal cases, and send the updated change in v2.
+
+Thanks,
+Guangshuo
