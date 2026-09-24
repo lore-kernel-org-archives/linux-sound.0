@@ -1,169 +1,261 @@
-Received: from mail-qv2-f12.google.com (mail-qv2-f12.google.com [74.125.230.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010052.outbound.protection.outlook.com [52.101.85.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0DF548F839
-	for <linux-sound@vger.kernel.org>; Thu, 24 Sep 2026 19:07:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.230.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12B6934D90D;
+	Thu, 24 Sep 2026 19:28:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.52
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790276840; cv=pass; b=s118I+CQPNT2rSBebJch3t8A39wa7mWUX8+Q+sYo0TEnt8aHqO+dMkmdD3twC7IHiRoKLhFv1A2M269u4PF/N3RGH5ZQOnQp6OC6yqqnkudJfdb2MLTYdk0TtPSl8F2vfVFGWzmtF8Mv4RR2tIb9YEyg2rn2FXqnlkuzOh/X0/w=
+	t=1790278132; cv=fail; b=CoQt+WhuPVPLjyj83kOoWn/p4aopamW/GCxi2+hvdleG6kFiMbrpPGl1h3uXuzpV7xjvyZUytGWRzNq51Vx61CWC9zawe4vt/EhdJQIRaj3QbjLZyKsA1nU93u5fevmUrEagvuY5hG48gD3l36FTGNoTpIhHiO85AgajwC/M98s=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790276840; c=relaxed/simple;
-	bh=2/WSTd+y14je9JhFv7F2CKwFJHzDIRhxHXeTsRcXI4M=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=h1bJF/zhw8Cu8XmeGebhM9yqmkpSMInwBjn4H7RxqamUbVJRFuJyr9pSjMGpszUbiiB1rEHZrGwkpwIemH15LxlPKYnO1kWhzSFSjAp3bHrIGwACG0fDNJpGEvKfFtsMSVglP16UfjKpTiTnwwzxFJ0WuD8fHYfjP01qQJsdAt4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l8BG0eot; arc=pass smtp.client-ip=74.125.230.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790278132; c=relaxed/simple;
+	bh=ny8EbEvtbt9iqrScwz/pOR9WAVgerwBO6QW8MPc9WV8=;
+	h=Content-Type:Date:Message-Id:Cc:To:From:Subject:References:
+	 In-Reply-To:MIME-Version; b=SrAeQUaY+VRxAikpUlhi3wrco+SrASGJt/QHC9kVimyWWj+q7knIUqQghwcmbAQjT1GS+nww2caTU4SN5VWAgLZZ9D+UkZXPI5kzztGd+zfp27HJtdptUGAQEbP/WfYzDMKz6JoRhfj65OVxzCmlwWwDbj26V+FQYlDERhIluX4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=h+WaXW9a; arc=fail smtp.client-ip=52.101.85.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l8BG0eot"
-Received: by mail-qv2-f12.google.com with SMTP id 6a1803df08f44-91058dd77a2so2122046d6.3
-        for <linux-sound@vger.kernel.org>; Thu, 24 Sep 2026 12:07:18 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790276837; cv=none;
-        d=google.com; s=arc-20260327;
-        b=GC9J41zP1y2CItVUUGAx8lKq+89ZDQtEZIkq38OQgYZDMtAAIO3spIqXCjF8751sE8
-         jj4uAFmzZhEf+81cQlwXZDMHxx7E5XZUuKWc4B40fqGZo5Wes7uSpc4pzOWfYFhQ0je9
-         w4x6Y/0i55ZG5BCXWA9X4o6Q5wEINMGOoZZuaomWkla49cyu1ONEdGyXZF3x58W35clV
-         Ga5Ej1XVEfZkQEBSP+dEdzYyj9G+3VoEEYofT5yxgaxZageE/BbXkvOqP1rS3Ydm5xDM
-         QAJgFQ0btieoh9bjD1rPRcfz5Qwl9HxRJJrjXu7G7iYj5S80QM3XL+cvInEEG5t+l3sj
-         wCdw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=TbGyLnRmRC0d4l9XcpapWGcpMTyVPfqjUoe7endFhiQ=;
-        fh=2D8RZyyngEoPxez0xHYceT5YfwXJMmezuTutI4GlhmY=;
-        b=GHflzPBSRD3578d+cQCMYC6cp2hzsYF0fy1hJ1ceo0wF6tzuMbaY1eEju5CwdaIYfT
-         Ps4h85Ome+GBsiI1lr6iPZY8LjYDUOSRs8tmHkXltAbONYoeoCrE9LmBR+kJOViBmNGS
-         gWnaIz8nhoHF+1AGF4GwuGpyxAoNvgE63WgDmGjrlZ5DoesGaUJS1i2E0viN9p97BtbT
-         iyWtvZ+Ftem0Pu104/d3hE8HE/ug1AAQK2/mmwB/cpQQvz2C0ttuzvysol1isD4LJcFv
-         c/bfKjGjqE4IVyG6r7gA2tXtXe9SaIVzIz8ZVpfebtsF6ahr9H5jvDlEHU753QCfuE2B
-         jRAg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790276837; x=1790881637; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=TbGyLnRmRC0d4l9XcpapWGcpMTyVPfqjUoe7endFhiQ=;
-        b=l8BG0eotwp70quZkcAIWLVhV1A+acRnbuuhhpuF74/3mA35Vp2tcDpCAKesAZgJXRd
-         djktvhDNStUX7n/CiQi3M2VWALU1TLShv9bIXAAkKKf0NXgJmKU3tM6apuA0ccFC65Op
-         DCTDfgVXigNfSOglAkhwg99SgAAPmn9o5qup1btKAdVAX4q8DcyebyV8Z4oTGXDM3Ifa
-         yjsi4IcRELq2b/Q3KfFAVpBNk5KoE1NNdKzpNu5JDPPaWgfNBYNXEOeNvFtCrT3GEn44
-         eV1JK0q6GWMweO8ENIzZKfGsKluNny7Up5KCY9p9A+fiUNFzfKw/WT+sKCzieg5bUOZS
-         lQ4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790276837; x=1790881637;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=TbGyLnRmRC0d4l9XcpapWGcpMTyVPfqjUoe7endFhiQ=;
-        b=l3voRBEQ1Cdq+/9382AO6wXDzpZ3GKlbCRkFCQU11+AycWkyH7DfPBakjCKSN00zJ2
-         UfLxMSpA/OolBLwvpv2PD9Qv70zK0Mj3PLVse89xG1+8yM7DQZx47U/1/C+kDp/GZhyb
-         iO2bofk3bhGxqY+RaX/RIWL5R0oMQ98Hvgl+bjByuBn7ijehzji2qGzkwno2lS0TcPmd
-         0d3hMWKm9FmQ/dpP6+r7EcLB0AbJjOMIWv5zw38nGCOS6zR8LLioz0oKWcaNBJYrjvgV
-         g8PcDN2I6DYwXQExoCpe/Vq+TMlohzhftXXYhrX0xV6vHxDpjI1qSGBIx+9h6rmsukD3
-         HCmw==
-X-Gm-Message-State: AFuF++ksPumwZkg4cJz+fZMFBE3c/7uUB9IhEMXDcXvu6ZipVtYZuBBz
-	ltxm918Wh3sd7PcsFqtREQP0/Ju+4KePJmbTadMR2c0ipPD22wOGkbUp6m7+Hghr9gTGHvybwD1
-	iy+iPj1ZyNX4AvrW/SIWvldzGA8OW+FdWPf6BKrs=
-X-Gm-Gg: AYBFou3Y36yDpMXGXedHqpWuX6ZZx0c0wOMjPiPh7hO4M5LhunCFcFMw6Sjii7ZNtwU
-	Ibxt5xEH85x3pH+bVzfQKw7RThvPbUw/tQilAFy7u2ZTJLOkuOIVaVsAEHY6aXpELP9r4tblpHE
-	a0BrAdJQF50jUhUXs2o8Wy9KgAGsDKvbCpBElhynvSojuN0FSmpqGIY9snZF03tbDPYAKeag1YJ
-	acv3sxJribLvfNDSDIYjkkgjlg7YL+Yn8ljYRtws3XneTgh38/U5qcbZa3X4YiHMGaBiahxI8U6
-	DIJIr9JSEA5GwyKrlYi75TJh86u4GHRMlCiNJdnWBnxJYWYec/3dr5JZIXDtXaVIwMRb7pq2LVh
-	6TDtL3RV9F6/rbVXgLCZxUaLMU2ARIKUaat8B9dOkA1Ia4qsKty9i39VBMHHnIgYHTuYwH2lmlw
-	==
-X-Received: by 2002:a05:6214:3202:b0:910:41ff:e822 with SMTP id
- 6a1803df08f44-9142f747831mr4503746d6.29.1790276836842; Thu, 24 Sep 2026
- 12:07:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="h+WaXW9a"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=cjqlYp28LVRA1tlUe3pHgpcNtzuPmx8HtsSywXuC1NR+ZPFwniUWW/Qm6rQ/0M1T1eyUdRFAEd4TyZEpMXDUX7oVci/J5WN6Cw6jdc4Km+3FjnffxDISj1anGv3tyCEFbWi3iQ94ERo2TKcB00sXxNtAAppYz7pQl2AvHD6W0v1/3VY4YgaFKWzPXc/sUX6GdocahoDGUm4NVoIj2jDau0bhEWnGdHSXeqrsDD2efPXHZMYirzrezZz5WwoBs0FR4uwgkqaW0X7/o4ZxqvD0bdTihipeMxYRvC6blZuLRzqyL5LmaZ50M78kgpyUxYWBVhCaE+jOzUgVi+2LyYoAFg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BanIIEJzpCiYkyUQdKsWNp/eZgx6p5TAqP8UPbXSTJI=;
+ b=rCFzHE3rtPzAT2pO1Yzb9+YdowGNLOBxmdKJPzpJJD6IKidCRMPbK6PZ5z+9cR6oX80fc+pwQqpVp+/eq+ZB42PvjsF8PINhz7Du6dO0YUlCqhqlcnEkvTCS5xTpWWanNb0KwI52t2gy1ku88ZlP+2M2Jrl56poHrdtNj0QSfpYYi0L9rGr7lwvmJxHIlLMSJtZauH5fd9UtKE3Zfbyic7qOxEQy4hdX+D8pxQW+MvxMMuIZAXVzPKMz0V3olxlw5tQLOaDe8x7j5j8uvyAf3uXAEEOGfuasWqy20pO8VyzVZlkInH3nII0+fPo4my/16ebvh+svHH1agIxvTcPt9Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BanIIEJzpCiYkyUQdKsWNp/eZgx6p5TAqP8UPbXSTJI=;
+ b=h+WaXW9a+e0rH30DQ/pbEOlAmWReoVVlftVQhSSoR6JAI1e31yewFWsS7UzhNHrs2EmzGy9pOm2lhENGwGL6RqDTm9f17Dmynq4tP/FUIBl9bVFO5Q+XoSJpo7K/7/gz91QJUyA+BsUl5C7rCN55SM91p92IindNt/y2Q4+wt1pTuNYE/tsg2Rn+oCpYKMt7EU64qYRMl2JbBYI5Z/V2mSWsn7YE/pItFbhaoStic+h56FdNtzyDKeKG+AQO7zIWw2AX01TLa6MGmGsWcjNJRdKUGLCTmIENy4/ZXwgyKRJwxws3F+BFlSczhH30reLmIDQEg+aEtEuZm4i8g1+xwQ==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
+ by SJ5PPF4D350AC80.namprd12.prod.outlook.com (2603:10b6:a0f:fc02::993) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.18; Thu, 24 Sep
+ 2026 19:28:17 +0000
+Received: from IA0PR12MB8374.namprd12.prod.outlook.com
+ ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
+ ([fe80::d85f:4c87:ae84:3f16%6]) with mapi id 15.21.0451.014; Thu, 24 Sep 2026
+ 19:28:16 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 24 Sep 2026 15:28:10 -0400
+Message-Id: <DLNSM8R8JS9A.1850RMXAG9NSR@nvidia.com>
+Cc: <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+ <linux-rdma@vger.kernel.org>, <selinux@vger.kernel.org>,
+ <linux-sound@vger.kernel.org>, <bpf@vger.kernel.org>,
+ <linux-scsi@vger.kernel.org>, <linux-fbdev@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-trace-kernel@vger.kernel.org>,
+ <linux-perf-users@vger.kernel.org>, <linux-arch@vger.kernel.org>,
+ <linux-fsdevel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <kvmarm@lists.linux.dev>, <linuxppc-dev@lists.ozlabs.org>,
+ <kvm@vger.kernel.org>, <kvm-riscv@lists.infradead.org>,
+ <linux-riscv@lists.infradead.org>, <linux-s390@vger.kernel.org>,
+ <sparclinux@vger.kernel.org>, <fuse-devel@lists.linux.dev>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, "Andrew Morton"
+ <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>,
+ "Vlastimil Babka" <vbabka@kernel.org>, "Jann Horn" <jannh@google.com>,
+ "Pedro Falcato" <pfalcato@suse.de>, "David Hildenbrand" <david@kernel.org>,
+ "Mike Rapoport" <rppt@kernel.org>, "Suren Baghdasaryan"
+ <surenb@google.com>, "Michal Hocko" <mhocko@suse.com>, "Jonathan Corbet"
+ <corbet@lwn.net>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Dennis Dalessandro" <dennis.dalessandro@cornelisnetworks.com>, "Jason
+ Gunthorpe" <jgg@ziepe.ca>, "Leon Romanovsky" <leon@kernel.org>, "Paul
+ Moore" <paul@paul-moore.com>, "Stephen Smalley"
+ <stephen.smalley.work@gmail.com>, "Jaroslav Kysela" <perex@perex.cz>,
+ "Takashi Iwai" <tiwai@suse.com>, "Alexei Starovoitov" <ast@kernel.org>,
+ "Daniel Borkmann" <daniel@iogearbox.net>, "Andrii Nakryiko"
+ <andrii@kernel.org>, "Eduard Zingerman" <eddyz87@gmail.com>, "Kumar
+ Kartikeya Dwivedi" <memxor@gmail.com>, "Baolin Wang"
+ <baolin.wang@linux.alibaba.com>, "Nico Pache" <nico.pache@linux.dev>, "Ryan
+ Roberts" <ryan.roberts@arm.com>, "Dev Jain" <dev.jain@arm.com>, "Barry
+ Song" <baohua@kernel.org>, "Lance Yang" <lance.yang@linux.dev>, "Usama
+ Arif" <usama.arif@linux.dev>, "Kiryl Shutsemau" <kas@kernel.org>, "Doug
+ Gilbert" <dgilbert@interlog.com>, "James E.J. Bottomley"
+ <James.Bottomley@HansenPartnership.com>, "Martin K. Petersen"
+ <mkp@kernel.org>, "Jaya Kumar" <jayalk@intworks.biz>, "Simona Vetter"
+ <simona@ffwll.ch>, "Helge Deller" <deller@gmx.de>, "Sebastian Reichel"
+ <sre@kernel.org>, "John Hubbard" <jhubbard@nvidia.com>, "Peter Xu"
+ <peterx@redhat.com>, "Masami Hiramatsu" <mhiramat@kernel.org>, "Oleg
+ Nesterov" <oleg@redhat.com>, "Peter Zijlstra" <peterz@infradead.org>,
+ "Thomas Gleixner" <tglx@kernel.org>, "Ingo Molnar" <mingo@redhat.com>,
+ "Borislav Petkov" <bp@alien8.de>, "Dave Hansen"
+ <dave.hansen@linux.intel.com>, <x86@kernel.org>, "Arnaldo Carvalho de Melo"
+ <acme@kernel.org>, "Namhyung Kim" <namhyung@kernel.org>, "Mark Rutland"
+ <mark.rutland@arm.com>, "Rik van Riel" <riel@surriel.com>, "Harry Yoo"
+ <harry@kernel.org>, "Juri Lelli" <juri.lelli@redhat.com>, "Vincent Guittot"
+ <vincent.guittot@linaro.org>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
+ <airlied@gmail.com>, "Will Deacon" <will@kernel.org>, "Aneesh Kumar K.V"
+ <aneesh.kumar@kernel.org>, "Nick Piggin" <npiggin@gmail.com>, "Arnd
+ Bergmann" <arnd@arndb.de>, "Muchun Song" <muchun.song@linux.dev>, "Oscar
+ Salvador" <osalvador@suse.de>, "Matthew Wilcox (Oracle)"
+ <willy@infradead.org>, "Jan Kara" <jack@suse.cz>, "Marc Zyngier"
+ <maz@kernel.org>, "Oliver Upton" <oupton@kernel.org>, "Catalin Marinas"
+ <catalin.marinas@arm.com>, "Madhavan Srinivasan" <maddy@linux.ibm.com>,
+ "Anup Patel" <anup@brainfault.org>, "Paul Walmsley" <pjw@kernel.org>,
+ "Palmer Dabbelt" <palmer@dabbelt.com>, "Albert Ou" <aou@eecs.berkeley.edu>,
+ "Christian Borntraeger" <borntraeger@linux.ibm.com>, "Janosch Frank"
+ <frankja@linux.ibm.com>, "Claudio Imbrenda" <imbrenda@linux.ibm.com>,
+ "Alexander Gordeev" <agordeev@linux.ibm.com>, "Gerald Schaefer"
+ <gerald.schaefer@linux.ibm.com>, "Heiko Carstens" <hca@linux.ibm.com>,
+ "Vasily Gorbik" <gor@linux.ibm.com>, "David S. Miller"
+ <davem@davemloft.net>, "Andreas Larsson" <andreas@gaisler.com>, "Alexander
+ Viro" <viro@zeniv.linux.org.uk>, "Christian Brauner" <brauner@kernel.org>,
+ "Matthew Brost" <matthew.brost@intel.com>, "Joshua Hahn"
+ <joshua.hahnjy@gmail.com>, "Rakie Kim" <rakie.kim@sk.com>, "Byungchul Park"
+ <byungchul@sk.com>, "Gregory Price" <gourry@gourry.net>, "Ying Huang"
+ <ying.huang@linux.alibaba.com>, "Alistair Popple" <apopple@nvidia.com>,
+ "Chris Li" <chrisl@kernel.org>, "Kairui Song" <kasong@tencent.com>, "Kemeng
+ Shi" <shikemeng@huaweicloud.com>, "Nhat Pham" <nphamcs@gmail.com>, "Baoquan
+ He" <baoquan.he@linux.dev>, "Youngjun Park" <youngjun.park@lge.com>,
+ "Johannes Weiner" <hannes@cmpxchg.org>, "Qi Zheng" <qi.zheng@linux.dev>,
+ "Shakeel Butt" <shakeel.butt@linux.dev>, "Axel Rasmussen"
+ <axelrasmussen@google.com>, "Yuanchu Xie" <yuanchu@google.com>, "Wei Xu"
+ <weixugc@google.com>, "Chengming Zhou" <chengming.zhou@linux.dev>, "Michal
+ Hocko" <mhocko@kernel.org>, "Miklos Szeredi" <miklos@szeredi.hu>, "Xu Xin"
+ <xu.xin@linux.dev>
+From: "Zi Yan" <ziy@nvidia.com>
+Subject: Re: [PATCH v3 05/40] mm/vma: ensure mmap_prepare doesn't set
+ actions on a mergeable vma
+X-Mailer: aerc 0.22.0
+References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org> <20260917-b4-mmap-prepare-vma-flag-sanify-v3-5-4583d8a23bca@kernel.org>
+In-Reply-To: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-5-4583d8a23bca@kernel.org>
+X-ClientProxiedBy: YQBPR0101CA0171.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:f::14) To IA0PR12MB8374.namprd12.prod.outlook.com
+ (2603:10b6:208:40e::7)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Zach Low <zach.low98@gmail.com>
-Date: Thu, 24 Sep 2026 14:07:07 -0500
-X-Gm-Features: AclHuK__dxqDx_AjD9clsPfZDHcyBSxB20RKSq8flo_ygj_IKf1UOQP7NKAx3IE
-Message-ID: <CALBELDjo6G7tyrFTJE_N6UMCXkyr80kwG+Db+40+c4b3+QUJ+Q@mail.gmail.com>
-Subject: [RFC] ALSA: hda/realtek: Dell Latitude 7440 (1028:0c0d) speaker amp
- hisses while muted
-To: linux-sound@vger.kernel.org
-Cc: Takashi Iwai <tiwai@suse.de>, Kailang Yang <kailang@realtek.com>, Zach Low <zach.low98@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|SJ5PPF4D350AC80:EE_
+X-MS-Office365-Filtering-Correlation-Id: 81cafa58-af46-454b-9d3b-08df1a71fb9d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|376014|7416014|23010399003|366016|6133799003|22082099003|18002099003|921020|56012099006|5023799004|11063799006|10067099003|4143699003;
+X-Microsoft-Antispam-Message-Info:
+	Ax/xivLGah5Be3D2je1u4kNuIHeKMWbPC8BT9QSSH+82ViHzGTE6r/CWbSFnTw48A101tMVCkTNv/MuXOijbtgoiIzzL1HtzYb/MR4RoYfbXgZ/cB4yb1+rrIDzSnHw/b4WJ1HBHrl/h/ZOaA3Ya4iD5C39QAI9/foOXNKtx12hE9xh97iC2WisOmfoDxHYZetWYVPpM17b9r9RdikF5duFcJuI0Pktc8PQVjeEWLcUTE4MvZU31TEX8yB+V4NLARZ1WgT7FtYoI4z/jcu4FnA9ZCTNrHDGrtlqpDKDa2B7wtYtyIC0xezTlb+st76fncctMnR1NIGRhoTwbha1UzcwvzyfbuXeKyB/tTyrPA+q8O66+1qofEtxIhP4gtCaMr6+Bs+Jp7H1w5vZ78O0OX/zKt5/Ca+HnC1qpQsG+13PRmHe5VuulxrdRKY/9CzlmUwso94qTs2MwxDLK3lc9LZdDbDNFEqQ3A9KHk+UGFHfUuK7qxyOTaqGg3lCG3oaG17gTGLEqHOUvOVpahMvPnFMAY4e2AJc2euiwFraL9hbmisCcu/7LbbZsCjcqODvjrDRzGHXV8PE2abhyv9nwWX8ZeeP5EcEQWtREreZf2/CT4T4+hai04IzuKrL09qfgdLDiERLGkF115Qle7LEfJKzJN+jvdPALyhuFWvkxDqA7nrT65scA85BQ6HmjsjrGyNw4/QqgwBTQIvCu/Q2ZPQ==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(23010399003)(366016)(6133799003)(22082099003)(18002099003)(921020)(56012099006)(5023799004)(11063799006)(10067099003)(4143699003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?TFJRa3hZU2JUMFpLQTd3N3EwaUFualBZakRQazRkMDNNN0ptazg1eENRZWtJ?=
+ =?utf-8?B?T2M0dTAzUDM4a1pPbEVqaHJxU0ZYOTBjYk1mS0p4VXU1QytOMjNwcGwrMmd1?=
+ =?utf-8?B?ZFR4R1lYSytvZFU2U2pKOE1sT2k0eHNONWhqTElQTDFyQXNRaGgyeGwyOXo0?=
+ =?utf-8?B?cUhwWmdHdWVvOVUvUHc2TzUyZGJIejVmTHJPMm8wR2dXRDJpV0Y0SWlxSzB5?=
+ =?utf-8?B?Vy9vVU1uU2hWOTk0MDdjSzBScW94RVVldnREY3lNcEN5RnViU2FQdUpVYTFH?=
+ =?utf-8?B?L2xaVnhnaWt3SE5wMFFIQlRnb0lMOEp5cVVqYXJoSkNIcmNmTVhMSWM0TG8y?=
+ =?utf-8?B?QkpGdFh6MWg2dG5hOVA0MSsxQzBSVGZXbHI4RTdCZDA2am9kKy9wVG53WUpu?=
+ =?utf-8?B?dkU0Qk1WcUlzcUoraURKOHg1RHJnczl2SXhwK2Q3enRBTkY1b3Q5V3lac1VP?=
+ =?utf-8?B?OFJmZktVbmc0NUt3ZEppSFY1cmM2Um9YajAyM2c0dzdSTzVybjN2Z0tadkRG?=
+ =?utf-8?B?ZXppQndsSkRDbWpzMzhweFNQN2xXc1F4ZjBNUXJNZ1lCUjM1Z3BSdTE0TzVm?=
+ =?utf-8?B?NGZQQTNjTWpxdkx1b0JxYlhYbHdjOHBrMGhCQndBNUlIbGNVY2plWTRCMWpW?=
+ =?utf-8?B?VzI4R2RPdlNTQVpmWjR1U0R5NlZnVThpUTYrUitvSlBnRTBKREZjcHkvSGNr?=
+ =?utf-8?B?UDhKV3BNWVFnWUp0SjJkZjhZaDhKSzRlUS84V3hSWHVDcHNnd3NsTXgwSUdu?=
+ =?utf-8?B?N2FlNmVsbnZoQVN2cmplNmViQ3dJRWxGOGNaRnpYekYreUNzdnpVQmdrTWhV?=
+ =?utf-8?B?bTdycHlZaDVjcGZ5eEpFaUJhNlUwVk8zVmRLclpQbXR4c1VBeWpXOFVBS2xy?=
+ =?utf-8?B?cDZOcnJTT3VET3cxck9JdmRjNjUrUTdXU2gyN28rZDBnVnBpN3dhQ0R2MXlJ?=
+ =?utf-8?B?UUhRcWhvVlFDamJhcE1JbW5CY3ZSVURDamgzSFJCL3NtU1QxSHBSa2Y1Q2Vn?=
+ =?utf-8?B?b2FEWHF0bFFIdEMzSUdHMjZuMGREeTFncHpicXNicDV3aVJGQzA4aU9RVHho?=
+ =?utf-8?B?dFVwVGFETnlmaWIvNFVuQUhHUU1UV3RYYjNiQ0NYSWFzUDFnbWZqdVlWR2Ro?=
+ =?utf-8?B?bDZGakRqd0k1R0I5bDl0UDBxS3A3VHVHSkhrYzkvQkNMRVZyMGIwOUlIaUph?=
+ =?utf-8?B?OExMVlV2bU1OM1ZaS2d2dGxDaVVQbzNRVysvK29nYXF6ZDZrczUwZzJObDFv?=
+ =?utf-8?B?czZnMVE3QnN6NjZtdGx6T2hCZVg5UFhIOG5pWU50NWFTbHpTenhFdzJmKzhP?=
+ =?utf-8?B?QjNYM082Rk9zRmxtd29IblBYODFVU3p1VytabzV3OWxrL04vUWV0RUlteTZl?=
+ =?utf-8?B?d3VVcXNCN3NldHhyRzJjSGF1UktycTJaY1FUNDRXVkdiUzZGYmUwOXV5a0hF?=
+ =?utf-8?B?REwzdHR1Y3lTbjdpK2pKdDVuc1RETnpKWmx2Tkc5a2tsbklUNFpiR3IzcmxT?=
+ =?utf-8?B?emVKdXFMaWJpcTNLbU4wbmYrMVJiU21ab3JVZkdFL0FRb3doOFB3SjVESTdI?=
+ =?utf-8?B?a2JuM3NEYnNDcWVvMUxiUDc0NFpzVmtrbnRYZ0s4UnN5eGRIczhrQmxqL2ll?=
+ =?utf-8?B?enNWMGVSQzN6Y2R0bTlUR0lSaWpDYUxWWXZFNG9HRXhnejlVTGJPaElRYWs5?=
+ =?utf-8?B?eUhnV1JpY2FNbVdXT2VzSVcyZ2Jpc3hJTDZwRmVlUURqSWFZK3ZHdFBlTzl3?=
+ =?utf-8?B?aFFNK2xxenNOQlJ1VzJsTDlpZUkrNWJjNGlPZWdwWDlWVUNzUXYrbDllZjUr?=
+ =?utf-8?B?K2hCSlpHMTk1bU9IT0R4MVV6OEZYL3dmL2ZhbUFxUmR2RFVEa2IrNVVmcFgx?=
+ =?utf-8?B?WGQ1WjFmY2l1SzUwdHdCNGFOS1ZjUXNVVDgxZGZtWG42WHJhTXR0a3JtYmFr?=
+ =?utf-8?B?eFFPd2RXdnZhei9TNkRQMi8wR2FLS1U4SGZVeTFpdmYrK2ZYVWEyYkZlWlBw?=
+ =?utf-8?B?eUFUUEZmdXRWa241Vm0vTkhnMG9WMEg1bENyc1Nha1N5bDJRQWRzOGx1a3RG?=
+ =?utf-8?B?bjNEZ0hUOEFzdC9LZTdrWkpUcEF3b3lqdGRhUzZnZXZuZVVHaERKc09OSXQ1?=
+ =?utf-8?B?SjdJRzM5dG1RRlh5N0RDSGs5QkYwczF5UWs0VXhPQzNUVXhrQWQvaEMvT3lq?=
+ =?utf-8?B?T0trck9hVkxlWndDN2FSQU1pZGFYOXBVMGVJdzBWSFo1cEhwOEJvaVNNVFVk?=
+ =?utf-8?B?N0xjK2JKUS9tN1ZtaVJhMnR3ckFYUE43MmVZVjVTUnpXMUZLMy9veFNVWk1J?=
+ =?utf-8?Q?mnhPx5KyssRyBx3roV?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 81cafa58-af46-454b-9d3b-08df1a71fb9d
+X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Sep 2026 19:28:16.6733
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZiW9MVdMq6VFSl8GT1lYphVqy9SethyWUgkCOI3oIPh50dtSXfkTKjmN2rT8UU8a
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ5PPF4D350AC80
 
-Hi,
+On Thu Sep 17, 2026 at 12:22 PM EDT, Lorenzo Stoakes (ARM) wrote:
+> When a user requests an mmap_action be performed in mmap_prepare, this
+> involves populating the VMA range with data.
+>
+> However, if the VMA is mergeable, it might then mistakenly be merged with
+> another VMA without having populated the range.
+>
+> Every mmap action currently available sets VMA flags such that the VMA
+> cannot be merged.
+>
+> However, to ensure that no future mmap action falls foul of this, assert
+> that this is the case upon mmap_prepare validation.
+>
+> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> ---
+>  mm/vma.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+>
+> diff --git a/mm/vma.c b/mm/vma.c
+> index d6ed10cefc8f..62f2ce1ad5a1 100644
+> --- a/mm/vma.c
+> +++ b/mm/vma.c
+> @@ -2809,6 +2809,15 @@ static int mmap_validate(unsigned long prev_start,=
+ unsigned long prev_end,
+>  int mmap_prepare_validate(const struct vm_area_desc *prev_desc,
+>  			  const struct vm_area_desc *desc)
+>  {
+> +	/*
+> +	 * It is not valid to execute mmap actions for VMAs which can be merged=
+,
 
-The internal speakers on a Dell Latitude 7440 (SKU 0C0D, ALC289,
-PCI SSID 1028:0c0d) emit a loud high-pitched hiss while the output is
-muted. It reproduces from a live USB, so it is not a userspace
-configuration issue.
+Is it better to say "for VMAs ... after mmap_action_prepare()"? When I
+first read this, I wonder why the check is done after
+mmap_action_prepare(), which does some work based on action.type. Then,
+I realize mmap_action_prepare() changes desc->vma_flags and affect its
+mergeablitiy.
 
-Hardware / software
--------------------
-  Laptop:   Dell Latitude 7440, product SKU 0C0D
-  Codec:    Realtek ALC289, Subsystem Id 0x10280c0d
-  Driver:   snd_hda_intel (not SOF)
-  Kernel:   7.1.8+deb13-amd64 (Debian 13 / LMDE 7)
-  Fixup:    quirk table matches by PCI SSID; the fixup name is not printed
-            on this build, but the table entry for 0x1028:0x0c0d appears to
-            be ALC289_FIXUP_RTK_AMP_DUAL_SPK ("Dell Oasis")
-  dmesg:    ALC289: picked fixup  for PCI SSID 1028:0c0d
-            autoconfig for ALC289: line_outs=2 (0x17/0x14/0x0/0x0/0x0)
-            type:speaker
-
-Symptom
--------
-When the output is muted (desktop mute, or the Master / Speaker /
-Bass Speaker switches in alsamixer) while a stream is playing, a hiss
-comes from the speakers. It stops when both "Master" and "Bass Speaker"
-are switched back on, even with "Speaker" (pin 0x17) left muted.
-Muting again brings it back.
-
-Findings
---------
-1. Codec dumps (linked below, quiet and noisy states) differ only in
-   the pin amp mute state. In the noisy state NID 0x14 (Bass Speaker)
-   and NID 0x17 (Speaker) both have Amp-Out vals [0x80 0x80]; in the
-   quiet state both are [0x00 0x00]. Only the mute of 0x14 matters:
-   unmuting 0x14 alone is enough to stop the hiss.
-2. Both speaker pins are fed by the same DAC (NID 0x02), and both have
-   EAPD enabled (0x2).
-3. snd_hda_intel power_save=0 and power_save_controller=N make no
-   difference.
-4. With the hiss present, running
-
-     hda-verb /dev/snd/hwC0D0 0x14 SET_EAPD_BTL 0x0
-
-   stops it immediately. However, with EAPD on 0x14 off, all speaker
-   output is silent even when unmuted, until EAPD is set back to 0x2.
-   So EAPD on 0x14 appears to gate the shared speaker amplifier, and
-   the amplifier hisses when it stays enabled while its inputs are
-   muted.
-5. Making PipeWire use a software mixer (api.alsa.soft-mixer) avoids the
-   hardware mute and hides the hiss, but leaves the hardware volume low
-   and changes the sound, so it is only a workaround.
-
-Question
---------
-It looks like EAPD on the bass speaker pin (0x14) should follow the
-mute state so the amplifier is only enabled when sound is wanted. Is
-that the right way to handle this amp, or is there a coefficient/GPIO
-setting that keeps it quiet while muted? The same fixup is used for
-1028:0c0b and 1028:0c0e, so those machines may be affected too, but I
-have only tested the 0c0d.
-
-I'm happy to test any patch.
-
-Links
------
-  codec0_quiet.txt:
-https://privatebin.net/?38b6afa8d5f8fafa#6RGSdUzd1cquzFqbgyvgTmP71qSNfw3gsxrdCoJr9fgM
-  codec0_noisy.txt:
-https://privatebin.net/?2ce6b8dfba9e71c9#7WxpV7fmEUtUc7UKoZBeoSB4he5Wumqr3w8BjactUC6b
-  diff of the two:
-https://privatebin.net/?1ef495132ba35d13#AcsVmEjnG2BmPUEvKkbomomt5rJagPdcxJzm4VEBdU94
-  alsa-info output:
-https://privatebin.net/?79cdf993c90dc485#2xUz1SgFEUESjc26gSZi9JTx7Q2dWaTtXc4BzWNSZxRN
-
-Thanks,
+> +	 * as any such merge would leave portions of the mapping incorrectly
+> +	 * unmapped.
+> +	 */
+> +	if (vma_flags_can_merge(&desc->vma_flags) &&
+> +	    WARN_ON_ONCE(desc->action.type !=3D MMAP_NOTHING))
+> +		return -EINVAL;
+> +
+>  	return mmap_validate(prev_desc->start, prev_desc->end,
+>  			     desc->start, desc->end,
+>  			     &prev_desc->vma_flags, &desc->vma_flags);
 
 
-Zach Low
+Otherwise, LGTM.
+
+Reviewed-by: Zi Yan <ziy@nvidia.com>
+
+
+--=20
+Best Regards,
+Yan, Zi
+
