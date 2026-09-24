@@ -1,169 +1,141 @@
-Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013007.outbound.protection.outlook.com [40.93.196.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B41B92FE56A;
-	Thu, 24 Sep 2026 12:42:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.7
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790253736; cv=fail; b=h1vNefgaoWcOhpF2kqa0ZwF8xHb4isVCZyZ51roikJoDc4BscwOAdCgk1jhXfTrpT3IcCJZzfSdv06qis/A5OLy3n3pT/JUu9spa4Q7/p6xdy+HpClAqawHhVUrExj1OA4dDw93Aam2WQtj2avEiPqcYI1KM4ckfbQ8261zoVns=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790253736; c=relaxed/simple;
-	bh=+xCrtj66QO9rWsMqb1rbHm7jKGK/4s3TdlGuqDRcMK0=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=uBihH7jQyDeoQCbK0yYTa2f09Ni3eRYkxvUJ6V4rRb0EzMDQ5i/AcA0rXalac/CyWUPgZjyW5dlEYVv3QnmuPBeoBE5pCjlcoEKLkzmMoLbixvV+53UMcG8VllJXHnXpRzXs5Wjvr6uplQ+d98LHQrTGmYZnVk64Bi7f/GuQrvE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=jJjCF22u; arc=fail smtp.client-ip=40.93.196.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BFB330274D;
+	Thu, 24 Sep 2026 12:46:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790254011; cv=none; b=ewLTg0yPp9fhSwFOsHzLlV9PrPb4x9A50KmNV1k0Bp/WiumCLWLjdgks8PbKlEB0EOJ3QLm0PJnqOMt08X+m/Xb7/SbkthOMOJ3K45IoJfRnLQ7wED+qvx5+wMZ86dd+ozw8c1B8eSvwAykn80OyJcLOlgr4igsAPmhEJKKGhFo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790254011; c=relaxed/simple;
+	bh=WCww17Nbz5msM318Y+YiigiK/lae/kU3t0OrPKXBYxA=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=eMVZ7ui6WanhF0yXJ9BHgtFgIGXoqGbVUC9p7JSh81AGXUThZZp/0jsZxk406laS/AW7dqVUE+HUwwWsfEM4E7BltIiaERQDeKlwxXriBQT1SsJHKohU85xRIP4fNh3P0nyF3HFiL2cF3ZRTdNBZYziFH/e0ShAQaj5jfMFEYLg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h9QJ88im; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="jJjCF22u"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=l8YWbDgVPGJ6e7joaPE/GLktX6PghmUBtAqny3HSbko4y/Gi29GcD2mco9ujfxaSH0UNhWFchw/xocCFihoyiDBTLuzGqyWTy9Rw3QkRg2hE6k36YcNkEGgzerNjI1ecwLKlHHTEszWKJxXJ7L2u0i78b4WKWlQTNJXMmTiPTTpvQv5UdxLNhrr85niD7UvuXMjybOtmoPPek6x4o9bTOzKxteWuN88lL3lEwTsP9yw38GRdjBgrFT5YPV3fcJTYaiPv5gMBDzAMWbTUvm6Idz2AFJd1HiVWcQEj1dfpaGw6FaFneNsKDsqG4TLhocH7lxcS0xpnaCeJNNsZqNyDnQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pJuuMkonr8yu5W1VSdv3ft+cbnWiMd+NeijaBiM0Hfk=;
- b=QyxqKoTDo6VbegS9Sd/ZnD+Axzwe5QO+NuffJUv4CUToIOCbpab4KObnMW1oKV7rn/pOEQX9l/KtliwAGD0m4r23NlLzmhBJBaIUeW4bgZ6zc0JbPjOsju3cgp0K95FQj3UpDIwt9VsOp05gawGLXaRSlecMh2h1AeIba5El1vGAHu1m8fLhgVed7c1uh51N/o0K72Lhoieh8yDNot8gMj2ljZK9k0X5zZ3kN63yKJTsoXoHBq3kI+gw1P0v/8MhCKTsQRA786hpys06izEaDjHeFyIJNZdyXLahOjKmtOI+fuQlpscoxid9NLobkEEAKruQ1zmDYtJJn3Gvd+hL+w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pJuuMkonr8yu5W1VSdv3ft+cbnWiMd+NeijaBiM0Hfk=;
- b=jJjCF22uq2SOb46Rk/I7+Km5neTCwQ2HYvikVOWlg2tZQRqw2VzYj85F4axwxCZfA1KkYonSuRM9TtR0XExGk5zIvma/YZx2KA87nLgm8gaIu8sxgqvVannvEnv3hTlluWxeCgz6yqt5jQIIqVB3WlsRbhHtx0nICuK8EpZe2VI=
-Received: from SJ0PR03CA0162.namprd03.prod.outlook.com (2603:10b6:a03:338::17)
- by DM4PR12MB7527.namprd12.prod.outlook.com (2603:10b6:8:111::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.18; Thu, 24 Sep
- 2026 12:42:11 +0000
-Received: from SJ5PEPF00000204.namprd05.prod.outlook.com
- (2603:10b6:a03:338:cafe::85) by SJ0PR03CA0162.outlook.office365.com
- (2603:10b6:a03:338::17) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.406.11 via Frontend Transport; Thu,
- 24 Sep 2026 12:42:10 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
- is 165.204.84.17) smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
-Received: from satlexmb08.amd.com (165.204.84.17) by
- SJ5PEPF00000204.mail.protection.outlook.com (10.167.244.37) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.451.8 via Frontend Transport; Thu, 24 Sep 2026 12:42:10 +0000
-Received: from Satlexmb09.amd.com (10.181.42.218) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.49; Thu, 24 Sep
- 2026 07:42:10 -0500
-Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb09.amd.com
- (10.181.42.218) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.49; Thu, 24 Sep
- 2026 07:42:09 -0500
-Received: from amd-B550M-DS3H.amd.com (10.180.168.240) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.49 via Frontend
- Transport; Thu, 24 Sep 2026 07:42:05 -0500
-From: Syed Saba Kareem <syed.sabakareem@amd.com>
-To: <broonie@kernel.org>, <alsa-devel@alsa-project.org>
-CC: <Vijendar.Mukunda@amd.com>, <anson.tsao@amd.com>,
-	<Sunil-kumar.Dommati@amd.com>, <mario.limonciello@amd.com>, Syed Saba Kareem
-	<Syed.SabaKareem@amd.com>, kernel test robot <lkp@intel.com>, "Venkata Prasad
- Potturu" <venkataprasad.potturu@amd.com>, Liam Girdwood
-	<lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
-	<tiwai@suse.com>, Randy Dunlap <rdunlap@infradead.org>, "open list:AMD ASoC
- DRIVERS" <linux-sound@vger.kernel.org>, open list
-	<linux-kernel@vger.kernel.org>
-Subject: [PATCH] ASoC: amd: acp: fix TAS2783 SoundWire codec unmet dependencies
-Date: Thu, 24 Sep 2026 18:11:52 +0530
-Message-ID: <20260924124205.3376083-1-syed.sabakareem@amd.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h9QJ88im"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 926F2C2BCB3;
+	Thu, 24 Sep 2026 12:46:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1790254010;
+	bh=WCww17Nbz5msM318Y+YiigiK/lae/kU3t0OrPKXBYxA=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=h9QJ88imIePzlbdnTRmvPzkjo9bUAFbPcSghL5bzdZQMo8R3uqAImn0SiT58wu2gW
+	 14OfISweK7f8Orze2ZUNim2MS3TfC0h8UyMhcmPdux5NaN5eGfhECisoM3JuFD1EGA
+	 EphoByz3NUJEZokoas48ukt/XBu7nqqxvQmSjiZkSKhO4vHDFzrx1Y9BE6BhOjlp9m
+	 umYGIwfE3z+wCOlXyDuRGxzwytwd8+gXigI6rmAVAORyJKhMNSOWu7AGV/AfGItUPY
+	 QkPDt8qsmImHnnIN9/LcilOjrNknOmGne3vhnRVLNEBcrxzoQyQ1srxjxTE6Nb3Kv3
+	 tn7dX3v2j8SLA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A97FC9830E;
+	Thu, 24 Sep 2026 12:46:50 +0000 (UTC)
+From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
+Subject: [PATCH v3 0/8] Speakers for Pixel 3 / 3 XL
+Date: Thu, 24 Sep 2026 14:46:44 +0200
+Message-Id: <20260924-pixel3-audio-v3-0-5d06460fc8a9@ixit.cz>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ5PEPF00000204:EE_|DM4PR12MB7527:EE_
-X-MS-Office365-Filtering-Correlation-Id: 27abe038-f04b-49ea-1c69-08df1a394077
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|1800799024|82310400026|376014|36860700016|13003099007|10067099003|11063799006|56012099006|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	Gg3XyppgMfxM8+N31DQEIOPMNgazQ54m9M5zSfODSt9VGstiLzeoP0NFsb8F81IIqSKrLXVW0UMAlo7eFdORIdER1CWX5g4/KVFIW6w1kDZQHupREF4HReHpT8G8HXXVxam2Q3S/Azi79wpYTudaiXR4fTGuakJxUvBcx8r5GsDg0e4bMmOOgf40Hc8kwT4CX+Objm7LvTsHcY9qNQ8F1sJ1S2F4HyoVU9lJTvX5kpoqjkf+GZwZuCZz8WZG2AqxkKS/2e+q1XC3iO/IrBdyWhZqinJNnPjLV1TqZaJFu2h2LyJHv0ySIhu4O3v75Q+h+vgR2qii0HawkFdxu9NDFVxIzbzJNDPaCJdL/tpNeKkkHog1MBnhAfx6fjErxGbJpAuWPBFo5DHBMPpPhSiK3ppisZiZnkaUGzDBkcRjQUz4BaHPpcHMLku85Vl//o6OXZBDVXXgyutsG89KYqVS+yNnoOiUcJJvYvmIGviZEfx7Z7bjy9V326FecZ/qonFzbrSU5krtglnI438XmbtJ7yYxtEJYxymW4Ozm6RGZB/FFGsll+Os9vGeznVSYHSwW3IDCrCeKH0AK787W8Q1MrwNBxGjNns+XZYV14gqxwIGRqjcOb1HW5HKfeCgEArDltcYNuOUOfhZw5r6x2bi5wg==
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb08.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(82310400026)(376014)(36860700016)(13003099007)(10067099003)(11063799006)(56012099006)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	AjG5hZ1XyXwoLT34BmBY8G/cIAYd9e7CsXZZHQA9R26A/pymzxgW1iCwm0Mfl7Rkf20+3rD8rwR1P1SPEW2HIEo4yMkkXSQvkf/tCneoTQazBmMcU1WGTNjzR1sbzcS4ScH+G+/Xut51xbE9VVBg7DsON6luV5Q/oiZXa8+w2E5Ua97suCfhOd5KN00SPefbj/cHtiro8/gDftym78VeTNUeCmkchLrmk6u6Lfb706k/hFqvM9bUEdTYZzIotFQal+uCmr3tjSfcZN49A06vna1F5uSElKanu5J7Rdot04DncznljMA0vkctlQLdnvFtjXjpH9ek/P5xr/+fj5qo3XlkT2dBfA+pAss1Sd9TV875QCJ3v2UUfeeJwkNThvpfkUOKf6tO7I5TBwTNHQQqgOlyWw9Muky3uOnuq0YRKuNorBFZ4syRwCpvz9s4I5XO
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Sep 2026 12:42:10.6231
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 27abe038-f04b-49ea-1c69-08df1a394077
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb08.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ5PEPF00000204.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB7527
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/12Oyw6CMBBFf8V0bU0fUqgr/8O4oHQqkxjAFhqU8
+ O8WWaAu752cc2ciATxCIKfdRDxEDNg2Kcj9jlR12dyAok2ZCCYUU1zSDke4S1oOFltqrHHmqKF
+ gMicJ6Ty4dF90l+uaPTyGZO23ssbQt/75mYx8aVd7zrJfe+SUUWmUclIWmXb8jCP2h+pFFk0UG
+ 6rZ32NRJDSvhACreSb0FzrP8xveBPUs9gAAAA==
+X-Change-ID: 20260613-pixel3-audio-bdbfb49e8037
+To: Srinivas Kandagatla <srini@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ David Rhodes <david.rhodes@cirrus.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ David Rhodes <drhodes@opensource.cirrus.com>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, patches@opensource.cirrus.com, 
+ devicetree@vger.kernel.org, phone-devel@vger.kernel.org, 
+ David Heidelberg <david@ixit.cz>, 
+ Charles Keepax <ckeepax@opensource.cirrus.com>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2368; i=david@ixit.cz;
+ h=from:subject:message-id;
+ bh=WCww17Nbz5msM318Y+YiigiK/lae/kU3t0OrPKXBYxA=;
+ b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBqtRu33V70vGPgoK9kRrmF2zP8lixWUhtWMOIjj
+ QJMDZckuYqJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCarUbtwAKCRBgAj/E00kg
+ csAxEAC2My1jTW1COPi529iCest+b+a27uNQ3d8MeloVj0nrXvwqgpr3nAGkGivckem3Mdet8Sa
+ r77/Vy4C77CGHjL/LJp/t2rDg3J0rKk1bltL8M7Grrmbng6NuQadd1MxVhwKo+/7gJH+UQOz+v+
+ LXzKf0Aod8+BlwK+ZTWKm/jYyoKz75yLJUOvgeYUcCAfz/WsqX30THqSr+uFc/kzP/H1igtGto6
+ Caeq4tj0Wm7v9y6TWEPpfdjvI6o+NCWwHl29K5fDP/LwvJcYPjOWJ8w/306C/EJYnzGHihTwOmi
+ op/7tUxtHEHXTfgKeYS2wny2elDUyapRfXvHrMrqv/FLDLVb/yHF9rHYygtevti86TM2B1tKhD6
+ okd13WI5/WwJR7pE0NCvDIHaXq9XMvQ7h3jhiDa6kOOx1CxVm9RXL6NmKIauN1fJ+vh0QFgvyCD
+ AIvUpd+sxxY4LO9Rdc9hbhzdZmWlrOmGTK+ryoTpqJhBo/wSrGAXRBPQEZwfZM4NXZcQtI3cjoz
+ LeF+a96vKlumc3Ol6SmhRo8d8qg+T9u35M8F7kRmYfkxxcnfXXp3gDtNni+zfgOq5VjldjpVKtO
+ Nk4W2nD3EVJQ8TBryNGGAjuPxuKvEVZjBTRzAyWVN24EG1BFbe6kmhLtnTimGBrQ6ejL8gp9fg1
+ t/Gn1A0qp4i+svQ==
+X-Developer-Key: i=david@ixit.cz; a=openpgp;
+ fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
+X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
+X-Original-From: David Heidelberg <david@ixit.cz>
+Reply-To: david@ixit.cz
 
-From: Syed Saba Kareem <Syed.SabaKareem@amd.com>
+This series address:
 
-SND_SOC_AMD_LEGACY_SDW_MACH unconditionally selects SND_SOC_TAS2783_SDW,
-but that codec depends on SND_SOC_SDCA and EFI in addition to SOUNDWIRE.
-An unconditional select force-enables the codec even when those
-dependencies are not met, which the kernel test robot reported as unmet
-direct dependencies when EFI=n:
+0. demistify the hex to BIT() macro and add left/right rx spk
+1. most likely wrongly set DSP_B in sdm845.c
+   my guess this is because TDM was never used in the mainline with
+   sdm845
+2. applying correct mask to left/right speaker for the TDM in sdm845.c,
+   so both speakers can work simultaneusly
+3. setting sysclk at startups, which some codecs need (such as cs35l36)
+4. setting proper tdm slot in the cs35l36 driver
+5. device-tree wiring for Pixel 3 / 3 XL
 
-  WARNING: unmet direct dependencies detected for SND_SOC_TAS2783_SDW
-    Depends on [n]: SOUND [=y] && SND [=y] && SND_SOC [=y] &&
-      SOUNDWIRE [=y] && SND_SOC_SDCA [=y] && EFI [=n]
-    Selected by [y]:
-    - SND_SOC_AMD_LEGACY_SDW_MACH [=y] && ...
+As per previous discussion not seding patch removing the "Input Mux"
+which now interferes with TDM callback. If wanted, I can send it as a
+follow-up.
 
-The other SoundWire codecs selected by this machine driver only depend
-on SOUNDWIRE, which the driver already depends on, so they select
-cleanly.  SND_SOC_TAS2783_SDW is the only one that additionally needs
-the SDCA core and EFI (it reads speaker calibration data from EFI
-variables).
-
-SND_SOC_SDCA cannot simply be selected here, as that introduces a
-recursive Kconfig dependency (SOUNDWIRE depends on SND_SOC_SDCA_OPTIONAL,
-whose default pulls in SND_SOC_SDCA), and EFI is a platform feature that
-must not be selected by a driver.  Instead, guard the select with the
-missing dependencies so the codec is only (and always) built when they
-are satisfied:
-
-  select SND_SOC_TAS2783_SDW if SND_SOC_SDCA && EFI
-
-This keeps the TAS2783 SoundWire codec built together with the machine
-driver on platforms that can use it, while avoiding the unmet dependency
-when SND_SOC_SDCA or EFI is disabled.
-
-Fixes: 28114992dd2f ("ASoC: amd: acp: enable TAS2783 and add RT712-VB SoundWire machine")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202609182147.gfofWIXW-lkp@intel.com/
-Signed-off-by: Syed Saba Kareem <Syed.SabaKareem@amd.com>
+Signed-off-by: David Heidelberg <david@ixit.cz>
 ---
- sound/soc/amd/acp/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Changes in v3:
+- De-RFC, applied Reviewed-by tag.
+- Link to v2: https://patch.msgid.link/20260903-pixel3-audio-v2-0-7c22ed915291@ixit.cz
 
-diff --git a/sound/soc/amd/acp/Kconfig b/sound/soc/amd/acp/Kconfig
-index e880e44b9763..6433876430f0 100644
---- a/sound/soc/amd/acp/Kconfig
-+++ b/sound/soc/amd/acp/Kconfig
-@@ -181,7 +181,7 @@ config SND_SOC_AMD_LEGACY_SDW_MACH
- 	select SND_SOC_RT715_SDW
- 	select SND_SOC_RT715_SDCA_SDW
- 	select SND_SOC_RT722_SDCA_SDW
--	select SND_SOC_TAS2783_SDW
-+	select SND_SOC_TAS2783_SDW if SND_SOC_SDCA && EFI
- 	help
- 	  This option enables Legacy(No DSP) sound card support for SoundWire
- 	  enabled AMD platforms along with ACP PDM controller.
--- 
-2.43.0
+Changes in v2:
+- Device-tree name sorting, with exception keeping mm1-dai-link in it's
+  place. (Konrad)
+- Make set_tdm_slot cleaner and less leveled. (Konrad)
+- Added TDM MIC defines in sdm845.c.
+  Should we in capture use speaker mask?
+- Renamed model from 'Google Pixel 3' to 'blueline', I would love to
+  hear feedback on this one.
+- Link to v1: https://lore.kernel.org/r/20260705-pixel3-audio-v1-0-3b66f33859f1@ixit.cz
+
+---
+David Heidelberg (8):
+      ASoC: qcom: sdm845: Demystify TDM masks a bit
+      ASoC: qcom: sdm845: use DSP_A format for TDM codec DAIs
+      ASoC: qcom: sdm845: Use per-speaker RX masks for TDM slot assignment
+      ASoC: qcom: sdm845: Set codec dai and component sysclk during startup
+      ASoC: cs35l36: Implement set_tdm_slot to program RX and TX slots
+      arm64: dts: qcom: sdm845-google: Add basic audio support
+      slimbus: qcom-ngd-ctrl: Remove data channels on stream disable
+      arm64: dts: qcom: sdm845-google: Add WCD9340 codec and microphone capture
+
+ arch/arm64/boot/dts/qcom/sdm845-google-common.dtsi | 195 ++++++++++++++++++++-
+ drivers/slimbus/qcom-ngd-ctrl.c                    |  81 +++++++++
+ sound/soc/codecs/cs35l36.c                         |  44 +++++
+ sound/soc/qcom/sdm845.c                            |  49 ++++--
+ 4 files changed, 357 insertions(+), 12 deletions(-)
+---
+base-commit: 7079a12d7506b07fb53b54a664bfad5fa9b16d70
+change-id: 20260613-pixel3-audio-bdbfb49e8037
+
+Best regards,
+--  
+David Heidelberg <david@ixit.cz>
+
 
