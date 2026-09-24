@@ -1,42 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE86047C0F7;
-	Thu, 24 Sep 2026 13:21:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD7F1480DF7
+	for <linux-sound@vger.kernel.org>; Thu, 24 Sep 2026 13:22:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790256104; cv=none; b=E1VA4YohlD96QVCafOzRobQsw2NkQKD6CJSUqrXqsm4mWcd4/MZCqsYFjhh4nLXa7yRfTHdNGqjdycCGJ7nHDH7bSKHKcvgp8Zs8cwOojgdOoptNJQtkK0UOBJHhVcUqptAAE6Y6+SOTivJeKCMLc6QZ28J5YYZv1TjL8FvfBb0=
+	t=1790256124; cv=none; b=aRqyFJJLIjBvigK2NE3SGVcOc8lxCyoJdq/IwV+lj/oOL09LecYWykQFDkXrJfsLwKZj7ZiE0p/MIaAuszHLXYjFtOrKFtouagIQ+DxN4GwpYT6+cxljN7ngHeMu4lpz4evUHTQSJG4cw0UmT7qrN1chsiYwE8UYPN4D058e7S8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790256104; c=relaxed/simple;
-	bh=iytG71/btaolJli63VfNx5Jj4nZmW8lxHlE/Ukcb1Zs=;
+	s=arc-20240116; t=1790256124; c=relaxed/simple;
+	bh=7RmgXlgZ5+PELjWfl7P18KEbSrGTQ7mvFuulzZEP03U=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=VT1vsE1kl0eDoCrWm45YpVj1BreCJJsFmDUrXS8mwsp/JAtrVkH7dtJPAkc8f6aT3dECRIJ8fYVTg7i5mYc9Pp+04m8d1xmlcencC8cpF/s9HU0DJFc9W9NWu+b6BAUE2IVooTaq3cxqxM4uWZpj/iHSkAkVYAfNT8qSKkbZrxA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VFGuproa; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=lMSNxfIqNlK3n9W7AUvsOrNZMxhM0ZILPAIA16nxCe9B99hqXRlJk4O5KACqXeUS2GVoRiOlrD1QT9XiKw/TOAkQauaT9+Z+DKli/FHy9DX5P5EKylohnbtPvsl99yHDpLmawtt5QQ5sdcbdGEsfZZNUEFzWpUiom/ny4iJAUfA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XAKKtQQU; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VFGuproa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E82761F000FF;
-	Thu, 24 Sep 2026 13:21:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XAKKtQQU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 891DB1F000FF;
+	Thu, 24 Sep 2026 13:21:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790256103;
-	bh=2/EPfMGjgL86gncbUx5eIRUF5uHC5gV4bo1BZJPq0Lw=;
+	s=k20260515; t=1790256120;
+	bh=RyUqhGFtWvNdGvfJGGpu7tIKfutpRYjU8syYWSxzN3Y=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=VFGuproah1Ziy3ghTKqX5Se64Ibj0Ph0N/h6I3Nh5fCTmVbgfVVkz+SyaK3Qa2R+r
-	 Az0AfJoSBlvgni1QJHPr4hEs1JN7+l+1in14byitbDUbibT15F2kUNOBCw76HzCuE1
-	 5wWNmVpyKyfayrC4NGVc5Ygud6QlgLZdCDLdSU8B2b0B0mjTKvcExeoemTi7tpqVgr
-	 /i7inBtCt+sETalAnNvAm3lz24aClSpLtJ68glXIRl+ZjchqQ9zQcVD4J0y6ZdYvHp
-	 eKmuwz+P+PmndKRjA0dC3yQwj8DYLXpjv3Kwws5/dOnzYf5QwJD0lw3ACbuIxMgPxD
-	 GJtFaJn9e8pHw==
+	b=XAKKtQQUdVF/PyzQ/4anXlm8sSNF7evj3Sot+DhZBmM2w6zO8JtMujOroVkWYX04E
+	 IvMVMWpmDNV+hKt5clAuSR2347+lMpThd3KKWQ5pD1wUgLr0A7fIcDP7WeXNt58dVk
+	 IBXx6c/5sK/yA0vtDxiDCn8TQngdaWYFlOuqy7CgEvSluIUz3v6ITzc+qTVkyi+IHb
+	 +CqtCk+B5bieNHe0efDPkb3IsrXaky8rI4kHXskiTw1JEa28pgE4MJ2tyNvDxf61Lo
+	 bGqsrLP88Q7RWXkwRrmCmIhwkVIU9nlqqD3DeeGXIdy7usB9xEG3ron1tIGjHppS7b
+	 84aOZcO9UxAGw==
 From: Mark Brown <broonie@kernel.org>
-To: Maciej Strozek <mstrozek@opensource.cirrus.com>
-Cc: lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com, 
- pierre-louis.bossart@linux.dev, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
-In-Reply-To: <20260924095458.2683755-1-mstrozek@opensource.cirrus.com>
-References: <20260924095458.2683755-1-mstrozek@opensource.cirrus.com>
-Subject: Re: [PATCH 0/2] ASoC: SDCA: Power management fixes for the class
- function driver
-Message-Id: <179025041368.149798.12108806107791034334.b4-ty@b4>
-Date: Thu, 24 Sep 2026 12:46:53 +0100
+To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, bard.liao@intel.com, 
+ peter.ujfalusi@linux.intel.com
+In-Reply-To: <20260924054015.2600784-1-yung-chuan.liao@linux.intel.com>
+References: <20260924054015.2600784-1-yung-chuan.liao@linux.intel.com>
+Subject: Re: [PATCH] ASoC: Intel: sof-function-topology-lib: fix sscanf
+ type
+Message-Id: <179024817777.114772.13129084452006538011.b4-ty@b4>
+Date: Thu, 24 Sep 2026 12:09:37 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,41 +45,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1662; i=broonie@kernel.org;
- h=from:subject:message-id; bh=iytG71/btaolJli63VfNx5Jj4nZmW8lxHlE/Ukcb1Zs=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqtSPjZdjPrI9lRGUn2lgjNQZJYokWbmJuWALKk
- Cpb+CZ/50CJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCarUj4wAKCRAk1otyXVSH
- 0FuMB/9dSWfGLkqhQRXJ6VQrGcsP2jA+q0ePHQiQVvDynocX78aj/7zlaLlGYiLgYRSdpUP2crZ
- Tu+XjQwnmxGkxDAJCR0O/kPOJESerkWa/rNi3txor+EqPQpYBIOqtp8wmHaE7ku6kFFuzzP5tPa
- gKsZDvvLz82FKikryn7B14znxK7nQa5cMfeiEOM4paA0qYLuO4BH4lPrtWBKnqygqWBAsZG7/v7
- Kh/s2YkDLvNqLUKRwU6yybkbZT45cC1IV5UHzDEAYwn1FXMvU/9ZNOgb1ZvnOilZtltFm8KtKOA
- nTWiCfmTBPeBl1YAMSslwMaf/AAyMS9OA+JC7osNyLyiQZ6D
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1125; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=7RmgXlgZ5+PELjWfl7P18KEbSrGTQ7mvFuulzZEP03U=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqtSP1MpG3MfnqaArciwiD2medIVizb2h9qrJQI
+ +CM3CyOF2eJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCarUj9QAKCRAk1otyXVSH
+ 0CfJB/992DBHiyvJDTgRupjOMCtLhIU/BRnmxzk1EWO2on16rLWRtfguik0EEPNzfjHSb7AF3js
+ 4SU0BJWW69hV9Ys+I70hFcJpvEKKMt8uDktcrmKezftutKFUiitdYRfSJXRwt3W4F3e89idjCgh
+ nlrKDxYaCMoROG2W55v/DTI2WVVlVSrujj935RKtuyGe1TanBIAa/eERoC2jiIVXggCI2bVqXJx
+ qYy34yOKJl0lsx8K1NIw1OszxvKGaVPC0kZOe980xVioLChvszR8aFQ7rWDfHQoCyuY/bIPiNGr
+ W7+EHuWGfXeDKPRKw5z/CL48sk9wWlKabV0310ofA/TadeUP
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Thu, 24 Sep 2026 10:54:56 +0100, Maciej Strozek wrote:
-> ASoC: SDCA: Power management fixes for the class function driver
-> 
-> The first corrects the point at which the suspended flag is set during
-> system suspend, the second balances the runtime PM reference taken in
-> probe when one of the later probe steps fails.
-> 
-> Maciej Strozek (2):
->   ASoC: SDCA: Set suspended flag after resuming within system suspend
->   ASoC: SDCA: Add better pm_runtime error handling in func probe
-> 
-> [...]
+On Thu, 24 Sep 2026 13:40:15 +0800, Bard Liao wrote:
+> ASoC: Intel: sof-function-topology-lib: fix sscanf type
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
 
 Thanks!
 
-[1/2] ASoC: SDCA: Set suspended flag after resuming within system suspend
-      https://git.kernel.org/broonie/sound/c/b16610e3770e
-[2/2] ASoC: SDCA: Add better pm_runtime error handling in func probe
-      https://git.kernel.org/broonie/sound/c/91094f9c8621
+[1/1] ASoC: Intel: sof-function-topology-lib: fix sscanf type
+      https://git.kernel.org/broonie/sound/c/db1761980ccc
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
