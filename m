@@ -1,114 +1,88 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E0F6423EA4;
-	Thu, 24 Sep 2026 16:48:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C65A3D953F;
+	Thu, 24 Sep 2026 17:03:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790268513; cv=none; b=JmhZmpzDgNtksT5umBNzf1wmR8Y/rHPFf7jk4MTLnmoMBlA94gIyNSiM2p4hKiyA+9CTUPJ8USN8fWGGgWyiasqDoUyj7CJM0Vq01norD1pC/HN0oAwdjsLViukJNfeex0PNihNqMJoGigUDFEqeR09bqp80/4DAaBg3qgnC02E=
+	t=1790269406; cv=none; b=ZwpQPlfOnMEDGkIXw6h8M2EdbY7a56ywyi8H59x0aWvpnSWiYhseB/uS7hZyG5J9uKG/adN+/t8T+BLvNyh44s1sAAv4PPF7LpuxTuRPcqHmicZQl7iGo9hs65kC6yh8eZnaRw/6slAxp//HhTgFCknFwHkPKt66Yewfe4WJepI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790268513; c=relaxed/simple;
-	bh=UzfMfNTQCkY4ZsxfUknTt5iuqxpYH81DBEfnWb8KHmM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SOS4assqEl1hKYyBReixMi8Mvfc1ViJKQvDSloBqfudNjcKECibFQOvMhlMRI1pMVSGFlMuBS+7afHCbNFkhQxDeCYGUgzTUR/dJOSqouU/6EJPs4BCSRj+2gbK98IT+X3XUXnP5JDP10KgV3DfHxNNsVfqv/4pFjimvicgqOpI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J7j2aFdx; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1790269406; c=relaxed/simple;
+	bh=GRYhMLA42NBei7YREWiLPxZRkNEQ5hzK4zvgTmWJl+M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=awQkGoyApD7whpL0x/Id7JEC26JkRp9km3VOvtSfTjkgd+IHaBpwyhQvJzJXAh6MztqSMGLCj7O5MsOR/4BCbIP3tDwq/elBVXEYGoG8vqFXkC+JivK7xl/gRH5+Y0romn3U1oW7vgiqTEuR1WG+nllmJJYYpVinZlhzn+WstJE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C8sPSa+p; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J7j2aFdx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790268512; x=1821804512;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=UzfMfNTQCkY4ZsxfUknTt5iuqxpYH81DBEfnWb8KHmM=;
-  b=J7j2aFdxb7Ks5wY369wOpFIizEDAr7DsAnzIMyusMmOg5iHBdo2wtBZQ
-   t5+iM9AmT1GRJKX1DH8YPJto3nxpSkgDynkhym+QO35CkrH3//GGtD62k
-   pITDkPckZ9Zy1lAI62fVLDK+Ic6Y9iJrjzQvxrha5epeBXHusacvpwGLE
-   BCFz0/xSy6h49XBE5YO9GtANR/tZwkMM6RPC2BmAXL557rXs7/nDCp64H
-   uL2moewmcZaka37+FCg4hNVvl3fo1nHuyBYaTsmt+huvkQr8avXCWUhR2
-   xU4WEYk6YL1aRTgkcEnvZaqqADsxhrr9xbUP6XHqEHVbj83Es1lpDgHyS
-   A==;
-X-CSE-ConnectionGUID: 9UlSVuAuQcioLeg6yhx9pw==
-X-CSE-MsgGUID: IeYjXRW9SYyX8rcguAdDWg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11915"; a="93545718"
-X-IronPort-AV: E=Sophos;i="6.27,120,1787036400"; 
-   d="scan'208";a="93545718"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2026 09:48:31 -0700
-X-CSE-ConnectionGUID: UaUIP5h7SI6SQYOgyvs1iw==
-X-CSE-MsgGUID: RFJxkSj4SdybwW6PyYfCDA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,120,1787036400"; 
-   d="scan'208";a="300358917"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa002.fm.intel.com with ESMTP; 24 Sep 2026 09:48:28 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1003)
-	id 54CF599; Thu, 24 Sep 2026 18:48:27 +0200 (CEST)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Sashiko <sashiko-bot@kernel.org>
-Subject: [PATCH v1 1/1] ASoC: sprd: Shadow errors from dma_request_chan()
-Date: Thu, 24 Sep 2026 18:48:12 +0200
-Message-ID: <20260924164812.816743-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C8sPSa+p"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CA6A1F000FF;
+	Thu, 24 Sep 2026 17:03:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790269405;
+	bh=WUIXMGlF00n/an+XIpdJzwcraIyNlcy2fVXrbp/3+vI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=C8sPSa+pp//4QY0n2InsviILwO2ANC2TmhgCzyKFTFL88X1OA1rd8piCZ75I9NYuf
+	 fEC4gZaibZp2Mu+2cnaTVOycqGqUN+E9Ir2xIWEGVyYNu6SlG/wx/nOI6//uR1xuM4
+	 SzEUnwUkjRl2qhzU1qZe9tmBaUl+HYwW3ds7tqxVGzCfdWyeX7dlIOsyUE70XAxjMu
+	 a1FMvSAzwEYZrtkuHzbC+3WNlKr6kjS85sdATWW8JqrBJCfxxFOzOz+bs56EPWukLg
+	 Caw4bVrWp2lhFZChfGOJzssdpZ7QUgtYQEDQOIS3Fyfy1xEhSduphAsxvK/HcrHISG
+	 ZL+oTMyBJa+Ig==
+Date: Thu, 24 Sep 2026 18:03:18 +0100
+From: Mark Brown <broonie@kernel.org>
+To: shengjiu.wang@oss.nxp.com
+Cc: lgirdwood@gmail.com, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, Frank.Li@nxp.com, s.hauer@pengutronix.de,
+	kernel@pengutronix.de, festevam@gmail.com, shawnguo@kernel.org,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, shengjiu.wang@gmail.com,
+	Xiubo.Lee@gmail.com, nicoleotsuka@gmail.com, perex@perex.cz,
+	tiwai@suse.com, linuxppc-dev@lists.ozlabs.org,
+	Shengjiu Wang <shengjiu.wang@nxp.com>
+Subject: Re: [RESEND PATCH v5 0/5] ASoC: fsl_asrc/fsl_easrc: expose
+ per-pair/context DAIs and fix DMA race
+Message-ID: <744ce325-9d2e-45c7-b7d6-15ec7558dc83@sirena.org.uk>
+References: <20260922033428.1690822-1-shengjiu.wang@oss.nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="thyvYpNwRTH7ReUZ"
+Content-Disposition: inline
+In-Reply-To: <20260922033428.1690822-1-shengjiu.wang@oss.nxp.com>
+X-Cookie: What's so funny?
 
-For some reason the SPDR PCM support code requests DMA resources
-in the IOCTL. This might lead to the Linux error codes, such as
-EPROBE_DEFER, to be leaked to the user space. Prevent that from
-happening by shadowing errors from dma_request_chan() as it was
-done previously (see Fixes tag).
 
-Fixes: 08d77e31df21 ("ASoC: sprd: Replace dma_request_slave_channel() by dma_request_chan()")
-Reported-by: Sashiko <sashiko-bot@kernel.org>
-Closes: https://lore.kernel.org/r/20260918115229.CC8AC1F000FF@smtp.kernel.org
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- sound/soc/sprd/sprd-pcm-compress.c | 2 +-
- sound/soc/sprd/sprd-pcm-dma.c      | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+--thyvYpNwRTH7ReUZ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-diff --git a/sound/soc/sprd/sprd-pcm-compress.c b/sound/soc/sprd/sprd-pcm-compress.c
-index 0b110b72482c..d18c9a4e5a77 100644
---- a/sound/soc/sprd/sprd-pcm-compress.c
-+++ b/sound/soc/sprd/sprd-pcm-compress.c
-@@ -157,7 +157,7 @@ static int sprd_platform_compr_dma_config(struct snd_soc_component *component,
- 	chan = dma_request_chan(dev, dma_params->chan_name[channel]);
- 	if (IS_ERR(chan)) {
- 		dev_err(dev, "failed to request dma channel\n");
--		return PTR_ERR(chan);
-+		return -ENODEV;
- 	}
- 	dma->chan = chan;
- 
-diff --git a/sound/soc/sprd/sprd-pcm-dma.c b/sound/soc/sprd/sprd-pcm-dma.c
-index bc4d24e5a25d..fadaafbd807c 100644
---- a/sound/soc/sprd/sprd-pcm-dma.c
-+++ b/sound/soc/sprd/sprd-pcm-dma.c
-@@ -171,7 +171,7 @@ static int sprd_pcm_request_dma_channel(struct snd_soc_component *component,
- 			dev_err(dev, "failed to request dma channel:%s\n",
- 				dma_params->chan_name[i]);
- 			sprd_pcm_release_dma_channel(substream);
--			return PTR_ERR(chan);
-+			return -ENODEV;
- 		}
- 		data->chan = chan;
- 	}
--- 
-2.50.1
+On Tue, Sep 22, 2026 at 11:34:23AM +0800, shengjiu.wang@oss.nxp.com wrote:
 
+> Changes since v5:
+> - rebase to latest master of linux-next
+
+That's not a resend, a rebase is a new version.  This is all confusing
+b4 badly, it's not picking up any of the reviews as being attached to
+the v5 that already exist and doesn't even look at the new version since
+it sees that it already has v5.  Can you please send a v6 with all the
+reviews pulled in?
+
+--thyvYpNwRTH7ReUZ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmq1V9UACgkQJNaLcl1U
+h9BVcwf7BCet5mcdSMq0zC0cNsA9teLN9+P2zlswGHdgRRU40PVwEFizlbbS7wZl
+DOt1x1P94upHDBxOIj1BQlE2NH0CCx1Ndmd+GoJ0iq+zvPD+6wWhehE1HJyf1odN
+tHP8B7rCqkWXpKyWwPhWuQ7K6CjRo524433hqpLMfwEwIi4cRw2AIDPEJZEDxe4G
+YVIw8Rs1M9mOcSeAW1AcEx6zW8ZRr9Fcsl1ZL4z5iOj7rBRVLjfy6AKbM+Xkekpf
+3JcHWVENhCGh1J2m2PHfK3X4eKOJzRY/QJozB9KyoB75lQHUiYpC9msiJ+F4IN2J
+2IKKSaDZ354mcPpf2uwWiGkUJN/bEw==
+=1Dsv
+-----END PGP SIGNATURE-----
+
+--thyvYpNwRTH7ReUZ--
