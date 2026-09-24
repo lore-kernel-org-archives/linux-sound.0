@@ -1,147 +1,91 @@
-Received: from mail-qk2-f12.google.com (mail-qk2-f12.google.com [74.125.230.204])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96B8941D23D
-	for <linux-sound@vger.kernel.org>; Thu, 24 Sep 2026 17:17:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.204
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D808D53A3B6;
+	Thu, 24 Sep 2026 17:46:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790270257; cv=none; b=pYG1NDyTOunh8jq+SB3VnmA5PgCgXPkcH1aXOGw/LuY1J6UsD2BgwNuQI75GH0QhMhpEkj6AYeRNSUbA7DMic40Fd4u2a/nbDUgjAqG451DufW+c4W+e1ncuGDNYzS9kpgLc1OVa0Dr9gRDBWEBLSjVSWaIROfWCAK7sW7hWIp0=
+	t=1790271973; cv=none; b=uYLOO4dmSvarkarit9tt9V2kxyr6549DaH4m4ZHK9TqJWpkSvTpapoWSOvv359GEENuhtS4aM7LjerekS85SnUNU74esu0NiYmmxF2IvZZth3Xmwym5iaOJ78GQGaf4+3yfB9n2dG8ycXGWaNlwyA1DAUV1qaBVW7l+Fg7P3cNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790270257; c=relaxed/simple;
-	bh=N9G2xDWLJkhjpVHjPudlC9eB56JQvy0Q3UFpvQ70GnM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ThKF9PzCHYlkCoiZJCWCeqG059RMwt2HZiFpIljuOzV6TkRBbiy6BYzfggOhpaN93lCQdDb6HVhHTBiEFt+nmCCvyRWePY66mcn2kUZUzOcPqA09ikNoUVPgOQ5yGdEySJXrSa6Bp4lzz7NzFpjLQdRMcxM7hnJXqm6U4+Z9/eU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=Bkncun5e; arc=none smtp.client-ip=74.125.230.204
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1790271973; c=relaxed/simple;
+	bh=cHnIesqzRd3SzWjC4c0j6xgj40PQm3/+Hfd6Bj+Xj/w=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=u3VGnBNHyIzOViK3M+jaz2IZ8YB4nRLZsOGUGHnBbxD6Dpqj9gSwrPmVRNufJrGkoRTNV+K7+BQ1yFLgNxvQD4WulzA3z1VITPeqfl1LpiDRzGIMmk3DTxig8XVgGv5lELLPD6ySQ8HpI7lyDche4JMSfaI9zPMSMPJKNxjgUCw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ldDps6uo; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="Bkncun5e"
-Received: by mail-qk2-f12.google.com with SMTP id d75a77b69052e-52fb76bcb1fso766101cf.0
-        for <linux-sound@vger.kernel.org>; Thu, 24 Sep 2026 10:17:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1790270255; x=1790875055; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=feTLx7y3sxZ57LB+c+M8YbdddVhljMzyHzPRAu6TpA4=;
-        b=Bkncun5eo3wl/7Y/isVO3bqxSzKIHwv+JLNdR47oTH14bT62A0MCT8JkCQCcFZrvAn
-         PSPLIyCnJ9BWquLDsfgF8+LfRG6BCav2aK8+G00i6xlpMa0+2PzNrMwAUzYcuDo3bSA6
-         CyUOQ75R8JX3RZrLRIVcpwG56hxUarQoJ0boL0eCO3tPnpC4IETOjcIqbrQcKvWT1JTC
-         KMGPIZ7u+N/xqcWFh83VuY/jJ8AzYfG2QrgbuHTh+Qp8vEMelJkVCl70mj1+hxzSAc6E
-         ZMvT8A24gmcm4N5MH/QWtadFG9RrBd7NwCFywN0TuDSt9IaOIn/5tcDduKbUH/ovedjo
-         QnjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790270255; x=1790875055;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=feTLx7y3sxZ57LB+c+M8YbdddVhljMzyHzPRAu6TpA4=;
-        b=kAR++VYweL4XQuR08uMtuij4qUegtDJ3g8jrqtCuDCHiV9gGKyj2pFb+uFZXoykvOW
-         BvK62aRNwDp9O6Pdlvn+A/3OkSdr/XrP2//NikhyhI/9DCwc+zOgCMiDutuWjqmm+/cn
-         mYqUa+OeVCsmnjK1zDlPQjtupuBdoB3BjPABxKCV6NnHx6IwdaJP7UJig8pCdwjQ9iwY
-         louxg1tMx8xt4rfUtWpIloYGEDCETJNENp4OTEzKavq42hWvt1CHMAEjLiCLcHHKgBzL
-         mSoZa/b8joiupVnDt0pm8hVhvvp4O4GGseEYJUuofTTp4qNPZQ7NL8cBbRvN6CUP5L6Q
-         +4eQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzwas8BLem052YzymfQY4N0etGDRUFq6tRpdkXfk88z0bgXry7MT4rq0DE/ckfD5X2Zq3fL5JaLbMYlzA==@vger.kernel.org
-X-Gm-Message-State: AFuF++khWRaI/zWuo2++c6ye2mArlJ1FHht84OZS6txgdiXcz7Q9ux0H
-	amO0J8Tv0RSiGcMSJ3SiyScrqxHDzaR2zqq38Zs1ihKzjBDA9eS67GSvvWtvZzjRT8k=
-X-Gm-Gg: AYBFou21bQOyY8hUopk2az//IHsyqXaJ2eHwB1GjeoSsv303StcnevserohMSc72O3+
-	cjZdN1RZ/hHCgOaSyVuHp96WK9R4IKwmfl5KfxfGQsOkx50wNIPIaCZ/FnwVb7zuzyDpQuLSulq
-	KsvA5y698QsszS9vr1SCh1jXfkWtKUVd90P/0Fdau6h8Snf19fe19nQgrZN0l4pgjmn1IxMNYOM
-	fqILyYDNyWu3xBLXtVLpJ8tUp5YXDn2RutaDcfBhbBs7Ex2sABcsuEW/qa8LPz67vBo3TuXlX9Q
-	+Aw66VP7mmGzuqB1zys6lNXORN88+961YlKUu0s8we6s2cZjVlwWzrm2QLTkhp56UYOjqSAevTj
-	sDlPXBQ3K+SmXxgrkv1WbRNiaoZ22k0bVY+sL8QahivzO7vrZkEqgzPCQPBXJTPNsvqj2zCM7kh
-	s3R7+MzNffWQrGm9KgBgG5VJsZI/UqA/n7SeoJBlgvsLBjeDb7BMZljeW7hj4OpCf00zZLCk6JY
-	8YCDN5YBCzLRud1t8I7jOJSd+fjNIfueme5BqWSSeJwy2BGLcMAGfs=
-X-Received: by 2002:a05:622a:2b05:b0:530:42e4:f001 with SMTP id d75a77b69052e-532feb3025amr31555731cf.46.1790270250746;
-        Thu, 24 Sep 2026 10:17:30 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-532f8b7174asm25743881cf.14.2026.09.24.10.17.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Sep 2026 10:17:30 -0700 (PDT)
-Date: Thu, 24 Sep 2026 13:17:28 -0400
-From: Gregory Price <gourry@gourry.net>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
-	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
-	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev
-Subject: Re: [PATCH v3 04/40] mm: consistently validate VMA state after
- mmap[_prepare] hooks
-Message-ID: <arVW5i8pvySq6Co2@gourry-fedora-PF4VCD3F>
-References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
- <20260917-b4-mmap-prepare-vma-flag-sanify-v3-4-4583d8a23bca@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ldDps6uo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0CBE1F000FF;
+	Thu, 24 Sep 2026 17:46:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790271971;
+	bh=jr52o/MyKxapop4cQtK8c+3adSYTJhdKVLABlleZ+K4=;
+	h=From:To:In-Reply-To:References:Subject:Date;
+	b=ldDps6uo1ur2QkKdm3dLx9Q0sZpnHLoi8HRzYqfafXxTIjwrRjf6oNW1hxQeTltae
+	 2TyXWqeYkaJxIHqddmb3FqXy+rYBP7cgHtYmXnHJJVwxEiG7XrIzA/bF1oFaKQuIov
+	 J2g5AxW9vt7nW0RzCvXy79OpKB/Ckp17Qj0YL9YLqbjDalXWIHwe1MYuCilNGZ8Xih
+	 pSpR6LBzkiIZFdHV7nLSKB+q0U+5sPVStkjAHaQ35njnGGDSHJYFZcGoTZgiTvUAQT
+	 E/3i0cYDYH9GkbLv7x7z5ErB3sqCMOZi6BUiehZRrCE8AcszNzBLqoTSK1JpOfxgVl
+	 6OlIU7WZ5oBlw==
+From: Mark Brown <broonie@kernel.org>
+To: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
+ nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+ linux-kernel@vger.kernel.org, shengjiu.wang@oss.nxp.com
+In-Reply-To: <20260916094043.1496709-1-shengjiu.wang@oss.nxp.com>
+References: <20260916094043.1496709-1-shengjiu.wang@oss.nxp.com>
+Subject: Re: [PATCH] ASoC: fsl_asrc: use regmap_write_bits to update clock
+ source registers
+Message-Id: <179026940256.149798.11432270140920365951.b4-ty@b4>
+Date: Thu, 24 Sep 2026 18:03:22 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-4-4583d8a23bca@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1171; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=cHnIesqzRd3SzWjC4c0j6xgj40PQm3/+Hfd6Bj+Xj/w=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqtWHWNnP1Di16WOvhFepRkg68S1ErVEn3Jj4E/
+ EqJHFMmcPWJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCarVh1gAKCRAk1otyXVSH
+ 0DuVB/4rWGF+cpqbPdU+ysLLjAs4Q2D6BtM7HEAdkfFe7MJkwqLr6bt2faqf6a9fCgBOkMaPiss
+ pHpHV2ObYKOCCHovB+kbIz9HSnZ/EQvrQKFkY5lwvzpoTVfHA9L1NUWVNLBIsJJYS5o/m/LMT21
+ YbPxsbWU5fpMlnNQ3jFi8U7YWqmLd567UK9XlkeRSAzC7+HDuYsN8JEswwVVbNRMJ/wbtJl4K6W
+ BbW/OKW0dDg7+jMryBL57PXjKgjBdOVSEyNyOdVGCDu0hy4REUBqveTo1SH0TvO3TiqWPZZCKMb
+ zFLrl/WTExcRM5HjGjmfJXfuccE+1UufIba2vSsMDTZdHO57
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Thu, Sep 17, 2026 at 05:22:13PM +0100, Lorenzo Stoakes (ARM) wrote:
->  static inline int mmap_file(struct file *file, struct vm_area_struct *vma)
->  {
-...
-> +	err = mmap_hook_validate(prev_start, prev_end, &prev_flags, vma);
-> +	if (unlikely(err)) {
-> +		vma->vm_start = prev_start;
-> +		vma->vm_end = prev_end;
-> +		vma_close(vma);
->  	}
-> +
-> +	return err;
->  }
->  
+On Wed, 16 Sep 2026 17:40:42 +0800, shengjiu.wang@oss.nxp.com wrote:
+> ASoC: fsl_asrc: use regmap_write_bits to update clock source registers
 
-I indepdeantly validated the sashiko report on this chunk.  Seems like
-close() should be deferred until after __map_new_file_vma() calls
-unmap_region().
+Applied to
 
-suggested fix is to drop vma_close() from mmap_file()  and update the
-cleanup in __mmap_new_file_vma() 
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
 
-if (error) {
-	UNMAP_STATE(unmap, vmi, vma, vma->vm_start, vma->vm_end,
-		    map->prev, map->next);
-	vma_iter_set(vmi, vma->vm_end);
-	unmap_region(&unmap);
+Thanks!
 
-	/* Release driver state only after its mappings are gone. */
-	vma_close(vma);
+[1/1] ASoC: fsl_asrc: use regmap_write_bits to update clock source registers
+      https://git.kernel.org/broonie/sound/c/92871abc1302
 
-	if (map_same_file(map))
-		fput(map->vm_file);
-	vma->vm_file = NULL;
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-	return error;
-}
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-Example race:
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-  Thread A                              Thread B
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
-  mmap(MAP_FIXED, address A)
-    driver remap_pfn_range(A, page P)
-                                         load/store at known address A
-                                         hardware finds the new present PTE
-    validation fails
-    ->close() frees page P
-                                         UAF
-    unmap_region()
-    TLB shootdown
-
-With that fix
-
-Reviewed-by: Gregory Price (Meta) <gourry@gourry.net>
-
-~Gregory
+Thanks,
+Mark
 
