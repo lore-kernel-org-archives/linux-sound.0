@@ -1,95 +1,72 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6189E376A1B;
-	Thu, 24 Sep 2026 06:29:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFC284252AB;
+	Thu, 24 Sep 2026 06:54:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790231363; cv=none; b=USnzjfBj0ceE2DG59ZORfVCH3nM1vMqToYVNjiuFCh7Q7KYlhsU00N9+Fi+7POf6mA72pG5uT+Us++Jfr0XJKw+qtrwzsT5Uc4DbTTWVhr/FZ+2lspQnDHCTMh5BKKcaUxRZemKE9wRRT9bSv+vjPpZyofsTsJVCfPxs2wc3hLw=
+	t=1790232911; cv=none; b=laVPiOCEDRU7idkXwyxdAzJ+v4xHutYqcezQ6QkFK+gCF91cUPmtHS7mrP2nKTbqVfz61bjYpkT1LsRMO807ifP0R6wcy72SkaAB+a1dG0G2HcpO8lEEHFiOtpMCxjToq2Iej9P03qCi0C6Sdak8uBTYFuFwKk9/KSq1vt/NzKU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790231363; c=relaxed/simple;
-	bh=6iqbqhXwGTHKBdwfFPthQxFI7IQ1nhEzc9hhiM8YNeg=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=TVaFmw6JOo9WnLnKBTOkaKx7q/Q5GeM6eyhn4qkiDQzPGXNhrhoqMD+a8YWOaKloSwQ/LZw05IaifuMCFC//DBdVh4gtMG1UZ2sU4tbkw8BFSl3EI4GG2H5xvCqO4VWBUFhBhnpHgHDC+seBwq9zGzt4PaCgabjAtC5NA5qE+s8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=k35t1ZR0; arc=none smtp.client-ip=117.135.210.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1790232911; c=relaxed/simple;
+	bh=PmTx3nVvmRzO6q8oBv16K1gVDmX4dfcy1BwWrGLwYv0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HyIMAQ7lovIZ0h2ZwvdU8ym4xzmAyfKTvv91fi0HZJ38uYJ8eT23m4VsWbjSqHQIet7v+30Ro4QCM0nKNeHfLgvLme9hg37ZaYgB+RPvsOgn5qFbqkHxIrwAn/YizfBHd2NzS1kAmZwXyVZyTmq5wyAF1H5yw8GE59wLT6rMFZ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EdENoEyN; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="k35t1ZR0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=lP
-	M7VbB2Ckh2dptNlX39+BnR+DQtmk+AawBaDoPjXVw=; b=k35t1ZR0YtmBPpP74q
-	oZ3bXgopi2imYDBkwGyf+AWauZ6TixL3nmZRaxTongzBtKt6YCpm9owVl8xgjwgH
-	Seux02kezvMOb/fn4phvnTX5crXq+1Mrj+IAMpmpgsR70UWOTU22FZRJl6ORTCkt
-	mqqauKS+NacGj5uO7PHFVIZ+Y=
-Received: from thinkpadx13gen2i.. (unknown [])
-	by gzga-smtp-mtada-g1-3 (Coremail) with SMTP id _____wDXTw4qw7Rq7hkpAg--.2979S2;
-	Thu, 24 Sep 2026 14:28:59 +0800 (CST)
-From: Zongmin Zhou <min_halo@163.com>
-To: srini@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	Zongmin Zhou <zhouzongmin@kylinos.cn>,
-	stable@vger.kernel.org
-Subject: [PATCH v2] slimbus: messaging: fix leaked PM vote on tid allocation failure
-Date: Thu, 24 Sep 2026 14:28:56 +0800
-Message-Id: <20260924062856.42977-1-min_halo@163.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <e76a151b-4dde-4bdd-91ee-e025e9bcc994@163.com>
-References: <e76a151b-4dde-4bdd-91ee-e025e9bcc994@163.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EdENoEyN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30EE51F00893;
+	Thu, 24 Sep 2026 06:54:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790232894;
+	bh=lCtdSBzZeYW3VMpSyC5oblNd6RICO241sZJgNzC3eWg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=EdENoEyNr14OaiwJbS/9Rn5cJ729SQ0montonmsY5MmVj8Uu/ShkgjLgNaAWzCmZN
+	 772IiCk2dx4gIozywhBx5lyl6qSrha3tFu6EzEe6RcOrFJOp7fDcsdpaf4gErJi8W9
+	 xWdnjUmOQ8OM+vtUpUA74hz82OxU2qlSr0MTmYDaxK/xcbmgj3tN/EH9BDsM5LpV3U
+	 bRhlprO2nB4RjOcOYlZpxbEsC7T2puTvCUQn/F++cS0OLS+QXa9NC1hbp+nYwf37Oy
+	 oTrFE23jtaq3AEsLf/9cZDuNAjLB1rPwmc6Q5Jihzg+buLRXqR/sPn15dSzt4lJR/U
+	 XAf/VBgaNHyPw==
+Date: Thu, 24 Sep 2026 07:54:49 +0100
+From: Lee Jones <lee@kernel.org>
+To: Linus Walleij <linusw@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	mfd@lists.linux.dev
+Subject: Re: [PATCH v2 6/9] ARM: dts: ux500: Add sound DAI provider cells
+Message-ID: <20260924065449.GN3864833@google.com>
+References: <20260918-ux500-simple-sound-v2-0-88d29416e3c3@kernel.org>
+ <20260918-ux500-simple-sound-v2-6-88d29416e3c3@kernel.org>
+ <CAD++jL=yLFiYcWsRF6eR4a8o=27wcmj4nxa8jirDaOfR3JBHkw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wDXTw4qw7Rq7hkpAg--.2979S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7KrWfWw1DXFyUJF4UKFy7Awb_yoW8Gr15pF
-	47Wr1akrnYqry7AF1q9rW0qa43Zasa93yUCa1Uta4fAw4rJF40qryrtry5tFWqyF1rAw1j
-	vrs8t34Fy3WDCrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jnzVbUUUUU=
-X-CM-SenderInfo: pplqsxxdorqiywtou0bp/xtbC8wvCbmq0wytGkwAA33
+In-Reply-To: <CAD++jL=yLFiYcWsRF6eR4a8o=27wcmj4nxa8jirDaOfR3JBHkw@mail.gmail.com>
 
-From: Zongmin Zhou <zhouzongmin@kylinos.cn>
+On Wed, 23 Sep 2026, Linus Walleij wrote:
 
-In slim_do_transfer(), when a transaction needs a tid and
-slim_alloc_txn_tid() fails, the function returns directly instead of
-jumping to slim_xfer_err. The runtime PM vote taken earlier with
-pm_runtime_get_sync() is then never released, leaving the controller
-permanently powered up.
+> On Fri, Sep 18, 2026 at 12:51 AM Linus Walleij <linusw@kernel.org> wrote:
+> 
+> > Describe each MSP as a single-DAI provider and the AB8500 codec as a
+> > two-DAI provider. This lets audio graph endpoints resolve the MSP DAI
+> > and select the codec playback or capture interface by port number.
+> >
+> > Assisted-by: LLM
+> > Signed-off-by: Linus Walleij <linusw@kernel.org>
+> 
+> Assuming Lee will apply the ACKed binding patch so I applied this and
+> the rest of the DTS patches to the ux500 DTS branch for v7.4.
 
-As txn->tid is still 0 at that point, jumping to slim_xfer_err drops
-the vote exactly like it is done for other failed transactions.
+Right, but it's not Acked yet, is it?  Or did I miss something?
 
-Fixes: d3062a2109309 ("slimbus: messaging: add slim_alloc/free_txn_tid()")
-Cc: stable@vger.kernel.org
-Signed-off-by: Zongmin Zhou <zhouzongmin@kylinos.cn>
----
-Changes in v2:
-- Add Cc: stable@vger.kernel.org as suggested by Srinivas.
-
- drivers/slimbus/messaging.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/slimbus/messaging.c b/drivers/slimbus/messaging.c
-index e2dbe4a66b70..ee127ef42046 100644
---- a/drivers/slimbus/messaging.c
-+++ b/drivers/slimbus/messaging.c
-@@ -139,7 +139,7 @@ int slim_do_transfer(struct slim_controller *ctrl, struct slim_msg_txn *txn)
- 	if (need_tid) {
- 		ret = slim_alloc_txn_tid(ctrl, txn);
- 		if (ret)
--			return ret;
-+			goto slim_xfer_err;
- 
- 		if (!txn->msg->comp)
- 			txn->comp = &done;
 -- 
-2.34.1
-
-
-No virus found
-		Checked by Hillstone Network AntiVirus
-
+Lee Jones
