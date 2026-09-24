@@ -1,99 +1,99 @@
-Received: from mail-vs2-f43.google.com (mail-vs2-f43.google.com [74.125.227.43])
+Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59D1F4399D6
-	for <linux-sound@vger.kernel.org>; Thu, 24 Sep 2026 20:57:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 815A73BB67F
+	for <linux-sound@vger.kernel.org>; Thu, 24 Sep 2026 21:55:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790283478; cv=none; b=mhlMhST678ZYzUGyTMDihW9JCmsR/o92KQExWJX19eJLU9VPwKD4PRUDjgwE8Dz4awpOTuHn+w/hzdT1g91zQDYo6RKhLRsagt1JpG8OWLZaH0xTdrss3JfzUDXf9wYJ1+w1I6FlApsHF0MC7h+XYUZzUAiw3zD243xkH0t59Rs=
+	t=1790286946; cv=none; b=U+VbNfeDr8bnNtGJMT4XHeaAR0bA7wxkLanItajPsYgITukWbHRL3A78+Tz+x+2Tl16ZeFkEM4PbOJO3fpkhZMjvYd7kf23NqPrD6afeXZ3jME/Q0mQVimpWBSxRtRIuc0Df2giYl/wi9SmfNmf2f8gsuHXIxu9bU5V1kWUi8NQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790283478; c=relaxed/simple;
-	bh=cI6JjRAPl5s3hwiM9J/azCfPvw76HMtUKiwS7d7bH2Y=;
-	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=auJCdqxuyES0mUHzHBwDixboDK8omD6En2rHZ942OYkIVCf/2NUARGws9c3L5oCWYOsfMGu/343g64t9SsyjjuxAR1eTiz2r3XrBLkYUfjh8h9Rr+Uewi/C9jfGZ5Kh+zDvDRnHSufinzBwTjp/GAnXhy8dJIVVLe+GiR7To79w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=marek.ca; spf=pass smtp.mailfrom=marek.ca; dkim=pass (2048-bit key) header.d=marek.ca header.i=@marek.ca header.b=CuUwyyiS; arc=none smtp.client-ip=74.125.227.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=marek.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marek.ca
+	s=arc-20240116; t=1790286946; c=relaxed/simple;
+	bh=5X2lfJIjjqVFbz4HDDAzzBlOjoJiLvd4Nm6Uck1XPK8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=XlxbMZVkl/JYXZ6ffFqLP4xDE+RixM3Gj7KAnrVL8a/0QFNLCwWyra72t0FcTM0W0lx6AyXZk0z+0Iop62dgMEIsN8zyF7pT+Af6EB+lNfyPclRjoj0i63FJRwmS3kn5czKJkGzo0SnIX1lE/UEmO+mBvY84eY9FqBEAC3Zv024=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HtKuF7WH; arc=none smtp.client-ip=74.125.225.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=marek.ca header.i=@marek.ca header.b="CuUwyyiS"
-Received: by mail-vs2-f43.google.com with SMTP id ada2fe7eead31-7856441f7d8so139459137.0
-        for <linux-sound@vger.kernel.org>; Thu, 24 Sep 2026 13:57:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HtKuF7WH"
+Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-4843378fb37so140161f8f.3
+        for <linux-sound@vger.kernel.org>; Thu, 24 Sep 2026 14:55:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=marek.ca; s=google; t=1790283476; x=1790888276; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-language:content-type:in-reply-to
-         :mime-version:user-agent:date:message-id:from:references:cc:to
-         :subject:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=xrph7KLghv0DUb1CsXQcyrZfkEtJln0bzCnCNAimfOg=;
-        b=CuUwyyiSXh2N9oCbTmFURDYhw3HRscbSuIzhTgPmvHY9/hwpORY0Rlo8knQt3hHdhZ
-         jSIi7z7vV+5xIu04WmqHyZuep8NZE4B4iO86OMrjfouz+iSX/bazFyhNDe0/VJL8KcQF
-         sfzH4Raq2HQUR+L6q2ZEVaC8j2XkDy2C7PPo0deAbOfrGtq77jRA8VPI5FeAG219doAg
-         fvsjcOlibngbGgy8R6hu1vaOtTXDdbeuN6TkCNQfXElt8V/WJA46Ah8GKmiuraG8022u
-         TPn3jNUDOV34GjnJ41+AUbD56zFKcu3Lc1Lj+hUqL8uOPagPKdwSl0ViLeytz1rn+uCL
-         U67Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790283476; x=1790888276;
-        h=content-transfer-encoding:content-language:content-type:in-reply-to
-         :mime-version:user-agent:date:message-id:from:references:cc:to
-         :subject:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1790286944; x=1790891744; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=xrph7KLghv0DUb1CsXQcyrZfkEtJln0bzCnCNAimfOg=;
-        b=zWQL4MdGMgRepQ7aEshNt9wEKm/poH75kj/o581o+dEHnes+7AhzxQKWR2EXgoLpOm
-         2MwyrwY7c6/6oFH6AadtZ6CNKZj+PIaExqzUIQ1cIzU7iY1LFCTGRso9m3KRTTs8tHlO
-         1K03gbx/olJMGUsdiY+I3qkHmB4MUpNGeluPMOeKhXhFlwWbIiFhptDkC2MqNriAdOI6
-         kfhtgXuS6Ic4xtV6tGS2QMv8dwZF+k1EmeROwXEd2dD1FbHBuaHTj+UvaBDlAMbV4lyr
-         BTG8FcSs0j7C60pvGZRVVKxn1r5tUKQpza1PtW2BT5fFYLJTv8g5yWwK0wDmghmVvXLK
-         KXJQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzD6zaP95S2GlIY3vjCuytLI3jy3D78YIqrHbKWp3vxC7YHCHw7kA/hARZVW9mTOA4vRHdzUI9vj41Qyg==@vger.kernel.org
-X-Gm-Message-State: AFuF++nwkFL8TcGPNdkPu/8dIPD3WR1bHNYxop2hQBFAN5YibC0FBoK1
-	2nYi69tZ6PctkWpTOcna3LhJPRu4MJ1qzYhmJCbY4rO/FexWXLjBhHaztNHkXQdDX5E=
-X-Gm-Gg: AYBFou0XKKv8XfVdu2mEPzm6uS7POsT4OcqntwiG+ZqUyzHIdbdN81S0mOPq00FnMtq
-	HJgYWRfM/HidZgcVEDJhM0N+Zqw1yzywwG7O8ykSmw0F5P2nvF6kIAjQeX4F4/OKTELCzwIdAHz
-	NbEdkbpz8O1mXLu08C7OLhC4oxAmooDai59Wo3mFJz3qtZMNmMDkYTVzm8mUz2VChBQd+aDOJgo
-	IS10eHXsDGScYej/1FMuwEVZzdaRgc71ky3FZx7K3xTGI55F0/b8c9EfNKE3fxUYwvx8J8qc+6g
-	stN+ROzDKvkX7p04HGzY69W2dblGfpeeyrcDyjypjSdq2o8NBx/FOy8lC82NAZSx92N8llbTfNA
-	ugE41SSMaD/FhYBnpD9iP0Uy1nzoN3YvMUcGRPjkqTvtek0NWZGStpinJ+qMOs8Ku52BBTGsBIM
-	YkBDdv3ohiXy1ckrRrqxR8xNLBo5D1edpBTOsyxANYdlsKuWrZLqWX66UDoRjfLU3tJd3GDRjFb
-	h7JMwXnQrk0Xfsh4ovInh+43FfnnT1GFNsRqJD3nQnx
-X-Received: by 2002:a05:6102:441e:b0:7a6:a24e:811f with SMTP id ada2fe7eead31-7af1c79966cmr2103036137.7.1790283476089;
-        Thu, 24 Sep 2026 13:57:56 -0700 (PDT)
-Received: from [192.168.0.189] (modemcable125.110-19-135.mc.videotron.ca. [135.19.110.125])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5cc65d664a6sm647405e0c.15.2026.09.24.13.57.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 24 Sep 2026 13:57:55 -0700 (PDT)
-Subject: Re: [PATCH] ASoC: codecs: lpass-wsa-macro: rewrite the interpolator
- volume after enabling clocks
-To: Liviu Nicoara <lnicoara@thinkoid.org>
-Cc: Srinivas Kandagatla <srini@kernel.org>, Mark Brown <broonie@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Johan Hovold <johan@kernel.org>,
- linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260924125940.22665-1-lnicoara@thinkoid.org>
- <54f8af3d-a01c-d1fb-36b4-7eac71174f92@marek.ca>
- <CAAhq3a6OV6+Z0p=qVqpUiL-QoP92fYTsf5MBQL-f2oedddW=Dg@mail.gmail.com>
-From: Jonathan Marek <jonathan@marek.ca>
-Message-ID: <d617c7b0-e6e3-bcc0-7ea9-5b955bc367bf@marek.ca>
-Date: Thu, 24 Sep 2026 16:52:42 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+        bh=5X2lfJIjjqVFbz4HDDAzzBlOjoJiLvd4Nm6Uck1XPK8=;
+        b=HtKuF7WHrsTVSvXavbAsPp2K06p7IbVuMYE507BmaPRK62VTzWKxDF0fv+Yap6mAo5
+         AwS4JHyh+wx14Vm7BdAUS2+lnWZwh9k0QNJthIh2UxQW1yIYiRTNJ+/w2cIflHamefbA
+         j+xMSO0APvPCRdh+69VXbLefIVU1PwPxF8NPJPcPDTHmnSJK12ZqkOsBqlWtwsqSerkL
+         izIL+1d00E5OQ0fhoLl4T9g0qgkmNMVU+pH/p4mjz6mT2xPftDOEbHye6iu/smdFVrlB
+         8Rtzrgi3wwwBQLttyEnRDEhqTeBZ3TRFSfdfa+HCaHEn0xjeuZoel9Vsw4cz/UgLE1xy
+         etdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790286944; x=1790891744;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=5X2lfJIjjqVFbz4HDDAzzBlOjoJiLvd4Nm6Uck1XPK8=;
+        b=1iNF2F9mJeHNunC6chFCcnXunkDm3Rzd/2HkKXCdojMQ+aKrTHv2p+FpwekThBDNut
+         HMWb3EzhyM6Nk1u0Z6M8scr+4aHKA/86ukaGsZKxr4sXek7OnIcGQM5+kQ+LyaopXW2K
+         lU15zedByUTBiUIqbJ0JPLsBWHqcgZ6PlXwYTnVIiE2zgSM3ZirQmiVRPxQGD/iZvDI9
+         RgkdRe5XhkfGeDiCcOCYiUN80f4Qq8TTzvd4CiUGJl0ivBXtVe09YC6GQaZjSp6WvFcM
+         B7no1UxASsQO4V8iHuaCGaNrNZUrug94x6a/8AVC5KiZn8HVeU4i5Q2k+XVqeyBJMrt1
+         D84A==
+X-Forwarded-Encrypted: i=1; AKwUvBwGlRzgs07MpmXvaPglvkuYhw7dbSnqL3NZb8RM1tb8JbbWNk1Molp/4Y6zAIMHwpPJp65tVN7H2q9JMA==@vger.kernel.org
+X-Gm-Message-State: AFuF++m2bB2n+fjBNxM7bXuIgKbJ1a2Vqd+z4jxA2aKG/RDt8DAjDA5d
+	sgnM6IpqPOE5DWPRt2nAIFPbEwD5EXZsiC7arMP6nIVlhFKuzLtQWFeMFsryZtLenPTlJA==
+X-Gm-Gg: AYBFou0PkFhYTUSu9UzZ2BWJYvdX37NqZbp+Y+Vl4HQ9YgIAtwuOSDTcIHmCDFWixW7
+	LgL56nOePA9CPr2c4vNjAhBak+83QWVVzawpUGKAE73OGKndYIOveXdXgih9xko11Ec1Sz48bT+
+	OVGfx3/MFfZV56KpSOm+glpyly3kFAoXfM6JXbjhi7TKc+/FUkE05mn9XbtXAbdl4dClWhj7Q1W
+	tUSqJo2EooncoiEm6rCUqV+v/KYaMpyAJXG44e3RykjYbndVPKJwItcdeb3Vz4NrHmjIfGmy2mC
+	e89ZA7qVP4quG+62uwZ6xKGf6a18+KKwjZ/SCNvXRYdTap+3BE222lxdBTuqUKSG1mMsLEz4yFp
+	Ee7bgjA0YMe2qDmp8uSHl2M/MFIJmwY7QWtTwD08prciFFiaZlZFaj5NxhPnDSMbMkepb/fadxc
+	2+JJG1kPLea5gonJziIQhsfoPWYFnBjGefZz71r5n+Hc+RkaMwNxikzU05z9/Tyhc0/al5wGW5B
+	ymxt2D2EOhwdh4DDWQqndR1HsgUqHOLOqkfIM2YjYiqSZAMJ5/4HWyRyDXDZ5CMEEhD+MWDrkiP
+	fpRYS4nzkbTJepk6
+X-Received: by 2002:a05:6000:178b:b0:487:662:cb90 with SMTP id ffacd0b85a97d-488716993f8mr7479416f8f.34.1790286943685;
+        Thu, 24 Sep 2026 14:55:43 -0700 (PDT)
+Received: from 1Z10 (mob-176-245-31-160.net.vodafone.it. [176.245.31.160])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4887a3625ccsm2288950f8f.22.2026.09.24.14.55.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Sep 2026 14:55:43 -0700 (PDT)
+From: Maurizio Casciano <mauriziocasciano7@gmail.com>
+To: Mark Brown <broonie@kernel.org>,
+	linux-sound@vger.kernel.org
+Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
+	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Yung-Chuan Liao <yung-chuan.liao@linux.intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Yauhen Kharuzhy <jekhor@gmail.com>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v7 0/2] ASoC: Intel: Add Yoga Book RT5677 support
+Date: Thu, 24 Sep 2026 23:55:40 +0200
+Message-ID: <20260924215540.933043-1-mauriziocasciano7@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260902123007.769820-1-mauriziocasciano7@gmail.com>
+References: <20260902123007.769820-1-mauriziocasciano7@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <CAAhq3a6OV6+Z0p=qVqpUiL-QoP92fYTsf5MBQL-f2oedddW=Dg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 9/24/26 3:52 PM, Liviu Nicoara wrote:> However, on my unpatched 
-driver an idle volume change did not take place
-> when playback starts (changed it from 69 to 81 and it played at 69). A
-> change done during playback though, takes effect at once. I don't think
-> anything writes the register in between.
+Hi Mark, Cezary,
 
-in this case, while its playing with the wrong volume, use /dev/mem to 
-directly read the value of the volume register and then write the same 
-value, if that fixes the volume from 69 to 81, then this patch might be 
-necessary, otherwise its papering over the issue like I wrote
+This v7 series has been pending since September 2. It restores the dual
+SST/SOF machine entry and includes separate runtime validation for both
+firmware paths on the YB1-X91L. The series remains unchanged.
+
+Please let me know if any further changes or testing are needed.
+
+With Best Regards,
+Maurizio Casciano
