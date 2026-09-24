@@ -1,230 +1,145 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk2-f13.google.com (mail-qk2-f13.google.com [74.125.230.205])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8158347F2D0;
-	Thu, 24 Sep 2026 12:46:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE69C4766BB
+	for <linux-sound@vger.kernel.org>; Thu, 24 Sep 2026 13:00:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.205
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790254011; cv=none; b=WMB4l2X4TLuux+RwdfJBUVaCN0/wl6dapOYMjXiva0lkItIGPqlHvHncB3FZUeuplxnUE7SYs+tXQbaDetkkscLSan1GMemHD5y5gMs15NotlaPp+1t2dzk2ekZWwFZjVWTh+TTHSvdVqV9+erY1g0B3d6c5Lgq+H2AerhINax8=
+	t=1790254826; cv=none; b=gXwkhrAU1jWC4+IhQbctXPgGaUUfhXD31zvxReUmQAKG4C+hyq+dJQlGNkcWlpTZqS/dzh8h78tZngOQ96dVsAdSMqQ9i4sa38uNbGw4rnyutH6rhGihMtl8TkHXu0IcPoJ+inuAOTHN55JYqUvrYjpCi/mq/w/IzKBNrGplo/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790254011; c=relaxed/simple;
-	bh=NXY2VtXdHHWDm2uYX1AHzsYINWPs87ztTHrId+T8b/M=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Hrobt5n9TTq/qVgDbJ28G9K33VtrJ1Ol/5ra8QPKvNjVL/iD2cfxDL4NZxtmiCE3wHxcN733EstAT0VBH1pX8Xn7uQa57saXG1YVn0vdxvb/azowJl7FWEVW1GcBkBaY+keJT+wmrYcbkvrvbhVoT0LNPcFwLWSHVd0xm4XwiRM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KNja/QbT; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1790254826; c=relaxed/simple;
+	bh=U1jq7mqCQyHs6vQpqHJXpW79DmjSSLoLTMuyETHeyIo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mk1apQTMEhqt338nE8JsWHBbWaKoknJb/oik5uhql40SD4HGaGaCF3b4qdljj4Mil5dgZOrm381JKera/hfldACS0b51bxElr2dAdwLa3Ox7nB1vUgtAd+VZnF3GS7f3VM3hzef/554BVnuUUN4vzAaAXZ5qV3Gp8tKLQPmTlgk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thinkoid.org; spf=none smtp.mailfrom=thinkoid.org; dkim=pass (2048-bit key) header.d=thinkoid-org.20251104.gappssmtp.com header.i=@thinkoid-org.20251104.gappssmtp.com header.b=Awp0pORd; arc=none smtp.client-ip=74.125.230.205
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thinkoid.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=thinkoid.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KNja/QbT"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 0691FC4AF50;
-	Thu, 24 Sep 2026 12:46:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1790254011;
-	bh=NXY2VtXdHHWDm2uYX1AHzsYINWPs87ztTHrId+T8b/M=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=KNja/QbTcr638hXkcROY12x7DO85KEz15t05+TNdjWcT7SDM4u9BgPORhNR3xJVga
-	 6rd61oB4u4JR0U/vDuGf6yhrGEL+PwbO49EIPBl2NuPupeMl4JXvgGEdakYwjoiKH7
-	 zYJKIyfLZQOSTCvlQV87mlAmqI6E0hB4DwRJI/GyU+a8NEPhPf5LFQVx0wygK1bxzr
-	 UHPq3vu25JQ76ZLlOZpT5x9UccoLFVcQHqs6gLb71EjB1ZULzuNtQl33t7xrzhnzIY
-	 5eQ1V3mS5kwiv8+b+hPrYizeMQC1vZOBVbz7aI1bjivCYAhKTUgyfkfKtTELtEPXpR
-	 jJAq+xhBd4+qQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4A61C9831E;
-	Thu, 24 Sep 2026 12:46:50 +0000 (UTC)
-From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
-Date: Thu, 24 Sep 2026 14:46:51 +0200
-Subject: [PATCH v3 7/8] slimbus: qcom-ngd-ctrl: Remove data channels on
- stream disable
+	dkim=pass (2048-bit key) header.d=thinkoid-org.20251104.gappssmtp.com header.i=@thinkoid-org.20251104.gappssmtp.com header.b="Awp0pORd"
+Received: by mail-qk2-f13.google.com with SMTP id af79cd13be357-939109fafd7so153991785a.2
+        for <linux-sound@vger.kernel.org>; Thu, 24 Sep 2026 06:00:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=thinkoid-org.20251104.gappssmtp.com; s=20251104; t=1790254823; x=1790859623; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=7ocwU8cQk2ldFSEuc+V+JE9BeEEvSRHBC5G3LMkq6bI=;
+        b=Awp0pORdEf0GMafvqz5hvj8jw4WWGo8AJ2gUrXsoRSbE94gIrPNbgfm1Bv0MuA9cdN
+         dauA9lKTWI/0MhS1MD+L2SitarySJpBqC8kbi1ihmmYwurNBjikPPEiYk3dYN1024yNk
+         U8v+bsaUaNYAKN0TMoLjQcRC2ZmlccukOajW8d3SfWiH4GL8Dm8KaCNMLlF6b8ZiN8gG
+         AnApko7BhEcyNHdpdXm/A2mjgJURpEWDpof3WEisbD2uCRGJjp6ttET6fX4nM6Gg3jq+
+         ospOw1cAJP80/3A78VJEofbQcwYFSauHTLYf5fr5e91h/D8xoMnWj76bHmVw6RXEJV2m
+         MAyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790254823; x=1790859623;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=7ocwU8cQk2ldFSEuc+V+JE9BeEEvSRHBC5G3LMkq6bI=;
+        b=jFP3whnDRoaF2+pkeIwu6TlxvXpSCZNscJOgw7QyjFT3ZMWmaLjw3VlDAyELYlw5hW
+         RMniUvRXm7i7WxSlH9Zx3t7SZRVud2eTQhOo8d3RVdcMZKXqxaS6+fMnEQ/iUamD1kwU
+         hl8/IwhU3xdAMvk2/YAg64/ousR1qBLqUFnk0q0UmYHm4FcVSKWa2f9bV8U+pEplvys6
+         sJaMZqh8itThRKc7bB6gwct0tJGoLWrkILh7DH5+8M8AwhpBiJvv4+RgqoK3znRME/84
+         og4zwRDBu/BgpEZYGx+t5tNnrqZXR9fg9wmsdC6LUZLFHxLW9/SXgkh5mtVOSIwuDYIa
+         A9tA==
+X-Forwarded-Encrypted: i=1; AKwUvBxCnHA7dfPbnNyoswixJMKiAcHnsYNt1UhID2iNCGcraHExkY2HueJRbv3zPpJnVmojqUxF401uk6aYjA==@vger.kernel.org
+X-Gm-Message-State: AFuF++nxp41AkbXVg8/PsJaUXhQN3vReSPgKHr2YzXZbUnflxY84VlDc
+	vpfR3k1GBD0cVlVkkUzRwCISwS0wpn22rd3wApjQkQ2CjT1oMxJRNo+jb294uj7J6qI=
+X-Gm-Gg: AYBFou26+l9h6iC6X4ZWGE8oyVo1kL9wQ6H3ZHAEiAq2gZ7omQxFXSAKGrHGAVStnK4
+	4XQu7b5yPIO2H6ikigfp7gu/bSxHq8mYPYrYlzlimD4Ea7PbWpRURqAf/YgoGHH1LbvdsecFRPC
+	tPglKM596g++T8AZfBpWxpMg2e93uxgYf3nAuV4CnYZK8E3hnVJZRMJBnqOntgwiinx0sRCgJY7
+	p+u2SFSniIWgUPZBY38cIDI0a4e6IXkIHCeg2QE2RDd8+me39E3XXKU4FgI25A6fOXxVltTj60J
+	qgoNE69+NJG4aadCNXx82FbWuSv0gvzQtvlOCzNQNF4C+LbpzbHbycjZnKNF52Phd+EpXGzU6JH
+	jSdeFxzXGYHrIBd8e0Zl7YYLtfuAkh1XZr7scpgds/6tt+Gd/JPS3A8UgwCY2X8M5apQhaQfuJZ
+	a7alnk84lehMWdFziyzKxnb7wqpAWf87uh9VO43yIh3rkEtnyR
+X-Received: by 2002:a05:620a:700f:b0:939:a9d4:50b7 with SMTP id af79cd13be357-93c362d1a82mr302707785a.26.1790254822482;
+        Thu, 24 Sep 2026 06:00:22 -0700 (PDT)
+Received: from armok ([2605:a601:a61d:7a00::2])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-93c2f3c6fdfsm285000185a.45.2026.09.24.06.00.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Sep 2026 06:00:22 -0700 (PDT)
+From: Liviu Nicoara <lnicoara@thinkoid.org>
+To: Srinivas Kandagatla <srini@kernel.org>,
+	Mark Brown <broonie@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Jonathan Marek <jonathan@marek.ca>,
+	Johan Hovold <johan@kernel.org>,
+	linux-sound@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Liviu Nicoara <lnicoara@thinkoid.org>
+Subject: [PATCH] ASoC: codecs: lpass-wsa-macro: rewrite the interpolator volume after enabling clocks
+Date: Thu, 24 Sep 2026 08:59:40 -0400
+Message-ID: <20260924125940.22665-1-lnicoara@thinkoid.org>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260924-pixel3-audio-v3-7-5d06460fc8a9@ixit.cz>
-References: <20260924-pixel3-audio-v3-0-5d06460fc8a9@ixit.cz>
-In-Reply-To: <20260924-pixel3-audio-v3-0-5d06460fc8a9@ixit.cz>
-To: Srinivas Kandagatla <srini@kernel.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- David Rhodes <david.rhodes@cirrus.com>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- David Rhodes <drhodes@opensource.cirrus.com>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- linux-kernel@vger.kernel.org, patches@opensource.cirrus.com, 
- devicetree@vger.kernel.org, phone-devel@vger.kernel.org, 
- David Heidelberg <david@ixit.cz>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4926; i=david@ixit.cz;
- h=from:subject:message-id;
- bh=L1zZgtGEouYGzKgRZLVxO9EXpSlpZurV4JACrcU/HQI=;
- b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBqtRu4+QTbcZHOnBlR7xwF3SE+KknAz7FJPPKFE
- DXTWA8J8gyJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCarUbuAAKCRBgAj/E00kg
- cvR6EADED+5bZiFOKpq2r2N3R48F7+/fGlxFAbHT0knkdDqR8M1/+BYdFeSgGH/N+/oK3toPvpd
- dUam1+CHPv9dUUaG6CuwkiTqIDw23wJgbLtapXV9KqfZw2MhBGV3CjLHkibk8cHTI4UeqqS7UFh
- 3kGdppFpGBs0npR7RuaOHU7h3vbsyBuAe/thGXEpBMdt342zzSHmKz53cj1nk9Fg4Pp0kQKjj2l
- 1lB/G/q+2sotI+yy581UFKk1M8BNT7kDUw5DrY8kSc48JEltllGeSPRMUAbMZHUvJN+Xb78/G5T
- NWMtDMjDrGEU4E4I04WvMF31sWrIQch4UNqpf4zE/I07EiQK1yppGD/Wz1gtEEuhld2hEphgjWo
- RUetDmnq3Msge3zXOrSgwVhGQcud18JFUsKM1RIq/HiCvwTXCR+hwHQsIMqfKHP2/yYbDQUpkRe
- 5IWtQz9hKJYaRHir2aWBhdWUzd0L0xnC+oNNFU2VbABpBBzehKn54Y7bW0OGP0qwa0sJcvVdEFT
- B2PaTwUeorUmH5u5Yj3rL/Y4v+76K5l5QtFLmjH0Foo+HOYImzKQQ9Q+odBP6BqbfppcKkB61oS
- hs9hwfRddV32TcC7eRVVCEduKTP6xFRrVsbVwAbYZ4NbgX0tT/s3wmUa4PTzBmNBDLzVb0l2lI0
- xhQok0HIde1YI6A==
-X-Developer-Key: i=david@ixit.cz; a=openpgp;
- fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
-X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
-X-Original-From: David Heidelberg <david@ixit.cz>
-Reply-To: david@ixit.cz
+Content-Transfer-Encoding: 8bit
 
-From: David Heidelberg <david@ixit.cz>
+Commit 902f497a1ff5 ("ASoC: codecs: lpass-wsa-macro: remove useless
+gain read/write sequence") removed the read and write of the digital
+volume register in wsa_macro_enable_interpolator(), on the grounds that
+writing back the value just read does nothing. The comment above it,
+"apply gain after int clk is enabled", was left in place.
 
-qcom_slim_ngd_xfer_msg() silently returns success for every core
-reconfiguration message, so the generic channel removal done by
-slim_stream_disable() never reaches the ADSP SLIMbus master. The
-master therefore keeps the channels of a closed stream. When the next
-stream defines the same channel numbers again, the WCD9340 capture
-completes without any error but records only zeros; removing the
-channels explicitly when the stream is disabled makes it work again.
+On the Dell XPS 13 9345 (X1E80100, four WSA8845 amplifiers on two WSA
+macros) the write does something: a volume change made while the path
+is idle does not take effect when playback starts. Lowering the digital
+volume from 81 to 63 with nothing playing, then playing a test tone,
+gave about the same level as before the change. With the rewrite
+restored, lowering it from 81 to 69 while idle played audibly quieter,
+and restoring 81 while idle brought the level back. Changes made during
+playback take effect with or without the rewrite.
 
-Implement the disable_stream controller op with the sequence the
-downstream NGD driver sends for channel removal, CHAN_CTRL(REMOVE)
-listing the stream's channels followed by RECONFIG_NOW. Like
-downstream, treat -EREMOTEIO from the removal as success: it means the
-controller is being restarted and the channels are gone anyway.
+This is the behaviour described in commit 46188db080bd ("ASoC: codecs:
+lpass-wsa-macro: fix compander volume hack"): "the volume registers
+still need to be written after enabling clocks in order for any prior
+updates to take effect." The value read comes from the register cache,
+so the write pushes the last requested volume to the hardware once its
+clock runs.
 
-Based on work done by Casey Tunturi.
+Restore the rewrite in the interpolator's POST_PMU event only. The mix
+path event removed later in the same series is not brought back.
 
-Assisted-by: Claude:claude-fable-5-1
-Signed-off-by: David Heidelberg <david@ixit.cz>
+Fixes: 902f497a1ff5 ("ASoC: codecs: lpass-wsa-macro: remove useless gain read/write sequence")
+Assisted-by: Claude:claude-opus-5-5
+Signed-off-by: Liviu Nicoara <lnicoara@thinkoid.org>
 ---
- drivers/slimbus/qcom-ngd-ctrl.c | 81 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 81 insertions(+)
 
-diff --git a/drivers/slimbus/qcom-ngd-ctrl.c b/drivers/slimbus/qcom-ngd-ctrl.c
-index 934c44c5bc1a9..c91f55036dd55 100644
---- a/drivers/slimbus/qcom-ngd-ctrl.c
-+++ b/drivers/slimbus/qcom-ngd-ctrl.c
-@@ -1080,16 +1080,96 @@ static int qcom_slim_ngd_enable_stream(struct slim_stream_runtime *rt)
- 		slim_free_txn_tid(ctrl, &txn);
- 		dev_err(&sdev->dev, "TX timed out:MC:0x%x,mt:0x%x", txn.mc,
- 				txn.mt);
- 	}
- 
- 	return ret;
- }
- 
-+/* CHAN_CTRL operation, bits [7:6] of the first payload byte */
-+#define SLIM_USR_CHAN_CTRL_REMOVE	2
-+
-+static int qcom_slim_ngd_disable_stream(struct slim_stream_runtime *rt)
-+{
-+	struct slim_device *sdev = rt->dev;
-+	struct slim_controller *ctrl = sdev->ctrl;
-+	struct slim_val_inf msg =  {0};
-+	u8 wbuf[SLIM_MSGQ_BUF_LEN];
-+	u8 rbuf[SLIM_MSGQ_BUF_LEN];
-+	struct slim_msg_txn txn = {0,};
-+	int i, ret;
-+
-+	txn.mt = SLIM_MSG_MT_DEST_REFERRED_USER;
-+	txn.dt = SLIM_MSG_DEST_LOGICALADDR;
-+	txn.la = SLIM_LA_MGR;
-+	txn.ec = 0;
-+	txn.msg = &msg;
-+	txn.msg->num_bytes = 0;
-+	txn.msg->wbuf = wbuf;
-+	txn.msg->rbuf = rbuf;
-+
-+	/*
-+	 * The NGD drops the core reconfiguration messages that
-+	 * slim_stream_disable() uses to remove channels, so ask the master
-+	 * to remove them the way the downstream NGD driver does:
-+	 * CHAN_CTRL(REMOVE) listing every channel, then RECONFIG_NOW.
-+	 * Without this the master keeps the channels active and a later
-+	 * DEF_ACT_CHAN with the same channel numbers is a no-op, so the
-+	 * data path is never re-armed and a reopened stream moves no data.
-+	 */
-+	/* 5-bit client number, operation in bits [7:6] */
-+	wbuf[txn.msg->num_bytes++] = (SLIM_USR_CHAN_CTRL_REMOVE << 6) |
-+				     (sdev->laddr & 0x1f);
-+
-+	ret = slim_alloc_txn_tid(ctrl, &txn);
-+	if (ret) {
-+		dev_err(&sdev->dev, "Fail to allocate TID\n");
-+		return ret;
-+	}
-+	wbuf[txn.msg->num_bytes++] = txn.tid;
-+
-+	for (i = 0; i < rt->num_ports; i++)
-+		wbuf[txn.msg->num_bytes++] = rt->ports[i].ch.id;
-+
-+	txn.mc = SLIM_USR_MC_CHAN_CTRL;
-+	txn.rl = txn.msg->num_bytes + 4;
-+	ret = qcom_slim_ngd_xfer_msg_sync(ctrl, &txn);
-+	if (ret) {
-+		slim_free_txn_tid(ctrl, &txn);
-+		/* Controller restarting, the channels are gone anyway */
-+		if (ret == -EREMOTEIO)
-+			return 0;
-+		dev_err(&sdev->dev, "TX timed out:MC:0x%x,mt:0x%x", txn.mc,
-+				txn.mt);
-+		return ret;
-+	}
-+
-+	txn.mc = SLIM_USR_MC_RECONFIG_NOW;
-+	txn.msg->num_bytes = 2;
-+	wbuf[1] = sdev->laddr;
-+	txn.rl = txn.msg->num_bytes + 4;
-+
-+	ret = slim_alloc_txn_tid(ctrl, &txn);
-+	if (ret) {
-+		dev_err(ctrl->dev, "Fail to allocate TID\n");
-+		return ret;
-+	}
-+
-+	wbuf[0] = txn.tid;
-+	ret = qcom_slim_ngd_xfer_msg_sync(ctrl, &txn);
-+	if (ret) {
-+		slim_free_txn_tid(ctrl, &txn);
-+		dev_err(&sdev->dev, "TX timed out:MC:0x%x,mt:0x%x", txn.mc,
-+				txn.mt);
-+	}
-+
-+	return ret;
-+}
-+
- static int qcom_slim_ngd_get_laddr(struct slim_controller *ctrl,
- 				   struct slim_eaddr *ea, u8 *laddr)
+Notes:
+    Tested on v7.2.6 on the machine above, by listening. This function is
+    unchanged between v7.2 and for-next; the driver's clocks moved to the
+    PM clock framework in cd054a6e272c after v7.2, which was not tested
+    here. Build-tested on broonie/for-next (arm64 defconfig).
+
+ sound/soc/codecs/lpass-wsa-macro.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/sound/soc/codecs/lpass-wsa-macro.c b/sound/soc/codecs/lpass-wsa-macro.c
+index 4242366601a5..899c8bee4645 100644
+--- a/sound/soc/codecs/lpass-wsa-macro.c
++++ b/sound/soc/codecs/lpass-wsa-macro.c
+@@ -1849,6 +1849,7 @@ static int wsa_macro_enable_interpolator(struct snd_soc_dapm_widget *w,
+ 					 int event)
  {
- 	struct slim_val_inf msg =  {0};
- 	u8 failed_ea[6] = {0, 0, 0, 0, 0, 0};
- 	struct slim_msg_txn txn;
- 	u8 wbuf[10] = {0};
- 	u8 rbuf[10] = {0};
-@@ -1619,16 +1699,17 @@ static int qcom_slim_ngd_ctrl_probe(struct platform_device *pdev)
- 	ctrl->framer.rootfreq = SLIM_ROOT_FREQ >> 3;
- 	ctrl->framer.superfreq =
- 		ctrl->framer.rootfreq / SLIM_CL_PER_SUPERFRAME_DIV8;
- 
- 	ctrl->ctrl.a_framer = &ctrl->framer;
- 	ctrl->ctrl.clkgear = SLIM_MAX_CLK_GEAR;
- 	ctrl->ctrl.get_laddr = qcom_slim_ngd_get_laddr;
- 	ctrl->ctrl.enable_stream = qcom_slim_ngd_enable_stream;
-+	ctrl->ctrl.disable_stream = qcom_slim_ngd_disable_stream;
- 	ctrl->ctrl.xfer_msg = qcom_slim_ngd_xfer_msg;
- 	ctrl->ctrl.wakeup = NULL;
- 	ctrl->state = QCOM_SLIM_NGD_CTRL_DOWN;
- 
- 	mutex_init(&ctrl->tx_lock);
- 	mutex_init(&ctrl->ssr_lock);
- 	spin_lock_init(&ctrl->tx_buf_lock);
- 	init_completion(&ctrl->reconf);
-
+ 	struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
++	unsigned int gain;
+ 	u16 gain_reg;
+ 	u16 reg;
+ 	struct wsa_macro *wsa = snd_soc_component_get_drvdata(component);
+@@ -1890,6 +1891,8 @@ static int wsa_macro_enable_interpolator(struct snd_soc_dapm_widget *w,
+ 					CDC_WSA_RX_PGA_HALF_DB_MASK,
+ 					CDC_WSA_RX_PGA_HALF_DB_ENABLE);
+ 		}
++		gain = snd_soc_component_read(component, gain_reg);
++		snd_soc_component_write(component, gain_reg, gain);
+ 		wsa_macro_config_ear_spkr_gain(component, wsa,
+ 						event, gain_reg);
+ 		break;
 -- 
 2.55.0
-
 
