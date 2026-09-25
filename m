@@ -1,106 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE6F847C105;
-	Fri, 25 Sep 2026 14:51:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C4514B488E;
+	Fri, 25 Sep 2026 14:53:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790347894; cv=none; b=Y1GDBX0pk2VpYIXBr5m7BEDMvC8dGD+5ZbsWmMkaKqdeXUX150BkXW6S7vrjQ+sz3p2KI+8pI7V7CXcbV2cN8w2uHZvl3y+gbpPEPSnXzHwhX6GUpPPPBCpxXiuTn2+G9dEeQm//PR1UiUp5no2ifGIewR0hWIWS77QsIr8IuZk=
+	t=1790348043; cv=none; b=ZS4aIlkVGBMXdtZmL9mAMRWg+6/MRGhfiFzkzvR558oq2QgTHsQpVq/lsHhEtaLWwKtn1HCnYdSGkTi4Obh69xG88m+vIAGgONMsa3xY1mtmFS8P+O2JDZDD8TaKTXb4qClrc2VPpeFDgTern564Zc6YdA8R6NcJoPccRorHVdA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790347894; c=relaxed/simple;
-	bh=Lcufvu9DcRngnHsiGG+C34I8FrTbEUuL5Ug8p2fJxMs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pI0GkSuSfaT215v5zFX0k2JhZ1/xIIgTz0+0OTyx/YEYIknf/LOTV+Km1r83aPjLirm6P4xgjKyO/9aAFfgd55/apwxrVftZExgGD3exa8XbLop3OU1n7f1nwmJLAfx/4wpfQ0d3rALpHRFfOqhwpZzYL43OQTZURiIKbd0ob5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DKcrpjy6; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790348043; c=relaxed/simple;
+	bh=JyMxU6snONWtt3RhFpbfAUM04pv9R2ebELfpNymy7L4=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=Mbx3n0X8ugtnuTZygq50Bm9IEj67rtA0aQVFRN4aEyS0F9jW59GmRt/w8rHQlSF3ey0mWPcCjm+ye/BqhMgjnfMmPxP8XdxMJ90Fu6H+Q0/snBFMabXFe1HWqBQXZD8rolHkk0PXki4/xImv6fyY8Kvj53tlfEVYjSQD8T/scaE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=BqxZ2HiG; arc=none smtp.client-ip=220.197.31.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DKcrpjy6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4202A1F000FF;
-	Fri, 25 Sep 2026 14:51:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790347893;
-	bh=dMqWeEckCDF4LCt1cE9auikBgmzp/3kSsHAe8tUCFfM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=DKcrpjy6Mjl90XwbDXe18tt4mwS6XBBEqfStNAHAN5k1ZFZyy1ew7YQWnDfPoHzSm
-	 7L0MOyKqP7JfWzPXthU4FB1y0t8VbHvTbrZY6sOIfeolFqhYGacvkqQ3dvpCPjSoaS
-	 xb0M5md63n/AzgI3SzyDwrABhP3HvZQzf+oYD2+ZvyxEPidKxe6I5It2Kv0KNLsJS9
-	 AK2qR0rlcu8n1Xba6wYqpvgeSL1qht5xLPWeOmf5V1DePIE3C7iT+NxvggdVvtWcgd
-	 kLTg7MkyUnguEpU5mv0ddy+PD8sY9B28Lkarz4epSnONLBgz7UNbZjgfv7am9qf1mh
-	 P4ue0TyrPZJqw==
-Date: Fri, 25 Sep 2026 15:51:29 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: linux-spi@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
-Subject: Re: [PATCH] spi: cs42l43: Workaround for wrong speaker ID on Dell
- XPS 13 DX13260
-Message-ID: <537aaad3-685b-479e-800a-a5abb94acaa7@sirena.org.uk>
-References: <20260919134730.895381-1-rf@opensource.cirrus.com>
- <aq_4PuwVngaLZ3_F@sirena.org.uk>
- <24c995b6-44e9-4225-bcd4-b4e7f6ebfcb4@opensource.cirrus.com>
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="BqxZ2HiG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=g2
+	m4iPWcaNoVzycK5u3hyWJISl6pndfOKW8vp8dCRmY=; b=BqxZ2HiGs3CaClH+ny
+	ZJnh7p/ptARb42BBbTdlPfy4uCVPL01c4q7ueHIcBfchjacQ/WTQ7RRlbrSKQcHi
+	lxdK9ED+PT1wvmGyhodS0C0ZWTQhkO71uIjy0GeD44bh51XiwejfJkzMDiX/7h2E
+	awXciyStGMCffjkoDRFo7eH+U=
+Received: from pc.localdomain (unknown [])
+	by gzga-smtp-mtada-g1-2 (Coremail) with SMTP id _____wDnDzotirZqxGkVAw--.19574S3;
+	Fri, 25 Sep 2026 22:50:23 +0800 (CST)
+From: Jiale Yao <yaojiale02@163.com>
+To: Oder Chiou <oder_chiou@realtek.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Rander Wang <rander.wang@intel.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Jiale Yao <yaojiale02@163.com>
+Subject: [PATCH 1/6] ASoC: rt5682-sdw: always cancel jack work on remove
+Date: Fri, 25 Sep 2026 22:50:13 +0800
+Message-Id: <20260925145019.2290367-2-yaojiale02@163.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260925145019.2290367-1-yaojiale02@163.com>
+References: <20260925145019.2290367-1-yaojiale02@163.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="WOhxICitd1WRa8Ek"
-Content-Disposition: inline
-In-Reply-To: <24c995b6-44e9-4225-bcd4-b4e7f6ebfcb4@opensource.cirrus.com>
-X-Cookie: Love America -- or give it back.
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wDnDzotirZqxGkVAw--.19574S3
+X-Coremail-Antispam: 1Uf129KBjvJXoW7Ar1xZrykKr1fWrWUCFyUJrb_yoW8GryDp3
+	9xWF48GayUJrWkA3Z0qw48JF4akrZ2v347Ar17Ww18J345CF1jgw1xJr4j9FW8XrWv9F17
+	XF47Zry5ur45CaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pM_M3iUUUUU=
+X-CM-SenderInfo: x1dryxhdohiji6rwjhhfrp/xtbC8A-1MGq2ii-q3QAA30
 
+rt5682_sdw_remove() cancels jack_detect_work only when hw_init is true.
+rt5682_update_status() clears hw_init when the SoundWire slave becomes
+unattached, but jack_detect_work may already have been queued by
+rt5682_interrupt_callback() or the jack initialization path.
 
---WOhxICitd1WRa8Ek
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+A remove after that status update can therefore skip the cancellation and
+leave delayed work pending after the codec private data has been freed.
 
-On Fri, Sep 25, 2026 at 02:14:34PM +0100, Richard Fitzgerald wrote:
-> On 20/9/26 16:14, Mark Brown wrote:
+The work object is initialized during probe, so cancel it unconditionally
+instead of relying on the mutable hw_init state.
 
-> > Could we see an -EBUSY if there's something else using another GPIO from
-> > the same provider?
+Fixes: ac63716da307 ("ASoC: Realtek/Maxim SoundWire codecs: disable pm_runtime on remove")
+Signed-off-by: Jiale Yao <yaojiale02@163.com>
+---
+ sound/soc/codecs/rt5682-sdw.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-> I'm not sure what you mean by "another GPIO from the same provider".
-> If you mean can the codec driver also try to read the same GPIOs:
+diff --git a/sound/soc/codecs/rt5682-sdw.c b/sound/soc/codecs/rt5682-sdw.c
+index 23c7d2a9dbee..5f2897c58ad7 100644
+--- a/sound/soc/codecs/rt5682-sdw.c
++++ b/sound/soc/codecs/rt5682-sdw.c
+@@ -704,8 +704,7 @@ static void rt5682_sdw_remove(struct sdw_slave *slave)
+ {
+ 	struct rt5682_priv *rt5682 = dev_get_drvdata(&slave->dev);
+ 
+-	if (rt5682->hw_init)
+-		cancel_delayed_work_sync(&rt5682->jack_detect_work);
++	cancel_delayed_work_sync(&rt5682->jack_detect_work);
+ 
+ 	pm_runtime_disable(&slave->dev);
+ }
+-- 
+2.34.1
 
-I mean we're looping over all the GPIOs from the provider, what if
-something else already requested one of the others?
-
-> 1. No. It's read here in the SPI bus driver because on these systems the
-> cs42l43 is the only device that appears in ACPI, so it's the only one
-> that has access to the ACPI GpioIo(). And there's only one instance.
-
-So this is all hyper specific to some specific systems?  I can't see
-what in the code is limiting the workaround to those systems, but it's
-possible that's in wider context than I looked at.
-
-> The ACPI property takes precedence and overrides the mapping, but the
-> specific case of the cs42l43 SPI driver we know that the node containing
-> the defective _DSD property is always different from the node containing
-> the GpioIo() definition.
->=20
-> On the Sashiko complaints:
-
-If I care about Sashiko output I'll say something.  There's no harm in
-looking at it and it's possible that some of the stuff I don't mention
-is valid since the false positive rate is such that I can't generally be
-bothered to figure out if something that's not immediately obviously
-valid is actually valid.
-
---WOhxICitd1WRa8Ek
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmq2inAACgkQJNaLcl1U
-h9CQAwf+J4PMZhdsNHQRJzqV+FDJch8hmWUdwZWuSUYdC1wd6iiXBDEQ/vIo97Bl
-aiqhoHik3qD+1TwxkW/DCY/JVMvezvWj8zPtNYgcsQ1AetfQ5OA76EdD0RtR33Vm
-euPckYZ6uFvwfYEWw0PUlulkoDOpmeiW7/R90uav1AGwNEeNOt63dmwElYCQQy2h
-VDImWZQYQltIsYIpJAqnn7xH0novCWRBqQo4XYsMF+dQuuieDXTsPprGbuXIqVEL
-3MJOE7YUlRrgJTL7PlrChPo16J1xzmK63U7nxARv1PDW9bZdfO79fV4PNN3uaXuT
-SYcyDSxCktMfOPsufgUd2Az1u1NAgg==
-=frWQ
------END PGP SIGNATURE-----
-
---WOhxICitd1WRa8Ek--
