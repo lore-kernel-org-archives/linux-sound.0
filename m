@@ -1,82 +1,82 @@
-Received: from mail-lf2-f12.google.com (mail-lf2-f12.google.com [74.125.229.204])
+Received: from mail-lf2-f13.google.com (mail-lf2-f13.google.com [74.125.229.205])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CDA04DA9AE
-	for <linux-sound@vger.kernel.org>; Fri, 25 Sep 2026 15:56:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.229.204
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 761AD4D9573
+	for <linux-sound@vger.kernel.org>; Fri, 25 Sep 2026 15:59:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.229.205
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790351782; cv=pass; b=M9vC10srpYs5Idi1RuBOM+8CpPFM0DaxkE1YxF5/kq2HiYslb8NyZhDp1udNLf6U8LMoP3JgoRR7PCg0OSZzZYfXCJ/1g4be4FFyElfQChQmmZCCK1QDW4ki3meeqTc4r0ysv9+w8tGjUA7h2IP1xjBiD2ZUIUAyAdMx4P7NSWM=
+	t=1790351980; cv=pass; b=ZpugT+Squ6WxLZElhdCGp/Q0ocng/Ag78hnFjsDH1vKqPDF0p/YjmPXzW27SOtL7iNxLHBI9sURiKjhuVps0EW2RId9BtJD+ugAdmBptzYdj4467xj3lOjm/hscyFf3yP9e6QZvhUdngFo6zIsjswZ+4IKPq8R2L3Pi8b0TTLnU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790351782; c=relaxed/simple;
-	bh=/Yq6ssAxz6CKB1eGF9+G1y7JmSA8F7XGVo2zPJmQTSk=;
+	s=arc-20240116; t=1790351980; c=relaxed/simple;
+	bh=B8qXiETtR85WVcra197BwDvJNPoWm77eDu9rHOSvLKU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GoPpHkKQ+6V//CiK3nnRX4wwCM8Q3/Zl9FtldcDx4z9GAhHLWEBL+LsTBRRDtGah+3qjQqIWHfRRmZe4tU2Dwki0cBM1HQSNAE88bxK+vgNnt0xrMNnKGIFrKaNfPLAP1BRKncorN4cx4Xzmpj2XQ79XcOeFScRdfomxuPYl3eM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iaRw+Bmk; arc=pass smtp.client-ip=74.125.229.204
+	 To:Cc:Content-Type; b=ubMQYRQnTzk8jrQ8/fHz/wYKDugnh8IEhFAj5jGNd/A1VqGD/VRCRkWbDOAUWWMTQcJ5Ne3ZzAPWUNpyEfRNMDx1H4i2HOW4vU3pi1rkk/9nURghfqtuSif7bFo8j4AaLQbnw+QoirY34KVlHklna3SjvJy8RUH29C04a9hqKeA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LTV7BpY9; arc=pass smtp.client-ip=74.125.229.205
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iaRw+Bmk"
-Received: by mail-lf2-f12.google.com with SMTP id 2adb3069b0e04-5b76668f4ddso395493e87.1
-        for <linux-sound@vger.kernel.org>; Fri, 25 Sep 2026 08:56:19 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790351778; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LTV7BpY9"
+Received: by mail-lf2-f13.google.com with SMTP id 2adb3069b0e04-5b8e6ec4d9bso734263e87.3
+        for <linux-sound@vger.kernel.org>; Fri, 25 Sep 2026 08:59:38 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790351976; cv=none;
         d=google.com; s=arc-20260327;
-        b=YP8xhnpRZHDzQ4J5IZtlPaQ8RFRzQBcd2FbRbImqabC5mE3hTDCHydISL8PCTGILWD
-         Ug+xZVYVYpiAk3cPCo3vvnRNpoOddLBNcjaAFBzFMZF0wIlNcnEpWnQa/dwaszUcIEk+
-         2p1sGHe9wX+83OtigKFYD1yH5xWEZnhVlLU7KuG0VPvtTieB3STY8lZwVZrQBEdskQSc
-         q+f5f6Thw2rV0b1U96cF9I+7KzCSY6pnBWmgeyaF+qAkFyE9fs/EWnbR+jd4vfI6OzZp
-         n4C0QghAnWnd5nMHtl7YV1heBEtTNJyAep4GNxJZzZ6VHsNra1k24RiNxqf1sROaaAt0
-         W+vg==
+        b=bEUOann6gPxmjr2pSC0k2peVZkUlHJGlmwrIGVFq5uOKrTQgy7RGwkgWbj6rp177LN
+         ZPbDOhNln8lykldSvvWsJJQ0qEWcZpzYbGTT9ui+7cVIDPyDVukwHKncwU38lnpoVcvA
+         haR12pXbWrAwTcjmd41BQ3eaVxX7ny/9n5O3fgZcP/k/NTWvbvNpF2FYBgKzjcf3nIh3
+         n1W7Src/8PNno79YiC99PFsW9iWLeTQhslCBgX5MKNGgRtvpcLKJ3OH/pRdvIBonTskU
+         sOHRhV5+8esKoNrpkGjxiqkTl/eZ7GPnnwp6kJKC+gFVQm6s/v7k9A7xSxBxl3wDbiJX
+         cw8A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=ddY66CtkaA0M8CqEHigGklMrMThtuWK6zHOkSid4+qs=;
-        fh=inV055bW3CdGaqah6pFAHyv/on94oaX0HdVvPvboU+g=;
-        b=OZhU5Eg8CYd5y37ZADieHDnvv6yxX/hz/gdrwxd0/VJfMGSI0rp49rZNJchbyW5LUW
-         9ykTIDNp5eQ+WMscwSRwoAazgjFMVPC5/ATHpR+7WoCFXgbcOgOd2yYChOhqfgN5RjpJ
-         35TRZ6uzXGEdyuVMA22kmf0etvtnLMycJGP/twlcX2PvNdtUWAHe0Fs5yDU1Jw79vtiC
-         PbyjYjRJcMhF5zUStfjbU26yIl3YwncxyDI/LaXnUYiY8ggX8R7wFWw5WcA/YvHYSmnT
-         1z8NwDyH5M3dNRvMHxp9PVV7A9D4Xm+rreo1jjEjZadKLd2cD46+l0kpaciyCdlThw6t
-         bAFg==;
+        bh=itw8fQgIicRGc9nxPOOoIpwP28yPsa9toRCa2T1HmuQ=;
+        fh=+/X2H2o2MMEGVB+kgBAz+iI72gJbzpr3yZQ59Ybeuyc=;
+        b=lx5aar2vD/HJu+SZ04tdNP1wI5VuVhn9QhyJxek4Wq03oNgjb8RtwmNE66SGRpYHOZ
+         0PVgKMP7XlMaT5cfaCfqMaAHD0CBotkE2C0DOJmV2DBWM9J2lgjna4jXO/kJGY4qN4q2
+         qzVM/pRn8Qg9g/7eq7jgtP50VGkw4thD4KjC6r+AYi/36A5lB/3TYi21W/hHCTpRJmTd
+         AyP/g4YTypyJigf4g6rTxJ/ixJ+t/7F8rQPVLKiCOxb9YR9dAJKezfntdMrCjwbiBoQq
+         ccix7JtgORN4Id5Q5cneqo6RXjrfkJXIg0tJlmE0YNVm4Odjv0+GQKYvMYzc1gz0LPO7
+         0llg==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790351778; x=1790956578; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1790351976; x=1790956776; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=ddY66CtkaA0M8CqEHigGklMrMThtuWK6zHOkSid4+qs=;
-        b=iaRw+Bmk71MVrDd+X3vilG2kyZZZTM+2y1RXIWboNkF0GtfE1mVnC7AxKGvUU1r4a8
-         ZC3VS+Kpzb7+GtEq5wHjU0+BzbDLDAo8MGnTt7V+ZHFhXmHc+I2spwm3yG017LSKkIEu
-         mY8tdJxXU5qVB0730uFHz6yERVSxcQAdMqfDnk43r/OvOraPl6JgyjjfV5ieXeANjHei
-         0I0WrXErCAc8QLyjEIsJTOQ1wBor1kG5qRGFjUj4Dl9MXX/zjstbsDq2AaLnP1oUOW0p
-         pQvshuwVqVtax9aY+9a1KjCR42U5tV3bI7/FBvr1Q8u59s6ejc0Fkm3dDAJLPXQ8QobW
-         bBDA==
+        bh=itw8fQgIicRGc9nxPOOoIpwP28yPsa9toRCa2T1HmuQ=;
+        b=LTV7BpY9ONvaoJqYVmYD7Ld+4/7TYSzUmRS+YZTOgw8a+OhOFZIPScvyI1GhZxn0EO
+         5Dd2IPdoSmQ8DNmmdqhA7OTTJAnP9nQ0A/OxfHWN4orXknK/BSVvViEwAnKN7k9KAtGe
+         mUupKxshfPAPFhF4PmTjEBjqb7vPnjeq4A9IB/Aacgd1SwpwCSdeshpEyTlWSorfs67E
+         xaR5Pe4IM7zzwZkS8S8Fl7HrLOLn5MZBcmGUHWRjJOo4Jppg5mMiyPBBmMEHVxyteSwO
+         kMv0JDwvPA1qVOCQCyH8gj3dWYUExqkEh1M3svb2cWRHSexOmLuDSv2JMqjm/4zutBop
+         AeEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790351778; x=1790956578;
+        d=1e100.net; s=20260707; t=1790351976; x=1790956776;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=ddY66CtkaA0M8CqEHigGklMrMThtuWK6zHOkSid4+qs=;
-        b=qjhRpbJZN9PN2K7b6QdWTLR6braczv3UuBhPBx7tlMfLnvNYtQjF6LHm5jxrvPFBCW
-         HEQzzyI/aJCoVj0xZnqP5NBv3nIKXzTKm24HSDRtDZe8HvgrSV2THDKHvBURdzXGBz/j
-         FA0zViGFMUgfj+5SekpzVS4nxzPnUsdzIeytkUePhLAYzev3V+txnGNdf1kn77ZvdSJT
-         khymZ/01L/XrmUq47+Vw0IPtRAd8fAcvR1dQ96wVUOs0a4WT1+UQdHtxi7VLl1SlG+7U
-         L7BICfEUE69pwqZ5nJMTBk1FdhvB6yIFgczJ5hRqSbpbgJX3npuKUdFDK+nsYkavyGUT
-         X0sA==
-X-Forwarded-Encrypted: i=1; AKwUvBzp+Lk0bIrcj9uujNyDfq+/elXWJRS4vawUJnflm3/hJaCWfpb4vhIeJgU7pLt875Is3CwuyIUWeff7mQ==@vger.kernel.org
-X-Gm-Message-State: AFuF++kOmBuwUkVtAHPcIvng0COg82ykm0NHcIT7iO2cK8BY7iK/cq8K
-	NSSM3X0hvE0wtoXHv7twp1YnVlwT3wihRf32dgvuyt9PfVNVzQkm1Rp1wGddWFdIGM5GgwxDBut
-	yQ0GRKiVsJySN1w0nB3oaMtsL8KPb1tc=
-X-Gm-Gg: AYBFou04Mt+WZU9yey5j1NZo06AFL0gffEzmpRzMBHOMButghsa/7mZLblONg7aHYcP
-	3LB5CUU+JAadI5yyUHICXlEuIAisUXVNgA1Fr7OHYy+BErNHOb2o+8ghnld9hRwGIhHTxkHWtDu
-	vBR1qUQuq8uc1O7T8EGFWEwTZMMcLv9ETg6AWAiOo66ubuaweJVgDWCTjQ+Zlv9KhI/eFOitGlJ
-	qrsoZJJV31JQoGUcE+AO+IfP/TEYew9F/fyuZhbThrYGvGrKwpaVm5zq/IxmZwlC+kV9fLUNzrc
-	FyXR+2MN9c/mmKgLoz+biRO7H0AP3lPKke7lWZnim1y0AwbriernSK/cvJXFn+xTonicI3EkwpG
-	Gd+3hO5L5HPaYBdr4CBF71g4L108Am7E7R4wzgF5w4n0=
-X-Received: by 2002:a05:6512:378e:10b0:5b8:de9f:85bc with SMTP id
- 2adb3069b0e04-5b8df0a5e33mr1500287e87.9.1790351777608; Fri, 25 Sep 2026
- 08:56:17 -0700 (PDT)
+        bh=itw8fQgIicRGc9nxPOOoIpwP28yPsa9toRCa2T1HmuQ=;
+        b=bEd48SXN0ghFmljxbH5haQDOKdML+eBat1PGRg16cdsrWj76DIcVMEqvMAp4jp55vF
+         u0NMAvGk7fvrbNNwe0iM78BPnPvnE3m+MSNRHd/V9OA/mayXtvupmcqYi1sy1ww+wfgR
+         K7k45N8gGGsXuMUzkBKRxqg71zaOVXc8l2DENzu/bohNzXo8dR0Kkk7Ww2gMFeLD8Ovk
+         lm836HheymEeJ7VXY2e2y4mriw5NdfMWXWOPZUYJ2dt0jc3QvzJ7Qv3NlOAbNFlNv90P
+         qMSJPwAYmKpDx03d4Y25sjGd0J76KvNHhoJBM/PV48re4tgUONc67+DDke98ao50nziq
+         BFTw==
+X-Forwarded-Encrypted: i=1; AKwUvBxjRXSdFzU7qoSPGZm1v1phK4poeTuLTBmbmx3TXfh18/wnbI3ty0tMbsuPzwbuvuCgruvz3KbcSbq/xg==@vger.kernel.org
+X-Gm-Message-State: AFuF++lZSQkFqbwodCc9Fny2/anJb8c+rvK0aUU5UovUcNsLJnMm2Ayi
+	rBvz1uap3F1LsDvHQwVgDjjqdrPmj2puY1ZXlvcFWdP5zNh2ykg9lfx2zuk8XwMKrTn4ppe15iI
+	qVBfCEbZXBEoEsEZYtC4e1FPvCFoV4zc=
+X-Gm-Gg: AYBFou36d4YiIgGdwGLjYbyhcHYW0Qr9p/CcnkUh5u8q7vav6OqAZWT2lYiOft0Nx39
+	WsSkivchqjJSwi+TXlp/IQCfNNj7uicwEbcpSqZHX3QoELcAsnF7GTdXF5INTJdHaBf11r24YWi
+	dXyuyPbqqdXpJ+prs7xBK07RN2DV56FkZI0moWn221T68u7fr0e6IEEAYxvFtxeRltYm135e/To
+	Pn1u+d3YIsA06V8oH/IWsQmK+/2YXcntPT+531uzbcAztDvKTP658jHnXXhb9ZVnB+kxwEBiI4C
+	zAi0XnhgkpLUmD/U4qbjj8ri1mXK6+KNpWinIuqLLUhfh1YHmb9pj3HA6Ooca9BRZft5noOr/2X
+	S3cmplB2Zd7GgjgGfu2dzBboQo+TYgdcM7QFZnfhTSbo=
+X-Received: by 2002:a05:6512:3c8e:b0:5b8:993e:6dcb with SMTP id
+ 2adb3069b0e04-5b8df092be5mr2238351e87.20.1790351976183; Fri, 25 Sep 2026
+ 08:59:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -84,14 +84,13 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20260925-aw88166-cleanup-v1-0-11f74cb5fe28@gmail.com>
- <20260925-aw88166-cleanup-v1-1-11f74cb5fe28@gmail.com> <93d91d10-3d3c-4dae-bd5a-62a2f71458a0@sirena.org.uk>
-In-Reply-To: <93d91d10-3d3c-4dae-bd5a-62a2f71458a0@sirena.org.uk>
+ <20260925-aw88166-cleanup-v1-4-11f74cb5fe28@gmail.com> <3863fc1b-dd0b-4841-99bd-f2b34b2a97f0@sirena.org.uk>
+In-Reply-To: <3863fc1b-dd0b-4841-99bd-f2b34b2a97f0@sirena.org.uk>
 From: Aaron Kling <webgeek1234@gmail.com>
-Date: Fri, 25 Sep 2026 10:56:05 -0500
-X-Gm-Features: AclHuK-xI-6RJNKg4PG1csgl4tm5pZqrGjZAi2VlASaIfgtQu10tpFDPMugV-lg
-Message-ID: <CALHNRZ-qO4p6Fa_4te5085Lv35_FftvSB4XDBQVhtoRNmXJhtw@mail.gmail.com>
-Subject: Re: [PATCH 1/6] ASoC: codecs: aw88166: support changing sample rate
- and bit width
+Date: Fri, 25 Sep 2026 10:59:24 -0500
+X-Gm-Features: AclHuK-7gR3Qf5WaP5Op8i4YKKqgNim4U9DhMEJiZAJfouW5l_AEjU9Gv5kf_EA
+Message-ID: <CALHNRZ97Uije_nbzZp7kba88di=dXrRr6_1S62SXMyUBgP0gcQ@mail.gmail.com>
+Subject: Re: [PATCH 4/6] ASoC: codecs: aw88166: remove fade in/out on start/stop
 To: Mark Brown <broonie@kernel.org>
 Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
 	Weidong Wang <wangweidong.a@awinic.com>, linux-sound@vger.kernel.org, 
@@ -99,65 +98,22 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takas
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 25, 2026 at 9:00=E2=80=AFAM Mark Brown <broonie@kernel.org> wro=
+On Fri, Sep 25, 2026 at 9:11=E2=80=AFAM Mark Brown <broonie@kernel.org> wro=
 te:
 >
-> On Fri, Sep 25, 2026 at 02:47:29AM -0500, Aaron Kling via B4 Relay wrote:
+> On Fri, Sep 25, 2026 at 02:47:32AM -0500, Aaron Kling via B4 Relay wrote:
+> > From: Aaron Kling <webgeek1234@gmail.com>
+> >
+> > This "feature" was copied from downstream, but it does not belong in
+> > the kernel at all. Remove it to simplify the driver.
 >
-> > The aw88166 driver only worked with 32-bit 48kHz streams so far due to
-> > the lack of a proper PLL initialization sequence. Fix by selecting all
-> > the necessary PLL settings based on what was passed to us by the
-> > hw_params/set_fmt ops. This replaces the strange downstream routine
-> > that tries two divider modes in sequence.
->
-> > -     ret =3D regmap_read(aw_dev->regmap, AW88166_PLLCTRL2_REG, &reg_va=
-l);
-> > +     /* PLL divider must be used for 8/16/32 kHz modes */
-> > +     ret =3D regmap_update_bits(aw_dev->regmap, AW88166_PLLCTRL1_REG,
-> > +                     ~AW88166_CCO_MUX_MASK, aw88166->cco_mux_value);
->
-> We seem to just completely drop all reference to PLLCTRL2 and switch
-> over to PLLCTRL1, I'm going to guess that this means that something that
-> used to work now no longer works...
+> Are you sure?  Some devices have really bad pop/click performance and
+> need ramps to mask the effects, we've got other drivers with soft ramps
+> in them.
 
-To be honest, I only understand the audio handling at a high level.
-This was copied from the aw88261 change almost entirely as-is, as
-mentioned in the cover letter. I did some spot checks of the data
-sheet to make sure changed addresses were the same and what I checked
-did match the 88261 changes. But for the hardware specific stuff, I
-unfortunately don't know. What I can say is that after this change,
-the AYN Odin3 aw88166 firmware blob from the stock android image works
-as-is, where-as before it required some binary patches to start a
-stream. Implying that the firmware defaults to settings that didn't
-match what the os was using.
-
-> > +static int aw88166_hw_params(struct snd_pcm_substream *substream,
-> > +     struct snd_pcm_hw_params *params,
-> > +     struct snd_soc_dai *dai)
-> > +{
-> > +     struct snd_soc_component *component =3D dai->component;
-> > +     struct aw88166 *aw88166 =3D snd_soc_component_get_drvdata(compone=
-nt);
-> > +
-> > +     case 32:
-> > +             aw88166->bck_value =3D AW88166_I2SBCK_64FS_VALUE;
-> > +             break;
-> > +     default:
-> > +             dev_err(aw88166->aw_pa->dev, "unsupported physical bit wi=
-dth %d\n",
-> > +                     params_physical_width(params));
-> > +             return -EINVAL;
-> > +     }
-> > +
-> > +     return 0;
-> > +}
->
-> This doesn't touch the hardware, it just writes state so if hw_params()
-> is called while things are powered up nothing is going to take effect
-> until the next stream.
-
-Mmm. As mentioned above, this copies another change, so if it's wrong,
-there's more places that need fixed. If there's a better way to handle
-this, I can certainly update this patch.
+Ditto replies on the other changes. This was accepted for aw88261, is
+there anything specific to this driver that doesn't apply there? I
+have not experienced any such noise on the AYN and Retroid Pocket
+devices that use this amp since making these changes.
 
 Aaron
