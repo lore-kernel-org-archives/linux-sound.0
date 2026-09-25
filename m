@@ -1,86 +1,86 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06B483CCFB0
-	for <linux-sound@vger.kernel.org>; Fri, 25 Sep 2026 08:14:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49A182DC331
+	for <linux-sound@vger.kernel.org>; Fri, 25 Sep 2026 08:23:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790324070; cv=none; b=ulblV1evbvlpGhWJ6zK0UJYZ5CQkroN/5RZSRAKsGp+HhY0q0KGcYkGGEg07NCh0MdWbz3WRtpI6F3RbtPsBGk491qDgHNQDINpY0isRxGoPkN4hpD1h7lHHcnW0cOneRgknCVkDQNPPnAXaCBQZx6fEGVlW5FAQpFJMA+Gw6VI=
+	t=1790324581; cv=none; b=oI7isGHg5Y8TWBE3vHrfrzWbL7aeiWMCI3CJfEC9EH0O569Ta9kldzQ1RmZlEQanhH+cLJflyhaRdg2INHEvm2ZeWfyipHSYKZFtgSwKXXhViD42nJNtOQRiYfUqO19dUD+Qj4WOD4saIknqL2kPlNscF4EIlhd9rfUn47x9qiI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790324070; c=relaxed/simple;
-	bh=RfM1E3VYKX9wiL+0X5EDW/fIg41SnkKGkIi9naOno2E=;
+	s=arc-20240116; t=1790324581; c=relaxed/simple;
+	bh=I/fv3RGnze7s+N5FxFvRXiB+6C/5+ZaAufwlU5W7NRM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DT2Nx6uuf2ai01YdnehEB//lCGGXdG+IzvUzxZhoo3DRTJJa2xtg2a0lQ6cVqr3HW16q2wvPkAoSNaW8ho0QhHdLItWuXnPwvnHffqJI1FKAoP70mif04YHR3URLpBa7QOk9ymeS6dzip7d/GfEEA2SohdQwciwkaFtym53+7r8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=mnAc4f4V; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=gzm3MeaE; arc=none smtp.client-ip=205.220.180.131
+	 In-Reply-To:Content-Type; b=Ylq3uqsccAfF6j6HGJKmVVGkrBtmiIlbC1wrZ0lcwqIwpyVQwBH1k4hKdMwfg1Yq3d6MX9sITUEwKpYXUVgFjg9C7+vkRc6xALmOOBvLGJkut1BValNCReFKVwn+w4N+ma7mCutlvB54LQqNzSIdFzQX8ic9ocmRBomt5D1Niqo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=nRAPVPHT; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=dDZidfdt; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="mnAc4f4V";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="gzm3MeaE"
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68P4Yi2k4102869
-	for <linux-sound@vger.kernel.org>; Fri, 25 Sep 2026 08:14:26 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="nRAPVPHT";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="dDZidfdt"
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68P4YXNA208403
+	for <linux-sound@vger.kernel.org>; Fri, 25 Sep 2026 08:22:59 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	3tN7fzTN6Fvf4xQakRN52v4FP1Y7P2zuIjqDy4DV+jE=; b=mnAc4f4VUJsj19FL
-	Q1P9Ok/vWPgoWXUfsOUT/oG0C/dZQep5KFBAZzGPmCAfZzLGzPf9VFRvEvSOXJbW
-	BHhNXwWhljr+f07X7OAsiv/C1bcUVJ+tTJy6+SW9oE+rsswoiDSoFbvyGAeuxz2u
-	56jKtKlCLQZQasSfIaEAS+kwtIXLvIeTm7XTZp8tATijSTPo23W5v2iwa5NlxItN
-	J31k0IyNdRxCASy6lezOI+nIcyylkcpTv+5nOXDhqwsQTADQMP76BBhOolQAK1i4
-	p4Xm1mexo2uMNW5YsNnYycyLuaOtFxpVyz5mk/zjnlqA59JwpxJ/HWbO/S/LnExQ
-	PSPFew==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gw5q8uf2d-1
+	J3AR7UZUtXFX7XXd5Wd1G6E2yQBULteMUT2atsZ3wtY=; b=nRAPVPHTcorj6cMq
+	U2oLcplr9EuNFl8IICoQr+bhsIFWpbeG1gGLNj0KvzUOZ1M6VutX4MTp6RVEfgYY
+	u/BEmpItk0yqDxab/KvpdIkSwaw7pSaWCSPXThuSGlNmuS1IHHrI1D1nlOlR8wxc
+	cVwDDJeGrNG697LAxJLGvoxZkwbO2IRveT/TX0GAwN54aR5hUSXMWVmZrYJm0tY/
+	P9tiYsvBo6zksLWWvNA8/VvjPtqwLSC2MAF+4gEPQL3ivDFe/sLvx6t+9SwzBfrM
+	H2TyVAVdK+6dsOQFbdbQguEBhbJY8rSsn87r1XSA22JZncBCRQVFf8Fzg7W+8Vto
+	jq/UVA==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gw898tpda-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Fri, 25 Sep 2026 08:14:26 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-93a00c70d28so107882885a.0
-        for <linux-sound@vger.kernel.org>; Fri, 25 Sep 2026 01:14:26 -0700 (PDT)
+	for <linux-sound@vger.kernel.org>; Fri, 25 Sep 2026 08:22:59 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-93be1861d2dso100798585a.3
+        for <linux-sound@vger.kernel.org>; Fri, 25 Sep 2026 01:22:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1790324066; x=1790928866; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1790324578; x=1790929378; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=3tN7fzTN6Fvf4xQakRN52v4FP1Y7P2zuIjqDy4DV+jE=;
-        b=gzm3MeaEKmbisBMrND0QNFPBfDxtiNvumTPR8yFC23rXRewkvq4fPnEKuJ/dvTQkFb
-         v7RwRjZ7JYsJRGLHHgUqBmWBQAMVgT7RDAICeUuHTRhNK7JkyAJnWL1zx49TrBm49M/l
-         A3UBrOTxpWtUKRufGWjvvXQD3uh9rRGOvoZ5HtAYdbUtzKsdFD3vRf3juEZaG0KMAPSA
-         p6So3t64CgxxBQA/jSDi8cQyS0yAX/HOzcQ4KDz4w4bCEqPfCfYwnUDIoQoWOPOW/rWS
-         81P2rbfj7cqSG4VGABpe/B4Uk0BFd16Bi6XKbhUb71+mFln5eakjaQu8MHNTwan55lpf
-         sLqQ==
+        bh=J3AR7UZUtXFX7XXd5Wd1G6E2yQBULteMUT2atsZ3wtY=;
+        b=dDZidfdtD5IFI4CqSLAQ6xTv1NYbx+Wa6mm8u0KVI5lfRzx6jyM9ddMTn1GuMvxhhm
+         lFKeq/5rKcTO6DVpg3hPuvNtvR+afjBHJRcWDegYS6u+298JzonTow+rIee1qxUCsc+9
+         xRWm3zGFrqUB7/RCAcwPuS/4Eq56hxenZRUjeWfxRdGR31AUuuLJ+c/3XtApuiNwhWYj
+         35h+73epziJbVFuIN0BuSgxFxzyfTpUh6fzWqfx8NvHJOTaouNSkxxbaKxQZHoIDP7QH
+         iRCR3mPPKQO5nfOmsPZVN9ujpD68d9/V/EbICi3HivqPXfIgorVcC5Ea3EowCTQnVkCS
+         J8nQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790324066; x=1790928866;
+        d=1e100.net; s=20260707; t=1790324578; x=1790929378;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=3tN7fzTN6Fvf4xQakRN52v4FP1Y7P2zuIjqDy4DV+jE=;
-        b=ayfOHgx8eu8p5TvFMMqGWU1MxEkII0eUXPbaMUYuw8+QBZLZQnllsPBQH+8lTehHYN
-         MQco64l6tPKgSxT3n0wuOb+iTptURM0jM8rXW0XwB2Qp0GuICkIsXMuZrySdOkbNZdd2
-         5iAuxenGxgcMqtegjxl+UyN6qlEVYmN7lcHJuV8faI06URXJiHvheqBQwl9Hdyu6SWpa
-         101g2CFUDGufOWmcoCumHjCQbU08Wl/rUXOATqEJiErIU4S4vAIK58eo8wxdKiENYnBf
-         zvNu1k5b0JDxbbJYCAt3LanAHq/JG8Tvl+sn4ocZPOP0ykcgDp/ucYKfE+q6CGDrBJQn
-         Zkfg==
-X-Gm-Message-State: AFuF++lnjgBckEBQkVChgy1ghInwoMsLk1avvuqXP0koZE2uasOTTNkr
-	yIjaKBMfQ8T/DnqfTMJnHSBpJwJIviryyrHQEVrWl/xdBk0zm5mypwr1RCNd8JV/2sH02huGCuM
-	oTo1BaNLB75dNotmLHaY4wRDq/98eeq5gQc8ArSqXPrT7KofMmQOs5VKg94mRYxJxlg==
-X-Gm-Gg: AYBFou2SQNRpPK5TZQMJlS2c2oT+JbIgWVHyeS1GPIT/ERvRsIAFnzEFSJF59SrBYfi
-	Gosny+zL+09+tttCIQoFROt+ofX41kfkujISBcwvjjhovlMXbUwfYhL+SiiwS7111NCl332rmeL
-	7CpDF48Gpom1HM1GHdAfDUHWpiKEz6qo51K8N0bnXUI7yK3BuGxUn5cnZIGnMwbtJJqXcajhNx4
-	azjmLpDpzP1vbZFwU2N7Sm5t/8hzRGuHJq5v5gfRjkPtEvwFhQ3Ol/t2QO3vO4NKfcEXI5lQndc
-	RzuA8tEVknR4Ofucp/pl8jTTeJYM6ie1xXwrlCXjvqgzyDQqZWEjgd+BIBhEOQUEDFDXYyq1m0B
-	3L2Lbq/pvhSowdEO8LCqrevH+BQ==
-X-Received: by 2002:a05:620a:688c:b0:93a:12eb:b626 with SMTP id af79cd13be357-93c43b80ed4mr291567185a.4.1790324066048;
-        Fri, 25 Sep 2026 01:14:26 -0700 (PDT)
-X-Received: by 2002:a05:620a:688c:b0:93a:12eb:b626 with SMTP id af79cd13be357-93c43b80ed4mr291564285a.4.1790324065567;
-        Fri, 25 Sep 2026 01:14:25 -0700 (PDT)
+        bh=J3AR7UZUtXFX7XXd5Wd1G6E2yQBULteMUT2atsZ3wtY=;
+        b=HEz0Z36NSDXSOJtZmcYpjs/38CZzhGQtfmGabFe++wYVXDyztpCA2OrT2Wm4JjGQ15
+         se7Chek5udBoCPoaOORV/85pHmqVILm2wQ9trKOmLQRAxAYbyCQn2mImr9iS4U7BUfnz
+         yewnG+PHhRtHfv7nHckglrKN7056WFW7VfPNTO4avDsBek3VzuVTfIN4EEvDlRhRZ59H
+         hxKWtWiClRilldm/JiOQpIcBQ2sy5xl2l/6jWf/hmh0tnL4gY9nR22/OEksPe3rKl2CB
+         0D1l8YzW0fiQobhvEwWFDe5Vr/P5S84bKUXZVEZwv0IZm/MymuCPVh3cHNvd2tIvZ1Oq
+         IFIw==
+X-Gm-Message-State: AFuF++k5aSe2U1GAzFqQX3VDKEJqXCqy1JhV61UcmBNNr3Ncm+lFWek9
+	bWvUR1SPXiFv82allwGWMCnqiXdNRVR923ewngNMz6zUNw39asflNWWea15P6Nj8ff1VO3q1n0T
+	pDE34KYkx4tCH/n88rND4wQOoETLytYYJbcon+lwyacGTSlA4AEP/61uYu++zcdgATg==
+X-Gm-Gg: AYBFou3QcxKlmcBfpg89y4epORxJvRqFWv8yWU4c8lICR4ImNIqs0CiDN3jlGdAfYT0
+	Q2Gtnfg5XCjYxT5KeS41WrHV9qzhUFGIg8LkzDf4mBU+9Gyt5abJdHE8iqNCbSh2qD43lAeleJ/
+	ZJfGbqsfPJHvxQ7SVw9T6T74ShMDFmVJbk9ZoUv9X5N3y80jCiNyr/eADD5YZOVVWFue0a/Lj/D
+	3fQ58pWZaE66j9bDA/nyh80sz9NOMGsGB0rwSbg2WnivrtupQ/TYMtfChKRWI1qbp/qyTkkl5Hp
+	dKfp13vgnzpUa4+S9Di/08ANykVSDDpEyI+pAZdQnrG51tjmJ7shM+zTG9B5l5aFxyqf6XGU56E
+	oB4mN6glBscfveNLdMyCnhzSy6A==
+X-Received: by 2002:a05:620a:2b8f:b0:914:afc1:c66d with SMTP id af79cd13be357-93c43b836dcmr301325685a.11.1790324578516;
+        Fri, 25 Sep 2026 01:22:58 -0700 (PDT)
+X-Received: by 2002:a05:620a:2b8f:b0:914:afc1:c66d with SMTP id af79cd13be357-93c43b836dcmr301322885a.11.1790324577924;
+        Fri, 25 Sep 2026 01:22:57 -0700 (PDT)
 Received: from [192.168.68.120] ([5.133.47.210])
-        by smtp.googlemail.com with ESMTPSA id a640c23a62f3a-c2ae735725dsm77113266b.14.2026.09.25.01.14.24
+        by smtp.googlemail.com with ESMTPSA id a640c23a62f3a-c2ae757b50fsm77289566b.32.2026.09.25.01.22.56
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 25 Sep 2026 01:14:24 -0700 (PDT)
-Message-ID: <d29c3741-0c47-46b6-9d27-1e8a54c51b83@oss.qualcomm.com>
-Date: Fri, 25 Sep 2026 09:14:23 +0100
+        Fri, 25 Sep 2026 01:22:57 -0700 (PDT)
+Message-ID: <348b88f8-4708-4d6d-ac01-3af0f40c23f3@oss.qualcomm.com>
+Date: Fri, 25 Sep 2026 09:22:56 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -88,7 +88,8 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/8] ASoC: qcom: sdm845: Demystify TDM masks a bit
+Subject: Re: [PATCH v4 2/8] ASoC: qcom: sdm845: use DSP_A format for TDM codec
+ DAIs
 To: david@ixit.cz, Srinivas Kandagatla <srini@kernel.org>,
         Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
         Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
@@ -103,124 +104,79 @@ Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         linux-kernel@vger.kernel.org, patches@opensource.cirrus.com,
         devicetree@vger.kernel.org, phone-devel@vger.kernel.org
 References: <20260924-pixel3-audio-v4-0-85b5d133aa5e@ixit.cz>
- <20260924-pixel3-audio-v4-1-85b5d133aa5e@ixit.cz>
+ <20260924-pixel3-audio-v4-2-85b5d133aa5e@ixit.cz>
 Content-Language: en-US
 From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-In-Reply-To: <20260924-pixel3-audio-v4-1-85b5d133aa5e@ixit.cz>
+In-Reply-To: <20260924-pixel3-audio-v4-2-85b5d133aa5e@ixit.cz>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTI1MDAzMiBTYWx0ZWRfX1ag/LhRx6lCj
- NirsEFHcQ7nc/JgOu2CMW3o3aCnOgW7TI2SRove8wGMO1UZAIaRKZv11gQ95/kz8gSGSiDHSsYw
- +y7quVcBPZjj+oATgBlWwNQ53aZDYEg=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTI1MDAzMiBTYWx0ZWRfX42wE6+gu1uOJ
- ASxy5gYHUHA2u92G2vtjO8ZZ3G1YAhjCIYXYlMZx4WUjt27+uo8YvCjZByeHTichZeQwTcPU9HD
- nHWvHvg/MQ9GznpBFEVgPVRxzS4sf0zNjUELA8TMlkeYn3zSomblNpkdhedB47Huvqf+VRbOch4
- uSZ+ZgEJ69iYy5O8WAVGujfoONjSdGdTIMOljBg6m8rMRWtRpd9n1ITfpAgNTWd1huH8do6M1g+
- cAYb9AGDjkq+mz1qX6PVKTbww86XBrUv/Kob2dhJweEDi+vDGilW0oLyxqvHk86kA3O8TakTNcM
- PTi+1NDjz+VefW4jnO0pPfmisMb2PY8DOS5S5dLp+s3sggH09Ol3kJC8gRIbRtyRfQ8IhGHWLUo
- iB1HZ6Lpm+AaN3AgMMWkX0cFUwkAz/3bkeMoQ0IRmiRkxkqkqrot020sAedA/lpV669MRolCCr1
- +eO2uEJ8EpjUORLRhvA==
-X-Authority-Analysis: v=2.4 cv=SYRi5fRu c=1 sm=1 tr=0 ts=6ab62d62 cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTI1MDAzMyBTYWx0ZWRfX/GBt6JxtqIg6
+ AmdKB4yhDUiX+yJTmtxxhgHrdlH6oZMlc2v8sWCfwK0qpM0fSlzd9nBJWGgf4uZGGiDZh0uEwjd
+ DLkf0ki7d20HGbTu9J0S4l9i5PfsFSde3gkyrsVpFnC6RpoARYG4pfPIJW6OUQi4cR14EOCjT+o
+ lJ0RiODdtNu3zxmYivwfXLMfgTA7zi2c7E5smxboBZoLBe/swxEnBgYHgqIMNdy2BDQ3Ct0VZmj
+ yJs71j7/7wacEry0D/TRo1R8vlquNCpl4StI8ltninugd4t3KURNfqguVKQTIXFAiOFNwO2tG+j
+ nOMbFWoElbk2k4nTQf+6ZFFfLR0fuBs6v+UkgtzxBDRfAUgBvrmAePkf5WHVaacn+O02t69GRqe
+ t4XHeErgqd4gzK28Rlriq4HL1v0utt71C2EHNyMjxxfziHqM1Mzr1iZ2lQlCySgmxMq5JVm3siH
+ 6bBO3sAD9huM3H1IyhA==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTI1MDAzMyBTYWx0ZWRfX27Ldi/GWkuUV
+ wUMlH0c0mmmsSSu9lNaNdXvkzy2YG+bmGUqVyB1HVckMksXdxpeVwmo7h+ujlApKS7TZQU4accN
+ p5P3NFfMNFXNqWWDKub4xZi7DYegA0s=
+X-Proofpoint-GUID: vyb8d4_ry7Z2BErqWx2NFyEBAbHJxMtS
+X-Proofpoint-ORIG-GUID: vyb8d4_ry7Z2BErqWx2NFyEBAbHJxMtS
+X-Authority-Analysis: v=2.4 cv=EJWTQFZC c=1 sm=1 tr=0 ts=6ab62f63 cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
  a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22
- a=EUspDBNiAAAA:8 a=eN4gI1Pk1yANhL5TOoYA:9 a=QEXdDO2ut3YA:10
- a=PEH46H7Ffwr30OY-TuGO:22
-X-Proofpoint-GUID: LSXoC0qU4PB6KkWubLk1PoDgtC_sauTB
-X-Proofpoint-ORIG-GUID: LSXoC0qU4PB6KkWubLk1PoDgtC_sauTB
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
+ a=EUspDBNiAAAA:8 a=sm5W5dfhhG054gMKQQIA:9 a=QEXdDO2ut3YA:10
+ a=IoWCM6iH3mJn3m4BftBB:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-09-25_02,2026-09-21_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 phishscore=0 malwarescore=0 suspectscore=0 bulkscore=0
- impostorscore=0 clxscore=1015 adultscore=0 lowpriorityscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609250032
+ priorityscore=1501 malwarescore=0 clxscore=1015 spamscore=0
+ lowpriorityscore=0 suspectscore=0 impostorscore=0 bulkscore=0 phishscore=0
+ adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
+ definitions=main-2609250033
 
 On 9/24/26 2:24 PM, David Heidelberg via B4 Relay wrote:
 > From: David Heidelberg <david@ixit.cz>
 > 
-> Describe the mask with the bits used for each RX/TX.
+> Before the DSP_B only worked because the only close-to-mainline consumer
+> cs35l36 codec was patched to map both DSP_A and DSP_B to the same
+> hardware register value (asp_fmt = 0), which is inherently DSP_A timing.
+> Use the right codec (DSP_A) which works as expected.
 > 
 > Signed-off-by: David Heidelberg <david@ixit.cz>
+> ---
 
 Reviewed-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-> ---
->  sound/soc/qcom/sdm845.c | 21 ++++++++++++++-------
->  1 file changed, 14 insertions(+), 7 deletions(-)
+
+>  sound/soc/qcom/sdm845.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 > diff --git a/sound/soc/qcom/sdm845.c b/sound/soc/qcom/sdm845.c
-> index 6843ab8ba017e..0ce8265ab1c1f 100644
+> index 0ce8265ab1c1f..d1cc825fc5cdc 100644
 > --- a/sound/soc/qcom/sdm845.c
 > +++ b/sound/soc/qcom/sdm845.c
-> @@ -18,19 +18,24 @@
->  #include "sdw.h"
->  #include "../codecs/rt5663.h"
->  
->  #define DRIVER_NAME	"sdm845"
->  #define DEFAULT_SAMPLE_RATE_48K		48000
->  #define DEFAULT_MCLK_RATE		24576000
->  #define TDM_BCLK_RATE		6144000
->  #define MI2S_BCLK_RATE		1536000
-> -#define LEFT_SPK_TDM_TX_MASK    0x30
-> -#define RIGHT_SPK_TDM_TX_MASK   0xC0
-> -#define SPK_TDM_RX_MASK         0x03
-> +#define LEFT_SPK_TDM_RX_MASK	BIT(0)
-> +#define RIGHT_SPK_TDM_RX_MASK	BIT(1)
-> +#define SPK_TDM_RX_MASK		(LEFT_SPK_TDM_RX_MASK | RIGHT_SPK_TDM_RX_MASK)
-> +#define MIC1_TDM_RX_MASK	BIT(2)
-> +#define MIC2_TDM_RX_MASK	BIT(3)
-> +#define MIC_TDM_RX_MASK		(MIC1_TDM_RX_MASK | MIC2_TDM_RX_MASK)
-> +#define LEFT_SPK_TDM_TX_MASK	(BIT(4) | BIT(5))
-> +#define RIGHT_SPK_TDM_TX_MASK	(BIT(6) | BIT(7))
->  #define NUM_TDM_SLOTS           8
->  #define SLIM_MAX_TX_PORTS 16
->  #define SLIM_MAX_RX_PORTS 13
->  #define WCD934X_DEFAULT_MCLK_RATE	9600000
->  
->  struct sdm845_snd_data {
->  	struct snd_soc_jack jack;
->  	bool jack_setup;
-> @@ -107,34 +112,36 @@ static int sdm845_tdm_snd_hw_params(struct snd_pcm_substream *substream,
->  	default:
->  		dev_err(rtd->dev, "%s: invalid param format 0x%x\n",
->  				__func__, params_format(params));
->  		return -EINVAL;
->  	}
->  
->  	channels = params_channels(params);
->  	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
-> -		ret = snd_soc_dai_set_tdm_slot(cpu_dai, 0, 0x3,
-> -				8, slot_width);
-> +		ret = snd_soc_dai_set_tdm_slot(cpu_dai, 0, SPK_TDM_RX_MASK,
-> +					       NUM_TDM_SLOTS, slot_width);
->  		if (ret < 0) {
->  			dev_err(rtd->dev, "%s: failed to set tdm slot, err:%d\n",
->  					__func__, ret);
->  			goto end;
+> @@ -382,17 +382,17 @@ static int sdm845_snd_startup(struct snd_pcm_substream *substream)
+>  	case QUATERNARY_TDM_RX_0:
+>  	case QUATERNARY_TDM_TX_0:
+>  		if (++(data->quat_tdm_clk_count) == 1) {
+>  			snd_soc_dai_set_sysclk(cpu_dai,
+>  				Q6AFE_LPASS_CLK_ID_QUAD_TDM_IBIT,
+>  				TDM_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
 >  		}
 >  
->  		ret = snd_soc_dai_set_channel_map(cpu_dai, 0, NULL,
->  				channels, tdm_slot_offset);
->  		if (ret < 0) {
->  			dev_err(rtd->dev, "%s: failed to set channel map, err:%d\n",
->  					__func__, ret);
->  			goto end;
->  		}
->  	} else {
-> -		ret = snd_soc_dai_set_tdm_slot(cpu_dai, 0xf, 0,
-> -				8, slot_width);
-> +		ret = snd_soc_dai_set_tdm_slot(cpu_dai,
-> +					       SPK_TDM_RX_MASK |
-> +					       MIC_TDM_RX_MASK, 0,
-> +					       NUM_TDM_SLOTS, slot_width);
->  		if (ret < 0) {
->  			dev_err(rtd->dev, "%s: failed to set tdm slot, err:%d\n",
->  					__func__, ret);
->  			goto end;
->  		}
+> -		codec_dai_fmt |= SND_SOC_DAIFMT_IB_NF | SND_SOC_DAIFMT_DSP_B;
+> +		codec_dai_fmt |= SND_SOC_DAIFMT_IB_NF | SND_SOC_DAIFMT_DSP_A;
 >  
->  		ret = snd_soc_dai_set_channel_map(cpu_dai, channels,
->  				tdm_slot_offset, 0, NULL);
+>  		for_each_rtd_codec_dais(rtd, j, codec_dai) {
+>  
+>  			if (!strcmp(codec_dai->component->name_prefix,
+>  				    "Left")) {
+>  				ret = snd_soc_dai_set_fmt(
+>  						codec_dai, codec_dai_fmt);
+>  				if (ret < 0) {
 > 
 
