@@ -1,79 +1,71 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB7833A544A
-	for <linux-sound@vger.kernel.org>; Fri, 25 Sep 2026 16:59:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 249B83E0092
+	for <linux-sound@vger.kernel.org>; Fri, 25 Sep 2026 17:07:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790355600; cv=none; b=h8cOmlsVxwshrvMxZYqvuBGsOu2lZkJueeUBuIXwey273wAB5zwCxuCBoNZ9z5jUXcO42zbMkvbq/S6LuaPDcKDlVpK161nGzyL5VvqJ8wVzJKKu5g2rOPpMgqUgjMsqZkzg8ftU3Wrx1yAsapTybYepPDZNBTKN9BYT5gVUVwY=
+	t=1790356062; cv=none; b=rCBW//SdXK2Tdl3TETNgssHmtG53zG7gKdFZcIyDwbHe3p8QEXdOH7R5KgzIP7iAB383W7oM0f4Y6kf0Vlc4CZvQS51SU13IN2YnoqjMq73NFQunhD8/BlTVWKMxXYlV9zVigVT9cTNxDlX8PmQBVWBH9q2/xOmMbxRQE2Zf4O8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790355600; c=relaxed/simple;
-	bh=JKIIgqWX5qxVPEB4mEVEZFgtVqMQiJqYfzepK6S4EQ0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WJ5otapTyVkm3ftSIvEs3drP1HUCTRcSRgG+bkk8rKr24VYMZvocbBlZbCVrfvrz/vz/pMTIJFqXOd8kUnCHSNIGmiSoeI7gtgzOXsVV5R0rPr/gz2RC+taN18c+WjR7RS95tOax/t0IiNOPUcK+jil8X2kPCatsyM+UuHj19P0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DAxk+aq9; arc=none smtp.client-ip=209.85.208.42
+	s=arc-20240116; t=1790356062; c=relaxed/simple;
+	bh=l1m4b+1Tuj3AgpgIoBKvDCu/Rg9JYV3MfKsBgahuR1k=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uqz7boDO/utte04T32vl5dZGHAwi9VE+ji8MabzmuZqg4zAkoG6cJJmNa13stygDAlvAX8c1gKttoX5ECb/+ZP01XsmhFQt/v7NJatTFcQciyF85hLin7gGhx8PjHa5CwD8auSn4GsT04Uofi/6ndkK/7URELhjQB3TBvWSvF1E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VFA4F7RX; arc=none smtp.client-ip=74.125.227.141
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DAxk+aq9"
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-6aaf28a86b9so838596a12.1
-        for <linux-sound@vger.kernel.org>; Fri, 25 Sep 2026 09:59:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VFA4F7RX"
+Received: by mail-pj2-f13.google.com with SMTP id d9443c01a7336-2d747eefae4so3031055ad.0
+        for <linux-sound@vger.kernel.org>; Fri, 25 Sep 2026 10:07:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790355583; x=1790960383; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1790356043; x=1790960843; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=P2oQDwCwCo1gfWj8hUM2bE3rJ8xWs7DjrsEeE/nug/Y=;
-        b=DAxk+aq9gNh+zgdqvHMHQK97bBvWGt3VW49kSKKlx6tgLsYY9jx3Rgj5wDkUaebdN2
-         fL32I+X4TiZupDVB1MQS6GZntx+AXzJ5enVU4O7Ub6/0OtUktCQf8Acajs4qxq39tEOY
-         joWmL54sLd1GqvwNcIlx8m5CWWZCyoac6pmSLTluWIXggINPOoO6xJK6GmEAe+guQ5Wm
-         4Kxj8nLzsRpw+nPfm7+ovF6b+F7K9B7R0Urj1HtvwFLFSgnbwtpOEbAdNNHw9ez83xGi
-         ftcK2i6Bw0REnibEGKmGAfGYdX2PVDis1CfwMzlSZ/f0uTLDpoVBhHN8xZlD/nLqDr6h
-         71gg==
+        bh=7VpcBNdmrVh0UXb9yrYQNO/worK6M2KtwpnxLGH9ufo=;
+        b=VFA4F7RXNlX/fzso5qNA4O4ygIYgbD2ZW1MW/C1gkBVOizaef/33LSgByFUkuam/pb
+         kZrUGC8ihuNoy3vl+MLPXTNU6uiQ1jvj+ilhS+RPWl0OIU+1jQOeXqW7d7ylrFHvmwRt
+         BBkyPflupe+ucrwDzobAIeOPS5qvGPOCWee3dSbo/8CqcroP4wwYK/8xf59R1RBvjtxv
+         v8oI1b+1xq2llr6QZdSPadqmgvRKFd89ClFBWM8BREp/iyQbB6oHUTvsgMcLKZxiP8hb
+         vttLE3wHQxAch7smlYFsowPoNI+BlBc376LL25OJEeLvvQZxkBa33HzBOGA8HUT4cgh7
+         gDdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790355583; x=1790960383;
+        d=1e100.net; s=20260707; t=1790356043; x=1790960843;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=P2oQDwCwCo1gfWj8hUM2bE3rJ8xWs7DjrsEeE/nug/Y=;
-        b=eCVkB6roDkbG9Xx26G5cHK7FS9HVTdvWnzbGcFPUuwha1NfcU0LIf7VjeDOdqCWmQe
-         EUKf+D8nsWy2AyQkYJ9liLcBRo6sHF9KMsvY9Cm8nOgI3mJKQC6Mq4fedqVtyQZ5pZ/m
-         xj5UZKL13ZIPwQWJBgJvt19vekcsdiwH+yYQ93LnMP7VChozDDVwhkqEAkrXMNygB+UC
-         twHNytfi1zQwODDbp6ueQ0MLlGUIqmpao/Q4pQgcG1GFCf2WecBCA/Qwti/e0935kjyo
-         gmSKXig/Ergr+DiM+Wy+YCrzdyqgfnC8V9qimXpE64Nttp5xyJZpxA1TIELTm8mfcZ+X
-         Y2Sg==
-X-Forwarded-Encrypted: i=1; AKwUvBwYX5lu6YkZoHYmkXhbPfBD9ie103U7d3kRHmpXd42IB9axxOeJmvjtJzU78P5S3CIlmtecDywLdRlm/A==@vger.kernel.org
-X-Gm-Message-State: AFuF++kSx10UNz7XZbNIdTxEdmoUDwhJ2PNvJjoi8Mzxs5WyAaWknLUs
-	hqtOvlgj8Y3lNrDVtVTn2rO6+mV3Xprg4iyG1AhGzt7Rwk9PFuMYGqik
-X-Gm-Gg: AYBFou1VCyoW9nq4n6Q0pxZ2aNgp36U1BJuAy2QGR3AsVvoi3pdvljqfklPhbsOxFMr
-	EzPtfqzuHVbeDoWhet///21aDavgB3dypY/f0RSJHxpCICGZ31bQ1WagTeVfg6oWzgzRY4CYU3w
-	UmCjPt2qJFEC6yKFQqB2HZ5owpLrrOYwx8qUPwRPULXOFP37QQlO/XkLS7gti+x01jNP16ZwWQv
-	B4C2fD3kfrB5y9ZPdIjhjSlQfl+SVmIat1NAf+s0TY8E9OGHu5UgV76cUDabm/tF5/bxX8o64Tm
-	2cBqBhV3bkmvD0uMhEj8ItXAs0y9aXEubjTSEnxOTuNqZylNLxANsXhhKnHqlEbSzepgb4t37AX
-	He/pqmgy6qCsvJMytxpz7fIvSwrxXX5eiUfFf7wYrKQLPWSlaAYnWlG6Mb55KcDzlN1Ar1BEZGS
-	yaMdHr19qO8ZmU4EizvBwMBf1/fQCb08rR+OVELX578fU1l3G9XZ9dGQHliNYekTy7faI+GNmYd
-	wn4j/zi5fARAKssw3Tsi2Tdj++tRMfZFoZQ75W2Ao3i44JIxNhbySXx7bwavlxq
-X-Received: by 2002:a05:6402:12d0:b0:6aa:ab94:4a36 with SMTP id 4fb4d7f45d1cf-6aac8f1b94fmr4157302a12.8.1790355582773;
-        Fri, 25 Sep 2026 09:59:42 -0700 (PDT)
-Received: from Ansuel-XPS24.localdomain (host-79-29-83-136.business.telecomitalia.it. [79.29.83.136])
-        by smtp.googlemail.com with ESMTPSA id 4fb4d7f45d1cf-6aae5cb9b0asm1321152a12.9.2026.09.25.09.59.36
+        bh=7VpcBNdmrVh0UXb9yrYQNO/worK6M2KtwpnxLGH9ufo=;
+        b=KY55tS8jropbfrYpsvYjx+3Lfhj6MEViyhyNhHjLgGZhSCpA7reNsyNW7Gwh/dqfZA
+         qhu0XiZFr52KVW18Ad9ms9JDu9RV3AvqA6K8iRZrfd8BtNzg9c92ZknW0tvGRldjcA6z
+         cCao1GQ6X+HzmcsuRjup85IxjkvODzTLZOiizmqe6NLdN+RxGRxKMfta1NcMy3RyRFpz
+         oek/tkyLKVFDMISuJgvgZ9hoA8Rvuamwtlz3jLe+GLeklzFlNdrnbNQteppo/gUd6oYe
+         kWaOHkYIo2n5ZHChS0JvSK9DmokzayklqpOL6pt5dCABQyfiogYvpn7ZktYevyP21Mil
+         4lsg==
+X-Gm-Message-State: AFuF++nkxs4BT1xsqnP7KCZ/vU5BpduvJwd8ChFYiAgrLkRyQo1jp9z4
+	dBpKNPfBYx/YwGRKg3o5IJWXUH753kk2l2njZjlcTk9wL82w4aKYq7RQvbMC4w==
+X-Gm-Gg: AYBFou1G+HvfCUGp6rpOU/972WVoHb6UXbxYbNRd85oLX+jb5W3Gr/zYeo2+9mfNgGa
+	nY/xYyVSPBEi1XnSvlFX0hwKLCyWscEQi4O2HfotTTSUEwT9HnY7odTvT9NoxAcHmbdwxjQ1nWu
+	F+SeVIUcFkI/OgfiZTPvotHTRHhNA+rjDGmxxAn7IJnB0owmqdOw9gzf8GMh3f9VG9zPcOgeBbd
+	EYH1WHGCkGZ0yGwGqPyQSz17Q/AM0UfQudN3KrkitrtEOVuhByf++NlG0QznV6IRVp7rjaxEeGN
+	S+pr2Sf0ja2v2nIXZjDEOfLFD1ndX6UASutvh3E4Xer8IPxFvQ8eHa6YWhyFx2niESx60cPGvJk
+	GO4wdU0LDJturouMLJQovfvs6qCK/egiChO5woQ9bGipAg94QmHE7BMzoY2O/6sI6yXhOGggAH7
+	SeJegZoNi/Fxqk8AYz7DaXPn2Byt7CLf7H0XzHH2wywp3v0HvPAMOmXCexqJFl7FPaN7wxmkYhS
+	0tHuV9PHrjGXAB42iX2gyrkA8Gs
+X-Received: by 2002:a17:903:2345:b0:2dd:c100:2521 with SMTP id d9443c01a7336-2df7e3b3ff9mr40533265ad.42.1790356042978;
+        Fri, 25 Sep 2026 10:07:22 -0700 (PDT)
+Received: from thangnn-ASUS.. ([2405:4802:1d4a:e90:6850:49fe:a642:bbf3])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2df91401161sm14190205ad.36.2026.09.25.10.07.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Sep 2026 09:59:37 -0700 (PDT)
-From: Christian Marangi <ansuelsmth@gmail.com>
-To: Christian Marangi <ansuelsmth@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
+        Fri, 25 Sep 2026 10:07:22 -0700 (PDT)
+From: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
+To: Takashi Iwai <tiwai@suse.com>,
 	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org
-Cc: kernel test robot <lkp@intel.com>
-Subject: [PATCH] ASoC: airoha: Fix sparse warning for AN7581 AFE PCM
-Date: Fri, 25 Sep 2026 18:59:17 +0200
-Message-ID: <20260925165919.5407-1-ansuelsmth@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	Daniel Mack <zonque@gmail.com>
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 2/2] ALSA: caiaq: unregister the input device when probe fails
+Date: Sat, 26 Sep 2026 00:07:17 +0700
+Message-ID: <20260925170717.22462-1-ngocthang2710.1999@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -82,49 +74,52 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix sparse warning reported by kernel bot:
+setup_card() registers the input device, whose name and phys point into
+struct snd_usb_caiaqdev, and then goes on to snd_card_register() and
+snd_usb_caiaq_control_init(). If either fails, snd_probe() calls
+snd_card_free(), which frees the device state but leaves the input
+device registered: card_free() only clears the pointer, and the input
+device is unregistered from snd_disconnect() alone. Reading its "uevent"
+attribute afterwards dereferences freed memory:
 
-sparse warnings: (new ones prefixed by >>)
->> sound/soc/mediatek/an7581/an7581-afe-pcm.c:144:30: sparse: sparse: symbol 'an7581_afe_fe_ops' was not declared. Should it be static?
->> sound/soc/mediatek/an7581/an7581-afe-pcm.c:419:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *base @@     got void [noderef] __iomem * @@
-   sound/soc/mediatek/an7581/an7581-afe-pcm.c:419:14: sparse:     expected void *base
-   sound/soc/mediatek/an7581/an7581-afe-pcm.c:419:14: sparse:     got void [noderef] __iomem *
->> sound/soc/mediatek/an7581/an7581-afe-pcm.c:439:42: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void [noderef] __iomem *regs @@     got void *base @@
-   sound/soc/mediatek/an7581/an7581-afe-pcm.c:439:42: sparse:     expected void [noderef] __iomem *regs
+  BUG: KASAN: slab-use-after-free in string+0x4a9/0x4f0
+  Read of size 1 at addr ffff8880208f5043 by task caiaq/4967
+   add_uevent_var+0x183/0x3a0
+   input_dev_uevent+0x162/0x900
+   dev_uevent+0x2f1/0x870
+   uevent_show+0x1ca/0x3a0
+   ...
 
-Make an7581_afe_fe_ops static and add __iomem for the base from
-devm_platform_ioremap_resource.
+Unregister the input device on the probe error path, as
+snd_disconnect() does. snd_usb_caiaq_input_disconnect() is a no-op when
+no input device was registered.
 
-Fixes: 4974ffa0d6c2 ("ASoC: airoha: Add AFE driver for Airoha AN7581")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202609242059.t4FlJzOz-lkp@intel.com/
-Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
+Reproduced with a raw-gadget Audio Kontrol 1 and a temporary hack that
+makes snd_usb_caiaq_control_init() fail.
+
+Fixes: 28abd224db4a ("ALSA: caiaq: Handle probe errors properly")
+Cc: stable@vger.kernel.org
+Reported-by: syzbot+2a123f6269da57ffefaa@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=2a123f6269da57ffefaa
+Signed-off-by: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
 ---
- sound/soc/mediatek/an7581/an7581-afe-pcm.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ sound/usb/caiaq/device.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/sound/soc/mediatek/an7581/an7581-afe-pcm.c b/sound/soc/mediatek/an7581/an7581-afe-pcm.c
-index a1d742362538..d47edb630452 100644
---- a/sound/soc/mediatek/an7581/an7581-afe-pcm.c
-+++ b/sound/soc/mediatek/an7581/an7581-afe-pcm.c
-@@ -141,7 +141,7 @@ static int an7581_afe_fe_startup(struct snd_pcm_substream *substream, struct snd
- 	return ret;
- }
- 
--const struct snd_soc_dai_ops an7581_afe_fe_ops = {
-+static const struct snd_soc_dai_ops an7581_afe_fe_ops = {
- 	.startup	= an7581_afe_fe_startup,
- 	.shutdown	= mtk_afe_fe_shutdown,
- 	.hw_params	= mtk_afe_fe_hw_params,
-@@ -375,7 +375,7 @@ static int an7581_afe_pcm_dev_probe(struct platform_device *pdev)
- 	struct reset_control *reset;
- 	struct mtk_base_afe *afe;
- 	int i, irq_id, ret;
--	void *base;
-+	void __iomem *base;
- 
- 	afe = devm_kzalloc(dev, sizeof(*afe), GFP_KERNEL);
- 	if (!afe)
+diff --git a/sound/usb/caiaq/device.c b/sound/usb/caiaq/device.c
+index 3d821fde4582..f604846ec6e6 100644
+--- a/sound/usb/caiaq/device.c
++++ b/sound/usb/caiaq/device.c
+@@ -562,6 +562,9 @@ static int snd_probe(struct usb_interface *intf,
+ 	ret = init_card(caiaqdev(card));
+ 	if (ret < 0) {
+ 		dev_err(&usb_dev->dev, "unable to init card! (ret=%d)\n", ret);
++#ifdef CONFIG_SND_USB_CAIAQ_INPUT
++		snd_usb_caiaq_input_disconnect(caiaqdev(card));
++#endif
+ 		snd_card_free(card);
+ 		return ret;
+ 	}
 -- 
-2.55.0
+2.43.0
 
