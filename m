@@ -1,104 +1,131 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from fout-b2-smtp.messagingengine.com (fout-b2-smtp.messagingengine.com [202.12.124.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C0A92931DE;
-	Fri, 25 Sep 2026 17:31:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA2D44CE678;
+	Fri, 25 Sep 2026 18:10:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790357492; cv=none; b=iqmfV0pGcRXlV7U0q0jOSgk8JL9WlreW+g6+yQ/dRBF0rMONJ+/d9NTh+IgLfxiT7omaOZZcZWff62etpxIdj5ZL4LN4cBKukEUWXt+lEcMvmY3l6fddMhqiuxBUABfdjsVR5Vl1lVmCt/cdUe1gvkaG8D0RVsXMJ33s9lzYwbs=
+	t=1790359857; cv=none; b=mrkKaQjqQW4m9Xgt0Adtz/A+jiX23YLIq841kP5fAinRVHdOqeeTIt7pNadoO+zQgGXg7jivXlp5rAYxFFYvpBsvt4whsqw1FvuZFDM7jliXE10BsPRSHY9FeTB5gY5hRhbidXpjgIsfFYjNGRgqEstttGv2fQnp7UDC0mjglNY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790357492; c=relaxed/simple;
-	bh=8zaxvuM9ZW3isrk+vgo03BgKo6l6ox32HTb6wYiMJ7A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pQg92/Zo4MB8Cwj76uHiXAfb2WUNZX6hydIqkmiw5LHUC/ySqF2OcJtU0l8Ji+ShqR4hzJQflHdRVBTJDGKMihX1AdghegrqELq7II/GwU5TCiXhCA0R3S3dFsrBQ9ty2cJ4mJM21N0Tt9j5PHwAwG/Td4BsHMqS7YTM25/D+7A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RDii75er; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790359857; c=relaxed/simple;
+	bh=Sm3lsq8ETBLHj1/70XM/qMmh73X+5vC2nY7sJJc3oeY=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=HZP2dnG/NjBWkn5PFQUgj7zULTWOXvfb13pUdjnmaS6P7nYeT52z4AHIQjT4Kx/ZITD46VH8O+FNolllK+PbsPzr1ypHPkLsjCNkGizRT/vl3AUUGqGFB4cICKvJQt8/RJst1gYfC5bGh399//qC1tRTVqG3tlgAjZHg0kx6ccw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=XMngUj0x; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=W9NKgYym; arc=none smtp.client-ip=202.12.124.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RDii75er"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9BF11F00898;
-	Fri, 25 Sep 2026 17:31:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790357491;
-	bh=CU8/3FStPs21uHCF0vCBdtC0kkoA18hsneGo7M9DKuo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=RDii75er0QkuQ23DAGmCWgjYPxAdpURlEQne5obx/yhOFyOQowRy2Qq5fYzDXWuCl
-	 W5cOnXGDlOnCY3ob+n4kWalWj4bkjMRnCx3n4Tb9Ws66CKjbT7uNChqeqe3W2m53n7
-	 rLaWQa/DtVXK/vB4dSA7F1R0mh8oHZraNd6y0Uv9xvdvdR0RNPXulaNniUQeZ3AnoJ
-	 9K9TfibOWqsgibXHXCbGSn1pInf0Wbt8tcY45pm6bdzCkXisNv8eEYq3Ukveq95UYJ
-	 T8IqhurIC7Pbwy6tGlYHx+wvfGjWIBut1Ml6l72yLdgx0SipGS1ixTrKOWIfD/s0bL
-	 bd/zOpDgwZLUg==
-Date: Fri, 25 Sep 2026 18:31:24 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Maciej Strozek <mstrozek@opensource.cirrus.com>,
-	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	patches@opensource.cirrus.com
-Subject: Re: [PATCH v5 7/7] ASoC: codecs: add Qualcomm Tambora (WCD9378) SDCA
- codec
-Message-ID: <e3797f4f-2e46-46ff-99ff-6ba9324bb427@sirena.org.uk>
-References: <20260925161049.758913-1-srinivas.kandagatla@oss.qualcomm.com>
- <20260925161049.758913-8-srinivas.kandagatla@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="XMngUj0x";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="W9NKgYym"
+Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
+	by mailfout.stl.internal (Postfix) with ESMTP id 1FC271D00085;
+	Fri, 25 Sep 2026 14:10:53 -0400 (EDT)
+Received: from ams-imap-03 ([10.64.2.23])
+  by ams-compute-02.internal (MEProxy); Fri, 25 Sep 2026 14:10:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1790359852;
+	 x=1790446252; bh=AbgYRVfdETUW8J2BjIEzTew/DfjQqsywFyErgm67BFI=; b=
+	XMngUj0xVrEHLSrg/OWTJKC+qFOlw+635UqP6vkCwGTKB1QLOYJjdeb93GbDO0Jp
+	8yYsLoFLcv5usx/9IMQjyOXTJhJ0uy/HKxzvCBCa01TRaItq9Cf9EWTTGZc94tZx
+	uYB3DGaZ9kZxQ1K8RNmfJ5EiazTi8V+KMQA/lFcTAnIIio1XPHw3eOj58ekjH8eH
+	x/tlhSZgrrCngi8ppNgGCg6ZUuhnQ3VKszK3H6ynXqnUI/4pJgUE+eHK2kJL2Pqr
+	Vc2c5XEwE81TUEgz86FoG4ZG+ZrdVRK364ViGkpgYgh5QnWM+2EZjJKd1AQf6rP+
+	tGKfRU+qN+XUDJB9+bVnnA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1790359852; x=
+	1790446252; bh=AbgYRVfdETUW8J2BjIEzTew/DfjQqsywFyErgm67BFI=; b=W
+	9NKgYymUfTWlShYn9M8Ty/364iQgpCBbnu0VslCZukUHNgUcBh2hs9kDQTMt4kiZ
+	5s7QMyDWJtKrDndEy8JCJwxzItjeJsEHQOALL+SoTQw5GKhIbfaaeZMJjmQqc2Mi
+	YXID2rMNArXuzWZuqKmbCFpKbSlvwrAk8pZwUPO3gZMWcWmIJbCmZYyqk6asdN8y
+	FJ+/YKUPjPc2iEyfZtI5ZUYnyvNi3r7Iade4/BBz0DhbUpX/EoxjYbC/eb7T5tKj
+	f4e1f/45Nf3MxzxUV7xL2mG4TwkAG7pS2Jb8WkSjjooAJGL1QZ/1VDKOwWJ0bieV
+	mWNaYdWBv1QZJy/jaAlJg==
+X-ME-Sender: <xms:Jrm2ahivQQBkcbXmKdLMrcBRvJnBvxRCEOoRljfid_Y9gGtR-G8ZEw>
+    <xme:Jrm2ag3x9TTx9vy42WNv0yR0Z2GfSaqf59gAfhWZmCXV7Y5quWvs24dPueXVkpNHT
+    WSMsvqydunrsK-3CWi5zMLKouhxbWvRsy7J_2VsfqlFIYPSB_V49zIM>
+X-ME-Proxy-Cause: dmFkZTE2hbpf+CQ5ChPNjunLwg7EyCAjp++DrpfGKlW7nUA7dc5JiFWjRn2DehzPQKYZT4
+    Oty6MK9b1b75TSIr51h6KOlmSfzNZnOZ04lbRYTZj3Y9Qu6NvuKjlBC83Uy9GGE7L5oYiU
+    7vA+h7EJrQQBovrlnGWLvHFABesuCoEEqnbz/Epr7+HNBoxWRgmqaUJ+ASXe7+Z1SW9dQJ
+    9Wo9IDFnIWEM6i0KuV8hllDmEHshFQwawHxfejO/RmMnoF26lIN7Iwjzp51SsOfYVYjw1m
+    7al4S6nPAytJclnBXj/aCY0auTDcfrOcNvMFZfHGKzVAdnY1G1nZncC7pLZ9F7VDwUbPqN
+    DtjC3wXQgC9KDCrSjbgaQMtcPn/egDDGHKxxTeauzbLZxgHC0BUL/oDbBN1NRkgxndV9uD
+    pjV9jmcJIbudVUomLHe7yp9zcrTKYmQH84CokAXMRx+jhVzzqMtAFE6RrdxHvPATA6+nOD
+    YtljvG29v8+WZLbcc2H5sVuRnqAAkEI+0Tj06dQJt8yaMb8h1O8I1pKskoyf3vPQ52Yr73
+    3PwUJn1KA+Chx466xKC6pKU6sOcTO/E9XNoF33+IL9S/zw80xDyQ0rU7sk+1DCLq+MYBtK
+    W3s1cGS0VnJ56r+Zmb9LCgD5aLr+/wGtHFb12Sc3+rcfZm4/43jARPQN28kQ
+X-ME-Proxy: <xmx:Kbm2avr7rRlU3vwN5J3jLhL8WEAJpQDFk-z3uGCwodEkV0qXHxJ-5w>
+    <xmx:Kbm2aqljJ5IuXvK5TrgIsg8bgUvCunTJEV4bm5pb2AFNISO0-ij_2g>
+    <xmx:Kbm2ashKyOqWOd84-Sfoci5tWV54tkVqLzgsi21Hrf-tAYw1NItdug>
+    <xmx:Kbm2ahVRWfj16xsZ1eYl82Bsz7XnnMfdv5cU3KcXBhbkJ_WsJyX5cQ>
+    <xmx:LLm2an6GMmaC0wl_DPErY4BsoUKHqR-VWk-_6Zsf6DDl5uHHdhg_b2b9>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.ams.internal (Postfix, from userid 501)
+	id 6D27032A008A; Fri, 25 Sep 2026 14:10:46 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="SjxQyCN2LFaDkbso"
-Content-Disposition: inline
-In-Reply-To: <20260925161049.758913-8-srinivas.kandagatla@oss.qualcomm.com>
-X-Cookie: Love America -- or give it back.
+X-ThreadId: A0ku1qeKkgxR
+Date: Fri, 25 Sep 2026 20:10:26 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Vijendar Mukunda" <vijendar.mukunda@amd.com>,
+ "Mario Limonciello" <mario.limonciello@amd.com>,
+ "Arnd Bergmann" <arnd@kernel.org>, "Liam Girdwood" <lgirdwood@gmail.com>,
+ "Peter Ujfalusi" <peter.ujfalusi@linux.intel.com>,
+ "Bard Liao" <yung-chuan.liao@linux.intel.com>,
+ "Daniel Baluta" <daniel.baluta@nxp.com>, "Mark Brown" <broonie@kernel.org>,
+ "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>
+Cc: "Kai Vehmanen" <kai.vehmanen@linux.intel.com>,
+ "Pierre-Louis Bossart" <pierre-louis.bossart@linux.dev>,
+ sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, "Rafael J . Wysocki" <rafael@kernel.org>
+Message-Id: <d2d25531-d469-4050-8d74-5c7ada4cb890@app.fastmail.com>
+In-Reply-To: <b76e11c8-4f0c-4ef2-ac42-f6f062a1646e@amd.com>
+References: <20260925131104.118993-1-arnd@kernel.org>
+ <9f8e5988-ca08-44a6-b047-f5aaa133da41@amd.com>
+ <b76e11c8-4f0c-4ef2-ac42-f6f062a1646e@amd.com>
+Subject: Re: [PATCH] ASoC: SOF: amd: fix building without CONFIG_ACPI
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
+On Fri, Sep 25, 2026, at 18:37, Mukunda,Vijendar wrote:
+> On 9/25/26 19:02, Mario Limonciello wrote:
+>> On 9/25/26 08:10, Arnd Bergmann wrote:
+>>> From: Arnd Bergmann <arnd@arndb.de>
+>>>
+>>> When ACPI is disabled, this driver runs into a build failure:
+>>>
+>>> sound/soc/sof/amd/acp.c:1374:13: error: call to undeclared function=20
+>>> 'acpi_find_child_device'; ISO C99 and later do not support implicit=20
+>>> function declarations [-Wimplicit-function-declaration]
+>>> =C2=A0 1374 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pdm_dev =3D acpi_find_child_devi=
+ce(adev,=20
+>>> ACP7X_DMIC_ADDR, 0);
+>>>
+> Hi Arnd,
+>
+> Thanks for catching and fixing this issue.
+> As the author of the original patch, I didn't receive the
+> original bug report. Was it sent to a limited recipient set,
+> or could there have been a mailing list delivery issue?
 
---SjxQyCN2LFaDkbso
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+No idea, my report is in the archive, and I assume that is how
+Mario saw it:
 
-On Fri, Sep 25, 2026 at 05:10:48PM +0100, Srinivas Kandagatla wrote:
-> Add support for the Qualcomm Tambora (WCD9378) headset codec in SDCA
-> mode over SoundWire.  On ARM/DT platforms without ACPI/DisCo firmware
-> the SDCA topology and SoundWire port properties are supplied as static
-> data through the codec driver.
+https://lore.kernel.org/linux-sound/20260925131104.118993-1-arnd@kernel.=
+org/
 
-> +static struct sdca_control entity_fu6_controls[] = {
-> +	{ .sel = SDCA_CTL_FU_MUTE, .mode = SDCA_ACCESS_MODE_DUAL,
-> +	  .layers = SDCA_ACCESS_LAYER_USER, .cn_list = 0x6, .nbits = 1,
-> +	  .type = SDCA_CTL_DATATYPE_ONEBIT,
-> +	  .interrupt_position = SDCA_NO_INTERRUPT,
-> +	  .has_reset = true, .reset = 1,
-> +	  .label = SDCA_CTL_MUTE_NAME },
-> +	{ .sel = SDCA_CTL_FU_CHANNEL_VOLUME, .mode = SDCA_ACCESS_MODE_DUAL,
-> +	  .layers = SDCA_ACCESS_LAYER_USER, .cn_list = 0x6, .nbits = 16,
-> +	  .type = SDCA_CTL_DATATYPE_Q7P8DB,
-> +	  .range = { .cols = SDCA_VOLUME_LINEAR_NCOLS, .rows = 1,
-> +		     .data = range_fu6_vol_data },
-> +	  .interrupt_position = SDCA_NO_INTERRUPT,
-> +	  .label = SDCA_CTL_CHANNEL_VOLUME_NAME },
-> +};
+I only ran into the problem on today's linux-next during
+randconfig testing.
 
-Why do only these have nbits and type?
-
---SjxQyCN2LFaDkbso
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmq2r+wACgkQJNaLcl1U
-h9BjZAf+P+FCE41A3coeuFx7xgFIBhNG8FB/yhOQN5xDBaS28U8MLNeywuRKbotu
-cZacw804ilmv5OyO2IO1nqTyTJr8w6w9d7O3dfBEtoC/ufi3dsqP9knQ2vyLK7vd
-v2TF9eDzzNsQx0J3Cx8rSMHxkeNG5q6R/fWJoZ4gNtT5js+g1Eb8e9txI8OC18Wc
-nfFkFiNjgcSE4CfLW7NU0ISA324oQmZOfbrNnzfy1mfp2aIPfEd7b4AyFQw1xr4+
-G06mc/Yzodm3VHdo2lTT9tHlTnFO0iP4084zWHzApIRCE0CZRqU/jQQEVjIXplF5
-BEeN/mJQL4NzNS2FhjLyQMOpSGzcsA==
-=6ptd
------END PGP SIGNATURE-----
-
---SjxQyCN2LFaDkbso--
+       Arnd
