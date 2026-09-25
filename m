@@ -1,95 +1,138 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr2-f35.google.com (mail-wr2-f35.google.com [74.125.225.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 501844D5984;
-	Fri, 25 Sep 2026 18:26:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5700C4AF159
+	for <linux-sound@vger.kernel.org>; Fri, 25 Sep 2026 18:33:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.99
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790360810; cv=none; b=IDEWBA3KKvsoHKcRerzHopk6XYLTSoUkwM+1nQMV4BR9bXgJZmz8/D9ShORtQOLOVGnWWsrzfHNWmtvEQ4ZkshSAHCpOde86qYG/dJHVBKSazSJaETnawYvUl0iNE3KtYVtguuUB7MZF/y9tNuaSQHosfWxiYPV+PkMUHDQbgO0=
+	t=1790361201; cv=none; b=EKv0HN4CNkhTl7OynoZY2cJFMFpCiSOq8st0m+KG+L9g+jgTfDQGyZEdC5aptPRLKdSQ6y6mVvUy1zLJQ5e2lkv6sPz+HR3rDY9zEIEPHj4jFqrAlGWxeEkK83AfvBPrmnUIWEydCWq3CmXbk20GajWt+CEfsUffDHyHfRuJkDQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790360810; c=relaxed/simple;
-	bh=bHUYqtVWEAsJGNb8E8k3hE8XLkYTUQurYodFUi2bblQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Ozc32hqA8vkvpC9S5XbH+AXbOoI78lLJ/WWZtBDvFoAy0dMBC1dEZ6IyIKvdshkVufWcYlViRuC+/mIHFYTG+VCPoJtwZZxvFks4GZrOwYIdp2NvmTQV4bDykkY7JDntsgpEyyfCdiEZ4dG17NQ+BgtfQOW8xqRh9+zlP6X9bL0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cmZIp0iS; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790361201; c=relaxed/simple;
+	bh=bU2bPuwgAFs6la5XGn3lwxeedU3uXxgC4uxFBsappug=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=WDkBocNrzMr42COgMo2UkcUB216G7pJi7Gw66dX1kYTo2fEkhCb/IJIgTNl8iYTb+OfRpLH78S8+ylwYpBIbakbCDvJyFqPL0PfNAf22czcblgZNNGMNkoKOlXrY4zzpc5SpL2g7tCp0id6R6JqfW8SU4zz1xusFWfOekfvdITk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l9eelQru; arc=none smtp.client-ip=74.125.225.99
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cmZIp0iS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E64801F000FF;
-	Fri, 25 Sep 2026 18:26:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790360808;
-	bh=OWH8aBpbLBU/bj6i0nhE7KbyG25vTlj803jezpamD8M=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=cmZIp0iS2QAdGweWsJ1eY/fb5QP/9IUt92CFA4eww+K4vI+V60+scjuR/qOSkoIoC
-	 uOx8aH9o4Oc0lBv/Q7oVPiZBdxx2sQqXoddgpDcDsom1SVNE2KKC8qoK4F+MLwCQBa
-	 I1MZAZaCH2WGIXW92UV/v+cEuDS53dEw5HI9poN0wJ+CvZ7a2Y48qyZZ0f1gd7uayv
-	 qB75aqzhq4Ea//rUO6EwjvrpT8f2EZ7zitBPxIf89dvPxWKuz0DPVkRrLUf37ICdHp
-	 dh8OhyOv95AGpE5xU86V7eYo3FwRLPNPi5aUgRm0ckqt7BLJTeV/5OSB0eTPdyFPR8
-	 TVWSci4nnaNjw==
-From: Mark Brown <broonie@kernel.org>
-To: David Cemin <dcemin@nvidia.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, 
- Bard Liao <yung-chuan.liao@linux.intel.com>, 
- Charles Keepax <ckeepax@opensource.cirrus.com>, 
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
- Jack Yu <jack.yu@realtek.com>, linux-sound@vger.kernel.org, 
- linux-tegra@vger.kernel.org, stable@vger.kernel.org
-In-Reply-To: <20260912182131.1156475-1-dcemin@nvidia.com>
-References: <20260912182131.1156475-1-dcemin@nvidia.com>
-Subject: Re: [PATCH] ASoC: sdw_utils: clear stale RT711 device reference on
- exit
-Message-Id: <179035513174.204944.7908716001360886025.b4-ty@b4>
-Date: Fri, 25 Sep 2026 17:52:11 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l9eelQru"
+Received: by mail-wr2-f35.google.com with SMTP id ffacd0b85a97d-4885a1480a2so687240f8f.3
+        for <linux-sound@vger.kernel.org>; Fri, 25 Sep 2026 11:33:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790361198; x=1790965998; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :references:cc:to:subject:from:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=vEdmMsRWd0vgMIbH/gecSIb5KZKuyMwRPU5J4KEOsq0=;
+        b=l9eelQru3PyfYwXSeAJA+UEUhUp9G9piWmaKE1/qPaMtzWhW72ycWl+YH5unZg3nkp
+         gZKbOoCIWXhJ3GaQhexKt/XhW/PjXXZK8MBzQDvsG56SB57Du1lYKJu2shmm7Haymq21
+         opEGuxzu0xLScCOdYP5ZfONIL7KAg3GWckFTtefiiPKBxKeBCFmztcKXoeHF3rS88Uiq
+         yQRRdcMvXPC6Ff9JY8dsZWykbIBB+zPQrkZopz1CfhMQvoRxCFYm/nMj9M4W8pCpz99z
+         mZp7HdM+IctSx5YoUfA858Qww9I81LnSruT5e8R2SlgDeAv2qI/AAAWb85o5yPvekejq
+         HfMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790361198; x=1790965998;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :references:cc:to:subject:from:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=vEdmMsRWd0vgMIbH/gecSIb5KZKuyMwRPU5J4KEOsq0=;
+        b=238/NMKy8eYjEzgToBHebyVk7UqkCYUOEdUZOww4RokY5Kb8LnewdQKYr21TXImEj5
+         sO5osudawMUVEVjZUR08V5tmPF2MhsJ72Bdg4mzPSAuR2gunw3tHEtwMz9hSU2L9pWKR
+         5aDzamAEbPqSIN5hcaKZN4n3kM9kmxGRV+359jmIlZeEYmnLM+m1IzYif7ORLHpQKOnA
+         7oaw4UCMU7pgkXK0yXwcmzHxzvmhjtSxUuuNkaxJGGMag81DZzmr1NAGtOaTII7p3c0D
+         HXFWkAKOl0Qy9irFivyB+vd5jfu+D+bVf11OjvwMEBtS/Fp4cPyr4zUpXERBGUJVJbYq
+         G3bQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxCFzfuF9WKPz2Oxbhxvfuaw5XrunmCsmWBLNREbeWqQgdFMBHtfeQVT/a2uv+4ExPwNxjepUMpSIVMTg==@vger.kernel.org
+X-Gm-Message-State: AFuF++mCjQtQHB4rrCIufqT+vbs8fcU8lyp6YDA0pRUwg/bZtFIqIIpH
+	yI4fo9Yb+vL21TxfTZsUaxmMqO66QHaq1yfVXt/e0jiF8aVkUMPfzaPI
+X-Gm-Gg: AYBFou3Fnfze3nDzupT4Fw7MZ5ZFHYAR97OPhQ/DR1EGelZPiIA3atNxOo5KnMAetQZ
+	BiePYkPsJO8oxeuGJ3o4UgNvl6b3Qj9/OuuHvNmEAhzP0BH8UVWG+5Z5mLsTNq3ZqUgJDnOoctB
+	upXYGjYw1P2jE2QTVdlB34OM4UybnQjq5/JJ9Mc3w8Z7lDZFSGjYbsoKD8W5zlhK8pSG/v4MkpQ
+	YNj9GICJ1NsRN5RmK7B0QUx9NhPMOxK8E8oYmbtJd7Z3hgZW6zRcTYfH6opitpE1MznZd3jdffx
+	JNaXwstoypTVbotnaOoKJAlxcmZkt0CTbU4KJhczBTCxEvFAiSNVdFUQTjRnF4dHCGJ1pJnu7ff
+	F7vp0wJFhf4RrRvY1EYycU6DGddTvDHYAAigGK1UbhEKRIdVkYjqcOr33s4jHgyUfTBZWDL+ciX
+	aMhO4rj25OBzuI0S95Q7SsUH8evjks3rGX590yW3R9tgoNCgGkXLuyEHaOJMNOx5SwiI48OfZVF
+	A2v
+X-Received: by 2002:a05:6000:2999:10b0:488:79e5:cb2b with SMTP id ffacd0b85a97d-48879e5ce9emr5151216f8f.43.1790361198325;
+        Fri, 25 Sep 2026 11:33:18 -0700 (PDT)
+Received: from [192.168.0.46] ([63.135.75.98])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4887a34a4e9sm7540102f8f.11.2026.09.25.11.33.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 25 Sep 2026 11:33:18 -0700 (PDT)
+Message-ID: <191af638-f19f-423c-8306-d96ea2b3dcad@gmail.com>
+Date: Fri, 25 Sep 2026 19:33:17 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+From: Faaris Ansari <faaris.ansari@gmail.com>
+Subject: Re: [PATCH 0/4] ALSA: usb-audio: Demote the severity of sticky
+ GET_CUR
+To: tiwai@suse.de
+Cc: adventureFAN@gmx.de, corbet@lwn.net, i@rong.moe,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-sound@vger.kernel.org, perex@perex.cz, rdunlap@infradead.org,
+ skhan@linuxfoundation.org, tiwai@suse.com
+References: <87h5klw6kp.wl-tiwai@suse.de>
+Content-Language: en-US
+In-Reply-To: <87h5klw6kp.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1135; i=broonie@kernel.org;
- h=from:subject:message-id; bh=bHUYqtVWEAsJGNb8E8k3hE8XLkYTUQurYodFUi2bblQ=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqtrzkZVeY81q47sj2JWjXO07V9e1sn66sHd0HS
- s9EltYUYymJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCara85AAKCRAk1otyXVSH
- 0I7ZB/937gR96C275sPpEApV+U+JLPlNSOAUrqDLVAa0XgneZwHqZZtE4vw++0x6oI0iXXMQxh+
- ybCAy46RvG/hM5Grmb1885t/bVFJvpjHIDUC+e/3vWOKCRl/OFc5Mk4sydAlyPwavLNCbYAtSTI
- fV0OhTZa0gqsQl/gYt5e3HfzV4DQqROawSEqr5Niemyr1ebZexxtidvjvDyz/6X1y/wbXWi2ZfA
- ixGRO7JMn1fazRHz7dxJife0neU2sTK0MX8oL7MKPF5jZ1PE1KKOJKxq+F5iIBgoGGu38JFpmZT
- jm1Gg5WDQ/SWs6bOd6oJ+c8Kn37hlFuF6M8dlYRerhVqDEc2
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Sat, 12 Sep 2026 11:21:31 -0700, David Cemin wrote:
-> ASoC: sdw_utils: clear stale RT711 device reference on exit
+Hi there,
 
-Applied to
+I am continuing to have a bug across the latest 7.2 kernels, as well as 
+6.18 and 6.12 LTS branches concerning hardware volume control on my 
+Audient EVO4, that I think is related to this issue - would appreciate 
+some guidance if not.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
+Specifically, when changing volume via the knob on the front of the 
+device, everything works perfectly, but when modifying volume through 
+pwvucontrol or wpctl the volume drastically lowers. As far as I can 
+understand, pipewire is resorting to a software mixer for the device for 
+some reason, whilst also actively modifying the hardware volume at the 
+same time - is this what should occur with "sticky mixers"?
 
-Thanks!
+prior to kernels 7.2 (tested 7.1.13) the volume control works perfectly 
+via wpctl.
 
-[1/1] ASoC: sdw_utils: clear stale RT711 device reference on exit
-      https://git.kernel.org/broonie/sound/c/7c7df141dcab
+I attempted to add a quirk flag to snd_usb_audio to work around the 
+issue without success:
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+```
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+sudo modprobe snd_usb_audio quirk_flags=2708:0006:mixer_get_cur_broken
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+```
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
 
-Thanks,
-Mark
+I also tried applying these patches to add extra mixer controls to my 
+EVO4: https://lore.kernel.org/lkml/20260919151840.24371-1-arc@gmx.li/
+
+This worked fine after I modified the UCM conf for the device to follow 
+the new (correct) naming scheme for the master volume, but the volume 
+problem was still occuring.
+
+
+is this problem I'm having related to these sticky mixers?
+
+
+I originally reported this to wireplumber thinking it was an issue 
+there, more information is provided at the link below:
+
+https://gitlab.freedesktop.org/pipewire/wireplumber/-/work_items/1022
+
+
+As I've never reported anything upstream to the kernel before, I'd 
+appreciate extra guidance where necessary. Would love to get this solved 
+as its making all volume control on my system unusable, and the change 
+which has caused it has also been pushed to LTS kernels, leaving me with 
+no working kernel besides reverting to the now EOL 7.1 series.
+
+
+Faaris
 
