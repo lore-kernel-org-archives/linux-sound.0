@@ -1,157 +1,174 @@
-Received: from mail-oo2-f39.google.com (mail-oo2-f39.google.com [74.125.231.167])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C30824C9DF1
-	for <linux-sound@vger.kernel.org>; Fri, 25 Sep 2026 15:08:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.231.167
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790348942; cv=pass; b=n6WeVAkeZt3qXxPUCUIyU5M9bxDz8Dg164Wkq4mK07sy1uQcJXm52M3md6RhUA01dBTdYKglX/LToqDYtYFRaeTTLm3uIleMpJ+V8EVVUzFLPOxpCQIVR2RHRuT7oapTw8e0bKo9JHk6FOvgODmbpyUZbgEafWx/smEpbYXeB/E=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790348942; c=relaxed/simple;
-	bh=vyFX1j7DijCsAY/7MwwO4APwu9RE+BzPBT/c1Ev0muQ=;
-	h=MIME-Version:In-Reply-To:References:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dYPG8p7kIYeIIS4QJAIBAdRtS8UeBaG3/cCWGqwziwA0fbzXQsb9cZJA5BA10DvnGNJtDLv3K0RsdHnw48vWgeCC0jXmeStk/8HVBd6JoGN6yEaJerqXniz3xRLR/mMyQ+qLEgKmpN9LUXpp06Tr+hlER8KiElfmB25NpHTE5mo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qg0czSA4; arc=pass smtp.client-ip=74.125.231.167
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A14764C6EEE;
+	Fri, 25 Sep 2026 15:28:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790350088; cv=none; b=XZpWOqqmSW2+z6fxpUZbzAD7jPc45eExH52lMtrq04+p3unIpZyci+to+L3PPSsDInhkrh7DRX5sT42JB4wvQpcpX6S0ynZSXuMTtGiIy6w1Pb4JdxfmCGVbLwvX7MpklW3+VTLaZmuG9lE/+BAZt/RsqYzAAnvbZbFs3fx/w74=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790350088; c=relaxed/simple;
+	bh=+Zw5ZXJxCKmRX0O0/izetZHpH2KHryO5H258PyWwvVo=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=MLSvO/foTT5pCYEbQWHnz+0124FuqdRYl5sGq5riiMGWgNSPcPx4tV6E2NbSB3NofnL0vUnHZbaIrQF8j+7uyoesrZVh/eIcibfHkcRaZaUDIF83T0CJbgqn+KnwkREqWUS2FMzgzLoRbo616aOqSBXNmm/3QoHoiyM4IXkxkts=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c1jaFQ6F; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qg0czSA4"
-Received: by mail-oo2-f39.google.com with SMTP id 46e09a7af769-7f4f0c89e33so567911a34.0
-        for <linux-sound@vger.kernel.org>; Fri, 25 Sep 2026 08:08:49 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790348924; cv=none;
-        d=google.com; s=arc-20260327;
-        b=LggX06tCBc4ZVAgXQRmHl+0dFQchPAYTSoMT7WGV1xX032sS2qClzN/m7yTM4ysm4i
-         cGLciksNyyFR+eJ3xNeV834iR9yj6JvhBfea1ruNCJwxgRxmxZx24CnJG2fY1VYVA21V
-         xE8JRtVoWAEDPYzX93/GNVMWHbIXO689VQTUXR+oVs59qs6Rc9MDjLsr297SuaOTEOm6
-         g1u9CbznwK3Cqs/wxyQu6FX4gdk/NN09GxWw4oR/QjzmkTeaM7AiRnEOJ0xcok5ojQ3j
-         DZ8ftgc7FaIF35lO+AuznfgphobN9XEQoCSsUGZkpvCBFo2+zuS4m0mNX8DjPJ1RuhjW
-         K99g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:references:in-reply-to
-         :mime-version:dkim-signature;
-        bh=prht4RxpGxyY8/QaNwQuwo5UuI4a9fItRhn2JZ3BbMM=;
-        fh=B2ItZj7flcZZDDT38I3IiPHWCKH2r0VwK4qBPir1oIQ=;
-        b=a+AInR23LvospG2ePGXmforoM2Z0HEpbdgK7aiUsG6jyUVUE5coCl72aX6QkSLdM4S
-         QubpFF2ZJSHeq8Rr5CTM0/MYVluD2DPgki9WknrEEU3TOvbgLBoGJYo42+HTzEYVvHYD
-         WwMII6VDpdnlXHiIboO1tZB/vHLXHnTKs9G1ERyRZ5oZZd6syOlx7tasAlbb9F3kNdVr
-         lq1KVxH3HYolG0Q+tkXt9kq3xYzR65R40xmf5iifZVgRxHVSUEz1rZ9q9CgFagrAiJiu
-         QV4WXNdGD9crvk++CaoW521Q44d3fnxI2TUvFDcZ+4+c5RSwj6FQC/cXCHvnCnpE5SLy
-         ehow==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790348924; x=1790953724; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:references
-         :in-reply-to:mime-version:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=prht4RxpGxyY8/QaNwQuwo5UuI4a9fItRhn2JZ3BbMM=;
-        b=Qg0czSA4qQVCK8LYsSi33+ottUBTR+ngsyyjD7hs5GP6jAeSQKvHzpgXoYpn9k65ma
-         WFeqxqcafTRVWLd6Y4ybFeRM7bxsr4E8NazixiR1YFcTU0u6MVXmamw+npufv7n/VMhN
-         PWbv3Cc6pFJ1UN8WQFva5wKrKVpyTdU1VHJjcAtdq9/ponunasIzxGcdg5pXZLL1oNeX
-         gC036mSyGdSwQA2pjSLcL1jmyZ4YtDRaSqzZvqFXgLWOfBUOUJrJcqNlbxy5JbAgSaz2
-         /PIS3uJVFPqzp9DZNzS5fB9a8K649yiiGqFvQV0U8X4dVHzvWor6h1tskTe4Nu2djKaz
-         yarg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790348924; x=1790953724;
-        h=content-type:cc:to:subject:message-id:date:from:references
-         :in-reply-to:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=prht4RxpGxyY8/QaNwQuwo5UuI4a9fItRhn2JZ3BbMM=;
-        b=AOX1x4SZnT4RHoM+Grs5TnJNc/c0WCCPtwbaWQQz6sPVfQU9ztsPHWfp1mWP+X+onZ
-         16kdI9EyyjeQoqUzrdAN5abe6FnPy/++jEcr3WtaTMxFqBB1JDTTiYUo5FegTi6keshN
-         WMFSRwU/4bXRpxLsib7u6rLJGy/5OPwk/69xOcgmBpQnCh6XZc8m+pvLqL72iQFbOp0i
-         8BhO8MRRKjV4Ec0McpLjki4CC0dTkArbcldJTgsERYpdqVx6QMhPxTYR/98gF6LxyorL
-         t83Hg8rJFYV9E2T5nEEl25wHdeDtLR2GNXTCAzMxz4x+qlJALQJSgeqb41oNm+5AGbpO
-         WiiQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxOBf0I0COxOeOQDhXPgn4B+vJVXy7oG9UD9+CavqyO/IK9lBw7pZktlaXM5zNwZBY4LANQP+t4AB+hDg==@vger.kernel.org
-X-Gm-Message-State: AFuF++llS/9FUo7lxheC9K64VPCjJgcbRFqU29+DdPLfRfxIcol2vMz2
-	2f9TxdQoekElyKUQEQ+hrxpzNq8cR7aT5UIrm+csi7RfFCMDKZ18HS+ODld50irvwtqBm5qRdGo
-	u10ZqS8RPMBuLlwhWQYlwKfIxLeaxv/Q=
-X-Gm-Gg: AYBFou2MxYrzRcyPc/N157yp6UoOaOcDeRLsEC4KjcYTP2oLdUX0Z3laRm87R10iI8L
-	X5HVeR+izIL3IrUFOxbz66kE2gEOPp/l5HuruxEGiDhPhpujOY3kUTcx8Y5y7Huv4iklihYeRxR
-	LkMVU6VIP/E3sWhV9hheJPJpcyYcuOPaTpzcSXhEFR/nvHSUze4j+sU+0HXj4YS36v8kambFZJy
-	sEaC6nqfKE8cNsxRod2AkU8HmS3WrVGdxGWa53DME3Lj/wFzwJA1twkBxNi2Y2IdETQfIUDTq4w
-	bbRZYAXr0KcW/Kb0vCkC/1KmyNjWkIslAj3zI/p4D7klGBho+LBb2pfUFm6lZze+xc93eNs2r5L
-	dEtP73d2silLvpeGmPnq1MrJthIAcKqGhbw==
-X-Received: by 2002:a05:6830:620e:b0:7f4:bae7:b00d with SMTP id
- 46e09a7af769-8177dac244amr8034887a34.0.1790348923768; Fri, 25 Sep 2026
- 08:08:43 -0700 (PDT)
-Received: from 77377267392 named unknown by gmailapi.google.com with HTTPREST;
- Fri, 25 Sep 2026 08:08:42 -0700
-Received: from 77377267392 named unknown by gmailapi.google.com with HTTPREST;
- Fri, 25 Sep 2026 08:08:42 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c1jaFQ6F"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 2F712C2BCB8;
+	Fri, 25 Sep 2026 15:28:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1790350088;
+	bh=+Zw5ZXJxCKmRX0O0/izetZHpH2KHryO5H258PyWwvVo=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=c1jaFQ6FK52YaPaQkEeQibuECXdc8eyNzL7eH0CSQf45v1ZuxaRIFs5F1QTXvglz0
+	 nXbuRTaJGnNPW1TOUUzCoxWAJgImtjYemdeQHrT605dXALab6MaXTbEI8832Q17Nso
+	 FU8o89gont81VCLNTlbmXfbnsCREw1EX8PiLxcnz+XxGLn7JowUVH6t80d0I7n7aAg
+	 x8tcGe18giBxqCtlveNahCNCgMz4BDu/Cvs0+fR3vgFqAHCjSfzPD/Kst1BSuryQug
+	 QZaMR0NdV7/QZTp25GxfnPbt6u+Rj5VabOKiRlWWe+2dbna7bubhj3jFnmTv1slp/N
+	 44mo/RtEZYkVg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 078C0C98325;
+	Fri, 25 Sep 2026 15:28:08 +0000 (UTC)
+From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
+Subject: [PATCH v5 0/7] Speakers for Pixel 3 / 3 XL
+Date: Fri, 25 Sep 2026 17:28:01 +0200
+Message-Id: <20260925-pixel3-audio-v5-0-7ffb32c980bf@ixit.cz>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <SJ2PR11MB842437F022D1F62A2A527297FF802@SJ2PR11MB8424.namprd11.prod.outlook.com>
-References: <20260925003030.1077471-1-mauriziocasciano7@gmail.com>
- <20260925003030.1077471-3-mauriziocasciano7@gmail.com> <SJ2PR11MB842437F022D1F62A2A527297FF802@SJ2PR11MB8424.namprd11.prod.outlook.com>
-From: Maurizio Casciano <mauriziocasciano7@gmail.com>
-Date: Fri, 25 Sep 2026 08:08:42 -0700
-X-Gm-Features: AclHuK9PJSU9kqM48lGRC5SrS8qiO6GBOeVe8qPls3Qsq3dJ2is1CRYMGDcmEyk
-Message-ID: <CAO7O_xg2qGhetLSuks52oVvcH=bruC5Nr5LQz2uAscBHQxPNNQ@mail.gmail.com>
-Subject: Re: [PATCH v8 2/2] ASoC: Intel: cht: Add Yoga Book RT5677 machine entry
-To: bard.liao@intel.com, broonie@kernel.org, linux-sound@vger.kernel.org
-Cc: cezary.rojewski@intel.com, liam.r.girdwood@linux.intel.com, 
-	peter.ujfalusi@linux.intel.com, yung-chuan.liao@linux.intel.com, 
-	kai.vehmanen@linux.intel.com, pierre-louis.bossart@linux.dev, perex@perex.cz, 
-	tiwai@suse.com, jekhor@gmail.com, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/33OTW7DIBAF4KtErEsFDGCTVe5RdQFmaEaq4gQ7K
+ D/y3YOThRsvunwz+t7MnQ2YCQe23dxZxkID9YcazMeGdXt/+EFOsWamhLLCSuBHuuAvcH+O1PM
+ QQwraYSugYZUcM6a6n+u+vl854+lcW8dluKdh7PP1ebLIefpqb4R5by+SCw7B2gTQGpfkji40f
+ nY3NtcUtVAnVo8VVWnTKYXRSaPcisIfqvSKQqUmCqutSF3r3TvV/1FdaWuCiRLAe4MLnabpAd8
+ HhxNsAQAA
+X-Change-ID: 20260613-pixel3-audio-bdbfb49e8037
+To: Srinivas Kandagatla <srini@kernel.org>, 
+ Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ David Rhodes <david.rhodes@cirrus.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ David Rhodes <drhodes@opensource.cirrus.com>, 
+ Conor Dooley <conor+dt@kernel.org>, Abel Vesa <abelvesa@kernel.org>
+Cc: Viken Dadhaniya <viken.dadhaniya@oss.qualcomm.com>, 
+ linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, patches@opensource.cirrus.com, 
+ devicetree@vger.kernel.org, phone-devel@vger.kernel.org, 
+ David Heidelberg <david@ixit.cz>, 
+ Charles Keepax <ckeepax@opensource.cirrus.com>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3496; i=david@ixit.cz;
+ h=from:subject:message-id;
+ bh=+Zw5ZXJxCKmRX0O0/izetZHpH2KHryO5H258PyWwvVo=;
+ b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBqtpMFXwud6it6n+Qn4BBO29UF2cYOkk1UNgcz3
+ d+Ooi/4TzGJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaraTBQAKCRBgAj/E00kg
+ ckcCD/9+tEo8zlDEpvTDYeqDp0c85jHK4VosePwOSNTsn0SjhF+n1Yf3T2eDxtEI0zFONHoNvGB
+ WykvyEsQnDTVacRYl5JhDd7mRS/ANGcxH9UJZZ0md1v85/vlEfKlvFwJkZSViHL2jysfYDYyMsT
+ NM3+zOMZ3c+aem0bjLy4n2YdzpBOtyM9tr37Y7argb1tr2MIRDu4SPG/RBFXuMdpm/ZfoVuc7P5
+ L+6w/TP0a/3XUqqBmhjesFYNGmu6DXtvjRR6j6UQVDf5pGQyBNHfFOgbe/kSXtqjKdLX5GDtHoQ
+ 5voByN4NQm286zIx7BwZQ67u+K+ms5FhJh61lL25TmDd0V3sca3rrQR7V43fvP0euDG/EFGgWfs
+ EcOBTSuSO9Ffx666TPBIwAE9kasQdExo8pfTEEuNuOrAg64xx1QMyqsUPXB5kCsQ0FzhfraGzPu
+ 0usBMbySIhUi3rDC3A55mOCd8ZM0s283NILLIevT0VX6XtLUJ4y5XCo6sHUBBGhW97kql2dswdz
+ hcxQH7IGoKXMaaw3oyz+tvrPV/FwRtStw7G2RIJa5TCyMjwes7FbadeqZv+R07ycwwd+tFQNUV/
+ zmt+o6B+fTIPz6PMjMdp7qQquhkqpPiPT4XF1jL/+57EP6mY9cEwHc6+5CEGmlvwWT03nSboZqH
+ MXjBOcmXEjAvVqA==
+X-Developer-Key: i=david@ixit.cz; a=openpgp;
+ fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
+X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
+X-Original-From: David Heidelberg <david@ixit.cz>
+Reply-To: david@ixit.cz
 
-Hi Bard,
+This series address:
 
-The SOF topology PR was opened earlier here:
+0. demistify the hex to BIT() macro and add left/right rx spk
+1. most likely wrongly set DSP_B in sdm845.c
+   my guess this is because TDM was never used in the mainline with
+   sdm845
+2. applying correct mask to left/right speaker for the TDM in sdm845.c,
+   so both speakers can work simultaneusly
+3. setting sysclk at startups, which some codecs need (such as cs35l36)
+4. setting proper tdm slot in the cs35l36 driver
+5. device-tree wiring for Pixel 3 / 3 XL
 
-https://github.com/thesofproject/sof/pull/11129
+As per previous discussion not seding patch removing the "Input Mux"
+which now interferes with TDM callback. If wanted, I can send it as a
+follow-up.
 
-It is assigned to the v2.15 milestone. I have now updated it for the
-pending review comments, rebased it onto stable-v2.15, and resolved
-the reported conflicts. GitHub currently reports it cleanly mergeable;
-a fresh maintainer review and the external-contributor CI
-authorization remain pending.
+Signed-off-by: David Heidelberg <david@ixit.cz>
+---
+Changes in v5:
+- Dropped
+  `slimbus: qcom-ngd-ctrl: Remove data channels on stream disable`
+  in favor of now merged
+  `slimbus: qcom-ngd-ctrl: Implement disable_stream callback`
+- Applied R-bs.
+- Small clarifications in the commit messages and comments blocks.
+- Link to v4: https://patch.msgid.link/20260924-pixel3-audio-v4-0-85b5d133aa5e@ixit.cz
 
-With Best Regards,
-Maurizio Casciano
+Changes in v4:
+- Rebase on top of d4d1619ebd55 ("ASoC: codecs: cs35l*: use .auto_selectable_formats") (Mark)
+- Link to v3: https://patch.msgid.link/20260924-pixel3-audio-v3-0-5d06460fc8a9@ixit.cz
 
-On Fri, 25 Sep 2026 14:05:57 +0000, "Liao, Bard" <bard.liao@intel.com> wrote:
-> > -----Original Message-----
-> > From: Maurizio Casciano <mauriziocasciano7@gmail.com>
-> > Sent: Friday, September 25, 2026 8:31 AM
-> > To: Mark Brown <broonie@kernel.org>; linux-sound@vger.kernel.org
-> > Cc: Rojewski, Cezary <cezary.rojewski@intel.com>; Liam Girdwood
-> > <liam.r.girdwood@linux.intel.com>; Peter Ujfalusi
-> > <peter.ujfalusi@linux.intel.com>; Yung-Chuan Liao <yung-
-> > chuan.liao@linux.intel.com>; Kai Vehmanen <kai.vehmanen@linux.intel.com>;
-> > Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>; Jaroslav Kysela
-> > <perex@perex.cz>; Takashi Iwai <tiwai@suse.com>; Yauhen Kharuzhy
-> > <jekhor@gmail.com>; linux-kernel@vger.kernel.org; Maurizio Casciano
-> > <mauriziocasciano7@gmail.com>
-> > Subject: [PATCH v8 2/2] ASoC: Intel: cht: Add Yoga Book RT5677 machine entry
-> >
-> > The Yoga Book YB1-X91F/L exposes its RT5677 codec as ACPI device
-> > 10EC5677. Add a Cherry Trail machine-table entry that supplies the legacy
-> > SST firmware and board names and the SOF topology name.
-> >
-> > The Intel DSP configuration selects one firmware path at probe time. SST
-> > loads intel/fw_sst_22a8.bin and uses the cht_rt5677 board name; SOF loads
-> > sof-cht-rt5677.tplg through the standard firmware search path. The same
-> > kernel and machine entry were boot-tested with both paths on a YB1-X91L.
-> >
-> > The SOF topology sources are maintained and distributed separately by the
-> > SOF project.
->
-> Please submit the topology PR on https://github.com/thesofproject/sof,
-> too. Otherwise, there will be no topology available for the SOF.
->
-> >
-> > Assisted-by: LLM
-> > Co-developed-by: Yauhen Kharuzhy <jekhor@gmail.com>
-> > Signed-off-by: Yauhen Kharuzhy <jekhor@gmail.com>
-> > Signed-off-by: Maurizio Casciano <mauriziocasciano7@gmail.com>
-> > ---
-> >  sound/soc/intel/common/soc-acpi-intel-cht-match.c | 8 ++++++++
-> >  1 file changed, 8 insertions(+)
-> >
+Changes in v3:
+- De-RFC, applied Reviewed-by tag.
+- Link to v2: https://patch.msgid.link/20260903-pixel3-audio-v2-0-7c22ed915291@ixit.cz
+
+Changes in v2:
+- Device-tree name sorting, with exception keeping mm1-dai-link in it's
+  place. (Konrad)
+- Make set_tdm_slot cleaner and less leveled. (Konrad)
+- Added TDM MIC defines in sdm845.c.
+  Should we in capture use speaker mask?
+- Renamed model from 'Google Pixel 3' to 'blueline', I would love to
+  hear feedback on this one.
+- Link to v1: https://lore.kernel.org/r/20260705-pixel3-audio-v1-0-3b66f33859f1@ixit.cz
+
+To: Srinivas Kandagatla <srini@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>
+To: Mark Brown <broonie@kernel.org>
+To: Jaroslav Kysela <perex@perex.cz>
+To: Takashi Iwai <tiwai@suse.com>
+To: David Rhodes <david.rhodes@cirrus.com>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+To: Bjorn Andersson <andersson@kernel.org>
+To: Konrad Dybcio <konradybcio@kernel.org>
+To: Abel Vesa <abelvesa@kernel.org>
+To: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzk+dt@kernel.org>
+To: Conor Dooley <conor+dt@kernel.org>
+Cc: linux-sound@vger.kernel.org
+Cc: linux-arm-msm@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: patches@opensource.cirrus.com
+Cc: devicetree@vger.kernel.org
+
+---
+David Heidelberg (7):
+      ASoC: qcom: sdm845: Demystify TDM masks a bit
+      ASoC: qcom: sdm845: use DSP_A format for TDM codec DAIs
+      ASoC: qcom: sdm845: Use per-speaker RX masks for TDM slot assignment
+      ASoC: qcom: sdm845: Set codec dai and component sysclk during startup
+      ASoC: cs35l36: Implement set_tdm_slot to program RX and TX slots
+      arm64: dts: qcom: sdm845-google: Add basic audio support
+      arm64: dts: qcom: sdm845-google: Add WCD9340 codec and microphone capture
+
+ arch/arm64/boot/dts/qcom/sdm845-google-common.dtsi | 190 ++++++++++++++++++++-
+ sound/soc/codecs/cs35l36.c                         |  44 +++++
+ sound/soc/qcom/sdm845.c                            |  49 ++++--
+ 3 files changed, 271 insertions(+), 12 deletions(-)
+---
+base-commit: 5f063f13788dabaff119c78e425a0cf6c428e348
+change-id: 20260613-pixel3-audio-bdbfb49e8037
+
+Best regards,
+--  
+David Heidelberg <david@ixit.cz>
+
+
