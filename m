@@ -1,92 +1,96 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6528234DCCD;
-	Fri, 25 Sep 2026 09:09:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790327355; cv=fail; b=d7yvY66W8Le5RhKQevCrbysJysWHFtKCbax+xk8AVm1ZJ7iL0uqIrrM81IcOXusTY3OdbBas+R2QNaqXEd9pL/oqyU4mrscPZMxoFPb3Bfxp0FAVFR+ay/qOZhO11v1CjLIKCvpOyihkVHszr2qOsZdjplG0Opyh3B+d9zmjAvk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790327355; c=relaxed/simple;
-	bh=h9P2qbdSG8IYIEC5hd5nlvcLcz+ijzw4aFcmIIB7smQ=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B473C47C10B;
+	Fri, 25 Sep 2026 09:13:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790327603; cv=none; b=ufAi36bI2WKzbCs9M2pYVB9XZy3C7k5gRxmjHgMUAZoiCxXM0/6R84sYnllDGSUq5TzZi3ow5dZK4TSlWNjJdnC5Mk0SL5fVJ0k7VEglVHEt6Vr1ehWFEe8TrWo/+hXFjYHiuxS8Ap3HRe69asyX3WA1BC44T6EPC8mS3N3Muuw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790327603; c=relaxed/simple;
+	bh=Tk8lnLCIykMhwm4FM62K4d7d7QJOAD1dpQSl1O/g2h4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HDNEUBxqMyZgC+SKjtdQ4ABEsib4y02WUURWGjzHQ45hqvQhC61CbfT6Z33lI9BOZCwctxtdwZbtwyBpU2+hPWajsb2JB9gSCkTFck4pi1urjwqzbLZtCjH1Yq1J/BKaH5byuTR8cVYwZWyMF0hvgW/uBJDw2fGZzwv8F1hLe78=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=ab7tT5Ji; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=Nql7pbKq; arc=fail smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=BMuTZigNeyXY/MMRlXWwpVhOMZOOi8C7EA4/h615K5aeMjPdPGqKPC+T/5cryzp/VTJ9d0VGzrgfBuMgfLPrLYRWHn9B5xbeyD+F14wIWdlIXLTBnsVxYVZFMjgzHcjBtbeSH9e4cj/51QQprRD4r4+8O+qccaR/RWw2zv10Pbw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K2qi0Whp; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="ab7tT5Ji";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="Nql7pbKq"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68P7nlq92207596;
-	Fri, 25 Sep 2026 04:08:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PODMain02222019; bh=NxMGOFsPIz5eZTvKZC
-	oC4gcTW+M8tNT+45+0DnIZkmc=; b=ab7tT5JiKAGqx9qjuHHeolrnNgYnRRE3ul
-	sPCVB+nnHHotQ6PIOXyNxmu2/TtdnbdJvlgeUGTtM73aUdTTlh9W1/m3zWrpHiy0
-	136cm0wn+4f1YSM9rJNZxhO/kGJE24jsQZY4nvbwrgzRmQ4jB8tsLBGIXaXOSqsV
-	4uLn67LfDk9coaLmRRId5nljDN56ezkbjYtR9urAegaw0q2ou1MIWdQXhCOf4CbH
-	AK18inkcqOh06bAhhBtLmImd6rpflRPBgs/uyq+ZZvBrqfcXlHQ45Jzgyrx2c2hQ
-	+RUiaQ271/ymYi5Ilz2TjDu6gpd54bSpdlhdVVeyehB0qetnEIZg==
-Received: from sa9pr02cu001.outbound.protection.outlook.com (mail-southcentralusazon11023108.outbound.protection.outlook.com [40.93.196.108])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4gw698h0s2-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Fri, 25 Sep 2026 04:08:50 -0500 (CDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WBejMexnHiupgIVF4WBEmVrKMhFODKzPOtupDBIAs5njSjzzCH5lzXKEIfQ3qj27D6HyYGp4cjgjcV/8z6eBB+O6K388nF8EPQt7F0a9LCyS2mmNYvQZEaLylRn97dRCr0zEth2y7+ADoenel5kz4U9rESkiLKMxs+qzkU/YJOVMLVIidFdVM4/n5ryw3Xn1ZpZtHrrPlBf/uDgu9iEuODti9C/ReNlG7HG/1+R5tXRmsG3/JvQ/TKZK2SnWK+oCHGzoRjbGfO9GKY1g9v2G42xPlFG1QVlHKYMdMwH3138NSFkGA4cpD1MXi5xU6BHETbbJ+a8jJPrexpeOuAWtig==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NxMGOFsPIz5eZTvKZCoC4gcTW+M8tNT+45+0DnIZkmc=;
- b=yRcUoGJNVxpg+LKTktTHmYA4E8Jpy7xF6Zu4Gtxa/JGKumyhpL0vKJTzjB+1c4HCp8DG0/czIF7O+LO/1T0CQPoNoc/elSvApJ65zpGcRBQJ/tHYw2mCFoFD11rXuTznQYGAA5xO+eT2uUsyZP/StLL4YKXnVPDG5vVxzX0EvpO8weaCzONX0jxrDnGwko5lpQLASDyXKn41NUDidb3hrUBXe3enhKk6mykYLyEuDu443VbQYQnRRXa+FwMRnzLgaQN7pFk1UhhCnWf71jd83Lu9qSnFoh7MR/0Mz2D1M1LzItunCBcgr1iEr5WueQ6MzI2492+/pDnuxnJPvRTzFA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
- is 84.19.233.75) smtp.rcpttodomain=cirrus.com
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NxMGOFsPIz5eZTvKZCoC4gcTW+M8tNT+45+0DnIZkmc=;
- b=Nql7pbKqODwTQEOkaV4c+kNQYyDWo7KWFqVlcpWU7IdZAwPTe0WR+A40sCuHlJMrun9W9o2u7zJGGgmIUXDD/8caT7z29FRExVpJChuJNX8MjvOOsPm91Z84XcZUCCUuZwUpPOJUGjlU+Tir0BTaqko7F3iln2/swzkOpJnNJtQ=
-Received: from BN9PR03CA0971.namprd03.prod.outlook.com (2603:10b6:408:109::16)
- by DM3PPF636AABA4F.namprd19.prod.outlook.com (2603:10b6:f:fc00::72e) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.18; Fri, 25 Sep
- 2026 09:08:45 +0000
-Received: from BN3PEPF00022BC4.namprd05.prod.outlook.com
- (2603:10b6:408:109:cafe::18) by BN9PR03CA0971.outlook.office365.com
- (2603:10b6:408:109::16) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.451.18 via Frontend Transport; Fri,
- 25 Sep 2026 09:08:45 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=softfail (sender
- IP is 84.19.233.75) smtp.mailfrom=opensource.cirrus.com; dkim=none (message
- not signed) header.d=none;dmarc=fail action=oreject
- header.from=opensource.cirrus.com;
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- BN3PEPF00022BC4.mail.protection.outlook.com (10.167.248.216) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.451.8
- via Frontend Transport; Fri, 25 Sep 2026 09:08:44 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 5B4DB406540;
-	Fri, 25 Sep 2026 09:08:43 +0000 (UTC)
-Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 218F1820247;
-	Fri, 25 Sep 2026 09:08:43 +0000 (UTC)
-Date: Fri, 25 Sep 2026 10:08:41 +0100
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: mhun512@gmail.com
-Cc: lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
-        patches@opensource.cirrus.com, linux-sound@vger.kernel.org,
-        linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-        ae878000@gmail.com
-Subject: Re: [PATCH v3] ASoC: wm8962: Stop IRQ from requeuing mic_work on
- remove
-Message-ID: <arY6GbRBjKxJDKVn@opensource.cirrus.com>
-References: <CAGEsz8G_s8_HRnHH8s+NvXWXV8Uz2xRDY+He9M57v_fW4H42VA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K2qi0Whp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00A0E1F000FF;
+	Fri, 25 Sep 2026 09:12:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790327601;
+	bh=yfSL2ku4OKsR1ZwNLU9aq+Cv4BSlDAV3gm6yCuANvXg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=K2qi0Whp5/6TRdhA6MhlGYRilQhTQ8jPlG08QvTUUmQwkWOHWgmSx5AdhFTFi0qw/
+	 r4+3OumzOouGc7txXhbbk80xasHy05dho7/yw8n5cfGkWIhweFLORuSQD6wUTgF3bF
+	 dlK10/x8cBD+DlIEYdpY/JpYJifQA5N4twHg7jDXzl6B1XyEXIXzNDQx16+MJsnNtN
+	 sTXe6Jh9EmnWLdP4R1YQtEnnOP8lnDSORnscuubhZoG/xGcNI3ROCCX9s0YjPIJIxI
+	 MdK5fq25MLwiukRwd6j6BdAO4Z4mjaXg/lCXJQXPIaGguKLjAmtHiggDOa9mUzFR4Z
+	 ur0MJU3/gDHOA==
+Date: Fri, 25 Sep 2026 10:12:50 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: "Liam R. Howlett" <liam@infradead.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+	David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
+	Paul Moore <paul@paul-moore.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen" <mkp@kernel.org>, 
+	Jaya Kumar <jayalk@intworks.biz>, Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, 
+	Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
+	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Juri Lelli <juri.lelli@redhat.com>, 
+	Vincent Guittot <vincent.guittot@linaro.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
+	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
+	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
+	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
+	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
+	Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
+	Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
+	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
+	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
+	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev
+Subject: Re: [PATCH v3 01/40] mm/vma: fix mmap_prepare file handling, remove
+ file_doesnt_need_get
+Message-ID: <arY3xqkPCgZj3IVD@gremlin>
+References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
+ <20260917-b4-mmap-prepare-vma-flag-sanify-v3-1-4583d8a23bca@kernel.org>
+ <qpkcjtl5jbip46zxcpyogsk4phmhetfvrvgftxhsxlbxjhucnn@h3a64dfoxcmj>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -95,145 +99,173 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAGEsz8G_s8_HRnHH8s+NvXWXV8Uz2xRDY+He9M57v_fW4H42VA@mail.gmail.com>
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN3PEPF00022BC4:EE_|DM3PPF636AABA4F:EE_
-X-MS-Office365-Filtering-Correlation-Id: 15b3942b-888e-49ff-e73b-08df1ae499f0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|61400799027|23010399003|376014|82310400026|36860700016|10067099003|22082099003|56012099006|11063799006|16102099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	bLy5UCWjGn0Vuk1daKtnul/T1TQSfUTX+NXoKtPe2NdlaBjckwkTmCBbRxifxHYa1EVEmMU0LDHA54Q694cqYXjHvoaApBsZeTY93vU9n5YjmPys33erpeLRiUo6WcFu/MGRGmAneuSpthECjq4uuA+UQMHjRIgs2Rp50AXUEZYjeOG97epjhwqLeHEBOXDt5wCtw18GPeTEaAPfJG4JSBNmWF6gMzSBlacegR225DkDPZr+j5P6HUHqLMnQso8alPeVqFqLVwU5KGhMQ6ER0yPzIOXDtWoqipL245eVkuzVrdWmf7D7mLgCp2aP7oniecDNlPgl9s+mqg/BmeWupMpG4B+gG+2jhPruGiU+ASc2sCv3mFzYwjefPfDuF9A73BJw9kQRu15zLmlCNxAWm4xHay4ued2Y78VCMUKpnmyRez6aTB5ZIXk0t7qoRoq396bV6IZEV1/u1UcVHmcl/2+DGMSCNSHBytThkMOZgo6hLKJN0rCrx2l41imqSdAv+4snckaHL3Y+NiiwCrinYC8AzrEEP/5wgW/K+UJKGzfZ5hkwPadqjS3VK2c8CG8G9n4+N9nAEQqH/ZfqjrPAlyp/l3uDGBkAXJggFIBN/p3dfeAgUFg4uVNTZ75K5w28V28Pyv1QWebCQPQkHJpffhXaA+GeWeCp75gqsqkQAT/CnKGBxmLyBHtfBLwiIPCy2lqwcX/q5x47gno7C05yRw==
-X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(61400799027)(23010399003)(376014)(82310400026)(36860700016)(10067099003)(22082099003)(56012099006)(11063799006)(16102099003)(18002099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	qAdEcwds88N9C68YqAwdVghFwPdxGeDxdR8hhOGwDmNkuXzgsEkfKaZW49qJcDk8pEuwbk7eTVaDQwZqbOLhWy9E9DAAlmfmvc4NisHgk/1+/VkYA1GgHLieXVagX881AkNmG9tySmvIynL24yWNJy4nh5d74lUy/13sduITTVz2JrLIasWErn0yRgKMxpjK207uRwuKzWqDTL9wugfYheN3T7Zy2liC29rV3sskEK3R+sg4etHtyTwl+qDNB755KhrtDBBqNR3HGOeNmW2hjltrR+tyGYg+UoQPrpseyw3lLykFELDrHiIh9xN2sCW0T3JDTdg+LNZMLQqUjRv3RaMtnS/KHLzdjQkF1wKLAR2dBk5OAbQdWQckIvzQFJWctnp2bNLdT+pyTZFlPwD4gHspdxqWXvPEGpBS9D7p4uTLphH7BJwZ+PEBTHwyqeUk
-X-Exchange-RoutingPolicyChecked:
-	f8c2Eh/kep7wANP4Op+nUrtv2TQrOBxO95MAJrzISAO+ZPuUGcyK8F7cW5QZSTs0pvl2KssEpk5Fz7vEMSagA68UzkMLUZBLc/Sdh5xZW+S2ePATZL2eNuXXUeCNixe0NTB5VSALqxQoC860bWpsiaUid+QCdf0pyd9Ky9AEVMU0S3icv4Gnigemn8cMaVW2lTSXlMV/rB6cHR/Q7sMFTkc+5ssOmsAmbeLg20g/vXcdr4aSUMXUh0lgjm06pXip2/VgzVXxusxgbslfIpRpoxzE/AsSuedaeAznOsaSAWdQXjzqRH5xNRzfc68K8/50i73j0YlaD/Nozu5BKSISaA==
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2026 09:08:44.5320
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 15b3942b-888e-49ff-e73b-08df1ae499f0
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-BN3PEPF00022BC4.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PPF636AABA4F
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTI1MDAzNiBTYWx0ZWRfX0qKXlPNhnPRP
- mQz2X7PsmhuL6Sfvx4MP8EWI45GsF8nrtuM32SwV0S6hdnCgT7ITnIMbRstkgG9u3zc+gsO49F+
- UzW1p6jleUdgal9875ok2NvibHLk3DUwgTx37VIFvKL/qpKEzxSRebO4hj79gPXK0W+w4JsNOtA
- kyXN38X4FzU6uIp3pDa1fNnmRzOdfqW1FtZtYazw8opUNBQrUUakYo6BgdDwPBUktEDfI3bx4ux
- tW9LUnATYvc0WgsNRINNfVRJm96NA/aqe5r8wFy5BX6Yga6eV2r5eBStS1NedA1uen46Rc+CX7Q
- 1h96e4krOK9Rs5dKz00uej8QICXX2ueQm8py2Dhr1ubyRYOfHOfFMn8jdYPPw+tcpwqskyPS/Ab
- DHrZaTSnCvk332UTvqER/PRDngrTN2e1YNspdTwdij6uvfbkZGgqRpnL3hwA7X7JttDqyf+XP/j
- 1anFsjfiGdYC0dtZ7Bw==
-X-Proofpoint-GUID: eb1CHC1OKcjUwn-_BVM0HWspmsxbk9HN
-X-Authority-Analysis: v=2.4 cv=Zu94uN7G c=1 sm=1 tr=0 ts=6ab63a22 cx=c_pps
- a=5+C5dWQ2lNXIGJ5Pv9T82A==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=kj9zAlcOel0A:10 a=VdqzKS8jKosA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=KfkQE9S9VqCBgivYGm0O:22
- a=pGLkceISAAAA:8 a=a0J8J_ENjLl8oPq8yEYA:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTI1MDAzNiBTYWx0ZWRfX1My8f/zIZiG3
- 75JtUpQ9TFILv1h1Fu+hN/OsAqV7b2bt7xHzEyYkHm5qGX3VW8T3CqyU6nibE4jBmEq6+tCkz4K
- kjXbEwnnNtA0uOyg9F6SNw/76UTdr/0=
-X-Proofpoint-ORIG-GUID: eb1CHC1OKcjUwn-_BVM0HWspmsxbk9HN
-X-Proofpoint-Spam-Reason: safe
+In-Reply-To: <qpkcjtl5jbip46zxcpyogsk4phmhetfvrvgftxhsxlbxjhucnn@h3a64dfoxcmj>
 
-On Thu, Sep 24, 2026 at 03:05:41PM -0700, mhun512@gmail.com wrote:
-> diff --git a/sound/soc/codecs/wm8962.c b/sound/soc/codecs/wm8962.c
-> index 8a9598161b35..7b09de65a009 100644
-> --- a/sound/soc/codecs/wm8962.c
-> +++ b/sound/soc/codecs/wm8962.c
-> @@ -3230,21 +3230,22 @@ int wm8962_mic_detect(struct snd_soc_component
-> *component, struct snd_soc_jack *
->  {
->  	struct wm8962_priv *wm8962 = snd_soc_component_get_drvdata(component);
->  	struct snd_soc_dapm_context *dapm = snd_soc_component_to_dapm(component);
-> -	int irq_mask, enable;
-> -
-> -	wm8962->jack = jack;
-> -	if (jack) {
-> -		irq_mask = 0;
-> -		enable = WM8962_MICDET_ENA;
-> -	} else {
-> -		irq_mask = WM8962_MICD_EINT | WM8962_MICSCD_EINT;
-> -		enable = 0;
-> -	}
-> +	int mic_irq_mask = WM8962_MICD_EINT | WM8962_MICSCD_EINT;
-> 
-> +	/* Mask microphone events, then drain the IRQ and work before
-> changing the jack. */
+(forgive my possibly semi-broken efforts to trim the mail)
 
-Your email client appears to be corrupting the patch here, this
-won't apply.
+On Thu, Sep 24, 2026 at 03:00:44PM -0400, Liam R. Howlett wrote:
+> On 26/09/17 05:22PM, Lorenzo Stoakes (ARM) wrote:
 
->  	snd_soc_component_update_bits(component, WM8962_INTERRUPT_STATUS_2_MASK,
-> -			    WM8962_MICD_EINT | WM8962_MICSCD_EINT, irq_mask);
-> +				    mic_irq_mask, mic_irq_mask);
->  	snd_soc_component_update_bits(component, WM8962_ADDITIONAL_CONTROL_4,
-> -			    WM8962_MICDET_ENA, enable);
-> +				    WM8962_MICDET_ENA, jack ? WM8962_MICDET_ENA : 0);
+> > diff --git a/mm/internal.h b/mm/internal.h
+> > index 0dca33db068f..fe576d468af4 100644
+> > --- a/mm/internal.h
+> > +++ b/mm/internal.h
+> > @@ -7,6 +7,7 @@
+> >  #ifndef __MM_INTERNAL_H
+> >  #define __MM_INTERNAL_H
+> >
+> > +#include <linux/file.h>
+> >  #include <linux/fs.h>
+> >  #include <linux/khugepaged.h>
+> >  #include <linux/mm.h>
+> > diff --git a/mm/util.c b/mm/util.c
+> > index bf0513d1d3d0..016932780925 100644
+> > --- a/mm/util.c
+> > +++ b/mm/util.c
+> > @@ -1228,8 +1228,11 @@ int __compat_vma_mmap(struct vm_area_desc *desc,
+> >
+> >  	/* Perform any preparatory tasks for mmap action. */
+> >  	err = mmap_action_prepare(desc);
+> > -	if (err)
+> > +	if (err) {
+> > +		if (desc->vm_file != vma->vm_file)
+> > +			fput(desc->vm_file);
+> >  		return err;
+> > +	}
+> >  	/* Update the VMA from the descriptor. */
+> >  	compat_set_vma_from_desc(vma, desc);
+> >  	/* Complete any specified mmap actions. */
+> > diff --git a/mm/vma.c b/mm/vma.c
+> > index 55917d097933..fa784f069da4 100644
+> > --- a/mm/vma.c
+> > +++ b/mm/vma.c
+> > @@ -24,7 +24,8 @@ struct mmap_state {
+> >  		vm_flags_t vm_flags;
+> >  		vma_flags_t vma_flags;
+> >  	};
+> > -	struct file *file;
+> > +	struct file *file;	/* mmap()-specified file. */
+>
+> I guess renaming file to mmaped_file would be a lot more changes.
 
-I would be tempted to just always disable here.
+Yeah :) and want to keep things sync'd with vm_area_desc.
 
-> +	if (wm8962->irq)
-> +		synchronize_irq(wm8962->irq);
-> +	cancel_delayed_work_sync(&wm8962->mic_work);
-> +
-> +	wm8962->jack = jack;
-> +	if (jack)
-> +		snd_soc_component_update_bits(component,
-> +					      WM8962_INTERRUPT_STATUS_2_MASK,
-> +					      mic_irq_mask, 0);
+Can always obviously follow up later with renames sync'd across both.
 
-And then enable here, if needed. The current patch changes from
-enabling after the IRQ is unmasked to enabling whilst it is
-masked. Since neither of us have hardware its probably better not
-to change that sequencing.
+<snip>
 
-> 
->  	/* Send an initial empty report */
->  	snd_soc_jack_report(wm8962->jack, 0,
-> @@ -3592,9 +3593,7 @@ static int wm8962_probe(struct snd_soc_component
-> *component)
-> 
->  static void wm8962_remove(struct snd_soc_component *component)
->  {
-> -	struct wm8962_priv *wm8962 = snd_soc_component_get_drvdata(component);
-> -
-> -	cancel_delayed_work_sync(&wm8962->mic_work);
-> +	wm8962_mic_detect(component, NULL);
-> 
->  	wm8962_free_gpio(component);
->  	wm8962_free_beep(component);
-> diff --git a/sound/soc/tegra/tegra_wm8962.c b/sound/soc/tegra/tegra_wm8962.c
-> index 31f9d9181595..a79d464b6a80 100644
-> --- a/sound/soc/tegra/tegra_wm8962.c
-> +++ b/sound/soc/tegra/tegra_wm8962.c
-> @@ -97,18 +97,6 @@ static int tegra_wm8962_init(struct snd_soc_pcm_runtime *rtd)
->  	return 0;
->  }
-> 
-> -static int tegra_wm8962_remove(struct snd_soc_card *card)
-> -{
-> -	struct snd_soc_dai_link *link = &card->dai_link[0];
-> -	struct snd_soc_pcm_runtime *rtd = snd_soc_get_pcm_runtime(card, link);
-> -	struct snd_soc_dai *codec_dai = snd_soc_rtd_to_codec(rtd, 0);
-> -	struct snd_soc_component *component = codec_dai->component;
-> -
-> -	wm8962_mic_detect(component, NULL);
-> -
-> -	return 0;
-> -}
+> >  static int __mmap_new_file_vma(struct mmap_state *map,
+> >  			       struct vm_area_struct *vma)
+> > @@ -2593,20 +2597,23 @@ static int __mmap_new_file_vma(struct mmap_state *map,
+> >  	struct vma_iterator *vmi = map->vmi;
+> >  	int error;
+> >
+> > -	vma->vm_file = map->file;
+> > -	if (!map->file_doesnt_need_get)
+> > -		get_file(map->file);
+> > +	vma->vm_file = map->vm_file;
+> > +	if (map_same_file(map))
+> > +		get_file(map->vm_file);
+> >
+> > -	if (!map->file->f_op->mmap)
+> > +	if (!map->vm_file->f_op->mmap)
+> >  		return 0;
+> >
+> >  	error = mmap_file(vma->vm_file, vma);
+> > +	map->vm_file = vma->vm_file;
+> > +
+>
+> You set vma->vm_file to map->vm_file unconditionally above, is this
+> necessary?
 
-I don't think you should remove this. It is possible to remove
-the machine driver but not the codec driver, and in that case you
-still want the mic_detect disabled.
+Yeah, because the mmap hook can change vma->vm_file, and this is necessary
+for the correct file refcount accounting.
 
-Thanks,
-Charles
+The accounting is actually very tricky, because the file that was passed
+via mmap() is fput() after the operation is done but if its swapped then
+you have to make sure everything works out correctly on both error and
+success paths.
+
+Which this patch does (with a lot of AI review checking to make sure it's
+not broken! FWIW)
+
+<snip>
+
+> > @@ -2688,7 +2694,7 @@ static int __mmap_new_vma(struct mmap_state *map, struct vm_area_struct **vmap,
+> >  	}
+> >
+> >  	/* Invoke callbacks. */
+> > -	if (map->file)
+> > +	if (map->vm_file)
+> >  		error = __mmap_new_file_vma(map, vma);
+> >  	else if (!is_anon)
+> >  		error = shmem_zero_setup(vma);
+> > @@ -2797,11 +2803,15 @@ static int call_mmap_prepare(struct mmap_state *map,
+> >  	int err;
+> >
+> >  	/* Invoke the hook. */
+> > -	err = vfs_mmap_prepare(map->file, desc);
+> > +	err = vfs_mmap_prepare(map->vm_file, desc);
+> >  	if (err)
+> >  		return err;
+> >
+> > -	/* It's invalid for mmap_preprare hooks to clear vm_ops. */
+> > +	/* Update first so file refcount tracked correctly. */
+> > +	if (desc->vm_file != map->vm_file)
+> > +		map->vm_file = desc->vm_file;
+> > +
+> > +	/* It's invalid for mmap_prepare hooks to clear vm_ops. */
+>
+> The less rare of prepare ;)
+
+Haha 'It's a rare prepare that would dare' is what I'd LIKE to put here as a
+comment but probably can't :P
+
+<snip>
+
+> > +static void put_map(struct mmap_state *map)
+>
+>
+> I like the put_map_file() instead, like Suren suggested.. but maybe
+> put_map_vm_file(), especially since it could be read as put to the file
+> pointer instead of vm_file.
+
+Ack, and of course to bikeshed it a bit :P maybe map_put_vm_file() so the
+'put vm_file' bit is clearer?
+
+<snip>
+
+> > diff --git a/mm/vma.h b/mm/vma.h
+> > index e97bd2dfa786..f15faa83f3d6 100644
+> > --- a/mm/vma.h
+> > +++ b/mm/vma.h
+> > @@ -394,8 +394,10 @@ static inline void compat_set_vma_from_desc(struct vm_area_struct *vma,
+> >
+> >  	/* Mutable fields. Populated with initial state. */
+> >  	vma_set_pgoff(vma, desc->pgoff);
+> > -	if (desc->vm_file != vma->vm_file)
+> > -		vma_set_file(vma, desc->vm_file);
+> > +	if (desc->vm_file != vma->vm_file) {
+> > +		fput(vma->vm_file);
+> > +		vma->vm_file = desc->vm_file;
+>
+> This isn't going to be racy somehow, right?
+
+No, at this point the VMA write lock is held and everything should be
+pinned correctly.
+
+The vma_set_file() dance was the problematic bit here as it didn't
+handle the file refcount properly.
+
+>
+> > +	}
+> >  	vma->flags = desc->vma_flags;
+> >  	vma->vm_page_prot = desc->page_prot;
+> >
+> >
+> > --
+> > 2.55.0
+> >
+
+--
+Cheers, Lorenzo
