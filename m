@@ -1,184 +1,186 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010070.outbound.protection.outlook.com [52.101.56.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 894EA46DFEB;
-	Fri, 25 Sep 2026 07:47:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790322451; cv=none; b=QcnzoaRC6J9ueK/ZMRdE880LTWBjWsb2MepGkSIeT+fnkGeRFfDtHOdtgyXVEZn1Stv+Mam1v6I56cNYrycUmr5H0uwHCxbksRA8o4K8agkZvCRyjzFumjvuSTe4/LkBbxxThPOUYqVWNonXFmZB//aw1zYkSWrNP0u4F6K1xGI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790322451; c=relaxed/simple;
-	bh=YjthoN1qZLBzjOMIZDzUekMPwN/+p+lQX/2srhLGyyM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=FdPsUkHpQjReu2s1tslpMHg2cpcZvIGcYeGkBlglhDjijJIwGZ/6rP+a1Kg2p0pGtvJEKNSkKnyKgES061FbYG13UpShi1WvsXGVqARs8Kn7ZMfWDoUudl78VPbpWNyi6F8HfB1rCxaWwGXRMfulFuotwjyXyOEA/bvXVFeOTIk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QbAisI5j; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63CBE3AFB19;
+	Fri, 25 Sep 2026 08:07:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.70
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790323641; cv=fail; b=rZOj7FLLv4Vl30qWIe3EBLrS2voHAg0917Qj4seVdec3EwT9VZ+XYa385nO0KvaLmpa6CKzEaQRJHX7zI1nAU5rB7a0FIUz27xNdXsnF9bc6pJH4l4q3lloDLsEpAGWwjNZkceeQ+3vLfCetc5S9TURD8CMBYyfPgN2VxV/GRU8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790323641; c=relaxed/simple;
+	bh=kuKluRmt7ivFLhjiFJfeUMUrLl+5ugU52zygA/5Z2mo=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=OoQh+ruV9wepAnnbd4cQ6qShATv4N4HrZvEtts4hHXmRUW5tVpX5ONYXbnXHEI3ViOhqIJSuq8hJXrVlD7IUmZC3RJfNTYKe+U9SmAfHjnHV8MAZsX7llPwmPqiMZEIvgrM6cpmPxnr0uB3mfwIL5EH/6LhKdBw57F8tchm/dyA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=KFfoubN+; arc=fail smtp.client-ip=52.101.56.70
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QbAisI5j"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 25150C2BCFB;
-	Fri, 25 Sep 2026 07:47:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1790322451;
-	bh=YjthoN1qZLBzjOMIZDzUekMPwN/+p+lQX/2srhLGyyM=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=QbAisI5juNXMkXz/xeN+KuRP+igBU4nBGReMq+f4Efs2T3L55Eoj5OuLZV2rE73JV
-	 s0TmD+2JvTtIzGjTAkA5Ld/B/A5/waspp/RF6jb0IXdq1mphDAH0Q5MLjJcOrhglFq
-	 k8e834vXmUuNpOXAjtDOynKCmZviZEDhj/TWwYJtYN6mmzxxVZIUN/6Wn/uBywWBAC
-	 HkaNs/ik2qOOZRU173BS8O0gUKOL3M+gKF+SyDJiP1RFnwxc/XYoj5edKc38pvlS24
-	 3xyubbBvknNUo/2j9wiLqlDOspA59HqbIlLrEx8TXFF82HspBOVHyeyHPVjtQnv1IH
-	 oZ4roiNr7ZWQA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12678C9832B;
-	Fri, 25 Sep 2026 07:47:31 +0000 (UTC)
-From: Aaron Kling via B4 Relay <devnull+webgeek1234.gmail.com@kernel.org>
-Date: Fri, 25 Sep 2026 02:47:33 -0500
-Subject: [PATCH 5/6] ASoC: codecs: aw88166: remove async start
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="KFfoubN+"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=du//csdSv6hp5nkkgMXG/i5SHYAC0RMpmIoAPacfg4RWipSSXrEYoOZh+aksfOIYIcNtrBH/bp05L0Aj/e05KpWAPTZLlfq7jLXAFfVKKLcFLmzEIgfpjjZMhTej/DMIm0nAig9+XLjlqqtqyLJWkVXbkkm/SoYlk1At4S5U+5weOBTe+yZGmA4KwR5wCRGStGnB5Ect3EGqh00/UMazLvgcCBX9L8BwQ+V5pDzq7qC3lSP7RWgtxc9oIcxyKP2G0HvzqvTdPpIWEh3lFCkntVY+uQJ+Bvngk9uaQpiQiZJ/RZiK+N5okVKKO4FdteP91TVRkhWdOLLtHChlIJy2bA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LsjWijD3QNyw2ucvtCPwmvMVceBQLCl5MFegrI/dsMA=;
+ b=os6qwJEyiPWOIGEuox8R39L41ARRts+L1Mrb2p8kcV3qyzzi45ScfyQUlBs4TtT0yUCLQYOM6ncc4oACA/yomG/Cc+rqCa1ZcXqrE8AeJRZbrw3jDNZP4u1QT/kl+HJqQL5V71ndjmk0R7Dxn1sz/21F952ewCPFkHbKSYJo1+IDnPaVAisjuN/To9N4wTQkxKZ7d+8oRXRsXaHn/ZoymIVzxze6SPmqCK4lFDjMnyV26NxyayQzW5t9DvofBvw3wAuOtcrs58Rft4rd80nHGk85pGMsyq3JooleEJ9mzEnxv6dxJVd8P9ZBP5+vkSJP9pDWpEnrNy4GgyrfBciSDQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LsjWijD3QNyw2ucvtCPwmvMVceBQLCl5MFegrI/dsMA=;
+ b=KFfoubN+vEtwjfrdOTZraArmk2CKWZwEc5d9YBNaW1KBqs0q3O0+dcuFjmzHpk86q92/Hh53ynW9Phvorv+FwDDn7VR1PXAUXeE2x+heON0Dj5TFatThcbZJaxllr72kP1dGN3YgJYVLyOIOkfDyCzh0Rf/qA6eUWQ8/oqxIweM=
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DS2PR12MB9567.namprd12.prod.outlook.com (2603:10b6:8:27c::8) by
+ MW4PR12MB7167.namprd12.prod.outlook.com (2603:10b6:303:225::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.14; Fri, 25 Sep
+ 2026 08:07:16 +0000
+Received: from DS2PR12MB9567.namprd12.prod.outlook.com
+ ([fe80::636:1b52:24ca:d7e5]) by DS2PR12MB9567.namprd12.prod.outlook.com
+ ([fe80::636:1b52:24ca:d7e5%4]) with mapi id 15.21.0451.014; Fri, 25 Sep 2026
+ 08:07:15 +0000
+Message-ID: <611b8e7a-b434-40c0-8f0e-4978208bb01f@amd.com>
+Date: Fri, 25 Sep 2026 13:35:59 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: amd: ps: fix snd_acp63_remove() teardown ordering
+To: Fan Wu <fanwu01@zju.edu.cn>, lgirdwood@gmail.com, broonie@kernel.org
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Syed.SabaKareem@amd.com,
+ stable@vger.kernel.org, Song Li <songl@zju.edu.cn>,
+ "Dommati, Sunil-kumar" <Sunil-kumar.Dommati@amd.com>,
+ Syed Saba Kareem <syed.sabakareem@amd.com>,
+ "Prasad, Prasad" <venkataprasad.potturu@amd.com>
+References: <20260923092640.502145-1-fanwu01@zju.edu.cn>
+Content-Language: en-US
+From: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
+In-Reply-To: <20260923092640.502145-1-fanwu01@zju.edu.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN0PR01CA0016.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:4f::21) To DS2PR12MB9567.namprd12.prod.outlook.com
+ (2603:10b6:8:27c::8)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260925-aw88166-cleanup-v1-5-11f74cb5fe28@gmail.com>
-References: <20260925-aw88166-cleanup-v1-0-11f74cb5fe28@gmail.com>
-In-Reply-To: <20260925-aw88166-cleanup-v1-0-11f74cb5fe28@gmail.com>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Weidong Wang <wangweidong.a@awinic.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Val Packett <val@packett.cool>, Aaron Kling <webgeek1234@gmail.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1790322449; l=3699;
- i=webgeek1234@gmail.com; s=20250217; h=from:subject:message-id;
- bh=sDCJAoLxamcNTNiYmxQouA2118oXIyIUYJcx7v+00z8=;
- b=X4Zw/RPuhxCpYJYgCkIIn08Vy+tOeeBoniuFNxXLPEhEIE5A9mYSl0LiDrzGPzNwQpIDXGuT7
- ho0OJLNk0ZjCo1/QrexWX3h45zlwpb3C0AZPIwFag8C2HaCTqO31sPL
-X-Developer-Key: i=webgeek1234@gmail.com; a=ed25519;
- pk=TQwd6q26txw7bkK7B8qtI/kcAohZc7bHHGSD7domdrU=
-X-Endpoint-Received: by B4 Relay for webgeek1234@gmail.com/20250217 with
- auth_id=342
-X-Original-From: Aaron Kling <webgeek1234@gmail.com>
-Reply-To: webgeek1234@gmail.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS2PR12MB9567:EE_|MW4PR12MB7167:EE_
+X-MS-Office365-Filtering-Correlation-Id: 25ff7eac-cf82-4035-0b02-08df1adc02e2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|376014|23010399003|10067099003|56012099006|11063799006|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	rC8U/cQhmoPJpjxTaUUxhaSNxe2gMiJBheAfkkLTredcOX3XLMc9E4iDRs9N1cI964ZE4xekVpybt7AZDXXxRNj54MFxgTmvhh2W9+PmueQew4URClgjum8pWHlmHbUuaDm/aPfdFLxA5ZDXoIBOBGrslKDlWoOkh6bkeLmOHtPliAYqlndj9+5lWczMmOueEIfoJ+VhOTrNa9o/fm7wRPKMfvks3L5DvB8l7DFvyO/KX7Hal9CYpyyYPUJgHqOcuGSopIjHBL4O/4Cp6G4CWFhiEM0NgwS7iMTy4tQ8fW2oNXglY1SUF4tCmMv5qzUahW8P2DpqHkKlntZQQu/h4UpqwlyQyxns4DD/ISZlDEIvURYSSlQbQspujC9XUJVDtcXjb6eXICm7KJT4MHeK9BCn0/HMJspAODEW1nKPkFyD2QuskxdSoWxVZz5LHOFXc3ru8H5AzAb1gvqrZQjIqCPLsPEbiWadMWDTdamYhhDkZAk4IVKsmS97DNKjV56ueUsBo/u5NpUtahNK4qWpnikcMY0WKT5KMDZXCWGjaGIUHoKt1Q5UR3Y71Qq6bluvzr76q+C4nRhBX+xZlssprhSjwQ80JXmd8DJjYjAA2o/nQ/xmQRiMrnKVyPmNis8hrrzA5DSKPNreSBWC6RBR++3o5ZTHZH4S0wQ7ygVERdU=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS2PR12MB9567.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(23010399003)(10067099003)(56012099006)(11063799006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?K2NNTXRQVEVJS1JBTDJBV1pWK1lzZzRTYjd6a1RqRDNmVHBMWEZRdTlpUVdx?=
+ =?utf-8?B?dWtxTi9oZ0REUW1KbGlHRU1vaG1Dc2JSWnpHc2l1eVR4eHRVeFJ0WlVzUmcw?=
+ =?utf-8?B?VStrWVB2WmNMc2k1dHgzTjVEM2ljZ1ZBTHFYSmVEMVF5UFdOVlQzMDZBVzkr?=
+ =?utf-8?B?cVMyaWwxV0sxaDE3WVEzKzJnMkxFeG9hTWpRK2x5T3ZOS01XL1NtTFBlQzhD?=
+ =?utf-8?B?K1FOc0tScnlOUk5LTkl0UUZpMmROcWhuQmFPV1cya2dpTTVzUXMzNHZKekE4?=
+ =?utf-8?B?ZlNhaWlRWjZnWlNIbkVUMG1kYXpLSmhVU1hWTjhyOEZIMEd4bTYzUVNoMEJV?=
+ =?utf-8?B?MCt1dTB2bDNUaXZjWWdURzZpNnlpdXdYSkZUK3M5OU5kYkppeElZRnFyZm8z?=
+ =?utf-8?B?NjhScVlBMThQa28yeW5uamdBUUpzb2d6a21mbDlrSHFweURSMk92WFNhTnps?=
+ =?utf-8?B?MHBjTDNHbkNKaGJOU1Buc1huYUZFaFkwK2NBYndSUTB1NHkzM3phQld2ZlJI?=
+ =?utf-8?B?SEhHNVNzOVF4a0RXRlNhSEV3ZldROVRObEttQVVsVVhoTmd4ekttZm9HU1ZS?=
+ =?utf-8?B?S2l3dGtTdGl4ZlBERy9yRFNOVkhTUDY4Y3ZCNHl5WHgwNkJJQy9lRmpoS08y?=
+ =?utf-8?B?bWRZRG1DUUFxNWJSbWMzM09kVHl2VDVvU01EUGZMVlFzY1JtSDJvU1RJYnQ5?=
+ =?utf-8?B?R0lKOEVGQlo4aGlNYVU0MllORk1rNDhCdVNZTTU4U3FOZjhYcENURjhETEMr?=
+ =?utf-8?B?RmpOVFp2a0RrOHNKb3VDL2xwZ2dhZVVicVJRTG1Lb0tiRXpDanNYS0lKdEYx?=
+ =?utf-8?B?eGlIbUcwRTYrSDNlQUJ1dmo4djBjSG0wZkhxTUNCN0JZVmRWMmRvcVJ5UnN4?=
+ =?utf-8?B?VjBicm5pZmpCVUhONVRaTGtzcHlvZUN1MVFxYWpuK0dTSEpTaE83c0FVVTBK?=
+ =?utf-8?B?dE0vUzlkM2hjM0toY1c4SURrMVhwOC9KeTIvREVZcU1lY1BqTUVPQW5wWXVY?=
+ =?utf-8?B?VG1KTVJZQlBKK2N1Umg5S1NqY2w3bWRCZ2dMMTd6b0lsdWFjWGNjc2E4Nmg5?=
+ =?utf-8?B?dE9wRW5xNWZRSG5UZ3hkNVd0bWdUc1k4QlpnV0E0by9ScmcwRTIrK2R2OEdF?=
+ =?utf-8?B?OGpoZkpNdVBNYWlyUlVkWFNQTXB5cHkzVmQxYVZmOHlxWW9CbWFta0VSbUVP?=
+ =?utf-8?B?dEgvNy8zV01RNmlScHp5bDhJQm0zZkFPdENyRERod1IvTnZPOVpBckYxOTdm?=
+ =?utf-8?B?aDhkcDRwbTFubjQ0UHBla012T1F1THhJWTJqUFlqdWxBUTJLTC85TCtVU0Ja?=
+ =?utf-8?B?aHZnYU83TlozWjhaUTE1QXJPQXFUVEF5b2x2cHg1VWpTZFdIenFKTG5OaEYz?=
+ =?utf-8?B?UVpvMk9LVU8xVkZOSzhNMjF6SnFRT1IrQlJzeFIvZkxnK3MrMEc0Q1YydVl4?=
+ =?utf-8?B?MU9ZZGVHbFdSMXJUYXBncFRRYU83eFE2OGlTcHlpN202S01aMjRlZG5ocXVx?=
+ =?utf-8?B?eHQyTm0vcnEwbTFtSVdmSTU4VmYxS2I0L3hNS0MxRE1SS2pWZkpnOWpJZ3pO?=
+ =?utf-8?B?Tlo0ZGtKWmNNZVZhQ2tWN3lIVWdIeG1oRGtXbDRQek1uRGRFY085WlcxU05s?=
+ =?utf-8?B?S2xaK0F6UlVlYmxqcEcvc0p1TXpORGZJanRRQkhWcG5BZTVhUGRQSHc5Vm5x?=
+ =?utf-8?B?a0xtbFU4ajJCa3VLV21rOVQ2aVB3dUMrbTYyTVRER1NHVDJDMmFWbWlpTFUv?=
+ =?utf-8?B?MTZzZHZ0WkFpZm9qTUwwVXR2bUxGQWJPbnd5bDFHVjZCTWVTRTBOR2RTSkNq?=
+ =?utf-8?B?SklYVWdhNFY5aWhubVIxWlk4T3lDeG5ONVh0U29XN3ZWaTh2emJ1QjB2VWJo?=
+ =?utf-8?B?OTJaS2NLUHUwUURmYm00Nkk0U01LbXJBZ2YxWkZYSG1kMFNBViswdEdlOEJj?=
+ =?utf-8?B?UVQ4UXVxSm9XbTBQMVBVajJGdTJqUUFYU2FRdFlFdWY5MXM4a05YK0owNHVi?=
+ =?utf-8?B?RisrbHpwUHI2L3R5NTVrMW9hRmNsZ3gvWmVJQU1qc2M2ZDZ4ME9TN1dPdDVY?=
+ =?utf-8?B?cXRZeWZXd3hqemN1UXAwYUY3cXBNVUJoS2tMSHdkQVZPc2J2VktjcVFHLzZ4?=
+ =?utf-8?B?RHQ0QU0vTU42RjJqVlVhdENqeGp6Y1E2RDMzNnZ6MVZ6c0ttY2lOZnBqN25t?=
+ =?utf-8?B?R0lSSUZtVGV6NWNpWmhiSDFmODN1cjRhclJOVVlUcVQycHlhN0p2Uk1sMDQ1?=
+ =?utf-8?B?UnVQVTRHcFhLaXZ6UUNrU3RoK2JVenMyUnBQTi9rV2ZTS1FsRlhvWEQzaStv?=
+ =?utf-8?B?WURjOEZFamN0T1JOOE5tSTJLRlJCTW5rTGNvVGJrbTgvR3J2dWpJZz09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 25ff7eac-cf82-4035-0b02-08df1adc02e2
+X-MS-Exchange-CrossTenant-AuthSource: DS2PR12MB9567.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2026 08:07:15.7195
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: iVeRb+yb/E+zqznk5vXt3iRBzlh+z/Z7Deo2bLocPr/FhWrlw8dPlsenYN71FImgraPnuGhVtX16pdZGkU/LWQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7167
 
-From: Aaron Kling <webgeek1234@gmail.com>
 
-Codec drivers are not supposed to do anything like this. The result was
-that the first second or so of playback was essentially inaudible, and
-very short alert sounds could be missed entirely. Let's not do this.
 
-Signed-off-by: Aaron Kling <webgeek1234@gmail.com>
----
- sound/soc/codecs/aw88166.c | 33 ++++-----------------------------
- sound/soc/codecs/aw88166.h |  5 -----
- 2 files changed, 4 insertions(+), 34 deletions(-)
-
-diff --git a/sound/soc/codecs/aw88166.c b/sound/soc/codecs/aw88166.c
-index ab7af3eaceb28..6b98864de81a9 100644
---- a/sound/soc/codecs/aw88166.c
-+++ b/sound/soc/codecs/aw88166.c
-@@ -24,7 +24,6 @@ struct aw88166 {
- 	struct aw_device *aw_pa;
- 	struct mutex lock;
- 	struct gpio_desc *reset_gpio;
--	struct delayed_work start_work;
- 	struct regmap *regmap;
- 	struct aw_container *aw_cfg;
- 
-@@ -1148,16 +1147,7 @@ static void aw88166_start_pa(struct aw88166 *aw88166)
- 		dev_err(aw88166->aw_pa->dev, "start failure (%d)\n", ret);
- }
- 
--static void aw88166_startup_work(struct work_struct *work)
--{
--	struct aw88166 *aw88166 =
--		container_of(work, struct aw88166, start_work.work);
--
--	guard(mutex)(&aw88166->lock);
--	aw88166_start_pa(aw88166);
--}
--
--static void aw88166_start(struct aw88166 *aw88166, bool sync_start)
-+static void aw88166_start(struct aw88166 *aw88166)
- {
- 	int ret;
- 
-@@ -1173,12 +1163,7 @@ static void aw88166_start(struct aw88166 *aw88166, bool sync_start)
- 		return;
- 	}
- 
--	if (sync_start == AW88166_SYNC_START)
--		aw88166_start_pa(aw88166);
--	else
--		queue_delayed_work(system_dfl_wq,
--			&aw88166->start_work,
--			AW88166_START_WORK_DELAY_MS);
-+	aw88166_start_pa(aw88166);
- }
- 
- static int aw_dev_check_sysint(struct aw_device *aw_dev)
-@@ -1550,7 +1535,7 @@ static int aw88166_profile_set(struct snd_kcontrol *kcontrol,
- 
- 	if (aw88166->aw_pa->status) {
- 		aw88166_stop(aw88166->aw_pa);
--		aw88166_start(aw88166, AW88166_SYNC_START);
-+		aw88166_start(aw88166);
- 	}
- 
- 	return 1;
-@@ -1725,7 +1710,7 @@ static int aw88166_playback_event(struct snd_soc_dapm_widget *w,
- 	guard(mutex)(&aw88166->lock);
- 	switch (event) {
- 	case SND_SOC_DAPM_PRE_PMU:
--		aw88166_start(aw88166, AW88166_ASYNC_START);
-+		aw88166_start(aw88166);
- 		break;
- 	case SND_SOC_DAPM_POST_PMD:
- 		aw88166_stop(aw88166->aw_pa);
-@@ -1759,8 +1744,6 @@ static int aw88166_codec_probe(struct snd_soc_component *component)
- 	struct aw88166 *aw88166 = snd_soc_component_get_drvdata(component);
- 	int ret;
- 
--	INIT_DELAYED_WORK(&aw88166->start_work, aw88166_startup_work);
--
- 	ret = aw88166_request_firmware_file(aw88166);
- 	if (ret)
- 		dev_err(aw88166->aw_pa->dev, "%s failed\n", __func__);
-@@ -1768,16 +1751,8 @@ static int aw88166_codec_probe(struct snd_soc_component *component)
- 	return ret;
- }
- 
--static void aw88166_codec_remove(struct snd_soc_component *aw_codec)
--{
--	struct aw88166 *aw88166 = snd_soc_component_get_drvdata(aw_codec);
--
--	cancel_delayed_work_sync(&aw88166->start_work);
--}
--
- static const struct snd_soc_component_driver soc_codec_dev_aw88166 = {
- 	.probe = aw88166_codec_probe,
--	.remove = aw88166_codec_remove,
- 	.dapm_widgets = aw88166_dapm_widgets,
- 	.num_dapm_widgets = ARRAY_SIZE(aw88166_dapm_widgets),
- 	.dapm_routes = aw88166_audio_map,
-diff --git a/sound/soc/codecs/aw88166.h b/sound/soc/codecs/aw88166.h
-index 1a61e56f607c9..b8dbfe0f307c4 100644
---- a/sound/soc/codecs/aw88166.h
-+++ b/sound/soc/codecs/aw88166.h
-@@ -670,11 +670,6 @@ enum AW88166_DEV_DSP_CFG {
- 	AW88166_DEV_DSP_BYPASS = 1,
- };
- 
--enum {
--	AW88166_SYNC_START = 0,
--	AW88166_ASYNC_START,
--};
--
- enum {
- 	AW88166_RECORD_SEC_DATA = 0,
- 	AW88166_RECOVERY_SEC_DATA = 1,
-
--- 
-2.54.0
-
+On 9/23/26 14:56, Fan Wu wrote:
+> The ACP threaded interrupt handler dereferences the SoundWire and PDM
+> child platform devices, but snd_acp63_remove() unregisters them while
+> the interrupt is still registered: devm_request_threaded_irq() ties its
+> release to devres cleanup, which runs only after the remove callback
+> returns. A completion in this window is a use-after-free.
+>
+> Fix this by masking the ACP interrupt sources and calling devm_free_irq()
+> before the first child device is unregistered. The interrupt line is
+> shared, and acp_hw_deinit() clears the sources only after the children
+> are gone, which would leave the line raised with no handler left to
+> ack it. The window predates the tagged refactor, which only reshaped
+> the dereferences.
+>
+> This issue was found by an in-house static analysis tool.
+>
+> Fixes: eaf825037d6d ("ASoC: amd: ps: refactor acp child platform device creation code")
+> Cc: stable@vger.kernel.org
+> Co-developed-by: Song Li <songl@zju.edu.cn>
+> Signed-off-by: Song Li <songl@zju.edu.cn>
+> Signed-off-by: Fan Wu <fanwu01@zju.edu.cn>
+> ---
+>   sound/soc/amd/ps/pci-ps.c | 6 ++++++
+>   1 file changed, 6 insertions(+)
+>
+> diff --git a/sound/soc/amd/ps/pci-ps.c b/sound/soc/amd/ps/pci-ps.c
+> index 729f9aa..01ee697 100644
+> --- a/sound/soc/amd/ps/pci-ps.c
+> +++ b/sound/soc/amd/ps/pci-ps.c
+> @@ -738,6 +738,12 @@ static void snd_acp63_remove(struct pci_dev *pci)
+>   	int ret;
+>   
+>   	adata = pci_get_drvdata(pci);
+> +	/* Mask the interrupt sources before freeing the shared IRQ. */
+> +	writel(ACP_EXT_INTR_STAT_CLEAR_MASK,
+> +	       adata->acp63_base + ACP_EXTERNAL_INTR_STAT);
+> +	writel(0, adata->acp63_base + ACP_EXTERNAL_INTR_CNTL);
+> +	writel(0, adata->acp63_base + ACP_EXTERNAL_INTR_ENB);
+++ The fix open-codes the register offsets (ACP_EXTERNAL_INTR_STAT, 
+ACP_EXTERNAL_INTR_CNTL, ACP_EXTERNAL_INTR_ENB) directly in 
+snd_acp63_remove(). Future platforms may have different interrupt 
+control register offsets, which would require changes in this remove 
+path as well. Consider adding a disable_interrupts callback to struct 
+acp_hw_ops and invoking it here instead. This keeps the remove path 
+platform-agnostic and the interrupt masking logic co-located with its 
+platform-specific counterpart in ps-common.c.
+> +	devm_free_irq(&pci->dev, pci->irq, adata);
+>   	if (adata->sdw) {
+>   		amd_sdw_exit(adata);
+>   		platform_device_unregister(adata->sdw_dma_dev);
 
