@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5432549B21F;
-	Fri, 25 Sep 2026 16:27:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA6994A5C55;
+	Fri, 25 Sep 2026 16:27:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790353626; cv=none; b=uCa1zSfE+Rd08wWK6X41jpxVVg1FhviXmK5ObMqnzkvt4DnfnI4Sg/P0RToOo9wiAYnOUAPpHghJQsJyvAngiDr7iEiKSgeacU/nyX8PXiA3WjPlHnrzwjP6qOBWL1gQ7ElxMlzM47Iw6or4ZPbOmy4Z9ovii0/LDPYzx78xUuM=
+	t=1790353675; cv=none; b=kBP6uXwvL4u3W32IhTMpDJ3d1oovNSbAry5WDcEO0/x+LBVZwLyY23JlIfkRxKouVQW4aVo2/OPnynccmwwXmKyfxhyNgCnUCeZ3Z/cEvG/7/K5NaN6DAdfLaAJJQL9SMx8rmPpT/FnDTzbFoVWn5cNXKdIhJdACQJs67vkLCpc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790353626; c=relaxed/simple;
-	bh=hjUWQ6xwumS2LVP6fAvgstFoEviYCEn5V/c4NaPulWE=;
+	s=arc-20240116; t=1790353675; c=relaxed/simple;
+	bh=XLOrSjop6uWRxuJiz9XlFYNqV/APlTG5JH/U1RDvGyE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lDMuuyvhrHw/RDKsCU178ScIyNWQ5LjmuL6pTfbYfh9WQDqe2FuBkVSwq76Uopgg+2l11pcy6RJ0igroH8R8jt8nyTRZbU83spG4GrEB+8xlSLmWW7GiTstJcNoyWW2LhSV5bNZ+Tdpq3+WAxZg2XS/ZXH20iCwRcwjMqO+dSU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UPWXbDQs; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=Wzs13BHH8mB4C+n2A89i2tby3JlD20ZvivHpvZc5QQ433fDlDLnBgO/QPE9bTUZCQe+Tl2Wr4KXUwMZzUzxAsPoR2i7cBMUOcQRxpEFt56Oq8uDPtqedAS0p5qAQhj7kbnEphCiWwhId43JUXhM+SxedJQ3m2EGnXn12FE2OcsU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V4W3X0BW; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UPWXbDQs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71F481F000FF;
-	Fri, 25 Sep 2026 16:27:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V4W3X0BW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D692A1F00899;
+	Fri, 25 Sep 2026 16:27:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790353625;
-	bh=swrCMgFetqWTONiUrY+1EojwgYniOZ0M9dGmPKPM9NM=;
+	s=k20260515; t=1790353674;
+	bh=XLOrSjop6uWRxuJiz9XlFYNqV/APlTG5JH/U1RDvGyE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=UPWXbDQsxqC0F+ApgRoKs0al+UjteDCN7I7MS2W2b1LjkZulcOsGdG1AFMgaacdwN
-	 5qPXepho/V+3Pnfl1w+MhXJtTBPQD7L0RNkFJy2n7cEyXpS+8Vk59ubje9uoS7L3QO
-	 pTE2p7LjXvwBqy3a0+rPzR1WyNpNB0Ct2zKpeGW77uP6pRqydPcpekyA5M8Gx3Xx6W
-	 kzhm2QmTCqZyHWIQEbDUIO1QPv6fOHBJLkv5PjuI3IDJ4qVHsVVwR3J4XCBQXVtl2K
-	 mrDtoXBql+boclYS4sNfnWtTMSNd3K/4oMA1lH3N6s2xgVK4vL0CyePZEgFX2RxGxJ
-	 DpKfXscnV9FFQ==
-Date: Fri, 25 Sep 2026 17:27:00 +0100
+	b=V4W3X0BWSe8T1M+pHbGBwUn4bk0oc2ovvURRqWY+/KWJCuVqF4jjqbYcwaGQUgZuF
+	 KjdPiIPYmnH9R0oPn1p/mKY0wMH/jQYJ7RCy9I6NolVBSPv0sO63BNZM9nNMy9c1XS
+	 PJ7DL2FHGrw6Ygh2aPskZipdCM+U5ReZGgabkLhE8Enr85cw0l2q4iTkovRxwkbiPs
+	 Bph9jbtOg1rc1DO18M92KQyUaiQpZ3geWfXXu3XR7L3Kx7y21jy7igakqneC6sGb/1
+	 4UrjSbaMe3LRxvgeZCtPJvkYy2J4tWr1MPm2mkeO4/6luNoB4nHRwH27JAjn3X893T
+	 YuGSR9a+/oFYQ==
+Date: Fri, 25 Sep 2026 17:27:48 +0100
 From: Mark Brown <broonie@kernel.org>
 To: Aaron Kling <webgeek1234@gmail.com>
 Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
@@ -34,13 +34,14 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
 	Weidong Wang <wangweidong.a@awinic.com>,
 	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
 	Val Packett <val@packett.cool>
-Subject: Re: [PATCH 4/6] ASoC: codecs: aw88166: remove fade in/out on
- start/stop
-Message-ID: <127bf2a0-989e-48e6-bbe9-88a87ca66d1a@sirena.org.uk>
+Subject: Re: [PATCH 5/6] ASoC: codecs: aw88166: remove async start
+Message-ID: <92582dd8-6a57-405a-9b54-fdeb7af38b1a@sirena.org.uk>
 References: <20260925-aw88166-cleanup-v1-0-11f74cb5fe28@gmail.com>
- <20260925-aw88166-cleanup-v1-4-11f74cb5fe28@gmail.com>
- <3863fc1b-dd0b-4841-99bd-f2b34b2a97f0@sirena.org.uk>
- <CALHNRZ97Uije_nbzZp7kba88di=dXrRr6_1S62SXMyUBgP0gcQ@mail.gmail.com>
+ <20260925-aw88166-cleanup-v1-5-11f74cb5fe28@gmail.com>
+ <4f0f49b9-c856-4aa6-b860-a81f018ad1da@sirena.org.uk>
+ <CALHNRZ9xAk-eVPE2OX0AiHjRe5n6AzejZ_6peS+NJr=v2jwzDw@mail.gmail.com>
+ <516d8954-c825-4208-ae9b-1b3aa768c8c2@sirena.org.uk>
+ <CALHNRZ_Ljg2ahetObZGE5aj7kM+zgA798kG1_hbC28KHweiYzw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,48 +49,44 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="xkata4SOAgk1B97i"
+	protocol="application/pgp-signature"; boundary="ZMzF5Fkst+dpv3/Q"
 Content-Disposition: inline
-In-Reply-To: <CALHNRZ97Uije_nbzZp7kba88di=dXrRr6_1S62SXMyUBgP0gcQ@mail.gmail.com>
+In-Reply-To: <CALHNRZ_Ljg2ahetObZGE5aj7kM+zgA798kG1_hbC28KHweiYzw@mail.gmail.com>
 X-Cookie: Love America -- or give it back.
 
 
---xkata4SOAgk1B97i
+--ZMzF5Fkst+dpv3/Q
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 25, 2026 at 10:59:24AM -0500, Aaron Kling wrote:
-> On Fri, Sep 25, 2026 at 9:11=E2=80=AFAM Mark Brown <broonie@kernel.org> w=
-rote:
+On Fri, Sep 25, 2026 at 11:16:18AM -0500, Aaron Kling wrote:
+> On Fri, Sep 25, 2026 at 11:06=E2=80=AFAM Mark Brown <broonie@kernel.org> =
+wrote:
 
-> > Are you sure?  Some devices have really bad pop/click performance and
-> > need ramps to mask the effects, we've got other drivers with soft ramps
-> > in them.
+> > Does the audio sound fine - are there glitches at the start of the
+> > stream?
 
-> Ditto replies on the other changes. This was accepted for aw88261, is
-> there anything specific to this driver that doesn't apply there? I
-> have not experienced any such noise on the AYN and Retroid Pocket
-> devices that use this amp since making these changes.
+> No glitches that I've noticed so far. Can't say I've done a crazy wide
+> range of tests, but I've run through most of my normal use cases and
+> haven't heard anything unexpected.
 
-Perhaps as Cezary sugested the changelogs on the aw88261 were better and
-didn't set off alarm bells in the same way.  I don't know anything in
-particular about either of these devices, the drivers aren't the best
-but sometimes hardware is also bad. =20
+The change is probably fine then but explain this, ramps like that are
+almost always workarounds.
 
---xkata4SOAgk1B97i
+--ZMzF5Fkst+dpv3/Q
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmq2oNMACgkQJNaLcl1U
-h9Cf2wf9ExTC/MVPpk7t7KoEqqZpuAh2DR+nYWYx3b2Y05ddy7JZTCIwqRAMHQY7
-a33HupRI6GV9vVFZTEG+UAmZSCEsIjJ4rA70IBQIoJ0YSCkQ6++JKnZZ8+AkU20i
-tfWXwqH0JSyZg4Hh8rk9x/4RszXm+kgTL8CjfZbSSPJRjXF4l8i9LLXxzykPcZfo
-3yrkGC1zkjsMhIxCT33ubn0iLi6VRglhU9OmyFHOmnyqQDTPzthzU5sa1koLZtqt
-hk1OkYUe0FOe40iqiMaKrklSRc/XXX9T0i2ZsiBzJm0EFWEZmNQhbNNEXyB63hZP
-XkQZPtko7Tj4zbfwFP4JGBBwVBDf7Q==
-=R0nH
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmq2oQQACgkQJNaLcl1U
+h9AU/Qf+PPIhB/ogTapYoGudx0dja/9CoVX9wVkzJmJIYs5YL/PLkhwD+7F0yLIW
+ybqLqpkx791M/ELJL6wZ4OHEaLWFRG68A6x0ZffHSUHCpX1pNwsSP9oPZCucMQFb
+ENtgioIE0dwXmThawiMp1/H33W30cdfYqBVUZWkwSzG53uuqxbYCzdYkYKIAXp4i
+JK+XtagnUEPiXRBJI314td0I4nqMvdouoIEKRkkgzSK6rbTxI3lyb7LTe2JO10oF
+HA9jcGa7u9C71yNMMcnTudF7TIEDcskTP+flD/MVLKUtKe+8NJ5zmFDnszXv1w6O
+QweZHPA4SCBlRQR8Mfdm95E4Qn+WKg==
+=uWXY
 -----END PGP SIGNATURE-----
 
---xkata4SOAgk1B97i--
+--ZMzF5Fkst+dpv3/Q--
