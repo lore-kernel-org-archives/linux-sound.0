@@ -1,271 +1,188 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B473C47C10B;
-	Fri, 25 Sep 2026 09:13:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E13D5481FA3
+	for <linux-sound@vger.kernel.org>; Fri, 25 Sep 2026 09:21:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790327603; cv=none; b=ufAi36bI2WKzbCs9M2pYVB9XZy3C7k5gRxmjHgMUAZoiCxXM0/6R84sYnllDGSUq5TzZi3ow5dZK4TSlWNjJdnC5Mk0SL5fVJ0k7VEglVHEt6Vr1ehWFEe8TrWo/+hXFjYHiuxS8Ap3HRe69asyX3WA1BC44T6EPC8mS3N3Muuw=
+	t=1790328091; cv=none; b=smdwlWWwmKZH8kTtYGmvGA59COL7kI5TT5ZPyJUk3R1HbvapHUh6qBjVKkKTxIBsRtqTcC7tqNNYNKYLlG2plVoPdNHk5gxS9SpcH4+K73gwbxDJZLp0yzY5zvXK+2ZlDY3kgos1E9k2zNJh3hpmpfI9TGaoKfCB34DTCgn1fQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790327603; c=relaxed/simple;
-	bh=Tk8lnLCIykMhwm4FM62K4d7d7QJOAD1dpQSl1O/g2h4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BMuTZigNeyXY/MMRlXWwpVhOMZOOi8C7EA4/h615K5aeMjPdPGqKPC+T/5cryzp/VTJ9d0VGzrgfBuMgfLPrLYRWHn9B5xbeyD+F14wIWdlIXLTBnsVxYVZFMjgzHcjBtbeSH9e4cj/51QQprRD4r4+8O+qccaR/RWw2zv10Pbw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K2qi0Whp; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790328091; c=relaxed/simple;
+	bh=mvedpIxak0Fnzj/mZY4251qn7YJgCBi9zAfCHtRMKVM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=p8SyaEqklAMCdyV6RgjFEzVyeglUYQ87KXB7p6eleDv1SIQnrZf7GFZwS1scTX/nQkH26Wr4PZbA/AhtjijhnKCszA2JR0PbuD2YSzBnezaDESHZ4HHwFHikBeXqWOJeWYGwR16uoi704aYMDW698BRX8Gi3iv0KJK+8Xm8wjIs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=fRTYy2jv; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=cr69nHRY; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K2qi0Whp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00A0E1F000FF;
-	Fri, 25 Sep 2026 09:12:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790327601;
-	bh=yfSL2ku4OKsR1ZwNLU9aq+Cv4BSlDAV3gm6yCuANvXg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=K2qi0Whp5/6TRdhA6MhlGYRilQhTQ8jPlG08QvTUUmQwkWOHWgmSx5AdhFTFi0qw/
-	 r4+3OumzOouGc7txXhbbk80xasHy05dho7/yw8n5cfGkWIhweFLORuSQD6wUTgF3bF
-	 dlK10/x8cBD+DlIEYdpY/JpYJifQA5N4twHg7jDXzl6B1XyEXIXzNDQx16+MJsnNtN
-	 sTXe6Jh9EmnWLdP4R1YQtEnnOP8lnDSORnscuubhZoG/xGcNI3ROCCX9s0YjPIJIxI
-	 MdK5fq25MLwiukRwd6j6BdAO4Z4mjaXg/lCXJQXPIaGguKLjAmtHiggDOa9mUzFR4Z
-	 ur0MJU3/gDHOA==
-Date: Fri, 25 Sep 2026 10:12:50 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: "Liam R. Howlett" <liam@infradead.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
-	Paul Moore <paul@paul-moore.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen" <mkp@kernel.org>, 
-	Jaya Kumar <jayalk@intworks.biz>, Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, 
-	Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
-	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
-	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Juri Lelli <juri.lelli@redhat.com>, 
-	Vincent Guittot <vincent.guittot@linaro.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, 
-	Oliver Upton <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
-	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
-	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
-	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
-	Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
-	Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
-	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
-	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev
-Subject: Re: [PATCH v3 01/40] mm/vma: fix mmap_prepare file handling, remove
- file_doesnt_need_get
-Message-ID: <arY3xqkPCgZj3IVD@gremlin>
-References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
- <20260917-b4-mmap-prepare-vma-flag-sanify-v3-1-4583d8a23bca@kernel.org>
- <qpkcjtl5jbip46zxcpyogsk4phmhetfvrvgftxhsxlbxjhucnn@h3a64dfoxcmj>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="fRTYy2jv";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="cr69nHRY"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68P4YoQp3532401
+	for <linux-sound@vger.kernel.org>; Fri, 25 Sep 2026 09:21:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	RBsfdl/T6Ue4W2/aqLwt1CKH7MzyP/xPKpBBNUg1PjI=; b=fRTYy2jvZM+gocIf
+	Anjg/IjTKq5zbwrdhfH419Jt9409fi3VgGXtPuFwOFCnhHnXB/O2OMFELzUd+LGU
+	qidQpL17GbphNSW2n46rTQBteVN+Fd0wWNmJU82LS06qVnGSC4L5nyMtdsYiy4sw
+	3hdh0/99kT4e4y2WluAK8vsczO9uDilKk1njvv9dkGBwlVJJUf8PSxf3+3G9hSCG
+	6UTveLjrwCTzrMVmTNBU5IPZW9P1X2pytvwd531JXQ5yZrX4WHxDzg/oTiCYUJzc
+	jvf0XzQU1Bpc59PbAptplKXqsKbU/OlGF7xlk5j97AWuBSsP2jl/c/SBJwOAv9bP
+	4GgaMA==
+Received: from mail-dy1-f197.google.com (mail-dy1-f197.google.com [74.125.82.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gw94kaj9a-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Fri, 25 Sep 2026 09:21:24 +0000 (GMT)
+Received: by mail-dy1-f197.google.com with SMTP id 5a478bee46e88-342217d8d53so444484eec.0
+        for <linux-sound@vger.kernel.org>; Fri, 25 Sep 2026 02:21:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1790328084; x=1790932884; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=RBsfdl/T6Ue4W2/aqLwt1CKH7MzyP/xPKpBBNUg1PjI=;
+        b=cr69nHRYtFJt/l9lpjp//8V5uC547BKVpm1Jh6dO4bpXhAv4RFYx1sgcmSEWPyr9Pn
+         TtHxqO530zqDMNo8m0dgeRyPzG5s/QnVdsot+ureo7XiMUsvzM6DV9fYWql4NNiSxu2A
+         KFF+6wKU6CJ3TfBwCjU0Y4EDViidT/AqFrguNpTIaJXtwmKlsC3x3l2jW3XeHo6aU1S2
+         Eg1GmAgnkucc7/tfwobAf1SGT9HeMMqF3RX052lmM0I3Ci3EmAheNz6ea6g7eOOXC4Xa
+         OsJb6lkvDxYwOdzuVD+NYrbj8BbVqdXvhskpYrlNBKJ7XNTJTMaXW2v+rkDuR4vDGJnQ
+         r9jA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790328084; x=1790932884;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=RBsfdl/T6Ue4W2/aqLwt1CKH7MzyP/xPKpBBNUg1PjI=;
+        b=1LtjptrzfxRAI7nmIkJHPsZWDW4SNILJiiJkPb7YTvMin+KL3mXFEpGkK+1aD1rlM9
+         4fKQ030gxHWQsjVfpBYX6dTNoMxhYTXZAofpnjMRI38DAw5WuxtCNLo/puAqEt+lZBML
+         yiQXZzh0paEFQJybFGSq/KKcOUZND+6qh+dxLNUvYKGNsTwIm6eG78T3wEsIWoiB2PNt
+         zP1nGpx2Wz2dNP1ws62QzapRE3YPvq7CAQhY3oCN+VnHqPt/y4tKqI9HJvxA32doDJAW
+         IjZ7+yMGVooh6hHlyBXSeKDu1JmCdHb3MNp2LT5xk0msLhgEGrM3noM7le48vVf1hziy
+         BKlg==
+X-Gm-Message-State: AFuF++nW9Fvse5dqL6owma899pyZm6QCxQ6tFNIsbDha/ORwGQ381I+T
+	K3bjYGBD9bGX+z9CsWuQqvaS8hpJkod23YFl0/uXJwE1ECTfnKH0yng0RY6Io1mmeh3mSmC6zYt
+	UcpM2suJtaNxISeBSPn07hPl+ul93Vc+eys7qFOyv/poXms7bHpwFgp2wTJMhH3jMxA==
+X-Gm-Gg: AYBFou0/wwiTrDafRRNV5iPROT4fds1PdX6ZRrDdGwISfQb6JoIwKREZUyZTgVf8c5Q
+	IIorYnlbG5OnFD4Ll3/31xgbQNGWosA/lNqybItNqHWFbz59FDMVD86g7nMRIS3/xUWcyYzWHQp
+	hKCKcYkgyXIyRu1TtEzQTAAzzgKoVH6vUOWXEdfpSv99qbSczIRHoYvmrOCBuwl7EtBaYiYNx3/
+	li3xelYReIvF3PEzP5snGFLWdkFpQdlXkdQm0ojHUna73YUjowhv8JTiVKRU/YEAxQ9RT9i6k6P
+	3LE3WNeQQBESjDi9DVbpE6YQc6B7pji37Q72fKqSSlg8cxfk/LlyNSur5WUBSYcUwSUkIVeup10
+	HGJV/a91WOp2eGSuwTizOUKRoFNGL
+X-Received: by 2002:a05:7301:618c:10b0:341:ea04:4102 with SMTP id 5a478bee46e88-341ea0445b5mr810953eec.19.1790328084003;
+        Fri, 25 Sep 2026 02:21:24 -0700 (PDT)
+X-Received: by 2002:a05:7301:618c:10b0:341:ea04:4102 with SMTP id 5a478bee46e88-341ea0445b5mr810746eec.19.1790328078540;
+        Fri, 25 Sep 2026 02:21:18 -0700 (PDT)
+Received: from [192.168.1.25] ([122.183.173.25])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-34144757263sm4813814eec.12.2026.09.25.02.21.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 25 Sep 2026 02:21:18 -0700 (PDT)
+Message-ID: <8ea976cd-b012-4ae6-a74b-b5c2dceaecbc@oss.qualcomm.com>
+Date: Fri, 25 Sep 2026 14:51:11 +0530
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <qpkcjtl5jbip46zxcpyogsk4phmhetfvrvgftxhsxlbxjhucnn@h3a64dfoxcmj>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 5/8] ASoC: qcom: lpass-va-macro: Add SoundWire
+ microphone support
+To: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>,
+        Srinivas Kandagatla <srini@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        ajay.nandam@oss.qualcomm.com
+References: <20260922-add_shikra_support-v1-0-6c6cb6444caf@oss.qualcomm.com>
+ <20260922-add_shikra_support-v1-5-6c6cb6444caf@oss.qualcomm.com>
+Content-Language: en-US
+From: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
+In-Reply-To: <20260922-add_shikra_support-v1-5-6c6cb6444caf@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=aaj0Dhot c=1 sm=1 tr=0 ts=6ab63d14 cx=c_pps
+ a=Uww141gWH0fZj/3QKPojxA==:117 a=uk8ae9/F1LYL5lfeGCaUoA==:17
+ a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
+ a=EUspDBNiAAAA:8 a=ohAgsov0r_a2WbmJIscA:9 a=QEXdDO2ut3YA:10
+ a=PxkB5W3o20Ba91AHUih5:22
+X-Proofpoint-GUID: woieVFx8oirf1szbRpP3F_3mFd9thf_9
+X-Proofpoint-ORIG-GUID: woieVFx8oirf1szbRpP3F_3mFd9thf_9
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTI1MDAzNyBTYWx0ZWRfX5QCAnnwOCZ5X
+ 6ZtJTV/M9/aiLpD0jqtPgOaW8TPMsY5oMR/8oUqjQuET24PruyWb9YrCiN1L3X1ynTinp+XTRBu
+ xiyIK3U509U1Mtd9Gd9/tU2V2dfq7c62+qDe6kclK3vAD4jyGtroaGe4rwXb2nCrzkjKUDNUV/G
+ +Yup01X4VpF5bq3KImZSy3C6n1XwW4nhvCICKnpm5cVdXK9Ec1Q7Sn3ls2gPYSRxijhUBEyGz91
+ kIaDsD6/meIM2QMIrXNsZBKIizGIuyZ82oILJibXuzDr7RHsImQpqfTmI8r1YaJZ20wmRxrY8rl
+ KjwxH6eDu18huXTDMv893poA00iN9ncrWgwdb8d/EOVWbGdVO9nfrF6PLxOoJdjILhFgt/dhQc9
+ lsuaZlOMkGYMJ+Ud9u5keAqsdnNSbobdApu9gYDPden84yLIhhwmyY7RB2GGDDN0hlfCpElc9Vl
+ y/RMSn8bSoJMqaE0wBA==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTI1MDAzNyBTYWx0ZWRfX0qXIrYLGu4Pf
+ s1NS2fczVo3Ujix/6WwJuoG0X0pD0zOQHu487bmlaJxoCP71bm46ic8PZtEmE0++fRIcZXCG5/h
+ uepqfu8PR5fUiogcntwpXM9ritfSVkw=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-25_02,2026-09-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 malwarescore=0 priorityscore=1501 spamscore=0 bulkscore=0
+ clxscore=1015 phishscore=0 impostorscore=0 adultscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609250037
 
-(forgive my possibly semi-broken efforts to trim the mail)
 
-On Thu, Sep 24, 2026 at 03:00:44PM -0400, Liam R. Howlett wrote:
-> On 26/09/17 05:22PM, Lorenzo Stoakes (ARM) wrote:
 
-> > diff --git a/mm/internal.h b/mm/internal.h
-> > index 0dca33db068f..fe576d468af4 100644
-> > --- a/mm/internal.h
-> > +++ b/mm/internal.h
-> > @@ -7,6 +7,7 @@
-> >  #ifndef __MM_INTERNAL_H
-> >  #define __MM_INTERNAL_H
-> >
-> > +#include <linux/file.h>
-> >  #include <linux/fs.h>
-> >  #include <linux/khugepaged.h>
-> >  #include <linux/mm.h>
-> > diff --git a/mm/util.c b/mm/util.c
-> > index bf0513d1d3d0..016932780925 100644
-> > --- a/mm/util.c
-> > +++ b/mm/util.c
-> > @@ -1228,8 +1228,11 @@ int __compat_vma_mmap(struct vm_area_desc *desc,
-> >
-> >  	/* Perform any preparatory tasks for mmap action. */
-> >  	err = mmap_action_prepare(desc);
-> > -	if (err)
-> > +	if (err) {
-> > +		if (desc->vm_file != vma->vm_file)
-> > +			fput(desc->vm_file);
-> >  		return err;
-> > +	}
-> >  	/* Update the VMA from the descriptor. */
-> >  	compat_set_vma_from_desc(vma, desc);
-> >  	/* Complete any specified mmap actions. */
-> > diff --git a/mm/vma.c b/mm/vma.c
-> > index 55917d097933..fa784f069da4 100644
-> > --- a/mm/vma.c
-> > +++ b/mm/vma.c
-> > @@ -24,7 +24,8 @@ struct mmap_state {
-> >  		vm_flags_t vm_flags;
-> >  		vma_flags_t vma_flags;
-> >  	};
-> > -	struct file *file;
-> > +	struct file *file;	/* mmap()-specified file. */
->
-> I guess renaming file to mmaped_file would be a lot more changes.
+On 9/22/2026 3:12 PM, Mohammad Rafi Shaik wrote:
+> The VA decimators can currently capture audio only from DMIC inputs.
+> Add support for routing audio from SoundWire microphone (SMIC) inputs
+> as well.
+> 
+> Update the decimator source selection logic to switch between DMIC and
+> SMIC sources based on the active input path.
+> 
+> The ADC_DMIC_SEL bit of CDC_VA_TXn_TX_PATH_CFG0 is shared by the DMIC and
+> the SoundWire mic mux, so a mixer write to the mux that is not part of the
+> active path can leave it stale. Program it from the resolved mux state
+> when the decimator is enabled, so capture does not depend on the order in
+> which userspace restores the two controls.
+> 
+> Add a helper to detect whether a decimator is using a SoundWire microphone
+> input. Use this information to skip DMIC-specific HPF programming sequences
+> when the decimator is configured for an SMIC source.
+> 
+> This enables VA decimators to capture audio from either DMIC or SoundWire
+> microphone inputs.
+> 
+> Signed-off-by: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+> ---
 
-Yeah :) and want to keep things sync'd with vm_area_desc.
+> +		if (!is_amic_enabled(comp, decimator))
+> +			snd_soc_component_update_bits(comp, hpf_gate_reg,
+> +						      CDC_VA_TX_HPF_ZERO_GATE_MASK,
+> +						      CDC_VA_TX_HPF_ZERO_GATE);
+>   
+>   		usleep_range(1000, 1010);
+>   		hpf_cut_off_freq = (snd_soc_component_read(comp, dec_cfg_reg) &
+> @@ -1046,7 +1079,6 @@ static int va_macro_enable_dec(struct snd_soc_dapm_widget *w,
+>   				0x0);
+>   		}
+>  
 
-Can always obviously follow up later with renames sync'd across both.
+The commit message says the DMIC-specific HPF programming sequence is 
+skipped for SMIC paths. However, this only skips the initial ZERO_GATE 
+write; the cutoff programming and the later ZERO_GATE clear still run 
+unconditionally.
 
-<snip>
+Is only the ZERO_GATE assertion DMIC-specific, or should the whole HPF
+set/program/clear sequence be under the same `!is_amic_enabled() condition?
 
-> >  static int __mmap_new_file_vma(struct mmap_state *map,
-> >  			       struct vm_area_struct *vma)
-> > @@ -2593,20 +2597,23 @@ static int __mmap_new_file_vma(struct mmap_state *map,
-> >  	struct vma_iterator *vmi = map->vmi;
-> >  	int error;
-> >
-> > -	vma->vm_file = map->file;
-> > -	if (!map->file_doesnt_need_get)
-> > -		get_file(map->file);
-> > +	vma->vm_file = map->vm_file;
-> > +	if (map_same_file(map))
-> > +		get_file(map->vm_file);
-> >
-> > -	if (!map->file->f_op->mmap)
-> > +	if (!map->vm_file->f_op->mmap)
-> >  		return 0;
-> >
-> >  	error = mmap_file(vma->vm_file, vma);
-> > +	map->vm_file = vma->vm_file;
-> > +
->
-> You set vma->vm_file to map->vm_file unconditionally above, is this
-> necessary?
+Thanks
+Ajay Kumar Nandam
 
-Yeah, because the mmap hook can change vma->vm_file, and this is necessary
-for the correct file refcount accounting.
-
-The accounting is actually very tricky, because the file that was passed
-via mmap() is fput() after the operation is done but if its swapped then
-you have to make sure everything works out correctly on both error and
-success paths.
-
-Which this patch does (with a lot of AI review checking to make sure it's
-not broken! FWIW)
-
-<snip>
-
-> > @@ -2688,7 +2694,7 @@ static int __mmap_new_vma(struct mmap_state *map, struct vm_area_struct **vmap,
-> >  	}
-> >
-> >  	/* Invoke callbacks. */
-> > -	if (map->file)
-> > +	if (map->vm_file)
-> >  		error = __mmap_new_file_vma(map, vma);
-> >  	else if (!is_anon)
-> >  		error = shmem_zero_setup(vma);
-> > @@ -2797,11 +2803,15 @@ static int call_mmap_prepare(struct mmap_state *map,
-> >  	int err;
-> >
-> >  	/* Invoke the hook. */
-> > -	err = vfs_mmap_prepare(map->file, desc);
-> > +	err = vfs_mmap_prepare(map->vm_file, desc);
-> >  	if (err)
-> >  		return err;
-> >
-> > -	/* It's invalid for mmap_preprare hooks to clear vm_ops. */
-> > +	/* Update first so file refcount tracked correctly. */
-> > +	if (desc->vm_file != map->vm_file)
-> > +		map->vm_file = desc->vm_file;
-> > +
-> > +	/* It's invalid for mmap_prepare hooks to clear vm_ops. */
->
-> The less rare of prepare ;)
-
-Haha 'It's a rare prepare that would dare' is what I'd LIKE to put here as a
-comment but probably can't :P
-
-<snip>
-
-> > +static void put_map(struct mmap_state *map)
->
->
-> I like the put_map_file() instead, like Suren suggested.. but maybe
-> put_map_vm_file(), especially since it could be read as put to the file
-> pointer instead of vm_file.
-
-Ack, and of course to bikeshed it a bit :P maybe map_put_vm_file() so the
-'put vm_file' bit is clearer?
-
-<snip>
-
-> > diff --git a/mm/vma.h b/mm/vma.h
-> > index e97bd2dfa786..f15faa83f3d6 100644
-> > --- a/mm/vma.h
-> > +++ b/mm/vma.h
-> > @@ -394,8 +394,10 @@ static inline void compat_set_vma_from_desc(struct vm_area_struct *vma,
-> >
-> >  	/* Mutable fields. Populated with initial state. */
-> >  	vma_set_pgoff(vma, desc->pgoff);
-> > -	if (desc->vm_file != vma->vm_file)
-> > -		vma_set_file(vma, desc->vm_file);
-> > +	if (desc->vm_file != vma->vm_file) {
-> > +		fput(vma->vm_file);
-> > +		vma->vm_file = desc->vm_file;
->
-> This isn't going to be racy somehow, right?
-
-No, at this point the VMA write lock is held and everything should be
-pinned correctly.
-
-The vma_set_file() dance was the problematic bit here as it didn't
-handle the file refcount properly.
-
->
-> > +	}
-> >  	vma->flags = desc->vma_flags;
-> >  	vma->vm_page_prot = desc->page_prot;
-> >
-> >
-> > --
-> > 2.55.0
-> >
-
---
-Cheers, Lorenzo
+> -
