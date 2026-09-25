@@ -1,271 +1,239 @@
-Received: from ixit.cz (ixit.cz [84.42.129.46])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A593F470112;
-	Fri, 25 Sep 2026 08:34:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.42.129.46
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790325274; cv=none; b=o5S3LPSgdHH8gsWcIwjhGr6V+e5g/IzURbV9LwYriGw6/Esfo6qHvbAGqNEH3dsje5NPOkyQ0BlOXXkYyQqyvQMsEUD3obn0WclPp6dHJXgnHNtOfq9T0hRkPhV9BL0666/3/Tlj9C45aOupPLWXqYr/DwplzaxkAey2it2G0ak=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790325274; c=relaxed/simple;
-	bh=w6ywcHMkyM8rtMeu9B48oh6riDbeDBqi7cfGO7Y+9mc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CAYzS5oma8eIrAMHRCjRgkPTcymDRKVeVzzKKSeaRusgO5yjCgSLaiiyoT5qU8dWjd2k1BiPP4lG2bY2RZBY9NVyjPlDJZs/SJ0fcDhDJNOLkfuNvSGmIVH5ozRArWC5H8kyWlpEfRrTvfP+UpBRyWozlHaXgmuQHTFN1qKKE6w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=N9/rNSfJ; arc=none smtp.client-ip=84.42.129.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6528234DCCD;
+	Fri, 25 Sep 2026 09:09:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790327355; cv=fail; b=d7yvY66W8Le5RhKQevCrbysJysWHFtKCbax+xk8AVm1ZJ7iL0uqIrrM81IcOXusTY3OdbBas+R2QNaqXEd9pL/oqyU4mrscPZMxoFPb3Bfxp0FAVFR+ay/qOZhO11v1CjLIKCvpOyihkVHszr2qOsZdjplG0Opyh3B+d9zmjAvk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790327355; c=relaxed/simple;
+	bh=h9P2qbdSG8IYIEC5hd5nlvcLcz+ijzw4aFcmIIB7smQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HDNEUBxqMyZgC+SKjtdQ4ABEsib4y02WUURWGjzHQ45hqvQhC61CbfT6Z33lI9BOZCwctxtdwZbtwyBpU2+hPWajsb2JB9gSCkTFck4pi1urjwqzbLZtCjH1Yq1J/BKaH5byuTR8cVYwZWyMF0hvgW/uBJDw2fGZzwv8F1hLe78=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=ab7tT5Ji; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=Nql7pbKq; arc=fail smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="N9/rNSfJ"
-Received: from [IPV6:2a02:830a:f787:8f00:d622:eaa3:3dd6:8f5e] (unknown [IPv6:2a02:830a:f787:8f00:d622:eaa3:3dd6:8f5e])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id E95E4534023E;
-	Fri, 25 Sep 2026 10:34:29 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1790325270;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=8y8dG9e5KwfnZqSHWEwd/5CyUzoc4d2nDEOP4jvbfhA=;
-	b=N9/rNSfJW9Yss5EOAUAoWqOw9wksNeWOKxhSSOvULKancJf3HgmLtRoDdphdGJ8NeQ07pw
-	OM2nHQY8uS5UXVZjyksFXvBDcVruWmFOHkrVkeQ4VIYOFIpHrMuHujdAO/VJF+JpIpzUMe
-	5+y4g2gtbhaRLF6k+YlJMXh5yYij8YY=
-Message-ID: <f15ad2f9-dfde-4156-980a-bac9596b45bf@ixit.cz>
-Date: Fri, 25 Sep 2026 10:34:29 +0200
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="ab7tT5Ji";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="Nql7pbKq"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68P7nlq92207596;
+	Fri, 25 Sep 2026 04:08:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PODMain02222019; bh=NxMGOFsPIz5eZTvKZC
+	oC4gcTW+M8tNT+45+0DnIZkmc=; b=ab7tT5JiKAGqx9qjuHHeolrnNgYnRRE3ul
+	sPCVB+nnHHotQ6PIOXyNxmu2/TtdnbdJvlgeUGTtM73aUdTTlh9W1/m3zWrpHiy0
+	136cm0wn+4f1YSM9rJNZxhO/kGJE24jsQZY4nvbwrgzRmQ4jB8tsLBGIXaXOSqsV
+	4uLn67LfDk9coaLmRRId5nljDN56ezkbjYtR9urAegaw0q2ou1MIWdQXhCOf4CbH
+	AK18inkcqOh06bAhhBtLmImd6rpflRPBgs/uyq+ZZvBrqfcXlHQ45Jzgyrx2c2hQ
+	+RUiaQ271/ymYi5Ilz2TjDu6gpd54bSpdlhdVVeyehB0qetnEIZg==
+Received: from sa9pr02cu001.outbound.protection.outlook.com (mail-southcentralusazon11023108.outbound.protection.outlook.com [40.93.196.108])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4gw698h0s2-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Fri, 25 Sep 2026 04:08:50 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=WBejMexnHiupgIVF4WBEmVrKMhFODKzPOtupDBIAs5njSjzzCH5lzXKEIfQ3qj27D6HyYGp4cjgjcV/8z6eBB+O6K388nF8EPQt7F0a9LCyS2mmNYvQZEaLylRn97dRCr0zEth2y7+ADoenel5kz4U9rESkiLKMxs+qzkU/YJOVMLVIidFdVM4/n5ryw3Xn1ZpZtHrrPlBf/uDgu9iEuODti9C/ReNlG7HG/1+R5tXRmsG3/JvQ/TKZK2SnWK+oCHGzoRjbGfO9GKY1g9v2G42xPlFG1QVlHKYMdMwH3138NSFkGA4cpD1MXi5xU6BHETbbJ+a8jJPrexpeOuAWtig==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NxMGOFsPIz5eZTvKZCoC4gcTW+M8tNT+45+0DnIZkmc=;
+ b=yRcUoGJNVxpg+LKTktTHmYA4E8Jpy7xF6Zu4Gtxa/JGKumyhpL0vKJTzjB+1c4HCp8DG0/czIF7O+LO/1T0CQPoNoc/elSvApJ65zpGcRBQJ/tHYw2mCFoFD11rXuTznQYGAA5xO+eT2uUsyZP/StLL4YKXnVPDG5vVxzX0EvpO8weaCzONX0jxrDnGwko5lpQLASDyXKn41NUDidb3hrUBXe3enhKk6mykYLyEuDu443VbQYQnRRXa+FwMRnzLgaQN7pFk1UhhCnWf71jd83Lu9qSnFoh7MR/0Mz2D1M1LzItunCBcgr1iEr5WueQ6MzI2492+/pDnuxnJPvRTzFA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NxMGOFsPIz5eZTvKZCoC4gcTW+M8tNT+45+0DnIZkmc=;
+ b=Nql7pbKqODwTQEOkaV4c+kNQYyDWo7KWFqVlcpWU7IdZAwPTe0WR+A40sCuHlJMrun9W9o2u7zJGGgmIUXDD/8caT7z29FRExVpJChuJNX8MjvOOsPm91Z84XcZUCCUuZwUpPOJUGjlU+Tir0BTaqko7F3iln2/swzkOpJnNJtQ=
+Received: from BN9PR03CA0971.namprd03.prod.outlook.com (2603:10b6:408:109::16)
+ by DM3PPF636AABA4F.namprd19.prod.outlook.com (2603:10b6:f:fc00::72e) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.18; Fri, 25 Sep
+ 2026 09:08:45 +0000
+Received: from BN3PEPF00022BC4.namprd05.prod.outlook.com
+ (2603:10b6:408:109:cafe::18) by BN9PR03CA0971.outlook.office365.com
+ (2603:10b6:408:109::16) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.451.18 via Frontend Transport; Fri,
+ 25 Sep 2026 09:08:45 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=softfail (sender
+ IP is 84.19.233.75) smtp.mailfrom=opensource.cirrus.com; dkim=none (message
+ not signed) header.d=none;dmarc=fail action=oreject
+ header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ BN3PEPF00022BC4.mail.protection.outlook.com (10.167.248.216) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.451.8
+ via Frontend Transport; Fri, 25 Sep 2026 09:08:44 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 5B4DB406540;
+	Fri, 25 Sep 2026 09:08:43 +0000 (UTC)
+Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 218F1820247;
+	Fri, 25 Sep 2026 09:08:43 +0000 (UTC)
+Date: Fri, 25 Sep 2026 10:08:41 +0100
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: mhun512@gmail.com
+Cc: lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
+        patches@opensource.cirrus.com, linux-sound@vger.kernel.org,
+        linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+        ae878000@gmail.com
+Subject: Re: [PATCH v3] ASoC: wm8962: Stop IRQ from requeuing mic_work on
+ remove
+Message-ID: <arY6GbRBjKxJDKVn@opensource.cirrus.com>
+References: <CAGEsz8G_s8_HRnHH8s+NvXWXV8Uz2xRDY+He9M57v_fW4H42VA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 7/8] slimbus: qcom-ngd-ctrl: Remove data channels on
- stream disable
-To: Srinivas Kandagatla <srini@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- David Rhodes <david.rhodes@cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- David Rhodes <drhodes@opensource.cirrus.com>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, patches@opensource.cirrus.com,
- devicetree@vger.kernel.org, phone-devel@vger.kernel.org
-References: <20260924-pixel3-audio-v4-0-85b5d133aa5e@ixit.cz>
- <20260924-pixel3-audio-v4-7-85b5d133aa5e@ixit.cz>
- <781fc756-bde6-4d83-a09c-19d4fd70e588@kernel.org>
-Content-Language: en-US, cs-CZ
-From: David Heidelberg <david@ixit.cz>
-Autocrypt: addr=david@ixit.cz; keydata=
- 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
-In-Reply-To: <781fc756-bde6-4d83-a09c-19d4fd70e588@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAGEsz8G_s8_HRnHH8s+NvXWXV8Uz2xRDY+He9M57v_fW4H42VA@mail.gmail.com>
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN3PEPF00022BC4:EE_|DM3PPF636AABA4F:EE_
+X-MS-Office365-Filtering-Correlation-Id: 15b3942b-888e-49ff-e73b-08df1ae499f0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|61400799027|23010399003|376014|82310400026|36860700016|10067099003|22082099003|56012099006|11063799006|16102099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	bLy5UCWjGn0Vuk1daKtnul/T1TQSfUTX+NXoKtPe2NdlaBjckwkTmCBbRxifxHYa1EVEmMU0LDHA54Q694cqYXjHvoaApBsZeTY93vU9n5YjmPys33erpeLRiUo6WcFu/MGRGmAneuSpthECjq4uuA+UQMHjRIgs2Rp50AXUEZYjeOG97epjhwqLeHEBOXDt5wCtw18GPeTEaAPfJG4JSBNmWF6gMzSBlacegR225DkDPZr+j5P6HUHqLMnQso8alPeVqFqLVwU5KGhMQ6ER0yPzIOXDtWoqipL245eVkuzVrdWmf7D7mLgCp2aP7oniecDNlPgl9s+mqg/BmeWupMpG4B+gG+2jhPruGiU+ASc2sCv3mFzYwjefPfDuF9A73BJw9kQRu15zLmlCNxAWm4xHay4ued2Y78VCMUKpnmyRez6aTB5ZIXk0t7qoRoq396bV6IZEV1/u1UcVHmcl/2+DGMSCNSHBytThkMOZgo6hLKJN0rCrx2l41imqSdAv+4snckaHL3Y+NiiwCrinYC8AzrEEP/5wgW/K+UJKGzfZ5hkwPadqjS3VK2c8CG8G9n4+N9nAEQqH/ZfqjrPAlyp/l3uDGBkAXJggFIBN/p3dfeAgUFg4uVNTZ75K5w28V28Pyv1QWebCQPQkHJpffhXaA+GeWeCp75gqsqkQAT/CnKGBxmLyBHtfBLwiIPCy2lqwcX/q5x47gno7C05yRw==
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(61400799027)(23010399003)(376014)(82310400026)(36860700016)(10067099003)(22082099003)(56012099006)(11063799006)(16102099003)(18002099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	qAdEcwds88N9C68YqAwdVghFwPdxGeDxdR8hhOGwDmNkuXzgsEkfKaZW49qJcDk8pEuwbk7eTVaDQwZqbOLhWy9E9DAAlmfmvc4NisHgk/1+/VkYA1GgHLieXVagX881AkNmG9tySmvIynL24yWNJy4nh5d74lUy/13sduITTVz2JrLIasWErn0yRgKMxpjK207uRwuKzWqDTL9wugfYheN3T7Zy2liC29rV3sskEK3R+sg4etHtyTwl+qDNB755KhrtDBBqNR3HGOeNmW2hjltrR+tyGYg+UoQPrpseyw3lLykFELDrHiIh9xN2sCW0T3JDTdg+LNZMLQqUjRv3RaMtnS/KHLzdjQkF1wKLAR2dBk5OAbQdWQckIvzQFJWctnp2bNLdT+pyTZFlPwD4gHspdxqWXvPEGpBS9D7p4uTLphH7BJwZ+PEBTHwyqeUk
+X-Exchange-RoutingPolicyChecked:
+	f8c2Eh/kep7wANP4Op+nUrtv2TQrOBxO95MAJrzISAO+ZPuUGcyK8F7cW5QZSTs0pvl2KssEpk5Fz7vEMSagA68UzkMLUZBLc/Sdh5xZW+S2ePATZL2eNuXXUeCNixe0NTB5VSALqxQoC860bWpsiaUid+QCdf0pyd9Ky9AEVMU0S3icv4Gnigemn8cMaVW2lTSXlMV/rB6cHR/Q7sMFTkc+5ssOmsAmbeLg20g/vXcdr4aSUMXUh0lgjm06pXip2/VgzVXxusxgbslfIpRpoxzE/AsSuedaeAznOsaSAWdQXjzqRH5xNRzfc68K8/50i73j0YlaD/Nozu5BKSISaA==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2026 09:08:44.5320
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 15b3942b-888e-49ff-e73b-08df1ae499f0
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-BN3PEPF00022BC4.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PPF636AABA4F
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTI1MDAzNiBTYWx0ZWRfX0qKXlPNhnPRP
+ mQz2X7PsmhuL6Sfvx4MP8EWI45GsF8nrtuM32SwV0S6hdnCgT7ITnIMbRstkgG9u3zc+gsO49F+
+ UzW1p6jleUdgal9875ok2NvibHLk3DUwgTx37VIFvKL/qpKEzxSRebO4hj79gPXK0W+w4JsNOtA
+ kyXN38X4FzU6uIp3pDa1fNnmRzOdfqW1FtZtYazw8opUNBQrUUakYo6BgdDwPBUktEDfI3bx4ux
+ tW9LUnATYvc0WgsNRINNfVRJm96NA/aqe5r8wFy5BX6Yga6eV2r5eBStS1NedA1uen46Rc+CX7Q
+ 1h96e4krOK9Rs5dKz00uej8QICXX2ueQm8py2Dhr1ubyRYOfHOfFMn8jdYPPw+tcpwqskyPS/Ab
+ DHrZaTSnCvk332UTvqER/PRDngrTN2e1YNspdTwdij6uvfbkZGgqRpnL3hwA7X7JttDqyf+XP/j
+ 1anFsjfiGdYC0dtZ7Bw==
+X-Proofpoint-GUID: eb1CHC1OKcjUwn-_BVM0HWspmsxbk9HN
+X-Authority-Analysis: v=2.4 cv=Zu94uN7G c=1 sm=1 tr=0 ts=6ab63a22 cx=c_pps
+ a=5+C5dWQ2lNXIGJ5Pv9T82A==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=kj9zAlcOel0A:10 a=VdqzKS8jKosA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=KfkQE9S9VqCBgivYGm0O:22
+ a=pGLkceISAAAA:8 a=a0J8J_ENjLl8oPq8yEYA:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTI1MDAzNiBTYWx0ZWRfX1My8f/zIZiG3
+ 75JtUpQ9TFILv1h1Fu+hN/OsAqV7b2bt7xHzEyYkHm5qGX3VW8T3CqyU6nibE4jBmEq6+tCkz4K
+ kjXbEwnnNtA0uOyg9F6SNw/76UTdr/0=
+X-Proofpoint-ORIG-GUID: eb1CHC1OKcjUwn-_BVM0HWspmsxbk9HN
+X-Proofpoint-Spam-Reason: safe
 
-On 25/09/2026 10:09, Srinivas Kandagatla wrote:
-> On 9/24/26 2:24 PM, David Heidelberg via B4 Relay wrote:
->> From: David Heidelberg <david@ixit.cz>
->>
->> qcom_slim_ngd_xfer_msg() silently returns success for every core
->> reconfiguration message, so the generic channel removal done by
->> slim_stream_disable() never reaches the ADSP SLIMbus master. The
->> master therefore keeps the channels of a closed stream. When the next
->> stream defines the same channel numbers again, the WCD9340 capture
->> completes without any error but records only zeros; removing the
->> channels explicitly when the stream is disabled makes it work again.
->>
->> Implement the disable_stream controller op with the sequence the
->> downstream NGD driver sends for channel removal, CHAN_CTRL(REMOVE)
->> listing the stream's channels followed by RECONFIG_NOW. Like
->> downstream, treat -EREMOTEIO from the removal as success: it means the
->> controller is being restarted and the channels are gone anyway.
->>
->> Based on work done by Casey Tunturi.
->>
->> Assisted-by: Claude:claude-fable-5-1
->> Signed-off-by: David Heidelberg <david@ixit.cz>
->> ---
+On Thu, Sep 24, 2026 at 03:05:41PM -0700, mhun512@gmail.com wrote:
+> diff --git a/sound/soc/codecs/wm8962.c b/sound/soc/codecs/wm8962.c
+> index 8a9598161b35..7b09de65a009 100644
+> --- a/sound/soc/codecs/wm8962.c
+> +++ b/sound/soc/codecs/wm8962.c
+> @@ -3230,21 +3230,22 @@ int wm8962_mic_detect(struct snd_soc_component
+> *component, struct snd_soc_jack *
+>  {
+>  	struct wm8962_priv *wm8962 = snd_soc_component_get_drvdata(component);
+>  	struct snd_soc_dapm_context *dapm = snd_soc_component_to_dapm(component);
+> -	int irq_mask, enable;
+> -
+> -	wm8962->jack = jack;
+> -	if (jack) {
+> -		irq_mask = 0;
+> -		enable = WM8962_MICDET_ENA;
+> -	} else {
+> -		irq_mask = WM8962_MICD_EINT | WM8962_MICSCD_EINT;
+> -		enable = 0;
+> -	}
+> +	int mic_irq_mask = WM8962_MICD_EINT | WM8962_MICSCD_EINT;
 > 
-> there is an identical patch on the list,
-> https://lore.kernel.org/linux-arm-msm/247e4ce7-1ba2-43b8-8a11-ec70f99a4fc1@linaro.org/T/#m3b50aa43a6493f8d3b607b1607b37bf14b199f69
+> +	/* Mask microphone events, then drain the IRQ and work before
+> changing the jack. */
 
-I was not aware, I'll try to look into it today and address the comments on the 
-original one (and keep the credits as LLM likely "got heavily inspired there").
+Your email client appears to be corrupting the patch here, this
+won't apply.
 
-David
+>  	snd_soc_component_update_bits(component, WM8962_INTERRUPT_STATUS_2_MASK,
+> -			    WM8962_MICD_EINT | WM8962_MICSCD_EINT, irq_mask);
+> +				    mic_irq_mask, mic_irq_mask);
+>  	snd_soc_component_update_bits(component, WM8962_ADDITIONAL_CONTROL_4,
+> -			    WM8962_MICDET_ENA, enable);
+> +				    WM8962_MICDET_ENA, jack ? WM8962_MICDET_ENA : 0);
+
+I would be tempted to just always disable here.
+
+> +	if (wm8962->irq)
+> +		synchronize_irq(wm8962->irq);
+> +	cancel_delayed_work_sync(&wm8962->mic_work);
+> +
+> +	wm8962->jack = jack;
+> +	if (jack)
+> +		snd_soc_component_update_bits(component,
+> +					      WM8962_INTERRUPT_STATUS_2_MASK,
+> +					      mic_irq_mask, 0);
+
+And then enable here, if needed. The current patch changes from
+enabling after the IRQ is unmasked to enabling whilst it is
+masked. Since neither of us have hardware its probably better not
+to change that sequencing.
 
 > 
-> --srini
+>  	/* Send an initial empty report */
+>  	snd_soc_jack_report(wm8962->jack, 0,
+> @@ -3592,9 +3593,7 @@ static int wm8962_probe(struct snd_soc_component
+> *component)
 > 
+>  static void wm8962_remove(struct snd_soc_component *component)
+>  {
+> -	struct wm8962_priv *wm8962 = snd_soc_component_get_drvdata(component);
+> -
+> -	cancel_delayed_work_sync(&wm8962->mic_work);
+> +	wm8962_mic_detect(component, NULL);
 > 
->>   drivers/slimbus/qcom-ngd-ctrl.c | 81 +++++++++++++++++++++++++++++++++++++++++
->>   1 file changed, 81 insertions(+)
->>
->> diff --git a/drivers/slimbus/qcom-ngd-ctrl.c b/drivers/slimbus/qcom-ngd-ctrl.c
->> index eb0ccb31e9074..0a4859466c82d 100644
->> --- a/drivers/slimbus/qcom-ngd-ctrl.c
->> +++ b/drivers/slimbus/qcom-ngd-ctrl.c
->> @@ -1081,16 +1081,96 @@ static int qcom_slim_ngd_enable_stream(struct slim_stream_runtime *rt)
->>   		slim_free_txn_tid(ctrl, &txn);
->>   		dev_err(&sdev->dev, "TX timed out:MC:0x%x,mt:0x%x", txn.mc,
->>   				txn.mt);
->>   	}
->>   
->>   	return ret;
->>   }
->>   
->> +/* CHAN_CTRL operation, bits [7:6] of the first payload byte */
->> +#define SLIM_USR_CHAN_CTRL_REMOVE	2
->> +
->> +static int qcom_slim_ngd_disable_stream(struct slim_stream_runtime *rt)
->> +{
->> +	struct slim_device *sdev = rt->dev;
->> +	struct slim_controller *ctrl = sdev->ctrl;
->> +	struct slim_val_inf msg =  {0};
->> +	u8 wbuf[SLIM_MSGQ_BUF_LEN];
->> +	u8 rbuf[SLIM_MSGQ_BUF_LEN];
->> +	struct slim_msg_txn txn = {0,};
->> +	int i, ret;
->> +
->> +	txn.mt = SLIM_MSG_MT_DEST_REFERRED_USER;
->> +	txn.dt = SLIM_MSG_DEST_LOGICALADDR;
->> +	txn.la = SLIM_LA_MGR;
->> +	txn.ec = 0;
->> +	txn.msg = &msg;
->> +	txn.msg->num_bytes = 0;
->> +	txn.msg->wbuf = wbuf;
->> +	txn.msg->rbuf = rbuf;
->> +
->> +	/*
->> +	 * The NGD drops the core reconfiguration messages that
->> +	 * slim_stream_disable() uses to remove channels, so ask the master
->> +	 * to remove them the way the downstream NGD driver does:
->> +	 * CHAN_CTRL(REMOVE) listing every channel, then RECONFIG_NOW.
->> +	 * Without this the master keeps the channels active and a later
->> +	 * DEF_ACT_CHAN with the same channel numbers is a no-op, so the
->> +	 * data path is never re-armed and a reopened stream moves no data.
->> +	 */
->> +	/* 5-bit client number, operation in bits [7:6] */
->> +	wbuf[txn.msg->num_bytes++] = (SLIM_USR_CHAN_CTRL_REMOVE << 6) |
->> +				     (sdev->laddr & 0x1f);
->> +
->> +	ret = slim_alloc_txn_tid(ctrl, &txn);
->> +	if (ret) {
->> +		dev_err(&sdev->dev, "Fail to allocate TID\n");
->> +		return ret;
->> +	}
->> +	wbuf[txn.msg->num_bytes++] = txn.tid;
->> +
->> +	for (i = 0; i < rt->num_ports; i++)
->> +		wbuf[txn.msg->num_bytes++] = rt->ports[i].ch.id;
->> +
->> +	txn.mc = SLIM_USR_MC_CHAN_CTRL;
->> +	txn.rl = txn.msg->num_bytes + 4;
->> +	ret = qcom_slim_ngd_xfer_msg_sync(ctrl, &txn);
->> +	if (ret) {
->> +		slim_free_txn_tid(ctrl, &txn);
->> +		/* Controller restarting, the channels are gone anyway */
->> +		if (ret == -EREMOTEIO)
->> +			return 0;
->> +		dev_err(&sdev->dev, "TX timed out:MC:0x%x,mt:0x%x", txn.mc,
->> +				txn.mt);
->> +		return ret;
->> +	}
->> +
->> +	txn.mc = SLIM_USR_MC_RECONFIG_NOW;
->> +	txn.msg->num_bytes = 2;
->> +	wbuf[1] = sdev->laddr;
->> +	txn.rl = txn.msg->num_bytes + 4;
->> +
->> +	ret = slim_alloc_txn_tid(ctrl, &txn);
->> +	if (ret) {
->> +		dev_err(ctrl->dev, "Fail to allocate TID\n");
->> +		return ret;
->> +	}
->> +
->> +	wbuf[0] = txn.tid;
->> +	ret = qcom_slim_ngd_xfer_msg_sync(ctrl, &txn);
->> +	if (ret) {
->> +		slim_free_txn_tid(ctrl, &txn);
->> +		dev_err(&sdev->dev, "TX timed out:MC:0x%x,mt:0x%x", txn.mc,
->> +				txn.mt);
->> +	}
->> +
->> +	return ret;
->> +}
->> +
->>   static int qcom_slim_ngd_get_laddr(struct slim_controller *ctrl,
->>   				   struct slim_eaddr *ea, u8 *laddr)
->>   {
->>   	struct slim_val_inf msg =  {0};
->>   	u8 failed_ea[6] = {0, 0, 0, 0, 0, 0};
->>   	struct slim_msg_txn txn;
->>   	u8 wbuf[10] = {0};
->>   	u8 rbuf[10] = {0};
->> @@ -1620,16 +1700,17 @@ static int qcom_slim_ngd_ctrl_probe(struct platform_device *pdev)
->>   	ctrl->framer.rootfreq = SLIM_ROOT_FREQ >> 3;
->>   	ctrl->framer.superfreq =
->>   		ctrl->framer.rootfreq / SLIM_CL_PER_SUPERFRAME_DIV8;
->>   
->>   	ctrl->ctrl.a_framer = &ctrl->framer;
->>   	ctrl->ctrl.clkgear = SLIM_MAX_CLK_GEAR;
->>   	ctrl->ctrl.get_laddr = qcom_slim_ngd_get_laddr;
->>   	ctrl->ctrl.enable_stream = qcom_slim_ngd_enable_stream;
->> +	ctrl->ctrl.disable_stream = qcom_slim_ngd_disable_stream;
->>   	ctrl->ctrl.xfer_msg = qcom_slim_ngd_xfer_msg;
->>   	ctrl->ctrl.wakeup = NULL;
->>   	ctrl->state = QCOM_SLIM_NGD_CTRL_DOWN;
->>   
->>   	mutex_init(&ctrl->tx_lock);
->>   	mutex_init(&ctrl->ssr_lock);
->>   	spin_lock_init(&ctrl->tx_buf_lock);
->>   	init_completion(&ctrl->reconf);
->>
+>  	wm8962_free_gpio(component);
+>  	wm8962_free_beep(component);
+> diff --git a/sound/soc/tegra/tegra_wm8962.c b/sound/soc/tegra/tegra_wm8962.c
+> index 31f9d9181595..a79d464b6a80 100644
+> --- a/sound/soc/tegra/tegra_wm8962.c
+> +++ b/sound/soc/tegra/tegra_wm8962.c
+> @@ -97,18 +97,6 @@ static int tegra_wm8962_init(struct snd_soc_pcm_runtime *rtd)
+>  	return 0;
+>  }
 > 
+> -static int tegra_wm8962_remove(struct snd_soc_card *card)
+> -{
+> -	struct snd_soc_dai_link *link = &card->dai_link[0];
+> -	struct snd_soc_pcm_runtime *rtd = snd_soc_get_pcm_runtime(card, link);
+> -	struct snd_soc_dai *codec_dai = snd_soc_rtd_to_codec(rtd, 0);
+> -	struct snd_soc_component *component = codec_dai->component;
+> -
+> -	wm8962_mic_detect(component, NULL);
+> -
+> -	return 0;
+> -}
 
+I don't think you should remove this. It is possible to remove
+the machine driver but not the codec driver, and in that case you
+still want the mic_detect disabled.
+
+Thanks,
+Charles
