@@ -1,89 +1,139 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEA753BFE3B;
-	Thu, 24 Sep 2026 22:27:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EF7F2D8385
+	for <linux-sound@vger.kernel.org>; Fri, 25 Sep 2026 00:30:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790288880; cv=none; b=AHq3qBu5PsL9reZJnPB/HkAZ4UGny/DPe3MfaovuB4V4TvzfmP1EtbIue4sGXuYOqXCdRfixm6g25ay+sNGmiMMAIk3saU92xkRj9RPJwSybZKaCFCO8Es1zaojaU5YDcTfD9MhOrL/8XfhHl6Kpwlhc0YwdrIHjqzkg5ooS7yc=
+	t=1790296239; cv=none; b=lO2M9+7t/JXRviSfBMifvCPROxo/I71jLvZYyRVqFUY/9Y59I1n7E+vu+brojaTR6eoEjm5OPDiaq1PH+zhQ5bG+sTLi9BugDBG93VyOuamRsXO90pBDaVGWrE6kM0XwQLa6swI9NH1CA+55KIU7HMZHQ7dZQiS8Xt8gCwPhAzg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790288880; c=relaxed/simple;
-	bh=lxssIHuW6s/MZTgl178wG2Cm1Tn7qxcwdGF1fUcMX0M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DpHU7oGz6SrhaAF4D1O7S82jKlNve0UxS+YXgudwbiShB/iUo/4lxdXPiueE9G12JgNvuZXGHdNOMSaQCytq0Rk8vWLzGWM5+7r7Z2wfYk4JetkrTqiF84K6PP5gVhDvBIRr7kYHgFiwp2M2LmUprCdD2KZs+1YuWSu0vtV9OB4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ewnpUaoy; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790296239; c=relaxed/simple;
+	bh=SYUFyhH/BXX/6nJF93wJShpOJcf51QkPRK14oghc66I=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IuKfqnJ8fi9bX4Obhzynu56vwMAUwu0Df4Zy2X5DHv+rAz4+0Oh526G47tBBuHB5CihIzWyvWo3Re6SbtnInt0JTKQjEFR37MgYWwWt1ui4SGoDVDt0pAUy99812dJXq8JXb4i3JUgb4uev/6fBwcyFlpWxMpIALBNdhcK1zDSo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M5Dr06uc; arc=none smtp.client-ip=74.125.225.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ewnpUaoy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 141A61F000FF;
-	Thu, 24 Sep 2026 22:27:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790288879;
-	bh=7D6zAciElAf48e9upbEbOKRZcIwqECK/W7zcVQZfgnQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ewnpUaoyP9W7F4f9UyWCfe4p6KhvY2mEK44KcCt43uh2mgTM+11EiEOLulbfCzGUh
-	 w9bCIctsS2s74fgb0Wh0oKESqtfmIZTCp4f+ZGud4NNZwlc+muDIXG7kezl9mH2rGP
-	 VSecQ4QweG/v1POwobPBCBVxB1pgEQrSJ3xlxx+KP48VpZHb0XHSVx42UB5lVCNyVH
-	 jSdGhpykeuzWXiu+uRnX/kM9fFm1LJ1UIK0aDu3pzCMF40NZ//zHg3FqQ6M0joEuoo
-	 IJok4o8qvqEFKq0pNtUQUtJMBaa4pw5SG/PYDS2QsDqfyT48F6IhLudRHqTsG1c1K9
-	 6Zj9rVzSDrUqA==
-Date: Thu, 24 Sep 2026 23:27:54 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Maurizio Casciano <mauriziocasciano7@gmail.com>
-Cc: linux-sound@vger.kernel.org,
-	Cezary Rojewski <cezary.rojewski@intel.com>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M5Dr06uc"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49cc9f581c4so1473095e9.0
+        for <linux-sound@vger.kernel.org>; Thu, 24 Sep 2026 17:30:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790296235; x=1790901035; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=f4FQt/2JHKyOkWN6EVF6z/4Ft+X/t5H4jUVKjWEtOa0=;
+        b=M5Dr06ucwDIPk6UO6RI2lWuYmLNJv5ajfjvmbDUFF567n8gJbi1N97Etq5PX8e2Mst
+         KGMGSXIm/Mj765MGmxgWOECSuLmE4cbIch6mi9gT+bJieDoipMttawWj5+0KZK3lCOLO
+         dCu1X8LCvbRTabqjgp9ImdZ0Mb23UmcSyLbavPATp77a21cBPKG26K5VRrOR5+svoO2w
+         Yg8SiVN5cCtLKGJnYYuw0jqA7kH5/Mx0An71yqV/NQF92ThpsPIBCDmpVV3XJ34drMJE
+         ECPtZL3evH4QTcDU7q+wsVTODyAbCI13+6eTNTWmjzVY8VDCTX2L/knXatP/X3L0qs6p
+         DvrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790296235; x=1790901035;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=f4FQt/2JHKyOkWN6EVF6z/4Ft+X/t5H4jUVKjWEtOa0=;
+        b=xwLJ3FthjvcLVfL2TKKiPR12cxd9FgOB/hNYpt/UhOozTV82yhFRA42jWPIoSOAyEC
+         2s4WFnGcBfxAeZm+JCFLALozdzspgFIc2b80PDkMLfqWJLPPxemfgTiqSMehEOFfivhu
+         QxAt1OufT+gMQTDjiWhHRdqcwcAq1sbpxcqLyPkmoLQYt20yaXUK896umIppKxaf/SDW
+         WukgSXxcTF48P5z5es2aCMbpf6p7uzAakSoKNrNfwZwWefNONiAxrq25Qli04RNk4DCV
+         iSVgYThKtCejmfvWCOD6eMxDeaGYBotlu72XBeCZT3Mo8IN4khQmagmCkGoRWU5zoSJq
+         5Oyg==
+X-Forwarded-Encrypted: i=1; AKwUvBwxnx/TQNW5tG3UdQapG9PZ7Pp3fAo8FOm8QiN4om9WKkKl2v1pv1wxyd8AZKPnrocZDy248A1LkJgGrA==@vger.kernel.org
+X-Gm-Message-State: AFuF++lavfDS2uFyAtH7qPHibHTdEn7GprpIRgj5HOBgn3c46CiKup6V
+	ifeekHwIxjvrngDMhoOym3qKyMoXbEL6wgCAKbsgkCEHClvEW6P903R5
+X-Gm-Gg: AYBFou3B5Vv34DSY4Gb8Bqhukh8KCHFhPdH4YLwKyGM5/1lCbzLZzoy1CHveM1Y5Mof
+	H/8VfHNjEaUHb5HL3w66aeE5b6Vk7EMPluER7AWHgIedhbOkHN0fRkO3SmBvl80pyIBdiQOeYEJ
+	8MGUUFpwq4pqe6PYU8YqKdK7VvkovvgxhmHBgEmRvPg78TTnmIV4IbIxRVWJ64LcPkdHfdt5cRe
+	CVj5NvoaUs9fRsQi9Ck8c6oHtflSq8uj+W69pEj/Z+79TvkHNF1944UI/GlIxubiHFejsLf3HIY
+	bYIwDAvDdDZG2BJSXWG4AhGFrAVtBh/UP5QPa0ywEfrjltUbtD7xe0V2Kl1sJfGp2GxTESbleGG
+	a9jD+55XlENWCp6cEhm2nbt5GVFSg8CZlMYwJT5tc+IfYPdnpPGBRLb8uebOxDRrgXPq0i50m9J
+	91XxOfZHkn1bI+gtHR+8vmlnlDweIO4fedVG2M3gHcmriyBvbwRaG30kYKva28H+3i+W3COCB80
+	G7he1oIwF+kxM4jtAtrHi/thtPNK/bpj0XHCy0gOBY4HRf4z1iqS62Glyie8Os8LODzgBpXXFs9
+	w/DHbgg+EB2JPVHt
+X-Received: by 2002:a05:600c:c1d7:20b0:49f:e897:b62b with SMTP id 5b1f17b1804b1-49fe897b890mr45450465e9.14.1790296234488;
+        Thu, 24 Sep 2026 17:30:34 -0700 (PDT)
+Received: from 1Z10 (mob-176-245-31-160.net.vodafone.it. [176.245.31.160])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fedec53c4sm34900745e9.4.2026.09.24.17.30.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Sep 2026 17:30:33 -0700 (PDT)
+From: Maurizio Casciano <mauriziocasciano7@gmail.com>
+To: Mark Brown <broonie@kernel.org>,
+	linux-sound@vger.kernel.org
+Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
 	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
 	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
 	Yung-Chuan Liao <yung-chuan.liao@linux.intel.com>,
 	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
 	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Yauhen Kharuzhy <jekhor@gmail.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 0/2] ASoC: Intel: Add Yoga Book RT5677 support
-Message-ID: <6a07375c-a5eb-4021-b7f6-af85f02f3652@sirena.org.uk>
-References: <20260902123007.769820-1-mauriziocasciano7@gmail.com>
- <20260924215540.933043-1-mauriziocasciano7@gmail.com>
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Yauhen Kharuzhy <jekhor@gmail.com>,
+	linux-kernel@vger.kernel.org,
+	Maurizio Casciano <mauriziocasciano7@gmail.com>
+Subject: [PATCH v8 0/2] ASoC: Intel: Add Yoga Book RT5677 support
+Date: Fri, 25 Sep 2026 02:30:28 +0200
+Message-ID: <20260925003030.1077471-1-mauriziocasciano7@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="KhHKTTBYT12xrTT8"
-Content-Disposition: inline
-In-Reply-To: <20260924215540.933043-1-mauriziocasciano7@gmail.com>
-X-Cookie: Oh, so there you are!
+Content-Transfer-Encoding: 8bit
 
+Hi,
 
---KhHKTTBYT12xrTT8
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+This series adds the Cherry Trail machine driver and machine-table entry
+needed by the Lenovo Yoga Book YB1-X91F/L with its RT5677 codec and
+TS3A227E headset detector.
 
-On Thu, Sep 24, 2026 at 11:55:40PM +0200, Maurizio Casciano wrote:
+The driver supports both legacy SST and SOF. The Intel DSP configuration
+selects one backend at probe time, so the paths are mutually exclusive.
 
-> This v7 series has been pending since September 2. It restores the dual
-> SST/SOF machine entry and includes separate runtime validation for both
-> firmware paths on the YB1-X91L. The series remains unchanged.
+The series has a runtime dependency on the Yoga Book platform/x86 v3
+series. That series attaches software-node properties for RT5677 GPIO2
+and GPIO4, which control the second speaker amplifier and headphone path:
+https://lore.kernel.org/r/20260829225729.395270-1-mauriziocasciano7@gmail.com
 
-> Please let me know if any further changes or testing are needed.
+Changes in v8:
+- Use snd_soc_substream_to_rtd() instead of accessing private_data.
+- Use the ACPI-enumerated "i2c-104C227E:00" name for the TS3A227E
+  auxiliary device.
+- Clarify that the ACPI GPIO mapping in the machine driver covers the
+  external speaker enable, while platform/x86 supplies the two RT5677
+  GPIO properties requested later in probe.
+- Rebase onto the current ASoC for-next branch.
 
-You have not responded to:
+The v8 patches apply to ASoC for-next at 74612d0b448f. On the remote build
+host, x86_64_defconfig with SND_SOC, X86_INTEL_LPSS, GPIOLIB and
+SND_SOC_INTEL_CHT_RT5677_MACH=m built cht_rt5677.o and
+soc-acpi-intel-cht-match.o with W=1. Strict checkpatch reports no errors;
+the only warning asks whether MAINTAINERS needs an update for the new
+driver, which is already covered by the existing Intel ASoC entries.
 
-   https://lore.kernel.org/all/aphNzNx3G4qDt9X-@sirena.org.uk/
+The v7 source was runtime-tested on a Yoga Book YB1-X91L with both SOF and
+SST, including PCM0 playback/capture, PCM1 deep-buffer playback, built-in
+speakers and internal-microphone capture. The v8 review delta has not yet
+been rerun on the device.
 
---KhHKTTBYT12xrTT8
-Content-Type: application/pgp-signature; name="signature.asc"
+With Best Regards,
+Maurizio Casciano
 
------BEGIN PGP SIGNATURE-----
+Maurizio Casciano (2):
+  ASoC: Intel: Add Cherry Trail RT5677 machine driver
+  ASoC: Intel: cht: Add Yoga Book RT5677 machine entry
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmq1o+kACgkQJNaLcl1U
-h9D0qAf+J9c7XzEZFwCneVxDY5Qx4YfrM6NqeBuvK1xA+3SVZ//S0WaW5nPuVnFD
-/FOflUhc5fL1TMiWZWtFg2+yHAcpnF4CTNeMlxDnKempFZms28WKRAm6d2hVXIxl
-a2iDECtWrrIY1eZ4PfcWjoA3+zWG9AqlRZmXAVRG1a3KW2oMZ0GtcYxhyzkXCAe7
-zjNIxfyJRJtfoBok94W/qWaZC1Toy1rb0D1Ny1JbPPNJSNqEhcdPviMPqAkFQ9qX
-LMLJYul5lz326i33Of6/MN9Mecld2QSgpdP/c8EH51vcnnNdOfhptuJXf9uiQMZu
-MrqBrfRakdLkUVNMx8qntzmDa1i9uA==
-=RiAM
------END PGP SIGNATURE-----
+ sound/soc/intel/boards/Kconfig                |  14 +
+ sound/soc/intel/boards/Makefile               |   2 +
+ sound/soc/intel/boards/cht_rt5677.c           | 653 ++++++++++++++++++
+ .../intel/common/soc-acpi-intel-cht-match.c   |   8 +
+ 4 files changed, 677 insertions(+)
+ create mode 100644 sound/soc/intel/boards/cht_rt5677.c
 
---KhHKTTBYT12xrTT8--
+base-commit: 74612d0b448fe745e80cda87fe49ac3c102ccc1f
+
+-- 
+2.53.0
