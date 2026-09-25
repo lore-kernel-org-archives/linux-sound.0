@@ -1,37 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B85F3AE6FB;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DCA9449997;
 	Fri, 25 Sep 2026 07:47:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790322451; cv=none; b=hn0zPaZTQk9P5/AdpTvEXlLJg8uHRqAwn6o6yeO0OW1p/U2mwRd8JpTxGifpKIOid7imeW0xfoz6SkbhLy5sXqUHI5N7R25PHtGJfE92R1/rWYK2BUP/P8q5AmjguW9mtuzBrRyOoip9l0DvERRyVGMhOsp/KWq6y87XHI74I4s=
+	t=1790322451; cv=none; b=VHJsmHoU96benUjovn3+PRdJwz2htkTDZxvgzsworUf0qRq2eiaPsiP3zgxzBpbW0qJp9WC1WG9S6n5B6k7CiB8m1ML856IUgXBYL+hni3v37jgK05Z3ggHzKqRo3udaRbhb1/x7kWuDQVPc5uuHyJBRKX5MxLtz7uKGs36KUsA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1790322451; c=relaxed/simple;
-	bh=ywXSh6Lz8CXx6v7UNu/mihoNA23yGVHQud2HU1sdPaQ=;
+	bh=C3nfCGILo03yC7Vx9uNcdeMktAnwHcvDtexH9au5Sxw=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=q7xvc2W/XA4mQxlkK5/bDCmVtNOh4Td7H0UEjZtIp0CcIi876d6XKdI0BY99i1Mapugw3ER9My8MCuNxvrwrKcvBky3f5JJFAC8jfNNJAIe3SJZj0phjmc1deKk3iR8vdzM3bBgbjQ7KlIQul6b2Lrtawbmqst9daJr3fy/5mxk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BjGT3i4u; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=mvxoA0uJFmfvL3GzK+mVLPfXOC7/z5huR5SR+BHZ+aSg9zmgyYXQP946xVGoS2DN75KscExWzHJrOO3ApET+OnMvQlMKsTLKdWLlpmwEEjofgJzMRuPaBFkkle+8e41HRIsKk2frY0655O8xqQqjVVtpdSWr7O3FH6x9n2tEPOY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l0V8BszP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BjGT3i4u"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 0E719C2BCFA;
-	Fri, 25 Sep 2026 07:47:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l0V8BszP"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E7A59C2BCF4;
+	Fri, 25 Sep 2026 07:47:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1790322451;
-	bh=ywXSh6Lz8CXx6v7UNu/mihoNA23yGVHQud2HU1sdPaQ=;
+	bh=C3nfCGILo03yC7Vx9uNcdeMktAnwHcvDtexH9au5Sxw=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=BjGT3i4uhTHsflzTtVPS7EYS6fp1FLjFs8ubQspFtqCpHRUTS9J3BPkEOkmlUJk1C
-	 pcqJzujoOz40ThZw6n4XD0N9c0/cIzKRRlsGlXHLERFlu5yv83cyZ8ooYS/cipnVxV
-	 UC5j1pdlx7EBTbpz1zdbB4cds3ITnxhbH+1brLX++Fnkazi/5j4F8xoBdJduwrg9UG
-	 H2zsKzo9JyHjiSXkLvMqhNTubqoNJHyDzdQZLf90lKrpl0CmMkfNWDmWfUl+/EDvOw
-	 cu1SyinDXFFS5UiCny1EFUCMilmt+gkm+MS4vODskNSm6FToxKSVncc5OQo/sF4xQ3
-	 2Kj3hyg9SJ5fw==
+	b=l0V8BszPz1LQSFwIG1hUgTNcpEg9cq0iwfC2EydUKPYeZtxtdW5T2oVAv3t1iAJ2E
+	 nzlJWPUMtiNsD8VGaELZ4CsR41aTaaBIAugoEh9/W83xOKZbA1R9iCuOuUx5PKzuLU
+	 zOZN0ZhDkvNVaXi2BaTqGc6Ibv4PX/0LGjfQOBnQXX+AdAR5obXk9Q27VlWh9Sj7op
+	 uPtNHDrJY57I6eYu9fxTKq5Kj079X6D3UI8oxLJ5KENUvZao5YSQeuGxyuwDtLce+9
+	 WVaAHtTANCaUU1rSgDDZHTG3jFOi63NVuUrQe0r07vXa94zdwY5ocN31XlesOQuzVQ
+	 opq1oqpAe5eQw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8047C98328;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9B4CC9830D;
 	Fri, 25 Sep 2026 07:47:30 +0000 (UTC)
 From: Aaron Kling via B4 Relay <devnull+webgeek1234.gmail.com@kernel.org>
-Date: Fri, 25 Sep 2026 02:47:31 -0500
-Subject: [PATCH 3/6] ASoC: codecs: aw88166: reduce log spam
+Date: Fri, 25 Sep 2026 02:47:29 -0500
+Subject: [PATCH 1/6] ASoC: codecs: aw88166: support changing sample rate
+ and bit width
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -40,7 +41,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260925-aw88166-cleanup-v1-3-11f74cb5fe28@gmail.com>
+Message-Id: <20260925-aw88166-cleanup-v1-1-11f74cb5fe28@gmail.com>
 References: <20260925-aw88166-cleanup-v1-0-11f74cb5fe28@gmail.com>
 In-Reply-To: <20260925-aw88166-cleanup-v1-0-11f74cb5fe28@gmail.com>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
@@ -49,11 +50,11 @@ To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
 Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Val Packett <val@packett.cool>, Aaron Kling <webgeek1234@gmail.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1790322449; l=3193;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1790322449; l=14877;
  i=webgeek1234@gmail.com; s=20250217; h=from:subject:message-id;
- bh=06CCnQwpf2cLwzkmShv7cYeY0TUnVK2djZoAk9gCKNY=;
- b=tU1vmXqjtE1HIHlzJ77jF4MvN28kJshUvwgRIKmYP+Xx7Si2SOeQ4BS7ax+BOiM2bl2lbXbLg
- orFDQ6FN/9VDiGSk5sBJ9PRc2E3oVYRSnt6BJYFTb999+/uwLLZkEx9
+ bh=8c1wFuLWoV6Xp7ctjFqU5LLt0cTOa9GZewplJ4sh13s=;
+ b=PHyEL2FiBMQKCVF7s+DL4jUnyX5vYMpg+vmpgs6eSeDQD/v6qq7bFu6Smwon7sPgCVVdWovk3
+ DA5f/bP5nq/BebiFo/ZKfIkqKBOPhbBt4NeZ9gp4a4mo4mRBf/KFPCQ
 X-Developer-Key: i=webgeek1234@gmail.com; a=ed25519;
  pk=TQwd6q26txw7bkK7B8qtI/kcAohZc7bHHGSD7domdrU=
 X-Endpoint-Received: by B4 Relay for webgeek1234@gmail.com/20250217 with
@@ -63,87 +64,463 @@ Reply-To: webgeek1234@gmail.com
 
 From: Aaron Kling <webgeek1234@gmail.com>
 
-This driver would create a wall of logspam during initialization due to
-e.g. the PLL not being ready while waiting for it to stabilize. Change
-intermediate dev_err() calls to dev_dbg() to reduce the noise.
+The aw88166 driver only worked with 32-bit 48kHz streams so far due to
+the lack of a proper PLL initialization sequence. Fix by selecting all
+the necessary PLL settings based on what was passed to us by the
+hw_params/set_fmt ops. This replaces the strange downstream routine
+that tries two divider modes in sequence.
 
+Fixes: 94e412c28e61 ("ASoC: codecs: Add aw88166 amplifier driver")
 Signed-off-by: Aaron Kling <webgeek1234@gmail.com>
 ---
- sound/soc/codecs/aw88166.c | 17 ++++++++++-------
- 1 file changed, 10 insertions(+), 7 deletions(-)
+ sound/soc/codecs/aw88166.c | 239 ++++++++++++++++++++++++++++++++++-----------
+ sound/soc/codecs/aw88166.h | 108 +++++++++++++++++++-
+ 2 files changed, 291 insertions(+), 56 deletions(-)
 
 diff --git a/sound/soc/codecs/aw88166.c b/sound/soc/codecs/aw88166.c
-index cd8773e316b90..c8b8c70aaf356 100644
+index d2a138211c596..89608118cac6c 100644
 --- a/sound/soc/codecs/aw88166.c
 +++ b/sound/soc/codecs/aw88166.c
-@@ -108,7 +108,7 @@ static int aw_dev_get_iis_status(struct aw_device *aw_dev)
- 	if (ret)
- 		return ret;
- 	if ((reg_val & AW88166_BIT_PLL_CHECK) != AW88166_BIT_PLL_CHECK) {
--		dev_err(aw_dev->dev, "check pll lock fail, reg_val:0x%04x", reg_val);
-+		dev_dbg(aw_dev->dev, "check pll lock fail, reg_val:0x%04x", reg_val);
- 		return -EINVAL;
- 	}
+@@ -15,6 +15,7 @@
+ #include <linux/minmax.h>
+ #include <linux/regmap.h>
+ #include <sound/soc.h>
++#include <sound/pcm_params.h>
+ #include "aw88166.h"
+ #include "aw88395/aw88395_device.h"
  
-@@ -122,7 +122,7 @@ static int aw88166_dev_check_pll(struct aw_device *aw_dev)
- 	for (i = 0; i < AW88166_DEV_SYSST_CHECK_MAX; i++) {
- 		ret = aw_dev_get_iis_status(aw_dev);
- 		if (ret) {
--			dev_err(aw_dev->dev, "mode1 iis signal check error");
-+			dev_dbg(aw_dev->dev, "mode1 iis signal check error");
- 			usleep_range(AW88166_2000_US, AW88166_2000_US + 10);
- 		} else {
- 			return 0;
-@@ -223,7 +223,7 @@ static int aw_dev_check_sysst(struct aw_device *aw_dev)
- 			return ret;
+@@ -31,6 +32,14 @@ struct aw88166 {
+ 	unsigned int vcalb_init_val;
+ 	unsigned int re_init_val;
+ 	unsigned int dither_st;
++
++	unsigned int sr_value;
++	unsigned int cco_mux_value;
++	unsigned int fs_value;
++	unsigned int bck_value;
++	unsigned int bck_inv_value;
++	unsigned int md_value;
++
+ 	bool phase_sync;
+ };
  
- 		if ((reg_val & (~AW88166_BIT_SYSST_CHECK_MASK) & check_val) != check_val) {
--			dev_err(aw_dev->dev, "check sysst fail, cnt=%d, reg_val=0x%04x, check:0x%x",
-+			dev_dbg(aw_dev->dev, "check sysst fail, cnt=%d, reg_val=0x%04x, check:0x%x",
- 				i, reg_val, AW88166_BIT_SYSST_NOSWS_CHECK);
- 			usleep_range(AW88166_2000_US, AW88166_2000_US + 10);
- 		} else {
-@@ -754,7 +754,7 @@ static int aw88166_dev_start(struct aw88166 *aw88166)
- 
- 	ret = aw88166_dev_configure_syspll(aw88166);
- 	if (ret) {
--		dev_err(aw_dev->dev, "pll check failed cannot start\n");
-+		dev_dbg(aw_dev->dev, "pll check failed\n");
- 		goto pll_check_fail;
- 	}
- 
-@@ -765,7 +765,7 @@ static int aw88166_dev_start(struct aw88166 *aw88166)
- 	/* check i2s status */
- 	ret = aw_dev_check_sysst(aw_dev);
- 	if (ret) {
--		dev_err(aw_dev->dev, "sysst check failed\n");
-+		dev_dbg(aw_dev->dev, "sysst check failed\n");
- 		goto sysst_check_fail;
- 	}
- 
-@@ -1175,10 +1175,11 @@ static void aw88166_start_pa(struct aw88166 *aw88166)
- 	for (i = 0; i < AW88166_START_RETRIES; i++) {
- 		ret = aw88166_dev_start(aw88166);
- 		if (ret) {
--			dev_err(aw88166->aw_pa->dev, "aw88166 device start failed. retry = %d", i);
-+			dev_dbg(aw88166->aw_pa->dev,
-+				"aw88166 device start failed. cnt:%d, ret:%d", i, ret);
- 			ret = aw88166_dev_fw_update(aw88166, AW88166_DSP_FW_UPDATE_ON, true);
- 			if (ret) {
--				dev_err(aw88166->aw_pa->dev, "fw update failed");
-+				dev_dbg(aw88166->aw_pa->dev, "fw update failed");
- 				continue;
- 			}
- 		} else {
-@@ -1186,6 +1187,8 @@ static void aw88166_start_pa(struct aw88166 *aw88166)
- 			break;
- 		}
- 	}
-+	if (ret != 0)
-+		dev_err(aw88166->aw_pa->dev, "start failure (%d)\n", ret);
+@@ -99,7 +108,7 @@ static int aw_dev_get_iis_status(struct aw_device *aw_dev)
+ 	return 0;
  }
  
- static void aw88166_startup_work(struct work_struct *work)
+-static int aw_dev_check_mode1_pll(struct aw_device *aw_dev)
++static int aw88166_dev_check_pll(struct aw_device *aw_dev)
+ {
+ 	int ret, i;
+ 
+@@ -116,71 +125,48 @@ static int aw_dev_check_mode1_pll(struct aw_device *aw_dev)
+ 	return -EPERM;
+ }
+ 
+-static int aw_dev_check_mode2_pll(struct aw_device *aw_dev)
++static int aw88166_dev_configure_syspll(struct aw88166 *aw88261)
+ {
+-	unsigned int reg_val;
+-	int ret, i;
++	struct aw_device *aw_dev = aw88166->aw_pa;
++	int ret;
+ 
+-	ret = regmap_read(aw_dev->regmap, AW88166_PLLCTRL2_REG, &reg_val);
++	/* PLL divider must be used for 8/16/32 kHz modes */
++	ret = regmap_update_bits(aw_dev->regmap, AW88166_PLLCTRL1_REG,
++			~AW88166_CCO_MUX_MASK, aw88166->cco_mux_value);
+ 	if (ret)
+ 		return ret;
+ 
+-	reg_val &= (~AW88166_CCO_MUX_MASK);
+-	if (reg_val == AW88166_CCO_MUX_DIVIDED_VALUE) {
+-		dev_dbg(aw_dev->dev, "CCO_MUX is already divider");
+-		return -EPERM;
+-	}
+-
+-	/* change mode2 */
+-	ret = regmap_update_bits(aw_dev->regmap, AW88166_PLLCTRL2_REG,
+-			~AW88166_CCO_MUX_MASK, AW88166_CCO_MUX_DIVIDED_VALUE);
++	/* The word clock (WCK) defines the beginning of a frame */
++	ret = regmap_update_bits(aw_dev->regmap, AW88166_I2SCTRL1_REG,
++			~AW88166_I2SSR_MASK, aw88166->sr_value);
+ 	if (ret)
+ 		return ret;
+ 
+-	for (i = 0; i < AW88166_DEV_SYSST_CHECK_MAX; i++) {
+-		ret = aw_dev_get_iis_status(aw_dev);
+-		if (ret) {
+-			dev_err(aw_dev->dev, "mode2 iis signal check error");
+-			usleep_range(AW88166_2000_US, AW88166_2000_US + 10);
+-		} else {
+-			break;
+-		}
+-	}
+-
+-	/* change mode1 */
+-	regmap_update_bits(aw_dev->regmap, AW88166_PLLCTRL2_REG,
+-			~AW88166_CCO_MUX_MASK, AW88166_CCO_MUX_BYPASS_VALUE);
+-	if (ret == 0) {
+-		usleep_range(AW88166_2000_US, AW88166_2000_US + 10);
+-		for (i = 0; i < AW88166_DEV_SYSST_CHECK_MAX; i++) {
+-			ret = aw_dev_get_iis_status(aw_dev);
+-			if (ret) {
+-				dev_err(aw_dev->dev, "mode2 switch to mode1, iis signal check error");
+-				usleep_range(AW88166_2000_US, AW88166_2000_US + 10);
+-			} else {
+-				break;
+-			}
+-		}
+-	}
++	/* The bit clock (BCK) defines the length of a frame */
++	ret = regmap_update_bits(aw_dev->regmap, AW88166_I2SCTRL1_REG,
++			~AW88166_I2SBCK_MASK, aw88166->bck_value);
++	if (ret)
++		return ret;
+ 
+-	return ret;
+-}
++	/* The logical frame size is the width of data for 1 slot */
++	ret = regmap_update_bits(aw_dev->regmap, AW88166_I2SCTRL1_REG,
++			~AW88166_I2SFS_MASK, aw88166->fs_value);
++	if (ret)
++		return ret;
+ 
+-static int aw_dev_check_syspll(struct aw_device *aw_dev)
+-{
+-	int ret;
++	/* The I2S interface mode (Philips standard, LSB/MSB justified) */
++	ret = regmap_update_bits(aw_dev->regmap, AW88166_I2SCTRL1_REG,
++			~AW88166_I2SMD_MASK, aw88166->md_value);
++	if (ret)
++		return ret;
+ 
+-	ret = aw_dev_check_mode1_pll(aw_dev);
+-	if (ret) {
+-		dev_dbg(aw_dev->dev, "mode1 check iis failed try switch to mode2 check");
+-		ret = aw_dev_check_mode2_pll(aw_dev);
+-		if (ret) {
+-			dev_err(aw_dev->dev, "mode2 check iis failed");
+-			return ret;
+-		}
+-	}
++	/* The polarity of the bit clock (BCK) */
++	ret = regmap_update_bits(aw_dev->regmap, AW88166_SYSCTRL_REG,
++			~AW88166_BCKINV_MASK, aw88166->bck_inv_value);
++	if (ret)
++		return ret;
+ 
+-	return 0;
++	return aw88166_dev_check_pll(aw_dev);
+ }
+ 
+ static int aw_dev_check_sysst(struct aw_device *aw_dev)
+@@ -733,7 +719,7 @@ static int aw88166_dev_start(struct aw88166 *aw88166)
+ 	aw_dev_pwd(aw_dev, false);
+ 	usleep_range(AW88166_2000_US, AW88166_2000_US + 10);
+ 
+-	ret = aw_dev_check_syspll(aw_dev);
++	ret = aw88166_dev_configure_syspll(aw88166);
+ 	if (ret) {
+ 		dev_err(aw_dev->dev, "pll check failed cannot start\n");
+ 		goto pll_check_fail;
+@@ -1254,6 +1240,140 @@ static int aw88166_stop(struct aw_device *aw_dev)
+ 	return 0;
+ }
+ 
++static int aw88166_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
++{
++	struct snd_soc_component *component = dai->component;
++	struct aw88166 *aw88166 = snd_soc_component_get_drvdata(component);
++
++	switch (fmt & SND_SOC_DAIFMT_INV_MASK) {
++	case SND_SOC_DAIFMT_NB_NF:
++		aw88166->bck_inv_value = AW88166_BCKINV_NOT_INVERT_VALUE;
++		break;
++	case SND_SOC_DAIFMT_IB_NF:
++		aw88166->bck_inv_value = AW88166_BCKINV_INVERTED_VALUE;
++		break;
++	default:
++		dev_err(aw88166->aw_pa->dev, "unsupported invert mode 0x%x\n",
++			fmt & SND_SOC_DAIFMT_INV_MASK);
++		return -EINVAL;
++	}
++
++	switch (fmt & SND_SOC_DAIFMT_FORMAT_MASK) {
++	case SND_SOC_DAIFMT_I2S:
++		aw88166->md_value = AW88166_I2SMD_PHILIPS_STANDARD_VALUE;
++		break;
++	case SND_SOC_DAIFMT_MSB:
++		aw88166->md_value = AW88166_I2SMD_MSB_JUSTIFIED_VALUE;
++		break;
++	case SND_SOC_DAIFMT_LSB:
++		aw88166->md_value = AW88166_I2SMD_LSB_JUSTIFIED_VALUE;
++		break;
++	default:
++		dev_err(aw88166->aw_pa->dev, "unsupported DAI format 0x%x\n",
++			fmt & SND_SOC_DAIFMT_FORMAT_MASK);
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++static int aw88166_hw_params(struct snd_pcm_substream *substream,
++	struct snd_pcm_hw_params *params,
++	struct snd_soc_dai *dai)
++{
++	struct snd_soc_component *component = dai->component;
++	struct aw88166 *aw88166 = snd_soc_component_get_drvdata(component);
++
++	if (substream->stream == SNDRV_PCM_STREAM_CAPTURE)
++		return 0;
++
++	aw88166->cco_mux_value = AW88166_CCO_MUX_BYPASS_VALUE;
++	switch (params_rate(params)) {
++	case 8000:
++		aw88166->sr_value = AW88166_I2SSR_8KHZ_VALUE;
++		aw88166->cco_mux_value = AW88166_CCO_MUX_DIVIDED_VALUE;
++		break;
++	case 11025:
++		aw88166->sr_value = AW88166_I2SSR_11P025KHZ_VALUE;
++		break;
++	case 12000:
++		aw88166->sr_value = AW88166_I2SSR_12KHZ_VALUE;
++		break;
++	case 16000:
++		aw88166->sr_value = AW88166_I2SSR_16KHZ_VALUE;
++		aw88166->cco_mux_value = AW88166_CCO_MUX_DIVIDED_VALUE;
++		break;
++	case 22050:
++		aw88166->sr_value = AW88166_I2SSR_22P05KHZ_VALUE;
++		break;
++	case 24000:
++		aw88166->sr_value = AW88166_I2SSR_24KHZ_VALUE;
++		break;
++	case 32000:
++		aw88166->sr_value = AW88166_I2SSR_32KHZ_VALUE;
++		aw88166->cco_mux_value = AW88166_CCO_MUX_DIVIDED_VALUE;
++		break;
++	case 44100:
++		aw88166->sr_value = AW88166_I2SSR_44P1KHZ_VALUE;
++		break;
++	case 48000:
++		aw88166->sr_value = AW88166_I2SSR_48KHZ_VALUE;
++		break;
++	case 96000:
++		aw88166->sr_value = AW88166_I2SSR_96KHZ_VALUE;
++		break;
++	case 192000:
++		aw88166->sr_value = AW88166_I2SSR_192KHZ_VALUE;
++		break;
++	default:
++		dev_err(aw88166->aw_pa->dev, "unsupported sample rate %d\n",
++			params_rate(params));
++		return -EINVAL;
++	}
++
++	switch (params_width(params)) {
++	case 16:
++		aw88166->fs_value = AW88166_I2SFS_16_BITS_VALUE;
++		break;
++	case 20:
++		aw88166->fs_value = AW88166_I2SFS_20_BITS_VALUE;
++		break;
++	case 24:
++		aw88166->fs_value = AW88166_I2SFS_24_BITS_VALUE;
++		break;
++	case 32:
++		aw88166->fs_value = AW88166_I2SFS_32_BITS_VALUE;
++		break;
++	default:
++		dev_err(aw88166->aw_pa->dev, "unsupported bit width %d\n",
++			params_width(params));
++		return -EINVAL;
++	}
++
++	switch (params_physical_width(params)) {
++	case 16:
++		aw88166->bck_value = AW88166_I2SBCK_32FS_VALUE;
++		break;
++	case 24:
++		aw88166->bck_value = AW88166_I2SBCK_48FS_VALUE;
++		break;
++	case 32:
++		aw88166->bck_value = AW88166_I2SBCK_64FS_VALUE;
++		break;
++	default:
++		dev_err(aw88166->aw_pa->dev, "unsupported physical bit width %d\n",
++			params_physical_width(params));
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++static const struct snd_soc_dai_ops aw88166_dai_ops = {
++	.set_fmt = aw88166_set_fmt,
++	.hw_params = aw88166_hw_params,
++};
++
+ static struct snd_soc_dai_driver aw88166_dai[] = {
+ 	{
+ 		.name = "aw88166-aif",
+@@ -1272,6 +1392,7 @@ static struct snd_soc_dai_driver aw88166_dai[] = {
+ 			.rates = AW88166_RATES,
+ 			.formats = AW88166_FORMATS,
+ 		},
++		.ops = &aw88166_dai_ops,
+ 	},
+ };
+ 
+@@ -1769,6 +1890,14 @@ static int aw88166_i2c_probe(struct i2c_client *i2c)
+ 	if (!aw88166)
+ 		return -ENOMEM;
+ 
++	/* set defaults */
++	aw88166->sr_value = AW88166_I2SSR_48KHZ_VALUE;
++	aw88166->cco_mux_value = AW88166_CCO_MUX_BYPASS_VALUE;
++	aw88166->fs_value = AW88166_I2SFS_24_BITS_VALUE;
++	aw88166->bck_value = AW88166_I2SBCK_64FS_VALUE;
++	aw88166->bck_inv_value = AW88166_BCKINV_NOT_INVERT_VALUE;
++	aw88166->md_value = AW88166_I2SMD_PHILIPS_STANDARD_VALUE;
++
+ 	mutex_init(&aw88166->lock);
+ 
+ 	i2c_set_clientdata(i2c, aw88166);
+diff --git a/sound/soc/codecs/aw88166.h b/sound/soc/codecs/aw88166.h
+index 9f3f47a7003e2..0aa92b3b6c3b8 100644
+--- a/sound/soc/codecs/aw88166.h
++++ b/sound/soc/codecs/aw88166.h
+@@ -244,6 +244,19 @@
+ #define AW88166_RCV_MODE_RECEIVER_VALUE	\
+ 	(AW88166_RCV_MODE_RECEIVER << AW88166_RCV_MODE_START_BIT)
+ 
++#define AW88166_BCKINV_START_BIT	(4)
++#define AW88166_BCKINV_BITS_LEN	(1)
++#define AW88166_BCKINV_MASK	\
++	(~(((1<<AW88166_BCKINV_BITS_LEN)-1) << AW88166_BCKINV_START_BIT))
++
++#define AW88166_BCKINV_NOT_INVERT	(0)
++#define AW88166_BCKINV_NOT_INVERT_VALUE	\
++	(AW88166_BCKINV_NOT_INVERT << AW88166_BCKINV_START_BIT)
++
++#define AW88166_BCKINV_INVERTED	(1)
++#define AW88166_BCKINV_INVERTED_VALUE	\
++	(AW88166_BCKINV_INVERTED << AW88166_BCKINV_START_BIT)
++
+ #define AW88166_AMPPD_START_BIT	(1)
+ #define AW88166_AMPPD_BITS_LEN		(1)
+ #define AW88166_AMPPD_MASK		\
+@@ -372,7 +385,98 @@
+ 		AW88166_PLLS_LOCKED_VALUE | \
+ 		AW88166_SWS_SWITCHING_VALUE)
+ 
+-#define AW88166_CCO_MUX_START_BIT	(14)
++#define AW88166_I2SMD_START_BIT	(8)
++#define AW88166_I2SMD_BITS_LEN	(2)
++#define AW88166_I2SMD_MASK	\
++	(~(((1<<AW88166_I2SMD_BITS_LEN)-1) << AW88166_I2SMD_START_BIT))
++
++#define AW88166_I2SMD_PHILIPS_STANDARD	(0)
++#define AW88166_I2SMD_PHILIPS_STANDARD_VALUE	\
++	(AW88166_I2SMD_PHILIPS_STANDARD << AW88166_I2SMD_START_BIT)
++
++#define AW88166_I2SMD_MSB_JUSTIFIED	(1)
++#define AW88166_I2SMD_MSB_JUSTIFIED_VALUE	\
++	(AW88166_I2SMD_MSB_JUSTIFIED << AW88166_I2SMD_START_BIT)
++
++#define AW88166_I2SMD_LSB_JUSTIFIED	(2)
++#define AW88166_I2SMD_LSB_JUSTIFIED_VALUE	\
++	(AW88166_I2SMD_LSB_JUSTIFIED << AW88166_I2SMD_START_BIT)
++
++#define AW88166_I2SFS_START_BIT			(6)
++#define AW88166_I2SFS_BITS_LEN			(2)
++#define AW88166_I2SFS_MASK				\
++	(~(((1<<AW88166_I2SFS_BITS_LEN)-1)<<AW88166_I2SFS_START_BIT))
++
++#define AW88166_I2SFS_16_BITS			(0)
++#define AW88166_I2SFS_16_BITS_VALUE		\
++	(AW88166_I2SFS_16_BITS << AW88166_I2SFS_START_BIT)
++#define AW88166_I2SFS_20_BITS			(1)
++#define AW88166_I2SFS_20_BITS_VALUE		\
++	(AW88166_I2SFS_20_BITS << AW88166_I2SFS_START_BIT)
++#define AW88166_I2SFS_24_BITS			(2)
++#define AW88166_I2SFS_24_BITS_VALUE		\
++	(AW88166_I2SFS_24_BITS << AW88166_I2SFS_START_BIT)
++#define AW88166_I2SFS_32_BITS			(3)
++#define AW88166_I2SFS_32_BITS_VALUE		\
++	(AW88166_I2SFS_32_BITS << AW88166_I2SFS_START_BIT)
++
++#define AW88166_I2SBCK_START_BIT	(4)
++#define AW88166_I2SBCK_BITS_LEN	(2)
++#define AW88166_I2SBCK_MASK	\
++	(~(((1<<AW88166_I2SBCK_BITS_LEN)-1) << AW88166_I2SBCK_START_BIT))
++
++#define AW88166_I2SBCK_32FS	(0)
++#define AW88166_I2SBCK_32FS_VALUE	\
++	(AW88166_I2SBCK_32FS << AW88166_I2SBCK_START_BIT)
++
++#define AW88166_I2SBCK_48FS	(1)
++#define AW88166_I2SBCK_48FS_VALUE	\
++	(AW88166_I2SBCK_48FS << AW88166_I2SBCK_START_BIT)
++
++#define AW88166_I2SBCK_64FS	(2)
++#define AW88166_I2SBCK_64FS_VALUE	\
++	(AW88166_I2SBCK_64FS << AW88166_I2SBCK_START_BIT)
++
++#define AW88166_I2SSR_START_BIT			(0)
++#define AW88166_I2SSR_BITS_LEN			(4)
++#define AW88166_I2SSR_MASK				\
++	(~(((1<<AW88166_I2SSR_BITS_LEN)-1) << AW88166_I2SSR_START_BIT))
++
++#define AW88166_I2SSR_8KHZ				(0)
++#define AW88166_I2SSR_8KHZ_VALUE		\
++	(AW88166_I2SSR_8KHZ << AW88166_I2SSR_START_BIT)
++#define AW88166_I2SSR_11P025KHZ			(1)
++#define AW88166_I2SSR_11P025KHZ_VALUE	\
++	(AW88166_I2SSR_11P025KHZ << AW88166_I2SSR_START_BIT)
++#define AW88166_I2SSR_12KHZ				(2)
++#define AW88166_I2SSR_12KHZ_VALUE		\
++	(AW88166_I2SSR_12KHZ << AW88166_I2SSR_START_BIT)
++#define AW88166_I2SSR_16KHZ				(3)
++#define AW88166_I2SSR_16KHZ_VALUE		\
++	(AW88166_I2SSR_16KHZ << AW88166_I2SSR_START_BIT)
++#define AW88166_I2SSR_22P05KHZ			(4)
++#define AW88166_I2SSR_22P05KHZ_VALUE	\
++	(AW88166_I2SSR_22P05KHZ << AW88166_I2SSR_START_BIT)
++#define AW88166_I2SSR_24KHZ				(5)
++#define AW88166_I2SSR_24KHZ_VALUE		\
++	(AW88166_I2SSR_24KHZ << AW88166_I2SSR_START_BIT)
++#define AW88166_I2SSR_32KHZ				(6)
++#define AW88166_I2SSR_32KHZ_VALUE		\
++	(AW88166_I2SSR_32KHZ << AW88166_I2SSR_START_BIT)
++#define AW88166_I2SSR_44P1KHZ			(7)
++#define AW88166_I2SSR_44P1KHZ_VALUE	\
++	(AW88166_I2SSR_44P1KHZ << AW88166_I2SSR_START_BIT)
++#define AW88166_I2SSR_48KHZ				(8)
++#define AW88166_I2SSR_48KHZ_VALUE		\
++	(AW88166_I2SSR_48KHZ << AW88166_I2SSR_START_BIT)
++#define AW88166_I2SSR_96KHZ				(9)
++#define AW88166_I2SSR_96KHZ_VALUE		\
++	(AW88166_I2SSR_96KHZ << AW88166_I2SSR_START_BIT)
++#define AW88166_I2SSR_192KHZ			(10)
++#define AW88166_I2SSR_192KHZ_VALUE		\
++	(AW88166_I2SSR_192KHZ << AW88166_I2SSR_START_BIT)
++
++#define AW88166_CCO_MUX_START_BIT	(8)
+ #define AW88166_CCO_MUX_BITS_LEN	(1)
+ #define AW88166_CCO_MUX_MASK		\
+ 	(~(((1<<AW88166_CCO_MUX_BITS_LEN)-1) << AW88166_CCO_MUX_START_BIT))
+@@ -460,6 +564,8 @@
+ #define AW88166_ACF_FILE			"aw88166_acf.bin"
+ 
+ #define AW88166_RATES (SNDRV_PCM_RATE_8000_48000 | \
++			SNDRV_PCM_RATE_12000 | \
++			SNDRV_PCM_RATE_24000 | \
+ 			SNDRV_PCM_RATE_96000)
+ #define AW88166_FORMATS (SNDRV_PCM_FMTBIT_S16_LE | \
+ 			SNDRV_PCM_FMTBIT_S24_LE | \
 
 -- 
 2.54.0
