@@ -1,151 +1,108 @@
-Received: from mail-pj2-f41.google.com (mail-pj2-f41.google.com [74.125.227.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C871377A93
-	for <linux-sound@vger.kernel.org>; Sat, 26 Sep 2026 04:29:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD8AE33F589;
+	Sat, 26 Sep 2026 07:24:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790396982; cv=none; b=DFbyqE0hlRmvgVH5muS5yBzi7psSEQtG5wCF9cHHpbsKo+DBekIiU6qEmx036AKC8hQ6B8IjMk7ut6E6B6hpRG4tdnYwLmLa4VWnYvBnWhcEVuHUc/FG3gpcUNmtz9AJDbkNDUowvl3E7DHXeoTNG7qrbesZCBipJlogZyYbKrw=
+	t=1790407470; cv=none; b=AGySIVeHGuoIWPtJrgSsf95c/GMfZQAo0gPDksk3fwZkrklVaKAwYRFnwJ4V/DPhAOWmCDGbC+xy/qt+kIH87vEChhHjce3vSVyTPDzHd1OpSxahZStZR/hbMC5Y4ET6C7sVIJLIuMWowIBRATa2ZPCUVnQSKcRjoliRU0pttwY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790396982; c=relaxed/simple;
-	bh=bWpGiVkFMDuSssWxODbLxUjWtqGMiUCzQ1jlycUTq/A=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AeYwxPf5ujOHggfqgL3byNkjIY33ipyS8vlCPXJGTLjpjd7DP80p6w4M5x6V/oJpULpkhxzTjSS1hXaokxvQ/2T+V8Hdmq11N28DL8PHy1TqPgktnY6aANK69lIHPx2pyokDaGvDelD8FqheU6Z31Wvxk9VpDMoRfllkNXmJfus=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L5dWfZJg; arc=none smtp.client-ip=74.125.227.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790407470; c=relaxed/simple;
+	bh=LSFWMmwZm9AOOui3G9yO6os/W4ndoAnTIvP6M1MFVyw=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Tp/AB1nLcE7ssaCIWMVluR2RIURcCyUKuG2QeyUe7OczsXpLUbiKUkfPNLY0/yutcEsJjFTH3+WH3q0EtA01BW5m1apZ6Dw1vBSiaQsTrYAI5jxVNjUTpWF+QxFhajjBSMM9iBVEoiKR03sZYxuGjQGi7tTtbRWaBMV6lBPTJAo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F70k0EEf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L5dWfZJg"
-Received: by mail-pj2-f41.google.com with SMTP id 98e67ed59e1d1-3a0bec20a6fso517723a91.0
-        for <linux-sound@vger.kernel.org>; Fri, 25 Sep 2026 21:29:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790396980; x=1791001780; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=MnArI2zFMgSLXsIUz65zFL4A+lede9eeiAgX2MVd7/Q=;
-        b=L5dWfZJgldykQ19Xj0dh6bOpFhcZVz9//fpHJPWZzdZm/a6hBjUqpViOBnpzgHtGP9
-         Cq83AlgrDfsWMCODSHJDaAQXt8EZ/OS2Cb8IJmowDYPsCJzFY0wOKu1LuhbTIIFXAljj
-         PGCMJwF7/OjADRDjwNNOwqpqO8CqRB7yITZUmXvJlJuQbW4uV6w9i31ovSSEBwYP017m
-         sBYosUoVouYEfxnZ1jZ5wLIQQ9Y/r06XXS9xuXIwhQV7Bk11qvL7k6Qa4pocXMbp+bao
-         S5/OXI3cXx2ez4mIQ/HoGmSbC4OHWTwUYSuC0oXKAhI5TIhZ0sPkHb8Q/YOOdwTchp3/
-         htbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790396980; x=1791001780;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=MnArI2zFMgSLXsIUz65zFL4A+lede9eeiAgX2MVd7/Q=;
-        b=w1MYRxvRn6JaLkZ2CFgMYCyKPaDw3qVnvg3VoAiM7Uqse9vI40XzGejzTQpsqHajpb
-         KuyxQ04hvwn6zHp7tbjbR0hIEGu5krtpzshFg8ro/SQQbmOWl/bPKNnnfFI4lPGCphli
-         blFL+SuyEhFnAKJ3H4pAabkNEGzvfXxY+i8APrk9K61yCSIFAM6Q7cDWp6WXkKpwWv5g
-         L4TJFJCm4C2IotKfRvB1kWxgeJo8kuoFRSHkQ7PR1eD13ugFRsFhLxy4FXWZywVFJSlg
-         UrSfylG3vD4cqSRXGtndELHcXcwArV5fRbIEj/eej3bF0RkIlP1k4xviu9wfXHaWiGjq
-         GU6w==
-X-Forwarded-Encrypted: i=1; AKwUvBw+Uj06w+9y4NK2nDMzGsJTJQ1JsijDS5nThh2l408PVoOKAJjVd8G0K7UlNFWlTtEDn2vuQNHO1+X0Yw==@vger.kernel.org
-X-Gm-Message-State: AFuF++lGHEkxOgJ/qE8csHU5SgiGOSi89oYtl1QMEnHKNQisCSt8/Ff3
-	KKoJ7ZYv2eLZl9bEePNEB6fhTZ6BuaVC4ewpS51kPA2BUDqD79220/zJ
-X-Gm-Gg: AYBFou0252TZP+ScwOt7CecZeQU3piY3Gn6MxsUoEuvKCeC/ybDKI832wOuprIoZJpk
-	SElgjeWPdaDUVUqacnKm7wcxiVrbGJUmKr+W0IVkAsEfj202aR/fYP7c2942b+xzRVOtEQ69F/f
-	ZCjtYpf2KSs3pGnMuThkLnblWHRy/x03UNIMPZRMWz1XNuFMqyNT0UuIALPl9Eq4qFJOXSZ2VAY
-	YSapFsanhEI6xgMBJlvKDJXTuQMAfU2q34VUHnyl2bi6fkzUoZPVE29uOzSgiPkaYm+tBuKI1+8
-	vDVXgbgwKmMj6pKHlHuvBMzNgBvOK00b2mkF84NWHhFOdhMlEEStcB4YeJkbOPT4jB4DiZCoHag
-	PqAP/tnz50bhN4co9ZVZ6+4ShtTgJCH9ULmM0t8bw+CPeSw5gEYBCy2SeDJymB6KXx0xtRVuKTh
-	t0yjGrJSQ5haopiyFPE4+X8RyUGrFE2sPGXMOvrdAfGrCy8/ICW+eLk9z1CCh8RmjR7CFr8faQ+
-	nDswuuAfv5oFBI6++UTao4YxNYBp7Vgm2wP+9a4v1+ZTrADLh1RRd15CW8OiLRXem+7YwxuRxvP
-	Tm2lCwBWgJv/OEOdty4ItlwKFzjeedEEVtAU8Rl9jKebAoPR
-X-Received: by 2002:a17:90b:5247:b0:39e:6c68:fd8f with SMTP id 98e67ed59e1d1-3a098b628d9mr4490672a91.36.1790396980415;
-        Fri, 25 Sep 2026 21:29:40 -0700 (PDT)
-Received: from dell-pro-max-tower-t2.cse.unsw.EDU.AU (pag-t2-pc.cse.unsw.EDU.AU. [129.94.173.199])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a0974ec5dfsm13884039a91.3.2026.09.25.21.29.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Sep 2026 21:29:39 -0700 (PDT)
-From: Weigang He <geoffreyhe2@gmail.com>
-To: Vinod Koul <vkoul@kernel.org>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Weigang He <geoffreyhe2@gmail.com>
-Subject: [PATCH] soundwire: master: use sysfs_emit_at() to avoid sysfs buffer overflow
-Date: Sat, 26 Sep 2026 14:29:35 +1000
-Message-ID: <20260926042935.2284011-1-geoffreyhe2@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F70k0EEf"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 21047C2BCB8;
+	Sat, 26 Sep 2026 07:24:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1790407470;
+	bh=LSFWMmwZm9AOOui3G9yO6os/W4ndoAnTIvP6M1MFVyw=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=F70k0EEfDlYyHcVUO1ludQ5Sq/5NlWWVaNpChhgYfOyEtspuKDmcTMX0TdJ7UxnmC
+	 e4em7lAOgJGOqqeiLMSXcQaTFlGFqEitG6JVaAXORSOcDXTZTAbCjUnSRm/2Ei3721
+	 DdF/rpRUglY+fs+3/7lcx/9Y+ruvOKaUF+/YosFeUOvbwoC+vQaJKKSF6EsjtHMaqD
+	 wOdtscZz+70I7FVyRbpejHuh3GOoL/kQHDw/pHdJRg6egT9mNi4XzH6MVgJw86TvPn
+	 LuqIONOpKtzopWldB8pCZblI2g4ba1ijQ83Kh9hGIZO51tymrZJiKz9WIRa6wYDNAT
+	 B3DpTnduGWJ3g==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EFDEFC98318;
+	Sat, 26 Sep 2026 07:24:29 +0000 (UTC)
+From: Aaron Kling via B4 Relay <devnull+webgeek1234.gmail.com@kernel.org>
+Date: Sat, 26 Sep 2026 02:24:19 -0500
+Subject: [PATCH] ALSA: hda/tegra: Re-enable SDO workaround for Tegra194
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260926-tegra194-hda-sdo-v1-1-f7a636a07a58@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MQQqAIBBA0avIrBtQKdGuEi1Ep5qNhkYE4d2Tl
+ m/x/wuVClOFWbxQ6ObKOXWoQUA4fNoJOXaDltpIpw1etBev3IhH9FhjRhXtGIy0k3IWenYW2vj
+ 5l8va2gf4fpxUYgAAAA==
+X-Change-ID: 20260926-tegra194-hda-sdo-1d84c6085198
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Thierry Reding <thierry.reding@kernel.org>, 
+ Jonathan Hunter <jonathanh@nvidia.com>
+Cc: Thierry Reding <treding@nvidia.com>, linux-sound@vger.kernel.org, 
+ linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ stable@vger.kernel.org, Aaron Kling <webgeek1234@gmail.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1790407469; l=1584;
+ i=webgeek1234@gmail.com; s=20250217; h=from:subject:message-id;
+ bh=8rAycl98UAJVNpg4nxLeFSEwU8WePutSW40I7utV8vY=;
+ b=jpT6mRhj6kFaT03vLb78Ga/cCq4a5oFDhA6+ifoHcGRLo0Q1WygeZdjkILrQ2wRqTUOIgSoJj
+ ur/C6Ic/N/jCoPadVejJRrh2MNXBWbwY9PtMqbgCOK/Yg6KbL8H5cHw
+X-Developer-Key: i=webgeek1234@gmail.com; a=ed25519;
+ pk=TQwd6q26txw7bkK7B8qtI/kcAohZc7bHHGSD7domdrU=
+X-Endpoint-Received: by B4 Relay for webgeek1234@gmail.com/20250217 with
+ auth_id=342
+X-Original-From: Aaron Kling <webgeek1234@gmail.com>
+Reply-To: webgeek1234@gmail.com
 
-clock_frequencies_show() and clock_gears_show() loop over num_clk_freq /
-num_clk_gears, writing each entry into the sysfs output buffer with
-sprintf(buf + size, ...) without bounding the running offset against
-PAGE_SIZE. Both counts are taken from firmware-supplied properties
-(parsed in mipi_disco.c via fwnode_property_count_u32()) and are not
-otherwise capped, so a device whose firmware advertises a large enough
-array overflows the single-page sysfs buffer.
+From: Aaron Kling <webgeek1234@gmail.com>
 
-Switch both loops to sysfs_emit_at(), which bounds each write to the
-PAGE_SIZE buffer.
+This workaround was originally added for Tegra194, but no longer gets
+applied for it. Commit 615d43540043 ("ALSA: hda/tegra: fix tegra-hda on
+tegra30 soc") changed the guard to tegra30-hda, which worked because all
+affected archs had the fallback compatible. However, commit 7f0ea5acfc19
+("arm64: tegra: Use correct compatible string for Tegra194 HDA") removed
+the fallback compatible for Tegra194, causing this to break.
 
-Found by static analysis tool CodeQL.
-
-Fixes: c5778ca49a194 ("soundwire: master: add sysfs support")
-Assisted-by: LLM codeql
-Signed-off-by: Weigang He <geoffreyhe2@gmail.com>
+Fixes: 7f0ea5acfc19 ("arm64: tegra: Use correct compatible string for Tegra194 HDA")
+Cc: stable@vger.kernel.org
+Assisted-by: LLM
+Signed-off-by: Aaron Kling <webgeek1234@gmail.com>
 ---
+ALSA: hda/tegra: Re-enable SDO workaround for Tegra194
+---
+ sound/hda/controllers/tegra.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Notes:
-    Compile-tested only (ARCH=arm64 and ARCH=x86_64 allmodconfig, W=1). Not
-    tested on hardware, and there is no reproducer.
-    
-    The CodeQL query behind this report was synthesized with LLM assistance,
-    and the fix and changelog were drafted with LLM assistance; I have
-    reviewed them.
+diff --git a/sound/hda/controllers/tegra.c b/sound/hda/controllers/tegra.c
+index 31c14c4bbe683..674cc0f79c3c8 100644
+--- a/sound/hda/controllers/tegra.c
++++ b/sound/hda/controllers/tegra.c
+@@ -374,7 +374,8 @@ static int hda_tegra_first_init(struct azx *chip, struct platform_device *pdev)
+ 	 * in powers of 2, next available ratio is 16 which can be
+ 	 * used as a limiting factor here.
+ 	 */
+-	if (of_device_is_compatible(np, "nvidia,tegra30-hda"))
++	if (of_device_is_compatible(np, "nvidia,tegra30-hda") ||
++	    of_device_is_compatible(np, "nvidia,tegra194-hda"))
+ 		chip->bus.core.sdo_limit = 16;
+ 
+ 	/* codec detection */
 
- drivers/soundwire/master.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+---
+base-commit: 4c253ac4b29b8c6cc6fdef8f92d4facde62e63b9
+change-id: 20260926-tegra194-hda-sdo-1d84c6085198
 
-diff --git a/drivers/soundwire/master.c b/drivers/soundwire/master.c
-index 440bfc52ccba5..fb1ef2210732d 100644
---- a/drivers/soundwire/master.c
-+++ b/drivers/soundwire/master.c
-@@ -61,9 +61,9 @@ static ssize_t clock_frequencies_show(struct device *dev,
- 	int i;
- 
- 	for (i = 0; i < md->bus->prop.num_clk_freq; i++)
--		size += sprintf(buf + size, "%8d ",
--				md->bus->prop.clk_freq[i]);
--	size += sprintf(buf + size, "\n");
-+		size += sysfs_emit_at(buf, size, "%8d ",
-+				      md->bus->prop.clk_freq[i]);
-+	size += sysfs_emit_at(buf, size, "\n");
- 
- 	return size;
- }
-@@ -77,9 +77,9 @@ static ssize_t clock_gears_show(struct device *dev,
- 	int i;
- 
- 	for (i = 0; i < md->bus->prop.num_clk_gears; i++)
--		size += sprintf(buf + size, "%8d ",
--				md->bus->prop.clk_gears[i]);
--	size += sprintf(buf + size, "\n");
-+		size += sysfs_emit_at(buf, size, "%8d ",
-+				      md->bus->prop.clk_gears[i]);
-+	size += sysfs_emit_at(buf, size, "\n");
- 
- 	return size;
- }
-
-base-commit: 165768bb70265b5c38cf0b73fafd75be235f8b14
-prerequisite-patch-id: c5a3be8688fd8e88a00352acb1374e91fcb52a03
-prerequisite-patch-id: 67693e2c08624df0841619cc085ce9200f4385fc
-prerequisite-patch-id: f3d73f7c19be7e952aa8061303f53f9a08576a88
-prerequisite-patch-id: 541e578709d048f4c8115f1d926be2f2c03ecb0e
-prerequisite-patch-id: f23f8e0693435497645805822d98a92e57fb46f3
-prerequisite-patch-id: eae82895db8ba67018a777a91a283ad6bc4a55b2
-prerequisite-patch-id: aed00f7502865e3f9262959d828eae4a4021108f
-prerequisite-patch-id: 4cd2054e4973f2ed050d71e0ad73147165913916
+Best regards,
 -- 
-2.43.0
+Aaron Kling <webgeek1234@gmail.com>
+
 
