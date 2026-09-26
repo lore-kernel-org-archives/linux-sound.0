@@ -1,170 +1,173 @@
-Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011024.outbound.protection.outlook.com [40.107.208.24])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B1FA3822A3;
-	Sat, 26 Sep 2026 08:59:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.24
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790413180; cv=fail; b=IYl2g3xeYaTzo8BT/qrmsZ21+qLlH4STv2aXAFbEHQUGPanDLPU+ivhlGLk/2vbH9p2PNThZ3OAj/XmNb/iHm1oI7G8z7BM/lPi9Bijq0rofG9y8XsY581/BcJtnqAKI0og/xQRh8nb7JcuLgBobOIG9mddwdVyb9IZY0isGwZQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790413180; c=relaxed/simple;
-	bh=g962SAQ85z4S18hw+OsIKittjcAxjnMPJ8B5PwSweSU=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=U15Z1QValQqhvYa59zD1/wTizTUfdFHoF/cQgt+4hGOFRdWJ0LK1e/PLdaEkXCOezbIReIATgKbOM7dhNOMEmwGsck9zpXIW1f6+JNfSnaCuAgwQEzJ4aUis98yUtETOmBY2b+uWycODQ4b3hu6cT+Yx2Bh23dtjGTn9FYt01ec=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=czJU8aI5; arc=fail smtp.client-ip=40.107.208.24
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28C0B3AE188;
+	Sat, 26 Sep 2026 09:41:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790415690; cv=none; b=C2NmT9uWz00F0F1OANcjzmMvRfxVUwRlXBKIZsTj3xKMUFHAsDJIg0NLrKc2Kv37EWVhSH08UWQhobLZehvPPXF509WL4GtZzdb73pquMNk0gY/vVOMIgLexw5M/TxNHOyv213kRJTWNORjTpKOEHjRcLRnDfJS5skkvfJZcNfA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790415690; c=relaxed/simple;
+	bh=fG0FKQk8YwZ1VwP7/bshHcrrty8QQFIrgXpFDMvFJbw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LEXT0M+HYTvukNeD9kCslGYlsOpJPDSAmYGTHCtvAATFmU7F2IMvZ4oF0ATuWOxmIjzvGXY8qPTU3bizAE1W57DWfz327NEAfxBrTbFdCyjrieYm0nFGmDF2Jvzwwc9YYph8Zydt0CsEURa1TxE06yrSsFUaOw4SGb5b3o2DhQY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jp0AvcBc; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="czJU8aI5"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fcXpjRv21BPZopF6A+gIkW5q8VKSYf/U/uxAOcH4qYmsbjHqpUiHCyO8mO4h7AcXwoXFzgSzCRdjQykxGA6akpVjN2c6Zrmo0jVid1sg6DgcukcAXtqunZgnnh+rX+WeTPaPRyswJz9itbjBOblJOTpPX8UVUrU/ucLTrGLZNf+ejfh/yfPi7OAAud+nmbAewv9SFnoE9bbf674BdGjCu4OHwP+b2izwDzkD/8/7ilAx/Q+Xyl8AxEvc1SIISKy5Njs+S/rIY5hid2rajPqOcLcBYk558hOncKQr9LEqylwMh9pEw/6kD+DUDMu7T3XoqZKvVi0e2/VLrA1nued82w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8XY/c3TZqGf/GoxuGIDyciXEkjNnKaASIihPYMyzIsM=;
- b=Dld17wZuC3yaKokajX6ggiyUnux2tAR1v7Z7WvRsCy1gVvcEy5HJQPMvFU80DCbVrF92QN36JQ70i7MdsXdU3bjrEIZGMPov5BJ4FUsTwVkRP4qLnqpUSNqephiiX7by4cmcUaSK/uWdXYxSYN9B/nlpKJNmkhzs0+JbJRhhJEURAs56wcxuC19RHeN6nWjbcJ5orySJsuXXagv+qfdrJ2FCrY5MeJOfPnBih5X04N+xd6N7SGN+kRb2fTlPx7P5a/wYpsKvQdxRIwfrRMwGmkjHEst2Wb0/cuMtI61xQ3Oy/JnKV/uZjyRyM6sfduy5YVOdV/AGSVPdBPP4MzPwjQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8XY/c3TZqGf/GoxuGIDyciXEkjNnKaASIihPYMyzIsM=;
- b=czJU8aI5DJCK5EnA5U2rquofEtdGuMQzOo4eN8BSHDNobHvzGnSdWCpPBf1l6RH3IwP8xjqqud76iOy0/VTMcm8gIkCg9oRWj/3gqurOMsZGNdGYt6N2ybWcCiZyJjH9hRJwEGzkMDnkZfnIaqqnRZNL7WQRdKokojsPYFKSPFs=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DS2PR12MB9567.namprd12.prod.outlook.com (2603:10b6:8:27c::8) by
- MN2PR12MB4318.namprd12.prod.outlook.com (2603:10b6:208:1d8::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.18; Sat, 26 Sep
- 2026 08:59:37 +0000
-Received: from DS2PR12MB9567.namprd12.prod.outlook.com
- ([fe80::636:1b52:24ca:d7e5]) by DS2PR12MB9567.namprd12.prod.outlook.com
- ([fe80::636:1b52:24ca:d7e5%4]) with mapi id 15.21.0451.014; Sat, 26 Sep 2026
- 08:59:36 +0000
-Message-ID: <305d8770-50f5-4489-a901-f73069a1b964@amd.com>
-Date: Sat, 26 Sep 2026 14:28:19 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V2 0/9] soundwire: amd: SoundWire manager driver bug fixes
-To: vkoul@kernel.org, Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-Cc: broonie@kernel.org, alsa-devel@alsa-project.org,
- yung-chuan.liao@linux.intel.com, Basavaraj.Hiregoudar@amd.com,
- Sunil-kumar.Dommati@amd.com, venkataprasad.potturu@amd.com,
- Syed.SabaKareem@amd.com, Mario.Limonciello@amd.com, Richard.Gong@amd.com,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260917083732.3803526-1-Vijendar.Mukunda@amd.com>
-Content-Language: en-US
-From: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
-In-Reply-To: <20260917083732.3803526-1-Vijendar.Mukunda@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN3PR01CA0009.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:95::17) To DS2PR12MB9567.namprd12.prod.outlook.com
- (2603:10b6:8:27c::8)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jp0AvcBc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E8C81F000FF;
+	Sat, 26 Sep 2026 09:40:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790415681;
+	bh=0u13dbBevDvvrKeztStjJV2PV5yx6LiZibgW9CGmgFg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Jp0AvcBc2qFPX1KUyqat5xOo7kolWDkC6C0w6P6DaUvXm5iSIG2CZI03JVCmdPvQ2
+	 vFXKg46qQ6h6qbDwt9b4xtSV8aaaHLKGAB793g+poJ3xMYhkIZo7xqXL5RLvULfLUx
+	 vltnCfE9F9DOd8HFLd4r2r4Sg0lUuE/yF336VcdgoJJtQs97NrE8ayt+3eU4eDKxGI
+	 oItyuRRw3Cj0jyhydyYqR3Mm1CDYrci/+rQrHCVid7DDrx80EwRj+MiAUgyhESJ7FS
+	 iOAhXbJnk5J5uDUKfyr1oX15QJ3wMcCu5lNOsTEzc+QVqHwaov8/ApQZu8GqGu9l4+
+	 gmVl8+MdCcOZA==
+Date: Sat, 26 Sep 2026 10:40:50 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, 
+	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+	"David Hildenbrand (Red Hat)" <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
+	Paul Moore <paul@paul-moore.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+	"Kirill A. Shutemov" <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
+	"James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen" <mkp@kernel.org>, 
+	Jaya Kumar <jayalk@intworks.biz>, Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, 
+	Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, peterx <peterx@redhat.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
+	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Juri Lelli <juri.lelli@redhat.com>, 
+	Vincent Guittot <vincent.guittot@linaro.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	Dave Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
+	"Aneesh Kumar K.V (Arm)" <aneesh.kumar@kernel.org>, Nicholas Piggin <npiggin@gmail.com>, 
+	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
+	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
+	Vasily Gorbik <gor@linux.ibm.com>, "David S . Miller" <davem@davemloft.net>, 
+	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
+	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
+	Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
+	Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
+	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, Linux-Arch <linux-arch@vger.kernel.org>, 
+	linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
+	linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, 
+	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, 
+	fuse-devel@lists.linux.dev, Takashi Iwai <tiwai@suse.de>, 
+	Emil Tsalapatis <emil@etsalapatis.com>
+Subject: Re: [PATCH v3 00/40] mm: make VMA flag semantics explicit, eliminate
+ VM_SPECIAL
+Message-ID: <areSEI5pWBadkqIe@gremlin>
+References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
+ <d4d7d4c2-a1d5-41d0-b1c8-8ea0cc5a0397@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS2PR12MB9567:EE_|MN2PR12MB4318:EE_
-X-MS-Office365-Filtering-Correlation-Id: 561a4bb2-f500-4732-537a-08df1bac7d55
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|1800799024|23010399003|366016|10067099003|56012099006|11063799006|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	idxTcXVGI1Q8BPansI6zNadPcf6e8h4wCjrdjb7fqprxxqH6o0fHoCgjMU/uFjtLxygGCIaiUqE/wFsLdWkOGVmolL9khqR9MkF/z9C3VetGe6iEfYeZ4cQ4687G7Gb/gAcfSy2aqQZ7E+iQPrv1ArmKpQGYyNKL6TjEa18S3noRDtqPasECl4Hq51DIprfYCrTBvUAk7iE0YBZ/8t9SQ7WQ4WGKl7rK2HRjM+URETUjOUapp3nPF3XkjepQlHHFWCBXdQw3gs1F56rJjFxYL8X3ErVZ5pWsN0iK3HULFUlJjTbzWmTa2BTtN1/ufkl1tXW48LYCkf+whK9uPcPDRpmgN3t+XbBQGVnhOi37+ivLkV1kOKKHNz2w327pWxT2CKNWeKVs3wAq15x1RemGslwhog3ajqd9AoVpljGlff//PHAFOF3SSCjuGnw3rtmYgvFIiffC0bhHhTg4uYq7gdl5fgS5FPtZ/AnAx0cdeer8b7X6ezcmHdsbcXvrhMkT1/AJlQuCRAOujZSICoij5dH7nZSzlWnhQO4tNDlCE1bFvjwHOVckF3Qj9WjsbgKovgxt62gAJ5vieKPGQLcjtbjMRPqXyEcsxi/yac1rSaj5Jk7kLkY1/MPYINVPOFzaIMdKjS8ULRwtJ/NCKHG9YSAz9l2eTqJ1Tm4hPu2Wfwg=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS2PR12MB9567.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(23010399003)(366016)(10067099003)(56012099006)(11063799006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?V0xmN0ZKdEI1YVZjdnljVlNKZ1VHMTNIREVZNVJrRG9LTmsxdXVaaEFoUTBm?=
- =?utf-8?B?SS9HSXluY2xCTk1oT2F4NklKTHFNWGMvSWdXQWJmTXdncVY2UDRXMUZCWFZY?=
- =?utf-8?B?bEZsbGxFU2JKcDZVYm40bFpLVTdpMksrb3BLUUFxYTFVLzVNcmJsemdxZUo3?=
- =?utf-8?B?emg3OXBBSWpuOXVmdFI2MmtDNHpxQzJNOUF6M0xJWVUwVWhSSERUS1hJWW1x?=
- =?utf-8?B?Q1Y0OW1FT1BDbjUvVWxhSWw3MW1XRUF3UzVuTWNPdERISmQ5Tithc09FcWVK?=
- =?utf-8?B?TG9CNmdvenRSYlVxcTJFN1d2cUNyOGpZcUtKZkp2c01Nc2JkWVZ6MHJlQkhG?=
- =?utf-8?B?SFllMVNDMjV3QnpwTklSUUxFRnZWT05iRFRrQVkvM3l2OGVCeWtaeFF3NldB?=
- =?utf-8?B?VFJQOVdBYkJTT1FqcUJpK1BpNHVVd3RRVXVKMXl6NkNYWTBWWDNSV05JRWxn?=
- =?utf-8?B?SnVwWXFvRmJta0lEdFNFaENDMjJpVGsxeGJoQVpYaU44TFZEQnFabmR4SXU2?=
- =?utf-8?B?WWhYME01Z0RneVNveGhvMWxaS2xyMlFWRGtrMVpDUWo0SGNIdVlZa3ZEc1g1?=
- =?utf-8?B?SkY0dU10SnZLdjJpKzR0Nk4reWxMY1lFVytIbU9xaEZEZ3J2K00zSHJpVkJ1?=
- =?utf-8?B?ZmhoaUpvYUtnTmt3cXNqbE1jdXBuZ0RKbWl2MW40SXdpdFZ0Z0RoL3A5VFRJ?=
- =?utf-8?B?S2FSbUdIVGpaNGd1b20yQUFLQzBCWVl0THZjQ1BnYUZ5bmhud3ZRNkhBWFQr?=
- =?utf-8?B?SGlmdFRyM09ybHd2c1UyZDRxcmtGekI1cmFzWTduNGpZK3l0TkxrV3JaY2ZQ?=
- =?utf-8?B?ODRWK09RaUE0SExodkxQWFlRMTMrVmVpZnl6WDBxak8xUUxKTisrYzFaTjgw?=
- =?utf-8?B?V3p0VEJEZTRoejIvS3doSHpNb3FmN0h4THpwWG5ESHN0WTcyWE5oeFN6TU5M?=
- =?utf-8?B?dU9mUUgyRnRFbVovenlQQm4wYUdNeVpBSzMwbTdPekl4djU4cXI4cEtPaEtJ?=
- =?utf-8?B?c3lpWHRjMmZoa0YvbEs0VUdqNklaUUFLdThXY0JHekZ3VTVvMGNKaG1nYTZD?=
- =?utf-8?B?bHFEYi9ldFhudmFBcUo5K1pYamhGZjlOcU0rUWxGN09aVzFScmtVNnlpcmIy?=
- =?utf-8?B?Y1ZJOUhrTzlqQWhWeUk3a1hGUlBzOGZmQ0hpb2V0NFgwY3M0dG1kcHVLUGZ2?=
- =?utf-8?B?Q0JMUitBWVQyN0lrWHJIa28rMXJWSmtuZ0RSY01aSmx3aVVvcFZyWWtlV3ZD?=
- =?utf-8?B?YnRBWVIwL0VhUThUNHgrbWRJR0hCV0hlczZDRXorQnNhU2NlYlo2cWhtYnVR?=
- =?utf-8?B?WEE5ZkYySzBIYXlGUXl3ajExTnJUQ2pwOEZuUUZ0dzZ2eEdoU1ltTEN0Z1Az?=
- =?utf-8?B?d2N6ME9Ka1BKMWN0WnRRVFFxcStJNWxNNisxKzB4c0U2Mm5aSmMrZDlCeHVr?=
- =?utf-8?B?Nzh1eUF2by9iYzVMMmtaNm5IYm1sc3QxcmJOa3BlR3dobUhuMkozN05ZT3BJ?=
- =?utf-8?B?TFhTd21veUF1Wk5jVS90cXNoR0dtS2JlRWNtUUdxQndtQXJmcEpTTU0xSzFw?=
- =?utf-8?B?ZE5DZmU3dDlXOU9VbSs2OHUxZTFleFRYQ0pZK2VrdWdhQTRERU9QSUVTNXhk?=
- =?utf-8?B?M0VGL3dFc3R3MjNrY1hZZkhBUXI1WnVaaGU0SzZGVnZDWEN0ZVhFQlRrN2li?=
- =?utf-8?B?MkdCVmY5WStwRHBuQWdjNy94Y1FhK1BxWS9JVEtrUTVIbGJlM1RVNXZJeVY0?=
- =?utf-8?B?eDM4QkI3eVpwTzVzaHJ2WHUwbUdTTTNyTm5QUUVHZDNBd1E0ai9DMUNtMkVQ?=
- =?utf-8?B?andmY3pWaXpLN0hBdDhXbUJ4M1p2VlhRUU8xRGtPNzNobHEyeE93czhSNHJW?=
- =?utf-8?B?TjVWQjNWdDloVTZqTXF3ZjJqZHRGK3A2UmJqZ1hrcTRTc05PaVBkMlN2UHRP?=
- =?utf-8?B?OW1xK3RQOWJUZGhFZWRoeWdmRk9xdTJ6RERoZHErbDRrTnlKSUR1SHZMWmlq?=
- =?utf-8?B?UWpFUnEzSnB1YmZxK0YzY3kwR3B6dmREWi9LQzExWk9ubEhIYjZFdGtLMXYr?=
- =?utf-8?B?M21nY01aWEtQU1B1K05MRkt2QzZzbGltNmF2WXM4KytKMTh3eU5ycEoydTJF?=
- =?utf-8?B?aUZsZHJxMzBqTHpKUEpvaUhGRFFzV21BUkpDUWpPanNFUjFyZ0hoQ1B2ZWcz?=
- =?utf-8?B?TXRPZDA0SkkybWFYcW05dTdJdWR3Y2kwcDFsZENBeDlQZFBOZ3JuTXpDZ2lo?=
- =?utf-8?B?OVZ6VU9yamNpa2xncDI2YStQazNOeUlpTDFycFYzS0o4SEF2bzhxTmFsTVIz?=
- =?utf-8?B?T3dzN2xoY0FsVE9EQy9ZUGlpN3BRMStIdm9zSHluKzFpVDMyNFRDZz09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 561a4bb2-f500-4732-537a-08df1bac7d55
-X-MS-Exchange-CrossTenant-AuthSource: DS2PR12MB9567.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Sep 2026 08:59:36.4379
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /MSQ6MfMLX6yGD3GRRBJlh/sYOj1Zx2ajyomt7GYpiA0WzTjpHBvYxE0LZpnTIUSBt7h7NVehB8aI8Xynue+Tg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4318
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d4d7d4c2-a1d5-41d0-b1c8-8ea0cc5a0397@app.fastmail.com>
 
-
-
-On 9/17/26 14:04, Vijendar Mukunda wrote:
-> This series collects bug fixes for the AMD SoundWire manager
-> driver (ACP6.3/7.0/7.1/7.2). The patches address correctness issues
-> in command response handling, slave status caching, work-queue teardown
-> ordering, resource cleanup on probe failure, and power-management
-> suspend/resume sequences.
-Hi Vinod & Pierre
-
-Could you please help to review the patch set?
-
-Thanks,
-Vijendar
+On Sat, Sep 26, 2026 at 12:06:22AM +0200, Arnd Bergmann wrote:
+> On Thu, Sep 17, 2026, at 18:22, Lorenzo Stoakes (ARM) wrote:
+> >
+> >  mm/vma.c                                   | 246 +++++++++++++++++++-------
 >
-> Changes since v1:
-> - Update comment for ping_slave_stat variable description in patch 2/9.
-> - split the remove path work drain and pm ops guard patch into separate
->    patches (patches 3/9 and 4/9) to improve clarity and maintainability.
+> Hi Lorenzo,
 >
-> Vijendar Mukunda (9):
->    soundwire: amd: fix SDW command timeout return value handling
->    soundwire: amd: cache ping slave status to avoid spurious disconnect
->      on timeout
->    soundwire: amd: fix work drain ordering in remove path
->    soundwire: amd: pm_runtime guard in remove path
->    soundwire: amd: fix ctx leak when sdw_amd_startup() fails
->    soundwire: amd: propagate amd_init_sdw_manager() error on resume
->    soundwire: amd: drop amd_deinit_sdw_manager() in POWER_OFF suspend
->    soundwire: amd: replace >= ACP70 with explicit switch/case in PM paths
->    soundwire: amd: fix interrupt gate and work drain ordering in PM ops
->
->   drivers/soundwire/amd_init.c      |   9 +-
->   drivers/soundwire/amd_manager.c   | 204 ++++++++++++++++++++----------
->   include/linux/soundwire/sdw_amd.h |   4 +
->   3 files changed, 149 insertions(+), 68 deletions(-)
->
+> I see that in linux-next there is a new build failure in some
+> configurations in code that you are changing here:
 
+Thanks for the report!
+
+>
+> mm/vma.c: In function '__mmap_region':
+> mm/vma.c:3083:1: error: the frame size of 1552 bytes is larger than 1536 bytes [-Werror=frame-larger-than=]
+>
+> I don't immediately see anything that you did that would have introduced
+> something bad that wasn't already there, so it's likely just gone from
+> just below the limit I was using for my testing to just above. The 1536
+> byte limit is what I use on 64-bit builds with KASAN and otherwise
+> still has a clean build (with a small number of local fixup patches).
+
+Hmm are you specifying this limit manually somehow?
+
+>
+> What I see is that this function has multiple structures on the
+> stack that have nontrivial sizes:
+>
+>         VMA_ITERATOR(vmi, mm, addr); /* 104 bytes */
+>         MMAP_STATE(map, mm, &vmi, addr, len,...); /* 384 bytes */
+>         struct vm_area_desc desc; /* 128 bytes */
+>
+> The config that caused this is https://pastebin.com/raw/5M95qHy5,
+> which is an x86-64 build with CONFIG_KASAN_STACK enabled, and likely
+> a few other configuration options that made it a little worse.
+> KASAN_STACK tends to double the stack size used by structures
+> in order to catch out-of-bounds accesses.
+
+Yeah, there is a lot on the stack admittedly but there is also a lot of state
+being used. I'm sure we can reduce it.
+
+>
+> If I sprinkle some 'noinline_for_stack' annotations on functions
+> called by __mmap_region(), I can get the size down to 1144 in this
+> config, but that doesn't sound like a great workaround.
+>
+> The large stack usage is potentially harmful if this ends up
+> in call chains that have additional large stack usage (e.g.
+> kmalloc() leading to reclaim). Any ideas for how to reduce it here?
+
+That can never happen :) this call chain is _only_ for an mmap() call.
+
+>
+>      Arnd
+
+In general I am absolutely taking this seriously and will find a way to
+reduce this, but my only question is whether this is actually something
+that needs to be done in this series?
+
+Because it's already huge and I would rather avoid adding yet another patch
+to it if possible.
+
+If I can do it as a follow-up that'd be ideal!
+
+Thanks!
+
+--
+Cheers, Lorenzo
