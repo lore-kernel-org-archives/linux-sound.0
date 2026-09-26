@@ -1,38 +1,44 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
+Received: from mail-m155101.qiye.163.com (mail-m155101.qiye.163.com [101.71.155.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4289738CFED
-	for <linux-sound@vger.kernel.org>; Sat, 26 Sep 2026 14:04:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5294E47729B;
+	Sat, 26 Sep 2026 14:10:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790431456; cv=none; b=NclVqHFq7+VwgdTeQgO0JiLbbesqZx4A5XkDHiDfNYmwAir/zCPpPAHGfarHWjQvSI0JRfTPdeE8XzTBLfr1AdpdqgqAnGoalxEUCo+JkWRBjYEmHMbKhWy8STgr6qph+Wmypn8FiPtOMqTaA4MEOs7Lz2L1OuAHGVjG2zhvO00=
+	t=1790431826; cv=none; b=PlTN9GuD7meM+g2sJRYJz7tKHB6YeLBc1ufwSTbLIF325MV07VW1+PsMaLN8PWgyT6+Wp9BUe4noZNV7MrFD0hEAV9elQqTFsrJWXJI77SviTg6QH36XPqDjKSj3tYCvw7v/RVSyZBujj+ZKEtTLXbdtU6QQNkwEbqxx2vJue8Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790431456; c=relaxed/simple;
-	bh=sJiMHeN/tOpoqA4LehMacgNNmxNdHSFKWMtZmwxX3Q8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OkU12Rw+6MaycD83pmGWNqBntzEfNrWudnFEfWthrO0kBMIHpYZrwFbV/p8y/mQin2JPiZvQscm9GXXayiykuUX6495n+wonCtGFochgyLZuoOjnW6sW21o64ARW5yVZVHcyfxMxzvfm4duxGOmv+Hc9ZzAlVvOxSEFWYO3S7R8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=JZB9OuI5; arc=none smtp.client-ip=220.197.31.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1790431826; c=relaxed/simple;
+	bh=JbDw+MUBwd1NuaHHbIXA89TRUzB3TM4Iy66hoxwmdYA=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=Qlw6RJCaoq40N1kQRWd37CvGJw25JosMs66Zp6+aPCATsa0RkQFN3/q23DSyomq6QYnnBbRrExiKgKvs+oC9FMJZMp9d7R1CfagtYL/SlY4p8b8civq2yzFfuoClUGLDD+VNorE3hxkJPAHxZBAsUH8V4rmv790dDjGBI5+60EA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=nx2rAX/f; arc=none smtp.client-ip=101.71.155.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="JZB9OuI5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=Zm
-	pUxSHoF7rMfTQzYotMsMnyUuhQTmpvyCnXgcX4hSw=; b=JZB9OuI5O3feWGZ9Ch
-	Kpj/EbtpyzWZo7B4QRpXvFQ/hSHZMRp3kgD3FsBmZQpDPEctlsXjuVJgehXiv9LO
-	FXu+9XdNpLhILBd5s9iNy0a1qsG1O5aDsinKoOYvd7xhkYcIfi3AkDTVg6OLwIQ7
-	ujppWruK6u9dUU7s3vtz4/Of8=
-Received: from zeyuli-Adol-14-M5451GADOL (unknown [])
-	by gzsmtp2 (Coremail) with SMTP id PSgvCgCnYbO90LdqJqWIBQ--.50375S2;
-	Sat, 26 Sep 2026 22:03:50 +0800 (CST)
-From: Zeyu Li <13776528859@163.com>
-To: linux-sound@vger.kernel.org
-Cc: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Zeyu Li <13776528859@163.com>
-Subject: [PATCH] ALSA: hda/realtek: Add ALC235 support for headset mode
-Date: Sat, 26 Sep 2026 22:03:36 +0800
-Message-ID: <20260926140336.27896-1-13776528859@163.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="nx2rAX/f"
+Received: from seu.edu.cn (unknown [58.241.16.34])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 4f321466a;
+	Sat, 26 Sep 2026 22:10:12 +0800 (GMT+08:00)
+From: Slavin Liu <bolin.liu@seu.edu.cn>
+To: error27@gmail.com
+Cc: shengjiu.wang@gmail.com,
+	xiubo.lee@gmail.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	festevam@gmail.com,
+	nicoleotsuka@gmail.com,
+	linux-sound@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org,
+	bolin.liu@seu.edu.cn
+Subject: Re: [PATCH] ASoC: fsl_asrc: check the second front-end DMA channel
+Date: Sat, 26 Sep 2026 22:10:11 +0800
+Message-Id: <20260926141011.451552-1-bolin.liu@seu.edu.cn>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <arfGajXmMUeew0fr@stanley.mountain>
+References: <20260913125147.109920-1-bolin.liu@seu.edu.cn> <arfGajXmMUeew0fr@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -40,80 +46,48 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:PSgvCgCnYbO90LdqJqWIBQ--.50375S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7ZrW5GF18Ar18Cr4kZr4rAFb_yoW8Kry7pw
-	15Kw4rGF4xAF1qyay8JFWSq3W8KFy0gF1UZw4ak34fZF4jq3y8JFyUtFyDKF45CF9Fka47
-	urySqr4UGa43XFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0piWE__UUUUU=
-X-CM-SenderInfo: zprtllawvsmmivz6il2tof0z/xtbC3gftomq30MdSUQAA3f
+X-HM-Tid: 0aa0de0d5af503a1kunm7bc9a132185a52
+X-HM-MType: 10
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkZH0IfVkhCHUJIGE1PSE5MGlYeHw
+	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlOQ1VJT0pVSk1VSE9ZV1kWGg8SFR0UWUFZT0tIVUpLSUhOQ0
+	NVSktLVUtZBg++
+DKIM-Signature: a=rsa-sha256;
+	b=nx2rAX/fYSaniaSuVhhX5H2iMYMQeNlAyPksRDdNVsEBeimgggPGhO8A8sDBPOXsOCk6JzAmbv6lOT/bjyhI+/A4IcMKEwAf1zZ8S7l/YpJeY9ccwaVHr5HRCq7ZENpkcB/FQ2UsXlEGbYK5CPMFLa72IWMAFnZirDrK/siPYjE=; c=relaxed/relaxed; s=default; d=seu.edu.cn; v=1;
+	bh=tn+AKePJ/UjAryEvi5oaTWRovtAQRbYO7Jysf+KDOFs=;
+	h=date:mime-version:subject:message-id:from;
 
-The ALC235 (0x10ec0235) is registered as the ALC255 codec variant in
-patch_alc269(), but the headset mode functions were missing a case
-for it, so the CTIA/OMTP jack type detection and routing never ran
-on this codec. As a result, a plugged-in headset is detected (jack
-presence works) but the microphone signal is never routed, leaving
-the capture stream permanently silent.
+Hi Dan,
 
-Verified on an ASUS M5451GA laptop (HDA:10ec0235,10431814): with the
-ALC255 coef sequence applied, the headset microphone works correctly.
+On Sat, Sep 26, 2026 at 04:19:38PM +0300, Dan Carpenter wrote:
+> The ->get_dma_channel() function pointer returns error pointers not
+> NULL.
+>
+>     sound/soc/fsl/fsl_asrc_dma.c:254 fsl_asrc_dma_hw_params()
+>     warn: 'tmp_chan' is an error pointer or valid
+>
+> sound/soc/fsl/fsl_easrc.c | (struct fsl_asrc)->get_dma_channel | fsl_easrc_get_dma_channel | 1
+> sound/soc/fsl/fsl_asrc.c | (struct fsl_asrc)->get_dma_channel | fsl_asrc_get_dma_channel | 1
 
-Signed-off-by: Zeyu Li <13776528859@163.com>
----
- sound/hda/codecs/realtek/realtek.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+Is this a false positive?: both implementations return
+dma_request_slave_channel(), which is an inline wrapper converting the
+ERR_PTR from dma_request_chan() to NULL before returning:
 
-diff --git a/sound/hda/codecs/realtek/realtek.c b/sound/hda/codecs/realtek/realtek.c
-index db365a746..bc5226fad 100644
---- a/sound/hda/codecs/realtek/realtek.c
-+++ b/sound/hda/codecs/realtek/realtek.c
-@@ -1292,6 +1292,7 @@ static void alc_headset_mode_unplugged(struct hda_codec *codec)
- 	}
- 
- 	switch (codec->core.vendor_id) {
-+	case 0x10ec0235:
- 	case 0x10ec0255:
- 		alc_process_coef_fw(codec, coef0255);
- 		break;
-@@ -1407,6 +1408,7 @@ static void alc_headset_mode_mic_in(struct hda_codec *codec, hda_nid_t hp_pin,
- 	};
- 
- 	switch (codec->core.vendor_id) {
-+	case 0x10ec0235:
- 	case 0x10ec0255:
- 		alc_write_coef_idx(codec, 0x45, 0xc489);
- 		snd_hda_set_pin_ctl_cache(codec, hp_pin, 0);
-@@ -1562,6 +1564,7 @@ static void alc_headset_mode_default(struct hda_codec *codec)
- 		alc_process_coef_fw(codec, coef0225);
- 		alc_hp_enable_unmute(codec, 75);
- 		break;
-+	case 0x10ec0235:
- 	case 0x10ec0255:
- 		alc_process_coef_fw(codec, coef0255);
- 		break;
-@@ -1663,6 +1666,7 @@ static void alc_headset_mode_ctia(struct hda_codec *codec)
- 	};
- 
- 	switch (codec->core.vendor_id) {
-+	case 0x10ec0235:
- 	case 0x10ec0255:
- 		alc_process_coef_fw(codec, coef0255);
- 		break;
-@@ -1780,6 +1784,7 @@ static void alc_headset_mode_omtp(struct hda_codec *codec)
- 	};
- 
- 	switch (codec->core.vendor_id) {
-+	case 0x10ec0235:
- 	case 0x10ec0255:
- 		alc_process_coef_fw(codec, coef0255);
- 		break;
-@@ -1881,6 +1886,7 @@ static void alc_determine_headset_type(struct hda_codec *codec)
- 	}
- 
- 	switch (codec->core.vendor_id) {
-+	case 0x10ec0235:
- 	case 0x10ec0255:
- 		alc_process_coef_fw(codec, coef0255);
- 		msleep(300);
--- 
-2.53.0
+	static inline struct dma_chan * __deprecated
+	dma_request_slave_channel(struct device *dev, const char *name)
+	{
+		struct dma_chan *ch = dma_request_chan(dev, name);
 
+		return IS_ERR(ch) ? NULL : ch;
+	}
+
+So ->get_dma_channel() return NULL or a valid pointer.
+
+The same function backs this up: the persistent Front-End channel a
+few lines above comes from the same function pointer and is checked
+with !pair->dma_chan[!dir], while the Back-End channel is requested
+with dma_request_chan() directly and uses IS_ERR() -- the two check
+styles in one function match the two APIs.
+
+Best regards,
+Slavin Liu
