@@ -1,108 +1,170 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011024.outbound.protection.outlook.com [40.107.208.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD8AE33F589;
-	Sat, 26 Sep 2026 07:24:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790407470; cv=none; b=AGySIVeHGuoIWPtJrgSsf95c/GMfZQAo0gPDksk3fwZkrklVaKAwYRFnwJ4V/DPhAOWmCDGbC+xy/qt+kIH87vEChhHjce3vSVyTPDzHd1OpSxahZStZR/hbMC5Y4ET6C7sVIJLIuMWowIBRATa2ZPCUVnQSKcRjoliRU0pttwY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790407470; c=relaxed/simple;
-	bh=LSFWMmwZm9AOOui3G9yO6os/W4ndoAnTIvP6M1MFVyw=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Tp/AB1nLcE7ssaCIWMVluR2RIURcCyUKuG2QeyUe7OczsXpLUbiKUkfPNLY0/yutcEsJjFTH3+WH3q0EtA01BW5m1apZ6Dw1vBSiaQsTrYAI5jxVNjUTpWF+QxFhajjBSMM9iBVEoiKR03sZYxuGjQGi7tTtbRWaBMV6lBPTJAo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F70k0EEf; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B1FA3822A3;
+	Sat, 26 Sep 2026 08:59:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.24
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790413180; cv=fail; b=IYl2g3xeYaTzo8BT/qrmsZ21+qLlH4STv2aXAFbEHQUGPanDLPU+ivhlGLk/2vbH9p2PNThZ3OAj/XmNb/iHm1oI7G8z7BM/lPi9Bijq0rofG9y8XsY581/BcJtnqAKI0og/xQRh8nb7JcuLgBobOIG9mddwdVyb9IZY0isGwZQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790413180; c=relaxed/simple;
+	bh=g962SAQ85z4S18hw+OsIKittjcAxjnMPJ8B5PwSweSU=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=U15Z1QValQqhvYa59zD1/wTizTUfdFHoF/cQgt+4hGOFRdWJ0LK1e/PLdaEkXCOezbIReIATgKbOM7dhNOMEmwGsck9zpXIW1f6+JNfSnaCuAgwQEzJ4aUis98yUtETOmBY2b+uWycODQ4b3hu6cT+Yx2Bh23dtjGTn9FYt01ec=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=czJU8aI5; arc=fail smtp.client-ip=40.107.208.24
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F70k0EEf"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 21047C2BCB8;
-	Sat, 26 Sep 2026 07:24:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1790407470;
-	bh=LSFWMmwZm9AOOui3G9yO6os/W4ndoAnTIvP6M1MFVyw=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=F70k0EEfDlYyHcVUO1ludQ5Sq/5NlWWVaNpChhgYfOyEtspuKDmcTMX0TdJ7UxnmC
-	 e4em7lAOgJGOqqeiLMSXcQaTFlGFqEitG6JVaAXORSOcDXTZTAbCjUnSRm/2Ei3721
-	 DdF/rpRUglY+fs+3/7lcx/9Y+ruvOKaUF+/YosFeUOvbwoC+vQaJKKSF6EsjtHMaqD
-	 wOdtscZz+70I7FVyRbpejHuh3GOoL/kQHDw/pHdJRg6egT9mNi4XzH6MVgJw86TvPn
-	 LuqIONOpKtzopWldB8pCZblI2g4ba1ijQ83Kh9hGIZO51tymrZJiKz9WIRa6wYDNAT
-	 B3DpTnduGWJ3g==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EFDEFC98318;
-	Sat, 26 Sep 2026 07:24:29 +0000 (UTC)
-From: Aaron Kling via B4 Relay <devnull+webgeek1234.gmail.com@kernel.org>
-Date: Sat, 26 Sep 2026 02:24:19 -0500
-Subject: [PATCH] ALSA: hda/tegra: Re-enable SDO workaround for Tegra194
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="czJU8aI5"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=fcXpjRv21BPZopF6A+gIkW5q8VKSYf/U/uxAOcH4qYmsbjHqpUiHCyO8mO4h7AcXwoXFzgSzCRdjQykxGA6akpVjN2c6Zrmo0jVid1sg6DgcukcAXtqunZgnnh+rX+WeTPaPRyswJz9itbjBOblJOTpPX8UVUrU/ucLTrGLZNf+ejfh/yfPi7OAAud+nmbAewv9SFnoE9bbf674BdGjCu4OHwP+b2izwDzkD/8/7ilAx/Q+Xyl8AxEvc1SIISKy5Njs+S/rIY5hid2rajPqOcLcBYk558hOncKQr9LEqylwMh9pEw/6kD+DUDMu7T3XoqZKvVi0e2/VLrA1nued82w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8XY/c3TZqGf/GoxuGIDyciXEkjNnKaASIihPYMyzIsM=;
+ b=Dld17wZuC3yaKokajX6ggiyUnux2tAR1v7Z7WvRsCy1gVvcEy5HJQPMvFU80DCbVrF92QN36JQ70i7MdsXdU3bjrEIZGMPov5BJ4FUsTwVkRP4qLnqpUSNqephiiX7by4cmcUaSK/uWdXYxSYN9B/nlpKJNmkhzs0+JbJRhhJEURAs56wcxuC19RHeN6nWjbcJ5orySJsuXXagv+qfdrJ2FCrY5MeJOfPnBih5X04N+xd6N7SGN+kRb2fTlPx7P5a/wYpsKvQdxRIwfrRMwGmkjHEst2Wb0/cuMtI61xQ3Oy/JnKV/uZjyRyM6sfduy5YVOdV/AGSVPdBPP4MzPwjQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8XY/c3TZqGf/GoxuGIDyciXEkjNnKaASIihPYMyzIsM=;
+ b=czJU8aI5DJCK5EnA5U2rquofEtdGuMQzOo4eN8BSHDNobHvzGnSdWCpPBf1l6RH3IwP8xjqqud76iOy0/VTMcm8gIkCg9oRWj/3gqurOMsZGNdGYt6N2ybWcCiZyJjH9hRJwEGzkMDnkZfnIaqqnRZNL7WQRdKokojsPYFKSPFs=
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DS2PR12MB9567.namprd12.prod.outlook.com (2603:10b6:8:27c::8) by
+ MN2PR12MB4318.namprd12.prod.outlook.com (2603:10b6:208:1d8::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.18; Sat, 26 Sep
+ 2026 08:59:37 +0000
+Received: from DS2PR12MB9567.namprd12.prod.outlook.com
+ ([fe80::636:1b52:24ca:d7e5]) by DS2PR12MB9567.namprd12.prod.outlook.com
+ ([fe80::636:1b52:24ca:d7e5%4]) with mapi id 15.21.0451.014; Sat, 26 Sep 2026
+ 08:59:36 +0000
+Message-ID: <305d8770-50f5-4489-a901-f73069a1b964@amd.com>
+Date: Sat, 26 Sep 2026 14:28:19 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V2 0/9] soundwire: amd: SoundWire manager driver bug fixes
+To: vkoul@kernel.org, Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+Cc: broonie@kernel.org, alsa-devel@alsa-project.org,
+ yung-chuan.liao@linux.intel.com, Basavaraj.Hiregoudar@amd.com,
+ Sunil-kumar.Dommati@amd.com, venkataprasad.potturu@amd.com,
+ Syed.SabaKareem@amd.com, Mario.Limonciello@amd.com, Richard.Gong@amd.com,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260917083732.3803526-1-Vijendar.Mukunda@amd.com>
+Content-Language: en-US
+From: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
+In-Reply-To: <20260917083732.3803526-1-Vijendar.Mukunda@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN3PR01CA0009.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:95::17) To DS2PR12MB9567.namprd12.prod.outlook.com
+ (2603:10b6:8:27c::8)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260926-tegra194-hda-sdo-v1-1-f7a636a07a58@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MQQqAIBBA0avIrBtQKdGuEi1Ep5qNhkYE4d2Tl
- m/x/wuVClOFWbxQ6ObKOXWoQUA4fNoJOXaDltpIpw1etBev3IhH9FhjRhXtGIy0k3IWenYW2vj
- 5l8va2gf4fpxUYgAAAA==
-X-Change-ID: 20260926-tegra194-hda-sdo-1d84c6085198
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Thierry Reding <thierry.reding@kernel.org>, 
- Jonathan Hunter <jonathanh@nvidia.com>
-Cc: Thierry Reding <treding@nvidia.com>, linux-sound@vger.kernel.org, 
- linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org, 
- stable@vger.kernel.org, Aaron Kling <webgeek1234@gmail.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1790407469; l=1584;
- i=webgeek1234@gmail.com; s=20250217; h=from:subject:message-id;
- bh=8rAycl98UAJVNpg4nxLeFSEwU8WePutSW40I7utV8vY=;
- b=jpT6mRhj6kFaT03vLb78Ga/cCq4a5oFDhA6+ifoHcGRLo0Q1WygeZdjkILrQ2wRqTUOIgSoJj
- ur/C6Ic/N/jCoPadVejJRrh2MNXBWbwY9PtMqbgCOK/Yg6KbL8H5cHw
-X-Developer-Key: i=webgeek1234@gmail.com; a=ed25519;
- pk=TQwd6q26txw7bkK7B8qtI/kcAohZc7bHHGSD7domdrU=
-X-Endpoint-Received: by B4 Relay for webgeek1234@gmail.com/20250217 with
- auth_id=342
-X-Original-From: Aaron Kling <webgeek1234@gmail.com>
-Reply-To: webgeek1234@gmail.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS2PR12MB9567:EE_|MN2PR12MB4318:EE_
+X-MS-Office365-Filtering-Correlation-Id: 561a4bb2-f500-4732-537a-08df1bac7d55
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|1800799024|23010399003|366016|10067099003|56012099006|11063799006|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	idxTcXVGI1Q8BPansI6zNadPcf6e8h4wCjrdjb7fqprxxqH6o0fHoCgjMU/uFjtLxygGCIaiUqE/wFsLdWkOGVmolL9khqR9MkF/z9C3VetGe6iEfYeZ4cQ4687G7Gb/gAcfSy2aqQZ7E+iQPrv1ArmKpQGYyNKL6TjEa18S3noRDtqPasECl4Hq51DIprfYCrTBvUAk7iE0YBZ/8t9SQ7WQ4WGKl7rK2HRjM+URETUjOUapp3nPF3XkjepQlHHFWCBXdQw3gs1F56rJjFxYL8X3ErVZ5pWsN0iK3HULFUlJjTbzWmTa2BTtN1/ufkl1tXW48LYCkf+whK9uPcPDRpmgN3t+XbBQGVnhOi37+ivLkV1kOKKHNz2w327pWxT2CKNWeKVs3wAq15x1RemGslwhog3ajqd9AoVpljGlff//PHAFOF3SSCjuGnw3rtmYgvFIiffC0bhHhTg4uYq7gdl5fgS5FPtZ/AnAx0cdeer8b7X6ezcmHdsbcXvrhMkT1/AJlQuCRAOujZSICoij5dH7nZSzlWnhQO4tNDlCE1bFvjwHOVckF3Qj9WjsbgKovgxt62gAJ5vieKPGQLcjtbjMRPqXyEcsxi/yac1rSaj5Jk7kLkY1/MPYINVPOFzaIMdKjS8ULRwtJ/NCKHG9YSAz9l2eTqJ1Tm4hPu2Wfwg=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS2PR12MB9567.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(23010399003)(366016)(10067099003)(56012099006)(11063799006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?V0xmN0ZKdEI1YVZjdnljVlNKZ1VHMTNIREVZNVJrRG9LTmsxdXVaaEFoUTBm?=
+ =?utf-8?B?SS9HSXluY2xCTk1oT2F4NklKTHFNWGMvSWdXQWJmTXdncVY2UDRXMUZCWFZY?=
+ =?utf-8?B?bEZsbGxFU2JKcDZVYm40bFpLVTdpMksrb3BLUUFxYTFVLzVNcmJsemdxZUo3?=
+ =?utf-8?B?emg3OXBBSWpuOXVmdFI2MmtDNHpxQzJNOUF6M0xJWVUwVWhSSERUS1hJWW1x?=
+ =?utf-8?B?Q1Y0OW1FT1BDbjUvVWxhSWw3MW1XRUF3UzVuTWNPdERISmQ5Tithc09FcWVK?=
+ =?utf-8?B?TG9CNmdvenRSYlVxcTJFN1d2cUNyOGpZcUtKZkp2c01Nc2JkWVZ6MHJlQkhG?=
+ =?utf-8?B?SFllMVNDMjV3QnpwTklSUUxFRnZWT05iRFRrQVkvM3l2OGVCeWtaeFF3NldB?=
+ =?utf-8?B?VFJQOVdBYkJTT1FqcUJpK1BpNHVVd3RRVXVKMXl6NkNYWTBWWDNSV05JRWxn?=
+ =?utf-8?B?SnVwWXFvRmJta0lEdFNFaENDMjJpVGsxeGJoQVpYaU44TFZEQnFabmR4SXU2?=
+ =?utf-8?B?WWhYME01Z0RneVNveGhvMWxaS2xyMlFWRGtrMVpDUWo0SGNIdVlZa3ZEc1g1?=
+ =?utf-8?B?SkY0dU10SnZLdjJpKzR0Nk4reWxMY1lFVytIbU9xaEZEZ3J2K00zSHJpVkJ1?=
+ =?utf-8?B?ZmhoaUpvYUtnTmt3cXNqbE1jdXBuZ0RKbWl2MW40SXdpdFZ0Z0RoL3A5VFRJ?=
+ =?utf-8?B?S2FSbUdIVGpaNGd1b20yQUFLQzBCWVl0THZjQ1BnYUZ5bmhud3ZRNkhBWFQr?=
+ =?utf-8?B?SGlmdFRyM09ybHd2c1UyZDRxcmtGekI1cmFzWTduNGpZK3l0TkxrV3JaY2ZQ?=
+ =?utf-8?B?ODRWK09RaUE0SExodkxQWFlRMTMrVmVpZnl6WDBxak8xUUxKTisrYzFaTjgw?=
+ =?utf-8?B?V3p0VEJEZTRoejIvS3doSHpNb3FmN0h4THpwWG5ESHN0WTcyWE5oeFN6TU5M?=
+ =?utf-8?B?dU9mUUgyRnRFbVovenlQQm4wYUdNeVpBSzMwbTdPekl4djU4cXI4cEtPaEtJ?=
+ =?utf-8?B?c3lpWHRjMmZoa0YvbEs0VUdqNklaUUFLdThXY0JHekZ3VTVvMGNKaG1nYTZD?=
+ =?utf-8?B?bHFEYi9ldFhudmFBcUo5K1pYamhGZjlOcU0rUWxGN09aVzFScmtVNnlpcmIy?=
+ =?utf-8?B?Y1ZJOUhrTzlqQWhWeUk3a1hGUlBzOGZmQ0hpb2V0NFgwY3M0dG1kcHVLUGZ2?=
+ =?utf-8?B?Q0JMUitBWVQyN0lrWHJIa28rMXJWSmtuZ0RSY01aSmx3aVVvcFZyWWtlV3ZD?=
+ =?utf-8?B?YnRBWVIwL0VhUThUNHgrbWRJR0hCV0hlczZDRXorQnNhU2NlYlo2cWhtYnVR?=
+ =?utf-8?B?WEE5ZkYySzBIYXlGUXl3ajExTnJUQ2pwOEZuUUZ0dzZ2eEdoU1ltTEN0Z1Az?=
+ =?utf-8?B?d2N6ME9Ka1BKMWN0WnRRVFFxcStJNWxNNisxKzB4c0U2Mm5aSmMrZDlCeHVr?=
+ =?utf-8?B?Nzh1eUF2by9iYzVMMmtaNm5IYm1sc3QxcmJOa3BlR3dobUhuMkozN05ZT3BJ?=
+ =?utf-8?B?TFhTd21veUF1Wk5jVS90cXNoR0dtS2JlRWNtUUdxQndtQXJmcEpTTU0xSzFw?=
+ =?utf-8?B?ZE5DZmU3dDlXOU9VbSs2OHUxZTFleFRYQ0pZK2VrdWdhQTRERU9QSUVTNXhk?=
+ =?utf-8?B?M0VGL3dFc3R3MjNrY1hZZkhBUXI1WnVaaGU0SzZGVnZDWEN0ZVhFQlRrN2li?=
+ =?utf-8?B?MkdCVmY5WStwRHBuQWdjNy94Y1FhK1BxWS9JVEtrUTVIbGJlM1RVNXZJeVY0?=
+ =?utf-8?B?eDM4QkI3eVpwTzVzaHJ2WHUwbUdTTTNyTm5QUUVHZDNBd1E0ai9DMUNtMkVQ?=
+ =?utf-8?B?andmY3pWaXpLN0hBdDhXbUJ4M1p2VlhRUU8xRGtPNzNobHEyeE93czhSNHJW?=
+ =?utf-8?B?TjVWQjNWdDloVTZqTXF3ZjJqZHRGK3A2UmJqZ1hrcTRTc05PaVBkMlN2UHRP?=
+ =?utf-8?B?OW1xK3RQOWJUZGhFZWRoeWdmRk9xdTJ6RERoZHErbDRrTnlKSUR1SHZMWmlq?=
+ =?utf-8?B?UWpFUnEzSnB1YmZxK0YzY3kwR3B6dmREWi9LQzExWk9ubEhIYjZFdGtLMXYr?=
+ =?utf-8?B?M21nY01aWEtQU1B1K05MRkt2QzZzbGltNmF2WXM4KytKMTh3eU5ycEoydTJF?=
+ =?utf-8?B?aUZsZHJxMzBqTHpKUEpvaUhGRFFzV21BUkpDUWpPanNFUjFyZ0hoQ1B2ZWcz?=
+ =?utf-8?B?TXRPZDA0SkkybWFYcW05dTdJdWR3Y2kwcDFsZENBeDlQZFBOZ3JuTXpDZ2lo?=
+ =?utf-8?B?OVZ6VU9yamNpa2xncDI2YStQazNOeUlpTDFycFYzS0o4SEF2bzhxTmFsTVIz?=
+ =?utf-8?B?T3dzN2xoY0FsVE9EQy9ZUGlpN3BRMStIdm9zSHluKzFpVDMyNFRDZz09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 561a4bb2-f500-4732-537a-08df1bac7d55
+X-MS-Exchange-CrossTenant-AuthSource: DS2PR12MB9567.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Sep 2026 08:59:36.4379
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /MSQ6MfMLX6yGD3GRRBJlh/sYOj1Zx2ajyomt7GYpiA0WzTjpHBvYxE0LZpnTIUSBt7h7NVehB8aI8Xynue+Tg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4318
 
-From: Aaron Kling <webgeek1234@gmail.com>
 
-This workaround was originally added for Tegra194, but no longer gets
-applied for it. Commit 615d43540043 ("ALSA: hda/tegra: fix tegra-hda on
-tegra30 soc") changed the guard to tegra30-hda, which worked because all
-affected archs had the fallback compatible. However, commit 7f0ea5acfc19
-("arm64: tegra: Use correct compatible string for Tegra194 HDA") removed
-the fallback compatible for Tegra194, causing this to break.
 
-Fixes: 7f0ea5acfc19 ("arm64: tegra: Use correct compatible string for Tegra194 HDA")
-Cc: stable@vger.kernel.org
-Assisted-by: LLM
-Signed-off-by: Aaron Kling <webgeek1234@gmail.com>
----
-ALSA: hda/tegra: Re-enable SDO workaround for Tegra194
----
- sound/hda/controllers/tegra.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+On 9/17/26 14:04, Vijendar Mukunda wrote:
+> This series collects bug fixes for the AMD SoundWire manager
+> driver (ACP6.3/7.0/7.1/7.2). The patches address correctness issues
+> in command response handling, slave status caching, work-queue teardown
+> ordering, resource cleanup on probe failure, and power-management
+> suspend/resume sequences.
+Hi Vinod & Pierre
 
-diff --git a/sound/hda/controllers/tegra.c b/sound/hda/controllers/tegra.c
-index 31c14c4bbe683..674cc0f79c3c8 100644
---- a/sound/hda/controllers/tegra.c
-+++ b/sound/hda/controllers/tegra.c
-@@ -374,7 +374,8 @@ static int hda_tegra_first_init(struct azx *chip, struct platform_device *pdev)
- 	 * in powers of 2, next available ratio is 16 which can be
- 	 * used as a limiting factor here.
- 	 */
--	if (of_device_is_compatible(np, "nvidia,tegra30-hda"))
-+	if (of_device_is_compatible(np, "nvidia,tegra30-hda") ||
-+	    of_device_is_compatible(np, "nvidia,tegra194-hda"))
- 		chip->bus.core.sdo_limit = 16;
- 
- 	/* codec detection */
+Could you please help to review the patch set?
 
----
-base-commit: 4c253ac4b29b8c6cc6fdef8f92d4facde62e63b9
-change-id: 20260926-tegra194-hda-sdo-1d84c6085198
-
-Best regards,
--- 
-Aaron Kling <webgeek1234@gmail.com>
-
+Thanks,
+Vijendar
+>
+> Changes since v1:
+> - Update comment for ping_slave_stat variable description in patch 2/9.
+> - split the remove path work drain and pm ops guard patch into separate
+>    patches (patches 3/9 and 4/9) to improve clarity and maintainability.
+>
+> Vijendar Mukunda (9):
+>    soundwire: amd: fix SDW command timeout return value handling
+>    soundwire: amd: cache ping slave status to avoid spurious disconnect
+>      on timeout
+>    soundwire: amd: fix work drain ordering in remove path
+>    soundwire: amd: pm_runtime guard in remove path
+>    soundwire: amd: fix ctx leak when sdw_amd_startup() fails
+>    soundwire: amd: propagate amd_init_sdw_manager() error on resume
+>    soundwire: amd: drop amd_deinit_sdw_manager() in POWER_OFF suspend
+>    soundwire: amd: replace >= ACP70 with explicit switch/case in PM paths
+>    soundwire: amd: fix interrupt gate and work drain ordering in PM ops
+>
+>   drivers/soundwire/amd_init.c      |   9 +-
+>   drivers/soundwire/amd_manager.c   | 204 ++++++++++++++++++++----------
+>   include/linux/soundwire/sdw_amd.h |   4 +
+>   3 files changed, 149 insertions(+), 68 deletions(-)
+>
 
