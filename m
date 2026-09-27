@@ -1,74 +1,34 @@
-Received: from mail-lr2-f34.google.com (mail-lr2-f34.google.com [74.125.230.98])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-m49197.qiye.163.com (mail-m49197.qiye.163.com [45.254.49.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C635B38736C
-	for <linux-sound@vger.kernel.org>; Sun, 27 Sep 2026 06:44:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.98
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A25D43B71C9;
+	Sun, 27 Sep 2026 09:38:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790491495; cv=none; b=LAv41kuOxdA/p72b2FDYGyBMP5i+5tUbW61zsHJdFLmbSEKeECWOpIfUPwGwvR7yVs50XxsKytFachHxbDdnumxaWEIaFTy7PJhGzQSzB2Cq0KDImIT42RLUmPOLnPMAPmzvNEyR3k/TTg7gdUBkbRmOejZZNWpuSl2dG/0fYXY=
+	t=1790501912; cv=none; b=H6i0zSGKe/HVLb8n2BGA0yfzerHGGOv3WuxKMyyYBCKDj3i2xL1OjlpAeCEJ1jWTUvBGAcv6xcpU6/MgrecrIcntJmu0UpObjG5RJ0H6oVBeXvIA10EXQNzVpB06TyJ+5xEM/PjcRXMH2AAZZzraU+E9vmL0AjbwmEe5dcvBfVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790491495; c=relaxed/simple;
-	bh=VCSr1QwLPdpGFwkBfnzDNQ4fpsZLhXC9EdlyYTtIq4Q=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=EM29o4oFM8wKYToYGTJcjvgFyQIQcXcEpKMUbw2pXGranRVJbB98ex49TkgUwI7YdsDTJLJySrVH60W+K1fcSEZTPzeKQSeRBqwQYKuoNAknWW/pnXiFY9YxrhQ5yVAJ6wggdDenArn7BYEgpydLHm21cdzolZbIOmvc5wCxxAU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cEN1yBLS; arc=none smtp.client-ip=74.125.230.98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790501912; c=relaxed/simple;
+	bh=2l4Hi3y9o3HxQSFPtHdBa11ZZwacjHWpt7g2c4kS1sQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=agCMcbEmTpz/bDIc8e4Jg0X6cy4X/YRa3qtqecCDnralAjAK0S9D2fPxHlStdKw8Jid1CcU0UAhClgKqjcKQVGN0GMnHDYtZKwg1Vg0sHcmEgwIHPj5vrlFtOSuV1rsVlllpMjDEs0RGYSqzPDj7IQLccGXSoCDeFSJmLh2fg5Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=ZUb0TGbf; arc=none smtp.client-ip=45.254.49.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cEN1yBLS"
-Received: by mail-lr2-f34.google.com with SMTP id 38308e7fff4ca-3a65b23ad72so8612891fa.1
-        for <linux-sound@vger.kernel.org>; Sat, 26 Sep 2026 23:44:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790491492; x=1791096292; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Lq7Q91vQGo/b5qX6wq8BmyvihDyO2qxZ5pfJg2BwbSM=;
-        b=cEN1yBLSHZqjSeYVZT25tM6EQlyjKlraomzt6ZMAxg+AEPWX1ltEfe3jpiQXF8yvN+
-         LbnrMM8f7lspE+6h/eTYerVo/HoMPa1FRXcarWXXsbSRGrEkw9f8roE5H/38DQzMn/vY
-         umZs7ImrCptym3CLX0SEnDGojiLbzeGSJWgD/fiLdMUuGYqhH3ivxseSGO2bgcqoJegB
-         t5mspGyxIztMLB5ymI46CMRoyAqk0G0X82QHk79UjXOh1C4INI0wV69ZHgldcuwG5tk0
-         JqVjNxo3wu4nT+8VA78S/DN6XXkj0+4KDST7VRtKSwQhzqk3ZynGSWcA6BDclVpSvmCp
-         B2Dw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790491492; x=1791096292;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Lq7Q91vQGo/b5qX6wq8BmyvihDyO2qxZ5pfJg2BwbSM=;
-        b=VtE76rDnvo2P1GyJeCYKKv/tjferM15lI8jYUAsnP1s+mmqGWwKK6eL+Nv1KY5DKqg
-         yyMmR9WbGodo2zzoEsJoRtDTYnbm0T9Q+Z4l6fXGvfEH0L3TBsY7eNtMs80hi7pZJPrs
-         /DuKB/dkAu7b6sVBBUQKF4ICy0TNhWDssnVuzprjAyB+paV2P++bo78apk4lVDXZ8bRM
-         8plQWvI+NGxckPyiEMTNo8Ta9k1OEJZEa5Dvjo5T8vbL4eSMUy6pYrAFlXZZWrtIpJbM
-         9HgO/sHf0abqkZZVO/LiIVybzKnJOvqMP+2sCM2FjFRC4ic7NiM2O5HARs+Alak3loff
-         +0Ww==
-X-Forwarded-Encrypted: i=1; AKwUvByeK1y3yMLmVW0bfa7i/wIoJvQWpKraGfUUKZr8hRbHg5iApuWydVlcW8UbfdMIzzRcg1+bIlEy07mbzg==@vger.kernel.org
-X-Gm-Message-State: AFq9FYJpEUVqJizmardHHYViz/Epue/rc2k2zL/h9lBz7DVXKj7evabd
-	2V1zQbhamIFtYkA/h/99OApntiWoPa6SGNt6+BEWQNhHpOVUg4Frbkv+
-X-Gm-Gg: AYBFou3KherGbcL15sugmewnYIvuewDVyuPAzufFIG2Xr01S8P9L8FXJp2phTEwLG2F
-	lhla6iOBFLkFWP5XggYQV1+M7XTm3fP23ga4SPmxXE87e/WIZ4LM9qhTh0uIhViuQr89GC8z0C0
-	KFQAqeCtR/dof6/EspvMh4d6/yCaDR6CoQX5NSk5quSTEn7o22Yt9JKSfQk9jQuGBDJrnsiKuB6
-	u4zWTid7yGy+RmZa4kyFX0TEI4WIate6yqw/mgi//7wF7md0Minfi5XoTSX4ZozCHS7KmobsFLI
-	GKolyS+rhFR3OjXJbSga7wrKP1FCIiYYpF40DkFeBQXn8hbsGr5b9gfhlahgOJ2nc4TkUIwb/6G
-	unNq7fNc5ByoqMDVFGIiWkixmZM5i9FeBFzHAWoy6jtM1hxSz6llNbOJjpW4+Ph+OOGwuwQuKOI
-	sb5MYHO7KGsAdUe0t5rx2cOm+MQAzGbSkYZauY82Zo1rPRf7SEtZC4O59PtDq1n8dOAPZ74UdBs
-	1Y=
-X-Received: by 2002:a05:651c:1990:b0:3a6:3074:122c with SMTP id 38308e7fff4ca-3a63c0b0092mr27274451fa.17.1790491491540;
-        Sat, 26 Sep 2026 23:44:51 -0700 (PDT)
-Received: from arfa-server.perm ([37.114.244.211])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3a64b3a228csm19150511fa.0.2026.09.26.23.44.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Sep 2026 23:44:51 -0700 (PDT)
-From: Alireza Feyzabadi Farahani <arfa79lg@gmail.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Shuah Khan <shuah@kernel.org>,
+	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="ZUb0TGbf"
+Received: from PC-202605011814.localdomain (unknown [222.191.246.242])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 4f3b6cf2d;
+	Sun, 27 Sep 2026 17:38:14 +0800 (GMT+08:00)
+From: Runyu Xiao <runyu.xiao@seu.edu.cn>
+To: Jaroslav Kysela <perex@perex.cz>
+Cc: Takashi Iwai <tiwai@suse.com>,
 	linux-sound@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Alireza Feyzabadi Farahani <arfa79lg@gmail.com>
-Subject: [PATCH v2] selftests: ALSA: Skip timer tests when device is unavailable
-Date: Sun, 27 Sep 2026 06:44:30 +0000
-Message-Id: <20260927064430.2112688-1-arfa79lg@gmail.com>
+	stable@vger.kernel.org,
+	Runyu Xiao <runyu.xiao@seu.edu.cn>,
+	Jianhao Xu <jianhao.xu@seu.edu.cn>
+Subject: [PATCH] ALSA: mpu401: shut down timer before freeing MPU
+Date: Sun, 27 Sep 2026 17:38:09 +0800
+Message-Id: <20260927093809.681726-1-runyu.xiao@seu.edu.cn>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -77,48 +37,82 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0aa0e23ab9d103a1kunm5d6e184b1af966
+X-HM-MType: 10
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkaTEJOVkMaT08YTU5KGEIaTVYeHw
+	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUlVSkJKVUlPTVVJT0lZV1kWGg8SFR0UWUFZT0tIVUpLSE
+	pPSExVSktLVUpCS0tZBg++
+DKIM-Signature: a=rsa-sha256;
+	b=ZUb0TGbfGnyLDTmBtkeUjihSrTN/Iuujf7EX2knV3k9p8iWF2LAuVvnwhxEZrlFYO5tS+uJ39S64hTq5luMeoBMhScH3nbRoUB+qK85kWCQfECGu9Vxa7ReiBLpiFYTxybcFr+4P8EKuawGUPCfXgU2THpx2CCu2Me0+kcTuOv8=; c=relaxed/relaxed; s=default; d=seu.edu.cn; v=1;
+	bh=HOPBJDR0pukmgoFg4cqmMdY+N2Zflb5+jqfGmgNcjZk=;
+	h=date:mime-version:subject:message-id:from;
 
-When CONFIG_SND is disabled, opening /dev/snd/timer fails and the
-userspace timer tests report failures even though the test environment
-does not support ALSA timers.
+When an MPU401 interface has no usable IRQ, the driver polls raw-MIDI
+input and output with a timer. During raw-MIDI teardown, the timer callback
+can already be running when snd_mpu401_uart_remove_timer() clears the last
+mode bit and calls timer_delete(). That API neither waits for a running
+callback nor prevents it from rearming the timer, and free_irq() does not
+synchronize timer callbacks. snd_mpu401_uart_free() can therefore release
+mpu while the timer callback still uses it.
 
-Skip the affected tests when opening the timer device fails because the
-device is unavailable. Continue to report unexpected open failures as
-test failures.
+Initialize the timer once when the MPU object is created and only rearm it
+while a timer mode is active. Shut it down synchronously after freeing the
+IRQ so an in-flight callback completes before mpu and its resources are
+released.
 
-Closes: https://bugzilla.kernel.org/show_bug.cgi?id=218479
-Signed-off-by: Alireza Feyzabadi Farahani <arfa79lg@gmail.com>
+
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Cc: stable@vger.kernel.org
+Assisted-by: LLM
+Signed-off-by: Runyu Xiao <runyu.xiao@seu.edu.cn>
 ---
-Changes in v2:
-- Limit the change to the timer tests, leaving the PCM and mixer tests
-  unchanged, as suggested by Mark Brown.
+ sound/drivers/mpu401/mpu401_uart.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
- tools/testing/selftests/alsa/utimer-test.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/tools/testing/selftests/alsa/utimer-test.c b/tools/testing/selftests/alsa/utimer-test.c
-index 1a9ff010c..07aeaa777 100644
---- a/tools/testing/selftests/alsa/utimer-test.c
-+++ b/tools/testing/selftests/alsa/utimer-test.c
-@@ -51,6 +51,9 @@ FIXTURE_SETUP(timer_f) {
- 	self->utimer_info->resolution = (NANO / FRAME_RATE * PERIOD_SIZE);
+diff --git a/sound/drivers/mpu401/mpu401_uart.c b/sound/drivers/mpu401/mpu401_uart.c
+index 6de03d72a908..fcf2b686f9f5 100644
+--- a/sound/drivers/mpu401/mpu401_uart.c
++++ b/sound/drivers/mpu401/mpu401_uart.c
+@@ -155,20 +155,20 @@ static void snd_mpu401_uart_timer(struct timer_list *t)
  
- 	timer_dev_fd = open("/dev/snd/timer", O_RDONLY);
-+	if (timer_dev_fd < 0 &&
-+	    (errno == ENOENT || errno == ENODEV || errno == ENXIO))
-+		SKIP(return, "ALSA timer device unavailable");
- 	ASSERT_GE(timer_dev_fd, 0);
+ 	scoped_guard(spinlock_irqsave, &mpu->timer_lock) {
+ 		/*mpu->mode |= MPU401_MODE_TIMER;*/
+-		mod_timer(&mpu->timer,  1 + jiffies);
++		if (mpu->timer_invoked)
++			mod_timer(&mpu->timer,  1 + jiffies);
+ 	}
+ 	if (mpu->rmidi)
+ 		_snd_mpu401_uart_interrupt(mpu);
+ }
  
- 	if (ioctl(timer_dev_fd, SNDRV_TIMER_IOCTL_CREATE, self->utimer_info) < 0) {
-@@ -156,6 +159,9 @@ TEST(wrong_timers_test) {
- 	};
- 
- 	timer_dev_fd = open("/dev/snd/timer", O_RDONLY);
-+	if (timer_dev_fd < 0 &&
-+	    (errno == ENOENT || errno == ENODEV || errno == ENXIO))
-+		SKIP(return, "ALSA timer device unavailable");
- 	ASSERT_GE(timer_dev_fd, 0);
- 
- 	utimer_fd = ioctl(timer_dev_fd, SNDRV_TIMER_IOCTL_CREATE, &wrong_timer);
--- 
+ /*
+- * initialize the timer callback if not programmed yet
++ * arm the timer if it is not already active
+  */
+ static void snd_mpu401_uart_add_timer (struct snd_mpu401 *mpu, int input)
+ {
+ 	guard(spinlock_irqsave)(&mpu->timer_lock);
+ 	if (mpu->timer_invoked == 0) {
+-		timer_setup(&mpu->timer, snd_mpu401_uart_timer, 0);
+ 		mod_timer(&mpu->timer, 1 + jiffies);
+ 	} 
+ 	mpu->timer_invoked |= input ? MPU401_MODE_INPUT_TIMER :
+@@ -474,6 +474,7 @@ static void snd_mpu401_uart_free(struct snd_rawmidi *rmidi)
+ 	struct snd_mpu401 *mpu = rmidi->private_data;
+ 	if (mpu->irq >= 0)
+ 		free_irq(mpu->irq, (void *) mpu);
++	timer_shutdown_sync(&mpu->timer);
+ 	release_and_free_resource(mpu->res);
+ 	kfree(mpu);
+ }
+@@ -528,6 +529,7 @@ int snd_mpu401_uart_new(struct snd_card *card, int device,
+ 	spin_lock_init(&mpu->input_lock);
+ 	spin_lock_init(&mpu->output_lock);
+ 	spin_lock_init(&mpu->timer_lock);
++	timer_setup(&mpu->timer, snd_mpu401_uart_timer, 0);
+ 	mpu->hardware = hardware;
+ 	mpu->irq = -1;
+ 	mpu->rmidi = rmidi;
+--
 2.34.1
