@@ -1,175 +1,198 @@
-Received: from mail-qv2-f43.google.com (mail-qv2-f43.google.com [74.125.230.171])
+Received: from mail-ej2-f43.google.com (mail-ej2-f43.google.com [74.125.228.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 974CE3ABDA8
-	for <linux-sound@vger.kernel.org>; Sun, 27 Sep 2026 17:33:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.171
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790530391; cv=none; b=C5+ygGY/plJEs83UWmGy5v5ncjdIkxRYBjsqcBcV8teciF00WCL5VMAMOL7QBU1Bib/kst6EsS1OHj/zBNdyqqkStcYtM+ToudlqlhcUnR4luQDk/WMOhlJXs7hNri/X00y20LyJwE15C0wBbJ8gtdmcJswUZYqm8kxAFNWty5o=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790530391; c=relaxed/simple;
-	bh=PACSGZHoWOhPcJ0+qIAAzlnOA5S/g8zlax0nJRW92Lc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WugjVv7Z56UP1pc5uGewJjyDLcvfHQYSh10/Ka0OH8LqLFgULTC+x602ssXsQpx64bt7tZNuV8KBqf8gRGRk1z4M3EQcPKSFthmd2D56nthx/5XwjCn0yBPYd72nFPoGC4drfnhllmX4fT0KKxB6r4PAgYrPSYB2iy/Q6CxpxLY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G2bJTyxf; arc=none smtp.client-ip=74.125.230.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8243200110
+	for <linux-sound@vger.kernel.org>; Sun, 27 Sep 2026 17:39:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.171
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790530747; cv=pass; b=QEu9vBQ0zFv86MNe6TkWUsSU0Q8XWsHSgWX6jgf31F7JEWjEJmy9FrGCJjAAgSJZ1PAneluJzqsE4ocflrELUZcA94/7DApkyst/a/yvmeiywimPjulEM7h8n1vwv/CxCZcJM325Glj385jAF14MXcQANiO6UAxsvozOL/dwSlc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790530747; c=relaxed/simple;
+	bh=65o3xxcusmIWSeGEM0t//FzNskDTAGQHiGU4SotKb3Y=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hcx3xct7eu3RK+z6r2VFmRGvLZmETgmz8NOe0+zejov76pdclJK9UxQdvyRsZ0PTebqRAEDP7rE5gvJEhKpO0dj7EGtDmFwZJpvwcrf+4i4ARcrGg309N86w2lIDSgy0MrH3DRR4f4VJTmr+Z5tCpQlPsGyWmAjfHmD/VOQH8S0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b=hyqD0kee; arc=pass smtp.client-ip=74.125.228.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G2bJTyxf"
-Received: by mail-qv2-f43.google.com with SMTP id 6a1803df08f44-91437cd26d9so18086566d6.3
-        for <linux-sound@vger.kernel.org>; Sun, 27 Sep 2026 10:33:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b="hyqD0kee"
+Received: by mail-ej2-f43.google.com with SMTP id a640c23a62f3a-c2af43c5b0cso256357066b.1
+        for <linux-sound@vger.kernel.org>; Sun, 27 Sep 2026 10:39:05 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790530744; cv=none;
+        d=google.com; s=arc-20260327;
+        b=oa+d0jEKH/qY7ARsdUqdPsOMTnuvAjF+ShiF7TVv4V204rM92zKtEBt46f7r88NObf
+         dxxKfuUuCxhyrqFnPB8NUzKT5I3abAoApr6JlSw9zkS6jIH0ojRh0wNKzHvirUq+ELp/
+         FaYO3k6vLebRf263u0+UUzsjwsua7D2fGknVflwIxKEFjkbqS9NkfIfmlx12qYbk7ngz
+         rZfG3ilae1LQu10GlgKlEDpPQT1x48xz4+k42au5ZTiJlxIiSLbmTrxgB9oxgx6ZFI/h
+         zbtAJmyxNb2lZK7EYjv+3KrIl38hCf5xibt4um2+0WJnIuMEd32rzh61BbNO5vCczELo
+         mh7A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=65o3xxcusmIWSeGEM0t//FzNskDTAGQHiGU4SotKb3Y=;
+        fh=6yP/e9G0FmH9tFx78y7XZ5yGTbmYrZlPtsZ4KGbFT0w=;
+        b=AKyEVt5VmmEyjGzoETO1TAVfANeWZu9yk/97SjNHZOx4/azqNVZ15m9GSkAVnuJ8f6
+         WTWXvoya1SpM7kZyKG2X9dM5VrjYXluILrCqvs4K9Hy4xPejaXFzQ1hvPQOn5W8VL5UE
+         AqmnAfflfc4a9hecMZLbjKIneah9RZY1kQ47Ml4uSEndpw7DhSblGbOJ7ZVClCk//u86
+         9PKjNQqFCvKhneauB+Z1bjKFnUIDzzxSJNtOsDk4m4X3Io4g19PzBrtNsPJ3S8Ib0TAn
+         LaDJjifJ9Wt3Be6dGgY2oXeji5W/nkGbeUniw5aXHSohDXdFagT+q83nazUS6O7R2knn
+         odhw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790530388; x=1791135188; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=0Bih5QsU7JkSj/FZUF3rXni5L3KGUCeOtVn2fm+Cr2s=;
-        b=G2bJTyxfG6fg5NAy97wDlB7t47lMlaBALBqFLKlp0hMSV7c1zKA20gU0d1bJVet8tk
-         hOCmNNagH5F2himkwiLkOK0nluYzFyons8fQqYbEA5gUi2Ub62fH14kRfLhvbJ7wUKvS
-         IlquUmKvqmoL5t+EJ6i0B+NwaUW1nKN+pXASpCCSHDGnHhUl6SbjNryFltZvTK4i1aC3
-         PsTqeXOzvjUrfLtKzAbXBLRbMydZPyzbWSzRjbXcbXmAf8V4N0eVHX0TxRMbob4Tf9WW
-         K40b28kiws8IECNlO0Rd8jpZ9c/HTnxIvxVrriTxD8IMNHsTnhrB6F//wVNHuyfWrugu
-         4iYw==
+        d=googlemail.com; s=20251104; t=1790530744; x=1791135544; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=65o3xxcusmIWSeGEM0t//FzNskDTAGQHiGU4SotKb3Y=;
+        b=hyqD0keeH1+oWg9PY3v8f35fP5kaXp+j+Hd58HEXt7pe3qasUbdUhlst/hSXx3U7As
+         bwF0kBOs7YIcJH5C2WhFk7U/QtfhDirLQFJLexvqObGB0zyNsn5wr/ZcX4ILrhKESKGT
+         dYuO/S/U5paoWpXgP+xJnHAlFG6pqlrx903uJNiL5ST6618o5OLMMJUcVv6bfL3VxLSw
+         jfa32xUG3+t6dt/zzGib6aAQcd+2aPxhgwaXps81CrwA9a1nC+kojS7YyUZGJ0xocxzK
+         8rzLNct8lelGqypepHL5Rbh+zRvQw0WCGKguQJ6ydDFO/d/oFQecGrQ/d0H6a/B86z4r
+         Bzpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790530388; x=1791135188;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=0Bih5QsU7JkSj/FZUF3rXni5L3KGUCeOtVn2fm+Cr2s=;
-        b=XfeJz2wUbfK3qfTKf7fM0bpkWw9/H/dkPNBfJmgaiNq+5PJqZycft8MOO8iJa1qzcv
-         C+hk7QnhYYG5/GECrFd/oZsAvwH8lFZLjCods61S2ntuIL1wQI/27qEckq7GE7Bdx4q+
-         eSCCSkJJgVOPt+wcD0+8fbHwBee2LAgB8nKQaPoPPqbDRWSuQhmc1zc1DiwJAE6APIIw
-         Hc+A56rM/iIG4Aa+1O/E8HxKz+gu01H0+RVjEdCPuCrifGEwcZAZ6rC84bEC/P3V9HnQ
-         ifo+1WpQlykK2GyC93hEzT0HIjI8HG60byO9iNFVCTP9ZieSKuiI4t9ZQ9RokO3J9oZI
-         EyqQ==
-X-Gm-Message-State: AFuF++njMNuHXP0v18kTlB7FaZ1gtmltYAubDRLyRRnwoEmmoNNfaty8
-	UHgRZTLmAh/LCbOnMmc0TUXL1nEXdMP7qzsh8gSYkTVp/e0wrH9OHWPg
-X-Gm-Gg: AYBFou3wAyhziSdjPGvh16c+4UnbgDgXwb21ip4YmN0tiWPRGjaKT1wXhRt2Bz9fvfi
-	NbH1cpAYyZuUuMg86b8rrBWbuJRWlzTtzRfAHrE6RQNt3+DVAgh3PgffqJVenZqa5Oci66sZ/3d
-	nRom8KP9O9S+3/bompA02w74e3p7dKFJNeDlWWxOMSne34+46Y43emPxedXvtrdligyXChUFWin
-	i7TOktLW0hXUkGxbicn87O4nmksLcTr8bSRJ+Y9yZue1Cmvlfi8yJlPorhQYzEe5Ous8QiCwd9t
-	gHN4QZDblSr5014ZOJqElnGoBzZYqM4FxeFpgqN2pXsHzv3saaqiv84IdcifXPHClcgWgxfNg8o
-	Zx5cVVSXulOy8aSc3Q7+CA/ZTvDUhnYfokIrJVrdelsnGLzsrRwGqh9zEMsHJMAX45aNd476SRD
-	GQZrz2N9PgO5nL9Hq/p+hCf0SLOfCsWfo7yoLTki3j5LucvI1sxdL5tzuYzc4CJZV3Oq2+bIKDv
-	legsfSiqkMg95/09cATcyEkVkKDEzwhIyI7GAiTc4blDEnlVnTF/V5jS43rxt7VQKnN9OZEeEsq
-	1GbADTho3kUsiaOW7w==
-X-Received: by 2002:a05:6214:21c6:b0:914:4fc3:e865 with SMTP id 6a1803df08f44-9144fc3f5ecmr81736046d6.1.1790530388371;
-        Sun, 27 Sep 2026 10:33:08 -0700 (PDT)
-Received: from cachyos-SlimIce.lan (1841343-static.dvnpiaaa.metronetinc.net. [195.252.229.229])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91430da86f7sm63390986d6.9.2026.09.27.10.33.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Sep 2026 10:33:07 -0700 (PDT)
-From: Jared Wuerzburger <jwuerz@gmail.com>
-To: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Samuel Dionne-Riel <samuel@dionne-riel.com>,
-	Jared Wuerzburger <jwuerz@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH] ALSA: hda/realtek: Fix internal mic on Minisforum V3 and V3 SE
-Date: Sun, 27 Sep 2026 12:32:37 -0500
-Message-ID: <20260927173237.339476-1-jwuerz@gmail.com>
-X-Mailer: git-send-email 2.55.0
+        d=1e100.net; s=20260707; t=1790530744; x=1791135544;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=65o3xxcusmIWSeGEM0t//FzNskDTAGQHiGU4SotKb3Y=;
+        b=Ax3D7EDSG1u5On/J0DCfP11pFPT85EQaT2oZB4jgEwI3648VHG4g+yUN1xg2JKFhIW
+         k2eK9DJa/aZBHNS6qP3uAiDfs0Fgnf0xZn/mEDbo/a131UmE5FX74kAMsjP1GBrlsvm/
+         tL8JypCnHUPBpdpFVlBTKJs8/TwSkHL71j+gw67SriIqUU4gVSdP5AP0qO7iwmbCb9yb
+         poieWmTzy+5skqDPAlsZo0NPvOZG7VmHoUZAIPwiXWcyvJIfyYrq5bl0ZQtocFAUlZkG
+         1qNALTZIX7lIapco7EJOyIDXBupmKvBxezeFapRs+fG+WtKGkkzuL6yinuNCbhOYtYC0
+         zW0g==
+X-Forwarded-Encrypted: i=1; AKwUvByOJJPZwu0ZzqwIFa4cCoCjYBAEjUm6v9n4H8BdfYJfyDIKiMGyqPOM5MQ9oNjf16rcMTI15+Vf0WSe0w==@vger.kernel.org
+X-Gm-Message-State: AFuF++mItOPvPglNpn/+tB8HspUXyDJpl3/TupVutYWmvgYDlEWwNPkX
+	2zZpYFwztpEffrPZB3IRVElrfSqVYMYkGNFnYQdz9gx3hmrUMH+xMvI6rSj3fMLeIHOOMAxLlP7
+	nZUHB13AhpgVYuvm6yz0DJ0uEjop1fsU=
+X-Gm-Gg: AYBFou10Wlb4BSV6YoTMLmpYntSDxCbfp3FB4SODEuve2Wn0ulX8TrRX6M5gVZkIB9v
+	0s1/dx9AWAbTHrCKyLbBYYJ4IpgUP/DfJy79nOI3hdZBk2f+gRz6PvikZ6FtVUyyL3XBM4xrVwr
+	+VXg4UeEBpiT03iU32DXc6KY1cNbdavLFruQzHXw7ExH3CneXoXWqsh995xi7tn+BvifYtMz6Nr
+	pqTn4gSpONEkdJ7FgOwIFzbASt61Qbfd404G97hBA5EXmdUVqUGzCUrCn8NKCJRrWwtoRwgemdQ
+	TTmogT/oRJyMfHCBm6q/KZjWrGrruFqyu51UoB37ceb+47UZPZiW4g==
+X-Received: by 2002:a17:907:d409:b0:c26:1648:a069 with SMTP id
+ a640c23a62f3a-c2ac24f9cabmr931512166b.36.1790530743927; Sun, 27 Sep 2026
+ 10:39:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260919151840.24371-1-arc@gmx.li> <92b1eece-9dc7-4b33-9ec5-fc94300038f1@gmail.com>
+ <arlOa9a0obceb9Sm@khmer.arcnet>
+In-Reply-To: <arlOa9a0obceb9Sm@khmer.arcnet>
+From: Faaris Ansari <faarisansari@googlemail.com>
+Date: Sun, 27 Sep 2026 18:38:52 +0100
+X-Gm-Features: AclHuK8OYETb_mZ-_XTvsUAg9oCvW-tkae3q94i2L5K2DdxX912dLXzjicyyAUM
+Message-ID: <CANBVYRAr8iFGFDgdTcDXuQyXt5M4TddZetsG9o1wbFao03R0yw@mail.gmail.com>
+Subject: Re: [PATCH 0/3] Add Audient EVO4 support
+To: Christian Ruppert <arc@gmx.li>
+Cc: drabik.p@gmail.com, linux-kernel@vger.kernel.org, 
+	linux-sound@vger.kernel.org, mrwillporter@gmail.com, neil@androos.io, 
+	perex@perex.cz, tiwai@suse.com
+Content-Type: text/plain; charset="UTF-8"
 
-On the Minisforum V3 and V3 SE (ALC245, PCI SSID 1f4c:e001) the
-internal digital microphone array never produces any audio. The DMIC
-pin 0x12 is parsed correctly ("Internal Mic=0x12"), but the headset mic
-jack pin 0x19 (BIOS pin config 0x04a19050, jack detect enabled) has no
-presence detect wired on these boards: reading GET_PIN_SENSE on 0x19
-always returns "present" (as it does on the unused, unconnected pin
-0x18), while the headphone jack 0x21 reports correctly.
+> I'm afraid this is not going to be the case. The patch set doesn't change
+> anything with the pre-existing controls except for renaming the 'EVO4 '
+> master volume mixer to 'Master'. As a matter of fact, I made a similar
+> observation to yours when testing the patch set on the 'sound' kernel tree
+> and the (very sporadic) issue did not disappear after applying the
+> patches.
 
-The generic parser therefore sets up auto-mic switching and, believing
-an external mic is always plugged in, permanently routes the ADC to the
-empty jack (mixer 0x23 input 0x19 unmuted, input 0x12 muted). The
-"Mic Jack" kcontrol reports "on" with nothing plugged in.
+> Unluckily, I didn't have time to investigate and as it seemed independent
+> from this patch set and was never observed on my (vanilla) 6.18.x
+> day-to-day setup, even with very recent kernels, I forgot about it. I
+> suspect this might be a regression in the sound-USB core modules or
+> possibly the the alsa core.
 
-Mark pin 0x19 as having no presence detect. The parser then stops
-auto-switching and exposes a normal "Capture Source" (Internal Mic /
-Mic) control, which desktop audio stacks drive from their Internal
-Microphone / Microphone ports. The existing bass speaker DAC routing is
-kept by chaining to ALC245_FIXUP_BASS_HP_DAC.
+I was able to find a work around to this specific issue, adding this
+below line in modprobe.d made the hardware volume start working
+correctly again.
+options snd_usb_audio quirk_flags=2708:0006:ignore_ctl_error
+I've reported this regression separately here:
+https://lore.kernel.org/regressions/CANBVYRCL=8QdLxGg4S6qrahrFtwJxhv-aSGpW7-1S=+iOe4ZGA@mail.gmail.com/
 
-Tested on both models with the same pin config applied through a
-snd-hda-intel patch firmware ([pincfg] 0x19 0x04a19150):
- - V3 SE (Ryzen 7 7735U, BIOS 1.03), kernel 7.2.6
- - V3 (Ryzen 7 8840U, BIOS 1.06), kernel 7.2.7
-Both boards report the same codec SSID and the same 0x19 default. On
-both, the internal mic records at a normal level, headphone jack
-detection on 0x21 still switches output, and the bass routing is
-retained (DAC1/DAC2 Playback Volume controls present). A headset mic
-on the combo jack was not tested (none available); with this change it
-has to be selected manually. V3 users already report that the jack mic
-gets no input [1], which is the other symptom of the same broken
-presence detect.
+I also was able to test your patches alongside this workaround. All of
+the system controls I was expecting were in fact available within
+`alsamixer`, including phantom power, mic gain, etc.
+Both mic inputs still seem to be reported as stereo even though
+they're mono - I think the other channel is for loopback or something?
+I'm not entirely sure if this is something the patches are supposed to
+solve.
 
-The patched alc269.c was build-tested with W=1 on tiwai/sound.git
-for-linus (7.3-rc3) without new warnings.
+> The patch set doesn't change
+> anything with the pre-existing controls except for renaming the 'EVO4 '
 
-The diagnosis, the fixup and this changelog were written with the help
-of an AI coding assistant; I reviewed them and tested the change on the
-hardware listed above.
+On the note of the UCM config, I had to patch it due to the above or
+else PipeWire wasn't able to directly manage the hardware volume knob.
+Adding the PlaybackSwitch part also allowed the hardware mute to be
+used by PipeWire.
 
-Link: https://github.com/mudkipme/awesome-minisforum-v3/issues/14 [1]
-Cc: stable@vger.kernel.org
-Assisted-by: Claude:claude-opus-5-5
-Signed-off-by: Jared Wuerzburger <jwuerz@gmail.com>
+46c46,47
+< PlaybackVolume "EVO4 "
 ---
- sound/hda/codecs/realtek/alc269.c | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+> PlaybackVolume "Master Playback Volume"
+> PlaybackSwitch "Master Playback Switch"
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index 5127a111c..2de91431f 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -4384,6 +4384,7 @@ enum {
- 	ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN_HEADSET,
- 	ALC285_LENOVO_DAC_RENAME,
- 	ALC287_FIXUP_YOGA9_SPEAKER2_TO_DAC1,
-+	ALC245_FIXUP_MINISFORUM_V3_MIC_NO_PRESENCE,
- };
- 
- /* A special fixup for Lenovo C940 and Yoga Duet 7;
-@@ -7136,6 +7137,15 @@ static const struct hda_fixup alc269_fixups[] = {
- 		.chained = true,
- 		.chain_id = ALC287_FIXUP_TXNW2781_I2C,
- 	},
-+	[ALC245_FIXUP_MINISFORUM_V3_MIC_NO_PRESENCE] = {
-+		.type = HDA_FIXUP_PINS,
-+		.v.pins = (const struct hda_pintbl[]) {
-+			{ 0x19, 0x04a19150 }, /* headset mic jack, no presence detect */
-+			{ }
-+		},
-+		.chained = true,
-+		.chain_id = ALC245_FIXUP_BASS_HP_DAC
-+	},
- };
- 
- static const struct hda_quirk alc269_fixup_tbl[] = {
-@@ -8349,7 +8359,8 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1ee7, 0x2081, "HONOR MRB-XXX M1020", ALC256_FIXUP_HONOR_MRB_XXX_M1020_AUDIO),
- 	SND_PCI_QUIRK(0x1f4c, 0xb020, "Minisforum AI X1 Pro",
- 		      ALC245_FIXUP_MINISFORUM_JACK_DETECT),
--	SND_PCI_QUIRK(0x1f4c, 0xe001, "Minisforum V3 (SE)", ALC245_FIXUP_BASS_HP_DAC),
-+	SND_PCI_QUIRK(0x1f4c, 0xe001, "Minisforum V3 (SE)",
-+		      ALC245_FIXUP_MINISFORUM_V3_MIC_NO_PRESENCE),
- 	SND_PCI_QUIRK(0x1f66, 0x0105, "Ayaneo Portable Game Player", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x2014, 0x800a, "Positivo ARN50", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
- 	SND_PCI_QUIRK(0x2039, 0x0001, "Inspur S14-G1", ALC295_FIXUP_CHROME_BOOK),
-@@ -8579,6 +8590,7 @@ static const struct hda_model_fixup alc269_fixup_models[] = {
- 	{.id = ALC236_FIXUP_LENOVO_INV_DMIC, .name = "alc236-fixup-lenovo-inv-mic"},
- 	{.id = ALC2XX_FIXUP_HEADSET_MIC, .name = "alc2xx-fixup-headset-mic"},
- 	{.id = ALC245_FIXUP_BASS_HP_DAC, .name = "alc245-fixup-bass-hp-dac"},
-+	{.id = ALC245_FIXUP_MINISFORUM_V3_MIC_NO_PRESENCE, .name = "alc245-minisforum-v3-mic"},
- 	{.id = ALC256_FIXUP_HONOR_MRB_XXX_M1020_AUDIO, .name = "alc256-honor-mrb-xxx-m1020-audio"},
- 	{.id = ALC287_FIXUP_LENOVO_LEGION_AW88399, .name = "alc287-lenovo-legion-aw88399"},
- 	{}
--- 
-2.55.0
+One problem I had with this patchset is the settings I have don't seem
+to save with UCM / PipeWire. When powering off the interface and
+powering it back on again all settings are reset except for the Master
+Playback Volume. After a small discussion on the PipeWire matrix
+server I was told that these settings should live in the UCM config
+too which I'm assuming they do not currently.
+Muting the microphone in pwvucontrol also didn't seem to use the
+hardware mic mute. Probably need to add `CaptureSwitch` for the
+microphone in UCM too.
 
+However, the current state is by far better than how the interface is
+being handled by default - thanks so much for your work on this!
+
+Faaris
+
+
+
+On Sun, 27 Sept 2026 at 18:12, Christian Ruppert <arc@gmx.li> wrote:
+>
+> On Fri, Sep 25, 2026 at 11:18:33AM +0100, Faaris Ansari wrote:
+> > Thanks for your work on this - there is currently a regression on the latest
+> > kernel versions (7.2 onwards, as well as LTS kernels 6.12 and 6.18). Trying
+> > to set the volume in software like wpctl, or pwvucontrol causes the software
+> > volume to be pulled down with it - I think it's something to do with "sticky
+> > mixers", not completely sure.
+> >
+> > I worked through troubleshooting it here as I originally thought it was a
+> > wireplumber issue:
+> > https://gitlab.freedesktop.org/pipewire/wireplumber/-/work_items/1022
+> >
+> > This patch should hopefully solve that,
+>
+> I'm afraid this is not going to be the case. The patch set doesn't change
+> anything with the pre-existing controls except for renaming the 'EVO4 '
+> master volume mixer to 'Master'. As a matter of fact, I made a similar
+> observation to yours when testing the patch set on the 'sound' kernel tree
+> and the (very sporadic) issue did not disappear after applying the
+> patches.
+>
+> Unluckily, I didn't have time to investigate and as it seemed independent
+> from this patch set and was never observed on my (vanilla) 6.18.x
+> day-to-day setup, even with very recent kernels, I forgot about it. I
+> suspect this might be a regression in the sound-USB core modules or
+> possibly the the alsa core.
+>
+> > and avoid the usage of external
+> > kernel modules like https://github.com/vanzaho/audient-evo-py (which you've
+> > based your work from)
+>
+> This one should be solved with the patch set.
+>
+> > I'm not exactly sure how the process with kernel stuff works, but
+> > considering a regression on current mainline as well as LTS branches for
+> > this device - is there some chance of fast tracking the merge of these
+> > patches?
+>
+> The best way of supporting this (even if it only solves half of your
+> concerns) is probably to test it and reply with a Tested-by: tag to the
+> patches.
