@@ -1,63 +1,63 @@
-Received: from mail-lf2-f12.google.com (mail-lf2-f12.google.com [74.125.229.204])
+Received: from mail-lf2-f13.google.com (mail-lf2-f13.google.com [74.125.229.205])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC68E282F06
-	for <linux-sound@vger.kernel.org>; Sun, 27 Sep 2026 00:36:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.204
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3D9D29AB1A
+	for <linux-sound@vger.kernel.org>; Sun, 27 Sep 2026 00:36:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.205
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790469410; cv=none; b=Fx/bsXFUVRFf/bAjrvosfaMewozUpbRTwSc3vcFzLootv1HEqzxpM9XO3/Ab68nP6ax8wScGEl6NaB1L/AL3DwtBHy8L7k5+IfZ05yiRGQjfdvMLDoXaGxYnVYyDDj68U6T/cY1H2Q9E/oTI13bs16aAyHkQjJQUimtMJI1RU78=
+	t=1790469414; cv=none; b=lOV63zQP0hMnwsFtWCHnj+n3eoRx2CWlAU0l6nLz65Za0l2ji8ZJvCQAxP7Sd4TCdrLsbxkQSRz0whyg46tPPWc+ojrpOXsAfqiOkjh3LV8GusZxUMZlIVUD1izKfOizdedAwHUpoa2f3EHiSfowyvKijHI2jkkTNjWnDpK5Xnc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790469410; c=relaxed/simple;
-	bh=DF1JltxWemQO6W5RSbFHuJMNzBrDNinPsefvTNUYTac=;
+	s=arc-20240116; t=1790469414; c=relaxed/simple;
+	bh=ILq303uOQFApqHpSwLqgfAGel0sWx3G4WA50cRfJoXw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nRWwD96eQ/Alf3/3hBODddzWPRNWAlmylcY7TAv5bqV8wGY034XXOgKlUPAw2xPPPsjbGDYxc9TrYuAvpCNPbCvqh7wLJXpyPOxZbnA97a4B/CufaheKTRTduoWQfLeAZzGFhOgXilce/Z+yst+4jzte7ZI/Y6Z8zrWoSAooHi4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pMJ5UsU6; arc=none smtp.client-ip=74.125.229.204
+	 MIME-Version; b=Gi85mJQLazu7KAsXrafol8zv7lyxCImsjejWElpZqLuzGcPbqnVjgxi07YQNs9V+9KAKKOcro4txc32iQl+2W1bkfIrcsQXcVvI0RH5pp9MHRWtMA6XRxkwNDZPmMom0UFn7XFQilYG49rZ1sfsMHlz4h0VgPJg9ezw/roBqSLQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JYTCUd+Z; arc=none smtp.client-ip=74.125.229.205
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pMJ5UsU6"
-Received: by mail-lf2-f12.google.com with SMTP id 2adb3069b0e04-5b5e4f1e419so676302e87.0
-        for <linux-sound@vger.kernel.org>; Sat, 26 Sep 2026 17:36:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JYTCUd+Z"
+Received: by mail-lf2-f13.google.com with SMTP id 2adb3069b0e04-5b8d47b5987so1829219e87.2
+        for <linux-sound@vger.kernel.org>; Sat, 26 Sep 2026 17:36:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790469407; x=1791074207; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1790469410; x=1791074210; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=wPQ8NWfqFD997DX33g+mb1w61H+DLreJs4A279gKvZM=;
-        b=pMJ5UsU66pHqA20P+MgxFHFvGBOymvXM0GtJ6/h9TishewDyAkp61qY/v2QW8AcYZr
-         UkqJZ61bN55RRarIjNBVg79wdAGhdceIFDWafDN+F7toX3LO9lGlMhavORloDxthxLn2
-         kuoTBEemuCp4ebs9UxttuTnwnmYttWHuAZXvqiPxgyJdcE+YAzHSHShSP37ylJLcZMfn
-         VJmjh6eO4gBXni0Hgj99u8NIvfAeSIeJYhkViECmik4zJxrOQ0XHauAyQiRR8E/UqOUk
-         ZQQ3QZMj+87WIVD1s/fgnSAgokwmRArU9YFAaHtO3eznUln6Ap3+CbRvV8S4SNRLYjQl
-         BgAw==
+        bh=QfImzflZZLyN3OyiIswXsjMHX+tP0A2H1jilGnkUCwI=;
+        b=JYTCUd+ZRoFluiY+Rtz+o6HncgmsTusl0F8Vy0QvWDAReQFkc5gC18pXGpRBd4J+E/
+         V+HPT2N6w8wSzfdJfG8MyCB/NvnOVYK6wuIksCF+UHqlAqVYi/1nJ5XaZg59K7e60z7T
+         VKfEYmcpbCQZ/AYL+gKkW3lghoFiXA5fPjr/Y6DowO63HVq4Hh2YxBZQJN2nV8ucpTF6
+         pVYxT9hVT8BeobvVqqWpydRBT22P2WCaWleNMNN7wJzRDlB7XLF08kTfqV+zWJb2Dnnc
+         LvkzLpLbDBdN03EeACAfar5LKZS5TQl3MtpuL5w5um+BzDNiN2YmC1NCht+67VDwCPQ5
+         HWXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790469407; x=1791074207;
+        d=1e100.net; s=20260707; t=1790469410; x=1791074210;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=wPQ8NWfqFD997DX33g+mb1w61H+DLreJs4A279gKvZM=;
-        b=lHU/jVcLWNxnmJ+BDArpd33Qz1LWW8+rO+qJc6kfdfnzTnKv4QQFW4pySjHKmbrjh2
-         abWvvNTtsKD0iUdivu+ikH5DqLBPz7Cqm6wBsX9/PS5xy7IEBLH1r+7lHi6YIWBZD/p8
-         034nkNXAp3Bu0+sr7Na1Zqvw1DZkqiNhS2rGJ2b71H+uzZqJu/MT4higSfIDCrHVm/b5
-         SrIoEHSRKNgw6ACjtOCiKOCkrEU+eiInc21D1FCPhpZbANOnDV8Qzmax1w2Qf4CT0Xa8
-         96cTwuyuP+l8XXKiUuvAu7Lbni1h54eOEhPWQne13KJE2OlvwjNAIvXxdDyD5vhj1sGU
-         Dk/A==
-X-Gm-Message-State: AFq9FYJmedmbYGTZq5ldfoD29DX6Up6xzFb1Che44/eKVZmVM/MhxdRI
-	tmAb6DmGFQefROMeGrAfr966sWlVIhX8IVXoDZK6odHPeW+3hNK0ee1K
-X-Gm-Gg: AYBFou2n7lxAh5zg0Ny7R0PG6jDQOwj5jD7cRLtLAYf7rG1k2V1VSIOvpb+kBn2v0ib
-	Mhe4Wl8YC9axCsFyuJzTwXHjjhb3q1BaeZxn2MdCdNDa60Lp4km2wwLb2FSnBW5HAU1JeA2Pzs0
-	uMZDz5tc1/1+8OgO8TZOO5fQn5YAsTX4mpjlaa7kgaXeeqvtQM3UvhZkhOurnO/FaDGZXeuYeFR
-	pCpJsPFHMrMYXAtliFMWq6ztKVwYK5LwJByzysK0R0WvxKd7CcQdIKMyv0IVbhakJBoeSWqm/wq
-	xMeIvWl/PwhOWMu0/0jTzFerAXegMAcY2E1BxR6aqNv6jkPDRHcWo1H138XyXZRKLRWvwyFkvpG
-	5XkaCaKm0gkp+DLAge7y2BCYxISyvM6sTw+rubCWKvYC8UbwLPiuOetJdaLQF7VjuhGdng7KaM/
-	/DtiZ68UnOUFlt65BExMasGhSJLTI9cFPudP2Oe0FXPQ2FSuu7P76STamRtO3R/wiTobv8ebRnd
-	kamGhobLnp33UDjkMqgI4MEBf2IoMCO
-X-Received: by 2002:a05:6512:3e27:b0:5b8:f370:25de with SMTP id 2adb3069b0e04-5b8f3702cdamr367394e87.8.1790469406892;
-        Sat, 26 Sep 2026 17:36:46 -0700 (PDT)
+        bh=QfImzflZZLyN3OyiIswXsjMHX+tP0A2H1jilGnkUCwI=;
+        b=owoXIn/KpYSq+4McoX/jHYpSkbZOmi10qj8UUo6k1A1aZxPr+1qDUbFo1wcobmAnr6
+         KfeqHkpPN2oNeWrVzDxMG3aiZvAQv6qZiHDjf2Rn5/0bRsA4KXY779dOwCHpC5zAL62P
+         5/Lj73PGPyulXR9Bg+O5Q3MDLq2sqZemyBWcv9PTqqt/o8nMX3ol0PBH9R2ShxV8LQSC
+         nvJko6vGq75WXwoNLmSNTMweMPN0Jh4v8JI6S5kUDeoXLtFNiCJK/XX3rq5e1f2Fo8j8
+         hgJ/wHZIj40cDCFicACLgrJkAEz1Jm3RGq+mslPNkdzUnvqrxuZz1ndDvOJBR641RLos
+         8CYg==
+X-Gm-Message-State: AFq9FYLiezsvahSoijLjR8W/qHECqmu8bvErORIfOF9yZYg1vcKtdj7U
+	6RuEIFGoG/LLCRxtGigU86gXCMv0hDfliBV0j6zYufkY4KtGMeHZZCfl
+X-Gm-Gg: AYBFou32efdGIOPsjcxgY0ZP3Iurh6LYHy9Zx81YSunOPfRBqWO5eNqbjSAMjZBmfbJ
+	gE8j86f4RvmmKZacBJWj+8yimwiX/Hg48iMOdPkmG5SZyLgEaGmxEux8bmyuARb04VsOl8rjhAW
+	Y1zbg0Tksb8q2bnW0UwA1IaOtm1KAdCvxIMdFA9SJ3wcAQGd6CRLOTJgQMgUfPTTWrUVvV6rh8i
+	oS41EZG2i9QYGTehtfLWjpMNL4wrO6hyqG1/PqEEwOXyFm4YMM6WjFa2MWodUnwG0WXxOXWuIh8
+	zxnYqf+ao/mn3yjbhdHSs1jYa1tQHpCJhojXmwadRtV/+I2KazpIj9Q/kFxZiHzw2uARMCCccV6
+	7J0IT2kY+zBrB1/LbpTs5Tz/6nG3wA1EIsuBB1m62GHRq7OuSWAwm1KSceLGw7y2I8VLv13QXiZ
+	iDNXHtZbLo3oWH6bSBt42OMpfR7qzAJKhBbuu/Y6HkVYifh+cPAqsXE/bcsBjX2O3Rl1JTVhUW+
+	IgGt6ACNje9m/V/19UI7zBnKEvRNP2QmaJwMwG4MuE=
+X-Received: by 2002:a05:6512:628d:b0:5b6:6b8:1fc1 with SMTP id 2adb3069b0e04-5b8df040f22mr2889145e87.11.1790469409691;
+        Sat, 26 Sep 2026 17:36:49 -0700 (PDT)
 Received: from Shigure.lan (n30b00u6luibwsaibf2-1.v6.elisa-mobile.fi. [2001:999:2c9:b0::44e])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b8e6a8bdf3sm1572795e87.8.2026.09.26.17.36.46
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b8e6a8bdf3sm1572795e87.8.2026.09.26.17.36.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Sep 2026 17:36:46 -0700 (PDT)
+        Sat, 26 Sep 2026 17:36:49 -0700 (PDT)
 From: Niko Huuskonen <niko.huuskonen.00@gmail.com>
 To: Takashi Iwai <tiwai@suse.com>,
 	Jaroslav Kysela <perex@perex.cz>,
@@ -65,9 +65,9 @@ To: Takashi Iwai <tiwai@suse.com>,
 Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Niko Huuskonen <niko.huuskonen.00@gmail.com>
-Subject: [PATCH 2/4] ALSA: caiaq: Fix the Kore controller key map
-Date: Sun, 27 Sep 2026 03:35:30 +0300
-Message-ID: <20260927003532.289468-3-niko.huuskonen.00@gmail.com>
+Subject: [PATCH 3/4] ALSA: uapi: Add hwdep interface ID for caiaq devices
+Date: Sun, 27 Sep 2026 03:35:31 +0300
+Message-ID: <20260927003532.289468-4-niko.huuskonen.00@gmail.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260927003532.289468-1-niko.huuskonen.00@gmail.com>
 References: <20260927003532.289468-1-niko.huuskonen.00@gmail.com>
@@ -79,92 +79,32 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-keycode_kore does not match the hardware in two places:
+Add SNDRV_HWDEP_IFACE_CAIAQ for the hwdep device that snd-usb-caiaq
+creates for the LCD of the Native Instruments Kore controllers, added
+by the next patch.
 
-- Softkeys 5 to 8 are listed in reverse order, so pressing the fifth
-  softkey reports BTN_8, the sixth BTN_7 and so on. Softkeys 1 to 4 are
-  correct. The OpenKoreBridge project, which drives a Kore 2 through
-  this driver, works around the same reversal in userspace.
-
-- On the first Kore controller the touch sensors of the eight knobs are
-  scrambled: touching knob 1 reports KEY_BRL_DOT6, knob 2 KEY_BRL_DOT8,
-  knob 3 KEY_BRL_DOT2, knob 6 KEY_BRL_DOT7, knob 7 KEY_BRL_DOT1 and
-  knob 8 KEY_BRL_DOT3. Only knobs 4 and 5 are right.
-
-Put the softkeys in order for both controllers, and give the first Kore
-controller its own touch sensor order, so that BTN_n and KEY_BRL_DOTn
-belong to the n-th knob. The touch sensor order of the Kore 2 is left
-alone, as it could not be checked.
-
-Userspace that compensates for the old order needs to follow. It can
-read the key map with EVIOCGKEYCODE, which also makes it possible to
-support kernels with and without this change.
-
-Tested on a Kore controller (USB ID 17cc:4711).
-
-Link: https://github.com/OpenKoreBridge/OpenKoreBridge
-Fixes: 8e3cd08ed8e5 ("[ALSA] caiaq - add control API and more input features")
 Assisted-by: LLM
 Signed-off-by: Niko Huuskonen <niko.huuskonen.00@gmail.com>
 ---
- sound/usb/caiaq/input.c | 29 +++++++++++++++++++++++++----
- 1 file changed, 25 insertions(+), 4 deletions(-)
+ include/uapi/sound/asound.h | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/sound/usb/caiaq/input.c b/sound/usb/caiaq/input.c
-index 8d924330c54c..856235c3398e 100644
---- a/sound/usb/caiaq/input.c
-+++ b/sound/usb/caiaq/input.c
-@@ -41,11 +41,11 @@ static const unsigned short keycode_kore[] = {
- 	BTN_3,
- 	BTN_2,
- 	BTN_1,
--	BTN_8,
--	BTN_7,
--	BTN_6,
- 	BTN_5,
--	KEY_BRL_DOT4,   /* touch sensitive knobs */
-+	BTN_6,
-+	BTN_7,
-+	BTN_8,
-+	KEY_BRL_DOT4,   /* touch sensitive knobs (Kore 2 order) */
- 	KEY_BRL_DOT3,
- 	KEY_BRL_DOT2,
- 	KEY_BRL_DOT1,
-@@ -55,6 +55,21 @@ static const unsigned short keycode_kore[] = {
- 	KEY_BRL_DOT5
+diff --git a/include/uapi/sound/asound.h b/include/uapi/sound/asound.h
+index c11da9656e38..767c96273245 100644
+--- a/include/uapi/sound/asound.h
++++ b/include/uapi/sound/asound.h
+@@ -99,9 +99,10 @@ enum {
+ 	SNDRV_HWDEP_IFACE_LINE6,	/* Line6 USB processors */
+ 	SNDRV_HWDEP_IFACE_FW_MOTU,	/* MOTU FireWire series */
+ 	SNDRV_HWDEP_IFACE_FW_FIREFACE,	/* RME Fireface series */
++	SNDRV_HWDEP_IFACE_CAIAQ,	/* Native Instruments caiaq USB devices */
+ 
+ 	/* Don't forget to change the following: */
+-	SNDRV_HWDEP_IFACE_LAST = SNDRV_HWDEP_IFACE_FW_FIREFACE
++	SNDRV_HWDEP_IFACE_LAST = SNDRV_HWDEP_IFACE_CAIAQ
  };
  
-+/* index of the first touch sensor in keycode_kore */
-+#define KORE_TOUCH_KEYS	24
-+
-+/* the first Kore controller reports its touch sensors in this order */
-+static const unsigned short keycode_kore1_touch[] = {
-+	KEY_BRL_DOT4,
-+	KEY_BRL_DOT8,
-+	KEY_BRL_DOT3,
-+	KEY_BRL_DOT7,
-+	KEY_BRL_DOT2,
-+	KEY_BRL_DOT6,
-+	KEY_BRL_DOT1,
-+	KEY_BRL_DOT5
-+};
-+
- #define MASCHINE_BUTTONS   (42)
- #define MASCHINE_BUTTON(X) ((X) + BTN_MISC)
- #define MASCHINE_PADS      (16)
-@@ -666,6 +681,12 @@ int snd_usb_caiaq_input_init(struct snd_usb_caiaqdev *cdev)
- 		input->absbit[BIT_WORD(ABS_MISC)] |= BIT_MASK(ABS_MISC);
- 		BUILD_BUG_ON(sizeof(cdev->keycode) < sizeof(keycode_kore));
- 		memcpy(cdev->keycode, keycode_kore, sizeof(keycode_kore));
-+		BUILD_BUG_ON(KORE_TOUCH_KEYS + ARRAY_SIZE(keycode_kore1_touch) >
-+			     ARRAY_SIZE(keycode_kore));
-+		if (cdev->chip.usb_id ==
-+		    USB_ID(USB_VID_NATIVEINSTRUMENTS, USB_PID_KORECONTROLLER))
-+			memcpy(cdev->keycode + KORE_TOUCH_KEYS, keycode_kore1_touch,
-+			       sizeof(keycode_kore1_touch));
- 		input->keycodemax = ARRAY_SIZE(keycode_kore);
- 		input_set_abs_params(input, ABS_HAT0X, 0, 999, 0, 10);
- 		input_set_abs_params(input, ABS_HAT0Y, 0, 999, 0, 10);
+ struct snd_hwdep_info {
 -- 
 2.55.0
 
