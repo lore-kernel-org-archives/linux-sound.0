@@ -1,34 +1,34 @@
-Received: from mail-m49197.qiye.163.com (mail-m49197.qiye.163.com [45.254.49.197])
+Received: from mail-m155101.qiye.163.com (mail-m155101.qiye.163.com [101.71.155.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C50CD253951;
-	Sun, 27 Sep 2026 12:17:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C667D547062;
+	Sun, 27 Sep 2026 13:53:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790511446; cv=none; b=JOdF9xLv6I2tce434Aem7ZBXTd5z2K2W2QaI4EexM7n+LZJT0bvo0rkZoSa74DfWTUuupfI9/rs1Gsl9K35+JRmuHPC/0c0imQ5HNFw3+424lPyI066+QYeyD9plg2JCGyBsbYYVuiuf2j5FCz/hj57HaZkBgjktMzp6L+NK/LA=
+	t=1790517206; cv=none; b=XIDVzsq5E/cIGmKW3IbZ79FXbV8c65xelupNcqo6TQ8ZfKvEBBIb2f4BdbngFhTyXgVT8k8wqhkfpJLxoSrKi+mvcnRzpsBcx2KTrMl/arQUJziFFQaeUWVmHumTlra0cHc8iKaUgRWxPj6VXe8daxSbLgr3Xaj/wT5wVGz7N7M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790511446; c=relaxed/simple;
-	bh=AX/ZM91BFcVMd5CY4hI27RCqlFArX80vk0q4irK3OB4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Rw2ZVbBZcBARQ7NMu2l7u5PVmhmQFtLXh+beuoYs7Ukcvv9esKxQQMkFwci7nXNhe7sTmUOu4J00JqUYiyPPlpL1jAJ181+Mcd33gl3d2jDUAuxxoF5fzIymOpUpNx1ZE0MK9RzjZPhsXmk/w0k8EQTasKoT2HPpP2wftrltEwI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=LAx1bGWt; arc=none smtp.client-ip=45.254.49.197
+	s=arc-20240116; t=1790517206; c=relaxed/simple;
+	bh=PEdLkGmGzmkZmUOxVDlg1LzDU+XcMBt+whu+M214eZc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=YKScpTRJjTmO3aq97CjzgU326y6cnLcBbIQJahd+KjY4A/jelhyiaXIzMGrQgNCFC1jcgmrTcDFAdSVlKdZDY96Mg9HoF21C8uaak00WIAzGyKITdcXJ9Pyko4hs+A5ek+IAHTYtHNjXWe5jux5ukacPVZw5kcjymt/eGBZKnE4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=bVi84cED; arc=none smtp.client-ip=101.71.155.101
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="LAx1bGWt"
-Received: from PC-202605011814.localdomain (unknown [222.191.246.242])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 4f3c87f3c;
-	Sun, 27 Sep 2026 20:17:15 +0800 (GMT+08:00)
+	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="bVi84cED"
+Received: from PC-202605011814.localdomain (unknown [58.241.16.34])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 4f3d5f309;
+	Sun, 27 Sep 2026 21:53:08 +0800 (GMT+08:00)
 From: Runyu Xiao <runyu.xiao@seu.edu.cn>
-To: Clemens Ladisch <clemens@ladisch.de>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
+To: Jaroslav Kysela <perex@perex.cz>
+Cc: Takashi Iwai <tiwai@suse.com>,
+	Clemens Ladisch <clemens@ladisch.de>,
 	Runyu Xiao <runyu.xiao@seu.edu.cn>,
 	Jianhao Xu <jianhao.xu@seu.edu.cn>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: oxygen: use helper to activate the SPDIF PCM control
-Date: Sun, 27 Sep 2026 20:17:09 +0800
-Message-Id: <20260927121709.742840-1-runyu.xiao@seu.edu.cn>
+Subject: [PATCH] ALSA: ymfpci: avoid changing control access under spinlock
+Date: Sun, 27 Sep 2026 21:53:01 +0800
+Message-Id: <20260927135301.777475-1-runyu.xiao@seu.edu.cn>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -37,87 +37,202 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0aa0e2cc4d4103a1kunm59a59c561b6ab4
+X-HM-Tid: 0aa0e324184303a1kunm753548831bafbd
 X-HM-MType: 10
 X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlCQkMYVhhIT01OQktLQkNJGlYeHw
-	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUlVSkJKVUlPTVVJT0lZV1kWGg8SFR0UWUFZT0tIVUpLSE
-	pPSExVSktLVUpCS0tZBg++
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkZSElNVhpOH0JJSxlDSx9LH1YeHw
+	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlOQ1VJT0pVSk1VSE9ZV1kWGg8SFR0UWUFZT0tIVUpLSEpPSE
+	xVSktLVUpCS0tZBg++
 DKIM-Signature: a=rsa-sha256;
-	b=LAx1bGWtndAn2K5kdy7u+95E7ujDDXRUOyKIuOhvaPATl7TTq6aNTofZfHXkUX7JG4r9rGt521M5W4/ek3ZS8kE+pWGaQM1QTcxy2MnVGBsSf9+L8tqEDyCI5v6d0gjBnph5u3jib7T6ilRzM/42mCY05hQkEzWIEIc5AjpY1sY=; c=relaxed/relaxed; s=default; d=seu.edu.cn; v=1;
-	bh=TtvCN9ckUAnBUljenKww0+9IfDhRwP4ovyNfGTvLwzs=;
+	b=bVi84cEDE97+GqhYabqH/GqfFmfOCi68zFdu3jjfd5m20433li8uw0FQEpOe1KyXYJU2zeCzzVkV1xLHT5/8FZNPBXq2tDE13hZDqKqqgkje3eAfKOeEaXjazWNUC0FetIWetviBaZFCbWXVvfY8CsZY16XdK8v34NkPo3LaTJg=; c=relaxed/relaxed; s=default; d=seu.edu.cn; v=1;
+	bh=oA/XgZoI69gAgyLVWxAdBN+Po2if3pb0qbtkrAEiKY4=;
 	h=date:mime-version:subject:message-id:from;
 
-oxygen_open() and oxygen_close() modify the SPDIF PCM control access
-flags while holding chip->mutex. Direct access changes bypass the control
-core locking and notification path.
+The YMFPCI playback trigger changes a mixer control's access flags while
+holding reg_lock. Direct access changes are not serialized with the control
+core, and snd_ctl_activate_id() cannot be called under the spinlock because
+it may sleep.
 
-Move the access transition outside the driver mutex and use
-snd_ctl_activate_id(), which serializes the control update with the control
-core.
+Track the desired control state under reg_lock and update it from a work
+item. Use a generation counter to serialize prepare with a pending stop.
+Cancel the work before the PCM private data is released.
 
-Fixes: d0ce9946c52e ("[ALSA] add CMI8788 driver")
 Assisted-by: LLM
+Fixes: 177a7cdbd1d8 ("[ALSA] ymfpci: fix volume handling of the 44.1 kHz slot")
 Signed-off-by: Runyu Xiao <runyu.xiao@seu.edu.cn>
 ---
- sound/pci/oxygen/oxygen_pcm.c | 37 +++++++++++++++--------------------
- 1 file changed, 16 insertions(+), 21 deletions(-)
+ sound/pci/ymfpci/ymfpci.h      |  4 ++
+ sound/pci/ymfpci/ymfpci_main.c | 69 ++++++++++++++++++++++++++--------
+ 2 files changed, 57 insertions(+), 16 deletions(-)
 
-diff --git a/sound/pci/oxygen/oxygen_pcm.c b/sound/pci/oxygen/oxygen_pcm.c
-index b71635601..75efbf59a 100644
---- a/sound/pci/oxygen/oxygen_pcm.c
-+++ b/sound/pci/oxygen/oxygen_pcm.c
-@@ -171,16 +171,14 @@ static int oxygen_open(struct snd_pcm_substream *substream,
- 	snd_pcm_set_sync(substream);
- 	chip->streams[channel] = substream;
+diff --git a/sound/pci/ymfpci/ymfpci.h b/sound/pci/ymfpci/ymfpci.h
+index a408785cf..33c7d4327 100644
+--- a/sound/pci/ymfpci/ymfpci.h
++++ b/sound/pci/ymfpci/ymfpci.h
+@@ -12,6 +12,7 @@
+ #include <sound/ac97_codec.h>
+ #include <sound/timer.h>
+ #include <linux/gameport.h>
++#include <linux/workqueue.h>
  
--	guard(mutex)(&chip->mutex);
--	chip->pcm_active |= 1 << channel;
--	if (channel == PCM_SPDIF) {
--		chip->spdif_pcm_bits = chip->spdif_bits;
--		chip->controls[CONTROL_SPDIF_PCM]->vd[0].access &=
--			~SNDRV_CTL_ELEM_ACCESS_INACTIVE;
--		snd_ctl_notify(chip->card, SNDRV_CTL_EVENT_MASK_VALUE |
--			       SNDRV_CTL_EVENT_MASK_INFO,
--			       &chip->controls[CONTROL_SPDIF_PCM]->id);
-+	scoped_guard(mutex, &chip->mutex) {
-+		chip->pcm_active |= 1 << channel;
-+		if (channel == PCM_SPDIF)
-+			chip->spdif_pcm_bits = chip->spdif_bits;
+ /*
+  *  Direct registers
+@@ -260,6 +261,9 @@ struct snd_ymfpci_pcm {
+ 	             output_rear: 1,
+ 	             swap_rear: 1;
+ 	unsigned int update_pcm_vol;
++	struct work_struct control_work;
++	unsigned int control_generation;
++	bool control_active;
+ 	u32 period_size;		/* cached from runtime->period_size */
+ 	u32 buffer_size;		/* cached from runtime->buffer_size */
+ 	u32 period_pos;
+diff --git a/sound/pci/ymfpci/ymfpci_main.c b/sound/pci/ymfpci/ymfpci_main.c
+index 2ccb976e6..e5c0fb78e 100644
+--- a/sound/pci/ymfpci/ymfpci_main.c
++++ b/sound/pci/ymfpci/ymfpci_main.c
+@@ -355,12 +355,52 @@ static void snd_ymfpci_pcm_capture_interrupt(struct snd_pcm_substream *substream
  	}
-+	if (channel == PCM_SPDIF)
-+		snd_ctl_activate_id(chip->card,
-+				    &chip->controls[CONTROL_SPDIF_PCM]->id, 1);
+ }
  
++static void snd_ymfpci_pcm_control_work(struct work_struct *work)
++{
++	struct snd_ymfpci_pcm *ypcm = container_of(work, struct snd_ymfpci_pcm,
++							  control_work);
++	struct snd_ymfpci *chip = ypcm->chip;
++	struct snd_kcontrol *kctl;
++	unsigned int generation;
++	bool active;
++
++	kctl = chip->pcm_mixer[ypcm->substream->number].ctl;
++	if (!kctl)
++		return;
++
++	for (;;) {
++		scoped_guard(spinlock_irq, &chip->reg_lock) {
++			active = ypcm->control_active;
++			generation = ypcm->control_generation;
++		}
++		snd_ctl_activate_id(chip->card, &kctl->id, active);
++		scoped_guard(spinlock_irq, &chip->reg_lock) {
++			if (generation == ypcm->control_generation)
++				return;
++		}
++	}
++}
++
++static void snd_ymfpci_pcm_set_control_active(struct snd_ymfpci_pcm *ypcm,
++					      bool active)
++{
++	struct snd_ymfpci *chip = ypcm->chip;
++	struct snd_kcontrol *kctl;
++
++	scoped_guard(spinlock_irq, &chip->reg_lock) {
++		ypcm->control_active = active;
++		ypcm->control_generation++;
++	}
++	kctl = chip->pcm_mixer[ypcm->substream->number].ctl;
++	if (kctl)
++		snd_ctl_activate_id(chip->card, &kctl->id, active);
++}
++
+ static int snd_ymfpci_playback_trigger(struct snd_pcm_substream *substream,
+ 				       int cmd)
+ {
+ 	struct snd_ymfpci *chip = snd_pcm_substream_chip(substream);
+ 	struct snd_ymfpci_pcm *ypcm = substream->runtime->private_data;
+-	struct snd_kcontrol *kctl = NULL;
+ 	int result = 0;
+ 
+ 	guard(spinlock)(&chip->reg_lock);
+@@ -377,8 +417,9 @@ static int snd_ymfpci_playback_trigger(struct snd_pcm_substream *substream,
+ 		break;
+ 	case SNDRV_PCM_TRIGGER_STOP:
+ 		if (substream->pcm == chip->pcm && !ypcm->use_441_slot) {
+-			kctl = chip->pcm_mixer[substream->number].ctl;
+-			kctl->vd[0].access |= SNDRV_CTL_ELEM_ACCESS_INACTIVE;
++			ypcm->control_active = false;
++			ypcm->control_generation++;
++			schedule_work(&ypcm->control_work);
+ 		}
+ 		fallthrough;
+ 	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
+@@ -391,8 +432,6 @@ static int snd_ymfpci_playback_trigger(struct snd_pcm_substream *substream,
+ 	default:
+ 		return -EINVAL;
+ 	}
+-	if (kctl)
+-		snd_ctl_notify(chip->card, SNDRV_CTL_EVENT_MASK_INFO, &kctl->id);
+ 	return result;
+ }
+ static int snd_ymfpci_capture_trigger(struct snd_pcm_substream *substream,
+@@ -636,7 +675,6 @@ static int snd_ymfpci_playback_prepare(struct snd_pcm_substream *substream)
+ 	struct snd_ymfpci *chip = snd_pcm_substream_chip(substream);
+ 	struct snd_pcm_runtime *runtime = substream->runtime;
+ 	struct snd_ymfpci_pcm *ypcm = runtime->private_data;
+-	struct snd_kcontrol *kctl;
+ 	unsigned int nvoice;
+ 
+ 	ypcm->period_size = runtime->period_size;
+@@ -648,9 +686,7 @@ static int snd_ymfpci_playback_prepare(struct snd_pcm_substream *substream)
+ 					  substream->pcm == chip->pcm);
+ 
+ 	if (substream->pcm == chip->pcm && !ypcm->use_441_slot) {
+-		kctl = chip->pcm_mixer[substream->number].ctl;
+-		kctl->vd[0].access &= ~SNDRV_CTL_ELEM_ACCESS_INACTIVE;
+-		snd_ctl_notify(chip->card, SNDRV_CTL_EVENT_MASK_INFO, &kctl->id);
++		snd_ymfpci_pcm_set_control_active(ypcm, true);
+ 	}
  	return 0;
  }
-@@ -220,19 +218,16 @@ static int oxygen_close(struct snd_pcm_substream *substream)
- 	struct oxygen *chip = snd_pcm_substream_chip(substream);
- 	unsigned int channel = oxygen_substream_channel(substream);
+@@ -843,7 +879,10 @@ static const struct snd_pcm_hardware snd_ymfpci_capture =
  
--	guard(mutex)(&chip->mutex);
--	chip->pcm_active &= ~(1 << channel);
--	if (channel == PCM_SPDIF) {
--		chip->controls[CONTROL_SPDIF_PCM]->vd[0].access |=
--			SNDRV_CTL_ELEM_ACCESS_INACTIVE;
--		snd_ctl_notify(chip->card, SNDRV_CTL_EVENT_MASK_VALUE |
--			       SNDRV_CTL_EVENT_MASK_INFO,
--			       &chip->controls[CONTROL_SPDIF_PCM]->id);
--	}
--	if (channel == PCM_SPDIF || channel == PCM_MULTICH)
--		oxygen_update_spdif_source(chip);
-+	scoped_guard(mutex, &chip->mutex) {
-+		chip->pcm_active &= ~(1 << channel);
-+		if (channel == PCM_SPDIF || channel == PCM_MULTICH)
-+			oxygen_update_spdif_source(chip);
+ static void snd_ymfpci_pcm_free_substream(struct snd_pcm_runtime *runtime)
+ {
+-	kfree(runtime->private_data);
++	struct snd_ymfpci_pcm *ypcm = runtime->private_data;
++
++	cancel_work_sync(&ypcm->control_work);
++	kfree(ypcm);
+ }
  
--	chip->streams[channel] = NULL;
-+		chip->streams[channel] = NULL;
-+	}
-+	if (channel == PCM_SPDIF)
-+		snd_ctl_activate_id(chip->card,
-+				    &chip->controls[CONTROL_SPDIF_PCM]->id, 0);
+ static int snd_ymfpci_playback_open_1(struct snd_pcm_substream *substream)
+@@ -870,6 +909,7 @@ static int snd_ymfpci_playback_open_1(struct snd_pcm_substream *substream)
+ 	ypcm->chip = chip;
+ 	ypcm->type = PLAYBACK_VOICE;
+ 	ypcm->substream = substream;
++	INIT_WORK(&ypcm->control_work, snd_ymfpci_pcm_control_work);
+ 	runtime->private_data = ypcm;
+ 	runtime->private_free = snd_ymfpci_pcm_free_substream;
  	return 0;
+@@ -945,9 +985,7 @@ static int snd_ymfpci_playback_spdif_open(struct snd_pcm_substream *substream)
+ 		chip->spdif_opened++;
+ 	}
+ 
+-	chip->spdif_pcm_ctl->vd[0].access &= ~SNDRV_CTL_ELEM_ACCESS_INACTIVE;
+-	snd_ctl_notify(chip->card, SNDRV_CTL_EVENT_MASK_VALUE |
+-		       SNDRV_CTL_EVENT_MASK_INFO, &chip->spdif_pcm_ctl->id);
++	snd_ctl_activate_id(chip->card, &chip->spdif_pcm_ctl->id, 1);
+ 	return 0;
+ }
+ 
+@@ -997,6 +1035,7 @@ static int snd_ymfpci_capture_open(struct snd_pcm_substream *substream,
+ 	ypcm->type = capture_bank_number + CAPTURE_REC;
+ 	ypcm->substream = substream;	
+ 	ypcm->capture_bank_number = capture_bank_number;
++	INIT_WORK(&ypcm->control_work, snd_ymfpci_pcm_control_work);
+ 	chip->capture_substream[capture_bank_number] = substream;
+ 	runtime->private_data = ypcm;
+ 	runtime->private_free = snd_ymfpci_pcm_free_substream;
+@@ -1044,9 +1083,7 @@ static int snd_ymfpci_playback_spdif_close(struct snd_pcm_substream *substream)
+ 				  snd_ymfpci_readw(chip, YDSXGR_SPDIFOUTCTRL) & ~2);
+ 		snd_ymfpci_writew(chip, YDSXGR_SPDIFOUTSTATUS, chip->spdif_bits);
+ 	}
+-	chip->spdif_pcm_ctl->vd[0].access |= SNDRV_CTL_ELEM_ACCESS_INACTIVE;
+-	snd_ctl_notify(chip->card, SNDRV_CTL_EVENT_MASK_VALUE |
+-		       SNDRV_CTL_EVENT_MASK_INFO, &chip->spdif_pcm_ctl->id);
++	snd_ctl_activate_id(chip->card, &chip->spdif_pcm_ctl->id, 0);
+ 	return snd_ymfpci_playback_close_1(substream);
  }
  
 -- 
