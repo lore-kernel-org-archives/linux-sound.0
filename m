@@ -1,35 +1,46 @@
-Received: from mail-m49198.qiye.163.com (mail-m49198.qiye.163.com [45.254.49.198])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3D7B3F823C;
-	Sun, 27 Sep 2026 14:15:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB9D23F23B5;
+	Sun, 27 Sep 2026 14:27:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790518508; cv=none; b=RxwXkCOmgqtCranx2vXdRZNDuepokmV8xkZiW64QC9xP/kyxkoR0vfNVNN6X2IgbRlrUtFKRQQsoEIOJd6Yll7na7yuchbU6v85+3uGl1Fg7rrhGVSGsJpwoZnmTqXZ+/8sdhwZKaglHqdFeWCtskgg/JlPKK+6rcYqvYhtl5sI=
+	t=1790519225; cv=none; b=Ig8OJ3NfyDNcBFVj9cFkQgs5mukjXe/NwPRxlyrPehjmAZFDkjxYjIk5XitbhGkOQRfWsU8idPUW3stkTtNYjfJbWD9GlC7oS4T79x6cu8Dr5M+WD8MKHRJ7UWp9dk4Sftm/4SmzkrtGXI7YUd83qhA8FWd8v978ENIahmWBFIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790518508; c=relaxed/simple;
-	bh=1VqJN/PTMPIx1ThZGJBZmWemPX8haHuTM8Rt2k1w5CQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=RfaO9wL/eJdklrIkVlvBERgPcJttam5UqqtkgzaEU6GabrZzkaaOWMNLfmUlzViUEy2Khaj693lJie3BBgMBJLqP7RYagdweuL+yTKXnSSOSd6p2ToIoWOCQxrm+q3psOC70jnVWX5ynNJaJZc3FLolQxV/wjvIXAVO3KPUVeyY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=JWz775rP; arc=none smtp.client-ip=45.254.49.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
+	s=arc-20240116; t=1790519225; c=relaxed/simple;
+	bh=rFX+rRMPeLiE/DGCCg7dOcgZAY5QQ7Bpa6LuddfFyrY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=XFZqLolAi2+7UZslNjXP0Dqi95ZQhnCTA7qFp7/Owbw9i1BniQLbj2z/RZAh+eIDDt511qyUmG/QX8w4tfNMlp7+eJXGQeQFM+a3sl2Fp5WhTPvBFwPedK0mMWxKMlxX2Y+Sf9rseykbDS85ve4Q+sdfK9Bw/aa9F017vqWB1wA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xk5TZUvj; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="JWz775rP"
-Received: from PC-202605011814.localdomain (unknown [222.191.246.242])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 4f3d5f448;
-	Sun, 27 Sep 2026 22:14:54 +0800 (GMT+08:00)
-From: Runyu Xiao <runyu.xiao@seu.edu.cn>
-To: Jaroslav Kysela <perex@perex.cz>
-Cc: Takashi Iwai <tiwai@suse.com>,
-	Clemens Ladisch <clemens@ladisch.de>,
-	Runyu Xiao <runyu.xiao@seu.edu.cn>,
-	Jianhao Xu <jianhao.xu@seu.edu.cn>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xk5TZUvj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F4941F000FF;
+	Sun, 27 Sep 2026 14:27:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790519223;
+	bh=cqGmgP7NufmJ/ktboJDXDW5qnWwG5i1YxzK7VM/Ztyw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=Xk5TZUvj4GW/URyvtHsmy4ZcWevaGVfWAZNVhS4rP/BwPK6ud2YOt95BFXzoRQ18q
+	 MYsdqIGkUiP8tQYaC8Uky5tgKppFkLm8aPMQ1K6nEYFt1NM8aiusC5eROBOIUm7w4z
+	 RUYy6XavliC+e9ZkpIKn+lHkVtwhRozAKsWgtZ2K81jeAMSxg0p05E+bEOoBL8FCX6
+	 shGIV7wFXgbiPG1GFFljHwpUbofGO+QidCMf3nras8hIBVXZGP0Hh8mLxSC+w1KkIb
+	 fGgBpI/5GgA+Z8dw7rVwg48AQkGI2xjE79kXg7QBsWjWhJJEegmMILAmhLQe6k+VPf
+	 Qk6PFnodHQ67w==
+From: Sasha Levin <sashal@kernel.org>
+To: stable@vger.kernel.org
+Cc: Sasha Levin <sashal@kernel.org>,
+	regressions@lists.linux.dev,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: via82xx: use helper to activate DXS controls
-Date: Sun, 27 Sep 2026 22:14:47 +0800
-Message-Id: <20260927141447.788664-1-runyu.xiao@seu.edu.cn>
-X-Mailer: git-send-email 2.34.1
+	Faaris Ansari <faarisansari@googlemail.com>,
+	=?UTF-8?q?C=C3=A1ssio=20Gabriel?= <cassiogabrielcontato@gmail.com>,
+	Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>
+Subject: Re: [REGRESSION] Audient EVO4 hardware volume control now requires quirk
+Date: Sun, 27 Sep 2026 10:26:59 -0400
+Message-ID: <2026-09-27-daily-reply-0001-re-audient-evo4-mixer-put-errors@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <CANBVYRCL=8QdLxGg4S6qrahrFtwJxhv-aSGpW7-1S=+iOe4ZGA@mail.gmail.com>
+References: <CANBVYRCL=8QdLxGg4S6qrahrFtwJxhv-aSGpW7-1S=+iOe4ZGA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -37,59 +48,25 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0aa0e338044203a1kunm32897bad1bbce5
-X-HM-MType: 10
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkZSUIfVk1LSBlPSB5ITk0fTVYeHw
-	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUlVSkJKVUlPTVVJT0lZV1kWGg8SFR0UWUFZT0tIVUpLSE
-	pPSExVSktLVUpCS0tZBg++
-DKIM-Signature: a=rsa-sha256;
-	b=JWz775rPonLpHFLcxgLhMDCMWuDtnedtzeC2UpFPcRMNOTk6hSiTJDmB6e0KzqZS+HnKflIjixed+pH+/XhzuHDPegq1uoFrfWVI/Tmfrve+4sHwvzhwZ5g7T1kXlp80+zjYLH+tgApsYBG2cVBC3XsODa8WjYPEq94rubkov2Y=; c=relaxed/relaxed; s=default; d=seu.edu.cn; v=1;
-	bh=Uu2dTqVFIdK/CVvK0BZg5EDaxj7V93ZK2tVrRS4KbMY=;
-	h=date:mime-version:subject:message-id:from;
 
-The VIA DXS playback callbacks modify control access flags directly when
-a stream opens or closes. This bypasses the control core locking and
-notification path.
+> I was able to work around the issue by adding extra modprobe config to
+> my system, specifically the below:
+>
+> options snd_usb_audio quirk_flags=2708:0006:ignore_ctl_error
+>
+> Does this quirk need to be added to the snd_usb_audio module or is
+> there an underlying fix somewhere else?
 
-Use snd_ctl_activate_id() for both transitions so access changes are
-serialized by the control core and reported with the expected info event.
+The likely cause is 87a6f2fa6e6c ("ALSA: usb-audio: Propagate write errors
+in generic mixer put callbacks"). It is in 7.2 and was backported to 6.18.53
+and 6.12.111. Before it, a failed SET_CUR in the mixer put callbacks was
+ignored and userspace saw success. Now the error is returned unless
+ignore_ctl_error is set, which is exactly what your workaround does. It is
+the only functional change to sound/usb/mixer.c between 7.1.13 and 7.2.5.
 
-Fixes: 3d00941371a7 ("sound: via82xx: deactivate DXS controls of inactive streams")
-Assisted-by: LLM
-Signed-off-by: Runyu Xiao <runyu.xiao@seu.edu.cn>
----
- sound/pci/via82xx.c | 11 ++---------
- 1 file changed, 2 insertions(+), 9 deletions(-)
+Could you confirm by reverting just that commit on 7.2.y or 6.18.y and
+testing without the quirk_flags option?
 
-diff --git a/sound/pci/via82xx.c b/sound/pci/via82xx.c
-index 24ee1302f..58816dea4 100644
---- a/sound/pci/via82xx.c
-+++ b/sound/pci/via82xx.c
-@@ -1242,11 +1242,7 @@ static int snd_via8233_playback_open(struct snd_pcm_substream *substream)
- 				VIA_DXS_MAX_VOLUME - (dxs_init_volume & 31);
- 		chip->playback_volume[stream][1] =
- 				VIA_DXS_MAX_VOLUME - (dxs_init_volume & 31);
--		chip->dxs_controls[stream]->vd[0].access &=
--			~SNDRV_CTL_ELEM_ACCESS_INACTIVE;
--		snd_ctl_notify(chip->card, SNDRV_CTL_EVENT_MASK_VALUE |
--			       SNDRV_CTL_EVENT_MASK_INFO,
--			       &chip->dxs_controls[stream]->id);
-+		snd_ctl_activate_id(chip->card, &chip->dxs_controls[stream]->id, 1);
- 	}
- 	return 0;
- }
-@@ -1333,10 +1329,7 @@ static int snd_via8233_playback_close(struct snd_pcm_substream *substream)
- 
- 	stream = viadev->reg_offset / 0x10;
- 	if (chip->dxs_controls[stream]) {
--		chip->dxs_controls[stream]->vd[0].access |=
--			SNDRV_CTL_ELEM_ACCESS_INACTIVE;
--		snd_ctl_notify(chip->card, SNDRV_CTL_EVENT_MASK_INFO,
--			       &chip->dxs_controls[stream]->id);
-+		snd_ctl_activate_id(chip->card, &chip->dxs_controls[stream]->id, 0);
- 	}
- 	return snd_via82xx_pcm_close(substream);
- }
 -- 
-2.34.1
+Thanks,
+Sasha
