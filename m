@@ -1,445 +1,269 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74B574E4C5F;
-	Mon, 28 Sep 2026 16:25:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDB5E4E36ED;
+	Mon, 28 Sep 2026 16:25:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790612703; cv=none; b=oJ37afSwU+iTTVQ7Cj9pqc87Imi6zvyGzUtn0DAmCqzGq7GDbx+LCWJnuKjTUbDBTE/9Vkx6UZZ7r/W4kLuNE0skYxda9y5NkCSKKkJvle/Odn0WgH/uY5ZjZBRRwl9/3JAXFi2+1rWtquXyolivmCe7AJ33fNfxiR5Gu+lswH4=
+	t=1790612718; cv=none; b=SD9BazptQkS9jPVaLEHSNddHwzpeG6eyoveVEOQhfzxyV563Vg9eiALSsk2ozHrV7svrOs83FLlXGg/Ii+3hyLixoOZ1tluWIwJlyQ9qVX277Zkw9xYoOCVMMpni900ED6Jh6Bh6AlE87hwJE5Sjktol7HixQ/GwiDFfv5VFd5g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790612703; c=relaxed/simple;
-	bh=6aYIEYzAX94f8vE7vxOSgHJFn2r9+7dLpC1fS8xLIEQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=JUVXn8fCsmRpAeiuPCCoAlbcTc1RCB9zFKqOd8v/pAYIUpEtioxTJ7YLyHrLlxn+PuhrzkY+vH/GAnNGZ1UXMglUX2dEjCZWe60NDwHYHcjyI2mf9/vr+Y4WB+UcQVk7Rjq+NICGZ9/fGCmmsqgoklNinMghIf+Cfl+XQkxDzPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gnlQJjSQ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790612718; c=relaxed/simple;
+	bh=IeXHQDuG+UlSTHrfck/KhKvmZ0Y8Fcngu2CJvdQNwxU=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=cNAifyXls5qHdqXtp4wxHwoeg/3veux3OWpPHnU2FxMGg8EwGs3kU+0tiFUiEryXLEbaiLVimQ0nNHyw4+XlCsKt+kfvifEA3LuF4eDiWCnkYAMbD49FdLD3M3E41kPIXMe5B3lSG1V9mSq7xfKe4m+mNILX3RajEgE1UUVIE0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=H2WJ+rIR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=RpST6PYQ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1WjzO2fT; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gw3poFN3; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gnlQJjSQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEFEE1F000FF;
-	Mon, 28 Sep 2026 16:25:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790612701;
-	bh=lIyVTZVzUhkqY9LYXbgs+lEalwgM0Tf5Lhk6NoV2Kds=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=gnlQJjSQWD4zyzQB5g3umiZOsyfoxgB92+a7nZ/g+jPOJJXqdA5ppr/j7qvWlnyms
-	 lZT/JM0ExMEFOd487s3xu+eUs2NnnCk/6pMwfgNkLKKDp4l8vRG44HLS6a76K86ee9
-	 0JpjmHhZSK2OfWS2UVomoJOqVVhesdxWWWpOhRQfEN2jiT/b1iPiWYl02Y/msEm8yO
-	 xX6Zr9M8NEIsVnkSwqtaccQWD+YY2VvuLQE66Cr4N4ICUMVU2GoNfP/MM8nE2ClAKp
-	 Sg89IjGHSQB9CkRWk9xWnPmCJIkOuZujzMy0GQIdSoiILtSEvILCn+2fCpA4SNyDXs
-	 CpQFSY1i8y+ug==
-From: Thierry Reding <thierry.reding@kernel.org>
-Date: Mon, 28 Sep 2026 18:24:41 +0200
-Subject: [PATCH 2/2] dt-bindings: sound: tegra-ahub: Convert to json-schema
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="H2WJ+rIR";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RpST6PYQ";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1WjzO2fT";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gw3poFN3"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 7C61A21D59;
+	Mon, 28 Sep 2026 16:25:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1790612710; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MUzOaX8sf87HxifU7reLT1NQboWhipfuOHdlKqrfpHE=;
+	b=H2WJ+rIRKkUYdsmM2JwBzqizVpVBBhyqQ+2bPRdgSUcE5FNOSCGZkwIARZUDStw/h1bU33
+	0vKxkEZ497ACbK4i4QCnsdd9pS7aPinm/CKCLXjG401MIiqL2O1XnZ4+n5RP8lsXvCa4Vn
+	lRHdeF4KqiajWXsVvorE9TkLDdZyPQ4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1790612710;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MUzOaX8sf87HxifU7reLT1NQboWhipfuOHdlKqrfpHE=;
+	b=RpST6PYQMSVpqo0VXsT56G5ijoG/pNR/iABjpqe7wlLau9L1KnPIipZFkheOnfWCaL6T2W
+	mJc1Q5SiN14SbkBA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1790612706; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MUzOaX8sf87HxifU7reLT1NQboWhipfuOHdlKqrfpHE=;
+	b=1WjzO2fTMSuLHwiXvYhdYmjcHovUgPBHlbY8M43CBH/sdDKBRkhPV6JQU97KjkGyniOGV5
+	w655unPL8oPF1JvBLCsuJI2gRWW8b4L0GJaE5SNO86vmmzf4Aah05GrzQT6SlU72+BasYb
+	a/NwCepPqU7TsHZNeTX/o2WpduIH3zQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1790612706;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MUzOaX8sf87HxifU7reLT1NQboWhipfuOHdlKqrfpHE=;
+	b=gw3poFN3KOKxuSGssviSZHD4S+PJzn4CXRDaEMhSqmzC3/VUYo8GlTMRWFTljwVkwlzU/m
+	Tv5PKfl1y4mmhnAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F0C13133F1;
+	Mon, 28 Sep 2026 16:25:05 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id wQ+tL+GUumrTdwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 28 Sep 2026 16:25:05 +0000
+Date: Mon, 28 Sep 2026 18:25:05 +0200
+Message-ID: <875wzp4a3i.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Frank van de Pol <fvdpol@gmail.com>
+Cc: tiwai@suse.de,
+	perex@perex.cz,
+	corbet@lwn.net,
+	khan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 0/1] ALSA: usb: Add support for Reloop Jockey 3 DJ controllers
+In-Reply-To: <20260925021915.78909-1-fvdpol@gmail.com>
+References: <20260925021915.78909-1-fvdpol@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260928-as3722-bindings-v1-2-35f423a9f2b2@nvidia.com>
-References: <20260928-as3722-bindings-v1-0-35f423a9f2b2@nvidia.com>
-In-Reply-To: <20260928-as3722-bindings-v1-0-35f423a9f2b2@nvidia.com>
-To: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
- Mark Brown <broonie@kernel.org>, Laxman Dewangan <ldewangan@nvidia.com>, 
- Thierry Reding <thierry.reding@kernel.org>, 
- Jonathan Hunter <jonathanh@nvidia.com>
-Cc: mfd@lists.linux.dev, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>, 
- linux-sound@vger.kernel.org, linux-tegra@vger.kernel.org, 
- Thierry Reding <treding@nvidia.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=10817; i=treding@nvidia.com;
- h=from:subject:message-id; bh=XtR5jmaWNxauqHy57bewWTfedaplFSQXHZDI0Vi4qE4=;
- b=owEBbQKS/ZANAwAKAd0jrNd/PrOhAcsmYgBqupTUPRkcqf724v33C2Ng5uuApfdEbtGCWCXhh
- gdlLifoc3uJAjMEAAEKAB0WIQSI6sMIAUnM98CNyJ/dI6zXfz6zoQUCarqU1AAKCRDdI6zXfz6z
- oVQQD/49I2a8yObotm7zI8vDp9MBE99/CgJgc4kucWxrRmw0y8tIFCBkLJQcjcEpnVwtyFi9KB8
- ZGOIn5haK7wzdM7ExW4/hyKrXFp9Ius7HC7BkCd6DQZzBc4dppeuzk81YrZYn5RfSJ2TMVK0TUD
- PKetE1IkbcGhy1VHA96mDr8wGwVG7C2eMkaZVA0hopeWHwv4oHdTJecvCKyxboWGjhPOKD5IvAl
- HK1Ft1kOpxO2VY4aKm8vwg6hiOO93Yyj5V49T0wc0tMDBJPo66hsVoct97y7e2oh51WgOmr5xmq
- l9cFbgtQhQsn2eiIPJeJfIzV2pKXvYeLcaltg5Lc0Mp0FGWCaXrh0lGwJay5C9xgD78V8N1eJR7
- NCm1vyE+zah800pz0CB23ZEvf5yitLuRZT+v1v7eHQTYzgQgu17Cys/5lq7VGgiuKMhs3t7qgQj
- UGonKQ2TZvL0njLk2Ux+pu5ihopaMY7wb6yBCd6mk628F5kHFDgsGnXWNFQT6oyilIXT7HKnoFK
- vfRCBviQrgPQHed6hSfzrE0cD0AS3fpDfCYhA4D6/PFlJQvAT+0fKiZqgtWvVVSClaK/sQ7dmOf
- i1lBIGYYDRFJ61rMP29Y0i3n/nNRV/hXG2sifUdY0kmJDniBNH0mFL9dD6BcQWX87tpANPoL8Mn
- A93DQzqE0Ez0Ifg==
-X-Developer-Key: i=treding@nvidia.com; a=openpgp;
- fpr=88EAC3080149CCF7C08DC89FDD23ACD77F3EB3A1
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spam-Score: -3.30
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
 
-From: Thierry Reding <treding@nvidia.com>
+On Fri, 25 Sep 2026 04:19:13 +0200,
+Frank van de Pol wrote:
+> 
+> Hi Takashi, Jaroslav, and the ALSA community,
+> 
+> Apologies for the long gap since v3. This is not simply v3 with the review
+> comments addressed -- I went back to the reverse engineering, and a fair
+> amount of what came out of it changed the driver structurally.
+> 
+> The patch has grown accordingly: v3 was 8 files and 1613 insertions, this is
+> 17 and 7326.  Most of that is not new logic: of the roughly 5700 added
+> lines, about 2100 are comments, 1660 are KUnit tests and generated test
+> vectors for the codec, 249 are the new jockey3.rst documentation, and only
+> about 1300 are executable code.  The rest is blank lines and Kconfig
+> plumbing.
+> 
+> The relatively large number of comments comes from the deliberate decision
+> to include what I learned from the protocol analysis with the relevant
+> section of code.  The parts that most need explaining (the bit-plane wire
+> format, device initialization, why the URBs run for the device's whole
+> lifetime, the locking order etc.) cannot be verified by reading the code
+> alone.  ploytec_codec.c is over half comment for that reason: the DOC: block
+> deriving the format from the board's I2S and DMA geometry is effectively the
+> specification the optimized variants implement.
+> 
+> Previous version:
+> v3: https://lore.kernel.org/all/20260622011131.1748298-1-fvdpol@gmail.com/
+> 
+> Changes v3 -> v4:
+> 
+>  - Reworked the locking architecture around an explicit hierarchy: a
+>    process-context rate_mutex outermost, then IRQ-safe leaf spinlocks for
+>    playback, capture and MIDI that are never nested in one another.
+>    Documented in jockey3.c.
+> 
+>  - Fixed the capture stall after a sample-rate change, eliminating the USB
+>    device reset that recovery used to require.  The reset rate per rate
+>    change went from 19.3% to zero, with a 98k clean streak on arm64 and 61k
+>    on x86_64.
+> 
+>  - Rewrote the bit-plane codec: a portable reference implementation plus
+>    32-bit and 64-bit SWAR variants selected at compile time, called through a
+>    batch API at the driver's real batch sizes. Against the same machine's
+>    reference build, the optimized path measures 11.0x encode / 7.8x decode on
+>    x86_64 and 6.9x / 6.1x on arm64. KUnit tests validate all variants against
+>    an independently derived model of the wire format.
+> 
+>  - Added URB coalescing.  The driver used to submit one 512-byte packet per
+>    URB, fixing the completion rate at 9923/s at 44.1 kHz and 21600/s at 96
+>    kHz for as long as the device was plugged in, used or not.  N packets per
+>    URB (N a power of two, 1 to 8) are now chosen per PCM open from the
+>    requested period size.
+> 
+>  - Fixed a cold-boot initialization race. Straight after power-on the device
+>    accepts the entire init sequence, reports success on every transfer, takes
+>    playback samples, but its audio engine never starts. Bisected over 100
+>    cold boots to between 144 and 156 ms after enumeration; the driver now
+>    waits 250 ms before its first control transfer, close to the 297-308 ms
+>    the Windows driver waits.
+> 
+>  - Added a URB liveness watchdog. Every error path hangs off a URB
+>    completion, so a device that stops completing URBs produces no error, no
+>    xrun and no log line. A work item now reports either direction silent for
+>    20 ms and enters the recovery ladder on a stall onset.
+> 
+>  - Hardened handling of an unresponsive device: an EP0 error-class predicate
+>    aborts the handshake before usb_set_interface() is reached, since the USB
+>    core disables an interface's endpoints as its first action and does not
+>    re-enable them on the failure return.
+> 
+>  - Added Documentation/sound/cards/jockey3.rst
+> 
+>  - Addressed the v3 review comments.
+> 
+> 
+> Testing:
+> 
+> Validated with an automated hardware-in-the-loop framework written for the
+> purpose: probe and unbind endurance, PCM cycling, every rate in both
+> directions, period and buffer boundary matrices, duplex, xrun injection,
+> rate-change soaks, suspend/resume, USB disconnects via hub port power
+> switching, and cold-boot cycling through a network-controlled mains switch. 
+> Some of the figures above come from runs of tens of thousands of iterations.
+> 
+> Exercised on real hardware on x86_64, i386, arm64 (Raspberry Pi 4) and
+> armv6/armhf (Raspberry Pi 1B -- functional but tight at 88.2/96 kHz), with
+> x86_64 and arm64 also run under a KASAN + lockdep debug kernel.  The codec
+> KUnit suite additionally tested under UML and QEMU on i386, arm, arm64,
+> riscv and s390 (test big/little endianness).
+> 
+> 
+> Two things I would rather state than have found:
+> 
+>  - The mitigation stack around the rate-change stall is now practically
+>    dormant since the rate-change improvement.  I kept it as cheap insurance;
+>    happy to remove it.
+> 
+>  - The 250 ms settling delay in jockey3_initialize() runs on the
+>    USB hub thread.  I can move initialization off the probe path if you
+>    prefer, though that introduces complexity to avoid races.
+> 
+> 
+> I look forward to your review/feedback.
+> 
+> Best regards,
+> Frank
+> 
+> Frank van de Pol (1):
+>   ALSA: usb: Add support for Reloop Jockey 3 DJ controllers
+> 
+>  Documentation/sound/cards/index.rst           |    1 +
+>  Documentation/sound/cards/jockey3.rst         |  249 +
+>  MAINTAINERS                                   |    8 +
+>  sound/usb/Kconfig                             |    1 +
+>  sound/usb/Makefile                            |    1 +
+>  sound/usb/jockey3/.kunitconfig                |   13 +
+>  sound/usb/jockey3/Kconfig                     |   60 +
+>  sound/usb/jockey3/Makefile                    |    7 +
+>  sound/usb/jockey3/jockey3.c                   | 4060 +++++++++++++++++
+>  sound/usb/jockey3/ploytec_codec.c             |  656 +++
+>  sound/usb/jockey3/ploytec_codec.h             |   44 +
+>  sound/usb/jockey3/ploytec_codec_kunit.c       |  871 ++++
+>  .../usb/jockey3/ploytec_codec_test_vectors.h  |  793 ++++
+>  sound/usb/jockey3/ploytec_midi.c              |   83 +
+>  sound/usb/jockey3/ploytec_midi.h              |   36 +
+>  sound/usb/jockey3/ploytec_proto.c             |  365 ++
+>  sound/usb/jockey3/ploytec_proto.h             |   78 +
+>  17 files changed, 7326 insertions(+)
+>  create mode 100644 Documentation/sound/cards/jockey3.rst
+>  create mode 100644 sound/usb/jockey3/.kunitconfig
+>  create mode 100644 sound/usb/jockey3/Kconfig
+>  create mode 100644 sound/usb/jockey3/Makefile
+>  create mode 100644 sound/usb/jockey3/jockey3.c
+>  create mode 100644 sound/usb/jockey3/ploytec_codec.c
+>  create mode 100644 sound/usb/jockey3/ploytec_codec.h
+>  create mode 100644 sound/usb/jockey3/ploytec_codec_kunit.c
+>  create mode 100644 sound/usb/jockey3/ploytec_codec_test_vectors.h
+>  create mode 100644 sound/usb/jockey3/ploytec_midi.c
+>  create mode 100644 sound/usb/jockey3/ploytec_midi.h
+>  create mode 100644 sound/usb/jockey3/ploytec_proto.c
+>  create mode 100644 sound/usb/jockey3/ploytec_proto.h
 
-Convert Tegra AHUB bindings from the free-form text format to
-json-schema.
+Thanks for the update.  I think overall the code would be OK, but
+the problem is that it's a way too big single patch to digest.
 
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
- .../bindings/sound/nvidia,tegra30-ahub.txt         |  88 -------
- .../bindings/sound/nvidia,tegra30-ahub.yaml        | 260 +++++++++++++++++++++
- 2 files changed, 260 insertions(+), 88 deletions(-)
+Could you try to instruct LLM for splitting logically for easier
+reviews?  It could be like starting with the core probe skeleton,
+polytec core stuff, basic PCM loops, the mixer support, the MIDI
+support, kunit, documentation, something else I forgot, etc.
 
-diff --git a/Documentation/devicetree/bindings/sound/nvidia,tegra30-ahub.txt b/Documentation/devicetree/bindings/sound/nvidia,tegra30-ahub.txt
-deleted file mode 100644
-index 0e9a1895d7fb..000000000000
---- a/Documentation/devicetree/bindings/sound/nvidia,tegra30-ahub.txt
-+++ /dev/null
-@@ -1,88 +0,0 @@
--NVIDIA Tegra30 AHUB (Audio Hub)
--
--Required properties:
--- compatible : For Tegra30, must contain "nvidia,tegra30-ahub".  For Tegra114,
--  must contain "nvidia,tegra114-ahub".  For Tegra124, must contain
--  "nvidia,tegra124-ahub".  Otherwise, must contain "nvidia,<chip>-ahub",
--  plus at least one of the above, where <chip> is tegra132.
--- reg : Should contain the register physical address and length for each of
--  the AHUB's register blocks.
--  - Tegra30 requires 2 entries, for the APBIF and AHUB/AUDIO register blocks.
--  - Tegra114 requires an additional entry, for the APBIF2 register block.
--- interrupts : Should contain AHUB interrupt
--- clocks : Must contain an entry for each entry in clock-names.
--  See ../clocks/clock-bindings.txt for details.
--- clock-names : Must include the following entries:
--  - d_audio
--  - apbif
--- resets : Must contain an entry for each entry in reset-names.
--  See ../reset/reset.txt for details.
--- reset-names : Must include the following entries:
--  Tegra30 and later:
--  - d_audio
--  - apbif
--  - i2s0
--  - i2s1
--  - i2s2
--  - i2s3
--  - i2s4
--  - dam0
--  - dam1
--  - dam2
--  - spdif
--  Tegra114 and later additionally require:
--  - amx
--  - adx
--  Tegra124 and later additionally require:
--  - amx1
--  - adx1
--  - afc0
--  - afc1
--  - afc2
--  - afc3
--  - afc4
--  - afc5
--- ranges : The bus address mapping for the configlink register bus.
--  Can be empty since the mapping is 1:1.
--- dmas : Must contain an entry for each entry in clock-names.
--  See ../dma/dma.txt for details.
--- dma-names : Must include the following entries:
--  - rx0 .. rx<n>
--  - tx0 .. tx<n>
--  ... where n is:
--  Tegra30: 3
--  Tegra114, Tegra124: 9
--- #address-cells : For the configlink bus. Should be <1>;
--- #size-cells : For the configlink bus. Should be <1>.
--
--AHUB client modules need to specify the IDs of their CIFs (Client InterFaces).
--For RX CIFs, the numbers indicate the register number within AHUB routing
--register space (APBIF 0..3 RX, I2S 0..5 RX, DAM 0..2 RX 0..1, SPDIF RX 0..1).
--For TX CIFs, the numbers indicate the bit position within the AHUB routing
--registers (APBIF 0..3 TX, I2S 0..5 TX, DAM 0..2 TX, SPDIF TX 0..1).
--
--Example:
--
--ahub@70080000 {
--	compatible = "nvidia,tegra30-ahub";
--	reg = <0x70080000 0x200 0x70080200 0x100>;
--	interrupts = < 0 103 0x04 >;
--	nvidia,dma-request-selector = <&apbdma 1>;
--	clocks = <&tegra_car 106>, <&tegra_car 107>;
--	clock-names = "d_audio", "apbif";
--	resets = <&tegra_car 106>, <&tegra_car 107>, <&tegra_car 30>,
--		<&tegra_car 11>, <&tegra_car 18>, <&tegra_car 101>,
--		<&tegra_car 102>, <&tegra_car 108>, <&tegra_car 109>,
--		<&tegra_car 110>, <&tegra_car 10>;
--	reset-names = "d_audio", "apbif", "i2s0", "i2s1", "i2s2",
--		"i2s3", "i2s4", "dam0", "dam1", "dam2",
--		"spdif";
--	dmas = <&apbdma 1>, <&apbdma 1>;
--	       <&apbdma 2>, <&apbdma 2>;
--	       <&apbdma 3>, <&apbdma 3>;
--	       <&apbdma 4>, <&apbdma 4>;
--	dma-names = "rx0", "tx0", "rx1", "tx1", "rx2", "tx2", "rx3", "tx3";
--	ranges;
--	#address-cells = <1>;
--	#size-cells = <1>;
--};
-diff --git a/Documentation/devicetree/bindings/sound/nvidia,tegra30-ahub.yaml b/Documentation/devicetree/bindings/sound/nvidia,tegra30-ahub.yaml
-new file mode 100644
-index 000000000000..c064a2acae5e
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/nvidia,tegra30-ahub.yaml
-@@ -0,0 +1,260 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/nvidia,tegra30-ahub.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: NVIDIA Tegra30 AHUB (Audio Hub)
-+
-+maintainers:
-+  - Thierry Reding <thierry.reding@gmail.com>
-+  - Jon Hunter <jonathanh@nvidia.com>
-+
-+description: AHUB client modules need to specify the IDs of their CIFs (Client InterFaces). For RX
-+  CIFs, the numbers indicate the register number within AHUB routing register space (APBIF 0..3 RX,
-+  I2S 0..5 RX, DAM 0..2 RX 0..1, SPDIF RX 0..1). For TX CIFs, the numbers indicate the bit position
-+  within the AHUB routing registers (APBIF 0..3 TX, I2S 0..5 TX, DAM 0..2 TX, SPDIF TX 0..1).
-+
-+properties:
-+  compatible:
-+    enum:
-+      - nvidia,tegra30-ahub
-+      - nvidia,tegra114-ahub
-+      - nvidia,tegra124-ahub
-+
-+  reg:
-+    minItems: 2
-+    maxItems: 3
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  clocks:
-+    items:
-+      - description: digital audio clock
-+      - description: module clock
-+
-+  clock-names:
-+    items:
-+      - const: d_audio
-+      - const: apbif
-+
-+  resets:
-+    minItems: 11
-+    maxItems: 21
-+
-+  reset-names:
-+    minItems: 11
-+    maxItems: 21
-+
-+  ranges: true
-+
-+  dmas:
-+    minItems: 8
-+    maxItems: 20
-+
-+  dma-names:
-+    minItems: 8
-+    maxItems: 20
-+
-+  "#address-cells":
-+    enum: [ 1, 2 ]
-+
-+  "#size-cells":
-+    enum: [ 1, 2 ]
-+
-+patternProperties:
-+  "^i2s@[0-9a-f]+$":
-+    type: object
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - clocks
-+  - clock-names
-+  - resets
-+  - reset-names
-+  - ranges
-+  - dmas
-+  - dma-names
-+  - "#address-cells"
-+  - "#size-cells"
-+
-+allOf:
-+  - if:
-+      properties:
-+        compatible:
-+          const: nvidia,tegra30-ahub
-+    then:
-+      properties:
-+        reg:
-+          items:
-+            - description: APBIF registers
-+            - description: AHUB/AUDIO registers
-+
-+        reset-names:
-+          items:
-+            - const: d_audio
-+            - const: apbif
-+            - const: i2s0
-+            - const: i2s1
-+            - const: i2s2
-+            - const: i2s3
-+            - const: i2s4
-+            - const: dam0
-+            - const: dam1
-+            - const: dam2
-+            - const: spdif
-+
-+        dma-names:
-+          items:
-+            - const: rx0
-+            - const: tx0
-+            - const: rx1
-+            - const: tx1
-+            - const: rx2
-+            - const: tx2
-+            - const: rx3
-+            - const: tx3
-+
-+  - if:
-+      properties:
-+        compatible:
-+          const: nvidia,tegra114-ahub
-+    then:
-+      properties:
-+        reg:
-+          items:
-+            - description: APBIF registers
-+            - description: AHUB/AUDIO registers
-+            - description: APBIF2 registers
-+
-+        reset-names:
-+          items:
-+            - const: d_audio
-+            - const: apbif
-+            - const: i2s0
-+            - const: i2s1
-+            - const: i2s2
-+            - const: i2s3
-+            - const: i2s4
-+            - const: dam0
-+            - const: dam1
-+            - const: dam2
-+            - const: spdif
-+            - const: amx
-+            - const: adx
-+
-+        dma-names:
-+          items:
-+            - const: rx0
-+            - const: tx0
-+            - const: rx1
-+            - const: tx1
-+            - const: rx2
-+            - const: tx2
-+            - const: rx3
-+            - const: tx3
-+            - const: rx4
-+            - const: tx4
-+            - const: rx5
-+            - const: tx5
-+            - const: rx6
-+            - const: tx6
-+            - const: rx7
-+            - const: tx7
-+            - const: rx8
-+            - const: tx8
-+            - const: rx9
-+            - const: tx9
-+
-+  - if:
-+      properties:
-+        compatible:
-+          const: nvidia,tegra124-ahub
-+    then:
-+      properties:
-+        reg:
-+          items:
-+            - description: APBIF registers
-+            - description: AHUB/AUDIO registers
-+            - description: APBIF2 registers
-+
-+        reset-names:
-+          items:
-+            - const: d_audio
-+            - const: apbif
-+            - const: i2s0
-+            - const: i2s1
-+            - const: i2s2
-+            - const: i2s3
-+            - const: i2s4
-+            - const: dam0
-+            - const: dam1
-+            - const: dam2
-+            - const: spdif
-+            - const: amx
-+            - const: amx1
-+            - const: adx
-+            - const: adx1
-+            - const: afc0
-+            - const: afc1
-+            - const: afc2
-+            - const: afc3
-+            - const: afc4
-+            - const: afc5
-+
-+        dma-names:
-+          items:
-+            - const: rx0
-+            - const: tx0
-+            - const: rx1
-+            - const: tx1
-+            - const: rx2
-+            - const: tx2
-+            - const: rx3
-+            - const: tx3
-+            - const: rx4
-+            - const: tx4
-+            - const: rx5
-+            - const: tx5
-+            - const: rx6
-+            - const: tx6
-+            - const: rx7
-+            - const: tx7
-+            - const: rx8
-+            - const: tx8
-+            - const: rx9
-+            - const: tx9
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/tegra30-car.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+
-+    ahub@70080000 {
-+        compatible = "nvidia,tegra30-ahub";
-+        reg = <0x70080000 0x200>,
-+              <0x70080200 0x100>;
-+        interrupts = <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
-+        clocks = <&tegra_car TEGRA30_CLK_D_AUDIO>, <&tegra_car TEGRA30_CLK_APBIF>;
-+        clock-names = "d_audio", "apbif";
-+        resets = <&tegra_car 106>, <&tegra_car 107>, <&tegra_car 30>,
-+                 <&tegra_car 11>, <&tegra_car 18>, <&tegra_car 101>,
-+                 <&tegra_car 102>, <&tegra_car 108>, <&tegra_car 109>,
-+                 <&tegra_car 110>, <&tegra_car 10>;
-+        reset-names = "d_audio", "apbif", "i2s0", "i2s1", "i2s2",
-+                "i2s3", "i2s4", "dam0", "dam1", "dam2",
-+                "spdif";
-+        dmas = <&apbdma 1>, <&apbdma 1>,
-+               <&apbdma 2>, <&apbdma 2>,
-+               <&apbdma 3>, <&apbdma 3>,
-+               <&apbdma 4>, <&apbdma 4>;
-+        dma-names = "rx0", "tx0", "rx1", "tx1", "rx2", "tx2", "rx3", "tx3";
-+        ranges;
-+        #address-cells = <1>;
-+        #size-cells = <1>;
-+    };
 
--- 
-2.55.0
-
+Takashi
