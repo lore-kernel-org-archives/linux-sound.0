@@ -1,67 +1,92 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 112B44B95C3
-	for <linux-sound@vger.kernel.org>; Mon, 28 Sep 2026 14:13:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 993C849EC77;
+	Mon, 28 Sep 2026 15:21:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790604793; cv=none; b=jOgKKGUYdPDUZAU4nnlm/d5svi8MVHQULISsiHOAoUTnsExBxa702Fx89gZ435sIyastQG52KFJ92RkK+rQhjm19bHB/lAOZlnttB99s/rSq5X5Lpx6JpZjaDxrGIlI+svM7r5HAkTe/DQFSCLKJHwnduAHsHQ0UoVIsyg3ryRc=
+	t=1790608868; cv=none; b=athOXBPH7lbLl7761UIVVT4X1d7kF8ecB27H5rqyBjnsAET5kOk5i19UD62PgXsn8fc/+gWgJ2rCfLFxNK3wdeBdL0Yw+EAHFwo/LTZs0gzq9eGO9rnipnagSrL2/PXr4BYYg04IMno4DKf36kynFhw4HKcWd/OIYLA07tbkR5k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790604793; c=relaxed/simple;
-	bh=qQ7dIGCpAq01Wjw0rQUnlxh4pLYxYywK5jbLD1vF/VQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BMm421BSUqr+G2r67nVoCzeB7xkcvpAO/+kT1/onj9duZHMHXT2Fg44iSGrVufffuNcGPKSqIsOnzEnMLYatxP45u5qiNmwPIDee7k9QJshR8+7FzvQZzvA2gN5poOcRzWiIhKU9doMWzNTnEKqImnCx68KMws4Y8w9SgHiRBSo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=TWry19bH; arc=none smtp.client-ip=220.197.31.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1790608868; c=relaxed/simple;
+	bh=0aQ5u8Ov2JLtGuEXwA+dyKKJ1qL1E4Qz7Ycwc1XSFp8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=rvfOsU+hK4BsasQOBQznKzRuzvQIpuDpV6I8L7na3utacroLEdvKicQKADwe4xQpmh3BFfZYd/w8ot2wYq5/20S68JUZ2cEz8z1w1LyBX2ciZ1BnkPRaVvHd4ycTtINM7VYDgYhfttVeIrD3I2raniNGuHhrEqdDEi5VuaKOqKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dpoEWH8e; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="TWry19bH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=qQ
-	7dIGCpAq01Wjw0rQUnlxh4pLYxYywK5jbLD1vF/VQ=; b=TWry19bHjBeVp8rHtS
-	oY1aO5b1lShqYeo+GpldvFsxUx+Kl+3te3X3VAH80Fw7HoilseTECOG7nIEc42HS
-	Z+MeWz6/J+l+bEcZjYzKb4bnaj5FjpJeKhC2aldwVne4vSwyOFde/BMDN5gU8UnQ
-	yh8DWd+36UJIYSsQLJGrf0H8M=
-Received: from zeyuli-Adol-14-M5451GADOL (unknown [])
-	by gzga-smtp-mtada-g1-0 (Coremail) with SMTP id _____wDn94WwdbpqWDA5BQ--.28420S2;
-	Mon, 28 Sep 2026 22:12:04 +0800 (CST)
-From: Zeyu Li <13776528859@163.com>
-To: Takashi Iwai <tiwai@suse.com>
-Cc: Kailang Yang <kailang@realtek.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek: Add ALC235 support for headset mode
-Date: Mon, 28 Sep 2026 22:12:00 +0800
-Message-ID: <20260928141200.20712-1-13776528859@163.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <8733ut5ylq.wl-tiwai@suse.de>
-References: <8733ut5ylq.wl-tiwai@suse.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dpoEWH8e"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E71281F000FF;
+	Mon, 28 Sep 2026 15:21:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790608867;
+	bh=dWD2qtdFlsNDT4Nr7cHISMWIU44LEohxuzldup8NdIs=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=dpoEWH8eZRwEJykNxRmuSRfcONwM1QnpugixUo6zWhk5QRKOZJwUrBKp/M6IdzirM
+	 ETGkxOEmbQjxWapCE6OPXcssQAXVLtIrHjAj7P3nYlJyb6GWnWwLoiOI/IdQeKfkiO
+	 TPA3se/hcI+wC7WHMpFw08DBZ1HhcHJkoeYj97eGbmSedmPyMgLGkiqk9lo0vkrPtu
+	 C/5hl4soOWnHZOIHwrY/BFVru2anOv5fWILeM8gLtSY1MlWvHkjJjH60OxUg2MHCoW
+	 3xWvVc1UxTJlnegSnZwpef54ZxPEOwxmptNQii4q/0SagUAYMDve6VQ6iWn6g7jz0+
+	 q3YNMbRdWh9hg==
+From: Mark Brown <broonie@kernel.org>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: lgirdwood@gmail.com, peter.ujfalusi@linux.intel.com, 
+ yung-chuan.liao@linux.intel.com, kai.vehmanen@linux.intel.com, 
+ pierre-louis.bossart@linux.dev, linux-sound@vger.kernel.org, 
+ patches@opensource.cirrus.com, linux-kernel@vger.kernel.org
+In-Reply-To: <20260928105610.242687-1-ckeepax@opensource.cirrus.com>
+References: <20260928105610.242687-1-ckeepax@opensource.cirrus.com>
+Subject: Re: [PATCH] ASoC: Intel: Add quirk to block match table for Lenovo
+ Yoga Slim 7
+Message-Id: <179060199739.139547.9316430290612675939.b4-ty@b4>
+Date: Mon, 28 Sep 2026 14:26:37 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wDn94WwdbpqWDA5BQ--.28420S2
-X-Coremail-Antispam: 1Uf129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
-	VFW2AGmfu7bjvjm3AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvjxUbxhpUUUUU
-X-CM-SenderInfo: zprtllawvsmmivz6il2tof0z/xtbC3RXTiGq6dbX+TwAA3y
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1152; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=0aQ5u8Ov2JLtGuEXwA+dyKKJ1qL1E4Qz7Ycwc1XSFp8=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBquoXfzpKQBCzeM4B9sUaWT476mdA+nMfPnl8y0
+ J7dtjW7wcqJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCarqF3wAKCRAk1otyXVSH
+ 0LO2B/0RpVOKN4pQRIZNelqm5bRq3/DrPnpsE6n0fbp5P/VXqLJRLxoXma4tKIlth9502D4/NI1
+ kREBOUrrf2Epk5VuNNgwRG3cm9QqlzeHiW7TLnZtGEbIKM9Tyo2XRd1n5LrFXyFU1grv7I/E7Yb
+ i91JUEQRJy9O7lal3bt8NFxMKUHtfFws+uzngNW4QF6v+CiQZ3+aCofJh7s+e5y2Ukp2p4RDlrf
+ 2tXM5MXobxnZ9IBPjBooItSZKNUlZgacLiG9i/r6ESQmWIza4HlZCfhrM4LzBfDhn7bDnnL+WHM
+ fVYtREr5jUqXi6EwtPme3BBvXSvbAhMDDMIoBYXJgj3tkzuV
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-Hi Takashi,
+On Mon, 28 Sep 2026 11:56:10 +0100, Charles Keepax wrote:
+> ASoC: Intel: Add quirk to block match table for Lenovo Yoga Slim 7
 
-Thanks for picking this up.
+Applied to
 
-To confirm the test setup: this was verified on an ASUS M5451GA laptop
-(codec HDA:10ec0235,10431814). Before the change, plugging in a CTIA
-headset was detected by jack sense (mic presence and VREF bias were
-set correctly), but the capture stream stayed permanently silent.
-After applying the ALC255 coefficient sequence (COEF 0x45=0xd489,
-0x1b=0x0c2b), the headset microphone captures audio correctly.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
 
-I'm happy to test any alternative coefficient values if Realtek
-suggests a different sequence for the ALC235.
+Thanks!
 
-Best regards,
-Zeyu Li
+[1/1] ASoC: Intel: Add quirk to block match table for Lenovo Yoga Slim 7
+      https://git.kernel.org/broonie/sound/c/c26d18964a93
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
