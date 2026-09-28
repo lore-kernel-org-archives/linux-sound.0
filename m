@@ -1,125 +1,112 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBB001B4F0A;
-	Tue, 29 Sep 2026 11:21:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD1543AA4E4;
+	Tue, 29 Sep 2026 11:28:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790680919; cv=none; b=W1itpTjoP8RL4MxFML9jGF+zMEzoho4alShnOgXKjwyOv2LoMYlOHcXQWkmhXNaZggs+UMQFsAVgrMqbHhiP9L54k4h7XgvQiX5WMxYOqyBWA4C39uiOto2ku/OdOb5uwnhDfeP8YTsuCtYPo2qK/UyNzqBTMcVOgK4vtDlKAFE=
+	t=1790681286; cv=none; b=kEsXYwOcqIShO2fMIJjjwycXggO6aM9WlYVHYoOz+qniV0yAdXu7oTNZCsoOJ3jT12INphKFN26G3mMbdkYiPr+zdhmdNz2VD+8Q86Q3s2Vm3lBnJ6VpUbIA83sMNBwY5Nfdz63zH6nyhSbU4jIRYB123UYemBvbBptmTLlI5L4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790680919; c=relaxed/simple;
-	bh=0tGRycjpiixLeY+PMc8Qd7H5Nd0F7yLxzp9vsJVm2so=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=er16aexfYAxunUHCjRUGq3e9PBScTphIalUfja9EoSQS3p3U181trxu+MIok+RKYpi3k5X9/JThrpgBgsDr50GFYqDMs1e2MYnga8sEZpI8oaQW6qfbGr6d+DsZycd7aGHF0XNIt7ElxQnwZo6PZ3RO5uwz4wQlIzpNWVP4Do0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R7ZIalgU; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790681286; c=relaxed/simple;
+	bh=08vNLIXx98Yrj1IvpKudnUztu+PDLXSe1G9EqUOPitU=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=eAnl/gjD7WPFvdzytK2PrecrMQZU1sdixE20dpmxBkXM7FTajNpEmU6AbntRbxtGzZ8pvhanOSj7S9BItU7OyYYPbzkvKP0zjNYx8NN1u4Fl0RbELXY2cRl9ooIjc2ScDZ9Fb3XbjnKv/43X6FonzetMFqupyi50ay7RRm+gROo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TaCp7VF+; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R7ZIalgU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3D1B1F000FF;
-	Tue, 29 Sep 2026 11:21:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TaCp7VF+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 662A91F000FF;
+	Tue, 29 Sep 2026 11:28:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790680917;
-	bh=2fPL1r0q3ZFaPVm8LMil7KkezedSBA8/3rMeLvpxPeA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=R7ZIalgU2YxoignykHVl41GbwXVq+ymjE2Si4HRcFErNll2DzNwd43/xyUICNL9Gh
-	 ZKbhOo6icKbcmsuOqmHY4vcYGDVk0I9HhEjHuNVoiCF/g/yVcf+z3KLnyerzZ1MiXd
-	 W5Z9bZBV7t1tkUZVxlpq6Ci9stfsy0TAMMeCuz+nSAiebkXEgWtguADRz3DWyBpZ+H
-	 mIWJYnCrwO2dvpBgpuGcPLGHOAHxCMNlWV4hSF1En76lTAsSQsZ+wBOPbyH1ksC26r
-	 xgTJ+Vceyq3XFJSuuzXLjQ/8jCstGixi8blBDf2nxCsI5axooCKVBfsc28vfxzNygJ
-	 YWOKPhtuzPNAg==
-Date: Tue, 29 Sep 2026 12:21:22 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Zi Yan <ziy@nvidia.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
-	Paul Moore <paul@paul-moore.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
-	Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
-	Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, 
-	Doug Gilbert <dgilbert@interlog.com>, "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	"Martin K. Petersen" <mkp@kernel.org>, Jaya Kumar <jayalk@intworks.biz>, 
-	Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, Sebastian Reichel <sre@kernel.org>, 
-	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
-	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
-	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Juri Lelli <juri.lelli@redhat.com>, 
-	Vincent Guittot <vincent.guittot@linaro.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, 
-	Oliver Upton <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
-	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
-	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
-	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
-	Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
-	Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
-	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
-	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev
-Subject: Re: [PATCH v3 09/40] docs: filesystems: update mmap_prepare docs for
- discontig kernel pgs
-Message-ID: <arudePFfTLNBMKzQ@gremlin>
-References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
- <20260917-b4-mmap-prepare-vma-flag-sanify-v3-9-4583d8a23bca@kernel.org>
- <DLOP8IH392ZU.2X2GPOP2NYK4X@nvidia.com>
+	s=k20260515; t=1790681285;
+	bh=SF264KM1xpFJ+Dj32T5xIH7ajqAgZoHjgLRWkmxYRhc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=TaCp7VF+ghdsIp8cbipLsnUrlK+ZaDq8YiaIQrIBXgYISNADu3VqQXzhrtGHmJvKc
+	 gqNRx7/AWc6hUzZat0ZHRcHXBQAfQLCHhZbYQ+TBItz/hnJAROL1dtRJWoCMj5VSLn
+	 PGHAOZzUpzR07eJbxG0rE4LtGrC8McPTuXCymW7/UylISSKk6FS84ojbF2UZAZPbGL
+	 4frOBfmowYCl1oOF+um/befHzNptb9WK/2o21k5ktEX+ie3OuNlQLnDAW2s11Bgmm4
+	 W4a3rmWYqGWgQGv2XUrE4EZz/9i7k9IjtmyPAuPnbLE+8R4IVVtHl7l90NFS4Bjo11
+	 BD1u50XOXB1cg==
+From: Mark Brown <broonie@kernel.org>
+To: lgirdwood@gmail.com, robh@kernel.org, krzk+dt@kernel.org, 
+ conor+dt@kernel.org, Frank.Li@nxp.com, s.hauer@pengutronix.de, 
+ kernel@pengutronix.de, festevam@gmail.com, shawnguo@kernel.org, 
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, 
+ nicoleotsuka@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ linuxppc-dev@lists.ozlabs.org, shengjiu.wang@oss.nxp.com
+Cc: Shengjiu Wang <shengjiu.wang@nxp.com>
+In-Reply-To: <20260928061149.1844121-1-shengjiu.wang@oss.nxp.com>
+References: <20260928061149.1844121-1-shengjiu.wang@oss.nxp.com>
+Subject: Re: [PATCH v6 0/5] ASoC: fsl_asrc/fsl_easrc: expose
+ per-pair/context DAIs and fix DMA race
+Message-Id: <179062040693.139547.920625432189790512.b4-ty@b4>
+Date: Mon, 28 Sep 2026 19:33:26 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DLOP8IH392ZU.2X2GPOP2NYK4X@nvidia.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1969; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=08vNLIXx98Yrj1IvpKudnUztu+PDLXSe1G9EqUOPitU=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqu6C+CJwhLDtBYODaVPjpkxT4PasDIRnK4w0LF
+ qkt5qH1jyCJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCarugvgAKCRAk1otyXVSH
+ 0N3fB/48ng38Yw1sNvkBArrecRxtJTVGTny+M/NNSSBoHgs1Q2g59SsOpMpPi5/8WH9Zzm0ODkZ
+ QFs9Cj7cSSPA7i4+F2GgfrDJ/QpeEiGOrKo8q8TAXf3WTh91WusidXAocvUW0sah9doz5UrTlCA
+ RcaR6XQK2KuuOVVvFtVdw7QmCnx8NEjSQk6yL/AohbCjc+vhSMZgEBWF1ko4w3H6RciZlvVEYQv
+ Nkezy980RanQ9pcSvy8hBDTeACiphO1eJQz6ACFyl1btGd9HO6/lhDqtmpumJYS5fwFlGJ6qR6K
+ qiLD6kKgTbzYrLA4jePspvzHJRO+5aXY1oRKVpogY5rxv7Km
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Fri, Sep 25, 2026 at 05:01:51PM -0400, Zi Yan wrote:
-> On Thu Sep 17, 2026 at 12:22 PM EDT, Lorenzo Stoakes (ARM) wrote:
+On Mon, 28 Sep 2026 14:11:44 +0800, shengjiu.wang@oss.nxp.com wrote:
+> ASoC: fsl_asrc/fsl_easrc: expose per-pair/context DAIs and fix DMA race
+> 
+> From: Shengjiu Wang <shengjiu.wang@nxp.com>
+> 
+> This series extends the i.MX ASRC and EASRC drivers to expose one DAI
+> per hardware conversion pair/context, allowing multiple independent
+> conversion paths to be active simultaneously.
+> 
+> [...]
 
-> >  Documentation/filesystems/mmap_prepare.rst | 81 ++++++++++++++++++++++++++++++
+Applied to
 
-> > +* ``discontig_kernel_map_page()`` - Maps a single page, correctly handling
-> > +  compound pages (if the compound page is bigger than the remaining pages in the
-> > +  VMA, then only those pages that fit will be mapped). For a compound page, the
-> > +  head page must be passed.
-> > +* ``discontig_kernel_map_page_range()`` - Map an array of pages of a specified
-> > +  size. Note that if the number of pages specified exceeds the VMA size then an
-> > +  error will arise.
->
-> Why do mapping a compound page and a page range have different behaviors
-> on the bound? Either both do partial mappings or give errors when a
-> given input cannot be mapped as a whole in the VMA.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
 
-Ack, yeah similar to Suren's point on patch 8, will clamp for both.
+Thanks!
 
---
-Cheers, Lorenzo
+[1/5] ASoC: dt-bindings: fsl,imx-asrc: update port binding to support multiple paths
+      https://git.kernel.org/broonie/sound/c/7845324094fc
+[2/5] ASoC: dt-bindings: fsl,easrc: add ports binding for multiple conversion paths
+      https://git.kernel.org/broonie/sound/c/33598785b31c
+[3/5] ASoC: fsl_asrc/fsl_easrc: move DMA params into pair/context struct
+      https://git.kernel.org/broonie/sound/c/76915128bde2
+[4/5] ASoC: fsl_asrc: expose individual DAIs per conversion path
+      https://git.kernel.org/broonie/sound/c/6aef9cb5c797
+[5/5] ASoC: fsl_easrc: expose individual DAIs per conversion path
+      https://git.kernel.org/broonie/sound/c/788e893edb6a
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
