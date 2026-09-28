@@ -1,108 +1,90 @@
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 393854BB28D;
-	Mon, 28 Sep 2026 14:02:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB0BF4D6C3C;
+	Mon, 28 Sep 2026 14:11:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790604128; cv=none; b=kj0I8/eQNrSqPrDUev8uJUcIqdnAd6KJfMUAmgQPrdEiN95B23C+/lyCnGZVD2xJ/ADlCFZ+LA5vUWnB4BpoXBipnbmLnBlfLohBy6VHh6IothHo/djj1e85MzUCDBFneyQHgcNkQ0RFlubiVf/kpD8xt6j4iv/rJLk/HHP2Iys=
+	t=1790604703; cv=none; b=At5KeAYNQ+LYvg3wa8VaOtPDLHYfqz3Xbu+YlhD3mDhK7N4bmDFvXleFNgxceV7ttJPBnPEwr6R+4mfKzUcgJ7sinNgqnMkzWgJg9NZeF0l+wUMhdfDfd5/3DUnpi/IOQLGzKPP6ZdUpKl/7igovCKCXFjLJQCDUHFxuQ+dMNSY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790604128; c=relaxed/simple;
-	bh=8338N/MLUsSVLfr50ikls34dEQtzKihPaRcPDbLoRsw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Im2vWsRL0Y2f2PgX/XXcXV2L8bkCwJ5+7tsFnw+++NFy1fTqjDHFd6vRlHrRxs5tZqxMYtTsyISUY5F0Zq0AAdgM9hXoFUgc/lxR+Jd4/fH49FRiLi/2ivI/OijN2OuXWkVZ+lBkj8tOCgje9RFMZ+5tPfP/CkTCS2ouwMwQnmk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alexanderkoch.net; spf=pass smtp.mailfrom=alexanderkoch.net; dkim=pass (2048-bit key) header.d=alexanderkoch.net header.i=@alexanderkoch.net header.b=YQO7w6Iw; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alexanderkoch.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alexanderkoch.net
+	s=arc-20240116; t=1790604703; c=relaxed/simple;
+	bh=2eP5f1rC2G5giHatLBd6b7XUPgX5PW7havgM7U/tMFs=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=FnwTWTgWE7DUb+5blEayNyPONvNlzCz4cDsTlr2xRCF8CRL7/2LhfaOQUh0PogJMAt8d4sQIz5ISgHG7PbCG0eRp96N5ckZ6m6TQqlnANR8d5+msfacOtiMqwqKxInkoauTrCks3A/vBiTmOOfT3MMfj9gevMK2xLgvYi5mxi20=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FilZl3yf; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=alexanderkoch.net header.i=@alexanderkoch.net header.b="YQO7w6Iw"
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4htjfc38vkzMlrS;
-	Mon, 28 Sep 2026 16:02:00 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alexanderkoch.net;
-	s=MBO0001; t=1790604120;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4cEe7dLmKEHxBNr/9u9hCoZ8kn9K4vqRyeK15aUsoes=;
-	b=YQO7w6IwJEptPdadGHC46a7i/TJDT0KUwwPMbIo2g9uPrkk27W1xxH2H2SugWEBscQB/5Q
-	nT+obrCHrkrgT9NSV7X0Y4eRF3Z7BTrYZSQ0AWj9omXzWuqSb5iLKgTxelzQ8F4bZVy56K
-	F+OCLCK/YBWbaQ1cN952OZUy0gWQWWLAFz9eg9v0mpCCAVXrBJso6LYfA8nZjBsVSGFIfP
-	CQEnB/q8VvJB1Zt0W848QKgekcM5lbLF1PRIRo0NkW6mVvurqCZK/xIl3dUJwkwb1VbGnY
-	SymmZRgD5B+zxWj8eGjTlsFsOskQXUV02zGcFJjc9jaIOOSymvYr4+WnkRFkbA==
-Message-ID: <31cc7f2d-4a8d-4584-8866-6961b7d7af31@alexanderkoch.net>
-Date: Mon, 28 Sep 2026 16:01:55 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FilZl3yf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04F401F000FF;
+	Mon, 28 Sep 2026 14:11:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790604701;
+	bh=/JkV/Sw9hstmhD/AD+QsTDqQ77j7eEPvuBV/wLIAZlQ=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=FilZl3yfjI0otOpLyDYwzbxlXWXRDsg5rzC5ts+2saEdI6MgdxQi3AA5uOnWi4apD
+	 juYXxS7uVxVyGeEMr9B0P7rCW282TEYu+lPfn9J7iMr/gZq+lp/Au7eFuKBYXug2n3
+	 RvFPjch+73FwIzQo5LQLS3jtoUej1K7t0CAESWVX0beZTNRrOZ4AZ+yxDqehWlM3UK
+	 T4XgLRaxFW3ecE4JXZFiD4pFvTjzzRG1zFErOa2koGysoOeieqJMl/KZLiatM4XQdf
+	 eojKOarmO9FbdjLxZ+LWr/XbeyQHkMIJGblgdT+KNg7qJnuEpdKpHywdkGxJ53q1MV
+	 bkIbV3dmK0i2g==
+From: Mark Brown <broonie@kernel.org>
+To: srini@kernel.org, Zimeng Li <me@lizi.moe>
+Cc: lgirdwood@gmail.com, tiwai@suse.com, linux-sound@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, stable@vger.kernel.org
+In-Reply-To: <20260927010911.51980-1-me@lizi.moe>
+References: <20260927010911.51980-1-me@lizi.moe>
+Subject: Re: [PATCH v3] ASoC: qcom: lpass-cpu: use DAI table index for
+ playback constraints
+Message-Id: <179059599429.109964.10222268664920619691.b4-ty@b4>
+Date: Mon, 28 Sep 2026 12:46:34 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] SoC: dt-bindings: asahi-kasei,ak4619: Add PDN GPIO
- support
-To: Rob Herring <robh@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Khanh Le <khanh.le.xr@renesas.com>, linux-sound@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260928114019.1441752-1-mail@alexanderkoch.net>
- <20260928114019.1441752-3-mail@alexanderkoch.net>
- <20260928131208.GA3834499-robh@kernel.org>
-Content-Language: en-US
-From: Alexander Koch <mail@alexanderkoch.net>
-In-Reply-To: <20260928131208.GA3834499-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1149; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=2eP5f1rC2G5giHatLBd6b7XUPgX5PW7havgM7U/tMFs=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqunWZzwsXv1Sl/skIb+0NPksNcuEHBirUxYy0w
+ 3dAVhWuzfaJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCarp1mQAKCRAk1otyXVSH
+ 0Os9B/9l72MKnKurLzHvVHgHLONVKdwgpkheNOYoJQ/YRXgYejujWPGfMiyaEtEX7v/P0+dmlsl
+ 94XBj2RWQ4u4NLZjcbbQb9V6PS1fRCVJgd7pyiCKFTGm6ehXIiSBij3a7B3z8UW2tsXexBZ6qJe
+ CO99m48F29oVyHQR2DwtH8LCC/+qISe4IU9kBxvDLhBXzXeaAZhPLN70pwXlGUGpirlh4zqcFeQ
+ qi2L29Z92VLvD0JwmwMSucqOIM5l5YlsVN7EU6awGr8bmAJBjfmiZ3n5dnfCiTqlb9HfbZM+MZ/
+ G7C/VPqFlMHPUi4Jc8IJdC2PdI6ZVyjcOVeTD/OCKkQ8rXsi
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
->> Add documentation for optional property that enables operation of the
->> 'PDN' pin during initialization:
->>
->>      codec@10 {
->>          compatible = "asahi-kasei,ak4619";
->>          reg = <0x10>;
->>          pdn-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;  // <--
->>          #sound-dai-cells = <0>;
->>      };
->>
->> Signed-off-by: Alexander Koch <mail@alexanderkoch.net>
->> ---
->>   .../devicetree/bindings/sound/asahi-kasei,ak4619.yaml     | 8 ++++++++
->>   1 file changed, 8 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/sound/asahi-kasei,ak4619.yaml b/Documentation/devicetree/bindings/sound/asahi-kasei,ak4619.yaml
->> index d412531ef9a2..3c7754351e8a 100644
->> --- a/Documentation/devicetree/bindings/sound/asahi-kasei,ak4619.yaml
->> +++ b/Documentation/devicetree/bindings/sound/asahi-kasei,ak4619.yaml
->> @@ -34,6 +34,12 @@ properties:
->>       $ref: audio-graph-port.yaml#
->>       unevaluatedProperties: false
->>   
->> +  pdn-gpios:
-> powerdown-gpios is a standard name for this function.
+On Sun, 27 Sep 2026 09:09:11 +0800, Zimeng Li wrote:
+> ASoC: qcom: lpass-cpu: use DAI table index for playback constraints
 
-Thanks for the hint, this might actually inverse the logical polarity of 
-the GPIO that I had in mind. I will look at other examples and consider 
-them when submitting v2.
+Applied to
 
->> +    maxItems: 1
->> +    description:
->> +      GPIO controlling the AK4619 PDN input pin. Used during driver
->> +      probing to power up the codec.
-> When a driver does something is not relevant. Would be useful to state
-> the active (meaning powered down state based on the naming) state.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
 
-Understood, I will make that more clear in v2.
+Thanks!
 
+[1/1] ASoC: qcom: lpass-cpu: use DAI table index for playback constraints
+      https://git.kernel.org/broonie/sound/c/ca51771c8efd
 
-Best regards,
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-Alex
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
