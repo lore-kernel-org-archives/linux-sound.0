@@ -1,90 +1,67 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB0BF4D6C3C;
-	Mon, 28 Sep 2026 14:11:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 112B44B95C3
+	for <linux-sound@vger.kernel.org>; Mon, 28 Sep 2026 14:13:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790604703; cv=none; b=At5KeAYNQ+LYvg3wa8VaOtPDLHYfqz3Xbu+YlhD3mDhK7N4bmDFvXleFNgxceV7ttJPBnPEwr6R+4mfKzUcgJ7sinNgqnMkzWgJg9NZeF0l+wUMhdfDfd5/3DUnpi/IOQLGzKPP6ZdUpKl/7igovCKCXFjLJQCDUHFxuQ+dMNSY=
+	t=1790604793; cv=none; b=jOgKKGUYdPDUZAU4nnlm/d5svi8MVHQULISsiHOAoUTnsExBxa702Fx89gZ435sIyastQG52KFJ92RkK+rQhjm19bHB/lAOZlnttB99s/rSq5X5Lpx6JpZjaDxrGIlI+svM7r5HAkTe/DQFSCLKJHwnduAHsHQ0UoVIsyg3ryRc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790604703; c=relaxed/simple;
-	bh=2eP5f1rC2G5giHatLBd6b7XUPgX5PW7havgM7U/tMFs=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=FnwTWTgWE7DUb+5blEayNyPONvNlzCz4cDsTlr2xRCF8CRL7/2LhfaOQUh0PogJMAt8d4sQIz5ISgHG7PbCG0eRp96N5ckZ6m6TQqlnANR8d5+msfacOtiMqwqKxInkoauTrCks3A/vBiTmOOfT3MMfj9gevMK2xLgvYi5mxi20=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FilZl3yf; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790604793; c=relaxed/simple;
+	bh=qQ7dIGCpAq01Wjw0rQUnlxh4pLYxYywK5jbLD1vF/VQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=BMm421BSUqr+G2r67nVoCzeB7xkcvpAO/+kT1/onj9duZHMHXT2Fg44iSGrVufffuNcGPKSqIsOnzEnMLYatxP45u5qiNmwPIDee7k9QJshR8+7FzvQZzvA2gN5poOcRzWiIhKU9doMWzNTnEKqImnCx68KMws4Y8w9SgHiRBSo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=TWry19bH; arc=none smtp.client-ip=220.197.31.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FilZl3yf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04F401F000FF;
-	Mon, 28 Sep 2026 14:11:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790604701;
-	bh=/JkV/Sw9hstmhD/AD+QsTDqQ77j7eEPvuBV/wLIAZlQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=FilZl3yfjI0otOpLyDYwzbxlXWXRDsg5rzC5ts+2saEdI6MgdxQi3AA5uOnWi4apD
-	 juYXxS7uVxVyGeEMr9B0P7rCW282TEYu+lPfn9J7iMr/gZq+lp/Au7eFuKBYXug2n3
-	 RvFPjch+73FwIzQo5LQLS3jtoUej1K7t0CAESWVX0beZTNRrOZ4AZ+yxDqehWlM3UK
-	 T4XgLRaxFW3ecE4JXZFiD4pFvTjzzRG1zFErOa2koGysoOeieqJMl/KZLiatM4XQdf
-	 eojKOarmO9FbdjLxZ+LWr/XbeyQHkMIJGblgdT+KNg7qJnuEpdKpHywdkGxJ53q1MV
-	 bkIbV3dmK0i2g==
-From: Mark Brown <broonie@kernel.org>
-To: srini@kernel.org, Zimeng Li <me@lizi.moe>
-Cc: lgirdwood@gmail.com, tiwai@suse.com, linux-sound@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, stable@vger.kernel.org
-In-Reply-To: <20260927010911.51980-1-me@lizi.moe>
-References: <20260927010911.51980-1-me@lizi.moe>
-Subject: Re: [PATCH v3] ASoC: qcom: lpass-cpu: use DAI table index for
- playback constraints
-Message-Id: <179059599429.109964.10222268664920619691.b4-ty@b4>
-Date: Mon, 28 Sep 2026 12:46:34 +0100
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="TWry19bH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=qQ
+	7dIGCpAq01Wjw0rQUnlxh4pLYxYywK5jbLD1vF/VQ=; b=TWry19bHjBeVp8rHtS
+	oY1aO5b1lShqYeo+GpldvFsxUx+Kl+3te3X3VAH80Fw7HoilseTECOG7nIEc42HS
+	Z+MeWz6/J+l+bEcZjYzKb4bnaj5FjpJeKhC2aldwVne4vSwyOFde/BMDN5gU8UnQ
+	yh8DWd+36UJIYSsQLJGrf0H8M=
+Received: from zeyuli-Adol-14-M5451GADOL (unknown [])
+	by gzga-smtp-mtada-g1-0 (Coremail) with SMTP id _____wDn94WwdbpqWDA5BQ--.28420S2;
+	Mon, 28 Sep 2026 22:12:04 +0800 (CST)
+From: Zeyu Li <13776528859@163.com>
+To: Takashi Iwai <tiwai@suse.com>
+Cc: Kailang Yang <kailang@realtek.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/realtek: Add ALC235 support for headset mode
+Date: Mon, 28 Sep 2026 22:12:00 +0800
+Message-ID: <20260928141200.20712-1-13776528859@163.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <8733ut5ylq.wl-tiwai@suse.de>
+References: <8733ut5ylq.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1149; i=broonie@kernel.org;
- h=from:subject:message-id; bh=2eP5f1rC2G5giHatLBd6b7XUPgX5PW7havgM7U/tMFs=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqunWZzwsXv1Sl/skIb+0NPksNcuEHBirUxYy0w
- 3dAVhWuzfaJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCarp1mQAKCRAk1otyXVSH
- 0Os9B/9l72MKnKurLzHvVHgHLONVKdwgpkheNOYoJQ/YRXgYejujWPGfMiyaEtEX7v/P0+dmlsl
- 94XBj2RWQ4u4NLZjcbbQb9V6PS1fRCVJgd7pyiCKFTGm6ehXIiSBij3a7B3z8UW2tsXexBZ6qJe
- CO99m48F29oVyHQR2DwtH8LCC/+qISe4IU9kBxvDLhBXzXeaAZhPLN70pwXlGUGpirlh4zqcFeQ
- qi2L29Z92VLvD0JwmwMSucqOIM5l5YlsVN7EU6awGr8bmAJBjfmiZ3n5dnfCiTqlb9HfbZM+MZ/
- G7C/VPqFlMHPUi4Jc8IJdC2PdI6ZVyjcOVeTD/OCKkQ8rXsi
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wDn94WwdbpqWDA5BQ--.28420S2
+X-Coremail-Antispam: 1Uf129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
+	VFW2AGmfu7bjvjm3AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvjxUbxhpUUUUU
+X-CM-SenderInfo: zprtllawvsmmivz6il2tof0z/xtbC3RXTiGq6dbX+TwAA3y
 
-On Sun, 27 Sep 2026 09:09:11 +0800, Zimeng Li wrote:
-> ASoC: qcom: lpass-cpu: use DAI table index for playback constraints
+Hi Takashi,
 
-Applied to
+Thanks for picking this up.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
+To confirm the test setup: this was verified on an ASUS M5451GA laptop
+(codec HDA:10ec0235,10431814). Before the change, plugging in a CTIA
+headset was detected by jack sense (mic presence and VREF bias were
+set correctly), but the capture stream stayed permanently silent.
+After applying the ALC255 coefficient sequence (COEF 0x45=0xd489,
+0x1b=0x0c2b), the headset microphone captures audio correctly.
 
-Thanks!
+I'm happy to test any alternative coefficient values if Realtek
+suggests a different sequence for the ALC235.
 
-[1/1] ASoC: qcom: lpass-cpu: use DAI table index for playback constraints
-      https://git.kernel.org/broonie/sound/c/ca51771c8efd
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+Best regards,
+Zeyu Li
 
