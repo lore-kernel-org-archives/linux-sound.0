@@ -1,92 +1,92 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 993C849EC77;
-	Mon, 28 Sep 2026 15:21:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2B0D4E77F6;
+	Mon, 28 Sep 2026 15:26:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790608868; cv=none; b=athOXBPH7lbLl7761UIVVT4X1d7kF8ecB27H5rqyBjnsAET5kOk5i19UD62PgXsn8fc/+gWgJ2rCfLFxNK3wdeBdL0Yw+EAHFwo/LTZs0gzq9eGO9rnipnagSrL2/PXr4BYYg04IMno4DKf36kynFhw4HKcWd/OIYLA07tbkR5k=
+	t=1790609168; cv=none; b=QxU8h+nW2+lm5aJpcIbcalEbzsaPuK8+Ngk6D7pnxUp74hniVP0d8JaqD4y7Ue2j62XFAtrFW5E0HjwAQzrMYtE/DbY3UsJEMRW9pPsFnhZeXT/t0DtY2KsnDgmRNQ/r6mSRMgucjO1EIKUXehLEN2yfVqk1KoDIiamWjDuQnEc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790608868; c=relaxed/simple;
-	bh=0aQ5u8Ov2JLtGuEXwA+dyKKJ1qL1E4Qz7Ycwc1XSFp8=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=rvfOsU+hK4BsasQOBQznKzRuzvQIpuDpV6I8L7na3utacroLEdvKicQKADwe4xQpmh3BFfZYd/w8ot2wYq5/20S68JUZ2cEz8z1w1LyBX2ciZ1BnkPRaVvHd4ycTtINM7VYDgYhfttVeIrD3I2raniNGuHhrEqdDEi5VuaKOqKE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dpoEWH8e; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790609168; c=relaxed/simple;
+	bh=eQ0oqytzJ8vWXFWZtcRnAGFQJAXYoWIugUoR4MpEhKs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LDqavTR/qm4DsVhSiRgyfT/L8612NME4ocNrDQGpKli5U661TKVRfx7QnlKUrPDjhEm3AnlwfHMgRlHPwCkPMXX36DdL+dtu1RYtYrX/0DO+gt6DQ0p6ouyUx0WeN2SEwKOsOoh4GZQvuiW2TzednaBnCfAQ4adu1VnaHrEWEzg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gCQlm0fw; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dpoEWH8e"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E71281F000FF;
-	Mon, 28 Sep 2026 15:21:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gCQlm0fw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73AB61F000FF;
+	Mon, 28 Sep 2026 15:26:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790608867;
-	bh=dWD2qtdFlsNDT4Nr7cHISMWIU44LEohxuzldup8NdIs=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=dpoEWH8eZRwEJykNxRmuSRfcONwM1QnpugixUo6zWhk5QRKOZJwUrBKp/M6IdzirM
-	 ETGkxOEmbQjxWapCE6OPXcssQAXVLtIrHjAj7P3nYlJyb6GWnWwLoiOI/IdQeKfkiO
-	 TPA3se/hcI+wC7WHMpFw08DBZ1HhcHJkoeYj97eGbmSedmPyMgLGkiqk9lo0vkrPtu
-	 C/5hl4soOWnHZOIHwrY/BFVru2anOv5fWILeM8gLtSY1MlWvHkjJjH60OxUg2MHCoW
-	 3xWvVc1UxTJlnegSnZwpef54ZxPEOwxmptNQii4q/0SagUAYMDve6VQ6iWn6g7jz0+
-	 q3YNMbRdWh9hg==
-From: Mark Brown <broonie@kernel.org>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: lgirdwood@gmail.com, peter.ujfalusi@linux.intel.com, 
- yung-chuan.liao@linux.intel.com, kai.vehmanen@linux.intel.com, 
- pierre-louis.bossart@linux.dev, linux-sound@vger.kernel.org, 
- patches@opensource.cirrus.com, linux-kernel@vger.kernel.org
-In-Reply-To: <20260928105610.242687-1-ckeepax@opensource.cirrus.com>
-References: <20260928105610.242687-1-ckeepax@opensource.cirrus.com>
-Subject: Re: [PATCH] ASoC: Intel: Add quirk to block match table for Lenovo
- Yoga Slim 7
-Message-Id: <179060199739.139547.9316430290612675939.b4-ty@b4>
-Date: Mon, 28 Sep 2026 14:26:37 +0100
+	s=k20260515; t=1790609164;
+	bh=pOoCF6MK9EIVi8+GIATHY1F0oU3kga1CPCt/SemTgs0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=gCQlm0fwbMvrASH2i0NE090nknFjUNDkg4U4USbT+/yhpr0uHxilM8wc/WvR4fGzp
+	 aY1SvgaLUyhoPdLCwzCtb0JiM8Kv26WoYJVW7X8ndV+nwnYrBjHp5MP2jHbEAZ2xOp
+	 rmXJhaIljJ6zbIcxqwVHaLWnjccaxegpOhPEjTuN2x6H3Id+lOrMI2P0WkvyKkn7et
+	 BZ3cbXaperX35HfUIRG6F9dBpa7WriAQMpBQ8aLIy/doTNiYiopYqWNeKM7xMvrc2d
+	 fuDp44KnYoGfIz84ZZnd6MIfGwhh+DQe4F4DA6FrtRTdNswz9Zv6r72EbC1osM+wGv
+	 EhUZW5S45I03Q==
+Received: from johan by xi.lan with local (Exim 4.99.5)
+	(envelope-from <johan@kernel.org>)
+	id 1xBDEv-00000003gnv-31HH;
+	Mon, 28 Sep 2026 17:26:01 +0200
+Date: Mon, 28 Sep 2026 17:26:01 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Liviu Nicoara <lnicoara@thinkoid.org>
+Cc: Srinivas Kandagatla <srini@kernel.org>, Mark Brown <broonie@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Jonathan Marek <jonathan@marek.ca>, linux-sound@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: codecs: lpass-wsa-macro: rewrite the interpolator
+ volume after enabling clocks
+Message-ID: <arqHCRgQUcKPVpoJ@hovoldconsulting.com>
+References: <20260924125940.22665-1-lnicoara@thinkoid.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1152; i=broonie@kernel.org;
- h=from:subject:message-id; bh=0aQ5u8Ov2JLtGuEXwA+dyKKJ1qL1E4Qz7Ycwc1XSFp8=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBquoXfzpKQBCzeM4B9sUaWT476mdA+nMfPnl8y0
- J7dtjW7wcqJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCarqF3wAKCRAk1otyXVSH
- 0LO2B/0RpVOKN4pQRIZNelqm5bRq3/DrPnpsE6n0fbp5P/VXqLJRLxoXma4tKIlth9502D4/NI1
- kREBOUrrf2Epk5VuNNgwRG3cm9QqlzeHiW7TLnZtGEbIKM9Tyo2XRd1n5LrFXyFU1grv7I/E7Yb
- i91JUEQRJy9O7lal3bt8NFxMKUHtfFws+uzngNW4QF6v+CiQZ3+aCofJh7s+e5y2Ukp2p4RDlrf
- 2tXM5MXobxnZ9IBPjBooItSZKNUlZgacLiG9i/r6ESQmWIza4HlZCfhrM4LzBfDhn7bDnnL+WHM
- fVYtREr5jUqXi6EwtPme3BBvXSvbAhMDDMIoBYXJgj3tkzuV
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260924125940.22665-1-lnicoara@thinkoid.org>
 
-On Mon, 28 Sep 2026 11:56:10 +0100, Charles Keepax wrote:
-> ASoC: Intel: Add quirk to block match table for Lenovo Yoga Slim 7
+On Thu, Sep 24, 2026 at 08:59:40AM -0400, Liviu Nicoara wrote:
+> Commit 902f497a1ff5 ("ASoC: codecs: lpass-wsa-macro: remove useless
+> gain read/write sequence") removed the read and write of the digital
+> volume register in wsa_macro_enable_interpolator(), on the grounds that
+> writing back the value just read does nothing. The comment above it,
+> "apply gain after int clk is enabled", was left in place.
+> 
+> On the Dell XPS 13 9345 (X1E80100, four WSA8845 amplifiers on two WSA
+> macros) the write does something: a volume change made while the path
+> is idle does not take effect when playback starts. Lowering the digital
+> volume from 81 to 63 with nothing playing, then playing a test tone,
+> gave about the same level as before the change. With the rewrite
+> restored, lowering it from 81 to 69 while idle played audibly quieter,
+> and restoring 81 while idle brought the level back. Changes made during
+> playback take effect with or without the rewrite.
+> 
+> This is the behaviour described in commit 46188db080bd ("ASoC: codecs:
+> lpass-wsa-macro: fix compander volume hack"): "the volume registers
+> still need to be written after enabling clocks in order for any prior
+> updates to take effect." The value read comes from the register cache,
+> so the write pushes the last requested volume to the hardware once its
+> clock runs.
+> 
+> Restore the rewrite in the interpolator's POST_PMU event only. The mix
+> path event removed later in the same series is not brought back.
+> 
+> Fixes: 902f497a1ff5 ("ASoC: codecs: lpass-wsa-macro: remove useless gain read/write sequence")
 
-Applied to
+Since this fixes a regression that may affect the speaker limits imposed
+by the machine driver, please make sure that this gets backported as
+well:
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
+Cc: stable@vger.kernel.org
 
-Thanks!
+> Assisted-by: Claude:claude-opus-5-5
+> Signed-off-by: Liviu Nicoara <lnicoara@thinkoid.org>
 
-[1/1] ASoC: Intel: Add quirk to block match table for Lenovo Yoga Slim 7
-      https://git.kernel.org/broonie/sound/c/c26d18964a93
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Johan
