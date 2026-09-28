@@ -1,44 +1,41 @@
 Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 410F449482E;
-	Mon, 28 Sep 2026 14:00:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 393854BB28D;
+	Mon, 28 Sep 2026 14:02:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790604009; cv=none; b=B+aIvj1oMOftlB/NzPdJ3WGFl8khU2/eqIYr5Vtb5GYpDCA4ie63usYpcHL0vUweLcpMKWk66+7KvqPmzc75bXEBQzRth38g2JHm0vpW/yGpjWtHz/qSOtThIdZ3MtO3P1cNVou76DouoVxZNTMwebQlyloinz2GdigCqMguacM=
+	t=1790604128; cv=none; b=kj0I8/eQNrSqPrDUev8uJUcIqdnAd6KJfMUAmgQPrdEiN95B23C+/lyCnGZVD2xJ/ADlCFZ+LA5vUWnB4BpoXBipnbmLnBlfLohBy6VHh6IothHo/djj1e85MzUCDBFneyQHgcNkQ0RFlubiVf/kpD8xt6j4iv/rJLk/HHP2Iys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790604009; c=relaxed/simple;
-	bh=MxFxuOZxN4+PXpU8BxAOPaEv10iHhixBkXXncY6bWEM=;
+	s=arc-20240116; t=1790604128; c=relaxed/simple;
+	bh=8338N/MLUsSVLfr50ikls34dEQtzKihPaRcPDbLoRsw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=I7r/pxti4zxxSVRjCsilIpPUaotTma5EWVvh5ikak3PUu8eFfj1fiHtY/1ghqU7eEZKOxfp+9flpYjl0ZRBEtgkIZ2JRxBuCL2S2jVyA6pis5DnRiBvSpcYU9h8M/L+/CLtorY2FsamtQfGXI8UZNF5zJUqoJyzNYWSnsK3gXHI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alexanderkoch.net; spf=pass smtp.mailfrom=alexanderkoch.net; dkim=pass (2048-bit key) header.d=alexanderkoch.net header.i=@alexanderkoch.net header.b=gU74/STS; arc=none smtp.client-ip=80.241.56.172
+	 In-Reply-To:Content-Type; b=Im2vWsRL0Y2f2PgX/XXcXV2L8bkCwJ5+7tsFnw+++NFy1fTqjDHFd6vRlHrRxs5tZqxMYtTsyISUY5F0Zq0AAdgM9hXoFUgc/lxR+Jd4/fH49FRiLi/2ivI/OijN2OuXWkVZ+lBkj8tOCgje9RFMZ+5tPfP/CkTCS2ouwMwQnmk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alexanderkoch.net; spf=pass smtp.mailfrom=alexanderkoch.net; dkim=pass (2048-bit key) header.d=alexanderkoch.net header.i=@alexanderkoch.net header.b=YQO7w6Iw; arc=none smtp.client-ip=80.241.56.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alexanderkoch.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alexanderkoch.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=alexanderkoch.net header.i=@alexanderkoch.net header.b="gU74/STS"
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+	dkim=pass (2048-bit key) header.d=alexanderkoch.net header.i=@alexanderkoch.net header.b="YQO7w6Iw"
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4htjcH4PfPzMltv;
-	Mon, 28 Sep 2026 15:59:59 +0200 (CEST)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4htjfc38vkzMlrS;
+	Mon, 28 Sep 2026 16:02:00 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alexanderkoch.net;
-	s=MBO0001; t=1790603999;
+	s=MBO0001; t=1790604120;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=y64GvZJGnsTpjIopVVO+4mXuJCw7lygid2OYRpoI6Bc=;
-	b=gU74/STSePvZ9flyFvBwS7bbrxaMwnltGHSztGjIqCwpFh8FIGFgXE0jpt6uLxgDKDn06m
-	o7xbLDG8o6+8URnlShjy8W/fORFP0QMZL6b+vOe4U8i4YjacKCanMGQ1YuqY0qS+VGKAmQ
-	hDirp3gaiq7LJgosrvCkD8p3erf8SJKV34p4zSDp0amERk8vSYy/n+bC4vgLFGE72FNU2m
-	PXfguDh2//GCU7GiPUM+ZfCHkzrS2UyM0ZpoKxOu6kLYWdgBF6MqihbP8s9BK7OZ3CWz/I
-	YDiRnyC/pFK8iCBFPqF7kb49IVACPlDiIFkmaRqa5MkeftQ3pVRc+YIQqsjPMw==
-Authentication-Results: outgoing_mbo_mout;
-	dkim=none;
-	spf=pass (outgoing_mbo_mout: domain of mail@alexanderkoch.net designates 2001:67c:2050:b231:465::202 as permitted sender) smtp.mailfrom=mail@alexanderkoch.net
-Message-ID: <2789a6f1-3384-4135-b292-d84a6d603da9@alexanderkoch.net>
-Date: Mon, 28 Sep 2026 15:59:53 +0200
+	bh=4cEe7dLmKEHxBNr/9u9hCoZ8kn9K4vqRyeK15aUsoes=;
+	b=YQO7w6IwJEptPdadGHC46a7i/TJDT0KUwwPMbIo2g9uPrkk27W1xxH2H2SugWEBscQB/5Q
+	nT+obrCHrkrgT9NSV7X0Y4eRF3Z7BTrYZSQ0AWj9omXzWuqSb5iLKgTxelzQ8F4bZVy56K
+	F+OCLCK/YBWbaQ1cN952OZUy0gWQWWLAFz9eg9v0mpCCAVXrBJso6LYfA8nZjBsVSGFIfP
+	CQEnB/q8VvJB1Zt0W848QKgekcM5lbLF1PRIRo0NkW6mVvurqCZK/xIl3dUJwkwb1VbGnY
+	SymmZRgD5B+zxWj8eGjTlsFsOskQXUV02zGcFJjc9jaIOOSymvYr4+WnkRFkbA==
+Message-ID: <31cc7f2d-4a8d-4584-8866-6961b7d7af31@alexanderkoch.net>
+Date: Mon, 28 Sep 2026 16:01:55 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,23 +45,22 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 2/2] SoC: dt-bindings: asahi-kasei,ak4619: Add PDN GPIO
  support
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Takashi Iwai <tiwai@suse.com>,
+To: Rob Herring <robh@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>,
  Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Jaroslav Kysela <perex@perex.cz>, linux-sound@vger.kernel.org,
- Mark Brown <broonie@kernel.org>, devicetree@vger.kernel.org,
- Liam Girdwood <lgirdwood@gmail.com>, linux-kernel@vger.kernel.org,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Khanh Le
- <khanh.le.xr@renesas.com>, Conor Dooley <conor+dt@kernel.org>
+ Khanh Le <khanh.le.xr@renesas.com>, linux-sound@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20260928114019.1441752-1-mail@alexanderkoch.net>
  <20260928114019.1441752-3-mail@alexanderkoch.net>
- <179060023276.3804017.17695224297068341840.robh@kernel.org>
+ <20260928131208.GA3834499-robh@kernel.org>
 Content-Language: en-US
 From: Alexander Koch <mail@alexanderkoch.net>
-In-Reply-To: <179060023276.3804017.17695224297068341840.robh@kernel.org>
+In-Reply-To: <20260928131208.GA3834499-robh@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 4htjcH4PfPzMltv
+Content-Transfer-Encoding: 7bit
 
 >> Add documentation for optional property that enables operation of the
 >> 'PDN' pin during initialization:
@@ -81,45 +77,29 @@ X-Rspamd-Queue-Id: 4htjcH4PfPzMltv
 >>   .../devicetree/bindings/sound/asahi-kasei,ak4619.yaml     | 8 ++++++++
 >>   1 file changed, 8 insertions(+)
 >>
-> My bot found errors running 'make dt_binding_check' on your patch:
->
-> yamllint warnings/errors:
->
-> dtschema/dtc warnings/errors:
-> Lexical error: Documentation/devicetree/bindings/sound/asahi-kasei,ak4619.example.dts:25.39-55 Unexpected 'GPIO_ACTIVE_HIGH'
-> FATAL ERROR: Syntax error parsing input tree
-> make[2]: *** [scripts/Makefile.dtbs:140: Documentation/devicetree/bindings/sound/asahi-kasei,ak4619.example.dtb] Error 1
-> make[2]: *** Waiting for unfinished jobs....
-> make[1]: *** [/builds/robherring/linux-dt-review/Makefile:1714: dt_binding_check] Error 2
-> make: *** [Makefile:248: __sub-make] Error 2
->
-> doc reference errors (make refcheckdocs):
->
-> See https://patchwork.kernel.org/project/devicetree/patch/20260928114019.1441752-3-mail@alexanderkoch.net
->
-> The base for the series is generally the latest rc1. A different dependency
-> should be noted in *this* patch.
->
-> If you already ran 'make dt_binding_check' and didn't see the above
-> error(s), then make sure 'yamllint' is installed and dt-schema is up to
-> date:
->
-> pip3 install dtschema --upgrade
->
-> Please check and re-submit after running the above command yourself. Note
-> that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-> your schema. However, it must be unset to test all examples with your schema.
+>> diff --git a/Documentation/devicetree/bindings/sound/asahi-kasei,ak4619.yaml b/Documentation/devicetree/bindings/sound/asahi-kasei,ak4619.yaml
+>> index d412531ef9a2..3c7754351e8a 100644
+>> --- a/Documentation/devicetree/bindings/sound/asahi-kasei,ak4619.yaml
+>> +++ b/Documentation/devicetree/bindings/sound/asahi-kasei,ak4619.yaml
+>> @@ -34,6 +34,12 @@ properties:
+>>       $ref: audio-graph-port.yaml#
+>>       unevaluatedProperties: false
+>>   
+>> +  pdn-gpios:
+> powerdown-gpios is a standard name for this function.
 
-Thanks for the review and the clarifications!
+Thanks for the hint, this might actually inverse the logical polarity of 
+the GPIO that I had in mind. I will look at other examples and consider 
+them when submitting v2.
 
-I must admit I am a bit new to the concept of YAML based DT bindings 
-documentation and did not realize that examples must be syntactically 
-complete.
+>> +    maxItems: 1
+>> +    description:
+>> +      GPIO controlling the AK4619 PDN input pin. Used during driver
+>> +      probing to power up the codec.
+> When a driver does something is not relevant. Would be useful to state
+> the active (meaning powered down state based on the naming) state.
 
-So for a fixed v2 would you prefer
-
-a) the missing #include added above the i2c block or
-b) the new property removed from the example since it is optional anyway?
+Understood, I will make that more clear in v2.
 
 
 Best regards,
