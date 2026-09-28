@@ -1,84 +1,87 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C472849D592
-	for <linux-sound@vger.kernel.org>; Mon, 28 Sep 2026 11:04:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AF75415F08;
+	Mon, 28 Sep 2026 11:07:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790593445; cv=none; b=BG25419xUxv6YTmc0qXNj28vPwZb1FBSqI6FtNrL8JfUXatJMKiDmaB3Y7NQfFKxZg0fgs5oRW8E3Zk3hXWPNlauk3XY3yHqph43O9l6Ph38kRxGyABzZgixWhMFFc16qfxSCRO2geGDa4m1tHcPMfU7czZ372pyM0dRmRpp1XE=
+	t=1790593631; cv=none; b=C5EEKbN1Qaf/04BlsP4meKEBZpWo/z6Qa5/jD9YrJAaZV8oXYEIt7WB2FC2b27dQVQSEaXetUm6DA12y85rK3Ob/M9G/ViiZqVlsXb3tEhj4/VJAuPpw40F4MbQk/Fq6D3u2j51Vd5F5sCjKngrGmiz0sZTV4IG2oalzRrrBck8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790593445; c=relaxed/simple;
-	bh=FZE4ulrxhkOMzwFIblXN4PtHFzb45EcBoDV9gx6HIPw=;
+	s=arc-20240116; t=1790593631; c=relaxed/simple;
+	bh=JuFta5vYDKkfyWSB7vYFGBGTLaKRCKTKF6A01c56UNM=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DY5XYC0YgvuizZAMamlkbrMnCthiZNhtW5mRsnSzcaImAjxgtIxTJB1yznA+nuSGZ31L83s1o20A9Ej32CzIbth4UwmD4LXvs3/ZEDtujcr1YsqHrPQnMa+2ZP/kgzn84amPSgiFAn4kCXDiA682VKiUxEbvcFNSu/hWDIH5Qs4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rII4iRcS; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Asf9yg1G; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=BvnP6kUB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=VhsYm1TO; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=EGfU1YCJFpMfUNxX0xELjIb3CyMON6KUg4c/ht+oRkvoLFU9ObVNf4j1FN7dUi7jD5NHqJHH3V6M0Zkw/5oVNEcKZ9nAh9cO9DUdaDtVhM9HC5zScPhPUAVf+MSlKgk3snx1Y8KZ4TbF8I6slYgVlCqseDQ1qk6OUsL2ul1vdwc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=plAWPkrL; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=av87D/iR; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=qV+phgV6; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SMlY4QI+; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rII4iRcS";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Asf9yg1G";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="BvnP6kUB";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="VhsYm1TO"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="plAWPkrL";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="av87D/iR";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qV+phgV6";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SMlY4QI+"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id BE7401F812;
-	Mon, 28 Sep 2026 11:03:53 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 7CF2D1F812;
+	Mon, 28 Sep 2026 11:07:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1790593437; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1790593624; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=TS+Dw+XyCZeMmMbjNODh7E1ua0fVnJNxmUg/LnpqvPM=;
-	b=rII4iRcSTeH0Xw0S+UDIr1BBXDkxgZFraWp37o4U9mUnlqqI9an3634doi1akuAxLmsPiy
-	hTl2SolmWEDJN1lm77oG+C7Y9y1wORFEGFycxYJOy6QUZ3dadOSCZhWSlb0nqcw1gK4d9K
-	2nDTn4lYDZ6+VBZhr0CyAoSN8BhawvA=
+	bh=9XybMtF/N4JRglGOx/jG/Xggqki2sIqdTfZWMVmqzXE=;
+	b=plAWPkrLz8aLCjXrVAmv1ExeAO6FfbtmGBZ2SeBdM56vh6tV78d8YrzKSBlPSjfJsWOK9g
+	MUT4SHj9rJeAQWf5yhbMaSU/CSYAeoHULduRDWpl6igy39dgSLnuQ+sSQOAGj65i5AZ8Q0
+	QYtlQzr9y/hYLGfw2N2XNUkTqvnh25Q=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1790593437;
+	s=susede2_ed25519; t=1790593624;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=TS+Dw+XyCZeMmMbjNODh7E1ua0fVnJNxmUg/LnpqvPM=;
-	b=Asf9yg1GcTqz5ujF2wtQDgxKFLBKIXicdQiMjEo1VuxBYpGuwcffJVWiuvaWR/Jq7Pv5V1
-	UXYbCHxZe0gPIgCw==
+	bh=9XybMtF/N4JRglGOx/jG/Xggqki2sIqdTfZWMVmqzXE=;
+	b=av87D/iRaMe9qQExAttu/T6ud3rmCwBi6Hb5qgghSuMbdGRSpZL5+J2iIJAlt/lptVfbbz
+	yTAwbFna7pRc9TCQ==
 Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1790593433; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1790593620; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=TS+Dw+XyCZeMmMbjNODh7E1ua0fVnJNxmUg/LnpqvPM=;
-	b=BvnP6kUBniAMvConwkI4FqkwTRD2US0+DTyxiSKDUG7qb/SypVRoc9xDKd3v1ixNmtgkUZ
-	LL4TEZSD6mafL3EUxfV3TfhVOtidV52z1wObYe+CTXrc0+jyQkVsKouMMqN2r+maz2Un/Y
-	mgqEMN5dfdu+HY3g98R3Brsh+oFjuCI=
+	bh=9XybMtF/N4JRglGOx/jG/Xggqki2sIqdTfZWMVmqzXE=;
+	b=qV+phgV6cxj/XOoeiigha3TjbiSxZg7LO+UYv5Q0huHpMdjjEw3ZdoDUMqxhYVnAuq1fRg
+	mDa7YKKEDdCT/N/+xLPhbEoYTDcM9ZtU1lWKINbuAAQOEhbJhZvD41NfbJZ80Ii3+aIeBO
+	izhF1lI4a6mhoZL0itTbyMXfrNwgNmg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1790593433;
+	s=susede2_ed25519; t=1790593620;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=TS+Dw+XyCZeMmMbjNODh7E1ua0fVnJNxmUg/LnpqvPM=;
-	b=VhsYm1TOO+Mr9t+y/wcAgWUyU6PF/BxSYKlw8NRY/roKNP170q4aUIMEaxD2vKURiKvT1b
-	Auarj26vghamqPCg==
+	bh=9XybMtF/N4JRglGOx/jG/Xggqki2sIqdTfZWMVmqzXE=;
+	b=SMlY4QI+BdXyYzr1A/WzPCNmErgLU3daJolaJc5N2xqQaSGlQ0Jy+4MLSpsTZHoCbywTHG
+	EMH8rM+y30+boGDw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 78CF7133F1;
-	Mon, 28 Sep 2026 11:03:53 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 28FF5133F1;
+	Mon, 28 Sep 2026 11:07:00 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id JVv6E5lJumqiJAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 28 Sep 2026 11:03:53 +0000
-Date: Mon, 28 Sep 2026 13:03:52 +0200
-Message-ID: <87fqyt7i3r.wl-tiwai@suse.de>
+	id HtepAFRKumqGJwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 28 Sep 2026 11:07:00 +0000
+Date: Mon, 28 Sep 2026 13:06:59 +0200
+Message-ID: <87eced7hyk.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Jianyu Zhou <997536907@qq.com>
-Cc: linux-sound@vger.kernel.org,
+To: Wentao Liang <vulab@iscas.ac.cn>
+Cc: baojun.xu@ti.com,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	perex@perex.cz,
 	tiwai@suse.com,
-	perex@perex.cz
-Subject: Re: [PATCH v2] ALSA: hda/realtek: Add quirk for IPASON SmartBook S1
-In-Reply-To: <tencent_3AB9214FB134949B31E9C471BC3669117F05@qq.com>
-References: <tencent_3AB9214FB134949B31E9C471BC3669117F05@qq.com>
+	stable@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/tas2781: Fix ACPI device double put in tas2781_read_acpi()
+In-Reply-To: <20260917164520.2163024-1-vulab@iscas.ac.cn>
+References: <20260917164520.2163024-1-vulab@iscas.ac.cn>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -90,67 +93,65 @@ Content-Type: text/plain; charset=US-ASCII
 X-Spam-Score: -3.30
 X-Spam-Level: 
 X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
+	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	NEURAL_HAM_SHORT(-0.20)[-0.997];
 	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	ARC_NA(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_TO(0.00)[qq.com];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_ENVRCPT(0.00)[qq.com];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	RCVD_TLS_ALL(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
 X-Spam-Flag: NO
 
-On Thu, 17 Sep 2026 08:58:29 +0200,
-Jianyu Zhou wrote:
+On Thu, 17 Sep 2026 18:45:20 +0200,
+Wentao Liang wrote:
 > 
-> From 2adfedabfdd9f5ec800462b1f1c0859a198e63aa Mon Sep 17 00:00:00 2001
-> From: Jianyu Zhou <997536907@qq.com>
-> Date: Thu, 17 Sep 2026 14:34:46 +0800
-> Subject: [PATCH v2] ALSA: hda/realtek: Add quirk for IPASON SmartBook S1
+> The reference returned by acpi_dev_get_first_match_dev() is already
+> released right after the physical node is looked up. The adev variable
+> is not reassigned afterwards, so the acpi_dev_put() on the err path is a
+> second, spurious put of the same device, which unbalances the reference
+> count, or frees the device while physdev may still be in use.
 > 
-> The internal speaker of the IPASON SmartBook S1 (an Emdoor ODM laptop)
-> stays silent under Linux, while the Bluetooth audio and the headset
-> output work fine.  The same machine plays sound under Windows with the
-> vendor driver, so the hardware and the amplifier are known good.
+> Drop the redundant acpi_dev_put() from the error path.
 > 
-> The BIOS reports the pin default of the actual internal speaker pin
-> (NID 0x1b) as 0x411111f0, i.e. the default association 0xf, which means
-> "unconnected".  The pin parser therefore drops that node already at the
-> pin-configuration time, hence no mixer control is ever created for it
-> and the pin is never driven, no matter how the output pin 0x14 is set
-> up.  Enabling 0x1b makes the speaker work immediately.
-> 
-> The existing ALC256_FIXUP_HONOR_MRB_XXX_M1020_AUDIO quirk makes the
-> speaker work, too, but it additionally rewrites the pins 0x14, 0x19 and
-> 0x1a with Honor-specific values, which creates a bogus "Dock Mic" device
-> that does not exist on this hardware.  Add a minimal fixup that only
-> enables 0x1b as the internal speaker.  Touching 0x14 is not needed:
-> with the pin configuration overridden at runtime, both keeping its BIOS
-> value (0x90170110) and disabling it (0x411111f0) leave the speaker
-> working, so 0x1b alone decides the output.
-> 
->   Codec:       Realtek ALC256 (0x10ec0256), SSID 0x2782:0x0206
->   BIOS pincfg: 0x14 0x90170110  0x18 0x411111f0  0x19 0x02a19040
->                0x1a 0x411111f0  0x1b 0x411111f0  0x1d 0x4067b945
->                0x1e 0x411111f0  0x21 0x02214020
-> 
-> Tested on 7.2.0-1-MANJARO and 6.18.45-1-MANJARO, with both the SOF and
-> the legacy HDA driver paths.
-> 
-> Signed-off-by: Jianyu Zhou <997536907@qq.com>
+> Fixes: bb5f86ea50ff ("ALSA: hda/tas2781: Add tas2781 hda SPI driver")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
 
-Applied now.  Thanks.
+This should have been already addressed in the commit 8bec01c80e79.
+Could you verify whether there is still an issue in the latest
+upstream?
 
+
+thanks,
 
 Takashi
+
+> ---
+>  sound/hda/codecs/side-codecs/tas2781_hda_spi.c | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/sound/hda/codecs/side-codecs/tas2781_hda_spi.c b/sound/hda/codecs/side-codecs/tas2781_hda_spi.c
+> index 0e4f3553f273..63f8b15c2d8c 100644
+> --- a/sound/hda/codecs/side-codecs/tas2781_hda_spi.c
+> +++ b/sound/hda/codecs/side-codecs/tas2781_hda_spi.c
+> @@ -386,7 +386,6 @@ static int tas2781_read_acpi(struct tas2781_hda *tas_hda,
+>  err:
+>  	dev_err(p->dev, "read acpi error, ret: %d\n", ret);
+>  	put_device(physdev);
+> -	acpi_dev_put(adev);
+>  
+>  	return ret;
+>  }
+> -- 
+> 2.34.1
+> 
