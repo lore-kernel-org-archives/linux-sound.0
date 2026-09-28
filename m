@@ -1,154 +1,135 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay10.grserver.gr (relay10.grserver.gr [37.27.248.198])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D52A24B0CBB;
-	Mon, 28 Sep 2026 11:44:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DECF74C6526
+	for <linux-sound@vger.kernel.org>; Mon, 28 Sep 2026 12:05:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.27.248.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790595879; cv=none; b=W4V1CdOEuWTMl9vBo4xPtcgbq52UXrfiHQHGGDq1vQgReLpZcoXRjlCNuOu0sbzm55mdAVQa+EuWJ8y+r1lyqbNCUOin5ads0Z144zsPzYwez4f7oH+oO8W+su4Olq4dX52FGxIX1mztG0yCoBHjVOhIVSnAUf3F9Eez+Ycj5/M=
+	t=1790597134; cv=none; b=mdsH7k9jE/oYdG06O7T+EYCkSsUTd3qvBNYaxZWoI8IRbeZs2lROj9bcpz3/skxPMUJX8131H3ckTFs2LWZtRUFUx8acOgdki2rXDuOJDDLvHYYPS+VP2wWEPD7TtMo5a5JTX+H85sNTS2FZlh7Ch1DI6/VVD+r079UuBIAf/Hs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790595879; c=relaxed/simple;
-	bh=BiTmK/xF3Xf6YLJ0qA1o2cFPEoTv1djFzWRZ5SdJNJE=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gzPjYg0hAxDwl0rKdjZA7sCwroJmHCIEdfNocFkVezFEh5A5M0E3lG1NS4rHYTdY+7itBpzHa1ZFgTP4cAdaQSN0zqm9OnB3Db9gLRMYk+4v2/E4v4MRAm9XlzLa6bpHfj1urZP9ne+zC1cwP2nDCCGNyryAPg7dJAFGRcjO0qk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RKGX7PdZ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=mU8DbIEZ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=LiayG2bu; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=FHFSwfs1; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1790597134; c=relaxed/simple;
+	bh=MKBrTzS2l05J5l8I+d3SYuHXmGWOoVgXwUoJ9w/Tog0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=IR6Vr4inmE8DuddjkJGa+MrYP/5QKZMoHmIAIDPi05TJswAS1Rsf/blU7qt3B8tGG5kpwTZRJXjzmoJfEvowkyq0gP1W85Xb0VOTVLcRLLOoo1ngGPSttrzKua3xKepA0gBxA3wjdY5BiV/+vq6Z5fPHXyTanvb84okqIq59ah0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=CJEpGdJw; arc=none smtp.client-ip=37.27.248.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RKGX7PdZ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="mU8DbIEZ";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LiayG2bu";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FHFSwfs1"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="CJEpGdJw"
+Received: from relay10 (localhost.localdomain [127.0.0.1])
+	by relay10.grserver.gr (Proxmox) with ESMTP id 06DE641A1B
+	for <linux-sound@vger.kernel.org>; Mon, 28 Sep 2026 15:05:31 +0300 (EEST)
+Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 81F351FA8E;
-	Mon, 28 Sep 2026 11:44:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1790595871; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pb490YezcVolJMRhswOP+JoZfyXrapQRUUIjORQYqXc=;
-	b=RKGX7PdZLFhxZQ/PKoVDUaYnIy12FISlOqnLU0kp1HKHgv/xDy7MMHVRGQIPVwdaodAAYL
-	XfTj+Dn4II6cIIeIvbzqj9AEl2YRSdhjjguXTvVsQzPiRIJcQ4O0TKgbLn22j49b3v3yb0
-	4ADpwixVFcJYGiXddwMmRo7Tv4WVuXM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1790595871;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pb490YezcVolJMRhswOP+JoZfyXrapQRUUIjORQYqXc=;
-	b=mU8DbIEZ3rKbrlopMq8teRdgQ3tzeNIvWWeoT4CntJfayx36vghX09xlNGL1c47s2rwWtT
-	TCgbzm2pv0767SDg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1790595867; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pb490YezcVolJMRhswOP+JoZfyXrapQRUUIjORQYqXc=;
-	b=LiayG2buoq7lN4BiPMTw72vhqcmOmExZYlHCU6OZqreM9hnnX9v3s4Bz1jjSRg9lHEKWOG
-	W+65FXmAE+mQCFPyPiS47GJQKy+hGKCCCvg7Sqn/9vf9cx8PQ0etuAfAVoK0lYxcEeoooq
-	+PdflQhSI34I3ohoIXS4Pa/t5m+cJ+U=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1790595867;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pb490YezcVolJMRhswOP+JoZfyXrapQRUUIjORQYqXc=;
-	b=FHFSwfs1DbxaKhWAYede/pFgcUgkRxwMN/6kT4QAKGIdWiUMqYrLVoG5vcD3kAiyIQYi+a
-	8DoAEk09cUI8GHDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 279A8133F3;
-	Mon, 28 Sep 2026 11:44:27 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id R9EYOxpTumobTQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 28 Sep 2026 11:44:27 +0000
-Date: Mon, 28 Sep 2026 13:44:26 +0200
-Message-ID: <87pkxx61np.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Daniel Mack <zonque@gmail.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] ALSA: caiaq: unregister the input device when probe fails
-In-Reply-To: <20260925170717.22462-1-ngocthang2710.1999@gmail.com>
-References: <20260925170717.22462-1-ngocthang2710.1999@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	by relay10.grserver.gr (Proxmox) with ESMTPS id A1A3F41498
+	for <linux-sound@vger.kernel.org>; Mon, 28 Sep 2026 15:05:29 +0300 (EEST)
+Received: from mail-pj2-f40.google.com (mail-pj2-f40.google.com [74.125.227.168])
+	by linux3247.grserver.gr (Postfix) with ESMTPSA id DB5831FF68F
+	for <linux-sound@vger.kernel.org>; Mon, 28 Sep 2026 15:05:28 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
+	s=default; t=1790597129;
+	bh=A4QsdSGLThMTI5MSElEpBJcEDDoMm01DSM1lmZ6XAuU=;
+	h=Received:From:Subject:To;
+	b=CJEpGdJwAVs4jPAlEAf2+wxgdtcro/7qMrVmSqafm1MAzVwwCbq+Z+NL8YXoy3m4Q
+	 wP/MUemPSgFXHygwnQ6Bs0TKKSzhcCw20qnQ7qFG6c6+DEmIlue27hlix1ysrL0rkv
+	 QRb8DlMDgdxmiRCdkoZi7XzMntnWU7HxV1kTeFdnS14ZwjyMrLKUQskj4lRyECXbs1
+	 FsTc9saW88K9Qv4JdZVYnr5kV7xPOnBrtj1yejBZwHGewaznlpGrute+wIzagIfGyY
+	 BCErs6/V9Y9iz3vaAvPd6ZVGuiAzgxobUgcIjSKuEc012DS8DgFi15MaAGLf1NJsPg
+	 PGBvtiZnVnFRA==
+Authentication-Results: linux3247.grserver.gr;
+        spf=pass (sender IP is 74.125.227.168) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-pj2-f40.google.com
+Received-SPF: pass (linux3247.grserver.gr: connection is authenticated)
+Received: by mail-pj2-f40.google.com with SMTP id
+ 98e67ed59e1d1-3a0f64df6a6so659643a91.3
+        for <linux-sound@vger.kernel.org>;
+ Mon, 28 Sep 2026 05:05:28 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AKwUvBzOT8231fGyzWasbkwydA17A8xoKFZKzeoujUbbR+m4sf+vtSW2p4TnAV9s3Yg2kK+byX2c8qoJJ6PzJw==@vger.kernel.org
+X-Gm-Message-State: AFq9FYLv+CubUNUNAJwe2Qx3m29UJTVojwJbLi/2R5GxC4djYANGhuMW
+	TdbvUGKhmYkCZDycy7KYiUWB8HedrCd+06+Setp4IerfEFWPSpdYEGwvZHNxedUf0c6LhIPs2g/
+	HrCoOjl/xk3pP6+Jtdqk5B/faZb4d5qw=
+X-Received: by 2002:a17:90b:5626:b0:39e:6c6a:657d with SMTP id
+ 98e67ed59e1d1-3a0bb658b37mr6667450a91.64.1790597127486; Mon, 28 Sep 2026
+ 05:05:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spam-Score: -1.80
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-1.80 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_TLS_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[suse.com,perex.cz,gmail.com,vger.kernel.org];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+MIME-Version: 1.0
+References: <20260923121640.272509-1-zhangheng@kylinos.cn>
+In-Reply-To: <20260923121640.272509-1-zhangheng@kylinos.cn>
+From: Antheas Kapenekakis <lkml@antheas.dev>
+Date: Mon, 28 Sep 2026 14:05:15 +0200
+X-Gmail-Original-Message-ID: 
+ <CAGwozwH7r5vDBAB9k0FX9Pht9TdEaRfYmJg-Km73xX2-_Ws1ug@mail.gmail.com>
+X-Gm-Features: AclHuK_1AHVnYP5CZHjdALXE4b3tsRMGbnzGG5b40QHRCU9DgVZ0Tgtdy4a8Ktw
+Message-ID: 
+ <CAGwozwH7r5vDBAB9k0FX9Pht9TdEaRfYmJg-Km73xX2-_Ws1ug@mail.gmail.com>
+Subject: Re: [PATCH] ALSA: hda/realtek: Fix square wave output on ASUS Strix
+ G615LR
+To: Zhang Heng <zhangheng@kylinos.cn>
+Cc: perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+	Baojun Xu <baojun.xu@ti.com>, Aleksei Arsenev <alesharik4@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-PPP-Message-ID: 
+ <179059712913.2764333.11880642755473815044@linux3247.grserver.gr>
+X-PPP-Vhost: antheas.dev
+X-Virus-Scanned: clamav-milter 1.4.6 at linux3247.grserver.gr
+X-Virus-Status: Clean
 
-On Fri, 25 Sep 2026 19:07:17 +0200,
-Nguyen Ngoc Thang wrote:
-> 
-> setup_card() registers the input device, whose name and phys point into
-> struct snd_usb_caiaqdev, and then goes on to snd_card_register() and
-> snd_usb_caiaq_control_init(). If either fails, snd_probe() calls
-> snd_card_free(), which frees the device state but leaves the input
-> device registered: card_free() only clears the pointer, and the input
-> device is unregistered from snd_disconnect() alone. Reading its "uevent"
-> attribute afterwards dereferences freed memory:
-> 
->   BUG: KASAN: slab-use-after-free in string+0x4a9/0x4f0
->   Read of size 1 at addr ffff8880208f5043 by task caiaq/4967
->    add_uevent_var+0x183/0x3a0
->    input_dev_uevent+0x162/0x900
->    dev_uevent+0x2f1/0x870
->    uevent_show+0x1ca/0x3a0
->    ...
-> 
-> Unregister the input device on the probe error path, as
-> snd_disconnect() does. snd_usb_caiaq_input_disconnect() is a no-op when
-> no input device was registered.
-> 
-> Reproduced with a raw-gadget Audio Kontrol 1 and a temporary hack that
-> makes snd_usb_caiaq_control_init() fail.
-> 
-> Fixes: 28abd224db4a ("ALSA: caiaq: Handle probe errors properly")
+On Wed, 23 Sept 2026 at 14:17, Zhang Heng <zhangheng@kylinos.cn> wrote:
+>
+> ASUS ROG Strix G16 G615LR (PCI SSID 1043:3f20) outputs a loud
+> full-scale square wave from internal speakers since the TAS2781
+> amplifier driver started loading. The quirk was using
+> ALC287_FIXUP_TXNW2781_I2C which chains to the ThinkPad headset
+> jack fixup, but this is an ASUS device that should use
+> ALC287_FIXUP_TXNW2781_I2C_ASUS which chains to ALC294_FIXUP_ASUS_SPK
+> for proper EAPD and pin configuration.
+>
+> Fixes: f7cede182c96 ("ALSA: hda/realtek: Add Asus quirk for TAS amplifiers")
 > Cc: stable@vger.kernel.org
-> Reported-by: syzbot+2a123f6269da57ffefaa@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=2a123f6269da57ffefaa
-> Signed-off-by: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
+> Cc: Baojun Xu <baojun.xu@ti.com>
+> Cc: Antheas Kapenekakis <lkml@antheas.dev>
+> Reported-by: Aleksei Arsenev <alesharik4@gmail.com>
+> Link: https://bugzilla.kernel.org/show_bug.cgi?id=222045
+> Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
+> ---
+> Baojun, Antheas: several other ASUS Strix Gxx5 entries (0x3ee0, 0x3ef0,
+> 0x3f00, 0x3f10, 0x3f30) are still using ALC287_FIXUP_TXNW2781_I2C (the
+> non-ASUS variant that chains to the ThinkPad fixup). Could you check
+> whether they also need to be changed to ALC287_FIXUP_TXNW2781_I2C_ASUS?
+> Ideally with testing on the affected hardware if possible.
 
-Applied now.  Thanks.
+The current quirk is well received for the ally. Perhaps switching to
+ASUS would be simpler but I do not think the device is currently
+problematic. I will defer to Baojun
 
+Antheas
 
-Takashi
+> ---
+>  sound/hda/codecs/realtek/alc269.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+> index 39dbd876bc1a..d70e03061c91 100644
+> --- a/sound/hda/codecs/realtek/alc269.c
+> +++ b/sound/hda/codecs/realtek/alc269.c
+> @@ -7964,7 +7964,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+>         SND_PCI_QUIRK(0x1043, 0x3ef0, "ASUS Strix G635LR_LW_LX", ALC287_FIXUP_TXNW2781_I2C),
+>         SND_PCI_QUIRK(0x1043, 0x3f00, "ASUS Strix G815LH_LM_LP", ALC287_FIXUP_TXNW2781_I2C),
+>         SND_PCI_QUIRK(0x1043, 0x3f10, "ASUS Strix G835LR_LW_LX", ALC287_FIXUP_TXNW2781_I2C),
+> -       SND_PCI_QUIRK(0x1043, 0x3f20, "ASUS Strix G615LR_LW", ALC287_FIXUP_TXNW2781_I2C),
+> +       SND_PCI_QUIRK(0x1043, 0x3f20, "ASUS Strix G615LR_LW", ALC287_FIXUP_TXNW2781_I2C_ASUS),
+>         SND_PCI_QUIRK(0x1043, 0x3f30, "ASUS Strix G815LR_LW", ALC287_FIXUP_TXNW2781_I2C),
+>         SND_PCI_QUIRK(0x1043, 0x3fd0, "ASUS B3605CVA", ALC245_FIXUP_CS35L41_SPI_2),
+>         SND_PCI_QUIRK(0x1043, 0x3ff0, "ASUS B5405CVA", ALC245_FIXUP_CS35L41_SPI_2),
+> --
+> 2.25.1
+>
+>
+
