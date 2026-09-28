@@ -1,1074 +1,422 @@
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-24427.protonmail.ch (mail-24427.protonmail.ch [109.224.244.27])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78E3B4F3935
-	for <linux-sound@vger.kernel.org>; Mon, 28 Sep 2026 16:53:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CC3A4D1780
+	for <linux-sound@vger.kernel.org>; Mon, 28 Sep 2026 17:26:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.27
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790614398; cv=none; b=VYt/0WK4QATe5JN3uk2lvX7lx+uD3nIfUrXPmO5Bxw4ZWMiMuP0N1uEC6Q/NEeJDiGIWISEOMIWXLVwYe3hHV3b4x40fq7qNzoIHhCcPoxmhH/TexTiwRFDAy2FBctZA53KaPRzpPy3jeA2bKDEOyqyH/jYFrsHHPJDM2kRDXD0=
+	t=1790616382; cv=none; b=FQYOEBjcaLBDSf/NAVODaSOjoFjP3MH3a4MnxpAxCA8ymYTttZ50XJ4eC5lGJ+rnI+OHRDEherGaBWTxoGnP40BrJJ6nbFc1s61BgbXQtC2dJVlP9IavknJcsk4re0iN+Nt6sJHCG8TR7rT8YGpWkuuELtspUbtu0tEtv+rLHaE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790614398; c=relaxed/simple;
-	bh=G9sExAdtnxh/VHCkojybBWsTBo/Gb/MbdlY4uuZD4tA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bHQOVT41PaiSUsZFVN2eDCutr6wc14VtbVdy/BtxvWXO4vS4oydvh8kzIHLrLXvUvIs+y24TcHURhFNJx+aXC6U0AhBmKijpsQip+XO49X7YMPJDU8MlS7tzuKmA9yRU1g2PuwF3hCvK2PSU3kEi/F7rrCSln9Jsjk8WRyKs1U8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fUYX6+4J; arc=none smtp.client-ip=74.125.225.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790616382; c=relaxed/simple;
+	bh=wpVc/I4fvloSwUGPTHhrR268WFOjsdp5VJF3Qpy0Zpo=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Ptu9+YOOu0v5PVhh81wGIO6C2BvXf+V4GeocDrXTHsn9ZvE1ub/J6jdjGwRd+F4G+4LoSh1Ll8qm9HVj+vJ63vCzMkHIWoFf91PDjsOfcfRVrTiToR3fP89ZbNGDEMyrUNU0qMBqOhXG1omxpbkcn79CR3JoTrQMLen8Pi82EFQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=emo0yerU; arc=none smtp.client-ip=109.224.244.27
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fUYX6+4J"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49ce364488dso207115e9.0
-        for <linux-sound@vger.kernel.org>; Mon, 28 Sep 2026 09:53:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790614391; x=1791219191; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=0cnAg8yd+SFMKgMnOCthTX/mJXQ5eQt2X/SkShksKg4=;
-        b=fUYX6+4JOXnSDztGUKIMmlFf4hlNZ/WaN971gXl3wBOl+wdzmV5DJ6SH71pElpBlF/
-         DlEJO9hkyXS4L9v2DyOG99bkWWFaQz5tZt8z4Do7llD+lVwPI3ByXEbdDPjYplxxX5fb
-         3AJ1I6laiDyUnihkpDNN5KKJcX5M0XChjvdL1qcDjEEeNmDeT45NtqqI036jcpe24CTb
-         9CY9x50tjxpEytR2Wq1kd8UH0zFhomu8LUV6Hq+KkFbIF9gTNFJfY+WxBSwEvW65ObRs
-         6mrEag7FLNenDvjVrgZSrnvjQv3lbPkAVtUb3vVOVAXTxXtRWlutnKFaAt89iMYObKmG
-         urig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790614391; x=1791219191;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=0cnAg8yd+SFMKgMnOCthTX/mJXQ5eQt2X/SkShksKg4=;
-        b=qRu1UaZrjFKFqYPAEct0BJ4C4Hm7HhzI+JHATwGRFb3itehM0cRDyFPEXO6i6yVnwU
-         wDWXAQjwm7EB2uglUp9/GzPne6kwxgw3cD8niBH8XyeqAYET6vywQpXL2djeNY92IK9X
-         1AyrkWHNQnmsGQcecLi8EfNiFXi7/4Wz26kcC8a3FiT+594x5RAPOH8VCaesNsObJXpW
-         DxsZLccd+8nxSmmwrPFc4778NBJNPedtKbgMcGyYDgKNU1SQX1sU7CG5Uxz6kzEGxxAg
-         LeDWZbUgpvDW9OAW+O30XfScFV3WNuTIQ+njIi6j60BIF7DKbVELjMP9MfgcuGJ0aH9W
-         vL0Q==
-X-Forwarded-Encrypted: i=1; AKwUvBx+nYhSk6NvpKeumDULGt1TPALRr1OBqZiVJmLH41OXJ5NJ1O16LXtI7CWZslEjKHrra7wd3wX744ibeg==@vger.kernel.org
-X-Gm-Message-State: AFuF++nbEUSPdWjT75xragsgNaPydXjfoKIdvFoJerVii+OYnvk0EN8g
-	tnapqMstwBhAB+CzjOQtOSmbR5J9dwklP2tdVfgpDkzBBXpK8Q3lv2p9
-X-Gm-Gg: AYBFou3wUiZXPsPbUF6mVTRT6TnR9E6fHycOSNW3sYiMJGpccmAqad8YERlGft+oQ1+
-	1f3iLywwUupC/Jszn1I8mJPkpSWEUKuG5sCipZXo7nE4GB6KQ6LN6TgoZOeScApTL774ZEmQ90i
-	FN9VkJadZ9dFMllCoo/YSdc9HQuECZ3xa5KuGxDn5l4m6vmqSTtp5cfLN9L0MbmYv8prb3xhibY
-	f4a423171MOO5OBCXa5LMtAsgZs+LzJFyqLDZjDflYyRXKzZG26ngAXQuQh22V9ZeybfgkP1nyR
-	dvaOUnexOyaSZl73go3md7Gjdr1W0iOQmf5l597H4xPSQ7MUywjIZmFamE4p7+tbY5JV87HbFTC
-	UNG+Y/ML7BbvT9tIAV3NxbJFdQLznYtXYpDd6OhEZIRjuyI2MCT6SHRJckWgYjmLjsbwCU6klhm
-	Vb/2t28E/btkqGPj6SlvdLh6g/ACdyDV8ilRRTzzpZ4GLrC2JvkL8rfBS5KxjLKFuku4gSknGIO
-	JxCWfWQzaD1bGSdg/lqWgFTF6robVlbgvOGutvLUUnsifBC/xC7UdzcSpq3K/q+7/hOs7zrrhbu
-	lpks+LMi4FSJYP7UO/Nz8E+4L+Xxr8Ud8GBhUawHbAJcCzaWoIa1
-X-Received: by 2002:a05:600c:4e41:b0:49e:715d:95ca with SMTP id 5b1f17b1804b1-4a00d778ed3mr11895e9.13.1790614391251;
-        Mon, 28 Sep 2026 09:53:11 -0700 (PDT)
-Received: from [192.168.0.46] ([63.135.75.98])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4887a648895sm28809748f8f.28.2026.09.28.09.53.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Sep 2026 09:53:10 -0700 (PDT)
-Message-ID: <ee6e9e8f-e174-4872-baee-114d848e8137@gmail.com>
-Date: Mon, 28 Sep 2026 17:53:10 +0100
+	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="emo0yerU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=btyvueidxbgy5cbzokbvesewli.protonmail2; t=1790616368;
+	x=1790875568; bh=omZjnrtoAlsIvYdh6+IL6I9BHXa5SacLyn0bQBzPJC8=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=emo0yerUQQYYqe9nEZb6qnSVoOGf+ujg+V7+u5d6f1HPDmqbhWSWLYKTiCNMW6y5b
+	 nt4UvfH2ukUCYrSHria0u5BaBHV08VyFlKKmkM6gDlfaa7q5Hg/wRR75xzdAR5KfbO
+	 Ya+AQyhzHUuz3s2jbybXXlCtKRZucirt59HWttLBcqS6KnZ+VAd0yzjq6fu5za8nJK
+	 K6SsdYxUaw+Ab63JN9J88qIEIL4MSdr76CXGy4SGOGPhg3Rgui75jKc+vG1t3rl9QP
+	 pdXZbF1VW6rVVRbMrv7IAyjuYIAKKyoYGISAAl7utfv9MlH7UBaMYmE9s1vUc9fQN7
+	 C/B2qbMt8N9/Q==
+Date: Mon, 28 Sep 2026 17:26:05 +0000
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+From: dchristensen8 <dchristensen8@proton.me>
+Cc: "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>, "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: [PATCH] ALSA: hda/ca0132: Add Sound BlasterX AE-5 external RGB LED strip support
+Message-ID: <eFYfxKMV2ei__fURd-elssegCIVmOuRDne6lj9PMaM2bEgnYkz7Tzf6JLrgEaPZtvrUC_wHnmnwaUZAOdg0uh24nt73FQqi6T65qvJebHJA=@proton.me>
+Feedback-ID: 45895322:user:proton
+X-Pm-Message-ID: ec801b7d97e5c16751aaacda8c21c2fd474b2f40
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [REGRESSION] Audient EVO4 hardware volume control now requires
- quirk
-To: Sasha Levin <sashal@kernel.org>,
- Faaris Ansari <faarisansari@googlemail.com>
-Cc: stable@vger.kernel.org, regressions@lists.linux.dev,
- linux-sound@vger.kernel.org, =?UTF-8?Q?C=C3=A1ssio_Gabriel?=
- <cassiogabrielcontato@gmail.com>, Takashi Iwai <tiwai@suse.com>,
- Jaroslav Kysela <perex@perex.cz>
-References: <CANBVYRCL=8QdLxGg4S6qrahrFtwJxhv-aSGpW7-1S=+iOe4ZGA@mail.gmail.com>
- <2026-09-27-daily-reply-0001-re-audient-evo4-mixer-put-errors@kernel.org>
- <CANBVYRAr_ShKGmrt2NoqsDsDEbTXa5DWJbq2oP6wKLWJQpLRWw@mail.gmail.com>
- <2026-09-28-daily-reply-0001-re-audient-evo4-upstream-decision@kernel.org>
-Content-Language: en-US
-From: Faaris Ansari <faaris.ansari@gmail.com>
-In-Reply-To: <2026-09-28-daily-reply-0001-re-audient-evo4-upstream-decision@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/mixed;
+ boundary="b1=_ROZD4SIVexJZgis2ySKAkaXER6aqIqD3fwvqrLwi8"
 
-Hi, yeah of course I can provide you with this info - I installed the 
-latest 7.3-rc5 for testing.
+--b1=_ROZD4SIVexJZgis2ySKAkaXER6aqIqD3fwvqrLwi8
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Below are the dmesg logs that you requested:
+    Hi Takashi, Jaroslav,                                                  =
+                                          =20
+                                                                           =
+                                          =20
+    Please find attached a patch adding support for the external addressabl=
+e RGB LED strip header on the Creative Sound BlasterX AE-5 and AE-5 Plus.  =
+                                        =20
+                                                                           =
+                                          =20
+    The patch is attached as a .patch file.                                =
+                                                 =20
+ =20
+    The Sound BlasterX AE-5 and AE-5 Plus expose a 3-pin 5V addressable RGB=
+ header driven directly by the CA0113 PCIe-to-HD-Audio bridge. Rather than =
+using the CA0132 DSP or MMIO GPIO, the CA0113 contains an autonomous HDA li=
+nk sniffer that snoops a designated HDA DMA playback stream, extracts the 2=
+4-bit GRB color payload, and serializes it as 800 kHz single-wire NRZ pulse=
+s to the strip (WS2812B protocol).
+ =20
+    Expose the strip through a sysfs interface on the codec device:
+    ae5_strip_leds: read current colors write a comma-deparated #RRGGBB or =
+R,G,B list (a single color replicates across all active LEDs)=20
 
-[   80.940668] usb 3-1: cannot set ctl value: req = 0x1, wValue = 0x203, 
-wIndex = 0xa00, type = 4, data = 0x0/0x81
-[   80.944292] usb 3-1: cannot set ctl value: req = 0x1, wValue = 0x203, 
-wIndex = 0xa00, type = 4, data = 0x0/0x81
-[   80.947542] usb 3-1: cannot set ctl value: req = 0x1, wValue = 0x203, 
-wIndex = 0xa00, type = 4, data = 0x0/0xdc
-[   80.950794] usb 3-1: cannot set ctl value: req = 0x1, wValue = 0x203, 
-wIndex = 0xa00, type = 4, data = 0x0/0x81
+ae5_strip_num_leds: get or set the active LED count (1..100)
+ =20
+    Writes allocate an idle HDA playback stream, format a 32 KB DMA buffer =
+populated with repeating WS2812 frames (5-word zero preamble, 4 audio words=
+ per LED, and reset gap), configure the CA0113 BAR2 serializers and stream-=
+tag pin mux, and pulse the stream long enough for the reset latch to fire. =
+Access is serialized with a per-spec mutex, and the attributes are only reg=
+istered on QUIRK_AE5 devices.
+ =20
+    Document the new sysfs attributes in documentation/ABI/testing.
+ =20
+    Signed-off-by: Devin Christensen <dchristensen8@proton.me>
+    Testing & Subsystem Context:
+     - Verified on physical Sound BlasterX AE-5 hardware.
+     - Tested continuous 60 FPS streaming and dynamic strip resizing (10 ->=
+ 7 -> 10 LEDs)
+       via the OpenRGB effects engine (MR: https://gitlab.com/CalcProgramme=
+r1/OpenRGB/-/merge_requests/3658).        =20
+     - Verified concurrent audio playback and LED updates without dropped s=
+amples or xruns.
+     - Built clean against tiwai/sound for-next (commit 72107104d4f5).
+     - Passes scripts/checkpatch.pl with 0 errors and 0 checks.
+--b1=_ROZD4SIVexJZgis2ySKAkaXER6aqIqD3fwvqrLwi8
+Content-Type: text/x-patch; name=0001-ALSA-hda-ca0132-Add-Sound-BlasterX-AE-5-external-RGB.patch
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename=0001-ALSA-hda-ca0132-Add-Sound-BlasterX-AE-5-external-RGB.patch
 
-Below is the output of lsusb -v -d 2708:0006:
+RnJvbSBiN2NjZjg5ZjM0MjExODU2YzY0MDZkOTQ0OTQ5YTAxNDA2ODFjM2MwIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBEZXZpbiBDaHJpc3RlbnNlbiA8ZGNocmlzdGVuc2VuOEBwcm90
+b24ubWU+CkRhdGU6IE1vbiwgMjggU2VwIDIwMjYgMTI6MDQ6NDAgLTA0MDAKU3ViamVjdDogW1BB
+VENIXSBBTFNBOiBoZGEvY2EwMTMyOiBBZGQgU291bmQgQmxhc3RlclggQUUtNSBleHRlcm5hbCBS
+R0IgTEVECiBzdHJpcCBzdXBwb3J0CgpUaGUgU291bmQgQmxhc3RlclggQUUtNSBhbmQgQUUtNSBQ
+bHVzIGV4cG9zZSBhIDMtcGluIDVWIGFkZHJlc3NhYmxlIFJHQgpoZWFkZXIgZHJpdmVuIGRpcmVj
+dGx5IGJ5IHRoZSBDQTAxMTMgUENJZS10by1IRC1BdWRpbyBicmlkZ2UuIFJhdGhlcgp0aGFuIHVz
+aW5nIHRoZSBDQTAxMzIgRFNQIG9yIE1NSU8gR1BJTywgdGhlIENBMDExMyBjb250YWlucyBhbgph
+dXRvbm9tb3VzIEhEQSBsaW5rIHNuaWZmZXIgdGhhdCBzbm9vcHMgYSBkZXNpZ25hdGVkIEhEQSBE
+TUEgcGxheWJhY2sKc3RyZWFtLCBleHRyYWN0cyB0aGUgMjQtYml0IEdSQiBjb2xvciBwYXlsb2Fk
+LCBhbmQgc2VyaWFsaXplcyBpdCBhcwo4MDAga0h6IHNpbmdsZS13aXJlIE5SWiBwdWxzZXMgdG8g
+dGhlIHN0cmlwIChXUzI4MTJCIHByb3RvY29sKS4KCkV4cG9zZSB0aGUgc3RyaXAgdGhyb3VnaCBh
+IHN5c2ZzIGludGVyZmFjZSBvbiB0aGUgY29kZWMgZGV2aWNlOgoKICBhZTVfc3RyaXBfbGVkcyAg
+ICAgICByZWFkIGN1cnJlbnQgY29sb3JzOyB3cml0ZSBhIGNvbW1hLXNlcGFyYXRlZAogICAgICAg
+ICAgICAgICAgICAgICAgICNSUkdHQkIgb3IgUixHLEIgbGlzdCAoYSBzaW5nbGUgY29sb3IgcmVw
+bGljYXRlcwogICAgICAgICAgICAgICAgICAgICAgIGFjcm9zcyBhbGwgYWN0aXZlIExFRHMpCiAg
+YWU1X3N0cmlwX251bV9sZWRzICAgZ2V0IG9yIHNldCB0aGUgYWN0aXZlIExFRCBjb3VudCAoMS4u
+MTAwKQoKV3JpdGVzIGFsbG9jYXRlIGFuIGlkbGUgSERBIHBsYXliYWNrIHN0cmVhbSwgZm9ybWF0
+IGEgMzIgS0IgRE1BIGJ1ZmZlcgpwb3B1bGF0ZWQgd2l0aCByZXBlYXRpbmcgV1MyODEyIGZyYW1l
+cyAoNS13b3JkIHplcm8gcHJlYW1ibGUsIDQgYXVkaW8Kd29yZHMgcGVyIExFRCwgYW5kIHJlc2V0
+IGdhcCksIGNvbmZpZ3VyZSB0aGUgQ0EwMTEzIEJBUjIgc2VyaWFsaXplcnMgYW5kCnN0cmVhbS10
+YWcgcGluIG11eCwgYW5kIHB1bHNlIHRoZSBzdHJlYW0gbG9uZyBlbm91Z2ggZm9yIHRoZSByZXNl
+dCBsYXRjaAp0byBmaXJlLiBBY2Nlc3MgaXMgc2VyaWFsaXplZCB3aXRoIGEgcGVyLXNwZWMgbXV0
+ZXgsIGFuZCB0aGUgYXR0cmlidXRlcwphcmUgb25seSByZWdpc3RlcmVkIG9uIFFVSVJLX0FFNSBk
+ZXZpY2VzLgoKRG9jdW1lbnQgdGhlIG5ldyBzeXNmcyBhdHRyaWJ1dGVzIGluIERvY3VtZW50YXRp
+b24vQUJJL3Rlc3RpbmcuCgpTaWduZWQtb2ZmLWJ5OiBEZXZpbiBDaHJpc3RlbnNlbiA8ZGNocmlz
+dGVuc2VuOEBwcm90b24ubWU+Ci0tLQpUZXN0aW5nICYgU3Vic3lzdGVtIENvbnRleHQ6CiAtIFZl
+cmlmaWVkIG9uIHBoeXNpY2FsIFNvdW5kIEJsYXN0ZXJYIEFFLTUgaGFyZHdhcmUuCiAtIFRlc3Rl
+ZCBjb250aW51b3VzIDYwIEZQUyBzdHJlYW1pbmcgYW5kIGR5bmFtaWMgc3RyaXAgcmVzaXppbmcg
+KDEwIC0+IDcgLT4gMTAgTEVEcykKICAgdmlhIHRoZSBPcGVuUkdCIGVmZmVjdHMgZW5naW5lIChN
+UjogaHR0cHM6Ly9naXRsYWIuY29tL0NhbGNQcm9ncmFtbWVyMS9PcGVuUkdCLy0vbWVyZ2VfcmVx
+dWVzdHMvMzY1OCkuCiAtIFZlcmlmaWVkIGNvbmN1cnJlbnQgYXVkaW8gcGxheWJhY2sgYW5kIExF
+RCB1cGRhdGVzIHdpdGhvdXQgZHJvcHBlZCBzYW1wbGVzIG9yIHhydW5zLgogLSBCdWlsdCBjbGVh
+biBhZ2FpbnN0IHRpd2FpL3NvdW5kIGZvci1uZXh0IChjb21taXQgNzIxMDcxMDRkNGY1KS4KCiAu
+Li4vQUJJL3Rlc3Rpbmcvc3lzZnMtZGV2aWNlcy1zb3VuZC1hZTUgICAgICAgfCAgMzAgKysKIHNv
+dW5kL2hkYS9jb2RlY3MvY2EwMTMyLmMgICAgICAgICAgICAgICAgICAgICB8IDQwMSArKysrKysr
+KysrKysrKysrKy0KIDIgZmlsZXMgY2hhbmdlZCwgNDMwIGluc2VydGlvbnMoKyksIDEgZGVsZXRp
+b24oLSkKIGNyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9uL0FCSS90ZXN0aW5nL3N5c2Zz
+LWRldmljZXMtc291bmQtYWU1CgpkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9BQkkvdGVzdGlu
+Zy9zeXNmcy1kZXZpY2VzLXNvdW5kLWFlNSBiL0RvY3VtZW50YXRpb24vQUJJL3Rlc3Rpbmcvc3lz
+ZnMtZGV2aWNlcy1zb3VuZC1hZTUKbmV3IGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggMDAwMDAwMDAw
+Li42OWY1MjNhMzUKLS0tIC9kZXYvbnVsbAorKysgYi9Eb2N1bWVudGF0aW9uL0FCSS90ZXN0aW5n
+L3N5c2ZzLWRldmljZXMtc291bmQtYWU1CkBAIC0wLDAgKzEsMzAgQEAKK1doYXQ6CQkvc3lzL2J1
+cy9oZGF1ZGlvL2RldmljZXMvPGRldmljZT4vYWU1X3N0cmlwX2xlZHMKK0RhdGU6CQlTZXB0ZW1i
+ZXIgMjAyNgorS2VybmVsVmVyc2lvbjoJNy4zCitDb250YWN0OglEZXZpbiBDaHJpc3RlbnNlbiA8
+ZGNocmlzdGVuc2VuOEBwcm90b24ubWU+CitEZXNjcmlwdGlvbjoKKwkJKFJXKSBTZXRzIG9yIHJl
+YWRzIHRoZSBSR0IgY29sb3IgY29uZmlndXJhdGlvbiBmb3IgdGhlIGV4dGVybmFsCisJCWFkZHJl
+c3NhYmxlIFJHQiBMRUQgc3RyaXAgaGVhZGVyIG9uIENyZWF0aXZlIFNvdW5kIEJsYXN0ZXJYCisJ
+CUFFLTUgYW5kIEFFLTUgUGx1cyBjYXJkcyAoUVVJUktfQUU1KS4KKworCQlXcml0aW5nIGFjY2Vw
+dHMgYSBjb21tYS1zZXBhcmF0ZWQgbGlzdCBvZiBjb2xvcnMgaW4gZWl0aGVyCisJCWhleGFkZWNp
+bWFsICIjUlJHR0JCIiBvciBkZWNpbWFsICJSLEcsQiIgZm9ybWF0LiBJZiBhIHNpbmdsZQorCQlj
+b2xvciBpcyBwcm92aWRlZCwgaXQgaXMgcmVwbGljYXRlZCBhY3Jvc3MgYWxsIGN1cnJlbnRseSBh
+Y3RpdmUKKwkJTEVEcy4gU3VwcGx5aW5nIGZld2VyIGNvbG9ycyB0aGFuIGFjdGl2ZSBMRURzIHVw
+ZGF0ZXMgdGhlCisJCXByb3ZpZGVkIHJhbmdlIHdoaWxlIHByZXNlcnZpbmcgZXhpc3RpbmcgZG93
+bnN0cmVhbSBjb2xvcnMuCisJCVN1cHBseWluZyBtb3JlIGNvbG9ycyBhdXRvbWF0aWNhbGx5IGV4
+cGFuZHMgdGhlIGFjdGl2ZSBzdHJpcAorCQljb3VudCB1cCB0byBhIG1heGltdW0gb2YgMTAwIExF
+RHMuCisKKwkJUmVhZGluZyByZXR1cm5zIGEgY29tbWEtc2VwYXJhdGVkIGxpc3Qgb2YgdGhlIGN1
+cnJlbnQgY29sb3JzIGluCisJCSIjUlJHR0JCIiBmb3JtYXQgdGVybWluYXRlZCBieSBhIG5ld2xp
+bmUuCisKK1doYXQ6CQkvc3lzL2J1cy9oZGF1ZGlvL2RldmljZXMvPGRldmljZT4vYWU1X3N0cmlw
+X251bV9sZWRzCitEYXRlOgkJU2VwdGVtYmVyIDIwMjYKK0tlcm5lbFZlcnNpb246CTcuMworQ29u
+dGFjdDoJRGV2aW4gQ2hyaXN0ZW5zZW4gPGRjaHJpc3RlbnNlbjhAcHJvdG9uLm1lPgorRGVzY3Jp
+cHRpb246CisJCShSVykgR2V0cyBvciBzZXRzIHRoZSBudW1iZXIgb2YgYWN0aXZlIGFkZHJlc3Nh
+YmxlIExFRHMgb24gdGhlCisJCWV4dGVybmFsIHN0cmlwIGhlYWRlciAoaW50ZWdlciByYW5nZTog
+MSB0byAxMDApLgorCisJCVdyaXRpbmcgdXBkYXRlcyB0aGUgc3RyaXAgbGVuZ3RoIGFuZCB0cmFu
+c21pdHMgdGhlIGN1cnJlbnQgY29sb3IKKwkJYnVmZmVyIGZvciB0aGUgbmV3IGNvdW50LiBSZWFk
+aW5nIHJldHVybnMgdGhlIGN1cnJlbnQgTEVEIGNvdW50LgpkaWZmIC0tZ2l0IGEvc291bmQvaGRh
+L2NvZGVjcy9jYTAxMzIuYyBiL3NvdW5kL2hkYS9jb2RlY3MvY2EwMTMyLmMKaW5kZXggMGY4ZmI2
+MmYwLi40NjRiNDg4NzQgMTAwNjQ0Ci0tLSBhL3NvdW5kL2hkYS9jb2RlY3MvY2EwMTMyLmMKKysr
+IGIvc291bmQvaGRhL2NvZGVjcy9jYTAxMzIuYwpAQCAtMzUsNiArMzUsOCBAQAogI2luY2x1ZGUg
+PHNvdW5kL3Rsdi5oPgogI2VuZGlmCiAKKyNpbmNsdWRlIDxsaW51eC9kbWEtbWFwcGluZy5oPgor
+CiAjZGVmaW5lIEZMT0FUX1pFUk8JMHgwMDAwMDAwMAogI2RlZmluZSBGTE9BVF9PTkUJMHgzZjgw
+MDAwMAogI2RlZmluZSBGTE9BVF9UV08JMHg0MDAwMDAwMApAQCAtMTA2MCw2ICsxMDYyLDggQEAg
+ZW51bSBkc3BfZG93bmxvYWRfc3RhdGUgewogICogQ0EwMTMyIHNwZWNpZmljCiAgKi8KIAorI2Rl
+ZmluZSBBRTVfU1RSSVBfTUFYX0xFRFMgMTAwCisKIHN0cnVjdCBjYTAxMzJfc3BlYyB7CiAJc3Ry
+dWN0IGhkYV9nZW5fc3BlYyBnZW47CiAKQEAgLTExNjIsNiArMTE2NiwxMSBAQCBzdHJ1Y3QgY2Ew
+MTMyX3NwZWMgewogCSAqIFJlbmFtZXMgUGxheUVuaGFuY2VtZW50IGFuZCBDcnlzdGFsVm9pY2Ug
+dG9vLgogCSAqLwogCWJvb2wgdXNlX2FsdF9jb250cm9sczsKKworCS8qIEFFLTUgV1MyODEyIHN0
+cmlwIGNvbnRyb2wgKi8KKwlzdHJ1Y3QgbXV0ZXggYWU1X3N0cmlwX211dGV4OworCXUzMiBhZTVf
+c3RyaXBfY3VyX2NvbG9yc1tBRTVfU1RSSVBfTUFYX0xFRFNdOworCWludCBhZTVfc3RyaXBfY3Vy
+X251bV9sZWRzOwogfTsKIAogLyoKQEAgLTgzMTYsOCArODMyNSwzODYgQEAgc3RhdGljIHZvaWQg
+c2J6X3NldHVwX2RlZmF1bHRzKHN0cnVjdCBoZGFfY29kZWMgKmNvZGVjKQogfQogCiAvKgotICog
+U2V0dXAgZGVmYXVsdCBwYXJhbWV0ZXJzIGZvciB0aGUgU291bmQgQmxhc3RlclggQUUtNSBEU1Au
+CisgKiBTb3VuZCBCbGFzdGVyWCBBRS01IEV4dGVybmFsIFdTMjgxMkIgUkdCIExFRCBTdHJpcCBU
+cmFuc3BvcnQKICAqLworc3RhdGljIHZvaWQgYWU1X3N0cmlwX2VuY29kZV8yNCh1MzIgdSwgdTMy
+ICp3b3JkcykKK3sKKwkvKiBCaXQtZm9yLWJpdCBleGFjdCBlbmNvZGluZyBtYXRjaGluZyBDdHhI
+ZGEuc3lzIEZVTl8wMDA0Mjk0NDoKKwkgKiAyNC1iaXQgcGl4ZWwgLT4gNCB4IDMyLWJpdCBhdWRp
+byB3b3JkcyAoNiBiaXRzIHBlciB3b3JkKS4KKwkgKiBIYXJkd2FyZSBhdWRpbyBzZXJpYWxpemVy
+IHRyYW5zbWl0cyBNU0IgZmlyc3QgKGJpdHMgMzEgZG93biB0byAwKS4KKwkgKiBGb3Igd29yZCBp
+IChpOCA9IDIzLCAxNywgMTEsIDUpLCBiaXRfaWR4IDAuLjUgKE1TQiB0byBMU0Igd2l0aGluIHRo
+ZSB3b3JkKQorCSAqIGlzIHBsYWNlZCBhdCBuID0gMjkgLSBiaXRfaWR4ICogNCAoYml0cyAyOSwg
+MjUsIDIxLCAxNywgMTMsIDkpOgorCSAqICAgb3V0IHw9IChiaXQgPDwgbikgfCAoKGJpdCB8IDIp
+IDw8IChuICsgMSkpCisJICogQml0IDAgLT4gMGIwMTAgKDM3NW5zIGhpZ2gsIDEwNDJucyBsb3cp
+CisJICogQml0IDEgLT4gMGIxMTEgKDEwODNucyBoaWdoLCAzMzNucyBsb3cpCisJICovCisJaW50
+IGk4ID0gMjM7CisJaW50IGk7CisKKwlmb3IgKGkgPSAwOyBpIDwgNDsgaSsrKSB7CisJCXUzMiBv
+dXQgPSAwOworCQlpbnQgYml0X2lkeDsKKworCQlmb3IgKGJpdF9pZHggPSAwOyBiaXRfaWR4IDwg
+NjsgYml0X2lkeCsrKSB7CisJCQlpbnQgYml0ID0gKHUgPj4gKGk4IC0gYml0X2lkeCkpICYgMTsK
+KwkJCWludCBuID0gMjkgLSBiaXRfaWR4ICogNDsKKworCQkJb3V0IHw9ICh1MzIpKGJpdCA8PCBu
+KSB8ICgodTMyKShiaXQgfCAyKSA8PCAobiArIDEpKTsKKwkJfQorCQl3b3Jkc1tpXSA9IG91dDsK
+KwkJaTggLT0gNjsKKwl9Cit9CisKK3N0YXRpYyBzdHJ1Y3QgaGRhY19zdHJlYW0gKmFlNV9zdHJp
+cF9maW5kX3N0cmVhbShzdHJ1Y3QgaGRhX2NvZGVjICpjb2RlYykKK3sKKwlzdHJ1Y3QgY2EwMTMy
+X3NwZWMgKnNwZWMgPSBjb2RlYy0+c3BlYzsKKwlzdHJ1Y3QgaGRhY19idXMgKmJ1cyA9ICZjb2Rl
+Yy0+YnVzLT5jb3JlOworCXN0cnVjdCBoZGFjX3N0cmVhbSAqcywgKmRzcCA9IE5VTEwsICpmaXJz
+dCA9IE5VTEw7CisJdW5zaWduZWQgbG9uZyBmbGFnczsKKworCXNwaW5fbG9ja19pcnFzYXZlKCZi
+dXMtPnJlZ19sb2NrLCBmbGFncyk7CisJbGlzdF9mb3JfZWFjaF9lbnRyeShzLCAmYnVzLT5zdHJl
+YW1fbGlzdCwgbGlzdCkgeworCQlpZiAocy0+ZGlyZWN0aW9uICE9IFNORFJWX1BDTV9TVFJFQU1f
+UExBWUJBQ0spCisJCQljb250aW51ZTsKKwkJaWYgKHMtPnJ1bm5pbmcgfHwgcy0+bG9ja2VkKQor
+CQkJY29udGludWU7CisJCWlmICghZmlyc3QpCisJCQlmaXJzdCA9IHM7CisJCS8qIFRoZSBEU1Ag
+RE1BIGNvbnN1bWVzIHRoZSBEU1AtbG9hZGVyIHN0cmVhbSAodGFnIGluIGRzcF9zdHJlYW1faWQp
+LiAqLworCQlpZiAoc3BlYy0+ZHNwX3N0cmVhbV9pZCAmJiBzLT5zdHJlYW1fdGFnID09IHNwZWMt
+PmRzcF9zdHJlYW1faWQpCisJCQlkc3AgPSBzOworCX0KKwlzcGluX3VubG9ja19pcnFyZXN0b3Jl
+KCZidXMtPnJlZ19sb2NrLCBmbGFncyk7CisKKwlyZXR1cm4gZHNwID8gZHNwIDogZmlyc3Q7Cit9
+CisKKy8qCisgKiBDYWxsZXIgbXVzdCBob2xkIHNwZWMtPmFlNV9zdHJpcF9tdXRleC4KKyAqLwor
+c3RhdGljIGludCBhZTVfc3RyaXBfc2VuZF9mcmFtZShzdHJ1Y3QgaGRhX2NvZGVjICpjb2RlYywg
+Y29uc3QgdTMyICpncmJfY29sb3JzLCBpbnQgbnVtX2xlZHMpCit7CisJc3RydWN0IGNhMDEzMl9z
+cGVjICpzcGVjID0gY29kZWMtPnNwZWM7CisJc3RydWN0IHNuZF9kbWFfYnVmZmVyIGRtYWI7CisJ
+c3RydWN0IGhkYWNfc3RyZWFtICpoc3RyID0gTlVMTDsKKwl1bnNpZ25lZCBpbnQgZm9ybWF0LCBz
+dHJlYW1fdGFnOworCXUzMiBlbmNfd29yZHNbNF07CisJdTMyICpkc3Q7CisJaW50IHRvdGFsX3dv
+cmRzID0gMHg4MDAwIC8gc2l6ZW9mKHUzMik7IC8qIDgxOTIgd29yZHMgKDMyS0IpICovCisJaW50
+IHdvcmRfaWR4ID0gMDsKKwlpbnQgZnJhbWVfd29yZHM7CisJaW50IGxlZCwgdzsKKwlpbnQgcmV0
+cmllcyA9IDIwOyAvKiB+MTAwbXMgbWF4ICovCisJdTggb3JpZ19zZF9jdGwgPSAwOworCisJaWYg
+KCFzcGVjIHx8ICFzcGVjLT5tZW1fYmFzZSkKKwkJcmV0dXJuIC1FTk9ERVY7CisJaWYgKG51bV9s
+ZWRzIDw9IDAgfHwgbnVtX2xlZHMgPiBBRTVfU1RSSVBfTUFYX0xFRFMpCisJCXJldHVybiAtRUlO
+VkFMOworCisJc25kX2hkYV9wb3dlcl91cChjb2RlYyk7CisKKwkvKgorCSAqIDQ0LjFrSHosIDI0
+LWJpdCwgMi1jaGFubmVsIGZvcm1hdCAoMHg0MDMxKSBtYXRjaGVzIFdpbmRvd3MgQ3R4SGRhCisJ
+ICogSERBVURJT19TVFJFQU1fRk9STUFULgorCSAqLworCWZvcm1hdCA9IHNuZF9oZGFjX3N0cmVh
+bV9mb3JtYXQoMiwgMjQsIDQ0MTAwKTsKKworCWZvciAoOzspIHsKKwkJaHN0ciA9IGFlNV9zdHJp
+cF9maW5kX3N0cmVhbShjb2RlYyk7CisJCWlmICghaHN0cikgeworCQkJaWYgKC0tcmV0cmllcyA8
+PSAwKSB7CisJCQkJY29kZWNfd2Fybihjb2RlYywgIkFFNSBzdHJpcDogbm8gZnJlZSBhenggc3Ry
+ZWFtIGFmdGVyIHJldHJpZXNcbiIpOworCQkJCXNuZF9oZGFfcG93ZXJfZG93bihjb2RlYyk7CisJ
+CQkJcmV0dXJuIC1FQlVTWTsKKwkJCX0KKwkJCXVzbGVlcF9yYW5nZSg1MDAwLCAxMDAwMCk7CisJ
+CQljb250aW51ZTsKKwkJfQorCisJCXN0cmVhbV90YWcgPSBzbmRfaGRhY19kc3BfcHJlcGFyZSho
+c3RyLCBmb3JtYXQsIDB4ODAwMCwgJmRtYWIpOworCQlpZiAoKGludClzdHJlYW1fdGFnID4gMCkK
+KwkJCWJyZWFrOworCisJCS8qIFByZXBhcmUgZmFpbGVkIChlLmcuIC1FQlVTWSBkdWUgdG8gcmFj
+ZSB3aXRoIHBsYXliYWNrIHN0YXJ0aW5nKTsgcmV0cnkgKi8KKwkJaWYgKC0tcmV0cmllcyA8PSAw
+KSB7CisJCQljb2RlY193YXJuKGNvZGVjLCAiQUU1IHN0cmlwOiBzbmRfaGRhY19kc3BfcHJlcGFy
+ZSBmYWlsZWQgJWRcbiIsCisJCQkJICAgKGludClzdHJlYW1fdGFnKTsKKwkJCXNuZF9oZGFfcG93
+ZXJfZG93bihjb2RlYyk7CisJCQlyZXR1cm4gKGludClzdHJlYW1fdGFnOworCQl9CisJCXVzbGVl
+cF9yYW5nZSg1MDAwLCAxMDAwMCk7CisJfQorCisJLyogUHJldmVudCBpbnRlcnJ1cHQgc3Rvcm1z
+IGR1cmluZyBmcmVlLXJ1bm5pbmcgTEVEIHN0cmVhbSwgc2F2aW5nIG9yaWdpbmFsIGNvbnRyb2wg
+Yml0cyAqLworCWlmIChoc3RyLT5zZF9hZGRyKSB7CisJCW9yaWdfc2RfY3RsID0gcmVhZGIoaHN0
+ci0+c2RfYWRkcik7CisJCXdyaXRlYihvcmlnX3NkX2N0bCAmIH4weDFjLCBoc3RyLT5zZF9hZGRy
+KTsgLyogQ2xlYXIgSU9DRSwgRkVJRSwgREVJRSAqLworCX0KKworCS8qIDEuIFBvcHVsYXRlIHRo
+ZSAzMktCIERNQSBidWZmZXIgd2l0aCByZXBlYXRpbmcgV1MyODEyIGZyYW1lcyArIHJlc2V0IGdh
+cHMgKi8KKwltZW1zZXQoZG1hYi5hcmVhLCAwLCAweDgwMDApOworCWRzdCA9ICh1MzIgKilkbWFi
+LmFyZWE7CisKKwkvKiBXb3JkcyBwZXIgZnJhbWU6IDUgd29yZHMgemVybyBwcmVhbWJsZSArIG51
+bV9sZWRzICogNCB3b3JkcyArIDgzIHdvcmRzIHJlc2V0IGdhcCAqLworCWZyYW1lX3dvcmRzID0g
+NSArIChudW1fbGVkcyAqIDQpICsgODM7CisKKwl3aGlsZSAod29yZF9pZHggKyBmcmFtZV93b3Jk
+cyA8PSB0b3RhbF93b3JkcykgeworCQkvKiA1LXdvcmQgemVybyBwcmVhbWJsZSBwZXIgV2luZG93
+cyBDdHhIZGEgRlVOXzAwMDQyOTQ0ICovCisJCWZvciAodyA9IDA7IHcgPCA1OyB3KyspIHsKKwkJ
+CSpkc3QrKyA9IDA7CisJCQl3b3JkX2lkeCsrOworCQl9CisJCS8qIExFRHMgKi8KKwkJZm9yIChs
+ZWQgPSAwOyBsZWQgPCBudW1fbGVkczsgbGVkKyspIHsKKwkJCWFlNV9zdHJpcF9lbmNvZGVfMjQo
+Z3JiX2NvbG9yc1tsZWRdLCBlbmNfd29yZHMpOworCQkJZm9yICh3ID0gMDsgdyA8IDQ7IHcrKykg
+eworCQkJCSpkc3QrKyA9IGVuY193b3Jkc1t3XTsKKwkJCQl3b3JkX2lkeCsrOworCQkJfQorCQl9
+CisJCS8qIDgzIHdvcmRzICg+IDEuOCBtcykgemVybyByZXNldCBnYXAgKFdTMjgxMiByZXF1aXJl
+cyA+IDUwIHVzIGxvdykgKi8KKwkJZm9yICh3ID0gMDsgdyA8IDgzOyB3KyspIHsKKwkJCSpkc3Qr
+KyA9IDA7CisJCQl3b3JkX2lkeCsrOworCQl9CisJfQorCXdoaWxlICh3b3JkX2lkeCA8IHRvdGFs
+X3dvcmRzKSB7CisJCSpkc3QrKyA9IDA7CisJCXdvcmRfaWR4Kys7CisJfQorCS8qIEVuc3VyZSBE
+TUEgYnVmZmVyIHdyaXRlcyBhcmUgY29tbWl0dGVkIGJlZm9yZSB0cmlnZ2VyaW5nIHRoZSBIREEg
+c3RyZWFtICovCisJd21iKCk7CisKKwkvKiAyLiBDb25maWd1cmUgQ0EwMTEzIEJBUjIgaGFyZHdh
+cmUgcmVnaXN0ZXJzICovCisJLyogUG93ZXIgdXAgY2xvY2tzIChDdHhIZGIgMHgxNDFiNyAvIDB4
+MTQyMTApICovCisJd3JpdGVsKHJlYWRsKHNwZWMtPm1lbV9iYXNlICsgMHhjMDQpIHwgMHg3LCBz
+cGVjLT5tZW1fYmFzZSArIDB4YzA0KTsKKworCS8qIEJhc2Ugc2VyaWFsaXplciBpbml0aWFsaXph
+dGlvbiAoQ3R4SGRiIDB4MTRiYTQpICovCisJd3JpdGVsKHJlYWRsKHNwZWMtPm1lbV9iYXNlICsg
+MHg0MDApIHwgMSwgc3BlYy0+bWVtX2Jhc2UgKyAweDQwMCk7CisJd3JpdGVsKHJlYWRsKHNwZWMt
+Pm1lbV9iYXNlICsgMHg0MmMpICYgfjEsIHNwZWMtPm1lbV9iYXNlICsgMHg0MmMpOworCXdyaXRl
+bChyZWFkbChzcGVjLT5tZW1fYmFzZSArIDB4NDZjKSAmIH4xLCBzcGVjLT5tZW1fYmFzZSArIDB4
+NDZjKTsKKwl3cml0ZWwocmVhZGwoc3BlYy0+bWVtX2Jhc2UgKyAweDRhYykgJiB+MSwgc3BlYy0+
+bWVtX2Jhc2UgKyAweDRhYyk7CisJd3JpdGVsKHJlYWRsKHNwZWMtPm1lbV9iYXNlICsgMHg0ZWMp
+ICYgfjEsIHNwZWMtPm1lbV9iYXNlICsgMHg0ZWMpOworCXdyaXRlbCgwLCBzcGVjLT5tZW1fYmFz
+ZSArIDB4NDNjKTsKKwl3cml0ZWwoMCwgc3BlYy0+bWVtX2Jhc2UgKyAweDQ3Yyk7CisJd3JpdGVs
+KDAsIHNwZWMtPm1lbV9iYXNlICsgMHg0YmMpOworCXdyaXRlbCgwLCBzcGVjLT5tZW1fYmFzZSAr
+IDB4NGZjKTsKKwl3cml0ZWwocmVhZGwoc3BlYy0+bWVtX2Jhc2UgKyAweDQwOCkgfCAxLCBzcGVj
+LT5tZW1fYmFzZSArIDB4NDA4KTsKKwl3cml0ZWwocmVhZGwoc3BlYy0+bWVtX2Jhc2UgKyAweDQw
+YykgfCAxLCBzcGVjLT5tZW1fYmFzZSArIDB4NDBjKTsKKwl3cml0ZWwoKHJlYWRsKHNwZWMtPm1l
+bV9iYXNlICsgMHg0MTApICYgfjB4YikgfCAweDE0LCBzcGVjLT5tZW1fYmFzZSArIDB4NDEwKTsK
+KworCS8qIENvbmZpZ3VyZSBzZXJpYWxpemVycyAwLi4zIGNsb2NraW5nIChDdHhIZGIgMHgxNGE2
+YykgKi8KKwl3cml0ZWwocmVhZGwoc3BlYy0+bWVtX2Jhc2UgKyAweDQzYykgfCAweDMzLCBzcGVj
+LT5tZW1fYmFzZSArIDB4NDNjKTsKKwl3cml0ZWwocmVhZGwoc3BlYy0+bWVtX2Jhc2UgKyAweDQ3
+YykgfCAweDMzLCBzcGVjLT5tZW1fYmFzZSArIDB4NDdjKTsKKwl3cml0ZWwocmVhZGwoc3BlYy0+
+bWVtX2Jhc2UgKyAweDRiYykgfCAweDMzLCBzcGVjLT5tZW1fYmFzZSArIDB4NGJjKTsKKwl3cml0
+ZWwocmVhZGwoc3BlYy0+bWVtX2Jhc2UgKyAweDRmYykgfCAweDMzLCBzcGVjLT5tZW1fYmFzZSAr
+IDB4NGZjKTsKKworCS8qIEJBUjIgKyAweDEwMCBmb3JtYXQgJiBjaGFubmVsIGVuYWJsZXM6CisJ
+ICogLSBiYXNlIDB4NzBmCisJICogLSBiaXQgMjggPSAxICgyNC1iaXQgYXVkaW8gZm9ybWF0IHZp
+YSBDdHhIZGIgMHgxNGY1OCkKKwkgKiAtIGJpdHMgMjkuLjMxID0gMSAoNDQuMSBrSHogc2FtcGxl
+IHJhdGUgdmlhIEN0eEhkYiAweDE0ZmE0KQorCSAqIC0gYml0cyA0Li43ID0gMHhmIChzdGFnZSAx
+IGVuYWJsZXMpCisJICogLSBiaXRzIDEyLi4xNSA9IDB4ZiAoc3RhZ2UgMiBlbmFibGVzKQorCSAq
+ID0+IDB4MzAwMGZmOGYKKwkgKi8KKwl3cml0ZWwoKHJlYWRsKHNwZWMtPm1lbV9iYXNlICsgMHgx
+MDApICYgfjB4ZTAwMGZmZmYpIHwgMHgzMDAwZmY4Ziwgc3BlYy0+bWVtX2Jhc2UgKyAweDEwMCk7
+CisKKwkvKiBFbmFibGUgc2VyaWFsaXplciBvdXRwdXQgZHJpdmVycyBmb3IgcGlucyAwLi4zIChD
+dHhIZGIgMHgxNGU5NCk6CisJICogQ2hhbm5lbCAwIGlzIDB4NDU0LCBDaGFubmVsIDEgaXMgMHg0
+OTQsIENoYW5uZWwgMiBpcyAweDRkNCwgQ2hhbm5lbCAzIGlzIDB4NTE0CisJICovCisJd3JpdGVs
+KHJlYWRsKHNwZWMtPm1lbV9iYXNlICsgMHg0NTQpIHwgMSwgc3BlYy0+bWVtX2Jhc2UgKyAweDQ1
+NCk7CisJd3JpdGVsKHJlYWRsKHNwZWMtPm1lbV9iYXNlICsgMHg0OTQpIHwgMSwgc3BlYy0+bWVt
+X2Jhc2UgKyAweDQ5NCk7CisJd3JpdGVsKHJlYWRsKHNwZWMtPm1lbV9iYXNlICsgMHg0ZDQpIHwg
+MSwgc3BlYy0+bWVtX2Jhc2UgKyAweDRkNCk7CisJd3JpdGVsKHJlYWRsKHNwZWMtPm1lbV9iYXNl
+ICsgMHg1MTQpIHwgMSwgc3BlYy0+bWVtX2Jhc2UgKyAweDUxNCk7CisKKwkvKiBSb3V0ZSBhbGwg
+Y2hhbm5lbHMgMC4uMyB0byBzdHJlYW1fdGFnIChDdHhIZGIgMHgxNTAyYykgKi8KKwl3cml0ZWwo
+KHN0cmVhbV90YWcgPDwgMjgpIHwgKHN0cmVhbV90YWcgPDwgMjApIHwgKHN0cmVhbV90YWcgPDwg
+MTIpIHwgKHN0cmVhbV90YWcgPDwgNCksCisJICAgICAgIHNwZWMtPm1lbV9iYXNlICsgMHgxMDQp
+OworCisJLyogRW5hYmxlIENBMDExMyBNTUlPIEdQSU8gMCAmIDEgKi8KKwljYTAxMTNfbW1pb19n
+cGlvX3NldChjb2RlYywgMCwgdHJ1ZSk7CisJY2EwMTEzX21taW9fZ3Bpb19zZXQoY29kZWMsIDEs
+IHRydWUpOworCisJY29kZWNfZGJnKGNvZGVjLCAiQUU1IHN0cmlwOiBzZW5kX2ZyYW1lOiBudW1f
+bGVkcz0lZCBzdHJlYW1fdGFnPSV1ICgweCUwOHgpXG4iLAorCQkgIG51bV9sZWRzLCBzdHJlYW1f
+dGFnLCByZWFkbChzcGVjLT5tZW1fYmFzZSArIDB4MTA0KSk7CisKKwkvKiAzLiBUcmlnZ2VyIHN0
+cmVhbSB0cmFuc21pc3Npb24gb24gSERBIGxpbmsgKi8KKwlzbmRfaGRhY19kc3BfdHJpZ2dlciho
+c3RyLCB0cnVlKTsKKwkvKgorCSAqIFdTMjgxMiBsYXRjaGVzIG9uIHRoZSA+NTB1cyByZXNldCBn
+YXAgYWZ0ZXIgb25lIGZyYW1lLiBUaGUgMzJLQiBidWZmZXIgaG9sZHMgfjY0CisJICogcmVwZWF0
+aW5nIGZyYW1lK3Jlc2V0IGN5Y2xlczsgYXQgfjEuNG1zL2ZyYW1lIGEgMTVtcyBydW4gdHJhbnNt
+aXRzIH4xMCBjb21wbGV0ZQorCSAqIGN5Y2xlcyAtIG1vcmUgdGhhbiBlbm91Z2ggdG8gbGF0Y2gg
+cmVsaWFibHkuIEtlZXAgaXQgc2hvcnQgc28gcmFwaWQgc3lzZnMgd3JpdGVzCisJICogKE9wZW5S
+R0IgZWZmZWN0cy90aGVtZSBjaGFuZ2VzKSBhcmUgbm90IHNlcmlhbGl6ZWQgYmVoaW5kIGEgMXMg
+YmxvY2tpbmcgc2xlZXAuCisJICovCisJdXNsZWVwX3JhbmdlKDE1MDAwLCAyMDAwMCk7CisJc25k
+X2hkYWNfZHNwX3RyaWdnZXIoaHN0ciwgZmFsc2UpOworCWNvZGVjX2RiZyhjb2RlYywgIkFFNSBz
+dHJpcDogdHJpZ2dlciBjb21wbGV0ZVxuIik7CisKKwkvKiBUZWFyZG93bjogY2xlYXIgMHgxMDQg
+cGluIG11eCBiYWNrIHRvIDAgKi8KKwl3cml0ZWwoMHgwMDAwMDAwMCwgc3BlYy0+bWVtX2Jhc2Ug
+KyAweDEwNCk7CisKKwkvKiBSZXN0b3JlIGRlc2NyaXB0b3IgY29udHJvbCByZWdpc3RlciAqLwor
+CWlmIChoc3RyLT5zZF9hZGRyKQorCQl3cml0ZWIob3JpZ19zZF9jdGwsIGhzdHItPnNkX2FkZHIp
+OworCisJc25kX2hkYWNfZHNwX2NsZWFudXAoaHN0ciwgJmRtYWIpOworCXNuZF9oZGFfcG93ZXJf
+ZG93bihjb2RlYyk7CisKKwlyZXR1cm4gMDsKK30KKworc3RhdGljIHNzaXplX3QgYWU1X3N0cmlw
+X2xlZHNfc2hvdyhzdHJ1Y3QgZGV2aWNlICpkZXYsCisJCQkJICAgc3RydWN0IGRldmljZV9hdHRy
+aWJ1dGUgKmF0dHIsIGNoYXIgKmJ1ZikKK3sKKwlzdHJ1Y3QgaGRhY19kZXZpY2UgKmhkZXYgPSBj
+b250YWluZXJfb2YoZGV2LCBzdHJ1Y3QgaGRhY19kZXZpY2UsIGRldik7CisJc3RydWN0IGhkYV9j
+b2RlYyAqY29kZWMgPSBjb250YWluZXJfb2YoaGRldiwgc3RydWN0IGhkYV9jb2RlYywgY29yZSk7
+CisJc3RydWN0IGNhMDEzMl9zcGVjICpzcGVjID0gY29kZWMtPnNwZWM7CisJaW50IGksIGxlbiA9
+IDA7CisKKwltdXRleF9sb2NrKCZzcGVjLT5hZTVfc3RyaXBfbXV0ZXgpOworCWZvciAoaSA9IDA7
+IGkgPCBzcGVjLT5hZTVfc3RyaXBfY3VyX251bV9sZWRzICYmIGxlbiA8IFBBR0VfU0laRSAtIDE2
+OyBpKyspIHsKKwkJdTMyIGdyYiA9IHNwZWMtPmFlNV9zdHJpcF9jdXJfY29sb3JzW2ldOworCQl1
+OCBnID0gKGdyYiA+PiAxNikgJiAweGZmOworCQl1OCByID0gKGdyYiA+PiA4KSAmIDB4ZmY7CisJ
+CXU4IGIgPSBncmIgJiAweGZmOworCisJCWxlbiArPSBzY25wcmludGYoYnVmICsgbGVuLCBQQUdF
+X1NJWkUgLSBsZW4sICIlcyMlMDJ4JTAyeCUwMngiLAorCQkJCSBpID09IDAgPyAiIiA6ICIsIiwg
+ciwgZywgYik7CisJfQorCW11dGV4X3VubG9jaygmc3BlYy0+YWU1X3N0cmlwX211dGV4KTsKKwor
+CWxlbiArPSBzY25wcmludGYoYnVmICsgbGVuLCBQQUdFX1NJWkUgLSBsZW4sICJcbiIpOworCXJl
+dHVybiBsZW47Cit9CisKK3N0YXRpYyBzc2l6ZV90IGFlNV9zdHJpcF9sZWRzX3N0b3JlKHN0cnVj
+dCBkZXZpY2UgKmRldiwKKwkJCQkgICAgc3RydWN0IGRldmljZV9hdHRyaWJ1dGUgKmF0dHIsCisJ
+CQkJICAgIGNvbnN0IGNoYXIgKmJ1Ziwgc2l6ZV90IGNvdW50KQoreworCXN0cnVjdCBoZGFjX2Rl
+dmljZSAqaGRldiA9IGNvbnRhaW5lcl9vZihkZXYsIHN0cnVjdCBoZGFjX2RldmljZSwgZGV2KTsK
+KwlzdHJ1Y3QgaGRhX2NvZGVjICpjb2RlYyA9IGNvbnRhaW5lcl9vZihoZGV2LCBzdHJ1Y3QgaGRh
+X2NvZGVjLCBjb3JlKTsKKwlzdHJ1Y3QgY2EwMTMyX3NwZWMgKnNwZWMgPSBjb2RlYy0+c3BlYzsK
+Kwl1MzIgY29sb3JzW0FFNV9TVFJJUF9NQVhfTEVEU107CisJaW50IG51bV9sZWRzID0gMDsKKwlj
+b25zdCBjaGFyICpwID0gYnVmOworCWludCBlcnI7CisKKwljb2RlY19kYmcoY29kZWMsICJBRTUg
+c3RyaXA6IGxlZHNfc3RvcmUgcmVjZWl2ZWQgJXp1IGJ5dGVzOiAnJS4qcydcbiIsCisJCSAgY291
+bnQsIChpbnQpbWluX3Qoc2l6ZV90LCBjb3VudCwgNjQpLCBidWYpOworCisJd2hpbGUgKCpwICYm
+ICpwICE9ICdcbicgJiYgbnVtX2xlZHMgPCBBRTVfU1RSSVBfTUFYX0xFRFMpIHsKKwkJdW5zaWdu
+ZWQgaW50IHIgPSAwLCBnID0gMCwgYiA9IDA7CisJCWludCBuID0gMDsKKworCQl3aGlsZSAoKnAg
+PT0gJyAnIHx8ICpwID09ICcsJyB8fCAqcCA9PSAnXHQnKQorCQkJcCsrOworCQlpZiAoISpwIHx8
+ICpwID09ICdcbicpCisJCQlicmVhazsKKwkJaWYgKCpwID09ICcjJykKKwkJCXArKzsKKworCQlp
+ZiAoc3NjYW5mKHAsICIlMnglMnglMnglbiIsICZyLCAmZywgJmIsICZuKSA9PSAzICYmIG4gPT0g
+NikgeworCQkJY29sb3JzW251bV9sZWRzKytdID0gKChnICYgMHhmZikgPDwgMTYpIHwgKChyICYg
+MHhmZikgPDwgOCkgfCAoYiAmIDB4ZmYpOworCQkJcCArPSBuOworCQl9IGVsc2UgaWYgKHNzY2Fu
+ZihwLCAiJXUsJXUsJXUlbiIsICZyLCAmZywgJmIsICZuKSA9PSAzKSB7CisJCQljb2xvcnNbbnVt
+X2xlZHMrK10gPSAoKG1pbihnLCAyNTVVKSAmIDB4ZmYpIDw8IDE2KSB8CisJCQkJCSAgICAgKCht
+aW4ociwgMjU1VSkgJiAweGZmKSA8PCA4KSB8CisJCQkJCSAgICAgKG1pbihiLCAyNTVVKSAmIDB4
+ZmYpOworCQkJcCArPSBuOworCQl9IGVsc2UgeworCQkJYnJlYWs7CisJCX0KKwl9CisKKwlpZiAo
+bnVtX2xlZHMgPT0gMCkKKwkJcmV0dXJuIC1FSU5WQUw7CisKKwltdXRleF9sb2NrKCZzcGVjLT5h
+ZTVfc3RyaXBfbXV0ZXgpOworCisJLyogSWYgMSBjb2xvciBpcyBzdXBwbGllZCwgcmVwbGljYXRl
+IGl0IGFjcm9zcyBhbGwgY29uZmlndXJlZCBMRURzICovCisJaWYgKG51bV9sZWRzID09IDEpIHsK
+KwkJaW50IGk7CisKKwkJZm9yIChpID0gMTsgaSA8IHNwZWMtPmFlNV9zdHJpcF9jdXJfbnVtX2xl
+ZHM7IGkrKykKKwkJCWNvbG9yc1tpXSA9IGNvbG9yc1swXTsKKwkJbnVtX2xlZHMgPSBzcGVjLT5h
+ZTVfc3RyaXBfY3VyX251bV9sZWRzOworCX0gZWxzZSBpZiAobnVtX2xlZHMgPCBzcGVjLT5hZTVf
+c3RyaXBfY3VyX251bV9sZWRzKSB7CisJCS8qIFBhcnRpYWwgdXBkYXRlOiBrZWVwIGV4aXN0aW5n
+IGNvbG9ycyBmb3IgZG93bnN0cmVhbSBMRURzIGFuZCBzZW5kIGZ1bGwgZnJhbWUgKi8KKwkJaW50
+IGk7CisKKwkJZm9yIChpID0gbnVtX2xlZHM7IGkgPCBzcGVjLT5hZTVfc3RyaXBfY3VyX251bV9s
+ZWRzOyBpKyspCisJCQljb2xvcnNbaV0gPSBzcGVjLT5hZTVfc3RyaXBfY3VyX2NvbG9yc1tpXTsK
+KwkJbnVtX2xlZHMgPSBzcGVjLT5hZTVfc3RyaXBfY3VyX251bV9sZWRzOworCX0gZWxzZSB7CisJ
+CS8qIE1vcmUgY29sb3JzIHN1cHBsaWVkOiBleHBhbmQgc3RyaXAgY291bnQgKi8KKwkJc3BlYy0+
+YWU1X3N0cmlwX2N1cl9udW1fbGVkcyA9IG51bV9sZWRzOworCX0KKworCW1lbWNweShzcGVjLT5h
+ZTVfc3RyaXBfY3VyX2NvbG9ycywgY29sb3JzLCBzaXplb2YodTMyKSAqIG51bV9sZWRzKTsKKwor
+CWVyciA9IGFlNV9zdHJpcF9zZW5kX2ZyYW1lKGNvZGVjLCBjb2xvcnMsIG51bV9sZWRzKTsKKwor
+CW11dGV4X3VubG9jaygmc3BlYy0+YWU1X3N0cmlwX211dGV4KTsKKworCWlmIChlcnIgPCAwKQor
+CQlyZXR1cm4gZXJyOworCisJcmV0dXJuIGNvdW50OworfQorc3RhdGljIERFVklDRV9BVFRSX1JX
+KGFlNV9zdHJpcF9sZWRzKTsKKworc3RhdGljIHNzaXplX3QgYWU1X3N0cmlwX251bV9sZWRzX3No
+b3coc3RydWN0IGRldmljZSAqZGV2LAorCQkJCSAgICAgICBzdHJ1Y3QgZGV2aWNlX2F0dHJpYnV0
+ZSAqYXR0ciwgY2hhciAqYnVmKQoreworCXN0cnVjdCBoZGFjX2RldmljZSAqaGRldiA9IGNvbnRh
+aW5lcl9vZihkZXYsIHN0cnVjdCBoZGFjX2RldmljZSwgZGV2KTsKKwlzdHJ1Y3QgaGRhX2NvZGVj
+ICpjb2RlYyA9IGNvbnRhaW5lcl9vZihoZGV2LCBzdHJ1Y3QgaGRhX2NvZGVjLCBjb3JlKTsKKwlz
+dHJ1Y3QgY2EwMTMyX3NwZWMgKnNwZWMgPSBjb2RlYy0+c3BlYzsKKwlpbnQgdmFsOworCisJbXV0
+ZXhfbG9jaygmc3BlYy0+YWU1X3N0cmlwX211dGV4KTsKKwl2YWwgPSBzcGVjLT5hZTVfc3RyaXBf
+Y3VyX251bV9sZWRzOworCW11dGV4X3VubG9jaygmc3BlYy0+YWU1X3N0cmlwX211dGV4KTsKKwor
+CXJldHVybiBzY25wcmludGYoYnVmLCBQQUdFX1NJWkUsICIlZFxuIiwgdmFsKTsKK30KKworc3Rh
+dGljIHNzaXplX3QgYWU1X3N0cmlwX251bV9sZWRzX3N0b3JlKHN0cnVjdCBkZXZpY2UgKmRldiwK
+KwkJCQkJc3RydWN0IGRldmljZV9hdHRyaWJ1dGUgKmF0dHIsCisJCQkJCWNvbnN0IGNoYXIgKmJ1
+Ziwgc2l6ZV90IGNvdW50KQoreworCXN0cnVjdCBoZGFjX2RldmljZSAqaGRldiA9IGNvbnRhaW5l
+cl9vZihkZXYsIHN0cnVjdCBoZGFjX2RldmljZSwgZGV2KTsKKwlzdHJ1Y3QgaGRhX2NvZGVjICpj
+b2RlYyA9IGNvbnRhaW5lcl9vZihoZGV2LCBzdHJ1Y3QgaGRhX2NvZGVjLCBjb3JlKTsKKwlzdHJ1
+Y3QgY2EwMTMyX3NwZWMgKnNwZWMgPSBjb2RlYy0+c3BlYzsKKwl1bnNpZ25lZCBpbnQgbjsKKwlp
+bnQgZXJyOworCisJaWYgKGtzdHJ0b3VpbnQoYnVmLCAwLCAmbikgfHwgbiA9PSAwIHx8IG4gPiBB
+RTVfU1RSSVBfTUFYX0xFRFMpCisJCXJldHVybiAtRUlOVkFMOworCisJbXV0ZXhfbG9jaygmc3Bl
+Yy0+YWU1X3N0cmlwX211dGV4KTsKKwlzcGVjLT5hZTVfc3RyaXBfY3VyX251bV9sZWRzID0gbjsK
+KwllcnIgPSBhZTVfc3RyaXBfc2VuZF9mcmFtZShjb2RlYywgc3BlYy0+YWU1X3N0cmlwX2N1cl9j
+b2xvcnMsIG4pOworCW11dGV4X3VubG9jaygmc3BlYy0+YWU1X3N0cmlwX211dGV4KTsKKworCWlm
+IChlcnIgPCAwKQorCQlyZXR1cm4gZXJyOworCisJcmV0dXJuIGNvdW50OworfQorc3RhdGljIERF
+VklDRV9BVFRSX1JXKGFlNV9zdHJpcF9udW1fbGVkcyk7CisKK3N0YXRpYyBzdHJ1Y3QgYXR0cmli
+dXRlICphZTVfc3RyaXBfYXR0cnNbXSA9IHsKKwkmZGV2X2F0dHJfYWU1X3N0cmlwX2xlZHMuYXR0
+ciwKKwkmZGV2X2F0dHJfYWU1X3N0cmlwX251bV9sZWRzLmF0dHIsCisJTlVMTCwKK307CisKK3N0
+YXRpYyBjb25zdCBzdHJ1Y3QgYXR0cmlidXRlX2dyb3VwIGFlNV9zdHJpcF9hdHRyX2dyb3VwID0g
+eworCS5hdHRycyA9IGFlNV9zdHJpcF9hdHRycywKK307CisKIHN0YXRpYyB2b2lkIGFlNV9zZXR1
+cF9kZWZhdWx0cyhzdHJ1Y3QgaGRhX2NvZGVjICpjb2RlYykKIHsKIAlzdHJ1Y3QgY2EwMTMyX3Nw
+ZWMgKnNwZWMgPSBjb2RlYy0+c3BlYzsKQEAgLTg3NDEsNiArOTEyOCw4IEBAIHN0YXRpYyB2b2lk
+IGNhMDEzMl9pbml0X2NoaXAoc3RydWN0IGhkYV9jb2RlYyAqY29kZWMpCiAJdW5zaWduZWQgaW50
+IG9uOwogCiAJbXV0ZXhfaW5pdCgmc3BlYy0+Y2hpcGlvX211dGV4KTsKKwltdXRleF9pbml0KCZz
+cGVjLT5hZTVfc3RyaXBfbXV0ZXgpOworCXNwZWMtPmFlNV9zdHJpcF9jdXJfbnVtX2xlZHMgPSAx
+MDsKIAogCS8qCiAJICogVGhlIFdpbmRvd3MgZHJpdmVyIGFsd2F5cyBkb2VzIHRoaXMgdXBvbiBz
+dGFydHVwLCB3aGljaCBzZWVtcyB0bwpAQCAtOTYyNyw2ICsxMDAxNiw3IEBAIHN0YXRpYyB2b2lk
+IGNhMDEzMl9mcmVlKHN0cnVjdCBoZGFfY29kZWMgKmNvZGVjKQogCWlmIChzcGVjLT5tZW1fYmFz
+ZSkKIAkJcGNpX2lvdW5tYXAoY29kZWMtPmJ1cy0+cGNpLCBzcGVjLT5tZW1fYmFzZSk7CiAjZW5k
+aWYKKwltdXRleF9kZXN0cm95KCZzcGVjLT5hZTVfc3RyaXBfbXV0ZXgpOwogCWtmcmVlKHNwZWMt
+PnNwZWNfaW5pdF92ZXJicyk7CiAJa2ZyZWUoY29kZWMtPnNwZWMpOwogCWNvZGVjLT5zcGVjID0g
+TlVMTDsKQEAgLTk5NTYsNiArMTAzNDYsOSBAQCBzdGF0aWMgdm9pZCBjYTAxMzJfY29kZWNfcmVt
+b3ZlKHN0cnVjdCBoZGFfY29kZWMgKmNvZGVjKQogewogCXN0cnVjdCBjYTAxMzJfc3BlYyAqc3Bl
+YyA9IGNvZGVjLT5zcGVjOwogCisJaWYgKGNhMDEzMl9xdWlyayhzcGVjKSA9PSBRVUlSS19BRTUp
+CisJCXN5c2ZzX3JlbW92ZV9ncm91cCgmY29kZWMtPmNvcmUuZGV2LmtvYmosICZhZTVfc3RyaXBf
+YXR0cl9ncm91cCk7CisKIAlzd2l0Y2ggKGNhMDEzMl9xdWlyayhzcGVjKSkgewogCWNhc2UgUVVJ
+UktfR0VORVJJQzoKIAkJc25kX2hkYV9nZW5fcmVtb3ZlKGNvZGVjKTsKQEAgLTEwMDg1LDYgKzEw
+NDc4LDEyIEBAIHN0YXRpYyBpbnQgY2EwMTMyX2NvZGVjX3Byb2JlKHN0cnVjdCBoZGFfY29kZWMg
+KmNvZGVjLAogCiAJY2EwMTMyX3NldHVwX3Vuc29sKGNvZGVjKTsKIAorCWlmIChjYTAxMzJfcXVp
+cmsoc3BlYykgPT0gUVVJUktfQUU1KSB7CisJCWVyciA9IHN5c2ZzX2NyZWF0ZV9ncm91cCgmY29k
+ZWMtPmNvcmUuZGV2LmtvYmosICZhZTVfc3RyaXBfYXR0cl9ncm91cCk7CisJCWlmIChlcnIpCisJ
+CQljb2RlY193YXJuKGNvZGVjLCAiQUU1IHN0cmlwOiBmYWlsZWQgdG8gY3JlYXRlIHN5c2ZzIGdy
+b3VwOiAlZFxuIiwgZXJyKTsKKwl9CisKIAlyZXR1cm4gMDsKIAogIGVycm9yOgotLSAKMi41NS4w
+Cgo=
 
-Bus 003 Device 002: ID 2708:0006 Audient EVO4
-Negotiated speed: High Speed (480Mbps)
-Device Descriptor:
-   bLength                18
-   bDescriptorType         1
-   bcdUSB               2.00
-   bDeviceClass          239 Miscellaneous Device
-   bDeviceSubClass         2 [unknown]
-   bDeviceProtocol         1 Interface Association
-   bMaxPacketSize0        64
-   idVendor           0x2708 Audient
-   idProduct          0x0006 EVO4
-   bcdDevice            1.4c
-   iManufacturer           1 Audient
-   iProduct                3 EVO4
-   iSerial                 0
-   bNumConfigurations      2
-   Configuration Descriptor:
-     bLength                 9
-     bDescriptorType         2
-     wTotalLength       0x01d6
-     bNumInterfaces          4
-     bConfigurationValue     1
-     iConfiguration          0
-     bmAttributes         0x80
-       (Bus Powered)
-     MaxPower              500mA
-     Interface Association:
-       bLength                 8
-       bDescriptorType        11
-       bFirstInterface         0
-       bInterfaceCount         3
-       bFunctionClass          1 Audio
-       bFunctionSubClass       0 [unknown]
-       bFunctionProtocol      32
-       iFunction               0
-     Interface Descriptor:
-       bLength                 9
-       bDescriptorType         4
-       bInterfaceNumber        0
-       bAlternateSetting       0
-       bNumEndpoints           1
-       bInterfaceClass         1 Audio
-       bInterfaceSubClass      1 Control Device
-       bInterfaceProtocol     32
-       iInterface              3
-       AudioControl Interface Descriptor:
-         bLength                 9
-         bDescriptorType        36
-         bDescriptorSubtype      1 (HEADER)
-         bcdADC               2.00
-         bCategory               8
-         wTotalLength       0x0100
-         bmControls           0x01
-           Latency control Control (read-only)
-       AudioControl Interface Descriptor:
-         bLength                 8
-         bDescriptorType        36
-         bDescriptorSubtype     10 (CLOCK_SOURCE)
-         bClockID               41
-         bmAttributes            3 Internal programmable clock
-         bmControls           0x07
-           Clock Frequency Control (read/write)
-           Clock Validity Control (read-only)
-         bAssocTerminal          0
-         iClockSource            9
-       AudioControl Interface Descriptor:
-         bLength                 8
-         bDescriptorType        36
-         bDescriptorSubtype     11 (CLOCK_SELECTOR)
-         bClockID               40
-         bNrInPins               1
-         baCSourceID(0)         41
-         bmControls           0x03
-           Clock Selector Control (read/write)
-         iClockSelector          8
-       AudioControl Interface Descriptor:
-         bLength                17
-         bDescriptorType        36
-         bDescriptorSubtype      2 (INPUT_TERMINAL)
-         bTerminalID             2
-         wTerminalType      0x0101 USB Streaming
-         bAssocTerminal          0
-         bCSourceID             40
-         bNrChannels             4
-         bmChannelConfig    0x00000000
-         iChannelNames          11
-         bmControls         0x0000
-         iTerminal               6
-       AudioControl Interface Descriptor:
-         bLength                26
-         bDescriptorType        36
-         bDescriptorSubtype      6 (FEATURE_UNIT)
-         bUnitID                10
-         bSourceID               2
-         bmaControls(0)     0x00000000
-         bmaControls(1)     0x0000000c
-           Volume Control (read/write)
-         bmaControls(2)     0x0000000c
-           Volume Control (read/write)
-         bmaControls(3)     0x0000000c
-           Volume Control (read/write)
-         bmaControls(4)     0x0000000c
-           Volume Control (read/write)
-         iFeature                0
-       AudioControl Interface Descriptor:
-         bLength                12
-         bDescriptorType        36
-         bDescriptorSubtype      3 (OUTPUT_TERMINAL)
-         bTerminalID            20
-         wTerminalType      0x0301 Speaker
-         bAssocTerminal          0
-         bSourceID              59
-         bCSourceID             40
-         bmControls         0x0000
-         iTerminal               0
-       AudioControl Interface Descriptor:
-         bLength                16
-         bDescriptorType        36
-         bDescriptorSubtype      9 (EXTENSION_UNIT)
-         bUnitID                59
-         wExtensionCode     0x0000
-         bNrInPins               1
-         baSourceID(0)          56
-         bNrChannels             2
-         bmChannelConfig    0x00000000
-         iChannelNames           0
-         bmControls           0x3f
-           Enable Control (read/write)
-           Cluster Control (read/write)
-           Underflow Control (read/write)
-         iExtension              0
-       AudioControl Interface Descriptor:
-         bLength                17
-         bDescriptorType        36
-         bDescriptorSubtype      2 (INPUT_TERMINAL)
-         bTerminalID             1
-         wTerminalType      0x0201 Microphone
-         bAssocTerminal          0
-         bCSourceID             40
-         bNrChannels             4
-         bmChannelConfig    0x00000000
-         iChannelNames          15
-         bmControls         0x0000
-         iTerminal               0
-       AudioControl Interface Descriptor:
-         bLength                16
-         bDescriptorType        36
-         bDescriptorSubtype      9 (EXTENSION_UNIT)
-         bUnitID                58
-         wExtensionCode     0x0000
-         bNrInPins               1
-         baSourceID(0)           1
-         bNrChannels             2
-         bmChannelConfig    0x00000000
-         iChannelNames           0
-         bmControls           0xff
-           Enable Control (read/write)
-           Cluster Control (read/write)
-           Underflow Control (read/write)
-           Overflow Control (read/write)
-         iExtension              0
-       AudioControl Interface Descriptor:
-         bLength                26
-         bDescriptorType        36
-         bDescriptorSubtype      6 (FEATURE_UNIT)
-         bUnitID                11
-         bSourceID               1
-         bmaControls(0)     0x00000000
-         bmaControls(1)     0x0000000c
-           Volume Control (read/write)
-         bmaControls(2)     0x0000000c
-           Volume Control (read/write)
-         bmaControls(3)     0x0000000c
-           Volume Control (read/write)
-         bmaControls(4)     0x0000000c
-           Volume Control (read/write)
-         iFeature                0
-       AudioControl Interface Descriptor:
-         bLength                12
-         bDescriptorType        36
-         bDescriptorSubtype      3 (OUTPUT_TERMINAL)
-         bTerminalID            22
-         wTerminalType      0x0101 USB Streaming
-         bAssocTerminal          0
-         bSourceID              60
-         bCSourceID             40
-         bmControls         0x0000
-         iTerminal               7
-       AudioControl Interface Descriptor:
-         bLength                17
-         bDescriptorType        36
-         bDescriptorSubtype      9 (EXTENSION_UNIT)
-         bUnitID                50
-         wExtensionCode     0x0000
-         bNrInPins               2
-         baSourceID(0)          11
-         baSourceID(1)          10
-         bNrChannels             6
-         bmChannelConfig    0x00000000
-         iChannelNames           0
-         bmControls           0x03
-           Enable Control (read/write)
-         iExtension              0
-       AudioControl Interface Descriptor:
-         bLength                16
-         bDescriptorType        36
-         bDescriptorSubtype      4 (MIXER_UNIT)
-         bUnitID                60
-         bNrInPins               1
-         baSourceID(0)          50
-         bNrChannels             2
-         bmChannelConfig    0x00000000
-         iChannelNames          19
-         bmMixerControls(0)   0xff
-         bmControls           0xff
-           Cluster Control (read/write)
-           Underflow Control (read/write)
-           Overflow Control (read/write)
-         iMixer                  0
-       Warning: Junk at end of descriptor (1 bytes):
-         00
-       AudioControl Interface Descriptor:
-         bLength                17
-         bDescriptorType        36
-         bDescriptorSubtype      9 (EXTENSION_UNIT)
-         bUnitID                56
-         wExtensionCode     0x0000
-         bNrInPins               2
-         baSourceID(0)          11
-         baSourceID(1)          10
-         bNrChannels             2
-         bmChannelConfig    0x00000000
-         iChannelNames           0
-         bmControls           0x00
-         iExtension              0
-       AudioControl Interface Descriptor:
-         bLength                16
-         bDescriptorType        36
-         bDescriptorSubtype      9 (EXTENSION_UNIT)
-         bUnitID                57
-         wExtensionCode     0x0000
-         bNrInPins               1
-         baSourceID(0)           2
-         bNrChannels             0
-         bmChannelConfig    0x00000000
-         iChannelNames           0
-         bmControls           0x00
-         iExtension              0
-       Endpoint Descriptor:
-         bLength                 7
-         bDescriptorType         5
-         bEndpointAddress     0x83  EP 3 IN
-         bmAttributes            3
-           Transfer Type            Interrupt
-           Synch Type               None
-           Usage Type               Data
-         wMaxPacketSize     0x0006  1x 6 bytes
-         bInterval               8
-         INTERFACE CLASS:  10 24 09 3e 00 00 01 01 01 00 00 00 00 00 00 00
-     Interface Descriptor:
-       bLength                 9
-       bDescriptorType         4
-       bInterfaceNumber        1
-       bAlternateSetting       0
-       bNumEndpoints           0
-       bInterfaceClass         1 Audio
-       bInterfaceSubClass      2 Streaming
-       bInterfaceProtocol     32
-       iInterface              4
-     Interface Descriptor:
-       bLength                 9
-       bDescriptorType         4
-       bInterfaceNumber        1
-       bAlternateSetting       1
-       bNumEndpoints           2
-       bInterfaceClass         1 Audio
-       bInterfaceSubClass      2 Streaming
-       bInterfaceProtocol     32
-       iInterface              4
-       AudioStreaming Interface Descriptor:
-         bLength                16
-         bDescriptorType        36
-         bDescriptorSubtype      1 (AS_GENERAL)
-         bTerminalLink           2
-         bmControls           0x00
-         bFormatType             1
-         bmFormats          0x00000001
-           PCM
-         bNrChannels             4
-         bmChannelConfig    0x00000000
-         iChannelNames          11
-       AudioStreaming Interface Descriptor:
-         bLength                 6
-         bDescriptorType        36
-         bDescriptorSubtype      2 (FORMAT_TYPE)
-         bFormatType             1 (FORMAT_TYPE_I)
-         bSubslotSize            4
-         bBitResolution         24
-       Endpoint Descriptor:
-         bLength                 7
-         bDescriptorType         5
-         bEndpointAddress     0x01  EP 1 OUT
-         bmAttributes            5
-           Transfer Type            Isochronous
-           Synch Type               Asynchronous
-           Usage Type               Data
-         wMaxPacketSize     0x00d0  1x 208 bytes
-         bInterval               1
-         AudioStreaming Endpoint Descriptor:
-           bLength                 8
-           bDescriptorType        37
-           bDescriptorSubtype      1 (EP_GENERAL)
-           bmAttributes         0x00
-           bmControls           0x00
-           bLockDelayUnits         2 Decoded PCM samples
-           wLockDelay         0x0008
-       Endpoint Descriptor:
-         bLength                 7
-         bDescriptorType         5
-         bEndpointAddress     0x81  EP 1 IN
-         bmAttributes           17
-           Transfer Type            Isochronous
-           Synch Type               None
-           Usage Type               Feedback
-         wMaxPacketSize     0x0004  1x 4 bytes
-         bInterval               4
-     Interface Descriptor:
-       bLength                 9
-       bDescriptorType         4
-       bInterfaceNumber        1
-       bAlternateSetting       2
-       bNumEndpoints           2
-       bInterfaceClass         1 Audio
-       bInterfaceSubClass      2 Streaming
-       bInterfaceProtocol     32
-       iInterface              4
-       AudioStreaming Interface Descriptor:
-         bLength                16
-         bDescriptorType        36
-         bDescriptorSubtype      1 (AS_GENERAL)
-         bTerminalLink           2
-         bmControls           0x00
-         bFormatType             1
-         bmFormats          0x00000001
-           PCM
-         bNrChannels             4
-         bmChannelConfig    0x00000000
-         iChannelNames          11
-       AudioStreaming Interface Descriptor:
-         bLength                 6
-         bDescriptorType        36
-         bDescriptorSubtype      2 (FORMAT_TYPE)
-         bFormatType             1 (FORMAT_TYPE_I)
-         bSubslotSize            2
-         bBitResolution         16
-       Endpoint Descriptor:
-         bLength                 7
-         bDescriptorType         5
-         bEndpointAddress     0x01  EP 1 OUT
-         bmAttributes            5
-           Transfer Type            Isochronous
-           Synch Type               Asynchronous
-           Usage Type               Data
-         wMaxPacketSize     0x0068  1x 104 bytes
-         bInterval               1
-         AudioStreaming Endpoint Descriptor:
-           bLength                 8
-           bDescriptorType        37
-           bDescriptorSubtype      1 (EP_GENERAL)
-           bmAttributes         0x00
-           bmControls           0x00
-           bLockDelayUnits         2 Decoded PCM samples
-           wLockDelay         0x0008
-       Endpoint Descriptor:
-         bLength                 7
-         bDescriptorType         5
-         bEndpointAddress     0x81  EP 1 IN
-         bmAttributes           17
-           Transfer Type            Isochronous
-           Synch Type               None
-           Usage Type               Feedback
-         wMaxPacketSize     0x0004  1x 4 bytes
-         bInterval               4
-     Interface Descriptor:
-       bLength                 9
-       bDescriptorType         4
-       bInterfaceNumber        2
-       bAlternateSetting       0
-       bNumEndpoints           0
-       bInterfaceClass         1 Audio
-       bInterfaceSubClass      2 Streaming
-       bInterfaceProtocol     32
-       iInterface              5
-     Interface Descriptor:
-       bLength                 9
-       bDescriptorType         4
-       bInterfaceNumber        2
-       bAlternateSetting       1
-       bNumEndpoints           1
-       bInterfaceClass         1 Audio
-       bInterfaceSubClass      2 Streaming
-       bInterfaceProtocol     32
-       iInterface              5
-       AudioStreaming Interface Descriptor:
-         bLength                16
-         bDescriptorType        36
-         bDescriptorSubtype      1 (AS_GENERAL)
-         bTerminalLink          22
-         bmControls           0x00
-         bFormatType             1
-         bmFormats          0x00000001
-           PCM
-         bNrChannels             4
-         bmChannelConfig    0x00000000
-         iChannelNames          15
-       AudioStreaming Interface Descriptor:
-         bLength                 6
-         bDescriptorType        36
-         bDescriptorSubtype      2 (FORMAT_TYPE)
-         bFormatType             1 (FORMAT_TYPE_I)
-         bSubslotSize            4
-         bBitResolution         24
-       Endpoint Descriptor:
-         bLength                 7
-         bDescriptorType         5
-         bEndpointAddress     0x82  EP 2 IN
-         bmAttributes            5
-           Transfer Type            Isochronous
-           Synch Type               Asynchronous
-           Usage Type               Data
-         wMaxPacketSize     0x00d0  1x 208 bytes
-         bInterval               1
-         AudioStreaming Endpoint Descriptor:
-           bLength                 8
-           bDescriptorType        37
-           bDescriptorSubtype      1 (EP_GENERAL)
-           bmAttributes         0x00
-           bmControls           0x00
-           bLockDelayUnits         2 Decoded PCM samples
-           wLockDelay         0x0008
-     Interface Descriptor:
-       bLength                 9
-       bDescriptorType         4
-       bInterfaceNumber        3
-       bAlternateSetting       0
-       bNumEndpoints           0
-       bInterfaceClass       254 Application Specific Interface
-       bInterfaceSubClass      1 Device Firmware Update
-       bInterfaceProtocol      1
-       iInterface             10
-       Device Firmware Upgrade Interface Descriptor:
-         bLength                             9
-         bDescriptorType                    33
-         bmAttributes                        7
-           Will Not Detach
-           Manifestation Tolerant
-           Upload Supported
-           Download Supported
-         wDetachTimeout                    250 milliseconds
-         wTransferSize                      64 bytes
-         bcdDFUVersion                   1.10
-   Configuration Descriptor:
-     bLength                 9
-     bDescriptorType         2
-     wTotalLength       0x01d6
-     bNumInterfaces          4
-     bConfigurationValue     1
-     iConfiguration          0
-     bmAttributes         0x80
-       (Bus Powered)
-     MaxPower              500mA
-     Interface Association:
-       bLength                 8
-       bDescriptorType        11
-       bFirstInterface         0
-       bInterfaceCount         3
-       bFunctionClass          1 Audio
-       bFunctionSubClass       0 [unknown]
-       bFunctionProtocol      32
-       iFunction               0
-     Interface Descriptor:
-       bLength                 9
-       bDescriptorType         4
-       bInterfaceNumber        0
-       bAlternateSetting       0
-       bNumEndpoints           1
-       bInterfaceClass         1 Audio
-       bInterfaceSubClass      1 Control Device
-       bInterfaceProtocol     32
-       iInterface              3
-       AudioControl Interface Descriptor:
-         bLength                 9
-         bDescriptorType        36
-         bDescriptorSubtype      1 (HEADER)
-         bcdADC               2.00
-         bCategory               8
-         wTotalLength       0x0100
-         bmControls           0x01
-           Latency control Control (read-only)
-       AudioControl Interface Descriptor:
-         bLength                 8
-         bDescriptorType        36
-         bDescriptorSubtype     10 (CLOCK_SOURCE)
-         bClockID               41
-         bmAttributes            3 Internal programmable clock
-         bmControls           0x07
-           Clock Frequency Control (read/write)
-           Clock Validity Control (read-only)
-         bAssocTerminal          0
-         iClockSource            9
-       AudioControl Interface Descriptor:
-         bLength                 8
-         bDescriptorType        36
-         bDescriptorSubtype     11 (CLOCK_SELECTOR)
-         bClockID               40
-         bNrInPins               1
-         baCSourceID(0)         41
-         bmControls           0x03
-           Clock Selector Control (read/write)
-         iClockSelector          8
-       AudioControl Interface Descriptor:
-         bLength                17
-         bDescriptorType        36
-         bDescriptorSubtype      2 (INPUT_TERMINAL)
-         bTerminalID             2
-         wTerminalType      0x0101 USB Streaming
-         bAssocTerminal          0
-         bCSourceID             40
-         bNrChannels             4
-         bmChannelConfig    0x00000000
-         iChannelNames          11
-         bmControls         0x0000
-         iTerminal               6
-       AudioControl Interface Descriptor:
-         bLength                26
-         bDescriptorType        36
-         bDescriptorSubtype      6 (FEATURE_UNIT)
-         bUnitID                10
-         bSourceID               2
-         bmaControls(0)     0x00000000
-         bmaControls(1)     0x0000000c
-           Volume Control (read/write)
-         bmaControls(2)     0x0000000c
-           Volume Control (read/write)
-         bmaControls(3)     0x0000000c
-           Volume Control (read/write)
-         bmaControls(4)     0x0000000c
-           Volume Control (read/write)
-         iFeature                0
-       AudioControl Interface Descriptor:
-         bLength                12
-         bDescriptorType        36
-         bDescriptorSubtype      3 (OUTPUT_TERMINAL)
-         bTerminalID            20
-         wTerminalType      0x0301 Speaker
-         bAssocTerminal          0
-         bSourceID              59
-         bCSourceID             40
-         bmControls         0x0000
-         iTerminal               0
-       AudioControl Interface Descriptor:
-         bLength                16
-         bDescriptorType        36
-         bDescriptorSubtype      9 (EXTENSION_UNIT)
-         bUnitID                59
-         wExtensionCode     0x0000
-         bNrInPins               1
-         baSourceID(0)          56
-         bNrChannels             2
-         bmChannelConfig    0x00000000
-         iChannelNames           0
-         bmControls           0x3f
-           Enable Control (read/write)
-           Cluster Control (read/write)
-           Underflow Control (read/write)
-         iExtension              0
-       AudioControl Interface Descriptor:
-         bLength                17
-         bDescriptorType        36
-         bDescriptorSubtype      2 (INPUT_TERMINAL)
-         bTerminalID             1
-         wTerminalType      0x0201 Microphone
-         bAssocTerminal          0
-         bCSourceID             40
-         bNrChannels             4
-         bmChannelConfig    0x00000000
-         iChannelNames          15
-         bmControls         0x0000
-         iTerminal               0
-       AudioControl Interface Descriptor:
-         bLength                16
-         bDescriptorType        36
-         bDescriptorSubtype      9 (EXTENSION_UNIT)
-         bUnitID                58
-         wExtensionCode     0x0000
-         bNrInPins               1
-         baSourceID(0)           1
-         bNrChannels             2
-         bmChannelConfig    0x00000000
-         iChannelNames           0
-         bmControls           0xff
-           Enable Control (read/write)
-           Cluster Control (read/write)
-           Underflow Control (read/write)
-           Overflow Control (read/write)
-         iExtension              0
-       AudioControl Interface Descriptor:
-         bLength                26
-         bDescriptorType        36
-         bDescriptorSubtype      6 (FEATURE_UNIT)
-         bUnitID                11
-         bSourceID               1
-         bmaControls(0)     0x00000000
-         bmaControls(1)     0x0000000c
-           Volume Control (read/write)
-         bmaControls(2)     0x0000000c
-           Volume Control (read/write)
-         bmaControls(3)     0x0000000c
-           Volume Control (read/write)
-         bmaControls(4)     0x0000000c
-           Volume Control (read/write)
-         iFeature                0
-       AudioControl Interface Descriptor:
-         bLength                12
-         bDescriptorType        36
-         bDescriptorSubtype      3 (OUTPUT_TERMINAL)
-         bTerminalID            22
-         wTerminalType      0x0101 USB Streaming
-         bAssocTerminal          0
-         bSourceID              60
-         bCSourceID             40
-         bmControls         0x0000
-         iTerminal               7
-       AudioControl Interface Descriptor:
-         bLength                17
-         bDescriptorType        36
-         bDescriptorSubtype      9 (EXTENSION_UNIT)
-         bUnitID                50
-         wExtensionCode     0x0000
-         bNrInPins               2
-         baSourceID(0)          11
-         baSourceID(1)          10
-         bNrChannels             6
-         bmChannelConfig    0x00000000
-         iChannelNames           0
-         bmControls           0x03
-           Enable Control (read/write)
-         iExtension              0
-       AudioControl Interface Descriptor:
-         bLength                16
-         bDescriptorType        36
-         bDescriptorSubtype      4 (MIXER_UNIT)
-         bUnitID                60
-         bNrInPins               1
-         baSourceID(0)          50
-         bNrChannels             2
-         bmChannelConfig    0x00000000
-         iChannelNames          19
-         bmMixerControls(0)   0xff
-         bmControls           0xff
-           Cluster Control (read/write)
-           Underflow Control (read/write)
-           Overflow Control (read/write)
-         iMixer                  0
-       Warning: Junk at end of descriptor (1 bytes):
-         00
-       AudioControl Interface Descriptor:
-         bLength                17
-         bDescriptorType        36
-         bDescriptorSubtype      9 (EXTENSION_UNIT)
-         bUnitID                56
-         wExtensionCode     0x0000
-         bNrInPins               2
-         baSourceID(0)          11
-         baSourceID(1)          10
-         bNrChannels             2
-         bmChannelConfig    0x00000000
-         iChannelNames           0
-         bmControls           0x00
-         iExtension              0
-       AudioControl Interface Descriptor:
-         bLength                16
-         bDescriptorType        36
-         bDescriptorSubtype      9 (EXTENSION_UNIT)
-         bUnitID                57
-         wExtensionCode     0x0000
-         bNrInPins               1
-         baSourceID(0)           2
-         bNrChannels             0
-         bmChannelConfig    0x00000000
-         iChannelNames           0
-         bmControls           0x00
-         iExtension              0
-       Endpoint Descriptor:
-         bLength                 7
-         bDescriptorType         5
-         bEndpointAddress     0x83  EP 3 IN
-         bmAttributes            3
-           Transfer Type            Interrupt
-           Synch Type               None
-           Usage Type               Data
-         wMaxPacketSize     0x0006  1x 6 bytes
-         bInterval               8
-         INTERFACE CLASS:  10 24 09 3e 00 00 01 01 01 00 00 00 00 00 00 00
-     Interface Descriptor:
-       bLength                 9
-       bDescriptorType         4
-       bInterfaceNumber        1
-       bAlternateSetting       0
-       bNumEndpoints           0
-       bInterfaceClass         1 Audio
-       bInterfaceSubClass      2 Streaming
-       bInterfaceProtocol     32
-       iInterface              4
-     Interface Descriptor:
-       bLength                 9
-       bDescriptorType         4
-       bInterfaceNumber        1
-       bAlternateSetting       1
-       bNumEndpoints           2
-       bInterfaceClass         1 Audio
-       bInterfaceSubClass      2 Streaming
-       bInterfaceProtocol     32
-       iInterface              4
-       AudioStreaming Interface Descriptor:
-         bLength                16
-         bDescriptorType        36
-         bDescriptorSubtype      1 (AS_GENERAL)
-         bTerminalLink           2
-         bmControls           0x00
-         bFormatType             1
-         bmFormats          0x00000001
-           PCM
-         bNrChannels             4
-         bmChannelConfig    0x00000000
-         iChannelNames          11
-       AudioStreaming Interface Descriptor:
-         bLength                 6
-         bDescriptorType        36
-         bDescriptorSubtype      2 (FORMAT_TYPE)
-         bFormatType             1 (FORMAT_TYPE_I)
-         bSubslotSize            4
-         bBitResolution         24
-       Endpoint Descriptor:
-         bLength                 7
-         bDescriptorType         5
-         bEndpointAddress     0x01  EP 1 OUT
-         bmAttributes            5
-           Transfer Type            Isochronous
-           Synch Type               Asynchronous
-           Usage Type               Data
-         wMaxPacketSize     0x00d0  1x 208 bytes
-         bInterval               1
-         AudioStreaming Endpoint Descriptor:
-           bLength                 8
-           bDescriptorType        37
-           bDescriptorSubtype      1 (EP_GENERAL)
-           bmAttributes         0x00
-           bmControls           0x00
-           bLockDelayUnits         2 Decoded PCM samples
-           wLockDelay         0x0008
-       Endpoint Descriptor:
-         bLength                 7
-         bDescriptorType         5
-         bEndpointAddress     0x81  EP 1 IN
-         bmAttributes           17
-           Transfer Type            Isochronous
-           Synch Type               None
-           Usage Type               Feedback
-         wMaxPacketSize     0x0004  1x 4 bytes
-         bInterval               4
-     Interface Descriptor:
-       bLength                 9
-       bDescriptorType         4
-       bInterfaceNumber        1
-       bAlternateSetting       2
-       bNumEndpoints           2
-       bInterfaceClass         1 Audio
-       bInterfaceSubClass      2 Streaming
-       bInterfaceProtocol     32
-       iInterface              4
-       AudioStreaming Interface Descriptor:
-         bLength                16
-         bDescriptorType        36
-         bDescriptorSubtype      1 (AS_GENERAL)
-         bTerminalLink           2
-         bmControls           0x00
-         bFormatType             1
-         bmFormats          0x00000001
-           PCM
-         bNrChannels             4
-         bmChannelConfig    0x00000000
-         iChannelNames          11
-       AudioStreaming Interface Descriptor:
-         bLength                 6
-         bDescriptorType        36
-         bDescriptorSubtype      2 (FORMAT_TYPE)
-         bFormatType             1 (FORMAT_TYPE_I)
-         bSubslotSize            2
-         bBitResolution         16
-       Endpoint Descriptor:
-         bLength                 7
-         bDescriptorType         5
-         bEndpointAddress     0x01  EP 1 OUT
-         bmAttributes            5
-           Transfer Type            Isochronous
-           Synch Type               Asynchronous
-           Usage Type               Data
-         wMaxPacketSize     0x0068  1x 104 bytes
-         bInterval               1
-         AudioStreaming Endpoint Descriptor:
-           bLength                 8
-           bDescriptorType        37
-           bDescriptorSubtype      1 (EP_GENERAL)
-           bmAttributes         0x00
-           bmControls           0x00
-           bLockDelayUnits         2 Decoded PCM samples
-           wLockDelay         0x0008
-       Endpoint Descriptor:
-         bLength                 7
-         bDescriptorType         5
-         bEndpointAddress     0x81  EP 1 IN
-         bmAttributes           17
-           Transfer Type            Isochronous
-           Synch Type               None
-           Usage Type               Feedback
-         wMaxPacketSize     0x0004  1x 4 bytes
-         bInterval               4
-     Interface Descriptor:
-       bLength                 9
-       bDescriptorType         4
-       bInterfaceNumber        2
-       bAlternateSetting       0
-       bNumEndpoints           0
-       bInterfaceClass         1 Audio
-       bInterfaceSubClass      2 Streaming
-       bInterfaceProtocol     32
-       iInterface              5
-     Interface Descriptor:
-       bLength                 9
-       bDescriptorType         4
-       bInterfaceNumber        2
-       bAlternateSetting       1
-       bNumEndpoints           1
-       bInterfaceClass         1 Audio
-       bInterfaceSubClass      2 Streaming
-       bInterfaceProtocol     32
-       iInterface              5
-       AudioStreaming Interface Descriptor:
-         bLength                16
-         bDescriptorType        36
-         bDescriptorSubtype      1 (AS_GENERAL)
-         bTerminalLink          22
-         bmControls           0x00
-         bFormatType             1
-         bmFormats          0x00000001
-           PCM
-         bNrChannels             4
-         bmChannelConfig    0x00000000
-         iChannelNames          15
-       AudioStreaming Interface Descriptor:
-         bLength                 6
-         bDescriptorType        36
-         bDescriptorSubtype      2 (FORMAT_TYPE)
-         bFormatType             1 (FORMAT_TYPE_I)
-         bSubslotSize            4
-         bBitResolution         24
-       Endpoint Descriptor:
-         bLength                 7
-         bDescriptorType         5
-         bEndpointAddress     0x82  EP 2 IN
-         bmAttributes            5
-           Transfer Type            Isochronous
-           Synch Type               Asynchronous
-           Usage Type               Data
-         wMaxPacketSize     0x00d0  1x 208 bytes
-         bInterval               1
-         AudioStreaming Endpoint Descriptor:
-           bLength                 8
-           bDescriptorType        37
-           bDescriptorSubtype      1 (EP_GENERAL)
-           bmAttributes         0x00
-           bmControls           0x00
-           bLockDelayUnits         2 Decoded PCM samples
-           wLockDelay         0x0008
-     Interface Descriptor:
-       bLength                 9
-       bDescriptorType         4
-       bInterfaceNumber        3
-       bAlternateSetting       0
-       bNumEndpoints           0
-       bInterfaceClass       254 Application Specific Interface
-       bInterfaceSubClass      1 Device Firmware Update
-       bInterfaceProtocol      1
-       iInterface             10
-       Device Firmware Upgrade Interface Descriptor:
-         bLength                             9
-         bDescriptorType                    33
-         bmAttributes                        7
-           Will Not Detach
-           Manifestation Tolerant
-           Upload Supported
-           Download Supported
-         wDetachTimeout                    250 milliseconds
-         wTransferSize                      64 bytes
-         bcdDFUVersion                   1.10
+--b1=_ROZD4SIVexJZgis2ySKAkaXER6aqIqD3fwvqrLwi8--
 
-And here is the output of amixer -c EVO4 contents
-
-numid=6,iface=CARD,name='Audient Internal Clock Validity'
-   ; type=BOOLEAN,access=r-------,values=1
-   : values=on
-numid=3,iface=MIXER,name='Mic Playback Volume'
-   ; type=INTEGER,access=rw---R--,values=4,min=0,max=116,step=0
-   : values=96,0,0,0
-   | dBminmax-min=-8.00dB,max=50.00dB
-numid=4,iface=MIXER,name='EVO4  Playback Volume'
-   ; type=INTEGER,access=rw---R--,values=4,min=0,max=254,step=0
-   : values=182,182,0,0
-   | dBminmax-min=-127.00dB,max=0.00dB
-numid=5,iface=MIXER,name='Extension Unit Switch'
-   ; type=BOOLEAN,access=rw------,values=1
-   : values=off
-numid=2,iface=PCM,name='Capture Channel Map'
-   ; type=INTEGER,access=r--v-R--,values=4,min=0,max=36,step=0
-   : values=0,0,0,0
-   | container
-     | chmap-fixed=FL,FR,FC,LFE
-numid=1,iface=PCM,name='Playback Channel Map'
-   ; type=INTEGER,access=r--v-R--,values=4,min=0,max=36,step=0
-   : values=0,0,0,0
-   | container
-     | chmap-fixed=FL,FR,FC,LFE
-
-
-Thank you for your help debugging this issue,
-
-Faaris
-
-
-On 28/09/2026 17:46, Sasha Levin wrote:
->> It seems you're right. Reverting that change has fixed the volume
->> control with my interface - I made sure to remove the quirk flags
->> whilst testing.
->>
->> What are the next steps here? Is there a problem with that patch, or
->> do we need to add a quirk for the EVO4 in the kernel?
-> Thanks for testing.
->
-> Takashi, Cássio: before 87a6f2fa6e6c ("ALSA: usb-audio: Propagate write
-> errors in generic mixer put callbacks"), a failed SET_CUR in the mixer
-> put callbacks was ignored. Now it is returned to userspace, and on the
-> EVO4 (2708:0006) that breaks hardware volume control. Would you prefer a
-> QUIRK_FLAG_IGNORE_CTL_ERROR entry for 2708:0006, or a revert or rework
-> of that commit? Any other device that rejects SET_CUR on a single
-> control or channel will regress the same way.
->
-> Faaris, to help with that decision, could you send:
->
->    1. dmesg with snd_usb_audio debug output enabled while you change the
->       volume without the quirk, using
->       echo 'module snd_usb_audio +p' > /sys/kernel/debug/dynamic_debug/control
->       (the "cannot set ctl value" lines are the useful ones)
->    2. lsusb -v -d 2708:0006
->    3. amixer -c <card> contents
->
