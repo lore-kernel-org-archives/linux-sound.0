@@ -1,97 +1,91 @@
-Received: from mail-dy2-f42.google.com (mail-dy2-f42.google.com [74.125.229.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ACD94A483B
-	for <linux-sound@vger.kernel.org>; Mon, 28 Sep 2026 11:22:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62CCA49CF2C;
+	Mon, 28 Sep 2026 11:26:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790594552; cv=none; b=UmKFHtkEitgY7ItfsDzjVnDQFPsknWmrxlSQkkxpqQi7Zg2Yi0JB1dXIWCMQdnwM1lPBqSiRzzdEzpwZXKrwDY+G04NV0YY9xcocYKhi0nvm7GoUC7mHeZAsqJHk8mHgXo5DdpJN6/0JLYvQWcbeki1jimrzG4T3CaCzwcTSZOM=
+	t=1790594809; cv=none; b=R8IJsC77d7E/5FYvjoRXu0uWkifNCjdyVpT8lVqlF5/Wt1TkfMvdyiVSrZTquW8aRRn61oj/NUSLJgKkE2bNg+iWQ4Xj4ItH4JpMYsVUcaR8A5NoshssabAJ0Osp+afzA5m0PTFAJgXshyzDAYI7s8txHOgGn3UtUEDTUOyapIE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790594552; c=relaxed/simple;
-	bh=lJQz35lNLmHImQXDxRBBTx01nhhoR67A1rVNCsVep8I=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QiqLJwZoBdFyCbMcejJZEvn+8+/rpDU2PEz3pQ89ZtwVK9G21za71SASpPtk3yg3XrT2VI2eMOi71xz0hDnn/nEoto0kDLkw4xVNokNRabxMuWqBkylgsfd5xHpX+5tVjZqa6paSyXvo9e3Bau/ey1K4HgnwkOoGPFUB2kjCXtc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VB6Sqw7/; arc=none smtp.client-ip=74.125.229.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790594809; c=relaxed/simple;
+	bh=0nQAsdI9MKQ6bi1a3Tac1SYFqN/k0GiAZO6cdT/9jQc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CDcc1Oxa69+IyzuZcrSvWbV+aFGUXQrepkgLmVuLSIPtSFpNYuh4FV+UQWf1azMaQgMB2xCyFEmc27YNZsE6DxzfrcUbQWm4bSZ41+IyfG1NLFumWbWsYN8Ym2Ag+AplXDyVxGSGpC4MZLGJdk3u7fCH0kDVFk5lrkJY2wptXw0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ahxNhXzB; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VB6Sqw7/"
-Received: by mail-dy2-f42.google.com with SMTP id 5a478bee46e88-3427977d677so227603eec.0
-        for <linux-sound@vger.kernel.org>; Mon, 28 Sep 2026 04:22:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790594547; x=1791199347; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=lJQz35lNLmHImQXDxRBBTx01nhhoR67A1rVNCsVep8I=;
-        b=VB6Sqw7/Z8GTAJ4kFlLJPwzaUQU0aEfmiFRiB8Fd1HtHmAZWNQHTzJEOFHS1A3fFfz
-         0XkA5w0i3P/oigOeczsctzo+3eRrYpfe0RyBekSt7JmbpLyylp6UnYzfFap0N+2mn90/
-         7uDf71wCAvXjLFxSpt1JKUbgQ5GJ1Ejy81ztIDkJEhTFKgKZDI47wlXJHVpf8onPIHaG
-         74sXtp0BzOOXT50F/yMwMMissMNgagu8fJmEVpFSm9xWCrvu7W8QPyUp7ycb3LB4UyKz
-         Afi37QxraaYdQr1B22WR9nP2G9VTYU8pB68FRDLPFOhKCfly/45MZnfFhXkTvPzsIR+R
-         hD6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790594547; x=1791199347;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=lJQz35lNLmHImQXDxRBBTx01nhhoR67A1rVNCsVep8I=;
-        b=1iNJIohUaKe37CB8ENgVSU8QIf3H6W3/zBTcnop5k1F5eDJiicENqoHP3V1zJMaDeC
-         686mxIXttxgknwMgDyWHx9cEGVbs8iobCGlMTuGTVfLw3yVA0OQ50ytigUQwoOCxHI4c
-         +QJ6iHiwUSvrGX44ifwHeEUjAW3uTBYovTLfiU+BtY6YgurO5mKBD41TlNgqVdhvEVdC
-         +2dFUa9uDCjhuLXElnXRq1wudy77n2wZJcfaULb7S4ZYLlr8qxWJBt8s8/dm0fyxlGaf
-         4D3zmcsjQAJcysVKoRLYcDt6A7AzmByjv5Yuk6IcyABhd+p9oJqXRdO1lrkAw3Z/VTNp
-         KCJg==
-X-Forwarded-Encrypted: i=1; AKwUvBzIia28pvwTEXLVbwQwf0ylhvTLaWzDm1zx2uhecEJLnCsavQr3JnZ26Kd19ukkr9NPDsKQvcT5cytM+w==@vger.kernel.org
-X-Gm-Message-State: AFuF++lZMp0DMgQuCRPDFukb/WMnud47PzOm5kMiPcpTWqTY/x/hemfD
-	YEPI9M5wqe+SH8fV7NquHeFMFsatWACz50RTH1JEzav3hmhErAXUSewi
-X-Gm-Gg: AYBFou2JVRmMJ0vzhcvW5fYNqgbTXn3tw84nbsV84wGr7kDczZ6Ue5hShHfELEtMZzG
-	6oc8fSFaxWr6YC+v2+CtNxwTkApxYByedWhWa6dRdsPudmzX6437N2klyu0zj6HWDlkr69Z8w1e
-	7B1D7TxNTLMskZ1UvwZRKrJO9is/MppT3pNePQPKNlNaVHN+4/vI+XkKv5P+bYBJHd9dziGHUX0
-	NrG4LCqNbqoGcQ3ZNLALMZZ/sqvnbJx66Bey3ZM/tDHYNpANzdlwFuqTfxds3PsrGCG9A7IcfKx
-	I9uH50djhypI62wd5Ogy1e2lK+ZltW+uAnhMfmli71dM9TwiwUWAT4duWOZhk9Kn1WEye3iZ4/X
-	UO1MwtyXhQCtlsyTdbEF/oxHLnGGj+BtuUntZ2TH9Ac4YSfm6YRwA/Y0O2zZVXy5pPvCr4n3b+Y
-	UenHtmCSPJ4pS1fn1NiEc27jfRTl4SlsUe0u+OsUKZM4jEuoHTQJ8iJOepeEchR0ySjpWHp/l5g
-	B4H1Xjs0PKy0WMP9IdjkygKWI0+uAMzMv5WswWmH/qTB8VbJe2W6hG+XlxjLThfmsBSxscbr7xe
-	p7u9cqWE32XjPPtmHsY=
-X-Received: by 2002:a05:7022:29c:20b0:12d:c389:ae54 with SMTP id a92af1059eb24-146cfdd1a65mr15123488c88.2.1790594546278;
-        Mon, 28 Sep 2026 04:22:26 -0700 (PDT)
-Received: from cachyos-aura ([45.112.148.109])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-147913a776fsm20689853c88.17.2026.09.28.04.22.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Sep 2026 04:22:25 -0700 (PDT)
-From: Navon John Lukose <navonjohnlukose@gmail.com>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: rf@opensource.cirrus.com,
-	david.rhodes@cirrus.com,
-	broonie@kernel.org,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	linux-kernel@vger.kernel.org
-Subject: Re: ALSA: hda/cs35l56: same calibration condition logged at dev_info() and dev_err()
-Date: Mon, 28 Sep 2026 16:52:19 +0530
-Message-ID: <20260928112219.713777-1-navonjohnlukose@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <87jyo57ifo.wl-tiwai@suse.de>
-References: <20260914000308.108995-1-navonjohnlukose@gmail.com> <87jyo57ifo.wl-tiwai@suse.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ahxNhXzB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 248561F00898;
+	Mon, 28 Sep 2026 11:26:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790594808;
+	bh=MIgiakxNIvlbIOvXbpa9aAXTvVdIjMv2YRdjshxXmZo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ahxNhXzBmiYTokoVc3H9EOIJnhTiIRXS8yTi4jkl4NBTZ/Nv4WBvbWNNickZgLD1z
+	 tNTkt7Rpv9XxkYAOXiaXinGpn1TVGBrrbxanqOu9maY5zQYsCbj2Kl2WxEpMoLo6lA
+	 HyRfdH+ObdVSBA7w4w9JV+SDdnt9JSpXYy2YAyZS9KKWJSWRd9riZxE6F0W6HOVL9X
+	 2iAWSuoOVWLw3Ct8h8c7Sh+0rVPFOiRRWCfOZjZSIp8/fNo5+a2/vmeOP2Yj4rEmOJ
+	 tDEEBitSlXsbvXPDtbXy8t1DqLoOL26HqgSKvoMF/Kp/L8ROFcPMKaTrW/S34orq3w
+	 f7DQ71vdlasSw==
+Date: Mon, 28 Sep 2026 12:26:41 +0100
+From: Mark Brown <broonie@kernel.org>
+To: shengjiu.wang@oss.nxp.com
+Cc: lgirdwood@gmail.com, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, Frank.Li@nxp.com, s.hauer@pengutronix.de,
+	kernel@pengutronix.de, festevam@gmail.com, shawnguo@kernel.org,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, shengjiu.wang@gmail.com,
+	Xiubo.Lee@gmail.com, nicoleotsuka@gmail.com, perex@perex.cz,
+	tiwai@suse.com, linuxppc-dev@lists.ozlabs.org,
+	Shengjiu Wang <shengjiu.wang@nxp.com>,
+	Chancel Liu <chancel.liu@gmail.com>
+Subject: Re: [PATCH v6 4/5] ASoC: fsl_asrc: expose individual DAIs per
+ conversion path
+Message-ID: <7be95093-1e29-45a7-9860-5605763baaf2@sirena.org.uk>
+References: <20260928061727.1844167-1-shengjiu.wang@oss.nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="agS6p3a5qSig1fa6"
+Content-Disposition: inline
+In-Reply-To: <20260928061727.1844167-1-shengjiu.wang@oss.nxp.com>
+X-Cookie: All is fear in love and war.
 
-On Mon, 28 Sep 2026 12:56:43 +0200, Takashi Iwai wrote:
-> The actual patch is missing?
 
-Hi Takashi,
+--agS6p3a5qSig1fa6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-There is no patch, sorry for the confusion. This was a report about
-the cs35l56 documentation rather than a code change, and I should have
-made that clearer in the subject. Richard replied in this thread and
-will reword the doc text.
+On Mon, Sep 28, 2026 at 02:17:27PM +0800, shengjiu.wang@oss.nxp.com wrote:
+> From: Shengjiu Wang <shengjiu.wang@nxp.com>
+>=20
+> The i.MX ASRC hardware supports three independent conversion pairs
+> (A, B, C). The driver previously registered a single DAI with generic
+> stream names "ASRC-Playback" and "ASRC-Capture", which prevents
+> multiple independent conversion paths from being used simultaneously.
 
-Thanks,
-Navon
+This and patch 5 are not threaded with the rest of the series which
+really upsets b4 :( .  I'll fix it up but please look into your tooling
+here.
+
+--agS6p3a5qSig1fa6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmq6TvAACgkQJNaLcl1U
+h9AZrgf/VFOKxMUjK6hmwAHkqM+y0Ua45JlbNuxKyoHHyV84DmfhdqY51ofpXfuQ
+6N+x6DTT+UZJkw8xrPqdRMRhps2mxGnkl0FdOiqAe1dR/VuGMOAck7lF80PMIOxD
+CUljelqNF6bYnmr8MQ5qPzYIUn7VEcvZiirLFwT5OHfi5/x37fQUAFJ1YJFgq8MX
+fuuBv1DOxVGdXUD5MsFdkcMfd9617FupVjCOhrZFQpTzj1yEvuAnmnTCs02wF/3S
+QjBDyIaaTRdUFDag3qQ/tMKwfIJjvLDrHsp2iXwoQUdoL+Ga6f9W+QJUrBcoiu+B
+TkSZSFWED6F7dnYsXunQoC0iWlZFGg==
+=A3IY
+-----END PGP SIGNATURE-----
+
+--agS6p3a5qSig1fa6--
