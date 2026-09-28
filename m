@@ -1,41 +1,74 @@
-Received: from mail-m49197.qiye.163.com (mail-m49197.qiye.163.com [45.254.49.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf2-f13.google.com (mail-lf2-f13.google.com [74.125.229.205])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CFC64CA777;
-	Mon, 28 Sep 2026 13:41:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10EA848F002
+	for <linux-sound@vger.kernel.org>; Mon, 28 Sep 2026 13:43:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.205
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790602873; cv=none; b=KmCXjGqV7eeS5VoKwkHvR3FDNe6DsESkrp1C5/8swLKJLTlSzi74wC4AGNVt3RyFsb2ISBX6N5QTiRBiP+FWJLr6PtPjORLBUhZlMpW9hsQSZzuAF+xgnavjQPCVn8aaFw3AaU4TiytHQAoGcposI9QehyUTNhKxN1lrTuuGTvM=
+	t=1790603033; cv=none; b=r27viNt5QhMte5IkW2Njfod2MSFJG2ss4MrW/DNvTGA6vYav8TDiuzQ92Qt5tnjFARU/scan8dC4kYiV5uDbc3Mjy0SETTTYV3Oac1XumJNMBf6KleGMHX3/OFtgwsI8hTJltlLEfn7LKdQmN0YWSr+7iFG47XF26S142wYzwO0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790602873; c=relaxed/simple;
-	bh=UfUcHib5IVVfjUcJdQwVaM0ttMEkSSP63ICb5Z5fBhk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HqQgyFpZ2hmRxAvA/YZ/4lzXwEIakhPusP1pgn9KLbL1hJIFYRjiNR3bZ2uJ3ZhWkeBHtFn2S4fgDC0o1pRiiGuynnrtUAaZmkA8ursGsSho9CzM0z7p3sdC+n5j6pRBfgJyid/WzsXDxxzWo7N4fisTWbYl8B/XX4/UGeX1cZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=HYvu/mli; arc=none smtp.client-ip=45.254.49.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
+	s=arc-20240116; t=1790603033; c=relaxed/simple;
+	bh=mqNxGtc2qZj/pB7g0jn0pOCaDg7IRzMAZBIJBCo08OU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fjeFcpWnjqeO1t6dXf7BzWUGCQ4MC3ysV/ij8/pVi4PLK2QJJBU5JXUfM8XFiwR0RGDZ+rsFk/e7p2mSR/iiqXE9L9jQrBSTCGUBWX+Hi2iVWuabCDWNy4ri6GOm0vba83Hd5Zy/WZXLhXdT8AmvVaoXq1dx5QqYQ45/Hm0h/k0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MCXhdDb/; arc=none smtp.client-ip=74.125.229.205
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="HYvu/mli"
-Received: from LAPTOP-99KJFSET (unknown [36.153.54.109])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 4f5d6f420;
-	Mon, 28 Sep 2026 21:40:55 +0800 (GMT+08:00)
-From: Hongyan Xu <getshell@seu.edu.cn>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	matthias.bgg@gmail.com,
-	angelogioacchino.delregno@collabora.com,
-	phucduc.bui@gmail.com,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MCXhdDb/"
+Received: by mail-lf2-f13.google.com with SMTP id 2adb3069b0e04-5b8d6489419so2468134e87.3
+        for <linux-sound@vger.kernel.org>; Mon, 28 Sep 2026 06:43:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790603030; x=1791207830; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=rOxLA1JMar839B+IImDVjERCRoDtVDtOiXPwWspWPbs=;
+        b=MCXhdDb/C7gP4lQMUDt2nKxdxuObflbIWptqR2U7x2Zp5pvjFMeVFyReBGiDgIsGhv
+         Tvql8afgX8JmywfJ9z1k7P6LM8s6wZCVHZy5/vt9PZ6lmohjCx4Tc2PgIxYWu0jbffPq
+         OfDsIgr7av8b3+VvEzvlgEqWYw08EAONapmpJ6clqQBZpp8YXojMa/FZivRIcNC/BvYQ
+         wAjGLs7b+66ZzFIngNXuLP1RnOJIJs7DKoejfG6RvaFX5w4Gjq9N927fHJNOZsAaj9BH
+         o4hmHh7xZL9KPhxmtSGqGfUMW/zmANVnUIwtJ1ut7kxvVdXbTUmyh26IFXWiEHtWDMPI
+         yZZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790603030; x=1791207830;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=rOxLA1JMar839B+IImDVjERCRoDtVDtOiXPwWspWPbs=;
+        b=JCpKGJ2jJXEh3XuZZVu3z7Zo6D79b84SFWW+xtNtAqSwGjBonMLJeRUnmaY2YhuUcB
+         QOf7ZCjhz5KIEeRnxqaMfVcLXMR/NSSGWRQ6ymbIe6PrDqO/ieeY3+8qlQoZpNjNX6JQ
+         s1pxuWpmXPyKtOtGgeWrQv4R53wWADzvsmIkudt+sSeoTop+vEmdOmBbB5A5s9oYyn+X
+         VEswU+bZEM0fLdhZ8RGlwKFbN63aoW9M2zz6ZRAuta/YjB6u18od/by15bRWJq4hb4D9
+         8s5ZbmjfIdjMDO02K8WmRD45rJdImqPWJSpG9i5uvhqO3eSEqRfZrFH/7PAG/prJey/R
+         o61w==
+X-Forwarded-Encrypted: i=1; AKwUvBy+ncY1RQ+i2XoiAwb7jxhiSGiSQtnwzhjoUvNehI2R4eY1KdEpfghnnMRXSuUTe0r03xaCMNroQgah0w==@vger.kernel.org
+X-Gm-Message-State: AFq9FYLQKcMN57dc9+XMnW0hEsnGqCLifKNnuj1tAe7qP8GbDs/oPih6
+	zq96nTErX3XhyRM+z4P5S4luqnN/jkb+ZT6cac4Fnt+HF+1uLFSPcTjn
+X-Gm-Gg: AYBFou1y045BTrRFtRSiuhNyx+xSW/+dt/uqcoXldUvmnRZtpuS+M9UqXseWoE7AqyR
+	yE4Q2Ei1/iKuD9YaDNPAc2iLlwXTnfNAwbPxsrZ8cA0Ox+Dn1ohmgIwOR+PBGB2NytSo/PyUTOx
+	RDY4j0H9z92Z92tBg9lIuXhD1jJ+WwI3g32GIV4+ih7yVSHv9MztE4QThxu0yfSAY10+MHOs0d/
+	dsESfjCKUiJ2RUt4iKZQvyu/OUsbVHE94VQS24mazm6htCI2PIBQKTo1Uw2fZT/qdISYsBmVcdK
+	2tTrJokEjZkI8EzCGHVVhl+l/8GpEA8WmR00XRObO6I5zijt/Mh3bCDvhoZfctSQhnE2ZUF3GJH
+	IKyPGOQU3446RQPWlg0T82DuFc0n09eCqBIJxp8PjSFZ1L/7cXbm+TRSCwtW1FpGhc5gZlLOoia
+	+eM6AU5ze16SDs6GEL1S8/C1rFHFZQSEQe1GRJs+dl0y67tlmaaYmErbjlsgocydy1WBhJBWqrO
+	RMiRl9o8kGxErqy7Mm5iks0UXNvpGvkGitR87OSGY263lg0BjqXcsi9s6ux5eIUUEZqeJviYXKH
+	pGzjY0tUX5NRB+HD5S088pvRc1bJkMMpG+o=
+X-Received: by 2002:a05:6512:b28:b0:5b8:f7fc:959f with SMTP id 2adb3069b0e04-5b8f7fc976fmr1468909e87.60.1790603029893;
+        Mon, 28 Sep 2026 06:43:49 -0700 (PDT)
+Received: from DESKTOP-P8LEVVU ([2a02:2a40:1afa:d200:255c:8e92:476c:7c40])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b9debb25a9sm570634e87.44.2026.09.28.06.43.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Sep 2026 06:43:49 -0700 (PDT)
+From: Bartosz Brom <bartosz.brom06@gmail.com>
+To: perex@perex.cz,
+	tiwai@suse.de
+Cc: alsa-devel@alsa-project.org,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	jianhao.xu@seu.edu.cn,
-	Hongyan Xu <getshell@seu.edu.cn>
-Subject: [PATCH] ASoC: mt6359-accdet: manage private workqueues with devres
-Date: Mon, 28 Sep 2026 21:40:54 +0800
-Message-ID: <20260928134054.312-1-getshell@seu.edu.cn>
-X-Mailer: git-send-email 2.50.1.windows.1
+	Bartosz Brom <bartosz.brom06@gmail.com>
+Subject: [PATCH] ALSA: hda/realtek: Add mute LED quirks for HP Pavilion 15-eh3174nw and HP Laptop 15-dw1xxx
+Date: Mon, 28 Sep 2026 15:43:35 +0200
+Message-ID: <20260928134335.1875-1-bartosz.brom06@gmail.com>
+X-Mailer: git-send-email 2.55.0.windows.5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -43,115 +76,49 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0aa0e83f435803a1kunm0bf1d24120016b
-X-HM-MType: 10
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlCHR4fVk1JSExDGR4eHh1MGFYeHw
-	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlITVVKTkhVTk9VSktCWVdZFhoPEhUdFFlBWU9LSFVKS0hKT0
-	hMVUpLS1VKQktLWQY+
-DKIM-Signature: a=rsa-sha256;
-	b=HYvu/mlia949YOARa7esVLg1mr2vvgirO0MRgu39IikH90x6dAbIpAIwcZMuZBfGOo3U/NuaWKZTN9vSnIjVhKbFZO1xNk91juWrPjAbvK+Vl3/zlAd3j8pdqhhnfagWymTBipYz7yXdc/4Ou/7WSlry5jcqpoTv7yenUU5/CvA=; c=relaxed/relaxed; s=default; d=seu.edu.cn; v=1;
-	bh=IxIytfhZwO11x5KyBUMtw1q6leq9rKslQRYH/QA9PNk=;
-	h=date:mime-version:subject:message-id:from;
 
-The threaded jack-detect interrupts queue work on two private
-workqueues. Neither queue is destroyed on device removal, so queued
-callbacks can retain pointers to devm-allocated state after it is
-released. Probe error paths also leak the queues.
+The HP Pavilion 15-eh3174nw with an ALC287 codec requires the
+ALC287_FIXUP_HP_GPIO_LED fixup for its mute LED to work correctly.
 
-Create and initialize both workqueues before requesting interrupts, then
-add a managed cleanup action. Since the managed IRQs are acquired
-afterwards, devres releases and synchronizes them before draining and
-destroying the workqueues on both removal and probe failure.
+Add subsystem ID 0x103c:0x8bc7 to the quirk table to apply the
+existing fixup.
 
-Fixes: eef07b9e0925 ("ASoC: mediatek: mt6359: add MT6359 accdet jack driver")
-Signed-off-by: Hongyan Xu <getshell@seu.edu.cn>
+Tested on an HP Pavilion 15-eh3174nw; the mute LED now follows the
+speaker mute state.
+
+The HP Laptop 15-dw1xxx with an ALC236 codec requires the
+ALC236_FIXUP_HP_MUTE_LED_MICMUTE_GPIO fixup for its mute LED to work correctly.
+
+Add subsystem ID 0x103c:0x85f1 to the quirk table to apply the existing fixup.
+
+Tested on an HP Laptop 15-dw1xxx; the mute LED now follows the speaker
+mute state.
+
+Signed-off-by: Bartosz Brom <bartosz.brom06@gmail.com>
 ---
- sound/soc/codecs/mt6359-accdet.c | 50 ++++++++++++++++++--------------
- 1 file changed, 28 insertions(+), 22 deletions(-)
+ sound/hda/codecs/realtek/alc269.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/sound/soc/codecs/mt6359-accdet.c b/sound/soc/codecs/mt6359-accdet.c
-index e1190c644021..54ec1c6bd64b 100644
---- a/sound/soc/codecs/mt6359-accdet.c
-+++ b/sound/soc/codecs/mt6359-accdet.c
-@@ -914,6 +914,14 @@ int mt6359_accdet_enable_jack_detect(struct snd_soc_component *component,
- }
- EXPORT_SYMBOL_GPL(mt6359_accdet_enable_jack_detect);
- 
-+static void mt6359_accdet_destroy_workqueues(void *data)
-+{
-+	struct mt6359_accdet *priv = data;
-+
-+	destroy_workqueue(priv->jd_workqueue);
-+	destroy_workqueue(priv->accdet_workqueue);
-+}
-+
- static int mt6359_accdet_probe(struct platform_device *pdev)
- {
- 	struct mt6359_accdet *priv;
-@@ -955,6 +963,26 @@ static int mt6359_accdet_probe(struct platform_device *pdev)
- 	}
- 	mutex_init(&priv->res_lock);
- 
-+	priv->accdet_workqueue = create_singlethread_workqueue("accdet");
-+	INIT_WORK(&priv->accdet_work, mt6359_accdet_work);
-+	if (!priv->accdet_workqueue) {
-+		dev_err(&pdev->dev, "Failed to create accdet workqueue\n");
-+		return -ENOMEM;
-+	}
-+
-+	priv->jd_workqueue = create_singlethread_workqueue("mt6359_accdet_jd");
-+	INIT_WORK(&priv->jd_work, mt6359_accdet_jd_work);
-+	if (!priv->jd_workqueue) {
-+		dev_err(&pdev->dev, "Failed to create jack detect workqueue\n");
-+		destroy_workqueue(priv->accdet_workqueue);
-+		return -ENOMEM;
-+	}
-+
-+	ret = devm_add_action_or_reset(&pdev->dev,
-+				       mt6359_accdet_destroy_workqueues, priv);
-+	if (ret)
-+		return ret;
-+
- 	priv->accdet_irq = platform_get_irq(pdev, 0);
- 	if (priv->accdet_irq >= 0) {
- 		ret = devm_request_threaded_irq(&pdev->dev, priv->accdet_irq,
-@@ -1000,22 +1028,6 @@ static int mt6359_accdet_probe(struct platform_device *pdev)
- 		}
- 	}
- 
--	priv->accdet_workqueue = create_singlethread_workqueue("accdet");
--	INIT_WORK(&priv->accdet_work, mt6359_accdet_work);
--	if (!priv->accdet_workqueue) {
--		dev_err(&pdev->dev, "Failed to create accdet workqueue\n");
--		ret = -1;
--		goto err_accdet_wq;
--	}
--
--	priv->jd_workqueue = create_singlethread_workqueue("mt6359_accdet_jd");
--	INIT_WORK(&priv->jd_work, mt6359_accdet_jd_work);
--	if (!priv->jd_workqueue) {
--		dev_err(&pdev->dev, "Failed to create jack detect workqueue\n");
--		ret = -1;
--		goto err_eint_wq;
--	}
--
- 	platform_set_drvdata(pdev, priv);
- 	ret = devm_snd_soc_register_component(&pdev->dev,
- 					      &mt6359_accdet_soc_driver,
-@@ -1034,12 +1046,6 @@ static int mt6359_accdet_probe(struct platform_device *pdev)
- 	mt6359_accdet_jack_report(priv);
- 
- 	return 0;
--
--err_eint_wq:
--	destroy_workqueue(priv->accdet_workqueue);
--err_accdet_wq:
--	dev_err(&pdev->dev, "%s error. now exit.!\n", __func__);
--	return ret;
- }
- 
- static struct platform_driver mt6359_accdet_driver = {
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index 5127a111c59c..daca68ece94a 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -7388,6 +7388,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x85c6, "HP Pavilion x360 Convertible 14-dy1xxx", ALC295_FIXUP_HP_MUTE_LED_COEFBIT11),
+ 	SND_PCI_QUIRK(0x103c, 0x85de, "HP Envy x360 13-ar0xxx", ALC285_FIXUP_HP_ENVY_X360),
+ 	SND_PCI_QUIRK(0x103c, 0x85f0, "HP Laptop 15-dw0xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
++	SND_PCI_QUIRK(0x103c, 0x85f1, "HP Laptop 15-dw1xxx", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_GPIO),
+ 	SND_PCI_QUIRK(0x103c, 0x85f3, "HP 250 G8 Notebook PC", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
+ 	SND_PCI_QUIRK(0x103c, 0x8603, "HP Omen 17-cb0xxx", ALC285_FIXUP_HP_MUTE_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x860c, "HP ZBook 17 G6", ALC285_FIXUP_HP_GPIO_AMP_INIT),
+@@ -7581,6 +7582,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x8bb4, "HP Slim OMEN", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x103c, 0x8bb6, "HP Laptop 15-fd0039nt", ALC236_FIXUP_HP_15_FD0XXX),
+ 	SND_PCI_QUIRK(0x103c, 0x8bbe, "HP Victus 16-r0xxx (MB 8BBE)", ALC245_FIXUP_HP_MUTE_LED_COEFBIT),
++	SND_PCI_QUIRK(0x103c, 0x8bc7, "HP Pavilion 15-eh3174nw", ALC287_FIXUP_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8bc8, "HP Victus 15-fa1xxx", ALC245_FIXUP_HP_MUTE_LED_COEFBIT),
+ 	SND_PCI_QUIRK(0x103c, 0x8bcd, "HP Omen 16-xd0xxx", ALC245_FIXUP_HP_MUTE_LED_V1_COEFBIT),
+ 	SND_PCI_QUIRK(0x103c, 0x8bd4, "HP Victus 16-s0xxx (MB 8BD4)", ALC245_FIXUP_HP_MUTE_LED_COEFBIT),
 -- 
-2.50.1.windows.1
+2.55.0.windows.5
 
