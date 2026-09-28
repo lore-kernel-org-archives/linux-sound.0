@@ -1,284 +1,92 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 937784EE876;
-	Mon, 28 Sep 2026 16:34:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CABDE4EF130;
+	Mon, 28 Sep 2026 16:38:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790613259; cv=none; b=SFcV62P+rSdi+ryTds3VOov1Jv51Mv/awr9cdvrz2df8oVRwvaQLNnzKwZ0Zflw6FiRHIxdkAYnhOB4/MmtFQkxqcgN8SGcZ/b6XkCd7EkVPGa3ahl+1VoP7clTp8qxzif7c7WrxsK9fRDdSZzNx/QE9IfYTps94K/X2qfhoOH8=
+	t=1790613540; cv=none; b=m17IWHhb5WPJMqcYxJ0hiEqfCwixxzghkKVaHSGBcl8/la5Drn0xicr69uwqi51Pjf3AwatW+rL7IBb7TiOlOlh3XM3LSip6pq3L45LLN2I/EXnQ59YQ9d8JzIl6UujriZE4AJj4iNHzc4QM6hgT9pgv3KZG5P0fLmZWCe3GvOY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790613259; c=relaxed/simple;
-	bh=20WVoy/0dZtQ+YAWy18LCp3XUskdKV6R/BPG6fUKvKI=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YMIxOyjvkI0ncFt9lgJJgwdun6WVwIeoDaSWx0pOY0EgoXVK/FLwddW2Xvx2noH+jwuCp7HMyvZaqFz6zEsO/sVEAgPMTcnXp8SPOu4kIYfY2S3JtO6qEWn36MGP7lQuEy/UKSTqYfcTdjhDVN/w8dzBKeATjdykdTpUwsRqK/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=H5G3Lyk7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=aG+pKWe1; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=zgMyt/qL; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=jjF4u2mz; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1790613540; c=relaxed/simple;
+	bh=ZtFcD9dDy8Ns8wujRyXoCai7LHrcQP2Mng/vMzHQGYs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=C0DmHTJVy6TmAioMU1AH/7fX+eolxfwymFDfIc9DruGBAiKWyvOoKCHTQO9FzWGh+OiY3NQ5i0oGL7etbk2tzoVmBfMrdRobNgkcomkpRXLIzEu0kxX+RTbeykWCFTKMg0Meaf7erjOo/b7f+dLvITHuzo1Cg3DVTPVSawnhX1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=go+gzpOp; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="H5G3Lyk7";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="aG+pKWe1";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zgMyt/qL";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="jjF4u2mz"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 2AD991FA83;
-	Mon, 28 Sep 2026 16:34:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1790613251; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UN2PRWxytax/7GwUj4v0mSRTB6n+YoSA9iFWLx95deo=;
-	b=H5G3Lyk7QiG9h3HFui64kiTCJsBopTeEv3uP43DWmkV7p0o/Rjjb2Sj8V9LeT5wFYEHk+t
-	UPZp8T0H4IkhI6Hndj2HnEtPwcryCrUQQyhDfDyeWgtcNZvC2nQf6cG/Lp2r8didl/zmkE
-	mjXr6ZpJEFVTtlFSe13Izn9xldfaIq4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1790613251;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UN2PRWxytax/7GwUj4v0mSRTB6n+YoSA9iFWLx95deo=;
-	b=aG+pKWe1Oeq/89ObS7o4PXLzhGEdWm+2CHCuAY0joSX+AdnRQ2/AxcVbIr+05ZqgvB6Gf2
-	LCazXiP5E62ttlCQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="zgMyt/qL";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=jjF4u2mz
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1790613247; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UN2PRWxytax/7GwUj4v0mSRTB6n+YoSA9iFWLx95deo=;
-	b=zgMyt/qLP2+lgJgQmoE2CXbj0MB7pSUjh93vauF9iSi6Hzf91ovdp+CDqAj6HVJx3WXP9S
-	f/htPMsIgTVkY10uufQwvpnziQ31LcFBGDCSgYL7YIlsByh0Yhkx2j3GtvqHZiaagXjFs3
-	rsHQ41velMI8RrevXiTY6W2rZmU1/bQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1790613247;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UN2PRWxytax/7GwUj4v0mSRTB6n+YoSA9iFWLx95deo=;
-	b=jjF4u2mzt/Gxk74Pn0zz9JxFAj6P2CsBxKtEyy0HrLsarR0NUXaM6QtLli59znJ3Jl6n5z
-	zbyZjN3pmRnRQ9Bg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C7094133F1;
-	Mon, 28 Sep 2026 16:34:06 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id WFhKJ/6WumrAAgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 28 Sep 2026 16:34:06 +0000
-Date: Mon, 28 Sep 2026 18:34:06 +0200
-Message-ID: <871pad49oh.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Frank van de Pol <fvdpol@gmail.com>
-Cc: perex@perex.cz,
-	corbet@lwn.net,
-	khan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 0/1] ALSA: usb: Add support for Reloop Jockey 3 DJ controllers
-In-Reply-To: <875wzp4a3i.wl-tiwai@suse.de>
-References: <20260925021915.78909-1-fvdpol@gmail.com>
-	<875wzp4a3i.wl-tiwai@suse.de>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="go+gzpOp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F26A1F000FF;
+	Mon, 28 Sep 2026 16:38:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790613538;
+	bh=ZtFcD9dDy8Ns8wujRyXoCai7LHrcQP2Mng/vMzHQGYs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=go+gzpOpBvx1mGpjBYXWajUUizHF/j77bLG/W6wYn7pqtSJxctIALU3zYJdgC0QTs
+	 awtGSRHrNOQm7rCDKIRA7z/3BErK0lw08NcRU3MsqJLuZUvaOeHHUIH5IeB9MvtRsC
+	 Uyfgr3kbl+elnYZgCsCjCyha+G6I+NMM31VAYuAPUlvmrg6b361lfY7JnZ0OUmU4m4
+	 ibSivyuWyJvNyhUYnQcV2bq6UB1CBq1zXWpOjaoYjy/YNTdIKatbwjJJShpZ1Hc8FV
+	 lD4UvJN8Ks0odUDgGUcnrKNbPv60bfliFsp9my9ojZPz2kQMEfNkDUVZgO/F3kOSmI
+	 iviD54rZUJfOg==
+Date: Mon, 28 Sep 2026 17:38:50 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Thierry Reding <thierry.reding@kernel.org>
+Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Laxman Dewangan <ldewangan@nvidia.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>, mfd@lists.linux.dev,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Thierry Reding <thierry.reding@gmail.com>,
+	linux-sound@vger.kernel.org, linux-tegra@vger.kernel.org,
+	Thierry Reding <treding@nvidia.com>
+Subject: Re: [PATCH 2/2] dt-bindings: sound: tegra-ahub: Convert to
+ json-schema
+Message-ID: <3f5e8785-692d-449a-b1c6-6a2b8679239e@sirena.org.uk>
+References: <20260928-as3722-bindings-v1-0-35f423a9f2b2@nvidia.com>
+ <20260928-as3722-bindings-v1-2-35f423a9f2b2@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.51
-X-Rspamd-Queue-Id: 2AD991FA83
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Flag: NO
-
-On Mon, 28 Sep 2026 18:25:05 +0200,
-Takashi Iwai wrote:
-> 
-> On Fri, 25 Sep 2026 04:19:13 +0200,
-> Frank van de Pol wrote:
-> > 
-> > Hi Takashi, Jaroslav, and the ALSA community,
-> > 
-> > Apologies for the long gap since v3. This is not simply v3 with the review
-> > comments addressed -- I went back to the reverse engineering, and a fair
-> > amount of what came out of it changed the driver structurally.
-> > 
-> > The patch has grown accordingly: v3 was 8 files and 1613 insertions, this is
-> > 17 and 7326.  Most of that is not new logic: of the roughly 5700 added
-> > lines, about 2100 are comments, 1660 are KUnit tests and generated test
-> > vectors for the codec, 249 are the new jockey3.rst documentation, and only
-> > about 1300 are executable code.  The rest is blank lines and Kconfig
-> > plumbing.
-> > 
-> > The relatively large number of comments comes from the deliberate decision
-> > to include what I learned from the protocol analysis with the relevant
-> > section of code.  The parts that most need explaining (the bit-plane wire
-> > format, device initialization, why the URBs run for the device's whole
-> > lifetime, the locking order etc.) cannot be verified by reading the code
-> > alone.  ploytec_codec.c is over half comment for that reason: the DOC: block
-> > deriving the format from the board's I2S and DMA geometry is effectively the
-> > specification the optimized variants implement.
-> > 
-> > Previous version:
-> > v3: https://lore.kernel.org/all/20260622011131.1748298-1-fvdpol@gmail.com/
-> > 
-> > Changes v3 -> v4:
-> > 
-> >  - Reworked the locking architecture around an explicit hierarchy: a
-> >    process-context rate_mutex outermost, then IRQ-safe leaf spinlocks for
-> >    playback, capture and MIDI that are never nested in one another.
-> >    Documented in jockey3.c.
-> > 
-> >  - Fixed the capture stall after a sample-rate change, eliminating the USB
-> >    device reset that recovery used to require.  The reset rate per rate
-> >    change went from 19.3% to zero, with a 98k clean streak on arm64 and 61k
-> >    on x86_64.
-> > 
-> >  - Rewrote the bit-plane codec: a portable reference implementation plus
-> >    32-bit and 64-bit SWAR variants selected at compile time, called through a
-> >    batch API at the driver's real batch sizes. Against the same machine's
-> >    reference build, the optimized path measures 11.0x encode / 7.8x decode on
-> >    x86_64 and 6.9x / 6.1x on arm64. KUnit tests validate all variants against
-> >    an independently derived model of the wire format.
-> > 
-> >  - Added URB coalescing.  The driver used to submit one 512-byte packet per
-> >    URB, fixing the completion rate at 9923/s at 44.1 kHz and 21600/s at 96
-> >    kHz for as long as the device was plugged in, used or not.  N packets per
-> >    URB (N a power of two, 1 to 8) are now chosen per PCM open from the
-> >    requested period size.
-> > 
-> >  - Fixed a cold-boot initialization race. Straight after power-on the device
-> >    accepts the entire init sequence, reports success on every transfer, takes
-> >    playback samples, but its audio engine never starts. Bisected over 100
-> >    cold boots to between 144 and 156 ms after enumeration; the driver now
-> >    waits 250 ms before its first control transfer, close to the 297-308 ms
-> >    the Windows driver waits.
-> > 
-> >  - Added a URB liveness watchdog. Every error path hangs off a URB
-> >    completion, so a device that stops completing URBs produces no error, no
-> >    xrun and no log line. A work item now reports either direction silent for
-> >    20 ms and enters the recovery ladder on a stall onset.
-> > 
-> >  - Hardened handling of an unresponsive device: an EP0 error-class predicate
-> >    aborts the handshake before usb_set_interface() is reached, since the USB
-> >    core disables an interface's endpoints as its first action and does not
-> >    re-enable them on the failure return.
-> > 
-> >  - Added Documentation/sound/cards/jockey3.rst
-> > 
-> >  - Addressed the v3 review comments.
-> > 
-> > 
-> > Testing:
-> > 
-> > Validated with an automated hardware-in-the-loop framework written for the
-> > purpose: probe and unbind endurance, PCM cycling, every rate in both
-> > directions, period and buffer boundary matrices, duplex, xrun injection,
-> > rate-change soaks, suspend/resume, USB disconnects via hub port power
-> > switching, and cold-boot cycling through a network-controlled mains switch. 
-> > Some of the figures above come from runs of tens of thousands of iterations.
-> > 
-> > Exercised on real hardware on x86_64, i386, arm64 (Raspberry Pi 4) and
-> > armv6/armhf (Raspberry Pi 1B -- functional but tight at 88.2/96 kHz), with
-> > x86_64 and arm64 also run under a KASAN + lockdep debug kernel.  The codec
-> > KUnit suite additionally tested under UML and QEMU on i386, arm, arm64,
-> > riscv and s390 (test big/little endianness).
-> > 
-> > 
-> > Two things I would rather state than have found:
-> > 
-> >  - The mitigation stack around the rate-change stall is now practically
-> >    dormant since the rate-change improvement.  I kept it as cheap insurance;
-> >    happy to remove it.
-> > 
-> >  - The 250 ms settling delay in jockey3_initialize() runs on the
-> >    USB hub thread.  I can move initialization off the probe path if you
-> >    prefer, though that introduces complexity to avoid races.
-> > 
-> > 
-> > I look forward to your review/feedback.
-> > 
-> > Best regards,
-> > Frank
-> > 
-> > Frank van de Pol (1):
-> >   ALSA: usb: Add support for Reloop Jockey 3 DJ controllers
-> > 
-> >  Documentation/sound/cards/index.rst           |    1 +
-> >  Documentation/sound/cards/jockey3.rst         |  249 +
-> >  MAINTAINERS                                   |    8 +
-> >  sound/usb/Kconfig                             |    1 +
-> >  sound/usb/Makefile                            |    1 +
-> >  sound/usb/jockey3/.kunitconfig                |   13 +
-> >  sound/usb/jockey3/Kconfig                     |   60 +
-> >  sound/usb/jockey3/Makefile                    |    7 +
-> >  sound/usb/jockey3/jockey3.c                   | 4060 +++++++++++++++++
-> >  sound/usb/jockey3/ploytec_codec.c             |  656 +++
-> >  sound/usb/jockey3/ploytec_codec.h             |   44 +
-> >  sound/usb/jockey3/ploytec_codec_kunit.c       |  871 ++++
-> >  .../usb/jockey3/ploytec_codec_test_vectors.h  |  793 ++++
-> >  sound/usb/jockey3/ploytec_midi.c              |   83 +
-> >  sound/usb/jockey3/ploytec_midi.h              |   36 +
-> >  sound/usb/jockey3/ploytec_proto.c             |  365 ++
-> >  sound/usb/jockey3/ploytec_proto.h             |   78 +
-> >  17 files changed, 7326 insertions(+)
-> >  create mode 100644 Documentation/sound/cards/jockey3.rst
-> >  create mode 100644 sound/usb/jockey3/.kunitconfig
-> >  create mode 100644 sound/usb/jockey3/Kconfig
-> >  create mode 100644 sound/usb/jockey3/Makefile
-> >  create mode 100644 sound/usb/jockey3/jockey3.c
-> >  create mode 100644 sound/usb/jockey3/ploytec_codec.c
-> >  create mode 100644 sound/usb/jockey3/ploytec_codec.h
-> >  create mode 100644 sound/usb/jockey3/ploytec_codec_kunit.c
-> >  create mode 100644 sound/usb/jockey3/ploytec_codec_test_vectors.h
-> >  create mode 100644 sound/usb/jockey3/ploytec_midi.c
-> >  create mode 100644 sound/usb/jockey3/ploytec_midi.h
-> >  create mode 100644 sound/usb/jockey3/ploytec_proto.c
-> >  create mode 100644 sound/usb/jockey3/ploytec_proto.h
-> 
-> Thanks for the update.  I think overall the code would be OK, but
-> the problem is that it's a way too big single patch to digest.
-> 
-> Could you try to instruct LLM for splitting logically for easier
-> reviews?  It could be like starting with the core probe skeleton,
-> polytec core stuff, basic PCM loops, the mixer support, the MIDI
-> support, kunit, documentation, something else I forgot, etc.
-
-And, you don't have to list up all models you've used in Assisted-by
-tag; just put a single "Assisted-by: LLM" should suffice (and even
-preferred).
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="yXMPISHdeW+LmfrK"
+Content-Disposition: inline
+In-Reply-To: <20260928-as3722-bindings-v1-2-35f423a9f2b2@nvidia.com>
+X-Cookie: All is fear in love and war.
 
 
-Takashi
+--yXMPISHdeW+LmfrK
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Sep 28, 2026 at 06:24:41PM +0200, Thierry Reding wrote:
+> From: Thierry Reding <treding@nvidia.com>
+>=20
+> Convert Tegra AHUB bindings from the free-form text format to
+> json-schema.
+
+Please submit patches using subject lines reflecting the style for the
+subsystem, this makes it easier for people to identify relevant patches.
+Look at what existing commits in the area you're changing are doing and
+make sure your subject lines visually resemble what they're doing.
+There's no need to resubmit to fix this alone.
+
+--yXMPISHdeW+LmfrK
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmq6mBkACgkQJNaLcl1U
+h9BtmAf+MByjhamJChEoE4jSBrcxviNHKOCvYqv8inoXbjXe/SGDa013k4ogX4jK
+Nk4r5FgtLey4RUm16rFcDbhvoyWoY1GKdhbOYOCAehrlsj1AKZ9W9dE1dwmyniGF
+X/vK756vmpMTczkJnJNO246yw7hkGOWqY6jNYtoNRbjePKo0BaPGBeoyWoBtrdTv
+mr5tTKOWR5CSIE2gUfZBDRYc9al7oR7y40j+yBV8fokKkEp1nKEGQypGr6uwWT+J
+gLstLrC/Jl+2iO3q8B33LgaxRJQu3Ysdb4R+0NwoR9QXff3R1IPzVg5Znta2DJVf
+V0wSVAPmhPnUu3jRsxFdtyIgnc92Ig==
+=s+s/
+-----END PGP SIGNATURE-----
+
+--yXMPISHdeW+LmfrK--
