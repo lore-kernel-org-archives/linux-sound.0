@@ -1,89 +1,89 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D84854D954D;
-	Mon, 28 Sep 2026 16:27:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 937784EE876;
+	Mon, 28 Sep 2026 16:34:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790612879; cv=none; b=FWlH2kFxCcQIdoglovVxDc4Fv4qp2SNFgsuP0vkt7b7siWy3nfxCDWwRkTSdjIp3wkYDWJ58eMBLhjmSac2O/WyBCYK7sazJD4dSjx9YYNguaLmqA5hlrpUYOk5G1dGNK5AFCXH5iSpSqR+v56zoP/r72tAc/gfLEzZjltBMBCw=
+	t=1790613259; cv=none; b=SFcV62P+rSdi+ryTds3VOov1Jv51Mv/awr9cdvrz2df8oVRwvaQLNnzKwZ0Zflw6FiRHIxdkAYnhOB4/MmtFQkxqcgN8SGcZ/b6XkCd7EkVPGa3ahl+1VoP7clTp8qxzif7c7WrxsK9fRDdSZzNx/QE9IfYTps94K/X2qfhoOH8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790612879; c=relaxed/simple;
-	bh=NmgwfbY0qetX+JLhhEd+9oxY4QtbHhWKXmHPx8z1G6E=;
+	s=arc-20240116; t=1790613259; c=relaxed/simple;
+	bh=20WVoy/0dZtQ+YAWy18LCp3XUskdKV6R/BPG6fUKvKI=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ksZAHMksn3ZQu2BmOP9zAdj57HkO8q6wh3tmpvh/MtaOPyAd1nfdaQGAH2g//aFcxcaEpq/bsTHWDyQkzw/pPWxtnyyIxeR4hZTK6TvUV/vnM3iH/YfnsMZkZApahbNf+U/EVcQcaPcgO8MUUfXBHLkRVz1LNsagVrywruomEMM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QkXKTnZB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=MeP6+A3E; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=BGe8wKX4; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=zDu2XL6C; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=YMIxOyjvkI0ncFt9lgJJgwdun6WVwIeoDaSWx0pOY0EgoXVK/FLwddW2Xvx2noH+jwuCp7HMyvZaqFz6zEsO/sVEAgPMTcnXp8SPOu4kIYfY2S3JtO6qEWn36MGP7lQuEy/UKSTqYfcTdjhDVN/w8dzBKeATjdykdTpUwsRqK/s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=H5G3Lyk7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=aG+pKWe1; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=zgMyt/qL; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=jjF4u2mz; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QkXKTnZB";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MeP6+A3E";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="BGe8wKX4";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zDu2XL6C"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="H5G3Lyk7";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="aG+pKWe1";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zgMyt/qL";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="jjF4u2mz"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 9489921A5C;
-	Mon, 28 Sep 2026 16:27:47 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 2AD991FA83;
+	Mon, 28 Sep 2026 16:34:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1790612871; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1790613251; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/Wmwk2oQmlpw2/mkDIwYPW2qVfB6G/EtxJ08EpejU18=;
-	b=QkXKTnZBpVa6bVTjWpTfMbreMwBnZc8R3AAzcv5a1II+uGudcsnjDLMNeEXDlMQjrFIabZ
-	0uVgRqQRqObH+ybX45goxCfbhVl/9WzGLnQTZPbU8HznhpoBinZq/rYIuFnElXUXsM6gwR
-	++qrTtQdHwx76kEvaMgsC9Iskgnppjo=
+	bh=UN2PRWxytax/7GwUj4v0mSRTB6n+YoSA9iFWLx95deo=;
+	b=H5G3Lyk7QiG9h3HFui64kiTCJsBopTeEv3uP43DWmkV7p0o/Rjjb2Sj8V9LeT5wFYEHk+t
+	UPZp8T0H4IkhI6Hndj2HnEtPwcryCrUQQyhDfDyeWgtcNZvC2nQf6cG/Lp2r8didl/zmkE
+	mjXr6ZpJEFVTtlFSe13Izn9xldfaIq4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1790612871;
+	s=susede2_ed25519; t=1790613251;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/Wmwk2oQmlpw2/mkDIwYPW2qVfB6G/EtxJ08EpejU18=;
-	b=MeP6+A3EMgs4gG8H1i2+h/DCy4x8d4ukhFRcmt7pm0kLkQoU1X3Aiq74sD67J5LnKyNf/g
-	CLBvu2mfZpmdSPBA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=BGe8wKX4;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=zDu2XL6C
+	bh=UN2PRWxytax/7GwUj4v0mSRTB6n+YoSA9iFWLx95deo=;
+	b=aG+pKWe1Oeq/89ObS7o4PXLzhGEdWm+2CHCuAY0joSX+AdnRQ2/AxcVbIr+05ZqgvB6Gf2
+	LCazXiP5E62ttlCQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="zgMyt/qL";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=jjF4u2mz
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1790612867; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1790613247; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/Wmwk2oQmlpw2/mkDIwYPW2qVfB6G/EtxJ08EpejU18=;
-	b=BGe8wKX4wXPEMBdrn4k1IUJAnb+L0xChtQKamm2hSW661X/4rjSkzSvae3Zj6hKC5dqaA8
-	7SbroG3//Qijs+GEDbUq0tGvZUbCuFtGFOEkcb7AwJFkg/5aj0zBuDFn6jSXG1eh87UF/R
-	XNloz3ZPHl9315WEbYt6JW7dVDXr+D8=
+	bh=UN2PRWxytax/7GwUj4v0mSRTB6n+YoSA9iFWLx95deo=;
+	b=zgMyt/qLP2+lgJgQmoE2CXbj0MB7pSUjh93vauF9iSi6Hzf91ovdp+CDqAj6HVJx3WXP9S
+	f/htPMsIgTVkY10uufQwvpnziQ31LcFBGDCSgYL7YIlsByh0Yhkx2j3GtvqHZiaagXjFs3
+	rsHQ41velMI8RrevXiTY6W2rZmU1/bQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1790612867;
+	s=susede2_ed25519; t=1790613247;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/Wmwk2oQmlpw2/mkDIwYPW2qVfB6G/EtxJ08EpejU18=;
-	b=zDu2XL6CrWN37yTuxJpCJ0s0MKhKDCWD8ikp7i54J5B9p4REhXVsoAbm/3Ei79WNjUApRX
-	WdbTOhyfCoruzhBw==
+	bh=UN2PRWxytax/7GwUj4v0mSRTB6n+YoSA9iFWLx95deo=;
+	b=jjF4u2mzt/Gxk74Pn0zz9JxFAj6P2CsBxKtEyy0HrLsarR0NUXaM6QtLli59znJ3Jl6n5z
+	zbyZjN3pmRnRQ9Bg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 44EBC133F1;
-	Mon, 28 Sep 2026 16:27:47 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C7094133F1;
+	Mon, 28 Sep 2026 16:34:06 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id +LaTB4OVumreegAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 28 Sep 2026 16:27:47 +0000
-Date: Mon, 28 Sep 2026 18:27:46 +0200
-Message-ID: <874if949z1.wl-tiwai@suse.de>
+	id WFhKJ/6WumrAAgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 28 Sep 2026 16:34:06 +0000
+Date: Mon, 28 Sep 2026 18:34:06 +0200
+Message-ID: <871pad49oh.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: ROJOX <rojoxoficial@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.de>,
+To: Frank van de Pol <fvdpol@gmail.com>
+Cc: perex@perex.cz,
+	corbet@lwn.net,
+	khan@linuxfoundation.org,
+	rdunlap@infradead.org,
 	linux-sound@vger.kernel.org,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
 	linux-kernel@vger.kernel.org
-Subject: Re: [RFC] ALSA: hda: clarify unsol_event locking across driver unbind
-In-Reply-To: <CAP8ibufezke_P6vkOakgg6wXvOKxdGGiYZ0gD6_+pFuwefA6-Q@mail.gmail.com>
-References: <CAP8ibudQFpGuCo+Z97ozKySft0dZ40DWAqf4tUMEe2vrbtu6jA@mail.gmail.com>
-	<878q4l4baw.wl-tiwai@suse.de>
-	<CAP8ibufezke_P6vkOakgg6wXvOKxdGGiYZ0gD6_+pFuwefA6-Q@mail.gmail.com>
+Subject: Re: [PATCH v4 0/1] ALSA: usb: Add support for Reloop Jockey 3 DJ controllers
+In-Reply-To: <875wzp4a3i.wl-tiwai@suse.de>
+References: <20260925021915.78909-1-fvdpol@gmail.com>
+	<875wzp4a3i.wl-tiwai@suse.de>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -93,7 +93,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
 X-Spam-Score: -3.51
-X-Rspamd-Queue-Id: 9489921A5C
+X-Rspamd-Queue-Id: 2AD991FA83
 X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Level: 
 X-Rspamd-Action: no action
@@ -106,212 +106,179 @@ X-Spamd-Result: default: False [-3.51 / 50.00];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
 	MIME_TRACE(0.00)[0:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	ARC_NA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	FREEMAIL_TO(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
 	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	DKIM_TRACE(0.00)[suse.de:+]
 X-Spam-Flag: NO
 
-On Mon, 28 Sep 2026 18:16:26 +0200,
-ROJOX wrote:
+On Mon, 28 Sep 2026 18:25:05 +0200,
+Takashi Iwai wrote:
 > 
-> Hi Takashi,
+> On Fri, 25 Sep 2026 04:19:13 +0200,
+> Frank van de Pol wrote:
+> > 
+> > Hi Takashi, Jaroslav, and the ALSA community,
+> > 
+> > Apologies for the long gap since v3. This is not simply v3 with the review
+> > comments addressed -- I went back to the reverse engineering, and a fair
+> > amount of what came out of it changed the driver structurally.
+> > 
+> > The patch has grown accordingly: v3 was 8 files and 1613 insertions, this is
+> > 17 and 7326.  Most of that is not new logic: of the roughly 5700 added
+> > lines, about 2100 are comments, 1660 are KUnit tests and generated test
+> > vectors for the codec, 249 are the new jockey3.rst documentation, and only
+> > about 1300 are executable code.  The rest is blank lines and Kconfig
+> > plumbing.
+> > 
+> > The relatively large number of comments comes from the deliberate decision
+> > to include what I learned from the protocol analysis with the relevant
+> > section of code.  The parts that most need explaining (the bit-plane wire
+> > format, device initialization, why the URBs run for the device's whole
+> > lifetime, the locking order etc.) cannot be verified by reading the code
+> > alone.  ploytec_codec.c is over half comment for that reason: the DOC: block
+> > deriving the format from the board's I2S and DMA geometry is effectively the
+> > specification the optimized variants implement.
+> > 
+> > Previous version:
+> > v3: https://lore.kernel.org/all/20260622011131.1748298-1-fvdpol@gmail.com/
+> > 
+> > Changes v3 -> v4:
+> > 
+> >  - Reworked the locking architecture around an explicit hierarchy: a
+> >    process-context rate_mutex outermost, then IRQ-safe leaf spinlocks for
+> >    playback, capture and MIDI that are never nested in one another.
+> >    Documented in jockey3.c.
+> > 
+> >  - Fixed the capture stall after a sample-rate change, eliminating the USB
+> >    device reset that recovery used to require.  The reset rate per rate
+> >    change went from 19.3% to zero, with a 98k clean streak on arm64 and 61k
+> >    on x86_64.
+> > 
+> >  - Rewrote the bit-plane codec: a portable reference implementation plus
+> >    32-bit and 64-bit SWAR variants selected at compile time, called through a
+> >    batch API at the driver's real batch sizes. Against the same machine's
+> >    reference build, the optimized path measures 11.0x encode / 7.8x decode on
+> >    x86_64 and 6.9x / 6.1x on arm64. KUnit tests validate all variants against
+> >    an independently derived model of the wire format.
+> > 
+> >  - Added URB coalescing.  The driver used to submit one 512-byte packet per
+> >    URB, fixing the completion rate at 9923/s at 44.1 kHz and 21600/s at 96
+> >    kHz for as long as the device was plugged in, used or not.  N packets per
+> >    URB (N a power of two, 1 to 8) are now chosen per PCM open from the
+> >    requested period size.
+> > 
+> >  - Fixed a cold-boot initialization race. Straight after power-on the device
+> >    accepts the entire init sequence, reports success on every transfer, takes
+> >    playback samples, but its audio engine never starts. Bisected over 100
+> >    cold boots to between 144 and 156 ms after enumeration; the driver now
+> >    waits 250 ms before its first control transfer, close to the 297-308 ms
+> >    the Windows driver waits.
+> > 
+> >  - Added a URB liveness watchdog. Every error path hangs off a URB
+> >    completion, so a device that stops completing URBs produces no error, no
+> >    xrun and no log line. A work item now reports either direction silent for
+> >    20 ms and enters the recovery ladder on a stall onset.
+> > 
+> >  - Hardened handling of an unresponsive device: an EP0 error-class predicate
+> >    aborts the handshake before usb_set_interface() is reached, since the USB
+> >    core disables an interface's endpoints as its first action and does not
+> >    re-enable them on the failure return.
+> > 
+> >  - Added Documentation/sound/cards/jockey3.rst
+> > 
+> >  - Addressed the v3 review comments.
+> > 
+> > 
+> > Testing:
+> > 
+> > Validated with an automated hardware-in-the-loop framework written for the
+> > purpose: probe and unbind endurance, PCM cycling, every rate in both
+> > directions, period and buffer boundary matrices, duplex, xrun injection,
+> > rate-change soaks, suspend/resume, USB disconnects via hub port power
+> > switching, and cold-boot cycling through a network-controlled mains switch. 
+> > Some of the figures above come from runs of tens of thousands of iterations.
+> > 
+> > Exercised on real hardware on x86_64, i386, arm64 (Raspberry Pi 4) and
+> > armv6/armhf (Raspberry Pi 1B -- functional but tight at 88.2/96 kHz), with
+> > x86_64 and arm64 also run under a KASAN + lockdep debug kernel.  The codec
+> > KUnit suite additionally tested under UML and QEMU on i386, arm, arm64,
+> > riscv and s390 (test big/little endianness).
+> > 
+> > 
+> > Two things I would rather state than have found:
+> > 
+> >  - The mitigation stack around the rate-change stall is now practically
+> >    dormant since the rate-change improvement.  I kept it as cheap insurance;
+> >    happy to remove it.
+> > 
+> >  - The 250 ms settling delay in jockey3_initialize() runs on the
+> >    USB hub thread.  I can move initialization off the probe path if you
+> >    prefer, though that introduces complexity to avoid races.
+> > 
+> > 
+> > I look forward to your review/feedback.
+> > 
+> > Best regards,
+> > Frank
+> > 
+> > Frank van de Pol (1):
+> >   ALSA: usb: Add support for Reloop Jockey 3 DJ controllers
+> > 
+> >  Documentation/sound/cards/index.rst           |    1 +
+> >  Documentation/sound/cards/jockey3.rst         |  249 +
+> >  MAINTAINERS                                   |    8 +
+> >  sound/usb/Kconfig                             |    1 +
+> >  sound/usb/Makefile                            |    1 +
+> >  sound/usb/jockey3/.kunitconfig                |   13 +
+> >  sound/usb/jockey3/Kconfig                     |   60 +
+> >  sound/usb/jockey3/Makefile                    |    7 +
+> >  sound/usb/jockey3/jockey3.c                   | 4060 +++++++++++++++++
+> >  sound/usb/jockey3/ploytec_codec.c             |  656 +++
+> >  sound/usb/jockey3/ploytec_codec.h             |   44 +
+> >  sound/usb/jockey3/ploytec_codec_kunit.c       |  871 ++++
+> >  .../usb/jockey3/ploytec_codec_test_vectors.h  |  793 ++++
+> >  sound/usb/jockey3/ploytec_midi.c              |   83 +
+> >  sound/usb/jockey3/ploytec_midi.h              |   36 +
+> >  sound/usb/jockey3/ploytec_proto.c             |  365 ++
+> >  sound/usb/jockey3/ploytec_proto.h             |   78 +
+> >  17 files changed, 7326 insertions(+)
+> >  create mode 100644 Documentation/sound/cards/jockey3.rst
+> >  create mode 100644 sound/usb/jockey3/.kunitconfig
+> >  create mode 100644 sound/usb/jockey3/Kconfig
+> >  create mode 100644 sound/usb/jockey3/Makefile
+> >  create mode 100644 sound/usb/jockey3/jockey3.c
+> >  create mode 100644 sound/usb/jockey3/ploytec_codec.c
+> >  create mode 100644 sound/usb/jockey3/ploytec_codec.h
+> >  create mode 100644 sound/usb/jockey3/ploytec_codec_kunit.c
+> >  create mode 100644 sound/usb/jockey3/ploytec_codec_test_vectors.h
+> >  create mode 100644 sound/usb/jockey3/ploytec_midi.c
+> >  create mode 100644 sound/usb/jockey3/ploytec_midi.h
+> >  create mode 100644 sound/usb/jockey3/ploytec_proto.c
+> >  create mode 100644 sound/usb/jockey3/ploytec_proto.h
 > 
-> Thanks for taking a look.
+> Thanks for the update.  I think overall the code would be OK, but
+> the problem is that it's a way too big single patch to digest.
 > 
-> Yes, I agree that the whole-controller teardown path appears safe in this
-> respect: snd_hdac_bus_exit() does cancel_work_sync(&bus->unsol_work), so an
-> already running unsolicited worker is drained before the bus itself is torn
-> down.
-> 
-> The case I am concerned about is the individual codec unbind/reset path,
-> where the HDA bus and its unsol_work remain alive.
-> 
-> For example, snd_hda_codec_reset() calls device_release_driver() for the
-> codec device:
-> 
-> https://github.com/torvalds/linux/blob/165768bb70265b5c38cf0b73fafd75be235f8b14/sound/hda/common/codec.c#L1799-L1810
-> 
-> and the legacy HDA remove wrapper reaches the codec driver's ->remove()
-> callback and subsequent unbind cleanup:
-> 
-> https://github.com/torvalds/linux/blob/165768bb70265b5c38cf0b73fafd75be235f8b14/sound/hda/common/bind.c#L152-L173
-> 
-> So I think there are two separate lifetime questions here.
-> 
-> Taking get_device() around the unsolicited dispatch would protect the
-> hdac_device/struct device object itself, which addresses the possibility of
-> the codec object disappearing while the worker is using it.
-> 
-> What I am not sure it protects is the bound driver's private state. The
-> device can remain alive while device_release_driver() runs the codec
-> driver's ->remove() callback and that callback tears down state subsequently
-> used by ->unsol_event().
-> 
-> Conceptually, I am worried about this ordering:
-> 
->     unsol worker                     codec unbind
->     ------------                     ------------
->     get_device(codec)
->     resolve current driver
->                                      ->remove()
->                                      free driver-private state
->     ->unsol_event()
->       use driver-private state
->     put_device(codec)
-> 
-> So my concern is not primarily the lifetime of struct hdac_device itself,
-> but whether there is an existing guarantee that serializes the driver
-> binding/private state against unsol_event() during individual codec unbind.
-> 
-> If there is such an invariant elsewhere in the HDA or driver-core lifecycle,
-> I may simply be missing it.
-> 
-> Otherwise, would you expect the fix to protect only the device object with
-> get_device(), or would the current binding also need to be serialized or
-> revalidated against ->remove() before dispatch?
+> Could you try to instruct LLM for splitting logically for easier
+> reviews?  It could be like starting with the core probe skeleton,
+> polytec core stuff, basic PCM loops, the mixer support, the MIDI
+> support, kunit, documentation, something else I forgot, etc.
 
-AFAIK, there is no lifecycle protection in the code in question.
-So a serialization like get_device() would be likely a good to have,
-indeed.  Feel free to cook and pitch your fix.
+And, you don't have to list up all models you've used in Assisted-by
+tag; just put a single "Assisted-by: LLM" should suffice (and even
+preferred).
 
-
-thanks,
 
 Takashi
-
-> 
-> Thanks,
-> Rojox
-> iMac19,2 Linux audio project
-> 
-> On Mon, 28 Sep 2026 17:59:03 +0200, Takashi Iwai <tiwai@suse.de> wrote:
-> > On Fri, 25 Sep 2026 04:57:13 +0200,
-> > ROJOX wrote:
-> > >
-> > > Hi,
-> > >
-> > > Could you advise on the lifetime and locking contract for
-> > > hdac_driver::unsol_event() relative to codec driver unbind?
-> > >
-> > > In current torvalds/linux, snd_hdac_bus_process_unsol_events() looks up a
-> > > codec in bus->caddr_tbl under bus->reg_lock, checks codec->registered, and
-> > > then drops reg_lock. It subsequently reads codec->dev.driver and dispatches
-> > > drv->unsol_event(codec, res), without taking a codec device reference or
-> > > device_lock in that interval:
-> > >
-> > > https://github.com/torvalds/linux/blob/165768bb70265b5c38cf0b73fafd75be235f8b14/sound/hda/core/bus.c#L173-L189
-> > >
-> > > Separately, driver-core unbind acquires the device lock and calls the remove
-> > > path while that lock is held. The HDA reset path can initiate this through
-> > > device_release_driver():
-> > >
-> > > https://github.com/torvalds/linux/blob/165768bb70265b5c38cf0b73fafd75be235f8b14/drivers/base/dd.c#L1315-L1374
-> > > https://github.com/torvalds/linux/blob/165768bb70265b5c38cf0b73fafd75be235f8b14/sound/hda/common/codec.c#L1799-L1810
-> > >
-> > > This appears to permit the following source-level ordering:
-> > >
-> > > unsol worker unbind task
-> > > ------------ -----------
-> > > lookup codec under reg_lock
-> > > drop reg_lock
-> > > read codec->dev.driver
-> > > enter unsol_event()
-> > > acquire device_lock
-> > > invoke remove
-> > > tear down private state
-> > > callback continues using private state
-> >
-> > Usually the HD-audio controller driver calls snd_hdac_bus_exit() at
-> > its remove callback (or via the destructor invoked from there), and it
-> > does cancel_work_sync() for the unsol event worker.
-> >
-> > I thought the removal of codec->dev.driver happened after the
-> > driver_detach(), so at that point, isn't the device object itself
-> > still alive?
-> >
-> > Or maybe I haven't followed the flow completely yet. If the issue is
-> > real, just taking the codec's device reference around the call would
-> > be the easiest solution, I guess.
-> >
-> > thanks,
-> >
-> > Takashi
-> >
-> > > I do not see the worker taking the device lock or another explicit
-> > > binding/private-state lifetime reference before dispatch. If the callback
-> > > uses state destroyed by the remove path, the unlocked dispatch therefore
-> > > appears able to overlap that teardown.
-> > >
-> > > The codec/device object lifetime, driver binding lifetime, and
-> > > driver-private state lifetime are distinct here: get_device() alone would
-> > > pin the first, but would not by itself prevent unbind or preserve private
-> > > state.
-> > >
-> > > The legacy HDA wrapper additionally checks shutdown and system-PM state
-> > > before calling the codec callback, but those checks do not appear to drain
-> > > a callback that has already passed them:
-> > >
-> > > https://github.com/torvalds/linux/blob/165768bb70265b5c38cf0b73fafd75be235f8b14/sound/hda/common/bind.c#L42-L52
-> > >
-> > > I also found the older unsolicited queue-index synchronization fix,
-> > > c637fa151259c0f74665fde7cba5b7eac1417ae5. That appears to address queue
-> > > consistency rather than this binding/private-state lifetime interval.
-> > >
-> > > I tested one scratch proof candidate, not a proposed patch. It synchronizes
-> > > address-table lookup/removal, obtains a codec device reference while the
-> > > entry is protected, drops reg_lock, takes device_lock, revalidates the
-> > > current binding and codec registration state, and dispatches the callback
-> > > while that lock is held.
-> > >
-> > > That closes the ordinary callback-versus-remove schedule in a deterministic
-> > > model, and the modified HDA objects build cleanly in a scratch Ubuntu
-> > > 7.0.0-34.34 source tree. However, hdac_driver::unsol_event() currently does
-> > > not document callback-under-device_lock or reentry restrictions, so I am
-> > > not assuming that this is the correct fix.
-> > >
-> > > Could you please clarify:
-> > >
-> > > 1. Is HDA core expected to serialize unsol_event() against unbind by holding
-> > > the codec device_lock through dispatch, or is there another existing
-> > > lifetime guarantee intended here?
-> > >
-> > > 2. If that lock context is acceptable, should the callback contract prohibit
-> > > recursively taking the same device lock and synchronous same-codec
-> > > unbind/reset/reprobe? I found no direct same-codec teardown call in the
-> > > audited in-tree callback bodies, but indirect and out-of-tree behavior is
-> > > not established.
-> > >
-> > > 3. Would callback-under-device_lock conflict with expected HDA runtime-PM or
-> > > system-PM behavior? My source review did not establish a generic contract
-> > > for this.
-> > >
-> > > 4. For an event queued before unbind/rebind, is it expected to be deliverable
-> > > to the newly bound driver, or should it be discarded across the
-> > > binding/reset boundary?
-> > >
-> > > This came up while auditing HDA/CS8409 codec lifetime behavior; the question
-> > > is about the generic HDA unsolicited-callback contract.
-> > >
-> > > No runtime crash has been reproduced. This is based on source/lifetime
-> > > analysis and deterministic concurrency modeling, not a runtime stress test.
-> > > I may be missing an existing lifetime guarantee or invariant, and would
-> > > appreciate correction.
-> > >
-> > > The source snapshot checked is torvalds/linux master at
-> > > 165768bb70265b5c38cf0b73fafd75be235f8b14. No patch is proposed or attached.
-> > >
-> > > Thanks,
-> > > Rojox
-> > > iMac19,2 Linux audio project
