@@ -1,208 +1,143 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92E8D49B479
-	for <linux-sound@vger.kernel.org>; Mon, 28 Sep 2026 11:02:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDC44471D1B;
+	Mon, 28 Sep 2026 11:03:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790593377; cv=none; b=d4ygphpVzdLD4LbprXlWLGiT6T77xHrjHkhQMgvSUjrRhg+DeMUmRFN5OqJ+ouQLKfg15rVvRC42q5R4+uXTAD7bkic71kDuOJQ5IHj28jsHj7D3Wvtrd42YMbQYr7jbIDY+pWHpB6+biH4MK+za+/HxkbTXFpEh9tx9rFw7dJU=
+	t=1790593404; cv=none; b=T/oHQUqgyyab1ffQozSHgppmwM7erJe5ldSxHpeMl4NSfaUV9nC2Bhjl/DjD9StDS5gK1Mlm0h2ZyDxYxfmEOess0M0vhf4EMSxzzlcqGueIQaRQIVvJsDGETxLd4QUrmHcHn2AgpDst06rIUDlEvf4JJqSUZkjfMd8Hqf9ArPA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790593377; c=relaxed/simple;
-	bh=lN7FDdxC2mL6jHb0e797cYW2kKCoZMJhHgMbvuNvuSA=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tyQfzgx9yGigPC0Xjqh7VsD5xrgg4hjS9/ImJcBFU1jQ4c8iXCdBADgQq2dioI+ZdQkcLk3cjQ3EQIBOBgF9fUUrV0RybuP8MA96puW8brjiT/aki0BGuhCgtWaGDzw8S9M7BFTlPFYB2F9rfRQWKYgKeKgakYtJst0p5ojtgM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OVylJJOU; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=DXAMKXmX; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=KtC0Cb7/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=v9m/htec; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1790593404; c=relaxed/simple;
+	bh=NktPcNV0POf9Mbw4a0iog9k3nJIBEDwow3KDiOcY3IE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HNNPgO5SpSUC2z6hVSI0FRo59XPBXKEUHfqkS8NmeVAB/g7V6blhYm21CYR+w4ywWLaeudTa5MfQDz9RvGdJUZN0Q+uUJJgH83mTQLGn6ObUrehAYCTRYVZnqH0Ip9KMYdhxw2NVZEkk2iDMc0FsdtTKud6q51j6CTenbdDm0Fk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SG55Bru0; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OVylJJOU";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DXAMKXmX";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KtC0Cb7/";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="v9m/htec"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 6297C22722;
-	Mon, 28 Sep 2026 11:02:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1790593369; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zrBofPK4L7YDbPk9mbILAHCVioYgIRV4Gb3k2UDxfE0=;
-	b=OVylJJOU2RriBYNf4Ug03EguyFMQL0KrA9A4Wzh6j74OLTq73/j3yBSQfOhaztvwWevc2U
-	Ci4/BJXED0z2QOfvauUezbFKWUt/1jlOIBLhcY3lxuoU2oo2IAtsMReK3OxqCHWjzytUd+
-	c6F5+E1kJRhw9NuOG0Py2ERvKxl3S7E=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1790593369;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zrBofPK4L7YDbPk9mbILAHCVioYgIRV4Gb3k2UDxfE0=;
-	b=DXAMKXmXGEVn7qooCzBpQTVRJXdqfcxcHZoukTObuKmyqTKP3yZIEuJcr45VfQ2YY2mG77
-	qkaSZFWhJ663CaAg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="KtC0Cb7/";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="v9m/htec"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1790593365; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zrBofPK4L7YDbPk9mbILAHCVioYgIRV4Gb3k2UDxfE0=;
-	b=KtC0Cb7/czty8gxnhZlcA7amxbqh/NbF23T8LhcPIE894+LG/B/NhxrnTBpHzJ6T+SdMXv
-	4fWgGgHNxNWj8R6V5b/658lBgCVMvy0H08cAjASSzvnYmLJLx/xziwszS4sfVuj3IRkP8o
-	Q7+WX6/8V2uy39Txh906ODHWkS+23KM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1790593365;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zrBofPK4L7YDbPk9mbILAHCVioYgIRV4Gb3k2UDxfE0=;
-	b=v9m/htecYIAf9qQ3nYKW9rrzYE/8YdFW6Z7g+uBaCTqaEAJGe/aC/FX+CdzV+E6qEbBUh8
-	4q4IGDGWm4CCV+Cw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0A168133F1;
-	Mon, 28 Sep 2026 11:02:45 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 4TWlNFRJumpNIwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 28 Sep 2026 11:02:45 +0000
-Date: Mon, 28 Sep 2026 13:02:44 +0200
-Message-ID: <87h5j97i5n.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	<tiwai@suse.com>,
-	<broonie@kernel.org>,
-	<perex@perex.cz>,
-	<amade@asmblr.net>,
-	<linux-sound@vger.kernel.org>
-Subject: Re: [PATCH] ALSA: hda: Allow for codec model selection with module param
-In-Reply-To: <63cef80c-7040-4a21-8fa8-3c258d123fde@intel.com>
-References: <20260914102253.2969724-1-cezary.rojewski@intel.com>
-	<87bj9zom8l.wl-tiwai@suse.de>
-	<9e17f127-ecaa-407f-96ec-0993e9c1ee83@intel.com>
-	<87tsnrn5oe.wl-tiwai@suse.de>
-	<1d146db5-f4ff-4a5b-a1d9-181ee6d8ceac@intel.com>
-	<87a4pin4v2.wl-tiwai@suse.de>
-	<36644426-3302-47da-a720-f353c307348b@intel.com>
-	<87ik46lcz6.wl-tiwai@suse.de>
-	<0f1397fb-4ec8-4644-8fea-717f57354b25@intel.com>
-	<87wlsljweu.wl-tiwai@suse.de>
-	<63cef80c-7040-4a21-8fa8-3c258d123fde@intel.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SG55Bru0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16D721F000FF;
+	Mon, 28 Sep 2026 11:03:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790593402;
+	bh=GRWHJvrV87zg7wTj96AOWlFOZBTwq5ScjGQwkE9kXh8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=SG55Bru0an6HMsHCstSC1nYa8joHK0Q+fQpmoyTiAAChgQfIPQcwNa7hJ9c76ElZj
+	 FgCSwH1n3QX9ODLvsg6/ddVH610KpnIKCCKouoFnzvI6opPVFzP37WYQ0EQX0Utohx
+	 ATxj9lj/b0ABODdvh1GZw8OPnDV0kqw/pHaTF6MuyH0C0Uxnb4/kBtpngl3OyZ2Py8
+	 YANozyrl7MmYGlJMWF13NnJoW/HYppQQ33kS/k7cMFQ0YRxxsdkLpBj7tUNZxUkPJd
+	 FSqvcvJv4SftFwwGy1ip6sGS1RrZL6gkiSb+IS89vy77bsijRlMXSpgJSl9TMY8qvF
+	 561BxhnzNAF9A==
+Date: Mon, 28 Sep 2026 12:03:13 +0100
+From: Mark Brown <broonie@kernel.org>
+To: James Calligeros <jcalligeros99@gmail.com>
+Cc: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
+	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Sven Peter <sven@kernel.org>,
+	Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Ulf Hansson <ulfh@kernel.org>,
+	Amit Kucheria <amit.kucheria@linaro.org>,
+	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+	Lars-Peter Clausen <lars@metafoo.de>, Vinod Koul <vkoul@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>,
+	James Schulman <james.schulman@cirrus.com>, asahi@lists.linux.dev,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	patches@opensource.cirrus.com, Takashi Iwai <tiwai@suse.de>,
+	linux-mediatek@lists.infradead.org,
+	Hector Martin <marcan@marcan.st>,
+	Sasha Finkelstein <k@chaosmail.tech>
+Subject: Re: [PATCH 16/28] ASoC: apple: Add macaudio machine driver
+Message-ID: <0ae94fbe-cd41-4d49-b073-e65ab8eff724@sirena.org.uk>
+References: <20260920-macaudio-v1-0-741cc20a74e5@gmail.com>
+ <20260920-macaudio-v1-16-741cc20a74e5@gmail.com>
+ <arJMrsl45g2_bLPB@sirena.co.uk>
+ <6dv6M3LAS9mol5fvC8Ie-w@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 6297C22722
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-
-On Fri, 18 Sep 2026 10:33:00 +0200,
-Cezary Rojewski wrote:
-> 
-> On 9/16/2026 12:57 PM, Takashi Iwai wrote:
-> 
-> >>>>> In theory, it can be a hotplug device, and in that case, we may have
-> >>>>> two device configurations for multiple codecs of the same codec chip.
-> >>>>> But, that's an exception, and I wonder whether we should care for the
-> >>>>> model option that is mainly used for debugging or workaround.
-> >>>> On reference setups we do anything. 2+ standalone codecs on HDAudio bus
-> >>>> in our lab is not some kind of sorcery. Obviously right now we
-> >>>> workaround the kernel by applying a bunch of patches. But adding a
-> >>>> module param (of type array) covers both: any userspace and any
-> >>>> reference scenario.
-> >>>
-> >>> Well, using an array itself isn't a big problem.  The codec module
-> >>> option could be an array, too.
-> >>>
-> >>> The problem I've been seeing is, however, that it's cumbersome to pass
-> >>> the arrays correctly if there are multiple devices.  Currently it
-> >>> depends on the controller probe order, and that's often unintuitive
-> >>> for users.  This problem still remains with your proposed change --
-> >>> even more confusing because now there are multiple entries but
-> >>> digested differently (imagine a combination of hda-intel and SOF).
-> >>>
-> >>> So, obviously, I haven't found any good solution yet...
-> >> snd_hda_codec is fetched with SND_HDA kconfig which is always on when
-> >> SND_HDA_CORE is selected - this is true for both DSP drivers, avs-driver
-> >> and the sof-driver as both depend on SND_HDA_EXT_CORE:
-> >>
-> >> 	SND_HDA <- SND_HDA_CORE <- SND_HDA_EXT_CORE
-> >>
-> >> Depending on dsp_driver, not selected drivers will quit probe() early
-> >> before the code gets to model assignment part.
-> >>
-> >> And thus I'm not sure what you meant by "combination of hda-intel and
-> >> SOF".  At the same time not quite sure about "controller probe order"
-> >> issue either - bus->modelname and codec's model are two different
-> >> things.  It's likely I've missed something and if so, I'd greatly
-> >> appreciate additional input.
-> > 
-> > Basically the model option is passed per controller, not per codec.
-> > 
-> > So, if you have two HDMI controllers (e.g. built-in audio and HDMI on
-> > d-GPU), it's common that they are bound to different drivers (ASoC and
-> > hda-intel) on the same machine.
-> > Now when you pass the model option to snd-hda-intel, only the HDMI
-> > controller takes it.  Meanwhile, if you pass the same model option to
-> > snd-hda-codec, it's taken from both, and the order matters, and you'd
-> > have to be very careful at which position you'd have to put.
-> > That is, the same model option, but they have different values.
-> 
-> Marvelous! Thank you for the example.  I was typically using a FPGA for
-> multi-bus tests, oh well..
-> In such case I do not see us avoiding the bus' modelname when specifying
-> the quirks e.g.:
-> 
-> 	// array param, [SND_MAX_CARDS]
-> 	model=my_bus_xyz:my_codec_abc,my_bus_123:my_codec_890
-
-There is already a handling with a colon in the model option as an
-alias, so this syntax would conflict.  I think it can be something
-with '@', e.g. model=something@bus. (Or other way round).
-It's still an open question how the bus should be represented, though.
-
-And, there can be the cases where you want to specify a different
-quirk per codec address for multiple codecs.  This would need an
-extension of the model string syntax, too.
-
-So, overall, we need some redesign, I suppose.
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="o62xNzOzXCWulXud"
+Content-Disposition: inline
+In-Reply-To: <6dv6M3LAS9mol5fvC8Ie-w@gmail.com>
+X-Cookie: All is fear in love and war.
 
 
-thanks,
+--o62xNzOzXCWulXud
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Takashi
+On Sat, Sep 26, 2026 at 11:06:02AM +1000, James Calligeros wrote:
+> On Tuesday, 22 September 2026 7:38:54=E2=80=AFpm Australian Eastern Stand=
+ard Time Mark Brown wrote:
+
+> > > +	list_for_each_entry(kctl, &ma->card.snd_card->controls, list) {
+> > > +		if (!snd_soc_control_matches(kctl, volume_control_names[ma->cfg->a=
+mp]))
+> > > +			continue;
+
+> > This is used from the volume limit timeout work which doesn't hold the
+> > controls_rwsem, userspace can add or remove user controls which would
+> > change the list so the work needs to lock the controls list.
+
+> Would it be sufficient to scoped_guard the controls_rwsem wherever we
+> use this pattern?
+
+I think so, but I didn't properly check.
+
+> > > +static int macaudio_dpcm_hw_params(struct snd_pcm_substream *substre=
+am,
+> > > +				   struct snd_pcm_hw_params *params)
+> > > +{
+> > > +	struct snd_soc_pcm_runtime *rtd =3D snd_soc_substream_to_rtd(substr=
+eam);
+> > > +	struct macaudio_snd_data *ma =3D snd_soc_card_get_drvdata(rtd->card=
+);
+> > > +	struct macaudio_link_props *props =3D &ma->link_props[rtd->dai_link=
+->id];
+> > > +	struct snd_soc_dai *cpu_dai =3D snd_soc_rtd_to_cpu(rtd, 0);
+> > > +	struct snd_interval *rate =3D hw_param_interval(params,
+> > > +						      SNDRV_PCM_HW_PARAM_RATE);
+> > > +	int bclk_ratio =3D macaudio_get_runtime_bclk_ratio(substream);
+> > > +	int i;
+> > > +
+> > > +	if (props->is_sense) {
+> > > +		rate->min =3D rate->max =3D cpu_dai->symmetric_rate;
+> > > +		return 0;
+> > > +	}
+
+> > It feels like this DAI ought to have separate ops...  Also, for the
+> > sense link will we definitely already have a rate set up?
+
+> AIUI, the cpu rate should always be set up by the time we hit
+> this path as it is only taken when setting up the VISENSE FE (after the
+> playback stuff is already set up).
+
+Is that something we actually enforce or is that just a thing a sensible
+userspace should do?  I can see something racing.
+
+--o62xNzOzXCWulXud
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmq6SXAACgkQJNaLcl1U
+h9DIuAf+MhyW6NwNfZ3Bqa+m4pMvFpTPdEbJLiFpeSW5EqKWKUoQ0S0CJTszd3Bq
+zw8RLCiIUkMfvzpeQ6lgIYkpLAiHkB3jWyyD4wN+ienHL9xysW8MIjWGcGChA6r1
+SroQD2iFq4g3Ek51Y7AqqFxZ7Y/SU0YhHI0Op2PXvtXed8j+IQCJo6ICEtkKz3Xz
+o7dBOqx9xzCYzHpJLN35Q8D3V8TytTyTaVH6N4VWzj+LUo9OrrEOiDk3J/inWj39
+PX0uD3e1ZY5boTMxOWYdAuKWUJ3GrbMN+RpPivdMSNLqB6ITPUafOfUIxq+DYJSc
+5iIYKe247exzaqTaiKGmFS5J5o2eTA==
+=oNVi
+-----END PGP SIGNATURE-----
+
+--o62xNzOzXCWulXud--
