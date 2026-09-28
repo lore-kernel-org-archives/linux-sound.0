@@ -1,134 +1,119 @@
-Received: from mail-ej2-f41.google.com (mail-ej2-f41.google.com [74.125.228.169])
+Received: from mail-pz2-f34.google.com (mail-pz2-f34.google.com [74.125.228.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4814C395266
-	for <linux-sound@vger.kernel.org>; Sun, 27 Sep 2026 22:50:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.169
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790549447; cv=pass; b=VlNm1bINEWBfmrlLzm2OeZU8zqx9op9Z6l0oR7qxG//bSH+qwUhDwsDPKWg7VNdtk+nLLtHbo8LpseEUNN6lre0xZ0/a6k8Ekmiam5fAaW9QWRB5pVgOKEU+I6VoCnESjGubZ25elC+rJ9Edru42K7cfe/T8YVYGCh31Yx8khBo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790549447; c=relaxed/simple;
-	bh=Ifx1yTX0L1801X3uiipDGm66k2wMyQhOYEC1lY1zW3Q=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oUCiQdpdURoUg9Yi1RsQqYeg/+CM8azl3gmXBymN9JpUQ3+3t2sAlLna6zzzhXRtj9VSIB1BUhKdmBQ0SAcyneEIuJomOkXLw3XPr/imbt3IZLtcTrOB9AVeOJTz4ZIH45W13YACJfNcSjI6l3MJeJtmuhU+QE9RMOpxZyzYkoQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b=bUrQXHXj; arc=pass smtp.client-ip=74.125.228.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1D0936923F
+	for <linux-sound@vger.kernel.org>; Mon, 28 Sep 2026 02:18:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.34
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790561919; cv=none; b=iVVJ61/ZGNYHA3l4mtj9l9z8qdaPTx20ADl4tt0qW+eWQ5LEOlRd4x/oWppi9fuIeUrdrqYsuR1VwGwlOwLOy7fuRcWm1gze3SGO6l+06nPbWUUGK/IOh7xjTf6Ao7cpDxIjR/S0srU3x8OPgG5BdUFx3uiBjE7i05+K+Dm/ofU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790561919; c=relaxed/simple;
+	bh=zj4tvPqRF21upBgv6BYpTPfxCu7PxZhhGheN2EvdSp4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=r/CaNGqZDK/gjrCoVcmSy6u1ILSoGCqyhy6VxG+egcEkBW6QGFUPLT3GkFex8xcoPjTy2tX9ux/0g1NTX2cyc/gpmSU5LurX6W136kA3jXCWMTXT02+JRzEGENIa+PiOzwAjpM5KqQFHQUKlbKM5+clQndjnQmekenclejjzU74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ch3jHS3I; arc=none smtp.client-ip=74.125.228.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b="bUrQXHXj"
-Received: by mail-ej2-f41.google.com with SMTP id a640c23a62f3a-c2dcdc386ddso76540566b.3
-        for <linux-sound@vger.kernel.org>; Sun, 27 Sep 2026 15:50:46 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790549444; cv=none;
-        d=google.com; s=arc-20260327;
-        b=XEhblCFZOcqABu6JixpdGwY046rzEpO2ZwbuqUzp0xH04vaxwczsZ3twQrjR8bCDc+
-         4sU8aWMWWwrYUoW5gqghwjl/c90NcuZHhQAMARc8Bm8voJ5abmZ9qomjhd6r8OQNv+la
-         MaKORx2uVP1S0O9B4rIotNSDV6FJaXzzL8hSbojfETiacZ1CU1+bAUSQlWdmU1fNwGJk
-         55SbUMtTJBDpUK7btVttTw7S2UiOOwsNkE/fLHc8IsMlS4Mq15iub6iSFr0UbSS68ftJ
-         eGPP8BVHn6ZZAdafqQIix3fZK+x1IvBpI6ZRzNKvpQVU+emh72ym2WCQkKIZeVUdpNZf
-         Kgnw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=Ifx1yTX0L1801X3uiipDGm66k2wMyQhOYEC1lY1zW3Q=;
-        fh=h/T4a5+rMpOZJxAZEyimaJ8J+CebshRbPUDpNzuQUkU=;
-        b=R8qVhrnMYfJVUwufMDMLYTba6MEUOAfo/93Zgmj5XR9Oo4fyI/L7mirEBxGa0sHDYZ
-         2OrSxg+vfuv5+ueGu5JZl8cLw95/upEB2BZLyhsq9u39zuAhzSzNpGU+9cC6PmS+ZtHk
-         BUNeRCIt+PInNZxVKiYUa/NOxbGD9FKqX+FCrmfSz2noozyL/wXEmWDJDNd+lIihCMko
-         HjvRU1HfXeWIIdnPTHnLQMM6yGR3O2XlAoxOMmeSIsFFC8LdccKAdQt5gHk3na+RaU6T
-         ETtYn5cZ5q33VKbcWU2/hDjTGuvfwE/SdJhEwTkQww90Cw6mLScXpLJ+RnDIxLbrqojl
-         Q8pA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ch3jHS3I"
+Received: by mail-pz2-f34.google.com with SMTP id 41be03b00d2f7-cc79c0d2bbbso560098a12.1
+        for <linux-sound@vger.kernel.org>; Sun, 27 Sep 2026 19:18:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20251104; t=1790549444; x=1791154244; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Ifx1yTX0L1801X3uiipDGm66k2wMyQhOYEC1lY1zW3Q=;
-        b=bUrQXHXjWd73HigefHpiexC1jDhP03WLbFjMridXHvWTWmWUq4jg+STaz5W/J6jRgD
-         iJzTv+bKlgZg9sQeGD5ldyz3uLp0GRi+OCSQICKDX0Q2tDQc1kYXjt1ZGa4LWJDj46yu
-         d1JdJrB8anLjre0KNJSLMH9PEC06zg7moNK0eSoiFDTZm0wR3MLmB3Zw3NDnBrOR9NXo
-         arwgo8yPQa4ocep0nZBp+5c7T1V9LIMJKQpl/rFBly8CosDzVt5UdojkUHbM8A/VUxXr
-         5TmR1obwcP0327NwkEEFumNUpZ7VIwT8xjv7qgrRIF1zbCUQ81u2pwcJJYiGWMBrSGWx
-         kPLQ==
+        d=gmail.com; s=20251104; t=1790561918; x=1791166718; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ivCY2NAlXyEyDv152Bu3AUgeth/0egS9qUPCJjLyURI=;
+        b=ch3jHS3I2QqR0atOVdE3FOI/EDS61KIzY7V5aJMaqKF7zNLMbaYvi8Mb+uF8VqvUBt
+         YYWi0l8w60ShHfz1AmfRZEXP5pfDf3Ak1OSzan9qlP2PijeNWzw9xCe9+KQ10RgmZwH+
+         pyW2uNivqIipAR/N7zPEw12SWXB9iL0SbbFwccfRsvvDYuh9eF9Lj8tn1Mbpb562VMNd
+         qbwFDQPoEO8uXSS+MyMrkbMd+gGz/UNR51GyaFJE6SA+umBzt1dv0JfQ6P57z3Hiwp48
+         49lgWqZVo3HvCQRM29Ddl1GCx7Ys9VTH4lKPuvo9eWLQ0PC0xTTYR2RyVeJnCwVplbKo
+         yhXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790549444; x=1791154244;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=Ifx1yTX0L1801X3uiipDGm66k2wMyQhOYEC1lY1zW3Q=;
-        b=ithvsEEgo5lRr1MK9FimTfGba+cIb6+0Mxrvh8ngwe/hFmGGujV5NMKq5529ai3flh
-         ckDya4ZElEN43yFSywZCQGaoOlo5z1DT1C76bUjDUbn3LoO6RwYvUUHJyVF8VgVi4u91
-         mmGyFeO1KqOQ4925nHqlLp/yKe+XgeOzjiswBfbQNEqC41f23rbPHZnawd1sIVJ/eU1O
-         P97RPfX6qDuBdn6u6EpJZ/02AYdHoSB9XjkUqe61IrxrOmqeg2amFLASwR0KyF6R3j7A
-         /yN+wCtIDVjnVoR4PzbezIHoPqgIk6JkcLnvOg/qSeEGkCIhjlOQb2cei0wuVUBmmUJ+
-         4WXQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzT5n5yOOet2Etd62PjuyrBqkBvQXzHjxnvuW5b02hVY3c8qEEBLzydv3WvVezQjQCXnmCS7sE4rJUvQw==@vger.kernel.org
-X-Gm-Message-State: AFuF++kiV5bxvqimuq1xRex58er0t/CJjh1EFotsiquOZHvijWKv+K0d
-	Nzq1Wkkxqufg0sq+kXCehESEh4va6z2pmT/gFx9QWK3kPXsQr6Qt+kPNcexpfqfmxcE3ong6eXo
-	CY3fyOSRkdwjC9UDpvJEbd2Te5osF9dA=
-X-Gm-Gg: AYBFou2omy/z6iuYUyQDAUdUq0R2Rh86rydAvhG7RG1UsNCIRJnBS28t4f89KrsPq8Y
-	1BwazmmF2oVavt7ZAIPRVxI8g/w/tSyMdfLqoCLMGkj3Xcb5xNYg9Q4EIUtf2RITohQV69FYK1O
-	6rLTCg1/ybRxeTaDo/Lb38/hT/YP+0SU+vNfEqabjmaKGQCMFOdyJ+3psQJI+cYpS4pM40SaIXX
-	RNdkdVE5/+IJZOOB1yqryeyHbdM2UxZ9Iq/BQHCn6DMHO1JbjnP5V+UG+czRKndHwv7Vj/aPgFu
-	5OKfgBrmrhkwFbVBAwBzA3qOzy/JPcbV3FqRjisrknHcYJQFVwAVCIfb6mq6sb0kPE5JxQmX1iu
-	T/DH3FtU96tOjPkJ/QAHZcHbcb+I+q+PlRrmpJCdmFIfLOOpuxfxjBIa/tRE4nDcCw54xhBgn+u
-	ZpWUFF5h0hUo/RoxY=
-X-Received: by 2002:a17:907:7b8c:b0:c2d:c33d:a9d4 with SMTP id
- a640c23a62f3a-c2dc33dada2mr233426266b.10.1790549444303; Sun, 27 Sep 2026
- 15:50:44 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1790561918; x=1791166718;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ivCY2NAlXyEyDv152Bu3AUgeth/0egS9qUPCJjLyURI=;
+        b=YwPu2SZKgkt2wM+Ut/D+QEM4uCrIxwxWW34H94qNaTIXY6WY4pT0xqvMAYcF1Dpf9j
+         +BrG5H/MWQ47xoEILCJLmcseEXbzTi7Pr829LDEz7BgMIsILdo236/5/YROamsQKLCtg
+         eooq6ajOi4+vS7ipCoeOQjJG/KIbmbV3JubqN6flUomKyVsl1sSfEvObgfkMLqXvWCh8
+         YMgVDhyU/eGeR5dAcfh3L+FQyKV6JrLo5sh3BnCbt+I3ANPWMdUi+M5b+HcIz3/qCHBx
+         72twzDE/XFZXAkcMciU7pVakWnVqR//mi1BCZxi1WrurbJ8WgDPqbqTubwEBstoO+BRA
+         vsBg==
+X-Forwarded-Encrypted: i=1; AKwUvBw4KV+loKUnPfVA1tpF43Ta9sxLtvCeWnWO+wAQaN/ZJAi8H2fSSedsEiFUF0AXREn0G7hba/O9F7dQJg==@vger.kernel.org
+X-Gm-Message-State: AFq9FYIwvs0qrBe5tUW4g7XB/Db90BuMMgVIV6ZDMJCDlZK2pTCePTB2
+	ZVhjE8UKoL2hDYNTgXKo7SMygZK21ZDXrH3yN6nxfSNzIgl+40lcMnZQ
+X-Gm-Gg: AYBFou3MnWYAIbvMezXtSlZYBuhdezBXu3uGb+NKArOthMs/yumqtbe211jZe0MqrcQ
+	mDGVDDQa14YZuxDFEya/jfc7IVrERWYYUO9xPb5bd04u7TzC5qA0wHpxKzvcqTT+iV7OXBivYkR
+	ZiDw52e19lW1b3sBAI1aTNwvhLegQ97XwvWJ+5XvGefXzFSbLO/21+Gi5LCdiKNnjX1eLv5dEmy
+	w+N65IQ/OSGLSuAmm7/+fV5HV9VFLw0wNf0LxcA6U2pSlc8bfdDhsq7yxMw5B3lsOQawmJRLR8d
+	zun36/bb+LOLIBfeXcpLwrhgDVEmjQFDvpqcaTStBhuUUBT2G+wuZyoTHyJ0dcjHNOAzZ3U5OXO
+	d7NEUoscn+nSDS6gfOXa9c5PR2fcJE5Sw4ydmz1JWjrOE/LJRPlmAcw3J9qyQ5VB2o5jdLx+5O4
+	5MB13jUbJk4E7CwRRPQ1uH1qqYR9PJGSeue1tuqKnB2VrSCxmS9jPA7nLddR7Fy9bqis4BhaxID
+	K0yDxtcpUeLduFcjQm483t4KeBOj7gpARfa0pXBCxFZ4+YnIE0lJ6jFq0azrd6oesdNqsWv29R2
+	CRM+n2IbsCQI8g==
+X-Received: by 2002:a17:90b:4f91:b0:3a0:3881:ead0 with SMTP id 98e67ed59e1d1-3a0bb5530femr6510033a91.11.1790561917881;
+        Sun, 27 Sep 2026 19:18:37 -0700 (PDT)
+Received: from phuc-desktop.. ([183.91.15.56])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a0b94936ddsm17588124a91.7.2026.09.27.19.18.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 27 Sep 2026 19:18:37 -0700 (PDT)
+From: phucduc.bui@gmail.com
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: thomas.weissschuh@linutronix.de,
+	Thomas Gleixner <tglx@kernel.org>,
+	HyeongJun An <sammiee5311@gmail.com>,
+	Kees Cook <kees@kernel.org>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	bui duc phuc <phucduc.bui@gmail.com>
+Subject: [PATCH] ALSA: dummy: Move pcm_substreams check out of the loop
+Date: Mon, 28 Sep 2026 09:18:23 +0700
+Message-ID: <20260928021823.6517-1-phucduc.bui@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CANBVYRCL=8QdLxGg4S6qrahrFtwJxhv-aSGpW7-1S=+iOe4ZGA@mail.gmail.com>
- <2026-09-27-daily-reply-0001-re-audient-evo4-mixer-put-errors@kernel.org>
-In-Reply-To: <2026-09-27-daily-reply-0001-re-audient-evo4-mixer-put-errors@kernel.org>
-From: Faaris Ansari <faarisansari@googlemail.com>
-Date: Sun, 27 Sep 2026 23:50:33 +0100
-X-Gm-Features: AclHuK-yRwoG3EWnoCvNFcLc3JE7YWNDmy2zbYPYkBL_ZtPL-UpCyDcrqmqvJWY
-Message-ID: <CANBVYRAr_ShKGmrt2NoqsDsDEbTXa5DWJbq2oP6wKLWJQpLRWw@mail.gmail.com>
-Subject: Re: [REGRESSION] Audient EVO4 hardware volume control now requires quirk
-To: Sasha Levin <sashal@kernel.org>
-Cc: stable@vger.kernel.org, regressions@lists.linux.dev, 
-	linux-sound@vger.kernel.org, 
-	=?UTF-8?Q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>, 
-	Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Sasha,
+From: bui duc phuc <phucduc.bui@gmail.com>
 
-It seems you're right. Reverting that change has fixed the volume
-control with my interface - I made sure to remove the quirk flags
-whilst testing.
+The pcm_substreams[dev] range check does not depend on the loop
+index. Do it once before the loop instead of on every iteration.
 
-What are the next steps here? Is there a problem with that patch, or
-do we need to add a quirk for the EVO4 in the kernel?
+No functional change.
 
-Faaris
+Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+---
+ sound/drivers/dummy.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-On Sun, 27 Sept 2026 at 15:27, Sasha Levin <sashal@kernel.org> wrote:
->
-> > I was able to work around the issue by adding extra modprobe config to
-> > my system, specifically the below:
-> >
-> > options snd_usb_audio quirk_flags=2708:0006:ignore_ctl_error
-> >
-> > Does this quirk need to be added to the snd_usb_audio module or is
-> > there an underlying fix somewhere else?
->
-> The likely cause is 87a6f2fa6e6c ("ALSA: usb-audio: Propagate write errors
-> in generic mixer put callbacks"). It is in 7.2 and was backported to 6.18.53
-> and 6.12.111. Before it, a failed SET_CUR in the mixer put callbacks was
-> ignored and userspace saw success. Now the error is returned unless
-> ignore_ctl_error is set, which is exactly what your workaround does. It is
-> the only functional change to sound/usb/mixer.c between 7.1.13 and 7.2.5.
->
-> Could you confirm by reverting just that commit on 7.2.y or 6.18.y and
-> testing without the quirk_flags option?
->
-> --
-> Thanks,
-> Sasha
+diff --git a/sound/drivers/dummy.c b/sound/drivers/dummy.c
+index 3f6bfee29986..6b0a06e5c876 100644
+--- a/sound/drivers/dummy.c
++++ b/sound/drivers/dummy.c
+@@ -1063,11 +1063,13 @@ static int snd_dummy_probe(struct platform_device *devptr)
+ 			break;
+ 		}
+ 	}
++
++	if (pcm_substreams[dev] < 1)
++		pcm_substreams[dev] = 1;
++	if (pcm_substreams[dev] > MAX_PCM_SUBSTREAMS)
++		pcm_substreams[dev] = MAX_PCM_SUBSTREAMS;
++
+ 	for (idx = 0; idx < MAX_PCM_DEVICES && idx < pcm_devs[dev]; idx++) {
+-		if (pcm_substreams[dev] < 1)
+-			pcm_substreams[dev] = 1;
+-		if (pcm_substreams[dev] > MAX_PCM_SUBSTREAMS)
+-			pcm_substreams[dev] = MAX_PCM_SUBSTREAMS;
+ 		err = snd_card_dummy_pcm(dummy, idx, pcm_substreams[dev]);
+ 		if (err < 0)
+ 			return err;
+-- 
+2.43.0
+
