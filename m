@@ -1,173 +1,174 @@
-Received: from mail-oi2-f41.google.com (mail-oi2-f41.google.com [74.125.231.233])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31EE54E5357
-	for <linux-sound@vger.kernel.org>; Mon, 28 Sep 2026 15:29:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.233
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E387E1A681B;
+	Mon, 28 Sep 2026 15:41:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790609389; cv=none; b=c4P+lZBYtV3lPtdtD3uw2/EM+PdPminlRlPEb5bMTwWia/FNZ66jojhLoftUseq3vtJd9YYptY2ZcV/RF2FpSSa9kcRGhcV/aGdyLfwxakVLVgBUAfanjE9IWY3z1i9L1bEmsuTOVnD7yFwRBGOePDD4efrsqtxcPGnDmMo1C2E=
+	t=1790610074; cv=none; b=Tl6P8HMxiRXKCR5e/X87ezz3HEmQMI+FpMHkKFhThlX7DU9My9FVAX3D1wes5DoTnoSWhMNNb/o+8Ejth4Jn+uMdFjIosAx/FpEkS0spVJrbMmuwJzNZFcy00gAzGRn+qkye3cPXRaMDSf8N0CtZslztmrODbm87GGKT/T5ulbs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790609389; c=relaxed/simple;
-	bh=QWsd3wxevy+japnbf8IB+oIJRFrkXbpx/xJHJ2YNGDY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LBH5A7EP7VIy70XcTil7SKLE3sO6e62Lfx21x+GuHZxmK21YtXmVgAIvNdZ6FZqiNkI7u/bfzWK8H4SgQqFtg3Df+eZ6hNId05Wv6EBD+n6X7Q8674eQP6bHyY05PYVwxtbLRpKxRJNA+M0lw51hfJkFdazcTtea9++Fy1UvBMA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V6zdbmTk; arc=none smtp.client-ip=74.125.231.233
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790610074; c=relaxed/simple;
+	bh=QRO3DN4KaQTwPY9IOxx+3qmtMveFw1+laRuapbTz3F0=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jw/wdqS7iH8XZ11x+4tsjZs6SO6jaRZxJ317+/Na0FszjueGOWVplvFgrkyBEmsf2DLh/YM95PH3Cv99D4Nb7xXC/gmFTZiq5PgFxtRqhc6sd2M8iNkVaKJeJ7bLM9rHVba0nC5AGK8H9IHGXqVY7YjReSngEVGKuw7ZyibpfEU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=T3gpHts0; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pq3dmK+1; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XSch0PvK; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=sWXMiUU1; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V6zdbmTk"
-Received: by mail-oi2-f41.google.com with SMTP id 5614622812f47-4eac14e775aso141669b6e.0
-        for <linux-sound@vger.kernel.org>; Mon, 28 Sep 2026 08:29:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790609387; x=1791214187; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=XoZ89Zwbou41YSb+ju1qDv/4cuEDzLy4HojALjA6SyI=;
-        b=V6zdbmTkGBaR5RSR268VCAy/wDdem+kjLY6zqBjYpB42PZBzACOFmMfaDKD2quImKR
-         zeqydP90lV+ucXynSfl+4xr582MX3vZWpYnTEd0G6rA9XDVUI2MwSGq3eVsHclJbyNWk
-         IeIcIXPHqgN5sJ0bV5gV2bR6Wz7DXhQFTUCeWZl8rxuqgdDc0eh0HA+OrStYuuI2q2bE
-         Duqc1usLVGnyf6zOeOw1uPZvTZqKAPhC8YjKLClaKgy3Pw18Mphl91vOnnnxZx+pe9Vr
-         e9ka5Jn5rO42g48O6UB/LL28Gb4MMjBbydsKoHj10OS4PQV6W6K4+pMdt9dUj/mLITAg
-         Q8LA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790609387; x=1791214187;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=XoZ89Zwbou41YSb+ju1qDv/4cuEDzLy4HojALjA6SyI=;
-        b=bHutUC1P1EG2ULmThQRw/oWF8KHPl/Cc5c+K7I8C9u2E5Xo5kpJNl5JTr2txuzfNUD
-         j65JRkmOe2QKH1fI4OSUk6g9ysQ2BTzJwpZ6bcVbPv3LOleWHDbTGpqWFk8c9CHzr4Nh
-         FNOPierg30MuYSy/l4jv2w/1eeD6SPURjBegFfZoe7tAgEWNEHgeogHLg7QrQ2bG0Hgx
-         ckG5rZhmAPQahUDtRkEXSEnuuIgfYsw/APc0tErOINq9iEZC5li3WJeX0lSESEQGFTqf
-         LPMG1D/RERc8KHm3eazSCLzx3SqL0Ds6/iqz9dwYWhUQ6Ya8iyGopl/rtqBRPTCMAsSN
-         DX0A==
-X-Gm-Message-State: AFuF++lkVOR3+ah8TfzJbgOkl8fUTLsYl2Tbsn2YM3vGr+4aL/Yz5ZVw
-	Lj/rfvkVSuJCdzny3EYotIw2xr1UZxFqiAXxRyChYVNBPlKG4Kxm+dzS
-X-Gm-Gg: AYBFou1fWmWF8B6bKmW6wAjRlZIBNdFAKJIrava0aQMDktZy28HJvst4vE6cyEIMpEY
-	vTtQOi/e0g7euYrWexIpq/JVSLwO+j4o+5Ocled1Jd5Ixu82AMOvc4bjzIClj/43wDeCvf1zuUb
-	UyNI5DAftGXtUN5PQCboJsQ2CviFaCGWs9WrsK8PB1wdUCo+YwDSk8fQvBt0lfcgQlhRcZb4xts
-	fco3yQDpyOmRcOG+eLWdfk3r5JNBRAX9oi8jvaabTyBK0D7n9HAWgbG3oq+kcwZaAZQQeqzAQTq
-	rsLeb9/GKihQCnvhjyK+LLOHfXZtSe1XFPubE5zYn7Yol4jzLeSJ5/EAGVGjlukq6znO/ia6rCr
-	0xwUmJq12FaHsF/a0TVqQoOlbFGEUBZyrIsPl8EOdCrazee5XRY4MQ+wlNT6VzraB9kUZ3QpaTU
-	MQfHdCvZEJqlKh/dtu2Cy/zMv/77eU9tJhw9eM4EsPK/w/XhVX0vIsAYz3jYuwqAczUNp8RA5p3
-	N/ZqcfnL6t8a9sfoT+TaA==
-X-Received: by 2002:a05:6808:1204:b0:4b8:46e3:e229 with SMTP id 5614622812f47-4d72c837a21mr10326982b6e.21.1790609386543;
-        Mon, 28 Sep 2026 08:29:46 -0700 (PDT)
-Received: from cachyos-SlimIce.lan ([2607:fb90:9a26:9349::e71])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-4ebb6e9e924sm1895924b6e.1.2026.09.28.08.29.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Sep 2026 08:29:45 -0700 (PDT)
-From: Jared Wuerzburger <jwuerz@gmail.com>
-To: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>
-Cc: linux-sound@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="T3gpHts0";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pq3dmK+1";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XSch0PvK";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="sWXMiUU1"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 7ACD21F8C4;
+	Mon, 28 Sep 2026 15:41:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1790610066; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Py2s2VRIiFsIoYMQW83njGSmY+DTeNJ2XEePPUef2Qo=;
+	b=T3gpHts0LGkRDEOF1VyUDyj3qpBmuwiIvx4vD/wC8sg2ZmGswC+XDEm52mif/Kzxj9OQEX
+	sEMwOcFuMavnhQQlmopuWlh40fVI9TqRA+qv5wYmxBfy+s02TKTJSyW+LOfkVsPL2ASDNj
+	KrES2OEG4hiDC1NXgv26tAsz9Jf79vk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1790610066;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Py2s2VRIiFsIoYMQW83njGSmY+DTeNJ2XEePPUef2Qo=;
+	b=pq3dmK+1bccwWRHYAt9aOfX3RBJk9Yw0cYMklyZcYyAofz6aa6gqippDqEE59TlxqEd2y0
+	B3D/BytScj3b8HDA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1790610062; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Py2s2VRIiFsIoYMQW83njGSmY+DTeNJ2XEePPUef2Qo=;
+	b=XSch0PvKGWcZ7xa+/QpU5h0415KJHCNPeU+QKTSlwr9X8EX4Gw458DgHrvyfEI8l01FoVG
+	1YBJ5KXAN9yN6WIYpT0Txz+z4ZkgZe7d3AAzQSumGdDtAsYhxtDwxYjPrQZAayuDB1FS5O
+	A9h7n+c5hL4ZY8zQKIXRmNNRNerIPGk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1790610062;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Py2s2VRIiFsIoYMQW83njGSmY+DTeNJ2XEePPUef2Qo=;
+	b=sWXMiUU1mJa4Fx076XoFt8f2nl/NUpEaCeTO3QxFDl40mmLZVFi/U5cBM9L+nZ5xicioI8
+	myfTeNFZ1Mt1kOCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 29F781340F;
+	Mon, 28 Sep 2026 15:41:02 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id C7bXAY6KumoxSgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 28 Sep 2026 15:41:02 +0000
+Date: Mon, 28 Sep 2026 17:41:01 +0200
+Message-ID: <87cxtx4c4y.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Jared Wuerzburger <jwuerz@gmail.com>
+Cc: Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Samuel Dionne-Riel <samuel@dionne-riel.com>,
-	Jared Wuerzburger <jwuerz@gmail.com>,
 	stable@vger.kernel.org
-Subject: [PATCH v2] ALSA: hda/realtek: Fix internal mic on Minisforum V3 and V3 SE
-Date: Mon, 28 Sep 2026 10:29:25 -0500
-Message-ID: <20260928152925.69032-1-jwuerz@gmail.com>
-X-Mailer: git-send-email 2.55.0
+Subject: Re: [PATCH v2] ALSA: hda/realtek: Fix internal mic on Minisforum V3 and V3 SE
+In-Reply-To: <20260928152925.69032-1-jwuerz@gmail.com>
+References: <20260928152925.69032-1-jwuerz@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spam-Score: -3.30
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
 
-On the Minisforum V3 and V3 SE (ALC245, PCI SSID 1f4c:e001) the
-internal digital microphone array never produces any audio. The DMIC
-pin 0x12 is parsed correctly ("Internal Mic=0x12"), but the headset mic
-jack pin 0x19 (BIOS pin config 0x04a19050, jack detect enabled) has no
-presence detect wired on these boards: reading GET_PIN_SENSE on 0x19
-always returns "present" (as it does on the unused, unconnected pin
-0x18), while the headphone jack 0x21 reports correctly.
+On Mon, 28 Sep 2026 17:29:25 +0200,
+Jared Wuerzburger wrote:
+> 
+> On the Minisforum V3 and V3 SE (ALC245, PCI SSID 1f4c:e001) the
+> internal digital microphone array never produces any audio. The DMIC
+> pin 0x12 is parsed correctly ("Internal Mic=0x12"), but the headset mic
+> jack pin 0x19 (BIOS pin config 0x04a19050, jack detect enabled) has no
+> presence detect wired on these boards: reading GET_PIN_SENSE on 0x19
+> always returns "present" (as it does on the unused, unconnected pin
+> 0x18), while the headphone jack 0x21 reports correctly.
+> 
+> The generic parser therefore sets up auto-mic switching and, believing
+> an external mic is always plugged in, permanently routes the ADC to the
+> empty jack (mixer 0x23 input 0x19 unmuted, input 0x12 muted). The
+> "Mic Jack" kcontrol reports "on" with nothing plugged in.
+> 
+> Mark pin 0x19 as having no presence detect. The parser then stops
+> auto-switching and exposes a normal "Capture Source" (Internal Mic /
+> Mic) control, which desktop audio stacks drive from their Internal
+> Microphone / Microphone ports. The existing bass speaker DAC routing is
+> kept by chaining to ALC245_FIXUP_BASS_HP_DAC.
+> 
+> Tested on both models with the same pin config applied through a
+> snd-hda-intel patch firmware ([pincfg] 0x19 0x04a19150):
+>  - V3 SE (Ryzen 7 7735U, BIOS 1.03), kernel 7.2.6
+>  - V3 (Ryzen 7 8840U, BIOS 1.06), kernel 7.2.7
+> Both boards report the same codec SSID and the same 0x19 default. On
+> both, the internal mic records at a normal level, headphone jack
+> detection on 0x21 still switches output, and the bass routing is
+> retained (DAC1/DAC2 Playback Volume controls present). A headset mic
+> on the combo jack was not tested (none available); with this change it
+> has to be selected manually. V3 users already report that the jack mic
+> gets no input [1], which is the other symptom of the same broken
+> presence detect.
+> 
+> The patched alc269.c was build-tested with W=1 on tiwai/sound.git
+> for-linus (7.3-rc3) without new warnings.
+> 
+> The diagnosis, the fixup and this changelog were written with the help
+> of an AI coding assistant; I reviewed them and tested the change on the
+> hardware listed above.
+> 
+> Fixes: e34743018249 ("ALSA: hda/realtek: Add quirk for Minisforum V3 SE")
+> Link: https://github.com/mudkipme/awesome-minisforum-v3/issues/14 [1]
+> Cc: stable@vger.kernel.org
+> Assisted-by: LLM
+> Signed-off-by: Jared Wuerzburger <jwuerz@gmail.com>
+> ---
+> Changes in v2:
+> - Drop the alc269_fixup_models[] entry (Takashi)
+> - Add Fixes: tag for the commit that added the V3 (SE) quirk (Takashi)
+> - Assisted-by: LLM (Takashi)
+> - v1: https://lore.kernel.org/linux-sound/20260927173237.339476-1-jwuerz@gmail.com/
 
-The generic parser therefore sets up auto-mic switching and, believing
-an external mic is always plugged in, permanently routes the ADC to the
-empty jack (mixer 0x23 input 0x19 unmuted, input 0x12 muted). The
-"Mic Jack" kcontrol reports "on" with nothing plugged in.
+Applied now to for-next branch.  Thanks.
 
-Mark pin 0x19 as having no presence detect. The parser then stops
-auto-switching and exposes a normal "Capture Source" (Internal Mic /
-Mic) control, which desktop audio stacks drive from their Internal
-Microphone / Microphone ports. The existing bass speaker DAC routing is
-kept by chaining to ALC245_FIXUP_BASS_HP_DAC.
 
-Tested on both models with the same pin config applied through a
-snd-hda-intel patch firmware ([pincfg] 0x19 0x04a19150):
- - V3 SE (Ryzen 7 7735U, BIOS 1.03), kernel 7.2.6
- - V3 (Ryzen 7 8840U, BIOS 1.06), kernel 7.2.7
-Both boards report the same codec SSID and the same 0x19 default. On
-both, the internal mic records at a normal level, headphone jack
-detection on 0x21 still switches output, and the bass routing is
-retained (DAC1/DAC2 Playback Volume controls present). A headset mic
-on the combo jack was not tested (none available); with this change it
-has to be selected manually. V3 users already report that the jack mic
-gets no input [1], which is the other symptom of the same broken
-presence detect.
-
-The patched alc269.c was build-tested with W=1 on tiwai/sound.git
-for-linus (7.3-rc3) without new warnings.
-
-The diagnosis, the fixup and this changelog were written with the help
-of an AI coding assistant; I reviewed them and tested the change on the
-hardware listed above.
-
-Fixes: e34743018249 ("ALSA: hda/realtek: Add quirk for Minisforum V3 SE")
-Link: https://github.com/mudkipme/awesome-minisforum-v3/issues/14 [1]
-Cc: stable@vger.kernel.org
-Assisted-by: LLM
-Signed-off-by: Jared Wuerzburger <jwuerz@gmail.com>
----
-Changes in v2:
-- Drop the alc269_fixup_models[] entry (Takashi)
-- Add Fixes: tag for the commit that added the V3 (SE) quirk (Takashi)
-- Assisted-by: LLM (Takashi)
-- v1: https://lore.kernel.org/linux-sound/20260927173237.339476-1-jwuerz@gmail.com/
-
- sound/hda/codecs/realtek/alc269.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
-
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index 5127a111c5..d9ce10d5d3 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -4384,6 +4384,7 @@ enum {
- 	ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN_HEADSET,
- 	ALC285_LENOVO_DAC_RENAME,
- 	ALC287_FIXUP_YOGA9_SPEAKER2_TO_DAC1,
-+	ALC245_FIXUP_MINISFORUM_V3_MIC_NO_PRESENCE,
- };
- 
- /* A special fixup for Lenovo C940 and Yoga Duet 7;
-@@ -7136,6 +7137,15 @@ static const struct hda_fixup alc269_fixups[] = {
- 		.chained = true,
- 		.chain_id = ALC287_FIXUP_TXNW2781_I2C,
- 	},
-+	[ALC245_FIXUP_MINISFORUM_V3_MIC_NO_PRESENCE] = {
-+		.type = HDA_FIXUP_PINS,
-+		.v.pins = (const struct hda_pintbl[]) {
-+			{ 0x19, 0x04a19150 }, /* headset mic jack, no presence detect */
-+			{ }
-+		},
-+		.chained = true,
-+		.chain_id = ALC245_FIXUP_BASS_HP_DAC
-+	},
- };
- 
- static const struct hda_quirk alc269_fixup_tbl[] = {
-@@ -8349,7 +8359,8 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1ee7, 0x2081, "HONOR MRB-XXX M1020", ALC256_FIXUP_HONOR_MRB_XXX_M1020_AUDIO),
- 	SND_PCI_QUIRK(0x1f4c, 0xb020, "Minisforum AI X1 Pro",
- 		      ALC245_FIXUP_MINISFORUM_JACK_DETECT),
--	SND_PCI_QUIRK(0x1f4c, 0xe001, "Minisforum V3 (SE)", ALC245_FIXUP_BASS_HP_DAC),
-+	SND_PCI_QUIRK(0x1f4c, 0xe001, "Minisforum V3 (SE)",
-+		      ALC245_FIXUP_MINISFORUM_V3_MIC_NO_PRESENCE),
- 	SND_PCI_QUIRK(0x1f66, 0x0105, "Ayaneo Portable Game Player", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x2014, 0x800a, "Positivo ARN50", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
- 	SND_PCI_QUIRK(0x2039, 0x0001, "Inspur S14-G1", ALC295_FIXUP_CHROME_BOOK),
--- 
-2.55.0
-
+Takashi
