@@ -1,153 +1,167 @@
-Received: from mail-m155101.qiye.163.com (mail-m155101.qiye.163.com [101.71.155.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E5134ED1AC;
-	Tue, 29 Sep 2026 09:42:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7694C4F93DF;
+	Tue, 29 Sep 2026 09:45:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790674958; cv=none; b=l7C+mIg/cSLkUlNd4mFmEm5e/KOgq6abYyQfY/mNYNK7Kj6J8kmyRUkofj8b98bGYVqR2S4XyLDHJOY1NxADYiTUjFnOiyjU7THZWrHJTGXhO03wer7YROQ7pcWQ9Sqa1YznY0GvMuAK/8p/2zHvEOHlsCjE460ktp6FQhuCKIw=
+	t=1790675132; cv=none; b=OL8/ezyf7iuioeItDptvp96nMhPHDQslxZV0aV6jeIypZTceYa7vdtF3ewIMPyVTB7F+JlKgZ/PKPRs6Y6WDR7KWqPXfAZPW7GnKaUvGww0lBAtMKS8rOYhBHl/0tDnEWFeoh6F8qIjh4Fpc3oik7VUfRLpObP0Ri7EnQJ8WPqM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790674958; c=relaxed/simple;
-	bh=VnYrNWJVmU9MCGcyPogJztfGV446YXDWQsf2nvHzMhQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=X8BUX3pWzsaAD9BR6TyLg33UkzmUe7XNX/ONEqu5383Bu9Amffe4euBz2+nbZYGiedkhGnDC9svbpEtFlIzSic7ikn7cozqlqiBPCf0lpBZr1p1IsxAySPTBtP9s+C272df9ZoWPXph6Li0cump96Cz06QXocycJ3/RUwvXfd2k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=GvLqbRrx; arc=none smtp.client-ip=101.71.155.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
+	s=arc-20240116; t=1790675132; c=relaxed/simple;
+	bh=xCk8+uaXP7T6Kpiv52zlt/8t8w7jCD8xBmg98UngIVk=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=F5DjeycAS5syEQ+ecjCUPICFKoPCg429yEYC6oKpTOC4ccRjfsXKU7zxtj7ahnxCkLzSia1qSiN0SOyqDNX5mUVIeaeSZxEHnBIg0yhzdKmUDj9PGohvPxjL4Cv1AN73W8iODJBGKwHP/8T6Z8Tzd5Z2CpCMNAKVvdfTWIr9Aj4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=YlhzKY0r; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Y06NhwlQ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Ibp9aJgX; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=sJ9yDfPQ; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="GvLqbRrx"
-Received: from PC-202605011814.localdomain (unknown [221.228.238.82])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 4f7d6b327;
-	Tue, 29 Sep 2026 17:42:29 +0800 (GMT+08:00)
-From: Runyu Xiao <runyu.xiao@seu.edu.cn>
-To: Srinivas Kandagatla <srini@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Prasad Kumpatla <quic_pkumpatl@quicinc.com>,
-	linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Runyu Xiao <runyu.xiao@seu.edu.cn>,
-	Jianhao Xu <jianhao.xu@seu.edu.cn>
-Subject: [PATCH] ASoC: codecs: wcd937x: use devm_free_irq() for watchdog IRQs
-Date: Tue, 29 Sep 2026 17:42:23 +0800
-Message-Id: <20260929094223.2086750-1-runyu.xiao@seu.edu.cn>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="YlhzKY0r";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Y06NhwlQ";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ibp9aJgX";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="sJ9yDfPQ"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 0146321BF1;
+	Tue, 29 Sep 2026 09:45:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1790675124; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aCHbnM642LxLoPuBofIdnowrOGEBuwjMHDXxKBWOHvs=;
+	b=YlhzKY0rGmNeNTf76Gqxx+JLeKPvtfBNyEGanUxW53eEjcjLYe0KT/Jw6xWLhC/9jhSO19
+	J9UpDCBm7g62oet5FobKA0tCTVnDjY7XnyUrdRkjUXnWBnLDU3g0x9SQhZFFmJcamORj6J
+	AKSw8UxgFpKnsVHeD+UVJUfW9n4sYY8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1790675124;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aCHbnM642LxLoPuBofIdnowrOGEBuwjMHDXxKBWOHvs=;
+	b=Y06NhwlQ7pkqBVOy5ZzZUeQ7HPuY1ELZI4PMYGF+j+N0RrqsLhPV+7bCBd35H3mdsBYYc5
+	APoakbmXLrfe2cAg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Ibp9aJgX;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=sJ9yDfPQ
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1790675120; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aCHbnM642LxLoPuBofIdnowrOGEBuwjMHDXxKBWOHvs=;
+	b=Ibp9aJgXuf76GoWelzxdo5jreczgycPE2vQgqcbSoFjQmfXj9/6lALIe85MBxh1XJ4W60J
+	eE2yWcXajb6wRUu4SoT3tGB2IOoKP60KWEgnFW1xzkoIQTBgxLapJlooykOvT2CWMTiPKv
+	SusYEoe4Q4ILLjdx3c4hZuRSeoBB5S4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1790675120;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aCHbnM642LxLoPuBofIdnowrOGEBuwjMHDXxKBWOHvs=;
+	b=sJ9yDfPQr5tWhdG646IXNLldrnCT7BCGKbjMLUhlAUZZjTIOUr4bblOQFecKlIuVsmhb9Q
+	RYBLplKri2Hb6vAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AA491133F1;
+	Tue, 29 Sep 2026 09:45:19 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id RN6eIK+Iu2pmJAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 29 Sep 2026 09:45:19 +0000
+Date: Tue, 29 Sep 2026 11:45:19 +0200
+Message-ID: <87a4p02xxs.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Ilya Pavlukhin <i.pavluhin@ya.ru>
+Cc: Takashi Iwai <tiwai@suse.com>,	Jaroslav Kysela <perex@perex.cz>,	David
+ Rhodes <david.rhodes@cirrus.com>,	Richard Fitzgerald
+ <rf@opensource.cirrus.com>,	"Rafael J . Wysocki" <rafael@kernel.org>,	Len
+ Brown <lenb@kernel.org>,	Hans de Goede <hansg@kernel.org>,	Ilpo
+ =?ISO-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	linux-sound@vger.kernel.org,	patches@opensource.cirrus.com,
+	linux-acpi@vger.kernel.org,	platform-driver-x86@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/4] Add support for the bass speakers of Lenovo Yoga Slim 7 Carbon 14ACN6
+In-Reply-To: <20260920092808.17234-1-i.pavluhin@ya.ru>
+References: <20260920092808.17234-1-i.pavluhin@ya.ru>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0aa0ec8b556503a1kunmd3a60ad42352c2
-X-HM-MType: 10
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkaQkJKVkwfHklKGhpNH0pCSlYeHw
-	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUpVSUlDVUlIQ1VDSVlXWRYaDxIVHRRZQVlPS0hVSktISk
-	9ITFVKS0tVSkJLS1kG
-DKIM-Signature: a=rsa-sha256;
-	b=GvLqbRrxZ96hmKW72qzePjJAFK/KCXNGRAFnUseef/viKdUpo2lIHN3GI+2ui7L8RCe5Fi13SMWURqjwTBvRePMMrbLUx1+3wIRov8p04DkxBzD66zKnwTQ1tg5yECTv5IwstWVVDz3wkxQCisoeGRYd//x42oE4lTW7kIOHgxs=; c=relaxed/relaxed; s=default; d=seu.edu.cn; v=1;
-	bh=zPoTI/RMsEj8z90RqksdLYgjap1eGGOdbOg7FzjEGjQ=;
-	h=date:mime-version:subject:message-id:from;
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 0146321BF1
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-2.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_TO(0.00)[ya.ru];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[ya.ru];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from]
+X-Spam-Flag: NO
+X-Spam-Score: -2.51
+X-Spam-Level: 
 
-The watchdog IRQs are requested with devm_request_threaded_irq() from the
-codec component probe, but the remove callback frees them with free_irq().
-The devres entries remain in place. Component teardown later tries to free
-the same IRQs again.
+On Sun, 20 Sep 2026 11:28:04 +0200,
+Ilya Pavlukhin wrote:
+> 
+> The Lenovo Yoga Slim 7 Carbon 14ACN6 (82L0, Ryzen 5000) has four
+> speakers. The two tweeters are driven directly by the ALC287, the two
+> bass speakers by a pair of CS35L41 amplifiers on I2C. On Linux only
+> the tweeters work [1].
+> 
+> The amplifiers are described by ACPI HID CLSA0102, without _DSD, in a
+> single node with both I2C addresses, the same way as CLSA0100/CLSA0101
+> on the Legion 7. Patches 1-3 add CLSA0102 next to them. The Windows
+> Cirrus driver configures CLSA0102 with an external speaker supply, so
+> external boost is used.
+> 
+> Patch 4 adds the codec quirk. The ALC287 only clocks the I2S bus to the
+> amplifiers while pin 0x17 is enabled, and the BIOS marks that pin as
+> unconnected.
+> 
+> Tested on a Yoga Slim 7 Carbon 14ACN6 (BIOS H5CN42WW) with all four
+> speakers playing. The DSP firmware (cs35l41-dsp1-spk-prot-17aa3856*)
+> is not in linux-firmware yet. For testing it was taken from the Lenovo
+> Windows driver package (tuning "Lenovo-S760-17AA383D"). Without it the
+> driver falls back to the default spk-prot firmware.
+> 
+> [1] https://bugzilla.kernel.org/show_bug.cgi?id=215632
+> 
+> Ilya Pavlukhin (4):
+>   ACPI: scan: Add CLSA0102 to the serial bus ignore list
+>   platform/x86: serial-multi-instantiate: Add CLSA0102
+>   ALSA: hda: cs35l41: Add support for CLSA0102
+>   ALSA: hda/realtek: Add quirk for Lenovo Yoga Slim 7 Carbon 14ACN6
 
-The IRQs must be released before the SoundWire components are unbound. Use
-devm_free_irq() to remove each IRQ and its devres entry at that point. Fail
-component probe if an IRQ request fails, and unwind only IRQs that were
-successfully requested.
+I can take the series, but before that, I'd like hear a confirmation
+from Cirrus people.
 
-Fixes: 9be3ec196da4 ("ASoC: codecs: wcd937x: add wcd937x codec driver")
-Assisted-by: LLM
-Signed-off-by: Runyu Xiao <runyu.xiao@seu.edu.cn>
----
- sound/soc/codecs/wcd937x.c | 32 +++++++++++++++++++++-----------
- 1 file changed, 21 insertions(+), 11 deletions(-)
 
-diff --git a/sound/soc/codecs/wcd937x.c b/sound/soc/codecs/wcd937x.c
-index 0dd05604f5b88..ec902c81d5a4e 100644
---- a/sound/soc/codecs/wcd937x.c
-+++ b/sound/soc/codecs/wcd937x.c
-@@ -2540,19 +2540,19 @@ static int wcd937x_soc_codec_probe(struct snd_soc_component *component)
- 					IRQF_ONESHOT | IRQF_TRIGGER_RISING,
- 					"HPHR PDM WDOG INT", wcd937x);
- 	if (ret)
--		dev_err(dev, "Failed to request HPHR watchdog interrupt (%d)\n", ret);
-+		goto err_free_clsh;
- 
- 	ret = devm_request_threaded_irq(dev, wcd937x->hphl_pdm_wd_int, NULL, wcd937x_wd_handle_irq,
- 					IRQF_ONESHOT | IRQF_TRIGGER_RISING,
- 					"HPHL PDM WDOG INT", wcd937x);
- 	if (ret)
--		dev_err(dev, "Failed to request HPHL watchdog interrupt (%d)\n", ret);
-+		goto err_free_hphr_irq;
- 
- 	ret = devm_request_threaded_irq(dev, wcd937x->aux_pdm_wd_int, NULL, wcd937x_wd_handle_irq,
- 					IRQF_ONESHOT | IRQF_TRIGGER_RISING,
- 					"AUX PDM WDOG INT", wcd937x);
- 	if (ret)
--		dev_err(dev, "Failed to request Aux watchdog interrupt (%d)\n", ret);
-+		goto err_free_hphl_irq;
- 
- 	/* Disable watchdog interrupt for HPH and AUX */
- 	disable_irq_nosync(wcd937x->hphr_pdm_wd_int);
-@@ -2564,24 +2564,34 @@ static int wcd937x_soc_codec_probe(struct snd_soc_component *component)
- 						ARRAY_SIZE(wcd9375_dapm_widgets));
- 		if (ret < 0) {
- 			dev_err(component->dev, "Failed to add snd_ctls\n");
--			wcd_clsh_ctrl_free(wcd937x->clsh_info);
--			return ret;
-+			goto err_free_irqs;
- 		}
- 
- 		ret = snd_soc_dapm_add_routes(dapm, wcd9375_audio_map,
- 					      ARRAY_SIZE(wcd9375_audio_map));
- 		if (ret < 0) {
- 			dev_err(component->dev, "Failed to add routes\n");
--			wcd_clsh_ctrl_free(wcd937x->clsh_info);
--			return ret;
-+			goto err_free_irqs;
- 		}
- 	}
- 
- 	ret = wcd937x_mbhc_init(component);
--	if (ret)
-+	if (ret) {
- 		dev_err(component->dev, "mbhc initialization failed\n");
-+		goto err_free_irqs;
-+	}
- 
- 	return ret;
-+
-+err_free_irqs:
-+	devm_free_irq(dev, wcd937x->aux_pdm_wd_int, wcd937x);
-+err_free_hphl_irq:
-+	devm_free_irq(dev, wcd937x->hphl_pdm_wd_int, wcd937x);
-+err_free_hphr_irq:
-+	devm_free_irq(dev, wcd937x->hphr_pdm_wd_int, wcd937x);
-+err_free_clsh:
-+	wcd_clsh_ctrl_free(wcd937x->clsh_info);
-+	return ret;
- }
- 
- static void wcd937x_soc_codec_remove(struct snd_soc_component *component)
-@@ -2589,9 +2599,9 @@ static void wcd937x_soc_codec_remove(struct snd_soc_component *component)
- 	struct wcd937x_priv *wcd937x = snd_soc_component_get_drvdata(component);
- 
- 	wcd937x_mbhc_deinit(component);
--	free_irq(wcd937x->aux_pdm_wd_int, wcd937x);
--	free_irq(wcd937x->hphl_pdm_wd_int, wcd937x);
--	free_irq(wcd937x->hphr_pdm_wd_int, wcd937x);
-+	devm_free_irq(component->dev, wcd937x->aux_pdm_wd_int, wcd937x);
-+	devm_free_irq(component->dev, wcd937x->hphl_pdm_wd_int, wcd937x);
-+	devm_free_irq(component->dev, wcd937x->hphr_pdm_wd_int, wcd937x);
- 
- 	wcd_clsh_ctrl_free(wcd937x->clsh_info);
- }
--- 
-2.34.1
+thanks,
+
+Takashi
