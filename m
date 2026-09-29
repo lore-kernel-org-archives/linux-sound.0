@@ -1,79 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mailrelay-egress15.pub.mailoutpod3-cph3.one.com (mailrelay-egress15.pub.mailoutpod3-cph3.one.com [46.30.212.2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77DFA48035F;
-	Tue, 29 Sep 2026 21:45:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D61E3955CD
+	for <linux-sound@vger.kernel.org>; Tue, 29 Sep 2026 21:53:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.30.212.2
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790718319; cv=none; b=kzVuVUQaS8yyWkIyqlOdhgOx7Bs4dBgREh2EDdfd4h9Tps+QLgA8NWYhGlH8oFgdbg5Vy1oAr4IpScCZ3BC7Ka3GN/v/svGQY0cB/niC3D8updWd6jo+38M0YB+bbaSecG03ufHGt9+YQu+1ZbyC5GrAxPUQRkwO05s31vh/BX4=
+	t=1790718790; cv=none; b=DSJO8aHlazqpAMFDd6QxAUCTwjL3csqEGpXD/yiHgYtt5vev2lms17SXDyXMfiX8KJml5u4t1TLMLFEFsXtRxahFV6WAXiSAg7D4fj307t92HRYWVCZVNzGV1O5zdJ7IBkGPqwoqJVIVk9jTEUqyOaR7JYdK2lxCGSsx0IYRvYk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790718319; c=relaxed/simple;
-	bh=r/tcpcwfRAj97YXTFVy1944FX7u7iI2SARQAgPsJoEI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ag6a26dpFL7xXn68rkUA/pNIU+BMR8ZQ5twvOAmTEboXWB/lV0ri37JZK9hObT9SjqLLGEA42If6OUKxJ64mj4SH0ZoUzOf7ZeHAkFMk3gR+SqipCDI95o3bCNt04woQO0ntkAqfqEu2UpngjCdiS/tdPSdHhTnG7TOsDmmKu60=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GNNit6iy; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790718790; c=relaxed/simple;
+	bh=tH/YIgW7cuBjiPySbxTYCNjWnbGErusLwCFzsKVTIpg=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=lLrzvm8OgUr+Gx34R+hXoKg8Usrg8VuNqhBtgS6zrhQnWxyqkMwqI2sRNULQSjTSXjtcDMBTo9ZW3HI1lnddW9O159YzxpHtizhwXjileLcLafzM/jC0eo8aHDLHTAlhP9HMlUUiuR4grwHtt2UmWYYDdnXR1NCejepPnX0+0wo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=androscientia.com; spf=none smtp.mailfrom=androscientia.com; dkim=pass (2048-bit key) header.d=androscientia.com header.i=@androscientia.com header.b=Tj7aVOdf; dkim=permerror (0-bit key) header.d=androscientia.com header.i=@androscientia.com header.b=4KD2I4Gc; arc=none smtp.client-ip=46.30.212.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=androscientia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=androscientia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GNNit6iy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 793F71F000FF;
-	Tue, 29 Sep 2026 21:45:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790718308;
-	bh=r/tcpcwfRAj97YXTFVy1944FX7u7iI2SARQAgPsJoEI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=GNNit6iyY6xKpJuVXhpVPrAOsnEBPwiuqCyo+2BpBpzKaCj6hNLmxQqGgAgifA1Xi
-	 bvd4a8h+VxcFgH7MxLA73Tsd1bATxeGWJcSfGUUTYW1DbO7/uNMg0ebYGidTTaiw1e
-	 EDM0Jk1fhTbrRMQLf+mv3RO4wvETPe8/P8JkDjJEBoBoHstrb4x8KZdssNKyALQC1R
-	 DHAwRuTdBKoJSGKibYpPfd0L5HIOUTfJC/AkUKDSiukfZTM3FV+5cyCUnMSDb5eZ2z
-	 Ebh0eIGFLEgLwxli9kIYrwVuWc3qCm9scPmZ8kRFnOIeTrr7zIgxK7+OVwhBKKDBeP
-	 gAF0IlDuLWx3A==
-Date: Tue, 29 Sep 2026 22:45:05 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Andreas Axelsson <andreas.axelsson@androscientia.com>
-Cc: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ASoC: tas2781: Do not report cross-instance writes as
- errors on SPI
-Message-ID: <09a602a0-3aeb-4ab9-832e-1c15abcfbf1b@sirena.org.uk>
-References: <f39f2aa8-33f3-4cb6-b2ed-56254ad63f3c@androscientia.com>
- <aiqrzlIGi0ClnygD@sirena.co.uk>
- <d99d01e0-8ae5-4555-88cf-d7eb9afca692@androscientia.com>
+	dkim=pass (2048-bit key) header.d=androscientia.com header.i=@androscientia.com header.b="Tj7aVOdf";
+	dkim=permerror (0-bit key) header.d=androscientia.com header.i=@androscientia.com header.b="4KD2I4Gc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1790718784; x=1791323584;
+	d=androscientia.com; s=rsa1;
+	h=content-transfer-encoding:content-type:subject:from:cc:to:mime-version:date:
+	 message-id:from;
+	bh=U1BRGFZMWSg2a8DIJbbH8hQOCpiW3Dt4xz5oU3rMprQ=;
+	b=Tj7aVOdfjzQ8F5hGMEr2XlOJQRwc0DSdd4Zs7GPePnDaKrroWjPXTSnvhrvOn6nzYg13dreFORC+P
+	 tw8+SbEvyCGv62ESS3V0BuLjMyUfn8kgShZhqHbWbYgupS57PoFkXu3JMBVjEoN+euafLdrS/zWXeL
+	 5wSTGu5wIWVJWrOKSqouCnQAeMa/rKuPFSCLeZWlYCcsNbklwVG8fjI+UkWpW9vUd1CpKPDtrM3mgZ
+	 a6kx90lLeRuRoExg8h55JkKRdmJcnk70W67wKsj62KFKs9YBSmcsJ8x73C6IibFlB9yjx7nEKbqv0B
+	 MMc5202CU1cscxo9S7DWIw4LOkcHEBw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1790718784; x=1791323584;
+	d=androscientia.com; s=ed1;
+	h=content-transfer-encoding:content-type:subject:from:cc:to:mime-version:date:
+	 message-id:from;
+	bh=U1BRGFZMWSg2a8DIJbbH8hQOCpiW3Dt4xz5oU3rMprQ=;
+	b=4KD2I4GcyXrDUebv8O9DHzNJ/C1oYuZbwkoui1SBXIgpnjWevlKiLIe84UTkFT3Bls9BQmfwhV813
+	 yLU8XYzBw==
+X-HalOne-ID: 248d24b8-bc50-11f1-9cc0-154560f4cd7b
+Received: from [IPV6:2001:2044:db:f800:7717:9155:be2c:9362] (unknown [2001:2044:db:f800:7717:9155:be2c:9362])
+	by mailrelay5.pub.mailoutpod3-cph3.one.com (Halon) with ESMTPSA
+	id 248d24b8-bc50-11f1-9cc0-154560f4cd7b;
+	Tue, 29 Sep 2026 21:53:03 +0000 (UTC)
+Message-ID: <47904337-8887-4623-83df-c370a26adf03@androscientia.com>
+Date: Tue, 29 Sep 2026 23:53:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="FXqQv4UZqkKGpPjn"
-Content-Disposition: inline
-In-Reply-To: <d99d01e0-8ae5-4555-88cf-d7eb9afca692@androscientia.com>
-X-Cookie: 1 bulls, 3 cows.
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: Mark Brown <broonie@kernel.org>
+Cc: lgirdwood@gmail.com, shenghao-ding@ti.com, kevin-lu@ti.com,
+ baojun.xu@ti.com, sen@ti.com, tiwai@suse.com, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+From: Andreas Axelsson <andreas.axelsson@androscientia.com>
+Subject: [PATCH v2] ASoC: tas2781: Skip calibration data for other SPI devices
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
+On SPI-based TAS2781 HDA systems (e.g. HP laptops with two amplifiers
+on separate SPI chip selects), each tasdevice_priv instance services a
+single device, and the SPI bus glue returns -EXDEV for register access
+addressed to a channel the instance does not own (see
+tasdevice_spi_change_chn_book()).
 
---FXqQv4UZqkKGpPjn
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Commit 513480da5e9c ("ALSA: hda/tas2781: Fix device-0 reset issue and
+handle -EXDEV in block data processing") taught
+tasdevice_process_block() to ignore -EXDEV on SPI, but
+tasdev_load_calibrated_data() still tries to write calibration data
+for every channel. On each instance the write for the other amplifier
+fails and is logged as an error on every boot, resume and profile
+switch:
 
-On Tue, Sep 29, 2026 at 11:36:11PM +0200, Andreas Axelsson wrote:
-> Attached is the updated patch.
+   tas2781-hda spi1-TXNW2781:00-tas2781-hda.1: chn 0 r0_reg bulk_wr err 
+= -18
 
-Please submit patches in the manner described in submitting-patches.rst
-- tooling is all based on that.
+The owning instance loads that channel's calibration data itself, so
+skip channels other than priv->index on SPI.
 
---FXqQv4UZqkKGpPjn
-Content-Type: application/pgp-signature; name="signature.asc"
+Tested on an HP ZBook Fury G1i (subsystem 103C:8DE8) with two TAS2781
+amps on SPI.
 
------BEGIN PGP SIGNATURE-----
+Fixes: 9fa6a693ad8d ("ALSA: hda/tas2781: Remove tas2781_spi_fwlib.c and 
+leverage SND_SOC_TAS2781_FMWLIB")
+Signed-off-by: Andreas Axelsson <andreas.axelsson@androscientia.com>
+---
+v2:
+- Rebased on current code. The tasdevice_process_block() part of v1
+   is superseded by commit 513480da5e9c; only the calibration part
+   remains.
+- Resent as a new thread with the patch inline; my earlier reply had
+   it as an attachment, sorry for the noise.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmq8MWAACgkQJNaLcl1U
-h9DeBQf/fT/u70Ff9MWHmd6Dp7FrwW+jkhhOEmR5S511Ybn3w3cRtT4CPGPvoQmC
-X8nrEdDMSFfCuAKfvSrRPsIFu4ZDX1cy5wlpBWyNuqxxxo175wr+fKxeh2JmckF1
-WpnEFZiUeLwW/H3RVIWLujRL14mxyhLUmm0odxnZ8QYrD6BEZk/yCNANj6mGSWNp
-imEcpPYVbO56nSJQECvjFutJtFMysNfJHjFrQTk4+59dapxNDDfEWStevwyP86iZ
-GFjx3fJOIh3gZxnQ7txcygZr6oGYJKLD8pQCR32ej4OZrpy2Da1pYzhNSTIlfFSb
-zCcxKsKWNdeTrXWlQdX0n8dTgJ3Y7g==
-=D5nP
------END PGP SIGNATURE-----
+  sound/soc/codecs/tas2781-fmwlib.c | 4 ++++
+  1 file changed, 4 insertions(+)
 
---FXqQv4UZqkKGpPjn--
+diff --git a/sound/soc/codecs/tas2781-fmwlib.c 
+b/sound/soc/codecs/tas2781-fmwlib.c
+index e8ceeb0..e250d38 100644
+--- a/sound/soc/codecs/tas2781-fmwlib.c
++++ b/sound/soc/codecs/tas2781-fmwlib.c
+@@ -2631,6 +2631,10 @@ static void tasdev_load_calibrated_data(struct 
+tasdevice_priv *priv, int i)
+      if (!data || !cali_data->total_sz)
+          return;
+
++    /* On SPI each instance owns a single device; skip the others. */
++    if (priv->isspi && i != priv->index)
++        return;
++
+      if (data[k] != i) {
+          dev_err(priv->dev, "%s: no cal-data for dev %d from usr-spc\n",
+              __func__, i);
+-- 
+2.34.1
+
