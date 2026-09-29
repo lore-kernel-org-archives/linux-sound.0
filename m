@@ -1,127 +1,79 @@
-Received: from mailrelay-egress15.pub.mailoutpod3-cph3.one.com (mailrelay-egress15.pub.mailoutpod3-cph3.one.com [46.30.212.2])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 397074E4C51
-	for <linux-sound@vger.kernel.org>; Tue, 29 Sep 2026 21:37:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.30.212.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77DFA48035F;
+	Tue, 29 Sep 2026 21:45:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790717846; cv=none; b=LXXi9163VdzNrHVqLkqxnyxN/PhYLVWtkdTHduGTyAL1VL7I/ReeBLytYtPXFq/mqaDGhdNMw53JacN6RzYSSv6X7QgtAY88QsAAptExir203fFWoddTzE1SHgTI5O/oYMJJ4r3prJ5V5b3vQEmxWG7QIZO55empwQ2Nt1orrKI=
+	t=1790718319; cv=none; b=kzVuVUQaS8yyWkIyqlOdhgOx7Bs4dBgREh2EDdfd4h9Tps+QLgA8NWYhGlH8oFgdbg5Vy1oAr4IpScCZ3BC7Ka3GN/v/svGQY0cB/niC3D8updWd6jo+38M0YB+bbaSecG03ufHGt9+YQu+1ZbyC5GrAxPUQRkwO05s31vh/BX4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790717846; c=relaxed/simple;
-	bh=FWvf5mKExUXW4t1zSIEm0xSZHVU8CRXMPVsW4x3v47g=;
-	h=Content-Type:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To; b=oCRbWEMtHhoX77Ih0JRWeuW75YHoLheMd16FG6wF+Bbb9sWerfmPXRmUg/X1tVfweIM/4XhGV9h0IkfE7yLw6HJxxlFQwJro9cpBR0suI9q7g4Es0L6GjG4TesGHqpIDX617h3KkvFYN6hrC+z/ZjFhvJCl0vBKFbq+R83WE9r8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=androscientia.com; spf=none smtp.mailfrom=androscientia.com; dkim=pass (2048-bit key) header.d=androscientia.com header.i=@androscientia.com header.b=U65NBXs5; dkim=permerror (0-bit key) header.d=androscientia.com header.i=@androscientia.com header.b=zM/9YVnb; arc=none smtp.client-ip=46.30.212.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=androscientia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=androscientia.com
+	s=arc-20240116; t=1790718319; c=relaxed/simple;
+	bh=r/tcpcwfRAj97YXTFVy1944FX7u7iI2SARQAgPsJoEI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ag6a26dpFL7xXn68rkUA/pNIU+BMR8ZQ5twvOAmTEboXWB/lV0ri37JZK9hObT9SjqLLGEA42If6OUKxJ64mj4SH0ZoUzOf7ZeHAkFMk3gR+SqipCDI95o3bCNt04woQO0ntkAqfqEu2UpngjCdiS/tdPSdHhTnG7TOsDmmKu60=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GNNit6iy; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=androscientia.com header.i=@androscientia.com header.b="U65NBXs5";
-	dkim=permerror (0-bit key) header.d=androscientia.com header.i=@androscientia.com header.b="zM/9YVnb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1790717771; x=1791322571;
-	d=androscientia.com; s=rsa1;
-	h=in-reply-to:from:references:cc:to:subject:mime-version:date:message-id:
-	 content-type:from;
-	bh=FWvf5mKExUXW4t1zSIEm0xSZHVU8CRXMPVsW4x3v47g=;
-	b=U65NBXs5PPO+fPSLYL17gCncqDhKW5J7ZvIFIz75pTryGeFS1tSWcA5NHxeCN3pM6kqMMhHaVk1ke
-	 z1EBH2ovaEZ/g/JHo9JyECoTe71MB15Ulhd6HRmXoYcuJ8HY7YRJynLrHA6D+uf2lc8W1Dpi5aXNiz
-	 L5bTjaNk9epTeZiGLrPoUeZPqKcH1j90XBLg/s6huZaEpHMSSXmWmBqf7EkvtJIhHua/jRskf6ZAiD
-	 cFBOHRC/YZ0KRwE5sKD7IgftMRdpHGqkvCPmOV76gY2Ec7ikh7JZhkrMumOQH4HIoqkLqReeIjwynv
-	 H8U76Oq37yVkqVf6Oh3+KzFngYStZgA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1790717771; x=1791322571;
-	d=androscientia.com; s=ed1;
-	h=in-reply-to:from:references:cc:to:subject:mime-version:date:message-id:
-	 content-type:from;
-	bh=FWvf5mKExUXW4t1zSIEm0xSZHVU8CRXMPVsW4x3v47g=;
-	b=zM/9YVnbkqd4g9iracjZRObuPxlZ+ZswoYAVGiv/h5sAR94X2OMF22bjf7qO/v2i6kEamGd6DZvJ4
-	 uRHp4tJCg==
-X-HalOne-ID: c9dbf97d-bc4d-11f1-814f-1b46ed53ce32
-Received: from [IPV6:2001:2044:db:f800:8ce2:8d8a:61f:76ef] (unknown [2001:2044:db:f800:8ce2:8d8a:61f:76ef])
-	by mailrelay4.pub.mailoutpod2-cph3.one.com (Halon) with ESMTPSA
-	id c9dbf97d-bc4d-11f1-814f-1b46ed53ce32;
-	Tue, 29 Sep 2026 21:36:11 +0000 (UTC)
-Content-Type: multipart/mixed; boundary="------------Ol9gdBx0akhCWiFRzfNcIc2G"
-Message-ID: <d99d01e0-8ae5-4555-88cf-d7eb9afca692@androscientia.com>
-Date: Tue, 29 Sep 2026 23:36:11 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GNNit6iy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 793F71F000FF;
+	Tue, 29 Sep 2026 21:45:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790718308;
+	bh=r/tcpcwfRAj97YXTFVy1944FX7u7iI2SARQAgPsJoEI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=GNNit6iyY6xKpJuVXhpVPrAOsnEBPwiuqCyo+2BpBpzKaCj6hNLmxQqGgAgifA1Xi
+	 bvd4a8h+VxcFgH7MxLA73Tsd1bATxeGWJcSfGUUTYW1DbO7/uNMg0ebYGidTTaiw1e
+	 EDM0Jk1fhTbrRMQLf+mv3RO4wvETPe8/P8JkDjJEBoBoHstrb4x8KZdssNKyALQC1R
+	 DHAwRuTdBKoJSGKibYpPfd0L5HIOUTfJC/AkUKDSiukfZTM3FV+5cyCUnMSDb5eZ2z
+	 Ebh0eIGFLEgLwxli9kIYrwVuWc3qCm9scPmZ8kRFnOIeTrr7zIgxK7+OVwhBKKDBeP
+	 gAF0IlDuLWx3A==
+Date: Tue, 29 Sep 2026 22:45:05 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Andreas Axelsson <andreas.axelsson@androscientia.com>
+Cc: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: tas2781: Do not report cross-instance writes as
+ errors on SPI
+Message-ID: <09a602a0-3aeb-4ab9-832e-1c15abcfbf1b@sirena.org.uk>
+References: <f39f2aa8-33f3-4cb6-b2ed-56254ad63f3c@androscientia.com>
+ <aiqrzlIGi0ClnygD@sirena.co.uk>
+ <d99d01e0-8ae5-4555-88cf-d7eb9afca692@androscientia.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: tas2781: Do not report cross-instance writes as
- errors on SPI
-To: Mark Brown <broonie@kernel.org>
-Cc: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
- Baojun Xu <baojun.xu@ti.com>, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <f39f2aa8-33f3-4cb6-b2ed-56254ad63f3c@androscientia.com>
- <aiqrzlIGi0ClnygD@sirena.co.uk>
-Content-Language: en-US
-From: Andreas Axelsson <andreas.axelsson@androscientia.com>
-In-Reply-To: <aiqrzlIGi0ClnygD@sirena.co.uk>
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="FXqQv4UZqkKGpPjn"
+Content-Disposition: inline
+In-Reply-To: <d99d01e0-8ae5-4555-88cf-d7eb9afca692@androscientia.com>
+X-Cookie: 1 bulls, 3 cows.
 
-This is a multi-part message in MIME format.
---------------Ol9gdBx0akhCWiFRzfNcIc2G
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-Attached is the updated patch.
+--FXqQv4UZqkKGpPjn
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Best regards,
+On Tue, Sep 29, 2026 at 11:36:11PM +0200, Andreas Axelsson wrote:
+> Attached is the updated patch.
 
-Andreas
+Please submit patches in the manner described in submitting-patches.rst
+- tooling is all based on that.
 
-On 11/06/2026 2.36 pm, Mark Brown wrote:
-> On Thu, Jun 11, 2026 at 10:20:18AM +0200, Andreas Axelsson wrote:
->> On SPI-based TAS2781 HDA systems (e.g. HP laptops with two amplifiers
->> on separate SPI chip selects), each tasdevice_priv instance services a
->> single device. The SPI bus glue intentionally returns -EXDEV for
->> register access addressed to a channel the instance does not own, and
->> logs it at debug level as "Not error" (see
->> tasdevice_spi_change_chn_book()).
-> This doesn't apply against current code, please check and resend.
---------------Ol9gdBx0akhCWiFRzfNcIc2G
-Content-Type: text/x-patch; charset=UTF-8;
- name="v2-0001-ASoC-tas2781-Skip-calibration-data-for-other-SPI-devices.patch"
-Content-Disposition: attachment;
- filename*0="v2-0001-ASoC-tas2781-Skip-calibration-data-for-other-SPI-dev";
- filename*1="ices.patch"
-Content-Transfer-Encoding: base64
+--FXqQv4UZqkKGpPjn
+Content-Type: application/pgp-signature; name="signature.asc"
 
-RnJvbTogQW5kcmVhcyBBeGVsc3NvbiA8YW5kcmVhcy5heGVsc3NvbkBhbmRyb3NjaWVudGlh
-LmNvbT4KU3ViamVjdDogW1BBVENIIHYyXSBBU29DOiB0YXMyNzgxOiBTa2lwIGNhbGlicmF0
-aW9uIGRhdGEgZm9yIG90aGVyIFNQSSBkZXZpY2VzCgpPbiBTUEktYmFzZWQgVEFTMjc4MSBI
-REEgc3lzdGVtcyAoZS5nLiBIUCBsYXB0b3BzIHdpdGggdHdvIGFtcGxpZmllcnMKb24gc2Vw
-YXJhdGUgU1BJIGNoaXAgc2VsZWN0cyksIGVhY2ggdGFzZGV2aWNlX3ByaXYgaW5zdGFuY2Ug
-c2VydmljZXMgYQpzaW5nbGUgZGV2aWNlLCBhbmQgdGhlIFNQSSBidXMgZ2x1ZSByZXR1cm5z
-IC1FWERFViBmb3IgcmVnaXN0ZXIgYWNjZXNzCmFkZHJlc3NlZCB0byBhIGNoYW5uZWwgdGhl
-IGluc3RhbmNlIGRvZXMgbm90IG93biAoc2VlCnRhc2RldmljZV9zcGlfY2hhbmdlX2Nobl9i
-b29rKCkpLgoKQ29tbWl0IDUxMzQ4MGRhNWU5YyAoIkFMU0E6IGhkYS90YXMyNzgxOiBGaXgg
-ZGV2aWNlLTAgcmVzZXQgaXNzdWUgYW5kCmhhbmRsZSAtRVhERVYgaW4gYmxvY2sgZGF0YSBw
-cm9jZXNzaW5nIikgdGF1Z2h0CnRhc2RldmljZV9wcm9jZXNzX2Jsb2NrKCkgdG8gaWdub3Jl
-IC1FWERFViBvbiBTUEksIGJ1dAp0YXNkZXZfbG9hZF9jYWxpYnJhdGVkX2RhdGEoKSBzdGls
-bCB0cmllcyB0byB3cml0ZSBjYWxpYnJhdGlvbiBkYXRhCmZvciBldmVyeSBjaGFubmVsLiBP
-biBlYWNoIGluc3RhbmNlIHRoZSB3cml0ZSBmb3IgdGhlIG90aGVyIGFtcGxpZmllcgpmYWls
-cyBhbmQgaXMgbG9nZ2VkIGFzIGFuIGVycm9yIG9uIGV2ZXJ5IGJvb3QsIHJlc3VtZSBhbmQg
-cHJvZmlsZQpzd2l0Y2g6CgogIHRhczI3ODEtaGRhIHNwaTEtVFhOVzI3ODE6MDAtdGFzMjc4
-MS1oZGEuMTogY2huIDAgcjBfcmVnIGJ1bGtfd3IgZXJyID0gLTE4CgpUaGUgb3duaW5nIGlu
-c3RhbmNlIGxvYWRzIHRoYXQgY2hhbm5lbCdzIGNhbGlicmF0aW9uIGRhdGEgaXRzZWxmLCBz
-bwpza2lwIGNoYW5uZWxzIG90aGVyIHRoYW4gcHJpdi0+aW5kZXggb24gU1BJLgoKVGVzdGVk
-IG9uIGFuIEhQIFpCb29rIEZ1cnkgRzFpIChzdWJzeXN0ZW0gMTAzQzo4REU4KSB3aXRoIHR3
-byBUQVMyNzgxCmFtcHMgb24gU1BJLgoKRml4ZXM6IDlmYTZhNjkzYWQ4ZCAoIkFMU0E6IGhk
-YS90YXMyNzgxOiBSZW1vdmUgdGFzMjc4MV9zcGlfZndsaWIuYyBhbmQgbGV2ZXJhZ2UgU05E
-X1NPQ19UQVMyNzgxX0ZNV0xJQiIpClNpZ25lZC1vZmYtYnk6IEFuZHJlYXMgQXhlbHNzb24g
-PGFuZHJlYXMuYXhlbHNzb25AYW5kcm9zY2llbnRpYS5jb20+Ci0tLQp2MjoKLSBSZWJhc2Vk
-IG9uIGN1cnJlbnQgY29kZS4gVGhlIHRhc2RldmljZV9wcm9jZXNzX2Jsb2NrKCkgcGFydCBv
-ZiB2MQogIGlzIHN1cGVyc2VkZWQgYnkgY29tbWl0IDUxMzQ4MGRhNWU5Yzsgb25seSB0aGUg
-Y2FsaWJyYXRpb24gcGFydAogIHJlbWFpbnMuCgotLS0gYS9zb3VuZC9zb2MvY29kZWNzL3Rh
-czI3ODEtZm13bGliLmMKKysrIGIvc291bmQvc29jL2NvZGVjcy90YXMyNzgxLWZtd2xpYi5j
-CkBAIC0yNjMxLDYgKzI2MzEsMTAgQEAKIAlpZiAoIWRhdGEgfHwgIWNhbGlfZGF0YS0+dG90
-YWxfc3opCiAJCXJldHVybjsKIAorCS8qIE9uIFNQSSBlYWNoIGluc3RhbmNlIG93bnMgYSBz
-aW5nbGUgZGV2aWNlOyBza2lwIHRoZSBvdGhlcnMuICovCisJaWYgKHByaXYtPmlzc3BpICYm
-IGkgIT0gcHJpdi0+aW5kZXgpCisJCXJldHVybjsKKwogCWlmIChkYXRhW2tdICE9IGkpIHsK
-IAkJZGV2X2Vycihwcml2LT5kZXYsICIlczogbm8gY2FsLWRhdGEgZm9yIGRldiAlZCBmcm9t
-IHVzci1zcGNcbiIsCiAJCQlfX2Z1bmNfXywgaSk7Cg==
+-----BEGIN PGP SIGNATURE-----
 
---------------Ol9gdBx0akhCWiFRzfNcIc2G--
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmq8MWAACgkQJNaLcl1U
+h9DeBQf/fT/u70Ff9MWHmd6Dp7FrwW+jkhhOEmR5S511Ybn3w3cRtT4CPGPvoQmC
+X8nrEdDMSFfCuAKfvSrRPsIFu4ZDX1cy5wlpBWyNuqxxxo175wr+fKxeh2JmckF1
+WpnEFZiUeLwW/H3RVIWLujRL14mxyhLUmm0odxnZ8QYrD6BEZk/yCNANj6mGSWNp
+imEcpPYVbO56nSJQECvjFutJtFMysNfJHjFrQTk4+59dapxNDDfEWStevwyP86iZ
+GFjx3fJOIh3gZxnQ7txcygZr6oGYJKLD8pQCR32ej4OZrpy2Da1pYzhNSTIlfFSb
+zCcxKsKWNdeTrXWlQdX0n8dTgJ3Y7g==
+=D5nP
+-----END PGP SIGNATURE-----
+
+--FXqQv4UZqkKGpPjn--
