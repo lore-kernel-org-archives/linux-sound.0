@@ -1,86 +1,86 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 740004F3EDA;
-	Tue, 29 Sep 2026 09:27:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29B824E5359;
+	Tue, 29 Sep 2026 09:35:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790674067; cv=none; b=QxEwtdnJ/SDMGlhC/q3QR5jHeQddFM7y14bEeJlCwh2PWMZOqLolGh9nVqxRmpMBHDPHkNiOJvFNjNw4wsRrABxIGa4oWcSRKfYXUXD8HQE9UloT4Y5UaCrqVATTztWS2pkvAo3GwpR7fex/1bf+7oFXbVQd6yTq5Gx0Nbmou5E=
+	t=1790674518; cv=none; b=ByYQQqVcy0s4kmm+OTlK/b0qIL5h4wxIdBIbxqaoFS/afivMgzi2IxGG0sVO/oCJy2UKrZZlgjNcRxM5SvG2x+WAuFIpPEN36yfUKSP/22jDxmoF7f+1zldpwQTLlrUS+XyZ+BP7HN8NTI3hAZE8RHnjd/5juUeCJZTe6M1LszM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790674067; c=relaxed/simple;
-	bh=uog8vJYYL5IhAKN6S+Qy1BzGIfoavnO99rAuCWu3kYk=;
+	s=arc-20240116; t=1790674518; c=relaxed/simple;
+	bh=OanTfQ+7y69cPdAS1xdo0YU6xihNeuxRH3PAzNkmCts=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=G2uTAt/4pfUzwtRyFLsYKaQJtw8OMTXF2cbtTSgsXuyUj4B9sp9MNscJ1d0vLxh5c4zwgDVEaOFpgqN3m1JEjfcKAQVds2A3hEaqxsoCspDreP5ogumk2gxWYqSXb0Cbx5U3lT+QY+tvAYoc5AyY/k74PodIYkYwDqX/cSpowYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=J6Hz7YsY; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=7u4yOqJd; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=sMNZTxxT; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=HBtbcg8M; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=iLP9gDxiCfZGD7DG3sG4T7M/OFLZxiln23GCtSALTlc7EAPZ6Rcv2JNzeZw+oplO/2k9QDUgPYlh1P+hWHOPcaFwvy9GBxZvIDH//Idgg0uBqZdq4hdxOtFTkH+0Qqeyp3pMjTmaStYUWidRnFdj/ATWkrXIU4DXC6IcCsMnK2I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RnVlURL9; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gySeSqr6; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=u5VoaP3N; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=MpmUsZbF; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="J6Hz7YsY";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7u4yOqJd";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="sMNZTxxT";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HBtbcg8M"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RnVlURL9";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gySeSqr6";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="u5VoaP3N";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MpmUsZbF"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 3FD7721BC4;
-	Tue, 29 Sep 2026 09:27:32 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id DF7311F390;
+	Tue, 29 Sep 2026 09:35:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1790674056; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1790674510; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=xS6XOymtSgVb3OBZr0OuBppDquAOavTfRG3W0KiULNE=;
-	b=J6Hz7YsY7713bAWMHxL4KexZBO+EBxYFjCBVA2oKyOVF1EanV9Lke8mFrVTXYenLkPoAOR
-	wR2d7cTf+n+njRYWnFAWG0PcBpO89A/49frCbIkEnlypLK3wykrf9if4T083psf5A3z+sa
-	m5qkfQsbvxHpbtGExjL9V1ORp2jylvs=
+	bh=eueLG3D+Dq0TjIAguzsLawypQVR1ipWJYgTXwD+aOsE=;
+	b=RnVlURL9AjL46WamSi1D4jgvRXtw7NJaJ9E8mD+ogdXhzR6LCS8INO+C59ZFFBw92qn0y6
+	DqKVlHojwGSYmnzMgYwz6mH4lAXMrBio3u22XDV5NlIg6Lo4uKyOaEzPq7hi0tnpD0iVDd
+	8edB7YlhvjsYfiSHNBZF1uILOeJTFOM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1790674056;
+	s=susede2_ed25519; t=1790674510;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=xS6XOymtSgVb3OBZr0OuBppDquAOavTfRG3W0KiULNE=;
-	b=7u4yOqJdaTTp6TTrzcir4EZmAOeTY/abFhJL534cXzQvP/uA5GigAb+2CB6bVuBH9/XeaT
-	QD7wZee039l859Cw==
-Authentication-Results: smtp-out1.suse.de;
-	none
+	bh=eueLG3D+Dq0TjIAguzsLawypQVR1ipWJYgTXwD+aOsE=;
+	b=gySeSqr6SC/C7OVcFkeR/YYLn00A1GhNf15BRZARiiwHDouNFJJQLuwch9iaQZ4cXf89I9
+	eLGTD7LXhB2HZkCg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=u5VoaP3N;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=MpmUsZbF
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1790674052; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1790674505; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=xS6XOymtSgVb3OBZr0OuBppDquAOavTfRG3W0KiULNE=;
-	b=sMNZTxxTOzO/wgI1FEHoGfUuNYqPlwbwyLkmFITac1393vCv9TyVQAlwE5UntxWtp+8gsc
-	bjDMoyM432YX+1l3Rf9sNzf0Q8fjiwueqMHpXUEp4wggUs3Ll7wpw4F+OFHJhe5H0D4KFT
-	VKeikKT0TvJuUgmGO8JRR4m2B011zKI=
+	bh=eueLG3D+Dq0TjIAguzsLawypQVR1ipWJYgTXwD+aOsE=;
+	b=u5VoaP3N9ra1We4XbFyccW7HtSS77KsKueTg4MWKpwIkV9ANYSYK+gYLbCmSG7mlMfW3qO
+	4xKJ+s+hqctgbzSe7WI19uXXsFYMIDNaruuGn0fY66jvO85UmTL8iDHdsUGbMXjwnRNR4i
+	q0QOj6COxB3cN0+Q/yOS6TRlP/Ib530=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1790674052;
+	s=susede2_ed25519; t=1790674505;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=xS6XOymtSgVb3OBZr0OuBppDquAOavTfRG3W0KiULNE=;
-	b=HBtbcg8MiABpSAmj0gd1RC6MkAx+Vd3Qr9JpacyWqdTCBBCFnhLxqF8sB2ssHDztiW7nrx
-	xQeNzYAHP+lxMNCw==
+	bh=eueLG3D+Dq0TjIAguzsLawypQVR1ipWJYgTXwD+aOsE=;
+	b=MpmUsZbFN/FZkTqbdjy9ORJN7i50zGgs9Gpi2hh22LHy2Jblnfw5/Y1SNUwnnuKxTU6KuC
+	PsLB0KYRSxZ3a3Bg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D8A7B136D1;
-	Tue, 29 Sep 2026 09:27:31 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AAC7C133F1;
+	Tue, 29 Sep 2026 09:35:05 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id LlDlIYOEu2owEQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 29 Sep 2026 09:27:31 +0000
-Date: Tue, 29 Sep 2026 11:27:27 +0200
-Message-ID: <87fqys2yrk.wl-tiwai@suse.de>
+	id b/6tH0mGu2reGQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 29 Sep 2026 09:35:05 +0000
+Date: Tue, 29 Sep 2026 11:35:01 +0200
+Message-ID: <87ecec2yey.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Muhtasham Nawr al-Mahmud <muhtaseem2005@gmail.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Kailang Yang <kailang@realtek.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH] ALSA: hda/realtek: Fix speakers on ASUS PM3406CHA
-In-Reply-To: <20260924144512.3989-1-muhtaseem2005@gmail.com>
-References: <20260924144512.3989-1-muhtaseem2005@gmail.com>
+To: Xucheng Pan <panxucc@gmail.com>
+Cc: linux-sound@vger.kernel.org,
+	tiwai@suse.com,
+	perex@perex.cz,
+	linux-usb@vger.kernel.org
+Subject: Re: [PATCH] ALSA: usb-audio: Re-read descriptors for Xiaomi 2717:d005
+In-Reply-To: <20260923152552.943151-1-panxucc@gmail.com>
+References: <20260923152552.943151-1-panxucc@gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -89,56 +89,65 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-2.30 / 50.00];
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: DF7311F390
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-2.51 / 50.00];
 	BAYES_HAM(-3.00)[99.99%];
 	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
 	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
 	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Score: -2.30
-X-Spam-Level: 
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
 X-Spam-Flag: NO
+X-Spam-Score: -2.51
+X-Spam-Level: 
 
-On Thu, 24 Sep 2026 16:45:12 +0200,
-Muhtasham Nawr al-Mahmud wrote:
+On Wed, 23 Sep 2026 17:25:52 +0200,
+Xucheng Pan wrote:
 > 
-> The ASUS ExpertBook PM3406CHA uses an ALC256 codec with subsystem
-> ID 1043:1664. On Linux boot, the internal speakers are silent even
-> though playback is routed to the codec and the speaker pin is
-> configured for output.
+> The Xiaomi 2717:d005 USB audio transmitter supports Sound 2 Pro and
+> Sound 2 Max speakers. This issue was reproduced with two Sound 2 Pro
+> speakers paired in stereo. After a USB replug, Linux detects the
+> transmitter and exposes a hardware volume control, but moving the volume
+> slider changes neither the audible level nor the speakers' volume LEDs.
+> Windows controls the same speakers with its in-box USB Audio driver.
+> USB captures show standard UAC2 volume SET_CUR requests on both systems.
 > 
-> The codec starts with coefficient 0x10 set to 0x1d20. Writing 0x7f20
-> to coefficient 0x10 immediately restores internal speaker output.
+> Re-reading the device descriptor (18 bytes), configuration header
+> (9 bytes), and full configuration descriptor (184 bytes on the tested
+> unit) after 2717:d005 is configured restores hardware volume control.
+> The USBFS sequence recovered the device after multiple replug tests.
+> Reading only the device descriptor did not restore volume control.
 > 
-> This was reproduced on the affected hardware from a fresh boot using
-> hda-verb. Reducing a larger initialization sequence showed that this
-> coefficient write alone is sufficient; no GPIO, EAPD, pin-control, or
-> other coefficient changes are required. After applying the coefficient
-> in userspace, speaker output also remains functional across suspend
-> and resume.
+> Perform these reads when snd-usb-audio first probes 2717:d005. Use the
+> configuration header's wTotalLength for the final read. If a read fails,
+> warn and continue probing so that playback remains available.
 > 
-> Add a machine-specific HDA fixup that writes the required coefficient.
+> Tested on 7.2.6-zen2-1-zen with the existing userspace workaround
+> disabled. After a physical USB replug, the quirk ran when 2717:d005
+> appeared, and both audible volume and the speakers' LEDs followed the
+> KDE volume slider.
 > 
-> The fixup has been compile-tested, but could not be boot-tested because
-> the affected hardware is no longer available.
-> 
-> Closes: https://bugs.launchpad.net/ubuntu/+source/alsa-driver/+bug/2162718
-> Signed-off-by: Muhtasham Nawr al-Mahmud <muhtaseem2005@gmail.com>
+> Signed-off-by: Xucheng Pan <panxucc@gmail.com>
 
-The code change looks OK, so I applied this now.  Thanks.
+Applied to for-next branch now.  Thanks.
 
 
 Takashi
