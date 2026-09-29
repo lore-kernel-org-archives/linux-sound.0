@@ -1,91 +1,117 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta1.migadu.com (out-17.mta1.migadu.com [95.215.58.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B28A03EC810;
-	Tue, 29 Sep 2026 18:12:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 293625437FD
+	for <linux-sound@vger.kernel.org>; Tue, 29 Sep 2026 18:35:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790705559; cv=none; b=HFWJrAXPT2f8QtBNVQt5JVdf1ltjATRCJKSOMz09L7i2kek9ujZYd4/JZHkmhygGcYsrIvZVA451XjV62z9HYD8VumQH0I/q/Fjupp564nKwpLB2TAJDq/SzPtyIeVZY5qlSn7/jn2xNjRle7qJlTNJpLiJ6EgbiPaLSqpO9+WM=
+	t=1790706956; cv=none; b=ZtHAHDhTj6bgqhOuuCsqxlQpjj1iEj2HTc36TUbhPcj0M9SQtPgAvFU78GCvOVKbzC+TurmJd0a0tbn0dNn6mSKDnwwKWKQZ93lhq/6itV45HSC0wAX3jltUft0VAHfNZ9k0bHdT6qY738w59rzzuTamqi6P9AMA41Ndxixnfq0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790705559; c=relaxed/simple;
-	bh=1Jp9lC5lmUNbGotDTh5hwpiXsgEODQxozKoH2QRfGVU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=I0j6FeOMfQS87dSNLzTj2Z0WE1z+T8YSvfasXdBQ5poNkWWdePMYa9zSt9fKh3WUnoX9PjOtejJFxkWdcoQ5MtVZvW1j3GwTTcmtHaES023Nx4DK5v5n5fHpinarn8PygOze6rVMxRLtwUnOYmsM/NSnYAb0lfGQ9MJFBVpknIw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SqxPvboA; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790706956; c=relaxed/simple;
+	bh=9ja1FgpbLiCsvQ+12yDPrg6EtvZUujsk6+F1ruTkNzg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=twqVxxGggHFMEjiM0r/ZKpjzVJzJoOB9VSHNF1GvVYLk2RW3HghCgZ9gOzVXQ/snJPgATjGLi74e+IXGdL1S8U9vNxa7w3e/NOHQZK5mURXApwxPexelAQ0bAwM+3yWJWbP44MxTSPhH2u40RaaOZaQQPptDg8aOXI8tNUM8r7U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=H0daHUMC; arc=none smtp.client-ip=95.215.58.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SqxPvboA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFED11F000FF;
-	Tue, 29 Sep 2026 18:12:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790705558;
-	bh=AewnJYCmjMlqrdKta+ROW0UgJ4iRfCpECmE8t1Zigxw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=SqxPvboAcCVhQ5nmddBI/ScbjXz8Y3l5dIY/Buntx3u1v2YFiAp1sS2Pg1YIkPKsc
-	 zMEQiAqYE4H0pLu3DMVOseXq7BMOs5qn9Jp7rK2WnOwhmcfWHp6fbcsZ7krumfz3Fl
-	 B0nAKPKw8qge3Vi4Psr6cj5wc4cCT3s9Y8pYFhe4DzY+E7gTtpLW9wjxlRXdl3s+od
-	 R41GFhUVaTXVlhbtHm/2wBxoqhV9i0d9xO+1XwGWZRFuBrIWKyIjwzgMmhjnB0QuYl
-	 tvAQDRvbr2YBWOwzlY2K1uHI/o0/ZZz3g8kQU+kq1vZhHxCXmrd38khxVDeGXDiRMB
-	 lhXhVR77il9Vg==
-From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Runyu Xiao <runyu.xiao@seu.edu.cn>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Shenghao Ding <shenghao-ding@ti.com>, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Jianhao Xu <jianhao.xu@seu.edu.cn>, 
- stable@vger.kernel.org
-In-Reply-To: <20260929095920.2092147-1-runyu.xiao@seu.edu.cn>
-References: <20260929095920.2092147-1-runyu.xiao@seu.edu.cn>
-Subject: Re: [PATCH] ASoC: pcm6240: do not free an unrequested IRQ
-Message-Id: <179070079857.463415.5484242725188416666.b4-ty@b4>
-Date: Tue, 29 Sep 2026 17:53:18 +0100
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="H0daHUMC"
+X-Envelope-To: linux-sound@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=9ja1FgpbLiCsvQ+12yDPrg6EtvZUujsk6+F1ruTkNzg=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1790706952; v=1; x=1791311752;
+ b=H0daHUMCUjry5OmRTcLuWAP60MtOCzUQgZfUgygFv56lMOGdWORHtA0BO87f5xfrv33R6PTs
+ BNnYRJALKdl5PEG+PrYO4vzxuWe11gCVhshqpl7Q/P3V0c7dV6FvMbqHQGOO4SScHPHWFC3Oi7l
+ cROkdUTwtxpXQMdGDfzSLo6Q=
+X-Envelope-To: linux-sound@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 9a1d09175ff48b6f;
+	Tue, 29 Sep 2026 18:35:51 +0000
+X-Mizu-Trace-ID: 9a1d09175ff48b6f
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <6b7370d9-f913-42ab-9331-9614d149b7ec@linux.dev>
+Date: Tue, 29 Sep 2026 20:31:55 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/3] soundwire: intel_auxdevice: Don't disable IRQs
+ before removing children
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: vkoul@kernel.org, yung-chuan.liao@linux.intel.com,
+ peter.ujfalusi@linux.intel.com, linux-sound@vger.kernel.org,
+ patches@opensource.cirrus.com, linux-kernel@vger.kernel.org
+References: <20260925154216.3520136-1-ckeepax@opensource.cirrus.com>
+ <20260925154216.3520136-4-ckeepax@opensource.cirrus.com>
+ <2c4ea801-f048-405d-a163-e65691e93fc7@linux.dev>
+ <aronxfoVEKfBm9Zb@opensource.cirrus.com>
+ <db7d1d3a-1be3-466d-9f95-2dabe918e57e@linux.dev>
+ <aruxv3Gy0yj5YzV1@opensource.cirrus.com>
+Content-Language: en-US
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+In-Reply-To: <aruxv3Gy0yj5YzV1@opensource.cirrus.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1106; i=broonie@kernel.org;
- h=from:subject:message-id; bh=1Jp9lC5lmUNbGotDTh5hwpiXsgEODQxozKoH2QRfGVU=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqu/+S98vb3UAp4z9/AFUNR8nR5XM+NxRBOmzyv
- mOGzNIuyx6JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCarv/kgAKCRAk1otyXVSH
- 0D16B/0eet6QymIpIrsWE8UvaF5S7m6RBevMkEGXOGCRptqw5xZYU/3SH8sp6f/+zudPfEV4MWb
- cwwyEbvlnHTSVsM68m7rCbb0CtINnkfw14OcEUSxN0OryIM0KckFSParUn622HCDx1T4TYOrsu2
- qw6WibDEX9Xsrw11LHHph4Thndn3JiiArrWkd0Kjgz4zRq5V1sIg5Xy3BNUAKZOFl+q0o/zNjZX
- vTVhEoM029N1xd4jZkea73cp1zBVCYPE1Gmodbr17K0FFpR7kecj/AIQDtVYx+NB21+tyZEXXKG
- AvJkSnhktJqZtia0a8CcJdIex8r0jiO1tUGBeumfCvb/TqoR
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Tue, 29 Sep 2026 17:59:20 +0800, Runyu Xiao wrote:
-> ASoC: pcm6240: do not free an unrequested IRQ
+On 9/29/26 14:40, Charles Keepax wrote:
+> On Tue, Sep 29, 2026 at 10:34:16AM +0200, Pierre-Louis Bossart wrote:
+>> On 9/28/26 10:39, Charles Keepax wrote:
+>>> On Sat, Sep 26, 2026 at 05:55:06PM +0200, Pierre-Louis Bossart wrote:
+>>>>  void sdw_bus_master_delete(struct sdw_bus *bus)
+>>>>  {
+>>>> -	device_for_each_child(bus->dev, NULL, sdw_delete_slave);
+>>>> +	sdw_bus_slaves_delete(bus); <<< this would be the second call?
+>>>> +	sdw_bus_slaves_put(bus);
+>>>
+>>> Yeah seemed the simplest way to not have to change any existing
+>>> drivers, the second call is a complete no-op if the first was
+>>> done.
+>>
+>> humm, that seems to work but I get this layering violation after-taste,
+>> and I wonder if this works for AMD?
+> 
+> Nothing should have changed from AMD's perspective. I do think
+> perhaps a slightly better fix could be done moving significant
+> amounts of the IRQ handling over to the IRQ framework,
+> however that is a much bigger piece of work and more scary
+> from a regressions point of view due to it being a much bigger
+> refactoring.
+> 
+>> AMD use a platform device instead of an auxiliary one, but overall this
+>> looks like the same problem of disabling interrupts before the
+>> peripheral driver is removed, no?
+>>
+>> static void amd_sdw_manager_remove(struct platform_device *pdev)
+>> {
+>> 	struct amd_sdw_manager *amd_manager = dev_get_drvdata(&pdev->dev);
+>> 	int ret;
+>>
+>> 	pm_runtime_disable(&pdev->dev);
+>> 	cancel_work_sync(&amd_manager->amd_sdw_work);
+>> 	amd_disable_sdw_interrupts(amd_manager); <<< SAME PROBLEM ??
+>> 	sdw_bus_master_delete(&amd_manager->bus);
+>>
+>> If this is indeed the same problem then the AMD driver should use the
+>> same solution...
+> 
+> I am not super familiar with the AMD stuff, so take this with a
+> massive pinch of salt but it depends on if that IRQ is actually
+> involved in SoundWire command transfers.
+> 
+> A quick look through amd_sdw_irq_thread() and amd_sdw_xfer_msg()
+> looks to me like the IRQ is not involved there. So I believe
+> the AMD host doesn't have the same problem as the Intel one.
+> Although there is perhaps debate if SoundWire alerts should
+> still function during remove, which would be broken on AMD,
+> but I am not aware of any devices that need that right now.
+I think you're right, the AMD messenging relies on polling, not on
+interrupts, so they are 'safe'. I don't see anything that would prevent
+communication with the peripheral.
 
-Applied to
-
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
-
-Thanks!
-
-[1/1] ASoC: pcm6240: do not free an unrequested IRQ
-      https://git.kernel.org/broonie/sound/c/995b96380ba5
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+For the alerts, I guess it's the same on remove, clock stop and system
+suspend. When the manager made the decision to remove/stop the
+clock/power-down, the transition has to happen. Alerts can only be
+handled 'later'.
