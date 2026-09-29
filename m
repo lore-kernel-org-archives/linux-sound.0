@@ -1,81 +1,70 @@
-Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+Received: from mail-oo2-f42.google.com (mail-oo2-f42.google.com [74.125.231.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B305367B74
-	for <linux-sound@vger.kernel.org>; Tue, 29 Sep 2026 17:29:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75BDC2AD1B
+	for <linux-sound@vger.kernel.org>; Tue, 29 Sep 2026 17:44:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790702948; cv=none; b=doAN3wpVcF5rgxZlrtZS3gn7xiNAyn33xtLFiFZBowy0WVkhMj3FQVpIFQ6uFnogIUM3YvRHtmE6+/VAZ1qlH2NlqXM7A8xgq8OoWz+Tt6z4qWRZPmLJnDKrSRRY6TwY1xo777kAhJ8mNjwKlDEUDbBVtl32y2vZqoHQfK93oAI=
+	t=1790703850; cv=none; b=V6jaj1eZAbuPo6irtD/ftTPIjpSeAWOelNdHOC3cEe2sDHCsOHbuD27rZLtWGU2RDzh3wJcOLgt0n/cL+Lelczt7YrzIn0gyKNLrPSZNcFlKwdPPT/Jr7E4RFQR2smy5mCGznt/zvcK9hdOPzP3NbJD4VTbkS+LVY8yP5Vqkcrw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790702948; c=relaxed/simple;
-	bh=NCnkL09yq/ZbgV5OpIBuVnAcKZhxoffH1DwX/cYV/9g=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KvxFGiZqvCQ503MRl5tYUcLuFPo3hKLnSnoaONaklamZsj0oP59aZ4/jsOE/gocWYN7t+ecdEPZiFTAVeMrnnGhSsklEAwcZ70y2QKqSPJyXEVhsQD1ozX2LVc6N4hywuCREXYVGRsOraB4dr/nLOXMxbmjA1lVi40ALM73sr3g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kmkgiuf5; arc=none smtp.client-ip=74.125.225.141
+	s=arc-20240116; t=1790703850; c=relaxed/simple;
+	bh=3z7e6qj+2edb0Ixj5DdIvKU2zKFi1/9UHGgRDq5FOOY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bOytf4lzq3YdBxD4bU1Z3NKKoMxQumkXW3alDygTSz1QidrjmxWqnZIw23p6hLtr8qE0rJlwEXd4OyljMYG2EaqJfet1GV2vLIXRjEhojLaieEHFbND6Oph7s2GftGwdff3v0ErSYmLpx0APlOnM/89HRZubcRjpOTsPYd+2lQM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JiJrsSnu; arc=none smtp.client-ip=74.125.231.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kmkgiuf5"
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49e6b885ef8so25825705e9.1
-        for <linux-sound@vger.kernel.org>; Tue, 29 Sep 2026 10:29:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JiJrsSnu"
+Received: by mail-oo2-f42.google.com with SMTP id 46e09a7af769-81be5042c51so2755816a34.1
+        for <linux-sound@vger.kernel.org>; Tue, 29 Sep 2026 10:44:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790702945; x=1791307745; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=NCnkL09yq/ZbgV5OpIBuVnAcKZhxoffH1DwX/cYV/9g=;
-        b=kmkgiuf5e9WUQfSDfKmaYRbqLtjTFm+9n1wnTFWehnedCSoG2IlT2XCNURVSrtQFRd
-         7HzmImYloA3ELsogTL+DYsA/prHXbwrOAEQZvVLzhedtiFjsXibyEVyWkMybeymKWRl1
-         CHylpEzvNy2Tkoqw15lmedYSaRa+qRxYz+Nkb1E7b+Qqnc+is2URyfVqEve6gxzoE15b
-         Q6bAXL01I2ltCcjnA/z4Q7TNoCbvWEG5NsqmMXcGaY9mvSppVnqxxWPG+gjfJQMIPnV9
-         HXKl0nr1S3/sRwJsvg4PQtgWSxN0uWWQQJEN+KQJwv8IO4IKXShcL9RgwXIQG48jiqXq
-         qCag==
+        d=gmail.com; s=20251104; t=1790703848; x=1791308648; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=U7978I4qYst3zPc9UkdvONYgdnIvc5cuqPbfNVor16Y=;
+        b=JiJrsSnuFOcmj1r4DLThv3ptWagau24NbYO3+71WcJSSD8K+mBih1m0qBRPv+oM5Su
+         z03g2kNYA5FN52P6LV90ysfSWyUqTSypkAH44e9ZIn9QRezWC85MCW1JmJThvBg3OGKc
+         m0kW1nWj99S4pmcqS7ClAbvmph0dHV0mFvmB/qSdepoFJ3aJYSC5fcn+B9otiVoK+mWh
+         zuVo1C8zdkJQmNCl9qNuF3xo3Ijm/BXzKKNzsPHhwVXMZ6+42Yq/glwpfHyuzJegzMKh
+         C6nq8NuLMP6Ws7R2+cWlM8LWpxhWfi8t7VzveSiz0a0SvZaUMr3A8X99Z7seHuTdPyTl
+         88pA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790702945; x=1791307745;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=NCnkL09yq/ZbgV5OpIBuVnAcKZhxoffH1DwX/cYV/9g=;
-        b=PnHBXsNDnnIlsIbebBBNkwyRAss40enXp3sfinIpxQ3BK4GExDeG8ti6KLs/iDimxG
-         Fp/xUccsSGXtR+eo79q6ZuMaChwx611O5HMWNN0MZ3VowewBlHFLKNIXbze1iz97vcFz
-         BUPuIk34XfZTaXxgNjmH2KI3w08wucv/JvJBcL4ZjZDsT2gT723CfRloztEktA24GQU3
-         I53BaY+SmdkNXIyPK951o6CMZI72K/zCtIHemC5/DrzaGKbDL4OqxD1W6SaAUEOiv1vo
-         SRfMt8+qpqJebV/FAgRQUlYRhBMstmmzL+hmpzrpKXVuLuOvguQNRNVF+jzJrhda8MWP
-         OesQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwnnzgadxipN9ufzLDOTbq3Ha8eScF9ZQRGOaGd02FZyQPyHXuNv6cyPlIzKaYxlL1dxXFQ2HeFO+SY8w==@vger.kernel.org
-X-Gm-Message-State: AFuF++l+hDPGIV0Db8NnWr+1eJigvivfZBe5cWskDrkyl7d/ZNGEJHqO
-	tFvAZUc4L71dWBQ5Uq/usTtYurKxFCHfQrX9ThPwtwmsK17AN0Whwi/Y
-X-Gm-Gg: AYBFou12XcKWIj1zCEjEoYovrVbImPkr4esWUP7CHZGzt2VD8M5cMpbh//h04qZ8eqV
-	f5R+vop7iu7aoPZkk5FuV7RmYOLpGKtccdYZ4Lpa8XZwyVoheUFioyjyF6o61aiFT5JmzymiN4F
-	8NcOYvYw+ojs+XgLlAYZFWwKXquvDBkf2v0V7h9DhtCL1dFo0Na/uet+c4tqMjpEd7Kpmd5sFAV
-	RuxtS6y26K1FoPs+kE7pQoXz19JPE+q8V2fr6fRBfh3cSvMWIax7Wya5dKMj7kup/aPAWltQoEa
-	P8zo4Mtk29txTboGx4JYcCNs9s+2qGe9iFiTq2is983Ht6AGvWCxHMWojFs0Qpc66N3ZErkRtr6
-	IZrgnaeAE9nfJF34rb5tInmye1Abbgq3BXP2Kh+IHk88NZ6MoISMM0Qiyc230U82u3xIHK3nADw
-	rsRUO1luJ7dPl2A0GW8posFUOzypv3ii707JUzy/pHnPxkZTTde8/2itFivcT09aOEjp9hg8AQU
-	lhtsI1YTCkEyWBQCp4pDOYLS9XJHAqe7ylxougxOjps8PGHnfd2LS0CRwpoIU2+s9YkVNB3nK64
-	HyFZTA==
-X-Received: by 2002:a05:600d:6402:20b0:4a0:98c:596f with SMTP id 5b1f17b1804b1-4a0098c5c28mr65592195e9.12.1790702945279;
-        Tue, 29 Sep 2026 10:29:05 -0700 (PDT)
-Received: from localhost ([188.234.148.119])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a01489a590sm3572765e9.0.2026.09.29.10.29.03
+        d=1e100.net; s=20260707; t=1790703848; x=1791308648;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=U7978I4qYst3zPc9UkdvONYgdnIvc5cuqPbfNVor16Y=;
+        b=bTa4UGSTaeSZBI7uiUQIreImUMBi1dXPhSMnf/O2sDlzwY/LFGhgKhdAGfEFPC0CE2
+         Vm+9FaJUrDhOxKhj2M1Bwi3KKtNN3OZBOujJBNTnebZc+AWAvNkkMV2RDyxlWZ3veUDq
+         nUYbG41oYboAtT7pH916SHz2JRNQ/yPFI1WqGVblN2qxflrJG8Ja5xYuHtgBONFKHQ4i
+         RAmk9nvNQULRVOhJXVeJAdcyZ7ppLDopPuYxnqOkExz7DyHwDtOq5UYrbzrmM/iPqzCR
+         ZAE8duU+rWyNzIXQU7dF/00BDEqMwW6wP2AUXFerHOkA9UQsyYoNEcLbCSizy3OkF9VZ
+         9euA==
+X-Gm-Message-State: AFuF++l1j3zwbgM352SRJMkAlsYui+uJgSpPqxFTUXjYFcvEOurymazO
+	5n1e42L5eqIFHkvNfrWAZB+OrsrN/JBAgps37n/5GQopfB1gKzJg8dSP80wFuRCv
+X-Gm-Gg: AYBFou1BIcN0eN339ERnGfLJ+YQIJabiIpOh49Y4kT5IC+X3PLpO+fUMQuRaVxUCs8K
+	Fxw76pR86g/ajsa/rT2CY4sFMdJx7xVOyaBqJ+uYOwZgC8CHqlQHhSezUqteTzxvb/C03wnaH/8
+	Lgk31eSHAJCjFCA3YMqimrsM8hTNdw8iK+WXr9R+3KOBTrEWslzYwv7NMadKi9cuuMrhqgUlw2Q
+	F50i801p0jesVjbWEoQhQ7kWv6pe7fB0PxEOHBlMSbR3vgwH16vFQaTz5wjQ6kNNwzqmpXMyGhg
+	2KT9qfzHRViEWQvhHqDZclYMt1eLpebGvx0sc1TZcU1C31WjA4zFJzfxsQ3+wSLAHdAMKtS+6RI
+	CUKmhWXZWpJE7W+C3OFWbHvzG83n14o4Q3WHFhJbxNRHjuCIhUlE+vkJlFYng9Xcqomcvp99vjH
+	o1ERk/bVtV1DPqc6DIDmo/a8GB76gqn+z/yFs4nHbvzCNfULE0dy6q9hJId595cgSrtGJVtZxMY
+	jj+24JIFHJyhUQZS5u+qy61TCvOAekYk5gIQUXLCVSGDOFLc2zd26vOKDPfcs3ANMDp8l07+JIA
+	7/vslpVUwg==
+X-Received: by 2002:a05:6808:c1f9:b0:4e8:5dac:e5e with SMTP id 5614622812f47-4f072f7a0a0mr253451b6e.14.1790703847865;
+        Tue, 29 Sep 2026 10:44:07 -0700 (PDT)
+Received: from omarchy.dcsdk12.org (c-71-237-52-26.hsd1.co.comcast.net. [71.237.52.26])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-4ebbc7b9453sm5354931b6e.13.2026.09.29.10.44.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Sep 2026 10:29:04 -0700 (PDT)
-From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-To: tiwai@suse.de
-Cc: tiwai@suse.com,
-	perex@perex.cz,
-	jikos@kernel.org,
-	bentiss@kernel.org,
-	mikhail.v.gavrilov@gmail.com,
-	linux-sound@vger.kernel.org,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH v6 0/2] the Topping M62's vendor controls, on the component framework
-Date: Tue, 29 Sep 2026 22:29:02 +0500
-Message-ID: <20260929172902.210581-1-mikhail.v.gavrilov@gmail.com>
+        Tue, 29 Sep 2026 10:44:07 -0700 (PDT)
+From: Harrison Lucas <tiiowsalt@gmail.com>
+To: linux-sound@vger.kernel.org
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Harrison Lucas <tiiowsalt@gmail.com>
+Subject: [PATCH] ALSA: hda/realtek: Fix mute and micmute LEDs on HP ENVY x360 15-ey0xxx
+Date: Tue, 29 Sep 2026 11:43:48 -0600
+Message-ID: <20260929174348.167537-1-tiiowsalt@gmail.com>
 X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260904165848.3940603-1-mikhail.v.gavrilov@gmail.com>
-References: <20260904165848.3940603-1-mikhail.v.gavrilov@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -84,37 +73,38 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi Takashi,
+The HP ENVY x360 2-in-1 Laptop 15-ey0xxx (SSID 103c:8a31, ALC245 with
+CS35L41 I2C amps) currently only gets ALC287_FIXUP_CS35L41_I2C_2, so the
+mute and micmute LEDs on the keyboard never light up.
 
-A gentle ping on this. The problem is unchanged: on Linux the M62's
-preamp gains, output volumes and source selectors can only be set by
-hand on the front panel. v6 is the component split you suggested; v8
-stays posted as the alternative.
+On this machine the mute LED is driven by COEF 0x0b bits 2-3 and the
+micmute LED by GPIO 0x04 (active low), which is exactly what
+ALC245_FIXUP_HP_X360_MUTE_LEDS sets up. Switch the quirk to
+ALC287_FIXUP_CS35L41_I2C_2_HP_MUTE_LEDS, which keeps the CS35L41 setup
+and chains to that LED fixup.
 
-Since posting, v6 has run on the hardware as sent: all nine controls,
-panel and ALSA following each other, fifty module unload/load cycles
-and the cable pulled out mid-write three times, under KASAN and
-lockdep. Nothing in the log.
+Verified by driving the COEF and GPIO values by hand with hda-verb,
+following Master Playback Switch and Mic ACP LED Capture Switch.
 
-The one wart in the cover letter is worse than it says. Reloading the
-HID module takes the controls off a live card and puts them back, and
-ALSA reports that correctly, but WirePlumber does not merely lose its
-faders -- it segfaults. That is for WirePlumber to fix and an issue is
-open there, but it is a cost of this road that v8 does not have.
+Assisted-by: Claude:claude-opus-5-5
+Signed-off-by: Harrison Lucas <tiiowsalt@gmail.com>
+---
+ sound/hda/codecs/realtek/alc269.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-One thing points the other way. The card also reports its battery
-level unasked, and the natural home for that is a power_supply with
-device scope, as hid-corsair-void does. In a HID driver that is a
-small patch on top; on the v8 road it would have to be registered
-from a snd-usb-audio mixer quirk, and I cannot find anything there
-that does so. I have not written it and would like to know the road
-first.
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index 67b9f4172..6648dd318 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -7703,7 +7703,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x8a2d, "HP Envy 16", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x103c, 0x8a2e, "HP Envy 16", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x103c, 0x8a30, "HP Envy 17", ALC287_FIXUP_CS35L41_I2C_2),
+-	SND_PCI_QUIRK(0x103c, 0x8a31, "HP Envy 15", ALC287_FIXUP_CS35L41_I2C_2),
++	SND_PCI_QUIRK(0x103c, 0x8a31, "HP ENVY x360 2-in-1 Laptop 15-ey0xxx", ALC287_FIXUP_CS35L41_I2C_2_HP_MUTE_LEDS),
+ 	SND_PCI_QUIRK(0x103c, 0x8a34, "HP Pavilion x360 2-in-1 Laptop 14-ek0xxx", ALC245_FIXUP_HP_MUTE_LED_COEFBIT),
+ 	SND_PCI_QUIRK(0x103c, 0x8a36, "HP Pavilion Plus 14-eh0xxx", ALC245_FIXUP_HP_MUTE_LED_COEFBIT),
+ 	SND_PCI_QUIRK(0x103c, 0x8a3d, "HP Victus 15-fb0xxx (MB 8A3D)", ALC245_FIXUP_HP_MUTE_LED_V2_COEFBIT),
+-- 
+2.55.0
 
-So the question is the one from the cover letter: this road or v8?
-
-Jiri, Benjamin: the needs_remote_wakeup question is still open --
-whether clearing it after hid_hw_open() is acceptable, or whether
-usbhid should offer a way to take input reports without it.
-
-Thanks,
-Mikhail
