@@ -1,82 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA9C73CBE8F;
-	Tue, 29 Sep 2026 08:22:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 321683ACEFF;
+	Tue, 29 Sep 2026 08:24:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790670165; cv=none; b=RPq4zYwRGjA8pL5LnQOKQkKXgXrfKFABMHFgeUZbGuBJUfShbXGljfDD0LFKvq8/fmy0qtoKYPazoWunBz3LoqXI9tmwXq0s8IQ7lslHBrjShQrsw6DlCiq5QDp6dFKXkHq+aVQVMCVxf+/mDTyy/01m3BpPjmomdg3VAVMi+qo=
+	t=1790670280; cv=none; b=o2bYicSWOTdlFl5L73hQIWVQYwLVaxZT4h3nAcF6gF8pVpKnZKyKNbU4JPa2RX55o/FoE76/02gSiq1n7icC1d1bAdqBiZVvgT4sBCAeAdhgxk47ZfGNCIjRHN5+bdrFV9cS1+2UpypaVvyb5s1ttTO6tK7CkKQl488qWwRR4pY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790670165; c=relaxed/simple;
-	bh=aKkdIvXeQZSBOa+VMzf2qsBs8GaO3qiegT97yYIzU2Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EM+AbtP8E1OzCzA+96rx4iUrH6nkqRPLQ78+66LGzPa9LzUPOXnOMQcr/8AI0mpMi8gEGQYmvdCEQEd2bKSSjj8NejJCU0qp7UEi1fJaLqtBAV5fpPZ73IS7Hnr4a6nEZYn3vqTqhLu3UU1QsLeJOrjwik7vEVHME9m9dVTBFXY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KPuBDUrS; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790670280; c=relaxed/simple;
+	bh=DSjqS1GfPRbk667G7+Zbmx6tEavD40Uv6BKwPB8amig=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=AzDHuPFB53RxpbYH2r6xvnw4IZiWR/sGGjBCU3ga2h6jWsdEfCD+4iV5PEwvZAy1zCV9NfBLSfVoMEefVeh9ZM88CpD7yu0z6/HM/hZ0cZ1NoVxFW80Xj+ME57ayfNHaHJNW5+JmZjpTIHmv0b0ztMoUngz046GXz6uG6vIO4Pg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G7WHQKZQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KPuBDUrS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DD331F000FF;
-	Tue, 29 Sep 2026 08:22:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790670163;
-	bh=PsmqZe3TQMU5cZKZNwXvle0dprdwWkVMawn+HbAw/aw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=KPuBDUrSeiaABXvDW6gpGZ1+q0GhXmn7NeNELj8DnoUF0/hf7YBUkffgOYi8nIPjI
-	 6T9TFZF6CdoBGPc7oerO0e049xWhc2WSZoXK2Q04TmO1KT1S9kmq2v3YniSQjVRubb
-	 4b+SmOjO37k4lgFvQUEWPGtrZsACxf5kw2Db9ze7XKad6GhBscQPTJlfQPndZEs+9n
-	 VdUsw0IFz5hhMdvsrocP+S91pC5DcrV9XSNGvabpoRLXVAqhEQuh49dIevMl9Xwfc6
-	 jJ2SPN4vthXZ/rP+OHOSIGVEuid0v29Lk1wJsOEv6EpYyHDW5YR1l1zeRekEmIjDBm
-	 Y5N1DZxhCiaxg==
-Date: Tue, 29 Sep 2026 10:22:39 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Cc: Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Bard Liao <yung-chuan.liao@linux.intel.com>, Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
-	Charles Keepax <ckeepax@opensource.cirrus.com>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Maciej Strozek <mstrozek@opensource.cirrus.com>, linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
-Subject: Re: [PATCH v5 6/7] ASoC: dt-bindings: qcom: add Tambora WCD9378 SDCA
- codec
-Message-ID: <20260929-eccentric-green-caribou-dfeb4b@quoll>
-References: <20260925161049.758913-1-srinivas.kandagatla@oss.qualcomm.com>
- <20260925161049.758913-7-srinivas.kandagatla@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G7WHQKZQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B207BC2BCF6;
+	Tue, 29 Sep 2026 08:24:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1790670279;
+	bh=DSjqS1GfPRbk667G7+Zbmx6tEavD40Uv6BKwPB8amig=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=G7WHQKZQmu3wVw3SS2S4XlczqSrYRfl4fm+bRHZ6uSMR/5vQfD5t/e5ZmEkj8GYp+
+	 rfjBzrHLzHEPz+G/QIfO9zK0Dk/p24ousQcWOes8lh8UP5wh3wl/QpE+JYHt/A3ewH
+	 XtUgXqFbS7eHJS8uD5x6TlxvY+CE8zWUxAhNdKksD4tplEHZT7Pcu6afy6tNtF0UHQ
+	 25MdeTwqE5+MmYyx9JTOGS/xY4+HGpJKcsMsNFySmzFJ1uZznNzNO/JfO+c+quERQ8
+	 Kg3j33+17hcsSJRDMmM31hoYCHMkCOD9oCkVh/8nLvKDZe1c+wiCbePCAOwvOyf4+W
+	 fs+u/atg5V7qg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82E29CA5FA5;
+	Tue, 29 Sep 2026 08:24:39 +0000 (UTC)
+From: Shuming Fan via B4 Relay <devnull+shumingf.realtek.com@kernel.org>
+Date: Tue, 29 Sep 2026 16:24:06 +0800
+Subject: [PATCH v3] soundwire: intel_auxdevice: add rt766/rt767 codec to
+ wake_capable_list
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260925161049.758913-7-srinivas.kandagatla@oss.qualcomm.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260929-rt766-wake-v3-1-09c0b82c72a6@realtek.com>
+X-B4-Tracking: v=1; b=H4sIAKV1u2oC/22Nyw6CMBBFf4XM2hpok6F15X8YFn2MUlFq2lo1h
+ H8XcOvyJOeeO0Gi6CnBoZogUvHJh3EBsavA9nq8EPNuYeA1x1pxxWJuEdlLD8QcSmecwlYoAcv
+ gEens31vs1P04Pc2VbF4Lq9H7lEP8bG9FrN7fcBGsYRJb1zhpZKP5MZK+ZRr2Ntyhm+f5C7YBJ
+ HK4AAAA
+X-Change-ID: 20260929-rt766-wake-d68dbd967393
+To: vkoul@kernel.org
+Cc: flove@realtek.com, oder_chiou@realtek.com, linux-kernel@vger.kernel.org, 
+ linux-sound@vger.kernel.org, jack.yu@realtek.com, derek.fang@realtek.com, 
+ Shuming Fan <shumingf@realtek.com>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1790670278; l=1046;
+ i=shumingf@realtek.com; s=20260924; h=from:subject:message-id;
+ bh=CuWXA0osMnyNhJR4bA+pYYv+p0CVTA4+P+MOPg7CqKE=;
+ b=jACE0ZSkVju5HVgsQDQUKvR/DEXCCQziF3kLiEEmLhLqp2yUduvmFVauLnRsZDFigP15+U5jF
+ TFulc/IHDM+Cn8E6M+q5F/eV5Fg7zVVVhNCM7OSZbzHCCQHDeqnvib2
+X-Developer-Key: i=shumingf@realtek.com; a=ed25519;
+ pk=ZM8Pg7tEJ0SDXQeBw6SfvcYyqXU9nF88DuTyxzf9utE=
+X-Endpoint-Received: by B4 Relay for shumingf@realtek.com/20260924 with
+ auth_id=1053
+X-Original-From: Shuming Fan <shumingf@realtek.com>
+Reply-To: shumingf@realtek.com
 
-On Fri, Sep 25, 2026 at 05:10:47PM +0100, Srinivas Kandagatla wrote:
-> Describe the WCD9378 SoundWire peripheral which is SDCA compatible
-> soundwire device. It provides SDCA SimpleJack for headphone playback
-> headset mic capture and MBHC jack detection.
-> 
-> The same silicon is integrated in two ways and enumerates with the
-> same SoundWire class ID:
-> 
->   mobile mode: two slaves (tx, rx) on separate SoundWire masters.
-> 
->   SDCA / compute mode: one aggregated slave on a multi-lane
->   master.
-> 
-> Note: both of them have different bus toplogies 1 device vs 2 devices.
-> 
-> Currently only compute mode is supported by this bindings, mobile mode
-> will extend this binding as required.
-> 
-> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-> ---
->  .../bindings/sound/qcom,wcd9378-sdw.yaml      | 105 ++++++++++++++++++
->  1 file changed, 105 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/sound/qcom,wcd9378-sdw.yaml
+From: Shuming Fan <shumingf@realtek.com>
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+rt766/rt767 have wake capability. Add it to the wake_capable_list.
+
+Signed-off-by: Shuming Fan <shumingf@realtek.com>
+---
+Changes in v4:
+- EDITME: describe what is new in this series revision.
+- EDITME: use bulletpoints and terse descriptions.
+- Link to v3: https://patch.msgid.link/20260929-rt766-wake-v3-1-867d1d8b81a2@realtek.com
+---
+ drivers/soundwire/intel_auxdevice.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/soundwire/intel_auxdevice.c b/drivers/soundwire/intel_auxdevice.c
+index 901a71262094..24fff33a9093 100644
+--- a/drivers/soundwire/intel_auxdevice.c
++++ b/drivers/soundwire/intel_auxdevice.c
+@@ -73,6 +73,8 @@ static struct wake_capable_part wake_capable_list[] = {
+ 	{0x025d, 0x717},
+ 	{0x025d, 0x721},
+ 	{0x025d, 0x722},
++	{0x025d, 0x766},
++	{0x025d, 0x767},
+ 	{0x04b3, 0x9356},
+ 	{0x0102, 0x5572},
+ 	{0x0102, 0x5682},
+
+---
+base-commit: 90b63b309fd6c0f192337659e73e3047a67df99f
+change-id: 20260929-rt766-wake-d68dbd967393
 
 Best regards,
-Krzysztof
+--  
+Shuming Fan <shumingf@realtek.com>
+
 
