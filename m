@@ -1,168 +1,108 @@
-Received: from mail-pj2-f43.google.com (mail-pj2-f43.google.com [74.125.227.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9A90409280
-	for <linux-sound@vger.kernel.org>; Tue, 29 Sep 2026 06:12:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.171
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [13.75.44.102])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B138349CF8;
+	Tue, 29 Sep 2026 06:13:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.75.44.102
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790662366; cv=none; b=pwxm/rNhw1de/JOBEa4exaBPAr6hqo/UyxCEuM+mjSlpeIE8IZ65W4tLvpwq/ymSuTe6kkDHLK1MIXQcl8K91A408mQ5KSJBhBVZx4awZ2azb8JogPSM+lshkFhrJR2D+d7NtlRvWjplUIDesnSSzEKHY2txnuNMBLO2NVUu6qY=
+	t=1790662428; cv=none; b=ulXccz0hoUnFgORbaZPF2HtdZu6WqlG+aowAVYy1U554jXDOLT+NiUkkJTaBPCJJciU7Fx6QqPjKyG5L48HZrh/+9LVPfgQSgXQ6TxVgK8VBCjkVak7FTew81is2HJJ9w+O5nHBAeJpo9zLIpWFEY3UUtQBqBfLSg5UOoYpOcJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790662366; c=relaxed/simple;
-	bh=ZmEU5EahOMV7kuRmbSaLsRIhMqxYvik8hg0QSwyhru4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JD1vr4bSA024P+EVVw7M7alT/CMMuDXyTYePB8RNKLFaIjOLRRIeEAT2uOBMwWBMaBghG6o13l1w+ARQIa4Kd6uzY2RpAQRgtn+E4GqF21Ze9P5J3dsT0zdKKZ1Y3nIvfK9Pc4HZRCkq8dirMdnZkYTaOKTtKpLrjKANWkv3mBY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k5k2ncRP; arc=none smtp.client-ip=74.125.227.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k5k2ncRP"
-Received: by mail-pj2-f43.google.com with SMTP id 98e67ed59e1d1-3a494638445so513366a91.1
-        for <linux-sound@vger.kernel.org>; Mon, 28 Sep 2026 23:12:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790662364; x=1791267164; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=3W1Z4z2ziqkLTLfdGWsmv+b1vbrImgZWrkJME4neunc=;
-        b=k5k2ncRPRbsJdAD5t/bEJiL5HVX6M3UNt8Kb5zXGXqT5eZsHHEKHil7RmaEvhIU7VH
-         nkFeLRi6A3k/XG8s78l4jg/0UWC7YQMQMog7ALYxj2rPgPXzfM2x570pjV7/zM9XcoHY
-         cVKbvWuV4aAb0lKzjsarjPz3Qb42FB1AA1849GaJrOwPMy6tcVD+DrMaxr7X/CJXGU2q
-         4jOqFWfuEOOthHTf/XpUsIoWdxT+iPt+Hjx3PWot1MIeXly8AAn9CX1S65YQQj0eEuKv
-         Ei8c8+eZixETRVyeo4SE1YwaEzpJtCFXQmrc2AjgtAF4VN9ynKO0tG98s3uH6Vh10kdi
-         bJNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790662364; x=1791267164;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=3W1Z4z2ziqkLTLfdGWsmv+b1vbrImgZWrkJME4neunc=;
-        b=ibCNURGg7wNnAssWIyLrdRdQWmIN7JfwS6Awzr/JMnIb4CzKBmNyO86bbht4pH1TCM
-         gjgPDjmTX9GmKwA4sYqci9TKSNWmG7LSc1vIPZMmAajHuT9tC4hd9mQgZa+Caydd2jtx
-         vZkUSpeVav8hGkyTKJVZhkEuG7xa25bts/KhIIVs650Dw4e18DVFZsWQl3hlnUYqNmfm
-         a8GQEd1Bxkw5XTzJ12Nh+8S2yd8uV7IW+zdNJVSeKcpiHVtK5EOzDd3UD3/k2dXz5JCS
-         DmDAvooxVFF1i4TCVZ48i4HPKY+MrIPsD/LshfJ92vHwvR0yKHUqwCKCQzFSuTHSgTAi
-         HMlg==
-X-Forwarded-Encrypted: i=1; AKwUvByS0utRX/+NN9xthihFGBQj3zBMmjyowh2PyJbAtK6BMUDDtv9KJu0jh2lA/n6BWbu1OpdpeXQ2GnGlLw==@vger.kernel.org
-X-Gm-Message-State: AFq9FYKweO/G/tVa9sT11Qaz+dJ9p6tV5OiddvRaGbJj3DMWDpY8cpFw
-	AmDviNJQf6hzT0Dt2xyo33DLPGFVZ829BojCTK99eg3Freyfzt0KnJvL
-X-Gm-Gg: AYBFou3ntLn9M3DRF3Cy2d4shOaM1luVWFewS7X+sioKfdJqGh5INhAPvKfcVRLF+oO
-	yyPv5pIXDsfbgioGCtF0HdZugN9yh3CUzI+NVu+j2mZFYKzEl0vnlKJDfwxOZgIqaDn0QloADLt
-	dbND629IUFTxaMDxtGp7+URAYNEtYv4AVrYihpRH1JtyR7kkQNvFRNFsTX15meWvPk0iNRPVo1/
-	ZSyKjL8fzYjr2mX3OUl77bOzSpcPTy8gvAUm25kO/YdmlA5lI/VZ+8u5ObYdnaYLObuASy4N8Le
-	xZqgvX141kgFHL0VY8/mFLJk98lH/px+9pLz8JU2X+CVXaHacd8vDR/CO10O8z8yE97wBc7Q3m6
-	bi4y8/ntgcQefYXQzL9peTx+RvxRICj7qo5TsftXxfndAPW0tSfhkwHNh+NFY7RiyLQuNOEPju+
-	zwfo7ewVoL+TmZPBA71zVp3Xba18Jddu1x6pjGjZ6/ID/khX7wIAyjR8B6M107BcMT9pxAgKR+J
-	G1p1T6phLSuiPTLvBg2obH2P7GRa5sNQ4HawWv7C9oeigC+5aEL01x7DEE4X3AGnfsq6G8ECzEK
-	G+cb0XXFjqXx/wRPRHi/BraM
-X-Received: by 2002:a17:90b:3908:b0:3a0:c20b:2fdf with SMTP id 98e67ed59e1d1-3a0c20b3132mr7441393a91.17.1790662363889;
-        Mon, 28 Sep 2026 23:12:43 -0700 (PDT)
-Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a498726d63sm3280965a91.17.2026.09.28.23.12.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Sep 2026 23:12:43 -0700 (PDT)
-From: phucduc.bui@gmail.com
-To: Mark Brown <broonie@kernel.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Darren Ye <darren.ye@mediatek.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	cassiogabrielcontato@gmail.com,
-	Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>,
-	Liviu Dudau <liviu.dudau@arm.com>,
-	Cyril Chao <Cyril.Chao@mediatek.com>,
+	s=arc-20240116; t=1790662428; c=relaxed/simple;
+	bh=wsRKhRIWnMaa7SyxuCyvMLd4mhKnSFaOGLaAP/bMhhE=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=hBnhPtW3iOt8EEDARezv3EKIWR7WYRj6UWTi4LRGZceSdnQeti+JKdtJPMuO34DGXxo+esZwRkeR89aIivo0ssJga3wdBcDJWRku2r5NB/gTSR4b+QrBm9ymIkSJQExUPOULqIIdeqAOG7TKMkGmxONQrNP72H8PDRRs6EwkCIQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=13.75.44.102
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
+Received: from zju.edu.cn (unknown [10.98.66.117])
+	by mtasvr (Coremail) with SMTP id _____wDXdwgQV7tqH3ZFAQ--.2299S3;
+	Tue, 29 Sep 2026 14:13:37 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.98.66.117])
+	by mail-app1 (Coremail) with UTF8SMTPA id yy_KCgBXqokQV7tq0YwWAA--.27363S2;
+	Tue, 29 Sep 2026 14:13:36 +0800 (CST)
+From: Fan Wu <fanwu01@zju.edu.cn>
+To: vijendar.mukunda@amd.com
+Cc: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	alsa-devel@alsa-project.org,
 	linux-sound@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
-	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 10/10] ASoC: mediatek: mt8196: propagate TDM clock errors
-Date: Tue, 29 Sep 2026 13:11:21 +0700
-Message-ID: <20260929061121.124001-11-phucduc.bui@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260929061121.124001-1-phucduc.bui@gmail.com>
-References: <20260929061121.124001-1-phucduc.bui@gmail.com>
+	Syed.SabaKareem@amd.com,
+	Sunil-kumar.Dommati@amd.com,
+	venkataprasad.potturu@amd.com,
+	songl@zju.edu.cn,
+	Fan Wu <fanwu01@zju.edu.cn>
+Subject: Re: [PATCH] ASoC: amd: ps: fix snd_acp63_remove() teardown ordering
+Date: Tue, 29 Sep 2026 06:12:32 +0000
+Message-Id: <20260929061232.3854-1-fanwu01@zju.edu.cn>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <611b8e7a-b434-40c0-8f0e-4978208bb01f@amd.com>
+References: <20260923092640.502145-1-fanwu01@zju.edu.cn> <611b8e7a-b434-40c0-8f0e-4978208bb01f@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:yy_KCgBXqokQV7tq0YwWAA--.27363S2
+X-CM-SenderInfo: qrstjiaswqq6lmxovvfxof0/
+X-CM-DELIVERINFO: =?B?8wpbKAXKKxbFmtjJiESix3B1w3vZ3A9ovKVTomAyoQazvoRs/NHSP8GI2EvgeEEW7R
+	sfnRrXgS1QiyEChzQk8Vd3wxVK31z1GTmKcz3pqyIgA5HinhN/ajL70R8jiFGSzNc0dlU0
+	9DHEAcvLWH6e8b2tG1LN5RPxYw6l01w8CbPzC/8w
+X-Coremail-Antispam: 1Uk129KBj93XoW7KF1kJw4UZw13JFWxZFykCrX_yoW8ZFyxpr
+	WkK34jvw4DGFy093W7Za1qkrWDCrs5CryrC3s7K34UXrn09ryFqFWkAFyUZF15Gr95J3W2
+	vr4Fgw18ua4qvagCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUU9lb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AK
+	xVW0oVCq3wAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc804V
+	CY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AK
+	xVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48Icx
+	kI7VAKI48JM4x0Y48IcxkI7VAKI48G6xCjnVAKz4kxMxAIw28IcxkI7VAKI48JMxC20s02
+	6xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_Jr
+	I_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v2
+	6r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj4
+	0_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8
+	JbIYCTnIWIevJa73UjIFyTuYvjxU7gAwDUUUU
 
-From: bui duc phuc <phucduc.bui@gmail.com>
+On 9/25/26 13:35, Mukunda,Vijendar wrote:
+> The fix open-codes the register offsets (ACP_EXTERNAL_INTR_STAT,
+> ACP_EXTERNAL_INTR_CNTL, ACP_EXTERNAL_INTR_ENB) directly in
+> snd_acp63_remove(). Future platforms may have different interrupt
+> control register offsets, which would require changes in this remove
+> path as well. Consider adding a disable_interrupts callback to struct
+> acp_hw_ops and invoking it here instead. This keeps the remove path
+> platform-agnostic and the interrupt masking logic co-located with its
+> platform-specific counterpart in ps-common.c.
 
-Propagate errors from BCK and MCK clock operations in the DAPM event
-callbacks instead of always returning success.
+Thank you for the review. Agreed — I have reworked the patch exactly
+along these lines for v2:
 
-Fixes: ede4d841111a ("ASoC: mediatek: mt8196: support TDM in platform driver")
-Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
----
- sound/soc/mediatek/mt8196/mt8196-dai-tdm.c | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+- struct acp_hw_ops gains a disable_interrupts callback plus an
+  acp_hw_disable_interrupts() wrapper, following the interrupt-control
+  ops pattern of the acp family in amd.h (en_interrupts member and
+  acp_disable_interrupts() helper).
+- acp63_hw_init_ops() and acp70_hw_init_ops() wire it to the existing
+  static acp63_disable_interrupts()/acp70_disable_interrupts() helpers
+  in ps-common.c, so the masking sits next to its platform-specific
+  counterparts.
+- snd_acp63_remove() now calls acp_hw_disable_interrupts() followed by
+  devm_free_irq() before the first child device is unregistered; the
+  register writes are gone from the remove path.
 
-diff --git a/sound/soc/mediatek/mt8196/mt8196-dai-tdm.c b/sound/soc/mediatek/mt8196/mt8196-dai-tdm.c
-index b7aeee939d88..44bd08f5c1fb 100644
---- a/sound/soc/mediatek/mt8196/mt8196-dai-tdm.c
-+++ b/sound/soc/mediatek/mt8196/mt8196-dai-tdm.c
-@@ -256,22 +256,24 @@ static int mtk_tdm_bck_en_event(struct snd_soc_dapm_widget *w,
- 	struct mt8196_afe_private *afe_priv = afe->platform_priv;
- 	int dai_id = get_tdm_id_by_name(w->name);
- 	struct mtk_afe_tdm_priv *tdm_priv = afe_priv->dai_priv[dai_id];
-+	int ret;
- 
- 	dev_dbg(cmpnt->dev, "name %s, event 0x%x, dai_id %d\n",
- 		w->name, event, dai_id);
- 
- 	switch (event) {
- 	case SND_SOC_DAPM_PRE_PMU:
--		mt8196_mck_enable(afe, tdm_priv->bck_id, tdm_priv->bck_rate);
-+		ret = mt8196_mck_enable(afe, tdm_priv->bck_id, tdm_priv->bck_rate);
- 		break;
- 	case SND_SOC_DAPM_POST_PMD:
--		mt8196_mck_disable(afe, tdm_priv->bck_id);
-+		ret = mt8196_mck_disable(afe, tdm_priv->bck_id);
- 		break;
- 	default:
-+		ret = 0;
- 		break;
- 	}
- 
--	return 0;
-+	return ret;
- }
- 
- static int mtk_tdm_mck_en_event(struct snd_soc_dapm_widget *w,
-@@ -283,23 +285,25 @@ static int mtk_tdm_mck_en_event(struct snd_soc_dapm_widget *w,
- 	struct mt8196_afe_private *afe_priv = afe->platform_priv;
- 	int dai_id = get_tdm_id_by_name(w->name);
- 	struct mtk_afe_tdm_priv *tdm_priv = afe_priv->dai_priv[dai_id];
-+	int ret;
- 
- 	dev_dbg(cmpnt->dev, "name %s, event 0x%x, dai_id %d\n",
- 		w->name, event, dai_id);
- 
- 	switch (event) {
- 	case SND_SOC_DAPM_PRE_PMU:
--		mt8196_mck_enable(afe, tdm_priv->mclk_id, tdm_priv->mclk_rate);
-+		ret = mt8196_mck_enable(afe, tdm_priv->mclk_id, tdm_priv->mclk_rate);
- 		break;
- 	case SND_SOC_DAPM_POST_PMD:
- 		tdm_priv->mclk_rate = 0;
--		mt8196_mck_disable(afe, tdm_priv->mclk_id);
-+		ret = mt8196_mck_disable(afe, tdm_priv->mclk_id);
- 		break;
- 	default:
-+		ret = 0;
- 		break;
- 	}
- 
--	return 0;
-+	return ret;
- }
- 
- static const struct snd_soc_dapm_widget mtk_dai_tdm_widgets[] = {
--- 
-2.43.0
+The MMIO sequence is unchanged (clear STAT, CNTL = 0, ENB = 0 before
+freeing the shared IRQ), and the Fixes tag stays on eaf825037d6d. I
+will send v2 as a new thread with a link to this version.
+
+Separately, I noticed your "[PATCH V2 0/9] soundwire: amd: SoundWire
+manager driver bug fixes" series: patch 3/9, adding the amd_sdw_irq_thread
+drain in amd_sdw_manager_remove(), is exactly the soundwire-side companion
+this fix needs. The v2 commit message now notes that the manager-side
+drain is handled separately, and with both in place the chain is closed
+from the ACP hardirq down to the manager work.
+
+Best regards,
+Fan Wu
 
