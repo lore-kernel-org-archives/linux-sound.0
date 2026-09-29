@@ -1,59 +1,59 @@
 Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011035.outbound.protection.outlook.com [40.107.74.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC1A63CF660
-	for <linux-sound@vger.kernel.org>; Tue, 29 Sep 2026 05:30:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A6633EBF0F
+	for <linux-sound@vger.kernel.org>; Tue, 29 Sep 2026 05:30:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.35
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790659807; cv=fail; b=AUOhaQt+Gnx4dRiA62ew0EJBTF43SfnaOjCs7itcbgv+zTwQkorlhYIV0upK1xj72Kb6TeY7ZpvRTZcVENUKgZSI8IhBsztXLT8GKcRUGD+eQ3Z+ku3Bz0JAnNTLjKv+U7WZk8TkzQlIVPofSC86qykcpX/iDMTaoAnDdaQNVz4=
+	t=1790659809; cv=fail; b=UBa+0Tz35QNEgfWULjSmi3GRgNJpec1E36abMfe2yjXbY09Xx0Lu3Y6ANOhQ/S1xjAD2s0tyHPl/e5zKHwh9DQK7KOFAXtJ6R0DEp9F/J6E0VKj7ITfSYaKwyYORDzvq9iDxoVD/Qy/MjPxjxvuMklZ99OfLRyj8SXtrkW6TkX8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790659807; c=relaxed/simple;
-	bh=kOO561zp4wXSjRqEG4TAc1GiX3SmYsxniBSNgVc4eQ8=;
+	s=arc-20240116; t=1790659809; c=relaxed/simple;
+	bh=aznnGwclwZ762VBkuQ8DbcMIbYY/lqa9+1C342Ojddc=;
 	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=Z+RLBrlIkbmU7JWlP+YcHULy7suyRcZu0Hwmobl6M8tVORikpxF0ODUpwgp3w2wgPcbsPBpU7vLVJjzBRhkMpKpTtfavgPv9ApOpQ6zKG+dx9cP3MGJ/I4Qo2FRMxpBKQkW7Iwdv/ZXJAxvmJaJDcjeYmW95xyRoHCbJPs0Mxc8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=pzjXZe9Q; arc=fail smtp.client-ip=40.107.74.35
+	 Date:MIME-Version; b=iKgMS5FfoeZ9Gg8f3w2XL/HVojQ+UwNpLfGb8rrWC9nfiJHWftB0js+astePUtqqvsjZ6B7D2eMrm4p5PTG57rqw8WaPOD14VNvelYpk/vD7FH6v0Iz5wyOkz0wwohqaVTV1ZPB2ZZSiqO6BEEdszTPfHoK8uR8V4nVjtunB9xo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=mrrophmC; arc=fail smtp.client-ip=40.107.74.35
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="pzjXZe9Q"
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="mrrophmC"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=eibKbzvn8BRdkSQsUDln4lI2tPMFTtDtMqYSTDCmjdj4l65/GZCs7BmTjy7eQidLJKH2koALt0s7vmsAz24tUpq/dV6HkXMF4DuICAnWokMsPmeJO/sVT8tasTcCwpyldMiKKJGdmHf6aZWzqQlFoCuSINyEaI7sngNCuqS4kvDQ+aSW70LkX9f8IyMHcIWnnddhrAvI3mfHSteL0vvizkBHApSaup7+2tXM2X9RIzZs8ibcOMP6X24Nu8wnvK+EYHvMGTCvT+yJzcAlZoNqGir68k1DeAAdr/kNk3KwwhNhMZKXTz6cF4druFIsPzHf04R7UxlkkTmYJJXoXFKdMg==
+ b=bYQau232mQ/Xs+bgMdjncbfp6wgE16wyl9bwYCAM2RHECO0sfKnRtht9ShjaKBDxTydNH4VaW5bd/HgwJB8NQ2Q2aonMyJt1EnZQJK70VCVgN1tEcSxDEHosITJ7SoZc9PX1H2bGwxJKMT7FimqdCtzaTKGkayEq7SfkkI9fRTq7kSVMusttnOeLliLjFHkt3BqlgrXN2aRrx2Z5xZL8D+lMXYJofMBocO+8h10YIKxrXvcnwTWfwzQnWHQprAs/t/N/WzKr0oHyPYZ7l0kLFFPIFJfDMVZtXsvaaHcyZZOMA3fwlqJpFCWbAIfkyDN+7+t/nFz0B5WUR1x2nnsCew==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TgdSeJzzbfwuWLuTNWYJKSS8ASQvzRYPEAgINXnnVWc=;
- b=QL1KkIi9XvW3J0LqvOoBKbGcKJyfb7ePu2fSg+bviVU/ixfvKKM/wBd26J8hpUVYgMtjOl7gvpacDAkscvMFyV/cwhLUBssbn85N7RZ0gdY5P6WAgLzJb2tv3nejFIEWdtRnyz+9Xms5s0qgqZDNY2m7+w/BOdnbwa6OeNmCX3Inxt2eOPwOk1Xvc+5UgI1zfSe2ZoRguqtRprwiAH0FheXl736fXO2IpcVe4jRiKnm2wbhHZkTjSFaHB3X44FvreOLV7rWKe4I1blNIx/ivgyl516tzbdHPXrmeo5RThSzDudKEQ4hQu8EPDiC05SHDSIHOBx+CDsS61A7J582ong==
+ bh=DLmeLV6DI2+l2ekQ5otXRBaQEXQk2yhoAoOUjwfbAtY=;
+ b=YeN08cLLH6u7fY9zNVVXXGDE5pvu2LwuvfydG+cYfvucx1jYZGkgcxLCZ3XMDANb2qCuqNUgD9IxbCeSJBB9PcedU6+r0g/rbla3P+54G+pTWCNT3/qUntqfIlYoviqKqdbvA8IW6vLvONLBIlSV+x6RovpDsiwQWul+BAO7bLdzeu3ePzz4gVw3yjQuf+CukKvP3WReeZJLmoZm0YsA1VyKVadF2iXYglJzmc+Mr0UHRbeBpYkTF3ZbY0n0nUlvJbF0cy+0ZIJxrlZj4Pz0SLT2LlMpSL3/WKlqeTcCIu07m6+146zrnVpP+mI4o1ZAEM1xLQyl0gXuvs/hF0lB7A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
  dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TgdSeJzzbfwuWLuTNWYJKSS8ASQvzRYPEAgINXnnVWc=;
- b=pzjXZe9QNzELC4UEi3yL7b6lU9CSLCQZqJhX7qhHWz+fE2g2l+6jxwXr3cQ9wn+6Sj5zhJpWufysiMYU31bOLg1BlOYktctlRDhtPwGAGH3ll8bcwGniqXj6enfr/n7o7ScK2CkCVBiti8D48R6Z6Y6QcUan9XfVgOmH2ryctCA=
+ bh=DLmeLV6DI2+l2ekQ5otXRBaQEXQk2yhoAoOUjwfbAtY=;
+ b=mrrophmCkMiZmtz+65PDLwHm2yKmFdt4sVveTlj/0BPJ5g/7Q7LTmr9n0XbJONchR3cmiyrM0F7NpzxeuogVLJNzHwMuMKbQ2+bEDdIMf4GZH1RICZEq+nNNmVXmkwIuNFxkY3nv+CAu1OlPkADip846BHrH4hX5siUqpANEa2M=
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=renesas.com;
 Received: from TYYPR01MB14118.jpnprd01.prod.outlook.com
  (2603:1096:405:214::12) by TYYPR01MB12208.jpnprd01.prod.outlook.com
  (2603:1096:405:f3::9) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.24; Tue, 29 Sep
- 2026 05:30:02 +0000
+ 2026 05:30:06 +0000
 Received: from TYYPR01MB14118.jpnprd01.prod.outlook.com
  ([fe80::846f:9035:6a33:1f45]) by TYYPR01MB14118.jpnprd01.prod.outlook.com
  ([fe80::846f:9035:6a33:1f45%6]) with mapi id 15.21.0451.022; Tue, 29 Sep 2026
- 05:30:02 +0000
-Message-ID: <87fqyseiat.wl-kuninori.morimoto.gx@renesas.com>
+ 05:30:06 +0000
+Message-ID: <87ececeiaq.wl-kuninori.morimoto.gx@renesas.com>
 From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH 07/14] ASoC: soc-component: move soc_{probe/remove}_component() to soc-component.c
+Subject: [PATCH 08/14] ASoC: soc-component: move snd_soc_component_to_dapm() to soc-component.c
 User-Agent: Wanderlust/2.15.9 Emacs/30.2 Mule/6.0
 To: Mark Brown <broonie@kernel.org>
 Cc: linux-sound@vger.kernel.org
 In-Reply-To: <87pkxweibu.wl-kuninori.morimoto.gx@renesas.com>
 References: <87pkxweibu.wl-kuninori.morimoto.gx@renesas.com>
 Content-Type: text/plain; charset=US-ASCII
-Date: Tue, 29 Sep 2026 05:30:02 +0000
-X-ClientProxiedBy: TY4P301CA0106.JPNP301.PROD.OUTLOOK.COM
- (2603:1096:405:37b::17) To TYYPR01MB14118.jpnprd01.prod.outlook.com
+Date: Tue, 29 Sep 2026 05:30:05 +0000
+X-ClientProxiedBy: TY6P301CA0014.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:405:3be::19) To TYYPR01MB14118.jpnprd01.prod.outlook.com
  (2603:1096:405:214::12)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -63,554 +63,109 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: TYYPR01MB14118:EE_|TYYPR01MB12208:EE_
-X-MS-Office365-Filtering-Correlation-Id: cb973cdd-0ea1-4833-e51a-08df1deab637
+X-MS-Office365-Filtering-Correlation-Id: ad8cf098-04f8-4868-44dd-08df1deab825
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|1800799024|52116014|366016|23010399003|18002099003|22082099003|38350700014|56012099006|6133799003|10067099003|11063799006;
+	BCL:0;ARA:13230040|376014|1800799024|52116014|366016|23010399003|18002099003|22082099003|38350700014|56012099006|10067099003|11063799006;
 X-Microsoft-Antispam-Message-Info:
-	ZkJdbiGPleBdKb2HbFJeM9j1tAJULprUfbcZjIVn8VxbjkCJ3Bqa1LhH1meIl0CLxcDuBNXbUdpKxsKgJIgwKVv8QhBHjr8QlcvOUv+yevFRMsoEtrI+X9sy1sXm/W2RUteAI+m7hS3F6V8rG455tZxbtyrNkMiCiW7lSSQDyVL/acqt2iHD3AZNHs93QxVx12idKRu2Bc0MdQHoUr9axnvQjuxi0ZPdoSGWncJofI4kazPa8QbkztM8JYPuYyW8jwxh/RniggenK9WbGnmZwAlhFxNEL/KRVZQeNFo4VMf9uD/gwDvBIxs1kazl+x6jzv3PTdr0B1/FOuQUI9/nAnxR/57oyQH1VRzLTlrODcN1FNQGSQlbsYJ7+TP9BvX41RziYOsXmsXvx6/1r/e/Jj5Y7JSX/jZTchD7VHE47NIbUExRpeiBAjH/JEWCcPwk58nmsUfOHuWKAabmiP+lIOXdmP48uAuHNRqAJMU41YLs9wQ6ERPz+zv8a2pwkbH+2/sfck65oCCaPHT4k1fUcFtE6hGQwaPkUrsrLdWB8ssUKiW2vatWOmUa/gDpNLX3hFSB4/pCdzWkphH4ahErPhp/rDYxMVqOOaAPDxHmHKnQORBPOnjmEMBQ43psgxnSLLSiMtdEGYmhFihW4wKICT48jeKN5Bj/3NvZNJcu5w3U/guH+D41BxZApJupMFH7m9enkykQGa9iviVaUeALdPj1W2R3xYgKQZdCQWpfoqs=
+	Si4BshUVmvIaOGWHqJJdt/TCVL6C/RB/XNK3GPPEkQG2JE/3Oqndzay5lA6rvk58NjuFJ+u4emsDZw0W0v9OI6oPLreZa3hj0dCivUkNQwVYl2m4NLYP0Ul13rjwAGgOWgaeM7hunRePfxGJvO0vQOkf24kv0NKVKiOWQNMnoX1epwXrv8DCRNPR1Qu5+yxnCGF5X8GZzaXZJKPtloMsUD3ByONY65UAGlelun+kDL9yT8pxtmtVPsV5TWCdlv/tg7iymLsOteIkXumLR8E5UvmFHPBqVtuGNjP8HtsZdF83csak8dNDFGNClFIQDcyHtrN09rtVv3Sc3+B4Hks5OUlZYjMiGH0bfOFWxYzqfeqgI9n5RDZ39sxiPBek0+3FxW1ElIidzCBIyX95uLA3bxp6JAiBjPMvuH/T9Tx/jUEMyGbhVq1nfpewXPwRa8ofMQBT79+Whlyihxe2lgm9MQNMqRfi/cQGajlsx7MZffK5BNI0jiQYBp2g6ZFaMi65HtNFwe1mKmrtw85WCFb+4REAPF+J8KxpshmLiva7XVwr+kIm7FbgoB8gBUI8IbgbDLIVwrBOiUJIx0Af+txOEnDQrobi84fvU1tL2E6wGU0qlNaEgf1qodtQfr6VrIiTtav1ASD1P5zEMpitbeqb6k6MNW1uJz/i8bqKyNS444WMQ3r0kyL6ysKI1oe7ywTBQ7NxVVCBlZ79ROVHGfJQ9OtbILUQ4GPlvN0hTkadP/8=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYYPR01MB14118.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(52116014)(366016)(23010399003)(18002099003)(22082099003)(38350700014)(56012099006)(6133799003)(10067099003)(11063799006);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYYPR01MB14118.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(52116014)(366016)(23010399003)(18002099003)(22082099003)(38350700014)(56012099006)(10067099003)(11063799006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?bsfx8/+t+fUby4/AOaBtdNXx8wSAAJPLiXoEciRw5sxcOHPAXhsFs5h7hDUz?=
- =?us-ascii?Q?y3q3UVIjwbhDJuFAFZUmGNR4l63b7S8Dhl98WRqoEN8UrJVvv87D9qNUPJ9M?=
- =?us-ascii?Q?6YLygkBl/EWdN6X9hfWolYTnw0izGd0FFQUxpVDZH+cWGlY8KjsbCnCGVeST?=
- =?us-ascii?Q?Ya/4ySMicWIrsUdCjY3OkJKpzRotMac7ZeOWT6TeF+e4jOddZBAmxc23Ztfr?=
- =?us-ascii?Q?JgJ6GW+aWAvJmNqXT8IkSK/J7qJ9lniR4XdMPGCLefz/y7qb1WyKi5yrWNhG?=
- =?us-ascii?Q?XkCS2NwD37udojsetR2tRBPKM3uG0YjJrZl1OP7JRNxZBqsZrR3LOZs1bqj+?=
- =?us-ascii?Q?H/qcpi1ogBw1cw5VGNav2pMakxqSKZgrx/wNM1MNeYOH5fSOdlMoV11LJdY/?=
- =?us-ascii?Q?H4qYkZWEIgHuRSrEORI6lOgFEX7KWGKxwEJpTp0sAItiV0NHHpTqC1zvDLEw?=
- =?us-ascii?Q?tvX5tMMeIx0TWexIIZcGhApMexeEQ1OuAEm7oA4yQOexwdyW5c9OM4AWc4Y5?=
- =?us-ascii?Q?VozUCnUaOvl4L01d0ePXwMMbTTrQrktLFt4obTUYxnHK01unCoQXAUd4xJ97?=
- =?us-ascii?Q?d3oNgXl75oSLluM3GIzs2F7uCBK6J/wGEZH2HU6z9O1LVUY8DOr0DY/0En0s?=
- =?us-ascii?Q?kBbDt/kRtUeSeihim94lMZqM1qPfrMFsvXE/yboiv9mWr5sEUrUFjd6nljIr?=
- =?us-ascii?Q?kLWuAvCUyijypUW0XQgl75sI0bHxGePxyr0Bd2lumN2Hi0bMm7bgeA5u+d4J?=
- =?us-ascii?Q?TJRkoxWMKXLqj2+KCT2w/0nlOFcxjbnn0y0pe+W0ZeH4HRcL7FC9DtfTYC3k?=
- =?us-ascii?Q?1O/5oNEceIDsPQZ+f90R3hloR9IaZp6yTbEP+ZcFfSEqfrNiH9+LCj3at2NE?=
- =?us-ascii?Q?fcGtiEyVl4g/3ZFa2Q2IWdkRqozOP24Z7dF+NjTqinQK/2WKpQ4FJWiQOyre?=
- =?us-ascii?Q?OoVuaE2pKz4YDlxaXblYo9eUXar+4hvuypS/AVQOtOaIZCSGNNzO2SD649Iq?=
- =?us-ascii?Q?Jb5CIMdKHdEyZxuyYeZwlHXjT5q7UoVNHEIxZVz42U6BaKQMka9I/iKeQsc3?=
- =?us-ascii?Q?t43gkzWK87eGIaU9l+JAvtNNvQZAXkIXS5EaTMGx8wLhSa6Gypu7KT0SHd7L?=
- =?us-ascii?Q?b/TZ+JeZOvnnOEpO6/mo0tMByMy4rhm7M6InB4b7cFJrJMwlzzjB2k9/wa4R?=
- =?us-ascii?Q?V2Ktm0bG1IHfxHBEnvJyeXq/bhIHiLo1HwNO+g+8ogbRPI0b8nO2YQVKDHCc?=
- =?us-ascii?Q?bT9dyfK0gVwfxIYeCjRhIFuQWvpFu5kQZXk79byyxeWx/pLEDIffHReHx2/K?=
- =?us-ascii?Q?jrPoGTa07Ct+31/ABooB+oO+GVegZyR8H2NljyzOJQmUbMmAD7I8QVgVxiDF?=
- =?us-ascii?Q?ZUECT3ZUXJme+NB00kIb3Kc3uo6+vDsMacWdRlStc2cnwu5EPExCn6gj1MYT?=
- =?us-ascii?Q?P7DcEeyNJIt+/amtW/kPyagXefdZc39Ql6vh+df6+2whegvlA9fUuAcZXxdd?=
- =?us-ascii?Q?bhHC7TdcU1HfEP6FW5AqoKD+yr+Sd7liMuZ8isrynD3ti49vVvIlXZwEzOMw?=
- =?us-ascii?Q?rveJsTGASehMgxO7MlklBd8qz5QOz/ok8vLQRaLNtAP+VZ9N/O8UtcdE3FPa?=
- =?us-ascii?Q?0cemvmuHvieLC0hlJjFkx/a65lxcLtUVDmJmQ/KaNANJsPopcp0gA+A/ROrw?=
- =?us-ascii?Q?OUZSxJL3/jhQ+q3Hlj5imoaNInp4CZKWdtGa5CZfmP4mW0LTAUkQk0douQK6?=
- =?us-ascii?Q?8VHESPViVhmMwSsk1huiqicev6X57tavDCHqzkwULQlQmVcXaEN/?=
+	=?us-ascii?Q?cftAsNMXqYR5AkBsMKFGJuF1hEtDA6ZwWVYdJWzoon3dhsxP/Qh73QOEaTDv?=
+ =?us-ascii?Q?H1wV5sGYX5xDYbKelaeRDlirVCfILVkzBfxmlLOO1LBN4N23IBOwrnsG5Auk?=
+ =?us-ascii?Q?BD4PnoUB7vAkE70e2h1obY4bmy97oPsOqxCLeb9hnOVDpHbPALyZG4UBaQaL?=
+ =?us-ascii?Q?Ay3tpNz7pnY+Hm+sMyF84IVj6hbo2UlFIED4unVDFeXmUBrf+NrOnhdln3LI?=
+ =?us-ascii?Q?J+Y6leuiHoeKNriW6aVM52gLZQkTW1PxwT80wuwq1xDegpI1bG8gutYqWkQj?=
+ =?us-ascii?Q?kQ7/yJVi5sJdq//jE9Y5GWy6pM29g9AY1pJhQQS90KrlmQUggHTgNzxyAxJz?=
+ =?us-ascii?Q?E3Ckt5gc5jU+oOPdjjQJSZg12MaxRnraW3GiALvBOWwNmbhgG5TwV6k6Ji4h?=
+ =?us-ascii?Q?pBy7VmycsuNCaJOxiOD3fwoBjtbbzUO6pqcr3MEYB3ospiyw+8j2xrpsEI3S?=
+ =?us-ascii?Q?ZrrTt/Qh7Nf8z+PMXtSl34ey/II4DfrOxhYqsy1wogYYgcRj29FyTMJgnSIX?=
+ =?us-ascii?Q?+DRtrN/u8cvWeMfPnio5AHjvO26oQp0RPZL6m4JDYCUnydN4bSykA3j2vSup?=
+ =?us-ascii?Q?2md6UYGm5+mhh13VpHNzuCZ8SnGvCE151mUPsAOr05v7Wp3AWZOdacQtsB3d?=
+ =?us-ascii?Q?CB9An6u/hMXVWRa/Y5m9tqA5vCqYZxvl1JFr6wbP859ddJLe+NC6wq2uajbX?=
+ =?us-ascii?Q?dFsK2p9JYFktS1L+Wgq0Iudkn5IwPiNTfHPKMkJNYE6OJwV/d/jJINvTVsX9?=
+ =?us-ascii?Q?3BD+UZgW9a0T/TCDSVr6NfKrmKLsZVsavguk2GgOdUK0ZLE1YSSl+7dGKxOs?=
+ =?us-ascii?Q?AmwC++rz3mhyQbMHL/atmc5bKncwgFAVBNiSCDgdiIaDZG5v6orGfRWSMjxN?=
+ =?us-ascii?Q?PBf+1swKjmKUihzF4p0x9+rUEBrdCQCGDqRHBMenu1JSIzQlwZf9T+agaAL6?=
+ =?us-ascii?Q?Qq4P+wjZa2iLvfOjqKoZMOAnsUf7LIXSzJYCEMNXy5a+b75dUrER4OwtmBAo?=
+ =?us-ascii?Q?yzgVSMXHSWjE9uFM6VK2sLQlk6rC39oJDnyPwVksofpeP71kSOww721L8bmC?=
+ =?us-ascii?Q?YJ96yg1nPYW6vtHt/XQqk/I8SG6Xs3tN2FW+Ns1DOdBO5Chbbh6MNTGUCch4?=
+ =?us-ascii?Q?eOxX8S11Pka8HrPjEUGTvdF+GzyoSTj/AUNVv+GfTv1XEefvsWqtU1Ybf1D4?=
+ =?us-ascii?Q?y/mSr1+d6YhUDrlMo/a0X8BInUYD+QIAgw8hBqN4H0+PKAk7HZht0jxuheLu?=
+ =?us-ascii?Q?eWy/hqUpKrn2upb6ZfOOeAhrqVoKCtVd0UYdjdNhTOwCjYPoYGOGa48OpIT1?=
+ =?us-ascii?Q?GvCgg6COYAqFxvWmYk96jkFZbsKysej1j6EgkX+hiRcBysyqW9f63fjmm+rv?=
+ =?us-ascii?Q?eXjwQnPMDXQoCl5wbHN9WhWJfg9gnHscJp4C4ldnv7lbCqGe80FqeMVOK0BW?=
+ =?us-ascii?Q?z3Rvb/NG8ODUUlrW8u3Ux+gw+9bweC1+/dmy64MDZgnYF+ta1NYd2NmX7CzT?=
+ =?us-ascii?Q?U1ZligMFN6jHzk1HfOYknraGtISsQJFoAXpnw7U633Zq1ok1scDqjypKQbHy?=
+ =?us-ascii?Q?/Cl4Ejj/8wsU06FII8wWKp0t96c3S9DO718iquLGDfvx7D6NCNgJWnL3BIKR?=
+ =?us-ascii?Q?tt8UtZQyhpfMJdgiKUORL4CScSb6Bbn98008VJ0egKLRvW7hCl0V6NPFiUQD?=
+ =?us-ascii?Q?GXUNq8E9G0HOAKXRT6eofuvxWy/p9qWplvu7B8ardZLrQGUwJEcg0x9RGsSo?=
+ =?us-ascii?Q?HhJMqT/z6uXWesYj32dFhM4Sg3NzXbZa1HTgdid5tO6tYuEABesf?=
 X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cb973cdd-0ea1-4833-e51a-08df1deab637
+X-MS-Exchange-CrossTenant-Network-Message-Id: ad8cf098-04f8-4868-44dd-08df1deab825
 X-MS-Exchange-CrossTenant-AuthSource: TYYPR01MB14118.jpnprd01.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2026 05:30:02.7682
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2026 05:30:05.9867
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tWGEH431AmKHDH5bFBAOjQS+t3FgVao5otVRDAOjllVv6OpJ8TF9rY/KOX7Bd0jilLrAd+ZBnMOwMohrHO4ebbagkj0Et+eLn5qUvjPumkeuwPAeE3MWPhpclrAqK3bd
+X-MS-Exchange-CrossTenant-UserPrincipalName: NYGdYyCDBsULStLY5gC6ZNMTBfZktGFXMaNAkJSiJ30+C//xIEg0tVl3AEkTa7nk8V5+DAhLCg3P6gtFeQ35sN1oQ4FjVHOZ7i0esUd2CaaB13fHXy9JSDI/kNNxzLzc
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYYPR01MB12208
 
 struct snd_soc_component will be capsuled soon, its member will not be
 able to access from non soc-component.c.
 
-Move soc_{probe/remove}_component() to soc-component.c
-
-It renames function name
--	soc_{probe/remove}_component()
-+	snd_soc_component_{probe/remove}()
-
-Then soc-component.c had original snd_soc_component_{probe/remove}() which
-is wrapper function. These wil be deployed internally.
-
-Releted fucntions also be moved. It renames function name.
-	soc_set_name_prefix()		-> snd_soc_component_set_name_prefix()
-	soc_init_component_debugfs()	-> snd_soc_component_debugfs_init()
-	soc_cleanup_component_debugfs()	-> snd_soc_component_debugfs_cleanup()
+Move snd_soc_component_to_dapm() to soc-component.c
 
 Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 ---
- include/sound/soc-component.h |   2 -
- sound/soc/soc-component.c     | 191 +++++++++++++++++++++++++++++++---
- sound/soc/soc-core.c          | 179 +------------------------------
- sound/soc/soc-internal.h      |   2 +
- 4 files changed, 181 insertions(+), 193 deletions(-)
+ include/sound/soc-component.h | 11 +----------
+ sound/soc/soc-component.c     |  6 ++++++
+ 2 files changed, 7 insertions(+), 10 deletions(-)
 
 diff --git a/include/sound/soc-component.h b/include/sound/soc-component.h
-index 7708d84af8853..f2dccd3c9ca8e 100644
+index f2dccd3c9ca8e..306d61b2cb5eb 100644
 --- a/include/sound/soc-component.h
 +++ b/include/sound/soc-component.h
-@@ -404,8 +404,6 @@ int snd_soc_component_close(struct snd_soc_component *component,
- void snd_soc_component_suspend(struct snd_soc_component *component);
- void snd_soc_component_resume(struct snd_soc_component *component);
- int snd_soc_component_is_suspended(struct snd_soc_component *component);
--int snd_soc_component_probe(struct snd_soc_component *component);
--void snd_soc_component_remove(struct snd_soc_component *component);
- int snd_soc_component_of_xlate_dai_id(struct snd_soc_component *component,
- 				      struct device_node *ep);
- int snd_soc_component_of_xlate_dai_name(struct snd_soc_component *component,
+@@ -272,16 +272,7 @@ struct snd_soc_component {
+ 	     snd_soc_dai_to_list(dai) != &(component)->dai_list;		\
+ 	     dai = _dai, _dai = snd_soc_dai_from_list(snd_soc_dai_to_list(_dai)->next))
+ 
+-/**
+- * snd_soc_component_to_dapm() - Returns the DAPM context associated with a
+- *  component
+- * @component: The component for which to get the DAPM context
+- */
+-static inline struct snd_soc_dapm_context *snd_soc_component_to_dapm(
+-	struct snd_soc_component *component)
+-{
+-	return component->dapm;
+-}
++struct snd_soc_dapm_context *snd_soc_component_to_dapm(struct snd_soc_component *component);
+ 
+ /**
+  * snd_soc_component_cache_sync() - Sync the register cache with the hardware
 diff --git a/sound/soc/soc-component.c b/sound/soc/soc-component.c
-index 9622ad96d4691..78b348269707d 100644
+index 78b348269707d..9b89061e4675c 100644
 --- a/sound/soc/soc-component.c
 +++ b/sound/soc/soc-component.c
-@@ -8,6 +8,7 @@
- // Mark Brown <broonie@opensource.wolfsonmicro.com>
- // Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
- //
-+#include <linux/debugfs.h>
- #include <linux/module.h>
- #include <linux/pm_runtime.h>
- #include <sound/soc.h>
-@@ -330,22 +331,6 @@ int snd_soc_component_is_suspended(struct snd_soc_component *component)
- 	return component->suspended;
+@@ -68,6 +68,12 @@ void *snd_soc_component_to_priv(struct snd_soc_component *component)
  }
+ EXPORT_SYMBOL_GPL(snd_soc_component_to_priv);
  
--int snd_soc_component_probe(struct snd_soc_component *component)
--{
--	int ret = 0;
--
--	if (component->driver->probe)
--		ret = component->driver->probe(component);
--
--	return soc_component_ret(component, ret);
--}
--
--void snd_soc_component_remove(struct snd_soc_component *component)
--{
--	if (component->driver->remove)
--		component->driver->remove(component);
--}
--
- /**
-  * snd_soc_component_add_controls - Add an array of controls to a component.
-  *
-@@ -1333,3 +1318,177 @@ bool snd_soc_component_matches_dlc(struct snd_soc_component *component,
- 
- 	return true;
- }
-+
-+#ifdef CONFIG_DEBUG_FS
-+static void snd_soc_component_debugfs_init(struct snd_soc_component *component)
++struct snd_soc_dapm_context *snd_soc_component_to_dapm(struct snd_soc_component *component)
 +{
-+	if (!component->card->debugfs_card_root)
-+		return;
-+
-+	if (component->driver->debugfs_prefix) {
-+		char *name;
-+
-+		name = kasprintf(GFP_KERNEL, "%s:%s",
-+				 component->driver->debugfs_prefix, component->name);
-+		if (name) {
-+			component->debugfs_root = debugfs_create_dir(name,
-+							component->card->debugfs_card_root);
-+			kfree(name);
-+		}
-+	} else {
-+		component->debugfs_root = debugfs_create_dir(component->name,
-+							     component->card->debugfs_card_root);
-+	}
-+
-+	snd_soc_dapm_debugfs_init(snd_soc_component_to_dapm(component),
-+				  component->debugfs_root);
++	return component->dapm;
 +}
++EXPORT_SYMBOL_GPL(snd_soc_component_to_dapm);
 +
-+static void snd_soc_component_debugfs_cleanup(struct snd_soc_component *component)
-+{
-+	if (!component->debugfs_root)
-+		return;
-+	debugfs_remove_recursive(component->debugfs_root);
-+	component->debugfs_root = NULL;
-+}
-+#else
-+static inline void snd_soc_component_debugfs_init(struct snd_soc_component *component) { }
-+static inline void snd_soc_component_debugfs_cleanup(struct snd_soc_component *component) { }
-+#endif /* CONFIG_DEBUG_FS */
-+
-+static void snd_soc_component_set_name_prefix(struct snd_soc_card *card,
-+					      struct snd_soc_component *component)
-+{
-+	struct device_node *of_node = snd_soc_component_to_node(component);
-+	const char *str;
-+	int ret, i;
-+
-+	for (i = 0; i < card->num_configs; i++) {
-+		struct snd_soc_codec_conf *map = &card->codec_conf[i];
-+
-+		if (snd_soc_component_matches_dlc(component, &map->dlc) &&
-+		    map->name_prefix) {
-+			component->name_prefix = map->name_prefix;
-+			return;
-+		}
-+	}
-+
-+	/*
-+	 * If there is no configuration table or no match in the table,
-+	 * check if a prefix is provided in the node
-+	 */
-+	ret = of_property_read_string(of_node, "sound-name-prefix", &str);
-+	if (ret < 0)
-+		return;
-+
-+	component->name_prefix = str;
-+}
-+
-+void snd_soc_component_remove(struct snd_soc_component *component, int probed)
-+{
-+	if (!component->card)
-+		return;
-+
-+	if (probed && component->driver->remove)
-+		component->driver->remove(component);
-+
-+	list_del_init(&component->card_list);
-+	snd_soc_dapm_free(snd_soc_component_to_dapm(component));
-+	snd_soc_component_debugfs_cleanup(component);
-+	component->card = NULL;
-+	snd_soc_component_module_put_when_remove(component);
-+}
-+
-+int snd_soc_component_probe(struct snd_soc_card *card, struct snd_soc_component *component)
-+{
-+	struct snd_soc_dapm_context *dapm = snd_soc_component_to_dapm(component);
-+	struct snd_soc_dai *dai;
-+	int probed = 0;
-+	int ret;
-+
-+	if (snd_soc_component_is_dummy(component))
-+		return 0;
-+
-+	if (component->card) {
-+		if (component->card != card) {
-+			dev_err(component->dev,
-+				"Trying to bind component \"%s\" to card \"%s\" "
-+				"but is already bound to card \"%s\"\n",
-+				component->name, card->name, component->card->name);
-+			return -ENODEV;
-+		}
-+		return 0;
-+	}
-+
-+	ret = snd_soc_component_module_get_when_probe(component);
-+	if (ret < 0)
-+		return ret;
-+
-+	component->card = card;
-+	snd_soc_component_set_name_prefix(card, component);
-+
-+	snd_soc_component_debugfs_init(component);
-+
-+	snd_soc_dapm_init(dapm, card, component);
-+
-+	ret = snd_soc_dapm_new_controls(dapm,
-+					component->driver->dapm_widgets,
-+					component->driver->num_dapm_widgets);
-+
-+	if (ret != 0) {
-+		dev_err(component->dev,
-+			"Failed to create new controls %d\n", ret);
-+		goto err_probe;
-+	}
-+
-+	for_each_component_dais(component, dai) {
-+		ret = snd_soc_dapm_new_dai_widgets(dapm, dai);
-+		if (ret != 0) {
-+			dev_err(component->dev,
-+				"Failed to create DAI widgets %d\n", ret);
-+			goto err_probe;
-+		}
-+	}
-+
-+	if (component->driver->probe) {
-+		ret = component->driver->probe(component);
-+		if (ret < 0)
-+			goto err_probe;
-+	}
-+
-+	WARN(!snd_soc_dapm_get_idle_bias(dapm) &&
-+	     snd_soc_dapm_get_bias_level(dapm) != SND_SOC_BIAS_OFF,
-+	     "codec %s can not start from non-off bias with idle_bias_off==1\n",
-+	     component->name);
-+	probed = 1;
-+
-+	/*
-+	 * machine specific init
-+	 * see
-+	 *	snd_soc_component_set_aux()
-+	 */
-+	ret = snd_soc_component_init(component);
-+	if (ret < 0)
-+		goto err_probe;
-+
-+	ret = snd_soc_component_add_controls(component,
-+					     component->driver->controls,
-+					     component->driver->num_controls);
-+	if (ret < 0)
-+		goto err_probe;
-+
-+	ret = snd_soc_dapm_add_routes(dapm,
-+				      component->driver->dapm_routes,
-+				      component->driver->num_dapm_routes);
-+	if (ret < 0)
-+		goto err_probe;
-+
-+	/* see for_each_card_components */
-+	list_add(&component->card_list, &card->component_dev_list);
-+
-+err_probe:
-+	if (ret < 0)
-+		snd_soc_component_remove(component, probed);
-+
-+	return ret;
-+}
-diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
-index 11e25ac7235f2..38663aaa483d2 100644
---- a/sound/soc/soc-core.c
-+++ b/sound/soc/soc-core.c
-@@ -133,38 +133,6 @@ static const struct attribute_group *soc_dev_attr_groups[] = {
- struct dentry *snd_soc_debugfs_root;
- EXPORT_SYMBOL_GPL(snd_soc_debugfs_root);
- 
--static void soc_init_component_debugfs(struct snd_soc_component *component)
--{
--	if (!component->card->debugfs_card_root)
--		return;
--
--	if (component->driver->debugfs_prefix) {
--		char *name;
--
--		name = kasprintf(GFP_KERNEL, "%s:%s",
--			component->driver->debugfs_prefix, component->name);
--		if (name) {
--			component->debugfs_root = debugfs_create_dir(name,
--				component->card->debugfs_card_root);
--			kfree(name);
--		}
--	} else {
--		component->debugfs_root = debugfs_create_dir(component->name,
--				component->card->debugfs_card_root);
--	}
--
--	snd_soc_dapm_debugfs_init(snd_soc_component_to_dapm(component),
--		component->debugfs_root);
--}
--
--static void soc_cleanup_component_debugfs(struct snd_soc_component *component)
--{
--	if (!component->debugfs_root)
--		return;
--	debugfs_remove_recursive(component->debugfs_root);
--	component->debugfs_root = NULL;
--}
--
- static int dai_list_show(struct seq_file *m, void *v)
- {
- 	struct snd_soc_component *component;
-@@ -225,8 +193,6 @@ static void snd_soc_debugfs_exit(void)
- 
- #else
- 
--static inline void soc_init_component_debugfs(struct snd_soc_component *component) { }
--static inline void soc_cleanup_component_debugfs(struct snd_soc_component *component) { }
- static inline void soc_init_card_debugfs(struct snd_soc_card *card) { }
- static inline void soc_cleanup_card_debugfs(struct snd_soc_card *card) { }
- static inline void snd_soc_debugfs_init(void) { }
-@@ -1296,143 +1262,6 @@ static int soc_init_pcm_runtime(struct snd_soc_card *card,
- 	return ret;
- }
- 
--static void soc_set_name_prefix(struct snd_soc_card *card,
--				struct snd_soc_component *component)
--{
--	struct device_node *of_node = snd_soc_component_to_node(component);
--	const char *str;
--	int ret, i;
--
--	for (i = 0; i < card->num_configs; i++) {
--		struct snd_soc_codec_conf *map = &card->codec_conf[i];
--
--		if (snd_soc_component_matches_dlc(component, &map->dlc) &&
--		    map->name_prefix) {
--			component->name_prefix = map->name_prefix;
--			return;
--		}
--	}
--
--	/*
--	 * If there is no configuration table or no match in the table,
--	 * check if a prefix is provided in the node
--	 */
--	ret = of_property_read_string(of_node, "sound-name-prefix", &str);
--	if (ret < 0)
--		return;
--
--	component->name_prefix = str;
--}
--
--static void soc_remove_component(struct snd_soc_component *component,
--				 int probed)
--{
--
--	if (!component->card)
--		return;
--
--	if (probed)
--		snd_soc_component_remove(component);
--
--	list_del_init(&component->card_list);
--	snd_soc_dapm_free(snd_soc_component_to_dapm(component));
--	soc_cleanup_component_debugfs(component);
--	component->card = NULL;
--	snd_soc_component_module_put_when_remove(component);
--}
--
--static int soc_probe_component(struct snd_soc_card *card,
--			       struct snd_soc_component *component)
--{
--	struct snd_soc_dapm_context *dapm = snd_soc_component_to_dapm(component);
--	struct snd_soc_dai *dai;
--	int probed = 0;
--	int ret;
--
--	if (snd_soc_component_is_dummy(component))
--		return 0;
--
--	if (component->card) {
--		if (component->card != card) {
--			dev_err(component->dev,
--				"Trying to bind component \"%s\" to card \"%s\" but is already bound to card \"%s\"\n",
--				component->name, card->name, component->card->name);
--			return -ENODEV;
--		}
--		return 0;
--	}
--
--	ret = snd_soc_component_module_get_when_probe(component);
--	if (ret < 0)
--		return ret;
--
--	component->card = card;
--	soc_set_name_prefix(card, component);
--
--	soc_init_component_debugfs(component);
--
--	snd_soc_dapm_init(dapm, card, component);
--
--	ret = snd_soc_dapm_new_controls(dapm,
--					component->driver->dapm_widgets,
--					component->driver->num_dapm_widgets);
--
--	if (ret != 0) {
--		dev_err(component->dev,
--			"Failed to create new controls %d\n", ret);
--		goto err_probe;
--	}
--
--	for_each_component_dais(component, dai) {
--		ret = snd_soc_dapm_new_dai_widgets(dapm, dai);
--		if (ret != 0) {
--			dev_err(component->dev,
--				"Failed to create DAI widgets %d\n", ret);
--			goto err_probe;
--		}
--	}
--
--	ret = snd_soc_component_probe(component);
--	if (ret < 0)
--		goto err_probe;
--
--	WARN(!snd_soc_dapm_get_idle_bias(dapm) &&
--	     snd_soc_dapm_get_bias_level(dapm) != SND_SOC_BIAS_OFF,
--	     "codec %s can not start from non-off bias with idle_bias_off==1\n",
--	     component->name);
--	probed = 1;
--
--	/*
--	 * machine specific init
--	 * see
--	 *	snd_soc_component_set_aux()
--	 */
--	ret = snd_soc_component_init(component);
--	if (ret < 0)
--		goto err_probe;
--
--	ret = snd_soc_add_component_controls(component,
--					     component->driver->controls,
--					     component->driver->num_controls);
--	if (ret < 0)
--		goto err_probe;
--
--	ret = snd_soc_dapm_add_routes(dapm,
--				      component->driver->dapm_routes,
--				      component->driver->num_dapm_routes);
--	if (ret < 0)
--		goto err_probe;
--
--	/* see for_each_card_components */
--	list_add(&component->card_list, &card->component_dev_list);
--
--err_probe:
--	if (ret < 0)
--		soc_remove_component(component, probed);
--
--	return ret;
--}
--
- static void soc_remove_link_dais(struct snd_soc_card *card)
- {
- 	struct snd_soc_pcm_runtime *rtd;
-@@ -1475,7 +1304,7 @@ static void soc_remove_link_components(struct snd_soc_card *card)
- 				if (component->driver->remove_order != order)
- 					continue;
- 
--				soc_remove_component(component, 1);
-+				snd_soc_component_remove(component, 1);
- 			}
- 		}
- 	}
-@@ -1493,7 +1322,7 @@ static int soc_probe_link_components(struct snd_soc_card *card)
- 				if (component->driver->probe_order != order)
- 					continue;
- 
--				ret = soc_probe_component(card, component);
-+				ret = snd_soc_component_probe(card, component);
- 				if (ret < 0)
- 					return ret;
- 			}
-@@ -1545,7 +1374,7 @@ static int soc_probe_aux_devices(struct snd_soc_card *card)
- 			if (component->driver->probe_order != order)
- 				continue;
- 
--			ret = soc_probe_component(card,	component);
-+			ret = snd_soc_component_probe(card, component);
- 			if (ret < 0)
- 				return ret;
- 		}
-@@ -1562,7 +1391,7 @@ static void soc_remove_aux_devices(struct snd_soc_card *card)
- 	for_each_comp_order(order) {
- 		for_each_card_auxs_safe(card, comp, _comp) {
- 			if (comp->driver->remove_order == order)
--				soc_remove_component(comp, 1);
-+				snd_soc_component_remove(comp, 1);
- 		}
- 	}
- }
-diff --git a/sound/soc/soc-internal.h b/sound/soc/soc-internal.h
-index 76353d52ce971..5fdd6dd1687f8 100644
---- a/sound/soc/soc-internal.h
-+++ b/sound/soc/soc-internal.h
-@@ -42,5 +42,7 @@ void snd_soc_dai_active_update(struct snd_soc_dai *dai, int stream, int action);
- struct device_node *snd_soc_component_to_node(struct snd_soc_component *component);
- bool snd_soc_component_matches_dlc(struct snd_soc_component *component,
- 				   const struct snd_soc_dai_link_component *dlc);
-+void snd_soc_component_remove(struct snd_soc_component *component, int probed);
-+int snd_soc_component_probe(struct snd_soc_card *card, struct snd_soc_component *component);
- 
- #endif /* __SOC_INTERNAL_H */
+ /*
+  * We might want to check substream by using list.
+  * In such case, we can update these macros.
 -- 
 2.53.0
 
