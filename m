@@ -1,145 +1,85 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFE4651C04E;
-	Tue, 29 Sep 2026 15:09:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 148C44F96BD;
+	Tue, 29 Sep 2026 15:14:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790694592; cv=none; b=ObldRiYFEdu1K0VB7BOXBTHU5sBr1r9xgAI5lcdoXyca+CxLU+SO+T8dhnJg1UCCmnFrJpBDI8Q6Sx5NiLbJdXG0dPeQxH/HC7yB1qPtoBXWNx5RKmeRSAnlm87ParVeJVFI0NI5h2ivr/SCcajQAKprUtOvzUgEC4jINEzu870=
+	t=1790694879; cv=none; b=ZE/KfV9mhqdeRoYrSb11U1YscHZYDvySCHbu3Wvo7QTSoCYpyFCX7UWMzZ82JZKLh4YiRUm2lgp8gOcvMrqpk29FvW695YxjmMMnm45fvF60QHVF5/0FD233TB6f9/aCye+KupySGu7LTQRt8WmtPJg1Y2QFmLVhqLls7dK3Wlw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790694592; c=relaxed/simple;
-	bh=CbVzNnoby7IW7M48m5afpmsoQzZzF3H+dYujn6CSsKs=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Dpq4ZPg2vNy8M4tAleYeTTpzjzeppvQItnptQmmj4QBt8Ib1BKL7iWGxNGRYHq0fjkIWL0W6lJZ1ZEW3giE4A2hlGne6KONAPCs0u02e23UlXNq+pjWorFcxtjOqGPFX6R016k9JF2AaPPgqZTEJLf4Ot556WWyhGSd4yVgOFHI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=l0x5UN/V; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=nagovMWI; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=R4KatNak; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=FviMthxE; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1790694879; c=relaxed/simple;
+	bh=cBmrkm0EPkAggtTwxvkfGmwase8wo6C3mxJxvL0mNZo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=euZroNme8Tr8zLTb91AFgD+/JSsO1lhwC2LRmnsJM0h5q5uHBelFnc/eXaog7mq1KLGDJqVHxf+tTMVkiQYr3sHRTb35CU4K/NbiyphetFRJjAXLRzn9b2lRK3B7cCQueodBGvlUCS0R22to5kSUbFZfmnXAi65umZ1rnS3lZr8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CtI0l9nR; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="l0x5UN/V";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="nagovMWI";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="R4KatNak";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FviMthxE"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 54FC521C2D;
-	Tue, 29 Sep 2026 15:09:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1790694569; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=C2vqfiKyYuDAYzRJHUTFhndcJh2kcuU3cIAIbLN/BVY=;
-	b=l0x5UN/VqnrEGULy67/1G+JHvbs39UBDy5Ez5Lz1SRumfxwOffe+NAcp0yT6lams9m8R16
-	5qc8o/WZ4N+/nFPibz5x6XrdhZirP2d75TKPaYL7jIF7zLL5PG7xlBUyALAO3qnXeFs7UU
-	b+q1tZqXlQ+dITQsHBsy/aJhI08MyVc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1790694569;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=C2vqfiKyYuDAYzRJHUTFhndcJh2kcuU3cIAIbLN/BVY=;
-	b=nagovMWId8dIQ307V4+hQwglytIXkJTY3f9uBbze5Xalu9APMNfRKwlMst9oQy4IUx/rOu
-	WGhe/E8OpSXgzhDQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=R4KatNak;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=FviMthxE
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1790694565; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=C2vqfiKyYuDAYzRJHUTFhndcJh2kcuU3cIAIbLN/BVY=;
-	b=R4KatNakByaHWpjxwMeQKeXpb/s7t9IdP8CWvrACOHnjaVSKZxxLt+8CW1UI6zxj8AZsO5
-	YDOpGEX7K08Seo4vnef+YO6oQx5r8bU5hQqWXo9TxUdN3p9+tgyercH2FCaHTRkLdSTvzS
-	uhciLRRg/uFtJ3yyBQfwU3hBLO7/koQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1790694565;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=C2vqfiKyYuDAYzRJHUTFhndcJh2kcuU3cIAIbLN/BVY=;
-	b=FviMthxEpODR6ITmFYcyWMqZNfV6nY4mtVPk6oVJV2eoNBevmk4OB4Fiwn3bzq0Wen+FKC
-	CWX6jbQ0iIptlMAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 151DD133F1;
-	Tue, 29 Sep 2026 15:09:25 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id fcCdN6TUu2rqCwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 29 Sep 2026 15:09:25 +0000
-Date: Tue, 29 Sep 2026 17:09:20 +0200
-Message-ID: <87jyo4ytzz.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CtI0l9nR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68F8B1F000FF;
+	Tue, 29 Sep 2026 15:14:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790694867;
+	bh=n7ZrRQ1chnmodqK9THKeJa8hJHMiPCs9pg0BQi2fXeA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=CtI0l9nRs7p8TrmCKmtq7/sHv67qDSFDpaAXLUVYFOCVC3vVAcMCW/rOGX2x5xgtA
+	 NF/60wtgHieH95Ne7N5E7/0QhoXUKYn1nW+awwmcXlr+sJVGxJlXr2ivjTAnHCTSRZ
+	 z9QT0XPRduWmsdEzfW9hm5lokdohQtxBA/0duxgW8qRpm1NmUyI23NOryC7f+4+zA5
+	 0E9QTOCHdAjH2exdZyQ3C/1OsfbhgPlBwK2pm0+YHW0muVVuzo7PhKZ9Wp6neTuAq0
+	 qWTQDZK6XMTfrNdIpN8jNjDn+ZeaIEVIrtaYgQ28Mbb/6KciVUviJDNHUU+2R5H1ZN
+	 WbiRoyW6NbzaA==
+Date: Tue, 29 Sep 2026 16:14:22 +0100
+From: Mark Brown <broonie@kernel.org>
 To: Runyu Xiao <runyu.xiao@seu.edu.cn>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Jianhao Xu <jianhao.xu@seu.edu.cn>,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] m68k: dmasound: Keep the Q40 IRQ handler registered
-In-Reply-To: <20260929085400.2068977-1-runyu.xiao@seu.edu.cn>
-References: <20260929085400.2068977-1-runyu.xiao@seu.edu.cn>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+Cc: Srinivas Kandagatla <srini@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Prasad Kumpatla <quic_pkumpatl@quicinc.com>,
+	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Jianhao Xu <jianhao.xu@seu.edu.cn>
+Subject: Re: [PATCH] ASoC: codecs: wcd937x: use devm_free_irq() for watchdog
+ IRQs
+Message-ID: <442d1d5a-44fb-4165-9a04-9b81ffd6b15e@sirena.org.uk>
+References: <20260929094223.2086750-1-runyu.xiao@seu.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 54FC521C2D
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	MIME_TRACE(0.00)[0:+];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[seu.edu.cn:email,suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	URIBL_BLOCKED(0.00)[suse.de:mid,suse.de:dkim,seu.edu.cn:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Spam-Level: 
-
-On Tue, 29 Sep 2026 10:54:00 +0200,
-Runyu Xiao wrote:
-> 
-> Q40PlayNextFrame() re-registers the sample IRQ after stopping it. This
-> function can be called with dmasound.lock held and from the sample IRQ
-> handler, so free_irq() and request_irq() can sleep or deadlock. A failed
-> re-registration can also leave playback without an IRQ.
-> 
-> Register one handler for the lifetime of the driver and select mono or
-> stereo sample handling inside that handler. Call the frame completion
-> path after releasing dmasound.lock so it can refill the queue safely.
-> 
-> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-> Cc: stable@vger.kernel.org
-> Assisted-by: LLM
-> Signed-off-by: Runyu Xiao <runyu.xiao@seu.edu.cn>
-
-Applied to for-next branch.  Thanks.
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="0gqpM7CipBeFoiIo"
+Content-Disposition: inline
+In-Reply-To: <20260929094223.2086750-1-runyu.xiao@seu.edu.cn>
+X-Cookie: 1 bulls, 3 cows.
 
 
-Takashi
+--0gqpM7CipBeFoiIo
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Tue, Sep 29, 2026 at 05:42:23PM +0800, Runyu Xiao wrote:
+> The watchdog IRQs are requested with devm_request_threaded_irq() from the
+> codec component probe, but the remove callback frees them with free_irq().
+> The devres entries remain in place. Component teardown later tries to free
+> the same IRQs again.
+
+Surely the obvious thing here is that we shouldn't be using devm for the
+interrupts in the first place, and/or should be moving to the driver
+probe and not having to manually free them in the first place?  This
+isn't the right fix.
+
+--0gqpM7CipBeFoiIo
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmq71c4ACgkQJNaLcl1U
+h9B/Gwf+LmLi7L4KpHRMV4uNMb+G7iruhgUAc8R49wEdQm6Rmkyo3uWGWBDXf7mb
+dKPybGCA3Y6LmrbqaFfksOvVfz9sEWg7sj55xtzdhuYoDGP4yhOAz78Y6/9RfQaq
+y18LyAkuN0XfYmC2FP0t8eRGkEuzYhKskObFlvCaYriSHLDUS4WNGm7ZftBP+ewT
+sRRsjAlSgHC/s+61x4OynhgQ/219KGeMcWLOapCn41AgvvAsPTJSf2u/2wYeiUJA
+B5NkAfvVV1FjALI8NMQNifIICuWW0MO9rsiJ0T03PM6T4xyOoZgpBq/OrELYw468
+U34gvHfTY0EfAeuPqYrl4Pu7f6ha2g==
+=bu/Q
+-----END PGP SIGNATURE-----
+
+--0gqpM7CipBeFoiIo--
