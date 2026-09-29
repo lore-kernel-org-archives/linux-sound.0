@@ -1,151 +1,93 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79BF452BE59;
-	Tue, 29 Sep 2026 13:34:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D8E452CCD9;
+	Tue, 29 Sep 2026 13:53:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790688895; cv=none; b=c7WUw6b3NpWw4nMQxhtzOYNYuKhrMp2snVfQOxI9vOwvzQ44MJqq79ggzSUILzEeVk5ppf7h9KC6mzUpL/eJuPDn4wnSmvXvf5Z7qRWD6QnxQvJz0YvhVM7uCFkROHCG7eFWpiGo/iVeoYaoh2k2sD7/FoNkJ4Il6WYGUWiIXJU=
+	t=1790690008; cv=none; b=P/qCuctWa9cveJLavE8fqn7BUcSU6DDl7XJf+RW1glID5SUTnrcTNdqB2ZTklWDov4OsvdxwX6ciJXEahwfmJPeWtcvDo/i8sMj4yXRCmTBfX3BipIS/T41kQhoj+MhGSb/5EgjzOh9/sEDznmOr6V3Jzyp8aMiOnlJCaQ35tYQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790688895; c=relaxed/simple;
-	bh=NwIPoOh+SqHXgnzsp6cdk7HD0c7lF4TMNyWmWRqc0/k=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sX36cc7Wbf6wbErNMiSpObbCuA0NCKERsYMVBMi9X8+JB4hXurV4xc5xHCh9pxATJBLbqw+GOGYankTwo7VUwfDxJ8gX72h61Opb7LvHJCfRr2ZgHqiJr0ZrmAwJuysm/LFPlTo0dEf/W6TY1H3MKbKVmpntyBi1Awfs7mYrENk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oUkOs+3F; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=wTSVGCCD; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=SuUlB3XE; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=lwL+69hD; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1790690008; c=relaxed/simple;
+	bh=70w3EKLMILMaFBQJ/Oy5PxHafQ/QfQ3X8Sz2BQG8k/M=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Yv8V5jEfQN1PAOblJTkAc4bU+pvFGjsgGTCQtyPpbyuOsOBwsRjS8ogXCOyy560dLuySKk8nv+RKYq1pJbN3Bk35MgMoiPVeBRSfFzKstYtfGwJr82uy9MVXJH3ed/XTl504IMtqJyh55O3ruc/+aSGqaRFWevWBotjJ8+7amw4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AoDM0qoW; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oUkOs+3F";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wTSVGCCD";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SuUlB3XE";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lwL+69hD"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 1429421DB9;
-	Tue, 29 Sep 2026 13:34:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1790688889; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YURhHYKq6jcwd6Xp7yP0pZ7S25FKaRJXpjOVPQWr6ws=;
-	b=oUkOs+3FoecrF0u3B1krndPe3TTvAss9DOme64K77SnoxrtKEsTjhw/atb+fis7PlecjfP
-	DRVOrded2yJzu56y61IEw8T2Wa3WQXll/MwnQpHguk1+BbwYEkUxguzMxOYCYDOz4OE/qR
-	Y+Tdzj9/m2WXKC09euzNIXPaMj8J7bw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1790688889;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YURhHYKq6jcwd6Xp7yP0pZ7S25FKaRJXpjOVPQWr6ws=;
-	b=wTSVGCCDPsJTf52F51tkYI4iaYvAgArEM3iTleES/12z2u5wiYJvfj6wLCKSJXu0KUaDYU
-	R7TwN5TsK+7k28Bw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=SuUlB3XE;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=lwL+69hD
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1790688885; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YURhHYKq6jcwd6Xp7yP0pZ7S25FKaRJXpjOVPQWr6ws=;
-	b=SuUlB3XEgM9Flj91qRoMEYhCbOZMmFHQCHYin1DbPY6RJ68yEvFNm5dhNUz3MivFENfTTJ
-	Leit+H2DSgCOjfU75rnsvoxw+E2PWD6KQN+sAaNlDg80+Xub1MYgtg6WvDSkS0YYDkt/KP
-	JTecyg0hHTEPozEaQDZyM6eAtl0iQdo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1790688885;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YURhHYKq6jcwd6Xp7yP0pZ7S25FKaRJXpjOVPQWr6ws=;
-	b=lwL+69hDX/gMxDJOW4IS3mbY/f8O91cGfraYJgVbIvAeg2EV1Njf1VzHLNEezDeXcVNk+p
-	D9LTnQLsvwQSvTAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CEC42136D1;
-	Tue, 29 Sep 2026 13:34:44 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id KyOfKXS+u2qiIwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 29 Sep 2026 13:34:44 +0000
-Date: Tue, 29 Sep 2026 15:34:40 +0200
-Message-ID: <877bk418r3.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Runyu Xiao <runyu.xiao@seu.edu.cn>
-Cc: Clemens Ladisch <clemens@ladisch.de>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Jianhao Xu <jianhao.xu@seu.edu.cn>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: usb-audio: Protect Roland control activation
-In-Reply-To: <20260929074026.2040321-1-runyu.xiao@seu.edu.cn>
-References: <20260929074026.2040321-1-runyu.xiao@seu.edu.cn>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AoDM0qoW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED2B41F00893;
+	Tue, 29 Sep 2026 13:53:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790690007;
+	bh=T7yy7HSKbMPvX0YflCUGb8cY7EyJIdxulN89my8c2iE=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=AoDM0qoWuclmwKFilUsRN/uCiLFzlv93ye0qIdN1pemrVW/ZerrsK51OwQE4ZmZsk
+	 KYVlr4mWpuEYgxUaCc1wUHocP3XaKjkY9X061qsSddJq92/Ct2WjFsr+00tGxwvWIZ
+	 BZBIH6Ebi5kRVWvCSGTRMU7nG4nS/Bv4GjCM1+diA2ZFKTuaSQRddyv4gq2VC+WxTy
+	 ivflwFy480vK22+1YcCxJCGnY6nWiaBU5Z6vIPoKK8zA6fcSOalPtSgaVlYbAmt2y/
+	 v8YPzYDMTxpfDbnUIb1LmJVKoMxuxY0rEJCsjrwfIluUL2aJK40Gqt9+1Q1TVKJXBK
+	 pVxhBymJYtbtQ==
+From: Mark Brown <broonie@kernel.org>
+To: Srinivas Kandagatla <srini@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Liviu Nicoara <lnicoara@thinkoid.org>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Jonathan Marek <jonathan@marek.ca>, Johan Hovold <johan@kernel.org>, 
+ linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+In-Reply-To: <20260929115755.6096-1-lnicoara@thinkoid.org>
+References: <20260929115755.6096-1-lnicoara@thinkoid.org>
+Subject: Re: [PATCH v2] ASoC: codecs: lpass-wsa-macro: rewrite the
+ interpolator volume after enabling clocks
+Message-Id: <179068739600.115027.7662196606588120659.b4-ty@b4>
+Date: Tue, 29 Sep 2026 14:09:56 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_TLS_ALL(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[seu.edu.cn:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Score: -3.51
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 1429421DB9
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1187; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=70w3EKLMILMaFBQJ/Oy5PxHafQ/QfQ3X8Sz2BQG8k/M=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqu8LSim74HhE1l86wgNgF13FStS6QCP1+V3BTm
+ tIaPGBNC4WJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCarvC0gAKCRAk1otyXVSH
+ 0GulB/9G+u74tWE68vXEWpEGaI3aypMLks42rOy5BaXiCz59OW8g4PCXtSpAprjykQUPGV/mUaB
+ wvgG+jIZi52q4s2eYjBkAYymrOoPF9uOmKBFWDEMyMPJV3QQ6Z/s2NJ7ADnyBTJco86Zu0XP7Z3
+ Mzk7vnwbLOAIT3VOCjiSS8WDQ6vGzKsPYM+2lvW7get+x126sp9nwG9eEP89QQTTpqnU2nrtGl8
+ ueyX2c9KlzsidlTl8udrvD2fy3O1i19U857v4QoFKjxxO8wbnsiKGLDaO1rtSPq1G8ft6CQRQiD
+ lAgWv78uec4zROLovQRPGYcPN1mcanqIJhwUBUWthtYn8xjM
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Tue, 29 Sep 2026 09:40:26 +0200,
-Runyu Xiao wrote:
-> 
-> The USB MIDI driver changes the Roland MIDI Input Mode control's access
-> flags directly from the rawmidi open and close paths.  These changes are
-> not protected by the ALSA control core and the corresponding notifications
-> can race with control access.
-> 
-> Use snd_ctl_activate_id() so that the control core updates the access flags
-> and sends the notification under its lock.  Release the USB MIDI mutex
-> before calling it because the control write path holds controls_rwsem while
-> roland_load_put() takes the USB MIDI mutex.
-> 
-> Keep the state transition and alternate-setting change under the USB MIDI
-> mutex; rawmidi's open mutex serializes the enclosing open and close paths.
-> 
-> Fixes: 96f61d9ade82 ("sound: usb-audio: allow switching altsetting on Roland USB MIDI devices")
-> Cc: stable@vger.kernel.org
-> Assisted-by: LLM
-> Signed-off-by: Runyu Xiao <runyu.xiao@seu.edu.cn>
+On Tue, 29 Sep 2026 07:57:55 -0400, Liviu Nicoara wrote:
+> ASoC: codecs: lpass-wsa-macro: rewrite the interpolator volume after enabling clocks
 
-The patch couldn't be applied cleanly on top of the latest sound git
-tree for-next branch.  Could you try to rebase and resubmit?
+Applied to
 
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
 
-thanks,
+Thanks!
 
-Takashi
+[1/1] ASoC: codecs: lpass-wsa-macro: rewrite the interpolator volume after enabling clocks
+      https://git.kernel.org/broonie/sound/c/b2047b8cadad
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
