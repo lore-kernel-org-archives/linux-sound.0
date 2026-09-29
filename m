@@ -1,87 +1,53 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mout.web.de (mout.web.de [212.227.17.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 631AE514751
-	for <linux-sound@vger.kernel.org>; Tue, 29 Sep 2026 11:36:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B144514770
+	for <linux-sound@vger.kernel.org>; Tue, 29 Sep 2026 11:42:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790681820; cv=none; b=CRVbSfi3LqjUtlzI0t7mMhl49S1luA136aIAHg0acCSnz7Q/eXoJQn5P5pPCreyFz3RxWTy4uyQtjVj1CHcWJdWhdYDXWBB8Q1+0QZpTQSMGDgY6FOcBCbxUigrqVIHiw0C0XDJqdf4aZa2acVPzRyw8qcvTQRWSVWduzy68FZU=
+	t=1790682139; cv=none; b=YRyEMXRIZE+kPhMyC+kuOfg2abtpa/Nc7q1H1g+ft3vE5pgxVtH53IlA3aqc16kIinc3RRKOHQiHg0HUZyuwPcIdX3JDxUHTLKEkD0XCmZWmHKHMxrDQj0rKYJ+q/EVOiMBaB24Ca7DILrvsgRY6mYHECu3jaPe4PvmUjfiJfXw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790681820; c=relaxed/simple;
-	bh=zXnsbRUpJLdDkFSNdTwSTBWPW2RKhE+1cP9ym8jpSU4=;
+	s=arc-20240116; t=1790682139; c=relaxed/simple;
+	bh=ye2gp5Y2CP963eYs7VQJu+LUBZo/4xZhUhdZdNbqwDk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BkxzevzH6/338FKUX7s35de8eZmqwUiToG4lD/oskqUGVgpf+XKKXO2XFnQdDsaGpkORkU6o3JSwdz17WmC/tvYDEdA8xPfn0R8Hc/RZDJNGNCBV6dlTzoRK+WsnmXESqXbqByjOFzEI4uOnHJkcFkPdd2nlmnn3W2XorfIhp3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=plRcbAVg; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=T12mp6zs; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	 In-Reply-To:Content-Type; b=KNu00MigdF4+/LDotmkMQKikclbhdNCvU6R+YeQmxnoI3vxBHDMhEWUDHMEUewzZX22WbS5YNQTmAM+zLyPZvcctrC5boVoihHPaHWCEkCI/S45lPk1PEdBEzGZob7e5ln6GVVpEaBC9+PxvXfLmQvVBCKwZeccgK7EXVBTslQY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=jan.lentfer@web.de header.b=E9iAaez8; arc=none smtp.client-ip=212.227.17.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="plRcbAVg";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="T12mp6zs"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68TAijH73655170
-	for <linux-sound@vger.kernel.org>; Tue, 29 Sep 2026 11:36:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	FXTQZXvyvmSCkCy/r9CFX47tXuGMoFqofSuvA1lJ7nA=; b=plRcbAVgQ6EaoeBA
-	DqCfD/SlIt63TkQ0jcIYB+FxoroofNmn4Ft+ozWjZElKR0uEpnk+bcI8mZuW53qg
-	G5k5sG0SZz82R9J8eamxXKFGAp7vg4fBmI2EhXzP8JEXpvbpEEbx+GtFwzh1egpp
-	K3jbFbfNYaQFgJg+EqryYgHvcxhISJAQY18L4f7yR4YZzUvUDcmH+lr8yGe66kTf
-	SlMEU3Eoii39cd8hqDf6ebRM3Rzr8Zyf5tGX5DrA9VoObsb6itZAQVA9fK8dXZI5
-	hHdcJV0q63dT69EU/CoOyk3pj7G8KsGcBF1T/zDI/BfpK36OQCpSqtGeFUMG7Fsu
-	fd+n9g==
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4h0bn1g85v-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Tue, 29 Sep 2026 11:36:57 +0000 (GMT)
-Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-2df375fb9b2so44664795ad.2
-        for <linux-sound@vger.kernel.org>; Tue, 29 Sep 2026 04:36:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1790681817; x=1791286617; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=FXTQZXvyvmSCkCy/r9CFX47tXuGMoFqofSuvA1lJ7nA=;
-        b=T12mp6zseqQ4eFb9D9ls+WDpYVOpO02N2cqGioPlw2WZLMm4S3SOBHsfyFZRvLlcQm
-         wgu25zdV9PwCJuWPbVSpvN4kVMNvFD9mmlg+XnCBzLfgd0fRteB4yeNCAZ5z3FEVj4nG
-         lVeg+1fhez0soAm3Aky7UV7/Xrjvtao9u8yhdxM5XEx3Pps7JPadY9TibRDHCCumX2EJ
-         4Sh5oNWCqiR7nTs/3WQw7p84OheRvg67EuMVAj98n121gk7S7pd0gRC0fWrLVzJ9mzP3
-         0Vdw4AtoDoG8RqCeB/9uXGCad8z7CEFPPWJoiIzDQuObKgvnxJyMwQOM5FQUO8y+n4Gh
-         hDXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790681817; x=1791286617;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=FXTQZXvyvmSCkCy/r9CFX47tXuGMoFqofSuvA1lJ7nA=;
-        b=lyxCDr4rHyjJdx+WbEQrZ8qzWd+h+Xby3xX4oUL9C03g843SD/8PteDSL7TlY8N0bZ
-         2AuC6EqctJRx0b3OR/dG89iqG8CLChcsF/JPc4qX/fqyMMdEfgyclBhSVjFFwWuStrYM
-         wjKM6D0ApHo6f6Fue8s2PZu21CtvJd3iALLaKlms7K1htwWBUhFbErfOfwjTG7SaPreo
-         qgBnnkDGWMHRobDQb//qvYR79B8PD67SL4SM4b/9AalGhOncdsT4PBpQYXbFWqTjjFiq
-         4wA6L1WiRVo7nE7WpsBGxibnQpssWBRoEXnLDiJU9ge4qrxRJz2YrwsXiAuXriT3LkPA
-         RGkg==
-X-Forwarded-Encrypted: i=1; AKwUvBzAeD5n8VML6q4hrnf34jrlL+8YwdYwDpc2TK71CVN8YF9nyiT1ahm6dAvqZY1KHA35Yy/1ys56lFBC/g==@vger.kernel.org
-X-Gm-Message-State: AFq9FYLIIz3s4KlX6qKxm/psa7eJRXZXNQ9h8iRYQMIr37feBsS1SQ11
-	ZDAt8PQT7sfbDWKoaRYju+GGhWp3MBduu5cORkc7115QWFjVQKD4dmej1RcD1WdJm6O6ZbYhDxA
-	u95t+1YmTTmx6HOpR0GJRIOsiY0mW1gM6TLqh19LaUOpxA2xLKk1AOrFTTyYOA7jBZQ==
-X-Gm-Gg: AYBFou2e2EEYk6If/8VLY82Uqyrvi8af45+sRfS/d6UkON9vsmFHuNW+oOEy2hN1vCW
-	DE62+OOF/aV0un0tJqVQPA77XYVyt+R3CV42sKl3jw5vSn9J/AFqKO2rHhgXM5+tiNQlsVFEo3A
-	tGN7/YKBS90bsTyA5b5u9E5KPJzkyi5ZxLQDTrE8ORi+dhmFKpxtHhk9xfh5oI8pUV2tg683L0S
-	rmhVhezSJf5KH8GgRBdPcqa2V8Xh0tBkCw/Cfr25yEztem0Rw1xxpQ5HAWdnPoWUr26XFnZa+Iy
-	kRyM+F7oxXCgHi+C7+JmmSCfQvAHGM2QUmlS8Dx3IUME6Qa3rjZ4HG7pwqS8pZdFEJiS21kqFCa
-	pHgeXKZ6eGjMzCOIqrtHKF1JSx6Q=
-X-Received: by 2002:a17:902:ce84:b0:2df:90d4:1185 with SMTP id d9443c01a7336-2df90d41ad1mr113254915ad.10.1790681816837;
-        Tue, 29 Sep 2026 04:36:56 -0700 (PDT)
-X-Received: by 2002:a17:902:ce84:b0:2df:90d4:1185 with SMTP id d9443c01a7336-2df90d41ad1mr113254625ad.10.1790681816300;
-        Tue, 29 Sep 2026 04:36:56 -0700 (PDT)
-Received: from [10.218.18.193] ([202.46.22.19])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2df90c03890sm55353715ad.0.2026.09.29.04.36.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 29 Sep 2026 04:36:55 -0700 (PDT)
-Message-ID: <35e41446-631f-49e7-83d8-bdfca469bc09@oss.qualcomm.com>
-Date: Tue, 29 Sep 2026 17:06:48 +0530
+	dkim=pass (2048-bit key) header.d=web.de header.i=jan.lentfer@web.de header.b="E9iAaez8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1790682130; x=1791286930; i=jan.lentfer@web.de;
+	bh=a7qQ39UjbeXduB3PGMMPR7QDax0wMe286QF3Uoml6hY=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=E9iAaez8RZhe/cbvdUydHKX2VW4huT+9Iw27OT1N/3w75UwZp76nAaGGdwolR5q7
+	 pvacvRsxXbdfAcksc3IwQ4hvsLFuasiTU/H3Dmqfm922XbqfINCQR4oYjgKePoVZR
+	 Uf+URtG07Jmayd526kVWKhk9lrqPoS37I7qLONFWXzl4s0jfoqeGAVq+3K5wBQ0+M
+	 I9oLI/Jj8TXngb9Q/9xmnqA/AWx3RU04BbCol/oICDtS7A4M6ofKNUT/3vaLSa+ey
+	 CKmjqNMnfKC/8AXm3A1WPmFWjMJExjri6LnU3uUgEKXQvw6EDCnar9cER/UKa9iFj
+	 fO6UyIVycaIVpF7SZw==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from client.hidden.invalid by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1M76bV-1x5Dd03NvD-002S7Z; Tue, 29
+ Sep 2026 13:42:09 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by vm-mailsrv.lan.net (Postfix) with ESMTP id AE23DF133;
+	Tue, 29 Sep 2026 13:42:08 +0200 (CEST)
+X-Spam-Flag: NO
+X-Spam-Score: -2.899
+X-Spam-Level:
+Received: from vm-mailsrv.lan.net ([127.0.0.1])
+	by localhost (vm-mailsrv.lan.net [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id OZjomxOUGvWQ; Tue, 29 Sep 2026 13:42:05 +0200 (CEST)
+Received: from [10.94.76.105] (ts-d20.lan.net [10.94.76.105])
+	by vm-mailsrv.lan.net (Postfix) with ESMTPS id 4C451F12B;
+	Tue, 29 Sep 2026 13:42:05 +0200 (CEST)
+Message-ID: <272336a8-ab7c-4f9a-ac0c-c438b94caeca@web.de>
+Date: Tue, 29 Sep 2026 13:42:04 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -89,387 +55,167 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 08/10] ASoC: qcom: Add QAIF IRQ handling and platform
- register
-To: Harendra Gautam <harendra.gautam@oss.qualcomm.com>,
-        Srinivas Kandagatla <srini@kernel.org>
-Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
-        Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
-        Sarath Ganapathiraju <sarath.ganapathiraju@oss.qualcomm.com>,
-        Kumar Anurag Singh <kumar.singh@oss.qualcomm.com>,
-        Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-References: <20260928-b4-qaif-shikra-audio-v8-0-ac618057fe85@oss.qualcomm.com>
- <20260928-b4-qaif-shikra-audio-v8-8-ac618057fe85@oss.qualcomm.com>
+Subject: Re: [REGRESSION] ALSA: usb-audio: Behringer USB-MIDI output stalls,
+ since "Use strings in struct usb_dev for manufacturer & co"
+To: Takashi Iwai <tiwai@suse.de>
+Cc: linux-sound@vger.kernel.org, regressions@lists.linux.dev
+References: <e7087d42-5e74-4d85-b1c5-b11eff235d41@web.de>
+ <875wzo2tya.wl-tiwai@suse.de>
 Content-Language: en-US
-From: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
-In-Reply-To: <20260928-b4-qaif-shikra-audio-v8-8-ac618057fe85@oss.qualcomm.com>
+From: Jan Lentfer <jan.lentfer@web.de>
+In-Reply-To: <875wzo2tya.wl-tiwai@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTI5MDA0NiBTYWx0ZWRfX4Qw0xgX11WfY
- 3ZG6n6nzWxeja6f6U1F4OgPfd9OeUpyjeTld52Hr6QZCeY9P0AH1H7BznZVTw9sQl+1h/hItVAu
- jH375M+frklqk3lDRzEsvfOKZxPFxbY=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTI5MDA0NiBTYWx0ZWRfX1Uov4BDix8kW
- RCMaq1Bjdqw5u1l8neuUfR2ZNfl316JT+ivek7ZbcBGkaGNlGw/ZbHe7ywbrXLQmqArvpLpchLI
- lxgnceURONXikAtpEywvuOgwFT+uVyQYZAz68OXYtokp/lSQiEz4q+4HEiaMBEintU5xRTAzldc
- oxWr4xNvmNeB/UuYKUOUueZmAcbOaq0Vx40A8waXijjjz2KfbPCWitXbQENae+E8PLYB9gzHwgm
- gpJZypmgqISWvl6PRV1EZR+4SKsbKt4orPgOnuUrkwkMCh28fL5uWSvAtrHffsDp6+vDoSOtcJ7
- FR4j7SBwVSsqXbHPaQLiOZ8GH5DRikBtObjfjTsVPE/Wz1yEhVWmy1JSY2Cj57JFW2t1rBMMqSG
- Dl70uJ/gzyRnXE+ZHt0Te0WfGCMYzfZF0rBKzX5LXCd+UrnAn6Ofd/seDJNy+5wsCxXlXYKGL0g
- QNzig2eitAQxaHDiHSw==
-X-Authority-Analysis: v=2.4 cv=JMiuIMKb c=1 sm=1 tr=0 ts=6abba2d9 cx=c_pps
- a=cmESyDAEBpBGqyK7t0alAg==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
- a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
- a=EUspDBNiAAAA:8 a=drLfthholnaMhx7I328A:9 a=QEXdDO2ut3YA:10
- a=1OuFwYUASf3TG4hYMiVC:22
-X-Proofpoint-ORIG-GUID: ce5CFufasqp8WbUMKx6ZUiZ3dFeAMHL7
-X-Proofpoint-GUID: ce5CFufasqp8WbUMKx6ZUiZ3dFeAMHL7
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-29_04,2026-09-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 priorityscore=1501 impostorscore=0 lowpriorityscore=0
- spamscore=0 malwarescore=0 adultscore=0 clxscore=1015 bulkscore=0
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
- definitions=main-2609290046
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:uhHAKtVB5lTKq1BKKuviyWhAFCTjgkfQ8YEGba4F8e2e/z843ox
+ 69CXld+UKfJlkwYF+PA0SHhkrjrHt87jDlq8u6p62UwCheWPjjC6miVVR8PMAO5GWXvc/9A
+ 7xATdaadiYX9KpPi71LrlL7tJJohfzOZxMD7PFcJMso73zCkpMPSScrF+lElaHRkwBrUl9X
+ 24BEF93B8VcvbNk/wXiwA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:NYm5/3G34YI=;En6ntC4KTzmC/EGP9n3UIGQmsQT
+ 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
+ vbBWMjA2OsDVTGDIwx+Q86G7fg==
 
-> +	case SNDRV_PCM_TRIGGER_STOP:
-> +	case SNDRV_PCM_TRIGGER_SUSPEND:
-> +	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
-> +		ret = regmap_update_bits(map,
-> +					 qaif_dmactl_reg(v, idx, substream->stream, dai_id),
-> +					 QAIF_DMACTL_ENABLE_BIT, 0);
-> +		if (ret) {
-> +			dev_err(soc_runtime->dev, "error disabling DMA: %d\n", ret);
-> +			return ret;
-> +		}
-> +		ret = regmap_update_bits(map,
-> +					 qaif_dmacfg_reg(v, idx, substream->stream, dai_id),
-> +					 QAIF_DMACFG_DYNCLK_BIT, 0);
-> +		if (ret)
-> +			dev_err(soc_runtime->dev, "error disabling dma_dynclk: %d\n", ret);
+> Thanks for the report.
+>
+> Can this be fixed by applying the same boot quirk for Behringer CM1A
+> (something like below)?
+>
+> Or do we need explicit usb_string() calls instead?  If yes, which one
+> (iProduct, iManufacturer) matters?
+>
+>
+> thanks,
+>
+> Takashi
+>
+> -- 8< --
+> --- a/sound/usb/quirks.c
+> +++ b/sound/usb/quirks.c
+> @@ -1785,6 +1785,9 @@ int snd_usb_apply_boot_quirk_once(struct usb_devic=
+e *dev,
+>   	case USB_ID(0x07fd, 0x0008): /* MOTU M Series, 1st hardware version *=
+/
+>   		return snd_usb_motu_m_series_boot_quirk(dev);
+>   	case USB_ID(0x1397, 0x1234): /* Behringer CM1A */
+> +	case USB_ID(0x1397, 0x1230): /* Behringer K-2 Mk II */
+> +	case USB_ID(0x1397, 0x1249): /* Behringer Kobol Expander */
+> +	case USB_ID(0x1397, 0x1256): /* Behringer 2-XM */
+>   		return snd_usb_cm1a_boot_quirk(dev);
+>   	case USB_ID(0x2717, 0xd005): /* Xiaomi audio connector */
+>   		snd_usb_xiaomi_boot_quirk(dev);
 
-Should this preserve the first error while still attempting the 
-IRQ-disable cleanup? As written, if clearing `QAIF_DMACFG_DYNCLK_BIT` 
-fails but `qaif_platform_irq_op(..., QAIF_IRQ_DISABLE)` succeeds, `ret` 
-is overwritten and the trigger callback returns 0.
 
-> +		ret = qaif_platform_irq_op(drvdata, substream->stream, irq_type,
-> +					   idx, QAIF_IRQ_DISABLE);
-> +		if (ret)
-> +			dev_err(soc_runtime->dev, "error disabling irq regs: %d\n", ret);
-> +		break;
+The CM1A quirk should be sufficient. No usb_string() is needed.
 
-The QAIF programming guide's STOP sequences describe one more hardware 
-completion step after clearing DMA ENABLE: wait for the relevant DMA 
-shutdown status to complete, then clear/disable the associated IRQs. 
-This applies to the AIF RDDMA/WRDMA paths and also to the codec 
-RDDMA/WRDMA paths.
+I reproduced the CM1A quirk's request from userspace on 7.2.8 (usbfs
+USBDEVFS_CONTROL, no wake-up udev rule active):
 
-This patch already has register definitions for the shutdown-status 
-registers
-(`QAIF_RDDMA_SHUTDOWN_STAT_REG()`, `QAIF_WRDMA_SHUTDOWN_STAT_REG()`,
-QAIF_CDC_RDDMA_SHUTDOWN_STAT_REG(),&QAIF_CDC_WRDMA_SHUTDOWN_STAT_REG()), 
-but I do not see them used in this stop path or in `sync_stop()`.
+1. Power-cycle the K-2 MK II and send notes: the output stalls as before
+ =C2=A0 =C2=A0(rawmidi Tx 21, avail 4021, 7 bulk-OUT URBs pending).
+2. Send a single GET_DESCRIPTOR(DEVICE, 18 bytes)
+ =C2=A0 =C2=A0(80 06 0100 0000 0012), nothing else. The pending URBs compl=
+ete
+ =C2=A0 =C2=A0immediately (Tx 21 -> 96, buffer drained), and all following=
+ MIDI
+ =C2=A0 =C2=A0output works.
 
-Should the driver poll the appropriate `*_SHUTDOWN_STATUS` register, for
-example with `regmap_read_poll_timeout()`, before disabling DYNCLK and 
-IRQs? Otherwise a fast STOP->START or suspend/resume path may race with 
-a DMA channel that hardware still reports as shutting down.
+A GET_DESCRIPTOR(STRING 2) instead has the same effect (tested
+earlier). So it looks like any standard control request after
+SET_CONFIGURATION wakes the endpoint, same as on the CM1A.
 
-Thanks
-Ajay Kumar Nandam
+I have only verified this on the K-2 MK II (1397:1230). The KOBOL
+EXPANDER (1397:1249) and 2-XM (1397:1256) run the same firmware
+family, have identical descriptors and show the identical stall, so
+I'd expect the quirk to cover them as well.
 
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +	return ret;
-> +}
-> +
-> +static int qaif_platform_pcmops_sync_stop(struct snd_soc_component *component,
-> +					  struct snd_pcm_substream *substream)
-> +{
-> +	struct snd_soc_pcm_runtime *soc_runtime = snd_soc_substream_to_rtd(substream);
-> +	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(soc_runtime, 0);
-> +	struct qaif_drv_data *drvdata = snd_soc_component_get_drvdata(component);
-> +	struct qaif_pcm_data *data = substream->runtime->private_data;
-> +	unsigned int dai_id = cpu_dai->driver->id;
-> +	enum qaif_irq_type irq_type = qaif_is_cif_port(dai_id) ? QAIF_CIF_IRQ : QAIF_AIF_IRQ;
-> +	int idx = data->dma_reg_idx;
-> +	int ret;
-> +
-> +	synchronize_irq(drvdata->audio_qaif_irq);
-> +	ret = qaif_platform_irq_op(drvdata, substream->stream, irq_type,
-> +				   idx, QAIF_IRQ_CLEAR);
-> +	if (ret)
-> +		dev_err(soc_runtime->dev, "error clearing irq regs: %d\n", ret);
-> +	return ret;
-> +}
-> +
-> +static irqreturn_t qaif_process_dma_irq(struct qaif_drv_data *drvdata,
-> +					u32 stat_reg_addr,
-> +					u32 clr_reg_addr,
-> +					enum qaif_irq_type irq_type,
-> +					enum qaif_dma_dir dma_type,
-> +					enum qaif_irq irq,
-> +					struct snd_pcm_substream **substream)
-> +{
-> +	const struct qaif_variant *v = drvdata->variant;
-> +	unsigned int reg = 0;
-> +	int dma_idx, stream_dma_idx, rv, num_dma, stream_offset, array_size;
-> +	u32 mask;
-> +	struct snd_pcm_substream *ss;
-> +
-> +	stream_offset = (dma_type == QAIF_DMA_WRDMA) ?
-> +		((irq_type == QAIF_AIF_IRQ) ? v->wrdma_start : v->codec_wrdma_start) : 0;
-> +	num_dma = (dma_type == QAIF_DMA_WRDMA) ?
-> +		((irq_type == QAIF_AIF_IRQ) ? v->num_wrdma : v->num_codec_wrdma) :
-> +		((irq_type == QAIF_AIF_IRQ) ? v->num_rddma : v->num_codec_rddma);
-> +	if (!num_dma)
-> +		return IRQ_NONE;
-> +
-> +	array_size = (irq_type == QAIF_AIF_IRQ) ?
-> +		QAIF_MAX_AIF_DMA_IDX : QAIF_MAX_CIF_DMA_IDX;
-> +	if (stream_offset + num_dma > array_size) {
-> +		dev_err(regmap_get_device(drvdata->audio_qaif_map),
-> +			"DMA index range %d+%d exceeds substream table %d\n",
-> +			stream_offset, num_dma, array_size);
-> +		return IRQ_NONE;
-> +	}
-> +	mask = GENMASK(num_dma - 1, 0);
-> +
-> +	rv = regmap_read(drvdata->audio_qaif_map, stat_reg_addr, &reg);
-> +	if (rv) {
-> +		dev_err_ratelimited(regmap_get_device(drvdata->audio_qaif_map),
-> +				    "error reading stat reg 0x%x: %d\n", stat_reg_addr, rv);
-> +		return IRQ_NONE;
-> +	}
-> +
-> +	if (!(reg & mask)) {
-> +		dev_warn_ratelimited(regmap_get_device(drvdata->audio_qaif_map),
-> +				     "spurious IRQ: stat reg 0x%x status 0x%x mask 0x%x\n",
-> +				     stat_reg_addr, reg, mask);
-> +		return IRQ_NONE;
-> +	}
-> +
-> +	if (regmap_write(drvdata->audio_qaif_map, clr_reg_addr, reg & mask))
-> +		return IRQ_NONE;
-> +
-> +	for (dma_idx = 0; dma_idx < num_dma; dma_idx++) {
-> +		stream_dma_idx = dma_idx + stream_offset;
-> +		ss = READ_ONCE(substream[stream_dma_idx]);
-> +		if (!(reg & BIT(dma_idx)) || !ss)
-> +			continue;
-> +		switch (irq) {
-> +		case QAIF_IRQ_PERIOD:
-> +			snd_pcm_period_elapsed(ss);
-> +			break;
-> +		case QAIF_IRQ_OVERFLOW:
-> +		case QAIF_IRQ_UNDERFLOW:
-> +			dev_warn_ratelimited(regmap_get_device(drvdata->audio_qaif_map),
-> +					     "QAIF DMA xRun\n");
-> +			snd_pcm_stop_xrun(ss);
-> +			break;
-> +		case QAIF_IRQ_ERROR:
-> +			snd_pcm_stop_xrun(ss);
-> +			dev_err_ratelimited(regmap_get_device(drvdata->audio_qaif_map),
-> +					    "QAIF bus error\n");
-> +			break;
-> +		}
-> +	}
-> +	return IRQ_HANDLED;
-> +}
-> +
-> +static irqreturn_t qaif_aif_irq_handler(struct qaif_drv_data *drvdata, u32 status)
-> +{
-> +	const struct qaif_variant *v = drvdata->variant;
-> +	struct snd_pcm_substream **ss = drvdata->aif_substream;
-> +	irqreturn_t ret = IRQ_NONE;
-> +
-> +	if (status & QAIF_SUMMARY_BITMASK_AIF_PERIOD_RDDMA)
-> +		ret |= qaif_process_dma_irq(drvdata,
-> +					    QAIF_EE_RDDMA_PERIOD_IRQ_STAT_REG(v, QAIF_AIF_IRQ),
-> +					    QAIF_EE_RDDMA_PERIOD_IRQ_CLR_REG(v, QAIF_AIF_IRQ),
-> +					    QAIF_AIF_IRQ, QAIF_DMA_RDDMA, QAIF_IRQ_PERIOD, ss);
-> +	if (status & QAIF_SUMMARY_BITMASK_AIF_PERIOD_WRDMA)
-> +		ret |= qaif_process_dma_irq(drvdata,
-> +					    QAIF_EE_WRDMA_PERIOD_IRQ_STAT_REG(v, QAIF_AIF_IRQ),
-> +					    QAIF_EE_WRDMA_PERIOD_IRQ_CLR_REG(v, QAIF_AIF_IRQ),
-> +					    QAIF_AIF_IRQ, QAIF_DMA_WRDMA, QAIF_IRQ_PERIOD, ss);
-> +	if (status & QAIF_SUMMARY_BITMASK_AIF_OVERFLOW_WRDMA)
-> +		ret |= qaif_process_dma_irq(drvdata,
-> +					    QAIF_EE_WRDMA_OF_IRQ_STAT_REG(v, QAIF_AIF_IRQ),
-> +					    QAIF_EE_WRDMA_OF_IRQ_CLR_REG(v, QAIF_AIF_IRQ),
-> +					    QAIF_AIF_IRQ, QAIF_DMA_WRDMA, QAIF_IRQ_OVERFLOW, ss);
-> +	if (status & QAIF_SUMMARY_BITMASK_AIF_UNDERFLOW_RDDMA)
-> +		ret |= qaif_process_dma_irq(drvdata,
-> +					    QAIF_EE_RDDMA_UF_IRQ_STAT_REG(v, QAIF_AIF_IRQ),
-> +					    QAIF_EE_RDDMA_UF_IRQ_CLR_REG(v, QAIF_AIF_IRQ),
-> +					    QAIF_AIF_IRQ, QAIF_DMA_RDDMA, QAIF_IRQ_UNDERFLOW, ss);
-> +	if (status & QAIF_SUMMARY_BITMASK_AIF_ERR_RSP_RDDMA)
-> +		ret |= qaif_process_dma_irq(drvdata,
-> +					    QAIF_EE_RDDMA_ERR_RSP_IRQ_STAT_REG(v, QAIF_AIF_IRQ),
-> +					    QAIF_EE_RDDMA_ERR_RSP_IRQ_CLR_REG(v, QAIF_AIF_IRQ),
-> +					    QAIF_AIF_IRQ, QAIF_DMA_RDDMA, QAIF_IRQ_ERROR, ss);
-> +	if (status & QAIF_SUMMARY_BITMASK_AIF_ERR_RSP_WRDMA)
-> +		ret |= qaif_process_dma_irq(drvdata,
-> +					    QAIF_EE_WRDMA_ERR_RSP_IRQ_STAT_REG(v, QAIF_AIF_IRQ),
-> +					    QAIF_EE_WRDMA_ERR_RSP_IRQ_CLR_REG(v, QAIF_AIF_IRQ),
-> +					    QAIF_AIF_IRQ, QAIF_DMA_WRDMA, QAIF_IRQ_ERROR, ss);
-> +	return ret;
-> +}
-> +
-> +static irqreturn_t qaif_cif_irq_handler(struct qaif_drv_data *drvdata, u32 status)
-> +{
-> +	const struct qaif_variant *v = drvdata->variant;
-> +	struct snd_pcm_substream **ss = drvdata->cif_substream;
-> +	irqreturn_t ret = IRQ_NONE;
-> +
-> +	if (status & QAIF_SUMMARY_BITMASK_CIF_PERIOD_RDDMA)
-> +		ret |= qaif_process_dma_irq(drvdata,
-> +					    QAIF_EE_RDDMA_PERIOD_IRQ_STAT_REG(v, QAIF_CIF_IRQ),
-> +					    QAIF_EE_RDDMA_PERIOD_IRQ_CLR_REG(v, QAIF_CIF_IRQ),
-> +					    QAIF_CIF_IRQ, QAIF_DMA_RDDMA, QAIF_IRQ_PERIOD, ss);
-> +	if (status & QAIF_SUMMARY_BITMASK_CIF_PERIOD_WRDMA)
-> +		ret |= qaif_process_dma_irq(drvdata,
-> +					    QAIF_EE_WRDMA_PERIOD_IRQ_STAT_REG(v, QAIF_CIF_IRQ),
-> +					    QAIF_EE_WRDMA_PERIOD_IRQ_CLR_REG(v, QAIF_CIF_IRQ),
-> +					    QAIF_CIF_IRQ, QAIF_DMA_WRDMA, QAIF_IRQ_PERIOD, ss);
-> +	if (status & QAIF_SUMMARY_BITMASK_CIF_OVERFLOW_WRDMA)
-> +		ret |= qaif_process_dma_irq(drvdata,
-> +					    QAIF_EE_WRDMA_OF_IRQ_STAT_REG(v, QAIF_CIF_IRQ),
-> +					    QAIF_EE_WRDMA_OF_IRQ_CLR_REG(v, QAIF_CIF_IRQ),
-> +					    QAIF_CIF_IRQ, QAIF_DMA_WRDMA, QAIF_IRQ_OVERFLOW, ss);
-> +	if (status & QAIF_SUMMARY_BITMASK_CIF_UNDERFLOW_RDDMA)
-> +		ret |= qaif_process_dma_irq(drvdata,
-> +					    QAIF_EE_RDDMA_UF_IRQ_STAT_REG(v, QAIF_CIF_IRQ),
-> +					    QAIF_EE_RDDMA_UF_IRQ_CLR_REG(v, QAIF_CIF_IRQ),
-> +					    QAIF_CIF_IRQ, QAIF_DMA_RDDMA, QAIF_IRQ_UNDERFLOW, ss);
-> +	if (status & QAIF_SUMMARY_BITMASK_CIF_ERR_RSP_RDDMA)
-> +		ret |= qaif_process_dma_irq(drvdata,
-> +					    QAIF_EE_RDDMA_ERR_RSP_IRQ_STAT_REG(v, QAIF_CIF_IRQ),
-> +					    QAIF_EE_RDDMA_ERR_RSP_IRQ_CLR_REG(v, QAIF_CIF_IRQ),
-> +					    QAIF_CIF_IRQ, QAIF_DMA_RDDMA, QAIF_IRQ_ERROR, ss);
-> +	if (status & QAIF_SUMMARY_BITMASK_CIF_ERR_RSP_WRDMA)
-> +		ret |= qaif_process_dma_irq(drvdata,
-> +					    QAIF_EE_WRDMA_ERR_RSP_IRQ_STAT_REG(v, QAIF_CIF_IRQ),
-> +					    QAIF_EE_WRDMA_ERR_RSP_IRQ_CLR_REG(v, QAIF_CIF_IRQ),
-> +					    QAIF_CIF_IRQ, QAIF_DMA_WRDMA, QAIF_IRQ_ERROR, ss);
-> +	return ret;
-> +}
-> +
-> +static const struct qaif_irq_map qaif_irq_clients[] = {
-> +	{ QAIF_CLIENT_ID_AIF_DMA, QAIF_BITMASK_AIF_RDDMA_WRDMA, qaif_aif_irq_handler },
-> +	{ QAIF_CLIENT_ID_CIF_DMA, QAIF_BITMASK_CIF_RDDMA_WRDMA, qaif_cif_irq_handler },
-> +};
-> +
-> +static irqreturn_t asoc_platform_qaif_irq(int irq, void *data)
-> +{
-> +	struct qaif_drv_data *drvdata = data;
-> +	const struct qaif_variant *v = drvdata->variant;
-> +	u32 summary_irq_status;
-> +	int rv, client;
-> +	irqreturn_t ret = IRQ_NONE;
-> +
-> +	rv = regmap_read(drvdata->audio_qaif_map, QAIF_SUMMARY_IRQSTAT_REG(v),
-> +			 &summary_irq_status);
-> +	if (rv) {
-> +		dev_err(regmap_get_device(drvdata->audio_qaif_map),
-> +			"error reading from irqstat reg: %d\n", rv);
-> +		return IRQ_NONE;
-> +	}
-> +
-> +	if (!(summary_irq_status & QAIF_ALL_CLIENTS_MASK))
-> +		return IRQ_NONE;
-> +
-> +	for (client = 0; client < ARRAY_SIZE(qaif_irq_clients); client++) {
-> +		if (summary_irq_status & qaif_irq_clients[client].mask)
-> +			ret |= qaif_irq_clients[client].client_irq_handler(drvdata,
-> +									   summary_irq_status);
-> +	}
-> +	return ret;
-> +}
-> +
-> +static const struct snd_soc_component_driver qaif_component_driver = {
-> +	.name		= DRV_NAME,
-> +	.pcm_new	= qaif_platform_pcm_new,
-> +	.open		= qaif_platform_pcmops_open,
-> +	.close		= qaif_platform_pcmops_close,
-> +	.hw_params	= qaif_platform_pcmops_hw_params,
-> +	.hw_free	= qaif_platform_pcmops_hw_free,
-> +	.prepare	= qaif_platform_pcmops_prepare,
-> +	.trigger	= qaif_platform_pcmops_trigger,
-> +	.sync_stop	= qaif_platform_pcmops_sync_stop,
-> +	.pointer	= qaif_platform_pcmops_pointer,
-> +	.mmap		= qaif_platform_pcmops_mmap,
-> +};
-> +
-> +int asoc_qcom_qaif_platform_register(struct platform_device *pdev)
-> +{
-> +	struct qaif_drv_data *drvdata = platform_get_drvdata(pdev);
-> +	struct of_phandle_args iommu_spec;
-> +	u32 sid;
-> +	int ret;
-> +
-> +	if (!drvdata->variant->alloc_stream_dma_idx ||
-> +	    !drvdata->variant->free_stream_dma_idx)
-> +		return dev_err_probe(&pdev->dev, -EINVAL,
-> +				     "Variant missing mandatory callbacks\n");
-> +
-> +	ret = of_parse_phandle_with_args(pdev->dev.of_node,
-> +					 "iommus", "#iommu-cells", 0,
-> +					 &iommu_spec);
-> +	if (ret)
-> +		return dev_err_probe(&pdev->dev, ret,
-> +				     "failed to parse iommus property\n");
-> +	sid = iommu_spec.args[0];
-> +	of_node_put(iommu_spec.np);
-> +	drvdata->smmu_csid_bits = sid & QAIF_CSID_MASK;
-> +
-> +	/*
-> +	 * The DMA base register only holds the low 32 bits of the buffer
-> +	 * address, so the coherent buffer must come from the low 32-bit
-> +	 * address space.
-> +	 */
-> +	ret = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
-> +	if (ret)
-> +		return dev_err_probe(&pdev->dev, ret,
-> +				     "Failed to set 32-bit DMA mask\n");
-> +
-> +	drvdata->audio_qaif_irq = platform_get_irq(pdev, 0);
-> +	if (drvdata->audio_qaif_irq < 0)
-> +		return dev_err_probe(&pdev->dev, drvdata->audio_qaif_irq,
-> +				     "Failed to get IRQ\n");
-> +
-> +	drvdata->qaif_hw_configured = false;
-> +	mutex_init(&drvdata->stream_lock);
-> +
-> +	ret = devm_request_irq(&pdev->dev, drvdata->audio_qaif_irq,
-> +			       asoc_platform_qaif_irq, 0,
-> +			       "qaif-irq-audio-core", drvdata);
-> +	if (ret)
-> +		return dev_err_probe(&pdev->dev, ret, "irq request failed\n");
-> +
-> +	ret = devm_snd_soc_register_component(&pdev->dev, &qaif_component_driver, NULL, 0);
-> +	if (ret)
-> +		return dev_err_probe(&pdev->dev, ret,
-> +				     "Failed to register platform component\n");
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(asoc_qcom_qaif_platform_register);
-> +
-> +MODULE_DESCRIPTION("Qualcomm Audio Interface (QAIF) PCM platform driver");
-> +MODULE_AUTHOR("Harendra Gautam <harendra.gautam@oss.qualcomm.com>");
-> +MODULE_LICENSE("GPL");
-> 
+Thanks,
+Jan
 
