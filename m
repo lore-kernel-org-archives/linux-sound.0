@@ -1,110 +1,127 @@
-Received: from mta1.migadu.com (out-179.mta1.migadu.com [95.215.58.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-m155101.qiye.163.com (mail-m155101.qiye.163.com [101.71.155.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E97C352008
-	for <linux-sound@vger.kernel.org>; Tue, 29 Sep 2026 08:34:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A909A37646A;
+	Tue, 29 Sep 2026 08:45:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790670868; cv=none; b=aglSKPWWZNQ0feoTQYiUXuTwtz5wt+tJ9O3mB/2JLRCh8FbWGh3LnICoR2Deglo9v0nZA0GRAqeWAGW1wBg2gRweetE4miCCZCOKrWnG9VGReTRsjFdP87iKn3KcqfIkeUzibez4bYoG22836zcJzR8vtlws796+sGdY9ihYBdk=
+	t=1790671568; cv=none; b=ePdVB6btmt/klcUrQ54PZMWmBkIz3kJazO3fKNCkEpyZSsMHi4op397Anv34AE48OJkMqMS281OmVMvW8NvlgHvRAgrFcyh0N317lNK9kPwEU4aF+wGJ1DJVPIq5SJvSbLRLfYnntCRMuAXG07O9ZYM//4HoRIYI7cPKpLYdkis=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790670868; c=relaxed/simple;
-	bh=3pHXDM+z38dWey2hjyXucmd7Mo8iqM8NY08hRkJBOtM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NvaicJ5CDsR40cstW48YeV4FAzt5J+Q/SAcs5ZkdhVyHgG14ibTWeqp76mu6BzVhhZDT1ENUy5qVpwk0s4UEZfAKujsTlTRc0lLYOGOHsivDumbjAmvfFGe6oNLqLB/whIo52BFrNZFVoNt5vwjpt5Yqwit7EgN5M5YSls4moag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=QHkni42b; arc=none smtp.client-ip=95.215.58.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1790671568; c=relaxed/simple;
+	bh=zVXnvAODcsRMwtc5Ve0GHN6mqgMaT/qRrnY0nZCnoWg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=PyUS+tMtaJONwcKdeC3A2YGHF6IvUrqjWN+yEPABD3OAyZoQc0siRDkIXfWKH6OUmkwfWWYC1w8CAKPWYNVCQ2Ur51rndjVaZBeYi3VpIn0kHmuATDJugZLcyikNalQcYmCtCtrhrpx7Cc2ZTDmefyS/1cfT52MFyvG/NqJgSSo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=Tz6rJNcp; arc=none smtp.client-ip=101.71.155.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="QHkni42b"
-X-Envelope-To: linux-sound@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=3pHXDM+z38dWey2hjyXucmd7Mo8iqM8NY08hRkJBOtM=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1790670862; v=1; x=1791275662;
- b=QHkni42b/8qk4ZnZHJIMQj7FJtyLQXNIaTSbDHFrUW1j97p/c8l/IZVM44l2XkLPjLsl9Ng4
- dF5RApv9/VKIADrNPr7g3nMnTVAhvbHb6jUBmnllxg8D6QcYBCOM6WEjO4bDNE9Z1nPJKOTb5QQ
- iWZRlbS21s/Jk8gORBAT3arQ=
-X-Envelope-To: linux-sound@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id dcacd1af2af8d5bc;
-	Tue, 29 Sep 2026 08:34:22 +0000
-X-Mizu-Trace-ID: dcacd1af2af8d5bc
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <db7d1d3a-1be3-466d-9f95-2dabe918e57e@linux.dev>
-Date: Tue, 29 Sep 2026 10:34:16 +0200
+	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="Tz6rJNcp"
+Received: from PC-202605011814.localdomain (unknown [58.241.16.34])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 4f7a99efd;
+	Tue, 29 Sep 2026 16:45:48 +0800 (GMT+08:00)
+From: Runyu Xiao <runyu.xiao@seu.edu.cn>
+To: Jaroslav Kysela <perex@perex.cz>
+Cc: Takashi Iwai <tiwai@suse.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Runyu Xiao <runyu.xiao@seu.edu.cn>,
+	Jianhao Xu <jianhao.xu@seu.edu.cn>
+Subject: [PATCH] ALSA: sgio2audio: Only free successfully requested IRQs
+Date: Tue, 29 Sep 2026 16:45:40 +0800
+Message-Id: <20260929084540.2065213-1-runyu.xiao@seu.edu.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/3] soundwire: intel_auxdevice: Don't disable IRQs
- before removing children
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: vkoul@kernel.org, yung-chuan.liao@linux.intel.com,
- peter.ujfalusi@linux.intel.com, linux-sound@vger.kernel.org,
- patches@opensource.cirrus.com, linux-kernel@vger.kernel.org
-References: <20260925154216.3520136-1-ckeepax@opensource.cirrus.com>
- <20260925154216.3520136-4-ckeepax@opensource.cirrus.com>
- <2c4ea801-f048-405d-a163-e65691e93fc7@linux.dev>
- <aronxfoVEKfBm9Zb@opensource.cirrus.com>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <aronxfoVEKfBm9Zb@opensource.cirrus.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0aa0ec576e4803a1kunmfd8c80b1232056
+X-HM-MType: 10
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkaQh8YVktMQ0hCSkxPSU8fTFYeHw
+	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlOQ1VJT0pVSk1VSE9ZV1kWGg8SFR0UWUFZT0tIVUpLSEpPSE
+	xVSktLVUpCS0tZBg++
+DKIM-Signature: a=rsa-sha256;
+	b=Tz6rJNcpM02mCxEx7jdlXB7CqSvD9rGurTfeMfEN0ZOrPHB7YHJCoXO5wOSKh4Tb06ibF1ZPZshDdmL4MZiK/1MvLloUEIlPxlR7cgm7i1BFdPHKSUxWIFcxlO8ebMopdZtZ63kXBefCspLCt+RO4KWLjrhzJZa2Fu1cQ5jKZFY=; c=relaxed/relaxed; s=default; d=seu.edu.cn; v=1;
+	bh=1DoaAJ+PtDJjV2KHwCMFLpMYQai8I3RTFRw3D3/GEFE=;
+	h=date:mime-version:subject:message-id:from;
 
-On 9/28/26 10:39, Charles Keepax wrote:
-> On Sat, Sep 26, 2026 at 05:55:06PM +0200, Pierre-Louis Bossart wrote:
->>
->>> diff --git a/drivers/soundwire/intel_auxdevice.c b/drivers/soundwire/intel_auxdevice.c
->>> index 901a71262094f..1439cef43462d 100644
->>> --- a/drivers/soundwire/intel_auxdevice.c
->>> +++ b/drivers/soundwire/intel_auxdevice.c
->>> @@ -508,8 +508,13 @@ static void intel_link_remove(struct auxiliary_device *auxdev)
->>>  	if (!bus->prop.hw_disabled) {
->>>  		sdw_intel_debugfs_exit(sdw);
->>>  		cancel_delayed_work_sync(&cdns->attach_dwork);
->>> -		sdw_cdns_enable_interrupt(cdns, false);
->>>  	}
->>> +
->>> +	sdw_bus_slaves_delete(bus);
->>> +
->>> +	if (!bus->prop.hw_disabled)
->>> +		sdw_cdns_enable_interrupt(cdns, false);
->>> +
->>>  	sdw_bus_master_delete(bus);
->>>  }
->>
->> sorry, not following - this sequence seems to rely on *two* calls to
->> sdw_bus_slaves_delete(), is this intentional or I am missing something?
->>
->>
->>  void sdw_bus_master_delete(struct sdw_bus *bus)
->>  {
->> -	device_for_each_child(bus->dev, NULL, sdw_delete_slave);
->> +	sdw_bus_slaves_delete(bus); <<< this would be the second call?
->> +	sdw_bus_slaves_put(bus);
-> 
-> Yeah seemed the simplest way to not have to change any existing
-> drivers, the second call is a complete no-op if the first was
-> done.
-humm, that seems to work but I get this layering violation after-taste,
-and I wonder if this works for AMD?
+snd_sgio2audio_create() calls snd_sgio2audio_free() when an IRQ
+request fails. The cleanup helper currently walks the complete IRQ table,
+including entries whose request_irq() calls have not been attempted yet.
+free_irq() then receives an IRQ and dev_id pair that was never registered.
 
-AMD use a platform device instead of an auxiliary one, but overall this
-looks like the same problem of disabling interrupts before the
-peripheral driver is removed, no?
+Pass the number of successfully requested IRQs to the cleanup helper on
+the request failure path, while retaining the full-table cleanup for
+teardown after all requests have succeeded.
 
-static void amd_sdw_manager_remove(struct platform_device *pdev)
-{
-	struct amd_sdw_manager *amd_manager = dev_get_drvdata(&pdev->dev);
-	int ret;
+Fixes: 862c2c0a61c5 ("ALSA: ALSA driver for SGI O2 audio board")
+Cc: stable@vger.kernel.org
+Assisted-by: LLM
+Signed-off-by: Runyu Xiao <runyu.xiao@seu.edu.cn>
+---
+ sound/mips/sgio2audio.c | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
-	pm_runtime_disable(&pdev->dev);
-	cancel_work_sync(&amd_manager->amd_sdw_work);
-	amd_disable_sdw_interrupts(amd_manager); <<< SAME PROBLEM ??
-	sdw_bus_master_delete(&amd_manager->bus);
-
-If this is indeed the same problem then the AMD driver should use the
-same solution...
+diff --git a/sound/mips/sgio2audio.c b/sound/mips/sgio2audio.c
+index 497d84cff..35648b0b9 100644
+--- a/sound/mips/sgio2audio.c
++++ b/sound/mips/sgio2audio.c
+@@ -742,7 +742,8 @@ static struct {
+ 
+ /* ALSA driver */
+ 
+-static int snd_sgio2audio_free(struct snd_sgio2audio *chip)
++static int snd_sgio2audio_free(struct snd_sgio2audio *chip,
++			       unsigned int irq_count)
+ {
+ 	int i;
+ 
+@@ -752,7 +753,7 @@ static int snd_sgio2audio_free(struct snd_sgio2audio *chip)
+ 	writeq(0, &mace->perif.audio.control);
+ 
+ 	/* release IRQ's */
+-	for (i = 0; i < ARRAY_SIZE(snd_sgio2_isr_table); i++)
++	for (i = 0; i < irq_count; i++)
+ 		free_irq(snd_sgio2_isr_table[i].irq,
+ 			 &chip->channel[snd_sgio2_isr_table[i].idx]);
+ 
+@@ -768,7 +769,7 @@ static int snd_sgio2audio_dev_free(struct snd_device *device)
+ {
+ 	struct snd_sgio2audio *chip = device->device_data;
+ 
+-	return snd_sgio2audio_free(chip);
++	return snd_sgio2audio_free(chip, ARRAY_SIZE(snd_sgio2_isr_table));
+ }
+ 
+ static const struct snd_device_ops ops = {
+@@ -819,7 +820,7 @@ static int snd_sgio2audio_create(struct snd_card *card,
+ 				0,
+ 				snd_sgio2_isr_table[i].desc,
+ 				&chip->channel[snd_sgio2_isr_table[i].idx])) {
+-			snd_sgio2audio_free(chip);
++			snd_sgio2audio_free(chip, i);
+ 			printk(KERN_ERR "sgio2audio: cannot allocate irq %d\n",
+ 			       snd_sgio2_isr_table[i].irq);
+ 			return -EBUSY;
+@@ -843,13 +844,13 @@ static int snd_sgio2audio_create(struct snd_card *card,
+ 	/* initialize the AD1843 codec */
+ 	err = ad1843_init(&chip->ad1843);
+ 	if (err < 0) {
+-		snd_sgio2audio_free(chip);
++		snd_sgio2audio_free(chip, ARRAY_SIZE(snd_sgio2_isr_table));
+ 		return err;
+ 	}
+ 
+ 	err = snd_device_new(card, SNDRV_DEV_LOWLEVEL, chip, &ops);
+ 	if (err < 0) {
+-		snd_sgio2audio_free(chip);
++		snd_sgio2audio_free(chip, ARRAY_SIZE(snd_sgio2_isr_table));
+ 		return err;
+ 	}
+ 	*rchip = chip;
+-- 
+2.34.1
