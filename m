@@ -1,132 +1,180 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 924493DC856;
-	Tue, 29 Sep 2026 11:44:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91A0C51814E
+	for <linux-sound@vger.kernel.org>; Tue, 29 Sep 2026 11:50:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790682298; cv=none; b=ZDuA1/PNjb7KQY/KN8MJdH+5S9lq6njiTbaXhUQeorRwUuhEHcc9vliht/EJTe+piSnZaQObmBi3uloZV/KTy/ZrVJqc5YEFoHTHCUb3piP2q4ymGQJvfLAjv9Jas9mYtBv+1RPbmdDX6hymuYtou9NjUwTTJrorGLl5yY54IxA=
+	t=1790682608; cv=none; b=altbNMX5JtaD/M0iF7EkOaqmBccqWZbb0ooP/KfkDXTcm30IWvNfHU7eU7dpe7mE1hOUF/t753HOo1lJPQLXYLCJOCSxZJGthF3paPCxbvfMFYOYQK0O6zqCUENRl+CpYEXNN+RyXG+MuwFHkkG2ZHE6WriCzLvCXVlg6C24AOw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790682298; c=relaxed/simple;
-	bh=5BwuNLumvwnLJvANXEf0gbKEoPE/6sb4nYobupI5XrI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jQsJ0Z402gc0f6Kmu56Xnt9oeWLW2iVhfuCilHs7iJDuxnOy/8A2wEvuRZbFl3iC69tTv1u/cK+vP+//RJhngVQUA2puBBRpM2unlNlNzg6kK7H02nWCkT3BkHwIbVr/sijo1V9btgUMx+kBpD1isFaq9knXIoE6ioWkrEu186E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DeO9+Qgp; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790682608; c=relaxed/simple;
+	bh=OZcJmdyoRDiN62ILBVC6yzhaVsNF+Qvsxy6TpaMia7o=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Ikxap8mZ/wkMcUiDrTVfRbdnq1t+ESvQK9ffXNTjjP+8eeNbuMC2137YUxO3M3Q0ugrJ7vbk6TFaTzCVzCJApLMvAD2M1KE/Ganh/lnjoR0jyrGo7Fo4QA0G5gobWpsLMhS/gIv1vYYQYGPGcYARgamuXzLKHoq/Uc/GSuqc0sY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0WFQpLy0; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=mlJPfFEM; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=nM2S/fqJ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Gy5xQNX4; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DeO9+Qgp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCAF11F00893;
-	Tue, 29 Sep 2026 11:44:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790682297;
-	bh=RtJYB+Pl9ynxw35Fyg+zXtll53++J5Xy7Hr5WNfcZ88=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=DeO9+Qgpo0OwN6Fqs0tWqwcMwVlsQkjfxWi8f/Oktstl3AZ9QFtGXpU7JW3toKHzB
-	 gbHwJxVSrvJ+BiYpXFZedAhExwGqhIorXRQWhl99W17kXk+wd3Tg8Q59rIKT5Ah7iQ
-	 ufoEfyQyF3m+ERKz6aEJVXOdRzKcI6sUzU6OKAhvLwCQmOKK13X7ftvWIbVxRtqyWN
-	 uH0POFwTw+7XpHXj0yfhga6dXQ8FqYh5bjREGaDmxoGqJR+G0QeVV1vCk/sR0zMk84
-	 oZXqRwkVjTdvefPC9zkqZ2MLzApoz/1fbSWcqgUIO4+hemz1WulcQ3mdXYDraQCXE7
-	 TsgBORfJL1/8w==
-Date: Tue, 29 Sep 2026 13:44:54 +0200
-From: Thierry Reding <thierry.reding@kernel.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Laxman Dewangan <ldewangan@nvidia.com>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, mfd@lists.linux.dev, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>, 
-	linux-sound@vger.kernel.org, linux-tegra@vger.kernel.org, Thierry Reding <treding@nvidia.com>
-Subject: Re: [PATCH 2/2] dt-bindings: sound: tegra-ahub: Convert to
- json-schema
-Message-ID: <arugF4OhAMqzGith@orome>
-References: <20260928-as3722-bindings-v1-0-35f423a9f2b2@nvidia.com>
- <20260928-as3722-bindings-v1-2-35f423a9f2b2@nvidia.com>
- <d5ebde9e-29be-47ab-b74e-63a6bda079a4@sirena.org.uk>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0WFQpLy0";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="mlJPfFEM";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nM2S/fqJ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Gy5xQNX4"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 6573F1F38E;
+	Tue, 29 Sep 2026 11:49:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1790682600; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=L/fn0G7oJs3UL/l5Ugd7WhaILynFwRxWotEaEg7LwX0=;
+	b=0WFQpLy0fuK8Zu5HPcUvAgbzYYRm+ytzEjlDEcjhQicMlUBjZ4PoU2PuWmR8zNBe6xprKr
+	u/VRDUOBaq2KjquyN6m+6bhqAi/LSHvnF5LGMyqHlzQlVSIbV6aLUKjghI+qw4TaOK8vyb
+	fEAQ+DEaPKGlTGKXjg7aOGtqE4z3GTA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1790682600;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=L/fn0G7oJs3UL/l5Ugd7WhaILynFwRxWotEaEg7LwX0=;
+	b=mlJPfFEMVyFurxu1W3+Y/YRh3GcbfniKpBM5G/HZwTBnkEbIfFF3uL3YciP4rt0Dr04csf
+	w/8dITxuq5WDbaBg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1790682596; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=L/fn0G7oJs3UL/l5Ugd7WhaILynFwRxWotEaEg7LwX0=;
+	b=nM2S/fqJ+FNg5ob6nUOOiUzcd5PFCeFob6R75AM7kZ9Ol4h8hsxpfZ6U2GwLn9GcRKvNoX
+	gsq4YkDl8SNB2sft8AnTdrxtt0lXskzN1kGtf2C5ZFgWwBesqhdfe83ESyNmm/XeU+r5KL
+	f9UBgdMW3PSSlz2lkNkftYGuuiv+Ga4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1790682596;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=L/fn0G7oJs3UL/l5Ugd7WhaILynFwRxWotEaEg7LwX0=;
+	b=Gy5xQNX4+OAFK8bkb9/gMhto5UEfgZ3uRNV4NBHkyAt/6709kJpsvGxmGBOW58z+SujbDP
+	plyNqctwzTBBrGCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 35E84133F1;
+	Tue, 29 Sep 2026 11:49:56 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id gsW9BOSlu2qVLgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 29 Sep 2026 11:49:56 +0000
+Date: Tue, 29 Sep 2026 13:49:51 +0200
+Message-ID: <87wls41dls.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Jan Lentfer <jan.lentfer@web.de>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	linux-sound@vger.kernel.org,
+	regressions@lists.linux.dev
+Subject: Re: [REGRESSION] ALSA: usb-audio: Behringer USB-MIDI output stalls, since "Use strings in struct usb_dev for manufacturer & co"
+In-Reply-To: <272336a8-ab7c-4f9a-ac0c-c438b94caeca@web.de>
+References: <e7087d42-5e74-4d85-b1c5-b11eff235d41@web.de>
+	<875wzo2tya.wl-tiwai@suse.de>
+	<272336a8-ab7c-4f9a-ac0c-c438b94caeca@web.de>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="qgm63f4y6y5lsrev"
-Content-Disposition: inline
-In-Reply-To: <d5ebde9e-29be-47ab-b74e-63a6bda079a4@sirena.org.uk>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_TO(0.00)[web.de];
+	URIBL_BLOCKED(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[web.de];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Score: -3.30
+X-Spam-Level: 
+X-Spam-Flag: NO
+
+On Tue, 29 Sep 2026 13:42:04 +0200,
+Jan Lentfer wrote:
+> 
+> > Thanks for the report.
+> > 
+> > Can this be fixed by applying the same boot quirk for Behringer CM1A
+> > (something like below)?
+> > 
+> > Or do we need explicit usb_string() calls instead?  If yes, which one
+> > (iProduct, iManufacturer) matters?
+> > 
+> > 
+> > thanks,
+> > 
+> > Takashi
+> > 
+> > -- 8< --
+> > --- a/sound/usb/quirks.c
+> > +++ b/sound/usb/quirks.c
+> > @@ -1785,6 +1785,9 @@ int snd_usb_apply_boot_quirk_once(struct usb_device *dev,
+> >   	case USB_ID(0x07fd, 0x0008): /* MOTU M Series, 1st hardware version */
+> >   		return snd_usb_motu_m_series_boot_quirk(dev);
+> >   	case USB_ID(0x1397, 0x1234): /* Behringer CM1A */
+> > +	case USB_ID(0x1397, 0x1230): /* Behringer K-2 Mk II */
+> > +	case USB_ID(0x1397, 0x1249): /* Behringer Kobol Expander */
+> > +	case USB_ID(0x1397, 0x1256): /* Behringer 2-XM */
+> >   		return snd_usb_cm1a_boot_quirk(dev);
+> >   	case USB_ID(0x2717, 0xd005): /* Xiaomi audio connector */
+> >   		snd_usb_xiaomi_boot_quirk(dev);
+> 
+> 
+> The CM1A quirk should be sufficient. No usb_string() is needed.
+> 
+> I reproduced the CM1A quirk's request from userspace on 7.2.8 (usbfs
+> USBDEVFS_CONTROL, no wake-up udev rule active):
+> 
+> 1. Power-cycle the K-2 MK II and send notes: the output stalls as before
+>    (rawmidi Tx 21, avail 4021, 7 bulk-OUT URBs pending).
+> 2. Send a single GET_DESCRIPTOR(DEVICE, 18 bytes)
+>    (80 06 0100 0000 0012), nothing else. The pending URBs complete
+>    immediately (Tx 21 -> 96, buffer drained), and all following MIDI
+>    output works.
+> 
+> A GET_DESCRIPTOR(STRING 2) instead has the same effect (tested
+> earlier). So it looks like any standard control request after
+> SET_CONFIGURATION wakes the endpoint, same as on the CM1A.
+> 
+> I have only verified this on the K-2 MK II (1397:1230). The KOBOL
+> EXPANDER (1397:1249) and 2-XM (1397:1256) run the same firmware
+> family, have identical descriptors and show the identical stall, so
+> I'd expect the quirk to cover them as well.
+
+Thanks for quick tests!
+
+I'll prepare the fix patch for upstream in a similar form as given in
+the previous mail.
 
 
---qgm63f4y6y5lsrev
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 2/2] dt-bindings: sound: tegra-ahub: Convert to
- json-schema
-MIME-Version: 1.0
-
-On Mon, Sep 28, 2026 at 08:23:45PM +0100, Mark Brown wrote:
-> On Mon, Sep 28, 2026 at 06:24:41PM +0200, Thierry Reding wrote:
-> > From: Thierry Reding <treding@nvidia.com>
-> >=20
-> > Convert Tegra AHUB bindings from the free-form text format to
-> > json-schema.
->=20
-> > -- compatible : For Tegra30, must contain "nvidia,tegra30-ahub".  For T=
-egra114,
-> > -  must contain "nvidia,tegra114-ahub".  For Tegra124, must contain
-> > -  "nvidia,tegra124-ahub".  Otherwise, must contain "nvidia,<chip>-ahub=
-",
-> > -  plus at least one of the above, where <chip> is tegra132.
->=20
-> This documents fallbacks...
->=20
-> > +properties:
-> > +  compatible:
-> > +    enum:
-> > +      - nvidia,tegra30-ahub
-> > +      - nvidia,tegra114-ahub
-> > +      - nvidia,tegra124-ahub
->=20
-> ...but this does not.
-
-In device tree we never used nvidia,tegra132-ahub, but I guess it's
-technically necessary, so I'll add that combination here, exactly as
-described in the original bindings, and fix up the device tree to use
-that instead.
-
->=20
-> > +  resets:
-> > +    minItems: 11
-> > +    maxItems: 21
-> > +
-> > +  reset-names:
-> > +    minItems: 11
-> > +    maxItems: 21
->=20
-> Ideally there'd be per-SoC constraints but meh.
-
-They are there, further down below, though maybe somewhat hidden. The
-per-SoC constraints define the exact items that need to go into each of
-these. Though I guess I could expand a bit more and narrow down the
-minItems and maxItems for each compatible.
-
-Thierry
-
---qgm63f4y6y5lsrev
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmq7pLMACgkQ3SOs138+
-s6F0IQ/9GBOhoiLn6+F/S0+LoMKX+d72dvzXdgEsQWHzfaZBgg6kPR38IuGkNI5+
-jHJkfnf3nx0QFCzcDK34/RPlZZTwJsAhX5hNRjBoxG8mtPuPFzQxOSa0KidmNUE5
-ojDY2PxYjMNTqnsz2FR14cfqKX79grRYW8xIXIHUtVhCkAlA3A2+HlPuq/bxCu9/
-vFWT1J26YR2UG/761VWesNcu0LxWLPv4iZwJ4b6rZogO1CXnOIsD+mLnCqIkEuwj
-HqgHn5dp+PrBCBdKDoVjg8KnMD/4b4HOrHmKuiXs3jsIvZPArSROYC9mrzvtCYjK
-uyT8U/vJ6qnKJdUadqyFAtztDZ71VVozYMTCJRHafgJ/b3I3VJjYyot8jt9aUWGZ
-9jWA4Ks4W2HQC+Jr36v145tVQn/UVFmzUqQatKJlJ+fjKNp2gLKkw6G3C2fEvpIM
-Djo4Vtk7eecKihntpFmRxCEm/Qm7GuzYNp7MKzEDznezANZhiU/YOqV4diqiEkxA
-xuZ5saOzyxjMttajnDl8zMqlz2//E68YIPv2eniNeZnHqJnIqLfO6RrufhW0XHdT
-E2+jC+LxS53UCUU8i1t+OXcpzpZ6icFSKaie9pdpjQdHkMPFE1c2PPcHOC/Ii1Lw
-IHiGpZ6r7j8ApGakw2nUv7qXs1u1GPn/pqBzOQHA9pAYxDTowB4=
-=bNkn
------END PGP SIGNATURE-----
-
---qgm63f4y6y5lsrev--
+Takashi
