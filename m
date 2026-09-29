@@ -1,172 +1,122 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-pz2-f42.google.com (mail-pz2-f42.google.com [74.125.228.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D804C3F5BFC;
-	Tue, 29 Sep 2026 05:58:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98E953DEAC8
+	for <linux-sound@vger.kernel.org>; Tue, 29 Sep 2026 06:11:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790661496; cv=none; b=qJ65snOZMtk27U82xpz9MQKA/IFTHLD23zE8x66GBW4hiv9+Pe8WWCg/xoiXnldEw7Ktj/2leFMloYRPd+ynzHzZc1dIVij0WvwYcT4htbHmaxLX5v4oNdtOAPvN2WQrEkNegGM5cVTKxHnJDbSPfWdISf3FEjRR4g/UugLXlgM=
+	t=1790662305; cv=none; b=Xz+7hjibK1lM8qLNeowbvorHNRyJsNr/UbOUO1HS+94BWoqCWr4SpxwKKqI23o+q6EhnATYpnfoN2luYUanwxzMbaZk2ZjA2fFWVVTXU6LEtqHdv2cP2qKrOHtGimGmSMmDF2PzXZzP5qBsX0n4x2MaCtqTe7Pt5kOAyLr89CEo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790661496; c=relaxed/simple;
-	bh=dYWTGKEmLy9RCuDX9LBRoIFyt0G1rRI61VU8mKpqEG8=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kn3ddbmr0UN6rICGuFBBKZa7KjWZsE4ZZ3IoTXRZgs0yeir5G9BrkWLdICinhtgKINxuwcLK2Xra1dMxf/ugTOJcPqrHHh5wh9bXQKSt+ArT5arE8bPUWpNdhRgOCQpNOwJsGrOknedybFcUeoUDPaT20a0P2BHGTp6gYXkCs5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=WtG3rPAX; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=MFAcjth6; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=vEzcR55v; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=MNGEDZBL; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1790662305; c=relaxed/simple;
+	bh=RGYHV4Zn+Dn9B6A5MIGzROsX1KFS/3JS0nwwmfoW1QU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qGLYXFSmiY2Ji4+EGBKxnBAlKHh+4DAn4snn8sAmfC8Xu10JAFkMcXLPwKxkb9d4YcD/oJIp7Nw8tO0flC9pDjwlk+4CAJilfTXxWLp/OIK2ogaqTjrinuThkJInpqCQmXb8P4txn0/ZF0UdMlmlapUmlh6RJI1uxV3fABImCSM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T563v5G/; arc=none smtp.client-ip=74.125.228.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="WtG3rPAX";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MFAcjth6";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="vEzcR55v";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MNGEDZBL"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 8215C1F79E;
-	Tue, 29 Sep 2026 05:58:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1790661488; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HqOlcpvcIyNFLst/qfqz9TJtK91EoerlTMtFztTgEJE=;
-	b=WtG3rPAXfa9oKArYYfe8zHGwgGKKYuim1N6GvQiEkilp7tqaPmR1e/xYyGbIgthydyX6Pb
-	CXWNrwAAZ/f1Q3kgGGzSnGgIDnKaqrWdTqv68jP4/IO24Wf6ysblNMjYJxk454V5kEPEcZ
-	HbNk7j927Ne55pMUhhGNTsrHFpr0DUM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1790661488;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HqOlcpvcIyNFLst/qfqz9TJtK91EoerlTMtFztTgEJE=;
-	b=MFAcjth6jNmE0BbSFRRLjoNYr3dJByXNh+YPeiRo4SrCL2taXqES2hQv2xXmrDT/RBLI2x
-	3rbpyClZLk75qXCA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=vEzcR55v;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=MNGEDZBL
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1790661484; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HqOlcpvcIyNFLst/qfqz9TJtK91EoerlTMtFztTgEJE=;
-	b=vEzcR55vVicyUIC8CrZyFeLKvMnTmP6RkT2VNRtFmPlEKtS2NJRPreTzWo2U/GIb1jkgvc
-	tIRo/RNMAVr5DeksG/CKZJCYDriW/kFaL1tjRRJFLiV/qgdxr68PmOLVL1iMiOIaFftmFK
-	ZGVvxgW0yEtcIh0xPaLecgFBSNy2MSI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1790661484;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HqOlcpvcIyNFLst/qfqz9TJtK91EoerlTMtFztTgEJE=;
-	b=MNGEDZBLTCB2hyjz1aB59js81oabbjwbD89TGYNNNYhifI5rtMW2aBh95FO2s5bI2VVSSY
-	yegKggKA8MuFZjDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1AFC0133F1;
-	Tue, 29 Sep 2026 05:58:04 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id JbwcOGtTu2odMQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 29 Sep 2026 05:58:04 +0000
-Date: Tue, 29 Sep 2026 07:58:03 +0200
-Message-ID: <87tsn838gk.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Sasha Levin <sashal@kernel.org>
-Cc: Faaris Ansari <faarisansari@googlemail.com>,	stable@vger.kernel.org,
-	regressions@lists.linux.dev,	linux-sound@vger.kernel.org,
-	=?ISO-8859-1?Q?C=E1ssio?= Gabriel <cassiogabrielcontato@gmail.com>,	Takashi
- Iwai <tiwai@suse.com>,	Jaroslav Kysela <perex@perex.cz>,	Faaris Ansari
- <faaris.ansari@gmail.com>
-Subject: Re: [REGRESSION] Audient EVO4 hardware volume control now requires quirk
-In-Reply-To: <2026-09-28-2-daily-reply-0001-re-audient-evo4-channel-3-set-cur@kernel.org>
-References: <CANBVYRCL=8QdLxGg4S6qrahrFtwJxhv-aSGpW7-1S=+iOe4ZGA@mail.gmail.com>
-	<2026-09-27-daily-reply-0001-re-audient-evo4-mixer-put-errors@kernel.org>
-	<CANBVYRAr_ShKGmrt2NoqsDsDEbTXa5DWJbq2oP6wKLWJQpLRWw@mail.gmail.com>
-	<2026-09-28-daily-reply-0001-re-audient-evo4-upstream-decision@kernel.org>
-	<ee6e9e8f-e174-4872-baee-114d848e8137@gmail.com>
-	<2026-09-28-2-daily-reply-0001-re-audient-evo4-channel-3-set-cur@kernel.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T563v5G/"
+Received: by mail-pz2-f42.google.com with SMTP id 41be03b00d2f7-cc4aa0f1a94so1246630a12.2
+        for <linux-sound@vger.kernel.org>; Mon, 28 Sep 2026 23:11:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790662304; x=1791267104; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=lCOnM4BG9opzc/4UWmCexloGpdYaWaFpKWwedqDPapw=;
+        b=T563v5G/+tAaVEfGh2VX/G9105H9pOYX0V82dmVdyagksFWtz2gSfWAxetGcMXU3kJ
+         QaoBVom/gGl1pNDBSNa/YArshE9r6rODvOm6pb9DxNG6o/CVBB1LTXkeUmbRYf0yT7j7
+         abID53wwP5UG15AzswoufaBt2/c3t6kGHsaA0R583ODi7lKM/IhXZMS+6p3A55s1VrfG
+         IgdzyF+wkruRmblWXGF2yrV7wmqySdinMV1noPUAAPQRODfnCk2tOIjt4SFrY0gR173g
+         5+EfWaf9EM2MB8h9X5GR1XMfiVunlhIS6FSmXYDYWR6OfrLyCBJhCxRykJbOqWe93N/a
+         BAdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790662304; x=1791267104;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=lCOnM4BG9opzc/4UWmCexloGpdYaWaFpKWwedqDPapw=;
+        b=KWzuOAFLlVGFgAl6bhiD9tt8eAelRvfxOzp+t9wfWU+HLQO/8M9vnrc9m2bUC63Vi1
+         MCDWrU3K1nXEHumlZo0qPtmC7gbOrDdSZlPnzUpH2MR5RAs8UL7wjVaKzbaoXf35srvb
+         vKpdvKDDmh6RI45H0MwY1XEeSarxKXe+A81R0oPHvgEgN0ppJ5+PLpZ3aO/uwCKqP/Xe
+         iETTZ/ET3l6B3bGAMtCNjGncNrrmf7PDB69fne7F70nAbn+d7gOii+BhcBri3rnhVkta
+         yw2/m/OEH3xGYrIePTDbHh+CanaM8EmZ/7cTpLWJgD2LI8Q3Vx8dxJM0CVZkPAjyCn7T
+         KAoQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwiiAcURqEAu/2aZRx3/5vzcjJtSwSJnPQ7WWo+SNANQNFGeht2zzdQlIluhU3nFu5UlqaghyQM/jMIrw==@vger.kernel.org
+X-Gm-Message-State: AFq9FYLhL65U03yGRr696SgPzRjho76vMnXQ8yO5DcYt8rd+IQ4EyTIk
+	FP/pHwImDOoB+vrOhuZ8j2Gq61s9V+PypxaKcwKrNhJCL/DV+WWyWNXy
+X-Gm-Gg: AYBFou1F/bXvG7Me5NEMV9rEVGzNUGPbxK/YhNNYS1bJt23Zfc88QgdF6phsd1ktVhM
+	6Z0TVZgv/fkTisrSXzFYI1iBPxgyZ2WLgHks4PN/+xrAShF7N7a7R3bUR4FXK44n7xxIy4gVM5S
+	oZP2Fq4JyuwRYA0/lm3YztPXXEDZn9cre4hCDKTNePiQMrivFV4iS1uUZXd2ol2ktXgN68ayxuA
+	7jVlMohWw99VnPBbvERd4WonnbKWHe76iutRiyLT+Qd2dRiORJhwFxVjCjqUNvmxS17wUe8sYQI
+	qifcUlAtn88tCQTTVjrsFdRZo2bUBdVHE4NCHj1qq1VWwVX85SQRzjeER8vKl3ipTnQyuf2q4gh
+	5+mELuBrPhF6UFvbDsJligLNBfbx6zY7xohb3DFoNt4bwidSULZZJyE83yFiBE2/KZJTggioZD1
+	RhmvmODVJQZBW1PwLAlg/EgDI92k98Nq537+scjTDB7glObr0TtpeWk543mFePlSR6/HbJ2aLNo
+	ERk0t8p7TruP8HGoquHbfVLx339vWcr4VEEOuBwDwePKndr2dJiJPPLclg+ZBwwmhVKs4Pq6hjV
+	6PuDXT542sQ5ng==
+X-Received: by 2002:a17:90b:4c4f:b0:3a0:bf0a:c9da with SMTP id 98e67ed59e1d1-3a0bf0ad1cbmr11373686a91.47.1790662303866;
+        Mon, 28 Sep 2026 23:11:43 -0700 (PDT)
+Received: from phuc-desktop.. ([183.91.15.56])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a498726d63sm3280965a91.17.2026.09.28.23.11.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Sep 2026 23:11:42 -0700 (PDT)
+From: phucduc.bui@gmail.com
+To: Mark Brown <broonie@kernel.org>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Darren Ye <darren.ye@mediatek.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	cassiogabrielcontato@gmail.com,
+	Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Cyril Chao <Cyril.Chao@mediatek.com>,
+	linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	bui duc phuc <phucduc.bui@gmail.com>
+Subject: [PATCH 00/10] ASoC: mediatek: mt8196: Fix clock error handling
+Date: Tue, 29 Sep 2026 13:11:11 +0700
+Message-ID: <20260929061121.124001-1-phucduc.bui@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -2.01
-X-Rspamd-Queue-Id: 8215C1F79E
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	URIBL_BLOCKED(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[googlemail.com,vger.kernel.org,lists.linux.dev,gmail.com,suse.com,perex.cz];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid]
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Tue, 29 Sep 2026 00:39:05 +0200,
-Sasha Levin wrote:
-> 
-> > [   80.940668] usb 3-1: cannot set ctl value: req = 0x1, wValue = 0x203,
-> > wIndex = 0xa00, type = 4, data = 0x0/0x81
-> [...]
-> > numid=4,iface=MIXER,name='EVO4  Playback Volume'
-> >    ; type=INTEGER,access=rw---R--,values=4,min=0,max=254,step=0
-> >    : values=182,182,0,0
-> 
-> Thanks, that narrows it down.
-> 
-> Every failure is SET_CUR of the Volume control on feature unit 10, channel 3
-> (wValue 0x0203, wIndex 0x0a00). That unit is 'EVO4  Playback Volume' and
-> advertises read/write volume on all four channels. mixer_ctl_feature_put()
-> writes channels 1 and 2, then returns the channel 3 error, so the hardware
-> volume changes while userspace is told the write failed and adds software
-> attenuation on top. Faaris sees the same on 7.3-rc5, so this is a mainline
-> regression from 87a6f2fa6e6c ("ALSA: usb-audio: Propagate write errors in
-> generic mixer put callbacks").
+From: bui duc phuc <phucduc.bui@gmail.com>
 
-Right.  So a simple fix would be to just to set the IGNORE_CTL_ERROR
-quirk flag like below.  One of iD14 models has already this flag, so
-it might be safer to set to all Audient devices.
+Hi all,
 
+This series improves error handling in the MT8196 ASoC driver,
+mainly by checking and propagating errors from clock operations.
 
-thanks,
+Compile-tested only.
 
-Takashi
+Best regards,
+Phuc
 
---- a/sound/usb/quirks.c
-+++ b/sound/usb/quirks.c
-@@ -2690,6 +2690,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
- 		   QUIRK_FLAG_DSD_RAW),
- 	DEVICE_FLG(0x2708, 0x0002, /* Audient iD14 */
- 		   QUIRK_FLAG_IGNORE_CTL_ERROR),
-+	DEVICE_FLG(0x2708, 0x0006, /* Audient EV04 */
-+		   QUIRK_FLAG_IGNORE_CTL_ERROR),
- 	DEVICE_FLG(0x2772, 0x0502, /* Musical Fidelity M6s DAC */
- 		   0), /* for avoiding QUIRK_FLAG_DSD_RAW with vendor match */
- 	DEVICE_FLG(0x2912, 0x30c8, /* Audioengine D1 */
+bui duc phuc (10):
+  ASoC: mediatek: mt8196: fix APLL mux error handling
+  ASoC: mediatek: mt8196: fix APLL enable error handling
+  ASoC: mediatek: mt8196: fix MCK error handling
+  ASoC: mediatek: mt8196: fix register access clock error handling
+  ASoC: mediatek: mt8196: propagate main clock errors
+  ASoC: mediatek: mt8196: use dev_err_probe() in mt8196_init_clock()
+  ASoC: mediatek: mt8196: fix runtime resume error handling
+  ASoC: mediatek: mt8196: remove redundant error message
+  ASoC: mediatek: mt8196: propagate I2S clock errors
+  ASoC: mediatek: mt8196: propagate TDM clock errors
+
+ sound/soc/mediatek/mt8196/mt8196-afe-clk.c | 145 ++++++++++++++-------
+ sound/soc/mediatek/mt8196/mt8196-afe-pcm.c |  28 ++--
+ sound/soc/mediatek/mt8196/mt8196-dai-i2s.c |  17 ++-
+ sound/soc/mediatek/mt8196/mt8196-dai-tdm.c |  16 ++-
+ 4 files changed, 136 insertions(+), 70 deletions(-)
+
+-- 
+2.43.0
+
