@@ -1,172 +1,186 @@
-Received: from zg8tmtyylji0my4xnjeumjiw.icoremail.net (zg8tmtyylji0my4xnjeumjiw.icoremail.net [162.243.161.220])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E90923AAF66;
-	Tue, 29 Sep 2026 06:15:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.161.220
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790662520; cv=none; b=qCDaOB12QEuixb3sd5fSG+8yZHC+Rzqa8Dh97LVB52ll+fdhbpq2Phea64eGk9laUSySuyXAkI+geYkVcgGzT6eOd4NECDeiDwCedHfGMcHVC8Xtkz6Lozb8aw0HcAvGhI0AI6UmMOrjrf2ylydbyXMxe6hyrnelSB3+XPnbnuU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790662520; c=relaxed/simple;
-	bh=/P7PwiwuEP4yHQxftuoqXexct0tzJklqgwFJ2Et95kM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=s1ak0KQsp0D+yagniQjm3k2U7Ddc0WhK9xtnjWyJqnKO/kCBMicEs+RDR8C5+nYVFEkMLBdwri24coPingcskvaRvw7CxJ1wYEJB+812BQb5l4JUhRmFgUu9cEtc2PnQKFp73O6Aw4WppJrcQbvxuX1NNRKizsbeQEdk0vCD2uQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=162.243.161.220
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
-Received: from zju.edu.cn (unknown [10.98.66.117])
-	by mtasvr (Coremail) with SMTP id _____wBnEz1oV7tqwndFAQ--.37345S3;
-	Tue, 29 Sep 2026 14:15:04 +0800 (CST)
-Received: from localhost.localdomain (unknown [10.98.66.117])
-	by mail-app1 (Coremail) with UTF8SMTPA id yy_KCgBXqoloV7tqaY4WAA--.27369S2;
-	Tue, 29 Sep 2026 14:15:04 +0800 (CST)
-From: Fan Wu <fanwu01@zju.edu.cn>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org
-Cc: alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Vijendar.Mukunda@amd.com,
-	Syed.SabaKareem@amd.com,
-	stable@vger.kernel.org,
-	songl@zju.edu.cn,
-	fanwu01@zju.edu.cn
-Subject: [PATCH v2] ASoC: amd: ps: fix snd_acp63_remove() teardown ordering
-Date: Tue, 29 Sep 2026 06:13:49 +0000
-Message-Id: <20260929061349.3879-1-fanwu01@zju.edu.cn>
-X-Mailer: git-send-email 2.34.1
+Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012028.outbound.protection.outlook.com [52.101.43.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AF6339734E;
+	Tue, 29 Sep 2026 07:22:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.28
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790666573; cv=fail; b=Ul4T/lwYNeoE1rVWQ2NlE2mFybm+VH397aP31SMnogVqMiCReFhuAabVxMd00/4EKA9020q7JpweXFaLXx/dflBkJWb6wRkhRjvZ3i7aH7P/vyC4i9Dtyfxag6+Jc7U3nBzbEvwSm5SvZrgiFXy5RdA6ZdtWm19uSHd8m6QnmsQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790666573; c=relaxed/simple;
+	bh=xHgEqaVIPwevKeL5/Iqtk4fr2PjmcWqxjwxaIFxsCfQ=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=kj5Xo99m1lRB1OXCGHf69gEpf3oMS3tzVR86E2c9nkq0CeQi6rFPth7jp7OBgmJKPxTGZ8eAEElIcB+F7y3A20YhhCq3iRhRs8tkNIPSOKDviQtRkPCwF5e2s5GTcBPfH2LCMslT1egbOVjw1CYeEgoKcyHHlqYWzDTkmFUx/0Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=MzHMiMP3; arc=fail smtp.client-ip=52.101.43.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="MzHMiMP3"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=L6WTZzhJ0d4ia7L1b7CRKBACiV6ORqT1oQf6xL6SLoAtSes2AZ4niMv2c0ExGeS4sqVhHYmjy+Jl6zrJWLG5VN7qg/H5XggQkTClQk+yGmqH6KKcDQ1lMyfdzP+EG25AKoF3tod4QU/5GP22WGPRYo9WBT9Wj249JpHHJgoO53R1H+HtSNZgj09lvV+6sYTVRCoqv414M54WNeBuRNaNJgZX5eqvV1wd9z1xBDyPL5DIt52pBpKg1zeHyWJTiVlKiewPF8+tFm5m1wy9I887jcFu92ZV2k0JWerQv6fYqidXcFeLX1n/NLIGdbScpazyVmU4Wk1LWViMm7TPPCoQmQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZJ61/YcnQ7aDs2OThU5+VFzLTZQj8lc25nh0ahg7F18=;
+ b=Omq1oMVwXFDPRlbXBrLfyzSOHs8Tp2oQlTGr/NX9cHCylPXRU12BByS/Sj5eOqyWCND5Y82Pl2+kZ6syySR2EGDqx5/dpLTyhnPnLisIgb7C5kED8kYyRVwMbW6E+5ogI0GDcUK+zQCdtceucnIjoOrvgajstzMCR5vYf7GL0OZznTvCjpW7yz6miISGt39vZkNSA9/x8pMD0hVe2O0MfPkWta+iYcwypw5ad7VtwVaDNnR9+sCYoNQDefhpsAIKiDilV4M2s8PL8gHOex5EaAQmZxL5/AjZ+NNvhwbRlLjVRH2SWwaEgTS595ddmcpG96O7ztqMXQD8K/sWPDBynA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZJ61/YcnQ7aDs2OThU5+VFzLTZQj8lc25nh0ahg7F18=;
+ b=MzHMiMP3YMa4FbtYGlRBA4JgOHPFEqXGfsP5RabTqXP9H2skgY+KUAlLO8F8D4kUuZ7Ne1hzBjdvv7SBXo/WxRpVXy1T1TXjl2ttSDsS3gZ/p36X+IA+pBgOr9w3hGtc9uJ2/SRDeP15hesT859ed21vHDgsaFzgJxPr8arPUW7GePqbCiUBDGixL1fLcR23glWINTFsaLqm2blZBfGGGgHBPsIuYgAq0cGfbDK2svtjPCzkpdWhP/hWUoeFFKB9zexED03kEyHIL/OOaE95ihstkJ8brC0V0RzP5es1yXXd3CqgVyOv8zzz0UNfFpfevq5oIyMnpJW1vhKbFwcFbQ==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from PH8PR12MB7110.namprd12.prod.outlook.com (2603:10b6:510:22e::11)
+ by BL3PR12MB6378.namprd12.prod.outlook.com (2603:10b6:208:3b1::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.24; Tue, 29 Sep
+ 2026 07:22:47 +0000
+Received: from PH8PR12MB7110.namprd12.prod.outlook.com
+ ([fe80::736a:e1be:ec64:5740]) by PH8PR12MB7110.namprd12.prod.outlook.com
+ ([fe80::736a:e1be:ec64:5740%6]) with mapi id 15.21.0451.014; Tue, 29 Sep 2026
+ 07:22:47 +0000
+Message-ID: <80d4c8aa-dfa7-4d67-83aa-60f9474a5d9f@nvidia.com>
+Date: Tue, 29 Sep 2026 08:22:42 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ALSA: hda/tegra: Re-enable SDO workaround for Tegra194
+To: webgeek1234@gmail.com, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Thierry Reding <thierry.reding@kernel.org>
+Cc: Thierry Reding <treding@nvidia.com>, linux-sound@vger.kernel.org,
+ linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+References: <20260926-tegra194-hda-sdo-v1-1-f7a636a07a58@gmail.com>
+Content-Language: en-US
+From: Jon Hunter <jonathanh@nvidia.com>
+In-Reply-To: <20260926-tegra194-hda-sdo-v1-1-f7a636a07a58@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AS9PR06CA0497.eurprd06.prod.outlook.com
+ (2603:10a6:20b:49b::22) To PH8PR12MB7110.namprd12.prod.outlook.com
+ (2603:10b6:510:22e::11)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:yy_KCgBXqoloV7tqaY4WAA--.27369S2
-X-CM-SenderInfo: qrstjiaswqq6lmxovvfxof0/
-X-CM-DELIVERINFO: =?B?EQBSZwXKKxbFmtjJiESix3B1w3vZ3A9ovKVTomAyoQazvoRs/NHSP8GI2EvgeEEW7R
-	sfnRrXgS1QiyEChzQk8Vd3wxXCJom/K3jHdUmscrYtYM7B6UxpCitQShXrdejT8bDJEo99
-	ud8K5EjMC5kJEwD3ns/N5RPxYw6l01w8CbPzC/8w
-X-Coremail-Antispam: 1Uk129KBj93XoWxXFW3AFW8ArW5KFW3ZFWkAFc_yoW7Jry5pa
-	9xGFWDtrWkJr129a17Wayj9r15A3s3CFy3CrWvkw1xCw1DurZavFZ2yr15ZF95CrWkC3W2
-	yFZ0ga4rWF9xtwcCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUU9Gb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AK
-	xVW0oVCq3wAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc804V
-	CY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AK
-	xVWUXVWUAwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48Icx
-	kI7VAKI48JM4x0Y48IcxkI7VAKI48G6xCjnVAKz4kxMxAIw28IcxkI7VAKI48JMxC20s02
-	6xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_Jr
-	I_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v2
-	6r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj4
-	0_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8
-	JrUvcSsGvfC2KfnxnUUI43ZEXa7IU818BUUUUUU==
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH8PR12MB7110:EE_|BL3PR12MB6378:EE_
+X-MS-Office365-Filtering-Correlation-Id: d46298b6-edde-427a-2941-08df1dfa766a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|10070799003|376014|23010399003|10067099003|11063799006|6133799003|18002099003|22082099003|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	DMi26UlR5FuN2S+7TgpTFeOSDDHKa0ESQ7K125OQ42guwEOlpENADP3nYeTmTKyN/58NzAlbUM9GXO1dDalX2Jq9sJ8+8oIX/fFuD+wQiugV64J7/hpXBBEHdvMMhZpVU7fRIkV3XYIkjJ1mVL6NBTXYrUuKif4xLB0/kL16JbtZ3C6+sm87CDylfISYWqGzwPD4EPHAqtgvm7h2E0Eozyj08t+YRuNcWJPjv9/3bf1JcmM1K2qD/D3EBmVnOptpRVPjMprJW2FUm8aQl0UF+bSqdKqaaGkcbEg2eTq8WgVRf62AR0ju0QYqnXLD9vEJ7ji16jf9fA14lYBbjbEO91KOLW6S7ad2sv/V2wpyaZ5Y6IHm3qrAR56m4x/AcxBoNMXdX6QAKK1LeEsQjeLDiwtJwM0ls5il2ejJtPTTgtaYKrR7mUYctz62+fhg+yCY2BKE9gRmDyQ3UrueIqv6wvgwAZA+uqKgcaE3dFa2lnW7KNd0lONKhdBGqrrgi7pkqoMLaWi6b6QhnSDEM/FOgRcoFA3jygnbkCFlnA/MxOXWNRWs4ny/eNe6CJ0JaBljlU5YPBAAoGIE4kjxVl1mZBbEiyFRvk+qkvg05eI7hS1Gxs82kJtdCyxMaXZ3AvamKZrqSz3/RyotwrqbKyTx8qzJiNX/2ZgVrlBoRVmkkVg=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR12MB7110.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(10070799003)(376014)(23010399003)(10067099003)(11063799006)(6133799003)(18002099003)(22082099003)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?MExmUFFJSEJRTHJWRG1qSERqUExKWXFZTWlRdms4VHVLZ0k1V096L0UxOFNE?=
+ =?utf-8?B?MjFuampuKzhiRjFkRmRWckdPakFEa3NLQ2xjUTN3RnlzSkt6c1d1TUprZTA2?=
+ =?utf-8?B?ek5kdjRoOGRDS1hYc2V0a1psUm82SWdsOU5sanYyY0NtWlJKWjNLcEp5Z2dW?=
+ =?utf-8?B?ZlVtcVhmMlNLWGV3UDEycjZBNkY4MmJtSFpLY2syMnRsZW5PRUNjSmVCUklC?=
+ =?utf-8?B?cVNiTjF3d2thZzdzaHF6Sm5WbXVYMTBUUTQ0SERoVVE4YSs3Q1NWc3l0Mita?=
+ =?utf-8?B?RGx1eU5MM1lQc2NGdkpaeXNyNWczaGtlNUsrWUtOVE41ckJNdjFFa01XR1ZP?=
+ =?utf-8?B?TWd3TXIyUG9JMWRJc3JUU1JZd3U1SGU0eXFrTzVQWDZKZ0srVlNrNU1IOEdL?=
+ =?utf-8?B?Mm5oeVZ4Nyt2Qy9ldWhCNUppK2c3Nm45TWozcThwVEhDRjBFZHFUTGt0Zy9E?=
+ =?utf-8?B?TmwvbmFwMkI4UlpWRG9lT2QrY29WaTdURmdURGZZelpRWFVMeDEwVlZDbXFp?=
+ =?utf-8?B?dzFrVHB5V1paOXZQVXlQM3pEdTVEZGYydXpmYXVFeEVNVFM3U2VEcVQ5UUMv?=
+ =?utf-8?B?VkUrbDZUcDEwbnpRV2ZPYm5jL1BCZmdJZlFxcWdTOG9RbnZQNUE2dUlUaHhv?=
+ =?utf-8?B?ZEZsQnYwcFcyNGhOb1hrMVhOaGtOL204K3ptbVlMVmJ6U2ZQSnhrZHpkN2Vt?=
+ =?utf-8?B?UXBoUFg5SVFqc3hSSWRPZm5qRVlKVER4anozZWFQbWN0TWlONjdpS29tTnRQ?=
+ =?utf-8?B?ZUFRL1F6M1RCQ3BZbWc0Z0JNRGw0Y05MY3RManlhTVNmcmc3ZUM4djNzd1NQ?=
+ =?utf-8?B?c0N1aGpacEpWdVpLRndacUk1TkVyMXFMcldtZzc1VXRqWWtrYlFqcmlGWjdy?=
+ =?utf-8?B?eEt0dTQ1SnljVnpGMnkrTmNOTXQ3Wk5oRVNpQUVQRjEyd2FtZUdCRnJ3TmZq?=
+ =?utf-8?B?dVY3UFVPNTRXY2RiOGJuNnNOdEhBdTZCbFNtY0tMNU01R2tpUFZid2RXaDdQ?=
+ =?utf-8?B?Qkpudkd2djBNaFhlRUZFelh3ZEtWaUwwQUdRL1lVMzFWeGdkWWtka2FtdzNH?=
+ =?utf-8?B?ck4zaUFzZlQ2RmRwK1F4cWdOR0pTZDUzQWR5dmV0WjNKVmgyMUM4aVNEOG5N?=
+ =?utf-8?B?M2JJeHNFQWtnNVBoTkNlWTVWU0hLMmluN3E3VnJmYnJvSjhrYTl5bjhlSHpW?=
+ =?utf-8?B?QXkzczFyRHBGOHl1NXU5VlhQU2x3ZVRnRUJjR0NvdCsyYXRPT0lvRWIxS2N5?=
+ =?utf-8?B?MU5iakErZ3RneHdRNVpqaHZ1N3R1Y3dwN1ZLdWwrdlc4WWhLRjQ4aXRBc0dG?=
+ =?utf-8?B?a29yUGpzR0ZETlVyWjV6NU14WlFSMGxHdU00WWZubXY3dFozbE1PUnhxT3hC?=
+ =?utf-8?B?WUo2ZXBPVG85UnEvKzZWYTN1Uy8xNE0vOHJselU5b0JuWk9PRkp1TWZEcEpE?=
+ =?utf-8?B?TkkvN01VYitFU0dLM0Nhc1phUHFkYi82M3FwODdlQmdkMGFORkdia1IvMTlN?=
+ =?utf-8?B?N05pM29Ma2VIWGtnNXdISThpQmhkRFZnTlJrSG1nVEY3K0QxcVJqdmFnNkY5?=
+ =?utf-8?B?WUdwZ1RCT2VXVFBNRlcydk9nd3Rvb0tNOFRJVmwrMFhDWXVEWmR2Vkx1azBC?=
+ =?utf-8?B?SFpUTVJ3RFVMTzhnOEhlRzlRWWNCSlN0SXBmeVdkc2c5bXJWbHVIMnRBMnQx?=
+ =?utf-8?B?QUY4R2ZBZkppdXVOa2xCOUFnck1SeGlCaklNZndOTDVSSDJnSFJlQ1dkWEJ1?=
+ =?utf-8?B?WWhmMTQvREc5aHBQOGU1emhBb2JGbnF5ZmJ3UzdLYnBqWDVIUGpuNEhmMmxI?=
+ =?utf-8?B?Y3E5T0U4UnZBNFpOWXdOSG91ZDNIdTcxZEtBUXZuanFaaXd6KzFlYVA5K3NC?=
+ =?utf-8?B?RFRmMm5ySU9nb2tCbjBFVWZvTHRLVGZ6NGMyVFMvMkl5LzZobU40ZWpncGZT?=
+ =?utf-8?B?cHBSTWgwUzVaeUp2WXlMUmFJTWorY2htV1VqSUJ0bFkxMTFwa0VVS1pmcUVR?=
+ =?utf-8?B?RGtucXUrK1VvTm1RbTBVeUFLSjZLNHZJTGpldytyYjdGWlQ4VWwyNzB5YzdP?=
+ =?utf-8?B?TW1JWU1rSFdTTHFvSTNwYzZPVHdSUW12eVcveFBaNW9ZVjNKWWNaQ091cDVO?=
+ =?utf-8?B?Y29ScUwzbWVDeDQrcTV4UVJDU1dOWUVIQ2xrblVCdkJ6QTZnUm4vYkpiVWhW?=
+ =?utf-8?B?emgwd2dmODFQRm1FMVVtb2tkUmlDd1RRZGR5OXNudTdlYll0WS83R0tEcXBs?=
+ =?utf-8?B?ZzV0clNsN3ZJcFdtaDhZNUxkblpTeXhvaVR4TE9UdGZNb3hTUVRMaHcrQ0RZ?=
+ =?utf-8?B?UmxQS1RmTHBBL2pBRHhaaFJnM0xQQXg0SHFYYUZUSzZTM0FwTjVCRVRZYUo5?=
+ =?utf-8?Q?LKdh/GwJJpRBrxyOqHerEFBkTkqbH+L2JdthjeKVzXDXT?=
+X-MS-Exchange-AntiSpam-MessageData-1: ue2JkX9FFWcHag==
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d46298b6-edde-427a-2941-08df1dfa766a
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR12MB7110.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2026 07:22:47.6935
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: YkaLb5Fparhvx9v9Bh7BdkP292ZyQlZRlpWybbltBVmQHQm0YfVhTgB84CoAgHsaQmcau3XfBA3oHfhn6fC+XA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB6378
 
-The ACP IRQ handlers dereference the SoundWire, SoundWire DMA, and PDM
-child platform devices, but snd_acp63_remove() unregisters them while
-the interrupt is still held by devres, which frees it only after remove
-returns. An interrupt in this window is a use-after-free.
 
-Mask the ACP interrupt sources and call devm_free_irq() before the
-first child device is unregistered. The masking goes through the new
-acp_hw_ops->disable_interrupts callback, keeping the remove path
-platform-agnostic. The interrupt line is shared, and acp_hw_deinit()
-clears the sources only after the children are gone, which would
-leave the line raised with no handler left to ack it. The window
-predates the tagged refactor, which only reshaped the dereferences.
+On 26/09/2026 08:24, Aaron Kling via B4 Relay wrote:
+> From: Aaron Kling <webgeek1234@gmail.com>
+> 
+> This workaround was originally added for Tegra194, but no longer gets
+> applied for it. Commit 615d43540043 ("ALSA: hda/tegra: fix tegra-hda on
+> tegra30 soc") changed the guard to tegra30-hda, which worked because all
+> affected archs had the fallback compatible. However, commit 7f0ea5acfc19
+> ("arm64: tegra: Use correct compatible string for Tegra194 HDA") removed
+> the fallback compatible for Tegra194, causing this to break.
+> 
+> Fixes: 7f0ea5acfc19 ("arm64: tegra: Use correct compatible string for Tegra194 HDA")
+> Cc: stable@vger.kernel.org
+> Assisted-by: LLM
+> Signed-off-by: Aaron Kling <webgeek1234@gmail.com>
+> ---
+> ALSA: hda/tegra: Re-enable SDO workaround for Tegra194
+> ---
+>   sound/hda/controllers/tegra.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/sound/hda/controllers/tegra.c b/sound/hda/controllers/tegra.c
+> index 31c14c4bbe683..674cc0f79c3c8 100644
+> --- a/sound/hda/controllers/tegra.c
+> +++ b/sound/hda/controllers/tegra.c
+> @@ -374,7 +374,8 @@ static int hda_tegra_first_init(struct azx *chip, struct platform_device *pdev)
+>   	 * in powers of 2, next available ratio is 16 which can be
+>   	 * used as a limiting factor here.
+>   	 */
+> -	if (of_device_is_compatible(np, "nvidia,tegra30-hda"))
+> +	if (of_device_is_compatible(np, "nvidia,tegra30-hda") ||
+> +	    of_device_is_compatible(np, "nvidia,tegra194-hda"))
+>   		chip->bus.core.sdo_limit = 16;
+>   
+>   	/* codec detection */
+> 
+> ---
+> base-commit: 4c253ac4b29b8c6cc6fdef8f92d4facde62e63b9
+> change-id: 20260926-tegra194-hda-sdo-1d84c6085198
+I would be tempted to change the fixes tag to be 615d43540043
+("ALSA: hda/tegra: fix tegra-hda on tegra30 soc") because technically
+the Tegra194 device-tree was incorrect and after commit 615d43540043
+is present, we always want the above. Otherwise ...
 
-devm_free_irq() waits for in-flight handlers, but not for work the
-hardirq has already queued: acp63_irq_handler() schedules
-amd_sdw_irq_thread on the SoundWire manager. Draining that work in
-the manager's remove path is a soundwire-side change and follows
-separately.
+Reviewed-by: Jon Hunter <jonathanh@nvidia.com>
 
-This issue was found by an in-house static analysis tool.
+Thanks!
+Jon
 
-Fixes: eaf825037d6d ("ASoC: amd: ps: refactor acp child platform device creation code")
-Cc: stable@vger.kernel.org
-Co-developed-by: Song Li <songl@zju.edu.cn>
-Signed-off-by: Song Li <songl@zju.edu.cn>
-Signed-off-by: Fan Wu <fanwu01@zju.edu.cn>
----
-
-Link to v1: https://lore.kernel.org/linux-sound/20260923092640.502145-1-fanwu01@zju.edu.cn/
-
-- mask ACP interrupt sources via the new acp_hw_ops->disable_interrupts
-  callback instead of open-coding the register writes in
-  snd_acp63_remove(), as suggested by Vijendar Mukunda.
-
- sound/soc/amd/ps/acp63.h     | 8 ++++++++
- sound/soc/amd/ps/pci-ps.c    | 2 ++
- sound/soc/amd/ps/ps-common.c | 2 ++
- 3 files changed, 12 insertions(+)
-
-diff --git a/sound/soc/amd/ps/acp63.h b/sound/soc/amd/ps/acp63.h
-index 62cb6bef1..d0cfbd4da 100644
---- a/sound/soc/amd/ps/acp63.h
-+++ b/sound/soc/amd/ps/acp63.h
-@@ -294,6 +294,7 @@ struct acp63_dev_data;
-  * struct acp_hw_ops - ACP PCI driver platform specific ops
-  * @acp_init: ACP initialization
-  * @acp_deinit: ACP de-initialization
-+ * @disable_interrupts: disable ACP interrupt sources
-  * @acp_get_config: function to read the acp pin configuration
-  * @acp_sdw_dma_irq_thread: ACP SoundWire DMA interrupt thread
-  * acp_suspend: ACP system level suspend callback
-@@ -304,6 +305,7 @@ struct acp63_dev_data;
- struct acp_hw_ops {
- 	int (*acp_init)(void __iomem *acp_base, struct device *dev);
- 	int (*acp_deinit)(void __iomem *acp_base, struct device *dev);
-+	void (*disable_interrupts)(void __iomem *acp_base);
- 	void (*acp_get_config)(struct pci_dev *pci, struct acp63_dev_data *acp_data);
- 	void (*acp_sdw_dma_irq_thread)(struct acp63_dev_data *acp_data);
- 	int (*acp_suspend)(struct device *dev);
-@@ -397,6 +399,12 @@ static inline int acp_hw_deinit(struct acp63_dev_data *adata, struct device *dev
- 	return -EOPNOTSUPP;
- }
- 
-+static inline void acp_hw_disable_interrupts(struct acp63_dev_data *adata)
-+{
-+	if (adata && adata->hw_ops && adata->hw_ops->disable_interrupts)
-+		ACP_HW_OPS(adata, disable_interrupts)(adata->acp63_base);
-+}
-+
- static inline void acp_hw_get_config(struct pci_dev *pci, struct acp63_dev_data *adata)
- {
- 	if (adata && adata->hw_ops && adata->hw_ops->acp_get_config)
-diff --git a/sound/soc/amd/ps/pci-ps.c b/sound/soc/amd/ps/pci-ps.c
-index 729f9aaba..b604db494 100644
---- a/sound/soc/amd/ps/pci-ps.c
-+++ b/sound/soc/amd/ps/pci-ps.c
-@@ -738,6 +738,8 @@ static void snd_acp63_remove(struct pci_dev *pci)
- 	int ret;
- 
- 	adata = pci_get_drvdata(pci);
-+	acp_hw_disable_interrupts(adata);
-+	devm_free_irq(&pci->dev, pci->irq, adata);
- 	if (adata->sdw) {
- 		amd_sdw_exit(adata);
- 		platform_device_unregister(adata->sdw_dma_dev);
-diff --git a/sound/soc/amd/ps/ps-common.c b/sound/soc/amd/ps/ps-common.c
-index 7b4966b75..ea71cdf19 100644
---- a/sound/soc/amd/ps/ps-common.c
-+++ b/sound/soc/amd/ps/ps-common.c
-@@ -248,6 +248,7 @@ void acp63_hw_init_ops(struct acp_hw_ops *hw_ops)
- {
- 	hw_ops->acp_init = acp63_init;
- 	hw_ops->acp_deinit = acp63_deinit;
-+	hw_ops->disable_interrupts = acp63_disable_interrupts;
- 	hw_ops->acp_get_config = acp63_get_config;
- 	hw_ops->acp_sdw_dma_irq_thread = acp63_sdw_dma_irq_thread;
- 	hw_ops->acp_suspend = snd_acp63_suspend;
-@@ -484,6 +485,7 @@ void acp70_hw_init_ops(struct acp_hw_ops *hw_ops)
- {
- 	hw_ops->acp_init = acp70_init;
- 	hw_ops->acp_deinit = acp70_deinit;
-+	hw_ops->disable_interrupts = acp70_disable_interrupts;
- 	hw_ops->acp_get_config = acp70_get_config;
- 	hw_ops->acp_sdw_dma_irq_thread = acp70_sdw_dma_irq_thread;
- 	hw_ops->acp_suspend = snd_acp70_suspend;
 -- 
-2.34.1
+nvpublic
 
