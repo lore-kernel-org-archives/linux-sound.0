@@ -1,137 +1,120 @@
-Received: from mail-lf2-f12.google.com (mail-lf2-f12.google.com [74.125.229.204])
+Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82C6E2C0261
-	for <linux-sound@vger.kernel.org>; Tue, 29 Sep 2026 17:22:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.229.204
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790702561; cv=pass; b=gLhNVVh4Kk56ntAD7hhP3g2XtYG+b/mYPN9RaH59ik7MguJGhz5D+bA9OdLovqgWySwggY4Kirpxkzod1K+XLPdF2WjN1zeSsfws5vadlDOPIMBXQDMjWyu+yI+O2MJeDZCY4p0NoXVVYKATLiXaO87W0UnMZL2qtYUc4PNDusk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790702561; c=relaxed/simple;
-	bh=eXyEWE550+ycqkkgf2Pb87Qz+oDiZBp//OZdYRPDZCk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mL/cVd0kNWHZ+6EGZx5hR/gl4fzKrGoV2dJzldoaHDfqrhmG/dnFne8C4q5nv5YchMjueT/v3FGw2R/ew3pfsy0R8BK6PVlS197gbfNUGJlBVFs6PwHXlhnlsCxX4BS8fVYugjift5u4hSmhfRTM3p7c/FJbK1CguQlji2WESuU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ON5ZjlVC; arc=pass smtp.client-ip=74.125.229.204
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B305367B74
+	for <linux-sound@vger.kernel.org>; Tue, 29 Sep 2026 17:29:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790702948; cv=none; b=doAN3wpVcF5rgxZlrtZS3gn7xiNAyn33xtLFiFZBowy0WVkhMj3FQVpIFQ6uFnogIUM3YvRHtmE6+/VAZ1qlH2NlqXM7A8xgq8OoWz+Tt6z4qWRZPmLJnDKrSRRY6TwY1xo777kAhJ8mNjwKlDEUDbBVtl32y2vZqoHQfK93oAI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790702948; c=relaxed/simple;
+	bh=NCnkL09yq/ZbgV5OpIBuVnAcKZhxoffH1DwX/cYV/9g=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=KvxFGiZqvCQ503MRl5tYUcLuFPo3hKLnSnoaONaklamZsj0oP59aZ4/jsOE/gocWYN7t+ecdEPZiFTAVeMrnnGhSsklEAwcZ70y2QKqSPJyXEVhsQD1ozX2LVc6N4hywuCREXYVGRsOraB4dr/nLOXMxbmjA1lVi40ALM73sr3g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kmkgiuf5; arc=none smtp.client-ip=74.125.225.141
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ON5ZjlVC"
-Received: by mail-lf2-f12.google.com with SMTP id 2adb3069b0e04-5ba31af822cso1037062e87.1
-        for <linux-sound@vger.kernel.org>; Tue, 29 Sep 2026 10:22:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790702558; cv=none;
-        d=google.com; s=arc-20260327;
-        b=BaCQAB5FbLeBFW/dSrMGerZObC8pWYYz2b8Kx7zeuxvrhHKgDvqAUnDHy1EkJ0bNsH
-         245A2/S6aHKqkkBw3Et9z+17Ky9vuR7SbHkmbU/KMUiwT77IIxTB21lEvWEsVhbyI0xi
-         JKEaIAdRNUVN/XjB91xLgtNmAUmiPGbeh7+mlBXL4AQrtrFzMk+hzGa7NbKr77uJZuiv
-         XNDwnEW6/FaUBdHxtWXfz0MHZrl6o6dbaNsCzXCGVSFuzhM6I+cycJ0uLICEtHLg5xdq
-         YMPEoF6PPxIRJjK0RpsiwqtRg8qnWwOJJr40++Cje46JrkSewNEdcr9HjlIwHDpgDdlf
-         zXYw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=wC73nxIKsVnxmirOrWNj6owYWyTLWTGRvdPe/YEwMgs=;
-        fh=n7dc7f7+jJr6B9EfTkh+8c4qJXw6s+0MSbie8xoj2GY=;
-        b=WpxmpFmTCP2sjzlKXHmxnhIpvI9CFUZ4F60LulFdUcGcwSIhhXhcA1qKldb2Q3QGqt
-         k+noLTC6UXObYPhH91tPX9zsYol/55I25c358uQr9giNJ7fCebR9xuEAoJhVvaXa5klC
-         T7tZHMBzfq6NR4Ku8p18JVvGRwId6wklAherH2Obifuu0sfC4ngMCqIfZommLgK1WG39
-         7XrbCG5IQgPWFCl9OB14k2+UQGMH7/jrzNGXa8DAGa7vkys42m0YoV5iBfSldP+I377U
-         hpL+lHp8IMqjEHMePP855Eg4CYb2z5JqVAZAjQhHH2CVGi4UOTeqUSwA5BtBWk29WM/z
-         4vJg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kmkgiuf5"
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49e6b885ef8so25825705e9.1
+        for <linux-sound@vger.kernel.org>; Tue, 29 Sep 2026 10:29:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790702558; x=1791307358; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=wC73nxIKsVnxmirOrWNj6owYWyTLWTGRvdPe/YEwMgs=;
-        b=ON5ZjlVCqB/TYA5/JG+HIffUcoeWHrUc2YnR4RgoPO6MuTy4TVUSzDWTA8NW4GRVbl
-         nygA/N/lNdMooKu58birVRuuHjv/jD9/SPXvlWO+7UtXhImZzyvHwy+EJPKFUiRsVRSB
-         JLHTFE4v5Am8GIq0NyugClwC10zo2hQ6+1lPwpGIoqlbOD0k4KdQHogxTBHGk2fBRGzV
-         uztfTA53KoFVgec9MCIRtY2KsluAdRAbUVgvc5evHqe2NQZ5+mZdnD/Uu0Lz+HdW9wmy
-         fX4Z62p8IhCk+Ssh/y4zZcujA4e6Uw2u9D6PK0Z0479jvsVv2m1NIinONx4GrcxZTPnu
-         IqEw==
+        d=gmail.com; s=20251104; t=1790702945; x=1791307745; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=NCnkL09yq/ZbgV5OpIBuVnAcKZhxoffH1DwX/cYV/9g=;
+        b=kmkgiuf5e9WUQfSDfKmaYRbqLtjTFm+9n1wnTFWehnedCSoG2IlT2XCNURVSrtQFRd
+         7HzmImYloA3ELsogTL+DYsA/prHXbwrOAEQZvVLzhedtiFjsXibyEVyWkMybeymKWRl1
+         CHylpEzvNy2Tkoqw15lmedYSaRa+qRxYz+Nkb1E7b+Qqnc+is2URyfVqEve6gxzoE15b
+         Q6bAXL01I2ltCcjnA/z4Q7TNoCbvWEG5NsqmMXcGaY9mvSppVnqxxWPG+gjfJQMIPnV9
+         HXKl0nr1S3/sRwJsvg4PQtgWSxN0uWWQQJEN+KQJwv8IO4IKXShcL9RgwXIQG48jiqXq
+         qCag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790702558; x=1791307358;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=wC73nxIKsVnxmirOrWNj6owYWyTLWTGRvdPe/YEwMgs=;
-        b=Z6R4kzn3H4CR2kpceMqM1TtNHGe2uPifCh+oIQXvMHpHbtOzBfS8CziAdbP/csDnQF
-         +bz5GLFwv72V6+QKRVRJHrNjBzc1r871OAzAIXdS3pNYgzw/H5hBIntPPtaeTumLbpkj
-         x3Ll9h+gZZ9vcdNTd/b8pSeKHoOsHKpINKdhK8F5JAE7OYHnS5ngndDN29UvVef9Q6At
-         lFkXOzRDUlyQ+IMja1Ng2raP0qrqYbyxihOTzYFiBXUDiKKQcHL4sVVqryGDwCJpuVmm
-         uKfaYCDRvCj6o6H0tvd5Qg7jbV0rVpxec4/DXR0wRkOuPu6hUAvZSjgPkpE4TVzqSq/0
-         ZkGQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzvWDFygjhCVWetbFf3GIm/5k+ldAoffhsWq2ZlSZl6qa/t7BbD9hm8gZJYjAK+e09BmbrDrWfmhGs5MA==@vger.kernel.org
-X-Gm-Message-State: AFq9FYITriKGHkdjIsEIrUOiTfzfnVlY4sv5ce2/YdC6wWejSSCbG6kw
-	nhlk62nR9yXj8oY99/1qNYGvstBXcSOOy3azW3Axn0W2ZN24wf5JpGrlH/qVvkWiECKO/Q9kwXC
-	a8RBV2Kmd+ka6zbceoyi7fA/u2DQu14E=
-X-Gm-Gg: AYBFou3AvJBevqHZPCzqNRWgaRfazfQlVgHI8QRe7stqtU0RlRFi6h7kRsRGprHU7Ft
-	TM4BfG3fLjNk914sS/Dvvapzkmkj6O2NvAY36gODsP0cmoxJc9ktNFgmeYBvwt3aVyId+aJMXqx
-	0V5I92kQrk8bkCEgh64/hm0FJj7NqE9osrhfnkEnwoXW5XYfcryZIasCuAwitt07VyXRakgiHzC
-	YpZlzNtkeKv229I1yD5JI3AJE+ZH1h+pREwqdcTpSvJy+LrZ1/EcMsn5PfAmfmu/J7KqkIgJ/l4
-	lmx8tpJ1+26tFy1bDwSQIuhVyTjjt/9efsyNowWhrdFovn9ydpgmYUn+IDAtoa3+1P/wodQXZh8
-	GPCr9DWWhl7ayRfj910ZXVG4siZuwcI5xjWcRj2UgvUSR
-X-Received: by 2002:a05:6512:2348:b0:5b8:edb8:fa41 with SMTP id
- 2adb3069b0e04-5ba3beca9cbmr77162e87.46.1790702557344; Tue, 29 Sep 2026
- 10:22:37 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1790702945; x=1791307745;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=NCnkL09yq/ZbgV5OpIBuVnAcKZhxoffH1DwX/cYV/9g=;
+        b=PnHBXsNDnnIlsIbebBBNkwyRAss40enXp3sfinIpxQ3BK4GExDeG8ti6KLs/iDimxG
+         Fp/xUccsSGXtR+eo79q6ZuMaChwx611O5HMWNN0MZ3VowewBlHFLKNIXbze1iz97vcFz
+         BUPuIk34XfZTaXxgNjmH2KI3w08wucv/JvJBcL4ZjZDsT2gT723CfRloztEktA24GQU3
+         I53BaY+SmdkNXIyPK951o6CMZI72K/zCtIHemC5/DrzaGKbDL4OqxD1W6SaAUEOiv1vo
+         SRfMt8+qpqJebV/FAgRQUlYRhBMstmmzL+hmpzrpKXVuLuOvguQNRNVF+jzJrhda8MWP
+         OesQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwnnzgadxipN9ufzLDOTbq3Ha8eScF9ZQRGOaGd02FZyQPyHXuNv6cyPlIzKaYxlL1dxXFQ2HeFO+SY8w==@vger.kernel.org
+X-Gm-Message-State: AFuF++l+hDPGIV0Db8NnWr+1eJigvivfZBe5cWskDrkyl7d/ZNGEJHqO
+	tFvAZUc4L71dWBQ5Uq/usTtYurKxFCHfQrX9ThPwtwmsK17AN0Whwi/Y
+X-Gm-Gg: AYBFou12XcKWIj1zCEjEoYovrVbImPkr4esWUP7CHZGzt2VD8M5cMpbh//h04qZ8eqV
+	f5R+vop7iu7aoPZkk5FuV7RmYOLpGKtccdYZ4Lpa8XZwyVoheUFioyjyF6o61aiFT5JmzymiN4F
+	8NcOYvYw+ojs+XgLlAYZFWwKXquvDBkf2v0V7h9DhtCL1dFo0Na/uet+c4tqMjpEd7Kpmd5sFAV
+	RuxtS6y26K1FoPs+kE7pQoXz19JPE+q8V2fr6fRBfh3cSvMWIax7Wya5dKMj7kup/aPAWltQoEa
+	P8zo4Mtk29txTboGx4JYcCNs9s+2qGe9iFiTq2is983Ht6AGvWCxHMWojFs0Qpc66N3ZErkRtr6
+	IZrgnaeAE9nfJF34rb5tInmye1Abbgq3BXP2Kh+IHk88NZ6MoISMM0Qiyc230U82u3xIHK3nADw
+	rsRUO1luJ7dPl2A0GW8posFUOzypv3ii707JUzy/pHnPxkZTTde8/2itFivcT09aOEjp9hg8AQU
+	lhtsI1YTCkEyWBQCp4pDOYLS9XJHAqe7ylxougxOjps8PGHnfd2LS0CRwpoIU2+s9YkVNB3nK64
+	HyFZTA==
+X-Received: by 2002:a05:600d:6402:20b0:4a0:98c:596f with SMTP id 5b1f17b1804b1-4a0098c5c28mr65592195e9.12.1790702945279;
+        Tue, 29 Sep 2026 10:29:05 -0700 (PDT)
+Received: from localhost ([188.234.148.119])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a01489a590sm3572765e9.0.2026.09.29.10.29.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Sep 2026 10:29:04 -0700 (PDT)
+From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+To: tiwai@suse.de
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	jikos@kernel.org,
+	bentiss@kernel.org,
+	mikhail.v.gavrilov@gmail.com,
+	linux-sound@vger.kernel.org,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH v6 0/2] the Topping M62's vendor controls, on the component framework
+Date: Tue, 29 Sep 2026 22:29:02 +0500
+Message-ID: <20260929172902.210581-1-mikhail.v.gavrilov@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260904165848.3940603-1-mikhail.v.gavrilov@gmail.com>
+References: <20260904165848.3940603-1-mikhail.v.gavrilov@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260926-tegra194-hda-sdo-v1-1-f7a636a07a58@gmail.com> <aruc3qx7izFQYOhC@orome>
-In-Reply-To: <aruc3qx7izFQYOhC@orome>
-From: Aaron Kling <webgeek1234@gmail.com>
-Date: Tue, 29 Sep 2026 12:22:25 -0500
-X-Gm-Features: AclHuK9LkfgEQsoTN_f-0RfKykcFSMYOYJZq1Uw5H4JV_On6s3wU6oygXAoVMzw
-Message-ID: <CALHNRZ8RLs6mXkYiZ4qRimmf4WzpWpnJ9racWTPH__Op2Nk8kg@mail.gmail.com>
-Subject: Re: [PATCH] ALSA: hda/tegra: Re-enable SDO workaround for Tegra194
-To: Thierry Reding <thierry.reding@kernel.org>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Thierry Reding <treding@nvidia.com>, linux-sound@vger.kernel.org, 
-	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, Sep 29, 2026 at 6:12=E2=80=AFAM Thierry Reding
-<thierry.reding@kernel.org> wrote:
->
-> On Sat, Sep 26, 2026 at 02:24:19AM -0500, Aaron Kling via B4 Relay wrote:
-> > From: Aaron Kling <webgeek1234@gmail.com>
-> >
-> > This workaround was originally added for Tegra194, but no longer gets
-> > applied for it. Commit 615d43540043 ("ALSA: hda/tegra: fix tegra-hda on
-> > tegra30 soc") changed the guard to tegra30-hda, which worked because al=
-l
-> > affected archs had the fallback compatible. However, commit 7f0ea5acfc1=
-9
-> > ("arm64: tegra: Use correct compatible string for Tegra194 HDA") remove=
-d
-> > the fallback compatible for Tegra194, causing this to break.
-> >
-> > Fixes: 7f0ea5acfc19 ("arm64: tegra: Use correct compatible string for T=
-egra194 HDA")
-> > Cc: stable@vger.kernel.org
-> > Assisted-by: LLM
-> > Signed-off-by: Aaron Kling <webgeek1234@gmail.com>
-> > ---
-> > ALSA: hda/tegra: Re-enable SDO workaround for Tegra194
-> > ---
-> >  sound/hda/controllers/tegra.c | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> Maybe we should move this out of of_device_is_compatible() conditionals
-> and into hda_tegra_soc instead. That would make the checks for this a
-> lot more consistent and robust.
+Hi Takashi,
 
-I received a notification from Takashi Iwai that this has already been
-picked up, but it was only sent to me and not the list. Not sure why.
-But looking at -next, it's already there. Not sure if you would want
-to have that pulled back for updates or do followups later.
+A gentle ping on this. The problem is unchanged: on Linux the M62's
+preamp gains, output volumes and source selectors can only be set by
+hand on the front panel. v6 is the component split you suggested; v8
+stays posted as the alternative.
 
-Aaron
+Since posting, v6 has run on the hardware as sent: all nine controls,
+panel and ALSA following each other, fifty module unload/load cycles
+and the cable pulled out mid-write three times, under KASAN and
+lockdep. Nothing in the log.
+
+The one wart in the cover letter is worse than it says. Reloading the
+HID module takes the controls off a live card and puts them back, and
+ALSA reports that correctly, but WirePlumber does not merely lose its
+faders -- it segfaults. That is for WirePlumber to fix and an issue is
+open there, but it is a cost of this road that v8 does not have.
+
+One thing points the other way. The card also reports its battery
+level unasked, and the natural home for that is a power_supply with
+device scope, as hid-corsair-void does. In a HID driver that is a
+small patch on top; on the v8 road it would have to be registered
+from a snd-usb-audio mixer quirk, and I cannot find anything there
+that does so. I have not written it and would like to know the road
+first.
+
+So the question is the one from the cover letter: this road or v8?
+
+Jiri, Benjamin: the needs_remote_wakeup question is still open --
+whether clearing it after hid_hw_open() is acceptable, or whether
+usbhid should offer a way to take input reports without it.
+
+Thanks,
+Mikhail
