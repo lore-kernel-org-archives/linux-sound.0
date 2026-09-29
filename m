@@ -1,89 +1,88 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19D372459E1;
-	Tue, 29 Sep 2026 13:21:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79BF452BE59;
+	Tue, 29 Sep 2026 13:34:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790688101; cv=none; b=M3hodZ31Y2fszCpPAi1fmS/mx25EaMp4GtUm8d61+PuMtvElN3N5FfuhPr5aAY/3eZ0pAD1s7iMDHrW6cb6aFP4dIeE59bM2VTjSFhQgP+THAjAj0zSk0fZ/+02YqZ3h3O8pA8F6u2yIjkHc0gGsd4hwSJQBycpRtT98D85kIqQ=
+	t=1790688895; cv=none; b=c7WUw6b3NpWw4nMQxhtzOYNYuKhrMp2snVfQOxI9vOwvzQ44MJqq79ggzSUILzEeVk5ppf7h9KC6mzUpL/eJuPDn4wnSmvXvf5Z7qRWD6QnxQvJz0YvhVM7uCFkROHCG7eFWpiGo/iVeoYaoh2k2sD7/FoNkJ4Il6WYGUWiIXJU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790688101; c=relaxed/simple;
-	bh=4fUb+FBTDaJCnRT+TrqQyLEWUoHEBgK6iOcfDMSaFqc=;
+	s=arc-20240116; t=1790688895; c=relaxed/simple;
+	bh=NwIPoOh+SqHXgnzsp6cdk7HD0c7lF4TMNyWmWRqc0/k=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mqlCOXQmrwYPhVoVubRoRCM/PlDsodAhhPSPeEyOvtLYAnKuDF4alvqRz4mZ5bNdnERLxPpJCmqr/rnxzwE65bDBr2dYegau7LH4/LliRa7dPs0edK+Hy1pO9rVKc6BhhsAHafNOepkmX5jRg1uv0+sqTplPnZ+Dt76xbPZB2zo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=gKHv9/5R; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=KLyWKnLy; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=VjjKdJ3j; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=m1JhuCQ0; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=sX36cc7Wbf6wbErNMiSpObbCuA0NCKERsYMVBMi9X8+JB4hXurV4xc5xHCh9pxATJBLbqw+GOGYankTwo7VUwfDxJ8gX72h61Opb7LvHJCfRr2ZgHqiJr0ZrmAwJuysm/LFPlTo0dEf/W6TY1H3MKbKVmpntyBi1Awfs7mYrENk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oUkOs+3F; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=wTSVGCCD; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=SuUlB3XE; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=lwL+69hD; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="gKHv9/5R";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KLyWKnLy";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="VjjKdJ3j";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="m1JhuCQ0"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oUkOs+3F";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wTSVGCCD";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SuUlB3XE";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lwL+69hD"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id C197E1F7C9;
-	Tue, 29 Sep 2026 13:21:29 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 1429421DB9;
+	Tue, 29 Sep 2026 13:34:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1790688094; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1790688889; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=rCenjerG6qhlAFfM4z9/qyiF93TZR3Dk/p581e8+4/Y=;
-	b=gKHv9/5RXBhPM73c4Nl6glOPueNBPE1DD4VCSrY2NK80TPQQVT9II0ItD3jOKVSP3GGetw
-	7gqBJfbgZZYUdOCYpl4+RLGP0oMyurrLij0Jfdb2DpEH5PEJirKfsjYHBXKo5/w3+gZwDV
-	+TLUJPe+f/igU148jEQvnltjrLDREe4=
+	bh=YURhHYKq6jcwd6Xp7yP0pZ7S25FKaRJXpjOVPQWr6ws=;
+	b=oUkOs+3FoecrF0u3B1krndPe3TTvAss9DOme64K77SnoxrtKEsTjhw/atb+fis7PlecjfP
+	DRVOrded2yJzu56y61IEw8T2Wa3WQXll/MwnQpHguk1+BbwYEkUxguzMxOYCYDOz4OE/qR
+	Y+Tdzj9/m2WXKC09euzNIXPaMj8J7bw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1790688094;
+	s=susede2_ed25519; t=1790688889;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=rCenjerG6qhlAFfM4z9/qyiF93TZR3Dk/p581e8+4/Y=;
-	b=KLyWKnLy5M1oCniBphnsgIF4gwRrBmbIHGHeVtntIVlVSrl9GfCkmcJb8zPbnV5uDYIDrU
-	AttSdi5esuHGcaBg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=VjjKdJ3j;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=m1JhuCQ0
+	bh=YURhHYKq6jcwd6Xp7yP0pZ7S25FKaRJXpjOVPQWr6ws=;
+	b=wTSVGCCDPsJTf52F51tkYI4iaYvAgArEM3iTleES/12z2u5wiYJvfj6wLCKSJXu0KUaDYU
+	R7TwN5TsK+7k28Bw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=SuUlB3XE;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=lwL+69hD
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1790688089; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1790688885; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=rCenjerG6qhlAFfM4z9/qyiF93TZR3Dk/p581e8+4/Y=;
-	b=VjjKdJ3j3zAHW16roARHP64bacvN4i8eXxa+N/RM87+mDMxIMWXW7vyDNQMn1kKOvFvUHP
-	pHAt8bwUsYMR70XyV27Ud7ICy04By+aGvtm/hVQ0fOulBwJdD3BjlGRS0ykTvLVpw8LSDy
-	92CJlxOF+fFy2ZH/FMUUKXYuJOHTZQM=
+	bh=YURhHYKq6jcwd6Xp7yP0pZ7S25FKaRJXpjOVPQWr6ws=;
+	b=SuUlB3XEgM9Flj91qRoMEYhCbOZMmFHQCHYin1DbPY6RJ68yEvFNm5dhNUz3MivFENfTTJ
+	Leit+H2DSgCOjfU75rnsvoxw+E2PWD6KQN+sAaNlDg80+Xub1MYgtg6WvDSkS0YYDkt/KP
+	JTecyg0hHTEPozEaQDZyM6eAtl0iQdo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1790688089;
+	s=susede2_ed25519; t=1790688885;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=rCenjerG6qhlAFfM4z9/qyiF93TZR3Dk/p581e8+4/Y=;
-	b=m1JhuCQ0VrUXJyiHo+wPknRk0za8RhOoNXtc4EBEdUW+1CSEA1wTzO8ZlA2n3ld8LFy4+x
-	UmW5brwVw62NRkDQ==
+	bh=YURhHYKq6jcwd6Xp7yP0pZ7S25FKaRJXpjOVPQWr6ws=;
+	b=lwL+69hDX/gMxDJOW4IS3mbY/f8O91cGfraYJgVbIvAeg2EV1Njf1VzHLNEezDeXcVNk+p
+	D9LTnQLsvwQSvTAA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5F431136E4;
-	Tue, 29 Sep 2026 13:21:29 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CEC42136D1;
+	Tue, 29 Sep 2026 13:34:44 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id U+17EFm7u2qBFAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 29 Sep 2026 13:21:29 +0000
-Date: Tue, 29 Sep 2026 15:21:25 +0200
-Message-ID: <87bj9g19d6.wl-tiwai@suse.de>
+	id KyOfKXS+u2qiIwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 29 Sep 2026 13:34:44 +0000
+Date: Tue, 29 Sep 2026 15:34:40 +0200
+Message-ID: <877bk418r3.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Christian Ruppert <arc@gmx.li>
-Cc: Jaroslav Kysela <perex@perex.cz>,
+To: Runyu Xiao <runyu.xiao@seu.edu.cn>
+Cc: Clemens Ladisch <clemens@ladisch.de>,
+	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
-	linux-kernel@vger.kernel.org,
+	Jianhao Xu <jianhao.xu@seu.edu.cn>,
 	linux-sound@vger.kernel.org,
-	Will Porter <mrwillporter@gmail.com>,
-	Peter Drabik <drabik.p@gmail.com>,
-	Neil Andrews <neil@androos.io>
-Subject: Re: [PATCH 0/3] Add Audient EVO4 support
-In-Reply-To: <20260919151840.24371-1-arc@gmx.li>
-References: <20260919151840.24371-1-arc@gmx.li>
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: usb-audio: Protect Roland control activation
+In-Reply-To: <20260929074026.2040321-1-runyu.xiao@seu.edu.cn>
+References: <20260929074026.2040321-1-runyu.xiao@seu.edu.cn>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -92,71 +91,59 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: C197E1F7C9
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.01 / 50.00];
+X-Spamd-Result: default: False [-3.51 / 50.00];
 	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	ARC_NA(0.00)[];
-	FREEMAIL_TO(0.00)[gmx.li];
-	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.li];
-	FREEMAIL_CC(0.00)[perex.cz,suse.com,vger.kernel.org,gmail.com,androos.io];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	TAGGED_RCPT(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim]
-X-Spam-Flag: NO
-X-Spam-Score: -2.01
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[seu.edu.cn:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Score: -3.51
 X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 1429421DB9
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
 
-On Sat, 19 Sep 2026 17:18:37 +0200,
-Christian Ruppert wrote:
+On Tue, 29 Sep 2026 09:40:26 +0200,
+Runyu Xiao wrote:
 > 
-> This patch set adds support for advanced mixer features of the Audient
-> EVO4 audio interface. The code is structured so that support for the
-> EVO8 (and potentially other Audient devices) should be trivial to add
-> but I don't have access to the hardware and no way of testing them so
-> they are not supported by this patch set.
+> The USB MIDI driver changes the Roland MIDI Input Mode control's access
+> flags directly from the rawmidi open and close paths.  These changes are
+> not protected by the ALSA control core and the corresponding notifications
+> can race with control access.
 > 
-> The third patch in the series (Add Kconfig option for Audient EVO4 mixer
-> quirks) is optional. Other mixer quirks are compiled in by default and
-> don't provide Kconfig options but as this one adds a few hundred lines
-> of code I decided to provide this last patch as an option and leave the
-> choice if such an option should be added to the subsystem maintainers.
+> Use snd_ctl_activate_id() so that the control core updates the access flags
+> and sends the notification under its lock.  Release the USB MIDI mutex
+> before calling it because the control write path holds controls_rwsem while
+> roland_load_put() takes the USB MIDI mutex.
 > 
-> Christian Ruppert (3):
->   Fix Audient EVO4 master playback control name
->   Add Audient EVO4 mixer quirks
->   Add Kconfig option for Audient EVO4 mixer quirks
+> Keep the state transition and alternate-setting change under the USB MIDI
+> mutex; rawmidi's open mutex serializes the enclosing open and close paths.
+> 
+> Fixes: 96f61d9ade82 ("sound: usb-audio: allow switching altsetting on Roland USB MIDI devices")
+> Cc: stable@vger.kernel.org
+> Assisted-by: LLM
+> Signed-off-by: Runyu Xiao <runyu.xiao@seu.edu.cn>
 
-I merged the two, but dropped the Kconfig patch.
-
-We have no Kconfig for other mixer stuff, and most likely the users
-will enable simply all mixer supported devices.
-
-It might make sense to introduce a Kconfig if we build each vendor
-mixer stuff as an individual module, though.  Until then, let's try
-to reduce Kconfig.
-
-BTW, do you see an issue Faaris reported for the recent kernel?
+The patch couldn't be applied cleanly on top of the latest sound git
+tree for-next branch.  Could you try to rebase and resubmit?
 
 
 thanks,
