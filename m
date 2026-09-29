@@ -1,360 +1,172 @@
-Received: from mail-4319.protonmail.ch (mail-4319.protonmail.ch [185.70.43.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej2-f42.google.com (mail-ej2-f42.google.com [74.125.228.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A2CD3CF21F;
-	Tue, 29 Sep 2026 14:22:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02A373D47B2
+	for <linux-sound@vger.kernel.org>; Tue, 29 Sep 2026 14:24:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790691747; cv=none; b=RnJCblAcyfC/Ewb/3F/H/P43qbSXmL9TDEr/b+HS4x2uUh9rnOemaAsDN7nFKKmQc+z3HJbZCwQYV1c6WbojEUkgOryqoYW6PoafO3zrbIu+C9MXMzxG4Iz5N//8dNMocfz1/lbKRlq53QHR8bt3i1Iw9lcLRq5FJatAkgNpeXo=
+	t=1790691870; cv=none; b=J8CuLI3/O/mG4lNwL+ihLa4TuUcJTvuowDxuKVTUNbAMWnorg+h0S1uN/ifDDC43krXA5diDx+vlKHcI1iMxzyrjJBLrg+reBfHIugWgL34Rk54q66mvxxRgT2SFdHt/7xe4E8i1IxO0gU0HKLmZe7mvmZ2hEaz2Wg1vr1bzxrA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790691747; c=relaxed/simple;
-	bh=9uSCZ5sWyZ1CBoBDl8Q6S3AGCXxU6Y97lD816RJ3qTI=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FDreP24rz9vJrOtGyfXpk11NezLXF7kGp1/2rllFVUaMtmIGVPVlP6pDh+rgWaUJGq9lwQnV2GLmXecj3SY1UvcDJwc+vlbbUHyIUPAZsD6JCIpCDhU4JBX2wsP2JR9+22UXPLkmPqGMRE3jUpM0X5Ulf5/iZ+zw9rNEr7doAyc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=ng/83GJp; arc=none smtp.client-ip=185.70.43.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
+	s=arc-20240116; t=1790691870; c=relaxed/simple;
+	bh=uHpZL76WzFAlN9omYfUfgHBK04zz9UiXwnngsyjxnx0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QLXkV/4/nAA6pgx3kZhayvEI+legQlK/EauyhNjqY864wO0rHz6JhVQLGfFe7dURibjJks2WWOuQO4t9/yX/tLpxC42iOJLUeyVB6aw7BCg+JO2KReyY+jwX0dJX4b8Eybhcs0KxAGSLTiRh2UQ+eILN+ATdkF03abX1lbcwnJg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a9mxQrwi; arc=none smtp.client-ip=74.125.228.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="ng/83GJp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=yginvw56ybc55g4ctypjuzbqru.protonmail2; t=1790691733;
-	x=1790950933; bh=93VhP2nickyZU74PlPLi377f/JHumKlse6MNV8J0tOM=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=ng/83GJpmvpU4C/NDK5beEGznM/JxwxC/ZQSLAaeTfjMxgrErImNr8CzZeZE/3WD/
-	 y5hWlvsdk95gKY7sDRbbs1l0zh4e2Bvs0yXjKmDhVbGUoUoCIXs4HAb4xzWcO0+9x1
-	 XLBMJalBiOs4PHEQW5rcYI1vNIjXRshq6YgFlD2gzE/rCNCoWyv+ExaDicZ7Cth6Qp
-	 +apO/auTLrxAXzAKPNU2JYkLUJXWlSTy/HTDijcIl5WsX0Qm/LywsA9jciuk9cHpzJ
-	 jpQLQbd1rqK46h6HTUubd4hONWZcyB8Ygv8pNDRSNQmmPqRdrLeJMyPL3YLk6rDunx
-	 IlVBcrXOvkj2Q==
-Date: Tue, 29 Sep 2026 14:22:07 +0000
-To: Takashi Iwai <tiwai@suse.de>
-From: dchristensen8 <dchristensen8@proton.me>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>, "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] ALSA: hda/ca0132: Add Sound BlasterX AE-5 external RGB LED strip support
-Message-ID: <0UViNKefxgxrLggTEzDgzIe9-kh2EqU2Pnip6zuyJl1sthZtgJ-OIai3KBgkltft587c-ryvum1IqQZt-awOQTdrohMWKh79F3X8u6JOjuo=@proton.me>
-In-Reply-To: <87fqys19vt.wl-tiwai@suse.de>
-References: <eFYfxKMV2ei__fURd-elssegCIVmOuRDne6lj9PMaM2bEgnYkz7Tzf6JLrgEaPZtvrUC_wHnmnwaUZAOdg0uh24nt73FQqi6T65qvJebHJA=@proton.me> <87fqys19vt.wl-tiwai@suse.de>
-Feedback-ID: 45895322:user:proton
-X-Pm-Message-ID: cffb55e0cf897f0fc2fcaac4f6441abeaee05c57
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a9mxQrwi"
+Received: by mail-ej2-f42.google.com with SMTP id a640c23a62f3a-c2c570f6f36so436427066b.3
+        for <linux-sound@vger.kernel.org>; Tue, 29 Sep 2026 07:24:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790691865; x=1791296665; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=fJazDxMkWono34PQyfbuzm+nlBT/z7JfOyFwMEhNk2s=;
+        b=a9mxQrwiHo1aKTDzLDFfL7c61Fz0V+o1ijM7J2Wf2b0yAYzbFtGUts/igqJZMPj/Sp
+         DpvPD+vHvYRBbwjF6GSYD2htqu4ztracEXYcv9zcIPZ+m0ocRvtbSJ40vhJ9s1wImhhL
+         Xoj548dadnJitJy3bcAUMUw3mxZ6pub4Y4as/jAM+fxUn9zh9ntoxyn3prZKCM7WXRev
+         1jhS26GJGBsq30Ncip+yu96u1blj9JtLlbCH0cQNSW2GoEY7Or7ktRDxvcMgVpB6n8Gw
+         +k9dnSDRVaZ210IXhQW/KFnUydb2Qfzks6KbEcD+1SchukivAFlIQohRGkUWhtrVgDuc
+         5v9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790691865; x=1791296665;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=fJazDxMkWono34PQyfbuzm+nlBT/z7JfOyFwMEhNk2s=;
+        b=xkG9/hhueU6HtTQk2/LCK1FQBLZLxWC9Yi86sD2j6liv3MRbw/F4l8WNiISniK2jCv
+         f4qH1G2TdvXeuvYDA0m7wTGCQRDrry2/X3rJhNodZwx/wnRTm/xuk5fFMbfq7s4zWoTC
+         HBmIOPqFcdspt+mYjqY4Pl1lyW8jrr/NI0hz/8YCES4sPGo1Dzhajat3Dy3CK1xB3Y0B
+         WqUc/zJRXe13+mUy2hXzgPsFu+gvYlR3Qi7O0awHVO6GGccDYp850CemRwuQ67DwWKyv
+         cjeiaVDMKAd8kuvKwi+Yl68NnUncPqvITb5/mhz+RUmQ+AjRzrjzVIrb4b00bFBu87QS
+         2CeA==
+X-Forwarded-Encrypted: i=1; AKwUvBzIAMmdxp4DZDcUC/NDDoUBj4d8JfBIOXiixYNv64rMMwV8ZaK1qTf1EWQYQVVqtRrYb1uOie5fGsB1FQ==@vger.kernel.org
+X-Gm-Message-State: AFuF++lBPPS+t6h/MSa8WIV0v8kTUnq3V276ebfCAsc4qt/o3HGKJ9cQ
+	I5vkruzBXqUviMzHp9W1XHxaZ7IMSrIaX6izQEB5md8nytPC2xI/vsc1
+X-Gm-Gg: AYBFou39DZDknDsd+ekJdbWoNr78XT3Iz1dTpar5dW+uPU63THPzA2uONHziroLVMdC
+	esp43wKwjdI1Z8+49kpWvu71lfuMC5bv+3Giq6Xohba0P1assEJcTU+21zR7qpbZFTEU/h2moXq
+	6U3py8kccubgrdsuxmGzDHehz3GsBV211cpEb/tLRPv2eyNOhbuuCWxIsyJlSDglxRmw61aWHKj
+	gDNWQOw7skH2Rjah2yWo/0U6H7DVrCha6vUJlFGMl2nqw203oVc4xsZaPr+H7wvRIf6Jx+52ttQ
+	6e4KINDaCgsMBX8exSRE9Zta4k06CrJVkbyR4wE9c/Vk9MVhCDI/Cgm+DwUtIqKjCPQAoCvuBiZ
+	AZGMggL3MJoBPXjoFim7Xf2vcpiapIC0nQgdH9NJ/QJ7OZ21QQDphuRdSWLJNnj+SotBgZYNvJf
+	bfFOiGRxCe05jIJuWVkscc3nnae08e+Dc3KvN7h54JtiX0fNKNNYt2URdUWP68M0xiOdOSk2Lor
+	0rFfIZtSywioz5IVsGaAhWbqNouya/CoN6NJZgTIq66HO93gGaIjZU/q34OsRcxPq5GA24dITPz
+	1NGgbaNiHMEgeMY2yvdyWOwmXQOSShebardUkvTEYkHvqORi3/1L
+X-Received: by 2002:a17:907:e149:b0:c2a:fcb7:62f2 with SMTP id a640c23a62f3a-c2afcb76e12mr569341466b.19.1790691865370;
+        Tue, 29 Sep 2026 07:24:25 -0700 (PDT)
+Received: from [192.168.0.46] ([63.135.75.98])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2dbd3bcacfsm453243466b.74.2026.09.29.07.24.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 29 Sep 2026 07:24:25 -0700 (PDT)
+Message-ID: <0e1a1284-7069-4c46-9f35-57c10c129883@gmail.com>
+Date: Tue, 29 Sep 2026 15:24:24 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [REGRESSION] Audient EVO4 hardware volume control now requires
+ quirk
+To: Takashi Iwai <tiwai@suse.de>, Faaris Ansari <faarisansari@googlemail.com>
+Cc: Sasha Levin <sashal@kernel.org>, stable@vger.kernel.org,
+ regressions@lists.linux.dev, linux-sound@vger.kernel.org,
+ =?UTF-8?Q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>,
+ Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>
+References: <CANBVYRCL=8QdLxGg4S6qrahrFtwJxhv-aSGpW7-1S=+iOe4ZGA@mail.gmail.com>
+ <2026-09-27-daily-reply-0001-re-audient-evo4-mixer-put-errors@kernel.org>
+ <CANBVYRAr_ShKGmrt2NoqsDsDEbTXa5DWJbq2oP6wKLWJQpLRWw@mail.gmail.com>
+ <2026-09-28-daily-reply-0001-re-audient-evo4-upstream-decision@kernel.org>
+ <ee6e9e8f-e174-4872-baee-114d848e8137@gmail.com>
+ <2026-09-28-2-daily-reply-0001-re-audient-evo4-channel-3-set-cur@kernel.org>
+ <87tsn838gk.wl-tiwai@suse.de> <87mrt01bdg.wl-tiwai@suse.de>
+ <87ecec19pa.wl-tiwai@suse.de>
+Content-Language: en-US
+From: Faaris Ansari <faaris.ansari@gmail.com>
+In-Reply-To: <87ecec19pa.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Thanks for the quick review!
- =20
-    I went with sysfs mainly because of the streaming nature of WS2812 stri=
-ps (using an atomic DMA frame):        =20
- =20
-    -The LED subsystem has no strip or pixel-buffer concept, individual led=
-_classdevs would hit sysfs with thousands of writes/sec at 30-60 FPS (and l=
-eds-class.rst advises against it for addressable arrays anyway).
-    -An ALSA kcontrol could hold raw bytes, but pushing frames at 60 Hz spa=
-ms control change events to PipeWire/PulseAudio.
- =20
-    I initially went with text attributes  (ae5_strip_leds/ae5_strip_num_le=
-ds) so basic shell scripts could just echo colors into it, but I know comma=
--separated lists bend the "one value per file" rule. Would you prefer a bin=
-_attribute for raw RGB bytes instead? or keeping both?             =20
- =20
-    All your code points make total sense too. I have no objections.
- =20
-Let me know your thoughts on the sysfs format.
- =20
-Thanks,
-Devin
+Thanks Takashi and Sasha,
 
 
+> Faaris, please let us know if this (or previous) one actually works
+> for you.  Once after confirmation, I'll submit the proper patch for
+> upstream.
+
+I tested your latest patch where you removed the quirk for the iD14 
+alone, and instead set it for all Audient devices.
+
+I can confirm that this has indeed fixed the problem, and I can now 
+correctly control my hardware volume without problems, thank you!
 
 
+> ... or if you have a chance to test Christian's patch set and verify
+> whether the problem is fixed there, we can avoid other changes:
+>    https://lore.kernel.org/20260919151840.24371-1-arc@gmx.li
+I tested Christian's patch alone, without any other changes. The problem 
+still occurred with those patches.
 
-On Tuesday, September 29th, 2026 at 9:10 AM, Takashi Iwai <tiwai@suse.de> w=
-rote:
+This was also noted by Christian:
 
-> On Mon, 28 Sep 2026 19:26:05 +0200,
-> dchristensen8 wrote:
-> >
-> >     Hi Takashi, Jaroslav,
-> >
-> >     Please find attached a patch adding support for the external addres=
-sable RGB LED strip header on the Creative Sound BlasterX AE-5 and AE-5 Plu=
-s.
-> >
-> >     The patch is attached as a .patch file.
-> >
-> >     The Sound BlasterX AE-5 and AE-5 Plus expose a 3-pin 5V addressable=
- RGB header driven directly by the CA0113 PCIe-to-HD-Audio bridge. Rather t=
-han using the CA0132 DSP or MMIO GPIO, the CA0113 contains an autonomous HD=
-A link sniffer that snoops a designated HDA DMA playback stream, extracts t=
-he 24-bit GRB color payload, and serializes it as 800 kHz single-wire NRZ p=
-ulses to the strip (WS2812B protocol).
-> >
-> >     Expose the strip through a sysfs interface on the codec device:
-> >     ae5_strip_leds: read current colors write a comma-deparated #RRGGBB=
- or R,G,B list (a single color replicates across all active LEDs)
-> >
-> > ae5_strip_num_leds: get or set the active LED count (1..100)
-> >
-> >     Writes allocate an idle HDA playback stream, format a 32 KB DMA buf=
-fer populated with repeating WS2812 frames (5-word zero preamble, 4 audio w=
-ords per LED, and reset gap), configure the CA0113 BAR2 serializers and str=
-eam-tag pin mux, and pulse the stream long enough for the reset latch to fi=
-re. Access is serialized with a per-spec mutex, and the attributes are only=
- registered on QUIRK_AE5 devices.
-> >
-> >     Document the new sysfs attributes in documentation/ABI/testing.
-> >
-> >     Signed-off-by: Devin Christensen <dchristensen8@proton.me>
-> >     Testing & Subsystem Context:
-> >      - Verified on physical Sound BlasterX AE-5 hardware.
-> >      - Tested continuous 60 FPS streaming and dynamic strip resizing (1=
-0 -> 7 -> 10 LEDs)
-> >        via the OpenRGB effects engine (MR: https://gitlab.com/CalcProgr=
-ammer1/OpenRGB/-/merge_requests/3658).
-> >      - Verified concurrent audio playback and LED updates without dropp=
-ed samples or xruns.
-> >      - Built clean against tiwai/sound for-next (commit 72107104d4f5).
-> >      - Passes scripts/checkpatch.pl with 0 errors and 0 checks.
->=20
-> Thanks for the patch.
->=20
-> It's an interesting stuff (rather surprising that they (ab)use
-> HD-audio for such an interface :)
->=20
-> Through a quick glance, most of the code looks OK.
->=20
-> So the question is rather the interface -- is the sysfs the best
-> choice for this kind of display controls?  The implementation can be
-> refactored at any time, but the interface must be set solid, so that's
-> the most important question to be clarified.
->=20
-> About the code:
->=20
-> >  /*
-> > - * Setup default parameters for the Sound BlasterX AE-5 DSP.
-> > + * Sound BlasterX AE-5 External WS2812B RGB LED Strip Transport
-> >   */
-> > +static void ae5_strip_encode_24(u32 u, u32 *words)
-> > +{
-> > +=09/* Bit-for-bit exact encoding matching CtxHda.sys FUN_00042944:
-> > +=09 * 24-bit pixel -> 4 x 32-bit audio words (6 bits per word).
-> > +=09 * Hardware audio serializer transmits MSB first (bits 31 down to 0=
-).
-> > +=09 * For word i (i8 =3D 23, 17, 11, 5), bit_idx 0..5 (MSB to LSB with=
-in the word)
-> > +=09 * is placed at n =3D 29 - bit_idx * 4 (bits 29, 25, 21, 17, 13, 9)=
-:
-> > +=09 *   out |=3D (bit << n) | ((bit | 2) << (n + 1))
-> > +=09 * Bit 0 -> 0b010 (375ns high, 1042ns low)
-> > +=09 * Bit 1 -> 0b111 (1083ns high, 333ns low)
-> > +=09 */
-> > +=09int i8 =3D 23;
-> > +=09int i;
-> > +
-> > +=09for (i =3D 0; i < 4; i++) {
-> > +=09=09u32 out =3D 0;
-> > +=09=09int bit_idx;
-> > +
-> > +=09=09for (bit_idx =3D 0; bit_idx < 6; bit_idx++) {
-> > +=09=09=09int bit =3D (u >> (i8 - bit_idx)) & 1;
-> > +=09=09=09int n =3D 29 - bit_idx * 4;
-> > +
-> > +=09=09=09out |=3D (u32)(bit << n) | ((u32)(bit | 2) << (n + 1));
-> > +=09=09}
-> > +=09=09words[i] =3D out;
-> > +=09=09i8 -=3D 6;
-> > +=09}
->=20
-> I guess some BIT() macro or such could help in a bit cleaner form.
->=20
->=20
-> > +static struct hdac_stream *ae5_strip_find_stream(struct hda_codec *cod=
-ec)
-> > +{
-> > +=09struct ca0132_spec *spec =3D codec->spec;
-> > +=09struct hdac_bus *bus =3D &codec->bus->core;
-> > +=09struct hdac_stream *s, *dsp =3D NULL, *first =3D NULL;
-> > +=09unsigned long flags;
-> > +
-> > +=09spin_lock_irqsave(&bus->reg_lock, flags);
-> > +=09list_for_each_entry(s, &bus->stream_list, list) {
-> > +=09=09if (s->direction !=3D SNDRV_PCM_STREAM_PLAYBACK)
-> > +=09=09=09continue;
-> > +=09=09if (s->running || s->locked)
-> > +=09=09=09continue;
-> > +=09=09if (!first)
-> > +=09=09=09first =3D s;
-> > +=09=09/* The DSP DMA consumes the DSP-loader stream (tag in dsp_stream=
-_id). */
-> > +=09=09if (spec->dsp_stream_id && s->stream_tag =3D=3D spec->dsp_stream=
-_id)
-> > +=09=09=09dsp =3D s;
-> > +=09}
-> > +=09spin_unlock_irqrestore(&bus->reg_lock, flags);
->=20
-> Try to use guard() instead of manual lock/unlock.
->=20
->=20
-> > +/*
-> > + * Caller must hold spec->ae5_strip_mutex.
-> > + */
->=20
-> You can put a lockdep assert to assure that in the actual code, too.
->=20
-> > +static int ae5_strip_send_frame(struct hda_codec *codec, const u32 *gr=
-b_colors, int num_leds)
-> > +{
-> > +=09struct ca0132_spec *spec =3D codec->spec;
-> > +=09struct snd_dma_buffer dmab;
-> > +=09struct hdac_stream *hstr =3D NULL;
-> > +=09unsigned int format, stream_tag;
-> > +=09u32 enc_words[4];
-> > +=09u32 *dst;
-> > +=09int total_words =3D 0x8000 / sizeof(u32); /* 8192 words (32KB) */
->=20
-> It should be defined as a constant instead?
->=20
-> > +=09int word_idx =3D 0;
-> > +=09int frame_words;
-> > +=09int led, w;
-> > +=09int retries =3D 20; /* ~100ms max */
-> > +=09u8 orig_sd_ctl =3D 0;
-> > +
-> > +=09if (!spec || !spec->mem_base)
-> > +=09=09return -ENODEV;
-> > +=09if (num_leds <=3D 0 || num_leds > AE5_STRIP_MAX_LEDS)
-> > +=09=09return -EINVAL;
-> > +
-> > +=09snd_hda_power_up(codec);
-> > +
-> > +=09/*
-> > +=09 * 44.1kHz, 24-bit, 2-channel format (0x4031) matches Windows CtxHd=
-a
-> > +=09 * HDAUDIO_STREAM_FORMAT.
-> > +=09 */
-> > +=09format =3D snd_hdac_stream_format(2, 24, 44100);
-> > +
-> > +=09for (;;) {
-> > +=09=09hstr =3D ae5_strip_find_stream(codec);
-> > +=09=09if (!hstr) {
-> > +=09=09=09if (--retries <=3D 0) {
-> > +=09=09=09=09codec_warn(codec, "AE5 strip: no free azx stream after ret=
-ries\n");
-> > +=09=09=09=09snd_hda_power_down(codec);
-> > +=09=09=09=09return -EBUSY;
-> > +=09=09=09}
-> > +=09=09=09usleep_range(5000, 10000);
-> > +=09=09=09continue;
-> > +=09=09}
-> > +
-> > +=09=09stream_tag =3D snd_hdac_dsp_prepare(hstr, format, 0x8000, &dmab)=
-;
-> > +=09=09if ((int)stream_tag > 0)
-> > +=09=09=09break;
-> > +
-> > +=09=09/* Prepare failed (e.g. -EBUSY due to race with playback startin=
-g); retry */
-> > +=09=09if (--retries <=3D 0) {
-> > +=09=09=09codec_warn(codec, "AE5 strip: snd_hdac_dsp_prepare failed %d\=
-n",
-> > +=09=09=09=09   (int)stream_tag);
-> > +=09=09=09snd_hda_power_down(codec);
-> > +=09=09=09return (int)stream_tag;
-> > +=09=09}
-> > +=09=09usleep_range(5000, 10000);
-> > +=09}
-> > +
-> > +=09/* Prevent interrupt storms during free-running LED stream, saving =
-original control bits */
-> > +=09if (hstr->sd_addr) {
-> > +=09=09orig_sd_ctl =3D readb(hstr->sd_addr);
-> > +=09=09writeb(orig_sd_ctl & ~0x1c, hstr->sd_addr); /* Clear IOCE, FEIE,=
- DEIE */
-> > +=09}
-> > +
-> > +=09/* 1. Populate the 32KB DMA buffer with repeating WS2812 frames + r=
-eset gaps */
-> > +=09memset(dmab.area, 0, 0x8000);
-> > +=09dst =3D (u32 *)dmab.area;
-> > +
-> > +=09/* Words per frame: 5 words zero preamble + num_leds * 4 words + 83=
- words reset gap */
-> > +=09frame_words =3D 5 + (num_leds * 4) + 83;
-> > +
-> > +=09while (word_idx + frame_words <=3D total_words) {
-> > +=09=09/* 5-word zero preamble per Windows CtxHda FUN_00042944 */
-> > +=09=09for (w =3D 0; w < 5; w++) {
-> > +=09=09=09*dst++ =3D 0;
-> > +=09=09=09word_idx++;
-> > +=09=09}
-> > +=09=09/* LEDs */
-> > +=09=09for (led =3D 0; led < num_leds; led++) {
-> > +=09=09=09ae5_strip_encode_24(grb_colors[led], enc_words);
-> > +=09=09=09for (w =3D 0; w < 4; w++) {
-> > +=09=09=09=09*dst++ =3D enc_words[w];
-> > +=09=09=09=09word_idx++;
-> > +=09=09=09}
-> > +=09=09}
-> > +=09=09/* 83 words (> 1.8 ms) zero reset gap (WS2812 requires > 50 us l=
-ow) */
-> > +=09=09for (w =3D 0; w < 83; w++) {
->=20
-> Here, too.  Let's avoid magic numbers.
->=20
-> > +=09=09=09*dst++ =3D 0;
-> > +=09=09=09word_idx++;
-> > +=09=09}
-> > +=09}
-> > +=09while (word_idx < total_words) {
-> > +=09=09*dst++ =3D 0;
-> > +=09=09word_idx++;
-> > +=09}
-> > +=09/* Ensure DMA buffer writes are committed before triggering the HDA=
- stream */
-> > +=09wmb();
-> > +
-> > +=09/* 2. Configure CA0113 BAR2 hardware registers */
-> > +=09/* Power up clocks (CtxHdb 0x141b7 / 0x14210) */
-> > +=09writel(readl(spec->mem_base + 0xc04) | 0x7, spec->mem_base + 0xc04)=
-;
-> > +
-> > +=09/* Base serializer initialization (CtxHdb 0x14ba4) */
-> > +=09writel(readl(spec->mem_base + 0x400) | 1, spec->mem_base + 0x400);
-> > +=09writel(readl(spec->mem_base + 0x42c) & ~1, spec->mem_base + 0x42c);
-> > +=09writel(readl(spec->mem_base + 0x46c) & ~1, spec->mem_base + 0x46c);
-> > +=09writel(readl(spec->mem_base + 0x4ac) & ~1, spec->mem_base + 0x4ac);
-> > +=09writel(readl(spec->mem_base + 0x4ec) & ~1, spec->mem_base + 0x4ec);
-> > +=09writel(0, spec->mem_base + 0x43c);
-> > +=09writel(0, spec->mem_base + 0x47c);
-> > +=09writel(0, spec->mem_base + 0x4bc);
-> > +=09writel(0, spec->mem_base + 0x4fc);
-> > +=09writel(readl(spec->mem_base + 0x408) | 1, spec->mem_base + 0x408);
-> > +=09writel(readl(spec->mem_base + 0x40c) | 1, spec->mem_base + 0x40c);
-> > +=09writel((readl(spec->mem_base + 0x410) & ~0xb) | 0x14, spec->mem_bas=
-e + 0x410);
-> > +
-> > +=09/* Configure serializers 0..3 clocking (CtxHdb 0x14a6c) */
-> > +=09writel(readl(spec->mem_base + 0x43c) | 0x33, spec->mem_base + 0x43c=
-);
-> > +=09writel(readl(spec->mem_base + 0x47c) | 0x33, spec->mem_base + 0x47c=
-);
-> > +=09writel(readl(spec->mem_base + 0x4bc) | 0x33, spec->mem_base + 0x4bc=
-);
-> > +=09writel(readl(spec->mem_base + 0x4fc) | 0x33, spec->mem_base + 0x4fc=
-);
->=20
-> Some helpers or macros look deserving.
->=20
-> I stop at this point, as we'd need to define the interface at first.
->=20
->=20
-> thanks,
->=20
+> As a matter of fact, I made a similar
+> observation to yours when testing the patch set on the 'sound' kernel tree
+> and the (very sporadic) issue did not disappear after applying the
+> patches.
+And further discussion below:
+
+https://lore.kernel.org/all/CANBVYRAr8iFGFDgdTcDXuQyXt5M4TddZetsG9o1wbFao03R0yw@mail.gmail.com/
+
+
+However, using both patches together (as well as a small patch for 
+alsa-ucm-conf) has made my interface work very well - I'm very happy 
+with these changes :)
+
+
+Thank you for your work, Sasha, Takashi, and Christian,
+
+Faaris
+
+
+On 29/09/2026 14:14, Takashi Iwai wrote:
+> On Tue, 29 Sep 2026 14:38:03 +0200,
+> Takashi Iwai wrote:
+>> On Tue, 29 Sep 2026 07:58:03 +0200,
+>> Takashi Iwai wrote:
+>>> On Tue, 29 Sep 2026 00:39:05 +0200,
+>>> Sasha Levin wrote:
+>>>>> [   80.940668] usb 3-1: cannot set ctl value: req = 0x1, wValue = 0x203,
+>>>>> wIndex = 0xa00, type = 4, data = 0x0/0x81
+>>>> [...]
+>>>>> numid=4,iface=MIXER,name='EVO4  Playback Volume'
+>>>>>     ; type=INTEGER,access=rw---R--,values=4,min=0,max=254,step=0
+>>>>>     : values=182,182,0,0
+>>>> Thanks, that narrows it down.
+>>>>
+>>>> Every failure is SET_CUR of the Volume control on feature unit 10, channel 3
+>>>> (wValue 0x0203, wIndex 0x0a00). That unit is 'EVO4  Playback Volume' and
+>>>> advertises read/write volume on all four channels. mixer_ctl_feature_put()
+>>>> writes channels 1 and 2, then returns the channel 3 error, so the hardware
+>>>> volume changes while userspace is told the write failed and adds software
+>>>> attenuation on top. Faaris sees the same on 7.3-rc5, so this is a mainline
+>>>> regression from 87a6f2fa6e6c ("ALSA: usb-audio: Propagate write errors in
+>>>> generic mixer put callbacks").
+>>> Right.  So a simple fix would be to just to set the IGNORE_CTL_ERROR
+>>> quirk flag like below.  One of iD14 models has already this flag, so
+>>> it might be safer to set to all Audient devices.
+>> ... and below is such a version to cover all Audient devices:
+>>
+>> Faaris, please let us know if this (or previous) one actually works
+>> for you.  Once after confirmation, I'll submit the proper patch for
+>> upstream.
+> ... or if you have a chance to test Christian's patch set and verify
+> whether the problem is fixed there, we can avoid other changes:
+>    https://lore.kernel.org/20260919151840.24371-1-arc@gmx.li
+>
+>
 > Takashi
-> 
