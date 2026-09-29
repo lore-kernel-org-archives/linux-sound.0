@@ -1,77 +1,77 @@
-Received: from mail-qk2-f39.google.com (mail-qk2-f39.google.com [74.125.230.231])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10BE7470437
-	for <linux-sound@vger.kernel.org>; Tue, 29 Sep 2026 11:59:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.231
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF4A5495AF7;
+	Tue, 29 Sep 2026 12:03:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790683161; cv=none; b=TQOnH6lTGXv7/M9bW60x886Ixqtx7MoJ/Ho52y9DwQU6kzY0Lb4PvHmDgYEslRJSA6Laz+jIVqct+S1gAhNM8HMIuToEh+mqiR5x2zEYCP5l9rmFbSPbi+zRb3gLQ38dFhKQYrAxww2y4HmZ7UlKyiy9JgDgH4U0uLhykRc6F+E=
+	t=1790683419; cv=none; b=qBlI3gy2uXb0cOjPGd5NkC5uYrqUNKucBpU5WYhf4sblEpv0dlEwUOWuvdBnJc+73FNyDSmsdOuMCWyYkynQufraXDO1AT3s6a0rLNbdF9tvPKVTAsjLLHDI9hbwp+C8tCKJJOPTbmeoRDNPBF1jf3Tew4H5TKuvJqiv2RjUY7U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790683161; c=relaxed/simple;
-	bh=vVvDrY//xdBNbp6iPJngokdTuFS+NhXaql31Vv+iJbc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=q3q36egdOwYKreQxa8556NvX92Li5IfBtjGtgWvbm/3rAaHK447ZIUWvn6kyNRzDSyS9rQ2rhE6PBU60iCKsWomTsO9jwgDww/v93ocmW2PxKqIQTGLX5IHlgLBef6vaQqH/OmihHGPWU1hulzVmvnBp1g7UfKQXc8HYpxwaWTE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thinkoid.org; spf=none smtp.mailfrom=thinkoid.org; dkim=pass (2048-bit key) header.d=thinkoid-org.20251104.gappssmtp.com header.i=@thinkoid-org.20251104.gappssmtp.com header.b=NTTemChe; arc=none smtp.client-ip=74.125.230.231
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thinkoid.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=thinkoid.org
+	s=arc-20240116; t=1790683419; c=relaxed/simple;
+	bh=PciWmux5HC5M2ATiQSEpq6zzLM96CmzakRTho6QSq58=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=a85+fUF+a904va2Z2tosx/bcxrtcATh2tlABW8ZoxXF07l5Odo+SkSgW0sI4nCDNqz3qq6n1UZtI6Dw+OlGOcgHxnj6uWQ5OfhvsxYTN+4tejDsUXWpIoQB0Pn+imbuGQVFfpG533xUc+J6c5wQGPB8NOgR5wx8V6BDwMaHg6ws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=KswvEEw9; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=XANZYQaW; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Dh4XFkPw; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=yoq9i3p7; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=thinkoid-org.20251104.gappssmtp.com header.i=@thinkoid-org.20251104.gappssmtp.com header.b="NTTemChe"
-Received: by mail-qk2-f39.google.com with SMTP id d75a77b69052e-5332bdd8296so51881441cf.2
-        for <linux-sound@vger.kernel.org>; Tue, 29 Sep 2026 04:59:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=thinkoid-org.20251104.gappssmtp.com; s=20251104; t=1790683157; x=1791287957; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=DlgScPHdiLebmGaCvP48bU4gXKNbLya/+el4EaXYdkE=;
-        b=NTTemChe7dfixuN74dxTKB7C8sNyxI9FeiN4dmeX7yCelWMUCBnUXZsYugKVVqI3Y3
-         iEbDYAUv/zaedKY1NP7/LqRq7ZGgL1Xx3gSjHRpLtJpLu6tklL199d2NpJs9WUY8zH7y
-         i/sMcoWAd6YmZFgN+dGNhZjO88/fFCbfOcglRLF75QK7njpqt78m8Gc6RtLewLTI5Y/G
-         Y9pqSIMliKGpuxEzTlHnCci50tE+tIA1Jw+LRJDEisuJJzAMCFlhzH9KiZLS6hWOfibd
-         i1X4PBYO7v0EOfKOYWaPV3EBqCIKwvb4CjCM2MZhZTvEe4iSLzKu9sgs8uyYW5dHjwUq
-         nRZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790683157; x=1791287957;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=DlgScPHdiLebmGaCvP48bU4gXKNbLya/+el4EaXYdkE=;
-        b=Mu/LBmRG78cQoCRUSw320Z/FSB2uY9wuCApWK9rwm+rKDiHxMcvdjAAd4Cnt72fcK1
-         2FJObM9zKqC0n34DUDVMILy584lolILK/tYNiEhVrKdsOS0V4AxSFxqxATrwvoymrXTY
-         RruLsZjODIhkVzzud+Rpol86MgB0jigpewjS9hN//3MC/ICFitPNCNNB39VS1A1pY2gh
-         CCDr33y21rPf19gYBcu7+EFH0qcucdjeYSySRPaQ7LmEbDs30GFx+CZPJ3ShQkF9j5rG
-         Fg+ecTx1j6zKwC1ULI819LMumo5Cbu+HiFgU5huIFf03DIHTywBVNkW/8vH6QcUUC1wG
-         WPrQ==
-X-Forwarded-Encrypted: i=1; AKwUvBySgEzAg4lu+2MWvTa7FzfQP5nhYVnnbQDUFFO4UDt2a2m20y7a5ayGXvukiml1gEzM55Qj36qewKCsrQ==@vger.kernel.org
-X-Gm-Message-State: AFuF++mReaEcYVBV4DcbC5saSzN1JK293uWF0QaaIyLKDWi0M8WrWtSh
-	qhxMi4W69b81z4Rp4m3Ae/zLP9dPlUsJ7RBITDowUOjrQbpBAInrD0kSiylxqeBeF+4=
-X-Gm-Gg: AYBFou1MfLUDoFDzshOVIjaUcfZbTV8W2nCQZtwrTZDEtiSLZWLgcTv7dw5jUbHTGYZ
-	0aYxwq5LNCqIf9Ghavc5OvtKAooVfXL05dRDHIPaKNrsUdRA7sEYft0/i5AiTPDd1ZQxyRptd+a
-	ly3p+Tc4X9VOQlYecj+jIcW7hF2CQy4y9GgvqwpFnq3AfiQiV7K1P3JLJIZhSAmKQUzmsOknSlG
-	qjFmsthSKQkYVG8/AmZNZIjPS7s1iqameChiULYgFScgb/Yng9bRw6q3nYEgDjRjuPnHoqfaqTL
-	xgQzWkGSIkapRrQvtj7Jpf8ZiVOu+SWQi3Xg/j3YfOeSW2d4pJpNbc5q6WL8MKdT6XSgMSQWJ5+
-	EY6RWrAv1p3LzlsjExEz+TjlYDfbtEGf9DgHH+GZMdlzdL7z87oMoVhbuuQxRE2MJiUe1V70lUs
-	d4DM2GMPPQ6FXWM8oijD3hiZnmCw6fl83EKT/euxkvotvV0Ro=
-X-Received: by 2002:a05:622a:130a:b0:533:4b39:4e28 with SMTP id d75a77b69052e-5334b395abcmr86308001cf.33.1790683156815;
-        Tue, 29 Sep 2026 04:59:16 -0700 (PDT)
-Received: from armok ([2605:a601:a61d:7a00::2])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5332225a696sm84460381cf.14.2026.09.29.04.59.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Sep 2026 04:59:16 -0700 (PDT)
-From: Liviu Nicoara <lnicoara@thinkoid.org>
-To: Srinivas Kandagatla <srini@kernel.org>,
-	Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Jonathan Marek <jonathan@marek.ca>,
-	Johan Hovold <johan@kernel.org>,
-	linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Liviu Nicoara <lnicoara@thinkoid.org>,
-	stable@vger.kernel.org
-Subject: [PATCH v2] ASoC: codecs: lpass-wsa-macro: rewrite the interpolator volume after enabling clocks
-Date: Tue, 29 Sep 2026 07:57:55 -0400
-Message-ID: <20260929115755.6096-1-lnicoara@thinkoid.org>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KswvEEw9";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XANZYQaW";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Dh4XFkPw";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yoq9i3p7"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id D0F3B1F76B;
+	Tue, 29 Sep 2026 12:03:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1790683411; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=Xa50dbhvCypPo+vN82ToespHPquiCP3aRkNeiNkZCcE=;
+	b=KswvEEw9/BRTKFki8jGndIXGJVFQMVCzdzEZmwAJp/0OYtAljCqQDKYTfp1TLWf7/GHasM
+	n3QSBgYCoiSBaJzjSaT2/Zw6EdY8e5M3HsfUcvMPIGzb+sy6vwIU4ApxMXy0zNtyOATNgS
+	+k8UfJclYhGC8hC4o4C1TqJjCP6agGs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1790683411;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=Xa50dbhvCypPo+vN82ToespHPquiCP3aRkNeiNkZCcE=;
+	b=XANZYQaWXPBDOVmMbm2CKx0qQ5kFJovd0XKJHApNQPIIqSAjWRMgeTa/9SOY4ihpklv+Bu
+	CW6UmRb7wImo5CDQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Dh4XFkPw;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=yoq9i3p7
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1790683406; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=Xa50dbhvCypPo+vN82ToespHPquiCP3aRkNeiNkZCcE=;
+	b=Dh4XFkPw9lOmbZOoL8U3nfLVp3GrzfW+Vq12xSthSsU1QXEt2RS7GZfnmZbpGka2izKANU
+	d9gR9qUnCOMMny3meBTjP6/DYUy4lcyf7zzzkaKE6jS1pHelMJr3C48RabwmSuIsqMgbTa
+	LbNw3KNRzQIiEtaxNvjnBvCZiE+Rlxw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1790683406;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=Xa50dbhvCypPo+vN82ToespHPquiCP3aRkNeiNkZCcE=;
+	b=yoq9i3p7xZ0MB7ytPWSxXEJL3GWfEAV+gHxItKZfAhvuqcSjRKedUybiAh95/9pTpGdSsn
+	8rXih2rGFwft3CCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 99312133F1;
+	Tue, 29 Sep 2026 12:03:26 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id ZpXjHA6pu2q0PAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 29 Sep 2026 12:03:26 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Cc: Jan Lentfer <jan.lentfer@web.de>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: usb-audio: Apply boot quirk for some Behringer models
+Date: Tue, 29 Sep 2026 14:03:06 +0200
+Message-ID: <20260929120309.1460348-1-tiwai@suse.de>
 X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -80,81 +80,76 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[web.de,vger.kernel.org];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	RCPT_COUNT_THREE(0.00)[3];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	FREEMAIL_ENVRCPT(0.00)[web.de]
+X-Spam-Score: -3.01
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: D0F3B1F76B
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
 
-Commit 902f497a1ff5 ("ASoC: codecs: lpass-wsa-macro: remove useless
-gain read/write sequence") removed the read and write of the digital
-volume register in wsa_macro_enable_interpolator(), on the grounds that
-writing back the value just read does nothing. The comment above it,
-"apply gain after int clk is enabled", was left in place.
+Jan reported that a few Behringer devices became broken since the
+recent optimization to avoid usb_string() call at probe time at the
+commit b364a0d23cae ("ALSA: usb-audio: Use strings in struct usb_dev
+for manufacturer & co").  Interestingly, the devices seem requiring
+the explicit descriptor read at probing time, and the optimization
+above dropped it.
 
-On the Dell XPS 13 9345 (X1E80100, four WSA8845 amplifiers on two WSA
-macros) the write does something: a volume change made while the path
-is idle does not take effect when playback starts. Lowering the digital
-volume from 81 to 63 with nothing playing, then playing a test tone,
-gave about the same level as before the change. With the rewrite
-restored, lowering it from 81 to 69 while idle played audibly quieter,
-and restoring 81 while idle brought the level back. Changes made during
-playback take effect with or without the rewrite.
+There is already a boot quirk for another model, Behringer CM1A
+(1397:1234), that adds a device descriptor read, and this seems
+working for them, too.  So just apply the same boot quirk to those
+affected models:
+ - Behringer K-2 Mk II (1397:1230)
+ - Behringer Kobol Expander (1397:1249)
+ - Behringer 2-XM (1397:1256)
 
-The register already holds the new value when this happens. Without the
-rewrite, after an idle change from 69 to 81, playback stayed at the old
-level while the register, read from the hardware through /dev/mem, held
-the new one (0xfd). Writing that same value back through /dev/mem
-brought the level up at once.
-
-This is the behaviour described in commit 46188db080bd ("ASoC: codecs:
-lpass-wsa-macro: fix compander volume hack"): "the volume registers
-still need to be written after enabling clocks in order for any prior
-updates to take effect." The value read comes from the register cache,
-so the write pushes the last requested volume to the hardware once its
-clock runs.
-
-Restore the rewrite in the interpolator's POST_PMU event only. The mix
-path event removed later in the same series is not brought back.
-
-Fixes: 902f497a1ff5 ("ASoC: codecs: lpass-wsa-macro: remove useless gain read/write sequence")
-Cc: stable@vger.kernel.org
-Assisted-by: Claude:claude-opus-5-5
-Signed-off-by: Liviu Nicoara <lnicoara@thinkoid.org>
+Fixes: b364a0d23cae ("ALSA: usb-audio: Use strings in struct usb_dev for manufacturer & co")
+Reported-and-tested-by: Jan Lentfer <jan.lentfer@web.de>
+Closes: https://lore.kernel.org/e7087d42-5e74-4d85-b1c5-b11eff235d41@web.de
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
-
-Notes:
-    Changes in v2:
-    - Cc stable (Johan Hovold).
-    - Add the /dev/mem read and rewrite from the v1 review.
-    - Link to v1: https://lore.kernel.org/all/20260924125940.22665-1-lnicoara@thinkoid.org/
-    
-    Tested on v7.2.6 on the machine above, by listening. This function is
-    unchanged between v7.2 and for-next; the driver's clocks moved to the
-    PM clock framework in cd054a6e272c after v7.2, which was not tested
-    here. Build-tested on broonie/for-next (arm64 defconfig).
-
- sound/soc/codecs/lpass-wsa-macro.c | 3 +++
+ sound/usb/quirks.c | 3 +++
  1 file changed, 3 insertions(+)
 
-diff --git a/sound/soc/codecs/lpass-wsa-macro.c b/sound/soc/codecs/lpass-wsa-macro.c
-index 4242366601a5..899c8bee4645 100644
---- a/sound/soc/codecs/lpass-wsa-macro.c
-+++ b/sound/soc/codecs/lpass-wsa-macro.c
-@@ -1849,6 +1849,7 @@ static int wsa_macro_enable_interpolator(struct snd_soc_dapm_widget *w,
- 					 int event)
- {
- 	struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
-+	unsigned int gain;
- 	u16 gain_reg;
- 	u16 reg;
- 	struct wsa_macro *wsa = snd_soc_component_get_drvdata(component);
-@@ -1890,6 +1891,8 @@ static int wsa_macro_enable_interpolator(struct snd_soc_dapm_widget *w,
- 					CDC_WSA_RX_PGA_HALF_DB_MASK,
- 					CDC_WSA_RX_PGA_HALF_DB_ENABLE);
- 		}
-+		gain = snd_soc_component_read(component, gain_reg);
-+		snd_soc_component_write(component, gain_reg, gain);
- 		wsa_macro_config_ear_spkr_gain(component, wsa,
- 						event, gain_reg);
- 		break;
-
-base-commit: 1f9b1774f65c6670a37000390e6c43309248a345
+diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
+index 294c7026b93c..de6a82a42eb7 100644
+--- a/sound/usb/quirks.c
++++ b/sound/usb/quirks.c
+@@ -1702,7 +1702,10 @@ int snd_usb_apply_boot_quirk_once(struct usb_device *dev,
+ 	switch (id) {
+ 	case USB_ID(0x07fd, 0x0008): /* MOTU M Series, 1st hardware version */
+ 		return snd_usb_motu_m_series_boot_quirk(dev);
++	case USB_ID(0x1397, 0x1230): /* Behringer K-2 Mk II */
+ 	case USB_ID(0x1397, 0x1234): /* Behringer CM1A */
++	case USB_ID(0x1397, 0x1249): /* Behringer Kobol Expander */
++	case USB_ID(0x1397, 0x1256): /* Behringer 2-XM */
+ 		return snd_usb_cm1a_boot_quirk(dev);
+ 	}
+ 
 -- 
 2.55.0
 
