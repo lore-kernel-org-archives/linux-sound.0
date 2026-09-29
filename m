@@ -1,39 +1,39 @@
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28AEB4C9E0B;
-	Tue, 29 Sep 2026 09:08:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1395A4F0558;
+	Tue, 29 Sep 2026 09:08:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790672943; cv=none; b=P8oyIsCNO0qQkRIwFF95fzsCniVz7O3K3u+TETBCTbaMQA2CYn3wwkw6a05TbO/lZsXq08ItWaatZP2HymOtcGcJLdooXt3U4zsdO8LeUBDbHllQ788EgK909ohWa1b/DXQiqMLFlEhX2xdOT/TvnPZVgBCRUo/1AyI1jK1Fks8=
+	t=1790672948; cv=none; b=eG8rQmIblMwwUQCPX813r/X5ImPLSO9ip1woLnLaKUwRpsxg2QiH+3ZVp3oog2/twbqog6+dBtynEKy9fXDswuf13VATMFVMN9NvuluL6KQPkMZ3Z+sNVYraNKVrPrEUqa/wqUYWa9z8xfbblwleELldP4rCIx45LP99Fb1iBMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790672943; c=relaxed/simple;
-	bh=njzty+l3UmU0sGa/D9jJKAHZ4pn3KDgxVfnBWJDQKhE=;
+	s=arc-20240116; t=1790672948; c=relaxed/simple;
+	bh=8jRi2qSCV5ia4QnCi5ZBs/PlstNi7J/3hHnJFaZVq9Y=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZUCx6Cr3VSysRh0ecbTMDYU4cuk3pL1QFV/gMpQROKXrSUKGcJB6M7czQFWvkKfWOQA2NSni+CNbpkyz+k18SkTPuBV/vbgcXHdeAlhk9AimRzRZOwD+RbZwrTpnnAlzVa+NCy11d0T9R39Agw7jp+yKVVl++3MJZJHB4WnyOpA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alexanderkoch.net; spf=pass smtp.mailfrom=alexanderkoch.net; dkim=pass (2048-bit key) header.d=alexanderkoch.net header.i=@alexanderkoch.net header.b=K22cUSA4; arc=none smtp.client-ip=80.241.56.171
+	 MIME-Version; b=eZWjtlPr1ae78ir/ssIsENLTLzNJroz+pl3IaLfdOI+zfl8dX804W2enbC/bDG2zy4M7BlBGjpVC1WaGUqjxERVT0/QRWHkyCOjCn7jKfayATC8JRk7H57qrodXrnTbz3TA+FmFL8jVmFtwdJvMdvYGWMaxeDq76MSMkuWpTxlo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alexanderkoch.net; spf=pass smtp.mailfrom=alexanderkoch.net; dkim=pass (2048-bit key) header.d=alexanderkoch.net header.i=@alexanderkoch.net header.b=bThWhrDH; arc=none smtp.client-ip=80.241.56.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alexanderkoch.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alexanderkoch.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=alexanderkoch.net header.i=@alexanderkoch.net header.b="K22cUSA4"
+	dkim=pass (2048-bit key) header.d=alexanderkoch.net header.i=@alexanderkoch.net header.b="bThWhrDH"
 Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4hvC5b3JJJzMlnB;
-	Tue, 29 Sep 2026 11:08:35 +0200 (CEST)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4hvC5g4G7FzMltx;
+	Tue, 29 Sep 2026 11:08:39 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alexanderkoch.net;
-	s=MBO0001; t=1790672915;
+	s=MBO0001; t=1790672919;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=EwsvXtmXV4nEAS7BnUQpZBjOavIbbJi/FwbOVOmyzmM=;
-	b=K22cUSA4Wbrclel3fAUcV5Itsihh/lqqVD4J/PKQQKgw8W5ek5SofL/jUQaai8BGqfOxXp
-	1Y7zIl7hMT7mrRZHmHFteXcLtB1Q/5/cjSEanGYgG6ntLLG6Zy2RSAE75ox9WSvk0c4dWf
-	NHoocB+EBG+tU+/fRPyZRS0rVCEVAIK0n78058+FlBo6K8l62oCVWVVbDnsojYAc+pBuqw
-	DiEA8v6hFHh4CLiosD4B2Q7qQqkhHbdxjgKQiXeGzxv+skBQJYpq1H6ML2uSjH28uID2Sf
-	OJegYfK1UNLdxGPHZC0JCNBHgENmNJQcVUHaJ4bwgEJJgHuigxbfeKPguJ8agA==
+	bh=E6qCjZtx6FxuSj3Qo3YQWdfcdyit89x4CHQFZ9zju4o=;
+	b=bThWhrDHxBQAWMZIt7vvPKaKKbCKsQjivtKCNSX0xNKfIxRrTYfbjhkuheoowDiUjg5qou
+	fDtIi6syFbOuW+YqTFxBS5B3jsyV6nU+0t1TAkjLTJvEkIUBnezMvCG81TdtrWQg9agWCx
+	YlWVdN+wJVGCZ1fMDbI1rLv9FlmdzauK+726nuEyVKy+0iKiTgoFumiJKOgZ907pjGXtqK
+	lGg90XGudn6bKYpNzUj2Wm6vuE4fgkigEFEbJBB2Y3LRitK7Ct41Gyn8nSEJDbSQHU1z4Q
+	XRj4QfMYiY5/yffY7SSrnAlFf9Mib1V+upe15h7kz3BmCSMYuVudDmM8lS76rw==
 Authentication-Results: outgoing_mbo_mout;
 	dkim=none;
 	spf=pass (outgoing_mbo_mout: domain of mail@alexanderkoch.net designates 2001:67c:2050:b231:465::2 as permitted sender) smtp.mailfrom=mail@alexanderkoch.net
@@ -51,9 +51,9 @@ Cc: linux-sound@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Alexander Koch <mail@alexanderkoch.net>
-Subject: [PATCH v2 1/2] ASoC: codecs: ak4619: Add optional powerdown GPIO
-Date: Tue, 29 Sep 2026 11:08:20 +0200
-Message-ID: <20260929090821.1476257-2-mail@alexanderkoch.net>
+Subject: [PATCH v2 2/2] ASoC: dt-bindings: asahi-kasei,ak4619: Add powerdown GPIO
+Date: Tue, 29 Sep 2026 11:08:21 +0200
+Message-ID: <20260929090821.1476257-3-mail@alexanderkoch.net>
 In-Reply-To: <20260929090821.1476257-1-mail@alexanderkoch.net>
 References: <20260929090821.1476257-1-mail@alexanderkoch.net>
 Precedence: bulk
@@ -63,10 +63,10 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 4hvC5b3JJJzMlnB
+X-Rspamd-Queue-Id: 4hvC5g4G7FzMltx
 
-Add optional device tree binding that enables operation of the 'PDN' pin
-during initialization:
+Add documentation for an optional property that enables operation of the
+'PDN' (powerdown) pin during initialization:
 
     codec@10 {
         compatible = "asahi-kasei,ak4619";
@@ -75,59 +75,45 @@ during initialization:
         #sound-dai-cells = <0>;
     };
 
-If defined, PDN is set high during driver probe, followed by a 10 ms
-delay as required before first register access [1].
-
-If no 'powerdown-gpios' is defined, the behaviour is unchanged.
-
-[1] AK4619 datasheet, sec. 2 'Power-up/down Sequence', page 39
-
 Signed-off-by: Alexander Koch <mail@alexanderkoch.net>
 ---
- sound/soc/codecs/ak4619.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ .../devicetree/bindings/sound/asahi-kasei,ak4619.yaml  | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/sound/soc/codecs/ak4619.c b/sound/soc/codecs/ak4619.c
-index d9c9f6b20028..c4f0db1e51c8 100644
---- a/sound/soc/codecs/ak4619.c
-+++ b/sound/soc/codecs/ak4619.c
-@@ -152,6 +152,7 @@
- struct ak4619_priv {
- 	struct regmap *regmap;
- 	struct snd_pcm_hw_constraint_list constraint;
-+	struct gpio_desc *pdn_gpio;
- 	int deemph_en;
- 	unsigned int playback_rate;
- 	unsigned int sysclk;
-@@ -875,10 +876,20 @@ static int ak4619_i2c_probe(struct i2c_client *i2c)
+diff --git a/Documentation/devicetree/bindings/sound/asahi-kasei,ak4619.yaml b/Documentation/devicetree/bindings/sound/asahi-kasei,ak4619.yaml
+index d412531ef9a2..86e0b8cbfc29 100644
+--- a/Documentation/devicetree/bindings/sound/asahi-kasei,ak4619.yaml
++++ b/Documentation/devicetree/bindings/sound/asahi-kasei,ak4619.yaml
+@@ -34,6 +34,12 @@ properties:
+     $ref: audio-graph-port.yaml#
+     unevaluatedProperties: false
  
- 	i2c_set_clientdata(i2c, ak4619);
- 
-+	ak4619->pdn_gpio = devm_gpiod_get_optional(dev, "powerdown",
-+		GPIOD_OUT_LOW);
-+	if (IS_ERR(ak4619->pdn_gpio))
-+		return dev_err_probe(dev, PTR_ERR(ak4619->pdn_gpio),
-+			"powerdown GPIO request failed\n");
-+	if (ak4619->pdn_gpio)
-+		msleep(10);
++  powerdown-gpios:
++    maxItems: 1
++    description:
++      GPIO connected to the 'PDN' pin, if any. Needs to be set low to
++      power down the codec, hence the GPIO must be GPIO_ACTIVE_LOW.
 +
- 	ak4619->regmap = devm_regmap_init_i2c(i2c, &ak4619_regmap_cfg);
- 	if (IS_ERR(ak4619->regmap)) {
- 		ret = PTR_ERR(ak4619->regmap);
- 		dev_err(dev, "regmap_init() failed: %d\n", ret);
-+		if (ak4619->pdn_gpio)
-+			gpiod_set_value_cansleep(ak4619->pdn_gpio, 1);
- 		return ret;
- 	}
+ required:
+   - compatible
+   - reg
+@@ -42,6 +48,8 @@ unevaluatedProperties: false
  
-@@ -887,6 +898,8 @@ static int ak4619_i2c_probe(struct i2c_client *i2c)
- 	if (ret < 0) {
- 		dev_err(dev, "Failed to register ak4619 component: %d\n",
- 			ret);
-+		if (ak4619->pdn_gpio)
-+			gpiod_set_value_cansleep(ak4619->pdn_gpio, 1);
- 		return ret;
- 	}
+ examples:
+   - |
++    #include <dt-bindings/gpio/gpio.h>
++
+     i2c {
+         #address-cells = <1>;
+         #size-cells = <0>;
+@@ -49,6 +57,8 @@ examples:
+             compatible = "asahi-kasei,ak4619";
+             reg = <0x10>;
+ 
++            powerdown-gpios = <&gpio1 0 GPIO_ACTIVE_LOW>;
++
+             clocks = <&rcar_sound>;
+             clock-names = "mclk";
  
 -- 
 2.55.0
