@@ -1,81 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pz2-f40.google.com (mail-pz2-f40.google.com [74.125.228.40])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D74D3328610;
-	Wed, 30 Sep 2026 11:07:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B2064BF95F
+	for <linux-sound@vger.kernel.org>; Wed, 30 Sep 2026 11:15:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.40
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790766468; cv=none; b=af8Bc9kmuMx9F6N5quGVaab5YZ6xs5wdlyBAhRBeMwkoVYNiTS6LljhMmZmgXvmlpboTVzSp8UwPEW9tbMKbHJXnBCXPCV/gLEc8gHsuz239LMeH7Fee7Nl+pqhZRuexkKN2+seiK7ico1BqPRp8/rovnbwenP+Mxj+mniJXOV0=
+	t=1790766948; cv=none; b=oSTXsoaMkNPW6pnh0mDxdbkcg190HZvqwa4579oDg6WtwONO9x+BI0U82EJGDpv5lzExN9zkb77j4WlEWM49bn4LR+XrhBzw6G5YIM24DXDQB64SsPCMH3Nl+mdCC2z0qCnCBe4H0UeAPPh0bYThPSvNU/pOtR/8554vqZ7nBjI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790766468; c=relaxed/simple;
-	bh=PBmWym/gi9GWabyqOvL9JYC1c00FBUIO+rT65p11xSs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iDPvY90h/glU242Y5/7TrVY3VYdPeMYy+1SqDylVLfNGR1LOe8k+WGDv6T4F9YLWIohQvm4g+FC+MA6QmkCBMwwcr0DUMdhNG6B/9gRyP3nwvVBKTCVnYCuSL8ri1+oJlP0pQFOsZx4aZTOsI0sbFNi6vtBRHlPr+wFkWl4xglY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nYLkO+is; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790766948; c=relaxed/simple;
+	bh=m+Q/tTI/o+BXkDEq3cC5VVOnKy49NTSPbpCX8x4nXpk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=V84okw2+eLLIg8x7BTxFev/yhIck/kaaiSRwPRAUX1wXsXToMGRiuYx8WQalKfAd0keF+zX8YkOtBRIrUjnJlo7doNqtbBJqMo2gxJH3IN8HuJc9xtgJGH2+1T5AQE1rmF+F6lnoFtAsQt0cph25OsT6+uuH68kJjd/Ic75Xgks=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nlQd9Kh/; arc=none smtp.client-ip=74.125.228.40
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nYLkO+is"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5757A1F000FF;
-	Wed, 30 Sep 2026 11:07:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790766467;
-	bh=PBmWym/gi9GWabyqOvL9JYC1c00FBUIO+rT65p11xSs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=nYLkO+isoS2z/prm2bYucFquR9LvaRl4tEtzJsZ0I2dYtjYKwL6d9OtrtRHlMRoSy
-	 yFsRP01BJjBqN+l2xh9XCIYrpITGvj/sAocd8kKhLoNjPs963aZx+1cYkH1Hzv/ojC
-	 Z3t9rSgqnjKCTsx4p3pHrHLjQxOVAg36lOU1SEU9Lr0Btrh6FlbUQdJc5Cba6SI+Kh
-	 0vSGB79OQvSIRik/o+T6V5wPHXFL0E9SmC5hRCXxYrBAVlYHTJ4INgox8AhCSpaRrO
-	 RYoAhIT+EoE591x03gVth17J1FDfsRjJ35RsyGqwITFaKFyW/TSAJWFh2v3zkpGPma
-	 y0j/coXD1BvRQ==
-Date: Wed, 30 Sep 2026 12:07:43 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Christian Marangi <ansuelsmth@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nlQd9Kh/"
+Received: by mail-pz2-f40.google.com with SMTP id d2e1a72fcca58-8805988a200so3377223b3a.3
+        for <linux-sound@vger.kernel.org>; Wed, 30 Sep 2026 04:15:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790766946; x=1791371746; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=DoxbblakwndhV2e20T3viBaOX6/YMFCmPPHjeeAjYNw=;
+        b=nlQd9Kh/X0vcqwvSELisMZy3wNNT3nJCDMQw4tbb8ObgJvtjlaoFYMkZQxM/xQL0AR
+         XPNYfGb9c3lLMndAST/eTznAMgZAMpb+dP+eKzjAAVbSCtKWWBPmkYmwsfBHtXW/eM5O
+         7KYYqRkAzzh5WOWF0q4jQ8MV5Tpya1tzocdMqz92C8nTGf8fFY+xaLC6biPifP87T8L/
+         wxXqbbSOEvowWQXZTe9yJFX34Dm3YLkOdxdq8At8G5cMw0/v0attv6Wu4xf/iht5cdmT
+         ccO/N4gWgn5e2H6Vo+GzcxKlHEJCLzNxMdJUA/toz9Sr9GfnkzI7kQlkx9wwoNx/06DP
+         IQEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790766946; x=1791371746;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=DoxbblakwndhV2e20T3viBaOX6/YMFCmPPHjeeAjYNw=;
+        b=Rv1Ba0I1iV8ucnhTYRbbLzsulL1i6Y1dHp+pKtiN+ew9odiADAB5OR35xCyoyBCZH1
+         RyizElt2sRlXcyhZunVid6uDsANL9DN6TLzy6uXZs8m3TaCsvZy+vy4TWwAsPKNu/iK0
+         2963YcYDsTityfitkVhka/2piqWfDOqfdxHj5LtI8YkeP7A5MotqkIZh4FfX1BrlneKa
+         A8ZH3RMEWeU8A1w4pHpKjO1TMCE/X4oXGASBOVYT8J9hCQ7/5xxNfhe5G17hMAhWK1Zg
+         t93jkx8TtL/49X+22J+VcNOchEW4yAFVeWgrVSyj7/WzpIQ5j2iP+giEWwUuX0vRtaMp
+         9S+g==
+X-Forwarded-Encrypted: i=1; AKwUvBxctum6pKoOBW2Xq8fsSQyMIYmJi+2W/53i+9ubbzuT5ppjRM0rLq+NJ4QM7mVdHfP0A+ZL60JRVIP7uQ==@vger.kernel.org
+X-Gm-Message-State: AFuF++lDt0juuc9Dl3D/QLJtDJYnflxp9pPW5DDKsyqNWk7ctRlx15p0
+	aqDG4jzbXZHkn1wPRee2fEU49SobQv6nWZMTs95/DoTt0up1VshzuoixfI722/Ri
+X-Gm-Gg: AYBFou2pVN6NEzbyzQq8GZxJcjXgf91b4JDO3L1I6gbo2uThzRalW3MSEFCyaTgtDTx
+	GTZc9Mej7xU7pvTQfxhifzNxrijsRNk6XJEbd8CEstKDeqWxHrPOZctWTv6cMCm+jii/35cQ2Fi
+	MHTVgG37B/ix5J/Bwlbi1dCXkXDs2LN6xV3ucpChSAnPo4AZE9J0Mjat3nbyeOvurfvXDnnmAuq
+	K3MbZTNukvsJpSOaGI6t20Rl48dJHJfY3O+4TQqQtbFK2lseavJm063F9QjO1VxYcBK8RdBO7oh
+	2y3UGjoqlZ5KpzAVYCaY1tqPKf3DzvAVSiC2QGQ2lVrDSdwZUepYVjlDmIacnd+pps6W6wbKhWl
+	ehqHasB+zqekUVlzvCwLWUOFOhdWju4UbjIL+SuTxJRUrBorh+Muf/5hUADTOycRRGLP7FvX6z5
+	GkC7vGkAo/oEap3FTb4/9xXQ87uz75Py4b7GmJhFEvlF2cqGv/WpARCk1Moip8UO5C+5ECFio49
+	Gu6yXO5ZADRxDavzxfbe0NJrZp7Vw+V5P/NDQtjJTmL67Kj4TTSKrW8Tid4MhPEChEyu/UQfuE=
+X-Received: by 2002:a05:6a00:a253:b0:881:fa65:d507 with SMTP id d2e1a72fcca58-8874ab8ca2amr690790b3a.22.1790766946179;
+        Wed, 30 Sep 2026 04:15:46 -0700 (PDT)
+Received: from nugod-NUC15CRHU5.tail9f095a.ts.net ([218.237.104.87])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-88726c07f4asm634108b3a.59.2026.09.30.04.15.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Sep 2026 04:15:40 -0700 (PDT)
+From: HyeongJun An <sammiee5311@gmail.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [RFC PATCH v2] sound: airoha: add support for AN7581 PCM driver
-Message-ID: <0bc0de0f-6b98-4ded-9dac-3c95667e4448@sirena.org.uk>
-References: <20260930070717.47487-1-ansuelsmth@gmail.com>
+	Shuah Khan <shuah@kernel.org>,
+	linux-sound@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	HyeongJun An <sammiee5311@gmail.com>
+Subject: [PATCH 0/2] selftests/alsa: Catch writes that silently change other controls
+Date: Wed, 30 Sep 2026 20:15:32 +0900
+Message-ID: <20260930111534.3782264-1-sammiee5311@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Lp+r8yxZL208g7r8"
-Content-Disposition: inline
-In-Reply-To: <20260930070717.47487-1-ansuelsmth@gmail.com>
-X-Cookie: (null cookie
+Content-Transfer-Encoding: 8bit
 
+Mark asked for this in the es8316 thread [1]: have mixer-test check
+for other controls changing when one is written. Patch 2 adds that.
 
---Lp+r8yxZL208g7r8
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Patch 1 fixes a bug that testing patch 2 turned up. With a driver that
+notifies a neighbour with a value event, wait_for_event() returns on
+the neighbour's event and the next test reports a spurious one.
 
-On Wed, Sep 30, 2026 at 09:07:15AM +0200, Christian Marangi wrote:
-> The Airoha AN7581 SoC have alternative Sound Card that expose PCM OPs
-> dedicated for VoIP application.
+The cost is two extra writes per control and a read of every other
+control on the card after each. On the two cards here, 39 controls in
+all, the run time does not move. I have no card with hundreds of
+controls to measure against the 45 second kselftest timeout.
 
-Please submit patches using subject lines reflecting the style for the
-subsystem, this makes it easier for people to identify relevant patches.
-Look at what existing commits in the area you're changing are doing and
-make sure your subject lines visually resemble what they're doing.
-There's no need to resubmit to fix this alone.
+[1] https://lore.kernel.org/all/0fefbfe1-021b-46b2-8945-15956e75e37f@sirena.org.uk/
 
---Lp+r8yxZL208g7r8
-Content-Type: application/pgp-signature; name="signature.asc"
+HyeongJun An (2):
+  selftests/alsa: Do not take another control's event as our own
+  selftests/alsa: Check that a write does not silently change other
+    controls
 
------BEGIN PGP SIGNATURE-----
+ tools/testing/selftests/alsa/mixer-test.c | 235 +++++++++++++++++++++-
+ 1 file changed, 234 insertions(+), 1 deletion(-)
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmq87X4ACgkQJNaLcl1U
-h9DUqgf/UltVyhZ4Zze8hpd5+BC955h8rJ4fM6qYIL/cdV8OCNl9rBBdjpSRdryc
-89clEktrX4gCeqSJNnSmK7iJhFWxZIAJN0exSiLsYUajuFb4i2rOma8qEOGuF5Hb
-/fYhzfeRC8fRHsByaHlONtlyOzp00EKTUlvfoRft0PelM2TNKxl1Qm5EL/ueOoxY
-WykzMat4DalkHy2xtQw6OijcGjh6MsleYqXW9HEv2T7hJrAxlAnNtD7nWNNA7dTt
-eLq6cpZx2ZiwMpuFBOhVkpu9pT7SNj2/kTaTRedmawfwjAYw7oF6tt0DBRPFm3Bv
-1zspoxh7z/F8/4a9Tsdsjx/rGgvy4Q==
-=ZRo5
------END PGP SIGNATURE-----
+-- 
+2.43.0
 
---Lp+r8yxZL208g7r8--
