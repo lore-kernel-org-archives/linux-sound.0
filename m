@@ -1,172 +1,171 @@
-Received: from mail-pz2-f36.google.com (mail-pz2-f36.google.com [74.125.228.36])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 875A13B3C17
-	for <linux-sound@vger.kernel.org>; Wed, 30 Sep 2026 07:36:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.36
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C06C30C147;
+	Wed, 30 Sep 2026 09:32:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790753794; cv=none; b=uJLNp09O6VMB44Jl9C4JIWCjhPlume+QIVLjOtiV1WpIHH3JQJy2Gbxzgtb/TGbUUdTgHieDBN6vWGCXj6IUBmyzjJTerU4MCwP3QSTaJyNa8wU8i72JS/2X2HhX2KcK9I/2wuAXlzC10Mb+ZnjiF8mLberAb2L0qqaIYqPaMWE=
+	t=1790760761; cv=none; b=Kf9Zr2uNjv45FwLGm/pDi1s5K2fOqWiFNkJULWX0rtrHJR2A2ylYuyTTb6Y6CNrBQsxkHIzSVOLDvh1Wl1jHIMaDPkjhtJGP530xZog4U5RaDZ5MftPSguEzABYKK+nl4CKzV3ZyZm2VikY0kM9frmh5EZYnmgWPqK9zzcQien8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790753794; c=relaxed/simple;
-	bh=IdSAxfgzIsA5UVG0b3AAedLhYXOcEtjTR/fFSjPyySs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fhcSffLW+8WaAq5Iu0G+zoGxktgsqJiCJIJJbQhbry4ovm+zWTIKNUW+MMPT8mjkxt+B6meBJKVGxYl/M/rgeCdjbx+TeCYqYjdKrMt11V9/4NEfJGKt2REdJsMFMtwRXovoVOB1xLqS39I0bbWH1RY3MPttW4GZ7ZH78CvvRz4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DN1EFrqp; arc=none smtp.client-ip=74.125.228.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790760761; c=relaxed/simple;
+	bh=TlzHEJQt+34xYjujqXxuq3JcjM0wYp8ZviYUagsVkog=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=garWEN3pTPZ7+NgDU1WHoJtjfajbeOywY3CMAhthbp1Wn6S/ZR7JDL1COPGG16xzzNMad5wxSVwPmmJwNRV0wutckgUP6s9N+LHPXG14nlYHw3+dWd5gAqMX8XpHnmCS89rzNhvWXYrh3iR4CfWqOLZv34HFKanSM5TiA59WRWk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A/WFPBAH; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DN1EFrqp"
-Received: by mail-pz2-f36.google.com with SMTP id 41be03b00d2f7-cc7c058617aso951615a12.2
-        for <linux-sound@vger.kernel.org>; Wed, 30 Sep 2026 00:36:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790753792; x=1791358592; darn=vger.kernel.org;
-        h=content-type:content-transfer-encoding:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=PRNSLRyn2N1iTesBby/+rq6D8yhyFSP+EyakI7q9A6g=;
-        b=DN1EFrqplFpRoIjDJS4zRJd9E8RcFOOxpxoevIVs0ZvzSPQ5YDdAiK0rW+J5+H6u6q
-         0x8slN1cFIbtpVK5UyfidqUuhJq8h6/Jv/3PmMa3VJkKoOzOEHPtSOFJ0vE/abZyJvNy
-         P6NZs1Uwg0V1WSGAhLLlR9Kb3doE4CB8xetGoRB61Pgi58ODQiyKF+xjBR3Av6zYY95U
-         K4rzGXXKW/Iy2KGZ13Es7/aMDUyeLz8ERVBsNxIeeU06we02FK/y8+ijifVMEufLyD7C
-         a8bmTmLbwmSIF9HV81RyIaYQYoOnrrWJyr8Uiql9Q7YXILlxvn0nwGPl2tlolJRkGIaT
-         M54Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790753792; x=1791358592;
-        h=content-type:content-transfer-encoding:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=PRNSLRyn2N1iTesBby/+rq6D8yhyFSP+EyakI7q9A6g=;
-        b=2qn0zEsrNjk8sKpV1N9ad+6ix1thjt6mjf1qbPKAtAszLgrxjMNOJluWXOG6QQ0wxw
-         Xa5tIs8cljLtI3C5tEgjcL1K7mMO5D+JU5z/KBJENcpSXRa6QeZQbooobfShDoqrvpw5
-         TZseC6p2yTWetD1NXJo8hhPLSL4IbPjcc1u0qYbLbQ3Eq1nQfOFOBxKoq0KR+d/2uBaN
-         JNVymIR51J8fj/K6Dd/pVm/0yVzEVLlZD0riaG9v4ayl8Kd7Pigzw+m3aFSDx5Spyav2
-         vD//4tdxd3iR1gBCH2vYs/Kg4Jrz3weUMJh06Fka1/LyeOYN6mHiHt7vin52MOy0HnSV
-         LDaQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzwNUdSJNg+BbrifqHVIch7Eo74fxAyTTpNIgfcCKZJDnTmtFpnaBea0HsgbQARnEAxHbrmYWUPycC9LA==@vger.kernel.org
-X-Gm-Message-State: AFuF++lePkaiFGqZWZKfYbZ0sGLUYVn3Pp2EIojlkKosO258CO8/Ckph
-	LMqCvyajHfgEGBRd87XFzAjiEupFj40L5NTYaoaPw2C1dWjyFi+m65Dc
-X-Gm-Gg: AYBFou0BUv3kMzK9rbWELaJg3d3tD6Bz94K8RoMzNUizsedsdqJ3rZqwgDu+90uqKKH
-	rNYP3NoYVeXn5Y5YfRvCc4e95guQh+f7LQBzQJcBOh7bTKfEQ9rzfiHxDX6b6unHDTUJGuc/QHK
-	FbLnHaOUVIwnEWMCsj6QFFWCoAWEjs7cBNPQS4Oqz5CetMu22oSv3F4yTXMpAHrm/4rX1mCICuI
-	l/l4iXN0kA1nDD0GAq/gY1N9bNFyP17zCIFmKa8hf69T1GgfKH8G66jZwm4Z5D4bpvDSyzJe7yR
-	HYzloU/ScYO67LQYDSpFfKSieF7wwu3sKTzP1ME6qRMYQlkMCEuYKJKeQIRikGFp15q6bv7IAir
-	PEOoQlwvy0Ii6ixujn39a378IJPpYTlOi/oXbcu8ezjRYcAyJcsQz8sWbd54TX8gLTDe/KNZ5K6
-	TwcK6KQBCO9n0+hVgbL0yhopiKjLckE0T92EvbS6d7CwB6TDyYiSvZWgD4o9KzexQ+Xi7s/MFb1
-	6md6WJ1+CjK6GWYjlEJ8DseV4OcQb+dmW7iSbogKw5msea0viNayJJOIh5KMiZvKJkktihc+HAw
-	4TOnr360W4gZ/49h3q+I6mOzbDpEyfMMR0+WSvSuiMfIIBbJQg==
-X-Received: by 2002:a05:6a20:d492:b0:3dd:a196:3095 with SMTP id adf61e73a8af0-3de9ebb39c1mr589504637.69.1790753791652;
-        Wed, 30 Sep 2026 00:36:31 -0700 (PDT)
-Received: from minako.localnet ([2403:581e:d87e:0:739f:50a5:e171:f133])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cc7dab202f1sm367179a12.27.2026.09.30.00.36.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Sep 2026 00:36:31 -0700 (PDT)
-From: James Calligeros <jcalligeros99@gmail.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Martin =?UTF-8?B?UG92acWhZXI=?= <povik+lin@cutebit.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
- Neal Gompa <neal@gompa.dev>, David Rhodes <david.rhodes@cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Ulf Hansson <ulfh@kernel.org>, Amit Kucheria <amit.kucheria@linaro.org>,
- "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
- Lars-Peter Clausen <lars@metafoo.de>, Vinod Koul <vkoul@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
- Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>,
- James Schulman <james.schulman@cirrus.com>, asahi@lists.linux.dev,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- patches@opensource.cirrus.com, Takashi Iwai <tiwai@suse.de>,
- linux-mediatek@lists.infradead.org, Hector Martin <marcan@marcan.st>,
- Sasha Finkelstein <k@chaosmail.tech>
-Subject: Re: [PATCH 16/28] ASoC: apple: Add macaudio machine driver
-Date: Wed, 30 Sep 2026 17:36:21 +1000
-Message-ID: <ItQHm5ZKQ4Wltp6qbCRkSA@gmail.com>
-In-Reply-To: <0ae94fbe-cd41-4d49-b073-e65ab8eff724@sirena.org.uk>
-References:
- <20260920-macaudio-v1-0-741cc20a74e5@gmail.com>
- <6dv6M3LAS9mol5fvC8Ie-w@gmail.com>
- <0ae94fbe-cd41-4d49-b073-e65ab8eff724@sirena.org.uk>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A/WFPBAH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD21A1F000FF;
+	Wed, 30 Sep 2026 09:32:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790760760;
+	bh=GUhUebTYwdNTDsFDAgKX2XUga1p/xniYtUmuBOcAkD0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=A/WFPBAH7Qma+9hcX287RuSKWlORpntiWFjFLaPigU8Y75ISxg3KEjLTfteawEyBe
+	 2g/cYh4OEqr71nkWwJpVQnorMprUQRkz1eix+QLOCr/CPst8lLD0ChCfFd8YGM4jfy
+	 Fksx04sLagSxxR88vp09QnJZCikrL8s15UEcYtyj8cHuNrsfav7blbRqRE5dyxX7SB
+	 IKNdTpYGGoAU9JjY6jjqMsEYQfRaLoK1HI3j102H2WUj2d2AjX7kJd1tm0yEuZtXim
+	 rxv3PmM3a58m4CHKDbt2tmNwqyH0M2+G0zuIAT/AqLpxmsAoL5566Xt1IaKFXihiLq
+	 k8Bhh/EDc3Mrg==
+Date: Wed, 30 Sep 2026 10:32:09 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Zi Yan <ziy@nvidia.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+	David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
+	Paul Moore <paul@paul-moore.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
+	Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
+	Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, 
+	Doug Gilbert <dgilbert@interlog.com>, "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
+	"Martin K. Petersen" <mkp@kernel.org>, Jaya Kumar <jayalk@intworks.biz>, 
+	Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, Sebastian Reichel <sre@kernel.org>, 
+	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
+	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Juri Lelli <juri.lelli@redhat.com>, 
+	Vincent Guittot <vincent.guittot@linaro.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
+	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
+	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
+	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
+	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
+	Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
+	Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
+	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
+	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
+	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev
+Subject: Re: [PATCH v3 34/40] mm: eliminate VMA_SPECIAL_FLAGS usage when
+ hugetlb explicitly tested
+Message-ID: <arzXDWOaouPMGtxL@gremlin>
+References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
+ <20260917-b4-mmap-prepare-vma-flag-sanify-v3-34-4583d8a23bca@kernel.org>
+ <DLSAZ4ZQY8Q3.3OKOCCOQAFVCC@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DLSAZ4ZQY8Q3.3OKOCCOQAFVCC@nvidia.com>
 
-On Monday, 28 September 2026 9:03:13=E2=80=AFpm Australian Eastern Standard=
- Time Mark=20
-Brown wrote:
-> On Sat, Sep 26, 2026 at 11:06:02AM +1000, James Calligeros wrote:
-> > On Tuesday, 22 September 2026 7:38:54=E2=80=AFpm Australian Eastern Sta=
-ndard Time=20
-Mark Brown wrote:
-> > > > +	list_for_each_entry(kctl, &ma->card.snd_card->controls, list) {
-> > > > +		if (!snd_soc_control_matches(kctl,
-> > > > volume_control_names[ma->cfg->amp]))
-> > > > +			continue;
-> > >=20
-> > > This is used from the volume limit timeout work which doesn't hold the
-> > > controls_rwsem, userspace can add or remove user controls which would
-> > > change the list so the work needs to lock the controls list.
-> >=20
-> > Would it be sufficient to scoped_guard the controls_rwsem wherever we
-> > use this pattern?
->=20
-> I think so, but I didn't properly check.
->=20
+On Tue, Sep 29, 2026 at 10:42:00PM -0400, Zi Yan wrote:
+> On Thu Sep 17, 2026 at 12:22 PM EDT, Lorenzo Stoakes (ARM) wrote:
+> > It is now an invariant that VMA_IO_BIT is not set except by kernel-owned
+> > mappings, so each existing VMA_SPECIAL_FLAGS test need only test for
+> > VMA_DONTEXPAND_BIT, VMA_PFNMAP_BIT and VMA_MIXEDMAP_BIT.
+> >
+> > This is precisely a test for a kernel-owned or fixed mapping.
+> >
+> > Update a number of callsites which already explicitly handle hugetlb
+> > mappings.
+> >
+> > vma_supports_mlock() and ksm_compatible() also explicitly bail on droppable
+> > mappings - detecting kernel-owned, fixed or droppable mappings is handled
+> > by vma_is_persistent(), so in these cases use this predicate.
+> >
+> > should_skip_vma() tests for locked, kernel-owned or fixed memory (having
+> > already excluded hugetlb mappings) so simply test for those there.
+> >
+> > No functional change intended.
+> >
+> > Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> > ---
+> >  mm/internal.h | 4 +---
+> >  mm/ksm.c      | 4 +---
+> >  mm/vmscan.c   | 3 ++-
+> >  3 files changed, 4 insertions(+), 7 deletions(-)
+> >
+>
+> <snip>
+>
+> > diff --git a/mm/vmscan.c b/mm/vmscan.c
+> > index 12ed3388ee41..09ff20c3df5b 100644
+> > --- a/mm/vmscan.c
+> > +++ b/mm/vmscan.c
+> > @@ -3477,7 +3477,8 @@ static int should_skip_vma(unsigned long start, unsigned long end, struct mm_wal
+> >  	if (!vma_has_recency(vma))
+> >  		return true;
+> >
+> > -	if (vma->vm_flags & (VM_LOCKED | VM_SPECIAL))
+> > +	if (vma_test(vma, VMA_LOCKED_BIT) || vma_is_kernel_owned(vma) ||
+>
+> At this point, mmap_lock is held, there is no mlock WIP, so
+> VMA_LOCKED_BIT is enough.
 
-I did some testing of this and it causes deadlocks if we try to take the
-semaphore from inside the workqueue. I believe it is related to the fact
-that speakersafetyd has a blocking handle to the controls open at all times.
-This may be fixable by simply having speakersafetyd take a nonblocking
-handle instead. I will do some more testing before submitting v2.
+Yes indeed :)
 
-> > > > +static int macaudio_dpcm_hw_params(struct snd_pcm_substream
-> > > > *substream,
-> > > > +				   struct snd_pcm_hw_params *params)
-> > > > +{
-> > > > +	struct snd_soc_pcm_runtime *rtd =3D
-> > > > snd_soc_substream_to_rtd(substream);
-> > > > +	struct macaudio_snd_data *ma =3D snd_soc_card_get_drvdata(rtd->ca=
-rd);
-> > > > +	struct macaudio_link_props *props =3D
-> > > > &ma->link_props[rtd->dai_link->id];
-> > > > +	struct snd_soc_dai *cpu_dai =3D snd_soc_rtd_to_cpu(rtd, 0);
-> > > > +	struct snd_interval *rate =3D hw_param_interval(params,
-> > > > +						     =20
-SNDRV_PCM_HW_PARAM_RATE);
-> > > > +	int bclk_ratio =3D macaudio_get_runtime_bclk_ratio(substream);
-> > > > +	int i;
-> > > > +
-> > > > +	if (props->is_sense) {
-> > > > +		rate->min =3D rate->max =3D cpu_dai->symmetric_rate;
-> > > > +		return 0;
-> > > > +	}
-> > >=20
-> > > It feels like this DAI ought to have separate ops...  Also, for the
-> > > sense link will we definitely already have a rate set up?
-> >=20
-> > AIUI, the cpu rate should always be set up by the time we hit
-> > this path as it is only taken when setting up the VISENSE FE (after the
-> > playback stuff is already set up).
->=20
-> Is that something we actually enforce or is that just a thing a sensible
-> userspace should do?  I can see something racing.
+>
+> > +	    vma_is_fixed_mapping(vma))
+> >  		return true;
+> >
+> >  	if (vma == get_gate_vma(vma->vm_mm))
+>
+> LGTM.
+>
+> Reviewed-by: Zi Yan <ziy@nvidia.com>
 
-We don't really enforce it. speakersafetyd is the only thing that opens the
-VISENSE PCM and does a blocking read of samples
-which only starts and subsequently completes after the "real" PCM
-is configured and playback begins. The sample rate is reliably
-reflected to speakersafetyd via the kcontrol on the VISENSE PCM. We
-have not experienced any race issues with this arrangement in ~5 years
-nor has anyone reported any to us. I'm happy to take pointers on
-how we should be doing this if the current approach won't fly.
+Thanks!
 
+>
+>
+> --
+> Best Regards,
+> Yan, Zi
+>
 
+--
+Cheers, Lorenzo
