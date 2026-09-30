@@ -1,62 +1,64 @@
-Received: from mail-pz2-f40.google.com (mail-pz2-f40.google.com [74.125.228.40])
+Received: from mail-pz2-f37.google.com (mail-pz2-f37.google.com [74.125.228.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B2064BF95F
-	for <linux-sound@vger.kernel.org>; Wed, 30 Sep 2026 11:15:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.40
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B768D4C226F
+	for <linux-sound@vger.kernel.org>; Wed, 30 Sep 2026 11:15:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.37
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790766948; cv=none; b=oSTXsoaMkNPW6pnh0mDxdbkcg190HZvqwa4579oDg6WtwONO9x+BI0U82EJGDpv5lzExN9zkb77j4WlEWM49bn4LR+XrhBzw6G5YIM24DXDQB64SsPCMH3Nl+mdCC2z0qCnCBe4H0UeAPPh0bYThPSvNU/pOtR/8554vqZ7nBjI=
+	t=1790766954; cv=none; b=k1YTJIbkNP3ONmjtu6z5CH5Q12dbWuKV1pp5x/yJ+U5286KfHjE3IJiz8pISl40oAgfBIjrPtezHtvt+0zeq+VGeZGrbyliyyrlM6rInn7BJDfBUGwzyAtI9hFrvW8bbp503mM22LPx/3/gaEuCXZpyObLIXs5YiWgRK7j0xoCk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790766948; c=relaxed/simple;
-	bh=m+Q/tTI/o+BXkDEq3cC5VVOnKy49NTSPbpCX8x4nXpk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=V84okw2+eLLIg8x7BTxFev/yhIck/kaaiSRwPRAUX1wXsXToMGRiuYx8WQalKfAd0keF+zX8YkOtBRIrUjnJlo7doNqtbBJqMo2gxJH3IN8HuJc9xtgJGH2+1T5AQE1rmF+F6lnoFtAsQt0cph25OsT6+uuH68kJjd/Ic75Xgks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nlQd9Kh/; arc=none smtp.client-ip=74.125.228.40
+	s=arc-20240116; t=1790766954; c=relaxed/simple;
+	bh=rSgDQXtkBUcI8Uwuh9JsK0ZtlAqY1r/1adpyEamAgRc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=sNt9tgEyrj5lelHR7YMqtNvl5dhWLIBQUMrknrv4jrSPyQIq+F3GOb6MjPFX7z0ugfUdRC6YK/KZ6ePJt0juK+IRp5jTSjv0WZrss4iu86KqL32sbTtp8V8xcuByYZX+UFHwOZKjF8VpYWpUyPJJPdKXy/UdzZ++xq6Q9JxDVMs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gG5Y8CqV; arc=none smtp.client-ip=74.125.228.37
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nlQd9Kh/"
-Received: by mail-pz2-f40.google.com with SMTP id d2e1a72fcca58-8805988a200so3377223b3a.3
-        for <linux-sound@vger.kernel.org>; Wed, 30 Sep 2026 04:15:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gG5Y8CqV"
+Received: by mail-pz2-f37.google.com with SMTP id d2e1a72fcca58-88732460a36so263994b3a.2
+        for <linux-sound@vger.kernel.org>; Wed, 30 Sep 2026 04:15:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790766946; x=1791371746; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=DoxbblakwndhV2e20T3viBaOX6/YMFCmPPHjeeAjYNw=;
-        b=nlQd9Kh/X0vcqwvSELisMZy3wNNT3nJCDMQw4tbb8ObgJvtjlaoFYMkZQxM/xQL0AR
-         XPNYfGb9c3lLMndAST/eTznAMgZAMpb+dP+eKzjAAVbSCtKWWBPmkYmwsfBHtXW/eM5O
-         7KYYqRkAzzh5WOWF0q4jQ8MV5Tpya1tzocdMqz92C8nTGf8fFY+xaLC6biPifP87T8L/
-         wxXqbbSOEvowWQXZTe9yJFX34Dm3YLkOdxdq8At8G5cMw0/v0attv6Wu4xf/iht5cdmT
-         ccO/N4gWgn5e2H6Vo+GzcxKlHEJCLzNxMdJUA/toz9Sr9GfnkzI7kQlkx9wwoNx/06DP
-         IQEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790766946; x=1791371746;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1790766952; x=1791371752; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=DoxbblakwndhV2e20T3viBaOX6/YMFCmPPHjeeAjYNw=;
-        b=Rv1Ba0I1iV8ucnhTYRbbLzsulL1i6Y1dHp+pKtiN+ew9odiADAB5OR35xCyoyBCZH1
-         RyizElt2sRlXcyhZunVid6uDsANL9DN6TLzy6uXZs8m3TaCsvZy+vy4TWwAsPKNu/iK0
-         2963YcYDsTityfitkVhka/2piqWfDOqfdxHj5LtI8YkeP7A5MotqkIZh4FfX1BrlneKa
-         A8ZH3RMEWeU8A1w4pHpKjO1TMCE/X4oXGASBOVYT8J9hCQ7/5xxNfhe5G17hMAhWK1Zg
-         t93jkx8TtL/49X+22J+VcNOchEW4yAFVeWgrVSyj7/WzpIQ5j2iP+giEWwUuX0vRtaMp
-         9S+g==
-X-Forwarded-Encrypted: i=1; AKwUvBxctum6pKoOBW2Xq8fsSQyMIYmJi+2W/53i+9ubbzuT5ppjRM0rLq+NJ4QM7mVdHfP0A+ZL60JRVIP7uQ==@vger.kernel.org
-X-Gm-Message-State: AFuF++lDt0juuc9Dl3D/QLJtDJYnflxp9pPW5DDKsyqNWk7ctRlx15p0
-	aqDG4jzbXZHkn1wPRee2fEU49SobQv6nWZMTs95/DoTt0up1VshzuoixfI722/Ri
-X-Gm-Gg: AYBFou2pVN6NEzbyzQq8GZxJcjXgf91b4JDO3L1I6gbo2uThzRalW3MSEFCyaTgtDTx
-	GTZc9Mej7xU7pvTQfxhifzNxrijsRNk6XJEbd8CEstKDeqWxHrPOZctWTv6cMCm+jii/35cQ2Fi
-	MHTVgG37B/ix5J/Bwlbi1dCXkXDs2LN6xV3ucpChSAnPo4AZE9J0Mjat3nbyeOvurfvXDnnmAuq
-	K3MbZTNukvsJpSOaGI6t20Rl48dJHJfY3O+4TQqQtbFK2lseavJm063F9QjO1VxYcBK8RdBO7oh
-	2y3UGjoqlZ5KpzAVYCaY1tqPKf3DzvAVSiC2QGQ2lVrDSdwZUepYVjlDmIacnd+pps6W6wbKhWl
-	ehqHasB+zqekUVlzvCwLWUOFOhdWju4UbjIL+SuTxJRUrBorh+Muf/5hUADTOycRRGLP7FvX6z5
-	GkC7vGkAo/oEap3FTb4/9xXQ87uz75Py4b7GmJhFEvlF2cqGv/WpARCk1Moip8UO5C+5ECFio49
-	Gu6yXO5ZADRxDavzxfbe0NJrZp7Vw+V5P/NDQtjJTmL67Kj4TTSKrW8Tid4MhPEChEyu/UQfuE=
-X-Received: by 2002:a05:6a00:a253:b0:881:fa65:d507 with SMTP id d2e1a72fcca58-8874ab8ca2amr690790b3a.22.1790766946179;
-        Wed, 30 Sep 2026 04:15:46 -0700 (PDT)
+        bh=JEdmlVadIcezq2ZsZ8/Ln2Oh6O1HspeuQRgFacxN4xI=;
+        b=gG5Y8CqVFtyYzVCQ1rUxoCrfOKOLm4MfxBukYU4r3syS37rlJmLGTyfNBPfWBKh9/9
+         udUUk2k3pJra1/yUJn11Z+3jODkFk6HlfnO+UkXcNuR7ZBzCNANwzhqI+yPnpN6ukoiv
+         5KNs1HTGJoRT+ODUjXFXbd2Vdxibd+OWuKT/AniZdK+pOAhK6tKyUuABG0QOBNVWgVI6
+         IRjdXS01Dj+Ff1InDAeZI0JI7y0avYTbzhJCUlCazOA331njf5NhrWLqD3sAdLNahnEh
+         0iEk5fM72IiMyLoDO7bSJUnJiHt2yzGkIOiNF/EnB9jLCLpJ10/KgqjDB4ivKsUDfb+v
+         rztQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790766952; x=1791371752;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=JEdmlVadIcezq2ZsZ8/Ln2Oh6O1HspeuQRgFacxN4xI=;
+        b=Iw2NUNs3m+igflyNzJ/nu8GUGbAItro9KQax4cCus2JNswVxzdDEBkoP+q7v4/Lcfx
+         SiJG+hkmWDU+ogYaznZ5dop3mXFU5GBQEAVcXKCVmZ3GUnZgZIhY26IXh8MWfumL9tCi
+         ev5smke94NcYum5cZu8nrY2WoTVwZ703T+PWmxq3hXXZ96wrSPmPxfgpBDAn885fBNc1
+         0rIhhitHIN2c7+6EjDWhbGYAdWZvrRWLtr8o6d9dVg72buNlxDS93r3sLTneS2Jthg3A
+         8totasH2Iw1YNW5jZ9l1sIZpxWinWHxYx+DKt2zjrvDDK3TA2r7kNQPOqmvyvXgSwfpN
+         FA5Q==
+X-Forwarded-Encrypted: i=1; AKwUvBwiylLxl9TtyRN7mJZE086Afc3/rqFED91TiPnRmV3fJj631tYAicVxMBHELS3aRJEZdSV2RUk7h3wdtg==@vger.kernel.org
+X-Gm-Message-State: AFq9FYIuvcLuqmmVcl3AqRZjPCoevqtQcFWPmWHeE0MAlkKXyKSWl0s0
+	z40M3ej8myaPZoD54l0nf7uuUnJ5ShubzYCXXt4CKwCMRcZEm5FFrITa
+X-Gm-Gg: AYBFou0VAE5+jywKd5G+PSSemFK5YkWynGhFXSllCFLWJr9eDUJ11PxdZabDZ1ignbh
+	kg5UNnuJ5657F2/KX7/D5oacTtGsl/J4Xe+LHnAB4a4hbl2be9L8xZwuv8pbRPGYa9LrvKuPmtZ
+	HuRgd+YqoIuJ4v8Hv4A9u5e6wjdOaHlBseo2L3mAfiHN7W3ejAP+VFgJV1flleNDhggZSDjuaJC
+	IkefSIJ/0NtStagvoq2CgutaVImdGj7kFDx95LOe3QZMyxni2uerr/h0iI4KbH5KisAgVECdZr2
+	4oR/3k/siRI1XxvycEkDO1wbFYml2h50nDY406s0XcY2K/8udlOomP6uXhgRZzZwcAicyLTbhrl
+	HqzamezeLUL25n+j+Y2gAVT1iv5eZWbUWRBuovNfuB3+Zzl6Ll+11toX/WME4dZwaDEpvEiSo1s
+	fpJl0xEu9iwOmcrNlDeV2wZFgQTvHgFNBQ8NaZiwKUX0QvQCJkcNI4ZneSeN7U8RDyf2+sYFE+J
+	66qtYMc/F7ikn83y/GPQKnjjCCGnviGVxN5aOQicG/g/Z4BldavGXooGc8ultBMPHYmf696j+4=
+X-Received: by 2002:a05:6a00:99f:b0:881:bc81:e8f6 with SMTP id d2e1a72fcca58-8874c9d1e5emr866456b3a.23.1790766952061;
+        Wed, 30 Sep 2026 04:15:52 -0700 (PDT)
 Received: from nugod-NUC15CRHU5.tail9f095a.ts.net ([218.237.104.87])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-88726c07f4asm634108b3a.59.2026.09.30.04.15.38
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-88726c07f4asm634108b3a.59.2026.09.30.04.15.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Sep 2026 04:15:40 -0700 (PDT)
+        Wed, 30 Sep 2026 04:15:51 -0700 (PDT)
 From: HyeongJun An <sammiee5311@gmail.com>
 To: Mark Brown <broonie@kernel.org>
 Cc: Jaroslav Kysela <perex@perex.cz>,
@@ -66,10 +68,12 @@ Cc: Jaroslav Kysela <perex@perex.cz>,
 	linux-kselftest@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	HyeongJun An <sammiee5311@gmail.com>
-Subject: [PATCH 0/2] selftests/alsa: Catch writes that silently change other controls
-Date: Wed, 30 Sep 2026 20:15:32 +0900
-Message-ID: <20260930111534.3782264-1-sammiee5311@gmail.com>
+Subject: [PATCH 1/2] selftests/alsa: Do not take another control's event as our own
+Date: Wed, 30 Sep 2026 20:15:33 +0900
+Message-ID: <20260930111534.3782264-2-sammiee5311@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260930111534.3782264-1-sammiee5311@gmail.com>
+References: <20260930111534.3782264-1-sammiee5311@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -78,28 +82,39 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Mark asked for this in the es8316 thread [1]: have mixer-test check
-for other controls changing when one is written. Patch 2 adds that.
+The wait_for_event() skips an event for a different control with a
+continue inside its do-while loop. But continue goes straight to the
+loop condition, and that tests the mask of the event just skipped. So
+a value event for another control ends the wait as if it were ours.
 
-Patch 1 fixes a bug that testing patch 2 turned up. With a driver that
-notifies a neighbour with a value event, wait_for_event() returns on
-the neighbour's event and the next test reports a spurious one.
+A driver that notifies a second control from its put() queues that
+event first. The core only sends ours once put() returns. So the wait
+returns early and leaves ours in the queue. The next test then
+reports it as spurious. And event_missing passes for a control whose
+put() said nothing changed, as long as it notified a neighbour.
 
-The cost is two extra writes per control and a read of every other
-control on the card after each. On the two cards here, 39 controls in
-all, the run time does not move. I have no card with hundreds of
-controls to measure against the 45 second kselftest timeout.
+To fix this, clear the mask before skipping the event.
 
-[1] https://lore.kernel.org/all/0fefbfe1-021b-46b2-8945-15956e75e37f@sirena.org.uk/
+Fixes: b1446bda5645 ("kselftest: alsa: Check for event generation when we write to controls")
+Signed-off-by: HyeongJun An <sammiee5311@gmail.com>
+Assisted-by: Claude:claude-opus-5-5
+---
+ tools/testing/selftests/alsa/mixer-test.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-HyeongJun An (2):
-  selftests/alsa: Do not take another control's event as our own
-  selftests/alsa: Check that a write does not silently change other
-    controls
-
- tools/testing/selftests/alsa/mixer-test.c | 235 +++++++++++++++++++++-
- 1 file changed, 234 insertions(+), 1 deletion(-)
-
+diff --git a/tools/testing/selftests/alsa/mixer-test.c b/tools/testing/selftests/alsa/mixer-test.c
+index 53a72753bb08..02136c436e16 100644
+--- a/tools/testing/selftests/alsa/mixer-test.c
++++ b/tools/testing/selftests/alsa/mixer-test.c
+@@ -267,6 +267,8 @@ static int wait_for_event(struct ctl_data *ctl, int timeout)
+ 		if (ev_id != snd_ctl_elem_info_get_numid(ctl->info)) {
+ 			ksft_print_msg("Event for unexpected ctl %s\n",
+ 				       snd_ctl_event_elem_get_name(event));
++			/* The loop condition must not see the other control's mask */
++			mask = 0;
+ 			continue;
+ 		}
+ 
 -- 
 2.43.0
 
