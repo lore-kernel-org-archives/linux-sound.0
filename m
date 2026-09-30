@@ -1,137 +1,235 @@
-Received: from CH4PR04CU002.outbound.protection.outlook.com (mail-northcentralusazon11013048.outbound.protection.outlook.com [40.107.201.48])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 524A451DE1D;
-	Wed, 30 Sep 2026 21:54:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.201.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790805274; cv=fail; b=TNi3fZ2IseDqFTLZ2bqq5PBWiIWjC6aheN2nepGea9HlpQ2r6cCnaVOfLiThpXqRolsOVhUl2ujfF0XzgWfSDtmunHRxmMG4FJOIu1VzHQJpCZl5cpqy/eFVVb/ihOMahvrvotmr5XJXx4D5I7oNBlsz4UpFPYDn25J+vS43dPk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790805274; c=relaxed/simple;
-	bh=IoNLJdkQFdZjdR9qgC4+xNXeg9J7JP+ZDPzzMjmsXR0=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X3/RmxIqK2MpjJBwT5WFdfSftNK9xgHvHpoUJSKjCxdD30B5KbjpM2xfnuwUMBB4RiBA3AqEjODS0jp6IPctz3ZhsrMnpVKm3eG9D5RrRFXD70c5QxIiQr94C+k64TvDsMND7tIUiumevQnH4o2+7g02XZ6sWk9yDSpdPL81qX8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=LNQgccY0; arc=fail smtp.client-ip=40.107.201.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A0073EC6BE
+	for <linux-sound@vger.kernel.org>; Wed, 30 Sep 2026 22:23:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790806987; cv=none; b=CiMaITtdGUNz33gTdDXDxm2qVhoAVKHnlx18sRoFwoQIfkwUOQy+6IV6AidIWi8Un1O9M8W3yvLpa5DkrUnFWA8sPk3WD8Dgt7RVNf9orP8d7exP4bQxtXNrEzhuZd9strRAB1Ixs0Kb0tzp2GdPzkTs/hRj7Eu5OubfAbETnlY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790806987; c=relaxed/simple;
+	bh=j6l5bzYJryaaxbDUBR+bhu5E7GPmbfMXb6+qMF/zaH0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Z1JySQf1ARgzVevDVp4jl6fq5gfpAs4lPeumSR29rUfpUXjis8V8snL7FUo5MagGi8FG6XgP9mFW4SqoSIQbxxbTYH8Vih6GNYp4wpmxrElkn81Bnsh4JQ2Fo84FvXRxYOR8z9k7k8lzhZ+D+Jayjd4PsKNKetSzIUW+S0KITB4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=BSmNVh8k; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=FrATe5dz; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="LNQgccY0"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Jw0Dn4Nc4/kY/cNRqo7s3SEn6GavU8HnYmXwBDXcexzHQL4HwI9gf760isNCbhyMXhnpTYXXblpFAILSLxNpFvejNMuco3gyaWRCCL524eYr+MVUl3YY3o6Rc48SZwsvhenCkQ00BrTD/1s+ttuVTUXtIS2MjoV1FBymLkQ1zbdLSDn5LWRZxsiAA5jdTAmeh3+BZTmefVNkTA3nnDuwgtg+067TSo+mck3+lT9m6AL5FCJcAoJNokaDZ4Dn8qRJRaFKgkAAZ4e4APNvYsllw8GnmZdpVq6JbGS45p2o0hmH90/IrjL9ny4rSx4PCKB54cbGmMzjsuugafwXDXOW3A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JcOqY4Pel09HBXPMhcwHnw+1XkvdEjT127/73eGmgq8=;
- b=UEtI59icNSbbGAsOh1kdVtgZqrdi0ZXjX1rtI/80ink1XGkrAoyRxOrSuQIlWk0xcY/pEaXB+7aUBgCSP7FXSTnHSiwAZy0jadT+QJjzTIjyJsDD4LoLXwghyaz4I3INw/z4U7ijLOWjRbdtGdACUh+YHJRxaeGY2pmSK78OJRkvlgdKSI0a0sHhHYNoYCrPQlbJQavcKU/VDnp4OLe2B0agaQvUkDfyeEhm5WM5dSXlvtnRz6Sce61KnenBoMOIcgud6KLcpEpVLuOnd/ZwuEGSw+0I+z/+VBrS51rNdMbDYYgj9Trs0bKoOUYpkjIUnSLlDpEhWDlF0x6dz9qEiA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.118.233) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JcOqY4Pel09HBXPMhcwHnw+1XkvdEjT127/73eGmgq8=;
- b=LNQgccY0vYCotn3oWmHT0bQ+VbIML+8XAIrwSc5sgoQh3Lrvq3NNJtzQWEyPxoA1Xu2Gh9azsPURdpyXDLLqMKNGMXs6k3dPmghdKA+EdCzbSdb7c3VSzQM9qheTBn9aAyMtkUIWo4veLhEYp9QtJkKuuaO6ywCOkWsTVL8FJa9QaBBx69VvAhzhvfO8SewiKaSaSAP3ZgdCLJvGYFcD3rP7MExuoqUMq8psn/2HRzdSxKU7IW9XhPxsU3Hr7tfVghA9urx5zw1rLEU3/e8zcTUAyDvuK5KBPU3xHrtisfFtbXKUuzwT5c6ixoYlidguSuyTyO0UU9qmFOj2JbtmEw==
-Received: from SN7PR04CA0201.namprd04.prod.outlook.com (2603:10b6:806:126::26)
- by MW4PR12MB6949.namprd12.prod.outlook.com (2603:10b6:303:208::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.472.15; Wed, 30 Sep
- 2026 21:54:22 +0000
-Received: from SA2PEPF00003F66.namprd04.prod.outlook.com
- (2603:10b6:806:126:cafe::3e) by SN7PR04CA0201.outlook.office365.com
- (2603:10b6:806:126::26) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.472.16 via Frontend Transport; Wed,
- 30 Sep 2026 21:54:20 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
- is 216.228.118.233) smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.118.233 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.118.233; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.118.233) by
- SA2PEPF00003F66.mail.protection.outlook.com (10.167.248.41) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.472.14 via Frontend Transport; Wed, 30 Sep 2026 21:54:20 +0000
-Received: from drhqmail202.nvidia.com (10.126.190.181) by mail.nvidia.com
- (10.127.129.6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.49; Wed, 30 Sep
- 2026 14:54:03 -0700
-Received: from drhqmail203.nvidia.com (10.126.190.182) by
- drhqmail202.nvidia.com (10.126.190.181) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.49; Wed, 30 Sep 2026 14:54:03 -0700
-Received: from nvidia.com (10.127.8.11) by mail.nvidia.com (10.126.190.182)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.49 via Frontend
- Transport; Wed, 30 Sep 2026 14:54:01 -0700
-Date: Wed, 30 Sep 2026 14:53:59 -0700
-From: Nicolin Chen <nicolinc@nvidia.com>
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-CC: Linux ACPI <linux-acpi@vger.kernel.org>, <iommu@lists.linux.dev>,
-	<linux-arm-kernel@lists.infradead.org>, LKML <linux-kernel@vger.kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Sudeep Holla
-	<sudeep.holla@kernel.org>, Ard Biesheuvel <ardb@kernel.org>, Ilias Apalodimas
-	<ilias.apalodimas@linaro.org>, <linux-efi@vger.kernel.org>, Will Deacon
-	<will@kernel.org>, "Joerg Roedel (AMD)" <joro@8bytes.org>, Jaroslav Kysela
-	<perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Robin Murphy
-	<robin.murphy@arm.com>, David Rhodes <david.rhodes@cirrus.com>, "Richard
- Fitzgerald" <rf@opensource.cirrus.com>, <linux-sound@vger.kernel.org>,
-	<patches@opensource.cirrus.com>, Shenghao Ding <shenghao-ding@ti.com>, "Kevin
- Lu" <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>
-Subject: Re: [PATCH v2 2/5] iommu/arm-smmu-v3: Switch to use
- acpi_bus_get_primary_device()
-Message-ID: <ar2E99SG6nJK/Csk@nvidia.com>
-References: <4766532.LvFx2qVVIh@rafael.j.wysocki>
- <3636226.QJadu78ljV@rafael.j.wysocki>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="BSmNVh8k";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="FrATe5dz"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68UJ4OFh002601
+	for <linux-sound@vger.kernel.org>; Wed, 30 Sep 2026 22:23:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	piLUlAkUIFGFWUCpI1nShR9BGGKE+Fd0tpbM9xTnfhQ=; b=BSmNVh8kPGYRp7ax
+	prHisYIdQ543QTXH87LnBA8i3tlQjGy04Wkjwgb9qNY1ifll619Z3QBtZzZ/voT5
+	z4Dt2FW8uUvWfl+zwHIeRujN+h/k85PVkD2W/UJ7j/w9IuO5ztu1XhMgfDbJfEQZ
+	ozp9+/8BaFRMut1F+83cpARLfNURo2ZC/pptrZ7EVP31ufeXjHOdj2leJs87d4PR
+	bWCsad5Lmxe/+zBYh9UBDqKvXw8pHS4ZPAr785TDPGfx15RlKkSQtijgcc4PWH9u
+	AmVQIaCyhxLV3LX3AwYj8UFjdn2NnCNnpDe0oVVGFQw/H+Kd/+EoLKXRSRYY17h2
+	H3MnUA==
+Received: from mail-dy1-f199.google.com (mail-dy1-f199.google.com [74.125.82.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4h188srmtx-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Wed, 30 Sep 2026 22:23:03 +0000 (GMT)
+Received: by mail-dy1-f199.google.com with SMTP id 5a478bee46e88-34bbf2e3c5cso2845851eec.0
+        for <linux-sound@vger.kernel.org>; Wed, 30 Sep 2026 15:23:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1790806982; x=1791411782; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=piLUlAkUIFGFWUCpI1nShR9BGGKE+Fd0tpbM9xTnfhQ=;
+        b=FrATe5dz2oE8Q7VFCQ4P3ChCxv2+fxg/REhiLqEXbIsmvD817DMyF7Qv/QhYSnm6SB
+         AXyYgddcl1UHZ6g24bwaJB/+/Y1DobYgP41yUeB6375bk6ky5R+a5HEemxUxtYC4PZmN
+         /S75wF7ZUEYZxquYgOYssMIPv1wGAO305Yei+/vuva3C9QRteG51tXz3w9XlA68v7vGt
+         vou0BWsq998IDefipd7Ajf/SRVC6o5mGOwulDujD5R9szxYBrxbjE8Iy0try6hyPO+uZ
+         /zjd9H5lH7jsGxWgNx0VlPt6l7UzUf5ghNPvXVOGCrN9tf4H44PGTaDmGDMJuW50Yf/w
+         0WRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790806982; x=1791411782;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=piLUlAkUIFGFWUCpI1nShR9BGGKE+Fd0tpbM9xTnfhQ=;
+        b=pzGCNhW2iAVNzJXObWd95IsN1YmLxrFgvDNOBOBKiWgAdqXaSSjrkncjw722qQ/9IY
+         jeTT3aYpB4SHhuXO01cigWV7bFJtqB0EWmsFRL8f2pfQcAnESlYI415P4e6Z+kehngIM
+         v1NFlhURAbCm5aNMaia2ZkpFoOl+YhXh5dJH2Pe9sJipwUvsZuVB39bVyUh7jD8rHfwt
+         pUqwHPNa56X+KIsvru/LxwhudP5F6/UYFmI7gBiaKcDBecg1cPQU0zuejXX1UajwJ5rv
+         hbSaodMq/OTKT5RCUsOi8kSZwrJdPEfw7r9ieMch2LKbpvmt8K8Y/QDtGUWjoKVNiS4W
+         F2/A==
+X-Forwarded-Encrypted: i=1; AKwUvBzMrKhzZaF6HlcZY46TORmjXvfD+qtFRNlJ4/egKrS5TKy+4gPkAgX5h7ikWs8D39NAjxftJu4sE+h9YA==@vger.kernel.org
+X-Gm-Message-State: AFuF++l0KmWC6Bcros+XxMhMo89DFRdszDBMKtat2nHE0riYyoXojl/q
+	eek4T2N85lB1hSTt/sXhsw/0b+Pptb+1ZT+LybNkDqAb07hT+F43u1nyHuxcqfCHGniPXuthN9i
+	mqxk2HZx57AnAN25w0WVan7x8HmFKQ5pYKenr+8fY0ri7V3+HVfRlmARkfFZ7D3eaKw==
+X-Gm-Gg: AYBFou2vJovJh9GNsoVGbjx2p4I1uPX3muxGTootEWrOyEbaIZSLpW3otdAVuhppf4t
+	srn6XAudq0gqkxAbKtAdYROsGJ8JzQnhQUme4GHVxEeoKlErgBgN7Ua49SbZsZflZ54quh0caSq
+	0Xhfev8cVEY8uCb6XMPxh+8Zux+8IAK37N7zZw2okGOj/SsMeQjLbEKC+BE4sJ4Jzy4/unpxLPT
+	jIND3wducr4720uIL+WMHEmVBm9zEu8wIIYSiWWsm00/cXzngvoyMgWlDNfAmTebqwxTUfGmzM6
+	1AgJWChkI7bDecAUt+wWfwy8lW/nIsrBFDEePrru5JefJmvXer6/cIjBHaF473+FQrtE5wPWFtI
+	GKXaKHc1NexTfGSTfafQSLqgkIR3Zcqg2MwsSeGSDdeoaMg==
+X-Received: by 2002:a05:7022:3c12:b0:138:12fa:3788 with SMTP id a92af1059eb24-14d35f360e5mr2359733c88.23.1790806982323;
+        Wed, 30 Sep 2026 15:23:02 -0700 (PDT)
+X-Received: by 2002:a05:7022:3c12:b0:138:12fa:3788 with SMTP id a92af1059eb24-14d35f360e5mr2359724c88.23.1790806981780;
+        Wed, 30 Sep 2026 15:23:01 -0700 (PDT)
+Received: from [10.73.194.28] (pat_11.qualcomm.com. [192.35.156.11])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-14df47ce61esm1418193c88.15.2026.09.30.15.23.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 30 Sep 2026 15:23:01 -0700 (PDT)
+Message-ID: <d7ce8b23-64c0-43dd-a8c8-268224b9462c@oss.qualcomm.com>
+Date: Wed, 30 Sep 2026 15:23:00 -0700
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <3636226.QJadu78ljV@rafael.j.wysocki>
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PEPF00003F66:EE_|MW4PR12MB6949:EE_
-X-MS-Office365-Filtering-Correlation-Id: 45b8fb49-1de2-434b-4ab2-08df1f3d61ec
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|82310400026|36860700016|1800799024|7416014|23010399003|10067099003|56012099006|11063799006|4143699003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	+UzUlv4rzrjoBpgt94HZwEwbdi3XapHjLfCeVOqxVn/YTdzqN38xDxUOSjNkA+++vVhLXg/cVcp0rToJReIjdo6TyOGWDOrDrAXGgCf5zFWo3LXky/Zc9HSXYYdStirx0Mh0i4LFeM4IQmvdNjjiLgNh3TwtkHcZ+++W8dEnj06uo1xkx0GsKFkrapexPCEszDpmN5QsUg403/FQ7te6vYHXFFa+XyJLHQ3mM+Xnx3EO1wFru8mUNkkEiYJE7gKLvP/+HY4JkhmLG3+jNBo3xt68N1i4CXzSXRZtRbqQUFrkTm4HZz9l2EV7MFeOcx8U+yA0bsO7ik1xiC4vLN8/L8c6OMRToVoqv8htHX5U8oC9VPr8AYv2aPZIgnQswrwSc/fsRetF4hL3XVT4i3tIk0kx9s7pAqw8ihfhXp1IlNfCjv22yCjJor22RXAgqYF2JwYOFOeEXB5OThvty4o3QpbQMc8Rk2tCFdm0tHT5whWIYUcoE3Cyddg2Uj+xR3jNA3j2vvdhHsnFCWyE+koT+b0HCqdC2XVhxrWEjkDYx3T7v3yLoyVuBUtn/awtOd9EucfN10q7KK7Q+6ScDtQNTCB1qMIHxALacxbE/6Oq6r8gKMtKvZcd2rdVYLDNslS83pCP8LQaSeBHvWnhbP7k+p/6qsygg+VOji6d1z/FulSMUygEN6AtwsRGnDwBsU5AYL8fi1C99T5Y0iiGVawOGw==
-X-Forefront-Antispam-Report:
-	CIP:216.228.118.233;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge2.nvidia.com;CAT:NONE;SFS:(13230040)(376014)(82310400026)(36860700016)(1800799024)(7416014)(23010399003)(10067099003)(56012099006)(11063799006)(4143699003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	eBjgD+aQuSD39KZLc2fZvdmAOMavwT3wm38oevmw/OP2LGEXvAsEshXdF7PBpfwAyJc3gWPKaJuxLDEtGo8WelYiBQQRgqStY/eNp+bi11sefpCDwly19U/rjeKhX2wQVzP878kxM0ZXvKNFsHTzeQOK6jvoOZMWi5LreqMxh7zmFKGNC4rEA6KmSLc99vUtDJ7YzRlMcW3aZU1q0wDo0b9Veo2gNrC3Ke6B1A1nfzB83AdnvyWA1KSdqnCXEaWDHzDSdd4bDJEgubWKDZNNHbgsfxHxQ4mgNG36sZnjntsolz1MfeNGlJlhiN1Ztr10FvurTVLG+2F4xFVeCf5rUViGw6OxniN/IvZICGK/31AInqEWWAVXUetyuXIA2MHuN76NIU4OvOesel+wGZfaR04RIvLPbt2CL9PlKW886lrM790TzYx7j3MN5uROUikG
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Sep 2026 21:54:20.5165
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 45b8fb49-1de2-434b-4ab2-08df1f3d61ec
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.233];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SA2PEPF00003F66.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB6949
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 0/5] Add larger page size support for USB audio offload
+ path
+To: Mathias Nyman <mathias.nyman@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        Michal Pecio <michal.pecio@gmail.com>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-sound@vger.kernel.org
+References: <20260909-16k_offload_v1_b4-v4-0-f24a86617597@oss.qualcomm.com>
+Content-Language: en-US
+From: Wesley Cheng <wesley.cheng@oss.qualcomm.com>
+In-Reply-To: <20260909-16k_offload_v1_b4-v4-0-f24a86617597@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTMwMDA5MCBTYWx0ZWRfX0EDT8UF9bGZE
+ QO/CcE7Flg+7KA9Doh8/FMB6lJK3xZxA4iYAcOujlWNb36uZFx+86btzntS9Ey8ubGcjsUoAblS
+ Bk9j+AgJ9T3HHFFDTH30MFl+d/PcqKE=
+X-Authority-Analysis: v=2.4 cv=OozaWC/t c=1 sm=1 tr=0 ts=6abd8bc7 cx=c_pps
+ a=cFYjgdjTJScbgFmBucgdfQ==:117 a=ZdW6uxA9NKXbfdqeeS2OGA==:17
+ a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22
+ a=VwQbUJbxAAAA:8 a=UqCG9HQmAAAA:8 a=EUspDBNiAAAA:8 a=Sc2N9AbJxcu_dAGTm-kA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=scEy_gLbYbu1JhEsrz4S:22
+X-Proofpoint-ORIG-GUID: QVs3faJ2zYf0KO_d9UZMC5vJaHvhc7bq
+X-Proofpoint-GUID: QVs3faJ2zYf0KO_d9UZMC5vJaHvhc7bq
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTMwMDA5MCBTYWx0ZWRfX6cHL7CjPQXO7
+ pqNPOTOtSavH6cmtstNOHlchLn21WcdcfBBWQ45H/Q+swyjj279+MrDCin1YNPU201VAIyn1WRc
+ 1PM8FKxBJo5KNxQVwUIy15pX3+u0NUvqA33e8crzFZQY6QdkH1yt7U2da6BRFfUFHEEYCVGzDoR
+ S8voQIugQX6nqHcz+VAOes5hbeYkIRjHLQ5blF9WJ42KVMn3VFIZoL1I0KkgqJjrYKwCSDb8ufs
+ nBEHxFwtWEnW0rDxxbDNtozOR9P0sW3tfINpBTrVjqOVRr1JjL2ujxdHGU/4o0du4eBKHTVSsev
+ 7g79dyHcyBNzyo+HsyhKz17ksrVFXdHgYYnNW4aw84Yp7MRpKLqpR1AcT2NfKTYwiaXtV95ZorN
+ mxrsdSnU897mnsks0UdanP++NYIpGpsR4wDVtvWWoJPLK0SVNDVtJ6Y+7D/BSt4w/k4KWHetPbc
+ u0T4Z93aFsfjpHagW4Q==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-30_04,2026-09-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 malwarescore=0 lowpriorityscore=0 impostorscore=0
+ priorityscore=1501 suspectscore=0 bulkscore=0 adultscore=0 phishscore=0
+ spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
+ definitions=main-2609300090
 
-On Wed, Sep 30, 2026 at 08:43:03PM +0200, Rafael J. Wysocki wrote:
-> From: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
+
+
+On 9/9/2026 6:50 PM, Wesley Cheng wrote:
+> On some environments, 16kB pages can be enabled from the Linux subsystem,
+> which manages the IOMMU mappings for the audio DSP within the system.  In
+> the current design, the following assumptions break when 16k pages are
+> utilized:
+>    1. xHCI ring size is equal to PAGE_SIZE
+>    2. Ring addresses start at the beginning of a page
 > 
-> Replace acpi_get_first_physical_node() that is slated for removal
-> with acpi_bus_get_primary_device() that takes a reference to the
-> device it is about to return.
+> When the USB offload driver maps the rings (w/ the audio DSP SID), it is
+> set with a 16k granular, which is a problem, as several xHCI rings could
+> exist on the same page.  This is because the rings are currently allocated
+> from the segment_pool.  Hence, potentially mapping non USB audio related
+> rings into the region accessible by the audio DSP.
 > 
-> This addresses a potential use-after-free that may occur if the
-> device returned by acpi_get_first_physical_node() is removed right
-> after dropping its ACPI companion's physical_node_lock in that
-> function.
+> To mitigate this, this series introduces a separate segment_pool
+> associated to a sideband ring.  Before the USB audio offload path
+> is enabled, the USB audio data streams/endpoint are not active.  Only when
+> the class driver issues a usb_set_interface() call (done from
+> snd_usb_endpoint_prepare()), will the xHCI allocate the transfer ring
+> resources.  Which pool is selected is all based on if the sideband path
+> is being enabled, and if so, memory can be allocated from that pool,
+> which expects to be owned in conjunction with the audio DSP.  This
+> concept allows to keep the same model existing in xHCI, where multiple
+> 4k segments can reside on the same page, which reduces potentially over
+> allocating based on the page size.
 > 
-> Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
- 
-Reviewed-by: Nicolin Chen <nicolinc@nvidia.com>
+> Likewise this mechanism also allows for the offload client driver to
+> determine which SID is associated to the segment_pool if it decides to
+> map outside of the Linux subsystem.  The new ring allocation flow for
+> sideband/offload clients will be as follows:
+> 
+> qc_usb_audio_offload_probe()
+>    ├─ segment_pool = dma_pool_create(...)
+>    ▼
+> xhci_sideband_register(intf, XHCI_SIDEBAND_VENDOR, segment_pool, notify_client)
+>    │  sb->segment_pool = segment_pool
+>    ▼
+> uadev[card_num].sb = sb
+> 
+> handle_uaudio_stream_req()
+>    ▼
+> enable_audio_stream(subs, ..., pcm_card_num)
+>    ├─ data_ep = uaudio_find_host_endpoint(subs, subs->data_endpoint)
+>    ├─ xhci_sideband_add_endpoint(sb, data_ep) ← ep->sideband = sb; sb->eps[ep_index] = ep
+>    ├─ snd_usb_endpoint_prepare(chip, sync_endpoint) ─┐
+>    ├─ snd_usb_endpoint_prepare(chip, data_endpoint)  ├─→ xhci_check_bandwidth()
+>    │                                                 ▼
+>    │            xhci_endpoint_init(xhci, virt_dev, ep, ...)
+>    │            pool = sideband ? sideband->segment_pool : xhci->segment_pool
+>    │            new_ring = xhci_ring_alloc_from_pool(..., pool, ...)
+>    │            ▼
+>    │            xhci_ring_alloc_from_pool(..., pool, flags)
+>    │            ring->segment_pool = pool
+>    │            ▼
+>    │            xhci_alloc_segments_for_ring(xhci, ring, flags)
+>    │            xhci_segment_alloc(xhci, ring->segment_pool, max_packet, num, flags)
+>    │            ▼
+>    │            xhci_segment_alloc(xhci, pool, max_packet, num, flags)
+>    │            seg->trbs = dma_pool_zalloc(pool, flags, &dma)
+>    ▼
+> xhci_sideband_get_endpoint_buffer(sb, data_ep) → xhci_ring_to_sgtable()
+> 
+> qc_usb_audio_offload_disconnect() / unreg_xhci:
+>    ├─ segment_pool = sb->segment_pool
+>    ├─ xhci_sideband_unregister(sb)
+>    ▼
+>    dma_pool_destroy(segment_pool)
+> 
+> Similar logic is added for the secondary interrupter path as well.  The USB
+> offload class driver calls xhci_sideband_create_interrupter(), which will
+> be responsible for allocating the secondary event ring.
+> 
+> There is one point that was seen during disconnecting the USB audio
+> device while audio offload was active, where the offload client driver
+> was pre-maturely freeing the DMA pool before xHCI core was able to free
+> the DMA memory allocated for the rings.  This is the reason for needing
+> to explicitly call the ring free during the sideband unregister path.
+> 
+> This was confirmed to work on the SM8350 MTP platform, with the
+> CONFIG_ARM64_16K_PAGES config enabled, alongside tinyaudio binaries:
+> 
+> tinymix -D 0 set 513 1  (Enables USB_RX multimedia#1 path)
+> tinyplay -D 0 -d 0....  (Routes PCM data to ASoC platform sound card)
+> 
+> Signed-off-by: Wesley Cheng <wesley.cheng@oss.qualcomm.com>
+
+Hi Mathias,
+
+Just checking to see if there was anything that we needed to account for in 
+this series?  I think there was the discussion that came up here:
+https://lore.kernel.org/all/TYUPR06MB6217000B59003EDF233D7246D2B22@TYUPR06MB6217.apcprd06.prod.outlook.com/
+
+But, I think your suggestion about adding the sideband check in the 
+xhci_setup_device() would mitigate that problem.  Esp, if we don't want 
+xHCI core to really know about sideband ops.
+
+Thanks
+Wesley Cheng
+
