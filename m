@@ -1,447 +1,137 @@
-Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CH4PR04CU002.outbound.protection.outlook.com (mail-northcentralusazon11013048.outbound.protection.outlook.com [40.107.201.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8533751FCC2
-	for <linux-sound@vger.kernel.org>; Wed, 30 Sep 2026 21:33:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790804022; cv=none; b=ikjANcWF7pgpaJ64j1WoH4jsArDdaLbnnEVIaa7jaTeYsH4wvd6EAylVnv+hJsrXz5fpABX3w40p623h18Wcvwl/G0W94pPLb/XVgFbeACa7/6Mw68I6jFvBSbdD6GkCGcgY7Kaqt1n1ESC6EKpc5Ijbna5CrztP+XKgAEhUjg4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790804022; c=relaxed/simple;
-	bh=ZNCjCR3FKqLdfdIUbu1b/g+6SyTlzzTq7+2SLS9KAEY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Nu3Kd/e/N9BA56ZYksv8Q/80RBxCiv3XhQK1JUB4NzFSyX0hU3H8ZRtUlxVEpv6FlC3UmiYbC9V8yfDKOLpNTPVHToyTp+sf3eF0A7AnDE/oXBZRnulk8+zL8DoOgaPuaFW6PxkiYLBFs6/FzRU8hdocBwvgGoFuZkW3sJc3nOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iVvg2s9w; arc=none smtp.client-ip=74.125.225.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 524A451DE1D;
+	Wed, 30 Sep 2026 21:54:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.201.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790805274; cv=fail; b=TNi3fZ2IseDqFTLZ2bqq5PBWiIWjC6aheN2nepGea9HlpQ2r6cCnaVOfLiThpXqRolsOVhUl2ujfF0XzgWfSDtmunHRxmMG4FJOIu1VzHQJpCZl5cpqy/eFVVb/ihOMahvrvotmr5XJXx4D5I7oNBlsz4UpFPYDn25J+vS43dPk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790805274; c=relaxed/simple;
+	bh=IoNLJdkQFdZjdR9qgC4+xNXeg9J7JP+ZDPzzMjmsXR0=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=X3/RmxIqK2MpjJBwT5WFdfSftNK9xgHvHpoUJSKjCxdD30B5KbjpM2xfnuwUMBB4RiBA3AqEjODS0jp6IPctz3ZhsrMnpVKm3eG9D5RrRFXD70c5QxIiQr94C+k64TvDsMND7tIUiumevQnH4o2+7g02XZ6sWk9yDSpdPL81qX8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=LNQgccY0; arc=fail smtp.client-ip=40.107.201.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iVvg2s9w"
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-4a00d8bec5aso15441945e9.2
-        for <linux-sound@vger.kernel.org>; Wed, 30 Sep 2026 14:33:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790804018; x=1791408818; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=6sgycQ65VDq+QJ1CZsRXaVt2OpR3jSMxMhd+dxEzfw4=;
-        b=iVvg2s9wedJnOQy5xqU5mweyWJtZq4a4muDLR7BZIV1kfNqaxdiKXkAW7ysePsWiwh
-         5aXMUEHYjbnNf/CNxnivE3qLpNTok40MW4EyCWQ1/+8tz0Q5v+/wHxGSRS8h8BNPb9Ei
-         6qVfpVQNs/JkjondB79lr8JvBUg1iFR8UotIP4s7CJqh4dOrVRcjpp5wh4z0KW/FzlUX
-         Osor1AOLDnwhjuOPtzdTN+ujEhLYqvt9JglsgX30WAs0bOWV2TFlgrJ3VJqXlFh8fziK
-         PzPyRA9+YqSsU3jUv2pmrgM0NTe0+WzqkvytN98fFi9gtEhiVa6OByp8bt5o67mRG6CU
-         j9UA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790804018; x=1791408818;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=6sgycQ65VDq+QJ1CZsRXaVt2OpR3jSMxMhd+dxEzfw4=;
-        b=2NXxHizytTRPzgkIliFKLkZacSIaVjQ3Sb7B1n+2KU4BxN8ug1ETqecj1mm5PIBwZX
-         BbKgwYYyjV/HbvCeJ2F8w+Ad2CLjoUsKXNnw6AUfsNzSC1deoBrXNzUUbf8lvXrqq03i
-         /5rLWfd+8USbD65rNnbhDOKSYLOFUMnKfCe3uKOf94U6xITPiw7aBSDGZdYagvVbyyI5
-         nq9hYgTrhQI8pqhe3SdSq6kgM/0GJWF9eYcF2G3l3ex8CeroiF7m/V+xeZq29HBnU4gm
-         LGilCXmMjKBtxK8pWbcHZivPgASijf2mnkNBNnDDGlW1KfzsjaH9bKVKXyX5iB+yvDjc
-         tunw==
-X-Forwarded-Encrypted: i=1; AKwUvBwVinlMh7JFvPTM9IcWQ+uurS5/xLkt+5WHO93d/Fe8gAjk3Yw6g3dAp0JDNCS6RttM5O0VzE47Dl9kgg==@vger.kernel.org
-X-Gm-Message-State: AFuF++lfieXM9oX93v8kKR/plRFPnHpJx+zE2U69IY9Gqnw1GBnMSeYH
-	OS/YptTDnQZnafu1eX7LVreQ5rESRsLGTYBAw6cN6KXUjBmzF9Te5gG6
-X-Gm-Gg: AYBFou3iq5/YIvZtlPKK1Vrq+R1pCt5FqW2mpAMZvUMSWz5mWAo4o2NjRtE+Ia+kuIQ
-	8lN99S38PK8gAxmRSEz4CSQsUl/xKMdaiuBjgGx9Jw8NqwSfu/8fu4R6O83DLKOIGpup9h3sk1F
-	h0/mV7ENm6SrSrh3Hf9qddYt1xch3rXJbZHvspLwY3rmMcZe1RKVlTGiqGucQfx9oQFDTZG+dgn
-	R802jj/mIlLWQH2WWRgKkKjCjAYVBNyHf63MtUZsa1hMkH28G4SEm0MHPz0Zibh3R077U4j5uwD
-	DBsiENjncnCP6NYlwcpjlnGN8+yn9see0a3DwSGA4+ciZhklBOgUS4iUD+C75rYp1pn2yOu7cO7
-	RGYmQtznY0U0vEUwXOhIaj4ZP07EJNUzM0TM+1XSfNHdaxmojJY3SVFAEyUjaTJ6BjO1cBz8mKu
-	hD/lxo5pxB0iMBbi0rAgEMyd53D5gXQoFouGmX8jOg9UfgEkuEGqvb8L94C5TQJJeFeCyKHDzsk
-	GYE4aL5IvTO+TWFNjcCs+LKC1anLAc2W0vyCKuUmsHp6czWaryln0eFyGzEwC5l+kxwCdyKAuRt
-	J0Sv3Q==
-X-Received: by 2002:a05:600c:c8a:b0:49f:dc71:e609 with SMTP id 5b1f17b1804b1-4a01afe657amr43273005e9.20.1790804017448;
-        Wed, 30 Sep 2026 14:33:37 -0700 (PDT)
-Received: from localhost ([188.234.148.119])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a01feb7198sm6355255e9.1.2026.09.30.14.33.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Sep 2026 14:33:36 -0700 (PDT)
-From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-To: jikos@kernel.org,
-	bentiss@kernel.org,
-	tiwai@suse.de
-Cc: tiwai@suse.com,
-	perex@perex.cz,
-	linux-input@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	mikhail.v.gavrilov@gmail.com
-Subject: [PATCH v7 2/2] ALSA: usb-audio: bind the Topping M62's vendor controls
-Date: Thu,  1 Oct 2026 02:33:22 +0500
-Message-ID: <20260930213322.32454-3-mikhail.v.gavrilov@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260930213322.32454-1-mikhail.v.gavrilov@gmail.com>
-References: <20260930213322.32454-1-mikhail.v.gavrilov@gmail.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="LNQgccY0"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Jw0Dn4Nc4/kY/cNRqo7s3SEn6GavU8HnYmXwBDXcexzHQL4HwI9gf760isNCbhyMXhnpTYXXblpFAILSLxNpFvejNMuco3gyaWRCCL524eYr+MVUl3YY3o6Rc48SZwsvhenCkQ00BrTD/1s+ttuVTUXtIS2MjoV1FBymLkQ1zbdLSDn5LWRZxsiAA5jdTAmeh3+BZTmefVNkTA3nnDuwgtg+067TSo+mck3+lT9m6AL5FCJcAoJNokaDZ4Dn8qRJRaFKgkAAZ4e4APNvYsllw8GnmZdpVq6JbGS45p2o0hmH90/IrjL9ny4rSx4PCKB54cbGmMzjsuugafwXDXOW3A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JcOqY4Pel09HBXPMhcwHnw+1XkvdEjT127/73eGmgq8=;
+ b=UEtI59icNSbbGAsOh1kdVtgZqrdi0ZXjX1rtI/80ink1XGkrAoyRxOrSuQIlWk0xcY/pEaXB+7aUBgCSP7FXSTnHSiwAZy0jadT+QJjzTIjyJsDD4LoLXwghyaz4I3INw/z4U7ijLOWjRbdtGdACUh+YHJRxaeGY2pmSK78OJRkvlgdKSI0a0sHhHYNoYCrPQlbJQavcKU/VDnp4OLe2B0agaQvUkDfyeEhm5WM5dSXlvtnRz6Sce61KnenBoMOIcgud6KLcpEpVLuOnd/ZwuEGSw+0I+z/+VBrS51rNdMbDYYgj9Trs0bKoOUYpkjIUnSLlDpEhWDlF0x6dz9qEiA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.118.233) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JcOqY4Pel09HBXPMhcwHnw+1XkvdEjT127/73eGmgq8=;
+ b=LNQgccY0vYCotn3oWmHT0bQ+VbIML+8XAIrwSc5sgoQh3Lrvq3NNJtzQWEyPxoA1Xu2Gh9azsPURdpyXDLLqMKNGMXs6k3dPmghdKA+EdCzbSdb7c3VSzQM9qheTBn9aAyMtkUIWo4veLhEYp9QtJkKuuaO6ywCOkWsTVL8FJa9QaBBx69VvAhzhvfO8SewiKaSaSAP3ZgdCLJvGYFcD3rP7MExuoqUMq8psn/2HRzdSxKU7IW9XhPxsU3Hr7tfVghA9urx5zw1rLEU3/e8zcTUAyDvuK5KBPU3xHrtisfFtbXKUuzwT5c6ixoYlidguSuyTyO0UU9qmFOj2JbtmEw==
+Received: from SN7PR04CA0201.namprd04.prod.outlook.com (2603:10b6:806:126::26)
+ by MW4PR12MB6949.namprd12.prod.outlook.com (2603:10b6:303:208::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.472.15; Wed, 30 Sep
+ 2026 21:54:22 +0000
+Received: from SA2PEPF00003F66.namprd04.prod.outlook.com
+ (2603:10b6:806:126:cafe::3e) by SN7PR04CA0201.outlook.office365.com
+ (2603:10b6:806:126::26) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.472.16 via Frontend Transport; Wed,
+ 30 Sep 2026 21:54:20 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
+ is 216.228.118.233) smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.118.233 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.118.233; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.118.233) by
+ SA2PEPF00003F66.mail.protection.outlook.com (10.167.248.41) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.472.14 via Frontend Transport; Wed, 30 Sep 2026 21:54:20 +0000
+Received: from drhqmail202.nvidia.com (10.126.190.181) by mail.nvidia.com
+ (10.127.129.6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.49; Wed, 30 Sep
+ 2026 14:54:03 -0700
+Received: from drhqmail203.nvidia.com (10.126.190.182) by
+ drhqmail202.nvidia.com (10.126.190.181) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49; Wed, 30 Sep 2026 14:54:03 -0700
+Received: from nvidia.com (10.127.8.11) by mail.nvidia.com (10.126.190.182)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.49 via Frontend
+ Transport; Wed, 30 Sep 2026 14:54:01 -0700
+Date: Wed, 30 Sep 2026 14:53:59 -0700
+From: Nicolin Chen <nicolinc@nvidia.com>
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+CC: Linux ACPI <linux-acpi@vger.kernel.org>, <iommu@lists.linux.dev>,
+	<linux-arm-kernel@lists.infradead.org>, LKML <linux-kernel@vger.kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Sudeep Holla
+	<sudeep.holla@kernel.org>, Ard Biesheuvel <ardb@kernel.org>, Ilias Apalodimas
+	<ilias.apalodimas@linaro.org>, <linux-efi@vger.kernel.org>, Will Deacon
+	<will@kernel.org>, "Joerg Roedel (AMD)" <joro@8bytes.org>, Jaroslav Kysela
+	<perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Robin Murphy
+	<robin.murphy@arm.com>, David Rhodes <david.rhodes@cirrus.com>, "Richard
+ Fitzgerald" <rf@opensource.cirrus.com>, <linux-sound@vger.kernel.org>,
+	<patches@opensource.cirrus.com>, Shenghao Ding <shenghao-ding@ti.com>, "Kevin
+ Lu" <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>
+Subject: Re: [PATCH v2 2/5] iommu/arm-smmu-v3: Switch to use
+ acpi_bus_get_primary_device()
+Message-ID: <ar2E99SG6nJK/Csk@nvidia.com>
+References: <4766532.LvFx2qVVIh@rafael.j.wysocki>
+ <3636226.QJadu78ljV@rafael.j.wysocki>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <3636226.QJadu78ljV@rafael.j.wysocki>
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA2PEPF00003F66:EE_|MW4PR12MB6949:EE_
+X-MS-Office365-Filtering-Correlation-Id: 45b8fb49-1de2-434b-4ab2-08df1f3d61ec
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|82310400026|36860700016|1800799024|7416014|23010399003|10067099003|56012099006|11063799006|4143699003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	+UzUlv4rzrjoBpgt94HZwEwbdi3XapHjLfCeVOqxVn/YTdzqN38xDxUOSjNkA+++vVhLXg/cVcp0rToJReIjdo6TyOGWDOrDrAXGgCf5zFWo3LXky/Zc9HSXYYdStirx0Mh0i4LFeM4IQmvdNjjiLgNh3TwtkHcZ+++W8dEnj06uo1xkx0GsKFkrapexPCEszDpmN5QsUg403/FQ7te6vYHXFFa+XyJLHQ3mM+Xnx3EO1wFru8mUNkkEiYJE7gKLvP/+HY4JkhmLG3+jNBo3xt68N1i4CXzSXRZtRbqQUFrkTm4HZz9l2EV7MFeOcx8U+yA0bsO7ik1xiC4vLN8/L8c6OMRToVoqv8htHX5U8oC9VPr8AYv2aPZIgnQswrwSc/fsRetF4hL3XVT4i3tIk0kx9s7pAqw8ihfhXp1IlNfCjv22yCjJor22RXAgqYF2JwYOFOeEXB5OThvty4o3QpbQMc8Rk2tCFdm0tHT5whWIYUcoE3Cyddg2Uj+xR3jNA3j2vvdhHsnFCWyE+koT+b0HCqdC2XVhxrWEjkDYx3T7v3yLoyVuBUtn/awtOd9EucfN10q7KK7Q+6ScDtQNTCB1qMIHxALacxbE/6Oq6r8gKMtKvZcd2rdVYLDNslS83pCP8LQaSeBHvWnhbP7k+p/6qsygg+VOji6d1z/FulSMUygEN6AtwsRGnDwBsU5AYL8fi1C99T5Y0iiGVawOGw==
+X-Forefront-Antispam-Report:
+	CIP:216.228.118.233;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge2.nvidia.com;CAT:NONE;SFS:(13230040)(376014)(82310400026)(36860700016)(1800799024)(7416014)(23010399003)(10067099003)(56012099006)(11063799006)(4143699003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	eBjgD+aQuSD39KZLc2fZvdmAOMavwT3wm38oevmw/OP2LGEXvAsEshXdF7PBpfwAyJc3gWPKaJuxLDEtGo8WelYiBQQRgqStY/eNp+bi11sefpCDwly19U/rjeKhX2wQVzP878kxM0ZXvKNFsHTzeQOK6jvoOZMWi5LreqMxh7zmFKGNC4rEA6KmSLc99vUtDJ7YzRlMcW3aZU1q0wDo0b9Veo2gNrC3Ke6B1A1nfzB83AdnvyWA1KSdqnCXEaWDHzDSdd4bDJEgubWKDZNNHbgsfxHxQ4mgNG36sZnjntsolz1MfeNGlJlhiN1Ztr10FvurTVLG+2F4xFVeCf5rUViGw6OxniN/IvZICGK/31AInqEWWAVXUetyuXIA2MHuN76NIU4OvOesel+wGZfaR04RIvLPbt2CL9PlKW886lrM790TzYx7j3MN5uROUikG
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Sep 2026 21:54:20.5165
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 45b8fb49-1de2-434b-4ab2-08df1f3d61ec
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.233];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SA2PEPF00003F66.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB6949
 
-The M62's vendor controls are driven by hid-topping-m62, added in the
-previous patch, which speaks a vendor protocol on the card's HID
-interface. Those controls belong on the sound card that plays the
-audio, not on a card of the HID driver's own.
-
-This adds the other half of that: a component master, registered from
-the M62's mixer quirk, which hands its struct snd_card to the HID
-driver at bind time and takes the controls away again at unbind. The
-lifetime rules are the component framework's, which is the point --
-neither driver has to be told about the other's disconnect, and neither
-has to guess at the other's state. The same shape binds HD-audio to the
-graphics drivers in sound/hda/core/component.c, with sound as the
-master there too.
-
-The master's context lives in devres on the audio control interface
-rather than in drvdata, which on a usb_interface belongs to
-snd-usb-audio itself; devres_find(), keyed on the release function,
-gives it back inside the callbacks, which are handed nothing but a
-struct device *. It hangs off the control interface rather than off the
-USB device because component_match_add() allocates the match list with
-devm: on the interface that is released at unbind, while on the
-usb_device it would live until the device itself was released and a
-rebind would stack a second list on top.
-
-Neither component_compare_dev() nor component_compare_dev_name() fits:
-the audio side has no pointer to the HID device, and the HID device's
-name carries an instance counter that is not predictable. The match is
-therefore one of descent -- the HID device sits two levels below the
-USB device -- and which interface it is stays the HID driver's
-business, since it registers a component for the vendor interface and
-for no other. That keeps sound/usb free of HID symbols and of any
-opinion about this card's interface numbering.
-
-component_master_add_with_match() returns 0 with the aggregate merely
-pending when the HID driver is absent, so the card comes up either way
-and grows the vendor controls if and when the other half appears.
-
-Signed-off-by: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
----
- MAINTAINERS               |   9 ++
- sound/usb/Makefile        |   1 +
- sound/usb/mixer_quirks.c  |   5 +
- sound/usb/mixer_topping.c | 236 ++++++++++++++++++++++++++++++++++++++
- sound/usb/mixer_topping.h |   7 ++
- 5 files changed, 258 insertions(+)
- create mode 100644 sound/usb/mixer_topping.c
- create mode 100644 sound/usb/mixer_topping.h
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 360977678f70..5b414b707210 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -27611,6 +27611,15 @@ S:	Maintained
- W:	https://tomoyo.sourceforge.net/
- F:	security/tomoyo/
+On Wed, Sep 30, 2026 at 08:43:03PM +0200, Rafael J. Wysocki wrote:
+> From: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
+> 
+> Replace acpi_get_first_physical_node() that is slated for removal
+> with acpi_bus_get_primary_device() that takes a reference to the
+> device it is about to return.
+> 
+> This addresses a potential use-after-free that may occur if the
+> device returned by acpi_get_first_physical_node() is removed right
+> after dropping its ACPI companion's physical_node_lock in that
+> function.
+> 
+> Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
  
-+TOPPING M62 VENDOR CONTROLS
-+M:	Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-+L:	linux-sound@vger.kernel.org
-+L:	linux-input@vger.kernel.org
-+S:	Maintained
-+F:	drivers/hid/hid-topping-m62.c
-+F:	sound/usb/mixer_topping.c
-+F:	sound/usb/mixer_topping.h
-+
- TOPSTAR LAPTOP EXTRAS DRIVER
- M:	Herton Ronaldo Krzesinski <herton@canonical.com>
- L:	platform-driver-x86@vger.kernel.org
-diff --git a/sound/usb/Makefile b/sound/usb/Makefile
-index e62794a87e73..151b481df795 100644
---- a/sound/usb/Makefile
-+++ b/sound/usb/Makefile
-@@ -14,6 +14,7 @@ snd-usb-audio-y := 	card.o \
- 			mixer_quirks.o \
- 			mixer_scarlett.o \
- 			mixer_scarlett2.o \
-+			mixer_topping.o \
- 			mixer_us16x08.o \
- 			mixer_s1810c.o \
- 			pcm.o \
-diff --git a/sound/usb/mixer_quirks.c b/sound/usb/mixer_quirks.c
-index fc622eb95dc5..8288eb222a92 100644
---- a/sound/usb/mixer_quirks.c
-+++ b/sound/usb/mixer_quirks.c
-@@ -36,6 +36,7 @@
- #include "mixer_quirks.h"
- #include "mixer_scarlett.h"
- #include "mixer_scarlett2.h"
-+#include "mixer_topping.h"
- #include "mixer_us16x08.h"
- #include "mixer_s1810c.h"
- #include "helper.h"
-@@ -4539,6 +4540,10 @@ int snd_usb_mixer_apply_create_quirk(struct usb_mixer_interface *mixer)
- 		err = snd_fcp_init(mixer);
- 		break;
- 
-+	case USB_ID(0x152a, 0x875c): /* Topping M62 */
-+		err = snd_topping_init(mixer);
-+		break;
-+
- 	case USB_ID(0x041e, 0x323b): /* Creative Sound Blaster E1 */
- 		err = snd_soundblaster_e1_switch_create(mixer);
- 		break;
-diff --git a/sound/usb/mixer_topping.c b/sound/usb/mixer_topping.c
-new file mode 100644
-index 000000000000..5557bc41f05f
---- /dev/null
-+++ b/sound/usb/mixer_topping.c
-@@ -0,0 +1,236 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * Topping M62 -- component master for the card's vendor controls.
-+ *
-+ * The M62's analogue gains, output volumes and source selectors are not
-+ * described by the USB Audio Class.  They are reached over a vendor
-+ * protocol on the card's HID interface, which hid-topping-m62 speaks.
-+ *
-+ * This file speaks none of that protocol.  It publishes the sound card to
-+ * whoever drives the vendor interface, so that the controls are created on
-+ * the card that plays the audio rather than on a card of their own, and are
-+ * torn down when either side goes away.  The lifetime rules are the
-+ * component framework's, which is the point: neither driver has to guess at
-+ * the other's state, and neither has to be told about the other's
-+ * disconnect.
-+ *
-+ * The same shape binds HD-audio to the graphics drivers in
-+ * sound/hda/core/component.c, with sound as the master there too.
-+ */
-+
-+#include <linux/component.h>
-+#include <linux/device.h>
-+#include <linux/usb.h>
-+
-+#include <sound/core.h>
-+
-+#include "usbaudio.h"
-+#include "mixer.h"
-+#include "helper.h"
-+#include "mixer_topping.h"
-+
-+/*
-+ * What the master hands the component at bind time.  It lives in devres on
-+ * the audio control interface rather than in drvdata, because drvdata on a
-+ * usb_interface belongs to snd-usb-audio itself.  devres_find(), keyed on
-+ * the release function, gives it back inside the callbacks, which are
-+ * handed nothing but a struct device *.
-+ */
-+struct topping_master {
-+	struct device *dev;		/* the audio control interface */
-+	struct snd_card *card;
-+	struct usb_mixer_interface *mixer;
-+};
-+
-+static void topping_master_release(struct device *dev, void *res)
-+{
-+	/*
-+	 * Storage only.  Taking the master down is a separate devres
-+	 * action registered after the match array, so that it runs
-+	 * before it -- see topping_master_teardown() below.
-+	 */
-+}
-+
-+static struct topping_master *topping_get_master(struct device *dev)
-+{
-+	return devres_find(dev, topping_master_release, NULL, NULL);
-+}
-+
-+/*
-+ * Which of the registered components is ours.
-+ *
-+ * This is only ever called against devices that have registered with
-+ * component_add(), so it does not have to defend itself against the whole
-+ * device tree.  What it does have to do is tell this card's vendor
-+ * function apart from a second M62 on another port.
-+ *
-+ * The HID device sits two levels below the USB device:
-+ *
-+ *	hid_device  ->  usb_interface  ->  usb_device
-+ *
-+ * WHICH interface it is, is the HID driver's business: it registers a
-+ * component for the vendor interface and for nothing else.  So the test
-+ * here is one of descent alone and needs no HID symbols in sound/usb --
-+ * which also keeps this file free of any opinion about the M62's
-+ * interface numbering.
-+ */
-+static int topping_match_component(struct device *dev, void *data)
-+{
-+	return dev->parent && dev->parent->parent == data;
-+}
-+
-+static int topping_master_bind(struct device *dev)
-+{
-+	struct topping_master *tm = topping_get_master(dev);
-+
-+	/*
-+	 * Not a bug, and deliberately not a WARN.  devres_release_all()
-+	 * moves every node off the device before it calls a single
-+	 * release, so between a failed probe beginning to unwind and the
-+	 * teardown action running, the context is already gone while the
-+	 * aggregate is still registered.  A component that arrives in
-+	 * that window has simply come at the wrong moment; EPROBE_DEFER
-+	 * says so, and the framework does not log it.
-+	 */
-+	if (!tm)
-+		return -EPROBE_DEFER;
-+
-+	return component_bind_all(dev, tm->card);
-+}
-+
-+/*
-+ * No topping_get_master() here, deliberately.  This can run while the
-+ * interface's devres is unwinding, and devres_release_all() moves every
-+ * node off the device before it calls a single release, so the lookup
-+ * would come back empty and the unbind would be skipped altogether.
-+ *
-+ * The component does not need the card from us in any case: it kept the
-+ * one it was handed at bind, and takes its controls off that.
-+ */
-+static void topping_master_unbind(struct device *dev)
-+{
-+	component_unbind_all(dev, NULL);
-+}
-+
-+static const struct component_master_ops topping_master_ops = {
-+	.bind	= topping_master_bind,
-+	.unbind	= topping_master_unbind,
-+};
-+
-+/*
-+ * Registered as a devres action AFTER component_match_add(), because
-+ * devres unwinds in reverse: this then runs before the match array is
-+ * freed, and component_unbind_all() walks that array.
-+ *
-+ * Two roads reach it.  Normally topping_private_free() calls it through
-+ * devm_release_action().  The other is a probe that got as far as
-+ * creating this mixer and then failed: usb_audio_probe() leaves the
-+ * card and its mixer list alone in that case, as long as an earlier
-+ * interface had succeeded, so the mixer would outlive the interface
-+ * whose devres this is.  Unhooking it here is what keeps a later
-+ * disconnect from reaching freed storage.
-+ */
-+static void topping_master_teardown(void *data)
-+{
-+	struct topping_master *tm = data;
-+
-+	component_master_del(tm->dev, &topping_master_ops);
-+
-+	if (tm->mixer) {
-+		tm->mixer->private_data = NULL;
-+		tm->mixer->private_free = NULL;
-+	}
-+}
-+
-+static void topping_private_free(struct usb_mixer_interface *mixer)
-+{
-+	struct topping_master *tm = mixer->private_data;
-+
-+	if (!tm)
-+		return;
-+
-+	/*
-+	 * Reached from snd_usb_mixer_disconnect(), on an unplug and on an
-+	 * unbind of the audio interface alike.  The action clears
-+	 * mixer->private_data on its way through, so nothing is left
-+	 * pointing at the storage dropped below.
-+	 */
-+	devm_release_action(tm->dev, topping_master_teardown, tm);
-+	devres_destroy(tm->dev, topping_master_release, NULL, NULL);
-+}
-+
-+int snd_topping_init(struct usb_mixer_interface *mixer)
-+{
-+	struct snd_usb_audio *chip = mixer->chip;
-+	struct component_match *match = NULL;
-+	struct usb_interface *intf;
-+	struct topping_master *tm;
-+	struct device *dev;
-+	int err;
-+
-+	/*
-+	 * The master hangs off the audio control interface rather than off
-+	 * the USB device: component_match_add() allocates the match list
-+	 * with devm, and on an interface that is released when the interface
-+	 * is unbound.  On the usb_device it would live until the device
-+	 * itself was released, and a rebind would stack a second list on top
-+	 * of the first.
-+	 */
-+	intf = usb_ifnum_to_if(chip->dev,
-+			       get_iface_desc(mixer->hostif)->bInterfaceNumber);
-+	if (!intf)
-+		return -ENODEV;
-+	dev = &intf->dev;
-+
-+	tm = devres_alloc(topping_master_release, sizeof(*tm), GFP_KERNEL);
-+	if (!tm)
-+		return -ENOMEM;
-+	tm->dev = dev;
-+	tm->card = chip->card;
-+	tm->mixer = mixer;
-+	devres_add(dev, tm);
-+
-+	mixer->private_data = tm;
-+	mixer->private_free = topping_private_free;
-+
-+	component_match_add(dev, &match, topping_match_component,
-+			    &chip->dev->dev);
-+
-+	/*
-+	 * component_match_add() reports a failed allocation by storing
-+	 * an error pointer rather than by returning, and
-+	 * component_master_add_with_match() dereferences what it is
-+	 * given without looking.
-+	 */
-+	if (IS_ERR(match)) {
-+		err = PTR_ERR(match);
-+		goto err_free;
-+	}
-+
-+	/*
-+	 * This returns 0 with the aggregate merely pending when
-+	 * hid-topping-m62 has not registered its component yet:
-+	 * try_to_bring_up_aggregate_device() reports an incomplete set as
-+	 * "not ready", not as an error.  So the card comes up either way and
-+	 * grows the vendor controls if and when the other half appears.
-+	 */
-+	err = component_master_add_with_match(dev, &topping_master_ops, match);
-+	if (err < 0)
-+		goto err_free;
-+
-+	/* Last, so that devres releases it first -- see the teardown. */
-+	err = devm_add_action(dev, topping_master_teardown, tm);
-+	if (err < 0) {
-+		component_master_del(dev, &topping_master_ops);
-+		goto err_free;
-+	}
-+
-+	return 0;
-+
-+err_free:
-+	mixer->private_data = NULL;
-+	mixer->private_free = NULL;
-+	devres_destroy(dev, topping_master_release, NULL, NULL);
-+	usb_audio_err(chip, "Topping: no component master: %d\n", err);
-+	return err;
-+}
-diff --git a/sound/usb/mixer_topping.h b/sound/usb/mixer_topping.h
-new file mode 100644
-index 000000000000..15e16b509eb9
---- /dev/null
-+++ b/sound/usb/mixer_topping.h
-@@ -0,0 +1,7 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+#ifndef __USB_MIXER_TOPPING_H
-+#define __USB_MIXER_TOPPING_H
-+
-+int snd_topping_init(struct usb_mixer_interface *mixer);
-+
-+#endif /* __USB_MIXER_TOPPING_H */
--- 
-2.55.0
-
+Reviewed-by: Nicolin Chen <nicolinc@nvidia.com>
