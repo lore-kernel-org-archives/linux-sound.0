@@ -1,85 +1,84 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CE1F50B8DA;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B1EE4EBAFA;
 	Wed, 30 Sep 2026 15:54:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790783655; cv=none; b=IsnfbqRdB9pQJMg66XZMOnI83SaqadvqTY5Dy2cjnkChkJXQ3SZgczTOdxaGQKAFCPbjdkjjZBciT7UL/rXbE1dJVNy0pu62eMO3H7WzQ5W8m6RQWT+Js7WPEsK/E0Ci38iT0u9tjy/5ZVPKXk9rbyqgF25fgjPUVw4c7AARdWM=
+	t=1790783655; cv=none; b=jBbxr9r3YiZip68p6g+dewaNmcSy9PH4PzdulwdMTyQEWy1raNLoisx/YUGj6AVxjl23k2CIAlsVV0RajbISGUNBAIPVro2uru9gOYoeISTZZy/wo3q4KcIRznp8iyUpDDGOIwHVeiKO3kDF4R6JEnJZ5ZN3k7DU4VIwWWTeFeA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1790783655; c=relaxed/simple;
-	bh=oJPoCnwvAdms4c4wGjRklcKFM8KnipFZ6y69DWczjjA=;
+	bh=c5YAUEEBNCmdnBQVupdpYgwQBR283UcNKuxe4IjRwhc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KN9pBNl0UkNG/hacN2OG4Iwr1B5qkAA7omRsJpQMu1NjJ8GAV1R7Z+WWksJxO8PQUqEHb+AEGu8y3I3ubRUJYNUZll46YQRfZZckDtE2Lf8bTRgYs0BmCnDHbZlxUyPeuIhW1BdJ8vEoaqQuHOo8H5c+wBzjEKX2XCqeoex7VmI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Gnh66vej; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=wT1ns3xU; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=AOqfkn64; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=m7/z54Tt; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=NcrkpC8iRhlmFfFZ7wOnJs7zfqbehqmh06EqKdjpX/DhHwi78cIfbOLIUphpYh250HVBFLRr74dq6wJ5hTxm6WZZjwsMcKZl9OLULuybO+35qHW06sH37SS86vx/4UlA0eVmDjCFSrJRhpBN2rURezEJRcAKhXqozm91X2panpc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dF+5GBbK; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=aR66fOLp; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QqbwRJW7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=BTXMd6eq; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Gnh66vej";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wT1ns3xU";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="AOqfkn64";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="m7/z54Tt"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dF+5GBbK";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="aR66fOLp";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QqbwRJW7";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="BTXMd6eq"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 29B6C1F891;
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 82FDD21E2C;
 	Wed, 30 Sep 2026 15:53:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1790783643; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=KL1pGdir/e2bUyMMWjROopHnm6r+nUGfmfprPds6s70=;
-	b=Gnh66vejuTKBsuv9stVSbF/hf+YAoTLMy98W6GcE+g1B1YzP5r1LyS5e3rtdMDC2O/RJZC
-	2QlNE6nxHt1a6vD13AgipDBB0zqFWBAp1+8MvwYxSrB+Vf2TNcAngNI0BuqboROba3LAK9
-	VF6Dzunp08nK+XZGuzabwBLQI8jC/Xc=
+	bh=yXoUZQoDPo+5CNA5dNCX/wK8BQOnaB40JQKwUkPouxo=;
+	b=dF+5GBbKHbIoekCtCeff263EO8WAw9Cck/2/zsmRK6DgGaiZ20Cway9ARtXtNWj9ZvjbY+
+	QXMKUIPe8tg7kGXtpZmyIdoQIKyYXhnaxYO4Ln5uSGdw21u+1hw/s7fHXbI6+z0ySoNFIT
+	scytG6R4Qylr34OLOkg3dVjvoj+Y99s=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1790783643;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=KL1pGdir/e2bUyMMWjROopHnm6r+nUGfmfprPds6s70=;
-	b=wT1ns3xUtpWp0CcQbu0BwuSeWQFUPaLqUIv60+oYjxXaWL+E2RAdCRGcGmLyvgdzIGM/vA
-	QkiBy+ibpF1JWUBg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=AOqfkn64;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="m7/z54Tt"
+	bh=yXoUZQoDPo+5CNA5dNCX/wK8BQOnaB40JQKwUkPouxo=;
+	b=aR66fOLpVWCd/FkJQosj0q8iSkdQOHFtnsa30+bwD316xr1j4ei1pLWqG2HQ8FqU4je66E
+	svq0poinlFBF6JDQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1790783639; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=KL1pGdir/e2bUyMMWjROopHnm6r+nUGfmfprPds6s70=;
-	b=AOqfkn64Mzv3DU7OTjRVyXHqt/P0zgOk0UpFXd1tbLN9/ytXwsWOvwt9FlGRFvGZAvbN52
-	J99+TSHFGDVcdhYWGR1ZlTbGYRyVv9RMfJ5Lr0ZIA9cUX6Ay9W3/LBzWeJfg1tV+GYMjZ4
-	dZxLcXlp0Izr8AL5NQ6MR3ES5TSxBbU=
+	bh=yXoUZQoDPo+5CNA5dNCX/wK8BQOnaB40JQKwUkPouxo=;
+	b=QqbwRJW7rLUplHY4lGXZKTA+2mGTpQKDtmZP/vvAbOJ4D9XkvujLeLabKt3RnO+hKyW+qQ
+	LcXsKOH/AqlcSEXpOmBQ/HqG6cyM1X+dFiZZe4WRgMVoYihwqJGhr8KR/6SUqpr1ti/GaY
+	3a5g7tYi82O1TlHyK58O8cYBKqo4HAQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1790783639;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=KL1pGdir/e2bUyMMWjROopHnm6r+nUGfmfprPds6s70=;
-	b=m7/z54TtMpvntL/hArpsX5Bh0mFsaST+F3K2sSKR+fQrl/7ZWdc1x4MoZNdxK+0w5h52ks
-	xlcKhjeJGvyyiPDQ==
+	bh=yXoUZQoDPo+5CNA5dNCX/wK8BQOnaB40JQKwUkPouxo=;
+	b=BTXMd6eqFmTXPljwdIMaZGtSLHDuA1V19HeY9cDQMTUSJcwNZmTCDenpDtKBtUb3F9zJrs
+	lN1DQYc1//N9G/CA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A967E13ADB;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 026F613ADD;
 	Wed, 30 Sep 2026 15:53:58 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id C85QFZYwvWqkVAAAD6G6ig:T2
+	id C85QFZYwvWqkVAAAD6G6ig:T4
 	(envelope-from <tiwai@suse.de>); Wed, 30 Sep 2026 15:53:58 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org
-Subject: [PATCH v3 1/3] ALSA: usb-audio: Check mixer matrix size for UAC2/3 at parsing
-Date: Wed, 30 Sep 2026 17:53:50 +0200
-Message-ID: <20260930155356.348608-2-tiwai@suse.de>
+Subject: [PATCH v3 3/3] ALSA: usb-audio: Optimize min/max/res parse for UAC2
+Date: Wed, 30 Sep 2026 17:53:52 +0200
+Message-ID: <20260930155356.348608-4-tiwai@suse.de>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260930155356.348608-1-tiwai@suse.de>
 References: <20260930155356.348608-1-tiwai@suse.de>
@@ -90,70 +89,333 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 29B6C1F891
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.01 / 50.00];
+X-Spamd-Result: default: False [-2.80 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,suse.de:dkim];
 	RCPT_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_EQ_ENVFROM(0.00)[];
 	TO_DN_NONE(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	DKIM_TRACE(0.00)[suse.de:+]
+	RCVD_TLS_ALL(0.00)[]
 X-Spam-Flag: NO
-X-Spam-Score: -3.01
+X-Spam-Score: -2.80
 X-Spam-Level: 
 
-The matrix of input/output channels specified in a UAC2/3 mixer unit
-must fit to the upper limit 256.  Add a sanity check and returns an
-error if an invalid size is detected.
+UAC2 feature and mixer units provide the mixer information about
+minimum and max channels as well as the resolution in a single
+UAC2_CS_RANGE request, but the current code tries to extract each of
+them in an old way of UAC1.
+
+This patch refactors the code to optimize the range info extraction
+for UAC2.  Now the code for obtaining min/max/res info is done in
+get_ctl_range() function.  For UAC1, this will call UAC_GET_MIN,
+UAC_GET_MAX and UAC_GET_RES requests, while it calls a single
+UAC2_CS_RANGE for UAC2/3.
 
 Link: https://lore.kernel.org/d46fcac6-bd7e-4fc4-95e1-4e8d39f92ad3@zipdox.net
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
-v2->v3: no change
+v2->v3: more fixes for idx_off handling, minor coding style changes
 
- sound/usb/mixer.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ sound/usb/mixer.c | 220 ++++++++++++++++++++++++++--------------------
+ 1 file changed, 126 insertions(+), 94 deletions(-)
 
 diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
-index 33a6a1281410..ddfd7e01a3ef 100644
+index a8bdd1696a20..b6e22244e03a 100644
 --- a/sound/usb/mixer.c
 +++ b/sound/usb/mixer.c
-@@ -2436,6 +2436,16 @@ static int parse_audio_mixer_unit(struct mixer_build *state, int unitid,
- 	num_outs = err;
- 	input_pins = desc->bNrInPins;
+@@ -304,8 +304,9 @@ static inline int mixer_ctrl_intf(struct usb_mixer_interface *mixer)
+ 	return get_iface_desc(mixer->hostif)->bInterfaceNumber;
+ }
  
-+	if (state->mixer->protocol == UAC_VERSION_2 ||
-+	    state->mixer->protocol == UAC_VERSION_3) {
-+		if (input_pins * num_outs > 256) {
-+			usb_audio_err(state->chip,
-+				      "invalid channels for MIXER UNIT %d: input=%d, output=%d\n",
-+				      unitid, input_pins, num_outs);
-+			return -EINVAL;
-+		}
+-static int get_ctl_value_v1(struct usb_mixer_elem_info *cval, int request,
+-			    int validx, int *value_ret)
++/* send a request for UAC1 feature & mixer unit */
++static int request_get_ctl_v1(struct usb_mixer_elem_info *cval,
++			      u8 request, int validx, int *value_ret)
+ {
+ 	struct snd_usb_audio *chip = cval->head.mixer->chip;
+ 	unsigned char buf[2];
+@@ -317,6 +318,8 @@ static int get_ctl_value_v1(struct usb_mixer_elem_info *cval, int request,
+ 	if (pm.err < 0)
+ 		return -EIO;
+ 
++	validx += cval->idx_off;
++
+ 	while (timeout-- > 0) {
+ 		idx = mixer_ctrl_intf(cval->head.mixer) | (cval->head.id << 8);
+ 		err = snd_usb_ctl_msg(chip->dev, usb_rcvctrlpipe(chip->dev, 0), request,
+@@ -346,98 +349,73 @@ static unsigned char to_mcn(const struct usb_mixer_elem_info *cval,
+ 	return (m - 1) * cval->num_outputs + (v - 1);
+ }
+ 
+-static int get_ctl_value_v2(struct usb_mixer_elem_info *cval, int request,
+-			    int validx, int *value_ret)
++/* send a request for UAC2 feature & mixer unit */
++static int request_get_ctl_v2(struct usb_mixer_elem_info *cval,
++			      u8 request, int validx, unsigned char *buf,
++			      int size)
+ {
+ 	struct snd_usb_audio *chip = cval->head.mixer->chip;
+-	/* enough space for one range */
+-	unsigned char buf[sizeof(__u16) + 3 * sizeof(__u32)];
+-	unsigned char *val;
+-	int idx = 0, ret, val_size, size;
+-	__u8 bRequest;
++	int idx, ret;
+ 
+-	val_size = uac2_ctl_value_size(cval->val_type);
++	CLASS(snd_usb_lock, pm)(chip);
++	if (pm.err)
++		return -EIO;
++
++	validx += cval->idx_off;
+ 
+ 	/* correct wValue for UAC2 mixer control with MCN */
+ 	if (cval->v2_mixer)
+ 		validx = (UAC2_MU_MIXER << 8) | to_mcn(cval, validx);
+ 
+-	if (request == UAC_GET_CUR) {
+-		bRequest = UAC2_CS_CUR;
+-		size = val_size;
+-	} else {
+-		bRequest = UAC2_CS_RANGE;
+-		size = sizeof(__u16) + 3 * val_size;
+-	}
+-
+-	memset(buf, 0, sizeof(buf));
+-
+-	{
+-		CLASS(snd_usb_lock, pm)(chip);
+-		if (pm.err)
+-			return -EIO;
+-
+-		idx = mixer_ctrl_intf(cval->head.mixer) | (cval->head.id << 8);
+-		ret = snd_usb_ctl_msg(chip->dev, usb_rcvctrlpipe(chip->dev, 0), bRequest,
+-				      USB_RECIP_INTERFACE | USB_TYPE_CLASS | USB_DIR_IN,
+-				      validx, idx, buf, size);
+-	}
+-
+-	if (ret < 0) {
++	memset(buf, 0, size);
++	idx = mixer_ctrl_intf(cval->head.mixer) | (cval->head.id << 8);
++	ret = snd_usb_ctl_msg(chip->dev, usb_rcvctrlpipe(chip->dev, 0),
++			      request,
++			      USB_RECIP_INTERFACE | USB_TYPE_CLASS | USB_DIR_IN,
++			      validx, idx, buf, size);
++	if (ret < 0)
+ 		usb_audio_dbg(chip,
+ 			"cannot get ctl value: req = %#x, wValue = %#x, wIndex = %#x, type = %d\n",
+ 			request, validx, idx, cval->val_type);
++
++	return ret;
++}
++
++/* read the current value for UAC2 */
++static int get_ctl_value_v2(struct usb_mixer_elem_info *cval,
++			    int validx, int *value_ret)
++{
++	/* enough space for one value */
++	unsigned char buf[sizeof(__u32)];
++	int ret, val_size;
++
++	val_size = uac2_ctl_value_size(cval->val_type);
++
++	ret = request_get_ctl_v2(cval, UAC2_CS_CUR, validx, buf, val_size);
++	if (ret < 0)
+ 		return ret;
+-	}
+-
+-	/* FIXME: how should we handle multiple triplets here? */
+-
+-	switch (request) {
+-	case UAC_GET_CUR:
+-		val = buf;
+-		break;
+-	case UAC_GET_MIN:
+-		val = buf + sizeof(__u16);
+-		break;
+-	case UAC_GET_MAX:
+-		val = buf + sizeof(__u16) + val_size;
+-		break;
+-	case UAC_GET_RES:
+-		val = buf + sizeof(__u16) + val_size * 2;
+-		break;
+-	default:
+-		return -EINVAL;
+-	}
+ 
+ 	*value_ret = convert_signed_value(cval,
+-					  snd_usb_combine_bytes(val, val_size));
+-
++					  snd_usb_combine_bytes(buf, val_size));
+ 	return 0;
+ }
+ 
+-static int get_ctl_value(struct usb_mixer_elem_info *cval, int request,
+-			 int validx, int *value_ret)
+-{
+-	validx += cval->idx_off;
+-
+-	return (cval->head.mixer->protocol == UAC_VERSION_1) ?
+-		get_ctl_value_v1(cval, request, validx, value_ret) :
+-		get_ctl_value_v2(cval, request, validx, value_ret);
+-}
+-
++/* read the current value */
+ static int get_cur_ctl_value(struct usb_mixer_elem_info *cval,
+-			     int validx, int *value)
++			     int validx, int *value_ret)
+ {
+-	return get_ctl_value(cval, UAC_GET_CUR, validx, value);
++	return (cval->head.mixer->protocol == UAC_VERSION_1) ?
++		request_get_ctl_v1(cval, UAC_GET_CUR, validx, value_ret) :
++		get_ctl_value_v2(cval, validx, value_ret);
+ }
+ 
+ /* channel = 0: master, 1 = first channel */
+ static inline int get_cur_mix_raw(struct usb_mixer_elem_info *cval,
+ 				  int channel, int *value)
+ {
+-	return get_ctl_value(cval, UAC_GET_CUR,
+-			     (cval->control << 8) | channel,
+-			     value);
++	return get_cur_ctl_value(cval,
++				 (cval->control << 8) | channel,
++				 value);
+ }
+ 
+ int snd_usb_get_cur_mix_value(struct usb_mixer_elem_info *cval,
+@@ -467,6 +445,81 @@ int snd_usb_get_cur_mix_value(struct usb_mixer_elem_info *cval,
+ 	return 0;
+ }
+ 
++/* extract the mixer min/max/res info from UAC1 feature / mixer unit */
++static int get_ctl_range_v1(struct usb_mixer_elem_info *cval, int validx)
++{
++	int last_valid_res;
++
++	if (request_get_ctl_v1(cval, UAC_GET_MAX, validx, &cval->max) < 0 ||
++	    request_get_ctl_v1(cval, UAC_GET_MIN, validx, &cval->min) < 0) {
++		usb_audio_err(cval->head.mixer->chip,
++			      "%d:%d: cannot get min/max values for control %d (id %d)\n",
++			      cval->head.id, mixer_ctrl_intf(cval->head.mixer),
++			      cval->control, cval->head.id);
++		return -EAGAIN; /* handled by the caller later again */
 +	}
 +
- 	num_ins = 0;
- 	ich = 0;
- 	for (pin = 0; pin < input_pins; pin++) {
++	if (request_get_ctl_v1(cval, UAC_GET_RES, validx, &cval->res) < 0) {
++		cval->res = 1;
++		return 0;
++	}
++
++	last_valid_res = cval->res;
++	while (cval->res > 1) {
++		if (snd_usb_mixer_set_ctl_value(cval, UAC_SET_RES,
++						validx, cval->res / 2) < 0)
++			break;
++		cval->res /= 2;
++	}
++	if (request_get_ctl_v1(cval, UAC_GET_RES, validx, &cval->res) < 0)
++		cval->res = last_valid_res;
++
++	return 0;
++}
++
++/* extract the mixer min/max/res info from UAC2 feature / mixer unit */
++static int get_ctl_range_v2(struct usb_mixer_elem_info *cval, int validx)
++{
++	/* enough space for one range */
++	unsigned char buf[sizeof(__u16) + 3 * sizeof(__u32)];
++	unsigned char *val;
++	int val_size, size;
++
++	val_size = uac2_ctl_value_size(cval->val_type);
++	size = sizeof(__u16) + 3 * val_size;
++
++	if (request_get_ctl_v2(cval, UAC2_CS_RANGE, validx, buf, size) < 0) {
++		usb_audio_err(cval->head.mixer->chip,
++			      "%d:%d: cannot get RANGE values for control %d (id %d)\n",
++			      cval->head.id, mixer_ctrl_intf(cval->head.mixer),
++			      cval->control, cval->head.id);
++		return -EAGAIN; /* handled by the caller later again */
++	}
++
++	/* FIXME: how should we handle multiple triplets here? */
++	val = buf + 2;
++	cval->min = convert_signed_value(cval, snd_usb_combine_bytes(val, val_size));
++	val += val_size;
++	cval->max = convert_signed_value(cval, snd_usb_combine_bytes(val, val_size));
++	val += val_size;
++	cval->res = convert_signed_value(cval, snd_usb_combine_bytes(val, val_size));
++	return 0;
++}
++
++/* extract the mixer min/max/res info */
++static int get_ctl_range(struct usb_mixer_elem_info *cval, int validx)
++{
++	switch (cval->head.mixer->protocol) {
++	case UAC_VERSION_1:
++		return get_ctl_range_v1(cval, validx);
++	case UAC_VERSION_2:
++	case UAC_VERSION_3:
++		return get_ctl_range_v2(cval, validx);
++	default:
++		return -EINVAL;
++	}
++}
++
+ /*
+  * set a mixer value
+  */
+@@ -1363,32 +1416,11 @@ static int get_min_max_with_quirks(struct usb_mixer_elem_info *cval,
+ 					break;
+ 				}
+ 		}
+-		if (get_ctl_value(cval, UAC_GET_MAX, (cval->control << 8) | minchn, &cval->max) < 0 ||
+-		    get_ctl_value(cval, UAC_GET_MIN, (cval->control << 8) | minchn, &cval->min) < 0) {
+-			usb_audio_err(cval->head.mixer->chip,
+-				      "%d:%d: cannot get min/max values for control %d (id %d)\n",
+-				   cval->head.id, mixer_ctrl_intf(cval->head.mixer),
+-							       cval->control, cval->head.id);
+-			return -EAGAIN;
+-		}
+-		if (get_ctl_value(cval, UAC_GET_RES,
+-				  (cval->control << 8) | minchn,
+-				  &cval->res) < 0) {
+-			cval->res = 1;
+-		} else if (cval->head.mixer->protocol == UAC_VERSION_1) {
+-			int last_valid_res = cval->res;
+ 
+-			while (cval->res > 1) {
+-				if (snd_usb_mixer_set_ctl_value(cval, UAC_SET_RES,
+-								(cval->control << 8) | minchn,
+-								cval->res / 2) < 0)
+-					break;
+-				cval->res /= 2;
+-			}
+-			if (get_ctl_value(cval, UAC_GET_RES,
+-					  (cval->control << 8) | minchn, &cval->res) < 0)
+-				cval->res = last_valid_res;
+-		}
++		ret = get_ctl_range(cval, (cval->control << 8) | minchn);
++		if (ret < 0)
++			return ret;
++
+ 		if (cval->res == 0)
+ 			cval->res = 1;
+ 
 -- 
 2.55.0
 
