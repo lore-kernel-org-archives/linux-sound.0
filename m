@@ -1,107 +1,152 @@
-Received: from sender6-op-o15.zoho.com (sender6-op-o15.zoho.com [165.173.180.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5740B4CDDC9;
-	Wed, 30 Sep 2026 11:58:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=165.173.180.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790769527; cv=pass; b=pkr7f7CirsCOo+/IV/YJVnk5cpPC9gjLDo0H8kZ3OgYpA2y2ZlGnCEOQw3qBTGfrxgF75XAvUoXifzod/Si9fugh1MOxMWdlueBjOgVCe7IdFSbLl4bGiObVsrV7prmLCrAP5cypv/qRgWRAASDJFD/9e1YnzXorTh6Y8AOFq/o=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790769527; c=relaxed/simple;
-	bh=hJv74KS3ERGLPl4eQadzPTU2vW80DErW/66pSf6x0aU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tjmRTPQuQcmafjmrm/qDah1yF9O3cztE7VjG0WII6CiuKR+dQydy3Iop8LYxndo7pdTfr98TZG7VXrrjkHwN+MFRmfLjq683ieBrrNdXBKmUjXXEXA6R+2QNwpBeEBF8sWY3fKmHMH+zuX6YA9gVnD+Jo2SKwLSJpe+QFWxF9nQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=harin.net; spf=pass smtp.mailfrom=harin.net; dkim=pass (2048-bit key) header.d=harin.net header.i=me@harin.net header.b=HHotFc8t; arc=pass smtp.client-ip=165.173.180.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=harin.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=harin.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E5AB4CDDE3;
+	Wed, 30 Sep 2026 12:29:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790771396; cv=none; b=kmZE307gTe77x/gtwpe76o/HSf/w1pNoqZPl7HR5rUCyc6BISQJS9gIeVTysBZXgtoepzpImPuqPkDZ0NEzz9ZCcA7vJK+q1F5Ee9ZNH1IjA4fS+qybHl2j9QnZ/AkKmnlOZml//Vg4XHjVSsnXGddqlv1yXfe8yX3FwWYug8hA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790771396; c=relaxed/simple;
+	bh=bHED2PalCqWqy+ej+XzZ/mrvSZuXl3/01whc4XeqaA0=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=lPMYWWHhh9LfalQ0ho+UD6LyHLqlOho1S0aZGKcaZSDHUaTZVzFLp8/v2Tpml00WrMTD9+wCbptyN0/pQtAYOvuPJ6ZqgW0TewY7v4/P0oMemMOcJbsZyJepqtP+oO/K2SX95yCMf5f+rlVjR5rzb1LAi40YOD1+tJq1vkLTpAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wxrU+Juq; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=hPet5eMN; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Ta+zdnB+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=oijDvPnv; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=harin.net header.i=me@harin.net header.b="HHotFc8t"
-ARC-Seal: i=1; a=rsa-sha256; t=1790769511; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=nJNDy5YYSTvAVqM3hpSTaZoiURL5LIlnb/xUdEH25vfzKCnvPFcGovzrreNWo1Zx7WJpRX/xUb2TbtLOT1CdY/XiJxSkgveRe0/8fPEgTq+STxcRscsZNHOjYhMf9Gt21/p0Fv9bv6KMP65DF/lW42kp1HsVGUy7+Pn/LJ88Pbk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1790769511; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=kLL4d4EZaBohg01WXmA05UXX4aLrLNyzQd0oVuYdvfs=; 
-	b=gQWbMNw0S3oLiNlia3Sb1b/eoPgd1rvF3Jy806YeW8Yalipuw3FrBq1auQ8IWILLgrAcfye8fZ6hrcJp3c/zzLCkDZetCQTze+xN5jA91xSChaRHxk6FlHGGhC7Njb1LQvWRcpAcfRFIijC9iSgdYeT7mSXbAi/dfIfcL9T0BT0=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=harin.net;
-	spf=pass  smtp.mailfrom=me@harin.net;
-	dmarc=pass header.from=<me@harin.net>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1790769511;
-	s=zmail; d=harin.net; i=me@harin.net;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=kLL4d4EZaBohg01WXmA05UXX4aLrLNyzQd0oVuYdvfs=;
-	b=HHotFc8tEriokDiEr0+Rf9NlFAwkUbr4EojI+lWbKt0kVF2MYLQuZFAOheE0k7os
-	QaXvheA3/Kk6PEcdTxNdOL9fXBLG5zuEPLLTiLS8MPcarS+LUeOTVuPH/C0X12tXpS7
-	uskvao73M69QaC82Z3dcTjT2vKgiOPPbjpxXd2Uke6E7meB6THW/AVSyfkDlKHbFCG6
-	etIaBRTxvBUTUE+0m2aLRxyl2Qcb5wdz6WddEC90bRMRPARO9AhyWXrzoiMo3fBskO2
-	majJSW5ep0xxpJg5OB3+UMB+M1nPkntclytl6Nv5kJkDYatrMHm1qynfAZIv2JrsnMk
-	w5K1QzKOoA==
-Received: by smtp.zohomail.com with SMTPS id 1790769508781993.0474100814089;
-	Wed, 30 Sep 2026 04:58:28 -0700 (PDT)
-From: Harin Lee <me@harin.net>
-To: Jaroslav Kysela <perex@perex.cz>,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wxrU+Juq";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hPet5eMN";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ta+zdnB+";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="oijDvPnv"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id A475A21A95;
+	Wed, 30 Sep 2026 12:29:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1790771388; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dVgNp1NNSNJOQL5dXm2cx/tsAEGEMCocD6Vj6jjfI/I=;
+	b=wxrU+JuqvMrj+keQ7ZqDNuabDGjLSBaqH30yA5fGGhxplu08vuNoFUzoFCE1vuhYZMPDo+
+	lbkunEWGvAh5RLACaK0xbuuoEPYR51RuQGXGbpLyKZi7tPqOgKR4ukEYFxwNy3U/ledPoG
+	tpklEaOFP3nOtLodkIKo9LXy6exn3EI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1790771388;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dVgNp1NNSNJOQL5dXm2cx/tsAEGEMCocD6Vj6jjfI/I=;
+	b=hPet5eMNKQjiOPSKx+o3TLR0TIUA1zn+B1jAdiSzNE7DPQ29u6prfNzyQ1aWAyLxyKa7h2
+	44b2UYvkiS6MuYBA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Ta+zdnB+;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=oijDvPnv
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1790771384; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dVgNp1NNSNJOQL5dXm2cx/tsAEGEMCocD6Vj6jjfI/I=;
+	b=Ta+zdnB+T5bbhW2n0PE4b9YbbI29yJmoXvrHzfjBBTwownwhbUcVsVWo2cAYw8lbeJtQw8
+	ibbuy1U0ddsPTuydj04D//+1V5wXhqVUxCCfFZZOrZhKQ+3fhwuBYCOYbtjMYn8BsElxmZ
+	w+7kofAw62TNkg1385TKYnt4VuJKPyg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1790771384;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dVgNp1NNSNJOQL5dXm2cx/tsAEGEMCocD6Vj6jjfI/I=;
+	b=oijDvPnvKfZHYmhkScRV4J8ZImFFK+Ob+664i0t8zHJZXbCfERg3KgpZlPOwfo2o/2Xtnx
+	G7GO+L3C7qAeqtBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 50911136AD;
+	Wed, 30 Sep 2026 12:29:44 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id diY3CrgAvWpEdwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 30 Sep 2026 12:29:44 +0000
+Date: Wed, 30 Sep 2026 14:29:43 +0200
+Message-ID: <87zewy53d4.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Harin Lee <me@harin.net>
+Cc: Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
-	Dany Patoine <dany_patoine@hotmail.com>
-Cc: linux-sound@vger.kernel.org,
+	Dany Patoine <dany_patoine@hotmail.com>,
+	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	regressions@lists.linux.dev,
-	Harin Lee <me@harin.net>
-Subject: [PATCH] ALSA: ctxfi: Fix silent playback on Titanium HD (SB1270)
-Date: Wed, 30 Sep 2026 20:58:24 +0900
-Message-ID: <20260930115824.739412-1-me@harin.net>
-X-Mailer: git-send-email 2.55.0
+	regressions@lists.linux.dev
+Subject: Re: [PATCH] ALSA: ctxfi: Fix silent playback on Titanium HD (SB1270)
+In-Reply-To: <20260930115824.739412-1-me@harin.net>
+References: <20260930115824.739412-1-me@harin.net>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: A475A21A95
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_TLS_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[hotmail.com];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[perex.cz,suse.com,hotmail.com,vger.kernel.org,lists.linux.dev];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,harin.net:email];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Spam-Level: 
 
-Commit 4b490e0d103c ("ALSA: ctxfi: Add ADC helper functions for GPIO")
-moved the GPIO_DATA read into hw_adc_stop(), but the Titanium HD
-(SB1270) setup in hw_adc_init() uses the local data variable holding
-the GPIO_CTRL value.
+On Wed, 30 Sep 2026 13:58:24 +0200,
+Harin Lee wrote:
+> 
+> Commit 4b490e0d103c ("ALSA: ctxfi: Add ADC helper functions for GPIO")
+> moved the GPIO_DATA read into hw_adc_stop(), but the Titanium HD
+> (SB1270) setup in hw_adc_init() uses the local data variable holding
+> the GPIO_CTRL value.
+> 
+> Writing this value to GPIO_DATA sets the output mute bits. Playback
+> runs without errors, but the outputs stay muted.
+> 
+> Re-read GPIO_DATA before setting the speed mode bits. Also, add the
+> delay after writing the mode bits, as in the original sequence.
+> 
+> On affected kernels, switching the output selection was reported to
+> restore clean playback.
+> 
+> Fixes: 4b490e0d103c ("ALSA: ctxfi: Add ADC helper functions for GPIO")
+> Cc: stable@vger.kernel.org
+> Reported-by: Dany Patoine <dany_patoine@hotmail.com>
+> Closes: https://lore.kernel.org/linux-sound/DM6PR02MB5433A42E81FEFAC400DD1905EA8B2@DM6PR02MB5433.namprd02.prod.outlook.com/
+> Signed-off-by: Harin Lee <me@harin.net>
 
-Writing this value to GPIO_DATA sets the output mute bits. Playback
-runs without errors, but the outputs stay muted.
+Applied now.  Thanks.
 
-Re-read GPIO_DATA before setting the speed mode bits. Also, add the
-delay after writing the mode bits, as in the original sequence.
 
-On affected kernels, switching the output selection was reported to
-restore clean playback.
-
-Fixes: 4b490e0d103c ("ALSA: ctxfi: Add ADC helper functions for GPIO")
-Cc: stable@vger.kernel.org
-Reported-by: Dany Patoine <dany_patoine@hotmail.com>
-Closes: https://lore.kernel.org/linux-sound/DM6PR02MB5433A42E81FEFAC400DD1905EA8B2@DM6PR02MB5433.namprd02.prod.outlook.com/
-Signed-off-by: Harin Lee <me@harin.net>
----
- sound/pci/ctxfi/cthw20k2.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/sound/pci/ctxfi/cthw20k2.c b/sound/pci/ctxfi/cthw20k2.c
-index 36066ffe8784..26a6fa69f5f5 100644
---- a/sound/pci/ctxfi/cthw20k2.c
-+++ b/sound/pci/ctxfi/cthw20k2.c
-@@ -1895,6 +1895,7 @@ static int hw_adc_init(struct hw *hw, const struct adc_conf *info)
- 
- 	if (hw->model == CTSB1270) {
- 		/* Set up the PCM4220 ADC on Titanium HD */
-+		data = hw_read_20kx(hw, GPIO_DATA);
- 		data &= ~0x0C;
- 		if (1 == info->msr)
- 			data |= 0x00; /* Single Speed Mode 32-50kHz */
-@@ -1903,6 +1904,7 @@ static int hw_adc_init(struct hw *hw, const struct adc_conf *info)
- 		else
- 			data |= 0x04; /* Quad Speed Mode 108kHz-216kHz */
- 		hw_write_20kx(hw, GPIO_DATA, data);
-+		usleep_range(10000, 11000);
- 	}
- 
- 	hw_adc_start(hw);
--- 
-2.55.0
-
+Takashi
