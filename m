@@ -1,142 +1,104 @@
-Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010021.outbound.protection.outlook.com [52.101.228.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs2-f41.google.com (mail-vs2-f41.google.com [74.125.227.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57C7932FA18
-	for <linux-sound@vger.kernel.org>; Tue, 29 Sep 2026 23:36:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.21
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790724987; cv=fail; b=kiDLHanlm/C736rZKJiOJUbq6y4eDFxYVWssMvnw1Aq+fOznSewRaDI+a02IEVkiyHMOZv4aUABrMagZ9pfbG1a1EOHjJ0iES6hIy6n8dhTpHMpudz3Pc6RYYqQrbG44WEDyJiY4n3cDwSwbEsDc0ViFqzes9Yadvf4YnGBJtOQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790724987; c=relaxed/simple;
-	bh=Mjp8TNyp5GFDZTBL+x8d+ySqcXjkasIlrAUpyhT0QuM=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=mC4/l/1NMQZs818i2E6wz0woxRg2DWPPBu9+OO0xCUYwC4bKg5qCHsZClik5cJFtppZj7aqoYCgPv5i13DSd2lXuV0yW044txPDgXIHdG3pYTZx8K8w2R5M9uQ2nCZytH9VaudZ3r4SGmAdPT/5IAc+4YV45u5PbvPymveBndQ0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=jJePFF7O; arc=fail smtp.client-ip=52.101.228.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2BDA233946
+	for <linux-sound@vger.kernel.org>; Wed, 30 Sep 2026 01:05:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.41
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790730309; cv=none; b=RJgzEk3iFkWY59T+bu3XbDcFgA1YmtjsNPaUrsDgq5Zj+QbQqX+8mCGBVJofY18It41SQY+Cz9yKPAWa/c4NZmst10qRpo9efJ0HlWw2Dk0AGTJf9zjCME1dnI2ojD2CHZdCRYW4nw0DYRi89P+cd4rD0YmGOXDKFOZ2ov1J1nc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790730309; c=relaxed/simple;
+	bh=h8oQ2vtatOWugNQ2m73cbra59VtykLLACLyn4sPqM2c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tDcJ437R6/P+eZiS3POOHQNF5d/P9jLel12ApzX2RSWESZM70xHZLqmRioB4MBfTFg3s+b8yvG6vrRHq2b9UPU/7ab6pjMdre6gEi9CH1+5ArGRpvoewo0HG7TN3kY/fwd7RjTLCrQ1bL0KHGC3Uk3Lss+NIwc19f81evWKfDvs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XsFuEvxl; arc=none smtp.client-ip=74.125.227.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="jJePFF7O"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=H8SJvaNTXsaLU9ZxCHCx4x8vc1qSt2IX41dggoKiVyIxaeC3v2G4uAic4vujyrlvDbA3FqquvXyiNb/gmFVX3f0GbuZF1StP9uW5/ACz4+ETzMJbbZD/9/94Wh8ACw5yddhzH8JHnY/2NErX6/dbhVOrRXLJ48uALA9PzFwxDjC0AJ3Ah+boW8XhwHroPJx2cMcWFwem0sX9v42XA9zJyT97CH+v/7kh3XPMDwqHLs6omHcDOMGHp7WsFEKB8aEHnnbiTt6TjaeMNZqD/17RrTBIM1fKXdDQgh3RDSqDeRC/JCMRFis16CGfDKFLO6EKxScXYBS3WfxL8gKY92VjCw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+G8/B/5Fam3eR4E1Ura0jc5ntcEEw2n+XAKVg+gplvw=;
- b=BZIqaP79jqk+y3fKv0eZPHGZyAMhslcfjEec6zfNGXUfkcOJ5S078thPnb750bvZ2mig+PKxhVtBBHYy5N0gtEJYfi20nA0nbc9j4KuTO1deTXexYRo1FdN5cXEspskoPGIwP76gwFvBPnSbwCMie6fvWJmqGWQGCZE+ewnC0A52NsO9N9mjRWZbbhIWjuYahg1Ke1vjJkNmRy5bYC12JgJNgUgH16v6GHgkO94bRzBcMqHJu0lect0harrkCil5HALU9+OsgCl/p/P/ImVXMXpLou1G5eCSJwoXt9uerRkfkZPvcwhkzY10gzZW9VuZTCF+uSqbuK0q2VhrZ6djdw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+G8/B/5Fam3eR4E1Ura0jc5ntcEEw2n+XAKVg+gplvw=;
- b=jJePFF7OtfS30xujWontFkHhmdTUS0g5mj4EPBw/lBIkGknJGfNXUEAqEZRRyok8+mZ6F7pbvy9IRV512dWms1Ce4lqeOYD2luglHlHJGB45zTsFuf3Jcu2mp2mPO/ztB+b996CLBjsqG5NEZL//twZmW/hCQnSeUoRHhVP/eBI=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYYPR01MB14118.jpnprd01.prod.outlook.com
- (2603:1096:405:214::12) by TYRPR01MB12172.jpnprd01.prod.outlook.com
- (2603:1096:405:100::10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.26; Tue, 29 Sep
- 2026 23:36:22 +0000
-Received: from TYYPR01MB14118.jpnprd01.prod.outlook.com
- ([fe80::846f:9035:6a33:1f45]) by TYYPR01MB14118.jpnprd01.prod.outlook.com
- ([fe80::846f:9035:6a33:1f45%6]) with mapi id 15.21.0472.015; Tue, 29 Sep 2026
- 23:36:21 +0000
-Message-ID: <8733ursk96.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Alvin =?ISO-8859-2?Q?=A9ipraga?= <alvin.sipraga@analog.com>
-Cc: Mark Brown <broonie@kernel.org>,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 07/14] ASoC: soc-component: move soc_{probe/remove}_component() to soc-component.c
-In-Reply-To: <art0TqnGvw7Ci21C@analog.com>
-References: <87pkxweibu.wl-kuninori.morimoto.gx@renesas.com>
-	<87fqyseiat.wl-kuninori.morimoto.gx@renesas.com>
-	<art0TqnGvw7Ci21C@analog.com>
-User-Agent: Wanderlust/2.15.9 Emacs/30.2 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Tue, 29 Sep 2026 23:36:21 +0000
-X-ClientProxiedBy: TYCP286CA0140.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:31b::14) To TYYPR01MB14118.jpnprd01.prod.outlook.com
- (2603:1096:405:214::12)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XsFuEvxl"
+Received: by mail-vs2-f41.google.com with SMTP id 71dfb90a1353d-5c963a787c9so1861343e0c.2
+        for <linux-sound@vger.kernel.org>; Tue, 29 Sep 2026 18:05:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790730307; x=1791335107; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=TMQZqq6NsGW7r3Ya7TEGt/n6qCY2JjVoUUL1F7Si3Zc=;
+        b=XsFuEvxlWBY5Osy1yk9wRvbymO2T/xa+23zOmxMX184f+1oJX+dVLXnwdgL97fGCZd
+         qhte+zRQRPos3DrVOQFuqCr4YRK6meL80afhidVub/RzLjSrHJuDOt2cdcH/bcEC5SxT
+         ABOAivb4y0uqYEmrP2crnhEpNPabIzHV+p1TKSg4whzBw1fucc0t+MAE2jMpBB+PlirL
+         dmWaK6GiyslLAQ81PCWSyxz4Bhmvx/Tl7VB2xEDNmvDVnyNWywvGxkfF15/S3bYzSx7m
+         bI08fQIamwKI7VX1GqkZ80HgAvv6j3gN45kHytfgk68Vir9DsBMiIXxN+cGFFyKIMZ7f
+         U1Jw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790730307; x=1791335107;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=TMQZqq6NsGW7r3Ya7TEGt/n6qCY2JjVoUUL1F7Si3Zc=;
+        b=rwgNkYrk8x/nPWpCE/O4Id0f2jc3qMzdLzg1+yOBvKo/z0Rd+e1ANHts21d0OLGkHw
+         tAT/jqDG1SS01m7LOqpv5bHRa/ycJiVDWP50KmI/HkdjrL2HMGjj8viA1plRwivnOC3P
+         C3/hiPd6S8hIcIQCV/fcMsj+2WbM7c/SIKHMXekvTiMbbm1zleDKFBFcVVARfBs+VXFf
+         zZ0iXZE1mUASFZXVlspViWxXsFks/4QSyRCEP12z938eJUq5atCaJQyO5AIfB2DRrwHU
+         MLashd4utUX8VuVy5/wqwpYKQA7pVYwFLPEItZhRXXi4bh8ydTnGHTlnYgF45DDcr5ml
+         /w+g==
+X-Forwarded-Encrypted: i=1; AKwUvBzU97xRbr5gidR4jWZ84lG5L1uDTtODNrER1pHM0KBKOlvX1tVgddKEUh7ktDWnfk8JPk4B6eqAsr1lHw==@vger.kernel.org
+X-Gm-Message-State: AFq9FYIkDKzk7pOdHVUYtNDoKUb+w8Yq87yV7/zJhS7I/wWBhhUt2BJg
+	yBP3fPgldX5juntJBQNCA8QbY/SAspBs+hdsCvIy1nmvi2kJU6syut4Q
+X-Gm-Gg: AYBFou0PAw+MabTKMoeMvkJ/A8sbE7RT1cHQ7Tkv3tidE2uPaRBLdD86vz3DyuepTH/
+	mhyft+p0aAipmBlfWy2GCRmJUZzflGQE57OMtbf+GdVoDY6pmRhc4Fn/J22onbyjSTkTsHPq+CY
+	UL8RANtfogLBTFcj/sB3j8wlgiVw0ge5X9w0+ZVDZdeExG414njrtB7fKCuJzryTWDgKM5afzWF
+	vBx3Eschf++DVnKhrjc2Po2Muqc2MMrlPViXAA4l+BbkMDQL7lkvBLpic/Nlb+mKOCrNnMkbDLG
+	dECIUhnf9z4fuj0KAu++gx30HdmADOrGfuptSHVQalwZzJ4XFNJPWcjjOhVH+pxOsGYT8bATZ0R
+	U8C9Y1t/fuHZU+QXng6UvjvMjxh2xoRUaXFfUbAJdo5YvmZa4scuuTx/2jLqb9KUmBXAuaVAR3d
+	IlqvIwqUHBU+/LRfSQ6nkP1DQfMuJTI2pTPm5+sLCGxqwsswdLc1X87RvWG6npD2Gc6HLI/Sw9C
+	b6IoDmaXTvXe/gyij2Euam0Mx/CIJR/N9Bn9MyqDUZkVG5LXOGPaTqCWrlw/4wRu5Dhxqrh1fO+
+	TAH59084
+X-Received: by 2002:a67:e045:0:b0:7a1:f7d2:e84b with SMTP id ada2fe7eead31-7bc48eff358mr258529137.27.1790730306667;
+        Tue, 29 Sep 2026 18:05:06 -0700 (PDT)
+Received: from alsa-dev.int.suenodeluz.com.do ([74.244.193.53])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-988d2a0a645sm1184024241.5.2026.09.29.18.05.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Sep 2026 18:05:06 -0700 (PDT)
+Date: Tue, 29 Sep 2026 21:05:04 -0400
+From: Frank van de Pol <fvdpol@gmail.com>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: perex@perex.cz, corbet@lwn.net, khan@linuxfoundation.org, 
+	rdunlap@infradead.org, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 0/1] ALSA: usb: Add support for Reloop Jockey 3 DJ
+ controllers
+Message-ID: <2ja7iapaq4aecpz2iem2c4e5aowcm5fjigjqrvbvtvqhyr7bpi@urmbkvhr47rk>
+References: <20260925021915.78909-1-fvdpol@gmail.com>
+ <875wzp4a3i.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYYPR01MB14118:EE_|TYRPR01MB12172:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0d300cf4-91b1-4f82-f8cd-08df1e8277c6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|23010399003|52116014|376014|366016|38350700014|4143699003|10067099003|11063799006|56012099006|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	tM8VJ5lSlBfivRFkP/fL4swZjF6n+fsx4KE6v2uaczfYUQbakwVpK27+OH2xSS4iGBy0Duk0a0YK5ycENeROE4ciZ3Lp/Q8s0lH/i1+g0Y7Qee5hwH9+UBc7WYYY0S/mXxR0Iaix1iwx9atv2EGJA78p7v82yMdY8igfgdQ8SuLVjx4TrIhf/fcbyBJ31B4t+oKt5Dc5NNBWjhxZ4e6+xbTwzJJpjP3dMNfpeulxNzc/MA2B3hvBzqEkhEqcEEO7S86jfsiggEFbAOVbYAFmQ67G8rY9G8bgdISdJJxUoYRkAk5BykqnYWKbIY5lzjtAgjyr58c6r74Mzm4XPl6xc+DS3aYsWJrWpejHsUfQ4+fjsblA6s+Rf1A49iUYLMGWNcAtIqKMAVr2wMaSS0msw/SwPiBrad0QTpsHfxEJt1Xs6XN+icaCxb5awwXJx8MkjD2PvqUDK63iiWHz3vhmrcJgsgYOUwUK7vWtDOw6mK6qV/WMROn0gkBelAlwG/Gg7+LTJw3oKeYWAMlHkoIT5Fn4oojWNtS424H8/O8culrsvn2I5INj1XTDdtXQLcg65ZY4Cj3DmJrP5e9eoJk/P0xADY4PZwxG/gM10q2bTutRxB1obL9Z21ii7LWqeQZ9bbqeasqZc92VEY158kYZNZMh7NlF6MA4EhOnVQ8CxnuUJJEAEKP38duchmG1CPHkbA8A1Yy3VHhoL5e/Ox4RS2+KL6wGnW1fgSKjv2J+Wnc=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYYPR01MB14118.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(52116014)(376014)(366016)(38350700014)(4143699003)(10067099003)(11063799006)(56012099006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?BUThnkWRNlI+Duz9V5aKteI9NUp2oXsoR9Ae8Y3yonbmSVIb/A5VU5lcRDU1?=
- =?us-ascii?Q?0oLKAddLWEV0PQXYwHKc0xjfW7zg9V/BglPBT0hOYmN6LbLzUfNVPlabN3es?=
- =?us-ascii?Q?/f/DqhVsNQtRf8IJAky5NWniF1A8Om0KSepmA10xqNa/OJfaLCj7x4SrUjXY?=
- =?us-ascii?Q?NnP7/2MD57cM2jMsvK3BoB0tgh19Ci44i/TxEaOvTZqsNrsut8GdEFssLXYx?=
- =?us-ascii?Q?WYoFFsv49sv2jffCITFy/5hXCaFuqtQZFl2+dqvDmUDM3QUE+vizo9mU/3+Y?=
- =?us-ascii?Q?YcSKXBF5EuG6IAUpvkB6GI/3Ktd8VSu5IDVHVHWE7E2UBCxMiXBvPGii5fHD?=
- =?us-ascii?Q?dBsVMAGN6raxDok6Je4NaWZuozSmeVgkeLsl/614AZmVmm0i/OMuQx5GG8PH?=
- =?us-ascii?Q?fEuOyWyTohfaYNig43xbiyXWIeJK6Hc76X7yhofhhKUgvv0VHmFZGEbW3dfm?=
- =?us-ascii?Q?j9BwKZ3DcBLXHv3W4aCEXJyPlw2qTD/KCbmYbn7jngRq//oyfmxGfEuuJs5y?=
- =?us-ascii?Q?kcOv/c0K2njWAs06fkI3IJ6bFwfiAJOGZsk4rcv0L7veODalduS7BFe5bHKs?=
- =?us-ascii?Q?ihSShn3DniguPaWt4kCfirDIXNcOARrkmnJPFe4GzjOHbXVEAephVqo5ZYFp?=
- =?us-ascii?Q?jNpa6Tz+GreuXBo0s4+bK+A/NMKqQBqcjP/CuB8xe6hrh7kR4E75j2X8Uk5o?=
- =?us-ascii?Q?yQNqY7vPz00N+stKnh9jWb0H9nATk+UkTzHE1lOrlhP+pR2lETixZPaVeZGj?=
- =?us-ascii?Q?HT4MqgbryfKpL11J9diobbu8Ta7YUQCRRz6dwayu5E+7YbC0QTQGWTjbX10i?=
- =?us-ascii?Q?JTPiXA++bH2KTF0WW+niOJSdnRvROBTFd9hv6vs7LRYbFQCakC7mQmrqwNli?=
- =?us-ascii?Q?1GwKfLDAcUqTpFv/PK/68TkvHIIRED2gvqwEVPtfFIeCWOSnkXO/SzvfRZp2?=
- =?us-ascii?Q?iDoOT1/KuBbCE+mPpFgYPr9lrm9QQb8sk501an+YhpPW+xI43LUxV/vx+BPp?=
- =?us-ascii?Q?6fkI5njRHk/POlKlDZboHTYhuhyKStfdoL58KkOKUMY0Lcbg0LZsXPVB8+5y?=
- =?us-ascii?Q?7kSIVguAjvj8rBKEw1j/wPCZ0iTgdpU+vTgxASYXrEkZpDYR0i/4Ddx1o4Kq?=
- =?us-ascii?Q?axK49lKiKe9apYkxyy9C/KxFKNFzJTcXJQuf1c3PG//+QxnObSS6Nni8sSqN?=
- =?us-ascii?Q?H9wTBjgNhSCe/8XvxuSI06KcyXpsIhWH4mX9R4Fsaz3C2e+gGJBzgeYw1kai?=
- =?us-ascii?Q?gnRrsa5cKStOoNknepX4Fy36Gfx+XTuof+Fv/hTNohPBVTNmleGu1/HPrSTn?=
- =?us-ascii?Q?cfeSzkPZM4PJ2OebxzpXZBeDeg2G7cAt0SFC97kdHnEP09nNmXkBozJgZh4U?=
- =?us-ascii?Q?gcBh5mQ0Lge6QUANLcFXdWGKY3EFyi1iE5bG98YNpqC0mUneNEACS1qSH6n5?=
- =?us-ascii?Q?RxvTbPXd+RzI/zK+CAYhVUL7j0qKUCss0urbtzVfZtAtqQ+gbwh9mzVBZ0YR?=
- =?us-ascii?Q?/+gWkKgDEMAMkSeNhNPu0tHxIgKuS3t3ws+bTqqXi2CdinMIcuC9A88URS+b?=
- =?us-ascii?Q?aeE/6XyBfGdumn2AR0Bdn48hmueVfiSjkc13RszKocBxh8WPHLvezKIxfnzf?=
- =?us-ascii?Q?WmXhuP71YK0Xbuh+X5nksYH/iLLcqX+/Fmu6gYMZ0eQEfQGkdvrkdyvmQdLn?=
- =?us-ascii?Q?Shi7Jsr8tiLpy4UY2xfLfwzG/vzubIFKw9fz5ZPvCnk6VBXrzRz4Kn7Dw9wd?=
- =?us-ascii?Q?rSFiESswbuW1m2pkGZXOwSOd2EPok2anvm9yM7aHbW/nvPShtmvD?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0d300cf4-91b1-4f82-f8cd-08df1e8277c6
-X-MS-Exchange-CrossTenant-AuthSource: TYYPR01MB14118.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2026 23:36:21.7458
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xwgVCKAwwkq2COKDwqKarlmMdOVEu7z2x6QDarHEkyKHmqP6DOnTXJ89vM1FfSCOPBiZUHz6z3qfqMxcEBuSsOJeQvK9NLFmtqSLMxYEjoh4+H/skJoBb4Suql9EPZAY
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYRPR01MB12172
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <875wzp4a3i.wl-tiwai@suse.de>
 
-
-Hi Alvin
-
-Thank you for your review
-
-> > +static void snd_soc_component_set_name_prefix(struct snd_soc_card *card,
-> > +					      struct snd_soc_component *component)
+On Mon, Sep 28, 2026 at 06:25:05PM +0200, Takashi Iwai wrote:
 > 
-> The card argument isn't actually needed here, since it's already
-> populated in the component struct below in
-> snd_soc_component_probe(). (See below). Maybe it can be dropped in
-> another patch.
+> Thanks for the update.  I think overall the code would be OK, but
+> the problem is that it's a way too big single patch to digest.
+> 
+> Could you try to instruct LLM for splitting logically for easier
+> reviews?  It could be like starting with the core probe skeleton,
+> polytec core stuff, basic PCM loops, the mixer support, the MIDI
+> support, kunit, documentation, something else I forgot, etc.
+>
 
-Ah, yes indeed.
-I will fixup it in v2.
+Thanks Takashi,
 
-Thank you for your help !!
+That makes sense.  I'm not sure I'd trust the LLM to do that splitting by
+itself, but I can see a couple of large-chuncks that could be separated out
+as individual patches in a patch-set while maintaining a "buildable" driver.
 
-Best regards
----
-Kuninori Morimoto
+Will also simplify the "Assisted-by tag" as per your recommendation.
+
+Thanks,
+Frank.
