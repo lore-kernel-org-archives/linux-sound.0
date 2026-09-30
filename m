@@ -1,72 +1,88 @@
-Received: from mail-wr2-f34.google.com (mail-wr2-f34.google.com [74.125.225.98])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7700511E9C
-	for <linux-sound@vger.kernel.org>; Wed, 30 Sep 2026 14:58:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.98
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29DAE4DE720;
+	Wed, 30 Sep 2026 15:54:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790780339; cv=none; b=CfgXheTz4W5vWfVyyORiepHczju6bka3/QFy2LFHfccHeNx5GR21JyxHnlFf7FSaVsJ52Q7uBCkN7Sf1l/+9kIhXfm78AsN5RNIiXXYNxtJVGIPxFPbnpI6RN+Nwdsmr6RkXX9G2ZVut4/Tm9BnJWLmKoe9bEPhfacXJBRkOHDg=
+	t=1790783654; cv=none; b=RZMuOqZgZolbu8qfODxboQN+l4zcKoDOa0vp5sjhSDJ0ff6NtER3a6NfVzW+K3RStS1ksfdgqwn6XFouQDFrq/cscjQgmRJV9RyPjT+/wqdNASl5onBYEfd1PwtEGZOosN7zZ145API5MIZxvHlVHyxchBjGdW+QmQ1sHZSLWoY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790780339; c=relaxed/simple;
-	bh=2qdW7qPc33fgDVeHmWXq/lgAc7O3FAMhsbwbxQk6sSU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dxr2NeXgIyFOV8zEUiwU9W8wUviS6MW6qiSIdBkDhLwPzOur+hrq09pebeXvxmhIbgB1tER5HDn2jEWJkYSm1/np/YwTn6GcdvWY0EnBnwJ6D4WSxZz+NFqeHP/+9z4SnJJNIfVVvFhxhy7IQvhD8FF4rXjpQ+mvwQINjSjBwmA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QZ0ZAEeA; arc=none smtp.client-ip=74.125.225.98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790783654; c=relaxed/simple;
+	bh=1/k0x5cpkJMUVybAzZM4lnbAMqrNVA+CNYLY+yfQnIk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=W+Y5dAfUbFx3Qyns2v+G2xAS0CEi9f+JkLaWIImymvlwGad31tAJ1cIRFKWSJOQwERb326VSh8gReOlIdwD+l4UgwJ5XY7ExhCYw0gtJIk2XOQlFVwiaFxmUsIXYr/V/38YoRIykl2LZC3Nosl/68fGBjDqDIElI+Q21Yd957fk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=N+Fz4NoG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Lx/CTRpk; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=qBahxU7v; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=IlRTp0ot; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QZ0ZAEeA"
-Received: by mail-wr2-f34.google.com with SMTP id ffacd0b85a97d-48af4663da5so1549355f8f.3
-        for <linux-sound@vger.kernel.org>; Wed, 30 Sep 2026 07:58:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790780324; x=1791385124; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ul4pen9AeiIUu90Z55hg1G+SFMqGb/rwLYXQ+Sr+HfU=;
-        b=QZ0ZAEeAVGIoNgbYxkqO4amtVBbjKHraGACOKhRK55OWYGE5LhG87HuJEU1gFSmO7z
-         EovFa+ts/lxINGQGzD1sHGjnWVe/NSfCyU3xgip8tQTE+vr2/B4rcimmuvkGQqMgm+n2
-         E1RJeludAergDPXW+FcTXP02GTAohI7my7ACFTPO6xGdCULGb7XmQo9Mc4u+YT8dT1fT
-         SCjZvzzwixLTKYsrBy/YSJ3tq5FidZZ7P7QrtbUww/c5T2uv7BXl/tSKGdiDtY8ZqSmP
-         V+DT971+ux0PlGbZjuDr9kS78tPOaO+kNKf5BLFNc6FdtwM0mALlS+k7Hh7sG2IxPesC
-         EGhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790780324; x=1791385124;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ul4pen9AeiIUu90Z55hg1G+SFMqGb/rwLYXQ+Sr+HfU=;
-        b=xy0E4iUHQmHRd0ryLIxjN9lng4wUNC9ZeI01C0WMXdiL38JHkaWK17SOMP7yua/q8D
-         0ZddnAEbiZJbqKXWH+ebTVVXV6s9ZIHXkFl74vOcUzhPN0edMmMr1iScB/oJgdSKlNUB
-         1J6NXP1784g4VbidM5CyxVxwnm9cNWS9zVNIVi1FMhHpBFmdVx9sr1nRt2mckBB/+T2o
-         obNmmbgvYg2Ldhz1Ln1BthpjqFNMXmJwWlNYjTUuyucOWbKemnCw7SMeqWVkf9VODjD6
-         flD/7qg/6HP2lP3wte1YUQjOvIZUM5YCWKSuuYBMHzkOAcDHj01l9kuFbnLTCoh1shUj
-         pMvg==
-X-Gm-Message-State: AFq9FYLWakne+ImEXYjNBQR64Og1T6/e9EFf5NKmI4BNTaLRV4QiryCo
-	MwAa/gwgd97EAFISTBXVVm2c+Ng6vhqnOsvmrfq0X88GxIvFybf/pdMC
-X-Gm-Gg: AYBFou2LwGweu/pcpNoBdZ/mRHYGdxUm8YaBkbWnlzeiWNVvEB3NZNOdwRxWSrV8dzU
-	KMax1DYqs9XBkHiot1kbcY0Ta3Nwo3XZwLEa2ASGtTbXzG/rXuuasMFcBKoBIitAjVgWyB1hZs+
-	HuJXPKJm+4LtnVep0p5nYHFtMeKUBch+OXvydm+0lYuzwRypTp6Q4YqKvRRNTVENO9PTJ59bGd0
-	FXeR8X5orRCe/fXzcMnYVF7UoiZ2eGNKFCHwhwfFcJC6VrqbOhaG7Z+jxvNzmTjZvRqxbeAQFJM
-	c9p0MnUl981Udfuj7CSSU6RYqkQTmzRE4QkkVaWmscn+SmbWcvFyG8ke6CjJJWLz6mdidF38Mn3
-	p36+eeRewmdf77rj/4psch+gvrDHxQmFngTMom08sM0ohsKZ+xbkvq9OmGh/29zziS4f/NV1obM
-	eMBW0kOHnpYtTQ+df04j9p4iML9WGkSXkJujiiS1NKZKvjFgVWUJvonEq1ReDNWak+B348oVlXj
-	dE2
-X-Received: by 2002:a05:6000:4026:b0:487:c3f:5750 with SMTP id ffacd0b85a97d-48b02528ea5mr3207236f8f.40.1790780323426;
-        Wed, 30 Sep 2026 07:58:43 -0700 (PDT)
-Received: from archlinux ([2a02:a31d:a2c4:f100:d7a2:6e0f:6daf:6f30])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48b029bf85dsm4430576f8f.13.2026.09.30.07.58.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Sep 2026 07:58:43 -0700 (PDT)
-From: Jakub Gawlik <jakubgawlik13@gmail.com>
-To: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Jakub Gawlik <jakubgawlik13@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH] ALSA: hda/realtek: Add micmute LED quirk for Acer Swift SFG16-72
-Date: Wed, 30 Sep 2026 16:58:39 +0200
-Message-ID: <20260930145839.374762-1-jakubgawlik13@gmail.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="N+Fz4NoG";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Lx/CTRpk";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qBahxU7v";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="IlRTp0ot"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 5A3D421D29;
+	Wed, 30 Sep 2026 15:53:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1790783643; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nkzZAg5UfSTraz0J+k+JIISwrKK4kPddHTzyjfH1i1s=;
+	b=N+Fz4NoGd26o+UoYA9oE5zYTFkZF1E/Mu9cWbrlfMa8vKO/hW2W06/0/nqiBwi99Fe4JoK
+	w7wBiwkxyaBHPxIxa51BvY0zQGdBtLfl/1ngj10IiiySs1NTb8RZ6+Fg9OUfsyJI8AzjHP
+	ls/1MQFvBK2xA/IqbzD1Ics/WSLFjDM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1790783643;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nkzZAg5UfSTraz0J+k+JIISwrKK4kPddHTzyjfH1i1s=;
+	b=Lx/CTRpk0D2/42XuhzocvFr2Gs8uf4kJlwqBVyinOUVCgnukYI2yuybjYprNB7CsD79cyC
+	kIALJ1zqAbydsADQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=qBahxU7v;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=IlRTp0ot
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1790783639; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nkzZAg5UfSTraz0J+k+JIISwrKK4kPddHTzyjfH1i1s=;
+	b=qBahxU7vR2vg8w2Gk6Eod19u7vHsda7gZrzqjTZm9jgpIPclLDSC9IcPkDB3Og9jfkOGf6
+	KP3f4Mq/iCAzchiUpiWC47W/uQMrCsu50pU2ysWFslIp1bNeOeTN32Hpg0emiUIov9DRWa
+	K5iU34VzzxQNxU0e6JBcqX/KOHbx5gs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1790783639;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nkzZAg5UfSTraz0J+k+JIISwrKK4kPddHTzyjfH1i1s=;
+	b=IlRTp0otiY6Ue/n5caciD6iq2Q5acEqSjcheW3hSm/dqP20JDqleBkdog262lufGcw6TmB
+	1awkR0z4bqIynPAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CEB4013ADC;
+	Wed, 30 Sep 2026 15:53:58 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id C85QFZYwvWqkVAAAD6G6ig:T3
+	(envelope-from <tiwai@suse.de>); Wed, 30 Sep 2026 15:53:58 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Subject: [PATCH v3 2/3] ALSA: usb-audio: Fix UAC2 mixer unit request handling
+Date: Wed, 30 Sep 2026 17:53:51 +0200
+Message-ID: <20260930155356.348608-3-tiwai@suse.de>
 X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260930155356.348608-1-tiwai@suse.de>
+References: <20260930155356.348608-1-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -74,30 +90,131 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email,suse.de:mid];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_TWO(0.00)[2];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_NONE(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Score: -3.01
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 5A3D421D29
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
 
-The Acer Swift SFG16-72 (1025:173b) uses the ALC245 codec, but its
-mic-mute LED is not enabled by default. Apply the existing
-ALC245_FIXUP_ACER_MICMUTE_LED quirk to enable the mic-mute LED.
+For a request for a Mixer Unit on UAC2 (also UAC3), the wValue is
+different from UAC1 and an incompatible value must be passed.
+Namely, UAC1 takes a word consisting of 1-based input channel in the
+high byte and 1-based output channel in the low byte.
+Meanwhile, UAC2/3 takes UAC2_MU_MIXER in the high byte and a MCN
+(0-based bit position of input/output channels) in the low byte.
+The current driver implementation blindly assumes the UAC1 way, hence
+it would cause a firmware error.
 
-Assisted-by: LLM
-Cc: stable@vger.kernel.org
-Signed-off-by: Jakub Gawlik <jakubgawlik13@gmail.com>
+This patch attempts to implement the conversion to UAC2 MCN at
+get_ctl_value_v2() and snd_usb_mixer_set_ctl_value() for mixer units.
+At the points above, the old wValue containing ICN and OCN is
+converted to the corresponding MCN, and it's used as the proper
+wValue.
+
+Reported-by: Zipdox <zipdox@zipdox.net>
+Closes: https://lore.kernel.org/d46fcac6-bd7e-4fc4-95e1-4e8d39f92ad3@zipdox.net
+Fixes: 23caaf19b11e ("ALSA: usb-mixer: Add support for Audio Class v2.0")
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/hda/codecs/realtek/alc269.c | 1 +
- 1 file changed, 1 insertion(+)
+v2->v3: no change
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index 5127a111c59c..fbfa515a6b57 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -7198,6 +7198,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1025, 0x171e, "Acer Nitro ANV15-51", ALC245_FIXUP_ACER_MICMUTE_LED),
- 	SND_PCI_QUIRK(0x1025, 0x1731, "Acer Predator PHN16-72", ALC2XX_FIXUP_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1025, 0x173a, "Acer Swift SFG14-73", ALC245_FIXUP_ACER_MICMUTE_LED),
-+	SND_PCI_QUIRK(0x1025, 0x173b, "Acer Swift SFG16-72", ALC245_FIXUP_ACER_MICMUTE_LED),
- 	SND_PCI_QUIRK(0x1025, 0x1758, "Acer Nitro ANV15-41", ALC245_FIXUP_ACER_MICMUTE_LED),
- 	SND_PCI_QUIRK(0x1025, 0x1826, "Acer Helios ZPC", ALC287_FIXUP_PREDATOR_SPK_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x1025, 0x182c, "Acer Helios ZPD", ALC287_FIXUP_PREDATOR_SPK_CS35L41_I2C_2),
+ sound/usb/mixer.c | 23 +++++++++++++++++++++++
+ sound/usb/mixer.h |  2 ++
+ 2 files changed, 25 insertions(+)
+
+diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
+index ddfd7e01a3ef..a8bdd1696a20 100644
+--- a/sound/usb/mixer.c
++++ b/sound/usb/mixer.c
+@@ -335,6 +335,17 @@ static int get_ctl_value_v1(struct usb_mixer_elem_info *cval, int request,
+ 	return -EINVAL;
+ }
+ 
++/* convert the given UAC1 wValue (ICN|OCN) to UAC2 MCN */
++static unsigned char to_mcn(const struct usb_mixer_elem_info *cval,
++			    unsigned int validx)
++{
++	unsigned char m = (validx >> 8) & 0xff; /* 1-based input channel */
++	unsigned char v = validx & 0xff; /* 1-based output channel */
++
++	/* num_inputs * num_outputs is guaranteed to be < 256 */
++	return (m - 1) * cval->num_outputs + (v - 1);
++}
++
+ static int get_ctl_value_v2(struct usb_mixer_elem_info *cval, int request,
+ 			    int validx, int *value_ret)
+ {
+@@ -347,6 +358,10 @@ static int get_ctl_value_v2(struct usb_mixer_elem_info *cval, int request,
+ 
+ 	val_size = uac2_ctl_value_size(cval->val_type);
+ 
++	/* correct wValue for UAC2 mixer control with MCN */
++	if (cval->v2_mixer)
++		validx = (UAC2_MU_MIXER << 8) | to_mcn(cval, validx);
++
+ 	if (request == UAC_GET_CUR) {
+ 		bRequest = UAC2_CS_CUR;
+ 		size = val_size;
+@@ -478,6 +493,10 @@ int snd_usb_mixer_set_ctl_value(struct usb_mixer_elem_info *cval,
+ 		}
+ 
+ 		request = UAC2_CS_CUR;
++
++		/* correct wValue for UAC2 mixer control with MCN */
++		if (cval->v2_mixer)
++			validx = (UAC2_MU_MIXER << 8) | to_mcn(cval, validx);
+ 	}
+ 
+ 	value_set = convert_bytes_value(cval, value_set);
+@@ -2345,6 +2364,10 @@ static void build_mixer_unit_ctl(struct mixer_build *state,
+ 
+ 	snd_usb_mixer_elem_init_std(&cval->head, state->mixer, unitid);
+ 	cval->control = in_ch + 1; /* based on 1 */
++	if (state->mixer->protocol == UAC_VERSION_2 ||
++	    state->mixer->protocol == UAC_VERSION_3)
++		cval->v2_mixer = true;
++	cval->num_outputs = num_outs;
+ 	cval->val_type = USB_MIXER_S16;
+ 	for (i = 0; i < num_outs; i++) {
+ 		__u8 *c = uac_mixer_unit_bmControls(desc, state->mixer->protocol);
+diff --git a/sound/usb/mixer.h b/sound/usb/mixer.h
+index 037b446d8b6f..cf45c39cbccc 100644
+--- a/sound/usb/mixer.h
++++ b/sound/usb/mixer.h
+@@ -97,6 +97,8 @@ struct usb_mixer_elem_info {
+ 	u8 initialized;
+ 	u8 min_mute;
+ 	u8 get_cur_broken;
++	u8 num_outputs;
++	bool v2_mixer;
+ 	void *private_data;
+ };
+ 
 -- 
 2.55.0
 
