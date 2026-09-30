@@ -1,256 +1,218 @@
-Received: from mail-24417.protonmail.ch (mail-24417.protonmail.ch [109.224.244.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 634174F30C3;
-	Wed, 30 Sep 2026 20:46:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B35C51E421
+	for <linux-sound@vger.kernel.org>; Wed, 30 Sep 2026 21:33:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790801174; cv=none; b=u9CTreHqNN0n6tiBTI88SR/QxC/IBMMN625yh8CyXp9C2RuXZdEk7HPeurRQdI/X7N//QP2T+uu3QM4PAtRQ18KZUM7K5QDkf2Nq90qvzu0HYreOxgJ9jrSwyPwCOZMgX47xFX4H130ffO5ysQiA/W5DR1yNB9+SUKQ2IwxXIoM=
+	t=1790804011; cv=none; b=LinE2Ww7ae4Oxn1AXJKP9JDhahtwPLxq69rAo1asQKQhH4rvkbinqkRq+KKBAJp6v7Uj7sqUw/KUrfL9qcmYKeBlJocNXDwa1Dz5yTaQCbWVnJnR5pK7qbKvOWSzwBBmGbCWCM+1aeZdqWrS4HBwCjoWuN+/n4d++qPe24mkCD4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790801174; c=relaxed/simple;
-	bh=yAQ585lNH1jUTd+5p2fTkQEVt8HCoFAfpndGNj9cD1Q=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WvpP0A/AQ8PuJMnbYYX29pj7Yxhb9yYoVzFgx+faQxvx4Y+qbHhR7OC2rCFFRvnN7Ud/9QQsXCPcRBUwZkQzMM96u6jg/3hf6YD+7rZWLx0NT1UrYsNbA0IB+0lozSua55qxHrJRanvrYQze/M6i2LGPsxAPI+bvnEvJ+ZYuPcs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=iLiMCSsK; arc=none smtp.client-ip=109.224.244.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
+	s=arc-20240116; t=1790804011; c=relaxed/simple;
+	bh=MYK7tdi4Oypb4pea0xD2o67bKC5yeMKz3ljLGMgPNgw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PMbUFUBaIcDWQwdJjlhllZSaGd+6ydycVZ7O4pFUvBH899nwy7M+LSTmBaHE1C+pr2EBCAwh/5IoHdaBfwMVDCvt6b17efsyY7EF6w+uNa/PQYgCIMiFiNH1F5kllrmQQM/Uib8ZsrDIMy9jgV4U/PuqPjmzgLPtfs18dJ5Gy5I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TjMTELcm; arc=none smtp.client-ip=74.125.225.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="iLiMCSsK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1790801164; x=1791060364;
-	bh=aSDMcsMjHnp3Y060QClQXCLPIrlJvpS+hNxMuOnsPAU=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=iLiMCSsK3aewrZAjppgmGDO5pS6RNWMdT3pgSDNdPSQzdtgLjxPLDlMVKue0HylWA
-	 TnpLI6+p4NZ/B9QVtUlXE/7G3iKvY1DPJxOSyfOtz5MyYzCFSidvKmrwMO1XRlDp7Z
-	 ksme/WRRBmVfeat8UMHOmDWGemr3uQtrOiJBngUCxteEVs4E9HJtt8bW0Tc4aUF5Xx
-	 lVWnAS61haG7bXsrygubRAqq5nfVMqQxpzPJLTjUWhDvP+t5mg670Qn6Yrq0YsaVVd
-	 WypSvWmyRSVWb4iaC/3NDen0hH4qM0HnqxuOeQN7Cj3OKUyzBy4aESagFgifsqAKNa
-	 VeIsUsOoZscYA==
-Date: Wed, 30 Sep 2026 20:46:01 +0000
-To: Thorsten Leemhuis <regressions@leemhuis.info>
-From: Mike Karcic <mikekarcic@protonmail.com>
-Cc: Takashi Iwai <tiwai@suse.de>, Kailang <kailang@realtek.com>, Sean Rhodes <sean@starlabs.systems>, "stable@vger.kernel.org" <stable@vger.kernel.org>, "regressions@lists.linux.dev" <regressions@lists.linux.dev>, "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [REGRESSION] Speaker pop/chirp on Meteor Lake ALC287 (17aa:231e) -- 6.12.73 to 6.12.85
-Message-ID: <Ec4j0RfeT26a8BoOVxaZhKI1UKjRqEeSHl-MuYi9vXNaYXf1-ZbF693NaGdqetY65BTbhYXjfPJbWco8JUOcMOF5InHN84Ag__OKGT2bHzw=@protonmail.com>
-In-Reply-To: <edadb400-b2b0-469c-9aeb-9ae82dee13fd@leemhuis.info>
-References: <O6pYAi7yf23du9ivLsL0QqrnTmodj2lDTL7Wviv7I_nhjVtvllO7Y5Ban0TeTqrastb1RWhJtlkqrM3quLMWSriai-YjjGy312MTcEhxyWs=@protonmail.com> <87mrxjsk52.wl-tiwai@suse.de> <bibLdgyll9YOEDANdCBy8WOqeOeJry1SnahLR-EhoGkttJ6BE2srDZ9jv0gjkt0bA19aKivruQs3nkMQWbdEXPaOrLT80xjzF4KJvDcB-IU=@protonmail.com> <87cxyfs2vm.wl-tiwai@suse.de> <833d600fdebd4aaeab6706185ce854e6@realtek.com> <87wlwgygyf.wl-tiwai@suse.de> <330931ee49624f2486f66e510271d80a@realtek.com> <87jysdv4qg.wl-tiwai@suse.de> <edadb400-b2b0-469c-9aeb-9ae82dee13fd@leemhuis.info>
-Feedback-ID: 22946815:user:proton
-X-Pm-Message-ID: ba1b525957c451503807398badc9c966771dc362
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TjMTELcm"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49ffe281cb1so30162635e9.1
+        for <linux-sound@vger.kernel.org>; Wed, 30 Sep 2026 14:33:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790804007; x=1791408807; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=B8BUJKi9C7LAekCEGvKTAzu5hMBS3qiARC5hGgrbqX0=;
+        b=TjMTELcmYdI7Lu/wzRoNBZ/4cFfmvWOtMtm0bTEqllAToLscBEsqBbMjMWaZfJDCEy
+         DMvOaVWhAOAE6uyreWrwgkc/xtZ0HxQWMTlBQVXrdBBmfMhZiJ5XwNlYkuM0tQGXhc+A
+         WR7hBn7DTQQ9ADVX+cc3nOBWBqDjG092UuRF8LchOMdCLsX4inBnExJaV+37KlnZQTQZ
+         tmc7vGqRtMsM/14jZmmSoF9lVrbNDTIOaWbXZE9dJWXjIojurOTGDP7POu0cB09pE5TX
+         gp/SEWR/YDrUJWiCu3wLkBPviCWqoet8yzFC85h1Cn3nKom4+1ncS3/8cW+5IssxI0qk
+         1bxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790804007; x=1791408807;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=B8BUJKi9C7LAekCEGvKTAzu5hMBS3qiARC5hGgrbqX0=;
+        b=qpXomqwUcMwg2yzv+Ojb2TbYhUOtfoSiHd05d32Fnd3NReClFqkWfmUYVA6J1Ru0sY
+         kgufk2exKHjzlpSn+yPWUKqFyKiTbYnFzaHbZh62E6fAUN+k67HW8N/JIYvC38HXnvmT
+         UVDnmWUDJ7jt0dkwy3NnygcPS0QodgHiPiSfOIOpsqtpGsJ1VetRIvn4oFySGUDmnlCE
+         AN408tW4H5zKv52sXrULYyx4y2h/c4vMNSwB3og3OxLf8Ozc4s3UOGFPvlPdTx2Pn3yl
+         A4Esz1ISC9Tg9cNquSYcxVYVO1kd74QFWGq7zAWCqgzakBW4fjH/EZPf3Ly1JxuQFagp
+         sejw==
+X-Forwarded-Encrypted: i=1; AKwUvBzcdxSVHPBw2zh7AWAhfOmEoYk99//k00JmTqr9QOk2Vg0WX0MeTVeK5cSabjvnPdAwqJuPMMiLQ2RMDw==@vger.kernel.org
+X-Gm-Message-State: AFuF++nvEuC7ZC6ZxwTWFEOCdPd16yh11aZ0ldHBnXTK3vMxopKnJNkA
+	jSbeCRYt27xMvpWZqB9wneobr2c+eywfowNaWepP/Hygv4wWAkqLbxz8
+X-Gm-Gg: AYBFou0L50QKNG/JMS0h0500oAkdRpoi5os4aN+CQzViA1MIbwNWd/edyIfBy2vX2Qq
+	PtzWDnKsyf/2QaUpvqy/NAd+gKDxRkY/oibcZgyxEN/ZfijjuslI1hR8a05G/VRZ9VywO9/GOBe
+	Wz1/A30ESjzfOC1IOtsX404zxeVhUi0PZ6u81uYiQyQGiH6tzfEj6CvzveFE312kV3faa0efgEh
+	aUSqyrMbI7mzas+ygqlc4Kp9Z1i6CIYwlfKKmix2X/ceaIipqsXLVGKVi1o+8Sltg0tNXjjZvjy
+	/AkD54euTBaGVJTLj71o9/VZIJDni4nPnYJu+hzz81Et2hKBJJHWX4TgY4Wt/wLqCyYen611/Jt
+	DdfjJhrKAa6iS5g0A35mJH4NyKAP+HRuMa2IJiVRD+Dt8B4Uq1sy5OUeW1TnrJ3uXXQm2nHehcZ
+	sVKP3SrpjIaFl8fc9m0y6DWurQtJjzPsj0+P1dzJ50XSJj38L/9ZMzxf/62U6OmdjSnVe7jiFyo
+	CDoNaSaQVUV3w4HkdevfucGUlu6Tlsk02QI1MAhkF8/TBplSEL0zejkXfyKjY1lVovOzFw=
+X-Received: by 2002:a05:600c:608d:b0:4a0:17a:8844 with SMTP id 5b1f17b1804b1-4a01ad8fdd0mr43216825e9.1.1790804007254;
+        Wed, 30 Sep 2026 14:33:27 -0700 (PDT)
+Received: from localhost ([188.234.148.119])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a01feb7198sm6355255e9.1.2026.09.30.14.33.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Sep 2026 14:33:26 -0700 (PDT)
+From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+To: jikos@kernel.org,
+	bentiss@kernel.org,
+	tiwai@suse.de
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	linux-input@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	mikhail.v.gavrilov@gmail.com
+Subject: [PATCH v7 0/2] the Topping M62's vendor controls, on the component framework
+Date: Thu,  1 Oct 2026 02:33:20 +0500
+Message-ID: <20260930213322.32454-1-mikhail.v.gavrilov@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Bringing this back with two new data points from the same unit
-(ThinkPad X1 Carbon Gen 12, machine type 21KC / 21KCCTO1WW, ALC287,
-SSID 17aa:231e, BIOS N3YET85W (1.50)).
+The Topping M62 keeps its analogue input gains, output volumes and
+output source selectors behind a vendor protocol on a HID interface,
+outside the USB Audio Class. On Linux they can only be set by hand on
+the front panel; the one capture gain snd-usb-audio exposes is a
+digital trim after the converter.
 
-1. Windows: I installed Windows 11 on this laptop with Lenovo's Realtek
-audio driver (6.0.9788.1, from Lenovo's driver pack) and used it for a
-few hours without the chirp ever reproducing. As soon as I switched
-back to Fedora/Aurora, it chirped again right away.
+This series makes them ordinary ALSA controls on the card
+snd-usb-audio already creates. 1/2 is a HID driver that speaks the
+protocol. 2/2 makes the M62's mixer quirk a component master, which
+hands the HID driver its struct snd_card at bind time and takes the
+controls away at unbind; neither driver needs to know about the
+other's disconnect.
 
-2. Linux: on a stock Fedora/Aurora 44 kernel (7.1.8-200.fc44), I wrote
-the old en_coefs values once after boot, i.e. these writes to the
-vendor widget 0x20 (sent through /dev/snd/hwC0D0; equivalent hda-verb
-commands shown):
+This is the first posting without RFC. The split was Takashi's
+suggestion in the thread of an earlier series that did the same job
+as a mixer quirk claiming the HID interface. After RFC v6 he wrote,
+for the audio side:
 
-hda-verb /dev/snd/hwC0D0 0x20 SET_COEF_INDEX 0x24
-hda-verb /dev/snd/hwC0D0 0x20 SET_PROC_COEF  0x0013
-hda-verb /dev/snd/hwC0D0 0x20 SET_COEF_INDEX 0x25
-hda-verb /dev/snd/hwC0D0 0x20 SET_PROC_COEF  0x0000
-hda-verb /dev/snd/hwC0D0 0x20 SET_COEF_INDEX 0x26
-hda-verb /dev/snd/hwC0D0 0x20 SET_PROC_COEF  0xc203
-hda-verb /dev/snd/hwC0D0 0x20 SET_COEF_INDEX 0x28
-hda-verb /dev/snd/hwC0D0 0x20 SET_PROC_COEF  0x0084
-hda-verb /dev/snd/hwC0D0 0x20 SET_COEF_INDEX 0x29
-hda-verb /dev/snd/hwC0D0 0x20 SET_PROC_COEF  0xb023
+  If the implementation with the component works actually, I'm for
+  it. So, from the audio side, feel free to submit patches for
+  upstreaming without RFC.
 
-After that the chirp no longer occurs. I now run this from a systemd
-oneshot service at boot, and the chirp stays away across reboots. I
-have not yet checked suspend/resume.
+  https://lore.kernel.org/all/87mrsy50gy.wl-tiwai@suse.de/
 
-Happy to test anything else.
+and left the question of which tree takes it until the HID side is
+settled. So this posting is mainly for Jiri and Benjamin.
 
-Thanks,
-Mike
+The one HID question the RFC carried is gone. RFC v6 cleared
+intf->needs_remote_wakeup after hid_hw_open(), so that the card could
+runtime-suspend although it has no remote wakeup. That was wrong for
+this driver. The card reports every turn of a front-panel knob, and a
+suspended card without remote wakeup cannot deliver one; after resume
+it re-reports the gains of connected inputs but not the output
+volumes, so a headphone volume changed while it slept would stay stale
+in its control. v7 leaves the flag as usbhid_open() sets it, which is
+what every other driver in drivers/hid does -- none of them touches
+it -- and runtime autosuspend of the card is refused while the driver
+is bound.
 
-Sent with Proton Mail secure email.
+On the tree question: the two patches depend on each other neither at
+build time nor at run time. 1/2 alone binds, speaks to the card and
+creates no controls; 2/2 alone registers a master that never matches.
+They can go through one tree or each through its own.
 
-On Monday, July 6th, 2026 at 6:58 AM, Thorsten Leemhuis <regressions@leemhu=
-is.info> wrote:
+Changes since RFC v6
+(https://lore.kernel.org/all/20260904165848.3940603-1-mikhail.v.gavrilov@gmail.com/):
 
-> On 6/5/26 09:14, Takashi Iwai wrote:
-> > On Fri, 05 Jun 2026 09:02:29 +0200,
-> > Kailang wrote:
-> >> Yes, it's the same codec and SSID. It's the same model of machine.
-> > Hrm, and still they show different behavior?  That's tough.
->=20
-> TWIMC: I have this on the list of regressions I track, but seems things
-> stalled -- and at the same time it's a tricky situation where fixing
-> this regressions would cause another regression. Which is why I'll stop
-> tracking this, unless this reminder bringt this thread back to life someh=
-ow.
->=20
-> Ciao, Thorsten
->=20
-> >> -----Original Message-----
-> >> From: Takashi Iwai <tiwai@suse.de>
-> >> Sent: Wednesday, June 3, 2026 1:45 AM
-> >> To: Kailang <kailang@realtek.com>
-> >> Cc: Takashi Iwai <tiwai@suse.de>; Mike Karcic <mikekarcic@protonmail.c=
-om>; Sean Rhodes <sean@starlabs.systems>; stable@vger.kernel.org; regressio=
-ns@lists.linux.dev; linux-sound@vger.kernel.org; linux-kernel@vger.kernel.o=
-rg
-> >> Subject: Re: [REGRESSION] Speaker pop/chirp on Meteor Lake ALC287 (17a=
-a:231e) -- 6.12.73 to 6.12.85
-> >>
-> >>
-> >> External mail : This email originated from outside the organization. D=
-o not reply, click links, or open attachments unless you recognize the send=
-er and know the content is safe.
-> >>
-> >>
-> >>
-> >> On Tue, 02 Jun 2026 08:14:14 +0200,
-> >> Kailang wrote:
-> >>>
-> >>>
-> >>> There were the same SSID for two different symptoms.
-> >>> But this project was from 2025. This machine maybe didn't in our site=
-.
-> >>
-> >> Aha, that can explain the difference of the behavior, then.
-> >> Do both of them have the same codec ID and SSID, too?
-> >>
-> >>
-> >> Takashi
-> >>
-> >>>
-> >>> -----Original Message-----
-> >>> From: Takashi Iwai <tiwai@suse.de>
-> >>> Sent: Friday, May 29, 2026 4:20 AM
-> >>> To: Mike Karcic <mikekarcic@protonmail.com>
-> >>> Cc: Kailang <kailang@realtek.com>; Takashi Iwai <tiwai@suse.de>; Sean
-> >>> Rhodes <sean@starlabs.systems>; stable@vger.kernel.org;
-> >>> regressions@lists.linux.dev; linux-sound@vger.kernel.org;
-> >>> linux-kernel@vger.kernel.org
-> >>> Subject: Re: [REGRESSION] Speaker pop/chirp on Meteor Lake ALC287
-> >>> (17aa:231e) -- 6.12.73 to 6.12.85
-> >>>
-> >>>
-> >>> External mail : This email originated from outside the organization. =
-Do not reply, click links, or open attachments unless you recognize the sen=
-der and know the content is safe.
-> >>>
-> >>>
-> >>>
-> >>> On Thu, 28 May 2026 20:27:30 +0200,
-> >>> Mike Karcic wrote:
-> >>>>
-> >>>> Yes, I can confirm the patched kernel is running, and commenting out=
- that line fixes the problem completely.
-> >>>>
-> >>>> Below is output with the added debug lines as requested:
-> >>>>
-> >>>> $ uname -r
-> >>>> 6.12.90-debug-no-discoefs
-> >>>>
-> >>>> $ sudo dmesg | grep -i "alc287_alc1318"
-> >>>> [  453.823528] snd_hda_codec_realtek ehdaudio0D0:
-> >>>> alc287_alc1318_playback_pcm_hook called action=3D0 [  453.871577]
-> >>>> snd_hda_codec_realtek ehdaudio0D0: alc287_alc1318_playback_pcm_hook
-> >>>> called action=3D1 [  459.605379] snd_hda_codec_realtek ehdaudio0D0:
-> >>>> alc287_alc1318_playback_pcm_hook called action=3D2 [  459.605497]
-> >>>> snd_hda_codec_realtek ehdaudio0D0: alc287_alc1318_playback_pcm_hook
-> >>>> called action=3D3
-> >>>>
-> >>>> $ grep -n -A5 -B2 "alc_process_coef_fw.*dis_coefs" sound/pci/hda/pat=
-ch_realtek.c
-> >>>> 7918-           return;
-> >>>> 7919-   alc_update_coef_idx(codec, 0x10, 1<<11, 1<<11);
-> >>>> 7920:   /* alc_process_coef_fw(codec, dis_coefs); */ /* commented ou=
-t for testing */
-> >>>> 7921-   alc_process_coef_fw(codec, coefs);
-> >>>> 7922-   spec->power_hook =3D alc287_s4_power_gpio3_default;
-> >>>> 7923-   spec->gen.pcm_playback_hook =3D alc287_alc1318_playback_pcm_=
-hook;
-> >>>> 7924-}
-> >>>
-> >>> Hm, then the previous fix doesn't seem working, obviously.
-> >>> Kailang, could you check this in your side?
-> >>>
-> >>> Maybe we should apply the AMP-silence-detection disablement condition=
-ally to certain models?
-> >>>
-> >>>
-> >>> thanks,
-> >>>
-> >>> Takashi
-> >>>
-> >>>>
-> >>>>
-> >>>>
-> >>>> Sent with Proton Mail secure email.
-> >>>>
-> >>>> On Thursday, May 28th, 2026 at 10:07 AM, Takashi Iwai <tiwai@suse.de=
-> wrote:
-> >>>>
-> >>>>> On Thu, 28 May 2026 15:38:54 +0200, Mike Karcic wrote:
-> >>>>>>
-> >>>>>> I did test 46c862f5419e on 6.12.90. Chirp still present.
-> >>>>>>
-> >>>>>> I'm also on a ThinkPad X1 Carbon Gen 12 with ALC287 (17aa:231e),
-> >>>>>> same as the original reporter. The fix resolved it for them but
-> >>>>>> not for me.
-> >>>>>>
-> >>>>>> Only a full revert of 630fbc6e870e resolves the issue.
-> >>>>>>
-> >>>>>> Verification on the running kernel:
-> >>>>>>
-> >>>>>>   $ grep -c "dis_coefs" sound/pci/hda/patch_realtek.c
-> >>>>>>   2
-> >>>>>>
-> >>>>>>   $ grep -c "en_coefs" sound/pci/hda/patch_realtek.c
-> >>>>>>   0
-> >>>>>>
-> >>>>>>   $ sed -n '/alc287_alc1318_playback_pcm_hook/,/^}/p' sound/pci/hd=
-a/patch_realtek.c
-> >>>>>>   static void alc287_alc1318_playback_pcm_hook(struct hda_pcm_stre=
-am *hinfo,
-> >>>>>>                                      struct hda_codec *codec,
-> >>>>>>                                      struct snd_pcm_substream *sub=
-stream,
-> >>>>>>                                      int action)
-> >>>>>>   {
-> >>>>>>           switch (action) {
-> >>>>>>           case HDA_GEN_PCM_ACT_OPEN:
-> >>>>>>                   alc_write_coefex_idx(codec, 0x5a, 0x00, 0x954f);
-> >>>>>>                   break;
-> >>>>>>           case HDA_GEN_PCM_ACT_CLOSE:
-> >>>>>>                   alc_write_coefex_idx(codec, 0x5a, 0x00, 0x554f);
-> >>>>>>                   break;
-> >>>>>>           }
-> >>>>>>   }
-> >>>>>>
-> >>>>>> Happy to test further patches.
-> >>>>>
-> >>>>> Just to be sure, could you verify that you've tested really the
-> >>>>> patched kernel, e.g. by adding a debug print, etc?
-> >>>>> If yes and the problem is seen even with the patch, try to comment =
-out
-> >>>>>   alc_process_coef_fw(codec, dis_coefs); and confirm that this
-> >>>>> fixes the problem.
-> >>>>>
-> >>>>>
-> >>>>> Takashi
-> >>>>>
-> >
->=20
-> 
+  - the needs_remote_wakeup clear in probe is gone, with the comment
+    that carried it, as above. Nothing else changed.
+
+What the card reports
+
+After a subscribe the card reports itself in two waves: jacks at about
+0.9 s, then at about 5.2 s the jacks again, the output mutes and the
+gain of each input whose jack is present. Every turn of a front-panel
+knob is reported as it happens. A source selector is never reported:
+the card reports events, and a selector has no front-panel control.
+So the controls are published at bind and carry whatever alsactl
+restores, and the selectors start at an "Unknown" item until something
+writes them. 1/2's commit message has the details.
+
+One problem outside the kernel, now fixed there: removing controls
+from a live card -- which is what unbinding this driver does --
+corrupted the heap of any process holding the card through alsa-lib's
+ctl remap plugin, and UCM profiles that use MixerRemap put WirePlumber
+in exactly that position. It crashed some time later, inside unrelated
+free() calls. The cause is a one-line slip in
+remap_forget_numid_child(), present since alsa-lib 1.2.14; the fix is
+posted:
+
+  https://lore.kernel.org/alsa-devel/20260930212624.30308-1-mikhail.v.gavrilov@gmail.com/
+
+Tested
+
+Fedora, 7.3.0-rc5-551c722f4080 plus this series, with KASAN (generic),
+lockdep and UBSAN; M62 firmware V87.05.45.48.27. The loaded module was
+matched against the installed file by build ID, so everything below
+ran on the code posted here.
+
+All nine controls present, and front-panel knobs reported to ALSA as
+they turn.
+
+Fifty cycles of module unload and load against a live card with
+PipeWire running: fifty binds and nothing in the kernel log. With stock
+alsa-lib WirePlumber crashes during this, for the reason above; with
+the fix, ten cycles under valgrind run clean.
+
+System suspend to RAM and back: the headphone source selector kept its
+value across it, and the front panel still reports afterwards.
+
+The cable pulled out twice while a control was being written in a
+loop: no write errors logged, and the card binds again when plugged
+back in.
+
+Two M62s on one host, on different hub ports, one in Pro Audio mode
+and one in Mobile Mode: each binds to its own HID device and carries
+its own nine controls, a knob on the second card's panel produces
+events on that card only, and unplugging the first leaves the second's
+controls in place.
+
+With no UCM profile involved -- the card in Mobile Mode, where none
+applies -- PipeWire's stock analog-output-headphones path finds
+"Headphone Playback Volume" by name, and the desktop volume drives the
+card's analogue headphone stage through the driver.
+
+Not tested:
+
+  - an audio-side unbind and rebind with the HID driver left bound;
+  - hibernation, and with it .reset_resume, which shares
+    topping_resume() with .resume: this machine powers off instead of
+    saving an image, for reasons unrelated to this series;
+  - kmemleak, compiled in here but disabled at boot;
+  - a card whose battery has run down;
+  - a big-endian host.
+
+Mikhail Gavrilov (2):
+  HID: topping-m62: driver for the M62's vendor controls
+  ALSA: usb-audio: bind the Topping M62's vendor controls
+
+ MAINTAINERS                   |   9 +
+ drivers/hid/Kconfig           |  19 +
+ drivers/hid/Makefile          |   1 +
+ drivers/hid/hid-ids.h         |   3 +
+ drivers/hid/hid-quirks.c      |   3 +
+ drivers/hid/hid-topping-m62.c | 911 ++++++++++++++++++++++++++++++++++
+ sound/usb/Makefile            |   1 +
+ sound/usb/mixer_quirks.c      |   5 +
+ sound/usb/mixer_topping.c     | 236 +++++++++
+ sound/usb/mixer_topping.h     |   7 +
+ 10 files changed, 1195 insertions(+)
+ create mode 100644 drivers/hid/hid-topping-m62.c
+ create mode 100644 sound/usb/mixer_topping.c
+ create mode 100644 sound/usb/mixer_topping.h
+
+-- 
+2.55.0
+
