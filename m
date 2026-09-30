@@ -1,231 +1,278 @@
-Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11010062.outbound.protection.outlook.com [52.101.193.62])
+Received: from CH5PR02CU005.outbound.protection.outlook.com (mail-northcentralusazolkn19012081.outbound.protection.outlook.com [52.103.20.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C61D22FA0C6;
-	Wed, 30 Sep 2026 02:48:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.193.62
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB846376A18
+	for <linux-sound@vger.kernel.org>; Wed, 30 Sep 2026 03:33:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.20.81
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790736500; cv=fail; b=ksU9PHE1GpLe11zS2AJ8zUdFcGebDI+u8Kl4pH8ohoHeN/K+ayIU0ZLslg9DF+6MabwoqdByywOXCgcJR/C658+s7aYDr3z8IW5pV7BdYz/R6G98E+ghtSL01UdXNRPxiaUb4TizyUkOr1YbgTZwI+XUadjw7iGdH2KGk9FKa9o=
+	t=1790739239; cv=fail; b=PhodJKadsbQIZ2Oz/zlBAgHXEkBxnbC1MJlTm6j37hkLyTG6brtFgV2gseTHPOv685GOj8Vi04D1+Ds3iOSAhGTwkkluocGdoZTSkxJ0UJCovgoVY8dWl2cw5UynpdKxo5OC9VTakmSVIN1dWIoi1sor9jlymcgqv0mMs4WMDXM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790736500; c=relaxed/simple;
-	bh=dJC3zQqN+zQ/cMFcWIX+Xs/FVR1NTvwqX8fO1RoS82M=;
-	h=Content-Type:Date:Message-Id:Subject:Cc:To:From:References:
-	 In-Reply-To:MIME-Version; b=egY20P3V/Xx3n8zqS9esoKtDSbk+KMNac+Z26JnhDlazm2/SQ4LlLmfMQxZEeZVNtO7h7iVKhHD82GnDk9aw6GlqmzWVXbPZoPCKn7QW6OC0NBBV1H28kY/TVwBe8RSG72wCfDuhBpIAfySoL1cy+F5Ned87xg+HwHz6Cb4VC8s=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Tu6+JUXU; arc=fail smtp.client-ip=52.101.193.62
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1790739239; c=relaxed/simple;
+	bh=wLB3j9hmPvvMssBjh2BbE77y9cwXU2/CIvb2n7/zpHU=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=PCRHnzC4jAvTBH405kDGJ0h/Gwz20Ivl7WB6hKto2rjV+qvvtVjWZ1+q7PxQLnIjist2k2VJMAalu7vI7XHGIyAD9P6jbc0Btc6BU7VEAdtnHYRH3/BsUdPOQGr3cH4G1TSq6yuX/ARYXpc5cjA1x4UpwLKQABpmec+KqAhegvQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.com; spf=pass smtp.mailfrom=hotmail.com; dkim=pass (2048-bit key) header.d=hotmail.com header.i=@hotmail.com header.b=CPRn3BVh; arc=fail smtp.client-ip=52.103.20.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hotmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Tu6+JUXU"
+	dkim=pass (2048-bit key) header.d=hotmail.com header.i=@hotmail.com header.b="CPRn3BVh"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=sNjcRg9UJkRgeoi5ppprQ8PJ7ikZkfIPGTRLA0nVEXqP1I7uyVy1yveGG7T0E8p/+XbI4T7z9YJGNeZ+Ki5d6t3Fex52VrMiQYh4NeB0fxR2pIGFohh2v8OToWZ31sBiLZs3WZ6UqNmxyIilZ/N3EmCZoToKEG5nJKmVurVlyXuJ5FvwnLqsKQL6Y0z3bYeWo7CZ1PaMRK5LAI1wMKexhyAmUL/pYLyKgyP+OlFW+8cxcA45sF1qbOHyIbWh1SxDXRxopyAW4v+6I2fxXts3Ff+8mMXTkhEiT2HpRp/vDHyMPQC7bs4RRAn0ExdgmQYrJQY173TAipyUrPDl0Sbk4g==
+ b=UCYvXq87cHgXe/z6m6Y6iFVGHMWQycsER5doppuZBUT3+c0hU+J/Ae++2+fWu5WIqECJxN0UmN2B2ewClCBMPviwwVF3gZKai5HzSNnKSFXWjJ4Y5g1a/NIj7SyyMXRUjMdeYO2YlxIfjuy/qbwXt5NGOHP+q6pV1SnAXUmsHRfnp19k8ObrcJTnTY1D5XK7L8j8acdcEnD+Zmohxv1Sc1+DDmCcB8koqPkNTVKLbnPJftoJD7XmfL+fn6TYNf67q9yqu6Qz6tO5kheLltgRTnBNwmbOnM1fRDHuo1w5vrg+cta5p6ZNTltN3ZjyezJfsfQJP8Uc1iEcDonIncb6PQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pOmTsrE1ZA+D3WCB/+AClNpEXh2Jx/U4snuhkho+qaI=;
- b=R4hg8uRGGqo/hA0KgNR+tmZuWyhocLZ69dpLBR3/6UUzKyUOwR7+ac/jfs/YED2rBoVAH2M9xre3ifbxMS48Rj8UQ8kiwXjU4w8wdrXy/2Kf0JTkdIbt6MCQ6RfDdrtAgyReyafTOeHoZG6oGmJQfcDJdkvPIni8f5isGvEOmOSUGAzgRa7CdGS5KH/vdQ8BEr4T6jjCAv/KRG5NgS2CV+JB3o6vldgY1PvAWlhrUcuIZDGh3tOIe0Afkl5ZA23IsCRunryTYFGhHt5CsrEuc7UKmqtqQJ1DmTTP21riym1/4Sh+vhe6R/iw3wkg9R07rt2Fs2t+o+hJGGqSSbBezg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ bh=OzgWvXMHJQUBgyY/Mns6T7ejGoV81AoIQpE5EfvfwoU=;
+ b=vbN/ZuID03zbQJVqoMgduwOm0VnKPRx70a6qvg8yKEdT/wtGWUuAiS6DnKpAqbd1W49kw8EYEmaqoeT8qh8gNHt7oyg3JYtIghA/4kLLfzALOLQvoSy7pAGGvkfdorbKaXgATZi20DSfwintuogj0yOMSdmQ4WC/YRXEm/Z3z8JJW119eW2B9stzMF8m6paTPCCKo9JgrCinEq1+kWaPnN6jvu4Z5kaBIPM4N+nLtAgqWe6fbND1MJPA/Lv20acyxvSxtqeK1wzd34hPOTOQLGKnS/rrveQBnQfr7iu66wWwyUVVA3mnQGhOXHYQXAVl5H1g8o88N8tKrGuG4/tadw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pOmTsrE1ZA+D3WCB/+AClNpEXh2Jx/U4snuhkho+qaI=;
- b=Tu6+JUXUF/KQi+0Bn4CpdFaHVVBdBn41lRUJYi4aZySFXoqaM+qlTuT6AFgqGs8TwbFxcSNJ4f+X8QZ9CnW2kE/Umz6vaVR4yd4q33NDUwJO1NmTYjEhcRGnPN6xRQsF9Rcn6YhYGWKD2If9Afwyu41Yxr3jzPh9iQqzFTELYVNHrLI6OSyGrxGXJl1IZSNCmsnJ4vdXqm0lqPEkSY07NmDqXx3EwSolZ5NZMXkxNltxF/uPTe5KUMJGKaWbMuMU2Oeo063NzM0lx2GuOAUM1P5GOLaDCD6u1Ow5Odn4w2T+B0vlpKMeF4bjpGOQK65IeNbLT3kUR5tRs83XVo3DYg==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
- by SJ0PR12MB7066.namprd12.prod.outlook.com (2603:10b6:a03:4ae::5) with
+ bh=OzgWvXMHJQUBgyY/Mns6T7ejGoV81AoIQpE5EfvfwoU=;
+ b=CPRn3BVhwVaaygh9uUU+pbjVXIcTEQTInz279fvRcVmY7zcLKJSVPo6bNIbnrgyaY7y2DNkSK6XTiZrT33ujQgTyiR5As+oeJr/rnaQaqLbUwprBts7VgbeAkgwkGKtzJH008ZhYm3vGI5wOmkcNpB73c1GX87APLsXPLCMylcqiu1TzMjBGYd153h4qLtKEHmp9S3MovXLCuadsriveFkEAf4FGdHUKKhqPVW+TlF9p5Mj/s7l38J9dGeueW68ECxA5T/xA9LKYcdZVl2Pv4Y3JE1BTY8Dq63I2Zcob4j8tl/ZnaKJn+6h+wNAdWtSxTdtwqQvJBrY11vQvNyXqPw==
+Received: from DM6PR02MB5433.namprd02.prod.outlook.com (2603:10b6:5:79::32) by
+ LV6PR02MB12148.namprd02.prod.outlook.com (2603:10b6:408:425::22) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.18; Wed, 30 Sep
- 2026 02:48:10 +0000
-Received: from IA0PR12MB8374.namprd12.prod.outlook.com
- ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
- ([fe80::d85f:4c87:ae84:3f16%6]) with mapi id 15.21.0451.022; Wed, 30 Sep 2026
- 02:48:10 +0000
-Content-Transfer-Encoding: quoted-printable
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.24; Wed, 30 Sep
+ 2026 03:33:54 +0000
+Received: from DM6PR02MB5433.namprd02.prod.outlook.com
+ ([fe80::8766:b6fe:2e51:d829]) by DM6PR02MB5433.namprd02.prod.outlook.com
+ ([fe80::8766:b6fe:2e51:d829%3]) with mapi id 15.21.0451.026; Wed, 30 Sep 2026
+ 03:33:54 +0000
+Message-ID:
+ <DM6PR02MB5433A42E81FEFAC400DD1905EA8B2@DM6PR02MB5433.namprd02.prod.outlook.com>
+Date: Tue, 29 Sep 2026 23:33:50 -0400
+User-Agent: Mozilla Thunderbird
+Subject: Re: [REGRESSION 6.14 -> 7.0] ALSA snd-ctxfi: no PCM playback on
+ Creative X-Fi Titanium HD (EMU20k2 / SB1270)
+To: Takashi Iwai <tiwai@suse.de>
+Cc: alsa-devel@alsa-project.org, regressions@lists.linux.dev, me@harin.net,
+ linux-sound@vger.kernel.org
+References: <DM6PR02MB5433F3C2A156335B6ED47756EA8E2@DM6PR02MB5433.namprd02.prod.outlook.com>
+ <87eced5zi5.wl-tiwai@suse.de>
+Content-Language: fr
+From: Dany Patoine <dany_patoine@hotmail.com>
+In-Reply-To: <87eced5zi5.wl-tiwai@suse.de>
 Content-Type: text/plain; charset=UTF-8
-Date: Tue, 29 Sep 2026 22:48:02 -0400
-Message-Id: <DLSB3REYMCMP.3F5MN6UQTIP30@nvidia.com>
-Subject: Re: [PATCH v3 37/40] mm: eliminate VM_SPECIAL, VMA_SPECIAL_FLAGS
-Cc: <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <linux-usb@vger.kernel.org>,
- <linux-rdma@vger.kernel.org>, <selinux@vger.kernel.org>,
- <linux-sound@vger.kernel.org>, <bpf@vger.kernel.org>,
- <linux-scsi@vger.kernel.org>, <linux-fbdev@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <linux-trace-kernel@vger.kernel.org>,
- <linux-perf-users@vger.kernel.org>, <linux-arch@vger.kernel.org>,
- <linux-fsdevel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- <kvmarm@lists.linux.dev>, <linuxppc-dev@lists.ozlabs.org>,
- <kvm@vger.kernel.org>, <kvm-riscv@lists.infradead.org>,
- <linux-riscv@lists.infradead.org>, <linux-s390@vger.kernel.org>,
- <sparclinux@vger.kernel.org>, <fuse-devel@lists.linux.dev>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, "Andrew Morton"
- <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>,
- "Vlastimil Babka" <vbabka@kernel.org>, "Jann Horn" <jannh@google.com>,
- "Pedro Falcato" <pfalcato@suse.de>, "David Hildenbrand" <david@kernel.org>,
- "Mike Rapoport" <rppt@kernel.org>, "Suren Baghdasaryan"
- <surenb@google.com>, "Michal Hocko" <mhocko@suse.com>, "Jonathan Corbet"
- <corbet@lwn.net>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- "Dennis Dalessandro" <dennis.dalessandro@cornelisnetworks.com>, "Jason
- Gunthorpe" <jgg@ziepe.ca>, "Leon Romanovsky" <leon@kernel.org>, "Paul
- Moore" <paul@paul-moore.com>, "Stephen Smalley"
- <stephen.smalley.work@gmail.com>, "Jaroslav Kysela" <perex@perex.cz>,
- "Takashi Iwai" <tiwai@suse.com>, "Alexei Starovoitov" <ast@kernel.org>,
- "Daniel Borkmann" <daniel@iogearbox.net>, "Andrii Nakryiko"
- <andrii@kernel.org>, "Eduard Zingerman" <eddyz87@gmail.com>, "Kumar
- Kartikeya Dwivedi" <memxor@gmail.com>, "Baolin Wang"
- <baolin.wang@linux.alibaba.com>, "Nico Pache" <nico.pache@linux.dev>, "Ryan
- Roberts" <ryan.roberts@arm.com>, "Dev Jain" <dev.jain@arm.com>, "Barry
- Song" <baohua@kernel.org>, "Lance Yang" <lance.yang@linux.dev>, "Usama
- Arif" <usama.arif@linux.dev>, "Kiryl Shutsemau" <kas@kernel.org>, "Doug
- Gilbert" <dgilbert@interlog.com>, "James E.J. Bottomley"
- <James.Bottomley@HansenPartnership.com>, "Martin K. Petersen"
- <mkp@kernel.org>, "Jaya Kumar" <jayalk@intworks.biz>, "Simona Vetter"
- <simona@ffwll.ch>, "Helge Deller" <deller@gmx.de>, "Sebastian Reichel"
- <sre@kernel.org>, "John Hubbard" <jhubbard@nvidia.com>, "Peter Xu"
- <peterx@redhat.com>, "Masami Hiramatsu" <mhiramat@kernel.org>, "Oleg
- Nesterov" <oleg@redhat.com>, "Peter Zijlstra" <peterz@infradead.org>,
- "Thomas Gleixner" <tglx@kernel.org>, "Ingo Molnar" <mingo@redhat.com>,
- "Borislav Petkov" <bp@alien8.de>, "Dave Hansen"
- <dave.hansen@linux.intel.com>, <x86@kernel.org>, "Arnaldo Carvalho de Melo"
- <acme@kernel.org>, "Namhyung Kim" <namhyung@kernel.org>, "Mark Rutland"
- <mark.rutland@arm.com>, "Rik van Riel" <riel@surriel.com>, "Harry Yoo"
- <harry@kernel.org>, "Juri Lelli" <juri.lelli@redhat.com>, "Vincent Guittot"
- <vincent.guittot@linaro.org>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Will Deacon" <will@kernel.org>, "Aneesh Kumar K.V"
- <aneesh.kumar@kernel.org>, "Nick Piggin" <npiggin@gmail.com>, "Arnd
- Bergmann" <arnd@arndb.de>, "Muchun Song" <muchun.song@linux.dev>, "Oscar
- Salvador" <osalvador@suse.de>, "Matthew Wilcox (Oracle)"
- <willy@infradead.org>, "Jan Kara" <jack@suse.cz>, "Marc Zyngier"
- <maz@kernel.org>, "Oliver Upton" <oupton@kernel.org>, "Catalin Marinas"
- <catalin.marinas@arm.com>, "Madhavan Srinivasan" <maddy@linux.ibm.com>,
- "Anup Patel" <anup@brainfault.org>, "Paul Walmsley" <pjw@kernel.org>,
- "Palmer Dabbelt" <palmer@dabbelt.com>, "Albert Ou" <aou@eecs.berkeley.edu>,
- "Christian Borntraeger" <borntraeger@linux.ibm.com>, "Janosch Frank"
- <frankja@linux.ibm.com>, "Claudio Imbrenda" <imbrenda@linux.ibm.com>,
- "Alexander Gordeev" <agordeev@linux.ibm.com>, "Gerald Schaefer"
- <gerald.schaefer@linux.ibm.com>, "Heiko Carstens" <hca@linux.ibm.com>,
- "Vasily Gorbik" <gor@linux.ibm.com>, "David S. Miller"
- <davem@davemloft.net>, "Andreas Larsson" <andreas@gaisler.com>, "Alexander
- Viro" <viro@zeniv.linux.org.uk>, "Christian Brauner" <brauner@kernel.org>,
- "Matthew Brost" <matthew.brost@intel.com>, "Joshua Hahn"
- <joshua.hahnjy@gmail.com>, "Rakie Kim" <rakie.kim@sk.com>, "Byungchul Park"
- <byungchul@sk.com>, "Gregory Price" <gourry@gourry.net>, "Ying Huang"
- <ying.huang@linux.alibaba.com>, "Alistair Popple" <apopple@nvidia.com>,
- "Chris Li" <chrisl@kernel.org>, "Kairui Song" <kasong@tencent.com>, "Kemeng
- Shi" <shikemeng@huaweicloud.com>, "Nhat Pham" <nphamcs@gmail.com>, "Baoquan
- He" <baoquan.he@linux.dev>, "Youngjun Park" <youngjun.park@lge.com>,
- "Johannes Weiner" <hannes@cmpxchg.org>, "Qi Zheng" <qi.zheng@linux.dev>,
- "Shakeel Butt" <shakeel.butt@linux.dev>, "Axel Rasmussen"
- <axelrasmussen@google.com>, "Yuanchu Xie" <yuanchu@google.com>, "Wei Xu"
- <weixugc@google.com>, "Chengming Zhou" <chengming.zhou@linux.dev>, "Michal
- Hocko" <mhocko@kernel.org>, "Miklos Szeredi" <miklos@szeredi.hu>, "Xu Xin"
- <xu.xin@linux.dev>
-From: "Zi Yan" <ziy@nvidia.com>
-X-Mailer: aerc 0.22.0
-References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org> <20260917-b4-mmap-prepare-vma-flag-sanify-v3-37-4583d8a23bca@kernel.org>
-In-Reply-To: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-37-4583d8a23bca@kernel.org>
-X-ClientProxiedBy: YQBPR0101CA0180.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:f::23) To IA0PR12MB8374.namprd12.prod.outlook.com
- (2603:10b6:208:40e::7)
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YQZPR01CA0106.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:83::18) To DM6PR02MB5433.namprd02.prod.outlook.com
+ (2603:10b6:5:79::32)
+X-Microsoft-Original-Message-ID:
+ <81124dfc-b4ba-4e38-a4bb-4134b87a23ab@hotmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|SJ0PR12MB7066:EE_
-X-MS-Office365-Filtering-Correlation-Id: f2b5b8dd-d8e5-4314-d977-08df1e9d436c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
+X-MS-TrafficTypeDiagnostic: DM6PR02MB5433:EE_|LV6PR02MB12148:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4ef7754b-d944-4fd9-132b-08df1ea3a61d
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|23010399003|7416014|376014|921020|6133799003|10067099003|11063799006|4143699003|56012099006|22082099003|18002099003;
+	BCL:0;ARA:14566002|24021099003|23021999003|15080799012|12121999013|37011999003|25010399006|4140399003|6090799003|5072599009|8060799015|19110799012|52005399003|40105399003|12091999003|2607281247196008|3412199025|440099028;
 X-Microsoft-Antispam-Message-Info:
-	0U7/m/Xru/QpjlaGGaK+dAC+Vkwn8nh5csqxlflv6N5ooavArQuLAPiQgIsBgo26Crls0hU6RW5coeGZ7jducYKwKrr0tFhrJPWHoxOk4dkB9+b5acq4GK7F2VYh5uUHnjlN2cPqNXJ4c5Nvv+mvdsUHdWX9cW7c/RF5QDmFfT9Kdbf2+2Vfqdp3eCF7bsvC/fULpXPX54qdqv78cDJN84x1yCiLv77O1mDDlocv94mX4CrH0KX8hkdN60zWJNnbOYTMR0F6wnA1R/qcow/SVeu29VzG6ZDrbNXOKDWfggX//2kZ4u3eQvi9nUbuHTJ7KXf/ngF4viN4G19ojUbUbYc0WEcz5/woh4kSkGIZ3ApdIJwxZMMv2aX7KhlU5UphacKeO59DZypTkJwCyXbRgNlaXPEX/DtbZET/AcnQOmnbDSzOCpo6txrGgH6eJmNvls3FHm16Q0IoimeYl0ztvts8Ri04maGOdn9sS1ZpFyTPSc1JmVTGTx9NDmxGxjLZW//wm/pnzlgJIR+fcMYjo/qKZTfOaeQvtIrNMyfAFYV0LGSqNsTv1kxAsJ2S9Gv9Gc4jNawl9dSnp6gzBvG2lxvh+KvpKe/CmnusIOSBmBPH2Kfo7RDSbGifXFS6Nz+qGeLLA+IpUxxyN7qlrJ5RgRfWvG5ROnKw6PZ6IhWRnT1VUu6onECtEWuL+L9bNDCz/Yp78xJ1UJQYsv6CCiBEBQ==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(7416014)(376014)(921020)(6133799003)(10067099003)(11063799006)(4143699003)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+	=?utf-8?B?R1F5V0hjTDZNUEorb0d3Q09xaGphRVhlT3Y4WU9YdzhqMVpBL2oySzRkYWJL?=
+ =?utf-8?B?akI0QlRnbFlpNFNacnhrTU5haTZPRVQrU2FjRHVWUGtYRG5jWHRSQ0lWVUhh?=
+ =?utf-8?B?YmZqYzdlMG1pR0J6OFZmMmhXZVNiTmFVRmoxVTJ2Sk1jaE1PeDh3Q1BBVkNl?=
+ =?utf-8?B?TUhUVStVeU90WGs5ZHZ3TWxMM0hDcHJtZlZWd05LMzBSOHgvSXdYRWJWWi9H?=
+ =?utf-8?B?cFhkSXBPYVc0ZW5LU1RMbFJkQVFlZVRhZDNRM3IvSXJhVitEcHdVTjdrSzMr?=
+ =?utf-8?B?MFRkSkl5NWlneUFoTXg5NEdRdy9KY1RhbWRYSUoySU5TQXVyaFJiSGRMQm1U?=
+ =?utf-8?B?cTEyK2pCaWxJU3h5bWgxSWRnNlZjTlF6M1N2Vk1Nc0ptSHhXNnR6OFEzTVFI?=
+ =?utf-8?B?YzhCZ2ttWlJ0MkVOam5KWlZHTXg0R3dqWm9WQmdsUlNKci9nblJEY3dGWVlj?=
+ =?utf-8?B?Q0NGWGJGYkNucnl3eWZ2VmtnaDByWkdZMDY3eW9ITzVoZVRMOHE4dHZnVnpq?=
+ =?utf-8?B?QmRKT0laVlRmdDlmd0ZVajIzYktjZElFNWQrQTh4VW53akVXYUVVVnVQbnk5?=
+ =?utf-8?B?WWZiYTZPOG15U1IxNlFXVWk0VFd4N2ZBbkdySEdMTUkyOWhNTVYrVm54Nkwx?=
+ =?utf-8?B?ODFEOFpWVGI5NGNOK3ZaN0NwalA2cGUxd1NNeGQ1NmZ2NWFiRWcyd0hzWVJN?=
+ =?utf-8?B?Z0lUREt4Vmw3ZmJFUXJ6bXNqdTNZczJPL3Q2YndURjZBTnNZdjFYNVd0ckI1?=
+ =?utf-8?B?SHdWL2JMR2NRQkQrUXk0NFY3ckNvOWU0VUtlMUxJYzdDcDM3OURRMGNlR1NG?=
+ =?utf-8?B?NDMwL3lYazNwTXFvNjNMN3pjNFNSOGFTUk5xYk84OXROekxRd3JLZzdpWmJl?=
+ =?utf-8?B?M0tLRk4rNnNjU3Y1aE5BcW1wZXdCS29ib2ZBZWllM3FUd2RJWmpnbUsrb3U4?=
+ =?utf-8?B?UHZveTkzUU5sa0hrdFo4ZmYyQlFESWQva2RoMlhkS0dtcklNWFpLMG9WNFRx?=
+ =?utf-8?B?a1IzTHZwYzNTZjFoeU9FakhsRXhuMlhWOHVvM3dEZEJ4a2JkR1J3YUNQNnhC?=
+ =?utf-8?B?NFY2NzY5OGEvRFl2eHNleU9YcDFEMUwvNVJsS3cxTjYxanplMy8yRzd1ZXM4?=
+ =?utf-8?B?Y01VTXUxZGVvY3N1VTNXTTYwSklKUjZRNXhQYmZZVTNZd1U5UUlNWDNRcXBk?=
+ =?utf-8?B?NnoxTTNUdW5ZZHBhTzFNSU5ianJ3aUd0cVhjdVM5cnozaXk4eDkvYS9KbHFn?=
+ =?utf-8?B?UkF2QWtRdjdVc2V6SDJRNXhINlIrRmNJK294Nlg1eFV2YjF3TlJoZXFYa2dG?=
+ =?utf-8?B?K1htRnpOOGxqRXFWUmxKK2U4QWp1OTZLSG0waVZNRk1zOGJVVmxlMzBRb2cx?=
+ =?utf-8?B?b29lMkxEUy9IaytmVkZya2dINlpGejZLNEdST1F3VzRTZEpzcytaZHYzbncx?=
+ =?utf-8?Q?rgokm+L4?=
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?TmJiaFFMWElOb1ZoOFJlOC9NSUIvMndhbzlTOVVvVlNET3pZeUsySXZ3K29B?=
- =?utf-8?B?OXJNMTYyNVMyc08xUnBac3JvQVUvTXFJbFpWdGF6clpNb3prNTA3NVFlNFIx?=
- =?utf-8?B?TmVuRmxSRGo1U2pkSUQrOFNnT0wwQTVIWnBWbGxsd3h1biswQk9nWnlpRmpa?=
- =?utf-8?B?VWVidGhKbVhHeXh3Sk5kZm96YThrNitKbEc1bG1JZVBxNFRyd2pTV2cySVJ6?=
- =?utf-8?B?a0EyY2J3azJNeHgvTzIxalpmajJhbVZ2OUtPOG5GRjJhSmVDR3g3a3hPUUly?=
- =?utf-8?B?MmdtajcvUVR1KzRwQitTMmJac2ZqVmRtUXd3STh4ZmFTY2wzc0Z0T3BGUjJQ?=
- =?utf-8?B?dXR0T1FXZ2l5RW4vaCtRa05wMXFhT1lzUHlJVHptT3laTFJDazRZc3dFb09X?=
- =?utf-8?B?cXZod2k5dkl0bDhLWU5wSWxNelp6Q0pvcjFjUk83UmRoZDZxUExNOVplZ0w4?=
- =?utf-8?B?TXRUUUV4ZmRaV0ExWTlkanpXbVBkTVVKeW1HZFhGZmxkblNzSmtYbWdabGZR?=
- =?utf-8?B?VzdTM1Y5cWJwNW92RE5DY29ub00wbFk3SHdhNWJWa2ZmenJsNVFldjFiK0pv?=
- =?utf-8?B?RzhwVFYzL2w0R2J0SjYrWmg4ZmRJb3JBQUFjWkJGeWNYTTAxVUprMDdKZlRp?=
- =?utf-8?B?RlllVVJRcUR1WnZkcnZOLzFqbzJkcytOMU1zZ2RnK003bW81b0wxSjgwU2NP?=
- =?utf-8?B?U3NIOWVzeVhvKzBKNklZWFFBNVFHRDMxdEpqOXFjUVpKeEoyRFZjSmNIS3g0?=
- =?utf-8?B?ZXoxNnN3MlBMMFI3c3FKNHJYWGlPM3FBSUQ3VlRWYUllZ3c0Zm5qWThydHJQ?=
- =?utf-8?B?N2I3UVZJVHFuTU9ZVmtGRVdJL2RiemxWQnBaODNZd1lqV0VSNW5RcmFtWUtY?=
- =?utf-8?B?YWlxL0ZncVlPcjhiSVg1NEw3RFkvSkY5UkdUR1liNGlvSWRucXhyY2Q5a1JW?=
- =?utf-8?B?eTQ3ZUlrQjBIK200ME5iYlljck84NHFFNUYwbi96RndsRlV1cWVtM3d3bWdS?=
- =?utf-8?B?aDFTVVpBWEF3NVBNU1BKWHdISnA4dXlKcGJyTHJRKzFpYVBRQXBBM3FNOVM0?=
- =?utf-8?B?ZEVqb1ZhZUd2aEJQcE52VlZUOGNzUzBuRHJYKzhJUW5UejdHRWlmdGszamRY?=
- =?utf-8?B?YTh2ZHZBdGt4MmsxRlkvWEtTTzdPRWE0V25sNE82RnhBTXh2cW8vSXUwYy8y?=
- =?utf-8?B?S3hsQW9VUUd4YzhDcWRLNzVxeTBMYTVBbUFpRlFCVXhLNW1vanN2WWE5L2Yr?=
- =?utf-8?B?aE80VmJ5TndGWWlzUHNBRllIa0N3eG1ZNjVYbE52RW9oSUJWNnpZUitVT1pO?=
- =?utf-8?B?UUtBNkgrQ2FQRlY0ek0xUFczMFROcDJJNUlxRzgyQkNHa3ZBNzZSNHB6RVAr?=
- =?utf-8?B?TzJEOXdlV0FudXM4bUxDZkM0Mmo0THVuVXRodVV3YVc4c2NvOVFSallVTWoz?=
- =?utf-8?B?SGFLdXp0RHhZblVXbUdSRzlZcEJLeDZSa1BzcjZOMHFXWXRUaHpGZEhtb3g3?=
- =?utf-8?B?b2d2LzZicGo0cFdOelI4UGJ3UXJYOFlXL3d3c1puZ3N5cWRjdUpMclkvek9m?=
- =?utf-8?B?d2dRM1d0NGlRZXFnUjYvR1hVTmsrallvRWk2R2c0M256NnNYWVYyZEFuM1M4?=
- =?utf-8?B?NVR4d1hrVGQzYTlsM05Ra2pLM0pIUFNBTUxHMWhsd3ZUeUdWVTh3NE5yU0Iz?=
- =?utf-8?B?UHpYL3VRSi80YTlzQ3R3cDdyNzJ4czNoS3RnRkNDcXByQzBLNFZTcHU0VEto?=
- =?utf-8?B?ZFY1V0QrNElFVFRzUzB5QWJtUlB5RlhVSjlBclBjelU5NlNGWkFNR1p0d1pV?=
- =?utf-8?B?dDBLL3A2VXBzMGRvZi9NU1VIaGNrRVo5L2liSDRQbW1IdHNEWEhyZ3ZWYjRX?=
- =?utf-8?B?em5ZV2FsNEM1MEhOL3FKK3dQMHJDaGt5Sk8rQjlrakE2cnFTbGFWdHNWekZx?=
- =?utf-8?B?RUhaQlc3QW1CRXprYzd5ek1KVXA4ek9LWCtEVkNyZjlMcWRCUHM1L1U4QVV2?=
- =?utf-8?B?VTg4U25MZ2FWYS9XNGJDazlIbjNBOHZFZklnSFF0aGxxcFN2dmUzdG5YSUFr?=
- =?utf-8?B?UHpHQ0dWbm9VMTVDY0w5NTRwQkJGWkdub1l0SHI0VXpxSkl3cTI4V1daZWNS?=
- =?utf-8?B?ZXMwWGs5Y0l0enVReTFNdnJtQmlhQTdDVnYxWDc5SFFMaFRUTzRJSllEeDg4?=
- =?utf-8?B?b0lxMGRtNFc2QWpNMEU1L3FRZkx5a0tOWXQ5RzZ1bDJrRnRJTmFZWkhjYit0?=
- =?utf-8?B?Z29uc0h3ZXFkaG54Ris1K0pzV1ZDRkZrRmJnV1dXdksyWGUzZElPODJQRERN?=
- =?utf-8?Q?0K4zxUb4WseHyV5MCV?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f2b5b8dd-d8e5-4314-d977-08df1e9d436c
-X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
+	=?utf-8?B?cHVYR0R2MzdCQjVUb05tSXcyemJwZlFqQUloM1h1dG52QlBOcmNncEpKbU5S?=
+ =?utf-8?B?UXdEY3RHcjZzR3QvZitvQ01KVW16dnNYM1ZHck9WdThhOTZ3eGRWYktDUlRK?=
+ =?utf-8?B?aTEwVHpDbmRzU3FjRTZSWXlUWGd5NEdQK0ZGU0lFS3U5OFJNdkdxM09Cd2t1?=
+ =?utf-8?B?ZHA3TlpOdWZpZTJQdE9WRHRROHJtSStOODhreGh1SWk0Q2ZJYk5pQ3JIem5h?=
+ =?utf-8?B?UzFtbDZtYmp0ckZWNFNJelc2M0pLcmVncWlYUmk1WktCTzVrUnN1bnBZdEdt?=
+ =?utf-8?B?ZkpoOXBpYkZIZG9yVW9FUVlmRVI1Q01ULzVheERTYmdGVlE1bFV3ZVFLL0di?=
+ =?utf-8?B?d0UzSFJsdHAxVkw1U29jY3RjeTdWcWZlQUNNYWhwNFZEbk5weWdqY0tYVWRF?=
+ =?utf-8?B?WUJVdXVHSXJlSUhNM0R0WnJpeTIrZGYxbjdYb1A3VDhrREdxZ2pxSll2M1pU?=
+ =?utf-8?B?bVIrQ0NIc0N0bEQ5QzIxRTNhQ2Q5Z0hzTTIvdFBEZ2VYUFRRU0VPUExiRTRG?=
+ =?utf-8?B?M1FyS0RGNW9VRldOamdVcjZVbnBpYUp2QUpJM3hyZHVJM1psVVhReWl1OUpU?=
+ =?utf-8?B?V01BczczREE4bU52ckovZUxYN3Q4Z2NxeVlVOHBpWVF1clkyeHVxNEh0bDQr?=
+ =?utf-8?B?UVUvV0F2VFZjRWlWRW1wWXpoTmtzNmw2allHWXlLcVNVMXlZcENkemxuMHo5?=
+ =?utf-8?B?dTZJVUk0T2lXL3JjMTJCVUxQY0NBVXBuK2s5RHVHVjd0b1pLZHJNUFp1OGlh?=
+ =?utf-8?B?KzYzTFUvNXhwYnE2V3NWY05yN2NaUzNHS1A1cGQzZ1ozdVA5MzFLVlFsMUhn?=
+ =?utf-8?B?NE5NbVhVVSs5L29IMEtxWTBORFhzY2N6cUVGRWNRK0dRN2VseFl0bEZPTFgw?=
+ =?utf-8?B?bE1UQkNhTWZqSWJnTkRVM09GWlUzUUU3T0FnaTdBTW5KMVBtRmhaZEZlWk9y?=
+ =?utf-8?B?NllGdEMxRTVMQUxLZlNnczRoRGowQTNUS0gxUExSbFQ1aEU3cDFSbnZzQklL?=
+ =?utf-8?B?cG5wV0tIUDdkUVJ0K2NKQTRwa01UMGpSRE9PREZEaXVWMXVRNWpSWktZeWhP?=
+ =?utf-8?B?bEJWVDg3c3NSUFhWTkI2Q00xcnFabEtPZ1VYbmViWlhtSmhKaXIrb1lxQnFV?=
+ =?utf-8?B?VU5pbG1uUTI5Y3psRCtVUzgzck5kZERLZUM2MmhFeUhiWGFJemZvcm9nSnM3?=
+ =?utf-8?B?NTRwTkJDaHp3M1VDUmpxQVoyZ2wvSnppYU5IN1F2eUdsOXUvR2Fac1NxeTZC?=
+ =?utf-8?B?eEZEVHh1eVdRS2FWbzlma3dKSmtndDA1SVhxOUo3aUdYR0ZQcHMxNVcxY0kv?=
+ =?utf-8?B?eUVGbnpJQmZmYXA3WldmVE1WeDBkeXNtRDZhTEdaaERLenIvVWFGZDJvUFpj?=
+ =?utf-8?B?VUpwNmlQQnRBYTRQeGZJQjNHQzNsVEEzNmlEYUpRYVhxbGJVOTlVbEZpL2xo?=
+ =?utf-8?B?Y1R5KzZ3T3IwMlFXTXZtakh6ZytkMXIrWlplRHJ1UC8zK05oRWZmaVJDUzhv?=
+ =?utf-8?B?YjJkNUM3N3RtNkw3OUhLeHVobk13dmNlSlNLakJKQXVwN0pHQk5hOW15VmRJ?=
+ =?utf-8?B?Z1c3UEhDbkdDOWtUd3FjcFA5dklGd1NjcHJqUk1EeGlQT0ZhdlJtbkRXeVR6?=
+ =?utf-8?B?NTFHS2lvaUcxV2cxTlprUVQrTUNrWER1UmNWSFB0UFVicGVCZTAzU3lDYVh2?=
+ =?utf-8?B?amRWRHFyMlZKREl2RW1tYnZubjdmSm44QXBhUGJGRVRkMTRLMHNwcS80Z1VZ?=
+ =?utf-8?B?Y3AvcnF2UnRLamFyU3hXS2RDUXFwVGRUZGhFbmNaSHA3U25HVHlCVWE4N0R4?=
+ =?utf-8?B?VVMvQ3p5THhQU3IwNVFicDZ4SmRvMW1WRWh6UlQ5aTBkYXoxcFROcjh4dlh1?=
+ =?utf-8?Q?kwFyjI0EUl7wC?=
+X-OriginatorOrg: sct-15-20-9412-4-msonline-outlook-cd312.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4ef7754b-d944-4fd9-132b-08df1ea3a61d
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR02MB5433.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Sep 2026 02:48:10.1222
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Sep 2026 03:33:54.6219
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: okelll0da+4GEaobXjV0FRORy6fDtWWJstHAP/ipoZgRheZaJU41ti+YH0Vj7ETn
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB7066
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV6PR02MB12148
 
-On Thu Sep 17, 2026 at 12:22 PM EDT, Lorenzo Stoakes (ARM) wrote:
-> Every user of the VM_SPECIAL or VMA_SPECIAL_FLAGS has now been converted =
-to
-> predicates which explicitly express what is actually being checked for
-> rather than the nebulous concept of possessing 'special' VMA flags.
->
-> In any case 'special' is not so special a term of art in mm - it includes
-> VDSO/VVAR mappings, special in the sense of vm_normal_folio() and probabl=
-y
-> other cases too.
->
-> Therefore make things less special by eliminating these now unused flags.
->
-> No functional change intended.
->
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> ---
->  include/linux/mm.h              | 8 --------
->  tools/testing/vma/include/dup.h | 8 --------
->  2 files changed, 16 deletions(-)
->
+On Mon, 28 Sep 2026, Takashi Iwai wrote:
+> Could you verify the latest 7.3-rc5 kernel to see whether the
+> regression is still present at first?  If the bug is still there,
+> please go bisection.
 
-Acked-by: Zi Yan <ziy@nvidia.com>
+The bisection is done. The first bad commit is:
 
+  4b490e0d103c ("ALSA: ctxfi: Add ADC helper functions for GPIO")
 
---=20
-Best Regards,
-Yan, Zi
+and a one-line fix on top of v7.3-rc5 restores the sound on my
+Titanium HD (SB1270). Details below.
 
+Bisection
+---------
+As announced, I bisected over the commits touching sound/pci/ctxfi.
+All kernels were built from the mainline tree with the same config
+method, and use_system_timer=1:
+
+  git bisect start 'v7.3-rc5' 'v6.14' '--' 'sound/pci/ctxfi'
+  git bisect skip 86f17f37a1fb4121229a76e6b9888072aadc334a
+  git bisect bad 75dc1980cf48826287e43dc7a49e310c6691f97e
+  git bisect bad 9bb003a1f98b11b80238d522778115ad07355149
+  git bisect good 5ebd054272718334c543998a6d0b77a9846c16d9
+  git bisect bad 4b490e0d103cbd353bb136d67a6cdb0e94558a85
+  # first bad commit: [4b490e0d103c] ALSA: ctxfi: Add ADC helper
+  #                   functions for GPIO
+
+Vanilla v6.14 built the same way works, so the good end of the range
+is not an Ubuntu-specific effect.
+
+The skip: on 86f17f37a1fb the card does not probe at all (UBSAN
+array-index-out-of-bounds in cthw20k2.c:955, daio_mgr_enb_dai(),
+index 4294967274, then a crash in set_field()), so the playback
+problem could not be evaluated there. I assume this was fixed later
+by 277c6960d4dd or b045ab3dff97, but I have not verified it.
+
+5ebd05427271 is the direct parent of 4b490e0d103c in the full tree,
+so the good/bad pair differs only by that commit. (Their configs
+differed by two netfilter options, CONFIG_NETFILTER_XTABLES and
+CONFIG_NETFILTER_XTABLES_COMPAT, because of localmodconfig; I don't
+think it matters.)
+
+Root cause
+----------
+In hw_adc_init(), the GPIO_DATA read that preceded the Titanium HD
+setup was moved into hw_adc_stop(), but the SB1270 block still uses
+the local variable:
+
+	/*  Set ADC reset bit as output */
+	data = hw_read_20kx(hw, GPIO_CTRL);
+	...
+	hw_adc_stop(hw);
+
+	if (hw->model == CTSB1270) {
+		/* Set up the PCM4220 ADC on Titanium HD */
+		data &= ~0x0C;
+		...
+		hw_write_20kx(hw, GPIO_DATA, data);
+	}
+
+So "data" still holds the GPIO_CTRL value (0x9E5F on SB1270, set in
+hw_card_init()), and that value is written to GPIO_DATA. This sets
+bits 11-12, which hw_output_switch_put() uses to mute the line and
+headphone outputs, and also overwrites the DAC speed mode bits 9-10
+set by hw_dac_init(). hw_output_switch_put() is the only place that
+clears the mute bits, and it returns early when the position does not
+change, so the outputs stay muted: playback runs without any error,
+but is silent.
+
+Consistent with this, on the bad kernels (9bb003a1f98b and
+4b490e0d103c), switching "Analog Output" from Speakers to Headphones
+and back to Speakers makes the sound come back, clean.
+
+Fix
+---
+Re-read GPIO_DATA in the SB1270 block, as the code did before:
+
+diff --git a/sound/pci/ctxfi/cthw20k2.c b/sound/pci/ctxfi/cthw20k2.c
+index 36066ffe8784..9716e16ebbab 100644
+--- a/sound/pci/ctxfi/cthw20k2.c
++++ b/sound/pci/ctxfi/cthw20k2.c
+@@ -1895,6 +1895,7 @@ static int hw_adc_init(struct hw *hw, const struct adc_conf *info)
+ 
+ 	if (hw->model == CTSB1270) {
+ 		/* Set up the PCM4220 ADC on Titanium HD */
++		data = hw_read_20kx(hw, GPIO_DATA);
+ 		data &= ~0x0C;
+ 		if (1 == info->msr)
+ 			data |= 0x00; /* Single Speed Mode 32-50kHz */
+
+Tested on top of v7.3-rc5, with exactly the same config as the silent
+v7.3-rc5 build: the sound works right after boot (desktop login sound
+and speaker-test), without touching the "Analog Output" control. The
+file builds without warnings with W=1.
+
+Not tested:
+  - capture (line-in / mic): the fix is in the ADC init path, but I
+    only tested playback;
+  - sample rates other than 48 kHz;
+  - since 4b490e0d103c, hw_adc_stop() waits 10 ms before the SB1270
+    mode bits are written instead of after, so with the fix they are
+    written right before hw_adc_start(). I don't know whether the
+    PCM4220 cares about that timing; I leave that to you.
+
+Correction to my previous mail: the short pop at desktop session start
+also seems to happen with working kernels, so it is probably
+unrelated.
+
+About the tools used
+--------------------
+I am a user, not a kernel developer. I did this bisection with the
+help of an AI assistant (Claude Opus 5.5, in Claude Code), which
+automated the kernel builds and installs over SSH; I did the
+listening tests on the hardware. The root cause was found by the
+assistant reading the code of the suspect commits: it predicted the
+remaining bisection results before they were tested, and suggested
+the "Analog Output" check. The assistant also wrote the one-line fix
+and helped me draft this mail. If you use the fix as is, please add:
+
+  Assisted-by: Claude:claude-opus-5-5
+
+Feel free to add:
+
+  Reported-by: Dany Patoine <dany_patoine@hotmail.com>
+  Tested-by: Dany Patoine <dany_patoine@hotmail.com>
+
+I'm happy to test any patch, or to resend this as a formal patch if
+you prefer. I can also send the full dmesg and alsa-info output of
+the good and bad kernels.
+
+Thanks,
+Dany
