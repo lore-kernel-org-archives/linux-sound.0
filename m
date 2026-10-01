@@ -1,168 +1,165 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ABC038DC6C
-	for <linux-sound@vger.kernel.org>; Thu,  1 Oct 2026 06:19:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60EA33749FA;
+	Thu,  1 Oct 2026 06:21:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790835566; cv=none; b=W4AjXFUkdw0Xe8iORITZByIH30appvoEQdK4L705ZW6NWY3NrIhn4c2jOg9Skc5Gkop3PKR0MIaraOA4btpmmkzJswofbMgihgR+ika6Ee5i87o8mZe3JqYBLtmSCC0fvFqwVKAtaFgRKJqjt1XOerWroMTA4jM2abTFvIyBAnw=
+	t=1790835709; cv=none; b=iMRKOmvARbvYgZHC4t7FShJZRgoGEB6zX/xBfzQz01e3ZNw7Bqnn5773WcLFW2kMfgXAyR4BnEnscd3WcxRClI4yfIzvBLv3IjwyZSm8A4jnO87Gn2M+rvUcwO3Pu9lnK6Zt/EFzaGqYZgrOaAdB00zPNdgTIwa54XsViIPZkG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790835566; c=relaxed/simple;
-	bh=XgOZL8VL7t8WMhOEN+UNXwfg7OTwlqhbVy0JzjyeRL8=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=JovZFijkv2Wc69RsmB8L9BfGZ0qAxicHBy3v+fXiwubuLaShZDC0cEfMVNhq7jBl0W5OuKQmjFIRJPYrg0Nbt3MWdr59o0QI+CsgtoT+7/NUPvC/YEX/mO1SvRQOstsy8od4j30YpAsSrd4UaD+vcExd/f7pchqLCP3MjgqL3CA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=fPUs9rlo; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+	s=arc-20240116; t=1790835709; c=relaxed/simple;
+	bh=+v19fspQo6RqCAOXqc92x40I0rbiMxUdPLzoun4FxlQ=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=hHcURsJP9GmakYbYmc8Kb+lCqRth7tMHqMO4D4RMjsKlUMF7VSFFutzyB4a33ldxJP6Qw131v1tgIunFR07hAYv0ZtVAavotGlSqohXEI330ONB58C4FYpFoYjBcz0V8yD2FYxTtVGZQ6c8j8+4QduDab0i6q8hYeU4V0IwmqJk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=yD+m+xKy; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gaopvcIS; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ktvli22g; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=nPaAN4jt; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="fPUs9rlo"
-X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 6916Ifh762714209, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
-	t=1790835522; bh=9ZSglyz/2PA/M6l9tvrwTy4CGBHafjl2+NswqSOJdpY=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:MIME-Version;
-	b=fPUs9rlot50l4gxCfxAWAPz/fS7e0uryM5QSOX7bxvS+BfirxvQJCz4Cz3OhpkFpr
-	 J6fFMsdD3zzLIoFuGIDs8/k5fC4Cx21tKDDbBaXAQdE1JKgKifpMgDWHqRHY+Av8Q7
-	 mCrZyskiVsX08q8i4Uus7B+SZVhDG/Uwgh3gZR8j+hWsejDtC2LpdXcDsDjgSFXdzC
-	 JHd1lFNyfMG2IIke5KrXQDtgsgCRn42oIKBVGiaptr2ejK6Z+7GyQ6ZlS0EIw2UhC7
-	 uFksO39a3ri7ZEeGM8zMBBj98Lfarprbmtpz18ugaiKa+tME5XBrR+ralqCd6GLkuY
-	 JuBjXrAYOM4Og==
-Received: from mail.realtek.com (rtkexhmbs04.realtek.com.tw[10.21.1.54])
-	by rtits2.realtek.com.tw (8.15.2/3.29/5.94) with ESMTPS id 6916Ifh762714209
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Thu, 1 Oct 2026 14:18:42 +0800
-Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
- RTKEXHMBS04.realtek.com.tw (10.21.1.54) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.49; Thu, 1 Oct 2026 14:18:41 +0800
-Received: from RTKEXHMBS06.realtek.com.tw ([::1]) by
- RTKEXHMBS06.realtek.com.tw ([fe80::b3cc:c263:b82d:e87c%10]) with mapi id
- 15.02.2562.049; Thu, 1 Oct 2026 14:18:41 +0800
-From: Kailang <kailang@realtek.com>
-To: Takashi Iwai <tiwai@suse.de>, Zeyu Li <13776528859@163.com>
-CC: "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>, Takashi Iwai
-	<tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>
-Subject: RE: [PATCH] ALSA: hda/realtek: Add ALC235 support for headset mode
-Thread-Topic: [PATCH] ALSA: hda/realtek: Add ALC235 support for headset mode
-Thread-Index: AQHdT0f361EnBtapw02eXzCCvoImG7boOi9A
-Date: Thu, 1 Oct 2026 06:18:41 +0000
-Message-ID: <f67a320a35814d6eab280dc65d04e039@realtek.com>
-References: <20260926140336.27896-1-13776528859@163.com>
- <8733ut5ylq.wl-tiwai@suse.de>
-In-Reply-To: <8733ut5ylq.wl-tiwai@suse.de>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="yD+m+xKy";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gaopvcIS";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ktvli22g";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="nPaAN4jt"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id CF80621F5A;
+	Thu,  1 Oct 2026 06:21:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1790835701; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=b5uPq6Sw9e1GVSid52TMaijlXpM/bbx4l5Q+dHa1Mj0=;
+	b=yD+m+xKyXZD5Nl2heLBQdqq4Vpm7m/YYCE+8cmIzQHTRSPz4hbBFqwfjYKTAF9SZPPYk1R
+	LLfGmHyzXRKPWmc/s2wRz4C9DsA5NCmN3wACGOpNNhCXd7g0tR4thU32n0FdGiJalZyunr
+	3QS1OIbgd1UQLrNhgcMzTvFf7CP5b7I=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1790835701;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=b5uPq6Sw9e1GVSid52TMaijlXpM/bbx4l5Q+dHa1Mj0=;
+	b=gaopvcISW7aUYJkJFmgPYdrUJIFDx1gXiLHur8En/t1JhMCEilU5PakxNIJNmZy6sjLbx4
+	8/YsJvwwXjLRmgDQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1790835696; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=b5uPq6Sw9e1GVSid52TMaijlXpM/bbx4l5Q+dHa1Mj0=;
+	b=ktvli22gindUY8O/AJ2eojCIf6ReFubzVRo5BmZXNIC0HuJrAP88QlZvQMbnt9ryPEzv6p
+	3G404bxhG1V5DoXt/HlLlljZ66FZLuyxUL8Bc3sGE94+q+XivK0F4CDcuGfekyXT49KV/h
+	2dTeUnQM1EbpONRSMrSTskedBMAgKMU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1790835696;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=b5uPq6Sw9e1GVSid52TMaijlXpM/bbx4l5Q+dHa1Mj0=;
+	b=nPaAN4jtMq3aKF55aSboX+E1o0E2K/DiJCxQEd4VRHPlyTsAiv3gY19HemvVyKVHSFZVyK
+	PpYqiI0EwtTc8qCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E5039136A5;
+	Thu,  1 Oct 2026 06:21:35 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id LSOhMO/7vWpdXQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 01 Oct 2026 06:21:35 +0000
+Date: Thu, 01 Oct 2026 08:21:35 +0200
+Message-ID: <87zewy2b68.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Linux ACPI <linux-acpi@vger.kernel.org>,
+	linux-sound@vger.kernel.org,
+	LKML <linux-kernel@vger.kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Sudeep Holla <sudeep.holla@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+	linux-efi@vger.kernel.org,
+	Will Deacon <will@kernel.org>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	iommu@lists.linux.dev,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	patches@opensource.cirrus.com,
+	Shenghao Ding <shenghao-ding@ti.com>,
+	Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>,
+	Sen Wang <sen@ti.com>
+Subject: Re: [PATCH v2 3/5] ALSA: hda: cs35l41: Switch to use acpi_bus_get_primary_device()
+In-Reply-To: <6200303.MhkbZ0Pkbq@rafael.j.wysocki>
+References: <4766532.LvFx2qVVIh@rafael.j.wysocki>
+	<6200303.MhkbZ0Pkbq@rafael.j.wysocki>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.29 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.19)[-0.966];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[23];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid,intel.com:email];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Score: -3.29
+X-Spam-Level: 
 
-
-
------Original Message-----
-From: Takashi Iwai <tiwai@suse.de>=20
-Sent: Monday, September 28, 2026 8:50 PM
-To: Zeyu Li <13776528859@163.com>
-Cc: linux-sound@vger.kernel.org; Takashi Iwai <tiwai@suse.com>; Jaroslav Ky=
-sela <perex@perex.cz>; Kailang <kailang@realtek.com>
-Subject: Re: [PATCH] ALSA: hda/realtek: Add ALC235 support for headset mode
-
-
-External mail : This email originated from outside the organization. Do not=
- reply, click links, or open attachments unless you recognize the sender an=
-d know the content is safe.
-
-
-
-On Sat, 26 Sep 2026 15:58:00 +0200,
-Zeyu Li wrote:
->
-> The ALC235 (0x10ec0235) is registered as the ALC255 codec variant in=20
-> patch_alc269(), but the headset mode functions were missing a case for=20
-> it, so the CTIA/OMTP jack type detection and routing never ran on this=20
-> codec. As a result, a plugged-in headset is detected (jack presence=20
-> works) but the microphone signal is never routed, leaving the capture=20
-> stream permanently silent.
->
-> Verified on an ASUS M5451GA laptop (HDA:10ec0235,10431814): with the
-> ALC255 coef sequence applied, the headset microphone works correctly.
->
-> Signed-off-by: Zeyu Li <13776528859@163.com>
+On Wed, 30 Sep 2026 20:42:15 +0200,
+Rafael J. Wysocki wrote:
+> 
+> From: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
+> 
+> Replace acpi_get_first_physical_node() that is slated for removal
+> with acpi_bus_get_primary_device() that takes a reference to the
+> device it is about to return.
+> 
+> This addresses a potential use-after-free that may occur if the
+> device returned by acpi_get_first_physical_node() is removed right
+> after dropping its ACPI companion's physical_node_lock in that
+> function.
+> 
+> Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 > ---
->  sound/hda/codecs/realtek/realtek.c | 6 ++++++
->  1 file changed, 6 insertions(+)
->
-> diff --git a/sound/hda/codecs/realtek/realtek.c=20
-> b/sound/hda/codecs/realtek/realtek.c
-> index db365a746..bc5226fad 100644
-> --- a/sound/hda/codecs/realtek/realtek.c
-> +++ b/sound/hda/codecs/realtek/realtek.c
-> @@ -1292,6 +1292,7 @@ static void alc_headset_mode_unplugged(struct hda_c=
-odec *codec)
->       }
->
->       switch (codec->core.vendor_id) {
-> +     case 0x10ec0235:
->       case 0x10ec0255:
->               alc_process_coef_fw(codec, coef0255);
->               break;
-> @@ -1407,6 +1408,7 @@ static void alc_headset_mode_mic_in(struct hda_code=
-c *codec, hda_nid_t hp_pin,
->       };
->
->       switch (codec->core.vendor_id) {
-> +     case 0x10ec0235:
->       case 0x10ec0255:
->               alc_write_coef_idx(codec, 0x45, 0xc489);
->               snd_hda_set_pin_ctl_cache(codec, hp_pin, 0); @@ -1562,6=20
-> +1564,7 @@ static void alc_headset_mode_default(struct hda_codec *codec)
->               alc_process_coef_fw(codec, coef0225);
->               alc_hp_enable_unmute(codec, 75);
->               break;
-> +     case 0x10ec0235:
->       case 0x10ec0255:
->               alc_process_coef_fw(codec, coef0255);
->               break;
-> @@ -1663,6 +1666,7 @@ static void alc_headset_mode_ctia(struct hda_codec =
-*codec)
->       };
->
->       switch (codec->core.vendor_id) {
-> +     case 0x10ec0235:
->       case 0x10ec0255:
->               alc_process_coef_fw(codec, coef0255);
->               break;
-> @@ -1780,6 +1784,7 @@ static void alc_headset_mode_omtp(struct hda_codec =
-*codec)
->       };
->
->       switch (codec->core.vendor_id) {
-> +     case 0x10ec0235:
->       case 0x10ec0255:
->               alc_process_coef_fw(codec, coef0255);
->               break;
-> @@ -1881,6 +1886,7 @@ static void alc_determine_headset_type(struct hda_c=
-odec *codec)
->       }
->
->       switch (codec->core.vendor_id) {
-> +     case 0x10ec0235:
->       case 0x10ec0255:
->               alc_process_coef_fw(codec, coef0255);
->               msleep(300);
+> 
+> This patch depends on new material in linux-next.
+> 
+> If you maintain the code updated by it, please consider ACKing it, so I can
+> pick it up and remove the problematic API replaced by it during the 7.4
+> merge window.
+> 
+> In the absence of feedback, it will be resent again when 7.4-rc1 is out.
+> 
+> Thanks!
 
->I'm not sure whether it's 100% safe to apply this, and I'd like to hear fr=
-om Realtek.
+Acked-by: Takashi Iwai <tiwai@suse.de>
 
->Kailang, could you check it?  Can ALC235 be fully compatible in this manne=
-r?
 
-Yes, it's compatible.
+thanks,
 
->thanks,
-
->Takashi
+Takashi
