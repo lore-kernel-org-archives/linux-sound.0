@@ -1,111 +1,168 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53285418A46;
-	Thu,  1 Oct 2026 03:39:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ABC038DC6C
+	for <linux-sound@vger.kernel.org>; Thu,  1 Oct 2026 06:19:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790825986; cv=none; b=TNFgS+cTA3328QnDXpo02foEiRdVg3fvdehMB6Y76qeMcnHQbzVvUP9+oeh/yHniL7/GAw2sHr4zcrq7A3Cnv5ttbUO+AqmDtq4UG3bHGlDS0F1pYCs7B+cJRvt4/A6bvO2gfIVnWtaF+MIL4Tbt/3UOtW27dIyFMDF3TpB+R2s=
+	t=1790835566; cv=none; b=W4AjXFUkdw0Xe8iORITZByIH30appvoEQdK4L705ZW6NWY3NrIhn4c2jOg9Skc5Gkop3PKR0MIaraOA4btpmmkzJswofbMgihgR+ika6Ee5i87o8mZe3JqYBLtmSCC0fvFqwVKAtaFgRKJqjt1XOerWroMTA4jM2abTFvIyBAnw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790825986; c=relaxed/simple;
-	bh=alMqR61WSySSHU0R9tOXMDjXKPh/00Egxs2DhJQDTXU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ALIf99t18cKTXvb0NTO2tRr5J6zHEAQPiNc2jDbd7sGzJvftbukJD8NzE52R/3oWQL9FoTzqL0BtMXFJkrw+Nt+Y+EhuxHTDlNAVxTZhrvlLLnltGTb6B0xmW+KmT3yVDX89b9n3G5+yUHjpPwMXo2WumUnEPnPBU3lMRMLOCGM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: b59f2860bd4911f19a56ed5b684f684d-20261001
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:1307d609-ff47-421e-bd4b-67ba0fdce688,IP:0,U
-	RL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:25
-X-CID-META: VersionHash:7db8b62,CLOUDID:e687056b9bd124ac6dec0af3955273ce,BulkI
-	D:nil,BulkQuantity:0,SF:102|850|865|898,TC:nil,Content:0|15|50|99,EDM:5,IP
-	:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV
-	:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: b59f2860bd4911f19a56ed5b684f684d-20261001
-X-User: zhangheng@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <zhangheng@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 1514044689; Thu, 01 Oct 2026 11:39:30 +0800
-From: Zhang Heng <zhangheng@kylinos.cn>
-To: tiwai@suse.com,
-	perex@perex.cz,
-	david.rhodes@cirrus.com,
-	rf@opensource.cirrus.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	Zhang Heng <zhangheng@kylinos.cn>,
-	Harry Nixon <harryanixon@yahoo.com>
-Subject: [PATCH] ALSA: hda: Fix speakers on ThinkBook Plus G3 IAP
-Date: Thu,  1 Oct 2026 11:39:20 +0800
-Message-Id: <20261001033920.111061-1-zhangheng@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1790835566; c=relaxed/simple;
+	bh=XgOZL8VL7t8WMhOEN+UNXwfg7OTwlqhbVy0JzjyeRL8=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=JovZFijkv2Wc69RsmB8L9BfGZ0qAxicHBy3v+fXiwubuLaShZDC0cEfMVNhq7jBl0W5OuKQmjFIRJPYrg0Nbt3MWdr59o0QI+CsgtoT+7/NUPvC/YEX/mO1SvRQOstsy8od4j30YpAsSrd4UaD+vcExd/f7pchqLCP3MjgqL3CA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=fPUs9rlo; arc=none smtp.client-ip=211.75.126.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="fPUs9rlo"
+X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 6916Ifh762714209, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
+	t=1790835522; bh=9ZSglyz/2PA/M6l9tvrwTy4CGBHafjl2+NswqSOJdpY=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:MIME-Version;
+	b=fPUs9rlot50l4gxCfxAWAPz/fS7e0uryM5QSOX7bxvS+BfirxvQJCz4Cz3OhpkFpr
+	 J6fFMsdD3zzLIoFuGIDs8/k5fC4Cx21tKDDbBaXAQdE1JKgKifpMgDWHqRHY+Av8Q7
+	 mCrZyskiVsX08q8i4Uus7B+SZVhDG/Uwgh3gZR8j+hWsejDtC2LpdXcDsDjgSFXdzC
+	 JHd1lFNyfMG2IIke5KrXQDtgsgCRn42oIKBVGiaptr2ejK6Z+7GyQ6ZlS0EIw2UhC7
+	 uFksO39a3ri7ZEeGM8zMBBj98Lfarprbmtpz18ugaiKa+tME5XBrR+ralqCd6GLkuY
+	 JuBjXrAYOM4Og==
+Received: from mail.realtek.com (rtkexhmbs04.realtek.com.tw[10.21.1.54])
+	by rtits2.realtek.com.tw (8.15.2/3.29/5.94) with ESMTPS id 6916Ifh762714209
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Thu, 1 Oct 2026 14:18:42 +0800
+Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
+ RTKEXHMBS04.realtek.com.tw (10.21.1.54) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49; Thu, 1 Oct 2026 14:18:41 +0800
+Received: from RTKEXHMBS06.realtek.com.tw ([::1]) by
+ RTKEXHMBS06.realtek.com.tw ([fe80::b3cc:c263:b82d:e87c%10]) with mapi id
+ 15.02.2562.049; Thu, 1 Oct 2026 14:18:41 +0800
+From: Kailang <kailang@realtek.com>
+To: Takashi Iwai <tiwai@suse.de>, Zeyu Li <13776528859@163.com>
+CC: "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>, Takashi Iwai
+	<tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>
+Subject: RE: [PATCH] ALSA: hda/realtek: Add ALC235 support for headset mode
+Thread-Topic: [PATCH] ALSA: hda/realtek: Add ALC235 support for headset mode
+Thread-Index: AQHdT0f361EnBtapw02eXzCCvoImG7boOi9A
+Date: Thu, 1 Oct 2026 06:18:41 +0000
+Message-ID: <f67a320a35814d6eab280dc65d04e039@realtek.com>
+References: <20260926140336.27896-1-13776528859@163.com>
+ <8733ut5ylq.wl-tiwai@suse.de>
+In-Reply-To: <8733ut5ylq.wl-tiwai@suse.de>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Lenovo ThinkBook Plus G3 IAP shares PCI SSID 17aa:3891 with Yoga Pro
-7 14AHP9, but has a different codec SSID (0x17aa3875). Use
-HDA_CODEC_QUIRK to select ALC287_FIXUP_CS35L41_I2C_2 and add ACPI
-_SUB values 17AA3845/17AA3846 to the CS35L41 property table, since
-the BIOS provides no _DSD.
 
-Reported-by: Harry Nixon <harryanixon@yahoo.com>
-Closes: https://bugzilla.kernel.org/show_bug.cgi?id=222053
-Tested-by: Harry Nixon <harryanixon@yahoo.com>
-Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
----
- sound/hda/codecs/realtek/alc269.c                   | 4 ++++
- sound/hda/codecs/side-codecs/cs35l41_hda_property.c | 4 ++++
- 2 files changed, 8 insertions(+)
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index c6ef4fa4ee68..b31d326e5120 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -8354,6 +8354,10 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x17aa, 0x3870, "Lenovo Yoga 7 14ARB7", ALC287_FIXUP_YOGA7_14ARB7_I2C),
- 	SND_PCI_QUIRK(0x17aa, 0x3871, "Lenovo ThinkBook 16p Gen 3 ARH", ALC287_FIXUP_YOGA7_14ARB7_I2C),
- 	SND_PCI_QUIRK(0x17aa, 0x3874, "Legion 7i 16IAX7", ALC287_FIXUP_CS35L41_I2C_2),
-+	/* Lenovo ThinkBook Plus G3 IAP shares PCI SSID 17aa:3891 with Lenovo Yoga
-+	 * Pro 7 14AHP9; use codec SSID to distinguish them.
-+	 */
-+	HDA_CODEC_QUIRK(0x17aa, 0x3875, "ThinkBook Plus G3 IAP", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x17aa, 0x3877, "Lenovo Legion 7 Slim 16ARHA7", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x17aa, 0x3878, "Lenovo Legion 7 Slim 16ARHA7", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x17aa, 0x387d, "Yoga S780-16 pro Quad AAC", ALC287_FIXUP_TAS2781_I2C),
-diff --git a/sound/hda/codecs/side-codecs/cs35l41_hda_property.c b/sound/hda/codecs/side-codecs/cs35l41_hda_property.c
-index 416d7bf3e289..bb30bf786818 100644
---- a/sound/hda/codecs/side-codecs/cs35l41_hda_property.c
-+++ b/sound/hda/codecs/side-codecs/cs35l41_hda_property.c
-@@ -126,6 +126,8 @@ static const struct cs35l41_config cs35l41_config_table[] = {
- 	{ "10433A60", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 1000, 4500, 24 },
- 	{ "17AA3865", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, -1, -1, 0, 0, 0 },
- 	{ "17AA3866", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, -1, -1, 0, 0, 0 },
-+	{ "17AA3845", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, -1, -1, 0, 0, 0 },
-+	{ "17AA3846", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, -1, -1, 0, 0, 0 },
- 	{ "17AA386E", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 2, -1, 0, 0, 0 },
- 	{ "17AA386F", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, -1, -1, 0, 0, 0 },
- 	{ "17AA3874", 2, EXTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, -1, -1, 0, 0, 0 },
-@@ -551,6 +553,8 @@ static const struct cs35l41_prop_model cs35l41_prop_model_table[] = {
- 	{ "CSC3551", "10433A40", generic_dsd_config },
- 	{ "CSC3551", "10433A50", generic_dsd_config },
- 	{ "CSC3551", "10433A60", generic_dsd_config },
-+	{ "CSC3551", "17AA3845", generic_dsd_config },
-+	{ "CSC3551", "17AA3846", generic_dsd_config },
- 	{ "CSC3551", "17AA3865", generic_dsd_config },
- 	{ "CSC3551", "17AA3866", generic_dsd_config },
- 	{ "CSC3551", "17AA386E", generic_dsd_config },
--- 
-2.25.1
+-----Original Message-----
+From: Takashi Iwai <tiwai@suse.de>=20
+Sent: Monday, September 28, 2026 8:50 PM
+To: Zeyu Li <13776528859@163.com>
+Cc: linux-sound@vger.kernel.org; Takashi Iwai <tiwai@suse.com>; Jaroslav Ky=
+sela <perex@perex.cz>; Kailang <kailang@realtek.com>
+Subject: Re: [PATCH] ALSA: hda/realtek: Add ALC235 support for headset mode
 
+
+External mail : This email originated from outside the organization. Do not=
+ reply, click links, or open attachments unless you recognize the sender an=
+d know the content is safe.
+
+
+
+On Sat, 26 Sep 2026 15:58:00 +0200,
+Zeyu Li wrote:
+>
+> The ALC235 (0x10ec0235) is registered as the ALC255 codec variant in=20
+> patch_alc269(), but the headset mode functions were missing a case for=20
+> it, so the CTIA/OMTP jack type detection and routing never ran on this=20
+> codec. As a result, a plugged-in headset is detected (jack presence=20
+> works) but the microphone signal is never routed, leaving the capture=20
+> stream permanently silent.
+>
+> Verified on an ASUS M5451GA laptop (HDA:10ec0235,10431814): with the
+> ALC255 coef sequence applied, the headset microphone works correctly.
+>
+> Signed-off-by: Zeyu Li <13776528859@163.com>
+> ---
+>  sound/hda/codecs/realtek/realtek.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>
+> diff --git a/sound/hda/codecs/realtek/realtek.c=20
+> b/sound/hda/codecs/realtek/realtek.c
+> index db365a746..bc5226fad 100644
+> --- a/sound/hda/codecs/realtek/realtek.c
+> +++ b/sound/hda/codecs/realtek/realtek.c
+> @@ -1292,6 +1292,7 @@ static void alc_headset_mode_unplugged(struct hda_c=
+odec *codec)
+>       }
+>
+>       switch (codec->core.vendor_id) {
+> +     case 0x10ec0235:
+>       case 0x10ec0255:
+>               alc_process_coef_fw(codec, coef0255);
+>               break;
+> @@ -1407,6 +1408,7 @@ static void alc_headset_mode_mic_in(struct hda_code=
+c *codec, hda_nid_t hp_pin,
+>       };
+>
+>       switch (codec->core.vendor_id) {
+> +     case 0x10ec0235:
+>       case 0x10ec0255:
+>               alc_write_coef_idx(codec, 0x45, 0xc489);
+>               snd_hda_set_pin_ctl_cache(codec, hp_pin, 0); @@ -1562,6=20
+> +1564,7 @@ static void alc_headset_mode_default(struct hda_codec *codec)
+>               alc_process_coef_fw(codec, coef0225);
+>               alc_hp_enable_unmute(codec, 75);
+>               break;
+> +     case 0x10ec0235:
+>       case 0x10ec0255:
+>               alc_process_coef_fw(codec, coef0255);
+>               break;
+> @@ -1663,6 +1666,7 @@ static void alc_headset_mode_ctia(struct hda_codec =
+*codec)
+>       };
+>
+>       switch (codec->core.vendor_id) {
+> +     case 0x10ec0235:
+>       case 0x10ec0255:
+>               alc_process_coef_fw(codec, coef0255);
+>               break;
+> @@ -1780,6 +1784,7 @@ static void alc_headset_mode_omtp(struct hda_codec =
+*codec)
+>       };
+>
+>       switch (codec->core.vendor_id) {
+> +     case 0x10ec0235:
+>       case 0x10ec0255:
+>               alc_process_coef_fw(codec, coef0255);
+>               break;
+> @@ -1881,6 +1886,7 @@ static void alc_determine_headset_type(struct hda_c=
+odec *codec)
+>       }
+>
+>       switch (codec->core.vendor_id) {
+> +     case 0x10ec0235:
+>       case 0x10ec0255:
+>               alc_process_coef_fw(codec, coef0255);
+>               msleep(300);
+
+>I'm not sure whether it's 100% safe to apply this, and I'd like to hear fr=
+om Realtek.
+
+>Kailang, could you check it?  Can ALC235 be fully compatible in this manne=
+r?
+
+Yes, it's compatible.
+
+>thanks,
+
+>Takashi
