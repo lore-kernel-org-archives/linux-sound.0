@@ -1,77 +1,87 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 463E53DAAC2;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BF6C3CBE6E;
 	Thu,  1 Oct 2026 11:05:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790852705; cv=none; b=NQOH6ag0OvqZy4S4r3gM9Q9iecAaqIDumAwsaUQ48iAIunP86kHWK/PzS5KEHR2ApJjHLi2GJqGKQ5vEjLESYyb5JjlGaknjeTX5T8I+/8zad4UPOxIUxDMf62kAPcIZ3OU1jcWonAtMmHzjBytaQtwUiOoLaqDrEzLT27acsKw=
+	t=1790852706; cv=none; b=b17aF5431tJVvWHS2poSoGH9So/+VIboDXy5OvQjjJ9UBKUvewzm6OVhxYPzeXE1Sui9ij2jsOHJSmo6JnARYnuBrOTp+2y0BxUrzEDC2V8ZrKMRUW+ZIF5p1mUUpNma1qySYLwKETIGynQe6ZTEySD014QFjrZi2EYf/pJdzx0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790852705; c=relaxed/simple;
-	bh=rK0HPn5cp2dDiduSOYwtyYQ+l97hfG1niLDCy7PnL2Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TIXX2h+/kC+ii7a/OUUztXx1k0PTGKGmKd1cVDB7P/gHNrJW6AnTU2Dd2+d5IthDRe/TU1nyYqKBZw4EWruLrrF1224nwjzlQdqf2B5q25KsFNCcwMo6XizNhfn5ANZf4mzuTV8px7W10XTQNJMaRMFiU/N/uTKQfPjPE9tgClw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=gCBBohvQ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=aECSiyZZ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Z7GrDx1q; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=eD3xrxre; arc=none smtp.client-ip=195.135.223.130
+	s=arc-20240116; t=1790852706; c=relaxed/simple;
+	bh=h69h47t/swlNqmgiLe5qUpUYBRHjeFJo8DSRHjhbdfw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=egyDdugC76M1nrE82A7EU1lMgfJug2KrFPQTlVGrH8JEBqZ8mBttnMIKSjJQwEgcRiJj7YguoTeikNBR0U+ns9hSiIah1MrjkbZGqFe0IkpPL9zmaRd6WZSu8Yu1P5GivYLDzNPzhvUKGoSaGUc2uIfVJXKKkVBs5WGHRn6xdjY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=vPMbznUc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=64KrguFq; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=d5G54yKe; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=EUhNX1XH; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="gCBBohvQ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="aECSiyZZ";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Z7GrDx1q";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="eD3xrxre"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="vPMbznUc";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="64KrguFq";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="d5G54yKe";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="EUhNX1XH"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 1969521D20;
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 38E4B1FCEA;
 	Thu,  1 Oct 2026 11:04:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1790852698; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=t7ftVT9LQBDsfWdvUEJ90oqJ/KFlxuXZQBEzMwhC30k=;
-	b=gCBBohvQETmpQYhc5jkVzdRwhLDq6fU5UUu0v2Dnl+1JcSirfNAEQ7l26g8XI4223OV1w8
-	sIDeqVBBHGnf6wgGeTH2QkWN5KWyJgVka402zRhh2NstFzlhFsVzABPaRREQ+XFSBo2axD
-	+u7/idbPMONFhS5E1pzHv2Zast7SivE=
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=emGjFXFwt6R85iLh7ylHvrRJLMjdhWZJ8MnTVw1hL5Y=;
+	b=vPMbznUc1v+I5s545p2w9D/FYSy1ydzFvOxGvUbUi74PxBrywSh8R5ITiOTTNhoH42TBhH
+	zH3xFm6nKUyjRsHQNTmfGVPplOTA+ACnBhI7fhznz4jLl6ZsoiYjGZCbYwmH+17IR0WAau
+	ANwMaTPPMgfhkHSzoBjfOZf3CFbNIiQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1790852698;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=t7ftVT9LQBDsfWdvUEJ90oqJ/KFlxuXZQBEzMwhC30k=;
-	b=aECSiyZZLQPLrRIqlvaOEzWLs9AwUWw/C2GS/0XOsyej0o18QMh9+V6SI1vFiGzJswExPY
-	L2iEtN9f4PIZITDA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Z7GrDx1q;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=eD3xrxre
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=emGjFXFwt6R85iLh7ylHvrRJLMjdhWZJ8MnTVw1hL5Y=;
+	b=64KrguFqnz1fg9QGxFuN9XFcuzDqa8+66AO199sGB/V50SoF66CadZpOlssquMJYo5BZI4
+	SNmygzAfv1hUr6CA==
+Authentication-Results: smtp-out2.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1790852694; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=t7ftVT9LQBDsfWdvUEJ90oqJ/KFlxuXZQBEzMwhC30k=;
-	b=Z7GrDx1qcPusIoMLDd8Pq5Me8A6Vz2dEcPQwS4xy1IHNWo++wnSKI6V/OJvHSxpKzy+mtj
-	H5O39q3dpKgVdIIbdAnZk/MSHsTLPLi6b/Wcjcyj1hkB0bnTZGQ5W5Mgl15sA4kvmPucG/
-	093zA2hpssW9IlPMYVlVsVMqXrOx35Q=
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=emGjFXFwt6R85iLh7ylHvrRJLMjdhWZJ8MnTVw1hL5Y=;
+	b=d5G54yKezi3jjXS+1WbhE09gPt3bAY5j7OEIrcFOQNrbR/uc9tWo609VG0U1R45cDk5pfZ
+	bIiAlG21r7ML6XoIeFUJ/bFuRTEofieIPNXwp9uHXaVsZzhD1j9AlRzpYf6GEo8iZStwnv
+	NTWpZG9qHa3Ko9LrQtlo+Zjgjbx04pw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1790852694;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=t7ftVT9LQBDsfWdvUEJ90oqJ/KFlxuXZQBEzMwhC30k=;
-	b=eD3xrxreE9lFsRZWei/K0T6PDgJOKcJLY3Do9yqUGXxfLvNuARtU+Nr+P1jcIPk4h2YFYo
-	Be6q8UeNCkkkoHAw==
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=emGjFXFwt6R85iLh7ylHvrRJLMjdhWZJ8MnTVw1hL5Y=;
+	b=EUhNX1XHqpJLyqNGaC9k2e7SnoNQr5zRrRCFim92Uel5PSC/U0fF6GcRmnQAzkVhOBRTXN
+	oF8xBAPtYY3xoSBw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BE4C2134B3;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E516D13B5B;
 	Thu,  1 Oct 2026 11:04:53 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id mU58HFU+vmqGEgAAD6G6ig
+	id mU58HFU+vmqGEgAAD6G6ig:T2
 	(envelope-from <tiwai@suse.de>); Thu, 01 Oct 2026 11:04:53 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org
-Subject: [PATCH 00/32] ALSA: Use auto-cleanup for probe card error handling
-Date: Thu,  1 Oct 2026 13:03:40 +0200
-Message-ID: <20261001110447.486782-1-tiwai@suse.de>
+Subject: [PATCH 01/32] ALSA: galaxy: Use auto-cleanup for probe card error handling
+Date: Thu,  1 Oct 2026 13:03:41 +0200
+Message-ID: <20261001110447.486782-2-tiwai@suse.de>
 X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20261001110447.486782-1-tiwai@suse.de>
+References: <20261001110447.486782-1-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -79,123 +89,73 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 1969521D20
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.998];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	RCPT_COUNT_TWO(0.00)[2];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_TLS_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_EQ_ENVFROM(0.00)[];
 	TO_DN_NONE(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
+	RCVD_TLS_ALL(0.00)[]
 X-Spam-Flag: NO
-X-Spam-Score: -3.01
+X-Spam-Score: -2.80
 X-Spam-Level: 
 
-here is a series of trivial changes as a cleanup.
+Instead of the manual call of snd_card_free_on_error(), use the
+auto-cleanup feature.
 
-So far, many sound drivers use the manual call of
-snd_card_free_on_error() helper in order to deal with the errors at
-probe time.  This can be gracefully done via auto-cleanup, and here
-are the conversions.
+Merely a code cleanup, and no functional changes.
 
-Only code refactoring, and no functional changes are expected.
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ sound/isa/galaxy/galaxy.c | 10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
 
-
-Takashi
-
-===
-
-Takashi Iwai (32):
-  ALSA: galaxy: Use auto-cleanup for probe card error handling
-  ALSA: sc6000: Use auto-cleanup for probe card error handling
-  ALSA: ad1889: Use auto-cleanup for probe card error handling
-  ALSA: ali5451: Use auto-cleanup for probe card error handling
-  ALSA: als4000: Use auto-cleanup for probe card error handling
-  ALSA: atiixp: Use auto-cleanup for probe card error handling
-  ALSA: au88x0: Use auto-cleanup for probe card error handling
-  ALSA: azt3328: Use auto-cleanup for probe card error handling
-  ALSA: bt87x: Use auto-cleanup for probe card error handling
-  ALSA: ca0106: Use auto-cleanup for probe card error handling
-  ALSA: cs4281: Use auto-cleanup for probe card error handling
-  ALSA: cs5535audio: Use auto-cleanup for probe card error handling
-  ALSA: echoaudio: Use auto-cleanup for probe card error handling
-  ALSA: emu10k1x: Use auto-cleanup for probe card error handling
-  ALSA: ens137x: Use auto-cleanup for probe card error handling
-  ALSA: es1938: Use auto-cleanup for probe card error handling
-  ALSA: es1968: Use auto-cleanup for probe card error handling
-  ALSA: fm801: Use auto-cleanup for probe card error handling
-  ALSA: ice1724: Use auto-cleanup for probe card error handling
-  ALSA: intel8x0: Use auto-cleanup for probe card error handling
-  ALSA: lola: Use auto-cleanup for probe card error handling
-  ALSA: maestro3: Use auto-cleanup for probe card error handling
-  ALSA: oxygen: Use auto-cleanup for probe card error handling
-  ALSA: riptide: Use auto-cleanup for probe card error handling
-  ALSA: rme32: Use auto-cleanup for probe card error handling
-  ALSA: rm96: Use auto-cleanup for probe card error handling
-  ALSA: sis7019: Use auto-cleanup for probe card error handling
-  ALSA: sonicbibes: Use auto-cleanup for probe card error handling
-  ALSA: via82xx: Use auto-cleanup for probe card error handling
-  ALSA: ymfpci: Use auto-cleanup for probe card error handling
-  ALSA: intel-hdmi-audio: Use auto-cleanup for probe card error handling
-  ALSA: Drop unused snd_card_free_on_error()
-
- include/sound/core.h                |  1 -
- sound/core/init.c                   | 36 ++++++-----------------------
- sound/isa/galaxy/galaxy.c           | 10 +++-----
- sound/isa/sc6000.c                  | 10 +++-----
- sound/pci/ad1889.c                  | 13 ++++-------
- sound/pci/ali5451/ali5451.c         | 13 ++++-------
- sound/pci/als4000.c                 | 13 ++++-------
- sound/pci/atiixp.c                  | 13 ++++-------
- sound/pci/atiixp_modem.c            | 13 ++++-------
- sound/pci/au88x0/au88x0.c           | 11 +++------
- sound/pci/azt3328.c                 | 11 +++------
- sound/pci/bt87x.c                   | 13 ++++-------
- sound/pci/ca0106/ca0106_main.c      | 11 +++------
- sound/pci/cs4281.c                  | 13 ++++-------
- sound/pci/cs5535audio/cs5535audio.c | 13 ++++-------
- sound/pci/echoaudio/echoaudio.c     | 14 ++++-------
- sound/pci/emu10k1/emu10k1x.c        | 13 ++++-------
- sound/pci/ens1370.c                 | 13 ++++-------
- sound/pci/es1938.c                  | 13 ++++-------
- sound/pci/es1968.c                  | 13 ++++-------
- sound/pci/fm801.c                   | 13 ++++-------
- sound/pci/ice1712/ice1724.c         | 13 ++++-------
- sound/pci/intel8x0.c                | 14 ++++-------
- sound/pci/intel8x0m.c               | 13 ++++-------
- sound/pci/lola/lola.c               | 13 ++++-------
- sound/pci/maestro3.c                | 11 +++------
- sound/pci/oxygen/oxygen_lib.c       | 15 +++---------
- sound/pci/riptide/riptide.c         | 11 +++------
- sound/pci/rme32.c                   | 11 +++------
- sound/pci/rme96.c                   | 13 ++++-------
- sound/pci/sis7019.c                 | 13 ++++-------
- sound/pci/sonicvibes.c              | 13 ++++-------
- sound/pci/via82xx.c                 | 13 ++++-------
- sound/pci/via82xx_modem.c           | 13 ++++-------
- sound/pci/ymfpci/ymfpci.c           | 13 ++++-------
- sound/x86/intel_hdmi_audio.c        | 10 +++-----
- 36 files changed, 134 insertions(+), 328 deletions(-)
-
+diff --git a/sound/isa/galaxy/galaxy.c b/sound/isa/galaxy/galaxy.c
+index b0f1562d0fc0..12d4de58bb6e 100644
+--- a/sound/isa/galaxy/galaxy.c
++++ b/sound/isa/galaxy/galaxy.c
+@@ -478,11 +478,11 @@ static void snd_galaxy_free(struct snd_card *card)
+ 		galaxy_set_config(galaxy, galaxy->config);
+ }
+ 
+-static int __snd_galaxy_probe(struct device *dev, unsigned int n)
++static int snd_galaxy_probe(struct device *dev, unsigned int n)
+ {
+ 	struct snd_galaxy *galaxy;
+ 	struct snd_wss *chip;
+-	struct snd_card *card;
++	struct snd_card *card __free(snd_card_unref) = NULL;
+ 	u8 type;
+ 	int err;
+ 
+@@ -595,14 +595,10 @@ static int __snd_galaxy_probe(struct device *dev, unsigned int n)
+ 		return err;
+ 
+ 	dev_set_drvdata(dev, card);
++	card = NULL; /* probe succeeded, don't release as error */
+ 	return 0;
+ }
+ 
+-static int snd_galaxy_probe(struct device *dev, unsigned int n)
+-{
+-	return snd_card_free_on_error(dev, __snd_galaxy_probe(dev, n));
+-}
+-
+ static struct isa_driver snd_galaxy_driver = {
+ 	.match		= snd_galaxy_match,
+ 	.probe		= snd_galaxy_probe,
 -- 
 2.55.0
 
