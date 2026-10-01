@@ -1,153 +1,96 @@
-Received: from mail-oo2-f36.google.com (mail-oo2-f36.google.com [74.125.231.164])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F30D495515
-	for <linux-sound@vger.kernel.org>; Thu,  1 Oct 2026 21:11:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.231.164
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790889104; cv=pass; b=j/mR3Q6kgaFsylmPa7IzsLIsaHh+YGAg4P/yw/z5EWNiybuCn3678MbZwtXm6VPq1rW1Njh2basvZ7bmcv2BULMIN/3UZi58fa4rWXIydp4Ak1xDFb65WaWf9WvoTPi1vxfzJI635iUGbn3qLIB8Tam1gdq5BG5P1GKVnB7jzek=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790889104; c=relaxed/simple;
-	bh=Ik+DBM21R/jxw2hg5gwTR0MP605oy9En+2UQnCx6kfM=;
-	h=MIME-Version:From:In-Reply-To:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=X7NxXePBpatDqV4fW5RkNkdwUecdciCVXf5zWSy9F3ot1G9o8dURMpflCDqqi6aREDQfNoiztkqGRZEejS6BPx1fu8sxlwEvIm5F4ET8m79hh0mtNfzWWL+FufY156o58Ypm9L8+ixjy1IZp8/AgbxlkQ8Zg3eb9JvhZj1wTWRo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VZf0oQes; arc=pass smtp.client-ip=74.125.231.164
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A436B2D1F40;
+	Thu,  1 Oct 2026 22:33:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790894040; cv=none; b=dIg7GX/p4M8QZy1YjVxPnWxOQ7Lv9NFySJFrlth3UPqgBwKCi9DYoTMnKKFj/ugnHf07C0p6p0A6R6C75kI4SWCBGyMixaFKEl8p/QK+Mdn0snjiVoZckKseKJYS178ZUib9y5NJ8bmi8r+FfUz7R6wc1Ur4i2SwjU/ZzUC83Pc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790894040; c=relaxed/simple;
+	bh=rn3NRkbUS8gfhirwNTFRWgIl9kORmKCukJcbc6B0Hgs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EKSZs4x3LvCVs49PEdrG8lQRwcx0iy6yEztaaArYnkk2fS2XX11aIm1T1DN49vt8WwY21bLJvDHnJBPq/+0GehvcSVbkZXggSwisLGa3x161gRrGI9YlEvlXMsktRDaqhe+9gWMhetI/IV173KTNU+DlHP+dYQvRmNeYQjjn6FQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SnWGISAp; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VZf0oQes"
-Received: by mail-oo2-f36.google.com with SMTP id 006d021491bc7-6dcf9ea1bfeso169768eaf.0
-        for <linux-sound@vger.kernel.org>; Thu, 01 Oct 2026 14:11:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790889101; cv=none;
-        d=google.com; s=arc-20260327;
-        b=qTGwu0nM2c5uPNrLR8C/epzwM75UHRJg05934bvKYCHdAIdLtM7WdEpcCdoTlI2jRL
-         H0Qz9a0u5KYml/YOxCBi/vsJm0iDiyAQ4UditlbSE67nu28QKOdEMaNWfgoa3GSplAms
-         175AKOM32chkdxBa5bBgJuaQsri7po2Ns/OPV+kigaprD5ildZ/XWZrhtZnfWSBne93r
-         +MmTX6Lx/r+6ziSiuK7ccqmydsP+9GP4ckuLBJabmVGDM18fYxwJArjhl2nlNZegecEN
-         w7UY4OFYQ4nm8hZOerx224C8bcfbeDoJPZ3T9keau3grNSYaQzb7236nk+bhzCYPVa13
-         gq5g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:references:in-reply-to:from
-         :mime-version:dkim-signature;
-        bh=oZctRr8zoPKp/E3Dg+UTNYLjUUSntHgHjArjfLIumMY=;
-        fh=+2HJ3iCAjOtMWnYQ3B7+FGMnMx6FHYBBep5Nw2t65Cc=;
-        b=bTwXRtzbtYR5Esn9dDr4lWhd5HmCg+hMIZ6IAYqplXSEiB39s3KYjeEivkJsdkakAu
-         yMG/lEKRv5JL0X9zC4+R9YqLTalVnzQbIKYrrztkGx/orjUh1sC3q9Gnk2QUjiKEPd7a
-         cXwUoea0x8NTgf7Z/HYnMDW8wORQWQkSA80HWVbdAyuexIHOW74cxYYPpzC8nsNe91gX
-         kON6i0FM9yOv+5dgv4R0Uchl5pX47j02BUwyUHlpdBk2plm9GF078PJc35cfClZ6h+c8
-         6Qs1y82q7RMYqNBjtVJpYyYMPeSeERN4x587o7m6sDHKtG7yvNT35QwVi7PK+02r9mxy
-         Lwjg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790889101; x=1791493901; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:references:in-reply-to
-         :from:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=oZctRr8zoPKp/E3Dg+UTNYLjUUSntHgHjArjfLIumMY=;
-        b=VZf0oQesTgl69AMD6qkXGbjt+xJiF8eZGFOwCPZlJTfrGp1G+2akOMgJXPBOjJCNAG
-         2xWNQEZwYOn1QBUrCQL/5+HD0AquYhAKAbE3mTKOVrE+2Ux3hQ/kOtKF0i8iN5M3U9/I
-         C5AKdf8p0UwjqL3xebrldKTTBHTa2zc2ftd6VFMABKg2qoWHP0T0U+NL9b4z/SNgDIg9
-         Ay1TI7S//TkzQ7cQv8nq636cufoyO1SRCXIr5yGb21Lre0zszERSbaSvTjYCSeBY9dli
-         MyA5jKVjIuMcDPKLXZIjKtSYb3YX/owkA5jUZWMycaRyHu/U4zRD7Uo8UFQOrqSLqmfV
-         ZPQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790889101; x=1791493901;
-        h=content-type:cc:to:subject:message-id:date:references:in-reply-to
-         :from:mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=oZctRr8zoPKp/E3Dg+UTNYLjUUSntHgHjArjfLIumMY=;
-        b=MDiDu0kw40imheK20pmz02O5Y5iR8W1jF3oRjuWvI4alf/vLSj/qNbdUdN0r2kAdi6
-         OMfNKSmDVqbJPNF2CoAxv5s3tuvVZpZRR8GiDMoaSuPDAFt+Pf4NeOnwQMQpQU6WAXAD
-         fMBwEFWEsr0ktoQvjlvx3QGX8rxNd6KiLcKD+kQYV1xjUYwXhBx0HzrB7loT+2KXgSWj
-         PzVXO4rc/igkAvXFCNBZmGWWLrEpkMXYCaD3Vrd4HnZcohW+x/Kkj58nEFn4yM1Yj5s8
-         pq3Bm2e1tCmLcyiHCs89Z08D2VZjE0V5A9cyPREfbM2KXD+LGQrLC3PtE61Ifpv+wQ4Y
-         lP0Q==
-X-Forwarded-Encrypted: i=1; AKwUvBzIZjlq9L8q0aA+QepMeKdmUIptUnlb/W8FvaZ97Ievb7HFjIuctsVWRBHtxB+0adOqz9na5YPdhHe9yQ==@vger.kernel.org
-X-Gm-Message-State: AFuF++maRpGDD8fD0i7UBI99+SmdOEALDRRw3DUJ63MJKHQGdKznDHJR
-	n7x0L9ySfkV+K96sQA3JbwSz8nVKfk407T+ABC15Km6Ou7Q11/cQJLc4n7plvaP2rdtp3yKrHuC
-	S9Rnn6AcHvDExvHj8xKo4td/fdOLBzCo=
-X-Gm-Gg: AYBFou0q3rlXmyFyxH6NLuKgDHxkma1i20S+hn7J7abeHPJkHCcE7YREV7YWXDzEzAn
-	gCiWqNY4mrTEAG3rywjK8qVdyNV/c5kVzv4usJkwfjxcVBA7D7Rn3ViJZhYx+dKqNYmQNT31are
-	rPoMhoeJm06w35WzfClWQkVaceY81M9tgEu2y4+SI/DuhTgQ8wpI7eQyy30MJNERrESbp4oYfsE
-	ms00FeWiOF8ngSlx79PzRTqYxAPO7aFSVaQzxISYAVK6isdSg3H9gQzavDqRuDx+1wwznPx1d1M
-	6c3wLjZbFDdpyKqH2zvMz2xmTO2XYIgetybfS40sHLe1dlhtd3gsQfIrFSZXWVImDD0CNjlXyYZ
-	uk2x5R7jpOmbS+P6epUnQSVv3lO82W9PP
-X-Received: by 2002:a05:6820:1787:b0:6b7:46e9:970d with SMTP id
- 006d021491bc7-6df34d68bf8mr574186eaf.61.1790889100787; Thu, 01 Oct 2026
- 14:11:40 -0700 (PDT)
-Received: from 77377267392 named unknown by gmailapi.google.com with HTTPREST;
- Thu, 1 Oct 2026 17:11:40 -0400
-Received: from 77377267392 named unknown by gmailapi.google.com with HTTPREST;
- Thu, 1 Oct 2026 17:11:40 -0400
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SnWGISAp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1790894038; x=1822430038;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=rn3NRkbUS8gfhirwNTFRWgIl9kORmKCukJcbc6B0Hgs=;
+  b=SnWGISAp9fAAmpexDkFnTMaxZXgyNeVAyWXbt3LLkLi8CfOomZw/wvr4
+   5sRt35F6zJmgBQJETJUyMuOCynYTPhuOsQ9uA7xiHyX55lBC56xDnxNIx
+   BO0VdKPMIwhZpKpvwL4w0DO5Ogu1jQjdNEuRnhe93T1A7M6UEtlfYyHqV
+   XeL4eON6huR44zDu9692CIRpGiYPp3h+eWlfEjH7QOplk7tAByI06IEGn
+   sSTPIJy1u/YwQe9vflGXR6oDzLrhm9qb8mz3G2pzq37VSHnXGbZN2EpPx
+   ScbNNa7antqcGmDwKE9c3ZdjBrTmYtqtR8H2n5w/GaJJGJX3nkwghCcpE
+   Q==;
+X-CSE-ConnectionGUID: 2+xu8MwLQsaJd5/AUHa6jg==
+X-CSE-MsgGUID: xImDsaIhQFGJ/8ZmkrK4yg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11922"; a="94377381"
+X-IronPort-AV: E=Sophos;i="6.27,135,1787036400"; 
+   d="scan'208";a="94377381"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2026 15:33:57 -0700
+X-CSE-ConnectionGUID: 3xOw04JjSHO60sZAwzj+LA==
+X-CSE-MsgGUID: PwAehYMKQJuJ4WTffmeSzw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,135,1787036400"; 
+   d="scan'208";a="273933416"
+Received: from ettammin-mobl2.ger.corp.intel.com (HELO [10.245.244.120]) ([10.245.244.120])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2026 15:33:55 -0700
+Message-ID: <92d80a55-4422-4659-8f2d-e28693d6d9d7@linux.intel.com>
+Date: Fri, 2 Oct 2026 01:33:52 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: mauriziocasciano7@gmail.com
-In-Reply-To: <SJ2PR11MB842437F022D1F62A2A527297FF802@SJ2PR11MB8424.namprd11.prod.outlook.com>
-References: <20260925003030.1077471-1-mauriziocasciano7@gmail.com>
- <20260925003030.1077471-3-mauriziocasciano7@gmail.com> <SJ2PR11MB842437F022D1F62A2A527297FF802@SJ2PR11MB8424.namprd11.prod.outlook.com>
-Date: Thu, 1 Oct 2026 17:11:40 -0400
-X-Gm-Features: AclHuK9Z9xOsdb809jMX0x6_UphEwJuuq2Ji_72Tc7ViJlwAlS411GWAZxH8rw0
-Message-ID: <CAO7O_xiEx85cDEqF4e76Hy+J8e9jsBUaoY8G_We_JFcf4kFBBQ@mail.gmail.com>
-Subject: Re: [PATCH v8 2/2] ASoC: Intel: cht: Add Yoga Book RT5677 machine entry
-To: bard.liao@intel.com, broonie@kernel.org, linux-sound@vger.kernel.org
-Cc: cezary.rojewski@intel.com, liam.r.girdwood@linux.intel.com, 
-	peter.ujfalusi@linux.intel.com, yung-chuan.liao@linux.intel.com, 
-	kai.vehmanen@linux.intel.com, pierre-louis.bossart@linux.dev, perex@perex.cz, 
-	tiwai@suse.com, jekhor@gmail.com, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 0/5] Add larger page size support for USB audio offload
+ path
+To: Wesley Cheng <wesley.cheng@oss.qualcomm.com>,
+ Mathias Nyman <mathias.nyman@intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Michal Pecio <michal.pecio@gmail.com>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-sound@vger.kernel.org, =?UTF-8?B?6IOh6L+e5Yuk?= <hulianqin@vivo.com>
+References: <20260909-16k_offload_v1_b4-v4-0-f24a86617597@oss.qualcomm.com>
+ <d7ce8b23-64c0-43dd-a8c8-268224b9462c@oss.qualcomm.com>
+Content-Language: en-US
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+In-Reply-To: <d7ce8b23-64c0-43dd-a8c8-268224b9462c@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Bard, all,
+On 10/1/26 01:23, Wesley Cheng wrote:
+> 
+> Hi Mathias,
+> 
+> Just checking to see if there was anything that we needed to account for in this series?  I think there was the discussion that came up here:
+> https://lore.kernel.org/all/TYUPR06MB6217000B59003EDF233D7246D2B22@TYUPR06MB6217.apcprd06.prod.outlook.com/
 
-The SOF topology pull request has been merged into the stable-v2.15
-branch and is scheduled for SOF v2.15:
+Patch v4 1/5: Looks good, is useful even as a standalone patch. Can be taken immediately.
+Patch v4 2/5: Looks good, not useful as standalone patch, can be taken with rest of series.
+Patch v4 3/5: I need to revisit this and look at new dma pool lifetime vs xHC accessing those DMA addresses.
+PAtch v4 Rest:  ALSA, no opinion.
 
-https://github.com/thesofproject/sof/pull/11129
+> 
+> But, I think your suggestion about adding the sideband check in the xhci_setup_device() would mitigate that problem.  Esp, if we don't want xHCI core to really know about sideband ops.
 
-With Best Regards,
-Maurizio Casciano
+That would be the bandaid in:
+https://lore.kernel.org/all/c6c9890f-46d8-42f1-a7e7-8a5d551fa22c@linux.intel.com/
 
+I can turn that into a proper patch.
+Lianqin also gave some preliminary positive feedback, but I'm not sure if the code was
+ever properly tested.
 
-On Fri, 25 Sep 2026 14:05:57 +0000, "Liao, Bard" <bard.liao@intel.com> wrote:
-> > -----Original Message-----
-> > From: Maurizio Casciano <mauriziocasciano7@gmail.com>
-> > Sent: Friday, September 25, 2026 8:31 AM
-> > To: Mark Brown <broonie@kernel.org>; linux-sound@vger.kernel.org
-> > Cc: Rojewski, Cezary <cezary.rojewski@intel.com>; Liam Girdwood
-> > <liam.r.girdwood@linux.intel.com>; Peter Ujfalusi
-> > <peter.ujfalusi@linux.intel.com>; Yung-Chuan Liao <yung-
-> > chuan.liao@linux.intel.com>; Kai Vehmanen <kai.vehmanen@linux.intel.com>;
-> > Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>; Jaroslav Kysela
-> > <perex@perex.cz>; Takashi Iwai <tiwai@suse.com>; Yauhen Kharuzhy
-> > <jekhor@gmail.com>; linux-kernel@vger.kernel.org; Maurizio Casciano
-> > <mauriziocasciano7@gmail.com>
-> > Subject: [PATCH v8 2/2] ASoC: Intel: cht: Add Yoga Book RT5677 machine entry
-> >
-> > The Yoga Book YB1-X91F/L exposes its RT5677 codec as ACPI device
-> > 10EC5677. Add a Cherry Trail machine-table entry that supplies the legacy
-> > SST firmware and board names and the SOF topology name.
-> >
-> > The Intel DSP configuration selects one firmware path at probe time. SST
-> > loads intel/fw_sst_22a8.bin and uses the cht_rt5677 board name; SOF loads
-> > sof-cht-rt5677.tplg through the standard firmware search path. The same
-> > kernel and machine entry were boot-tested with both paths on a YB1-X91L.
-> >
-> > The SOF topology sources are maintained and distributed separately by the
-> > SOF project.
->
-> Please submit the topology PR on https://github.com/thesofproject/sof,
-> too. Otherwise, there will be no topology available for the SOF.
->
-> >
-> > Assisted-by: LLM
-> > Co-developed-by: Yauhen Kharuzhy <jekhor@gmail.com>
-> > Signed-off-by: Yauhen Kharuzhy <jekhor@gmail.com>
-> > Signed-off-by: Maurizio Casciano <mauriziocasciano7@gmail.com>
-> > ---
-> >  sound/soc/intel/common/soc-acpi-intel-cht-match.c | 8 ++++++++
-> >  1 file changed, 8 insertions(+)
-> >
+Thanks
+Mathias
+
