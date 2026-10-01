@@ -1,89 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DC0D3BFE2B;
-	Thu,  1 Oct 2026 19:37:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB58646D571;
+	Thu,  1 Oct 2026 19:55:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790883450; cv=none; b=mZH4I3gERdUOfQdpEe2JxFsTnyHIvWPOIKBLoKB/Va8D7zWrtUEf4i/YTDD/iK32n6GtDY4nLVxPutLMvu20Z6Fk1aocozuv/qZ0oO88FNOyqwzV6ts7Ff2+tSHK30XqBCmYhGW0PyRmcTcqxzzXRRR8wa6awIgne8eDGxse+r4=
+	t=1790884517; cv=none; b=jceE56GdIFj5ythuPixQXZu5Mr11U7DnPiG4TYYPVI6iobPIBbSG9GIz/eu3FJRCRA/kny5gLzNhsTQIMo2wW4X16wQ/ooNQHl+Y0KY1L9jrLkQPkqzKLhKaqXPMiHlNoFKCH/kic76JVke9hbFhokWREpBoymZrqqJpdwd44VM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790883450; c=relaxed/simple;
-	bh=IwlDC8wn5b8kCP6Z/TFT1NMXwzbGOW7GKSvw2JJYln4=;
+	s=arc-20240116; t=1790884517; c=relaxed/simple;
+	bh=KeNGLoxSr3dvxzl6RfzBtbD33YbgVPjmEzBRA9bAyRo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B6qgytD/VzHvEeeApgnweU0KnIA54xWJB/f7WYHl07v47bZp06yeBf0v2o/ByQEYjgeEoDgR3qwEVE9lQXQGKQe5Bb9vWql7RCozZvt/pbnejjdqSRFTOk1LIdb/NGkrFcSnWXVsdHO0GlOr94AYVA7in2wr9SX2SfnVJXydlh0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YsyRrOev; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=B398nBb30l/HCq6Pz/wn9gjKI5KJX9dFftsFKE2OWtAtvt17UqgRP00Ab5/IFMQYVlqOP7Wi/GSB70hDmkqOMlYLDjQ3XIcsS9+EQ1ZJEKvnUWr8MHj6v/MZxhsPsYWarZNqiawtlEq+lYZGPbg7J0QTTS4hC1q+g1iBF90SCLE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j8SgF8re; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YsyRrOev"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790883449; x=1822419449;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=IwlDC8wn5b8kCP6Z/TFT1NMXwzbGOW7GKSvw2JJYln4=;
-  b=YsyRrOev2ZbWt2pk1rzhKRGabeFOwhlmeXCSz7sSM476fNOGUKyFfabD
-   VpTC1WN7sL5GVtkBjwEm83JB6OVgU+6wL//hKSLa4mcSjk40qrz8/KOGt
-   InRTxbMRBwTx4lsyjAtkHo7EUCr0VvHh6o8URIm4wt7bE58jM94Eq9PQl
-   pQ0fucYB11d/OhZIJC4g8PZoCCO/N8i3yrPo/eJSE1mcaHz3jyyAE/MhS
-   QaBwPVmdSGtEtI1yBNk/1NtdmoZisatruvP5pbgcphVSkLP4KUs6sLKHu
-   dirOdZ9kKb/aEgWYnDZV+njFrflf1CHP+tK2BGkPqDCdn4V5RV7sJT3Px
-   A==;
-X-CSE-ConnectionGUID: zv0dbStlQzyoYTD/wfMG9g==
-X-CSE-MsgGUID: 1Szc+1izSCKygmcVz/FIdQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11922"; a="113439128"
-X-IronPort-AV: E=Sophos;i="6.27,135,1787036400"; 
-   d="scan'208";a="113439128"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2026 12:37:28 -0700
-X-CSE-ConnectionGUID: 5saRle/kR5GVopSKB8UEhQ==
-X-CSE-MsgGUID: drHUxuAESCitOMFVcMcoBw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,135,1787036400"; 
-   d="scan'208";a="279837423"
-Received: from abityuts-desk1.ger.corp.intel.com (HELO localhost) ([10.245.244.27])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2026 12:37:18 -0700
-Date: Thu, 1 Oct 2026 22:37:16 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Herve Codina <herve.codina@bootlin.com>
-Cc: Richard Cheng <icheng@nvidia.com>, Andrew Lunn <andrew@lunn.ch>,
-	Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Linus Walleij <linusw@kernel.org>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bartosz Golaszewski <brgl@kernel.org>, Len Brown <lenb@kernel.org>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Dan Williams <djbw@kernel.org>, Ira Weiny <iweiny@kernel.org>,
-	Li Ming <ming.li@zohomail.com>, Lizhi Hou <lizhi.hou@amd.com>,
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org, linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com, linux-gpio@vger.kernel.org,
-	linux-acpi@vger.kernel.org, linux-cxl@vger.kernel.org,
-	Allan Nielsen <allan.nielsen@microchip.com>,
-	Horatiu Vultur <horatiu.vultur@microchip.com>,
-	Daniel Machon <daniel.machon@microchip.com>,
-	Steen Hegelund <steen.hegelund@microchip.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	stable+noautosel@kernel.org
-Subject: Re: [PATCH v12 10/10] PCI: of: Avoid np->data usage for the node
- changeset
-Message-ID: <ar62bJzBEAhGL2iu@ashevche-desk.local>
-References: <20261001142815.277550-1-herve.codina@bootlin.com>
- <20261001142815.277550-11-herve.codina@bootlin.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j8SgF8re"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78AE11F000FF;
+	Thu,  1 Oct 2026 19:55:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790884511;
+	bh=iQresKhJjRRteZnS9cU4c1hswvsXl2gs/6zxjOgrp/s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=j8SgF8reoojphKPLf/NOIU/OKPTjbvePN443QZ/ghiBSNLNxVI+V9sKoMbX/oue45
+	 ALY8Zl6sDovFLB34Vet8KGRa7tfAJWjtsawDHYOFzdYgkhQT8Pa96EJ/8C531RSTNo
+	 zsTXce1wYf4N3a90ePeQMOWisg1/zt9klSAZQT9xFAox86jYSdXB4FMQcWPKQtLmYD
+	 ZkIjdZcRN2hI2LNFh+Jqem69zFaePOpwwIyxlO8H+PMp8r6+p9Fjk+MN5+HjVZeZ7N
+	 0xv5/n+KkrxHUwMdUKXCdXioAkGhsGQrdnYeRt6rRZtwrFY0lCz7o8K62cn2d2Xb8F
+	 QnH7xvSHEAh+w==
+Date: Thu, 1 Oct 2026 14:55:10 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Thierry Reding <thierry.reding@kernel.org>
+Cc: Conor Dooley <conor+dt@kernel.org>,
+	Laxman Dewangan <ldewangan@nvidia.com>, linux-sound@vger.kernel.org,
+	Jonathan Hunter <jonathanh@nvidia.com>, devicetree@vger.kernel.org,
+	mfd@lists.linux.dev, linux-tegra@vger.kernel.org,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Thierry Reding <treding@nvidia.com>, Lee Jones <lee@kernel.org>,
+	linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>
+Subject: Re: [PATCH v2 1/3] dt-bindings: mfd: as3722: Convert to json-schema
+Message-ID: <179088450829.1730371.5182923476099806939.robh@kernel.org>
+References: <20260930-as3722-bindings-v2-0-a3bba649ebf9@nvidia.com>
+ <20260930-as3722-bindings-v2-1-a3bba649ebf9@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -92,71 +50,32 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261001142815.277550-11-herve.codina@bootlin.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <20260930-as3722-bindings-v2-1-a3bba649ebf9@nvidia.com>
 
-On Thu, Oct 01, 2026 at 04:28:10PM +0200, Herve Codina wrote:
-> of_pci_remove_node() and of_pci_remove_host_bridge_node() check
-> whether the node is dynamic but not whether it has valid private data.
+
+On Wed, 30 Sep 2026 16:01:23 +0200, Thierry Reding wrote:
+> From: Thierry Reding <treding@nvidia.com>
 > 
-> During the node creation, an OF changeset is used and this changeset is
-> stored in np->data to be available for removal functions.
+> Convert the AMS AS3722 PMIC bindings from the free-form text format to
+> json-schema.
 > 
-> If, for instance, a PCI host bridge is created using a device-tree
-> overlay, the related node will have the dynamic flag set but np->data
-> will be NULL. This leads to NULL pointer dereferences.
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> ---
+> Changes in v2:
+> - use pinmux-node.yaml, pincfg-node.yaml, gpio.yaml and regulator.yaml
+> - add #gpio-cells and gpio-controller to list of required properties
+> - remove some old and broken references from descriptions
+> - use consistent formatting for description property
+> - remove some duplicate type definitions
+> - add missing additionalProperties
+> - order properties consistently
+> - constrain #gpio-cells to 2
+> ---
+>  .../devicetree/bindings/mfd/ams,as3722.yaml        | 293 +++++++++++++++++++++
+>  Documentation/devicetree/bindings/mfd/as3722.txt   | 214 ---------------
+>  .../bindings/regulator/as3722-regulator.txt        |  91 -------
+>  3 files changed, 293 insertions(+), 305 deletions(-)
 > 
-> Checking for a non-NULL np->data pointer to determine if the node has
-> been created by the PCI node creation process is not enough. Indeed,
-> on some platforms like PowerPC, the OF_RECONFIG_ATTACH_NODE notifier
-> (e.g., in the pci_dn_reconfig_notifier() function) intercepts node
-> additions and populates np->data with its own structure, such as a
-> struct pci_dn. In that case, np->data is not NULL but it is not related
-> to our changeset stored during the PCI node process creation.
-> 
-> Avoid the usage of np->data to store the changeset used during the PCI
-> node creation. Store our changeset in a more relevant structure: either
-> struct pci_dev when the node is created for a PCI device or struct
-> pci_host_bridge when the node is created for the PCI host bridge.
-> 
-> With that done, no ambiguity remains on removal. Indeed, this changeset,
-> if non-NULL, is the one used during PCI node creation. Check and use
-> this changeset on the removal process.
 
-...
-
->  void of_pci_remove_node(struct pci_dev *pdev)
-
->  	struct device_node *np;
->  
->  	np = pci_device_to_OF_node(pdev);
-> -	if (!np || !of_node_check_flag(np, OF_DYNAMIC))
-> +	if (!pdev->cset || !np)
->  		return;
-
-Wouldn't be better to split this conditional to two?
-
-	if (!pdev->cset)
-		return;
-
-	np = pci_device_to_OF_node(pdev);
-	if (!np)
-		return;
-
->  	fw_devlink_set_device(&np->fwnode, NULL);
->  	device_remove_of_node(&pdev->dev);
-> -	of_changeset_revert(np->data);
-> -	of_changeset_destroy(np->data);
-> +	of_changeset_revert(pdev->cset);
-> +	of_changeset_destroy(pdev->cset);
->  	of_node_put(np);
-> +	kfree(pdev->cset);
-> +	pdev->cset = NULL;
->  }
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
