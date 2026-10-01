@@ -1,93 +1,76 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCCE93B1EC6
-	for <linux-sound@vger.kernel.org>; Thu,  1 Oct 2026 18:33:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7B8F40F72F;
+	Thu,  1 Oct 2026 18:34:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790879586; cv=none; b=qiY/dsGOyMDEBZ//tnZTkWR7TUleCwhCU66pGmooQDZFJ2o/bRRt2FU/yw2km7CVrEzJjSdnnYUDonCWI4H5/gTHPLct2cE0ta/83UigGDumohgodjZhTVKLoUU6CjNTlfMTX1FKdhY4tZDJmaV5QsNYJGAWJYcsKSLsrL7yTyw=
+	t=1790879652; cv=none; b=pLgeieXb2wuryUNCZmmSajHqhH68xyDb1j7X0DUHDLIikVPM/IsHRrKncBSnZSHLlgvEnaBLlDd6nJBm48tlJ+kLjh97EvGe/m2lKWfufioQEs9RdmuIBgpZZRl6JtX+FZkC3bx7Oa7N9TjzkNVNYusjx5WEwRU3AkZs8YeX11Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790879586; c=relaxed/simple;
-	bh=pmkq2/Yjx493jWyFm9VY9aWkNpSU+yTuvMXC8BtlmPY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=I6X0esBNGQocokcbEiwwB9nuu52LrEozFDSm8xYlqZfQofFNDqJ6Au484KXvi1yY9c10WeDYeAuW85dftfj9OKSW13UfI+1nzmi/jPEEHW7bYoyq0smAmBaSmtndilpxDHuukXRBFzn04OYZdPK6cuRRXSePpmdofpLk7loQm6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cL2s667C; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790879652; c=relaxed/simple;
+	bh=GAgaO+sXmoUUc/WIqCeC6K4rDR1wkptkH5ATjX96aN4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OK2fSA7D726Kwvojv5ryuuMMsKJ2MMpSiLj2z2U5fkml4ARXQPS0tXy0H63baRCyd2ImLSikwUk5Rx2YnafJRPRtLi8FlqAqvLMMwZnGFWYTbwMF5k7y+jKXViNoZPFeDURQK3gxci/Ct4lq/hJMVmWnHotdxcPIKdkKBGobVIk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=p+fBZr9E; arc=none smtp.client-ip=157.90.84.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cL2s667C"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B60681F0089D
-	for <linux-sound@vger.kernel.org>; Thu,  1 Oct 2026 18:33:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790879584;
-	bh=fiwCd0p4aCZ5b37Gh6dfd7FU6o39KITfrw7vCvmWWKg=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=cL2s667CiszUsk/C++Yl0msi5Rkwtm5mQ8+QGpEqf4ltZlEMFMl8j030BG28rdMJ4
-	 auJ+/4sLY0lNJ7KBLRQX7IiT2i6c2G1mXVvW5iyeTZ1hqz8VuvQYJsM7yMjpgXarEd
-	 +pOVKCU0rF6N+MEwo9OMnGQzqmuZAD3CS7r6BgJMsWGIw6EYKu64uJ/Rru1kd9YdFm
-	 Uyj6TueBNFLCv0Rv8pUnn2BnVdX3KZDIDamUIfhSBobIP6uIRA5aGelSjM1IjCAl3F
-	 PghATtoBaMfypCSAoKOEdxx9Q0dQnnx3S6HpEqZJ8+y92PFN6MGQ1AAluISt8VKNUJ
-	 0KDWORQmrcVZw==
-Received: by mail-lf2-f13.google.com with SMTP id 2adb3069b0e04-5ba330dbd67so2854759e87.0
-        for <linux-sound@vger.kernel.org>; Thu, 01 Oct 2026 11:33:04 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBxGMUEH9Pv0xVNMs8sktl8KTn6cci9oSWM0Z1TLx+42H1nz+21eJ/nmfTjhmYjvPv/6VxFqst24F56jZQ==@vger.kernel.org
-X-Gm-Message-State: AFq9FYLibgTbeEyrNg2k/Mue56U+bETiBBBsvgkb2k1tr6GDEx/7Reay
-	+X2zBu3UextNvRMPvNKS+xcKAl5lFwKL9PQ6mPM9p29/2QeiGALePXn871EtJWp+fjR0T9VcbTF
-	afYHQJBp01RA+1KZiMPi17TRtXCMyeWo=
-X-Received: by 2002:a05:6512:ba5:b0:5b6:1a7c:aa1f with SMTP id
- 2adb3069b0e04-5bb9bc3a37emr19121e87.55.1790879582937; Thu, 01 Oct 2026
- 11:33:02 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="p+fBZr9E"
+Received: from wsembach-tuxedo.buero.augsburg.tuxedo.de (business-024-134-105-141.24.134.pools.vodafone-ip.de [24.134.105.141])
+	(Authenticated sender: wse@tuxedocomputers.com)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPA id E3B4F2FC004D;
+	Thu,  1 Oct 2026 20:34:05 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+	s=default; t=1790879646;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=xSWU4YR1xc3Aig7xw/g/zbrrpzjm/IgaUvKZ4ci7EJw=;
+	b=p+fBZr9E6HZ76lR12wiOfs8AAz341fEFw7Qk0KhhHsfUgbpQF5s6apWk5dhTCmrewB8UrF
+	lTKY5+/YpsBnuaAsFp4FpADz1d6CgBxq23VcKLSqU18TVO+hkbYya7qagbkDBpWP2pZjby
+	PAmxnw1q0RcgsTEoW6kIPIa+HEoffhM=
+Authentication-Results: mail.tuxedocomputers.com;
+	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
+From: Werner Sembach <wse@tuxedocomputers.com>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: Eckhart Mohr <e.mohr@tuxedocomputers.com>,
+	Werner Sembach <wse@tuxedocomputers.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: hda/realtek: Add quirk for ASRock NUC BOX-358H
+Date: Thu,  1 Oct 2026 20:34:00 +0200
+Message-ID: <20261001183403.103990-1-wse@tuxedocomputers.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <4766532.LvFx2qVVIh@rafael.j.wysocki> <ar6k1MMzNDTbdLvO@ashevche-desk.local>
-In-Reply-To: <ar6k1MMzNDTbdLvO@ashevche-desk.local>
-From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Thu, 1 Oct 2026 20:31:14 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0iFtFMZSX4Cjaimh+9Ts2WHpPKuvB3ZpUoNY+2fXSnstA@mail.gmail.com>
-X-Gm-Features: AclHuK8Htf1GRa2AjqjWVVR1Npiv1s0P0ru6iaKF_BXvR2_zIwXL67JNkM9Oy6c
-Message-ID: <CAJZ5v0iFtFMZSX4Cjaimh+9Ts2WHpPKuvB3ZpUoNY+2fXSnstA@mail.gmail.com>
-Subject: Re: [PATCH v2 0/5] ACPI: Replace acpi_get_first_physical_node() with acpi_bus_get_primary_device()
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Linux ACPI <linux-acpi@vger.kernel.org>, 
-	LKML <linux-kernel@vger.kernel.org>, Sudeep Holla <sudeep.holla@kernel.org>, 
-	linux-arm-kernel@lists.infradead.org, Ard Biesheuvel <ardb@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, linux-efi@vger.kernel.org, 
-	Will Deacon <will@kernel.org>, "Joerg Roedel (AMD)" <joro@8bytes.org>, Jaroslav Kysela <perex@perex.cz>, 
-	Takashi Iwai <tiwai@suse.com>, Robin Murphy <robin.murphy@arm.com>, iommu@lists.linux.dev, 
-	David Rhodes <david.rhodes@cirrus.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, 
-	linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
-	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, 
-	Sen Wang <sen@ti.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, Oct 1, 2026 at 8:22=E2=80=AFPM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
->
-> On Wed, Sep 30, 2026 at 08:30:47PM +0200, Rafael J. Wysocki wrote:
-> > Hi All,
-> >
-> > This is a partial resend of
-> >
-> > https://lore.kernel.org/linux-acpi/7995179.EvYhyI6sBW@rafael.j.wysocki/
-> >
-> > that only includes patches that have not been ACKed and the last one th=
-at
-> > depends on all of the others.  It is based on linux-next.
-> >
-> > This series replaces acpi_get_first_physical_node(), which is inherentl=
-y racy
-> > and therefore generally unsafe to use, with acpi_bus_get_primary_device=
-(), that
-> > doesn't have this problem, everywhere in the code.
-> >
-> > I will appreciate ACKs from maintainers of the code updated by the patc=
-hes, so
-> > I can pick them up and get rid of the problematic interface in one go.
->
-> The whole lot is straightforward,
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+From: Eckhart Mohr <e.mohr@tuxedocomputers.com>
 
-Yes, it is, thank you!
+Fix headphone jack detection for some devices
+
+Signed-off-by: Eckhart Mohr <e.mohr@tuxedocomputers.com>
+Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+---
+ sound/hda/codecs/realtek/alc269.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index 5127a111c59cd..60c765b184bbc 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -8293,6 +8293,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x17aa, 0x9e56, "Lenovo ZhaoYang CF4620Z", ALC286_FIXUP_SONY_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1849, 0x0269, "Positivo Master C6400", ALC269VB_FIXUP_ASUS_ZENBOOK),
+ 	SND_PCI_QUIRK(0x1849, 0x1233, "ASRock NUC Box 1100", ALC233_FIXUP_NO_AUDIO_JACK),
++	SND_PCI_QUIRK(0x1849, 0x6256, "ASRock NUC Box 358H", ALC233_FIXUP_NO_AUDIO_JACK),
+ 	SND_PCI_QUIRK(0x1849, 0xa233, "Positivo Master C6300", ALC269_FIXUP_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1854, 0x0440, "LG CQ6", ALC256_FIXUP_HEADPHONE_AMP_VOL),
+ 	SND_PCI_QUIRK(0x1854, 0x0441, "LG CQ6 AIO", ALC256_FIXUP_HEADPHONE_AMP_VOL),
+-- 
+2.43.0
+
