@@ -1,90 +1,125 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B51D2580F2
-	for <linux-sound@vger.kernel.org>; Thu,  1 Oct 2026 13:27:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1D50496D35;
+	Thu,  1 Oct 2026 13:50:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790861236; cv=none; b=LLGSPjoSxe9S1V/oNXImetzvOJv1CTzCcB7Yri7d/Hw3RZUiePUgEZgeIuj/4Oj7Lj7s1AbltHe/WXjXGZf0oe5mcNru2ZB225ZMjO7aVktmJoN3E4W+s2wg65Y1v1duP2wa2XknqlCbAeyCTp8QNsOXKuvQDES5p02zghiv8BU=
+	t=1790862603; cv=none; b=EaTGBP9UixiJmwibIgf5Zh9hCXHk0Zh7VPIo/hlhXRn1+EXGdGZRIaLSZGltMoAegLHXCyFOgY08IK82A2+R3UpLtBnniG1QP+TC8wTd4kB07k/GiLnjVSDqUc/cIGE1hsHa1rox8SdI50m78XzRovNmB7NCShIjOZIWnqFLD2E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790861236; c=relaxed/simple;
-	bh=F8rJS4RbMCeuDk0s5ZHobnvwC01feW+gDzqTTR1DVS0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=YzR+AI3J9VO9Fc/sWdCtL1O6a04soL+HYb7mMtB6IZzjWjWz5YF3mYVI6czNEReLvGsFm4lm2BPF26KTW+aIL1GQ8tkcdxhXxchsMfe2fStYMt9VaJFuB0AVl/PnXVKSBWlY5uV1m55R0U8bHNixHFCZ6K87MKb0MgVqml9dxyI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ilI91ORj; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790862603; c=relaxed/simple;
+	bh=zQ9MtrvJfthHd5Vg84A7ZAy6wwcDhigK3I4PjJDOPMc=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=t+zCUiYielXQlJ6QrHf2EouI6fa1vAT71eqwKeAbuu3+QUZPcgk99hGK8oUcLZLqGAdZ5KqNjOw8BZFetRwLUgE1C3zajlhyOcycMEzzeXdx5IVmMXJbeSQ+cHNvuaIUnxEeZi9/ZqobQtqtVy/X80yIJb7sab8jyOoOovUpuP4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NO8uIpvr; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ilI91ORj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 657071F0089A;
-	Thu,  1 Oct 2026 13:27:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NO8uIpvr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 285EE1F00898;
+	Thu,  1 Oct 2026 13:49:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790861234;
-	bh=MYgvHzkR5LX7EmLfFwNUnCww43eB4PMq0fBjPToGX0c=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=ilI91ORjCYqxfLcLL2Ar79w0Jc/rVMd0XpBn7ExGGAVCPKyr/yvR+XlLHr8Reh7ue
-	 6/ZjNhgoeCep92TZKwLgKTBst4rFXrbsI6+FFeO6c34GVZTZnC5J04h0H7wVA7Fm7Y
-	 2CxCUjNuF2RQ0JwEeFcy/RxXzPLssGVEWtkz/FapzhdzRsdpPKAdEY8lsRptHjXFXS
-	 lyt9vxTq62oLfUbgKb9wFzjs5iXljhnU3qPl9FEkq6iUDUtr/GpJrzxmyEBR3+KbjL
-	 lU82GUH0cXP8x7LeuzC0dHcRyYvDG1hFVIXt179Jz5uYF4MEtqPGypZOgmRxL17mGH
-	 eI2N97VpUnnOg==
-From: Mark Brown <broonie@kernel.org>
-To: Shenghao Ding <shenghao-ding@ti.com>
-Cc: tiwai@suse.de, 13916275206@139.com, perex@perex.cz, lgirdwood@gmail.com, 
- linux-sound@vger.kernel.org, baojun.xu@ti.com, k-lu@ti.com
-In-Reply-To: <20261001024049.93-2-shenghao-ding@ti.com>
-References: <20261001024049.93-2-shenghao-ding@ti.com>
-Subject: Re: [PATCH v1] ASoC: tas2781: Refactor register error log with
- unified macro
-Message-Id: <179085741906.90966.4869843706068824809.b4-ty@b4>
-Date: Thu, 01 Oct 2026 13:23:39 +0100
+	s=k20260515; t=1790862598;
+	bh=sXzExsQ7ko37b3Osdz1dvDlhOHBAgHiJiu7t1kn79LQ=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To;
+	b=NO8uIpvrwNZMMO29VNksLG+RliC7ewccbvWQrg1gu2HiClGxxN31B9nPLDzbaU8X8
+	 9ShhxDp1khV1a+mLptUYOfjeYcO1oXEIyrGmA0i1KMqv+HVEWneMBnfEsbZJAwVkb5
+	 mc7kGmp59awUEw8u492ae0CkWUt6ZWHUkk4tuRlDouiAbQ52MzuC+/xTNiTZjsQo6t
+	 cTzEPfzLMdcJPV2el+rVAaKXs6gU17aA/jVZrWrFsa5zgCWJcShSKmJjZov4P2vLyf
+	 fKmnHTO1tkN7ziKwYlA9uDFhJcC116G7u9/7J4XJmbmL/LagmnfrNljz+6fw78ZJ42
+	 op3HUq56R2iMQ==
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1141; i=broonie@kernel.org;
- h=from:subject:message-id; bh=F8rJS4RbMCeuDk0s5ZHobnvwC01feW+gDzqTTR1DVS0=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqvl+uyrUub0g/OvbQ1l8JweaePLp1u/s01BYyP
- rXtBkefmNiJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCar5frgAKCRAk1otyXVSH
- 0DlyB/0bILoaTYuxiJukP6/FzS8hOfvzxkEF5CfGLcJ8q42mFk5KdNzPaEtsrdwGbrr4QCPoE+F
- 7KC4arPmafasOuGu3psBi9QXdAGXULrNY9LOzdj9ZInaPblYwNsdftPk1ro5/enJQbb57I58N7d
- g6bFfXThE77HMiPjqxBcTINBja+AqR1F3ao09ib6R0u5kObmBcdtd9/AdURF+HUqfSIjXqnWPff
- PcMYnMOFprsd6sCogZQhVHT43DLT9eBgi1GaMhri6uHU9pK+mdOc9Io/gYTO8FvQrmTHqJ3zVck
- q9ssxfB4/CmBsGAJNpcVs1a4Y50CudzhrRdtfynvIJdjCHLu
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 01 Oct 2026 15:49:54 +0200
+Message-Id: <DLTJT271O5MJ.29DXT8VS9712I@kernel.org>
+Subject: Re: [PATCH v3 0/3] debugfs: make debugfs_create_str() read-only
+Cc: "Yichong Chen" <chenyichong@uniontech.com>, <rafael@kernel.org>,
+ <djakov@kernel.org>, <quic_mdtipton@quicinc.com>, <vkoul@kernel.org>,
+ <yung-chuan.liao@linux.intel.com>, <pierre-louis.bossart@linux.dev>,
+ <driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+ <linux-pm@vger.kernel.org>, <linux-sound@vger.kernel.org>
+To: "Greg KH" <gregkh@linuxfoundation.org>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260807100053.1089834-1-chenyichong@uniontech.com>
+ <2026100153-unmanaged-impart-3adf@gregkh>
+ <DLTIZ3CNCQDS.24NN9OMJG7AXA@kernel.org>
+ <2026100139-deviancy-direction-edea@gregkh>
+In-Reply-To: <2026100139-deviancy-direction-edea@gregkh>
 
-On Thu, 01 Oct 2026 10:40:49 +0800, Shenghao Ding wrote:
-> ASoC: tas2781: Refactor register error log with unified macro
+On Thu Oct 1, 2026 at 3:19 PM CEST, Greg KH wrote:
+> On Thu, Oct 01, 2026 at 03:10:45PM +0200, Danilo Krummrich wrote:
+>> On Thu Oct 1, 2026 at 2:51 PM CEST, Greg KH wrote:
+>> > On Fri, Aug 07, 2026 at 06:00:50PM +0800, Yichong Chen wrote:
+>> >> debugfs_create_str() has a generic write implementation that replaces=
+ the
+>> >> backing string.  Concurrent writers can race and free the same old st=
+ring
+>> >> twice.
+>> >>=20
+>> >> Instead of adding more locking to the generic helper, convert the exi=
+sting
+>> >> writable in-tree users to local file operations and make
+>> >> debugfs_create_str() read-only.
+>> >>=20
+>> >> Changes since v2:
+>> >> - Use scoped mutex guards in the interconnect and SoundWire conversio=
+ns.
+>> >> - Clarify why GFP_KERNEL is safe in the interconnect conversion after=
+ the
+>> >>   RCU read-side critical section is removed.
+>> >> - Drop the unnecessary firmware_file =3D NULL assignment in the Sound=
+Wire
+>> >>   exit path.
+>> >> - Use WARN() instead of WARN_ONCE() so each writable debugfs_create_s=
+tr()
+>> >>   caller can be reported.
+>> >
+>> > Sorry for the delay, now applied.
+>>=20
+>> This series fell through the cracks on my end. I also reported this issu=
+e in [1]
+>> and I agree making debugfs_create_str() read-only is the best fix for no=
+w.
+>>=20
+>> However, it duplicates code and I think having a proper helper as sugges=
+ted in
+>> [1] would be nice follow-up.
+>>=20
+>> [1] https://lore.kernel.org/driver-core/DLPDB44JJRGJ.3K6JNS746M7QC@kerne=
+l.org/
+>
+> Yes, that would be nice, but for read-only debugfs strings, let's keep
+> writable ones away if at all possible :)
 
-Applied to
+The two converted subsystems now have identical code that can easily be
+generalized. And I think we have other users that open code this too.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
+For instance, soundwire would collapse to just:
 
-Thanks!
+In sdw_debugfs_init():
 
-[1/1] ASoC: tas2781: Refactor register error log with unified macro
-      https://git.kernel.org/broonie/sound/c/5367243a37f7
+	/* Initialize struct debugfs_string */
+	ret =3D debugfs_string_create(&firmware_file, "");
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+In sdw_debugfs_exit():
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+	/* Free struct debugfs_string */
+	debugfs_string_free(&firmware_file);
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+In sdw_slave_debugfs_init():
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+	debugfs_create_str("firmware_file", 0600, d, &firmware_file);
+
+In cmd_go():
+
+	scoped_guard(debugfs_string, &firmware_file)
+		ret =3D request_firmware(&fw,
+				       debugfs_string_read_locked(&firmware_file),
+				       &slave->dev);
 
 Thanks,
-Mark
-
+Danilo
