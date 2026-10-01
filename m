@@ -1,92 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA243443C3B;
-	Thu,  1 Oct 2026 18:19:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C31004E4C30;
+	Thu,  1 Oct 2026 18:22:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790878788; cv=none; b=j13s4LqtIlV2YyVXH9GwpRhgKfGJCyJ51T9k1vhO6oY2js++DB1d2rnQFeXHO21aNF4BAjcmXEM23HwLpXC8uAwKLz15EpXnxTe9TUPu6tmlo073bQ+2ga22BdIQ81gqQIWgTTEEwlqlweor+IT9VxZYK5fSP9fh+o4C6fZXoFM=
+	t=1790878958; cv=none; b=HiqZzI477jk4G1ByLu+lC+Wx+sUyhr7E0kiL4VQyKuh6RGkHUJ6x4t31rE5BmArYruAeIpNgCcznAPudfaaLxu8ehO7FCJHNLaeHWJjy9Myp5qI9yQLyJYfmT7dqdcPddJKgqd0TTowyinDdidBMJfHwlam3/hga2Z4lqP8xOZg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790878788; c=relaxed/simple;
-	bh=GBQbR+R/+955LxdFaAVyP6WBQ4P39f0GwpBjz+Onw3k=;
+	s=arc-20240116; t=1790878958; c=relaxed/simple;
+	bh=Y94ugADCjd5S4s4n0Tg88CMgCId4+Gj9yqv40QY1BOI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aFyqjVS3y9OQGlX95yPTHid7MtJ+RhDSyeFERkL0g8JRurqCmvGtMipug0LTSOKdWF/d1WFmNS8KbeHU2YKuRlxTnZMwvWPmBaASt3fBtPwOjis2SclcIirmAqNla3rklZeTNAtEjE5KqZNJnWg8JiPtfUq13M4KdvqThKIkYSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W/ApQKNW; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=TuG6/e2kn1ClrvuqVZ/fMkZXAsDSIL5TzG42Fp4CPRvXYMSfx7asWrgFKr2psChnE+akPTvpsJ0e3w+VyTTmUluJn7V09rudPDbrkKtmcVh2adgTPRh1aAg+2C39jlOE0dA9oY8LaiWOwX7zY7ffZU/5ZT3eIJtgyTKy/XEYFzE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aRC3uOe/; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W/ApQKNW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE8F01F00898;
-	Thu,  1 Oct 2026 18:19:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790878778;
-	bh=GBQbR+R/+955LxdFaAVyP6WBQ4P39f0GwpBjz+Onw3k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=W/ApQKNW33/IhZUhLndAniQD4qxhIKD4ktBweRNMfieLXfZeMU+xNDxhskoLDt26S
-	 JPW+07kFvqPRA2Nq/ECWS3UF+c28ewMXb+gB5mRhuN/lWlpoZcYyHSo4g7vBEXjKaN
-	 z1VYpZnrRreqCZlxJONDIBoklUrqZsTf8myUObcSQRFz0H/41WZgT7L8M8N0gGXXuD
-	 /HbSwsVVDW3FxvGbw5MzV3pfC+HdsHAb0Tl8DUzsm5aiPyZk8TnTIItO0E3g0RRj5S
-	 CkfgIUiKbwhlvPT4U8nsWTnYo+oX1BYjDFTyI/sTQV4JwNLcG3lC9U7se+6LUlGHT/
-	 EqOtDLtPIubNQ==
-Date: Thu, 1 Oct 2026 19:19:33 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Thierry Reding <thierry.reding@kernel.org>
-Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Laxman Dewangan <ldewangan@nvidia.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>, mfd@lists.linux.dev,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Thierry Reding <thierry.reding@gmail.com>,
-	linux-sound@vger.kernel.org, linux-tegra@vger.kernel.org,
-	Thierry Reding <treding@nvidia.com>
-Subject: Re: [PATCH v2 2/3] dt-bindings: sound: tegra-ahub: Convert to
- json-schema
-Message-ID: <4906079e-bcb9-49b3-b926-a38e004f53f0@sirena.org.uk>
-References: <20260930-as3722-bindings-v2-0-a3bba649ebf9@nvidia.com>
- <20260930-as3722-bindings-v2-2-a3bba649ebf9@nvidia.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aRC3uOe/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1790878952; x=1822414952;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Y94ugADCjd5S4s4n0Tg88CMgCId4+Gj9yqv40QY1BOI=;
+  b=aRC3uOe/R8CtPtEa3mEnIy9j1FhMlbb3DsC4klRU/LDOCFa1loKp7EsO
+   8hnpjC1gcQXIyjR0jqKK1arOzi2f5r9rMB7VxzJ8SzLcJk76MIiqBNap/
+   GBMZn2u+vQcEweepe0mBBHE2UiAvcwmxp/zu1/CrnFyXvP6YL15DzAvzg
+   NyXAg8WJr6LJTholLPq/Hvm1Ej3YFfDwR9sgwfc2rPsOv/LCEp6vYmFY6
+   Y+vexe0P9f4r+ZIsp0r2DHPLPCo2Ut9CrFidMPxu0d4Fyldel5esrZOGR
+   brR/8HwnzFfoMRwXO6YyT0rtLpM4Zjj7hbx/kYO0ZI5TxFewS7BZPVi0n
+   g==;
+X-CSE-ConnectionGUID: fWfy4Qt5RpKA/wTZt5dm/w==
+X-CSE-MsgGUID: dJc8kIsdR2GNqqsRjjCRaQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11922"; a="90704757"
+X-IronPort-AV: E=Sophos;i="6.27,135,1787036400"; 
+   d="scan'208";a="90704757"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2026 11:22:20 -0700
+X-CSE-ConnectionGUID: L5g60cWbRa2/8tjijxT4Ww==
+X-CSE-MsgGUID: StWR2umvRNqgnHBGcd2t7Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,135,1787036400"; 
+   d="scan'208";a="302298846"
+Received: from abityuts-desk1.ger.corp.intel.com (HELO localhost) ([10.245.244.27])
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2026 11:22:14 -0700
+Date: Thu, 1 Oct 2026 21:22:12 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Linux ACPI <linux-acpi@vger.kernel.org>,
+	LKML <linux-kernel@vger.kernel.org>,
+	Sudeep Holla <sudeep.holla@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+	linux-efi@vger.kernel.org, Will Deacon <will@kernel.org>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Robin Murphy <robin.murphy@arm.com>, iommu@lists.linux.dev,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
+	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>
+Subject: Re: [PATCH v2 0/5] ACPI: Replace acpi_get_first_physical_node() with
+ acpi_bus_get_primary_device()
+Message-ID: <ar6k1MMzNDTbdLvO@ashevche-desk.local>
+References: <4766532.LvFx2qVVIh@rafael.j.wysocki>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="CiNrKFiNvWa0On5z"
-Content-Disposition: inline
-In-Reply-To: <20260930-as3722-bindings-v2-2-a3bba649ebf9@nvidia.com>
-X-Cookie: Do not stamp.
-
-
---CiNrKFiNvWa0On5z
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <4766532.LvFx2qVVIh@rafael.j.wysocki>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Wed, Sep 30, 2026 at 04:01:24PM +0200, Thierry Reding wrote:
-> From: Thierry Reding <treding@nvidia.com>
->=20
-> Convert Tegra AHUB bindings from the free-form text format to
-> json-schema.
+On Wed, Sep 30, 2026 at 08:30:47PM +0200, Rafael J. Wysocki wrote:
+> Hi All,
+> 
+> This is a partial resend of
+> 
+> https://lore.kernel.org/linux-acpi/7995179.EvYhyI6sBW@rafael.j.wysocki/
+> 
+> that only includes patches that have not been ACKed and the last one that
+> depends on all of the others.  It is based on linux-next.
+> 
+> This series replaces acpi_get_first_physical_node(), which is inherently racy
+> and therefore generally unsafe to use, with acpi_bus_get_primary_device(), that
+> doesn't have this problem, everywhere in the code.
+> 
+> I will appreciate ACKs from maintainers of the code updated by the patches, so
+> I can pick them up and get rid of the problematic interface in one go.
 
-Please submit patches using subject lines reflecting the style for the
-subsystem, this makes it easier for people to identify relevant patches.
-Look at what existing commits in the area you're changing are doing and
-make sure your subject lines visually resemble what they're doing.
-There's no need to resubmit to fix this alone.
+The whole lot is straightforward,
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
---CiNrKFiNvWa0On5z
-Content-Type: application/pgp-signature; name="signature.asc"
+-- 
+With Best Regards,
+Andy Shevchenko
 
------BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmq+pDQACgkQJNaLcl1U
-h9AntQf/RKWOAXgdfPdxxCh+VtG88guPxz38qY6yYHlXJFT9iflYamy1BuzOwe7d
-zK6QWJ7RNhv829jG/OmL9lguYZMjXAee12pPSI+QZ+GFzL4gSJnyJ1YX8CRlIcux
-+f5WnVx1jke3DNiNETuVeZ/WpoD7JC+k9DRXFDl2jGLhWZCwYlg90r42dICMGS2J
-a//sCbxD+Jh1PjSyilyy2YQcv2h9bVqm3Q9vS6f9V5GSa04+fT7pPiF15ogRl96l
-EWg93tZKRTZrKXAZwZ24j4FWcb5p94idVhUbeSkdvytzRBm4N55ZeF7RtVcRYIig
-dsTEwc6vI24r9taZrlhWJ0DzYs37fg==
-=DOPs
------END PGP SIGNATURE-----
-
---CiNrKFiNvWa0On5z--
