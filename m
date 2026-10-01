@@ -1,127 +1,162 @@
-Received: from mr5.vodafonemail.de (mr5.vodafonemail.de [145.253.228.165])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ECEB3BAD84;
-	Thu,  1 Oct 2026 19:35:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=145.253.228.165
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DC0D3BFE2B;
+	Thu,  1 Oct 2026 19:37:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790883309; cv=none; b=r4WOwLb+z0sinBIWwrCbdNygYvlgwDsdzLWjWHiXiupIxKJbTM5vMkHCG3FMH4WuAYr67/tBARBeeQEvxPHqQh22feGbHtcRWO89eTzrB9G4zFnubUh5+DeXed9aKYRff4Gb/BqtCPu4atl7hJYacS866hXhNDJzurVGhyZUCvU=
+	t=1790883450; cv=none; b=mZH4I3gERdUOfQdpEe2JxFsTnyHIvWPOIKBLoKB/Va8D7zWrtUEf4i/YTDD/iK32n6GtDY4nLVxPutLMvu20Z6Fk1aocozuv/qZ0oO88FNOyqwzV6ts7Ff2+tSHK30XqBCmYhGW0PyRmcTcqxzzXRRR8wa6awIgne8eDGxse+r4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790883309; c=relaxed/simple;
-	bh=P1K50zfPfDxntM6taKZQw51NZYMeQUvrdXfOO9PjY9s=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qk7K5pjFm/Y2E46giC6a4nlexb4ZLScIOqAfr+O50tADgrMyG2URzPy0u5NqMVDZWgtSSHKFPz6C7XQ+2R1aSUo1vgR4ukyQS8ENPMj/kPqcxb+QNd1Xjwma2ANKYCc/na/DrUBfXZGK2WZYsxcdKhTtzqXeLblSU+Kzn/gxT5U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=vodafonemail.de; spf=pass smtp.mailfrom=vodafonemail.de; dkim=pass (1024-bit key) header.d=vodafonemail.de header.i=@vodafonemail.de header.b=yMpUTwxe; arc=none smtp.client-ip=145.253.228.165
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=vodafonemail.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vodafonemail.de
+	s=arc-20240116; t=1790883450; c=relaxed/simple;
+	bh=IwlDC8wn5b8kCP6Z/TFT1NMXwzbGOW7GKSvw2JJYln4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=B6qgytD/VzHvEeeApgnweU0KnIA54xWJB/f7WYHl07v47bZp06yeBf0v2o/ByQEYjgeEoDgR3qwEVE9lQXQGKQe5Bb9vWql7RCozZvt/pbnejjdqSRFTOk1LIdb/NGkrFcSnWXVsdHO0GlOr94AYVA7in2wr9SX2SfnVJXydlh0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YsyRrOev; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=vodafonemail.de header.i=@vodafonemail.de header.b="yMpUTwxe"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vodafonemail.de;
-	s=vfde-mb-mr2-23sep; t=1790882794;
-	bh=P8IIrGSkylofkUztr8by5eRb0olCtVuANl12J5ojLzU=;
-	h=From:To:Subject:Date:Message-ID:X-Mailer:From;
-	b=yMpUTwxemiGa4dc0rdJPEkn2rpxOYNqPn6mWR5jEUaPMudbXrrVxeC4gT1ZBLYZpA
-	 jKT+IAEh4TJJt8DPqBtt+M9uRruInKA4fIFzIu3LGzR5plx3oM3VVOewB8OEH4qcgR
-	 vG6PcRsIFT/HtD3BAvfu9DO/i+lR2aDI0NF0+S+I=
-Received: from smtp.vodafone.de (unknown [10.5.0.38])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
-	(No client certificate requested)
-	by mr5.vodafonemail.de (Postfix) with ESMTPS id 4hwhjk1zS3z3sTfp;
-	Thu,  1 Oct 2026 19:26:34 +0000 (UTC)
-Received: from tachyon.qsoe.net (ipservice-092-208-226-177.092.208.pools.vodafone-ip.de [92.208.226.177])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.vodafone.de (Postfix) with ESMTPSA id 4hwhjH28jYz98VW;
-	Thu,  1 Oct 2026 19:26:08 +0000 (UTC)
-Received: by tachyon.qsoe.net (Postfix, from userid 516)
-	id CB9582E0152; Thu, 01 Oct 2026 21:26:07 +0200 (CEST)
-From: Yuri Zaporozhets <yuriz@vodafonemail.de>
-To: broonie@kernel.org,
-	lgirdwood@gmail.com
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	xingyu.wu@starfivetech.com,
-	Yuri Zaporozhets <yuriz@vodafonemail.de>
-Subject: [PATCH] ASoC: dwc: Use OF match data again for StarFive JH7110
-Date: Thu,  1 Oct 2026 21:25:52 +0200
-Message-ID: <20261001192552.2904-1-yuriz@vodafonemail.de>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YsyRrOev"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1790883449; x=1822419449;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=IwlDC8wn5b8kCP6Z/TFT1NMXwzbGOW7GKSvw2JJYln4=;
+  b=YsyRrOev2ZbWt2pk1rzhKRGabeFOwhlmeXCSz7sSM476fNOGUKyFfabD
+   VpTC1WN7sL5GVtkBjwEm83JB6OVgU+6wL//hKSLa4mcSjk40qrz8/KOGt
+   InRTxbMRBwTx4lsyjAtkHo7EUCr0VvHh6o8URIm4wt7bE58jM94Eq9PQl
+   pQ0fucYB11d/OhZIJC4g8PZoCCO/N8i3yrPo/eJSE1mcaHz3jyyAE/MhS
+   QaBwPVmdSGtEtI1yBNk/1NtdmoZisatruvP5pbgcphVSkLP4KUs6sLKHu
+   dirOdZ9kKb/aEgWYnDZV+njFrflf1CHP+tK2BGkPqDCdn4V5RV7sJT3Px
+   A==;
+X-CSE-ConnectionGUID: zv0dbStlQzyoYTD/wfMG9g==
+X-CSE-MsgGUID: 1Szc+1izSCKygmcVz/FIdQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11922"; a="113439128"
+X-IronPort-AV: E=Sophos;i="6.27,135,1787036400"; 
+   d="scan'208";a="113439128"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2026 12:37:28 -0700
+X-CSE-ConnectionGUID: 5saRle/kR5GVopSKB8UEhQ==
+X-CSE-MsgGUID: drHUxuAESCitOMFVcMcoBw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,135,1787036400"; 
+   d="scan'208";a="279837423"
+Received: from abityuts-desk1.ger.corp.intel.com (HELO localhost) ([10.245.244.27])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2026 12:37:18 -0700
+Date: Thu, 1 Oct 2026 22:37:16 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Herve Codina <herve.codina@bootlin.com>
+Cc: Richard Cheng <icheng@nvidia.com>, Andrew Lunn <andrew@lunn.ch>,
+	Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Linus Walleij <linusw@kernel.org>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bartosz Golaszewski <brgl@kernel.org>, Len Brown <lenb@kernel.org>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Dan Williams <djbw@kernel.org>, Ira Weiny <iweiny@kernel.org>,
+	Li Ming <ming.li@zohomail.com>, Lizhi Hou <lizhi.hou@amd.com>,
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-pci@vger.kernel.org, linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com, linux-gpio@vger.kernel.org,
+	linux-acpi@vger.kernel.org, linux-cxl@vger.kernel.org,
+	Allan Nielsen <allan.nielsen@microchip.com>,
+	Horatiu Vultur <horatiu.vultur@microchip.com>,
+	Daniel Machon <daniel.machon@microchip.com>,
+	Steen Hegelund <steen.hegelund@microchip.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	stable+noautosel@kernel.org
+Subject: Re: [PATCH v12 10/10] PCI: of: Avoid np->data usage for the node
+ changeset
+Message-ID: <ar62bJzBEAhGL2iu@ashevche-desk.local>
+References: <20261001142815.277550-1-herve.codina@bootlin.com>
+ <20261001142815.277550-11-herve.codina@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-purgate-server: smtpa07
-X-purgate-type: clean
-X-purgate: clean
-X-purgate-size: 2507
-X-purgate-ID: 155817::1790882790-2754384E-652A79A9/0/0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261001142815.277550-11-herve.codina@bootlin.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Commit d6d6c513f5d2 ("ASoC: dwc: Use ops to get platform data") made
-dw_i2s_probe() fetch its platform data with of_device_get_match_data(),
-and commit 52ea7c0543f8 ("ASoC: dwc: i2s: Add StarFive JH7110 SoC
-support") put the JH7110 configuration into the OF match table. Commit
-9c97790a07dc ("ASoC: dwc: Fix non-DT instantiation") then went back to
-pdev->dev.platform_data so that non-DT users such as AMD work again.
+On Thu, Oct 01, 2026 at 04:28:10PM +0200, Herve Codina wrote:
+> of_pci_remove_node() and of_pci_remove_host_bridge_node() check
+> whether the node is dynamic but not whether it has valid private data.
+> 
+> During the node creation, an OF changeset is used and this changeset is
+> stored in np->data to be available for removal functions.
+> 
+> If, for instance, a PCI host bridge is created using a device-tree
+> overlay, the related node will have the dynamic flag set but np->data
+> will be NULL. This leads to NULL pointer dereferences.
+> 
+> Checking for a non-NULL np->data pointer to determine if the node has
+> been created by the PCI node creation process is not enough. Indeed,
+> on some platforms like PowerPC, the OF_RECONFIG_ATTACH_NODE notifier
+> (e.g., in the pci_dn_reconfig_notifier() function) intercepts node
+> additions and populates np->data with its own structure, such as a
+> struct pci_dn. In that case, np->data is not NULL but it is not related
+> to our changeset stored during the PCI node process creation.
+> 
+> Avoid the usage of np->data to store the changeset used during the PCI
+> node creation. Store our changeset in a more relevant structure: either
+> struct pci_dev when the node is created for a PCI device or struct
+> pci_host_bridge when the node is created for the PCI host bridge.
+> 
+> With that done, no ambiguity remains on removal. Indeed, this changeset,
+> if non-NULL, is the one used during PCI node creation. Check and use
+> this changeset on the removal process.
 
-Since then the JH7110 match data is never read. The probe runs neither
-the JH7110 clock and reset setup (i2s_pd_init) nor uses its capability
-flags; it configures the DAI from COMP_PARAM_1 instead. On the
-VisionFive 2, i2stx0 drives the bit and frame clocks for HDMI audio, but
-COMP_PARAM_1 reports it as slave-only, so the sound card fails to probe:
+...
 
-  designware-i2s 120b0000.i2s: ASoC error (-22): at snd_soc_dai_set_fmt() on 120b0000.i2s
-  asoc-simple-card sound-hdmi: probe with driver asoc-simple-card failed with error -22
+>  void of_pci_remove_node(struct pci_dev *pdev)
 
-Take the OF match data first and fall back to the platform data when
-there is none, so that both DT and non-DT users get their configuration.
+>  	struct device_node *np;
+>  
+>  	np = pci_device_to_OF_node(pdev);
+> -	if (!np || !of_node_check_flag(np, OF_DYNAMIC))
+> +	if (!pdev->cset || !np)
+>  		return;
 
-Tested on a VisionFive 2 v1.3B (v7.0.3 with local HDMI audio patches):
-the HDMI sound card now probes and plays through i2stx0. The non-DT
-path is build-tested only.
+Wouldn't be better to split this conditional to two?
 
-Fixes: 9c97790a07dc ("ASoC: dwc: Fix non-DT instantiation")
-Assisted-by: LLM
-Signed-off-by: Yuri Zaporozhets <yuriz@vodafonemail.de>
----
- sound/soc/dwc/dwc-i2s.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+	if (!pdev->cset)
+		return;
 
-diff --git a/sound/soc/dwc/dwc-i2s.c b/sound/soc/dwc/dwc-i2s.c
-index ade89c196..dbda943cf 100644
---- a/sound/soc/dwc/dwc-i2s.c
-+++ b/sound/soc/dwc/dwc-i2s.c
-@@ -18,6 +18,7 @@
- #include <linux/reset.h>
- #include <linux/slab.h>
- #include <linux/pm_runtime.h>
-+#include <linux/property.h>
- #include <sound/designware_i2s.h>
- #include <sound/pcm.h>
- #include <sound/pcm_params.h>
-@@ -922,13 +923,16 @@ static int jh7110_i2stx0_clk_cfg(struct i2s_clk_config_data *config)
- 
- static int dw_i2s_probe(struct platform_device *pdev)
- {
--	const struct i2s_platform_data *pdata = pdev->dev.platform_data;
-+	const struct i2s_platform_data *pdata = device_get_match_data(&pdev->dev);
- 	struct dw_i2s_dev *dev;
- 	struct resource *res;
- 	int ret, irq;
- 	struct snd_soc_dai_driver *dw_i2s_dai;
- 	const char *clk_id;
- 
-+	if (!pdata)
-+		pdata = dev_get_platdata(&pdev->dev);
-+
- 	dev = devm_kzalloc(&pdev->dev, sizeof(*dev), GFP_KERNEL);
- 	if (!dev)
- 		return -ENOMEM;
+	np = pci_device_to_OF_node(pdev);
+	if (!np)
+		return;
+
+>  	fw_devlink_set_device(&np->fwnode, NULL);
+>  	device_remove_of_node(&pdev->dev);
+> -	of_changeset_revert(np->data);
+> -	of_changeset_destroy(np->data);
+> +	of_changeset_revert(pdev->cset);
+> +	of_changeset_destroy(pdev->cset);
+>  	of_node_put(np);
+> +	kfree(pdev->cset);
+> +	pdev->cset = NULL;
+>  }
+
 -- 
-2.55.0
+With Best Regards,
+Andy Shevchenko
+
 
