@@ -1,193 +1,150 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75B623749F7;
-	Fri,  2 Oct 2026 12:36:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75A57280CD5
+	for <linux-sound@vger.kernel.org>; Fri,  2 Oct 2026 12:49:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790944572; cv=none; b=iAfKYjVrIywhOey1SluVdstiT0EifIDBP7/Fy30HPYzOrbxUp/dWq4+128/B7Of6C2qzM9rY8Wx0TqqLf9U0yCa+xvssMfV4bKdTUMtsPGVCrVVbPI1g4D1XqWz/bAqx0lG1QGat/E1Vu2sBiLIDB0PvGfFdX56nd2sTIrF8a50=
+	t=1790945364; cv=none; b=QBFs605hBIhhdBf15T7r4Ut2NPbIhzQJ0h94lWHhZ0jNz37V6g9UA0tuKc+PzCxl3EsJMja9s02sSG7GP1hyPH9PqljMLHwZo/eqDcwMcLo3ezNxLXZO9M840/4A9+SWWnDKaydCXm2QrzqR9mgFRo6YchOMGZv974qXnjC4kB8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790944572; c=relaxed/simple;
-	bh=zJdGvFnH9239op/29+uvDTEPTaYaAw90S9Cp4ykY2oc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PwojCdSfM2+t5YWTF3D61TJaZbgXcZj1oMeQwXyxfkTfXr2WVui1fWxY2dJJiKUHKkal5cxKVs8T/Yw4OKK+5UI/cLOogOpplqHiTazmbjMlOcNLQk90GH6G078ieuoY4FPx4Q7+Y/NaCBgCLpyg/4lU8USQsHqQNHgcE8/Y0Bs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y04Ou6XX; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790945364; c=relaxed/simple;
+	bh=7rkj/N5W7RxAR11H4P1QL0a/+vajefjuvp1Tn1wlWC8=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=SsjoDuhBdYun3pw5IHed7ysPAvHcAf6g+3ndIfoAqlT+javQh8+nk9q9UAx7YlC/kUlT/Zdj4rMTVDxHuUQPF79Uf4+0mLO8usaNmbwns77c410Bv9/inJHM7fRRstzXpVLuEyadS95F6aqITjO4VRisJPmSMq0PnPUuuVvdcZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=sD5t/l11; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=72Oi/D0O; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=isrNTkTM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=C20wx8Bo; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y04Ou6XX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6D291F000FF;
-	Fri,  2 Oct 2026 12:35:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790944571;
-	bh=gHT1eHrCeRGheckcuVuH5tVn5htGR9KNUyLnh8eDOzU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Y04Ou6XX6SdMWUWTarLUhIsaN9w+3Pqeg8oUs/7OIb31JfWW0vUEVzkHQmEdDgjhX
-	 rMOXzqjsfTki350NeAiEQUKi4/Wmdue8la++1bjfwJl0sJt9qPFQ5jP+SuL7Z0VIrT
-	 fF/q64PoEK8zQ3Hm3rGDp9dID/9LqdMIt5ul42FGVvVWpLww9nxdUXfWoDIelUsaAq
-	 8uHXbsWsAqgQEMs5R7FJEaINNCSu3zIGTrOrgwAyZ/QFIZy9pBQiDvOq7P6XMWUnTW
-	 K0nPXJCzRbOceqmLZfwrGmVvzEwYcn9zKQTP/XretUzMvEj70sWs0xCGSfo9UlqM4u
-	 t7IisLDZyS3qQ==
-Date: Fri, 2 Oct 2026 13:35:42 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
-	Paul Moore <paul@paul-moore.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen" <mkp@kernel.org>, 
-	Jaya Kumar <jayalk@intworks.biz>, Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, 
-	Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
-	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
-	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Juri Lelli <juri.lelli@redhat.com>, 
-	Vincent Guittot <vincent.guittot@linaro.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, 
-	Oliver Upton <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
-	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
-	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
-	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
-	Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
-	Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
-	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
-	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev
-Subject: Re: [PATCH v3 32/40] mm/uffd: use predicates for userfaultfd checks
-Message-ID: <ar-k7i_hZC-SqCLO@gremlin>
-References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
- <20260917-b4-mmap-prepare-vma-flag-sanify-v3-32-4583d8a23bca@kernel.org>
- <72bbb616-e84e-4635-9d0a-336916db47e4@kernel.org>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="sD5t/l11";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="72Oi/D0O";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="isrNTkTM";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="C20wx8Bo"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 38A4421DC4;
+	Fri,  2 Oct 2026 12:49:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1790945357; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6XQ9gUQ+z15h7NUiFz5FiKJXgezx4EjAHkmJFYvhEQQ=;
+	b=sD5t/l11Cu0hK06MNiAQ7UEFwlbXXOu8t9pmL2RL4b7pNq1um+l7ZqW0BkJFmwSpEkK766
+	j9UlqPO2nMLBvrPrsqVsYZDc/pPKltHi6xJxWAnYx04AleBo1zLONw+PuAv2RBJgRGnSxc
+	F8lXkM5F+l8Qbobm4qfoo7vma5uU200=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1790945357;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6XQ9gUQ+z15h7NUiFz5FiKJXgezx4EjAHkmJFYvhEQQ=;
+	b=72Oi/D0OJ5DH9YCH+1iOP5VG3ACWcVKvt3aFm1TiHNosKpI2SBNczWef/cUMzPxeRj1PHQ
+	w2B4qxH8mzWJocBw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=isrNTkTM;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=C20wx8Bo
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1790945353; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6XQ9gUQ+z15h7NUiFz5FiKJXgezx4EjAHkmJFYvhEQQ=;
+	b=isrNTkTMT1lr/gcArz3i72PhPPur2JELK4x3osbJvWMPf7DJlKbsMe8YDvC+cyCW04FogD
+	R3YexsDXgn9FOXjo7vmjnarpNiP1owBZTewONISxU9U+UAUmMEDjKrIvmhLtyt8dCm8OQa
+	kg5IIzmOGcUdd4YPRy/nJNHDCUzO8KE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1790945353;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6XQ9gUQ+z15h7NUiFz5FiKJXgezx4EjAHkmJFYvhEQQ=;
+	b=C20wx8BoAQZFJOeTBg32Tq7lFpNgYz3pK40dqMUFUfxBgQgjwJaepfjoW6x7Cngp0l1Umm
+	4EiQGsWfXdQimICQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E878A13C73;
+	Fri,  2 Oct 2026 12:49:12 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id tSvnL0iov2qLVAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 02 Oct 2026 12:49:12 +0000
+Date: Fri, 02 Oct 2026 14:49:12 +0200
+Message-ID: <87tsn4z2rb.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	linux-sound@vger.kernel.org,
+	alsa-devel@alsa-project.org
+Subject: Re: [GIT PULL] ASoC fixes for v7.3-rc5
+In-Reply-To: <ac1f5abe5b1f49157574990efcd4eaf2@kernel.org>
+References: <ac1f5abe5b1f49157574990efcd4eaf2@kernel.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <72bbb616-e84e-4635-9d0a-336916db47e4@kernel.org>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 38A4421DC4
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,alsa-project.org];
+	RCPT_COUNT_THREE(0.00)[4];
+	FROM_EQ_ENVFROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Spam-Level: 
 
-On Fri, Oct 02, 2026 at 09:04:17AM +0200, David Hildenbrand (Arm) wrote:
-> On 9/17/26 18:22, Lorenzo Stoakes (ARM) wrote:
-> > Rather than directly checking VMA flags, use the newly introduced
-> > vma_is_kernel_owned() and vma_is_persistent() helpers in userfaultfd when
-> > assessing VMA suitability for userfaultfd and UFFDIO_MOVE.
-> >
-> > Update vma_move_compatible() so it's expressed in terms of VMA
-> > characteristics rather than arbitrary flags.
-> >
-> > Additionally, update the use of the deprecated VMA flag API when checking
-> > VMA_SHADOW_STACK_BIT.
-> >
-> > A VMA_IO_BIT check is no longer required but that is fine as a hard
-> > invariant has been established that only kernel-owned mappings may set
-> > VMA_IO_BIT so the check is now redundant.
-> >
-> > Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> > ---
-> >  mm/userfaultfd.c | 21 +++++++++++++++------
-> >  1 file changed, 15 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/mm/userfaultfd.c b/mm/userfaultfd.c
-> > index 949017e60608..ddf0a4a3d399 100644
-> > --- a/mm/userfaultfd.c
-> > +++ b/mm/userfaultfd.c
-> > @@ -1754,10 +1754,18 @@ static inline bool move_splits_huge_pmd(unsigned long dst_addr,
-> >  }
-> >  #endif
-> >
-> > -static inline bool vma_move_compatible(struct vm_area_struct *vma)
-> > +static inline bool vma_move_compatible(const struct vm_area_struct *vma)
-> >  {
-> > -	return !(vma->vm_flags & (VM_PFNMAP | VM_IO |  VM_HUGETLB |
-> > -				  VM_MIXEDMAP | VM_SHADOW_STACK));
-> > +	/* uffd is generally incompatible with kernel-owned mappings. */
-> > +	if (vma_is_kernel_owned(vma))
-> > +		return false;
-> > +	/* The shadow stack should not be written to by userspace. */
-> > +	if (vma_test_single_mask(vma, VMA_SHADOW_STACK))
-> > +		return false;
-> > +	/* hugetlb mappings cannot be safely moved. */
-> > +	if (vma_is_hugetlb(vma))
-> > +		return false;
-> > +	return true;
->
-> return !vma_is_hugetlb(vma);
+On Fri, 02 Oct 2026 14:35:32 +0200,
+Mark Brown wrote:
+> 
+> The following changes since commit 93f51579e7df248780214094418f205253383cc5:
+> 
+>   Linux 7.3-rc4 (2026-09-20 13:48:15 -0700)
+> 
+> are available in the Git repository at:
+> 
+>   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v7.3-rc5
+> 
+> for you to fetch changes up to cad16d850e3759dd82cd869f739b56e9844a1fee:
+> 
+>   spi: cs42l43: Workaround for wrong speaker ID on Dell XPS 13 DX13260 (2026-10-01 16:38:05 +0100)
+> 
+> ----------------------------------------------------------------
+> ASoC: Fixes for v7.3
+> 
+> A bigger collection of fixes than usual due to your vacation but nothing
+> hugely remarkable here, just fairly standard quirks and driver specific
+> bugfixes.
 
-Ack, done for v4.
+This one looks better :)
 
->
-> >  }
-> >
-> >  static int validate_move_areas(struct userfaultfd_ctx *ctx,
-> > @@ -2146,10 +2154,11 @@ static bool vma_can_userfault(struct vm_area_struct *vma, vm_flags_t vm_flags,
-> >  {
-> >  	const struct vm_uffd_ops *ops = vma_uffd_ops(vma);
-> >
-> > -	if (vma->vm_flags & (VM_DROPPABLE | VM_SHADOW_STACK))
-> > +	/* Non-persistent memory is inherently not controllable by userspace. */
-> > +	if (!vma_is_persistent(vma))
-> >  		return false;
->
-> Completely confusing. Just avoid the helper and open-code this here.
+Pulled now.  Thanks!
 
-See the other thread on this. I think with this as vma_is_volatile() this is a
-lot clearer.
 
->
-> > -
-> > -	if (!vma_is_hugetlb(vma) && (vma->vm_flags & VM_SPECIAL))
-> > +	/* The shadow stack should not be written to by userspace. */
-> > +	if (vma_test_single_mask(vma, VMA_SHADOW_STACK))
-> >  		return false;
-> >
-> >  	vm_flags &= __VM_UFFD_FLAGS;
-> >
->
-> Other stuff looks much better to me.
-
-Thanks!
-
->
->
-> --
-> Cheers,
->
-> David
-
---
-Cheers, Lorenzo
+Takashi
