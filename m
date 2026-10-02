@@ -1,102 +1,75 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from sendmail.purelymail.com (sendmail.purelymail.com [34.202.193.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF8633A16AC
-	for <linux-sound@vger.kernel.org>; Fri,  2 Oct 2026 18:35:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 361F636D9FE
+	for <linux-sound@vger.kernel.org>; Fri,  2 Oct 2026 18:50:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=34.202.193.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790966115; cv=none; b=dEJdNFLYSiyrPrmu45hKhas9ml3PcRjI3zi4yO7nN3lM9PVacwAmyidqSPTyVF2xcLyTNsyALIkhvhH9chPGOavNbCe7UTVNSOsDBVXg1FkWM7gVIzRT/Cy9N0J4ZnEJgut2FICXYKd7S5UyfwA5Lo+bIhqUlqA2YKa3Ru8YW8Q=
+	t=1790967055; cv=none; b=nfBbRGBt86z2+NUHJYqV0HzPVSASlFD1HZMbZBtVJhl1hoob6g4WkVKUwHFFKeITP6d8YugXfyg6AqLQxMozpU4kDXfJQ4PkwJ+dN5AWYrZyoARRbvd5aeP0/SKYuPokPKeRR95LVtV420QQ6Vvu7GZzXPoc70x6m9AxYESFpCM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790966115; c=relaxed/simple;
-	bh=V+NhUZ000yDhg745eCeGjhHxJ7fXSlr+Nu5y7Soaqvc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QVW0B6L1ar5ObkLNU4NBmRqiSMJcJntytLHjjwLGnADDO/tdAI/bjj7eWpt6XISewwPulqLM9IjI6YjM+pO75VW2Bt08yq7yt042C2ULkG709rWq2SZBB3PN9wF49tv29naMn2hDC0Lq0pt0Rtavn5Lf4igJX9sZlfbe6Qx9K2c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GqacNtCV; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790967055; c=relaxed/simple;
+	bh=d0Cwr9r5bEYFoTe1/+9UpoNZNZxU0BAzUwaupHJmFKs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=YuyXnXpdM4lyVISpKG6zCWk8Mg9GL2+u+mGoIkJu9uHLYNlfvvsoG59bdMzbI/LdlXGBKwldG3mCBSbiHJ9whNx+R1+hRFRutZuZafTKLK+g+hXOkgpsckhtp1bmQZLYjlkoELrnAwBZIyu1SVe+UsX6rFiYhmT80g6sn0rTt7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meowing.net; spf=pass smtp.mailfrom=meowing.net; dkim=pass (2048-bit key) header.d=meowing.net header.i=@meowing.net header.b=bAb9lFoQ; dkim=pass (2048-bit key) header.d=purelymail.com header.i=@purelymail.com header.b=HnfF8kx7; arc=none smtp.client-ip=34.202.193.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meowing.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meowing.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GqacNtCV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02D8C1F000FF;
-	Fri,  2 Oct 2026 18:35:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790966114;
-	bh=DEJITFIPaLzKDGbO8m/Ay8pPFOH8cHD0Aa53YFEFNuU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=GqacNtCVppYWVSP9xf5j0XkdQvUfhFymU6E9O9CJO8jtV7Dcx2znbRN6Mz3Dtmv6v
-	 MdCKayI+FEiOPP5kRzvPwTNOEZkX5XhduwdBuhFtjV8bRh6IX35RpdUf98rOny0Wo2
-	 Y6gxpjAqIgewiUCDKauvJAsXXrKlT7czrV4FZzy556Cd0J4icyvsJPa4+vIJPUTNg4
-	 NSC8AEKpt4L5FfJpPnWT69WzdafEidsJXtIaBEw2K9Q5fJwI5QgAx5oLy2y659pMWD
-	 +mdOW8JvofDlSBXEoDlXmpdW5sjkNCfculmf/Hpe6eGetn5hDNAV8CwRJjU1TS4pCa
-	 fRom3N2YpCAKA==
-Message-ID: <1b7c3c98-5fbd-40f1-9fb4-61403615c51d@kernel.org>
-Date: Fri, 2 Oct 2026 19:35:11 +0100
+	dkim=pass (2048-bit key) header.d=meowing.net header.i=@meowing.net header.b="bAb9lFoQ";
+	dkim=pass (2048-bit key) header.d=purelymail.com header.i=@purelymail.com header.b="HnfF8kx7"
+DKIM-Signature: a=rsa-sha256; b=bAb9lFoQos+i2FV6lRUQcJXYqTGJ1Dz3PgIjQZiQ2YLV+wAx9l5Qebwd35mVZZUTZGDWU8OIv7cE5i9378v4dS6zwtR9nMCPtDcu2Kb9q3HwEncSYIYVWro2yFmGL0nWYIF49bpYPNlsGdENIPQ1Ca/fQTot+JY9/DN0FV3eulNcL5CasaFa5oXV9qbPQK7eR/qgUYVZGSDdWT5vVtaQaqlJgDZkvDrUucP5OeC9AFpjeK9cfUmtcEs1s0NQFMwFISr32qEgxt+0EZ7D/aFOkywHb/HZDl7IEnFRgmjBF6OH1xsxljJI1D6DKhcia2YQ3czLnLbRg7B0B8j2dXqejQ==; s=purelymail1; d=meowing.net; v=1; bh=d0Cwr9r5bEYFoTe1/+9UpoNZNZxU0BAzUwaupHJmFKs=; h=Received:From:To:Subject:Date;
+DKIM-Signature: a=rsa-sha256; b=HnfF8kx7ZvxIgGejb3QPEVksBbUfhN5jhxgf1G7AekCy9cl/t1FWkhskQfBFLimR9xM6lrDuaSFlbRxeOKZq9GXBPsc52/+zE0hrsYWSNGAQoRZMWVx2sgHqLfZvHYnvCy962N6OppOiXauctcfXaUJdmnUp/fSEAYh6OwQF+qk7jPdV471XzM/DIOIPcpSWeDDp8x1OS+V0+Rca//znm7hSE6YTV+CnpIes6Yp7J+DmynT3l2m5397xO9R5bfJDyHZPBk+K5H/3+AFBPbQur7gfFXV97Hae2cVY1J5MgsPPM1JSunF8R9woaIT/UiQwXNafi901DdKu/rbHpqxE7w==; s=purelymail1; d=purelymail.com; v=1; bh=d0Cwr9r5bEYFoTe1/+9UpoNZNZxU0BAzUwaupHJmFKs=; h=Feedback-ID:Received:From:To:Subject:Date;
+Feedback-ID: 378383:29868:null:purelymail
+X-Pm-Original-To: linux-sound@vger.kernel.org
+Authentication-Results: purelymail.com; auth=pass
+Received: by smtp.purelymail.com (Purelymail SMTP) with ESMTPSA id 865561449;
+          (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+          Fri, 02 Oct 2026 18:50:42 +0000 (UTC)
+From: Yejung Kim <catcake43@meowing.net>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Yejung Kim <catcake43@meowing.net>
+Subject: [PATCH] ALSA: usb-audio: Add quirk flag for Creative Stage SE
+Date: Fri,  2 Oct 2026 14:50:35 -0400
+Message-ID: <20261002185035.9040-1-catcake43@meowing.net>
+X-Mailer: git-send-email 2.56.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Linux-audio BoF at Linux Plumbers Conference?
-To: Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org
-Cc: Arun Raghavan <arun@accosted.net>, Mark Brown <broonie@kernel.org>,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- Srinivas Kandagatla <srini@kernel.org>, Jaroslav Kysela <perex@perex.cz>
-References: <871pbsnce8.wl-tiwai@suse.de>
- <5f459099-4364-46f9-a3b4-1c629aa91209@perex.cz> <87se48lv6z.wl-tiwai@suse.de>
- <8733uoys02.wl-tiwai@suse.de>
-Content-Language: en-US
-From: Srinivas Kandagatla <srini@kernel.org>
-In-Reply-To: <8733uoys02.wl-tiwai@suse.de>
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by Purelymail
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-Thanks Takashi,
+The UAC mixer on Creative Stage SE (041e:3289) returns invalid/constant
+GET_CUR volume values, causing ALSA to treat it as a sticky mixer and
+to disable it.
 
-On 10/2/26 5:41 PM, Takashi Iwai wrote:
-> On Thu, 20 Aug 2026 16:31:48 +0200,
-> Takashi Iwai wrote:
->>
->> On Thu, 20 Aug 2026 16:02:45 +0200,
->> Jaroslav Kysela wrote:
->>>
->>> On 8/20/26 15:34, Takashi Iwai wrote:
->>>> Hi,
->>>>
->>>> a few people including Mark and me have talked about holding a small
->>>> meeting for the Linux audio stuff (finally again!) during the next
->>>> Linux Plumbers Conference (on Oct 5-7 at Prague).
->>>>
->>>> Has anyone already planned to attend there and is interested to join?
->>>> If we have enough people, we can try an official BoF session.
->>>> Otherwise, we can just have an unofficial session at lunch time or
->>>> such, too.  Just let us know.
->>>
->>> Hi,
->>>
->>> I will be attending Linux Plumbers and would be pleased to participate in
->>> a BoF session or another type of meeting.
->>
->> Awesome, looking forward to seeing you again!
-> 
-> So, the conference will be opening on the next Monday, and we still
-> haven't planed yet -- business as usual :)
-> 
-> I put people who showed interests in Cc.  If more people are
-> interested to join, heartedly welcome!
-> 
-> If anyone has NO-GO time slots (Monday AM/PM, Tuesday AM/PM, Wednesday
-> AM/PM), let us know.  Or, since there aren't so many people, we can
+Add a quirk table entry applying QUIRK_FLAG_MIXER_GET_CUR_BROKEN to
+allow volume controls to function correctly.
 
-I have a talk at on SDCA and Devicetrees at "10:45 AM - 11:05 AM" on
-Tuesday 6th Oct. I would really appreciate if yo can avoid that 20 mins.
+Signed-off-by: Yejung Kim <catcake43@meowing.net>
+---
+ sound/usb/quirks.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-
---srini
-
-> just have a lunch or dinner meeting, too.  If you have any preference,
-> speak up, please.
-> 
-> 
-> thanks,
-> 
-> Takashi
+diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
+index c5870901a8d4..961038f08890 100644
+--- a/sound/usb/quirks.c
++++ b/sound/usb/quirks.c
+@@ -2242,6 +2242,8 @@ static const struct usb_audio_quirk_flags_table quirk=
+_flags_table[] =3D {
+ =09=09   QUIRK_FLAG_IGNORE_CTL_ERROR),
+ =09DEVICE_FLG(0x041e, 0x324d, /* Creative Sound Blaster Play! 3 */
+ =09=09   QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE),
++=09DEVICE_FLG(0x041e, 0x3289, /* Creative Stage SE */
++=09=09   QUIRK_FLAG_MIXER_GET_CUR_BROKEN),
+ =09DEVICE_FLG(0x041e, 0x4080, /* Creative Live Cam VF0610 */
+ =09=09   QUIRK_FLAG_GET_SAMPLE_RATE),
+ =09DEVICE_FLG(0x045e, 0x083c, /* MS USB Link headset */
+--=20
+2.56.0
 
