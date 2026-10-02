@@ -1,69 +1,128 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85FA54570F2;
-	Fri,  2 Oct 2026 09:42:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAC7E47AF65
+	for <linux-sound@vger.kernel.org>; Fri,  2 Oct 2026 09:49:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790934140; cv=none; b=gq3WFtw3eylpOKmCMD76MzAKWYs+qWjzp/iADr5MzlEOt628lkOjBLTOxnoghy+SDzxyLcX2zk9mjBQ/d9S6hnobf5JeI9o+Vsg74z/xKLTrvw63Q/GspnGh3ESQpB58y238PCS/dbGxCdIMKPUlmjgvQHqnSB+ew5dQ7GgI+7E=
+	t=1790934593; cv=none; b=SkBt1CnDkElUPnV9AgeRzzERSYj68Pom1hnPX6MIkAfK1LN49g6S/UFmWyJMJ4nmYYZWWYwwxNNF9dEAjiKecgOcYCvUPG7W3ODYQvcUDdH/O7Zh9K9np6M2t1QHM+EQLBUVJbz05ku07DLLC/ivFgn8S/kW9tmBgzc8KDSaqbU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790934140; c=relaxed/simple;
-	bh=IDV1284Y8jRNw3qmwplFh09UtKb9DD8AZgh4/3H9cXY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HfE3OStGcAHkdSpIRakyzs7aADlf3rNisaoVGL0zm4Tn0oE0ZGEARl2UG+zQRq/2FOXHp53pTZi7HguLg4r3h0MkyafBedig+H4Rp08M2WCPtHT4GhqaaEE98X08u+03LWFSN2+hkiBJiaz4+j20lFYayEM2BgJlslTg1onFYCo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hplXPbVj; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790934593; c=relaxed/simple;
+	bh=0UD9OIqCmDhTrj0b9dG//QSQztmY8kSUpwuV73z/Ymw=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=mbfqlVJpQD8b0oGB4fC3eqiVL0FZqT1pO4+NI+mh5Ipu/02X3qUV0G5dXUsyqFHFSsL9Dhd7sy+aD9JYea6f9fvgqspPISS/jLblCGzGQthG7QX+TRHJBrTFuELYjQzQ+iUMxHQnSzMSOWohQNPimUuez3YI+oCZfzPf7UTJbFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com; spf=pass smtp.mailfrom=amarulasolutions.com; dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b=ArwhLn1Y; arc=none smtp.client-ip=74.125.225.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amarulasolutions.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hplXPbVj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CFF31F000FF;
-	Fri,  2 Oct 2026 09:42:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790934139;
-	bh=efL1+n1dK7AWhH37EQ0nV3a1HbjScxl8OApVSmAnV5Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=hplXPbVjlKdXr+GoZfnOiYnK7paer287vF1PjzJuXNqGHk2hI3obnO02CDrcdGcOC
-	 HK0+DIDKOLVNjLw2DN1zOqahPNYa8UOA6GgCTLyHb1TMm4eWTLxK3l+IwiCCj0WcdG
-	 K/KF7BRyR/753FfsARs8g+QsOR8V/w9pJM+XPkoAfPzroz/IbU9AXeCSuFvR4jx2JN
-	 UFRk1Rg2GVY3Io83a7GKi6X9FcMh84ihpZ+p4SY2dyttmgeyTrweuukhb1VGbP8XJo
-	 mfHL3EKRiVulKZNm4OrmxazNailvb1lPBZNNxFkgkHa0sA4jHlU7hZX9bquzVULvbp
-	 C+rW/hCzUPCrQ==
-Date: Fri, 2 Oct 2026 11:42:15 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Valerio Setti <vsetti@baylibre.com>
-Cc: Jerome Brunet <jbrunet@baylibre.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 1/7] ASoC: dt-bindings: add amlogic,gxbb-audin
-Message-ID: <20261002-curly-bold-octopus-ade53b@quoll>
-References: <20261001-audin-v4-0-2476646118b5@baylibre.com>
- <20261001-audin-v4-1-2476646118b5@baylibre.com>
+	dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="ArwhLn1Y"
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-4a022e9cbebso11477615e9.0
+        for <linux-sound@vger.kernel.org>; Fri, 02 Oct 2026 02:49:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amarulasolutions.com; s=google; t=1790934585; x=1791539385; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=17hXUf/wpq+x73auKkD+LetKx3d+qKZ9hCfZeZlNHuU=;
+        b=ArwhLn1YQtw9zAkNY8WFJanj2LujvtQyX0xvO+4+IMDajPq145SxwNWBPc213oKq8O
+         VrEsPrHf5TlxllWeRTt6U8DCwVykQ40DLSnM4WoJs6Y8J4kaFDn4o2+4aKzxBaqfgSaG
+         1p2p9TsIhRQuXtgaRXddO3t77WPTdmWdP2k68=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790934585; x=1791539385;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=17hXUf/wpq+x73auKkD+LetKx3d+qKZ9hCfZeZlNHuU=;
+        b=qfNhsCptwB0717ZrK8tKWTVM0n/LiOrfaybNp6nln62j3946yOgkNWa1/6UQOHcAod
+         kzvmLrFqAmHrzl2PtLr4lgEoawYMIfSlTmJzK+OIwGvji6h3a+sHJtPbIdYdG4r2yolS
+         sCk95XX8jYFK/oPF8SrghXEFml8iv1sY1MUN2M9NCk2oyHGyLZmOlq7aoValtDbDXnfE
+         zERc5u5MhHjRiFi8nhppvK5efHC1PJZ6heg0vK9Rd0On+DK8saoHQbMRIQGcVJUF3SEu
+         L6JaWIQIB7lnFKZBd+Ps0eZe/QcXioDd7jzjlYQOYAYCzEwxm5rzHRIs3Wb1ybkwYWYE
+         nyjw==
+X-Forwarded-Encrypted: i=1; AKwUvBzdohZZXzj2V6E3Mb8LeGo/ZvPNyUZcXTibGtgKUyINyi3iwffXxhsPJLvpeTNvR/J3LAcFczt2HCaCfg==@vger.kernel.org
+X-Gm-Message-State: AFuF++lcD6b3GFfB8ikFPFRCgMF1tUw2CP4Dm02Y8A2TQM9BVmrBsvgg
+	lyB+V5QoNZdNBWPdoSh6zSrmlx14hB95YlXFj+DOHNCKHCdz4iv9kgbJ34XAwnTlr90=
+X-Gm-Gg: AYBFou1g5KrDvWyPliHZXQGSvxTor36Pg3xBI8uOBuwPDOy6IW0gfuJrNtgNMc9qa3Y
+	lhHCX3PG6f/YNKa9M3Pe5yIZA0yYw8dPyoVV8GPY/IaCnyTImj6aJy/FYOeK5p0oi2JUFSLEOjs
+	Sx9xC/6cZrsLrlMiXPWpH75WhMe9DDlAAk1Wd3N2XZnxl4yfjao+tj5AqRbAXWHZL4BqRqS9VJZ
+	0cdA3anzIfuSD7tVNN/X/XSRVmkRAGZp7bYBcr2CSJBfk11tbLRusiYiO95s5GpAS9CLiDHEoin
+	6UI4V4NGD1he4I5W8+BmU/rXYWjvI9T07wdusHjlbtheP2SHDUYpNuP8xZq6pFgNCgmO97maFp8
+	uoaQ+W6x+YlNuM+6X5OWwCPMrS8orXCLlvUwo3GvQd0LOpJVLsKdCc2KHA7e/NcHFiYi/BdP/UB
+	99aAVVG5+UfDBxmufxYI0wJk+szRf4B2L8EbU5laF7Xk01gQqdWYjnAgQlUhkurR1BkH0MaZ34S
+	28=
+X-Received: by 2002:a05:600c:3144:b0:4a0:1c0e:b2a8 with SMTP id 5b1f17b1804b1-4a0275780d3mr35684945e9.28.1790934584855;
+        Fri, 02 Oct 2026 02:49:44 -0700 (PDT)
+Received: from localhost ([93.90.163.238])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a0280c8bb0sm73051165e9.11.2026.10.02.02.49.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Oct 2026 02:49:44 -0700 (PDT)
+From: =?utf-8?q?Roman_Smr=C5=BE?= <roman@amarulasolutions.com>
+Subject: [PATCH 0/5] ASoC: pcm179x: Add support for pcm1795 and pcm1796
+Date: Fri, 02 Oct 2026 11:49:29 +0200
+Message-Id: <20261002-work-v1-0-f0e53bc7331f@amarulasolutions.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261001-audin-v4-1-2476646118b5@baylibre.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzNDAwMj3fL8omxdcwPTNCODJDMDIwsTJaDSgqLUtMwKsDHRsRB+cWlSVmp
+ yCUivUm0tALTQLfVoAAAA
+X-Change-ID: 20261002-work-705f20b60284
+To: =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+ Lars-Peter Clausen <lars@metafoo.de>, 
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
+ Peter Rosin <peda@lysator.liu.se>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Shenghao Ding <shenghao-ding@ti.com>, 
+ Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, 
+ Sen Wang <sen@ti.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>
+Cc: patches@opensource.cirrus.com, linux-sound@vger.kernel.org, 
+ asahi@lists.linux.dev, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Roman_Smr=C5=BE?= <roman@amarulasolutions.com>, 
+ linux-amarula@amarulasolutions.com, 
+ Michael Trimarchi <michael@amarulasolutions.com>
+X-Mailer: b4 0.15.2
 
-On Thu, Oct 01, 2026 at 06:06:26PM +0200, Valerio Setti wrote:
-> AUDIN provides I2S audio input support to the Meson GXBB and GXL SoCs.
-> 
-> The AUDIN block on GXL is identical to the GXBB one, so "amlogic,gxl-audin"
-> uses "amlogic,gxbb-audin" as fallback; the SoC-specific compatible is
-> added so that differences can be handled later if any are found.
-> 
-> Signed-off-by: Valerio Setti <vsetti@baylibre.com>
-> ---
->  .../bindings/sound/amlogic,gxbb-audin.yaml         | 69 ++++++++++++++++++++++
->  1 file changed, 69 insertions(+)
+This adds support for the PCM1795 and the PCM1796 to the pcm179x driver.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+The PCM1795 is register compatible with the PCM1792A, but it encodes two
+of the register 18 FMT[2:0] values differently, so the format encoding is
+described with a per-codec table instead of the width switches. Only the
+PCM1795 has real 32-bit formats; on the PCM1792A and the PCM1796 a 32-bit
+container keeps the 24-bit code, as it always has. Left-justified, which
+the driver accepted but never programmed, is added on the way.
+
+This series is based on a work done in 2016 by my collegue:
+https://lore.kernel.org/all/20160311232856.GC27257@panicking/
+
+Signed-off-by: Roman Smrž <roman@amarulasolutions.com>
+---
+Michael Trimarchi (2):
+      ASoC: dt-bindings: Add ti,pcm1795 and ti,pcm1796
+      ASoC: pcm179x: Add support for pcm1975
+
+Roman Smrž (3):
+      ASoC: pcm179x: Refactor regmap value lookup
+      ASoC: pcm179x: Add left-justified formats for pcm1792a
+      ASoC: pcm179x: Add pcm1796 as compatible with pcm1792a
+
+ .../devicetree/bindings/sound/trivial-codec.yaml   |   2 +
+ sound/soc/codecs/pcm179x-i2c.c                     |   2 +
+ sound/soc/codecs/pcm179x-spi.c                     |   2 +
+ sound/soc/codecs/pcm179x.c                         | 116 +++++++++++++++------
+ sound/soc/codecs/pcm179x.h                         |  12 ++-
+ 5 files changed, 101 insertions(+), 33 deletions(-)
+---
+base-commit: ce1e0223d8ad4211275c82a17ed6d43ab81e13d9
+change-id: 20261002-work-705f20b60284
 
 Best regards,
-Krzysztof
+--  
+Roman Smrž <roman@amarulasolutions.com>
 
