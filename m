@@ -1,87 +1,50 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FB7B46AEFE
-	for <linux-sound@vger.kernel.org>; Fri,  2 Oct 2026 08:55:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9614A372070
+	for <linux-sound@vger.kernel.org>; Fri,  2 Oct 2026 09:21:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790931359; cv=none; b=IYAElHAzVxgZCn9qdAbtnEz4mZ9FjtuaHfPtbxIL8Cc+uR/C0o2w5BHmmfzZPa+Nn9e9FVa7MV4RSYfvNmWWs+1lQwD+/6KSb87NU9rQqUz/fsQ9YrKXHhKI7feiJ6Emw+lbOuDrEy3ZIRcRrNst9WvCjZrOA1ccvHOPpXkN8zk=
+	t=1790932901; cv=none; b=eK4fSgEU8HxJp9KJVE4wwtKuaadxdx6pCiAmSr3qYWWm5aY3ufRQG6zqcMT6xH03CCBxKk1QDr6iHWi9JWJWSylE+QHkIIc56KBtTRBnLGp4J4j6ho1biTuFmyuwKuubk/mYYevjkLE1LYpXpdGtAj46MBlVD98RMBJ+sHt0Hu4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790931359; c=relaxed/simple;
-	bh=neLxhxvIBlMNHwXZRTgHi8rAL87eMGe1xsLEW3wY8O8=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=E7pxv7/TK2SCvwl8mCUQkkOv1T4H03UFr4ZDwxo+Ow3nb0rDfMMA5ldAvmLXd37p+KLs6m0ccPHySuIedN9kkN6oN21RxWQX7TSYV/Fcb+dXk4Ns0RFR9FCBpmWIP/lBeQ3h5AKToZPguDt6PsTuotQ6QnK0b9iziwAeJlBhJx0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RHXZgAoi; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=oo+2pylY; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=g7hxgnh+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=qcDyJCK1; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1790932901; c=relaxed/simple;
+	bh=O3Thk85sAHH5QJSY/mJodPK3iAZArYt5dGhHPaasDbI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type:
+	 References; b=gghy8rY0w+5rNT6wZmRxg1LOprtCPHskZkypUljEhuPAHKboeQ/AjRUcX/YA76XhOk+6X6BEoT5ncH3YN4guuvPsvcIUNx7HDxeB42pUYPHjCJXVVicGqLDL5Co41k9wsOP+nio3ecL0WpF/P8IdLDNDBfQNMnb3Bna1VFu0Uwg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=dN6qg1gu; arc=none smtp.client-ip=210.118.77.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RHXZgAoi";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="oo+2pylY";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="g7hxgnh+";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qcDyJCK1"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 9009F1FE59;
-	Fri,  2 Oct 2026 08:55:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1790931347; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lw61k9h3bVn1NGUyKfhPo6RNJSD+nJA7M2eitgmgN5c=;
-	b=RHXZgAoi1ussl7uNYXQLxTEQnCFBRBYAqB7aB2qZSCeuXdNXBJqXXQ6A3dy1k2SHbXtQNI
-	wKlXyCHBw7DTb9XOugvf/df0vlZaF5rJ8QOh8p3OOWA2Z+IayPEXt0TiigEy4L4rVEOoxc
-	m+rLWEWZM2CI0s8YyBUAqcafjvaxvqc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1790931347;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lw61k9h3bVn1NGUyKfhPo6RNJSD+nJA7M2eitgmgN5c=;
-	b=oo+2pylYreqLlWKzh/l131dtjnmgl+LGLekpihpvmr/ebttOXEEamieCAaWlVGUjw4G4aJ
-	W+c3XlkNzBI1eGBA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=g7hxgnh+;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=qcDyJCK1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1790931343; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lw61k9h3bVn1NGUyKfhPo6RNJSD+nJA7M2eitgmgN5c=;
-	b=g7hxgnh+cRaP7cJn6cFJUzFXazbuYVSRPN+RwXsowwdiqELYQadNzpPhoLWsfxjPyTpU1Q
-	WGSJIj9yZzSXTbDa6l1vdNv6iMl+3Ac9wYhPTC/Y7/JWJ8lXdtGYshfujCYhle1YUpa4Px
-	REa0Da6IargTdHSyUGzMJdIb3x0wrd0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1790931343;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lw61k9h3bVn1NGUyKfhPo6RNJSD+nJA7M2eitgmgN5c=;
-	b=qcDyJCK1j9kr4yumcsookM3K5LhrNokHwSEJRkHBIKkM1vJlZW6fdLvEz0fRj3jBgeBgbf
-	W72Ts9wpr0jhTOCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CC69813C1A;
-	Fri,  2 Oct 2026 08:55:29 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id HfPyB31xv2ppWAAAD6G6ig:T32
-	(envelope-from <tiwai@suse.de>); Fri, 02 Oct 2026 08:55:29 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Subject: [PATCH v2 31/32] ALSA: intel-hdmi-audio: Use auto-cleanup for probe card error handling
-Date: Fri,  2 Oct 2026 10:55:09 +0200
-Message-ID: <20261002085517.693510-32-tiwai@suse.de>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261002085517.693510-1-tiwai@suse.de>
-References: <20261002085517.693510-1-tiwai@suse.de>
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="dN6qg1gu"
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20261002092130euoutp02eebda46670db0b90ccff69fc0439b3a0~aq-mePj3Q1371313713euoutp02M
+	for <linux-sound@vger.kernel.org>; Fri,  2 Oct 2026 09:21:30 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20261002092130euoutp02eebda46670db0b90ccff69fc0439b3a0~aq-mePj3Q1371313713euoutp02M
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1790932890;
+	bh=wWIBM+vRTtRDKTeZi7RkFmomnPRhth9vGh3Bb1rqyRc=;
+	h=From:To:Cc:Subject:Date:References:From;
+	b=dN6qg1guHaU+q0LkGhogicm5nAkI6Z5vMmF80y1KcuzyW1A80rss3mfVZUO55aRdy
+	 c4KMU3xTuQMxvvm97TPj9yd2u6L0w8MhwOuNJlJqWjCLo4jsakD7gwOzMdo0/MEsef
+	 Uvp6wrtRmBbk4tl57RUPd8w2xYccMxxK1GRZWopQ=
+Received: from eusmtip1.samsung.com (unknown [203.254.199.221]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+	20261002092130eucas1p1bc0065c21bf1f1e0418ef5b845f72bc6~aq-mLbVUT2596625966eucas1p1B;
+	Fri,  2 Oct 2026 09:21:30 +0000 (GMT)
+Received: from AMDC4653.digital.local (unknown [106.120.51.32]) by
+	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20261002092129eusmtip1104c6d782ba79a90563a90a49af2ab93~aq-l23EO23106231062eusmtip1P;
+	Fri,  2 Oct 2026 09:21:29 +0000 (GMT)
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+To: linux-sound@vger.kernel.org, linux-samsung-soc@vger.kernel.org
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>, Sylwester Nawrocki
+	<s.nawrocki@samsung.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
+	<broonie@kernel.org>
+Subject: [PATCH] ASoC: samsung: i2s: enable op_clk in probe to balance
+ runtime PM
+Date: Fri,  2 Oct 2026 11:21:12 +0200
+Message-ID: <20261002092116.585466-1-m.szyprowski@samsung.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -89,79 +52,77 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 9009F1FE59
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:email,suse.de:dkim];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_ONE(0.00)[1];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Flag: NO
-X-Spam-Score: -3.01
-X-Spam-Level: 
+X-CMS-MailID: 20261002092130eucas1p1bc0065c21bf1f1e0418ef5b845f72bc6
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20261002092130eucas1p1bc0065c21bf1f1e0418ef5b845f72bc6
+X-EPHeader: CA
+X-CMS-RootMailID: 20261002092130eucas1p1bc0065c21bf1f1e0418ef5b845f72bc6
+References: <CGME20261002092130eucas1p1bc0065c21bf1f1e0418ef5b845f72bc6@eucas1p1.samsung.com>
 
-Instead of the manual call of snd_card_free_on_error(), use the
-auto-cleanup feature.
+The probe function puts the device into the runtime PM active state with
+only the "iis" bus clock enabled, but it also sets priv->op_clk to the
+parent of the RCLK_SRC mux without enabling it. The runtime PM suspend
+callback disables both clocks, so the first runtime suspend after probe
+disables op_clk once more than it was enabled.
 
-Merely a code cleanup, and no functional changes.
+On Exynos5250 Arndale both clocks resolve to the same EXYNOS_I2S_BUS gate,
+so this triggers the following warning during boot:
 
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
+ WARNING: drivers/clk/clk.c:1270 at clk_core_disable+0xe4/0x23c, CPU#0: kworker/u8:3/45
+ i2s_bus already disabled
+ ...
+ Workqueue: pm pm_runtime_work
+ Call trace:
+  ...
+  clk_core_disable from clk_disable+0x28/0x34
+  clk_disable from i2s_runtime_suspend+0x58/0x68 [snd_soc_i2s]
+  i2s_runtime_suspend [snd_soc_i2s] from genpd_runtime_suspend+0xc4/0x298
+  genpd_runtime_suspend from __rpm_callback+0x48/0x18c
+  __rpm_callback from rpm_callback+0x4c/0x50
+  rpm_callback from rpm_suspend+0xf4/0x718
+  rpm_suspend from pm_runtime_work+0x9c/0xa0
+  ...
+
+Fix this by enabling op_clk in probe right after getting it, so the clock
+state matches the runtime PM active state, and by disabling it in remove.
+
+Fixes: 48279c53fd1d ("ASoC: samsung: i2s: Prevent external abort on exynos5433 I2S1 access")
+Assisted-by: Claude Opus 5.5 <noreply@anthropic.com>
+Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
 ---
- sound/x86/intel_hdmi_audio.c | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
+ sound/soc/samsung/i2s.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/sound/x86/intel_hdmi_audio.c b/sound/x86/intel_hdmi_audio.c
-index 91dfcf47e979..9f67244d4946 100644
---- a/sound/x86/intel_hdmi_audio.c
-+++ b/sound/x86/intel_hdmi_audio.c
-@@ -1634,9 +1634,9 @@ static void hdmi_lpe_audio_free(struct snd_card *card)
-  * This function is called when the i915 driver creates the
-  * hdmi-lpe-audio platform device.
-  */
--static int __hdmi_lpe_audio_probe(struct platform_device *pdev)
-+static int hdmi_lpe_audio_probe(struct platform_device *pdev)
- {
--	struct snd_card *card;
-+	struct snd_card *card __free(snd_card_free) = NULL;
- 	struct snd_intelhad_card *card_ctx;
- 	struct snd_intelhad *ctx;
- 	struct snd_pcm *pcm;
-@@ -1797,14 +1797,10 @@ static int __hdmi_lpe_audio_probe(struct platform_device *pdev)
- 		schedule_work(&ctx->hdmi_audio_wq);
- 	}
+diff --git a/sound/soc/samsung/i2s.c b/sound/soc/samsung/i2s.c
+index 3e76cb81462f..442e70b107da 100644
+--- a/sound/soc/samsung/i2s.c
++++ b/sound/soc/samsung/i2s.c
+@@ -1534,9 +1534,16 @@ static int samsung_i2s_probe(struct platform_device *pdev)
+ 		goto err_disable_pm;
  
-+	card = NULL; /* probe succeeded, don't release as error */
+ 	priv->op_clk = clk_get_parent(priv->clk_table[CLK_I2S_RCLK_SRC]);
++	ret = clk_prepare_enable(priv->op_clk);
++	if (ret < 0) {
++		priv->op_clk = NULL;
++		goto err_unregister_clk;
++	}
+ 
  	return 0;
- }
  
--static int hdmi_lpe_audio_probe(struct platform_device *pdev)
--{
--	return snd_card_free_on_error(&pdev->dev, __hdmi_lpe_audio_probe(pdev));
--}
--
- static const struct dev_pm_ops hdmi_lpe_audio_pm = {
- 	SYSTEM_SLEEP_PM_OPS(hdmi_lpe_audio_suspend, hdmi_lpe_audio_resume)
- };
++err_unregister_clk:
++	i2s_unregister_clock_provider(priv);
+ err_disable_pm:
+ 	pm_runtime_disable(&pdev->dev);
+ err_del_sec:
+@@ -1559,6 +1566,7 @@ static void samsung_i2s_remove(struct platform_device *pdev)
+ 
+ 	i2s_unregister_clock_provider(priv);
+ 	i2s_delete_secondary_device(priv);
++	clk_disable_unprepare(priv->op_clk);
+ 	clk_disable_unprepare(priv->clk);
+ 
+ 	pm_runtime_put_noidle(&pdev->dev);
 -- 
-2.55.0
+2.43.0
 
