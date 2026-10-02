@@ -1,44 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FF2F45563A;
-	Fri,  2 Oct 2026 09:24:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85FA54570F2;
+	Fri,  2 Oct 2026 09:42:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790933091; cv=none; b=dT2FQulyubuTJoNKptXBeilA9OwjNXD+PN2x5aL/qXk/u+1kvuvbJd/yyIJYQBxt5nkCl548yeMIx8K3ls+ZlfdFceLuN63EVuptRDpoZCUfNJPa3r5AI5Yea9SIThY+T2zVlCQHQN9kzVOQEh0Yg0b3F+mT5PSDx4soiPM8erY=
+	t=1790934140; cv=none; b=gq3WFtw3eylpOKmCMD76MzAKWYs+qWjzp/iADr5MzlEOt628lkOjBLTOxnoghy+SDzxyLcX2zk9mjBQ/d9S6hnobf5JeI9o+Vsg74z/xKLTrvw63Q/GspnGh3ESQpB58y238PCS/dbGxCdIMKPUlmjgvQHqnSB+ew5dQ7GgI+7E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790933091; c=relaxed/simple;
-	bh=O3nRINVLkWHQ4r9IIjnIZQOSmvquBks245oSmvR4gKg=;
+	s=arc-20240116; t=1790934140; c=relaxed/simple;
+	bh=IDV1284Y8jRNw3qmwplFh09UtKb9DD8AZgh4/3H9cXY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lcaEeUBcQP3SIj2zlFZNw0PnOl6fNRDXovLRwEObVIWmhkUSBqX773K0VHDh0dRsuIpD826/YaDlqpgicAmeOEXxYC54HTbK5HzW620SxVgtChaAxczFA7EDgIPyWX/9nfZIdn6y4ep7MlOUnvH7A7GM62SdYO5MddW8hpEmdug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aNfhITaA; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=HfE3OStGcAHkdSpIRakyzs7aADlf3rNisaoVGL0zm4Tn0oE0ZGEARl2UG+zQRq/2FOXHp53pTZi7HguLg4r3h0MkyafBedig+H4Rp08M2WCPtHT4GhqaaEE98X08u+03LWFSN2+hkiBJiaz4+j20lFYayEM2BgJlslTg1onFYCo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hplXPbVj; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aNfhITaA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB8031F000FF;
-	Fri,  2 Oct 2026 09:24:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hplXPbVj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CFF31F000FF;
+	Fri,  2 Oct 2026 09:42:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790933089;
-	bh=sspt/fP36As20fuJhsLuvVeSjvOsGDiZOOk9QMjN5X0=;
+	s=k20260515; t=1790934139;
+	bh=efL1+n1dK7AWhH37EQ0nV3a1HbjScxl8OApVSmAnV5Y=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=aNfhITaAIwoEb/OvK7YZRvIkH9xuAFFJIclIEqqhZFSV2hbE1zgQwLKtipq7wMsxk
-	 /CkMlNQnjRQABpWC0V7KfNQhr5YF0VoCdJwOu2LGB4Rci3FPIguQmK8nTh4iHjRYH/
-	 26XF9zeL6lnSHCMrWrXPRCDBRMncOlSsvks2tJsvgZh4yzY13lW1xNDBiHXRi41Yn/
-	 QzhiDbAVSe9PIA6W2vMCE0HofiLT/BcSyz1BR07YTehZHUClGcdZIvBUnRe15QgiP4
-	 MXHdSyUH2skZek5PbAU3D8eYOqbS/b/bhai5LJxc4Py60KdaAzhsg0O7+1dNXAlVr5
-	 LQp9o4YXPtAyQ==
-Date: Fri, 2 Oct 2026 11:24:46 +0200
+	b=hplXPbVjlKdXr+GoZfnOiYnK7paer287vF1PjzJuXNqGHk2hI3obnO02CDrcdGcOC
+	 HK0+DIDKOLVNjLw2DN1zOqahPNYa8UOA6GgCTLyHb1TMm4eWTLxK3l+IwiCCj0WcdG
+	 K/KF7BRyR/753FfsARs8g+QsOR8V/w9pJM+XPkoAfPzroz/IbU9AXeCSuFvR4jx2JN
+	 UFRk1Rg2GVY3Io83a7GKi6X9FcMh84ihpZ+p4SY2dyttmgeyTrweuukhb1VGbP8XJo
+	 mfHL3EKRiVulKZNm4OrmxazNailvb1lPBZNNxFkgkHa0sA4jHlU7hZX9bquzVULvbp
+	 C+rW/hCzUPCrQ==
+Date: Fri, 2 Oct 2026 11:42:15 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Olivier Moysan <olivier.moysan@foss.st.com>
-Cc: Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 3/3] ASoC: stm32: add mdf dai support
-Message-ID: <20261002-gleeful-lurking-swift-5926ab@quoll>
-References: <20261001145702.2628429-1-olivier.moysan@foss.st.com>
- <20261001145702.2628429-4-olivier.moysan@foss.st.com>
+To: Valerio Setti <vsetti@baylibre.com>
+Cc: Jerome Brunet <jbrunet@baylibre.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 1/7] ASoC: dt-bindings: add amlogic,gxbb-audin
+Message-ID: <20261002-curly-bold-octopus-ade53b@quoll>
+References: <20261001-audin-v4-0-2476646118b5@baylibre.com>
+ <20261001-audin-v4-1-2476646118b5@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,27 +48,21 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261001145702.2628429-4-olivier.moysan@foss.st.com>
+In-Reply-To: <20261001-audin-v4-1-2476646118b5@baylibre.com>
 
-On Thu, Oct 01, 2026 at 04:56:47PM +0200, Olivier Moysan wrote:
-> +static struct platform_driver stm32_amdf_driver = {
-> +	.driver = {
-> +		   .name = STM32_AMDF_DRV_NAME,
-> +		   .of_match_table = stm32_amdf_of_match,
-> +		   },
-> +	.probe = stm32_amdf_probe,
-> +	.remove = stm32_amdf_remove,
-> +};
-> +
-> +module_platform_driver(stm32_amdf_driver);
-> +
-> +MODULE_DESCRIPTION("stm32 MDF DAI driver");
-> +MODULE_AUTHOR("Olivier Moysan <olivier.moysan@foss.st.com>");
-> +MODULE_LICENSE("GPL");
-> +MODULE_ALIAS("platform:" STM32_AMDF_DRV_NAME);
+On Thu, Oct 01, 2026 at 06:06:26PM +0200, Valerio Setti wrote:
+> AUDIN provides I2S audio input support to the Meson GXBB and GXL SoCs.
+> 
+> The AUDIN block on GXL is identical to the GXBB one, so "amlogic,gxl-audin"
+> uses "amlogic,gxbb-audin" as fallback; the SoC-specific compatible is
+> added so that differences can be handled later if any are found.
+> 
+> Signed-off-by: Valerio Setti <vsetti@baylibre.com>
+> ---
+>  .../bindings/sound/amlogic,gxbb-audin.yaml         | 69 ++++++++++++++++++++++
+>  1 file changed, 69 insertions(+)
 
-Why do you need this? You have OF table, no? Does it mean that OF table
-is redundant and should be dropped?
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
 Best regards,
 Krzysztof
