@@ -1,115 +1,83 @@
-Received: from smtp.vivaldi.net (smtp.vivaldi.net [31.209.137.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9109475336;
-	Fri,  2 Oct 2026 22:19:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=31.209.137.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D87CF31E858
+	for <linux-sound@vger.kernel.org>; Fri,  2 Oct 2026 23:00:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790979547; cv=none; b=YkgDJLZuHg07LSg2GT6em7XgXXsGqr6n7xK0iqN1WS8Bj6B1e8I036RHHg5xbWhXEMdoYKuET2M/cyFbC86cKFIF+lo1gutfBSbmor9Km05li3OVETAHpEK/grggE8T+c5llCuyTCkfs2Gnshdg1J8K6wQV60Xj1Q0bY9nf6PzY=
+	t=1790982043; cv=none; b=cmcWSz+jCFbi2MWBdwEWzO24apRhZ5wtzMMTz03T5fpHRHdSompp6TDuQ32jh+ID8WS/V1GKyVV8zcHvwEVNUBk7FMoNt9G++6y7y1S/L0HT0OksrmcCzb2RyNBKc5sWszkrsJquWlHpLSOJ0BTzYBD4xnxgcvO+I73XZB65p/c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790979547; c=relaxed/simple;
-	bh=00ImJOWWu9lRfEyQbYNou2C48dp7gXgRCU6Wmbm5heg=;
-	h=From:To:Cc:Subject:Date:Message-ID; b=qDwM8YC2YRIcf03VvMwnk3jljQ9UZf9YONDKL6ntsxy3/Dg1QNoTbS1aM3uCc8cZjW8CBT+dGQ3+6bdmg1rqpvyb+vpC2P4XoOJ5yqokJUSB59aCNbcIICfv2HkopRIp6D9wL/heU7fmwV/uo7IKQgdXNWbTIsHiKPNEciGSjfE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=vivaldi.net; spf=pass smtp.mailfrom=vivaldi.net; dkim=pass (2048-bit key) header.d=vivaldi.net header.i=@vivaldi.net header.b=hk1+F5Ab; arc=none smtp.client-ip=31.209.137.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=vivaldi.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivaldi.net
+	s=arc-20240116; t=1790982043; c=relaxed/simple;
+	bh=fNCzgE1usvPQ3olz23KsoB/AKPE3hrA21/SrfLq7X5w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nDjw2Rg4M2bjg/FfriyOLiDOgseNNiPkUPdo5qYXEtlXGTvNYMpwphQ3QCyoscLuijXcElmVL1Z9A9lEMNWfiUqE2u3PLUVd5auW+9zs6/PuyC8UTNwdfIxvfI+QHJ2Qnyo1DAH4n2/mKAnn/vGGpU45CJebzLpsAHxfKqHzL1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UqcTiGX9; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vivaldi.net header.i=@vivaldi.net header.b="hk1+F5Ab"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp.vivaldi.net (Postfix) with ESMTP id 14439FC5AB;
-	Fri,  2 Oct 2026 22:18:58 +0000 (UTC)
-X-Virus-Scanned: Debian amavis at smtp.vivaldi.net
-Received: from smtp.vivaldi.net ([127.0.0.1])
- by localhost (mxo-1.viv.dc01 [127.0.0.1]) (amavis, port 10024) with ESMTP
- id qEQVsi1rZcrE; Fri,  2 Oct 2026 22:18:56 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp.vivaldi.net 56632FC392
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivaldi.net;
-	s=default; t=1790979535;
-	bh=nP/+18zknw95i9l3i/sUf5wslrs2pLZPAh5Dqd/WG5Q=;
-	h=From:To:Cc:Subject:Date:From;
-	b=hk1+F5Ab/zZ7GFhIY8fb1j3VrYDxFQFQoYXLCiuYl76xj/pt/VZ3kEHX/r8RDKA5h
-	 GAis874uVfP1vv/oTcSkCGFbiKyvLCiOK8tVprQ3jLC7N+OjEodOm5u0IbzllP/zvO
-	 jy2Df1RU4V7H0hyRDaGh2T55XuqpN7qbu3KzH+X7fXoYA+Aen3pPaIXmN1D4QSJ0yv
-	 gMNRzaOReVTPuBo8v4fsRYktIt9qDl8nnDM/aWJZyb5x8YhspyEVR2+fvLeOu83Sm4
-	 Hjt6QsbQkcmf4lhIc5YAkQm79NtUSEflNpPCqJp1lACZEh5NoqmsLNyKb5nY4V8SPC
-	 TQMWNstL0k+Sw==
-From: Denis Yakovlev <mfthesun@vivaldi.net>
-To: tiwai@suse.com
-Cc: perex@perex.cz,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Denis Yakovlev <mfthesun@vivaldi.net>
-Subject: [PATCH] ALSA: hda/realtek: Enable headset mic on HONOR MagicBook Pro 16 2024
-Date: Sat,  3 Oct 2026 01:18:50 +0300
-Message-ID: <20261002221850.12443-1-mfthesun@vivaldi.net>
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UqcTiGX9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E6401F000FF;
+	Fri,  2 Oct 2026 23:00:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790982042;
+	bh=aGY5EhsTlLPg/vADEEsaClx1T/ujWnX81q7VW3xtogE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=UqcTiGX9okKvPObtUuCBvBOtW9hoBfAE8BWpUrK8ZR6LMWP/BPRb8v83sv80xHYia
+	 wocmTmuEcjfqCrjQV9DQFxWEPgK0+DyhYGQu+8LBQHfRX4iPrU5Ma8vzP8FcfSlkzK
+	 7khwCXv4PpkjMze2oDB2ACSMB9yQ4fKH50AkbADWZfsmB/HxE2mQqMrhE3YMmIUAwz
+	 GQ+IwTgH9PMcy3A0sSKOnU69EH3ACDZWRM4cEwuen7gZGduNG0MgZL8BLuxxx8jwIJ
+	 JJQiJFo5V8uSc9xmuZ6+5/k/V5dNQpZUd7X/8v0IMUE+r2txaY7ifRs+vekyquLqJG
+	 zJllrvTGYsT/g==
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+	id 931331AC57CE; Sat, 03 Oct 2026 00:00:38 +0100 (BST)
+Date: Sat, 3 Oct 2026 01:00:38 +0200
+From: Mark Brown <broonie@kernel.org>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: linux-sound@vger.kernel.org, Arun Raghavan <arun@accosted.net>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>
+Subject: Re: Linux-audio BoF at Linux Plumbers Conference?
+Message-ID: <asA3lugtjtwhVoxG@sirena.co.uk>
+References: <871pbsnce8.wl-tiwai@suse.de>
+ <5f459099-4364-46f9-a3b4-1c629aa91209@perex.cz>
+ <87se48lv6z.wl-tiwai@suse.de>
+ <8733uoys02.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="o1Vj1YKOgLndhWH+"
+Content-Disposition: inline
+In-Reply-To: <8733uoys02.wl-tiwai@suse.de>
+X-Cookie: revolutionary, adj.:
 
-The HONOR MagicBook Pro 16 2024 (DRA-XX, board M1020, ALC256, SSID
-1ee7:204e) has a combined 3.5 mm headphone/microphone jack. The BIOS
-leaves the headset mic pin 0x19 at 0x411111f0, so the codec parser
-builds no capture path for it, and it leaves the jack switch
-(coefficient 0x45) in the TRS state, which cuts the microphone contact
-off from the codec. A wired headset microphone therefore records
-nothing.
 
-Configure 0x19 as a headset microphone (0x03a1113c, "headset mic
-without its own jack detect"), the same value already used for the
-sibling M1020 board (HONOR MRB-XXX) and by the VAIO quirks, and chain
-to the generic headset mode handler, which detects the CTIA/OMTP
-headset type on every jack event and programs the jack switch
-accordingly. Pin 0x1a is left untouched: there is no evidence that it
-is wired on this board.
+--o1Vj1YKOgLndhWH+
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Assisted-by: LLM
-Signed-off-by: Denis Yakovlev <mfthesun@vivaldi.net>
----
-Tested on a HONOR MagicBook Pro 16 2024 (DRA-XX), Ubuntu 7.0.0-34, using
-an out-of-tree build of this change, with wired Apple EarPods (CTIA): the
-microphone records after several cold boots with the headset inserted and
-after hot-plugging; without the change the analog capture is digital
-silence. The headset type is detected as CTIA (coef 0x45 ends up at
-0xd489). The speakers (including the "Bass Speaker" control from the
-speaker fix) and wired headphone playback still work. OMTP headsets were
-not tested (no hardware).
+On Fri, Oct 02, 2026 at 06:41:33PM +0200, Takashi Iwai wrote:
 
- sound/hda/codecs/realtek/alc269.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+> If anyone has NO-GO time slots (Monday AM/PM, Tuesday AM/PM, Wednesday
+> AM/PM), let us know.  Or, since there aren't so many people, we can
+> just have a lunch or dinner meeting, too.  If you have any preference,
+> speak up, please.
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index 67b9f41..4e22d63 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -4477,6 +4477,7 @@ enum {
- 	ALC256_FIXUP_HONOR_MRB_XXX_M1020_AUDIO,
- 	ALC256_FIXUP_HONOR_DRA_XX_SPEAKERS,
- 	ALC256_FIXUP_HONOR_DRA_XX_SHARE_DAC,
-+	ALC256_FIXUP_HONOR_DRA_XX_HEADSET_MODE,
- 	ALC245_FIXUP_HP_ENVY_X360_15_FH0XXX,
- 	ALC287_FIXUP_ACER_MICMUTE_LED,
- 	ALC236_FIXUP_DELL_HP_POP_NOISE,
-@@ -7215,6 +7216,7 @@ static const struct hda_fixup alc269_fixups[] = {
- 		.type = HDA_FIXUP_PINS,
- 		.v.pins = (const struct hda_pintbl[]) {
- 			{ 0x14, 0x90170111 }, /* bass speakers */
-+			{ 0x19, 0x03a1113c }, /* headset mic, without its own jack detect */
- 			{ }
- 		},
- 		.chained = true,
-@@ -7223,6 +7225,12 @@ static const struct hda_fixup alc269_fixups[] = {
- 	[ALC256_FIXUP_HONOR_DRA_XX_SHARE_DAC] = {
- 		.type = HDA_FIXUP_FUNC,
- 		.v.func = alc256_fixup_honor_dra_xx_share_dac,
-+		.chained = true,
-+		.chain_id = ALC256_FIXUP_HONOR_DRA_XX_HEADSET_MODE
-+	},
-+	[ALC256_FIXUP_HONOR_DRA_XX_HEADSET_MODE] = {
-+		.type = HDA_FIXUP_FUNC,
-+		.v.func = alc_fixup_headset_mode,
- 	},
- 	[ALC245_FIXUP_HP_ENVY_X360_15_FH0XXX] = {
- 		.type = HDA_FIXUP_FUNC,
+I'm on the committee for Plumbers so I'll mostly be busy in sessions,
+I've also got a dinner booked on Tuesday.  Breaks or the Monday or
+Wedneday evening events should be better for me.
+
+--o1Vj1YKOgLndhWH+
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQReagvpf3TrrA7BoYYv73Ows9A4iQUCasA3lgAKCRAv73Ows9A4
+iS0NAQCF/ATshXqNCJF1vR39u9R42dncP1eBHbvK+1lDdh+62wD/WWQWCrnKACh+
+9PxkQrRmidU2erU9Gyzi1+5QEa+fEQo=
+=quiU
+-----END PGP SIGNATURE-----
+
+--o1Vj1YKOgLndhWH+--
