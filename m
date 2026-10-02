@@ -1,131 +1,193 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B4203AFD18
-	for <linux-sound@vger.kernel.org>; Fri,  2 Oct 2026 12:35:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75B623749F7;
+	Fri,  2 Oct 2026 12:36:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790944547; cv=none; b=SHyn/dxyhDoNmrzwlGl7sEdNm/FVXbPGvgt4FtYzIuBlGjR7Xt8ff+w0kR3h6GqJ7B8lVgAloJjwYlI1ym0ZkZL7BC3VMpnOOE/Tjss9Ml1QNlfKUOniHNduQaJZVBOo/SJAfhvs62fpRsjZ0yhaw8UdjbEZQgj+CBzwj9rYAuI=
+	t=1790944572; cv=none; b=iAfKYjVrIywhOey1SluVdstiT0EifIDBP7/Fy30HPYzOrbxUp/dWq4+128/B7Of6C2qzM9rY8Wx0TqqLf9U0yCa+xvssMfV4bKdTUMtsPGVCrVVbPI1g4D1XqWz/bAqx0lG1QGat/E1Vu2sBiLIDB0PvGfFdX56nd2sTIrF8a50=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790944547; c=relaxed/simple;
-	bh=cKlpFm+ZRop2reJaXu0njUKTkQbR7hNkQvVg6oiGwRA=;
-	h=Message-ID:From:To:Cc:Subject:Date; b=e+m2X4xezD4svwpTGCLZlZDLzVuH0f053xyMXqTAerA4rK+CALWppmn0Ofu5WRVxQ30+5WZIotvi9KqoFNKDydYcNr2V1IsksVdGv+nRQ9kEXOjZevV2pcV5Sy6kl91xh+qyjprwD/rttXTI9noBPy8TTDLLbNbEm+hikSU0Pjc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JA6fyseZ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790944572; c=relaxed/simple;
+	bh=zJdGvFnH9239op/29+uvDTEPTaYaAw90S9Cp4ykY2oc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PwojCdSfM2+t5YWTF3D61TJaZbgXcZj1oMeQwXyxfkTfXr2WVui1fWxY2dJJiKUHKkal5cxKVs8T/Yw4OKK+5UI/cLOogOpplqHiTazmbjMlOcNLQk90GH6G078ieuoY4FPx4Q7+Y/NaCBgCLpyg/4lU8USQsHqQNHgcE8/Y0Bs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y04Ou6XX; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JA6fyseZ"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id BF3C61F00893;
-	Fri,  2 Oct 2026 12:35:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y04Ou6XX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6D291F000FF;
+	Fri,  2 Oct 2026 12:35:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790944546;
-	bh=iq7OODU+HlVaqh5q9K4r3eGlByYqRCkLrjDga6KBjYg=;
-	h=From:To:Cc:Subject:Date;
-	b=JA6fyseZHhTDbXuqnw0qbbmR/qWoGWl+80KednVGkzDC5mk/kO7sFQveCHdhbmlLY
-	 zxa8qsEdCrvpmFb2WJ8aM+2ECNLRQIhW7SNe8hthuz/TAu6TknDNNZbMOatpmsNJJU
-	 tww53fgozh4QpVJdveNocq3xl0sYz8wn6kDQ5cSXJ/6mI3NL4JTG6MNu09328bC/Un
-	 C0bA5LpS780Xd0CO8Ll0yni0nq1vsQRmhRZtrclF976SpIAK2tQyvSr9GzSIBZog5i
-	 WC0PoWOTX3ZsOYmTwSGgKanRto7QqMR3bbE/vLWzY3sMyEsWdPu5B5YvZME8nqmQkG
-	 ZE/VHe4jlGeww==
-Message-ID: <ac1f5abe5b1f49157574990efcd4eaf2@kernel.org>
-From: Mark Brown <broonie@kernel.org>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, Mark Brown <broonie@kernel.org>
-Subject: [GIT PULL] ASoC fixes for v7.3-rc5
-Date: Fri, 02 Oct 2026 13:35:32 +0100
+	s=k20260515; t=1790944571;
+	bh=gHT1eHrCeRGheckcuVuH5tVn5htGR9KNUyLnh8eDOzU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Y04Ou6XX6SdMWUWTarLUhIsaN9w+3Pqeg8oUs/7OIb31JfWW0vUEVzkHQmEdDgjhX
+	 rMOXzqjsfTki350NeAiEQUKi4/Wmdue8la++1bjfwJl0sJt9qPFQ5jP+SuL7Z0VIrT
+	 fF/q64PoEK8zQ3Hm3rGDp9dID/9LqdMIt5ul42FGVvVWpLww9nxdUXfWoDIelUsaAq
+	 8uHXbsWsAqgQEMs5R7FJEaINNCSu3zIGTrOrgwAyZ/QFIZy9pBQiDvOq7P6XMWUnTW
+	 K0nPXJCzRbOceqmLZfwrGmVvzEwYcn9zKQTP/XretUzMvEj70sWs0xCGSfo9UlqM4u
+	 t7IisLDZyS3qQ==
+Date: Fri, 2 Oct 2026 13:35:42 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
+	Paul Moore <paul@paul-moore.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen" <mkp@kernel.org>, 
+	Jaya Kumar <jayalk@intworks.biz>, Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, 
+	Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
+	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Juri Lelli <juri.lelli@redhat.com>, 
+	Vincent Guittot <vincent.guittot@linaro.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
+	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
+	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
+	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
+	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
+	Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
+	Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
+	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
+	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
+	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev
+Subject: Re: [PATCH v3 32/40] mm/uffd: use predicates for userfaultfd checks
+Message-ID: <ar-k7i_hZC-SqCLO@gremlin>
+References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
+ <20260917-b4-mmap-prepare-vma-flag-sanify-v3-32-4583d8a23bca@kernel.org>
+ <72bbb616-e84e-4635-9d0a-336916db47e4@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <72bbb616-e84e-4635-9d0a-336916db47e4@kernel.org>
 
-The following changes since commit 93f51579e7df248780214094418f205253383cc5:
+On Fri, Oct 02, 2026 at 09:04:17AM +0200, David Hildenbrand (Arm) wrote:
+> On 9/17/26 18:22, Lorenzo Stoakes (ARM) wrote:
+> > Rather than directly checking VMA flags, use the newly introduced
+> > vma_is_kernel_owned() and vma_is_persistent() helpers in userfaultfd when
+> > assessing VMA suitability for userfaultfd and UFFDIO_MOVE.
+> >
+> > Update vma_move_compatible() so it's expressed in terms of VMA
+> > characteristics rather than arbitrary flags.
+> >
+> > Additionally, update the use of the deprecated VMA flag API when checking
+> > VMA_SHADOW_STACK_BIT.
+> >
+> > A VMA_IO_BIT check is no longer required but that is fine as a hard
+> > invariant has been established that only kernel-owned mappings may set
+> > VMA_IO_BIT so the check is now redundant.
+> >
+> > Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> > ---
+> >  mm/userfaultfd.c | 21 +++++++++++++++------
+> >  1 file changed, 15 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/mm/userfaultfd.c b/mm/userfaultfd.c
+> > index 949017e60608..ddf0a4a3d399 100644
+> > --- a/mm/userfaultfd.c
+> > +++ b/mm/userfaultfd.c
+> > @@ -1754,10 +1754,18 @@ static inline bool move_splits_huge_pmd(unsigned long dst_addr,
+> >  }
+> >  #endif
+> >
+> > -static inline bool vma_move_compatible(struct vm_area_struct *vma)
+> > +static inline bool vma_move_compatible(const struct vm_area_struct *vma)
+> >  {
+> > -	return !(vma->vm_flags & (VM_PFNMAP | VM_IO |  VM_HUGETLB |
+> > -				  VM_MIXEDMAP | VM_SHADOW_STACK));
+> > +	/* uffd is generally incompatible with kernel-owned mappings. */
+> > +	if (vma_is_kernel_owned(vma))
+> > +		return false;
+> > +	/* The shadow stack should not be written to by userspace. */
+> > +	if (vma_test_single_mask(vma, VMA_SHADOW_STACK))
+> > +		return false;
+> > +	/* hugetlb mappings cannot be safely moved. */
+> > +	if (vma_is_hugetlb(vma))
+> > +		return false;
+> > +	return true;
+>
+> return !vma_is_hugetlb(vma);
 
-  Linux 7.3-rc4 (2026-09-20 13:48:15 -0700)
+Ack, done for v4.
 
-are available in the Git repository at:
+>
+> >  }
+> >
+> >  static int validate_move_areas(struct userfaultfd_ctx *ctx,
+> > @@ -2146,10 +2154,11 @@ static bool vma_can_userfault(struct vm_area_struct *vma, vm_flags_t vm_flags,
+> >  {
+> >  	const struct vm_uffd_ops *ops = vma_uffd_ops(vma);
+> >
+> > -	if (vma->vm_flags & (VM_DROPPABLE | VM_SHADOW_STACK))
+> > +	/* Non-persistent memory is inherently not controllable by userspace. */
+> > +	if (!vma_is_persistent(vma))
+> >  		return false;
+>
+> Completely confusing. Just avoid the helper and open-code this here.
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v7.3-rc5
+See the other thread on this. I think with this as vma_is_volatile() this is a
+lot clearer.
 
-for you to fetch changes up to cad16d850e3759dd82cd869f739b56e9844a1fee:
+>
+> > -
+> > -	if (!vma_is_hugetlb(vma) && (vma->vm_flags & VM_SPECIAL))
+> > +	/* The shadow stack should not be written to by userspace. */
+> > +	if (vma_test_single_mask(vma, VMA_SHADOW_STACK))
+> >  		return false;
+> >
+> >  	vm_flags &= __VM_UFFD_FLAGS;
+> >
+>
+> Other stuff looks much better to me.
 
-  spi: cs42l43: Workaround for wrong speaker ID on Dell XPS 13 DX13260 (2026-10-01 16:38:05 +0100)
+Thanks!
 
-----------------------------------------------------------------
-ASoC: Fixes for v7.3
+>
+>
+> --
+> Cheers,
+>
+> David
 
-A bigger collection of fixes than usual due to your vacation but nothing
-hugely remarkable here, just fairly standard quirks and driver specific
-bugfixes.
-
-----------------------------------------------------------------
-Arnd Bergmann (1):
-      ASoC: rt766: fix HID dependency for SND_SOC_SDCA_HID
-
-Cezary Rojewski (2):
-      ASoC: codecs: rt286: Revert delay value for jack setup
-      ASoC: codecs: rt274: Fix format setting for 44100 rate
-
-Charles Keepax (1):
-      ASoC: Intel: Add quirk to block match table for Lenovo Yoga Slim 7
-
-Daniel Ortiz (1):
-      ASoC: amd: yc: Add DMI quirk for Lenovo V15 G6 ARP
-
-HyeongJun An (1):
-      ASoC: wm8903: Move the DRC QR threshold to the register that holds it
-
-Jasper Firth (1):
-      ASoC: Intel: bytcr_rt5651: Add quirk for Chuwi Hi8 with generic DMI strings
-
-Jiangshan Yi (2):
-      ASoC: codecs: max98363: fix uninitialized stream_config->type
-      ASoC: codecs: rt1017-sdca-sdw: fix uninitialized stream_config->type
-
-Liviu Nicoara (1):
-      ASoC: codecs: lpass-wsa-macro: rewrite the interpolator volume after enabling clocks
-
-Maciej Strozek (2):
-      ASoC: SDCA: Set suspended flag after resuming within system suspend
-      ASoC: SDCA: Add better pm_runtime error handling in func probe
-
-Mark Brown (1):
-      ASoC: SDCA: Power management fixes for the class function driver
-
-Richard Fitzgerald (1):
-      spi: cs42l43: Workaround for wrong speaker ID on Dell XPS 13 DX13260
-
-Seiji Adachi (1):
-      ASoC: amd: yc: Add Lenovo ThinkPad E16 Gen 2 (21JN) to quirks
-
-Sheetal (1):
-      ASoC: tegra: Fix ASRC Stream6 input threshold control
-
-Syed Saba Kareem (1):
-      ASoC: amd: acp: enable TAS2783 and add RT712-VB SoundWire machine
-
-Zhang Heng (2):
-      ASoC: amd: acp: Add DMI quirk for Lenovo Yoga Pro 7 14ASP9
-      ASoC: amd: acp-config: Add ACP70 DMI quirk for ASUS UM5406GA
-
-Zimeng Li (1):
-      ASoC: qcom: lpass-cpu: use DAI table index for playback constraints
-
- drivers/spi/spi-cs42l43.c                          | 97 ++++++++++++++++++++++
- sound/soc/amd/acp-config.c                         | 14 ++++
- sound/soc/amd/acp/Kconfig                          |  1 +
- sound/soc/amd/acp/amd-acp70-acpi-match.c           | 20 +++++
- sound/soc/amd/yc/acp6x-mach.c                      | 14 ++++
- sound/soc/codecs/Kconfig                           |  4 +-
- sound/soc/codecs/lpass-wsa-macro.c                 |  3 +
- sound/soc/codecs/max98363.c                        |  2 +-
- sound/soc/codecs/rt1017-sdca-sdw.c                 | 27 ++----
- sound/soc/codecs/rt274.c                           |  4 +-
- sound/soc/codecs/rt286.c                           |  2 +-
- sound/soc/codecs/wm8903.c                          |  2 +-
- sound/soc/intel/boards/bytcr_rt5651.c              | 17 ++++
- sound/soc/intel/common/soc-acpi-intel-lnl-match.c  |  1 +
- .../soc/intel/common/soc-acpi-intel-sdca-quirks.c  | 16 ++++
- .../soc/intel/common/soc-acpi-intel-sdca-quirks.h  |  1 +
- sound/soc/qcom/lpass-cpu.c                         |  4 +-
- sound/soc/sdca/sdca_class_function.c               | 19 +++--
- sound/soc/tegra/tegra186_asrc.c                    |  2 +-
- 19 files changed, 215 insertions(+), 35 deletions(-)
+--
+Cheers, Lorenzo
