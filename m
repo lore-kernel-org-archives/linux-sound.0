@@ -1,83 +1,83 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AEC7469855
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FAD446A5E6
 	for <linux-sound@vger.kernel.org>; Fri,  2 Oct 2026 08:55:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790931357; cv=none; b=hIbL4t200iPYF6CMvSPQ1unWaMWLfc8MbjVAsWPLiaGK3YndGo9m9yTUOPTjC+20nJRNWgac42GDz7ab2hkNatZ7Mappk0V9A4CCu+M3HvKB6UZDEb4qtVIbFdhcQMLza2EvEN+UAbjV7eQGnHbSHRErix4B/XdZapU0PZh1/yA=
+	t=1790931357; cv=none; b=lcVfKg5ErTNx5rvRnBnLJnR20OeGjTGs72QYLwWKKLPKhiS7an1t8ce2h1mRY2dzwZAU5xvSuBUdnw31m9Ah6qX3N0EL/sHFFUewWUNd7hT1FFHgjhgYHLPRp/aWoqTCVJwP7ARV2aJi55y+A6mhjO5QhztcbD/SKAhFo61Fk2w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1790931357; c=relaxed/simple;
-	bh=Vn+xS663ZJ7PAiNI8b7asp2OylEHJXa+J6vQ0NXopK8=;
+	bh=cS00qKF0MAfMaY4iU15AtsheMQSlhopm4WRcFqFxyzU=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=OzAwpTo4bv4L2W2gPJh5f253m6vT+90tUdKHgeyDWv7Q4gHxuhZUfh+6XxOZJRk+UW2/WZOBE6ClS/x3I00TOvwYR/MWBO/1yQox61kaylKtPMhIwqaU80rqwqEui5Z0krERGqMWo8ZkXzLg+kU3YvVy8oGPmLmxA8zcYSD6S4A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Q82MidGr; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Wdd64OEL; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dqP9ARyg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=PSAjttmj; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=Lv4/SDTrRSGI/VspePvKHgO/ac5+N2k/do+DjvB/X/EjYCH79DYINk9dTNNjnxZ/dQvWGMeNgXvKAFuYNhn4BR3wsjxmGJ4yEzFXVIbXAPsFgFL6cOcyOMmOKhOTEEToWSpJ80EmZbajO2BUJMareBjCKXQmmqOCMZ7Uh4uUj7E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ehKQwa3Q; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=XtGGT2s3; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OSE+rjCa; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=92ix4/sc; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Q82MidGr";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Wdd64OEL";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dqP9ARyg";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PSAjttmj"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ehKQwa3Q";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XtGGT2s3";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OSE+rjCa";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="92ix4/sc"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 6264021E7C;
+	by smtp-out2.suse.de (Postfix) with ESMTPS id BA5AE1FE5A;
 	Fri,  2 Oct 2026 08:55:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1790931347; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ulSukrvmGnssmlrOb8W+lOkjzWx/5WDVTdaXLS2irJ8=;
-	b=Q82MidGr2DVAL73qXJjf6HCIZPQdg/vP3IUo+kZeTphjZFadE719QW7FE5gOxsh7F0HW7K
-	fmx4bhKH3vbEdJMfp+8G635rThvO0Cjm/5ltoqJfht4LjzY9Dt3JT+NutB8HCSq17Q8KU4
-	DSoQHxA/5Gmro2nclKrliEcj6eTCUWU=
+	bh=g1nnwf9OsnQQcb0xb37ek7h93qJXo+nFa/UGnLeJoRo=;
+	b=ehKQwa3QZpOoFwUmKl3Dj4nQXzBJT18TmJrEZuPYcvr406WEcGUv1fSo5cMJgVcOuzxW9s
+	EfY4ehHC5xX51O+DI+5P7htTEC/8Qu2pzS9cIU2u5yPMTj+/1aknbYNj0EwUAE+n7bUj8W
+	X05UTc2IkH6As5Wi8OuF9rPWM6HGc3c=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1790931347;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ulSukrvmGnssmlrOb8W+lOkjzWx/5WDVTdaXLS2irJ8=;
-	b=Wdd64OEL+h9RYqkv9ksJy8R/tMfF5dqA6UoArVetH0WFSylm8y3oIq09aytaE3pGq8VhGm
-	uz1SfQTFzjQyK1Bw==
-Authentication-Results: smtp-out1.suse.de;
+	bh=g1nnwf9OsnQQcb0xb37ek7h93qJXo+nFa/UGnLeJoRo=;
+	b=XtGGT2s3LShGpTadyIQlruYNNrFKAWkKRBgsdeO/ZphpZhZcBWVBCMaZcs1X17+Ss+u3RD
+	uOTYwhh3nzlHUvCA==
+Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1790931343; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ulSukrvmGnssmlrOb8W+lOkjzWx/5WDVTdaXLS2irJ8=;
-	b=dqP9ARygh2nsFt8gNLjXsZNMhUKbKg3fiNmh+qLnBYM/l+VtiIJDL8EfjmhnfSGdr9syJ1
-	jPfjMvGaXrX9BExaWihl//r1bwcpgUTv2edYO9GqD+Pb2mxJFr0HTz9wLPezBrtdASHYWY
-	QiecdoKWd6uZKq2nOM35gRt4QPkq0kw=
+	bh=g1nnwf9OsnQQcb0xb37ek7h93qJXo+nFa/UGnLeJoRo=;
+	b=OSE+rjCa+W0nSk8mVP1EmGisvKNk2y5Ty6Zy2oc22pThbvL/pLcvykr4CJBHMfs/cvrnoV
+	Ze0766sXRzswdT5VNo8TAHkI2VIyT83X1wUH9ZNSThqRLQf6vfX/izrgWAEgW/gL5uk5zd
+	5Yu0dU3d6p6FdcPwVYTgmLYBdJsSrVc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1790931343;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ulSukrvmGnssmlrOb8W+lOkjzWx/5WDVTdaXLS2irJ8=;
-	b=PSAjttmj9yB6JwTuSInT0tXb0yFeSubrDrko8GqaK2YD+0X2n7wodhapjp+t3UKklH7rM+
-	IO63CFUfagiAC0Cw==
+	bh=g1nnwf9OsnQQcb0xb37ek7h93qJXo+nFa/UGnLeJoRo=;
+	b=92ix4/scto3ZfslmM+PcL31KbaOht8PQrFsOCCV4oohBis682liGJOLdqE7EvGjbv6xVgf
+	s3z5MZBtncfaSvCQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6C5DC13C17;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EBB5913C1B;
 	Fri,  2 Oct 2026 08:55:29 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id HfPyB31xv2ppWAAAD6G6ig:T29
+	id HfPyB31xv2ppWAAAD6G6ig:T33
 	(envelope-from <tiwai@suse.de>); Fri, 02 Oct 2026 08:55:29 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH v2 28/32] ALSA: sonicbibes: Use auto-cleanup for probe card error handling
-Date: Fri,  2 Oct 2026 10:55:06 +0200
-Message-ID: <20261002085517.693510-29-tiwai@suse.de>
+Subject: [PATCH v2 32/32] ALSA: Drop unused snd_card_free_on_error()
+Date: Fri,  2 Oct 2026 10:55:10 +0200
+Message-ID: <20261002085517.693510-33-tiwai@suse.de>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20261002085517.693510-1-tiwai@suse.de>
 References: <20261002085517.693510-1-tiwai@suse.de>
@@ -99,7 +99,7 @@ X-Spamd-Result: default: False [-2.80 / 50.00];
 	RCPT_COUNT_ONE(0.00)[1];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	MIME_TRACE(0.00)[0:+];
@@ -111,53 +111,84 @@ X-Spam-Score: -2.80
 X-Spam-Level: 
 X-Spam-Flag: NO
 
-Instead of the manual call of snd_card_free_on_error(), use the
-auto-cleanup feature.
+Now that all users of snd_card_free_on_error() are gone by refactoring
+with auto-cleanup, let's drop the superfluous function.
 
-Merely a code cleanup, and no functional changes.
+Also, update the documentation for reflecting the recommended error
+handling procedure, too.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/pci/sonicvibes.c | 13 ++++---------
- 1 file changed, 4 insertions(+), 9 deletions(-)
+ include/sound/core.h |  1 -
+ sound/core/init.c    | 36 +++++++-----------------------------
+ 2 files changed, 7 insertions(+), 30 deletions(-)
 
-diff --git a/sound/pci/sonicvibes.c b/sound/pci/sonicvibes.c
-index a885d544acd6..b5bb20440c6e 100644
---- a/sound/pci/sonicvibes.c
-+++ b/sound/pci/sonicvibes.c
-@@ -1362,11 +1362,11 @@ static int snd_sonicvibes_midi(struct sonicvibes *sonic,
- 	return 0;
+diff --git a/include/sound/core.h b/include/sound/core.h
+index 15be947a730e..daa91a46a16b 100644
+--- a/include/sound/core.h
++++ b/include/sound/core.h
+@@ -314,7 +314,6 @@ void snd_card_disconnect(struct snd_card *card);
+ void snd_card_disconnect_sync(struct snd_card *card);
+ void snd_card_free(struct snd_card *card);
+ void snd_card_free_when_closed(struct snd_card *card);
+-int snd_card_free_on_error(struct device *dev, int ret);
+ void snd_card_set_id(struct snd_card *card, const char *id);
+ int snd_card_register(struct snd_card *card);
+ int snd_card_info_init(void);
+diff --git a/sound/core/init.c b/sound/core/init.c
+index 1bcb6a2e7550..ebf96ba6c49c 100644
+--- a/sound/core/init.c
++++ b/sound/core/init.c
+@@ -216,11 +216,13 @@ static void __snd_card_release(struct device *dev, void *data)
+  * is added automatically.  In that way, the resource disconnection is assured
+  * at first, then released in the expected order.
+  *
+- * If an error happens at the probe before snd_card_register() is called and
+- * there have been other devres resources, you'd need to free the card manually
+- * via snd_card_free() call in the error; otherwise it may lead to UAF due to
+- * devres call orders.  You can use snd_card_free_on_error() helper for
+- * handling it more easily.
++ * Caveat: if an error happens at the probe before snd_card_register() is
++ * called and there have been other devres resources that are referred at the
++ * card-level destructor call, you'd still need to free the card manually;
++ * otherwise it may lead to UAF due to devres call orders.  Instead of a manual
++ * snd_card_free() call, you can use the automatic clean-up for the card
++ * pointer via __free(snd_card_free), too.  In this case, don't forget to do
++ * NULL-clear the card pointer before the successful return!
+  *
+  * Return: zero if successful, or a negative error code
+  */
+@@ -250,30 +252,6 @@ int snd_devm_card_new(struct device *parent, int idx, const char *xid,
  }
+ EXPORT_SYMBOL_GPL(snd_devm_card_new);
  
--static int __snd_sonic_probe(struct pci_dev *pci,
--			     const struct pci_device_id *pci_id)
-+static int snd_sonic_probe(struct pci_dev *pci,
-+			   const struct pci_device_id *pci_id)
- {
- 	static int dev;
--	struct snd_card *card;
-+	struct snd_card *card __free(snd_card_free) = NULL;
- 	struct sonicvibes *sonic;
- 	struct snd_rawmidi *midi_uart;
- 	struct snd_opl3 *opl3;
-@@ -1430,16 +1430,11 @@ static int __snd_sonic_probe(struct pci_dev *pci,
- 		return err;
- 	
- 	pci_set_drvdata(pci, card);
-+	card = NULL; /* probe succeeded, don't release as error */
- 	dev++;
- 	return 0;
- }
- 
--static int snd_sonic_probe(struct pci_dev *pci,
--			   const struct pci_device_id *pci_id)
+-/**
+- * snd_card_free_on_error - a small helper for handling devm probe errors
+- * @dev: the managed device object
+- * @ret: the return code from the probe callback
+- *
+- * This function handles the explicit snd_card_free() call at the error from
+- * the probe callback.  It's just a small helper for simplifying the error
+- * handling with the managed devices.
+- *
+- * Return: zero if successful, or a negative error code
+- */
+-int snd_card_free_on_error(struct device *dev, int ret)
 -{
--	return snd_card_free_on_error(&pci->dev, __snd_sonic_probe(pci, pci_id));
--}
+-	struct snd_card *card;
 -
- static struct pci_driver sonicvibes_driver = {
- 	.name = KBUILD_MODNAME,
- 	.id_table = snd_sonic_ids,
+-	if (!ret)
+-		return 0;
+-	card = devres_find(dev, __snd_card_release, NULL, NULL);
+-	if (card)
+-		snd_card_free(card);
+-	return ret;
+-}
+-EXPORT_SYMBOL_GPL(snd_card_free_on_error);
+-
+ static int snd_card_init(struct snd_card *card, struct device *parent,
+ 			 int idx, const char *xid, struct module *module,
+ 			 size_t extra_size)
 -- 
 2.55.0
 
