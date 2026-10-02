@@ -1,65 +1,65 @@
-Received: from mail-pj2-f42.google.com (mail-pj2-f42.google.com [74.125.227.170])
+Received: from mail-pj2-f43.google.com (mail-pj2-f43.google.com [74.125.227.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73C64368957
-	for <linux-sound@vger.kernel.org>; Fri,  2 Oct 2026 04:39:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A4763655C0
+	for <linux-sound@vger.kernel.org>; Fri,  2 Oct 2026 04:39:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790915972; cv=none; b=RECU28/gi2NyG0vUSy11yOZ33otRF/YqTmN47+dCpoT3dBf61wROhtQPhLIiv3X0Pk7cgN6Y+t5IAdHNOorbeAqIwL2DJj4TLxtdxySyEFWHYhm+UyAg/IOgnMuGDQ/vchf0CCqIx5raB6Eui6KVJeniTKCudlvc8NyC7ZJVa5g=
+	t=1790915976; cv=none; b=QbM/bxm4QXtOyGR8h6Jz17TxShG4HO1csMBuIj6TW06cjwUtzsUupiWru4PqBWmyhrc9XAik585Caet6ZtCdrKb/uEmmFsSqMkygwlJlp3+5QdhWqxxNDwLohKD+6d/T1MAotbITEo7zmjC5lY7aTRUTJhgA3Aqz+DQJE7nAtnc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790915972; c=relaxed/simple;
-	bh=x66uwvIu5ywRUNH1KcdRg8/f3THWh2VZZ16aKaZQsC8=;
+	s=arc-20240116; t=1790915976; c=relaxed/simple;
+	bh=j10/ZsLN17TBlhm6+uNpFoq3nbtgD9vXY3E5nQkwFs4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=drZgPf1Doq8Etlr/UrdAoBdJ1Zk/xQIAmExDHYDezqnmlido/EOXB5jbn8soJeisaOcghU6vP8TkrfKOz1XzX5V+ncarFvQumVk1BnHAa+RXtlgt4qBHxErB+XXyDINgkOmhkyBo0GLz0rHhiX7V2xTD365c5UieYxBsBYHNga4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V2Y+mhMq; arc=none smtp.client-ip=74.125.227.170
+	 MIME-Version; b=PMIu5P8fYA7sCn5DL88HA8OIdskTjLpf4/15sy9gVKSE2DRGKUTab1lYwrz+YRk0TKWVpaZYkYYKFmGaA5VSg5F4CGu+pnPRR7BQyGs4yr0aVx/sLwnehShA2vA8LOzbSC57cljSLSWnlXy7I4HInqFKjCZhJbf86TQSpFiQIqI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ou8fUxAP; arc=none smtp.client-ip=74.125.227.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V2Y+mhMq"
-Received: by mail-pj2-f42.google.com with SMTP id d9443c01a7336-2df4aa80a73so48102255ad.3
-        for <linux-sound@vger.kernel.org>; Thu, 01 Oct 2026 21:39:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ou8fUxAP"
+Received: by mail-pj2-f43.google.com with SMTP id d9443c01a7336-2d747ee1f38so32994845ad.2
+        for <linux-sound@vger.kernel.org>; Thu, 01 Oct 2026 21:39:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790915971; x=1791520771; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1790915975; x=1791520775; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=S1AdBqTLN1NoLcfkeqL2tMz91d07+kTAZBqSBvoPLus=;
-        b=V2Y+mhMqydjl6Z6uf9Y4rBw3tk/0TRM1ff90OWhSQBeFwGy2QTAE1VWUXBl4o+oK01
-         +pmbxP7rKVFIwE7yEvXtuqLGSz6QrZGivADCPkDmuk9iGs8J9xQfoj7Hb/SY/M5Kp6/x
-         JAvSHPidAU06ca6cP1YYUslH40VKOXGHCJHkqAQx8RqERVen90P8RZxINUmTqpt9pmlo
-         0y+rwT3oRQXOEuorWSYlKeKVMSgVT4FMox40zwf2pRbW8TvSyfI/a3PL78zqFxbbk9NI
-         rR7AZxyj33csjjyKuGL8MThLPTgZjGnbtTJP8MP1Mn9RL3wTYRCZrq9a2m5GM+m8r1pT
-         F81g==
+        bh=NJOT7+NCf5K/5kFKuz5HB9vHPxvovBR55Pk8e6dUoC4=;
+        b=ou8fUxAPlexIFSiT6uNxBNkRWgCaZFaKIPoIyOLPlrzrbZNbx8PsIZPZYj9BPZ2OMJ
+         zT8HvfVGojUIOra+X65RsTm8qWs9agyWgA6wmBYKiEpJScdMfiTGsQsg/SczP497mcJn
+         LyFTI99AphQM+eGqqqcAqk3qmUTVRDVTAKkHN97/KYIQLdlQf+Z+QEd3LNTKvJ1ngBpA
+         iCRupcx1+gadaSr+P3zyxCcr3eS9+rLZ67jLZsctehRm+lcV+xK1MtLz/pkEtxZbfNro
+         U8HEfbAKJBxkieAeppaHTx/eBqTcIz3fOhtPYzu99OfJFoRIXBbYe8wVv8QJYZksxRAQ
+         B0cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790915971; x=1791520771;
+        d=1e100.net; s=20260707; t=1790915975; x=1791520775;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=S1AdBqTLN1NoLcfkeqL2tMz91d07+kTAZBqSBvoPLus=;
-        b=To/odrMA0ocF2HHyCQUVxU/0FAAnacfTSGzfCYUh2xIXA2LKCwGCj7EO3ePkia2Lws
-         O0/dGiIYAvWROqhS8uStwwUVYwGfwgFEcZ3Ptb+SnUNS7ZLp/JnFTMoJ1DKee8tQzw8D
-         b5Dvb2TFzMcv76SiQfPdH6cNshyA7OsZf2QsVn3w6kjU2xEToORo8wVp0avTh9ktduQH
-         w98MGFMTYCQJxMYiDfdldkVTZmqm7WMf1ieRBCE9zfKTYS0n84hcr67nr912WzaxBEV7
-         /LB77uVtSMcPqT7EbmyyOi8XU5uMkUTgAnJD5tf8yJP6KrjJGbqyaR5rOtSj3eSASjSD
-         89wg==
-X-Forwarded-Encrypted: i=1; AKwUvBwZraUPVmviufv1BOBRcVPiPlNaZCHyDzhJuoZzDrGoqOLmC+BWmcI22rOdfv/qHhKCdiE6uyq9TU1irg==@vger.kernel.org
-X-Gm-Message-State: AFq9FYKNYGIUOhq6QxJcelJKKBNcd0IUwkLZqgZbkDrCliQojqJAzc/T
-	IyKLNmvSgL48jgjHTw+fcZGrF+KCwWiYqfIaXnRuBr3wqPpAbAJ+pmUO
-X-Gm-Gg: AYBFou2gLjIgbhSQedGALYCCl7cI2lN8Jto3SWv6Xr7eMnRSMT1WOgD4KTTkyHvq5Ft
-	kECA5fRKrk29+Nlp6JxmWdTqggfNMWLglZTTeOaffRjEBlOXN8xUmkt+pSC2ubJEWfydw36B1Tt
-	zisTgMFmyxQPWE3n2RKlya/LxQ8c6xlJcBsj6m0OV5qDRsgXYYrxPDndnMiP7XKaGa13tXam8z9
-	k53s519VBie6WA/wbK7SaHVTVM2S2wRGYqceGK9ygI9iYo/OsY5DSYJIQOlbM5MC7Itu4HwKiAT
-	lHJ6tmaNoG3tKvChjFLptOJNI8q6+toNvgGmAHwhXZXGVI2voRlDCrMsOxu08aDxc2M+bygkElE
-	FxQJTEjTq/rdjiAoXA7H4P+uzase2kT9qFXxzUp6LI8mffEZxdCh569OEnDB1EI+h0rjN4LPvCJ
-	LQH46v9mE+uymqgv3Q//Jp1SKFVSERV54qgu7ZQWK4r8s8vf3qkd/mbysY7zT5CqQ6nVFJPR2+X
-	gXbi5zuda1kgWVwreQSI283DCvyApjpEn2J7epsmcGf6EqRXXl2qbJ4Pg9aPtQSwk9D8KumV0D+
-	a97E9fAI4zDLjA==
-X-Received: by 2002:a17:902:e5c2:b0:2e3:d33:b27c with SMTP id d9443c01a7336-2e49b6198ebmr13023775ad.38.1790915970609;
-        Thu, 01 Oct 2026 21:39:30 -0700 (PDT)
+        bh=NJOT7+NCf5K/5kFKuz5HB9vHPxvovBR55Pk8e6dUoC4=;
+        b=pXtDGS/LiIk+AwHD5SRGfUCliZzb2XkK1tw7pa8RJG78lHxr70Wm6VfxlG2HFr05TO
+         TFHCiBF+Px3sRq997igOzF7o+cd3yH8MYUxxFC7oo/DG5qr33yDN/W3Oy+MDquX32mgs
+         5wTLMrurK9eXTQ8V+A0nX3php+geMBV60SeNBKi1QPXrxqYxJBXS5MigTiuN/t/suEd1
+         i5Y3CSoCtRf2nMwvHcUkKZbnye31UwzSIygNXNz8R7W/beb0bwXXNTGuY+tTQrg+9iaa
+         CSU8ORv4yIOESS7c3yCQJfKqAIUaF8Z36iseA0ikGD9oYPDmZLvrpAWA97YtYJmYFJZH
+         BgKg==
+X-Forwarded-Encrypted: i=1; AKwUvBxh2wB6g4b4LAgwYmh2MzeYuKl55J6LDZwC29xddcr3Pm6039ZY9VQ25IKAJTCmKQ97zPYjPui21i15ew==@vger.kernel.org
+X-Gm-Message-State: AFq9FYIYyJkQCGmcR3Glx8i2MgW821A2FDKkiO1vhdipHoKzX7BR/EH6
+	Cgl9tTe7GHSRi00BFe22xnim0iYlolREFo0xeBt2hSSFrKt3Hh0zelMn
+X-Gm-Gg: AYBFou11Td0xsNiR3WCdQX+LbiFuDXcD7TnahB/dyhGnb8BKeR4YSlitl8hToKvbKz7
+	LvmzhgaiRyV1MAd2VST5AVsoqtUmoxBGx9+TSQ2tNZeMzzxia76f5JtRdo0rqW8xdIexfkvWcqN
+	gHt3bChw8LinfJQypesi1acd+wl4eBZGKvCjW7cPoIfXdGtegeEeGOGN4AFOxqY8NeEamvC1zJN
+	TqkYi/8GVsqEdoJH2TvktpEMp2FloisgJ2cjA/7cC26zBXLDCPOQnZSbvJ98AuH1BSVEQyii8lD
+	KHIivCbx2fkn0huiKPWG45qox++h70m5fU90lDJiUtvzOw3nQ/3A+c+xVIg/EEke5A34fY7+mbc
+	MWE9jbpvqG/KWYPV6jzDVonp+OVoyUxxvLwOYv6XBL9tBbMdVj4ZlGRQz9HP7wYmiEEBtFrII/U
+	RxXT2Y3XXSNVHHnLiIANGcFtP37H7XHY37na/x/9HSzb5hQRTPgqW1bEf6LRvDBdM5HzbPgxocq
+	dtOLv/UYp/VyPWmRebnxnCi0XamLY0CtFBJKyU5dQbqj98gZL1EsBm7EGYeb1VQAQxkpsJrIvz6
+	DEu/Ryt8obJiGg==
+X-Received: by 2002:a17:903:32c5:b0:2df:b047:72d8 with SMTP id d9443c01a7336-2e49b7ffbf2mr13420335ad.74.1790915974574;
+        Thu, 01 Oct 2026 21:39:34 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e49f67c413sm3713985ad.20.2026.10.01.21.39.27
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e49f67c413sm3713985ad.20.2026.10.01.21.39.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Oct 2026 21:39:30 -0700 (PDT)
+        Thu, 01 Oct 2026 21:39:34 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>,
 	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
@@ -75,9 +75,9 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 2/5] ASoC: atmel-i2s: use optional API for muxclk
-Date: Fri,  2 Oct 2026 11:38:53 +0700
-Message-ID: <20261002043856.97295-3-phucduc.bui@gmail.com>
+Subject: [PATCH 3/5] ASoC: atmel-i2s: use optional API for gclk
+Date: Fri,  2 Oct 2026 11:38:54 +0700
+Message-ID: <20261002043856.97295-4-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261002043856.97295-1-phucduc.bui@gmail.com>
 References: <20261002043856.97295-1-phucduc.bui@gmail.com>
@@ -91,56 +91,41 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-The muxclk is an optional clock according to the device tree
-binding.
+The gclk is an optional clock according to the device tree binding.
 
-Use devm_clk_get_optional() to handle the optional muxclk instead of
-handling the missing clock explicitly.
-
-When muxclk is not available, devm_clk_get_optional() returns NULL.
-clk_set_parent() returns 0 when passed NULL, preserving the existing
-behavior.
+Use devm_clk_get_optional() to handle the optional gclk directly.
 
 Unlike the existing code, errors other than -EPROBE_DEFER are now
 returned instead of being silently ignored.
 
-Fixes: b543e467d1a9 ("ASoC: atmel-i2s: add driver for the new Atmel I2S controller")
+Fixes: 73ad0df57290 ("ASoC: atmel-i2s: Remove unnecessary audio PLL clock (aclk)")
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/atmel/atmel-i2s.c | 16 +++++-----------
- 1 file changed, 5 insertions(+), 11 deletions(-)
+ sound/soc/atmel/atmel-i2s.c | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
 
 diff --git a/sound/soc/atmel/atmel-i2s.c b/sound/soc/atmel/atmel-i2s.c
-index f28808d980ce..c52d048449f8 100644
+index c52d048449f8..6ca230f8adc8 100644
 --- a/sound/soc/atmel/atmel-i2s.c
 +++ b/sound/soc/atmel/atmel-i2s.c
-@@ -589,21 +589,15 @@ static int atmel_i2s_sama5d2_mck_init(struct atmel_i2s_dev *dev,
- 				      struct device_node *np)
- {
- 	struct clk *muxclk;
--	int err;
+@@ -670,13 +670,10 @@ static int atmel_i2s_probe(struct platform_device *pdev)
+ 	}
  
- 	if (!dev->gclk)
- 		return 0;
- 
--	/* muxclk is optional, so we return error for probe defer only */
--	muxclk = devm_clk_get(dev->dev, "muxclk");
--	if (IS_ERR(muxclk)) {
--		err = PTR_ERR(muxclk);
--		if (err == -EPROBE_DEFER)
+ 	/* Get audio clock to generate the I2S Master Clock (I2S_MCK) */
+-	dev->gclk = devm_clk_get(&pdev->dev, "gclk");
+-	if (IS_ERR(dev->gclk)) {
+-		if (PTR_ERR(dev->gclk) == -EPROBE_DEFER)
 -			return -EPROBE_DEFER;
--		dev_dbg(dev->dev,
--			"failed to get the I2S clock control: %d\n", err);
--		return 0;
+-		/* Master Mode not supported */
+-		dev->gclk = NULL;
 -	}
-+	/* muxclk is optional */
-+	muxclk = devm_clk_get_optional(dev->dev, "muxclk");
-+	if (IS_ERR(muxclk))
-+		return dev_err_probe(dev->dev, PTR_ERR(muxclk),
-+				     "failed to get the I2S clock control\n");
- 
- 	return clk_set_parent(muxclk, dev->gclk);
- }
++	dev->gclk = devm_clk_get_optional(&pdev->dev, "gclk");
++	if (IS_ERR(dev->gclk))
++		return PTR_ERR(dev->gclk);
++
+ 	dev->dev = &pdev->dev;
+ 	dev->regmap = regmap;
+ 	platform_set_drvdata(pdev, dev);
 -- 
 2.43.0
 
