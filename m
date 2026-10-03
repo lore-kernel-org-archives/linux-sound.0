@@ -1,44 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1B23394462;
-	Sat,  3 Oct 2026 08:21:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D97639CD0E;
+	Sat,  3 Oct 2026 08:21:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791015696; cv=none; b=K684+QRiaX7DgM7BXlr+11nFd9Og9eI1MnYvPtU9f3eLRhDsVtNR3F8dBTzWyLy1OcLcsGLXk6QZmLfSRIHt8A4FNYEKEL0b/vorD7jju+Avz8n6ScK+uomTKOmkrKJlnboxizAvPqmOp7uz3fJuItX1Ep0hwgh7tgFuxAHceg0=
+	t=1791015699; cv=none; b=OeaRGKJ8bmLCMp0my90wyYtIvwyMVrW4oMq/21m/5coDi2AWBQhstrtc9rlXlXLnf4lk3FqnamGL8vQKqQYdU0ZwFdKFmZ7J44hu1cYSuJuSy8pMHm6DcDxUlIq4DR2MWMUhUJoZPlvV5XDp98v19ALieWQbLSYdDaUjoHKv3us=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791015696; c=relaxed/simple;
-	bh=3g9x/4ZOjKXpWiDOmUw/OLXATdZ9vb/cha7MWzla1Co=;
+	s=arc-20240116; t=1791015699; c=relaxed/simple;
+	bh=yWpbMrgFhtrQfBZV6kZ1Dp8dPh1HtsoYRdJ0sfHtMMU=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Ex+E7xZizuwETDvo8v8Fx7B9SlzLorE3f9Lrwl1KSVDjwHwbrnHopEA/G+PZ7xR0I2t+qKczWhPEHIcA4xttUAxOCds/97yehHbAKd2vv8DEKVd/hvrYUiy9y1ViiUBhkomn5sRxC+/KCQ3gcM/MwN0YZXxAQz/7mtIBXxXBocI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B3aoBTVm; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=FnJesiYWQ1/z/2mpiKIB6QhbRre4ldtZAsKDrxiFF3BJCBYF+St3ZnV6pZI3SUve5118pVyHrUbukMxzahX5FHKleGDht2yB3Yh5vDyi8u/FaZIsb4G+Yo+pkGYNOEH3uhYlk16iOE8w7u/hf2XhVFeh7JJCb6V39LTH5F3KhPA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g54tZTUn; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B3aoBTVm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CF8A1F0089B;
-	Sat,  3 Oct 2026 08:21:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g54tZTUn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3A3F1F0089E;
+	Sat,  3 Oct 2026 08:21:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791015695;
-	bh=t6o5qaRAy9PpZHI+qQsuXLIzbZqv7mAOoUxbb0BMqm4=;
+	s=k20260515; t=1791015698;
+	bh=I0GcJJYw5YQM5ifyVQrxHoLaNBni/R3fUm4KYTb0mCc=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=B3aoBTVmpoq5sLa1hrH7dMTo4Zq/+3e9qjbR0TsHPliFw/nEOje7VCYmLaVjsrNkd
-	 DYVQ+Rsd7HlIy27I07CSp0xB4xwfMpcodi4xwpfXPFtHERewEzWTzw2fMFr7dD1dMW
-	 QAQzfOCbYM7ffmuhJNXX3N/f0KfRgeufcJgd7AKld/BcrjVEyseQkPiICmHoeclWl7
-	 WUzOrKlnGiXTnC5G5ieCnWtiq1xwtsCZvoOsMLx8cx4S1llhB816r7SYVlUjtfWQvZ
-	 JBNk2SIr+EWJs2GoCJbw0YflGW1di5d4GzqpLz2zJKmmEqHLeINmFzYyaiVDNxtsJ7
-	 JW3T3jFNP1pfw==
+	b=g54tZTUnQMxlZa7PQulwTXjcoI6l5BipTJBwYVJfETCTtdovvCE7RSzzVIOMZ9bYL
+	 UWA/Hdc5phO5biLe2eLlUJjuNZ7WjeMNrd5/2nC5vOVGgTkuwD88iK0dxB3LXMwfHr
+	 mkAw8sFEYLzgiHdPBqVumSQQI62K5alAPfnFPZvXkmxMq9bjHsAm0j79jgsekpvApI
+	 Or6BJI3W6yOw2t9vfzZGevEz6dulcJKrtut2mLWOQ/cnmd+4EPKvn97cYOEJz07kZn
+	 RJXsoMCf3lRnLsJZ63euXmkL7glh4xa6+47EZu0WNLjVnvsbjOtky1BMG8rM9qlF4/
+	 w551fMcZr7Hfw==
 From: Vinod Koul <vkoul@kernel.org>
-To: Bard Liao <yung-chuan.liao@linux.intel.com>, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
- Oder Chiou <oder_chiou@realtek.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- jack.yu@realtek.com, derek.fang@realtek.com, flove@realtek.com, 
- shumingf@realtek.com
-In-Reply-To: <20260924-rt718fix-v1-1-d92674696e73@realtek.com>
-References: <20260924-rt718fix-v1-1-d92674696e73@realtek.com>
-Subject: Re: [PATCH] soundwire: intel_auxdevice: add rt718 codec to
- wake_capable_list
-Message-Id: <179101569209.158974.4445912341303379692.b4-ty@kernel.org>
-Date: Sat, 03 Oct 2026 10:21:32 +0200
+To: linux-sound@vger.kernel.org, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: vinod.koul@linaro.org, linux-kernel@vger.kernel.org, 
+ pierre-louis.bossart@linux.dev, peter.ujfalusi@linux.intel.com, 
+ bard.liao@intel.com
+In-Reply-To: <20260928105640.3014318-1-yung-chuan.liao@linux.intel.com>
+References: <20260928105640.3014318-1-yung-chuan.liao@linux.intel.com>
+Subject: Re: [PATCH 0/2] soundwire: dmi-quirks: Disable ghost devices
+Message-Id: <179101569542.158974.2683924191249854784.b4-ty@kernel.org>
+Date: Sat, 03 Oct 2026 10:21:35 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -50,15 +48,22 @@ Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.14.3
 
 
-On Thu, 24 Sep 2026 13:20:27 +0800, Oder Chiou wrote:
-> rt718 has wake capability. Add it to the wake_capable_list.
+On Mon, 28 Sep 2026 18:56:38 +0800, Bard Liao wrote:
+> Disable ghost devices on Lenovo Yoga 7 Pro and Lenovo Yoga Slim 7.
+> The first patch is a RESEND patch and the other one is a new patch.
 > 
+> Bard Liao (2):
+>   soundwire: dmi-quirks: Disable ghost Realtek on Lenovo Yoga 7 Pro
+>   soundwire: dmi-quirks: Disable ghost rt711 on Lenovo Yoga Slim 7
 > 
+> [...]
 
 Applied, thanks!
 
-[1/1] soundwire: intel_auxdevice: add rt718 codec to wake_capable_list
-      commit: fbc3ac576a33a6ad430366dea85585780612de79
+[1/2] soundwire: dmi-quirks: Disable ghost Realtek on Lenovo Yoga 7 Pro
+      commit: 21f4552fbaafa75628ed7bf7693303920da0545c
+[2/2] soundwire: dmi-quirks: Disable ghost rt711 on Lenovo Yoga Slim 7
+      commit: e0cb731652a1bebf962086f17d1b7c9d060cb7d6
 
 Best regards,
 -- 
