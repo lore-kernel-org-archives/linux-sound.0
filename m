@@ -1,42 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA8CA30C637;
-	Sat,  3 Oct 2026 07:58:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 240D237755A;
+	Sat,  3 Oct 2026 08:18:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791014293; cv=none; b=e3U6NziTB7ZC0GhI+4wsM+AWnP9TF4pbTLnWBfgXZuXlwApyxZ5zJUN69rIH1hFfoxA8viKg673Obr53yimXpZXRM2o6fpPOo4hnqKAiGHp181H2rgOQ/SQXBwylL7nGuPuRtkY3gvyrbYSF5OBeQ6+nGCdaLLTfsNOizJNo/cs=
+	t=1791015487; cv=none; b=C/NeCwvIy36V+XAX8g6W4Le1FDDPlRS9cGkjdFg2xWrQZn+Z3Cdc4sw4gpW2jjKkO/vk7gEUgjQGm7GLQCikRnssYEgqvO0Gg7PpAZ4UMSzDFO/04fIHwYYzE/V4WvDeogIs97X+Kykt0X1UTFOuULliuQViHLUo2cXOp7XCgT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791014293; c=relaxed/simple;
-	bh=puoH+QTT3MaZ8XLgWHQ9NrMdNDxG5dZSsMX2z93D/xM=;
+	s=arc-20240116; t=1791015487; c=relaxed/simple;
+	bh=iYEijlYJUq45EPagJHUGz5EOXlOCJfE005wikZ4dd6Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZBwY4BkmxiEoP25ZUlN/Yc8fDtA1qPa60b7x1hdi8ggT4+E2dhVk3vEL0NdjO7aIaAZGoZLqc1b10S3ACZLsu8Rh8ldbASRgijzM4/4wHkzWr7Wg7uFcxoSbkjtIm60AuU/+97L76m9eNnZjaB/vo3C/RYSscjzUrMCHj0+Cgts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F9sEqvP6; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=d8ZXIpD2MFnzcYlwghmNySLXSfFO5MqWbCGjxehboZDZ8uU8OR0oi0gzwkw3lXvGG35/nMcmJfQWQZSDruFJVblxSpNKuCaWGSgr6GJHeHQ4QAuugpV6xVbRarWo4Mg0k4cO2bPqCm8IQoqtEYw5exCpK+ZQSY9y23bPBQBkTwk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nO2HMdYe; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F9sEqvP6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CCE31F0089B;
-	Sat,  3 Oct 2026 07:58:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nO2HMdYe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE1F51F0089B;
+	Sat,  3 Oct 2026 08:18:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791014292;
-	bh=eExjwPjav3AtBbLKKQwm8S2T96CCl0YaClkxVcB7F64=;
+	s=k20260515; t=1791015485;
+	bh=uLnpVDJwR4zTl6t5ZRAY9LTHy6Hp4z9k/l8/nZsaDSA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=F9sEqvP6Jt5cYmnf6zgi2P1pLqeEDqD1KaIHH1xYqMfSCoCFh2JrTQ3NygDviKtXi
-	 lLtOpTqIoULxDz/2cf9oKPukxkzFs/mhmfM8hUgoygTFF6cLpDRMtxMXvbCJFDZGL8
-	 Ip/btnqaKApx1osKrEV1P4eio0Ik66qXW7MJ5IcAB+emYLXhaIel6qjYf3azjr5wRT
-	 TdG/jvU2N91CmADcecIrE1D+AT+oLt9sIkJBQLkSb036QRVILif1C5CPmRYqRhWW3w
-	 7bFTwHfi8bhrhsJJu8jClCVLBHqT5cpUvdfX06uEFkfDXP91KBcPxF+yAKIHldv26M
-	 l6k/IdNiFfgtA==
-Date: Sat, 3 Oct 2026 09:58:08 +0200
+	b=nO2HMdYekz4PwzKqmZw0wGG6ygcQgXKG6SKpAJ7f9jE/q1549ahPXyPVKRqMqkifi
+	 xoMxymU2S6ZBgs6tX0s29+AO6y6ChGZz60TeIsgYCuC15E1Il4QXgUR+ydSt1wjFEm
+	 TmOByPlem8PstxKdy53OiWKSBB+5Nvf9XhU2icZiyJvtdCwM0VGhFixHtiqJPUpo3i
+	 uizaqSCKJAzMy03l4qzWulZWU6AqGx9wT4rbcZAwzCRv9lWFQoQOKn00q3XDlFLHUg
+	 bqNuLVF4gXJ1tK5t7dVsx3q8UCda5OF8FsbhGnepN633jGXNwUcST03vfAtM+iMX2r
+	 jElpVniEmQ41w==
+Date: Sat, 3 Oct 2026 10:18:02 +0200
 From: Vinod Koul <vkoul@kernel.org>
-To: Lee Jones <lee@kernel.org>
-Cc: Charles Keepax <ckeepax@opensource.cirrus.com>,
-	yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev,
-	linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
-	mfd@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/2] Add SoundWire detach helper
-Message-ID: <asC1kM-aOjl0GYYx@parshuram>
-References: <20260831140157.1736905-1-ckeepax@opensource.cirrus.com>
- <20260917105908.GI1605367@google.com>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev,
+	peter.ujfalusi@linux.intel.com, linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] soundwire: bus: Don't unassign dev_num before
+ unregistering device
+Message-ID: <asC6OuTRgQg86jMk@parshuram>
+References: <20260925154216.3520136-1-ckeepax@opensource.cirrus.com>
+ <20260925154216.3520136-2-ckeepax@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,39 +45,51 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260917105908.GI1605367@google.com>
+In-Reply-To: <20260925154216.3520136-2-ckeepax@opensource.cirrus.com>
 
-On 17-09-26, 11:59, Lee Jones wrote:
-> On Mon, 31 Aug 2026, Charles Keepax wrote:
+On 25-09-26, 16:42, Charles Keepax wrote:
+> Don't mark dev_num as unassigned until after the driver remove has
+> been called. The driver may want to communicate with the device
+> as part of the driver remove operation, so the dev_num should
+> remain assigned until that has completed. This requires moving from
+> device_unregister() to manually calling device_del() and device_put()
+> to ensure that the slave struct isn't freed too early.
 > 
-> > Currently, if a SoundWire driver takes an action that causes the device
-> > to detach from the bus it needs to be careful. There will be a period of
-> > time until the detach is recognised by the core, if the driver
-> > immediately
-> > calls sdw_slave_wait_for_init() it is possible for that to complete
-> > before the detach has been recognised. Leaving the driver with a device
-> > that is potentially not ready for what follows.
-> > 
-> > To avoid this race add a new helper that drivers can use to inform the
-> > core the device will detach. This clears the enumeration completions
-> > ensuring that sdw_slave_wait_for_init() can't complete until the device
-> > re-attaches.
-> > 
-> > This is the third part of a longer series of moving these slave
-> > attach/deatach operations into the core:
-> > 
-> > https://lore.kernel.org/linux-sound/20260512103022.1154645-1-ckeepax@opensource.cirrus.com/
-> > https://lore.kernel.org/linux-sound/20260608102714.2503120-1-ckeepax@opensource.cirrus.com/
-> > 
-> > I have based this series off Vinod's soundwire tree as that probably
-> > makes sense for which tree to take it through.
+> Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+> ---
+> 
+> Changes since v1:
+>  - Split device_unregister into device_del and put_device
+> 
+>  drivers/soundwire/bus.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/soundwire/bus.c b/drivers/soundwire/bus.c
+> index aeaae5a57c89d..1488b6540844c 100644
+> --- a/drivers/soundwire/bus.c
+> +++ b/drivers/soundwire/bus.c
+> @@ -175,8 +175,9 @@ static int sdw_delete_slave(struct device *dev, void *data)
+>  
+>  	sdw_slave_debugfs_exit(slave);
+>  
+> -	mutex_lock(&bus->bus_lock);
+> +	device_del(dev);
+>  
+> +	mutex_lock(&bus->bus_lock);
+>  	if (slave->dev_num) { /* clear dev_num if assigned */
+>  		clear_bit(slave->dev_num, bus->assigned);
+>  		if (bus->ops && bus->ops->put_device_num)
+> @@ -185,7 +186,8 @@ static int sdw_delete_slave(struct device *dev, void *data)
+>  	list_del_init(&slave->node);
+>  	mutex_unlock(&bus->bus_lock);
+>  
+> -	device_unregister(dev);
+> +	put_device(dev);
 
-...
-
-> I can take the set with a Soundwire Ack.
-
-Looks like there are dependency, you can ack the mfd parts or if it
-works pick both :-)
+if we are doing this I would add code comments on why we split. We
+invoke device_register so the expectation is that we always call
+device_unregister. I understand this is being done but this needs to be
+well documented here
 
 -- 
 ~Vinod
