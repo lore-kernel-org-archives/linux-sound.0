@@ -1,85 +1,90 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95DC437B00E;
-	Sat,  3 Oct 2026 09:54:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01E0D4052A6;
+	Sat,  3 Oct 2026 09:58:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791021295; cv=none; b=izM7ASwcEqMLncpPw0WjAwW3gBfoypz8tCyfC02k6Lu6hl9texOuk9xPfyc6kuQFmDKfMBoSs6hgSFzKqEtAIANXBMzT+dnNyeTp+9a8ecLhRI7hxtQUgC6mLWcANe9F0JgECf5qGzY2J1lcvJCAgYie/FRVMk66ZPNP6+Qwk54=
+	t=1791021490; cv=none; b=JOkuZ/UZtZbzJg6rkj5WyLQt3DEMGQj2HYtX2kA9kCQPCkckgD0pvltM46mknxFERolhx7rOJaJlh3Sq4OzYPK/Hbfn8w1lFjLydm9Ju5CMaMFl9Z/amMm4NoEsX1Bkt5YhrYE2o91Fu8Cwu/V3AYdiqn6wgbR9Pb45nkJzNlOI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791021295; c=relaxed/simple;
-	bh=n1Roo1hS/xbYYeM9rPswI7ldqnH4ow/4w/RxEGmMLn4=;
+	s=arc-20240116; t=1791021490; c=relaxed/simple;
+	bh=DHf3bcWhNx060EzuchW68p1C96V+s6DxBKUSERzbM3s=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qjHPl4jT+kI+rS0ckMcJ6Eu6x/T/GtKccb6xMwb3O0eaxpbOkch4zgJi1i//FtLA1W3tBEmAEGcspaRBbE1k7Ema5K3X+BVFk7fCWopsPvrJM+fduBhbe8BApcUnL19s4N1NRcTe6/zHFxZTRP53KCxTdqS1EI31Z3THJo6F1X4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=abOGKJQH; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=xOhXuen7; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uzOj1EDp; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2lHA+78w; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=iDvKt1uuHYFvLLs3FT1e14KjUvzuDyfIX0cWyt/TPZFKvnc401G89C/YErng5Q2DjItVM8iHpQRGdh2pxyAgmU24SWqd26cG6GmkjIp/+Z7P6qx3frAkm/u8sI4QYeOdnJq2xXe+pTa0pw24NGfs0jK3eCCp4laxAFZaL0FPKrU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uQKnSwId; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=yawyFyq7; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=tjRBVZ2s; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=C07mdI3l; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="abOGKJQH";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xOhXuen7";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uzOj1EDp";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2lHA+78w"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uQKnSwId";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yawyFyq7";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tjRBVZ2s";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="C07mdI3l"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 7F9241FECE;
-	Sat,  3 Oct 2026 09:54:43 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id B20BC21D07;
+	Sat,  3 Oct 2026 09:57:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1791021287; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1791021474; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=TiR9WXB+aVGJ/YAqAMbw9jBO67B7we/1T5SgLkrHXis=;
-	b=abOGKJQH8YqBZBhmhHYBLnTFmApZs1YSK8gvOYEKOdKJjclsC9ysy1kkd+XmPkezNqTSad
-	FyFff9hZlT4bFobOsHfzrgLrf1iw7hseHqmcksW/bYaAaS9/UVq7Vae7Ooy1NhdCThGCTN
-	gytu/xcPJTcimHrk1utt3FQQ4BzmODs=
+	bh=3jw3NAjRzC5Gw+nVkz++HnHQcU0jeL3LLF//BhZbiGw=;
+	b=uQKnSwIdHvizydSuYTw4sqbVvEzJ12oFmaftkZk5tQkCkzaGZJJ9Q1D+NWyLPkTBBd0lIw
+	LH+JZ/E8NRet2XJ6kWDsNEkd65hrI+66T+uygpYqB5CUzy6h4gHUIDYzkjX2bZqKhcLBZh
+	Q16QbzGjcJWw3omvHCfcgfUeJQ/C6kA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1791021287;
+	s=susede2_ed25519; t=1791021474;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=TiR9WXB+aVGJ/YAqAMbw9jBO67B7we/1T5SgLkrHXis=;
-	b=xOhXuen7FVhFvmJ0UUaUk9AgKlnn0wZG8iVYV7wPYgYN55RLzdzkE1It5yDEjsE1RepMo4
-	dJSiwib8KWdGUFAA==
-Authentication-Results: smtp-out2.suse.de;
+	bh=3jw3NAjRzC5Gw+nVkz++HnHQcU0jeL3LLF//BhZbiGw=;
+	b=yawyFyq7pDCaFUsHZjNaanUz6d9ulsttX89vnT26IVkixTl1qkct4DTgnJz/lxey1OdAGj
+	YgMWJWCH92gC/IAQ==
+Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1791021283; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1791021470; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=TiR9WXB+aVGJ/YAqAMbw9jBO67B7we/1T5SgLkrHXis=;
-	b=uzOj1EDplmXZXlBNMswFRxWkJ0bOTO7Ml6eA0iTZxzBZPaUXrc9A21/lerXxDvZ4x9drCX
-	ZL8ix+cz495HlBOZUhn6pz6RxR7mHG1G7TYt1K3YL72eICDOgr4jD03ZXqyhn5Fi/n/bRA
-	uLLlIK0d//WAQNFTsLK6dqD5OmlnjMI=
+	bh=3jw3NAjRzC5Gw+nVkz++HnHQcU0jeL3LLF//BhZbiGw=;
+	b=tjRBVZ2sL/WKWKZ3Hu7nMHqsAKlAK+CECThT3s3teAZkxpjJ6ugTYqkJqMaT6qKyQwZVGm
+	Msy1evqo5wchwisBLApOcqdMXzHOUjcrZeG5iV/w5GwTtpFmXgty92227rWtK++mSv2T9E
+	y+fI6LXOMacjNSvtqdsxT2VgK3MAmRs=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1791021283;
+	s=susede2_ed25519; t=1791021470;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=TiR9WXB+aVGJ/YAqAMbw9jBO67B7we/1T5SgLkrHXis=;
-	b=2lHA+78wkiProkFpD5NY8C70QMe8AAs+9rZUDLo2tw4t7srEfw42CFiG0YJY98SoittxC1
-	aGv78TegiFQJY/Cg==
+	bh=3jw3NAjRzC5Gw+nVkz++HnHQcU0jeL3LLF//BhZbiGw=;
+	b=C07mdI3lJHGc5BKwSJmGLNYBIfqtUoUFpgeKx961Jy1zYGSWfHoY8lQolSr3SjRltiaCSP
+	ICPywTf04ONudXAw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 32A0213712;
-	Sat,  3 Oct 2026 09:54:43 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3B26013712;
+	Sat,  3 Oct 2026 09:57:50 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id WHVdA+PQwGoTSgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sat, 03 Oct 2026 09:54:43 +0000
-Date: Sat, 03 Oct 2026 11:54:42 +0200
-Message-ID: <875wzjxg65.wl-tiwai@suse.de>
+	id kMJSBJ7RwGoGTQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sat, 03 Oct 2026 09:57:50 +0000
+Date: Sat, 03 Oct 2026 11:57:49 +0200
+Message-ID: <874if3xg0y.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Denis Yakovlev <mfthesun@vivaldi.net>
-Cc: tiwai@suse.com,
-	perex@perex.cz,
+To: tjdqudcks0424@naver.com
+Cc: Ivan Orlov <ivan.orlov0322@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek: Enable headset mic on HONOR MagicBook Pro 16 2024
-In-Reply-To: <20261002221850.12443-1-mfthesun@vivaldi.net>
-References: <20261002221850.12443-1-mfthesun@vivaldi.net>
+Subject: Re: [PATCH] ALSA: pcmtest: handle multiple wraps in random capture fill
+In-Reply-To: <20261002232824.808952-1-tjdqudcks0424@naver.com>
+References: <20261002232824.808952-1-tjdqudcks0424@naver.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -87,62 +92,77 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.30 / 50.00];
+Content-Type: text/plain; charset=EUC-KR
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-1.80 / 50.00];
 	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.997];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
+	RCVD_TLS_ALL(0.00)[];
 	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TAGGED_RCPT(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,naver.com];
+	RCPT_COUNT_FIVE(0.00)[6];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
+	FREEMAIL_CC(0.00)[gmail.com,perex.cz,suse.com,vger.kernel.org];
+	FREEMAIL_TO(0.00)[naver.com];
 	FROM_EQ_ENVFROM(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -3.30
-X-Spam-Level: 
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
 X-Spam-Flag: NO
+X-Spam-Score: -1.80
+X-Spam-Level: 
 
-On Sat, 03 Oct 2026 00:18:50 +0200,
-Denis Yakovlev wrote:
+On Sat, 03 Oct 2026 01:28:24 +0200,
+tjdqudcks0424@naver.com wrote:
 > 
-> The HONOR MagicBook Pro 16 2024 (DRA-XX, board M1020, ALC256, SSID
-> 1ee7:204e) has a combined 3.5 mm headphone/microphone jack. The BIOS
-> leaves the headset mic pin 0x19 at 0x411111f0, so the codec parser
-> builds no capture path for it, and it leaves the jack switch
-> (coefficient 0x45) in the TRS state, which cuts the microphone contact
-> off from the codec. A wired headset microphone therefore records
-> nothing.
+> From: 성병찬 <tjdqudcks0424@naver.com>
 > 
-> Configure 0x19 as a headset microphone (0x03a1113c, "headset mic
-> without its own jack detect"), the same value already used for the
-> sibling M1020 board (HONOR MRB-XXX) and by the VAIO quirks, and chain
-> to the generic headset mode handler, which detects the CTIA/OMTP
-> headset type on every jack event and programs the jack switch
-> accordingly. Pin 0x1a is left untouched: there is no evidence that it
-> is wired on this board.
+> The random capture helpers assume that the data generated for one timer
+> tick wraps the DMA ring at most once. However, b_rw describes 200 ms of
+> audio because the timer runs at 5 Hz, so it can be several times larger
+> than a small ring.
 > 
-> Assisted-by: LLM
-> Signed-off-by: Denis Yakovlev <mfthesun@vivaldi.net>
-> ---
-> Tested on a HONOR MagicBook Pro 16 2024 (DRA-XX), Ubuntu 7.0.0-34, using
-> an out-of-tree build of this change, with wired Apple EarPods (CTIA): the
-> microphone records after several cold boots with the headset inserted and
-> after hot-plugging; without the change the analog capture is digital
-> silence. The headset type is detected as CTIA (coef 0x45 ends up at
-> 0xd489). The speakers (including the "Bass Speaker" control from the
-> speaker fix) and wired headphone playback still work. OMTP headsets were
-> not tested (no hardware).
+> For 48 kHz, S16_LE, four-channel capture with a 512-frame buffer, the DMA
+> ring is 4096 bytes while one tick generates 76800 bytes. After filling the
+> 4096-byte tail, the existing code issues a second 72704-byte write from the
+> ring base, writing 68608 bytes beyond the ring. Both interleaved and
+> non-interleaved capture are affected.
+> 
+> KASAN reports the first write into the adjacent free page as a
+> use-after-free in the random-byte generator. The underlying defect is an
+> out-of-bounds write from the live DMA ring, not a stale DMA allocation.
+> 
+> Split each random write repeatedly at the interleaved ring or per-channel
+> block boundary. Keep the hardware-pointer update exactly once after the
+> complete logical write.
+> 
+> The issue reproduced on three of three clean boots. With this change, the
+> same vulnerable geometry completed six times without a sanitizer finding.
+> Boundary, pattern-fill, no-timer, open/close, and module-reload controls
+> also completed normally.
+> 
+> snd-pcmtest is a test driver, and selecting random fill requires an
+> administrator-controlled module parameter. The written values come from the
+> kernel random generator; no privilege escalation or attacker-controlled
+> write primitive was demonstrated.
+> 
+> Fixes: 315a3d57c64c ("ALSA: Implement the new Virtual PCM Test Driver")
+> Cc: stable@vger.kernel.org
+> Assisted-by: OpenAI Codex
+> Signed-off-by: 성병찬 <tjdqudcks0424@naver.com>
 
-This looks like a fix of the existing quirk.  Could you point to the
-commit via Fixes tag and resubmit with it?
+The code change looks OK through a quick glance, but could you try to
+keep your From and Signed-off-by tag with Latin (at best ASCII)
+letters, so that other people can handle more easily?
 
 
 thanks,
