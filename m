@@ -1,34 +1,34 @@
 Received: from mail.nozomi.space (mail.nozomi.space [139.162.184.125])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4F3437A48D;
-	Sat,  3 Oct 2026 19:45:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A1B6490C09;
+	Sat,  3 Oct 2026 19:45:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=139.162.184.125
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791056710; cv=none; b=s/Sm/p5z65UFes/1/0oulbwTl59yYwBTYvVDTCwQOqqJB6m/AZKQxsRH97UNSovgozhKyJzwOAHru4dYIGswnCV6FG5ZFwDzwt8g3mkeqC0OEPjx2zYvSII6stbWSuHjVcSLXWOOB/GKqzHthzQkdRhlsRwqPZlLIY6cp8V+1oc=
+	t=1791056711; cv=none; b=Jm2sCx1aFGGiuFLcA8XfgdHT/5QqzQAorXcPp5UwxP7SCIkWaOxpiRSOeLmQYgcT6BbDppzHl4232QhqfXxN9yrMHdKMSFNq5+YmfStUYgaisvc4rsLcMtc/FM6rJjZG2AuU0UL8RUeF7PhGbjaJVAaFX3E7El6u/mCqu21iDm0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791056710; c=relaxed/simple;
-	bh=Og0qzZOo75TiHgCWhRvStFZtPqMqKvwqwQ8HOo5wgQg=;
+	s=arc-20240116; t=1791056711; c=relaxed/simple;
+	bh=aWKY97sHh9S7brm4+CqOoOmeCaZu0twWysF+E3NgaY4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=b1ncQWREbiddgQAmmfhhZOfyN9xs7Gv5jHGKRx3gWy9zqTEdvUxOR/zrwCyEF/3+2dcZpDs49cuAYqbOn7eseKvCMbygRUbILc0PvL79pP64nHRQ8+rLx4QO9SF1kSDj+wi8DqyTCoUA6oSWgzXbDSHPmWE5iiWDt/xylG6HmY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nozomi.space; spf=pass smtp.mailfrom=nozomi.space; dkim=pass (2048-bit key) header.d=nozomi.space header.i=@nozomi.space header.b=X6Pz4IH8; arc=none smtp.client-ip=139.162.184.125
+	 MIME-Version:Content-Type; b=uj/0qJ4N2oi9ZOX7TpGc8mwA7DLMsmC91X6hJkc5cR4rnzQlYaoRW39Lkp7j08NpuN+BCG8NV9RMIrVd8QEzuuJSzLUPZQa/nS17UL1gG87sFlI0Bju/smRPcJ1Bk0pJKmIrXYmACO4049goLOHFHLHkZZEj0VyJQAKd04NaO0A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nozomi.space; spf=pass smtp.mailfrom=nozomi.space; dkim=pass (2048-bit key) header.d=nozomi.space header.i=@nozomi.space header.b=Di9FEuev; arc=none smtp.client-ip=139.162.184.125
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nozomi.space
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nozomi.space
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nozomi.space header.i=@nozomi.space header.b="X6Pz4IH8"
+	dkim=pass (2048-bit key) header.d=nozomi.space header.i=@nozomi.space header.b="Di9FEuev"
 From: =?UTF-8?q?Micha=C5=82=20Kope=C4=87?= <michal@nozomi.space>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nozomi.space;
-	s=mail; t=1791056706;
+	s=mail; t=1791056707;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=7LGwLQB5bGxTp3o5FBG+AuuU4O/ZCuDyuPvM5fbA0n8=;
-	b=X6Pz4IH8HWtDAm/qWRnFijWbXaidHYNrhK0WFZ7qVDzicYaXteen8LxzEVEMQlXQOHgYDd
-	VW4GIOwkYig6kHFB93yGfIpRqYyZgEUYaep5DrLZLJCLWhIWOHY0abLUJy9cr+XhgrOp8n
-	A7UlqI/TQt7iC/esG9r7tKWNJIdpZZZ/+Z98A298ykySI6fbSA+0Is9aTClLcgE4GIhf0A
-	i+WONWWRHkhy2rFSKPoQA/JTPZm8PGmcGgcwrRRJPC1Mnqqj90kq8aYeugfq2CaiM3/tAu
-	5iXWgtmd4ONLexWSKThyNy2KF+lp9guWFeqy4fugAQBfmOzHuQvQu78SJ1CM3Q==
+	bh=OOtUI9LbZBFzrdoP5EONAONuH2mAdNCzMzef3tb6ksY=;
+	b=Di9FEuevjwnMXtJQ+wJfqyQgGT7k9Gx/vhwJSmdP6snCsq+wwh//x/6JjTyp+4qv5i8XTb
+	GVPv/fyHeVfYfKLGVwn1Axas2lJJ6YgJYqK9vUnAKtFjjKMGvPVcu4VNeey+CuIk05n2Xw
+	fn7i+JkN5jKyLL4QTpUHVIensvYgLR0ZlfQMNLTfPuRDuKqiI/d93KSgC2Y00Mq+sssPPq
+	pRj2YY9DSwAQXzm/XJzVjnXrED71GFfs4rO/RYdJhpkWlPF/E4r+pDJFAWmoI4e+uWiK8F
+	ViWvanb6auSZeaM2q/HBp1fBXet/58RP7+LnI8dOpCR2Cn3tRPAM8Luv3GDkOQ==
 To: Mark Brown <broonie@kernel.org>,
 	Liam Girdwood <lgirdwood@gmail.com>
 Cc: Jaroslav Kysela <perex@perex.cz>,
@@ -44,9 +44,9 @@ Cc: Jaroslav Kysela <perex@perex.cz>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	=?UTF-8?q?Micha=C5=82=20Kope=C4=87?= <michal@nozomi.space>
-Subject: [PATCH 1/4] ASoC: mediatek: common: Keep codec references until the card is bound
-Date: Sat,  3 Oct 2026 21:44:58 +0200
-Message-ID: <20261003194501.832558-2-michal@nozomi.space>
+Subject: [PATCH 2/4] ASoC: mediatek: Don't keep a freed topology name in the static card
+Date: Sat,  3 Oct 2026 21:44:59 +0200
+Message-ID: <20261003194501.832558-3-michal@nozomi.space>
 In-Reply-To: <20261003194501.832558-1-michal@nozomi.space>
 References: <20261003194501.832558-1-michal@nozomi.space>
 Precedence: bulk
@@ -58,65 +58,92 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-mtk_soundcard_common_probe() drops the codec references parsed from the
-devicetree right after devm_snd_soc_register_card() returns. When a
-component is still missing, snd_soc_bind_card() queues the card for a
-later rebind and registration still returns success, so the card is not
-instantiated yet. The rebind reuses the same dai_link array, but with the
-codec references released both the codec name and of_node are unset, so
-it fails the dai link sanity check and the sound card never appears.
+The machine drivers pass a static snd_soc_card, which outlives any one
+probe. With SOF, mtk_soundcard_common_probe() calls
+snd_soc_card_set_topology_name(), which devm-allocates "sof-<name>",
+stores it in card->topology_shortname and points card->name at it.
 
-Release the references right away only when the card was instantiated
-or registration failed. Otherwise keep them for the rebind and release
-them when the device is unbound.
+If the probe then fails or defers, devm frees the string, but the static
+card keeps both pointers. The next probe does not allocate a new name,
+because topology_shortname is already set, so the card registers with
+whatever now occupies that memory:
 
-Fixes: bce93a162505 ("ASoC: mediatek: Add common machine soundcard driver probe mechanism")
+  input: \xc0cr\xc2 DP Jack as /devices/platform/sound/sound/card0/input10
+
+UCM matches profiles by card name, so userspace then finds no profile and
+the card is unusable until the next boot.
+
+Save the original name before setting the topology name, and restore it
+from a devm action that runs before the string is freed.
+
+Fixes: ec4489c43efe ("ASoC: soc-card: add snd_soc_card_set_topology_name()")
 Signed-off-by: Michał Kopeć <michal@nozomi.space>
 ---
- .../mediatek/common/mtk-soundcard-driver.c    | 23 +++++++++++++++++--
- 1 file changed, 21 insertions(+), 2 deletions(-)
+ .../mediatek/common/mtk-soundcard-driver.c    | 44 ++++++++++++++++++-
+ 1 file changed, 43 insertions(+), 1 deletion(-)
 
 diff --git a/sound/soc/mediatek/common/mtk-soundcard-driver.c b/sound/soc/mediatek/common/mtk-soundcard-driver.c
-index 2d39ff23f8540..4bb98412feb11 100644
+index 4bb98412feb11..a84f4ab4488b7 100644
 --- a/sound/soc/mediatek/common/mtk-soundcard-driver.c
 +++ b/sound/soc/mediatek/common/mtk-soundcard-driver.c
-@@ -129,6 +129,11 @@ void clean_card_reference(struct snd_soc_card *card)
- }
- EXPORT_SYMBOL_GPL(clean_card_reference);
+@@ -185,6 +185,43 @@ const struct snd_soc_ops mtk_soundcard_common_capture_ops = {
+ };
+ EXPORT_SYMBOL_GPL(mtk_soundcard_common_capture_ops);
  
-+static void mtk_soundcard_put_card_reference(void *data)
++struct mtk_soundcard_name {
++	struct snd_soc_card *card;
++	const char *name;
++};
++
++static void mtk_soundcard_restore_name(void *data)
 +{
-+	clean_card_reference(data);
++	struct mtk_soundcard_name *saved = data;
++
++	saved->card->name = saved->name;
++	saved->card->topology_shortname = NULL;
 +}
 +
- int mtk_soundcard_startup(struct snd_pcm_substream *substream,
- 			  enum mtk_pcm_constraint_type ctype)
++/*
++ * The card is static and outlives this probe, but the topology name is
++ * devm-allocated. Restore the original name when the probe's resources are
++ * released, so that a deferred or failed probe does not leave the card name
++ * pointing to freed memory for the next one.
++ */
++static int mtk_soundcard_set_topology_name(struct device *dev,
++					   struct snd_soc_card *card)
++{
++	struct mtk_soundcard_name *saved;
++
++	saved = devm_kzalloc(dev, sizeof(*saved), GFP_KERNEL);
++	if (!saved)
++		return -ENOMEM;
++
++	saved->card = card;
++	saved->name = card->name;
++	card->topology_shortname = NULL;
++
++	snd_soc_card_set_topology_name(card, "sof");
++
++	return devm_add_action_or_reset(dev, mtk_soundcard_restore_name, saved);
++}
++
+ int mtk_soundcard_common_probe(struct platform_device *pdev)
  {
-@@ -325,8 +330,22 @@ int mtk_soundcard_common_probe(struct platform_device *pdev)
+ 	struct device_node *platform_node, *adsp_node, *accdet_node;
+@@ -292,7 +329,12 @@ int mtk_soundcard_common_probe(struct platform_device *pdev)
+ 		card->probe = mtk_sof_card_probe;
+ 		card->late_probe = mtk_sof_card_late_probe;
  
- 	ret = devm_snd_soc_register_card(&pdev->dev, card);
+-		snd_soc_card_set_topology_name(card, "sof");
++		ret = mtk_soundcard_set_topology_name(&pdev->dev, card);
++		if (ret) {
++			of_node_put(adsp_node);
++			of_node_put(platform_node);
++			return ret;
++		}
+ 	}
  
--	if (!needs_legacy_probe)
--		clean_card_reference(card);
-+	/*
-+	 * When a component is still missing, snd_soc_bind_card() queues the
-+	 * card for a later rebind and returns success, so the card is not
-+	 * instantiated yet. That rebind reuses this same dai_link array, so
-+	 * the codec references parsed from the devicetree must be kept until
-+	 * the device is unbound: dropping them leaves both name and of_node
-+	 * unset and the rebind fails the dai link sanity check instead.
-+	 */
-+	if (!needs_legacy_probe) {
-+		if (ret || snd_soc_card_is_instantiated(card))
-+			clean_card_reference(card);
-+		else
-+			ret = devm_add_action_or_reset(&pdev->dev,
-+						       mtk_soundcard_put_card_reference,
-+						       card);
-+	}
- 
- 	if (ret) {
- 		dev_err_probe(&pdev->dev, ret, "Cannot register card\n");
+ 	/*
 -- 
 2.55.0
 
