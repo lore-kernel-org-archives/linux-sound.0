@@ -1,88 +1,108 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26BC51DF75B;
-	Sat,  3 Oct 2026 09:18:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B26B3BE638
+	for <linux-sound@vger.kernel.org>; Sat,  3 Oct 2026 09:22:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791019089; cv=none; b=iRJBj+uyjdGNNnaX2aW7bgPYMAF543q4P5M8gZC3ZbttpIWdMq25qJs19+lklZahooOIhIQgc3JhHZSn8PJsOrk6/SrobeDJVacYt6qippreeMvic44dnB57AgDhG3kKVE9X5wvmqQhJay5r9s4u1BYHWwLpNL9qr/DGBZj7AEE=
+	t=1791019374; cv=none; b=aDx0UFSK4fOr6gg7Uo/eUWbMCikMlhOW84rsIioKFrdzEkXHPzNIV/ESff6WIaR38vHcYXJArxCBdqsdTPdkHwgDqCtKxGTbLN9qm8i24e/uqUyR5xrNoj/0rkgF7X+AxGpeZCRj3FvT6QTpxaINKH8vWsZTSxgvjUuO2Yq0iuQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791019089; c=relaxed/simple;
-	bh=Yi7gRouWiMK2ZIVXAcOMOJyvDWGT5VTwa57PBxkSXlM=;
+	s=arc-20240116; t=1791019374; c=relaxed/simple;
+	bh=TF27ZLneeG9cgfK7XGN2merjaga8WF3G4Qh7s93x+fY=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uUPrhTTKApFVPEnQ+k1Hx7twbRgmBc6brgWSAmFoqDzIpoZbtw++sWrgDZ/6sLFAx714lPLGMiMWnwuGRCxUymJ28h1eNazrHcWQnZ+qZUWhF4MJIa0XiXE3kFq72LI4ZtrmHrfqoYAXsS+vttzXcl+yt+UOazweHKSoORe/J/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=U7G380CX; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=yOfxQT5C; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=aeNqO6FB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=snrEbHPN; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=qKBXPu3/i1tuyI2TablJ1CyZen1ylhrCGVNYAlsoOZ2Yz94YSuAAz6FZwF4evm2YLHxoldg1bW/lHp9KfXQ+PKSPUPTg9JoYMIF/GW0l2bVu20IyCcRlmH6degEEgRr7LDBTx0v61L4MOsLtPmgH2RaEd3hUp2JMTnnCs4FgwdQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=my52R8VS; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=y0e4ZY/x; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=o0qnjyBd; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=tKiNhQPy; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="U7G380CX";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yOfxQT5C";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="aeNqO6FB";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="snrEbHPN"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="my52R8VS";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="y0e4ZY/x";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="o0qnjyBd";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="tKiNhQPy"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 09FE721B67;
-	Sat,  3 Oct 2026 09:17:58 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 046611FECE;
+	Sat,  3 Oct 2026 09:22:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1791019082; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1791019353; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=BQbsbpZx7YMZ7tyixugFc4QCd1/TpXvvp9Ysf7an1c8=;
-	b=U7G380CXbIswGXqWfiq1EQvoCtfhXAM72vgXsDAJibodrYXXiZv87N25V6oHUfcbsePXW8
-	X6mQRGnCZmyqMMG9S0UH+1L0NGdDzpSZt/q0fOmAdHmr02KzFNpb+kqb3rTVcHRpZIBLoD
-	B09i+31l7ujRemaHNLhn2hs1nlRYGS4=
+	bh=4CEGk7PrMceY9JeyothIm/f0yHByMW+ulWmkh/YcGW0=;
+	b=my52R8VSIc8jiRLCwxnGDMah/d0WwzVDvjzRTIJTlK9GAFKAvrqTQ67aGfZbZ8GORxGkEt
+	pBWBC/ecjvRjMDmS45a0Z+Zj/V3ytzTX3W6pbhLcTBFi7tRhHKh/zf1Q4FmwSgtd9CJRSq
+	MLRVo2Ffd4xTt3Tiu45K2trgd7Qqtwc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1791019082;
+	s=susede2_ed25519; t=1791019353;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=BQbsbpZx7YMZ7tyixugFc4QCd1/TpXvvp9Ysf7an1c8=;
-	b=yOfxQT5CuQuOr5JqkHLehETKHyYx6ELV+qFLHseidRTisA2l2Wo2t6pubUcNMU6h7qIVPh
-	qkz/HnvSfjNcCjAg==
-Authentication-Results: smtp-out1.suse.de;
+	bh=4CEGk7PrMceY9JeyothIm/f0yHByMW+ulWmkh/YcGW0=;
+	b=y0e4ZY/x/TijHmgs32hn1KqyWePaDtRh3o0dbqpSmUr3s4aLjjUDCu93NADdtVSKZtTWqN
+	bE11BeY0SlMNLwAQ==
+Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1791019078; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1791019349; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=BQbsbpZx7YMZ7tyixugFc4QCd1/TpXvvp9Ysf7an1c8=;
-	b=aeNqO6FBFR/kXzt55vynS89EnWOQ00Zb+3zb4/5inFBXNPV8Kqt8RJ0yJUwNGmFaMnbtmP
-	bDDyMVMDQwPsaxz41S5Rn32Q+28T7H6yj1VQRlzsbbFayfBplhHoiRkQBNTfuKRH5mAQRP
-	SxVNorUGey8VPrAAeOsaKLkswQAh7jg=
+	bh=4CEGk7PrMceY9JeyothIm/f0yHByMW+ulWmkh/YcGW0=;
+	b=o0qnjyBdc81rS3mR5z80q6HVqgP3FC+xtHgJzjReQt5TLk9IxCelCFG1xofvS2Okrva/jO
+	XngN2vy3wUWWpqEigs5U1Re04z2VWQ4syhsN2WoGbsdeF9EJBG50Y4SalCIAmAO8ecsSi4
+	dbv3Oiy4GjgAgi6vbux8kP3IVSYmIlE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1791019078;
+	s=susede2_ed25519; t=1791019349;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=BQbsbpZx7YMZ7tyixugFc4QCd1/TpXvvp9Ysf7an1c8=;
-	b=snrEbHPNm71AyUOWF+xhNEr58fweTpdSv74+7WH1hStb2JVo9EmwrmOqOPb6Xjd5nMREg6
-	lY5uY9DLPu/BXKAw==
+	bh=4CEGk7PrMceY9JeyothIm/f0yHByMW+ulWmkh/YcGW0=;
+	b=tKiNhQPy6pFKT6VAQEePtpoOWhJQJNWWwMrNGF15zCU3LCOT0rgsqjT46Ob8jSm+06t6En
+	YNjsNdqTI68AtECw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A956313712;
-	Sat,  3 Oct 2026 09:17:57 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E974413712;
+	Sat,  3 Oct 2026 09:22:27 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id uEz9H0XIwGrFJQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sat, 03 Oct 2026 09:17:57 +0000
-Date: Sat, 03 Oct 2026 11:17:57 +0200
-Message-ID: <87h5j3xhve.wl-tiwai@suse.de>
+	id 7r3OLlPJwGodKgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sat, 03 Oct 2026 09:22:27 +0000
+Date: Sat, 03 Oct 2026 11:22:27 +0200
+Message-ID: <87fqynxhnw.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: med.jebabli@gmail.com
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Shenghao Ding <shenghao-ding@ti.com>,
-	Takashi Iwai <tiwai@suse.de>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/tas2781: Accept V1 calibration data without CRC
-In-Reply-To: <20261001-tas2781-v1-nocrc-v1-1-ff0c1032ce76@gmail.com>
-References: <20261001-tas2781-v1-nocrc-v1-1-ff0c1032ce76@gmail.com>
+To: James Calligeros <jcalligeros99@gmail.com>
+Cc: Martin =?ISO-8859-2?Q?Povi=B9er?= <povik+lin@cutebit.org>,	Liam Girdwood
+ <lgirdwood@gmail.com>,	Mark Brown <broonie@kernel.org>,	Rob Herring
+ <robh@kernel.org>,	Krzysztof Kozlowski <krzk+dt@kernel.org>,	Conor Dooley
+ <conor+dt@kernel.org>,	Sven Peter <sven@kernel.org>,	Janne Grunau
+ <j@jannau.net>,	Neal Gompa <neal@gompa.dev>,	David Rhodes
+ <david.rhodes@cirrus.com>,	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Jaroslav Kysela <perex@perex.cz>,	Takashi Iwai <tiwai@suse.com>,	Ulf
+ Hansson <ulfh@kernel.org>,	Amit Kucheria <amit.kucheria@linaro.org>,
+	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,	Lars-Peter Clausen
+ <lars@metafoo.de>,	Vinod Koul <vkoul@kernel.org>,	Matthias Brugger
+ <matthias.bgg@gmail.com>,	AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>,	Shenghao Ding
+ <shenghao-ding@ti.com>,	Kevin Lu <kevin-lu@ti.com>,	Baojun Xu
+ <baojun.xu@ti.com>,	Sen Wang <sen@ti.com>,	James Schulman
+ <james.schulman@cirrus.com>,	asahi@lists.linux.dev,
+	linux-sound@vger.kernel.org,	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,	linux-arm-kernel@lists.infradead.org,
+	patches@opensource.cirrus.com,	linux-mediatek@lists.infradead.org,	Hector
+ Martin <marcan@marcan.st>
+Subject: Re: [PATCH 08/28] ALSA: control: Add kcontrol callbacks for lock/unlock
+In-Reply-To: <87wlrzxp7v.wl-tiwai@suse.de>
+References: <20260920-macaudio-v1-0-741cc20a74e5@gmail.com>
+	<20260920-macaudio-v1-8-741cc20a74e5@gmail.com>
+	<878q4k2xl0.wl-tiwai@suse.de>
+	<u9VW29vaRPGENsSTq9RHUg@gmail.com>
+	<87wlrzxp7v.wl-tiwai@suse.de>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -90,56 +110,84 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Spamd-Result: default: False [-1.80 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
+	BAYES_HAM(-3.00)[100.00%];
 	SUSPICIOUS_RECIPS(1.50)[];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.998];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	ARC_NA(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
 	RCVD_TLS_ALL(0.00)[];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
 	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[34];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[lin,dt];
+	FREEMAIL_TO(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[cutebit.org,gmail.com,kernel.org,jannau.net,gompa.dev,cirrus.com,opensource.cirrus.com,perex.cz,suse.com,linaro.org,intel.com,metafoo.de,collabora.com,ti.com,lists.linux.dev,vger.kernel.org,lists.infradead.org,marcan.st];
+	R_RATELIMIT(0.00)[to_ip_from(RLf66hkhxcz6y1w5afddqk81z3)];
+	FROM_EQ_ENVFROM(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	TAGGED_RCPT(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	TO_DN_SOME(0.00)[]
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
+X-Spam-Flag: NO
 X-Spam-Score: -1.80
 X-Spam-Level: 
-X-Spam-Flag: NO
 
-On Thu, 01 Oct 2026 12:24:42 +0200,
-Mohamed Yassine Jebabli via B4 Relay wrote:
+On Sat, 03 Oct 2026 08:39:16 +0200,
+Takashi Iwai wrote:
 > 
-> From: Mohamed Yassine Jebabli <med.jebabli@gmail.com>
+> On Sat, 03 Oct 2026 03:34:07 +0200,
+> James Calligeros wrote:
+> > 
+> > On Tuesday, 29 September 2026 7:52:59 pm Australian Eastern Standard Time 
+> > Takashi Iwai wrote:
+> > > On Sun, 20 Sep 2026 06:53:47 +0200,
+> > > 
+> > > James Calligeros wrote:
+> > > > From: Hector Martin <marcan@marcan.st>
+> > > > 
+> > > > This allows drivers to implement policy around locking/unlocking
+> > > > controls, such as enforcing that a group of controls may only be locked
+> > > > by the same process/file, and taking actions when the controls
+> > > > lock/unlock (such as granting special access on lock and resetting
+> > > > values on unlock).
+> > > > 
+> > > > This is, in particular, useful to implement volume safety controls, such
+> > > > that only a particular process (that locks controls and completes a
+> > > > handshake) may increase volumes above a given safe limit. It also allows
+> > > > the volume to be automatically lowered if that process dies (which will
+> > > > trigger an implicit unlock).
+> > > > 
+> > > > Signed-off-by: Hector Martin <marcan@marcan.st>
+> > > > Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
+> > > 
+> > > This doesn't sound like a good approach to me, and this looks rather
+> > > irrelevant with the purpose of the series.
+> > 
+> > I'm not sure what you mean by it being irrelevant. A significant portion
+> > of the machine driver is dedicated to implementing safety interlocks based
+> > on the functionality added via this patch. It would be impossible to prevent
+> > badly-behaving users{,pace} from defeating the safety guarantees made by
+> > speakersafetyd (and thus permanently damaging the machine) without giving
+> > speakersafetd exclusive ownership over the safety interlock kcontrol.
 > 
-> Some Lenovo BIOSes (e.g. Legion Pro 7 16IRX9H, SSID 17aa:38cd) store
-> valid V1 calibration data in the CALI_DATA EFI variable but leave the
-> TimeStamp and CRC fields zeroed. The driver rejects such data, so the
-> amplifiers always run with default parameters on these machines.
-> 
-> The rejection was silent until
-> commit 4fe238513407 ("ALSA: hda/tas2781: Move and unified the
-> calibrated-data getting function for SPI and I2C into the tas2781_hda lib")
-> turned it into "V1 CRC error".
-> 
-> The stored values are consistent (R0 = 3.82/3.83 ohm, 1/R0 matching
-> within 1e-4), so accept V1 data when both TimeStamp and CRC are zero
-> and the first device entry is non-zero, and emit a warning.
-> 
-> Fixes: 5be27f1e3ec9 ("ALSA: hda/tas2781: Add tas2781 HDA driver")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Mohamed Yassine Jebabli <med.jebabli@gmail.com>
+> Improving the lock/unlock itself can be an interesting idea (but we
+> should do in a different way instead of blindly extending each kernel
+> control ops).  OTOH, the whole implementation of the driver and the
+> feature depending on that stuff sounds rather fragile.
 
-Applied now.  Thanks.
+Also, if you want a locking by user-space, how about to simply provide
+a boolean control element for locking, instead of extending the whole
+API and infrastructure?  The control can be taken exclusively for a
+process, and the driver just blocks the operations from others while
+the flag is set via that kcontrol.
 
 
 Takashi
