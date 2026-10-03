@@ -1,52 +1,76 @@
-Received: from cvsmtppost09.nm.naver.com (cvsmtppost09.nm.naver.com [114.111.35.29])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A789978F26
-	for <linux-sound@vger.kernel.org>; Sat,  3 Oct 2026 10:19:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.111.35.29
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 374A13B0AD6
+	for <linux-sound@vger.kernel.org>; Sat,  3 Oct 2026 10:57:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791022752; cv=none; b=nDmz5dkq8Mk6RBDVwDeEjBylfM/G0hoDxD0PQAlJZTpLV4Pco5nO/brfQxkex/IrUT3yjDPgMDNGijh5yhostRx+qkgWwLoW3CNut4i+N0RPGjWD9gcQ64gECbA1j33xp+AbeetPvIsXceX/5iRM0E+8Y1p+fayhvIZFzhLRoyw=
+	t=1791025074; cv=none; b=OdfgDECo6DLCqxJBTFLYwNmkpYdCBwMAjJJloHhc9xkHIql8oXsYW1F/CcISoL8ueMJRVLjBFoTQqhgOvCcLeT9zJdcQC+24Uy411kivVvQxAmfLVB0a1USDBzaGfnsavVhHAdCCDhJeZTdKPgnvo5iucQulSevvgrMqh/zsjhk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791022752; c=relaxed/simple;
-	bh=ib+ao0AD8SW6XlrhQl2lXH1GzbVG5HubBKMs4hbDJ8w=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cd941u8E1PK5dpcNp1H3BfQZCdD8EeGLylT+aNmLz26dYGq+t0+WJecs+JN/ehfARi1Zdq3dTeX3uxHL9u6tsLcVQMivP+xd2VOJNxhn5yl9rBgUSKIEnOyAvgi7RfekpWGXBVscKECt3XKhCvxRG4ro7ftuECwa4Yqw8wgn1QA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com; spf=pass smtp.mailfrom=naver.com; dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b=cmAOYUmW; arc=none smtp.client-ip=114.111.35.29
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=naver.com
+	s=arc-20240116; t=1791025074; c=relaxed/simple;
+	bh=q1yiMZiqQpH7S/Wv2zrg3/4V+vgnAu8iMb0Tyrvc1Qc=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=X+IKgQjItQr/0NEplr3umEpefx9nOR8V7DY42sOxKjt3bWCd2RDEOO2n7JkMpNAw3UbNGwZrmeBozovbJdxOI41J7wsZN5bN9+mCrAGNykqmxk9++zaocOWBW7agZNn205zyrokPXdWzG/P+gs03G66irvaunGn1Od/9MO2hpNk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=FGC7cfHw; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=NQjxlzbM; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=yoMNs3E8; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=fXy0JmQw; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b="cmAOYUmW"
-Received: from cvsendbo008.nm ([10.112.24.37])
-  by cvsmtppost09.nm.naver.com with ESMTP id IR770hHLRWWwYojZhi6CMQ
-  for <linux-sound@vger.kernel.org>;
-  Sat, 03 Oct 2026 10:19:02 -0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=naver.com; s=s20171208;
-	t=1791022742; bh=ib+ao0AD8SW6XlrhQl2lXH1GzbVG5HubBKMs4hbDJ8w=;
-	h=From:To:Subject:Date:Message-ID:From:Subject:Feedback-ID:
-	 X-Works-Security;
-	b=cmAOYUmWvgtgUvvBV51uunnj6m91BdrzwAalztx0hKkNr+nKcRwmk3tFUSoL0TSxr
-	 E+TeEWo4AQ38GvnFfwwWGvaT4yiW9KxXF07e8JLAoBb0H0gZDXMR2x7oMd6kVsYZBT
-	 pCGJUsShdy15OtUD5R2LuoT7H0P9YOz1NzC28z8F9F/fFid90OvfldWZmAuGIulL2q
-	 oGCYymwRGah32VUhuuVwQTHEfMeAPflMQdiNXIntXPXaJu1YwgSbxjaCjvZw82nmBS
-	 WxXGnkhjp+YHRh4dlAwnRmMOPrtPByP6sRl5QHZmG37Hh1jRE2hBawutwGDy40752d
-	 JK5lvidNBVaDw==
-X-Session-ID: K-byLlITQeSpla7n2Rm6OQ
-X-Works-Send-Opt: OP+wpzGdjHmdKHFOMr39Ko3YKHm9jAudFqM9KqMqFxIYkEljxBmwjAg=
-X-Works-Smtp-Source: AwblaxglFqJZ+HmZFAKm+6E=
-Received: from localhost.localdomain ([115.136.205.4])
-  by cvnsmtp002.nm.naver.com with ESMTP id K-byLlITQeSpla7n2Rm6OQ
-  for <multiple recipients>
-  (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
-  Sat, 03 Oct 2026 10:19:02 -0000
-From: tjdqudcks0424@naver.com
-To: Ivan Orlov <ivan.orlov0322@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] ALSA: pcmtest: handle multiple wraps in random capture fill
-Date: Sat,  3 Oct 2026 19:18:54 +0900
-Message-ID: <20261003101854.1423146-1-tjdqudcks0424@naver.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="FGC7cfHw";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="NQjxlzbM";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="yoMNs3E8";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fXy0JmQw"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id DF7821FECE;
+	Sat,  3 Oct 2026 10:57:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1791025066; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=KgP0liTb+wnlv9bQhjjWGJ06ylQidoEF6R+VWYypJEU=;
+	b=FGC7cfHwkeZYymFrShUVDcFNjy8wz1f5crGiw17AqA9NIP24m/mEKBtY1EUDdkvOAG3sWO
+	JO6maaDPYRo66ImGd+7e8D7ydkA5rb83sYMMMCRyK6NTMudoNgacsSEMQfYydnP82+ZBc5
+	CBXtZjZxPQmLOptE8ah1q3FniLz44f4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1791025066;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=KgP0liTb+wnlv9bQhjjWGJ06ylQidoEF6R+VWYypJEU=;
+	b=NQjxlzbM6u36B9uhd5asNVyiaRplPXdKplfIFJOFmc3lS1gfPEpCTINZ/TCsLeLCaEZKxP
+	KBmOW92wJm3YafAw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=yoMNs3E8;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=fXy0JmQw
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1791025061; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=KgP0liTb+wnlv9bQhjjWGJ06ylQidoEF6R+VWYypJEU=;
+	b=yoMNs3E8PQDKmrfrIeI0xCTYRLj74793FNKDp4UrA/VVkiK+9mCUrNFnGAccPZQjd7YZqI
+	YsygBW3fUaeniIJVJ2wyUxSI4/8pbtf63DK/GAM/r5HjYMJhcY1ILEYIgsyazAUwFiRpU2
+	hlfR5vbDzK9fJfszingCiGdWdgiGzxQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1791025061;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=KgP0liTb+wnlv9bQhjjWGJ06ylQidoEF6R+VWYypJEU=;
+	b=fXy0JmQwhSSVaLMYkG9yt3IGbzZjqi4N1GUGGvt3AcvVWWh809a/8o8y4PsDsKa2uGPA2G
+	WdQsGm+LO/MvuVCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9FBC613707;
+	Sat,  3 Oct 2026 10:57:41 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id rc1+HaXfwGosCAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sat, 03 Oct 2026 10:57:41 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Subject: [PATCH 0/9] ALSA: Use devres card management
+Date: Sat,  3 Oct 2026 12:57:07 +0200
+Message-ID: <20261003105719.1070427-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -54,113 +78,72 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: DF7821FECE
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_ONE(0.00)[1];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+];
+	MIME_TRACE(0.00)[0:+];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	TO_DN_NONE(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim]
+X-Spam-Flag: NO
+X-Spam-Score: -3.01
+X-Spam-Level: 
 
-From: Sung Byeongchan <tjdqudcks0424@naver.com>
+Hi,
 
-The random capture helpers assume that the data generated for one timer
-tick wraps the DMA ring at most once. However, b_rw describes 200 ms of
-audio because the timer runs at 5 Hz, so it can be several times larger
-than a small ring.
+this is another series of trivial changes for sound drivers to use
+devres card management.  There are a few drivers (mostly with platform
+drivers) that do only snd_card_free() at remove, and they can be
+replaced well with devres.
 
-For 48 kHz, S16_LE, four-channel capture with a 512-frame buffer, the DMA
-ring is 4096 bytes while one tick generates 76800 bytes. After filling the
-4096-byte tail, the existing code issues a second 72704-byte write from the
-ring base, writing 68608 bytes beyond the ring. Both interleaved and
-non-interleaved capture are affected.
+Only code cleanup and no functional changes.
 
-KASAN reports the first write into the adjacent free page as a
-use-after-free in the random-byte generator. The underlying defect is an
-out-of-bounds write from the live DMA ring, not a stale DMA allocation.
 
-Split each random write repeatedly at the interleaved ring or per-channel
-block boundary. Keep the hardware-pointer update exactly once after the
-complete logical write.
+Takashi
 
-The issue reproduced on three of three clean boots. With this change, the
-same vulnerable geometry completed six times without a sanitizer finding.
-Boundary, pattern-fill, no-timer, open/close, and module-reload controls
-also completed normally.
+===
 
-snd-pcmtest is a test driver, and selecting random fill requires an
-administrator-controlled module parameter. The written values come from the
-kernel random generator; no privilege escalation or attacker-controlled
-write primitive was demonstrated.
+Takashi Iwai (9):
+  ALSA: mips: hal2: Use devres card management
+  ALSA: mips: sgio2audio: Use devres card management
+  ALSA: mips: n64: Handle card removal properly
+  ALSA: parisc: harmony: Use devres card management
+  ALSA: ctxfi: Use devres card management
+  ALSA: powermac: Use devres card management
+  ALSA: sh: Use devres card management
+  ALSA: sparc: cs4231: Use devres card management
+  ALSA: sparc: dbri: Use devres card management
 
-Fixes: 315a3d57c64c ("ALSA: Implement the new Virtual PCM Test Driver")
-Cc: stable@vger.kernel.org
-Assisted-by: OpenAI Codex
-Signed-off-by: Sung Byeongchan <tjdqudcks0424@naver.com>
----
-Changes in v2:
-- Use an ASCII author name in the From and Signed-off-by fields, as
-  requested by Takashi.
+ sound/mips/hal2.c       | 30 ++++++--------------
+ sound/mips/sgio2audio.c | 30 ++++++--------------
+ sound/mips/snd-n64.c    | 61 +++++++++++++++++++----------------------
+ sound/parisc/harmony.c  | 24 +++++-----------
+ sound/pci/ctxfi/xfi.c   | 23 +++++-----------
+ sound/ppc/powermac.c    | 35 ++++++++---------------
+ sound/sh/sh_dac_audio.c | 22 ++++-----------
+ sound/sparc/cs4231.c    | 49 ++++++++++++++-------------------
+ sound/sparc/dbri.c      | 37 ++++++++++---------------
+ 9 files changed, 111 insertions(+), 200 deletions(-)
 
- sound/drivers/pcmtest.c | 42 +++++++++++++++++++----------------------
- 1 file changed, 19 insertions(+), 23 deletions(-)
-
-diff --git a/sound/drivers/pcmtest.c b/sound/drivers/pcmtest.c
-index 5d5281e4deb7c..186e982d42e1a 100644
---- a/sound/drivers/pcmtest.c
-+++ b/sound/drivers/pcmtest.c
-@@ -280,39 +280,35 @@ static void fill_block_pattern(struct pcmtst_buf_iter *v_iter, struct snd_pcm_ru
- 		fill_block_pattern_n(v_iter, runtime);
- }
- 
-+static void fill_random_block(char *buf, size_t buf_size, size_t pos,
-+			      size_t count)
-+{
-+	while (count) {
-+		size_t chunk = min(count, buf_size - pos);
-+
-+		get_random_bytes(buf + pos, chunk);
-+		count -= chunk;
-+		pos = 0;
-+	}
-+}
-+
- static void fill_block_rand_n(struct pcmtst_buf_iter *v_iter, struct snd_pcm_runtime *runtime)
- {
- 	unsigned int channels = runtime->channels;
--	// Remaining space in all channel buffers
--	size_t bytes_remain = runtime->dma_bytes - v_iter->buf_pos;
-+	size_t pos = v_iter->buf_pos / channels;
- 	unsigned int i;
- 
--	for (i = 0; i < channels; i++) {
--		if (v_iter->b_rw <= bytes_remain) {
--			//b_rw - count of bytes must be written for all channels at each timer tick
--			get_random_bytes(runtime->dma_area + buf_pos_n(v_iter, channels, i),
--					 v_iter->b_rw / channels);
--		} else {
--			// Write to the end of buffer and start from the beginning of it
--			get_random_bytes(runtime->dma_area + buf_pos_n(v_iter, channels, i),
--					 bytes_remain / channels);
--			get_random_bytes(runtime->dma_area + v_iter->chan_block * i,
--					 (v_iter->b_rw - bytes_remain) / channels);
--		}
--	}
-+	for (i = 0; i < channels; i++)
-+		fill_random_block(runtime->dma_area + v_iter->chan_block * i,
-+				  v_iter->chan_block, pos,
-+				  v_iter->b_rw / channels);
- 	inc_buf_pos(v_iter, v_iter->b_rw, runtime->dma_bytes);
- }
- 
- static void fill_block_rand_i(struct pcmtst_buf_iter *v_iter, struct snd_pcm_runtime *runtime)
- {
--	size_t in_cur_block = runtime->dma_bytes - v_iter->buf_pos;
--
--	if (v_iter->b_rw <= in_cur_block) {
--		get_random_bytes(&runtime->dma_area[v_iter->buf_pos], v_iter->b_rw);
--	} else {
--		get_random_bytes(&runtime->dma_area[v_iter->buf_pos], in_cur_block);
--		get_random_bytes(runtime->dma_area, v_iter->b_rw - in_cur_block);
--	}
-+	fill_random_block(runtime->dma_area, runtime->dma_bytes,
-+			  v_iter->buf_pos, v_iter->b_rw);
- 	inc_buf_pos(v_iter, v_iter->b_rw, runtime->dma_bytes);
- }
- 
 -- 
-2.43.0
+2.55.0
 
