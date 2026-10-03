@@ -1,170 +1,119 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp.vivaldi.net (smtp.vivaldi.net [31.209.137.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BD01388E43;
-	Sat,  3 Oct 2026 13:26:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C416D7DA66;
+	Sat,  3 Oct 2026 13:33:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=31.209.137.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791033972; cv=none; b=Y7FQmaj8dMAoQVzGFjNloGtOrRrVjSIiPw+UT1XP73HNPByjS+nHADUSykmFTzUwpiPBWOaZ3VbG1hEgUJa0554wRu096MYKhRqJuf5vLTB+8wE2j3KVlS2BemhDUGaHVyRzDMIh3dBVgfJsUtSNO5QDe0ShDHLSNgaHEDJvwmI=
+	t=1791034433; cv=none; b=lx5QrLZY4eCU5EDuHbr3xtwDk+uIM6VQct2ZQZUit0kZaXv0HTOP5kFL0CM85hR904TXkpEg/4ZC9q9OxtNijQU5ZEjBU0/+ZZ4vW/FBgUjRT9eM1zrQ9CQHeAeMBnKikTctCP2BMlSXdK+Iuc4zIg2G6/+ZBQ0euO/jdkdzpnY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791033972; c=relaxed/simple;
-	bh=IyoEAGVOUE0r9SwliBG7P++AThoIydv1Wyz4eq45eKg=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=JxOInBtuUKfFb66rorp0H04p3dyOevCe8S2eyMZTjHzi7fH29QQCnb73aZ+m0d/M1US+j/AU9KAU0nOFBV+3T0ka/h0yYjc5NlXgROj9C4J8TKkQe9oF77f8k82n0yVzc5emFmzMAbfLWL21IjXbeCtqPf7LJH3frAiL5v2f1Ns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E/9KN4kX; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1791034433; c=relaxed/simple;
+	bh=gx8YMcW2Yz9Ay6Z+HK0PkeUjb0LnIGc60NLWeM0JJUo=;
+	h=From:To:Cc:Subject:Date:Message-ID; b=RDZ8JB9I+xkHCgfzBinLbQyBk1QxP+ZkpKP0c/E0gaxjFXg6yNl2ojdzHWWc5o425R582r+2qxiLoBTq2p0/1nVwv7Wbd8T4vT1ZMDip+pi3OoI8XGFg9PRdywMpvWcum1lP0BIfsD6d8nBAgF2vOr0ntlKMICIOBtvYpON/F+8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=vivaldi.net; spf=pass smtp.mailfrom=vivaldi.net; dkim=pass (2048-bit key) header.d=vivaldi.net header.i=@vivaldi.net header.b=bOID0JUL; arc=none smtp.client-ip=31.209.137.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=vivaldi.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivaldi.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E/9KN4kX"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id D4B47C2BCB9;
-	Sat,  3 Oct 2026 13:26:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1791033971;
-	bh=IyoEAGVOUE0r9SwliBG7P++AThoIydv1Wyz4eq45eKg=;
-	h=From:Subject:Date:To:Cc:Reply-To:From;
-	b=E/9KN4kX/l6pwutIOnXJvKibDWqBIOetUzd11DCWntY6Vw/t1Ur9NKUn8l55+tsr+
-	 bNHZxo6/aItaaIOX6j/KOCBiAOolxK6ajSm9e02cI25hEl5/CeleqcULpHi2u6UEtT
-	 y2XWec8/kMr/Ywu89b8kntaLgOwqriaPEFw6C0j+UrnTH9C2z4u4xrXCxj/KfAUNBu
-	 4YaGCZKCyyj8XVUf+/lGT3eRH9PuHYEEH1BIMlHqc39qRlp6cKMfXz2UaXFpH+Y4nu
-	 yhkqGZO3ksH7FVl5agVOfJBGNBy1kHJx412WUySfPfdAhBAk+edRkVNDRtsrxH+wRq
-	 jvbmHC06EziJA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B00CCCA5FED;
-	Sat,  3 Oct 2026 13:26:11 +0000 (UTC)
-From: Henrik Enquist via B4 Relay <devnull+henrik.enquist.gmail.com@kernel.org>
-Subject: [PATCH 0/2] ALSA: aloop: Fix notify mode, add a selftest
-Date: Sat, 03 Oct 2026 15:26:10 +0200
-Message-Id: <20261003-aloop-notify-fix-v1-0-ba5dfb831bf5@gmail.com>
+	dkim=pass (2048-bit key) header.d=vivaldi.net header.i=@vivaldi.net header.b="bOID0JUL"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp.vivaldi.net (Postfix) with ESMTP id 0B90EFC395;
+	Sat,  3 Oct 2026 13:33:49 +0000 (UTC)
+X-Virus-Scanned: Debian amavis at smtp.vivaldi.net
+Received: from smtp.vivaldi.net ([127.0.0.1])
+ by localhost (mxo-1.viv.dc01 [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id kO2XitxLY9Cf; Sat,  3 Oct 2026 13:33:43 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp.vivaldi.net 22EAAFC2D0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivaldi.net;
+	s=default; t=1791034423;
+	bh=ydX8eYPLNL0xEotu5oKlbslCm99j6FARjCnqLnWWgyg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=bOID0JULbCTNNB/c3FDX1liU5z8cZL6Jx1gs2YsMDVDQJFx5/F240vJ13+zEgWp5V
+	 gd26NDJxPpRQMEREjkMtfbnzY72v4kvQa6iM/Pbee36oGoQj8dnhSEqympOK1DFUJT
+	 zzFyCHsiaStEbaa27A1iM/xjfUPOpJ4yWUVB6rwG/8aOGq7XcdJipYJkNV4QFNKo5k
+	 +7eoSyn5IVvZ/7rsO2snmft4AE6J0e6+8aKAokaPJUDtg3kozbQOJPUoTIZR9UTLE3
+	 OE394jlaI9KjcVnoH4Zvf91F9SqqgWIMvhuCtkZXtoDoC3cSEbXwDWceFjlp4l2twC
+	 k3A3BdE5LWIew==
+From: Denis Yakovlev <mfthesun@vivaldi.net>
+To: tiwai@suse.com
+Cc: perex@perex.cz,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Denis Yakovlev <mfthesun@vivaldi.net>
+Subject: [PATCH v2] ALSA: hda/realtek: Enable headset mic on HONOR MagicBook Pro 16 2024
+Date: Sat,  3 Oct 2026 16:33:25 +0300
+Message-ID: <20261003133325.97507-1-mfthesun@vivaldi.net>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMyw5AMBCF4VeRWZukLkG8ili0TBmRVlqEiHdXL
- L+TnP8CT47JQx1d4Ghnz9YEJHEE3SjNQMh9MKQiLRIhMpSztQsau7I+UfOBuS4VqVxUUlUQbou
- jMH/Jpv3tNzVRt74duO8HFq/QPXQAAAA=
-X-Change-ID: 20261003-aloop-notify-fix-4f7beb408ab8
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Mark Brown <broonie@kernel.org>, Shuah Khan <shuah@kernel.org>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, Pavel Hofman <pavel.hofman@ivitera.com>, 
- stable@vger.kernel.org, Henrik Enquist <henrik.enquist@gmail.com>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1791033970; l=5151;
- i=henrik.enquist@gmail.com; s=20261003; h=from:subject:message-id;
- bh=IyoEAGVOUE0r9SwliBG7P++AThoIydv1Wyz4eq45eKg=;
- b=cazZ65v/3A4S8Ddu5O/WSA0Wdyj59d2n2BuobZoaTSJ96pBvUsdMwX1lEmNGPLmV6G09dvW6b
- 4+0334zL5IbD/IcjzPYnIPbVAp+lvams0fx7Qaoo68rDEonIiRDRjpR
-X-Developer-Key: i=henrik.enquist@gmail.com; a=ed25519;
- pk=ctrSXwtuuiWIZbc1qNzu+n+1PkhB/a+2nlRyXd5j2pg=
-X-Endpoint-Received: by B4 Relay for henrik.enquist@gmail.com/20261003 with
- auth_id=1105
-X-Original-From: Henrik Enquist <henrik.enquist@gmail.com>
-Reply-To: henrik.enquist@gmail.com
 
-Hi,
+The HONOR MagicBook Pro 16 2024 (DRA-XX, board M1020, ALC256, SSID
+1ee7:204e) has a combined 3.5 mm headphone/microphone jack. The BIOS
+leaves the headset mic pin 0x19 at 0x411111f0, so the codec parser
+builds no capture path for it, and it leaves the jack switch
+(coefficient 0x45) in the TRS state, which cuts the microphone contact
+off from the codec. A wired headset microphone therefore records
+nothing.
 
-snd-aloop has a notify mode (the pcm_notify module parameter, or the
-"PCM Notify" control per cable) where the playback side may switch
-format, rate and channels while a capture is running. The driver then
-stops the capture and updates the "PCM Slave" controls, so the capture
-application can reopen with the new parameters. alsaloop enables it in
-its slave mode, and I'd like to use it in CamillaDSP, which captures
-from a loopback and needs to follow whatever the player outputs.
+Configure 0x19 as a headset microphone (0x03a1113c, "headset mic
+without its own jack detect"), the same value already used for the
+sibling M1020 board (HONOR MRB-XXX) and by the VAIO quirks, and chain
+to the generic headset mode handler, which detects the CTIA/OMTP
+headset type on every jack event and programs the jack switch
+accordingly. Pin 0x1a is left untouched: there is no evidence that it
+is wired on this board.
 
-This hasn't worked since 2018. Commit 898dfe4687f4 ("ALSA: aloop: Fix
-racy hw constraints adjustment") moved the hw rules over to the shared
-cable->hw. That fixed a real race, but it also pins the playback side
-to the capture's parameters in notify mode. Pavel reported it on
-alsa-devel in 2020 [1], and Jaroslav reproduced it and pointed at the
-same commit:
-
-  It seems that 898dfe4687f4 from Takashi broke this functionality
-  (tied the cable parameters more strictly, so the playback cannot set
-  freely own parameters for the pcm_notify=1 case). We need to find
-  another way to detach capture stream in this case.
-
-The thread ended there, without a patch.
-
-The breakage is quiet, which probably explains why it lasted. A player
-that probes the playback device sees only the capture's rate and
-format, and resamples to them. aplay prints a warning, most players
-don't. There's no rate change, no stopped capture and no event.
-
-Patch 1 skips the hw rules for the playback side when notify is on,
-which gives it back the freedom loopback_open() still intends it to
-have. That makes the capture stop in loopback_check_format() reachable
-again. That path was hardened this year by 826af7fa62e3 ("ALSA: aloop:
-Fix racy access at PCM trigger") and e5c33cdc6f40 ("ALSA: aloop: Fix
-peer runtime UAF during format-change stop"), and with those in place
-I'm comfortable turning it back on. They need to go first in any
-stable backport.
-
-The period bytes rule is skipped as well. It came later, for the sound
-timer source, but without skipping it a playback that switches rate
-keeps the old capture's period size. The stream then runs with a period
-that doesn't match the timer, and every switch fills dmesg with "Period
-size ... not corresponding to timer resolution".
-
-Patch 2 adds a selftest, so this doesn't break silently again. It
-doesn't need to go to stable, so it can go via for-next if that's
-easier.
-
-Testing: for-linus at b4e7fc36e31f, arm64 VM, kernel with KASAN,
-lockdep, DEBUG_ATOMIC_SLEEP and DEBUG_LIST, comparing the patched
-driver with the unpatched one built from the same tree. With the
-jiffies, hrtimer and sound timer (via snd-dummy) sources:
-- With notify on, rate, format and channel changes on the playback
-  side now go through, stop the capture and update the controls. With
-  notify off they're refused as before.
-- A capture that reopens at "PCM Slave Rate" after each stop follows a
-  player alternating between 44.1k and 96k files, 20 of 20 switches,
-  with both RW and mmap access. Unpatched: 10 of 20, the playback stays
-  pinned to the capture's rate.
-- A capture opened second is still pinned to the playback.
-- 2 minutes of random open/start/close on both ends per source gave no
-  KASAN or lockdep reports. The sound timer source logs an occasional
-  "snd_timer_stop ... failed with -16", at the same rate unpatched.
-- The new selftest fails 2 of 4 tests unpatched, and passes 4 of 4
-  patched, 50 runs in a row.
-Not tested: real hardware, other architectures, pause/resume, more
-than two substreams.
-
-One question, following up on Takashi's point in that thread about
-telling user space that a stream got invalidated. After the stop, the
-capture drains and then reads return -EBADFD. alsa-lib now documents
--ENODATA as meaning the PCM must be completely restarted, which looks
-like the right signal here. Would you want aloop to report that
-instead? I left it out since it changes what user space sees, but I'm
-happy to do it as a follow-up.
-
-AI disclosure: I used Claude Code (Claude Opus 5.5) for this. Starting
-from my description of the problem and the 2020 thread, it did the
-root cause analysis from the driver source and git history, set up the
-test kernels and VM, wrote the test scripts, ran the measurements, and
-wrote both patches and their changelogs. I reviewed all of it, and both
-patches carry an Assisted-by tag.
-
-[1] https://lore.kernel.org/all/b4af9071-f8d7-5b47-4d7a-c5743bd67394@ivitera.com/
-
-Henrik
-
+Fixes: 1e3e378d63be ("ALSA: hda/realtek: Enable bass speakers on HONOR MagicBook Pro 16 2024")
+Assisted-by: LLM
+Signed-off-by: Denis Yakovlev <mfthesun@vivaldi.net>
 ---
-Henrik Enquist (2):
-      ALSA: aloop: Don't constrain playback params in notify mode
-      selftests/alsa: Add a test for snd-aloop notify mode
+v2: add Fixes tag, as suggested by Takashi.
+    v1: https://lore.kernel.org/linux-sound/20261002221850.12443-1-mfthesun@vivaldi.net/
 
- sound/drivers/aloop.c                     |  20 ++
- tools/testing/selftests/alsa/.gitignore   |   1 +
- tools/testing/selftests/alsa/Makefile     |   2 +-
- tools/testing/selftests/alsa/aloop-test.c | 345 ++++++++++++++++++++++++++++++
- 4 files changed, 367 insertions(+), 1 deletion(-)
----
-base-commit: 13dffca9043500ed6033d770b491a043fb952bc5
-change-id: 20261003-aloop-notify-fix-4f7beb408ab8
+Tested on a HONOR MagicBook Pro 16 2024 (DRA-XX), Ubuntu 7.0.0-34, using
+an out-of-tree build of this change, with wired Apple EarPods (CTIA): the
+microphone records after several cold boots with the headset inserted and
+after hot-plugging; without the change the analog capture is digital
+silence. The headset type is detected as CTIA (coef 0x45 ends up at
+0xd489). The speakers (including the "Bass Speaker" control from the
+speaker fix) and wired headphone playback still work. OMTP headsets were
+not tested (no hardware).
 
-Best regards,
---  
-Henrik Enquist <henrik.enquist@gmail.com>
+ sound/hda/codecs/realtek/alc269.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index 67b9f41..4e22d63 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -4477,6 +4477,7 @@ enum {
+ 	ALC256_FIXUP_HONOR_MRB_XXX_M1020_AUDIO,
+ 	ALC256_FIXUP_HONOR_DRA_XX_SPEAKERS,
+ 	ALC256_FIXUP_HONOR_DRA_XX_SHARE_DAC,
++	ALC256_FIXUP_HONOR_DRA_XX_HEADSET_MODE,
+ 	ALC245_FIXUP_HP_ENVY_X360_15_FH0XXX,
+ 	ALC287_FIXUP_ACER_MICMUTE_LED,
+ 	ALC236_FIXUP_DELL_HP_POP_NOISE,
+@@ -7215,6 +7216,7 @@ static const struct hda_fixup alc269_fixups[] = {
+ 		.type = HDA_FIXUP_PINS,
+ 		.v.pins = (const struct hda_pintbl[]) {
+ 			{ 0x14, 0x90170111 }, /* bass speakers */
++			{ 0x19, 0x03a1113c }, /* headset mic, without its own jack detect */
+ 			{ }
+ 		},
+ 		.chained = true,
+@@ -7223,6 +7225,12 @@ static const struct hda_fixup alc269_fixups[] = {
+ 	[ALC256_FIXUP_HONOR_DRA_XX_SHARE_DAC] = {
+ 		.type = HDA_FIXUP_FUNC,
+ 		.v.func = alc256_fixup_honor_dra_xx_share_dac,
++		.chained = true,
++		.chain_id = ALC256_FIXUP_HONOR_DRA_XX_HEADSET_MODE
++	},
++	[ALC256_FIXUP_HONOR_DRA_XX_HEADSET_MODE] = {
++		.type = HDA_FIXUP_FUNC,
++		.v.func = alc_fixup_headset_mode,
+ 	},
+ 	[ALC245_FIXUP_HP_ENVY_X360_15_FH0XXX] = {
+ 		.type = HDA_FIXUP_FUNC,
