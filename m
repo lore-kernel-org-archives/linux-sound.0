@@ -1,147 +1,278 @@
-Received: from mail-pj2-f43.google.com (mail-pj2-f43.google.com [74.125.227.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-106104.protonmail.ch (mail-106104.protonmail.ch [79.135.106.104])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61D32384CC3
-	for <linux-sound@vger.kernel.org>; Sat,  3 Oct 2026 01:34:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79EE8145B3F
+	for <linux-sound@vger.kernel.org>; Sat,  3 Oct 2026 01:42:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.104
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790991261; cv=none; b=j4etBAyUkehJpHJeF8pKyx3bqoTdMeOe4W+L0LNkckRy/0aMQAsi9dQVxop7RcbgryTzTaxi2sQ+P29W6Y6wXWzWGJRgSUBY1TU9DtjD/FnLEHIr9vTRbsmvSk4J3H23ZuQkNHZAOPxQLMXQ862bxp3bhxOeBkmoDV5Vv6mTjSs=
+	t=1790991729; cv=none; b=nNEY3A2HVSlkYtyL0np40iCg8tLTs4thwSOORDGxU+bazgsOPykqAz2+N1D9wO2Lu+DX9XI7EKHZze9fUJRNLy1IjkRGeDLnC2YQqZvEdFyZBMfNw9wS41vFdfe2Kip4vYuMBO8TTCCCb7akEULgYsxG0YkhAlVAFb2juSIzIrs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790991261; c=relaxed/simple;
-	bh=dcN4JKaX3uG/6QlpJtazZDraUxMMRgZ4+sja8nBc76w=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=liC167OTsHIljnqwjKXAUKddT+mAqSzdWi9QWPcOWeXrpdnXUrwYX1tnf+r9tT/1aTirT9fHSyJz6vlJ4OmHMJD4iIiRx5/4Prinh/t3l4YaQ56/w4XGpv+65A2jG7WGdQEYGXJAa3BQcIBIg88eEK4jxos/b/ANPnjVyQlSzHM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rBCeeAxM; arc=none smtp.client-ip=74.125.227.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790991729; c=relaxed/simple;
+	bh=avIZ3xIOrNERBwVT/Y0tKRuVUWKhOPgUjqQnLM/kQTk=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=nk5iViG5qK8Ogd1qNkG9U6UwX1vMtwfefwp2rV45nENQFHk+c/PJ8IVxsbdQQsIfqsgbyRuR3cKz0BAOf+Ki9rNBy9WZmI7iqhsnwga+f7lwNpU8PFfTTzzKHwR8SrNsQrjNxC7Y58s/v1LubcVCmVBwVKZ31gChNWNl5vzUnu8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=IjrG22TV; arc=none smtp.client-ip=79.135.106.104
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rBCeeAxM"
-Received: by mail-pj2-f43.google.com with SMTP id 98e67ed59e1d1-3a49573b8bdso59579a91.2
-        for <linux-sound@vger.kernel.org>; Fri, 02 Oct 2026 18:34:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790991259; x=1791596059; darn=vger.kernel.org;
-        h=content-type:content-transfer-encoding:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=dcN4JKaX3uG/6QlpJtazZDraUxMMRgZ4+sja8nBc76w=;
-        b=rBCeeAxMVC5Sef65H9vBQgzgLJ5Iuz5i+u9KP9ZbsgkVaF9IVCmziTpiZO/K7/kw8B
-         ffZspoG0G6QjEvUiqLsLAJnKas3xCiyfcS4QAA71Oy18uQMPt90KFNAQ8/umj/+0Qf8o
-         8HyRhH+TRthDfw0dnR2tJUzymmnT7Mnn8I3qABpkvuRbS80y8j5hDEOsplYfClY1lgfJ
-         KAiCmCxNnYa/UZjLposP5NPjFzjCIqzK1PiGauuxavqhiDK0hVySvtzt/vQoI9TYTINh
-         nHaqu+iIJG5nlbXV2v4GRVvNcVubHzSZHt2ZcnwJnZPYYrhenlLhohil3wjArpXuzwK8
-         j8RA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790991259; x=1791596059;
-        h=content-type:content-transfer-encoding:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=dcN4JKaX3uG/6QlpJtazZDraUxMMRgZ4+sja8nBc76w=;
-        b=RWY29w0ade/OC4MRZMUbed4selWWfJu/Q79RtoRc9uLqaW9im4zSNAPQhlDaqiBJ1j
-         yP8WfLVJGNFT4/lo7BBiVp8l2JxJ7kuK4st/f/VhjkIjqgK3yjOdSgk4E+pwcI7BbBZg
-         Cv3L/wYSmDgTaSwTaTS5Wh/zPKSPXu6XLKdin8XWyqEW22oUu0GWzm944pgEN7VdAmpi
-         xyf8YHRZuBb7V8qFJicYu4mzQkpRKHTAEXoe2edKP9XG5Tq8kYRfsde9bufBcc0A+Gvj
-         wb3ENbSd5EslwsBBVEIAEQtO/e6cmC+gfo2Ib4RdA2hHgApC8rE596wqJSNftC7nRYyF
-         qRjA==
-X-Forwarded-Encrypted: i=1; AKwUvBxdXo5KxTKfxw/UfsPy+8AdAcXtjci8AITDtp4ZVD2Q6GoFDSRLqvSxQYXmcoo5p2Y6TsePVGSJBI+6vg==@vger.kernel.org
-X-Gm-Message-State: AFq9FYIVGX0rTht2OBNpWtLG2gSXoqlV+WCxJCbB7p5jqd6duSn53G3l
-	tNBCQSQQRwrpz4t3G3cFZ4m52SVVJmXZLwed2CCegYqsYQLYpf3E0oiu
-X-Gm-Gg: AYBFou0hPWeUrYWf64rGlbkBpzS5P8MC6s6lXqBanSh4A1Wu4V7/V7oVDZ6Cmtf5U8F
-	UZlaljzwk8ZHR5hccpkL8D5HV4LfSsHO3t8ZrKXei18BDfaRqQqvluUGAO07CG5bqbQeQPLkeq6
-	QgV8d7nmvybDnsqw9CQi9PmrZe7QcbEMUz/wexUkawZEWe1ZfLtNC5JyuHm5g2v8CAiv07h/hkP
-	tGO1Q2PSLRFZ0MovgQfMfYzDJ/TGHnPXHPsJaWmjNkMVyC9Mb2s5iuw1RxCRuFlvJJmoZsYQjYz
-	8lFQWRBdI9fJlt4uTonZVzOsc3rFPsD433MZ5qhVRC2SS/ZH4DkL/uxuSDhQmNXKV8pAfXvNLYA
-	3J6GpUsB5pd5oNwTcMqa7krezN67sfbV+x0h0d4jBUEVuTR/I7ExCFZwgqe/zqJ/LWLuyAp6LbW
-	NVsOxOWQyfPzxY7vxO25c1DalhormEm+0V+GuZxqMB1hmlDZd4ZnbHWo+xpEyIjrr/4RqzDgUEd
-	9C1ocyarbe/VMA1EHJ/RHsd9Mmr5OlJ0lnm2Lgo04K7+94WFYwpont3BV3nH5UY6RTachK6/74O
-	LQ3PZkleQn9xoEj5UGueaYLxX3u/5Ay5mZG5f1oPimeykgxwScc=
-X-Received: by 2002:a17:90b:3c44:b0:39e:6c6a:6577 with SMTP id 98e67ed59e1d1-3a6ced75f41mr3500888a91.58.1790991258652;
-        Fri, 02 Oct 2026 18:34:18 -0700 (PDT)
-Received: from setsuna.localnet ([2403:581e:d87e:0:fc2d:ed31:e80e:412d])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a78e4664ebsm861575a91.7.2026.10.02.18.34.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Oct 2026 18:34:17 -0700 (PDT)
-From: James Calligeros <jcalligeros99@gmail.com>
+	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="IjrG22TV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=rzmy4uojrzajzovvod53ou5aoq.protonmail2; t=1790991715;
+	x=1791250915; bh=ns7+f9A0rXK/RMXn0r3RsErrjH5JxWXOliIgUCJ5RRY=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=IjrG22TVX3kOH8UJbGvnSUbk0yLHDPKT1Rzww0Fg39QpHaypXgWYqV1vEzLcU0853
+	 +LOv9EbT0fzqBF+mLphx2oqWhnXlFet6WaIl++Kv2TuNh9DXPqBsfs2nWIZmt9W/u0
+	 kyb3XTIH6wm1fJu53GovwPr6unqY6HgL4UQ/qBJoYaCrFAS9OtBoGTWzXP4HtGaid5
+	 t2K0kqSgXnUE1wU+FM/iLJRwAkewfS4EGb6lU25ypO1ofcLPqcRHACfJxxFI+Ic/S2
+	 TsBLJ53rI7uo5s5n2qQwrzaJcfBl9oeIGEKydsGkh8tr/Pc3AWQKKJWvlnAtEg6CGK
+	 5bMy/i6NcIc8Q==
+Date: Sat, 03 Oct 2026 01:41:51 +0000
 To: Takashi Iwai <tiwai@suse.de>
-Cc: Martin =?UTF-8?B?UG92acWhZXI=?= <povik+lin@cutebit.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Sven Peter <sven@kernel.org>,
- Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>,
- David Rhodes <david.rhodes@cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Ulf Hansson <ulfh@kernel.org>, Amit Kucheria <amit.kucheria@linaro.org>,
- "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
- Lars-Peter Clausen <lars@metafoo.de>, Vinod Koul <vkoul@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
- Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>,
- James Schulman <james.schulman@cirrus.com>, asahi@lists.linux.dev,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- patches@opensource.cirrus.com, Takashi Iwai <tiwai@suse.de>,
- linux-mediatek@lists.infradead.org, Hector Martin <marcan@marcan.st>
-Subject:
- Re: [PATCH 08/28] ALSA: control: Add kcontrol callbacks for lock/unlock
-Date: Sat, 03 Oct 2026 11:34:07 +1000
-Message-ID: <u9VW29vaRPGENsSTq9RHUg@gmail.com>
-In-Reply-To: <878q4k2xl0.wl-tiwai@suse.de>
-References:
- <20260920-macaudio-v1-0-741cc20a74e5@gmail.com>
- <20260920-macaudio-v1-8-741cc20a74e5@gmail.com> <878q4k2xl0.wl-tiwai@suse.de>
+From: dchristensen8 <dchristensen8@proton.me>
+Cc: "tiwai@suse.com" <tiwai@suse.com>, "perex@perex.cz" <perex@perex.cz>, "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>, "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
+Subject: Re: [PATCH v2] ALSA: hda/ca0132: Add Sound BlasterX AE-5 external RGB LED strip support
+Message-ID: <qOF5tUXvi5MWOfDFTuE8fU0Wiqk3eTZMHhdWpsxR-JFuTXCwEeayR_yxgYmAQ6SIHogQmMkvtM8otTM9z1Wi4KIujjj6LtQPORGuegUuRmM=@proton.me>
+In-Reply-To: <87ik3kyy0h.wl-tiwai@suse.de>
+References: <I690osvh2wujN3P04R4abtKFqOqtIiC-qin2ZEFs9q8kKU7-qfIg2cya4BuHS7Vg83Wkon6BCJGtVIxeJVfRZ8nG07laTUlv-fJjELMgp1Y=@proton.me> <87ik3kyy0h.wl-tiwai@suse.de>
+Feedback-ID: 45895322:user:proton
+X-Pm-Message-ID: 1459dfcaa834d432a8a0a0749aabeb3f1b6e4c98
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/mixed;
+ boundary="b1=_jq0YukUUeP2mIo9ttNfYyyoDxpnZe6r6R87by9fBMAM"
+
+--b1=_jq0YukUUeP2mIo9ttNfYyyoDxpnZe6r6R87by9fBMAM
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
 
-On Tuesday, 29 September 2026 7:52:59=E2=80=AFpm Australian Eastern Standar=
-d Time=20
-Takashi Iwai wrote:
-> On Sun, 20 Sep 2026 06:53:47 +0200,
+Hi Takashi,
+
+Thanks for the review! I moved the dma-mapping.h include into the main head=
+er block, added the s->opened check to ae5_strip_find_stream(), wrapped all=
+ the strip code in IS_ENABLED(CONFIG_SND_HDA_DSP_LOADER) with a no-op stub =
+when it's disabled, and updated the put callbacks to return 1 when the valu=
+es actually change.
+
+One other thing: I was talking with the maintainer of openrgb and he sugges=
+ted a patch to make zone0 led's work via the same mechanism (this card has =
+onboard led's at zone0 and external led's at zone1). Should I add that to t=
+his patch or submit a separate patch after this one is completed?
+
+Attached is v3.
+
+Thanks,
+Devin
+
+On Friday, October 2nd, 2026 at 10:31 AM, Takashi Iwai <tiwai@suse.de> wrot=
+e:
+
+> On Fri, 02 Oct 2026 03:41:50 +0200,
+> dchristensen8 wrote:
+> >
+> >
+> > Takashi,
+> >
+> > Thank you for your assistance on this! I updated it to use CLASS
+> > (snd_hda_power_pm, pm)(codec) for the power management call, which clea=
+ned up
+> > all the manual power-down error exits nicely.
+> >
+> > Attached is the proper v2 patch for upstreaming.
 >=20
-> James Calligeros wrote:
-> > From: Hector Martin <marcan@marcan.st>
-> >=20
-> > This allows drivers to implement policy around locking/unlocking
-> > controls, such as enforcing that a group of controls may only be locked
-> > by the same process/file, and taking actions when the controls
-> > lock/unlock (such as granting special access on lock and resetting
-> > values on unlock).
-> >=20
-> > This is, in particular, useful to implement volume safety controls, such
-> > that only a particular process (that locks controls and completes a
-> > handshake) may increase volumes above a given safe limit. It also allows
-> > the volume to be automatically lowered if that process dies (which will
-> > trigger an implicit unlock).
-> >=20
-> > Signed-off-by: Hector Martin <marcan@marcan.st>
-> > Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
+> Now reviewing further in details, and some issues found:
 >=20
-> This doesn't sound like a good approach to me, and this looks rather
-> irrelevant with the purpose of the series.
-
-I'm not sure what you mean by it being irrelevant. A significant portion
-of the machine driver is dedicated to implementing safety interlocks based
-on the functionality added via this patch. It would be impossible to prevent
-badly-behaving users{,pace} from defeating the safety guarantees made by
-speakersafetyd (and thus permanently damaging the machine) without giving
-speakersafetd exclusive ownership over the safety interlock kcontrol.
-
-Is there something specific about this approach that you do not like?
-
+> > --- a/sound/hda/codecs/ca0132.c
+> > +++ b/sound/hda/codecs/ca0132.c
+> > @@ -35,6 +35,8 @@
+> >  #include <sound/tlv.h>
+> >  #endif
+> >
+> > +#include <linux/dma-mapping.h>
+>=20
+> Let's move this into the block with other header file inclusions.
+> Not needed to be alone here.
+>=20
+>=20
+> > +static struct hdac_stream *ae5_strip_find_stream(struct hda_codec *cod=
+ec)
+> > +{
+> > +=09struct ca0132_spec *spec =3D codec->spec;
+> > +=09struct hdac_bus *bus =3D &codec->bus->core;
+> > +=09struct hdac_stream *s, *dsp =3D NULL, *first =3D NULL;
+> > +
+> > +=09guard(spinlock_irqsave)(&bus->reg_lock);
+> > +=09list_for_each_entry(s, &bus->stream_list, list) {
+> > +=09=09if (s->direction !=3D SNDRV_PCM_STREAM_PLAYBACK)
+> > +=09=09=09continue;
+> > +=09=09if (s->running || s->locked)
+> > +=09=09=09continue;
+>=20
+> It should also check s->opened, too.
+>=20
+> > +=09for (;;) {
+> > +=09=09hstr =3D ae5_strip_find_stream(codec);
+> > +=09=09if (!hstr) {
+> > +=09=09=09if (--retries <=3D 0) {
+> > +=09=09=09=09codec_warn(codec, "AE5 strip: no free azx stream after ret=
+ries\n");
+> > +=09=09=09=09return -EBUSY;
+> > +=09=09=09}
+> > +=09=09=09usleep_range(5000, 10000);
+> > +=09=09=09continue;
+> > +=09=09}
+> > +
+> > +=09=09stream_tag =3D snd_hdac_dsp_prepare(hstr, format, AE5_STRIP_DMA_=
+SIZE, &dmab);
+>=20
+> The function needs CONFIG_SND_HDA_DSP_LOADER, and it's not always
+> selected.  Although the compile would works, it makes no sense to keep
+> the code without the support code.
+>=20
+>=20
+> > +static int ae5_strip_ctl_put(struct snd_kcontrol *kcontrol,
+> > +=09=09=09     struct snd_ctl_elem_value *ucontrol)
+> > +{
+> > +=09struct hda_codec *codec =3D snd_kcontrol_chip(kcontrol);
+> > +=09struct ca0132_spec *spec =3D codec->spec;
+> > +=09u32 colors[AE5_STRIP_MAX_LEDS];
+> > +=09int i, num_leds;
+> > +
+> > +=09guard(mutex)(&spec->ae5_strip_mutex);
+> > +=09num_leds =3D spec->ae5_strip_cur_num_leds;
+> > +=09for (i =3D 0; i < num_leds; i++) {
+> > +=09=09u8 r =3D ucontrol->value.bytes.data[i * 3 + 0];
+> > +=09=09u8 g =3D ucontrol->value.bytes.data[i * 3 + 1];
+> > +=09=09u8 b =3D ucontrol->value.bytes.data[i * 3 + 2];
+> > +
+> > +=09=09colors[i] =3D ((u32)g << 16) | ((u32)r << 8) | (u32)b;
+> > +=09}
+> > +=09memcpy(spec->ae5_strip_cur_colors, colors, sizeof(u32) * num_leds);
+> > +=09ae5_strip_send_frame(codec, colors, num_leds);
+> > +=09return 0;
+>=20
+> In general, the put callback should return 1 if the values are
+> modified.
+>=20
 >=20
 > thanks,
 >=20
 > Takashi
+> 
+--b1=_jq0YukUUeP2mIo9ttNfYyyoDxpnZe6r6R87by9fBMAM
+Content-Type: text/x-patch; name=v3-0001-ALSA-hda-ca0132-Add-Sound-BlasterX-AE-5-external-.patch
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename=v3-0001-ALSA-hda-ca0132-Add-Sound-BlasterX-AE-5-external-.patch
 
-James
+RnJvbSAyZDg0MzA2NTM0ZDY3ZGIxMTAxODliNWJkMTJkZGI3YTMwZmJiZjE2IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBEZXZpbiBDaHJpc3RlbnNlbiA8ZGNocmlzdGVuc2VuOEBwcm90
+b24ubWU+CkRhdGU6IEZyaSwgMiBPY3QgMjAyNiAyMTozMDoyMCAtMDQwMApTdWJqZWN0OiBbUEFU
+Q0ggdjNdIEFMU0E6IGhkYS9jYTAxMzI6IEFkZCBTb3VuZCBCbGFzdGVyWCBBRS01IGV4dGVybmFs
+IFJHQiBMRUQKIHN0cmlwIHN1cHBvcnQKClRoZSBTb3VuZCBCbGFzdGVyWCBBRS01IGFuZCBBRS01
+IFBsdXMgZXhwb3NlIGEgMy1waW4gNVYgYWRkcmVzc2FibGUgUkdCCmhlYWRlciBkcml2ZW4gZGly
+ZWN0bHkgYnkgdGhlIENBMDExMyBQQ0llLXRvLUhELUF1ZGlvIGJyaWRnZS4gUmF0aGVyCnRoYW4g
+dXNpbmcgdGhlIENBMDEzMiBEU1Agb3IgTU1JTyBHUElPLCB0aGUgQ0EwMTEzIGNvbnRhaW5zIGFu
+CmF1dG9ub21vdXMgSERBIGxpbmsgc25pZmZlciB0aGF0IHNub29wcyBhIGRlc2lnbmF0ZWQgSERB
+IERNQSBwbGF5YmFjawpzdHJlYW0sIGV4dHJhY3RzIHRoZSAyNC1iaXQgR1JCIGNvbG9yIHBheWxv
+YWQsIGFuZCBzZXJpYWxpemVzIGl0IGFzCjgwMCBrSHogc2luZ2xlLXdpcmUgTlJaIHB1bHNlcyB0
+byB0aGUgc3RyaXAgKFdTMjgxMkIgcHJvdG9jb2wpLgoKRXhwb3NlIHRoZSBzdHJpcCB0aHJvdWdo
+IHZvbGF0aWxlIGNhcmQgY29udHJvbCBlbGVtZW50czoKCiAgIkFFLTUgTEVEIFN0cmlwIiAgICAg
+ICAgKFJXLCBCWVRFUyk6IDMwMC1ieXRlIFJHQiBwYXlsb2FkIHJlcHJlc2VudGluZwogICAgICAg
+ICAgICAgICAgICAgICAgICAgIHVwIHRvIDEwMCBhZGRyZXNzYWJsZSBMRURzICgzIGJ5dGVzIHBl
+ciBMRUQpLgogICJBRS01IExFRCBTdHJpcCBDb3VudCIgIChSVywgSU5URUdFUik6IEFjdGl2ZSBM
+RUQgY291bnQgKDEuLjEwMCkuCgpUaGUgY29udHJvbHMgYXJlIG1hcmtlZCB3aXRoIElGQUNFX0NB
+UkQgYW5kIFNORFJWX0NUTF9FTEVNX0FDQ0VTU19WT0xBVElMRQpzbyBjaGFuZ2VzIGRvIG5vdCB0
+cmlnZ2VyIHVubmVjZXNzYXJ5IGF1ZGlvIGRhZW1vbiB3YWtldXBzIG9yIHN0YXRlCnJlc3RvcmF0
+aW9uIGJ5IGFsc2FjdGwuCgpXcml0ZXMgYWxsb2NhdGUgYW4gaWRsZSBIREEgcGxheWJhY2sgc3Ry
+ZWFtLCBmb3JtYXQgYSAzMiBLQiBETUEgYnVmZmVyCnBvcHVsYXRlZCB3aXRoIHJlcGVhdGluZyBX
+UzI4MTIgZnJhbWVzIChwcmVhbWJsZSwgYXVkaW8gd29yZHMgcGVyIExFRCwKYW5kIHJlc2V0IGdh
+cCksIGNvbmZpZ3VyZSB0aGUgQ0EwMTEzIEJBUjIgc2VyaWFsaXplcnMgYW5kIHN0cmVhbS10YWcK
+cGluIG11eCwgYW5kIHB1bHNlIHRoZSBzdHJlYW0gbG9uZyBlbm91Z2ggZm9yIHRoZSByZXNldCBs
+YXRjaCB0byBmaXJlLgpBY2Nlc3MgaXMgc2VyaWFsaXplZCB3aXRoIGEgcGVyLXNwZWMgbXV0ZXgs
+IGFuZCB0aGUgY29udHJvbHMgYXJlIG9ubHkKcmVnaXN0ZXJlZCBvbiBRVUlSS19BRTUgZGV2aWNl
+cy4KClRoZSBzdHJpcCB0cmFuc3BvcnQgdXNlcyBzbmRfaGRhY19kc3BfcHJlcGFyZSgpIC8gc25k
+X2hkYWNfZHNwX2NsZWFudXAoKSwKd2hpY2ggcmVxdWlyZSBDT05GSUdfU05EX0hEQV9EU1BfTE9B
+REVSLiBUaGUgc3RyaXAgY29udHJvbCBjb2RlIGFuZAphc3NvY2lhdGVkIHNwZWMgZmllbGRzIGFy
+ZSB0aGVyZWZvcmUgY29uZGl0aW9uYWxseSBjb21waWxlZCB1bmRlcgpJU19FTkFCTEVEKENPTkZJ
+R19TTkRfSERBX0RTUF9MT0FERVIpLCB3aXRoIGEgbm8tb3Agc3R1YiBmb3IKYWU1X2FkZF9zdHJp
+cF9jb250cm9scygpIHdoZW4gdGhlIG9wdGlvbiBpcyBkaXNhYmxlZC4KClNpZ25lZC1vZmYtYnk6
+IERldmluIENocmlzdGVuc2VuIDxkY2hyaXN0ZW5zZW44QHByb3Rvbi5tZT4KLS0tCiBzb3VuZC9o
+ZGEvY29kZWNzL2NhMDEzMi5jIHwgMzIgKysrKysrKysrKysrKysrKysrKysrKysrKy0tLS0tLS0K
+IDEgZmlsZSBjaGFuZ2VkLCAyNSBpbnNlcnRpb25zKCspLCA3IGRlbGV0aW9ucygtKQoKZGlmZiAt
+LWdpdCBhL3NvdW5kL2hkYS9jb2RlY3MvY2EwMTMyLmMgYi9zb3VuZC9oZGEvY29kZWNzL2NhMDEz
+Mi5jCmluZGV4IDg5NTgwMDkxNy4uMDM2YWU3MzU4IDEwMDY0NAotLS0gYS9zb3VuZC9oZGEvY29k
+ZWNzL2NhMDEzMi5jCisrKyBiL3NvdW5kL2hkYS9jb2RlY3MvY2EwMTMyLmMKQEAgLTE4LDYgKzE4
+LDcgQEAKICNpbmNsdWRlIDxsaW51eC90eXBlcy5oPgogI2luY2x1ZGUgPGxpbnV4L2lvLmg+CiAj
+aW5jbHVkZSA8bGludXgvcGNpLmg+CisjaW5jbHVkZSA8bGludXgvZG1hLW1hcHBpbmcuaD4KICNp
+bmNsdWRlIDxhc20vaW8uaD4KICNpbmNsdWRlIDxzb3VuZC9jb3JlLmg+CiAjaW5jbHVkZSA8c291
+bmQvaGRhX2NvZGVjLmg+CkBAIC0zNSw4ICszNiw2IEBACiAjaW5jbHVkZSA8c291bmQvdGx2Lmg+
+CiAjZW5kaWYKIAotI2luY2x1ZGUgPGxpbnV4L2RtYS1tYXBwaW5nLmg+Ci0KICNkZWZpbmUgRkxP
+QVRfWkVSTwkweDAwMDAwMDAwCiAjZGVmaW5lIEZMT0FUX09ORQkweDNmODAwMDAwCiAjZGVmaW5l
+IEZMT0FUX1RXTwkweDQwMDAwMDAwCkBAIC0xMTY3LDEwICsxMTY2LDEyIEBAIHN0cnVjdCBjYTAx
+MzJfc3BlYyB7CiAJICovCiAJYm9vbCB1c2VfYWx0X2NvbnRyb2xzOwogCisjaWYgSVNfRU5BQkxF
+RChDT05GSUdfU05EX0hEQV9EU1BfTE9BREVSKQogCS8qIEFFLTUgV1MyODEyIHN0cmlwIGNvbnRy
+b2wgKi8KIAlzdHJ1Y3QgbXV0ZXggYWU1X3N0cmlwX211dGV4OwogCXUzMiBhZTVfc3RyaXBfY3Vy
+X2NvbG9yc1tBRTVfU1RSSVBfTUFYX0xFRFNdOwogCWludCBhZTVfc3RyaXBfY3VyX251bV9sZWRz
+OworI2VuZGlmCiB9OwogCiAvKgpAQCAtNjg1NSw3ICs2ODU2LDE0IEBAIHN0YXRpYyBpbnQgY2Ew
+MTMyX2FsdF9hZGRfbWljX2Jvb3N0X2VudW0oc3RydWN0IGhkYV9jb2RlYyAqY29kZWMpCiAKIH0K
+IAorI2lmIElTX0VOQUJMRUQoQ09ORklHX1NORF9IREFfRFNQX0xPQURFUikKIHN0YXRpYyBpbnQg
+YWU1X2FkZF9zdHJpcF9jb250cm9scyhzdHJ1Y3QgaGRhX2NvZGVjICpjb2RlYyk7CisjZWxzZQor
+c3RhdGljIGlubGluZSBpbnQgYWU1X2FkZF9zdHJpcF9jb250cm9scyhzdHJ1Y3QgaGRhX2NvZGVj
+ICpjb2RlYykKK3sKKwlyZXR1cm4gMDsKK30KKyNlbmRpZgogCiAvKgogICogQWRkIGhlYWRwaG9u
+ZSBnYWluIGVudW1lcmF0ZWQgY29udHJvbCBmb3IgdGhlIEFFLTUuIFRoaXMgc3dpdGNoZXMgYmV0
+d2VlbgpAQCAtODMzMyw2ICs4MzQxLDcgQEAgc3RhdGljIHZvaWQgc2J6X3NldHVwX2RlZmF1bHRz
+KHN0cnVjdCBoZGFfY29kZWMgKmNvZGVjKQogLyoKICAqIFNvdW5kIEJsYXN0ZXJYIEFFLTUgRXh0
+ZXJuYWwgV1MyODEyQiBSR0IgTEVEIFN0cmlwIFRyYW5zcG9ydAogICovCisjaWYgSVNfRU5BQkxF
+RChDT05GSUdfU05EX0hEQV9EU1BfTE9BREVSKQogI2RlZmluZSBBRTVfU1RSSVBfRE1BX1NJWkUJ
+CTB4ODAwMAogI2RlZmluZSBBRTVfU1RSSVBfVE9UQUxfV09SRFMJCShBRTVfU1RSSVBfRE1BX1NJ
+WkUgLyBzaXplb2YodTMyKSkKICNkZWZpbmUgQUU1X1NUUklQX1BSRUFNQkxFX1dPUkRTCTUKQEAg
+LTgzODAsNyArODM4OSw3IEBAIHN0YXRpYyBzdHJ1Y3QgaGRhY19zdHJlYW0gKmFlNV9zdHJpcF9m
+aW5kX3N0cmVhbShzdHJ1Y3QgaGRhX2NvZGVjICpjb2RlYykKIAlsaXN0X2Zvcl9lYWNoX2VudHJ5
+KHMsICZidXMtPnN0cmVhbV9saXN0LCBsaXN0KSB7CiAJCWlmIChzLT5kaXJlY3Rpb24gIT0gU05E
+UlZfUENNX1NUUkVBTV9QTEFZQkFDSykKIAkJCWNvbnRpbnVlOwotCQlpZiAocy0+cnVubmluZyB8
+fCBzLT5sb2NrZWQpCisJCWlmIChzLT5vcGVuZWQgfHwgcy0+cnVubmluZyB8fCBzLT5sb2NrZWQp
+CiAJCQljb250aW51ZTsKIAkJaWYgKCFmaXJzdCkKIAkJCWZpcnN0ID0gczsKQEAgLTg1OTMsNyAr
+ODYwMiw3IEBAIHN0YXRpYyBpbnQgYWU1X3N0cmlwX2N0bF9wdXQoc3RydWN0IHNuZF9rY29udHJv
+bCAqa2NvbnRyb2wsCiAJc3RydWN0IGhkYV9jb2RlYyAqY29kZWMgPSBzbmRfa2NvbnRyb2xfY2hp
+cChrY29udHJvbCk7CiAJc3RydWN0IGNhMDEzMl9zcGVjICpzcGVjID0gY29kZWMtPnNwZWM7CiAJ
+dTMyIGNvbG9yc1tBRTVfU1RSSVBfTUFYX0xFRFNdOwotCWludCBpLCBudW1fbGVkczsKKwlpbnQg
+aSwgbnVtX2xlZHMsIGNoYW5nZTsKIAogCWd1YXJkKG11dGV4KSgmc3BlYy0+YWU1X3N0cmlwX211
+dGV4KTsKIAludW1fbGVkcyA9IHNwZWMtPmFlNV9zdHJpcF9jdXJfbnVtX2xlZHM7CkBAIC04NjA0
+LDkgKzg2MTMsMTMgQEAgc3RhdGljIGludCBhZTVfc3RyaXBfY3RsX3B1dChzdHJ1Y3Qgc25kX2tj
+b250cm9sICprY29udHJvbCwKIAogCQljb2xvcnNbaV0gPSAoKHUzMilnIDw8IDE2KSB8ICgodTMy
+KXIgPDwgOCkgfCAodTMyKWI7CiAJfQotCW1lbWNweShzcGVjLT5hZTVfc3RyaXBfY3VyX2NvbG9y
+cywgY29sb3JzLCBzaXplb2YodTMyKSAqIG51bV9sZWRzKTsKKwljaGFuZ2UgPSBtZW1jbXAoc3Bl
+Yy0+YWU1X3N0cmlwX2N1cl9jb2xvcnMsIGNvbG9ycywKKwkJCXNpemVvZih1MzIpICogbnVtX2xl
+ZHMpICE9IDA7CisJaWYgKGNoYW5nZSkKKwkJbWVtY3B5KHNwZWMtPmFlNV9zdHJpcF9jdXJfY29s
+b3JzLCBjb2xvcnMsCisJCSAgICAgICBzaXplb2YodTMyKSAqIG51bV9sZWRzKTsKIAlhZTVfc3Ry
+aXBfc2VuZF9mcmFtZShjb2RlYywgY29sb3JzLCBudW1fbGVkcyk7Ci0JcmV0dXJuIDA7CisJcmV0
+dXJuIGNoYW5nZTsKIH0KIAogc3RhdGljIGludCBhZTVfc3RyaXBfbnVtX2xlZHNfaW5mbyhzdHJ1
+Y3Qgc25kX2tjb250cm9sICprY29udHJvbCwKQEAgLTg2NDUsNyArODY1OCw3IEBAIHN0YXRpYyBp
+bnQgYWU1X3N0cmlwX251bV9sZWRzX3B1dChzdHJ1Y3Qgc25kX2tjb250cm9sICprY29udHJvbCwK
+IAkJcmV0dXJuIDA7CiAJc3BlYy0+YWU1X3N0cmlwX2N1cl9udW1fbGVkcyA9IHZhbDsKIAlhZTVf
+c3RyaXBfc2VuZF9mcmFtZShjb2RlYywgc3BlYy0+YWU1X3N0cmlwX2N1cl9jb2xvcnMsIHZhbCk7
+Ci0JcmV0dXJuIDA7CisJcmV0dXJuIDE7CiB9CiAKIHN0YXRpYyBjb25zdCBzdHJ1Y3Qgc25kX2tj
+b250cm9sX25ldyBhZTVfc3RyaXBfY3Rsc1tdID0gewpAQCAtODY4MSw2ICs4Njk0LDcgQEAgc3Rh
+dGljIGludCBhZTVfYWRkX3N0cmlwX2NvbnRyb2xzKHN0cnVjdCBoZGFfY29kZWMgKmNvZGVjKQog
+CX0KIAlyZXR1cm4gMDsKIH0KKyNlbmRpZiAvKiBDT05GSUdfU05EX0hEQV9EU1BfTE9BREVSICov
+CiAKIHN0YXRpYyB2b2lkIGFlNV9zZXR1cF9kZWZhdWx0cyhzdHJ1Y3QgaGRhX2NvZGVjICpjb2Rl
+YykKIHsKQEAgLTkxMDUsOCArOTExOSwxMCBAQCBzdGF0aWMgdm9pZCBjYTAxMzJfaW5pdF9jaGlw
+KHN0cnVjdCBoZGFfY29kZWMgKmNvZGVjKQogCXVuc2lnbmVkIGludCBvbjsKIAogCW11dGV4X2lu
+aXQoJnNwZWMtPmNoaXBpb19tdXRleCk7CisjaWYgSVNfRU5BQkxFRChDT05GSUdfU05EX0hEQV9E
+U1BfTE9BREVSKQogCW11dGV4X2luaXQoJnNwZWMtPmFlNV9zdHJpcF9tdXRleCk7CiAJc3BlYy0+
+YWU1X3N0cmlwX2N1cl9udW1fbGVkcyA9IDEwOworI2VuZGlmCiAKIAkvKgogCSAqIFRoZSBXaW5k
+b3dzIGRyaXZlciBhbHdheXMgZG9lcyB0aGlzIHVwb24gc3RhcnR1cCwgd2hpY2ggc2VlbXMgdG8K
+QEAgLTk5OTMsNyArMTAwMDksOSBAQCBzdGF0aWMgdm9pZCBjYTAxMzJfZnJlZShzdHJ1Y3QgaGRh
+X2NvZGVjICpjb2RlYykKIAlpZiAoc3BlYy0+bWVtX2Jhc2UpCiAJCXBjaV9pb3VubWFwKGNvZGVj
+LT5idXMtPnBjaSwgc3BlYy0+bWVtX2Jhc2UpOwogI2VuZGlmCisjaWYgSVNfRU5BQkxFRChDT05G
+SUdfU05EX0hEQV9EU1BfTE9BREVSKQogCW11dGV4X2Rlc3Ryb3koJnNwZWMtPmFlNV9zdHJpcF9t
+dXRleCk7CisjZW5kaWYKIAlrZnJlZShzcGVjLT5zcGVjX2luaXRfdmVyYnMpOwogCWtmcmVlKGNv
+ZGVjLT5zcGVjKTsKIAljb2RlYy0+c3BlYyA9IE5VTEw7Ci0tIAoyLjU1LjAKCg==
 
-
-
+--b1=_jq0YukUUeP2mIo9ttNfYyyoDxpnZe6r6R87by9fBMAM--
 
