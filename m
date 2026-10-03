@@ -1,237 +1,132 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-vs2-f38.google.com (mail-vs2-f38.google.com [74.125.227.38])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00126420486
-	for <linux-sound@vger.kernel.org>; Sat,  3 Oct 2026 10:58:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791025084; cv=none; b=E93A5LZA1Y3tn5IZBOzMGD9nxFkTeMCg0tSKHZpNHXPKkDA5fNNbp57k9jfEfDIyNOhegM4SHCWzIBl++DXpE5mmceQYDTLyUfuZD/0XPCnJiMYaSyEc7T+wQXttN1X7hTKL3QxV5DNcfriG6Wx8PQOLbDanRijcuzhHANCA7fw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791025084; c=relaxed/simple;
-	bh=sixe4/BBinvXGUcFHGZIkaudMII42LIRw50BSp/jHWU=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gpZj5SeEuFr0sTzrEKPI9ch7Xf00KbxN0teQERhDSd+pXms0gsjbw6oilu5c8rXEvkFDhEX9WZqiYWbI2B6jXc9yqI6UGfayfjt0WXJURWdha2ljYw+4/iSazuyC+FdNlZj7l/4T2MrVZHqM9UH47wNW5riIXMeNPqLh0rWpgyw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=s+27iZgP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=m7YDMzrv; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0FLsIh3q; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Y6X9vUkC; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52A92424D74
+	for <linux-sound@vger.kernel.org>; Sat,  3 Oct 2026 12:14:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.227.38
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791029678; cv=pass; b=AC+kgvDucuKkfGEmaQIF3PXvxlAgpzXFhMm5XbuKsNrlKn5ICQefcO7NDKMWUlAoNWzGEYT9p1YowlAHy6X1Pj9iFXFbRbasECSOIotW5i9m5pxYzgQO1mnLO/w10P4WbrPgv9FHFRvjH/76sb/TTzc/qCuWLMV85VvR5MfVE+c=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791029678; c=relaxed/simple;
+	bh=GFVRIQScZEALLX4YfwLc6CT6N7maQ58QqBTwUAkoAnE=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=tH2gqDE5+EEX+hqn+T2Uq25wMMWb7bA8UcfVvXu61Rd5r29YjtH8CNe19O7TkLzgKYTOZ2rHrCSY2kYH6ELzSGYSQ2CK44IIyCwkB1M8PwsGf5vhzTJdWGe4CpBLCtwZjMo9vEtJiNhyb8MVYyS+9pT0QIc3hKCk3fZaqOvlJdA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LxVLybLS; arc=pass smtp.client-ip=74.125.227.38
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="s+27iZgP";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="m7YDMzrv";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0FLsIh3q";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Y6X9vUkC"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 99F2521C2D;
-	Sat,  3 Oct 2026 10:57:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1791025074; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PXN8TuwadCRn6vYcUGJCZKhTTxK5bKN9xSBHWY+yio0=;
-	b=s+27iZgPaepgaTCzaPLAzzW6xrDD+zWUUBphtWzlQaIoaATZ5fR8dTAxrBTheLl9zNxQCs
-	oWa7BAKHDISxfnYVv4ihnEjOlLetn3v3k000GSGgNM7LzyhdP/VRxF8CIQPdEmcxYS5cHN
-	Fty3Zp6WFbUHvVU7rgSHlnn2dVHd9NI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1791025074;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PXN8TuwadCRn6vYcUGJCZKhTTxK5bKN9xSBHWY+yio0=;
-	b=m7YDMzrviaBvjXGyWG7Q+cwGHJ+AhpLSQG2ceq75Vs8WjFdsKLxVXzd4w/5ciMYOhZgmIi
-	bBsxALdhOPe1CJBA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1791025070; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PXN8TuwadCRn6vYcUGJCZKhTTxK5bKN9xSBHWY+yio0=;
-	b=0FLsIh3qbE5BbbTNMI6WFPK/PKidH2rTUczyukUweKHdEpRGA2xzzjkD4kBX5/63yqYQ9P
-	06xjObnQZ/e5YL1THZZz1luI5AWm3cw+WjDrEBnaIBDcwd2HSQLG/kbZeLxqsjvU4hAYSY
-	GS48zlkDJs2FW75gV9Id5f60COjltYw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1791025070;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PXN8TuwadCRn6vYcUGJCZKhTTxK5bKN9xSBHWY+yio0=;
-	b=Y6X9vUkCVKJAO8+CljsIB5EGzgIqdpdX+/RvIRpX+RRDyQv+8FjgDn0j5nu2xAWV9Dq2VK
-	e+KSbGJtCEc0prDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6BA5213884;
-	Sat,  3 Oct 2026 10:57:42 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id rc1+HaXfwGosCAAAD6G6ig:T7
-	(envelope-from <tiwai@suse.de>); Sat, 03 Oct 2026 10:57:42 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Subject: [PATCH 6/9] ALSA: powermac: Use devres card management
-Date: Sat,  3 Oct 2026 12:57:13 +0200
-Message-ID: <20261003105719.1070427-7-tiwai@suse.de>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261003105719.1070427-1-tiwai@suse.de>
-References: <20261003105719.1070427-1-tiwai@suse.de>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LxVLybLS"
+Received: by mail-vs2-f38.google.com with SMTP id 71dfb90a1353d-5d9cd990aedso131756e0c.0
+        for <linux-sound@vger.kernel.org>; Sat, 03 Oct 2026 05:14:31 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791029668; cv=none;
+        d=google.com; s=arc-20260327;
+        b=cfR2XqZ8fGUUNMtStzJop3g6EipEbNUZebEipV35850t/vE30KLgMLn0GBZZzck8RF
+         5XzNfM7BqEblgG1AXkNTAPKIzzCkJ8KQYDc8PEfFl1Hf1I53a0O+gpdjEHjArfVj3QMT
+         09PAKw+AAzo74QUR68K8FkG9UBi/s9+ifra8oTeziXSdferxl4lDuC9MlK5MB2DNUrJz
+         Z/4JZSTF4lygZlYlG2ijz+YKLBjLgvKwpuwOBZirgEs12MDwtAdOkV8kbrhmiDDfZN3r
+         LLjS/gcu0qWXKIT47F4Z8qRDDSYWIGqDHCWuejnF7XsmWF6c0UDUAiM2WmnWFD/AiXXl
+         IuQQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=WzC+Vk9sR0NQIBcCByR1+2+KCm8LeYifUJRytDIvPeM=;
+        fh=INEFzOJ0iDk7YnYDXYFJup7DKaFEJLGAPdnX59Z2XLk=;
+        b=Pyw4H8tCiDqYRuMcWcO9U9UPcVUy4Dv3dRqGPAZHax/ezXzjBjhOpxLWArtVW5FvaX
+         a5pCvwDNvFAExSARQg2PaqxsR5WNyBcdKvD+O4nLjKsxXcqt3N3c4yVDCpljaUZnuyWp
+         KqRDWQAjLTFaCY5YwpFXQvL5o3z0c5Z/qxNqN/A73xqqRUuverLrtJsxwPs/0IBWMGd2
+         jMXnaHK58y9xkHDT+kfp67wB7/0T2+0K0plcbbqpALd94zw+eNyUoi4CcTFT+W4ngw3f
+         gRXmJRpuGmXz+XpwqXQAW44cvdcV4zqD4PK1dHM3gC0yW+Y0D2Lvmp8yOdYUGxvITMj9
+         /P4A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791029668; x=1791634468; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=WzC+Vk9sR0NQIBcCByR1+2+KCm8LeYifUJRytDIvPeM=;
+        b=LxVLybLSEhWYZSwj6JzsdtyK7cV7A6dcVLIH6sio0jL5WyywCeaV6vV8dtjdC4CI2Z
+         ZNQ3RiEZrWE29dK5EZ1IZVWZaGCJ9q201HGf1LebpF4WIBa3OLWxZr21+Os8/rfDWm2A
+         rrhlmLyJ4ZUAp1Vb98pjIund1AeQ1DImfA1Ml9cilrQ3mGbHZwR/Pzw/z5CaNpBjApHC
+         i1Rb0hLAKwUhyNn27g3SYdIvtWsYi8bj/fEIeqe6pgNPTGWaZtnd/7QeHvAGkRXQkQAY
+         Fj2HJrGDj93DFAAUVY9RbBZsnYEac9pjFZDiVLCiUwyjrZCYvb5cJ6Cxe+i/fMkKZhCD
+         mniQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791029668; x=1791634468;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=WzC+Vk9sR0NQIBcCByR1+2+KCm8LeYifUJRytDIvPeM=;
+        b=jjkKBbkcjg4w5TPte1VTVcgnyhKNa4YWFpvli/hjVv6KEcopLz90n5uYHERjhQcQ8h
+         V459yTMSbkJ4JzTd+/Hn2KEzlFKBLPedgzC/xuF75puXHvNQ0Jddag+xEwmb0RmKjxDi
+         NWo/aZkLtcBszq9yn6LruLoZWoIl1rFzXGuGn0pHCXSmefCLFjpVg66NHOq7WUWPQY2C
+         KD6L4n9Nf5pc5BtOo3KT0dJBaPbKzrz14/q9LsIEtQBJbZQb2djhx7J0SPq867hm2MWT
+         5hNWN+DBuez9bxR+rvoqfOUDtdINTluAr1PeW+yQYQmgNmi1IYsfL6iYXyGSQ49IEaNU
+         siLw==
+X-Gm-Message-State: AFq9FYJjOQ4tth+kR8TMvBQkjDA5Bs7EsSz0nFe9Kka/859BdwBvoOy1
+	QZxL8G4UpVTYrMfN/E5ke71IvnepsIEdiqWe7Zl5MsbvBcD13zgdRtIlMZuFHdFpaMC6Ejf1i5J
+	CvzzHJxNZVhuByXmVGUrQ+5loSXxDchw=
+X-Gm-Gg: AYBFou3qMpnWlUgp6C7cJ2/Fbiq71PI7iXqThG16Cta/vjj/H/Fqa+iG3PSk7AteuCT
+	OPH5vxGBuTdJyrFkXH7pWRo8QJhqCeAz9Xcun7m3Z0mRDajzqa97xdWrBGJmSAGVtYG2m0W4eKS
+	KvupJ3s7rlHOrI/3dDP/cS1cwoGXAldo0Qhn6URNAER4UYpbdirdKxzpYa69K4iLlAqHDQdHReH
+	hLLGtN9MBe9PEiUy3TO7mtf0Z6gRMk5aXoGF+umv1Z/o+8Vnxzu22kkeS5FRLkK6/U596iMBCcO
+	xIsxGFzFrU1p2igZFzIQvTJWFioO3AcK/vUAvUDddZPVnje09J5p8Kw=
+X-Received: by 2002:a05:6102:e11:b0:7bc:a714:2748 with SMTP id
+ ada2fe7eead31-7c0f5bb03dfmr1133173137.33.1791029668371; Sat, 03 Oct 2026
+ 05:14:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-0.999];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.990];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_ONE(0.00)[1];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[]
-X-Spam-Score: -2.80
-X-Spam-Level: 
-X-Spam-Flag: NO
+From: Felipe Perucho <felipeperucho@gmail.com>
+Date: Sat, 3 Oct 2026 14:14:16 +0200
+X-Gm-Features: AclHuK_d2tiYzdfwJ40PuDi75LTxZ_KDbItbmT6bXyYhvggVNvMRJCsEgOslp2M
+Message-ID: <CAA4VCRWSsgzinexpcHbY8TmvfkfzA3H_fP_5bUzNQXqfGp6QmA@mail.gmail.com>
+Subject: ALSA: hda/realtek: HP Pavilion All-in-One 27-xa0xxx (103c:84ee) needs ALC225_FIXUP_HP_AIO_SPK
+To: tiwai@suse.com
+Cc: linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-The powermac driver's remove callback is nothing but a simple
-snd_card_free() call, so let's use the devres for managing the card,
-for simplifying the handling.
+Hi Takashi,
 
-Now the card is created via snd_devm_card_new() that is auto-cleaned
-up at probe for errors.
+On the HP Pavilion All-in-One 27-xa0xxx (Realtek ALC225, PCI and codec
+SSID 103c:84ee), the internal speakers are silent after a cold boot.
+They start working after a suspend/resume cycle.
 
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- sound/ppc/powermac.c | 35 ++++++++++++-----------------------
- 1 file changed, 12 insertions(+), 23 deletions(-)
+Comparing the codec state after cold boot and after resume, the only
+difference is processing coefficient 0x10 of NID 0x20: it reads 0x0020
+after cold boot and 0x0220 after resume. Writing 0x0220 with hda-verb
+restores speaker output immediately, and applying these verbs at init
+through a patch firmware file fixes it permanently:
 
-diff --git a/sound/ppc/powermac.c b/sound/ppc/powermac.c
-index e685d245883e..30f4cd1a6d32 100644
---- a/sound/ppc/powermac.c
-+++ b/sound/ppc/powermac.c
-@@ -39,18 +39,18 @@ static struct platform_device *device;
- 
- static int snd_pmac_probe(struct platform_device *devptr)
- {
--	struct snd_card *card;
-+	struct snd_card *card __free(snd_card_free) = NULL;
- 	struct snd_pmac *chip;
- 	char *name_ext;
- 	int err;
- 
--	err = snd_card_new(&devptr->dev, index, id, THIS_MODULE, 0, &card);
-+	err = snd_devm_card_new(&devptr->dev, index, id, THIS_MODULE, 0, &card);
- 	if (err < 0)
- 		return err;
- 
- 	err = snd_pmac_new(card, &chip);
- 	if (err < 0)
--		goto __error;
-+		return err;
- 	card->private_data = chip;
- 
- 	switch (chip->model) {
-@@ -61,7 +61,7 @@ static int snd_pmac_probe(struct platform_device *devptr)
- 			card->shortname, chip->device_id, chip->subframe);
- 		err = snd_pmac_burgundy_init(chip);
- 		if (err < 0)
--			goto __error;
-+			return err;
- 		break;
- 	case PMAC_DACA:
- 		strscpy(card->driver, "PMac DACA");
-@@ -70,7 +70,7 @@ static int snd_pmac_probe(struct platform_device *devptr)
- 			card->shortname, chip->device_id, chip->subframe);
- 		err = snd_pmac_daca_init(chip);
- 		if (err < 0)
--			goto __error;
-+			return err;
- 		break;
- 	case PMAC_TUMBLER:
- 	case PMAC_SNAPPER:
-@@ -81,10 +81,10 @@ static int snd_pmac_probe(struct platform_device *devptr)
- 			card->shortname, chip->device_id, chip->subframe);
- 		err = snd_pmac_tumbler_init(chip);
- 		if (err < 0)
--			goto __error;
-+			return err;
- 		err = snd_pmac_tumbler_post_init();
- 		if (err < 0)
--			goto __error;
-+			return err;
- 		break;
- 	case PMAC_AWACS:
- 	case PMAC_SCREAMER:
-@@ -101,17 +101,16 @@ static int snd_pmac_probe(struct platform_device *devptr)
- 			card->shortname, name_ext, chip->revision);
- 		err = snd_pmac_awacs_init(chip);
- 		if (err < 0)
--			goto __error;
-+			return err;
- 		break;
- 	default:
- 		dev_err(&devptr->dev, "unsupported hardware %d\n", chip->model);
--		err = -EINVAL;
--		goto __error;
-+		return -EINVAL;
- 	}
- 
- 	err = snd_pmac_pcm_new(chip);
- 	if (err < 0)
--		goto __error;
-+		return err;
- 
- 	chip->initialized = 1;
- 	if (enable_beep)
-@@ -119,20 +118,11 @@ static int snd_pmac_probe(struct platform_device *devptr)
- 
- 	err = snd_card_register(card);
- 	if (err < 0)
--		goto __error;
-+		return err;
- 
- 	platform_set_drvdata(devptr, card);
-+	card = NULL; /* probe succeeded, don't release as error */
- 	return 0;
--
--__error:
--	snd_card_free(card);
--	return err;
--}
--
--
--static void snd_pmac_remove(struct platform_device *devptr)
--{
--	snd_card_free(platform_get_drvdata(devptr));
- }
- 
- #ifdef CONFIG_PM_SLEEP
-@@ -160,7 +150,6 @@ static SIMPLE_DEV_PM_OPS(snd_pmac_pm, snd_pmac_driver_suspend, snd_pmac_driver_r
- 
- static struct platform_driver snd_pmac_driver = {
- 	.probe		= snd_pmac_probe,
--	.remove		= snd_pmac_remove,
- 	.driver		= {
- 		.name	= SND_PMAC_DRIVER,
- 		.pm	= SND_PMAC_PM_OPS,
--- 
-2.55.0
+  0x20 0x500 0x10
+  0x20 0x400 0x220
 
+This matches ALC225_FIXUP_HP_AIO_SPK, which mainline applies to the HP
+Pavilion AiO 24 (103c:85ba). That quirk is not in my kernel yet
+(Ubuntu 26.04, 7.0.0-38-generic), so model=103c:85ba had no effect
+here, but the verbs are identical. Could you add an entry for this
+machine, e.g.:
+
+  HDA_CODEC_QUIRK(0x103c, 0x84ee, "HP Pavilion All-in-One 27-xa0xxx",
+ALC225_FIXUP_HP_AIO_SPK),
+
+Separately, the speakers pop audibly each time the codec enters or
+leaves runtime power save. Setting power_save=0 avoids it.
+
+Hardware details:
+  Controller: Intel Cannon Lake PCH cAVS [8086:a348] (rev 10)
+  Codec: Realtek ALC225, vendor 0x10ec0225, revision 0x100002
+  Subsystem: 103c:84ee
+  BIOS: F.27
+
+Disclosure: I am not a kernel developer. I diagnosed this with the
+help of an AI assistant (Claude Opus 5.5), which suggested the codec
+dumps, the coefficient comparison and the existing quirk, and helped
+me write this report. All commands were run and all results were
+verified by me on this machine, including the permanent fix across
+cold boots.
+
+I am happy to test a patch.
+
+Thanks,
+Felipe
