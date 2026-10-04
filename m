@@ -1,135 +1,93 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73CAD2EF653;
-	Sun,  4 Oct 2026 19:04:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85500330D25;
+	Sun,  4 Oct 2026 19:17:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791140686; cv=none; b=M8aTS5ZZjytkDFeDVR6q49D02Y39LIC/t0m8Z+vNiNX9XM42WRdz0WR3CpG+mQzcnLrUcFYRbrI1MAdJ+KZng9b1DxSCLxZpEQDdZl5ZN9ykiST5gB/djA4FA15v0GWSu+knMFzHOJXuXy8IOATz/XKbroK7B/HGO4LBoQYPcw0=
+	t=1791141437; cv=none; b=mtC2QTNTt7AcP5L8UT+KWULIrRAV3yYAOZCIEag8LtgfcnhYr3Ol+U1qN1+yKJrKGYzuCM+dKOYF7YJKOXa8/dnn1NrYKkVjvwOOSU4cjaY3nsgweVYOAOt+DZu5JfsS/ZL0ipGGRtDkKNcr/Bkk5Vppy7d3QCQdeiG8c2jgtLU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791140686; c=relaxed/simple;
-	bh=yixnaR0CUW/QO7jph5ccbRkHlSmwH47GxT4/sf7D7sk=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qwIXFVJ6TgU3x8aJJgoukzc57fZf1NEa+AnYb/bVAEhY29pk7VpEo6SjeKVPKKx8repKL2XO5XYVj55rLWl6VS5BavFC37DisUyMduQ4mmR1kjyDOEMkPO6GLC+bIUBkNeSJ4CgphhimBOB6TAd7UgyGP3zTIvcynGQhdDLivQE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=cgU61oW7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=apqWm+sn; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=cgU61oW7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=apqWm+sn; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1791141437; c=relaxed/simple;
+	bh=3Ar2x8qgMH6kt24ve/xtWcLygI3njOIiKKqeY2EbVaA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=WxijkbOXiPjmsGn+J0ggLEbQuuzbInYyF1PdwIXm6+14ksq/uF8mK9vsDgepV3z+UzGnYLKEYQubh3j3QaATh/ooi6PqCrcA4c2WyLh+/xy4qFIOSjxb+M1N3XFStYAVFr/AlJUfssnkDRMx1wOwm5tO15MiOvJfn0s2gDI8HGE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KjzJgyGw; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cgU61oW7";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="apqWm+sn";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cgU61oW7";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="apqWm+sn"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 0909A1F387;
-	Sun,  4 Oct 2026 19:04:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1791140683; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=a5WwL6qwPkTRDwE0ueJLBr2QJBk5SlWBHq8as84kMXk=;
-	b=cgU61oW7hQMPbAgCHUtaBNGgUa9o93M/mdWn8Ju5N9/py5YdQRaLhwg9UkpfI+k8ZxZTrb
-	M40waHBbhrOdH0AbneYopMXpMi7eaSDUMNU25JSlElWicLvhT0dJKzjAuYtx3wT0cQgUMr
-	2jP7cGCCeyFCWie0zedXOFm+Y69W2go=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1791140683;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=a5WwL6qwPkTRDwE0ueJLBr2QJBk5SlWBHq8as84kMXk=;
-	b=apqWm+snbQwKTGgf64qFI29FHezJUknC0sENVnfePRKfOzSgDgwYnRd+HuwyByTzA5Oa7u
-	o99NS/A2mH+8uDAg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=cgU61oW7;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=apqWm+sn
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1791140683; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=a5WwL6qwPkTRDwE0ueJLBr2QJBk5SlWBHq8as84kMXk=;
-	b=cgU61oW7hQMPbAgCHUtaBNGgUa9o93M/mdWn8Ju5N9/py5YdQRaLhwg9UkpfI+k8ZxZTrb
-	M40waHBbhrOdH0AbneYopMXpMi7eaSDUMNU25JSlElWicLvhT0dJKzjAuYtx3wT0cQgUMr
-	2jP7cGCCeyFCWie0zedXOFm+Y69W2go=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1791140683;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=a5WwL6qwPkTRDwE0ueJLBr2QJBk5SlWBHq8as84kMXk=;
-	b=apqWm+snbQwKTGgf64qFI29FHezJUknC0sENVnfePRKfOzSgDgwYnRd+HuwyByTzA5Oa7u
-	o99NS/A2mH+8uDAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9CD26133CF;
-	Sun,  4 Oct 2026 19:04:42 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 50XDGkqjwmpdeAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sun, 04 Oct 2026 19:04:42 +0000
-Date: Sun, 04 Oct 2026 21:04:27 +0200
-Message-ID: <87tsn1gudg.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Justin Bacle <justin.bacle@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: usb-audio: add sample-rate quirk for Yamaha 01V96i
-In-Reply-To: <20261004184618.56779-1-justin.bacle@gmail.com>
-References: <20261004184618.56779-1-justin.bacle@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KjzJgyGw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 144A81F000FF;
+	Sun,  4 Oct 2026 19:17:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791141435;
+	bh=iyBsmxhBIYjLVuF2+AEHDozSNWnMvFBobkeqCwyHVIE=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=KjzJgyGwTtI5vrWvdVaPjKb7TYF93Qu2dKsGKKZb5nAyvEVS/+XnQZKgo8vIdXh0q
+	 8aLyh/BJ0Wp/fb49Y3RcT0FDXF7L0Xc3RTX78Q0BvKvOymqPAG05xWUpO1PMR14yEa
+	 5YwYApPmE/3104pOOv4f+KFzsr/jaJiBh5ntedp2tiPuirLawlq9Z8toohgrOXtUEj
+	 RfjTSvDV9KvX2M43SGfa+3jyokfycIMC7Ym6bBd0xwsFLLa2zbz8dAOEYmVn9JMGsD
+	 l0lqHe9EM9eifBT91+jCeEGB9/Dx15CNBTw/awzf1RkU1bc8jdA+hDPj2Sd2EVOYRm
+	 OUGhyBwFazv/g==
+From: Mark Brown <broonie@kernel.org>
+To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
+ Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
+ Colin Ian King <colin.i.king@gmail.com>
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20261002113953.1782731-1-colin.i.king@gmail.com>
+References: <20261002113953.1782731-1-colin.i.king@gmail.com>
+Subject: Re: [PATCH][next] ASoC: tas2781: Fix spelling mistake "config" ->
+ "config"
+Message-Id: <179113127609.150114.13801161604243660987.b4-ty@b4>
+Date: Sun, 04 Oct 2026 18:27:56 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-2.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TAGGED_RCPT(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Score: -2.01
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 0909A1F387
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1132; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=3Ar2x8qgMH6kt24ve/xtWcLygI3njOIiKKqeY2EbVaA=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqwqY1TpEkaXx0Mmrcj6KdiDRSjQP18mEqPEYT4
+ rU4TogIVweJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCasKmNQAKCRAk1otyXVSH
+ 0GiRB/0RBz9fLBveTKcF4mMP7iU0446SutT6kDXR/cpxsUWG3vO6YhUpfoiUTHOakVDWcbXadqs
+ U282TTYfg8jly4u0C17uiMVPw9QBuarxZlWqeTCvzW94z/S+80fkZa9S9uZ5QRS/BtxwmcwMKK3
+ uorkYnxEjjqmSmECa42LWp731hF3vWqUnzW6lhRwZLpxc01/2n5xwh9jluO3bQVgY6JyLCt2ihd
+ GlwJMbAKaVB9SwTGJ1SIVjq1cfNRRJDMwGeRX+6uXIHnNb80VNVI4MYJiFDM3RSeU7R/B/ELeD6
+ uxH1FlUgsnPETHvCIu7PQnu5IyTpCMH4eanTrlw7CvgiZkGQ
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Sun, 04 Oct 2026 20:44:45 +0200,
-Justin Bacle wrote:
-> 
-> Signed-off-by: Justin Bacle <justin.bacle@gmail.com>
+On Fri, 02 Oct 2026 12:39:52 +0100, Colin Ian King wrote:
+> ASoC: tas2781: Fix spelling mistake "config" -> "config"
 
-Please fill a proper patch description and resubmit.
+Applied to
 
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
 
-thanks,
+Thanks!
 
-Takashi
+[1/1] ASoC: tas2781: Fix spelling mistake "config" -> "config"
+      https://git.kernel.org/broonie/sound/c/7d6adf283a83
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
