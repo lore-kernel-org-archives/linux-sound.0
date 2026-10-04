@@ -1,228 +1,231 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D1C247F78E;
-	Sun,  4 Oct 2026 18:38:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791139095; cv=none; b=JW4t6B+f+ZkkmtvK4SPSbPXJVrDU2saLr3bVg8r+WXsB1+XpSSRKuMgQ1AhGU+JmAYrbLGv5fedQvmXvPKgGtPfWvMpx6Xq6fxFQKcMUjb0kikqTZqNouH48zO9jX+JTsZIC6QoRN98pyBbJhvfVvD3CEi/23HkifnT0ItaZI2U=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791139095; c=relaxed/simple;
-	bh=5OIeb0KQYJAZBbByRplOstp/j05el8GbcAhhBlJrMW0=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uYoFLJd8fQCUZ8LbrQHQOHKJpocW1XWbaL3niv4B4k7BjEzRD+8W4F/mGeb4OEuNq6v4QDNhK8nW8mB7hoDMnlER2cTOhx0uxlXf4tzZnDBIyaV1mqKAXM8VFYnC1gHpmphbbvcy3qsWeXUd9uyV6WcKah0u1+0kKesFmKGI0/Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1MTppv3z; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/+MGWodF; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=qyd0DvFE; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5EcoDPj/; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9104248125E
+	for <linux-sound@vger.kernel.org>; Sun,  4 Oct 2026 18:39:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.177
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791139165; cv=pass; b=ekiw5SNcWdnqXRHEjpk4usgWSAweopdd/Ul0ros7xgICUBJ3qwLQuHD6ORJWXyyzb8L+q9LL0dMcLVRD6GLj3HzYNqxOTx1Sw9XVxdEojX9KIiOH0KMeI31N+2F+5dI0UAJd4Q5So7y5xz1fBHA8yjVeXFZjLhN1Sym0dn1iYe4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791139165; c=relaxed/simple;
+	bh=Q5SKncuQynV4x7Bps+RIZqUEFmiH2TTHOAAQrnnR074=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YOPg2BTanazrpyHS+YNTFVDjWjoGJig70hFk8mUANdkWE3k/n9cj9DzTKM1C/BnU3rJ87eK+LovHW3bBUrI7yWmHvnekdoBA5u+zKp6LPbMieJ+NIGzA0pJoXKa0AaoSOG5xteJCPmlmp/Nse9UyK4wgcDFcEAMxYJPBn/u0Gd0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=l0iHyxjb; arc=pass smtp.client-ip=209.85.160.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1MTppv3z";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/+MGWodF";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qyd0DvFE";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5EcoDPj/"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id B03F221D45;
-	Sun,  4 Oct 2026 18:37:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1791139078; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GqMoXyq5mQHGq/QPLbs3A/r06cDlnqm6ZY93gy7/96Y=;
-	b=1MTppv3zeq0crJHluy1zJX1qaQqlEbRL+WG+jew4e4MhmNu27UlSqaZ210nO31Xw1PBFyc
-	tyVeA1NeSdtFfoiC5ECKhVYVYqhmDgT5nhO3GstRMrjOey+6FEjk2bITb/ulpEXorCtjBS
-	gZZK4iWzn6DMOjswosSVZVGjywdTDa8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1791139078;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GqMoXyq5mQHGq/QPLbs3A/r06cDlnqm6ZY93gy7/96Y=;
-	b=/+MGWodFWjLcz3o/r/xJCN1eG6P6uCzZZUS/hMOBEA7XHT43pfwDyCIX4NPHVMuGGvCexn
-	0hvvis+U0quV/MCg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=qyd0DvFE;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="5EcoDPj/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1791139074; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GqMoXyq5mQHGq/QPLbs3A/r06cDlnqm6ZY93gy7/96Y=;
-	b=qyd0DvFE60qzwNHV5Gb46/Fln7MtbjujdMhoBCPhwFbz6ATqqKnJsQAeQqlTHiH74c/jj/
-	YBV1Mr3mqAuDduzjR3Y2PD/pugSKXzNt1Kehqokbj8fZw5hVrHHEnmNIYwIETloUxzabSJ
-	8zrAX6U+yncbqsBgis4CRWLCX0Vzxuc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1791139074;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GqMoXyq5mQHGq/QPLbs3A/r06cDlnqm6ZY93gy7/96Y=;
-	b=5EcoDPj//Sb8VtjL6E0udAJWNsYBsyUVWj2rSlPEEQVGBtYf8M6FS7Q/lkVxd/ywUVoVcF
-	dtyUUVX0QGFOD0Cw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CA823133CF;
-	Sun,  4 Oct 2026 18:37:53 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id TF7YJwGdwmpCXgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sun, 04 Oct 2026 18:37:53 +0000
-Date: Sun, 04 Oct 2026 20:37:53 +0200
-Message-ID: <874if1ia66.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: henrik.enquist@gmail.com
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Mark Brown <broonie@kernel.org>,
-	Shuah Khan <shuah@kernel.org>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	Pavel Hofman <pavel.hofman@ivitera.com>,
-	stable@vger.kernel.org
-Subject: Re: [PATCH 0/2] ALSA: aloop: Fix notify mode, add a selftest
-In-Reply-To: <20261003-aloop-notify-fix-v1-0-ba5dfb831bf5@gmail.com>
-References: <20261003-aloop-notify-fix-v1-0-ba5dfb831bf5@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="l0iHyxjb"
+Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-5337c7b9937so265801cf.0
+        for <linux-sound@vger.kernel.org>; Sun, 04 Oct 2026 11:39:21 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791139161; cv=none;
+        d=google.com; s=arc-20260327;
+        b=fd03md0z8jaESPXtnJsd9ftKLGdKrqA5QCO1ruiROAbHpUYqxdw/2RSBifi4N/cu34
+         W7vGX45feL/3yfrR/Z6TMK2SCg9RKZkXkk6p49zPO4y5ojwG3JVoF0k0B++bfHS80rX1
+         FLKB4nobV3u1pzDwaElwk0Abo1bSE2CyJ4aOQyX2WFskhK+xrRn7xzFXm+t4z9BAlzYg
+         t+/2I8zA6blB43kM2TuCTdaQzwrNzZanKg9KS5uyN5cmQO9JwtllisnjTn5gom00nuVC
+         csWGULf7dVOJaLspjPV93IUjB6JuXtUPzWCx6d2V25enZsVZbBtKYcJ4nAOKI9I0WMOB
+         KEHg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=ZSC0w1neootLkbih9TUxoXkKPCkBI7t1n5ZaTzyKsnU=;
+        fh=bXKbMIpvGfB42SXtbgZpUkJ2/sK2Ec96ec6vftD6e0Y=;
+        b=UdzzJ9Vv1JAxsvMBOqfW6C3YgmnvhnA6Sj/zsEKdnRsRUZ90UXnqd13XE/m01LsZ+n
+         bldri93H0WvgeRm51u6HsxG6qAt8zyGRKWOdqymN3mTj0oGlOJBqqn9/W6gM6oO6jNiZ
+         cIWusznR6V3xBkPSlFBbAJPOukW/ehKiQRU/eP70ksayXTaF6XQOmFcStSweJ6Ui7Udg
+         6yhxxe2rtrAlGWCWoS33vC1eEHV3h89rTDdtOO/w4OdXOjVdupGhKIyJSLYVxX7LGawG
+         fkZjojgqLdlm/giTaP1LQp+4zDMYbXurJlBWbW5EnzkkPJ4hNuVyXeSWNDnq02o1RG2H
+         QUUw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1791139161; x=1791743961; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=ZSC0w1neootLkbih9TUxoXkKPCkBI7t1n5ZaTzyKsnU=;
+        b=l0iHyxjbrFA0mj0qSWG3UEuOwCfeu39THooR7JdjvlpS5iPbcpbOGXWgFlwrHqiq17
+         g6OREDzEJg1B4R9e3NlLt/FQGfnUhJDJq9ugUkIwHD8Ouc6I0KCAE+AjFJ5im2Q3teHM
+         xpabytF01LqRy3edoNlhxz/KOOwY/glawDCIRDkU1ItyqnPxe60feD3VqcauD0MIeU4s
+         Cvv/OfjgN/b+SrE6g8xki0vgbqOIO/2Zkxe+N05IzJfOVKCkkH4F7eFCLA6UNgq7uegJ
+         Iz6k97ECHJF0Ws6uFXO0NrKMD645vu6jOd91RLmcYxQ0T3ig64z73JKnKEdXvgZ6oM2B
+         rqAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791139161; x=1791743961;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ZSC0w1neootLkbih9TUxoXkKPCkBI7t1n5ZaTzyKsnU=;
+        b=EVNiKeL1WFitUXZTSn9rVfHvxu5QbACS+Oth5jZSWSfVthBkpasiWroYuprR92HzVy
+         Bv7crDW/6ZLrufGa94PWTjemPLLo9V7km1RRBdkRH3X8Zhc26OAtAWESUwyWcB7K4R+O
+         otdKV7JNrCaWW+5wUemMZShI73m4Be8Qzdx4cOBiZ4Th/baC71O+ySjZB643Gt4JSJei
+         Y0PDekJsOZ75X8p9ZiShXRNKXa41Qw9GRhagSsOWT9A55G6xfNh26RyNwg0BNRk0vrfV
+         R8no6W8kprHh2KR63BgRaI3IKcfmiW/XtUF7Fy9ercMKm8jrYuIhd8GqAt1P92yXVypC
+         sOlA==
+X-Forwarded-Encrypted: i=1; AKwUvBzGywsiBXArj/0tq60duTBjn/OI3XFaE4ZdaA7v7YlRGy1RhXUaT1uptDH2lfa/lzQMLOjdOotQeCr+VQ==@vger.kernel.org
+X-Gm-Message-State: AFuF++kKM+b/bfLp91gkfgHyi0EgTVwBZWfdDIqgmvjHdsi56T5jEI6q
+	neFzSoaWrr8HKJ2Wu2ouAl9Kbl+4FNzivVhqEhKNNNwMxIWxtTaBAZPGfya87SScvfewwzAS+o2
+	LtNYTEeEEkDoWC4yz0kpBYWGALa74CCCQKRrKbaDN
+X-Gm-Gg: AYBFou1Wz2Uu6Ajmm1wY7IIv+LL2nIX1olZowwb+JkVFB93GZh4UwXjq0woPyWqzo+j
+	KJaRELNM0+iqbGdeJa69yY6RGfwZ3kSBj8/TooZrWwMouJ8ECCJ2Hl68UtEi05xHU/Ad4irMjaL
+	9Hq7pkRwNAErfRBsGURuTSUq6ksjdj3Gl1Fdn6f6RUVZAvPpGiT9RYzDI3K1TmZld/UeV/KFI1S
+	ol4UbvF7sQUKOk3qePhe00IWhs92JYSh5EQLBsNR5jEhBnGgNLA0n8Ye09K3ttfCseh0RTUga8g
+	ICpGa2/l7cWZlwCTNbytczOWzLUzbsEBAzBXQr5XdfKGOmtEUBgnZXCQ
+X-Received: by 2002:a05:622a:a16:b0:531:282:6560 with SMTP id
+ d75a77b69052e-5351322e1b3mr19806961cf.15.1791139160071; Sun, 04 Oct 2026
+ 11:39:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: B03F221D45
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TAGGED_RCPT(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Flag: NO
-X-Spam-Score: -2.01
-X-Spam-Level: 
+MIME-Version: 1.0
+References: <20261003-b4-mmap-prepare-vma-flag-sanify-v4-0-a1f052500fd7@kernel.org>
+ <20261003-b4-mmap-prepare-vma-flag-sanify-v4-21-a1f052500fd7@kernel.org>
+In-Reply-To: <20261003-b4-mmap-prepare-vma-flag-sanify-v4-21-a1f052500fd7@kernel.org>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Sun, 4 Oct 2026 20:39:04 +0200
+X-Gm-Features: AclHuK-BFFMO7RL_23L1uoIyefqTPzoxo4liaojYggefG4PLZrnFo0OrrSwhSqQ
+Message-ID: <CAJuCfpGtyaqwi__OXcB=iy2+LUVzFnLo-Q=Rdxz728_EHdTaWA@mail.gmail.com>
+Subject: Re: [PATCH v4 21/38] uprobes: remove VM_IO, set VM_MIXEDMAP for
+ mapped kernel pages
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+	David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Leon Romanovsky <leon@kernel.org>, Paul Moore <paul@paul-moore.com>, 
+	Stephen Smalley <stephen.smalley.work@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+	Takashi Iwai <tiwai@suse.com>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
+	"Martin K. Petersen" <mkp@kernel.org>, Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, 
+	Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
+	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Muchun Song <muchun.song@linux.dev>, 
+	Oscar Salvador <osalvador@suse.de>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
+	Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
+	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
+	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
+	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, 
+	Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, 
+	Ying Huang <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, 
+	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, 
+	Baoquan He <baoquan.he@linux.dev>, Youngjun Park <youngjun.park@lge.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Qi Zheng <qi.zheng@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-usb@vger.kernel.org, linux-rdma@vger.kernel.org, 
+	selinux@vger.kernel.org, linux-sound@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, 
+	kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
+	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, 
+	fuse-devel@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, 03 Oct 2026 15:26:10 +0200,
-Henrik Enquist via B4 Relay wrote:
-> 
-> Hi,
-> 
-> snd-aloop has a notify mode (the pcm_notify module parameter, or the
-> "PCM Notify" control per cable) where the playback side may switch
-> format, rate and channels while a capture is running. The driver then
-> stops the capture and updates the "PCM Slave" controls, so the capture
-> application can reopen with the new parameters. alsaloop enables it in
-> its slave mode, and I'd like to use it in CamillaDSP, which captures
-> from a loopback and needs to follow whatever the player outputs.
-> 
-> This hasn't worked since 2018. Commit 898dfe4687f4 ("ALSA: aloop: Fix
-> racy hw constraints adjustment") moved the hw rules over to the shared
-> cable->hw. That fixed a real race, but it also pins the playback side
-> to the capture's parameters in notify mode. Pavel reported it on
-> alsa-devel in 2020 [1], and Jaroslav reproduced it and pointed at the
-> same commit:
-> 
->   It seems that 898dfe4687f4 from Takashi broke this functionality
->   (tied the cable parameters more strictly, so the playback cannot set
->   freely own parameters for the pcm_notify=1 case). We need to find
->   another way to detach capture stream in this case.
-> 
-> The thread ended there, without a patch.
-> 
-> The breakage is quiet, which probably explains why it lasted. A player
-> that probes the playback device sees only the capture's rate and
-> format, and resamples to them. aplay prints a warning, most players
-> don't. There's no rate change, no stopped capture and no event.
-> 
-> Patch 1 skips the hw rules for the playback side when notify is on,
-> which gives it back the freedom loopback_open() still intends it to
-> have. That makes the capture stop in loopback_check_format() reachable
-> again. That path was hardened this year by 826af7fa62e3 ("ALSA: aloop:
-> Fix racy access at PCM trigger") and e5c33cdc6f40 ("ALSA: aloop: Fix
-> peer runtime UAF during format-change stop"), and with those in place
-> I'm comfortable turning it back on. They need to go first in any
-> stable backport.
-> 
-> The period bytes rule is skipped as well. It came later, for the sound
-> timer source, but without skipping it a playback that switches rate
-> keeps the old capture's period size. The stream then runs with a period
-> that doesn't match the timer, and every switch fills dmesg with "Period
-> size ... not corresponding to timer resolution".
-> 
-> Patch 2 adds a selftest, so this doesn't break silently again. It
-> doesn't need to go to stable, so it can go via for-next if that's
-> easier.
-> 
-> Testing: for-linus at b4e7fc36e31f, arm64 VM, kernel with KASAN,
-> lockdep, DEBUG_ATOMIC_SLEEP and DEBUG_LIST, comparing the patched
-> driver with the unpatched one built from the same tree. With the
-> jiffies, hrtimer and sound timer (via snd-dummy) sources:
-> - With notify on, rate, format and channel changes on the playback
->   side now go through, stop the capture and update the controls. With
->   notify off they're refused as before.
-> - A capture that reopens at "PCM Slave Rate" after each stop follows a
->   player alternating between 44.1k and 96k files, 20 of 20 switches,
->   with both RW and mmap access. Unpatched: 10 of 20, the playback stays
->   pinned to the capture's rate.
-> - A capture opened second is still pinned to the playback.
-> - 2 minutes of random open/start/close on both ends per source gave no
->   KASAN or lockdep reports. The sound timer source logs an occasional
->   "snd_timer_stop ... failed with -16", at the same rate unpatched.
-> - The new selftest fails 2 of 4 tests unpatched, and passes 4 of 4
->   patched, 50 runs in a row.
-> Not tested: real hardware, other architectures, pause/resume, more
-> than two substreams.
-> 
-> One question, following up on Takashi's point in that thread about
-> telling user space that a stream got invalidated. After the stop, the
-> capture drains and then reads return -EBADFD. alsa-lib now documents
-> -ENODATA as meaning the PCM must be completely restarted, which looks
-> like the right signal here. Would you want aloop to report that
-> instead? I left it out since it changes what user space sees, but I'm
-> happy to do it as a follow-up.
-> 
-> AI disclosure: I used Claude Code (Claude Opus 5.5) for this. Starting
-> from my description of the problem and the 2020 thread, it did the
-> root cause analysis from the driver source and git history, set up the
-> test kernels and VM, wrote the test scripts, ran the measurements, and
-> wrote both patches and their changelogs. I reviewed all of it, and both
-> patches carry an Assisted-by tag.
-> 
-> [1] https://lore.kernel.org/all/b4af9071-f8d7-5b47-4d7a-c5743bd67394@ivitera.com/
-> 
-> Henrik
-> 
+On Sat, Oct 3, 2026 at 6:40=E2=80=AFPM Lorenzo Stoakes (ARM) <ljs@kernel.or=
+g> wrote:
+>
+> These are not MMIO pages so VMA_IO_BIT is an inappropriate flag to set.
+>
+> Instead, set them VMA_MIXEDMAP_BIT as they are kernel mappings and this i=
+s
+> the appropriate flag to set for those.
+>
+> This provides the semantics required - no VMA merging is permitted, but
+> does not prevent GUP.
+>
+> However this has no meaningful impact as these are refcounted and thus ca=
+n
+> be GUPed.
+>
+> A previous commit already prevented __mm_populate() from being invoked on
+> XOL areas, which VMA_IO_BIT was previously relied upon to do, so that is =
+no
+> longer required.
+>
+> Both VMAs set a VMA name, so always_dump_vma() returns true before
+> vma_dump_size() reaches its VMA_IO_BIT check, and thus there is no change
+> in core dump behaviour.
+>
+> Change this for both the core xol_add_vma() function and the x86-specific
+> get_uprobe_trampoline() function.
+>
+> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+
+Reviewed-by: Suren Baghdasaryan <surenb@google.com>
+
+
 > ---
-> Henrik Enquist (2):
->       ALSA: aloop: Don't constrain playback params in notify mode
->       selftests/alsa: Add a test for snd-aloop notify mode
-
-Applied both patches to for-next branch now.  Thanks.
-
-
-Takashi
+>  arch/x86/kernel/uprobes.c | 2 +-
+>  kernel/events/uprobes.c   | 4 ++--
+>  2 files changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/arch/x86/kernel/uprobes.c b/arch/x86/kernel/uprobes.c
+> index 65a2de82ecd2..0f60c0d076b6 100644
+> --- a/arch/x86/kernel/uprobes.c
+> +++ b/arch/x86/kernel/uprobes.c
+> @@ -715,7 +715,7 @@ static struct vm_area_struct *get_uprobe_trampoline(s=
+truct mm_struct *mm, unsign
+>
+>         *new_mapping =3D true;
+>         return _install_special_mapping(mm, vaddr, PAGE_SIZE,
+> -                               VM_READ|VM_EXEC|VM_MAYEXEC|VM_MAYREAD|VM_=
+IO,
+> +                               VM_READ|VM_EXEC|VM_MAYEXEC|VM_MAYREAD|VM_=
+MIXEDMAP,
+>                                 &tramp_mapping);
+>  }
+>
+> diff --git a/kernel/events/uprobes.c b/kernel/events/uprobes.c
+> index 7709ea882477..b89cc5cee002 100644
+> --- a/kernel/events/uprobes.c
+> +++ b/kernel/events/uprobes.c
+> @@ -1726,8 +1726,8 @@ static int xol_add_vma(struct mm_struct *mm, struct=
+ xol_area *area)
+>         }
+>
+>         vma =3D _install_special_mapping(mm, area->vaddr, PAGE_SIZE,
+> -                               VM_EXEC|VM_MAYEXEC|VM_DONTCOPY|VM_IO|
+> -                               VM_SEALED_SYSMAP,
+> +                               VM_EXEC|VM_MAYEXEC|VM_DONTCOPY|
+> +                               VM_MIXEDMAP|VM_SEALED_SYSMAP,
+>                                 &xol_mapping);
+>         if (IS_ERR(vma)) {
+>                 ret =3D PTR_ERR(vma);
+>
+> --
+> 2.55.0
+>
