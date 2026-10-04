@@ -1,95 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mail-106113.protonmail.ch (mail-106113.protonmail.ch [79.135.106.113])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8310A47F3AB;
-	Sun,  4 Oct 2026 19:49:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1747A286D4D;
+	Sun,  4 Oct 2026 21:26:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.113
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791143399; cv=none; b=KI+vMtCohzz9rQQHbCnpLQZjl37EgYQ9tv1Db4UZ2ess/0Ep/05teQu6ny97JTsOOV2W+ViidZvohQX7LuGBvDU+RLzxOpAD3IVtktq/c11nrvtlELokqH52UCdKG6aOU+Xu8EaWYcwyYOHKvJzk5xixhg7ZXCnU0luTVKJzYAU=
+	t=1791149219; cv=none; b=sFMxkJbGnMyERS5isx5G+xk+DYA7xI/o9m8d42+DVDEjRPYLLOR+pt2P3l63Pe8VcaeT7jPx6DLslfLxH5oR65ncdsZiFXrpzdcsJkhGfhrHNEpvRNvzF/Wrg7/zxY+Z0oVzF353jG8OvTh17aRJYFW3dDbi4+SDHznPUVNv0r4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791143399; c=relaxed/simple;
-	bh=ntbPkT4EqCxvqtHkvepVVOb3JwKYpe93pfFyZZavkLk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VMpdm1DpjeMB7Buwuw0wsQDRMqmVbsXb2ed36scbqVwCFYRjNAaVz4rTHAt58Vqn0M5g8ftF6x+1k7vhg6d1nSzoMxl4pMGJS0JUklyA3MV/tG+J26fuupXR9iPXrsdne/b0XmYJFwoxq0xQXSWn6KMRMuCeIBy/MfZkDtqLjGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GTYpig44; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791149219; c=relaxed/simple;
+	bh=g+8K5tUG/XbvtdgZIR5b7D2KUi8Vfa8UnMnRxlbDWLU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uzSz1UVcrgNOqxEjmPBZ/bv+x5XOxwnsqVdQi4DnjNazs5D9VL1sY/yZ2RXjNjHkdughL96daoGe3pv/Ck5JNOPsSvEfG9vS/gFe+Lt1OQQAgT80hqdvXkwo6ITa6dgKtt7GMvCRNsWuGwayHA0vEtqvhNZfUuhBVRXdnutBkaY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=scottgauche.com; spf=pass smtp.mailfrom=scottgauche.com; dkim=pass (2048-bit key) header.d=scottgauche.com header.i=@scottgauche.com header.b=EtkKTP2d; arc=none smtp.client-ip=79.135.106.113
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=scottgauche.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=scottgauche.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GTYpig44"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E2591F000FF;
-	Sun,  4 Oct 2026 19:49:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791143398;
-	bh=fHpsQQE9UqZSe0QhSH0h9jwrnaiFKyY1RtBFt2yz6ic=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=GTYpig44CmD7J9NXSJw7/SMbL4VMMNy1Kuiwyuem7nGHuWilQPmQs3gdbb2cAvSnf
-	 AAr36sjLMyEyYgjYzSZY8KDE6HSqGa9ON/z4OZ0OqWe7cRcV6EbSBWcfuTaGPMMzrm
-	 S6hRKq9dBrLlHWQhigsLakpjfDJH80lxfym05GPY97ojB0DuHu0LGHnhD+Ht1fzPss
-	 0rqZ1zytuqIVL3XeIh6v983CHqleeN6zYyXgiC8+6C1Xw8J1ZLhNrsVda2K5DtsIjU
-	 CAnYDHg8ouApvJoC4UNFg1+hnktA8YXkjkIbu2aYmLdAw8zj1DP7XSv57BS7lnMLYI
-	 neMDQ4BWUl9Mw==
-Received: by traversing.sirena.org.uk (Postfix, from userid 1000)
-	id 3E52E15057AB; Sun, 04 Oct 2026 20:49:55 +0100 (BST)
-Date: Sun, 4 Oct 2026 21:49:55 +0200
-From: Mark Brown <broonie@kernel.org>
-To: phucduc.bui@gmail.com
-Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Trevor Wu <trevor.wu@mediatek.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	cassiogabrielcontato@gmail.com,
-	Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>,
-	Liviu Dudau <liviu.dudau@arm.com>,
-	Haotian Zhang <vulab@iscas.ac.cn>,
-	HariKrishna Sagala <hariconscious@gmail.com>,
-	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 06/14] ASoC: mediatek: mt8195: Fix FE startup error
- handling
-Message-ID: <asKt42FgsbhSbQUP@sirena.org.uk>
-References: <20260925044908.450775-1-phucduc.bui@gmail.com>
- <20260925044908.450775-7-phucduc.bui@gmail.com>
+	dkim=pass (2048-bit key) header.d=scottgauche.com header.i=@scottgauche.com header.b="EtkKTP2d"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=scottgauche.com;
+	s=protonmail; t=1791149207; x=1791408407;
+	bh=KDjnNpVMEXxHjmHrxQd8NjDoGYGOd2xDIxO6oEVg8sM=;
+	h=From:To:Cc:Subject:Date:Message-ID:From:To:Cc:Date:Subject:
+	 Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=EtkKTP2dQvLSs4119MnVeT5aorHo1dnCphWMTzoWVUJcMSrXpMQudO4BaexZVBABN
+	 PQSMEHv/lcDff/HAjta4wLViOF/v8iG8XMkBkT0g/UxVtG/1JqNh6vbvIXfLhI48hC
+	 O/MRMR2fRzYqd/cLIEW7dc4Dvd0hH/vTttwvEofB54kDbwOd/tr3ZBszGrPgenggWK
+	 OCFS48bKWGvHjPjiKeJqnmvbD/3zktbg6Uh4ElS9rZEykQiDcFHWvH3l9KWaTkFOMT
+	 /0yYOzK2A3WJly0UeJprMsqiYN+NTwSnfwqp4S93snXLbRluI2mO+QqNkKR1SVOo89
+	 4+ep0BgWWfYzQ==
+X-Pm-Submission-Id: 4hybF044n3z2ScdV
+From: Scott Gauche <scott-dev@scottgauche.com>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Scott Gauche <scott-dev@scottgauche.com>
+Subject: [PATCH v1] ALSA: hda/realtek: Fix audio after Windows reboot on ASUS Q423SA
+Date: Sun,  4 Oct 2026 17:26:23 -0400
+Message-ID: <20261004212623.1098793-1-scott-dev@scottgauche.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="zpsLVCv47P2G2sR/"
-Content-Disposition: inline
-In-Reply-To: <20260925044908.450775-7-phucduc.bui@gmail.com>
-X-Cookie: Use the Force, Luke.
+Content-Transfer-Encoding: 8bit
 
+The ASUS Vivobook S 14 Q423SA-U5512 (DMI family S5406SA) with the
+ALC294 codec has working analog audio when booted directly after a full
+shutdown. After a warm reboot from Windows 11, audio works briefly during
+Linux startup, then both the internal speakers and headphones become
+silent. PCM playback continues without errors.
 
---zpsLVCv47P2G2sR/
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Coefficient 0x1b is 0x4e4b on a direct cold boot, but 0x4a4b after the
+Windows warm reboot. Restoring bit 10 changes it back to 0x4e4b and
+immediately enables both analog outputs. Speaker playback, headphone
+playback, jack switching, cold boot, and suspend/resume were tested
+successfully. The same 0x4a4b state and immediate recovery with 0x4e4b
+were independently confirmed on another S5406SA with subsystem 1043:10c4.
 
-On Fri, Sep 25, 2026 at 11:49:00AM +0700, phucduc.bui@gmail.com wrote:
+The same coefficient write is already used by
+ALC294_FIXUP_ASUS_COEF_1B for the ASUS UX431DA. That fixup cannot be
+reused here because it chains to ALC289_FIXUP_ASUS_GA401 and applies
+unrelated DAC routing and microphone pin configuration.
 
-> +	ret = snd_pcm_hw_constraint_step(runtime, 0,
-> +					 SNDRV_PCM_HW_PARAM_BUFFER_BYTES,
-> +					 MT8195_MEMIF_BUFFER_BYTES_ALIGN);
-> +	if (ret)
-> +		goto err_fe_shutdow;
+Add a model-specific fixup for subsystem 1043:10c4 and chain it to the
+existing ALC2XX_FIXUP_HEADSET_MIC fixup instead.
 
-This will return 1 if a new constraint is installed which is not a
-failure.
+Link: https://github.com/thesofproject/sof/issues/11051
+Signed-off-by: Scott Gauche <scott-dev@scottgauche.com>
+---
+ sound/hda/codecs/realtek/alc269.c | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
 
---zpsLVCv47P2G2sR/
-Content-Type: application/pgp-signature; name="signature.asc"
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index be5482530a..90ba8dd2a2 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -4193,6 +4193,7 @@ enum {
+ 	ALC294_FIXUP_ASUS_I2C_HEADSET_MIC,
+ 	ALC294_FIXUP_ASUS_SPI_HEADSET_MIC,
+ 	ALC294_FIXUP_ASUS_SPK,
++	ALC294_FIXUP_ASUS_Q423SA,
+ 	ALC293_FIXUP_SYSTEM76_MIC_NO_PRESENCE,
+ 	ALC285_FIXUP_LENOVO_PC_BEEP_IN_NOISE,
+ 	ALC255_FIXUP_ACER_HEADSET_MIC,
+@@ -5669,6 +5670,17 @@ static const struct hda_fixup alc269_fixups[] = {
+ 		.chained = true,
+ 		.chain_id = ALC294_FIXUP_ASUS_HEADSET_MIC
+ 	},
++	[ALC294_FIXUP_ASUS_Q423SA] = {
++		.type = HDA_FIXUP_VERBS,
++		.v.verbs = (const struct hda_verb[]) {
++			/* Restore bit 10 lost after reboot from Windows */
++			{ 0x20, AC_VERB_SET_COEF_INDEX, 0x1b },
++			{ 0x20, AC_VERB_SET_PROC_COEF, 0x4e4b },
++			{ }
++		},
++		.chained = true,
++		.chain_id = ALC2XX_FIXUP_HEADSET_MIC,
++	},
+ 	[ALC295_FIXUP_CHROME_BOOK] = {
+ 		.type = HDA_FIXUP_FUNC,
+ 		.v.func = alc295_fixup_chromebook,
+@@ -7819,7 +7831,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1043, 0x10a1, "ASUS UX391UA", ALC294_FIXUP_ASUS_SPK),
+ 	SND_PCI_QUIRK(0x1043, 0x10a4, "ASUS TP3407SA", ALC287_FIXUP_TAS2781_I2C),
+ 	SND_PCI_QUIRK(0x1043, 0x10c0, "ASUS X540SA", ALC256_FIXUP_ASUS_MIC),
+-	SND_PCI_QUIRK(0x1043, 0x10c4, "ASUS Vivobook S14 S5406SA", ALC2XX_FIXUP_HEADSET_MIC),
++	SND_PCI_QUIRK(0x1043, 0x10c4, "ASUS S5406SA/Q423SA", ALC294_FIXUP_ASUS_Q423SA),
+ 	SND_PCI_QUIRK(0x1043, 0x10d0, "ASUS X540LA/X540LJ", ALC255_FIXUP_ASUS_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1043, 0x10d3, "ASUS K6500ZC", ALC294_FIXUP_ASUS_SPK),
+ 	SND_PCI_QUIRK(0x1043, 0x1154, "ASUS TP3607SH", ALC287_FIXUP_TAS2781_I2C),
+-- 
+2.53.0
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmrCrd4ACgkQJNaLcl1U
-h9Cm2Af6A4vUdvyN1uEnYTiYxlbgJWEz7e8VfvjDWGTzpY+Wl1WIHmqvqpNtzg/v
-zQ7LubxbjautsYjHrxroDG92AAcrpooqmg+Xn8wVbCvHcEolPxtKfs0DNdcHl3Fl
-OaKCC49hoLS90R/ZjmzF73ir0qc4v+cj64qqdRcr+Qv72vamZJhalrvRXVulKQmy
-2TSgnR+poBZ8mf7vg5xN26s7jFf1plURkdtTMa25dfib1BJhhvI3ZlG94imEAcmk
-evboxK/bNhL46fp+doSCqOHlWCQOIj/Chv2wwSqgz9sSS8B7q3YC6HlMMYwtKhYO
-H11o2NTntzyGzv7YONxUC+31iB3alg==
-=GJcp
------END PGP SIGNATURE-----
-
---zpsLVCv47P2G2sR/--
