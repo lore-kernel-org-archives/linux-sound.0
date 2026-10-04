@@ -1,93 +1,137 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr2-f41.google.com (mail-wr2-f41.google.com [74.125.225.105])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85500330D25;
-	Sun,  4 Oct 2026 19:17:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCAC947D94E
+	for <linux-sound@vger.kernel.org>; Sun,  4 Oct 2026 19:21:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.105
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791141437; cv=none; b=mtC2QTNTt7AcP5L8UT+KWULIrRAV3yYAOZCIEag8LtgfcnhYr3Ol+U1qN1+yKJrKGYzuCM+dKOYF7YJKOXa8/dnn1NrYKkVjvwOOSU4cjaY3nsgweVYOAOt+DZu5JfsS/ZL0ipGGRtDkKNcr/Bkk5Vppy7d3QCQdeiG8c2jgtLU=
+	t=1791141689; cv=none; b=kezrSMTnomnJIhYSdh80GJPH6m5d2l7W17A6gJRr2LZBLDiE7KFUX56pavxZSwMYM1AC0kYEnV/PhL0Fyj2ydLnEubtBuRGGXHktfDJlFUBETeLHGf3i/KcMhZPVMSAUS5T8fPPAc0K2v9yIVajlo8MJk8iqgAU1YwFaEX2EezY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791141437; c=relaxed/simple;
-	bh=3Ar2x8qgMH6kt24ve/xtWcLygI3njOIiKKqeY2EbVaA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=WxijkbOXiPjmsGn+J0ggLEbQuuzbInYyF1PdwIXm6+14ksq/uF8mK9vsDgepV3z+UzGnYLKEYQubh3j3QaATh/ooi6PqCrcA4c2WyLh+/xy4qFIOSjxb+M1N3XFStYAVFr/AlJUfssnkDRMx1wOwm5tO15MiOvJfn0s2gDI8HGE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KjzJgyGw; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791141689; c=relaxed/simple;
+	bh=YCAodK/FAz1rIBCK4IS9rFfjuQJLSzopv/TZu5DO01Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=grshacashvYDKaQrAE5JtRNXELX9DGUC/rL6IIKt5p4UdZVk/B7VyRg0UxofXCF5aXFreXV5fymobWm8L9+rw2e067t0ebA2lI2YHbSiBnVTqCgZZfbb9DwLLM18f/bHd1WyJLnJZ2I446TBzvO2QwJD75n2yPoczRDfXW1/t3Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=skYjMbMw; arc=none smtp.client-ip=74.125.225.105
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KjzJgyGw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 144A81F000FF;
-	Sun,  4 Oct 2026 19:17:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791141435;
-	bh=iyBsmxhBIYjLVuF2+AEHDozSNWnMvFBobkeqCwyHVIE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=KjzJgyGwTtI5vrWvdVaPjKb7TYF93Qu2dKsGKKZb5nAyvEVS/+XnQZKgo8vIdXh0q
-	 8aLyh/BJ0Wp/fb49Y3RcT0FDXF7L0Xc3RTX78Q0BvKvOymqPAG05xWUpO1PMR14yEa
-	 5YwYApPmE/3104pOOv4f+KFzsr/jaJiBh5ntedp2tiPuirLawlq9Z8toohgrOXtUEj
-	 RfjTSvDV9KvX2M43SGfa+3jyokfycIMC7Ym6bBd0xwsFLLa2zbz8dAOEYmVn9JMGsD
-	 l0lqHe9EM9eifBT91+jCeEGB9/Dx15CNBTw/awzf1RkU1bc8jdA+hDPj2Sd2EVOYRm
-	 OUGhyBwFazv/g==
-From: Mark Brown <broonie@kernel.org>
-To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
- Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
- Colin Ian King <colin.i.king@gmail.com>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20261002113953.1782731-1-colin.i.king@gmail.com>
-References: <20261002113953.1782731-1-colin.i.king@gmail.com>
-Subject: Re: [PATCH][next] ASoC: tas2781: Fix spelling mistake "config" ->
- "config"
-Message-Id: <179113127609.150114.13801161604243660987.b4-ty@b4>
-Date: Sun, 04 Oct 2026 18:27:56 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="skYjMbMw"
+Received: by mail-wr2-f41.google.com with SMTP id ffacd0b85a97d-4834977ae75so484545f8f.3
+        for <linux-sound@vger.kernel.org>; Sun, 04 Oct 2026 12:21:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791141686; x=1791746486; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=xSQsqc7OQj6X9qWeXJjPEqGWCcpu1RKTa9c8Z4J+GXA=;
+        b=skYjMbMwqCXyBd5CLkGJhtX95csnZ7htu9vL2tWD4ZgwTTpVLzb9PUS2TxwWy60N5H
+         /mmDjPwtan6Y1oYks4i1d1hcb9yrx6S8aWG0dkYHfxzntzzV9MDuHo8gfzBR7n7v1x50
+         6MQbSCebDK07QIdoBDbLk85lLLjVJamet7snD2FARbHlR7RY2RADhjb9g6+XaKW8hUNv
+         X2XtpsyZsP093PUTMkL7Scc+MHLZHO6OCkXTAZX7CETQ4Xu5BqNcMbATokQcSXV+3csb
+         t8z+luiUiIIrNoFsyuVkbTTvsf+T5ld+4jCERXYeZfZWCZcVwwJ3NbFSZ/5bebbph1Cl
+         u3Xw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791141686; x=1791746486;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=xSQsqc7OQj6X9qWeXJjPEqGWCcpu1RKTa9c8Z4J+GXA=;
+        b=ReV/Yqvt4gJuELBHcTetY7kc8XPdZg35c/XZo88aa7aR6qO8g5u4OloNXB7xWHQrGM
+         ujvyhfxz43faFPSmbCOJb3jOPrmhKuoBbBxCpGzX/gSc6R+cPcblv7RIZ5tRIP7PygfN
+         eqyqVEiBVk4/V+lV3Y/mEzeFvVYYlDu0/z6QW+KKNMZ/wItybIxyRvz6iprhqgxmkPKH
+         3K4TAI/1j94Yu08QUHcAsewznrZaw+lb3RxtIE+9hnoYzCTrXY498Ky//quiPwKt/2/X
+         hE0ERwpw6XBqsnYeBhirQ08Hd4Jow3IW4zqbEVTEOet32e45CrLBJ02+jjyXV7/qeWFo
+         LKmA==
+X-Gm-Message-State: AFq9FYLMGITduhwyc6BZo5rCzbXTaC9W9zoI1/TZGpSo18qwtfYFRRzz
+	iKJuptXLBhhXRusIsr9TuxZ8bpEfRoulGh4Ep4x837Dq9wPfqgHwtZpV
+X-Gm-Gg: AYBFou1/ioV3qOcnsm5crDcJhZ1PfZ0CQTJSeIOrlJ9R1DbtvOoEhnQuDmRFLNAgOHW
+	OZIPg6Vx5g308CFTFjWRtzob1vkkw4Jt972y+hqGKqBy94XR1jw/akLLAv8JlL90OZmh9W/WsPn
+	EWyKdgbDUzvpx67Y1NbzjMT5LFqOjeF20yi8GwvfCaizdPPftEbnPzEP3hllPK2CwBi6kZYINXi
+	fCKjIFjHnnTYJ8wPRal/mTB2OUiUVLCs/5EOS4ejYmdmA8VTWSoFjij+Ox1sus9dbA/E+G2M7gz
+	pwVhA7bSLRo/pkfkrkYEfkLPh9mEfHTPWIVDtoGGqUgAnQGoziD6xm75XkZ1nIoOgbjguc+9sdq
+	bDT5mJ7016yUjD9kQYnT5R1qK2K4rLKxkxgU8KV/dqY0HDXgBiL33WTuemfsNqkNQXVT+2HZMXE
+	jJFf75Bm5Ht+NZJcZNAZ2z+eb/C/OhI55QBZIU8dc0xx219q463VYJFlynpLejbEDbXCVaWQwf5
+	+/FL0QFJZcr0fICe97dNkjkZD4Q6G0Lch9swKwzUcoH52yMkvXwqYnrme0pb1oxmJm/4pbD2nX0
+	qLB3
+X-Received: by 2002:a5d:5f05:0:b0:48a:f592:fb63 with SMTP id ffacd0b85a97d-48b126f5423mr15762115f8f.1.1791141685838;
+        Sun, 04 Oct 2026 12:21:25 -0700 (PDT)
+Received: from jjj-x570pro4 ([2a01:e0a:9d5:4a60:d60f:fd1a:fad6:a587])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48b38104e07sm18771733f8f.31.2026.10.04.12.21.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 04 Oct 2026 12:21:25 -0700 (PDT)
+From: Justin Bacle <justin.bacle@gmail.com>
+To: Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Justin Bacle <justin.bacle@gmail.com>
+Subject: [PATCH v2] ALSA: usb-audio: add sample-rate quirk for Yamaha 01V96i
+Date: Sun,  4 Oct 2026 21:20:50 +0200
+Message-ID: <20261004192102.59312-1-justin.bacle@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1132; i=broonie@kernel.org;
- h=from:subject:message-id; bh=3Ar2x8qgMH6kt24ve/xtWcLygI3njOIiKKqeY2EbVaA=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqwqY1TpEkaXx0Mmrcj6KdiDRSjQP18mEqPEYT4
- rU4TogIVweJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCasKmNQAKCRAk1otyXVSH
- 0GiRB/0RBz9fLBveTKcF4mMP7iU0446SutT6kDXR/cpxsUWG3vO6YhUpfoiUTHOakVDWcbXadqs
- U282TTYfg8jly4u0C17uiMVPw9QBuarxZlWqeTCvzW94z/S+80fkZa9S9uZ5QRS/BtxwmcwMKK3
- uorkYnxEjjqmSmECa42LWp731hF3vWqUnzW6lhRwZLpxc01/2n5xwh9jluO3bQVgY6JyLCt2ihd
- GlwJMbAKaVB9SwTGJ1SIVjq1cfNRRJDMwGeRX+6uXIHnNb80VNVI4MYJiFDM3RSeU7R/B/ELeD6
- uxH1FlUgsnPETHvCIu7PQnu5IyTpCMH4eanTrlw7CvgiZkGQ
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Transfer-Encoding: 8bit
 
-On Fri, 02 Oct 2026 12:39:52 +0100, Colin Ian King wrote:
-> ASoC: tas2781: Fix spelling mistake "config" -> "config"
+The Yamaha 01V96i exposes its audio streaming interfaces as
+vendor-specific USB class 0xff and ships no class-specific endpoint
+descriptor.  parse_uac_endpoint_attributes() therefore returns no
+attributes for the device, and without UAC_EP_CS_ATTR_SAMPLE_RATE the
+driver never issues the SET_CUR sampling-frequency request the hardware
+needs to start its USB audio stream.  The playback and capture PCMs are
+reported as RUNNING and their pointers advance, but the mixer passes no
+audio in either direction.
 
-Applied to
+The vendor (Yamaha Steinberg) driver on Windows sends this request at
+startup; the generic driver does not.  Add the 01V96i to
+snd_usb_audioformat_attributes_quirk() to force the attribute on, so the
+stream is initialised the same way.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
+Confirmed against a usbmon capture of the Windows vendor driver: SET_CUR
+CS_SAMPLING_FREQ_CONTROL to endpoints 0x07 and 0x86 is the only
+non-standard control transfer it issues that completes successfully.
 
-Thanks!
+Verified on a mainline 7.2.9 kernel with a loopback test: playing a
+440 Hz tone on USB channels 1/2 and recording USB channels 9/10 returns
+the tone unchanged at 44100, 48000, 88200 and 96000 Hz.
 
-[1/1] ASoC: tas2781: Fix spelling mistake "config" -> "config"
-      https://git.kernel.org/broonie/sound/c/7d6adf283a83
+Tested-by: Justin Bacle <justin.bacle@gmail.com>
+Signed-off-by: Justin Bacle <justin.bacle@gmail.com>
+---
+Changes in v2:
+- Describe the change and its verification.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+ sound/usb/quirks.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
+index 6176acc04..9a5ea295e 100644
+--- a/sound/usb/quirks.c
++++ b/sound/usb/quirks.c
+@@ -2332,6 +2332,21 @@ void snd_usb_audioformat_attributes_quirk(struct snd_usb_audio *chip,
+ 					  int stream)
+ {
+ 	switch (chip->usb_id) {
++	case USB_ID(0x0499, 0x5500): /* Yamaha 01V96i */
++		/*
++		 * The 01V96i declares its audio streaming interfaces as
++		 * vendor-specific (class 0xff) and provides no class-specific
++		 * endpoint descriptor.  parse_uac_endpoint_attributes() therefore
++		 * returns no attributes, and the driver never issues the SET_CUR
++		 * sampling-frequency request the hardware needs to engage its USB
++		 * stream: playback and capture PCMs report RUNNING, but the desk
++		 * passes no audio.
++		 *
++		 * Force the attribute on so the stream is initialised the same way
++		 * the Windows driver does it.
++		 */
++		fp->attributes |= UAC_EP_CS_ATTR_SAMPLE_RATE;
++		break;
+ 	case USB_ID(0x0a92, 0x0053): /* AudioTrak Optoplay */
+ 		/* Optoplay sets the sample rate attribute although
+ 		 * it seems not supporting it in fact.
+-- 
+2.53.0
 
