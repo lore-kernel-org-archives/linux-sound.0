@@ -1,157 +1,119 @@
-Received: from mail-m155101.qiye.163.com (mail-m155101.qiye.163.com [101.71.155.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-108-mta174.mxroute.com (mail-108-mta174.mxroute.com [136.175.108.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EC7A416842;
-	Sun,  4 Oct 2026 10:24:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9227D41612A
+	for <linux-sound@vger.kernel.org>; Sun,  4 Oct 2026 12:35:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=136.175.108.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791109450; cv=none; b=HO/pLfuxdaWNXP47J3KGfc3wlzOJ1oIcNSu+Od/vpVof+mUk3O560NbWDFhyEv44WvMN8JmaolK+VnPRIhaaT2P/cC7hMEu3ta7l43JdzJLkLFag0w6PB5qhpdWPUPO3oq8uy1jf6VnJmhCNk5Dhw746OqJOORIWPnQa8TqsG8U=
+	t=1791117338; cv=none; b=lW66z2aWbB+hOH71+8Ducuh9F5LuC6EoO9ghbs3nUjRmWbMXxmxz46+jgO8ga2HA6LSHXwMBGctf1j+A5e+HJNucr1K35SnfWMowedG7fc7yYjQy0Fq9+PySZFc/8fVOfxBRCD5RS+VCxZhaNi6V2/wUmq37J9R6U7BQsw9wnpQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791109450; c=relaxed/simple;
-	bh=/an0Ahh1xrPPkDannssAWcgM8uooqZe/h43gpFs3dW0=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=QzFsQTiclNXI04+fswwWzGJBl5ybJ1snG8O0ZtX3To/WZYwylgCnQ+CAziaUWEHBjhzuk19/V7tu7lZEV5FoB6Qb6y37DSk/sOKxJVr9fqhdQLlpj5JZwPSwcBntXAEbo57fyLRrryX1cINug4gciAkFs+V/3/uT0UE/Qhrkcak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=UoVexn+i; arc=none smtp.client-ip=101.71.155.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
+	s=arc-20240116; t=1791117338; c=relaxed/simple;
+	bh=VYWVkuhK8loGJySTw2WsMZWWJ172J0KKe7qo2FVcwtI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=B0GGUJ3vyvIwsOCMuyPmKouIllKbXQfarhT+eyGIOzpXyrHrVCJctTYYYmfwCVokqEmAugzvAtUELkR1WTMjBREX8O7CD6E0FH41an75KVPeJUgk5HzjNgxOOfo466QXlgt39Upns+ysjHk/6glWne3vEUnUoYNDtQIxYt+yPvs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=wii.dev; spf=pass smtp.mailfrom=wii.dev; dkim=pass (2048-bit key) header.d=wii.dev header.i=@wii.dev header.b=WYD5/4RK; arc=none smtp.client-ip=136.175.108.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=wii.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wii.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="UoVexn+i"
-Received: from PC-202605011814.localdomain (unknown [58.241.16.34])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 4feb7a971;
-	Sun, 4 Oct 2026 18:23:56 +0800 (GMT+08:00)
-From: Runyu Xiao <runyu.xiao@seu.edu.cn>
-To: Srinivas Kandagatla <srini@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Prasad Kumpatla <quic_pkumpatl@quicinc.com>,
-	linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Runyu Xiao <runyu.xiao@seu.edu.cn>,
-	Jianhao Xu <jianhao.xu@seu.edu.cn>
-Subject: [PATCH v2] ASoC: codecs: wcd937x: request watchdog IRQs without devm
-Date: Sun,  4 Oct 2026 18:23:46 +0800
-Message-Id: <20261004102346.1203410-1-runyu.xiao@seu.edu.cn>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260929094223.2086750-1-runyu.xiao@seu.edu.cn>
-References: <20260929094223.2086750-1-runyu.xiao@seu.edu.cn>
+	dkim=pass (2048-bit key) header.d=wii.dev header.i=@wii.dev header.b="WYD5/4RK"
+Received: from filter006.mxroute.com ([136.175.111.3] filter006.mxroute.com)
+ (Authenticated sender: mN4UYu2MZsgR)
+ by mail-108-mta174.mxroute.com (ZoneMTA) with ESMTPSA id 1a106e4d3b400028b2.008
+ for <linux-sound@vger.kernel.org>
+ (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+ Sun, 04 Oct 2026 12:30:22 +0000
+X-Zone-Loop: 3bf8ff73e77b2128a257424df25583328a13fe1fb8ab
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=wii.dev;
+	s=x; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:Subject:Cc
+	:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=jmxcAD576CyPX+VZWjnCAVGQShC2cwwIF2/zkpeGdys=; b=WYD5/4RK8KMwe+bzq80RQaj6Lf
+	o3sXcEGuCLOvNUtxrKWmCW0kMBv2NckI35CZ1FVuCbuKKUpB7vEIlTCuItD1QIcFfiq5/AsY8SfhB
+	iRgpV43yE87MIDHyePDw+V7dDNWZI4h+yi0wuNEYnWbg9LcnAMG5LNgsoQesey2dyqdM8RkalVdSY
+	W6PEOFjR3OsDiQ1dWXTYaGm0ysJ+/T2CDUjy6WfSJe5/C3xnUJQ3I2rTglMd0TsEvDB48KtPrev87
+	4Vm8CkrpVXhTgCMIkNytwH0XIUTGvy7+ru4rzlC9yHKm8DQYsh5nX2eszoQMrCweYC5YqOR+1b0x2
+	CkhMNgRA==;
+Date: Sun, 4 Oct 2026 12:29:58 +0000
+From: Richard Patel <ripatel@wii.dev>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: vkoul@kernel.org, yung-chuan.liao@linux.intel.com,
+	pierre-louis.bossart@linux.dev, peter.ujfalusi@linux.intel.com,
+	linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 3/3] soundwire: intel_auxdevice: Don't disable IRQs
+ before removing children
+Message-ID: <asJGxhij4OzWNYn9@wii.dev>
+References: <20260925154216.3520136-1-ckeepax@opensource.cirrus.com>
+ <20260925154216.3520136-4-ckeepax@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0aa10671155b03a1kunmbe4e162033872b
-X-HM-MType: 10
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkaGh0dVk1MGU0eTkhMSUkaTFYeHw
-	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlOQ1VJT0pVSk1VSE9ZV1kWGg8SFR0UWUFZT0tIVUpLSEpPSE
-	xVSktLVUpCS0tZBg++
-DKIM-Signature: a=rsa-sha256;
-	b=UoVexn+i8wSlmjRPIq+/9RsRjXzY7gcnIV635ED4LSwtpe9FS4msNpk6CytFrcTS+EarP+OfSPxNwHnwCTjBRfAyvZBD4stDUll54nPZe5Un6Aj5kTc0vA6bgy28ChARf3vK8wV/89nH4P9+RX6pe6HQq4cNK0Q7tmT1kE1nxXw=; c=relaxed/relaxed; s=default; d=seu.edu.cn; v=1;
-	bh=EYqnINkQDb70UfTXaXUn3ZfNSoOVKpSu/IdqarVA5H8=;
-	h=date:mime-version:subject:message-id:from;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260925154216.3520136-4-ckeepax@opensource.cirrus.com>
+X-Authenticated-Id: ripatel@wii.dev
 
-The watchdog IRQs are requested from the codec component probe and released
-from its remove callback. Use the same non-devm lifetime for both
-operations.
+On Fri, Sep 25, 2026 at 04:42:16PM +0100, Charles Keepax wrote:
+> Currently the auxiliary device for the link disables IRQs before it
+> calls sdw_bus_master_delete(). This has the side effect that none
+> of the devices on the link can access their own registers whilst
+> their remove functions run, because the IRQs are required for bus
+> transactions to function.
+> 
+> There appear to be two things that currently block leaving the
+> IRQs enabled during peripheral removal. Firstly, the IRQ handler
+> iterates through a linked list of all the links, once a link is
+> removed the memory pointed at by this linked list is freed, but
+> not removed from the linked_list. Secondly, the potential that
+> an IRQ runs after the controller itself has been destroyed.
+> 
+> For the first problem add a list_del() for the linked list item,
+> note whilst the list itself is contained in the intel_init portion
+> of the code, the list remove needs to be attached to the auxiliary
+> device for the link, since that owns the memory that the list points
+> at. Locking is also required to ensure the IRQ handler runs either
+> before or after any additions/removals from the list. A new lock is
+> added for this, the shim_lock is used to gate access to the shared
+> registers so doesn't feel a super obvious fit for managing the list.
+> 
+> For the second problem utilise the newly added helper that allows
+> destroying the peripherals separately, allowing the auxiliary device
+> to disable IRQs before running its own cleanup.
 
-Use request_threaded_irq() and keep free_irq() in the component remove
-callback. Return errors from each request and unwind only IRQs that were
-successfully requested, including failures later in component probe.
+I ran into a use-after-free on Samsung Galaxy Book6 (Panther Lake)
+the other day.  I was going to send a patch adding RCU, then I saw
+your patch already added a mutex:
 
-Fixes: 9be3ec196da4 ("ASoC: codecs: wcd937x: add wcd937x codec driver")
-Assisted-by: LLM
-Signed-off-by: Runyu Xiao <runyu.xiao@seu.edu.cn>
----
-v2:
-- Use request_threaded_irq() and free_irq() as suggested by Mark Brown.
-- Keep error unwinding limited to IRQs that were successfully requested.
+  sof-audio-pci-intel-ptl 0000:00:1f.3: SOF firmware and/or topology file not found.
+  Oops: general protection fault, kernel NULL pointer dereference 0x3c0: 0000 [#1] SMP NOPTI
+  RIP: 0010:sdw_cdns_irq+0x9/0x1f0 [soundwire_cadence]
+  Call Trace:
+   sdw_intel_thread+0x2d/0x50 [soundwire_intel]
+   hda_dsp_interrupt_thread+0x97/0x320 [snd_sof_intel_hda_generic]
+   irq_thread_fn+0x23/0x60
+   irq_thread+0xc7/0x190
 
- sound/soc/codecs/wcd937x.c | 44 +++++++++++++++++++++++---------------
- 1 file changed, 27 insertions(+), 17 deletions(-)
+I would add 'Fixes: 4a98a6b2fa75 ("soundwire: intel/cadence: merge Soundwire interrupt handlers/threads")' maybe
 
-diff --git a/sound/soc/codecs/wcd937x.c b/sound/soc/codecs/wcd937x.c
-index 0dd05604f5b88..7ffbb445f8ac4 100644
---- a/sound/soc/codecs/wcd937x.c
-+++ b/sound/soc/codecs/wcd937x.c
-@@ -2536,23 +2536,23 @@ static int wcd937x_soc_codec_probe(struct snd_soc_component *component)
- 						      WCD937X_IRQ_AUX_PDM_WD_INT);
- 
- 	/* Request for watchdog interrupt */
--	ret = devm_request_threaded_irq(dev, wcd937x->hphr_pdm_wd_int, NULL, wcd937x_wd_handle_irq,
--					IRQF_ONESHOT | IRQF_TRIGGER_RISING,
--					"HPHR PDM WDOG INT", wcd937x);
-+	ret = request_threaded_irq(wcd937x->hphr_pdm_wd_int, NULL, wcd937x_wd_handle_irq,
-+				   IRQF_ONESHOT | IRQF_TRIGGER_RISING,
-+				   "HPHR PDM WDOG INT", wcd937x);
- 	if (ret)
--		dev_err(dev, "Failed to request HPHR watchdog interrupt (%d)\n", ret);
-+		goto err_free_clsh;
- 
--	ret = devm_request_threaded_irq(dev, wcd937x->hphl_pdm_wd_int, NULL, wcd937x_wd_handle_irq,
--					IRQF_ONESHOT | IRQF_TRIGGER_RISING,
--					"HPHL PDM WDOG INT", wcd937x);
-+	ret = request_threaded_irq(wcd937x->hphl_pdm_wd_int, NULL, wcd937x_wd_handle_irq,
-+				   IRQF_ONESHOT | IRQF_TRIGGER_RISING,
-+				   "HPHL PDM WDOG INT", wcd937x);
- 	if (ret)
--		dev_err(dev, "Failed to request HPHL watchdog interrupt (%d)\n", ret);
-+		goto err_free_hphr_irq;
- 
--	ret = devm_request_threaded_irq(dev, wcd937x->aux_pdm_wd_int, NULL, wcd937x_wd_handle_irq,
--					IRQF_ONESHOT | IRQF_TRIGGER_RISING,
--					"AUX PDM WDOG INT", wcd937x);
-+	ret = request_threaded_irq(wcd937x->aux_pdm_wd_int, NULL, wcd937x_wd_handle_irq,
-+				   IRQF_ONESHOT | IRQF_TRIGGER_RISING,
-+				   "AUX PDM WDOG INT", wcd937x);
- 	if (ret)
--		dev_err(dev, "Failed to request Aux watchdog interrupt (%d)\n", ret);
-+		goto err_free_hphl_irq;
- 
- 	/* Disable watchdog interrupt for HPH and AUX */
- 	disable_irq_nosync(wcd937x->hphr_pdm_wd_int);
-@@ -2564,23 +2564,33 @@ static int wcd937x_soc_codec_probe(struct snd_soc_component *component)
- 						ARRAY_SIZE(wcd9375_dapm_widgets));
- 		if (ret < 0) {
- 			dev_err(component->dev, "Failed to add snd_ctls\n");
--			wcd_clsh_ctrl_free(wcd937x->clsh_info);
--			return ret;
-+			goto err_free_irqs;
- 		}
- 
- 		ret = snd_soc_dapm_add_routes(dapm, wcd9375_audio_map,
- 					      ARRAY_SIZE(wcd9375_audio_map));
- 		if (ret < 0) {
- 			dev_err(component->dev, "Failed to add routes\n");
--			wcd_clsh_ctrl_free(wcd937x->clsh_info);
--			return ret;
-+			goto err_free_irqs;
- 		}
- 	}
- 
- 	ret = wcd937x_mbhc_init(component);
--	if (ret)
-+	if (ret) {
- 		dev_err(component->dev, "mbhc initialization failed\n");
-+		goto err_free_irqs;
-+	}
-+
-+	return ret;
- 
-+err_free_irqs:
-+	free_irq(wcd937x->aux_pdm_wd_int, wcd937x);
-+err_free_hphl_irq:
-+	free_irq(wcd937x->hphl_pdm_wd_int, wcd937x);
-+err_free_hphr_irq:
-+	free_irq(wcd937x->hphr_pdm_wd_int, wcd937x);
-+err_free_clsh:
-+	wcd_clsh_ctrl_free(wcd937x->clsh_info);
- 	return ret;
- }
- 
--- 
-2.34.1
+> @@ -145,8 +155,10 @@ irqreturn_t sdw_intel_thread(int irq, void *dev_id)
+>  	struct sdw_intel_ctx *ctx = dev_id;
+>  	struct sdw_intel_link_res *link;
+>  
+> +	mutex_lock(&ctx->link_lock);
+>  	list_for_each_entry(link, &ctx->link_list, list)
+>  		sdw_cdns_irq(irq, link->cdns);
+> +	mutex_unlock(&ctx->link_lock);
+>  
+>  	return IRQ_HANDLED;
+>  }
+
+I don't understand the code very well, but isn't there a second UAF
+with the ctx object getting freed?  kfree(ctx) in sdw_intel_exit()
+runs well before the IRQ is unregistered.
+
+  -- Richard
