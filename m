@@ -1,119 +1,146 @@
-Received: from mail-108-mta174.mxroute.com (mail-108-mta174.mxroute.com [136.175.108.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9227D41612A
-	for <linux-sound@vger.kernel.org>; Sun,  4 Oct 2026 12:35:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=136.175.108.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C4293F1051
+	for <linux-sound@vger.kernel.org>; Sun,  4 Oct 2026 12:55:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791117338; cv=none; b=lW66z2aWbB+hOH71+8Ducuh9F5LuC6EoO9ghbs3nUjRmWbMXxmxz46+jgO8ga2HA6LSHXwMBGctf1j+A5e+HJNucr1K35SnfWMowedG7fc7yYjQy0Fq9+PySZFc/8fVOfxBRCD5RS+VCxZhaNi6V2/wUmq37J9R6U7BQsw9wnpQ=
+	t=1791118548; cv=none; b=i/L0T6q00wYdo+3+KRtUX4UHrKBK/dX+6f6bHzZ0GEgez8DxvuhIYgQKHpkDf18exonFBofIHiavMJ8WDaqDNIh9NZsBna9309LiMfGvX2Bj/ZV5JSkjeExvVG2g4ayqyU4oByOujWP08aKhxS0wD5iMOZZBtKa9EJx77rq5+fU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791117338; c=relaxed/simple;
-	bh=VYWVkuhK8loGJySTw2WsMZWWJ172J0KKe7qo2FVcwtI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B0GGUJ3vyvIwsOCMuyPmKouIllKbXQfarhT+eyGIOzpXyrHrVCJctTYYYmfwCVokqEmAugzvAtUELkR1WTMjBREX8O7CD6E0FH41an75KVPeJUgk5HzjNgxOOfo466QXlgt39Upns+ysjHk/6glWne3vEUnUoYNDtQIxYt+yPvs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=wii.dev; spf=pass smtp.mailfrom=wii.dev; dkim=pass (2048-bit key) header.d=wii.dev header.i=@wii.dev header.b=WYD5/4RK; arc=none smtp.client-ip=136.175.108.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=wii.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wii.dev
+	s=arc-20240116; t=1791118548; c=relaxed/simple;
+	bh=OwxtTLl8lXRJF1vLxijiKUftJer++9977P0zc+Dq1+Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Uc2qHJEExNOIpcqQox3PMINRCvt/pU6QIc/ddDCaKbQtjxvIMdEjDOHG35WGJTgzcM9klySoGfVPnDIGIn/Ia5MhsLQaXfkHRDl/wVYHNXInF8yprHH9WLDx8epxSf71RnCNQ/SHv07OJbdfIpNo97J6r7iorftePg1CWtfUWsQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=Gdr17rP6; arc=none smtp.client-ip=77.48.224.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wii.dev header.i=@wii.dev header.b="WYD5/4RK"
-Received: from filter006.mxroute.com ([136.175.111.3] filter006.mxroute.com)
- (Authenticated sender: mN4UYu2MZsgR)
- by mail-108-mta174.mxroute.com (ZoneMTA) with ESMTPSA id 1a106e4d3b400028b2.008
- for <linux-sound@vger.kernel.org>
- (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
- Sun, 04 Oct 2026 12:30:22 +0000
-X-Zone-Loop: 3bf8ff73e77b2128a257424df25583328a13fe1fb8ab
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=wii.dev;
-	s=x; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:Subject:Cc
-	:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=jmxcAD576CyPX+VZWjnCAVGQShC2cwwIF2/zkpeGdys=; b=WYD5/4RK8KMwe+bzq80RQaj6Lf
-	o3sXcEGuCLOvNUtxrKWmCW0kMBv2NckI35CZ1FVuCbuKKUpB7vEIlTCuItD1QIcFfiq5/AsY8SfhB
-	iRgpV43yE87MIDHyePDw+V7dDNWZI4h+yi0wuNEYnWbg9LcnAMG5LNgsoQesey2dyqdM8RkalVdSY
-	W6PEOFjR3OsDiQ1dWXTYaGm0ysJ+/T2CDUjy6WfSJe5/C3xnUJQ3I2rTglMd0TsEvDB48KtPrev87
-	4Vm8CkrpVXhTgCMIkNytwH0XIUTGvy7+ru4rzlC9yHKm8DQYsh5nX2eszoQMrCweYC5YqOR+1b0x2
-	CkhMNgRA==;
-Date: Sun, 4 Oct 2026 12:29:58 +0000
-From: Richard Patel <ripatel@wii.dev>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: vkoul@kernel.org, yung-chuan.liao@linux.intel.com,
-	pierre-louis.bossart@linux.dev, peter.ujfalusi@linux.intel.com,
-	linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] soundwire: intel_auxdevice: Don't disable IRQs
- before removing children
-Message-ID: <asJGxhij4OzWNYn9@wii.dev>
-References: <20260925154216.3520136-1-ckeepax@opensource.cirrus.com>
- <20260925154216.3520136-4-ckeepax@opensource.cirrus.com>
+	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="Gdr17rP6"
+Received: from mail1.perex.cz (localhost [127.0.0.1])
+	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id C23E83E0FD;
+	Sun,  4 Oct 2026 14:48:01 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz C23E83E0FD
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
+	t=1791118081; bh=+HF+ZeP/vHQd6SfHYMFz59cCqYXT7IfotUbpplwM/0A=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Gdr17rP6Q22shQg2W5EoyZvabcG0sZlOln9vdxuCOYH0C4qOpVlTQX3U9D4H99SbU
+	 HaCxwq2w1ppP7wPb02c9L+kCFLxLta2sB2GJYFaHkyEagzGluhqlO8U4JjZpqlAGx4
+	 f6IcX43xK3t7rsC7rCdMl4y/7o3vc44+sbReWxkA=
+Received: from [192.168.100.98] (unknown [192.168.100.98])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: perex)
+	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
+	Sun,  4 Oct 2026 14:47:54 +0200 (CEST)
+Message-ID: <f0d81a25-15b9-4363-93ac-0d3eb346d1fa@perex.cz>
+Date: Sun, 4 Oct 2026 14:47:52 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260925154216.3520136-4-ckeepax@opensource.cirrus.com>
-X-Authenticated-Id: ripatel@wii.dev
+User-Agent: Mozilla Thunderbird
+Subject: Re: Linux-audio BoF at Linux Plumbers Conference?
+To: Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org
+Cc: Arun Raghavan <arun@accosted.net>, Mark Brown <broonie@kernel.org>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Srinivas Kandagatla <srini@kernel.org>
+References: <871pbsnce8.wl-tiwai@suse.de>
+ <5f459099-4364-46f9-a3b4-1c629aa91209@perex.cz> <87se48lv6z.wl-tiwai@suse.de>
+ <8733uoys02.wl-tiwai@suse.de>
+From: Jaroslav Kysela <perex@perex.cz>
+Content-Language: en-US
+Autocrypt: addr=perex@perex.cz; keydata=
+ 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
+In-Reply-To: <8733uoys02.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Sep 25, 2026 at 04:42:16PM +0100, Charles Keepax wrote:
-> Currently the auxiliary device for the link disables IRQs before it
-> calls sdw_bus_master_delete(). This has the side effect that none
-> of the devices on the link can access their own registers whilst
-> their remove functions run, because the IRQs are required for bus
-> transactions to function.
+On 10/2/26 18:41, Takashi Iwai wrote:
+> On Thu, 20 Aug 2026 16:31:48 +0200,
+> Takashi Iwai wrote:
+>>
+>> On Thu, 20 Aug 2026 16:02:45 +0200,
+>> Jaroslav Kysela wrote:
+>>>
+>>> On 8/20/26 15:34, Takashi Iwai wrote:
+>>>> Hi,
+>>>>
+>>>> a few people including Mark and me have talked about holding a small
+>>>> meeting for the Linux audio stuff (finally again!) during the next
+>>>> Linux Plumbers Conference (on Oct 5-7 at Prague).
+>>>>
+>>>> Has anyone already planned to attend there and is interested to join?
+>>>> If we have enough people, we can try an official BoF session.
+>>>> Otherwise, we can just have an unofficial session at lunch time or
+>>>> such, too.  Just let us know.
+>>>
+>>> Hi,
+>>>
+>>> I will be attending Linux Plumbers and would be pleased to participate in
+>>> a BoF session or another type of meeting.
+>>
+>> Awesome, looking forward to seeing you again!
 > 
-> There appear to be two things that currently block leaving the
-> IRQs enabled during peripheral removal. Firstly, the IRQ handler
-> iterates through a linked list of all the links, once a link is
-> removed the memory pointed at by this linked list is freed, but
-> not removed from the linked_list. Secondly, the potential that
-> an IRQ runs after the controller itself has been destroyed.
+> So, the conference will be opening on the next Monday, and we still
+> haven't planed yet -- business as usual :)
 > 
-> For the first problem add a list_del() for the linked list item,
-> note whilst the list itself is contained in the intel_init portion
-> of the code, the list remove needs to be attached to the auxiliary
-> device for the link, since that owns the memory that the list points
-> at. Locking is also required to ensure the IRQ handler runs either
-> before or after any additions/removals from the list. A new lock is
-> added for this, the shim_lock is used to gate access to the shared
-> registers so doesn't feel a super obvious fit for managing the list.
+> I put people who showed interests in Cc.  If more people are
+> interested to join, heartedly welcome!
 > 
-> For the second problem utilise the newly added helper that allows
-> destroying the peripherals separately, allowing the auxiliary device
-> to disable IRQs before running its own cleanup.
+> If anyone has NO-GO time slots (Monday AM/PM, Tuesday AM/PM, Wednesday
+> AM/PM), let us know.  Or, since there aren't so many people, we can
+> just have a lunch or dinner meeting, too.  If you have any preference,
+> speak up, please.
 
-I ran into a use-after-free on Samsung Galaxy Book6 (Panther Lake)
-the other day.  I was going to send a patch adding RCU, then I saw
-your patch already added a mutex:
+I'm okay with any format. Monday or Wednesday works better for me.
 
-  sof-audio-pci-intel-ptl 0000:00:1f.3: SOF firmware and/or topology file not found.
-  Oops: general protection fault, kernel NULL pointer dereference 0x3c0: 0000 [#1] SMP NOPTI
-  RIP: 0010:sdw_cdns_irq+0x9/0x1f0 [soundwire_cadence]
-  Call Trace:
-   sdw_intel_thread+0x2d/0x50 [soundwire_intel]
-   hda_dsp_interrupt_thread+0x97/0x320 [snd_sof_intel_hda_generic]
-   irq_thread_fn+0x23/0x60
-   irq_thread+0xc7/0x190
+			Thanks,
+				Jaroslav
 
-I would add 'Fixes: 4a98a6b2fa75 ("soundwire: intel/cadence: merge Soundwire interrupt handlers/threads")' maybe
-
-> @@ -145,8 +155,10 @@ irqreturn_t sdw_intel_thread(int irq, void *dev_id)
->  	struct sdw_intel_ctx *ctx = dev_id;
->  	struct sdw_intel_link_res *link;
->  
-> +	mutex_lock(&ctx->link_lock);
->  	list_for_each_entry(link, &ctx->link_list, list)
->  		sdw_cdns_irq(irq, link->cdns);
-> +	mutex_unlock(&ctx->link_lock);
->  
->  	return IRQ_HANDLED;
->  }
-
-I don't understand the code very well, but isn't there a second UAF
-with the ctx object getting freed?  kfree(ctx) in sdw_intel_exit()
-runs well before the IRQ is unregistered.
-
-  -- Richard
+-- 
+Jaroslav Kysela <perex@perex.cz>
+Linux Sound Maintainer; ALSA Project; Red Hat
