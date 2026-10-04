@@ -1,164 +1,300 @@
-Received: from mail-dy2-f41.google.com (mail-dy2-f41.google.com [74.125.229.41])
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18C6237C11C
-	for <linux-sound@vger.kernel.org>; Sun,  4 Oct 2026 17:12:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.229.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A58346C82A
+	for <linux-sound@vger.kernel.org>; Sun,  4 Oct 2026 17:14:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.172
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791133952; cv=pass; b=p5eOk3RxDg2lGklZ02AD9zyPJUw3jnZtIO8IBfo3MLsMIq0NPaFKiOQ8TpDSczj88Izrn+1vKzspoWe29TBk96GpNJr8HjcEzHvvDQE4xMd7jq6uHL5UHJYbQLL6jnWe6UNmzNsoDJp88wdTYONN3ZWKCbbmc9yUvHBQsumb0vo=
+	t=1791134054; cv=pass; b=qUhBGa8w3izZao6I07nLyJVicBJ9mMnDUa38tgo8Y6FnYOa0SkuQ4VLZd6hsK1iVYyrs0WX5n82T/yFGI3ogf9N+4mWnJs3rgkwnyqEbp58kLeWDHci6frzCMiXHwbdxcVCxgr8c28pQa+ef+T9tRc5d6hH4DkD500t2u/EUowk=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791133952; c=relaxed/simple;
-	bh=QpmNrPox1cx9v/eeyLsiDiMA/mzJJAUMJ7qlgGkDrmQ=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=Phgvr5bemR1ZoQj+A7hBkGje80MSvhScSziKpL686Bw0HMdOdfgI3CvyndP52DrhOK35D5FPzaE+v8+UKCwJqvOHP/0TGcNYG8FpsLJur0o4i8adVB20cSeaz5UK+aRYr00j9rhxnYcsc+Mnrt3TDj4qwTts3zOfOr2nzRoD8OY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Pp3Fx8VV; arc=pass smtp.client-ip=74.125.229.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791134054; c=relaxed/simple;
+	bh=DPQmWisOarX73EV4DX8xr1LZtE2t1IZvvp+wtV1goOg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=L3SFaMqRyO/Zj1taAcZ5EsqBB1+y9RtGDjM8DilVyRmlFFojjz+PNwaR5jUJ9IfGu1Cesqwdi1gFkYpbhsqOLQrJPKh9CfsEkAJbJJSY5X7/rYlmPW887y3Js1sSavzsIiF8ukEJs4GooSWSbfVtcRe9SQiATiTSRrv55lsRWwA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ZfM0PfdC; arc=pass smtp.client-ip=209.85.160.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Pp3Fx8VV"
-Received: by mail-dy2-f41.google.com with SMTP id 5a478bee46e88-344447f9c3dso512830eec.0
-        for <linux-sound@vger.kernel.org>; Sun, 04 Oct 2026 10:12:30 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791133950; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ZfM0PfdC"
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-5337c7b9937so258091cf.0
+        for <linux-sound@vger.kernel.org>; Sun, 04 Oct 2026 10:14:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791134051; cv=none;
         d=google.com; s=arc-20260327;
-        b=j2A2eM5nyOCra5kUg+998UtILuYaT9FzlX4UFzTEJzCfAbxSednWoddmIO5qmJnFN6
-         PSRidl99t57DQd4HfQ/aQrbOHITxxti0xtVOB9zwMSehSS6wM4A9yNp2vfOxq6wLEY8q
-         xGpqiXOEyqqxQ4I5INhT8ePDmloy5N9AI5yY9z/m5+VvneOb+4xiIaGIeEBeZXVkN5vw
-         Y1jT4UDL9SMZSajl1A6I1+Ljlz9DICI8MRVzZ5ArjGGGYfrtPS9svvbAT+JDJxNWo7mZ
-         Q5+Of0M3cuQankfsIYrn47XRRClxZBsvoxkZfPrH/tfMDvjuOxkVZ4JjTnJPXcHEQVxZ
-         b9ZQ==
+        b=XxqFlrOQeYLTs4WuKItUsVoHZkgjAjU5veufNXeS8EFOyZYdl6DjAI9GMapGkxNk1d
+         PkUmjjaNXxEc/3oO5GMUz5GqxyUQLZvZxVHLrXmFibW7Qeyl0gajyPk7tmSn+bMnlqHU
+         vtyEBs6E3P0Wj5ua7QRhRXUQPUkw6n2yIqyKGRMZ9h48PfpMsB6EOPOIi9SxJMR0YRJ3
+         7GzEYevr+mAtSGx3rDF8t8584pj4MxserNIImh3VKYzEIK50LrqEBco9CTOgp1L69QoU
+         hyASwrfP3xUsLZ3DjPFhLJMGH2kUhJsWyGcx/IMHYPFSZz4UR68r43Uetf85uPVtGIT6
+         /FJQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=qPjA4MaS5D9A5etJvCl6UABINO0wyFUn1YzOX7EWNHE=;
-        fh=PtB8OU/LpWQYpeyu51CFGa44ywL9TehDVnkYj6FWZAw=;
-        b=r8LaEV3KAGmoBN0JFVcOB3BrzNo+eVUgBG3G8E4xqjDyB8ssFuVnuigvNefg6AAhZR
-         RU4y4B8wKiV9uUG41zo1gZ+Cl5JYnAVlqabArxON1y+c7aLUPdYcNR1AcHJbpVlfgE92
-         Gw4UAKEbsenQS5iFoAHfURhOVNigr9kiy5kiqRiM3hDAoao1JQtvbmaCZqQ4r0ANNVhm
-         5uxlP/odhcfr7qicSiP5MtvLVrNp8aGT55rL8c8+y6jrFkXCJnGSfNW8Oi+qOzK0l0Hx
-         rYBXF4KI8YwD1hRuqVnuDvrorkE/fq3OkW2GLs/XI4RYZMrMzoFz+iEq4qIKhGpTm7n/
-         QPmA==;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=oK+gurncHWXSmmPtPu9hgAMG8GgRdX+XUQo4lUX1RzQ=;
+        fh=jwQESuXvh5hdz0w1OoS6AphEiwA/fgcxK9gy92MNZvM=;
+        b=FerqqvGEajfLgL8Ni8U4TkXMddJcBrFkmesLspxA6G0razIecBCmSXJOeCI3SajiEv
+         mS8u7I9eKUPMwYE3XciQK/u+XKSeWCNCKXvApxfjno++mb01u97wh/SYZE8buJa6jsJB
+         DTYm+U4kGbwAQ8BgW6LTr7rXq67wRg14dVZaLj51nCBmAXcKzY/ZR9hlRaAdoQPuwhYF
+         A/4AlEhmm5uEKF2xEwlvQMI1j1jCdDmr/0VbDnC8hOO24fKStR3yFB0USdfOV2gMbDLf
+         ZA4gwLiVt3kioC5++0zt8RfOml5RhS926maHmSXgvhpERqGAPCQSGBSSnQ9DU+BWPw7N
+         YAJQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791133950; x=1791738750; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=qPjA4MaS5D9A5etJvCl6UABINO0wyFUn1YzOX7EWNHE=;
-        b=Pp3Fx8VVAXyAJ7LowmmarpONGVF+DkVd2ybDjIUsn5JM3JXIp1CMZ453ULClm0aB0C
-         mduNTjGNFLhCBZc3HB1Z0ZPBmkqJVqKmClsgtNaRdGOT4OzkUuAt6sZCoNiztTLQLesE
-         cfpPiOrpOSEEIcWWOFr2coa5E+YSHf4V//pvvIoUvgJaXAE69sNNJ64OPfPCGYjh8BvO
-         71LVFiaaLKS1t+mzuc6naqVxuLsYtfvC/Im7w1hFZ3jfcXMT5lDiWU1tt9UcvqgsLRjB
-         1E7lXMfx9TB/UxZL8AGeoQSLRKH0VWWSJ79AZrWeWK99EmHKbIBb3cUSOu2rxbPiVh2f
-         rCfw==
+        d=google.com; s=20251104; t=1791134051; x=1791738851; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=oK+gurncHWXSmmPtPu9hgAMG8GgRdX+XUQo4lUX1RzQ=;
+        b=ZfM0PfdCG6H44xOr3YlYxlWsbWe96HV3PNCQY5sPyElCBZVf+BxgvzNI88RLpJJyz8
+         Cy+ygj496VOBma1ceboQuwkeweq79Nd0djZaIfHLbNjskIOh8ejk0SkutUNTrE0vnzwO
+         sT7GwQnvX7Dk4IIEmOBKYRxolAbWEwAyi0CIQpUsLNhPsxgl4nu6sX+IKjmK7KaOMLrh
+         LNb7DMdXDOZqcqx1gbhk81oef9Nbk4m9ZBPrte8o6M9IAA/KgUBK4hgU5PgJ1wqOxVgD
+         ciebZjreurPkCRPkA19W7odS8TPrImTSYx0XwAtAW/7ISf6RgC2wGcR8eNAukSGafNYy
+         BE7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791133950; x=1791738750;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=qPjA4MaS5D9A5etJvCl6UABINO0wyFUn1YzOX7EWNHE=;
-        b=E5ySc+9DqxKxqKCP1NOX6GVIzYd3EUWOi6USLCQFdA87wNoEA1PC1ZclFsH0kVEOqR
-         pCxwiDBbUtzcpl23R0Xdy2PzD0T7da+Bm8CLRO+Mct8ZFUNEy8U0t3Wn93EuuDZKNARn
-         uSYF6ZA6d2LALlfIHXqsWlFaGZ3eVskOxXt+lOj48nimOJFtiFZaBxketUHtrKhhT+Nw
-         MNNI6ElsoWDF+lLg2HGhy9BGRPC4J5IoOcSuMaD6SD+c6vZtdPJGtN9u6m2tScCWOCE1
-         GwBUiSlPg95QcGnwoyFPujPXrBMJNaMmlYbB4ydu/ysY98R2+59zidpf+jWl+dnC+sJM
-         noIA==
-X-Gm-Message-State: AFq9FYLhBo1QYuQgt7S0LO94kEFwUsb3sPwwEhUzyPjD2neGqxZJ6KYO
-	MHKDmc3dud5Z9XKaciNHJJphXNZHITR6WiiK8rFyM4VQRfUK03SC3FfBY9E747cyEdG4VML9+LI
-	6Zz/3Pwjdf3HvvwP9OSesliMPjgJUzEopsZarSWM=
-X-Gm-Gg: AYBFou3UEu+2rvhFO4XA1A3XBg4vI7pdRZaiEzbDikIp5HcB8ljFxiCd47dWnguReuB
-	iFG7JNJCJu+63WOq0gHBUzuR1MXAdxH3655A3j8eby16VU9Eh/TvhL5u+0NcQpOI4DhIZJXx1Hj
-	O8Ok9sVjlWw7kk0toda+JXdsPNLMA+YxKFyH7thX+YKTri9wdXQOgwk/ANu24kgEuWmuEe1Vkuk
-	KxgCZFFdURrm2J2IEI8KtRghh+S/spHh2dt5gqQ086gAkbOkqkKtLtNNY9Bizr4XyO4jHT7qR6y
-	zU6iSaLGVH1XSyKT5cnsXMJKjajXFuCxLg7aQDgOuX46gSPAixxVz+k=
-X-Received: by 2002:a05:7301:fd10:b0:341:8ee2:6f76 with SMTP id
- 5a478bee46e88-34f21999efemr9990151eec.33.1791133949836; Sun, 04 Oct 2026
- 10:12:29 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1791134051; x=1791738851;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=oK+gurncHWXSmmPtPu9hgAMG8GgRdX+XUQo4lUX1RzQ=;
+        b=todyoM8+2qm2iUHDgmuw4ZxmjbD6ELPe4bdmlF5e+AIkOfA17E+MOvfoACDkzN9uUa
+         BOYq/0rXEcj+McsoDfj7cBpEJpK6y9oAJfe7yFcbQkPsYSxayy7p8AZ6JFSQDP6CgG39
+         RydV2IXvW8QkkllKrEerLWaZSwKbznwp5Iap6Q9Hs5KIzlulyyyY2baBwwGHBObjdLj9
+         iHubrJCEeOKilPVTrqcT5+Kg6FoJlKgXoiVmUCsrEp1kJwm9TXqctvjp6E6F9wo+IcgL
+         hyCwM58lZ9yNXyeRfoz3g6Bs8anEA2k2kD7tlwYt7qOz6rnuSWsjxZUW5PiL/JhF6HaA
+         rTTA==
+X-Forwarded-Encrypted: i=1; AKwUvBwGl1IjsOwEXA1+WqK5S+Gx7hPbKryep6Yhj3bTuzKZtnGGY5ZBg1F51tIJvDjt5aXDqpLUutpywC4E0A==@vger.kernel.org
+X-Gm-Message-State: AFuF++lvCljeRIg7t1bixtHht5/VwcqK1y5q0YBzMwCssl/k921ezoa+
+	JUdoGxq73tAzSYcuUGLpDvSDH4xiD9mmulF5uhqikuDU9d9DIrj4mLvpcrKp8zJRivw2QG416QE
+	kd9AHXI265mCGZLNuB+oYtUAQ2tOexyRtN8bnLWCn
+X-Gm-Gg: AYBFou0KJ48KYVvegfe0Zmx+mon14zp/CmAoZREjuFrBJV9e995XY8JVoMOV6h3+xTH
+	vtlbyr2r24UIxPfEvuHCDFXDTS+HANKtjDb1fQel2ZvAau6aLzeSWQ3yfECdSa93+lCxGjstst7
+	kWFOPAWjrZbSTNCEt61kpUrPXI9xDZCLcMgxaVqrs+2LG+wRhPOc1QXcCZBia+bbZNJydfnfX0a
+	A0hLgqDnTrJocfxcUdbG0ZrjLwWs/caDEfKA0nWS1s1VsTh6pHktA4Q9N9xNgu9sk3pyqR6lBs7
+	J9zZhG5JB417+2PlgYYfpnBne1whgcS1zuYwdgSgqC35GkdTCErF0Av/
+X-Received: by 2002:ac8:574c:0:b0:531:475:4ce6 with SMTP id
+ d75a77b69052e-535131b2b85mr16314281cf.9.1791134050552; Sun, 04 Oct 2026
+ 10:14:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: =?UTF-8?Q?David_M=C3=A1rquez?= <davidmarquezfernandez@gmail.com>
-Date: Sun, 4 Oct 2026 18:12:16 +0100
-X-Gm-Features: AclHuK9N6R9D8LDel51A-7xwF7kTzjXyK2JYRxcKCIgA5AjK89kuM7dPyK9dnwM
-Message-ID: <CAFmy3_zQ1VNUJJ9H1kkvHxf50Pg9AQ4H1rXZbyz6-zxJxcYowg@mail.gmail.com>
-Subject: [BUG] ASoC: Intel: sof_es8336: speaker amp GPIO stays off after
- stream stop/restart (no sound until "Speaker Switch" is toggled)
-To: linux-sound@vger.kernel.org
-Cc: sound-open-firmware@alsa-project.org, broonie@kernel.org, 
-	kai.vehmanen@linux.intel.com, pierre-louis.bossart@linux.dev
+References: <20261003-b4-mmap-prepare-vma-flag-sanify-v4-0-a1f052500fd7@kernel.org>
+ <20261003-b4-mmap-prepare-vma-flag-sanify-v4-8-a1f052500fd7@kernel.org>
+In-Reply-To: <20261003-b4-mmap-prepare-vma-flag-sanify-v4-8-a1f052500fd7@kernel.org>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Sun, 4 Oct 2026 10:13:59 -0700
+X-Gm-Features: AclHuK_YbQsPp6UkU1wteVM53NVi6nuDg9G6v9WzIHWTTGIprDqvC1DHCMGs6A8
+Message-ID: <CAJuCfpHPcgvpR+=CtNVJeFkTn4EkF=hSPH3ZvvpkZQqHS5kzug@mail.gmail.com>
+Subject: Re: [PATCH v4 08/38] docs: filesystems: update mmap_prepare docs for
+ discontig kernel pgs
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+	David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Leon Romanovsky <leon@kernel.org>, Paul Moore <paul@paul-moore.com>, 
+	Stephen Smalley <stephen.smalley.work@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+	Takashi Iwai <tiwai@suse.com>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
+	"Martin K. Petersen" <mkp@kernel.org>, Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, 
+	Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
+	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Muchun Song <muchun.song@linux.dev>, 
+	Oscar Salvador <osalvador@suse.de>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
+	Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
+	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
+	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
+	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, 
+	Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, 
+	Ying Huang <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, 
+	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, 
+	Baoquan He <baoquan.he@linux.dev>, Youngjun Park <youngjun.park@lge.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Qi Zheng <qi.zheng@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-usb@vger.kernel.org, linux-rdma@vger.kernel.org, 
+	selinux@vger.kernel.org, linux-sound@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, 
+	kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
+	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, 
+	fuse-devel@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello,
+On Sat, Oct 3, 2026 at 6:35=E2=80=AFPM Lorenzo Stoakes (ARM) <ljs@kernel.or=
+g> wrote:
+>
+> Describe the newly introduced discontiguous kernel page mapping mechanism=
+,
+> detailing how to use it sensibly and how the API looks.
+>
+> Explicitly detail the various discontiguous actions available and how to
+> use them.
+>
+> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 
-Resending this report in plain text: my first attempt was rejected by
-vger because it contained an HTML part. Sorry for any duplicate.
+Reviewed-by: Suren Baghdasaryan <surenb@google.com>
 
-I am a user of an Adreamer Leobook 13 laptop (Intel Gemini Lake, ES8336
-codec on SSP2, board name PN1308P) running Linux Mint 22 with the Ubuntu
-kernel 6.8.0-139-generic (based on v6.8), SOF firmware sof-glk.ri 2.2.0,
-topology sof-glk-es8336-ssp2.tplg, PipeWire 1.0.5, WirePlumber 0.4.17.
 
-Problem
--------
-The speaker randomly goes silent, typically when a browser stops and
-restarts playback (for example YouTube ad transitions). While it is
-silent the PCM is RUNNING and hw_ptr advances at 48 kHz, PipeWire reports
-no errors, the ALSA mixer is unchanged and nothing is logged in dmesg.
-Toggling "Speaker Switch" off and on restores the sound without closing
-the PCM. Before I worked around it, this happened 15 times in about 10
-hours of use on one day.
-
-Evidence
---------
-I captured the full DAPM debugfs tree, the ES8336 regmap registers and
-/sys/kernel/debug/gpio in the broken and in the working state. Everything
-is identical (including "Speaker Power: On" and "Speaker: On") except the
-speaker enable GPIO:
-
-  broken:   gpio-541 (speakers-enable) out lo ACTIVE LOW
-  working:  gpio-541 (speakers-enable) out hi ACTIVE LOW
-
-Setting pmdown_time to 0 on the codec and BE links did not prevent it.
-
-Analysis
---------
-In sound/soc/intel/boards/sof_es8336.c, sof_8336_trigger() drives the
-speaker GPIO to the "off" level on PAUSE_PUSH, SUSPEND and STOP without
-updating priv->speaker_en, while START, PAUSE_RELEASE and RESUME do
-nothing. The GPIO is only restored by sof_es8316_speaker_power_event()
-when DAPM actually powers the "Speaker Power" supply down and up again.
-If the stream is stopped and started again without that full power
-cycle, nothing re-enables the amplifier: the GPIO stays off while DAPM
-still considers the speaker on. I have not determined which exact path
-triggers it on my machine (pause/resume, xrun recovery, or a restart
-within pmdown_time).
-
-Proposed change (sketch, not a formal patch)
---------------------------------------------
-Re-enable the amplifier on resume when the driver believes it is on:
-
-case SNDRV_PCM_TRIGGER_START:
-case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
-case SNDRV_PCM_TRIGGER_RESUME:
-+ if (substream->stream == 0 && priv->speaker_en == false)
-+ schedule_delayed_work(&priv->pcm_pop_work,
-+      msecs_to_jiffies(70));
-break;
-
-Result
-------
-I tested this change (with an extra dev_info message to count the
-occurrences) on 6.8.0-139, built out-of-tree as a replacement for the
-module. In about 42 hours of YouTube and Netflix use it caught and fixed
-the condition 6 times, with no audible dropouts and no interventions
-from a userspace watchdog that I kept running as a safety net. Before
-loading the patched module, the same watchdog had to intervene 15 times
-in about 10 hours on one day.
-
-From reading a recent mainline tree, sof_8336_trigger() looks unchanged
-there, but I have not tested mainline. I am happy to test other
-proposals, to provide the full debugfs dumps, or to turn this into a
-formal patch if the approach looks acceptable.
-
-Thank you,
-David Marquez Fernandez
+> ---
+>  Documentation/filesystems/mmap_prepare.rst | 81 ++++++++++++++++++++++++=
+++++++
+>  1 file changed, 81 insertions(+)
+>
+> diff --git a/Documentation/filesystems/mmap_prepare.rst b/Documentation/f=
+ilesystems/mmap_prepare.rst
+> index 82c99c95ad85..ddb4434d919a 100644
+> --- a/Documentation/filesystems/mmap_prepare.rst
+> +++ b/Documentation/filesystems/mmap_prepare.rst
+> @@ -164,5 +164,86 @@ pointer. These are:
+>    sufficient entries in the page array to cover the entire range of the
+>    described VMA.
+>
+> +* mmap_action_map_discontig_kernel_pages() - Maps a discontiguous range =
+of
+> +  `struct page` pointers over the VMA. They must span from the start of =
+the VMA,
+> +  but may terminate prior to the end (leaving the remainder unmapped).
+> +
+>  **NOTE:** The ``action`` field should never normally be manipulated dire=
+ctly,
+>  rather you ought to use one of these helpers.
+> +
+> +Discontiguous Actions
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Some actions can be performed across discontiguous ranges.
+> +
+> +Map kernel pages
+> +----------------
+> +
+> +To map kernel pages discontiguously, you must provide hooks using ``stru=
+ct
+> +discontig_kernel_page_ops``:
+> +
+> +.. code-block:: C
+> +
+> +    struct discontig_kernel_page_ops {
+> +        int (*init)(void *vm_private_data, void **private);
+> +        int (*get)(struct discontig_kernel_page_state *state);
+> +    };
+> +
+> +The ``init`` hook is optional and allows state to be established before =
+the
+> +operation starts, for instance taking a reference count. Nothing is invo=
+ked
+> +after the operation, so ``init`` must not leave locks held, and state th=
+at must
+> +be released once the mapping goes away should be released in
+> +``vm_ops->close``.
+> +
+> +The ``init`` hook, if provided, is invoked prior to the operation starti=
+ng. It
+> +may update what is pointed to by ``vm_private_data`` and/or ``private``.=
+ If an
+> +error is returned, then the operation is aborted. The ``private`` field =
+can be
+> +reassigned.
+> +
+> +**NOTE:** The operation may sleep between invocations of ``get``, so loc=
+ks
+> +needed to stabilise state must be taken and released within each hook.
+> +
+> +The ``get`` handler is the key means through which the operation is
+> +executed. The current state of the operation is provided through ``struc=
+t
+> +discontig_kernel_page_state``:
+> +
+> +.. code-block:: C
+> +
+> +    struct discontig_kernel_page_state {
+> +        /* Map state. */
+> +        unsigned long start;            /* Start address of VMA. */
+> +        unsigned long end;              /* End address of VMA. */
+> +        unsigned long addr;             /* The current address to be map=
+ped. */
+> +        pgoff_t pgoff;                  /* The current pgoff to be mappe=
+d. */
+> +        unsigned long nr_pages_mapped;  /* The number of pages mapped. *=
+/
+> +        unsigned long nr_pages_remain;  /* The number of pages remaining=
+. */
+> +
+> +        /* User-defined state. */
+> +        void *vm_private_data;          /* VMA private data. */
+> +        void *private;                  /* Mapping private data. */
+> +
+> +        /* Users should not touch these, use discontig_kernel_map_*() he=
+lpers. */
+> +        ... internal fields ...
+> +    };
+> +
+> +With ``private`` being an additional user-controllable state variable,
+> +initialised via ``mmap_action_map_discontig_kernel_pages()``, and
+> +``vm_private_data`` being equal to the ``desc->private_data`` field set =
+in
+> +the ``mmap_prepare()`` hook.
+> +
+> +In the ``get`` hook, the user must choose how to map kernel pages:
+> +
+> +* ``discontig_kernel_map_abort()`` - Call this to abort the operation, w=
+hatever
+> +  has been mapped so far will be retained, the rest of the mapping will =
+SIGBUS
+> +  if accessed.
+> +* ``discontig_kernel_map_page()`` - Maps a single page, correctly handli=
+ng
+> +  compound pages (if the compound page is bigger than the remaining page=
+s in the
+> +  VMA, then only those pages that fit will be mapped). For a compound pa=
+ge, the
+> +  head page must be passed.
+> +* ``discontig_kernel_map_page_range()`` - Map an array of pages of a spe=
+cified
+> +  size. As with a compound page, if more pages are specified than remain=
+ in
+> +  the VMA then only those that fit will be mapped.
+> +
+> +If an error arises after ``init`` succeeded, the core unmaps the VMA, in=
+voking
+> +``vm_ops->close`` if set, which is therefore the place to release any st=
+ate
+> +that ``init`` established.
+>
+> --
+> 2.55.0
+>
