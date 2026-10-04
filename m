@@ -1,220 +1,157 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mail-m155101.qiye.163.com (mail-m155101.qiye.163.com [101.71.155.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09FE754774;
-	Sun,  4 Oct 2026 08:31:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EC7A416842;
+	Sun,  4 Oct 2026 10:24:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791102684; cv=none; b=BPqtyYI0BgTRkmhZH+o63Lq+Or7lk/SmVgEWDrGq8CIYUmBflbS0QKHNNalnVLW0GWC0thzIq8zMKJ797m5pdADBmhE8RGqF9v64W8NLGG4UktNgxAlb//qXwUDyYCQ7S8Dd897NQIZzGMGREznmUrZ40EVioUAUI+Dc/RAutUI=
+	t=1791109450; cv=none; b=HO/pLfuxdaWNXP47J3KGfc3wlzOJ1oIcNSu+Od/vpVof+mUk3O560NbWDFhyEv44WvMN8JmaolK+VnPRIhaaT2P/cC7hMEu3ta7l43JdzJLkLFag0w6PB5qhpdWPUPO3oq8uy1jf6VnJmhCNk5Dhw746OqJOORIWPnQa8TqsG8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791102684; c=relaxed/simple;
-	bh=et2ZK2SJ1VtuqGzFJI2TWpIthJtmQ9Ek7g1wQZoau10=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KWGkqOIWkkY1g749CxpCAfVLJ87M5kC7VjVgtz1hlVFhlfz8D/Ldhd3qvZuBiMXU0T0HkzHtGdxqa1IDweoMHticuBkuCnNDtc/EfK4OyA9bTjDGAJZz4+8dJzIKItq1kTbVsSBR57PeVnxk8HfiCzuV5LHgMgEOFctrYrbQK+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LcY62DCe; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1791109450; c=relaxed/simple;
+	bh=/an0Ahh1xrPPkDannssAWcgM8uooqZe/h43gpFs3dW0=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=QzFsQTiclNXI04+fswwWzGJBl5ybJ1snG8O0ZtX3To/WZYwylgCnQ+CAziaUWEHBjhzuk19/V7tu7lZEV5FoB6Qb6y37DSk/sOKxJVr9fqhdQLlpj5JZwPSwcBntXAEbo57fyLRrryX1cINug4gciAkFs+V/3/uT0UE/Qhrkcak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=UoVexn+i; arc=none smtp.client-ip=101.71.155.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LcY62DCe"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791102682; x=1822638682;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=et2ZK2SJ1VtuqGzFJI2TWpIthJtmQ9Ek7g1wQZoau10=;
-  b=LcY62DCef4Kd59vxg3slSUsgrERbD91TPsIGyE9AQHG3s3f0GYnqCfdT
-   BRG3Pj7rVnzsYGXz3geeqCRs6vpdGFRTle8uq36IR4X0itFF0VC7tML0s
-   hvexhAlJ1M2IMruhV550YqgJGZLdSTH9CK3rmtR0kfQTyUG1YkhKbqs6y
-   Ep4873ZzYCdUHImcN16nZMSW1W4x4f9YOfyBSOQo3JvmhHDYFW+kpKpEj
-   wxOujsMZaj6Ns+G+F9DhPJFAP6Pa7BZQE28Q6gdDmKynhnm50T9Gf75Cs
-   fEvNE+UAAfzBEV9vrJqc5CF3nmY/FZYQLVmwpRFE21lh8tLqMJut64NY2
-   w==;
-X-CSE-ConnectionGUID: bK97PJVVTHK49FXh4vs6nA==
-X-CSE-MsgGUID: tn/SxWW/R2mmD1r6GW/BNg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11924"; a="109289926"
-X-IronPort-AV: E=Sophos;i="6.27,139,1787036400"; 
-   d="scan'208";a="109289926"
-Received: from fmviesa011.fm.intel.com ([10.60.135.151])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2026 01:31:21 -0700
-X-CSE-ConnectionGUID: RgYkFbywSeyl+uqTyYbi8A==
-X-CSE-MsgGUID: iWoMLbKfSc+S/CjQy+BRmQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,139,1787036400"; 
-   d="scan'208";a="657332"
-Received: from mkosciow-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.100])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2026 01:31:16 -0700
-Date: Sun, 4 Oct 2026 11:31:14 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Frank Li <Frank.li@oss.nxp.com>
-Cc: Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Vinod Koul <vkoul@kernel.org>, linux-kernel@vger.kernel.org,
-	dmaengine@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-iio@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-spi@vger.kernel.org,
-	Frank Li <Frank.Li@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
-	=?iso-8859-1?Q?Am=E9lie?= Delaunay <amelie.delaunay@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Andy Shevchenko <andy@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Mark Brown <broonie@kernel.org>
-Subject: Re: [PATCH v4 01/10] dmaengine: Move enum dma_slave_buswidth to a
- new header
-Message-ID: <asIO0tGiHGm0llvI@ashevche-desk.local>
-References: <aql6u3T0nnSVr-FC@SMW015318>
- <aqws8pN2rfS9-dCC@parshuram>
- <aqz1-OzFobOROuBw@nsa>
- <aq18_TMNs4EJzgZO@parshuram>
- <arDtEB0na9DxDWAS@nsa>
- <arFXc0LqEpgWSS6m@SMW015318>
- <ar-Il2qP_Qms3Qw1@nsa>
- <ar-13p3a7ENGfMOF@SMW015318>
- <asEWwIfO0LB27wj9@ashevche-desk.local>
- <asGk4fj_HQ5HupB4@SMW015318>
+	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="UoVexn+i"
+Received: from PC-202605011814.localdomain (unknown [58.241.16.34])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 4feb7a971;
+	Sun, 4 Oct 2026 18:23:56 +0800 (GMT+08:00)
+From: Runyu Xiao <runyu.xiao@seu.edu.cn>
+To: Srinivas Kandagatla <srini@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Prasad Kumpatla <quic_pkumpatl@quicinc.com>,
+	linux-sound@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Runyu Xiao <runyu.xiao@seu.edu.cn>,
+	Jianhao Xu <jianhao.xu@seu.edu.cn>
+Subject: [PATCH v2] ASoC: codecs: wcd937x: request watchdog IRQs without devm
+Date: Sun,  4 Oct 2026 18:23:46 +0800
+Message-Id: <20261004102346.1203410-1-runyu.xiao@seu.edu.cn>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260929094223.2086750-1-runyu.xiao@seu.edu.cn>
+References: <20260929094223.2086750-1-runyu.xiao@seu.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <asGk4fj_HQ5HupB4@SMW015318>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+X-HM-Tid: 0aa10671155b03a1kunmbe4e162033872b
+X-HM-MType: 10
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkaGh0dVk1MGU0eTkhMSUkaTFYeHw
+	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlOQ1VJT0pVSk1VSE9ZV1kWGg8SFR0UWUFZT0tIVUpLSEpPSE
+	xVSktLVUpCS0tZBg++
+DKIM-Signature: a=rsa-sha256;
+	b=UoVexn+i8wSlmjRPIq+/9RsRjXzY7gcnIV635ED4LSwtpe9FS4msNpk6CytFrcTS+EarP+OfSPxNwHnwCTjBRfAyvZBD4stDUll54nPZe5Un6Aj5kTc0vA6bgy28ChARf3vK8wV/89nH4P9+RX6pe6HQq4cNK0Q7tmT1kE1nxXw=; c=relaxed/relaxed; s=default; d=seu.edu.cn; v=1;
+	bh=EYqnINkQDb70UfTXaXUn3ZfNSoOVKpSu/IdqarVA5H8=;
+	h=date:mime-version:subject:message-id:from;
 
-On Sat, Oct 03, 2026 at 07:59:13PM -0500, Frank Li wrote:
-> On Sat, Oct 03, 2026 at 05:52:48PM +0300, Andy Shevchenko wrote:
-> > On Fri, Oct 02, 2026 at 08:47:10AM -0500, Frank Li wrote:
-> > > On Fri, Oct 02, 2026 at 11:43:17AM +0100, Nuno Sá wrote:
-> > > > On Mon, Sep 21, 2026 at 11:12:35AM -0500, Frank Li wrote:
-> > > > > On Mon, Sep 21, 2026 at 09:53:49AM +0100, Nuno Sá wrote:
-> > > > > > On Fri, Sep 18, 2026 at 11:33:41PM +0530, Vinod Koul wrote:
-> > > > > > > On 18-09-26, 09:39, Nuno Sá wrote:
-> > > > > > > > On Thu, Sep 17, 2026 at 11:39:54PM +0530, Vinod Koul wrote:
-> > > > > > > > > On 15-09-26, 12:04, Frank Li wrote:
-> > > > > > > > > > On Tue, Sep 15, 2026 at 09:50:22PM +0530, Vinod Koul wrote:
-> > > > > > > > > > > On 15-09-26, 21:22, Vinod Koul wrote:
+The watchdog IRQs are requested from the codec component probe and released
+from its remove callback. Use the same non-devm lifetime for both
+operations.
 
-...
+Use request_threaded_irq() and keep free_irq() in the component remove
+callback. Return errors from each request and unwind only IRQs that were
+successfully requested, including failures later in component probe.
 
-> > > > > > > > > > > > > Traditional naming would be
-> > > > > > > > > > > > > dma/engine/provider.h
-> > > > > > > > > > > > > dma/engine/consumer.h
-> > > > > > > > > > > >
-> > > > > > > > > > > > consumer and provider and good names.. I would retain the full dmaengine
-> > > > > > > > > > > > everywhere please. dma causes confusion already!
-> > > > > > > > > > >
-> > > > > > > > > > > Thinking about it again, drivers/dma/dmaengine.h should be the provider
-> > > > > > > > > >
-> > > > > > > > > > There some dmaengine code outside drivers/dma directory, like
-> > > > > > > > > > drivers/crypto/ccp/ccp-dmaengine.c
-> > > > > > > > >
-> > > > > > > > > They chose to be outside, their choice... They need to be updated as
-> > > > > > > > > well to point to ../../dma/dmaengine.h :-)
-> > > > > > > >
-> > > > > > > > I tend to agree with Andy but anyways. I feel this is going a bit out of
-> > > > > > > > scope now. So what we have now in the series is:
-> > > > > > > >
-> > > > > > > >
-> > > > > > > > - include/linux/dmaengine.h (without enum dma_slave_buswidth)
-> > > > > > > > - include/linux/dma/types.h (with enum dma_slave_buswidth and new
-> > > > > > > >   dma_buswidth_t type) - A future one would be dma_cap_mask_t and we could
-> > > > > > > >   drop bitmap.h from dmaengine.h
-> > > > > > > > - include/linux/dma/widthmask.h - The new bitmap based API for bus_width
-> > > > > > > >
-> > > > > > > > I kind like the separation (and the whole point was to avoid bitmap.h in
-> > > > > > > > the main dmaengine.h API) but tbh I'm not sure if a consumer driver
-> > > > > > > > will ever use dma/widthmask.h without needing the consumer API. But
-> > > > > > > > to sum things up, what do you suggest for vÛE?
-> > > > > > > >
-> > > > > > > > * include/linux/dmaengine.h as the consumer API and includes the new
-> > > > > > > > the widthmask API
-> > > > > > > > * provider/private goes to drivers/dma/dmaengine.h and just includes
-> > > > > > > > include/linux/dmaengine.h as the starting point?
-> > > > > > > >
-> > > > > > > > Let me know how do you want things for v5
-> > > > > > >
-> > > > > > > Yes lets talk about dma_slave_buswidth, it is client type. This is
-> > > > > > > configured by users to set the width of peripheral.
-> > > > > > > So this needs to be in the include/linux/dmaengine.h
-> > > > > > >
-> > > > > >
-> > > > > > Agreed! But providers also need to set the allowed bus mask. And I'm
-> > > > > > just not sure they need to include/consume all of the consumer API.
-> > > > > > Also, it's common to allow the provider API to be widely used throughout
-> > > > > > the kernel (but I agree that could be even harder to get done - if we
-> > > > > > want to make some stuff really private - but I guess that could be done
-> > > > > > in a second step or more incrementally). We do also have some subfolders
-> > > > > > in `drivers/dma` which means we'll need the odd "../dmaengine.h" relative
-> > > > > > include which I do not love tbh (on top of the crypto stuff).
-> > > > > >
-> > > > > > I really think something like the below would be more appropriate (if we
-> > > > > > just want the provider/consumer API without further splitting like the
-> > > > > > types.h and widthmak.h in this version):
-> > > > > >
-> > > > > > include/linux/dmaengine.h - provider API (as of today)
-> > > > > > include/linux/dmaengine-consumer.h
-> > > > > >
-> > > > > > But anyways, if you or Frank do not object in the next few days, I'll
-> > > > > > take the above approach suggested by Vinod:
-> > > > > >
-> > > > > > drivers/dma/dmaengine.h - provider
-> > > > > > include/linux/dmaengine.h - consumer
-> > > > >
-> > > > > It think it is fine.
-> > > >
-> > > > So I was aboutto start on this again and I just realized
-> > > > drivers/dma/dmaengine.h already exists today so nothing to do on this
-> > > > series.
-> > >
-> > > I just find it and start some cleanup/move work.
-> > >
-> > > > I mean I could remove the consumer include on the dmaengine
-> > > > drivers that I'm touching but not really on scope and super important
-> > > > IMO. So, for the consumer side, should I just go to the first approach
-> > > > where all the bus_width API goes into include/linux/dmaengine.h or
-> > > > should I keep:
-> > > >
-> > > > include/linux/engine/types.h
-> > > > include/linux/engine/widthmask.h
-> > > >
-> > > > And have a better separation on the consumer side? Or maybe changing
-> > > > s/engine/consumer/ on the above paths?
-> > >
-> > > I go through v3 thread, Andy just said split to new type.h, but not have
-> > > provided reason.
-> > >
-> > > I am planning move provide API and data structure to driver/dma/dmaengine.h
-> > >
-> > > include/linux/dmaengine.h will keep consume only defination and API.
-> > >
-> > > why still need types.h?
-> >
-> > The idea was to rectify the messed up dependencies. Without split of types we
-> > will need to have bitmap.h (IIRC the initial idea of the split was that) only
-> 
-> There are already include bitmap.h, and use
-> 
-> typedef struct { DECLARE_BITMAP(bits, DMA_TX_TYPE_END); } dma_cap_mask_t;
+Fixes: 9be3ec196da4 ("ASoC: codecs: wcd937x: add wcd937x codec driver")
+Assisted-by: LLM
+Signed-off-by: Runyu Xiao <runyu.xiao@seu.edu.cn>
+---
+v2:
+- Use request_threaded_irq() and free_irq() as suggested by Mark Brown.
+- Keep error unwinding limited to IRQs that were successfully requested.
 
-This is not part of bitmap.h. DECLARE_BITMAP() resides in types.h.
+ sound/soc/codecs/wcd937x.c | 44 +++++++++++++++++++++++---------------
+ 1 file changed, 27 insertions(+), 17 deletions(-)
 
-> Suppose all DMA Engine consumer will use it to do some check. So I think
-> needn't split it as indivial version.
-
-I guess you need to dive a bit more in that mess we have...
-
-> > where it's indeed required. Besides bitmap.h there are might be more headers
-> > that "include half of the world" which should be avoided in every header file.
-
+diff --git a/sound/soc/codecs/wcd937x.c b/sound/soc/codecs/wcd937x.c
+index 0dd05604f5b88..7ffbb445f8ac4 100644
+--- a/sound/soc/codecs/wcd937x.c
++++ b/sound/soc/codecs/wcd937x.c
+@@ -2536,23 +2536,23 @@ static int wcd937x_soc_codec_probe(struct snd_soc_component *component)
+ 						      WCD937X_IRQ_AUX_PDM_WD_INT);
+ 
+ 	/* Request for watchdog interrupt */
+-	ret = devm_request_threaded_irq(dev, wcd937x->hphr_pdm_wd_int, NULL, wcd937x_wd_handle_irq,
+-					IRQF_ONESHOT | IRQF_TRIGGER_RISING,
+-					"HPHR PDM WDOG INT", wcd937x);
++	ret = request_threaded_irq(wcd937x->hphr_pdm_wd_int, NULL, wcd937x_wd_handle_irq,
++				   IRQF_ONESHOT | IRQF_TRIGGER_RISING,
++				   "HPHR PDM WDOG INT", wcd937x);
+ 	if (ret)
+-		dev_err(dev, "Failed to request HPHR watchdog interrupt (%d)\n", ret);
++		goto err_free_clsh;
+ 
+-	ret = devm_request_threaded_irq(dev, wcd937x->hphl_pdm_wd_int, NULL, wcd937x_wd_handle_irq,
+-					IRQF_ONESHOT | IRQF_TRIGGER_RISING,
+-					"HPHL PDM WDOG INT", wcd937x);
++	ret = request_threaded_irq(wcd937x->hphl_pdm_wd_int, NULL, wcd937x_wd_handle_irq,
++				   IRQF_ONESHOT | IRQF_TRIGGER_RISING,
++				   "HPHL PDM WDOG INT", wcd937x);
+ 	if (ret)
+-		dev_err(dev, "Failed to request HPHL watchdog interrupt (%d)\n", ret);
++		goto err_free_hphr_irq;
+ 
+-	ret = devm_request_threaded_irq(dev, wcd937x->aux_pdm_wd_int, NULL, wcd937x_wd_handle_irq,
+-					IRQF_ONESHOT | IRQF_TRIGGER_RISING,
+-					"AUX PDM WDOG INT", wcd937x);
++	ret = request_threaded_irq(wcd937x->aux_pdm_wd_int, NULL, wcd937x_wd_handle_irq,
++				   IRQF_ONESHOT | IRQF_TRIGGER_RISING,
++				   "AUX PDM WDOG INT", wcd937x);
+ 	if (ret)
+-		dev_err(dev, "Failed to request Aux watchdog interrupt (%d)\n", ret);
++		goto err_free_hphl_irq;
+ 
+ 	/* Disable watchdog interrupt for HPH and AUX */
+ 	disable_irq_nosync(wcd937x->hphr_pdm_wd_int);
+@@ -2564,23 +2564,33 @@ static int wcd937x_soc_codec_probe(struct snd_soc_component *component)
+ 						ARRAY_SIZE(wcd9375_dapm_widgets));
+ 		if (ret < 0) {
+ 			dev_err(component->dev, "Failed to add snd_ctls\n");
+-			wcd_clsh_ctrl_free(wcd937x->clsh_info);
+-			return ret;
++			goto err_free_irqs;
+ 		}
+ 
+ 		ret = snd_soc_dapm_add_routes(dapm, wcd9375_audio_map,
+ 					      ARRAY_SIZE(wcd9375_audio_map));
+ 		if (ret < 0) {
+ 			dev_err(component->dev, "Failed to add routes\n");
+-			wcd_clsh_ctrl_free(wcd937x->clsh_info);
+-			return ret;
++			goto err_free_irqs;
+ 		}
+ 	}
+ 
+ 	ret = wcd937x_mbhc_init(component);
+-	if (ret)
++	if (ret) {
+ 		dev_err(component->dev, "mbhc initialization failed\n");
++		goto err_free_irqs;
++	}
++
++	return ret;
+ 
++err_free_irqs:
++	free_irq(wcd937x->aux_pdm_wd_int, wcd937x);
++err_free_hphl_irq:
++	free_irq(wcd937x->hphl_pdm_wd_int, wcd937x);
++err_free_hphr_irq:
++	free_irq(wcd937x->hphr_pdm_wd_int, wcd937x);
++err_free_clsh:
++	wcd_clsh_ctrl_free(wcd937x->clsh_info);
+ 	return ret;
+ }
+ 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+2.34.1
