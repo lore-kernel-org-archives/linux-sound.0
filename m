@@ -1,77 +1,147 @@
-Received: from mail.zipdox.net (195-240-81-79.fixed.kpn.net [195.240.81.79])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AB1830DECE;
-	Mon,  5 Oct 2026 10:01:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.240.81.79
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B87E457E65;
+	Mon,  5 Oct 2026 10:28:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791194502; cv=none; b=gJ5PpIZEa4P8gGcSAnXmnpE31F7aOw+4SpwDGvgL2j0FCFaoOtRoaAXt56a+lw4FDz9l5GoC3ofvl5p5y79Pf3FdHIA6OjITPNrf3OvjdaO6/ufrXwi3tIAIwmthr+LnHfpwCNvbOxri41dFGWy2SbH9p5q+hBURXT3+bKYYBNA=
+	t=1791196096; cv=none; b=fx+8SNir3FmCy3lMpBQtjogvXnCAo9ZUrMluGNM6Bq985zDTAmLsXl4sv/EY2wZ1uAGGBwJvjWFkklYUFVDRNIVEtMQRdE8F660Wxd6Z6121ofChd2YtXCfM+kdR3u6h4EG71MJIGh3U+GeYX9Mg7czz+pWc/ZeR1bXIdtHIsKI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791194502; c=relaxed/simple;
-	bh=pSoRY2Pv7DXWjBni4zIQhh4HemPs+G/k20bgRvzuTyc=;
-	h=Message-ID:Date:MIME-Version:Subject:References:Cc:From:
-	 In-Reply-To:Content-Type; b=S6pf3a0EZSklpABm32A/7AaWBMtzyIQGTs+YDPwq4vmIvg+QrrEU/nOW59HAPSfbT8oSFTTHDoodu8kgyvxI3E7AeRn+CDyIFp5PI2Ne7VOulWhA0GHAD9PkSYGMi+a/KaoDHuCXKwIABb/U3NeWJUObUd4Z52hgATR9++J+g7M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=zipdox.net; spf=pass smtp.mailfrom=zipdox.net; dkim=pass (2048-bit key) header.d=zipdox.net header.i=@zipdox.net header.b=tMGE6ux6; arc=none smtp.client-ip=195.240.81.79
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=zipdox.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zipdox.net
+	s=arc-20240116; t=1791196096; c=relaxed/simple;
+	bh=RUGabXB01WVBYscIOh3a6k+U6RGIgCxG0UI9tqZtglM=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=s35Ee4ZVj7clVTJDxTHaOKD37RqaUz1q4KAjbfMerE19pUTap+VNx9HWEb/0QCB8CnIGVZZBWrqBLFlzDP0zwG3hMVMQtNH5Tn4n2Gr7S4GYclXL5XemrIkT7nhAM/LnoIE4FI64rb8Lrh3X5H8+az7VhZv13AZ97/3Q49o0+jg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QvZ8tg/N; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=avvF+c2J; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rHUkIc/I; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=dwbDSzd7; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zipdox.net header.i=@zipdox.net header.b="tMGE6ux6"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 6D41992AD4B;
-	Mon, 05 Oct 2026 11:55:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zipdox.net; s=dkim;
-	t=1791194141; h=from:subject:date:message-id:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=uhTVs9quQt9NBt6OrZGY4aWjJVeVr2ktdMXBropE/Ro=;
-	b=tMGE6ux61Eil1ZynFkTeDPlQ9qlW5bg4d0riJMPReCDTVlZSV3vMevbwTzKD+AkHgJPDQu
-	q80PA2BJ8bXdkSUFFIr2OlwubEf/YmcLpjWRPUkQOeAHtUEq52InIPhi9Oj6sg5uolFTwA
-	v7tN095N/c1E5mMTEiOLLENxFW5u492T1zuHAjT5vqpMqjJ4Dh0dnmZERc85XwECSABpgC
-	2L9VeK1XsJpM+67c5fVS097M2ZwnvOYJCFTt+93KZdVoT5WRTxXDUTvK82gnsOR7x55OKE
-	3Sh8wjASZyww1jmKHdRVedgJkfPpCOP3qO8cz0QPEdQb6CHqKaBQAuof+5W5fg==
-Message-ID: <f3661b8b-6d4e-4244-8a7c-a5811b1fbea1@zipdox.net>
-Date: Mon, 5 Oct 2026 11:55:40 +0200
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QvZ8tg/N";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="avvF+c2J";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rHUkIc/I";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="dwbDSzd7"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 0F89221E85;
+	Mon,  5 Oct 2026 10:28:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1791196089; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dpnyF9kWu5HUOFuoMW2EGXX3vg3/k1B3QaCRnwhKEdQ=;
+	b=QvZ8tg/NB3JXdFbwzNd9PjuXAYegvaBBJrv87lRqof8u1TbRCwuB4S+9NX2CEikuZSnlVT
+	0RdCh853IS9q8OeUdztLnNb0oZ+zsN88ctKmkonancy80HPz8ISAEr6U02vSUUDwJkZsO2
+	S1K/PTFUFlKCkZ6JzAdzZRUnZSK4hp8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1791196089;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dpnyF9kWu5HUOFuoMW2EGXX3vg3/k1B3QaCRnwhKEdQ=;
+	b=avvF+c2Jeff/ifyMvbfyqB1oJdLiIpkejk2DmGj4oUuFJI/otfSiTPb/3uwDBqslEvcWts
+	YuzPCtXqdNd08yCg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1791196085; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dpnyF9kWu5HUOFuoMW2EGXX3vg3/k1B3QaCRnwhKEdQ=;
+	b=rHUkIc/I+3ZlhfqGdI39tRm0SYAmIH8AYuWuCaiG/5M8lqtmv1SSzIw7DFvUJao9sZf42R
+	UoSMSl+nqLIqgcPHgFDBVJUx/rd0N9RVMPupDFytXlg4fZeusftXiSxTYGMnNLS6e2rBT2
+	XW70JRvYjPxShTC9dwq2opo/4FytcNI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1791196085;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dpnyF9kWu5HUOFuoMW2EGXX3vg3/k1B3QaCRnwhKEdQ=;
+	b=dwbDSzd7f3x+TP5glNT7rNmM4Lr5PR3uVZitQwOQNqtr0cChDqh6cSUdIVr+29E3lTPYLf
+	D1Dnnxyp9DQJT/Dg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CC9C2132D3;
+	Mon,  5 Oct 2026 10:28:04 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 7b0vKbR7w2rlJQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 05 Oct 2026 10:28:04 +0000
+Date: Mon, 05 Oct 2026 12:27:56 +0200
+Message-ID: <87se2ksaqb.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Scott Gauche <scott-dev@scottgauche.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1] ALSA: hda/realtek: Fix audio after Windows reboot on ASUS Q423SA
+In-Reply-To: <20261004212623.1098793-1-scott-dev@scottgauche.com>
+References: <20261004212623.1098793-1-scott-dev@scottgauche.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] USB Audio Class 2 Mixer unit support for GET_CUR, SET_CUR
- and RANGE
-Content-Language: en-US
-References: <2dfe5d78-9c87-42a2-a306-ab5c58b17756@zipdox.net>
-Cc: linux-sound@vger.kernel.org, perex@perex.cz,
- linux-kernel@vger.kernel.org, tiwai@suse.com
-From: Zipdox <zipdox@zipdox.net>
-In-Reply-To: <2dfe5d78-9c87-42a2-a306-ab5c58b17756@zipdox.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Score: -3.30
+X-Spam-Level: 
 
-On 9/28/26 12:59 PM, Takashi Iwai wrote:
->>  From a UX perspective, I would prefer if the lowest setting on the
->> control equals mute. This makes the most sense for a "mixer". Like I
->> mentioned before, extending the range down by 1 and making that
->> translate to -32768 seems like a convenient solution. When setting,
->> simply check if it's a mixer unit (UAC1 or UAC2, both do this) and if
->> the set value is equal to the minimum, and set the value to
->> -32768. For getting, check if it's a mixer unit and check if the
->> retrieved value is -32768, and then set the value to the minimum. The
->> only caveat is that the resolution might not align anymore with the
->> range. What do you think of this idea?
+On Sun, 04 Oct 2026 23:26:23 +0200,
+Scott Gauche wrote:
 > 
-> I thought of it, too.  OTOH, it'll be a bit tricky, because the range
-> isn't usually covering -32767 but only a part.  So -32768 won't be
-> reached continuously.
+> The ASUS Vivobook S 14 Q423SA-U5512 (DMI family S5406SA) with the
+> ALC294 codec has working analog audio when booted directly after a full
+> shutdown. After a warm reboot from Windows 11, audio works briefly during
+> Linux startup, then both the internal speakers and headphones become
+> silent. PCM playback continues without errors.
 > 
-> I'm inclined to have a simple mute switch in addition.
+> Coefficient 0x1b is 0x4e4b on a direct cold boot, but 0x4a4b after the
+> Windows warm reboot. Restoring bit 10 changes it back to 0x4e4b and
+> immediately enables both analog outputs. Speaker playback, headphone
+> playback, jack switching, cold boot, and suspend/resume were tested
+> successfully. The same 0x4a4b state and immediate recovery with 0x4e4b
+> were independently confirmed on another S5406SA with subsystem 1043:10c4.
 > 
+> The same coefficient write is already used by
+> ALC294_FIXUP_ASUS_COEF_1B for the ASUS UX431DA. That fixup cannot be
+> reused here because it chains to ALC289_FIXUP_ASUS_GA401 and applies
+> unrelated DAC routing and microphone pin configuration.
 > 
-> thanks,
+> Add a model-specific fixup for subsystem 1043:10c4 and chain it to the
+> existing ALC2XX_FIXUP_HEADSET_MIC fixup instead.
 > 
-> Takashi
-> 
-A mute switch could work if you add the necessary state management code. 
-For now I think that's the most straightforward solution, seeing I don't 
-know how ALSA would handle a misaligned range and resolution in the case 
-of my proposal. Could you write a patch?
+> Link: https://github.com/thesofproject/sof/issues/11051
+> Signed-off-by: Scott Gauche <scott-dev@scottgauche.com>
+
+As this looks like correcting an existing quirk, could you point to
+the commit introducing the original quirk via Fixes tag?
+At best, please resubmit v2 with it.
+
+
+thanks,
+
+Takashi
