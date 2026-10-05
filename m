@@ -1,90 +1,93 @@
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com [210.118.77.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DF0D3793B0
-	for <linux-sound@vger.kernel.org>; Mon,  5 Oct 2026 07:17:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04BFD37BE9E;
+	Mon,  5 Oct 2026 08:10:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791184643; cv=none; b=oC9hdlfzMsHn27auNDRl59XqAslik/p2/exJeTNLv6Q5i9NNoCw5UFAUsvfBQ+/3N6oSiOM539N2hsmGaHBPtvvimmhoFDZejt5UIN0ACmse814zmgSQFLYFbGtGCKDp6c21Tt7lRJZx7IfEp9en2B/2NJxR2i/q6rvVBq2QzKo=
+	t=1791187858; cv=none; b=RWwgnjJaV66Px5DpGLh5WGNTpVu5BPkbPEuvOm/llZTYcuSQu7O/jjtGElPMfG+41Z90gYtsZPH9ZHtgD9jDWnQ2YPIngZyIhIRqEhdcqACNsuRm9RnhuyWECAZqG1yjbZf/0Ov9jk2HJlhoQ+ESWTrcUFaoLBAhpbiY7Kqj6nY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791184643; c=relaxed/simple;
-	bh=jfJBMFQ0lzzLEvzicZbiwAYON6suZdIO/31jsKebsNI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
-	 Content-Type:References; b=q3Inw1J1u+xLvY2zLtXU5L8wZBKaOs3uuqsRI4qG+ZPx0XblPmd1kRFz7V0ENnhLWa9X9WYFNVAc/AQjXouphr6lVuyK91RnfZUHyBgMThEBI9N+VSJJ5iEmhicifCORem4WFAZKaxyZwMYOw4ko4tVvcuRSpzPWG8pqh0sqS3g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=g9vvWPw5; arc=none smtp.client-ip=210.118.77.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	s=arc-20240116; t=1791187858; c=relaxed/simple;
+	bh=x1W0d+UxyN6NyR02OWmZk3vrZ/qpuzcycxmpO18/UqA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WGk3bKlOnlGxuxQ3dVcGEdYzC+KeskJao93ZS42pp8cOveOHzIgprhvNMOJFEomVUd+Knu/fqz0hG1K29YqvuvEaA8qzhoTbTk/GHsqCScn1jcik09hyeAEVisDAxywDfFiCOrEnZaEYOdshKwBUkTpEozotTR0xwtu5wwxPl8U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CSpKwxqN; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="g9vvWPw5"
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20261005071713euoutp01ffb5df8f4ae2ca9fe342236dffba77af~bkO8V6A7E3276232762euoutp01X
-	for <linux-sound@vger.kernel.org>; Mon,  5 Oct 2026 07:17:13 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20261005071713euoutp01ffb5df8f4ae2ca9fe342236dffba77af~bkO8V6A7E3276232762euoutp01X
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1791184633;
-	bh=tDyMIJt9GEHG1O+FdMTw5VRypdxdwWrDlpY2GuSi1Uw=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=g9vvWPw5n9X25pMGic+LneE/2VM2zhon1lc/j3kwThwPp6oScEjxNzK6BtFyipD09
-	 tDKPpJ6Scli1yG1tP+m+BkIxqroLp/CkSXxh0Zh4vbTQwUgfudNSnISGhnVHGcOH6u
-	 IksTissuSIdnsKIrALzcdth9yo9OZxv4Cn6d9oVA=
-Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
-	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-	20261005071713eucas1p1130def3b0abe5a5583ad25765dfa2528~bkO8KQ0BO0628806288eucas1p1K;
-	Mon,  5 Oct 2026 07:17:13 +0000 (GMT)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
-	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20261005071712eusmtip212456241e657ea6fa877cd9cb12b264e~bkO7hEuV90330403304eusmtip2G;
-	Mon,  5 Oct 2026 07:17:12 +0000 (GMT)
-Message-ID: <5ccae82f-42fc-4424-9a7a-d1592260756b@samsung.com>
-Date: Mon, 5 Oct 2026 09:17:11 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CSpKwxqN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4D901F00893;
+	Mon,  5 Oct 2026 08:10:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791187856;
+	bh=x1W0d+UxyN6NyR02OWmZk3vrZ/qpuzcycxmpO18/UqA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=CSpKwxqNWyx2EIT6SI+NsQM6C0H17sq5KiRmYKWdcHTFMmSIXRMGjLGgYB9w9QHeC
+	 u/fcZoZLK6xiDItwlfhgKoni0AryDPcnheJlQYZVBu5l0AJ4+svgWwXCktAihFBMgc
+	 AOT7si3UMiODyJsyxWE+Sb3K+62/hKhyARoWR1W/n52uqYkngdg9x/v5Cq0z5pKK4/
+	 92ucD2to4qOUKzpoWu7ANL+moCoz/bLHpigdtw/mNwk2vGPhZQXrBYefHI05XMsnOK
+	 4hVD9J1k8mv+7wsG02mocmj/FCpnjWN0eqAvSyX9dmVeY4bOEIloLAvJcZzGS+Y/2k
+	 j90VzZDaX2SCA==
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+	id 2F1AB1AC57CE; Mon, 05 Oct 2026 09:10:53 +0100 (BST)
+Date: Mon, 5 Oct 2026 10:10:53 +0200
+From: Mark Brown <broonie@kernel.org>
+To: Bui Duc Phuc <phucduc.bui@gmail.com>
+Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Trevor Wu <trevor.wu@mediatek.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	cassiogabrielcontato@gmail.com,
+	Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Haotian Zhang <vulab@iscas.ac.cn>,
+	HariKrishna Sagala <hariconscious@gmail.com>,
+	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 06/14] ASoC: mediatek: mt8195: Fix FE startup error
+ handling
+Message-ID: <asNbjSrPYVbeqSae@sirena.co.uk>
+References: <20260925044908.450775-1-phucduc.bui@gmail.com>
+ <20260925044908.450775-7-phucduc.bui@gmail.com>
+ <asKt42FgsbhSbQUP@sirena.org.uk>
+ <CAABR9nFyEJBwXP=4SjuGNfGQJub2y_DPE87c6j6BPmqMBgjESA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Betterbird (Windows)
-Subject: Re: [PATCH] ASoC: soc-generic-dmaengine: don't request default
- channels from dma_dev
-To: Bui Duc Phuc <phucduc.bui@gmail.com>
-Cc: linux-sound@vger.kernel.org, Lars-Peter Clausen <lars@metafoo.de>, Liam
-	Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>
-Content-Language: en-US
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <CAABR9nE9zGHbABn2+=+zOsGTvDbLsCYp6RWMkK0RyJF6c74ooQ@mail.gmail.com>
-Content-Transfer-Encoding: 8bit
-X-CMS-MailID: 20261005071713eucas1p1130def3b0abe5a5583ad25765dfa2528
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20261002092341eucas1p106b159afbbb9f78eb1a7f9bfaf2ff376
-X-EPHeader: CA
-X-CMS-RootMailID: 20261002092341eucas1p106b159afbbb9f78eb1a7f9bfaf2ff376
-References: <CGME20261002092341eucas1p106b159afbbb9f78eb1a7f9bfaf2ff376@eucas1p1.samsung.com>
-	<20261002092336.585546-1-m.szyprowski@samsung.com>
-	<CAABR9nE9zGHbABn2+=+zOsGTvDbLsCYp6RWMkK0RyJF6c74ooQ@mail.gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="sUcAnahCRvqeHeGI"
+Content-Disposition: inline
+In-Reply-To: <CAABR9nFyEJBwXP=4SjuGNfGQJub2y_DPE87c6j6BPmqMBgjESA@mail.gmail.com>
+X-Cookie: You will forget that you ever knew me.
 
-On 03.10.2026 02:42, Bui Duc Phuc wrote:
-> Hi Marek,
->
-> Thanks for the fix.
->
->> Fixes: 9167f260477b ("ASoC: soc-generic-dmaengine: Handle DMA channel request failures correctly")
->> Assisted-by: Claude Opus 5.5 <noreply@anthropic.com>
->> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> Note that the bogus "rx" request predates 9167f260477b;
-> the failure was just silently ignored before, and my commit
-> only exposed it. So the Fixes tag might better point to
-> the commit that introduced the dma_dev usage for
-> the secondary DAI.
-Thanks for pointing this. It was commit 194c7dea00c6, which added dma_dev support and that
-time there was no error reporting, so the fallback to default channel names was harmless.
-I think the most accurate would be tag this patch with two 'Fixes' tags: 
 
-Fixes: 194c7dea00c6 ("ASoC: dmaengine: add custom DMA config to snd_dmaengine_pcm_config")
-Fixes: 9167f260477b ("ASoC: soc-generic-dmaengine: Handle DMA channel request failures correctly")
+--sUcAnahCRvqeHeGI
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Best regards
--- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
+On Mon, Oct 05, 2026 at 02:12:38PM +0700, Bui Duc Phuc wrote:
 
+> > This will return 1 if a new constraint is installed which is not a
+> > failure.
+
+> Do you mean snd_pcm_hw_constraint_integer() rather than
+> snd_pcm_hw_constraint_step()?
+
+Sorry, yes - Noticed it in the _fe_startup() that was called just
+before as you say and didn't specifically check that function.
+
+--sUcAnahCRvqeHeGI
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQReagvpf3TrrA7BoYYv73Ows9A4iQUCasNbjQAKCRAv73Ows9A4
+iRNfAP4wqJV7pRyYOXXDTCy+JSwPo1kGj0jzlAZ1N4Sz4PZCegEAngA2eR4CykXu
+huQWaGzmx7Q8fpn7SbSPhCVbfBI9WAI=
+=F9Hz
+-----END PGP SIGNATURE-----
+
+--sUcAnahCRvqeHeGI--
