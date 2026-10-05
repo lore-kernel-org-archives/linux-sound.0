@@ -1,196 +1,196 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011009.outbound.protection.outlook.com [52.101.52.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FCC342C514;
-	Mon,  5 Oct 2026 09:09:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C91942E41D;
+	Mon,  5 Oct 2026 09:16:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.9
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791191355; cv=fail; b=KC5+SWgnPV731lLCfkUKQ1Fsi9JDx9CNX/oIxdPqkFCO/6Mf90odoHP86C6Fc/b33rPggzyHnUp8YjFUUs6R5orAsEBpaFCmZvuK3uEi9wv0Tdd7ZPqb49/3vXriwyVZtbx0trrvbVhYH8DZ9RHpoMt2nVun0nmi16s2zmcEusw=
+	t=1791191800; cv=fail; b=BPElf6sYMhZ9gw2zfPln/UM4g8s9+3s6guseLv+bJHF1ZMoOx/i8/haQuovQ5jpay8Pxtlbrgxn+QYY1DJshHfkSCNMXHcYInrVurt3Gux0GBaCE43AUY0IiWcUplPLDGul4jPS5sFrk0Ht07mV1YeOXJoJ2+YWojdXpQuIxZCY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791191355; c=relaxed/simple;
-	bh=F978ZM2ORplhASlx1zk7wtx7dw2Hf6Df30EUrrbr9LI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZZBjm6h0UbbqEdi793QP/PVj4XjeU9jo7wQ29QamwyCwQnTHTTFLw+05oyDQkmDo/doF0DMr0w0+nl44bdCoNDuxvYjOGEWsOtxRHm22qEsq7vdMULAqdxptsHgXhiIGKP6iu3s0xW2rpQtjQDt+2HJqjU8XjMTLLoltOUUQpn0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=S2Z38p3d; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=MZVmm0Dt; arc=fail smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1791191800; c=relaxed/simple;
+	bh=67vL8gRykQW44vM1B+Yyg0fjEi42nqxvFsmPpMh0Gr4=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=qiA2Lcl0aPOAIYvRLPbN0U4r0A8MmZnZUclmf8dmWWhlHPKnyN4IUoRh0ZP3OcDI2/TqR+OYkXGZ/TLGdmNf+HAzjN08MevFq+M/sMxZPWKrBjpEtREKEzlRvCMDcYYDCmiiPlDXzkB6TPzYmeeXFTlIHE4t1+gJlS6yTU6yJAc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Cp9T1uA0; arc=fail smtp.client-ip=52.101.52.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="S2Z38p3d";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="MZVmm0Dt"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6956SaZO4143472;
-	Mon, 5 Oct 2026 04:08:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PODMain02222019; bh=VBQaVTvpojsGyrgutb
-	PNyNY29i4MLOEUnBMc26rOzNw=; b=S2Z38p3dxwLmjuSArLZNaUDytBRUk0xQ5+
-	MBc3+yCZcKB1YCZTvkDhCbC3XLWx56GzJuCy51HhLWM7eyGeG8645R660XSZehFB
-	mRtz/O/EYEzqKuFez4gEQR/2ZWjLl5NW9PBIc7A27kCm8X4nIUGjFBUT8ADCcWh6
-	ti1Sk7xPjd956INVpusv2Yd2Jk3P25vYUsOxibz+h9dE9O+cXYnVSSThleRPAb9s
-	czDI1720Gx4VF+ccLLLQ7ylNmncKaIQ+DrtrNHxxtJuQuJOc7xXXXEaXjGh5stuz
-	abXj7o6au4P8y26ImrCWtMk18YNnc0Tb7lAF47+Xq3Hiii1kmzEQ==
-Received: from sj2pr03cu001.outbound.protection.outlook.com (mail-westusazon11022131.outbound.protection.outlook.com [52.101.43.131])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4h2y3w9pap-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Mon, 05 Oct 2026 04:08:52 -0500 (CDT)
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Cp9T1uA0"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=F+2fcuu0ZiwHInVoxL4kh9jjQJof9YzS0nKq2+Gx9YraXPpZrWvPQgcREywYU8m4dvr1a8HuHhuIswsu7bf0366k7i79ZRhhtntIl95G9vC7raMz/VNnBCaie22m/K4nQjPXmxCpiK1kpYBvouBqm92MI/1lLenK1GNyym/5UAM+SFZIGoy+kYcsVici6l9uff22ahcxWZKjEMXTpsVap4A9+tR/DHspA91CW9N0Eh/1OEYT8gbgN49suW0jdjNlKgtVIXivAwcbWRmQYiBnvQBJ5zV3JbG/qlBDBXp5Ed0/Nj4oxrWanynONjrxCUWdpLr1UM/cGc6NZjlP178t3g==
+ b=Wyqkezb+Bf+1FuK7RzsZlUiBU9Vu7Z7G9hx50Zza5s5rItPOvY4TzHsm/OTMkKJ3LO+YRaXtm6qBoeJZTLRR1Z/Z2WXBD59D1mVmuRKVsQTA97byIwjjaMX+XIF5AbSheOBzGxBHtYxdwPWqWuzqVC0otV1oNU9bsWyR8H5r6X2/RTC+RtDehsxKVCb18nQmDvrc4WZP2Hay7uZhnBkl4RHs8WYO97kgTRtXJRJ94+JHcrio62/PBQHRPoymFEXypc7+xCz4aSodDXyFIZIClpuvxeFC6wcrw2Nz6viA9AQn8HChSCvwHtY7c6v3uqY8DERPziUG8dd6YiXQb+MvFw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VBQaVTvpojsGyrgutbPNyNY29i4MLOEUnBMc26rOzNw=;
- b=Z6KKpbubJeiY6rBPK8ejSAmRpWk56jovlGN9p7d7cnnvCHBBvpfP5Xw0G9Lo4oQyzUu5mKmW9AsGLqQhWMdVw3aR20icekwbWaR3OXXQxbsp89c1JwcJjT/JdmTCc5UNzbndj+tfaK0O/h4JSgGKnxEo17vccbFNu8MfgBfzxE/JLD9IGJXnP2cC+gEwbDGbt4AA8UOZBMwzEUJb6TgnDfus6F+RLrC3i6J/MisqD+HQc5ww/eWintcD+woIhDsX7PIRrNYhjQXXCjDEgnqcAA1plg+Nkld4uHqW23iOYeK2BNGY5KIPENUM12vGj761eTCNc3AWeW8NxzSAfNh6Xw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
- is 84.19.233.75) smtp.rcpttodomain=cirrus.com
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ bh=2SmAFYJlMs7tRKCbxx0T5b0XKOA8FoySk1P9zOVXk/Y=;
+ b=Z9NW3U9gP2v8uTwUqsrU6BsZYxwhR8UWprUgwR/WWEnkxXCroMaHiWl4QOIwOVL7rkekTlmT5ofzWuw4FWitnXzWOHojEVQ1lCAbONCZDHKvnmUTxjNs3hfd16GW18AS8InwGM8S1+pznYfiHACCg4LzJpYeXplmxawsMWXWPl+J5QuDbhtIhwnjx/qYNGmBBwwsbVWhjumNIo44ApJFa8r+kfk17bbSWTfj9RhkPWbaygT3R8P9DU+Xe6JaZd0qp3Xj7jJDgAgii326L/ylAD8zJRkWLbo/03rGfhBvjf1kbymvWyD4KJouWn29Pc7c2kG1uObhcnmuaKgdbCYNTw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VBQaVTvpojsGyrgutbPNyNY29i4MLOEUnBMc26rOzNw=;
- b=MZVmm0DtswTgVHlXzSf397zEPnpCdpb3UOxtTL55cbGDFL5aXsnQhqLfvZx+YvovWVgHjtSTSxPfsUjRWqlCnT705cuU8ZAwh7SSoqFHpV/KvWXepNej3HqhhmS34kHs3L1C052vmd29jYbUL4BPK5UwVDSRXy+xzBtk8ZQWSxU=
-Received: from CH2PR19CA0002.namprd19.prod.outlook.com (2603:10b6:610:4d::12)
- by SJ4PPFCBAC41B83.namprd19.prod.outlook.com (2603:10b6:a0f:fc02::a50) with
+ bh=2SmAFYJlMs7tRKCbxx0T5b0XKOA8FoySk1P9zOVXk/Y=;
+ b=Cp9T1uA0NS2RWt7pT09im51BsbuS1UUrOAOzRaYU54Rb+/QSFYMPQyD6rEWKzEoxclVgqONpCAwszipXz2oBQK4XamE0M40IkVg5A9W4siwmyxLeHgmYd2iBnowVBTfVSaPaAhF1JvxIDb8FkOIqfP+kOQWzUGVycmVVz/KiB6c=
+Received: from SJ0PR03CA0153.namprd03.prod.outlook.com (2603:10b6:a03:338::8)
+ by SA3PR12MB297303.namprd12.prod.outlook.com (2603:10b6:806:590::15) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.472.20; Mon, 5 Oct
- 2026 09:08:48 +0000
-Received: from CH01EPF000BE94E.namprd02.prod.outlook.com
- (2603:10b6:610:4d:cafe::66) by CH2PR19CA0002.outlook.office365.com
- (2603:10b6:610:4d::12) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.472.20 via Frontend Transport; Mon, 5
- Oct 2026 09:08:48 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=softfail (sender
- IP is 84.19.233.75) smtp.mailfrom=opensource.cirrus.com; dkim=none (message
- not signed) header.d=none;dmarc=fail action=oreject
- header.from=opensource.cirrus.com;
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- CH01EPF000BE94E.mail.protection.outlook.com (10.167.244.203) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.472.14
- via Frontend Transport; Mon, 5 Oct 2026 09:08:47 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 7EB1A406544;
-	Mon,  5 Oct 2026 09:08:46 +0000 (UTC)
-Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 5BE91820244;
-	Mon,  5 Oct 2026 09:08:46 +0000 (UTC)
-Date: Mon, 5 Oct 2026 10:08:45 +0100
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: Vinod Koul <vkoul@kernel.org>
-Cc: yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev,
-        peter.ujfalusi@linux.intel.com, linux-sound@vger.kernel.org,
-        patches@opensource.cirrus.com, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] soundwire: bus: Don't unassign dev_num before
- unregistering device
-Message-ID: <asNpHbuopd9UMoLQ@opensource.cirrus.com>
-References: <20260925154216.3520136-1-ckeepax@opensource.cirrus.com>
- <20260925154216.3520136-2-ckeepax@opensource.cirrus.com>
- <asC6OuTRgQg86jMk@parshuram>
+ 2026 09:16:35 +0000
+Received: from MW1PEPF0001888D.namprd03.prod.outlook.com
+ (2603:10b6:a03:338:cafe::38) by SJ0PR03CA0153.outlook.office365.com
+ (2603:10b6:a03:338::8) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.406.9 via Frontend Transport; Mon, 5
+ Oct 2026 09:16:35 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
+ is 165.204.84.17) smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ MW1PEPF0001888D.mail.protection.outlook.com (10.167.249.164) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.472.14 via Frontend Transport; Mon, 5 Oct 2026 09:16:34 +0000
+Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.49; Mon, 5 Oct
+ 2026 04:16:32 -0500
+Received: from amd-B550M-DS3H.amd.com (10.180.168.240) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.49 via Frontend
+ Transport; Mon, 5 Oct 2026 04:16:24 -0500
+From: Syed Saba Kareem <syed.sabakareem@amd.com>
+To: <vkoul@kernel.org>
+CC: <broonie@kernel.org>, <Sunil-kumar.Dommati@amd.com>,
+	<vijendar.mukunda@amd.com>, <Mario.Limonciello@amd.com>,
+	<venkataprasad.potturu@amd.com>, <yung-chuan.liao@linux.intel.com>,
+	<pierre-louis.bossart@linux.dev>, <anson.tsao@amd.com>, Syed Saba Kareem
+	<Syed.SabaKareem@amd.com>, Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+	=?UTF-8?q?P=C3=A9ter=20Ujfalusi?= <peter.ujfalusi@linux.intel.com>, "Ranjani
+ Sridharan" <ranjani.sridharan@linux.intel.com>, "open list:SOUNDWIRE
+ SUBSYSTEM" <linux-sound@vger.kernel.org>, open list
+	<linux-kernel@vger.kernel.org>
+Subject: [PATCH v3 1/5] soundwire: intel_ace2x: free master runtime on BPT open error path
+Date: Mon, 5 Oct 2026 14:45:44 +0530
+Message-ID: <20261005091620.1390916-2-syed.sabakareem@amd.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261005091620.1390916-1-syed.sabakareem@amd.com>
+References: <20261005091620.1390916-1-syed.sabakareem@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <asC6OuTRgQg86jMk@parshuram>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH01EPF000BE94E:EE_|SJ4PPFCBAC41B83:EE_
-X-MS-Office365-Filtering-Correlation-Id: 35c1e616-02e9-4c36-2503-08df22c04421
+X-MS-TrafficTypeDiagnostic: MW1PEPF0001888D:EE_|SA3PR12MB297303:EE_
+X-MS-Office365-Filtering-Correlation-Id: bf4c50b9-fe3b-405b-c8a8-08df22c15a42
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|61400799027|376014|82310400026|23010399003|11063799006|5023799004|56012099006|4143699003|10067099003|16102099003|22082099003|18002099003|6133799003;
+	BCL:0;ARA:13230040|23010399003|376014|82310400026|1800799024|36860700016|22082099003|18002099003|10067099003|56012099006|11063799006;
 X-Microsoft-Antispam-Message-Info:
-	cWGnIIObLLFPiLn9YieFAlDX7RRpiV33eYH7tJ77ygXYrSnumYWLc5w0TuOlmMx30qm+/MvEKPBXFVQfdOvvbwOUnVFGOynY47g1r2/ehBxByUtheQwnd7CPOO24LY1hhwxaGMXv6GX+dnGz2Z7P97E8U673O6gvgv1B+1Fy9VS6p4kVxdQgC5rGLbMWzi3t38c8G1BQgZoV+kARXcHG+z8zcBKA+WclzBg/2lav7MZr8FBXFYE/ZMoUyIn52+twelBQ2CNFyUwJOxBHZu3pd2e8rsoMuHIYOqw1+L37621947CAKgAbfwE2d3dga+SaLiwYc11kfNNwMYL2JlaN4XnPNm6SVrSjz+DPHzQdR1cHvoS4W8QcYDNx2U8v1VAoeXxJ8kIrlyeYoKUevlan9dQ9epzzLutNwqhPLD+vEMeck2nV0qZn0E/03DlkJraHF+uS4ivNQ4Ufb+UIJts/gzptowzChWbC4ESy+YkMXOhtz8nc4+mx+696LYKvxOMSi68mbARjGE6Re9SiGoQN7qoK0RfPFDqjUt3E7OdyDpG0PBNAi5/813QiboLWWICJRE4v2iY4mGp58t8r78yyvb6g5lk8crQGMPG53p21NagBB4ZjiDIl94I3wdc+/IUdaoBhS+CSTm0zVTWT+nnldHQsV9eB33CSFoLyZdANUAVlPPZtOcwDm38wJocD6k0telRK70y/yP5kDdeKmIl+8Q==
+	r2iAoWxfKPWAy0B07nTzg5ayw2Sh3Kj3MzbAUB31fyQLIlnD4WSGQbB59na/qRozwLYCfOeXbxDh7AhRcNu/pmqAVeM8fxPDB41K8wOnvJgzMH/yH++EBaeJQDgDPeX998pTeeM9gMg1/Bf1QtnZAofWL+D+buObha8ICiFsohdHLgGxCO1Djz8SsDG9Upx3xiyenS4niWZA+7HcBwDGS/IctbfoHxRNs/hNGnKsdaYMNLsrkHffHCXBXcDK/yUtgkf7NDFebry/2a7KA8RVe8G1nPHxwPrxKLVtqFY7L3UgIwdMJJuEuz6jiZ7GBy2D8Chl0QgK9GwoQfOebtmQRrLg/atYbsyNfisANHJwJiLcu9L//1JUe8K5XyhX4nCQh3xshS5QjRhVPQQ8oeTqJpSQ2wDL8PSwANSdEQpnT0cn+jAMdTZQ8Wst3HO4/8eKt0JbcD8dGwH0kB2U3MPzbZBLp10FEW+HSMK/55hqA37yVEeED3F8cySYS1Yoh63ZkdJjG/b4zrqmkm6JY7+TxMqA5kxjIsD6NCHh1hwlUyMpdrVHNBUn690vZs9HQ7zpxDuv4nbyojK7E0Teu4LE3HQPQueODinp3NEIrAXqv/smlWQu+sFoZtX7vxsjNfUsRwREF6EdGCDZFK0hw/Hqg/b43WFPa7ZnTyX56ZsiCPInpFNvTQvOl/klnViFg5Ud2G/KNsQAimIl83/+p3xGlA==
 X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(61400799027)(376014)(82310400026)(23010399003)(11063799006)(5023799004)(56012099006)(4143699003)(10067099003)(16102099003)(22082099003)(18002099003)(6133799003);DIR:OUT;SFP:1102;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(23010399003)(376014)(82310400026)(1800799024)(36860700016)(22082099003)(18002099003)(10067099003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	Q5FOFWIbHWwJygdKU7ZqeB05gBsKu5mPxDIKkdw/4cDI1Ppz83av0SoSFRyRH4R21u2Z5Sg5ucFrDW4rWHdsr5xTKAUCyGL6psiigCGXwSkFUJgEk/1jK/LhV+XKkkaxdtYF+Z/6RWhzA0bvIJpcQDVHQwbiVSpCTpsCNnlgbnigFEGPnrQ6ULZHksi6sCzgYaRLCsCiGSi6Ey66hZQi3tzl5YdHqz+VD8T9YDuTlztBV+yEZWfgazzWHbuQLOFJlIhsfAFvtppGBY2LJUkc6O3fei4HnMXroIjzuVkQyiGsh4wQFgQ2N+CqEKdLPXxCFnczFvee89ccMAmN87i/d/zoo19WeeMcLShImt/+iGnwWW8aR6UiGTmOlWaxkzjWxBDKAhwanqmKTkCEwUpMhLXKnpPzW5RPYYWS0IHLkGyLtLsmebzwwRTrrBWbq53I
-X-Exchange-RoutingPolicyChecked:
-	EEvsh7WD7fFQgzHhg1fyfed1bg1wvuCMiEOCTyT2DUMttWwyzvn/LDTxb4P+BcJeHASRpFwrRpb9Ui8uZHDScaf6pkqrs56slArJ5rH67DMjFEqR3x4DTEmGQhGgQnvyaoneB+JJtUJuMu6O7H+fkgMeCakRUnQfCblyP12DF+iSfytbQMF/o5l+r0Nf9PKactNxUPEBsXaBhkB7c8FzxXbi0eiA6lGySFNeTDGIfkoX4fx8oevkHjXuZHYFHcBtT4kAfic7CmFwnWM1/iU5WqzHQIj1bGCtKkAhmpM20S6OoNpfM9exchJd3LouOtT3piNLFCV/CGAuy6sQEdViWA==
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Oct 2026 09:08:47.9622
+	Msz+00tTlwnMyDB3y167Z0FXuybX8JIAl0eNP4Xm+jkBrI934P4ZHDGixP8XmFd6Gq/6y3oBZITkiMerXFaZshqqBtu1qSMfDGBHYvVgr7CVYyHZ6UkZOz/GxBAvoSahZiMTdBvUUMf6ysknrM9b4Kavf+0XIep9cCxVoycgeC6MaqqOEzSqw1wJUXwFxn+HJ8SZVvpWa3SEYNgPuBfB2lYl/qj5uzZ8wnmFoWzu3NjevSm6xN0Wgfysp5yxhav17c3LZECI0EQDllHUvWPh/mF36L+uQXfhpLPV96jj/SqLS8hcNKWL2PeWfoCASHzatbHsYkUG9UVYSoBvWnc0dX0zDkRZRVrZs2xOfot05ti/OXOB8X9+5mxeginidQIA3nsALmLKGPX3LunfhiqsuyBw/Nhj9QuWnHuCO5gVEHy6yInfSBA49zpEj9UO2UC9
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Oct 2026 09:16:34.6863
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 35c1e616-02e9-4c36-2503-08df22c04421
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-CH01EPF000BE94E.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bf4c50b9-fe3b-405b-c8a8-08df22c15a42
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	MW1PEPF0001888D.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ4PPFCBAC41B83
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDA1MDAzNiBTYWx0ZWRfX2/0jQXqkKxOz
- Ce/VwbQ8Lq7kHUW0ziN/So/tDjpG+xvfIqGAaMjcvVHFD1fBvaQaGnDJB/WfHN9laVVQpHLFoHU
- LXxZ6KUCvMkiRNTXf8zQt+RBwIB11OSazSHS7njBR0SEJNoY4NyMIsyhiLuFHPi6OsHH0EDRLhz
- MoGtgzdDqSvI8NhFX2eCNZCLomGaPfKFZoFde32sHlFyTGrYd/dchmO8xMfib6K6I6EjCmjAELV
- o2HcsroJnlupgjt2DzaLmBbg1M1sxS7IhVhWWgwMtyrAT1uYMua33S9+D1rSKayzPvW51DT3Suz
- mMqXXoLSSKXKZL3dkp+t11mu4krCb2bJVYAV3efCoTGO4QsKEDIbOAoyaBYhUqtSCfBKDvvI2O2
- Tm7gIF800ByLlJooLp/3UPeTFVwFPmwBSLRXU2cRaV2C822dK7M6VitidvVQU19+M6l1c7CL4kI
- y+irfoGJMbemr7Y0PgA==
-X-Proofpoint-GUID: Qi0h73-oHMYz9ltMj9Ow6K6ivs6Y8qMq
-X-Authority-Analysis: v=2.4 cv=XuFvqlF9 c=1 sm=1 tr=0 ts=6ac36924 cx=c_pps
- a=WiodiXt0wH02q4ozJLtFAw==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=kj9zAlcOel0A:10 a=660iZSQnnn4A:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
- a=w1d2syhTAAAA:8 a=gWRL2YoDBW9I8xbh9fAA:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDA1MDAzNiBTYWx0ZWRfXyAz4OcKmU8Ax
- euxX39JyMd6ZswO3SFmsnTSVIAIsgQqnD8XFG7FwdK48rYa8+h3zL5Ja8aksmkbpaIW+NcD25je
- 88Z0D243XWFHO/wPaoAcWFxF0WiRCtU=
-X-Proofpoint-ORIG-GUID: Qi0h73-oHMYz9ltMj9Ow6K6ivs6Y8qMq
-X-Proofpoint-Spam-Reason: safe
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB297303
 
-On Sat, Oct 03, 2026 at 10:18:02AM +0200, Vinod Koul wrote:
-> On 25-09-26, 16:42, Charles Keepax wrote:
-> > Don't mark dev_num as unassigned until after the driver remove has
-> > been called. The driver may want to communicate with the device
-> > as part of the driver remove operation, so the dev_num should
-> > remain assigned until that has completed. This requires moving from
-> > device_unregister() to manually calling device_del() and device_put()
-> > to ensure that the slave struct isn't freed too early.
-> > 
-> > Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
-> > ---
-> > 
-> > Changes since v1:
-> >  - Split device_unregister into device_del and put_device
-> > 
-> >  drivers/soundwire/bus.c | 6 ++++--
-> >  1 file changed, 4 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/soundwire/bus.c b/drivers/soundwire/bus.c
-> > index aeaae5a57c89d..1488b6540844c 100644
-> > --- a/drivers/soundwire/bus.c
-> > +++ b/drivers/soundwire/bus.c
-> > @@ -175,8 +175,9 @@ static int sdw_delete_slave(struct device *dev, void *data)
-> >  
-> >  	sdw_slave_debugfs_exit(slave);
-> >  
-> > -	mutex_lock(&bus->bus_lock);
-> > +	device_del(dev);
-> >  
-> > +	mutex_lock(&bus->bus_lock);
-> >  	if (slave->dev_num) { /* clear dev_num if assigned */
-> >  		clear_bit(slave->dev_num, bus->assigned);
-> >  		if (bus->ops && bus->ops->put_device_num)
-> > @@ -185,7 +186,8 @@ static int sdw_delete_slave(struct device *dev, void *data)
-> >  	list_del_init(&slave->node);
-> >  	mutex_unlock(&bus->bus_lock);
-> >  
-> > -	device_unregister(dev);
-> > +	put_device(dev);
-> 
-> if we are doing this I would add code comments on why we split. We
-> invoke device_register so the expectation is that we always call
-> device_unregister. I understand this is being done but this needs to be
-> well documented here
+From: Syed Saba Kareem <Syed.SabaKareem@amd.com>
 
-Yeah that is a good idea I will update.
+intel_ace2x_bpt_open_stream() calls sdw_slave_bpt_stream_add(), which
+via sdw_stream_add_slave() -> sdw_master_rt_alloc() allocates the master
+runtime, links it into bus->m_rt_list and raises bus->bpt_stream_refcount.
+Several later failure paths (PDI allocation, port-config allocation and
+sdw_stream_add_master()) jump to the remove_slave label, which only calls
+sdw_stream_remove_slave() followed by sdw_release_stream().
 
-Thanks,
-Charles
+sdw_stream_remove_slave() frees only the slave runtime and ports; it does
+not reach sdw_master_rt_free(). The master runtime is therefore left on
+bus->m_rt_list pointing at the just-freed stream, and bpt_stream_refcount
+stays non-zero. Because sdw_master_rt_alloc() rejects a new BPT allocation
+while bpt_stream_refcount > 0, every subsequent BPT transfer on that bus
+is rejected with -EBUSY until the driver is reloaded.
+
+Route these error paths through the remove_master label so that
+sdw_stream_remove_master() frees the master runtime and drops the refcount
+before the stream is released, mirroring the error-path unwind in
+amd_sdw_bpt_open_stream().
+
+Drop the now-unused remove_slave label; its sdw_stream_remove_slave() call
+still runs by falling through from remove_master, and is a no-op once the
+master runtime (and with it the slave runtimes) has been freed.
+
+Fixes: 4c1ce9f37d8a ("soundwire: intel_ace2x: add BPT send_async/wait callbacks")
+Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+Reviewed-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+Signed-off-by: Syed Saba Kareem <Syed.SabaKareem@amd.com>
+---
+ drivers/soundwire/intel_ace2x.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/soundwire/intel_ace2x.c b/drivers/soundwire/intel_ace2x.c
+index 642b33ab5526..96940779fdec 100644
+--- a/drivers/soundwire/intel_ace2x.c
++++ b/drivers/soundwire/intel_ace2x.c
+@@ -105,7 +105,7 @@ static int intel_ace2x_bpt_open_stream(struct sdw_intel *sdw, struct sdw_slave *
+ 	if (!pdi0) {
+ 		dev_err(cdns->dev, "%s: sdw_cdns_alloc_pdi0 failed\n", __func__);
+ 		ret = -EINVAL;
+-		goto remove_slave;
++		goto remove_master;
+ 	}
+ 
+ 	sdw_cdns_config_stream(cdns, 1, dir, pdi0);
+@@ -117,7 +117,7 @@ static int intel_ace2x_bpt_open_stream(struct sdw_intel *sdw, struct sdw_slave *
+ 	if (!pdi1) {
+ 		dev_err(cdns->dev, "%s: sdw_cdns_alloc_pdi1 failed\n", __func__);
+ 		ret = -EINVAL;
+-		goto remove_slave;
++		goto remove_master;
+ 	}
+ 
+ 	sdw_cdns_config_stream(cdns, 1, dir, pdi1);
+@@ -136,7 +136,7 @@ static int intel_ace2x_bpt_open_stream(struct sdw_intel *sdw, struct sdw_slave *
+ 	pconfig = kzalloc_objs(*pconfig, 2);
+ 	if (!pconfig) {
+ 		ret =  -ENOMEM;
+-		goto remove_slave;
++		goto remove_master;
+ 	}
+ 
+ 	for (i = 0; i < 2 /* num_pdi */; i++) {
+@@ -149,7 +149,7 @@ static int intel_ace2x_bpt_open_stream(struct sdw_intel *sdw, struct sdw_slave *
+ 
+ 	if (ret < 0) {
+ 		dev_err(cdns->dev, "add master to stream failed:%d\n", ret);
+-		goto remove_slave;
++		goto remove_master;
+ 	}
+ 
+ 	ret = sdw_prepare_stream(cdns->bus.bpt_stream);
+@@ -293,7 +293,6 @@ static int intel_ace2x_bpt_open_stream(struct sdw_intel *sdw, struct sdw_slave *
+ 		dev_err(cdns->dev, "%s: remove master failed: %d\n",
+ 			__func__, ret1);
+ 
+-remove_slave:
+ 	ret1 = sdw_stream_remove_slave(slave, cdns->bus.bpt_stream);
+ 	if (ret1 < 0)
+ 		dev_err(cdns->dev, "%s: remove slave failed: %d\n",
+-- 
+2.43.0
+
