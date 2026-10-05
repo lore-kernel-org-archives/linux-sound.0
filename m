@@ -1,145 +1,93 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 962DC4B2052;
-	Mon,  5 Oct 2026 16:06:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16045304BDF;
+	Mon,  5 Oct 2026 17:07:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791216397; cv=none; b=t50ikmW98X3n91B7pX5IepNCPc3o1HJQu8eoQ5EPU5jlFrCSElsn6KwWqx/ZJ/FE4b5BsB9awglXKVVwyYLWfC/C90/EmmsgfAwf0wgSRYeMIEEFD0y3LdjHU87fEa7K/QHezB61DWC+1yJ8o4sdfrnqz09mzFg4yPyv2CYZeV4=
+	t=1791220046; cv=none; b=ROqc3+wNwNRFuisTEAbDx3jU2CHsKrOUsw02l4wzrj3kCkEEH+1/L4DJqaO9+mN2n0Oir+asrjNfs6KGtWPoMMAT57sfSkwW5EB5OQ1nyQXgoBSk5pQYQApaDJdBquDzBAlNi9BOFLRSH2oifBg5VsohUazcS5uEaDlSAqLttIA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791216397; c=relaxed/simple;
-	bh=19kZCTEBzPf5UIHcfgZ60pUKKN+nEdJR3xVjyUyBLcc=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BfCes62EAWlemzfT3N1vSnKAJ7kz6sPRulx/uNuUOliGz8yGkHQUAI5AIUnBi0JCmraQxtzdMIK1uAVvQVz8w+YRwbzN0aGjD/pUQyzXYVZLNwLm9eSVZ16aEkmwc57ZQ0Qzi+IFjSgGR6mb3Uy4Se6MQ3g8qP4viJeeXwqIrvo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=k+o8wDPP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=z1wK9nq7; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uJcxVk+F; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=OErcpv1Y; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1791220046; c=relaxed/simple;
+	bh=SDjpdbBFZ39k/DuqZfet4sOJQevVkxnoFhNHPvfFt4Y=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=hRLSAK201si3wTwDAftLI+0ywrmf3P8Sl58iMQie3jZZaeHDKEMsi65oSuUqeW97iAxjBWeO8o24xQ89mUziYg4c9vpafp+UMKw6uFri/kjDZ9px5hnx+6tKm4WrPqMelKAEcIrCjmyosZ+fQ7hFbk1G6sZNvTfZECZG+LqXVfQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q6wh+Y1K; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="k+o8wDPP";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="z1wK9nq7";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uJcxVk+F";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="OErcpv1Y"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 545E11F7DD;
-	Mon,  5 Oct 2026 16:06:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1791216389; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hmOY7tDUSOM6jH5F4aPhs13xU1NYdceP7sQiIsxcaNs=;
-	b=k+o8wDPPpKSCFVe7v872E6N2i0JKdEj8azV41HbOweZaB3WpaPwLKJsJdBuEz8PgCLwJj+
-	eGEa6I7NxR3k7ddkNnyZYvbMLRKL+Pp486mar/JiwiSMyghzT8JRFl5VE1N/NXaMdowyF7
-	rpMti5TxhkQGDJH+TP3CcJDiqt7DwoI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1791216389;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hmOY7tDUSOM6jH5F4aPhs13xU1NYdceP7sQiIsxcaNs=;
-	b=z1wK9nq7oURzzhy513Hse6Y75FanhAO3OtHV9af6VDO5zhFCfnUq2cegSGoDW7gvR9RE7A
-	Zo9cLylEt4jWglCQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1791216385; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hmOY7tDUSOM6jH5F4aPhs13xU1NYdceP7sQiIsxcaNs=;
-	b=uJcxVk+F9pWgtSVAJSbowd+htSHgAr6sgLfm1BGTjEmAXDsyMkAor/+nLJPd3T7UOuMw6x
-	97Ndv4ydJ8Ks6k5YPqRJsqO1/KLxE2W47E8k4Hih4IlKPj4fr5Qf20yVKKcw9b52Ch5HIi
-	2z4YcP2gwS/TXEL0j3UfD4SHTFiNJLY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1791216385;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hmOY7tDUSOM6jH5F4aPhs13xU1NYdceP7sQiIsxcaNs=;
-	b=OErcpv1YxCWeiTipQHuq1Bx1XHOVlWHsGG4gdm89IQWnC13q4Ls5S4FC6aCBkUwOQbj4Ja
-	854bfIr2rSB3TKAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2088B132D3;
-	Mon,  5 Oct 2026 16:06:25 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id e36lOgDLw2pqHgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 05 Oct 2026 16:06:25 +0000
-Date: Mon, 05 Oct 2026 18:06:24 +0200
-Message-ID: <87y0ccqghr.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Scott Gauche <scott-dev@scottgauche.com>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Jaroslav Kysela <perex@perex.cz>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] ALSA: hda/realtek: Fix audio after Windows reboot on ASUS Q423SA
-In-Reply-To: <20261005154017.1164657-1-scott-dev@scottgauche.com>
-References: <87se2ksaqb.wl-tiwai@suse.de>
-	<20261005154017.1164657-1-scott-dev@scottgauche.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q6wh+Y1K"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69CF81F00893;
+	Mon,  5 Oct 2026 17:07:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791220044;
+	bh=U8ACKpVjEQV/kPL7mmZHikjht6n4jtDDawHP4b8fP7M=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=Q6wh+Y1KgHgLvqHu9MuuYV/+J8PMmpgB9CNHZEvHAzvulFE8NySCQXZ8DWU5GOr7O
+	 bUE1F3pvpiUHPCfO/3KyxS6BCResJ6OIJUsVJHm9NmyEc6+q67Vy9b06Svfv/VS2FJ
+	 IPlCf+3XztbWqZkg+PJRbbIAAQPtUm+kdEy/XSwQcigDIFAW4BqRGWcPUiw6urtwB7
+	 V4zRWt+jjEg+r5KvNdOeDdPxtXvKZdQ+uABjfqdTMxyIVZ6PM4llDkXecuP18PzstM
+	 59Am1qceqX/Vd7wKgcifPetMEiucw7wqRFJRRhdOgVX2f2fWd+ZcJtRyx1qp9Pk/tP
+	 o4dKel6AqWk4Q==
+From: Mark Brown <broonie@kernel.org>
+To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>, 
+ Venkata Prasad Potturu <venkataprasad.potturu@amd.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Michael Garland <minimelkav@gmail.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ stable@vger.kernel.org
+In-Reply-To: <20261005-acp6x-herbag2-quirk-v1-1-a1f2683d758f@gmail.com>
+References: <20261005-acp6x-herbag2-quirk-v1-1-a1f2683d758f@gmail.com>
+Subject: Re: [PATCH] ASoC: amd: yc: Add DMI quirk for Acer Aspire Go 15
+ (AG15-21P)
+Message-Id: <179121031605.150114.10620784342608818331.b4-ty@b4>
+Date: Mon, 05 Oct 2026 16:25:16 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1143; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=SDjpdbBFZ39k/DuqZfet4sOJQevVkxnoFhNHPvfFt4Y=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqw9lFtv8Aw42JM0ECioEstsSSwCsracVcxIzmh
+ wvyDqUSUSaJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCasPZRQAKCRAk1otyXVSH
+ 0FomB/4p/kAK6GCLm3616PNjTn0bLe56yfbLjXoEtl/PvrknAokPR8vcW+07psTlIvNV5IMtx6k
+ Q+AB+PfeIwJ4So4eeT21njlH+vu5tacIpHl3yw5cgMRVi31NpThtlsMTnu4yCZvPnKj8IkiJsZw
+ 8RsD0TQiSYkv/n/4jyg+lICPP4NcDnxsxwdSTkFRHshFXf8GbvqX45wSGl/4Xj80QnC9/Fih3wn
+ F0wNm5Vx+BztQ0vZCCpBYk+Lg50MSSG1X/Lt/MPbZcCLK9BQ+yiSQ+5N5q/NJ+zqaYM70PoCXR5
+ J9S27LM8t4k77JKVa5vVm3065YOFVgwLYT6mMdeRuBmQF9K0
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Mon, 05 Oct 2026 17:40:17 +0200,
-Scott Gauche wrote:
-> 
-> The ASUS Vivobook S 14 Q423SA-U5512 (DMI family S5406SA) with the
-> ALC294 codec has working analog audio when booted directly after a full
-> shutdown. After a warm reboot from Windows 11, audio works briefly during
-> Linux startup, then both the internal speakers and headphones become
-> silent. PCM playback continues without errors.
-> 
-> Coefficient 0x1b is 0x4e4b on a direct cold boot, but 0x4a4b after the
-> Windows warm reboot. Restoring bit 10 changes it back to 0x4e4b and
-> immediately enables both analog outputs. Speaker playback, headphone
-> playback, jack switching, cold boot, and suspend/resume were tested
-> successfully. The same 0x4a4b state and immediate recovery with 0x4e4b
-> were independently confirmed on another S5406SA with subsystem 1043:10c4.
-> 
-> The same coefficient write is already used by
-> ALC294_FIXUP_ASUS_COEF_1B for the ASUS UX431DA. That fixup cannot be
-> reused here because it chains to ALC289_FIXUP_ASUS_GA401 and applies
-> unrelated DAC routing and microphone pin configuration.
-> 
-> Add a model-specific fixup for subsystem 1043:10c4 and chain it to the
-> existing ALC2XX_FIXUP_HEADSET_MIC fixup instead.
-> 
-> Link: https://github.com/thesofproject/sof/issues/11051
-> Fixes: f2d08f3651fb ("ALSA: hda/realtek: Fix headset mic on ASUS Vivobook S14 S5406SA")
-> Signed-off-by: Scott Gauche <scott-dev@scottgauche.com>
+On Mon, 05 Oct 2026 01:10:32 -0600, Michael Garland wrote:
+> ASoC: amd: yc: Add DMI quirk for Acer Aspire Go 15 (AG15-21P)
 
-Applied to for-next branch.  Thanks.
+Applied to
 
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
 
-Takashi
+Thanks!
+
+[1/1] ASoC: amd: yc: Add DMI quirk for Acer Aspire Go 15 (AG15-21P)
+      https://git.kernel.org/broonie/sound/c/d0cb7a7b2a49
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
