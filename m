@@ -1,147 +1,196 @@
-Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013029.outbound.protection.outlook.com [40.93.201.29])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60A6B3002CF;
-	Mon,  5 Oct 2026 08:56:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.29
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FCC342C514;
+	Mon,  5 Oct 2026 09:09:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791190607; cv=fail; b=k5kxkluHL/njy2BUqcOkNtiPYpvVGuAyDzTO8JJKkCMr0ssiPERkooJkp//sUHN4WJrmmk/tUdwe3QhISD+RPCsgjAy4yaVPjzc26V4ugoI6fVW5b/SIfc8hKxZneaGGejgHj3opblcOrHLHUs9L8V0hiUvcpcZaZDgeV+8CULQ=
+	t=1791191355; cv=fail; b=KC5+SWgnPV731lLCfkUKQ1Fsi9JDx9CNX/oIxdPqkFCO/6Mf90odoHP86C6Fc/b33rPggzyHnUp8YjFUUs6R5orAsEBpaFCmZvuK3uEi9wv0Tdd7ZPqb49/3vXriwyVZtbx0trrvbVhYH8DZ9RHpoMt2nVun0nmi16s2zmcEusw=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791190607; c=relaxed/simple;
-	bh=TQAkiO7TAXeXBH4NJl+bYIb3uo5E/VfwpQ/zVnVlX2g=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Vyx5kAKEqGUzwsV+XJC+S/+QY7tt5DwM9SbZ4Smu2RzqNSmfhiSPUbYWWvWUkRRrT+OYm7NeZyl/VkBshEOrRnOzYiOi81USVurNwKUlqAtZav2YnKVIUeCvUv1dFn1GJbW4NqgnOfsBWQpYrYNXgd5F626YL7GKBEd4mqAbQvM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=jBxFUhaC; arc=fail smtp.client-ip=40.93.201.29
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1791191355; c=relaxed/simple;
+	bh=F978ZM2ORplhASlx1zk7wtx7dw2Hf6Df30EUrrbr9LI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZZBjm6h0UbbqEdi793QP/PVj4XjeU9jo7wQ29QamwyCwQnTHTTFLw+05oyDQkmDo/doF0DMr0w0+nl44bdCoNDuxvYjOGEWsOtxRHm22qEsq7vdMULAqdxptsHgXhiIGKP6iu3s0xW2rpQtjQDt+2HJqjU8XjMTLLoltOUUQpn0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=S2Z38p3d; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=MZVmm0Dt; arc=fail smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="jBxFUhaC"
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="S2Z38p3d";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="MZVmm0Dt"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6956SaZO4143472;
+	Mon, 5 Oct 2026 04:08:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PODMain02222019; bh=VBQaVTvpojsGyrgutb
+	PNyNY29i4MLOEUnBMc26rOzNw=; b=S2Z38p3dxwLmjuSArLZNaUDytBRUk0xQ5+
+	MBc3+yCZcKB1YCZTvkDhCbC3XLWx56GzJuCy51HhLWM7eyGeG8645R660XSZehFB
+	mRtz/O/EYEzqKuFez4gEQR/2ZWjLl5NW9PBIc7A27kCm8X4nIUGjFBUT8ADCcWh6
+	ti1Sk7xPjd956INVpusv2Yd2Jk3P25vYUsOxibz+h9dE9O+cXYnVSSThleRPAb9s
+	czDI1720Gx4VF+ccLLLQ7ylNmncKaIQ+DrtrNHxxtJuQuJOc7xXXXEaXjGh5stuz
+	abXj7o6au4P8y26ImrCWtMk18YNnc0Tb7lAF47+Xq3Hiii1kmzEQ==
+Received: from sj2pr03cu001.outbound.protection.outlook.com (mail-westusazon11022131.outbound.protection.outlook.com [52.101.43.131])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4h2y3w9pap-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Mon, 05 Oct 2026 04:08:52 -0500 (CDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UaRZx6bCfnE0ezwqh08JKGCCf9hqsf8t+XV8hEBncnCdEfssfygBvipw92HbH4Dv5hlhaXJfaVQJX7le6yBRoaXKv1QeIDCYKffy5tyjAUGnZlcJwUSaNiyYxhnKT7UQIQCZLFPW41ArHdcnpe8nAT68emsapUDGikQF8RmKX4zYGRFco0j7B95x3q/+9k1nZxLZZBYO7Ga8XueE+bavtaMKiQQhaUG9WlvDeyJZ2DLNKQLClU/s229/eFl/ZZi7NidaszqJ84mBp3qAWriqbMzEx2y/C/3TwBu0/ntiIrVUrsPignboWiK2uEYiP2pfcwdEVUVh8zC3Dk56tf/tew==
+ b=F+2fcuu0ZiwHInVoxL4kh9jjQJof9YzS0nKq2+Gx9YraXPpZrWvPQgcREywYU8m4dvr1a8HuHhuIswsu7bf0366k7i79ZRhhtntIl95G9vC7raMz/VNnBCaie22m/K4nQjPXmxCpiK1kpYBvouBqm92MI/1lLenK1GNyym/5UAM+SFZIGoy+kYcsVici6l9uff22ahcxWZKjEMXTpsVap4A9+tR/DHspA91CW9N0Eh/1OEYT8gbgN49suW0jdjNlKgtVIXivAwcbWRmQYiBnvQBJ5zV3JbG/qlBDBXp5Ed0/Nj4oxrWanynONjrxCUWdpLr1UM/cGc6NZjlP178t3g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sFq+LbiV3q9bIAoN0khtv4SkfbUuAbx+ifLCM+BxygY=;
- b=T1tR/hKdtrQUHtM43n3v+GFfP4tz9M2Htbg+6mmOXi5IdxBGBq4Q3+A6PD7D1NGxOByDkBjXJHM+IRXKforDp7lrv4ZqRfaGy1A7Q1lq+95Mwsys82oG7VC0GKEclseV68YyrTtbiS4YOZp/4Y2sGgOKWaRAni1zHdPJetCY8tVn9/OXwvEDMnbsmDFHX3D1z3cxQbeavzv0mEgVC323xvXcBFRUJAsvh2KHm1+ZGrjJTVndr+sgjHbWKC4V/tQ7EqQSukn62VuXYvCB/fhDpqVeE6kZfgxteOH2CA476jSoslV62pqwjtfNwFt2YW0YjrH0r3cssd1Rj4J8iK+apg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=gmail.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ bh=VBQaVTvpojsGyrgutbPNyNY29i4MLOEUnBMc26rOzNw=;
+ b=Z6KKpbubJeiY6rBPK8ejSAmRpWk56jovlGN9p7d7cnnvCHBBvpfP5Xw0G9Lo4oQyzUu5mKmW9AsGLqQhWMdVw3aR20icekwbWaR3OXXQxbsp89c1JwcJjT/JdmTCc5UNzbndj+tfaK0O/h4JSgGKnxEo17vccbFNu8MfgBfzxE/JLD9IGJXnP2cC+gEwbDGbt4AA8UOZBMwzEUJb6TgnDfus6F+RLrC3i6J/MisqD+HQc5ww/eWintcD+woIhDsX7PIRrNYhjQXXCjDEgnqcAA1plg+Nkld4uHqW23iOYeK2BNGY5KIPENUM12vGj761eTCNc3AWeW8NxzSAfNh6Xw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sFq+LbiV3q9bIAoN0khtv4SkfbUuAbx+ifLCM+BxygY=;
- b=jBxFUhaC2ojpxIChwoIfR9p29xwfJ2B7Vq2kh2OIjv/wT0JMDX+2NqkAWO09sU0f9/FYYtDNM00sUU/Z3CW8pd39lCuvS7ZiNJmOBCarfc21pBKFHqv3ULguon5qq2WJU68pfqa046iHuHdCjVMFSlB5d1UFOp7TcnjPEodZlLDuc5OgcqsrbjT6AoXTUd1JqAAsiYZTbhJzQRQNylbAvYJIQgm4jYslSpaqJVX39odzOtPxaUnew3AL9km06oahbYMA9izg45hhZR6ff+5RQU0VDiaoXk0Qic4FVzJrtf8u1RV2qP3ZFXJ8gnBxpx/F97fRywfewmwupBq7s0Gf5A==
-Received: from CH2PR15CA0019.namprd15.prod.outlook.com (2603:10b6:610:51::29)
- by CY5PR12MB6527.namprd12.prod.outlook.com (2603:10b6:930:30::13) with
+ bh=VBQaVTvpojsGyrgutbPNyNY29i4MLOEUnBMc26rOzNw=;
+ b=MZVmm0DtswTgVHlXzSf397zEPnpCdpb3UOxtTL55cbGDFL5aXsnQhqLfvZx+YvovWVgHjtSTSxPfsUjRWqlCnT705cuU8ZAwh7SSoqFHpV/KvWXepNej3HqhhmS34kHs3L1C052vmd29jYbUL4BPK5UwVDSRXy+xzBtk8ZQWSxU=
+Received: from CH2PR19CA0002.namprd19.prod.outlook.com (2603:10b6:610:4d::12)
+ by SJ4PPFCBAC41B83.namprd19.prod.outlook.com (2603:10b6:a0f:fc02::a50) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.26; Mon, 5 Oct
- 2026 08:56:42 +0000
-Received: from CH1PEPF0000AD7E.namprd04.prod.outlook.com
- (2603:10b6:610:51:cafe::25) by CH2PR15CA0019.outlook.office365.com
- (2603:10b6:610:51::29) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.472.20; Mon, 5 Oct
+ 2026 09:08:48 +0000
+Received: from CH01EPF000BE94E.namprd02.prod.outlook.com
+ (2603:10b6:610:4d:cafe::66) by CH2PR19CA0002.outlook.office365.com
+ (2603:10b6:610:4d::12) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.21.472.20 via Frontend Transport; Mon, 5
- Oct 2026 08:56:42 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
- is 216.228.117.161) smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- CH1PEPF0000AD7E.mail.protection.outlook.com (10.167.244.87) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.472.14 via Frontend Transport; Mon, 5 Oct 2026 08:56:42 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.49; Mon, 5 Oct
- 2026 01:56:26 -0700
-Received: from rnnvmail202.nvidia.com (10.129.68.7) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.49; Mon, 5 Oct
- 2026 01:56:25 -0700
-Received: from build-sheetal-noble-20260902.internal (10.127.8.14) by
- mail.nvidia.com (10.129.68.7) with Microsoft SMTP Server id 15.2.2562.49 via
- Frontend Transport; Mon, 5 Oct 2026 01:56:24 -0700
-From: Sheetal <sheetal@nvidia.com>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>
-CC: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, "Thierry
- Reding" <thierry.reding@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>,
-	Sameer Pujar <spujar@nvidia.com>, Kuninori Morimoto
-	<kuninori.morimoto.gx@renesas.com>, Mohan Kumar <mkumard@nvidia.com>,
-	<linux-sound@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, Sheetal <sheetal@nvidia.com>, Thierry Reding
-	<treding@nvidia.com>
-Subject: [PATCH] ASoC: tegra: Fix ASRC Stream6 input threshold control
-Date: Mon, 5 Oct 2026 08:55:59 +0000
-Message-ID: <20261005085559.2134401-1-sheetal@nvidia.com>
-X-Mailer: git-send-email 2.43.0
+ Oct 2026 09:08:48 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=softfail (sender
+ IP is 84.19.233.75) smtp.mailfrom=opensource.cirrus.com; dkim=none (message
+ not signed) header.d=none;dmarc=fail action=oreject
+ header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ CH01EPF000BE94E.mail.protection.outlook.com (10.167.244.203) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.472.14
+ via Frontend Transport; Mon, 5 Oct 2026 09:08:47 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 7EB1A406544;
+	Mon,  5 Oct 2026 09:08:46 +0000 (UTC)
+Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 5BE91820244;
+	Mon,  5 Oct 2026 09:08:46 +0000 (UTC)
+Date: Mon, 5 Oct 2026 10:08:45 +0100
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Vinod Koul <vkoul@kernel.org>
+Cc: yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev,
+        peter.ujfalusi@linux.intel.com, linux-sound@vger.kernel.org,
+        patches@opensource.cirrus.com, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] soundwire: bus: Don't unassign dev_num before
+ unregistering device
+Message-ID: <asNpHbuopd9UMoLQ@opensource.cirrus.com>
+References: <20260925154216.3520136-1-ckeepax@opensource.cirrus.com>
+ <20260925154216.3520136-2-ckeepax@opensource.cirrus.com>
+ <asC6OuTRgQg86jMk@parshuram>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-NV-OnPremToCloud: ExternallySecured
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <asC6OuTRgQg86jMk@parshuram>
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH1PEPF0000AD7E:EE_|CY5PR12MB6527:EE_
-X-MS-Office365-Filtering-Correlation-Id: 704d3846-b924-45f9-74bb-08df22be93c4
+X-MS-TrafficTypeDiagnostic: CH01EPF000BE94E:EE_|SJ4PPFCBAC41B83:EE_
+X-MS-Office365-Filtering-Correlation-Id: 35c1e616-02e9-4c36-2503-08df22c04421
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|82310400026|23010399003|36860700016|376014|18002099003|11063799006|10067099003|56012099006;
+	BCL:0;ARA:13230040|36860700016|61400799027|376014|82310400026|23010399003|11063799006|5023799004|56012099006|4143699003|10067099003|16102099003|22082099003|18002099003|6133799003;
 X-Microsoft-Antispam-Message-Info:
-	Ue5GhFb2fWEBxUVhWvWMKKgYErct6btsQdMpeRsjdzj9wVXcdIVFrobyL9IZV0WwSZo+pXUoHlGoOvX/yzudehsGdJ8z1nQWmTw1qZ40Ifk5VyI453mIymoH3DegOBrJAU/i2WsykygimOYf1DYcSwqhiedjPix6MCbqrqlyAc27LYCKtRd/6nQxbtH5yVsIPeP8cUPoIa6sK2J9Usx4fTz0QSCwauIyaUmSNgXkcC1I/UdFTolOGQ58D77dBHewvw9E/pQRV7npQhI7/XBtQPoCUMpMSaku2cyp+hJCNfmut2tc7CQbHoOZtavM54XQvsxnruC65u6P1Iea5hdpEqeAODM+rM/72dfRQjSzSb/HEU1FxGa/EL4kN7yLpsuBvGC9bB7sGKTqOhud7cE0I/wOwlHeB3CjR9SIlZjPLIhcAP6ZttLLbRtWa1dt3YVA36KE0Dp+agt26DdO+Iod113NWQE7D73/nmV6eM+ZuGC1Mj8Hl7m/iN9n8bgjOa7T9oqmtp8OXfEgx4jsuZo4wSDZSBBLOXf/NhZwGGLqpvglR/47hoOJZjXtN8zkelvwGkzWea9KM1G89BoB54aq/KIPD9GT2uy/Sy3+gWrTWM/e1Jt/RFdX2NIKSJ+vmJo1DpwFcHrkc3UH+sxKXaPYExdq7vIYlLzEgVMZidqoSglErmCAFl+l6LAmP0R1c8t0r/xVxeIGUXJObqSvLveYcA==
+	cWGnIIObLLFPiLn9YieFAlDX7RRpiV33eYH7tJ77ygXYrSnumYWLc5w0TuOlmMx30qm+/MvEKPBXFVQfdOvvbwOUnVFGOynY47g1r2/ehBxByUtheQwnd7CPOO24LY1hhwxaGMXv6GX+dnGz2Z7P97E8U673O6gvgv1B+1Fy9VS6p4kVxdQgC5rGLbMWzi3t38c8G1BQgZoV+kARXcHG+z8zcBKA+WclzBg/2lav7MZr8FBXFYE/ZMoUyIn52+twelBQ2CNFyUwJOxBHZu3pd2e8rsoMuHIYOqw1+L37621947CAKgAbfwE2d3dga+SaLiwYc11kfNNwMYL2JlaN4XnPNm6SVrSjz+DPHzQdR1cHvoS4W8QcYDNx2U8v1VAoeXxJ8kIrlyeYoKUevlan9dQ9epzzLutNwqhPLD+vEMeck2nV0qZn0E/03DlkJraHF+uS4ivNQ4Ufb+UIJts/gzptowzChWbC4ESy+YkMXOhtz8nc4+mx+696LYKvxOMSi68mbARjGE6Re9SiGoQN7qoK0RfPFDqjUt3E7OdyDpG0PBNAi5/813QiboLWWICJRE4v2iY4mGp58t8r78yyvb6g5lk8crQGMPG53p21NagBB4ZjiDIl94I3wdc+/IUdaoBhS+CSTm0zVTWT+nnldHQsV9eB33CSFoLyZdANUAVlPPZtOcwDm38wJocD6k0telRK70y/yP5kDdeKmIl+8Q==
 X-Forefront-Antispam-Report:
-	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(23010399003)(36860700016)(376014)(18002099003)(11063799006)(10067099003)(56012099006);DIR:OUT;SFP:1101;
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(61400799027)(376014)(82310400026)(23010399003)(11063799006)(5023799004)(56012099006)(4143699003)(10067099003)(16102099003)(22082099003)(18002099003)(6133799003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	egEXT/TpdDOrCNJW7BxTFdksrlrRpLvo8dV++lem6lT+j35Nka4/nKLgogLx5jeZuCR8SyxAEZDnBiPQJxFBP3P7Rt8iy3Zarw5IA6feiQNsCIa76WZpdC2rerjZ1mj9OT2yqcS+4NocLLlLzom5BtCEOQrY1Y36wXi+bgkf5cS6EWcIpSBEY7gx+FAQoj5NotZIWU4SU55m9Nm+B9reOESDCMZitGKXMNw4naOFitFKNRJaAWF0Avl702aTxBJTyFXjhCy75s4+yPzjxRMB7/av5gubm0JnvJXWbA+lX0OzeTT6y+RJrklNGrVntCDPaPqTNwSloX/YFGD7CflhYw2m9mzk8GZSrwyzcgNx2uo+qE2KWu0Oat1AoP+FFf1atwffIWpfOg1584FcWZhSSgjLrPuaN3k5ky4mVCAm9+9aUDKuWieL8COQ3UG4nikb
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Oct 2026 08:56:42.6669
+	Q5FOFWIbHWwJygdKU7ZqeB05gBsKu5mPxDIKkdw/4cDI1Ppz83av0SoSFRyRH4R21u2Z5Sg5ucFrDW4rWHdsr5xTKAUCyGL6psiigCGXwSkFUJgEk/1jK/LhV+XKkkaxdtYF+Z/6RWhzA0bvIJpcQDVHQwbiVSpCTpsCNnlgbnigFEGPnrQ6ULZHksi6sCzgYaRLCsCiGSi6Ey66hZQi3tzl5YdHqz+VD8T9YDuTlztBV+yEZWfgazzWHbuQLOFJlIhsfAFvtppGBY2LJUkc6O3fei4HnMXroIjzuVkQyiGsh4wQFgQ2N+CqEKdLPXxCFnczFvee89ccMAmN87i/d/zoo19WeeMcLShImt/+iGnwWW8aR6UiGTmOlWaxkzjWxBDKAhwanqmKTkCEwUpMhLXKnpPzW5RPYYWS0IHLkGyLtLsmebzwwRTrrBWbq53I
+X-Exchange-RoutingPolicyChecked:
+	EEvsh7WD7fFQgzHhg1fyfed1bg1wvuCMiEOCTyT2DUMttWwyzvn/LDTxb4P+BcJeHASRpFwrRpb9Ui8uZHDScaf6pkqrs56slArJ5rH67DMjFEqR3x4DTEmGQhGgQnvyaoneB+JJtUJuMu6O7H+fkgMeCakRUnQfCblyP12DF+iSfytbQMF/o5l+r0Nf9PKactNxUPEBsXaBhkB7c8FzxXbi0eiA6lGySFNeTDGIfkoX4fx8oevkHjXuZHYFHcBtT4kAfic7CmFwnWM1/iU5WqzHQIj1bGCtKkAhmpM20S6OoNpfM9exchJd3LouOtT3piNLFCV/CGAuy6sQEdViWA==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Oct 2026 09:08:47.9622
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 704d3846-b924-45f9-74bb-08df22be93c4
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CH1PEPF0000AD7E.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-Network-Message-Id: 35c1e616-02e9-4c36-2503-08df22c04421
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-CH01EPF000BE94E.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6527
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ4PPFCBAC41B83
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDA1MDAzNiBTYWx0ZWRfX2/0jQXqkKxOz
+ Ce/VwbQ8Lq7kHUW0ziN/So/tDjpG+xvfIqGAaMjcvVHFD1fBvaQaGnDJB/WfHN9laVVQpHLFoHU
+ LXxZ6KUCvMkiRNTXf8zQt+RBwIB11OSazSHS7njBR0SEJNoY4NyMIsyhiLuFHPi6OsHH0EDRLhz
+ MoGtgzdDqSvI8NhFX2eCNZCLomGaPfKFZoFde32sHlFyTGrYd/dchmO8xMfib6K6I6EjCmjAELV
+ o2HcsroJnlupgjt2DzaLmBbg1M1sxS7IhVhWWgwMtyrAT1uYMua33S9+D1rSKayzPvW51DT3Suz
+ mMqXXoLSSKXKZL3dkp+t11mu4krCb2bJVYAV3efCoTGO4QsKEDIbOAoyaBYhUqtSCfBKDvvI2O2
+ Tm7gIF800ByLlJooLp/3UPeTFVwFPmwBSLRXU2cRaV2C822dK7M6VitidvVQU19+M6l1c7CL4kI
+ y+irfoGJMbemr7Y0PgA==
+X-Proofpoint-GUID: Qi0h73-oHMYz9ltMj9Ow6K6ivs6Y8qMq
+X-Authority-Analysis: v=2.4 cv=XuFvqlF9 c=1 sm=1 tr=0 ts=6ac36924 cx=c_pps
+ a=WiodiXt0wH02q4ozJLtFAw==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=kj9zAlcOel0A:10 a=660iZSQnnn4A:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
+ a=w1d2syhTAAAA:8 a=gWRL2YoDBW9I8xbh9fAA:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDA1MDAzNiBTYWx0ZWRfXyAz4OcKmU8Ax
+ euxX39JyMd6ZswO3SFmsnTSVIAIsgQqnD8XFG7FwdK48rYa8+h3zL5Ja8aksmkbpaIW+NcD25je
+ 88Z0D243XWFHO/wPaoAcWFxF0WiRCtU=
+X-Proofpoint-ORIG-GUID: Qi0h73-oHMYz9ltMj9Ow6K6ivs6Y8qMq
+X-Proofpoint-Spam-Reason: safe
 
-The Stream6 Input Threshold control points at stream index 4, which is
-already used by Stream5. The threshold get and put callbacks derive the
-lane ID from the register offset, so the duplicate index makes Stream6
-operate on lane 4 and leaves lane 5 inaccessible from userspace.
+On Sat, Oct 03, 2026 at 10:18:02AM +0200, Vinod Koul wrote:
+> On 25-09-26, 16:42, Charles Keepax wrote:
+> > Don't mark dev_num as unassigned until after the driver remove has
+> > been called. The driver may want to communicate with the device
+> > as part of the driver remove operation, so the dev_num should
+> > remain assigned until that has completed. This requires moving from
+> > device_unregister() to manually calling device_del() and device_put()
+> > to ensure that the slave struct isn't freed too early.
+> > 
+> > Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+> > ---
+> > 
+> > Changes since v1:
+> >  - Split device_unregister into device_del and put_device
+> > 
+> >  drivers/soundwire/bus.c | 6 ++++--
+> >  1 file changed, 4 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/soundwire/bus.c b/drivers/soundwire/bus.c
+> > index aeaae5a57c89d..1488b6540844c 100644
+> > --- a/drivers/soundwire/bus.c
+> > +++ b/drivers/soundwire/bus.c
+> > @@ -175,8 +175,9 @@ static int sdw_delete_slave(struct device *dev, void *data)
+> >  
+> >  	sdw_slave_debugfs_exit(slave);
+> >  
+> > -	mutex_lock(&bus->bus_lock);
+> > +	device_del(dev);
+> >  
+> > +	mutex_lock(&bus->bus_lock);
+> >  	if (slave->dev_num) { /* clear dev_num if assigned */
+> >  		clear_bit(slave->dev_num, bus->assigned);
+> >  		if (bus->ops && bus->ops->put_device_num)
+> > @@ -185,7 +186,8 @@ static int sdw_delete_slave(struct device *dev, void *data)
+> >  	list_del_init(&slave->node);
+> >  	mutex_unlock(&bus->bus_lock);
+> >  
+> > -	device_unregister(dev);
+> > +	put_device(dev);
+> 
+> if we are doing this I would add code comments on why we split. We
+> invoke device_register so the expectation is that we always call
+> device_unregister. I understand this is being done but this needs to be
+> well documented here
 
-Use stream index 5 for Stream6.
+Yeah that is a good idea I will update.
 
-Fixes: a2df8c2d5b36 ("ASoC: tegra: Add Tegra186 based ASRC driver")
-Reviewed-by: Thierry Reding <treding@nvidia.com>
-Signed-off-by: Sheetal <sheetal@nvidia.com>
-
----
-Changes from RFC v1:
-- Split out from the ASRC ratio-control RFC series because this is an
-  independent fix and should not be blocked by the ABI discussion.
-
- sound/soc/tegra/tegra186_asrc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/sound/soc/tegra/tegra186_asrc.c b/sound/soc/tegra/tegra186_asrc.c
-index 7f360dfaf8b1..d8ae5d997615 100644
---- a/sound/soc/tegra/tegra186_asrc.c
-+++ b/sound/soc/tegra/tegra186_asrc.c
-@@ -828,7 +828,7 @@ static const struct snd_kcontrol_new tegra186_asrc_controls[] = {
- 		       tegra186_asrc_put_input_threshold),
- 
- 	SOC_SINGLE_EXT("Stream6 Input Threshold",
--		       ASRC_STREAM_REG(TEGRA186_ASRC_RX_THRESHOLD, 4), 0, 3, 0,
-+		       ASRC_STREAM_REG(TEGRA186_ASRC_RX_THRESHOLD, 5), 0, 3, 0,
- 		       tegra186_asrc_get_input_threshold,
- 		       tegra186_asrc_put_input_threshold),
- 
--- 
-2.43.0
+Thanks,
+Charles
