@@ -1,85 +1,86 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B87E457E65;
-	Mon,  5 Oct 2026 10:28:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D542F470440;
+	Mon,  5 Oct 2026 10:29:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791196096; cv=none; b=fx+8SNir3FmCy3lMpBQtjogvXnCAo9ZUrMluGNM6Bq985zDTAmLsXl4sv/EY2wZ1uAGGBwJvjWFkklYUFVDRNIVEtMQRdE8F660Wxd6Z6121ofChd2YtXCfM+kdR3u6h4EG71MJIGh3U+GeYX9Mg7czz+pWc/ZeR1bXIdtHIsKI=
+	t=1791196162; cv=none; b=WgKWC9mtIfADa7Wj02vUVyDFFE2pnmPg6iDvVhg+Vzd1uOmVN8uSJXcmFiZUlHFCiT2c7DAdbycKkv06Vku4QacoI8gw1hXWB/A0NCP9GVOEdL+bQ8nLsFDoogc3UuPFO7XKyu8cdO0Vc7D71VsEDdEFaWoaTvdEirMSqQvkLQs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791196096; c=relaxed/simple;
-	bh=RUGabXB01WVBYscIOh3a6k+U6RGIgCxG0UI9tqZtglM=;
+	s=arc-20240116; t=1791196162; c=relaxed/simple;
+	bh=mic/QPK+HcksLw4JJjL/VeyApNa5QytTXSeoqCcnXgo=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=s35Ee4ZVj7clVTJDxTHaOKD37RqaUz1q4KAjbfMerE19pUTap+VNx9HWEb/0QCB8CnIGVZZBWrqBLFlzDP0zwG3hMVMQtNH5Tn4n2Gr7S4GYclXL5XemrIkT7nhAM/LnoIE4FI64rb8Lrh3X5H8+az7VhZv13AZ97/3Q49o0+jg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QvZ8tg/N; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=avvF+c2J; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rHUkIc/I; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=dwbDSzd7; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=D3syO5co5uLgBUm8UPjGkI5DrrfjGinb5ip4nvbLCKIRfCkiB4rXVUQpcM8SV6Lt+Zi9Nwx41/jIxHYmW/EoV2cd+3p6Gg8068UdrOj71FjhFc92jngLak6a2i0c8KYSS/+bpq2J1ABIpCwNJX4RT2jILzMe5nvpqsnnf0m74h0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=isFZPm5w; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=B34hAaAN; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kxcbl+k3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ipCB1KEh; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QvZ8tg/N";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="avvF+c2J";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rHUkIc/I";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="dwbDSzd7"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="isFZPm5w";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="B34hAaAN";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kxcbl+k3";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ipCB1KEh"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 0F89221E85;
-	Mon,  5 Oct 2026 10:28:05 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 6DE9821A56;
+	Mon,  5 Oct 2026 10:29:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1791196089; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1791196154; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=dpnyF9kWu5HUOFuoMW2EGXX3vg3/k1B3QaCRnwhKEdQ=;
-	b=QvZ8tg/NB3JXdFbwzNd9PjuXAYegvaBBJrv87lRqof8u1TbRCwuB4S+9NX2CEikuZSnlVT
-	0RdCh853IS9q8OeUdztLnNb0oZ+zsN88ctKmkonancy80HPz8ISAEr6U02vSUUDwJkZsO2
-	S1K/PTFUFlKCkZ6JzAdzZRUnZSK4hp8=
+	bh=doFU5Ou9ColtE4a2X1Z4jm8WX5qy8wFA5HtGjLUD4l4=;
+	b=isFZPm5wGnlPnO7UZGC/AGCJrNQIhAfwAXeTWc9uHD9eS0KW3dPFTdrZUXNoTkq/ysv9cC
+	zQT9Wcv+MpSO5NAi2+p/TFXgu3xjQ2DcGEp2w+cuh49tTfZbTVvMffQunAJJsoRForOpJC
+	6MEmMprjNagAQo+SN44NuNHMhBwCnXw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1791196089;
+	s=susede2_ed25519; t=1791196154;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=dpnyF9kWu5HUOFuoMW2EGXX3vg3/k1B3QaCRnwhKEdQ=;
-	b=avvF+c2Jeff/ifyMvbfyqB1oJdLiIpkejk2DmGj4oUuFJI/otfSiTPb/3uwDBqslEvcWts
-	YuzPCtXqdNd08yCg==
+	bh=doFU5Ou9ColtE4a2X1Z4jm8WX5qy8wFA5HtGjLUD4l4=;
+	b=B34hAaANSMFiJAEzxpglh/PyuuSkuzdMrpECJAc48vB30oWzzJbYcwOhuGyPO1uCWiN/U6
+	jkDc9X7aETRK5RAA==
 Authentication-Results: smtp-out1.suse.de;
-	none
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=kxcbl+k3;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=ipCB1KEh
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1791196085; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1791196150; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=dpnyF9kWu5HUOFuoMW2EGXX3vg3/k1B3QaCRnwhKEdQ=;
-	b=rHUkIc/I+3ZlhfqGdI39tRm0SYAmIH8AYuWuCaiG/5M8lqtmv1SSzIw7DFvUJao9sZf42R
-	UoSMSl+nqLIqgcPHgFDBVJUx/rd0N9RVMPupDFytXlg4fZeusftXiSxTYGMnNLS6e2rBT2
-	XW70JRvYjPxShTC9dwq2opo/4FytcNI=
+	bh=doFU5Ou9ColtE4a2X1Z4jm8WX5qy8wFA5HtGjLUD4l4=;
+	b=kxcbl+k3d0NnDCrFBw4W/oUhDksD6noMz98hqpdGtzeG0J4YOuGcuqJYdqDy8v+yd00EkE
+	h1ZlQYQSVkYl18SQposC//zk80nwpN1Ks6oIwTlfgEtWyRmMrjt4QvyrrFzolZJm00fxsf
+	CsHAsKdMNSwE2EpRk/oNdJpGRYFvmJ0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1791196085;
+	s=susede2_ed25519; t=1791196150;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=dpnyF9kWu5HUOFuoMW2EGXX3vg3/k1B3QaCRnwhKEdQ=;
-	b=dwbDSzd7f3x+TP5glNT7rNmM4Lr5PR3uVZitQwOQNqtr0cChDqh6cSUdIVr+29E3lTPYLf
-	D1Dnnxyp9DQJT/Dg==
+	bh=doFU5Ou9ColtE4a2X1Z4jm8WX5qy8wFA5HtGjLUD4l4=;
+	b=ipCB1KEhQ0839YZ+RQat5piyUQwHdNi7/S3vsKNbi66WUjlW+59PijK5vFA4aEL1ZL1MGU
+	lM7wvmuqCWjwHQAw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CC9C2132D3;
-	Mon,  5 Oct 2026 10:28:04 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3DA3E132D3;
+	Mon,  5 Oct 2026 10:29:10 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 7b0vKbR7w2rlJQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 05 Oct 2026 10:28:04 +0000
-Date: Mon, 05 Oct 2026 12:27:56 +0200
-Message-ID: <87se2ksaqb.wl-tiwai@suse.de>
+	id 2C2CBvZ7w2rZJgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 05 Oct 2026 10:29:10 +0000
+Date: Mon, 05 Oct 2026 12:29:05 +0200
+Message-ID: <87qzi4saoe.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Scott Gauche <scott-dev@scottgauche.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
+To: Justin Bacle <justin.bacle@gmail.com>
+Cc: Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] ALSA: hda/realtek: Fix audio after Windows reboot on ASUS Q423SA
-In-Reply-To: <20261004212623.1098793-1-scott-dev@scottgauche.com>
-References: <20261004212623.1098793-1-scott-dev@scottgauche.com>
+Subject: Re: [PATCH v2] ALSA: usb-audio: add sample-rate quirk for Yamaha 01V96i
+In-Reply-To: <20261004192102.59312-1-justin.bacle@gmail.com>
+References: <20261004192102.59312-1-justin.bacle@gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -88,60 +89,69 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.30 / 50.00];
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 6DE9821A56
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-2.01 / 50.00];
 	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MX_GOOD(-0.01)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	ARC_NA(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim]
 X-Spam-Flag: NO
-X-Spam-Score: -3.30
+X-Spam-Score: -2.01
 X-Spam-Level: 
 
-On Sun, 04 Oct 2026 23:26:23 +0200,
-Scott Gauche wrote:
+On Sun, 04 Oct 2026 21:20:50 +0200,
+Justin Bacle wrote:
 > 
-> The ASUS Vivobook S 14 Q423SA-U5512 (DMI family S5406SA) with the
-> ALC294 codec has working analog audio when booted directly after a full
-> shutdown. After a warm reboot from Windows 11, audio works briefly during
-> Linux startup, then both the internal speakers and headphones become
-> silent. PCM playback continues without errors.
+> The Yamaha 01V96i exposes its audio streaming interfaces as
+> vendor-specific USB class 0xff and ships no class-specific endpoint
+> descriptor.  parse_uac_endpoint_attributes() therefore returns no
+> attributes for the device, and without UAC_EP_CS_ATTR_SAMPLE_RATE the
+> driver never issues the SET_CUR sampling-frequency request the hardware
+> needs to start its USB audio stream.  The playback and capture PCMs are
+> reported as RUNNING and their pointers advance, but the mixer passes no
+> audio in either direction.
 > 
-> Coefficient 0x1b is 0x4e4b on a direct cold boot, but 0x4a4b after the
-> Windows warm reboot. Restoring bit 10 changes it back to 0x4e4b and
-> immediately enables both analog outputs. Speaker playback, headphone
-> playback, jack switching, cold boot, and suspend/resume were tested
-> successfully. The same 0x4a4b state and immediate recovery with 0x4e4b
-> were independently confirmed on another S5406SA with subsystem 1043:10c4.
+> The vendor (Yamaha Steinberg) driver on Windows sends this request at
+> startup; the generic driver does not.  Add the 01V96i to
+> snd_usb_audioformat_attributes_quirk() to force the attribute on, so the
+> stream is initialised the same way.
 > 
-> The same coefficient write is already used by
-> ALC294_FIXUP_ASUS_COEF_1B for the ASUS UX431DA. That fixup cannot be
-> reused here because it chains to ALC289_FIXUP_ASUS_GA401 and applies
-> unrelated DAC routing and microphone pin configuration.
+> Confirmed against a usbmon capture of the Windows vendor driver: SET_CUR
+> CS_SAMPLING_FREQ_CONTROL to endpoints 0x07 and 0x86 is the only
+> non-standard control transfer it issues that completes successfully.
 > 
-> Add a model-specific fixup for subsystem 1043:10c4 and chain it to the
-> existing ALC2XX_FIXUP_HEADSET_MIC fixup instead.
+> Verified on a mainline 7.2.9 kernel with a loopback test: playing a
+> 440 Hz tone on USB channels 1/2 and recording USB channels 9/10 returns
+> the tone unchanged at 44100, 48000, 88200 and 96000 Hz.
 > 
-> Link: https://github.com/thesofproject/sof/issues/11051
-> Signed-off-by: Scott Gauche <scott-dev@scottgauche.com>
+> Tested-by: Justin Bacle <justin.bacle@gmail.com>
+> Signed-off-by: Justin Bacle <justin.bacle@gmail.com>
 
-As this looks like correcting an existing quirk, could you point to
-the commit introducing the original quirk via Fixes tag?
-At best, please resubmit v2 with it.
+Applied to for-next branch now.  Thanks.
 
-
-thanks,
 
 Takashi
