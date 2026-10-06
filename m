@@ -1,208 +1,234 @@
-Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
+Received: from mail-dl1-f44.google.com (mail-dl1-f44.google.com [74.125.82.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AAB03C9EE8
-	for <linux-sound@vger.kernel.org>; Tue,  6 Oct 2026 21:27:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.181
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791322041; cv=pass; b=VAi7zMhJyE8Idw9j0/dVIQHE6PeRUpfYq9yv/XmvoE5XLfZRdXXH7K9eb2nlLAg2W3LEz49vyjbY4IsjfdLCF+/0VoNikxUIr22fNJDgYksXGDLpEq5JgQ0CTpaTVUacZTQh51f93dbsP1vsHBEeWnfGe/g2sdkZE4CZoAoqzCk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791322041; c=relaxed/simple;
-	bh=ZF+zRmvFS1BroEPeKg+X0AWJMqO3jSUGyZqHlYfNrlg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=khRb1c8ZIarhJxdMvob0fThpMbGnEXL0jRla/Vcs/uDmUV1TzM/43EdidnWZcbNSuVQevylu4i/6TaJOOPWGVICzLSeA2/csXtyBSNhJrqGD4euuZ7SUwi02KmxpxMhorTeMGOpW7xIpVSOzxnTngSERbrt6aXVdPwhTt1lcJHE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mox8Ov6U; arc=pass smtp.client-ip=74.125.82.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C76F03C8C46
+	for <linux-sound@vger.kernel.org>; Tue,  6 Oct 2026 23:19:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.44
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791328798; cv=none; b=Hdb9VaDxHfUq71oZXq6EhbRlPEcYhzJZYxtNcT3HuLQB+cKiVSUWtKrdrVg4voar/sBIEOX/PYgS/mztYbGqhkPn9H9X4zQrlJmrsEM6X+/Ad6baRhlVy9j348rb7jweYVST3+7osMWSYsrLVXU5ajSruybXlOFV7BqTLCF4QjI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791328798; c=relaxed/simple;
+	bh=P7oecALR/wCKBNyKL3ajEPimn0nV+l81GMYEnAFRGkM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=vGSWM/FfvWE+FAkUVm/dEKbTlmg3LdpL2kDikTPTmLUlZtLdBs/4tbF5NHBCtlB0VAAtRaYzvaFvNJWm5CnHyKGn14H9RpcA1bOjOg5H0LP1hnNVPmX0HovdMaLK69sgE+4V+MWtopGuWsVY9k8X6wQzjepv8LbO9c98zhAPbIk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Qu9oONBi; arc=none smtp.client-ip=74.125.82.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mox8Ov6U"
-Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-351348eb579so1417135eec.0
-        for <linux-sound@vger.kernel.org>; Tue, 06 Oct 2026 14:27:19 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791322039; cv=none;
-        d=google.com; s=arc-20260327;
-        b=L6oTP7BeTuZ3zvjxFt6JcOTrM1NTyOIK5vTta0bG7WNYPMijPmN69FCCriXSX5+1LL
-         Y3ezJbihk5gUw/2wQ1kmFjNUBZ/1Wao0vrtMn4XsV5tDr60DXWLBENwr8AHQFu+L6bLJ
-         M5Q08wJi08zdHuxFvyV67y5n4MrR5T8MT5URb0+iVaIaV9IBxNQTug/uI+2wk1wcSpD1
-         zpjPpgb/Lundpn7KVN848fQzr6zoB6eidN+wZQJRkxFqSjotIzuwYlzSoE+zeGnDbgCP
-         g1koreUmuZxk1EF8FxHJ/80gv+uYRxGvLWYAyCVb6wKim4D8owWi1C9xXTOkff0MmMjN
-         XC2A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=rRJ2MtelPwL5klYN4F3h1n6SZrtiTxDCAi+/56xIYtA=;
-        fh=vuK1/mc5k35ftl1oWld21HLVbGIG5IVXZzdTmfrqewc=;
-        b=DVliF26irioL5Ekop4BVH9NlGzr1Yo0hU0BInK6nfY6XSP97il8Jrel746LqY92EPn
-         fMHWFd0R8sqow6WjGEzETyRfhioHD2ciCV4e5X5EyxznVDrgEIPBJhIcU0jvF0mih4FU
-         mhvg2yf/zayjoOpsgm5sgD8n1eKRmYmQE0/97TkFQv5/d6encKD2Mz/Z8iLi7o3vsdyn
-         s0l5jASgivFvDhUgJ/IDcMclVflTLp/8Up+U/BnbMNtaKZ9i4dZ0H5zJAN/jSwAQzaMm
-         WLj2mQzzcmlbWbd6vVxpbAwQ9cQqgbKQDpeCMiQDjrQYETfW1CP7e6IlBjxcj3FB9U8x
-         aUIg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Qu9oONBi"
+Received: by mail-dl1-f44.google.com with SMTP id a92af1059eb24-150f88d22aeso2234741c88.0
+        for <linux-sound@vger.kernel.org>; Tue, 06 Oct 2026 16:19:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791322039; x=1791926839; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=rRJ2MtelPwL5klYN4F3h1n6SZrtiTxDCAi+/56xIYtA=;
-        b=mox8Ov6UnNhMCzjAAIom+lutbOv+cZM+eIWvVp104W4goMdLBi2CkrWnRUOL4J4XAI
-         lArRXHMQBNlM5zxZcbaNcC8sj6HOL3tnq6bD9mG1nggrIg39f+Dv7/uSKrKKUB71NZU8
-         ayWStNV6SE7KFlybrvz4pBYtuPIkdT0e3CGPIkPLHQQFcm7gv3ZiA/qJyAG1Dym0T/Sy
-         Cir+l8VteJFSaS+sabbyNgW2tQFC5rknKX/MCrtFJirt8frJ6WCpOLiyYJCeLxfo60wW
-         I+Vlu3cCYKmGuxXMc0FEvxqixe6tWlz7aFmyDBfeirmYEAG5G57uDOqgGcCrXoT09Exa
-         cVgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791322039; x=1791926839;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=chromium.org; s=google; t=1791328786; x=1791933586; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=rRJ2MtelPwL5klYN4F3h1n6SZrtiTxDCAi+/56xIYtA=;
-        b=Kwtzk90ifae64q064eTQaBuoX5Lx37tV3q3J71t1iP5Xd3j4kPo8P9LB4y0oYwOtGr
-         3eU7KEo0veTgT3ekGI68mXLrlwMUKEmInQjcnsK7qL17Lxcw6/orGmxk7b8VBtBW2/41
-         M1PQcItb3Z4bVGCh+ImhUWirvmAf2O7nyGMnhCbhJ2zNxnkSgBEaG5rFg9Q6sMLLlXFt
-         tKRW0C8vjRFowd4r9Gu3zxy5cPh+75FN+v6TwW5noEHxvT1WKeoEQ7vWDDnurUAfpYm1
-         4fq8DriVdOLPTxBqoiC3HZQQRbKq1Z8PvfNo8VOTgabeCCID0X7/nJykveBKtlnD2qit
-         0CAg==
-X-Forwarded-Encrypted: i=1; AKwUvBx9da1ZdL/6dmtcLToZlLMtxC352wVmfHbJ4vqKP/IQIQw8SPSw1FYQamjNxQqqnH1IEschts/FbpG5TQ==@vger.kernel.org
-X-Gm-Message-State: AFuF++nl5tmJwYKVcC0nlKqWTInXaFJwpvXkgh9jK6rw+MlJhH/xPJn1
-	AN5oeNMXN9kyiHPJWyALdFgR95HGrYDrW+aINk4hlgr9WjSXiz4L2x0u9Nj3Sh+V9lLTB/TWYbt
-	4zPjm7UyCpogJC+Lb2wkylOmBHIPJgKGFWSy5jIs=
-X-Gm-Gg: AYBFou08TH6ZulYWDYwo2Cs8hB72aNtDPpLgUbVDubhTMqtGeMKli1boaDja+6Ln3oP
-	RIF4kMfhXYRcWSsUUj3IpvK2Yuohe9pcmRjjJScDrxK9RnZvRVlnzy2S3Lk4Jg8KpDjlpoo2gOD
-	BT8ImoXtgWpSWgHxvqQdRnF738/IndOiMz5A3k2OWwcGeHerdXBChUd4Rojxzlif9w443kTN5rL
-	LlnGyGiGnYHr41vv4s1Xj/2Lc+PFYp7MUu/njgyWxN6+0WsKkbdu0Yt4087hy3oiuo7u+EZr2Rt
-	dHpWq/+ACQKHhgrclg+Hv7a2j0TuBepwxAirM7Wb4kv0JnBPv2SW3cemTRRRdumGuA==
-X-Received: by 2002:a05:693c:87cd:10b0:351:5dd:18fe with SMTP id
- 5a478bee46e88-3514501f3d0mr4158731eec.1.1791322038808; Tue, 06 Oct 2026
- 14:27:18 -0700 (PDT)
+        bh=L71GPMsk4GSIdxEygBnLFVf0LVf2CMTomc/BzDysxCo=;
+        b=Qu9oONBiAHrYHtYN59RK9IbVZz92On8/5XjZdNEzonq5e1IqjPuwZEdtTmph05NdrQ
+         5g94TMWmD8iMlaMNgcRDdfgiVz+Y17r6mMsFj5fydMDQjuaUQcDIPEiv7EWrgOUVrtRZ
+         WzAFxBPuNT41Z9M7b4SaudPb3WlMfkyeQadlg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791328786; x=1791933586;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=L71GPMsk4GSIdxEygBnLFVf0LVf2CMTomc/BzDysxCo=;
+        b=Gs6Edglavex+iIJzzQqcHrMwRXVyeaQM/EdeNeh9/dae3CwrnWO7KMdMKFF/PRbd1b
+         UmbgMnD5bEdEvEoI1S8451VsnSpJPxOb+vEY1DY5QU22pcfHwsg1BZGIWx4jHl6o8vaK
+         FrCqE8g3PsQ/w6jffWazxyyyawfeADJSjO0u4oIr76mmvv9Lr/sCofbLaA9XdcWNVCqS
+         9hQFEDmKFjCuiUfMKEk/Q4BbCyXk6/85/WeLAuEZsNpImy8k8HhfT64jjvvBOzbcEG4M
+         kkEUJpavzz0YCaR9bSd+syQTXej/UJDGvF1WHpmh3EKuyjawXIYHVuuh4PTogKksAwBU
+         9mOA==
+X-Forwarded-Encrypted: i=1; AKwUvBwikYc5Ec1GpG5BxVyqm8VGqu6EtJVBzWqXN74cOZ1Vdl9pJiKZG/l8Gzir2WYohbIfVP3BCWlUw36+Zw==@vger.kernel.org
+X-Gm-Message-State: AFuF++n+HEaMRgrF7WtWfZpiqrPYutbkmokWmNpL+gVNAwC0+aTV8dxK
+	vrRWjQWOFLLH0kOz+mLFHConywUbcxfgb/JTKv9MfUvwhx+A8ly5ZiUhQwB0Z7wcyA==
+X-Gm-Gg: AYBFou0cTMyAdKHT4v7rpK/qyTsV8xbgYeis3ikD5dEbFpMAFmDhUcarjKggLxt0F9J
+	QFNpV0Dj1n5WrBZLga12GhF10rODeNYtgEXZ60ivqP9Vq/AFgEfzxinIUUoGj4re+Ul12aNeYlx
+	fNvjEOXZGrR1OC04zpeHW0WP2xCLdqIUigAN4sqGs9estX8VkoTyfwCniq4aOQL4Yrrxs8geAIa
+	w0wHHFFGZMl+GdiZkVBWKJE0rN7YHPO36BO6JSb7nfW84ulLAd5SiGVCNYpwmAeDO3LY9KsEkMS
+	WcqcUD6si3CujulS0mgoKItN9JipNCnpA9F2yIh6nVBvIiPnUOzB+QZnhkNM6BNr/7EiYS26N40
+	NJ+fqSDlOtna7EdOk+JkExAP9YJTsE5Wm5TiPzrlwTlpJoLtloarpBSlOzV+wi9NVn5EfiVGR9p
+	CuwgUSgqkG4c73KGHBV9ZpQR6qAspBxuiT3EYJCsSSpmftmGHMZLiRmxB0/Y1I0CTzuJMtDyvw7
+	BmKwcgjVJEKJy/aG8gQQZpDcTbcaxx5IgeYIQ==
+X-Received: by 2002:a05:701b:4553:10b0:151:7831:e401 with SMTP id a92af1059eb24-162045b8dcfmr323314c88.15.1791328785498;
+        Tue, 06 Oct 2026 16:19:45 -0700 (PDT)
+Received: from localhost ([2a00:79e0:2e7c:8:63eb:e7f9:1d47:7d47])
+        by smtp.gmail.com with UTF8SMTPSA id a92af1059eb24-161680e191esm1583634c88.11.2026.10.06.16.19.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 06 Oct 2026 16:19:44 -0700 (PDT)
+From: Brian Norris <briannorris@chromium.org>
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: linux-pm@vger.kernel.org,
+	Ulf Hansson <ulfh@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	Brian Norris <briannorris@chromium.org>,
+	"Bryan O'Donoghue" <bod@kernel.org>,
+	=?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
+	Alex Elder <elder@kernel.org>,
+	Andy Shevchenko <andy@kernel.org>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Cezary Rojewski <cezary.rojewski@intel.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	David Lechner <dlechner@baylibre.com>,
+	Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hadar Gat <hadar.gat@arm.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Jessica Zhang <jesszhan0024@gmail.com>,
+	Johan Hovold <johan@kernel.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Jyri Sarha <jyri.sarha@iki.fi>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
+	Linus Walleij <linusw@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	Mark Brown <broonie@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Melissa Wen <mwen@igalia.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Olivia Mackall <olivia@selenic.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Takashi Iwai <tiwai@suse.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+	Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+	dri-devel@lists.freedesktop.org,
+	greybus-dev@lists.linaro.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-crypto@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	linux-iio@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-spi@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	sound-open-firmware@alsa-project.org
+Subject: [PATCH 00/13] PM: runtime: Convert pm_runtime_put_autosuspend() and friends to a void function
+Date: Tue,  6 Oct 2026 16:13:28 -0700
+Message-ID: <20261006231900.3230373-1-briannorris@chromium.org>
+X-Mailer: git-send-email 2.56.0.360.g66cac248cb-goog
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAFmy3_zQ1VNUJJ9H1kkvHxf50Pg9AQ4H1rXZbyz6-zxJxcYowg@mail.gmail.com>
- <33d869bc-ec8a-4d9e-8ba4-350bddce7ccf@linux.dev> <asOVTdEvVmbQ78fB@sirena.co.uk>
- <CAFmy3_xCeAE+H93xf0wKnrhwLdqCA7Fdxrgtunom7JUqhh3vLw@mail.gmail.com>
-In-Reply-To: <CAFmy3_xCeAE+H93xf0wKnrhwLdqCA7Fdxrgtunom7JUqhh3vLw@mail.gmail.com>
-From: =?UTF-8?Q?David_M=C3=A1rquez?= <davidmarquezfernandez@gmail.com>
-Date: Tue, 6 Oct 2026 22:27:04 +0100
-X-Gm-Features: AclHuK8hmY1I4tCOe_JI1Euc_94WXjM1AVAqiPQBh7Kaub6_F9AdkcsM0O9XCCQ
-Message-ID: <CAFmy3_z7Pev+1UDy4J1SLR8DO5EL9nEXy1k0Y1TRH5RgydiMJQ@mail.gmail.com>
-Subject: Re: [BUG] ASoC: Intel: sof_es8336: speaker amp GPIO stays off after
- stream stop/restart (no sound until "Speaker Switch" is toggled)
-To: Mark Brown <broonie@kernel.org>
-Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, linux-sound@vger.kernel.org, 
-	sound-open-firmware@alsa-project.org, kai.vehmanen@linux.intel.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Pierre-Louis, Mark,
+Similar to this effort:
 
-I now have data for your question. I traced sof_8336_trigger() (kprobe,
-with the cmd argument), sof_es8316_speaker_power_event() (event
-argument), gpio_value and the DAPM widget power events with timestamps
-over about 24 hours of normal use, and correlated them with 11
-occurrences of the dropout (my out-of-tree workaround logs a message
-when it finds the speakers-enable GPIO low at stream start).
+  Subject: [PATCH v1 00/23] PM: runtime: Convert pm_runtime_put() to a void function
+  https://lore.kernel.org/all/6245770.lOV4Wx5bFT@rafael.j.wysocki/
 
-Short answer: it does not depend on the time between stop and restart.
+i.e., commit 3afd8df02433 ("PM: runtime: Change pm_runtime_put() return
+type to void") and friends.
 
-1) All 11 occurrences are a STOP (cmd=3D0) immediately followed by a START
-(cmd=3D1) 2.5 to 5.3 ms later, both issued from PipeWire's real-time data
-thread (pw-data-loop), on a PCM that stays open. There is no DAPM power
-event in between (no ev=3D4 and no ev=3D2 in any of the 11). The trigger
-drives the GPIO low on the STOP, "Speaker Power" is never power-cycled,
-and at the START the GPIO still reads back low (I read it in all 11
-cases). My workaround then re-enables it about 75 ms later. The
-playback time before the failing STOP varies from 2 seconds to about 24
-minutes. It looks like xrun/resync recovery from the data thread, but I
-have not confirmed the cause on the PipeWire side.
+As with pm_runtime_put(), there is very little value in return-code
+checking for any of the other async __pm_runtime_suspend() and
+__pm_runtime_idle() APIs:
 
-2) Normal stop/restart cycles never failed. The same trace has 46 other
-STOPs, all issued from the main pipewire thread when the PCM is closed
-after being idle. Each one is followed 14-21 ms later by
-sof_es8316_speaker_power_event(ev=3D4) (DAPM powers "Speaker Power" down),
-and each restart is preceded by ev=3D2. 45 of them were followed by a
-restart, from 1.5 s up to several hours later (8 restarts in under 3 s,
-2 between 3 and 5 s), and none failed. So in my case the delayed
-power-down timer is not what matters: DAPM turns the speaker supply
-off right after the STOP, and I only see the 5 s delayed DAPM run later,
-from a kworker.
+  pm_runtime_put_autosuspend()
+  pm_request_idle()
+  pm_request_autosuspend()
 
-3) About your suggestion: today the trigger switches the amp off at
-STOP, about 15 ms before DAPM starts powering the codec down, while the
-GPIO write from the power event goes through the 70 ms delayed work (I
-measure it 71-79 ms after ev=3D4, when the widgets are already off). So
-simply dropping the trigger handling would leave the amp enabled for
-about 70 ms on an already powered-down path, which I would expect to
-pop. I will test a variant that (1) removes the GPIO handling from the
-trigger and (2) switches the amp off synchronously in the PRE_PMD
-event, before the widgets power down, keeping the delayed work only for
-the power-up. I will report whether the dropouts disappear and whether
-I hear any pops.
+Checking the return code is more likely to
+produce a race condition (fighting with user space writing "on" to the
+"control" attribute) than to tell a consumer useful info.
 
-Raw trace excerpts are available if useful.
+Nobody outside KUnit tests checks pm_request_idle() or
+pm_request_autosuspend() return codes, but there are a number of
+pm_runtime_put_autosuspend() callers that check its return code. Thus,
+this series largely deals with pm_runtime_put_autosuspend().
 
-Thanks,
-David Marquez
+Patches 1-11 are independent of each other, and similarly to the last
+series, I expect the respective maintainers can pick them up. We can
+apply patch 12 later. Patch 13 is also independent, but included in this
+topic for completeness. It can be applied any time.
+
+This touches a lot of trees/maintainers, so I tried to keep CC's only
+for the relevant patch(es), plus the cover letter. I hope that's not too
+noisy.
+
+- Brian
 
 
-El lun, 5 oct 2026 a las 22:30, David M=C3=A1rquez
-(<davidmarquezfernandez@gmail.com>) escribi=C3=B3:
->
-> Hi Pierre-Louis, Mark,
->
-> Thanks for the quick feedback.
->
-> > Does this happen if the time between stop and restart is greater than
-> > 3s, or only when the delta is really short?
->
-> I don't have systematic timing data yet, so I can't say for sure. What I
-> have so far:
->
-> - It still happened once with pmdown_time set to 0 on the codec and BE
->   links (I caught the speakers-enable GPIO low after a dropout in that
->   configuration). With pmdown_time at 0, DAPM powers down immediately on
->   close, so a missing power-up after a quick restart should not be
->   possible there. That makes me think the short-gap case is not the only
->   path.
-> - My suspicion is a STOP/PAUSE_PUSH on a PCM that stays open (for example
->   xrun recovery, or drop+prepare on the same open stream). DAPM only
->   powers down on hw_free/close (after pmdown_time), so no power cycle
->   would happen regardless of the gap, while the trigger has already
->   switched the GPIO off. I have not verified this yet.
->
-> I am now collecting a trace with kprobes on sof_8336_trigger() and
-> sof_es8316_speaker_power_event(), plus the gpio_value and DAPM widget
-> power events, and I will correlate it with the moments where my
-> workaround finds the GPIO low on resume. I will report the sequence and
-> the time gaps.
->
-> > alternatively you could deal with power management only in
-> > sof_es8316_speaker_power_event(), and completely remove the transitions
-> > on trigger start/stop/pause.
->
-> Agreed, that looks cleaner than adding work to the trigger path. I will
-> test that variant on my machine (and listen for pops at stop and pause,
-> which I assume is why the trigger code exists) and report back.
->
-> https://github.com/thesofproject/linux/issues/5967
->
-> Thanks,
-> David Marquez
->
->
-> El lun, 5 oct 2026 a las 13:17, Mark Brown (<broonie@kernel.org>) escribi=
-=C3=B3:
-> >
-> > On Mon, Oct 05, 2026 at 01:22:10PM +0200, Pierre-Louis Bossart wrote:
-> >
-> > > Does this happen if the time between stop and restart is greater than
-> > > 3s, or only when the delta is really short? In the latter case, IIRC
-> > > there's a DAPM feature where the power down happens with a delay, to
-> > > avoid unnecessary power transitions. so if the new stream starts
-> > > immediately, then the power-up transition will never happen.
-> >
-> > Yeah, the default timer is 5 seconds.
+Brian Norris (13):
+  hwrng: cctrng: Discard pm_runtime_put_autosuspend() return value
+  drm: Discard pm_runtime_put_autosuspend() return values
+  iio: Discard pm_runtime_put_autosuspend() return values
+  media: venus: Discard pm_runtime_put_autosuspend() return values
+  pinctrl: qcom: lpass-lpi: Discard pm_runtime_put_autosuspend() return
+    values
+  spi: ti-qspi: Discard pm_runtime_put_autosuspend() return value
+  greybus: Discard pm_runtime_put_autosuspend() return value
+  ALSA: hda: Discard pm_runtime_put_autosuspend() return value
+  ASoC: codecs: lpass: Discard pm_runtime_put_autosuspend() return
+    values
+  ASoC: intel: atom: Discard pm_runtime_put_autosuspend() return value
+  ASoC: SOF: Discard pm_runtime_put_autosuspend() return values
+  PM: runtime: Drop pm_runtime_put_autosuspend() return code
+  PM: runtime: Drop pm_request_{idle,autosuspend}() return codes
+
+ drivers/base/power/runtime-test.c             |  8 ---
+ drivers/char/hw_random/cctrng.c               |  6 +-
+ drivers/gpu/drm/panel/panel-simple.c          |  8 +--
+ drivers/gpu/drm/tidss/tidss_drv.c             |  7 +--
+ drivers/gpu/drm/v3d/v3d_drv.h                 |  4 +-
+ drivers/iio/accel/bmc150-accel-core.c         | 14 ++---
+ drivers/iio/accel/fxls8962af-core.c           | 11 +---
+ drivers/iio/accel/kxcjk-1013.c                | 15 ++---
+ drivers/iio/accel/mma8452.c                   | 15 +++--
+ drivers/iio/accel/mma9551_core.c              | 15 +++--
+ drivers/iio/adc/rcar-gyroadc.c                |  4 +-
+ drivers/iio/adc/ti-ads1015.c                  |  8 +--
+ drivers/iio/chemical/atlas-sensor.c           |  4 +-
+ .../common/hid-sensors/hid-sensor-trigger.c   | 14 ++---
+ drivers/iio/gyro/bmg160_core.c                | 17 +++--
+ drivers/iio/gyro/fxas21002c_core.c            | 12 ++--
+ drivers/iio/imu/kmx61.c                       | 17 +++--
+ drivers/iio/light/apds9960.c                  |  2 +-
+ drivers/iio/light/isl29028.c                  | 15 +----
+ drivers/iio/light/pa12203001.c                |  3 +-
+ drivers/iio/light/rpr0521.c                   | 15 +++--
+ drivers/iio/light/tsl2583.c                   | 27 ++------
+ drivers/iio/light/us5182d.c                   |  3 +-
+ drivers/media/platform/qcom/venus/vdec.c      | 10 ++-
+ drivers/media/platform/qcom/venus/venc.c      | 10 ++-
+ drivers/pinctrl/qcom/pinctrl-lpass-lpi.c      | 16 +++--
+ drivers/spi/spi-ti-qspi.c                     |  6 +-
+ drivers/staging/greybus/power_supply.c        |  8 +--
+ include/linux/greybus/bundle.h                | 12 +---
+ include/linux/pm_runtime.h                    | 63 +++----------------
+ include/sound/hdaudio.h                       |  8 +--
+ sound/hda/core/device.c                       | 13 ++--
+ sound/soc/codecs/lpass-rx-macro.c             |  4 +-
+ sound/soc/codecs/lpass-tx-macro.c             |  4 +-
+ sound/soc/codecs/lpass-va-macro.c             | 17 ++---
+ sound/soc/codecs/lpass-wsa-macro.c            |  8 +--
+ sound/soc/intel/atom/sst/sst.h                |  2 +-
+ sound/soc/intel/atom/sst/sst_drv_interface.c  |  4 +-
+ sound/soc/intel/atom/sst/sst_pvt.c            |  9 +--
+ sound/soc/sof/control.c                       |  6 +-
+ sound/soc/sof/sof-client-ipc-flood-test.c     |  5 +-
+ .../soc/sof/sof-client-ipc-kernel-injector.c  |  4 +-
+ sound/soc/sof/sof-client-ipc-msg-injector.c   |  6 +-
+ sound/soc/sof/sof-client-probes.c             | 18 ++----
+ 44 files changed, 152 insertions(+), 325 deletions(-)
+
+-- 
+2.56.0.360.g66cac248cb-goog
+
