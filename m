@@ -1,124 +1,143 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48AC138F935
-	for <linux-sound@vger.kernel.org>; Tue,  6 Oct 2026 11:18:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.176
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791285521; cv=pass; b=sQ5536WJHNiLKm6OuUOeSbR1HozcL3XTsxjytwHsKOjWf+d/v4viraYj7nKXkuA9HQ3sd6IHRlnzv/hqNLhw+i3TTCYqYi3NIXvbodFBTaSODt/huxPcgmmH1fYgDz+sbpO1jD2OrDrmVhxBzlnENqXXIHJeSCaMN8Qu6GmdzxM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791285521; c=relaxed/simple;
-	bh=qWeQSA3iBk+D3X8mD2yjU++uYsFdGNeCCEs2kF1ghcU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=enOphT1Umo2ZlUSXrfxOvC96WPBFvKOCTcPEKkigYYjjToY8Wp9C0BWdkBwHyykyp2EYXo1v9ZeivepWw1QKWjuKBVxWRj/+UnqIn5jg3q6xwOVNZR/qc472N0XBg0h//NiByJexyShLvlhf5qG+0f2ZJOalpGeqEsCz1ejFLp8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BsSn5THz; arc=pass smtp.client-ip=209.85.215.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E75413C1088
+	for <linux-sound@vger.kernel.org>; Tue,  6 Oct 2026 11:31:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791286319; cv=none; b=YZYOBfhZd1t4jpL3q62/PtWsKDEggmQM09CJgIfA922S2EAHgmR4gBSjw0MFj6Wo+hwcBmqR4xthG3hkkorPD8PEkyVRsFhGTJjxo7eHMLY6dYCetcqX4vV0KjFdpgAxI4iUNZ+ZifXLF63TPaVjyDAI6ZY8Zp2qXiAHsLgIXVs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791286319; c=relaxed/simple;
+	bh=QIgCb951pTGPbbZpeb10voFh1I9v57YjxAPRVj4t2Tw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jo+2+gqe1cHJo5vck/uKqG3sia0/ud2VxtymU2BuWOx8b4Qro6PfD6x5fBt36rWgHIL6v79AjAP0DrGB0ZfvLOiLYghD+cIcCycxuHGPR9fGc+SF/1DE5MRPjhPy4ohyEEngCqFiZHiwhirP1NUy/izK+ubTieIRfSsu11XTssQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W4/Zr9LV; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BsSn5THz"
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-ccce967aa8dso974927a12.1
-        for <linux-sound@vger.kernel.org>; Tue, 06 Oct 2026 04:18:40 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791285519; cv=none;
-        d=google.com; s=arc-20260327;
-        b=lBeEbXj0Qm9lpyqOKCtOU2U8dcvXpiTRkmRbAfFSRF/Tzh5nxJGHXzAvB3lmfJ6dOH
-         Son58NS4it6cZl8xmx6Ay3RLNNBVXk6ghKa6CWTQdfcnW92rm47SfiQDB/972Vny/t+n
-         ixdcmeRwJgXqQXM8FlNIyMXS9jX/p7LEGBiCeTgRTOjKfaa0LO8WiJg3mh0v7C88pSO4
-         rkWnAJk781XQiUAPZ61e/ncccoTmwWmv3R18SaT963qZRfXL8H8KQ2NisUrZ2gWd1gCU
-         A2xsFmd49ItHP9k1C6f9Q0f5P/y8MXg52VIc77b3no4kBQdDE8vgEGbsSboYo1iIFWfG
-         Z3+g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=qWeQSA3iBk+D3X8mD2yjU++uYsFdGNeCCEs2kF1ghcU=;
-        fh=i+nQGRC5cUalw9OFx4L2PL4hNLyTA+QNouiFM3xaR7w=;
-        b=W0ejFTfR8U75fEdMj0YrCnv36AnGjeMBUyF0RhLUFou67rKsSZxeMcVc5IXskNtkku
-         tugVJirVnLAMQrV4T5ixUyobly328HLNa9d9jpFbaDplS8ud2vKqBJAOW0x2luLt7VWG
-         9ePYGDOD6JV4B0YcQx1XwW57oW+C9/x1Fkp0pBCCrntIzpY55mgjhqETa2b5uV3K62L/
-         kFkAX45U4rVTxywq/4tnk5oiuU2i7PARY4foPK2JH6A3FpJp8JyoWPxaCdHC/LDSnbhl
-         4Hp4AuTRj/jPeV0l+ohYAbO5b+0DAoKoii8+u6xa/+vwFnxWeQ55XdZS6C4X0NA+yyW5
-         kS7Q==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791285519; x=1791890319; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=qWeQSA3iBk+D3X8mD2yjU++uYsFdGNeCCEs2kF1ghcU=;
-        b=BsSn5THzP5ZLvVKnQkDrqGmTBeh9icY8yeWOz6b/qjBApXEsNP0q0OJnhPMDgOtVI/
-         zIrvEqFz85AIeCbUWgUrQkJwXYI+lPZ34X8VRDmD2Sh4Wn72+EobfHkSZRkvQipLCAmB
-         h/Pwk8GHSLK/nJS9mkho1Vuu73tipIqRm9oZE4JjiE4MjFPElPAcxOoxAKGajwQVZa24
-         HxfK91pi1wNXnlbvahayz7SHgG/9wwVohZBcPI4t9ZtZCY3DOMw3Rp0ZgusACwZD62Sj
-         9fhu0N2jFGJBlsXJscx++yFpKTpEYogaF1rRQt8PzwKNVKMHliurh/AMrBMMriElG5+C
-         GOhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791285519; x=1791890319;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=qWeQSA3iBk+D3X8mD2yjU++uYsFdGNeCCEs2kF1ghcU=;
-        b=j+odnTxN3se4XtdWiYZfo6tCuWbMc1Zfk8e0bOKLwF8THV/l+4DU61fnfR8gqAOSFM
-         GXGx4SHzipdamlfaBzkKb2wIYLYTrmhCNeUXHCMyxKqQqsNn3wDPtgjxdEBbh4AsKDmg
-         OQs7UhdMXA5cA5MkH8eUjc0XUj3cm6kdx3Oqs2iZZ9OKnuSxkHdXZYlrLuP6333ndmys
-         HRHC9kLNuO6YsRHs1Nt3Usj+ZdZBbKDkUu9OczYvWYEBFxJWdNgOUeQ8EDeTUu3bP1L6
-         tEkNrcl9wvkBRaZVBVqJJPjKb90/cTR4lK6NBG1jPKLfVGOAc735xql7BrrG6a6SDkIy
-         zg6Q==
-X-Forwarded-Encrypted: i=1; AKwUvBziGsmisOIKxtr7I6CQ7hk2svWCVEy7beVIM7cl4Emlsu5dBpdKoARYWpt/RbiNuNNIuYYQXkxy4xLmIg==@vger.kernel.org
-X-Gm-Message-State: AFq9FYLQucIPTLNmoOo5hNR2VoJ5P+0e1oP9uL5vd2JQR6YQtinMrFxa
-	LkuBKKtfbGe14lSKvqMzIo54dThAwlHXWl5iM+DOkBLPYOewc2/Jc5tOhlQHa0mQDDHo8s8KDit
-	ihkmcIeDeFDGTtNgXPX8gsUN5HhjZIto=
-X-Gm-Gg: AYBFou339HoRNFm1Usej872ZomAmxI+j9tNlT+5uu5VL3svrLSq6qtVYSAj/xivEKtN
-	rx1iatz/80EDScabIrWiYJ6H2YOOmL0vQUY0jdDDU0sUmw3CLdVj0OGLexaebaoef1duw/5RXZo
-	deRS8bB4aBt773wRUx/czgV+2nA7MBj0EeLjUkXAlS4sDHD60jeV86rFA1ILTTD4QJzqYfAGdfL
-	jNGwWmYsRlcORCvAlTPBaRWmBwISi0EmUpAp2SBASX/z0iIK7LsGPiibvylvHHZ/3nCNE/IieND
-	+EUVBIANpDpUJoMt2nWZLGTdhh9WIiGmTifOC5QJvmWkIBWUeXcv+JQqttJB4jyO6OJomOhLzOr
-	56pxxNTMk2p6HVhINLUnqGaR8XK5Sd95h9nx0BgWYf0bsyA1/kAD7PysvuJFTufGK7jg=
-X-Received: by 2002:a17:90b:2f05:b0:3a0:b312:1fbe with SMTP id
- 98e67ed59e1d1-3a873517948mr721042a91.23.1791285519572; Tue, 06 Oct 2026
- 04:18:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W4/Zr9LV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1791286318; x=1822822318;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=QIgCb951pTGPbbZpeb10voFh1I9v57YjxAPRVj4t2Tw=;
+  b=W4/Zr9LVsfdcxf4WUyZGbgyDK5zKQp40GE8YkqlNGkNLOGZuu66rd8Lv
+   zAeDXcmRyd+0DBdVXqlVHmn9tSPTwgUbtHukiaf8iVB5XrPYFZbDau6CY
+   TvXIF+eq/wNc/i6vpxiQmbdX8xS5I8uRPyY/P+xiMMsg6pE7Jkr2axf9w
+   c9QVLIcLdHzZbeuzJK5VW/IkQE49rJEWRLlCAWriVIlaCJsUHGFllHSw8
+   QiIfdo/jrxmsx6E2l093LLdjkY64Wnp3laYCLOHYA61/Iooqrnl0T7920
+   GEjU1GFEOXwEaOHOonA7wl1j59L7Ku2X3jgJPi4qD2uTAiOlX20lTEzBo
+   g==;
+X-CSE-ConnectionGUID: ruOnWcHbSKKdL+t5uEiaHQ==
+X-CSE-MsgGUID: 0tjX03dzR6y6UEtefGSluA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11926"; a="95789656"
+X-IronPort-AV: E=Sophos;i="6.27,143,1787036400"; 
+   d="scan'208";a="95789656"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2026 04:31:57 -0700
+X-CSE-ConnectionGUID: uuf2/A81THGuFRFUneoDTA==
+X-CSE-MsgGUID: NjTyg5cBRRuPNC0fI9pA/g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,143,1787036400"; 
+   d="scan'208";a="276243082"
+Received: from ettammin-mobl2.ger.corp.intel.com (HELO [10.245.244.21]) ([10.245.244.21])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2026 04:31:50 -0700
+Message-ID: <9724b0b1-80dc-4e73-a02c-363354de0035@linux.intel.com>
+Date: Tue, 6 Oct 2026 14:32:11 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20261006101606.54079-1-phucduc.bui@gmail.com> <20261006101606.54079-4-phucduc.bui@gmail.com>
- <fa9642c4-7117-4d34-928b-f0937becc593@intel.com>
-In-Reply-To: <fa9642c4-7117-4d34-928b-f0937becc593@intel.com>
-From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Tue, 6 Oct 2026 18:18:27 +0700
-X-Gm-Features: AclHuK8llUKr61cpB9foKw2h-ehaYs9R91uCOJ-HEm_z8nUdGQwIllDsJU3R1JY
-Message-ID: <CAABR9nGYB6vyR4AraotegkQzt3Xd1s+uFMF12GQdjY69nJiZEg@mail.gmail.com>
-Subject: Re: [PATCH 3/4] ASoC: mediatek: mt8189:return 0 from
- mt8189_fe_startup() on success
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, cassiogabrielcontato@gmail.com, 
-	Haotian Zhang <vulab@iscas.ac.cn>, Christian Marangi <ansuelsmth@gmail.com>, 
-	Cyril Chao <Cyril.Chao@mediatek.com>, Tuo Li <islituo@gmail.com>, 
-	Rosen Penev <rosenp@gmail.com>, Alexandre Mergnat <amergnat@baylibre.com>, 
-	Dan Carpenter <error27@gmail.com>, linux-sound@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Trevor Wu <trevor.wu@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 22/26] ASoC: SOF: Add support for IPC4 compressed
+To: Mark Brown <broonie@kernel.org>
+Cc: vkoul@kernel.org, perex@perex.cz, tiwai@suse.com, lgirdwood@gmail.com,
+ srinivas.kandagatla@oss.qualcomm.com, linux-sound@vger.kernel.org,
+ kai.vehmanen@linux.intel.com, yung-chuan.liao@linux.intel.com,
+ pierre-louis.bossart@linux.dev, daniel.baluta@nxp.com
+References: <20260916120320.18318-1-peter.ujfalusi@linux.intel.com>
+ <20260916120320.18318-23-peter.ujfalusi@linux.intel.com>
+ <asTBaMNMC2UlWaKC@sirena.co.uk>
+Content-Language: en-US
+From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
+In-Reply-To: <asTBaMNMC2UlWaKC@sirena.co.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Cezary,
 
-> Nothing major here, just the missing space between 'mt8189:return' in
-> the title.
->
-> IMHO the title could be made more explicit as you're in fact fixing how
-> the snd_pcm_hw_constraint_xxx() is handled by the driver. "Return 0 from
-> (...)" misses the point.
 
-Thanks. I'll fix the missing space and update the title to:
+On 06/10/2026 12:37, Mark Brown wrote:
+> On Wed, Sep 16, 2026 at 03:03:16PM +0300, Peter Ujfalusi wrote:
+>> Set and define the compressed ops for IPC4.
+>> The initial implementation supports basic features: PAUSE PUSH/RELEASE,
+>> DRAIN and progress reporting.
+>> Tested with PCM, MP3, AAC and VORBIS codec.
+> 
+>> +static int sof_ipc4_compr_alloc_pages(struct device *dev,
+>> +				      struct snd_sof_pcm_stream *sps,
+>> +				      struct snd_soc_component *component,
+>> +				      struct snd_compr_stream *cstream)
+>> +{
+> 
+>> +	ret = snd_compr_malloc_pages(cstream, crtd->buffer_size);
+>> +	if (ret < 0)
+>> +		return ret;
+>> +
+>> +	ret = snd_sof_compr_create_page_table(component, cstream, crtd->dma_area,
+>> +					      crtd->dma_bytes);
+>> +	if (ret < 0)
+>> +		snd_compr_free_pages(cstream);
+> 
+> sof_dai_load() allocates 4k for page tables, the limits we have here
+> allow for say 64 128k fragments which gives an 8M buffer that on a
+> system with 4k pages is going to make more than 4k of PFNs.
 
-ASoC: mediatek: mt8189: Handle constraint return value in FE startup
+True, and this affects the existing IPC3 as well, which does not even
+have get_caps callback defined.
+I will add a check in snd_sof_create_page_table() and update the ipc4's
+get_caps.
 
-in v2.
+> 
+>> +static int sof_ipc4_compr_trigger(struct snd_soc_component *component,
+>> +				  struct snd_compr_stream *cstream, int cmd)
+>> +{
+> 
+>> +	switch (cmd) {
+>> +	case SNDRV_PCM_TRIGGER_START:
+>> +	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
+>> +		trigger_platform = true;
+>> +		break;
+>> +	case SNDRV_PCM_TRIGGER_STOP:
+>> +	case SNDRV_PCM_TRIGGER_SUSPEND:
+>> +	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
+>> +		break;
+> 
+> Do we not need to do something to clean up/reset DMA on STOP?
 
-Best regards,
-Phuc
+For IPC4 we need to keep DMA running and stop it later if needed.
+Let me see if I'm missing something, but this should (and by tests) be OK.
+
+>> +void sof_ipc4_compr_drain_done(struct snd_sof_dev *sdev, void *ipc_message)
+>> +{
+> 
+>> +	spcm_dbg(spcm, dir, "Entry: EOS done\n");
+>> +
+>> +	if (spcm->stream[dir].cstream)
+>> +		snd_compr_drain_notify(spcm->stream[dir].cstream);
+>> +}
+> 
+> More of an issue further up the stack but snd_compr_drain() triggers the
+> drain, then DRAINING is set later in snd_compress_wait_for_drain() and
+> there's therefore a window where the DSP could reply to us that the
+> drain finished before that happens.
+
+Right, that is true as well. It affects all compress drivers, the core
+should set the state for draining before it calls the trigger to be
+safe. And roll back in case the trigger fails.
+
+-- 
+Péter
+
