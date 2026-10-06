@@ -1,153 +1,162 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CDAD3E5594;
-	Tue,  6 Oct 2026 13:44:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB94146A5EB;
+	Tue,  6 Oct 2026 13:54:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791294263; cv=none; b=jVaNFUN8t/+LlWeYv9pLALNe/vFJd8aq08xfwUHgOCw+hEhIkJNlefNQtqelzxFlrB1GNslqRFM7QmJ11ke9EaVAVBfFPD310gjOJ4Pmp5+m80jEteJ3Smq6N7rSA8HiQ+jENVQOQpi+5BG3E0w00BfEOS5loQfdMuwq4RkQe7k=
+	t=1791294893; cv=none; b=kEs5C6FbV2/DQoMBiv0NnHmPiG/qOS7dQ5rp6/lQ2bxfBlQLhG4pGsms8CqjzCFOOqyAfrN62Fc8KsUHLvdLL6s1+XdTIwQfBcNl38kgBIQp6A8HQkQGvWDN2PvkAOzkZg+HftdHh2cKUb2CpV4JN/fgfWyPj7sntsGZ418OSj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791294263; c=relaxed/simple;
-	bh=OBIxQmRg7OrKKlyFGrvm/xICNovZ5BVEtgvAoYv/WFw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rrBQbZW5Ylje34+Im+C7HpfzeuBDaFXIPjEjevfzOK8Tbuy5rP9qZBhjAp7d9zVGyLMgvC9td2bS5hVK9fffmCblsLWFHN7mMmGZx1yKukMrVO7Ks61P+lrMfD5tzt2767+cYdV4Eg/JDIyzefw+dojt+suvGPPL5lDEwWWI4AI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kxow4c+2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=j1zeHV2P; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=djxkJvmW; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ezzNTzAk; arc=none smtp.client-ip=195.135.223.130
+	s=arc-20240116; t=1791294893; c=relaxed/simple;
+	bh=TQnwdN9d1q5jYloEVajsfHFfWmX1u6LzIrLMMZ4Nnjo=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=UygOu1qqosG96DQgHfylNgBDeQOaGEz2kafgpVBRTaKw6L7tS7xPRRoVrJmg1vu2mbKvs4DsVaYICh9Il9q2hqHBJ4UJAJ4wolcKxLaE2qC3yZt//Eu07mzFNYFVeIcinqIkY7h6PabiuwnTm1Pkl5BWsFUQ9+vXGp2jHl9UZDU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=FKUynvVr; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=dYWyeQnb; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=UruqtkbI; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=+mybHUBR; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kxow4c+2";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="j1zeHV2P";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="djxkJvmW";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ezzNTzAk"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="FKUynvVr";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="dYWyeQnb";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="UruqtkbI";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+mybHUBR"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id C42C7220A5;
-	Tue,  6 Oct 2026 13:44:11 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id E839A1FB1F;
+	Tue,  6 Oct 2026 13:54:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1791294255; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=HT8/PDhTgIlYlFktH6fw4m4BmPnl0zVq3igguRM1jqQ=;
-	b=kxow4c+2ejrOfwltVqqhCDKJcMhQ6uyqLBkVdRYv4Sx/Un1qfuyLC6ksbfHz5IkuTts4Pu
-	d99Q1ebpAnJotHubb2GEJXe0c4NyTilx/Y/rE/nG9m6z6sGXLIhVVNaNxuHuRmBfEuHhuK
-	wsf+skxLpkAQFi9ZIPL89QsaX6lDhvE=
+	t=1791294884; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=b0EPHm3CnvPJM0N5fA2ceuxkbs3vgI4e/qOXRCC2Skg=;
+	b=FKUynvVrqcRtWoceGk/KzRXtWsM/3rRekQWNQGDmm712NN/ANVgjf0Vn95GrpN29znEUqp
+	5xD9+XSbi05lI3wFij+50ITGzneSyth3UxmJQjIdcGTEyoR4HmE6JHl4ZNSXd6i36oMCiQ
+	YY+d73aKoozSX5C9C6CRHugMOUnXWzQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1791294255;
+	s=susede2_ed25519; t=1791294884;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=HT8/PDhTgIlYlFktH6fw4m4BmPnl0zVq3igguRM1jqQ=;
-	b=j1zeHV2PXgJ6gJtcy50YprLpZ4uCyzSj1dsK5W6gE8GHUdtSn7zhrbuiPHyk1xQJvC3PDp
-	jlhIlJYTpcaSLiAg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=djxkJvmW;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=ezzNTzAk
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=b0EPHm3CnvPJM0N5fA2ceuxkbs3vgI4e/qOXRCC2Skg=;
+	b=dYWyeQnbl4Yh0PjuPgO6ilMjCeyQAGl1fGZ4AQYAQb/eccZPzVeFOwaJTXnLl1CTr89EwV
+	OlV8kDtRz/GVL6Aw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=UruqtkbI;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=+mybHUBR
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1791294251; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=HT8/PDhTgIlYlFktH6fw4m4BmPnl0zVq3igguRM1jqQ=;
-	b=djxkJvmWlQawU2TcG3jGMa6KulIdCwRaqgbh7tRy89s0vL+AGX26fN7iKPTz1vMCa9Sr5g
-	DpshcLZfcAbV78p9EPr2qxnB4+c40B1Pn5ZrAvznkbrpcPz5QXilL2VGgsuAjrr4GbsT2Q
-	d1TstGFZp2KEiZ8x7bmYZlnm75FpWaE=
+	t=1791294879; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=b0EPHm3CnvPJM0N5fA2ceuxkbs3vgI4e/qOXRCC2Skg=;
+	b=UruqtkbIoo2/nGtOoAOXKC6zmKd3fQi8y5RS6pUxf0Zcttq/HS8jSGYKS9dXvS4KhzzYGK
+	3gV8moh8SewzMvAp0sdH7HypHiR2/mFrtvyAEu1c7kraCjB1ZHDtzXviYbTt/xzCRO7/ky
+	9yS37cs1jVNZiUWfEMCUAKUMT29XUTk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1791294251;
+	s=susede2_ed25519; t=1791294879;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=HT8/PDhTgIlYlFktH6fw4m4BmPnl0zVq3igguRM1jqQ=;
-	b=ezzNTzAkWeZHYgqUa3GnifFyw8JBYRfYtVi5vd9/jF4d4G7pHF2Wr7NVWMsDDS44wIZdHH
-	AZesm13GV4ZanKDQ==
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=b0EPHm3CnvPJM0N5fA2ceuxkbs3vgI4e/qOXRCC2Skg=;
+	b=+mybHUBREK5rUtJtgHjwoH3aizuuqi481v/BfJKLvOrFkj8ryTeAoAAYOoNbqmAv0g2/5v
+	AzrkV1iXIujYxbAg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8B3181368D;
-	Tue,  6 Oct 2026 13:44:11 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AF89C1368D;
+	Tue,  6 Oct 2026 13:54:39 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ZKdNGSv7xGqjdAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 06 Oct 2026 13:44:11 +0000
+	id gpLMIZ/9xGqqAQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 06 Oct 2026 13:54:39 +0000
+Date: Tue, 06 Oct 2026 15:54:39 +0200
+Message-ID: <87mrsrorxc.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: caiaq: Allow zero-length packet handling for EP1
-Date: Tue,  6 Oct 2026 15:44:04 +0200
-Message-ID: <20261006134405.479603-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.55.0
+To: Devin Christensen <dchristensen8@proton.me>
+Cc: linux-sound@vger.kernel.org,
+	tiwai@suse.de,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] ALSA: hda/ca0132: Add Sound BlasterX AE-5 external RGB LED strip support
+In-Reply-To: <20261005141244.2130023-1-dchristensen8@proton.me>
+References: <20261005141244.2130023-1-dchristensen8@proton.me>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
 	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
 	ARC_NA(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_NONE(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
 	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RCPT_COUNT_TWO(0.00)[2];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	FROM_EQ_ENVFROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid,sashiko.dev:url];
+	RCVD_COUNT_TWO(0.00)[2];
 	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Score: -3.01
+X-Spam-Score: -3.51
 X-Spam-Level: 
 X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: C42C7220A5
+X-Rspamd-Queue-Id: E839A1FB1F
 X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Flag: NO
 
-The recent fix to avoid OOB access for malformed packets added a
-packet length check and returns immediately if it's too short.
-However, this can be lead to a regression because the completion
-handler doesn't resubmit the packet, while a zero-length packet itself
-is valid, per se.
+On Mon, 05 Oct 2026 16:13:12 +0200,
+Devin Christensen wrote:
+> 
+> The Sound BlasterX AE-5 and AE-5 Plus expose a 3-pin 5V addressable RGB
+> header driven directly by the CA0113 PCIe-to-HD-Audio bridge. Rather
+> than using the CA0132 DSP or MMIO GPIO, the CA0113 contains an
+> autonomous HDA link sniffer that snoops a designated HDA DMA playback
+> stream, extracts the 24-bit GRB color payload, and serializes it as
+> 800 kHz single-wire NRZ pulses to the strip (WS2812B protocol).
+> 
+> Expose the strip through volatile card control elements:
+> 
+>   "AE-5 LED Strip"        (RW, BYTES): 300-byte RGB payload representing
+>                           up to 100 addressable LEDs (3 bytes per LED).
+>   "AE-5 LED Strip Count"  (RW, INTEGER): Active LED count (1..100).
+> 
+> The controls are marked with IFACE_CARD and SNDRV_CTL_ELEM_ACCESS_VOLATILE
+> so changes do not trigger unnecessary audio daemon wakeups or state
+> restoration by alsactl.
+> 
+> Writes allocate an idle HDA playback stream, format a 32 KB DMA buffer
+> populated with repeating WS2812 frames (preamble, audio words per LED,
+> and reset gap), configure the CA0113 BAR2 serializers and stream-tag
+> pin mux, and pulse the stream long enough for the reset latch to fire.
+> Access is serialized with a per-spec mutex, and the controls are only
+> registered on QUIRK_AE5 devices.
+> 
+> The strip transport uses snd_hdac_dsp_prepare() / snd_hdac_dsp_cleanup(),
+> which require CONFIG_SND_HDA_DSP_LOADER. All strip-related code and struct
+> fields are conditionally compiled under
+> IS_ENABLED(CONFIG_SND_HDA_DSP_LOADER), with a no-op stub for
+> ae5_add_strip_controls() when disabled.
+> 
+> Signed-off-by: Devin Christensen <dchristensen8@proton.me>
 
-For addressing the potential regression above, change the handling for
-a zero-length packet to just resubmit without processing the incoming
-contents.
+Now you got a few interesting points spotted by Sashiko review.
+  https://sashiko.dev/#/patchset/20261005141244.2130023-1-dchristensen8%40proton.me
 
-Fixes: aba30af07d4f ("ALSA: usb-audio: caiaq: validate EP1 reply lengths")
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
-resubmitted due to a typo in the address, sorry for inconvenience!
+Could you take a look?
 
- sound/usb/caiaq/device.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/sound/usb/caiaq/device.c b/sound/usb/caiaq/device.c
-index dea3a68ca896..a596f5f763b8 100644
---- a/sound/usb/caiaq/device.c
-+++ b/sound/usb/caiaq/device.c
-@@ -143,7 +143,7 @@ static void usb_ep1_command_reply_dispatch (struct urb* urb)
- 		return;
- 	}
- 	if (urb->actual_length < 1)
--		return;
-+		goto resubmit;
- 
- 	payload_len = urb->actual_length - 1;
- 
-@@ -193,6 +193,7 @@ static void usb_ep1_command_reply_dispatch (struct urb* urb)
- 		break;
- 	}
- 
-+ resubmit:
- 	cdev->ep1_in_urb->actual_length = 0;
- 	ret = usb_submit_urb(cdev->ep1_in_urb, GFP_ATOMIC);
- 	if (ret < 0)
--- 
-2.55.0
+thanks,
 
+Takashi
