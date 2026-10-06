@@ -1,234 +1,182 @@
-Received: from mail-dl1-f44.google.com (mail-dl1-f44.google.com [74.125.82.44])
+Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C76F03C8C46
-	for <linux-sound@vger.kernel.org>; Tue,  6 Oct 2026 23:19:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD4F93D349E
+	for <linux-sound@vger.kernel.org>; Tue,  6 Oct 2026 23:20:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791328798; cv=none; b=Hdb9VaDxHfUq71oZXq6EhbRlPEcYhzJZYxtNcT3HuLQB+cKiVSUWtKrdrVg4voar/sBIEOX/PYgS/mztYbGqhkPn9H9X4zQrlJmrsEM6X+/Ad6baRhlVy9j348rb7jweYVST3+7osMWSYsrLVXU5ajSruybXlOFV7BqTLCF4QjI=
+	t=1791328826; cv=none; b=IeuPaNMEao4EwcU9zAij8nEd0SUsYyXxUI/ztFUCsO9KgPbB0kbLDfdijcyjHAamIkPnPxMo2Dnm2meFht2JyETpZfjag9nt2nD7lAXpQ+Q3yzcrID+C1g6q2m4t9lsI5j0fBC1AuUKJ1j/EsXh3+nz7kZw2BdMDSChiZn0wS1w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791328798; c=relaxed/simple;
-	bh=P7oecALR/wCKBNyKL3ajEPimn0nV+l81GMYEnAFRGkM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=vGSWM/FfvWE+FAkUVm/dEKbTlmg3LdpL2kDikTPTmLUlZtLdBs/4tbF5NHBCtlB0VAAtRaYzvaFvNJWm5CnHyKGn14H9RpcA1bOjOg5H0LP1hnNVPmX0HovdMaLK69sgE+4V+MWtopGuWsVY9k8X6wQzjepv8LbO9c98zhAPbIk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Qu9oONBi; arc=none smtp.client-ip=74.125.82.44
+	s=arc-20240116; t=1791328826; c=relaxed/simple;
+	bh=4JL95YwEiwI8pSBFYeThVqI8ljDf5YwjlvnqoDhxV+c=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=s1/xfjq4r8/C54nVzAlBky90V12ftmmp49IsjOtLO45DT9ncgsSnQZ+aiNSc7WnBJVggbuayaMFZ4Ud5kpiamoJeb7L8m1o5IYVvLizqDPsmVpeZjh/NdrgmBHkgAtEgG/XtFA5Z6xnSxh15Qv5EwdL56XTcMR0Wx6rxOtBZZWk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Agp7tfQr; arc=none smtp.client-ip=74.125.82.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Qu9oONBi"
-Received: by mail-dl1-f44.google.com with SMTP id a92af1059eb24-150f88d22aeso2234741c88.0
-        for <linux-sound@vger.kernel.org>; Tue, 06 Oct 2026 16:19:46 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Agp7tfQr"
+Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-34c89609923so254232eec.1
+        for <linux-sound@vger.kernel.org>; Tue, 06 Oct 2026 16:20:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1791328786; x=1791933586; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=L71GPMsk4GSIdxEygBnLFVf0LVf2CMTomc/BzDysxCo=;
-        b=Qu9oONBiAHrYHtYN59RK9IbVZz92On8/5XjZdNEzonq5e1IqjPuwZEdtTmph05NdrQ
-         5g94TMWmD8iMlaMNgcRDdfgiVz+Y17r6mMsFj5fydMDQjuaUQcDIPEiv7EWrgOUVrtRZ
-         WzAFxBPuNT41Z9M7b4SaudPb3WlMfkyeQadlg=
+        d=chromium.org; s=google; t=1791328804; x=1791933604; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=gALNeJZ8uoakhMubYoDnGucUk9R/qG1InkA2cgN2kR8=;
+        b=Agp7tfQrIrb5dZuC73wb1pVdreLij6ISYH6cNLE1OWzF7ftW6LAIp1YRh3hE5Z0v0r
+         SA4rfJwPaIIMdZJnHGdvpPGa11s/fcgErUvmEp+gNJF0UCPSdFty0A3v65Ci/klE3ePU
+         qCwtByWFtQcBGZBk2ttI5xPyCaN//GgrIyWKs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791328786; x=1791933586;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=L71GPMsk4GSIdxEygBnLFVf0LVf2CMTomc/BzDysxCo=;
-        b=Gs6Edglavex+iIJzzQqcHrMwRXVyeaQM/EdeNeh9/dae3CwrnWO7KMdMKFF/PRbd1b
-         UmbgMnD5bEdEvEoI1S8451VsnSpJPxOb+vEY1DY5QU22pcfHwsg1BZGIWx4jHl6o8vaK
-         FrCqE8g3PsQ/w6jffWazxyyyawfeADJSjO0u4oIr76mmvv9Lr/sCofbLaA9XdcWNVCqS
-         9hQFEDmKFjCuiUfMKEk/Q4BbCyXk6/85/WeLAuEZsNpImy8k8HhfT64jjvvBOzbcEG4M
-         kkEUJpavzz0YCaR9bSd+syQTXej/UJDGvF1WHpmh3EKuyjawXIYHVuuh4PTogKksAwBU
-         9mOA==
-X-Forwarded-Encrypted: i=1; AKwUvBwikYc5Ec1GpG5BxVyqm8VGqu6EtJVBzWqXN74cOZ1Vdl9pJiKZG/l8Gzir2WYohbIfVP3BCWlUw36+Zw==@vger.kernel.org
-X-Gm-Message-State: AFuF++n+HEaMRgrF7WtWfZpiqrPYutbkmokWmNpL+gVNAwC0+aTV8dxK
-	vrRWjQWOFLLH0kOz+mLFHConywUbcxfgb/JTKv9MfUvwhx+A8ly5ZiUhQwB0Z7wcyA==
-X-Gm-Gg: AYBFou0cTMyAdKHT4v7rpK/qyTsV8xbgYeis3ikD5dEbFpMAFmDhUcarjKggLxt0F9J
-	QFNpV0Dj1n5WrBZLga12GhF10rODeNYtgEXZ60ivqP9Vq/AFgEfzxinIUUoGj4re+Ul12aNeYlx
-	fNvjEOXZGrR1OC04zpeHW0WP2xCLdqIUigAN4sqGs9estX8VkoTyfwCniq4aOQL4Yrrxs8geAIa
-	w0wHHFFGZMl+GdiZkVBWKJE0rN7YHPO36BO6JSb7nfW84ulLAd5SiGVCNYpwmAeDO3LY9KsEkMS
-	WcqcUD6si3CujulS0mgoKItN9JipNCnpA9F2yIh6nVBvIiPnUOzB+QZnhkNM6BNr/7EiYS26N40
-	NJ+fqSDlOtna7EdOk+JkExAP9YJTsE5Wm5TiPzrlwTlpJoLtloarpBSlOzV+wi9NVn5EfiVGR9p
-	CuwgUSgqkG4c73KGHBV9ZpQR6qAspBxuiT3EYJCsSSpmftmGHMZLiRmxB0/Y1I0CTzuJMtDyvw7
-	BmKwcgjVJEKJy/aG8gQQZpDcTbcaxx5IgeYIQ==
-X-Received: by 2002:a05:701b:4553:10b0:151:7831:e401 with SMTP id a92af1059eb24-162045b8dcfmr323314c88.15.1791328785498;
-        Tue, 06 Oct 2026 16:19:45 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1791328804; x=1791933604;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=gALNeJZ8uoakhMubYoDnGucUk9R/qG1InkA2cgN2kR8=;
+        b=yJ08N3ExGBil6uRdzZ+ax9I7wLsRp6Q9c0lAoyPuygZ4Q8a0GBTioFF/dLeT623bNY
+         2g4Uv8BCsUTrH2kkzephH9lpuYzzvWOJY+XT0vuyLuk/eZALFsjKW6s2Cp2taFXvOwXZ
+         ouFHmND9O6i+t5SsCVwszq+kCJXiwDXlq5XkyX1vyklLDYJZgzKG2/D8kJhCYQzTS8LI
+         bXdXRYtaarDVBtLwVGoPwJFrxAKhR1TInlU4jn1qmjQB9a9F/c6xQboNwlOTL8wG2X/C
+         dZrhhr1bgeRVrPEPKmb3/E8Jk2BpMwRGhFxHAWk/SZ1LGDmdCJ5vQ7bWioaL4H+cfVFT
+         UWTQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxa6iII1Nh+m6JAdzqMJm21PGIFeXDMy/kSIW9irHN7oX4rKr4DEuw5hMmSIfRFn50iiABbERBDZZ6Psw==@vger.kernel.org
+X-Gm-Message-State: AFuF++kmRFCZYo9c4T/kOYLd90aj6AeKC6KIe0adoutaxytOYZXWSBiy
+	HPmod1+tPWwH58aG4MZs1sovyab1QmZZy7KvYJhG8St+t0j7qtju0mqHfMRB9jSiPQ==
+X-Gm-Gg: AYBFou0OGdV9fUB13ubpetGb0D/BW8uHhMGZrRwFKBCAIyCIj6EnWVSO7kIY416UAjW
+	r+EzEjfCCVePx9dTUoKYgWEE8WC50Fi7NO11ZNJpIHNGy3WJ8t4oOpZPUSM3Y6xKQnWlZ1pdvHe
+	7ZlmBq6I7/wOaVpbxsVqmXVxD3QuAIn46nAGmfh6xgCchDAb39yN9/HcjUNhF88256fROvCjROW
+	HE+/irJwAFVc6iAgeZuBMeKAu7LnwyUnKfGPNIiMbu3JOEGFrefKhn8g6iyNYEOjSy0tUVso7ci
+	4V7fNSOHd3lC8y67caNDXh+zi6lPdKFn3acTw24eV9sUd4v5gkWMWiOeKhUEd7qAYizllXnnRux
+	YDzJdNXlKhwQjY5kRkA4ZsnskfXpkqK7UBAUhKKXsTSAgtZZrk3MZMpniTS4rnPZS1Ffe3EOH3+
+	ZXjg+D6aHyC5Lr5PJympknYOear7HMYeIr6kY3a2cQVjmR6mbSEIEEsKJqVWZWNBTs86eMIC94K
+	LKct4SV/wQ+wtabNidNNUJkY/Yc/XoWON9j9Q==
+X-Received: by 2002:a05:7022:7e8d:b0:145:287:ce91 with SMTP id a92af1059eb24-162059dc702mr311961c88.14.1791328803565;
+        Tue, 06 Oct 2026 16:20:03 -0700 (PDT)
 Received: from localhost ([2a00:79e0:2e7c:8:63eb:e7f9:1d47:7d47])
-        by smtp.gmail.com with UTF8SMTPSA id a92af1059eb24-161680e191esm1583634c88.11.2026.10.06.16.19.42
+        by smtp.gmail.com with UTF8SMTPSA id a92af1059eb24-1616980c3b7sm1526701c88.16.2026.10.06.16.20.02
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 06 Oct 2026 16:19:44 -0700 (PDT)
+        Tue, 06 Oct 2026 16:20:03 -0700 (PDT)
 From: Brian Norris <briannorris@chromium.org>
 To: "Rafael J. Wysocki" <rafael@kernel.org>
 Cc: linux-pm@vger.kernel.org,
 	Ulf Hansson <ulfh@kernel.org>,
 	linux-kernel@vger.kernel.org,
 	Brian Norris <briannorris@chromium.org>,
-	"Bryan O'Donoghue" <bod@kernel.org>,
-	=?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
-	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
-	Alex Elder <elder@kernel.org>,
-	Andy Shevchenko <andy@kernel.org>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Cezary Rojewski <cezary.rojewski@intel.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	David Lechner <dlechner@baylibre.com>,
-	Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hadar Gat <hadar.gat@arm.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
 	Jaroslav Kysela <perex@perex.cz>,
-	Jessica Zhang <jesszhan0024@gmail.com>,
-	Johan Hovold <johan@kernel.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Jyri Sarha <jyri.sarha@iki.fi>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
-	Linus Walleij <linusw@kernel.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	Mark Brown <broonie@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Melissa Wen <mwen@igalia.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Olivia Mackall <olivia@selenic.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Rui Miguel Silva <rmfrfs@gmail.com>,
-	Srinivas Kandagatla <srini@kernel.org>,
 	Takashi Iwai <tiwai@suse.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
-	Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
-	dri-devel@lists.freedesktop.org,
-	greybus-dev@lists.linaro.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-crypto@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	linux-iio@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-spi@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	sound-open-firmware@alsa-project.org
-Subject: [PATCH 00/13] PM: runtime: Convert pm_runtime_put_autosuspend() and friends to a void function
-Date: Tue,  6 Oct 2026 16:13:28 -0700
-Message-ID: <20261006231900.3230373-1-briannorris@chromium.org>
+	linux-sound@vger.kernel.org
+Subject: [PATCH 08/13] ALSA: hda: Discard pm_runtime_put_autosuspend() return value
+Date: Tue,  6 Oct 2026 16:13:36 -0700
+Message-ID: <20261006161337.8.Idcada3ae757100bf3a38f7e71bac37f827be06c6@changeid>
 X-Mailer: git-send-email 2.56.0.360.g66cac248cb-goog
+In-Reply-To: <20261006231900.3230373-1-briannorris@chromium.org>
+References: <20261006231900.3230373-1-briannorris@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Similar to this effort:
+snd_hdac_power_down() and snd_hdac_power_down_pm() are defined to return
+an int, but their return values are never used by any caller.
+snd_hdac_power_down() also passes the return value of
+pm_runtime_put_autosuspend() to the caller, which is not very useful.
 
-  Subject: [PATCH v1 00/23] PM: runtime: Convert pm_runtime_put() to a void function
-  https://lore.kernel.org/all/6245770.lOV4Wx5bFT@rafael.j.wysocki/
+Returning an error code from pm_runtime_put_autosuspend() merely means
+that it has not queued up a timer or work item to check whether or not
+the device can be suspended and there are many perfectly valid
+situations in which that can happen, like after writing "on" to the
+device's runtime PM "control" attribute in sysfs for one example.
 
-i.e., commit 3afd8df02433 ("PM: runtime: Change pm_runtime_put() return
-type to void") and friends.
+Modify snd_hdac_power_down() to discard the pm_runtime_put_autosuspend()
+return value and change the return types of snd_hdac_power_down() and
+snd_hdac_power_down_pm() to void.
 
-As with pm_runtime_put(), there is very little value in return-code
-checking for any of the other async __pm_runtime_suspend() and
-__pm_runtime_idle() APIs:
+No intentional functional impact.
 
-  pm_runtime_put_autosuspend()
-  pm_request_idle()
-  pm_request_autosuspend()
+This will facilitate a planned change of the
+pm_runtime_put_autosuspend() return type to void in the future, similar
+to commit 3afd8df02433 ("PM: runtime: Change pm_runtime_put() return
+type to void").
 
-Checking the return code is more likely to
-produce a race condition (fighting with user space writing "on" to the
-"control" attribute) than to tell a consumer useful info.
+Signed-off-by: Brian Norris <briannorris@chromium.org>
+---
+This patch is independent of the rest of the series, except for the end
+(changing the return type). I expect it can be applied by individual
+maintainers, and we pick up the end once the dust is settled.
 
-Nobody outside KUnit tests checks pm_request_idle() or
-pm_request_autosuspend() return codes, but there are a number of
-pm_runtime_put_autosuspend() callers that check its return code. Thus,
-this series largely deals with pm_runtime_put_autosuspend().
+ include/sound/hdaudio.h |  8 ++++----
+ sound/hda/core/device.c | 13 ++++---------
+ 2 files changed, 8 insertions(+), 13 deletions(-)
 
-Patches 1-11 are independent of each other, and similarly to the last
-series, I expect the respective maintainers can pick them up. We can
-apply patch 12 later. Patch 13 is also independent, but included in this
-topic for completeness. It can be applied any time.
-
-This touches a lot of trees/maintainers, so I tried to keep CC's only
-for the relevant patch(es), plus the cover letter. I hope that's not too
-noisy.
-
-- Brian
-
-
-Brian Norris (13):
-  hwrng: cctrng: Discard pm_runtime_put_autosuspend() return value
-  drm: Discard pm_runtime_put_autosuspend() return values
-  iio: Discard pm_runtime_put_autosuspend() return values
-  media: venus: Discard pm_runtime_put_autosuspend() return values
-  pinctrl: qcom: lpass-lpi: Discard pm_runtime_put_autosuspend() return
-    values
-  spi: ti-qspi: Discard pm_runtime_put_autosuspend() return value
-  greybus: Discard pm_runtime_put_autosuspend() return value
-  ALSA: hda: Discard pm_runtime_put_autosuspend() return value
-  ASoC: codecs: lpass: Discard pm_runtime_put_autosuspend() return
-    values
-  ASoC: intel: atom: Discard pm_runtime_put_autosuspend() return value
-  ASoC: SOF: Discard pm_runtime_put_autosuspend() return values
-  PM: runtime: Drop pm_runtime_put_autosuspend() return code
-  PM: runtime: Drop pm_request_{idle,autosuspend}() return codes
-
- drivers/base/power/runtime-test.c             |  8 ---
- drivers/char/hw_random/cctrng.c               |  6 +-
- drivers/gpu/drm/panel/panel-simple.c          |  8 +--
- drivers/gpu/drm/tidss/tidss_drv.c             |  7 +--
- drivers/gpu/drm/v3d/v3d_drv.h                 |  4 +-
- drivers/iio/accel/bmc150-accel-core.c         | 14 ++---
- drivers/iio/accel/fxls8962af-core.c           | 11 +---
- drivers/iio/accel/kxcjk-1013.c                | 15 ++---
- drivers/iio/accel/mma8452.c                   | 15 +++--
- drivers/iio/accel/mma9551_core.c              | 15 +++--
- drivers/iio/adc/rcar-gyroadc.c                |  4 +-
- drivers/iio/adc/ti-ads1015.c                  |  8 +--
- drivers/iio/chemical/atlas-sensor.c           |  4 +-
- .../common/hid-sensors/hid-sensor-trigger.c   | 14 ++---
- drivers/iio/gyro/bmg160_core.c                | 17 +++--
- drivers/iio/gyro/fxas21002c_core.c            | 12 ++--
- drivers/iio/imu/kmx61.c                       | 17 +++--
- drivers/iio/light/apds9960.c                  |  2 +-
- drivers/iio/light/isl29028.c                  | 15 +----
- drivers/iio/light/pa12203001.c                |  3 +-
- drivers/iio/light/rpr0521.c                   | 15 +++--
- drivers/iio/light/tsl2583.c                   | 27 ++------
- drivers/iio/light/us5182d.c                   |  3 +-
- drivers/media/platform/qcom/venus/vdec.c      | 10 ++-
- drivers/media/platform/qcom/venus/venc.c      | 10 ++-
- drivers/pinctrl/qcom/pinctrl-lpass-lpi.c      | 16 +++--
- drivers/spi/spi-ti-qspi.c                     |  6 +-
- drivers/staging/greybus/power_supply.c        |  8 +--
- include/linux/greybus/bundle.h                | 12 +---
- include/linux/pm_runtime.h                    | 63 +++----------------
- include/sound/hdaudio.h                       |  8 +--
- sound/hda/core/device.c                       | 13 ++--
- sound/soc/codecs/lpass-rx-macro.c             |  4 +-
- sound/soc/codecs/lpass-tx-macro.c             |  4 +-
- sound/soc/codecs/lpass-va-macro.c             | 17 ++---
- sound/soc/codecs/lpass-wsa-macro.c            |  8 +--
- sound/soc/intel/atom/sst/sst.h                |  2 +-
- sound/soc/intel/atom/sst/sst_drv_interface.c  |  4 +-
- sound/soc/intel/atom/sst/sst_pvt.c            |  9 +--
- sound/soc/sof/control.c                       |  6 +-
- sound/soc/sof/sof-client-ipc-flood-test.c     |  5 +-
- .../soc/sof/sof-client-ipc-kernel-injector.c  |  4 +-
- sound/soc/sof/sof-client-ipc-msg-injector.c   |  6 +-
- sound/soc/sof/sof-client-probes.c             | 18 ++----
- 44 files changed, 152 insertions(+), 325 deletions(-)
-
+diff --git a/include/sound/hdaudio.h b/include/sound/hdaudio.h
+index aa994d6e6d35..4cbbb1744740 100644
+--- a/include/sound/hdaudio.h
++++ b/include/sound/hdaudio.h
+@@ -179,9 +179,9 @@ static inline int snd_hdac_read_parm(struct hdac_device *codec, hda_nid_t nid,
+ 
+ #ifdef CONFIG_PM
+ int snd_hdac_power_up(struct hdac_device *codec);
+-int snd_hdac_power_down(struct hdac_device *codec);
++void snd_hdac_power_down(struct hdac_device *codec);
+ int snd_hdac_power_up_pm(struct hdac_device *codec);
+-int snd_hdac_power_down_pm(struct hdac_device *codec);
++void snd_hdac_power_down_pm(struct hdac_device *codec);
+ int snd_hdac_keep_power_up(struct hdac_device *codec);
+ 
+ /* call this at entering into suspend/resume callbacks in codec driver */
+@@ -207,9 +207,9 @@ static inline bool snd_hdac_is_power_on(struct hdac_device *codec)
+ }
+ #else
+ static inline int snd_hdac_power_up(struct hdac_device *codec) { return 0; }
+-static inline int snd_hdac_power_down(struct hdac_device *codec) { return 0; }
++static inline void snd_hdac_power_down(struct hdac_device *codec) {}
+ static inline int snd_hdac_power_up_pm(struct hdac_device *codec) { return 0; }
+-static inline int snd_hdac_power_down_pm(struct hdac_device *codec) { return 0; }
++static inline void snd_hdac_power_down_pm(struct hdac_device *codec) {}
+ static inline int snd_hdac_keep_power_up(struct hdac_device *codec) { return 0; }
+ static inline void snd_hdac_enter_pm(struct hdac_device *codec) {}
+ static inline void snd_hdac_leave_pm(struct hdac_device *codec) {}
+diff --git a/sound/hda/core/device.c b/sound/hda/core/device.c
+index a45f61e12c1a..6187ffaedbfa 100644
+--- a/sound/hda/core/device.c
++++ b/sound/hda/core/device.c
+@@ -572,14 +572,12 @@ EXPORT_SYMBOL_GPL(snd_hdac_power_up);
+ /**
+  * snd_hdac_power_down - power down the codec
+  * @codec: the codec object
+- *
+- * Returns zero if successful, or a negative error code.
+  */
+-int snd_hdac_power_down(struct hdac_device *codec)
++void snd_hdac_power_down(struct hdac_device *codec)
+ {
+ 	struct device *dev = &codec->dev;
+ 
+-	return pm_runtime_put_autosuspend(dev);
++	pm_runtime_put_autosuspend(dev);
+ }
+ EXPORT_SYMBOL_GPL(snd_hdac_power_down);
+ 
+@@ -624,14 +622,11 @@ int snd_hdac_keep_power_up(struct hdac_device *codec)
+  *
+  * Like snd_hdac_power_up_pm(), this function is used in a recursive
+  * code path like init code which may be called by PM suspend/resume again.
+- *
+- * Returns zero if successful, or a negative error code.
+  */
+-int snd_hdac_power_down_pm(struct hdac_device *codec)
++void snd_hdac_power_down_pm(struct hdac_device *codec)
+ {
+ 	if (atomic_dec_if_positive(&codec->in_pm) < 0)
+-		return snd_hdac_power_down(codec);
+-	return 0;
++		snd_hdac_power_down(codec);
+ }
+ EXPORT_SYMBOL_GPL(snd_hdac_power_down_pm);
+ #endif
 -- 
 2.56.0.360.g66cac248cb-goog
 
