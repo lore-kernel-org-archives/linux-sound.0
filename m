@@ -1,138 +1,83 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DDD53D9529
-	for <linux-sound@vger.kernel.org>; Tue,  6 Oct 2026 10:16:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C555F2E06E6
+	for <linux-sound@vger.kernel.org>; Tue,  6 Oct 2026 10:35:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791281814; cv=none; b=HbAAL0sjxC5Sro/VFJqLXYS6vrXLewGUyRMm4erej26nEZK50hsgO3OdDY8oM18zXVcZpwBViV3IlPXAVof6Xdbx0k0WcQfAIUvhP5YZs0YWPLHD8rWF8NFqI7sieoJZF4A/moE4VktnQ6tmSIEvWu7tWPoa3AF26xfVGO07b5M=
+	t=1791282948; cv=none; b=HE6TdCNWEdGp9zRZBRn8LDsS3jeTDrJSPDDOXcZZmd5PAHXMguMOLVjrzlRNKsk+2T3cZUxsATQeqeqjvava4Pz5X136O9kIf6ldLqxXTvzHF1Nxh2320KycHQ0aeOfhxVk/SRE+rNOuoyg3zQIMVnjvMNsV5kZBcAa4lpWNlnE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791281814; c=relaxed/simple;
-	bh=H3PDzDrtO5c8WYmCowPyg7cQ4FV1kL+eaDhtUert0sI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fVEtjO+ApTz0yIZMAE5p7d8ndo87+bZ1ucZ4RSOijmeXo2epIlKqIEZ2B+82QEaZ7AewBQNOyjVaG3sevAlVytFFjhIYumN28aUppFQURAiu5QF5XR3jrSlGAsFWx7aK9418d6iNvgNODUgT0cYHl9cXUnctDe94OUXgv8yWXFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ADvQQykl; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791282948; c=relaxed/simple;
+	bh=1vC7CpvtPvKGRciZdSDZePOIHaDOhqLg49fvBf9jisM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=T/rU5f3Jtym0mgjkqyD2HMbE7iFPYd03zz4LznWUJX5Qu5mAMmNqckDCqamkyrfD5RVvFNSQgc9hU2EkLV/HDQoYLfsx0OCFB+kWZuuxAv7b2aved0PihBPX+q5qYN2RXGjndEbcdOSsOsTSjMQoc15JJq1HwfOJdWiEjdJSDZc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UU6spfk5; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ADvQQykl"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-868b3248b2cso300078b3a.1
-        for <linux-sound@vger.kernel.org>; Tue, 06 Oct 2026 03:16:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791281812; x=1791886612; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ZrZPU62D++2Mpf09f9HLGIFyK7TMDyESiaONSZX8Yvw=;
-        b=ADvQQykl1LchdSoLvrzhY899sxtdDcGqK7duvhOAm+5vTGZdeE9rsKm7NrNYHvL/bb
-         WMmhmW2Dkq4hscUS3Tpk5zqVrnyFC5mKIo5eyiX/wCowHSe5VOCJX48vHpFe7/8nPvKQ
-         JCsrtVn5Cxbh7pEdSIy4gPIj4B7uWDmuBOay1lJrgUV+YzJxcSQSI8uY3Vaj3w1rVnKU
-         vvb797q9wzGwR1nVRV0g+0y8FMMlkUgXWhcRp8UbekiS54Zfr1odr8Fbx4nAdlYGB+N0
-         QnH7EjilExwxxVZur7uHezwt+JysddJEheWE0DhPoeg0hugDSdp3nqCNaAA3W3UtQGrV
-         FVrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791281812; x=1791886612;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ZrZPU62D++2Mpf09f9HLGIFyK7TMDyESiaONSZX8Yvw=;
-        b=vx00D8IwUf2VBb/oNhViHHU+goMIjR7oA58nbu5VObrwLEdpAy4XshgR/kT8T7Pw8s
-         1MGKnc4yeoieANt2gPbjsXMweT35Hg5MbHsIKfqlKcWKCa//IBExelYvRFc8zVeQ0zp+
-         8mgop+lnUSZJzwyMEsW3XxHMJNgYDyj42tDSSdvXaA0IDZ12K/P8LRWRqMX1S6oTmMcx
-         FGsiYAeWUvCJLWhvl3XB3/BzOQ2kXneO9tPfeqy7nXpsjAsBwYcwTK3x/XguUiJHhLB2
-         2MQkAo35yIn3Y1ssKOgJ/PS2U2pzs7OnS+8k3KuAyV8+UxLT3gwSZIIDu9Ju1el0gByB
-         w4ww==
-X-Forwarded-Encrypted: i=1; AKwUvBy7AfnL1IKnfTg1NCw04f7dNLRRaThYvnNtOVyOYfwJaQgT2SkWDDSP/Y4cjz3/C6Ta7RJ9OtTLWMhugQ==@vger.kernel.org
-X-Gm-Message-State: AFuF++mSR2FLNt5r+Zsuxy/wXWI0/yn5U5EyHW+nMvnc+IX5WkOfD5yr
-	1eaIxrQvxvzRamDFVgRzentx99piSt8LcNQ8Xn03fl0yWKQbNYcgACuI
-X-Gm-Gg: AYBFou0ZnZpR6rPo9iOCvnYZ4nyWa8SL9oEAl0mxEy1gBV33vMU0a18kYXKdFypXf9a
-	0LvVrafbC6vXn1HzxdiRqc3ckFEL0lz+ju4pOWyjz60j2hTidzfyqBN69NfcJpg6RO53js/C80X
-	sOBs+TH2co9uShFA5J+IjY67T04UVxow6GNokZc4k2iOtQC/pv/GmjRRDwoRJ34JnI3izj8zzb8
-	5A/rS7Xp6SiSjMinrsLRgwMnhpiqyT7sPVVtGOKzbH4VpdbSocTBUCO4Y1/g+keJuwplMWFAG+R
-	iR3lVVqVEqA8726+ozT3Y0RDQldpffCDEF2js38M8bO1pLcv/IdQ3ppJxVONqn4B2UkdfM5wDg/
-	x0iTALAteESUTBLDjNXcQotr3q+MnqkbvnHDLqPzW/Wfo8Fv0puaIbfJuNT4skO1fE16SPI9lVl
-	Z7lZUO/BZEZEVka38D9IrS83FdfPTG6ZR1Izbc7x8JiBq0qp6X8/UjCXriI+FnZW9rudMP6dPmt
-	/Xt7I3NkqhwUbscvyTHkpEj9h/woftJghix542m0xpVWI1KTGB2otu5YeBry8lOzFx5MOUGc6Ff
-	yR4lN7Qgswg7wQ==
-X-Received: by 2002:a05:6a00:2d88:b0:888:add:a74c with SMTP id d2e1a72fcca58-890db797184mr887589b3a.4.1791281811950;
-        Tue, 06 Oct 2026 03:16:51 -0700 (PDT)
-Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-88b0d152432sm4547505b3a.53.2026.10.06.03.16.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Oct 2026 03:16:51 -0700 (PDT)
-From: phucduc.bui@gmail.com
-To: Mark Brown <broonie@kernel.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Trevor Wu <trevor.wu@mediatek.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	cassiogabrielcontato@gmail.com,
-	Haotian Zhang <vulab@iscas.ac.cn>,
-	Christian Marangi <ansuelsmth@gmail.com>,
-	Cezary Rojewski <cezary.rojewski@intel.com>,
-	Cyril Chao <Cyril.Chao@mediatek.com>,
-	Tuo Li <islituo@gmail.com>,
-	Rosen Penev <rosenp@gmail.com>,
-	Garlic Tseng <garlic.tseng@mediatek.com>,
-	Alexandre Mergnat <amergnat@baylibre.com>,
-	Dan Carpenter <error27@gmail.com>,
-	linux-sound@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 4/4] ASoC: mediatek: mt8365: return 0 from mt8365_afe_fe_startup() on success
-Date: Tue,  6 Oct 2026 17:16:06 +0700
-Message-ID: <20261006101606.54079-5-phucduc.bui@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261006101606.54079-1-phucduc.bui@gmail.com>
-References: <20261006101606.54079-1-phucduc.bui@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UU6spfk5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65BD51F000FF;
+	Tue,  6 Oct 2026 10:35:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791282947;
+	bh=b1UEEpblZ0ZVQuJMPP41L1HXHA1MpcXN3ajGPd7PzSs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=UU6spfk5LC3RrEDcL1H5l8cH15lQ/1EUwXhSdGXykLzjvKvjTtKzS5CIwcTz7kSMf
+	 /QNeMMWVbBPqLRps/PA0fVk4WVbfWNPaTOSHxVaqnlD6AHwZS15B2WRqHkEk47hvVb
+	 Ch2pVmjd1H50/bIG4II3chiPJIHQgDK8fxx0srYm34bI1iFbLtVO5zaaWn3gP6sTJo
+	 HRi/1ioTeUubwv2/SYSPRPQ3FJnWmMGZVw3Xiz/j23D0bXj1JTTJxJUGvQ4+EEEqsl
+	 UBkSdDTMp1MA9svgCz8o2+LB4eszPpd6lUnw7h8oAW2qYaKEtsLN5WS57oq16nHTdO
+	 kjY4sBgYnMDaQ==
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+	id 2BCC61AC57CE; Tue, 06 Oct 2026 11:35:44 +0100 (BST)
+Date: Tue, 6 Oct 2026 12:35:44 +0200
+From: Mark Brown <broonie@kernel.org>
+To: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: vkoul@kernel.org, perex@perex.cz, tiwai@suse.com, lgirdwood@gmail.com,
+	srinivas.kandagatla@oss.qualcomm.com, linux-sound@vger.kernel.org,
+	kai.vehmanen@linux.intel.com, yung-chuan.liao@linux.intel.com,
+	pierre-louis.bossart@linux.dev, daniel.baluta@nxp.com
+Subject: Re: [PATCH v4 02/26] ALSA: compress: register the open file with the
+ card
+Message-ID: <asTPAE4oztNl58QL@sirena.co.uk>
+References: <20260916120320.18318-1-peter.ujfalusi@linux.intel.com>
+ <20260916120320.18318-3-peter.ujfalusi@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="dvgk3NIEc8T1ZjPJ"
+Content-Disposition: inline
+In-Reply-To: <20260916120320.18318-3-peter.ujfalusi@linux.intel.com>
+X-Cookie: You will forget that you ever knew me.
 
-From: bui duc phuc <phucduc.bui@gmail.com>
 
-snd_pcm_hw_constraint_integer() may return 1, which is then returned
-from mt8365_afe_fe_startup(). ASoC only treats 0 as success when marking
-the DAI as started, so .shutdown() can be skipped on rollback.
+--dvgk3NIEc8T1ZjPJ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Return 0 explicitly on success.
+On Wed, Sep 16, 2026 at 03:02:56PM +0300, Peter Ujfalusi wrote:
 
-Fixes: e1991d102bc2 ("ASoC: mediatek: mt8365: Add the AFE driver support")
-Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
----
- sound/soc/mediatek/mt8365/mt8365-afe-pcm.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+> @@ -174,6 +182,7 @@ static int snd_compr_free(struct inode *inode, struct file *f)
+>  	module_put(data->stream.device->card->module);
+>  	kfree(data->stream.runtime);
+>  	kfree(data);
+> +	snd_card_file_remove(compr->card, f);
+>  	return 0;
+>  }
 
-diff --git a/sound/soc/mediatek/mt8365/mt8365-afe-pcm.c b/sound/soc/mediatek/mt8365/mt8365-afe-pcm.c
-index e9497246f37c..314235557fdf 100644
---- a/sound/soc/mediatek/mt8365/mt8365-afe-pcm.c
-+++ b/sound/soc/mediatek/mt8365/mt8365-afe-pcm.c
-@@ -514,11 +514,14 @@ static int mt8365_afe_fe_startup(struct snd_pcm_substream *substream,
- 	snd_soc_set_runtime_hwparams(substream, afe->mtk_afe_hardware);
- 
- 	ret = snd_pcm_hw_constraint_integer(runtime, SNDRV_PCM_HW_PARAM_PERIODS);
--	if (ret < 0)
-+	if (ret < 0) {
- 		dev_err(afe->dev, "snd_pcm_hw_constraint_integer failed\n");
-+		return ret;
-+	}
- 
- 	mt8365_afe_enable_main_clk(afe);
--	return ret;
-+
-+	return 0;
- }
- 
- static void mt8365_afe_fe_shutdown(struct snd_pcm_substream *substream,
--- 
-2.43.0
+You don't declare compr until patch 3.
 
+--dvgk3NIEc8T1ZjPJ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQReagvpf3TrrA7BoYYv73Ows9A4iQUCasTO+AAKCRAv73Ows9A4
+iSv6AP4zpUs5P+F8I48lzKZqLgSubAtVbBVsxnTV13nybjHzoAD+PHFhcRV2tZbJ
++9TWY40NtDk5z6keAPv1nRgI5XwE2gA=
+=I2KG
+-----END PGP SIGNATURE-----
+
+--dvgk3NIEc8T1ZjPJ--
