@@ -1,300 +1,138 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A724039479F
-	for <linux-sound@vger.kernel.org>; Tue,  6 Oct 2026 06:34:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AC2822425B;
+	Tue,  6 Oct 2026 07:07:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791268484; cv=none; b=T9P1hr56jn+r4HeS1vHNRctIPfQ1Y+0zUgj20NC0HGIcibJYgv46dHEeBOe4eD/ELA3kgG1wviD/1Sx82kqpfpuaDHTfP+XvRw4Dqx3Wa7gkC6DIAuEYliQXr4IQCoOIHYq3DU6Eng+qxpxFxPDwmJjTjB1SShaHjfM8ARMAU00=
+	t=1791270467; cv=none; b=uf50V144Slm51IDz3siLUHF8mmnRxXM64epfYKnhyR8vVi+flDC+MUq7URr0iqVNPe7WH9aTjFvEdixcfms2VUi903m5ZxM2TQ6QD74s/kx3m+e6s71D/zOuLBgRcpPQiKMuzGYbHLMzs+1I/vXJhXoAMYdmyyo+5dmb9o4b53I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791268484; c=relaxed/simple;
-	bh=UaY9A50IkfjZSwbaSW9VeHjuhU6oNjPjtrqhFeQJ4Wo=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=DoskdzDny5KoB7d4fX1gHNWmCv35Ekke3XM7wflWkWJZCaxqBUa4/zW0orrQEyziQiKQNU/DX1ndrX/waPqn2GsmBxaWi0aYVmVWUqla62OgG44BpvEgzdlRkh5WHio1jXGPdpvtemrKWg+WHnyN6kWyPXkbA6Jubj+eQyZwDNc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qfX858IR; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791270467; c=relaxed/simple;
+	bh=ugPxsXxlqSoUb2UPk1WTXfS5WkJkq0CTNogdiu/FaWM=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=l6E+waU29mySwl4dg7CZd6ctvpGA0UcacKX9xUoiM/eWrFHeyJS5gUnFchjubuHC46kneLkGpn2ouE8NlQQXhIUaxKTPqSoqUdB0eSxsbY+PtouVu7QB43Ropu5nbGp2foXp1PRsGL/P15TXMgR4a/GTQ8yLpb9fkI57yJ3wHm0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ZJ1ANXKc; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qfX858IR"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-48b0584ad71so198448f8f.0
-        for <linux-sound@vger.kernel.org>; Mon, 05 Oct 2026 23:34:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791268478; x=1791873278; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=UaY9A50IkfjZSwbaSW9VeHjuhU6oNjPjtrqhFeQJ4Wo=;
-        b=qfX858IRfuhYNb5MBJaec9403LcW/EZi4CHSbVkzvk7JRIQGxbiaaZ+EqIzM8Plciu
-         JQcu4NALC8uoFSRMLHWVoGlJNa/t9Zb2JZaDlJqsz/n15kJnXNgr3xfolToZ2K80MkhA
-         4fbO15JFIBSWTXBRHAVMjnb8fTZLB4BRURlOOOMDd6eUQUtynGfdhjdE6lHv6RCGtocb
-         sVmgfcbtDs7e6rs05Xhk/Tbt/Unh6xofNTXsYGp7OoGtNZ+pUoLHdOtEhfzZBXSuG8pY
-         a/Y00o3noUa9bjV3wcy6ni8hsW9WJQWHBnxrz+Q4fVt1djcqNoXO/z+pBbVgFajoxNQl
-         OWlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791268478; x=1791873278;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=UaY9A50IkfjZSwbaSW9VeHjuhU6oNjPjtrqhFeQJ4Wo=;
-        b=lYtFPmJcPkfWeqNzGYke8xnYaQqy8AGpfR/jCBporYFBW36E81640p9P0DbPNrEv9n
-         i3GCzGoRnx4Aw6ntoYVSO2L/Bt+uFG5U+g5tyGalSNicZvONt1fh4GPC+irnZSu/m62D
-         pP9X0Qv0XfDCZtKmNMyyb/GvLipmPwrfHQb7mfNFxI3fWNzeWh7EjTwcNFagMlEQCQc1
-         ZdFaVd/TsaYwgFIDOaeqFqJjq/94Yzn47bgfkX9hSeK7GKlhst++XziY5IpjbtyTj5zX
-         N/K09AhKUpNpD21Nh4Glto2C53XmjLcEstV7Htaszpo1BRF58XCwdxvX8kWMajfEy3BK
-         lmMw==
-X-Forwarded-Encrypted: i=1; AKwUvBznoNUjaytcd2vlvGuJoKYh9lFAmRn9NkghePxKnppp+aZ0zMmtS43pVr4EnrGE8lrfEFwmu4Jbm1QNdw==@vger.kernel.org
-X-Gm-Message-State: AFq9FYIzg7nJ8KV/z/9M8fjN+pq6bahwwfhkWgyD5++Al4vtkQhzFJow
-	3whThP3d2H1+GEX/HJEww9ctJap2yTTcw/bgrxkwWwZzdADncCDf/GD+
-X-Gm-Gg: AYBFou16nkh5cHzrdBgGyTMke9rXvogut67uD6wS+jJ1btmp8A5IJqoGf+peHgunUHs
-	VyR+mSSLeSDV4uola6G0noEwJDcxf9l7omQv+I6DsS1qowEweaOxusA7GBTslRx7VAQSlZX/0JV
-	Tmt6wwa+TNOEazfcpEO9Cfk5pNe+GrCi91RhB+CK0+D4VxLGOX59r7qkjH/S25Xy6aAxwolZON3
-	5+2V9joR8u4Td/z3wgtbrFtVPNS3Tk3cIBz1vdV3kxrNInfdWQB0g46j3yUMaNfFB95KoJFZY+Y
-	feymTglTgUBX0DvLNA/rEpOLCMLTemtR4FTGvTZDajyPs/Xr2lHnjwGK/f5d9mG4YqfNQLc112d
-	B5fbgjUbW3xIV/v2NBm8PY6yn1gByFJYJuIzCma+NN9gu0ngUl9whL3Q62+T+lf8dGjCI1UYyWb
-	fR7FxlAf9cIOGwS+M+cl2bFovs2CZnR1By+fzNl9Q7/+PI89UtcdMB1c3JUo0vQV0q+Z1p8INYI
-	ZMZYr8gFpUufiCXgntp7u4sQQYueFq9dQA3azQOavMdQPOM7Vc11SxNqfoYm1GWSrDUEtzZ/NHq
-	I+jaWW9QLsrn+tI+
-X-Received: by 2002:a5d:6f0a:0:b0:48c:4ca2:6218 with SMTP id ffacd0b85a97d-48c6d177135mr652013f8f.27.1791268477778;
-        Mon, 05 Oct 2026 23:34:37 -0700 (PDT)
-Received: from ?IPv6:2001:818:ea56:d000:56e0:ceba:7da4:6673? ([2001:818:ea56:d000:56e0:ceba:7da4:6673])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48c69be6b12sm2901829f8f.45.2026.10.05.23.34.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Oct 2026 23:34:37 -0700 (PDT)
-Message-ID: <6f5dd1c1622adbaf0174a949ca91cb11872087ff.camel@gmail.com>
-Subject: Re: [PATCH v4 01/10] dmaengine: Move enum dma_slave_buswidth to a
- new header
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Frank Li <Frank.li@oss.nxp.com>, Andy Shevchenko
-	 <andriy.shevchenko@intel.com>
-Cc: Nuno =?ISO-8859-1?Q?S=E1?= <nuno.sa@analog.com>, Vinod Koul	
- <vkoul@kernel.org>, linux-kernel@vger.kernel.org,
- dmaengine@vger.kernel.org, 	linux-arm-msm@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, linux-iio@vger.kernel.org, 
-	linux-sound@vger.kernel.org, linux-spi@vger.kernel.org, Frank Li	
- <Frank.Li@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Eugeniy
- Paltsev	 <Eugeniy.Paltsev@synopsys.com>, =?ISO-8859-1?Q?Am=E9lie?= Delaunay
-	 <amelie.delaunay@foss.st.com>, Maxime Coquelin
- <mcoquelin.stm32@gmail.com>,  Alexandre Torgue
- <alexandre.torgue@foss.st.com>, Jonathan Cameron <jic23@kernel.org>, David
- Lechner	 <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>,
- Jaroslav Kysela	 <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Mark
- Brown <broonie@kernel.org>
-Date: Tue, 06 Oct 2026 07:36:06 +0100
-In-Reply-To: <asGk4fj_HQ5HupB4@SMW015318>
-References: <aqlwRkNcs_UqKjWs@parshuram> <aql6u3T0nnSVr-FC@SMW015318>
-	 <aqws8pN2rfS9-dCC@parshuram> <aqz1-OzFobOROuBw@nsa>
-	 <aq18_TMNs4EJzgZO@parshuram> <arDtEB0na9DxDWAS@nsa>
-	 <arFXc0LqEpgWSS6m@SMW015318> <ar-Il2qP_Qms3Qw1@nsa>
-	 <ar-13p3a7ENGfMOF@SMW015318> <asEWwIfO0LB27wj9@ashevche-desk.local>
-	 <asGk4fj_HQ5HupB4@SMW015318>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.2 (3.60.2-1.fc44) 
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ZJ1ANXKc"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6966gVGe1045425;
+	Tue, 6 Oct 2026 07:07:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=qcppdkim1; bh=9iQ5hBQeHES
+	1C37RgKGMzvkoH4ztQ+3iSPYrqKFL5HQ=; b=ZJ1ANXKcGLwanLL8MRqOKsR1u3t
+	RsZqe9ICSetQ5BCAMVNuHKWM5qLbyI3LKscFLf9AHTOEskegk/rz6YAzaZaP0nti
+	vNZYHy/zPRpelTDsLFWp2EpynPVG5v51RViDtiSfzOFDhjeAXB8hzC8dwuEa6Z/2
+	YxtmSleWIXyVX4nPXBMU6TSDV0CR3S1kgyG5fHmGUnGhqeM07GtQoQkN/H2rTXVy
+	b8T1GEJzKGK85OXfM5fzsqpNzRCciJWAp6hczzbmloMf5/7RMGwP1xOnU8HShR/w
+	kJcDObly0JmdBd6aS8UtcK6gucOs4EOS0+xb98GjnBPkfM+uQ7LynyclL6Q==
+Received: from apblrppmta02.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4h4uy4g2uj-13
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Tue, 06 Oct 2026 07:07:32 +0000 (GMT)
+Received: from pps.filterd (apblrppmta02.qualcomm.com [127.0.0.1])
+	by APBLRPPMTA02.qualcomm.com (8.18.1.11/8.18.1.11) with ESMTP id 6965bLtW411417;
+	Tue, 6 Oct 2026 05:37:21 GMT
+Received: from hu-devc-hyd-u22-c.qualcomm.com (hu-pkumpatl-hyd.qualcomm.com [10.147.245.204])
+	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 6965bLkj411393
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Tue, 06 Oct 2026 05:37:21 +0000 (GMT)
+Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 3914174)
+	id F12F0563; Tue,  6 Oct 2026 11:07:19 +0530 (+0530)
+From: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+To: Srinivas Kandagatla <srini@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org,
+        Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+Subject: [PATCH v1 1/3] ASoC: codecs: wsa885x: Reset registers on teardown for B2B playback
+Date: Tue,  6 Oct 2026 11:07:15 +0530
+Message-Id: <20261006053717.3455143-2-prasad.kumpatla@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20261006053717.3455143-1-prasad.kumpatla@oss.qualcomm.com>
+References: <20261006053717.3455143-1-prasad.kumpatla@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDA2MDAyOCBTYWx0ZWRfXxeJ5dUNjGgsC
+ CAkysNLaJfWxQpgdWPTRzb0YsTVw+OAUQTPk6Cpa0yWnbAu3Vu3GcMn3PDR1E6PsD/gZVcNoPGb
+ etin4gYTUpBVLpO8sUfzmPJzLVyP/Ro2HskPaXUbsBgfoWxtZcpnfKJ4qHoIe+I8Q2CzT+vQiar
+ 1zp+O2f5+l0CBp1/xUUpDDAjSH1dolLSJDOwtwhHNJ/Oil1B+IIO5gD+7yWwqbbMp8IOhFdM3ks
+ Vonlf8Z9kJN/WqUNlMp8hChPL5fAxeHgDTUA6GvY93N137CW6wnGELrc2c0DGuXxyLQS8zWXN76
+ dVsQJud9L2XL7PUrrn262wwtu5g98fbdCRSsJ8/Qe4EHdpR26HQEPSqyIwWjDBEn1yLLQt91r7T
+ zTdF/SvmnBYt5WHgDqSFE/EEdxpcm+IgQVCkLzpHu+qGN2VuaZocHjG31CUw8siwy0FsGXNcXXX
+ AGJBEBlruxejrJxRgYw==
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDA2MDAyOCBTYWx0ZWRfXzZv5BaXab3Lf
+ 8xUFa9L6F1vbCLxpvuE7guBE35PMUzndN25WLkgMf1ymXido8stougGNsRmUIQptG/oJd10LuM3
+ i1/KYZzVHx4Tl7oWBoHTTVOv32uI04o=
+X-Authority-Analysis: v=2.4 cv=F97C5ahN c=1 sm=1 tr=0 ts=6ac49e34 cx=c_pps
+ a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
+ a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=Um2Pa8k9VHT-vaBCBUpS:22 a=EUspDBNiAAAA:8 a=oS-zlhplfZi1ja0if7gA:9
+X-Proofpoint-ORIG-GUID: C3rcRbYDGpVuy0ot-ELvpCUxYSMbxtC-
+X-Proofpoint-GUID: C3rcRbYDGpVuy0ot-ELvpCUxYSMbxtC-
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-10-06_02,2026-10-05_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 phishscore=0 clxscore=1015 impostorscore=0 malwarescore=0
+ bulkscore=0 priorityscore=1501 lowpriorityscore=0 adultscore=0 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2610060028
 
-On Sat, 2026-10-03 at 19:59 -0500, Frank Li wrote:
-> On Sat, Oct 03, 2026 at 05:52:48PM +0300, Andy Shevchenko wrote:
-> > On Fri, Oct 02, 2026 at 08:47:10AM -0500, Frank Li wrote:
-> > > On Fri, Oct 02, 2026 at 11:43:17AM +0100, Nuno S=C3=A1 wrote:
-> > > > On Mon, Sep 21, 2026 at 11:12:35AM -0500, Frank Li wrote:
-> > > > > On Mon, Sep 21, 2026 at 09:53:49AM +0100, Nuno S=C3=A1 wrote:
-> > > > > > On Fri, Sep 18, 2026 at 11:33:41PM +0530, Vinod Koul wrote:
-> > > > > > > On 18-09-26, 09:39, Nuno S=C3=A1 wrote:
-> > > > > > > > On Thu, Sep 17, 2026 at 11:39:54PM +0530, Vinod Koul wrote:
-> > > > > > > > > On 15-09-26, 12:04, Frank Li wrote:
-> > > > > > > > > > On Tue, Sep 15, 2026 at 09:50:22PM +0530, Vinod Koul wr=
-ote:
-> > > > > > > > > > > On 15-09-26, 21:22, Vinod Koul wrote:
-> >=20
-> > ...
-> >=20
-> > > > > > > > > > > > > Traditional naming would be
-> > > > > > > > > > > > > dma/engine/provider.h
-> > > > > > > > > > > > > dma/engine/consumer.h
-> > > > > > > > > > > >=20
-> > > > > > > > > > > > consumer and provider and good names.. I would reta=
-in the
-> > > > > > > > > > > > full dmaengine
-> > > > > > > > > > > > everywhere please. dma causes confusion already!
-> > > > > > > > > > >=20
-> > > > > > > > > > > Thinking about it again, drivers/dma/dmaengine.h shou=
-ld be the
-> > > > > > > > > > > provider
-> > > > > > > > > >=20
-> > > > > > > > > > There some dmaengine code outside drivers/dma directory=
-, like
-> > > > > > > > > > drivers/crypto/ccp/ccp-dmaengine.c
-> > > > > > > > >=20
-> > > > > > > > > They chose to be outside, their choice... They need to be=
- updated
-> > > > > > > > > as
-> > > > > > > > > well to point to ../../dma/dmaengine.h :-)
-> > > > > > > >=20
-> > > > > > > > I tend to agree with Andy but anyways. I feel this is going=
- a bit out
-> > > > > > > > of
-> > > > > > > > scope now. So what we have now in the series is:
-> > > > > > > >=20
-> > > > > > > >=20
-> > > > > > > > - include/linux/dmaengine.h (without enum dma_slave_buswidt=
-h)
-> > > > > > > > - include/linux/dma/types.h (with enum dma_slave_buswidth a=
-nd new
-> > > > > > > > =C2=A0 dma_buswidth_t type) - A future one would be dma_cap=
-_mask_t and we
-> > > > > > > > could
-> > > > > > > > =C2=A0 drop bitmap.h from dmaengine.h
-> > > > > > > > - include/linux/dma/widthmask.h - The new bitmap based API =
-for
-> > > > > > > > bus_width
-> > > > > > > >=20
-> > > > > > > > I kind like the separation (and the whole point was to avoi=
-d bitmap.h
-> > > > > > > > in
-> > > > > > > > the main dmaengine.h API) but tbh I'm not sure if a consume=
-r driver
-> > > > > > > > will ever use dma/widthmask.h without needing the consumer =
-API. But
-> > > > > > > > to sum things up, what do you suggest for v=C3=9BE?
-> > > > > > > >=20
-> > > > > > > > * include/linux/dmaengine.h as the consumer API and include=
-s the new
-> > > > > > > > the widthmask API
-> > > > > > > > * provider/private goes to drivers/dma/dmaengine.h and just=
- includes
-> > > > > > > > include/linux/dmaengine.h as the starting point?
-> > > > > > > >=20
-> > > > > > > > Let me know how do you want things for v5
-> > > > > > >=20
-> > > > > > > Yes lets talk about dma_slave_buswidth, it is client type. Th=
-is is
-> > > > > > > configured by users to set the width of peripheral.
-> > > > > > > So this needs to be in the include/linux/dmaengine.h
-> > > > > > >=20
-> > > > > >=20
-> > > > > > Agreed! But providers also need to set the allowed bus mask. An=
-d I'm
-> > > > > > just not sure they need to include/consume all of the consumer =
-API.
-> > > > > > Also, it's common to allow the provider API to be widely used t=
-hroughout
-> > > > > > the kernel (but I agree that could be even harder to get done -=
- if we
-> > > > > > want to make some stuff really private - but I guess that could=
- be done
-> > > > > > in a second step or more incrementally). We do also have some s=
-ubfolders
-> > > > > > in `drivers/dma` which means we'll need the odd "../dmaengine.h=
-" relative
-> > > > > > include which I do not love tbh (on top of the crypto stuff).
-> > > > > >=20
-> > > > > > I really think something like the below would be more appropria=
-te (if we
-> > > > > > just want the provider/consumer API without further splitting l=
-ike the
-> > > > > > types.h and widthmak.h in this version):
-> > > > > >=20
-> > > > > > include/linux/dmaengine.h - provider API (as of today)
-> > > > > > include/linux/dmaengine-consumer.h
-> > > > > >=20
-> > > > > > But anyways, if you or Frank do not object in the next few days=
-, I'll
-> > > > > > take the above approach suggested by Vinod:
-> > > > > >=20
-> > > > > > drivers/dma/dmaengine.h - provider
-> > > > > > include/linux/dmaengine.h - consumer
-> > > > >=20
-> > > > > It think it is fine.
-> > > >=20
-> > > > So I was aboutto start on this again and I just realized
-> > > > drivers/dma/dmaengine.h already exists today so nothing to do on th=
-is
-> > > > series.
-> > >=20
-> > > I just find it and start some cleanup/move work.
-> > >=20
-> > > > I mean I could remove the consumer include on the dmaengine
-> > > > drivers that I'm touching but not really on scope and super importa=
-nt
-> > > > IMO. So, for the consumer side, should I just go to the first appro=
-ach
-> > > > where all the bus_width API goes into include/linux/dmaengine.h or
-> > > > should I keep:
-> > > >=20
-> > > > include/linux/engine/types.h
-> > > > include/linux/engine/widthmask.h
-> > > >=20
-> > > > And have a better separation on the consumer side? Or maybe changin=
-g
-> > > > s/engine/consumer/ on the above paths?
-> > >=20
-> > > I go through v3 thread, Andy just said split to new type.h, but not h=
-ave
-> > > provided reason.
-> > >=20
-> > > I am planning move provide API and data structure to driver/dma/dmaen=
-gine.h
-> > >=20
-> > > include/linux/dmaengine.h will keep consume only defination and API.
-> > >=20
-> > > why still need types.h?
-> >=20
-> > The idea was to rectify the messed up dependencies. Without split of ty=
-pes we
-> > will need to have bitmap.h (IIRC the initial idea of the split was that=
-) only
->=20
-> There are already include bitmap.h, and use
->=20
-> typedef struct { DECLARE_BITMAP(bits, DMA_TX_TYPE_END); } dma_cap_mask_t;
->=20
-> Suppose all DMA Engine consumer will use it to do some check. So I think
-> needn't split it as indivial version.
+During back-to-back speaker playback the PA sometimes fails to enable
+because a few I2S/TDM and clock source registers retain their previous
+state and are not reprogrammed on the next stream.
 
-Are we sure all consumers are making use of dma_cap_mask? In fact the only =
-function
-depending on bitmap.h is the one clearing the cap_mask. But stepping a bit =
-back,
-bitmap.h was the original proposal from Andy so the idea was to have the ne=
-w
-widthmask (this one indeed heavily uses bitmaps) already as a split. And wi=
-th it,
-came types.h given that the DMA enum needs to be used from both consumers a=
-nd
-providers. And note that consumers might want the header without actually n=
-eeding the
-bus width API so the separation kind of made sense to me.
-Then, as a follow up the idea was to also split the cap_mask API into it's =
-own header
-with a backing include in the main consumer header.
+Reset the relevant I2S/TDM, clock source and bandgap override registers
+in hw_free() so the codec is torn down cleanly and the speaker amplifier
+comes up reliably on back-to-back use cases. Move the bandgap override
+reset out of set_sysclk() into the teardown path where it belongs.
 
-So if we all agree with the above, I guess the current series does not real=
-ly has to
-change. I see 3 ways:
+Signed-off-by: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+---
+ sound/soc/codecs/wsa885x.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-* Just go back some versions before and have all of it in dmaengine.h
-* The current form
-* s/engine/consumer on the current proposal include/linux/dma/engine/*
+diff --git a/sound/soc/codecs/wsa885x.c b/sound/soc/codecs/wsa885x.c
+index 1faa8541a872..5ffbf9e89fd9 100644
+--- a/sound/soc/codecs/wsa885x.c
++++ b/sound/soc/codecs/wsa885x.c
+@@ -896,7 +896,6 @@ static int wsa885x_codec_set_sysclk(struct snd_soc_dai *dai, int clk_id,
+ 
+ 	regmap_write(wsa885x->regmap, WSA885X_DIG_CTRL0_SYS_CLK_SEL, 0x00);
+ 	regmap_write(wsa885x->regmap, WSA885X_DIG_CTRL0_POWER_FSM_CTL1, 0x01);
+-	regmap_write(wsa885x->regmap, WSA885X_ANA_TOP_BG_TVP_OVRD_CTL, 0x00);
+ 
+ 	return 0;
+ }
+@@ -1006,6 +1005,16 @@ static int wsa885x_codec_hw_free(struct snd_pcm_substream *substream,
+ 				 struct snd_soc_dai *dai)
+ {
+ 	static const struct reg_sequence regs[] = {
++		{ WSA885X_DIG_CTRL1_I2S_RESET_CTL, 0x00 },
++		{ WSA885X_DIG_CTRL1_I2S_CFG0_TDM_TX, 0x00 },
++		{ WSA885X_DIG_CTRL1_I2S_CFG1_TDM_TX, 0x00 },
++		{ WSA885X_DIG_CTRL1_I2S_TDM_CTL1, 0x05 },
++		{ WSA885X_DIG_CTRL1_I2S_TDM_CTL0, 0x00 },
++		{ WSA885X_DIG_CTRL1_I2S_TDM_CH_TX, 0x00 },
++		{ WSA885X_DIG_CTRL1_I2S_CTL0, 0x06 },
++		{ WSA885X_DIG_CTRL1_I2S_TDM_CH_RX, 0x08 },
++		{ WSA885X_DIG_CTRL0_CLK_SOURCE_ENABLE, 0x00 },
++		{ WSA885X_ANA_TOP_BG_TVP_OVRD_CTL, 0x00 },
+ 		{ WSA885X_DIG_CTRL0_PA_FSM_CTL, 0x00 },
+ 	};
+ 	struct wsa885x_priv *wsa885x;
+-- 
+2.34.1
 
-- Nuno S=C3=A1
-
->=20
-> Frank
->=20
-> > where it's indeed required. Besides bitmap.h there are might be more he=
-aders
-> > that "include half of the world" which should be avoided in every heade=
-r file.
-> >=20
-> > --
-> > With Best Regards,
-> > Andy Shevchenko
-> >=20
-> >=20
