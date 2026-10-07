@@ -1,133 +1,130 @@
-Received: from relay13.grserver.gr (relay13.grserver.gr [178.156.171.147])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 511123CCA19
-	for <linux-sound@vger.kernel.org>; Wed,  7 Oct 2026 11:03:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.156.171.147
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09792484894
+	for <linux-sound@vger.kernel.org>; Wed,  7 Oct 2026 11:09:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791371064; cv=none; b=FqCU/711heXaB7v7I/1HwOP6syP2sn0eM59hLW1PBgKj/jnNIwa4JbOKPGuVRCX9bCswuyA3f4IYsNNQacJ6KeAJNI/54Vjju24xbQcgYL7GL85tDb7RZJUzPUEc2WrJviDDPu5nN+YMtB7/VHih3taUIgyDcVzgEWZK91s289g=
+	t=1791371391; cv=none; b=L8R4WbUq0wwkqezcLaor4A9yjwoOdZihY01leXU7Kxp7SkRD9HXfCMgootUOEd/ai1J/re9t0aVYujjsO5LgY6Fw0LXy98Bn/8Hq5HuxnjfGiTEpwXVSqFFp1J4/p0BNVKuEZpBiFN8kZeTA9whJb0YhLQFZzC765k06nNB1HpI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791371064; c=relaxed/simple;
-	bh=qHQ93L30NFby/srZDdySh0m2e+fnRmBBePN03ypWWIU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bk8SGMtQ7NG6wb9hwbtRP76IQ6mnm2dD4EEI8a7ETcDtayZHne6/lnI0m9fSh7Qc6KML4EQzoMw+7EPNmp5BpewYLhuPB0/P4RZ0+75MHDZjSakEUn56aIJR2wMSaqfxijOXrk5iqDdeRPH+iWrPbUsFQd3QOdO0rnLWYmJ3X0U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=k+4JE8qG; arc=none smtp.client-ip=178.156.171.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
+	s=arc-20240116; t=1791371391; c=relaxed/simple;
+	bh=DDkxtMw6JmqKFj9+PZ/xfRX82i+leYlJ/h0hjEWNucw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZiMA3Qup8b5KqvUzJudgp3OPEd3MAxZpvT7p6dfiotP8uc6KmLd4ntANPTxcMkf5XYHEkMzQfg1dTVBR2P2E338x26H7SaYyUwDSFydt0uKEbkICx6UQ0bYyO++QwD0EB2/3XPdZuOxu9GhGsgJjPotM3e2A3mN+YKdKPY9cUc4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R9S9h0g/; arc=none smtp.client-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="k+4JE8qG"
-Received: from relay13 (localhost [127.0.0.1])
-	by relay13.grserver.gr (Proxmox) with ESMTP id 294835E5D8
-	for <linux-sound@vger.kernel.org>; Wed,  7 Oct 2026 14:03:53 +0300 (EEST)
-Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by relay13.grserver.gr (Proxmox) with ESMTPS id 48D1C5E57E
-	for <linux-sound@vger.kernel.org>; Wed,  7 Oct 2026 14:03:52 +0300 (EEST)
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	by linux3247.grserver.gr (Postfix) with ESMTPSA id 0FF40202BB6
-	for <linux-sound@vger.kernel.org>; Wed,  7 Oct 2026 14:03:51 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1791371031;
-	bh=/ORScLc1VcbIK5JR1EFjJBMDK2APU9vpafe9mtl+7XU=;
-	h=Received:From:Subject:To;
-	b=k+4JE8qGQghz9mcFzxqleEs8D3XOpppHS9znjxbTWKDdiilh827GA96/kst8IcmPS
-	 3m5n1d/L0Uaqw5vJT8E/TpgashokoGXnGDby35JD4aGVp+RAN4Ru08iZzxEw2l3mXK
-	 NX8Ev1k5cJ5FSPOmYgFhX06VKfIMCAyFPkGrk67vaTeH9bh4jm1pAJMhfMuZIEYN2l
-	 gT5TI0F18/Da4d0bVzNiz7Y23X9J9Q1hgOLtlIeQrrpXIx3newv/s0qOZFmb0avZxo
-	 1ByJdsEMwVbKWcxcY3ivyL2RSsa+E1VhH+AZpPiLnkhvEWUnJinGddDcPo0U7VCtLB
-	 dFQTP3y7oAqsQ==
-Authentication-Results: linux3247.grserver.gr;
-        spf=pass (sender IP is 209.85.214.178) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-pl1-f178.google.com
-Received-SPF: pass (linux3247.grserver.gr: connection is authenticated)
-Received: by mail-pl1-f178.google.com with SMTP id
- d9443c01a7336-2db710396ffso10063095ad.1
-        for <linux-sound@vger.kernel.org>;
- Wed, 07 Oct 2026 04:03:50 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AKwUvBxfNWg/9r91bskSDsr5JZyLVz/8Gmxkid9vd80Z2MVm42bLj842OHgQTMxW9p1atYf6Qv19s0aOm/G/+g==@vger.kernel.org
-X-Gm-Message-State: AFq9FYJH00GNpUf/1bVpuZbSOukL2D28jAgEivYbQeTN2N3AY5JQU4ts
-	GOIBLHKs6naBlPEBJPNoYODJU8TDQaAVfamWtXyrsLckLmvlNetxIBI+IsRwR6nbdjSPMt9beCB
-	qY+M5yMT5jKfju4XTrYGEdxULFMvJDhg=
-X-Received: by 2002:a17:903:1965:b0:2e4:b6b5:b305 with SMTP id
- d9443c01a7336-2e5c4f13f83mr34551555ad.2.1791371029771; Wed, 07 Oct 2026
- 04:03:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R9S9h0g/"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-3a0a911e8d6so1994082a91.1
+        for <linux-sound@vger.kernel.org>; Wed, 07 Oct 2026 04:09:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791371373; x=1791976173; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=5tPW28u/y25LsoprSZgjrTYuNMeOHBtCHRS1PxOld3s=;
+        b=R9S9h0g/q05eOsWn3UGfc8J/NJZgpBe7SmzEejbTjIdbg1/5Bx8TPmnIxRnEa5mDpv
+         lqe/1/D0u4mum++JtQCe7YB6K7Kcn11nveOfmPNpOw75jELc+n/UCti0S4EHg6I+NRuF
+         9LowRRHSMLNglrCSPo9XJuu6yQQEWIzEvqVqLfDQOsQDgyHaHARpyOJ+dEND3qLbjGBx
+         V++9nUytxr0TFpSslTn8FR1J019pB47K/G5xc8A0VG5Zio4FvEhGOZ3bw9+DA+6AuhEL
+         HnHizaEEk63k0oMnwenaXG+lXOIOmLcOs0aGUTLodejpzyZzbW1kBoKPzXkDpgNZSjsH
+         pG4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791371373; x=1791976173;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=5tPW28u/y25LsoprSZgjrTYuNMeOHBtCHRS1PxOld3s=;
+        b=DJGbgdqpfwCqe3M8PZRWmeDJaMWJRoypPRk+buOCG5I35OigHziU4B3Z959K6F8YNt
+         2+E45D2bM1Q5G/TR5Vh7UwrD6Tk8PZIFur/a5PFAeCfRIIzYWDlIGfVjq6xP630PuG6E
+         2nc1PMdjwRveF03IgbkqBGD/SsViqnZJn4/ttSXedkoli/P0J3SacDv2Bw10NGfPk4Ow
+         SOcU5XMNNG1CfJkQ37CsDALwo92ChXK8/3JY0egQJaHuKpeKv1pjrQm5Gspx5Rn6GThJ
+         azxgLrWhpm5hQIQoeYGbSY5vr6Vigt9C+PnXvJ5p+9sgIkHRUBFNADIF1/BVIpK9O2wv
+         qg7Q==
+X-Forwarded-Encrypted: i=1; AKwUvBwdy5VmSUtIuJQF5Xp7eo4e9BMUvmQFDn04rwFEyRbxVHQv/0sZMOPLhXY8NGBYA3XdyqDOA7X3FOr/fA==@vger.kernel.org
+X-Gm-Message-State: AFq9FYKEpqBy/bQSFpnVXFi4oA5I9aRC1QYRaU2Dd5AxlqL0qM+wnd4F
+	iILmUvaL1F3YDVYeQRzSPZhaZJ3YhRBQIFSRU3WKC8KLv3SANJkbVzBw
+X-Gm-Gg: AYBFou09KWM9m/KSYzFaMV5/oq2qO+rIP1VTfGbIbSTddH1Z7Ga8dD5JgQlw4YQXxX3
+	1WcWD0l8fICuQ/rvGVp6E0nAvCmXJHJkiCN9af+BV12SkcDTwzoeC9qxYsN+DIfqp1iZrQ2Q0Ai
+	0tChMY9ILuzR504nm+HPrQQ0qRhvCEIwcXoDZjwgWr9b64qWZZryzcou5Z7UdvldJCZmEMeCGbb
+	vppF+12BigMVM0tcDOexSkLdxDQi3JIa3SFm11XAZNnfl14YJLkB792PbNGEpKrPwhGoisvOTF1
+	9dyUWEoJRAzbmz6veQ6yiVT6rLuK/JoiTICsOVWmWQNg/Pzkep4OdWab7jo09oqPmX0bDLtmSsL
+	3D8EhQ0YWhJyHKu+Hdxza33ZqJA1zjr9b2qkx+f+jsKx909HD8xokNL/OVkRwSjqZE6VNAi6FBr
+	Mcpir18fe2pRXEjMlKJil7etk3rRtFPFTo+yFVXX5r01Hcyz+1smKMcjwWlQBN+Vp/DZEC/SF7M
+	7ilUDUzd+fXjrJ9Z5yE7qI+w2LwCXeR3gJAXrxDRqNiqZ6aYODEhy4GWMYRXTKuDLYBLobUDV5N
+	UUK1A4ysjhPudg==
+X-Received: by 2002:a17:90b:2246:b0:3a7:aeb4:e6eb with SMTP id 98e67ed59e1d1-3a8a1ceeb73mr1617868a91.67.1791371373155;
+        Wed, 07 Oct 2026 04:09:33 -0700 (PDT)
+Received: from phuc-desktop.. ([183.91.15.56])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a8a5ec70dbsm1328745a91.2.2026.10.07.04.09.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Oct 2026 04:09:32 -0700 (PDT)
+From: phucduc.bui@gmail.com
+To: Mark Brown <broonie@kernel.org>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Trevor Wu <trevor.wu@mediatek.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	cassiogabrielcontato@gmail.com,
+	Haotian Zhang <vulab@iscas.ac.cn>,
+	Christian Marangi <ansuelsmth@gmail.com>,
+	Cezary Rojewski <cezary.rojewski@intel.com>,
+	Cyril Chao <Cyril.Chao@mediatek.com>,
+	Tuo Li <islituo@gmail.com>,
+	Rosen Penev <rosenp@gmail.com>,
+	Garlic Tseng <garlic.tseng@mediatek.com>,
+	Alexandre Mergnat <amergnat@baylibre.com>,
+	Dan Carpenter <error27@gmail.com>,
+	linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	bui duc phuc <phucduc.bui@gmail.com>
+Subject: [PATCH v2 0/4] ASoC: mediatek: Handle constraint return value in FE startup
+Date: Wed,  7 Oct 2026 18:08:54 +0700
+Message-ID: <20261007110858.509341-1-phucduc.bui@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <179122226568.6.10663878730330541363.1670962442@8alias.com>
- <P3C8cUq--F-9@tutamail.com>
- <179122346529.6.9250312386131579603.1671009695@8alias.com>
-In-Reply-To: <179122346529.6.9250312386131579603.1671009695@8alias.com>
-From: Antheas Kapenekakis <lkml@antheas.dev>
-Date: Wed, 7 Oct 2026 13:03:37 +0200
-X-Gmail-Original-Message-ID: 
- <CAGwozwGQvRbwg82M4Myv4GQJhCPEhjyN__6DJ8UdMb8o0V_Zcg@mail.gmail.com>
-X-Gm-Features: AclHuK-cXbFB-0vE-IM4fcBx-I70z_Em108_XAEikMcFAi55s8GX1AAXMfJVxqc
-Message-ID: 
- <CAGwozwGQvRbwg82M4Myv4GQJhCPEhjyN__6DJ8UdMb8o0V_Zcg@mail.gmail.com>
-Subject: Re: [RESEND] ALSA: hda/tas2781: TP3407SA evidence for the January
- custom calibration address patch
-To: linux-kernel.supreme403@8alias.com
-Cc: tiwai@suse.com, "Ding, Shenghao" <shenghao-ding@ti.com>, perex@perex.cz,
- baojun.xu@ti.com,
-	kevin-lu@ti.com, sen@ti.com, matthew.schwartz@linux.dev,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-PPP-Message-ID: 
- <179137103126.308119.2087054240430025412@linux3247.grserver.gr>
-X-PPP-Vhost: antheas.dev
-X-Virus-Scanned: clamav-milter 1.4.6 at linux3247.grserver.gr
-X-Virus-Status: Clean
+Content-Transfer-Encoding: 8bit
 
-On Mon, 5 Oct 2026 at 20:04, <linux-kernel.supreme403@8alias.com> wrote:
->
-> Hi Antheas and sound/TI maintainers,
->
-> Resending as plain text because LKML rejected the previous message for co=
-ntaining an HTML part.
-> ...
-> Limits: only the primary amplifier was read on hardware, and the final re=
-gister snapshot was taken idle. The listening result is subjective; there i=
-s no calibrated SPL measurement or controlled same-volume A/B. Current main=
-line and for-next were not built and booted as full kernels.
->
-> Unlike the January Ally X test, this machine's OEM and firmware layouts d=
-iffer. This report does not claim to fix the Ally X's separate symptom. Com=
-mit 4fe238513407 introduced the custom-node parser with the BASIC-only assi=
-gnment and appears to be the appropriate Fixes target.
->
-> DSP SHA256:
->   a29f522c22cdb203eb1af84846838b5ef76c3a2c721760c7a898dd35f9ce1430
-> Public firmware:
-> https://gitlab.com/kernel-firmware/linux-firmware/-/raw/20260410/ti/audio=
-/tas2781/TAS2XXX10A40.bin
-> Original patch:
-> https://lore.kernel.org/all/20260107093134.583873-1-lkml@antheas.dev/
->
-> OpenAI Codex (LLM) assisted with diagnosing the quiet speakers, validatin=
-g the existing patch, preparing a local reproducer and drafting this hardwa=
-re report. The kernel change is your January proposal.
+From: bui duc phuc <phucduc.bui@gmail.com>
 
-The Ally X had a different issue so we never merged that fix. The
-commit body would need to be amended but we should be able to merge
-this.
+Hi all,
 
-Does anyone else have any suggestions? If not I can plan to resend the
-fix in a few days. I will not be able to do the testing for it (no
-affected devices)
+Some FE startup callbacks may return a positive value from constraint 
+helpers, but ASoC expects 0 on success. This can cause .shutdown() to be 
+skipped during rollback.
 
-Antheas
+Return 0 explicitly on success.
 
-> Assisted-by: LLM
->
-> Thanks,
-> assembledev
->
->
+Compile-tested only.
+
+Changes in v2:
+ - Rename the patch subject.
+ - Simplify the code change as suggested by Cezary. 
+
+Best regards,
+Phuc
+
+bui duc phuc (4):
+  ASoC: mediatek: common: Handle constraint return value in FE startup
+  ASoC: mediatek: mt8188: Handle constraint return value in FE startup
+  ASoC: mediatek: mt8189: Handle constraint return value in FE startup
+  ASoC: mediatek: mt8365: Handle constraint return value in FE startup
+
+ sound/soc/mediatek/common/mtk-afe-fe-dai.c | 8 +++++---
+ sound/soc/mediatek/mt8188/mt8188-afe-pcm.c | 3 +++
+ sound/soc/mediatek/mt8189/mt8189-afe-pcm.c | 8 +++++---
+ sound/soc/mediatek/mt8365/mt8365-afe-pcm.c | 7 +++++--
+ 4 files changed, 18 insertions(+), 8 deletions(-)
+
+-- 
+2.43.0
 
