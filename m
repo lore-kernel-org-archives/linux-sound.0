@@ -1,96 +1,95 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F9053EC81D;
-	Wed,  7 Oct 2026 08:07:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16482451992
+	for <linux-sound@vger.kernel.org>; Wed,  7 Oct 2026 08:34:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791360430; cv=none; b=egBXvj3sLaXiFahS7dzANu4JTqshexn0uQjiS1MVW6r1QEG0iqMs+BlwQwHmsSfXfnWwI1srSug2HaP2frDmSOpVZEGLnA3awhnTtirBd/U4SjY8Gv3xr6KcE1k2YCjEuQJNLSdUDPwshRhBgog29iYTTsDi/ODkXSD/5TPs8Yk=
+	t=1791362060; cv=none; b=H15up8n0opBXSnqWEnrc0Nnzzijs/ARWDtVZu0YgiOpgPIcW+lTdpv98KKi+x8vT4e1uH57CkOAmVXrLJMoJ+vDmvDkDATc53yl+A5Xs9oJj+14gWJbE7Su1W98vczvcS/6ZE+SPoINmPgvSdiIpphDUoQF7q8fgYPPQiMKL53Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791360430; c=relaxed/simple;
-	bh=EjHArIissllZzusq0nd7v3g69f3EVOhWORcskQtwMg4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=gE3m4C7/9SHfZgWNeaLHjgoyU5RflwBgN8QSMUDEdPWr7ommPLUKgUecd9SAGx7mnX2PABXwW0qBukrhODYWAytg6IzO9Jl/MYq/RZk2hNbN7Ed2uFTy+K4ijX8TXSNAVQl8kviFWzc+6QCqvxobGonnaBNW52C2lFkBwfJGAQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IRIxdHZp; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791362060; c=relaxed/simple;
+	bh=k2LWVlEbO4mtlO7zkAsTCCHDAZ0eNseSbBPcM0qvM7c=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=on7hdF3qaE1wF67gsRnvoBv/qNiZ1mUsAS+VuyJd9UysQpfuA8VCSv0lZuzW+WxUFyZUyd+8CW/kwUpr/luqc9GS8Cv1T8camrkw03x9NfG6n7Y0HInP6pnRrZs1pGOaAic4eR5soWrD8fFiSiH5e/AfQlII9vN3En0biUeteDA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=YuRYmcJB; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IRIxdHZp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E0A21F0089B;
-	Wed,  7 Oct 2026 08:07:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791360426;
-	bh=V/4HlkYomfVcdq4c+kird4gaCGsbmRUh/fEf06MmgjI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=IRIxdHZpu3kE2yN60fELdJsOMuCphu2A68vkMx9tQy9+JM5KMbx7kW7M85EdVAu7v
-	 bqvgWFxw0NocQugxocGunbjFVQfPOScxegips+nf84sPcJdHdBNm4SKKhsuEFV57KN
-	 yr18b1llAq4oZyJJP8ZHQ3M/VEhIW5wdJCvLPZke23Us+Y+yd43ciLKY/8E4xuD+kQ
-	 +QYVTbufpjT1it4KR7GYJBRTjHUXK8AbzXltX9x3tc0tuJAHRIveadRGm3LOkoQcWl
-	 g7MwGd+LwAzwSfPHrCq9+kku25ITnmQqjizCOiGTL7LSN2UJdsmEvW+gVWcb0rieyS
-	 GK7TRT/1AB09Q==
-From: Mark Brown <broonie@kernel.org>
-To: linux-sound@vger.kernel.org, 
- Niranjan Holalu Yogendra <niranjan.hy@ti.com>
-Cc: linux-kernel@vger.kernel.org, ckeepax@opensource.cirrus.com, 
- lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- cezary.rojewski@intel.com, peter.ujfalusi@linux.intel.com, 
- yung-chuan.liao@linux.intel.com, kai.vehmanen@linux.intel.com, 
- pierre-louis.bossart@linux.dev, baojun.xu@ti.com, shenghao-ding@ti.com, 
- sandeepk@ti.com, v-hampiholi@ti.com, 
- Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-In-Reply-To: <20261006042315.1038-1-niranjan.hy@ti.com>
-References: <20261006042315.1038-1-niranjan.hy@ti.com>
-Subject: Re: [PATCH v1] ASoC: amd: acp-legacy-mach: skip dai link for amp
- reference stream
-Message-Id: <179129582484.150114.3901533066202793754.b4-ty@b4>
-Date: Tue, 06 Oct 2026 16:10:24 +0200
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="YuRYmcJB"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4a0286c981dso34167125e9.2
+        for <linux-sound@vger.kernel.org>; Wed, 07 Oct 2026 01:34:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1791362055; x=1791966855; darn=vger.kernel.org;
+        h=content-type:mime-version:message-id:date:references:in-reply-to
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=k2LWVlEbO4mtlO7zkAsTCCHDAZ0eNseSbBPcM0qvM7c=;
+        b=YuRYmcJBr7bRkIHW5cS3rRVHhMcU6eQfGY3vA4mJPU/9owTwr85YhgGKF+5JAu5HpS
+         xbuTq9lDL+M2NNPwbBk555eHYcgF1GoYK6Kj9vHyCRh+LioCEHbs4yHXsXrHxREIr8Qp
+         iVo7ACndj6rnzfKagReUmKm66RSfYp3ne5w5S7qEfGVRk1DQZC3JlIIpEXVXQL1BHQDR
+         K04RGFGdPRijH8kio7I7NmBHvOrWDINDmmexWQ9O0SqdfLoy8cG/mK/ccnfrOz47VC93
+         M18VY7Xz0Mde9r2oGW+C5MLlCif6wezSfBHjGIgSu/dTa4r0nqhs1LF03Y15Rz0rmWwS
+         Z6yA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791362055; x=1791966855;
+        h=content-type:mime-version:message-id:date:references:in-reply-to
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=k2LWVlEbO4mtlO7zkAsTCCHDAZ0eNseSbBPcM0qvM7c=;
+        b=PYuWf5utN0OsxQKFO956JC9BYw+doDuAss7nVazoW5HG2cKfv1YxmUWoYx3R69mLxo
+         x5fj875S10XX0ESs/6WfiV5KTBxDhUd0o6dETUygL46shnpQoFyERycdBtKQoqfqUrf1
+         jY1iZofYg4DdhRPcpdHUrXONRqQiX9gTYH3rrGXSLUb20mXdm9xEti06AioVF+373xsa
+         xOyJU5D/Qgt+hvREo0KEUu+6pvMuTmVhiOflt7/OvH83kHw1J0OdjtsabS6S3zv/Wapj
+         VOgqgmeB3SEP4rTK7Zxyhn2d3YJoZJ6VNCyVJpO4ftCrPWLkYC0MGbV+oqeub6ulZGgh
+         z1dg==
+X-Gm-Message-State: AFuF++nq/6iUB2uP3qZSnJW57hUKon2Kypzs4s+Ql/Vc8YwjMpzXog0g
+	cLXTkdVoVjCo7EKryZSOXRwmApMdiEOP102xd2w+6aGwRhQcDIFM+Fh3kM7xGwf0JoI=
+X-Gm-Gg: AYBFou22dtdOItoqr0z3dLxRLQ30c3gWjDvWgdyCCY2yD1PoWKe4wujPjbJ7oMN1qr9
+	w+t6JJu3WPTqE+jE20xakWR3AX/4ytpZ1ljbgoMSYisIF0Ns8Dr2c0IsAe559i+PW5f38rCK3HD
+	JJ7zEtpnuRrPBUJlTEebgIhe5T65sUKGjCQ0pgcMt30M79r6Z0mIZ6C6w9lDMTMQvKo9IcQK48s
+	KhoC4iXtiS0R5XUelK/e/T+BHVR8rN+Df3M/nkYZxRHdn86cYfh0jUY//yr0FAxh3RkzmPPRD1M
+	Z03l9NL+ZGA+63DJB5cjTzFgNdPtRAdsQBSyKjhdMSwe1bwWlF4woBjqrRxJYeVH1jzHe6rBZse
+	nH9kDhIuzSe8J0rZv+g5jjWDfgc4IrCfPDQndT0JRYCxLy1+gkxQMm9jpvrmIxsi7RNZ+mJF4PR
+	8F/X9VbcKPNQXaasC6Y2c3BGNSU6AFhL59wh8ZVf3rJ7WgOPJDJKBxEM89bJd8Uc0TmWtkeRGee
+	Dk8a/WLJ8E1/tX/bXBO9yugtg==
+X-Received: by 2002:a05:600c:5254:b0:49f:c1a1:5222 with SMTP id 5b1f17b1804b1-4a180679d9dmr19886705e9.33.1791362055220;
+        Wed, 07 Oct 2026 01:34:15 -0700 (PDT)
+Received: from localhost (90-182-211-1.rcp.o2.cz. [90.182.211.1])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a17f493761sm79454375e9.2.2026.10.07.01.34.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Oct 2026 01:34:14 -0700 (PDT)
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: Valerio Setti <vsetti@baylibre.com>, Liam Girdwood
+ <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, Kevin
+ Hilman <khilman@baylibre.com>, Martin Blumenstingl
+ <martin.blumenstingl@googlemail.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org,
+ linux-kernel@vger.kernel.org, Valerio Setti <vsetti@baylibre.com>
+Subject: Re: [PATCH v4 2/7] ASoC: meson: build gx-formatter as a separate
+ module
+In-Reply-To: <20261001-audin-v4-2-2476646118b5@baylibre.com>
+References: <20261001-audin-v4-0-2476646118b5@baylibre.com>
+ <20261001-audin-v4-2-2476646118b5@baylibre.com>
+Date: Wed, 07 Oct 2026 10:34:14 +0200
+Message-ID: <1j8q49zz7d.fsf@starbuckisacylon.baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1162; i=broonie@kernel.org;
- h=from:subject:message-id; bh=EjHArIissllZzusq0nd7v3g69f3EVOhWORcskQtwMg4=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqxf2k1/at84mbAtj/Ebl95Y4W7dnGO8d/U5IEd
- oEZP9dgwgKJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCasX9pAAKCRAk1otyXVSH
- 0AZvB/9q9uNN2k0CFqidiTpVxeGxpiArXKsfm6eHoW+82Bzw4BpSPuNPJxv1ArfCl9vcYXYubpF
- M9GWukoQqOzQtKY/sCEuaa0OQ51LRnwWS0sk7wlpcleXsZMQLyPaVTGXG1xTkOW1vtSD3gY4fOJ
- tqDlr/EgQDruuQ7o2NHMQ3TX9qLeDekZngWnw/aqY8A0gnsd+mayQ8ZJHFDyOc/t8QSCktJ5ssA
- HDuGEgpZyfLAceFK3+g3OUwcYhQJMsS1OBiWJtkWuvOMfB2G7OifShFksAhSup2+khGrOLeiuTa
- wyfcaccTUmJYj7Th/olbhgkRJIJaxrKE80LCAVdPCYOUvldQ
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Type: text/plain
 
-On Tue, 06 Oct 2026 09:53:15 +0530, Niranjan Holalu Yogendra wrote:
-> ASoC: amd: acp-legacy-mach: skip dai link for amp reference stream
+On Thu 01 Oct 2026 at 18:06, Valerio Setti <vsetti@baylibre.com> wrote:
 
-Applied to
+> Instead of including it in 'snd-soc-meson-aiu', create a separate module
+> for it. This way it can be independently selected by either AIU or the
+> (upcoming) AUDIN.
+>
+> Signed-off-by: Valerio Setti <vsetti@baylibre.com>
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
-
-Thanks!
-
-[1/1] ASoC: amd: acp-legacy-mach: skip dai link for amp reference stream
-      https://git.kernel.org/broonie/sound/c/9867312e9fd2
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Reviewed-by: Jerome Brunet <jbrunet@baylibre.com>
