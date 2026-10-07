@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9C0544AB73
-	for <linux-sound@vger.kernel.org>; Wed,  7 Oct 2026 08:50:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D291C450917
+	for <linux-sound@vger.kernel.org>; Wed,  7 Oct 2026 08:50:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791363039; cv=none; b=amKwivntvNRGRbTQwp+5rMYE5TcWGLbB43Iiaou9X+/3uMT6kn4eYqty4KHTZEGkl0yJjptdZX71be9vYAH/J9bh7AsYx/riyRbxtPrzA/REB+Tuu03nwe/4s5MSv4GGSXqGH7lkZ6hxDSmIjkY+MAPxs7a4PoDbebpDIeNF8QE=
+	t=1791363041; cv=none; b=oM/cVSV3lFNXrg+rC+HkBWPliGau5wHVXogoV9qflykTN02l+MtzoPQnqp3Lqo/zeO/A+uYEwYH3zlqcdScxNeyT5wbpVvxHwoup5Fvy2JcSTpls5G0xU5Yla+g8RCXgWNVvdSU2RiRbOfJd7XpwWcssU0eYuN3ea+UQ4eUPZTI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791363039; c=relaxed/simple;
-	bh=rcVz48lpMzphmcfztqvwN/fpJIGf5wpMaPJzsQrFyaY=;
+	s=arc-20240116; t=1791363041; c=relaxed/simple;
+	bh=hzIofKcm+CVbOsOJC+YrO20Be/IHVyYmOpFftnx8noI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QVp257Ch/pgzh41oWmXHt6NT4tWtLwlMnTNAWQXGWCeG5REv0sUeBsBk1u+oFtvj4aZUBYJ6a6JHANif9pMbA0BjoP5hOdk/270Wy/PZjAvdhiNOo44e2H5bWqISKdWG2adlgan1pWZnYXWRGHCTD5/RMWnUbRRxev/OK3Lcyf4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VaNpoEXq; arc=none smtp.client-ip=192.198.163.14
+	 MIME-Version; b=d/FrToMkpEuV8owfPTECwe+8qFYuHcUAABR9+NvGBtYp3hpcSht5YrD8o6j0DGeKKKLe9L06kk5BUfQNwL+ONp7E/EbYLDMrZToPzwt0nQtNgsTw4iq9spcFY3qcZOFnJ04CXqnD79dJmEiLJCNP0a1XFLzDovaXS3SzUDta+RE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=huBLwHDI; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VaNpoEXq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="huBLwHDI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791363038; x=1822899038;
+  t=1791363041; x=1822899041;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=rcVz48lpMzphmcfztqvwN/fpJIGf5wpMaPJzsQrFyaY=;
-  b=VaNpoEXqXDJ8MpxagvYibFvw7BOh4zfDnUXjG/0DZDPi1vM5k77ev4Jf
-   NxLjMxR8gg6iew2vKLt+5q4lLrkduEXMzJKAdnmXOf/LRd/Px76uLrMCR
-   0ZL4htKAK+I9lkQDePnL51SO9q7dxJgdCuj3N2GhoaIFh5d+1KyMnAqJB
-   vcySyzo6GdRUvgDRiIiF+BtAdkmm3A7yMf7vzDZia27r93jSsKOfZ6Iwe
-   Kuj2ZJf8JKdlV/BlVl181kPHOf8uQGNxuEYJ5UU1GpI2jYYa6HkG5Q1m3
-   GkHfxv2CDCJS6TpYR+gdfGFjgrUEW43g/7QazuokCZAhM8MZcjPpouxpf
-   g==;
-X-CSE-ConnectionGUID: ZcN3x8KbSRSkvERo4lKmRA==
-X-CSE-MsgGUID: Cze3nk2fRf+DBu3WTO7dBw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11927"; a="114027"
+  bh=hzIofKcm+CVbOsOJC+YrO20Be/IHVyYmOpFftnx8noI=;
+  b=huBLwHDIK5LYQcWbqj7wjTYHguhrYONCZI70BDTg82rjT+EvPeNudm3p
+   iLXCvBUaqIjoM6HgfOGL6IAIwXMzfQBk6i9dtt1trLDuQkDskarl28MwY
+   82jMlWESI1miTnilhSUxDx0XRcMY43lbUSwWkrbYgTNGnpax6JtBDe8B5
+   7R1HzMeamo7i3k6CVeGbyMXsqTTJqb/V+/kVYB9Tii/vV19w5UYaG+kEK
+   SCQ9PAgUBojX6HSz37aQh15lmiV5Pa9c5vVqZq+Kcv6qy8ddZurXLvpnE
+   IZm15onLDFSkKLAaZqZOBR4gnMNFJFo5+yEr/CnvtZhbXUssaS5kBvrdd
+   Q==;
+X-CSE-ConnectionGUID: /XtiBRFEQr22p1NX4FPIQw==
+X-CSE-MsgGUID: RJ2XdGd4RqaQgkXq7/iTGg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11927"; a="114035"
 X-IronPort-AV: E=Sophos;i="6.27,144,1787036400"; 
-   d="scan'208";a="114027"
+   d="scan'208";a="114035"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2026 01:50:38 -0700
-X-CSE-ConnectionGUID: QKfIBGLTTvasD0iBcd043Q==
-X-CSE-MsgGUID: ykdba2FGS9+ZQrXZgNirmA==
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2026 01:50:41 -0700
+X-CSE-ConnectionGUID: vcmPKIrPThiaIS//CA9ngg==
+X-CSE-MsgGUID: X1jtiHS0R0uE7/Rj1TDZEQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,144,1787036400"; 
-   d="scan'208";a="280670787"
+   d="scan'208";a="280670791"
 Received: from conormcd-mobl2.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.244.188])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2026 01:50:35 -0700
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2026 01:50:38 -0700
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: vkoul@kernel.org,
 	perex@perex.cz,
@@ -55,9 +55,9 @@ Cc: linux-sound@vger.kernel.org,
 	yung-chuan.liao@linux.intel.com,
 	pierre-louis.bossart@linux.dev,
 	daniel.baluta@nxp.com
-Subject: [PATCH v5 20/28] ASoC: SOF: ipc4-pcm: Handle COMPR DRAIN triggers as EOS pipeline state
-Date: Wed,  7 Oct 2026 11:49:47 +0300
-Message-ID: <20261007084955.1256-21-peter.ujfalusi@linux.intel.com>
+Subject: [PATCH v5 21/28] ASoC: SOF: ipc4-topology: Set FAST_MODE for host copier in compr mode
+Date: Wed,  7 Oct 2026 11:49:48 +0300
+Message-ID: <20261007084955.1256-22-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <20261007084955.1256-1-peter.ujfalusi@linux.intel.com>
 References: <20261007084955.1256-1-peter.ujfalusi@linux.intel.com>
@@ -69,69 +69,46 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The DRAIN trigger is received by a compr device when user space wrote all
-the data to the buffer and it is waiting for the decoding to be completed.
-
-Set the pipeline state to EOS in firmware so it can expect the stream to
-be stopping anytime soon.
+FAST_MODE allows the host DMA to work in opportunistic, free running mode,
+which matches with the bitstream nature of compressed devices.
 
 Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
 ---
- sound/soc/sof/ipc4-pcm.c | 19 +++++++++++++++----
- 1 file changed, 15 insertions(+), 4 deletions(-)
+ sound/soc/sof/ipc4-topology.c | 3 +++
+ sound/soc/sof/ipc4-topology.h | 5 +++++
+ 2 files changed, 8 insertions(+)
 
-diff --git a/sound/soc/sof/ipc4-pcm.c b/sound/soc/sof/ipc4-pcm.c
-index c565e0e12949..f65c2a804a36 100644
---- a/sound/soc/sof/ipc4-pcm.c
-+++ b/sound/soc/sof/ipc4-pcm.c
-@@ -153,7 +153,8 @@ sof_ipc4_add_pipeline_to_trigger_list(struct snd_sof_dev *sdev, int state,
- 	struct snd_sof_widget *pipe_widget = spipe->pipe_widget;
- 	struct sof_ipc4_pipeline *pipeline = pipe_widget->private;
- 
--	if (pipeline->skip_during_fe_trigger && state != SOF_IPC4_PIPE_RESET)
-+	if (pipeline->skip_during_fe_trigger && state != SOF_IPC4_PIPE_RESET &&
-+	    state != SOF_IPC4_PIPE_EOS)
- 		return;
- 
- 	switch (state) {
-@@ -173,7 +174,12 @@ sof_ipc4_add_pipeline_to_trigger_list(struct snd_sof_dev *sdev, int state,
- 							  true);
- 		break;
- 	case SOF_IPC4_PIPE_PAUSED:
--		/* Pause the pipeline only when its started_count is 1 more than paused_count */
-+	case SOF_IPC4_PIPE_EOS:
-+		/*
-+		 * Pause the pipeline only when its started_count is 1 more than
-+		 * paused_count.
-+		 * Same rule applies to EOS state.
-+		 */
- 		if (spipe->paused_count == (spipe->started_count - 1))
- 			sof_ipc4_add_pipeline_by_priority(trigger_list, pipe_widget, pipe_priority,
- 							  true);
-@@ -492,8 +498,9 @@ static int sof_ipc4_trigger_pipelines(struct snd_soc_component *component,
- 		goto free;
+diff --git a/sound/soc/sof/ipc4-topology.c b/sound/soc/sof/ipc4-topology.c
+index 4d3621fd134a..ebe58d9d9442 100644
+--- a/sound/soc/sof/ipc4-topology.c
++++ b/sound/soc/sof/ipc4-topology.c
+@@ -744,6 +744,9 @@ static int sof_ipc4_widget_setup_pcm(struct snd_sof_widget *swidget)
+ 			sps->dsp_max_burst_size_in_ms = 1;
  	}
  
--	/* no need to pause before reset or before pause release */
--	if (state == SOF_IPC4_PIPE_RESET || cmd == SNDRV_PCM_TRIGGER_PAUSE_RELEASE)
-+	/* no need to pause before reset, EOS or before pause release */
-+	if (state == SOF_IPC4_PIPE_RESET || state == SOF_IPC4_PIPE_EOS ||
-+	    cmd == SNDRV_PCM_TRIGGER_PAUSE_RELEASE)
- 		goto skip_pause_transition;
++	if (spcm->pcm.compress)
++		ipc4_copier->data.copier_feature_mask |= BIT(SOF_IPC4_COPIER_FAST_MODE);
++
+ skip_gtw_cfg:
+ 	ipc4_copier->gtw_attr = kzalloc_obj(*ipc4_copier->gtw_attr);
+ 	if (!ipc4_copier->gtw_attr) {
+diff --git a/sound/soc/sof/ipc4-topology.h b/sound/soc/sof/ipc4-topology.h
+index 5e78f3de092e..c2949ff979a5 100644
+--- a/sound/soc/sof/ipc4-topology.h
++++ b/sound/soc/sof/ipc4-topology.h
+@@ -222,6 +222,11 @@ struct sof_copier_gateway_cfg {
+ 	uint32_t config_data[];
+ };
  
- 	/*
-@@ -591,6 +598,10 @@ static int sof_ipc4_pcm_trigger(struct snd_soc_component *component,
- 	case SNDRV_PCM_TRIGGER_STOP:
- 		state = SOF_IPC4_PIPE_PAUSED;
- 		break;
-+	case SND_COMPR_TRIGGER_DRAIN:
-+	case SND_COMPR_TRIGGER_PARTIAL_DRAIN:
-+		state = SOF_IPC4_PIPE_EOS;
-+		break;
- 	default:
- 		dev_err(component->dev, "%s: unhandled trigger cmd %d\n", __func__, cmd);
- 		return -EINVAL;
++/* bit definition in copier_feature_mask */
++enum sof_ipc4_copier_feature {
++	SOF_IPC4_COPIER_FAST_MODE = 0, /* free running mode of host copier */
++};
++
+ /**
+  * struct sof_ipc4_copier_data - IPC data for copier
+  * @base_config: Base configuration including input audio format
 -- 
 2.56.0
 
