@@ -1,42 +1,53 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 974054973B6;
-	Thu,  8 Oct 2026 12:39:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29BC249BD7D;
+	Thu,  8 Oct 2026 12:41:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791463198; cv=none; b=nixfVDcROpaINrkeEElZPeEmBa14WATRU3KdcBDtNhdK9iLtzX5BQmNFF0yGRQTlSjPhhZvX2Mz7j1knNpTbdrEMTdcnirnLHnQGT8xy0azfhWJrLaEA8g2qybNSjq4FJg1lJrE+C3O5imAVgxtr9Xh3un6wFZgu3KwGAqFAg3I=
+	t=1791463279; cv=none; b=I3Fn16QjUFLiC2qudWLIlkqUXd9DElBA3IBNLL8gfAvWSY+xScZOIDJsTqcrriF0kd6MbLCKt8xxeQJAqfEYUJW3Qhsb1/7XnpDkjcBv5DZaVXQNPViEaSxjvkvVElSwzapu6ksSdsmUzJReiJmzzOM1/mHaaEkws31WK86yVx0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791463198; c=relaxed/simple;
-	bh=d9Db/4xediCepUoxhqgfSWe1Rx8QyBv8TMjk/AVJ0Lk=;
+	s=arc-20240116; t=1791463279; c=relaxed/simple;
+	bh=QY1B/YC/9U9/25uIL41mpvndoi/nxHgNpTP3ZhxQnAM=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=QOERLiVPPpOghBorayi/MI5rFhKjj52HIf6hxKQRDBtP3XNviKSB12/s1zOEFTmsslu0VHAhZsUItOzAG15pkjEAdx4uJrcRnLhjRPScQGrxFB0t2uc/mFHupoaubXik7bGBPA7V+fR5Za9WFBrg4b6reAXJKY+zXy5+xhlXKiw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VSeoIzBh; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=rF5JUMy1gwKjRZM8xCsTdvOV8PVmdGzhwgdVt+PsBgEjjZMCx4Lb5DwU/4sH+xEjFV0/jIlYh4fZ3tP7ch9K/FBLaGXexZoo+awmoEYnLfjH8c1wyuTsePotS5yX81PFrUQF5qxNmQfyffOZ/d+AqaQuXxM2E9unzHPZpv5y0aI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HDEhTpZZ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VSeoIzBh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 344321F000FF;
-	Thu,  8 Oct 2026 12:39:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HDEhTpZZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24AD81F00893;
+	Thu,  8 Oct 2026 12:41:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791463197;
-	bh=tNIlTLIPqJGj9rBZ9sUKLOkSLyIwwLULlBNY5fcX28k=;
+	s=k20260515; t=1791463277;
+	bh=tZHgvot9XBR6NDc7d2O3La8Sy9kro5TUOFUC8aNnoG0=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=VSeoIzBhHoIcDKL6ehF4MgKIYsJqZzOyMxN9udCWijKEDl1f6g9SdSiXHSBUc15Ds
-	 tjZ25M4vQj1tG13Bsgi3b9aF2B7uF8r0jlYJBIeWf3CbhXOWATcdrZwV5IXao1PG65
-	 ZnFH1bnNKglZdEFRT0xXnIA7v5T2GeJoedH3ZGLx63Gcfkq7Bqk+u8OeV2GTbzDqr3
-	 T6nMI9+4kwpx3tj9d3vFnhukwSL6marEaL/GvzXN1tTE3WMpknLI+5L0doK1+2+TME
-	 E44R9suGZs90L/DxfzZGILUL0nsWfTbaLMAOZFva4WRvZymbDln26P6tFG9BNFXJHf
-	 bFP870krKrilg==
+	b=HDEhTpZZ6Ki0QKgJWh1sFFKBgqbKYoVJSWGWHgrHE48O8aKf1aBLavbl4dtrHiX4s
+	 co0a7Tg7igbIDeaHR+6kBeCzyW1i81CjMQBsRrrfWvTxegUskgGRQYYmc5Jub8GHez
+	 QQvpqWUOalJPBN7GMzQZZYvDnSnApcXI+hS3ItYjUJaQgihX/b9/SDnZ3sMDdjQJwP
+	 5CtHZ+dmROCZNCjIlb93PZDYpKLGV2NmWxFGzqWG5lFA6McOfFLHeACA2/4OqWibxM
+	 jb/lVsyunUQkulu5N1PQ1SEY548tETp36fIqHEmAi2AVKfXBoDw/hv+7qnINpSHhgs
+	 huaW9xcnz9x8w==
 From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com, 
- yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev, 
- stable@vger.kernel.org
-In-Reply-To: <20261008090130.15135-1-peter.ujfalusi@linux.intel.com>
-References: <20261008090130.15135-1-peter.ujfalusi@linux.intel.com>
-Subject: Re: [PATCH] ASoC: SOF: ipc4-topology: Fix shift-out-of-bounds for
- aggregated ALH capture
-Message-Id: <179145233953.2423942.14804000076383829774.b4-ty@b4>
-Date: Thu, 08 Oct 2026 11:38:59 +0200
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Trevor Wu <trevor.wu@mediatek.com>, phucduc.bui@gmail.com
+Cc: Liam Girdwood <lgirdwood@gmail.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ cassiogabrielcontato@gmail.com, Haotian Zhang <vulab@iscas.ac.cn>, 
+ Christian Marangi <ansuelsmth@gmail.com>, 
+ Cezary Rojewski <cezary.rojewski@intel.com>, 
+ Cyril Chao <Cyril.Chao@mediatek.com>, Tuo Li <islituo@gmail.com>, 
+ Rosen Penev <rosenp@gmail.com>, Garlic Tseng <garlic.tseng@mediatek.com>, 
+ Alexandre Mergnat <amergnat@baylibre.com>, 
+ Dan Carpenter <error27@gmail.com>, linux-sound@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20261007110858.509341-1-phucduc.bui@gmail.com>
+References: <20261007110858.509341-1-phucduc.bui@gmail.com>
+Subject: Re: [PATCH v2 0/4] ASoC: mediatek: Handle constraint return value
+ in FE startup
+Message-Id: <179138999054.2423942.10212092263791353501.b4-ty@b4>
+Date: Wed, 07 Oct 2026 18:19:50 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,26 +57,42 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1172; i=broonie@kernel.org;
- h=from:subject:message-id; bh=d9Db/4xediCepUoxhqgfSWe1Rx8QyBv8TMjk/AVJ0Lk=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLKO90vKL73duPJr6fWa3CMsh7a0xfdLH3JKs73z/3Wik
- bb9iuLbHaUsDGJcDLJiiixxWdwv60ter+E7uLANZg4rE8gQBi5OAZjIlruMDMu+3/62/Mpfa6FQ
- g5vPtT/lzLbzufYnUW2vgwJjmvnVSUWMDGd4q/U1fP5MapjsJN57SWHpF/0Li5kSlateXXM4l/2
- IlQkA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1819; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=QY1B/YC/9U9/25uIL41mpvndoi/nxHgNpTP3ZhxQnAM=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLKO96cePxj5zcWdP2KJU6/bh/aeNrGQWcZnFykf3s+w7
+ FhJRe3RjhIWBjEuBlkxRZa4LO6X9SWv1/AdXNgGM4eVCWQIAxenAEyEaxbDf8flor88Uh4aMP1e
+ Z/720qbwgs/RDMu/8/bzXy9te7M5ezfDj8nl+t94tNdbcbXlhvSptN2tCrt05c+SpP4p91ozriq
+ xAQA=
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Thu, 08 Oct 2026 12:01:30 +0300, Peter Ujfalusi wrote:
-> ASoC: SOF: ipc4-topology: Fix shift-out-of-bounds for aggregated ALH capture
+On Wed, 07 Oct 2026 18:08:54 +0700, phucduc.bui@gmail.com wrote:
+> ASoC: mediatek: Handle constraint return value in FE startup
+> 
+> From: bui duc phuc <phucduc.bui@gmail.com>
+> 
+> Hi all,
+> 
+> Some FE startup callbacks may return a positive value from constraint
+> helpers, but ASoC expects 0 on success. This can cause .shutdown() to be
+> skipped during rollback.
+> 
+> [...]
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
 
 Thanks!
 
-[1/1] ASoC: SOF: ipc4-topology: Fix shift-out-of-bounds for aggregated ALH capture
-      https://git.kernel.org/broonie/sound/c/746de48c3a25
+[1/4] ASoC: mediatek: common: Handle constraint return value in FE startup
+      https://git.kernel.org/broonie/sound/c/5fcdb40a4776
+[2/4] ASoC: mediatek: mt8188: Handle constraint return value in FE startup
+      https://git.kernel.org/broonie/sound/c/71253751586b
+[3/4] ASoC: mediatek: mt8189: Handle constraint return value in FE startup
+      https://git.kernel.org/broonie/sound/c/1f234d33e42e
+[4/4] ASoC: mediatek: mt8365: Handle constraint return value in FE startup
+      https://git.kernel.org/broonie/sound/c/8de3f4e8e811
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
