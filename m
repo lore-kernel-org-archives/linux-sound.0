@@ -1,124 +1,113 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F44141D638
-	for <linux-sound@vger.kernel.org>; Wed,  7 Oct 2026 08:54:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9B9F3CFF5A
+	for <linux-sound@vger.kernel.org>; Wed,  7 Oct 2026 09:26:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791363281; cv=none; b=T2e3BfQIPycA7liWnzCxw60ZGEwOURp1wQ9eevm7vVk2v2q4l7lMEmCaT2TE/MoSL9CTyFt3FfhkFA1tRhiQyc3XH1GMduMwVcekghaEd+KCukFISgLyA3zQkH3mPxCPVIOSpmA/rpBIeVY9i+5kpZiuTQ0e8yKBvLYEUKwzoY8=
+	t=1791365195; cv=none; b=nAIARFd/d6VRBMJprq5Sd/Unnvh/tVQdMZUVBqET0cwjvxzlE3VlDmCExIS45UQMB4hdcGgYChDQvVS/yS/LlC5evoPntqmA5rYqpwGZcG9QET+HN1BqAjC9TjV2RbMVJltNAER0fUaQkc9njUouvWLXSinNWY6EK+e9+eP22ro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791363281; c=relaxed/simple;
-	bh=ns5/UMhLGw+gH1o3rceBplxKe2Bd6QRnvxxVs9U2EY4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=G0iShWqsMCcr9W8/qWZHNFuHRg2D2ChZDFOg9bpQ/6kaOyUZFeQKuTyLujk4lAHlzcaXD0T7CdkhYMN/gJ5GyniY2fywPAMOwWH4mNUPQ6okiuluStnxo4QGDZOWs+N1nhWcRA0yosVfpU1yMilsxXILUt31z0xC455TSjtiw6s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=ERHFbE6V; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1791365195; c=relaxed/simple;
+	bh=ocXw/ZHX2uwQ+TKC2dQ9M2w9Z4PmAFjY379ZrQOHowo=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Y8ogBtfOeQCzddkhXjZvqXEgTwdGKpNEqrVSDDugtDmVHNUbhsgLKUo/xg0k8tu1d4cqhVeq7GbrEU/tX1UbUGSGXKIIXOdx4EhA637tzm+idjiOGW1pQDViRHoWluGC44Klzx/QhT1L56eoQAPDvCtmPcffgPw7Bk4QKNPpMUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=D2vtBxdj; arc=none smtp.client-ip=211.75.126.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="ERHFbE6V"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4a0286c981dso34408115e9.2
-        for <linux-sound@vger.kernel.org>; Wed, 07 Oct 2026 01:54:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1791363277; x=1791968077; darn=vger.kernel.org;
-        h=content-type:mime-version:message-id:date:references:in-reply-to
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=hBz2qXMgWojuZvA+gqIdsYCtSC6xw/yhzsi3Z9qc1oU=;
-        b=ERHFbE6V1+V/7VOdb1ufLNWhqdmMi/ZZmRNdq8Uk87mYA6D/Usafy2JxF+pgfZmZan
-         AineRSrkWlAew5VIfIiwgRR8T7fycBN/YAIkSXH2y89euS/CmzewIE2wYT/3RC/+/Msu
-         y+PPyue6d1wnkAejn0wg7epoDyxjmHHveXhsl2vDw4vKuIsUGWW2UU4XFdAVNLsXbm5k
-         JGX9w5idpyYFEV5KfOHelBVOieVU2THKbI7ji+y1eVF3ZCAe07qPcEmnXBfDOcpJ3Dhv
-         HXGAtec1XdKMxZZj4Hd2jF+/PeCC1QAZoQD77QWDampIkt/v3BXOPLUNQVjSbyllxQ6A
-         WVuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791363277; x=1791968077;
-        h=content-type:mime-version:message-id:date:references:in-reply-to
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=hBz2qXMgWojuZvA+gqIdsYCtSC6xw/yhzsi3Z9qc1oU=;
-        b=j2HvWXFNqIZrhEdZEYhCeQfRsMbOeDl7o1wyfbHxWaDWKwoW2ZDXK6JvF/axKenfEl
-         EO5SQrSLN3G7l4V/ioUduYotOnVx+nUOx+GrR6PSV8TphDxcjj3dxI2gtPjIviBuQiLN
-         Y5RAu+WBQbOuFJch4U4nqJcx8UVRFQ+mVh8uTKKWDx357Rj7Xc8ZWlsZPePV0epLnyc1
-         KhGKPOc0Yok4BQwJvM/L6ldhvX/NnrhvxwwNDe3A/RVEc2//o6rWesFaPBWvxeyKkJ5f
-         d8fC5ABwta0rT8q43TarV6kVScB6tH4MI4ufKK6LWGiDFgjq7iIboZQYo6uuFHMilTcP
-         8/jw==
-X-Gm-Message-State: AFuF++l3ILwf56Avgtka65X1LVezWh9me2CfcFwh2fzSLHaF0BFEtDKR
-	ajipocVj3MwJFO++nR1MsPL0qHOoK382c1je7wZGOhZN3zayV7VLqfRy36k+AnMXSng=
-X-Gm-Gg: AYBFou3yRQ/lqYNbF1dLTLGPn1sPzvmUYJnxWKwY0sUKw3loboYSaSWTVMvB5hkpmPz
-	/7q+fR84kac4DpfJCwIMQOd+P3eEJue+/5K6bbeMRe7lCZd3U1/GC/MHtzZaPiZFYnFgmvQ1aS9
-	KcEy+/tgri73waaU/zX5qLBV86qz8MEec7d/Xs7NM0OG8MTX2EO1D7zWeiGRgFcSQbuy/0ZP6Nl
-	+vqcj7XT4yo5HB5b8F7K0SBmBpIUGI0L5HMUIpAyETWR6CjaEfMbVg8MwzRhGmJh/L4KDUK59Wf
-	4ZSEwHRyIwnIYfWbGZg5Hrpli2fjF6tyEpibumY3n8At8plE9BqRwYnndKi4ZZQ2VPhSbuDzmlQ
-	QOn1MnjkJQ3vGyjb5VBNvBITHIH/FbcFznJA7AbkcQDKsWCoA30YsF+teg8GRuIeRvQLkA+FHvi
-	+5x94V8+GRHShH926fNwI+16F0bPCSpkWZ+lwhEgYSczM1f+RSfihqT+cgIkgfBOBtgNW0NMCmk
-	2y+bW8ln1mTwjM=
-X-Received: by 2002:a05:600c:1551:b0:4a0:263c:704f with SMTP id 5b1f17b1804b1-4a1804436c7mr20240445e9.16.1791363277470;
-        Wed, 07 Oct 2026 01:54:37 -0700 (PDT)
-Received: from localhost (90-182-211-1.rcp.o2.cz. [90.182.211.1])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a178c5df75sm119201005e9.15.2026.10.07.01.54.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Oct 2026 01:54:37 -0700 (PDT)
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: Valerio Setti <vsetti@baylibre.com>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, Kevin
- Hilman <khilman@baylibre.com>, Martin Blumenstingl
- <martin.blumenstingl@googlemail.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org,
- linux-kernel@vger.kernel.org, Valerio Setti <vsetti@baylibre.com>
-Subject: Re: [PATCH v4 7/7] arm64: dts: amlogic: gx: add AUDIN node
-In-Reply-To: <20261001-audin-v4-7-2476646118b5@baylibre.com>
-References: <20261001-audin-v4-0-2476646118b5@baylibre.com>
- <20261001-audin-v4-7-2476646118b5@baylibre.com>
-Date: Wed, 07 Oct 2026 10:54:35 +0200
-Message-ID: <1jwlrtyjp0.fsf@starbuckisacylon.baylibre.com>
+	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="D2vtBxdj"
+X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 6979PbBF23694237, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
+	t=1791365137; bh=8KPC5bz3FLdp/7DY77pjW6HZ/i0+R2M9A4Phb7Pv8vY=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type;
+	b=D2vtBxdjQ1iBSYfNcOqcxrCLqWOk6n3IrqIbrkUT3t/Xug3/6k8lWYq9BDXesNce2
+	 n59guh+laUDEJ7j3Y2FDCJ9jtYGgKev8imMdqa+HPPYuglMKj7zxZrpsczzV6kZhms
+	 SS03gLpqmayc62nCw2RVyFOZLZeUo3ykh9c0pqosTPGkmNKPT89CdvXgcrs7LsdNx+
+	 d4O7GCnG2sV7BoIpyCBA3rgwAdqWZQ36/LOZUH5Z0SAW/K9W7G7qV7tqFlJCD/CpSz
+	 MWhhHWfxWxykrGUSuJClhHkEF6dmmG1HWafSHQJTqeeHIVLqdT8QewmEbVQ7EuCT6R
+	 Uu1Fe0/bqOk0w==
+Received: from mail.realtek.com (rtkexhmbs02.realtek.com.tw[172.21.6.41])
+	by rtits2.realtek.com.tw (8.15.2/3.29/5.94) with ESMTPS id 6979PbBF23694237
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Wed, 7 Oct 2026 17:25:37 +0800
+Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
+ RTKEXHMBS02.realtek.com.tw (172.21.6.41) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49; Wed, 7 Oct 2026 17:25:34 +0800
+Received: from sw-server.localdomain (172.24.54.4) by
+ RTKEXHMBS06.realtek.com.tw (10.21.1.56) with Microsoft SMTP Server id
+ 15.2.2562.49 via Frontend Transport; Wed, 7 Oct 2026 17:25:34 +0800
+From: <shumingf@realtek.com>
+To: <broonie@kernel.org>, <lgirdwood@gmail.com>
+CC: <linux-sound@vger.kernel.org>, <lars@metafoo.de>, <flove@realtek.com>,
+	<oder_chiou@realtek.com>, <jack.yu@realtek.com>, <derek.fang@realtek.com>,
+	Shuming Fan <shumingf@realtek.com>
+Subject: [PATCH] ASoC: rt766: trigger JD when system reboots
+Date: Wed, 7 Oct 2026 17:25:24 +0800
+Message-ID: <20261007092524.3711965-1-shumingf@realtek.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-On Thu 01 Oct 2026 at 18:06, Valerio Setti <vsetti@baylibre.com> wrote:
+From: Shuming Fan <shumingf@realtek.com>
 
-> AUDIN provides audio input support to Amlogic GXBB/GXL SoCs.
->
-> What's missing after this to get capture support working is to connect a
-> capture capable codec to the SoC. For example to test these changes an
-> NXP SGTL5000 chip has been connected to an OdroidC2 (GXBB) board using a
-> custom hat board.
->
-> The following additions/overlay are required on top of
-> 'amlogic/meson-gxbb-odroidc2.dts' to make that hat board to work:
->
->     &sound {
->             audio-routing = "AUDIN I2S Formatter", "AIU I2S Encoder Capture";
->
->             dai-link-1 {
->                     codec-1 {
->                             sound-dai = <&sgtl5000>;
->                     };
->             };
->
->             dai-link-3 {
->                     sound-dai = <&audin 0>;
->             };
->     };
->
->     &audin {
->             status = "okay";
->     };
->
-> Then, from userspace:
->
->     $ amixer sset 'AUDIN FIFO0 SRC SEL' 'I2S'
->     $ arecord -l  # find the "FIFO Capture" device
->     $ arecord -D hw:0,<N> -f S16_LE -r 48000 -c 2 /tmp/in.wav
->
-> Signed-off-by: Valerio Setti <vsetti@baylibre.com>
+The initial jack detection at boot time may be missed after a warm reboot
+if the blind writes are not reloaded.
 
-Reviewed-by: Jerome Brunet <jbrunet@baylibre.com>
+This patch triggers jack detection from the .set_jack callback to
+ensure that the jack status is updated after a system reboot.
+
+Signed-off-by: Shuming Fan <shumingf@realtek.com>
+---
+ sound/soc/codecs/rt766-sdca.c | 8 +++++++-
+ sound/soc/codecs/rt766-sdca.h | 1 +
+ 2 files changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/sound/soc/codecs/rt766-sdca.c b/sound/soc/codecs/rt766-sdca.c
+index 28b4118e05c9..2e891b99dc27 100644
+--- a/sound/soc/codecs/rt766-sdca.c
++++ b/sound/soc/codecs/rt766-sdca.c
+@@ -176,8 +176,11 @@ static irqreturn_t rt766_sdca_irq_jd_handler(int irq, void *data)
+ 	if (!rt766->hs_jack)
+ 		return IRQ_HANDLED;
+ 
+-	if (!rt766->component->card || !rt766->component->card->instantiated)
++	if (!rt766->component->card || !rt766->component->card->instantiated) {
++		/* trigger again if card is not instantiated */
++		regmap_write(rt766->regmap, RT766_GE_DET_IRQ_MNL, 0x01);
+ 		return IRQ_HANDLED;
++	}
+ 
+ 	mutex_lock(&rt766->disable_irq_lock);
+ 	if (!rt766->disable_irq)
+@@ -304,6 +307,9 @@ static int rt766_sdca_set_jack_detect(struct snd_soc_component *component,
+ 		if (rt766->hid_func_data)
+ 			rt766_sdca_irq_ctl(rt766, rt766->hid_func_data,
+ 				rt766->component, rt766->irq_info, false);
++	} else {
++		/* trigger GE interrupt */
++		regmap_write(rt766->regmap, RT766_GE_DET_IRQ_MNL, 0x01);
+ 	}
+ 
+ 	pm_runtime_put_autosuspend(component->dev);
+diff --git a/sound/soc/codecs/rt766-sdca.h b/sound/soc/codecs/rt766-sdca.h
+index de4064007eb9..61af5e9c077a 100644
+--- a/sound/soc/codecs/rt766-sdca.h
++++ b/sound/soc/codecs/rt766-sdca.h
+@@ -50,6 +50,7 @@ struct  rt766_sdca_priv {
+ #define RT766_DEV_ID1		0xc405
+ #define RT766_DEV_ID0		0xc406
+ #define RT766_BOND_LATCH_ID	0xc407
++#define RT766_GE_DET_IRQ_MNL	0xd203
+ 
+ #define RT766_HP_POWER_STATE		0x1000004
+ #define RT766_HP_FSM_CTL2_1		0x100000d
+-- 
+2.55.0
+
