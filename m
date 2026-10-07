@@ -1,154 +1,243 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34B273B71DC
-	for <linux-sound@vger.kernel.org>; Wed,  7 Oct 2026 08:48:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E4BD1F192E
+	for <linux-sound@vger.kernel.org>; Wed,  7 Oct 2026 08:49:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791362932; cv=none; b=ZaCKHF9wCuYWbwyWTzvzV4UIfcxzk305Wo3gEIxsCZrQQAYsWv73qdDfy7unCXEV3Vyh3ioeqitZdxwTE1kmORLh05I6heyPBqQby3RiGIY3CeDQne7acGK+oLnchAAKadKcfoOm6MaEXvrdUQPnwHR1BaoKf9R09joE7WDTXwo=
+	t=1791362979; cv=none; b=fD5qhwDfHb3QDqs+M3+O3aQYpb8pcT5L3gZtZ1J9haGs3E+fjBIFQV+ItDgJFWU3i5hDSCvbFGgEiVnW4+t1DFxNbGHI6RJbXrIotIEYiMckjdPX5mv40fHqbyT9ibQvsKjNBi5vQFxYSu8nvnpxFkT5SBig1Qp76IQJMPhTKio=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791362932; c=relaxed/simple;
-	bh=tvHMtWvu0zmrav+lw/jlCu2bboPKX/L6uOXISQ/b0RA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=pWbMyiqxXhaNEVMojgJnomGeyu3XJSJLRLF0B7nNqtO49mnEHvLrpfhUfmnNTtK08mb+On2GuWEEq7tN0h4NifdUkQfXfHoA1fcZETSdnSv48P92yvdULhlcy6v5bH4vNWGVayT7myUdakqCMoCHC89UsepkEATHvIfI3s9yW1A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=AfrAUEb+; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1791362979; c=relaxed/simple;
+	bh=iNWIcFhxQRZh7iggdf4yU63UBfvFkwBDC9gzPVYFN8Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TWu56s7nIJWr4vBTmdSxEGQIZwnO9jFsLwus/RvUHfne7WToTDrEanAWgPOCcIxj5iDhjvpGhMzgOpAJsQEWMyK8VVaLw9vwjxSDF3Dn45u74FHn4M5eCiblXsiBfyNZyI44agZoFi+2ApiF7EbNQUo4llbzUqk+wq8nnKdfw2s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SkOvWVNS; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="AfrAUEb+"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-49d0da752ffso32031855e9.3
-        for <linux-sound@vger.kernel.org>; Wed, 07 Oct 2026 01:48:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1791362929; x=1791967729; darn=vger.kernel.org;
-        h=content-type:mime-version:message-id:date:references:in-reply-to
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=L3WmTcY7Cx2LB7n34xA1mszrSAOkEucT8groA+9/JLE=;
-        b=AfrAUEb+0bmnxLbMxPSFLDRXtKdHdCVIpPxSMZwdPbo7L6KPc5mdCQKAFHskqAEf/N
-         9OZbT4VNG60HmQxW7owGfjDNpyV2xGg2UocGj6y4SwMrIS6KAanCKiP/K/pnqcDRGpBx
-         WnVGA+jC30NyfJNPbeED/nmj6YdUPGZNoq3JhrOWlHooYmBu7TGxynCpIFT7NW09AyRB
-         WGokmM8L1cgt6eTspDEb/itFAYMBO1JCuQYd5ZY9eF6/WRRPXGnmCUcGcCosMHsya1Jt
-         MxwOgiOfZq+3WZm0ElOMRzZ3tyOcxta5BacU6qUJX8tcnTIOTUy2qrgxnS+6oql5p4QK
-         l9Yw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791362929; x=1791967729;
-        h=content-type:mime-version:message-id:date:references:in-reply-to
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=L3WmTcY7Cx2LB7n34xA1mszrSAOkEucT8groA+9/JLE=;
-        b=jBr1swjXmzDbMSVy/yT/YgWnGUQAdsqio1EeCCLhXvtqQaUkar8uSM4rJbyFkEn3ds
-         Rk7+tijKxR9iywojIwu1uK18sHGpFNp4wjTQqmwAp6FOZLGZ2WTd0l6id5I9HPmxdRbv
-         oKiFHPqiwRpg4bq9IwGN+NkkDLlrpkcyaNKGGJpCwLbkdEf2r0HzNiERjXCx6mRQPeuD
-         w4GhxB9QgBQ6o0hLCBlPWOxtBiSej53DJmx0uXZA3a25sMuEC+LBpU6ggK4CInrXrls7
-         y6SHLJqmJj9qdPhuraUN5p0IbRvPpjvHlV+KvkY1EB7rbr29wlzKeyKxEMbxCSBQq0P8
-         G+hg==
-X-Gm-Message-State: AFuF++nG9TdIpPOMQ+WyLa6lMuA2TScUZpnJv4fSfG53vbSHvyVPQtyH
-	8Se42Uct0YlBXzvdOXH57ubJi7Bx1LRgDbn2ORAVaITQhaUfTZcGBi23qU9V3JAQvUM=
-X-Gm-Gg: AYBFou3g4RrF9zxMzBcXJ8L46uez9dclXC6QtZsBq6Ej1L0180N/JEWRvIyaEL52qG2
-	sRwYyWJtTyGnU6U7M+JS+ZnYdqQznWEXklhOUc5v9CuXiDoKdHAK1cqrSeYF78u2H9Y8DgpEsIh
-	/wndhlIrkwQmavzSxpWWcDjCHYXZqtMf0P1ofE5d92Ws1cKKpJTNT9HRWFsZeaYbeuwL3uM+ukk
-	J0R9ibBPMGH4WyjhObL3cfd+z53p8vJBWkjjMm+EHovUhGF/t8uQlH85T6qHTEDAQtX/hc4XZEc
-	J5xG3245d9+O/Z2ZKqndY9Ze5wkIp6VXLg2F0c8SJod7jx8OYxtcawg9z4LU+DM3tAFesxVpRQg
-	WT4i/4wIjrhIG0oZkOP9fXdacPsr95l3SrozePAInQ9gTLqjnKZx2cXdWnJzzHMn0P2lXaHCpTJ
-	2MeyXAClraMELzy7RJ4/mRsnfpJNZsVneZLzwaiAxeStnbNadvn0zSGdsMJQp3KaQBu97kKKpyG
-	7qfB9V5eY7VD1Q=
-X-Received: by 2002:a05:600c:4687:b0:4a1:7811:6cc4 with SMTP id 5b1f17b1804b1-4a180650943mr24592905e9.34.1791362929425;
-        Wed, 07 Oct 2026 01:48:49 -0700 (PDT)
-Received: from localhost (90-182-211-1.rcp.o2.cz. [90.182.211.1])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a17f558028sm58745425e9.10.2026.10.07.01.48.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Oct 2026 01:48:48 -0700 (PDT)
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: Valerio Setti <vsetti@baylibre.com>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, Kevin
- Hilman <khilman@baylibre.com>, Martin Blumenstingl
- <martin.blumenstingl@googlemail.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org,
- linux-kernel@vger.kernel.org, Valerio Setti <vsetti@baylibre.com>
-Subject: Re: [PATCH v4 5/7] ASoC: meson: aiu: add I2S Capture DAI
-In-Reply-To: <20261001-audin-v4-5-2476646118b5@baylibre.com>
-References: <20261001-audin-v4-0-2476646118b5@baylibre.com>
- <20261001-audin-v4-5-2476646118b5@baylibre.com>
-Date: Wed, 07 Oct 2026 10:48:46 +0200
-Message-ID: <1j33uhzyj5.fsf@starbuckisacylon.baylibre.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SkOvWVNS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1791362978; x=1822898978;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=iNWIcFhxQRZh7iggdf4yU63UBfvFkwBDC9gzPVYFN8Q=;
+  b=SkOvWVNSrQKK5DUHXzlOO0ZGwyOkto1ZByDthAf/x2t8RK2YI9jdaqWj
+   5fMG1RPA0PY+jKmzUDLajRsqnNDelldsSnz7CDgTzmoOdIa3JV3CM6+Uv
+   HSkrJUHCDpE6B3SuQqskzg4ieZZqYW+1joi/P3YBwKWPY25BZo+ZOoPH2
+   WryuyZqKKiRUMwJfHU0nBj9wvAJ9UZJ4hHHNxN7Q28Nme9idjVHSiQFOh
+   7tRFVK2fNkk7pNvmstyj4bHdxgaVtNRSQFph28KpENHTw+z3ucMeD8X8v
+   v4sV9k0eHQb/5Tp6dzhtovCFlWcme1l1vsKYOhzNMppsQ9vg6YJKsXguR
+   Q==;
+X-CSE-ConnectionGUID: RE/s4On8SIubu/ldIygEhg==
+X-CSE-MsgGUID: 27nDPp4SSWChqIPcVXyP4A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11927"; a="113806"
+X-IronPort-AV: E=Sophos;i="6.27,144,1787036400"; 
+   d="scan'208";a="113806"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2026 01:49:37 -0700
+X-CSE-ConnectionGUID: Ji+EOSRxROKZ1yccUBIV0Q==
+X-CSE-MsgGUID: uZb6yquaTgG4lkyGtOD2cg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,144,1787036400"; 
+   d="scan'208";a="280670415"
+Received: from conormcd-mobl2.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.244.188])
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2026 01:49:34 -0700
+From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+To: vkoul@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	srinivas.kandagatla@oss.qualcomm.com
+Cc: linux-sound@vger.kernel.org,
+	kai.vehmanen@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	pierre-louis.bossart@linux.dev,
+	daniel.baluta@nxp.com
+Subject: [PATCH v5 00/28] ALSA compress / ASoC compress / SOF: Compressed audio support with IPC4
+Date: Wed,  7 Oct 2026 11:49:27 +0300
+Message-ID: <20261007084955.1256-1-peter.ujfalusi@linux.intel.com>
+X-Mailer: git-send-email 2.56.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-On Thu 01 Oct 2026 at 18:06, Valerio Setti <vsetti@baylibre.com> wrote:
+Hi,
 
-> Add capture stream to CPU_I2S_ENCODER making it able to handle both
-> playback and capture streams. Captured data is formatted from
-> "audin-formatter-i2s" widget, buffered from "audin-fifo" into an internal
-> FIFO and then bulk transmitted into RAM when the FIFO is full.
->
-> As for the naming of the stream "I2S Encoder" is kept as base following
-> the same pattern used for the playback stream and with the goal to minimize
-> changes.
->
-> Supported format for capture is currently limited to S16_LE because it's
-> the only one that has been tested. According to the manual also S24_LE
-> should be supported, but this is kept as follow-up.
+Changes since v4:
+- Move compr declaration in snd_compr_free() one patch earlier to patch 02
+- two new patches:
+ - patch 04: Fix the core drain race noted by Mark
+ - patch 23: handling of page-table overflow in SOF at root level
+- Changes in ipc4-compress
+ - make the fragments/buffer configuration page-table safe
+ - Reject a START trigger on an already started stream, only can be hit
+   with capture direction.
+ - refuse SND_COMPR_TRIGGER_PARTIAL_DRAIN along with NEXT_TRACK trigger
+   until I figure out how to support gapless with SOF firmware.
 
+Changes since v3:
+- Drop the tuple size validation from patch 18 in ipc4-loader and add a
+   comment to note the trusted source of the data
+- Add validation of the PCM format in patch 22 within the ipc4-compress.c
+  file
+
+Changes since v2:
+- Split "ASoC: SOF: compress: Rename compress ops with ipc3 prefix" into a
+  first patch moving the IPC agnostic helpers to sof-audio.c and a second
+  doing the rename itself (Pierre-Louis).
+- New patch "ASoC: SOF: sof-audio: Fix the pipeline_list population": the
+  pipeline count was incremented before the array slot was written and a
+  widget with no spipe could be added as a NULL entry.
+- "ASoC: SOF: ipc4-pcm: harden pipeline teardown races" is now "ASoC: SOF:
+  ipc4-pcm: Serialize the PCM free with the pipeline triggers" and only
+  moves the pipeline_state_mutex and clears the freed list's count, as the
+  defensive !spipe checks it carried became redundant with the patch above.
+- Moved "ASoC: SOF: ops: Add new platform-specific ops for compress" from
+  the middle of the series to right before "ASoC: SOF: Add support for IPC4
+  compressed" (Pierre-Louis).
+- Reworded the "ASoC: SOF: ipc4: Add definition of module data in init_ext
+  object type" commit message to explain what the new object type is used
+  for (Pierre-Louis).
+
+Kept unchanged after review:
+- The ALSA_MAGIC_MASK -> SOF_MAGIC_MASK rename stays: the notification magic
+  is no longer ALSA control specific, the EOS/drain-complete notification
+  reuses the same scheme.
+- Compress is enabled for TGL and newer rather than keyed on IPC4, since APL
+  and older platforms also run IPC4 but compress is only enabled from TGL on.
+- The series is posted as one set, as the ALSA, soc-compress and SOF
+  preparatory patches only carry their justification in the context of the
+  full compress enablement.
+
+Changes since v1:
+- Add patch to snd_card_file_add/remove for compress
+- Hanlde the SND_COMPR_TRIGGER_NEXT_TRACK in soc_compr_trigger_fe()
+
+Cover letter:
+
+This series adds compressed audio support for SOF with IPC4 firmware.
+Supported formats are PCM, MP3, AAC and VORBIS, the feature set is
+PAUSE_PUSH/RELEASE, DRAIN and position reporting.
+
+Patches 1-5 are prerequisites in the ALSA compress core and in
+soc-compress.c.
+
+These are core fixes rather than driver level workarounds on purpose.
+The other users of compressed DPCM have DSP internal ports on their
+BEs, driven by code they own. An Intel/SOF BE ends at a third party
+CODEC driver which is shared with the non DPCM case and has no reason
+to know that the FE is compressed. That set of CODECs is open ended,
+so teaching each of them to cope with a compressed FE does not scale.
+The core has to hand a BE the same substream state whether the FE is
+a PCM or a compressed one.
+
+Two of these patches change behaviour for the existing users of
+compressed DPCM, so they would need a look from Qualcomm and NXP:
+
+ - "ASoC: soc-compress: Implement trigger FE-BE sequencing as with
+   normal PCMs" makes the FE/BE trigger order follow
+   dai_link->trigger[], the way dpcm_fe_dai_do_trigger() does it.
+   Neither sound/soc/qcom/ nor sound/soc/fsl/ sets it, so both default
+   to SND_SOC_DPCM_TRIGGER_PRE: START keeps the current order, but
+   STOP, SUSPEND and PAUSE_PUSH now trigger the BE before the FE.
+
+ - "ASoC: soc-compress: Stop running dpcm on free" sends a STOP trigger
+   from soc_compr_free_fe() if the DPCM is still in START state, which
+   is the case when the last trigger the stream received was a DRAIN.
+
+Patches 6-20 implement the IPC4 compressed support, patch 21 is a
+Kconfig cleanup. The last two patches enable the feature, in Kconfig
+for TGL and later and in the topology parser, so the compressed device
+type only becomes usable once the code behind it is in place.
+
+Testing:
+
+ - IPC4: Arrow Lake, compressed playback on speaker and headphone
+   (cs42l43), MP3, AAC and VORBIS.
+ - IPC3: tested by NXP. This does not cover the STOP on free path
+   above, as they do not implement DRAIN.
+
+Regards,
+Peter
 ---
+Peter Ujfalusi (21):
+  ALSA: compress: pin card module while stream is open
+  ALSA: compress: register the open file with the card
+  ALSA: compress: stop active streams on disconnect
+  ALSA: compress: Set the draining state before the drain trigger
+  ASoC: soc-compress: Provide a runtime for the compressed FE substream
+  ASoC: soc-compress: Implement trigger FE-BE sequencing as with normal
+    PCMs
+  ASoC: soc-compress: Stop running dpcm on free
+  ASoC: SOF: sof-audio: Fix the pipeline_list population
+  ASoC: SOF: ipc4-pcm: Serialize the PCM free with the pipeline triggers
+  ASoC: SOF: sof-audio: do not dereference swidget->spipe
+    unconditionally on free
+  ASoC: SOF: ipc4: Add definition of module data in init_ext object type
+  ASoC: SOF: ipc4-topology: Support init_ext_module_data for process
+    modules
+  ASoC: SOF: ipc4-pcm: Make the timestamp info usable outside of
+    ipc4-pcm.c
+  ASoC: SOF: ipc4/ipc4-loader: Add SOF_INFO and CODEC_INFO to
+    fw_config_params
+  ASoC: SOF: ipc4-pcm: Handle COMPR DRAIN triggers as EOS pipeline state
+  ASoC: SOF: ipc4-topology: Set FAST_MODE for host copier in compr mode
+  ASoC: SOF: Check that the audio buffer fits into the page table
+  ASoC: SOF: Add support for IPC4 compressed
+  ASoC: SOF: ipc4: Handle compressed drain done notification from
+    firmware
+  ASoC: SOF: Intel: Kconfig: Remove redundant IPC version selects
+  ASoC: SOF: Intel: Kconfig: Select compress support for TGL+ platforms
 
->
-> This capture support also takes advantage of the following commits that
-> has recently been merged:
->
-> commit df3c987ab3d7 ("ASoC: meson: aiu-encoder-i2s: reflect bs quirk in hw constraints")
-> commit e82159384a50 ("ASoC: meson: aiu-encoder-i2s: use the core symmetric_rate handling")
->
-> They ensure bs_quirk and rate symmetry across playback and capture streams.
->
+Ranjani Sridharan (7):
+  ASoC: SOF: compress: Move the IPC agnostic helpers to sof-audio.c
+  ASoC: SOF: compress: Rename compress ops with ipc3 prefix
+  ASoC: SOF: sof-audio: Expose a couple of functions
+  ASoC: SOF: pcm: Modify the signature of a couple of PCM IPC ops
+  ASoC: SOF: intel: hda-stream: Clear the current position when
+    releasing stream
+  ASoC: SOF: ops: Add new platform-specific ops for compress
+  ASoC: SOF: topology: Add support for decoder and encoder widgets
 
-I don't think this part of the description is necessary.
-
-Apart from that
-
-Reviewed-by: Jerome Brunet <jbrunet@baylibre.com>
-
-
-> Signed-off-by: Valerio Setti <vsetti@baylibre.com>
-> ---
->  sound/soc/meson/aiu.c | 7 +++++++
->  1 file changed, 7 insertions(+)
->
-> diff --git a/sound/soc/meson/aiu.c b/sound/soc/meson/aiu.c
-> index 535fbf7c1639..14d0e20a4bd6 100644
-> --- a/sound/soc/meson/aiu.c
-> +++ b/sound/soc/meson/aiu.c
-> @@ -153,6 +153,13 @@ static struct snd_soc_dai_driver aiu_cpu_dai_drv[] = {
->  			.rates = SNDRV_PCM_RATE_8000_192000,
->  			.formats = AIU_FORMATS,
->  		},
-> +		.capture = {
-> +			.stream_name = "I2S Encoder Capture",
-> +			.channels_min = 2,
-> +			.channels_max = 2,
-> +			.rates = SNDRV_PCM_RATE_8000_192000,
-> +			.formats = SNDRV_PCM_FMTBIT_S16_LE,
-> +		},
->  		.ops = &aiu_encoder_i2s_dai_ops,
->  		.symmetric_rate = 1,
->  	},
->
-> -- 
-> 2.47.3
->
->
-> _______________________________________________
-> linux-amlogic mailing list
-> linux-amlogic@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-amlogic
+ include/sound/compress_driver.h               |   2 +
+ include/sound/sof/ipc4/header.h               |  24 +-
+ sound/core/compress_offload.c                 | 110 ++-
+ sound/soc/soc-compress.c                      | 200 ++++-
+ sound/soc/sof/Makefile                        |   4 +-
+ sound/soc/sof/core.c                          |  10 +-
+ sound/soc/sof/intel/Kconfig                   |   9 +-
+ sound/soc/sof/intel/hda-common-ops.c          |   8 +
+ sound/soc/sof/intel/hda-pcm.c                 | 142 +++
+ sound/soc/sof/intel/hda-stream.c              |  70 +-
+ sound/soc/sof/intel/hda.h                     |  15 +
+ sound/soc/sof/{compress.c => ipc3-compress.c} | 145 +--
+ sound/soc/sof/ipc3-dtrace.c                   |   2 +-
+ sound/soc/sof/ipc3-pcm.c                      |  29 +-
+ sound/soc/sof/ipc3-priv.h                     |   3 +
+ sound/soc/sof/ipc4-compress.c                 | 823 ++++++++++++++++++
+ sound/soc/sof/ipc4-loader.c                   |  37 +
+ sound/soc/sof/ipc4-pcm.c                      | 114 ++-
+ sound/soc/sof/ipc4-priv.h                     |  45 +
+ sound/soc/sof/ipc4-topology.c                 | 115 ++-
+ sound/soc/sof/ipc4-topology.h                 |   9 +
+ sound/soc/sof/ipc4.c                          |  13 +-
+ sound/soc/sof/ops.h                           |  74 ++
+ sound/soc/sof/pcm.c                           |  20 +-
+ sound/soc/sof/sof-audio.c                     |  95 +-
+ sound/soc/sof/sof-audio.h                     |  24 +-
+ sound/soc/sof/sof-priv.h                      |  12 +
+ sound/soc/sof/sof-utils.c                     |  12 +-
+ sound/soc/sof/sof-utils.h                     |  11 +-
+ sound/soc/sof/topology.c                      |   2 +
+ 30 files changed, 1863 insertions(+), 316 deletions(-)
+ rename sound/soc/sof/{compress.c => ipc3-compress.c} (66%)
+ create mode 100644 sound/soc/sof/ipc4-compress.c
 
 -- 
-Jerome
+2.56.0
+
