@@ -1,48 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DEA03D647C;
-	Thu,  8 Oct 2026 07:19:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C0703D4129
+	for <linux-sound@vger.kernel.org>; Thu,  8 Oct 2026 07:19:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791443949; cv=none; b=PGLjhscpLhM+VeLDVD5RmmHF+KHXhsipwx426kjsf+yiADbspYkjavQCwnB94NM9lXDtFGelt/R9+swkGwChQJ+0/3NDomVef9g71aHQCqUvx7e0O4OEnEt3TO1UbfcltzrPAUC9iGWGlTfM4NGFCwz8o5YZZudX0pT8gxW246I=
+	t=1791443961; cv=none; b=hs2dhrLDXJmsN/5gnN8q1dmScVHYguvebWQaWFH8XOKReVPuOolV7TKZRthiTdibo6n7Gdn1hFeod5Go28cwDBwBS+KfhCWdxADzCGr0e28F5YYhG1h/cnoHrUlD7g7fj1MIz/UPyOrpSqTYXCTcB0jMoqPDzTMQRHVPF8Dik6E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791443949; c=relaxed/simple;
-	bh=/tBnpKW+ZW/Yi016WN0hALcaGKMA+PcAx0Wn9UnTOQU=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=bwlj4UEau9x52f5OdlF0qqa7l0X10q9bnvhbjzzOSW6tT11y6CEVuTzpRle7JoHvoC/JoD9KOckQnZW8SCWmbiTwdqxfycPdX40oFrjPnjqappaoE5/gvAa87FexYWCKoe9qYP5fGnHOE5CGGSnACgM4dboqTgbOlXjQ6kHDILY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oa1tNQpn; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791443961; c=relaxed/simple;
+	bh=kIIyd7vb2QdAJeSTMj2juton5mEwwSPobpy1FkZvUeg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=PqD5mVksJaCqN1Sl+kODBtQKzZdK4CX9of/voDvpaQcI7MOKcEfj17iqE4GiHRt+uibeDNspZ7aqMffmamB5ULmoBjZaVh8AuhP+ufNf+kuHbyPDyo7FP6T3/TiVcgvbkeozw0UJ4EeEcxzKf9jnX1lDIoF/yDpcDImWq6t490U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xziu9Zhq; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oa1tNQpn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 704E71F000FF;
-	Thu,  8 Oct 2026 07:19:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xziu9Zhq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C97CE1F00898;
+	Thu,  8 Oct 2026 07:19:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791443945;
-	bh=XHpEnqYsiMknYcRirs4ZAfwjTk2r/VjYbrdH1wT2HWA=;
-	h=From:To:In-Reply-To:References:Subject:Date;
-	b=oa1tNQpn7DlFKmMW1BdRdEkSfUIPA43Ar9F4bSdTBiBhp1FGwOUb3UxqJWM0FtGfg
-	 vvOfFBJGkhjubuuTp4uZ5vrQ/3TecPta9C8x8chGI90q4D7Toc5JmZrovWFlMq2U3b
-	 mqA+/QP5hHMbLxos3MBaBbyPZiIxKCpAm+Xw7c7127rAt504VatAfVOypW9oRXPcWb
-	 nIxsU+pB8OLuyYlf4Y6yEyLa5aa0C9GlwuI5YVhTXrD3O9BLaqIebN+4PuZASP2vZW
-	 kUOY62q93RNMeunbRi3cngLEIP7KnH5+Z00oQvPZGe5526EHreKyZYuI0empoEDtx/
-	 GdW5KRX+8c2HA==
+	s=k20260515; t=1791443958;
+	bh=klFtsPqj7EoeWSRmTAIQCi6p+eggVgkzeeLKiZOHHSM=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=Xziu9Zhq/iqz9bBu4C3y0JzFl/UUANZjduLaJX7LlwFQR6fPBZ8ol2U63/cq17YDp
+	 rdOLdOVkUJ4qKOaUTg9I9aqBXCeC4951G5Td/d+OgdiCyglyJGIGQ6Qi9lO2i1q9VE
+	 kT7eYvdS+jkfIi8eBjLr4LgYkezgX9V3UZJckBL/e/bP4zXUjXRZBldNblKT2tRLFg
+	 xrMfLy4nlV4lYM7AFpV4JWXeURNuUvCVaGM8Bcjmq0sXvUgbaUE6UJccxOinY3jRaL
+	 PR87tPnaGcuhs3fgMl1CR98IyAhu3NdrTINc5/qySnrWCo8oy+ZyoXDKngG69x2P2g
+	 YxiJBLiDbZOmA==
 From: Mark Brown <broonie@kernel.org>
-To: Jassi Brar <jassisinghbrar@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- Mathieu Poirier <mathieu.poirier@linaro.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, Abel Vesa <abelvesa@kernel.org>, 
- Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
- Manivannan Sadhasivam <mani@kernel.org>, Andy Gross <agross@kernel.org>, 
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-remoteproc@vger.kernel.org, linux-sound@vger.kernel.org, 
- Richard Acayan <mailingradian@gmail.com>
-In-Reply-To: <20261003175659.23536-1-mailingradian@gmail.com>
-References: <20261003175659.23536-1-mailingradian@gmail.com>
-Subject: Re: (subset) [PATCH v2 00/11] ADSP for SDM670 and sound on Google
- Pixel 3a
-Message-Id: <179137115234.2423942.7709943908182530638.b4-ty@b4>
-Date: Wed, 07 Oct 2026 13:05:52 +0200
+To: lgirdwood@gmail.com, shumingf@realtek.com
+Cc: linux-sound@vger.kernel.org, lars@metafoo.de, flove@realtek.com, 
+ oder_chiou@realtek.com, jack.yu@realtek.com, derek.fang@realtek.com
+In-Reply-To: <20261007092524.3711965-1-shumingf@realtek.com>
+References: <20261007092524.3711965-1-shumingf@realtek.com>
+Subject: Re: [PATCH] ASoC: rt766: trigger JD when system reboots
+Message-Id: <179138681327.2423942.10937193241863547279.b4-ty@b4>
+Date: Wed, 07 Oct 2026 17:26:53 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -52,27 +44,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1347; i=broonie@kernel.org;
- h=from:subject:message-id; bh=/tBnpKW+ZW/Yi016WN0hALcaGKMA+PcAx0Wn9UnTOQU=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqx0PiNRcF/e43VxJAq825svReY/Nmi9zpO23Jl
- vuJyxOMBFuJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCasdD4gAKCRAk1otyXVSH
- 0OtrB/9xBNbc4hSKP7nSoUgZ/BqL2RxUPhKO3i6wkrG31XBmZFK6ePrqUnwdsUIEijyNYoT1ryD
- rA5pZtupMsX9pObiGGnnxr9IioY/ANOh5naCOtZGIv9+cxRfXCVIAuUVWqmxRpd/MPCmvxwzg+T
- ZgGWdjpOeH0MzbvjMUu80glJE60APhh3Lpcix913o2S1PveGZ/TE7t6u0nW3ga8q/NMx5yiOAlD
- azKjy8fC0fnJa60lqrPXvtTGuY7N+FUFWQNuI0K2zZxhSg12MIOGfyJ8+MD1Xjmv0Dll/feWjh4
- zVp50NaWLjdchm1Zq30XWiZrfHL63S0JUp1RugZczU9kuPu4
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1112; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=kIIyd7vb2QdAJeSTMj2juton5mEwwSPobpy1FkZvUeg=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqx0PxDS2ixaWTkUvLdJkhg1geQqKkijdZh3zn0
+ Hi29hLo3geJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCasdD8QAKCRAk1otyXVSH
+ 0KOiB/9lOQDXg1/YxuEYw8PfrJGggVAf/GfsXp7nFePl7ySEepuxgbbXSALF7m1sP22RULAuXik
+ vSN9p9dhie3CVcaS2G+JXvwuaqwZaxx/PI9yu3iR2UdmgaM+7oUWFDZl73Yv8ufkUC6Kz9dZPk4
+ bxzUuYZOh1U0Uv253ppjnY/eaIU8CPujXxVcTkdxUMzwyUPB8CvG8nxP44I3Dsp8n0e+j7xh6jp
+ n75ETQWFr2dZsjN5Zis4zHyzxP7CdpDBCMIJ2+W5gG4S7JBydqagdBt0cZ87A+lNRQ58sOMCXBN
+ 2XdgcVmSwCg05PucYVDYtZcP2s75nGdVApXj5opxvszkbeMl
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Sat, 03 Oct 2026 13:56:48 -0400, Richard Acayan wrote:
-> ADSP for SDM670 and sound on Google Pixel 3a
-> 
-> This series adds a user for the SDM660 sound support code [1]. It also
-> adds the ADSP remoteproc for SDM670.
-> 
-> [1] https://lore.kernel.org/r/20260730174353.108023-1-mailingradian@gmail.com
-> 
-> [...]
+On Wed, 07 Oct 2026 17:25:24 +0800, shumingf@realtek.com wrote:
+> ASoC: rt766: trigger JD when system reboots
 
 Applied to
 
@@ -80,8 +65,8 @@ Applied to
 
 Thanks!
 
-[05/11] ASoC: dt-bindings: msm8916-digital-codec: Add SDM670 compatible
-        https://git.kernel.org/broonie/sound/c/5b81127873ae
+[1/1] ASoC: rt766: trigger JD when system reboots
+      https://git.kernel.org/broonie/sound/c/e8f30155e96a
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
