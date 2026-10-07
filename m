@@ -1,112 +1,250 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AD9239CCFE
-	for <linux-sound@vger.kernel.org>; Wed,  7 Oct 2026 19:33:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DCE5391E73
+	for <linux-sound@vger.kernel.org>; Wed,  7 Oct 2026 20:38:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791401624; cv=none; b=lZxNQEDFQKNtxsyIcCNLvj8rOuYMofHhmzCb80PUGpM25t4jGbL69qN8mqTzd1bIGkFFSb0TGSZkAYwdzNUdIzvgq0n3bgam9nnZgHtMrt5qvP1JrMqlBYFOFRrSNuKcvzmQcsTuuz9Qd5LLW9LYO4fw66+RbPKzEpmHAZAlAgg=
+	t=1791405506; cv=none; b=gV5n1LjaCMwgYCMDhmAy8EXbn6DNMLQbU4JVFMDQVXsgYpStElDSGNW1SDXgWmd6Agx3hseeTZJqaYPA4Iin66Z/nUuKrxrs8pBn7Jev1uiGGnoQQq8mVmO6qE0nRusaVd4BMP92OKko3thXcgsEDmVX+9QytKzZEMbbhKmqYs8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791401624; c=relaxed/simple;
-	bh=zvG0AcLHm3S6xLDDAlwG5qp12elfTSdVRrVLvyddeZE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JQ/LblnVXa1EIC8Bly4YmWAfmttj4h5ORpWmzZlNkncQSLQAHhct7vuc8s+GBIGZsx7H6sK2AxPFv3a3AB/pDaXcDZCWTx6Xwp6AaLVWWI1EL+pTIg6L8ouv4H+mRtTa4gnGZn6habehIh57szL1AiBxUUzWmeoGdtZ/p+zHnZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pRQ2o7PM; arc=none smtp.client-ip=209.85.128.54
+	s=arc-20240116; t=1791405506; c=relaxed/simple;
+	bh=K4d6gMnFf7ZQsWCeq6Sn4NSLWjg5XihUSjEuj/5HpvU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=aWNccdwUTCdbcig+ntzB83QslelFmZ/VPAPaQoA4UtPtiTOg759hGxOdnsC8dZhlTiPorwYrIR4rrWJq8bezxZYhxK13K3tMEn4sjGPFMB5aHrvm/RON0AUDTtvYn2JhaCuAR31HH5b7z29iFfofIpUd3Bc6XPReE7Ti19Gr+3o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sJE4/YfG; arc=none smtp.client-ip=209.85.128.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pRQ2o7PM"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4a17f65ab8bso7556725e9.1
-        for <linux-sound@vger.kernel.org>; Wed, 07 Oct 2026 12:33:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sJE4/YfG"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4a021c809e3so22971955e9.0
+        for <linux-sound@vger.kernel.org>; Wed, 07 Oct 2026 13:38:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791401622; x=1792006422; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=HtWe9hd0RKevyGWq3yzE4CGMfhYNg0L6UN+xscZ5jJc=;
-        b=pRQ2o7PMNDwfXd/Oqt4X4AJWOezA30hupSSavox9Bx/bGYLYljKj4rA37/G7z4iNZd
-         qlcsMZkKEjt4VA71zEvPz+JVKe5xtNoiCBUVF5l/rfsmQL9SJwOn/KvwfYjY9ElHBqG5
-         dvjK10SK6q0ks/XecgdmQfN2/JeXdx9V+PmFhTYzw/dBztO+917nN4wtEN7a/RdyXS1j
-         AhmNFzOcYLFln+VYN2qeXxvngwh8dZTCxsGTFnfa6MjhO3Hml5Pf9lzgeFO0sCkcpbHu
-         9zSLp8EhK2ION6WnrPFaxO/wdmoNQ5xZiA7VgSj13Tz1/2G7IU5gmlNVFu6+wq9lRqk6
-         tdlQ==
+        d=gmail.com; s=20251104; t=1791405503; x=1792010303; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=CBotmnq4JEv7wrBKpjasAguJIHdEJNs+KfFfRaMl3IY=;
+        b=sJE4/YfGVug7Tja0yoiDu8gpbL4AAt3PSD/eS24snPjYeEHCU/KaH5+J2ncx9QB3O9
+         IWNTBpooPDVv+7ygVW7FzjDR75yWTqj3qHIVIJKsu+xW294KZDb4Mz06VED+gV6uxPSh
+         0dWAl1IS7EeWfe0B3qBuz2CZhpbJMzUIdA45mSBGDA92sFk8lCOUOhEMU55CV41pNmti
+         JBncx27KR8B9BlCQi8DZ/OlaikqTAZ+PRlqus5RuHESBmVNqKxhh/lDPGdsTEfjsUClh
+         HUbLrtJSIWEHCTtNluDJEOj/rEDy+YpsYGnyxe2QfaqZ2qrHcaHLNZQfQOXfaqzVd2PJ
+         4kaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791401622; x=1792006422;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=HtWe9hd0RKevyGWq3yzE4CGMfhYNg0L6UN+xscZ5jJc=;
-        b=XTmsjAfBFjU641W1aG9Gqvcgu6RPDLE0AStQ31/qogJsUrtVs+ceP9zZOlvMV5nhfw
-         IR0zaPX+GCz5C7Z5V1FMERZXkrFIrjv/prwiHCZoWgxAN6sGz48TkCnkyiTmTjS5qGx+
-         Vggb5+SEDuNdnvYFfUiTKgwXh0q0ZzVBMDrDqT6YTSvlJN0HeuPl2KsJAhVETmW4CfMJ
-         dT+bneCW9eCLi2gQZoXB1ertuJ/m91eYnNWW7rw+eEC6+U1GWXt8DYsOw8HFCnxoRnM5
-         ieDJYaxLZKw8Grt3foEYcEKHDZKuixRIH2oWngI6hFhsr6I83ntA8Q96b8jcivufY7yY
-         PLAA==
-X-Forwarded-Encrypted: i=1; AKwUvBypoPJJw6HE3ynwqdKTTjXzGmxmE6Qx3GBEQODU8nEJbl+urziTwHbFJ2rINrKWDP+pU2flMgkmEGqqaw==@vger.kernel.org
-X-Gm-Message-State: AFuF++n7U6cxkoY+aAvy7p70weJ3NO274Oe8F4l7SWC0VPyklhRlG0P+
-	4HJ9yWA+tEGhOpdC3t06a9m5y4DygJKjYfkdnxwCvWTRG/9PRz30kONG
-X-Gm-Gg: AYBFou0UsTwcDtPb3MjXAaiN/2Hs+XKa9IQMywldtAMYu69WqTTptpspumvKhkfxbUC
-	zfHuPFG2i2suXOV71BkN7muHLIeO/F7vvfcMZBmnmJ7I0qM/LI4RKvM/7ar8EbotPfQ3/B9dPxr
-	cNmgG8/FG/b5P2RwVwTf2GcnCdhNaTF0wub0Y4lowT+DVjzd2aLi4E82DnX+hMOKIuHKxIywlIb
-	LHpcnb52Or9xRPSSeglWpscuL0KormJUbJDU5nUhxsYc05fbFLHXaBs65LPp4t5z8dBKRT0mon1
-	K9zDFvw2Cn3ywtBlmwW+ph7h9AgnUKv2mvwp0M5jeLcWjHidtcu2yd5kY/1hyF8ek7qPBrnAA45
-	Wv2ev/YEEldJCSYkSitzAiYh04buwfpeCDS4A31vGO68llWkWTaEr5Tq8fu/zsBVpZUPQ+46ROl
-	Z1+e4sDKX21KYJgJ27n7R9BnjePLgElC/jj17zQNBmdgD9vV5YS60RmiUiELfeRMNd7MktlqYMU
-	3eHw/9LIjqVEOTBg8vI
-X-Received: by 2002:a05:600c:154c:b0:49c:fed6:cd3f with SMTP id 5b1f17b1804b1-4a18043c080mr60892295e9.23.1791401621545;
-        Wed, 07 Oct 2026 12:33:41 -0700 (PDT)
-Received: from localhost.localdomain ([94.252.75.178])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-4a1843b5a2esm12427595e9.11.2026.10.07.12.33.40
+        d=1e100.net; s=20260707; t=1791405503; x=1792010303;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=CBotmnq4JEv7wrBKpjasAguJIHdEJNs+KfFfRaMl3IY=;
+        b=avAfv8FlivFHHjKt2yZw+5hj5DvyYayydo8em8g1yeyiWdJp11+QpeOcDm+HVqsdGr
+         +jwnIZU/b6hPioE7lt1npt9WaqjmGh1GOmlMIhlyfFBtkhWc33hh5qtELH96uJ1FSoC7
+         DJHm00TZQY7pPJi2x8LDreXKxrvte/Rjj/zDgpepvERS2IM7HWFuMgJN5BnDxSxZzToC
+         mDuVe9JcCy8eV3Qo4V3s2tmlksot8FPVxMesSl2U1Cj6B+F7AZIcQW3HrE4wzDxMOmyj
+         fRfMmsQsNYrUslWBV4rJBkTlbs7it881GcjH5nRPaJS0BGN88WHS0tuVz3DZ7OiwnBiH
+         Oh3Q==
+X-Gm-Message-State: AFuF++kLI8k3kUrL7OKTDYix8kh/Xc7ouyeQf3HARDSZSHi4HfuCKbRi
+	TbWE80hW6MOl8QlkJHO6HhvwmJneAvQsqNidgXNZptSysi04wlGDIHT3KGz/S5iL
+X-Gm-Gg: AYBFou2L7qpsvJeV4Y6PgB22tYNF6OYsvHBECL0KnmquoG6nNArQu4nY6+7sfxdpjMv
+	gji2PV5+bPdQNlwlns2WPv3TumLivnrQ1QSwDQj24y7ooiZDTqTBWzJ2oPxwg3Wsn/BwZJr18AM
+	DRoSb39+iysMkxdeHsuDJCrrGFHUiIJIxbtAQyBc72T6hCvN6TvgtbgCprHsc/iOkWEQumb6jHE
+	mpyTUZIOSfJQytiajETHaYyNyxh/NCjuOLpuAqobPcjrJhCngfq/E1cq1vaxJSj031SMOReWrLP
+	qusji/UfvvlC3hDzDxkK6dMRaKd5BKSY+5Tq10l3jiwwYh0nCAMUqpWArAePg9rA73nR6cWGYCN
+	kGB55k61ttnaxIHZpRKx3inRfTFZD4XLTDxRQHC3jTQQhS+Wi7vjWuery5Re45E4seDMJyPlmnu
+	RDz75HpgiZQatEmaCgox9YpUFygiYynjSd247PaC+ZhSNxf2ZkjyLDZifLCUdFyk9MAdLq5QtKS
+	zgW+jwy812UYmgT4GexwZt7Rw8lvQlheRkza3o4hi+jq7dyQZITcWh/GvoohwWiT0a0uRySb1sD
+	BXsEnnWuqyk=
+X-Received: by 2002:a05:600c:8105:b0:4a0:20c7:6d4c with SMTP id 5b1f17b1804b1-4a180085f90mr62137995e9.0.1791405503347;
+        Wed, 07 Oct 2026 13:38:23 -0700 (PDT)
+Received: from [192.168.0.165] (85-135-167-198.adsl.slovanet.sk. [85.135.167.198])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1843bd060sm21963115e9.14.2026.10.07.13.38.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Oct 2026 12:33:41 -0700 (PDT)
-From: Oleg Keri <okerixx@gmail.com>
-To: Srinivas Kandagatla <srini@kernel.org>,
-	Vinod Koul <vkoul@kernel.org>
-Cc: Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	linux-arm-msm@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Oleg Keri <okerixx@gmail.com>
-Subject: [PATCH] soundwire: qcom: wait for the interrupt thread before gating the clock
-Date: Wed,  7 Oct 2026 21:33:32 +0200
-Message-ID: <20261007193332.5270-1-okerixx@gmail.com>
-X-Mailer: git-send-email 2.55.0
+        Wed, 07 Oct 2026 13:38:22 -0700 (PDT)
+From: Matej Sochan <matej.sochan@gmail.com>
+Date: Wed, 07 Oct 2026 22:37:46 +0200
+Subject: [PATCH] ALSA: hda/realtek: Fix silent speakers on Lenovo Legion S7
+ 15IMH05
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261007-legion-s7-v1-1-8ea7fb7ee766@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXM0QpAMBSA4VfRubYaaYtXkYvNzuZIaAcpeXfD5
+ Vd//wWMkZChyS6IeBDTMicUeQb9YOaAglwylLJUhZRaTBhSIliLulLaKOsqjR5Sv0b0dH6vtvv
+ Nux2x394B3PcDZQS+9m0AAAA=
+X-Change-ID: 20261007-legion-s7-9467a6bd47ef
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Eric Naim <dnaim@cachyos.org>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ stable@vger.kernel.org, Matej Sochan <matej.sochan@gmail.com>
+X-Mailer: b4 0.15.2
 
-A broadcast write returns as soon as the interrupt thread signals
-SPECIAL_CMD_ID_FINISHED, while the thread still has to clear and re-read
-the interrupt status. swrm_runtime_suspend() gates hclk right after the
-ClockStopNow broadcast, so those accesses race against the clock being
-removed; on x1e80100 and glymur hclk is the SoundWire clock itself. The
-next clock-stop exit then fails at random: bus clash, parity errors
-reported by the peripherals or AUTO_ENUM_FAILED, each leaving one side of
-the speakers detached until reboot.
+The speakers on the Legion S7 15IMH05 (PCI SSID 17aa:3811, ALC287) stay
+silent after a cold boot with the current quirk, which applies
+ALC287_FIXUP_LEGION_15IMHG05_SPEAKERS. They only start working after a
+suspend/resume cycle.
 
-Wait for the interrupt thread to finish before gating the clock.
+The amplifier setup is sent through COEF 0x24/0x26 on NID 0x20. On this
+machine the first pass of that sequence appears to only wake the
+amplifiers. Sending the identical sequence a second time makes both
+speakers work, provided the second write comes a few milliseconds after
+the first: back-to-back writes leave the speakers silent, a 7 ms gap
+makes only the right speaker work, and 8 ms or more is reliable. A dump
+of all COEF registers of NID 0x20 taken before and after the second
+write shows no difference.
 
-Fixes: 74e79da9fd46 ("soundwire: qcom: add runtime pm support")
-Signed-off-by: Oleg Keri <okerixx@gmail.com>
+Add a dedicated fixup that writes the sequence, waits 20 ms to keep a
+margin over the measured minimum, and writes it again on every codec
+init. It chains to the same AUTOMUTE fixup as before. To share the
+sequence, move the verbs of ALC287_FIXUP_LEGION_15IMHG05_SPEAKERS into a
+named array; this has no functional change for the other users of that
+fixup.
+
+Fixes: 67f4c61a73e9 ("ALSA: hda/realtek: Add quirk for Legion S7 15IMH")
+Cc: stable@vger.kernel.org
+Link: https://github.com/CachyOS/linux-cachyos/issues/792
+Signed-off-by: Matej Sochan <matej.sochan@gmail.com>
 ---
- drivers/soundwire/qcom.c | 1 +
- 1 file changed, 1 insertion(+)
+Tested on a Lenovo Legion S7 15IMH05 (82BC) with v7.2.8 (linux-hardened):
+speakers work after repeated cold boots with the 20 ms delay.
+The same change applies on top of the sound tree; I have only built and
+booted the 7.2.8 module.
+---
+ sound/hda/codecs/realtek/alc269.c | 92 ++++++++++++++++++++++++---------------
+ 1 file changed, 56 insertions(+), 36 deletions(-)
 
-diff --git a/drivers/soundwire/qcom.c b/drivers/soundwire/qcom.c
-index 6e0c5fb10efa..76f940f4eb31 100644
---- a/drivers/soundwire/qcom.c
-+++ b/drivers/soundwire/qcom.c
-@@ -1887,6 +1887,7 @@ static int __maybe_unused swrm_runtime_suspend(struct device *dev)
- 		}
- 	}
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index 447c0ba358d8..a68b6a9b71aa 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -4377,6 +4377,7 @@ enum {
+ 	ALC236_FIXUP_HP_LIMIT_INT_MIC_BOOST,
+ 	ALC287_FIXUP_LEGION_15IMHG05_SPEAKERS,
+ 	ALC287_FIXUP_LEGION_15IMHG05_AUTOMUTE,
++	ALC287_FIXUP_LEGION_S7_15IMH05_AMP,
+ 	ALC287_FIXUP_YOGA7_14ITL_SPEAKERS,
+ 	ALC298_FIXUP_LENOVO_C940_DUET7,
+ 	ALC287_FIXUP_LENOVO_YOGA_BOOK_9I,
+@@ -4529,6 +4530,53 @@ static void alc700_fixup_intel_hades_canyon(struct hda_codec *codec,
+ 		alc_update_coef_idx(codec, 0x1b, 0x0400, 0x0400);
+ }
  
-+	synchronize_irq(ctrl->irq);
- 	clk_disable_unprepare(ctrl->hclk);
- 
- 	usleep_range(300, 305);
--- 
-2.55.0
++static const struct hda_verb legion_amp_verbs[] = {
++	/* left speaker */
++	{ 0x20, AC_VERB_SET_COEF_INDEX, 0x24 },
++	{ 0x20, AC_VERB_SET_PROC_COEF, 0x41 },
++	{ 0x20, AC_VERB_SET_COEF_INDEX, 0x26 },
++	{ 0x20, AC_VERB_SET_PROC_COEF, 0xc },
++	{ 0x20, AC_VERB_SET_PROC_COEF, 0x0 },
++	{ 0x20, AC_VERB_SET_PROC_COEF, 0x1a },
++	{ 0x20, AC_VERB_SET_PROC_COEF, 0xb020 },
++	{ 0x20, AC_VERB_SET_COEF_INDEX, 0x26 },
++	{ 0x20, AC_VERB_SET_PROC_COEF, 0x2 },
++	{ 0x20, AC_VERB_SET_PROC_COEF, 0x0 },
++	{ 0x20, AC_VERB_SET_PROC_COEF, 0x0 },
++	{ 0x20, AC_VERB_SET_PROC_COEF, 0xb020 },
++
++	/* right speaker */
++	{ 0x20, AC_VERB_SET_COEF_INDEX, 0x24 },
++	{ 0x20, AC_VERB_SET_PROC_COEF, 0x42 },
++	{ 0x20, AC_VERB_SET_COEF_INDEX, 0x26 },
++	{ 0x20, AC_VERB_SET_PROC_COEF, 0xc },
++	{ 0x20, AC_VERB_SET_PROC_COEF, 0x0 },
++	{ 0x20, AC_VERB_SET_PROC_COEF, 0x2a },
++	{ 0x20, AC_VERB_SET_PROC_COEF, 0xb020 },
++	{ 0x20, AC_VERB_SET_COEF_INDEX, 0x26 },
++	{ 0x20, AC_VERB_SET_PROC_COEF, 0x2 },
++	{ 0x20, AC_VERB_SET_PROC_COEF, 0x0 },
++	{ 0x20, AC_VERB_SET_PROC_COEF, 0x0 },
++	{ 0x20, AC_VERB_SET_PROC_COEF, 0xb020 },
++	{}
++};
++
++static void alc287_fixup_legion_s7_amp(struct hda_codec *codec,
++				       const struct hda_fixup *fix, int action)
++{
++	if (action != HDA_FIXUP_ACT_INIT)
++		return;
++
++	snd_hda_sequence_write(codec, legion_amp_verbs);
++	/*
++	 * The amplifiers accept the setup only a few ms after the first
++	 * write (8 ms is the measured minimum on the test machine), so
++	 * keep a margin.
++	 */
++	msleep(20);
++	snd_hda_sequence_write(codec, legion_amp_verbs);
++}
++
+ static const struct hda_fixup alc269_fixups[] = {
+ 	[ALC298_FIXUP_RAZER_BLADE16_2025_PINS] = {
+ 		.type = HDA_FIXUP_PINS,
+@@ -6593,41 +6641,13 @@ static const struct hda_fixup alc269_fixups[] = {
+ 	},
+ 	[ALC287_FIXUP_LEGION_15IMHG05_SPEAKERS] = {
+ 		.type = HDA_FIXUP_VERBS,
+-		//.v.verbs = legion_15imhg05_coefs,
+-		.v.verbs = (const struct hda_verb[]) {
+-			 // set left speaker Legion 7i.
+-			 { 0x20, AC_VERB_SET_COEF_INDEX, 0x24 },
+-			 { 0x20, AC_VERB_SET_PROC_COEF, 0x41 },
+-
+-			 { 0x20, AC_VERB_SET_COEF_INDEX, 0x26 },
+-			 { 0x20, AC_VERB_SET_PROC_COEF, 0xc },
+-			 { 0x20, AC_VERB_SET_PROC_COEF, 0x0 },
+-			 { 0x20, AC_VERB_SET_PROC_COEF, 0x1a },
+-			 { 0x20, AC_VERB_SET_PROC_COEF, 0xb020 },
+-
+-			 { 0x20, AC_VERB_SET_COEF_INDEX, 0x26 },
+-			 { 0x20, AC_VERB_SET_PROC_COEF, 0x2 },
+-			 { 0x20, AC_VERB_SET_PROC_COEF, 0x0 },
+-			 { 0x20, AC_VERB_SET_PROC_COEF, 0x0 },
+-			 { 0x20, AC_VERB_SET_PROC_COEF, 0xb020 },
+-
+-			 // set right speaker Legion 7i.
+-			 { 0x20, AC_VERB_SET_COEF_INDEX, 0x24 },
+-			 { 0x20, AC_VERB_SET_PROC_COEF, 0x42 },
+-
+-			 { 0x20, AC_VERB_SET_COEF_INDEX, 0x26 },
+-			 { 0x20, AC_VERB_SET_PROC_COEF, 0xc },
+-			 { 0x20, AC_VERB_SET_PROC_COEF, 0x0 },
+-			 { 0x20, AC_VERB_SET_PROC_COEF, 0x2a },
+-			 { 0x20, AC_VERB_SET_PROC_COEF, 0xb020 },
+-
+-			 { 0x20, AC_VERB_SET_COEF_INDEX, 0x26 },
+-			 { 0x20, AC_VERB_SET_PROC_COEF, 0x2 },
+-			 { 0x20, AC_VERB_SET_PROC_COEF, 0x0 },
+-			 { 0x20, AC_VERB_SET_PROC_COEF, 0x0 },
+-			 { 0x20, AC_VERB_SET_PROC_COEF, 0xb020 },
+-			 {}
+-		},
++		.v.verbs = legion_amp_verbs,
++		.chained = true,
++		.chain_id = ALC287_FIXUP_LEGION_15IMHG05_AUTOMUTE,
++	},
++	[ALC287_FIXUP_LEGION_S7_15IMH05_AMP] = {
++		.type = HDA_FIXUP_FUNC,
++		.v.func = alc287_fixup_legion_s7_amp,
+ 		.chained = true,
+ 		.chain_id = ALC287_FIXUP_LEGION_15IMHG05_AUTOMUTE,
+ 	},
+@@ -8348,7 +8368,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	HDA_CODEC_QUIRK(0x17aa, 0x38d5, "Lenovo Yoga Pro 9 16IMH9", ALC287_FIXUP_TAS2781_I2C),
+ 	HDA_CODEC_QUIRK(0x17aa, 0x38d6, "Lenovo Yoga Pro 9 16IMH9", ALC287_FIXUP_TAS2781_I2C),
+ 	HDA_CODEC_QUIRK(0x17aa, 0x3855, "Legion 7 16ITHG6", ALC287_FIXUP_LEGION_16ITHG6),
+-	SND_PCI_QUIRK(0x17aa, 0x3811, "Legion S7 15IMH05", ALC287_FIXUP_LEGION_15IMHG05_SPEAKERS),
++	SND_PCI_QUIRK(0x17aa, 0x3811, "Legion S7 15IMH05", ALC287_FIXUP_LEGION_S7_15IMH05_AMP),
+ 	SND_PCI_QUIRK(0x17aa, 0x3813, "Legion 7i 15IMHG05", ALC287_FIXUP_LEGION_15IMHG05_SPEAKERS),
+ 	SND_PCI_QUIRK(0x17aa, 0x3818, "Lenovo C940 / Yoga Duet 7", ALC298_FIXUP_LENOVO_C940_DUET7),
+ 	SND_PCI_QUIRK(0x17aa, 0x3819, "Lenovo 13s Gen2 ITL", ALC287_FIXUP_13S_GEN2_SPEAKERS),
+
+---
+base-commit: c3e35f355fadf6be660e1fd356bb22140dda8e46
+change-id: 20261007-legion-s7-9467a6bd47ef
+
+Best regards,
+--  
+Matej Sochan <matej.sochan@gmail.com>
 
