@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA2473CAE7F
-	for <linux-sound@vger.kernel.org>; Wed,  7 Oct 2026 08:50:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8494455173
+	for <linux-sound@vger.kernel.org>; Wed,  7 Oct 2026 08:50:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791363045; cv=none; b=mydU8cUZ+6BWy/iXrCJlezOMMSP+BdNniuvb4Ueo19QyxoAPcD6LzS0Vaa7bn3G84UUMiQIA1XvpGxmP2u9GPXtsypHibfLTf0L3cq8J1+zCu/UMH2MmRxv5gUhFRWWZM6Td7ogDDVCUX0EWgPNnkEpwA3fBM7EURGsXpauy0bA=
+	t=1791363047; cv=none; b=ZTPoJOmP3NaakkLbGKkafS6BdeNnqufFSaWS4pvSRbaiFsHysTr+sNhYlxfJUL2qsH1Py0Pdd/kRPdZMbcxpmZqsqKXM1bS/ResXoM587HEczG7U1Rpq0JBHwd+Nz3PkKbXuminmXkK36ZYUVBbLdSKAwYaZqUE43tyi9peuWns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791363045; c=relaxed/simple;
-	bh=gxSYkAelW0DcAXJva9Hxtw/UfZcVE3BHSBucOiZD/c8=;
+	s=arc-20240116; t=1791363047; c=relaxed/simple;
+	bh=08QWOBvoMS8FhJrQ2n0415AUzsUr3Iw1Kwk4j32qLAY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=d/e7aXmA7YiNmBZRDP78lynUoyLUJdU098YUARc6MTJ9O62XiX1sHIw9jTv+LkBt6jX0yS+VfpdH/N6v716g4IYQKVvv9A7At4FLYMgzkX0sSkmiCSdyOebXTBrOxKHaS+Ex0/rklqNbcI442OkOtmlRammv51ON7uTFdUngdsk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mXbBDYSb; arc=none smtp.client-ip=192.198.163.14
+	 MIME-Version; b=rsSNioVu/v4jKANQ5J/sra0jg86dhnqjsuFXddn7qBFNnnyFxBn3rA5EUSZ4LQTwDeDLjFaOAf6fN6NZpSuvD2MtEMA22a5YuhG9OttEmCzbMDsYXoyDSj99PHfa6xMbmnlYqIfUZ9SnyxjFLJlvUShsuj9FosSybXpqq+Z0ysk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kogM9o00; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mXbBDYSb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kogM9o00"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791363044; x=1822899044;
+  t=1791363047; x=1822899047;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=gxSYkAelW0DcAXJva9Hxtw/UfZcVE3BHSBucOiZD/c8=;
-  b=mXbBDYSbOoLFIQGr6a0yQWaEkDkC0gzrsQvu/WtovZoFvMq7oIipt+N5
-   i7ElpjNQ2OaECGTzdxcgZm+JxsOQX/22QYBbt/6LLiWdY9kpKqd3R+XKw
-   tzgNbjJDDXO80UszPFILCh4tSsXAYTRFxSCm7goVny4Nio4MEi0Eo91GY
-   P4SHwmfZC0NLFHfGNHLqlJcXGWcbmqgnCtGVK/mhlaVQR7gaOU07lQ6FR
-   YFSRwhY7NmH8E3xiItANxmgMxYAGv5kFEUNuiPcQh8Vubwqilc0wJyxDk
-   TLLFcFTj/GM0r17SDnZGzoucXr3yRo472vwu5Y5eVkPDJWE4Lmx0ekiI/
+  bh=08QWOBvoMS8FhJrQ2n0415AUzsUr3Iw1Kwk4j32qLAY=;
+  b=kogM9o00ppI9RWgoyjjGVAVuayfcjgOhkAfKvO7mJRDQmQ1yuAtCzvSM
+   oheyrzQFJE09GfYc4tjXoI/pSjveRoP7A+THmvyPkCiinU1TlxzBXOAXj
+   eWkJ/cCQoCR4OvSqJlWM5dVOcRz1BrICBkI1lLiT7MAWN/x4WUzzwjbW3
+   uq85RR74HsORUibPYA7zQdNB5KW865SUS8VPxa/kfYbTqSYN6Hf5a46JS
+   4Lk6hqUssDcrEpAICVZ+F1PlyK11RpMg+nz8nUG9B9Zq7acNebjtkCzr1
+   K3CTFNFJrjBJIjLiII0qsdePd32fNu3hqoRPCVcxFloNNitFauktX1m/7
    Q==;
-X-CSE-ConnectionGUID: BylD/yzmTqmKFQLr2pEXcw==
-X-CSE-MsgGUID: yZLkOLfWSIyVCQWIDt5AlQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11927"; a="114043"
+X-CSE-ConnectionGUID: YI1CsLbzQkKqM4KpePOaNA==
+X-CSE-MsgGUID: zLelBDSbSs+kIUioCPXRqQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11927"; a="114055"
 X-IronPort-AV: E=Sophos;i="6.27,144,1787036400"; 
-   d="scan'208";a="114043"
+   d="scan'208";a="114055"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2026 01:50:44 -0700
-X-CSE-ConnectionGUID: qoVvxLSnTaKHhRZORZGWZw==
-X-CSE-MsgGUID: 3Yc6IZorRnuHbJLQnUUc6Q==
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2026 01:50:47 -0700
+X-CSE-ConnectionGUID: QT8YEVEoTReJsUfvfYC/Rg==
+X-CSE-MsgGUID: nIoZ33+VRhOMCLamAH1cEQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,144,1787036400"; 
-   d="scan'208";a="280670795"
+   d="scan'208";a="280670809"
 Received: from conormcd-mobl2.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.244.188])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2026 01:50:41 -0700
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2026 01:50:44 -0700
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: vkoul@kernel.org,
 	perex@perex.cz,
@@ -55,9 +55,9 @@ Cc: linux-sound@vger.kernel.org,
 	yung-chuan.liao@linux.intel.com,
 	pierre-louis.bossart@linux.dev,
 	daniel.baluta@nxp.com
-Subject: [PATCH v5 22/28] ASoC: SOF: ops: Add new platform-specific ops for compress
-Date: Wed,  7 Oct 2026 11:49:49 +0300
-Message-ID: <20261007084955.1256-23-peter.ujfalusi@linux.intel.com>
+Subject: [PATCH v5 23/28] ASoC: SOF: Check that the audio buffer fits into the page table
+Date: Wed,  7 Oct 2026 11:49:50 +0300
+Message-ID: <20261007084955.1256-24-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <20261007084955.1256-1-peter.ujfalusi@linux.intel.com>
 References: <20261007084955.1256-1-peter.ujfalusi@linux.intel.com>
@@ -69,484 +69,126 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+The page table describing the audio buffer for the firmware is a single
+PAGE_SIZE allocation, but snd_sof_create_page_table() writes the
+compressed PFNs into it without checking that they fit.
 
-Add new ops in the struct snd_sof_ops for platform-specific ops for
-compresssed streams. Also, define and set them for the HDA platforms.
+The PFNs are stored in 2.5 bytes each and the last one is written with a
+32 bit access, so with 4K pages the table can hold 1638 PFNs, which is a
+buffer of 6.4MB. A larger buffer corrupts memory past the end of the
+page table.
 
-Signed-off-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-Co-developed-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+The PCM path is not affected as the maximum buffer size is specified by
+the topology, but the compressed streams can ask for larger buffers.
+
+Pass the page table buffer to snd_sof_create_page_table() instead of only
+its address and verify that the buffer can be described by it.
+
 Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
 ---
- sound/soc/sof/intel/hda-common-ops.c |   8 ++
- sound/soc/sof/intel/hda-pcm.c        | 142 +++++++++++++++++++++++++++
- sound/soc/sof/intel/hda-stream.c     |  69 +++++++++----
- sound/soc/sof/intel/hda.h            |  15 +++
- sound/soc/sof/ops.h                  |  74 ++++++++++++++
- sound/soc/sof/sof-priv.h             |  12 +++
- 6 files changed, 301 insertions(+), 19 deletions(-)
+ sound/soc/sof/ipc3-dtrace.c |  2 +-
+ sound/soc/sof/pcm.c         |  2 +-
+ sound/soc/sof/sof-audio.c   |  2 +-
+ sound/soc/sof/sof-utils.c   | 12 ++++++++++--
+ sound/soc/sof/sof-utils.h   | 11 ++++++++++-
+ 5 files changed, 23 insertions(+), 6 deletions(-)
 
-diff --git a/sound/soc/sof/intel/hda-common-ops.c b/sound/soc/sof/intel/hda-common-ops.c
-index 746b426b1329..aa91f2b6fd65 100644
---- a/sound/soc/sof/intel/hda-common-ops.c
-+++ b/sound/soc/sof/intel/hda-common-ops.c
-@@ -57,6 +57,14 @@ const struct snd_sof_dsp_ops sof_hda_common_ops = {
- 	.pcm_pointer	= hda_dsp_pcm_pointer,
- 	.pcm_ack	= hda_dsp_pcm_ack,
+diff --git a/sound/soc/sof/ipc3-dtrace.c b/sound/soc/sof/ipc3-dtrace.c
+index 22053357731a..e8c998c09dc3 100644
+--- a/sound/soc/sof/ipc3-dtrace.c
++++ b/sound/soc/sof/ipc3-dtrace.c
+@@ -534,7 +534,7 @@ static int ipc3_dtrace_init(struct snd_sof_dev *sdev)
  
-+	.compr_open = hda_dsp_compr_open,
-+	.compr_hw_params = hda_dsp_compr_hw_params,
-+	.compr_hw_free = hda_dsp_stream_compr_hw_free,
-+	.compr_close = hda_dsp_compr_close,
-+	.compr_trigger = hda_dsp_compr_trigger,
-+	.compr_pointer = hda_dsp_compr_pointer,
-+	.compr_get_dai_frame_counter = hda_dsp_compr_get_stream_llp,
-+
- 	.get_dai_frame_counter = hda_dsp_get_stream_llp,
- 	.get_host_byte_counter = hda_dsp_get_stream_ldp,
+ 	/* create compressed page table for audio firmware */
+ 	ret = snd_sof_create_page_table(sdev->dev, &priv->dmatb,
+-					priv->dmatp.area, priv->dmatb.bytes);
++					&priv->dmatp, priv->dmatb.bytes);
+ 	if (ret < 0)
+ 		goto table_err;
  
-diff --git a/sound/soc/sof/intel/hda-pcm.c b/sound/soc/sof/intel/hda-pcm.c
-index 16a364072821..83efc9bdf418 100644
---- a/sound/soc/sof/intel/hda-pcm.c
-+++ b/sound/soc/sof/intel/hda-pcm.c
-@@ -151,6 +151,71 @@ int hda_dsp_pcm_hw_params(struct snd_sof_dev *sdev,
+diff --git a/sound/soc/sof/pcm.c b/sound/soc/sof/pcm.c
+index 42738f12fa33..b4305dc43d61 100644
+--- a/sound/soc/sof/pcm.c
++++ b/sound/soc/sof/pcm.c
+@@ -194,7 +194,7 @@ static int sof_pcm_hw_params(struct snd_soc_component *component,
+ 		struct snd_dma_buffer *dmab = snd_pcm_get_dma_buf(substream);
+ 
+ 		ret = snd_sof_create_page_table(component->dev, dmab,
+-				spcm->stream[substream->stream].page_table.area,
++				&spcm->stream[substream->stream].page_table,
+ 				runtime->dma_bytes);
+ 		if (ret < 0)
+ 			return ret;
+diff --git a/sound/soc/sof/sof-audio.c b/sound/soc/sof/sof-audio.c
+index 9f9f18b3c935..8cbeca471542 100644
+--- a/sound/soc/sof/sof-audio.c
++++ b/sound/soc/sof/sof-audio.c
+@@ -1132,6 +1132,6 @@ int snd_sof_compr_create_page_table(struct snd_soc_component *component,
+ 		return -EINVAL;
+ 
+ 	return snd_sof_create_page_table(component->dev, dmab,
+-					 spcm->stream[dir].page_table.area, size);
++					 &spcm->stream[dir].page_table, size);
  }
- EXPORT_SYMBOL_NS(hda_dsp_pcm_hw_params, "SND_SOC_SOF_INTEL_HDA_COMMON");
+ #endif
+diff --git a/sound/soc/sof/sof-utils.c b/sound/soc/sof/sof-utils.c
+index f70089317b8c..59dc10196958 100644
+--- a/sound/soc/sof/sof-utils.c
++++ b/sound/soc/sof/sof-utils.c
+@@ -24,12 +24,20 @@
  
-+int hda_dsp_compr_hw_params(struct snd_sof_dev *sdev,
-+			    struct snd_compr_stream *cstream,
-+			    struct snd_compr_params *params,
-+			    struct snd_sof_platform_stream_params *platform_params)
-+{
-+	struct hdac_stream *hstream = cstream->runtime->private_data;
-+	struct hdac_ext_stream *hext_stream = stream_to_hdac_ext_stream(hstream);
-+	struct sof_intel_hda_dev *hda = sdev->pdata->hw_pdata;
-+	struct snd_dma_buffer *dmab;
-+	u32 bits, rate;
-+	int bps;
-+	int ret;
-+
-+	hstream->cstream = cstream;
-+	dmab = cstream->runtime->dma_buffer_p;
-+
-+	/* Use correct format based on the used codec */
-+	switch (params->codec.id) {
-+	case SND_AUDIOCODEC_PCM:
-+		bps = snd_pcm_format_physical_width((snd_pcm_format_t)params->codec.format);
-+		break;
-+	case SND_AUDIOCODEC_VORBIS:
-+		bps = snd_pcm_format_physical_width(SNDRV_PCM_FORMAT_S16_LE);
-+		break;
-+	case SND_AUDIOCODEC_FLAC:
-+	{
-+		struct snd_dec_flac *dec_flac = &params->codec.options.flac_d;
-+
-+		if (dec_flac->sample_size == 16)
-+			bps = snd_pcm_format_physical_width(SNDRV_PCM_FORMAT_S16_LE);
-+		else
-+			bps = snd_pcm_format_physical_width(SNDRV_PCM_FORMAT_S32_LE);
-+		break;
-+	}
-+	default:
-+		bps = snd_pcm_format_physical_width(SNDRV_PCM_FORMAT_S32_LE);
-+	}
-+
-+	if (bps < 0)
-+		return bps;
-+	bits = hda_dsp_get_bits(sdev, bps);
-+	rate = hda_dsp_get_mult_div(sdev, params->codec.sample_rate);
-+
-+	hstream->format_val = rate | bits | (params->codec.ch_out - 1);
-+	hstream->bufsize = cstream->runtime->buffer_size;
-+	hstream->period_bytes = cstream->runtime->fragment_size;
-+	hstream->no_period_wakeup  = false;
-+
-+	/* params is not used so pass NULL */
-+	dmab = cstream->runtime->dma_buffer_p;
-+	ret = hda_dsp_stream_hw_params(sdev, hext_stream, dmab, NULL);
-+	if (ret < 0) {
-+		dev_err(sdev->dev, "%s: hdac prepare failed: %d\n", __func__, ret);
-+		return ret;
-+	}
-+
-+	if (hda)
-+		platform_params->no_ipc_position = hda->no_ipc_position;
-+
-+	platform_params->stream_tag = hstream->stream_tag;
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_NS(hda_dsp_compr_hw_params, "SND_SOC_SOF_INTEL_HDA_COMMON");
-+
- /* update SPIB register with appl position */
- int hda_dsp_pcm_ack(struct snd_sof_dev *sdev, struct snd_pcm_substream *substream)
+ int snd_sof_create_page_table(struct device *dev,
+ 			      struct snd_dma_buffer *dmab,
+-			      unsigned char *page_table, size_t size)
++			      struct snd_dma_buffer *page_table, size_t size)
  {
-@@ -184,6 +249,16 @@ int hda_dsp_pcm_trigger(struct snd_sof_dev *sdev,
- }
- EXPORT_SYMBOL_NS(hda_dsp_pcm_trigger, "SND_SOC_SOF_INTEL_HDA_COMMON");
+ 	int i, pages;
  
-+int hda_dsp_compr_trigger(struct snd_sof_dev *sdev,
-+			  struct snd_compr_stream *cstream, int cmd)
-+{
-+	struct hdac_stream *hstream = cstream->runtime->private_data;
-+	struct hdac_ext_stream *hext_stream = stream_to_hdac_ext_stream(hstream);
-+
-+	return hda_dsp_stream_trigger(sdev, hext_stream, cmd);
-+}
-+EXPORT_SYMBOL_NS(hda_dsp_compr_trigger, "SND_SOC_SOF_INTEL_HDA_COMMON");
-+
- snd_pcm_uframes_t hda_dsp_pcm_pointer(struct snd_sof_dev *sdev,
- 				      struct snd_pcm_substream *substream)
- {
-@@ -216,6 +291,20 @@ snd_pcm_uframes_t hda_dsp_pcm_pointer(struct snd_sof_dev *sdev,
- }
- EXPORT_SYMBOL_NS(hda_dsp_pcm_pointer, "SND_SOC_SOF_INTEL_HDA_COMMON");
+ 	pages = snd_sgbuf_aligned_pages(size);
  
-+int hda_dsp_compr_pointer(struct snd_sof_dev *sdev, struct snd_compr_stream *cstream,
-+			  struct snd_compr_tstamp64 *tstamp)
-+{
-+	struct hdac_stream *hstream = cstream->runtime->private_data;
-+
-+	/* hstream->curr_pos is updated when we receive the ioc */
-+	tstamp->copied_total = hstream->curr_pos;
-+
-+	tstamp->byte_offset = hda_dsp_stream_get_position(hstream, cstream->direction, true);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_NS(hda_dsp_compr_pointer, "SND_SOC_SOF_INTEL_HDA_COMMON");
-+
- int hda_dsp_pcm_open(struct snd_sof_dev *sdev,
- 		     struct snd_pcm_substream *substream)
- {
-@@ -342,6 +431,41 @@ int hda_dsp_pcm_open(struct snd_sof_dev *sdev,
- }
- EXPORT_SYMBOL_NS(hda_dsp_pcm_open, "SND_SOC_SOF_INTEL_HDA_COMMON");
- 
-+int hda_dsp_compr_open(struct snd_sof_dev *sdev, struct snd_compr_stream *cstream)
-+{
-+	struct snd_soc_pcm_runtime *rtd = cstream->private_data;
-+	struct snd_soc_component *scomp = sdev->component;
-+	struct hdac_ext_stream *dsp_stream;
-+	struct snd_sof_pcm *spcm;
-+	int direction = cstream->direction;
-+
-+	spcm = snd_sof_find_spcm_dai(scomp, rtd);
-+	if (!spcm) {
-+		dev_err(sdev->dev, "%s: can't find PCM with DAI ID %d\n",
-+			__func__, rtd->dai_link->id);
++	if (pages < 1 || page_table->bytes < sizeof(u32) ||
++	    pages > SOF_PAGE_TABLE_MAX_PFNS(page_table->bytes)) {
++		dev_err(dev,
++			"Can not store %d pages in a %zu bytes page table\n",
++			pages, page_table->bytes);
 +		return -EINVAL;
 +	}
 +
-+	dsp_stream = hda_dsp_stream_get(sdev, direction, 0);
-+	if (!dsp_stream) {
-+		dev_err(sdev->dev, "%s: no stream available\n", __func__);
-+		return -ENODEV;
-+	}
-+
-+	/* binding compr stream to hda stream */
-+	cstream->runtime->private_data = &dsp_stream->hstream;
-+
-+	/*
-+	 * Reset the llp cache values (they are used for LLP compensation in
-+	 * case the counter is not reset)
-+	 */
-+	dsp_stream->pplcllpl = 0;
-+	dsp_stream->pplcllpu = 0;
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_NS(hda_dsp_compr_open, "SND_SOC_SOF_INTEL_HDA_COMMON");
-+
- int hda_dsp_pcm_close(struct snd_sof_dev *sdev,
- 		      struct snd_pcm_substream *substream)
- {
-@@ -361,3 +485,21 @@ int hda_dsp_pcm_close(struct snd_sof_dev *sdev,
- 	return 0;
- }
- EXPORT_SYMBOL_NS(hda_dsp_pcm_close, "SND_SOC_SOF_INTEL_HDA_COMMON");
-+
-+int hda_dsp_compr_close(struct snd_sof_dev *sdev, struct snd_compr_stream *cstream)
-+{
-+	struct hdac_stream *hstream = cstream->runtime->private_data;
-+	int direction = cstream->direction;
-+	int ret;
-+
-+	ret = hda_dsp_stream_put(sdev, direction, hstream->stream_tag);
-+	if (ret)
-+		return -ENODEV;
-+
-+	/* unbinding compress stream to hda stream */
-+	hstream->cstream = NULL;
-+	cstream->runtime->private_data = NULL;
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_NS(hda_dsp_compr_close, "SND_SOC_SOF_INTEL_HDA_COMMON");
-diff --git a/sound/soc/sof/intel/hda-stream.c b/sound/soc/sof/intel/hda-stream.c
-index 5097a497188d..ac2a62c4e41f 100644
---- a/sound/soc/sof/intel/hda-stream.c
-+++ b/sound/soc/sof/intel/hda-stream.c
-@@ -755,13 +755,12 @@ int hda_dsp_stream_hw_params(struct snd_sof_dev *sdev,
- 	return ret;
- }
+ 	dev_dbg(dev, "generating page table for %p size 0x%zx pages %d\n",
+ 		dmab->area, size, pages);
  
--int hda_dsp_stream_hw_free(struct snd_sof_dev *sdev,
--			   struct snd_pcm_substream *substream)
-+static int _hda_dsp_stream_hw_free(struct snd_sof_dev *sdev,
-+				   struct hdac_stream *hstream)
- {
--	struct hdac_stream *hstream = substream->runtime->private_data;
- 	struct hdac_ext_stream *hext_stream = container_of(hstream,
--							 struct hdac_ext_stream,
--							 hstream);
-+							   struct hdac_ext_stream,
-+							   hstream);
- 	int ret;
+@@ -45,7 +53,7 @@ int snd_sof_create_page_table(struct device *dev,
+ 		u32 pfn = snd_sgbuf_get_addr(dmab, i * PAGE_SIZE) >> PAGE_SHIFT;
+ 		u8 *pg_table;
  
- 	ret = hda_dsp_stream_reset(sdev, hstream);
-@@ -786,8 +785,21 @@ int hda_dsp_stream_hw_free(struct snd_sof_dev *sdev,
+-		pg_table = (u8 *)(page_table + idx);
++		pg_table = (u8 *)(page_table->area + idx);
  
- 	return 0;
- }
-+
-+int hda_dsp_stream_hw_free(struct snd_sof_dev *sdev,
-+			   struct snd_pcm_substream *substream)
-+{
-+	return _hda_dsp_stream_hw_free(sdev, substream->runtime->private_data);
-+}
- EXPORT_SYMBOL_NS(hda_dsp_stream_hw_free, "SND_SOC_SOF_INTEL_HDA_COMMON");
+ 		/*
+ 		 * pagetable compression:
+diff --git a/sound/soc/sof/sof-utils.h b/sound/soc/sof/sof-utils.h
+index 9ac6de9a6d6a..58e5822a63f0 100644
+--- a/sound/soc/sof/sof-utils.h
++++ b/sound/soc/sof/sof-utils.h
+@@ -12,8 +12,17 @@
+ struct snd_dma_buffer;
+ struct device;
  
-+int hda_dsp_stream_compr_hw_free(struct snd_sof_dev *sdev,
-+				 struct snd_compr_stream *cstream)
-+{
-+	return _hda_dsp_stream_hw_free(sdev, cstream->runtime->private_data);
-+}
-+EXPORT_SYMBOL_NS(hda_dsp_stream_compr_hw_free, "SND_SOC_SOF_INTEL_HDA_COMMON");
-+
- bool hda_dsp_check_stream_irq(struct snd_sof_dev *sdev)
- {
- 	struct hdac_bus *bus = sof_to_bus(sdev);
-@@ -1162,19 +1174,9 @@ EXPORT_SYMBOL_NS(hda_dsp_stream_get_position, "SND_SOC_SOF_INTEL_HDA_COMMON");
- 
- #define merge_u64(u32_u, u32_l) (((u64)(u32_u) << 32) | (u32_l))
- 
--/**
-- * hda_dsp_get_stream_llp - Retrieve the LLP (Linear Link Position) of the stream
-- * @sdev: SOF device
-- * @component: ASoC component
-- * @substream: PCM substream
-- *
-- * Returns the raw Linear Link Position value
-- */
--u64 hda_dsp_get_stream_llp(struct snd_sof_dev *sdev,
--			   struct snd_soc_component *component,
--			   struct snd_pcm_substream *substream)
-+static u64 hda_dsp_get_llp(struct snd_sof_dev *sdev,
-+			   struct snd_soc_pcm_runtime *rtd, int dir)
- {
--	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
- 	struct snd_soc_pcm_runtime *be_rtd = NULL;
- 	struct hdac_ext_stream *hext_stream;
- 	struct snd_soc_dai *cpu_dai;
-@@ -1185,7 +1187,7 @@ u64 hda_dsp_get_stream_llp(struct snd_sof_dev *sdev,
- 	 * The LLP needs to be read from the Link DMA used for this FE as it is
- 	 * allowed to use any combination of Link and Host channels
- 	 */
--	for_each_dpcm_be(rtd, substream->stream, dpcm) {
-+	for_each_dpcm_be(rtd, dir, dpcm) {
- 		if (dpcm->fe != rtd)
- 			continue;
- 
-@@ -1199,7 +1201,7 @@ u64 hda_dsp_get_stream_llp(struct snd_sof_dev *sdev,
- 	if (!cpu_dai)
- 		return 0;
- 
--	hext_stream = snd_soc_dai_get_dma_data(cpu_dai, substream);
-+	hext_stream = snd_soc_dai_dma_data_get(cpu_dai, dir);
- 	if (!hext_stream)
- 		return 0;
- 
-@@ -1223,8 +1225,37 @@ u64 hda_dsp_get_stream_llp(struct snd_sof_dev *sdev,
- 
- 	return merge_u64(llp_u, llp_l);
- }
-+
-+/**
-+ * hda_dsp_get_stream_llp - Retrieve the LLP (Linear Link Position) of the stream
-+ * @sdev: SOF device
-+ * @component: ASoC component
-+ * @substream: PCM substream
-+ *
-+ * Returns the raw Linear Link Position value
++/*
++ * Number of PFNs which can be stored in a page table of @bytes size.
++ * The PFNs are compressed to 2.5 bytes each but they are written with 32 bit
++ * accesses, therefore the last PFN can reach up to 3 bytes past the space it
++ * needs for itself.
 + */
-+u64 hda_dsp_get_stream_llp(struct snd_sof_dev *sdev,
-+			   struct snd_soc_component *component,
-+			   struct snd_pcm_substream *substream)
-+{
-+	return hda_dsp_get_llp(sdev, snd_soc_substream_to_rtd(substream),
-+			       substream->stream);
-+}
- EXPORT_SYMBOL_NS(hda_dsp_get_stream_llp, "SND_SOC_SOF_INTEL_HDA_COMMON");
++#define SOF_PAGE_TABLE_MAX_PFNS(bytes)	\
++	(((((bytes) - sizeof(u32)) << 1) + 1) / 5 + 1)
++
+ int snd_sof_create_page_table(struct device *dev,
+ 			      struct snd_dma_buffer *dmab,
+-			      unsigned char *page_table, size_t size);
++			      struct snd_dma_buffer *page_table, size_t size);
  
-+/**
-+ * hda_dsp_compr_get_stream_llp - Retrieve the LLP (Linear Link Position) of the stream
-+ * @sdev: SOF device
-+ * @cstream: Compress stream
-+ *
-+ * Returns the raw Linear Link Position value
-+ */
-+u64 hda_dsp_compr_get_stream_llp(struct snd_sof_dev *sdev, struct snd_compr_stream *cstream)
-+{
-+	return hda_dsp_get_llp(sdev, cstream->private_data, cstream->direction);
-+}
-+EXPORT_SYMBOL_NS(hda_dsp_compr_get_stream_llp, "SND_SOC_SOF_INTEL_HDA_COMMON");
-+
- /**
-  * hda_dsp_get_stream_ldp - Retrieve the LDP (Linear DMA Position) of the stream
-  * @sdev: SOF device
-diff --git a/sound/soc/sof/intel/hda.h b/sound/soc/sof/intel/hda.h
-index 1609589929a1..701578ec35cf 100644
---- a/sound/soc/sof/intel/hda.h
-+++ b/sound/soc/sof/intel/hda.h
-@@ -683,6 +683,21 @@ snd_pcm_uframes_t hda_dsp_pcm_pointer(struct snd_sof_dev *sdev,
- 				      struct snd_pcm_substream *substream);
- int hda_dsp_pcm_ack(struct snd_sof_dev *sdev, struct snd_pcm_substream *substream);
- 
-+int hda_dsp_compr_open(struct snd_sof_dev *sdev, struct snd_compr_stream *cstream);
-+int hda_dsp_compr_close(struct snd_sof_dev *sdev, struct snd_compr_stream *cstream);
-+int hda_dsp_compr_hw_params(struct snd_sof_dev *sdev,
-+			    struct snd_compr_stream *cstream,
-+			    struct snd_compr_params *params,
-+			    struct snd_sof_platform_stream_params *platform_params);
-+int hda_dsp_stream_compr_hw_free(struct snd_sof_dev *sdev,
-+				 struct snd_compr_stream *cstream);
-+int hda_dsp_compr_trigger(struct snd_sof_dev *sdev,
-+			  struct snd_compr_stream *cstream, int cmd);
-+int hda_dsp_compr_pointer(struct snd_sof_dev *sdev, struct snd_compr_stream *cstream,
-+			  struct snd_compr_tstamp64 *tstamp);
-+u64 hda_dsp_compr_get_stream_llp(struct snd_sof_dev *sdev,
-+				 struct snd_compr_stream *cstream);
-+
- /*
-  * DSP Stream Operations.
-  */
-diff --git a/sound/soc/sof/ops.h b/sound/soc/sof/ops.h
-index 72af1f4ff620..4afc92490fbe 100644
---- a/sound/soc/sof/ops.h
-+++ b/sound/soc/sof/ops.h
-@@ -15,6 +15,7 @@
- #include <linux/interrupt.h>
- #include <linux/kernel.h>
- #include <linux/types.h>
-+#include <sound/compress_driver.h>
- #include <sound/pcm.h>
- #include "sof-priv.h"
- 
-@@ -448,6 +449,79 @@ snd_sof_pcm_platform_hw_params(struct snd_sof_dev *sdev,
- 	return 0;
- }
- 
-+static inline int
-+snd_sof_compr_platform_open(struct snd_sof_dev *sdev, struct snd_compr_stream *cstream)
-+{
-+	if (sof_ops(sdev) && sof_ops(sdev)->compr_open)
-+		return sof_ops(sdev)->compr_open(sdev, cstream);
-+
-+	return 0;
-+}
-+
-+/* disconnect pcm substream to a host stream */
-+static inline int
-+snd_sof_compr_platform_close(struct snd_sof_dev *sdev, struct snd_compr_stream *cstream)
-+{
-+	if (sof_ops(sdev) && sof_ops(sdev)->compr_close)
-+		return sof_ops(sdev)->compr_close(sdev, cstream);
-+
-+	return 0;
-+}
-+
-+/* host stream hw params */
-+static inline int
-+snd_sof_compr_platform_hw_params(struct snd_sof_dev *sdev,
-+				 struct snd_compr_stream *cstream,
-+				 struct snd_compr_params *params,
-+				 struct snd_sof_platform_stream_params *platform_params)
-+{
-+	if (sof_ops(sdev) && sof_ops(sdev)->compr_hw_params)
-+		return sof_ops(sdev)->compr_hw_params(sdev, cstream, params, platform_params);
-+
-+	return 0;
-+}
-+
-+static inline int
-+snd_sof_compr_platform_hw_free(struct snd_sof_dev *sdev,
-+			       struct snd_compr_stream *cstream)
-+{
-+	if (sof_ops(sdev) && sof_ops(sdev)->compr_hw_free)
-+		return sof_ops(sdev)->compr_hw_free(sdev, cstream);
-+
-+	return 0;
-+}
-+
-+static inline int
-+snd_sof_compr_platform_trigger(struct snd_sof_dev *sdev,
-+			       struct snd_compr_stream *cstream, int cmd)
-+{
-+	if (sof_ops(sdev) && sof_ops(sdev)->compr_trigger)
-+		return sof_ops(sdev)->compr_trigger(sdev, cstream, cmd);
-+
-+	return 0;
-+}
-+
-+static inline int
-+snd_sof_compr_platform_pointer(struct snd_sof_dev *sdev,
-+			       struct snd_compr_stream *cstream,
-+			       struct snd_compr_tstamp64 *tstamp)
-+{
-+	if (sof_ops(sdev) && sof_ops(sdev)->compr_pointer)
-+		return sof_ops(sdev)->compr_pointer(sdev, cstream, tstamp);
-+
-+	return 0;
-+}
-+
-+static inline u64
-+snd_sof_compr_get_dai_frame_counter(struct snd_sof_dev *sdev,
-+				    struct snd_compr_stream *cstream)
-+{
-+	if (sof_ops(sdev) && sof_ops(sdev)->compr_get_dai_frame_counter)
-+		return sof_ops(sdev)->compr_get_dai_frame_counter(sdev, cstream);
-+
-+	return 0;
-+}
-+
- /* host stream hw free */
- static inline int
- snd_sof_pcm_platform_hw_free(struct snd_sof_dev *sdev,
-diff --git a/sound/soc/sof/sof-priv.h b/sound/soc/sof/sof-priv.h
-index 38753b088fc1..560be58611c0 100644
---- a/sound/soc/sof/sof-priv.h
-+++ b/sound/soc/sof/sof-priv.h
-@@ -256,6 +256,18 @@ struct snd_sof_dsp_ops {
- 	/* pcm ack */
- 	int (*pcm_ack)(struct snd_sof_dev *sdev, struct snd_pcm_substream *substream); /* optional */
- 
-+	int (*compr_open)(struct snd_sof_dev *sdev, struct snd_compr_stream *cstream);
-+	int (*compr_close)(struct snd_sof_dev *sdev, struct snd_compr_stream *cstream);
-+	int (*compr_hw_params)(struct snd_sof_dev *sdev, struct snd_compr_stream *cstream,
-+			       struct snd_compr_params *params,
-+			       struct snd_sof_platform_stream_params *platform_params);
-+	int (*compr_hw_free)(struct snd_sof_dev *sdev, struct snd_compr_stream *cstream);
-+	int (*compr_trigger)(struct snd_sof_dev *sdev, struct snd_compr_stream *cstream,
-+			     int cmd);
-+	int (*compr_pointer)(struct snd_sof_dev *sdev, struct snd_compr_stream *cstream,
-+			     struct snd_compr_tstamp64 *tstamp);
-+	u64 (*compr_get_dai_frame_counter)(struct snd_sof_dev *sdev,
-+					   struct snd_compr_stream *cstream);
- 	/*
- 	 * optional callback to retrieve the number of frames left/arrived from/to
- 	 * the DSP on the DAI side (link/codec/DMIC/etc).
+ #endif
 -- 
 2.56.0
 
