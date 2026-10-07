@@ -1,90 +1,79 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BDBA46A604
-	for <linux-sound@vger.kernel.org>; Wed,  7 Oct 2026 10:22:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 561C540DB5B
+	for <linux-sound@vger.kernel.org>; Wed,  7 Oct 2026 10:47:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791368559; cv=none; b=c9l99u56frYFjBJl15dqL99t6UIv9OO9zO64XfriP2jTAW29OIayteki2yN6DfA7ds9jcyVCoqkfdnw8uYmES7/VbjpUjB0VFbwGf49ahe4CfJ/39LidY6NpKJzIXar29ascDTldZe8JhPZqyXd2w1uNFSMSq+UWxs5/U1alcxk=
+	t=1791370103; cv=none; b=H5pDxYbgL1X1B6SZliGGWll2VdHlvS7Oa3TXltTuPfJq64Nug2lbZ7EWy0pEFm4oFuybxe58GeIeHoHTXVPNRcRac6U2mB8DCugWYe1w/Jv+nP9/O01L/5rY/TBTz+x0VPcEiaMT8SF3EJPrwaJ6fYcdF03r0/k11v5ulEP+HPI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791368559; c=relaxed/simple;
-	bh=33sM7f6aAIE0p9vbZJEVhMypadhu9bgrD53f+49PAAg=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=VUr28TZ1T/fMz1UFR7aZdR/L6wWgIP0ew2hNRsFzdp0LMfhYRMfXl0djgUk8EfQRVgyK9+DSkYiJIH4owdUU64UxuFTWCAcD5Hd166KZIgK/PV7Raci2X2QFnfWFXA5GXu8RCeEH0UZMADLhu6UanaKVt5IK6ic3zGeWu9DoODs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WbbUr4Cc; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791370103; c=relaxed/simple;
+	bh=LytnywuOnhwqXBkXCG13rsu8R+spdqqmoED5wtsC90g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ElCSMIXjnF5sZrP/3ogGAg3RXEgE1YkiV2byti6UciKhx26/NVpwwgJ9EpDBs9Kj3OFd1WJ9gIv7mGs0EXAf01HCaa9oF64MPJakr8nhhbsWOWEdTVDMbFKOfELS0xHx8Ubw5MoAN/XkvjesbMmoftWBBgkvSJbrR0/aYz5iw4M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BxSeH9h5; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WbbUr4Cc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1DD11F0089B;
-	Wed,  7 Oct 2026 10:22:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BxSeH9h5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F039A1F0089F;
+	Wed,  7 Oct 2026 10:47:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791368551;
-	bh=JAD5HchoYkq/xNq5+Xhh+wfn65dElg5AxJ0bZIMya9U=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=WbbUr4CcgsiQ9CVI/gst2AVB88ZjCe7uapSIWqgCauNaph1aLOQEN5GbrmnW0sPTN
-	 PWL+hVPmTRQUolo7shNCd+0GWY5Uy/vkFUJzCTaUklq8zVfuIPDp12iulBECjeb9kz
-	 1HA2LPemipBSaRwnnhGURCvQUA9J676I2+lmYx7me6J4asWOCCET5GXVp3MIE/t6by
-	 +h/B3+oYUrGfTEr0J8snp4bq7HZou1gi/w6xYI05/Mmo7HTR7B+wO1FTESQKDjEHdE
-	 FMXTrVPW/8y4+26GUq5y/3qMsCVhovzuvwhClqmS0wAuDuvpuSunZqDxPHO6AT/43V
-	 G7GwtrK6fg1Ig==
+	s=k20260515; t=1791370046;
+	bh=LytnywuOnhwqXBkXCG13rsu8R+spdqqmoED5wtsC90g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=BxSeH9h5whGClfihg+ibdVOIMp+7VUmJKM65yBPhFOrTEuXuzAmw5oK/yxH2FO9br
+	 h7V+OGFNjU9qQbd/AMWQV2IkJMlGvvfzr3noAPpIOtNGn7RJHoxtC9aGhK+nUBUhka
+	 Zq2E+VWVxrIQOW04HpwSWjXTD2sLDx26XMpUqhhWp+sB3PpKHLyPbgwxZbhFLtcBgJ
+	 sHXe3FXvfi68IOb4IZhdxy6e94hlLbuEulUbjcet4o6UyYvEEvA6T4XRxHkKFJTqrG
+	 5HFg9FxJCAW1NLzisQtGHsvDqeajB3eVqQJFo6c7t+i5FmVXC61PFhZoXoxP/X9+eF
+	 uEYZZFIbcfT4Q==
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+	id 84CE81AC57CE; Wed, 07 Oct 2026 11:47:23 +0100 (BST)
+Date: Wed, 7 Oct 2026 12:47:23 +0200
 From: Mark Brown <broonie@kernel.org>
-To: Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>, 
- Takashi Iwai <tiwai@suse.com>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <87qzicel11.wl-kuninori.morimoto.gx@renesas.com>
-References: <87qzicel11.wl-kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH] ASoC: codecs: cpcap: tidyup cpcap_soc_probe()
-Message-Id: <179130045340.150114.16993877534433037341.b4-ty@b4>
-Date: Tue, 06 Oct 2026 17:27:33 +0200
+To: shumingf@realtek.com
+Cc: lgirdwood@gmail.com, linux-sound@vger.kernel.org, lars@metafoo.de,
+	flove@realtek.com, oder_chiou@realtek.com, jack.yu@realtek.com,
+	derek.fang@realtek.com
+Subject: Re: [PATCH] ASoC: rt766: trigger JD when system reboots
+Message-ID: <asYjO4n9fy8qC3kc@sirena.co.uk>
+References: <20261007092524.3711965-1-shumingf@realtek.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1113; i=broonie@kernel.org;
- h=from:subject:message-id; bh=33sM7f6aAIE0p9vbZJEVhMypadhu9bgrD53f+49PAAg=;
- b=kA0DAAoBJNaLcl1Uh9AByyZiAGrGHWLImbX+S2W+xwXBHV8qO6IYbGx/LFep40X2zHfQsYB17
- IkBMwQAAQoAHRYhBK3maKpnVxi1n+Kf6iTWi3JdVIfQBQJqxh1iAAoJECTWi3JdVIfQJ/UH/0To
- 4ZIbD1yVtpg/GtUT/jUtTuszUWlmGmQZDgaZMi2eAHj+fJVCMOkubeaPJcCiRm9K05AcNa1u292
- rKYD/5mzwdsssLj8way6oMrWHA07pL1snBC0iyfTdtzFT1WpjFX0mLqZIoycnPrDSJcLV2qtIDu
- vKeM9HBJ/Jq4JDVWkUR3kZn0uaB3BmrNkQ2eHGUmpiwZeySyM9N8bByK8XX60sn8tVIWhtSPyBN
- MHfqjlvleLkXkyLQmP56JZfm3ibKrUm/wI+USAzrX2RD/0ClwDjeraku7JWteHiWHhpzKyRlnUd
- k2GDlfsR2i78OnQSJ3XN6OprKvgG/5DmffWiZos=
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="mzLnMHTf73wawTTE"
+Content-Disposition: inline
+In-Reply-To: <20261007092524.3711965-1-shumingf@realtek.com>
+X-Cookie: You will forget that you ever knew me.
 
-On Tue, 29 Sep 2026 04:31:06 +0000, Kuninori Morimoto wrote:
-> ASoC: codecs: cpcap: tidyup cpcap_soc_probe()
 
-Applied to
+--mzLnMHTf73wawTTE
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
+On Wed, Oct 07, 2026 at 05:25:24PM +0800, shumingf@realtek.com wrote:
+> From: Shuming Fan <shumingf@realtek.com>
+>=20
+> The initial jack detection at boot time may be missed after a warm reboot
+> if the blind writes are not reloaded.
 
-Thanks!
+How does this happen - this feels like it's masking the failure to
+resume properly after a warm reboot and there's more that needs to be
+set up in that case?
 
-[1/1] ASoC: codecs: cpcap: tidyup cpcap_soc_probe()
-      https://git.kernel.org/broonie/sound/c/8afbacbcaebc
+--mzLnMHTf73wawTTE
+Content-Type: application/pgp-signature; name="signature.asc"
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+-----BEGIN PGP SIGNATURE-----
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+iHUEABYKAB0WIQReagvpf3TrrA7BoYYv73Ows9A4iQUCasYjOwAKCRAv73Ows9A4
+iS+dAQDs2dndTTYSXIgYg784M6zvZ4jMMALMANmGMsoyfNZ0rgD9Gp4lwffteWp5
+NCUeOExxGY0hr9ZmGP1XZRreXAgd5gI=
+=W4iF
+-----END PGP SIGNATURE-----
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+--mzLnMHTf73wawTTE--
