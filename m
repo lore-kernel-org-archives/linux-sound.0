@@ -1,84 +1,85 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F8AB3DA5A6;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 904263DA5DE;
 	Wed,  7 Oct 2026 17:20:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791393659; cv=none; b=SWv7fCL+9/QR/nUSNXCxkdcfL7kkrD/kPwMg8nXgDrOtRUysEQ/sBzzzv/lBt3IW1sw/GjHo9GHi3nNGIbzqicxkXsS7KpcZd3FsZJYthmCY4eNbsKD64uPhVy7mEeUjxM0WEnSnwWmySV0GeXKfNNhYsoTUSKJUWdIC+fkRSiM=
+	t=1791393659; cv=none; b=cH99NizdlJ0oxyQxFb1N+Dj4OwJPN7JqFyVkF5gIhNg2TpSqj39VqNcOqNb2WFpBnaTYQylhtH+Qj99eElJeA9AHV/I4J0zGg0kwiMvba2ZITlDQzlmBsTwnkI/GaiM1UxOI4fSFOnR8XomDh7le7Mui81aL8aa1myhPBYPn2xg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1791393659; c=relaxed/simple;
-	bh=6xnMfE9qLhGmbG2BDtSyZKV1XqDObRjqesi0ki/MPE0=;
+	bh=0qqBygVyh2s7AVyFozenI3LQns112e18D3VVOfGpKog=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=uQu5K/eVucszkx9b7mJTquLSWQr+Opcwc1kZ0QO/jWi2fqmAENXNqQdqOLR8s4Xe+a8Nm15L9JnlmSvy0rqK7R/2xtaGj/8B8OXM+lgheq4V6VeZpz8st1pwnjPNw2wOiaLthZWegGLfcBW0dtJ/R+4sN/jziSpy6EnZqZwlETQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=l74qIuHQ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=7gfTcm3R; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=l74qIuHQ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=7gfTcm3R; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=JY7kY+3p2BBVJFHhk/grrGB1N8REpAvQP68r22pjP/kI9l0bHic907/bmhEPN6ixkqHndjQhwW126gLUTv3ttTcldhc1hOCant3Q5SgiQB/PMEpztz6NPxCadTfF7wD8R+JfU7FX9kG+HN/Y4ZrF/WlafnzMRM23h/iuWfkLbNA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=q8Npbkdc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=vvFVJfWI; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=q8Npbkdc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=vvFVJfWI; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="l74qIuHQ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7gfTcm3R";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="l74qIuHQ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7gfTcm3R"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="q8Npbkdc";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vvFVJfWI";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="q8Npbkdc";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vvFVJfWI"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id CC4D721BBC;
+	by smtp-out1.suse.de (Postfix) with ESMTPS id CF03421BBF;
 	Wed,  7 Oct 2026 17:20:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1791393655; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3IX4uutRB5gx+XfVbulf3ZtFl16Cjyns+9zwd/JUWRg=;
-	b=l74qIuHQmVCivsdbgAFbkAhEgDxsBBi/PqOKxHU5NFmHDNLDi30Wwci54fKFAGZhZ3GwG7
-	ynzg5u2uBF+TQQWzl6lNRQF6xeSl59/JcSeTBNojc8YkmRFLzJOs/TSIsi0oEkuJsdbGKa
-	KFCOwiPNfTxiNGlend70Qgiau/15Unw=
+	bh=T0pu1p+K69r6ZCCEAmAJ1EHzNWTY3ZRlNdMXPAjZztM=;
+	b=q8NpbkdcpJ/7PlNK/m71XiWfdPDL973k4fGBKMlm3Dm29zV2Riudodd2oIvVaE6rAy8lHx
+	Ia6g3uzC6GVrRHiQY3FwenexbdDDDGYc7xq5i53mXpsgy7SOLs7ABpyTCvOHtiydgZTQ2V
+	tDg+NK7Q30ZZhwWtLV3JxPK5N7jhDoU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1791393655;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3IX4uutRB5gx+XfVbulf3ZtFl16Cjyns+9zwd/JUWRg=;
-	b=7gfTcm3RO3TMdZ0nhxjmdq6HchVKqMV3Y+TMfQoyzfxcy8xiXThLSDNMpg49Y4tNqTwzN7
-	RjG3E3j3dZRGLMBw==
+	bh=T0pu1p+K69r6ZCCEAmAJ1EHzNWTY3ZRlNdMXPAjZztM=;
+	b=vvFVJfWIjQA50V//zykDDUEqYCvmsrB7bJvcRbFOccrO9Lm/DqCK5Htn3weQ7r/Xvoe07N
+	fAZP/CD5reyeUuCw==
 Authentication-Results: smtp-out1.suse.de;
-	none
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=q8Npbkdc;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=vvFVJfWI
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1791393655; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3IX4uutRB5gx+XfVbulf3ZtFl16Cjyns+9zwd/JUWRg=;
-	b=l74qIuHQmVCivsdbgAFbkAhEgDxsBBi/PqOKxHU5NFmHDNLDi30Wwci54fKFAGZhZ3GwG7
-	ynzg5u2uBF+TQQWzl6lNRQF6xeSl59/JcSeTBNojc8YkmRFLzJOs/TSIsi0oEkuJsdbGKa
-	KFCOwiPNfTxiNGlend70Qgiau/15Unw=
+	bh=T0pu1p+K69r6ZCCEAmAJ1EHzNWTY3ZRlNdMXPAjZztM=;
+	b=q8NpbkdcpJ/7PlNK/m71XiWfdPDL973k4fGBKMlm3Dm29zV2Riudodd2oIvVaE6rAy8lHx
+	Ia6g3uzC6GVrRHiQY3FwenexbdDDDGYc7xq5i53mXpsgy7SOLs7ABpyTCvOHtiydgZTQ2V
+	tDg+NK7Q30ZZhwWtLV3JxPK5N7jhDoU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1791393655;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3IX4uutRB5gx+XfVbulf3ZtFl16Cjyns+9zwd/JUWRg=;
-	b=7gfTcm3RO3TMdZ0nhxjmdq6HchVKqMV3Y+TMfQoyzfxcy8xiXThLSDNMpg49Y4tNqTwzN7
-	RjG3E3j3dZRGLMBw==
+	bh=T0pu1p+K69r6ZCCEAmAJ1EHzNWTY3ZRlNdMXPAjZztM=;
+	b=vvFVJfWIjQA50V//zykDDUEqYCvmsrB7bJvcRbFOccrO9Lm/DqCK5Htn3weQ7r/Xvoe07N
+	fAZP/CD5reyeUuCw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 48592139BB;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 38E13139B6;
 	Wed,  7 Oct 2026 17:20:55 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 8rcALXZ/xmp1CgAAD6G6ig:T7
+	id 8rcALXZ/xmp1CgAAD6G6ig:T6
 	(envelope-from <tiwai@suse.de>); Wed, 07 Oct 2026 17:20:55 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org
-Subject: [PATCH v3 6/8] ALSA: pcmtest: Fix a bogus pointer read in snd_pcmtst_pcm_pointer()
-Date: Wed,  7 Oct 2026 19:20:42 +0200
-Message-ID: <20261007172051.13240-7-tiwai@suse.de>
+Subject: [PATCH v3 5/8] ALSA: usb-audio: Fix data race at mixer_ctl_feature_info()
+Date: Wed,  7 Oct 2026 19:20:41 +0200
+Message-ID: <20261007172051.13240-6-tiwai@suse.de>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20261007172051.13240-1-tiwai@suse.de>
 References: <20261007172051.13240-1-tiwai@suse.de>
@@ -89,75 +90,158 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -2.80
-X-Spam-Level: 
 X-Spam-Flag: NO
-X-Spamd-Result: default: False [-2.80 / 50.00];
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.01 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	RCPT_COUNT_TWO(0.00)[2];
+	MX_GOOD(-0.01)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
 	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_TWO(0.00)[2];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:email,suse.de:dkim];
+	RCVD_TLS_ALL(0.00)[];
 	TO_DN_NONE(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[]
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Spam-Score: -3.01
+X-Spam-Level: 
+X-Rspamd-Queue-Id: CF03421BBF
 
-Sashiko reported a potential bogus value for a pcmtest driver when a
-concurrent call to PCM pointer is invoked while the pcmtest's timer
-callback is running: since the position is updated in the timer
-callback without locking, the following wrapping in inc_buf_pos()
-might be screwed up:
-	if (v_iter->buf_pos >= bytes)
-		v_iter->buf_pos %= bytes;
-Although it was reported as an OOB, the actual return is corrected
-inside buffer_size, so no corruption is expected in this scenario, but
-an error message could show a bogus value.
+The info callback for USB-audio mixer controls for feature unit has a
+dynamic initialization of the contents with the check of
+cval->initialized flag.  But, since the info callback may be
+concurrently called, this may lead to a data race, giving back an
+inconsistent state.  Similarly, get and put callbacks may have
+concurrent accesses and can get bogus states.
 
-Also, the whole state is read and modified locklessly in the timer
-callback, which can be racy against the pause operation, too.
-
-For avoiding those races, simply put the PCM stream lock in the timer
-callback (while the snd_pcm_period_elapsed() must be changed to its
-*_under_stream_lock() variant for avoiding the deadlock).
+For avoiding the data race, introduce a mutex locking for the
+controls and protect against concurrent info callback calls.
 
 Reported-by: Sashiko <sashiko-bot@kernel.org>
-Fixes: 315a3d57c64c ("ALSA: Implement the new Virtual PCM Test Driver")
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/drivers/pcmtest.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ sound/usb/mixer.c | 14 +++++++++++++-
+ sound/usb/mixer.h |  1 +
+ 2 files changed, 14 insertions(+), 1 deletion(-)
 
-diff --git a/sound/drivers/pcmtest.c b/sound/drivers/pcmtest.c
-index 186e982d42e1..fea9580593e6 100644
---- a/sound/drivers/pcmtest.c
-+++ b/sound/drivers/pcmtest.c
-@@ -345,6 +345,7 @@ static void timer_timeout(struct timer_list *data)
- 	v_iter = timer_container_of(v_iter, data, timer_instance);
- 	substream = v_iter->substream;
+diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
+index 9d8007ea95d5..695d51f7aeb4 100644
+--- a/sound/usb/mixer.c
++++ b/sound/usb/mixer.c
+@@ -1531,6 +1531,7 @@ static int mixer_ctl_feature_info(struct snd_kcontrol *kcontrol,
+ 	struct usb_mixer_elem_info *cval = snd_kcontrol_chip(kcontrol);
+ 	int ret;
  
-+	guard(pcm_stream_lock_irqsave)(substream);
- 	if (v_iter->suspend)
- 		return;
++	guard(mutex)(&cval->head.mixer->lock);
+ 	if (cval->val_type == USB_MIXER_BOOLEAN ||
+ 	    cval->val_type == USB_MIXER_INV_BOOLEAN)
+ 		uinfo->type = SNDRV_CTL_ELEM_TYPE_BOOLEAN;
+@@ -1565,6 +1566,7 @@ static int mixer_ctl_feature_get(struct snd_kcontrol *kcontrol,
+ 	struct usb_mixer_elem_info *cval = snd_kcontrol_chip(kcontrol);
+ 	int c, cnt, val, err;
  
-@@ -358,7 +359,7 @@ static void timer_timeout(struct timer_list *data)
- 	v_iter->period_pos += v_iter->b_rw;
- 	if (v_iter->period_pos >= v_iter->period_bytes) {
- 		v_iter->period_pos %= v_iter->period_bytes;
--		snd_pcm_period_elapsed(substream);
-+		snd_pcm_period_elapsed_under_stream_lock(substream);
++	guard(mutex)(&cval->head.mixer->lock);
+ 	ucontrol->value.integer.value[0] = cval->min;
+ 	if (cval->cmask) {
+ 		cnt = 0;
+@@ -1595,10 +1597,12 @@ static int mixer_ctl_feature_put(struct snd_kcontrol *kcontrol,
+ 				 struct snd_ctl_elem_value *ucontrol)
+ {
+ 	struct usb_mixer_elem_info *cval = snd_kcontrol_chip(kcontrol);
+-	int max_val = get_max_exposed(cval);
++	int max_val;
+ 	int c, cnt, val, oval, err;
+ 	int changed = 0;
+ 
++	guard(mutex)(&cval->head.mixer->lock);
++	max_val = get_max_exposed(cval);
+ 	if (cval->cmask) {
+ 		cnt = 0;
+ 		for (c = 0; c < MAX_CHANNELS; c++) {
+@@ -1646,6 +1650,7 @@ static int mixer_ctl_master_bool_get(struct snd_kcontrol *kcontrol,
+ 	struct usb_mixer_elem_info *cval = snd_kcontrol_chip(kcontrol);
+ 	int val, err;
+ 
++	guard(mutex)(&cval->head.mixer->lock);
+ 	err = snd_usb_get_cur_mix_value(cval, 0, 0, &val);
+ 	if (err < 0)
+ 		return filter_error(cval, err);
+@@ -2592,6 +2597,7 @@ static int mixer_ctl_procunit_get(struct snd_kcontrol *kcontrol,
+ 	struct usb_mixer_elem_info *cval = snd_kcontrol_chip(kcontrol);
+ 	int err, val;
+ 
++	guard(mutex)(&cval->head.mixer->lock);
+ 	err = get_cur_ctl_value(cval, cval->control << 8, &val);
+ 	if (err < 0) {
+ 		ucontrol->value.integer.value[0] = cval->min;
+@@ -2609,6 +2615,7 @@ static int mixer_ctl_procunit_put(struct snd_kcontrol *kcontrol,
+ 	struct usb_mixer_elem_info *cval = snd_kcontrol_chip(kcontrol);
+ 	int val, oval, err;
+ 
++	guard(mutex)(&cval->head.mixer->lock);
+ 	err = get_cur_ctl_value(cval, cval->control << 8, &oval);
+ 	if (err < 0)
+ 		return filter_error(cval, err);
+@@ -2960,6 +2967,7 @@ static int mixer_ctl_selector_get(struct snd_kcontrol *kcontrol,
+ 	struct usb_mixer_elem_info *cval = snd_kcontrol_chip(kcontrol);
+ 	int val, err;
+ 
++	guard(mutex)(&cval->head.mixer->lock);
+ 	err = get_cur_ctl_value(cval, cval->control << 8, &val);
+ 	if (err < 0) {
+ 		ucontrol->value.enumerated.item[0] = 0;
+@@ -2977,6 +2985,7 @@ static int mixer_ctl_selector_put(struct snd_kcontrol *kcontrol,
+ 	struct usb_mixer_elem_info *cval = snd_kcontrol_chip(kcontrol);
+ 	int val, oval, err;
+ 
++	guard(mutex)(&cval->head.mixer->lock);
+ 	err = get_cur_ctl_value(cval, cval->control << 8, &oval);
+ 	if (err < 0)
+ 		return filter_error(cval, err);
+@@ -3249,6 +3258,7 @@ static void snd_usb_mixer_free(struct usb_mixer_interface *mixer)
+ 	}
+ 	usb_free_urb(mixer->rc_urb);
+ 	kfree(mixer->rc_setup_packet);
++	mutex_destroy(&mixer->lock);
+ 	kfree(mixer);
+ }
+ 
+@@ -3893,6 +3903,8 @@ int snd_usb_create_mixer(struct snd_usb_audio *chip, int ctrlif)
+ 		return -ENOMEM;
  	}
  
- 	if (!v_iter->suspend)
++	mutex_init(&mixer->lock);
++
+ 	mixer->hostif = &usb_ifnum_to_if(chip->dev, ctrlif)->altsetting[0];
+ 	switch (get_iface_desc(mixer->hostif)->bInterfaceProtocol) {
+ 	case UAC_VERSION_1:
+diff --git a/sound/usb/mixer.h b/sound/usb/mixer.h
+index cf45c39cbccc..2ff4490f97c2 100644
+--- a/sound/usb/mixer.h
++++ b/sound/usb/mixer.h
+@@ -18,6 +18,7 @@ struct usb_mixer_interface {
+ 	struct usb_host_interface *hostif;
+ 	struct list_head list;
+ 	unsigned int ignore_ctl_error;
++	struct mutex lock; /* lock for feature unit callbacks */
+ 	/* UAC2 status interrupt endpoint; owned by mixer.c */
+ 	struct urb *urb;
+ 	/* array[MAX_ID_ELEMS], indexed by unit id */
 -- 
 2.55.0
 
