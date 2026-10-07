@@ -1,36 +1,36 @@
-Received: from mta0.migadu.com (out-78.mta0.migadu.com [91.218.175.78])
+Received: from mta0.migadu.com (out-80.mta0.migadu.com [91.218.175.80])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C98A4AF165
-	for <linux-sound@vger.kernel.org>; Wed,  7 Oct 2026 16:39:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76DB24B95C9
+	for <linux-sound@vger.kernel.org>; Wed,  7 Oct 2026 16:39:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.80
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791391174; cv=none; b=YAFhOc1MWZJjW2IPpF9rqva3/Xbqhkm8VsfPetU1M+/AENjk3iQ55mEg285TlsfUSAEXliXxHj3EIGmQ6ikGJCk6pZUed081HTGDRGdezgWCV4TN6HBdmRsOZx2hIEikRKAyFUe+EvphKX4FqD0phckQwyXn9WQ1FA+8bmOLXoU=
+	t=1791391175; cv=none; b=hLfHRw99z3eC9ygs4hEWQaMz/wF3CW6AndoNS+lu4noqSQ7Za64e1mDNsgzgWCH1jJ8/fBWGu9KFILCh7U6j80Bffi8afODS9jJpDoIynzYaUjmnoC7E9fe/RyNuVw2qNyapNGmahMiYKp3L1KoJ/nhtRKFijuU2lvax5GHPN/4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791391174; c=relaxed/simple;
-	bh=573XtaTPRKCqIERDsFZPBPRfHkJBseosXV+VlcDqcS0=;
+	s=arc-20240116; t=1791391175; c=relaxed/simple;
+	bh=VwNTSvb0ND2zjC7ZuMjeI6p/DkZoYvxzCl5KhQg1scE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bnW5wE/BAY16jlmrTZt4tYVfiaLf68eCEB6VJNEoX5FsgRaXlLS9UI4U9Ld4WZ1mKwDEKRW2r/gyduta7bbDbobgZ4lxCeZovBjVRJqQXM3QMF+AAot4NHV+hb5GJnv7HlifkmbUmYndftN7YOvq1q/O3mBD9quOhJGzEjhbh4Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=N6SnVz41; arc=none smtp.client-ip=91.218.175.78
+	 In-Reply-To:Content-Type; b=JOH4SKSX+KkAb3aisvMIbEuTDcPPfKzRt7/leZ0dY8rkTMcHPgip3Sra13AG+g1Ytib/sAZtkHQaJF3QS8Dmz6peYyl8hvVRCKgPrYHKI5XhqAR5u/D9oe4F3pcbBtzDhYlo8SFx+ld01CHh/iWDxnDXp+45vRBEzKtoNs0HdDY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Jt48a++1; arc=none smtp.client-ip=91.218.175.80
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="N6SnVz41"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Jt48a++1"
 X-Envelope-To: linux-sound@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=573XtaTPRKCqIERDsFZPBPRfHkJBseosXV+VlcDqcS0=;
+DKIM-Signature: a=rsa-sha256; bh=VwNTSvb0ND2zjC7ZuMjeI6p/DkZoYvxzCl5KhQg1scE=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1791391170; v=1; x=1791995970;
- b=N6SnVz41mcSCC5BlwaVcX/v9Pqlfg+wkk5boSBemdXjplI+DJAocjjuHwfjCzY65KiHbwEj8
- klG6sVqzYzt9xhuHsfXpY28MTF+n4naNmzojSFCjH6Yd5ldd34IuhVdnKD6MV+uAzOWLqQTVb9S
- +pN3DRO/Hd5eBjrkQfNSrBGA=
+ t=1791391171; v=1; x=1791995971;
+ b=Jt48a++1yb0EseCuKYdLjdjISl3CCv4zUzS7oJciN4o4Gdo93WHxztJOV9qMBpDMYfo7h8AX
+ gZPGaigeTnCbXgQBS/Vxrcoo/VR2tUg3g/qWyaMVIl4I1B7JA7rAPBU51HSs82x2hmdrTReu9t/
+ fOPL+XK8pK2Owj45n5SSha80=
 X-Envelope-To: linux-sound@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id a9ddaedf7a893f71;
-	Wed, 07 Oct 2026 16:39:30 +0000
-X-Mizu-Trace-ID: a9ddaedf7a893f71
+Received: by smtp.migadu.com with ESMTPS id bd0d67ce533b2e72;
+	Wed, 07 Oct 2026 16:39:31 +0000
+X-Mizu-Trace-ID: bd0d67ce533b2e72
 X-Migadu-Flow: FLOW_OUT
-Message-ID: <f58d1a49-0cf5-4885-8011-433d7ccc4be1@linux.dev>
-Date: Wed, 7 Oct 2026 17:57:17 +0200
+Message-ID: <aebd9a8b-8b82-4278-85c8-6286180defa7@linux.dev>
+Date: Wed, 7 Oct 2026 17:57:51 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -44,47 +44,31 @@ To: Richard Fitzgerald <rf@opensource.cirrus.com>, broonie@kernel.org
 Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
  patches@opensource.cirrus.com
 References: <20261005155235.1386525-1-rf@opensource.cirrus.com>
- <32e25f8c-9c96-4385-9f5f-a7cf8b11ef57@linux.dev>
- <d510a866-86c8-467a-8831-b373636874bf@opensource.cirrus.com>
 Content-Language: en-US
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <d510a866-86c8-467a-8831-b373636874bf@opensource.cirrus.com>
+In-Reply-To: <20261005155235.1386525-1-rf@opensource.cirrus.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 10/6/26 11:53, Richard Fitzgerald wrote:
-> On 05/10/2026 7:33 pm, Pierre-Louis Bossart wrote:
->> On 10/5/26 17:52, Richard Fitzgerald wrote:
->>> The amp feedback path (AEC) was incorrectly using SoundWire DP3.
->>> The firmware outputs SDCA OT25 feedback on DP4. DP3 is reserved for
->>> SDCA companion amp.
->>>
->>> This series adds a DAI for OT25 and switches the sdw machine driver
->>> to use the new DAI for the feedback path.
->>
->> Is there any merit in keeping this DP3 exposed as a capture DAI, if
->> indeed it's intended to be a side connection for a companion chip?
+On 10/5/26 17:52, Richard Fitzgerald wrote:
+> The amp feedback path (AEC) was incorrectly using SoundWire DP3.
+> The firmware outputs SDCA OT25 feedback on DP4. DP3 is reserved for
+> SDCA companion amp.
 > 
-> I kept this patch to a minimum because it is a Fixes: so it must apply
-> to older kernels.
+> This series adds a DAI for OT25 and switches the sdw machine driver
+> to use the new DAI for the feedback path.
 > 
-> However, you are correct. DP3 isn't used now. Not even on companion amp.
-> DP3 is a companion output from the amp (SDCA OT127), but Cirrus
-> companion amp goes codec->amp so uses DP1 on the amp.
-> 
-> When the driver was being written the SDCA spec and firmware behavior
-> were not fully defined so pairing of the symmetrical DP1+DP3
-> (for play+capture) was carried forward from previous amps. But SDCA
-> doesn't provide any sort of UCM capability - widgets on the device have
-> defined, fixed functionality that has to be preconfigured by the
-> firmware to match what SDCA needs. Ultimately DP4 was more suitable for
-> OT25. DP4 also works for loopback testing.
-> 
-> Removing DP3 would also solve some other problems that the driver and
-> firmware are both "owning" the registers. We originally attempted to
-> sync this up, then gave up on that complexity and overwrite the register
-> settings the firmware made.
+> Richard Fitzgerald (2):
+>   ASoC: cs35l56: Add DAI for SDCA OT25 stream
+>   ASoC: sdw_utils: Switch CS35L56/57/62/63 to use OT25 DAI
 
-thanks for the explanations, I guess we'll see a follow-up patch to
-remove DP3 altogether at some point.
+Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+
+> 
+>  include/sound/cs35l56.h             |  1 +
+>  sound/soc/codecs/cs35l56-sdw.c      |  9 +++--
+>  sound/soc/codecs/cs35l56.c          | 54 +++++++++++++++++++++++++++++
+>  sound/soc/sdw_utils/soc_sdw_utils.c |  8 ++---
+>  4 files changed, 66 insertions(+), 6 deletions(-)
+> 
 
