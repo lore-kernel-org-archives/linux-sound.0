@@ -1,84 +1,84 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F82747C10B;
-	Wed,  7 Oct 2026 09:36:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF41A46985D;
+	Wed,  7 Oct 2026 09:36:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791365826; cv=none; b=L+8fOixUPcWYJwu72NHoFIdvqA/k82aA18GcIn2DAOfURmD0HiBea3wqj8Sai1Z+laOwzjC9+50kWgc3Uw6z9OttCv6Z2cP7PIwBUAaPG2rzRlhgl6EZG9ZEKn7sqcMluLKWhAmAPqPMophHPsXI0De3p338ujV6Kcx9SImgCyg=
+	t=1791365828; cv=none; b=KrqCvvTCTgCANQ3fp8yPOL38S7oa1H9IeJWxylipya89m+o/GQ1Ysji7aXX4a8xgUaDxed7UaGj56DVvcW2U944h83anKuNn8MH7956b2jaPxQabVzeD3M5j9n9YzjUVbrqzzQJT/ejpo6WdCAVQTj1u3+EN2/yvMzaMCYEwVI4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791365826; c=relaxed/simple;
-	bh=4uQxggd4bS+FkeXNbFiWNb9U48D8xD1Y2l/vAIN15BU=;
+	s=arc-20240116; t=1791365828; c=relaxed/simple;
+	bh=jc3TSLXldXteeuO1/4m7Zp9oJvtjcpCAcs3SyOAEuYU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=j/cCzRe/DQ73WVexFF4dZShPyWpH1qrYesSg1ZpnVfS8OyKOz6fklknZM11jUL4vBqiJo/SKsnE8jEuUDqKTbwQP9f2FkFN9PxmdsizjNCVCCfoTyg+brH6r7g/bFK2f4DjiVuGddtgwosyrNPu1R1A+o5RghzWhcjlYgtCD62Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=KaHTXAVa; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=OYS4Q7Hs; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=mtP/5Z/J; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SLsYF7T5; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=nks7EDHqfSTi4hnEs9Ir7YYNDT0Fjht2/mLnMJNQ9mh9whbTG8jA4VrHcOj885WRv+FtUhIOlWbAo93i5Rpn0hQ0W5pYgLdDy1YFbKsjTjAdEd145kkBZnwOEgsk/qVeWuI0Krub4r6YTINftk8YinYHTgi0XGGDOvbnlKvSqZ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=UgYYjQ81; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=QzaVgk8Y; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=zsQC4RZY; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=DvioGYVI; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KaHTXAVa";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="OYS4Q7Hs";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="mtP/5Z/J";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SLsYF7T5"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="UgYYjQ81";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QzaVgk8Y";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zsQC4RZY";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DvioGYVI"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 1E7DA21FD9;
-	Wed,  7 Oct 2026 09:36:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1791365809; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qp6XyLej4mtaKD90E+rurt8NoUFonCnw3zubJHWpLcg=;
-	b=KaHTXAVa3gzXxDoc9TJTzBj1D3zB1nYij+YKa+YIl8R2HtDITKHfgxgdK06iNo90XxzTFR
-	WsGjACXfXHmH40zMctQKGUbxqNBBUddOPVY2OynXzOPeci9lMpJKXUM1J1yIP0ACil05kt
-	99UIKnkXK1DbbJHdp4tU4Brd7cLdaMg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1791365809;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qp6XyLej4mtaKD90E+rurt8NoUFonCnw3zubJHWpLcg=;
-	b=OYS4Q7Hs8G4530OXx2pfR3AScgRQdGWHqe8ltb2aHjx0gbgd4pm90mfPi42rVwZexJ2WDT
-	Ei5BFlh3RqUorxAg==
-Authentication-Results: smtp-out1.suse.de;
-	none
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 4D6611F841;
+	Wed,  7 Oct 2026 09:36:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1791365805; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=qp6XyLej4mtaKD90E+rurt8NoUFonCnw3zubJHWpLcg=;
-	b=mtP/5Z/JFG/76BuI4LLKv+jaklMaUbuVzNDogwdytdsVpXll6uz2AKNujUJkG9YTLpO1M3
-	GXMx69H5tZfp87bJ2hbwygmd9ytyB0IDzYtUO4f9udUwBQhRaxsG85Il9f5tZSBKPv0uR9
-	7ZrKhPn2nsPcgjAiQxMqD7llsbb/sWU=
+	bh=MhC74u0euHiG6EiTkvFEObitfBMnKo6wcSCms+38sDc=;
+	b=UgYYjQ814EZrg9Wwm6rRLBj62Lzqz2YIohn9DAtKDRuL0pFiIpl0HehlUAhvYoGQ4lHQ+h
+	xCb5/wWoU8m4Z8ThJBEKe3CG21jqrZhRc6arezj0fRp7U2sssMX3CGX19p5P2zB66U8TUq
+	pWff1uxxOP3oD7BX2N0Jx56RhLq4ONY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1791365805;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=qp6XyLej4mtaKD90E+rurt8NoUFonCnw3zubJHWpLcg=;
-	b=SLsYF7T5eoTbIKDX5zO4YPsAIVOX/JLwb0pWBtpFh/PQuIalNwKUnJjeosRknKUP5H3QI/
-	kETFDH9cWbgl7sDw==
+	bh=MhC74u0euHiG6EiTkvFEObitfBMnKo6wcSCms+38sDc=;
+	b=QzaVgk8Y0e0mGUfKuHGvTBUtJH00mQbdvL175szzVQIdYvyGUOLeQtkJy1zro9LQF+S+k7
+	yKAvsGOtXANtvqCA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1791365801; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MhC74u0euHiG6EiTkvFEObitfBMnKo6wcSCms+38sDc=;
+	b=zsQC4RZYoxemkIL0dbNIMDutuxnVTjWw5J4M0Jq3xFjMQknXJyedXbNRPLTjPSSWEmZYJ9
+	mofkMTf7znmA1Bsx3/PjOcoVUdLiVK9nhEebBmI4oTdUVGjCncEm4jznh9nFdvXGZtUmRT
+	EJ7UBr0R4xDtkdUM/U2vISz80yvkjms=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1791365801;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MhC74u0euHiG6EiTkvFEObitfBMnKo6wcSCms+38sDc=;
+	b=DvioGYVIUT/bK47gJRieY51Gy/77XcioBmLT9Bn+dQJg9jKrxRWu4aXyZ8hlPf2EpkOITQ
+	I7FNObYdLXCiMmBA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 692C413B9B;
-	Wed,  7 Oct 2026 09:36:41 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E7F5F13B96;
+	Wed,  7 Oct 2026 09:36:40 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 9oTPLKgSxmpMDgAAD6G6ig:T8
-	(envelope-from <tiwai@suse.de>); Wed, 07 Oct 2026 09:36:41 +0000
+	id 9oTPLKgSxmpMDgAAD6G6ig:T2
+	(envelope-from <tiwai@suse.de>); Wed, 07 Oct 2026 09:36:40 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org
-Subject: [PATCH v2 7/8] ALSA: usb-audio: Fix mixer bitmap cache over 32 channels
-Date: Wed,  7 Oct 2026 11:36:34 +0200
-Message-ID: <20261007093638.1049688-8-tiwai@suse.de>
+Subject: [PATCH v2 1/8] ALSA: seq: Drop the bogus RCU guard from clientptr()
+Date: Wed,  7 Oct 2026 11:36:28 +0200
+Message-ID: <20261007093638.1049688-2-tiwai@suse.de>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20261007093638.1049688-1-tiwai@suse.de>
 References: <20261007093638.1049688-1-tiwai@suse.de>
@@ -113,297 +113,83 @@ X-Spamd-Result: default: False [-2.80 / 50.00];
 X-Spam-Score: -2.80
 X-Spam-Level: 
 
-USB-audio driver keeps the bitmap for the cached mixer channels, but
-since a 32bit integer is used, it's currently broken for over 32
-channels.  As the driver is supposed to support up to 64 channels,
-this patch extends the bitmap properly -- now to be more flexible, use
-the standard bitmap instead of the manual bit shifts.
+In the recent refactoring with RCU, clientptr() takes guard(rcu)()
+around the client table lookup, but the RCU read-side section ends as
+soon as the function returns, so the returned pointer isn't protected
+at all.  This gives a false impression as if that the callers were
+safe, and confuse reviewers including Sashiko.
 
-Some checks for master channels are replaced in a slightly different
-manner (checking the channel index 0) instead of the full cval->cached
-check, so that it fits better in the bitmap helper usage.
+Actually, the callers (snd_seq_delete_kernel_client(),
+snd_seq_kernel_client_ctl() and snd_seq_kernel_client_write_poll())
+never relied on any lock; the caller is the owner of the client (a
+kernel client passing its own id, or a user client via its opened
+file), hence the client can't be released concurrently by others.
 
-Fixes: 16ee07bfa935 ("ALSA: usb-audio: Extend max number of channels to 64")
+So just drop the confusing and useless RCU guard, read the table via
+rcu_dereference_protected(), and document the lifetime rule.  Along
+with it, fold __clientptr() into its only user client_use_ptr(); the
+id range is already checked there, and it's never called with
+clients_lock held, so a plain rcu_dereference() suffices.
+
+Fixes: 7a287e4615d6 ("ALSA: seq: Use RCU for the client table")
 Reported-by: Sashiko <sashiko-bot@kernel.org>
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/usb/mixer.c          | 18 +++++++++---------
- sound/usb/mixer.h          |  2 +-
- sound/usb/mixer_scarlett.c | 18 +++++++++---------
- sound/usb/mixer_us16x08.c  | 20 ++++++++++----------
- 4 files changed, 29 insertions(+), 29 deletions(-)
+ sound/core/seq/seq_clientmgr.c | 21 ++++++++-------------
+ 1 file changed, 8 insertions(+), 13 deletions(-)
 
-diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
-index 3b6e8759130d..b6e174dbd0fa 100644
---- a/sound/usb/mixer.c
-+++ b/sound/usb/mixer.c
-@@ -423,7 +423,7 @@ int snd_usb_get_cur_mix_value(struct usb_mixer_elem_info *cval,
+diff --git a/sound/core/seq/seq_clientmgr.c b/sound/core/seq/seq_clientmgr.c
+index 239809ce48d7..ba5619d0b0b0 100644
+--- a/sound/core/seq/seq_clientmgr.c
++++ b/sound/core/seq/seq_clientmgr.c
+@@ -95,23 +95,18 @@ static inline int snd_seq_write_pool_allocated(struct snd_seq_client *client)
+ 	return snd_seq_total_cells(client->pool) > 0;
+ }
+ 
+-/* return pointer to client structure for specified id; call under RCU read-lock */
+-static struct snd_seq_client *__clientptr(int clientid)
++/* return pointer to client structure for specified id;
++ * the caller must guarantee the client's lifetime by itself, as neither RCU
++ * nor a use_lock reference is taken here.
++ */
++static struct snd_seq_client *clientptr(int clientid)
  {
- 	int err;
- 
--	if (cval->cached & BIT(channel)) {
-+	if (test_bit(channel, cval->cached)) {
- 		*value = cval->cache_val[index];
- 		return 0;
+ 	if (clientid < 0 || clientid >= SNDRV_SEQ_MAX_CLIENTS) {
+ 		pr_debug("ALSA: seq: oops. Trying to get pointer to client %d\n",
+ 			   clientid);
+ 		return NULL;
  	}
-@@ -440,7 +440,7 @@ int snd_usb_get_cur_mix_value(struct usb_mixer_elem_info *cval,
- 				      cval->control, channel, err);
- 		return err;
- 	}
--	cval->cached |= BIT(channel);
-+	set_bit(channel, cval->cached);
- 	cval->cache_val[index] = *value;
- 	return 0;
+-	return rcu_dereference_check(clienttab[clientid],
+-				    lockdep_is_held(&clients_lock));
+-}
+-
+-/* return pointer to client structure for specified id */
+-static struct snd_seq_client *clientptr(int clientid)
+-{
+-	guard(rcu)();
+-	return __clientptr(clientid);
++	return rcu_dereference_protected(clienttab[clientid], true);
  }
-@@ -604,7 +604,7 @@ int snd_usb_set_cur_mix_value(struct usb_mixer_elem_info *cval, int channel,
- 					  value);
- 	if (err < 0)
- 		return err;
--	cval->cached |= BIT(channel);
-+	set_bit(channel, cval->cached);
- 	cval->cache_val[index] = value;
- 	return 0;
- }
-@@ -1449,7 +1449,7 @@ static int get_min_max_with_quirks(struct usb_mixer_elem_info *cval,
- 		 * properly.
- 		 */
- 		if (ret)
--			cval->cached = 0;
-+			bitmap_zero(cval->cached, MAX_CHANNELS + 1);
  
- 		cval->initialized = 1;
+ static struct snd_seq_client *client_use_ptr(int clientid, bool load_module)
+@@ -124,7 +119,7 @@ static struct snd_seq_client *client_use_ptr(int clientid, bool load_module)
+ 		return NULL;
  	}
-@@ -3667,7 +3667,7 @@ void snd_usb_mixer_notify_id(struct usb_mixer_interface *mixer, int unitid)
- 		info = mixer_elem_list_to_info(list);
- 		/* invalidate cache, so the value is read from the device */
- 		if (!info->get_cur_broken)
--			info->cached = 0;
-+			bitmap_zero(info->cached, MAX_CHANNELS + 1);
- 		snd_ctl_notify(mixer->chip->card, SNDRV_CTL_EVENT_MASK_VALUE,
- 			       &list->kctl->id);
- 	}
-@@ -3766,9 +3766,9 @@ static void snd_usb_mixer_interrupt_v2(struct usb_mixer_interface *mixer,
- 			/* invalidate cache, so the value is read from the device */
- 			if (!info->get_cur_broken) {
- 				if (channel)
--					info->cached &= ~BIT(channel);
-+					clear_bit(channel, info->cached);
- 				else /* master channel */
--					info->cached = 0;
-+					bitmap_zero(info->cached, MAX_CHANNELS + 1);
+ 	scoped_guard(rcu) {
+-		client = __clientptr(clientid);
++		client = rcu_dereference(clienttab[clientid]);
+ 		if (client)
+ 			return snd_seq_client_ref(client);
+ 		if (clienttablock[clientid])
+@@ -159,7 +154,7 @@ static struct snd_seq_client *client_use_ptr(int clientid, bool load_module)
  			}
- 
- 			snd_ctl_notify(mixer->chip->card, SNDRV_CTL_EVENT_MASK_VALUE,
-@@ -4005,7 +4005,7 @@ static int restore_mixer_value(struct usb_mixer_elem_list *list)
- 		for (c = 0; c < MAX_CHANNELS; c++) {
- 			if (!(cval->cmask & BIT(c)))
- 				continue;
--			if (cval->cached & BIT(c + 1)) {
-+			if (test_bit(c + 1, cval->cached)) {
- 				err = snd_usb_set_cur_mix_value(cval, c + 1, idx,
- 							cval->cache_val[idx]);
- 				if (err < 0)
-@@ -4015,7 +4015,7 @@ static int restore_mixer_value(struct usb_mixer_elem_list *list)
  		}
- 	} else {
- 		/* master */
--		if (cval->cached)
-+		if (test_bit(0, cval->cached))
- 			snd_usb_set_cur_mix_value(cval, 0, 0, *cval->cache_val);
- 	}
- 
-diff --git a/sound/usb/mixer.h b/sound/usb/mixer.h
-index 2ff4490f97c2..0d0a8b343756 100644
---- a/sound/usb/mixer.h
-+++ b/sound/usb/mixer.h
-@@ -93,7 +93,7 @@ struct usb_mixer_elem_info {
- 	int min, max, res;
- 	int max_exposed; /* control API exposes the value in 0..max_exposed */
- 	int dBmin, dBmax;
--	int cached;
-+	DECLARE_BITMAP(cached, MAX_CHANNELS + 1);
- 	int cache_val[MAX_CHANNELS];
- 	u8 initialized;
- 	u8 min_mute;
-diff --git a/sound/usb/mixer_scarlett.c b/sound/usb/mixer_scarlett.c
-index 369968565c19..6808730ef047 100644
---- a/sound/usb/mixer_scarlett.c
-+++ b/sound/usb/mixer_scarlett.c
-@@ -292,7 +292,7 @@ static int forte_get_ctl_value(struct usb_mixer_elem_info *elem, int *value)
- 	/* Device may not support reading input controls.
- 	 * Return cached value or default to avoid blocking module load.
- 	 */
--	if (elem->cached)
-+	if (test_bit(0, elem->cached))
- 		*value = elem->cache_val[0];
- 	else
- 		*value = 0;  /* Default: first option */
-@@ -353,7 +353,7 @@ static int forte_input_gain_put(struct snd_kcontrol *kctl,
- 		err = forte_set_ctl_value(elem, val);
- 		if (err < 0)
- 			return err;
--		elem->cached |= 1;
-+		set_bit(0, elem->cached);
- 		elem->cache_val[0] = val;
- 		return 1;
- 	}
-@@ -364,7 +364,7 @@ static int forte_input_gain_resume(struct usb_mixer_elem_list *list)
- {
- 	struct usb_mixer_elem_info *elem = mixer_elem_list_to_info(list);
- 
--	if (elem->cached)
-+	if (test_bit(0, elem->cached))
- 		forte_set_ctl_value(elem, *elem->cache_val);
- 	return 0;
- }
-@@ -405,7 +405,7 @@ static int forte_ctl_enum_put(struct snd_kcontrol *kctl,
- 		err = forte_set_ctl_value(elem, val);
- 		if (err < 0)
- 			return err;
--		elem->cached |= 1;
-+		set_bit(0, elem->cached);
- 		elem->cache_val[0] = val;
- 		return 1;
- 	}
-@@ -416,7 +416,7 @@ static int forte_ctl_enum_resume(struct usb_mixer_elem_list *list)
- {
- 	struct usb_mixer_elem_info *elem = mixer_elem_list_to_info(list);
- 
--	if (elem->cached)
-+	if (test_bit(0, elem->cached))
- 		forte_set_ctl_value(elem, *elem->cache_val);
- 	return 0;
- }
-@@ -454,7 +454,7 @@ static int forte_ctl_switch_put(struct snd_kcontrol *kctl,
- 		err = forte_set_ctl_value(elem, val);
- 		if (err < 0)
- 			return err;
--		elem->cached |= 1;
-+		set_bit(0, elem->cached);
- 		elem->cache_val[0] = val;
- 		return 1;
- 	}
-@@ -465,7 +465,7 @@ static int forte_ctl_switch_resume(struct usb_mixer_elem_list *list)
- {
- 	struct usb_mixer_elem_info *elem = mixer_elem_list_to_info(list);
- 
--	if (elem->cached)
-+	if (test_bit(0, elem->cached))
- 		forte_set_ctl_value(elem, *elem->cache_val);
- 	return 0;
- }
-@@ -532,7 +532,7 @@ static int scarlett_ctl_resume(struct usb_mixer_elem_list *list)
- 	int i;
- 
- 	for (i = 0; i < elem->channels; i++)
--		if (elem->cached & (1 << i))
-+		if (test_bit(i, elem->cached))
- 			snd_usb_set_cur_mix_value(elem, i, i,
- 						  elem->cache_val[i]);
- 	return 0;
-@@ -692,7 +692,7 @@ static int scarlett_ctl_enum_resume(struct usb_mixer_elem_list *list)
- {
- 	struct usb_mixer_elem_info *elem = mixer_elem_list_to_info(list);
- 
--	if (elem->cached)
-+	if (test_bit(0, elem->cached))
- 		snd_usb_set_cur_mix_value(elem, 0, 0, *elem->cache_val);
- 	return 0;
- }
-diff --git a/sound/usb/mixer_us16x08.c b/sound/usb/mixer_us16x08.c
-index 14fb1ad764a7..8e5ccd3282a7 100644
---- a/sound/usb/mixer_us16x08.c
-+++ b/sound/usb/mixer_us16x08.c
-@@ -236,7 +236,7 @@ static int snd_us16x08_route_put(struct snd_kcontrol *kcontrol,
- 		return err;
- 	}
- 
--	elem->cached |= 1 << index;
-+	set_bit(index, elem->cached);
- 	elem->cache_val[index] = val;
- 	return 1;
- }
-@@ -295,7 +295,7 @@ static int snd_us16x08_master_put(struct snd_kcontrol *kcontrol,
- 		return err;
- 	}
- 
--	elem->cached |= 1 << index;
-+	set_bit(index, elem->cached);
- 	elem->cache_val[index] = val;
- 	return 1;
- }
-@@ -336,7 +336,7 @@ static int snd_us16x08_bus_put(struct snd_kcontrol *kcontrol,
- 		return err;
- 	}
- 
--	elem->cached |= 1;
-+	set_bit(0, elem->cached);
- 	elem->cache_val[0] = val;
- 	return 1;
- }
-@@ -404,7 +404,7 @@ static int snd_us16x08_channel_put(struct snd_kcontrol *kcontrol,
- 		return err;
- 	}
- 
--	elem->cached |= 1 << index;
-+	set_bit(index, elem->cached);
- 	elem->cache_val[index] = val;
- 	return 1;
- }
-@@ -508,7 +508,7 @@ static int snd_us16x08_comp_put(struct snd_kcontrol *kcontrol,
- 	}
- 
- 	store->val[val_idx][index] = val;
--	elem->cached |= 1 << index;
-+	set_bit(index, elem->cached);
- 	elem->cache_val[index] = val;
- 	return 1;
- }
-@@ -567,7 +567,7 @@ static int snd_us16x08_eqswitch_put(struct snd_kcontrol *kcontrol,
- 		return err;
- 	}
- 
--	elem->cached |= 1 << index;
-+	set_bit(index, elem->cached);
- 	elem->cache_val[index] = val;
- 	return 1;
- }
-@@ -631,7 +631,7 @@ static int snd_us16x08_eq_put(struct snd_kcontrol *kcontrol,
- 
- 	store->val[b_idx][p_idx][index] = val;
- 	/* store new value in EQ band cache */
--	elem->cached |= 1 << index;
-+	set_bit(index, elem->cached);
- 	elem->cache_val[index] = val;
- 	return 1;
- }
-@@ -1352,7 +1352,7 @@ int snd_us16x08_controls_create(struct usb_mixer_interface *mixer)
+ 		scoped_guard(rcu) {
+-			client = __clientptr(clientid);
++			client = rcu_dereference(clienttab[clientid]);
+ 			if (client)
+ 				return snd_seq_client_ref(client);
  		}
- 		for (i = 0; i < 8; i++)
- 			elem->cache_val[i] = i < 2 ? i : i + 2;
--		elem->cached = 0xff;
-+		bitmap_set(elem->cached, 0, 8);
- 
- 		/* create compressor mixer elements */
- 		comp_store = snd_us16x08_create_comp_store();
-@@ -1374,7 +1374,7 @@ int snd_us16x08_controls_create(struct usb_mixer_interface *mixer)
- 			if (err < 0)
- 				return err;
- 			elem->cache_val[0] = master_controls[i].default_val;
--			elem->cached = 1;
-+			set_bit(0, elem->cached);
- 		}
- 
- 		/* add channel controls */
-@@ -1394,7 +1394,7 @@ int snd_us16x08_controls_create(struct usb_mixer_interface *mixer)
- 				elem->cache_val[j] =
- 					channel_controls[i].default_val;
- 			}
--			elem->cached = 0xffff;
-+			bitmap_set(elem->cached, 0, SND_US16X08_MAX_CHANNELS);
- 		}
- 
- 		/* create eq store */
 -- 
 2.55.0
 
