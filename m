@@ -1,302 +1,259 @@
-Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56FB8231A3B
-	for <linux-sound@vger.kernel.org>; Wed,  7 Oct 2026 00:31:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.52
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791333089; cv=none; b=CwcA7J8f25iLyEIEloIQerbBWshjZJ/6WK9cdklh6WHDeArrZFxQJh9cehFSISJGdfvVhp7t3Hz119lQVnLBYAzQK/GPvP7H+XKN7ON8qPOA8r3eGNQYigfBpdRevHLjSjcZm03Mwxu0YINdCZMKJvBz/PWGrkt665uDJcTYdt0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791333089; c=relaxed/simple;
-	bh=t1qUesrSPwTZJ7qrENmMUw+i1KmO1JUF7xvjDbtzqeE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=dKzvJry9564BCkgu2xVeR+TKf0SQpEAvIJM+kObrs+MdL9p4HbPjoj+Be64UsUPwFJ7kGSXLhh2IUva9ATSScUPBM09I8vQvytyK/KSYNw1qbqikkV3QzCizKpiKthEtvromlMy/6sPVnYIinYH7W6GmYmEAoNgDJQXGijbfa5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=GLnNuMjh; arc=none smtp.client-ip=74.125.224.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41050221F24;
+	Wed,  7 Oct 2026 02:25:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.10
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791339914; cv=fail; b=PWMZo3TLJutI/Wi9WVCTR7eX4TX2Tf2AtDb//7E8FwgpO5RIClYVQ64zlIQzP3szx6aafrWqBYYMoUA8TiXhQuxjby6GP2gduRo50JQdn4gjuGgZ51rvQNj/Q2JQm/9TJa8mrNSU8E/A8k5edIlFq+TQOnDaeLj2eaD3t1dPoJk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791339914; c=relaxed/simple;
+	bh=XprkQgdehDXe0nTJWmFLu11wADQtxtbBJ4RxtchGKAo=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=iHzhAH3acoisU2BeNiQ+FiKRDO6mS4l0OoL8+KkRT9KBe5wtQifiEIx88WQRSTC9xQt0zjERBGaQeVaZAPZmJ2NOPBOJCihUx3lFnNGKi8qC+N84/N5Vt0YeLi56YmeDBUQ0t3HSNVWU/7DYp+aFW8V14KgjS7GXBg3txntCMlw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QWNvgDca; arc=fail smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="GLnNuMjh"
-Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-67489c8202cso3468666d50.3
-        for <linux-sound@vger.kernel.org>; Tue, 06 Oct 2026 17:31:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1791333086; x=1791937886; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=VPNBsDgchbd7JIStat8oFQ2lIw0GIhWnueiuUIQNBPY=;
-        b=GLnNuMjhb7K9+g9p+XJb6LqzVK/b5oabxQZFzN/ly/0DRXjInehF2ajXN7KB81wFwZ
-         ZsCWiXeP65kl88eVB6D3+3W+RX0kXZ5f5YwnUJM5iUiTrkya2iuJgH3zsCg/lNnPRuzx
-         9iht/JIEfV04uAdB1hURe1t+KqOlGiHmYOQnU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791333086; x=1791937886;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=VPNBsDgchbd7JIStat8oFQ2lIw0GIhWnueiuUIQNBPY=;
-        b=E9VOFpydW1Ofdzh6wCqb5Rh0T0zQnRr/NX2tmt5QfQGkFCzK8s4OaMVf9tV5lRx/3B
-         3u56V2PM+tKi+jgj/UI9KXyBlXVR1cveTOO4VrOpi0J6l+iSv5beP2N3M8wL1+ZBBWjq
-         nhbmou0bQCVNtsTkSltxFYMXjdvRhQL/DVK42EtwWFaVoBbURJVv1l1AGa92WYMJVgo3
-         AwQQQH0BX/Ilw6o7BFne4qKdq8M66/LsNIXTM0vZGmivS3rlzGnWLdZqONCINraj/IXm
-         wp4KTI0DzDSw8Ipeux7JTdiwt8uhHWcWiPcNPNkmsshDRGFxeKYN5CujdwFxDPYV3pfk
-         pDFg==
-X-Gm-Message-State: AFq9FYJVedROrpKYpFjEpYa3RVs3TMDamyZnL/dX66IiwVqbJ47fjmkH
-	MOBL63+ySlmvQ4QjFGvUzDMJnG2SD0Pz20KpeYcer7PuFVzP9PB4QkemPEa0MILNRw==
-X-Gm-Gg: AYBFou0vHSq4+eANrgXjMqrxv1SqI/sKZhhG3LRCwCir05fnfGc7sww9YykJZCaOoeB
-	wIDsI04va8aWFgBZ1I8T9Ewolb/u2AJhwni+3Apyfn+CaMNGtzqDkOXwaqwlJ4Ju+E1H/49YSV/
-	Rn1jM4miwHB+d5JBJSst6w/4z9tRbG+VMnAKz1NYJazBpS5Q5lUmcAxD/wZTHKxahjOxG2Nbjy0
-	57yFFKYzK56UBfsWS85u2LWZN8vildcTGuIPRMvKz2izoXMix9JI+5echEndRD12BP0pISfTJZp
-	aEJ3xf7pcVTnqGbJV3NO7q8MhkmXxOEREhNMk17hVr6acNSP1+wpckfXMi5PJaAsbx6b1lF3kZN
-	ESmrOOCV7IsB978PbANG6/8W/B9K+UqNGbKTTcORqKSMfStJPrHv5l2XGow49poglj8zW3Itt2O
-	KG1ESrp7a8+Yoe6lB2Vm0KtRzCc6t5wPfqAz4yO6QGz1YGnIVLVK7gVN6DzDItfNZzrQ5NabcaQ
-	o+Q4QBb4d5iiONvHrYsRMyC/q5A8jjOjWq12Z2DSXb4V6Ux46Nx5xdKt1sJ
-X-Received: by 2002:a05:690e:4006:b0:676:d3fa:cd25 with SMTP id 956f58d0204a3-6790a4005f3mr584385d50.36.1791333086030;
-        Tue, 06 Oct 2026 17:31:26 -0700 (PDT)
-Received: from ripwilburliny.c.googlers.com (159.68.194.35.bc.googleusercontent.com. [35.194.68.159])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67909922c6bsm337560d50.11.2026.10.06.17.31.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Oct 2026 17:31:25 -0700 (PDT)
-From: Steven 'Steve' Kendall <skend@chromium.org>
-Date: Wed, 07 Oct 2026 00:31:24 +0000
-Subject: [PATCH v5] ALSA: hda/cs8409: Fix for Dell Cirrus audio jack detect
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QWNvgDca"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1791339912; x=1822875912;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=XprkQgdehDXe0nTJWmFLu11wADQtxtbBJ4RxtchGKAo=;
+  b=QWNvgDcauowT34t2UUTc/cG5cShIcbd4eyWP93ZNkHWy2jaI719MT4IG
+   04b1PUTu+V8yY0sKqpu0kn1T/TO3hMTgE4/tfYAhqz/3IV+HlU+kgPLUV
+   Dv9qU2YPJzZCvJFOo9fUvdR6zrw8vj5dRLIEuCx3z+ADTXh9bxXFUnyDX
+   hJTee86n9ZNcKOxFE2uU6B1nbe8VcdEm2Iya8tu9pPl3Ry0L+sTYK0IXO
+   Yukp12ojgeUYpRqTVVd6RX/n4IhTno6lJ/u9S9lkR42TLt2dwSs1gx738
+   pnwDJw/AFJgpePb0ED7EoRgpxp9d/4zW5g5gu7cRYf4IQjD2LtH0ObJOv
+   Q==;
+X-CSE-ConnectionGUID: bnJf+dBnTSumaRqwHKak7Q==
+X-CSE-MsgGUID: xR/YtUNeSHKwKn6+EOU9dw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11927"; a="103412476"
+X-IronPort-AV: E=Sophos;i="6.27,144,1787036400"; 
+   d="scan'208";a="103412476"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2026 19:25:11 -0700
+X-CSE-ConnectionGUID: 7LEpNDtlR5OWEZHtTp9qbg==
+X-CSE-MsgGUID: 9kOdnq7dQQK7SclyjFGQrA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,144,1787036400"; 
+   d="scan'208";a="273656170"
+Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
+  by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2026 19:25:11 -0700
+Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49; Tue, 6 Oct 2026 19:25:11 -0700
+Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
+ FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49 via Frontend Transport; Tue, 6 Oct 2026 19:25:11 -0700
+Received: from BYAPR05CU005.outbound.protection.outlook.com (52.101.85.28) by
+ edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49; Tue, 6 Oct 2026 19:25:10 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=O2jnF854B3bzL1Mo4VHMw7NM4ZnyoVQKJUPY+oRhwFtmLzcUiaPpxiW/Ar/p/5FAijlQvCk7vd5Wrs9GHTVq4PY/UPP5qGG4H6habljIbJzltdIBXMg/L3UWtV6GQ+mNF9Ad1+p5oEcqCcjhWQ9j0MOW4WTFtREVctC+SYepwcqX4UGHKmoSGC6CRqk7UEaoVXZ0yrumeIpKb6d613DL4PvRbsScqeq5dtHavsSiTa/PV2Id68GfX/Ff7iELSFVzaduX56AahtWDnI0eeV3d/KYjur7ENhmFwnGndNQasBOqaaeVu6sIrnczL9zTKutHK7G0sqUrmXE00idemvMi7g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=XprkQgdehDXe0nTJWmFLu11wADQtxtbBJ4RxtchGKAo=;
+ b=cHT/OyYiNZ7+UnmGF0SqMiGwbfwJYDbtCb6245hHKYtehz5HLt8D9Z3unGSw5CsvdMNydeRFTgNSnGFRguZF+MLFZV3OO346+20n9b5hi9cShq/h0+63yQz9qFsA0Vs/sJEkz8ytrDbz9IrJy9VTgOTEaSMVt488Gdmsl37eA4UEqsI2xH6qkk0q878eKYxh+kw8iAuSOIIfT6pJ4qPx2FQVpH4jDAXPvSL6Z4r8x3LR+4BY3qtXlJ0Od597alw5lrlsFXb2DQVmt7uwpLki2okSlVr62E2wB4uvf3NEyerS8R53SrZasCxuwORNzkf9EDaJ4OZyBLbRvgcCCLOV9A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from SJ2PR11MB8424.namprd11.prod.outlook.com (2603:10b6:a03:53e::10)
+ by SA0PR11MB4718.namprd11.prod.outlook.com (2603:10b6:806:98::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.472.20; Wed, 7 Oct
+ 2026 02:25:04 +0000
+Received: from SJ2PR11MB8424.namprd11.prod.outlook.com
+ ([fe80::3df:33f9:59a1:da76]) by SJ2PR11MB8424.namprd11.prod.outlook.com
+ ([fe80::3df:33f9:59a1:da76%3]) with mapi id 15.21.0496.010; Wed, 7 Oct 2026
+ 02:25:03 +0000
+From: "Liao, Bard" <bard.liao@intel.com>
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Bard Liao
+	<yung-chuan.liao@linux.intel.com>, "linux-sound@vger.kernel.org"
+	<linux-sound@vger.kernel.org>, "vkoul@kernel.org" <vkoul@kernel.org>,
+	"broonie@kernel.org" <broonie@kernel.org>, "tiwai@suse.de" <tiwai@suse.de>
+CC: "vinod.koul@linaro.org" <vinod.koul@linaro.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"peter.ujfalusi@linux.intel.com" <peter.ujfalusi@linux.intel.com>
+Subject: RE: [PATCH 0/3] ASoC/soundwire: remove ghost peripherals from the
+ mach table
+Thread-Topic: [PATCH 0/3] ASoC/soundwire: remove ghost peripherals from the
+ mach table
+Thread-Index: AQHdRRQPZ2kignuw5UqsnkRDoqnbO7bQAQ6AgACIb+CAIPHYcA==
+Date: Wed, 7 Oct 2026 02:25:03 +0000
+Message-ID: <SJ2PR11MB8424E1FAF2D8D1EAD84C3B92FF942@SJ2PR11MB8424.namprd11.prod.outlook.com>
+References: <20260915131327.1783551-1-yung-chuan.liao@linux.intel.com>
+ <528a9777-1587-4dfc-a366-000fc0867d4b@linux.dev>
+ <SJ2PR11MB8424E1911A4CA6F9414A07DAFFB92@SJ2PR11MB8424.namprd11.prod.outlook.com>
+In-Reply-To: <SJ2PR11MB8424E1911A4CA6F9414A07DAFFB92@SJ2PR11MB8424.namprd11.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SJ2PR11MB8424:EE_|SA0PR11MB4718:EE_
+x-ms-office365-filtering-correlation-id: 5bd1b062-c159-4d8b-9e06-08df241a3211
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|366016|1800799024|23010399003|376014|38070700021|11063799006|5023799004|56012099006|4143699003|10067099003|22082099003|18002099003|6133799003|3023799007;
+x-microsoft-antispam-message-info: OmeZtWhCHgCO/QlWxUGtj7GSlpUCObKLAkA0jsy88M1X9klovfeiFLEHlpnlPl16ZtOFactGVzjacx8SRqUryL7hOFPJrFCWGwGwHUqsC+xYou72PBmJSCn4DRfPFgQHfpvMTBAsV6MmKDJnDtWOhwH03VIwc4wiLqAz0mZkSyRu7pt9siNAQY4hyOpAqkCA+puWDLFU1M04rnr6jMd+bxh6i5mwG3f4lSudb3SYYLqg9vPAH6xxN1MZjLZJIu2G9JJF/36gRDFk7LHD0fANk1jxKnwK5OwjJMucws/Yzzv6e2fUckYhdH/6jFxQ2L9W+bG/WrJ6pTsJ5RRoC8aISTCf2MJVDyBll3a5hZq5pk1OeV7Tenj5RaM7IRof3UKHqx/IqglT2TbxBSsm9qaClLjZXwqmSIdDxqTgf/SXloVTTPNPsXNAXD0vPRUEwUD9ARMUGnvcWQHBRdVO1QMKMr49X72LqJDK6QHHRaq3CelHIsIRjIJ43wx5PimGl7oFHk+IDVNawzuvj0K7kqhVgO3xGJabZGrVyZoXnia/WUz6CXPQsqIQS4rWxqnci9BHWUYieLqpWfcIz0PypgdPebiNfqBJfjtQftUMs98djNAaxtS3a6DCSM4A3/WeRKipVWd8F9awuUxZ2QD8/bvSNMZ8Dof42fI+Ca/joVwWV+zYm4FjsPyEWrczRjTwgU1B4eADeMkroBsobA7qkqjojzdXQzGeRZXUWsHw6iyQvf4=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB8424.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(376014)(38070700021)(11063799006)(5023799004)(56012099006)(4143699003)(10067099003)(22082099003)(18002099003)(6133799003)(3023799007);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?VmRiOUVQRFhmcm0rb0ZlZWVrdmVCSWdDczREK1M0cmh1amFDL1FKeW54UzJh?=
+ =?utf-8?B?ZlVkdDY0am5TVDlNSlJPOEFHUjM2Znp2UEFucm13TWdTLzBveU9IYlZORGlo?=
+ =?utf-8?B?a3ZkcnVVZ2lITklCRjFjdC80QVNkYXJZdEd2ZVZ0YnowVjhZMEVVQ1p1c2RZ?=
+ =?utf-8?B?ZXhJYUtNS1ZzclI4UFR1bStDOHRxNWdET016TWFnOHJ0ZUhDNys2L1NYT2g0?=
+ =?utf-8?B?a0VoeTRNOTc1SDBRMm9SODMrd3FFT0VQeUhrc0xUc1RCQkFPcGZadXNQSUpx?=
+ =?utf-8?B?OXhMRm1PeDJ5NTZHRWJaMmtMWnRFd1hBU1VSREpJV2RqaVVsUHJQN01GWWNB?=
+ =?utf-8?B?UHh5R0tUcVZqcDNvWmFKZWJtYTdteURMaVJaTUx5Ni9NZThKdjE0QllzOUt4?=
+ =?utf-8?B?V1hFWlh0YWFjc3hEVGIwbXM2VkF0eEZZSWdzVmtTUzJZQ2NyWXpmeGJVNWlj?=
+ =?utf-8?B?cWlHdkcrM3lUVHZLY3J2WlJJMVdONDRtV0FjVlF3UjVFMGdEaDV3Y25HS2dG?=
+ =?utf-8?B?MnpZd3l4cHVUSVB2WHo1TFEvSVI4c3djdTBDanNxUzBlVU5BVU4xVTRPT3Vk?=
+ =?utf-8?B?c0FoeW0vUnpTWjZVV1ZmS2FlZzYrNmFlUGMvbzZsMXF6eHo2QU5UN20wTWsy?=
+ =?utf-8?B?S3pkeklsM3lkMVRySFNRQXEySVE3TnltUEJBZFZIcW9VZVhEZWZ4MGJMUlFP?=
+ =?utf-8?B?UkVHTmFSbkFKc1RjQXp3WGcyaVNsN0RZVGZyMnIwd01wRlF5TFFITzF6M3Jn?=
+ =?utf-8?B?WFR5aXNjQjB5cHdDNmJNeVhGL2JCQnNndU1PWnBROEQ0Tk02anhkaW1PUndo?=
+ =?utf-8?B?ejY0OUNuNGJEbTJXOEgvSm9xbmozTklnNk1aU05IMk1uUXVPK1Zab25QNjAz?=
+ =?utf-8?B?bFRSZlJSaUt2M05rRGpqckhOR0c2ekpNazZYclVKcjBOenE0N1hnendYZ2Zz?=
+ =?utf-8?B?Z3NQdHpreVJQSTdHZW43UFpRNW9rQTkzWXJCNk1xb2dzMFhINDBoNHhzODJ4?=
+ =?utf-8?B?a1dQTHBzaGJBTnRMM3NIVzhCWUxjb09MTlhkWml5NGRjQ0ltZzF5SHVjVFpH?=
+ =?utf-8?B?dzVtcnhlTXZFME5kM3Z1dWcxM1lJSXFRNHc2ZDN6UnBzWEhrdTl0cjl5Z0ht?=
+ =?utf-8?B?UkZOeW9NSDkwNmVhcm1ORFN1dk9DUGFSY2M3TW0zS3ZTL01MYzBTbkFBR2c4?=
+ =?utf-8?B?OTZ3VHBRQ2dtNWxBRVdPQWdlQjdBR3pHTE1kc0VpV2xWemtQYWdlY2N6RWJJ?=
+ =?utf-8?B?bG1DbStqMjFnaWo2bHQvYlp4ek1kNThZSkUrWEI2UDhObWV4S21sa2tNOEdF?=
+ =?utf-8?B?cXA1bkUxTGY0dU9GKzBpcnk5emY4a3NsQ0RXZGIvVHpmYnpHN1RRdGcyTldY?=
+ =?utf-8?B?T212UlEvYUkrQkJmWWJaOTVXVDU2eFo1aXJzb2VZclAxNVp3SDhSajFlaHFX?=
+ =?utf-8?B?ajNLZW9ybzZwRXN4MVpFMGlPcUEyL3hNVy9HVTNuMkYvRVhrN0dScnVsNDZE?=
+ =?utf-8?B?NlZPQlF5cktBdmx6TGV2aktuekM5clBDMFhUZTQ3V2lKUWx5Ui9kRTQxM2Uv?=
+ =?utf-8?B?SVAvazB4S1g3b3FBZjYxek5kSGxiNzEyNXRoZTlnbkx0SW9uSkVtbDd1Mlhs?=
+ =?utf-8?B?dm1Ib0t5VXhkODBJdDVMak1HUnRSYzhmbVZ4cVlaY0tzbXJwdjRYVUpGd3U0?=
+ =?utf-8?B?SDVvUTAzSHBaS3NBQTFxNUE3aHRvTEJ3Nmd3dnFnRjdWNFB4QmtYS2FLRTJj?=
+ =?utf-8?B?Z1hTcHc0MTZydVBTOVozMGFhTnNMSUMySmN0M2JoUFp0TzVCMlcxeFcyTitm?=
+ =?utf-8?B?a2tLd28wRE8rVE5kK1ZISzlmNklUK0hleHQzS0dIaHh0TGxTS2YzWjhubG45?=
+ =?utf-8?B?QkFSYlZhQUVGVTBEUW50U2NjMC8rcXlpM1NXL3NqWU9yaVpraHZRVFpTUjRi?=
+ =?utf-8?B?enZRR3o3dlpNVjdkU3hVZ29uKzZSd2dYZFo1NWZhZy9XNkxPdGdaTUlLL2xk?=
+ =?utf-8?B?RVpnYXA0WmZDbk1qY1B2MXV6cTRPTnhwTS93OVJFVWxyRFQwbG5tVW83NVRV?=
+ =?utf-8?B?N2EvVTRwQ3RLbEJNVDR1R0ZueGxSQi93cEtQSHU4SjJsTEhRakFTK2pxQy80?=
+ =?utf-8?B?MFpSTk1yM25XeVhTeEVNVmpjYTlMUFBDemdDY1haUnhaZEZMeFhyMWMzWCtn?=
+ =?utf-8?B?aXAzSVBwNVkxQ2VLSVc0ZVNVVVdmblR5eE5zMEZ3L0YwY1ZFNFk4NWxPQWl5?=
+ =?utf-8?B?RmZQaXZyN1Qzd0Q3bkNYSk1FbkcyYWFYM1N5aE9WdnRuYnl5c09CcktyTWxo?=
+ =?utf-8?B?akFRVnVaeU1YTFQ3eVVxQkwydGlHOUphcjcvUHNSd0p0MEFMRHFHQT09?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261007-fix-headphone-plug-cirrus-dell-v5-1-c28146b18d5c@chromium.org>
-X-B4-Tracking: v=1; b=H4sIANuSxWoC/4XPTWrDMBAF4KsErTtFfyPLWfUepQtHGlsCxzJSb
- VqC7145UBpKwMs3MN+bubFCOVJh59ONZVpjiWmqAV9OzIVuGgiir5lJLg1vBIc+fkGgzs8hTQT
- zuAzgYs5LAU/jCEjqolvfYY+SVWTOVDfuBe8fNYdYPlP+vvetYp/+0uqIXgUIUA4FNs5rdP7Nh
- Zyucbm+pjywXV/lo2gPRVnF3lohq8m9kU9E9Se2Ag9FVUXjHSJeOO+NeCLqR/H4Rr1/bZ3UVtu
- uMe0/cdu2HyGQaWzFAQAA
-X-Change-ID: 20260710-fix-headphone-plug-cirrus-dell-5e3b49da5f52
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Steven 'Steve' Kendall <skend@chromium.org>
-X-Mailer: b4 0.15.2
+X-Exchange-RoutingPolicyChecked: Q+R/50+DOdq75WtuRWYZ4+qAGW/i05+5dE9SO8JeZBHVUh/oVvP/QCbMnGVThzjvYyMsuRmFlAOIMPHTwus80JEk3RUEj0YJW4DDHEEq+VZ448qZ3L5f4dGVRVeuNnhfFEnKAyPNojUdXFHwlf1yRj9wAsXoYOrdwaWrx60gJKNKTsFqGzeZl4PqIiDH8G5h69QJPLFR9EpSl8p1R2L41skHyn4nF8BHkcD9z/Za4OdjqQ+OxWGff9Ng1SvmaSLVzy6AImcsPprZAcQAAGUsOriOeFaSWux+5bQqeejR7DmZPlA/K+wXoaiZzr5Xoj8NR8N/mofeRRJ6BO8Rq8RUbw==
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB8424.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5bd1b062-c159-4d8b-9e06-08df241a3211
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Oct 2026 02:25:03.7193
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: jehIZEWp3y7oVhXwirr2fnK6PfbFeUJgsVD8myo4eylAyB0jbOVUdPFRbsxPPL533nHDwLAHA/vekBg9uJ/oyQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR11MB4718
+X-OriginatorOrg: intel.com
 
-On some models like the Dell Inspiron 15 3520, jack
-detection does not work. This patch switches to
-delayed work to fix jack plug on Chrome OS for this model.
-
-Assisted-by: LLM
-Signed-off-by: Steven 'Steve' Kendall <skend@chromium.org>
----
-Changes in v5:
-- Switch to disable_delayed_work_sync() where appropriate.
-- Call cancel_delayed_work_sync() before cs42l42_suspend() to prevent racing.
-- Link to v4: https://patch.msgid.link/20260918-fix-headphone-plug-cirrus-dell-v4-1-38c24848a769@chromium.org
-
-Changes in v4:
-- Delayed logic is now limited to the device with the issue.
-- Tested for regression on Ubuntu 26.04 and looked good.
-- Link to v3: https://patch.msgid.link/20260915-fix-headphone-plug-cirrus-dell-v3-1-6dc555b00f61@chromium.org
-
-Changes in v3:
-- Unified sleep time for both cases.
-- Removed some superfluous logic after some additional testing.
-- Link to v2: https://patch.msgid.link/20260718-fix-headphone-plug-cirrus-dell-v2-1-f88121570d62@chromium.org
-
-Changes in v2:
-- Changes from v1 have been removed.
-- New approach uses delayed work and also solves the issue on this machine.
-- I'm now using the latest release of b4. Hopefully this addresses the formatting issues I was having!
-- Link to v1: https://lore.kernel.org/r/20260713-fix-headphone-plug-cirrus-dell-v1-1-3c5157cd45cd@chromium.org
----
- sound/hda/codecs/cirrus/cs8409-tables.c |  9 +++++-
- sound/hda/codecs/cirrus/cs8409.c        | 52 ++++++++++++++++++++++++++++++---
- sound/hda/codecs/cirrus/cs8409.h        |  4 +++
- 3 files changed, 60 insertions(+), 5 deletions(-)
-
-diff --git a/sound/hda/codecs/cirrus/cs8409-tables.c b/sound/hda/codecs/cirrus/cs8409-tables.c
-index b9ec8fb8eab7c..d0cef8492c994 100644
---- a/sound/hda/codecs/cirrus/cs8409-tables.c
-+++ b/sound/hda/codecs/cirrus/cs8409-tables.c
-@@ -594,7 +594,7 @@ const struct hda_quirk cs8409_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1028, 0x0BA8, "Odin", CS8409_ODIN),
- 	SND_PCI_QUIRK(0x1028, 0x0BAA, "Odin", CS8409_ODIN),
- 	SND_PCI_QUIRK(0x1028, 0x0BAE, "Odin", CS8409_ODIN),
--	SND_PCI_QUIRK(0x1028, 0x0BB2, "Warlock MLK", CS8409_WARLOCK_MLK),
-+	SND_PCI_QUIRK(0x1028, 0x0BB2, "Warlock MLK", CS8409_WARLOCK_MLK_DELAYED_JD),
- 	SND_PCI_QUIRK(0x1028, 0x0BB3, "Warlock MLK", CS8409_WARLOCK_MLK),
- 	SND_PCI_QUIRK(0x1028, 0x0BB4, "Warlock MLK", CS8409_WARLOCK_MLK),
- 	SND_PCI_QUIRK(0x1028, 0x0BB5, "Warlock N3 15 TGL-U Nuvoton EC", CS8409_WARLOCK),
-@@ -625,6 +625,7 @@ const struct hda_model_fixup cs8409_models[] = {
- 	{ .id = CS8409_BULLSEYE, .name = "bullseye" },
- 	{ .id = CS8409_WARLOCK, .name = "warlock" },
- 	{ .id = CS8409_WARLOCK_MLK, .name = "warlock mlk" },
-+	{ .id = CS8409_WARLOCK_MLK_DELAYED_JD, .name = "warlock mlk delayed jd" },
- 	{ .id = CS8409_WARLOCK_MLK_DUAL_MIC, .name = "warlock mlk dual mic" },
- 	{ .id = CS8409_CYBORG, .name = "cyborg" },
- 	{ .id = CS8409_DOLPHIN, .name = "dolphin" },
-@@ -652,6 +653,12 @@ const struct hda_fixup cs8409_fixups[] = {
- 		.chained = true,
- 		.chain_id = CS8409_FIXUPS,
- 	},
-+	[CS8409_WARLOCK_MLK_DELAYED_JD] = {
-+		.type = HDA_FIXUP_PINS,
-+		.v.pins = cs8409_cs42l42_pincfgs,
-+		.chained = true,
-+		.chain_id = CS8409_FIXUPS,
-+	},
- 	[CS8409_WARLOCK_MLK_DUAL_MIC] = {
- 		.type = HDA_FIXUP_PINS,
- 		.v.pins = cs8409_cs42l42_pincfgs,
-diff --git a/sound/hda/codecs/cirrus/cs8409.c b/sound/hda/codecs/cirrus/cs8409.c
-index c43ff3ef75b6e..12ee71d7a35c0 100644
---- a/sound/hda/codecs/cirrus/cs8409.c
-+++ b/sound/hda/codecs/cirrus/cs8409.c
-@@ -56,6 +56,9 @@ static int cs8409_parse_auto_config(struct hda_codec *codec)
- }
- 
- static void cs8409_disable_i2c_clock_worker(struct work_struct *work);
-+static void cs8409_jack_detect_worker(struct work_struct *work);
-+static void cs42l42_run_jack_detect(struct sub_codec *cs42l42);
-+static int cs8409_i2c_read(struct sub_codec *scodec, unsigned int addr);
- 
- static struct cs8409_spec *cs8409_alloc_spec(struct hda_codec *codec)
- {
-@@ -69,6 +72,7 @@ static struct cs8409_spec *cs8409_alloc_spec(struct hda_codec *codec)
- 	codec->power_save_node = 1;
- 	mutex_init(&spec->i2c_mux);
- 	INIT_DELAYED_WORK(&spec->i2c_clk_work, cs8409_disable_i2c_clock_worker);
-+	INIT_DELAYED_WORK(&spec->jack_detect_work, cs8409_jack_detect_worker);
- 	snd_hda_gen_spec_init(&spec->gen);
- 
- 	return spec;
-@@ -115,6 +119,28 @@ static void cs8409_disable_i2c_clock_worker(struct work_struct *work)
- 	cs8409_disable_i2c_clock(spec->codec);
- }
- 
-+/*
-+ * cs8409_jack_detect_worker - Perform initial jack detection once hardware is settled
-+ *
-+ * Defer initial jack detection. On ChromeOS and possibly other platforms this
-+ * delay is required for jack detection to work as expected.
-+ */
-+static void cs8409_jack_detect_worker(struct work_struct *work)
-+{
-+	struct cs8409_spec *spec = container_of(work, struct cs8409_spec, jack_detect_work.work);
-+	struct sub_codec *cs42l42 = spec->scodecs[CS8409_CODEC0];
-+
-+	if (spec->init_done && spec->build_ctrl_done && !cs42l42->hp_jack_in) {
-+		int reg_ts_status = cs8409_i2c_read(cs42l42, CS42L42_TSRS_PLUG_STATUS);
-+
-+		/* error case */
-+		if (reg_ts_status < 0)
-+			return;
-+
-+		cs42l42_run_jack_detect(cs42l42);
-+	}
-+}
-+
- /*
-  * cs8409_enable_i2c_clock - Enable I2C clocks
-  * @codec: the codec instance
-@@ -951,6 +977,8 @@ static void cs8409_remove(struct hda_codec *codec)
- {
- 	struct cs8409_spec *spec = codec->spec;
- 
-+	/* Disable jack detect work */
-+	disable_delayed_work_sync(&spec->jack_detect_work);
- 	/* Cancel i2c clock disable timer, and disable clock if left enabled */
- 	cancel_delayed_work_sync(&spec->i2c_clk_work);
- 	cs8409_disable_i2c_clock(codec);
-@@ -1020,6 +1048,9 @@ static int cs8409_cs42l42_suspend(struct hda_codec *codec)
- 
- 	cs8409_enable_ur(codec, 0);
- 
-+	/* Cancel jack detect work first as it accesses CS42L42 over I2C */
-+	cancel_delayed_work_sync(&spec->jack_detect_work);
-+
- 	for (i = 0; i < spec->num_scodecs; i++)
- 		cs42l42_suspend(spec->scodecs[i]);
- 
-@@ -1153,6 +1184,9 @@ void cs8409_cs42l42_fixups(struct hda_codec *codec, const struct hda_fixup *fix,
- 			spec->scodecs[CS8409_CODEC0]->full_scale_vol = CS42L42_FULL_SCALE_VOL_0DB;
- 			spec->speaker_pdn_gpio = CS8409_CYBORG_SPEAKER_PDN;
- 			break;
-+		case CS8409_WARLOCK_MLK_DELAYED_JD:
-+			spec->delay_jack_detect = 1;
-+			fallthrough;
- 		case CS8409_WARLOCK_MLK:
- 		case CS8409_WARLOCK_MLK_DUAL_MIC:
- 			spec->scodecs[CS8409_CODEC0]->full_scale_vol = CS42L42_FULL_SCALE_VOL_0DB;
-@@ -1197,8 +1231,13 @@ void cs8409_cs42l42_fixups(struct hda_codec *codec, const struct hda_fixup *fix,
- 		cs8409_cs42l42_hw_init(codec);
- 		spec->init_done = 1;
- 		if (spec->init_done && spec->build_ctrl_done
--			&& !spec->scodecs[CS8409_CODEC0]->hp_jack_in)
--			cs42l42_run_jack_detect(spec->scodecs[CS8409_CODEC0]);
-+			&& !spec->scodecs[CS8409_CODEC0]->hp_jack_in) {
-+			if (spec->delay_jack_detect)
-+				schedule_delayed_work(&spec->jack_detect_work,
-+						msecs_to_jiffies(CS8409_JACK_DETECT_DELAY_MS));
-+			else
-+				cs42l42_run_jack_detect(spec->scodecs[CS8409_CODEC0]);
-+		}
- 		break;
- 	case HDA_FIXUP_ACT_BUILD:
- 		spec->build_ctrl_done = 1;
-@@ -1208,8 +1247,13 @@ void cs8409_cs42l42_fixups(struct hda_codec *codec, const struct hda_fixup *fix,
- 		 * Run immediately after init.
- 		 */
- 		if (spec->init_done && spec->build_ctrl_done
--			&& !spec->scodecs[CS8409_CODEC0]->hp_jack_in)
--			cs42l42_run_jack_detect(spec->scodecs[CS8409_CODEC0]);
-+			&& !spec->scodecs[CS8409_CODEC0]->hp_jack_in) {
-+			if (spec->delay_jack_detect)
-+				schedule_delayed_work(&spec->jack_detect_work,
-+						msecs_to_jiffies(CS8409_JACK_DETECT_DELAY_MS));
-+			else
-+				cs42l42_run_jack_detect(spec->scodecs[CS8409_CODEC0]);
-+		}
- 		break;
- 	default:
- 		break;
-diff --git a/sound/hda/codecs/cirrus/cs8409.h b/sound/hda/codecs/cirrus/cs8409.h
-index be1714a84fff4..dacc1083b9d46 100644
---- a/sound/hda/codecs/cirrus/cs8409.h
-+++ b/sound/hda/codecs/cirrus/cs8409.h
-@@ -247,6 +247,7 @@ enum cs8409_coefficient_index_registers {
- #define CS8409_CS42L42_AMIC_PIN_NID		CS8409_PIN_ASP1_RECEIVER_A
- #define CS8409_CS42L42_DMIC_PIN_NID		CS8409_PIN_DMIC1_IN
- #define CS8409_CS42L42_DMIC_ADC_PIN_NID		CS8409_PIN_DMIC1
-+#define CS8409_JACK_DETECT_DELAY_MS		100
- 
- /* Dolphin */
- 
-@@ -266,6 +267,7 @@ enum {
- 	CS8409_BULLSEYE,
- 	CS8409_WARLOCK,
- 	CS8409_WARLOCK_MLK,
-+	CS8409_WARLOCK_MLK_DELAYED_JD,
- 	CS8409_WARLOCK_MLK_DUAL_MIC,
- 	CS8409_CYBORG,
- 	CS8409_FIXUPS,
-@@ -339,12 +341,14 @@ struct cs8409_spec {
- 	unsigned int i2c_clck_enabled;
- 	unsigned int dev_addr;
- 	struct delayed_work i2c_clk_work;
-+	struct delayed_work jack_detect_work;
- 
- 	unsigned int playback_started:1;
- 	unsigned int capture_started:1;
- 	unsigned int init_done:1;
- 	unsigned int build_ctrl_done:1;
- 	unsigned int speaker_muted:1;
-+	unsigned int delay_jack_detect:1;
- 
- 	/* verb exec op override */
- 	int (*exec_verb)(struct hdac_device *dev, unsigned int cmd, unsigned int flags,
-
----
-base-commit: df2908090cda368b01ff43709f51890076c56157
-change-id: 20260710-fix-headphone-plug-cirrus-dell-5e3b49da5f52
-
-Best regards,
---  
-Steven 'Steve' Kendall <skend@chromium.org>
-
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogTGlhbywgQmFyZA0KPiBT
+ZW50OiBXZWRuZXNkYXksIFNlcHRlbWJlciAxNiwgMjAyNiAxMjowOCBQTQ0KPiBUbzogJ1BpZXJy
+ZS1Mb3VpcyBCb3NzYXJ0JyA8cGllcnJlLWxvdWlzLmJvc3NhcnRAbGludXguZGV2PjsgQmFyZCBM
+aWFvIDx5dW5nLQ0KPiBjaHVhbi5saWFvQGxpbnV4LmludGVsLmNvbT47IGxpbnV4LXNvdW5kQHZn
+ZXIua2VybmVsLm9yZzsgdmtvdWxAa2VybmVsLm9yZzsNCj4gYnJvb25pZUBrZXJuZWwub3JnOyB0
+aXdhaUBzdXNlLmRlDQo+IENjOiB2aW5vZC5rb3VsQGxpbmFyby5vcmc7IGxpbnV4LWtlcm5lbEB2
+Z2VyLmtlcm5lbC5vcmc7DQo+IHBldGVyLnVqZmFsdXNpQGxpbnV4LmludGVsLmNvbQ0KPiBTdWJq
+ZWN0OiBSRTogW1BBVENIIDAvM10gQVNvQy9zb3VuZHdpcmU6IHJlbW92ZSBnaG9zdCBwZXJpcGhl
+cmFscyBmcm9tIHRoZQ0KPiBtYWNoIHRhYmxlDQo+IA0KPiANCj4gDQo+ID4gLS0tLS1PcmlnaW5h
+bCBNZXNzYWdlLS0tLS0NCj4gPiBGcm9tOiBQaWVycmUtTG91aXMgQm9zc2FydCA8cGllcnJlLWxv
+dWlzLmJvc3NhcnRAbGludXguZGV2Pg0KPiA+IFNlbnQ6IFdlZG5lc2RheSwgU2VwdGVtYmVyIDE2
+LCAyMDI2IDM6MDkgQU0NCj4gPiBUbzogQmFyZCBMaWFvIDx5dW5nLWNodWFuLmxpYW9AbGludXgu
+aW50ZWwuY29tPjsgbGludXgtDQo+ID4gc291bmRAdmdlci5rZXJuZWwub3JnOyB2a291bEBrZXJu
+ZWwub3JnOyBicm9vbmllQGtlcm5lbC5vcmc7DQo+ID4gdGl3YWlAc3VzZS5kZQ0KPiA+IENjOiB2
+aW5vZC5rb3VsQGxpbmFyby5vcmc7IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmc7DQo+ID4g
+cGV0ZXIudWpmYWx1c2lAbGludXguaW50ZWwuY29tOyBMaWFvLCBCYXJkIDxiYXJkLmxpYW9AaW50
+ZWwuY29tPg0KPiA+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggMC8zXSBBU29DL3NvdW5kd2lyZTogcmVt
+b3ZlIGdob3N0IHBlcmlwaGVyYWxzIGZyb20NCj4gdGhlDQo+ID4gbWFjaCB0YWJsZQ0KPiA+DQo+
+ID4gT24gOS8xNS8yNiAxNToxMywgQmFyZCBMaWFvIHdyb3RlOg0KPiA+ID4gQUNQSSBtYXkgcmVw
+b3J0IGEgZ2hvc3QgU291bmRXaXJlIHBlcmlwaGVyYWwuIEl0IHdpbGwgY2F1c2UgdW5leHBlY3Rl
+ZA0KPiA+ID4gZXJyb3IgbGlrZSBkdXBsaWNhdGVkIGxpbmtzLCBjb2RlYyBkcml2ZXIgY2FuJ3Qg
+cHJvYmUsIGV0Yy4gVGhpcyBzZXJpZXMNCj4gPiA+IGNoZWNrIHRoZSBwcmVzZW5jZSBvZiBTb3Vu
+ZFdpcmUgcGVyaXBoZXJhbHMgYW5kIHNraXAgdGhlIG5vbi1leGlzdGluZw0KPiA+ID4gcGVyaXBo
+ZXJhbHMuDQo+ID4NCj4gPiBJIGFtIGFmcmFpZCB0aGlzIHJhaXNlcyBxdWl0ZSBhIGZldyBvcGVu
+cywgc3VjaCBhcyB0aGUgJ21vY2t1cCcgc3VwcG9ydA0KPiA+IGFuZCBkZWxheWVkIGVudW1lcmF0
+aW9uLg0KPiANCj4gVGhlIG1vY2t1cCBzdXBwb3J0IHdpbGwgbm90IGNoYW5nZS4gV2Ugd2lsbCBv
+bmx5IGNoZWNrIHRoZSBleGlzdGFuY2UgaWYNCj4gbm8gbWFjaCBpdGVtIG1hdGNoZWQuIEFuZCB3
+ZSBjYW4gYWx3YXlzIGFkZCB0aGUgbW9jaHVwIGNvbmZpZ3VyYXRpb25zIHRvDQo+IHRoZSBtYWNo
+IHRhYmxlLg0KPiBBbmQgaW5kZWVkLCBpdCB3aWxsIGFkZCBhIGxpdHRsZSBkZWxheSBpbiBzb21l
+IGNhc2VzLiBIb3dldmVyLCBiYXNlZCBvbg0KPiBvdXIgdGVzdCwgb25seSBhYm91dCAxIG1zIGRl
+bGF5IHdpbGwgYmUgYWRkZWQuDQo+IA0KPiA+DQo+ID4gQSBiZXR0ZXIgd2F5IHRvIG9ubHkgZGVh
+bCB3aXRoIGFjdHVhbCBjb2RlY3Mgd291bGQgYmUgdG8gb25seSBwcm9iZQ0KPiA+IGNvZGVjIGRy
+aXZlcnMgd2hlbiB0aGUgY29kZWNzIHJlcG9ydCBhcyBBVFRBQ0hFRCBhbmQgZ2V0IGVudW1lcmF0
+ZWQsDQo+ID4gaW5zdGVhZCBvZiBkdXJpbmcgdGhlIEFDUEkgcGFyc2luZyBzdGFnZS4NCj4gDQo+
+IEJ1dCB0aGlzIGRvZXNuJ3Qgc29sdmUgb3VyIGlzc3VlLiBUaGUgREFJIGxpbmsgd2lsbCBzdGls
+bCBiZSBjcmVhdGVkDQo+IGFuZCB0aGUgc291bmQgY2FyZCB3aWxsIG5vdCBwcm9iZSBiZWNhdXNl
+IHRoZSBjb2RlYyBkcml2ZXIgZG9lc24ndCBwcm9iZS4NCj4gT3VyIHRhcmdldCBpcyB0aGF0IHRo
+ZSBnaG9zdCBkZXZpY2Ugc2hvdWxkIG5vdCBiZSBhZGRlZCBpbiB0aGUgREFJIGxpbmsuDQo+IFNv
+IHRoYXQgdGhlIHNvdW5kIGNhcmQgY2FuIHByb2JlIHByb3Blcmx5Lg0KPiANCj4gPiBUaGlzIGlz
+IGEgc29sdXRpb24gdGhhdCB3YXMgZGlzY3Vzc2VkIGEgb25nIHRpbWUgYWdvLCBwcm9iYWJseSBj
+aXJjYQ0KPiA+IDIwMTYsIGR1cmluZyBvbmUgb2YgdGhlIExQQyBtaW5pY29uZmVyZW5jZXMsIGFu
+ZCB0aGUgZGlyZWN0aW9uIGZyb20NCj4gPiBtYWludGFpbmVycyB3YXMgdGhhdCB0aGUgcHJvYmUg
+Y291bGQgYmUgdXNlZCB0byBlbmFibGUgcmVzb3VyY2VzIChwb3dlciwNCj4gPiBncGlvLCBjbG9j
+a3MpIHRoYXQgbWlnaHQgYmUgcmVxdWlyZWQgZm9yIHRoZSBoYXJkd2FyZSBjb2RlYyB0byBiZWNv
+bWUNCj4gPiBmdW5jdGlvbmFsIGFuZCByZXBvcnQgYXMgQVRUQUNIRUQuIFRoYXQncyB0aGUgcmVh
+c29uIHdoeSB0aGUgcHJvYmUgaXMNCj4gPiBkb25lIG9uIGFsbCBjb2RlY3MgZXhwb3NlZCBpbiBB
+Q1BJLCBldmVuICdnaG9zdCcgb25lcywgd2l0aCBhbg0KPiA+IHVwZGF0ZV9zdGF0dXMoKSBjYWxs
+YmFjayB0byB0aGUgY29kZWMgZHJpdmVyIHdoZW4gdGhlIHByZXNlbmNlIG9mIHRoYXQNCj4gPiBj
+b2RlYyBpcyBkZXRlY3RlZCBvbiB0aGUgYnVzLg0KPiA+DQo+ID4gSW4gcHJhY3RpY2UgSSBhbSBu
+b3QgYXdhcmUgb2YgYW55IGNvZGVjIGRyaXZlcnMgZG9pbmcgYW55dGhpbmcgd2l0aA0KPiA+IHBv
+d2VyL2dwaW8vY2xvY2tzIGluIHRoZSBwcm9iZSBzdGFnZXMsIGF0IGxlYXN0IGZvciBBQ1BJIHBs
+YXRmb3Jtcywgc28NCj4gPiBpdCBtYXkgYmUgYSBnb29kIHRpbWUgdG8gcmV2aXNpdCB0aGlzIGRp
+cmVjdGlvbi4gU0RDQSBjbGFzcyBkcml2ZXJzIGRvDQo+ID4gZXhhY3RseSB3aGF0IEkgZGVzY3Jp
+YmVkLCB0aGUgc3ViZGV2aWNlcyBhcmUgcmVnaXN0ZXJlZCBvbmx5IHVwb24NCj4gPiBlbnVtZXJh
+dGlvbiwgbm90IGR1cmluZyBBQ1BJIHBhcnNpbmcuIEl0J3MgYSBtdWNoIHNpbXBsZXIgZGVzaWdu
+IHdpdGggYQ0KPiA+IGxvdCBmZXdlciBwb3RlbnRpYWwgcmFjZXMuDQo+ID4NCj4gPiBQcm9ibGVt
+czoNCj4gPiAtIHRoaXMgd291bGQgYmUgYSB2ZXJ5IGludmFzaXZlIGNoYW5nZSB0byBzZHdfc2xh
+dmVfYWRkKCksIHdpdGggdGhlDQo+ID4gZGV2aWNlX3JlZ2lzdGVyKCkgc2tpcHBlZCBhbmQgbW92
+ZWQgdG8gdGhlIGVudW1lcmF0aW9uIHN0YWdlLiBJdCdkIGhhdmUNCj4gPiB0byBiZSBvcHQtaW4g
+YW5kIHVzZWQgb25seSBhIG5ld2VyIHBsYXRmb3JtcyB0byBhdm9pZCBicmVha2luZyB0aGUNCj4g
+PiAnbGVnYWN5JyBkZXZpY2VzLg0KPiANCj4gSSBkaWRuJ3QgY2hhbmdlIHNkd19zbGF2ZV9hZGQo
+KS4gQWxsIHRoZSBjaGFuZ2UgaW4gU291bmRXaXJlIGRyaXZlciBpcyB0bw0KPiBhZGQgYSBmbGFn
+IGFuZCBhIGNvbXBsZXRpb24gdG8gc2hhcmUgdGhlIGluZm9ybWF0aW9uIG9mIHdoZXRoZXIgdGhl
+DQo+IGVudW1lcmF0aW9uIG9mIHRoZSBidXMgaXMgY29tcGxldGVkLg0KPiANCg0KSGkgUGllcnJl
+LA0KDQpEbyB5b3Ugc3RpbGwgaGF2ZSBhbnkgY29uY2VybnMgYWJvdXQgdGhpcyBzZXJpZXM/DQpP
+ciBtYXliZSBJIGNhbiBhZGQgYSBtb2R1bGUgcGFyYW1ldGVyIHRvIGRpc2FibGUgdGhlIGZlYXR1
+cmU/DQoNCj4gPiAtIHRoZXJlIGlzIHN0aWxsICpub3RoaW5nKiB0aGF0IHdvdWxkIHRlbGwgeW91
+IHRoYXQgYWxsIGNvZGVjIGhhcmR3YXJlDQo+ID4gb24gYSBnaXZlbiBwbGF0Zm9ybSBjb21wbGV0
+ZWQgdGhlIGVudW1lcmF0aW9uLiBZb3UgY291bGQgaGF2ZSBhIGZpeGVkDQo+ID4gZGVsYXkgYnV0
+IHRoaXMgd291bGQgbmVlZCB0byBiZSBsYXJnZSBlbm91Z2ggdG8gY292ZXIgYWxsIGNhc2VzIGFu
+ZCB0aGF0DQo+ID4gY291bGQgbWFrZSB0aGUgcGxhdGZvcm0gYm9vdCBzbG93ZXIgdGhhbiB0aGUg
+Y3VycmVudCBzb2x1dGlvbiAtIG5vdCBpZGVhbC4NCj4gDQo+IFllYWgsIEkgc2V0IGEgMyBzZWMg
+dGltZW91dC4gSSBiZWxpZXZlIHRoYXQgaXMgbGFyZ2UgZW5vdWdoLiBBbmQgdGhlIGZsYWcNCj4g
+YW5kIHRoZSBjb21wbGV0aW9uIGlzIHRvIGF2b2lkIHRoZSBtZWFuaW5nbGVzcyB3YWl0aW5nLiBX
+aXRoIHRoZQ0KPiBpc19wcmVzZW50IGZsYWcsIHdlIGNhbiBlbnN1cmUgYSBidXMgd2lsbCBub3Qg
+YmUgd2FpdGluZyBmb3IgbW9yZSB0aGFuIDENCj4gdGltZS4gQW5kIHdpdGggdGhlIGVudW1lcmF0
+aW9uX2NvbXBsZXRlIGNvbXBsZXRpb24sIHdlIHdvbid0IHdhaXQgZm9yIHRoZQ0KPiBnaG9zdCBk
+ZXZpY2UgdG8gYmUgZW51bWVyYXRlZC4NCj4gDQo+ID4NCj4gPiBBbm90aGVyIG9wdGlvbiB3b3Vs
+ZCBiZSB0byBwYXJzZSB0aGUgQUNQSTAwMTggZGV2aWNlLCB3aGljaCBkZXNjcmliZXMNCj4gPiBh
+dWRpbyBlbmRwb2ludHMgYW5kIG1ha2VzIHJlZmVyZW5jZXMgdG8gY29kZWNzLCB3aGljaCBjb3Vs
+ZCBiZSB1c2VkIHRvDQo+ID4gZmlsdGVyIG91dCAnZ2hvc3QnIGNvZGVjcyB0aGF0IGRvbid0IHBy
+b3ZpZGUgYW55IGVuZHBvaW50cy4gVGhlIHNwZWMgZm9yDQo+ID4gdGhpcyBBQ1BJMDAxOCBpcyBu
+b3QgcHVibGljIGJ1dCBjb3VsZCBiZSByZXZlcnNlLWVuZ2luZWVyZWQgZnJvbSBXaW5kb3dzDQo+
+ID4gcGxhdGZvcm1zLiBUaGUgbWFpbiBiZW5lZml0IGlzIHRoYXQgdGhpcyBmaWx0ZXJpbmcgY291
+bGQgYmUgZG9uZSBpbiB0aGUNCj4gPiBBQ1BJIHBhcnNpbmcgc3RhZ2VzIGFuZCBub3QgY2hhbmdl
+IGFueXRoaW5nIGluIHRoZSBwcm9iZSBhbmQgc3RhcnR1cA0KPiA+IHNlcXVlbmNlcy4NCj4gDQo+
+IElzIEFDUEkwMDE4IHJlbGlhYmxlPyBXaWxsIGl0IHN0aWxsIGxpc3QgdGhlIGdob3N0IGRldmlj
+ZT8gVGhlIGdob3N0IHJ0NzIyDQo+IGhhcyBhbGwgZW5kcG9pbnRzIGxpc3RlZCBpbiBpdHMgRGlz
+Q28gdGFibGUNCg==
