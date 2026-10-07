@@ -1,166 +1,410 @@
-Received: from mta1.migadu.com (out-138.mta1.migadu.com [95.215.58.138])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CF0A4BA1D2
-	for <linux-sound@vger.kernel.org>; Wed,  7 Oct 2026 16:39:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90B2936DA00;
+	Wed,  7 Oct 2026 17:11:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791391179; cv=none; b=Dt53V/HS9/dUOjv4ST9uCeI72TGKg1rUssvE6uGBpjDpAjDJPSSVou+GmALWwQm/RH43F7+vLffY/ewFVJPKdHHBNT4hJKLWzTZVtcceK4okBKbwYDqY4Ylm8mo+Dt94HUUcYvvXPO3C7TUNm9W6w9m1sfejAdrrwDaRfEveL8g=
+	t=1791393072; cv=none; b=LdOd+IGN5hid+s2GWKv1ad99PlDuUtFj//odEeuKn5vfGoIN2WrRLBD0nyHOxwYyBVTlZOEEy5Dt1WJGuqJudJEIzxcAp6cDNuLuXL1UtSp0tpVjhNU0AAi32uhXV/8fn2jyWDmiJ6sh8x83TG4XaQpzhG1TTNbD1hTsivvruPY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791391179; c=relaxed/simple;
-	bh=YfYHbPshNF22vRBtJCgXQrl41GLL7Ua8eOIdr5Gqej8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SumuAx+KUjPZBfilgy9MH/HPfz34giZr2jc2otZLSbKm28smkJL5dAfI0tit78IWgH5cvAIrYs7I7O93Z+Xxq8VvqBtCeEQvNWjKecwW5Fl3KHPTMkAspO2CThQhLQXhT6Sa4hH1VZLFCCiHCCGNt39Hx0hY6UhTkjF0mO60ods=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=amx4HcAv; arc=none smtp.client-ip=95.215.58.138
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1791393072; c=relaxed/simple;
+	bh=BMLwsLzFjLZ6w22GsxcUnP3peuDjbzLwrT8N0rvit80=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rIiB16qamwMFJSxmylwnHx0IPr8vwhQxaCKfntnquK+br1t+0wT2QypF83xxfH6fAV4XE47mJ2ePrTIe99tZOXRDWYifLLKpUPbSSZ/2cmWZzD1PqactSQPb89PuNJ+VopPuOU2s5hM2MqDiMuOcqemuPjJQjPY5nuJGe+TXxR4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Sr5WwG6A; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=fFk/UCuM; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Sr5WwG6A; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=fFk/UCuM; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="amx4HcAv"
-X-Envelope-To: linux-sound@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=YfYHbPshNF22vRBtJCgXQrl41GLL7Ua8eOIdr5Gqej8=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1791391175; v=1; x=1791995975;
- b=amx4HcAvBNUzBPlIaWiN6WkIZJg3A0buf/dp+tElqDeuVua8Cckk/VCtdu9CEO3iozezVPwg
- jnJvx1vYjfoaorK8t21uFA3xCfPjJgS7OLUnKFeMVUGMQt7xUDUg7ZhJRsUDqOlvzh+A6PSwf/b
- 2OVIXr/0G0KWTZjsib5dL+Rk=
-X-Envelope-To: linux-sound@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id bc8cee966bfacb3a;
-	Wed, 07 Oct 2026 16:39:35 +0000
-X-Mizu-Trace-ID: bc8cee966bfacb3a
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <3b718d6e-462e-4d22-b42b-915cd88bd60f@linux.dev>
-Date: Wed, 7 Oct 2026 18:37:55 +0200
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Sr5WwG6A";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fFk/UCuM";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Sr5WwG6A";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fFk/UCuM"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 0B38D21BBA;
+	Wed,  7 Oct 2026 17:11:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1791393068; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=sVeUwK6dDNG0pAlRf04aXiitKEUoQgncZnpv11W/1cc=;
+	b=Sr5WwG6ARUzj1+xOE7xyatwbbVmp6mOdunRVzB5sKJ3S+LuFo59F9GcftHrbuDL2bAVEsX
+	7qVeBQ8eXAYVFbwFPgoI7MD6sJ5/EIH9QTPjqxJBJFKjjT2QV6PVSuqyMLCf9rIldRhwmc
+	UixrE8FyW02zkfyCdNw6B/Tkn+IbrHI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1791393068;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=sVeUwK6dDNG0pAlRf04aXiitKEUoQgncZnpv11W/1cc=;
+	b=fFk/UCuMZzVKY0INgJ+NWkigwcdN8sqcl9HPLJcyt+uwEEBX5vfdjA94R2CaUHd3UpcLXZ
+	we7bSGU5UZgHomDg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Sr5WwG6A;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="fFk/UCuM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1791393068; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=sVeUwK6dDNG0pAlRf04aXiitKEUoQgncZnpv11W/1cc=;
+	b=Sr5WwG6ARUzj1+xOE7xyatwbbVmp6mOdunRVzB5sKJ3S+LuFo59F9GcftHrbuDL2bAVEsX
+	7qVeBQ8eXAYVFbwFPgoI7MD6sJ5/EIH9QTPjqxJBJFKjjT2QV6PVSuqyMLCf9rIldRhwmc
+	UixrE8FyW02zkfyCdNw6B/Tkn+IbrHI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1791393068;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=sVeUwK6dDNG0pAlRf04aXiitKEUoQgncZnpv11W/1cc=;
+	b=fFk/UCuMZzVKY0INgJ+NWkigwcdN8sqcl9HPLJcyt+uwEEBX5vfdjA94R2CaUHd3UpcLXZ
+	we7bSGU5UZgHomDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D55D513354;
+	Wed,  7 Oct 2026 17:11:07 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id ZupcLSt9xmrUfgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 07 Oct 2026 17:11:07 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Subject: [PATCH v2] ALSA: hda: Use linked list for jack table
+Date: Wed,  7 Oct 2026 19:10:54 +0200
+Message-ID: <20261007171057.7462-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/3] ASoC/soundwire: remove ghost peripherals from the
- mach table
-To: "Liao, Bard" <bard.liao@intel.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
- "vkoul@kernel.org" <vkoul@kernel.org>,
- "broonie@kernel.org" <broonie@kernel.org>, "tiwai@suse.de" <tiwai@suse.de>
-Cc: "vinod.koul@linaro.org" <vinod.koul@linaro.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "peter.ujfalusi@linux.intel.com" <peter.ujfalusi@linux.intel.com>
-References: <20260915131327.1783551-1-yung-chuan.liao@linux.intel.com>
- <528a9777-1587-4dfc-a366-000fc0867d4b@linux.dev>
- <SJ2PR11MB8424E1911A4CA6F9414A07DAFFB92@SJ2PR11MB8424.namprd11.prod.outlook.com>
- <SJ2PR11MB8424E1FAF2D8D1EAD84C3B92FF942@SJ2PR11MB8424.namprd11.prod.outlook.com>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <SJ2PR11MB8424E1FAF2D8D1EAD84C3B92FF942@SJ2PR11MB8424.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_NONE(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:email,suse.de:dkim];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RCPT_COUNT_TWO(0.00)[2];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Spam-Score: -3.01
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 0B38D21BBA
 
-Sorry Bard I missed your earlier answer.
+So far we've used snd_array infrastructure for managing the
+hda_jack_tbl elements, but it turned out that this may lead to a UAF
+when a different order of destruction procedure is applied; namely,
+each hda_jack_tbl object creates a snd_jack object and sets the
+private_data pointing to the hda_jack_tbl, and private_free to release
+it.  It looks harmless, but since snd_array may reallocate the whole
+table at growing, the formerly referred jack pointer may become stale.
 
+Fortunately, currently there is no call pattern that triggers this
+issue, so it's only hypothetical, but we should address it in anyway.
 
->>> On 9/15/26 15:13, Bard Liao wrote:
->>>> ACPI may report a ghost SoundWire peripheral. It will cause unexpected
->>>> error like duplicated links, codec driver can't probe, etc. This series
->>>> check the presence of SoundWire peripherals and skip the non-existing
->>>> peripherals.
->>>
->>> I am afraid this raises quite a few opens, such as the 'mockup' support
->>> and delayed enumeration.
->>
->> The mockup support will not change. We will only check the existance if
->> no mach item matched. And we can always add the mochup configurations to
->> the mach table.
->> And indeed, it will add a little delay in some cases. However, based on
->> our test, only about 1 ms delay will be added.
->>
->>>
->>> A better way to only deal with actual codecs would be to only probe
->>> codec drivers when the codecs report as ATTACHED and get enumerated,
->>> instead of during the ACPI parsing stage.
->>
->> But this doesn't solve our issue. The DAI link will still be created
->> and the sound card will not probe because the codec driver doesn't probe.
->> Our target is that the ghost device should not be added in the DAI link.
->> So that the sound card can probe properly.
+There are several ways to address this, and at this time, we rather
+redesign the hda_jack_tbl allocations: instead of snd_array(), do a
+normal kmalloc() + linked list.  There will be more kmalloc calls than
+the original code, but as the number of jacks are usually at most
+handful, it must not be a problem.  This change allows us the
+persistent jack pointer, so no stale pointer access can happen any
+longer.
 
-I don't see how the DAI link would be created if there's no device
-registered for the ghost device?
-I guess we're talking about separate layers...
+This also fixes another reported issue about the stale jack pointer
+reference in snd_hda_jack_tbl_new(), too.
 
->>> This is a solution that was discussed a ong time ago, probably circa
->>> 2016, during one of the LPC miniconferences, and the direction from
->>> maintainers was that the probe could be used to enable resources (power,
->>> gpio, clocks) that might be required for the hardware codec to become
->>> functional and report as ATTACHED. That's the reason why the probe is
->>> done on all codecs exposed in ACPI, even 'ghost' ones, with an
->>> update_status() callback to the codec driver when the presence of that
->>> codec is detected on the bus.
->>>
->>> In practice I am not aware of any codec drivers doing anything with
->>> power/gpio/clocks in the probe stages, at least for ACPI platforms, so
->>> it may be a good time to revisit this direction. SDCA class drivers do
->>> exactly what I described, the subdevices are registered only upon
->>> enumeration, not during ACPI parsing. It's a much simpler design with a
->>> lot fewer potential races.
->>>
->>> Problems:
->>> - this would be a very invasive change to sdw_slave_add(), with the
->>> device_register() skipped and moved to the enumeration stage. It'd have
->>> to be opt-in and used only a newer platforms to avoid breaking the
->>> 'legacy' devices.
->>
->> I didn't change sdw_slave_add(). All the change in SoundWire driver is to
->> add a flag and a completion to share the information of whether the
->> enumeration of the bus is completed.
+Fixes: 31ef22579302 ("ALSA: hda - Integrate input-jack stuff into kctl-jack")
+Reported-by: Sashiko <sashiko-bot@kernel.org>
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+v1->v2: fix potential UAF with private_free call
 
-I still think this option would be best, that way you'd only deal with
-devices that report as ATTACHED, without needing any additional
-wait_for_completion.
+ include/sound/hda_codec.h       |  6 ++-
+ sound/hda/common/codec.c        |  1 -
+ sound/hda/common/hda_jack.h     |  1 +
+ sound/hda/common/jack.c         | 79 ++++++++++++++++++---------------
+ sound/soc/sof/intel/hda-codec.c |  4 +-
+ 5 files changed, 51 insertions(+), 40 deletions(-)
 
-> Do you still have any concerns about this series?
-> Or maybe I can add a module parameter to disable the feature?
-
-The main objection I have is this piece of code:
-
-if (ret == -ENODATA) { /* end of device id reads */
- 			dev_dbg(bus->dev, "No more devices to enumerate\n");
- 			ret = 0;
-+			complete_all(&bus->enumeration_complete);
- 			break;
+diff --git a/include/sound/hda_codec.h b/include/sound/hda_codec.h
+index 1d05f991f2ce..c7f29ad64e02 100644
+--- a/include/sound/hda_codec.h
++++ b/include/sound/hda_codec.h
+@@ -28,6 +28,7 @@ struct hda_codec;
+ struct hda_pcm;
+ struct hda_pcm_stream;
+ struct hda_codec_ops;
++struct hda_jack_tbl;
+ 
+ /*
+  * codec bus
+@@ -274,7 +275,8 @@ struct hda_codec {
+ 				 struct hda_codec *codec, hda_nid_t nid);
+ 
+ 	/* jack detection */
+-	struct snd_array jacktbl;
++	struct hda_jack_tbl *jacktbl, *jacktbl_last; /* linked list head/tail */
++	int jacktbl_used; /* number of jacktbl elements */
+ 	unsigned long jackpoll_interval; /* In jiffies. Zero means no poll, rely on unsol events */
+ 	struct delayed_work jackpoll_work;
+ 
+@@ -519,7 +521,7 @@ void snd_hda_update_power_acct(struct hda_codec *codec);
+ 
+ static inline bool hda_codec_need_resume(struct hda_codec *codec)
+ {
+-	return !codec->relaxed_resume && codec->jacktbl.used;
++	return !codec->relaxed_resume && codec->jacktbl_used;
+ }
+ 
+ /*
+diff --git a/sound/hda/common/codec.c b/sound/hda/common/codec.c
+index c61fd79c48f3..b79346d01021 100644
+--- a/sound/hda/common/codec.c
++++ b/sound/hda/common/codec.c
+@@ -921,7 +921,6 @@ snd_hda_codec_device_init(struct hda_bus *bus, unsigned int codec_addr,
+ 	snd_array_init(&codec->driver_pins, sizeof(struct hda_pincfg), 16);
+ 	snd_array_init(&codec->cvt_setups, sizeof(struct hda_cvt_setup), 8);
+ 	snd_array_init(&codec->spdif_out, sizeof(struct hda_spdif_out), 16);
+-	snd_array_init(&codec->jacktbl, sizeof(struct hda_jack_tbl), 16);
+ 	snd_array_init(&codec->verbs, sizeof(struct hda_verb *), 8);
+ 	INIT_LIST_HEAD(&codec->conn_list);
+ 	INIT_LIST_HEAD(&codec->pcm_list_head);
+diff --git a/sound/hda/common/hda_jack.h b/sound/hda/common/hda_jack.h
+index e9b9970c59ed..a06b315e4b05 100644
+--- a/sound/hda/common/hda_jack.h
++++ b/sound/hda/common/hda_jack.h
+@@ -44,6 +44,7 @@ struct hda_jack_tbl {
+ 	int type;
+ 	int button_state;
+ 	struct snd_jack *jack;
++	struct hda_jack_tbl *next;
+ };
+ 
+ struct hda_jack_keymap {
+diff --git a/sound/hda/common/jack.c b/sound/hda/common/jack.c
+index c3efab3b5bfe..6b8aa1a6c008 100644
+--- a/sound/hda/common/jack.c
++++ b/sound/hda/common/jack.c
+@@ -76,12 +76,11 @@ static u32 read_pin_sense(struct hda_codec *codec, hda_nid_t nid, int dev_id)
+ struct hda_jack_tbl *
+ snd_hda_jack_tbl_get_mst(struct hda_codec *codec, hda_nid_t nid, int dev_id)
+ {
+-	struct hda_jack_tbl *jack = codec->jacktbl.list;
+-	int i;
++	struct hda_jack_tbl *jack;
+ 
+-	if (!nid || !jack)
++	if (!nid)
+ 		return NULL;
+-	for (i = 0; i < codec->jacktbl.used; i++, jack++)
++	for (jack = codec->jacktbl; jack; jack = jack->next)
+ 		if (jack->nid == nid && jack->dev_id == dev_id)
+ 			return jack;
+ 	return NULL;
+@@ -98,12 +97,11 @@ struct hda_jack_tbl *
+ snd_hda_jack_tbl_get_from_tag(struct hda_codec *codec,
+ 			      unsigned char tag, int dev_id)
+ {
+-	struct hda_jack_tbl *jack = codec->jacktbl.list;
+-	int i;
++	struct hda_jack_tbl *jack;
+ 
+-	if (!tag || !jack)
++	if (!tag)
+ 		return NULL;
+-	for (i = 0; i < codec->jacktbl.used; i++, jack++)
++	for (jack = codec->jacktbl; jack; jack = jack->next)
+ 		if (jack->tag == tag && jack->dev_id == dev_id)
+ 			return jack;
+ 	return NULL;
+@@ -113,12 +111,11 @@ EXPORT_SYMBOL_GPL(snd_hda_jack_tbl_get_from_tag);
+ static struct hda_jack_tbl *
+ any_jack_tbl_get_from_nid(struct hda_codec *codec, hda_nid_t nid)
+ {
+-	struct hda_jack_tbl *jack = codec->jacktbl.list;
+-	int i;
++	struct hda_jack_tbl *jack;
+ 
+-	if (!nid || !jack)
++	if (!nid)
+ 		return NULL;
+-	for (i = 0; i < codec->jacktbl.used; i++, jack++)
++	for (jack = codec->jacktbl; jack; jack = jack->next)
+ 		if (jack->nid == nid)
+ 			return jack;
+ 	return NULL;
+@@ -142,12 +139,19 @@ snd_hda_jack_tbl_new(struct hda_codec *codec, hda_nid_t nid, int dev_id)
+ 
+ 	if (jack)
+ 		return jack;
+-	jack = snd_array_new(&codec->jacktbl);
++	jack = kzalloc_obj(*jack);
+ 	if (!jack)
+ 		return NULL;
+ 	jack->nid = nid;
+ 	jack->dev_id = dev_id;
+ 	jack->jack_dirty = 1;
++	if (!codec->jacktbl)
++		codec->jacktbl = jack;
++	else
++		codec->jacktbl_last->next = jack;
++	codec->jacktbl_last = jack;
++	codec->jacktbl_used++;
++
+ 	if (existing_nid_jack) {
+ 		jack->tag = existing_nid_jack->tag;
+ 
+@@ -158,7 +162,7 @@ snd_hda_jack_tbl_new(struct hda_codec *codec, hda_nid_t nid, int dev_id)
+ 		 */
+ 		jack->jack_detect = existing_nid_jack->jack_detect;
+ 	} else {
+-		jack->tag = codec->jacktbl.used;
++		jack->tag = codec->jacktbl_used;
+ 	}
+ 
+ 	return jack;
+@@ -166,10 +170,9 @@ snd_hda_jack_tbl_new(struct hda_codec *codec, hda_nid_t nid, int dev_id)
+ 
+ void snd_hda_jack_tbl_disconnect(struct hda_codec *codec)
+ {
+-	struct hda_jack_tbl *jack = codec->jacktbl.list;
+-	int i;
++	struct hda_jack_tbl *jack;
+ 
+-	for (i = 0; i < codec->jacktbl.used; i++, jack++) {
++	for (jack = codec->jacktbl; jack; jack = jack->next) {
+ 		if (!codec->bus->shutdown && jack->jack)
+ 			snd_device_disconnect(codec->card, jack->jack);
+ 	}
+@@ -177,22 +180,31 @@ void snd_hda_jack_tbl_disconnect(struct hda_codec *codec)
+ 
+ void snd_hda_jack_tbl_clear(struct hda_codec *codec)
+ {
+-	struct hda_jack_tbl *jack = codec->jacktbl.list;
+-	int i;
++	struct hda_jack_tbl *jack, *jack_next;
+ 
+-	for (i = 0; i < codec->jacktbl.used; i++, jack++) {
++	for (jack = codec->jacktbl; jack; jack = jack_next) {
+ 		struct hda_jack_callback *cb, *next;
+ 
+-		/* free jack instances manually when clearing/reconfiguring */
+-		if (!codec->bus->shutdown && jack->jack)
+-			snd_device_free(codec->card, jack->jack);
++		jack_next = jack->next;
++
++		if (jack->jack) {
++			/* fingers away from stale data */
++			jack->jack->private_data = NULL;
++			jack->jack->private_free = NULL;
++			/* free jack instances manually when clearing/reconfiguring */
++			if (!codec->bus->shutdown)
++				snd_device_free(codec->card, jack->jack);
++		}
+ 
+ 		for (cb = jack->callback; cb; cb = next) {
+ 			next = cb->next;
+ 			kfree(cb);
  		}
++		kfree(jack);
+ 	}
+-	snd_array_free(&codec->jacktbl);
++
++	codec->jacktbl = codec->jacktbl_last = NULL;
++	codec->jacktbl_used = 0;
+ }
+ 
+ #define get_jack_plug_state(sense) !!(sense & AC_PINSENSE_PRESENCE)
+@@ -238,10 +250,9 @@ static void jack_detect_update(struct hda_codec *codec,
+  */
+ void snd_hda_jack_set_dirty_all(struct hda_codec *codec)
+ {
+-	struct hda_jack_tbl *jack = codec->jacktbl.list;
+-	int i;
++	struct hda_jack_tbl *jack;
+ 
+-	for (i = 0; i < codec->jacktbl.used; i++, jack++)
++	for (jack = codec->jacktbl; jack; jack = jack->next)
+ 		if (jack->nid)
+ 			jack->jack_dirty = 1;
+ }
+@@ -478,19 +489,17 @@ EXPORT_SYMBOL_GPL(snd_hda_jack_set_button_state);
+ void snd_hda_jack_report_sync(struct hda_codec *codec)
+ {
+ 	struct hda_jack_tbl *jack;
+-	int i, state;
++	int state;
+ 
+ 	/* update all jacks at first */
+-	jack = codec->jacktbl.list;
+-	for (i = 0; i < codec->jacktbl.used; i++, jack++)
++	for (jack = codec->jacktbl; jack; jack = jack->next)
+ 		if (jack->nid)
+ 			jack_detect_update(codec, jack);
+ 
+ 	/* report the updated jacks; it's done after updating all jacks
+ 	 * to make sure that all gating jacks properly have been set
+ 	 */
+-	jack = codec->jacktbl.list;
+-	for (i = 0; i < codec->jacktbl.used; i++, jack++)
++	for (jack = codec->jacktbl; jack; jack = jack->next)
+ 		if (jack->nid) {
+ 			if (!jack->jack || jack->block_report)
+ 				continue;
+@@ -758,10 +767,10 @@ EXPORT_SYMBOL_GPL(snd_hda_jack_unsol_event);
+  */
+ void snd_hda_jack_poll_all(struct hda_codec *codec)
+ {
+-	struct hda_jack_tbl *jack = codec->jacktbl.list;
+-	int i, changes = 0;
++	struct hda_jack_tbl *jack;
++	int changes = 0;
+ 
+-	for (i = 0; i < codec->jacktbl.used; i++, jack++) {
++	for (jack = codec->jacktbl; jack; jack = jack->next) {
+ 		unsigned int old_sense;
+ 		if (!jack->nid || !jack->jack_dirty || jack->phantom_jack)
+ 			continue;
+diff --git a/sound/soc/sof/intel/hda-codec.c b/sound/soc/sof/intel/hda-codec.c
+index fd371850b0d6..91f7ca22a4a7 100644
+--- a/sound/soc/sof/intel/hda-codec.c
++++ b/sound/soc/sof/intel/hda-codec.c
+@@ -89,7 +89,7 @@ void hda_codec_jack_wake_enable(struct snd_sof_dev *sdev, bool enable)
+ 		list_for_each_codec(codec, hbus) {
+ 			/* only set WAKEEN when needed for HDaudio codecs */
+ 			mask |= BIT(codec->core.addr);
+-			if (codec->jacktbl.used)
++			if (codec->jacktbl_used)
+ 				val |= BIT(codec->core.addr);
+ 		}
+ 	} else {
+@@ -118,7 +118,7 @@ void hda_codec_jack_check(struct snd_sof_dev *sdev)
+ 		 * Wake up all jack-detecting codecs regardless whether an event
+ 		 * has been recorded in STATESTS
+ 		 */
+-		if (codec->jacktbl.used)
++		if (codec->jacktbl_used)
+ 			pm_request_resume(&codec->core.dev);
+ }
+ EXPORT_SYMBOL_NS_GPL(hda_codec_jack_check, "SND_SOC_SOF_HDA_AUDIO_CODEC");
+-- 
+2.55.0
 
-This assumes that ALL peripherals report as ATTACHED at the same time.
-If for some reason a peripheral attaches later, then the entire logic
-would be broken - or you will have to add a large-enough wait time
-before trying to enumerate devices. That's different to the timeout for
-the wait_for_completion, what I am referring to is a delay to let all
-devices show-up as ATTACHED after the bus start.
->>> - there is still *nothing* that would tell you that all codec hardware
->>> on a given platform completed the enumeration. You could have a fixed
->>> delay but this would need to be large enough to cover all cases and that
->>> could make the platform boot slower than the current solution - not ideal.
->>
->> Yeah, I set a 3 sec timeout. I believe that is large enough. And the flag
->> and the completion is to avoid the meaningless waiting. With the
->> is_present flag, we can ensure a bus will not be waiting for more than 1
->> time. And with the enumeration_complete completion, we won't wait for the
->> ghost device to be enumerated.
->>
->>>
->>> Another option would be to parse the ACPI0018 device, which describes
->>> audio endpoints and makes references to codecs, which could be used to
->>> filter out 'ghost' codecs that don't provide any endpoints. The spec for
->>> this ACPI0018 is not public but could be reverse-engineered from Windows
->>> platforms. The main benefit is that this filtering could be done in the
->>> ACPI parsing stages and not change anything in the probe and startup
->>> sequences.
->>
->> Is ACPI0018 reliable? Will it still list the ghost device? The ghost rt722
->> has all endpoints listed in its DisCo table
-
-If indeed that's correct, then the use of ACPI0018 would only make sense
-if the probe happens only on attachment, not when detecting the ACPI ID
-as we currently do.
