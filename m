@@ -1,180 +1,162 @@
-Received: from mta0.migadu.com (out-34.mta0.migadu.com [91.218.175.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD9243876A1
-	for <linux-sound@vger.kernel.org>; Thu,  8 Oct 2026 17:09:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35322495ADA;
+	Thu,  8 Oct 2026 18:15:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791479355; cv=none; b=qPRWU0esG0bF3BE7Yu9sGqeqg7k1oe8WTc8rDzE+6d3TWHCY7iTylgmGFVxHWkfLBFxXKfkOyXSH5xxPRHFhdriA7Y5V4H1KP7SPI4YaFBJ/zXydj3Quw2iLEjt1lb4uEEkQ/0nqsBItdviSujJ7KUOAmrJlICZ6eFaR60kefm4=
+	t=1791483316; cv=none; b=NqNlOvjie63scXlx1Jn77z/IFYmTNJt17rCcoomqHBNHAah8g6Lr8Q9nbNgJ4NY2PE0s617CQ2az5NkYsAExpYMYhg4N5fgxavpBFL6kSwmksjmFVOL/YsHxl9jf8EZ4eVOL7PK3H2zbuIuIkyvl5CF/18DAW7g72ejjg9UjzS8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791479355; c=relaxed/simple;
-	bh=1oloFMjQ06T1FjKj8lEY+zHJKqnYyF8gfW4tAfD5QFo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rJRDOHNESrooiDeispXfZ0unxYc1lgVUxmKaE8Q+kCGJsgnUJ5Vh0IaNpfS8fWplgZO7dnJaeLGdcmNltpmOBp4CvkG1oLviAfpaS+rZqhACG1uNzsK8hgyyQQ9XdQ+VAaUxcfxa/rBqhTbhGiOzaUzeWqVC7URQpJ9tDGXu6LQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=VRKgn3Sk; arc=none smtp.client-ip=91.218.175.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="VRKgn3Sk"
-X-Envelope-To: linux-sound@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=1oloFMjQ06T1FjKj8lEY+zHJKqnYyF8gfW4tAfD5QFo=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1791479350; v=1; x=1792084150;
- b=VRKgn3SkDNFFAE8xbnrtqAfAXnfNozdrOvokRBcUUEs2kRFa3nnbFq9dMGiaqOvMpL4I/B4z
- H5VrXE9uQUupVG7FMHSgCNe3YCxZpUmaabpVslEHMriXHX9V3V/+Vi3iNMNSmEtfe2/Oc5Zk1AI
- EOSEbsQFnJT09XTxZPYhvqs0=
-X-Envelope-To: linux-sound@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id f262cf85d91e4159;
-	Thu, 08 Oct 2026 17:09:10 +0000
-X-Mizu-Trace-ID: f262cf85d91e4159
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <175ea8c2-2375-4b1c-a2d0-dcc7998c9e76@linux.dev>
-Date: Thu, 8 Oct 2026 19:09:05 +0200
+	s=arc-20240116; t=1791483316; c=relaxed/simple;
+	bh=xZ21tFHp7RDtgsRmHOmx2jXa72tHxMUieL75IS+Ij2c=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=cNYz3z8Lha7nQYXE9rU/iCysr/AAmVR2vdB7iye24Rj/JaRhfpQ+VEIvNSMAG1qivbsW976e48VouyAxHA0DBAmtfvic0hpgKgZM1JzoCXHeWyYCYowSowVm+tiih6iJF8GvI1akHweK3c8F3Lf2JUawVeWddDaxs0hFa1Xc4kU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from fc87d0ffb700.home.arpa (unknown [36.110.52.2])
+	by APP-03 (Coremail) with SMTP id rQCowADn5zWg3cdqJDUQCg--.13033S2;
+	Fri, 09 Oct 2026 02:14:56 +0800 (CST)
+From: Haotian Zhang <vulab@iscas.ac.cn>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Romain Perier <romain.perier@collabora.com>
+Cc: linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: rockchip: fix device node reference leak in rk3288_hdmi_analog
+Date: Fri,  9 Oct 2026 02:14:59 +0800
+Message-Id: <20261008181459.2762862-1-vulab@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/3] ASoC/soundwire: remove ghost peripherals from the
- mach table
-To: "Liao, Bard" <bard.liao@intel.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
- "vkoul@kernel.org" <vkoul@kernel.org>,
- "broonie@kernel.org" <broonie@kernel.org>, "tiwai@suse.de" <tiwai@suse.de>
-Cc: "vinod.koul@linaro.org" <vinod.koul@linaro.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "peter.ujfalusi@linux.intel.com" <peter.ujfalusi@linux.intel.com>
-References: <20260915131327.1783551-1-yung-chuan.liao@linux.intel.com>
- <528a9777-1587-4dfc-a366-000fc0867d4b@linux.dev>
- <SJ2PR11MB8424E1911A4CA6F9414A07DAFFB92@SJ2PR11MB8424.namprd11.prod.outlook.com>
- <SJ2PR11MB8424E1FAF2D8D1EAD84C3B92FF942@SJ2PR11MB8424.namprd11.prod.outlook.com>
- <3b718d6e-462e-4d22-b42b-915cd88bd60f@linux.dev>
- <SJ2PR11MB8424C255FBA45B9F4CA02113FF932@SJ2PR11MB8424.namprd11.prod.outlook.com>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <SJ2PR11MB8424C255FBA45B9F4CA02113FF932@SJ2PR11MB8424.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:rQCowADn5zWg3cdqJDUQCg--.13033S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxXryDuF4fXFy3XrW8Cry8Xwb_yoW5uw47pa
+	s5GFWavry8Gr48uw1Fy3WfZayS9Fn7t3yUJr47Wa1Syw13trs7Xr48Xr1UZFZ5JF9YkF1U
+	Zr48AayxCw45Za7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUU9jb7Iv0xC_Kw4lb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I2
+	0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
+	A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xII
+	jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwV
+	C2z280aVCY1x0267AKxVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVAC
+	Y4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVW8JV
+	WxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lFIxGxcIEc7CjxVA2Y2ka
+	0xkIwI1lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7
+	v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF
+	1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIx
+	AIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI
+	42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsGvf
+	C2KfnxnUUI43ZEXa7IU5qeHPUUUUU==
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiDAEOA2rHpfV+uQAAs6
 
+snd_rk_mc_probe() acquires references to the codec and CPU device nodes
+with of_parse_phandle() and stores them in the static rk_dailink, but the
+driver never calls of_node_put() on them. All error paths and the success
+path simply return, and the driver has no remove callback, so the
+references are leaked for the whole lifetime of the card and each failed
+or repeated probe leaks another pair. The same pattern was fixed for the
+sibling rockchip_rt5645.c driver.
 
->>>>> A better way to only deal with actual codecs would be to only probe
->>>>> codec drivers when the codecs report as ATTACHED and get enumerated,
->>>>> instead of during the ACPI parsing stage.
->>>>
->>>> But this doesn't solve our issue. The DAI link will still be created
->>>> and the sound card will not probe because the codec driver doesn't probe.
->>>> Our target is that the ghost device should not be added in the DAI link.
->>>> So that the sound card can probe properly.
->>
->> I don't see how the DAI link would be created if there's no device
->> registered for the ghost device?
->> I guess we're talking about separate layers...
-> 
-> Sorry, I sould say the DAI link will be "registered".
-> With commit ("ASoC: SOF: Intel: use sof_sdw as default SDW machine driver")
-> We will create a mach table with the peripherals reported by ACPI if no
-> matched item found from pdata->desc->alt_machines. And the machine driver
-> will register the DAI links with all the reported peripherals. For example,
-> a DAI link with rt711 will be registered even if it is physically
-> non-existent.
+Release the codec and CPU device nodes on every probe error path and in a
+new remove callback, and also drop the extra reference placed in args.np
+by of_parse_phandle_with_fixed_args().
 
-ah ok, sorry I missed the point. Your commit message threw me off with
-the statements "It will cause unexpected error like duplicated links,
-codec driver can't probe, etc." The problem is really that the wrong
-machine table entry is selected which leads to problems at the card
-creation level.
+Fixes: eaae2ea73593 ("ASoC: rockchip: Add machine driver for RK3288 boards that use analog/HDMI")
+Assisted-by: DeepSeek-V4.1-Flash
+Signed-off-by: Haotian Zhang <vulab@iscas.ac.cn>
+---
+ sound/soc/rockchip/rk3288_hdmi_analog.c | 42 +++++++++++++++++++------
+ 1 file changed, 33 insertions(+), 9 deletions(-)
 
->>>>> This is a solution that was discussed a ong time ago, probably circa
->>>>> 2016, during one of the LPC miniconferences, and the direction from
->>>>> maintainers was that the probe could be used to enable resources (power,
->>>>> gpio, clocks) that might be required for the hardware codec to become
->>>>> functional and report as ATTACHED. That's the reason why the probe is
->>>>> done on all codecs exposed in ACPI, even 'ghost' ones, with an
->>>>> update_status() callback to the codec driver when the presence of that
->>>>> codec is detected on the bus.
->>>>>
->>>>> In practice I am not aware of any codec drivers doing anything with
->>>>> power/gpio/clocks in the probe stages, at least for ACPI platforms, so
->>>>> it may be a good time to revisit this direction. SDCA class drivers do
->>>>> exactly what I described, the subdevices are registered only upon
->>>>> enumeration, not during ACPI parsing. It's a much simpler design with a
->>>>> lot fewer potential races.
->>>>>
->>>>> Problems:
->>>>> - this would be a very invasive change to sdw_slave_add(), with the
->>>>> device_register() skipped and moved to the enumeration stage. It'd have
->>>>> to be opt-in and used only a newer platforms to avoid breaking the
->>>>> 'legacy' devices.
->>>>
->>>> I didn't change sdw_slave_add(). All the change in SoundWire driver is to
->>>> add a flag and a completion to share the information of whether the
->>>> enumeration of the bus is completed.
->>
->> I still think this option would be best, that way you'd only deal with
->> devices that report as ATTACHED, without needing any additional
->> wait_for_completion.
-> 
-> With this option, the codec driver will not probe and lead to the sound
-> card doesn't probe. My goal is that the machine driver will only register
-> the DAI links with the peripherals that are physically existent. So that
-> the sound card will probe and audio will work. This is also beneficial to
-> the case that a peripheral is broken. The other endpoints will still work
-> in that case.
-
-Right, in the case where the machine is already selected and *expects* a
-device to report as attached, it doesn't matter if the codec driver
-probes only on attachment.
-
->>> Do you still have any concerns about this series?
->>> Or maybe I can add a module parameter to disable the feature?
->>
->> The main objection I have is this piece of code:
->>
->> if (ret == -ENODATA) { /* end of device id reads */
->>  			dev_dbg(bus->dev, "No more devices to
->> enumerate\n");
->>  			ret = 0;
->> +			complete_all(&bus->enumeration_complete);
->>  			break;
->>  		}
->>
->> This assumes that ALL peripherals report as ATTACHED at the same time.
->> If for some reason a peripheral attaches later, then the entire logic
->> would be broken - or you will have to add a large-enough wait time
->> before trying to enumerate devices. That's different to the timeout for
->> the wait_for_completion, what I am referring to is a delay to let all
->> devices show-up as ATTACHED after the bus start.
-> 
-> Not exactly the same time, but when the bus starts and do the enumeration
-> process, aren't all peripherals enumerated at that time? In other words,
-> doesn't it mean all existing peripherals are enumerated when there is no
-> peripheral with device numver 0?
-> If for some reason a peripheral will not show up at the first bus start,
-> we can add a quirk to skip the peripheral and assume it is always existent.
-
-Well, you've got two problems here.
-
-a) there's a difference between generations. Starting with ACE2.0, the
-SoundWire bus is started much earlier than in previous generations,
-where the SoundWire bus was started after firmware download.
-
-In other words, the timing to sync and report as attached differs by
-orders of magnitude. I am worried that this code might break stuff on
-older platforms.
-
-b) there's nothing in the MIPI spec that says how much time a device
-should take to report as ATTACHED. A well-intended implementation
-following Recommendation {2121} would e.g. try to find the sync word
-with a default frame shape of 48x2, which isn't used at all by Intel.
-
-If you want to keep the code above, you absolutely need to record the
-time at which the bus started and wait TBD ms before signaling
-enumeration_complete(). You would also need to deal with a case where
-another device shows up with a delay, would you throw another
-complete_all() then?
-
+diff --git a/sound/soc/rockchip/rk3288_hdmi_analog.c b/sound/soc/rockchip/rk3288_hdmi_analog.c
+index 541163ed56fc..9bb02d41d901 100644
+--- a/sound/soc/rockchip/rk3288_hdmi_analog.c
++++ b/sound/soc/rockchip/rk3288_hdmi_analog.c
+@@ -201,36 +201,59 @@ static int snd_rk_mc_probe(struct platform_device *pdev)
+ 	if (ret) {
+ 		dev_err(&pdev->dev,
+ 			"Unable to parse property 'rockchip,audio-codec'\n");
+-		return ret;
++		goto put_codec_of_node;
+ 	}
+ 
+ 	ret = snd_soc_get_dai_name(&args, &rk_dailink.codecs[0].dai_name);
+-	if (ret)
+-		return dev_err_probe(&pdev->dev, ret,
+-				     "Unable to get codec_dai_name\n");
++	of_node_put(args.np);
++	if (ret) {
++		dev_err_probe(&pdev->dev, ret,
++			      "Unable to get codec_dai_name\n");
++		goto put_codec_of_node;
++	}
+ 
+ 	rk_dailink.cpus->of_node = of_parse_phandle(np, "rockchip,i2s-controller",
+ 						  0);
+ 	if (!rk_dailink.cpus->of_node) {
+ 		dev_err(&pdev->dev,
+ 			"Property 'rockchip,i2s-controller' missing or invalid\n");
+-		return -EINVAL;
++		ret = -EINVAL;
++		goto put_codec_of_node;
+ 	}
+ 
+ 	rk_dailink.platforms->of_node = rk_dailink.cpus->of_node;
+ 
+ 	ret = snd_soc_of_parse_audio_routing(card, "rockchip,routing");
+ 	if (ret)
+-		return ret;
++		goto put_cpu_of_node;
+ 
+ 	snd_soc_card_set_drvdata(card, machine);
+ 
+ 	ret = devm_snd_soc_register_card(&pdev->dev, card);
+-	if (ret)
+-		return dev_err_probe(&pdev->dev, ret,
+-				     "Soc register card failed\n");
++	if (ret) {
++		dev_err_probe(&pdev->dev, ret,
++			      "Soc register card failed\n");
++		goto put_cpu_of_node;
++	}
+ 
+ 	return 0;
++
++put_cpu_of_node:
++	of_node_put(rk_dailink.cpus->of_node);
++	rk_dailink.cpus->of_node = NULL;
++put_codec_of_node:
++	of_node_put(rk_dailink.codecs[0].of_node);
++	rk_dailink.codecs[0].of_node = NULL;
++
++	return ret;
++}
++
++static void snd_rk_mc_remove(struct platform_device *pdev)
++{
++	of_node_put(rk_dailink.cpus->of_node);
++	rk_dailink.cpus->of_node = NULL;
++	of_node_put(rk_dailink.codecs[0].of_node);
++	rk_dailink.codecs[0].of_node = NULL;
+ }
+ 
+ static const struct of_device_id rockchip_sound_of_match[] = {
+@@ -242,6 +265,7 @@ MODULE_DEVICE_TABLE(of, rockchip_sound_of_match);
+ 
+ static struct platform_driver rockchip_sound_driver = {
+ 	.probe = snd_rk_mc_probe,
++	.remove = snd_rk_mc_remove,
+ 	.driver = {
+ 		.name = DRV_NAME,
+ 		.pm = &snd_soc_pm_ops,
+-- 
+2.25.1
 
