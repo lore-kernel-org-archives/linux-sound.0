@@ -1,145 +1,151 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5BB83B8D7B;
-	Thu,  8 Oct 2026 06:25:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 073E23B05A7;
+	Thu,  8 Oct 2026 07:01:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791440731; cv=none; b=bR3/xOXwsjW9ovCWpvQ5vFTcwM2E+gxquo8n4thmhVxrOT6LWzivXUey57BSa0kCitQ37Qu8B2wglfMNBghSXga/wlr30CyzbmRDccwakveYTWCABazTXrCYjGBHaX6zeaXLMtGoT1bl3yj8703fmveqZ6y1p9c8qb/xS6qiPAw=
+	t=1791442890; cv=none; b=hz3yXKNF20l0TrV57F4O05QX05phErcZL6IbK6sbCKGROoG3nhxuOaNsMfD9tVQ7HY1q6/RA69090fdCTqCDejTuZcsITmI9e3n8BxBrgW74Ud234m6wcZy5bDP1erXCgYrKl83KuhkZubhYUBmw7jwGAsuinHMPZOWHrYI1inY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791440731; c=relaxed/simple;
-	bh=Q+WBv5i7cElsl/i/bqgUmIX4amMHRNIiPl+FzrJzopQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=m43qYTPDPH8C2mUztifzZ1xoG4cXwbVgiuuMQGEfUK7gVUPen5qyX7tHYH1tBa4b4eDlhxZN7FJxwUCx0B2EPq6DT0l6WcPXLNOjq/TuOyMOvjsH8xlANXxN0eEPkly1vFN089Edx+JUB2zxuoWYaHRuXNKbJ20YPOhH4K2PAB4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QHPWqAv1; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1791442890; c=relaxed/simple;
+	bh=z5WC5Oh8VXR9CcMI4p5XcyJpZLp7SF8z1n4K/iuDZkA=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=N6hyssu6hhBtCvTIB5FwTu6PMb1Rwl29u4PlDyLXm9C2XHFvp6MV9oBronSCjRSBWpCa82gIKQUse+T6+aHzJL9wQtFDSo5JIeh71KpyW7FBqlpOZdFeSuSz8TTUiT4B6oMun6Ir9suWOhFxbjwCqrYg/6aT7fU9biSXpU3o2ew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=KtHzrvNL; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=la++t47T; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=u6wYS2ur; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=FuQs3qHB; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QHPWqAv1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791440730; x=1822976730;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=Q+WBv5i7cElsl/i/bqgUmIX4amMHRNIiPl+FzrJzopQ=;
-  b=QHPWqAv1q9NaHK0GuP0TkRsoTKCH2gM6GlxEo18BA5TIbebjLWpGItGB
-   u7bo5Vmcg9xIJTTsR+b6XV7416gIYFriXo2ZMTcNTO4ZlEoylXHlz3yZk
-   Y1UqOql7ps/WLmGWZLhX+f9U9oa1qugKZTXmhUCb8be6FDNmUFpDOit95
-   j3YK6aWrdBWhi8FH9Mx9S7nyXzBcHAokQ59Gauf4gclYjESbmPkgzSL7E
-   NSp/eDUlNW8qPQjIw1rHHq98TMWZ6CVos/GC6IqhENc/O0I7BQ4EV24xe
-   8C9xOTKwg/O6pUtA2QbO5AYUGgLs/KRM+PhVrYaofxl02xr3ovoAhgkcb
-   g==;
-X-CSE-ConnectionGUID: qvpMONMBRE6FEuFy1Uf3DQ==
-X-CSE-MsgGUID: MAlcGyOpTraqrrPvMRgwzw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11928"; a="223181"
-X-IronPort-AV: E=Sophos;i="6.27,145,1787036400"; 
-   d="scan'208";a="223181"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2026 23:25:29 -0700
-X-CSE-ConnectionGUID: MmsQmbLlSIuMZwYOCOxZFA==
-X-CSE-MsgGUID: 1BBc8OD2Q0ygvY2YuO66wg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,145,1787036400"; 
-   d="scan'208";a="264432"
-Received: from ettammin-mobl3.ger.corp.intel.com (HELO [10.245.245.74]) ([10.245.245.74])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2026 23:25:27 -0700
-Message-ID: <1acd072e-2b87-4083-84cb-9de6252b4382@linux.intel.com>
-Date: Thu, 8 Oct 2026 09:25:49 +0300
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KtHzrvNL";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="la++t47T";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="u6wYS2ur";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FuQs3qHB"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 338DD1F799;
+	Thu,  8 Oct 2026 07:01:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1791442886; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UdUhKWglyOJlEjxltVwov626EhVkyCueNw5irqO7AGY=;
+	b=KtHzrvNLkHow6HafrhK+IzN6TS9PNRGF3ZiIKp+SfnWScat8tlOrc6RtdjcFHCqrO//q2P
+	DBHG6JBit3hUJ9MYMPrprBgrnpFimF7Wtj4djOKDkLDE+a14mtF8hSJJddpu4uFbyNOmzi
+	rBA5Ogp73RgI5j/zUUiJsv6t1iPOhFo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1791442886;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UdUhKWglyOJlEjxltVwov626EhVkyCueNw5irqO7AGY=;
+	b=la++t47TG8FMUGChhk3gSVEK+hC13pjqjrQXlTMP91JPqX45RzZabikQW9qEr961tOw4Ku
+	MdbX+2cp9oSxBvAQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1791442885; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UdUhKWglyOJlEjxltVwov626EhVkyCueNw5irqO7AGY=;
+	b=u6wYS2urMzX14qurIKP4K4muwPqsusP0y/vNDe3IATsurTKGqBzq9ziNyEdm8UatO17y64
+	ZGwco6TfTUb9fAa3HuW6lVleOiF/3HeJtFFwhZkX4TwQU+z2ZJlZ18LmEn3tuCDStcPuwE
+	HSfX0Y4Pg1JhfWnhgysnLPyEzuUEX/w=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1791442885;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UdUhKWglyOJlEjxltVwov626EhVkyCueNw5irqO7AGY=;
+	b=FuQs3qHBNkIvL5B7spPvZd8PzA1j01JOonyq7dqA5H9tUWGFsaGy9BGjZY2nuu5/PnOCRf
+	j80OKhXOlxSS/0Dg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EB65F13354;
+	Thu,  8 Oct 2026 07:01:24 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id lB90MMQ/x2ozXgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 08 Oct 2026 07:01:24 +0000
+Date: Thu, 08 Oct 2026 09:01:24 +0200
+Message-ID: <87v77c65h7.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Matej Sochan <matej.sochan@gmail.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Eric Naim <dnaim@cachyos.org>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/realtek: Fix silent speakers on Lenovo Legion S7 15IMH05
+In-Reply-To: <20261007-legion-s7-v1-1-8ea7fb7ee766@gmail.com>
+References: <20261007-legion-s7-v1-1-8ea7fb7ee766@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] ALSA: compress: fix buffer leak on repeated
- SET_PARAMS
-To: Vinod Koul <vkoul@kernel.org>
-Cc: Takashi Iwai <tiwai@suse.de>, perex@perex.cz, tiwai@suse.com,
- pierre-louis.bossart@linux.dev, linux-sound@vger.kernel.org,
- stable@vger.kernel.org
-References: <20261007132509.18237-1-peter.ujfalusi@linux.intel.com>
- <20261007132509.18237-2-peter.ujfalusi@linux.intel.com>
- <878q49obcu.wl-tiwai@suse.de> <asZSywHEbx-u6uBs@parshuram>
- <6e27af41-1ba4-4d3e-a128-c2d1402a8f6e@linux.intel.com>
- <asZZJ--dC9M7jx4A@parshuram>
-Content-Language: en-US
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-In-Reply-To: <asZZJ--dC9M7jx4A@parshuram>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Flag: NO
+X-Spam-Score: -1.80
+X-Spam-Level: 
+X-Spamd-Result: default: False [-1.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmail.com];
+	ARC_NA(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
 
-
-
-On 07/10/2026 17:37, Vinod Koul wrote:
-> On 07-10-26, 17:25, Péter Ujfalusi wrote:
->>
->>
->> On 07/10/2026 17:10, Vinod Koul wrote:
->>> On 07-10-26, 16:04, Takashi Iwai wrote:
->>>> On Wed, 07 Oct 2026 15:25:06 +0200,
->>>> Peter Ujfalusi wrote:
->>>>>
->>>>> snd_compr_allocate_buffer() unconditionally overwrites
->>>>> stream->runtime->buffer with a freshly kmalloc'd buffer whenever the
->>>>> driver has no ops->copy and no preallocated dma_buffer_p. SET_PARAMS
->>>>> is permitted repeatedly while the stream is in the OPEN state, so a
->>>>> local process can loop SNDRV_COMPRESS_SET_PARAMS and leak the
->>>>> previous buffer on every call, exhausting kernel memory.
->>>>>
->>>>> Free any framework-owned buffer before replacing it, mirroring the
->>>>> ownership check already used in snd_compr_free().
->>>>>
->>>>> Fixes: b21c60a4edd2 ("ALSA: core: add support for compress_offload")
->>>>> Cc: stable@vger.kernel.org
->>>>> Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
->>>>> ---
->>>>>  sound/core/compress_offload.c | 4 ++++
->>>>>  1 file changed, 4 insertions(+)
->>>>>
->>>>> diff --git a/sound/core/compress_offload.c b/sound/core/compress_offload.c
->>>>> index 7c397b1c9231..c0ed76e1c844 100644
->>>>> --- a/sound/core/compress_offload.c
->>>>> +++ b/sound/core/compress_offload.c
->>>>> @@ -613,6 +613,10 @@ static int snd_compr_allocate_buffer(struct snd_compr_stream *stream,
->>>>>  			return -ENOMEM;
->>>>>  	}
->>>>>  
->>>>> +	/* a prior SET_PARAMS may have left a framework-owned buffer behind */
->>>>> +	if (!stream->runtime->dma_buffer_p)
->>>>> +		kfree(stream->runtime->buffer);
->>>>> +
->>>>
->>>> I'd rather put to the else block above (or even better, if
->>>> (stream->runtime->dma_buffer_p) block above that point).
->>>>
->>>> The code is specific to that condition, after all.
->>>
->>> I would block calling snd_compr_allocate_buffer() for subsequent
->>> set_params, it should not be allowed.
->>
->> OK, let me see how it should be done. I'm not sure of changing other
->> params are permitted either, but imagine:
+On Wed, 07 Oct 2026 22:37:46 +0200,
+Matej Sochan wrote:
 > 
-> I would split it up for next_track and open, so that we have clear
-> flows.
+> The speakers on the Legion S7 15IMH05 (PCI SSID 17aa:3811, ALC287) stay
+> silent after a cold boot with the current quirk, which applies
+> ALC287_FIXUP_LEGION_15IMHG05_SPEAKERS. They only start working after a
+> suspend/resume cycle.
 > 
->> the application calls set_params first then after some deliberation and
->> before starting it reconsiders and wants to have bigger/smaller buffer.
->> I know, they rarely do, but if such application assumes that the second
->> buffer setup is valid, while we kept the initial one, things might break?
+> The amplifier setup is sent through COEF 0x24/0x26 on NID 0x20. On this
+> machine the first pass of that sequence appears to only wake the
+> amplifiers. Sending the identical sequence a second time makes both
+> speakers work, provided the second write comes a few milliseconds after
+> the first: back-to-back writes leave the speakers silent, a 7 ms gap
+> makes only the right speaker work, and 8 ms or more is reliable. A dump
+> of all COEF registers of NID 0x20 taken before and after the second
+> write shows no difference.
 > 
-> Hmmm, do we really want that. they can tear down and reopen in that
-> case?
+> Add a dedicated fixup that writes the sequence, waits 20 ms to keep a
+> margin over the measured minimum, and writes it again on every codec
+> init. It chains to the same AUTOMUTE fixup as before. To share the
+> sequence, move the verbs of ALC287_FIXUP_LEGION_15IMHG05_SPEAKERS into a
+> named array; this has no functional change for the other users of that
+> fixup.
 > 
-> If we split as above, in next_track case we can apply codec params while
-> ignoring buffer.. wdyt
+> Fixes: 67f4c61a73e9 ("ALSA: hda/realtek: Add quirk for Legion S7 15IMH")
+> Cc: stable@vger.kernel.org
+> Link: https://github.com/CachyOS/linux-cachyos/issues/792
+> Signed-off-by: Matej Sochan <matej.sochan@gmail.com>
 
-What if we just refuse consequent set_params in OPEN state?
-That does not make much sense and can collapse patch 1 and 2 into one.
+Applied to for-next branch now.  Thanks.
 
-> 
 
--- 
-Péter
-
+Takashi
