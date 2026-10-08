@@ -1,43 +1,46 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B88D63CFF73;
-	Thu,  8 Oct 2026 19:26:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA0473C3F64;
+	Thu,  8 Oct 2026 19:26:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791487571; cv=none; b=Nq+Vw3eht+wIuEujshZEm7Y7ka+V1vCEtALg7eafLyOj7QtAlx6HOg/Wj6pJgukCo4jInlQl6tQX8ABxb0518TBW/uWvYVeQtUhJX2icfBMbXU9Kiyv8ByemEQnXiu0NEtnXnZu4JCA8SJ6dQu1BV8vZYNAfuAMj0UpGTD6jzx0=
+	t=1791487573; cv=none; b=BD/qVyG3xr1GAJpk9xn+AJwfnIjJj7E0YVUNYRiXvaAY9i3WUr0C+1VT2uf0TA6zJPRigK+XVYjyph/Q7ZYqbCHtaOJbF/+CTawQ8e9Kt3sQci9VJKyZr8OdAgYltLU+zZ7wxa25Mq2XPMXc2MAbDis5VT8PZCB8P1p2cHDbijM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791487571; c=relaxed/simple;
-	bh=XMrH5+me5O+u5vf3W6bw9rxvsouuKz1hlLiQnRMIu2I=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NFb4eRFwjAOo0fzC677UhvpBLfi047b7w9UZQ7Di+cT0Cj+FaV5iJDn9d/Vr05jKITkKX8gNPsMsE6MvOWnh0apEewf4kktPOhRzWnpsgi4Qdi80Wf0LbOsjZX42Uc8qYyWBX/s3fIuAmGoDMIrBBzjnE25NJZpm3QVEqxJ3MHI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; arc=none smtp.client-ip=195.135.223.130
+	s=arc-20240116; t=1791487573; c=relaxed/simple;
+	bh=n1VRPojjYa+IerOPuzJUT8AcPzAb08OTCWiobsxx9Qk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ff8zYlDq3BZuGjvwI0dHPe3/4e5dsAymmMB9Z2gjfa4kEH8aiHuRC4tTHm/Cci/OGXLorVpk9O8j+USciL+SLcn6fOo4D0GibKOZ3eAS/4gfXE1vRBluJtPCuOyrOUbr4iPEv4Li6aZp3dwOScZSONXOECG/4nHWSRrmlZjXwA0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 8837C21C28;
-	Thu,  8 Oct 2026 19:26:02 +0000 (UTC)
-Authentication-Results: smtp-out1.suse.de;
+	by smtp-out2.suse.de (Postfix) with ESMTPS id BF6B61F7B3;
+	Thu,  8 Oct 2026 19:26:03 +0000 (UTC)
+Authentication-Results: smtp-out2.suse.de;
 	none
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 219AA1339F;
-	Thu,  8 Oct 2026 19:26:02 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 89BFF1339F;
+	Thu,  8 Oct 2026 19:26:03 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id dQZEOknux2ozCAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 08 Oct 2026 19:26:02 +0000
+	id dQZEOknux2ozCAAAD6G6ig:T10
+	(envelope-from <tiwai@suse.de>); Thu, 08 Oct 2026 19:26:03 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org
-Subject: [PATCH 00/11] ALSA: yet a few more fixes for AI bug reports
-Date: Thu,  8 Oct 2026 21:25:40 +0200
-Message-ID: <20261008192553.300025-1-tiwai@suse.de>
+Subject: [PATCH 09/11] ALSA: line6: Reject too small max packet sizes
+Date: Thu,  8 Oct 2026 21:25:49 +0200
+Message-ID: <20261008192553.300025-10-tiwai@suse.de>
 X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20261008192553.300025-1-tiwai@suse.de>
+References: <20261008192553.300025-1-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -56,43 +59,39 @@ X-Rspamd-Pre-Result: action=no action;
 	unknown reason
 X-Spamd-Result: default: False [0.00 / 50.00]
 
-Hi,
+Although the LINE6 driver has a sanity check for the given max packet
+sizes, it still has an implicit requirement of the minimal size being
+bytes-per-frame; e.g. the impulse test signal assuming the fixed size,
+and when a too small size is specified by a malformed USB descriptor,
+this may lead to an OOB access.
 
-here are a few more fixes I've worked quickly for issues Sashiko and
-other AI reported.
+Change the sanity check conditions to reject too small max packet
+sizes for avoiding the scenario above.
 
+Fixes: 3450121997ce ("ALSA: line6: Fix write on zero-sized buffer")
+Reported-by: Sashiko <sashiko-bot@kernel.org>
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ sound/usb/line6/pcm.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-Takashi
-
-===
-
-Takashi Iwai (11):
-  ALSA: hda: intel: Cancel delayed work at shutdown, too
-  ALSA: hda: Disable unsol event handling at error and shutdown paths
-  ALSA: hda: Add lock around codec->registered flag manipulations
-  ALSA: hda: Add NULL check for the driver pointer at unsol event work
-  ALSA: caiaq: Register card at the final step
-  ALSA: caiaq: Fix races at MIDI URB and trigger accesses
-  ALSA: usb: us16x08: Fix racy accesses of mixer elements
-  ASoC: fsl_asrc_m2m: Fix bogus compress task pointer assignments
-  ALSA: line6: Reject too small max packet sizes
-  ALSA: line6: Fix potential OOB write in line6_capture_copy()
-  ALSA: line6: Fix handling of zero-length capture packets
-
- sound/hda/common/bind.c       |  2 ++
- sound/hda/common/codec.c      |  5 +++++
- sound/hda/controllers/intel.c |  7 ++++++-
- sound/hda/core/bus.c          |  2 +-
- sound/soc/fsl/fsl_asrc_m2m.c  |  2 ++
- sound/usb/caiaq/device.c      | 13 +++++++------
- sound/usb/caiaq/device.h      |  3 ++-
- sound/usb/caiaq/midi.c        |  2 ++
- sound/usb/line6/capture.c     |  3 ++-
- sound/usb/line6/pcm.c         | 10 ++++++++--
- sound/usb/line6/playback.c    |  4 ++--
- sound/usb/mixer_us16x08.c     | 16 ++++++++++++++++
- 12 files changed, 55 insertions(+), 14 deletions(-)
-
+diff --git a/sound/usb/line6/pcm.c b/sound/usb/line6/pcm.c
+index 2932eaf157f4..998869dc4613 100644
+--- a/sound/usb/line6/pcm.c
++++ b/sound/usb/line6/pcm.c
+@@ -554,7 +554,11 @@ int line6_init_pcm(struct usb_line6 *line6,
+ 	line6pcm->max_packet_size_out =
+ 		usb_maxpacket(line6->usbdev,
+ 			usb_sndisocpipe(line6->usbdev, ep_write));
+-	if (!line6pcm->max_packet_size_in || !line6pcm->max_packet_size_out) {
++	/* reject max packet sizes smaller than bytes-per-frame;
++	 * (the magic number 6 is taken from the playback case)
++	 */
++	if (line6pcm->max_packet_size_in < 6 ||
++	    line6pcm->max_packet_size_out < 6) {
+ 		dev_err(line6pcm->line6->ifcdev,
+ 			"cannot get proper max packet size\n");
+ 		return -EINVAL;
 -- 
 2.55.0
 
