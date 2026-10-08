@@ -1,85 +1,49 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CFE93E765A;
-	Thu,  8 Oct 2026 10:11:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3D023A6B9D;
+	Thu,  8 Oct 2026 10:16:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791454311; cv=none; b=Dl97erHzOqULnilKuyF8XgSNIg49CPx7GWW70zb88fMBFrQK1PtlxusoFB+elUNBk7NgJLmoGY8VyOriSc+vaBGdusCaBGlJK88Oj/K3yV0IhBwIlJCee4P85DLdCzzpIkQHZZixhkOT4YuJaZ0v2j2wIRJ8WmAIrf09eU+ayqM=
+	t=1791454609; cv=none; b=FpHr3ksIbqDdxkuzGXPfXOhlIDv70XW25eVoV+AR3SP+64yykfkk4FVWnlDhcWaGuuvCax8z8Do0ZxGPVD2M6zrMSn6z7q3M0tLKkhAK1z8wmjol37IJwVNqK2/xqQKl2gJquaQuCdR4dxYdtM+9GxukrJaoTOGQmNHNC7OBG58=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791454311; c=relaxed/simple;
-	bh=3lTlAwAe3+aWB2br71hS+34Dz4Y8z2pxSNkDhSK8cjY=;
+	s=arc-20240116; t=1791454609; c=relaxed/simple;
+	bh=r69vVeNdhze51fjh/Cma97RFIwb+Ll+h1HuX/+1Tbnk=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dWjyF8YCRz1UQyldUmE2b01bO7CfCJ7t4liqyr7LPzyR8DYWQGweW81nltplgX+OgqWJAopL8DKP65iBahdcs883fedQqqhMZwaCLULWZhJ7r4SmgVau+xP6MiTctwqIg0xMPf2j9pbg0VYld3pkU91kGuV4fDnn7rIRn8ue5Vc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=feyrRj0J; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Y0geOEBF; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=feyrRj0J; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Y0geOEBF; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=ZtdSwCxaq9YGE+PJyflhS8JijM+AfoDSzbx4z47REb+CLh+erBkU1WEtrAVtk+qdRu6D0OWYyDZ1yuH7ycQU5lYpnOYHoyT43iNCZoYy86gaovhhc49kQxoYgiyJQRXN9o6b9PI/azGSnVjOMPwC4Jpc6jAiq46o616VlKDl3wc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="feyrRj0J";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Y0geOEBF";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="feyrRj0J";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Y0geOEBF"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 23D5921BFB;
-	Thu,  8 Oct 2026 10:11:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1791454308; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EErSkvl1t7wVbt4j458uwqep+EL5PzKNODNrW7hBKD4=;
-	b=feyrRj0JhMP0Bq7erM1hLh1VE9UNyqu3l48zuKSWKRMIBCrO+rLFb0+hB1075EQNNJSKyO
-	nzOhBr47ryV1hVxs4pBem0suqpzxg82/Xk9vEEGUB1wCYNHByYFU1knC+MOBoqbZW1IC02
-	Xzfbs4FSmJbaub/4iuB7nSdlO9ZwOYE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1791454308;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EErSkvl1t7wVbt4j458uwqep+EL5PzKNODNrW7hBKD4=;
-	b=Y0geOEBFDSWoyw4innaotiQlxJaDM+cF4H4x+c/BK3puSfEF38/6Ir5Ul4PdwM+0oeL5sa
-	rOsbMhoz52Ps/+Ag==
+	by smtp-out1.suse.de (Postfix) with ESMTPS id EB7DF21BD4;
+	Thu,  8 Oct 2026 10:16:45 +0000 (UTC)
 Authentication-Results: smtp-out1.suse.de;
 	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1791454308; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EErSkvl1t7wVbt4j458uwqep+EL5PzKNODNrW7hBKD4=;
-	b=feyrRj0JhMP0Bq7erM1hLh1VE9UNyqu3l48zuKSWKRMIBCrO+rLFb0+hB1075EQNNJSKyO
-	nzOhBr47ryV1hVxs4pBem0suqpzxg82/Xk9vEEGUB1wCYNHByYFU1knC+MOBoqbZW1IC02
-	Xzfbs4FSmJbaub/4iuB7nSdlO9ZwOYE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1791454308;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EErSkvl1t7wVbt4j458uwqep+EL5PzKNODNrW7hBKD4=;
-	b=Y0geOEBFDSWoyw4innaotiQlxJaDM+cF4H4x+c/BK3puSfEF38/6Ir5Ul4PdwM+0oeL5sa
-	rOsbMhoz52Ps/+Ag==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E52FC1339F;
-	Thu,  8 Oct 2026 10:11:47 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B92DB1339F;
+	Thu,  8 Oct 2026 10:16:45 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id BaITL2Nsx2oeLwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 08 Oct 2026 10:11:47 +0000
-Date: Thu, 08 Oct 2026 12:11:43 +0200
-Message-ID: <87jyns5wo0.wl-tiwai@suse.de>
+	id PsYaJI1tx2qxNAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 08 Oct 2026 10:16:45 +0000
+Date: Thu, 08 Oct 2026 12:16:41 +0200
+Message-ID: <87ik3c5wfq.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/hdmi: clamp sad_count in ELD proc write handler
-In-Reply-To: <20261008085133.9528-1-peter.ujfalusi@linux.intel.com>
-References: <20261008085133.9528-1-peter.ujfalusi@linux.intel.com>
+To: Cezary Rojewski <cezary.rojewski@intel.com>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	<linux-kernel@vger.kernel.org>,
+	<linux-sound@vger.kernel.org>
+Subject: Re: [PATCH 1/3] ALSA: hda: Stop unsol events and jack polling before codec unbind
+In-Reply-To: <7efc9ca8-b470-410c-b717-3c548bd196f1@intel.com>
+References: <20261007215650.159871-1-tiwai@suse.de>
+	<20261007215650.159871-2-tiwai@suse.de>
+	<7efc9ca8-b470-410c-b717-3c548bd196f1@intel.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -88,49 +52,71 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Pre-Result: action=no action;
+	module=Unknown lua;
+	unknown reason
+X-Spamd-Result: default: False [0.00 / 50.00]
+X-Spam-Score: 0.00
 X-Spam-Flag: NO
-X-Spam-Score: -3.30
 X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,imap1.dmz-prg2.suse.org:helo]
+X-Rspamd-Pre-Result: action=no action;
+	module=Unknown lua;
+	unknown reason
 
-On Thu, 08 Oct 2026 10:51:33 +0200,
-Peter Ujfalusi wrote:
+On Thu, 08 Oct 2026 11:08:13 +0200,
+Cezary Rojewski wrote:
 > 
-> snd_hdmi_write_eld_info() parses a "sad_count N" line from the
-> root-writable ELD proc interface and assigns N directly to
-> e->sad_count with no upper bound, unlike the per-index "sadN_*" lines
-> a few lines below which are already bounded to ELD_MAX_SAD.
+> On 10/7/2026 11:56 PM, Takashi Iwai wrote:
+> > At unbinding a codec driver, hda_codec_driver_remove() calls the
+> > codec's remove callback that releases the driver resources, followed
+> > by snd_hda_codec_cleanup_for_unbind().  Meanwhile, the unsolicited
+> > events are processed asynchronously in bus->unsol_work, and
+> > snd_hdac_bus_process_unsol_events() checks only codec->registered flag
+> > before calling the driver's unsol_event callback without the lock.
+> > Since codec->registered is cleared only in
+> > snd_hda_codec_cleanup_for_unbind(), and there is no flush of the unsol
+> > work at unbinding, the unsol event handler may run concurrently during
+> > the running remove callback, which may lead to a UAF.  The same
+> > problem applies to the jack polling work, which is canceled only after
+> > the remove callback.
 > 
-> snd_hdmi_eld_update_pcm_info() later iterates
-> "for (i = 0; i < e->sad_count; i++)" over the fixed
-> e->sad[ELD_MAX_SAD] array, so an oversized sad_count read from the
-> proc file causes it to walk past the array.
+> > +++ b/sound/hda/common/bind.c
+> > @@ -100,6 +100,9 @@ static int hda_codec_driver_probe(struct device *dev)
+> >  	if (WARN_ON(!codec->preset))
+> >  		return -EINVAL;
+> >  
+> > +	/* unsol events are still blocked until registered */
+> > +	codec->core.unsol_disabled = false;
+> > +
+> >  	err = snd_hda_codec_set_name(codec, codec->preset->name);
+> >  	if (err < 0)
+> >  		goto error;
+> > @@ -160,6 +163,10 @@ static int hda_codec_driver_remove(struct device *dev)
+> >  		return codec->bus->core.ext_ops->hdev_detach(&codec->core);
+> >  	}
+> >  
+> > +	/* stop asynchronous jack handling before freeing driver resources */
+> > +	snd_hdac_device_disable_unsol(&codec->core);
+> > +	cancel_delayed_work_sync(&codec->jackpoll_work);
 > 
-> Reject sad_count values above ELD_MAX_SAD, matching the existing
-> per-index guard.
 > 
-> Fixes: acb059938810 ("ALSA: hda - ELD proc interface write updates")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+> IMHO this is a proof that ->registered flag doesn't do its job.
+> snd_hda_codec_cleanup_for_unbind() is called right after and it does
+> contain cancel_delayed_work_sync(&codec->jackpoll_work).  It does
+> contain snd_hda_codec_disconnect_pcms() and
+> snd_hda_jack_tbl_disconnect() operations too.
 
-Applied to for-next branch.  Thanks.
+It's about the pending works, and the flag doesn't help there alone
+unless they are synchronized; at the time point you flip the flag, the
+work might be already in-flight, so the flag switch may miss the
+chances.
 
+> I'd say it is snd_hda_codec_cleanup_for_unbind() that needs an update
+> and perhaps be responsible for calling driver->remove() too.
+
+Yeah, some code reorganization would be good.
+
+
+thanks,
 
 Takashi
