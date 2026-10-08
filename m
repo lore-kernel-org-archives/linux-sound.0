@@ -1,51 +1,51 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68D9C490C0B;
-	Thu,  8 Oct 2026 12:00:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CC06491589;
+	Thu,  8 Oct 2026 12:01:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791460802; cv=none; b=EzcI5eYnKvyfI1w48SZrIO/V2LMcRtrCAf9WVbGsNNn7+6CkvkDz2KkTO4E9+hQkz3NAAvMCThTeTVd8/yHeRVyM+tOuR1xstXg9/Z/Aczx2RVxun+77GGKIq6V8VVQ9AQl8LpwsLJQ3815iFH2Zj67KAuTo3G8YEZkS8jKm7OI=
+	t=1791460904; cv=none; b=V/zsbMF5oS+YcyOKT3JZA9BwpOZUFmW9pgi9HCeD+aFKSxIAgw23Pm0r9/maw/Zn7kOpwjvqd0ULlEW5fpIUpe/ZwzH0eMVZqLYxfzZBfsOvoEPM6xEyQCAgWRfWuTfUMB20F8S6ifQlfOA9/B0Ase6PNZo5wEij9LVcn2WQYnA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791460802; c=relaxed/simple;
-	bh=k7jNw8v3RsS5ksPNASdWudNKgG6JpCqHRMkFjsSLdHE=;
+	s=arc-20240116; t=1791460904; c=relaxed/simple;
+	bh=VegC7KyFGbg5QCR6m6Dl9UA9t2tYsqjdYaMaH5Thv7Y=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hyQQEQYFGy9nRObrzLp1zBSvlzxQolTuT/UMJCDJieSE2eGeCROWfc9sMC5h3xR98R5pD70jVXN2Z/Db/Puw8VXmCIs+R2Cn1jIqbQxZgbKRdvUCshscE7hYq+0ZqyBHP+rDSyhwX5/6Ct8fo4EAi94eeCGvumIxUzvPTyJbTEM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=e3qCmienOzGPZgXGcwhSJ3JiNIsLe5HP8hF7gHtg4sPdPpXrk588QV+BzhTo/CHRXZRavtgtWiKZIWhi8RJJNohSrvmAY4gcfHg9Vew3ecCbbweOP8WiQe+ZnX3HXZdvbvWFT/bwIP/H0iTgOmJypYHTUDkFV1HrpKHhS7qEdRc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A8BDB21B07;
-	Thu,  8 Oct 2026 11:59:58 +0000 (UTC)
-Authentication-Results: smtp-out1.suse.de;
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 641951F441;
+	Thu,  8 Oct 2026 12:01:41 +0000 (UTC)
+Authentication-Results: smtp-out2.suse.de;
 	none
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7DCCD13354;
-	Thu,  8 Oct 2026 11:59:58 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 35D4A1339F;
+	Thu,  8 Oct 2026 12:01:41 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 67SaC76Fx2pWJAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 08 Oct 2026 11:59:58 +0000
-Date: Thu, 08 Oct 2026 13:59:53 +0200
-Message-ID: <87cxtk5rnq.wl-tiwai@suse.de>
+	id WtkRBCWGx2oyJgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 08 Oct 2026 12:01:41 +0000
+Date: Thu, 08 Oct 2026 14:01:36 +0200
+Message-ID: <87bj945rkv.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
 To: Cezary Rojewski <cezary.rojewski@intel.com>
 Cc: Takashi Iwai <tiwai@suse.de>,
 	<linux-kernel@vger.kernel.org>,
 	<linux-sound@vger.kernel.org>
-Subject: Re: [PATCH v3 7/7] ALSA: seq: Don't lose partial read failure
-In-Reply-To: <d17960fd-154a-4975-aba5-e67c8bc53854@intel.com>
-References: <20261007172533.14667-1-tiwai@suse.de>
-	<20261007172533.14667-8-tiwai@suse.de>
-	<aa22e14b-fa6d-4164-b8fa-6a77eb2a2d39@intel.com>
-	<87o6d4609l.wl-tiwai@suse.de>
-	<d17960fd-154a-4975-aba5-e67c8bc53854@intel.com>
+Subject: Re: [PATCH 1/3] ALSA: hda: Stop unsol events and jack polling before codec unbind
+In-Reply-To: <8a57e670-2b8f-480f-b313-850561bc9090@intel.com>
+References: <20261007215650.159871-1-tiwai@suse.de>
+	<20261007215650.159871-2-tiwai@suse.de>
+	<7efc9ca8-b470-410c-b717-3c548bd196f1@intel.com>
+	<87ik3c5wfq.wl-tiwai@suse.de>
+	<8a57e670-2b8f-480f-b313-850561bc9090@intel.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -65,44 +65,62 @@ X-Spam-Level:
 X-Spamd-Result: default: False [0.00 / 50.00]
 X-Spam-Score: 0.00
 
-On Thu, 08 Oct 2026 13:43:47 +0200,
+On Thu, 08 Oct 2026 13:52:42 +0200,
 Cezary Rojewski wrote:
 > 
-> On 10/8/2026 10:53 AM, Takashi Iwai wrote:
-> > On Thu, 08 Oct 2026 10:32:29 +0200,
+> On 10/8/2026 12:16 PM, Takashi Iwai wrote:
+> > On Thu, 08 Oct 2026 11:08:13 +0200,
 > > Cezary Rojewski wrote:
+> >>
+> >> On 10/7/2026 11:56 PM, Takashi Iwai wrote:
 > 
-> >>> --- a/sound/core/seq/seq_clientmgr.c
-> >>> +++ b/sound/core/seq/seq_clientmgr.c
-> >>> @@ -480,11 +480,11 @@ static ssize_t snd_seq_read(struct file *file, char __user *buf, size_t count,
-> >>>  	if (err < 0) {
-> >>>  		if (cell)
-> >>>  			snd_seq_fifo_cell_putback(fifo, cell);
-> >>> -		if (err == -EAGAIN && result > 0)
-> >>> -			err = 0;
+> >>> +++ b/sound/hda/common/bind.c
+> >>> @@ -100,6 +100,9 @@ static int hda_codec_driver_probe(struct device *dev)
+> >>>  	if (WARN_ON(!codec->preset))
+> >>>  		return -EINVAL;
+> >>>  
+> >>> +	/* unsol events are still blocked until registered */
+> >>> +	codec->core.unsol_disabled = false;
+> >>> +
+> >>>  	err = snd_hda_codec_set_name(codec, codec->preset->name);
+> >>>  	if (err < 0)
+> >>>  		goto error;
+> >>> @@ -160,6 +163,10 @@ static int hda_codec_driver_remove(struct device *dev)
+> >>>  		return codec->bus->core.ext_ops->hdev_detach(&codec->core);
 > >>>  	}
 > >>>  
-> >>> -	return (err < 0) ? err : result;
-> >>> +	if (result > 0)
-> >>> +		return result;
-> >>> +	return err < 0 ? err : 0;
+> >>> +	/* stop asynchronous jack handling before freeing driver resources */
+> >>> +	snd_hdac_device_disable_unsol(&codec->core);
+> >>> +	cancel_delayed_work_sync(&codec->jackpoll_work);
 > >>
-> >> Can 'err' even be positive? Looks to me as if 'result' holds the bytes
-> >> and flat 'return err' suffices.
+> >>
+> >> IMHO this is a proof that ->registered flag doesn't do its job.
+> >> snd_hda_codec_cleanup_for_unbind() is called right after and it does
+> >> contain cancel_delayed_work_sync(&codec->jackpoll_work).  It does
+> >> contain snd_hda_codec_disconnect_pcms() and
+> >> snd_hda_jack_tbl_disconnect() operations too.
 > > 
-> > Yes, it's just to make sure.
-> It's not a blocker obviously, I'm just in favor of avoiding
-> double-protection. I'd rather fix the problem that causes 'err' to be
-> positive if somehow things turn that way.
+> > It's about the pending works, and the flag doesn't help there alone
+> > unless they are synchronized; at the time point you flip the flag, the
+> > work might be already in-flight, so the flag switch may miss the
+> > chances.
+> 
+> I agree, my suggestion was to make ->registered the sole owner of the
+> subject, including the synchronization. At the same time, fixing the
+> problem first and expanding the work later is also a valid approach.
+> 
+> Do you have a method for reproducing the problem easily?
 
-Well, at this place, I'd rather to be sure than sorry.
-It's the end return point to user-space, hence we need to have a
-stricter check.
+No, it's currently only hypothetical.
+I guess it can be done with userfaltd, though.  Maybe AI can help for
+creating a reproducer.
 
-Of course, if it were involving too heavy performance, I'd agree for
-optimization, but it's not that case :)
+> >> I'd say it is snd_hda_codec_cleanup_for_unbind() that needs an update
+> >> and perhaps be responsible for calling driver->remove() too.
+> > 
+> > Yeah, some code reorganization would be good.
 
+Looking forward to seeing patches! ;)
 
-thanks,
 
 Takashi
