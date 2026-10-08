@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 256A1472067
-	for <linux-sound@vger.kernel.org>; Thu,  8 Oct 2026 09:00:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF8CE478842;
+	Thu,  8 Oct 2026 09:01:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791450027; cv=none; b=W3yooeWKbmfiEz/+LAEWpOM4WkWMtA/TIEWIfU64gqi6GKoJ28dMOWcKala+Tljd1G/2Yz/xHaEkM+to12zEr49s7MMvdwzdTVKknxsh5/rtxp/x6cKf+ti9iOTdGaXivtSZ0AfXcGV7HHvVYLkL22ovmZiBiY60JWGSb0tt8F8=
+	t=1791450073; cv=none; b=Oco2vboemBRDG/sOBnisHk1o8r17CosOHcruzDsvPePozAdC5CY6ltxsqhtkqn1dz+mHsx67LRjRHkWjX47l/+fHro0TtdLZ/C6DpMFEe83Yofsbe6iwRmtZCK200VumNaSyjla+9WffrUc+iR9Blet2wlEVoco6jHzol2x3C/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791450027; c=relaxed/simple;
-	bh=jlC1R+o3q8Vlpqcj+OGI6engr1bVhRfSnFRmu6LMEUs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iVY74EBwRxr99Sh1X4bHmhqC7Gt3GTL1QE2iGxkSSmBue9TZUef0mL4cJSdNCd7fy2o/4WBBAzTeqzDKuQJP18wbt7ABdNO9ODYl3E3j3Tdb1l/M/nkNmINIxxs64nIBzN069NDBigUdT616OO9hmSFcnqw5/zdMrYr2IxtygM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jpItnfrw; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1791450073; c=relaxed/simple;
+	bh=v4jns9pDD/PeTQYhkB7WzQZLRV+oKLKAUZhnb2iVRV0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bj+VI39Ktcq9ezStnvImmleqjXQ9myk9eb+pysNR3Gw7hIdhlSLJ7NEdtfXVaL3Bu6yPD//q86dpDLVS8Wap/GFXDbhUMX4iiw7C3BffqxnR1u6/B1mjhKSZ/6C5WeLerjX2lCu8lcDT43xaUHlpYTc83pc6DXCt1MgcFXWtRpE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dZm4MJP/; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jpItnfrw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dZm4MJP/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791450026; x=1822986026;
+  t=1791450071; x=1822986071;
   h=from:to:cc:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=jlC1R+o3q8Vlpqcj+OGI6engr1bVhRfSnFRmu6LMEUs=;
-  b=jpItnfrw8NpEhmgdDhtcY0QtCcg+eOcOKdtpP3CtKVXTA8BXVYA+ZFAA
-   ZKjttlXpX5Gucqi0WEi7yaks07jCUqAU3oW8/9y/jOYIK977grZF/QgPP
-   0JgXjlzyaEhx45+oiF5FqHsZKL1Ty1ZfyRBM6OUgY1f0waMoirJTB+URk
-   //Y72mFxpz8X0hifVND+nAvHtUITW8e1tXFduhRhxZJ/saqRsuwzZy5tT
-   ZBP+Swi9t0Y2f42418vaUwdED7q2s5jrENZRIYc2piWD6EuNSbIVwjowT
-   w+zczHp2liOAUk7cKRxcMsDE2Kr6NDP0W4cGo2ZZa2frP9qclDRk8whhe
-   A==;
-X-CSE-ConnectionGUID: xNyOzqpBQZmj/2MGp/QL1A==
-X-CSE-MsgGUID: qEbXw5rPR9Oul6QJkrHX5Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11928"; a="247471"
+  bh=v4jns9pDD/PeTQYhkB7WzQZLRV+oKLKAUZhnb2iVRV0=;
+  b=dZm4MJP/20rupkoqIFdcTdGytzOh6F0lwpfB7lJuwtWCxexzguXvL/1/
+   M2SAsR4CosO3O8yUze6uW7xcS3GNubBf/77m0BtCGYK2VOv1vf+Psu5V3
+   tlARx5ey4uyC/1WKGxBVnhTU7LQ9UrIr1pwszGCnLOPAT9AQxNqJr5QSF
+   bKihLrjIj++zzvAxiY/sEtJV1KvMOsOWgAXUXRemQKfrbM+m+v/SX2YN7
+   MlRXaSLovOGjkX3fz33F+q8k3d1Tmd0FVFbdyq9kzvMpc6c+oDjfQJJfc
+   Zbr54cbhwTDVBfAw7hod2RZltYP/yUTGA6FHh1GeYKAmOhGzLJGQhZi/u
+   w==;
+X-CSE-ConnectionGUID: Ui9ig394SKeaQ+tPSIefMQ==
+X-CSE-MsgGUID: V5FYUIbhQ/GINp4763PgPA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11928"; a="124258"
 X-IronPort-AV: E=Sophos;i="6.27,146,1787036400"; 
-   d="scan'208";a="247471"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2026 02:00:25 -0700
-X-CSE-ConnectionGUID: lAe+ILRTQseFdcS7hlYq3A==
-X-CSE-MsgGUID: bmoQ2piKQ3KaXSmG5WpqMg==
+   d="scan'208";a="124258"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2026 02:01:11 -0700
+X-CSE-ConnectionGUID: IpVNLe58QSKdh+cgXkWicw==
+X-CSE-MsgGUID: 1MkOzPW2QTWVpZ/ZCBjKxg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,146,1787036400"; 
-   d="scan'208";a="443914"
+   d="scan'208";a="94128"
 Received: from ettammin-mobl3.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.245.74])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2026 02:00:23 -0700
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2026 02:01:08 -0700
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: lgirdwood@gmail.com,
 	broonie@kernel.org
 Cc: linux-sound@vger.kernel.org,
 	kai.vehmanen@linux.intel.com,
 	yung-chuan.liao@linux.intel.com,
-	pierre-louis.bossart@linux.dev
-Subject: [PATCH] ASoC: SOF: Intel: Make sure that link and host DMA is coupled after use
-Date: Thu,  8 Oct 2026 12:00:45 +0300
-Message-ID: <20261008090045.15008-1-peter.ujfalusi@linux.intel.com>
+	pierre-louis.bossart@linux.dev,
+	stable@vger.kernel.org
+Subject: [PATCH] ASoC: SOF: ipc4-topology: Fix shift-out-of-bounds for aggregated ALH capture
+Date: Thu,  8 Oct 2026 12:01:30 +0300
+Message-ID: <20261008090130.15135-1-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.56.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -61,72 +62,51 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Couple the Host and Link DMA when the stream is put.
-When the hda_dsp_stream_hw_free() is called the Link DMA might be still
-locked and we would leave the DMAs decoupled.
-hda_dsp_stream_hw_free() is not called for code loader use or in case of
-probes or trace use for example.
+When ch_count is smaller than blob->alh_cfg.device_count (e.g. a mono
+capture stream, such as a SmartMic, aggregated across multiple SDW
+links), step = ch_count / blob->alh_cfg.device_count truncates to 0.
+The subsequent GENMASK(step - 1, 0) then underflows step - 1 (u32) to
+UINT_MAX, causing GENMASK()'s internal shift to use an out-of-bounds
+exponent:
 
+  UBSAN: shift-out-of-bounds in sound/soc/sof/ipc4-topology.c:2363:13
+  shift exponent 18446744069414584384 is too large for 64-bit type 'long unsigned int'
+
+Treat ch_count < device_count the same way as the existing "channels
+equal to output reference channels" case: apply the same ch_mask to
+every aggregated device instead of trying to split channels that
+can't be evenly divided.
+
+Fixes: 0390a102cc18 ("ASoC: SOF: ipc4-topology: use different channel mask for each sdw amp feedback")
+Cc: stable@vger.kernel.org
 Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 ---
- sound/soc/sof/intel/hda-stream.c | 21 +++++++++++++++++++--
- 1 file changed, 19 insertions(+), 2 deletions(-)
+ sound/soc/sof/ipc4-topology.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/sound/soc/sof/intel/hda-stream.c b/sound/soc/sof/intel/hda-stream.c
-index c95230487a1b..759719cf8ab0 100644
---- a/sound/soc/sof/intel/hda-stream.c
-+++ b/sound/soc/sof/intel/hda-stream.c
-@@ -293,9 +293,8 @@ static int _hda_dsp_stream_put(struct snd_sof_dev *sdev, int direction, int stre
- {
- 	const struct sof_intel_dsp_desc *chip_info =  get_chip_info(sdev->pdata);
- 	struct sof_intel_hda_dev *hda = sdev->pdata->hw_pdata;
-+	struct hdac_ext_stream *hext_stream_match = NULL;
- 	struct hdac_bus *bus = sof_to_bus(sdev);
--	struct sof_intel_hda_stream *hda_stream;
--	struct hdac_ext_stream *hext_stream;
- 	struct hdac_ext_stream *link_stream;
- 	struct hdac_stream *s;
- 	bool dmi_l1_enable = true;
-@@ -308,6 +307,9 @@ static int _hda_dsp_stream_put(struct snd_sof_dev *sdev, int direction, int stre
- 	 * that are DMI L1 incompatible.
- 	 */
- 	list_for_each_entry(s, &bus->stream_list, list) {
-+		struct sof_intel_hda_stream *hda_stream;
-+		struct hdac_ext_stream *hext_stream;
-+
- 		hext_stream = stream_to_hdac_ext_stream(s);
- 		hda_stream = container_of(hext_stream, struct sof_intel_hda_stream, hext_stream);
+diff --git a/sound/soc/sof/ipc4-topology.c b/sound/soc/sof/ipc4-topology.c
+index f6617dcbf789..c7ff687ecc1d 100644
+--- a/sound/soc/sof/ipc4-topology.c
++++ b/sound/soc/sof/ipc4-topology.c
+@@ -2473,11 +2473,14 @@ _sof_ipc4_prepare_copier_module(struct snd_sof_widget *swidget,
+ 				ch_map >>= 4;
+ 			}
  
-@@ -315,6 +317,7 @@ static int _hda_dsp_stream_put(struct snd_sof_dev *sdev, int direction, int stre
- 			continue;
- 
- 		if (s->direction == direction && s->stream_tag == stream_tag) {
-+			hext_stream_match = hext_stream;
- 			s->opened = false;
- 			found = true;
- 			if (pair)
-@@ -324,6 +327,20 @@ static int _hda_dsp_stream_put(struct snd_sof_dev *sdev, int direction, int stre
- 		}
- 	}
- 
-+	if (!sdev->dspless_mode_selected && !pair && hext_stream_match) {
-+		/*
-+		 * Couple host and link DMA if link DMA is unused
-+		 * In case of channel pair the snd_hdac_ext_stream_release() will
-+		 * take care of coupling te HDA channel.
-+		 */
-+		if (!hext_stream_match->link_locked) {
-+			u32 mask = BIT(hext_stream_match->hstream.index);
-+
-+			snd_sof_dsp_update_bits(sdev, HDA_DSP_PP_BAR,
-+						SOF_HDA_REG_PP_PPCTL, mask, 0);
-+		}
-+	}
-+
- 	spin_unlock_irq(&bus->reg_lock);
- 
- 	/* Enable DMI L1 if permitted */
+-			if (swidget->id == snd_soc_dapm_dai_in && ch_count == out_ref_channels) {
++			if ((swidget->id == snd_soc_dapm_dai_in && ch_count == out_ref_channels) ||
++			    ch_count < blob->alh_cfg.device_count) {
+ 				/*
+ 				 * For playback DAI widgets where the channel number is equal to
+-				 * the output reference channels, set the step = 0 to ensure all
+-				 * the ch_mask is applied to all alh mappings.
++				 * the output reference channels, or when there are fewer
++				 * channels than aggregated devices (e.g. a mono capture
++				 * stream split across multiple links), set step = 0 to
++				 * ensure all the ch_mask is applied to all alh mappings.
+ 				 */
+ 				mask = ch_mask;
+ 				step = 0;
 -- 
 2.56.0
 
