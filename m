@@ -1,88 +1,109 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97C5A3B7760;
-	Thu,  8 Oct 2026 09:44:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58102491585;
+	Thu,  8 Oct 2026 10:11:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791452691; cv=none; b=EseLBG070HwfFDX/2kxqvGKNLBegSc1EqqPehV046rGLguLk+WE39Zlgkub+shcqEtuuIup/+cMV8K56YPj4tyhJQ/l/BcBDK1aeyppeD6IwzSRRdMoX7+xc23FbD2iYrFOK9WgGk5aEsDzqjL8YzjWFnrfJnYJ8quh0+kwGPeA=
+	t=1791454278; cv=none; b=lov9OJycIoaKNmBN1Fb/I9Q5J+3OWdzarop6d7nOnVqBWAR2wOw7iavvjcMObe6s7zpTeF4bgHJQyGqVU7g1bMaf1kKU8iaRzbtItWEs79OpyT34UfqH0edkeclvMfhLT/Xua5GhGFSAwVBhSpLAZjypZxXC9RNim1pZwE8DQj0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791452691; c=relaxed/simple;
-	bh=tIWKNokKZ9do3AnRTcPv2sHkIvOb/UhZMhCfk6dpXTY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=d/nRsJ/rafkdZT1+lI9rQwGgjTdB8vpPg9YBAEzBvr6JNekD30FZvJF1Ki9yOEgIEIRJHDJMgrO6yycFi2Y2CxeQF8hyufYvHgchWXTKT+1J4sbwatba8WulqCMfAbLW2fwP2D5LVQUX6nbvQUn+gi+ROJWj/zzh1AwMDNwR8C4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OJVPpqfS; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791454278; c=relaxed/simple;
+	bh=OtpCJsyYuzFAu6mHJXz1/MM96TfBTDXh6SdF0Lli7+s=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=hflzAB3pynnNFrGVzvMbpSFIZKkLBCj5oyHfYpvK3UpO4H0XeIwgqTEfZajE9TlgY/FQTntjEFdkYjpwhVJSVKMulvsv6mZ7i5HjW6Q6YkUx1EiPC9/uNn05VYQARX8gpG6ItJSNVHgbM+q71OTIiHdJCMvM6ANyJmINHN2dvMU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=fjnFTstk; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=6zUzRAlc; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OJVPpqfS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20D011F000FF;
-	Thu,  8 Oct 2026 09:44:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791452690;
-	bh=gBCi/+Dgc6mXIeQ3dTZreG0MYlhf/Sp/PUnYU4cdJNQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=OJVPpqfSotxdHBvLTUXa+UWhrAaiQoqepOzZUTouWRhwyaKnn1BMrap5ptnSqZk4T
-	 C0NmnBUYHtFrWWxX8tMLU2f/8Va+kowB8HW3FxKsH07YFWFcGLWMdTvM64C9Yyej3a
-	 2chCoydYDcXstUdnLEXXSsxWYiFVK3EMxN7FIOpIrFEc4QGAnxvoa3/2g0PnmVw8aM
-	 ysW62i5mLA5rHgSVnktN4whOY81/+WH4ggFNls4ogpyJCS1+qxkd75K4l7D625uKy/
-	 LvbVuRAy/doaeycLFnFwDZ9J9ZXgIghP8GwrL5PjfAF/jLNlQ+89Z5hucQqZnP1Lkj
-	 UaGFFko/WFI0g==
-From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com, 
- yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev, 
- stable@vger.kernel.org
-In-Reply-To: <20261008090143.15158-1-peter.ujfalusi@linux.intel.com>
-References: <20261008090143.15158-1-peter.ujfalusi@linux.intel.com>
-Subject: Re: [PATCH] ASoC: SOF: sof-client: Use event-handler mutex
- consistently
-Message-Id: <179145265815.2423942.9687769068748752029.b4-ty@b4>
-Date: Thu, 08 Oct 2026 11:44:18 +0200
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fjnFTstk";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="6zUzRAlc"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 4F2B021BFB;
+	Thu,  8 Oct 2026 10:11:13 +0000 (UTC)
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1791454273; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xbcwWrM6AuaKZRodfq0Jz9HUSXKnLh4t8oCoouIlbJM=;
+	b=fjnFTstkrnEkO6xBIdH9uj5xsFbLD0qh34v6zoj22+HpozHLngVMhMsymdQIdAM0IyByig
+	Mth4qc5iLOwBgw42+eQUBc37YhO4fOWpH9l6GqOWV+1vzJWEYI0k32E3cJsR8VEX/Zy6iV
+	5HkP89+cnaZtCAJ70zW9eFxHBCkMBSk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1791454273;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xbcwWrM6AuaKZRodfq0Jz9HUSXKnLh4t8oCoouIlbJM=;
+	b=6zUzRAlc91bAN/nRbKp7+MbTQ5R14r6duf021N4lK4ZcN9If9NyGKxAgxbFIs7YvSYLy1z
+	12qu/5lhGZLdRnDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1BB1E1339F;
+	Thu,  8 Oct 2026 10:11:13 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id GiDPOUBsx2pcLgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 08 Oct 2026 10:11:13 +0000
+Date: Thu, 08 Oct 2026 12:11:04 +0200
+Message-ID: <87ld885wp3.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/hdmi: clamp num_cvts against cvt_nids[] in hdmi_read_pin_conn
+In-Reply-To: <20261008085122.9442-1-peter.ujfalusi@linux.intel.com>
+References: <20261008085122.9442-1-peter.ujfalusi@linux.intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1138; i=broonie@kernel.org;
- h=from:subject:message-id; bh=tIWKNokKZ9do3AnRTcPv2sHkIvOb/UhZMhCfk6dpXTY=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLKOp34NntT6J3/V+YniXUk2XfMmOmobWgdHrb4c8mvnz
- BMvmdyvdZSyMIhxMciKKbLEZXG/rC95vYbv4MI2mDmsTCBDGLg4BWAiGcmMDM3HHnGLx16ymM9X
- tN7pqcFv5nsaJTYJcyq7txZclFcPfsvIsDSna09Hzh1T8w1PY+zqAsU6WG81bi1+G/w9ZOXkqnI
- DdgA=
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [0.00 / 50.00]
+X-Spam-Score: 0.00
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Rspamd-Pre-Result: action=no action;
+	module=Unknown lua;
+	unknown reason
 
-On Thu, 08 Oct 2026 12:01:43 +0300, Peter Ujfalusi wrote:
-> ASoC: SOF: sof-client: Use event-handler mutex consistently
+On Thu, 08 Oct 2026 10:51:22 +0200,
+Peter Ujfalusi wrote:
+> 
+> hdmi_add_cvt() stores each converter's NID into the fixed-size
+> spec->cvt_nids[] array (used only by the Intel Haswell pin-connection
+> fixup), but only when spec->num_cvts is still within
+> ARRAY_SIZE(cvt_nids); the num_cvts counter itself is incremented
+> unconditionally regardless of whether the store happened. A codec
+> that reports more converters than cvt_nids[] can hold therefore ends
+> up with num_cvts > ARRAY_SIZE(cvt_nids).
+> 
+> hdmi_read_pin_conn(), on the intel_hsw_fixup path, copies num_cvts
+> elements from cvt_nids[] with memcpy(), so once num_cvts exceeds the
+> array size this reads past cvt_nids[] and writes the resulting
+> garbage NIDs into per_pin->mux_nids[].
+> 
+> Clamp the copy length to the actual size of cvt_nids[] instead of
+> trusting num_cvts, which is also used unbounded as the size of the
+> separate, dynamically-sized spec->cvts array and must not be
+> truncated at the source.
+> 
+> Fixes: bce0d2a80e42 ("ALSA: hda - Allow unlimited pins and converters in patch_hdmi.c")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 
-Applied to
+Applied to for-next branch.  Thanks.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
 
-Thanks!
-
-[1/1] ASoC: SOF: sof-client: Use event-handler mutex consistently
-      https://git.kernel.org/broonie/sound/c/f90f8afb61be
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Takashi
