@@ -1,104 +1,120 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB29F41D4E9
-	for <linux-sound@vger.kernel.org>; Thu,  8 Oct 2026 08:51:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1112447CA84;
+	Thu,  8 Oct 2026 08:53:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791449479; cv=none; b=lYT5ruybV351VlsEIZja1s+EQNUvH/JFDWfve83+gQ2cQK/WyjtTwAJbgfgoNuPi1GuzIp6ulEkgo1XA4msCp47zbaABBtoBXRWngKCYY3nFnDHoRX7OfzrK3FxNB2pZlJuSk1xFBD3Bo3bXbQOjWz5MvmlT2fC7lcJIcHeHvJQ=
+	t=1791449633; cv=none; b=q47OBBaf660xtpaNQKFzH/7/M3U8m3wsVeIYGLM1d9dgqcdykvcyPSVTbaet/XE5mI0ZUTtYxjVCYzA7+MouB3c/73i9L6BneDcGfoxGYAmoHHiWyifxH7Ua6w2I6xEvY+tehXuPa785nhToUnTHLPiB9Y0HNmMAVd/4P7FdcF0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791449479; c=relaxed/simple;
-	bh=znzbD72nPgN1Famhk5FwJ8hdyr3XpAWFzWNBebDwkAk=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mp5vdLkTkne+MQHuFVCq3x8XG6hMe5aD4E1s+xHP99D3oSmMxCEQHIvwP2ZTMtgcqPFf7bSUk8DUOeB+b5IJOIOgIU6k9kI2zryAYjLrWp9cQSsazxFq3Nj+wSGLAoGcVd28mLelGuYerEDDT+u8fCoxwmZLTZ2muY1IFRwDHo8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xi2P9uja; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=qnyfl8vU; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1791449633; c=relaxed/simple;
+	bh=5v92Q4fjl9gWWkBp5CDXzJLLgH7DAwCkYuU0DPOQmdw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=e1EPeX7VPqSVwSOWax+Lu+k7w7lPkRe+JUy2C1ZQJ0d28mL6j2aOwdNhpiQ+gLILQiOLx87acXg8FHTiP3hNxgiYNo6d3I9yZsrpHfQk/k5QA/eOfxZis0q8YbNDOlYLrBhUIAMZRNlmQh4rh4tQUjQlpf0EZq9u3BMspXehMIA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LcGKTAgi; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xi2P9uja";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qnyfl8vU"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 89A2D21B88;
-	Thu,  8 Oct 2026 08:51:14 +0000 (UTC)
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1791449474; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wIPzbU/ohsBoucWXoQZ3rjPyGsMP0RfhBD6plJqZaE8=;
-	b=xi2P9ujaT3HRkApfQdwtOAn3FT8DE+nKWxK4gFjTglgTyJVUCHz9vW53+8OxYi8zpeJEsA
-	bkgYeFSJ+k4ss5QsY4rL7gYeO0gbp+ECEk2wlIdzBis19soF3vBGhZ0tIfQCW4BDqfh11R
-	EeZi4j0/9Fg+IxWa1mfZQtCXnkvZ4Y0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1791449474;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wIPzbU/ohsBoucWXoQZ3rjPyGsMP0RfhBD6plJqZaE8=;
-	b=qnyfl8vUGcoBZN5c2VhNfOwak3SrG7UUFzUJ3Xugx/ysJGO2B4g9ucY6GxoPIi3GJNm+Cm
-	1hqrR50jDNj6CAAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 33B7C139CE;
-	Thu,  8 Oct 2026 08:51:14 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id u+gBBoJZx2r1VgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 08 Oct 2026 08:51:14 +0000
-Date: Thu, 08 Oct 2026 10:51:13 +0200
-Message-ID: <87pkxk60e6.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	linux-sound@vger.kernel.org,
-	alsa-devel@alsa-project.org
-Subject: Re: [GIT PULL] ASoC fixes for v7.3-rc6
-In-Reply-To: <20261008081955.A2A6D1AC57CE@finisterre.sirena.org.uk>
-References: <20261008081955.A2A6D1AC57CE@finisterre.sirena.org.uk>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LcGKTAgi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1791449631; x=1822985631;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=5v92Q4fjl9gWWkBp5CDXzJLLgH7DAwCkYuU0DPOQmdw=;
+  b=LcGKTAgizCfmRJGLQ2QxBFeySX9FSMxlAoBnk6qlhnRiKxe3HqCXO2Bg
+   E708dK7iUcHyvTLr7WBA+9y02z5V4oMmgIkVsBhTJOEo24LZEgfLlmy0J
+   IbM2w4s5KLu+FLzVo5hWVAhtQuCccjjOzDyJMLr8xZ08y0uHkbEK30Yde
+   K/YJKyuVoPUCNwTuL/MhD3btzLCMEJRYJn9+2c0duyfeumZQGfU7GATvU
+   nWcizI2AQh7bjYJzCK6cC9RjZ7VvwJXrnyrvbKjN6GXuZ3ltiX3PpY0pc
+   8JssafKUvKmYPXMJKBaPXj/tNqDwF+s8GHbQCJuQKUF5nmm5Eyxvk/KI/
+   w==;
+X-CSE-ConnectionGUID: yIlnMU4QSmqoEloP2Ii3Iw==
+X-CSE-MsgGUID: T6QrMhiuTam3alulht147w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11928"; a="122785"
+X-IronPort-AV: E=Sophos;i="6.27,146,1787036400"; 
+   d="scan'208";a="122785"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2026 01:53:51 -0700
+X-CSE-ConnectionGUID: E+2esff7SROTlWnBBWhHVA==
+X-CSE-MsgGUID: aKe0uzOcQ4+N2RGf+57+7g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,146,1787036400"; 
+   d="scan'208";a="91428"
+Received: from ettammin-mobl3.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.245.74])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2026 01:53:49 -0700
+From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+To: perex@perex.cz,
+	tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH] ALSA: x86: hdmi: fix chmap array missing terminator entry
+Date: Thu,  8 Oct 2026 11:54:11 +0300
+Message-ID: <20261008085411.13742-1-peter.ujfalusi@linux.intel.com>
+X-Mailer: git-send-email 2.56.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [0.00 / 50.00]
-X-Spam-Score: 0.00
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Rspamd-Pre-Result: action=no action;
-	module=Unknown lua;
-	unknown reason
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Thu, 08 Oct 2026 10:19:42 +0200,
-Mark Brown wrote:
-> 
-> The following changes since commit a90ee4305c4a5df72c11b31dacfdc76e00fcf78a:
-> 
->   Linux 7.3-rc6 (2026-10-04 13:45:25 -0700)
-> 
-> are available in the Git repository at:
-> 
->   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v7.3-rc6
-> 
-> for you to fetch changes up to 9ca0d0d0249230135dbf6fa1b9168e260151babc:
-> 
->   ASoC: amd: acp: Add more ACP7.0 match entries for Cirrus Logic parts (2026-10-07 16:21:32 +0200)
-> 
-> ----------------------------------------------------------------
-> ASoC: Fixes for v7.3
-> 
-> A fairly small collection of fixes and a few device quirks, nothing
-> especially remarkable unless you have the affected system.
+had_build_channel_allocation_map() allocates a single struct
+snd_pcm_chmap_elem via kzalloc() and stores it as
+intelhaddata->chmap->chmap. struct snd_pcm_chmap.chmap is expected to
+be a zero-terminated array (see snd_pcm_std_chmaps[]), but
+had_register_chmap_ctls() never overrides the TLV callback installed
+by snd_pcm_add_chmap_ctls(), so the generic pcm_chmap_ctl_tlv() from
+ALSA core is left in place.
 
-Pulled now.  Thanks.
+pcm_chmap_ctl_tlv() is reachable by any local user via
+SNDRV_CTL_IOCTL_TLV_READ on the "Playback Channel Map" control and
+walks the array with "for (map = info->chmap; map->channels; map++)".
+Since the driver's single element is never terminated, this walks
+past the allocation. The same pointer is also freed on hot-unplug and
+rebuilt on hot-plug under intelhaddata->mutex, while the TLV callback
+runs under card->controls_rwsem without that mutex, so the walk can
+also race a concurrent free of the array.
 
+Fix this by allocating a second, zeroed element so the array is
+properly terminated, and by dropping the inherited TLV callback
+entirely at registration time, since the driver never implements one
+of its own.
 
-Takashi
+Fixes: 5dab11d89777 ("ALSA: x86: hdmi: Add audio support for BYT and CHT")
+Cc: stable@vger.kernel.org
+Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+---
+ sound/x86/intel_hdmi_audio.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/sound/x86/intel_hdmi_audio.c b/sound/x86/intel_hdmi_audio.c
+index 9f67244d4946..542fc35ec9b7 100644
+--- a/sound/x86/intel_hdmi_audio.c
++++ b/sound/x86/intel_hdmi_audio.c
+@@ -475,7 +475,8 @@ static void had_build_channel_allocation_map(struct snd_intelhad *intelhaddata)
+ 	kfree(intelhaddata->chmap->chmap);
+ 	intelhaddata->chmap->chmap = NULL;
+ 
+-	chmap = kzalloc_obj(*chmap);
++	/* info->chmap must be zero-terminated; allocate a spare terminator entry */
++	chmap = kzalloc_objs(*chmap, 2);
+ 	if (!chmap)
+ 		return;
+ 
+@@ -575,6 +576,12 @@ static int had_register_chmap_ctls(struct snd_intelhad *intelhaddata,
+ 	intelhaddata->chmap->kctl->info = had_chmap_ctl_info;
+ 	intelhaddata->chmap->kctl->get = had_chmap_ctl_get;
+ 	intelhaddata->chmap->chmap = NULL;
++
++	/* drop the inherited TLV read: it walks chmap without our mutex */
++	intelhaddata->chmap->kctl->tlv.c = NULL;
++	intelhaddata->chmap->kctl->vd[0].access &=
++		~(SNDRV_CTL_ELEM_ACCESS_TLV_READ | SNDRV_CTL_ELEM_ACCESS_TLV_CALLBACK);
++
+ 	return 0;
+ }
+ 
+-- 
+2.56.0
+
