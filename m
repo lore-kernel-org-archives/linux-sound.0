@@ -1,53 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAE733C5DA6;
-	Sat, 10 Oct 2026 23:05:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BF293D6CD4
+	for <linux-sound@vger.kernel.org>; Sat, 10 Oct 2026 23:05:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791673537; cv=none; b=NFAQfdYm2DDQ7vP1MygI6yJPZbJMwx4L9intSjHrTFaqVXw8/v0IuzU1kniHRX3PYkV5LRmKm0LMsgagDuEo87NwU1e5IAmgI11etQ86SpCQF1k3NYqmJf6OepQQ+57tsQ6XcFaXMFC5LT7tJOGvF/edF6CHVbinJnv4tTP3ujw=
+	t=1791673541; cv=none; b=pB7d7CpjSan6gQegR+5TuORHtvwDpjHMsy53tZarfouqfVm1vo8x/ulZYWId26Jq0Z943NP/JxpeTOP8It3l9om8BEO8+nbv/cmggbrEvYqjAhL65O4GsLaFG59DLuFHGITo4lcMBvGFmh+K3SmTesY9Vt/VRAKJGuW8HmFSiKc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791673537; c=relaxed/simple;
-	bh=skJdmd3tUQHGVzD6TZQsGKOJkI7UvX0V36y4xyypgz4=;
+	s=arc-20240116; t=1791673541; c=relaxed/simple;
+	bh=cKY+GzJAN8ct5E/Oq6g7XqwfAF+ehbcbazNlzOc3+jk=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=OXEns4w6XcXkWeKPGfWNo2WtW8vx4tuUsYmFg4LmgP+WEkAKHCOeEhlUkHCM7Z4FpTB5LWlMvF+vEdMZEksaiyDjwI1Cv5Yspqzmxwsto8SpRJbjm5XS7v4WDW3OmuSGBw300OnjI4f/q8jwFMPXw0GBhDRPGu7IYCMfj4jV3TQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LFn7uR61; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=XSvsTgvwvg5Rkx+JcUat55g0Q6Ly2PzgwUHbAUUlwdI9teyGJy2EtVEXoNBK/vH8HGTLby+R5UyVRhSTy1xlhg3vzCOoJ/9ho/2RR0yhCkQtzPNojX1EA0Sf3T3BqQ/l78jXQDsdb9dsbDGSREwCHhwoMwtaAxlWeUu1fhZjr8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YcFAyU1i; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LFn7uR61"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 944071F000FF;
-	Sat, 10 Oct 2026 23:05:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YcFAyU1i"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E21801F00893;
+	Sat, 10 Oct 2026 23:05:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791673535;
-	bh=LWAleCpYBlToJ7/WPCLhRt8yE2399HoszrhXc5+pn3Q=;
+	s=k20260515; t=1791673539;
+	bh=rup5tkMkYi7r2xx6Jk92KFk0I50Kwn70WV1FGau34Wo=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=LFn7uR61sXuM6F1QlLDwMGmHabCCyRsEvfFcMN3pktoGVHwFIXKYtE5EdTTqbYmXd
-	 4le7J3X74Euaxae+4+TUGuh97jL9qZVXBR6sYN049bu7IrCzhOWJIzVQ1Oru76qYdq
-	 oIjh3o7OEOi18V1B4yElYYTxwSs5giyp+uirMsmquG3WH1PUFsKjrsnnivSft4Kkc4
-	 SBwwpfsMiX5zB3tS2qCjQPU6jFChE3PmdWCqw3/naMdWg8Z3q45s0vzc3Xkg2HYCFI
-	 gJjaYoHW464PZtyrcxpWCfrjBKx4I8JXwlK/nO9BtEg72++03LD/C/5QIyeEDihceb
-	 txcMIV07pKPfA==
+	b=YcFAyU1iSETPAMZbKvroqlB4ThjgEew8zYLz5XaEKqpZmH0yKkg/h4OlUAbZe8bP4
+	 mlOTnNWl6P+SSCbOrQxwrizthwA9a7TE2B+/uqAMUWWKifovg7+shkrlUH3ADUaJtC
+	 OCdaeUW5XLlodIfLkvikfZbX8BC1El7jnfX8l/BdQmEUvrekVZFMP3vPDrobTZwogf
+	 4r2S07/l83AN0isputvqmXSBY6iNjIqzBie4yUxmbDyS0rVDl2W47f8A6IXqoWQ7Ha
+	 kOBX8ckgV+C5z6Hc9WkiMjUzOy6dEblxJToicIT41/aNfpBz6s569sO+hUIeJw7mte
+	 yKx02WeADRg+w==
 From: Mark Brown <broonie@kernel.org>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Trevor Wu <trevor.wu@mediatek.com>, phucduc.bui@gmail.com
-Cc: Liam Girdwood <lgirdwood@gmail.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
- cassiogabrielcontato@gmail.com, Haotian Zhang <vulab@iscas.ac.cn>, 
- Christian Marangi <ansuelsmth@gmail.com>, 
- Cezary Rojewski <cezary.rojewski@intel.com>, 
- Cyril Chao <Cyril.Chao@mediatek.com>, Tuo Li <islituo@gmail.com>, 
- Rosen Penev <rosenp@gmail.com>, Garlic Tseng <garlic.tseng@mediatek.com>, 
- Alexandre Mergnat <amergnat@baylibre.com>, 
- Dan Carpenter <error27@gmail.com>, linux-sound@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20261006101606.54079-1-phucduc.bui@gmail.com>
-References: <20261006101606.54079-1-phucduc.bui@gmail.com>
-Subject: Re: [PATCH 0/4] ASoC: mediatek: Return 0 from FE startup on
- success
-Message-Id: <179145062463.2423942.16590148509796512242.b4-ty@b4>
-Date: Thu, 08 Oct 2026 11:10:24 +0200
+To: Vijendar.Mukunda@amd.com, venkataprasad.potturu@amd.com, 
+ lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ Mario Limonciello <mario.limonciello@amd.com>
+Cc: Zachary Huang <zuzhenhuang365@gmail.com>, linux-sound@vger.kernel.org
+In-Reply-To: <20261007193038.2473068-1-mario.limonciello@amd.com>
+References: <20261007193038.2473068-1-mario.limonciello@amd.com>
+Subject: Re: [PATCH] ASoC: amd: acp63: add standalone ES9356 SoundWire
+ machine
+Message-Id: <179144532182.2423942.6249300174232633307.b4-ty@b4>
+Date: Thu, 08 Oct 2026 09:42:01 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -57,27 +46,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1818; i=broonie@kernel.org;
- h=from:subject:message-id; bh=skJdmd3tUQHGVzD6TZQsGKOJkI7UvX0V36y4xyypgz4=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJOHdleNi2hpIbhRUL0FSYdlrW8e56+Onic74+E/DmTo
- 8eWc0gIdpSyMIhxMciKKbLEZXG/rC95vYbv4MI2mDmsTCBDGLg4BWAiP5cxMvSXKamwvzfYsz3n
- w2XGFztupbnJXpvpNPulI9vliSYzgxYyMrxpdFCYVvx7Y8v+Ksebos5y0ZtKry9ImtQq8Kl/30J
- JNhYA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1137; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=cKY+GzJAN8ct5E/Oq6g7XqwfAF+ehbcbazNlzOc3+jk=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJOHdm/1bDslnlX16/S/cnSfFFPFxozZEyas1HL+WfY+
+ YPWsr4PO0pZGMS4GGTFFFnisrhf1pe8XsN3cGEbzBxWJpAhDFycAjCRtAMMv1lrPzeLm0tVsW3X
+ PjrrYv0O9qqMgxM3O148yDmd83dh4jVGhtdqboXfm7ZMykpcPyfVorrmxLQuY41tHmxfyljfLfj
+ 5lA8A
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Tue, 06 Oct 2026 17:16:02 +0700, phucduc.bui@gmail.com wrote:
-> ASoC: mediatek: Return 0 from FE startup on success
-> 
-> From: bui duc phuc <phucduc.bui@gmail.com>
-> 
-> Hi all,
-> 
-> Some FE startup callbacks may return a positive value from constraint
-> helpers, but ASoC expects 0 on success. This can cause .shutdown() to be
-> skipped during rollback.
-> 
-> [...]
+On Wed, 07 Oct 2026 14:30:36 -0500, Mario Limonciello wrote:
+> ASoC: amd: acp63: add standalone ES9356 SoundWire machine
 
 Applied to
 
@@ -85,14 +64,8 @@ Applied to
 
 Thanks!
 
-[1/4] ASoC: mediatek: common: return 0 from mtk_afe_fe_startup() on success
-      https://git.kernel.org/broonie/sound/c/5bbd6696d75e
-[2/4] ASoC: mediatek: mt8188: return 0 from mt8188_afe_fe_startup() on success
-      https://git.kernel.org/broonie/sound/c/b6b3dbee98f1
-[3/4] ASoC: mediatek: mt8189:return 0 from mt8189_fe_startup() on success
-      https://git.kernel.org/broonie/sound/c/f63317c826c4
-[4/4] ASoC: mediatek: mt8365: return 0 from mt8365_afe_fe_startup() on success
-      https://git.kernel.org/broonie/sound/c/240f11af9c80
+[1/1] ASoC: amd: acp63: add standalone ES9356 SoundWire machine
+      https://git.kernel.org/broonie/sound/c/45c2b3c936c7
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
