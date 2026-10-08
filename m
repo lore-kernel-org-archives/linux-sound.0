@@ -1,160 +1,112 @@
-Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4452E32572F;
-	Sat, 10 Oct 2026 22:25:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB6DA3ACA65;
+	Sat, 10 Oct 2026 23:05:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791671158; cv=none; b=kj9S9djrpeyfUu+PSESjbRHFzzyfcz7noYXYSDofRSHAIysTOoDIWP0rGFMikLQCknrADQqmQbWbUwGPif/fcpyZXIyqq2UKyNAdvqCMHY/2DRh4AvcHympCU6XK280ubawha/k9bYRzrt4efbSif6qBooqFvfJjV+tt5bTrHoQ=
+	t=1791673529; cv=none; b=SJbalEGTjttzXHm45yc/u1473ww3zUc/Ad+tXspoT9WGpxjTkhvrkXpA6Ikvq3yfOJXPhAHiKQLFyVpjbPQnrUcAHHwmL8akBMsfcOLRSw+4tj3CnLILb/QoHg/Yr9Z8/bi+B0RFDogbsT9SMlGSMZb4ZRhiiKWe5y+v3FfyeGc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791671158; c=relaxed/simple;
-	bh=pAYVB5PeFpW8HxPDnj2XeIgyKvCaV1s9djzOblgFM7w=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=E6DMrICKDmnJc+xiOyR8cmcE6ITWwU43FuX3s6lWtc/1zHGPZ8CU39fC9KzdcCkJg/rgBSwdGA6MMZ9oyE8JRwjktkOOj99Mz0tPqlTJBCyUeOR+LETmtalZ081C9TcJqKBzezCIYgfGvsdGvW77aPmZTxnG/wye9S+h6LuMtcA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=aPEhDzx6; arc=none smtp.client-ip=178.21.23.139
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
+	s=arc-20240116; t=1791673529; c=relaxed/simple;
+	bh=85ePqdUrxlAKgImhGQeGtnMz7AsH4S3r8BPV51Rup88=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=b8AZS6kOm7p1B302/GJX4WZhHx7APXX8DBIdUZPKcYRCS9ilW8EwU0hLZ7P/5Pkf43NFDEucADbaRO21vzXtrMxKdcIe+pJyJD/R5qsZ79Crf4gB9ig86TQn/8DKhPaQpVQiJyLJCey7qkqdgoJ788U0eJqapxjgH1xbu6CdWi4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fe2EET7S; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="aPEhDzx6"
-Received: from mail01.layka.lan (localhost [127.0.0.1])
-	by disroot.org (Postfix) with ESMTP id F2FA880DA3;
-	Sun, 11 Oct 2026 00:25:53 +0200 (CEST)
-X-Virus-Scanned: SPAM Filter at disroot.org
-Received: from layka.disroot.org ([127.0.0.1])
- by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 31JMfF3VuXNw; Sun, 11 Oct 2026 00:25:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
-	t=1791671153; bh=pAYVB5PeFpW8HxPDnj2XeIgyKvCaV1s9djzOblgFM7w=;
-	h=From:To:Cc:Subject:Date;
-	b=aPEhDzx6HMNNagQF3HzKiJX+N4lpS+9ExmrtYHplXFAztWVtYRhsEmXqe8SNhSpsm
-	 tiENmFAdM09bf0H2mT+kAZO+jMJ1NApPgtZ73LvddDvhMH3NbsDdWgt35ZkKhCw654
-	 E55RBvTSHwByKEri20lkIqeyCV4rL4mXXPAyOJ+gE8vLRVMS41Q+L+3BZVhWj4KEOA
-	 7z1D72EPkYxYgg+H27BbkJVLswJv2tvghsBB2E0lhkpS+IgXoy0bqpvBDpkgyt+S4O
-	 QaMZfJ0AjiQSJPuTRDD7CNM89SMFxqft50RMiV0/QJfqUwuXbKeCTuagv5Fg0XZGed
-	 ybHCodjh/EJwQ==
-From: =?UTF-8?q?Ali=20Ahmet=20Memi=C5=9F?= <aliamemis@disroot.org>
-To: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: seq: Wait for one RCU grace period when deleting all ports
-Date: Sun, 11 Oct 2026 01:25:40 +0300
-Message-ID: <20261010222543.1470723-1-aliamemis@disroot.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fe2EET7S"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59CFA1F000FF;
+	Sat, 10 Oct 2026 23:05:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791673527;
+	bh=OojGyMZ5eh41Y2wVjeI/8ZXJHmHbXooHvcwTpVEfMY8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=Fe2EET7SHdaqMd1W61PeWl35EcW5wn+4JI9PrtrnUxODYxC+1A30Gt70bNQs3wVg2
+	 fgtDalH5d5vLtiTYBt7gc6odL3nbgJT8YDzpyC4ktGJ5vJzgsCF13gFg5ZbTtJJroz
+	 M7ZaZea/XQH69mvO/McxN6FovtgeKSEakFAwneMr4e15U6P5oicG23UGIsyXaAYGo2
+	 60SOq0NKEJvmhwKT7iTYCT3dETbjOiA9nLDeWomAi4fAv7MXLY+A0afLQIL5RByZTJ
+	 DKH63nHIx1km0tEQijmu2uNiJtBfNckPWPvUcx7VDJNqP3yqUUstq1c2PK3m+BP1CP
+	 DaqQdRid7h4Tg==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, 
+ =?utf-8?q?Micha=C5=82_Kope=C4=87?= <michal@nozomi.space>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Alexandre Mergnat <amergnat@baylibre.com>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+ Trevor Wu <trevor.wu@mediatek.com>, linux-sound@vger.kernel.org, 
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20261003194501.832558-1-michal@nozomi.space>
+References: <20261003194501.832558-1-michal@nozomi.space>
+Subject: Re: [PATCH 0/4] ASoC: Fixes for the MT8188 sound card
+Message-Id: <179144745270.2423942.8477245951213091576.b4-ty@b4>
+Date: Thu, 08 Oct 2026 10:17:32 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2081; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=85ePqdUrxlAKgImhGQeGtnMz7AsH4S3r8BPV51Rup88=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJOHVnNq7Sgxkxn0kXlROMs8axFJtOnia1umrJecIfpX
+ E3piidxHaUsDGJcDLJiiixxWdwv60ter+E7uLANZg4rE8gQBi5OAZjIo3kMf0VvL+2fOKnwTtVC
+ Pqv3nbbT11uW1DBMnLcwd4u5oNnh7cKMDDcWbva5+O/JZvEnn7e9yihSW61TLfaL48+xWY5PT/+
+ R5GMEAA==
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-Since the port list was converted to RCU, snd_seq_delete_all_ports()
-calls synchronize_rcu() once per port under register_mutex. Closing a
-client with 254 ports now takes about 1.6s and every other client
-open or close waits for it.
+On Sat, 03 Oct 2026 21:44:57 +0200, Michał Kopeć wrote:
+> ASoC: Fixes for the MT8188 sound card
+> 
+> These patches fix problems found while bringing up audio with SOF on
+> the Lenovo Chromebook Duet Gen 9 (Ciri, MT8188) on a mainline kernel.
+> 
+> The first two fix the common MediaTek sound card probe when the card
+> cannot be bound on the first attempt. A missing component made the
+> card fail its rebind because the codec references were already
+> released, and a deferred or failed probe left the static card with a
+> topology name that devm had freed, so the card registered with a
+> garbage name and UCM found no profile for it.
+> 
+> [...]
 
-Unlink all ports first, wait for a single grace period and then free
-them.
+Applied to
 
-Fixes: 4c252fbc06d6 ("ALSA: seq: Use RCU for the client port list")
-Signed-off-by: Ali Ahmet Memiş <aliamemis@disroot.org>
----
-Tested in QEMU on v7.3 with lockdep and KASAN.  Closing a client
-with 254 ports went from ~1.6s to ~0.02s, and a second client doing
-open/close in a loop no longer stalls.  Closing the client while other
-clients send to and query its ports ran 100 rounds without reports.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
 
- sound/core/seq/seq_ports.c | 41 +++++++++++++++++++++++++-------------
- sound/core/seq/seq_ports.h |  1 +
- 2 files changed, 28 insertions(+), 14 deletions(-)
+Thanks!
 
-diff --git a/sound/core/seq/seq_ports.c b/sound/core/seq/seq_ports.c
-index eb67eb0ee..b582d0344 100644
---- a/sound/core/seq/seq_ports.c
-+++ b/sound/core/seq/seq_ports.c
-@@ -248,17 +248,9 @@ static void clear_subscriber_list(struct snd_seq_client *client,
- }
- 
- /* delete port data */
--static int port_delete(struct snd_seq_client *client,
--		       struct snd_seq_client_port *port)
-+static void port_free(struct snd_seq_client *client,
-+		      struct snd_seq_client_port *port)
- {
--	/* set closing flag and wait for all port access are gone */
--	port->closing = 1;
--	/* the port has already been unlinked from the client's port list;
--	 * wait for a grace period so that RCU readers still traversing the
--	 * list can no longer take a new use_lock reference, then drain the
--	 * outstanding references before freeing
--	 */
--	synchronize_rcu();
- 	snd_use_lock_sync(&port->use_lock);
- 
- 	/* clear subscribers info */
-@@ -272,6 +264,20 @@ static int port_delete(struct snd_seq_client *client,
- 	snd_BUG_ON(port->c_dest.count != 0);
- 
- 	kfree(port);
-+}
-+
-+static int port_delete(struct snd_seq_client *client,
-+		       struct snd_seq_client_port *port)
-+{
-+	/* set closing flag and wait for all port access are gone */
-+	port->closing = 1;
-+	/* the port has already been unlinked from the client's port list;
-+	 * wait for a grace period so that RCU readers still traversing the
-+	 * list can no longer take a new use_lock reference, then drain the
-+	 * outstanding references before freeing
-+	 */
-+	synchronize_rcu();
-+	port_free(client, port);
- 	return 0;
- }
- 
-@@ -302,18 +308,25 @@ int snd_seq_delete_port(struct snd_seq_client *client, int port)
- int snd_seq_delete_all_ports(struct snd_seq_client *client)
- {
- 	struct snd_seq_client_port *port, *tmp;
-+	LIST_HEAD(deleted);
- 
--	/* unlink and delete each port; port_delete() waits for an RCU grace
--	 * period before draining the port, so concurrent lockless readers can
--	 * no longer take a new use_lock reference on it
-+	/* unlink all ports first and wait for a single RCU grace period
-+	 * before draining and freeing them, so concurrent lockless readers
-+	 * can no longer take a new use_lock reference on any of them
- 	 */
- 	guard(mutex)(&client->ports_mutex);
- 	list_for_each_entry_safe(port, tmp, &client->ports_list_head, list) {
- 		list_del_rcu(&port->list);
- 		client->num_ports--;
-+		port->closing = 1;
-+		list_add_tail(&port->delete_list, &deleted);
- 		snd_seq_system_client_ev_port_exit(port->addr.client, port->addr.port);
--		port_delete(client, port);
- 	}
-+	if (list_empty(&deleted))
-+		return 0;
-+	synchronize_rcu();
-+	list_for_each_entry_safe(port, tmp, &deleted, delete_list)
-+		port_free(client, port);
- 	return 0;
- }
- 
-diff --git a/sound/core/seq/seq_ports.h b/sound/core/seq/seq_ports.h
-index 12ad86bf1..ef1787d6c 100644
---- a/sound/core/seq/seq_ports.h
-+++ b/sound/core/seq/seq_ports.h
-@@ -49,6 +49,7 @@ struct snd_seq_client_port {
- 	struct module *owner;		/* owner of this port */
- 	char name[64];			/* port name */	
- 	struct list_head list;		/* port list */
-+	struct list_head delete_list;	/* used by snd_seq_delete_all_ports() */
- 	snd_use_lock_t use_lock;
- 
- 	/* subscribers */
--- 
-2.55.0
+[1/4] ASoC: mediatek: common: Keep codec references until the card is bound
+      https://git.kernel.org/broonie/sound/c/6cb1f09e1f69
+[2/4] ASoC: mediatek: Don't keep a freed topology name in the static card
+      https://git.kernel.org/broonie/sound/c/50c5d7f3a9b4
+[3/4] ASoC: mediatek: mt8188: Constrain UL8 FE to its back end's capabilities
+      https://git.kernel.org/broonie/sound/c/76775717c4ad
+[4/4] ASoC: hdmi-codec: Don't parse an empty ELD on startup
+      https://git.kernel.org/broonie/sound/c/d0b9e91b87c9
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
