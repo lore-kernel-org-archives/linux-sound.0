@@ -1,93 +1,71 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34A044F4CEA;
-	Thu,  8 Oct 2026 19:26:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7315F38E5E9;
+	Thu,  8 Oct 2026 19:48:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791487577; cv=none; b=i4AuQ/03mxyymrYTC695d7dcve/fhBAMIXHMfpAGzyv50fd0Y3TKDm/yqs6gwu1nx4aQushRn9FfJ1loRAly6zy4c0UB7Yvar9gwwSTxNshgO7FdcfQCCMS460w+dNszQ8UgHSLEDxAxuPdd0egIUS5Dj2xGYnHlrme4Ln3gx8I=
+	t=1791488900; cv=none; b=pVcq+xM2kyKYnAPpZYWO0qHDctbUI/MN9A+SJZhMZhh4Gt5KU5VCxq1ejVkh8EKKtT/Egd7tQo9MFMcxv3wjJs2i8Dr61Yoj60q6W9Kr7YK8YWM3DZjsRcAlPAyE9irmthoBMAGSVEDAOCLxEKoA5UXn3ev0zAdmSo534WtS2Lk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791487577; c=relaxed/simple;
-	bh=fdvzl6J6mo+15vz5FUrvgMbASKUeXHe8JL7KHJ1T6U4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=OUMkPfl3vhgL2OlgiI8NJrrQsqMFL2sRBKYdoSl5Tf59F+mHaPGIZPPX2ELD0cRSVgd9SB4oj8J6m8rO9k53KdV0ISBurHjpBNLJemF7i+Bq1qmw/vKPORmhbCviUlrKvLrhRBXdknRemOOM92eY9rJVJ/pxzBmrSoLJh+TcElA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id E3E811F7BB;
-	Thu,  8 Oct 2026 19:26:03 +0000 (UTC)
-Authentication-Results: smtp-out2.suse.de;
-	none
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AEB8E1395B;
-	Thu,  8 Oct 2026 19:26:03 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id dQZEOknux2ozCAAAD6G6ig:T11
-	(envelope-from <tiwai@suse.de>); Thu, 08 Oct 2026 19:26:03 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Subject: [PATCH 10/11] ALSA: line6: Fix potential OOB write in line6_capture_copy()
-Date: Thu,  8 Oct 2026 21:25:50 +0200
-Message-ID: <20261008192553.300025-11-tiwai@suse.de>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261008192553.300025-1-tiwai@suse.de>
-References: <20261008192553.300025-1-tiwai@suse.de>
+	s=arc-20240116; t=1791488900; c=relaxed/simple;
+	bh=M5uIu6puK46fm6TLtTf711PSDJI5UlPdFbtyWHKvUP4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cIsNCUaM542aB9lQGvzZjtSsfvgbcm5llKNm3g+o05AtAk4BGH+NP9LB/dIBXV86O5wWgWZ/06qSu91obJZ281uk3rymjLT/UlyvOX1yAcF6Piz+Egduy1Z6lRDodpgmV+QKZUYXrGPF5M2IWlNnR0wdi5/FQe2bwBdcyVqhXxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G61gZWg7; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G61gZWg7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AAEFC1F000FF;
+	Thu,  8 Oct 2026 19:48:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791488897;
+	bh=/3W//7HChM3zyLxsRiM/y4C5pytan37O8X+1p3KOCdU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=G61gZWg7IxdkHW0KM1z0Ny2daAUxNkEKceH41inswh1JTwKSVUpsEbHR0XPq/GtMI
+	 NiJoqyiwC4pKoBOfKyc8BDIkrAgJ1ggQHwCUXYHfTcjZHVcFhbt/0dQuOkPmPVjFq+
+	 CE+o2KDoA8XOskaJRF+vDjxBlW4eusoBqmaU0HlXhdU/wnPNMHQeI0NPvk9i4/gl3V
+	 Wa+P7OViqLToo1MQrDOXz+yQtac0xwW1nNSSJHPelEK9omqreIg9B0Pe1yM9S0LW5L
+	 +7+KHs/u8J9QB8uUguiHvuLIvTujGLkD51eiE7eoXM111NN0Z0rZBBKA2Bg3ttN65t
+	 qajbIWRFqggzA==
+Date: Thu, 8 Oct 2026 14:48:16 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+Cc: Shawn Guo <shengchao.guo@oss.qualcomm.com>,
+	Conor Dooley <conor+dt@kernel.org>, Kevin Lu <kevin-lu@ti.com>,
+	Shenghao Ding <shenghao-ding@ti.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org,
+	Srinivas Kandagatla <srini@kernel.org>,
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	Sen Wang <sen@ti.com>, Mark Brown <broonie@kernel.org>,
+	devicetree@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>, Baojun Xu <baojun.xu@ti.com>
+Subject: Re: [PATCH v2 4/5] ASoC: dt-bindings: qcom,sm8250: Add Nord sound
+ card
+Message-ID: <179148889658.900686.10369549179867357791.robh@kernel.org>
+References: <20261008-nord-asoc-driver-support-v2-v2-0-0b6f7e94060d@oss.qualcomm.com>
+ <20261008-nord-asoc-driver-support-v2-v2-4-0b6f7e94060d@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Pre-Result: action=no action;
-	module=Unknown lua;
-	unknown reason
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Rspamd-Pre-Result: action=no action;
-	module=Unknown lua;
-	unknown reason
-X-Spamd-Result: default: False [0.00 / 50.00]
-X-Spam-Score: 0.00
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261008-nord-asoc-driver-support-v2-v2-4-0b6f7e94060d@oss.qualcomm.com>
 
-line6_capture_copy() copies the data for the original byte size, but
-the buffer overwrap is checked against the frame size.  Because of it,
-when the data size isn't aligned in frames, the remaining bytes might
-be still copied above the buffer size.
 
-For avoiding the potential OOB write, correct the copied data size in
-line6_capture_copy() to be aligned with frames.
+On Thu, 08 Oct 2026 16:36:44 +0530, Mohammad Rafi Shaik wrote:
+> Document the bindings for the Qualcomm Nord sound card.
+> 
+> The bindings are the same as for other newer Qualcomm ADSP
+> sound cards, thus keep them in existing qcom,sm8250.yaml file.
+> 
+> Signed-off-by: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+> ---
+>  Documentation/devicetree/bindings/sound/qcom,sm8250.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+> 
 
-Fixes: 1027f476f507 ("staging: line6: sync with upstream")
-Reported-by: Sashiko <sashiko-bot@kernel.org>
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- sound/usb/line6/capture.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/sound/usb/line6/capture.c b/sound/usb/line6/capture.c
-index 6dbaf30232f9..3e1f40d6b481 100644
---- a/sound/usb/line6/capture.c
-+++ b/sound/usb/line6/capture.c
-@@ -117,7 +117,8 @@ void line6_capture_copy(struct snd_line6_pcm *line6pcm, char *fbuf, int fsize)
- 	} else {
- 		/* copy single chunk */
- 		memcpy(runtime->dma_area +
--		       line6pcm->in.pos_done * bytes_per_frame, fbuf, fsize);
-+		       line6pcm->in.pos_done * bytes_per_frame, fbuf,
-+		       frames * bytes_per_frame);
- 	}
- 
- 	line6pcm->in.pos_done += frames;
--- 
-2.55.0
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 
