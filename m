@@ -1,122 +1,83 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3D023A6B9D;
-	Thu,  8 Oct 2026 10:16:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF72B3914E4
+	for <linux-sound@vger.kernel.org>; Thu,  8 Oct 2026 10:17:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791454609; cv=none; b=FpHr3ksIbqDdxkuzGXPfXOhlIDv70XW25eVoV+AR3SP+64yykfkk4FVWnlDhcWaGuuvCax8z8Do0ZxGPVD2M6zrMSn6z7q3M0tLKkhAK1z8wmjol37IJwVNqK2/xqQKl2gJquaQuCdR4dxYdtM+9GxukrJaoTOGQmNHNC7OBG58=
+	t=1791454676; cv=none; b=bx0kg1uQ8dFjUqUqWBZYwsJhK19haaek0sJsseC+78hMeM6TQ8/Y/UdcglJOlPD1YX3RDrsZ/h/zdO4oz9ewcE877cVUWt7GcSy4jRAdpU/D6NnNdlwM2GCZAsZmWERlXiuVFM0pArVWRrk3lFWoWQGYuz+KNWj3Juh2r0kr7Lo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791454609; c=relaxed/simple;
-	bh=r69vVeNdhze51fjh/Cma97RFIwb+Ll+h1HuX/+1Tbnk=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZtdSwCxaq9YGE+PJyflhS8JijM+AfoDSzbx4z47REb+CLh+erBkU1WEtrAVtk+qdRu6D0OWYyDZ1yuH7ycQU5lYpnOYHoyT43iNCZoYy86gaovhhc49kQxoYgiyJQRXN9o6b9PI/azGSnVjOMPwC4Jpc6jAiq46o616VlKDl3wc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id EB7DF21BD4;
-	Thu,  8 Oct 2026 10:16:45 +0000 (UTC)
-Authentication-Results: smtp-out1.suse.de;
-	none
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B92DB1339F;
-	Thu,  8 Oct 2026 10:16:45 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id PsYaJI1tx2qxNAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 08 Oct 2026 10:16:45 +0000
-Date: Thu, 08 Oct 2026 12:16:41 +0200
-Message-ID: <87ik3c5wfq.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	<linux-kernel@vger.kernel.org>,
-	<linux-sound@vger.kernel.org>
-Subject: Re: [PATCH 1/3] ALSA: hda: Stop unsol events and jack polling before codec unbind
-In-Reply-To: <7efc9ca8-b470-410c-b717-3c548bd196f1@intel.com>
-References: <20261007215650.159871-1-tiwai@suse.de>
-	<20261007215650.159871-2-tiwai@suse.de>
-	<7efc9ca8-b470-410c-b717-3c548bd196f1@intel.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	s=arc-20240116; t=1791454676; c=relaxed/simple;
+	bh=MhF/N4eVz09VkeXj8JGypXcHNtmpMdG9+aq99+u/QRo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Pv3QydSmTroXXdPRX6mas4foHgSwD/S4HSKngb1xFzxNo+BiXFAPdLLMhldtkMkV861jgKjuzwDjlyU/iW3nmNja//kFORrkjt+g58dG9DfZDVjjJheefqWNZGNSA3kfWnnOxr1Kptn4bSxVFl5PYB9mLDV1JYZWJIlyRTJpsYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dR+SC9q7; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dR+SC9q7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 394A11F000FF;
+	Thu,  8 Oct 2026 10:17:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791454675;
+	bh=MhF/N4eVz09VkeXj8JGypXcHNtmpMdG9+aq99+u/QRo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=dR+SC9q7pkgEqusK2+T4qJBXqRbBxvmzTEnKoJxGPGdqCDJyQy2kCPt7fUF3z7CQ3
+	 2p54ABoXf0LtE+58LX2IwHyIvb3oLVg6FHKjddM3phoSIrUzqYk3vE6U9lhicGdQ+O
+	 vyFqlkxyep4GWfhYtEVnd2H0xorQHuCHUxqzLI1TZ3tHE7+1LZ3WqBoS0Aa4Qoc/cy
+	 v7VRxioJyktOYl3BaRk6eRTT/UgmP1NvuQmT1sNE5QNoNxntDWoPq3ZQ/PhO9zP7E2
+	 ytRleb/zFMizhnGp320mET2D6vJXbmM/dxEgn5bgLy39zFAU+6VTyzx9plmq5MQeyR
+	 eC1b94XOSmegQ==
+Received: by traversing.sirena.org.uk (Postfix, from userid 1000)
+	id AAA0D1ABD346; Thu, 08 Oct 2026 11:17:52 +0100 (BST)
+Date: Thu, 8 Oct 2026 12:17:52 +0200
+From: Mark Brown <broonie@kernel.org>
+To: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: lgirdwood@gmail.com, linux-sound@vger.kernel.org,
+	kai.vehmanen@linux.intel.com, yung-chuan.liao@linux.intel.com,
+	pierre-louis.bossart@linux.dev
+Subject: Re: [PATCH] ASoC: SOF: Intel: Make sure that link and host DMA is
+ coupled after use
+Message-ID: <asdt0K3W_YqErRUa@sirena.org.uk>
+References: <20261008090045.15008-1-peter.ujfalusi@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Pre-Result: action=no action;
-	module=Unknown lua;
-	unknown reason
-X-Spamd-Result: default: False [0.00 / 50.00]
-X-Spam-Score: 0.00
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Rspamd-Pre-Result: action=no action;
-	module=Unknown lua;
-	unknown reason
-
-On Thu, 08 Oct 2026 11:08:13 +0200,
-Cezary Rojewski wrote:
-> 
-> On 10/7/2026 11:56 PM, Takashi Iwai wrote:
-> > At unbinding a codec driver, hda_codec_driver_remove() calls the
-> > codec's remove callback that releases the driver resources, followed
-> > by snd_hda_codec_cleanup_for_unbind().  Meanwhile, the unsolicited
-> > events are processed asynchronously in bus->unsol_work, and
-> > snd_hdac_bus_process_unsol_events() checks only codec->registered flag
-> > before calling the driver's unsol_event callback without the lock.
-> > Since codec->registered is cleared only in
-> > snd_hda_codec_cleanup_for_unbind(), and there is no flush of the unsol
-> > work at unbinding, the unsol event handler may run concurrently during
-> > the running remove callback, which may lead to a UAF.  The same
-> > problem applies to the jack polling work, which is canceled only after
-> > the remove callback.
-> 
-> > +++ b/sound/hda/common/bind.c
-> > @@ -100,6 +100,9 @@ static int hda_codec_driver_probe(struct device *dev)
-> >  	if (WARN_ON(!codec->preset))
-> >  		return -EINVAL;
-> >  
-> > +	/* unsol events are still blocked until registered */
-> > +	codec->core.unsol_disabled = false;
-> > +
-> >  	err = snd_hda_codec_set_name(codec, codec->preset->name);
-> >  	if (err < 0)
-> >  		goto error;
-> > @@ -160,6 +163,10 @@ static int hda_codec_driver_remove(struct device *dev)
-> >  		return codec->bus->core.ext_ops->hdev_detach(&codec->core);
-> >  	}
-> >  
-> > +	/* stop asynchronous jack handling before freeing driver resources */
-> > +	snd_hdac_device_disable_unsol(&codec->core);
-> > +	cancel_delayed_work_sync(&codec->jackpoll_work);
-> 
-> 
-> IMHO this is a proof that ->registered flag doesn't do its job.
-> snd_hda_codec_cleanup_for_unbind() is called right after and it does
-> contain cancel_delayed_work_sync(&codec->jackpoll_work).  It does
-> contain snd_hda_codec_disconnect_pcms() and
-> snd_hda_jack_tbl_disconnect() operations too.
-
-It's about the pending works, and the flag doesn't help there alone
-unless they are synchronized; at the time point you flip the flag, the
-work might be already in-flight, so the flag switch may miss the
-chances.
-
-> I'd say it is snd_hda_codec_cleanup_for_unbind() that needs an update
-> and perhaps be responsible for calling driver->remove() too.
-
-Yeah, some code reorganization would be good.
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="SKcVXW7MC28nOMZq"
+Content-Disposition: inline
+In-Reply-To: <20261008090045.15008-1-peter.ujfalusi@linux.intel.com>
+X-Cookie: Use the Force, Luke.
 
 
-thanks,
+--SKcVXW7MC28nOMZq
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Takashi
+On Thu, Oct 08, 2026 at 12:00:45PM +0300, Peter Ujfalusi wrote:
+> Couple the Host and Link DMA when the stream is put.
+> When the hda_dsp_stream_hw_free() is called the Link DMA might be still
+> locked and we would leave the DMAs decoupled.
+> hda_dsp_stream_hw_free() is not called for code loader use or in case of
+> probes or trace use for example.
+
+This looks like it needs a rebase - it doesn't seem to apply against
+anything I have.
+
+--SKcVXW7MC28nOMZq
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmrHbcwACgkQJNaLcl1U
+h9C7Bwf/c3ht3cfJIyZ9zHDB+35EIpCGAE1QnJ8hXRnniF2VwYFbvmE+FWZh5joe
+ya+q2Zkz3SHwOx7MViwJrXiYvF/rvHJ84Bh5A/FV2uULMxvZrmq4+8JH3MwBd9cf
+igRL7IWs4ttNbjVlC/OaRGycyOho/aoOCdl9OSA/GoOLE8qrLs6I4PotUWDlggkA
+MqULJn0NMCcFIILGN9rAKZWBwNLX+TDdZK+/CJgSNxXNk86f7WtItvLIejaOYBj2
+qny+1PvaNxHj+1NfP/C4+1LXdGKu3LLWKj7uJo0dcceiql1uLenR2GSh1mIU6AgE
+uCPW3Tz6dOQz+80nFGB+UJ+9mmmphg==
+=Qtq7
+-----END PGP SIGNATURE-----
+
+--SKcVXW7MC28nOMZq--
