@@ -1,128 +1,84 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C98664E73CE
-	for <linux-sound@vger.kernel.org>; Fri,  9 Oct 2026 15:16:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40F6A4C2240;
+	Fri,  9 Oct 2026 15:21:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791558998; cv=none; b=MFTCmoP9+HnlYhzIgGsqBti4AwHmfBoNnSC26X7mrCVrh12R/UW6e9+kEnWSGz7EfpPnT7YOl+U/fpo0IUpLm7cIWziZDz1H1r4AtlEa/r6gpEeDF4fMnwwui9FI7UschJJusuaVVFGxp/sRTKrIvsjpXg+MD3w28Uznz2mBDx0=
+	t=1791559312; cv=none; b=flrIueQHAPxt14yqvGl+PunPGyRuZfuMgC8ywaBI630AkorpL606dtRF93/9mxeIkWVJEE3h9TwYgPNL1cECo4zUV2Ma875iEiDOW7yCR0amlfnrV1KUkptqz4NcDP3ia0y+oRYAb5mHHtVE7kPJoxszpZGpdaUmKocgIKc9dn4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791558998; c=relaxed/simple;
-	bh=9sAgxL0wPdCqCJ80pJnO7SaZPtxN1SKLnKZqrK+Wndo=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=QCch3CBYAdtYSeTvaklaWRIjAS8YRyl1+1XQeNSP61v5H3LZe7k4Pdam3zYY4ReGAEXn9izJn/ziwEsFWx2ds1bLVmNUvInLRdrsOdYmxyfE/mIttP/TBR7k0qxSk9AlaKkW58M6wQbxOBUWk3MyfVQgFKHih55p35OWFYFRbKY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=LMtRaOke; arc=none smtp.client-ip=209.85.218.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fairphone.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
+	s=arc-20240116; t=1791559312; c=relaxed/simple;
+	bh=qjkhKhEh/cMgEs7tmcdfRQXOivEMlA/BPmEZ0BydoJU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iuc5K43Y2gjVpukn7IPeS3aAD+hOafIN45/rCo52Oh2beOjg8IPvHggIRm89u4J/i7BHmPWq9+FFBG7mbmw7X5gitYGVo7O3fXz3FM9GfAF6q2QCCrwcq6dXc9RhA5on9FuzdHykSuMgqHel/QD6yxHByljRpTerAWiVmS3bT4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H4whUwwi; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="LMtRaOke"
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-c262f1186f0so600465566b.1
-        for <linux-sound@vger.kernel.org>; Fri, 09 Oct 2026 08:16:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fairphone.com; s=fair; t=1791558994; x=1792163794; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=9sAgxL0wPdCqCJ80pJnO7SaZPtxN1SKLnKZqrK+Wndo=;
-        b=LMtRaOkeyn9vl2q3+mxGBqw2kTPPBgIP/2aF+Zfw1a3rsklLWnOl3FiTFmej+J2bn8
-         noT9U7KdfWRliQ0fsIu2GbI6QhPyKALhQr8ltkkTpBCLSP6Fsxoqo41zq/jRkO5cPZRu
-         /hwLhHr1s6ig/lrTez5fvU3FcAi1sJyfEuLtGuj60nXV4mK1v9WmzpMRw14cYRn37WiB
-         lGUwVZjDPoGfM/sN2mSlRzS6/rfxnRqeqwsZS50mgtNvqqOy/NtZSDhihOTfIXTEDIdU
-         BqhYDfO15S0dr0WTtDhfuEoxKbLYVRaLjObcmHALYs65YQpem+OgPl0wW/+68E25JIeT
-         aQpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791558994; x=1792163794;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=9sAgxL0wPdCqCJ80pJnO7SaZPtxN1SKLnKZqrK+Wndo=;
-        b=Z6avIDZzrON/OTpt14HOrtYqrH99JoY794RuidFBppn4gDooTqQafU87LdUak9L9Af
-         YExfvRzVkXzE3pJcrrM7UdU8mFZhg/LUj7rT2VbKk/DToxHNOBQbsMpTFZr+sPIJmpFJ
-         6G3t75PbAtKxxq/FW9rIzgBiln5vj375PN5jkd2LtzKURb55kBGYTldQckjA5k6J3AfA
-         iqeh6cZD4rvjkECfcOGWOTyTMpVhzgd+ETo+iGA/y+ORY2ICIDmKVlCrZGD+bsfRWGC8
-         I6muR07PJpkhivFIj90Cxdhr1Dco4e8oN8qO+jJBtUOKD3OWGm0he5mU51lsuK09Df2J
-         3pgA==
-X-Forwarded-Encrypted: i=1; AKwUvBwKyNIMVY70H9g1p59vXrLgzNREWbKZ8e3wbNecxBJTsDwvjNG9NgA+FMuXXJ3v3kHFt2yrwvCGVDSVwQ==@vger.kernel.org
-X-Gm-Message-State: AFq9FYK2rN1X/52CX5j6OluBFR6lDL8VRWw5JOUpgcKZXwMs87triL/Q
-	zIQqGnOgtKVycTLgcTUDao5Otost4+r6tBz1+CAwkrRzvkXWHYAAQDYBwO9RfliGpOM=
-X-Gm-Gg: AYBFou074rxUMrZisZZZTM1Bx8+1xcc0Q58q495zLdUyEeuVyPEJDWBoJho3FF+k9o1
-	YfBlbo+LLTE7eKea4oYRdAGt6bMT49uu1RrJJXHc5nDdyg+bC1deIPHFpJA/Q0MjWRJ5ILwRvoE
-	yXb205z2Jdj1/spwldmyrmWfP0jaws6s1ZMqOxAeRFQ6zqJNWgfmeMYBP9+z2ntxaAx2qmtPtEM
-	g1eSAKONko5nj0RdtVdaNSeqDmlSrNW9goqwNi9TGobZRoyM+YulO44eppKQ9MFf8cdWGN2hm4B
-	3eCUfBGMZMMtlaALngcpuvgM0Mlj70hodSGncDlnXUNiJHX9msly7IliGGa5V5Mq3J4lE0OyYPJ
-	G9bcl+wYQXFO15mHOvt6fde9xctxFPgCpLlv0rkqUJGHW0SWYyJq2RNdH4vNwOckCfgITsgIPFe
-	k1ZMlZ06GhKi4mSaSLSdvrI2n+VhQIOikR8007lqsr7WCs6m7EHlyXAh4R3RLke3gK+H2TgtNXv
-	k1Ie5Xa0iSa4XwQAEiSVBZg7BRSEuKr6H1giYshThM=
-X-Received: by 2002:a17:907:3d4a:b0:c26:22ae:b66b with SMTP id a640c23a62f3a-c31a9fa1d4amr241370966b.15.1791558993759;
-        Fri, 09 Oct 2026 08:16:33 -0700 (PDT)
-Received: from localhost (144-178-202-138.static.ef-service.nl. [144.178.202.138])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c31a9aa14f8sm111219166b.53.2026.10.09.08.16.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 09 Oct 2026 08:16:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H4whUwwi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92C8E1F000FF;
+	Fri,  9 Oct 2026 15:21:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791559310;
+	bh=Oeil0OBsVFhf4wOub0YpzLX8QnE9pOPV208uVpNkGnA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=H4whUwwiZjXqFbciB3ZukeMiaQi4Rdxbywhco2hjx9/Z0btTU2+9wI/a+mQDlv4tN
+	 FLT3aMynbdgKB6zuF+u8ABuSHS6FY9CpfsvpkkeWD3gyDEBJWY87gliQ0DN/PvhZuX
+	 8m15d5Xm2iR8+YoE8JwH20R+eqlu6hrE7UaNAf6X9AogBLcF34dsRs6uWt5noNMdOt
+	 Dd6+TXaqH3xdj8GXnRmJSGPhZPCrwyhnQO4wicl/DRPx8VQzX/rxxbPNR3Yb6d5zJh
+	 FqcnhxCVFNKYyZKZmhmrvCzTV7CrZJLXlK5UHnZLcLV7PwxjPw5CqK+kV+rSs7jM4m
+	 h69Cn9nzC27iw==
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+	id C0C4E1AC57CE; Fri, 09 Oct 2026 16:21:45 +0100 (BST)
+Date: Fri, 9 Oct 2026 17:21:45 +0200
+From: Mark Brown <broonie@kernel.org>
+To: Zhang Jiaxi <Z1529105815@outlook.com>
+Cc: Srinivas Kandagatla <srini@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+	"linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC PATCH 0/4] ASoC: qcom: q6apm: correct PCM formats and error
+ handling
+Message-ID: <askGiTLKahhFv0CA@sirena.co.uk>
+References: <SY5PR01MB10600B2BE812BAA1B0FA501B4A1932@SY5PR01MB10600.ausprd01.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 09 Oct 2026 17:16:32 +0200
-Message-Id: <DM0ENR5MK476.UJSB8FMRYN50@fairphone.com>
-Cc: "Liam Girdwood" <lgirdwood@gmail.com>, "Jaroslav Kysela"
- <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>, "Val Packett"
- <val@packett.cool>, "Luca Weiss" <luca.weiss@fairphone.com>, "Dmitry
- Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>, "Jianfeng Liu"
- <liujianfeng1994@gmail.com>, <linux-sound@vger.kernel.org>,
- <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [RFC PATCH] ASoC: qcom: q6apm-lpass-dais: start the graph at
- prepare
-From: "Luca Weiss" <luca.weiss@fairphone.com>
-To: "Srinivas Kandagatla" <srini@kernel.org>, "Jorijn van der Graaf"
- <jorijnvdgraaf@catcrafts.net>, "Srinivas Kandagatla"
- <srinivas.kandagatla@oss.qualcomm.com>, "Mark Brown" <broonie@kernel.org>,
- "Mohammad Rafi Shaik" <mohammad.rafi.shaik@oss.qualcomm.com>
-X-Mailer: aerc 0.22.0-0-gc2f86b7abde3-dirty
-References: <20260705033830.305907-1-jorijnvdgraaf@catcrafts.net>
- <dee62f9f-1df3-4f57-a072-12b0b4b8a1a3@sirena.org.uk>
- <20260708215539.150590-1-jorijnvdgraaf@catcrafts.net>
- <137a9c85-67ab-434b-880b-d9d4efa5bccf@kernel.org>
- <20260710143214.142017-1-jorijnvdgraaf@catcrafts.net>
- <b099f316-0e30-40f6-8e6d-5717d96fce5c@oss.qualcomm.com>
- <20260715211919.49462-1-jorijnvdgraaf@catcrafts.net>
- <2545fdff-7bfc-4897-9185-34c45ee01bdc@kernel.org>
-In-Reply-To: <2545fdff-7bfc-4897-9185-34c45ee01bdc@kernel.org>
-
-Hi Srini,
-
-On Thu Jul 23, 2026 at 1:02 AM CEST, Srinivas Kandagatla wrote:
->
->
-> On 7/15/26 10:19 PM, Jorijn van der Graaf wrote:
->>=20
->>> This week, I will try to pull some wires out and check that on my
->>> hardware too.
->> That comparison should tell us which side to look at. If your board
->> does drive the bit clock from the vote alone, I am happy to dig on
-> sorry for the delay,
-> I see same results as yours on my VENTUNO Q board too.
->
-> As per DSP team it should work, let me dig bit more and see if I can
-> find what it takes to enable it.
-
-Is there any new info about this? This seems to be the last blocker to
-upstream Fairphone (Gen. 6) speaker support. Without this patch, the amp
-doesn't start up and audio can't play.
-
-Can you suggest a way forward here?
-
-Regards
-Luca
-
->
-> --srini
->
->> the milos side; any pointer on what to check next would be welcome.
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="R+a1mqpbIyKTQsv7"
+Content-Disposition: inline
+In-Reply-To: <SY5PR01MB10600B2BE812BAA1B0FA501B4A1932@SY5PR01MB10600.ausprd01.prod.outlook.com>
+X-Cookie: You will forget that you ever knew me.
 
 
+--R+a1mqpbIyKTQsv7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Thu, Oct 08, 2026 at 10:23:53PM +0000, Zhang Jiaxi wrote:
+> This series addresses four AudioReach/Q6APM paths: PCM format lengths,
+> prepare callers which ignore STOP failure, a stale readiness query and
+> provider lookup, and V2 data completions which can publish false progress.
+
+Your series isn't threaded together which will confuse tooling - you
+might want to look at b4 to send the patches, especially it's web
+submission endpoint which avoids having to configure mail:
+
+   https://b4.docs.kernel.org/en/latest/contributor/overview.html
+
+
+--R+a1mqpbIyKTQsv7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQReagvpf3TrrA7BoYYv73Ows9A4iQUCaskGiQAKCRAv73Ows9A4
+ibsvAQCBNPe4sg60jwpVqL7P3C7VnX4IDgydXc7LqVnjEwh1cgD7BiJ16nwxz8gi
+Ebvq2jGVwf/KWNjUAwVb4ve9MWgogAc=
+=5Dws
+-----END PGP SIGNATURE-----
+
+--R+a1mqpbIyKTQsv7--
