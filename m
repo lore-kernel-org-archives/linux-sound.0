@@ -1,60 +1,77 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f42.google.com (mail-dl1-f42.google.com [74.125.82.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5758F4CCDCB;
-	Fri,  9 Oct 2026 11:17:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25933330D29
+	for <linux-sound@vger.kernel.org>; Fri,  9 Oct 2026 11:22:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791544669; cv=none; b=gHKnU1/ZwocH2PkQEDf9l9igVnrB5LQZaWK9nYlZtzdm2QZ3r+JHxWZN/LKD/iteSSJfxkXJR6PeKvn5mFeqk+a3c8GktKrNjCieMpJIhsaNiL5Xz+T6Anri2lQ65v7CtL33pG61NaqD0hH1iQkQoC8tjCjKH/xePp9j/maLUfg=
+	t=1791544955; cv=none; b=ILKom2TzDMmy9PE/m7WSGnh9G7hSw9j3Fe8LOpnqOnNvsLIFuA2TSpwZOFahxt1xtpqKl3K0Q3UtmrQgMw7Qp+NRQhRdpSpyuE751gAypEYbkVZ8bXV2j87U+hK7PSg38QFdQd6MdeklhIdfsXAYEwuUpNhz+NRK9BTEglB+kWw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791544669; c=relaxed/simple;
-	bh=9RfGSbnAAgPx8iq+UO1stOFZcqYXUxRD51qJhy948uA=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=O6Isei5gixKdd862nzYd8DhjoO2ph5+TuwXEIyg6QdMgf0GJdtC7Gaebag2INtITvch2Cz26J4HKB087UbxwR7NMvnS3YZ/C3+WxmCK5D70socaukViyB3ADfQxIX1p+I1PIJ1C2v7Gk/pr89VC7YkgSPxAP/2wNq1qXz6ZEYzs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ndvANtU4; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
+	s=arc-20240116; t=1791544955; c=relaxed/simple;
+	bh=Nrfy526swql1ij9G4gq9I/Gzn0+eqeTqdguk8EGDC4Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tDwCE27iuOBPAQc47/TSJK5s4dgeBQi4qT6hD92RQZ4FJ/cD5+BoLTOrN6xdlhVHO0HdqJyVvwvQVa1zEJV47c+d/hTpXtSOIr6laGN6UM35DLhh77ctxuQqJpNlaCRUV9JE77YoxMeLcXo6RotCjwsTir4J9uRwrnbPIm6VK/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G+BA40Ir; arc=none smtp.client-ip=74.125.82.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ndvANtU4"
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6998KBvg2256985;
-	Fri, 9 Oct 2026 11:17:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=572iF0N5kSc
-	W0SG16WWDLYoK0Ti4qFqER7fuHzcYZ3Y=; b=ndvANtU4rm/PjVS/KfmHhPzRMvW
-	Vg3XDfIZohYw38wisrsik30W2Ja03dICc3+mpDgA+ihkk8HN71/Xl1qYkMWjSmND
-	QxbIetkCsCAEWw6YpInXFjSNUfSQ8JMVQJWdXamgt9Y2SeHIOILBCp0comYEcrGY
-	KYJPFa+xedC+jM6Lba0fWlJbmp0nlrmPkT0jXjY2xix/zU0R+8rFQK6DPInyNPz0
-	utUJwRN0ROicXfYa9z8/8yvK2YS+lGzrps9XNL4+c4aMSM+mje8tAdIOkiP5W697
-	4EcdXiGgFC/O5KIdGrfoQ4ntbjNonrzKzr5XgPOJPyJDzR5fc5cTRdMxq+A==
-Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4h6nuft2ma-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Fri, 09 Oct 2026 11:17:26 +0000 (GMT)
-Received: from pps.filterd (apblrppmta01.qualcomm.com [127.0.0.1])
-	by APBLRPPMTA01.qualcomm.com (8.18.1.11/8.18.1.11) with ESMTP id 699BHNCn1842465;
-	Fri, 9 Oct 2026 11:17:23 GMT
-Received: from hu-devc-hyd-u22-c.qualcomm.com (hu-pkumpatl-hyd.qualcomm.com [10.147.245.204])
-	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 699BHNR31842443
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Fri, 09 Oct 2026 11:17:23 +0000 (GMT)
-Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 3914174)
-	id 2C0E4641; Fri,  9 Oct 2026 16:47:22 +0530 (+0530)
-From: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
-To: Srinivas Kandagatla <srini@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>,
-        Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
-Subject: [PATCH v2 2/2] ASoC: qcom: sc8280xp: add Maili sound card configuration
-Date: Fri,  9 Oct 2026 16:47:19 +0530
-Message-Id: <20261009111719.2609060-3-prasad.kumpatla@oss.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20261009111719.2609060-1-prasad.kumpatla@oss.qualcomm.com>
-References: <20261009111719.2609060-1-prasad.kumpatla@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G+BA40Ir"
+Received: by mail-dl1-f42.google.com with SMTP id a92af1059eb24-15ea896ddc8so5955310c88.0
+        for <linux-sound@vger.kernel.org>; Fri, 09 Oct 2026 04:22:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791544945; x=1792149745; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=PkE/mtXxhD7ywmyvlYSqjpdIiOm8dtPe5CfShZ2eazQ=;
+        b=G+BA40IrAZihdwBjzA1ZFDFE4NUaBbgzr8PMGEEcFj7jOpZxYLcYPkIF02mo5QAwWe
+         XpfJ6vDOBzD0M6BqrJ+sDKImcsO8243B4lH2c+QfxggPUt3ELj2qPzIL4C5iHPrMvDQS
+         9ZZvklRO8cl03eKydG0DATaPjlPqsJTIPib/MbkXwMq2jfNBPJQTzsWgZq365PE17VLz
+         ro6p+PZYSd4pw4WN2sKFCfK6MS/TQW+23LaHfLhBBl4UXB3qBIMqDK+TyJfpe6HxK+9a
+         OY4zwHxzpyLOVe7+igYAOEBaAdZWM9KO3Hm6DB610oI2YSKkNDT8qW6zWu89+o2UaZ86
+         flTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791544945; x=1792149745;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=PkE/mtXxhD7ywmyvlYSqjpdIiOm8dtPe5CfShZ2eazQ=;
+        b=i9/9GJhlBHB6MdA9OFND5TM0pqHZvU+ouWmG0DqpzdtL5lt87sk+URDJUmIkSL6TsL
+         ICoXMp8HDimiJZftnf9XiElorQ4U7VCioo7QAc8oaGj9ArU28ARoiju0JWEj1Ikk+SbQ
+         FTGT9ILLnQKt0ZTCmoyzMzITbfj/k2UlRj16bjnm3h7foFHU2y7yh0qb0aKNtLIuVzTe
+         nTIW3ki2bw58IYqLh6U9fhKy4PVaBO+fQCgRYcg+hZNTVbUQk5N/p/t+dmYhcS04P4Qa
+         19Klp3zgJcOwNQXdICBPs5CPwLJ+AIeCRlDup3V8qnh56hXhs2lXN3LkRObzw1tM+a5c
+         WVtw==
+X-Forwarded-Encrypted: i=1; AKwUvBzPD8Y81RYT8q3d5EB//YWROzJe067nRLZ981gJV5eAkXB+iq13AEB5jYXCt02nKXiwyunrYFwVIlhWkg==@vger.kernel.org
+X-Gm-Message-State: AFuF++mJjESN10OK5cHDBbj3gMZ6Lg6Z6ZEDl1xVBT+9j2OxzLCYJdZT
+	zdxIs0h7PO+J8wc7/p1yoRF1H4vuRzdvKN3GnY6iGqHw968idQ3FWwJu
+X-Gm-Gg: AYBFou2iAovKwuGA7UCgps17vd00kq2OPTli7EZv0ek/ANXC1R0oMGH3F67zp2unNvC
+	BB/FZz1vIHBeild8OnVCYDHlNg58UV7OY9KtDn0o9dWAwojacAhsl+9BdKLTfYwV/pHE7+Pp2px
+	W0g+8FlSfeRNywVR3vcxsGKaHoZLEPRMHvteqqatIJLWwwkbogZ7atFjpSxlPgWPEcJSSVo9EFG
+	ShS5XNGnmN1kKqvfZHhgyz1CHmej1Veqbz+T89wx0nj5ZNcKL3wOMPm/7WMd8SzrfqLEqz1i/jb
+	oSotbbhXK0bNA9yMD/2BaQZoLiM72PkJAJNkmNg5wpJvIn6z1P98wSmfj4wHAIOTgMuY9Gelh1Y
+	AZ66LU3MtX6L1fbti45PTX/7roX8vBXCcMPYxYNwBRFPF0oV1Upj24xf2apLySgIPDWAgt/FMEb
+	KdEFYYAV6nobG5vpkiPOFEWxAcvYxClNV8HqJ6M3+qcOSrU/UqWHidqmYVH3vTm/7Fh0N8mtooQ
+	TtSalVeGt2FjQo7EWSFijkaPT5E9yiAkaJnRn+REjCPpCzyxj3J/r99Ds4KFM1ondTUOIRhWo4F
+	pgSmFrSthlx2eQ==
+X-Received: by 2002:a05:7022:699a:b0:16b:1a1f:ed8a with SMTP id a92af1059eb24-16b1a1fede2mr1744976c88.39.1791544944883;
+        Fri, 09 Oct 2026 04:22:24 -0700 (PDT)
+Received: from phuc-desktop.. ([183.91.15.56])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3537cacb5e9sm7258752eec.20.2026.10.09.04.22.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Oct 2026 04:22:24 -0700 (PDT)
+From: phucduc.bui@gmail.com
+To: Mark Brown <broonie@kernel.org>,
+	Oder Chiou <oder_chiou@realtek.com>,
+	Bard Liao <bardliao@realtek.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	bui duc phuc <phucduc.bui@gmail.com>
+Subject: [PATCH 1/2] ASoC: codecs: rt5645: Simplify optional GPIO error handling
+Date: Fri,  9 Oct 2026 18:22:03 +0700
+Message-ID: <20261009112204.33199-1-phucduc.bui@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -62,80 +79,58 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Authority-Analysis: v=2.4 cv=afn0Dhot c=1 sm=1 tr=0 ts=6ac8cd46 cx=c_pps
- a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
- a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=Um2Pa8k9VHT-vaBCBUpS:22 a=EUspDBNiAAAA:8 a=2q0SpPMmqTH-E8r16rgA:9
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDA5MDA0NCBTYWx0ZWRfX50s+hi4tLvVs
- gAMndDWIhVyLnBLrP3Iu0OdTvLBUc7o4UaSKtgpXuctBzsXptS9GVVP4p7IVTpBMfoM9pvohJkr
- 6B0dNq4QhJlk4Bz5FaALplljRomzYf4=
-X-Proofpoint-GUID: UOXnD0HR-fJi6niAWzWqoQ97s005DGlD
-X-Proofpoint-ORIG-GUID: UOXnD0HR-fJi6niAWzWqoQ97s005DGlD
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDA5MDA0NCBTYWx0ZWRfX6qfSULbRkgEQ
- Qmd+5VmqFnyFAo2Ws/LX6++1w18VFO4ud6jjs3CM96SA0BS6dcocYm7wPeqeV2R4L+Kbem2+L3x
- K7CkUPIq4VrdxW0P8VXHcj/b0DenEiggDxct5IaZzOOFvUI4nZK4SUCez+kdelWD35LEhnDIZfn
- jGOvuHs3340Edo6i2F9WlxaOpopYi6tEAB6FcrzPLd/+XKUMCBsltC3U8kOxuV7Fvmd5I2FDWBt
- IQyUbtpZTeGrO+JQEheEg0pw9c0d39oRqYZAvjjycSIpoNGN/cFjYkMIiPoZ4r+MgGRWxckCTn0
- IlI+LE4FvW8UY88bnbeXLP9D5hYwx8YgLQbCspTWkbglHS17sh89AuDvGMQqE0Tr3ioF8EiOtMx
- I2+XexMSOrnTZ9iskTpSwIYpaAYiS9u8auuLTSq5WtaZdDkZxGWP4UKuA3oF0Ti4D5lBNklmz73
- bFgIO7nyKMjJw3czI/Q==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-10-09_03,2026-10-08_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 adultscore=0 suspectscore=0 impostorscore=0 bulkscore=0
- phishscore=0 clxscore=1015 priorityscore=1501 spamscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610020000 definitions=main-2610090044
 
-Maili ships its own firmware, so its topology file has to live in a
-separate maili/ firmware directory. The topology load path is derived
-from the sound card driver_name, so reusing the Hawi data would look
-up the topology under hawi/ instead.
+From: bui duc phuc <phucduc.bui@gmail.com>
 
-Add a dedicated maili_priv_data with driver_name "maili" for the
-qcom,maili-sndcard compatible so the topology is loaded from the maili/
-directory. It keeps the same DAPM widgets and enables codec sysclk,
-MI2S BCLK and WCD jack detection for the Maili audio pipeline.
+gpiod_not_found() converts -ENOENT to NULL before
+devm_gpiod_get_optional() returns, so there is no need to handle
+-ENOENT explicitly.
 
-Reviewed-by: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
-Signed-off-by: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+Use dev_err_probe() to simplify error reporting and handle
+-EPROBE_DEFER.
+
+Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/qcom/sc8280xp.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ sound/soc/codecs/rt5645.c | 22 ++++++----------------
+ 1 file changed, 6 insertions(+), 16 deletions(-)
 
-diff --git a/sound/soc/qcom/sc8280xp.c b/sound/soc/qcom/sc8280xp.c
-index b5d367486d56..b97cafeb8e78 100644
---- a/sound/soc/qcom/sc8280xp.c
-+++ b/sound/soc/qcom/sc8280xp.c
-@@ -552,6 +552,15 @@ static const struct qcom_snd_soc_common kaanapali_priv_data = {
- 	.wcd_jack = true,
- };
+diff --git a/sound/soc/codecs/rt5645.c b/sound/soc/codecs/rt5645.c
+index 7313ea71c958..ea58512a55b0 100644
+--- a/sound/soc/codecs/rt5645.c
++++ b/sound/soc/codecs/rt5645.c
+@@ -4032,26 +4032,16 @@ static int rt5645_i2c_probe(struct i2c_client *i2c)
+ 	rt5645->gpiod_hp_det = devm_gpiod_get_optional(&i2c->dev, "hp-detect",
+ 						       GPIOD_IN);
  
-+static const struct qcom_snd_soc_common maili_priv_data = {
-+	.driver_name = "maili",
-+	.dapm_widgets = sc8280xp_dapm_widgets,
-+	.num_dapm_widgets = ARRAY_SIZE(sc8280xp_dapm_widgets),
-+	.codec_sysclk_set = true,
-+	.mi2s_bclk_enable = true,
-+	.wcd_jack = true,
-+};
-+
- static const struct qcom_snd_soc_common qcs9100_priv_data = {
- 	.driver_name = "sa8775p",
- 	.dapm_widgets = sc8280xp_dapm_widgets,
-@@ -676,7 +685,7 @@ static const struct of_device_id snd_sc8280xp_dt_match[] = {
- 	{ .compatible = "qcom,eliza-sndcard", .data = &eliza_priv_data },
- 	{ .compatible = "qcom,hawi-sndcard", .data = &hawi_priv_data },
- 	{ .compatible = "qcom,kaanapali-sndcard", .data = &kaanapali_priv_data },
--	{ .compatible = "qcom,maili-sndcard", .data = &hawi_priv_data },
-+	{ .compatible = "qcom,maili-sndcard", .data = &maili_priv_data },
- 	{ .compatible = "qcom,qcm6490-idp-sndcard", .data = &qcm6490_priv_data },
- 	{ .compatible = "qcom,qcs615-sndcard", .data = &qcs615_priv_data },
- 	{ .compatible = "qcom,qcs6490-rb3gen2-sndcard", .data = &qcs6490_priv_data },
+-	if (IS_ERR(rt5645->gpiod_hp_det)) {
+-		dev_info(&i2c->dev, "failed to initialize gpiod\n");
+-		ret = PTR_ERR(rt5645->gpiod_hp_det);
+-		/*
+-		 * Continue if optional gpiod is missing, bail for all other
+-		 * errors, including -EPROBE_DEFER
+-		 */
+-		if (ret != -ENOENT)
+-			return ret;
+-	}
++	if (IS_ERR(rt5645->gpiod_hp_det))
++		return dev_err_probe(&i2c->dev, PTR_ERR(rt5645->gpiod_hp_det),
++				     "failed to get hp-detect gpio\n");
+ 
+ 	rt5645->gpiod_cbj_sleeve = devm_gpiod_get_optional(&i2c->dev, "cbj-sleeve",
+ 							   GPIOD_OUT_LOW);
+ 
+-	if (IS_ERR(rt5645->gpiod_cbj_sleeve)) {
+-		ret = PTR_ERR(rt5645->gpiod_cbj_sleeve);
+-		dev_info(&i2c->dev, "failed to initialize gpiod, ret=%d\n", ret);
+-		if (ret != -ENOENT)
+-			return ret;
+-	}
++	if (IS_ERR(rt5645->gpiod_cbj_sleeve))
++		return dev_err_probe(&i2c->dev, PTR_ERR(rt5645->gpiod_cbj_sleeve),
++				     "failed to get cbj-sleeve gpio\n");
+ 
+ 	for (i = 0; i < ARRAY_SIZE(rt5645->supplies); i++)
+ 		rt5645->supplies[i].supply = rt5645_supply_names[i];
 -- 
-2.34.1
+2.43.0
 
