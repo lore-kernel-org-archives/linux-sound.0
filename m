@@ -1,84 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EA34471D1F;
-	Fri,  9 Oct 2026 07:10:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791529849; cv=none; b=MJ1AVXWA5gvK9NXEaqziG8CYheg3/Qp2bBCPtKmaKQsyr0wks8dG94kaGdGmXp0ymWPI1oGwzeiUDPrmYrHdGzxYEqQAVfsN/C0xG1uYR3VJJajy4oF6yNwf/utP99u53/QDl+QPWpC0o5htP9zfwA8zuq7ib49Uh67GFdpnmiA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791529849; c=relaxed/simple;
-	bh=g/t80+NYDa33JyTxb5dIwlWtKYDHVwp0G4jN79NA0sc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t5tKTvYCDD+EdpC/sZvh3lp2TZCGbhROHu0ekFe0X1NQJiBsbDMVoCU7CjRg6iMpNmmoJhxwv15QpsWMoPxioVLg4UlOggE7wPlDF/YBk7XJuI+fmCWmP/EsTpBlutjhR24jSeIoYJkxeHPqmWIlIXBWEHUxTCZeSaSzLTNt2/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KpmbKJJ3; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 536063E40E9
+	for <linux-sound@vger.kernel.org>; Fri,  9 Oct 2026 07:11:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791529909; cv=pass; b=tkAYn6pfu5gtzRULLoWIq5sUl1ELiWUw2Y3C+qH0llAFuJ45zcX2zWy7Rm5gtSbRB/GKpOfu0Z/YgFUiDcThJBZALhvkgGYpMhg+CH6QZCLsb1L5U6nyVsp5koyz5vvprIWYVwMEo105dZNdKxdOBjFSaGMhcR+hNbxx+A+zP5E=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791529909; c=relaxed/simple;
+	bh=QrSrgKSf1hovOqBLTLOsQ+qxIb3eiOpoDqgK2ha+Ntw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jiXIA8XXYzrnE7VLSTMw2Pw81lRMd5hVFbSyF+7zCNNr2n2e5FAcEXUXIekgMajuuNDUmyDhIzzn8Rv7vXYAGem4RdqUix+2u4CFhuzH0HIQGzPhq90xwhMu9FyLTPG0VxJdsV9ZdgcDULooZ9x00/Pu/O/Q7fLtjhBzwx+LduA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bpyq0t1D; arc=pass smtp.client-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KpmbKJJ3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 665D61F000FF;
-	Fri,  9 Oct 2026 07:10:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791529848;
-	bh=Cbqcw/ZcJpAS2N0wcQ+lROnRhzGRuCryFX/mxseCRCo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=KpmbKJJ3kS+Y4PM3xApljYc4t4pcQ2/wqbIzf0sWre1HvkdbkCqmep6MNmZYSxNph
-	 aB9hRUL7q01A0DMzkD+Bo8lZi6ImwTQhKJLlLkdmrnQ6kdyWO683Ya9Rl0+YSv7YgI
-	 BFBO/Jhh188Ty66vLgC4SS87vdG7IzMCLYubwyvGJ4TLC1nPwytaPh2liXYESYypFJ
-	 lh7QK6dao5n9RDwk9/Z6EyzBDsA9BSSSxWsW9rCBqUqeGtU5oXt3Ztxw73kcl2hX8S
-	 msGxSCdsYFZjOjxCifUC/IXQIQCRLRdWsdpAQhPLb+3g4BKE9UYgGMIYtKmennE+II
-	 VYTV59atDvz3A==
-Date: Fri, 9 Oct 2026 09:10:44 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: James Calligeros <jcalligeros99@gmail.com>
-Cc: David Rhodes <david.rhodes@cirrus.com>, 
-	Richard Fitzgerald <rf@opensource.cirrus.com>, Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
-	Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>, Sven Peter <sven@kernel.org>, 
-	Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, asahi@lists.linux.dev, 
-	linux-sound@vger.kernel.org, patches@opensource.cirrus.com, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH v2 03/21] ASoC: dt-bindings: cs42l42: Document
- #sound-dai-cells property
-Message-ID: <20261009-daft-raspberry-woodpecker-a88efd@quoll>
-References: <20261004-macaudio-v2-0-7b47ed6335a8@gmail.com>
- <20261004-macaudio-v2-3-7b47ed6335a8@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bpyq0t1D"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-6afbc363efeso7639331a12.3
+        for <linux-sound@vger.kernel.org>; Fri, 09 Oct 2026 00:11:48 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791529906; cv=none;
+        d=google.com; s=arc-20260327;
+        b=TcXvxz94dsOm8VFm56Imj2eFRy3yVNCDWMOcpEkMDv0nsul0b25bjdAXAbLoFJcttv
+         Rld/enEeV6ZioDoc0/tdGgS67wx99lQApHCBFiVsKv9xf4vY7wWCTeyh4slwn60XV8gJ
+         yAUQZXIS+UVReTe3uf3BjneYS8eq5vnsvclQewL+PUalZ6ZPQ1lA0UBxNKWZeXACvru0
+         WvuMaBC2SXGoaT8SsGzO00iGkd5B76kRXHURrw/VjaPqhuS4NMxPyf3wKkPPgPmc/4K/
+         Hz5XSLpVn5RDRtto7nOhCoQStE66jvSEbsYP//eRZkIq+KMAIK58eycTUAL5c1uNFO1F
+         EgLA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=GrOU85VuNZba3sZV48gSiTp6ifwgbG0aF11o1sJywTw=;
+        fh=bZ6Jz6dR5uaEG0J7bdk7yOjAgXJD5jrFe97psjlRs8M=;
+        b=pL31unukuQ0I5Ybm2NJu1nYfUh+LDKGg8JHrtNDTVKPTKEN8scabaftih4CwaTBIKQ
+         5gjLTpYz8nXekXonpWFBUnXMLOuJhcTByKuMf6EZpr2YJanaT1ONahaluLud4Os3PunU
+         5lCrq9aAg0WPOU7r7pxvevkuFnH/85zoLaLmwmfajepp6sBHw1W8EqBuUHfyrEHXFcFp
+         8zFSemVL/lYREVnX29cwLWfa2wUjK6nauG5RUy6euk2FoQSGnGlBOnhOFEwXJHVMJ9wW
+         R85r8kT1pJc5OfNdVEISNs1HYil0Y198P2RrcnbvZr9Hf3xiA6vxO3mFuBxG/MSEUq2H
+         XPWg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791529906; x=1792134706; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=GrOU85VuNZba3sZV48gSiTp6ifwgbG0aF11o1sJywTw=;
+        b=Bpyq0t1DmWGdZ/7H/Qb0N95TunBunkmL7hqaAnNjbDiz1t+i6nvJy1HBPAASyNaNOw
+         QZq6DLBBRZbncsY0pYlKu90vLvdFwrQjVXYKyMJPEZvMf5hz3K3fwuKatxKj3sWw/NKo
+         o0g3cz3vnhL3A325i2q+/0iE+4DBw1+ZPDDfXfFHPmxvDq+8t3gorCfE8V+iqSBAyYt8
+         0KKeEHlTyXGwGR+GGk+ObHWmnpi7L3pSXns9aKg0S/PbhcMXWUcJXamjxjyqcwvvPrJv
+         9h9sUvmxZlqfPIJxJDrWJOHirnnr4T1rZprjg7Zd0j1hYldp+9ag3hd9aCW4TXvPddqf
+         biDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791529906; x=1792134706;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=GrOU85VuNZba3sZV48gSiTp6ifwgbG0aF11o1sJywTw=;
+        b=Qqf/dk0/Vdkmt5FxrDTu7NpBIluAfzZWoehAeROF9rmSE3dVPgldflU69t1mCkK/RL
+         FioDFZYAlFLdupkD0Dx7tOiO942whe+bxBDZh7/7BvkW24kx2v5F/LaohQp3iMBQCJtk
+         HpllLaI2qVI/d1x2qk72s/GaqJBhQMhgFyF5kCefWdjS/xavxSRTENgVyeAdang5LNW7
+         jMCsDygfJW91JMZ51RhTk4iisVkCcEa0zzRUnkRX18UtjoyhJKRWwhjswV6ggIIOI1SB
+         hkynNmvkGpKmcjFSpGbmbwNnqyOXrQOsRQgIlya+TLeXcxhQQVtl4FrXJizbVaVltKwM
+         g9xg==
+X-Forwarded-Encrypted: i=1; AKwUvBwssSolWUXogCc0svfZnBiVnL/DnNd56aYzkS0fuhosoE7P7qamijlq1lSzZhw/ryBHSj8yiufj5ocMbw==@vger.kernel.org
+X-Gm-Message-State: AFq9FYKAo2f+eeklp/t8EVK8Atpu7iZ7cLtLZ15vIbVuv2xElNm5r9V/
+	bJG8cTfQXC98aByl5IjSF2NoGF2eU95G7vWOg/efL6D5ZVAACAvb8icm8vnp6v9QCwTrL8IoAju
+	UM8DRvVbDL/zDK4f0GLblpSCLGDafvt8=
+X-Gm-Gg: AYBFou2tze7ynyVETWFE/OyK5FqBUMZ2TdQLx50wgPN+CNemX4bqZ3YD7faymxAf1kC
+	htqjB66VLGx5QVcZykRFbYllTz9G30bqlXyDcc/5uPUkUpNMf1Ilq3AKUxX8PUVs9TL0F+oX0q2
+	6RFheVVZcQo5kwQG5fCiLDoSGdhVf17DERzXGecTCHuguK58t1EZt0VwLn7j91nocAQS4DFqJ67
+	dZ4Hoenn7JouyxHxTB0rW+XzCOkUIrQv9ml9mTM0xxkKUhXZcc6eCijtqdBKwPWZOAxYynal/jT
+	vWD/+HcUO5nvuIYIlEEROu/0H0WtGTl7uUqnvdkaVeCIdSpqfe+stVe+SCvQd0P72O2p6Hd+IbZ
+	RAKZJtfz/wHCKai0lOVfXU70yvhRi4GAjJZzabWvB7HvuMWbcPJL7Fi6zQhPM3SHDf7U=
+X-Received: by 2002:a05:6402:42c8:b0:6aa:9fef:641c with SMTP id
+ 4fb4d7f45d1cf-6b17c2cbe9emr672146a12.28.1791529906210; Fri, 09 Oct 2026
+ 00:11:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261004-macaudio-v2-3-7b47ed6335a8@gmail.com>
+References: <20261005110257.50145-1-phucduc.bui@gmail.com> <20261005110257.50145-6-phucduc.bui@gmail.com>
+ <018b4233-8a2c-48b4-bbd6-4c471dd14568@oss.qualcomm.com>
+In-Reply-To: <018b4233-8a2c-48b4-bbd6-4c471dd14568@oss.qualcomm.com>
+From: Bui Duc Phuc <phucduc.bui@gmail.com>
+Date: Fri, 9 Oct 2026 14:11:32 +0700
+X-Gm-Features: AclHuK-rdOMioEF7bIiE384aI3Wbo4oyl4-CcCkNK2w8cU-mlh0smKvKyqU9pyE
+Message-ID: <CAABR9nHpfwZ3Ma9pOTiY5eMN01Exfez1YahdUL9g+HCq2gwDXA@mail.gmail.com>
+Subject: Re: [PATCH v2 05/14] ASoC: mediatek: mt8195: Fix paired memif clock
+ error handling
+To: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
+Cc: Mark Brown <broonie@kernel.org>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Trevor Wu <trevor.wu@mediatek.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, cassiogabrielcontato@gmail.com, 
+	Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
+	Haotian Zhang <vulab@iscas.ac.cn>, HariKrishna Sagala <hariconscious@gmail.com>, linux-sound@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Sun, Oct 04, 2026 at 04:03:30PM +1000, James Calligeros wrote:
-> We may need to define #sound-dai-cells on some machines where this
-> codec is part of a simple DAI. Document this property to keep the style
-> checker happy.
-> 
-> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
-> ---
->  .../bindings/sound/cirrus,cs42l42.yaml   | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/cirrus,cs42l42.yaml b/Documentation/devicetree/bindings/sound/cirrus,cs42l42.yaml
-> index 6c100cb36699..bc759eaadeca 100644
-> --- a/Documentation/devicetree/bindings/sound/cirrus,cs42l42.yaml
-> +++ b/Documentation/devicetree/bindings/sound/cirrus,cs42l42.yaml
-> @@ -26,6 +26,9 @@ properties:
->        The I2C address of the CS42L42.
->      maxItems: 1
->  
-> +  '#sound-dai-cells':
-> +    const: 0
+>
+> Should the START/RESUME path check this return value and unwind the
+> trigger state if enabling the paired MEMIF clock fails?
+>
 
-So a DAI? Then just like for every codec you need dai-common.yaml.
+Yes, I think it should. As mentioned in my reply to patch 1,  I'll
+wait for feedback from the MediaTek side before sending the next
+version.
 
 Best regards,
-Krzysztof
-
+Phuc
