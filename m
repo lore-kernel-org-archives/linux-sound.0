@@ -1,132 +1,253 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from SEYPR02CU001.outbound.protection.outlook.com (mail-koreacentralazon11023120.outbound.protection.outlook.com [40.107.44.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A316C49738E;
-	Fri,  9 Oct 2026 09:15:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791537307; cv=none; b=L80NUKe4/Yh5Qvi9oksNvV1Qbf1cacNr+RyTOZrJEZ5mJ8NnwQJeDpd+xudoCyBOzSMIV5g+bFXWdkjLdXsX0DQpr2pKA9T1u/OlCtDQ4ao1CIYAtCzODBtS5F+08UghwR8kgmwrY9/bcwVmioOmJahUAaXunsCf4dBV52zT0Lk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791537307; c=relaxed/simple;
-	bh=rkWOojI+ebnA3Fv4IWTizk0VlXUsQPN3hEzpRvmmX8o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZGkQ1VG9UaLaLYqSwZ6ZPz5ZAScrneLhEzPs6DYnRFV0Yvmo65pQm6pzvAnN7sRj7irVrNl2VD7R+ZZTbfYj/QfyQ0qXfX52DKd0qgUhvAxpkDDNdfLIXUseq8R0gEIbGC2L5R7VZvt6St/2pQ0+NjnSr6OmZpZstio1gF9pNX0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d1iSR24M; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d1iSR24M"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48A801F00893;
-	Fri,  9 Oct 2026 09:15:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791537304;
-	bh=3NN/hoihGlgYOQ3g+HiDIFNp0hvlK2XY1wVVhjZreZc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=d1iSR24MZdZWLG3gs/fGUx1COZO0uDBytxmc7byfdGwfxukLFU1e7EbY2cNKo7da9
-	 wJV/BYTBVVqPrNK1dqQtr1aMOkEfw+0EXwnbCUht7gHZfOzKGGdvcujEsZ5wzeT1FO
-	 hMkI0NSd3ktIUnGjTbD4HS1Uua/oS52qIxUy5U3Dx9I7NVAvFOonQ1BC8vwyucZmr5
-	 TPIszck4cljr0ATfW6EYHdNQmEl6iHJOOTRFJfGpObmA4aevizSLnjzW//xNXnnBE+
-	 oGa21Vz071e6QkRUnWX9iWa1v3xnR5qTFgN5OBBGLIPKaqi3fIsGYN4pCorq7+szF9
-	 kUKFO6ON9BRag==
-Date: Fri, 9 Oct 2026 11:15:00 +0200
-From: Vinod Koul <vkoul@kernel.org>
-To: Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>
-Cc: Frank Li <Frank.li@oss.nxp.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>,
-	Andy Shevchenko <andriy.shevchenko@intel.com>,
-	linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-iio@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-spi@vger.kernel.org,
-	Frank Li <Frank.Li@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
-	=?iso-8859-1?Q?Am=E9lie?= Delaunay <amelie.delaunay@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Andy Shevchenko <andy@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Mark Brown <broonie@kernel.org>
-Subject: Re: [PATCH v4 01/10] dmaengine: Move enum dma_slave_buswidth to a
- new header
-Message-ID: <asiwlNB2GMhmBlk8@parshuram>
-References: <aq18_TMNs4EJzgZO@parshuram>
- <arDtEB0na9DxDWAS@nsa>
- <arFXc0LqEpgWSS6m@SMW015318>
- <ar-Il2qP_Qms3Qw1@nsa>
- <ar-13p3a7ENGfMOF@SMW015318>
- <asEWwIfO0LB27wj9@ashevche-desk.local>
- <asGk4fj_HQ5HupB4@SMW015318>
- <6f5dd1c1622adbaf0174a949ca91cb11872087ff.camel@gmail.com>
- <asSqVEHe8EjkbcwW@SMW015318>
- <asTDTxneqrpFlZi-@nsa>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4176497B62;
+	Fri,  9 Oct 2026 09:26:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.44.120
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791537967; cv=fail; b=fd9Kkh56/fiUgJIWCP4HiyUrjXCyqmKTnTn/80pQNB56shlVJSYmx1Yrc3PWWL7va2Zdu/8DA3WLbx12z1fj0EfVzuYfyTULX6ckA+doDoeRxqObKOQk5cXaoOcBsTBlBQwEVCRH3YrZLv2++/BAKd1vEqn/JDtumtfEAkwLpdM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791537967; c=relaxed/simple;
+	bh=yMMQnB23rO83rEcofda4b5aZ8w3nXnOMm+NH7HHStIY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=bON3xOK4gPG7rLEso25V316YHlcTASN8YwGTa1BnWWX8JBIGNKIXSch0lW0LWRaqzjvA4WKrlFk2+QOg27wLlCsKpzoDUK6Ve77OIxBEwDHNOcOOSZTmmhEGlzFog5tVbu35BCcxWPHu+mSRUQdTJKbZ7f8Ew3PjkzorbT4oa9M=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cixtech.com; spf=pass smtp.mailfrom=cixtech.com; arc=fail smtp.client-ip=40.107.44.120
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cixtech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cixtech.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=a2nW+qvL7qyAutpbPSmCzz8hHJ24NX2AONE8iSCURgKtR5QmInIP9/FZml/jSuUrbs22ZOowjF4uCKLnXqfeN+x8AeFktVZXjR/dsO3D327li56NRgBIajL4AFF9WCCyV1yghA3C3g+ayR5jf72WGhGj/z5FcAThwBBFh37U7gbOEqxKSM/wNp9l7EkcGG+MIURS9vmIk37HJGWhXbsG88+D47Dp4n59er5zf32jqbTOoFXvp4yEfbkwVNoM2uLE1nqo9a0httZAdyUHzm8STag/UTiaMYusaaEAUEnzICCMnlx5RUF8zdMTsm1EO0diEhWCbsD+RGjzFhVApDP24Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TSfAUCc+8DHmKEG7UeOyflINpCAXvIE8EIpJ1qm9Sys=;
+ b=xcHxgN5k6N9XpKkbmFx8xJPntv/Hx44YkS8wrl8vLODoXHhkRLx5SLVkyVqU8m9bek8p0YHPpsetptPJZb0F1bLiojd0isE7mYc0508BgXsbuC4x0sIlNIRAtmBxyIvrdBAP4mpuvj/nRRZ1JHFuR0KzfEzhgU9TNf+H8wtCRFwp2x0bbOFobcTjcNSAHQZ5ORPMz9IV319ri0pC3/GHhVA8zOF9Xj2noh1cdbcFIJp1M1BVuOt0sm5sBWF+VddGRd/kzGWalVTq2UmUZiXFjp2Dq+JB6tOH48vNrtDVIXqIN1YqNOuwiEI8WnrIau4lxaJjhteqqJurjw8z0iGfNw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 222.71.101.198) smtp.rcpttodomain=cixtech.com smtp.mailfrom=cixtech.com;
+ dmarc=bestguesspass action=none header.from=cixtech.com; dkim=none (message
+ not signed); arc=none (0)
+Received: from SI2PR06CA0008.apcprd06.prod.outlook.com (2603:1096:4:186::23)
+ by SEZPR06MB5365.apcprd06.prod.outlook.com (2603:1096:101:7d::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.16; Fri, 9 Oct
+ 2026 09:26:01 +0000
+Received: from SG2PEPF000B66D0.apcprd03.prod.outlook.com
+ (2603:1096:4:186:cafe::4b) by SI2PR06CA0008.outlook.office365.com
+ (2603:1096:4:186::23) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.496.5 via Frontend Transport; Fri, 9
+ Oct 2026 09:26:01 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
+ is 222.71.101.198) smtp.mailfrom=cixtech.com; dkim=none (message not signed)
+ header.d=none;dmarc=bestguesspass action=none header.from=cixtech.com;
+Received-SPF: Pass (protection.outlook.com: domain of cixtech.com designates
+ 222.71.101.198 as permitted sender) receiver=protection.outlook.com;
+ client-ip=222.71.101.198; helo=smtprelay.cixcomputing.com; pr=C
+Received: from smtprelay.cixcomputing.com (222.71.101.198) by
+ SG2PEPF000B66D0.mail.protection.outlook.com (10.167.240.26) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.522.6 via Frontend Transport; Fri, 9 Oct 2026 09:26:00 +0000
+Received: from cix (unknown [172.18.64.61])
+	by smtprelay.cixcomputing.com (Postfix) with ESMTPSA id BC62340920F2;
+	Fri,  9 Oct 2026 17:25:59 +0800 (CST)
+From: joakim.zhang@cixtech.com
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	p.zabel@pengutronix.de
+Cc: cix-kernel-upstream@cixtech.com,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Joakim Zhang <joakim.zhang@cixtech.com>
+Subject: [PATCH v3 3/4] ASoC: dt-bindings: Add Cadence I2S-MC controller
+Date: Fri,  9 Oct 2026 17:25:51 +0800
+Message-ID: <20261009092552.2377960-4-joakim.zhang@cixtech.com>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20261009092552.2377960-1-joakim.zhang@cixtech.com>
+References: <20261009092552.2377960-1-joakim.zhang@cixtech.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <asTDTxneqrpFlZi-@nsa>
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SG2PEPF000B66D0:EE_|SEZPR06MB5365:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: dbba321f-5ab1-45f1-93a7-08df25e75556
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|1800799024|36860700016|82310400026|23010399003|6133799003|18002099003|10067099003|3023799007|22082099003|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	WBs1ceG0ZUYryAk2OLc5WTaYDyzbmnRu26zY+oWoYdgNvhxgW6HOGsXyMdiZiU/r4m6uON0hwJizRGorO/2GYlfpjJYdxCFmds0Q5Sof3qCc5KWnZ/4Y8t1PZfJJesryYNGdDpEIxWrOHZHkvZHyTROzbUsbB8DHgGCOgJOd/dx81hqLVt8NQpWWHS/RHSXmoG54m2ZENkqsH6/l50dsOklAy7qYH4gsDQlX6lKLDcgzH4a7L21qYSFHIyB3X1zZF6AK1KWE3VKdppcmoFd9XcQIC6cchD5jNkCQqrxp4UlKKRKa8UBWzysvKBXIo2zf6BT5+xII9HJ6La2Ltf0KzNYMSWjU6P2BWXTZcf7BBps8BOx6E6b1lrrGrNpMO4/uym4oevpwPBtkVIToNpPVswVdui2r1WZT5fId718P9/J8aGLfpYIG7pLe9QchHpOGAJkOFw/nG7lWMKYpzKKLpJe6zO5BeGyB4SlKQakSLI4RTlC1PvJfpxyQT+Zq9WIHQp1RFwvDe3TCIpVqdFiiz1R0Qz21k5636NTNm5nvoIbxCVHc85gluDkYph7fs81dbnJ7Z3XEpY6G15VHUk0jrguYb1og06TBSvT/QTV9iaPNrZpayv4+EllRII6nxjX6Z9aHbPjb4jaYqCcvbfWnTQ==
+X-Forefront-Antispam-Report:
+	CIP:222.71.101.198;CTRY:CN;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:smtprelay.cixcomputing.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(36860700016)(82310400026)(23010399003)(6133799003)(18002099003)(10067099003)(3023799007)(22082099003)(56012099006);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	f8EkEaPF3Qc5ztei8qP1SStWkTFgC9xqeroeWqbvpMRYNDdZwTmPP4kmQIjAHMHCvgER+LXny7fY59meRCdZhTO5S/R7YT0j/em0lNhQCgTtIsU3hAoJBJ/kWjsaVIoVKnJ28aei3SHmLAXiQIp1oE+xAV4cG5f6J3TRekOPy/tboclFCVF1oy8MOTtQeqqwUYj+4D72hoJ5AdESVC2O3kJ3pKcv2ZUwiSDp06DlDyOH4l8dN65cJrGJi1tPYJEYrEUqm8p98K75MVgN90ZAdP5vS8yzSjD44fUxavgIlGnBAM3qfawOg9UWn92Ojlv8qrgQhUejffmUiA0MgReZfhh2q3TkGiR0fQEQ3O2M5ZNnaNS2usI7P7nt5gJpb6QHBzm62J9ONGSvV4AO99gzg3lIzZQKT07jBMDaRdOV0K2iCrbOW5sTRgwP4AMEZtPW
+X-OriginatorOrg: cixtech.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Oct 2026 09:26:00.7260
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: dbba321f-5ab1-45f1-93a7-08df25e75556
+X-MS-Exchange-CrossTenant-Id: 0409f77a-e53d-4d23-943e-ccade7cb4811
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=0409f77a-e53d-4d23-943e-ccade7cb4811;Ip=[222.71.101.198];Helo=[smtprelay.cixcomputing.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SG2PEPF000B66D0.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR06MB5365
 
-On 06-10-26, 10:47, Nuno Sá wrote:
-> On Tue, Oct 06, 2026 at 02:59:16AM -0500, Frank Li wrote:
-> > On Tue, Oct 06, 2026 at 07:36:06AM +0100, Nuno Sá wrote:
-> > > On Sat, 2026-10-03 at 19:59 -0500, Frank Li wrote:
-> > ...
-> > > >
-> > > > There are already include bitmap.h, and use
-> > > >
-> > > > typedef struct { DECLARE_BITMAP(bits, DMA_TX_TYPE_END); } dma_cap_mask_t;
-> > > >
-> > > > Suppose all DMA Engine consumer will use it to do some check. So I think
-> > > > needn't split it as indivial version.
-> > >
-> > > Are we sure all consumers are making use of dma_cap_mask?
-> > 
-> > Some legacy user check it. Supposed needn't check it after get channel.
-> > I am working new API to check it to avoid direct access it.
-> > 
-> > > In fact the only function
-> > > depending on bitmap.h is the one clearing the cap_mask. But stepping a bit back,
-> > > bitmap.h was the original proposal from Andy so the idea was to have the new
-> > > widthmask (this one indeed heavily uses bitmaps) already as a split. And with it,
-> > > came types.h given that the DMA enum needs to be used from both consumers and
-> > > providers.
-> > 
-> > Supposed provider is super set, which can include consume part.
-> 
-> Yes but also look the below note on the consumers.
-> 
-> > 
-> > > And note that consumers might want the header without actually needing the
-> > > bus width API so the separation kind of made sense to me.
-> > > Then, as a follow up the idea was to also split the cap_mask API into it's own header
-> > > with a backing include in the main consumer header.
-> > >
-> > > So if we all agree with the above, I guess the current series does not really has to
-> > > change. I see 3 ways:
-> > >
-> > > * Just go back some versions before and have all of it in dmaengine.h
-> > > * The current form
-> > > * s/engine/consumer on the current proposal include/linux/dma/engine/*
-> > 
-> > I think we can put include/linux/dmaengine.h now. The split/move need more
-> > work. I already sent some patches.
-> > 
-> 
-> Ok, to be sure we're 100% on the same side, plan for now is to add the
-> bus width API directly in include/linux/dmaengine.h?
+From: Joakim Zhang <joakim.zhang@cixtech.com>
 
-Agreed, we have two headers one global: include/linux/dmaengine.h which
-will be moved as a consumer API Header and local header
-drivers/dma/dmaengine.h which will be provider header (i am okay to
-rename as such as well).
+Add the DT binding for the Cadence I2S-MC multi-channel controller
+integrated in the CIX SKY1 audio subsystem. The controller exposes a
+transmit DAI and a receive DAI and moves audio through a configurable
+set of its 8 data pins. Which pins are wired out and in which
+direction is fixed by the board design and described by the
+cix,pin-out-num, cix,pin-rx-mask and cix,pin-tx-mask properties.
 
-So this one is used by both so lets keep in global header.
+Signed-off-by: Joakim Zhang <joakim.zhang@cixtech.com>
+---
+ .../bindings/sound/cix,sky1-i2s-mc.yaml       | 123 ++++++++++++++++++
+ 1 file changed, 123 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/sound/cix,sky1-i2s-mc.yaml
 
-Thanks
+diff --git a/Documentation/devicetree/bindings/sound/cix,sky1-i2s-mc.yaml b/Documentation/devicetree/bindings/sound/cix,sky1-i2s-mc.yaml
+new file mode 100644
+index 000000000000..22528bb2940e
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/cix,sky1-i2s-mc.yaml
+@@ -0,0 +1,123 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/cix,sky1-i2s-mc.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Cadence I2S-MC controller
++
++maintainers:
++  - Joakim Zhang <joakim.zhang@cixtech.com>
++
++description: |
++  The Cadence I2S-MC multi-channel controller integrated in the CIX SKY1
++  audio subsystem. It provides up to 8-channel playback and capture through
++  a configurable number of I2S data pins, and exposes two DAIs: a transmit
++  DAI and a receive DAI.
++
++allOf:
++  - $ref: dai-common.yaml#
++
++properties:
++  compatible:
++    const: cix,sky1-i2s-mc
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  clocks:
++    maxItems: 4
++
++  clock-names:
++    items:
++      - const: hst
++      - const: i2s
++      - const: audio-clk0
++      - const: audio-clk2
++
++  resets:
++    maxItems: 1
++
++  dmas:
++    minItems: 1
++    maxItems: 2
++    description:
++      One DMA channel for instances wired for a single direction, either
++      "tx" or "rx", or two channels for both transmit and receive.
++
++  dma-names:
++    minItems: 1
++    maxItems: 2
++    items:
++      enum: [ tx, rx ]
++
++  "#sound-dai-cells":
++    const: 1
++    description:
++      Cell selects the DAI, 0 for the transmit DAI (i2s-mc-aif1) and
++      1 for the receive DAI (i2s-mc-aif2).
++
++  cix,pin-out-num:
++    $ref: /schemas/types.yaml#/definitions/uint8
++    minimum: 1
++    maximum: 8
++    description:
++      Number of I2S data output pins wired on this instance. Which of
++      the 8 controller data pins are wired out is fixed by the board
++      design and can be any subset.
++
++  cix,pin-rx-mask:
++    $ref: /schemas/types.yaml#/definitions/uint8
++    description:
++      Bit mask of I2S data pins used for capture, bit N selects data
++      pin N.
++
++  cix,pin-tx-mask:
++    $ref: /schemas/types.yaml#/definitions/uint8
++    description:
++      Bit mask of I2S data pins used for playback, bit N selects data
++      pin N. The rx and tx masks must not overlap, and the number of
++      set bits must not exceed cix,pin-out-num.
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - clocks
++  - clock-names
++  - resets
++  - dmas
++  - dma-names
++  - "#sound-dai-cells"
++  - cix,pin-out-num
++  - cix,pin-rx-mask
++  - cix,pin-tx-mask
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++
++    audss_dmac: dma-controller {
++        #dma-cells = <1>;
++    };
++
++    i2s@7050000 {
++        compatible = "cix,sky1-i2s-mc";
++        reg = <0x7050000 0x10000>;
++        interrupts = <GIC_SPI 222 IRQ_TYPE_LEVEL_HIGH>;
++        clocks = <&audss_cru 17>, <&audss_cru 27>,
++                 <&scmi_clk 100>, <&scmi_clk 101>;
++        clock-names = "hst", "i2s", "audio-clk0", "audio-clk2";
++        resets = <&audss_cru 1>;
++        dmas = <&audss_dmac 2>, <&audss_dmac 3>;
++        dma-names = "tx", "rx";
++        #sound-dai-cells = <1>;
++        cix,pin-out-num = /bits/ 8 <2>;
++        cix,pin-rx-mask = /bits/ 8 <0x1>;
++        cix,pin-tx-mask = /bits/ 8 <0x2>;
++    };
 -- 
-~Vinod
+2.50.1
+
