@@ -1,115 +1,154 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F085E3E1201
-	for <linux-sound@vger.kernel.org>; Fri,  9 Oct 2026 07:21:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791530491; cv=pass; b=LzpJSYtp7D6Wtmu4XE1wMtwQyNOkXoGDGxmzeA4aI3fMBZJ84lUbnoxCqh4Jem4aFBy4uHL3qIeS3IxATIU/fgFK4AHS4YBptg0k7Yn81pn1qOh2zCXp2+1cz9MdRVzprR9CsE9D4bGc4DsUVcOKsVHiYMzjKQL6iIxnkBZa/hE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791530491; c=relaxed/simple;
-	bh=ZWFUNR7NkCd2nR7CmmLol21VHCNc/dGraaedEy4x8BE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KAaFD3DfkQWBeJ+9LQhct6OA5wggu7LDT3kdc5IgJhykT1mBI1IkGz6mLWwlpV14hX/VimKC7MtnEYviY8uI5h65bJDeRi0WRuYjIJaVHEdeBodmU4VjMw9vDGZxD68x+4sOZ7zc5mRQtAgeCIdbHrjYPsUcxYdBNxFvIDvi5kQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fibpuUQ6; arc=pass smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72D03470EA1
+	for <linux-sound@vger.kernel.org>; Fri,  9 Oct 2026 07:22:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791530525; cv=none; b=VlurwN5odzas45rAonyokjFZbWO+jbBmooCDivHDhTtKlVOlXxPazr2bdjcVIliD8wSstgDzWAIkR7/xSJYlWgkwHfG9epg26HgUjM8aPrST/ShscAkVtK64YyQ5j6Hz9J/uljfsLmP+9Oo2zm02IcOtsSyZEFki+Xb+/cAhh1g=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791530525; c=relaxed/simple;
+	bh=ay7Lrhmehs7j0JdHgXH5IIpsVNVS4CqUBpPRiqIzs/k=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=pwMFoE4s/wfWjV72k2NaZsAJwzpVa2TH8i62H8Hv5NuNsIigahAzaNw+ImvM3EMKZvJMrIdoizzqua+VcZ6E6QZpXSRkASkt9Vst1jQEsu/22F/pD62qwLnSkMF+rlGLnhcLmJ8bpGKJbMl1UaQrPZLxTAdIi9koMQA4VcvAAZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gJ7WAWXy; arc=none smtp.client-ip=209.85.216.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fibpuUQ6"
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-6ac76a02368so4235068a12.2
-        for <linux-sound@vger.kernel.org>; Fri, 09 Oct 2026 00:21:29 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791530488; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Rme4g2xl160GbSqzaFAiGuv0zmsKeAMFB5HbhLD4ed3iwc5xiTQ0U+ApEDxlrNm9vF
-         DGjgkC9WqoX9b7xZO2Kr+IsVhOCkBAE7Qmk5vkergQE7ghO1rrZgRdfA98L0LWvG6/06
-         i4B89zn/jYb2EH1y4EY8mn7LwRmG1uaFdwO/iJQXiGF5H4YQGwTwCKu6Dx/huv1ElYt8
-         gh4NwwE44GiEZjOUyQ9npDj2laDGVm1YDrvYmjoAksvUuCpBuSweltGQ8nYr1bIu4MRF
-         aomnzJfjOfqTQc3fHmnH4aTBjEX7lBRQ5XRLjW7/up/ePqP7vOfNRy4YBSpFMHC0OX8D
-         SpAQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=ZWFUNR7NkCd2nR7CmmLol21VHCNc/dGraaedEy4x8BE=;
-        fh=0+usEXNAEQyTVluPggaeZrQ3T5EWevGvGY7hFvbpYzg=;
-        b=CcZhpezAVLVG1ngxSAGmX6kDW6TbMDSkSUjEEix1raSIOKka7VnEzlM+oarWvY/gJH
-         PhAiZ1GIZKURGJdVVgLXgKepM5yCG2Ssv5zTctFoueJ6P/oXzltq2zGs2lMnUbzTSpTt
-         yQlW5PLK4PxwmCGOvsCVYJj0VcMj7bv14aNeq3MP1BDd3seRuSvpqVNGPhmom4xZlCUA
-         vS/oPnW7Jh4B5j184Ht2Amc21hsTOgqWRXDehC5kCipVeU5QCxrxdv9yU8i+ce746cdk
-         moy5UdFJmWQp6g6ZoRZiWPZw+PZjiA9/TnF4kmRL4y1rzgpkQpPgoVUZMIt1USzSwtfa
-         4Dxg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gJ7WAWXy"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-3a4c47bb6e3so2022328a91.1
+        for <linux-sound@vger.kernel.org>; Fri, 09 Oct 2026 00:22:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791530488; x=1792135288; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ZWFUNR7NkCd2nR7CmmLol21VHCNc/dGraaedEy4x8BE=;
-        b=fibpuUQ6gpRtjg3FaNafQrhlsjuRv7HqiybEQKAJZzzr+D2HjuxHaDGuIYUR9g4EHr
-         euEL/J87Gu9GGVt1TxKbQeo5eZJEgZ63s63q0c7Upnomojn8htmKQSHjHy5MhD/TccEg
-         NGV/2rwu3+J2+UoOF702JB7jkORqzO1GjwdSzCrKIS/0H/VjnhEY1cM3FOgvSwuImkmb
-         lNkJM621PxwOloDC4h5T6NSHq72cABy6abcpvkeJNtDGuNzuR+lTZVLxWxf1mmrzb343
-         UgWTp5IT2eU4zsiWoZ9dGZsXyX2EGbMaPjuZIsQsn9m/ZA1Xis5L7o2e6Q8vRtHGwzxI
-         vsTw==
+        d=gmail.com; s=20251104; t=1791530524; x=1792135324; darn=vger.kernel.org;
+        h=content-type:content-transfer-encoding:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=vGQ1K2lnEtPHoywNrrfZAa9ebz8nSIt73vgH/dzJD9c=;
+        b=gJ7WAWXy+WcB/LFetY1pL/TwuUe8XtFQ5aPHkvI/AMwy8gYtq3dQkeyrI1SygF3D0+
+         Y9lW9MHZhEUtNX9GDBXP8ICdDyh/Zmq4QAPonYcXw2j+skSp3g3doVRUOulcdoXX4hSG
+         ilNrB1mEtlY2s7duH5OxYslO7uPMjznHvejIByYL3i9Mln0BE67RqknMWVqbMPF2NcZt
+         l4Fvbght//qL70PH4myZ246aEW6SiA5hvZZvb7oe6iPlsTn9wrm390WuVghTxsGWts2G
+         M7FmI9eKLCkee9tcKlVUoAXq6t9wV3piw6zIP/Vo7dwPjAhUZR1FCAJUEJL7LDcrhj0o
+         j+Yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791530488; x=1792135288;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=ZWFUNR7NkCd2nR7CmmLol21VHCNc/dGraaedEy4x8BE=;
-        b=xPYVhY4E7yZsHShBoPNclo3Go3P6eJPMwG/TPICcPTGrfJqiqvHSzvIQUEJyp87EWf
-         UE5NrLuvkwyhQchxDRJN5LkRfuJLW6IB4WkDgYbSnhrugN3hZ7fRZ2WiZBI8ZcxgnnIS
-         LzVVd/O5Ozp9rQd3vNG8amYvUt18GHgS62vbXNx5DObUFXQj4CUp1fgRw2LSczY14ncy
-         YWd03GtoO69qZW9xBALVbCGbpuHLUmcUpzOnkzBZK225E0d88Ddozb7Wq9XKzxtU92q2
-         P33ZzHhGKaYLHpG7lVJMK66PhXd+Pe7nbYMmpxOynQDJ6Jn20lVlWvxXNJh2W1rkKJxO
-         wq1A==
-X-Forwarded-Encrypted: i=1; AKwUvByzyaVkReRgsKixHnuCbMO95bNKKfvf6G7GrRu85jtDND5rNK1hfjF778icU+8xzaiRavtdNBbnEsfGzw==@vger.kernel.org
-X-Gm-Message-State: AFq9FYL7mnWbUiNGhUa8p3y1CCHLV8sSxxMm6ky1nMtLeXu4GT4b4Pt1
-	GaQL8hYvAl49GyXddG7c3RxRvYStt4+IdGK+MLwWE88/uXAPrOab0LA1AtWmHd7aClx7x0d+eXR
-	iopmPgyIZkaWwe/spOei0g2+Ml2i48HU=
-X-Gm-Gg: AYBFou0f1CT6lCYaAd4Ia6YAiKXOF6wHgkY7dx1Dc3UyAcs0sGE4Ri7D2UqdEnYRK+p
-	1FViR1Nt9ljcRPh+Fs0YwZCwTO7K9cN11bUWej61/y2YqfPartnGU0/UzPzeHth+ihjWCN2Hfdc
-	+nH/a/iq10O8gMOy3StRhN6BojwSwwkXbw76hLnGN3PgkKNbiX9IFR1UGM2vM8LndGwRIgPK189
-	/q5sJUiRVUtHvZm67cfDJ1hQzBGVBb8MitBWfrNaFYNp+qLIKhdBfRkrwlc4xt7o23xTdeTxs6L
-	/69ZTVwBPUla3lHLS2yYazW3aahm9Xwjizn4OTNSRMjGvqFxTjFkBBxrGQmMplpSzGUIC/3U6zl
-	a8/n0HZPo1it0lM+5JtTGWmiFuTV1J00erbdtt8wBF3AlnZ63wKwOmGCUItJQlOfcYbY=
-X-Received: by 2002:a05:6402:2489:b0:6a9:aabb:5364 with SMTP id
- 4fb4d7f45d1cf-6b17c2406a9mr722739a12.11.1791530487888; Fri, 09 Oct 2026
- 00:21:27 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1791530524; x=1792135324;
+        h=content-type:content-transfer-encoding:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=vGQ1K2lnEtPHoywNrrfZAa9ebz8nSIt73vgH/dzJD9c=;
+        b=UEqS6jnoz4xAPPtYnOMQ04fOBED0Skv5qTZqh7pVQl/0zdpR1OdJF1jgHPP7krmL9H
+         TphykVAm214HivT+8IKtLCw6AWsNTbtLsJVwIoosNiWBu1g/ULTCtGlWaFBVbEITw6GP
+         2//odlHovwppFcJLU5B9sXAsJkLZPDZdPik+43zt9t7OkDnaz9Sd3oj6g+oHjU696gJb
+         w2aN6d1RxdBi594+vXMCYQjZPTYmJLqH2V1OGZlvTAYTFTYMOGVrwWyqJP096A0ztyD8
+         sCQgtYOPH2FpZzdeZHUZhS8jkUM2fM+A+7qrUm4kPRpBajt7h5U9KTWiB8fSircuD7fw
+         NxCA==
+X-Forwarded-Encrypted: i=1; AKwUvBxQVm8rZDQo2Hr5dpawWUeCxGbvQCE4aKqclpp5cVCo4WQUsen9MP1w6EBsEV6TKiOyPi5HcXqVIegoSA==@vger.kernel.org
+X-Gm-Message-State: AFq9FYJZKedTbVPLWF/F6/aZkLAiZwVy1B2/R1xo9my2cWkP5b8Z028t
+	GA+7bnz57C3hNd/HxvmM/8wOK4pgMxikoPWaZ68NzD8JzUAI84J2WVgg
+X-Gm-Gg: AYBFou1YObCY5JFbAGEiZpmji6fAUELjedC+BTtGSddSuSu12J+8DQdwby6unKqBi8g
+	6mIXFiL2krLlVYiJSqCCa5rWVSooJtq/jOQoDbF1WmKevSao957niZUpp7xUOyJU2NIc26jIFdL
+	IDZ/ovdW7A9h9+hHl0wfrsadS0ggUdDNSfNaAUKB8tMrCX6hlBpjVq0+x1wh4RQLVNfo5T3T4it
+	cBquNHoj79BiX6m/bNzFNnvGAyQKKKemqpgL5/0poqJhfjD9HZGYGqkAhsobPdsyK860PC+9Ziw
+	VdGHv6uafh6xE+Z3O1Xi7/WiZy4dXWhgidBiIvkwRcH32aia6UDLaU9WaB9U3/sMxO8n0el9Khb
+	S5Y8Y476LMJXYTCb/rVI96xVBydMg8nQDmxpnMRkAj5AQ5KCuC7fTf65cBGyVZ8zmnqoV+sz+rx
+	wxagAAf+hLO3hXGfNyP3zy0CReyA34dEgN+h+oxAN/ldXrQxYw8PQTyAakb44OzcelF8HTAXu3g
+	Amx4eRR+gsLWlGugWVoo2xLXN0OTAWsB+PZd4iCltgy9odsUA4x/dK7FK4UaJiFoIREccqN94oV
+	s803RWXIojG9Naeevos1JZ8hSoKs4uV72btZ2PoNDZCB7y5+BIA=
+X-Received: by 2002:a17:90b:3a48:b0:3ab:413:49b6 with SMTP id 98e67ed59e1d1-3ab3a79a2d8mr1074419a91.41.1791530523677;
+        Fri, 09 Oct 2026 00:22:03 -0700 (PDT)
+Received: from setsuna.localnet ([2403:581e:d87e:0:fc2d:ed31:e80e:412d])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ab397920b4sm1115948a91.4.2026.10.09.00.21.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Oct 2026 00:22:02 -0700 (PDT)
+From: James Calligeros <jcalligeros99@gmail.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: David Rhodes <david.rhodes@cirrus.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Martin =?UTF-8?B?UG92acWhZXI=?= <povik+lin@cutebit.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+ Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>,
+ Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
+ Neal Gompa <neal@gompa.dev>, asahi@lists.linux.dev,
+ linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
+Subject:
+ Re: [PATCH v2 05/21] ASoC: dt-bindings: Add binding for Apple Silicon Mac
+ audio
+Date: Fri, 09 Oct 2026 17:21:52 +1000
+Message-ID: <rT1KWd0SSiuQLd7MLQWREA@gmail.com>
+In-Reply-To: <20261009-daring-objective-flounder-c0b66d@quoll>
+References:
+ <20261004-macaudio-v2-0-7b47ed6335a8@gmail.com>
+ <20261004-macaudio-v2-5-7b47ed6335a8@gmail.com>
+ <20261009-daring-objective-flounder-c0b66d@quoll>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20261005110257.50145-1-phucduc.bui@gmail.com> <20261005110257.50145-15-phucduc.bui@gmail.com>
- <24ffbf82-adad-4153-a2b9-f2123189c722@oss.qualcomm.com>
-In-Reply-To: <24ffbf82-adad-4153-a2b9-f2123189c722@oss.qualcomm.com>
-From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Fri, 9 Oct 2026 14:21:13 +0700
-X-Gm-Features: AclHuK9p57z2uGUnULQbpxyjyLXl9q0M8bfa39_8UwomVGEzhtoBlELb83gkc1g
-Message-ID: <CAABR9nETXgKCex=sDx6Y=eJOTg42oj0egGv6268T14v510Zf5Q@mail.gmail.com>
-Subject: Re: [PATCH v2 14/14] ASoC: mediatek: mt8195: Fix clock parent error handling
-To: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
-Cc: Mark Brown <broonie@kernel.org>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Trevor Wu <trevor.wu@mediatek.com>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, cassiogabrielcontato@gmail.com, 
-	Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
-	Haotian Zhang <vulab@iscas.ac.cn>, HariKrishna Sagala <hariconscious@gmail.com>, linux-sound@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-> Was the intent only to get the DAPM error log
-> here, or should the commit message/code be adjusted so the behavior
-> matches the "properly handled by the caller" wording?
->
+On Friday, 9 October 2026 5:17:53=E2=80=AFpm Australian Eastern Standard Ti=
+me=20
+Krzysztof Kozlowski wrote:
+> On Sun, Oct 04, 2026 at 04:03:32PM +1000, James Calligeros wrote:
+> > +examples:
+> > +  - |
+> > +    sound {
+> > +      compatible =3D "apple,j416-macaudio", "apple,j316-macaudio";
+> > +      model =3D "MacBook Pro J416";
+> > +
+> > +      #address-cells =3D <1>;
+> > +      #size-cells =3D <0>;
+> > +
+> > +      dai-link@0 {
+> > +        reg =3D <0>;
+> > +        link-name =3D "Speakers";
+> > +
+> > +        dai-tdm-idle-mode-0 =3D "zero";
+> > +        dai-tdm-idle-mode-3 =3D "zero";
+> > +        dai-tdm-slot-tx-idle-mask-0 =3D <0xf0f0f0>;
+> > +        dai-tdm-slot-tx-idle-mask-3 =3D <0x0f0f0f>;
+> > +
+> > +        codec {
+> > +          sound-dai =3D <&speaker_left_woof1>,
+> > +                      <&speaker_left_tweet>,
+> > +                      <&speaker_left_woof2>,
+> > +                      <&speaker_right_woof1>,
+> > +                      <&speaker_right_tweet>,
+> > +                      <&speaker_right_woof2>;
+> > +        };
+> > +
+> > +        cpu {
+> > +          sound-dai =3D <&mca 0>, <&mca 1>;
+> > +        };
+> > +      };
+> > +
+> > +      dai-link@1 {
+> > +        reg =3D <1>;
+> > +        link-name =3D "Headphone Jack";
+> > +
+> > +        codec {
+> > +          sound-dai =3D <&jack_codec>;
+> > +        };
+> > +
+> > +        cpu {
+> > +          sound-dai =3D <&mca 2>;
+>=20
+> Example looks incomplete, you miss TDM slot properties.
 
-The intent was only to get the error reported instead of silently
-ignored; the commit message wording was imprecise. I'll reword it
-in the next version.
+The machine driver generates the TDM slot assignments for the DAIs
+and sets them at runtime.
 
-Best regards,
-Phuc
+
+
+
