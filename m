@@ -1,137 +1,130 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1AEB4BD344;
-	Fri,  9 Oct 2026 13:46:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43B8039DBD0;
+	Fri,  9 Oct 2026 14:16:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791553588; cv=none; b=pJZgDaO5PDM1aoCGJe3ijqSx0DJQuOL2XX5aNdhihoXxW2U+5GP+f0R+vduiWhMf7KykPvMii8wf/33/YLXQfFvYrD0CznTLK0zFuVPwsJ3CufnNB56uLMoLAPCZB1ntQMtvpv07bY7iXDiKhB/qcT5zlgWhO8uIDyfAm4b2BAQ=
+	t=1791555373; cv=none; b=u5AtN6pl/0eLoeowrsstmTzAY20MkY6tcbqDQMWupc2zMXZDnFU7KmqQSP3E6w1VqySdLBkTvgws3/4cK05edDgBjh/3gJoM7ULyhti57BG4kLNz3jV6rqye9x21D87AhIgb/2LxfK3XPkFiu59UkLHtWMjp8Lz8h+e2MCzQpg0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791553588; c=relaxed/simple;
-	bh=oqwiNlE73+2R8mZkGhjJkLSFM1d/DxGA2hLLdpVH0Cc=;
-	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=VoKPy8uOBRLZplnyeaMYSURe0dfRpK6wtgAqb17rEyJ5B5qRWUNCqXw/cQlMsw+AKadRPoZrB9kwK0va+OXErvk1uLb+p9r9r6RlHUw57y5E8i2ywa6wavR1+VXGblODtxN0yX090UsbhZlTiM9O97cVQWGLFbEKfQ8JaXK3Dns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id E096C21A34;
-	Fri,  9 Oct 2026 13:46:24 +0000 (UTC)
-Authentication-Results: smtp-out1.suse.de;
-	none
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 99BBC1368B;
-	Fri,  9 Oct 2026 13:46:24 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id sVwpHDDwyGo2dAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 09 Oct 2026 13:46:24 +0000
-Date: Fri, 09 Oct 2026 15:46:24 +0200
-Message-ID: <87h5iv3s27.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
- Mailing List <linux-kernel@vger.kernel.org>
-Subject: [GIT PULL] sound fixes for 7.3-rc7
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	s=arc-20240116; t=1791555373; c=relaxed/simple;
+	bh=HTto4x29Ky4tDdeScCouFY7b2C9/lvm82cKNmIN/yoY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=i3iFRg7IxJ99UKYXJlQ2u0xn3xuHtUX4ppcVuUjNgGyprUhsdpMFOIdWCf7dpACZLJ49ZHsyraOU3NBkx2MZ+PTSfBZoPG2oVtthtFjmRxXo4FlANqeBpkaF1/fMsNyd4C9QThdqSISHFAC8n3P5sB8CFfErFep4Ciz2cGtajDU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NhUolgjd; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NhUolgjd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F4051F00899;
+	Fri,  9 Oct 2026 14:16:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791555367;
+	bh=5mp4RnMe0TQZxUQ96A2OqhWXQwIeoTHhlaxX50LfJic=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=NhUolgjdT4xFpIJaLDiSOW9Fx/3UcRQiVWOExlWtRlCM+JExiGowDMCEGSwHEtnfG
+	 ph4wqLPlHYk3yHyFYgdaKKtAyhZlxIg5rePCMSle3N1m4N5jiRI0F+rgc0gximz4gE
+	 HGwESaoEV9h/0JQAZUI08YZSUbHyZ9sFXY+BChVjyCiyX6qDSXiKnPPVk/kEPsgUkK
+	 r7ufkRbdRpisjOQFOJjrKaEfoBU9kyzf3L/GYQ6wamC0qP+2zHNBbCo6JhBEByZiy2
+	 X8dhIJURzCuVSDrzN8zUtJzynOeqbp1KMhhSh7ZxwHKdzTKNBeMKGugL3GqLWPcaHp
+	 WL8H+/u39/mpA==
+Date: Fri, 9 Oct 2026 09:16:06 -0500
+From: Rob Herring <robh@kernel.org>
+To: joakim.zhang@cixtech.com
+Cc: lgirdwood@gmail.com, broonie@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, perex@perex.cz, tiwai@suse.com,
+	p.zabel@pengutronix.de, cix-kernel-upstream@cixtech.com,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v3 1/4] ASoC: dt-bindings: Add Cadence I2S-SC controller
+Message-ID: <20261009141606.GB1631855-robh@kernel.org>
+References: <20261009092552.2377960-1-joakim.zhang@cixtech.com>
+ <20261009092552.2377960-2-joakim.zhang@cixtech.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-2
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Pre-Result: action=no action;
-	module=Unknown lua;
-	unknown reason
-X-Spamd-Bar: /
-X-Rspamd-Queue-Id: E096C21A34
-X-Rspamd-Pre-Result: action=no action;
-	module=Unknown lua;
-	unknown reason
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: 0.00
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [0.00 / 50.00]
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261009092552.2377960-2-joakim.zhang@cixtech.com>
 
-Linus,
+On Fri, Oct 09, 2026 at 05:25:49PM +0800, joakim.zhang@cixtech.com wrote:
+> From: Joakim Zhang <joakim.zhang@cixtech.com>
+> 
+> Add the DT binding for the Cadence I2S-SC controller integrated in
+> the CIX SKY1 audio subsystem. I2S-SC is a full-duplex stereo
+> controller supporting standard I2S, left/right-justified and DSP
+> formats, plus TDM operation with up to 16 slots.
+> 
+> Signed-off-by: Joakim Zhang <joakim.zhang@cixtech.com>
+> ---
+>  .../bindings/sound/cix,sky1-i2s-sc.yaml       | 93 +++++++++++++++++++
+>  1 file changed, 93 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/sound/cix,sky1-i2s-sc.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/sound/cix,sky1-i2s-sc.yaml b/Documentation/devicetree/bindings/sound/cix,sky1-i2s-sc.yaml
+> new file mode 100644
+> index 000000000000..3fdf2334c492
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/sound/cix,sky1-i2s-sc.yaml
+> @@ -0,0 +1,93 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/sound/cix,sky1-i2s-sc.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Cadence I2S-SC controller
+> +
+> +maintainers:
+> +  - Joakim Zhang <joakim.zhang@cixtech.com>
+> +
+> +description: |
+> +  The Cadence I2S-SC controller integrated in the CIX SKY1 audio subsystem.
+> +  It supports full-duplex stereo playback and capture in standard I2S,
+> +  left/right-justified and DSP modes, as well as TDM operation with up to
+> +  16 slots. The transmitter and receiver are started and stopped together
+> +  by the controller.
+> +
+> +allOf:
+> +  - $ref: dai-common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: cix,sky1-i2s-sc
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 4
+> +
+> +  clock-names:
+> +    items:
+> +      - const: hst
+> +      - const: i2s
+> +      - const: audio-clk0
+> +      - const: audio-clk2
+> +
+> +  resets:
+> +    maxItems: 1
+> +
+> +  dmas:
+> +    minItems: 1
+> +    maxItems: 2
+> +    description:
+> +      One DMA channel for instances wired for a single direction, either
+> +      "tx" or "rx", or two channels for both transmit and receive.
+> +
+> +  dma-names:
+> +    minItems: 1
+> +    maxItems: 2
+> +    items:
+> +      enum: [ tx, rx ]
 
-please pull sound fixes for v7.3-rc7 from:
+Address the sashiko comment.
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-7.3-rc7
-
-The topmost commit is 07c75552f7fe636a0695baae506a7d72fabd3be4
-
-----------------------------------------------------------------
-
-sound fixes for 7.3-rc7
-
-A dozen of small fixes.  All device-specific quirks or fixes, and
-nothing exciting is expected.
-
-- USB-audio and HD-audio quirks
-- HD-audio TAS2781 codec fix
-- ctxfi driver memory leak fix
-- ASoC AMD quirks
-- ASoC cs35l56 and adau1372 codec fixes
-
-----------------------------------------------------------------
-
-Alvin ©ipraga (2):
-      ASoC: adau1372: allow sleepy powerdown GPIOs
-      ASoC: adau1372: fix invalid default state of output ASRC and DAC muxes
-
-Eckhart Mohr (1):
-      ALSA: hda/realtek: Add quirk for ASRock NUC BOX-358H
-
-Harin Lee (1):
-      ALSA: ctxfi: Fix memory leakage when clearing DAO input mappers
-
-Jaidheer Sirigineedi (1):
-      ALSA: hda/realtek: Add mute LED quirk for HP Pavilion 15-eg3xxx (103c:8bfd)
-
-Marek Szyprowski (1):
-      ASoC: samsung: i2s: enable op_clk in probe to balance runtime PM
-
-Matus Gajdos (1):
-      ALSA: usb-audio: Add native DSD support for Cambridge Audio streamers
-
-Michael Garland (1):
-      ASoC: amd: yc: Add DMI quirk for Acer Aspire Go 15 (AG15-21P)
-
-Mohamed Yassine Jebabli (1):
-      ALSA: hda/tas2781: Accept V1 calibration data without CRC
-
-Richard Fitzgerald (2):
-      ASoC: cs35l56: Add DAI for SDCA OT25 stream
-      ASoC: sdw_utils: Switch CS35L56/57/62/63 to use OT25 DAI
-
-Simon Trimmer (2):
-      ASoC: amd: acp: Add DMI override for ASUS EXPERTBOOK AM7406CKA
-      ASoC: amd: acp: Add more ACP7.0 match entries for Cirrus Logic parts
-
----
- include/sound/cs35l56.h                    |  1 +
- sound/hda/codecs/realtek/alc269.c          |  2 ++
- sound/hda/codecs/side-codecs/tas2781_hda.c | 18 ++++++++--
- sound/pci/ctxfi/ctdaio.c                   |  6 +++-
- sound/soc/amd/acp-config.c                 |  7 ++++
- sound/soc/amd/acp/amd-acp70-acpi-match.c   | 35 +++++++++++++++++++
- sound/soc/amd/yc/acp6x-mach.c              |  7 ++++
- sound/soc/codecs/adau1372.c                | 18 +++++++---
- sound/soc/codecs/cs35l56-sdw.c             |  9 +++--
- sound/soc/codecs/cs35l56.c                 | 54 ++++++++++++++++++++++++++++++
- sound/soc/samsung/i2s.c                    |  8 +++++
- sound/soc/sdw_utils/soc_sdw_utils.c        |  8 ++---
- sound/usb/quirks.c                         |  2 ++
- 13 files changed, 161 insertions(+), 14 deletions(-)
-
+Rob
