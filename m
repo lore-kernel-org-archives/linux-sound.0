@@ -1,48 +1,48 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC79844E64E;
-	Fri,  9 Oct 2026 13:22:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C7A04E0B67;
+	Fri,  9 Oct 2026 13:26:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791552169; cv=none; b=CEZknzYiiA3Fn1Q1vxNnWa+CU5AAydY9OgovRp8Fl+NBLYvv5V+VX12Ky/5Fw5qIKqMEVWRPa5GawQt8QWyGI1XTwSG8dPf2Yo2N5Dl07cn3n7SRDkW5NTeQtmwCSYH9SLMDFOlykHpG/RPEpAaQwx/wYMy49B8LyXielHdJ/Xg=
+	t=1791552390; cv=none; b=tlMY0IFARTwOprCt2rB5h/TSAqmTGPo1dF0Wh5iUEj8QmbuH8u4A2S/l/EMtMn29hptX6PRqlc5g/rqYyrYn6PNjVyUmUi0EZUlwoLyvw/9oAd9adVcpai2oqbZXrzqoMQMiO6gXqkNi3YzuFPvxMqMGOuf3HWEjFZNp2ipcHm8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791552169; c=relaxed/simple;
-	bh=eMHoNSdHzps7Aih6g5jyMqPYdINzs7QugqJQETGVXS8=;
+	s=arc-20240116; t=1791552390; c=relaxed/simple;
+	bh=Qv7ujzDmq4OGtWPiit/kn5nP9RXKJM4A0D/BbUGoVlU=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TUam1rXVGJMWBYJS0PhyNuyrqAZbxDHxW8j48YZOyNpcln567ASJPKLTiRcL3O8Q9Xdu8XboKNUfOP3bta7DsXGIGH02l9IlR7i8enS7EJsNt5T9U5vxZ/+eYZr7AvEAfUWFGCcGillJpE9yonB30JMOY68l6dByzkZrp5qiAm0=
+	 MIME-Version:Content-Type; b=t7hUnfuPBlFxgWOsqfpuRIUKnzRMckMcSuGKsDQ5D+XaXJWojCEfUuVB0D5MnTX4ebYNQUbBqY/VHWhNQutJrRWn959mBk3UU/rvolaudqb7O/tz/Nr7Z/0WPAjWVCu3y6+0/HkTaJxzi+sqncXBuNCCCDlxQbvRfBmBJXFrpr4=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id DAC711F7CB;
-	Fri,  9 Oct 2026 13:22:45 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 8A1651F7CB;
+	Fri,  9 Oct 2026 13:26:27 +0000 (UTC)
 Authentication-Results: smtp-out2.suse.de;
 	none
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 91F691326D;
-	Fri,  9 Oct 2026 13:22:45 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3E03A1326D;
+	Fri,  9 Oct 2026 13:26:27 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id eZiOGaXqyGqCWgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 09 Oct 2026 13:22:45 +0000
-Date: Fri, 09 Oct 2026 15:22:45 +0200
-Message-ID: <87o6d33t5m.wl-tiwai@suse.de>
+	id TwCZBYPryGp6XgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 09 Oct 2026 13:26:27 +0000
+Date: Fri, 09 Oct 2026 15:26:26 +0200
+Message-ID: <87mrsn3szh.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: songxiebing <songxiebing@kylinos.cn>
-Cc: tiwai@suse.com,
-	perex@perex.cz,
+To: d@zerovolt.org
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda: Reset pending verb count on response timeout
-In-Reply-To: <20261009034040.379171-1-songxiebing@kylinos.cn>
-References: <20261009034040.379171-1-songxiebing@kylinos.cn>
+Subject: Re: [PATCH] ALSA: usb-audio: Add feedback snap quirk for Mayflower ARC AMP
+In-Reply-To: <20261009-mayflower-fb-v1-1-a84e82e05ac9@zerovolt.org>
+References: <20261009-mayflower-fb-v1-1-a84e82e05ac9@zerovolt.org>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -54,64 +54,39 @@ Content-Type: text/plain; charset=US-ASCII
 X-Rspamd-Pre-Result: action=no action;
 	module=Unknown lua;
 	unknown reason
-X-Spamd-Bar: /
-X-Rspamd-Queue-Id: DAC711F7CB
+X-Spam-Flag: NO
+X-Spam-Level: 
 X-Rspamd-Pre-Result: action=no action;
 	module=Unknown lua;
 	unknown reason
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: 0.00
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-Spamd-Result: default: False [0.00 / 50.00]
+X-Spam-Score: 0.00
 
-On Fri, 09 Oct 2026 05:40:40 +0200,
-songxiebing wrote:
+On Fri, 09 Oct 2026 13:44:53 +0200,
+Dimitri Wegner via B4 Relay wrote:
 > 
-> From: Bob Song <songxiebing@kylinos.cn>
+> From: Dimitri Wegner <d@zerovolt.org>
 > 
-> On some controllers the HDA link reports a verb timeout and the driver
-> falls back to polling mode.  After that, every subsequent verb sent to
-> that codec address keeps timing out (roughly one second per verb), while
-> the hardware itself looks perfectly healthy: the RIRB write pointer keeps
-> advancing, interrupts are still delivered, and verbs that carry no reply
-> payload -- notably writes -- still take effect on the codec.
+> The Mayflower ARC AMP DAC (USB ID 0493:4170, MAG Technology front-end)
+> at times gets stuck reporting feedback of nominal+1 sample/frame (97
+> instead of 96 at 96 kHz) and does not recover. The driver follows this
+> feedback, and audible pops occur every 1-2s until the stream is
+> restarted.
 > 
-> The reason is that snd_hdac_bus_send_cmd() increments
-> bus->rirb.cmds[addr] for every verb, but the counter is only decremented
-> by snd_hdac_bus_update_rirb() when a matching RIRB response is read, with
-> no rollback if the response never arrives.
+> Add a quirk for this device that ignores feedback values more than
+> 1/128 (~0.8%) away from nominal and uses the nominal rate instead.
+> Normal feedback corrections are far smaller than that and pass
+> through unchanged. Other devices are not affected.
 > 
-> When a controller cannot fall back to single-command mode, i.e.
-> chip->fallback_to_single_cmd is zero, azx_rirb_get_response() bails out
-> with -EIO immediately and never reaches the bus-reset / single_cmd
-> recovery that reinitializes CORB/RIRB and clears the counters (that path
-> is guarded by the same flag).  The ACPI platform, Tegra and CIX
-> controllers never set that flag, so they are all exposed to this.
-> 
-> A single lost response therefore poisons bus->rirb.cmds[addr]
-> permanently: each later verb still gets one response that only brings the
-> count back down to the stale baseline of 1, so
-> snd_hdac_bus_get_response() keeps timing out even though the codec
-> answers normally.
-> 
-> Fix this by dropping the pending count for the codec address once the
-> verb is known to be dead.  A late response is then handled as a spurious
-> response exactly as before, and the following verbs recover.
-> 
-> Signed-off-by: Bob Song <songxiebing@kylinos.cn>
+> Signed-off-by: Dimitri Wegner <d@zerovolt.org>
+> ---
+> Tested on this DAC at 96 kHz for ~10 weeks on kernels 7.1 and 7.2.
+> The pops no longer occur. The quirk triggered ~680 times over that
+> period, always with feedback 0x61.0000 against nominal 0x60.0000.
 
-Thanks for the patch.
+OK, so I assume that dev_warn_ratelimited() isn't too annoying, then.
 
-I think, however, that it's better to fix in the hda core side,
-i.e. snd_hdac_bus_exec_verb_unlocked().  When bus->ops->get_response()
-gets an error, just reset bus->rirb.cmds[addr].  Maybe create a helper
-(e.g. snd_hdac_bus_reset_response_counter(buf, addr)) in
-sound/hda/core/controller.c, and call it instead of open-code to make
-the meaning clearer.
-
-In this way, it'll cover all HD-audio controllers, not only hda-intel.
+Applied to for-next branch now.  Thanks.
 
 
 Takashi
