@@ -1,147 +1,126 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62B683A784A;
-	Fri,  9 Oct 2026 03:40:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43EE22BE7DD
+	for <linux-sound@vger.kernel.org>; Fri,  9 Oct 2026 04:31:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791517260; cv=none; b=edLLBEpONwrN6loWG1G5/HwxYkYmF30CTUCizNiawPd9sQRnMNUxefsp/Ow6KE4+lAq5mB67ViV7rw+sBZ/JlHP2SBciSF28FjmPTSOfVVGiVXeBlo1YiEuahpzMo3bsDXZWW8gGdY6hQyKhqkyCDPqUR8tDz/DZbv7fG5msNx4=
+	t=1791520309; cv=none; b=mg23yBshbklrQYLc2kGcvZIX4T8XNL/XMHneV75d819kbMQ9/QMT3HowV6U33iy6npechhBbhLciClpq/CFcpWmmh12JRvGbfXKZK8Ado2VvFQag+xWRRxN0T1bokjEILCF4HKmyGTeZ852fxxtGKZgTzzdV46nzAuVSiMnNM84=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791517260; c=relaxed/simple;
-	bh=vBg4IJ0ANSVfTx952HtfRlSrYRG8dQ15VMHN8QIx5pY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=anhRyfvWwLkZuOtTNgicIa5wUaX77smOCkPEto5O8NOuBLoV7pgMpSiRdzEoPJMNxeGYG2I/oOxwTU0Dlo6CaKERgzs7nY+SxIcg9ZNVo0CCbbb+obZ26MkJUyR8iUK24CnwBbkrWeJ5TUIig0Qi6mKkNQq0b3cohFCd0O69DL0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 34fbfb8ec39311f19a56ed5b684f684d-20261009
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:482f0e14-3d5e-4ffb-b8a1-38ad8a1b2d2a,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:7db8b62,CLOUDID:8a3e05b673b29173b2e36d3eb571cb83,BulkI
-	D:nil,BulkQuantity:0,SF:102|136|850|865|898,TC:nil,Content:0|15|50|99,EDM:
-	-3|-100,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,O
-	SA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 34fbfb8ec39311f19a56ed5b684f684d-20261009
-X-User: songxiebing@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <songxiebing@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 1459016241; Fri, 09 Oct 2026 11:40:44 +0800
-From: songxiebing <songxiebing@kylinos.cn>
-To: tiwai@suse.com,
-	perex@perex.cz
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	songxiebing@kylinos.cn
-Subject: [PATCH] ALSA: hda: Reset pending verb count on response timeout
-Date: Fri,  9 Oct 2026 11:40:40 +0800
-Message-Id: <20261009034040.379171-1-songxiebing@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1791520309; c=relaxed/simple;
+	bh=Fz4PEuGI3O7q19w9pR/Qd7L9b3WTupUNixNtZQ6WqEM=;
+	h=Content-Type:From:Mime-Version:Date:Subject:Message-Id:Cc:To; b=jcOlfrxgb4StPklCZFoeUkSiVlBHqFnLYLW+jRp3rKaPAfC4pZzhFff9xQmZq7/vxejdsoVStfFCNGt133BqsG6Ks36tasPqEztdOKKzZiK+rFHh89c5xzkoFmZv+6etx2Y3H+a3rMoswXOPXePrV7H8aGYaCXeyGRPyV1QXTg0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=o+iuG/kQ; arc=none smtp.client-ip=209.85.222.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="o+iuG/kQ"
+Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-93cbee4b010so370387985a.0
+        for <linux-sound@vger.kernel.org>; Thu, 08 Oct 2026 21:31:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791520307; x=1792125107; darn=vger.kernel.org;
+        h=to:cc:message-id:subject:date:mime-version:from
+         :content-transfer-encoding:content-type:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=xh/x7oXNS4mJ8zsjUTn1R5anhCmSoMMsD8wrAIfaouw=;
+        b=o+iuG/kQL/AQ5zT7NKEzOIeCzPiUNoIyzkRMt9v7d/D3CHzr/X6NV84NykwA/6mLqC
+         Ajc+fCE/c3SevyTEXovmLJKg0B+y7bp0tiI+HORQFHBOwPX9hGY4S5Kx9CdI4ZgZGLXC
+         NWtd3NStHyyhWM1vSUzaO3viJ1uX5lZJLZVqxZGzgW7PfMDH1LeOC6muGCcDe0CCLiSl
+         aOCiMlka+a6GtfS3JLfQWwLbwTN/rYPvkd+6LORNRZ2VjDpXleR6+T/pzJR4gi8RuHVg
+         dgKlX8Rw4Rn2HPzm3gJbEOMmKbKhQhZWBfBEezFiImnhwoabhXHzy6Oem+xDnugNJy0V
+         5Xew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791520307; x=1792125107;
+        h=to:cc:message-id:subject:date:mime-version:from
+         :content-transfer-encoding:content-type:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=xh/x7oXNS4mJ8zsjUTn1R5anhCmSoMMsD8wrAIfaouw=;
+        b=z0SexcFRNY5hZ4yEoiWNqNbm/dam8SDQSpGFWqTvAYp0lu+bQSbT8e15yxsVvwiGkC
+         YRrmbn1tahC6ZqL8V2hzklRjjQs3oquitVLdGHeRMtkGBGfBW2jjReol0r+VuYQbhK34
+         oa2FRtp9Qq0tlgD0F7rrrTYscz+n1uwYHsOJW+AFoBtckhSwHiuN+Ya468JYkAagVexn
+         Dj8T26XccflWJkNFH2DLexR6TIPtAduymlJ3A0i3rPETk3enhCDH9apEd1WWnq7A1Vor
+         vJI7Ov24sH1tdmdmGO/2mX0FYssxnsayrUmzDih5+9vUBvPyTKrINFoURdrCMmdWgTlH
+         itjQ==
+X-Gm-Message-State: AFuF++mfpHWqlpkJp36N1luIZ3gqXZmCevlH2erShDrPXkSYeq4CMOad
+	ICdJ+eAsX9hhY9hTvyRZESePTfftbi72lmOzrHFgOKtVAImx70QZ8g4i
+X-Gm-Gg: AYBFou338yvk+PKgqYNB4WtR0KgLRCNYAwcJQw1onUhL/kx1W0f4IZx0hD6mi7Z3cby
+	2vMWYaUjrDwTfFfkNtqBCo3ATeKM9Ewjqa9tHdjfsCpj3/hDW8ItL320Y/c2HRUjaLyMi6CxLIj
+	dbQOPRcuJtj+4pUjXXJVVJoMdYBqEtrFb6kL2U5I53Wrz5iRHKnYNKhU7TdZgEJOJCT2Ql4N0L0
+	6Xo+1GuUcBHHOw7CDdJkYOef6Dcz1ZLbO6gx2Za9n/iov9ZLmce/n9dERAChgctB0yvvUGsTXqI
+	mbsB6sy/+qDjHD7wWQnLP0HN2NB4KR20/EmYKHank+Y2PyvTLjgcZDdsT1yu7ecFiKXzujFUIRp
+	jqrSdGk2exeH2L5gFvfJGMTfjl+x0KgDtJDD+rcZiNJhKjiR09bansmiajLrhKIWffZcYO9cTDO
+	kntdmFBjRMrJN/droVkaOiLB60gE7vAx+eJyD8EYiEUksIpQ5R263sKa83xNhmAqIaSBRwCs+Dq
+	xr+NurchOf1jYHjP9RuC4OPqGRZUhqvPOpp7p4t7ULW5Dl29FylIwZCEQ==
+X-Received: by 2002:a05:620a:2985:b0:93e:910c:5e65 with SMTP id af79cd13be357-93ebd26b66fmr106881185a.49.1791520307022;
+        Thu, 08 Oct 2026 21:31:47 -0700 (PDT)
+Received: from smtpclient.apple (c-24-245-44-53.hsd1.mn.comcast.net. [24.245.44.53])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91b5501755asm8674026d6.12.2026.10.08.21.31.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Oct 2026 21:31:46 -0700 (PDT)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+From: Cory Mattson <corymattson@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0 (1.0)
+Date: Thu, 8 Oct 2026 23:31:35 -0500
+Subject: ALSA: hda/realtek: LG Gram 16T90SP (ALC298 + ALC1318, SSID 1854:0521) - no speaker output, need amp init sequence
+Message-Id: <0270FFF8-D78F-40D7-874F-6240AEA8C759@gmail.com>
+Cc: kailang@realtek.com, zhangheng@kylinos.cn, tiwai@suse.de
+To: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org
+X-Mailer: iPhone Mail (24A446)
 
-From: Bob Song <songxiebing@kylinos.cn>
+Hi Kailang, Takashi,=20
 
-On some controllers the HDA link reports a verb timeout and the driver
-falls back to polling mode.  After that, every subsequent verb sent to
-that codec address keeps timing out (roughly one second per verb), while
-the hardware itself looks perfectly healthy: the RIRB write pointer keeps
-advancing, interrupts are still delivered, and verbs that carry no reply
-payload -- notably writes -- still take effect on the codec.
+I=E2=80=99m hoping you can assist with resolving a problem I=E2=80=99m havjn=
+g.
 
-The reason is that snd_hdac_bus_send_cmd() increments
-bus->rirb.cmds[addr] for every verb, but the counter is only decremented
-by snd_hdac_bus_update_rirb() when a matching RIRB response is read, with
-no rollback if the response never arrives.
+The internal speakers on the LG Gram 16T90SP (Meteor Lake, ALC298, SSID 1854=
+:0521) are silent under Linux. Headphones and Bluetooth work. Windows works,=
+ and the Realtek driver there (RTKVHD64.sys) drives a Realtek ALC1318 I2S am=
+p behind the ALC298. No existing in-tree quirk enables it.
 
-When a controller cannot fall back to single-command mode, i.e.
-chip->fallback_to_single_cmd is zero, azx_rirb_get_response() bails out
-with -EIO immediately and never reaches the bus-reset / single_cmd
-recovery that reinitializes CORB/RIRB and clears the counters (that path
-is guarded by the same flag).  The ACPI platform, Tegra and CIX
-controllers never set that flag, so they are all exposed to this.
+Bug report with full dumps (alsa-info, Linux codec dump, Windows RtHDDump fo=
+r speakers and headphones):
+https://bugzilla.kernel.org/show_bug.cgi?id=3D221815
 
-A single lost response therefore poisons bus->rirb.cmds[addr]
-permanently: each later verb still gets one response that only brings the
-count back down to the stale baseline of 1, so
-snd_hdac_bus_get_response() keeps timing out even though the codec
-answers normally.
+Tested so far, all with silent speakers (playback runs normally in software)=
+:
+	=E2=80=A2 SOF (sof-audio-pci-intel-mtl) and legacy snd_hda_intel (d=
+sp_driver=3D1)
+	=E2=80=A2 model =3D17aa:231e (ALC287_FIXUP_LENOVO_THKPAD_WH_ALC1318=
+). Mapping 1854:0521 to this fixup directly oopses in try_assign_dacs on pro=
+be.
+	=E2=80=A2 model=3D1854:0490 (ALC298_FIXUP_LG_GRAM_STYLE_14) and mod=
+el=3D1854:0488 (ALC298_FIXUP_SAMSUNG_AMP_V2_4_AMPS)
+	=E2=80=A2 Windows Wid 0x20 coefficient table from RtHDDump, with ma=
+tching pin 0x17 routing
+	=E2=80=A2 GPIO mask/direction/data sequences (0x01-0x08), alone and=
+ after the Windows coefs
+	=E2=80=A2 Zhang Heng's test script using ALC1316-compatible tunnel w=
+rites (coef 0x22 =3D 0x0010, amp power-on coef 0x10 =3D 0x1b21)
+ACPI lists 10EC1308:00 on _SB_.PC00.I2C3.HDC1 at I2C address 0x10, with stat=
+us=3D0. Probing 0x10 on that bus (i2c-[1]) during playback gets no response,=
+ so the amp appears to be reached only through the codec, not over I2C.
 
-Fix this by dropping the pending count for the codec address once the
-verb is known to be dead.  A late response is then handled as a spurious
-response exactly as before, and the following verbs recover.
+A VFIO verb capture isn't possible on this machine: the audio controller (00=
+:1f.3) shares an IOMMU group with LPC, SMBus and SPI.
 
-Signed-off-by: Bob Song <songxiebing@kylinos.cn>
----
- sound/hda/common/controller.c | 20 ++++++++++++++++----
- 1 file changed, 16 insertions(+), 4 deletions(-)
+Kailang, could Realtek share the ALC1318 init sequence used for SSID 1854:05=
+21 (or 18540520/0521), or point to which existing ALC1318 fixup is closest f=
+or an ALC298 host? I can test patches right away.
 
-diff --git a/sound/hda/common/controller.c b/sound/hda/common/controller.c
-index afec5c5546ec..7a0b641fba14 100644
---- a/sound/hda/common/controller.c
-+++ b/sound/hda/common/controller.c
-@@ -773,7 +773,7 @@ static int azx_rirb_get_response(struct hdac_bus *bus, unsigned int addr,
- 		return 0;
- 
- 	if (hbus->no_response_fallback)
--		return -EIO;
-+		goto error;
- 
- 	if (!bus->polling_mode) {
- 		dev_warn(chip->card->dev,
-@@ -789,7 +789,7 @@ static int azx_rirb_get_response(struct hdac_bus *bus, unsigned int addr,
- 			 bus->last_cmd[addr]);
- 		if (chip->ops->disable_msi_reset_irq &&
- 		    chip->ops->disable_msi_reset_irq(chip) < 0)
--			return -EIO;
-+			goto error;
- 		goto again;
- 	}
- 
-@@ -798,12 +798,12 @@ static int azx_rirb_get_response(struct hdac_bus *bus, unsigned int addr,
- 		 * phase, this is likely an access to a non-existing codec
- 		 * slot.  Better to return an error and reset the system.
- 		 */
--		return -EIO;
-+		goto error;
- 	}
- 
- 	/* no fallback mechanism? */
- 	if (!chip->fallback_to_single_cmd)
--		return -EIO;
-+		goto error;
- 
- 	/* a fatal communication error; need either to reset or to fallback
- 	 * to the single_cmd mode
-@@ -823,6 +823,18 @@ static int azx_rirb_get_response(struct hdac_bus *bus, unsigned int addr,
- 	hbus->response_reset = 0;
- 	snd_hdac_bus_stop_cmd_io(bus);
- 	return -EIO;
-+
-+ error:
-+	/*
-+	 * The command will not get any response.  Drop its pending count,
-+	 * otherwise bus->rirb.cmds[addr] stays non-zero forever and every
-+	 * later verb to this codec address keeps timing out, even though its
-+	 * own response is delivered normally.
-+	 */
-+	scoped_guard(spinlock_irq, &bus->reg_lock) {
-+		bus->rirb.cmds[addr] = 0;
-+	}
-+	return -EIO;
- }
- 
- /*
--- 
-2.25.1
+System details:
+	=E2=80=A2 LG Electronics 16T90SP-G.ADB8U1, BIOS 16T90SPF08 (04/24/2=
+024)
+	=E2=80=A2 Intel Core Ultra 7 155H, HDA controller 8086:7e28
+	=E2=80=A2 Codec: Realtek ALC298 (10ec:0298), subsystem 0x18540521, r=
+ev 0x100103
+	=E2=80=A2 Kernel 7.0.0-28-generic (Ubuntu 24.04 base)
+
+Thanks,
+Cory Mattson
 
