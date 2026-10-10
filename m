@@ -1,143 +1,222 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 043BB3451CD
-	for <linux-sound@vger.kernel.org>; Sat, 10 Oct 2026 04:41:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E7BA36F8F2;
+	Sat, 10 Oct 2026 04:58:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791607268; cv=none; b=AQZSu8LTUIdkkoxlsoT0DKOKrOnec18fpw9mfMzpRVJWy+gMBVDuBqvNo35kpBn7U3oBcIw6QBlGUe6e46wFBXi8lv4Zl8iIFLweaz0gQ14TTSwKvP5i73LfZcLXNUDYnLGFl3YDJxc4R5/efMMng4HqwnNyFMDqsa65gEqEKSM=
+	t=1791608333; cv=none; b=K6sMkH6vctrmJQqCGFRLcw7J+TA/ghgjH9uj1sB/bbtsGtCm75vFhXTT5bcFnDFwJNFzUFa8YNGCeelVBx1QH2PBbXhylxDfALK05CptHl0zqh16j6O+xNhoCUr4ANTuvv8qROuH3BaFwLnRBJqrWhgPcFesqZkjc66d7PYUUSE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791607268; c=relaxed/simple;
-	bh=fN6Fd6o/zCGIvEnXn+MFZXCFpeQhWnuklflkSkR1o9A=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lApMZp2PIOs8Zzg5hHtl+2EDW5Scb3SOGdw3I9Mcy70aluzTvXFXCs+cpOdHX+H8Agky7+115YhOrhFq4Ebe0rVwPaPnwMqQZNOUP6LcpBgEK8feNzKON4EQArjpWKCgBOfcvCiX+no01NVfc25QqFw4to3Tng1aF85bQQtzltQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cgXpbpsI; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791608333; c=relaxed/simple;
+	bh=ag2XnCTWD1B3RSMs/txEiRAej3usmudDtH335mGetfs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=s9VD2ghjxiqPx1cBjXOciaXzg2aiKF2L9sZlr7ld7MLxZcvGIfmTtaiaRH1pdBLOaLvUEyYxaKmXSz1MKD43Q0ia4LYfPrwWi6boThNhshzHR0IE9hv0W02xwLPM0NCxlnyhnLsanxui9U+8Xm8RiTnuMR0sl9aXzmHY7UjJPfI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dfUF7/w4; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cgXpbpsI"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2e7006bbf77so2073525ad.0
-        for <linux-sound@vger.kernel.org>; Fri, 09 Oct 2026 21:41:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791607266; x=1792212066; darn=vger.kernel.org;
-        h=content-type:content-transfer-encoding:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=sNrVsnb4FmKFTXfrSdVYo8TWlLsGj3AF2yF7SV7KZcs=;
-        b=cgXpbpsIUhdnGLr0Xnr2XbrKl3aZBSQOy+cfu4YeYjSd2m/EGp9Z8DXn7615hhnE5o
-         8nM6db8fYoqCFKwrR67Yc77ymryNZrK/6hWWzYDQOmYHHqKDWhP3JoAJzIcfPeBsEChQ
-         z8ZxadZXhoQHEm4N/tFnvuFh1c/q4sGVB7CapuQ/ZJK2LZie3AmC9j41fD5TaNoVkXCC
-         xrAMiTAGRKJsMQwmj3rwfHYf29Mmjfvw/WP/6PHdpz363gnlBTQe8rn9UTbHtbz6+LM9
-         naCv2PKfaRM9XksGwpydYkOi0VJTbmXdew3ZL0iNlcrKj71xb4qIxCgoUar1UqBooume
-         urdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791607266; x=1792212066;
-        h=content-type:content-transfer-encoding:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=sNrVsnb4FmKFTXfrSdVYo8TWlLsGj3AF2yF7SV7KZcs=;
-        b=GWV5XiKzW9lQJoYqTRea4jRlYs3lqsPN7aybY7Q36b5zIAob9qbtGcB/JKPK5x9v5a
-         VJQSoS+MWbYMGK1wAc04U2Vq6wqC1Z1wzBDB5XVEjsSaOnKoCIsqj6vNVutDyuv8C3fS
-         aAc2EEiqL/TPy1rBujRR8/il7BU3zk/gDMjBuvZKgNfa2E7VVbCMCOUJsJdOr75Fjfx2
-         Fap3rbLDGg+UJ+rGm0esVT5fUcYtao0pEZr7ShyDPd50e96q3gByEWQuDSqAG4RChKwc
-         X8aA/j9Fspskb6mHdAs52o0YlsnLHKj4vnYqbl6pZrROvx+vsxQOc28T2ymtfhqmgACV
-         gQ7w==
-X-Forwarded-Encrypted: i=1; AKwUvByKPhaXn8jCzTD1mUu4ghXhcoNnv72nol+0DWPSvbuPr7eFfNqbMmc6ygCIh2aRRriZWnWOSPNQ+eE/BQ==@vger.kernel.org
-X-Gm-Message-State: AFq9FYLIORVGDO4KDxPBgbabaJe9AJnFqyxnlaNuFlfjWanaxJ/fA2T6
-	e+aHID6J+BGiqF6Osbpurrvo9MB8JB4j6YaG3aiPvW+d+rAtehX1O/Sl
-X-Gm-Gg: AYBFou2xzyRLmiY386d9B2MDa02OS2jCK2zMvFJRtlIc/Bxx5JTXTrvObgw7n6OnUdx
-	mV863rcx5T7Tl2xB3AZGXzG33TettULvcP8TkXUA43GoNngIZmAViiQrhUTuIo8kOu4MSev7iTg
-	pdGli7rnTDroz0OgHz+bcSp13FcbcNIWOyyPcOz6fSkbxLPAN137UOVNLVT9SNUAXtBcQ/3lH12
-	OOO/yCqhZXEYGEHZoXftaAvzq27R4+DV1DH1AB/qbgqzKpyT7oiqKqokV6i2v3VuXMBXt69h2i5
-	p+F+PBe+FK0tnaRDuJXPI2eWCB+mMlaZUl1b7w2qiiUkbFXJmY8+L7YzCK2s+VlDjfzVqqTlbaY
-	HW81Adl2jdhpCpVu+oQEh3PrQqbRH2Z42bNDr88LprldbISCQbTrEsMnpuEKV4Jrsmhcspgw+Pg
-	Qu3oTVj7johtBva4JTtFLSjJMAvyGJ3hYN56vJfJ4mW2PRhZ9e1kHc+AVAUUbWGmYFNyyLcigKy
-	EDzcf+BoJZMMy3PNDaOf0Jr9crF9wxEwgdd8ZBWRMiExBkr8qCvTKak6x20tN13TGSrx3A9ubP2
-	hIttctldfw0A813nXfm1bmh7Fq70PncNEITeD0MwvR7fgY0EeXI=
-X-Received: by 2002:a17:903:1a0e:b0:2dd:8639:9931 with SMTP id d9443c01a7336-2e842ab8200mr30793065ad.19.1791607266248;
-        Fri, 09 Oct 2026 21:41:06 -0700 (PDT)
-Received: from setsuna.localnet ([2403:581e:d87e:0:fc2d:ed31:e80e:412d])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e8422e171bsm19910975ad.73.2026.10.09.21.40.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Oct 2026 21:41:05 -0700 (PDT)
-From: James Calligeros <jcalligeros99@gmail.com>
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: asahi@lists.linux.dev, linux-sound@vger.kernel.org,
- patches@opensource.cirrus.com, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, Hector Martin <marcan@marcan.st>,
- Sasha Finkelstein <k@chaosmail.tech>, David Rhodes <david.rhodes@cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Martin =?UTF-8?B?UG92acWhZXI=?= <povik+lin@cutebit.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
- Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>,
- Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
- Neal Gompa <neal@gompa.dev>
-Subject: Re: [PATCH v2 09/21] ASoC: apple: Add macaudio machine driver
-Date: Sat, 10 Oct 2026 14:40:54 +1000
-Message-ID: <l_pd6lBHQaWNYoohhfxhFw@gmail.com>
-In-Reply-To: <3698d260-13c5-4050-8f03-61f7b7185514@intel.com>
-References:
- <20261004-macaudio-v2-0-7b47ed6335a8@gmail.com>
- <20261004-macaudio-v2-9-7b47ed6335a8@gmail.com>
- <3698d260-13c5-4050-8f03-61f7b7185514@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dfUF7/w4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1791608332; x=1823144332;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ag2XnCTWD1B3RSMs/txEiRAej3usmudDtH335mGetfs=;
+  b=dfUF7/w4kCy1FnniYcYWAP1aCarAtdOvM6Aay3RQllY0XP4F1AEd9nMv
+   Wpw2rLGBQZrHocwpZt8SIYnK54DYBt87XtVC+BsGYYWgnTU3ffiYU7XAr
+   L296FJGFkLGHpipezlJrJk7XTGPe88seKyuNAW+mBZVhjNt6CcvGKasWX
+   G3Ah4pZxacSyK5yfFYlWbIXFkKnMCTm2pn11Ji+3HMnL6ywU3LnrAmU2E
+   25fO2SoZgqBwOsHhlUAj4DvRIrGLubTu1djBvCmveR8U0o6Xvwh/DCKSi
+   XYDGMswSC4w/O5ZZtXfNSW0WDdOn28LPdqg+fvshVSrberD862C+e+yoO
+   A==;
+X-CSE-ConnectionGUID: O931C6YASA2diH2AnbgrjQ==
+X-CSE-MsgGUID: OoVXhG5GSbiv+YZtl995RQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11930"; a="514753"
+X-IronPort-AV: E=Sophos;i="6.27,149,1787036400"; 
+   d="scan'208";a="514753"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2026 21:58:51 -0700
+X-CSE-ConnectionGUID: 7MXMr4H0Tx+E5wiNybeEbA==
+X-CSE-MsgGUID: HK1/+BMeR6mAn//93gpzKg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,149,1787036400"; 
+   d="scan'208";a="456970"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 09 Oct 2026 21:58:48 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xFPAT-000000006VX-25AE;
+	Sat, 10 Oct 2026 04:58:45 +0000
+Date: Sat, 10 Oct 2026 12:58:08 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christian Marangi <ansuelsmth@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v3 2/2] ASoC: airoha: Add support for AN7581 PCM driver
+Message-ID: <202610101205.hqe234SY-lkp@intel.com>
+References: <20261009111334.23522-3-ansuelsmth@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261009111334.23522-3-ansuelsmth@gmail.com>
 
-Hi,
+Hi Christian,
 
-On Friday, 9 October 2026 9:52:09=E2=80=AFpm Australian Eastern Standard Ti=
-me Cezary=20
-Rojewski wrote:
-> macaudio_dpcm_hw_params()
-> macaudio_be_hw_free()
-> 	both can access the card from the substream/dai without
-> 	relying on the ma-context
->=20
-> macaudio_parse_of()
-> macaudio_parse_of_be_dai_link()
-> 	called in context which creates the very card
+kernel test robot noticed the following build warnings:
 
-I have fixed all of these by copying what rockchip/rockchip_max98090.c
-does to initialise the card, however
+[auto build test WARNING on broonie-sound/for-next]
+[also build test WARNING on next-20261008]
+[cannot apply to linus/master v7.3-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> macaudio_vlimit_enable_timeout()
-> macaudio_vlimit_disable_timeout()
-> macaudio_vlimit_update()
-> 	called in context of delayed part of the trigger() callback.
-> 	I'd need more information on the trigger() implementation of
-> 	yours to present a solution. See the comments below.
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Marangi/ASoC-dt-bindings-airoha-Add-AN7581-PCM-controller/20261009-131331
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/20261009111334.23522-3-ansuelsmth%40gmail.com
+patch subject: [PATCH v3 2/2] ASoC: airoha: Add support for AN7581 PCM driver
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20261010/202610101205.hqe234SY-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261010/202610101205.hqe234SY-lkp@intel.com/reproduce)
 
-are slightly more difficult to deal with. These are called from workqueues
-which only have reference to the driver data struct. Other than keeping a
-pointer to the card around, I'm not sure how else to deal with this other
-than keeping a pointer to card around in the driver data struct.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610101205.hqe234SY-lkp@intel.com/
 
-> Please correct me if I'm wrong but it seems the scheduled work does
-> speaker-volume operations only. Moreover, it seems that
-> ->lock_update_work may schedule a follow up work in form of
-> ->lock_timeout_work. Are you sure trigger() is the right place to do
-> volume-control in delayed manner?
+All warnings (new ones prefixed by >>):
 
-The intention here is to activate the timeout when the stream starts
-so that if speakersafetyd dies at any point during playback, the speaker
-volume(s) are limited to prevent damage. We only want this running when
-speaker playback starts and we need to disable it when that playback stops,
-so trigger() seems like the natural place for this.
-
-James
-
+   sound/soc/airoha/an7581-pcm.c:618:10: error: 'const struct snd_soc_component_driver' has no member named 'pcm_construct'
+     618 |         .pcm_construct = an7581_pcm_new,
+         |          ^~~~~~~~~~~~~
+   sound/soc/airoha/an7581-pcm.c:618:26: error: initialization of 'int (*)(struct snd_soc_component *, struct snd_pcm_substream *, struct timespec64 *, struct timespec64 *, struct snd_pcm_audio_tstamp_config *, struct snd_pcm_audio_tstamp_report *)' from incompatible pointer type 'int (*)(struct snd_soc_component *, struct snd_soc_pcm_runtime *)' [-Wincompatible-pointer-types]
+     618 |         .pcm_construct = an7581_pcm_new,
+         |                          ^~~~~~~~~~~~~~
+   sound/soc/airoha/an7581-pcm.c:618:26: note: (near initialization for 'an7581_pcm_platform.get_time_info')
+   sound/soc/airoha/an7581-pcm.c:603:12: note: 'an7581_pcm_new' declared here
+     603 | static int an7581_pcm_new(struct snd_soc_component *component,
+         |            ^~~~~~~~~~~~~~
+   sound/soc/airoha/an7581-pcm.c: In function 'an7581_pcm_probe':
+>> sound/soc/airoha/an7581-pcm.c:778:21: warning: unused variable 'connection_type' [-Wunused-variable]
+     778 |         const char *connection_type;
+         |                     ^~~~~~~~~~~~~~~
 
 
+vim +/connection_type +778 sound/soc/airoha/an7581-pcm.c
+
+   771	
+   772	static int an7581_pcm_probe(struct platform_device *pdev)
+   773	{
+   774		struct snd_soc_card *card = &an7581_pcm_card;
+   775		struct snd_soc_dai_link *dai_link;
+   776		struct device *dev = &pdev->dev;
+   777		struct an7581_pcm_priv *priv;
+ > 778		const char *connection_type;
+   779		int irq;
+   780		int ret;
+   781		int i;
+   782	
+   783		card->dev = dev;
+   784	
+   785		priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+   786		if (!priv)
+   787			return -ENOMEM;
+   788		snd_soc_card_set_drvdata(card, priv);
+   789	
+   790		priv->map = device_node_to_regmap(dev->of_node);
+   791		if (IS_ERR(priv->map))
+   792			return PTR_ERR(priv->map);
+   793	
+   794		priv->reset = devm_reset_control_get_exclusive(dev, "pcm1");
+   795		if (IS_ERR(priv->reset))
+   796			return PTR_ERR(priv->reset);
+   797	
+   798		irq = of_irq_get(dev_of_node(dev), 0);
+   799		if (irq < 0)
+   800			return irq;
+   801	
+   802		ret = devm_request_threaded_irq(dev, irq, an7581_pcm_irq_handler,
+   803						NULL, IRQF_ONESHOT, dev_name(dev), priv);
+   804		if (ret)
+   805			return ret;
+   806	
+   807		spin_lock_init(&priv->desc_lock);
+   808		mutex_init(&priv->user_lock);
+   809	
+   810		/* Reset the PCM interface */
+   811		reset_control_assert(priv->reset);
+   812		usleep_range(5000, 10000);
+   813		reset_control_deassert(priv->reset);
+   814		usleep_range(5000, 10000);
+   815	
+   816		ret = dma_set_mask(dev, DMA_BIT_MASK(32));
+   817		if (ret)
+   818			return ret;
+   819	
+   820		priv->tx_descs = dma_alloc_coherent(dev, sizeof(struct an7581_pcm_desc) *
+   821						    AN7581_PCM_TX_DESCRIPTORS, &priv->tx_dma,
+   822						    GFP_KERNEL);
+   823		if (!priv->tx_descs)
+   824			return -ENOMEM;
+   825	
+   826		priv->rx_descs = dma_alloc_coherent(dev, sizeof(struct an7581_pcm_desc) *
+   827						    AN7581_PCM_RX_DESCRIPTORS, &priv->rx_dma,
+   828						    GFP_KERNEL);
+   829		if (!priv->rx_descs) {
+   830			ret = -ENOMEM;
+   831			goto err_free_tx;
+   832		}
+   833	
+   834		for_each_card_prelinks(card, i, dai_link)
+   835			dai_link->platforms->of_node = dev->of_node;
+   836	
+   837		ret = devm_snd_soc_register_component(dev,
+   838						      &an7581_pcm_platform,
+   839						      NULL, 0);
+   840		if (ret) {
+   841			dev_err_probe(dev, ret, "Cannot register PCM component\n");
+   842			goto err_free_rx;
+   843		}
+   844	
+   845		ret = devm_snd_soc_register_component(dev,
+   846						      &an7581_pcm_dai_component,
+   847						      an7581_pcm_dai_driver,
+   848						      ARRAY_SIZE(an7581_pcm_dai_driver));
+   849		if (ret) {
+   850			dev_err_probe(dev, ret, "Cannot register PCM DAI component\n");
+   851			goto err_free_rx;
+   852		}
+   853	
+   854		ret = devm_snd_soc_register_card(dev, card);
+   855		if (ret) {
+   856			dev_err_probe(dev, ret, "%s snd_soc_register_card fail\n", __func__);
+   857			goto err_free_rx;
+   858		}
+   859	
+   860		return 0;
+   861	
+   862	err_free_rx:
+   863		dma_free_coherent(dev, sizeof(struct an7581_pcm_desc) *
+   864				  AN7581_PCM_RX_DESCRIPTORS, priv->rx_descs, priv->rx_dma);
+   865	err_free_tx:
+   866		dma_free_coherent(dev, sizeof(struct an7581_pcm_desc) *
+   867				  AN7581_PCM_TX_DESCRIPTORS, priv->tx_descs, priv->tx_dma);
+   868	
+   869		return ret;
+   870	}
+   871	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
