@@ -1,87 +1,90 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 560A0371CF8;
-	Sat, 10 Oct 2026 07:58:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F8D136F917;
+	Sat, 10 Oct 2026 07:59:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791619122; cv=none; b=jXX/96Q2hC++2nF/8IFtVLTyAgGUJVflyf2nyhwlkQZBLBZiTagkmp9XUbfSyMXXLjSC37MBxWBY6pfoGXQ7SyAVxtk0+HeV5JOGCwR7loAtZ+JmG0inrYUo6gU/9+0Yx5gzC0BPWDRXTZ7MvYCTELA9n+EQq7NvAIlsocmg3Y0=
+	t=1791619190; cv=none; b=ILn/FwCU5qkf/cbIHnZ0vZGNDlVGL8tqOgw7OTXGCPGVAJIxC8xVQNCOMvvc68Vmuw4Nm5mLHWBMtWNiuRZkZvmB1rRXRdcjs3OYB3keA7ZBGHCAz+wlaQfbNbLOVldRSUKAqfYwp2BDjZldnuPq0I4u1iv8rDg+zZDn3VLeoHA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791619122; c=relaxed/simple;
-	bh=7ioA5ZJazVy9l44zLlvEDMqltAWIQgd4zFEnmXscRW8=;
+	s=arc-20240116; t=1791619190; c=relaxed/simple;
+	bh=bj+1MemPbrEwXXsNGmi4hA5OV4s0cXLx4StQ2a1tb1c=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rpvWVjlM3A974J0ixRbrKHknbEnBen3LLLJuKZTYKfoRAuqcGz4RN2m6YIonz6rAyBhp/qgbfoOW5lMf2idSeJ1D80r52DHv0sZy/eR32vr/jDNiSIF/lkLJUTDZDJz20URkst3WEQdHhW3pq9osz9l0QLno9m3epZsgoVnPxJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GRMXswp1; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=3c77X8wk; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XykUvoqR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=DI68B5Xs; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=CPHzQNOy1W6Q8tbWrWZyVu6ScCDTR7n98n+CJhTZDjpqh8IvKfq5WwW9jN7dkchgn16fgDqL6kRCBTO/eCCrZNgw9/o5oxIEtvM0m6sJbm9FczlH3/SBaD9wiRdqL9L9B6TTjCzw/u6Ol/KU/gy2yL+haXZQCM3j1mhTyv1eROI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=K/ZhhESR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=hQ1SbkGq; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=K/ZhhESR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=hQ1SbkGq; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GRMXswp1";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3c77X8wk";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XykUvoqR";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DI68B5Xs"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="K/ZhhESR";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hQ1SbkGq";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="K/ZhhESR";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hQ1SbkGq"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id D70CF21B9B;
-	Sat, 10 Oct 2026 07:58:37 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 4DCC621C3E;
+	Sat, 10 Oct 2026 07:59:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1791619119; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1791619187; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=sIwN+MobTvP3nxgW9kKqCxVG/DTJTSr/qA5LPv7mIaI=;
-	b=GRMXswp1WohL9OWYE10HwIdaRBJsV/T0rTZ2nXTQvkOOCPsoKcJ5C275tuHJL1mFRbJ3nl
-	9RC++oO/KHmtDsuf1jv6eVlQBJm+J0iANAecBx0thesGBfNiJ1SMfpPq78lcsNFcHZgJjk
-	wp5GHSKVl00GDCG39qye6rC5iXsldzA=
+	bh=YLc6TxrMOMGLPStSkbO9Vc/GX6rpx7z4Sfi6yCQKdIc=;
+	b=K/ZhhESRIAz8vhbDsbbo8Yj8Ez5CTh7MihXwkFdSAh2qvyx5hY+tZhuu6FBpjKfj1xZPgM
+	tTrMaCYAQxVTbsF9QPiDIR6yXPtjJ1tvpaRb8sAR8kpXekVRFoGfvBNJ7icIYToOQmgMnE
+	tako3x5kGD4DlWmqT4NL34ZYx0FviTA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1791619119;
+	s=susede2_ed25519; t=1791619187;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=sIwN+MobTvP3nxgW9kKqCxVG/DTJTSr/qA5LPv7mIaI=;
-	b=3c77X8wkkdNFhIq1iMn+/mX3cw2LHjUWZLih2ARR4A9oMjle81/OA13cO3r682Z2wvIHlk
-	slUCd75YBoN7w9Dg==
+	bh=YLc6TxrMOMGLPStSkbO9Vc/GX6rpx7z4Sfi6yCQKdIc=;
+	b=hQ1SbkGq1IQzxVrxWzGJ+E6af0xL5sAFXO4jLBgu6cYr1xdz9hu27fn5aNdbM9vEMMjTdH
+	l+Ll0ZjZ4zJ/SlDw==
 Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=XykUvoqR;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=DI68B5Xs
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="K/ZhhESR";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=hQ1SbkGq
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1791619117; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1791619187; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=sIwN+MobTvP3nxgW9kKqCxVG/DTJTSr/qA5LPv7mIaI=;
-	b=XykUvoqR6S5bGFpaIYOQxwLWysqzwcr3BcbzDZVjz4brzif39YnLTA/rdCrpOBTlFqSH7A
-	OsAyzkWeljde+yTLVuopJ55kZCA2vd5lBH8Qlp3HD7BkAn2HAVZjKyjf5hBu1Qlgsn1+Km
-	e0ETRbmJSWLxw6tTj6V7lnstEtVdLD4=
+	bh=YLc6TxrMOMGLPStSkbO9Vc/GX6rpx7z4Sfi6yCQKdIc=;
+	b=K/ZhhESRIAz8vhbDsbbo8Yj8Ez5CTh7MihXwkFdSAh2qvyx5hY+tZhuu6FBpjKfj1xZPgM
+	tTrMaCYAQxVTbsF9QPiDIR6yXPtjJ1tvpaRb8sAR8kpXekVRFoGfvBNJ7icIYToOQmgMnE
+	tako3x5kGD4DlWmqT4NL34ZYx0FviTA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1791619117;
+	s=susede2_ed25519; t=1791619187;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=sIwN+MobTvP3nxgW9kKqCxVG/DTJTSr/qA5LPv7mIaI=;
-	b=DI68B5XsqrI0eXbNzNLY/wUSow2/LawM5J3+f1xQ1phjvLSs4IWE/mlNMRvUpIX9bsTv51
-	OimwrLDt4+BRCcCw==
+	bh=YLc6TxrMOMGLPStSkbO9Vc/GX6rpx7z4Sfi6yCQKdIc=;
+	b=hQ1SbkGq1IQzxVrxWzGJ+E6af0xL5sAFXO4jLBgu6cYr1xdz9hu27fn5aNdbM9vEMMjTdH
+	l+Ll0ZjZ4zJ/SlDw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 64EFF133F6;
-	Sat, 10 Oct 2026 07:58:37 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E9C00133F6;
+	Sat, 10 Oct 2026 07:59:46 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Nbs2Di3wyWrJSQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sat, 10 Oct 2026 07:58:37 +0000
-Date: Sat, 10 Oct 2026 09:58:36 +0200
-Message-ID: <87qzhyj8b7.wl-tiwai@suse.de>
+	id PiMeMHLwyWowSwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sat, 10 Oct 2026 07:59:46 +0000
+Date: Sat, 10 Oct 2026 09:59:46 +0200
+Message-ID: <87pkxij899.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Mark Brown <broonie@kernel.org>
-Cc: Marco Giunta <marco_giunta@outlook.it>,
-    Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
+To: evgeny@devduty.com
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek: enable AW88399 on Lenovo Legion R9000P AFR10
-In-Reply-To: <SN6PR19MB2303D726352EEE508A70D6D4FC922@SN6PR19MB2303.namprd19.prod.outlook.com>
-References: <SN6PR19MB2303D726352EEE508A70D6D4FC922@SN6PR19MB2303.namprd19.prod.outlook.com>
+	linux-kernel@vger.kernel.org,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	patches@opensource.cirrus.com,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/realtek: Enable all four speaker amps on Lenovo ThinkBook X G2 IAH
+In-Reply-To: <20261009-thinkbook-x-g2-iah-v1-1-56012188aee0@devduty.com>
+References: <20261009-thinkbook-x-g2-iah-v1-1-56012188aee0@devduty.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -90,9 +93,10 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 4DCC621C3E
 X-Rspamd-Action: no action
-X-Spam-Score: -3.51
-X-Spam-Flag: NO
+X-Spam-Level: 
 X-Spamd-Result: default: False [-3.51 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
@@ -102,66 +106,52 @@ X-Spamd-Result: default: False [-3.51 / 50.00];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	TO_DN_SOME(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[outlook.it];
-	FREEMAIL_CC(0.00)[outlook.it,suse.com,perex.cz,vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
 	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
 	RCVD_COUNT_TWO(0.00)[2];
 	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,outlook.it:email]
-X-Spam-Level: 
-X-Rspamd-Queue-Id: D70CF21B9B
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim]
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
 
-On Fri, 09 Oct 2026 17:58:10 +0200,
-Marco Giunta wrote:
+On Fri, 09 Oct 2026 18:02:37 +0200,
+Evgeny Akhtimirov via B4 Relay wrote:
 > 
-> Add codec SSID entries for the Lenovo Legion R9000P AFR10 (83F6),
-> which uses the same ALC287 + AW88399 smart amplifier configuration
-> as the existing supported Legion models.
+> From: Evgeny Akhtimirov <evgeny@devduty.com>
 > 
-> DSDT inspection confirms identical AWDZ8399 ACPI device layout
-> with reversed I2C addresses. The channel swap quirk applies.
+> The Lenovo ThinkBook X G2 IAH (MTM 21TU) has an ALC287 codec with four
+> CS35L41 amplifiers on I2C (CSC3551). It reports codec SSID 17aa:3929,
+> which it shares with the ThinkBook 13x Gen 5, and PCI SSID 17aa:3842.
 > 
-> Codec SSIDs (Lenovo vendor ID 0x17aa):
+> Since PCI SSID 17aa:3842 has no quirk entry, the codec SSID matches
+> ALC287_FIXUP_MG_RTKC_CSAMP_CS35L41_I2C_THINKPAD. That fixup binds only
+> two amps (cs35l41-hda.0 and .1), while the CS35L41 configuration table
+> describes four for 17AA3929. Amps .2 and .3 probe and load firmware,
+> but they are never bound to the codec, so half of the speakers stay
+> silent.
 > 
-> * 0x3934: Legion R9000P AFR10 (AMD)
-> * 0x3935: Legion R9000P AFR10 (AMD)
+> Add a ThinkPad-style fixup chain that binds four I2C amps, and match the
+> laptop by its PCI SSID so the ThinkBook 13x Gen 5 is not affected.
 > 
-> Signed-off-by: Marco Giunta <marco_giunta@outlook.it>
-> ---
-> Note: this patch depends on the following commits, which are currently in
-> linux-next but not yet in tiwai/sound:
+> Tested with hda_model=1028:0c4d (alias to ALC287_FIXUP_CS35L41_I2C_4):
+> all four amps bind, apply their calibration and are runtime-active
+> during playback.
 > 
-> * commit 664824782df6 ("ASoC: aw88399: skip BSTS check when boost
->   converter is bypassed")
-> * commit c5f615536405 ("ASoC: aw88399: remove bsts_unreliable
->   workaround")
-> * commit 7df0f9ee9c5a ("ALSA: hda: aw88399: Switch to use
->   acpi_bus_get_primary_device()")
->   
-> The first two change the property table in aw88399_hda.c, simplifying
-> aw88399_apply_legion_quirks() to just aw88399_swap_channels(); the third
-> shifts by one the line count in aw88399_hda_acpi_probe().
-> Without these commits, this patch will not apply cleanly. Hence, for
-> simplicity, I based it on linux-next. I am happy to rebase on tiwai/sound
-> if preferred (after these changes are merged).
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Evgeny Akhtimirov <evgeny@devduty.com>
 
-OK, so this obviously needs ASoC PR at first.
-Mark, could you send the stuff for pre-7.4?
+Thanks, applied now.
 
-
-thanks,
 
 Takashi
