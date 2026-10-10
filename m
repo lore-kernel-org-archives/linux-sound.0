@@ -1,116 +1,167 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ADE92F7EE7
-	for <linux-sound@vger.kernel.org>; Sat, 10 Oct 2026 02:20:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3F6E2D7DD7;
+	Sat, 10 Oct 2026 02:29:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791598818; cv=none; b=u3CuVUTjCSF/vGJ3wJ2BRSF0FejRykPER5zUpONh4CV0clQLhMr+SZNdNZiD5Lc5wvGuWFnaOiqQRzpLbgXm0l6fnar/nJbVHXZBrVw9Je9uqe5uDE43ydBdOUiWpvhVgomEtsYlsoH4N81s4je4jDLqPOekMEABKfCzoh07WKs=
+	t=1791599384; cv=none; b=ptr3Sh/4E9hmatFIZsYqV/zRscNrUj3x8782txpbQQH0DcROVJ+NOQE80+3b5ivwj0zP3WjDN6VEEI+CcxkaGpY3aSPRZyATkJjBB33EcWQDV/6+BMANM3fbf6doElLqqCNwl1Ef65g33Neyfg8N3oTHz5LJbhLVQsGVF0ZZHlE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791598818; c=relaxed/simple;
-	bh=6k3H1zrHC0y59ZJNOmBXXRBubqCqLl8VbW5eWttYaOE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=r+GA+f/ATAP9ZKvs/PQm9ve3GJb6ASheHDy4GVZo24b5ZJcwlC21v/Rxs6ha236HMWObFP2Tnpy7BavJlEmr0Mi4N3eOX3TZB4YBDea1iJQ9UWZYn5jtH41n0LZwO4Cl8AwnboRmIfg6ZfaS/cNu4Vs0HpiMthVk3+uaAULolo0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bedSKEcd; arc=none smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bedSKEcd"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-88d48da248eso217597b3a.1
-        for <linux-sound@vger.kernel.org>; Fri, 09 Oct 2026 19:20:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791598816; x=1792203616; darn=vger.kernel.org;
-        h=content-type:content-transfer-encoding:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=6k3H1zrHC0y59ZJNOmBXXRBubqCqLl8VbW5eWttYaOE=;
-        b=bedSKEcdonktUwUOm6kGJgnOp1+atn9lWPkJm+9A54WEWeLJq2NfbMTh3fMmTqhWG8
-         1ATBLPRzno7UPJUAdmSOVqNTlvxwXqsRQ8NX4tLN1zO/1Sxgnf+qAlMJYFIuPSLphXbX
-         WVrNgv/hyIGWKw0KjB/Ck90NEgloNgeJNTVocHjOLCz+s7NWAVrBR36YHCVdECO2oBrs
-         7552wICnjntsQukPvk+cpGcKljXeJvIr7MflJ/uh9KamJQizF98pvdUu247rphjHMfUJ
-         +RTGwyw1P5U/GBlUqRMB9bao4YEmQaQ/07AJwDq683jWmnuuoz80faxx1uBQ2mvozT85
-         AYgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791598816; x=1792203616;
-        h=content-type:content-transfer-encoding:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=6k3H1zrHC0y59ZJNOmBXXRBubqCqLl8VbW5eWttYaOE=;
-        b=BBZKEUjP7RVc8YcauFMBhKKXSyRPpFe5WwlOe1my/5c/6TUPVzRY9D9aV1+zBLQAH1
-         3QaA6X2Dq9y0g4xK4vnYJcpgZkPClSMv/lSYw2sbs6gRYn62eQrzVmQDYOGv2BxrA7ef
-         H4hxS0vPzHs83M5p9eb6ENoaJB9kJGP9qzLWI/KZRADTkYwb1VDiW7tJcUtct3awp36k
-         6V3FiBmgNZgsu+ayOOei/ZDQZhld54VGMBR0vZDRK1zKGjLnb3oCzRrViAsXL9PRh1wo
-         s9NpjacglZtMLyK64JjCj0/p9dLZ2dZ1yyhNSTTRo6jx0hXMoH7mptO35qmf5mt5TvG7
-         +eUg==
-X-Forwarded-Encrypted: i=1; AKwUvBzjVFs0OiZbEuBFBgrTQE0GDzKNhPPyw7aKgCdGBKOtDvZnnPrTyMg6LcsL+2PaC7lbH/O2u8Qj25tEgQ==@vger.kernel.org
-X-Gm-Message-State: AFq9FYJCJJIYesoXMGOnEJ5oEwlEnIi3hbEfWsP6iTbUCjwZu2vff6Di
-	YwF6AuYtS0p1qWh0Ho7xa14UW+yk8IrnHPMeQyqS5rhtfOmn0GVuIp1FBo27c9+/
-X-Gm-Gg: AYBFou2z5pPE7sDTcY0PC9ACWaa0i6f7cppM9jH2R1FqKVJ2W5N2mZ9C5mc9xycQMER
-	zOqM7ndZKsJVVExZse17ly00JaGNL0yBky6iAPNUxLRY0Un5HaccyzuGleXhaMA0jafu9NM/pjh
-	1+MivzbKJH3ckB2oU3qgbftXMsGQd7rv+ZN3XBznocYoK8KAsppjMHauU3D44KHIw17RB/RhIlE
-	nks53INgjn8YFi5qJPS6HjkhcuZPMk+60zvFtIm5UEliHULrkLT+ycJKeYUo6+svIBYtU3ML7lo
-	QtErj6etTl6vQ+Yx+6ENvyZ5+y0QQzq2A2j5YlU3cisGoaidKtsSJD4auYwn6ZsrKpf390Onldu
-	WtWywHnDs850B4Tp5yXeCrVLKwP/7bs1QzO+9YcQ92W0NzHScDYJrPBtJrbGRV8zLvm7y+ZUqHy
-	p5LmIXRJx/pBPtOSoFcRgA0Dj6rf26zQaO5SBuG9PFHMWhNg1HfpEHVWeoLgJmGihIj98QarZ5L
-	kzr3zqnuxVjeHVBngRv1sybGzjg5WW0rXjGlZpe1920hkB01pS45Cv7q+Vrwk0AZ5S1qWv/btiZ
-	jLulJ8yF2hL/Aaf3H3Zpv4ybxIVuzX5iX04RG1wQKD3bLvPxOMs=
-X-Received: by 2002:a05:6a21:4eaa:b0:3da:b8b4:91d7 with SMTP id adf61e73a8af0-3e16bab5c23mr3009407637.2.1791598815958;
-        Fri, 09 Oct 2026 19:20:15 -0700 (PDT)
-Received: from setsuna.localnet ([2403:581e:d87e:0:fc2d:ed31:e80e:412d])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-896c479c2cdsm1804113b3a.55.2026.10.09.19.20.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Oct 2026 19:20:14 -0700 (PDT)
-From: James Calligeros <jcalligeros99@gmail.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: David Rhodes <david.rhodes@cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Martin =?UTF-8?B?UG92acWhZXI=?= <povik+lin@cutebit.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
- Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>,
- Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
- Neal Gompa <neal@gompa.dev>, asahi@lists.linux.dev,
- linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
-Subject:
- Re: [PATCH v2 02/21] ASoC: dt-bindings: cs42l42: Do not require chip power
- supplies
-Date: Sat, 10 Oct 2026 12:20:04 +1000
-Message-ID: <WT25lTvHQhioJE_CrUW6Dw@gmail.com>
-In-Reply-To: <20261009-memorable-acoustic-dalmatian-03e22a@quoll>
-References:
- <20261004-macaudio-v2-0-7b47ed6335a8@gmail.com>
- <20261004-macaudio-v2-2-7b47ed6335a8@gmail.com>
- <20261009-memorable-acoustic-dalmatian-03e22a@quoll>
+	s=arc-20240116; t=1791599384; c=relaxed/simple;
+	bh=p/AACk+gvq0IVBEua9PtwypAEskG9ILUkXZdByX+c3w=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=pIqzBLp2USPjtJ2+FohhUPC0lJbCqoM3SR+aCZXuyKUbXN7Eux9raETwww3uPSgt1bObKLA5fUAU0krsPpI8dHC8mfwnxHvRz76MPdn2xhRqCGAhJ/5CvrqOgmtkyw2Tx92yGn8dFgEL/rxlaBDZGMdvbIyZDjg2mkt+8+tPvWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 6f2b81acc45211f19a56ed5b684f684d-20261010
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:637b99c3-5277-4ab6-8873-d785297fa820,IP:0,U
+	RL:0,TC:0,Content:0,EDM:-20,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:-20
+X-CID-META: VersionHash:7db8b62,CLOUDID:4f0640e5a45d1dd99c8abd0177fe9ff1,BulkI
+	D:nil,BulkQuantity:0,SF:81|82|102|136|850|865|898,TC:nil,Content:0|15|50|9
+	9,EDM:-19|2|-100,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:
+	0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 6f2b81acc45211f19a56ed5b684f684d-20261010
+X-User: songxiebing@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <songxiebing@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 103726592; Sat, 10 Oct 2026 10:29:35 +0800
+From: songxiebing <songxiebing@kylinos.cn>
+To: tiwai@suse.com,
+	perex@perex.cz
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	songxiebing@kylinos.cn
+Subject: [PATCH v2] ALSA: hda: Reset response counter when a verb times out
+Date: Sat, 10 Oct 2026 10:29:32 +0800
+Message-Id: <20261010022932.407742-1-songxiebing@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20261009034040.379171-1-songxiebing@kylinos.cn>
+References: <20261009034040.379171-1-songxiebing@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Friday, 9 October 2026 5:10:01=E2=80=AFpm Australian Eastern Standard Ti=
-me=20
-Krzysztof Kozlowski wrote:
-> On Sun, Oct 04, 2026 at 04:03:29PM +1000, James Calligeros wrote:
-> > Some integrators do not expose the power rails connected to the codec
-> > in a way that can be expressed in the Devicetree. Do not require them
-> > to be specified on such platforms.
->=20
-> I don't understand how these cannot be expressed in Devicetree. What are
-> we missing?
+From: Bob Song <songxiebing@kylinos.cn>
 
-On Apple devices, the regulator(s) driving these pins are completely opaque.
-They are not exposed via the Apple Devicetree or any other discoverable
-interface, and they are not controllable. As far as we can tell, the pins in
-question are powered whenever the machine is powered on.
+On some controllers the HDA link reports a verb timeout and the driver
+falls back to polling mode.  After that, every subsequent verb sent to
+that codec address keeps timing out (roughly one second per verb), while
+the hardware itself looks perfectly healthy: the RIRB write pointer keeps
+advancing, interrupts are still delivered, and verbs that carry no reply
+payload -- notably writes -- still take effect on the codec.
 
+The reason is that bus->rirb.cmds[addr] is incremented for every verb and
+only decremented in snd_hdac_bus_update_rirb() when a matching RIRB
+response is read, without any rollback for a response that never arrives.
+A controller that cannot fall back to the single-command mode
+(chip->fallback_to_single_cmd == 0, e.g. the ACPI platform, Tegra and CIX
+controllers) returns an error right away and never performs the bus reset
+that would reinitialize CORB/RIRB and clear the counter, so a single lost
+response leaves bus->rirb.cmds[addr] non-zero forever.  Each following
+verb then still gets one response that only brings the count back to the
+stale baseline of 1, and snd_hdac_bus_get_response() keeps timing out even
+though the codec answers normally.
+
+Handle it in the core helper snd_hdac_bus_exec_verb_unlocked(): whenever
+get_response() reports an error, reset the pending counter for the codec
+address, so a late response is simply treated as a spurious response and
+the following verbs recover.  Doing it here covers all HD-audio
+controllers instead of relying on each controller's fallback setting.
+
+Add a small helper snd_hdac_bus_reset_response_counter() for this.
+
+Signed-off-by: Bob Song <songxiebing@kylinos.cn>
+---
+Changes in v2:
+- Move the fix from azx_rirb_get_response() in the HDA controller helper
+  into the HD-audio core (snd_hdac_bus_exec_verb_unlocked()), as suggested
+  by Takashi Iwai, so that it covers all HD-audio controllers and not only
+  the ones using the shared azx helper.
+- Add the snd_hdac_bus_reset_response_counter() helper instead of
+  open-coding the counter reset.
+
+ include/sound/hdaudio.h     |  2 ++
+ sound/hda/core/bus.c        |  6 +++++-
+ sound/hda/core/controller.c | 20 ++++++++++++++++++++
+ 3 files changed, 27 insertions(+), 1 deletion(-)
+
+diff --git a/include/sound/hdaudio.h b/include/sound/hdaudio.h
+index aa994d6e6d35..b0fbb61fa093 100644
+--- a/include/sound/hdaudio.h
++++ b/include/sound/hdaudio.h
+@@ -398,6 +398,8 @@ void snd_hdac_codec_link_down(struct hdac_device *codec);
+ int snd_hdac_bus_send_cmd(struct hdac_bus *bus, unsigned int val);
+ int snd_hdac_bus_get_response(struct hdac_bus *bus, unsigned int addr,
+ 			      unsigned int *res);
++void snd_hdac_bus_reset_response_counter(struct hdac_bus *bus,
++					 unsigned int addr);
+ int snd_hdac_bus_parse_capabilities(struct hdac_bus *bus);
+ 
+ bool snd_hdac_bus_init_chip(struct hdac_bus *bus, bool full_reset);
+diff --git a/sound/hda/core/bus.c b/sound/hda/core/bus.c
+index 81498f1e413e..ecc4b7a780a4 100644
+--- a/sound/hda/core/bus.c
++++ b/sound/hda/core/bus.c
+@@ -121,11 +121,15 @@ int snd_hdac_bus_exec_verb_unlocked(struct hdac_bus *bus, unsigned int addr,
+ 			break;
+ 		/* process pending verbs */
+ 		err = bus->ops->get_response(bus, addr, &tmp);
+-		if (err)
++		if (err) {
++			snd_hdac_bus_reset_response_counter(bus, addr);
+ 			break;
++		}
+ 	}
+ 	if (!err && res) {
+ 		err = bus->ops->get_response(bus, addr, res);
++		if (err)
++			snd_hdac_bus_reset_response_counter(bus, addr);
+ 		trace_hda_get_response(bus, addr, *res);
+ 	}
+ 	return err;
+diff --git a/sound/hda/core/controller.c b/sound/hda/core/controller.c
+index 78855ac357c6..1babc5109049 100644
+--- a/sound/hda/core/controller.c
++++ b/sound/hda/core/controller.c
+@@ -396,6 +396,26 @@ int snd_hdac_bus_get_response(struct hdac_bus *bus, unsigned int addr,
+ }
+ EXPORT_SYMBOL_GPL(snd_hdac_bus_get_response);
+ 
++/**
++ * snd_hdac_bus_reset_response_counter - reset the pending response count
++ * @bus: HD-audio core bus
++ * @addr: codec address
++ *
++ * Drop the number of commands that are still waiting for a response from
++ * the given codec address.  This is called when a verb is known to be dead,
++ * e.g. after a response timeout, so that a lost response won't leave the
++ * counter non-zero forever and block all later verbs to the same codec.
++ */
++void snd_hdac_bus_reset_response_counter(struct hdac_bus *bus, unsigned int addr)
++{
++	if (addr >= HDA_MAX_CODECS)
++		return;
++
++	guard(spinlock_irq)(&bus->reg_lock);
++	bus->rirb.cmds[addr] = 0;
++}
++EXPORT_SYMBOL_GPL(snd_hdac_bus_reset_response_counter);
++
+ #define HDAC_MAX_CAPS 10
+ /**
+  * snd_hdac_bus_parse_capabilities - parse capability structure
+-- 
+2.25.1
 
