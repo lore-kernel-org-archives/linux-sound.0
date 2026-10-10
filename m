@@ -1,137 +1,157 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 168FC255F52;
-	Sat, 10 Oct 2026 10:25:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B9FA385519
+	for <linux-sound@vger.kernel.org>; Sat, 10 Oct 2026 10:37:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791627907; cv=none; b=L3TLRbRVQincptgrxMpkIo+Q6lSIOUjypzC7OgzM2ONspn7IL1utXtQsxPgDSxFGhvG+O97xiiHW2zdFuKDDo4Ni/f4mw6cSoX9vc+dTb7WP2yyASsuH/ZyCgDNOlBrwHYohHRp3KPzLGVyLE8ReQ1b0gY+6h2fdHb35kj5YmMo=
+	t=1791628678; cv=none; b=uMTEKIF8QCCjdA2OC0eTnjb6OtQmwD1GtJjsp0lycULGG/3JWYWS/+5QqxEik1MWQ6SywuGzCKMfWeihbNw7RE5CEIV+aPR4snWAUSCBPLPyBZaAERxnPppIHgDcAogO3h9O/s3OIbroUrv1B4Z0ux3l+degME7sdLuUl73BDcE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791627907; c=relaxed/simple;
-	bh=I3KH1o842MU1hc5uI6sgSimt4viWp1SeNLRIp7pJsnI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=HlKHFupDJk6SmDbNUp20Cv5MtIZXz4HbI72gN9ZCeOYLOgazaPemg1/bPBR8cWak/o0nR6iVTE6BoZDJp+omcvMUN79iGsijd6mNYhPBzWCQ/Vn2pIwbL6J4KR25mx1c20TmPT2c198tk+Z7aNqDxWdvd8pwkQ+hsJiT3w6MJ/Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ee8j85H4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1791628678; c=relaxed/simple;
+	bh=jkRZUjcR/iHQ5VzCqNLA9f4Fe486oeWzrxRWKYMer1o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EQWh4O+wAGy1PVtVVSpokYi293UcpfYSFuAjAGrTLiy/6j99rk3fzBT7fzjylvgaeOmwjv+d9sqZE55wXkDRX6T9AfG7+qvXpSK0Lmc0ZlB0lvecDM6mdb5LtqfrCQaM3QdcbZhtDD3+lENzsyQWYnR9/h+ujflju5FzFESnVDk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=n4p6nV1E; arc=none smtp.client-ip=74.125.82.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ee8j85H4"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C4F3EC2BCB9;
-	Sat, 10 Oct 2026 10:25:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1791627906;
-	bh=I3KH1o842MU1hc5uI6sgSimt4viWp1SeNLRIp7pJsnI=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=ee8j85H4KTBvo5D2iWQUqzslqD28BiclTELW2VvjL6mgnp94XzPCX5ek3nhth5ors
-	 XoyPvhxfJLQhxcENNxrMBEZGesdX0vsqTbrjQze0Wcn0lG4TBy7L2TOPLkEehP7F63
-	 qh1hZR/jgtjWtzI7aytvlkWu7jEjcwmZJzIDFRDB2Y6FIFD0UzJcy+Bqq8P33YeWA5
-	 pTomzjOQJ0rBvaFXrUE2EqyfeZTPuSwcMOJwDr4A419GVjfYhAtxlyiycazXvzXv/7
-	 ZfoLIiV8LReX8BY8VpVOPFev+DjK7YJvcb3UhEkDDd1WzVtKTk2/75WoMg00MFtuMh
-	 MAyXX2EicBAaQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1F93CA9EBE;
-	Sat, 10 Oct 2026 10:25:06 +0000 (UTC)
-From: Federico Amedeo Izzo via B4 Relay <devnull+federico.izzo.pro@kernel.org>
-Date: Sat, 10 Oct 2026 12:24:43 +0200
-Subject: [PATCH] ASoC: codecs: aw88261: expose hardware mute control
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="n4p6nV1E"
+Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-30b6dad2382so1097959eec.0
+        for <linux-sound@vger.kernel.org>; Sat, 10 Oct 2026 03:37:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791628676; x=1792233476; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Ew2+S7G29t4qe/yFqpVAE8i/VYjBJqraXtqLzaXbyEQ=;
+        b=n4p6nV1E/syK7HIIFtetLHBvYz1Q/tAoO5iA+sp+GpGzDbKFgj9hHo0WQbXdn+jQvm
+         AlIAojqM6qvKUBRQByxK2QsvOGoHnCx4eqaiPRQDtE8UqpLRIJZ6spmu70zJShGwMuNF
+         E2OUgRTv/bB9phZykkKFqdVeIuVMhsYwskTYgezhgX/yrYEOtG/PP71vIj0DA2xED0Ze
+         rV634L0tnM+l1Su8/G9r2zHmTYU90jG3SasrOMyz3bKZOn+5YtYkLPWn2dJ/3UaOQk09
+         fOL3blSChAiw+Wu22nPsE+gOBA1IkxndlGE/sZtENk3Du47z/K+MJRNb167eAzfPu8qe
+         vaOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791628676; x=1792233476;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Ew2+S7G29t4qe/yFqpVAE8i/VYjBJqraXtqLzaXbyEQ=;
+        b=NKc9U49WL83KHZu7twg3IjIIaIciMWVviP0EBBSITUFLOcBXaku7CR/fFfk92+ygLK
+         kpB90/r7WUmvdbRoCTUCFdqAg7pNv2IYZkpnFNFiK7Cj6hc3olqiV7IgeEjBHUcE1D4R
+         bpyMc19dhBMFENwjhhtuV2vLJpK1E2bGiMpRT/gHeEh7h3/LsYE7w7yJDDyMn+x9PMfn
+         pc9pfkkmU00jFa8F/ckxXpt0+tnSRbATMERawA+z8Q3qVUugF3qhObg5ZSUnZdhLF/lE
+         LWPpURMen9IaOoTyRzNJZ+sfuCUmYiKA6QgTQ18ZAk0Abwi+JDTKGY11pEX6pPrNnxTK
+         Jggw==
+X-Forwarded-Encrypted: i=1; AKwUvBw6sLWPaeJqshbt29PiHfYHS+wTu0K2wl2YFjPnJd5npdRo3uIGCdXyTiFV/29B7VT16DNXzTc0jftLKQ==@vger.kernel.org
+X-Gm-Message-State: AFq9FYKwH3DTAxKH1SLOPe1TFsE6va3EL8rd90em+3QRc87B/XvN/UTS
+	OrZElgZMqSdi6ilqSBZJ8lDsjSWt00TjHJiAtdJ6tAonIUVEAvONR4TgJ1CEPnozzFkd9g==
+X-Gm-Gg: AYBFou2x/QgGEQpx/Ly4X5rk4SoIk5YtXIZyvjqaWe9TDv26dpjh30bSDzs36MQmGXO
+	y4Yw+Rrrp4iy/9Kdl3O4eNPGpyK2jvRb4uwhhASwACwDNJz3w6KhgM3rSS1+XdL3QD+TGb3STdp
+	qKQ/5vzZvhEOri9/9zV/4pLei4OsC+E6GuUssam4lC/Uufw/lqCVDlELz8/Q1nsGRu5MgvS9Jqp
+	C/A2ZP4n2lNLQcScqUT0DdrJ0LMPPPmTYWkH5kDV0HUSPlKc3gIeyWNfoEtl2QXo8Wrpcy+2rAl
+	stYNj2Xz0nxTrJzqvzrui+EyhFonPxmSgZER0Dcn2SQZjG5P5MGW2i3UgzUOeIfPHqTX2g70WlL
+	UhDZ8mWQTF4mKJejusWKFbf5NU2tz32Hr8vGg9Setts25HXr3b1gFJ3oa7qLA8iAVXG0xZYpw4y
+	WQWvKV/lHyPiPZM5wrMa+hJrga8skw1RJCm09UZMGPI4/V5Z3upvK9LwIdwv1SrWwHnUfK7m2BI
+	zSXnL5JC8+41mftqYjJlzCQTl9MWsLc11TDbFFvTlr5pdhvZ3DlAzn6Hrn8JnFCTs5RleGFdnhW
+	1vo=
+X-Received: by 2002:a05:701b:4549:10b0:165:90af:a25f with SMTP id a92af1059eb24-16a6178a081mr5322235c88.41.1791628676125;
+        Sat, 10 Oct 2026 03:37:56 -0700 (PDT)
+Received: from eve ([2601:644:4300:43e6:fe7a:b82e:befa:cd4b])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-169a2d2db98sm12153545c88.10.2026.10.10.03.37.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 10 Oct 2026 03:37:55 -0700 (PDT)
+From: Sergey Tiraspolsky <stiraspo@gmail.com>
+To: Cezary Rojewski <cezary.rojewski@intel.com>
+Cc: Liam Girdwood <liam.r.girdwood@linux.intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Sergey Tiraspolsky <stiraspo@gmail.com>
+Subject: [PATCH] ASoC: Intel: avs: Reset the stream unless it is already prepared
+Date: Sat, 10 Oct 2026 03:37:53 -0700
+Message-ID: <20261010103753.16969-1-stiraspo@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261010-aw88261-hardware-mute-v1-1-d0befedd3b4c@izzo.pro>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMMQ6DMAyF4asgz1iKM7TAVSoGh7jFlaCVQwAJc
- fem7fa+4f0HJDGVBF11gMmqSV9zAdUVDCPPD0GNxeCdv5Ajh7w1TZk4ssWNTXDKi2B79RRbohC
- YoXzfJnfdf91b/3fK4SnD8o3BeX4Ast8XQnkAAAA=
-X-Change-ID: 20261010-aw88261-hardware-mute-9721d911bbaa
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: Val Packett <val@packett.cool>, Luca Weiss <luca.weiss@fairphone.com>, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht, 
- Federico Amedeo Izzo <federico@izzo.pro>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1791627905; l=2467;
- i=federico@izzo.pro; s=20251017; h=from:subject:message-id;
- bh=BYKelzy2Ps55yjmnOFm7JWNbifFBGV5GETpncVeWvFY=;
- b=M+g3tCFx03KoL5rCw3LD9LmwSCGb4Zrxy1QS/Fj6EbKtg09aENr05n7vFGwxaHl9dQIWtYpqj
- CaosaU6S4kuBIfsJn650s2XbgKkkuyWiCPNfdlFFZ+p1d7E1nQHd2d8
-X-Developer-Key: i=federico@izzo.pro; a=ed25519;
- pk=XfmNfpH48k8jLbId5NKrp0yoKoFb/uLjr97qIxBImBw=
-X-Endpoint-Received: by B4 Relay for federico@izzo.pro/20251017 with
- auth_id=544
-X-Original-From: Federico Amedeo Izzo <federico@izzo.pro>
-Reply-To: federico@izzo.pro
+Content-Transfer-Encoding: 8bit
 
-From: Federico Amedeo Izzo <federico@izzo.pro>
+Commit cfca1637bc2b ("ASoC: Intel: avs: Unprepare a stream when XRUN
+occurs") resets the HDA stream when ->prepare() is called in the XRUN
+state. User space does not always recover that way. PipeWire's ALSA
+backend recovers from an underrun with snd_pcm_drop(), snd_pcm_prepare()
+and a new start, so ->prepare() runs in the SETUP state,
+hdac_stream->prepared is still set and the reset is skipped. Every
+recovery attempt then fails the same way:
 
-When the aw88261 speaker volume is set to 0, it becomes very quiet but
-still audible. This causes echo during phone calls on motorola-dubai, as
-the bottom speaker output is getting picked up by the bottom microphone.
+  spa.alsa: hw:avsmax98927,1p: snd_pcm_avail after recover: Broken pipe
 
-Expose the aw88261 hardware mute functionality as a Playback Switch
-control. The new control can be used in a UCM profile to disable the
-bottom speaker during phone calls and greatly reduce the echo.
+On a Google Pixelbook (Kaby Lake, max98927 speakers) this happens after
+an occasional underrun during normal playback and silences the speakers
+for one to four minutes, until the PCM is closed. It can be provoked by
+stopping PipeWire with SIGSTOP for 0.5 s during playback: in one run
+that single underrun led to 1297 failed recoveries over two minutes,
+until the sink was suspended. A plain alsa-lib program that recovers
+with snd_pcm_drop() and snd_pcm_prepare() hits the same loop, while
+snd_pcm_prepare() straight from XRUN recovers at once.
 
-Signed-off-by: Federico Amedeo Izzo <federico@izzo.pro>
+Skip the reset only when the stream is already PREPARED, the repeated
+->prepare() case the check exists for, and reset it otherwise. With
+this change both kinds of recovery succeed with a single restart.
+
+Fixes: cfca1637bc2b ("ASoC: Intel: avs: Unprepare a stream when XRUN occurs")
+Assisted-by: Claude:claude-opus-5-5
+Signed-off-by: Sergey Tiraspolsky <stiraspo@gmail.com>
 ---
- sound/soc/codecs/aw88261.c | 29 +++++++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
+How this was tested, and what was not:
 
-diff --git a/sound/soc/codecs/aw88261.c b/sound/soc/codecs/aw88261.c
-index 8671069f4c18..7303dc9eb4e0 100644
---- a/sound/soc/codecs/aw88261.c
-+++ b/sound/soc/codecs/aw88261.c
-@@ -1014,6 +1014,33 @@ static int aw88261_volume_set(struct snd_kcontrol *kcontrol,
- 	return 0;
- }
+- Built out of tree against a 7.2.5 distribution kernel (Omarchy
+  linux-omarchy 7.2.5-3, whose sound backports do not touch
+  avs_dai_fe_prepare()). The rebuilt stock module's .text matched the
+  shipped one byte for byte; the patched one differs only in this
+  comparison. It was installed in place of the stock module and tested
+  from a clean boot. It was not built or run on this branch.
+- alsa-lib reproducer, no PipeWire: on hw:avsmax98927,1 write four
+  periods, stall 0.5 s so the stream underruns, recover, then keep
+  writing for 1 s, recovering every further -EPIPE the same way.
+  Recovering with snd_pcm_drop() + snd_pcm_prepare(): stock 958, 228
+  and 526 further xruns in that second; patched none (3 runs each).
+  Recovering with snd_pcm_prepare() from XRUN: none on either.
+- PipeWire, SIGSTOP for 0.5 s during playback: stock got stuck in XRUN
+  3 out of 3 times until the sink was suspended; patched recovered with
+  a single restart 3 out of 3 times.
+- Patched, also checked: HDMI 1-3, headphone playback, headset and DMIC
+  capture (repeated prepare and both recovery styles, no further
+  xruns), audible speaker playback, headphone hot-plug, and
+  suspend/resume during playback. After resume PipeWire logs one
+  "after recover: Broken pipe" and plays on, on stock and patched alike.
+- Only one machine (Google Pixelbook, Kaby Lake) was tested.
+
+ sound/soc/intel/avs/pcm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/sound/soc/intel/avs/pcm.c b/sound/soc/intel/avs/pcm.c
+index ad25bd355..880cd7a9f 100644
+--- a/sound/soc/intel/avs/pcm.c
++++ b/sound/soc/intel/avs/pcm.c
+@@ -756,7 +756,7 @@ static int avs_dai_fe_prepare(struct snd_pcm_substream *substream, struct snd_so
+ 	data = snd_soc_dai_get_dma_data(dai, substream);
+ 	host_stream = data->host_stream;
  
-+static int aw88261_mute_get(struct snd_kcontrol *kcontrol,
-+				struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_soc_component *codec = snd_kcontrol_chip(kcontrol);
-+	struct aw88261 *aw88261 = snd_soc_component_get_drvdata(codec);
-+
-+	ucontrol->value.integer.value[0] = !aw88261->mute_st;
-+	return 0;
-+}
-+
-+static int aw88261_mute_put(struct snd_kcontrol *kcontrol,
-+				struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_soc_component *codec = snd_kcontrol_chip(kcontrol);
-+	struct aw88261 *aw88261 = snd_soc_component_get_drvdata(codec);
-+	bool mute = !ucontrol->value.integer.value[0];
-+
-+	if (aw88261->mute_st == mute)
-+		return 0;
-+
-+	aw88261->mute_st = mute;
-+	if (aw88261->aw_pa->status == AW88261_DEV_PW_ON)
-+		aw88261_dev_mute(aw88261->aw_pa, mute);
-+
-+	return 1;
-+}
-+
- /*
-  * The field contains 4 bits in units of 6dB + 6 bits in units of 0.125dB
-  * which is too precise for TLV (!) so we have to multiply the scale by 2.
-@@ -1026,6 +1053,8 @@ static const struct snd_kcontrol_new aw88261_controls[] = {
- 	SOC_SINGLE_EXT_TLV("PCM Playback Volume", AW88261_SYSCTRL2_REG,
- 		6, AW88261_CTL_MAX_VOL, 1,
- 		aw88261_volume_get, aw88261_volume_set, volume_tlv),
-+	SOC_SINGLE_EXT("Playback Switch", 0, 0, 1, 0,
-+		aw88261_mute_get, aw88261_mute_put),
- 	AW88261_PROFILE_EXT("Profile Set", aw88261_profile_info,
- 		aw88261_profile_get, aw88261_profile_set),
- };
+-	if (runtime->state == SNDRV_PCM_STATE_XRUN)
++	if (runtime->state != SNDRV_PCM_STATE_PREPARED)
+ 		hdac_stream(host_stream)->prepared = false;
+ 	if (hdac_stream(host_stream)->prepared)
+ 		return 0;
 
----
-base-commit: becb95e45ef0dda9ffb35156d909d3da7a2789c3
-change-id: 20261010-aw88261-hardware-mute-9721d911bbaa
-
-Best regards,
---  
-Federico Amedeo Izzo <federico@izzo.pro>
-
+base-commit: f90f8afb61beb268ca8092e7f3a826b520d3e8da
+-- 
+2.55.0
 
