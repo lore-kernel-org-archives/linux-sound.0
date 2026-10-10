@@ -1,269 +1,160 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5DD91A683D;
-	Sat, 10 Oct 2026 22:00:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4452E32572F;
+	Sat, 10 Oct 2026 22:25:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791669627; cv=none; b=pvoSx4+58RJt/pZ3LW/aDh8aVfcXnvuIsCVf4SMHeUqU03UIF60qOlHr2fBnANy53S5xaYPwrwCaK9vVXDrbYfWO5AZ3riFu3LwKYe/ymIgpa8AJsQtPAcajJPMkUj30jqmLPhKLkSP4AthoXZGWHZoifKuhq5mOzXwjoAht/Q8=
+	t=1791671158; cv=none; b=kj9S9djrpeyfUu+PSESjbRHFzzyfcz7noYXYSDofRSHAIysTOoDIWP0rGFMikLQCknrADQqmQbWbUwGPif/fcpyZXIyqq2UKyNAdvqCMHY/2DRh4AvcHympCU6XK280ubawha/k9bYRzrt4efbSif6qBooqFvfJjV+tt5bTrHoQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791669627; c=relaxed/simple;
-	bh=uTIIgXvNGRKidYtT9y9d/j9O/uWBWM1pGuwQpiO4cmw=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=LxMbN4FMd8LTIFjiPea+nzZKCbl9pWue4MSjHuNEHXw8edbBTn5aa++6NGrRpEtSCEfwX13SoWeZ2wNQ3RrWp5xUIhhJ+2XPHi7ITvpMZa1z5TZgNagyttUk0wpBrTgKFuexBZfsUQWi2ziBmDZ6ZWxse3V+cxAJqVpfdWWVHLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=ffP+TPLt; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791671158; c=relaxed/simple;
+	bh=pAYVB5PeFpW8HxPDnj2XeIgyKvCaV1s9djzOblgFM7w=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=E6DMrICKDmnJc+xiOyR8cmcE6ITWwU43FuX3s6lWtc/1zHGPZ8CU39fC9KzdcCkJg/rgBSwdGA6MMZ9oyE8JRwjktkOOj99Mz0tPqlTJBCyUeOR+LETmtalZ081C9TcJqKBzezCIYgfGvsdGvW77aPmZTxnG/wye9S+h6LuMtcA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=aPEhDzx6; arc=none smtp.client-ip=178.21.23.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="ffP+TPLt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AADC1F000FF;
-	Sat, 10 Oct 2026 22:00:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1791669625;
-	bh=N2jYfqmPt2es1xuCkTol8NOahRHgRnTcTOUiwhGzkTU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=ffP+TPLt1hBG2zdntJGpA4a6eo1Kktyl63gUdmTPWoDV5PB8j6QZDH7O5pu6DND18
-	 83jrFOWryJ2h63yrCPBw+Uh9wavAQ633twrY1q8Eu4fcsINr1B1dFygd9ev9/B+B/N
-	 PiED0VbjIV4o5yPrrgsINTWJg6/2ZfXlko4ls4sM=
-Date: Sat, 10 Oct 2026 15:00:20 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka
- <vbabka@kernel.org>, Jann Horn <jannh@google.com>, Pedro Falcato
- <pfalcato@suse.de>, David Hildenbrand <david@kernel.org>, Mike Rapoport
- <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko
- <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Dennis Dalessandro
- <dennis.dalessandro@cornelisnetworks.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Leon Romanovsky <leon@kernel.org>, Paul Moore <paul@paul-moore.com>,
- Stephen Smalley <stephen.smalley.work@gmail.com>, Jaroslav Kysela
- <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Alexei Starovoitov
- <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko
- <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, Kumar Kartikeya
- Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, Ryan
- Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song
- <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, Usama Arif
- <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert
- <dgilbert@interlog.com>, "James E.J. Bottomley"
- <James.Bottomley@HansenPartnership.com>, "Martin K. Petersen"
- <mkp@kernel.org>, Simona Vetter <simona@ffwll.ch>, Helge Deller
- <deller@gmx.de>, Sebastian Reichel <sre@kernel.org>, John Hubbard
- <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, Masami Hiramatsu
- <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, Peter Zijlstra
- <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar
- <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
- <dave.hansen@linux.intel.com>, x86@kernel.org, Arnaldo Carvalho de Melo
- <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, Mark Rutland
- <mark.rutland@arm.com>, Rik van Riel <riel@surriel.com>, Harry Yoo
- <harry@kernel.org>, Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot
- <vincent.guittot@linaro.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Will Deacon <will@kernel.org>, "Aneesh Kumar K.V"
- <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann
- <arnd@arndb.de>, Muchun Song <muchun.song@linux.dev>, Oscar Salvador
- <osalvador@suse.de>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan
- Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, Oliver Upton
- <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, Madhavan
- Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul
- Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou
- <aou@eecs.berkeley.edu>, Christian Borntraeger <borntraeger@linux.ibm.com>,
- Janosch Frank <frankja@linux.ibm.com>, Claudio Imbrenda
- <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>,
- Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens
- <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller"
- <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>, Alexander
- Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>, Joshua Hahn
- <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park
- <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, Ying Huang
- <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, Chris
- Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, Kemeng Shi
- <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He
- <baoquan.he@linux.dev>, Youngjun Park <youngjun.park@lge.com>, Johannes
- Weiner <hannes@cmpxchg.org>, Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt
- <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>,
- Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Chengming
- Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, Miklos
- Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-rdma@vger.kernel.org,
- selinux@vger.kernel.org, linux-sound@vger.kernel.org, bpf@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org,
- linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
- kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
- linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
- fuse-devel@lists.linux.dev, Ihor Solodrai <ihor.solodrai@linux.dev>, Bert
- Karwatzki <spasswolf@web.de>, Takashi Iwai <tiwai@suse.de>, Emil Tsalapatis
- <emil@etsalapatis.com>
-Subject: Re: [PATCH v5 00/38] mm: make VMA flag semantics explicit,
- eliminate VM_SPECIAL
-Message-Id: <20261010150020.cbd6ce3038e3b6d72e2c92c9@linux-foundation.org>
-In-Reply-To: <20261009-b4-mmap-prepare-vma-flag-sanify-v5-0-923b70125b1e@kernel.org>
-References: <20261009-b4-mmap-prepare-vma-flag-sanify-v5-0-923b70125b1e@kernel.org>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="aPEhDzx6"
+Received: from mail01.layka.lan (localhost [127.0.0.1])
+	by disroot.org (Postfix) with ESMTP id F2FA880DA3;
+	Sun, 11 Oct 2026 00:25:53 +0200 (CEST)
+X-Virus-Scanned: SPAM Filter at disroot.org
+Received: from layka.disroot.org ([127.0.0.1])
+ by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id 31JMfF3VuXNw; Sun, 11 Oct 2026 00:25:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
+	t=1791671153; bh=pAYVB5PeFpW8HxPDnj2XeIgyKvCaV1s9djzOblgFM7w=;
+	h=From:To:Cc:Subject:Date;
+	b=aPEhDzx6HMNNagQF3HzKiJX+N4lpS+9ExmrtYHplXFAztWVtYRhsEmXqe8SNhSpsm
+	 tiENmFAdM09bf0H2mT+kAZO+jMJ1NApPgtZ73LvddDvhMH3NbsDdWgt35ZkKhCw654
+	 E55RBvTSHwByKEri20lkIqeyCV4rL4mXXPAyOJ+gE8vLRVMS41Q+L+3BZVhWj4KEOA
+	 7z1D72EPkYxYgg+H27BbkJVLswJv2tvghsBB2E0lhkpS+IgXoy0bqpvBDpkgyt+S4O
+	 QaMZfJ0AjiQSJPuTRDD7CNM89SMFxqft50RMiV0/QJfqUwuXbKeCTuagv5Fg0XZGed
+	 ybHCodjh/EJwQ==
+From: =?UTF-8?q?Ali=20Ahmet=20Memi=C5=9F?= <aliamemis@disroot.org>
+To: Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: seq: Wait for one RCU grace period when deleting all ports
+Date: Sun, 11 Oct 2026 01:25:40 +0300
+Message-ID: <20261010222543.1470723-1-aliamemis@disroot.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, 09 Oct 2026 19:03:54 +0100 "Lorenzo Stoakes (ARM)" <ljs@kernel.org> wrote:
+Since the port list was converted to RCU, snd_seq_delete_all_ports()
+calls synchronize_rcu() once per port under register_mutex. Closing a
+client with 254 ports now takes about 1.6s and every other client
+open or close waits for it.
 
-> The VM_SPECIAL / VMA_SPECIAL_FLAGS mask conflates several unrelated
-> properties:
-> 
-> * Is this managed by core mm, or by a driver mapping MMIO, kernel-allocated
->   pages, or even ordinary pages itself?
-> * Can it be expanded or merged?
-> * Is this a 'weird' case like mlock where migration might race and we
->   'have' to set invalid flags to notify?
-> * Is it another 'weird' case where we just want to stop GUP from touching
->   it?
-> 
-> Driver writers have often been confused about this, and who can blame them?
-> 
-> It also interacts badly with the eternal edgecase known as hugetlb - which
-> sets VMA_DONTEXPAND_BIT but doesn't also want to be treated like a
-> 'special' flag.
-> 
-> Another issue is that we cannot make sensible assumptions about flag
-> use. It's not possible to assume VMA_IO_BIT means iommu because drivers
-> abuse it and mlock abuses it.
-> 
-> Special is also an overloaded term in mm. VDSO and VVAR mappings are also
-> called 'special' but they're special in a... special way.
-> 
-> Sometimes things are called special that are a subset of
-> VMA_SPECIAL_FLAGS (VMA_PFNMAP_BIT and VMA_MIXEDMAP_BIT for instance when it
-> comes to zapping or vm_normal_folio()).
-> 
-> There's a specific kind of special for THP too, which considers
-> PFN map, mixed map 'special' but DAX not.
-> 
-> It's all rather a mess.
-> 
-> This series brings some order to things by both limiting what drivers can
-> do with VMA flags and switching to using predicates that describe
-> behaviour, not arbitrary flags.
+Unlink all ports first, wait for a single grace period and then free
+them.
 
-Thanks, I've updated mm-unstable to this version.
+Fixes: 4c252fbc06d6 ("ALSA: seq: Use RCU for the client port list")
+Signed-off-by: Ali Ahmet Memiş <aliamemis@disroot.org>
+---
+Tested in QEMU on v7.3 with lockdep and KASAN.  Closing a client
+with 254 ports went from ~1.6s to ~0.02s, and a second client doing
+open/close in a loop no longer stalls.  Closing the client while other
+clients send to and query its ports ran 100 rounds without reports.
 
-For some reason, new versions of this series aren't applying when I
-drop the new series in place of the old.  I made the same old bunch of
-reject-fixups, so the below interdiff will show if I messed any of them up.
+ sound/core/seq/seq_ports.c | 41 +++++++++++++++++++++++++-------------
+ sound/core/seq/seq_ports.h |  1 +
+ 2 files changed, 28 insertions(+), 14 deletions(-)
 
-> v5:
-> * Applied tags (thanks everybody!)
-> * Updated 3/38 to fix a bug in __mmap_new_file_vma() by zapping + closing
->   the VMA before setting vma->vm_file NULL to avoid an i_mmap_writable
->   imbalance. A repro was tested before/after and confirmed fixed.
-> * Updated 7/38 to make __map_kernel_pages_prepare() use
->   mmap_assert_write_locked() rather than the weird
->   assert-on-mmap_read_trylock() pattern, as per Suren.
-> * Also update vm_insert_page(), vm_insert_pages() to fix the same pattern
->   and to use the new VMA API, and converted a BUG_ON to a
->   VM_WARN_ON_ONCE().
-
-Here's how v5 altered mm.git:
-
- mm/memory.c                       |   20 +++++++++++---------
- mm/vma.c                          |   16 ++++++++--------
- tools/testing/vma/include/stubs.h |    4 ++++
- 3 files changed, 23 insertions(+), 17 deletions(-)
-
---- a/mm/memory.c~b
-+++ a/mm/memory.c
-@@ -2611,10 +2611,11 @@ int vm_insert_pages(struct vm_area_struc
- 
- 	if (!range_in_vma(vma, addr, end))
- 		return -EFAULT;
--	if (!(vma->vm_flags & VM_MIXEDMAP)) {
--		VM_WARN_ON_ONCE(mmap_read_trylock(vma->vm_mm));
--		VM_WARN_ON_ONCE(vma->vm_flags & VM_PFNMAP);
--		vm_flags_set(vma, VM_MIXEDMAP);
-+	if (!vma_test(vma, VMA_MIXEDMAP_BIT)) {
-+		mmap_assert_write_locked(vma->vm_mm);
-+		VM_WARN_ON_ONCE(vma_test(vma, VMA_PFNMAP_BIT));
-+		vma_start_write(vma);
-+		vma_set_flags(vma, VMA_MIXEDMAP_BIT);
- 	}
- 	/* Defer page refcount checking till we're about to map that page. */
- 	return insert_pages(vma, addr, pages, num, vma->vm_page_prot);
-@@ -2626,7 +2627,7 @@ static void __map_kernel_pages_prepare(s
- 	if (vma_desc_test(desc, VMA_MIXEDMAP_BIT))
- 		return;
- 
--	VM_WARN_ON_ONCE(mmap_read_trylock(desc->mm));
-+	mmap_assert_write_locked(desc->mm);
- 	VM_WARN_ON_ONCE(vma_desc_test(desc, VMA_PFNMAP_BIT));
- 	vma_desc_set_flags(desc, VMA_MIXEDMAP_BIT);
+diff --git a/sound/core/seq/seq_ports.c b/sound/core/seq/seq_ports.c
+index eb67eb0ee..b582d0344 100644
+--- a/sound/core/seq/seq_ports.c
++++ b/sound/core/seq/seq_ports.c
+@@ -248,17 +248,9 @@ static void clear_subscriber_list(struct snd_seq_client *client,
  }
-@@ -2785,10 +2786,11 @@ int vm_insert_page(struct vm_area_struct
+ 
+ /* delete port data */
+-static int port_delete(struct snd_seq_client *client,
+-		       struct snd_seq_client_port *port)
++static void port_free(struct snd_seq_client *client,
++		      struct snd_seq_client_port *port)
  {
- 	if (addr < vma->vm_start || addr >= vma->vm_end)
- 		return -EFAULT;
--	if (!(vma->vm_flags & VM_MIXEDMAP)) {
--		BUG_ON(mmap_read_trylock(vma->vm_mm));
--		BUG_ON(vma->vm_flags & VM_PFNMAP);
--		vm_flags_set(vma, VM_MIXEDMAP);
-+	if (!vma_test(vma, VMA_MIXEDMAP_BIT)) {
-+		mmap_assert_write_locked(vma->vm_mm);
-+		VM_WARN_ON_ONCE(vma_test(vma, VMA_PFNMAP_BIT));
-+		vma_start_write(vma);
-+		vma_set_flags(vma, VMA_MIXEDMAP_BIT);
- 	}
- 	return insert_page(vma, addr, page, vma->vm_page_prot, false);
- }
---- a/mm/vma.c~b
-+++ a/mm/vma.c
-@@ -2631,21 +2631,21 @@ static int __mmap_new_file_vma(struct mm
- 	map->vm_file = vma->vm_file;
+-	/* set closing flag and wait for all port access are gone */
+-	port->closing = 1;
+-	/* the port has already been unlinked from the client's port list;
+-	 * wait for a grace period so that RCU readers still traversing the
+-	 * list can no longer take a new use_lock reference, then drain the
+-	 * outstanding references before freeing
+-	 */
+-	synchronize_rcu();
+ 	snd_use_lock_sync(&port->use_lock);
  
- 	if (error) {
--		struct file *file = vma->vm_file;
- 		UNMAP_STATE(unmap, vmi, vma, vma->vm_start, vma->vm_end,
- 			    map->prev, map->next);
+ 	/* clear subscribers info */
+@@ -272,6 +264,20 @@ static int port_delete(struct snd_seq_client *client,
+ 	snd_BUG_ON(port->c_dest.count != 0);
  
-+		if (vma->vm_ops->close) {
-+			zap_vma(vma);
-+			/* Safe, because VMA zapped. */
-+			vma_close(vma);
-+		}
-+		if (map_same_file(map))
-+			fput(map->vm_file);
-+
- 		vma->vm_file = NULL;
- 		vma_iter_set(vmi, vma->vm_end);
- 		/* Undo any partial mapping done by a device driver. */
- 		unmap_region(&unmap);
--		vma->vm_file = file;
--		/* Only safe once unmapped. */
--		vma_close(vma);
--
--		if (map_same_file(map))
--			fput(map->vm_file);
--		vma->vm_file = NULL;
- 		return error;
- 	}
- 
---- a/tools/testing/vma/include/stubs.h~b
-+++ a/tools/testing/vma/include/stubs.h
-@@ -329,6 +329,10 @@ static inline void vma_close(struct vm_a
- {
- }
- 
-+static inline void zap_vma(struct vm_area_struct *vma)
-+{
+ 	kfree(port);
 +}
 +
- static inline int mmap_file(struct file *file, struct vm_area_struct *vma)
- {
++static int port_delete(struct snd_seq_client *client,
++		       struct snd_seq_client_port *port)
++{
++	/* set closing flag and wait for all port access are gone */
++	port->closing = 1;
++	/* the port has already been unlinked from the client's port list;
++	 * wait for a grace period so that RCU readers still traversing the
++	 * list can no longer take a new use_lock reference, then drain the
++	 * outstanding references before freeing
++	 */
++	synchronize_rcu();
++	port_free(client, port);
  	return 0;
-_
+ }
+ 
+@@ -302,18 +308,25 @@ int snd_seq_delete_port(struct snd_seq_client *client, int port)
+ int snd_seq_delete_all_ports(struct snd_seq_client *client)
+ {
+ 	struct snd_seq_client_port *port, *tmp;
++	LIST_HEAD(deleted);
+ 
+-	/* unlink and delete each port; port_delete() waits for an RCU grace
+-	 * period before draining the port, so concurrent lockless readers can
+-	 * no longer take a new use_lock reference on it
++	/* unlink all ports first and wait for a single RCU grace period
++	 * before draining and freeing them, so concurrent lockless readers
++	 * can no longer take a new use_lock reference on any of them
+ 	 */
+ 	guard(mutex)(&client->ports_mutex);
+ 	list_for_each_entry_safe(port, tmp, &client->ports_list_head, list) {
+ 		list_del_rcu(&port->list);
+ 		client->num_ports--;
++		port->closing = 1;
++		list_add_tail(&port->delete_list, &deleted);
+ 		snd_seq_system_client_ev_port_exit(port->addr.client, port->addr.port);
+-		port_delete(client, port);
+ 	}
++	if (list_empty(&deleted))
++		return 0;
++	synchronize_rcu();
++	list_for_each_entry_safe(port, tmp, &deleted, delete_list)
++		port_free(client, port);
+ 	return 0;
+ }
+ 
+diff --git a/sound/core/seq/seq_ports.h b/sound/core/seq/seq_ports.h
+index 12ad86bf1..ef1787d6c 100644
+--- a/sound/core/seq/seq_ports.h
++++ b/sound/core/seq/seq_ports.h
+@@ -49,6 +49,7 @@ struct snd_seq_client_port {
+ 	struct module *owner;		/* owner of this port */
+ 	char name[64];			/* port name */	
+ 	struct list_head list;		/* port list */
++	struct list_head delete_list;	/* used by snd_seq_delete_all_ports() */
+ 	snd_use_lock_t use_lock;
+ 
+ 	/* subscribers */
+-- 
+2.55.0
 
