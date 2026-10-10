@@ -1,203 +1,193 @@
-Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011016.outbound.protection.outlook.com [52.101.70.16])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 290E143CE71;
-	Sat, 10 Oct 2026 08:36:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.16
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791621427; cv=fail; b=C+Al2O9HtiflM7RluSSWGgwBIGq9dGiKNheAps4Lb1FhhRqUwudHCB/8VuXyOQEDoQSveR4GaARm5f5ZMwLQICeHAZwWBTePTPOgMtyBypm/r/qhdD7ZAWpZ1Ni6nEApM8zZwtepdytqRmJO6xUJPnOJricIt7YZpraoouZh1Ck=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791621427; c=relaxed/simple;
-	bh=Nmo1Dsopw1yoko86wqWx4Xb2GV4iKOG0JL6Gvqj97hk=;
-	h=From:To:Subject:Date:Message-Id:Content-Type:MIME-Version; b=UkDnW/grmHD6xV9aelH9YoqNp9mdgBbAg2m9RFLkG9J7GqPa261ultTjg/mRWvKVpaewTCU8UaZzgDvQOsmgYI+8bEAdvbcc4usYyIalqld2Q9cPAn9o1MhzCQydnqfm9NRDhNshDoFvMqiqCCXfvCD/qvCGRKJ1WCq0GKn17XA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=bLuv4BXA; arc=fail smtp.client-ip=52.101.70.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FDAB3B0584
+	for <linux-sound@vger.kernel.org>; Sat, 10 Oct 2026 08:42:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791621777; cv=none; b=JunvIaRLy1iGKIxbihQrt4KKr9hy1UyjECaNyHe6CWbcoEaljTmcNveOANOKycpW+ZpwfOfJg2opsSZTDQhd84Z3kRZqpgyOIbrtebRNFNrvSfjhmph8o6ZKALZ+xVV3ciS7QE3U1hPVhhjJx9fzwCOJ8reivPj2ySI3sOvImDk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791621777; c=relaxed/simple;
+	bh=T0cHhk3sVg14STn5ch68EKKiVtS63d3OH+IINR9SoUw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=DmbMndmfyyFe2hx9LI/2YTfMRIgCznKX6cYx/zPH5rMjqdUTul2OrXyyJ+iKKeAXWA9PQdJA8+SEHSH1Xbjwyps6zcka3VoDMZ/Q0WDHr0Hp7rPGHiaiEN5jPAyJhS6F0A7oneksELp0qx0Mzxg5ZOY2/QfVXWV1LzCVE7FFybk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Fo5lzCKR; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=U60NLG4u; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="bLuv4BXA"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WBdo72DyvZyuaHDzTsVH4axnC1sO74pPwI9imR5q2bIHHctJ2dJcE8Gt5Xzr/QVUZyAmYNuLB05zakqhp6310yHkws+fqIaosA8ZHKVy27NNAsCEDD7FoK1/bwuBkwjYd6/pJIiPL0c5CyZAOl2bxJO71NJR+K0624UD6k5fbFxEYwhGjiVTPMh34z39yf8Yzyi5uIy782iIIvz/IzGX/YUF+bpJ0JVu87/5tk54DNuKP4+ka4hrgF+ijTo4GapMhbHwjJG+9a++fTRgtajEGPuv5EU2vwK3XDwdKKNow9WmOAPjznc5KCyb4kzP8HGA5BRsrM4l0rPihFK66wI0nQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ThZ9iN6kBtDdk8SWdwAc5zbRLce+uw8+nLdnA9eOmWs=;
- b=wVIWiKcdIWJC3oe8IUOr4SnaaWFPm4kMjEjAmraKgbW87iyUD0jFtYcioCmjk175JgtwMY3uFcNcuaoZ4XqN7wdWauMvdjMhPL+cQc1PC0+wyfvr9R+uuMuE5I5IbjRAE8HLMZvgHI6cTczRWP1cgN/u5HFNP+cTAUaHeV4h0+G0aoYZk3Kru45/65kMf4d/kjyFG35DyXmXLcmaaIsqQ1Ob/DQVaEenjuqj/W+H+8W160JLd8p1LENdCkyUmXRCL2zalRLKCWMVSM2EUdWnbn0/F1sENSA/8+ryTM/z3viPzWUZdNdBg5z4NcG6QGP0pTfv1+eSxdOsgaUG/arCBQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ThZ9iN6kBtDdk8SWdwAc5zbRLce+uw8+nLdnA9eOmWs=;
- b=bLuv4BXAKs22cngMtQibASj779krxZZRNf7SAgrQMdGddjNqoahdttQws6uuKJibevOO1HxN9c80LE7nDfu0+MgllX0JelEfYk9UrRDKv9KwaOEWCRiVWoIDDo/oOtUZULhuhxz/HLvcaDwLdyf3jiHoIpWZlJtrwC5BPIlEHVRaDd/PEm9x+nA2IWYc2NDNvsITMdo8SsspLBrjInIOEKzY9GZ6nVNZJyKggfUUFvhSR8dg90PHisK4CqKx/HqHVsz4F+W4cHYU7nUDiphxfGYZTBxorRZIoKa0Im1ad+D6fN3P78m4S8pRslqFwYrdNNkt7kz6VPREqkXBU008gw==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from PAXPR04MB9351.eurprd04.prod.outlook.com (2603:10a6:102:2b6::17)
- by AS8PR04MB8103.eurprd04.prod.outlook.com (2603:10a6:20b:3b3::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.19; Sat, 10 Oct
- 2026 08:36:52 +0000
-Received: from PAXPR04MB9351.eurprd04.prod.outlook.com
- ([fe80::1058:a430:52c1:5aa]) by PAXPR04MB9351.eurprd04.prod.outlook.com
- ([fe80::1058:a430:52c1:5aa%6]) with mapi id 15.21.0496.017; Sat, 10 Oct 2026
- 08:36:51 +0000
-From: shengjiu.wang@oss.nxp.com
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	p.zabel@pengutronix.de,
-	kuninori.morimoto.gx@renesas.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: ak4458: Check reset status after deassert
-Date: Sat, 10 Oct 2026 16:40:58 +0800
-Message-Id: <20261010084058.2365291-1-shengjiu.wang@oss.nxp.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: MA5P287CA0237.INDP287.PROD.OUTLOOK.COM
- (2603:1096:a01:1b1::17) To PAXPR04MB9351.eurprd04.prod.outlook.com
- (2603:10a6:102:2b6::17)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Fo5lzCKR";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="U60NLG4u"
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69A3jh8d2721808
+	for <linux-sound@vger.kernel.org>; Sat, 10 Oct 2026 08:42:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	IqymoQ2HDibV8WA0yhfluVKdlQdB/7YbmVl1gD2ORD8=; b=Fo5lzCKR6ouvQqMF
+	AfXvk7qHNy+UGr0uB/I75FzhO/oHguIgOagvJ50C1NXQUikQfyJk79H9vjFIlnjB
+	bgTjhV8vSzS4dPkTiu8g6i4oO5GZS5Hbva9CkwhMzsCPgcJ3se2tzthEO1U0YM/h
+	qqKO+KNKfG+Bwtqnb1VFRRoze4vVy6qBoY+WTKXije/fNbbTy3NigBrpI1x3+A0r
+	uIlAHrfVf71v/5ji4yntBkpw+jq2Bhy0bKyGz9N8eUDWvzrEPHJpKe+wvJJZUPau
+	BceKIvfkXsLXb5ZCrcR4QKdS/cROb9qNkdQ3r4GI9dt4fqy1ey8vUMAPPuUjd38K
+	cYoPsA==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4h7dr7gjsg-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Sat, 10 Oct 2026 08:42:52 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-93cc40759b2so110969785a.1
+        for <linux-sound@vger.kernel.org>; Sat, 10 Oct 2026 01:42:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1791621772; x=1792226572; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=IqymoQ2HDibV8WA0yhfluVKdlQdB/7YbmVl1gD2ORD8=;
+        b=U60NLG4u3jcimbiOPlvSarsUzmhvlmXgWTlCnjWhoSzx88fR7emY9fIESym/zdGUq9
+         TNqkL1VvcZpcVAOR2d75f+VHusG0uKzayhYghy0XhqAtPCcUVqxqlegihXsG0HXI6xyp
+         qSW8SyjefBsBO27P6SuVQQuDa+hrf5kWcfDK+2AtBQVgNJzbFVqK050FmZ96UD5WkbZp
+         Ml0T1i/PBshz87SgQX8AC6OWBuRoAaJRucuP+cLWifmRn0lagzyOrl/uufGfCP4uejlj
+         3DWhGJt3gJfXxk2HiHSGYABaNDXmUoutJyX3nS99GpYu8bL3Mjb9AFmlXt+5QOAqh06n
+         bVkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791621772; x=1792226572;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=IqymoQ2HDibV8WA0yhfluVKdlQdB/7YbmVl1gD2ORD8=;
+        b=IMbGoYf327GWQUFIT1qQtCv1ytWsRswMjvta1RiovrG4DtL7KiC7qriNbxlsSSEmpV
+         1DZX7O/5hPbYuaCq0RXtqNNZIxu5DLz7tSqQr9xEtiXaxa08Gmqh6hVL8U7Vu6qddJsk
+         pAlItVinGPSqIn2LHJBiOLAbAj0YFe1eRN5Hhqtvjz8nvczQeYv+ZE/N3xUSoTDX4gw2
+         igxPwVHorGoc4DBvpAZcd9KAIInNOxvnIlYyHQoS+vl6H2oL3bitxn4B7cU4dyev/Q24
+         KsWgCyJxb61stup+m3ZgakKVd6nDW3rZSrBZx/fryrxiZUTp6WfXlfvcOyx07SatqEHa
+         TIBQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzkTdBqAqp7TY5OHejme8VGbkNgLBVJrZs2f73cPz5rBbMjPsQtniSK6E1j+kl2ZyfSxCpexT3uE/k9FQ==@vger.kernel.org
+X-Gm-Message-State: AFq9FYKAY4WEMqkNv2AvcLwvxfp76pVK2zx1GoQCif9VZYQdCEQe8iHw
+	FKsgXNnnd4LQUw2YUx1/RT038Ly6tivVzWALKbfaw97rdglIXD2A1X0oe5f22txiLf3OdQ+KD/p
+	kkaTRvAPMBY2lEE53E6mF6LHDrRurfOp8Ap5U02SFuTURoSqoUC1aWVCQfHzxEhoXwA==
+X-Gm-Gg: AYBFou317/LdzjburhXwDhTXuuEroJjZeXCoCh8/5a39d6f2F6H/vQLeLBqLNWFiDd9
+	L5bzhmfGgtGmpZjGwT5emNqI8B5OSjudgiBHZDLAdyJWhioEKGyVO94EW2kBgKGJnwd+kjEL0So
+	uDuvlap0KI8f4LcqmpTVkrtT1WHNJS5Tj9H1BNGTIJnmmhPJ5EpGTctgSMc0wGng5uP1ndRoufg
+	sH0teF8ZCvierP4uSWG7LptZf/fmGncWYSACO3xyDFA9UOR3+X9fOOxAeYyh/A7Ly9IZiKyZ95I
+	R3rGJ2Iy/tJlm/i01Y1WZXnoIvIlQ6bs2/Cdhw97P/X5iQL7WQotPy5IbNPDdu6CDvpD+a/J6o/
+	rEXnFeJvVk4UOu+Shg5jhWATh+yGRtL6drYDCK2NNsqCDotYhzFY=
+X-Received: by 2002:a05:620a:4146:b0:93e:5929:f012 with SMTP id af79cd13be357-93ebd1bb215mr668131485a.18.1791621771791;
+        Sat, 10 Oct 2026 01:42:51 -0700 (PDT)
+X-Received: by 2002:a05:620a:4146:b0:93e:5929:f012 with SMTP id af79cd13be357-93ebd1bb215mr668125985a.18.1791621771276;
+        Sat, 10 Oct 2026 01:42:51 -0700 (PDT)
+Received: from brgl-qcom.local (126.171.88.92.rev.sfr.net. [92.88.171.126])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a192d3efb6sm49065585e9.1.2026.10.10.01.42.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 10 Oct 2026 01:42:50 -0700 (PDT)
+From: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+To: "Rafael J. Wysocki" <rafael@kernel.org>,
+        Brian Norris <briannorris@chromium.org>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+        linux-pm@vger.kernel.org, Ulf Hansson <ulfh@kernel.org>,
+        linux-kernel@vger.kernel.org, Bryan O'Donoghue <bod@kernel.org>,
+        =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+        =?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
+        Alex Elder <elder@kernel.org>, Andy Shevchenko <andy@kernel.org>,
+        Bard Liao <yung-chuan.liao@linux.intel.com>,
+        Bartosz Golaszewski <brgl@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Cezary Rojewski <cezary.rojewski@intel.com>,
+        Daniel Baluta <daniel.baluta@nxp.com>,
+        David Lechner <dlechner@baylibre.com>,
+        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hadar Gat <hadar.gat@arm.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Jessica Zhang <jesszhan0024@gmail.com>,
+        Johan Hovold <johan@kernel.org>, Jonathan Cameron <jic23@kernel.org>,
+        Jyri Sarha <jyri.sarha@iki.fi>,
+        Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Liam Girdwood <liam.r.girdwood@linux.intel.com>,
+        Linus Walleij <linusw@kernel.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Marek Vasut <marek.vasut+renesas@mailbox.org>,
+        Mark Brown <broonie@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>, Melissa Wen <mwen@igalia.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Olivia Mackall <olivia@selenic.com>,
+        Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Srinivas Kandagatla <srini@kernel.org>, Takashi Iwai <tiwai@suse.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+        Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+        dri-devel@lists.freedesktop.org, greybus-dev@lists.linaro.org,
+        linux-arm-msm@vger.kernel.org, linux-crypto@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-sound@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-staging@lists.linux.dev, sound-open-firmware@alsa-project.org
+Subject: Re: (subset) [PATCH 00/13] PM: runtime: Convert pm_runtime_put_autosuspend() and friends to a void function
+Date: Sat, 10 Oct 2026 10:42:36 +0200
+Message-ID: <179162175231.5836.15015381844446264252.b4-ty@oss.qualcomm.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20261006231900.3230373-1-briannorris@chromium.org>
+References: <20261006231900.3230373-1-briannorris@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB9351:EE_|AS8PR04MB8103:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1d82d444-a831-4471-40d2-08df26a9a1b5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|376014|19092799006|23010399003|261009223027099003|56012099006|11063799006|10067099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	IeGpxjEG0d06Jww3Zo4usNC4OamxAq6Y4sbROyD7C8jPx+asnGuwOr3CgBJdxAL873mVuBrNWBZvrQmIloPG8tn9OCj2BXCkKW5jRpbKEpmgAvXEV2sUN0sYWTzPtP7d4bm/BS2UOxPMbwNYmsVG1zts3RCBb1LOfrn/yTf5LQQPHd46svNT0Ny1rzgR55+ioGV6+J93HUUWN/8z8xeK7k58eMqUROioeN9C/nSVtUErXX/ZSU7RCPD3KNbxv9zrIM4P4pWeQIrhAPGeoUabbhv+/nkz/LqS8jrv4Sk5fHE3XEk0t249/PlmW8y0nmBVcDww82K7QvgYjFSEh/JiPftK4eMknLZxOxJRlSMVtK2msVMDnI+bL1jM/NtRO4z3NRoKdx7W5DJ7BcQ3r26uAF8aPPzpI6jjzxgTsAsN1QTSAhxMeHGCX0MQnvnI4S2PlvHdOl9VhcFlM71/AOkeY1AMI4ci57Wrl1uy1OCNQKEQoRBDQiRB5StYMOLlulk03RbofdVNZ2lDpTaZ4Gu7NEZd5olKLkBfVUxotwEb82nPEMd4ThtVZbpUyvL/ZQbKJYBodClagbxDAtk4kWopCg8adOdI388gR1PPVTrNd8bQv0dm6i1v1yu1SaHuM8MJV9nOx4busDpYBTrWQZbgc45+hXoyZGkCOItDg2pLTOw=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9351.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(19092799006)(23010399003)(261009223027099003)(56012099006)(11063799006)(10067099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?3mdgjs0XuNg9dKxtbvYR1bz9rPGt1SFQRlbmia31v2BKctKAp6xHY4eIodC1?=
- =?us-ascii?Q?L00fNkJbNP0pjeZcLtWz3QyCViK5fFfPwPz23SzrfAVA6LKstYiEXPcRW38p?=
- =?us-ascii?Q?qyuBDvlPWwKkWknibpXj5QFzjNj/Q7VzjoU3wkr+pPSpIVtvCm+QBIY6Knm6?=
- =?us-ascii?Q?w13Q6qd/fTG05FTWr0zl/Y9Kc0PALYKnS0g2btFU485Fj2u+XifMZXHwmAcA?=
- =?us-ascii?Q?GUjU1W3E6RWPjoc4KeKuWTUKFqjYNZbUKPLPijfxwHrTu7upYf/xKinUam8R?=
- =?us-ascii?Q?xT374SPCskzNB5UAu6MIm0lTsW/DW/fEAU9hdVmjlYo37o+w+BGVGj3lng/9?=
- =?us-ascii?Q?8IVkiGuXJLGpA6NEfYKIaXRr2Tzyvno3gAr6q93wLHmTalueMf7LxPU3MniZ?=
- =?us-ascii?Q?OaDPJgOCk0n8Vl7iiFUUwv+sWr6ahsZYxWL61kss50snr+5wLrElJQHTgQof?=
- =?us-ascii?Q?OuMSj9JxSdMegUgZk7/wT8XK9Uyo+lbGh4KGIzoCPZVnsTo9xBliJKzDwsmc?=
- =?us-ascii?Q?Z7ppZcB9nQiEWbMY5HnzbzVEFReExUj3l24hmkH8nTsFJxAvC3LhRyQbCrOj?=
- =?us-ascii?Q?sk7MYS7sYSYpuow5F930KdgTZ1pBcdygGmLLbfO261mRX29YauiohpGXX+nl?=
- =?us-ascii?Q?CNtwJx5w8Q/f8fJSnoaTCsceP6aXXIXgG9+dA+z55qJic9OhoTl3b1ALk1IA?=
- =?us-ascii?Q?CYnQ9NaIV2gi/ErInJcwzzfeeyOasE3To+gOLwE6k9g27Z1ITQpTZWFkGEow?=
- =?us-ascii?Q?JMVcMZxVrgiYQDo0puwWjGUgnvI5odUkUd9cSolnxpwC+XxC+c+1dRQhslLb?=
- =?us-ascii?Q?Gp1Vz7VFQLYEo8Sd0U+tyGbblaI2z4AzNmhMyLtEelIFXBUknCOalXis7X4p?=
- =?us-ascii?Q?39lrPovvH5jbX6wSGYZnDHQYfyv8fDcQJqa7SGk9GFs1M02Va8QA7YGoXg+l?=
- =?us-ascii?Q?S7M+qPf6UzmP6dkstAwUfy8VE3TpQPlpw/ACw4lR65v/q5s84aViPLn/eEdm?=
- =?us-ascii?Q?6OAIMVu69AWQJLzsA2zoa9FWGEEXCLYithdupGSb80t0vHvr7nfOkxaQIuxw?=
- =?us-ascii?Q?kA4cMSH14xkMHCKFIWI9T/ZFgNX5eL3InllbZntOjgPEZ3MEyQ6kNHlfjY2K?=
- =?us-ascii?Q?C1a999rcO4e1yMIvvGYlOUusgCYeDi9ipKuJhUs0D0NMyiTL2jcdmKxUqodV?=
- =?us-ascii?Q?D4twzMOrjp8Jh4it1B01XZPAljIBIIMCWtXFwexTaePANq39zAWG4OKk0QN/?=
- =?us-ascii?Q?u8uEQQdyLJHfkaYUKOMJgybWaRr1kuiHzX2Id5s81kzYw8YkfJHgz2B33AeG?=
- =?us-ascii?Q?KzeFp88PUqnTuex+efMMDTcMFFp2l5arVk//mCCq1vPuCz6mVQx2wYZ0e0Ou?=
- =?us-ascii?Q?N04+1hWX0zkeATZGi8FJhcg8KFQ8/6orqgH1Kz7pBU8nkFPLKbMTpEgXKBMG?=
- =?us-ascii?Q?nkGv+7dh17oln7qZIUSmo4uV9uclQhafGH470eScf0nWqYVVNzR81RbwoZmr?=
- =?us-ascii?Q?TWPAEFx3odV0RAUGhtXJ+OnQpQcibMHPZIm5Dsn6PEF2wa3orAjr/BPAg9KX?=
- =?us-ascii?Q?yf/nM50NZvn/c90hc3YGFpQ0gVY2ViqI+p0fdL6Ttg2jBthH99bNYnDnM74C?=
- =?us-ascii?Q?PX58yM2hUteOvX1VYCjozj6x8PD03qOwleLoBmKrx+s/DGQsv9QS3WvP47s6?=
- =?us-ascii?Q?54mgoCDcan01lZo9vZsq5xCHEaMXcJWy8gz8UhQT8l+gH4Kd5KhXEvCkAadi?=
- =?us-ascii?Q?RKgmlpPyNrxNRZx1sddi4LY6x/vxoKVA+bVc+iMlkvPXBzKM87pj?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1d82d444-a831-4471-40d2-08df26a9a1b5
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9351.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Oct 2026 08:36:51.6937
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9tvz4DoybV+r1Gf92QV0ouWNMGzzCnn/mghEcaYAuo2qC3WuRgF0e3Af5gpGbOhIEM3yyCjxEpkrEYeQbyPj0TVUiAO2Pt5kDRmb3tY+1B4VqTQ9I7losAZk6TleZbds
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8103
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: orNF8C9J0yknckbm1AJySFYQ9nGpbl44
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDEwMDAzNCBTYWx0ZWRfX/uFQ0i0cXppa
+ QpruIexKK+jZ214X0Bc8lxoahIRC4LDUHE4o11amPhbsV8AvgqFEt3bLpDVfMH2VqDNV/wx89Jw
+ WRNDaMLeBcy/m0ogvPJSp292AqFigv0=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDEwMDAzNCBTYWx0ZWRfX4AGD3cE5W2Ej
+ BcHwvY0kF5vaalYohvXemJ8lYh9MhKVea6jFi80/66VLz/fpTr/hgIvV/7M5IBzX2sIPRCO49I0
+ 8NBOS34ns9Lc/YL9As9CdUQ/yy7KqnxADWLhPPw6mjUwDOCh5PkDr9hkiOSq0Gm+lNrHeqNas29
+ ie9GyZMN8UDUiQNdBJVpgjjQTerh7g5tPAHi3ignNNAzWV/hkOUxpBwhj4Xk9UtwWlsE8MP1WoA
+ UH4gKiVRZzhwn9FMnJk7iI76PQuanKfUvTId/n4f2aRbNnjs+viHCr7wbgpg0u+WYKfwQDRu+dr
+ TBaWm4AJtqlxw+SDObDEV+LbkBkB/K+pUGjX0JQyqyV08AlqHLG58Jyi3PkG7DVPqJhmigZmtOS
+ dStWTaBciSDguXMqH/piCxc2pY33Ty2w5VQszLGxJofD+v+1JChjMIz3hUHTUjIe+YFMktTtUz9
+ h5froc+GmiLU1ZTlJAg==
+X-Proofpoint-GUID: orNF8C9J0yknckbm1AJySFYQ9nGpbl44
+X-Authority-Analysis: v=2.4 cv=asknmiZV c=1 sm=1 tr=0 ts=6ac9fa8c cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=3oaWUOhNWTYPA9BJS75j6A==:17
+ a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=rmSHi3-zQwwJBmM97rsA:9 a=QEXdDO2ut3YA:10
+ a=IoWCM6iH3mJn3m4BftBB:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-10-10_01,2026-10-09_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 priorityscore=1501 phishscore=0 spamscore=0 adultscore=0
+ impostorscore=0 lowpriorityscore=0 bulkscore=0 clxscore=1011 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610080000 definitions=main-2610100034
 
-From: Shengjiu Wang <shengjiu.wang@nxp.com>
 
-The reset line of the ak4458 can be shared, for example when two ak4458
-devices use the same reset GPIO. In that case the two codecs may call
-reset_control_deassert() concurrently from their runtime resume paths.
+On Tue, 06 Oct 2026 16:13:28 -0700, Brian Norris wrote:
+> Similar to this effort:
+> 
+>   Subject: [PATCH v1 00/23] PM: runtime: Convert pm_runtime_put() to a void function
+>   https://lore.kernel.org/all/6245770.lOV4Wx5bFT@rafael.j.wysocki/
+> 
+> i.e., commit 3afd8df02433 ("PM: runtime: Change pm_runtime_put() return
+> type to void") and friends.
+> 
+> [...]
 
-Only the first caller performs the actual hardware deassert, which may
-sleep (for example a GPIO-expander based reset controller). A second
-caller merely increments the shared deassert count and returns
-immediately, so it can continue while the first caller's .deassert() has
-not finished releasing the line yet, leaving the device still in reset.
+Applied, thanks!
 
-Poll reset_control_status() after deassert so a caller does not continue
-until the reset is really released. reset_control_status() returns a
-positive value while the line is still asserted, zero once it is
-deasserted, and a negative errno when the reset controller does not
-implement status reporting. Stop polling on status <= 0 so controllers
-without a .status callback do not spin for the full timeout, and check
-the reset_control_deassert() return value as well.
+[05/13] pinctrl: qcom: lpass-lpi: Discard pm_runtime_put_autosuspend() return values
+        https://git.kernel.org/brgl/c/9bcd1725b0cc7954525e3d0d02fecaec7c7aab33
 
-Fixes: 8a0de73cf9dc ("ASoC: ak4458: add optional reset control to instead of gpio")
-Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
----
- sound/soc/codecs/ak4458.c | 32 +++++++++++++++++++++++++++++---
- 1 file changed, 29 insertions(+), 3 deletions(-)
-
-diff --git a/sound/soc/codecs/ak4458.c b/sound/soc/codecs/ak4458.c
-index a74be99e877d..64984974ff88 100644
---- a/sound/soc/codecs/ak4458.c
-+++ b/sound/soc/codecs/ak4458.c
-@@ -8,6 +8,7 @@
- #include <linux/delay.h>
- #include <linux/gpio/consumer.h>
- #include <linux/i2c.h>
-+#include <linux/iopoll.h>
- #include <linux/module.h>
- #include <linux/of.h>
- #include <linux/pm_runtime.h>
-@@ -635,11 +636,36 @@ static struct snd_soc_dai_driver ak4497_dai = {
- 
- static void ak4458_reset(struct ak4458_priv *ak4458, bool active)
- {
-+	int ret, status;
-+
- 	if (!IS_ERR_OR_NULL(ak4458->reset)) {
--		if (active)
-+		if (active) {
- 			reset_control_assert(ak4458->reset);
--		else
--			reset_control_deassert(ak4458->reset);
-+		} else {
-+			ret = reset_control_deassert(ak4458->reset);
-+			if (ret) {
-+				dev_warn(ak4458->dev,
-+					 "failed to deassert reset: %d\n", ret);
-+			} else {
-+				/*
-+				 * On a shared reset line another consumer may
-+				 * still be in its hardware .deassert(), which can
-+				 * sleep, so the line may not be released yet.
-+				 * Poll the status until it reads deasserted (0).
-+				 * A negative return means the controller does not
-+				 * report status, so stop polling in that case.
-+				 */
-+				ret = read_poll_timeout(reset_control_status, status,
-+							status <= 0, 100, 20000,
-+							false, ak4458->reset);
-+				if (ret)
-+					dev_warn(ak4458->dev,
-+						 "reset still asserted after deassert\n");
-+				else if (status < 0)
-+					dev_dbg(ak4458->dev,
-+						"reset status not supported: %d\n", status);
-+			}
-+		}
- 		usleep_range(1000, 2000);
- 	}
- }
+Best regards,
 -- 
-2.34.1
-
+Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
