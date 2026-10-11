@@ -1,92 +1,98 @@
-Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 017C1314D13;
-	Sun, 11 Oct 2026 22:14:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5383C31ED7C
+	for <linux-sound@vger.kernel.org>; Sun, 11 Oct 2026 22:22:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791756846; cv=none; b=UhZ4rWT5X7IPuh+z83DX+n8rmhoQj7B2RdvD7pOjtMDOT5CQE6B1FI7RdnqMJxRbTHk+SYAPbQ6Ppj1nazqcdWYzEMr6vYZGtfiCuCTP6nr2xML6wwIU7FVVjhLvqv4r3THUG0mAlUP+d3Dm8ewCA/Uy9pqMT0kQrfXnzvwrQLA=
+	t=1791757362; cv=none; b=ZRSceVNIzvS/0WwZP1stDyeB1YVNhMoqkijfHfGa3xBbixRnskSHopGs4LMnVOO7Prpsq6QhCn7QBgLwABwZKB7Dxf1JLs+IE/k7qVuuLtuAb2VJ27h1N1qK5AsTPE9/Z9u2lr7qliU+s1MQrbMmxYm9ISwNNt5ASy7gux7gx9M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791756846; c=relaxed/simple;
-	bh=dT47kaXg2PKJA7n3es8e8/4dwfChMErkBViAGAAWINg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Ph1zbK1/JUuri+SyuOBV45BPuz+PxtxVViCHEnmvxcgq+ZrpjpxTYPZV8vu7XBHlzA6TdfhDRJTqGE2z0LnwXq8ikKyyZWx38Q3htrXDW/YffJO4bJJWKIDNlrXVClOdonrayN8vDHUZGDVNuyB6j/yo7uPMW9QPxZ832esWF8U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=lpgi8R4b; arc=none smtp.client-ip=178.21.23.139
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
+	s=arc-20240116; t=1791757362; c=relaxed/simple;
+	bh=wx78Wxn0Vwqymp+y9E4li+EEYQPoZ2jSYNoF4UjZvAY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=UzfqGx4snj41ghW06OXq8JrDkYlZPOErOtmv5uZJvL5jE6+2LT3Z+g4mfxl8qK4eGsjHwPhK84Zt8IZDJhQs2XPSdCDRH54OoWZq2MECtxFx5JK2AQEKPZ5I3BEH6QBMu2PanuAlBOHWrS0lBFgYv6RijCVrYc512HDEvRO/pAQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ug0LVC7V; arc=none smtp.client-ip=209.85.219.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="lpgi8R4b"
-Received: from mail01.layka.lan (localhost [127.0.0.1])
-	by disroot.org (Postfix) with ESMTP id 97A398100C;
-	Mon, 12 Oct 2026 00:14:00 +0200 (CEST)
-X-Virus-Scanned: SPAM Filter at disroot.org
-Received: from layka.disroot.org ([127.0.0.1])
- by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id A4W7ctl9ywvH; Mon, 12 Oct 2026 00:13:59 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
-	t=1791756839; bh=dT47kaXg2PKJA7n3es8e8/4dwfChMErkBViAGAAWINg=;
-	h=From:To:Cc:Subject:Date;
-	b=lpgi8R4bWAaq7BHPEgEdyVNKk8ZhIJHfG7bn9i7gt7QqpvmCFHFAP2ol+DLODWFQC
-	 tQQF8RcFEeRtRrR15rsu3BjSqw1MBI0yBcwWK0AmVLvWZe9RtKdPTR6E6tkJ0TKxpE
-	 WHBNZqbeeoq2uHNAdJrxqlsYap+auC4WKzZVoqfbRMjRINn7GPIiEwT2x8GZ+VLkvv
-	 cwAFAPGfXhv0eRQr10vEJ7MtCQ2c2Ayb/wqocQlnUkPfZWUKiBX7gn8QAZJD1qHB00
-	 3ikm43KhbC6GmDr1gJ9JR0MEeGYkcKREI7h+f1ChFzOlItSQh2dj7ugt99l+dl4FAK
-	 iJeRgzLy9dDqw==
-From: =?UTF-8?q?Ali=20Ahmet=20Memi=C5=9F?= <aliamemis@disroot.org>
-To: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>
-Cc: bui duc phuc <phucduc.bui@gmail.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: core: Use the allocated major number with major=0
-Date: Mon, 12 Oct 2026 01:13:34 +0300
-Message-ID: <20261011221350.1690703-1-aliamemis@disroot.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ug0LVC7V"
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-91b8306b9f8so3515016d6.3
+        for <linux-sound@vger.kernel.org>; Sun, 11 Oct 2026 15:22:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791757360; x=1792362160; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=wx78Wxn0Vwqymp+y9E4li+EEYQPoZ2jSYNoF4UjZvAY=;
+        b=Ug0LVC7VrOFkDNMiNM3DBXVcXAhg1cX8nD9c5vpSvhrvN81EFH9qWNfhIc09Fr9jPt
+         +0Knqf8guwmKwqzFUPk0C3WXzEq7Zx2MGnX8u/RDnrC2+9dwz9Bjr9TEAJQeZyfXXyOr
+         nIs9ebbdOtEthAR1LlL6di0CtrZMG1QphZkhQkbisEdXFa+Ab+LV/RF9tr1fOssrdGZu
+         pcf2GBSHsCx3siTyuOB2Le/S2leeT1bXflXMaLexIKs3886CG9Pd+hgtzMRQJ2jtkUDc
+         2YcITx7fSoKMT92qCCoo2RJVqfwmQfTJ6tTzRa6jRIuMVEDIALERhrUHNYYjwFDuXYZ/
+         mTOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791757360; x=1792362160;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=wx78Wxn0Vwqymp+y9E4li+EEYQPoZ2jSYNoF4UjZvAY=;
+        b=dzl/Bbtp6Fl0syHd0ZWlxSLKeRXeuc6l8oMX4EMMC1aICnCUhqdnYEtap9waG1MOvx
+         JNw0MIGL7VnpDKCOuyNaQJKOL7SnwEAFY7jwSf+qPUOedEninZk1K8UJAe+U/PPAnEX5
+         9o2enH9W1HFlsxPiAJPH/eEtA8Bla/pCDpTGOBUJ9iomsT3DL1nb3YYwdnzBxWHEun4y
+         Mz1ryOPxsG1Vz0dnv8vHg4M6ngvnpd6myc0vLXz3wVWDLbvFsftUO3E0tThNbiA95bn+
+         QOq4c+Nn8RwlAcNfbjDGER8xB9goY0jgpquz1ROLMr72+lN3fw/6eVr7KgCt8KYU3lwI
+         qa5g==
+X-Gm-Message-State: AFq9FYLwYmks6GUH2BUZJzzmYJz4MDg+HrD5zX/oVfoQM/p8P91q2HyV
+	kLFZdZB9UqjbUJ7DD/C0HScOV/sDSaJ8hklff5VVHdEvQa5wwbDwh3k=
+X-Gm-Gg: AYBFou3yG9jCFxIO/DB7W9MY6GCzwD+TTBjy8LQUlqnv8j324DUqi3/Olek/xgDFEib
+	jh6V5FB+EzNdjWnAkgVrOfnRHOzltEIVBV5SOm2R55dvisRYW+voQTFBrvff6nAeIASG8d++hjf
+	CMpgakifHxOpHvXVo2TlbIovZhfvm9c2H6+6Dq8k/4RoICz76/52fDeedig+8vdy8pok8sYArD9
+	40r0ucrO4f8pT/4qsj3BaYURQtmX36RTq+bTzbeOFvXFrE3D4ePoc2roh9SBSp4HQUMM6GE5bu+
+	T4LhKnztYh/tWT0p/ShzrwWKyAbzXV5oCUJwhib18cytEQoEqkWx3b2JUv7npBNuBDTgtjO9Ab6
+	5SkdxJhBOsXZYiVwZgUOo49mmpY/wK/BILtWReXVTDMC0NBJlbhUBztKElqv79yjVOvItRM8jjI
+	5sjHFIPu6zyvGkoBLjt8RUkIofPz8K7IIMRCrPENb239glV/GVoMNWDXNp2U+5EuRTh8DENRWZf
+	NMkvYGBWmRoRQQ8Gyz22Z8tPOXNTJ9zZbLCE25cGvSZtmARsu2QoaMxCFi0fxcar4j69n1KCJy1
+	WlBdIK2wK1XbGhCFx9XwHtU1N8lhoFS4vaTS7uk=
+X-Received: by 2002:a05:622a:610f:b0:535:52c:a2e7 with SMTP id d75a77b69052e-5359fb8f85fmr135936341cf.44.1791757360176;
+        Sun, 11 Oct 2026 15:22:40 -0700 (PDT)
+Received: from i4-gl-tmk5904-1.ad.psu.edu ([130.203.156.90])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5359b7ecccdsm66288831cf.30.2026.10.11.15.22.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 11 Oct 2026 15:22:38 -0700 (PDT)
+From: Myeonghun Pak <mhun512@gmail.com>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	Ijae Kim <ae878000@gmail.com>
+Subject: [PATCH 0/3] ASoC: mediatek: fix AFE IRQ registration and removal ordering
+Date: Sun, 11 Oct 2026 18:22:31 -0400
+Message-ID: <20261011222234.2098904-1-mhun512@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-Since commit bd8f21876189 ("ALSA: core: propagate actual error code from
-register_chrdev"), alsa_sound_init() only treats negative values from
-register_chrdev() as errors. With the major=0 module option
-register_chrdev() allocates a major number dynamically and returns it
-but snd_major and the devices still use 0. The devices are then
-created without device numbers so no /dev/snd nodes appear and sound
-is unusable.
+The AFE IRQ handlers access regmap and PCM state. Register each handler
+after its inputs exist and release it before the final remove callback
+or managed component teardown releases those inputs. The mt8186 patch
+also balances IRQ wake settings on probe failure and removal.
 
-Use the returned major number when major=0 is given.
+Compile-tested with Clang 22.1.2, W=1 (arm64).
+Base: 238650ef6c7c7cca08e032527329424c9fbd70e5
 
-Fixes: bd8f21876189 ("ALSA: core: propagate actual error code from register_chrdev")
-Signed-off-by: Ali Ahmet Memiş <aliamemis@disroot.org>
----
- sound/core/sound.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+1. ASoC: mediatek: mt8186: Keep the AFE IRQ within its resource lifetime
+2. ASoC: mediatek: mt8189: Keep the AFE IRQ within its resource lifetime
+3. ASoC: mediatek: mt8196: Keep the AFE IRQ within its resource lifetime
 
-diff --git a/sound/core/sound.c b/sound/core/sound.c
-index 24f40763a20c..a0349a7e9495 100644
---- a/sound/core/sound.c
-+++ b/sound/core/sound.c
-@@ -396,7 +396,6 @@ static int __init alsa_sound_init(void)
- {
- 	int err;
- 
--	snd_major = major;
- 	snd_ecards_limit = cards_limit;
- 
- 	err = register_chrdev(major, "alsa", &snd_fops);
-@@ -404,6 +403,9 @@ static int __init alsa_sound_init(void)
- 		pr_err("ALSA core: unable to register native major device number %d\n", major);
- 		return err;
- 	}
-+	if (!major)
-+		major = err;
-+	snd_major = major;
- 
- 	err = snd_info_init();
- 	if (err < 0) {
--- 
-2.55.0
-
+Assisted-by: LLM
