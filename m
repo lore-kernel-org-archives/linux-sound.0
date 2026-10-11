@@ -1,80 +1,44 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B438283FDC
-	for <linux-sound@vger.kernel.org>; Sun, 11 Oct 2026 16:02:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3790D44A3EC;
+	Sun, 11 Oct 2026 18:06:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791734580; cv=none; b=Te/gXZvnBVElc3B7e6/7HaBsQej4gmugGW21kgsTkhTu5Gsc1umkeZOqZxJJgbS0sn+yTYg2vS5wb4IAWcHPhxlhiU8vR+IHYV3bNiz5Z7ov7cq5egC5mMCTsG7IAzGudIyxv6+8Bt2lc6Xr69uKHAgJcAu+N6X0UiY+wlLBVGM=
+	t=1791742008; cv=none; b=r6aZlrYkvXIwqygY5O+4Ayv01/N9SEOisN6xPqozL3hpckRlfd8Fsg34mCnAbeM94x3VcJqIjBL7w+53BhNHuiFNL+GBWPnMJFsXHpCw6gBNnd+we74XlIq1knkZ/pNSCYm2Qa/0L2P+g9UuYCavGUsq7wy+v6gRyD6O3dmvk8M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791734580; c=relaxed/simple;
-	bh=tRotFdJein35pOxgU2hMZo2Ouf63MisZjo3t3o/x8fA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=RktfP1bjnwzqZvBUvE5cFNnDytRqok1h13xkVRKQdQ1GaZouERJqNehiAFZu2Z0A8PxNpYu7OkC4MhBc7npMf5XtHFArlyQgGsAdlBF4dctC3VJlz9flZxsHj9JJnqGZ9i/LbNPlLXsx0F53lwX49Xtli2XNd8sk93IBBY3sdlw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AlyT3Ni3; arc=none smtp.client-ip=209.85.215.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791742008; c=relaxed/simple;
+	bh=emZJbKvYe03g7HJBuE8m7LmYGGgBIwxOsDESI4fubnA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=POsJJhjQ3ScqzHZhGqTlc6TEH+8aUQH+v6W/FTjyyNwUqbqbDwhrbJjbCIiIIlmkd5wYxr2UZ56i+gGhF2IrjAOgz1zAO4FeSXWRBBfQJFlWz4UgiabOInjkrmGvC/FKf2BOz8RGbCAu/1+XpeyV+elkazOWqvK1YllKBDGxtC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=URWQdIOn; arc=none smtp.client-ip=178.21.23.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AlyT3Ni3"
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-cd5e2d696e0so599147a12.1
-        for <linux-sound@vger.kernel.org>; Sun, 11 Oct 2026 09:02:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791734578; x=1792339378; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=pYhN/oFcVoNvHQRWPY1E6x94NkzXk64BVrqHUYWR0O4=;
-        b=AlyT3Ni3rOyT3VOLUN54PP9HpD/mfMOWvaV8vYt3CM3QDOXscEjLH07nDGQ6shfM65
-         CSpRuGtQOubPvj66td7ACgYy0zoCbR+FR3wpA9cRncnhwMA0KtqNrlstYQqLWvAqlONp
-         +4g6T3kwnpg8ny30aX2qqwfa2Y2tP+VqVjaYWRzbkAh3h1jFuCw/lFLn5YHSu0OyKqhz
-         /gBLPZvPxkaWfsFhyER+p0axH800CLJ+uFi/DbhVptSNFj+qfkU7F25+rlYCdns99lTq
-         Wq5+w5wzgo60o5jBHUyiUpTjkDM/y7Zs442P9PqXTZWUCMG1p7RGYZ+SY0hLqRgQljpr
-         cV6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791734578; x=1792339378;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=pYhN/oFcVoNvHQRWPY1E6x94NkzXk64BVrqHUYWR0O4=;
-        b=WcG56Z6nv3FAjuphQmR8F5G4hdwr1IN2jM3qf/ap9i1X4ATOosezrVnLaY7Hbw8If2
-         UhfK9CQka2ZpeUG7Hets/dBQLPzGDUzEXXgvkOjw48LHSZchXO6/30k584i7murLtb2s
-         UmL1D9JbO71ZVfFh/iS4RdXK9+IhLab/1Lhq8ph+I1Koie1jhAdqXWr2EgEKY7JzFTdO
-         E9N0sUPqCwos4XR+wMz+eenbTWsC5Iei91fVYq8V5iJ0ZLRT6+/WSByzyUVTcalWWAmx
-         qw7doWRalaWtjUhXVruG/vRTq2qADmW7a5TFuCzXCnFJ8ZKrHziFLl7RKgTxAp7JgqFp
-         k+7A==
-X-Gm-Message-State: AFq9FYLYERT8s/rk3FD/XEyJZsyOnM/uMvgslluhhyFVG5dUHKO/gO7W
-	7wRMx471YJFusFI6X3PVUV3yh9J9ipT0Cx6FSK0+aVJClLYVtdrkDkkv
-X-Gm-Gg: AYBFou1qP1oYKiq3fkpnbDj/lDZt/Bf0tiVaml/F5gt3mPfk2Ho1n4Tom++9ofQf3eA
-	jISLKfZgxYyYzhq3beHVy68a0RNQt0A+Tqjy3+a7sZcb1Fs1PG1dV5MR4tpwPJ+Ks3jMG1hZNpq
-	9SyPCfhYtZtUYBfd+JljtZa4zJMIGz9bAmKRARJszeusBjsX5Y40RvLukisKFgz67tYPU6P+ANm
-	BooadByXlzP6LEX+Ttm7duBR29TepfBz6gzZV3lstwVDB8nzZeywY+ozDXF1Jsg67OBCvisnya2
-	YeB1fNBmTMzDhLCrXs9EQo5z41tHJu3QRYvAdDrc4fPpSTkWTcN7M+dHR9NXTt7gR5G2pmOTo4O
-	055KftuKYeQnC8aQSECsNbbYic2IuyWEfMppE82gbdSRLe3f669TjpLJexFcWqXAhxuhnYlkiLa
-	ZVUB0oMJZ5Ug3yUWYIZX6IHZOxTxOqx8YSnBnboF8j9SnpMh342+FZ4VeVrlGc7wOpaA==
-X-Received: by 2002:a17:90a:d006:b0:3a4:77b8:1770 with SMTP id 98e67ed59e1d1-3ab3a955c28mr6412277a91.15.1791734577692;
-        Sun, 11 Oct 2026 09:02:57 -0700 (PDT)
-Received: from localhost ([111.228.63.84])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ab38b9633fsm15794623a91.6.2026.10.11.09.02.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Oct 2026 09:02:57 -0700 (PDT)
-From: Cen Zhang <zzzccc427@gmail.com>
-To: perex@perex.cz,
-	tiwai@suse.com,
-	norbert@doyensec.com,
-	kees+treewide@kernel.org,
-	phucduc.bui@gmail.com,
-	danishkhateeb03@gmail.com,
-	cassiogabrielcontato@gmail.com,
-	maoyixie.tju@gmail.com,
-	ivan.orlov0322@gmail.com
+	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="URWQdIOn"
+Received: from mail01.layka.lan (localhost [127.0.0.1])
+	by disroot.org (Postfix) with ESMTP id 8B892807D5;
+	Sun, 11 Oct 2026 20:06:37 +0200 (CEST)
+X-Virus-Scanned: SPAM Filter at disroot.org
+Received: from layka.disroot.org ([127.0.0.1])
+ by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id 31vg9917Yogb; Sun, 11 Oct 2026 20:06:36 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
+	t=1791741996; bh=emZJbKvYe03g7HJBuE8m7LmYGGgBIwxOsDESI4fubnA=;
+	h=From:To:Cc:Subject:Date;
+	b=URWQdIOn+q45KeFFbnusbXb57ZiCkOY78yTTWyc5lP8ExygfCny7JkMRg6twgxkU2
+	 nqB1hHLVXtkZVsA24ZejnHD64SyggoMQBaxj6yMSp/dFrnq01pp2xXPMqVRRQ3wZQk
+	 xrCr+AJepD6gsfmaexoUkh4Yxs92c9e62YTmCDLNr639QWLgVADtSZuj7jhGoFpcMR
+	 W5jMOM+Ef/7i1i9RHZeJqSHtJIQJ5Wm5uKZxJIKmT4jnVKiwJH0c0zhJfbfYScCyUs
+	 ssB3ivxJQxLLh+zrAlts0rvPfs2tGLyxleXraKxAdIH4iESNRKoHPuL4FNlirqzsgi
+	 nC2BpasP+l4Sg==
+From: =?UTF-8?q?Ali=20Ahmet=20Memi=C5=9F?= <aliamemis@disroot.org>
+To: Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>
 Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	baijiaju1990@gmail.com,
-	jjzuming@gmail.com,
-	zzzccc427@gmail.com
-Subject: [PATCH] ALSA: timer: Pin the module for userspace timer controllers
-Date: Mon, 12 Oct 2026 00:02:50 +0800
-Message-Id: <pm-pmb-98fb8f747fc7b8499fd4-v2-1c531f149a6d6c084f48@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: control_led: Fix deadlock between sysfs writes and card disconnect
+Date: Sun, 11 Oct 2026 21:06:17 +0300
+Message-ID: <20261011180627.1594051-1-aliamemis@disroot.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -84,99 +48,120 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The static snd_utimer_ids IDA must remain live until a userspace timer
-controller has returned its ID. However, snd_utimer_fops has no owner,
-so anon_inode_getfd() does not take a reference to snd-timer for the
-controller file.
+snd_ctl_led_disconnect() removes the ctl-led sysfs files while
+holding card->controls_rwsem. device_unregister() waits for running
+sysfs callbacks which can deadlock when a concurrent write causes
+the attach or detach callback to wait for controls_rwsem.
 
-With CONFIG_SND_TIMER=m and CONFIG_SND_UTIMER=y, userspace can create a
-controller with SNDRV_TIMER_IOCTL_CREATE and close the native timer
-file. If no timer instances or dependent modules retain snd-timer,
-ordinary module unload can then overlap the controller's final release:
+Break kernfs active protection in the attach, detach and list
+callbacks and hold a module reference instead.
 
-  Controller final release              Module unload
-  snd_utimer_release()
-    snd_utimer_free()
-      snd_timer_free(): unlink provider
-      snd_utimer_put_id()
-        enter ida_free()
-                                        delete_module()
-                                          alsa_timer_exit()
-                                          free_module(): free MOD_DATA
-        access snd_utimer_ids.xa
-
-The provider is already absent from snd_timer_free_all() when unload
-runs. Neither register_mutex nor the IDA's lock keeps module storage
-resident through the remaining IDA access. That access can therefore
-use freed module data and fault while acquiring the XArray lock, as
-shown in the Oops below.
-
-Set snd_utimer_fops.owner to THIS_MODULE so anonymous-file creation
-takes the existing module reference. The VFS drops it only after
-snd_utimer_release() returns, keeping the IDA resident through
-ida_free() and preventing ordinary unload during that interval.
-
-Oops report as below:
-
-    BUG: unable to handle page fault for address: fffffbfff80480af
-    #PF: supervisor read access in kernel mode
-    #PF: error_code(0x0000) - not-present page
-    PGD 1a7ff6067 P4D 1a7ff6067 PUD 1a7ff2067 PMD 100ad6067 PTE 0
-    Oops: Oops: 0000 [#1] SMP KASAN NOPTI
-    CPU: 0 UID: 0 PID: 485 Comm: alsa-utimer-fix Tainted: G           O        7.2.0-rc6-pmb-bt-functional-v1+ #1 PREEMPT(lazy)
-    Tainted: [O]=OOT_MODULE
-    Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-    RIP: 0010:kasan_byte_accessible+0x15/0x30
-    Code: 00 00 0f 1f 00 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 0f 1f 40 d6 48 b8 00 00 00 00 00 fc ff df 48 c1 ef 03 48 01 c7 <0f> b6 07 3c 07 0f 96 c0 e9 69 f1 2b ff 66 66 2e 0f 1f 84 00 00 00
-    RSP: 0018:ffff88811a457c48 EFLAGS: 00010086
-    RAX: dffffc0000000000 RBX: ffffffffc0240578 RCX: 0000000000000000
-    RDX: 0000000000000000 RSI: ffffffff861f111c RDI: fffffbfff80480af
-    RBP: ffffffffc0240578 R08: 0000000000000001 R09: 0000000000000000
-    R10: ffffffff891cc057 R11: ffff88811531ba00 R12: ffffffff861f111c
-    R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
-    FS:  00007ff190ff7780(0000) GS:ffff8881fda2a000(0000) knlGS:0000000000000000
-    CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-    CR2: fffffbfff80480af CR3: 0000000116890003 CR4: 0000000000770ef0
-    PKRU: 55555554
-    Call Trace:
-     <TASK>
-     __kasan_check_byte+0x13/0x50
-     lock_acquire+0x113/0x2f0
-     ? __pfx_pmbd_probe_hit_cookie+0x10/0x10
-     ? lock_release+0xc8/0x280
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     _raw_spin_lock_irqsave+0x3c/0x60
-     ? ida_free+0xd4/0x2b0
-     ida_free+0xd4/0x2b0
-     ? __pfx_ida_free+0x10/0x10
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     ? __pfx_locks_remove_file+0x10/0x10
-     ? __fput+0x39f/0xa60
-     ? fput_close_sync+0xff/0x200
-     ? __pfx_fput_close_sync+0x10/0x10
-     ? dnotify_flush+0x22/0x4b0
-     ? __x64_sys_close+0x8c/0xf0
-     ? do_syscall_64+0x115/0x6a0
-     ? entry_SYSCALL_64_after_hwframe+0x77/0x7f
-     </TASK>
-    Modules linked in: snd(O) [last unloaded: snd_timer(O)]
-    CR2: fffffbfff80480af
-    ---[ end trace 0000000000000000 ]---
-
-Fixes: 37745918e0e7 ("ALSA: timer: Introduce virtual userspace-driven timers")
-Assisted-by: LLM
-Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
+Fixes: a135dfb5de15 ("ALSA: led control - add sysfs kcontrol LED marking layer")
+Signed-off-by: Ali Ahmet Memiş <aliamemis@disroot.org>
 ---
+ sound/core/control_led.c | 62 ++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 57 insertions(+), 5 deletions(-)
 
-diff --git a/sound/core/timer.c b/sound/core/timer.c
-index 69a59b25fe0a80330669a27450ae40deaa5b9084..905176bf6948d790f9cb5732d01d01d858202d1b 100644
---- a/sound/core/timer.c
-+++ b/sound/core/timer.c
-@@ -2173,6 +2173,7 @@ static long snd_utimer_ioctl(struct file *file, unsigned int ioctl, unsigned lon
+diff --git a/sound/core/control_led.c b/sound/core/control_led.c
+index ec0e6c7ad..501387287 100644
+--- a/sound/core/control_led.c
++++ b/sound/core/control_led.c
+@@ -563,12 +563,43 @@ static ssize_t set_led_id(struct snd_ctl_led_card *led_card, const char *buf, si
+ 	return count;
  }
  
- static const struct file_operations snd_utimer_fops = {
-+	.owner		=	THIS_MODULE,
- 	.llseek		=	noop_llseek,
- 	.release	=	snd_utimer_release,
- 	.unlocked_ioctl	=	snd_utimer_ioctl,
++/*
++ * snd_ctl_led_disconnect() removes these files with card->controls_rwsem
++ * held. so don't let the removal wait for a callback that takes it.
++ */
++static struct kernfs_node *snd_ctl_led_sysfs_enter(struct device *dev,
++						   struct device_attribute *attr)
++{
++	struct kernfs_node *kn;
++
++	if (!try_module_get(THIS_MODULE))
++		return NULL;
++	kn = sysfs_break_active_protection(&dev->kobj, &attr->attr);
++	if (!kn)
++		module_put(THIS_MODULE);
++	return kn;
++}
++
++static void snd_ctl_led_sysfs_exit(struct kernfs_node *kn)
++{
++	sysfs_unbreak_active_protection(kn);
++	module_put(THIS_MODULE);
++}
++
+ static ssize_t attach_store(struct device *dev,
+ 			    struct device_attribute *attr,
+ 			    const char *buf, size_t count)
+ {
+ 	struct snd_ctl_led_card *led_card = container_of(dev, struct snd_ctl_led_card, dev);
+-	return set_led_id(led_card, buf, count, true);
++	struct kernfs_node *kn;
++	ssize_t ret;
++
++	kn = snd_ctl_led_sysfs_enter(dev, attr);
++	if (!kn)
++		return -ENODEV;
++	ret = set_led_id(led_card, buf, count, true);
++	snd_ctl_led_sysfs_exit(kn);
++	return ret;
+ }
+ 
+ static ssize_t detach_store(struct device *dev,
+@@ -576,7 +607,15 @@ static ssize_t detach_store(struct device *dev,
+ 			    const char *buf, size_t count)
+ {
+ 	struct snd_ctl_led_card *led_card = container_of(dev, struct snd_ctl_led_card, dev);
+-	return set_led_id(led_card, buf, count, false);
++	struct kernfs_node *kn;
++	ssize_t ret;
++
++	kn = snd_ctl_led_sysfs_enter(dev, attr);
++	if (!kn)
++		return -ENODEV;
++	ret = set_led_id(led_card, buf, count, false);
++	snd_ctl_led_sysfs_exit(kn);
++	return ret;
+ }
+ 
+ static ssize_t reset_store(struct device *dev,
+@@ -594,10 +633,8 @@ static ssize_t reset_store(struct device *dev,
+ 	return count;
+ }
+ 
+-static ssize_t list_show(struct device *dev,
+-			 struct device_attribute *attr, char *buf)
++static ssize_t snd_ctl_led_list(struct snd_ctl_led_card *led_card, char *buf)
+ {
+-	struct snd_ctl_led_card *led_card = container_of(dev, struct snd_ctl_led_card, dev);
+ 	struct snd_ctl_led_ctl *lctl;
+ 	size_t l = 0;
+ 	struct snd_card *card __free(snd_card_unref) =
+@@ -620,6 +657,21 @@ static ssize_t list_show(struct device *dev,
+ 	return l;
+ }
+ 
++static ssize_t list_show(struct device *dev,
++			 struct device_attribute *attr, char *buf)
++{
++	struct snd_ctl_led_card *led_card = container_of(dev, struct snd_ctl_led_card, dev);
++	struct kernfs_node *kn;
++	ssize_t ret;
++
++	kn = snd_ctl_led_sysfs_enter(dev, attr);
++	if (!kn)
++		return -ENODEV;
++	ret = snd_ctl_led_list(led_card, buf);
++	snd_ctl_led_sysfs_exit(kn);
++	return ret;
++}
++
+ static DEVICE_ATTR_WO(attach);
+ static DEVICE_ATTR_WO(detach);
+ static DEVICE_ATTR_WO(reset);
+-- 
+2.55.0
+
