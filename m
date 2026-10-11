@@ -1,45 +1,77 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7839D3164BA;
-	Sun, 11 Oct 2026 11:43:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40AAB4483A4
+	for <linux-sound@vger.kernel.org>; Sun, 11 Oct 2026 12:54:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791719035; cv=none; b=Givj5AMtzcUSpP2rAnV5hsswkhILihhut0TMj6joWqdQM+0kt3voXypywCvQqIyzFHS961rhgqe1KRoAoIBiSIaP9ma0N/Sp7Lsrdq/q7xb/cnnA3y/VEvC3er7GVDMeeJIlLCEv5NxclyQFn+4VJ//nwuXHOwFpp3DOM6ngXMQ=
+	t=1791723276; cv=none; b=IwxT94mZ3P6JuvlsA9RSAC6N4Zr+OLVb+86dlLuykHQH/j/mzaw9xo1hW/bDM1nOtfL0eK9DO1Bs9o5WL+HWD1QgjZdAjdLvgBlH75kxtZZ4U6vR0RZX0cXYHtxc4HKDBewVawz6zbZURDG0Ty0tyajqQ2AdxXg3aUpe6B/+dUk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791719035; c=relaxed/simple;
-	bh=7SRQi23gE+ovKFFP1Sdpc5I6EZoIbgEZy1obd4OL2to=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=b5doAdKExw0gcLtsTwv5ZENvdkez4DfeSWgw3D6y+WPtGsRjyzS80NfN3d0WQXhR6uRzsZAQ0AH4NvS9oO0pKc4gouzvg2k/O0Z/JMmBlb+O+qfuJ0vRsgRK9cd6e6lsLH28s6yMvsl3oZZ/m/UhiLUY+U308qVwMnAQdWZFbfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=akQKVMON; arc=none smtp.client-ip=220.197.31.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1791723276; c=relaxed/simple;
+	bh=BljPXRps8xjbLho6X1ZoNVOk6CUa6vnUVpwHPT+7JbQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=k8+t6V+UFfFlLoq1di01Fc5lKpn32l6p6Z+Y++LfZxAq3yKIfalmFufhyE3ErHdq2g5Ct2DDucew1b3Jn+1QxFQ/9d0QmxzNx2ITiZhJG+nzJ+HDmWt9gs2r2jMsqXFYYcihPEHwIplhazFYX2U13V9GJtPanlByDXPIAL0U6dg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TWUR54pQ; arc=none smtp.client-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="akQKVMON"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=qp
-	We2zzTR2qEa81xaY4E9TVIIl9IBDwhCvMnG1NkejE=; b=akQKVMONmYc4n2i1x4
-	zMkD4KJkwc6g50kVrB1o03uQ4W1dWMoetAbmY7Z8nAm6xVBNZ7TzFM2g3dHezekc
-	HzfjqFM5sR8ZGHPKHUbAb/37WNrdHhxu7rylfRs2YKpJtYA3/+ONnM68SY8jdW+h
-	fKDv/JLZvtlLtINzkrcSRMQNE=
-Received: from ubuntu.. (unknown [])
-	by gzga-smtp-mtada-g0-1 (Coremail) with SMTP id _____wD3r4Y9dstqBhOCDg--.25652S4;
-	Sun, 11 Oct 2026 19:43:04 +0800 (CST)
-From: Ma Ke <make_ruc2021@163.com>
-To: david.rhodes@cirrus.com,
-	rf@opensource.cirrus.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	sbinding@opensource.cirrus.com
-Cc: linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	linux-kernel@vger.kernel.org,
-	akpm@linux-foundation.org,
-	Ma Ke <make_ruc2021@163.com>,
-	stable@vger.kernel.org
-Subject: [PATCH v2] ALSA: hda: cs35l41: Fix ACPI device reference leak on probe failure
-Date: Sun, 11 Oct 2026 19:42:51 +0800
-Message-ID: <20261011114251.3257172-1-make_ruc2021@163.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TWUR54pQ"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-89a595332c7so229872b3a.0
+        for <linux-sound@vger.kernel.org>; Sun, 11 Oct 2026 05:54:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791723273; x=1792328073; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=MwkyR+d13Yt35PeifZJYjSerizH5kaNtuABNu7XQY84=;
+        b=TWUR54pQb9mgaV0pll6uCLtEUbu8ozw9hYjl7/bKq859QNHdn4eNynHneuCcdhGcC0
+         pKlk6tcc6T0CtKvekoCpL6T18F7B2o/K9/O9jymzL4A+cC2jothLZh3u65DSy7dK9QPO
+         IjgXs+B96j/HCR0aT5eg4U/FzRBOKw/z3RhQ+gWrKKdEZ3FaiwyjI4NQijYpWf2v16eb
+         +mXghcd1Usy9Krj9ZyC8IHR51HInfLkH2o3cgHMrtO9Z0BlpYgiwlG51fZf9D+L1MDBb
+         nPiYxavhcylTxrG+C3Ap1eSA880d0mnraEyGuAuP3ejFC3Tb12b0jv8R/G3UCaA9i35E
+         3JTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791723273; x=1792328073;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=MwkyR+d13Yt35PeifZJYjSerizH5kaNtuABNu7XQY84=;
+        b=pUT0ePPA+lDOpyfxNdkqHuVxywPTbFvRgwGILjLbFVXbyUfZwkS5U5YYh+a8jGHiNU
+         9MY5QH+0pn29vBCbsaQ8vWJAo0psgTujGl31X2EuFchpREJ6lHsmdyfd0FdTziE3z1r2
+         aGoGPmxr2KmZKpCTM/1ZbnwiE6BnO+csFq1wbS0m9QI3R2b24TbS1Rl4vPbYEFbaJtYe
+         gf+zMdLAlvQiF21SUZbCctFAJzqMdg4Crw/CnJdeZ41FljnNS7oMvDkHSpuVjBhxesVS
+         wt0LX7Tn1KlFPk5NaA3kO8GrvTtpAQaUBBFaEjYwFFpFQO6DbFig1P7/DrShinRR2yLB
+         6GKQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxKnAYkBy14AnV/s4fRInSBbHiEVyhNUIs+lmlRxcnRu1MGlc5NkoEQ8PJb3ZCe2gXGjz6cjVN3mHWWtA==@vger.kernel.org
+X-Gm-Message-State: AFq9FYJb60/W12rByXvSSI+dDsrqWYYRGXxt3PzKRS1Su6ekjCSRoluA
+	qRi18OyXIQUitaDVClQcinju4L/poVj7gGnaeaoNCUmZbrgWAp9CHoeX
+X-Gm-Gg: AYBFou2BiJ5yTZ2/Fggz3K9lsZXI7Ih4zVfN4OiS/jK91ZLITPNQVV+XM9zCXdVJNFm
+	rVkA7sRa+QQ7+DiCY4dIJPpsDz1jO11iHObas3qrjAHgTra78MRFV4Ke6ZQ1q4LvRIlSmC3IE8R
+	yfWAIg4MFOooWlqnYxXIQnV6Xqngb/oKYY6p1WKSHwJxOs54q+sYBzaOXpPNi8Krm6RBAB6sZX5
+	wivI/Z+wXeI/FxTJ3Gf3j7HhZtCO69YrEUceQpf40KTR1Zxz4j6mgJHmC23pwO5ZFAfRZls3IVJ
+	PM4CdmHY6xqhF2sycdLNAUNDeGoIWhOV/4cfHuDvmEabQxUVrGTXL1bmLlEDueFN54tPuBAgROF
+	IPnuCHrXiC21pZkfq2jlJcbBMx5cwM4sv8oJi18Nta4/XMLhy8E63MJIS0zT6EReoec1D4CRs1N
+	n/ghkig2xpI0AYXjeyyQo/4Kbh25ApPHHWpANlSvEauaT9U09AUlLD2q1oNsJlF6///gMDwgPhq
+	P0eZgIqGfQtXN5srO5xh0myHb4JUG6evouXvSkcPqJ5zRKrIY2btFnvptR2gIXPiJ8DBxj8UdgH
+	NLYySUQDWuyx/vJCPpV9x7gXC5r7l0AhmRvB7+3Tzc2Zas2I5/DlqKBsf47CvJvvIxtWk9jmt3j
+	8B4DFTT1IZznUv1JIh5LXyqdNqW5RbdI/+R9ZSnRdmT/JtVqpm3YM7QM09CepEQl+Ku3voAgr
+X-Received: by 2002:a05:6a00:23c8:b0:87d:dc3c:1b5e with SMTP id d2e1a72fcca58-897c634d89fmr5838569b3a.26.1791723273443;
+        Sun, 11 Oct 2026 05:54:33 -0700 (PDT)
+Received: from desktophank.localdomain (111-242-217-19.dynamic-ip.hinet.net. [111.242.217.19])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-899b738d03bsm929232b3a.41.2026.10.11.05.54.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 11 Oct 2026 05:54:32 -0700 (PDT)
+From: Ting-Han Hou <ue081723@gmail.com>
+To: Anton Yakovlev <anton.yakovlev@opensynergy.com>,
+	"Michael S . Tsirkin" <mst@redhat.com>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Matias Ezequiel Vara Larsen <mvaralar@redhat.com>,
+	virtualization@lists.linux.dev,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: virtio: reset I/O message fill level on prepare
+Date: Sun, 11 Oct 2026 20:54:26 +0800
+Message-ID: <20261011125426.35745-1-ue081723@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,100 +79,112 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wD3r4Y9dstqBhOCDg--.25652S4
-X-Coremail-Antispam: 1Uf129KBjvJXoWxGrykCr17WrWxZFW7ur43GFg_yoW5uF43pF
-	4YqayrGrsxXr1j9r1DZF4xW348Cry0vr13Wr1Fkw48Jws3WryUJ3y3JFy7Xr1rZrWv93y2
-	qr43tFn5Zr1Ut3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0piVT5JUUUUU=
-X-CM-SenderInfo: 5pdnvshuxfjiisr6il2tof0z/xtbC9Qg9SGrLdkhzngAA36
 
-cs35l41_hda_probe() takes an acpi_device through
-cs35l41_hda_read_acpi() and stores it in cs35l41->dacpi. It is
-released in the err: label, which
-is reached from every later failure.
+Since commit fe981e67568c ("ALSA: virtio: use ack callback"), an I/O
+message is only queued to the device once the application has filled
+the whole period: virtsnd_pcm_msg_send() accumulates the transferred
+bytes in msg->length and queues the message when it reaches
+period_bytes.  msg->length is reset to 0 only when the device completes
+the message.
 
-One failure is not routed there:
+If the substream is stopped (e.g. snd_pcm_drop()) while a period is
+only partially filled, the corresponding message is never queued and
+keeps its partial length.  virtsnd_pcm_prepare() resets msg_count,
+hw_ptr and the indirect PCM state, but not msg->length.  After the
+next start, the stale length is added to the new data, the sum never
+equals period_bytes, and the message is never sent again.  Playback
+then stalls once hw_ptr reaches that period: writes fail with -EIO
+("DMA or IRQ trouble") and drain fails with -EIO.  Capture is affected the
+same way after a partial read.
 
-        ret = cs35l41_hda_read_acpi(cs35l41, device_name, id);
-        if (ret)
-                return dev_err_probe(cs35l41->dev, ret, "...");
+Clear the fill level of all messages in prepare.  Outside of the resume
+path, virtsnd_pcm_prepare() already refuses to run while I/O messages
+are pending, so no message is owned by the device at this point and the
+reset does not race with message completion.
 
-cs35l41->acpi_subsystem_id is allocated inside cs35l41_hda_read_acpi()
-before that point, so it is leaked whenever the function fails.
+Reproduced in QEMU (virtio-sound-pci, wav audiodev): prepare, write 1.5
+periods, drop, prepare, write 16 full periods, drain.  Without this
+patch WRITEI returns -EIO after 14 periods and DRAIN fails; with it all
+16 periods are played and DRAIN succeeds.  Period-aligned prefill works
+in both cases.  The same sequence on capture (read 1.5 periods, drop,
+prepare, read 16 periods) fails with -EIO after 10 periods without this
+patch and reads all 16 with it.
 
-Route the failure through a new err_acpi label that releases it.
+Found by code inspection, confirmed with the reproducer above.
 
-That label must not release cs35l41->dacpi a second time.  Every
-failure path in cs35l41_hda_read_acpi() that can be taken after the
-assignment already drops that reference: cs35l41_hda_parse_acpi() does
-so in its own err: label, and the !physdev path does it directly.
-Clear cs35l41->dacpi wherever it is dropped, so the pointer never
-outlives the reference and the put in err_acpi is a no-op on those
-paths.
-
-Found by code review.
-
-Fixes: 447106e92a0c ("ALSA: hda: cs35l41: Support mute notifications for CS35L41 HDA")
-Cc: stable@vger.kernel.org
-Signed-off-by: Ma Ke <make_ruc2021@163.com>
+Fixes: fe981e67568c ("ALSA: virtio: use ack callback")
+Assisted-by: LLM
+Signed-off-by: Ting-Han Hou <ue081723@gmail.com>
 ---
-Changes in v2:
-- v1 released cs35l41->dacpi from the new err_acpi label, but
-  cs35l41_hda_parse_acpi() already drops that reference in its own err:
-  label, so the reference would have been dropped a second time.  Clear
-  cs35l41->dacpi there as well, not only on the !physdev path.
-  Reported by Sashiko; thanks to Takashi Iwai for pointing it out.
-- The leak being fixed and the diff are otherwise unchanged from v1.
----
- sound/hda/codecs/side-codecs/cs35l41_hda.c | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+Testing notes:
+- Tested only with QEMU's virtio-sound-pci (wav and none audiodevs) on
+  x86_64 with KASAN enabled, using a raw-ioctl ALSA test program;
+  not tested with other device implementations (e.g. crosvm,
+  vhost-user-sound) or with alsa-lib based players.
+- Suspend/resume during playback (pm_test=devices) was also tried in
+  QEMU and works with and without this patch.
+- Lockdep was not enabled.
 
-diff --git a/sound/hda/codecs/side-codecs/cs35l41_hda.c b/sound/hda/codecs/side-codecs/cs35l41_hda.c
-index 62296be45c55..3a8e04f73f79 100644
---- a/sound/hda/codecs/side-codecs/cs35l41_hda.c
-+++ b/sound/hda/codecs/side-codecs/cs35l41_hda.c
-@@ -1908,6 +1908,7 @@ int cs35l41_hda_parse_acpi(struct cs35l41_hda *cs35l41, struct device *physdev,
- 	hw_cfg->gpio1.valid = false;
- 	hw_cfg->gpio2.valid = false;
- 	acpi_dev_put(cs35l41->dacpi);
-+	cs35l41->dacpi = NULL;
+ sound/virtio/virtio_pcm.h     |  2 ++
+ sound/virtio/virtio_pcm_msg.c | 19 +++++++++++++++++++
+ sound/virtio/virtio_pcm_ops.c |  1 +
+ 3 files changed, 22 insertions(+)
+
+diff --git a/sound/virtio/virtio_pcm.h b/sound/virtio/virtio_pcm.h
+index 368dafa5df3f..8837dfc12828 100644
+--- a/sound/virtio/virtio_pcm.h
++++ b/sound/virtio/virtio_pcm.h
+@@ -118,6 +118,8 @@ int virtsnd_pcm_msg_alloc(struct virtio_pcm_substream *vss,
  
- 	return ret;
+ void virtsnd_pcm_msg_free(struct virtio_pcm_substream *vss);
+ 
++void virtsnd_pcm_msg_reset(struct virtio_pcm_substream *vss);
++
+ int virtsnd_pcm_msg_send(struct virtio_pcm_substream *vss, unsigned long offset,
+ 			 unsigned long bytes);
+ 
+diff --git a/sound/virtio/virtio_pcm_msg.c b/sound/virtio/virtio_pcm_msg.c
+index a5c4e7027717..72103f606716 100644
+--- a/sound/virtio/virtio_pcm_msg.c
++++ b/sound/virtio/virtio_pcm_msg.c
+@@ -182,6 +182,25 @@ void virtsnd_pcm_msg_free(struct virtio_pcm_substream *vss)
+ 	vss->nmsgs = 0;
  }
-@@ -1929,6 +1930,7 @@ static int cs35l41_hda_read_acpi(struct cs35l41_hda *cs35l41, const char *hid, i
- 	struct device *physdev __free(put_device) =
- 		get_device(acpi_get_first_physical_node(adev));
- 	if (!physdev) {
-+		cs35l41->dacpi = NULL;
- 		acpi_dev_put(adev);
- 		return -ENODEV;
- 	}
-@@ -1986,8 +1988,10 @@ int cs35l41_hda_probe(struct device *dev, const char *device_name, int id, int i
- 	dev_set_drvdata(dev, cs35l41);
  
- 	ret = cs35l41_hda_read_acpi(cs35l41, device_name, id);
--	if (ret)
--		return dev_err_probe(cs35l41->dev, ret, "Platform not supported\n");
-+	if (ret) {
-+		dev_err_probe(cs35l41->dev, ret, "Platform not supported\n");
-+		goto err_acpi;
-+	}
- 
- 	if (IS_ERR(cs35l41->reset_gpio)) {
- 		ret = PTR_ERR(cs35l41->reset_gpio);
-@@ -2066,6 +2070,12 @@ int cs35l41_hda_probe(struct device *dev, const char *device_name, int id, int i
- 
- 	return 0;
- 
-+err_acpi:
-+	acpi_dev_put(cs35l41->dacpi);
-+	kfree(cs35l41->acpi_subsystem_id);
++/**
++ * virtsnd_pcm_msg_reset() - Reset the fill level of all I/O messages.
++ * @vss: VirtIO PCM substream.
++ *
++ * Messages that were only partially filled by the application when the
++ * substream was stopped are never sent to the device, so their length must be
++ * cleared before the substream is started again.
++ *
++ * Context: Any context. Takes and releases the VirtIO substream spinlock.
++ */
++void virtsnd_pcm_msg_reset(struct virtio_pcm_substream *vss)
++{
++	unsigned int i;
 +
-+	return ret;
++	guard(spinlock_irqsave)(&vss->lock);
++	for (i = 0; vss->msgs && i < vss->nmsgs; ++i)
++		vss->msgs[i]->length = 0;
++}
 +
- err_pm:
- 	pm_runtime_dont_use_autosuspend(cs35l41->dev);
- 	pm_runtime_disable(cs35l41->dev);
+ /**
+  * virtsnd_pcm_msg_send() - Send asynchronous I/O messages.
+  * @vss: VirtIO PCM substream.
+diff --git a/sound/virtio/virtio_pcm_ops.c b/sound/virtio/virtio_pcm_ops.c
+index 1105e7ff3523..1091100a4c98 100644
+--- a/sound/virtio/virtio_pcm_ops.c
++++ b/sound/virtio/virtio_pcm_ops.c
+@@ -299,6 +299,7 @@ static int virtsnd_pcm_prepare(struct snd_pcm_substream *substream)
+ 	vss->xfer_xrun = false;
+ 	vss->suspended = false;
+ 	vss->msg_count = 0;
++	virtsnd_pcm_msg_reset(vss);
+ 
+ 	memset(&vss->pcm_indirect, 0, sizeof(vss->pcm_indirect));
+ 	vss->pcm_indirect.sw_buffer_size =
 -- 
-2.43.0
+2.53.0
 
