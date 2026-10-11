@@ -1,167 +1,208 @@
-Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from irl.hu (irl.hu [95.85.9.111])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3790D44A3EC;
-	Sun, 11 Oct 2026 18:06:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4364A361962;
+	Sun, 11 Oct 2026 19:22:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.85.9.111
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791742008; cv=none; b=r6aZlrYkvXIwqygY5O+4Ayv01/N9SEOisN6xPqozL3hpckRlfd8Fsg34mCnAbeM94x3VcJqIjBL7w+53BhNHuiFNL+GBWPnMJFsXHpCw6gBNnd+we74XlIq1knkZ/pNSCYm2Qa/0L2P+g9UuYCavGUsq7wy+v6gRyD6O3dmvk8M=
+	t=1791746566; cv=none; b=SyX5belGxkB/YXC5T0IKzOQ7MrM51EIXuc2+mDlwXR0LZf5pBbXqrhIBe8vP/2Iy3w1fciYgohm/8l801U95n0kSyzldnQdBI+xcA+Vhkbh8t+LEVxpVXeJJu7T+/TqZYyZJSOrXtFxFHOHjRS+b6gAa/6nNrih3oeyDZ9X3rGg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791742008; c=relaxed/simple;
-	bh=emZJbKvYe03g7HJBuE8m7LmYGGgBIwxOsDESI4fubnA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=POsJJhjQ3ScqzHZhGqTlc6TEH+8aUQH+v6W/FTjyyNwUqbqbDwhrbJjbCIiIIlmkd5wYxr2UZ56i+gGhF2IrjAOgz1zAO4FeSXWRBBfQJFlWz4UgiabOInjkrmGvC/FKf2BOz8RGbCAu/1+XpeyV+elkazOWqvK1YllKBDGxtC0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=URWQdIOn; arc=none smtp.client-ip=178.21.23.139
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="URWQdIOn"
-Received: from mail01.layka.lan (localhost [127.0.0.1])
-	by disroot.org (Postfix) with ESMTP id 8B892807D5;
-	Sun, 11 Oct 2026 20:06:37 +0200 (CEST)
-X-Virus-Scanned: SPAM Filter at disroot.org
-Received: from layka.disroot.org ([127.0.0.1])
- by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 31vg9917Yogb; Sun, 11 Oct 2026 20:06:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
-	t=1791741996; bh=emZJbKvYe03g7HJBuE8m7LmYGGgBIwxOsDESI4fubnA=;
-	h=From:To:Cc:Subject:Date;
-	b=URWQdIOn+q45KeFFbnusbXb57ZiCkOY78yTTWyc5lP8ExygfCny7JkMRg6twgxkU2
-	 nqB1hHLVXtkZVsA24ZejnHD64SyggoMQBaxj6yMSp/dFrnq01pp2xXPMqVRRQ3wZQk
-	 xrCr+AJepD6gsfmaexoUkh4Yxs92c9e62YTmCDLNr639QWLgVADtSZuj7jhGoFpcMR
-	 W5jMOM+Ef/7i1i9RHZeJqSHtJIQJ5Wm5uKZxJIKmT4jnVKiwJH0c0zhJfbfYScCyUs
-	 ssB3ivxJQxLLh+zrAlts0rvPfs2tGLyxleXraKxAdIH4iESNRKoHPuL4FNlirqzsgi
-	 nC2BpasP+l4Sg==
-From: =?UTF-8?q?Ali=20Ahmet=20Memi=C5=9F?= <aliamemis@disroot.org>
-To: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: control_led: Fix deadlock between sysfs writes and card disconnect
-Date: Sun, 11 Oct 2026 21:06:17 +0300
-Message-ID: <20261011180627.1594051-1-aliamemis@disroot.org>
+	s=arc-20240116; t=1791746566; c=relaxed/simple;
+	bh=gdW/Hqk9Svm8OLwtKz0K7iwDvXb0EHdBya5BIqnj57s=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=KTvCs8N9wBYsFxJ/l7dU1yfmDt1uXbI257r6sA0X0nKepHbL1tZYgvcioRjdFP3S8GgRhD8RLESbQSegToxYCsfQvK9Yb+9Qo1uIOi5suA/VURzLqFhvMUEudBbjCG1d14eNpua7S2tIrHi+XB0e6wCU0YW0OTe+BE5VKWz3JLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu; spf=pass smtp.mailfrom=irl.hu; arc=none smtp.client-ip=95.85.9.111
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=irl.hu
+Received: from [192.168.2.4] (bc24bec8.dsl.pool.telekom.hu [::ffff:188.36.190.200])
+  (AUTH: CRAM-MD5 soyer@irl.hu, )
+  by irl.hu with ESMTPSA
+  id 00000000000C70AA.000000006ACBE0CB.0033447B; Sun, 11 Oct 2026 21:17:31 +0200
+Message-ID: <08164314db94522865dd4681d414bc42939da545.camel@irl.hu>
+Subject: Re: [PATCH v2] ALSA: hda/tas2781: Enable bass speakers support
+From: Gergo Koteles <soyer@irl.hu>
+To: Georg Wenzel <g.wenzel@gmail.com>, tiwai@suse.de
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+  linux-kernel@vger.kernel.org
+Date: Sun, 11 Oct 2026 21:17:36 +0200
+In-Reply-To: <20261004071202.89116-1-g.wenzel@gmail.com>
+References: <87cxtw2y8b.wl-tiwai@suse.de>
+	 <20261004071202.89116-1-g.wenzel@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.2 (3.60.2-2.fc44) 
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-snd_ctl_led_disconnect() removes the ctl-led sysfs files while
-holding card->controls_rwsem. device_unregister() waits for running
-sysfs callbacks which can deadlock when a concurrent write causes
-the attach or detach callback to wait for controls_rwsem.
+Hi Georg,
 
-Break kernfs active protection in the attach, detach and list
-callbacks and hold a module reference instead.
+On Sun, 2026-10-04 at 09:12 +0200, Georg Wenzel wrote:
+> Configure the driver to correctly initialize and enable the bass speakers
+> on devices utilizing the TAS2781 amplifier. Without this change, only the
+> tweeters or main speakers are active, leading to thin audio output.
+>=20
+> Set up the required register sequences and routing to ensure the bass
+> channels are properly powered and mixed into the audio stream.
+>=20
+> Signed-off-by: Georg Wenzel <g.wenzel@gmail.com>
+> ---
+> v2:
+>   - Rebased onto sound/for-next (Takashi Iwai).
+>   - Removed non-ASCII characters in comments (Takashi Iwai).
+>  =20
+>  include/sound/tas2781.h                       | 12 +++
+>  .../hda/codecs/side-codecs/tas2781_hda_i2c.c  | 98 +++++++++++++++++++
+>  2 files changed, 110 insertions(+)
+>=20
+> diff --git a/include/sound/tas2781.h b/include/sound/tas2781.h
+> index b763da613769..ccc0142fbad5 100644
+> --- a/include/sound/tas2781.h
+> +++ b/include/sound/tas2781.h
+> @@ -91,6 +91,18 @@
+>  /* prm_TE_1_Beta1 */
+>  #define TAS2563_TE_DT_REG		TASDEVICE_REG(0x00, 0x0f, 0x70)
+> =20
+> +/* TAS2563 ASI (Audio Serial Interface) Register Definitions */
+> +#define TAS2563_ASI_CFG_REG			TASDEVICE_REG(0x00, 0x00, 0x06)
+> +#define TAS2563_ASI_SR_REG			TASDEVICE_REG(0x00, 0x00, 0x07)
+> +#define TAS2563_ASI_FS_REG			TASDEVICE_REG(0x00, 0x00, 0x08)
+> +#define TAS2563_ASI_DA_REG			TASDEVICE_REG(0x00, 0x00, 0x0a)
+> +#define TAS2563_ASI_TDM_REG			TASDEVICE_REG(0x00, 0x00, 0x0b)
+> +#define TAS2563_ASI_DL_REG			TASDEVICE_REG(0x00, 0x00, 0x0c)
+> +#define TAS2563_ASI_SLOT_REG		TASDEVICE_REG(0x00, 0x00, 0x30)
+> +
+> +/* TAS2563 ASI Apply Register (triggers configuration update) */
+> +#define TAS2563_ASI_APPLY_REG			TASDEVICE_REG(0x00, 0x00, 0x02)
+> +
+>  #define TAS2781_PRM_INT_MASK_REG	TASDEVICE_REG(0x00, 0x00, 0x3b)
+>  #define TAS2781_PRM_CLK_CFG_REG		TASDEVICE_REG(0x00, 0x00, 0x5c)
+>  #define TAS2781_PRM_RSVD_REG		TASDEVICE_REG(0x00, 0x01, 0x19)
+> diff --git a/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c b/sound/hda/c=
+odecs/side-codecs/tas2781_hda_i2c.c
+> index 5e5f46c9fb6b..cef33159eba4 100644
+> --- a/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
+> +++ b/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
+> @@ -46,6 +46,83 @@
+>  #define TAS2563_CAL_TLIM		TASDEVICE_REG(0, 0x10, 0x14)
+>  #define TAS2563_CAL_R0			TASDEVICE_REG(0, 0x0f, 0x34)
+> =20
+> +/*
+> + * TAS2563 Post-Firmware ASI Configuration.
+> + *
+> + * The DSP firmware loading can overwrite the ASI (Audio Serial Interfac=
+e)
+> + * registers that configure the I2S/TDM audio path to the amplifier.
+> + * This function re-applies the correct ASI configuration after firmware=
+ load,
+> + * matching the reference initialization sequence used by the vendor scr=
+ipt:
+> + *   - Software reset
+> + *   - ASI_CFG  =3D 0x09 (I2S mode, master/slave config)
+> + *   - ASI_SR   =3D 0x02 (sample rate divider for 48 kHz)
+> + *   - ASI_DA   =3D 0xf1 (data alignment / slot assignment)
+> + *   - ASI_TDM  =3D 0x02 (TDM mode select)
+> + *   - ASI_DL   =3D 0x00 (delay line off)
+> + *   - ASI_SLOT =3D 0x99 (slot enable mask for 2-channel stereo)
+> + *   - CHNL_0   =3D 0x02 (channel mapping)
+> + *   - ASI_FS   =3D 0x1e or 0x2e (frame sync, device-specific: bit4 sele=
+cts
+> + *                which of the two devices is the "primary" for FS gener=
+ation)
+> + *   - ASI_APPLY=3D 0x00 (trigger configuration update)
+> + */
+> +static void tas2563_post_fw_init(struct tasdevice_priv *tas_priv)
+> +{
+> +	int i, ret;
+> +
+> +	dev_info(tas_priv->dev, "%s: ndev=3D%d, chip_id=3D%d\n",
+> +		 __func__, tas_priv->ndev, tas_priv->chip_id);
+> +
+> +	for (i =3D 0; i < tas_priv->ndev; i++) {
+> +		struct tasdevice *tasdev =3D &tas_priv->tasdevice[i];
+> +		u8 fs_val;
+> +
+> +		dev_info(tas_priv->dev,
+> +			 "%s: device[%d] dev_addr=3D0x%02x\n",
+> +			 __func__, i, tasdev->dev_addr);
+> +
+> +		/* Step 1: Software reset (matches script: 0x01 =3D 0x01) */
+> +		ret =3D tasdevice_dev_write(tas_priv, i, TASDEVICE_REG_SWRESET,
+> +					  TASDEVICE_REG_SWRESET_RESET);
+> +		dev_info(tas_priv->dev,
+> +			 "%s: chn=3D%d SWRESET ret=3D%d\n", __func__, i, ret);
+> +		usleep_range(1000, 2000);
 
-Fixes: a135dfb5de15 ("ALSA: led control - add sysfs kcontrol LED marking layer")
-Signed-off-by: Ali Ahmet Memiş <aliamemis@disroot.org>
----
- sound/core/control_led.c | 62 ++++++++++++++++++++++++++++++++++++----
- 1 file changed, 57 insertions(+), 5 deletions(-)
+According the 7.5.3 in the tas2563.pdf, this will place all register
+values in their default POR (Power on Reset) state.
 
-diff --git a/sound/core/control_led.c b/sound/core/control_led.c
-index ec0e6c7ad..501387287 100644
---- a/sound/core/control_led.c
-+++ b/sound/core/control_led.c
-@@ -563,12 +563,43 @@ static ssize_t set_led_id(struct snd_ctl_led_card *led_card, const char *buf, si
- 	return count;
- }
- 
-+/*
-+ * snd_ctl_led_disconnect() removes these files with card->controls_rwsem
-+ * held. so don't let the removal wait for a callback that takes it.
-+ */
-+static struct kernfs_node *snd_ctl_led_sysfs_enter(struct device *dev,
-+						   struct device_attribute *attr)
-+{
-+	struct kernfs_node *kn;
-+
-+	if (!try_module_get(THIS_MODULE))
-+		return NULL;
-+	kn = sysfs_break_active_protection(&dev->kobj, &attr->attr);
-+	if (!kn)
-+		module_put(THIS_MODULE);
-+	return kn;
-+}
-+
-+static void snd_ctl_led_sysfs_exit(struct kernfs_node *kn)
-+{
-+	sysfs_unbreak_active_protection(kn);
-+	module_put(THIS_MODULE);
-+}
-+
- static ssize_t attach_store(struct device *dev,
- 			    struct device_attribute *attr,
- 			    const char *buf, size_t count)
- {
- 	struct snd_ctl_led_card *led_card = container_of(dev, struct snd_ctl_led_card, dev);
--	return set_led_id(led_card, buf, count, true);
-+	struct kernfs_node *kn;
-+	ssize_t ret;
-+
-+	kn = snd_ctl_led_sysfs_enter(dev, attr);
-+	if (!kn)
-+		return -ENODEV;
-+	ret = set_led_id(led_card, buf, count, true);
-+	snd_ctl_led_sysfs_exit(kn);
-+	return ret;
- }
- 
- static ssize_t detach_store(struct device *dev,
-@@ -576,7 +607,15 @@ static ssize_t detach_store(struct device *dev,
- 			    const char *buf, size_t count)
- {
- 	struct snd_ctl_led_card *led_card = container_of(dev, struct snd_ctl_led_card, dev);
--	return set_led_id(led_card, buf, count, false);
-+	struct kernfs_node *kn;
-+	ssize_t ret;
-+
-+	kn = snd_ctl_led_sysfs_enter(dev, attr);
-+	if (!kn)
-+		return -ENODEV;
-+	ret = set_led_id(led_card, buf, count, false);
-+	snd_ctl_led_sysfs_exit(kn);
-+	return ret;
- }
- 
- static ssize_t reset_store(struct device *dev,
-@@ -594,10 +633,8 @@ static ssize_t reset_store(struct device *dev,
- 	return count;
- }
- 
--static ssize_t list_show(struct device *dev,
--			 struct device_attribute *attr, char *buf)
-+static ssize_t snd_ctl_led_list(struct snd_ctl_led_card *led_card, char *buf)
- {
--	struct snd_ctl_led_card *led_card = container_of(dev, struct snd_ctl_led_card, dev);
- 	struct snd_ctl_led_ctl *lctl;
- 	size_t l = 0;
- 	struct snd_card *card __free(snd_card_unref) =
-@@ -620,6 +657,21 @@ static ssize_t list_show(struct device *dev,
- 	return l;
- }
- 
-+static ssize_t list_show(struct device *dev,
-+			 struct device_attribute *attr, char *buf)
-+{
-+	struct snd_ctl_led_card *led_card = container_of(dev, struct snd_ctl_led_card, dev);
-+	struct kernfs_node *kn;
-+	ssize_t ret;
-+
-+	kn = snd_ctl_led_sysfs_enter(dev, attr);
-+	if (!kn)
-+		return -ENODEV;
-+	ret = snd_ctl_led_list(led_card, buf);
-+	snd_ctl_led_sysfs_exit(kn);
-+	return ret;
-+}
-+
- static DEVICE_ATTR_WO(attach);
- static DEVICE_ATTR_WO(detach);
- static DEVICE_ATTR_WO(reset);
--- 
-2.55.0
+So this resets all registers set by the firmware before.
 
+Why is this necessary? Should that vendor script run here?
+
+I have TAS2563s in my Lenovo 14ARB7 and they work fine already.
+
+You wrote that it worked well with 6.16.
+Could you bisect the culprit commit instead?
+
+Based on your dmesg something else can be wrong:
+
+snd_hda_codec_alc269 hdaudioC1D0: bound i2c-INT8866:00 (ops
+tas2781_hda_i2c_driver_exit [snd_hda_scodec_tas2781_i2c])
+
+This sould be:
+
+snd_hda_codec_alc269 hdaudioC1D0: bound i2c-INT8866:00 (ops
+tas2781_hda_comp_ops [snd_hda_scodec_tas2781_i2c])
+
+
+> +
+> +		/* Step 2: ASI configuration registers */
+> +		ret =3D tasdevice_dev_write(tas_priv, i, TAS2563_ASI_CFG_REG, 0x09);
+> +		dev_info(tas_priv->dev, "%s: chn=3D%d ASI_CFG=3D0x09 ret=3D%d\n", __fu=
+nc__, i, ret);
+> +
+> +		ret =3D tasdevice_dev_write(tas_priv, i, TAS2563_ASI_SR_REG, 0x02);
+> +		dev_info(tas_priv->dev, "%s: chn=3D%d ASI_SR=3D0x02 ret=3D%d\n", __fun=
+c__, i, ret);
+> +
+> +		ret =3D tasdevice_dev_write(tas_priv, i, TAS2563_ASI_DA_REG, 0xf1);
+> +		dev_info(tas_priv->dev, "%s: chn=3D%d ASI_DA=3D0xf1 ret=3D%d\n", __fun=
+c__, i, ret);
+> +
+> +		ret =3D tasdevice_dev_write(tas_priv, i, TAS2563_ASI_TDM_REG, 0x02);
+> +		dev_info(tas_priv->dev, "%s: chn=3D%d ASI_TDM=3D0x02 ret=3D%d\n", __fu=
+nc__, i, ret);
+> +
+> +		ret =3D tasdevice_dev_write(tas_priv, i, TAS2563_ASI_DL_REG, 0x00);
+> +		dev_info(tas_priv->dev, "%s: chn=3D%d ASI_DL=3D0x00 ret=3D%d\n", __fun=
+c__, i, ret);
+> +
+> +		ret =3D tasdevice_dev_write(tas_priv, i, TAS2563_ASI_SLOT_REG, 0x99);
+> +		dev_info(tas_priv->dev, "%s: chn=3D%d ASI_SLOT=3D0x99 ret=3D%d\n", __f=
+unc__, i, ret);
+> +
+> +		ret =3D tasdevice_dev_write(tas_priv, i, TAS2781_PRM_CHNL_0_REG, 0x02)=
+;
+> +		dev_info(tas_priv->dev, "%s: chn=3D%d CHNL_0=3D0x02 ret=3D%d\n", __fun=
+c__, i, ret);
+> +
+
+TAS2781_PRM_CHNL_0_REG is misleading.
+It is TASDEVICE_REG(0x00, 0x00, 0x03) which is the PB_CFG1 on the
+TAS2563.
+
+Writing 0x02 into sets the AMP_LEVEL to the minimum.
+AMP_LEVEL=3D0x01 -> 8.5 dBV (3.76Vpk).
+
+The default is 0x20 for this register.
+AMP_LEVEL=3D0x10 -> 16.0 dBV (8.92Vpk).
+
+Why should it be quieter?
+
+
+Thanks,
+Gergo
