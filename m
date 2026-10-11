@@ -1,185 +1,92 @@
-Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com [209.85.222.44])
+Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E1D035BDAA
-	for <linux-sound@vger.kernel.org>; Sun, 11 Oct 2026 19:44:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791747894; cv=pass; b=WSza4HxKZljw30yjjJvP22u6x6ZiCo2iG3d0SaczLXHK6FrQ0bj16nlH6wUInXsGpvL113wAE+KATwn423EL5afstCrdVyMuBjRdv7IPgpv5fN16apCOGBg8mkOZTI0tm8ev12EFe8E2fUD86xu3+9k6EBawUZ13W3ltDiryva4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791747894; c=relaxed/simple;
-	bh=hERBEQDDdyjZ/0waIt0WKjrDpoukr5vrcu4l+cwfv48=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=sO0yHe0RKaBL8FHYyV7PPzuRWtyOAMm87Hb5dR5cqY4JjO6x74gW4JTlbMv/1cG27cHuyQ6fWJaetKpU/h7R75JFyc3PmzhkHdiyq0nQzbypLjyU3hYLTbKf4nvpNBRENqqsTqa7SRdj/Ls4EnvyMIOjdsfVuppYotxeJ9hjlUg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D+Y96N9d; arc=pass smtp.client-ip=209.85.222.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8890315D49;
+	Sun, 11 Oct 2026 20:07:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791749225; cv=none; b=ggUVVXMqZd0h0wQIdyBVDRCP6VPir+CWGu+b5uSF70x5GueY68VmFWSKyobZQu9DbqSrMNY0gB3wv94rwJ2R4gxNiF4VOMhuD+tm++N4YGnBb+F7d2M4w8F+SQrHjQguHC2R1zHipA58u8yvYQSoyqfs2iCiX1paJhybQjp/rVQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791749225; c=relaxed/simple;
+	bh=IMZper1yEhI1H5tcHfrLf2vTr+csqD4dMEJJg2h7S14=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=HOrrrkcsuduUKJ8FsnRGULM0C09UNp1yYekPx7C1oHXgUpGyqf6+K2JlxqJ5nCyNDTsIjHOZllpdUXT7WydzKw6/XwRK/4CJwMZct6i2ntVT8suuRsjw8oHdowzS8Sk7hcdod/Tm5JTWuPYBSbN+WSobiCvmVsLW528cQgsw6G4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=Zio5EWLK; arc=none smtp.client-ip=178.21.23.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D+Y96N9d"
-Received: by mail-ua1-f44.google.com with SMTP id a1e0cc1a2514c-98c5876f2b0so555528241.2
-        for <linux-sound@vger.kernel.org>; Sun, 11 Oct 2026 12:44:52 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791747892; cv=none;
-        d=google.com; s=arc-20260327;
-        b=S+SSvMAJFGjqbqejW/2WQJqgq6W7C0ji1skQpuyobEF/Ms6lGSbcyQeqfeVbRXkZEX
-         mqQPerwMRaiPt1iG0+mKCR0b7IoQYVuTn7FFk5RCP7ybwfdNmyTSKl4VTrIjEEapZjFr
-         XdhbYeuHc3MD7zly6lMDHc/30irZFkQdLfaVSSF7CDbdzELIvEV5HILYnog7HUbSKb1C
-         Raq8+IruNd4cMF6L1HPH+YPZSUhLUsByjrX+HxshW95Kn+mkj4qvsJaDsl9KjnQQ93fH
-         b1wWETVdS9t4E24B137k1NwDjHahSPDbVWnAxYcSAzAXN4ujPGMCe+1L4dx71C2ezDfN
-         MovQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :mime-version:dkim-signature;
-        bh=hERBEQDDdyjZ/0waIt0WKjrDpoukr5vrcu4l+cwfv48=;
-        fh=1GUBQZ40wKtkaKrq9Z7Jk5guK3RFLtcnTi/UknjxHCw=;
-        b=s3bDzbBG0Pe9MdTs2BKreuwJ3cbTgZudJn9FtPyNePUKDdSdTaH6VOw1Mpp8RvHRpf
-         cTGonT1/7Xgj3pbel/XSbhpAHCaM0mQ3iDdvWTrKzeZ3ngT6IlcR4VEd1p5PX8A2aZ5v
-         AHojl0DeoBdgC2AeKow93HaSQtievwAJM+Sejp6VTEgsqpAR8aDvDNb4T/Ng9dey//D0
-         RcnFtlsx0kPYVNgFIrMMANeJ0Ij9xdaxh5vtPxR/iJxM7JmRbOYZsItVzJHWmlHRmIV1
-         uOz2IljnlKRQp0023MWJ/bCii6j3VxBMckfZNhE9WAQwXxjw0fgvepgt2ffZnUohhWG5
-         0NEA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791747892; x=1792352692; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=hERBEQDDdyjZ/0waIt0WKjrDpoukr5vrcu4l+cwfv48=;
-        b=D+Y96N9dep6vNa5aQg9DFL4/XiNyGCfNpleEjnBDpt4VVyVralLMZyt1Zxs2d+vH5K
-         dOCaW4e3K1oGznJfXHeTebdA65bCgEr9FqVHoE6hluD5sCszxqCPseaRFqaWglFrdq9F
-         LstBvHe95e5OMO1G5KO4ix0VojX3CdiZo6LJuHUKQ/IG6QGNC4M76IBHo1lNth29UT4u
-         gxMjLAFswEQhpzeTxPwWapgtcNdy+q12SGDPTN8FTinCChhcLiSfsdJ9L/OFc64+1Ac4
-         7NOMFnIJbwRja7nyhOIy9xyzjynvBsAPkIhf5okCZLvkHZinBMwMx63Z7YC2tzlpdwAN
-         yEGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791747892; x=1792352692;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=hERBEQDDdyjZ/0waIt0WKjrDpoukr5vrcu4l+cwfv48=;
-        b=TLK5gQfKYpBA01Ft1xxIGl17f3MbExD/io1DYKjW1CmCORrG25tNsdml4fgra36NLB
-         G6NOTNxFmPwb8dw0hvMwpLGv19pYureJzHVffmV+dKR5otZMUaWsjUPgJH8lUdt/dmt7
-         0ksiUJX5vUA/DJqaTeNFgbJxxTXrOlaftbc0ku6NKltI5bDAglsbITClgurRxYoyvUDZ
-         c+naYAawf9vtLai2Wzq3lQUWoF1jBC93iucGy4kVFb61kXE5klB2ZMeysiLozbJbVQwS
-         VJl+rMXvhUTbf3afPKEKlG6sBIIEngU4HIoNLw+aQoWfUcGBvbiNC2nopp/R/PZyyD1c
-         7aXg==
-X-Gm-Message-State: AFq9FYLbuYZ86IcCqFr9HKtetYf/nAVEPzzjkKjKh1CA+Przy+ssnRPt
-	/MQW3bgVPQb2vfDHhdyY0vjXgcH3Ot19KivRfk/MIzN8Y7urplEs4XaR9GLkzV8SQmkIWCv38bT
-	5V8oP+wa60T5m8+E7vU8N7SfkzAzpGFxopMHEihs=
-X-Gm-Gg: AYBFou1C1paIqZkryoPpv0fGymDZHKTF4XrFShITkZ8lP1hQ092MWVrpWEfU5l3lutz
-	AvhDXxVQu5hKHgwIFOHNHnzZsEhYChdXxA7MI+VMieari3gsxLu/8Je+1uuU0hhRGcapbSJo1ss
-	+RXKh0cnaXjVEHwHRpZoq9gcEitd1e8gmp3XWKuZjm82PY9IaEAo2MNgfqgYp2c9c3uvDcaezIp
-	uQE9RledHqo1BH2IWQhV3QqgXQEqZb4O7XE3x/stf1GfYSXuNCg2v0e0QJrlAdBhVVMlG2IK8pq
-	Lpu4Gulz1KVFuxXsAR18+iQ0mWvIeeTAiIT8W3wtdMY3Of5MrJyLcDyvL5ybn3ZdwVwplj4sJSO
-	byofLY0q56z8QJObLsegy9gREOYqH9xPPC/+eCeWNuNoKLVjCyFh0IH4rZLHmD29RwBUg17Q=
-X-Received: by 2002:a05:6102:951:b0:7a7:19aa:8a86 with SMTP id
- ada2fe7eead31-7cb373fd04dmr2537817137.33.1791747891887; Sun, 11 Oct 2026
- 12:44:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="Zio5EWLK"
+Received: from mail01.layka.lan (localhost [127.0.0.1])
+	by disroot.org (Postfix) with ESMTP id D38B5806C5;
+	Sun, 11 Oct 2026 22:06:59 +0200 (CEST)
+X-Virus-Scanned: SPAM Filter at disroot.org
+Received: from layka.disroot.org ([127.0.0.1])
+ by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id UF4C72F5--Gn; Sun, 11 Oct 2026 22:06:58 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
+	t=1791749218; bh=IMZper1yEhI1H5tcHfrLf2vTr+csqD4dMEJJg2h7S14=;
+	h=From:To:Cc:Subject:Date;
+	b=Zio5EWLK9wj+HuOhE+X/hyljnY+aEnRz1JeKc7IP2KcV2JYkQTo9fnKxsaDzsX2nV
+	 Kxi2hn9j9Qrb7VIwYFB2geShh2fJQD/V9/tWQNZH4dHdeOUTf/FuIL8h0MEkBUcJ5o
+	 eW6d56lEaumvUlEVmvhZ1VIVCz2bfT8zuhhjQ+FjHgDeXUZKmjW/OFyBh9+cgDefi+
+	 iYYXz+aExHMXbj6bRlfmpzkw9lUn58gBaH5vP70VhvaCKwyxMxsKabGyBXM5iNCk3g
+	 Y9xfJudBQc1LtGy4nE7go+B6pFXmQzRaUoJSFzbKm7abXQpmbbgdU+mlyqlsZuAwO1
+	 YRyPkCh0Um6Ow==
+From: =?UTF-8?q?Ali=20Ahmet=20Memi=C5=9F?= <aliamemis@disroot.org>
+To: Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	syzbot+40b06a86af225236fdb4@syzkaller.appspotmail.com
+Subject: [PATCH] ALSA: hda: intel: Don't free card in the probe work
+Date: Sun, 11 Oct 2026 23:06:27 +0300
+Message-ID: <20261011200648.1662935-1-aliamemis@disroot.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: =?UTF-8?Q?Marek_Bor=C5=AFvka?= <boruvka.marek@gmail.com>
-Date: Sun, 11 Oct 2026 21:44:40 +0200
-X-Gm-Features: AclHuK_55jonYhS9CSW7tJImEd_JTh71TgeXndxeCjZR9JwLA4W2G3egS_1-olY
-Message-ID: <CANQNuJuMA6pA1CHR1dtaC4sZJY-uw4CYQgYX23KDitA3biH+0g@mail.gmail.com>
-Subject: ASoC: amd: yc: AMD-Vi IO_PAGE_FAULT at address 0xfffffffffffffffc on
- every DMIC capture start (Lenovo Yoga 7 14ARB7, 82QF)
-To: linux-sound@vger.kernel.org
-Cc: Vijendar.Mukunda@amd.com, venkataprasad.potturu@amd.com, 
-	broonie@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hello,
+If the delayed probe fails, azx_probe_work() frees the card and clears
+the drvdata. azx_remove() reads the card before it waits for the probe
+work with cancel_delayed_work_sync() so when the device is removed while
+the probe work is running, it frees the card again after the work has
+already freed it.
 
-on a Lenovo Yoga 7 14ARB7 (82QF, Ryzen 5 6600U, Rembrandt/Yellow Carp ACP
-rev 60, PCI 1022:15e2) the AMD IOMMU logs exactly one IO_PAGE_FAULT for the
-ACP device each time a capture stream on the digital microphone (acp6x
-card) is opened. The microphone itself records valid audio through
-PipeWire, so this appears to be an incorrect DMA access at capture start
-rather than a loss of function.
+Leave the card to azx_remove() and only mark the probe as failed in the
+work as is done in the vga_switcheroo path.
 
-Hardware / software
--------------------
-Machine: LENOVO 82QF, version "Yoga 7 14ARB7"
-BIOS: K5CN48WW, 12/06/2024
-CPU: AMD Ryzen 5 6600U with Radeon Graphics
-Device: 33:00.5 Multimedia controller [0480]: AMD Audio Coprocessor
-[1022:15e2] (rev 60), subsystem Lenovo 17aa:3859, driver in use:
-snd_pci_acp6x, IOMMU group 20
-Kernel: 7.2.9-200.fc44.x86_64 (Fedora 44), not tainted. The same fault
-also appeared on Fedora 43 kernels 7.0.13-100.fc43 and 7.2.9-100.fc43,
-so it is not a recent regression.
-Modules: snd_pci_acp6x, snd_acp6x_pdm_dma, snd_soc_acp6x_mach,
-snd_soc_dmic
-Boot log: "acp_yc_mach acp_yc_mach.0: Enabling ACP DMIC support via DMI"
-ALSA: card 2 [acp6x], device 0: DMIC capture dmic-hifi-0
-User space: PipeWire 1.6.9, WirePlumber 0.5.18, alsa-lib/alsa-ucm
-1.2.16.1. The default PipeWire "Digital Microphone" source is mapped by
-UCM to api.alsa.path =3D "hw:acp6x".
+Fixes: 39173303c838 ("ALSA: hda: Free card instance properly at probe errors")
+Reported-by: syzbot+40b06a86af225236fdb4@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=40b06a86af225236fdb4
+Signed-off-by: Ali Ahmet Memiş <aliamemis@disroot.org>
+---
+With this, azx_probe_continue() is always called with free_on_error
+false.  So the parameter is no longer needed.  I can drop it in v2 in
+the same commit if that would be OK.
 
-What happens
-------------
-Each capture start produces one line:
+ sound/hda/controllers/intel.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-snd_pci_acp6x 0000:33:00.5: AMD-Vi: Event logged [IO_PAGE_FAULT
-domain=3D0x0016 address=3D0xfffffffffffffffc flags=3D0x0030]
+diff --git a/sound/hda/controllers/intel.c b/sound/hda/controllers/intel.c
+index 2b5b5d555f2c..5db3d37f93fe 100644
+--- a/sound/hda/controllers/intel.c
++++ b/sound/hda/controllers/intel.c
+@@ -1737,7 +1737,11 @@ static void azx_check_snoop_available(struct azx *chip)
+ static void azx_probe_work(struct work_struct *work)
+ {
+ 	struct hda_intel *hda = container_of(work, struct hda_intel, probe_work.work);
+-	azx_probe_continue(&hda->chip, true);
++
++	if (azx_probe_continue(&hda->chip, false) < 0) {
++		hda->init_failed = 1;
++		complete_all(&hda->probe_wait);
++	}
+ }
+ 
+ static int default_bdl_pos_adj(struct azx *chip)
+-- 
+2.55.0
 
-The address is always the same, 0xfffffffffffffffc (i.e. -4), which looks
-like an uninitialised or underflowed DMA pointer rather than a buffer
-address. No fault is logged at boot or while no capture stream is opened.
-
-Reproduction (reliable, one fault per run)
-------------------------------------------
-Fault counter: journalctl -k -g IO_PAGE_FAULT -o cat | wc -l
-
-1. arecord -D hw:2,0 -f S32_LE -r 48000 -c 2 -d 1 /dev/null
-Result: +1 fault, and arecord ends with "arecord: pcm_read:2285: read
-error: Input/output error" (EIO). I only used these parameters as a quick
-probe; I did not verify which hw_params the DMIC PCM actually supports,
-so the EIO may be caused by my choice of format/channels.
-
-2. arecord -f S16_LE -r 48000 -c 2 -d 1 /dev/null (default =3D PipeWire)
-Result: +1 fault, recording succeeds, signal level is normal (RMS 0.0276,
-peak 0.376 over 2 s with the mic in a quiet room).
-
-3. Opening the stream from a desktop application (e.g. GNOME Settings
-sound panel input meter, voice dictation) produces the fault in the same
-second.
-
-4. arecord -L (enumeration only, no capture): no fault.
-
-5. Recording from the analog ALC287 device (hw:1,0): no fault.
-
-The test was repeated with other audio software stopped (JamesDSP, a
-PipeWire client that never opens /dev/snd itself), with the same result,
-so user-space effects/filters are not involved.
-
-Frequency over time (acp6x faults per boot, same laptop)
---------------------------------------------------------
-7.0.13-100.fc43: 4, 4, 22, 4, 2, 0, 0 (Jul-Sep 2026)
-7.2.6-100.fc43: 0 (4 boots)
-7.2.9-100.fc43: 1, 0, 0
-7.2.9-200.fc44: 0 (5 boots), then 23 on the boot where the microphone
-was used repeatedly
-
-The count follows how often the microphone is used; it is not tied to a
-specific kernel version.
-
-Not done / unknown
-------------------
-- I did not bisect and did not read the driver code, so the cause (e.g.
-DMA address programmed before the buffer is set up, or a stale value on
-stop) is only a guess from the constant -4 address.
-- I did not test with amd_iommu=3Doff / iommu=3Dpt (that would only change
-whether the fault is reported, not why the access happens).
-- I did not check whether captured audio is damaged at the very start of
-a stream.
-
-I can test patches and provide more logs (dmesg with dyndbg for
-sound/soc/amd/yc/, lspci -vv, alsa-info) if useful.
-
-Thanks,
-Marek Bor=C5=AFvka
