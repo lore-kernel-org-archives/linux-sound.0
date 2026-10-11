@@ -1,208 +1,185 @@
-Received: from irl.hu (irl.hu [95.85.9.111])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com [209.85.222.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4364A361962;
-	Sun, 11 Oct 2026 19:22:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.85.9.111
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791746566; cv=none; b=SyX5belGxkB/YXC5T0IKzOQ7MrM51EIXuc2+mDlwXR0LZf5pBbXqrhIBe8vP/2Iy3w1fciYgohm/8l801U95n0kSyzldnQdBI+xcA+Vhkbh8t+LEVxpVXeJJu7T+/TqZYyZJSOrXtFxFHOHjRS+b6gAa/6nNrih3oeyDZ9X3rGg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791746566; c=relaxed/simple;
-	bh=gdW/Hqk9Svm8OLwtKz0K7iwDvXb0EHdBya5BIqnj57s=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=KTvCs8N9wBYsFxJ/l7dU1yfmDt1uXbI257r6sA0X0nKepHbL1tZYgvcioRjdFP3S8GgRhD8RLESbQSegToxYCsfQvK9Yb+9Qo1uIOi5suA/VURzLqFhvMUEudBbjCG1d14eNpua7S2tIrHi+XB0e6wCU0YW0OTe+BE5VKWz3JLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu; spf=pass smtp.mailfrom=irl.hu; arc=none smtp.client-ip=95.85.9.111
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=irl.hu
-Received: from [192.168.2.4] (bc24bec8.dsl.pool.telekom.hu [::ffff:188.36.190.200])
-  (AUTH: CRAM-MD5 soyer@irl.hu, )
-  by irl.hu with ESMTPSA
-  id 00000000000C70AA.000000006ACBE0CB.0033447B; Sun, 11 Oct 2026 21:17:31 +0200
-Message-ID: <08164314db94522865dd4681d414bc42939da545.camel@irl.hu>
-Subject: Re: [PATCH v2] ALSA: hda/tas2781: Enable bass speakers support
-From: Gergo Koteles <soyer@irl.hu>
-To: Georg Wenzel <g.wenzel@gmail.com>, tiwai@suse.de
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
-  linux-kernel@vger.kernel.org
-Date: Sun, 11 Oct 2026 21:17:36 +0200
-In-Reply-To: <20261004071202.89116-1-g.wenzel@gmail.com>
-References: <87cxtw2y8b.wl-tiwai@suse.de>
-	 <20261004071202.89116-1-g.wenzel@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.2 (3.60.2-2.fc44) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E1D035BDAA
+	for <linux-sound@vger.kernel.org>; Sun, 11 Oct 2026 19:44:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791747894; cv=pass; b=WSza4HxKZljw30yjjJvP22u6x6ZiCo2iG3d0SaczLXHK6FrQ0bj16nlH6wUInXsGpvL113wAE+KATwn423EL5afstCrdVyMuBjRdv7IPgpv5fN16apCOGBg8mkOZTI0tm8ev12EFe8E2fUD86xu3+9k6EBawUZ13W3ltDiryva4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791747894; c=relaxed/simple;
+	bh=hERBEQDDdyjZ/0waIt0WKjrDpoukr5vrcu4l+cwfv48=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=sO0yHe0RKaBL8FHYyV7PPzuRWtyOAMm87Hb5dR5cqY4JjO6x74gW4JTlbMv/1cG27cHuyQ6fWJaetKpU/h7R75JFyc3PmzhkHdiyq0nQzbypLjyU3hYLTbKf4nvpNBRENqqsTqa7SRdj/Ls4EnvyMIOjdsfVuppYotxeJ9hjlUg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D+Y96N9d; arc=pass smtp.client-ip=209.85.222.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D+Y96N9d"
+Received: by mail-ua1-f44.google.com with SMTP id a1e0cc1a2514c-98c5876f2b0so555528241.2
+        for <linux-sound@vger.kernel.org>; Sun, 11 Oct 2026 12:44:52 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791747892; cv=none;
+        d=google.com; s=arc-20260327;
+        b=S+SSvMAJFGjqbqejW/2WQJqgq6W7C0ji1skQpuyobEF/Ms6lGSbcyQeqfeVbRXkZEX
+         mqQPerwMRaiPt1iG0+mKCR0b7IoQYVuTn7FFk5RCP7ybwfdNmyTSKl4VTrIjEEapZjFr
+         XdhbYeuHc3MD7zly6lMDHc/30irZFkQdLfaVSSF7CDbdzELIvEV5HILYnog7HUbSKb1C
+         Raq8+IruNd4cMF6L1HPH+YPZSUhLUsByjrX+HxshW95Kn+mkj4qvsJaDsl9KjnQQ93fH
+         b1wWETVdS9t4E24B137k1NwDjHahSPDbVWnAxYcSAzAXN4ujPGMCe+1L4dx71C2ezDfN
+         MovQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :mime-version:dkim-signature;
+        bh=hERBEQDDdyjZ/0waIt0WKjrDpoukr5vrcu4l+cwfv48=;
+        fh=1GUBQZ40wKtkaKrq9Z7Jk5guK3RFLtcnTi/UknjxHCw=;
+        b=s3bDzbBG0Pe9MdTs2BKreuwJ3cbTgZudJn9FtPyNePUKDdSdTaH6VOw1Mpp8RvHRpf
+         cTGonT1/7Xgj3pbel/XSbhpAHCaM0mQ3iDdvWTrKzeZ3ngT6IlcR4VEd1p5PX8A2aZ5v
+         AHojl0DeoBdgC2AeKow93HaSQtievwAJM+Sejp6VTEgsqpAR8aDvDNb4T/Ng9dey//D0
+         RcnFtlsx0kPYVNgFIrMMANeJ0Ij9xdaxh5vtPxR/iJxM7JmRbOYZsItVzJHWmlHRmIV1
+         uOz2IljnlKRQp0023MWJ/bCii6j3VxBMckfZNhE9WAQwXxjw0fgvepgt2ffZnUohhWG5
+         0NEA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791747892; x=1792352692; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=hERBEQDDdyjZ/0waIt0WKjrDpoukr5vrcu4l+cwfv48=;
+        b=D+Y96N9dep6vNa5aQg9DFL4/XiNyGCfNpleEjnBDpt4VVyVralLMZyt1Zxs2d+vH5K
+         dOCaW4e3K1oGznJfXHeTebdA65bCgEr9FqVHoE6hluD5sCszxqCPseaRFqaWglFrdq9F
+         LstBvHe95e5OMO1G5KO4ix0VojX3CdiZo6LJuHUKQ/IG6QGNC4M76IBHo1lNth29UT4u
+         gxMjLAFswEQhpzeTxPwWapgtcNdy+q12SGDPTN8FTinCChhcLiSfsdJ9L/OFc64+1Ac4
+         7NOMFnIJbwRja7nyhOIy9xyzjynvBsAPkIhf5okCZLvkHZinBMwMx63Z7YC2tzlpdwAN
+         yEGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791747892; x=1792352692;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=hERBEQDDdyjZ/0waIt0WKjrDpoukr5vrcu4l+cwfv48=;
+        b=TLK5gQfKYpBA01Ft1xxIGl17f3MbExD/io1DYKjW1CmCORrG25tNsdml4fgra36NLB
+         G6NOTNxFmPwb8dw0hvMwpLGv19pYureJzHVffmV+dKR5otZMUaWsjUPgJH8lUdt/dmt7
+         0ksiUJX5vUA/DJqaTeNFgbJxxTXrOlaftbc0ku6NKltI5bDAglsbITClgurRxYoyvUDZ
+         c+naYAawf9vtLai2Wzq3lQUWoF1jBC93iucGy4kVFb61kXE5klB2ZMeysiLozbJbVQwS
+         VJl+rMXvhUTbf3afPKEKlG6sBIIEngU4HIoNLw+aQoWfUcGBvbiNC2nopp/R/PZyyD1c
+         7aXg==
+X-Gm-Message-State: AFq9FYLbuYZ86IcCqFr9HKtetYf/nAVEPzzjkKjKh1CA+Przy+ssnRPt
+	/MQW3bgVPQb2vfDHhdyY0vjXgcH3Ot19KivRfk/MIzN8Y7urplEs4XaR9GLkzV8SQmkIWCv38bT
+	5V8oP+wa60T5m8+E7vU8N7SfkzAzpGFxopMHEihs=
+X-Gm-Gg: AYBFou1C1paIqZkryoPpv0fGymDZHKTF4XrFShITkZ8lP1hQ092MWVrpWEfU5l3lutz
+	AvhDXxVQu5hKHgwIFOHNHnzZsEhYChdXxA7MI+VMieari3gsxLu/8Je+1uuU0hhRGcapbSJo1ss
+	+RXKh0cnaXjVEHwHRpZoq9gcEitd1e8gmp3XWKuZjm82PY9IaEAo2MNgfqgYp2c9c3uvDcaezIp
+	uQE9RledHqo1BH2IWQhV3QqgXQEqZb4O7XE3x/stf1GfYSXuNCg2v0e0QJrlAdBhVVMlG2IK8pq
+	Lpu4Gulz1KVFuxXsAR18+iQ0mWvIeeTAiIT8W3wtdMY3Of5MrJyLcDyvL5ybn3ZdwVwplj4sJSO
+	byofLY0q56z8QJObLsegy9gREOYqH9xPPC/+eCeWNuNoKLVjCyFh0IH4rZLHmD29RwBUg17Q=
+X-Received: by 2002:a05:6102:951:b0:7a7:19aa:8a86 with SMTP id
+ ada2fe7eead31-7cb373fd04dmr2537817137.33.1791747891887; Sun, 11 Oct 2026
+ 12:44:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+From: =?UTF-8?Q?Marek_Bor=C5=AFvka?= <boruvka.marek@gmail.com>
+Date: Sun, 11 Oct 2026 21:44:40 +0200
+X-Gm-Features: AclHuK_55jonYhS9CSW7tJImEd_JTh71TgeXndxeCjZR9JwLA4W2G3egS_1-olY
+Message-ID: <CANQNuJuMA6pA1CHR1dtaC4sZJY-uw4CYQgYX23KDitA3biH+0g@mail.gmail.com>
+Subject: ASoC: amd: yc: AMD-Vi IO_PAGE_FAULT at address 0xfffffffffffffffc on
+ every DMIC capture start (Lenovo Yoga 7 14ARB7, 82QF)
+To: linux-sound@vger.kernel.org
+Cc: Vijendar.Mukunda@amd.com, venkataprasad.potturu@amd.com, 
+	broonie@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Georg,
+Hello,
 
-On Sun, 2026-10-04 at 09:12 +0200, Georg Wenzel wrote:
-> Configure the driver to correctly initialize and enable the bass speakers
-> on devices utilizing the TAS2781 amplifier. Without this change, only the
-> tweeters or main speakers are active, leading to thin audio output.
->=20
-> Set up the required register sequences and routing to ensure the bass
-> channels are properly powered and mixed into the audio stream.
->=20
-> Signed-off-by: Georg Wenzel <g.wenzel@gmail.com>
-> ---
-> v2:
->   - Rebased onto sound/for-next (Takashi Iwai).
->   - Removed non-ASCII characters in comments (Takashi Iwai).
->  =20
->  include/sound/tas2781.h                       | 12 +++
->  .../hda/codecs/side-codecs/tas2781_hda_i2c.c  | 98 +++++++++++++++++++
->  2 files changed, 110 insertions(+)
->=20
-> diff --git a/include/sound/tas2781.h b/include/sound/tas2781.h
-> index b763da613769..ccc0142fbad5 100644
-> --- a/include/sound/tas2781.h
-> +++ b/include/sound/tas2781.h
-> @@ -91,6 +91,18 @@
->  /* prm_TE_1_Beta1 */
->  #define TAS2563_TE_DT_REG		TASDEVICE_REG(0x00, 0x0f, 0x70)
-> =20
-> +/* TAS2563 ASI (Audio Serial Interface) Register Definitions */
-> +#define TAS2563_ASI_CFG_REG			TASDEVICE_REG(0x00, 0x00, 0x06)
-> +#define TAS2563_ASI_SR_REG			TASDEVICE_REG(0x00, 0x00, 0x07)
-> +#define TAS2563_ASI_FS_REG			TASDEVICE_REG(0x00, 0x00, 0x08)
-> +#define TAS2563_ASI_DA_REG			TASDEVICE_REG(0x00, 0x00, 0x0a)
-> +#define TAS2563_ASI_TDM_REG			TASDEVICE_REG(0x00, 0x00, 0x0b)
-> +#define TAS2563_ASI_DL_REG			TASDEVICE_REG(0x00, 0x00, 0x0c)
-> +#define TAS2563_ASI_SLOT_REG		TASDEVICE_REG(0x00, 0x00, 0x30)
-> +
-> +/* TAS2563 ASI Apply Register (triggers configuration update) */
-> +#define TAS2563_ASI_APPLY_REG			TASDEVICE_REG(0x00, 0x00, 0x02)
-> +
->  #define TAS2781_PRM_INT_MASK_REG	TASDEVICE_REG(0x00, 0x00, 0x3b)
->  #define TAS2781_PRM_CLK_CFG_REG		TASDEVICE_REG(0x00, 0x00, 0x5c)
->  #define TAS2781_PRM_RSVD_REG		TASDEVICE_REG(0x00, 0x01, 0x19)
-> diff --git a/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c b/sound/hda/c=
-odecs/side-codecs/tas2781_hda_i2c.c
-> index 5e5f46c9fb6b..cef33159eba4 100644
-> --- a/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
-> +++ b/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
-> @@ -46,6 +46,83 @@
->  #define TAS2563_CAL_TLIM		TASDEVICE_REG(0, 0x10, 0x14)
->  #define TAS2563_CAL_R0			TASDEVICE_REG(0, 0x0f, 0x34)
-> =20
-> +/*
-> + * TAS2563 Post-Firmware ASI Configuration.
-> + *
-> + * The DSP firmware loading can overwrite the ASI (Audio Serial Interfac=
-e)
-> + * registers that configure the I2S/TDM audio path to the amplifier.
-> + * This function re-applies the correct ASI configuration after firmware=
- load,
-> + * matching the reference initialization sequence used by the vendor scr=
-ipt:
-> + *   - Software reset
-> + *   - ASI_CFG  =3D 0x09 (I2S mode, master/slave config)
-> + *   - ASI_SR   =3D 0x02 (sample rate divider for 48 kHz)
-> + *   - ASI_DA   =3D 0xf1 (data alignment / slot assignment)
-> + *   - ASI_TDM  =3D 0x02 (TDM mode select)
-> + *   - ASI_DL   =3D 0x00 (delay line off)
-> + *   - ASI_SLOT =3D 0x99 (slot enable mask for 2-channel stereo)
-> + *   - CHNL_0   =3D 0x02 (channel mapping)
-> + *   - ASI_FS   =3D 0x1e or 0x2e (frame sync, device-specific: bit4 sele=
-cts
-> + *                which of the two devices is the "primary" for FS gener=
-ation)
-> + *   - ASI_APPLY=3D 0x00 (trigger configuration update)
-> + */
-> +static void tas2563_post_fw_init(struct tasdevice_priv *tas_priv)
-> +{
-> +	int i, ret;
-> +
-> +	dev_info(tas_priv->dev, "%s: ndev=3D%d, chip_id=3D%d\n",
-> +		 __func__, tas_priv->ndev, tas_priv->chip_id);
-> +
-> +	for (i =3D 0; i < tas_priv->ndev; i++) {
-> +		struct tasdevice *tasdev =3D &tas_priv->tasdevice[i];
-> +		u8 fs_val;
-> +
-> +		dev_info(tas_priv->dev,
-> +			 "%s: device[%d] dev_addr=3D0x%02x\n",
-> +			 __func__, i, tasdev->dev_addr);
-> +
-> +		/* Step 1: Software reset (matches script: 0x01 =3D 0x01) */
-> +		ret =3D tasdevice_dev_write(tas_priv, i, TASDEVICE_REG_SWRESET,
-> +					  TASDEVICE_REG_SWRESET_RESET);
-> +		dev_info(tas_priv->dev,
-> +			 "%s: chn=3D%d SWRESET ret=3D%d\n", __func__, i, ret);
-> +		usleep_range(1000, 2000);
+on a Lenovo Yoga 7 14ARB7 (82QF, Ryzen 5 6600U, Rembrandt/Yellow Carp ACP
+rev 60, PCI 1022:15e2) the AMD IOMMU logs exactly one IO_PAGE_FAULT for the
+ACP device each time a capture stream on the digital microphone (acp6x
+card) is opened. The microphone itself records valid audio through
+PipeWire, so this appears to be an incorrect DMA access at capture start
+rather than a loss of function.
 
-According the 7.5.3 in the tas2563.pdf, this will place all register
-values in their default POR (Power on Reset) state.
+Hardware / software
+-------------------
+Machine: LENOVO 82QF, version "Yoga 7 14ARB7"
+BIOS: K5CN48WW, 12/06/2024
+CPU: AMD Ryzen 5 6600U with Radeon Graphics
+Device: 33:00.5 Multimedia controller [0480]: AMD Audio Coprocessor
+[1022:15e2] (rev 60), subsystem Lenovo 17aa:3859, driver in use:
+snd_pci_acp6x, IOMMU group 20
+Kernel: 7.2.9-200.fc44.x86_64 (Fedora 44), not tainted. The same fault
+also appeared on Fedora 43 kernels 7.0.13-100.fc43 and 7.2.9-100.fc43,
+so it is not a recent regression.
+Modules: snd_pci_acp6x, snd_acp6x_pdm_dma, snd_soc_acp6x_mach,
+snd_soc_dmic
+Boot log: "acp_yc_mach acp_yc_mach.0: Enabling ACP DMIC support via DMI"
+ALSA: card 2 [acp6x], device 0: DMIC capture dmic-hifi-0
+User space: PipeWire 1.6.9, WirePlumber 0.5.18, alsa-lib/alsa-ucm
+1.2.16.1. The default PipeWire "Digital Microphone" source is mapped by
+UCM to api.alsa.path =3D "hw:acp6x".
 
-So this resets all registers set by the firmware before.
+What happens
+------------
+Each capture start produces one line:
 
-Why is this necessary? Should that vendor script run here?
+snd_pci_acp6x 0000:33:00.5: AMD-Vi: Event logged [IO_PAGE_FAULT
+domain=3D0x0016 address=3D0xfffffffffffffffc flags=3D0x0030]
 
-I have TAS2563s in my Lenovo 14ARB7 and they work fine already.
+The address is always the same, 0xfffffffffffffffc (i.e. -4), which looks
+like an uninitialised or underflowed DMA pointer rather than a buffer
+address. No fault is logged at boot or while no capture stream is opened.
 
-You wrote that it worked well with 6.16.
-Could you bisect the culprit commit instead?
+Reproduction (reliable, one fault per run)
+------------------------------------------
+Fault counter: journalctl -k -g IO_PAGE_FAULT -o cat | wc -l
 
-Based on your dmesg something else can be wrong:
+1. arecord -D hw:2,0 -f S32_LE -r 48000 -c 2 -d 1 /dev/null
+Result: +1 fault, and arecord ends with "arecord: pcm_read:2285: read
+error: Input/output error" (EIO). I only used these parameters as a quick
+probe; I did not verify which hw_params the DMIC PCM actually supports,
+so the EIO may be caused by my choice of format/channels.
 
-snd_hda_codec_alc269 hdaudioC1D0: bound i2c-INT8866:00 (ops
-tas2781_hda_i2c_driver_exit [snd_hda_scodec_tas2781_i2c])
+2. arecord -f S16_LE -r 48000 -c 2 -d 1 /dev/null (default =3D PipeWire)
+Result: +1 fault, recording succeeds, signal level is normal (RMS 0.0276,
+peak 0.376 over 2 s with the mic in a quiet room).
 
-This sould be:
+3. Opening the stream from a desktop application (e.g. GNOME Settings
+sound panel input meter, voice dictation) produces the fault in the same
+second.
 
-snd_hda_codec_alc269 hdaudioC1D0: bound i2c-INT8866:00 (ops
-tas2781_hda_comp_ops [snd_hda_scodec_tas2781_i2c])
+4. arecord -L (enumeration only, no capture): no fault.
 
+5. Recording from the analog ALC287 device (hw:1,0): no fault.
 
-> +
-> +		/* Step 2: ASI configuration registers */
-> +		ret =3D tasdevice_dev_write(tas_priv, i, TAS2563_ASI_CFG_REG, 0x09);
-> +		dev_info(tas_priv->dev, "%s: chn=3D%d ASI_CFG=3D0x09 ret=3D%d\n", __fu=
-nc__, i, ret);
-> +
-> +		ret =3D tasdevice_dev_write(tas_priv, i, TAS2563_ASI_SR_REG, 0x02);
-> +		dev_info(tas_priv->dev, "%s: chn=3D%d ASI_SR=3D0x02 ret=3D%d\n", __fun=
-c__, i, ret);
-> +
-> +		ret =3D tasdevice_dev_write(tas_priv, i, TAS2563_ASI_DA_REG, 0xf1);
-> +		dev_info(tas_priv->dev, "%s: chn=3D%d ASI_DA=3D0xf1 ret=3D%d\n", __fun=
-c__, i, ret);
-> +
-> +		ret =3D tasdevice_dev_write(tas_priv, i, TAS2563_ASI_TDM_REG, 0x02);
-> +		dev_info(tas_priv->dev, "%s: chn=3D%d ASI_TDM=3D0x02 ret=3D%d\n", __fu=
-nc__, i, ret);
-> +
-> +		ret =3D tasdevice_dev_write(tas_priv, i, TAS2563_ASI_DL_REG, 0x00);
-> +		dev_info(tas_priv->dev, "%s: chn=3D%d ASI_DL=3D0x00 ret=3D%d\n", __fun=
-c__, i, ret);
-> +
-> +		ret =3D tasdevice_dev_write(tas_priv, i, TAS2563_ASI_SLOT_REG, 0x99);
-> +		dev_info(tas_priv->dev, "%s: chn=3D%d ASI_SLOT=3D0x99 ret=3D%d\n", __f=
-unc__, i, ret);
-> +
-> +		ret =3D tasdevice_dev_write(tas_priv, i, TAS2781_PRM_CHNL_0_REG, 0x02)=
-;
-> +		dev_info(tas_priv->dev, "%s: chn=3D%d CHNL_0=3D0x02 ret=3D%d\n", __fun=
-c__, i, ret);
-> +
+The test was repeated with other audio software stopped (JamesDSP, a
+PipeWire client that never opens /dev/snd itself), with the same result,
+so user-space effects/filters are not involved.
 
-TAS2781_PRM_CHNL_0_REG is misleading.
-It is TASDEVICE_REG(0x00, 0x00, 0x03) which is the PB_CFG1 on the
-TAS2563.
+Frequency over time (acp6x faults per boot, same laptop)
+--------------------------------------------------------
+7.0.13-100.fc43: 4, 4, 22, 4, 2, 0, 0 (Jul-Sep 2026)
+7.2.6-100.fc43: 0 (4 boots)
+7.2.9-100.fc43: 1, 0, 0
+7.2.9-200.fc44: 0 (5 boots), then 23 on the boot where the microphone
+was used repeatedly
 
-Writing 0x02 into sets the AMP_LEVEL to the minimum.
-AMP_LEVEL=3D0x01 -> 8.5 dBV (3.76Vpk).
+The count follows how often the microphone is used; it is not tied to a
+specific kernel version.
 
-The default is 0x20 for this register.
-AMP_LEVEL=3D0x10 -> 16.0 dBV (8.92Vpk).
+Not done / unknown
+------------------
+- I did not bisect and did not read the driver code, so the cause (e.g.
+DMA address programmed before the buffer is set up, or a stale value on
+stop) is only a guess from the constant -4 address.
+- I did not test with amd_iommu=3Doff / iommu=3Dpt (that would only change
+whether the fault is reported, not why the access happens).
+- I did not check whether captured audio is damaged at the very start of
+a stream.
 
-Why should it be quieter?
-
+I can test patches and provide more logs (dmesg with dyndbg for
+sound/soc/amd/yc/, lspci -vv, alsa-info) if useful.
 
 Thanks,
-Gergo
+Marek Bor=C5=AFvka
