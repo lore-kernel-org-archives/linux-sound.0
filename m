@@ -1,45 +1,45 @@
 Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8890315D49;
-	Sun, 11 Oct 2026 20:07:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 017C1314D13;
+	Sun, 11 Oct 2026 22:14:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791749225; cv=none; b=ggUVVXMqZd0h0wQIdyBVDRCP6VPir+CWGu+b5uSF70x5GueY68VmFWSKyobZQu9DbqSrMNY0gB3wv94rwJ2R4gxNiF4VOMhuD+tm++N4YGnBb+F7d2M4w8F+SQrHjQguHC2R1zHipA58u8yvYQSoyqfs2iCiX1paJhybQjp/rVQ=
+	t=1791756846; cv=none; b=UhZ4rWT5X7IPuh+z83DX+n8rmhoQj7B2RdvD7pOjtMDOT5CQE6B1FI7RdnqMJxRbTHk+SYAPbQ6Ppj1nazqcdWYzEMr6vYZGtfiCuCTP6nr2xML6wwIU7FVVjhLvqv4r3THUG0mAlUP+d3Dm8ewCA/Uy9pqMT0kQrfXnzvwrQLA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791749225; c=relaxed/simple;
-	bh=IMZper1yEhI1H5tcHfrLf2vTr+csqD4dMEJJg2h7S14=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=HOrrrkcsuduUKJ8FsnRGULM0C09UNp1yYekPx7C1oHXgUpGyqf6+K2JlxqJ5nCyNDTsIjHOZllpdUXT7WydzKw6/XwRK/4CJwMZct6i2ntVT8suuRsjw8oHdowzS8Sk7hcdod/Tm5JTWuPYBSbN+WSobiCvmVsLW528cQgsw6G4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=Zio5EWLK; arc=none smtp.client-ip=178.21.23.139
+	s=arc-20240116; t=1791756846; c=relaxed/simple;
+	bh=dT47kaXg2PKJA7n3es8e8/4dwfChMErkBViAGAAWINg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Ph1zbK1/JUuri+SyuOBV45BPuz+PxtxVViCHEnmvxcgq+ZrpjpxTYPZV8vu7XBHlzA6TdfhDRJTqGE2z0LnwXq8ikKyyZWx38Q3htrXDW/YffJO4bJJWKIDNlrXVClOdonrayN8vDHUZGDVNuyB6j/yo7uPMW9QPxZ832esWF8U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=lpgi8R4b; arc=none smtp.client-ip=178.21.23.139
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="Zio5EWLK"
+	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="lpgi8R4b"
 Received: from mail01.layka.lan (localhost [127.0.0.1])
-	by disroot.org (Postfix) with ESMTP id D38B5806C5;
-	Sun, 11 Oct 2026 22:06:59 +0200 (CEST)
+	by disroot.org (Postfix) with ESMTP id 97A398100C;
+	Mon, 12 Oct 2026 00:14:00 +0200 (CEST)
 X-Virus-Scanned: SPAM Filter at disroot.org
 Received: from layka.disroot.org ([127.0.0.1])
  by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id UF4C72F5--Gn; Sun, 11 Oct 2026 22:06:58 +0200 (CEST)
+ id A4W7ctl9ywvH; Mon, 12 Oct 2026 00:13:59 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
-	t=1791749218; bh=IMZper1yEhI1H5tcHfrLf2vTr+csqD4dMEJJg2h7S14=;
+	t=1791756839; bh=dT47kaXg2PKJA7n3es8e8/4dwfChMErkBViAGAAWINg=;
 	h=From:To:Cc:Subject:Date;
-	b=Zio5EWLK9wj+HuOhE+X/hyljnY+aEnRz1JeKc7IP2KcV2JYkQTo9fnKxsaDzsX2nV
-	 Kxi2hn9j9Qrb7VIwYFB2geShh2fJQD/V9/tWQNZH4dHdeOUTf/FuIL8h0MEkBUcJ5o
-	 eW6d56lEaumvUlEVmvhZ1VIVCz2bfT8zuhhjQ+FjHgDeXUZKmjW/OFyBh9+cgDefi+
-	 iYYXz+aExHMXbj6bRlfmpzkw9lUn58gBaH5vP70VhvaCKwyxMxsKabGyBXM5iNCk3g
-	 Y9xfJudBQc1LtGy4nE7go+B6pFXmQzRaUoJSFzbKm7abXQpmbbgdU+mlyqlsZuAwO1
-	 YRyPkCh0Um6Ow==
+	b=lpgi8R4bWAaq7BHPEgEdyVNKk8ZhIJHfG7bn9i7gt7QqpvmCFHFAP2ol+DLODWFQC
+	 tQQF8RcFEeRtRrR15rsu3BjSqw1MBI0yBcwWK0AmVLvWZe9RtKdPTR6E6tkJ0TKxpE
+	 WHBNZqbeeoq2uHNAdJrxqlsYap+auC4WKzZVoqfbRMjRINn7GPIiEwT2x8GZ+VLkvv
+	 cwAFAPGfXhv0eRQr10vEJ7MtCQ2c2Ayb/wqocQlnUkPfZWUKiBX7gn8QAZJD1qHB00
+	 3ikm43KhbC6GmDr1gJ9JR0MEeGYkcKREI7h+f1ChFzOlItSQh2dj7ugt99l+dl4FAK
+	 iJeRgzLy9dDqw==
 From: =?UTF-8?q?Ali=20Ahmet=20Memi=C5=9F?= <aliamemis@disroot.org>
 To: Takashi Iwai <tiwai@suse.com>,
 	Jaroslav Kysela <perex@perex.cz>
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	syzbot+40b06a86af225236fdb4@syzkaller.appspotmail.com
-Subject: [PATCH] ALSA: hda: intel: Don't free card in the probe work
-Date: Sun, 11 Oct 2026 23:06:27 +0300
-Message-ID: <20261011200648.1662935-1-aliamemis@disroot.org>
+Cc: bui duc phuc <phucduc.bui@gmail.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: core: Use the allocated major number with major=0
+Date: Mon, 12 Oct 2026 01:13:34 +0300
+Message-ID: <20261011221350.1690703-1-aliamemis@disroot.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,44 +49,44 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-If the delayed probe fails, azx_probe_work() frees the card and clears
-the drvdata. azx_remove() reads the card before it waits for the probe
-work with cancel_delayed_work_sync() so when the device is removed while
-the probe work is running, it frees the card again after the work has
-already freed it.
+Since commit bd8f21876189 ("ALSA: core: propagate actual error code from
+register_chrdev"), alsa_sound_init() only treats negative values from
+register_chrdev() as errors. With the major=0 module option
+register_chrdev() allocates a major number dynamically and returns it
+but snd_major and the devices still use 0. The devices are then
+created without device numbers so no /dev/snd nodes appear and sound
+is unusable.
 
-Leave the card to azx_remove() and only mark the probe as failed in the
-work as is done in the vga_switcheroo path.
+Use the returned major number when major=0 is given.
 
-Fixes: 39173303c838 ("ALSA: hda: Free card instance properly at probe errors")
-Reported-by: syzbot+40b06a86af225236fdb4@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=40b06a86af225236fdb4
+Fixes: bd8f21876189 ("ALSA: core: propagate actual error code from register_chrdev")
 Signed-off-by: Ali Ahmet Memiş <aliamemis@disroot.org>
 ---
-With this, azx_probe_continue() is always called with free_on_error
-false.  So the parameter is no longer needed.  I can drop it in v2 in
-the same commit if that would be OK.
+ sound/core/sound.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
- sound/hda/controllers/intel.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/sound/hda/controllers/intel.c b/sound/hda/controllers/intel.c
-index 2b5b5d555f2c..5db3d37f93fe 100644
---- a/sound/hda/controllers/intel.c
-+++ b/sound/hda/controllers/intel.c
-@@ -1737,7 +1737,11 @@ static void azx_check_snoop_available(struct azx *chip)
- static void azx_probe_work(struct work_struct *work)
+diff --git a/sound/core/sound.c b/sound/core/sound.c
+index 24f40763a20c..a0349a7e9495 100644
+--- a/sound/core/sound.c
++++ b/sound/core/sound.c
+@@ -396,7 +396,6 @@ static int __init alsa_sound_init(void)
  {
- 	struct hda_intel *hda = container_of(work, struct hda_intel, probe_work.work);
--	azx_probe_continue(&hda->chip, true);
-+
-+	if (azx_probe_continue(&hda->chip, false) < 0) {
-+		hda->init_failed = 1;
-+		complete_all(&hda->probe_wait);
-+	}
- }
+ 	int err;
  
- static int default_bdl_pos_adj(struct azx *chip)
+-	snd_major = major;
+ 	snd_ecards_limit = cards_limit;
+ 
+ 	err = register_chrdev(major, "alsa", &snd_fops);
+@@ -404,6 +403,9 @@ static int __init alsa_sound_init(void)
+ 		pr_err("ALSA core: unable to register native major device number %d\n", major);
+ 		return err;
+ 	}
++	if (!major)
++		major = err;
++	snd_major = major;
+ 
+ 	err = snd_info_init();
+ 	if (err < 0) {
 -- 
 2.55.0
 
