@@ -1,85 +1,91 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CC6E344DB5;
-	Mon, 12 Oct 2026 07:09:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84A96438466;
+	Mon, 12 Oct 2026 07:19:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791788980; cv=none; b=FwMoYGk93d0Nop/yggAj4qVOE2D3JuKPhB0LkQfY6MF9eC5V9zoBR1lTl0b3V5LX3IY4E0q9vgKyrGvW2ixKOD8GZ4vW3WxxIB7JtxMJVxAIb4E+ViEgxXva/IucGpqDoLrc8wUBMEUG6A5c5hCW2FkUX51wYb6rKQWNgERn3jc=
+	t=1791789581; cv=none; b=rkE3Yq8mq1mxSaXVoLe4rlbmkWz08/Fz0OkHRf+LhPEJKE+YT4QyTDiTRqxCXax/qUj1WFoc/uNTyxEHojp82NzSz+W7UUIh487m8QJyloy+jzUOUY6a7G5GXGAL3lPl8HbTDgwMCG7K6CsYQ6QrmzZqCQ0TX1zZC/Hc4/VzC8I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791788980; c=relaxed/simple;
-	bh=G8/2m8HcDkzvwnQpwSmjVqiWNhB3PJysmfZoDjw4H6A=;
+	s=arc-20240116; t=1791789581; c=relaxed/simple;
+	bh=DZsGIg/YsTnn0HKbxqZEV4EBW4SIpgoPgX/wROia3Fc=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZVnzRp2eR4ibwdIHWZgX6jmpDY85cui7q+1lxxeof2ZODgZ0lBQpWmDE/Jqw5q8++0C5MW4ECkf/qZlD8x0kCPZC09iY3ZcwIWLcit2baXrCIIgBEflk22ATRoVE3fVJxqSAnd8+e5Z09yhyk2wVb+GqVLg71DnQihAigG0o4KI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dAAUErpC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Cynu4viO; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dAAUErpC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Cynu4viO; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=a63LiGTdNALgpWGXQZuAkNccDgp4hFBKMnLtS7AnOtv08xjvQocszvOyREqddTvuHTOPLYImpWBfQnEMXAMpNoTEm3UrRYspmgMOICPRGO4/53A+Vgu67/sUu4eJ5Y4CIgTcMs2W087cJTXNSxaE8YutBE9YiRKVoq+NlVCw52E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=iFCwEF+7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=C62EHKC5; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0xcU9VA4; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gElOyhvT; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dAAUErpC";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Cynu4viO";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dAAUErpC";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Cynu4viO"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="iFCwEF+7";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="C62EHKC5";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0xcU9VA4";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gElOyhvT"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 053B821E71;
-	Mon, 12 Oct 2026 07:09:37 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 3E5E521E71;
+	Mon, 12 Oct 2026 07:19:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1791788977; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1791789578; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Wn/mQNjc1pWtPSQdT4/uMncvR8ogSnlywwtuhjqwtlQ=;
-	b=dAAUErpCj++hJN+aOQn4OxPY8M54LkXDLSvxSj86Qh5Vm1piEMPgBJ3MKbbw0QvDrJ1acY
-	N1OfTR3X6KO2xSJHHmMLOVPU2Kz9nCF39sH2/J3G54Ua92pdZBuFyO2GDn1YwcbvyHsoJD
-	uM9yTfJJ87JXOtGr0B5dVtnZZNrAvOg=
+	bh=3akLmu2xKWew8xd8yRo/G5kfBqiAor6R9A+Ogqs3SN8=;
+	b=iFCwEF+7/beBVHiiyP6b17ZeLxrG0iiuFs/M10AKlvboY53w/TfdVNV5W2kfyG6fHgIO9/
+	C2kmMT0ChvOCG2ZLtl5urUCBj0bj+sbXv0VkqrkAiB4n60B485JANtXaQHIlwOfnusud47
+	CEYW6yS2czwFFneK9uUvYCwhiX3P308=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1791788977;
+	s=susede2_ed25519; t=1791789578;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Wn/mQNjc1pWtPSQdT4/uMncvR8ogSnlywwtuhjqwtlQ=;
-	b=Cynu4viOLr48Hri9ut4X9SGHRw0Giq8xtfEeaJSTtdE0wujIVHcq0KUGlaCijxTuhE6Ha9
-	q7PQFXXkqqehCzCw==
+	bh=3akLmu2xKWew8xd8yRo/G5kfBqiAor6R9A+Ogqs3SN8=;
+	b=C62EHKC5yCIvFfmPq+Bh1vibctAXbCauXl4vvUYEcY+bOfaU0ms67DbZAf+4v8+5avojC/
+	Fg0pz0oCZWc7NTAg==
 Authentication-Results: smtp-out1.suse.de;
-	none
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=0xcU9VA4;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=gElOyhvT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1791788977; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1791789577; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Wn/mQNjc1pWtPSQdT4/uMncvR8ogSnlywwtuhjqwtlQ=;
-	b=dAAUErpCj++hJN+aOQn4OxPY8M54LkXDLSvxSj86Qh5Vm1piEMPgBJ3MKbbw0QvDrJ1acY
-	N1OfTR3X6KO2xSJHHmMLOVPU2Kz9nCF39sH2/J3G54Ua92pdZBuFyO2GDn1YwcbvyHsoJD
-	uM9yTfJJ87JXOtGr0B5dVtnZZNrAvOg=
+	bh=3akLmu2xKWew8xd8yRo/G5kfBqiAor6R9A+Ogqs3SN8=;
+	b=0xcU9VA4Dj8LlqPT1XYQot30/Plqarejb2geppZoI1GeU3Jsh7Tss/1JS8T7GMkCkb8Sgh
+	KpCf/9qNOj2/gt6mac/OQMd+e7+cRTvrfzGenX0qKAp6WK8A7gge7f936IfMt/MIaiTPsn
+	DMeZGpJfSLOkrb870v1rg1OCTmcWmLI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1791788977;
+	s=susede2_ed25519; t=1791789577;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Wn/mQNjc1pWtPSQdT4/uMncvR8ogSnlywwtuhjqwtlQ=;
-	b=Cynu4viOLr48Hri9ut4X9SGHRw0Giq8xtfEeaJSTtdE0wujIVHcq0KUGlaCijxTuhE6Ha9
-	q7PQFXXkqqehCzCw==
+	bh=3akLmu2xKWew8xd8yRo/G5kfBqiAor6R9A+Ogqs3SN8=;
+	b=gElOyhvTe7yL9OEOuKlqNmkRqft1uVT3dEEyBj2afR7vZf+Wuj4jsD1D4rlyWThh987E7G
+	vOMxVsrhxBtGfbAg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A7C2813408;
-	Mon, 12 Oct 2026 07:09:36 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E433F13408;
+	Mon, 12 Oct 2026 07:19:36 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id eBQnH7CHzGr/TAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 12 Oct 2026 07:09:36 +0000
-Date: Mon, 12 Oct 2026 09:09:36 +0200
-Message-ID: <877bjniedr.wl-tiwai@suse.de>
+	id ld0rLgiKzGqFVwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 12 Oct 2026 07:19:36 +0000
+Date: Mon, 12 Oct 2026 09:19:36 +0200
+Message-ID: <875wz7idx3.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Bui Duc Phuc <phucduc.bui@gmail.com>
-Cc: Ali Ahmet =?ISO-8859-2?Q?Memi=BA?= <aliamemis@disroot.org>,	Takashi Iwai
- <tiwai@suse.com>,	Jaroslav Kysela <perex@perex.cz>,
-	linux-sound@vger.kernel.org,	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: core: Use the allocated major number with major=0
-In-Reply-To: <CAABR9nHp0jL2fQ4w6rkd8Avfj9eD2=05TnxOYeOqGDWDqD=9jQ@mail.gmail.com>
-References: <20261011221350.1690703-1-aliamemis@disroot.org>
-	<CAABR9nHp0jL2fQ4w6rkd8Avfj9eD2=05TnxOYeOqGDWDqD=9jQ@mail.gmail.com>
+To: Ali Ahmet =?ISO-8859-2?Q?Memi=BA?= <aliamemis@disroot.org>
+Cc: Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	syzbot+40b06a86af225236fdb4@syzkaller.appspotmail.com
+Subject: Re: [PATCH] ALSA: hda: intel: Don't free card in the probe work
+In-Reply-To: <20261011200648.1662935-1-aliamemis@disroot.org>
+References: <20261011200648.1662935-1-aliamemis@disroot.org>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -87,68 +93,80 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-1.80 / 50.00];
+Content-Type: text/plain; charset=ISO-8859-2
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 3E5E521E71
+X-Rspamd-Action: no action
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.01 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	SUSPICIOUS_RECIPS(1.50)[];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	TAGGED_RCPT(0.00)[];
+	MX_GOOD(-0.01)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_DN_SOME(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TAGGED_RCPT(0.00)[40b06a86af225236fdb4];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_TLS_ALL(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[appspotmail.com:email,syzkaller.appspot.com:url,probe_work.work:url,disroot.org:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
 	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -1.80
-X-Spam-Level: 
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
 X-Spam-Flag: NO
+X-Spam-Score: -2.01
 
-On Mon, 12 Oct 2026 06:32:47 +0200,
-Bui Duc Phuc wrote:
+On Sun, 11 Oct 2026 22:06:27 +0200,
+Ali Ahmet Memiº wrote:
 > 
-> Hi Ali , Takashi-san,
+> If the delayed probe fails, azx_probe_work() frees the card and clears
+> the drvdata. azx_remove() reads the card before it waits for the probe
+> work with cancel_delayed_work_sync() so when the device is removed while
+> the probe work is running, it frees the card again after the work has
+> already freed it.
 > 
-> >
-> > Since commit bd8f21876189 ("ALSA: core: propagate actual error code from
-> > register_chrdev"), alsa_sound_init() only treats negative values from
-> > register_chrdev() as errors. With the major=0 module option
-> > register_chrdev() allocates a major number dynamically and returns it
-> > but snd_major and the devices still use 0. The devices are then
-> > created without device numbers so no /dev/snd nodes appear and sound
-> > is unusable.
+> Leave the card to azx_remove() and only mark the probe as failed in the
+> work as is done in the vga_switcheroo path.
 > 
-> 
-> Note that major=0 has never worked, even before bd8f21876189: the old
-> code treated the positive return value of register_chrdev() as an
-> error and failed with -EIO. bd8f21876189 only changed the symptom.
-> 
-> So this patch adds support for a dynamic major rather than fixing a
-> regression. Takashi-san, is a dynamic major something ALSA wants to
-> support?
+> Fixes: 39173303c838 ("ALSA: hda: Free card instance properly at probe errors")
+> Reported-by: syzbot+40b06a86af225236fdb4@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=40b06a86af225236fdb4
+> Signed-off-by: Ali Ahmet Memiº <aliamemis@disroot.org>
 
-No, it's supposed to be only the fixed one.
+I believe this may change the behavior visible on user-space, and it's
+not what we want.
 
-If there is a real demand, we can extend the implementation, but I
-don't know of such a request.
+For avoiding the card free, can it be the refcounting like below
+instead?
 
+
+thanks,
 
 Takashi
 
->  If not, rejecting major=0 with -EINVAL might be simpler.
-> If it is kept, the Fixes tag is fine since the patch depends on
-> bd8f21876189, but please mention in the changelog that major=0
-> never worked before.
-> 
-> Best regards,
-> Phuc
+--- a/sound/hda/controllers/intel.c
++++ b/sound/hda/controllers/intel.c
+@@ -1737,7 +1737,11 @@ static void azx_check_snoop_available(struct azx *chip)
+ static void azx_probe_work(struct work_struct *work)
+ {
+ 	struct hda_intel *hda = container_of(work, struct hda_intel, probe_work.work);
++	struct snd_card *card = hda->core.card;
++
++	get_device(&card->card_dev);
+ 	azx_probe_continue(&hda->chip, true);
++	put_device(&card->card_dev);
+ }
+ 
+ static int default_bdl_pos_adj(struct azx *chip)
