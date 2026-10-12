@@ -1,303 +1,274 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from mx0b-00128a01.pphosted.com (mx0b-00128a01.pphosted.com [148.163.139.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C80039CCFF;
-	Mon, 12 Oct 2026 11:17:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB797475345;
+	Mon, 12 Oct 2026 11:45:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.139.77
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791803854; cv=fail; b=P7eRFNHXY+A4sekLU9iGurYAHesykIHzP4+a220QQtDmjHS92fAp0d1ZENk9mfESGg3/q4P5KQ8vhOUMJSuLUoYssRL6VuS3zsl7UkYtQP4dOvIT7nGFnXTv9xDbLCvN+zoAdcEAariXAAbIeGc8LHk692BVerL2YOJYyO48g6Y=
+	t=1791805515; cv=fail; b=C4h7FFsLJETF2NqXx873MehLkFPqc/CWugbMmG8SGZ1DXkORgM6jquMBNCvkw9jwlFbjeo0+FBFboYBPt7RjusOit+wZghP7h2oFTMzOI0X9mnsCvnyJeix2jakoFQDZnLXsOabqjUpDmFt0acDZdk7X3LkCacO5s7CWY7Kxg8I=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791803854; c=relaxed/simple;
-	bh=Y4tqbCZgGH+f5leSX5dFoTkKIaG0WHmbetuDHFz6OGY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kcq3s3bl3xk2Wh+aaSTtikmGRwe5McSuszHIBRogMzt45x3ULvqAPAghbxuZH9urpr3UW7orw06+ABzeatAwZ4qS0A4+UQjUCsazveXKEo7GNdKgGKbP0OuS77bvyzcXQu4RXub+x4VtceeFHAJMwbh94UQl1a1o2lDcQWJj3Jg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=kPZRpiWV; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=QhCxSTYs; arc=fail smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1791805515; c=relaxed/simple;
+	bh=aTN49fx43kwOCXNMzaU5JQp7VwhJs85mYMJqme6qPqI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=db5oE6aZeizSRx05yLfBihPnbH6ffsZrhi6Bziamq3R79JuN9d4x/wf1SSijMZXQ4vlCB+hlYJxiCI3d+TMf59GEfBzM0iZALCRO1wl61TOHyBTWIodEoztR6qtJ0now7p4o0OhlkCCxrg/oHr/h/vEjdo9BCQxRL7nmt1y2n1U=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=vtelectron.com header.i=@vtelectron.com header.b=GM8fB8sk; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=ymDwwKf6; arc=fail smtp.client-ip=148.163.139.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="kPZRpiWV";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="QhCxSTYs"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69C6h7q21342112;
-	Mon, 12 Oct 2026 05:55:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	dkim=pass (2048-bit key) header.d=vtelectron.com header.i=@vtelectron.com header.b="GM8fB8sk";
+	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="ymDwwKf6"
+Received: from pps.filterd (m0516786.ppops.net [127.0.0.1])
+	by mx0b-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69C8Lk1A2042051;
+	Mon, 12 Oct 2026 07:44:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vtelectron.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:in-reply-to:message-id:mime-version:references:subject:to; s=
+	DKIM; bh=n/NRpD49/hVkdzYNrCGOMpcVkRA+r0v0z7uL2mF8Ms8=; b=GM8fB8s
+	kjDMHPGHDvf6Xka6eeSbgGiVr5+OQ7oV9mnRSJ5UvlG65ilwm10NgwIhzw+XKUgC
+	Y/DO4KC3/vs/RfD21LQ2zPtSVxyuThSz6PSPQh1OF7aqGb6lhPNp8dkdgoIoY5XI
+	HDg8EwZGELfTbSHQUGiHSxlMWGe1SL9JoApsiG2IT9OMvQfi0ZfqNiAEtgTkitKX
+	NdzbwAeP9NE1C0M/QDBeUn80+yO+3GvqJt2KxJ7NfXwlVfjKLPQzJnYFMB+b4550
+	98cpjLE1wkPuDyd0/n8AnVjRq7z99HerNr5HYDqJ27WZv9LQokXtSAsfOdqs+v/x
+	23MrcNforIDsO9w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=YgHwi0bTAHRgZAqOS2XmipXwR7uujQYeVAI+V1JycOk=; b=
-	kPZRpiWVZkdt09wmASI8/Pt3eS3VeWg19nfzn9j8N0Mn0l7oWxwOBHI6FGcF7cpW
-	SH0+HXx8wHTNGqZj3rY7VWtuzrsJKCpZS3zGMXRR6ZKUvnAEc6xXLMTpxkxUB8t+
-	hKWEns2p8oFUn9Cnxtzk7kEzrQHVH6VBOUzUvc6ZPzgNzaz9Wz+m3wAcgxERiPMW
-	h8KaRo0NNk7GJXwk54nG5S1uB5zotVEHDzVsyzB1AzxZmm65Jr2okqGdMJgMs54Q
-	SL63GCC2PuQ4kSNVbtvF2B6Bi+SRqaxyIdu4TnMy2kc0Jy40sewx6Dby3hBVcLi3
-	ppKeQrRZqQfo4c4dleJb/w==
-Received: from mw6pr02cu001.outbound.protection.outlook.com (mail-westus2azon11022134.outbound.protection.outlook.com [52.101.48.134])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4h7hsg22rt-1
+	:message-id:mime-version:references:subject:to; s=DKIM; bh=n/NRp
+	D49/hVkdzYNrCGOMpcVkRA+r0v0z7uL2mF8Ms8=; b=ymDwwKf6+ncIRofUfsmWb
+	LMB14oiaC/gKPthIbAOxur0Yb2biCwKPf3fJTrC99xB645vjmJbunpaE5UvN7fSY
+	hhl5Z8nj8DCQjXZtny/vAhgOUdCjgRCX+FvyBWwrlDqa1cxSykPrlnZSdoNXFRYT
+	zCrgrWPReDcgamGbhaDu0yqg7+bA5oot+sGWxHO2CrzEElJF7KLHnmRP4V5rQSya
+	ZzPyWaCagBj/E6lgZKttg5jchybHYDKVtZzKZSbt2T47hqQpL3hLx//QldUTDOyJ
+	UrVRe4zikdU55UWuP8g3M9dOhjcOizC/wgeHxh3oJqzg7kuncvfNMeyFyDD762L6
+	A==
+Received: from co1pr03cu002.outbound.protection.outlook.com (mail-westus2azon11010020.outbound.protection.outlook.com [52.101.46.20])
+	by mx0b-00128a01.pphosted.com (PPS) with ESMTPS id 4h85yhds5s-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Mon, 12 Oct 2026 05:55:49 -0500 (CDT)
+	Mon, 12 Oct 2026 07:44:54 -0400 (EDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uomRpojRd1xaSdCof+ubsjicYySeNQEgEUZkkkOk8PDzDu6Dwi0jr19XfduynZ8Hrfg/pUHOru8tzgZur8BKaJiGn/8k/rVGuPoUjAu7tZHvqUmv81Eb7W5BrjBoudRWWu/WdTuIXg1iR75B26QIRxUSrwjKUV8rVNbj35PRkTqw6gPNbUKvbyNYbjwacyTCP9NgK20E2VvedlO/BzLhouYp1uccRtSW2Cv9xUEDt7MQqO/BdZLedLPsZ7IXBWK2FlPYGqgsRa4Lr6NYL9AllhxqVEjAdm8KHuThSdUP2xB5/KGBNBtCXSzsJYhSufc/onAjUwqAzr2HkX/rwM9lpA==
+ b=mF3m0KU7eoWsdUOtyt5qhR4SV6w5R450T4uvZnaXe1O5cjTUrKQRq2wejQsIEM+sQlU20JnNgiuBn7eoaptNvn9iEfyBnHQ4GSk7Z6qVPw6AhoujHbj/4TNw8ViU6M8s+kXU4TZjHXVjTI/NLG9OLwR5K16rHeYjq+IwYm3OdQT5w1qmNGmd/m5WGOSngVPowKwclCqq4R4t8c8J1bExQkHo432HUncWHLY/uU2a5NXymySrj8yQEX/3WNWBKOJngJQZ8Idlpmq1PG1ZH7GfH5Zu6GJeBgdQNnu5xuJWUXob5x4fN8g3X+el8aNu6SEAiu5IDl3bfxeYuzRWANrB4Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YgHwi0bTAHRgZAqOS2XmipXwR7uujQYeVAI+V1JycOk=;
- b=QvTuKn7mLCnukNX8YqSu3ZVK+TSpDDQKFitjWcITxSkq0JwLsn81Dgf3HxRZf/RHxF8xycQpV7kw3bGqiTVFwbw7mdhoOz8+o2lEcCWn//X1odoLxgMc4aOsZXYFrhbyGZeUQKZLIWj7zOANVykW3VDWHnEZr/40zPrSF8YsFTl8tAlhYXiX0gxP+bnX+Xu0XGCJKffbdrJ2a9ASP9bFjTL80XZxuwgwrjXAiemMGs1yD+o8K1Db3tM4Fc4cGY1iL0c5N+xvyoG8eST2CyepGd35ASuzzXAtxrlKmbzFD/KMYTtXpx3ytd6ML5O9Cb0JeeRy4ynjE/fjF9XpB5mtsQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
- is 84.19.233.75) smtp.rcpttodomain=cirrus.com
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YgHwi0bTAHRgZAqOS2XmipXwR7uujQYeVAI+V1JycOk=;
- b=QhCxSTYs1iQK0JwiLtIl31vZMkIOoJIYY0s6sYHl+8xZSQvo7nbA/9i/Pu7vOi7F0K2SxJ853qGzWUP4N0EtYIMc8v77KioaSbDDUi+9cOOzZQtjxXmQorBxv0jAutPzjhGtUPm6GhY10H4824kETI4nXkk0E7h1fBoRo4NW4WM=
-Received: from SA0PR12CA0030.namprd12.prod.outlook.com (2603:10b6:806:6f::35)
- by CY5PR19MB6338.namprd19.prod.outlook.com (2603:10b6:930:22::6) with
+ bh=n/NRpD49/hVkdzYNrCGOMpcVkRA+r0v0z7uL2mF8Ms8=;
+ b=BODzKvojw1GmvuyyHNJCriz+zvIm9yfJwQBWrCZ25rYDJMcHerSwx+g8JxgTvupIS2t3udQRZ/VKNm+0dkfLuIUf7BIOdSW6F7gPJJK0GNP/uPk+B7gfGci9YMlOnj5pVJcMAOgEOaEdFltt1Ui8Iux185GBHCetbi5bRLBCpFA8c+vvDClesrwJq0huBz2S219H/meW4v6aVq04G7K1bsSDLPNUXTLs8R2+EnEC3BzJacWGb7AvVwxFtY5arFFeSwq0k7d0ZxdbcweKj6Vekwnv5jU3kEhbVzui51HwgDNyDsEH4L9EkPaQU7Z/FWw2uXVGZhK4rxi5rp1sqQPrBg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=analog.com; dmarc=pass action=none header.from=analog.com;
+ dkim=pass header.d=analog.com; arc=none
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=analog.com;
+Received: from DM4PR03MB5981.namprd03.prod.outlook.com (2603:10b6:5:388::24)
+ by SA1PR03MB6562.namprd03.prod.outlook.com (2603:10b6:806:1c9::6) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.18; Mon, 12 Oct
- 2026 10:55:46 +0000
-Received: from SA2PEPF00003AEA.namprd02.prod.outlook.com
- (2603:10b6:806:6f:cafe::31) by SA0PR12CA0030.outlook.office365.com
- (2603:10b6:806:6f::35) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.496.5 via Frontend Transport; Mon, 12
- Oct 2026 10:55:46 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=softfail (sender
- IP is 84.19.233.75) smtp.mailfrom=opensource.cirrus.com; dkim=none (message
- not signed) header.d=none;dmarc=fail action=oreject
- header.from=opensource.cirrus.com;
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- SA2PEPF00003AEA.mail.protection.outlook.com (10.167.248.10) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.522.6
- via Frontend Transport; Mon, 12 Oct 2026 10:55:45 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 21C6D40654E;
-	Mon, 12 Oct 2026 10:55:44 +0000 (UTC)
-Received: from ediswws07.ad.cirrus.com (ediswws07.ad.cirrus.com [198.90.208.12])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 1011D822547;
-	Mon, 12 Oct 2026 10:55:44 +0000 (UTC)
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: vkoul@kernel.org
-Cc: yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev,
-        peter.ujfalusi@linux.intel.com, linux-sound@vger.kernel.org,
-        patches@opensource.cirrus.com, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 3/3] soundwire: intel_auxdevice: Don't disable IRQs before removing children
-Date: Mon, 12 Oct 2026 11:55:40 +0100
-Message-ID: <20261012105540.1686405-4-ckeepax@opensource.cirrus.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20261012105540.1686405-1-ckeepax@opensource.cirrus.com>
-References: <20261012105540.1686405-1-ckeepax@opensource.cirrus.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.21; Mon, 12 Oct
+ 2026 11:44:50 +0000
+Received: from DM4PR03MB5981.namprd03.prod.outlook.com
+ ([fe80::7af0:3071:4d42:63ed]) by DM4PR03MB5981.namprd03.prod.outlook.com
+ ([fe80::7af0:3071:4d42:63ed%5]) with mapi id 15.21.0496.020; Mon, 12 Oct 2026
+ 11:44:50 +0000
+Date: Mon, 12 Oct 2026 13:44:46 +0200
+From: Alvin =?utf-8?Q?=C5=A0ipraga?= <alvin.sipraga@analog.com>
+To: Shengjiu Wang <shengjiu.wang@gmail.com>
+Cc: shengjiu.wang@oss.nxp.com, lgirdwood@gmail.com, broonie@kernel.org,
+        perex@perex.cz, tiwai@suse.com, p.zabel@pengutronix.de,
+        kuninori.morimoto.gx@renesas.com, linux-sound@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: ak4458: Check reset status after deassert
+Message-ID: <aszDZlJ0KahNwgZO@analog.com>
+References: <20261010084058.2365291-1-shengjiu.wang@oss.nxp.com>
+ <asqIvOi1iQrIkB3w@analog.com>
+ <CAA+D8APebaDpME+025EUnyAtLrAC=h9WSMwpWtFX-TdooLTdiw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAA+D8APebaDpME+025EUnyAtLrAC=h9WSMwpWtFX-TdooLTdiw@mail.gmail.com>
+X-ClientProxiedBy: MM0P280CA0102.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:190:9::23) To DM4PR03MB5981.namprd03.prod.outlook.com
+ (2603:10b6:5:388::24)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PEPF00003AEA:EE_|CY5PR19MB6338:EE_
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: a1cbd5c0-38df-4412-3968-08df284f5e0f
+X-MS-TrafficTypeDiagnostic: DM4PR03MB5981:EE_|SA1PR03MB6562:EE_
+X-MS-Office365-Filtering-Correlation-Id: f0231073-fb9c-4ba2-841b-08df285638ac
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|376014|23010399003|82310400026|61400799027|261009223027099003|261009220027099003|56012099006|11063799006|10067099003|261009223327099003|22082099003|18002099003|6133799003|16102099003|261009221727099003|261009221227099003;
+	BCL:0;ARA:13230040|7416014|376014|366016|1800799024|23010399003|4143699003|11063799006|56012099006|18002099003|22082099003|261009223027099003|10067099003;
 X-Microsoft-Antispam-Message-Info:
-	EbGGdG5/j9Vsk4NFDHQuyhYCq/Z4n0zp7SCeN1sbcUfwslfOFQGI+uPcNa8DMBG9fbdssMExQrolj2+yjR+X2aMRr1ugUg7eCI/97zm7HP6ZFb5NNoi5diwF6FwCIwBsCKY9s08dstiASEG5CqjC8WGoc0VtDM6yNZceXN8fNr+jUh2kv24qW4zD1b64I4mmOW2VvdiL1tjGItE3G65028U5lg96Ms9LxY7p0D/spvo2UFxNxNgY94319mCePFGSupFIWdmPF9dEZHhSinxJWTXCsMx/PEYu26tVp7jzQ9YghF05m0IRwUcuOJDKWDHl9mBLkdATJNdaALhVJ941CPyPISKuZa56mFjQLmBDREfRJmCr6dRD6OfNg6pFPHLBF5zWMlkzX4Hq46/94WNnvFYg19E5PmYIAppyl6BnT+nzf8beTFB0UDWsOqThp65dLSrHB39QgCzF0mkKGH1XaSp2klsiolKX3MxjO+Mtnc5qt3BqgSsCODAvdXR89+fiHe4Jg9N3lIgz99HaH5i7BO75yvRkB/RXVa5zcLW1XI2ZjQWQe5YDygpJ8DLrLfErGASux/6rymhGcBvmIOVIX84iwzTD7xKuDXR7FHoSzdCry2frA9IsoTluWeZ2MRLO9EBnOK4Oy+uXDd1IA18k18J6rHLqSJs2fm7r6Ncixd9D8I+HAZcW/0zzlcNjNU/+fconKgtOr4mV48CbDkuw7A==
+	f1548Osgab1ER0mVKo8t+1O1Hm0JUHzQQgediKj9yfHwkQXWaEct0O3rDgu+KV7NgLzgFlIwSzw/xbAgKcntQSTJCGDOvriqbDD0qRY4QJ8cAPFIB6qlrxlVneLsfNCudx3mR1zgnKJp8lu2kY36d/c/rqtKjCCAiu/4QTPPyLqSKgApYDFLDvyp+16NjCffQ4krMl3AJtrwVU2Q2ZYVcaL70PBgUQ47n4Ri7HYrXzIDFe0oAzgbAetzSCnK+gkXYEDwywX2jkPtZ6i69oD5TtoReelM5tYQssI2wfb3oAE3uIj26Gb9UTPKK3ucswfWb4ZLaaxtGyWeD1UDK/HhK7Xmz+mfcAt1xeRqoWKIFyFNWcP4hKbbCCP1YLHolgMQJ+IQIpFttmZ68PD3o9l/JaGSgDVVc0lR1PzB6GVZf5s0FctGP39uOwikwM/iUdC+IOsc76oysfgpoEK2UNpT+ZIjwbs1RcDXnbFRyIfihjdMt4USz/oqMOX8yvudLZw/WaGaRg/BwznraFzhBUi+7dmHYr942MZFIOzFDrj9NY9INb/vwxouVRqgs/UiOWxtl9uirbCTdHkvkrw16ZxYQWNqAbb3MtuyeVXUrRCC76cIcYeU+t0MqG3clZMqzO6nW+/g3HK5ASnx31sPiOnMfGPUdUyW4qSMM691diXMIL0=
 X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(376014)(23010399003)(82310400026)(61400799027)(261009223027099003)(261009220027099003)(56012099006)(11063799006)(10067099003)(261009223327099003)(22082099003)(18002099003)(6133799003)(16102099003)(261009221727099003)(261009221227099003);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR03MB5981.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(23010399003)(4143699003)(11063799006)(56012099006)(18002099003)(22082099003)(261009223027099003)(10067099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	GT+BEMlaCnAVG/nxjOn1HgQEFSeBcRztLZkFlHvRBg6NOaqQFBc7eM3yYHSM+p7ZXoGLs2ywYeWh7o2ynnlARg4VLelqU+k+Vcpc4jixfkhngDKH8EM2il61sezvb5uWqlVuN6j5UbqimoVkW+dP/c1j3wEMf+XoUq5AVrjZ8r9y6V4qtFiMFUpuUsup9bhCwkqKCtqNyp9LUQhdOZNNOcgG6VmMOYtwBojYKYXAhMhzvxNVsccx8aXAx0kYL9zNnbocq7CaqCyOgDkp8/Qh19HOnUY/e+nAIFywftJzFaG7XijLqhkPxcS4/i/JuiXHkLblKFHUZB9xmIwq1Y3jzqpKx6H646l8CbDZuc1+uQ7uwU0fkiGh2LnqsA0kcDnqGXxNg917lFcmaGFBxoqoGDs8bvA01SsoZgM+9HBHNC7THXoOV95jsuYpd8bMKf2S
+	=?utf-8?B?N3JPb0FKUWM4V2x5d1pFS1pwQzBtdUtxZjkwR3ZGcUhTZXIxcHhhbUw5RXl0?=
+ =?utf-8?B?ZTNQMzZxY0Zwd1gvWkZjT21qbklQRkRmMUxFaTkrRURrcmVRYVVqVFNhRXRi?=
+ =?utf-8?B?ZHhHc0FkSHRVSjVRTTlXS0F0Rkl3SlppaEJDQUtoSTZRTzVEUmdlUzNGeHV5?=
+ =?utf-8?B?THB0MFB0QmFlUWhQZFc4ejNJMm9qZUxnMXBxdmtuK1RRblF5NUc2ZmFvZ1pp?=
+ =?utf-8?B?dkJtdTk3TFNlci9UUGVZYmpTVlFDUlNHSjJlcmlsc0NuQXVKcS9JZkdCKzc3?=
+ =?utf-8?B?U1JOTDIrWTdtVlVOQzc3RElYYWNaT20rWlpwQllGbng5bDJLSC9HRE5OZmc1?=
+ =?utf-8?B?S0ZHRGFlT1owbUZMeno4ZWNBWEVZNy9WVTVsN0hjcXJoYiszVVZlc2J3bElk?=
+ =?utf-8?B?VFd0YWo4bE9wTXVhamwyZi92elh6UTRPMkZPMUJkNVoxaG9qRkYzaFVEak9s?=
+ =?utf-8?B?aXVqSFhsMFgwK25kVnNvK0ZveVR2VDYzaGpWYlJRemN1bmttUU9aK0x6NnV5?=
+ =?utf-8?B?UHJUQjc5UEhKUVNsS292TElOVUhzWnpGdEpsNmxLY3h6SlJNWi84VDE0bUZy?=
+ =?utf-8?B?QzZTTTZPOFZVUVhocm1HOGtxNWxqTVNoL1RIUnBIdU9uMkczYndnSE9rMzU0?=
+ =?utf-8?B?WTEzUWVwM3NGcW9wQkRDTGllVEFiZEJkV2kxVXZpZ25DYlBpckFkUWhveHBL?=
+ =?utf-8?B?Tkdyd3pCSVV5M1BoMDVVS0F4YlErNXhzbk1Sd0wyN0xYbEhFYnZFMEEvbkpy?=
+ =?utf-8?B?NzZMRGZVczliRVNwaTRBVzBnRGFnbFNxdTBIVXMwVmZJK29VMEZ3YWhDSmdm?=
+ =?utf-8?B?RzB5N2VuRGQ2WnVFcEVoekNCZVNIK0V4YjUxb1ZrSndPOTdaZU9SSllBdEU2?=
+ =?utf-8?B?dWhyRUpqZmxPZVY5RzUra3BsenpSNEpXQ05VWXk2ekoyWkdwS1dSam10V2ww?=
+ =?utf-8?B?dkdTOEY3RWtoN3N0TFp6VllLRXgzZ0hIci9oMlVJNTExaW5uZERXY0Jtekkx?=
+ =?utf-8?B?TzA5WHVLNlh6MEczRjBObDMzYjZaZHNrU1lmbUZ4VzlRMDNtSFhrakduVXZa?=
+ =?utf-8?B?Q0RtemRZOVNvWjhXZlgwdjlFRVlQOHhWQ3dMUWtXZUw3a011bWt5czhvNVFV?=
+ =?utf-8?B?U1F5WHJaSi90bC9IaUc1NFEwYVJ5ZDZ2bzBMVjh4OUxFVVZJMmN6WXhINUVL?=
+ =?utf-8?B?cmxUdlVBTGM1REhDd0lzOXlUKzFvNGVqMERaT3JBTi9CbEhDVEt5REJUTzhK?=
+ =?utf-8?B?NU56VEpFcnczM0MrVVFlWGhPYXBJNCtabkRoZFhlVnN0bmpiT2VPL1hOd3Vq?=
+ =?utf-8?B?b2hmaEJMMGphakgyVEQzNm5jeGdHSFZiRXVaQjRZUW9maWNiZ0lWYy9CYzM1?=
+ =?utf-8?B?eSszTnBwT2FucFBkNy9meW84dC94RC9EOVBXRVhHekErd2pqTm5Va05KYUJH?=
+ =?utf-8?B?UklidkhVSm5iV2kxTFZ4bzFFVXRiUmRYWjcxSUJ5UGNQUTZxSUxXR25KZkxt?=
+ =?utf-8?B?UFJRd01ybEd3bXNabGRqWmFQa1N5Yi9aMDVkMnFYeG95Tmh6TkMyWFhCeGRC?=
+ =?utf-8?B?Q3dQa05wNGNiVDNFMXdWamZPMlpROEJjOHFHWDJHRlNlVlkzY1JZWE9LbUtX?=
+ =?utf-8?B?cC9mcjVxYWZCek9KdnRZYXRWbkVSdWtkbS9YQ1o4VjRSaktoalF0WHc1VmE4?=
+ =?utf-8?B?ZW1uVFEySjBndnRrcGlhc3J2M1d1U0czb3ZaUThEeFdYaGtCUk83STk1Z1ov?=
+ =?utf-8?B?Qlpibzc1bVFodTA4L2ZNQUZPWGtmRktkNE9PZmlKRlY3Vm5GTzFaSnJ3NnpW?=
+ =?utf-8?B?NEJnYWZYcm5hWHo0M1BmOUU3TC9yUDk3VFZGbyt1OG5hNWR1YVZNQXFRR2x4?=
+ =?utf-8?B?NkJjdmxGUmtuZnY4L2hkaWJobHBGYTdXQ1VTQUFlYW1na1NEeERKdFFKSWZ1?=
+ =?utf-8?B?cGFmekhSVHpNNWxrdHJvUnQ0UVN4RE5TZzEwU1ZjL2t0RlZpaVowckZoRVpW?=
+ =?utf-8?B?aFpOUFoyaHBoTFIrSE5MUUVQSTFXeHZLNFN0eHphOWNNZjZFZ0Y2NXFzeTBx?=
+ =?utf-8?B?NVBUd3dWZCtLTWhwM1RXRXd4RUpjcnIyTjNYVG9JTDJyYy82dlJmME55ZDRP?=
+ =?utf-8?B?a0Nsc1YzSTZ0akZIcHdXQzJRd3V5blFvdzBaVzcwbEptRC9tdituUUhWRnFv?=
+ =?utf-8?B?N2pPYU9TSzFRSDgxQkYwWEZOMDdnKzR1MlNWMHl5NnM3MGxiZXpwYmdVdGtS?=
+ =?utf-8?B?ZzdYSlpSekJZWjNwSk01bFBjcGpwWjk1eVdqWk9ZbmpFYmxHU3BQdFdBZWVW?=
+ =?utf-8?B?WkZTNnBaWkNEQ3Q5QnMvTkp3TTNWeUc2Tm1FWElyRlVBQldCTllvQT09?=
 X-Exchange-RoutingPolicyChecked:
-	M4a2WS3T8Sui7nYaVN4aRQ7Hr7tYd9TvcAsDw/0QrXzVat0mrJfPd9XV8oSHjs25L38KH4Ap+tX5ApxnpfLXcNYIt31VgoXW3HG7rq3JEDuzPvi3Wzq7DZFFBcb8NFdBcDTmGzNMkR9HCUmt+tBwpsOFgHdGmWSLs/WkvpdrKsYSJmTGuEsTnThLHroa/iL49MI45sPSuWpJckK4e/wqDnQ6vd0FdVpuwb+EXWlXFv+WbgR75LSv8SFNxkkCcw5gMXheAf4ooiz5zIIruhzv8Kka9IBOAwx7Rr4n3B1DKZpmF3MfNhQlofaFqeMMssF50un34tM2e0I+NPbbhXKiaQ==
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Oct 2026 10:55:45.2732
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a1cbd5c0-38df-4412-3968-08df284f5e0f
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+	S0vRkOsFpgTO6m27hoaz+5JU/V/WUH/QMAWriB5lpu/s/35PFrDQk9pRxC21OHHGIEblhxRa6g87NYqj469DxtB8WSbiO2mMHv+k5ae5MknOLvNEaC9rgZqZCre0xh7WgeCDYKdb7iFFLQjZVfiu8Hfb6lrGuMGduVpzkrwam4YrfVzfa7+N3oIBsyXBUIxV4iRirgohl/1NczXTmP0FAIz935UfbksOsN6CIEvh9qciyAFHRQTOpF5iMMjkXbdHKN5BMRjOybvs3P7RQzlBoah2sh9RWPItPzy9M+1dggy54itrHJ9irls+FmfYjFj9ejjrwuxZqxjwBviYtn1wAg==
+X-OriginatorOrg: analog.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f0231073-fb9c-4ba2-841b-08df285638ac
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR03MB5981.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-SA2PEPF00003AEA.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR19MB6338
-X-Proofpoint-ORIG-GUID: gUkmLVJgc5fdZ1fsnRK7q1FzHjtRR5xh
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDEyMDA0MyBTYWx0ZWRfX/lbM3J85/Q3Z
- trD+AiMdKu/MW/xbPn4rB8amx2hX+qkztIhQkt4F+aHewbMbNuSeGDrUwIm4y8LoZbj5yewthtr
- 4/Yorn9QIVb+iR4UuNnG3GAUGCZ3cEQ=
-X-Proofpoint-GUID: gUkmLVJgc5fdZ1fsnRK7q1FzHjtRR5xh
-X-Authority-Analysis: v=2.4 cv=QufLTlyd c=1 sm=1 tr=0 ts=6accbcb6 cx=c_pps
- a=xo3zWrN9qLO3Lphhql2lSw==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=660iZSQnnn4A:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=KfkQE9S9VqCBgivYGm0O:22
- a=w1d2syhTAAAA:8 a=rGfVdOg06a76RMjW3RgA:9
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDEyMDA0MyBTYWx0ZWRfX+gMG/fiE3so3
- KnXIQ47isKU/uzzNcWueV+PNGdgC+5wBAVNP9Plq32JiSJ2SpLbeU+zDezahL9p/ARgwdAR99Br
- YoTMg3LLuvJLXSdN7uelyMTTqIasT3ADbO3oIbIet6PmhDI3BwlEexfDcpYiYNSA8cg/QNtWxgw
- 8COBimxbegVcO016wFBqReVTgBa5mOz+KGGdgswWlMAbWU8nNC+yA4o/1jOzBxw/VdwF/iitnFd
- TUcC2A1P7PCj0l5i+snXHVMnlSV3g5cwoFjBQlEE/tAXiwYCR0bhLa0xWH1ydfSuiJ2Sor202d/
- S4oZQdvzoqZw6KRunF8S0uO/JyMDt+PrzsJiBGH93uY6spn+hNX0DB7XstUjGpZ0jRMxgIWIWuJ
- VGsKM+KjRrN5dGoQluqAI+gXIR4dRjeIoiuRHBQZyBczC3kmsGJiovu6K19wuU9xES5tm69chsi
- K+2W4v6TANDFRvCPHRA==
-X-Proofpoint-Spam-Reason: safe
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Oct 2026 11:44:50.2886
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: eaa689b4-8f87-40e0-9c6f-7228de4d754a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: yz+ISzNvmvuJcoTtssved77QhADqECHQ3mCV8/N55brGrviojWp1HhCmnkufjUksNZkx07MWpmrLJYPojCsbaKANNcUNjXNjI5i44w7UrwY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR03MB6562
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDEyMDA0NiBTYWx0ZWRfX1uKlZAyWus1t
+ Iauzd6B7NPtsxH6kobHex0POXjAUUlwZBASIqoec6189TS6ScmcK0VtQMseknbGtemA61juB4Bz
+ 2EU3u27HWCoLwebNBJ/P504z02y2kiqScYQ0y9zzOhOOztwsgXEsdvBK6qgFI85ggWvla/VEF8T
+ N6wYH8WPBClwLYZyAkE/aUtMl4U+ARMW8z7pBuOHPtxbvGqTuL1YQysuk5HkcQL99VJFQjf4nZU
+ 5XCWNUkQWZcwcV1krkWKM3FWuLP2D/9CbgOmV+uJUpVDOJQcLIcKEIkKSHwk+YptI5ogMbbf0FL
+ fCaEGfwdspykIkPn7JnF+O9tY/o4RJglJ1V7d1dWkTLMCQMmVHTdU/abaOB0oeE/wQD+UjJtY+3
+ EIqHCN2b4sTZssFvtUvsfoIldngc0QO8RcP/p9Gtg3WYtE4f7xt1znezfHNapCoRvOqrJCpXbIf
+ /TuTQ7i0B/8OJ1vzFmA==
+X-Authority-Analysis: v=2.4 cv=cp0OAF4i c=1 sm=1 tr=0 ts=6accc836 cx=c_pps
+ a=VvAZzv+PhNtEUaR8E1V7rA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=M51BFTxLslgA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=0sLvza09kfJOxVLZPwjg:22 a=ZQxX5BWu6Z8IJBb2zLX7:22
+ a=gAnH3GRIAAAA:8 a=8AirrxEcAAAA:8 a=ABnnHevGHhzjX6CumKcA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=ST-jHhOKWsTCqRlWije3:22
+X-Proofpoint-GUID: 8I71ir0HHdUBOJJxvexxTfk4QMHzbVf4
+X-Proofpoint-ORIG-GUID: 8I71ir0HHdUBOJJxvexxTfk4QMHzbVf4
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDEyMDA0NiBTYWx0ZWRfX2kmQF0rjLL3Z
+ OuzZV5Zq7DeQiy1/wY3/5wl13vCAQEpFunN8kUvy6mAUvpPjhCq2JHcvfnaP7EKhvqmFLch2q8P
+ XaFRvktwSBbq2DjV64NnYHReVaHfhkxVid0McoPXWsXYvLcmJ5PB
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-10-12_03,2026-10-09_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 priorityscore=1501 adultscore=0 clxscore=1015 suspectscore=0
+ phishscore=0 bulkscore=0 lowpriorityscore=0 malwarescore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610080000 definitions=main-2610120046
 
-Currently the auxiliary device for the link disables IRQs before it
-calls sdw_bus_master_delete(). This has the side effect that none
-of the devices on the link can access their own registers whilst
-their remove functions run, because the IRQs are required for bus
-transactions to function.
+Hi Shengjiu,
 
-There appear to be two things that currently block leaving the
-IRQs enabled during peripheral removal. Firstly, the IRQ handler
-iterates through a linked list of all the links, once a link is
-removed the memory pointed at by this linked list is freed, but
-not removed from the linked_list. Secondly, the potential that
-an IRQ runs after the controller itself has been destroyed.
+On Mon, Oct 12, 2026 at 02:49:03PM +0800, Shengjiu Wang wrote:
+> Hi Alvin, Philipp Zabel
+> 
+> On Sun, Oct 11, 2026 at 3:05 AM Alvin Šipraga <alvin.sipraga@analog.com> wrote:
+> >
+> > On Sat, Oct 10, 2026 at 04:40:58PM +0800, shengjiu.wang@oss.nxp.com wrote:
+> > > From: Shengjiu Wang <shengjiu.wang@nxp.com>
+> > >
+> > > The reset line of the ak4458 can be shared, for example when two ak4458
+> > > devices use the same reset GPIO. In that case the two codecs may call
+> > > reset_control_deassert() concurrently from their runtime resume paths.
+> > >
+> > > Only the first caller performs the actual hardware deassert, which may
+> > > sleep (for example a GPIO-expander based reset controller). A second
+> > > caller merely increments the shared deassert count and returns
+> > > immediately, so it can continue while the first caller's .deassert() has
+> > > not finished releasing the line yet, leaving the device still in reset.
+> >
+> > This seems like something that should be fixed in the reset controller
+> > framework. In fact the issue you describe seems to contradict the
+> > documentation of reset_control_deassert():
+> >
+> > /**
+> >  * reset_control_deassert - deasserts the reset line
+> >  * @rstc: reset controller
+> >  *
+> >  * After calling this function, the reset is guaranteed to be deasserted.
+> >
+> > ^ (1) seems not to be the case as you have found
+> 
+> Agreed. Looking at the documentation again, the guarantee
+> 
+> * After calling this function, the reset is guaranteed to be deasserted.
+> 
+> does not hold for a shared reset control today, so the issue is really in
+> the reset core. For a shared reset only the first caller runs the
+> hardware operation; later callers just bump the refcount and return
+> immediately, e.g. in reset_control_deassert():
+> 
+> if (atomic_inc_return(&rstc->deassert_count) != 1)
+> return 0;
+> 
+> So when two consumers of the same shared reset (here two ak4458 sharing
+> one reset GPIO) call concurrently, the second caller can return before
+> the first caller's .deassert() - which may sleep, e.g. a GPIO-expander
+> based controller - has actually released the line. assert() and reset()
+> have the same pattern.
+> 
+> Rather than work around it in the codec, I'd like to propose a reset-core
+> fix for your review. The idea is to take the existing per-control
+> rstc->lock across the shared refcount update and the hardware
+> .assert()/.deassert()/.reset(), so a second concurrent caller waits for
+> the first caller's hardware operation to complete. The lock is taken
+> before the SRCU section, matching reset_control_acquire(), and these
+> paths do not take rcdev->lock, so no new lock ordering is introduced:
+> 
+> if (reset_control_is_array(rstc))
+> return reset_control_array_deassert(rstc_to_array(rstc));
+> 
+> guard(mutex)(&rstc->lock);
+> guard(srcu)(&rstc->srcu);
+> ...
+> 
+> Does this approach look reasonable to you? If so I will send it as a
+> proper patch and drop the ASoC: ak4458 change.
 
-For the first problem add a list_del() for the linked list item,
-note whilst the list itself is contained in the intel_init portion
-of the code, the list remove needs to be attached to the auxiliary
-device for the link, since that owns the memory that the list points
-at. Locking is also required to ensure the IRQ handler runs either
-before or after any additions/removals from the list. A new lock is
-added for this, the shim_lock is used to gate access to the shared
-registers so doesn't feel a super obvious fit for managing the list.
+Yeah, I think that is the correct fix!
 
-For the second problem utilise the newly added helper that allows
-destroying the peripherals separately, allowing the auxiliary device
-to disable IRQs before running its own cleanup.
+> 
+> >
+> >  * Consumers must not use reset_control_reset on shared reset lines when
+> >  * reset_control_(de)assert has been used.
+> >
+> > ^ (2) isn't this rule also being broken in the suspend/resume path of
+> >       this driver?
+> 
+> I don't think so: the ak4458 suspend/resume path only uses
+> reset_control_assert()/reset_control_deassert(); it never calls
+> reset_control_reset(), so this rule isn't violated here. Please let me
+> know if you had a different concern in mind.
 
-Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
----
+Ahh, sorry! I conflated reset_control_reset() with
+reset_control_deassert()... Please ignore this part :-)
 
-Changes since v2:
- - Added missing i++ on error path for devm_add_action_or_reset()
-
- drivers/soundwire/intel.h           |  1 +
- drivers/soundwire/intel_auxdevice.c |  7 ++++++-
- drivers/soundwire/intel_init.c      | 23 +++++++++++++++++++++++
- include/linux/soundwire/sdw_intel.h |  1 +
- 4 files changed, 31 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/soundwire/intel.h b/drivers/soundwire/intel.h
-index 7a2e7e73ad632..ec82ac8d54adb 100644
---- a/drivers/soundwire/intel.h
-+++ b/drivers/soundwire/intel.h
-@@ -47,6 +47,7 @@ struct sdw_intel_link_res {
- 	u32 link_mask;
- 	struct sdw_cdns *cdns;
- 	struct list_head list;
-+	struct mutex *link_lock; /* lock protecting list */
- 	struct hdac_bus *hbus;
- };
- 
-diff --git a/drivers/soundwire/intel_auxdevice.c b/drivers/soundwire/intel_auxdevice.c
-index 5983fbc5725a2..d32941bc99fd5 100644
---- a/drivers/soundwire/intel_auxdevice.c
-+++ b/drivers/soundwire/intel_auxdevice.c
-@@ -511,8 +511,13 @@ static void intel_link_remove(struct auxiliary_device *auxdev)
- 	if (!bus->prop.hw_disabled) {
- 		sdw_intel_debugfs_exit(sdw);
- 		cancel_delayed_work_sync(&cdns->attach_dwork);
--		sdw_cdns_enable_interrupt(cdns, false);
- 	}
-+
-+	sdw_bus_slaves_delete(bus);
-+
-+	if (!bus->prop.hw_disabled)
-+		sdw_cdns_enable_interrupt(cdns, false);
-+
- 	sdw_bus_master_delete(bus);
- }
- 
-diff --git a/drivers/soundwire/intel_init.c b/drivers/soundwire/intel_init.c
-index ad48d67fa9358..764acbffe43f7 100644
---- a/drivers/soundwire/intel_init.c
-+++ b/drivers/soundwire/intel_init.c
-@@ -28,6 +28,15 @@ static void intel_link_dev_release(struct device *dev)
- 	kfree(ldev);
- }
- 
-+static void intel_link_list_del(void *data)
-+{
-+	struct sdw_intel_link_res *link = data;
-+
-+	mutex_lock(link->link_lock);
-+	list_del(&link->list);
-+	mutex_unlock(link->link_lock);
-+}
-+
- /* alloc, init and add link devices */
- static struct sdw_intel_link_dev *intel_link_dev_register(struct sdw_intel_res *res,
- 							  struct sdw_intel_ctx *ctx,
-@@ -79,6 +88,7 @@ static struct sdw_intel_link_dev *intel_link_dev_register(struct sdw_intel_res *
- 		link->shim_lock = res->eml_lock;
- 		link->mic_privacy = res->mic_privacy;
- 	}
-+	link->link_lock = &ctx->link_lock;
- 
- 	link->ops = res->ops;
- 	link->dev = res->dev;
-@@ -145,8 +155,10 @@ irqreturn_t sdw_intel_thread(int irq, void *dev_id)
- 	struct sdw_intel_ctx *ctx = dev_id;
- 	struct sdw_intel_link_res *link;
- 
-+	mutex_lock(&ctx->link_lock);
- 	list_for_each_entry(link, &ctx->link_list, list)
- 		sdw_cdns_irq(irq, link->cdns);
-+	mutex_unlock(&ctx->link_lock);
- 
- 	return IRQ_HANDLED;
- }
-@@ -165,6 +177,7 @@ static struct sdw_intel_ctx
- 	u32 link_mask;
- 	int num_slaves = 0;
- 	int count;
-+	int ret;
- 	int i;
- 
- 	if (!res)
-@@ -210,6 +223,7 @@ static struct sdw_intel_ctx
- 	ctx->link_mask = res->link_mask;
- 	ctx->handle = res->handle;
- 	mutex_init(&ctx->shim_lock);
-+	mutex_init(&ctx->link_lock);
- 
- 	link_mask = ctx->link_mask;
- 
-@@ -246,7 +260,16 @@ static struct sdw_intel_ctx
- 			i++;
- 			goto err;
- 		}
-+
-+		mutex_lock(&ctx->link_lock);
- 		list_add_tail(&link->list, &ctx->link_list);
-+		mutex_unlock(&ctx->link_lock);
-+		ret = devm_add_action_or_reset(&ldev->auxdev.dev, intel_link_list_del, link);
-+		if (ret) {
-+			i++;
-+			goto err;
-+		}
-+
- 		bus = &link->cdns->bus;
- 		/* Calculate number of slaves */
- 		list_for_each(node, &bus->slaves)
-diff --git a/include/linux/soundwire/sdw_intel.h b/include/linux/soundwire/sdw_intel.h
-index 9710f2dc04e29..7495d35ed2fc3 100644
---- a/include/linux/soundwire/sdw_intel.h
-+++ b/include/linux/soundwire/sdw_intel.h
-@@ -307,6 +307,7 @@ struct sdw_intel_ctx {
- 	acpi_handle handle;
- 	struct sdw_intel_link_dev **ldev;
- 	struct list_head link_list;
-+	struct mutex link_lock; /* lock protecting link_list */
- 	struct mutex shim_lock; /* lock for access to shared SHIM registers */
- 	u32 shim_mask;
- 	u32 shim_base;
--- 
-2.47.3
-
+Kind regards,
+Alvin
