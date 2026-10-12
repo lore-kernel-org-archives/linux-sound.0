@@ -1,187 +1,150 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF2914AA1EB;
-	Mon, 12 Oct 2026 15:56:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49AEF4A8FC2;
+	Mon, 12 Oct 2026 15:56:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791820565; cv=none; b=pLnd7e+ThPztHbgtZlQtDtdDbpWda1FRcLfe4S4612aqH2kdTia2lQplQSJbVR+emRXid1i8TNsdZIGmuf55dR6/xzEL6OgQDgv5HjLFROMwPxuOTZpXSHO0ngRutMXydr1Myl9isd4MR+GHAzqIK5qALNAbD8uXgNJp437Z0Zo=
+	t=1791820579; cv=none; b=XMlr4rjASxVMPlaek7kHdUETpFPm2InPWAGJSDWZJjoCgannqLrAUO66dVllJOFOwBaG1NpqFLWhDYIxmF1+5aYdS4dGxkrGh1mZXXG5UdgaSqt//VDblKS4+6NhFfKU930RFiGo6Q6pntQmhI/jbl3uUfN3XKk+9DOjOgMXLsA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791820565; c=relaxed/simple;
-	bh=b0XKFcwxPXoheG5vZ6kVIkZHetEjyzcldENTlm/sZ8k=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=d3eeLcAFaTd9EHzxOjRn7Eymes7k71S4yr1uxnu7qOri5E7TFH745MrhZCRmzhFX1ithuQHi6/nOX74VWDMkiNWyBFdqRWKW6Nx3EJ7qbNVY0PprgtG1JE+P6Z7zbSO2Yv/P8tYyyIMTV1xpBNgEpxOuc1L43mIo1jOlQc2xoZo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OZ/7OUTd; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Tssyn4EC; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OZ/7OUTd; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Tssyn4EC; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1791820579; c=relaxed/simple;
+	bh=Msp9ikSwVnULK/6DWYXJFuVVmnxjiRI6tilrQPvf9sc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lEyy1SVc25ByWpuaeECuUF+HlptxiXy4lCjQl/1kVxqgv4MVTom9+kMwwetFq0UblXm3GmaH64oPn1kxosHdSyEMBMW8SoF1dybx8m3ePtqFTcqtDmjnfKODC/mC77Rm9d3qFpZmHtbwmIW0yWZe6dL6FDqhgwdZ+jcb77DB3rE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lcCuIdrm; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OZ/7OUTd";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Tssyn4EC";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OZ/7OUTd";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Tssyn4EC"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id AC31A21E37;
-	Mon, 12 Oct 2026 15:56:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1791820561; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=trxIJ6g8YDuoBjr9o+264MF/tcKAtAK/xFK7YqbRuZA=;
-	b=OZ/7OUTdGoeXbmyAqD3VUDt+QtZnbh0msi1mS9S2RtgQFDWEOQN751iLBGZDv5KuIYi8Iz
-	QklgBu7awPCEKZerzVH+4prIwI8OC/UALrx9Z5r5WPEeq5XlvHwA9X72QFVFXL6RJI9gIG
-	RZdSxI8mUI2tLGwiTfw5H1siU0vEHN8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1791820561;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=trxIJ6g8YDuoBjr9o+264MF/tcKAtAK/xFK7YqbRuZA=;
-	b=Tssyn4ECBazzwQBZSrZbOXnuS0IutOD6Py1cTGNIUD7I9PViQ+M3ufQRToKzdObwlg7r0I
-	JyCR61967mySf6CQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="OZ/7OUTd";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Tssyn4EC
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1791820561; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=trxIJ6g8YDuoBjr9o+264MF/tcKAtAK/xFK7YqbRuZA=;
-	b=OZ/7OUTdGoeXbmyAqD3VUDt+QtZnbh0msi1mS9S2RtgQFDWEOQN751iLBGZDv5KuIYi8Iz
-	QklgBu7awPCEKZerzVH+4prIwI8OC/UALrx9Z5r5WPEeq5XlvHwA9X72QFVFXL6RJI9gIG
-	RZdSxI8mUI2tLGwiTfw5H1siU0vEHN8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1791820561;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=trxIJ6g8YDuoBjr9o+264MF/tcKAtAK/xFK7YqbRuZA=;
-	b=Tssyn4ECBazzwQBZSrZbOXnuS0IutOD6Py1cTGNIUD7I9PViQ+M3ufQRToKzdObwlg7r0I
-	JyCR61967mySf6CQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 543ED13408;
-	Mon, 12 Oct 2026 15:56:01 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 5sv1ChEDzWrGEQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 12 Oct 2026 15:56:01 +0000
-Date: Mon, 12 Oct 2026 17:56:00 +0200
-Message-ID: <878q42hq0f.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Ali Ahmet =?ISO-8859-2?Q?Memi=BA?= <aliamemis@disroot.org>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	syzbot+40b06a86af225236fdb4@syzkaller.appspotmail.com
-Subject: Re: [PATCH] ALSA: hda: intel: Don't free card in the probe work
-In-Reply-To: <20261012150949.1840175-1-aliamemis@disroot.org>
-References: <20261011200648.1662935-1-aliamemis@disroot.org>
-	<875wz7idx3.wl-tiwai@suse.de>
-	<20261012143508.1830791-1-aliamemis@disroot.org>
-	<87fqybge5a.wl-tiwai@suse.de>
-	<20261012150949.1840175-1-aliamemis@disroot.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lcCuIdrm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFCE21F0089B;
+	Mon, 12 Oct 2026 15:55:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791820577;
+	bh=rFbms1O2vgiDwDr5XNy7hfOQCE1GiDGN4QD7DcgiMNU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=lcCuIdrmMQTUiPwLl5e5Z+CrC201P9TaW7VntAlAQ0wuTIeWArybWpskzP1Cw5dV6
+	 ylJBpTsnaVkD11Tx3RuJLQfK/a8MthDkbqh/N2Qo+NL+mbeJ3F+l2nHLzRgl2fwWrH
+	 B2VMH6xZ4mSRm44O1aVrnpq4KXOYj1KBkqJhj4Zhsip2ZHKhYDPIEZ9S25S3KUpDrh
+	 0/izKAMAcRM9eWvuTZfpYIL58pwYVIybump371ArBjzbMrNsvpmDwuL9EdnDMlpqUp
+	 x6n3EvLO70LPCbwLxz+x7mIQrXQvvZz8TgmnlRpMjxmuB8UzGsynS78NvOMo7KMLyg
+	 CQyvIZ4fN7eXw==
+Date: Mon, 12 Oct 2026 16:55:44 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
+	Paul Moore <paul@paul-moore.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen" <mkp@kernel.org>, 
+	Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, Sebastian Reichel <sre@kernel.org>, 
+	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
+	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Juri Lelli <juri.lelli@redhat.com>, 
+	Vincent Guittot <vincent.guittot@linaro.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
+	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
+	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
+	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
+	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
+	Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
+	Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
+	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
+	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
+	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev, 
+	Ihor Solodrai <ihor.solodrai@linux.dev>, Bert Karwatzki <spasswolf@web.de>, 
+	Emil Tsalapatis <emil@etsalapatis.com>
+Subject: Re: [PATCH v5 13/38] bpf: arena: mark arena_map_mmap() mappings
+ VM_MIXEDMAP
+Message-ID: <as0Buhi_-VCC7xLZ@gremlin>
+References: <20261009-b4-mmap-prepare-vma-flag-sanify-v5-0-923b70125b1e@kernel.org>
+ <20261009-b4-mmap-prepare-vma-flag-sanify-v5-13-923b70125b1e@kernel.org>
+ <5b8ef0ce-7429-4d74-b4da-a0561c59b1e2@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-2
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: AC31A21E37
-X-Rspamd-Action: no action
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	TAGGED_RCPT(0.00)[40b06a86af225236fdb4];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_ALL(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Flag: NO
-X-Spam-Score: -2.01
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5b8ef0ce-7429-4d74-b4da-a0561c59b1e2@kernel.org>
 
-On Mon, 12 Oct 2026 17:09:41 +0200,
-Ali Ahmet Memiº wrote:
-> 
-> On Mon, 12 Oct 2026 16:57:37 +0200, Takashi Iwai wrote:
-> > OK, that's a problem, indeed.  How about replacing snd_card_free()
-> > with *_when_closed() version that doesn't block in addition?
-> 
-> The work doesn't hang anymore but removing the device while the probe
-> work is running hits the same UAF on the first try.  azx_remove() still
-> gets the card before cancel_delayed_work_sync() and the put_device() in
-> the work frees it:
-> 
-> BUG: KASAN: slab-use-after-free in snd_card_free+0x148/0x160
-> Read of size 1 at addr ffff888007724852 by task sh/97
-> Call Trace:
->  snd_card_free+0x148/0x160
->  pci_device_remove+0xb6/0x1d0
->  device_release_driver_internal+0x38d/0x540
->  pci_stop_bus_device+0x122/0x170
->  ...
-> Freed by task 30:
->  kfree+0x1e8/0x5e0
->  device_release+0xcf/0x3c0
->  kobject_put+0x169/0x320
->  azx_probe_work+0x495/0x1fa0
->  process_one_work+0x937/0x1800
-> 
-> > Staying the card means that the card slot will be kept, then if you
-> > probe another card afterwards, it'll end up with assignment on another
-> > card slot.
-> 
-> What about calling snd_card_disconnect() in the work on failure?  It
-> releases the slot right away and the card is still freed only in
-> azx_remove():
-> 
-> 	if (azx_probe_continue(&hda->chip, false) < 0) {
-> 		hda->init_failed = 1;
-> 		complete_all(&hda->probe_wait);
-> 		snd_card_disconnect(hda->chip.card);
-> 	}
-> 
-> With that, snd-dummy loaded after a failed probe gets card 0 and 20
-> rounds of the remove race were clean with KASAN.  I can send v2 if this
-> looks fine.
+On Mon, Oct 12, 2026 at 05:08:09PM +0200, David Hildenbrand (Arm) wrote:
+> On 10/9/26 20:04, Lorenzo Stoakes (ARM) wrote:
 
-Yeah, that sounds like a plan.
-Care to resubmit a fix with that approach?
+> > diff --git a/kernel/bpf/arena.c b/kernel/bpf/arena.c
+> > index 7b6847200b43..b69fe5e34339 100644
+> > --- a/kernel/bpf/arena.c
+> > +++ b/kernel/bpf/arena.c
+> > @@ -620,8 +620,9 @@ static int arena_map_mmap(struct bpf_map *map, struct vm_area_struct *vma)
+> >  	 * clears VM_MAYEXEC. Set VM_DONTEXPAND to avoid potential change
+> >  	 * of user_vm_start. Set VM_DONTCOPY to prevent arena VMA from
+> >  	 * being copied into the child process on fork.
+> > +	 * This is a kernel page so set VM_MIXEDMAP.
+> >  	 */
+> > -	vm_flags_set(vma, VM_DONTEXPAND | VM_DONTCOPY);
+> > +	vm_flags_set(vma, VM_MIXEDMAP | VM_DONTEXPAND | VM_DONTCOPY);
+> >  	vma->vm_ops = &arena_vm_ops;
+> >  	return 0;
+> >  }
+> >
+>
+> Historically, VM_MIXEDMAP really just means: can contain refcounted and
+> non-refcounted things. Everything with a struct page is refcounted.
+>
+> I think we are now changing the semantics to mean "maps kernel pages". I think
 
+Yes.
 
-thanks,
+It was sort of implicit before given insert_page() etc. but still really meaning
+that it _might_ be both.
 
-Takashi
+> this is fine, but we really have to update the documentation (and possibly
+> rename this thing to something more expressive?)
+
+Yeah I completely agree.
+
+I will rename it, but I think that's best for 7.5 obviously! :)
+
+>
+> Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+
+Thanks!
+
+--
+Cheers, Lorenzo
