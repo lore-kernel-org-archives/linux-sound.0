@@ -1,96 +1,153 @@
-Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6494649890B;
-	Mon, 12 Oct 2026 15:10:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A165C49B1F6
+	for <linux-sound@vger.kernel.org>; Mon, 12 Oct 2026 15:14:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791817803; cv=none; b=S01mZp/Hsur9hd0M/QRrqlnMiAbWfVJycLFPaCgK1nmgua4noAwNqslMt5xXX5lt26VBfCR8KtQbFawT3q1p2r7wnuwnuuqTQFKf+KcUQ5G2sxeEnG9GLZIcxaaagFs+hTxVa8970p5D7kJ1JQvRZD8b4We5LjZcnVS1eRMwVRE=
+	t=1791818053; cv=none; b=PLsLwflYtmDD1nSveei0XOPgM+z8rVeMoy8KgGYQAkywpDdWkCpdv8k+lY4nYHNf8m7tlRovG87ZW1YzTW9wPjpeK/Bzr8E/pFotTcc+i54mDed9c/ms+MjAZTpIyitugZ7EWUNKTHOt3q3h/QciV3R1PXTWldAu2uhge1yz9hI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791817803; c=relaxed/simple;
-	bh=p12fJ4D7vleKugZNdeHezgmFKRaB1/Cba+cu9+kKC8o=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=L/1n3OiXSy90mANo/98q5SUktuWq3lJx6bRbXRXspp2wfFSfzilPVDzdXlTKU8Hs/jEUVwkA0XaC1IfBOMnOBoVuNfhK92kQsqE145UyGwu/pDYJ1BnPc43AW91fneyAP6hAs1zRiY7RdbNJEFkSR7+lc4qcTNRgIi1qXOGbqVw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=fLgWDn7k; arc=none smtp.client-ip=178.21.23.139
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
+	s=arc-20240116; t=1791818053; c=relaxed/simple;
+	bh=t6pIrTDi+3aN9kktXkuBxtkAiL1D8YwIdd2Y5FmQL9M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gDl3TuIAkhM2pHyRRym5r5lsSesOvMZxlA4+HH6nMHQsmAX/u/j2pefWzH4U0WzbuYou/BvWv2XjulvmRddoOU1GBMZjlBr85mpP5XctLzROOTDaKnevLGdn4AZUk87hzVB9cn7BqiZaDwY6nS35BkGrLlohnfc/EUfmC0m3sFs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=FTebznXr; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="fLgWDn7k"
-Received: from mail01.layka.lan (localhost [127.0.0.1])
-	by disroot.org (Postfix) with ESMTP id CD776807D4;
-	Mon, 12 Oct 2026 17:10:00 +0200 (CEST)
-X-Virus-Scanned: SPAM Filter at disroot.org
-Received: from layka.disroot.org ([127.0.0.1])
- by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id CjEVToXNPnbl; Mon, 12 Oct 2026 17:10:00 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
-	t=1791817799; bh=p12fJ4D7vleKugZNdeHezgmFKRaB1/Cba+cu9+kKC8o=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=fLgWDn7knUc/ILOQMYscRVJS91SFO+M7NS0miVRwiyASNhW/kY1cENyH+HLbKGA6X
-	 6BXKWZw3kCCoKteLCiOfZSwVX8WYa3L+8LKa6BaDqpLdvHBK0GQ4UGoaKiddZXhN+B
-	 vdqhdp7SNf6cFCiVGIdop9hMrOPgOyooXIVEHh0IogoCLxpkI9/ASf5iaNGB/NNyhj
-	 fWT9w9vekJyNbEHhb7yZED6Sd3M8hZpOhADW36TS8zzg4Kpa/UBCFfEe+nmUugJcsp
-	 ayOia0GyhApqVT5Odb25Due20ymL9lbvAS7ArdIIwkzztOw1R/8/keSA/NlQ3DzyjU
-	 zi1o+kKloTiEg==
-From: =?UTF-8?q?Ali=20Ahmet=20Memi=C5=9F?= <aliamemis@disroot.org>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	syzbot+40b06a86af225236fdb4@syzkaller.appspotmail.com
-Subject: Re: [PATCH] ALSA: hda: intel: Don't free card in the probe work
-Date: Mon, 12 Oct 2026 18:09:41 +0300
-Message-ID: <20261012150949.1840175-1-aliamemis@disroot.org>
-In-Reply-To: <87fqybge5a.wl-tiwai@suse.de>
-References: <20261011200648.1662935-1-aliamemis@disroot.org> <875wz7idx3.wl-tiwai@suse.de> <20261012143508.1830791-1-aliamemis@disroot.org> <87fqybge5a.wl-tiwai@suse.de>
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="FTebznXr"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-48b001cd92bso1143748f8f.2
+        for <linux-sound@vger.kernel.org>; Mon, 12 Oct 2026 08:14:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1791818049; x=1792422849; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=O90jitIO3s38c8EG4VvKygaj1zarOwk0tQIHj8nVOYg=;
+        b=FTebznXrxNApop7fMm72qb7SMn+3bspirjwaJUwU/Z57Y6dFMJ5e9zfz8DKwTAwNPQ
+         dwsXD5tLXosljeDdsn1Fl7mUSCF1vdMYGE8Zn3SpefqyEssdD9T2a099qIVboz1VSVyR
+         z4zN3XD3tQRDXwOf+FstNfMXPvvBYUwqyQFlJh3wU78X84CpnMiM5sa0qlCDHbIIV5K8
+         L2mXK5CRKbh5EZrovBidzMI22mr11kVuqPVb+Wasj7ausAMa3yBrTN4MRugcj7+cqZ5w
+         K8cZHC0cUKIuWsmOXN6lJ7zriR+6DdcoW31P+lB3AeFbzxJyJv/opm11NidVnrRIMgvL
+         /25g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791818049; x=1792422849;
+        h=content-transfer-encoding:content-type:in-reply-to:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=O90jitIO3s38c8EG4VvKygaj1zarOwk0tQIHj8nVOYg=;
+        b=qUzuJQ0NtetoTOHeX7lID2Z+L8/6oW0qkfL9nPYvFo1ZIXoTJvapVWHxpz5/kSNryT
+         BcnRP4t7WyDxhBcnWqwHtmY06f4a4rdBEGBR5tsles+uIgIAFRYd+NtRzJm+UW/x7jTq
+         TSrhtHE2K3vLJYkO9QeDyXxemYKOIN7LoGVDryje1AyuZTJUugomveDzI2lmPtce7nEO
+         VxeaQ+DXrC8hVK1QxbYDjX3rcapflZwscACxzID+OT6VSy/P3iQ4Bj+QmO5eWsRFuG0t
+         ta7YOgf0DkypbQkapIYuITTeumwLp+YRGg0G1m7Gehrzcpaoekaunr9ZS0LDxM67fLOa
+         A6rQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzDTvWpXd3R38LnbeW6LYA7y+Dsaiitm6jsfBOF7LYk3cgAxfUCZDCfK3C7zxQsRJzA/kmdjpVU7O/QpA==@vger.kernel.org
+X-Gm-Message-State: AFq9FYJRqoCw57RCW8qk8psz9IY/zqbJXA+1Rxu/M8v4t2Cqhmfy5egM
+	D86LsZj7yA8r3OX+4yjeCJVCjEVnGcFG/fHyMtx1zNckUjcwOb0pvLrr58+70BubhKc=
+X-Gm-Gg: AYBFou216iGFtWcAYbFYrbSkdzysSgUAGLjmzciBSDsZgFRElJGW8QklVUqC+HMzNs6
+	Y2Q26qBQLzGC8uQSJsLaXp9bNVFQbRs0MhiysqOcbcVf4OJiO2sVTRqumIJ1QQz8G756vp1EOL8
+	KbaJMr5jJbRThcIKLjfolE54P1J8FiWMyfWVRZOZqhmbWDbdosC7los11OJix2U+W2pwLIsKyEY
+	GShlX9H6ZpBpbsrB86pWO79WEX1/DO2JGAtDUjVOYz7GxtW7IAuze/RSFtm2YVeBj73JL/urBCH
+	FzgmDJfSuAjGXhKD4Y3ttEAWsAApstYS6DdqTWraZ3eU2Qd0k3UsJtDAOJrolBnlirs9JDEYWeG
+	ijMOUBTYnU31feSj3gvNPk3k9wgA/oOTeXoKm5LUF+8sx4i6hMBs0GQHphWL88uek9YwRB58Ajx
+	0V4aV07m0z5IAjYmiYD8GiVk+eTJH00XlzrieNOQ+MvBTatYYeKtOTunKOK0EaFiR3DnbdO0JwV
+	w==
+X-Received: by 2002:a5d:6f17:0:b0:485:a394:58ef with SMTP id ffacd0b85a97d-48dbaaed22bmr16768322f8f.30.1791818048717;
+        Mon, 12 Oct 2026 08:14:08 -0700 (PDT)
+Received: from [192.168.3.100] ([37.103.126.255])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48de0aaabc3sm3653f8f.16.2026.10.12.08.14.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 12 Oct 2026 08:14:08 -0700 (PDT)
+Message-ID: <d90324be-c43d-4d28-9f1a-e28e437031e8@baylibre.com>
+Date: Mon, 12 Oct 2026 17:14:07 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 3/7] ASoC: meson: aiu-encoder-i2s: ensure clk divider
+ gets disabled in hw_free
+Content-Language: en-US
+To: Jerome Brunet <jbrunet@baylibre.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Kevin Hilman <khilman@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+References: <20261001-audin-v4-0-2476646118b5@baylibre.com>
+ <20261001-audin-v4-3-2476646118b5@baylibre.com>
+ <1j5wzdzyqm.fsf@starbuckisacylon.baylibre.com>
+From: Valerio Setti <vsetti@baylibre.com>
+In-Reply-To: <1j5wzdzyqm.fsf@starbuckisacylon.baylibre.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, 12 Oct 2026 16:57:37 +0200, Takashi Iwai wrote:
-> OK, that's a problem, indeed.  How about replacing snd_card_free()
-> with *_when_closed() version that doesn't block in addition?
+Hi, thanks for the feedback and sorry for the late reply.
 
-The work doesn't hang anymore but removing the device while the probe
-work is running hits the same UAF on the first try.  azx_remove() still
-gets the card before cancel_delayed_work_sync() and the put_device() in
-the work frees it:
+>> diff --git a/sound/soc/meson/aiu-encoder-i2s.c b/sound/soc/meson/aiu-encoder-i2s.c
+>> index 58dce9f08c9d..70ea39c77b32 100644
+>> --- a/sound/soc/meson/aiu-encoder-i2s.c
+>> +++ b/sound/soc/meson/aiu-encoder-i2s.c
+>> @@ -219,16 +219,14 @@ static int aiu_encoder_i2s_hw_free(struct snd_pcm_substream *substream,
+>>   				   struct snd_soc_dai *dai)
+>>   {
+>>   	struct gx_stream *ts = snd_soc_dai_get_dma_data(dai, substream);
+>> +	struct gx_stream *other = snd_soc_dai_dma_data_get(dai, !substream->stream);
+> 
+> Not sure about peeking on the other path like this :/
 
-BUG: KASAN: slab-use-after-free in snd_card_free+0x148/0x160
-Read of size 1 at addr ffff888007724852 by task sh/97
-Call Trace:
- snd_card_free+0x148/0x160
- pci_device_remove+0xb6/0x1d0
- device_release_driver_internal+0x38d/0x540
- pci_stop_bus_device+0x122/0x170
- ...
-Freed by task 30:
- kfree+0x1e8/0x5e0
- device_release+0xcf/0x3c0
- kobject_put+0x169/0x320
- azx_probe_work+0x495/0x1fa0
- process_one_work+0x937/0x1800
+Yeah, I know this is perhaps not the nicest approach, but it's the same 
+one I used for the bs-quirk handling (see the "startup()" and 
+"hw_params()" callbacks). Since there can only be the playback and the 
+capture stream, checking the other stream's "clk_enabled" is equivalent 
+to a user counter in "gx_iface", without adding a second piece of state 
+that has to be kept in sync with it.
+Is that acceptable to you?
 
-> Staying the card means that the card slot will be kept, then if you
-> probe another card afterwards, it'll end up with assignment on another
-> card slot.
+>>   	struct snd_soc_component *component = dai->component;
+>>   
+>> -	/*
+>> -	 * If this is the last substream being closed then disable the i2s
+>> -	 * clock divider.
+>> -	 */
+>> -	if (snd_soc_dai_active(dai) <= 1)
+>> -		aiu_encoder_i2s_divider_enable(component, 0);
+>> -
+>>   	if (ts->clk_enabled) {
+>> +		/* Disable the clk divider only if also the other stream is not using it */
+>> +		if (!other || !other->clk_enabled)
+>> +			aiu_encoder_i2s_divider_enable(component, false);
+>> +
+> 
+> Looks like a race condition is possible here if one stream closes while
+> the other one starts.
+> 
+> I think you need a common structure between the 2 paths (with a counter
+> possibly) and it needs to be protected by a lock.
+> 
 
-What about calling snd_card_disconnect() in the work on failure?  It
-releases the slot right away and the card is still freed only in
-azx_remove():
+I might be wrong, but I'm not sure a race condition can happen while 
+managing these 2 clocks. Here's what I found:
+- "iface->mclk" and "i2s_divider" are enabled/disabled on 
+"prepare()"/"hw_free()" respectively.
+- when "prepare()"/"hw_free()" are called the framework holds the 
+"card->pcm_mutex".
 
-	if (azx_probe_continue(&hda->chip, false) < 0) {
-		hda->init_failed = 1;
-		complete_all(&hda->probe_wait);
-		snd_card_disconnect(hda->chip.card);
-	}
+So when one stream performs one operation, either "prepare()" or 
+"hw_free()", it can read and modify (if needed) "ts->clk_enabled" both 
+for itself and for the other stream safely.
 
-With that, snd-dummy loaded after a failed probe gets card 0 and 20
-rounds of the remove race were clean with KASAN.  I can send v2 if this
-looks fine.
+Am I missing something?
+
+-- 
+Valerio
+
