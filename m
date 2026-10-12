@@ -1,257 +1,133 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4412A38C423;
-	Mon, 12 Oct 2026 22:18:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5D313A4F50;
+	Mon, 12 Oct 2026 23:12:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791843526; cv=none; b=B+G8+u9waSRARyOqDTKWyebuQm2cGQc0WLxLIDh/pUXbWJwzuKSeZ/7HhNblJrImrXBR968DwxTg79CWd5qT++1NWz/mMRuEeX2ml1v8w+rk9l6c3r6SyVmUQ10xwI/nUAkh/uJpcwk183e2LAcQXry71bOizHOkhH0qAhPYGjU=
+	t=1791846723; cv=none; b=N4dgO+jsaZ9aGfcku6Vdr3OL3PYo1fT9RId7HPYXa8Hfwy4T8YCmhDU43HUZ+j+QzJAc8WVqUYCodxf1SP9Th6FVAYgQK6W8gnA8KhJ71ybBZuvuonf1Ds6uwfNQHgPh3OVGohFVRaLgGogOcXIj2Jps30Cvk/ev2nILtxnraFA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791843526; c=relaxed/simple;
-	bh=6q1dtZ4mFmGnR51E/lgbvW0mQS6LBiXKQ/GO0QIZaYE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=bX0l3WjkLUmKHrlhwxgBy7lFAeS/31SFV3Ub20F1jjmA2tcvZsWdR2m8DiGBq/2rMrN22gGXyfIrFsfaBnItjk2wy2xB/UhybKAiVyqojCCy5niZ12NKgha+VjT+99wcSFa7BglIhzxrpXpqzwKC41PVXKpSyFBxIKFeN/ktN3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WRzyh2Na; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791846723; c=relaxed/simple;
+	bh=dEYLVVwN31rGY8Ihgme1LSkvpWcfA70OxDVxGpc1Q2Q=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=eWhNJOR606qALg3k2AYfIw+vakdXa2qKUPf5bSFn/AtNDbjJ3Qc3a8d8waEro+cyaXD4yn7e8ewdiW6BX5lqgBw1hOIJGGMi8Z9eFzAvKmt2+0sNAaXiksdV5I/oFcqGLu7SIAxLhAWxPXt8WfLtYZBv76NM4xv0m1JO/EpDd6o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SUtFbuhR; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WRzyh2Na"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F2381F0089B;
-	Mon, 12 Oct 2026 22:18:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SUtFbuhR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85B6C1F008A1;
+	Mon, 12 Oct 2026 23:11:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791843524;
-	bh=SdztuT0CNnTRxqqFV8Jd29fRStGataYciuWQTe88Lno=;
-	h=Date:From:To:Cc:Subject:In-Reply-To;
-	b=WRzyh2NaOnyCk+x5vq84UE/CiaqgreCrQ8DcuAFs/hjqCahoZ4AxVCtVbPKnxbnEi
-	 SBXeYwTir5rsEnH8CYXbue+kf8thLFgZNZt0VZqttar8BlzicVrBs5P6se/tdOuAmr
-	 LDyvVM5UK63bLnT2Wd1+CybjUfwJD7CPWdD1SEf166OleHqPvLvMbwdM8rZWHa5Rj8
-	 NI3uwFN0mtNGxrp417pLAUBZHKwn2nWh3Ndckz+eX+n+K97yTbdSnLG2nCHxWlrJTd
-	 JVh6Y8xoPxJebFf0RufXiLajj9ZPnKdzV1HHVvqPjugiLuy2nFyfmUZ2KmzAt2+m+C
-	 v4a8yj+vUCr5Q==
-Date: Mon, 12 Oct 2026 17:18:43 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Herve Codina <herve.codina@bootlin.com>
-Cc: Richard Cheng <icheng@nvidia.com>, Andrew Lunn <andrew@lunn.ch>,
-	Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Linus Walleij <linusw@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bartosz Golaszewski <brgl@kernel.org>, Len Brown <lenb@kernel.org>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Dan Williams <djbw@kernel.org>, Ira Weiny <iweiny@kernel.org>,
-	Li Ming <ming.li@zohomail.com>, Lizhi Hou <lizhi.hou@amd.com>,
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org, linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com, linux-gpio@vger.kernel.org,
-	linux-acpi@vger.kernel.org, linux-cxl@vger.kernel.org,
-	Allan Nielsen <allan.nielsen@microchip.com>,
-	Horatiu Vultur <horatiu.vultur@microchip.com>,
-	Daniel Machon <daniel.machon@microchip.com>,
-	Steen Hegelund <steen.hegelund@microchip.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	stable+noautosel@kernel.org
-Subject: Re: [PATCH v13 10/10] PCI: of: Avoid np->data usage for the node
- changeset
-Message-ID: <20261012221843.GA1409528@bhelgaas>
+	s=k20260515; t=1791846722;
+	bh=sYxVPNTghx5Je+xlIpNxnYqdjbFjSIOMojl5QUCm+O4=;
+	h=From:Subject:Date:To:Cc;
+	b=SUtFbuhRrgY3EzT2RpzpPWl4i7q9C1SoXxYQRzAeXjAPJT6n3qMww7SQlGNlnHGwc
+	 T06xmK1SHOB9uvl/Q29uasa/i2GJVTw7s486WqtnoXMXCUIO4KuJFP+1AjBG7ZYTqW
+	 0fVJGz43cBnzeKsPKQfAVYPOiFgaDj72nO5rWtWNQ8gvZ7uswKd04qSAfSJcao3kAr
+	 KbJeu3rALQ1FL+vf5wdAxI0mTQ7Lzu0znilHqr2168/+u9eJeuFrz1uai37ZNO0pnm
+	 g1DVZvFoolBBhe3FlfCMiLIFq1tfPRQQDGdo07XzQEIYbGXWJZ6mOCJ/h6wobBBZwh
+	 UPVyl5K+hrdtQ==
+From: Mark <broonie@kernel.org>
+Subject: [PATCH 0/9] kunit: Add KUNIT_CASE_PARAM_UNIQUE() and
+ KUNIT_CASE_PARAM_WITH_INIT_UNIQUE()
+Date: Tue, 13 Oct 2026 00:10:10 +0100
+Message-Id: <20261013-kunit-param-names-v1-0-4b22ec5b85b9@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261012142826.159178-11-herve.codina@bootlin.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIANNozWoC/yXMPQ6DMAxA4asgz1hKws/Qq1QMwbjUrQgoJggJc
+ XdSOn7DewcoR2GFR3FA5E1U5pBhywLo7cPIKEM2OONaa6zDbwqy4uKjnzD4iRWHlnpbN4YqYsj
+ dEvkl+/18dn9r6j9M628E53kB/9U0h3UAAAA=
+X-Change-ID: 20261012-kunit-param-names-d6cb1450c3ce
+To: Simon Trimmer <simont@opensource.cirrus.com>, 
+ Charles Keepax <ckeepax@opensource.cirrus.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ Brendan Higgins <brendan.higgins@linux.dev>, David Gow <david@davidgow.net>, 
+ Rae Moar <raemoar63@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, Theodore Ts'o <tytso@mit.edu>, 
+ Andreas Dilger <adilger.kernel@dilger.ca>, 
+ Baokun Li <libaokun@linux.alibaba.com>, Jan Kara <jack@suse.cz>, 
+ Ojaswin Mujoo <ojaswin@linux.ibm.com>, 
+ "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>, 
+ Zhang Yi <yi.zhang@huawei.com>, David Rhodes <david.rhodes@cirrus.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>
+Cc: patches@opensource.cirrus.com, linux-kernel@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+ linux-doc@vger.kernel.org, linux-ext4@vger.kernel.org, 
+ linux-sound@vger.kernel.org, Mark Brown <broonie@kernel.org>
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3187; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=dEYLVVwN31rGY8Ihgme1LSkvpWcfA70OxDVxGpc1Q2Q=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLLOZlrNvOXVHHe7JtPY7nKusE315pZzj1dxqv3O7+f/u
+ fPz1ltPO0pZGMS4GGTFFFnisrhf1pe8XsN3cGEbzBxWJpAhDFycAjARh88M/113PSvZL/WlwmTn
+ NLfmj6d3WSZ3XJj1rJAhwpiLJ/POjUiG/8muTN/i16ovPCpi7BzloHd1a3he3fJbDG+EjnZEBvD
+ 84AIA
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Mon, Oct 12, 2026 at 04:28:24PM +0200, Herve Codina wrote:
-> of_pci_remove_node() and of_pci_remove_host_bridge_node() check
-> whether the node is dynamic but not whether it has valid private data.
-> 
-> During the node creation, an OF changeset is used and this changeset is
-> stored in np->data to be available for removal functions.
-> 
-> If, for instance, a PCI host bridge is created using a device-tree
-> overlay, the related node will have the dynamic flag set but np->data
-> will be NULL. This leads to NULL pointer dereferences.
-> 
-> Checking for a non-NULL np->data pointer to determine if the node has
-> been created by the PCI node creation process is not enough. Indeed,
-> on some platforms like PowerPC, the OF_RECONFIG_ATTACH_NODE notifier
-> (e.g., in the pci_dn_reconfig_notifier() function) intercepts node
-> additions and populates np->data with its own structure, such as a
-> struct pci_dn. In that case, np->data is not NULL but it is not related
-> to our changeset stored during the PCI node process creation.
-> 
-> Avoid the usage of np->data to store the changeset used during the PCI
-> node creation. Store our changeset in a more relevant structure: either
-> struct pci_dev when the node is created for a PCI device or struct
-> pci_host_bridge when the node is created for the PCI host bridge.
-> 
-> With that done, no ambiguity remains on removal. Indeed, this changeset,
-> if non-NULL, is the one used during PCI node creation. Check and use
-> this changeset on the removal process.
-> 
-> Fixes: 407d1a51921e ("PCI: Create device tree node for bridge")
-> Fixes: 1f340724419e ("PCI: of: Create device tree PCI host bridge node")
-> Cc: <stable+noautosel@kernel.org> # Issue not triggered but could be a problem
-> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
+KUNIT_CASE_PARAM() and KUNIT_CASE_PARAM_WITH_INIT() name the test case
+after the test function. Several suites reuse one test function with
+more than one parameter generator or param_init() function, listing it
+once per set of parameters, which leads to multiple tests being created
+with the same name. Same-named cases cannot be told apart in the results
+and cannot be selected individually with kunit.filter_glob=, so kunit.py
+--run_isolated=test boots a kernel for every entry and each kernel runs
+all of the same-named cases.
 
-Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+We could fix this by having the KUNIT_CASE_PARAM() macros always include
+the parameter name but this would not only rename all existing users but
+also result in some awkwardly named tests. Instead introduce some new
+macros for use in cases where we need to disambiguate.
 
-> ---
->  drivers/pci/of.c    | 32 ++++++++++++++++++++------------
->  include/linux/pci.h | 11 +++++++++++
->  2 files changed, 31 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/pci/of.c b/drivers/pci/of.c
-> index 0a5797652e18..fbed24a244d0 100644
-> --- a/drivers/pci/of.c
-> +++ b/drivers/pci/of.c
-> @@ -732,15 +732,20 @@ void of_pci_remove_node(struct pci_dev *pdev)
->  {
->  	struct device_node *np;
->  
-> +	if (!pdev->cset)
-> +		return;
-> +
->  	np = pci_device_to_OF_node(pdev);
-> -	if (!np || !of_node_check_flag(np, OF_DYNAMIC))
-> +	if (!np)
->  		return;
->  
->  	fw_devlink_set_device(&np->fwnode, NULL);
->  	device_remove_of_node(&pdev->dev);
-> -	of_changeset_revert(np->data);
-> -	of_changeset_destroy(np->data);
-> +	of_changeset_revert(pdev->cset);
-> +	of_changeset_destroy(pdev->cset);
->  	of_node_put(np);
-> +	kfree(pdev->cset);
-> +	pdev->cset = NULL;
->  }
->  
->  void of_pci_make_dev_node(struct pci_dev *pdev)
-> @@ -800,18 +805,17 @@ void of_pci_make_dev_node(struct pci_dev *pdev)
->  	if (ret)
->  		goto out_clear_devlink_dev;
->  
-> -	np->data = cset;
-> -
->  	ret = device_add_of_node(&pdev->dev, np);
->  	if (ret)
->  		goto out_revert_cset;
->  
-> +	pdev->cset = cset;
-> +
->  	kfree(name);
->  
->  	return;
->  
->  out_revert_cset:
-> -	np->data = NULL;
->  	of_changeset_revert(cset);
->  out_clear_devlink_dev:
->  	fw_devlink_set_device(&np->fwnode, NULL);
-> @@ -828,16 +832,21 @@ void of_pci_remove_host_bridge_node(struct pci_host_bridge *bridge)
->  {
->  	struct device_node *np;
->  
-> +	if (!bridge->cset)
-> +		return;
-> +
->  	np = pci_bus_to_OF_node(bridge->bus);
-> -	if (!np || !of_node_check_flag(np, OF_DYNAMIC))
-> +	if (!np)
->  		return;
->  
->  	fw_devlink_set_device(&np->fwnode, NULL);
->  	device_remove_of_node(&bridge->bus->dev);
->  	device_remove_of_node(&bridge->dev);
-> -	of_changeset_revert(np->data);
-> -	of_changeset_destroy(np->data);
-> +	of_changeset_revert(bridge->cset);
-> +	of_changeset_destroy(bridge->cset);
->  	of_node_put(np);
-> +	kfree(bridge->cset);
-> +	bridge->cset = NULL;
->  }
->  
->  void of_pci_make_host_bridge_node(struct pci_host_bridge *bridge)
-> @@ -899,8 +908,6 @@ void of_pci_make_host_bridge_node(struct pci_host_bridge *bridge)
->  	if (ret)
->  		goto out_clear_devlink_dev;
->  
-> -	np->data = cset;
-> -
->  	/* Add the of_node to host bridge and the root bus */
->  	ret = device_add_of_node(&bridge->dev, np);
->  	if (ret)
-> @@ -910,6 +917,8 @@ void of_pci_make_host_bridge_node(struct pci_host_bridge *bridge)
->  	if (ret)
->  		goto out_remove_bridge_dev_of_node;
->  
-> +	bridge->cset = cset;
-> +
->  	kfree(name);
->  
->  	return;
-> @@ -917,7 +926,6 @@ void of_pci_make_host_bridge_node(struct pci_host_bridge *bridge)
->  out_remove_bridge_dev_of_node:
->  	device_remove_of_node(&bridge->dev);
->  out_revert_cset:
-> -	np->data = NULL;
->  	of_changeset_revert(cset);
->  out_clear_devlink_dev:
->  	fw_devlink_set_device(&np->fwnode, NULL);
-> diff --git a/include/linux/pci.h b/include/linux/pci.h
-> index d31a8d107b1e..7b0ba9ec7b5c 100644
-> --- a/include/linux/pci.h
-> +++ b/include/linux/pci.h
-> @@ -339,6 +339,9 @@ struct pcie_link_state;
->  struct pci_sriov;
->  struct pci_p2pdma;
->  struct rcec_ea;
-> +#ifdef CONFIG_PCI_DYNAMIC_OF_NODES
-> +struct of_changeset;
-> +#endif
->  
->  /* struct pci_dev - describes a PCI device
->   *
-> @@ -598,6 +601,10 @@ struct pci_dev {
->  	u8		tph_mode;	/* TPH mode */
->  	u8		tph_req_type;	/* TPH requester type */
->  #endif
-> +
-> +#ifdef CONFIG_PCI_DYNAMIC_OF_NODES
-> +	struct of_changeset *cset; /* Changeset used for OF node creation */
-> +#endif
->  };
->  
->  static inline struct pci_dev *pci_physfn(struct pci_dev *dev)
-> @@ -670,6 +677,10 @@ struct pci_host_bridge {
->  	unsigned int	broken_l1ss_resume:1;	/* Resuming from L1SS during
->  						   system suspend is broken */
->  
-> +#ifdef CONFIG_PCI_DYNAMIC_OF_NODES
-> +	struct of_changeset *cset; /* Changeset used for OF node creation */
-> +#endif
-> +
->  	/* Resource alignment requirements */
->  	resource_size_t (*align_resource)(struct pci_dev *dev,
->  			const struct resource *res,
-> -- 
-> 2.55.0
-> 
+Add KUNIT_CASE_PARAM_UNIQUE() and KUNIT_CASE_PARAM_WITH_INIT_UNIQUE()
+which behave identically to the existing macros but include the name of
+the parameter generator or the param_init() function in the name of
+the case, giving names such as sha1_test-sha1_gen_params. The
+param_init() function is used for the WITH_INIT variant since currently
+all the tests which register parameter arrays from param_init() all
+share the generic kunit_array_gen_params() generator.
+
+The series also includes a fix for what looks like a cut'n'paste
+issue in the cs_dsp code that overlaps with the main set of changes.
+Most of the affected tests are in ASoC, though there are some ext4 tests
+too.
+
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+Mark (8):
+      firmware: cs_dsp: Run the wmfw payload error tests with invalid block types
+      kunit: Add KUNIT_CASE_PARAM_UNIQUE() and KUNIT_CASE_PARAM_WITH_INIT_UNIQUE()
+      ext4: Give the extents KUnit cases distinct names
+      firmware: cs_dsp: Give the control read/write KUnit cases distinct names
+      firmware: cs_dsp: Give the control cache KUnit cases distinct names
+      firmware: cs_dsp: Give the wmfw block error KUnit cases distinct names
+      firmware: cs_dsp: Give the bin file KUnit cases distinct names
+      ASoC: wm_adsp: Give the firmware search order KUnit cases distinct names
+
+Mark Brown (1):
+      ASoC: cs35l56: Give the speaker ID pad config KUnit cases distinct names
+
+ Documentation/dev-tools/kunit/usage.rst            |   9 +
+ drivers/firmware/cirrus/test/cs_dsp_test_bin.c     | 222 ++++++++++-----------
+ .../cirrus/test/cs_dsp_test_control_cache.c        | 143 ++++++-------
+ .../firmware/cirrus/test/cs_dsp_test_control_rw.c  |  50 ++---
+ .../firmware/cirrus/test/cs_dsp_test_wmfw_error.c  |  72 ++++---
+ fs/ext4/extents-test.c                             |  12 +-
+ include/kunit/test.h                               |  41 ++++
+ sound/soc/codecs/cs35l56-shared-test.c             |   8 +-
+ sound/soc/codecs/wm_adsp_fw_find_test.c            |  24 +--
+ 9 files changed, 329 insertions(+), 252 deletions(-)
+---
+base-commit: 24a19b953e2a3d0ea5a8c4951a0ab8f32720c907
+base-tree: git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+change-id: 20261012-kunit-param-names-d6cb1450c3ce
+
+Best regards,
+--  
+Mark Brown <broonie@kernel.org>
+
