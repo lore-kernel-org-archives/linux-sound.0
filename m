@@ -1,168 +1,88 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CCD23A3E68
-	for <linux-sound@vger.kernel.org>; Tue, 13 Oct 2026 13:36:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0524B4F3939;
+	Tue, 13 Oct 2026 14:06:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791898601; cv=none; b=XpXMnEmVXHS+R2dhTO3u2JcDuJSj0ogyb+I3epcOfkUAQyxG09zWj+XA+IVY+9aPMvQlB27cpYZsYcihWLcbrJ8T43R2ws+Nhukd9ckjPztcMnycuS6QiLQ9Uq8S40164E3VNXe9YXMNTQ3jWhCwo0WKffi+JNwxwrozzV6MTj8=
+	t=1791900368; cv=none; b=TOmBwy9o2km34GijUJT1MI4fpX8m5/VAWEP7zZYiBWoAJgBhXrTvH4EPRjyOYDa4EyM90+vs1cXryy7mOzKoVfUIotNhUZk5yCMZ3H0rPysTwHNXA9ybe5qhhHUa72ZJgLXcioz3AGnkgjjOtrFIQvTNb/5yJqfe8O7b3Q81Rqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791898601; c=relaxed/simple;
-	bh=z28YKZb97aTT9sW4UizjIF4MNYY5bkvLBWhjQjivFd0=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FCzDmHOsTlKQaEM4RDakKOT0suuWx732QS7EyMVn3Pc4YI9ICbnGYhN+JOqZOlLc2/AZVPsNZjc3KawDS7iKEWHOf+S3q67Xh0nEXn9r9ECVaCr9D37MRvpDKia1mywPK8fB1Kh2VNqM8Hs49FJCiCG9v0aHyhveZ6xLd6uMVps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=v70rq8+F; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bxtxvhvI; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=v70rq8+F; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bxtxvhvI; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1791900368; c=relaxed/simple;
+	bh=QlbAfkPPFpaw58RZxV/YQ2jnS9l4Juf7CsuDwzWYkrU=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=eTm0TKiQiLKxT+tD3JIp4MhOJknL9FbPJ/iw6+N/y6NGtPGGI2DYz84YV0vvv8g/W07dCi7+QiEOQz9wgldtatRCLgSRxKpJEREHCRlffwShQftj8PMOTa+eVy9Uz2+1QKXF7O35NucSnmMNB9isfPaCCTQx0sJhQ4hiyjEhsoA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l4gDerQk; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="v70rq8+F";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bxtxvhvI";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="v70rq8+F";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bxtxvhvI"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 368C621F2A;
-	Tue, 13 Oct 2026 13:36:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1791898598; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=COG0O6TV6JfYI9WqBYFfoDa5tJVguXvNhPtEZQ2CXuc=;
-	b=v70rq8+F5YE07X+S2J39YOLCS/Do627ZGBA96FHnGltMOPLocDPRCfUQVBS4kcK66Yd/CK
-	txZ8iEDz4y/C2Dfy9kZW/P9ojnlp0XBUKZeyVSpJAR7uC4toRVz7yzO+JWtF1HmN7+6mxJ
-	Z0pKpmYKDukl2dO4ACQ2F4kW9yoLVt8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1791898598;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=COG0O6TV6JfYI9WqBYFfoDa5tJVguXvNhPtEZQ2CXuc=;
-	b=bxtxvhvIeqd5pkK8CgYdAnSoHW0OvRInjgAb1YB96QOmihn0uBXNbG3ovS4n2/W4SOEetV
-	nZodyxWC9uD7a+DA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=v70rq8+F;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=bxtxvhvI
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1791898598; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=COG0O6TV6JfYI9WqBYFfoDa5tJVguXvNhPtEZQ2CXuc=;
-	b=v70rq8+F5YE07X+S2J39YOLCS/Do627ZGBA96FHnGltMOPLocDPRCfUQVBS4kcK66Yd/CK
-	txZ8iEDz4y/C2Dfy9kZW/P9ojnlp0XBUKZeyVSpJAR7uC4toRVz7yzO+JWtF1HmN7+6mxJ
-	Z0pKpmYKDukl2dO4ACQ2F4kW9yoLVt8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1791898598;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=COG0O6TV6JfYI9WqBYFfoDa5tJVguXvNhPtEZQ2CXuc=;
-	b=bxtxvhvIeqd5pkK8CgYdAnSoHW0OvRInjgAb1YB96QOmihn0uBXNbG3ovS4n2/W4SOEetV
-	nZodyxWC9uD7a+DA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E5CD1134C3;
-	Tue, 13 Oct 2026 13:36:37 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id YIhhL+UzzmpgfAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 13 Oct 2026 13:36:37 +0000
-Date: Tue, 13 Oct 2026 15:36:29 +0200
-Message-ID: <87wlrlg1sy.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Mark Brown <broonie@kernel.org>,
-	Takashi Iwai <tiwai@suse.de>,
-	linux-sound@vger.kernel.org,
-	Arun Raghavan <arun@accosted.net>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Vinod Koul <vkoul@kernel.org>
-Subject: Re: Linux-audio BoF at Linux Plumbers Conference?
-In-Reply-To: <87qzhuxzae.wl-kuninori.morimoto.gx@renesas.com>
-References: <871pbsnce8.wl-tiwai@suse.de>
-	<5f459099-4364-46f9-a3b4-1c629aa91209@perex.cz>
-	<87se48lv6z.wl-tiwai@suse.de>
-	<8733uoys02.wl-tiwai@suse.de>
-	<87ik3gs37v.wl-tiwai@suse.de>
-	<asOtJzxO9bWQ1VaX@sirena.org.uk>
-	<87qzhuxzae.wl-kuninori.morimoto.gx@renesas.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l4gDerQk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C840E1F000FF;
+	Tue, 13 Oct 2026 14:06:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791900367;
+	bh=QDUFgi5qXoKJKWdS4isV8ww+zH8ENZP7NGQ4t9Dfgoo=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=l4gDerQkCIpqyBzoZ/lSrf+5xR13Vq2ltrY+RkXbMNmQdB170jSL7gdyDodCqNO19
+	 faDe4FutFDGiK/mKIR6v0xDCumFe90Y/jkbmbBc4WmrAFQZjO1aTMqGPkQ7n6n1hQB
+	 FN2bPz+H7cu5zPUtZm9kRMYb2pKatdi9Y6vPrHzlsLaQYPRNBQEHRQnw2cWtp1Yv6R
+	 jFoX2aFsjUsFkXhBkAwJMqjAs/LPlFVRmKg7JagW6xkqQSK90Ceshuz2JyMqGPOPHk
+	 ysm9IgrzY2Lw3ffnmp26aWDNKg63CFluqW3KhGcrmGoYulak/P1u9bOMaQjTbHGq0J
+	 OCp5W5goLAAmw==
+From: Mark Brown <broonie@kernel.org>
+To: srini@kernel.org, lgirdwood@gmail.com, Joonhoe Kim <26rote@gmail.com>
+Cc: perex@perex.cz, tiwai@suse.com, neil.armstrong@linaro.org, 
+ jonathan@marek.ca, linux-sound@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20261007123954.1709-1-26rote@gmail.com>
+References: <20261007123954.1709-1-26rote@gmail.com>
+Subject: Re: [PATCH] ASoC: codecs: wcd939x: read the SoundWire port
+ switches per channel
+Message-Id: <179184618495.390394.12922276610796741760.b4-ty@b4>
+Date: Tue, 13 Oct 2026 00:03:04 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Action: no action
-X-Spam-Score: -2.51
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-2.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUBJECT_ENDS_QUESTION(1.00)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 368C621F2A
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1150; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=QlbAfkPPFpaw58RZxV/YQ2jnS9l4Juf7CsuDwzWYkrU=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLLOWZ222nJyiYGuqMC3iw8P6tnmL1D56bq5Qvf3lzm3M
+ 17FZB641FHKwiDGxSArpsgSl8X9sr7k9Rq+gwvbYOawMoEMYeDiFICJPCliZPgyXe0Yl0+txR/P
+ vxPLlwfGdzRVPpz+sZVlfSKzSmHVP36G/0lva0qK33QvrdNX+rgmMdEmkPX87re7O3bbWciqLlO
+ WYwIA
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Tue, 13 Oct 2026 01:41:13 +0200,
-Kuninori Morimoto wrote:
-> 
-> 
-> Hi Mark, all
-> 
-> > > > > > > a few people including Mark and me have talked about holding a small
-> > > > > > > meeting for the Linux audio stuff (finally again!) during the next
-> > > > > > > Linux Plumbers Conference (on Oct 5-7 at Prague).
-> > 
-> > > > > > > Has anyone already planned to attend there and is interested to join?
-> > > > > > > If we have enough people, we can try an official BoF session.
-> > > > > > > Otherwise, we can just have an unofficial session at lunch time or
-> > > > > > > such, too.  Just let us know.
-> > 
-> > > It seems that a lunch meeting would be fitting at b.
-> > 
-> > > How about Wednesday's lunch?  Does anyone have a conflict?
-> > 
-> > Adding Mormimoto-san who's also here.
-> 
-> Sorry, I didn't have office mail access in Prague.
-> I didn't notice about this...
-> 
-> Thank you for your help !!
-> 
-> Best regards
+On Wed, 07 Oct 2026 21:39:54 +0900, Joonhoe Kim wrote:
+> ASoC: codecs: wcd939x: read the SoundWire port switches per channel
 
-One topic we discussed was about the regular remote meeting.
-So hopefully, we can meet virtually there in near future!
+Applied to
 
-(No concrete plan yet, but possibly one or a few times per year.
- I think 3 or 6-month cadence would fit for many people and demands.)
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
 
+Thanks!
 
-thanks,
+[1/1] ASoC: codecs: wcd939x: read the SoundWire port switches per channel
+      https://git.kernel.org/broonie/misc/c/e7860dc5d8d4
 
-Takashi
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
