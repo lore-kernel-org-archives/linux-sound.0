@@ -1,177 +1,162 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mail-4323.protonmail.ch (mail-4323.protonmail.ch [185.70.43.23])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 905904D37B3;
-	Mon, 12 Oct 2026 19:12:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D37ED4E06E2;
+	Mon, 12 Oct 2026 19:46:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.23
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791832324; cv=none; b=SmJ4/klyXVJvnXRNACJv51OPrSHbPxyo7xhvDCPIUcO2n+CJbw/hEWpgAGm2xzkk+UtFFVcEggOh+JfjVW0kxbFFi0ANADDJi4Hvu80Wht6C6fc2wqJD8cFJr4t8pHSJn5GPxZcd0h1jopEa/h7BHOhISv0PYM+vAW34dhFkk0s=
+	t=1791834391; cv=none; b=ChCfgeLqPY85I+3tyKWFxctZkmis5lEHpdxp5CKgwnqvjx2Qll5/GmC/gMkJUqQDRRA5ngKrlQYfz9lZjR+uHl7vgXEiIBhupsJdXDqU7pMB4Lpdb/e9DmbsocQTHhVnFPHKC2MgzgkrF0f6+/GyydVU8ZGepZioRMhCgj85P10=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791832324; c=relaxed/simple;
-	bh=FdkP+D43EN+xQd/ndnjr780pUFvJoTrEDYoQqVAKW9Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l0UQiJo/+lDQDa5CJ9dKoqj/m51mCTrh3Sx6jpn1CoJKCwTk1aBgCJTTPutRND9ZIt/o43Oc4InVsPyeofAztQJZD8ih39/qeGtvXFKngLN2FM19E10q0DeZ4N/KuJegboSEoC0SZnFkvlhTGVPQ7ZqQ19zsS8yKEjO5T9yEnv0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BEu0ArYB; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791834391; c=relaxed/simple;
+	bh=SN53F77NdYCtAEJZRRSye0TNxqG5SZP+TUKigpp+ovg=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Jn5QxHIDb+IQUSuyWTJryoLIE1fwDL3vkBN33g71pDdsUysMOW1eANruOKe3Kqzj+aC7eOCG9UdFg9s7bnAe0TVCfnpLWtVefPoHDbyrH59suWmssePWBNTmeHl2cuX/joGSv2akirp7BoJ6GN0NIHSaxfyTKWrqBGIU6DBb3Sw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=midirus.com; spf=pass smtp.mailfrom=midirus.com; dkim=pass (2048-bit key) header.d=midirus.com header.i=@midirus.com header.b=uZIdrEW9; arc=none smtp.client-ip=185.70.43.23
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=midirus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=midirus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BEu0ArYB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58B361F0089B;
-	Mon, 12 Oct 2026 19:11:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791832322;
-	bh=t5mO4SpyqVviWjSaaEv8n4NUJ8+LaAHDu09XG7kSbFs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=BEu0ArYB5XZKL/22X+idpyNhILy00Ml5Fj2jTZ7Fk/4tKlvNrtbcuHyIbatS1i6+H
-	 EgraXbynE/kQHml4oxd8zg6gA+C0hu9dN4/bgco2QE++oQB5bH8DxThhNACrQfpLo5
-	 XjczelQ46llI8hh5qdyeZlOGyGOojXJ0MYtBFM6yqvzpX+4jdT2meUTVQWDtflbCXM
-	 6iF5pmWBFtkh91Se1FhzLeFVS17tfaVz+ddcjoVeEnKq4qW/b4a4Az4vnWO1vg7GEy
-	 PxJnHj6TKtLcX2c2xZZNIY6SbIQi0/ch6peXKK7YGg1Kjv6Q5wlicS2sXtSXi+SohG
-	 UEkXkdb5KImtQ==
-Date: Mon, 12 Oct 2026 20:11:27 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
-	Paul Moore <paul@paul-moore.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen" <mkp@kernel.org>, 
-	Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, Sebastian Reichel <sre@kernel.org>, 
-	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
-	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
-	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Juri Lelli <juri.lelli@redhat.com>, 
-	Vincent Guittot <vincent.guittot@linaro.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, 
-	Oliver Upton <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
-	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
-	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
-	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
-	Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
-	Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
-	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
-	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev, 
-	Ihor Solodrai <ihor.solodrai@linux.dev>, Bert Karwatzki <spasswolf@web.de>, 
-	Emil Tsalapatis <emil@etsalapatis.com>
-Subject: Re: [PATCH v5 13/38] bpf: arena: mark arena_map_mmap() mappings
- VM_MIXEDMAP
-Message-ID: <as0uGOcxjg74Xw7_@gremlin>
-References: <20261009-b4-mmap-prepare-vma-flag-sanify-v5-0-923b70125b1e@kernel.org>
- <20261009-b4-mmap-prepare-vma-flag-sanify-v5-13-923b70125b1e@kernel.org>
- <5b8ef0ce-7429-4d74-b4da-a0561c59b1e2@kernel.org>
- <as0Buhi_-VCC7xLZ@gremlin>
- <4124106e-c51e-4476-bd67-63e4641bf14a@kernel.org>
+	dkim=pass (2048-bit key) header.d=midirus.com header.i=@midirus.com header.b="uZIdrEW9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=midirus.com;
+	s=protonmail; t=1791834377; x=1792093577;
+	bh=7eUeVZarUBPNmnvtSEi9wLI7Tja8/hA2NLZl7ky89hg=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=uZIdrEW9/NrOscsimbd7pG+xUT2o7srorJk7pgFnRU86hHCZu/x02wMEPTT5Vr4KZ
+	 WmwE3JhfQctmCTaYcUBg0CgODbbGi4fPb/oC9qibI7e+9vrD7yaZHgdEhZswWsePzv
+	 dhgM/mrY2o27M+rpKVWZTFCMwGGf/Hf+giErG7kxHjUvzyAVH5asEBeKtulP4knObu
+	 ujEcxTjB8CnWTW1Dz+un1ECzhGh4Pfi093im+VeYl+FxlxpdWKY/VJ99esjbBILPr7
+	 +wdJEWTJ8YXcQSYrsXvvD9D1MD45lDGlQD8YKAfFDTrR7A9hDst0cN9asJ03mWd2bM
+	 mFsML3WdRRRlA==
+Date: Mon, 12 Oct 2026 19:46:11 +0000
+To: Takashi Iwai <tiwai@suse.de>
+From: Tristan de Cacqueray <tristan@midirus.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>, linux-sound@vger.kernel.org, rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RFC 0/3] rust: snd: Introduce experimental ALSA rawmidi abstractions
+Message-ID: <87ik36em81.fsf@midirus.com>
+In-Reply-To: <87ld83gl9g.wl-tiwai@suse.de>
+References: <20261011-rust-snd-v1-0-7974ecdcd345@midirus.com> <87ld83gl9g.wl-tiwai@suse.de>
+Feedback-ID: 135030709:user:proton
+X-Pm-Message-ID: 7553b34d4b22bd294f68b24f3dd9bb1a0aaae7e5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4124106e-c51e-4476-bd67-63e4641bf14a@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 12, 2026 at 08:56:23PM +0200, David Hildenbrand (Arm) wrote:
-> On 10/12/26 17:55, Lorenzo Stoakes (ARM) wrote:
-> > On Mon, Oct 12, 2026 at 05:08:09PM +0200, David Hildenbrand (Arm) wrote:
-> >> On 10/9/26 20:04, Lorenzo Stoakes (ARM) wrote:
-> >
-> >>> diff --git a/kernel/bpf/arena.c b/kernel/bpf/arena.c
-> >>> index 7b6847200b43..b69fe5e34339 100644
-> >>> --- a/kernel/bpf/arena.c
-> >>> +++ b/kernel/bpf/arena.c
-> >>> @@ -620,8 +620,9 @@ static int arena_map_mmap(struct bpf_map *map, struct vm_area_struct *vma)
-> >>>  	 * clears VM_MAYEXEC. Set VM_DONTEXPAND to avoid potential change
-> >>>  	 * of user_vm_start. Set VM_DONTCOPY to prevent arena VMA from
-> >>>  	 * being copied into the child process on fork.
-> >>> +	 * This is a kernel page so set VM_MIXEDMAP.
-> >>>  	 */
-> >>> -	vm_flags_set(vma, VM_DONTEXPAND | VM_DONTCOPY);
-> >>> +	vm_flags_set(vma, VM_MIXEDMAP | VM_DONTEXPAND | VM_DONTCOPY);
-> >>>  	vma->vm_ops = &arena_vm_ops;
-> >>>  	return 0;
-> >>>  }
-> >>>
-> >>
-> >> Historically, VM_MIXEDMAP really just means: can contain refcounted and
-> >> non-refcounted things. Everything with a struct page is refcounted.
-> >>
-> >> I think we are now changing the semantics to mean "maps kernel pages". I think
-> >
-> > Yes.
-> >
-> > It was sort of implicit before given insert_page() etc. but still really meaning
-> > that it _might_ be both.
+
+On Mon, Oct 12, 2026 at 14:23 Takashi Iwai wrote:
+> On Sun, 11 Oct 2026 15:02:11 +0200,
+> Tristan de Cacqueray wrote:
+>>
+>> Hi Takashi and the Rust for Linux maintainers.
+>>
+>> I just noticed your mail about an early Rust prototype for the sound
+>> subsystem right before I was about to submit this RFC!
+>>   https://lore.kernel.org/alsa-devel/878q48579z.wl-tiwai@suse.de/
+>>
+>> Nevertheless, please allow me to share what I had in mind through this
+>> small proof of concept for the `rawmidi` API. I am looking for feedback =
+on
+>> the scope, coordination, and the ownership model rather than a detailed
+>> review for merging.
+>>
+>> My use case is a new hardware controller using a custom serial protocol.
+>> While developing its Rust driver, I needed an interface to ALSA rawmidi.
+>> I'm particularly interested in handling rawmidi substream safely to avoi=
+d
+>> issues like the one fixed by
+>>   221253723dc5 ("ALSA: bcd2000: Fix race between rawmidi and disconnect"=
+)
+>>
+>> So, I wrote some bindings to see how that would look like. This series a=
+dds
+>> experimental snd_card and snd_rawmidi wrappers, input/output callback
+>> traits, and a sample rawmidi faux device using delayed work to simulate
+>> incoming MIDI data.
+>>
+>> This is not merge-ready. In particular, the prototype does not yet enfor=
+ce
+>> the devres lifetime of the card or the lifetime of its rawmidi wrapper. =
+The
+>> substream helper also relies on the driver clearing it before close
+>> returns.
+>>
+>> Here are my questions:
+>>
+>>   1. Does this rawmidi experiment overlaps with your prototype?
+>>      If so, I would be happy to coordinate or adapt this experiment to i=
+t.
 >
-> Yeah, it's in the name. Mixed: pfn and/or ordinary.
+> No, my patchset doesn't contain rawmidi support yet.
+> The sound card abstraction would conflict quite, sure, but it wouldn't
+> be too hard to adapt, I guess.
+>
 
-Well the name is confusing as a great many users never mix anything, and it's
-far from obvious you need to set one.
+That's great, I can rebase my rawmidi abstraction onto your branch.
 
-Anyway, one for later. Maybe a mask like VMA_NON_MM_MANAGED_MASK or something
-better than that...
+>>   2. Is rawmidi a useful initial target for ALSA Rust abstraction?
+>
+> Sure, why not, if it's actually needed? :)
+>
+
+I think Rust could help make midi_ops implementation safer. Would it make
+sense to port the virmidi driver as a demonstration, or would you
+recommend a different driver as a starting point?
+
+>>   3. Does your prototype mirror the C API 1:1, or for example, does it h=
+ide
+>>      the substream lifecycle? That's the design choice I'm least sure ab=
+out.
+>
+> It's mostly a straightforward wrapping of C API, but there are a few
+> twists to adapt Rust-way.  The card can be managed in RAII style, too,
+> for example.
+>
+> I haven't prepared for submission, but you can find the current
+> changes in test/sound-rust branch of sound git tree (either kernel.org
+> or github.com):
+>   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git/log/?h=
+=3Dtest/sound-rust
+>   https://github.com/tiwai/sound/tree/test/sound-rust
+>
+> Those are over 50 commits on top of 7.3-rc5, and I'll likely rebase a
+> bit to rearrange before submission, so beware of changes in future.
+>
+> The commits begin with a few Rust kernel changes for fixing and
+> addition for the sound support, including the PM support from Beata
+> Michalska (just took what have been posted), followed by ALSA core
+> abstractions for the card, PCM and controls.
+>
+> Then it continues to the implementations of 3 actual sound drivers for
+> PCM/control: the dummy driver (with platform and hrtimer), and the
+> ens1370 and intel8x0 drivers for PCI devices to be run on VM.
+>
+> After that, the extension to USB abstraction follows, including the
+> isochronous support patches by Colin Braun, and then the USB-audio
+> driver implementation (that can run on an actual bare metal), as well
+> as the USB runtime PM support.
+>
+
+Thank you for sharing the branch. I'll take a look.
 
 >
-> >
-> >> this is fine, but we really have to update the documentation (and possibly
-> >> rename this thing to something more expressive?)
-> >
-> > Yeah I completely agree.
-> >
-> > I will rename it, but I think that's best for 7.5 obviously! :)
+> BTW, until now, I haven't planned for any serious consideration to
+> merge Rust stuff yet.  Partly because the above was a pure experiment
+> for me, but another big obstacle is that the whole Rust C binding is
+> limited to built-in vmlinux.  With a distribution kernel maintainer
+> hat on, this is absolutely NO-GO -- we really want to avoid built-in.
+> (Graphics is a kind of exception nowadays because of boot support,
+> though.)  Can this be worked out soon...?
 >
-> Yes.
->
-> VM_PFNMAP / VM_MIXEDMAP - These contain kernel-mapped data which cannot be
-> 			  reasonably reconstructed on page fault.
->
-> the description is already pretty clear. just not that kernel-mapped pages
-> *must* use one of these.
 
-I think mixed map could do with a rename because it implies it _is_ mixed rather
-than could be.
+Wow, that sounds like a major limitation that I wasn't aware of. I'm not
+familiar with the status of this issue, but I'd be happy to help if
+there's something I can contribute.
 
-But again one for the future!
+Thank you for the prompt reply Takashi. I really appreciate it!
+-Tristan
 
->
-> (again, the ->fault thing returning allcoated kernel memory is nasty)
-
-Yeah added to my todo to fix that. Hateful.
-
---
-Cheers, Lorenzo
