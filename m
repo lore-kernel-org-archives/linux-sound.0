@@ -1,90 +1,91 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6014223328;
-	Mon, 12 Oct 2026 07:28:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ACDB32B108;
+	Mon, 12 Oct 2026 07:39:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791790141; cv=none; b=q6ITL8PvFxSMJsUbakIW+d59ruFftV12QW8upFngpkWPpvVC72BcVwGZhPTP4rdeNcbO6Jf+or4S+Qe/lafTVFE4vX/kODkmKGvOI9cC/BLnQ8kMfKBifCWkZDplTe0cXRElIXrArJCT3UBnneigdCLfkZiyrlm9CDSoU8E9U7s=
+	t=1791790784; cv=none; b=UjNbuHBA7YBsYsJ3B2S0G4lDfNk7J63SBUyHq1gzht1ZC4I3r/0iqMy+UpekCFou8tm/fJhG+gefpS/XvmfpujcRu5jLxTXLsMjoTgGzVpNVybYMSF+t4yRzVdoSNipWUhAA9Nb+Ox+F1zS+l2VhWTDFFPiPkOVm43FTzerXd5I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791790141; c=relaxed/simple;
-	bh=6jcphYnXMgcYxMAb79n6V/hcAcS5MKof3S1hFbQL+ec=;
+	s=arc-20240116; t=1791790784; c=relaxed/simple;
+	bh=GS44J3Aku38fi/SvJDBKrLt4DpMDeYkkRQQtw8dOoH8=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IL6sCxt+4Xll520iQ1wgwXP2sGkF1G4ERPBENom7Kh3x5EAvS4PVBNDPvmsZraGDzX34DRgC58fkdmIit9UI5hiY4YgdfPz7b6UbLQZNLvjyCGw/oTUrId8OGu4hQT+Ktpdwgo2QsfZc1rwzOVX81igm0dbbOJj1ACVCKuh+K7w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=namNmu6T; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=fc5P9kdU; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=sWzN9nXS; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=vb4eTYYi; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=bvts9sQr/jI47Bc1+8AIhRQqMYFXyZMWmVFzxplD1uLCVDnZvO0vZyXNrRTwBN4irwvPP/uaTWoHD3utCXQ5OW+pvkmGfIjZ5+0u9i3kw/UaztDFwXp44gHSrm0vhfeO5/vXyDkel6ca00cOPmQ/E2chctuFjuOQ++Y9rKir+Og=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=tCxs5+JG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=fekTLrNX; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=A0Vq279U; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=+UtW00LZ; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="namNmu6T";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fc5P9kdU";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="sWzN9nXS";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vb4eTYYi"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tCxs5+JG";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fekTLrNX";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="A0Vq279U";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+UtW00LZ"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id B79511F791;
-	Mon, 12 Oct 2026 07:28:56 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id BABE821E00;
+	Mon, 12 Oct 2026 07:39:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1791790138; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1791790781; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=bjOXIGQy+i/5DrfRzrko/LNHxuUSj4ZwQC8QQbMhYNg=;
-	b=namNmu6TC83w6mppInNa+hL9eioJlcD07ZpUXQSCLG8NTlWbyhYFow1UugRRCYWMw7z39c
-	jlXwqFFFp/KPTN8uMa3tLBo6qR93fz+2bd/nJZ9Huyo4XrDo5Iyjop+L2yRxpE9Kcy4Knz
-	kxNJwEIcabREL2kmgRJowb5M4PXDQg0=
+	bh=IBXoYOmOrPyFfDwIreNIPu+rJ4JmjlF9Jmt0Cg7dZH4=;
+	b=tCxs5+JGWGPWGkIZgLNZs++ppp2jghZ++KXMe6GJluNEQLsfPc1wJi7icxyNSeMVBr8ET8
+	HNFSKGx44ptLet3TVUgsvD98bPO9aquO2Qw0CmoFSPbIkHtmOaw53G5uEiaHz85SPG1BTQ
+	PVk9zVktJ74gWSIyNdfGNcSHYjItQGU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1791790138;
+	s=susede2_ed25519; t=1791790781;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=bjOXIGQy+i/5DrfRzrko/LNHxuUSj4ZwQC8QQbMhYNg=;
-	b=fc5P9kdUB33J5B+cC36IMp6tGoxX/e59wqXntHy0VGL2+ujYaG5x3dz1WVP3u9oiC68QMh
-	uy/tqLwRiAMyxODA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=sWzN9nXS;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=vb4eTYYi
+	bh=IBXoYOmOrPyFfDwIreNIPu+rJ4JmjlF9Jmt0Cg7dZH4=;
+	b=fekTLrNXCe9h+KBMXhMzK3zGSNrB/ATPy2u9Wf6/OqwqR2plPHo+sFpfVwfB/bZV8J6nvW
+	4/FT+HjmetrP9FBQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1791790136; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1791790779; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=bjOXIGQy+i/5DrfRzrko/LNHxuUSj4ZwQC8QQbMhYNg=;
-	b=sWzN9nXSlrh5NhlGJgas89MpI/3lokTk5U+jhi955w0KFtHFtUYqvUi3+7u/YOIXCMP2yc
-	E5QQzTwpMMCGrY5CPrCOcok76qNkb7FD2qCzR9kKaKt+TYSzYFuD9ELBB+0nnw2+E8tj8m
-	YQGU3kk9L2JPMCVK/5EZq0MCDYBoCqQ=
+	bh=IBXoYOmOrPyFfDwIreNIPu+rJ4JmjlF9Jmt0Cg7dZH4=;
+	b=A0Vq279U90YBAVh+oZ/j919ax9tSuWd/B/jI+ZIzeMNhhlgNpxOudWS79ql7MmneuY1gKq
+	su6EaAoHeJKFozHfUTJ3T8sCIiMWLseKfGI0dd88382330jwtPTKiBXeKPVnSxFhS0DrG/
+	sfEnMOkRDMfQ6yfIMfILhZjyncsXFwA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1791790136;
+	s=susede2_ed25519; t=1791790779;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=bjOXIGQy+i/5DrfRzrko/LNHxuUSj4ZwQC8QQbMhYNg=;
-	b=vb4eTYYiXP+k0rmuFbvblSigpa58HU55CWe97fnkQSiJi0UIihQ5uUX18t1lbnd3K5c0z0
-	BxLIouZDJXJqtoBg==
+	bh=IBXoYOmOrPyFfDwIreNIPu+rJ4JmjlF9Jmt0Cg7dZH4=;
+	b=+UtW00LZi1iSz8qvWCswFAfi9CsxsrGpDPM/UwImDk7CB2fhXi/ym+3pb2zwQGvdqxlui5
+	Zpg18qq4yobR05DA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5E64913314;
-	Mon, 12 Oct 2026 07:28:56 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4EE7613314;
+	Mon, 12 Oct 2026 07:39:39 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id mhWPDTiMzGp8YgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 12 Oct 2026 07:28:56 +0000
-Date: Mon, 12 Oct 2026 09:28:55 +0200
-Message-ID: <87zewjgyx4.wl-tiwai@suse.de>
+	id U+M/B7uOzGrLbQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 12 Oct 2026 07:39:39 +0000
+Date: Mon, 12 Oct 2026 09:39:38 +0200
+Message-ID: <87y0c3gyf9.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Ting-Han Hou <ue081723@gmail.com>
-Cc: Anton Yakovlev <anton.yakovlev@opensynergy.com>,
-	"Michael S . Tsirkin" <mst@redhat.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Matias Ezequiel Vara Larsen <mvaralar@redhat.com>,
-	virtualization@lists.linux.dev,
+To: Ma Ke <make_ruc2021@163.com>
+Cc: david.rhodes@cirrus.com,
+	rf@opensource.cirrus.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	sbinding@opensource.cirrus.com,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: virtio: reset I/O message fill level on prepare
-In-Reply-To: <20261011125426.35745-1-ue081723@gmail.com>
-References: <20261011125426.35745-1-ue081723@gmail.com>
+	patches@opensource.cirrus.com,
+	linux-kernel@vger.kernel.org,
+	akpm@linux-foundation.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v2] ALSA: hda: cs35l41: Fix ACPI device reference leak on probe failure
+In-Reply-To: <20261011114251.3257172-1-make_ruc2021@163.com>
+References: <20261011114251.3257172-1-make_ruc2021@163.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -93,80 +94,118 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Action: no action
-X-Spam-Score: -3.51
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.51 / 50.00];
+X-Spamd-Result: default: False [-3.30 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
 	ARC_NA(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_COUNT_TWO(0.00)[2];
+	FREEMAIL_TO(0.00)[163.com];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
+	FREEMAIL_ENVRCPT(0.00)[163.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -3.30
 X-Spam-Level: 
-X-Rspamd-Queue-Id: B79511F791
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spam-Flag: NO
 
-On Sun, 11 Oct 2026 14:54:26 +0200,
-Ting-Han Hou wrote:
+On Sun, 11 Oct 2026 13:42:51 +0200,
+Ma Ke wrote:
 > 
-> Since commit fe981e67568c ("ALSA: virtio: use ack callback"), an I/O
-> message is only queued to the device once the application has filled
-> the whole period: virtsnd_pcm_msg_send() accumulates the transferred
-> bytes in msg->length and queues the message when it reaches
-> period_bytes.  msg->length is reset to 0 only when the device completes
-> the message.
+> cs35l41_hda_probe() takes an acpi_device through
+> cs35l41_hda_read_acpi() and stores it in cs35l41->dacpi. It is
+> released in the err: label, which
+> is reached from every later failure.
 > 
-> If the substream is stopped (e.g. snd_pcm_drop()) while a period is
-> only partially filled, the corresponding message is never queued and
-> keeps its partial length.  virtsnd_pcm_prepare() resets msg_count,
-> hw_ptr and the indirect PCM state, but not msg->length.  After the
-> next start, the stale length is added to the new data, the sum never
-> equals period_bytes, and the message is never sent again.  Playback
-> then stalls once hw_ptr reaches that period: writes fail with -EIO
-> ("DMA or IRQ trouble") and drain fails with -EIO.  Capture is affected the
-> same way after a partial read.
+> One failure is not routed there:
 > 
-> Clear the fill level of all messages in prepare.  Outside of the resume
-> path, virtsnd_pcm_prepare() already refuses to run while I/O messages
-> are pending, so no message is owned by the device at this point and the
-> reset does not race with message completion.
+>         ret = cs35l41_hda_read_acpi(cs35l41, device_name, id);
+>         if (ret)
+>                 return dev_err_probe(cs35l41->dev, ret, "...");
 > 
-> Reproduced in QEMU (virtio-sound-pci, wav audiodev): prepare, write 1.5
-> periods, drop, prepare, write 16 full periods, drain.  Without this
-> patch WRITEI returns -EIO after 14 periods and DRAIN fails; with it all
-> 16 periods are played and DRAIN succeeds.  Period-aligned prefill works
-> in both cases.  The same sequence on capture (read 1.5 periods, drop,
-> prepare, read 16 periods) fails with -EIO after 10 periods without this
-> patch and reads all 16 with it.
+> cs35l41->acpi_subsystem_id is allocated inside cs35l41_hda_read_acpi()
+> before that point, so it is leaked whenever the function fails.
 > 
-> Found by code inspection, confirmed with the reproducer above.
+> Route the failure through a new err_acpi label that releases it.
 > 
-> Fixes: fe981e67568c ("ALSA: virtio: use ack callback")
-> Assisted-by: LLM
-> Signed-off-by: Ting-Han Hou <ue081723@gmail.com>
-> ---
+> That label must not release cs35l41->dacpi a second time.  Every
+> failure path in cs35l41_hda_read_acpi() that can be taken after the
+> assignment already drops that reference: cs35l41_hda_parse_acpi() does
+> so in its own err: label, and the !physdev path does it directly.
+> Clear cs35l41->dacpi wherever it is dropped, so the pointer never
+> outlives the reference and the put in err_acpi is a no-op on those
+> paths.
+> 
+> Found by code review.
+> 
+> Fixes: 447106e92a0c ("ALSA: hda: cs35l41: Support mute notifications for CS35L41 HDA")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Ma Ke <make_ruc2021@163.com>
 
-Applied to for-next branch now.  Thanks.
+Now Sashiko complains other things; please verify whether they are
+valid or not.
 
+Through those developments, I'm thinking whether it'd be cleaner
+rather to move the unref and kfree into the caller side, i.e. doing it
+only in cs35l41_hda_probe() error path (but conditionally), instead,
+so something like below.
+
+
+thanks,
 
 Takashi
+
+diff --git a/sound/hda/codecs/side-codecs/cs35l41_hda.c b/sound/hda/codecs/side-codecs/cs35l41_hda.c
+index 62296be45c55..e6f0ae39876d 100644
+--- a/sound/hda/codecs/side-codecs/cs35l41_hda.c
++++ b/sound/hda/codecs/side-codecs/cs35l41_hda.c
+@@ -1907,7 +1907,6 @@ int cs35l41_hda_parse_acpi(struct cs35l41_hda *cs35l41, struct device *physdev,
+ 	hw_cfg->valid = false;
+ 	hw_cfg->gpio1.valid = false;
+ 	hw_cfg->gpio2.valid = false;
+-	acpi_dev_put(cs35l41->dacpi);
+ 
+ 	return ret;
+ }
+@@ -1928,10 +1927,8 @@ static int cs35l41_hda_read_acpi(struct cs35l41_hda *cs35l41, const char *hid, i
+ 	cs35l41->dacpi = adev;
+ 	struct device *physdev __free(put_device) =
+ 		get_device(acpi_get_first_physical_node(adev));
+-	if (!physdev) {
+-		acpi_dev_put(adev);
++	if (!physdev)
+ 		return -ENODEV;
+-	}
+ 
+ 	sub = acpi_get_subsystem_id(ACPI_HANDLE(physdev));
+ 	if (IS_ERR(sub))
+@@ -1986,8 +1983,10 @@ int cs35l41_hda_probe(struct device *dev, const char *device_name, int id, int i
+ 	dev_set_drvdata(dev, cs35l41);
+ 
+ 	ret = cs35l41_hda_read_acpi(cs35l41, device_name, id);
+-	if (ret)
+-		return dev_err_probe(cs35l41->dev, ret, "Platform not supported\n");
++	if (ret) {
++		dev_err_probe(cs35l41->dev, ret, "Platform not supported\n");
++		goto err_acpi;
++	}
+ 
+ 	if (IS_ERR(cs35l41->reset_gpio)) {
+ 		ret = PTR_ERR(cs35l41->reset_gpio);
+@@ -2076,6 +2075,7 @@ int cs35l41_hda_probe(struct device *dev, const char *device_name, int id, int i
+ 		gpiod_set_value_cansleep(cs35l41->reset_gpio, 0);
+ 	gpiod_put(cs35l41->reset_gpio);
+ 	gpiod_put(cs35l41->cs_gpio);
++err_acpi:
+ 	acpi_dev_put(cs35l41->dacpi);
+ 	kfree(cs35l41->acpi_subsystem_id);
+ 
