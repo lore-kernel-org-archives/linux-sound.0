@@ -1,211 +1,123 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com [209.85.221.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ACDB32B108;
-	Mon, 12 Oct 2026 07:39:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791790784; cv=none; b=UjNbuHBA7YBsYsJ3B2S0G4lDfNk7J63SBUyHq1gzht1ZC4I3r/0iqMy+UpekCFou8tm/fJhG+gefpS/XvmfpujcRu5jLxTXLsMjoTgGzVpNVybYMSF+t4yRzVdoSNipWUhAA9Nb+Ox+F1zS+l2VhWTDFFPiPkOVm43FTzerXd5I=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791790784; c=relaxed/simple;
-	bh=GS44J3Aku38fi/SvJDBKrLt4DpMDeYkkRQQtw8dOoH8=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bvts9sQr/jI47Bc1+8AIhRQqMYFXyZMWmVFzxplD1uLCVDnZvO0vZyXNrRTwBN4irwvPP/uaTWoHD3utCXQ5OW+pvkmGfIjZ5+0u9i3kw/UaztDFwXp44gHSrm0vhfeO5/vXyDkel6ca00cOPmQ/E2chctuFjuOQ++Y9rKir+Og=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=tCxs5+JG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=fekTLrNX; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=A0Vq279U; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=+UtW00LZ; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C622446C00
+	for <linux-sound@vger.kernel.org>; Mon, 12 Oct 2026 07:43:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.180
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791791035; cv=pass; b=oIVNcy1SEKXP/Rf1CgN2OasRj55Eee24k65Z8hWJpvI22dcaZ1tazPVc0QivkYXKLtxCK5mnzW2d79wZ8bBLav8X2kNAWpXQBFz9QhQhIcpHHgLjFR9edwaZ0Lky0OFVDV+2ah9e6DfH36r7yE54D+n6xVduQLfukJTiSfhcU0o=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791791035; c=relaxed/simple;
+	bh=1313kDVxsSPOyGR3snxodlNowfc7x2BBB/lPDFxOcT8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jXjBTbCIRKA5Hym9Xk2ZJu2DmfW69EdGAq40eVsUfuBuWUId0y8+mvZHosS6syRlvJc7wqkcLzBF8cxsl/Wkf1WVQoSJmYtAa5pzxbLjFCrprzHXYRi1gcof7BXMuH+NjBmHhsrawegrd1zHxR5fP9sp5Jdwo8GmCqQl45lg8JA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QOplqCJs; arc=pass smtp.client-ip=209.85.221.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tCxs5+JG";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fekTLrNX";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="A0Vq279U";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+UtW00LZ"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id BABE821E00;
-	Mon, 12 Oct 2026 07:39:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1791790781; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IBXoYOmOrPyFfDwIreNIPu+rJ4JmjlF9Jmt0Cg7dZH4=;
-	b=tCxs5+JGWGPWGkIZgLNZs++ppp2jghZ++KXMe6GJluNEQLsfPc1wJi7icxyNSeMVBr8ET8
-	HNFSKGx44ptLet3TVUgsvD98bPO9aquO2Qw0CmoFSPbIkHtmOaw53G5uEiaHz85SPG1BTQ
-	PVk9zVktJ74gWSIyNdfGNcSHYjItQGU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1791790781;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IBXoYOmOrPyFfDwIreNIPu+rJ4JmjlF9Jmt0Cg7dZH4=;
-	b=fekTLrNXCe9h+KBMXhMzK3zGSNrB/ATPy2u9Wf6/OqwqR2plPHo+sFpfVwfB/bZV8J6nvW
-	4/FT+HjmetrP9FBQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1791790779; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IBXoYOmOrPyFfDwIreNIPu+rJ4JmjlF9Jmt0Cg7dZH4=;
-	b=A0Vq279U90YBAVh+oZ/j919ax9tSuWd/B/jI+ZIzeMNhhlgNpxOudWS79ql7MmneuY1gKq
-	su6EaAoHeJKFozHfUTJ3T8sCIiMWLseKfGI0dd88382330jwtPTKiBXeKPVnSxFhS0DrG/
-	sfEnMOkRDMfQ6yfIMfILhZjyncsXFwA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1791790779;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IBXoYOmOrPyFfDwIreNIPu+rJ4JmjlF9Jmt0Cg7dZH4=;
-	b=+UtW00LZi1iSz8qvWCswFAfi9CsxsrGpDPM/UwImDk7CB2fhXi/ym+3pb2zwQGvdqxlui5
-	Zpg18qq4yobR05DA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4EE7613314;
-	Mon, 12 Oct 2026 07:39:39 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id U+M/B7uOzGrLbQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 12 Oct 2026 07:39:39 +0000
-Date: Mon, 12 Oct 2026 09:39:38 +0200
-Message-ID: <87y0c3gyf9.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Ma Ke <make_ruc2021@163.com>
-Cc: david.rhodes@cirrus.com,
-	rf@opensource.cirrus.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	sbinding@opensource.cirrus.com,
-	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	linux-kernel@vger.kernel.org,
-	akpm@linux-foundation.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v2] ALSA: hda: cs35l41: Fix ACPI device reference leak on probe failure
-In-Reply-To: <20261011114251.3257172-1-make_ruc2021@163.com>
-References: <20261011114251.3257172-1-make_ruc2021@163.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QOplqCJs"
+Received: by mail-vk1-f180.google.com with SMTP id 71dfb90a1353d-5e935294673so1416846e0c.0
+        for <linux-sound@vger.kernel.org>; Mon, 12 Oct 2026 00:43:53 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791791032; cv=none;
+        d=google.com; s=arc-20260327;
+        b=cx/rjquc71YQrk9mst0yAuiKjKsfeT+0dUiEXX8M59+yqbwk2IPvJKVTTiEekToe9p
+         GA3mq6OUZdX/9c/n8LUIvHkFNQmfZsPl/FzjgidsxVy6o4tJQZk0be73v5/XM1YRgIAD
+         AekVhaq2FsSrW0b2hJat1tZwmGI0Hrm9QMdQJBBqvUzdTO9pTdh70T8ZyxnXRPHwm6UO
+         SNm+I5WtLVLIR/Ltee19BceivPwUZ6dstgx1o3XMVZkyyZLzbhgo2gubvl5eNXemG8JT
+         AfMbuW4sy2Ovyp0DaivkdFuh7PZqnytpyQPf9LwXrQ7hhaX3AcwH1k4LllCPbrgooxnd
+         k8vg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=1313kDVxsSPOyGR3snxodlNowfc7x2BBB/lPDFxOcT8=;
+        fh=ulllRlyNLRcR9hut3jeiYLivB54nN7gnA1cdUh/KQYw=;
+        b=eg59IlVeJFrZNjii2r8oM3742nyNdz2ONx7I7Cgry9ZwWx8Om9esLyMcvJznZP4uxF
+         9NswYgIYQk6kcaVCYQaTTb4tnvFSPsf4Ls9YcVIaVYVQzFylW061dn4Ovg9jmJCXxjib
+         HWcNprbVYy6XTZjdkAdGXp7bNqm0xJpM8qe1XtbhZbg3Vm0Nl+rM7HVwUR8eUT1rIBqR
+         51vENknqJu/R6KuLvnEf4abM4bzqMYyqpuUAMa0PTElCQg6xvzyShYHfiIm/AbPnCdsT
+         3RnY/QllsSUgx/OW6a3DzDk9X80W7QEL5xGh8fJyaxNtbf13jy+qtN2G1Y94mI5Den4S
+         OqzQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791791032; x=1792395832; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=1313kDVxsSPOyGR3snxodlNowfc7x2BBB/lPDFxOcT8=;
+        b=QOplqCJskE4LusTC9LummM7amsQYPE87c3OT5J7JEI+11v8eVPQDi2UcFQpLfQi5o+
+         p4Lk5r943iVs10qC5KUmgWonxftxBg7axpiowpHrwOleFEChMwyoEklCKFKyfaNo8DO0
+         oZNOTKkonyjAvZQmgVTopiIyBUSiDyHYHlh1Wf86RIPG6T44V9e0vsHo7i7yUu69E7gf
+         LslpDd5pMETaIfpKyiykK36KlRnDutmJwpv6mJuvN/1djOWX/JOscAA4Re5RBYCTeKP2
+         bCqZUpUHKsHJbLNKc8wejjQO90Yabko/B7gNt55VbvGs2rmWYSr7VzysSl3P6xwYyfgQ
+         Gjfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791791032; x=1792395832;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=1313kDVxsSPOyGR3snxodlNowfc7x2BBB/lPDFxOcT8=;
+        b=WirIt4blh2VJdi8M0t+PLY6jndn22oihry9eICIiX+uFrQWJow2XPBX27zYx72cAM4
+         T3jlmaUZRitjUNI2+DFj71HZ5rL8jDX+q6TU2J5+9UuySHo3Mgou1JboxKHAK3O1w9YB
+         TxxXGfLDwaOPxwybt311AoTh82CZ992IfLuXVWgZAAeghZV997dFBXwyS69hCRaUnZKf
+         6HoIW9QdSdG+a5MkSiquHloHDxDhgXVAhAFdTCMbiyd1MEf5c/bXby2xvyz99ExlH3Tj
+         /X8zIjdVhByZCd2akvWssNyeKkKg0IkSGi9qmebaanXwIdZf2N065wBSYHoDu52Ubb0F
+         fQTg==
+X-Forwarded-Encrypted: i=1; AKwUvBxrl21WGMjMDUPB/hHlaCuODu5sM3Daj9pPnA8Jr8ACl1dut0k1IsaVh0WeH8Mc1JoSt9sxw7fViowaAQ==@vger.kernel.org
+X-Gm-Message-State: AFq9FYLSNZKQlcEYlxp4nzAsY8XhY29Xzcey3RGy6pTAOM2tPPLaVhiM
+	ra/qYY9ET+tfbSm85I7hCpy2grxdbw/fd5BsHxYpP3twuNYowhITrcUMCb63Bw5uMDC7VwsFYZB
+	OoCodv4xZiS1jLFrrZSy7rCfdwnoujPI=
+X-Gm-Gg: AYBFou3fYimgPBYJ1NdtG49VVuwJV8fKFcxg2OVNaJ78N5MPRFkC2Tv0zv9B3EgEnoY
+	rNwei/Bkmym7qvmQhMwTnr7Fiw5Auuc7BvhLVS/uB93szctVlejqDlmHtC/wJpKWB6SGeHXRahj
+	pa2o2B0VmnSkh8vP9iFSIlDnh405xK2Vfl2oax54qmbLergKxadBBnwALhgljb+pZHeYOhxj/F+
+	0nehZorxhLVllMYhvoTm6Gft5fWORiJN88TD1opse2W1XuY3ZOSs6bdWU0fu6jH9/1JVBcFMaF/
+	uQmHf3SfNEoW9lRST4CfDGfACbVWG8Kbo73nkZBgr0F+AGHSne2krS4js7Rmzl9rngoi+gXGlqy
+	FMgzMVZ/x0AIAZ8W5BaK5tL/PCBhkkOR67q0p56aqp8H53usWY7jE9fb2NivOA7Ph2NbGxzTJ9L
+	zknITb73duyq5cEhVqF1cGhb80qYs/KD6RePOTDD5BRGY+yQwBPPb0
+X-Received: by 2002:a05:6122:4f9d:b0:5c9:a830:44cb with SMTP id
+ 71dfb90a1353d-5e91f4bb571mr2225459e0c.8.1791791032427; Mon, 12 Oct 2026
+ 00:43:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[163.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_ENVRCPT(0.00)[163.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -3.30
-X-Spam-Level: 
-X-Spam-Flag: NO
+MIME-Version: 1.0
+References: <CANQNuJuMA6pA1CHR1dtaC4sZJY-uw4CYQgYX23KDitA3biH+0g@mail.gmail.com>
+ <3eae2a23-81f3-4776-ae03-a32c80ad450c@amd.com>
+In-Reply-To: <3eae2a23-81f3-4776-ae03-a32c80ad450c@amd.com>
+From: =?UTF-8?Q?Marek_Bor=C5=AFvka?= <boruvka.marek@gmail.com>
+Date: Mon, 12 Oct 2026 09:43:40 +0200
+X-Gm-Features: AclHuK87uzOB1saly_Kjg1h2guqnInKPWzInolCJAyLE0UsEecJ6QmkazI0vunI
+Message-ID: <CANQNuJsDHEHXF6nop53SgzOCqESHzabRS4cV8a2E-UDNDUOWnA@mail.gmail.com>
+Subject: Re: ASoC: amd: yc: AMD-Vi IO_PAGE_FAULT at address 0xfffffffffffffffc
+ on every DMIC capture start (Lenovo Yoga 7 14ARB7, 82QF)
+To: vijendar.mukunda@amd.com, linux-sound@vger.kernel.org
+Cc: venkataprasad.potturu@amd.com, broonie@kernel.org, 
+	Mario.Limonciello@amd.com, syed.sabakareem@amd.com, 
+	Sunil-kumar.Dommati@amd.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, 11 Oct 2026 13:42:51 +0200,
-Ma Ke wrote:
-> 
-> cs35l41_hda_probe() takes an acpi_device through
-> cs35l41_hda_read_acpi() and stores it in cs35l41->dacpi. It is
-> released in the err: label, which
-> is reached from every later failure.
-> 
-> One failure is not routed there:
-> 
->         ret = cs35l41_hda_read_acpi(cs35l41, device_name, id);
->         if (ret)
->                 return dev_err_probe(cs35l41->dev, ret, "...");
-> 
-> cs35l41->acpi_subsystem_id is allocated inside cs35l41_hda_read_acpi()
-> before that point, so it is leaked whenever the function fails.
-> 
-> Route the failure through a new err_acpi label that releases it.
-> 
-> That label must not release cs35l41->dacpi a second time.  Every
-> failure path in cs35l41_hda_read_acpi() that can be taken after the
-> assignment already drops that reference: cs35l41_hda_parse_acpi() does
-> so in its own err: label, and the !physdev path does it directly.
-> Clear cs35l41->dacpi wherever it is dropped, so the pointer never
-> outlives the reference and the put in err_acpi is a no-op on those
-> paths.
-> 
-> Found by code review.
-> 
-> Fixes: 447106e92a0c ("ALSA: hda: cs35l41: Support mute notifications for CS35L41 HDA")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Ma Ke <make_ruc2021@163.com>
+On 10/12/26 04:48 UTC, Vijendar Mukunda wrote:
+> Could you please open a Kernel Bugzilla ticket ?
+> Attach alsa info, DMI decode info, lspci -vvv output, dmesg logs and
+> ACPI DUMP.
 
-Now Sashiko complains other things; please verify whether they are
-valid or not.
+Done: https://bugzilla.kernel.org/show_bug.cgi?id=3D222119
 
-Through those developments, I'm thinking whether it'd be cleaner
-rather to move the unref and kfree into the caller side, i.e. doing it
-only in cs35l41_hda_probe() error path (but conditionally), instead,
-so something like below.
+All requested files are attached there as one archive (public.zip):
+alsa-info, dmidecode, lspci -vvv -nn, dmesg and acpidump. Serial
+numbers, UUIDs, MAC addresses and the MSDM table body were removed.
 
+Correction to my first mail: the fault does not happen on every capture
+start. After a fresh boot I could not trigger it at all (0 faults with
+five different ways of opening the capture). After one s2idle
+suspend/resume, the first capture produced one fault. In the journal,
+every boot with faults had a suspend/resume before the first fault.
+The dmesg in the ticket was taken after suspend/resume and contains
+the fault.
 
-thanks,
-
-Takashi
-
-diff --git a/sound/hda/codecs/side-codecs/cs35l41_hda.c b/sound/hda/codecs/side-codecs/cs35l41_hda.c
-index 62296be45c55..e6f0ae39876d 100644
---- a/sound/hda/codecs/side-codecs/cs35l41_hda.c
-+++ b/sound/hda/codecs/side-codecs/cs35l41_hda.c
-@@ -1907,7 +1907,6 @@ int cs35l41_hda_parse_acpi(struct cs35l41_hda *cs35l41, struct device *physdev,
- 	hw_cfg->valid = false;
- 	hw_cfg->gpio1.valid = false;
- 	hw_cfg->gpio2.valid = false;
--	acpi_dev_put(cs35l41->dacpi);
- 
- 	return ret;
- }
-@@ -1928,10 +1927,8 @@ static int cs35l41_hda_read_acpi(struct cs35l41_hda *cs35l41, const char *hid, i
- 	cs35l41->dacpi = adev;
- 	struct device *physdev __free(put_device) =
- 		get_device(acpi_get_first_physical_node(adev));
--	if (!physdev) {
--		acpi_dev_put(adev);
-+	if (!physdev)
- 		return -ENODEV;
--	}
- 
- 	sub = acpi_get_subsystem_id(ACPI_HANDLE(physdev));
- 	if (IS_ERR(sub))
-@@ -1986,8 +1983,10 @@ int cs35l41_hda_probe(struct device *dev, const char *device_name, int id, int i
- 	dev_set_drvdata(dev, cs35l41);
- 
- 	ret = cs35l41_hda_read_acpi(cs35l41, device_name, id);
--	if (ret)
--		return dev_err_probe(cs35l41->dev, ret, "Platform not supported\n");
-+	if (ret) {
-+		dev_err_probe(cs35l41->dev, ret, "Platform not supported\n");
-+		goto err_acpi;
-+	}
- 
- 	if (IS_ERR(cs35l41->reset_gpio)) {
- 		ret = PTR_ERR(cs35l41->reset_gpio);
-@@ -2076,6 +2075,7 @@ int cs35l41_hda_probe(struct device *dev, const char *device_name, int id, int i
- 		gpiod_set_value_cansleep(cs35l41->reset_gpio, 0);
- 	gpiod_put(cs35l41->reset_gpio);
- 	gpiod_put(cs35l41->cs_gpio);
-+err_acpi:
- 	acpi_dev_put(cs35l41->dacpi);
- 	kfree(cs35l41->acpi_subsystem_id);
- 
+Thanks,
+Marek Bor=C5=AFvka
