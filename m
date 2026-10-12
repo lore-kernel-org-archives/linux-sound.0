@@ -1,41 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 984D53A4F32;
-	Tue, 13 Oct 2026 10:23:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46FA547427E;
+	Tue, 13 Oct 2026 10:25:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791886993; cv=none; b=lRTQgObyY8rcrlnJV3tsMm3UT9IWJKVBMsr8ek6ncjW5WLpT1son8Jmavp1bx20awprosqiAVMQM9nSsES1g2p2BwgNvVGL8331gFLLvY9WhXbY8mUGjQNjZiuRXkuJrcBcA5gmO/fYBgPR4U4xKkRkH+N9FZ3YBIf4qQajqQyU=
+	t=1791887116; cv=none; b=qfpq58+zeEsVZRej7yvIYUXYROsOD4hwIyJOAhbSxyE2YgW6O2itGOziYlJew2Cd49+EasGT4cQVcK6eIQwebaQpi3j9T26X6HCMkR713IJh63UgJ0m1g6iuyIsFa3yQtS8QWdWbx9kin2Nms7JzarEXEfy3njmW5SEnwunb+ek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791886993; c=relaxed/simple;
-	bh=7auzHROxwCa0x3P2VrRV0vJTEms8q47s1btmheBl0JE=;
+	s=arc-20240116; t=1791887116; c=relaxed/simple;
+	bh=do7q7gaF+PzhwT0qpXMo7D5hsu2JeGfBmp5wshDvgeE=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=duU/DE61aWasUyX3l7NMM9EX1x+IfJchmPtgKxFGG+cFz2+ldJthRDIanydCBorREy7F8Wbb/GjL7BoSMyC+EwkMTP3tWz2Bu0Cyrhcb6GYPy6jFUFpDSYzJBNet1SzXd8UEz23GXoTcafFM2r12j4cb1o+BnZf8do0vE6yu4xM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XEAKpzXE; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=I7Pdx75WwdeyDxoEbQvOP2797d0VfnJzA1vvb6mh5spzgaT6T73Gysu60nMm+JqfnZiP6HQSHhyB3PDjsl+SyJTGprgdNzGI8MF+5chRYC8mhoK7cFs5f0GxZ+83En+WHjQ9pYh7YOKDHTxBm2acpUndUz28MbBDGyf+M+mt1UQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mbx3+rjb; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XEAKpzXE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A91FB1F00893;
-	Tue, 13 Oct 2026 10:23:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mbx3+rjb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 746221F000FF;
+	Tue, 13 Oct 2026 10:25:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791886992;
-	bh=nGd/gnG38xb4r55IKJgw3DekjfU8cgdyygoiic+d/ig=;
+	s=k20260515; t=1791887114;
+	bh=2OsNkVFYFzdWk4JWw+PnEVTDdq44uGilr0wc6hssWOM=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=XEAKpzXExAJMGU1avUw2yu3GxuAK00w7NsXpWPgW12XxBtdRsThcXS9DwQON1UFLf
-	 5H1pJWjiGG9iV2nnjv6zlMQEx5U0oLoLral4+KTjijYb68RS++JOU2MATCk27qEIXf
-	 K2qjI9MFswF8b30ZpfWiz2bP3tD4F/w7GsQEl5vTHvdtStAwBpUynYpZ0zpDJYV0iP
-	 WhWyjIZajzJ4Jb8k5uoLiQ+FDKbm7HGwyjpFhJfjOb0zeJUCJpJit80Uqpj4CQyCow
-	 NU3gMgx6YJduaAwvRo5r4lHc0KnzV4+3ubYYPoAeby072+yaxMrxfapbw2SXpFE3CJ
-	 SyAt8uGONCaCA==
+	b=Mbx3+rjbfAzkJ9MK1wG2t86RVOkOGtWnc5Lgn3WbqjIPBtD3O9Otquiog4j7WNPF6
+	 e/A5BtXHgWP5tjsgmDDcx12qovf1YdY9WXMAorimLJF0iY63EVhQtcsqEEL70w2+0Q
+	 d2E5e6zAT0TWChFEOBDu0TN4cbFxauqKduGwyMI/qjpDn9+EZ9fUal4QxmiXML7+1h
+	 x2gnFiVWD5RrsaJ8VzRHlLVBIv9o5IbB/VQGPPciOqK+PzwgR8ZoawO5QMWjgx4mwd
+	 P/oMlhKrsmmmoUvTt93oXHQu7XK8kdxo7KdIGVQHFZYq40wI4AaZBVsZ4gMjn7xxIq
+	 Iq4vwjFCquHnA==
 From: Mark Brown <broonie@kernel.org>
-To: HyeongJun An <sammiee5311@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, 
+To: Oder Chiou <oder_chiou@realtek.com>, Bard Liao <bardliao@realtek.com>, 
+ phucduc.bui@gmail.com
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
  linux-kernel@vger.kernel.org
-In-Reply-To: <20261008130953.2446692-1-sammiee5311@gmail.com>
-References: <20261008130953.2446692-1-sammiee5311@gmail.com>
-Subject: Re: [PATCH 0/6] ASoC: Fix controls that write another control's
- bits
-Message-Id: <179183114142.390394.17556910038919824947.b4-ty@b4>
-Date: Mon, 12 Oct 2026 19:52:21 +0100
+In-Reply-To: <20261009112204.33199-1-phucduc.bui@gmail.com>
+References: <20261009112204.33199-1-phucduc.bui@gmail.com>
+Subject: Re: [PATCH 1/2] ASoC: codecs: rt5645: Simplify optional GPIO error
+ handling
+Message-Id: <179184381702.390394.15381894720118351303.b4-ty@b4>
+Date: Mon, 12 Oct 2026 23:23:37 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,48 +47,28 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2273; i=broonie@kernel.org;
- h=from:subject:message-id; bh=7auzHROxwCa0x3P2VrRV0vJTEms8q47s1btmheBl0JE=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLLOsfXWOi7W8EreZaMwtyyqk/eHm4BSVNvvd/0Xnp09M
- Wem46SNHaUsDGJcDLJiiixxWdwv60ter+E7uLANZg4rE8gQBi5OAZgIlxbDP8VvH5xnF8Y5CYWy
- Hz/AfmDiF/4NHXxrV6W+O9/w+DjHwy5Ghulc2/g1Ozv4toUlZDllcq5Szy2fczZSYHGcs2vzFuX
- 1DAA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1253; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=do7q7gaF+PzhwT0qpXMo7D5hsu2JeGfBmp5wshDvgeE=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLLOsbO3bdTIDEh/0ePcvrNEoLHBUMtvmRNjxYxyXjEpV
+ +/De4o7SlkYxLgYZMUUWeKyuF/Wl7xew3dwYRvMHFYmkCEMXJwCMJESDkaGA4IJ1g0/fGrcf3+z
+ fmnJomaYNy31imdLTIKA5Ll/vh3fGf4K6GtG+20wM5ViOelczrqiO337MW/HTg22RQd7eJY8X8E
+ HAA==
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Thu, 08 Oct 2026 22:09:46 +0900, HyeongJun An wrote:
-> ASoC: Fix controls that write another control's bits
-> 
-> In the es8316 thread Mark suggested checking at registration time for
-> controls whose register fields overlap [1]. Before adding such a check,
-> I wanted to see what it would find in the tree today.
-> 
-> A script expanded the control tables of every ASoC driver built by
-> allmodconfig and looked for two controls in one table whose register
-> fields overlap. It found 80 pairs in 33 drivers. Most are real bugs.
-> The rest are deliberate, where two names drive the same field, such as
-> the AC and DRC mode thresholds in sta32x.
-> 
-> [...]
+On Fri, 09 Oct 2026 18:22:03 +0700, phucduc.bui@gmail.com wrote:
+> ASoC: codecs: rt5645: Simplify optional GPIO error handling
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
 
 Thanks!
 
-[1/6] ASoC: cs42l56: Put the Limiter Cushion control on the limiter register
-      https://git.kernel.org/broonie/misc/c/203436d2aeb7
-[2/6] ASoC: cs42l52: Fix the NG Type Switch bit
-      https://git.kernel.org/broonie/misc/c/8b08b98796d2
-[3/6] ASoC: pcm3168a: Fix the DAC zero flag polarity bit
-      https://git.kernel.org/broonie/misc/c/b26edc925c1c
-[4/6] ASoC: max98371: Fix the Speaker DHT Min Volume bits
-      https://git.kernel.org/broonie/misc/c/f7934340c56a
-[5/6] ASoC: wm8978: Fix the 128x oversampling switch bits
-      https://git.kernel.org/broonie/misc/c/d0567ca9a2fa
-[6/6] ASoC: nau8822: Fix the 128x oversampling switch bits
-      https://git.kernel.org/broonie/misc/c/4db45fc1da3d
+[1/2] ASoC: codecs: rt5645: Simplify optional GPIO error handling
+      https://git.kernel.org/broonie/misc/c/50fb7f7fc7e4
+[2/2] ASoC: codecs: rt5659: propagate GPIO errors
+      https://git.kernel.org/broonie/misc/c/c1e321bd5ce6
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
