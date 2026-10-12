@@ -1,153 +1,187 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A165C49B1F6
-	for <linux-sound@vger.kernel.org>; Mon, 12 Oct 2026 15:14:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF2914AA1EB;
+	Mon, 12 Oct 2026 15:56:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791818053; cv=none; b=PLsLwflYtmDD1nSveei0XOPgM+z8rVeMoy8KgGYQAkywpDdWkCpdv8k+lY4nYHNf8m7tlRovG87ZW1YzTW9wPjpeK/Bzr8E/pFotTcc+i54mDed9c/ms+MjAZTpIyitugZ7EWUNKTHOt3q3h/QciV3R1PXTWldAu2uhge1yz9hI=
+	t=1791820565; cv=none; b=pLnd7e+ThPztHbgtZlQtDtdDbpWda1FRcLfe4S4612aqH2kdTia2lQplQSJbVR+emRXid1i8TNsdZIGmuf55dR6/xzEL6OgQDgv5HjLFROMwPxuOTZpXSHO0ngRutMXydr1Myl9isd4MR+GHAzqIK5qALNAbD8uXgNJp437Z0Zo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791818053; c=relaxed/simple;
-	bh=t6pIrTDi+3aN9kktXkuBxtkAiL1D8YwIdd2Y5FmQL9M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gDl3TuIAkhM2pHyRRym5r5lsSesOvMZxlA4+HH6nMHQsmAX/u/j2pefWzH4U0WzbuYou/BvWv2XjulvmRddoOU1GBMZjlBr85mpP5XctLzROOTDaKnevLGdn4AZUk87hzVB9cn7BqiZaDwY6nS35BkGrLlohnfc/EUfmC0m3sFs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=FTebznXr; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1791820565; c=relaxed/simple;
+	bh=b0XKFcwxPXoheG5vZ6kVIkZHetEjyzcldENTlm/sZ8k=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=d3eeLcAFaTd9EHzxOjRn7Eymes7k71S4yr1uxnu7qOri5E7TFH745MrhZCRmzhFX1ithuQHi6/nOX74VWDMkiNWyBFdqRWKW6Nx3EJ7qbNVY0PprgtG1JE+P6Z7zbSO2Yv/P8tYyyIMTV1xpBNgEpxOuc1L43mIo1jOlQc2xoZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OZ/7OUTd; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Tssyn4EC; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OZ/7OUTd; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Tssyn4EC; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="FTebznXr"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-48b001cd92bso1143748f8f.2
-        for <linux-sound@vger.kernel.org>; Mon, 12 Oct 2026 08:14:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1791818049; x=1792422849; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=O90jitIO3s38c8EG4VvKygaj1zarOwk0tQIHj8nVOYg=;
-        b=FTebznXrxNApop7fMm72qb7SMn+3bspirjwaJUwU/Z57Y6dFMJ5e9zfz8DKwTAwNPQ
-         dwsXD5tLXosljeDdsn1Fl7mUSCF1vdMYGE8Zn3SpefqyEssdD9T2a099qIVboz1VSVyR
-         z4zN3XD3tQRDXwOf+FstNfMXPvvBYUwqyQFlJh3wU78X84CpnMiM5sa0qlCDHbIIV5K8
-         L2mXK5CRKbh5EZrovBidzMI22mr11kVuqPVb+Wasj7ausAMa3yBrTN4MRugcj7+cqZ5w
-         K8cZHC0cUKIuWsmOXN6lJ7zriR+6DdcoW31P+lB3AeFbzxJyJv/opm11NidVnrRIMgvL
-         /25g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791818049; x=1792422849;
-        h=content-transfer-encoding:content-type:in-reply-to:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=O90jitIO3s38c8EG4VvKygaj1zarOwk0tQIHj8nVOYg=;
-        b=qUzuJQ0NtetoTOHeX7lID2Z+L8/6oW0qkfL9nPYvFo1ZIXoTJvapVWHxpz5/kSNryT
-         BcnRP4t7WyDxhBcnWqwHtmY06f4a4rdBEGBR5tsles+uIgIAFRYd+NtRzJm+UW/x7jTq
-         TSrhtHE2K3vLJYkO9QeDyXxemYKOIN7LoGVDryje1AyuZTJUugomveDzI2lmPtce7nEO
-         VxeaQ+DXrC8hVK1QxbYDjX3rcapflZwscACxzID+OT6VSy/P3iQ4Bj+QmO5eWsRFuG0t
-         ta7YOgf0DkypbQkapIYuITTeumwLp+YRGg0G1m7Gehrzcpaoekaunr9ZS0LDxM67fLOa
-         A6rQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzDTvWpXd3R38LnbeW6LYA7y+Dsaiitm6jsfBOF7LYk3cgAxfUCZDCfK3C7zxQsRJzA/kmdjpVU7O/QpA==@vger.kernel.org
-X-Gm-Message-State: AFq9FYJRqoCw57RCW8qk8psz9IY/zqbJXA+1Rxu/M8v4t2Cqhmfy5egM
-	D86LsZj7yA8r3OX+4yjeCJVCjEVnGcFG/fHyMtx1zNckUjcwOb0pvLrr58+70BubhKc=
-X-Gm-Gg: AYBFou216iGFtWcAYbFYrbSkdzysSgUAGLjmzciBSDsZgFRElJGW8QklVUqC+HMzNs6
-	Y2Q26qBQLzGC8uQSJsLaXp9bNVFQbRs0MhiysqOcbcVf4OJiO2sVTRqumIJ1QQz8G756vp1EOL8
-	KbaJMr5jJbRThcIKLjfolE54P1J8FiWMyfWVRZOZqhmbWDbdosC7los11OJix2U+W2pwLIsKyEY
-	GShlX9H6ZpBpbsrB86pWO79WEX1/DO2JGAtDUjVOYz7GxtW7IAuze/RSFtm2YVeBj73JL/urBCH
-	FzgmDJfSuAjGXhKD4Y3ttEAWsAApstYS6DdqTWraZ3eU2Qd0k3UsJtDAOJrolBnlirs9JDEYWeG
-	ijMOUBTYnU31feSj3gvNPk3k9wgA/oOTeXoKm5LUF+8sx4i6hMBs0GQHphWL88uek9YwRB58Ajx
-	0V4aV07m0z5IAjYmiYD8GiVk+eTJH00XlzrieNOQ+MvBTatYYeKtOTunKOK0EaFiR3DnbdO0JwV
-	w==
-X-Received: by 2002:a5d:6f17:0:b0:485:a394:58ef with SMTP id ffacd0b85a97d-48dbaaed22bmr16768322f8f.30.1791818048717;
-        Mon, 12 Oct 2026 08:14:08 -0700 (PDT)
-Received: from [192.168.3.100] ([37.103.126.255])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48de0aaabc3sm3653f8f.16.2026.10.12.08.14.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 Oct 2026 08:14:08 -0700 (PDT)
-Message-ID: <d90324be-c43d-4d28-9f1a-e28e437031e8@baylibre.com>
-Date: Mon, 12 Oct 2026 17:14:07 +0200
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OZ/7OUTd";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Tssyn4EC";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OZ/7OUTd";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Tssyn4EC"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id AC31A21E37;
+	Mon, 12 Oct 2026 15:56:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1791820561; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=trxIJ6g8YDuoBjr9o+264MF/tcKAtAK/xFK7YqbRuZA=;
+	b=OZ/7OUTdGoeXbmyAqD3VUDt+QtZnbh0msi1mS9S2RtgQFDWEOQN751iLBGZDv5KuIYi8Iz
+	QklgBu7awPCEKZerzVH+4prIwI8OC/UALrx9Z5r5WPEeq5XlvHwA9X72QFVFXL6RJI9gIG
+	RZdSxI8mUI2tLGwiTfw5H1siU0vEHN8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1791820561;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=trxIJ6g8YDuoBjr9o+264MF/tcKAtAK/xFK7YqbRuZA=;
+	b=Tssyn4ECBazzwQBZSrZbOXnuS0IutOD6Py1cTGNIUD7I9PViQ+M3ufQRToKzdObwlg7r0I
+	JyCR61967mySf6CQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="OZ/7OUTd";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Tssyn4EC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1791820561; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=trxIJ6g8YDuoBjr9o+264MF/tcKAtAK/xFK7YqbRuZA=;
+	b=OZ/7OUTdGoeXbmyAqD3VUDt+QtZnbh0msi1mS9S2RtgQFDWEOQN751iLBGZDv5KuIYi8Iz
+	QklgBu7awPCEKZerzVH+4prIwI8OC/UALrx9Z5r5WPEeq5XlvHwA9X72QFVFXL6RJI9gIG
+	RZdSxI8mUI2tLGwiTfw5H1siU0vEHN8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1791820561;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=trxIJ6g8YDuoBjr9o+264MF/tcKAtAK/xFK7YqbRuZA=;
+	b=Tssyn4ECBazzwQBZSrZbOXnuS0IutOD6Py1cTGNIUD7I9PViQ+M3ufQRToKzdObwlg7r0I
+	JyCR61967mySf6CQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 543ED13408;
+	Mon, 12 Oct 2026 15:56:01 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 5sv1ChEDzWrGEQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 12 Oct 2026 15:56:01 +0000
+Date: Mon, 12 Oct 2026 17:56:00 +0200
+Message-ID: <878q42hq0f.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Ali Ahmet =?ISO-8859-2?Q?Memi=BA?= <aliamemis@disroot.org>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	syzbot+40b06a86af225236fdb4@syzkaller.appspotmail.com
+Subject: Re: [PATCH] ALSA: hda: intel: Don't free card in the probe work
+In-Reply-To: <20261012150949.1840175-1-aliamemis@disroot.org>
+References: <20261011200648.1662935-1-aliamemis@disroot.org>
+	<875wz7idx3.wl-tiwai@suse.de>
+	<20261012143508.1830791-1-aliamemis@disroot.org>
+	<87fqybge5a.wl-tiwai@suse.de>
+	<20261012150949.1840175-1-aliamemis@disroot.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 3/7] ASoC: meson: aiu-encoder-i2s: ensure clk divider
- gets disabled in hw_free
-Content-Language: en-US
-To: Jerome Brunet <jbrunet@baylibre.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org,
- linux-kernel@vger.kernel.org
-References: <20261001-audin-v4-0-2476646118b5@baylibre.com>
- <20261001-audin-v4-3-2476646118b5@baylibre.com>
- <1j5wzdzyqm.fsf@starbuckisacylon.baylibre.com>
-From: Valerio Setti <vsetti@baylibre.com>
-In-Reply-To: <1j5wzdzyqm.fsf@starbuckisacylon.baylibre.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-2
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: AC31A21E37
+X-Rspamd-Action: no action
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	TAGGED_RCPT(0.00)[40b06a86af225236fdb4];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Flag: NO
+X-Spam-Score: -2.01
 
-Hi, thanks for the feedback and sorry for the late reply.
-
->> diff --git a/sound/soc/meson/aiu-encoder-i2s.c b/sound/soc/meson/aiu-encoder-i2s.c
->> index 58dce9f08c9d..70ea39c77b32 100644
->> --- a/sound/soc/meson/aiu-encoder-i2s.c
->> +++ b/sound/soc/meson/aiu-encoder-i2s.c
->> @@ -219,16 +219,14 @@ static int aiu_encoder_i2s_hw_free(struct snd_pcm_substream *substream,
->>   				   struct snd_soc_dai *dai)
->>   {
->>   	struct gx_stream *ts = snd_soc_dai_get_dma_data(dai, substream);
->> +	struct gx_stream *other = snd_soc_dai_dma_data_get(dai, !substream->stream);
+On Mon, 12 Oct 2026 17:09:41 +0200,
+Ali Ahmet Memiº wrote:
 > 
-> Not sure about peeking on the other path like this :/
-
-Yeah, I know this is perhaps not the nicest approach, but it's the same 
-one I used for the bs-quirk handling (see the "startup()" and 
-"hw_params()" callbacks). Since there can only be the playback and the 
-capture stream, checking the other stream's "clk_enabled" is equivalent 
-to a user counter in "gx_iface", without adding a second piece of state 
-that has to be kept in sync with it.
-Is that acceptable to you?
-
->>   	struct snd_soc_component *component = dai->component;
->>   
->> -	/*
->> -	 * If this is the last substream being closed then disable the i2s
->> -	 * clock divider.
->> -	 */
->> -	if (snd_soc_dai_active(dai) <= 1)
->> -		aiu_encoder_i2s_divider_enable(component, 0);
->> -
->>   	if (ts->clk_enabled) {
->> +		/* Disable the clk divider only if also the other stream is not using it */
->> +		if (!other || !other->clk_enabled)
->> +			aiu_encoder_i2s_divider_enable(component, false);
->> +
+> On Mon, 12 Oct 2026 16:57:37 +0200, Takashi Iwai wrote:
+> > OK, that's a problem, indeed.  How about replacing snd_card_free()
+> > with *_when_closed() version that doesn't block in addition?
 > 
-> Looks like a race condition is possible here if one stream closes while
-> the other one starts.
+> The work doesn't hang anymore but removing the device while the probe
+> work is running hits the same UAF on the first try.  azx_remove() still
+> gets the card before cancel_delayed_work_sync() and the put_device() in
+> the work frees it:
 > 
-> I think you need a common structure between the 2 paths (with a counter
-> possibly) and it needs to be protected by a lock.
+> BUG: KASAN: slab-use-after-free in snd_card_free+0x148/0x160
+> Read of size 1 at addr ffff888007724852 by task sh/97
+> Call Trace:
+>  snd_card_free+0x148/0x160
+>  pci_device_remove+0xb6/0x1d0
+>  device_release_driver_internal+0x38d/0x540
+>  pci_stop_bus_device+0x122/0x170
+>  ...
+> Freed by task 30:
+>  kfree+0x1e8/0x5e0
+>  device_release+0xcf/0x3c0
+>  kobject_put+0x169/0x320
+>  azx_probe_work+0x495/0x1fa0
+>  process_one_work+0x937/0x1800
 > 
+> > Staying the card means that the card slot will be kept, then if you
+> > probe another card afterwards, it'll end up with assignment on another
+> > card slot.
+> 
+> What about calling snd_card_disconnect() in the work on failure?  It
+> releases the slot right away and the card is still freed only in
+> azx_remove():
+> 
+> 	if (azx_probe_continue(&hda->chip, false) < 0) {
+> 		hda->init_failed = 1;
+> 		complete_all(&hda->probe_wait);
+> 		snd_card_disconnect(hda->chip.card);
+> 	}
+> 
+> With that, snd-dummy loaded after a failed probe gets card 0 and 20
+> rounds of the remove race were clean with KASAN.  I can send v2 if this
+> looks fine.
 
-I might be wrong, but I'm not sure a race condition can happen while 
-managing these 2 clocks. Here's what I found:
-- "iface->mclk" and "i2s_divider" are enabled/disabled on 
-"prepare()"/"hw_free()" respectively.
-- when "prepare()"/"hw_free()" are called the framework holds the 
-"card->pcm_mutex".
+Yeah, that sounds like a plan.
+Care to resubmit a fix with that approach?
 
-So when one stream performs one operation, either "prepare()" or 
-"hw_free()", it can read and modify (if needed) "ts->clk_enabled" both 
-for itself and for the other stream safely.
 
-Am I missing something?
+thanks,
 
--- 
-Valerio
-
+Takashi
