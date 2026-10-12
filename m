@@ -1,147 +1,145 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F78B3603DD;
-	Mon, 12 Oct 2026 07:48:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7916C455607;
+	Mon, 12 Oct 2026 08:42:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.2
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791791333; cv=none; b=aJSyxK1XBVflWXf1sMHKauD4ECOLCDvLIsF0CNwxVgFnpFyKiWoCmMWzXGESAA86YooZw57OT3D4HQcdfF2hG+wgIKyvqyKjNsl3U8WplsVWPtsiFcumFxfzGRQ4FJWcl/L/rLDo+5mwh2MoBLTBYM7qbstB913fpzfnvHs+Neo=
+	t=1791794566; cv=none; b=Nxx6o8rBn2QxL+nQhKMo/9t6Qd0crVYPFEJysz8dRlxY5S7ILDrYC9yI7oR6CcqibugetNCszPIrFACdfUY9yjbdspdPy2sjzs1+86SehisphvFLcwINVsivcL7sJJQMQYVyTHRn83omilhq1eyswXyZNnqFWdsdZiDfiddXhHE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791791333; c=relaxed/simple;
-	bh=bhvo4jLqmhbCHLsw/2yZB5kmDvqxj/aPZ04I8H0ab1M=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TMb+vQXxkfQJtf7TaGfK4SX6pjz5XsxnPe4RDiGCKfmdRMFXBXGI/voGa1XotKdHXuPCme53Zj6DtcxG+ccSBP3mKg1FZOOdAsz7z6Youw/VJ4QZOOtjASskn8+vbhlnuw/UiBgr0mdy9IF9eV9fWR4IjcxGe3EK1iSZTH/fL8M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=IPozq+54; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=OTvvl0O9; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=M1m1ceoo; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1zvqEq/g; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1791794566; c=relaxed/simple;
+	bh=t/NdJD5NAhn4Znk0l0sUNGnRewqktqylJ4czb2rqW8k=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fHpeiCaGOhKW+CaSlD4Gan6RocUtYtvjfhV80XLQHr41RRDT55xk8I0sddRvNk4F0p7t2m74Dx9+WS2NcuSg50feZ4V8lrrTxsS7ESr6jurPJUrAbpjussYwXtlhsVGxGk7zZxDqiiJIVtfdjhU2Hnu23Quke5XEzxf69Rs5ACM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=Yvz3t48a; arc=none smtp.client-ip=117.135.210.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IPozq+54";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="OTvvl0O9";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="M1m1ceoo";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1zvqEq/g"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 804D221DFF;
-	Mon, 12 Oct 2026 07:48:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1791791330; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=G5gPL5DauRt/E0tu9bLjOqXghfuPBSqzWduvG6VSfng=;
-	b=IPozq+546eOYC+MKVTf+iUvEUYtGrYxjdJ4n6ymbEomb+i+S/rn5AwK0ZSDPSeMZRyH7Hr
-	rbkvK+aJ+g/Bpi3EidPpDM2sNlPvaBXl8h1qNQZqv65AQr8k3cqcW0JQwrSJzAKsR29Q1P
-	r7GIJwHCNOe7FdoxVGBXqPuMZNHGvNo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1791791330;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=G5gPL5DauRt/E0tu9bLjOqXghfuPBSqzWduvG6VSfng=;
-	b=OTvvl0O9dtuYyTlmD9Qi+6VqKje03PlOLdQGBGhjDv9/bn5G1EAuVchb1nGhRFQT6JXHYk
-	F4P6KMRCMPv8QFAg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=M1m1ceoo;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="1zvqEq/g"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1791791328; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=G5gPL5DauRt/E0tu9bLjOqXghfuPBSqzWduvG6VSfng=;
-	b=M1m1ceoojpBkyo/dMLzWfZUx/rPsysmuoM5rOTAypyOa8Pv2GR/f3eon+Vp+vjnz4Yjh4D
-	b+hIwhUIa/vzwO8Y37y7JeXQWfMWB/Hl28C0LebaWS9Cp9QJgzLpGx3vL+IiaRPdsKmPjC
-	PN9M0iN+J/kjYtIoU6OYWjzvGDnXD04=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1791791328;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=G5gPL5DauRt/E0tu9bLjOqXghfuPBSqzWduvG6VSfng=;
-	b=1zvqEq/g8PbmxRk3C1vhFIQYMomdbQRnjNntGdcaVcOtHN0S7fr4nnJHaL+y4gFGOZhFJg
-	EyCj+dbEmLWOyiAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 36F3113314;
-	Mon, 12 Oct 2026 07:48:48 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id c49VBOCQzGrhdwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 12 Oct 2026 07:48:48 +0000
-Date: Mon, 12 Oct 2026 09:48:47 +0200
-Message-ID: <87v777gy00.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: =?GB2312?B?uvrBrMfa?= <hulianqin@vivo.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] ALSA: usb-audio: Add iface reset and delay quirk for rongyuan GS20
-In-Reply-To: <TYUPR06MB62171DFA33D7E17FD3F73D24D29F2@TYUPR06MB6217.apcprd06.prod.outlook.com>
-References: <TYUPR06MB62171DFA33D7E17FD3F73D24D29F2@TYUPR06MB6217.apcprd06.prod.outlook.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="Yvz3t48a"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=t5
+	4og3rvACAr8tHWID93e5cauTmzfGVR2GGol7R4X2Y=; b=Yvz3t48aovTY2dzsgC
+	b9hrKIhk35W7NKEzxG7CSy7zCDP2qwsnBAc1SUuHcw0qM2t3iTw/Iwd2mu5j+pYi
+	ULo/n5pQXxBxOdL0syYMnFgyGII03dbmNfd2KWYB/i/dpJGaHT4Q9cqAixbKMHYP
+	/PbHIzFDUP/JEZ10kJ5kAh2lo=
+Received: from ubuntu.. (unknown [])
+	by gzga-smtp-mtada-g1-4 (Coremail) with SMTP id _____wD3F0lRncxqkmahEA--.36665S4;
+	Mon, 12 Oct 2026 16:42:01 +0800 (CST)
+From: Ma Ke <make_ruc2021@163.com>
+To: david.rhodes@cirrus.com,
+	rf@opensource.cirrus.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	sbinding@opensource.cirrus.com
+Cc: linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com,
+	linux-kernel@vger.kernel.org,
+	akpm@linux-foundation.org,
+	Ma Ke <make_ruc2021@163.com>,
+	stable@vger.kernel.org
+Subject: [PATCH v3] ALSA: hda: cs35l41: Fix ACPI device reference leak on probe failure
+Date: Mon, 12 Oct 2026 16:41:52 +0800
+Message-ID: <20261012084152.3740340-1-make_ruc2021@163.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=GB2312
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Action: no action
-X-Spam-Score: -3.51
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-0.995];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	URIBL_BLOCKED(0.00)[suse.de:dkim,vivo.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,vivo.com:email]
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 804D221DFF
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-CM-TRANSID:_____wD3F0lRncxqkmahEA--.36665S4
+X-Coremail-Antispam: 1Uf129KBjvJXoWxJFW7Zr4kXFWrWFW5GrW7Arb_yoWrJrWxpr
+	4YqayfKr9xJw109rnrZF4xW348Zry0vr15Wr1Fkw4rCwsxWryrJ3y7JFy7Xr1UArWvgay7
+	Xr43t3Z5ZF1jyw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0piVT5JUUUUU=
+X-CM-SenderInfo: 5pdnvshuxfjiisr6il2tof0z/xtbC9RlLVmrMnVlT+wAA37
 
-On Mon, 12 Oct 2026 08:55:03 +0200,
-ºúÁ¬ÇÚ wrote:
-> 
-> Setting up the interface when suspended/resuming fails on this card.
-> Adding a reset and delay quirk will eliminate this problem.
-> 
-> usb 1-1: New USB device found, idVendor=1237, idProduct=17b8
-> usb 1-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-> usb 1-1: Product: GS20
-> usb 1-1: Manufacturer: rongyuan
-> usb 1-1: SerialNumber: 20250228
-> 
-> Signed-off-by: Lianqin Hu <hulianqin@vivo.com>
+cs35l41_hda_probe() takes an acpi_device through
+cs35l41_hda_read_acpi() and stores it in cs35l41->dacpi. Only the
+failures that happen later reach the err: label, which is where that
+reference and cs35l41->acpi_subsystem_id are released, so the early
+return taken when cs35l41_hda_read_acpi() fails leaves both behind.
 
-Applied to for-next branch.  Thanks.
+Keep the ownership in the caller instead of dropping the reference
+inside cs35l41_hda_read_acpi(). That removes the need to work out
+whether a given failure path has already released it, and with it the
+double put that cs35l41_hda_parse_acpi() would otherwise cause when it
+fails after having released the device itself.
 
+cs35l41_hda_parse_acpi() and the !physdev path no longer put the
+reference, and the early failure enters the existing err: cleanup tail
+through a new err_acpi label.
 
-Takashi
+The label sits between the reset of the codec and the gpio cleanup, so
+an early failure also releases the reset and chip-select descriptors
+that cs35l41_hda_parse_acpi() may already have taken, while still
+skipping cs35l41_safe_reset() on a codec that was never brought up.
+
+cs35l41->dacpi comes from devm_kzalloc() and is only assigned once the
+ACPI device has been found, so the put is a no-op when the lookup
+itself failed.
+
+Found by code review.
+
+Fixes: 447106e92a0c ("ALSA: hda: cs35l41: Support mute notifications for CS35L41 HDA")
+Cc: stable@vger.kernel.org
+Signed-off-by: Ma Ke <make_ruc2021@163.com>
+---
+Changes in v3:
+- Modify the patch. Thanks for Takashi Iwai and Sashiko's suggestions.
+Changes in v2:
+- cs35l41_hda_parse_acpi() drops cs35l41->dacpi in its own err: label, so
+  the err_acpi path added by v1 would have dropped that reference a second
+  time. Clear cs35l41->dacpi there as well, not only on the !physdev path.
+---
+ sound/hda/codecs/side-codecs/cs35l41_hda.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/sound/hda/codecs/side-codecs/cs35l41_hda.c b/sound/hda/codecs/side-codecs/cs35l41_hda.c
+index 62296be45c55..d50c3d8f5303 100644
+--- a/sound/hda/codecs/side-codecs/cs35l41_hda.c
++++ b/sound/hda/codecs/side-codecs/cs35l41_hda.c
+@@ -1907,7 +1907,6 @@ int cs35l41_hda_parse_acpi(struct cs35l41_hda *cs35l41, struct device *physdev,
+ 	hw_cfg->valid = false;
+ 	hw_cfg->gpio1.valid = false;
+ 	hw_cfg->gpio2.valid = false;
+-	acpi_dev_put(cs35l41->dacpi);
+ 
+ 	return ret;
+ }
+@@ -1928,10 +1927,8 @@ static int cs35l41_hda_read_acpi(struct cs35l41_hda *cs35l41, const char *hid, i
+ 	cs35l41->dacpi = adev;
+ 	struct device *physdev __free(put_device) =
+ 		get_device(acpi_get_first_physical_node(adev));
+-	if (!physdev) {
+-		acpi_dev_put(adev);
++	if (!physdev)
+ 		return -ENODEV;
+-	}
+ 
+ 	sub = acpi_get_subsystem_id(ACPI_HANDLE(physdev));
+ 	if (IS_ERR(sub))
+@@ -1986,8 +1983,10 @@ int cs35l41_hda_probe(struct device *dev, const char *device_name, int id, int i
+ 	dev_set_drvdata(dev, cs35l41);
+ 
+ 	ret = cs35l41_hda_read_acpi(cs35l41, device_name, id);
+-	if (ret)
+-		return dev_err_probe(cs35l41->dev, ret, "Platform not supported\n");
++	if (ret) {
++		dev_err_probe(cs35l41->dev, ret, "Platform not supported\n");
++		goto err_acpi;
++	}
+ 
+ 	if (IS_ERR(cs35l41->reset_gpio)) {
+ 		ret = PTR_ERR(cs35l41->reset_gpio);
+@@ -2074,6 +2073,7 @@ int cs35l41_hda_probe(struct device *dev, const char *device_name, int id, int i
+ err:
+ 	if (cs35l41_safe_reset(cs35l41->regmap, cs35l41->hw_cfg.bst_type))
+ 		gpiod_set_value_cansleep(cs35l41->reset_gpio, 0);
++err_acpi:
+ 	gpiod_put(cs35l41->reset_gpio);
+ 	gpiod_put(cs35l41->cs_gpio);
+ 	acpi_dev_put(cs35l41->dacpi);
+-- 
+2.43.0
+
