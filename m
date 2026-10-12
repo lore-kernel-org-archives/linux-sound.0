@@ -1,127 +1,70 @@
-Received: from mail-dl1-f52.google.com (mail-dl1-f52.google.com [74.125.82.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 225EB1E8332
-	for <linux-sound@vger.kernel.org>; Mon, 12 Oct 2026 05:31:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DBF537A831;
+	Mon, 12 Oct 2026 06:26:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791783111; cv=none; b=SIyImBJs8a76IgEISTKU+xj6IW9NuDRAwGqX7z+dzxzWTUnKsrKOH1VgJmPjWvVanhCznyfH/TzISQcPRVTm5jeP8yXd9dqJruyUABtSpRAnbLWioPENXdjFw9XJZP3/nbL5mplXC42ZOSsopiMwyiqVz/aOov3uwA6yE+lQq1c=
+	t=1791786362; cv=none; b=RyfUNUY+A/K7ENRanbe/9eatqWCF/UYivWLDWh9AP450SVgM+Q2hWFsStQ0wPWtNnb/ZNkuiYGCQG0rt+M8NGLLT0kWtIH8wO26X7zHDFbX2aiHzDVRVg1Ps0yhF6vHhrYVX2wL7oBkDKpBLOhOT8h1TPsqWVgG6p9091XssSCY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791783111; c=relaxed/simple;
-	bh=7nkADHEp5x0DBoPoZtKbSuxWtdaKOt2lVNr1L5cD6dQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Eo6yaQpSlxWH7IJZkxe/kEn2VV6xObKIVGHC/K5YqFvH7/lk0tQ6DfMa90xOlSO5DQgwRXrYwPK7qwjwBnbGk5taFApV87HMKfgSHmWru63kwK4wxnJvATOETd6GWlsVDp88ebOj2grlXxc0OYEascrRnMmFAnLJUVohDKEQZCw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VDyE+9lt; arc=none smtp.client-ip=74.125.82.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791786362; c=relaxed/simple;
+	bh=vzJXMLTThYRji0skbVygomMV3ZGlbrhq+ovchqiueJc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LPM65rZZ3tel15ASKtWobvnQDZLjFYqv6rz7GwwuUU3eSqBMWxI7AWDznxHz/PMfv8XZDsNoA2+pfuR1hLOhdHN6F0qoOmXVumzARlEU0lH3hhtiBVlOz368FULoHzulqe3l4Znarn5AG7kuHkR4UoIyVbHzPPdthO36shB38ZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hOabMNBT; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VDyE+9lt"
-Received: by mail-dl1-f52.google.com with SMTP id a92af1059eb24-170135e43c7so553759c88.0
-        for <linux-sound@vger.kernel.org>; Sun, 11 Oct 2026 22:31:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791783109; x=1792387909; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=WUHR+jwX20wnPasopncz+EdY4KBemgqmO+gzErpgMVo=;
-        b=VDyE+9ltZ/gVpHegSLOcDQ00wXpXyRlS6oUf45exlaD5d2MCGAt0cC3kcrTcpiYLuK
-         JDHkV7bExNzF4bFG57PZti4ZOyw8nQyOoesIBe9U1sFuY8K3+m+j29MYcms2vaHZoqL8
-         X0dRK3mtz8MWp3a+tXlKvcpMN2wHKiMfOiEYmnssDbDIWoJBG1D/FNL3N3FGXoOnlM3s
-         Vkvv0yoCftE/QbrISlv9DfviIX464l/5K1EziWwlgtbXHLc+pjG7BCkjnuC5B5pib5Ra
-         hKM4ccJ5bbXJ6fMP2hGYSxuUoA2++F393/ZSFWSjGRGFa3RxRBmu4oZVK8zNSdN0S0fW
-         SG2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791783109; x=1792387909;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=WUHR+jwX20wnPasopncz+EdY4KBemgqmO+gzErpgMVo=;
-        b=xnUFlfsbMjwvrTRs4blwh3Y/Il9R7RlWPlMhPWhYedvEuluarI7nQOdz8FGu+A4nlJ
-         DM090qJ4vW4YYhvBCCfdPqHbKRs/dhtcW0XHMVnLAI1xjFd+EERatTaViELTqrACnijT
-         2/IfA63QO268E5wBdzaSqzWQlA2PEywDm6DgG/0Q0l+k5eg86xVPqUbAGGBgKP/ZJkB2
-         KxGrACWIClFHgJuqdFblA1+7g3D3zKxfuhDlOb3z0QjxI245VgGS9NZIrY/fadvZgB8n
-         Sk9mEXW8C34QWiS24JawC5GIBzG7yQ7SMINH5VMZYTYXbq61xEao+q0wzIuX6RWUuH8p
-         N+Ug==
-X-Forwarded-Encrypted: i=1; AKwUvBygx+FKjyMJv8nemevBDDmui/4bJont9NovTtGGyemqn67aDgmrc0Qq5kt0r6lMfxUMJkyVbvsvLisPNA==@vger.kernel.org
-X-Gm-Message-State: AFq9FYL6KtBCvXdwSxxcMQObRTisxLuOsYk0NBO4jIUPGqUTXWgbu1Dg
-	KRWol5b9X1uop8vvr66tYjbcniUIymXyq+kLnbWeXOMID3OiByFtNk97
-X-Gm-Gg: AYBFou2aTQeBJz5gjTVH8pqeNI5i6lTp7iuzxbRnb2j9/lfrHum0q2K86TbH2PaAi+O
-	YJq5M0Z6n31lk50HV9nrse3HlCtN2l/zKl6pDIywLX2JtOUkkzR21DhFtUK7FpytRAZIdW0VM6l
-	YXvj7crLbfLcdokW1M06BnTxFygykasnOThzPCI1qaZcmmPbhfeRWrba75vd5Rlw+hB+OUxU+rB
-	zDu0SSvfpbinKodAPPCN/gn7CxhirtCPw9lC9+urSaFTSQwpVoSDdjk8U2O93MX6M8ig2KlnCOl
-	y8wMILg4XuaE1b0vA8D6noNdlKFt40RevE3cP9gX6GdbvK4/YACDCIsoGBF9YaquBvpGnMrm9F4
-	wORhGEkVSJcM0sS+iCaWo+QHmgJyv/9piBH+SLvZs1ADfEd8DP7f4tleF3oYrv+18HbZxFEu5bW
-	nphQ9PGtUwU6z2FFu7TZCXDlAg4tV/4P++n1wuU8w3Chi+SLuJ56ZmquqRF+8Md0zF4KBm/YP3x
-	VeXc0dn
-X-Received: by 2002:a05:701b:2510:b0:13f:c85d:17bb with SMTP id a92af1059eb24-16a5888c49cmr12926299c88.1.1791783108925;
-        Sun, 11 Oct 2026 22:31:48 -0700 (PDT)
-Received: from amd.ban-spse ([165.204.217.251])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-169a2f17feasm33513653c88.9.2026.10.11.22.31.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Oct 2026 22:31:48 -0700 (PDT)
-From: Priyanka Mani <priyankamani2100@gmail.com>
-To: Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>
-Cc: Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Alexandre Mergnat <amergnat@baylibre.com>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	linux-sound@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: mediatek: mt8365: Fix out-of-bounds read in get_iir_coef()
-Date: Mon, 12 Oct 2026 05:31:19 +0000
-Message-ID: <403cc04bb103dff096edf72b99ae6868ee91f359.1791782072.git.priyankamani2100@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hOabMNBT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D21321F0089C;
+	Mon, 12 Oct 2026 06:25:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791786360;
+	bh=JNsngLvT0sVL5BoR/HX1TkEukMDWlo7+i/ROtNjFOxY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=hOabMNBTQ+gb3DdNXm1QyJlzmpg1fXsjwV5zyTr6NTHgCgKfWje54312pkOj81+Wx
+	 Gbzl115SGZjIt4EuNt/2FV9pRDlYzhT0p9YPj6nTIScWUFqI3MDwKBkkNeBleCMsMG
+	 cZpagH5d8J7LS9ZDMm60dVMlqfY7B9sbFycDlIWIfXx+pMU8AER+25DNZWF1Xqa0mt
+	 GOEZViKAOdE6UJ2Hz6PuIVjRyG88G+JRBEG1W2jfMKed210N+XOTVRutKUkgZE8HWn
+	 nAUQP38rvxehbhV1rW2PUT+wEV1pE5qLOXRtYrxWZFmKAKtZB+RkmY9vvmiguarRKb
+	 rWmoXXht+MWwg==
+Date: Mon, 12 Oct 2026 08:25:56 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+Cc: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
+	Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Srinivas Kandagatla <srini@kernel.org>, Shawn Guo <shengchao.guo@oss.qualcomm.com>, 
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH v3 4/7] ASoC: dt-bindings: ti,pcm1681: Document the
+ PCM1681 supplies
+Message-ID: <20261012-aloof-cordial-starling-4accc4@quoll>
+References: <20261009-nord-asoc-driver-support-v3-v3-0-0c1897f21ccf@oss.qualcomm.com>
+ <20261009-nord-asoc-driver-support-v3-v3-4-0c1897f21ccf@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261009-nord-asoc-driver-support-v3-v3-4-0c1897f21ccf@oss.qualcomm.com>
 
-get_iir_coef() looks up a resampling coefficient set by reading an
-index "k" from iir_coef_tbl_matrix[][] and using it to index
-iir_coef_tbl_list[], which has 8 entries (valid indices 0..7).
+On Fri, Oct 09, 2026 at 06:42:50PM +0530, Mohammad Rafi Shaik wrote:
+> From: Shawn Guo <shengchao.guo@oss.qualcomm.com>
+> 
+> The PCM1681 takes a 5V analog supply on VCC1 and VCC2 and a 3.3V
+> digital supply on VDD. On boards where these rails are switchable, the
+> codec has to know about them to be able to power the DAC up and down,
+> which needs a way to describe the connections in Device Tree.
+> 
+> Document the VCC1, VCC2 and VDD supply properties.
 
-Before the lookup, "k" is only rejected when it is >= IIR_NO_NEED (11),
-or equal to IIR_RATIOVER (9) or IIR_INV_COEF (10). The value 8 is
-neither a sentinel nor a valid table index, so it falls through to the
-else branch and iir_coef_tbl_list[8] is read one element past the end
-of the array. The bogus coef pointer and count are then returned to
-mt8365_dai_set_config(), which dereferences coef.
+Property names in the bindings are always lowercase. Please see DTS
+coding style.
 
-The current matrix never produces 8, so this cannot be triggered today,
-but the bounds check is wrong: it relies on the matrix contents instead
-of the size of the array it guards. Bound the lookup with the actual
-array size so only valid indices reach the table.
-
-This was found by Smatch:
-
-  sound/soc/mediatek/mt8365/mt8365-dai-i2s.c:271 get_iir_coef()
-  error: buffer overflow 'iir_coef_tbl_list' 8 <= 8
-
-Fixes: 402bbb13a195 ("ASoC: mediatek: mt8365: Add I2S DAI support")
-Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-Closes: https://lore.kernel.org/all/67af3580-a907-403d-8bfd-76b5c304ab99@stanley.mountain/
-Signed-off-by: Priyanka Mani <priyankamani2100@gmail.com>
----
- sound/soc/mediatek/mt8365/mt8365-dai-i2s.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/sound/soc/mediatek/mt8365/mt8365-dai-i2s.c b/sound/soc/mediatek/mt8365/mt8365-dai-i2s.c
-index a058973662b3..2e678f4aa4b1 100644
---- a/sound/soc/mediatek/mt8365/mt8365-dai-i2s.c
-+++ b/sound/soc/mediatek/mt8365/mt8365-dai-i2s.c
-@@ -267,7 +267,7 @@ static const u32 *get_iir_coef(unsigned int input_fs,
- 		if (k >= IIR_NO_NEED) {
- 		} else if (k == IIR_RATIOVER) {
- 		} else if (k == IIR_INV_COEF) {
--		} else {
-+		} else if (k < ARRAY_SIZE(iir_coef_tbl_list)) {
- 			coef = iir_coef_tbl_list[k].coef;
- 			cnt = iir_coef_tbl_list[k].cnt;
- 		}
--- 
-2.43.0
+Best regards,
+Krzysztof
 
