@@ -1,74 +1,48 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DE1F37B019;
-	Mon, 12 Oct 2026 13:38:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44AC43DA7F9;
+	Mon, 12 Oct 2026 14:12:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791812325; cv=none; b=uY1LhZNsKackukGOlb5fuk7jIZ1qwGx6SC3GVl8j4wTCL5+YIyFzPxk0F2p5xsc704I/lUEOBhxy03BjzoSsgQdh6GifFywb10Sr2MSWL+38zsnC05PH6+QRiaVv3gkiLB3U1neL56pliRUAcr4vY++dQGYGPAwpqXvFELCvoQE=
+	t=1791814373; cv=none; b=kgnqsKOzqrh69vL4pvCA+hDHb6RhY1kL3MF0YJMdow+E+I/vlSl5m7yXd0qJ1L1WK+DUHR9+e+vNsJYc0XrTJh3iTDnigyM/AR4FE9L8Nv8h0+62H5aVMMw2LsM9qutK4gex2Mw64vBeBeOcNpTXctgkEWSphP7FZp+TfICblTg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791812325; c=relaxed/simple;
-	bh=dEptTwNX9Sq3lL7fDHLWKReZfufeO69vQyYwqPmjcPs=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TL/gXxKq5pOEH6kB1/f4JJSSnAA0iDBbTbywYueYTvKjwknEK6fPi1KxBBvquhtCEUYmH8HFHTZHVUgzmBjxf0QOWPTtoFyImTZflPm4xeEc7ur3Z6nyGNRY3Xf1OqE2dhL3pw1aB2UuRG6Q7r+FRmRSWX+YHryj/6IigX6eoCY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=P2oKD/iu; arc=none smtp.client-ip=185.246.84.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1791814373; c=relaxed/simple;
+	bh=7DrTE4LfL6ef3tZN5qq9xmNqooBTwIUSrcWTQ89zea0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=loJ5cZS3E2Qc8RgafG/Z8KMKHtKhFMVFHN7qhZTvemGxKL1IVtcU1PDVMgYmXdoKldyl4h8p6nAqPc5z60uREAmx/OMeYXX2lazf1daN86TOz5fa2PUjL8PdqVYtys0Wgbgz3CnXn9OB5qSuaz5GC+5Ww7SfSUuqu6kkFRyCCaQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=X2Qn2SkH; arc=none smtp.client-ip=178.21.23.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="P2oKD/iu"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 50A681A11E6;
-	Mon, 12 Oct 2026 13:38:35 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 15458601A6;
-	Mon, 12 Oct 2026 13:38:35 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 6D22611D70B5E;
-	Mon, 12 Oct 2026 15:38:12 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1791812308; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=kSIOvrEHM3a5XmLq4o4Vz8QQhg7cfJBqO8WQZOEPSfo=;
-	b=P2oKD/iuYLKPKxVYgo/dXPzK7+3qO4HQVVCArAfXy2xfTIIGffN6Fz+//KdG8xo1hHy/N0
-	6hZ5EDXqnUQIGoGdQsdjAdoTJGgeeftYKc3CSnMnPeUqF6CUYL8cNy5VQ+0a17A8yiZXXV
-	s8bkbQwSZEC6UknOCygjtOUU771kiei44of8lPuAHohnuzWe+SoNo9JqYZjpSpIYd8dxPr
-	yaBTD2/kVXCXFaLlbCCv/eEZi1SFlxCDHKRNp2ax5v5kByo9s61c8u9fExUmGYUWkESU2B
-	vtBm3N6rv+3fUXsb5M4Q/x6D756ZiWWywR1bwuxC7b5+VIMx+dpl6AqCsJBG1g==
-Date: Mon, 12 Oct 2026 15:38:11 +0200
-From: Herve Codina <herve.codina@bootlin.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Richard Cheng <icheng@nvidia.com>, Andrew Lunn <andrew@lunn.ch>, Rob
- Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Bjorn Helgaas
- <bhelgaas@google.com>, Charles Keepax <ckeepax@opensource.cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>, David Rhodes
- <david.rhodes@cirrus.com>, Linus Walleij <linusw@kernel.org>, Daniel Scally
- <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Bartosz Golaszewski
- <brgl@kernel.org>, Len Brown <lenb@kernel.org>, Davidlohr Bueso
- <dave@stgolabs.net>, Jonathan Cameron <jic23@kernel.org>, Dave Jiang
- <dave.jiang@intel.com>, Alison Schofield <alison.schofield@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Dan Williams <djbw@kernel.org>,
- Ira Weiny <iweiny@kernel.org>, Li Ming <ming.li@zohomail.com>, Lizhi Hou
- <lizhi.hou@amd.com>, driver-core@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
- linux-gpio@vger.kernel.org, linux-acpi@vger.kernel.org,
- linux-cxl@vger.kernel.org, Allan Nielsen <allan.nielsen@microchip.com>,
- Horatiu Vultur <horatiu.vultur@microchip.com>, Daniel Machon
- <daniel.machon@microchip.com>, Steen Hegelund
- <steen.hegelund@microchip.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- stable+noautosel@kernel.org
-Subject: Re: [PATCH v12 10/10] PCI: of: Avoid np->data usage for the node
- changeset
-Message-ID: <20261012153811.2cdcaf89@bootlin.com>
-In-Reply-To: <ar62bJzBEAhGL2iu@ashevche-desk.local>
-References: <20261001142815.277550-1-herve.codina@bootlin.com>
-	<20261001142815.277550-11-herve.codina@bootlin.com>
-	<ar62bJzBEAhGL2iu@ashevche-desk.local>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="X2Qn2SkH"
+Received: from mail01.layka.lan (localhost [127.0.0.1])
+	by disroot.org (Postfix) with ESMTP id 49D8A8064A;
+	Mon, 12 Oct 2026 16:12:49 +0200 (CEST)
+X-Virus-Scanned: SPAM Filter at disroot.org
+Received: from layka.disroot.org ([127.0.0.1])
+ by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id BTPy5UdRZVcP; Mon, 12 Oct 2026 16:12:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
+	t=1791814368; bh=7DrTE4LfL6ef3tZN5qq9xmNqooBTwIUSrcWTQ89zea0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=X2Qn2SkH1Q0/OLKoO0ySpOHILe9hC60RqFeBsu431h+wSieSbT8VT7LpZ9GNA3DTX
+	 SE34oIBZ4LIOvc7XemJTkmX2RtJXhPMfzB+9zmVR4QEDLoTZcGscUF6R+fsU/mv8ek
+	 ndTX430MUoJxkG4bpg2jBxT/iNUIULImurGDardr4osfzvuwIZoEX3q59Ian9/LJLr
+	 fP0qG3O284mxxYDoKi+wsvFzGI2Zn0eFjT5LwqcPREeeUDXKYU45fSxEw6L2Q+e+O2
+	 tFskZ0IrFTEdtMOXSlGaRFyi6MORTBqEXur03nj5cTZlGeminkAoZbDEO9RNplRqtp
+	 JSCfRyBx4hY5w==
+From: =?UTF-8?q?Ali=20Ahmet=20Memi=C5=9F?= <aliamemis@disroot.org>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: control_led: Fix deadlock between sysfs writes and card disconnect
+Date: Mon, 12 Oct 2026 17:12:35 +0300
+Message-ID: <20261012141238.1823718-1-aliamemis@disroot.org>
+In-Reply-To: <874ieridp1.wl-tiwai@suse.de>
+References: <20261011180627.1594051-1-aliamemis@disroot.org> <874ieridp1.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -77,66 +51,55 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Andy,
+On Mon, 12 Oct 2026 09:24:26 +0200, Takashi Iwai wrote:
+> Hm, it's not clear to me how this happens: I see no controls_rwsem
+> down around snd_ctl_led_disconnect() call.  Could you elaborate about
+> it a bit more?
 
-On Thu, 1 Oct 2026 22:37:16 +0300
-Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
+It's taken in the call_snd_ctl_lops() macro in control.c:
 
-> On Thu, Oct 01, 2026 at 04:28:10PM +0200, Herve Codina wrote:
-> > of_pci_remove_node() and of_pci_remove_host_bridge_node() check
-> > whether the node is dynamic but not whether it has valid private data.
-> > 
-> > During the node creation, an OF changeset is used and this changeset is
-> > stored in np->data to be available for removal functions.
-> > 
-> > If, for instance, a PCI host bridge is created using a device-tree
-> > overlay, the related node will have the dynamic flag set but np->data
-> > will be NULL. This leads to NULL pointer dereferences.
-> > 
-> > Checking for a non-NULL np->data pointer to determine if the node has
-> > been created by the PCI node creation process is not enough. Indeed,
-> > on some platforms like PowerPC, the OF_RECONFIG_ATTACH_NODE notifier
-> > (e.g., in the pci_dn_reconfig_notifier() function) intercepts node
-> > additions and populates np->data with its own structure, such as a
-> > struct pci_dn. In that case, np->data is not NULL but it is not related
-> > to our changeset stored during the PCI node process creation.
-> > 
-> > Avoid the usage of np->data to store the changeset used during the PCI
-> > node creation. Store our changeset in a more relevant structure: either
-> > struct pci_dev when the node is created for a PCI device or struct
-> > pci_host_bridge when the node is created for the PCI host bridge.
-> > 
-> > With that done, no ambiguity remains on removal. Indeed, this changeset,
-> > if non-NULL, is the one used during PCI node creation. Check and use
-> > this changeset on the removal process.  
-> 
-> ...
-> 
-> >  void of_pci_remove_node(struct pci_dev *pdev)  
-> 
-> >  	struct device_node *np;
-> >  
-> >  	np = pci_device_to_OF_node(pdev);
-> > -	if (!np || !of_node_check_flag(np, OF_DYNAMIC))
-> > +	if (!pdev->cset || !np)
-> >  		return;  
-> 
-> Wouldn't be better to split this conditional to two?
-> 
-> 	if (!pdev->cset)
-> 		return;
-> 
-> 	np = pci_device_to_OF_node(pdev);
-> 	if (!np)
-> 		return;
+	guard(rwsem_read)(&(_card)->controls_rwsem);
+	guard(rwsem_read)(&snd_ctl_layer_rwsem);
 
-Yes indeed, this will improve readability. I will update in the next
-iteration.
+so snd_ctl_dev_disconnect() calls ->ldisconnect() with controls_rwsem
+held for read.  snd_ctl_led_sysfs_remove() then waits in kernfs_drain()
+for the attach write which is blocked on down_write(controls_rwsem) in
+snd_ctl_led_set_id().
 
-Also I will perform the same kind of modification in
-of_pci_remove_host_bridge_node(), the same kind of check is present.
+I hit it in QEMU with snd-dummy writing to attach in a loop while
+unloading the module.  It hung on the third iteration:
 
-Best regards,
-Hervé
+rmmod:
+[<0>] kernfs_drain+0x2eb/0x510
+[<0>] __kernfs_remove+0x2e6/0x890
+[<0>] kernfs_remove_by_name_ns+0x7d/0x100
+[<0>] remove_files+0x8d/0x1b0
+[<0>] sysfs_remove_group+0x71/0xd0
+[<0>] sysfs_remove_groups+0x67/0xd0
+[<0>] device_remove_attrs+0x181/0x270
+[<0>] device_del+0x31f/0x8d0
+[<0>] device_unregister+0x12/0x30
+[<0>] snd_ctl_led_sysfs_remove+0x161/0x2f0
+[<0>] snd_ctl_led_disconnect+0x16/0xd0
+[<0>] snd_ctl_dev_disconnect+0x151/0x210
+[<0>] snd_device_disconnect_all+0xf0/0x180
+[<0>] snd_card_disconnect.part.0+0x25d/0x4c0
+
+attach writer:
+[<0>] set_led_id+0x2d9/0xc60
+[<0>] kernfs_fop_write_iter+0x33c/0x510
+[<0>] vfs_write+0x516/0x1340
+
+and lockdep reports it as well:
+
+  Possible unsafe locking scenario:
+        CPU0                    CPU1
+        ----                    ----
+   rlock(snd_ctl_layer_rwsem);
+                                lock(&card->controls_rwsem);
+                                lock(snd_ctl_layer_rwsem);
+   lock(kn->active#37);
+
+   #1: ffff88800768a1f0 (&card->controls_rwsem){++++}-{4:4}, at: snd_ctl_dev_disconnect+0x10e/0x210
+   #2: ffffffff881fdf28 (snd_ctl_layer_rwsem){++++}-{4:4}, at: snd_ctl_dev_disconnect+0x11a/0x210
