@@ -1,193 +1,198 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E673D439014
-	for <linux-sound@vger.kernel.org>; Mon, 12 Oct 2026 06:46:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2A403033FB
+	for <linux-sound@vger.kernel.org>; Mon, 12 Oct 2026 06:49:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.179
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791787567; cv=pass; b=h+ORGP1mvJXmH7KUGm2p9I7KT582qI88sohBMRBHsu78yXZjAUqv3ftfEK7lim54UEKPl5rb9o9qXUv/tB2XlUf1zHzNY1b5uGH/DXGz3cgs27eYUw5mMVXhSxBECIX5ez2x20Y7gTRkDEsOw0PkxVSIHpk6DvTlakFX/iDWaU4=
+	t=1791787773; cv=pass; b=q2G+XYNadEAmkX1NAj/gun9dK0Qk/r0JbGpBZ3+FG2EhbB9m3t4aBlAdXje2bLLuEsu/cpfKAa4tYLCN0E+LNBhXweH+/10JQSfK71bPz5EI/H8v3oYBxNGWmyErG5OVQssn+duHyjq1J1W92lR7mAE9ccC5hgUsK/l/qB00GFE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791787567; c=relaxed/simple;
-	bh=mN+1knXYNtngeeWJgfNsIN5o5VTXNif7Wc+A2lc9JBo=;
+	s=arc-20240116; t=1791787773; c=relaxed/simple;
+	bh=TfIyohKk0XTeZ5qcNnxmX+B3sZQEP4z3RtyF50kq1r8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XgNqL0nYj7K7lSx0Y6pX6k0uzkxqiCwrWLnylqHO8/NfzsTmSwncU+wobFVBtq8UtIJ4nCuVL7nRYt8MKZvWMUZIog72LNcGTLIssYshpWq2hy+a0qLKxcx0+8Z0flSgzlseQInUGyPB5hF1nkC3ic1bavG74PlRmV8BsWdMNFE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=iMmL+GZe; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=PneTYvbY; arc=pass smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	 To:Cc:Content-Type; b=Aa3r5gaTxbZC8jGQR8weKoKzOYNSmlTc+CbU6Mc/n0JpBqrwS941C2BRXZxzopJWb8Cc+JVE+j8ZGn0LMxphZBfYW/eN+Dc3xvfZ0JOOu9MVwRn+UErkeGJMRy/D2dk4pJd9ULPlNQ/2MUdRvMIqHp/KUn4HHmUY1J7NF6WxHug=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZP8yGhNu; arc=pass smtp.client-ip=209.85.210.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="iMmL+GZe";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="PneTYvbY"
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69C56OOq1003102
-	for <linux-sound@vger.kernel.org>; Mon, 12 Oct 2026 06:46:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=05mRSC4SMhgre7tJEuCkEGqI
-	JCIZwKO88R6uiRwMZ10=; b=iMmL+GZetnGmQafs0KDkpH6OunxOR3dffjKLwsE1
-	H98384Mww4/3NHhmaI0uIR2UShGlGnUnF6LGuLtIVXy7FZmdeM2qQkdbhR9DBbsg
-	Ic2C6HaC6jzhbQP+S3/SIJPn3u9Tmtdd7sTrLf3+5TAxRbHz6QHRUcf/KxKXrG7l
-	p1EzyjfYSXhb5OHwoeK+hVDozz0R0vO2CpoxsZHtQa9UF2HQkFctg0CozUNHuKhh
-	2kS0cg2KGKN9r/Lfu6QWDoLfoYo+uMNlxgEKt918g17LA/h5dYKKd6gzaXGQWNCL
-	PNQtD2M1756pYb7dd6PRYkI+DG0UuAOky0Rzg+J2ereueQ==
-Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com [209.85.128.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4h8qtkgmfp-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Mon, 12 Oct 2026 06:46:04 +0000 (GMT)
-Received: by mail-yw1-f197.google.com with SMTP id 00721157ae682-836c416b236so19801657b3.0
-        for <linux-sound@vger.kernel.org>; Sun, 11 Oct 2026 23:46:04 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791787564; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZP8yGhNu"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-8917c712f32so623275b3a.2
+        for <linux-sound@vger.kernel.org>; Sun, 11 Oct 2026 23:49:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791787772; cv=none;
         d=google.com; s=arc-20260327;
-        b=Szs+SzwSjauBfvZmE/TESCHzBZUxCNtmNG/PqGaqxKDWBrV04OOylUfdecDSRqUQhZ
-         beYiElM4h/D/Hk6azJ4UE38QCwXLGEMyO0CegN0X5sFdqk2UB/+HbTFE1tf6RsGrUP44
-         iRUzuw5x1czA6AGKqMAYd1WyaJBPZdTP23lLSeQLkJ+pGNqGI29OpphyP6NsedkbOpkQ
-         32pZD/9L3jFY1Z6/yirNfpoZtjLgA0iWQDLSl7J0w3B7XnbIcaUIf6iD7ntNcq3uT8Tl
-         PQuRAqjB0cXfbyyJ9fEkkAPANJM+ZyfxcQNUJDV+y4gGkKUNzlsS2eXGCUndsDtm2cQW
-         iDEQ==
+        b=Jk30hY0npr0PpMUr31e4Bcx5rJwBHlcLL+DFCBlwRFQXop2wSNHEmKwZ6UHiUPrBw5
+         I1uRnRBY4fdIFD3KB2vwuGF2zR/KN34uVSweMNwA++eXehqGjoeMKp8wVUd7biAPkeb6
+         OCKBOLEbZPlE0jVumrSrH+fzh0krEE4TpHLbChgDhP6NhZZXtL9nncArxbt1IzWqDydk
+         fKs2tyLopTUJ+t2R5ZclRRUmiTBi1oM3oHhpohRFg2lQI4xkpJr2nba2xq8ZGdPlgZVP
+         pAy9TVRlG/p051Naf61p4BsepiUBMCJK7H5eYf8+3wokAM0+cG2/CSBVNbrgp0RF25qd
+         SuBQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=05mRSC4SMhgre7tJEuCkEGqIJCIZwKO88R6uiRwMZ10=;
-        fh=Lv75eziDwvsmpSpKPQfsVwUnIIhggOtQHIYgTGGF6Jk=;
-        b=X0YYTGwFh6KUGm5glqWj1uYRS02cG++iquUewCAlyVk/hYmPSu4gVOivz54AA8As48
-         FsJs/Ntg/4VSSUYk75pM68mh+LyIs+fme293MOlmkfjvl0AehRHKI/t0903e6UsH6Q2a
-         W5RtXqS4OgUUzi4iAIWIELOn1Hsoi0I494DTvxqblk4OBKyOiVdS0USBUlaJ/jLeE7yb
-         rVwTdU2levRIOuQjQfKHhdRykQewpy3aiww5naZETjPX+SeubzsxTqdtjy6JUUE7a5Mq
-         8RXvPAqSMK/8+ZlJjmhENSoKQJq+8fdI+aw5HfIgI5EsencBjkCHd2j6A1lWAlfL9dkG
-         Wpcw==;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=pKGaBssfbVs591S2Q3WkY0U64OVMmVV2L/7skJ0jnBg=;
+        fh=Nfl8B8Jmkkd0mpvjcyIZni5vtr6TWXhiImJIcVNToGU=;
+        b=bb8lt70PCI0G1LX6xOWZ1eIB0kgg3SBeaxIYmtjj72DhQF/tHQs43RAfDD6noQw6cZ
+         PHl68FRYjIl6CfFjR+AbP2x1gqt4z7EQQ0wT7l22o/nAuHrRc0+Ko9MvrysnCQAw8jzQ
+         /zChSNYonTltJ6vo9RobQ3v5AfNf4tFTNTsjPkP8N25RWHBlZ6b7wvcMKzlhcIj3D33N
+         VgIB4pgchVTHGkU3uA0bT9iKpLCVovoPgMXGahcpgxN+CTC9mxIu3h+pAKY2c3CyOV69
+         Eg+qxY8TS7xEBIPWLazdhaBFXT2gs1cFrTVr0v55kp5CuauX96DiPi/HiSyY+h7h/c7r
+         1VaQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1791787564; x=1792392364; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=05mRSC4SMhgre7tJEuCkEGqIJCIZwKO88R6uiRwMZ10=;
-        b=PneTYvbYu+0tJEmuwhtylgHOAaNmDcToMIweu3O5qBBCNfXdy6uEBCZphu0KvIPTtt
-         pi4MOSfS/ImMoSAHj+0F9qYp9+MMo1DAnHCHOxBdg9YPsaDAzIqCxyuPYZlqqbJlzDeT
-         rPfaU2tKP3ecbxOABzq9QybqoHPISidnwJ0kTKF9HVmMszbU5V9/UBdGqLM0CtAlA6jv
-         oltir6Wp0TNfFhrQ97u99SbiN77eje6K46oUCd+H03WUBwnLxA2fM2hacEnpWqoftzVp
-         pNKqQCdueP5hWehLtU5K2uVq25c3ZVgyg0UwT6oB/ciwKPRHgBqqF3ItjbyWsbLSyqsv
-         Chdg==
+        d=gmail.com; s=20251104; t=1791787772; x=1792392572; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=pKGaBssfbVs591S2Q3WkY0U64OVMmVV2L/7skJ0jnBg=;
+        b=ZP8yGhNuKZgCgauojKN/FqY1DZ2H2/Hyy4JHI2cD9dh409WltYUZqq7J+hvCLer2/e
+         7aifVbOx6xC4MXWW9q3XlIQLG2Gi8lqsA4M2vxwNQB10nVTF+APRZHs6SkervA1IFMOb
+         KG1bzU7Er+I4w7ds5TLWQcyLeVDOMa1BpGagzBHHnPWtdrP0cr32k3j8UyFN3sEUI/ww
+         UsyF1t+huPxlwe99q4kW0RXAXh+AF6MGmizFQbo8gFE1b20evuJ5dXpedPFs8LNm7K6k
+         Ly46ZCQTNdbnH8/8grQEsl+mkaCx1iUb+4ATqzTx6K4u+6PhvXlyB6W2Tm4BQlSyCoNP
+         lU+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791787564; x=1792392364;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=05mRSC4SMhgre7tJEuCkEGqIJCIZwKO88R6uiRwMZ10=;
-        b=A6jbxYpD68Um6Lz1bIbZNHWSW87XFaxLGGAQ4dZx2L1SdbNhTZ6FvCSHlDarhQSJGt
-         JpzzkPj56OdJiEW0p5q8OPURGPqvh0VMeNVKPwRIdumrRyjSSZ3ST6ZOT0w6FtnJ78Nd
-         w31sUIKdQJsqLfHO2wsN/Ri/FCxvHo44xWU6vvNPkB9cw7sCS0AB/UPBwdUxcEO8zGA9
-         aczl5iJOe5FEDo2ABhtmKhqQpZDctDVIjhJzNb3sTqOj7TIu7MYT0VagkqbRE7we1qYk
-         p836bIc/XKo7rznXL8qH1BYHfKidLSCEtggQYhNQG0nRLeJOJjcPQY9gXYp07gLXbmEt
-         ek4w==
-X-Forwarded-Encrypted: i=1; AKwUvBxqJSAq8ZHVzO3CZXNlxp7TFaY/SmpOjMLMhbQ0VyiKRSacF9hfNlJ89/4Ja48HMJzmCQ0V5lpq2XsPcA==@vger.kernel.org
-X-Gm-Message-State: AFq9FYJ7ECqbUOLdhX4eC5374/oCNISa1P37dAYq6pPVedEeh6qbPPRd
-	KUnWIlVtTglYLNVwMKWxuQYVxJB+krzZSqZ1MEGCt+L/h0vwSz1FwXZeKPY67/rOCt6TS12ihDg
-	yZ/GxRD8mn9L3HYiXFqJPHHmm7LbJUvzx1OPOG1//hDa7TPHpiJEeM0yO1ebPtM2sK0ZajbOhHu
-	DsKiqVZ74F1rafIXPWoRlj3Y50JfwzTuB6Qw1jbG5t
-X-Gm-Gg: AYBFou20RwNtoJZG/ht83YeC8T0SAeplvFSRIpHX9EXdlM+yN8AmWXLQpC+PIWICocF
-	80MRwcoDLXAx3oZp6J1PmsCSqD2yElKPi/lW4pfek5O1NRtMilW9v2Img2tnVxMGewBt+Aokz1b
-	yoO90TH0eineWOw5inA/kMom5V8FBjDffPopiFE5LU26pr9DkNe57Jj3htG+s=
-X-Received: by 2002:a05:690c:6987:b0:8b0:a1d3:3823 with SMTP id 00721157ae682-8b0a1d35c71mr7405087b3.24.1791787564368;
-        Sun, 11 Oct 2026 23:46:04 -0700 (PDT)
-X-Received: by 2002:a05:690c:6987:b0:8b0:a1d3:3823 with SMTP id
- 00721157ae682-8b0a1d35c71mr7404927b3.24.1791787563981; Sun, 11 Oct 2026
- 23:46:03 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1791787772; x=1792392572;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=pKGaBssfbVs591S2Q3WkY0U64OVMmVV2L/7skJ0jnBg=;
+        b=K3p8cOfswsWgXYHWA8cgemyqIhuKSbZ86S5T2TzjqwLyEdAiaAvWOjqDjW/Oc2Tj7x
+         1QjzOKcAQER8AtzdgFjQ4MwzTz3bZqlpbd2YBMdfNUCGt0Gm2h6a3F6rcT76AzFSeyeh
+         INQpJDZilGNmP3C/8LrBlg1Bv7oz5szXZ8QtZN+i11uB7tp8IpYn7B+/QD3LhXOHhG/J
+         EHW5GiCnGtk5oTjyvZObPxApAMBEas/OXFvT53fNlWP4l1V2BiTWj2B0mAdBtOYRHmaD
+         ineqsnfHwI8C/d63V5rjIqvMCYLdrPKig4yYHUJOzpVGYDG+BuDj2yBHaIq/IZZdxDZz
+         Fd8A==
+X-Forwarded-Encrypted: i=1; AKwUvBzB50ZXcj6pvz/RMWMP7aUcLC7SqqOvPdIWvTvGjr7iAh7Zz8luniei+fBxd7RtRsEo3WY0bei4gNxCCw==@vger.kernel.org
+X-Gm-Message-State: AFq9FYJiQPidCmZw6zQ0I4UAI/obipiRaNVQN+8LhDrJFaxlY44kYU1t
+	X3ATVhd3ajEbgd2C/mQl8LrKQ0pxoYEQjbCYNip21BPIxzUVwAJNINRcLsmlhYgmQ7WmQzCcPlV
+	cNMAM+evbS8jyACeMibYvRE7ZjCQ8UWE=
+X-Gm-Gg: AYBFou3lhPnWz2XFKHBmZ9xh+5s2slKWSvzTRlvA46BokNlHU5qBGl68KM2HizZTV8Y
+	psVbycDqzlBkWq3ilHINXIDS6Ig28upzMoVynCg6+kvd47qp7wWqPP4rS4SQCizw7zakWIbY4zO
+	louQRfpq8R+FlHn5ROZycyJliapxz2TxpC0dGW6Tckg2gZzFla9v6pzhybSeFRqhKAjhwMIpRMj
+	5CO7I9bnFyGyQnQC3Vl9oPF+FUd070UiZAlrKwK23DlFgE1xzcBZpwArBOI+L+jYZfe2J/OPGJt
+	8Fw+e8C12GYAmizQR3LRPBn4iHr+iVnzaC8bDAHymP+hpyhzWsM5nNM=
+X-Received: by 2002:a05:6a20:a105:b0:3e0:b937:8849 with SMTP id
+ adf61e73a8af0-3e16bed4c88mr7053863637.29.1791787771794; Sun, 11 Oct 2026
+ 23:49:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260928-b4-qaif-shikra-audio-v8-0-ac618057fe85@oss.qualcomm.com>
- <20260928-b4-qaif-shikra-audio-v8-1-ac618057fe85@oss.qualcomm.com> <20261006141620.GA1950759-robh@kernel.org>
-In-Reply-To: <20261006141620.GA1950759-robh@kernel.org>
-From: Harendra Gautam <harendra.gautam@oss.qualcomm.com>
-Date: Mon, 12 Oct 2026 12:15:52 +0530
-X-Gm-Features: AclHuK_Pj0noF1c11z_Dxs3SIV9mM7Suyi8CwWbvl8dTMFkFuJ253BEfSkuBVG4
-Message-ID: <CAC-tS8DzW88Lu_k-yKQtyfYc8u5-rh9WKTSanJ6dq6Xo3wp+kQ@mail.gmail.com>
-Subject: Re: [PATCH v8 01/10] ASoC: dt-bindings: qcom,shikra-qaif-cpu: Add binding
-To: Rob Herring <robh@kernel.org>
-Cc: Srinivas Kandagatla <srini@kernel.org>, Mark Brown <broonie@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
-        Sarath Ganapathiraju <sarath.ganapathiraju@oss.qualcomm.com>,
-        Kumar Anurag Singh <kumar.singh@oss.qualcomm.com>,
-        Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+References: <20261010084058.2365291-1-shengjiu.wang@oss.nxp.com> <asqIvOi1iQrIkB3w@analog.com>
+In-Reply-To: <asqIvOi1iQrIkB3w@analog.com>
+From: Shengjiu Wang <shengjiu.wang@gmail.com>
+Date: Mon, 12 Oct 2026 14:49:03 +0800
+X-Gm-Features: AclHuK9V3VZ2fy03Q21gRqiwbgRzcbFZbOC6EE29a2VUKpjHaSklyWXtD_neAC8
+Message-ID: <CAA+D8APebaDpME+025EUnyAtLrAC=h9WSMwpWtFX-TdooLTdiw@mail.gmail.com>
+Subject: Re: [PATCH] ASoC: ak4458: Check reset status after deassert
+To: =?UTF-8?Q?Alvin_=C5=A0ipraga?= <alvin.sipraga@analog.com>
+Cc: shengjiu.wang@oss.nxp.com, lgirdwood@gmail.com, broonie@kernel.org, 
+	perex@perex.cz, tiwai@suse.com, p.zabel@pengutronix.de, 
+	kuninori.morimoto.gx@renesas.com, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDEyMDAyNiBTYWx0ZWRfX1CPNwNS7UoNW
- i43Yk/uYbHx82SZpSCoNdEn+iSCKOqOZ8P+sODFFvrFx973IPQLqJsh4qWLRUzD6N45y6dSCqx/
- +o7C9wukuuSzQzc8YS0qF+zSbvFcUoYA9kSBCsCqXsHOJH4GhnPIh8J+liseB22+ttwG/liZKcW
- cHvDFYN6vZtKB4uFw36TLsRficF8ON1DyjLSy3T3ShSG/WOsmaO9QtY6mMnvB9HxV/QVETXH0fq
- wu3wTFI8e5dpSKEF/YZc/R6e576+6ebt/f9B0vIUUiMRP6IBYwemkAtmaMJTnIXfREDFkhYX32u
- o3tgghw0KvhVa+newZO71OEdkBhVSuhNTTXtEKKlOiknLuE9+rm3Uj3mD2ds8WscJGxmVw/O3Gm
- VoNkFWB4uUxaUxXtX3ouRQvK3NzBY2zGiMmZC6uFpytkOXx/rib1pqgWMogDMT2rlX+KwfIcYOu
- yga197eKE589L+YBQ2w==
-X-Authority-Analysis: v=2.4 cv=c8U+0h9l c=1 sm=1 tr=0 ts=6acc822c cx=c_pps
- a=0mLRTIufkjop4KoA/9S1MA==:117 a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10
- a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=ZpdpYltYx_vBUK5n70dp:22 a=IkqFnPuR7rtTU04AMzUA:9 a=QEXdDO2ut3YA:10
- a=WgItmB6HBUc_1uVUp3mg:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDEyMDAyNiBTYWx0ZWRfX9Sa7Nw3T/DbJ
- xNeCZStLwonfMmtBmy5TzStKx57tVyRbXkMg9H7MSy3oulLdTCDrtxRAoYFALR5lkcUTrfb4LtJ
- vC+DP/kpZiEenVUGURk/l2DrwMe8pGE=
-X-Proofpoint-ORIG-GUID: s5DPdJ1-09Fu1Ih4aDHH70c_LhYO1lf7
-X-Proofpoint-GUID: s5DPdJ1-09Fu1Ih4aDHH70c_LhYO1lf7
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-10-12_02,2026-10-09_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 adultscore=0 lowpriorityscore=0 bulkscore=0 malwarescore=0
- priorityscore=1501 spamscore=0 impostorscore=0 clxscore=1015 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610080000 definitions=main-2610120026
+Content-Transfer-Encoding: quoted-printable
 
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +    description: QAIF core registers
->
-> Drop the description.
-Will drop in the next version.
+Hi Alvin, Philipp Zabel
 
-> > +
-> > +  iommus:
-> > +    maxItems: 1
-> > +    description: Phandle to apps_smmu node with sid mask
+On Sun, Oct 11, 2026 at 3:05=E2=80=AFAM Alvin =C5=A0ipraga <alvin.sipraga@a=
+nalog.com> wrote:
 >
-> Drop. The exact provider is outside the scope of this binding.
-Will drop in the next version.
+> On Sat, Oct 10, 2026 at 04:40:58PM +0800, shengjiu.wang@oss.nxp.com wrote=
+:
+> > From: Shengjiu Wang <shengjiu.wang@nxp.com>
+> >
+> > The reset line of the ak4458 can be shared, for example when two ak4458
+> > devices use the same reset GPIO. In that case the two codecs may call
+> > reset_control_deassert() concurrently from their runtime resume paths.
+> >
+> > Only the first caller performs the actual hardware deassert, which may
+> > sleep (for example a GPIO-expander based reset controller). A second
+> > caller merely increments the shared deassert count and returns
+> > immediately, so it can continue while the first caller's .deassert() ha=
+s
+> > not finished releasing the line yet, leaving the device still in reset.
+>
+> This seems like something that should be fixed in the reset controller
+> framework. In fact the issue you describe seems to contradict the
+> documentation of reset_control_deassert():
+>
+> /**
+>  * reset_control_deassert - deasserts the reset line
+>  * @rstc: reset controller
+>  *
+>  * After calling this function, the reset is guaranteed to be deasserted.
+>
+> ^ (1) seems not to be the case as you have found
 
-> > +      dai-tdm-slot-tx-mask:
-> > +        $ref: /schemas/types.yaml#/definitions/uint32-array
->
-> These are all common properties. Don't redefine the type. You need to
-> reference the common schema (at the object/node level, not per
-> property).
-Will update in the next version.
+Agreed. Looking at the documentation again, the guarantee
 
+* After calling this function, the reset is guaranteed to be deasserted.
 
-> > +
-> > +      qcom,qaif-aif-lane-map:
-> > +        $ref: /schemas/types.yaml#/definitions/uint32-array
-> > +        description:
-> > +          Per-lane direction map, one entry per lane starting from lane 0.
-> > +          Use 0 for TX (output/speaker) and 1 for RX (input/mic).
-> > +        minItems: 1
-> > +        maxItems: 8
-> > +        items:
-> > +          enum: [0, 1]
+does not hold for a shared reset control today, so the issue is really in
+the reset core. For a shared reset only the first caller runs the
+hardware operation; later callers just bump the refcount and return
+immediately, e.g. in reset_control_deassert():
+
+if (atomic_inc_return(&rstc->deassert_count) !=3D 1)
+return 0;
+
+So when two consumers of the same shared reset (here two ak4458 sharing
+one reset GPIO) call concurrently, the second caller can return before
+the first caller's .deassert() - which may sleep, e.g. a GPIO-expander
+based controller - has actually released the line. assert() and reset()
+have the same pattern.
+
+Rather than work around it in the codec, I'd like to propose a reset-core
+fix for your review. The idea is to take the existing per-control
+rstc->lock across the shared refcount update and the hardware
+.assert()/.deassert()/.reset(), so a second concurrent caller waits for
+the first caller's hardware operation to complete. The lock is taken
+before the SRCU section, matching reset_control_acquire(), and these
+paths do not take rcdev->lock, so no new lock ordering is introduced:
+
+if (reset_control_is_array(rstc))
+return reset_control_array_deassert(rstc_to_array(rstc));
+
+guard(mutex)(&rstc->lock);
+guard(srcu)(&rstc->srcu);
+...
+
+Does this approach look reasonable to you? If so I will send it as a
+proper patch and drop the ASoC: ak4458 change.
+
 >
-> Can't you use a single uint32 bit mask for this?
-Here intention to keep this consistent with the other tdm mask array properties.
--Harendra
+>  * Consumers must not use reset_control_reset on shared reset lines when
+>  * reset_control_(de)assert has been used.
 >
-> Rob
+> ^ (2) isn't this rule also being broken in the suspend/resume path of
+>       this driver?
+
+I don't think so: the ak4458 suspend/resume path only uses
+reset_control_assert()/reset_control_deassert(); it never calls
+reset_control_reset(), so this rule isn't violated here. Please let me
+know if you had a different concern in mind.
+
+Best regards
+Shengjiu Wang
+>
+>  *
+>  * If rstc is NULL it is an optional reset and the function will just
+>  * return 0.
+>  */
+> int reset_control_deassert(struct reset_control *rstc)
+> ...
+>
+>
+> (1) being fixed in the framework would solve your problem.
+>
+> But (2) seems a bit more intractable. Shared reset GPIOs have always
+> been a pain... I wonder if there is a better approach?
+>
+> Kind regards,
+> Alvin
+>
