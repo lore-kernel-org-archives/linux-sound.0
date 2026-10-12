@@ -1,171 +1,137 @@
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BC7E3AC0E7
-	for <linux-sound@vger.kernel.org>; Sun, 11 Oct 2026 22:22:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791757369; cv=none; b=KqQy4tL4bs6iZDl3CVNLHtI/BfrdL5NJ5MUHW9DXtQ61lesAX1cdR2FnPZT9fO2dTrRRuT95/gxJ+mVkSL0bqrabgc3RcZpZXLRf+3entcvpWQkvfORghnSp9sxcl+iRgY1J4p5gB62PWFZ+Mcp2lC/ix5a1ZM2fVyAha9E+4mo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791757369; c=relaxed/simple;
-	bh=RG0ruB2Fr2QCjhkNtAakmW1uuzOyNENgm2wDhj0WsH4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ke1UHogW/LCwloLGZXwVrzSz2J3cm8aabZ5Cd3yql4NCLLfzH4oNWtuybTwaW9V/yGXbyApz+JjptZAHqvcj8MW5YjCdYjwqOOUeI/YbmGuAZx+3DhkTUfHQXOZjfIBmVGqWmefdCVJCBhv3ElHlm8VWEw5YuamQIFMUoGGSEJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f/sQKPmd; arc=none smtp.client-ip=209.85.160.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92F2F355F57
+	for <linux-sound@vger.kernel.org>; Mon, 12 Oct 2026 01:32:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791768723; cv=pass; b=uQ7zYJpaZB3D6Zmk+qfEOfbcjdvahjqNDMjHTlqNrP1QTTm0ueNrkedwhd9bosEsCMFI5sO7bLP3G4wTkU9IuKjOhqFGcDA975Eh2TLs8ViVcYOm+sBQcyXmyISd+bxr84e9QK1k8lti+gNLhDzgk3Y1AMmmRTvdWZu9S6R0prc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791768723; c=relaxed/simple;
+	bh=vhUDDHake6PjVodeFYRTd89BpqCVb70Env0+ub9W+Ck=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=auU3MJAJY5+hiD42IvTv/bgjuKx4xJdJtnw+iwq32CedWDucx2tTjX0/QujpWfMJiDzzswhEo4wgEMZNzn5RecwvT4NS/ZD6EjX5JtTNAOiHO+bJSNaqo7ntsOGA3lLP5kEdOJDzThed9WCdDwlo6f34MRWU+FNWcKexyCddAIE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GCGQwL4a; arc=pass smtp.client-ip=209.85.160.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f/sQKPmd"
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-53396adbc53so18081031cf.3
-        for <linux-sound@vger.kernel.org>; Sun, 11 Oct 2026 15:22:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GCGQwL4a"
+Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-4a2757826b9so642196fac.2
+        for <linux-sound@vger.kernel.org>; Sun, 11 Oct 2026 18:32:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791768720; cv=none;
+        d=google.com; s=arc-20260327;
+        b=XSrjKzKBBzU8k/7Gs0c9XMsaiz4NMSrp0F4urkrdV+5vzdTIv6AUK91B6jl68wp1NG
+         uTrI+7EPbvcfn/2RAwvb+8enE/J12MjGSq69Q8O1wTnfKZFYKzVKRqR5AJ6fTs0vRk13
+         FwNZfbun8t5eLHpey+xwypmUZ3ADKQCUyomtED8SePetfdw3hTsmrLU0xlWUvNonvU0W
+         T2siSw+ROlhO07kAp3fVnNXwMWuJzjNCiGLxweHAvYd8OltHPDscoamsMJIFUn/IFcAi
+         uYE3GOwHzcPVi2Cb/uoduxunLWjG4+EEddqSV2ztni5pR6LvI2Sta8Kz+NcbHGLQoi3M
+         B38g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=NDQUO9E3aLbOqLlDqGwF/awXVPyTQZEvQb89vn5yfsI=;
+        fh=xybSrQdfAorrs8VUaGW9R3Bs8UjdxMguVy9EmrDcoJ0=;
+        b=E0dTwUoZC2038s2MZmGWxbV0tW8NlSplh544O0Zpx9rQ4iGjXBPv6B2fGlCwMwQpVn
+         t8abvEAd/Cv2k89pao/XQEKOY4qhRz3paS8ca8lauOtlgiVNAMBXEksuFnzveP+uLLku
+         iLl/5FoQQq1ug1do6UpGkx0tn73m6/7YXDW8uwMmeZFuy2rx6yaQD8igHyFtJuouNIhT
+         H9vKSFyDSzBYFGImSdkRl1OaS/3e2YiA2UNYOJvLIoc/RjtrABkXpjE7wqAviHmAOJFB
+         PzghuXLTWoAYdFjBwCQiW3Zn1Pdr1KTPRlRbNfXrBWOTJyYy/aq4cNkI6VjL+cOcQO8M
+         3Whg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791757367; x=1792362167; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+        d=gmail.com; s=20251104; t=1791768720; x=1792373520; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=OXZ1UsR/jsdDknoGUcyYR4VW8gmQlVsH7nZcsEdE/Yo=;
-        b=f/sQKPmdSPq47rK15as08IK/bzLvPWBcyLnGOmEjpwWSLtLBis0T6/rMD3OU6VagV0
-         mKiLGYZsZ/7VC0kF71fhsyoo5a+ituy1AfZASqz6gnjR26rYIsK3uZU1rSPmRVRa0dfM
-         2lHj20UN3+Gq8GaQYjKzWdeV/PKiPCmR466307tWmzbNPrkOpJHk+tlLoXDnAXi9fHon
-         xvZvwhLu3YqyCkOqebbX9Q3GfGha08Orc1MDlK/m4w6fZvPKX2AQpAT2+DwtCJI86thd
-         FLsLj3Fk1osM+7xg3PnNZe17eSXkm0dpxclF4OVfJWDhwoZL+19e3No4bVUxaV4CT99r
-         4MKA==
+        bh=NDQUO9E3aLbOqLlDqGwF/awXVPyTQZEvQb89vn5yfsI=;
+        b=GCGQwL4ab1od3moolhk3hHqGU4woVDxfP/nPc5Z2Ra061NJhVqGDZqpfeQ+MpOV/Sa
+         PFhkCfhjfe4kgJ4XxoXFqs4HYwiUWlu51BB2NILtfl+uixL0rcCcILPI7bIYFMzgGOpS
+         TUs6/NKEcMmCBIMeAbF6iF/RKinW4f2yt7qd1q0uGZCC93M8jrpkPL9/XZ93bpK2Ela4
+         c2uEUbLAo1BGHNDs6oeKp+txknqWavUpSPWc020TmDblTzMIRdYLUa1viSmRxdtqV+wS
+         PI5HO3HsF7mLbB1Uv1XHuhywQJ9OPQkAk07guSXjoGi+v5UU8uI1nzPqC0Ev1izC91Cs
+         AIMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791757367; x=1792362167;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+        d=1e100.net; s=20260707; t=1791768720; x=1792373520;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=OXZ1UsR/jsdDknoGUcyYR4VW8gmQlVsH7nZcsEdE/Yo=;
-        b=mVY0lvGhrU303ekiUampFnYMvgn0OFSPTDBX4e+7XDdNzyzhtMMJ4bT8vVC4r51v39
-         alqmuZYok/s3/Jz4/ZQrLPnoSt8Q0YRqTWQYqXub2WAboW2+Jiv8C1phnT1AMwCNeP3f
-         /BJEvNv8aY00HQzhWWe74RtlV1aVrktICUQqhfU2qrp88p/6SC/GO0OIa0Jfo8eiqxea
-         RopY83EQfRxIUHEPcXm77U1kbcSCwFeGCWIHNkHT6hZWDcYhyyyOTAo9C4x260v2sKWn
-         bflkX2knQSpcZO6n91Or0EVki4j90xSQlM06InrpPoIPq9O1zFaFDPO3mntM8MUoOkm/
-         B8RQ==
-X-Gm-Message-State: AFq9FYIlnjOgJr2Cun1fdDQxpO9Fav+OCt4bPjiEI0XB3ygrR5RH1B14
-	hC3TjbLIHxM0VY4EcFreD9jBEwq1XhFaeuNRJJoL7qQnH6oOhIzlqcU=
-X-Gm-Gg: AYBFou2cvKKpkS+Y+BSJmKFTPWTHfVq2m2AIqJ23JOS2S8VqXF3NLWLGRm34gRCSjLI
-	Ie11OX1G+auzF9Mkt9Y+AtWT5LTWQwVdff7MKpoQx1lnKNIT9wuuIixuH1kQOgH8zXOd9uCTaBC
-	hDxysul7vB+8bU+NPZxiIg8FIfVjbQzX2Xc1PGdRCQcXAcEvR7tttmr1KB5Hq4AVlJQoCKRXhR5
-	T9n77dRoAycYgbBFRy0GEQ+puklHGhN6EmborWCXx1RHnWW3AY9sD3cYReQKmoSawH62EUPGOZs
-	5tkK6N/3gUUWYjxaSKgH5l5oNVjaoLQ5DKnq/8ZCGkjqpBNOMYk56Jkw5JpEJtj/YIqTtdPct6r
-	feJwZ42Frx1onOSNSHf1/nTOQNabC0Wh52f0n6sRLp35J4toB2y/MrvfXUhnn0ghVnI+N5y1XKg
-	2YT2Tn1dsCz3KqlX4YgTQZnfzlwci+g1Yhy6/159lUwJkGWLN4S2va269SgjJQa9hqqb8bYnuh3
-	3YN4elmRc8Xygz3JOxJ4IfCuMZsUBAsddJihfS0virVmohv3W3Id9kizKsLu5uT8cYB4jsUiLq1
-	StDuiiX95/XTYFDfCp+tI/w0sjGT0Hvy3UuGjro=
-X-Received: by 2002:a05:622a:260b:b0:533:32f3:1db9 with SMTP id d75a77b69052e-5359f46f5ccmr130647001cf.11.1791757367164;
-        Sun, 11 Oct 2026 15:22:47 -0700 (PDT)
-Received: from i4-gl-tmk5904-1.ad.psu.edu ([130.203.156.90])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5359b7ecccdsm66288831cf.30.2026.10.11.15.22.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Oct 2026 15:22:45 -0700 (PDT)
-From: Myeonghun Pak <mhun512@gmail.com>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	Ijae Kim <ae878000@gmail.com>
-Subject: [PATCH 3/3] ASoC: mediatek: mt8196: Keep the AFE IRQ within its resource lifetime
-Date: Sun, 11 Oct 2026 18:22:34 -0400
-Message-ID: <20261011222234.2098904-4-mhun512@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261011222234.2098904-1-mhun512@gmail.com>
-References: <20261011222234.2098904-1-mhun512@gmail.com>
+        bh=NDQUO9E3aLbOqLlDqGwF/awXVPyTQZEvQb89vn5yfsI=;
+        b=oG6ts8K74yUX+CyXoe3qSdzfkjV5gzTxT2lMwouEvnZPmsSiLInGa5zpUsX3X07lsY
+         zgQmZGbzTFXN8zLLXbIKMUlaoNMXziQ9tZBhnNo6BxLfxtfICDCin8x1inAgy5+Yttj8
+         v8yBqEbPtMl4K/XHvoMuXfMF7tbtkFVFO5OE4MWPDYd+ZA3QXmtntJNXeS5w0gi5gU3Z
+         uNcWb3p6+O8Gc7e7gjITFxJLiQ2Gbqxv6osXKBiRN25Oj9oYNuwy+tm8FWb4gGHdAg89
+         eSwfmqsqQVh1/eryX1d/vylWmu6OiNbSZQAVt8wsNmUPKtQmj0KoLNRuGsOS3jzlbE9i
+         CzmA==
+X-Forwarded-Encrypted: i=1; AKwUvBz81fvlg9a30Nh39ehBkazoXE0A3SYWG+iX+C6Nt6hf7ZSgserjhy8yD81lT+6/Hgj7AU36llsbfcYssw==@vger.kernel.org
+X-Gm-Message-State: AFq9FYJ0EqufqF0Bqf3z18b23dY1+kLZp8hRZJhxP00ug+QSjtNq0TBu
+	C77Vmb+wCMiVrtiZm/sB3wfkCjb7++V+ZhTnvpzYZSy2P9DJo91GZi49hq/h86pdFZv54AeVLL7
+	tsff0cMj5uNwEy/Bx+RbSxIggXtJrE7o=
+X-Gm-Gg: AYBFou2IRcQsriyT+89mhLWDqcFehogjX4r3m0Ny5X+V3yajbp2Hc5e9gTKavFHqaS9
+	SqxpneWC27VIZ5UP/pt83W0j4g0dYiDXpPmY8gUpCsCMOlRyNAtilSytCB0qfe+PIW8uUn7unxJ
+	s4i91ZzS0HaNZwNRCDgm4pHl5fb5U7LqAjQf6ciOVqClNXZbbw9KFyCPWt+iZyB0SjYxMTUqc7A
+	QDKtdklPLCLcnTu0iXaX9p8Ov+Dt93tS3sBtf953kB+zOFsY7pXhBSoMt8i564RydRmcK6o2zoM
+	laVNTHPtM0AUcoz6vvNs76t0Q2Yet2NgYaDJgGNfo7MAI/2oh7KYXUg=
+X-Received: by 2002:a05:6870:b523:b0:451:22e0:9604 with SMTP id
+ 586e51a60fabf-4a2a86aca5cmr6021572fac.7.1791768720455; Sun, 11 Oct 2026
+ 18:32:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+References: <20261003175659.23536-1-mailingradian@gmail.com> <20261003175659.23536-3-mailingradian@gmail.com>
+In-Reply-To: <20261003175659.23536-3-mailingradian@gmail.com>
+From: Jassi Brar <jassisinghbrar@gmail.com>
+Date: Sun, 11 Oct 2026 20:31:49 -0500
+X-Gm-Features: AclHuK8whbaG7v0eCCsuN4wni82p4hRfYmu-N78P0lmjY_ExUyztPMiJe-8P32A
+Message-ID: <CABb+yY3gCzgVL1qZ7XCapkUBr4MGfUO8NG3kXY_3QL9_pkHo2w@mail.gmail.com>
+Subject: Re: [PATCH v2 02/11] dt-bindings: mailbox: qcom: Add SDM670 APCS compatible
+To: Richard Acayan <mailingradian@gmail.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+	Mathieu Poirier <mathieu.poirier@linaro.org>, Konrad Dybcio <konradybcio@kernel.org>, 
+	Abel Vesa <abelvesa@kernel.org>, Srinivas Kandagatla <srini@kernel.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Manivannan Sadhasivam <mani@kernel.org>, Andy Gross <agross@kernel.org>, linux-arm-msm@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-remoteproc@vger.kernel.org, 
+	linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The managed AFE IRQ is requested before the regmap is allocated. The
-handler can therefore run before its regmap exists, and devres releases
-the regmap before joining the IRQ. The remove callback also suspends the
-AFE and disables its clocks before devres releases the IRQ.
+On Sat, Oct 3, 2026 at 12:57=E2=80=AFPM Richard Acayan <mailingradian@gmail=
+.com> wrote:
+>
+> Add the compatible for the APCS in the SDM670 SoC.
+>
+> Signed-off-by: Richard Acayan <mailingradian@gmail.com>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> ---
+>  .../devicetree/bindings/mailbox/qcom,apcs-kpss-global.yaml       | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/Documentation/devicetree/bindings/mailbox/qcom,apcs-kpss-glo=
+bal.yaml b/Documentation/devicetree/bindings/mailbox/qcom,apcs-kpss-global.=
+yaml
+> index 39bc374300c3..74f24e07abc3 100644
+> --- a/Documentation/devicetree/bindings/mailbox/qcom,apcs-kpss-global.yam=
+l
+> +++ b/Documentation/devicetree/bindings/mailbox/qcom,apcs-kpss-global.yam=
+l
+> @@ -50,6 +50,7 @@ properties:
+>                - qcom,qcs615-apss-shared
+>                - qcom,sc7180-apss-shared
+>                - qcom,sc8180x-apss-shared
+> +              - qcom,sdm670-apss-shared
+>                - qcom,shikra-apss-shared
+>                - qcom,sm7150-apss-shared
+>                - qcom,sm8150-apss-shared
+> --
+> 2.56.0
+>
+Applied to mailbox/for-next
 
-Request the IRQ after initializing the regmap and before enabling MCU
-IRQ routing. A failed request then takes the existing runtime PM unwind
-without enabling that routing. Release the IRQ at the start of removal
-before the explicit clock shutdown, using the IRQ number saved at probe.
-The regmap's managed lifetime also encloses the IRQ on probe errors.
-
-This issue was found by static analysis.
-
-Fixes: 57513aabfe5b ("ASoC: mediatek: mt8196: add platform driver")
-Assisted-by: LLM
-Co-developed-by: Ijae Kim <ae878000@gmail.com>
-Signed-off-by: Ijae Kim <ae878000@gmail.com>
-Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
----
-Compile-tested with Clang 22.1.2, W=1 (arm64).
-
- sound/soc/mediatek/mt8196/mt8196-afe-common.h |  1 +
- sound/soc/mediatek/mt8196/mt8196-afe-pcm.c    | 18 ++++++++++++------
- 2 files changed, 13 insertions(+), 6 deletions(-)
-
-diff --git a/sound/soc/mediatek/mt8196/mt8196-afe-common.h b/sound/soc/mediatek/mt8196/mt8196-afe-common.h
-index 4951a6f32abb..ce5d586721db 100644
---- a/sound/soc/mediatek/mt8196/mt8196-afe-common.h
-+++ b/sound/soc/mediatek/mt8196/mt8196-afe-common.h
-@@ -186,6 +186,7 @@ struct clk;
- struct mtk_base_afe;
- 
- struct mt8196_afe_private {
-+	int irq_id;
- 	struct clk **clk;
- 	/* dai */
- 	void *dai_priv[MT8196_DAI_NUM];
-diff --git a/sound/soc/mediatek/mt8196/mt8196-afe-pcm.c b/sound/soc/mediatek/mt8196/mt8196-afe-pcm.c
-index a1ae8322d8b6..39d9103bd5e7 100644
---- a/sound/soc/mediatek/mt8196/mt8196-afe-pcm.c
-+++ b/sound/soc/mediatek/mt8196/mt8196-afe-pcm.c
-@@ -2393,12 +2393,7 @@ static int mt8196_afe_pcm_dev_probe(struct platform_device *pdev)
- 	irq_id = platform_get_irq(pdev, 0);
- 	if (irq_id < 0)
- 		return dev_err_probe(dev, irq_id, "no irq found");
--
--	ret = devm_request_irq(dev, irq_id, mt8196_afe_irq_handler,
--			       IRQF_TRIGGER_NONE,
--			       "Afe_ISR_Handle", afe);
--	if (ret)
--		return dev_err_probe(dev, ret, "could not request_irq for Afe_ISR_Handle\n");
-+	afe_priv->irq_id = irq_id;
- 
- 	/* init sub_dais */
- 	INIT_LIST_HEAD(&afe->sub_dais);
-@@ -2453,6 +2448,14 @@ static int mt8196_afe_pcm_dev_probe(struct platform_device *pdev)
- 		goto err_pm_put;
- 	}
- 
-+	ret = devm_request_irq(dev, irq_id, mt8196_afe_irq_handler,
-+			       IRQF_TRIGGER_NONE,
-+			       "Afe_ISR_Handle", afe);
-+	if (ret) {
-+		dev_err_probe(dev, ret, "could not request_irq for Afe_ISR_Handle\n");
-+		goto err_pm_put;
-+	}
-+
- 	regmap_read(afe->regmap, AFE_IRQ_MCU_EN, &tmp_reg);
- 	regmap_write(afe->regmap, AFE_IRQ_MCU_EN, 0xffffffff);
- 	regmap_read(afe->regmap, AFE_IRQ_MCU_EN, &tmp_reg);
-@@ -2482,8 +2485,11 @@ err_pm_put:
- static void mt8196_afe_pcm_dev_remove(struct platform_device *pdev)
- {
- 	struct mtk_base_afe *afe = platform_get_drvdata(pdev);
-+	struct mt8196_afe_private *afe_priv = afe->platform_priv;
- 	struct device *dev = &pdev->dev;
- 
-+	devm_free_irq(dev, afe_priv->irq_id, afe);
-+
- 	if (!pm_runtime_status_suspended(dev))
- 		mt8196_afe_runtime_suspend(dev);
- 
+Thanks
+Jassi
