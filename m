@@ -1,93 +1,142 @@
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4863B489FDF;
-	Mon, 12 Oct 2026 12:43:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DE1F37B019;
+	Mon, 12 Oct 2026 13:38:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791808996; cv=none; b=rlp+WwhgTp60M1ha9Y/Rhq5QmuV/tpKHUwQzx6FFvKeDHTZ/hIB6u7STWY1e2OIF6j00QsYajFeZP1v/8tI4Fbb2vAI6n7kAN7ujQ9yuK2/Lm9wNQf0SzZGJtcodKMgXhdaVg34tuxOj2Dz/RbvXyXcJsy3R7q0oZOxO0Wob1Pg=
+	t=1791812325; cv=none; b=uY1LhZNsKackukGOlb5fuk7jIZ1qwGx6SC3GVl8j4wTCL5+YIyFzPxk0F2p5xsc704I/lUEOBhxy03BjzoSsgQdh6GifFywb10Sr2MSWL+38zsnC05PH6+QRiaVv3gkiLB3U1neL56pliRUAcr4vY++dQGYGPAwpqXvFELCvoQE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791808996; c=relaxed/simple;
-	bh=yd9XCpePUFTbj3ztof/0OIsd9d6ic7REugJJlr1ssUM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=umKEJPQ+Ozp4tivHGufGEjJrGGOdn43p8yX+jfUjJJtPeyHtXKEykf76+t/iFye3mGxbDqSDcGKh+2ULUwZrKDuTtvM0uBy8VrR6iTR5GvCi6AAlB1OON4s1go/cx4RVDm6tafFlN9gYDyp3mYWOXgU7sr18X75eQkZR4IIvl+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sandropischinger.de; spf=pass smtp.mailfrom=sandropischinger.de; dkim=pass (2048-bit key) header.d=sandropischinger.de header.i=@sandropischinger.de header.b=pMoqp27Z; arc=none smtp.client-ip=80.241.56.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sandropischinger.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sandropischinger.de
+	s=arc-20240116; t=1791812325; c=relaxed/simple;
+	bh=dEptTwNX9Sq3lL7fDHLWKReZfufeO69vQyYwqPmjcPs=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=TL/gXxKq5pOEH6kB1/f4JJSSnAA0iDBbTbywYueYTvKjwknEK6fPi1KxBBvquhtCEUYmH8HFHTZHVUgzmBjxf0QOWPTtoFyImTZflPm4xeEc7ur3Z6nyGNRY3Xf1OqE2dhL3pw1aB2UuRG6Q7r+FRmRSWX+YHryj/6IigX6eoCY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=P2oKD/iu; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sandropischinger.de header.i=@sandropischinger.de header.b="pMoqp27Z"
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4j3HF92pqGz8vHt;
-	Mon, 12 Oct 2026 14:43:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sandropischinger.de;
-	s=MBO0001; t=1791808989;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=mR+S4UW7kruCIJFGIhX1Kx2YXojD+47ZrZZXwlLJ10U=;
-	b=pMoqp27ZvKRBZ9Dy06/COxz2Iw/NXtKvruwzPWYCSP3UVqmDi8HszjxI8BEiW2PEN6qcgG
-	XgmklvG58Tjdeote1IZE5EAOyb4IcY+IVZQtvNwTs8XKLHqA10hhNrz2s7bId1KZ6WMHqc
-	vw2QkXwyB0uyR6caGQQfNDNmYbpjSPkNnUNm1xVsNZbgZnm7kcmcqOCfP6al1tn9VLNnLF
-	KdcbSUnZFz5a5tYMjuX2NXkXFjruzKQNBZgLCWZbEDfOgbuhKQD4IIFrTDqM1twTlTOAZ9
-	2sL77uF+7Y8/3TrE6A/k17VLaGDmCLpw5S/Z/RI0B+iGUtccawmEa28bYas7vw==
-Authentication-Results: outgoing_mbo_mout;
-	dkim=none;
-	spf=pass (outgoing_mbo_mout: domain of mail@sandropischinger.de designates 2001:67c:2050:b231:465::102 as permitted sender) smtp.mailfrom=mail@sandropischinger.de
-From: Sandro Pischinger <kernel@sandropischinger.de>
-To: tiwai@suse.com
-Cc: perex@perex.cz,
-	john@metanate.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Sandro Pischinger <kernel@sandropischinger.de>
-Subject: [PATCH] ALSA: usb-audio: Add iface reset quirk for TASCAM US-16x08
-Date: Mon, 12 Oct 2026 14:42:55 +0200
-Message-ID: <20261012124255.10485-1-kernel@sandropischinger.de>
-X-Mailer: git-send-email 2.56.0
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="P2oKD/iu"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 50A681A11E6;
+	Mon, 12 Oct 2026 13:38:35 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 15458601A6;
+	Mon, 12 Oct 2026 13:38:35 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 6D22611D70B5E;
+	Mon, 12 Oct 2026 15:38:12 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1791812308; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=kSIOvrEHM3a5XmLq4o4Vz8QQhg7cfJBqO8WQZOEPSfo=;
+	b=P2oKD/iuYLKPKxVYgo/dXPzK7+3qO4HQVVCArAfXy2xfTIIGffN6Fz+//KdG8xo1hHy/N0
+	6hZ5EDXqnUQIGoGdQsdjAdoTJGgeeftYKc3CSnMnPeUqF6CUYL8cNy5VQ+0a17A8yiZXXV
+	s8bkbQwSZEC6UknOCygjtOUU771kiei44of8lPuAHohnuzWe+SoNo9JqYZjpSpIYd8dxPr
+	yaBTD2/kVXCXFaLlbCCv/eEZi1SFlxCDHKRNp2ax5v5kByo9s61c8u9fExUmGYUWkESU2B
+	vtBm3N6rv+3fUXsb5M4Q/x6D756ZiWWywR1bwuxC7b5+VIMx+dpl6AqCsJBG1g==
+Date: Mon, 12 Oct 2026 15:38:11 +0200
+From: Herve Codina <herve.codina@bootlin.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Richard Cheng <icheng@nvidia.com>, Andrew Lunn <andrew@lunn.ch>, Rob
+ Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Bjorn Helgaas
+ <bhelgaas@google.com>, Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>, David Rhodes
+ <david.rhodes@cirrus.com>, Linus Walleij <linusw@kernel.org>, Daniel Scally
+ <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, Bartosz Golaszewski
+ <brgl@kernel.org>, Len Brown <lenb@kernel.org>, Davidlohr Bueso
+ <dave@stgolabs.net>, Jonathan Cameron <jic23@kernel.org>, Dave Jiang
+ <dave.jiang@intel.com>, Alison Schofield <alison.schofield@intel.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, Dan Williams <djbw@kernel.org>,
+ Ira Weiny <iweiny@kernel.org>, Li Ming <ming.li@zohomail.com>, Lizhi Hou
+ <lizhi.hou@amd.com>, driver-core@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+ linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
+ linux-gpio@vger.kernel.org, linux-acpi@vger.kernel.org,
+ linux-cxl@vger.kernel.org, Allan Nielsen <allan.nielsen@microchip.com>,
+ Horatiu Vultur <horatiu.vultur@microchip.com>, Daniel Machon
+ <daniel.machon@microchip.com>, Steen Hegelund
+ <steen.hegelund@microchip.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ stable+noautosel@kernel.org
+Subject: Re: [PATCH v12 10/10] PCI: of: Avoid np->data usage for the node
+ changeset
+Message-ID: <20261012153811.2cdcaf89@bootlin.com>
+In-Reply-To: <ar62bJzBEAhGL2iu@ashevche-desk.local>
+References: <20261001142815.277550-1-herve.codina@bootlin.com>
+	<20261001142815.277550-11-herve.codina@bootlin.com>
+	<ar62bJzBEAhGL2iu@ashevche-desk.local>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 4j3HF92pqGz8vHt
+X-Last-TLS-Session-Version: TLSv1.3
 
-When suspending and resuming the playback stream, audible
-glitching/chirping appears on the audio interface's output for several
-seconds.
+Hi Andy,
 
-On playback stream resumption, I observed an increase in feedback rate
-up to 48,038Hz. This stabilized back to 48,000Hz after ~20s.
+On Thu, 1 Oct 2026 22:37:16 +0300
+Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
 
-This is mitigated by applying an interface reset on stream resumption,
-as introduced by John Keeping on the TASCAM Model 12.
+> On Thu, Oct 01, 2026 at 04:28:10PM +0200, Herve Codina wrote:
+> > of_pci_remove_node() and of_pci_remove_host_bridge_node() check
+> > whether the node is dynamic but not whether it has valid private data.
+> > 
+> > During the node creation, an OF changeset is used and this changeset is
+> > stored in np->data to be available for removal functions.
+> > 
+> > If, for instance, a PCI host bridge is created using a device-tree
+> > overlay, the related node will have the dynamic flag set but np->data
+> > will be NULL. This leads to NULL pointer dereferences.
+> > 
+> > Checking for a non-NULL np->data pointer to determine if the node has
+> > been created by the PCI node creation process is not enough. Indeed,
+> > on some platforms like PowerPC, the OF_RECONFIG_ATTACH_NODE notifier
+> > (e.g., in the pci_dn_reconfig_notifier() function) intercepts node
+> > additions and populates np->data with its own structure, such as a
+> > struct pci_dn. In that case, np->data is not NULL but it is not related
+> > to our changeset stored during the PCI node process creation.
+> > 
+> > Avoid the usage of np->data to store the changeset used during the PCI
+> > node creation. Store our changeset in a more relevant structure: either
+> > struct pci_dev when the node is created for a PCI device or struct
+> > pci_host_bridge when the node is created for the PCI host bridge.
+> > 
+> > With that done, no ambiguity remains on removal. Indeed, this changeset,
+> > if non-NULL, is the one used during PCI node creation. Check and use
+> > this changeset on the removal process.  
+> 
+> ...
+> 
+> >  void of_pci_remove_node(struct pci_dev *pdev)  
+> 
+> >  	struct device_node *np;
+> >  
+> >  	np = pci_device_to_OF_node(pdev);
+> > -	if (!np || !of_node_check_flag(np, OF_DYNAMIC))
+> > +	if (!pdev->cset || !np)
+> >  		return;  
+> 
+> Wouldn't be better to split this conditional to two?
+> 
+> 	if (!pdev->cset)
+> 		return;
+> 
+> 	np = pci_device_to_OF_node(pdev);
+> 	if (!np)
+> 		return;
 
-Link: https://lore.kernel.org/20221129130100.1257904-1-john@metanate.com
+Yes indeed, this will improve readability. I will update in the next
+iteration.
 
-Signed-off-by: Sandro Pischinger <kernel@sandropischinger.de>
----
- sound/usb/quirks.c | 3 +++
- 1 file changed, 3 insertions(+)
+Also I will perform the same kind of modification in
+of_pci_remove_host_bridge_node(), the same kind of check is present.
 
-diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index 7cd806e9611b..8393a0af7b40 100644
---- a/sound/usb/quirks.c
-+++ b/sound/usb/quirks.c
-@@ -2578,6 +2578,9 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
- 	DEVICE_FLG(0x0644, 0x8044, /* Esoteric D-05X */
- 		   QUIRK_FLAG_ITF_USB_DSD_DAC | QUIRK_FLAG_CTL_MSG_DELAY |
- 		   QUIRK_FLAG_IFACE_DELAY | QUIRK_FLAG_FORCE_IFACE_RESET),
-+	DEVICE_FLG(0x0644, 0x8047, /* TASCAM US-16x08 */
-+		   QUIRK_FLAG_CTL_MSG_DELAY | QUIRK_FLAG_IFACE_DELAY |
-+		   QUIRK_FLAG_FORCE_IFACE_RESET),
- 	DEVICE_FLG(0x0644, 0x804a, /* TEAC UD-301 */
- 		   QUIRK_FLAG_ITF_USB_DSD_DAC | QUIRK_FLAG_CTL_MSG_DELAY |
- 		   QUIRK_FLAG_IFACE_DELAY),
-
-base-commit: b40a5f6d0e2a2b27b29d59d55fc92c5b9443e77c
--- 
-2.56.0
-
+Best regards,
+Hervé
