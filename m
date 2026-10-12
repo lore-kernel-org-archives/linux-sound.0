@@ -1,162 +1,93 @@
-Received: from mail-4323.protonmail.ch (mail-4323.protonmail.ch [185.70.43.23])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D37ED4E06E2;
-	Mon, 12 Oct 2026 19:46:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.23
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 441A3414A20;
+	Mon, 12 Oct 2026 19:55:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791834391; cv=none; b=ChCfgeLqPY85I+3tyKWFxctZkmis5lEHpdxp5CKgwnqvjx2Qll5/GmC/gMkJUqQDRRA5ngKrlQYfz9lZjR+uHl7vgXEiIBhupsJdXDqU7pMB4Lpdb/e9DmbsocQTHhVnFPHKC2MgzgkrF0f6+/GyydVU8ZGepZioRMhCgj85P10=
+	t=1791834906; cv=none; b=iekOCveQKyRg79rwzlf0gjUcobPNXAwY85OSPNYjpfhUH44isXjdMBoquJJLRCwTeuxkW7Nyc01xdXWN5XA/1fOZ3tRSo2miQEyJz5Bj4vbWN01fHwXbcDcrqFWUY9fFJLC2mniTqX/xLjgUYHkO5n+GUdvXJyiRhO1HI6yFFQE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791834391; c=relaxed/simple;
-	bh=SN53F77NdYCtAEJZRRSye0TNxqG5SZP+TUKigpp+ovg=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Jn5QxHIDb+IQUSuyWTJryoLIE1fwDL3vkBN33g71pDdsUysMOW1eANruOKe3Kqzj+aC7eOCG9UdFg9s7bnAe0TVCfnpLWtVefPoHDbyrH59suWmssePWBNTmeHl2cuX/joGSv2akirp7BoJ6GN0NIHSaxfyTKWrqBGIU6DBb3Sw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=midirus.com; spf=pass smtp.mailfrom=midirus.com; dkim=pass (2048-bit key) header.d=midirus.com header.i=@midirus.com header.b=uZIdrEW9; arc=none smtp.client-ip=185.70.43.23
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=midirus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=midirus.com
+	s=arc-20240116; t=1791834906; c=relaxed/simple;
+	bh=hKabUSMeZzEX5ziqGtS0VVRHl6Ub4n/lZZFGVodH5JU=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=nvA+MFHMOZpIPvuXScMoVaPteZNgvZXzqseB68a7PSpcODgFiEX9P6Eef2ICX22wSl4Z5xui1mo4eW/r96ZSq3hZKaZwqxbdk/g4XfFKv7uvhlaIKag3YZrGWYC9GbgtRxFHcFF3LLb0vZTsS1UizZti17Z5wK9wPzUO6IDe888=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mh9tr7pu; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=midirus.com header.i=@midirus.com header.b="uZIdrEW9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=midirus.com;
-	s=protonmail; t=1791834377; x=1792093577;
-	bh=7eUeVZarUBPNmnvtSEi9wLI7Tja8/hA2NLZl7ky89hg=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=uZIdrEW9/NrOscsimbd7pG+xUT2o7srorJk7pgFnRU86hHCZu/x02wMEPTT5Vr4KZ
-	 WmwE3JhfQctmCTaYcUBg0CgODbbGi4fPb/oC9qibI7e+9vrD7yaZHgdEhZswWsePzv
-	 dhgM/mrY2o27M+rpKVWZTFCMwGGf/Hf+giErG7kxHjUvzyAVH5asEBeKtulP4knObu
-	 ujEcxTjB8CnWTW1Dz+un1ECzhGh4Pfi093im+VeYl+FxlxpdWKY/VJ99esjbBILPr7
-	 +wdJEWTJ8YXcQSYrsXvvD9D1MD45lDGlQD8YKAfFDTrR7A9hDst0cN9asJ03mWd2bM
-	 mFsML3WdRRRlA==
-Date: Mon, 12 Oct 2026 19:46:11 +0000
-To: Takashi Iwai <tiwai@suse.de>
-From: Tristan de Cacqueray <tristan@midirus.com>
-Cc: Miguel Ojeda <ojeda@kernel.org>, linux-sound@vger.kernel.org, rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC 0/3] rust: snd: Introduce experimental ALSA rawmidi abstractions
-Message-ID: <87ik36em81.fsf@midirus.com>
-In-Reply-To: <87ld83gl9g.wl-tiwai@suse.de>
-References: <20261011-rust-snd-v1-0-7974ecdcd345@midirus.com> <87ld83gl9g.wl-tiwai@suse.de>
-Feedback-ID: 135030709:user:proton
-X-Pm-Message-ID: 7553b34d4b22bd294f68b24f3dd9bb1a0aaae7e5
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mh9tr7pu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA7FF1F0089B;
+	Mon, 12 Oct 2026 19:55:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791834904;
+	bh=c3pG0ShzXJZepq1HlRC7Cl7P9m7AmsXDtJtRIr5znpo=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=Mh9tr7pu7h5Bhz5VXf3xQBdeib58Hu3d9kpmbvTuVYooMDsgcjQvKEXG1x/e0CYi/
+	 /00cXQ8fSdm9OJPtCBxvrfnC5F4maCAiOJyEklqyCs7O0pulD3s4DwKUxCHCxstP3+
+	 ZA5QXfT68X6Ya28h3ESqFzEV7cVqqRgqy10NVFkRM3uiL1OycJEOaquSGjQEg0hqPw
+	 yFHVUripHzUENah9kNGDDjJHWMQ8rG5my4Md1SjWVBKXMqvqxUtA3GBy6Iy/UJxpsN
+	 fAijnFtVbBBOve/unPhSsOB+bSaxMhSI08lanUKiJKlVYyQWDI5XMAeXMJi+kJYe2j
+	 uK836ZJvC4RcA==
+From: Mark Brown <broonie@kernel.org>
+To: Cezary Rojewski <cezary.rojewski@intel.com>, 
+ Sergey Tiraspolsky <stiraspo@gmail.com>
+Cc: Liam Girdwood <liam.r.girdwood@linux.intel.com>, 
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20261010103753.16969-1-stiraspo@gmail.com>
+References: <20261010103753.16969-1-stiraspo@gmail.com>
+Subject: Re: [PATCH] ASoC: Intel: avs: Reset the stream unless it is
+ already prepared
+Message-Id: <179182811090.390394.9718829794059346472.b4-ty@b4>
+Date: Mon, 12 Oct 2026 19:01:50 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1151; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=hKabUSMeZzEX5ziqGtS0VVRHl6Ub4n/lZZFGVodH5JU=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLLOWoumRWsbJh769aT1VfKhUzxsL5W+yHI9/7dzltfd7
+ T7paYV/O0pZGMS4GGTFFFnisrhf1pe8XsN3cGEbzBxWJpAhDFycAjAR/4cM/yMuPc1Y9C34Avv+
+ 5ZLr8qVsfFTZ3kkfFt6UKP2743XFxyuMDB2XL39KX7/uwiHN4lbnfVLNccfZDCZIqP3KrbAuNJx
+ xjQcA
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
+On Sat, 10 Oct 2026 03:37:53 -0700, Sergey Tiraspolsky wrote:
+> ASoC: Intel: avs: Reset the stream unless it is already prepared
 
-On Mon, Oct 12, 2026 at 14:23 Takashi Iwai wrote:
-> On Sun, 11 Oct 2026 15:02:11 +0200,
-> Tristan de Cacqueray wrote:
->>
->> Hi Takashi and the Rust for Linux maintainers.
->>
->> I just noticed your mail about an early Rust prototype for the sound
->> subsystem right before I was about to submit this RFC!
->>   https://lore.kernel.org/alsa-devel/878q48579z.wl-tiwai@suse.de/
->>
->> Nevertheless, please allow me to share what I had in mind through this
->> small proof of concept for the `rawmidi` API. I am looking for feedback =
-on
->> the scope, coordination, and the ownership model rather than a detailed
->> review for merging.
->>
->> My use case is a new hardware controller using a custom serial protocol.
->> While developing its Rust driver, I needed an interface to ALSA rawmidi.
->> I'm particularly interested in handling rawmidi substream safely to avoi=
-d
->> issues like the one fixed by
->>   221253723dc5 ("ALSA: bcd2000: Fix race between rawmidi and disconnect"=
-)
->>
->> So, I wrote some bindings to see how that would look like. This series a=
-dds
->> experimental snd_card and snd_rawmidi wrappers, input/output callback
->> traits, and a sample rawmidi faux device using delayed work to simulate
->> incoming MIDI data.
->>
->> This is not merge-ready. In particular, the prototype does not yet enfor=
-ce
->> the devres lifetime of the card or the lifetime of its rawmidi wrapper. =
-The
->> substream helper also relies on the driver clearing it before close
->> returns.
->>
->> Here are my questions:
->>
->>   1. Does this rawmidi experiment overlaps with your prototype?
->>      If so, I would be happy to coordinate or adapt this experiment to i=
-t.
->
-> No, my patchset doesn't contain rawmidi support yet.
-> The sound card abstraction would conflict quite, sure, but it wouldn't
-> be too hard to adapt, I guess.
->
+Applied to
 
-That's great, I can rebase my rawmidi abstraction onto your branch.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
 
->>   2. Is rawmidi a useful initial target for ALSA Rust abstraction?
->
-> Sure, why not, if it's actually needed? :)
->
+Thanks!
 
-I think Rust could help make midi_ops implementation safer. Would it make
-sense to port the virmidi driver as a demonstration, or would you
-recommend a different driver as a starting point?
+[1/1] ASoC: Intel: avs: Reset the stream unless it is already prepared
+      https://git.kernel.org/broonie/misc/c/f6be9f558a83
 
->>   3. Does your prototype mirror the C API 1:1, or for example, does it h=
-ide
->>      the substream lifecycle? That's the design choice I'm least sure ab=
-out.
->
-> It's mostly a straightforward wrapping of C API, but there are a few
-> twists to adapt Rust-way.  The card can be managed in RAII style, too,
-> for example.
->
-> I haven't prepared for submission, but you can find the current
-> changes in test/sound-rust branch of sound git tree (either kernel.org
-> or github.com):
->   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git/log/?h=
-=3Dtest/sound-rust
->   https://github.com/tiwai/sound/tree/test/sound-rust
->
-> Those are over 50 commits on top of 7.3-rc5, and I'll likely rebase a
-> bit to rearrange before submission, so beware of changes in future.
->
-> The commits begin with a few Rust kernel changes for fixing and
-> addition for the sound support, including the PM support from Beata
-> Michalska (just took what have been posted), followed by ALSA core
-> abstractions for the card, PCM and controls.
->
-> Then it continues to the implementations of 3 actual sound drivers for
-> PCM/control: the dummy driver (with platform and hrtimer), and the
-> ens1370 and intel8x0 drivers for PCI devices to be run on VM.
->
-> After that, the extension to USB abstraction follows, including the
-> isochronous support patches by Colin Braun, and then the USB-audio
-> driver implementation (that can run on an actual bare metal), as well
-> as the USB runtime PM support.
->
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-Thank you for sharing the branch. I'll take a look.
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
->
-> BTW, until now, I haven't planned for any serious consideration to
-> merge Rust stuff yet.  Partly because the above was a pure experiment
-> for me, but another big obstacle is that the whole Rust C binding is
-> limited to built-in vmlinux.  With a distribution kernel maintainer
-> hat on, this is absolutely NO-GO -- we really want to avoid built-in.
-> (Graphics is a kind of exception nowadays because of boot support,
-> though.)  Can this be worked out soon...?
->
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-Wow, that sounds like a major limitation that I wasn't aware of. I'm not
-familiar with the status of this issue, but I'd be happy to help if
-there's something I can contribute.
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
-Thank you for the prompt reply Takashi. I really appreciate it!
--Tristan
+Thanks,
+Mark
 
