@@ -1,144 +1,127 @@
-Received: from mail-dl1-f45.google.com (mail-dl1-f45.google.com [74.125.82.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from morty.yoxcu.de (morty.yoxcu.de [194.36.144.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FBB354EECB
-	for <linux-sound@vger.kernel.org>; Tue, 13 Oct 2026 20:42:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B426552930;
+	Tue, 13 Oct 2026 20:45:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.36.144.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791924145; cv=none; b=EDrbHgO066aHqzzbIPZvT7izokkgIlXesR3CHuVxfJd1eon7MROcdRbt1Kao+VHBt83AXg6K5Wl81k5F/GIvJ1x+iGJ7lioiMgEFgPF8/haivkKzwNzyhVAZ4E9Vy6y+jAuQRQkx865omJwmq2v0ksJwzPuj3yg2rXw04huPNJg=
+	t=1791924358; cv=none; b=eK94B6CVsw+gCM38wQyBnT1FdwM9MzjPj4Quf3bY6wXeS/E8knMlQQFW0GcI1bzxp3VB5PKhzSIVQWjI+DLYox3n+Hlj1G6p3ghj0w6BltP5zRCSYNR4jHaaxLj7X0sYca1jC3MYDXeI2IC2HIsUj0qUPO5j3+B4LJxid9vgdJI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791924145; c=relaxed/simple;
-	bh=EU/lXhcyesppo2k4iqqbE1WUHSYLUnCdm/FVETA/lG0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=c8hS1+aT0DVf4sJBJhopOBQdf7MzGO0453tAv1SqWLZLrjvtw0svXAGaTIbWSE3G43LKIk1WCvboUkZ1krlyxxlfADJpKX25XMyQS0752pqK8cerZY2SrkARTDI2+g3Jnd2RT1UWkTV/5+aebDs0SRkhJA5HvXsmyQ2LPFBt0fw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S+X5sNFu; arc=none smtp.client-ip=74.125.82.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791924358; c=relaxed/simple;
+	bh=ADbQ3LYE7yRgR2UyeY8uguMRNwPs43ZJiNu103wWYeA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Z95NVZdeYQ/E9HIFckDgO//SmtBQAQUGbntkRRfm8ddDfyMDI8bTRAOjRRMCRHwVBiXi+glmCMdfGuWW3z2pd/K4P0+kt3O8NJoh9FSK/kLSGSqMGkXgrVywelAuohco63eOp7lo4KffaiLMjCjh2levtkC3TiaFwygDo0xHa1Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=yoxcu.de; spf=pass smtp.mailfrom=yoxcu.de; dkim=pass (2048-bit key) header.d=yoxcu.de header.i=@yoxcu.de header.b=iv/k+rXO; arc=none smtp.client-ip=194.36.144.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=yoxcu.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yoxcu.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S+X5sNFu"
-Received: by mail-dl1-f45.google.com with SMTP id a92af1059eb24-15354aa70e8so806285c88.1
-        for <linux-sound@vger.kernel.org>; Tue, 13 Oct 2026 13:42:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791924143; x=1792528943; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=iLt6GKuvAarV8gdf+zpsyObKDRlnXSW8t5lVL3DEXxI=;
-        b=S+X5sNFuYrBsi1WR8vN9OktaV8ts6Tgcf8FVPR+wcIgjkonfrogXtxjCd27jY32lGm
-         ieTVmz6+xKgJ6ueiWYG3sOxZW5FxuroAvh0/qQqNYJhvBa8iBqApokceLhjBpeC8Xc0I
-         kqk1UHDpVOdRIHOULswFRLi1JP8NIU+93vvkEi44L8Uxc1d+yIdfVvQu4bV3pbFIb67k
-         nNqF4cvcOMDYtdTWIQLsOsDBYIQ+PIPJJjwUYZloY/cF2tvD9oW+yUPih4N6Q8XV+Qpl
-         XGwNm0h54LFzzauV8/UEPq2LVp9WNtgY8CcwSVbrPmqHkgGogpwCEKBZw0yx1h8U6PWt
-         yVZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791924143; x=1792528943;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=iLt6GKuvAarV8gdf+zpsyObKDRlnXSW8t5lVL3DEXxI=;
-        b=frsmkwL2sP/Se83nlUOYMY2cMMrEVjTtOmBjd4M+Wr4lJZM/1/LKdA2lmCMCSe941G
-         iRs1zYBYyutHQATid2wrRHAZvqs9vOFYOFeh7OkxfWyZcMJ0Trd5QLz7AEc4yKHKH3Le
-         SzJnWRITfcXS/UxV+xnZfZ/GeQkJxehXnz87rqOWaMKIt+6SCeonxfQZALuq4URAm2CL
-         KD0U3ODMLhTs1uu6tgi0kH3fcLuUhaY6K/pztnkMnpHReOrvBhBPadeR3kT4dQZ9fj/D
-         DF6aisbrU5oV5Y/uqD/pfjqGSSdQ10ONn+OndSyyV5Y9KGo5/eiZYBW5KRRY8OWvUUUT
-         +NJQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwnCrKeqg7mIa4Ryc3pzixDvgrEYCH1OWVsZK95D4AUQ3fUZy08UJAdyE7MUS1EgNZqFiKh5bCaFS2H8w==@vger.kernel.org
-X-Gm-Message-State: AFq9FYIlHhupbZPjyxFry79AZj3CoN1r+f1GuqOjg/M/2YxmBW6yXDWr
-	lCzGY+TceSxy+0awzbqIGLS4dNqh8UkrtRmQTO2G21BggvNK+tiLJo2M
-X-Gm-Gg: AYBFou0o7822g0ppbv/HZG4G2939Jmk+p/0S/6InYljWypVhaZYgOeLCUtIljZJk339
-	kp88PZfXJKu8OtZQW7+nZvrIIP77NUVw9TjjGK9cdVtRKUNIQtLpmXDjmFexv8HMoInYG6MhI7+
-	SJI93aoY4rGz4Kx+Cb2UwW35hawRWrRbxgh5k+3wKznq6lNHBCOgd4MttPRXJEFJ/4+giOGU7j/
-	/cYygG5lVgETYE4tjiy3tNpruiqCo+yTxW5UN6tJVeQvjUuFRCzH7upDG7Axiwi10joizQCm7nk
-	JDuZxjpT56uY2xkK49XU1hZQT8PBdIe3D9dv9flGa4BuEqVtQPwTgbnKHXxM58q0Y1HjOOVZtZg
-	vAKfy8R8RBWJbKhetSBxuQ0iMNZKr4vqjPWW56TzOVysPNCQulSlQ/hces7q4w3DLY6ytkNNxKy
-	ENB5ZoG/TaXiuPL+LcZ+5vH2tBPh9rLovrQnYX25kZlmGJoxXW7gTUYZkTSXqrsUO3
-X-Received: by 2002:a05:7022:296:10b0:153:4a27:4ea5 with SMTP id a92af1059eb24-16a600667a0mr17435729c88.28.1791924143269;
-        Tue, 13 Oct 2026 13:42:23 -0700 (PDT)
-Received: from unix.. ([181.229.23.179])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-169a6021e49sm41761598c88.20.2026.10.13.13.42.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Oct 2026 13:42:22 -0700 (PDT)
-From: =?UTF-8?q?Iv=C3=A1n=20Ezequiel=20Rodriguez?= <ivanrwcm25@gmail.com>
-To: Takashi Iwai <tiwai@suse.com>,
+	dkim=pass (2048-bit key) header.d=yoxcu.de header.i=@yoxcu.de header.b="iv/k+rXO"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 0B6451D811EC;
+	Tue, 13 Oct 2026 22:45:51 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yoxcu.de; s=dkim;
+	t=1791924353; h=from:subject:date:message-id:to:cc:mime-version:
+	 content-transfer-encoding; bh=6EfA02eGKBl6UwnoAG0Nozb6+TP2ebB7B9g5XbcXIFk=;
+	b=iv/k+rXOX7g3DrqVEmGjR0hH4/dlsOCenJAmoJsReJy4OjF/T2dmZ+nrEHhrhhbe1Ya4FP
+	wtxf37HOox4SiObHDzhQ70WbvseUpzC9CQdfVEt+uqTY4u046kSRTtXSNKx69CnbLUv1ro
+	+IabD0b9CVT7QVs0T+p1j0zZG0UZaKR24Og4OH01yF2YM9kJxKxnYedIo+CeMYocRdWysH
+	c+FNCtz6COtmHo9XIHATlfgwWqLv3OnMoX32slzT1oTEnwWjU6xhgHzPDhJR5cIqBtoKNM
+	V8KipS1ZVSLaDxWd3Oq3qnezlfioFTZjXqzscWvzhH/toIcN9do373aP7HuNNg==
+From: yoxcu <mick@yoxcu.de>
+To: Mark Brown <broonie@kernel.org>,
+	Srinivas Kandagatla <srini@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	Jaroslav Kysela <perex@perex.cz>,
-	linux-sound@vger.kernel.org
-Cc: Kailang Yang <kailang@realtek.com>,
-	Naser Al-Asbahi <nasserqahtan0@gmail.com>,
-	stable@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: hda/realtek: keep headset mic on Acer SSID 0x1640
-Date: Tue, 13 Oct 2026 17:42:19 -0300
-Message-ID: <20261013204219.9649-1-ivanrwcm25@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Michael Auer <mick@yoxcu.de>
+Subject: [PATCH] ASoC: qcom: sdm845: Disable the quaternary MI2S bit clock on shutdown
+Date: Tue, 13 Oct 2026 22:45:49 +0200
+Message-ID: <20261013204549.3115830-1-mick@yoxcu.de>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-The micmute-LED quirk for the Aspire A315-44P matches PCI SSID
-1025:1640 before the Acer ALC256 pin fallback. The Aspire Go 15
-AG15-42P shares that SSID and leaves nid 0x19 as 0x411111f0, so
-selecting the LED-only fixup drops the headset-mic pin remap that
-the fallback would have applied.
+From: Michael Auer <mick@yoxcu.de>
 
-Chain ALC2XX_FIXUP_HEADSET_MIC before the GPIO3 micmute LED on that
-SSID. Leave the Swift SFG16 entry (0x169a) unchanged.
+sdm845_snd_startup() enables the quaternary MI2S bit clock in the ADSP,
+but sdm845_snd_shutdown() never disables it. After the first stream on
+this port the clock stays on.
 
-Tested on Acer Aspire AG15-42P (Callisto_BCU): PCI pick 1025:1640,
-Headset Mic=0x19, GPIO3 enabled with no physical micmute LED, speaker
-and capture paths functional.
+On the OnePlus 6 the speaker amplifier is on this port. After the first
+playback the ADSP no longer power collapses: it slept under 9 s in 5
+hours. With this change it sleeps again when audio is idle (about 40 s
+of 45 s).
 
-Fixes: d830631a128b ("ALSA: hda/realtek: Add micmute LED quirk for Acer Aspire A315-44P")
-Cc: stable@vger.kernel.org
-Signed-off-by: Iván Ezequiel Rodriguez <ivanrwcm25@gmail.com>
+Refcount the clock like the other MI2S and TDM ports and disable it
+when the last user is gone.
+
+Fixes: 5caf64c633a3 ("ASoC: qcom: sdm845: add support to DB845c and Lenovo Yoga")
+Assisted-by: LLM
+Signed-off-by: Michael Auer <mick@yoxcu.de>
 ---
- sound/hda/codecs/realtek/alc269.c | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
+Tested on a OnePlus 6 with an sdm845-mainline 7.1-rc1 based kernel:
+the bit clock is set at stream start and set to 0 when the stream is
+closed, and the ADSP power collapses again. On sound/for-next it was
+only build tested (W=1). Not tested on the other boards that use QUAT
+MI2S (DB845c HDMI, Xiaomi beryllium and polaris).
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index 1623cf926c71..2793d09fbf6f 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -4388,6 +4388,7 @@ enum {
- 	ALC285_LENOVO_DAC_RENAME,
- 	ALC287_FIXUP_YOGA9_SPEAKER2_TO_DAC1,
- 	ALC256_FIXUP_IPASON_SMARTBOOK_S1,
-+	ALC256_FIXUP_ACER_HEADSET_MICMUTE_LED,
+ sound/soc/qcom/sdm845.c | 19 +++++++++++++++----
+ 1 file changed, 15 insertions(+), 4 deletions(-)
+
+diff --git a/sound/soc/qcom/sdm845.c b/sound/soc/qcom/sdm845.c
+index f0fbec9c8df2..85951397cb2b 100644
+--- a/sound/soc/qcom/sdm845.c
++++ b/sound/soc/qcom/sdm845.c
+@@ -43,6 +43,7 @@ struct sdm845_snd_data {
+ 	bool stream_prepared[AFE_PORT_MAX];
+ 	uint32_t pri_mi2s_clk_count;
+ 	uint32_t sec_mi2s_clk_count;
++	uint32_t quat_mi2s_clk_count;
+ 	uint32_t quat_tdm_clk_count;
  };
  
- /* A special fixup for Lenovo C940 and Yoga Duet 7;
-@@ -6900,6 +6901,13 @@ static const struct hda_fixup alc269_fixups[] = {
- 		.type = HDA_FIXUP_FUNC,
- 		.v.func = alc256_fixup_acer_sfg16_micmute_led,
- 	},
-+	[ALC256_FIXUP_ACER_HEADSET_MICMUTE_LED] = {
-+		.type = HDA_FIXUP_FUNC,
-+		.v.func = alc256_fixup_acer_sfg16_micmute_led,
-+		.chained = true,
-+		.chained_before = true,
-+		.chain_id = ALC2XX_FIXUP_HEADSET_MIC,
-+	},
- 	[ALC256_FIXUP_HEADPHONE_AMP_VOL] = {
- 		.type = HDA_FIXUP_FUNC,
- 		.v.func = alc256_decrease_headphone_amp_val,
-@@ -7230,7 +7238,13 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1025, 0x160e, "Acer PT316-51S", ALC2XX_FIXUP_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1025, 0x1616, "Acer Aspire A515-57", ALC256_FIXUP_ACER_COLDBOOT),
- 	SND_PCI_QUIRK(0x1025, 0x161f, "Acer S40-54", ALC256_FIXUP_ACER_MIC_NO_PRESENCE),
--	SND_PCI_QUIRK(0x1025, 0x1640, "Acer Aspire A315-44P", ALC256_FIXUP_ACER_SFG16_MICMUTE_LED),
-+	/*
-+	 * Shared SSID: A315-44P needs GPIO3 micmute LED; AG15-42P needs
-+	 * the headset pin remap (BIOS leaves 0x19 as 0x411111f0). One
-+	 * entry applies both. GPIO3 is unused on AG15.
-+	 */
-+	SND_PCI_QUIRK(0x1025, 0x1640, "Acer Aspire A315-44P / AG15-42P",
-+		      ALC256_FIXUP_ACER_HEADSET_MICMUTE_LED),
- 	SND_PCI_QUIRK(0x1025, 0x166c, "Acer Predator PH16-71", ALC2XX_FIXUP_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1025, 0x1679, "Acer Nitro 16 AN16-41", ALC2XX_FIXUP_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1025, 0x169a, "Acer Swift SFG16", ALC256_FIXUP_ACER_SFG16_MICMUTE_LED),
+@@ -372,9 +373,11 @@ static int sdm845_snd_startup(struct snd_pcm_substream *substream)
+ 		break;
+ 	case QUATERNARY_MI2S_RX:
+ 		codec_dai_fmt |= SND_SOC_DAIFMT_NB_NF | SND_SOC_DAIFMT_I2S;
+-		snd_soc_dai_set_sysclk(cpu_dai,
+-			Q6AFE_LPASS_CLK_ID_QUAD_MI2S_IBIT,
+-			MI2S_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
++		if (++(data->quat_mi2s_clk_count) == 1) {
++			snd_soc_dai_set_sysclk(cpu_dai,
++				Q6AFE_LPASS_CLK_ID_QUAD_MI2S_IBIT,
++				MI2S_BCLK_RATE, SNDRV_PCM_STREAM_PLAYBACK);
++		}
+ 		snd_soc_dai_set_fmt(cpu_dai, fmt);
+ 		snd_soc_dai_set_fmt(codec_dai, codec_dai_fmt);
+ 		break;
+@@ -483,8 +486,16 @@ static void  sdm845_snd_shutdown(struct snd_pcm_substream *substream)
+ 				0, SNDRV_PCM_STREAM_PLAYBACK);
+ 		}
+ 		break;
+-	case SLIMBUS_0_RX...SLIMBUS_6_TX:
++
+ 	case QUATERNARY_MI2S_RX:
++		if (--(data->quat_mi2s_clk_count) == 0) {
++			snd_soc_dai_set_sysclk(cpu_dai,
++				Q6AFE_LPASS_CLK_ID_QUAD_MI2S_IBIT,
++				0, SNDRV_PCM_STREAM_PLAYBACK);
++		}
++		break;
++
++	case SLIMBUS_0_RX...SLIMBUS_6_TX:
+ 		break;
+ 
+ 	default:
+
+base-commit: 631a161db2c5168dd836242571724baba3561a1f
 -- 
 2.43.0
 
