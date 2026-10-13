@@ -1,63 +1,65 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EA2A39FCD7
-	for <linux-sound@vger.kernel.org>; Tue, 13 Oct 2026 07:43:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 400BE3A544D
+	for <linux-sound@vger.kernel.org>; Tue, 13 Oct 2026 07:44:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791877438; cv=none; b=OL4ukdRK5ZsMDaXNDpEH0O06+qB5nxUW4B8HZWnaz3WT9W1AtFK3tH/15VkRUcrwom+M7OJB9fh9Nz4j87aIoORoYKYdZJKlE5sSCCsL0MuicSx6pRFpzgv/yOuorQgnMRTvWSNQbu+hVzfwhyAbqx9gnk1MmAqVQNPrhm8AjZU=
+	t=1791877441; cv=none; b=mmqa+EaH5NXLLNhBHqi2+pgU4XPpHXW/eZh31ij24D4sMqgUchVmzC9YIrXYVVAHhN9CYkw0wJGKOCF98QoOFYPSmjaZ2s2TWCofZuy0q9K0p+AWSRRPyP/Zzr+eI8UiEP2iJCHsYnkponp8enBbeYhBemS9b468mdk9MGi4jVI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791877438; c=relaxed/simple;
-	bh=DgZc9TaOzYmHYSvKJq23geFrfrxuctba2uQ61M8yVKU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qSLnf/5rut0fYdekKFQrQ7Kz/aNvX58W+flXwgaBs2fKdYKz93Qe6h1Gn+q/PjZjODcO2CEREjzUt9VTQh1EBNG8dSdMqVO4DfoqdgstT8fGiWg3uaPWrRtjP/1E0IKbpPBtnRhCE2+VNiGYzGh4PIFe50q70IxcYFPqGDb53kQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PWpy+7MW; arc=none smtp.client-ip=209.85.216.47
+	s=arc-20240116; t=1791877441; c=relaxed/simple;
+	bh=pwNblbWrm5OD5TA5me6F3/LOLUd0mFmzYtucFfkbMXA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=E5w71EsF/8hPtwnTe/iXQdZ4rrNy9piwmdLs4UEtcbVqC3/JO31uaBZyH4TS0BSvTUVmeZffpZCZREyPcc5Mu6DRZdDcAnhMSLWPcKZ15AX1vEFk28DSVUZecyyEX3RS66YyWdsARvOnf8VZOpoGqz3NRtaBg5furdBXBWyi39k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V48sbRFp; arc=none smtp.client-ip=209.85.216.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PWpy+7MW"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-39647aa9d52so1592819a91.0
-        for <linux-sound@vger.kernel.org>; Tue, 13 Oct 2026 00:43:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V48sbRFp"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-398b3c37877so1229891a91.0
+        for <linux-sound@vger.kernel.org>; Tue, 13 Oct 2026 00:44:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791877437; x=1792482237; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ZK1NeHdcHM35sHEDjJ2Bqzc2/PgsQjYGP/lMmIlnTdw=;
-        b=PWpy+7MW2HrjjKxdUyB5uzBtTmBE1oKDszK/ZLHgHXbiymkPOYdUtYijfPYzzZzcxs
-         cBWTU52I+vqE2ztG7NkU8htO0t3ZaeLXkv94MVB4QPT+L8eorOJYeyMjciZB8a11XgiU
-         u2rdJinZ9+RUxaUlsaejk5BRTdADTWIrzCfbVH7s1BBjT7CLc27tNmdsK2n4zjkSsEl2
-         ySfdqISMbHfqd2Vt85EMpujbjDRoVw9IUWAHO7MB4h/yAiSfM+MVUsAcLoZeafBwVGlE
-         wY9bHrT7XP1IJ7H1jsdMM5uy29TMEJenzL/7G+4Fe9mVqbrwELnHQwRcj08LYj5TlEti
-         B2fg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791877437; x=1792482237;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1791877439; x=1792482239; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=ZK1NeHdcHM35sHEDjJ2Bqzc2/PgsQjYGP/lMmIlnTdw=;
-        b=XpkqBXUmiu2bPhdqBarq1gDjYrfCNKYkq1YWrL/DdgTLGc1f3XG86jPZCVnQaXsFVV
-         5BHU7RVhdGGrZmErUIBO0bGCsqLxLgI36UPkfV3Dgjro2QxLAa542cjhtA7z/OYyLSdH
-         B/VElqEqbpbWL3EEY5s+jyagqhGKKeo+m9nMWxSzFX+XELnWlxOJHPqfHMmIaaElU+BV
-         kl3zoWOm8az1NgKQLp9oPry4KBXzbbBqr9ElSyAjwdog43A5Xyp3R15kEw9VDY50FLT4
-         DnL+xUDT05iU2Cza8i1U5NtFAq2j6LLmKpIsS7UcnNF8OcvwvA57uR6wTsZnibv0SqXH
-         hSBg==
-X-Forwarded-Encrypted: i=1; AKwUvBxUyZ9F6z760am2gen1Fm4ayiczbb51/dblLzCk43W9obX4oOtl2iYKHt69+Jzoui/qUAEc/Qu1+pxP0A==@vger.kernel.org
-X-Gm-Message-State: AFq9FYIMptssCReacmeQndh9GerpMui8h/dL2wHShgv93Tof9Kle+jOn
-	vryrhd88DYEY+FGjBuVhYQLjmrVkkngViwYFIzGLA3RX/NZmKkIXmyDP
-X-Gm-Gg: AYBFou0J04zuqn0cZUvPZr9vi7Bmz1oVr01wBKdd1zPQJouOGQ5SwLkEuITBZAtyyTW
-	JCxJZG7IdoxcR2QRzkKIZfCXc4i8R29jH4jw+HamdSvanC07LfxbFfmcfQllQzXTaCpymOomzdw
-	tcRfFZRWILGGpW9um9JiOhHRB4oNFrd814bfYpOoIiveBd76/NlTUD0WuDiwhZmnYS2v8MOyAWI
-	RAfgntNc/QxzhIOo4UhpNc7oKhQ6XWBL7rTzkblOX+aIjbR4Qtd2TMtfoLuSmQhuuuv7BjidO9y
-	TbGwUcfpiOeN0MDhvfOJXWqne01UyCPy28DO3eW5hE/5W5Jb5v+lWZr+KmCpGM/tPxVR5b03Jz0
-	6JvIY+DQi+y59DPOR+Z6RuVdIZ4w39e+ZFfghsf9F/Bc4m+iBAOzQrGgAULbZyWIE4dSo/O3qNs
-	4MwSktaX7Zz+6l8d5sIczRnQI/dWcsMcdu21wwZVurNe5/FSliVb1v8Ay/EZ9gav4CBYRrzAhJy
-	DprdhrNkyM7/wafNcRq/tGpS700jhTXVsmi4sYtgicyxDFDdaeUXdJZxJ1FPU+/MZS0qwmVpCqA
-	WKNqHnNDWwCJzcQh
-X-Received: by 2002:a17:90b:4b:b0:3a7:96d:feaf with SMTP id 98e67ed59e1d1-3ab3a9a0c59mr6091973a91.16.1791877436619;
-        Tue, 13 Oct 2026 00:43:56 -0700 (PDT)
+        bh=A4Nga1IEEBSo5687TyetgrCo6afRO5bkl3ZzOjXmUS4=;
+        b=V48sbRFpPRZn+HJJJrPQzfIOK+Wp/VzaXuja5xzlP0qoiUzi3XRGJ51rPjcVVM6LR3
+         GZ/aASgQY4n5v+jIM+Nk5zJ/YMnzERz1gtipOmROQNlAEYHr5pBesYY0iwqjwGVqtxuw
+         N71/eDdb2PytT3Xp4GV9uggeX43h26Pl+f/U72XV1DjLoGd7+JQ8GqI2Y6pwFLLBi9X/
+         GVFChClYPwm1ms3muZv5erxoZVL0NpR0GVfVEEAh9j6Ow/oKSufEeEAzGFRTw9R77CL4
+         PSNY5EmISXJCEM7KYYETQiLS3kjoJyN+49sycY76ShY0WMC+xs07zbfLA98A6gx6jOL+
+         qVRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791877439; x=1792482239;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=A4Nga1IEEBSo5687TyetgrCo6afRO5bkl3ZzOjXmUS4=;
+        b=TempNBwQSZxD5xkUX/H/7+nTp6gEP788R3xpNzgCpXPghFDgxw/TtDF9N7HycQD1ep
+         IlHEs9Rnt27k5yEN8y59ND30/xguhHc2Dud+ywg2V4u2nlLaswJPi6/KU1Zk0O6rDYv7
+         pztWhX1wP3B9nAfwm9LEEtXDUPvH6DZA5wjyx1+3sa0mwkSVnZJhthWJcXAIprRyIUyI
+         B3vYDYhAlIPr5rm+RJl9SQGThsKxvBOUpVkrw/c/y9EaiGE8D58HdCNYnCBxi1LEXzY1
+         ONEf0LA4r2vGaRP/xm/RjcGzXFzLYsc3RzunGy4GSUT2j1PSbBA73EoKc1ElSPVJC16W
+         t1Mw==
+X-Forwarded-Encrypted: i=1; AKwUvByW2f/MvoG9Rz/ky5a77a1xvw+BgbkusmRzzg4BGiwZK5UYKb28KJYHT73SLOkMFndfcuU8geZI23Fozg==@vger.kernel.org
+X-Gm-Message-State: AFq9FYJ4UHzqtWG9K0K6gF4viyltglb0nRxTiKcjn3cFYdw9s2de6tSD
+	nrGQwwNitaHo6DRDfiKidBqNdeDY2pU6ygPeRzT0Ya6MDZ7/dvgw4F5M
+X-Gm-Gg: AYBFou3B691++lBW0ymnzFEV+TotpPqLsV4RX/IUN9A0VgpMnPX7jtxwPQDKljHFgoY
+	XFltd4a6keGj6+jB02QB5Dj69Rtrmp64U5LYJhka/DHwp83EtR0023obty/VXKcmjPp7fA4eZJk
+	mLexy5lvroFN7qB/i/yR2VabQPg2OUJ43awk4T6h0DPvFwat76aJgFT80BW3/r87EJ61EJKiYbr
+	O9ObKXDd5Pt9hNCv2z2Oi3iKnQIqlPOskGtNrfSSDEhd/8NtjvlAS4GJYEuCPOwD0hto0PQcE+S
+	6e1N05n2rDOE1/srpuXxOmFBVaX9fIu7pTHncCdv0cDxgt6RsOlItqakdRCmC9XYVJqYCcHlg/f
+	JfI4ZQaNBOjpQ7ZgwpmcoXW04CGDAnUUsikmH/fWGCwVkZVWZ56Ps/GaOg9r17VLadjIVnIYG56
+	4iYge+1QuMVgNWfUWtzQgCC1BM7UuDcJgFowTIUPK+uk5XQ8/IMvHc164udn78Nc2eBMv2Hf2y2
+	APn0yzG7InK0buRa/GV72GoDNkYBntaLwCoJ6Wl4mgq/+SgYA8a4TWFdmExK6yI720x6Lvy+7kB
+	csK9rUb8c4TZSQ01Jg==
+X-Received: by 2002:a17:90b:224e:b0:3a8:9db2:a4f with SMTP id 98e67ed59e1d1-3ab3af75ac1mr8829588a91.51.1791877439448;
+        Tue, 13 Oct 2026 00:43:59 -0700 (PDT)
 Received: from localhost.localdomain ([183.96.175.225])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ab36ed053csm20552825a91.4.2026.10.13.00.43.54
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ab36ed053csm20552825a91.4.2026.10.13.00.43.56
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 13 Oct 2026 00:43:56 -0700 (PDT)
+        Tue, 13 Oct 2026 00:43:59 -0700 (PDT)
 From: Joonho Lee <mynameisjune111@gmail.com>
 To: Takashi Iwai <tiwai@suse.com>
 Cc: "Michael S . Tsirkin" <mst@redhat.com>,
@@ -66,10 +68,12 @@ Cc: "Michael S . Tsirkin" <mst@redhat.com>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Matias Ezequiel Vara Larsen <mvaralar@redhat.com>
-Subject: [PATCH v2 0/5] ALSA: virtio: Fix request lifetime and error recovery
-Date: Tue, 13 Oct 2026 16:43:45 +0900
-Message-ID: <cover.1791877396.git.mynameisjune111@gmail.com>
+Subject: [PATCH v2 1/5] ALSA: virtio: Propagate PCM send failures through ACK
+Date: Tue, 13 Oct 2026 16:43:46 +0900
+Message-ID: <d6c405ed4ac3412b376e5c2fee70cd66703f921c.1791877396.git.mynameisjune111@gmail.com>
 X-Mailer: git-send-email 2.54.0
+In-Reply-To: <cover.1791877396.git.mynameisjune111@gmail.com>
+References: <cover.1791877396.git.mynameisjune111@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -78,83 +82,166 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-A failed PCM start or a timed-out request can leave virtio-snd messages
-owned by the device after the caller returns. Retrying can then reuse
-pending messages, and freeing ALSA or control buffers can leave their
-addresses in a virtqueue.
+virtsnd_pcm_msg_send() can fail while queueing a transfer. Restore the
+failed message's length and notify the device about earlier messages
+queued by the same call, so they do not remain stranded.
 
-This series fixes enqueue-error recovery and keeps the memory referenced
-by outstanding requests alive until completion or device reset. Reset
-also detaches unused descriptors before deleting the queues, releasing
-their DMA mappings and cancelling PCM messages without reporting them
-as completed audio.
+Propagate that failure through the indirect PCM transfer callback instead
+of discarding it. Commit the updated indirect state only after successful
+submission and stop further transfers when a send fails. Return an XRUN
+error to ALSA so the stream can recover.
 
-Changes since v1, following the Sashiko AI review:
-- Patch 1 propagates enqueue failures through ACK. Indirect PCM state is
-  committed only on success; a failed transfer stops the stream and
-  returns -EPIPE rather than allowing an out-of-sync retry.
-- Patch 2 is unchanged.
-- Patch 3 detaches unused descriptors on all queues after reset and
-  balances PCM cancellation and control-message references.
-- Patch 4 supports NOMMU with an owned, zeroed buffer instead of rejecting
-  an ordinary kmalloc-backed ALSA buffer. Capture copies are bounded and
-  disabled once the stream stops.
-- Patch 5 separates CPU metadata from DMA storage and aligns each DMA
-  region to dma_get_cache_alignment(). Control-send cleanup also uses
-  explicit, balanced locking instead of mixing scoped guards and gotos.
+Keep the polling feature path unchanged.
 
-Validation of the final source:
-- Source-extracted ASan/UBSan regressions on macOS arm64 and Linux arm64,
-  including expected failures on the v1 ACK and NOMMU implementations.
-- ARM64 W=1 module builds at all five patch steps, plus an ARM32
-  CONFIG_MMU=n driver object build of the final source.
-- QEMU ARM64 KASAN tests with delayed PCM completion past hw_free,
-  delayed PCM_INFO completion after timeout, and reset with pending
-  control requests. Each case includes a subsequent recovery operation.
+Fixes: fe981e67568c ("ALSA: virtio: use ack callback")
+Assisted-by: LLM
+Signed-off-by: Joonho Lee <mynameisjune111@gmail.com>
+---
+Changes in v2:
+- Propagate send errors through ACK, retain indirect state only on
+  success, and stop the stream before an out-of-sync retry.
 
-The QEMU tests use a synthetic audio backend; they do not validate a host
-microphone. NOMMU coverage is a compile and source-extracted test, not a
-booted NOMMU guest. Cache-alignment checks are not a physical
-non-coherent DMA hardware test.
+ sound/virtio/virtio_pcm_msg.c | 12 +++++
+ sound/virtio/virtio_pcm_ops.c | 82 +++++++++++++++++++++++++++++++----
+ 2 files changed, 85 insertions(+), 9 deletions(-)
 
-Reproducer source and instructions, pinned to the tested revision:
-https://github.com/whatisyourname0/virtio-snd-reproducer/tree/ef97b69baea51d952ddd7c329a1894150f41849e
-
-The reproducer currently obtains the same final driver source by applying
-the archived v1 patches plus review-v2.diff. Its full kernel/QEMU rebuild
-recipe has not been rerun end to end; the reported runtime tests used
-rebuilt candidate modules with the existing matching KASAN kernel image.
-
-Based on sound.git for-next commit
-8d70e364e866bdfca81eee24d0688fac9472cfb9.
-
-AI assistance was used for code changes, test harnesses, review, and patch
-text. The Sashiko findings were checked against the driver and reproduced
-where applicable before incorporating the fixes. Assisted-by trailers are
-included in the patches.
-
-Previous series Message-ID:
-<cover.1791867377.git.mynameisjune111@gmail.com>
-
-Joonho Lee (5):
-  ALSA: virtio: Propagate PCM send failures through ACK
-  ALSA: virtio: Recover PCM state after a failed start
-  ALSA: virtio: Retain queued messages through device reset
-  ALSA: virtio: Keep PCM DMA buffers alive through device ownership
-  ALSA: virtio: Keep control payloads alive through DMA completion
-
- sound/virtio/virtio_card.c    |  44 ++++-
- sound/virtio/virtio_card.h    |   2 +
- sound/virtio/virtio_ctl_msg.c | 305 +++++++++++++++++++++++++++-------
- sound/virtio/virtio_ctl_msg.h |  28 +++-
- sound/virtio/virtio_kctl.c    | 104 ++++++------
- sound/virtio/virtio_pcm.h     |  13 ++
- sound/virtio/virtio_pcm_msg.c | 295 +++++++++++++++++++++++++++++---
- sound/virtio/virtio_pcm_ops.c | 147 +++++++++++++---
- 8 files changed, 780 insertions(+), 158 deletions(-)
-
-
-base-commit: 8d70e364e866bdfca81eee24d0688fac9472cfb9
+diff --git a/sound/virtio/virtio_pcm_msg.c b/sound/virtio/virtio_pcm_msg.c
+index 72103f606716..5371f4985fd0 100644
+--- a/sound/virtio/virtio_pcm_msg.c
++++ b/sound/virtio/virtio_pcm_msg.c
+@@ -260,6 +260,18 @@ int virtsnd_pcm_msg_send(struct virtio_pcm_substream *vss, unsigned long offset,
+ 				dev_err(&vdev->dev,
+ 					"SID %u: failed to send I/O message\n",
+ 					vss->sid);
++				msg->length -= n;
++
++				/*
++				 * Do not leave earlier messages queued without notifying
++				 * the device when a later message could not be added.
++				 */
++				if (msg_count != vss->msg_count &&
++				    !(vss->features &
++				      (1U << VIRTIO_SND_PCM_F_MSG_POLLING)) &&
++				    virtqueue_kick_prepare(vqueue))
++					virtqueue_notify(vqueue);
++
+ 				return rc;
+ 			}
+ 
+diff --git a/sound/virtio/virtio_pcm_ops.c b/sound/virtio/virtio_pcm_ops.c
+index 1091100a4c98..a40ea394bf17 100644
+--- a/sound/virtio/virtio_pcm_ops.c
++++ b/sound/virtio/virtio_pcm_ops.c
+@@ -466,36 +466,100 @@ virtsnd_pcm_cp_pointer(struct snd_pcm_substream *substream)
+ 		vss->hw_ptr);
+ }
+ 
++struct virtsnd_pcm_transfer {
++	struct snd_pcm_indirect indirect;
++	int error;
++};
++
+ static void virtsnd_pcm_trans_copy(struct snd_pcm_substream *substream,
+ 				   struct snd_pcm_indirect *rec, size_t bytes)
+ {
+ 	struct virtio_pcm_substream *vss = snd_pcm_substream_chip(substream);
++	struct virtsnd_pcm_transfer *transfer =
++		container_of(rec, struct virtsnd_pcm_transfer, indirect);
++
++	if (transfer->error)
++		return;
+ 
+-	virtsnd_pcm_msg_send(vss, rec->sw_data, bytes);
++	transfer->error = virtsnd_pcm_msg_send(vss, rec->sw_data, bytes);
++}
++
++/* Caller holds vss->lock. */
++static void virtsnd_pcm_transfer_failed(struct virtio_pcm_substream *vss)
++{
++	vss->xfer_enabled = false;
++	vss->stopped = true;
++	vss->substream->runtime->stop_operating = true;
+ }
+ 
+ static int virtsnd_pcm_pb_ack(struct snd_pcm_substream *substream)
+ {
+ 	struct virtio_pcm_substream *vss = snd_pcm_substream_chip(substream);
+ 	struct virtio_snd_queue *queue = virtsnd_pcm_queue(vss);
++	struct virtsnd_pcm_transfer transfer = {};
++	int rc;
+ 
+-	guard(spinlock_irqsave)(&queue->lock);
+-	guard(spinlock)(&vss->lock);
++	scoped_guard(spinlock_irqsave, &queue->lock) {
++		guard(spinlock)(&vss->lock);
++		transfer.indirect = vss->pcm_indirect;
++		if (vss->stopped) {
++			rc = -EPIPE;
++		} else {
++			rc = snd_pcm_indirect_playback_transfer(substream,
++								&transfer.indirect,
++								virtsnd_pcm_trans_copy);
++		}
++		if (!rc)
++			rc = transfer.error;
++		if (rc)
++			virtsnd_pcm_transfer_failed(vss);
++		else
++			vss->pcm_indirect = transfer.indirect;
++	}
++	if (rc) {
++		dev_err(&vss->snd->vdev->dev,
++			"SID %u: playback ACK transfer failed: %d\n",
++			vss->sid, rc);
++		/* ALSA treats -EPIPE as an XRUN in ACK and pointer paths. */
++		return -EPIPE;
++	}
+ 
+-	return snd_pcm_indirect_playback_transfer(substream, &vss->pcm_indirect,
+-						  virtsnd_pcm_trans_copy);
++	return 0;
+ }
+ 
+ static int virtsnd_pcm_cp_ack(struct snd_pcm_substream *substream)
+ {
+ 	struct virtio_pcm_substream *vss = snd_pcm_substream_chip(substream);
+ 	struct virtio_snd_queue *queue = virtsnd_pcm_queue(vss);
++	struct virtsnd_pcm_transfer transfer = {};
++	int rc;
+ 
+-	guard(spinlock_irqsave)(&queue->lock);
+-	guard(spinlock)(&vss->lock);
++	scoped_guard(spinlock_irqsave, &queue->lock) {
++		guard(spinlock)(&vss->lock);
++		transfer.indirect = vss->pcm_indirect;
++		if (vss->stopped) {
++			rc = -EPIPE;
++		} else {
++			rc = snd_pcm_indirect_capture_transfer(substream,
++							       &transfer.indirect,
++							       virtsnd_pcm_trans_copy);
++		}
++		if (!rc)
++			rc = transfer.error;
++		if (rc)
++			virtsnd_pcm_transfer_failed(vss);
++		else
++			vss->pcm_indirect = transfer.indirect;
++	}
++	if (rc) {
++		dev_err(&vss->snd->vdev->dev,
++			"SID %u: capture ACK transfer failed: %d\n",
++			vss->sid, rc);
++		/* ALSA treats -EPIPE as an XRUN in ACK and pointer paths. */
++		return -EPIPE;
++	}
+ 
+-	return snd_pcm_indirect_capture_transfer(substream, &vss->pcm_indirect,
+-						 virtsnd_pcm_trans_copy);
++	return 0;
+ }
+ 
+ /* PCM substream operators map. */
 -- 
 2.54.0 (Apple Git-157)
 
