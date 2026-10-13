@@ -1,299 +1,250 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011042.outbound.protection.outlook.com [52.101.52.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9615D397E85
-	for <linux-sound@vger.kernel.org>; Tue, 13 Oct 2026 08:01:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791878476; cv=none; b=aR+iyrOz685HnAUXckcXTg7oLba9UoetGOAO8AT2rUJ25ftY4ZIINNi75idyOOGkD3uki+p/AWQ1yriADwrbWwK+KzAi1OD8hycS6YfOP4+D6aFi0INNuuu0fljBqD2VrAGFLJP5BOXV5/YwKD2vc41fd++FQTd79BnClKkg5KI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791878476; c=relaxed/simple;
-	bh=/PgnKTMD8+F3H2CRjecH3dstZ2TPaAecnQNfB+S5sqw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=bIwVhkfhueuaC++rdz2bmavyG7RDSHZPmasthDinswDSywUl6H4gVPjtm2ndfu3/UQsPx90qyibKUU9p2+CkE6/GsRqNv60aTcVaeIe0Gr6QuB9DjCIcTj0/qTD2BJdaEcvZr2cSi2XwR0f64AaEACJHs6KuFBtRdMZSFT0a1B4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DbUI6iIM; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18272376BD5;
+	Tue, 13 Oct 2026 08:52:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791881540; cv=fail; b=i3m9DK+PuJ9Hqvq0aCbKChjPqg2edR8iaCB5o9xA9liOcaRI+K5EKtQzIqFM/8dmWfi28inncmvPdmtrh1Py7Hd6+K4lDWg7l9foMbanImRM4LJ7mZ9MNxl5r7Nyy1Hd/lzLobYIcZrqfMNvEgET2aJu4g+u3fXi2YSk2UBF4Mo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791881540; c=relaxed/simple;
+	bh=ZKuWWTIxu/Ud6TZmMc46vnK29MCBiWRu26Yx6p8ZfiU=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=dMIoa9+++mkJXNByB600vcOww/vTKRsxso97JIcTCUketqjt0EoFqF4FjqRw7J8XfhT79XHh6AMpIqOwImDfNIXGVgFofU+Ootmxcd/C6ro4yOEXCTTzvcS+vqHujnfwMU7ZLtbkJX7J9V/51uiFZYiLDx6vYF8hbJhAdnt04cE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=g01Z8R0Y; arc=fail smtp.client-ip=52.101.52.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DbUI6iIM"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2db710396ffso26689235ad.1
-        for <linux-sound@vger.kernel.org>; Tue, 13 Oct 2026 01:01:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791878473; x=1792483273; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=YrS9XfS6gUAwTQT6s4escVSU2ej1iWqHwjdTNOy38t4=;
-        b=DbUI6iIMc9c2Ww+8J1SG1MzaDg00Mvq7hPjUKj46C2Z5BEI6WeJA0s7vF9LLCG2aYE
-         jjgAVJZabsCg2tCayUvMi3VXDDFOoJ38D/UT27XYVIYolcfVRNxQHAp/0rYp6IgRr7Qo
-         UibdjiUUwL7KIGDo7eG4KspG62Tyb/WEgU9164tq33s26gPiSWtbNG0bdhLeWoPMZ7RQ
-         1CJ3PRqGRKiWh9l0qr1BKEXhQFedxxROanjSnf3w5zcDyYqrdo3HXxMp09VsuxqAMsot
-         o5pyF8QcYzRcPzuRAObFa3MI3qFfyC81P0kSgnDf9/zPsQeD9WmfTKL21M2fxrdwLH5m
-         ub7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791878473; x=1792483273;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=YrS9XfS6gUAwTQT6s4escVSU2ej1iWqHwjdTNOy38t4=;
-        b=xff9Frq6MeubchsIKtgnemJIM7eHqi0F91Ff8qB+D44sOiF/oPhUkLtgvZT1/hOdV/
-         jYMXiS3S3A+X5quHydnihL5m8AoO/yPdKSHUfbY1fQWLzAGA6qSVGX8SwJtbXJ6bVSMA
-         fBQGUxEsTWJJ9RrDlpaFHdNxsmCxwODdk0MrDytJXshKIGfuwxK+XTYdItqZX4zWNShS
-         nIjhYzITkVtIBoTHgWnE14mr5U3Bq1AXCmlWCYAYndG2noXbbyqWi+6HkMyAxnbHIH10
-         AQtxQJGigfmrm8yAHcKlSkB27DB7FB8+igccckLtkvhE0u0K+A876A30e5w+bbT8tQYG
-         Q5Qw==
-X-Gm-Message-State: AFq9FYJHuOa8ed0miUl9bop/zjL7HVTt7TLvCfrZiVy7dp9KlbBCnWj0
-	BWyUphgIGOg5v9rMqOV4WxsuEaZgcapKCTQhDbM6n98Fc4eozquFA1+a
-X-Gm-Gg: AYBFou0/5YgaDFlY9ozdTKAsWCBGDybD8M0V7yE76A6IqHianr2vSbyFfNwm+UYQSW0
-	uevu/RXROUIkNUgxdRtU8/JzAjYDlsITvwJaUpdp4QUu+KsB8Ztj97VV4bfFlasC/hUNWdSHG0+
-	Py+Ig4UuzYbm+edZEmqwCi92BoCGNS9eb3p1bdYHoWlihxfZzqzBXatf54whpaNxoO+Xk5E1Uxo
-	dXoZtnd90n0RvY1mr4cnlcNP9yDTHavpr6PLS4xWtY5WPmNZNWJSqDEuIdS1ayBNG+wPv4ZamCp
-	TlN0qABseeZCW9uyXCrdTk/xA0XOMUF8FMYYwfBEPSvUqLhm+CcAMuFQJObbi2/3qTL2P9jNXr8
-	TBNmi+oy3IISoAThDbXIyfFYEq/qdO2+TKgX4i88VKAWPXmG50L+j5vtt/lEK2Mv2Me7qgMd1oT
-	xJbP1MeIIz5TveN/OnwduMu90/LUdBksx9LevRg3APjY1EPivzgIG1jVcA0piZE5YCvA==
-X-Received: by 2002:a17:902:e748:b0:2e6:1c24:d5f2 with SMTP id d9443c01a7336-2e840542be6mr82916565ad.36.1791878473362;
-        Tue, 13 Oct 2026 01:01:13 -0700 (PDT)
-Received: from localhost ([111.228.63.84])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e8483c3dfcsm50221715ad.24.2026.10.13.01.01.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Oct 2026 01:01:12 -0700 (PDT)
-From: Cen Zhang <zzzccc427@gmail.com>
-To: perex@perex.cz,
-	tiwai@suse.com,
-	phucduc.bui@gmail.com,
-	cassiogabrielcontato@gmail.com,
-	cezary.rojewski@intel.com,
-	zzzccc427@gmail.com,
-	kees+treewide@kernel.org,
-	yilinzhang@moonshot.ai
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	baijiaju1990@gmail.com,
-	jjzuming@gmail.com
-Subject: [PATCH] ALSA: pcm: Protect delay DMA sync against concurrent HW_FREE
-Date: Tue, 13 Oct 2026 16:01:06 +0800
-Message-Id: <pm-pmb-d74585d187e0b1810c08-v2-25432d0951f67fdaa1a9@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="g01Z8R0Y"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=MImzsrT7TtftM4GqW4cACxtT3SgJ5ckbqHDUHdTrw9VXRap++wzCQ6F9/D29rUFJQAbcKU9vxeiDMlgzqOQMgO+h9O+CErmMU5MAwD2kBwjTLvorN4zgvdtbNDzhmjpxMaPf+Tzr0zApK7fglnRf8A+S67RsTF4/x3QMgnHh01NecPoNHkH+BkKKlEg/wf82PkO3L8HHKAIOfCvg3rIL0I8EBorVZMv4Q07OLPP2k4ya1cOr8UZGlXmBwV31a+YNW2qgJrd2qI1zBAcOUA7qdcRB8MuxC0jracWnrWa/TCK7OWJV7/Qh7Vp33PrMxrcPhe3ldqS0eg7f7htYixpCPg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vuaCfIoV0IQbSRxWRy4R0KsnVQNCZn6kMmI6GBuuzfI=;
+ b=D/jlz5OD3FMtRU65vhZNdQUnTjbhEKwmo1M3WqNw3OnyKJNmbkcmUkiMCWNyxfrQ6gGNgYyr3rsuk+iJ3b2C83Oy6DJEBu57eJJaZG7ogPfx/EIzh0CTG+ABtjmpRU/2/8y0DN0eN/JEE0Mcbx9AF6FCWMzM/tGXGMmbPmtwkhlKzdh7RxDScyxnJXZ0RFryXlAfp4ESyAKEJgQ8FAtVejEyNvsUaBc6sGrzL8Owj9h+KlH3tcfuHYPgWBplKCtK/Mkl/qMDwCvpzoT596bR6n1EmRFZdgzopDHi9RfOFVpf6LryxyAQHqVwL/yItVjib6tuAq9m3Hn1bUFaq+zxYw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vuaCfIoV0IQbSRxWRy4R0KsnVQNCZn6kMmI6GBuuzfI=;
+ b=g01Z8R0YCJrW9HnKrnJZpGPP9NFMD7XFVLXuXvVZm9L9a75qpx7LEVOIgrFWTfgWXh4JJ9U06BlCsfliyQSwNtVKak6d+JsdPxy8zadTkauUMgLa9XOclqAqzIzHOlvzT0xnMLhULKbd6qQB6jcgqUmPOGsYwi8lMD1g7+DOBSo=
+Received: from BN9PR03CA0573.namprd03.prod.outlook.com (2603:10b6:408:10d::8)
+ by PH0PR12MB5648.namprd12.prod.outlook.com (2603:10b6:510:14b::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.23; Tue, 13 Oct
+ 2026 08:52:14 +0000
+Received: from BN6PEPF00000074.namprd03.prod.outlook.com
+ (2603:10b6:408:10d:cafe::66) by BN9PR03CA0573.outlook.office365.com
+ (2603:10b6:408:10d::8) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.496.5 via Frontend Transport; Tue, 13
+ Oct 2026 08:52:13 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
+ is 165.204.84.17) smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
+Received: from satlexmb08.amd.com (165.204.84.17) by
+ BN6PEPF00000074.mail.protection.outlook.com (10.167.248.201) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.522.6 via Frontend Transport; Tue, 13 Oct 2026 08:52:13 +0000
+Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.53; Tue, 13 Oct
+ 2026 03:52:07 -0500
+Received: from amd-System-Product-Name.amd.com (10.180.168.240) by
+ satlexmb08.amd.com (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.53
+ via Frontend Transport; Tue, 13 Oct 2026 03:52:04 -0500
+From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+To: <vkoul@kernel.org>
+CC: <broonie@kernel.org>, <alsa-devel@alsa-project.org>,
+	<yung-chuan.liao@linux.intel.com>, <pierre-louis.bossart@linux.dev>,
+	<Basavaraj.Hiregoudar@amd.com>, <Sunil-kumar.Dommati@amd.com>,
+	<venkataprasad.potturu@amd.com>, <Syed.SabaKareem@amd.com>,
+	<Mario.Limonciello@amd.com>, <Richard.Gong@amd.com>,
+	<linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Vijendar
+ Mukunda" <Vijendar.Mukunda@amd.com>
+Subject: [PATCH V3 01/10] soundwire: amd: fix SDW command timeout return value handling
+Date: Tue, 13 Oct 2026 14:19:22 +0530
+Message-ID: <20261013085111.2009061-2-Vijendar.Mukunda@amd.com>
+X-Mailer: git-send-email 2.48.1
+In-Reply-To: <20261013085111.2009061-1-Vijendar.Mukunda@amd.com>
+References: <20261013085111.2009061-1-Vijendar.Mukunda@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN6PEPF00000074:EE_|PH0PR12MB5648:EE_
+X-MS-Office365-Filtering-Correlation-Id: 979fed69-bdb3-442a-0e62-08df290746d0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|23010399003|376014|36860700016|82310400026|56012099006|11063799006|261009223027099003|22082099003|10067099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	DaVPNsb2tYOKB2N6TKxm+OT23WHLnN2YjajB6WHfgpvu6P7aLm3XMJ0zST8FDIEux/2MYclU6F3x3CPE+6FN7JN1//op4IBt9kEojbesCezeZnJ+3nzflRFSd3tB4Ya1+OMCM2g6jLVHysNFI4imnySSz1nIxxszydK5ZQ7qIROceEckJaTR1FTYQdTnVytZ+yH7PZzY/FluDz695vw1PN30+bxDFtgbi27FlLwbnwck2jtYnUZu6v2JzTV3NfHckahXvWVCGZxy/Th8ozK3cGzSP+3n8cJPpAWslAwj9KZx6+PW+2y12cN4BWONTOgMPcFZ5q6y2JDczqckC4YMt2TSF7W4bKJdTHZRPNr7JZJaSkrs/k940JwBqnO00Th/sw75+4jnqUo6pr/mTGQgcNYpRvFglf4z7RJLCLDM5E4Iy6D8V3Ljbdsysi5X4UUNnV2ztUDESs+6uSgh5s7KOov6RnT0sPwaxG7x/QyJKYv0vXqUhcm/EfRqfzQjvidn9YACMZb6AFPXShmeHz+E371+D+5hYS4kSUsZtifmE7pi8A0B7FyeWZc586q/Xw2ersYtP1ktRR4J3w5UybCpvPVbJvqUucpyV88PPohioLyhS2akmtOMYEMNbvDXCMhEKBoooF/fl3G4oLI4IO14DENfJH3v/wiVzJdtITuE4Fm/3NpRUEs1shxN9dTuODHGv9fQoMnIA1N7P90ID3OxSA==
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb08.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(376014)(36860700016)(82310400026)(56012099006)(11063799006)(261009223027099003)(22082099003)(10067099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	WWHniI9XKTwBeCZJk9SGQ26APyA6WR1ndkU7as97XQ5EZNXXjey9iTtfWJf0m3zN5OnpPGs3swMGgFd79G9qt/AGSwJoOlLwbptudnfdQCp4dqf+GdateUdp6zhdip8jKTCJwTAB7uW/Jks/Kur5R6rAn0l4NkXn226CpAZmUe+B3bn0EfboHRNOqY5ffl1mgitxdUJ0rH7e2DWwurkIs6ZsRNFjNKEgFgdzimVw0AQkNa7H1npw8lk1gFyFfxrUbQqL7Jo+GdSw/1JEBBpNvE2MDria2t5nYp08swWaRb+xjr/XwVQ8pQUEQeNFlwPMxpXbi7WOMC8ZJKkt+uhexxd5MiWQOmIl1WhtMrjYNVOU4DAsdsRtBYsRTjYh2Zz1dphH7aK5NYQz7aDQklCBmh209hNrIstAyUe++NijZrOkV7GjxMpjNYlb9wv7x5r6
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Oct 2026 08:52:13.9007
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 979fed69-bdb3-442a-0e62-08df290746d0
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb08.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN6PEPF00000074.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB5648
 
-A PCM DMA buffer must remain allocated until explicit DMA synchronization
-finishes. snd_pcm_delay() calls snd_pcm_dma_buffer_sync() after dropping
-the stream lock, without participating in the buffer-access exclusion
-used by HW_FREE.
+amd_sdw_send_cmd_get_resp() returned u64 but was returning -ETIMEDOUT
+(a negative int) on readl_poll_timeout() failures, which silently
+widens to a large u64 value.
 
-With a managed NONCONTIG buffer requiring explicit sync, HW_PARAMS can
-allocate a separate runtime descriptor when the requested ring exceeds
-the preallocation. In PREPARED state with mmap_count zero, concurrent
-HWSYNC and HW_FREE calls on the same open PCM file can interleave:
+Change the return type to int and pass the raw u64 response through an
+out-parameter. Timeout is detected directly from readl_poll_timeout()
+return value.
 
-1. HWSYNC checks the state in snd_pcm_delay() under the stream lock and
-   releases that lock.
-2. The sync helper fetches runtime->dma_buffer_p and enters
-   snd_dma_noncontig_sync() with that descriptor.
-3. HW_FREE takes the negative buffer-access count, checks PREPARED under
-   the stream lock, releases the lock, and frees the DMA allocation and
-   dynamic descriptor through snd_pcm_lib_free_pages().
-4. The sync callback resumes and reads the freed descriptor.
+Update all callers: amd_program_scp_addr(), _amd_sdw_xfer_msg(),
+amd_sdw_read_and_process_ping_status(), and amd_sdw_read_ping_status()
+to check the return value and handle timeout explicitly. In
+amd_sdw_read_and_process_ping_status(), the mutex unlock is also moved
+to after amd_sdw_process_ping_status() so the lock is held across the
+full status processing step.
 
-The stream lock does not cover the allocation's release, and the sync
-operation has no positive buffer-access count to prevent it. The stale
-read causes a use-after-free in snd_dma_noncontig_sync(). DELAY uses the
-same snd_pcm_delay() path.
-
-Take a positive buffer-access count before checking the state and keep it
-until the DMA sync finishes, as the transfer and mmap paths already do.
-HW_FREE then returns -EBUSY while this access is active. If a buffer
-writer has already entered, snd_pcm_delay() returns -EBUSY before using
-the buffer. Keep the sync outside the stream lock and balance the count
-on the state-error path as well.
-
-KASAN report as below:
-
-    BUG: KASAN: slab-use-after-free in snd_dma_noncontig_sync+0x295/0x310 [snd_pcm]
-    Read of size 4 at addr ffff888108f58584 by task pcm-uaf-fixture/487
-
-    CPU: 1 UID: 0 PID: 487 Comm: pcm-uaf-fixture Not tainted 7.2.0-rc6-pmb-alsa-functional-v2+ #1 PREEMPT(lazy)
-    Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-    Call Trace:
-     <TASK>
-     dump_stack_lvl+0x93/0xd0
-     print_report+0xce/0x630
-     ? snd_dma_noncontig_sync+0x295/0x310 [snd_pcm]
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     ? __virt_addr_valid+0x20d/0x410
-     ? snd_dma_noncontig_sync+0x295/0x310 [snd_pcm]
-     kasan_report+0xe0/0x110
-     ? snd_dma_noncontig_sync+0x295/0x310 [snd_pcm]
-     ? __pfx_snd_dma_noncontig_sync+0x10/0x10 [snd_pcm]
-     snd_dma_noncontig_sync+0x295/0x310 [snd_pcm]
-     ? __pfx_snd_dma_noncontig_sync+0x10/0x10 [snd_pcm]
-     snd_dma_buffer_sync+0xc9/0x110 [snd_pcm]
-     snd_pcm_delay+0x3bd/0x550 [snd_pcm]
-     snd_pcm_common_ioctl+0x1e7/0x3aa0 [snd_pcm]
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     ? do_vfs_ioctl+0x1f5/0x1280
-     ? __pfx_do_vfs_ioctl+0x10/0x10
-     ? ioctl_has_perm.constprop.0.isra.0+0x34f/0x500
-     ? __pfx_snd_pcm_common_ioctl+0x10/0x10 [snd_pcm]
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     snd_pcm_ioctl+0x76/0xb0 [snd_pcm]
-     ? __pfx_snd_pcm_ioctl+0x10/0x10 [snd_pcm]
-     __x64_sys_ioctl+0x163/0x1d0
-     do_syscall_64+0x115/0x6a0
-     entry_SYSCALL_64_after_hwframe+0x77/0x7f
-    RIP: 0033:0x7f1cae7ab91b
-    Code: 00 48 89 44 24 18 31 c0 48 8d 44 24 60 c7 04 24 10 00 00 00 48 89 44 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 00 00 00 0f 05 <89> c2 3d 00 f0 ff ff 77 1c 48 8b 44 24 18 64 48 2b 04 25 28 00 00
-    RSP: 002b:00007ffe12d544f0 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-    RAX: ffffffffffffffda RBX: 0000000000000004 RCX: 00007f1cae7ab91b
-    RDX: 0000000000000000 RSI: 0000000000004122 RDI: 0000000000000003
-    RBP: 00000000000001ee R08: 0000000000000073 R09: 00000000ffffffff
-    R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000003
-    R13: 0000000000000001 R14: 00005584f32b1398 R15: 00005584f32b2ce8
-     </TASK>
-
-    Allocated by task 487:
-     kasan_save_stack+0x33/0x60
-     kasan_save_track+0x14/0x30
-     __kasan_kmalloc+0xaa/0xb0
-     __kmalloc_cache_noprof+0x251/0x610
-     snd_pcm_lib_malloc_pages+0x27c/0x9f0 [snd_pcm]
-     snd_pcm_hw_params+0x171c/0x1d10 [snd_pcm]
-     snd_pcm_common_ioctl+0x1f62/0x3aa0 [snd_pcm]
-     snd_pcm_ioctl+0x76/0xb0 [snd_pcm]
-     __x64_sys_ioctl+0x163/0x1d0
-     do_syscall_64+0x115/0x6a0
-     entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-    Freed by task 499:
-     kasan_save_stack+0x33/0x60
-     kasan_save_track+0x14/0x30
-     kasan_save_free_info+0x3b/0x60
-     __kasan_slab_free+0x5f/0x80
-     kfree+0x307/0x580
-     snd_pcm_lib_free_pages+0x1c9/0x420 [snd_pcm]
-     snd_pcm_common_ioctl+0x2bd3/0x3aa0 [snd_pcm]
-     snd_pcm_ioctl+0x76/0xb0 [snd_pcm]
-     __x64_sys_ioctl+0x163/0x1d0
-     do_syscall_64+0x115/0x6a0
-     entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-    The buggy address belongs to the object at ffff888108f58580
-     which belongs to the cache kmalloc-64 of size 64
-    The buggy address is located 4 bytes inside of
-     freed 64-byte region [ffff888108f58580, ffff888108f585c0)
-
-    The buggy address belongs to the physical page:
-    page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x108f58
-    flags: 0x200000000000000(node=0|zone=2)
-    page_type: f5(slab)
-    raw: 0200000000000000 ffff8881000428c0 dead000000000100 dead000000000122
-    raw: 0000000000000000 0000000000200020 00000000f5000000 0000000000000000
-    page dumped because: kasan: bad access detected
-
-    Memory state around the buggy address:
-     ffff888108f58480: fa fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
-     ffff888108f58500: 00 00 00 00 00 06 fc fc fc fc fc fc fc fc fc fc
-    >ffff888108f58580: fa fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
-                       ^
-     ffff888108f58600: fa fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
-     ffff888108f58680: fa fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
-    ==================================================================
-    Disabling lock debugging due to kernel taint
-    ------------[ cut here ]------------
-    kernel BUG at kernel/dma/mapping.c:417!
-    Oops: invalid opcode: 0000 [#1] SMP KASAN NOPTI
-    CPU: 1 UID: 0 PID: 487 Comm: pcm-uaf-fixture Tainted: G    B               7.2.0-rc6-pmb-alsa-functional-v2+ #1 PREEMPT(lazy)
-    Tainted: [B]=BAD_PAGE
-    Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-    RIP: 0010:__dma_sync_sg_for_cpu+0x230/0x360
-    Code: df 48 c1 e8 03 80 3c 10 00 0f 85 fa 00 00 00 4c 8b 35 d4 6b 7a 09 e8 7f e2 17 00 83 fd 02 0f 86 39 fe ff ff e8 71 e2 17 00 90 <0f> 0b e8 69 e2 17 00 be 08 00 00 00 4c 89 ff e8 bc 5f 77 00 4c 89
-    RSP: 0018:ffff888111f3fc50 EFLAGS: 00010293
-    RAX: 0000000000000000 RBX: ffffffffc0250d10 RCX: ffffffff816d395f
-    RDX: ffff88810836ba00 RSI: ffff888108f58580 RDI: ffffffffc02510d8
-    RBP: 00000000ffff8881 R08: 0000000000000000 R09: fffffbfff804a239
-    R10: ffffffffc02511cf R11: 6e696c6261736944 R12: ffff888108f58580
-    R13: 0000000002ce00e5 R14: ffffffffc0258720 R15: 0000000000000000
-    FS:  00007f1cae69c780(0000) GS:ffff8881fd861000(0000) knlGS:0000000000000000
-    CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-    CR2: 000055d1affa2480 CR3: 0000000108fc0003 CR4: 0000000000770ef0
-    PKRU: 55555554
-    Call Trace:
-     <TASK>
-     snd_dma_noncontig_sync+0x15a/0x310 [snd_pcm]
-     ? __pfx_snd_dma_noncontig_sync+0x10/0x10 [snd_pcm]
-     snd_dma_buffer_sync+0xc9/0x110 [snd_pcm]
-     snd_pcm_delay+0x3bd/0x550 [snd_pcm]
-     snd_pcm_common_ioctl+0x1e7/0x3aa0 [snd_pcm]
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     ? do_vfs_ioctl+0x1f5/0x1280
-     ? __pfx_do_vfs_ioctl+0x10/0x10
-     ? ioctl_has_perm.constprop.0.isra.0+0x34f/0x500
-     ? __pfx_snd_pcm_common_ioctl+0x10/0x10 [snd_pcm]
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     snd_pcm_ioctl+0x76/0xb0 [snd_pcm]
-     ? __pfx_snd_pcm_ioctl+0x10/0x10 [snd_pcm]
-     __x64_sys_ioctl+0x163/0x1d0
-     do_syscall_64+0x115/0x6a0
-     entry_SYSCALL_64_after_hwframe+0x77/0x7f
-    RIP: 0033:0x7f1cae7ab91b
-    Code: 00 48 89 44 24 18 31 c0 48 8d 44 24 60 c7 04 24 10 00 00 00 48 89 44 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 00 00 00 0f 05 <89> c2 3d 00 f0 ff ff 77 1c 48 8b 44 24 18 64 48 2b 04 25 28 00 00
-    RSP: 002b:00007ffe12d544f0 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-    RAX: ffffffffffffffda RBX: 0000000000000004 RCX: 00007f1cae7ab91b
-    RDX: 0000000000000000 RSI: 0000000000004122 RDI: 0000000000000003
-    RBP: 00000000000001ee R08: 0000000000000073 R09: 00000000ffffffff
-    R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000003
-    R13: 0000000000000001 R14: 00005584f32b1398 R15: 00005584f32b2ce8
-     </TASK>
-    Modules linked in: snd_pcmtest snd_pcm
-    ---[ end trace 0000000000000000 ]---
-    RIP: 0010:__dma_sync_sg_for_cpu+0x230/0x360
-    Code: df 48 c1 e8 03 80 3c 10 00 0f 85 fa 00 00 00 4c 8b 35 d4 6b 7a 09 e8 7f e2 17 00 83 fd 02 0f 86 39 fe ff ff e8 71 e2 17 00 90 <0f> 0b e8 69 e2 17 00 be 08 00 00 00 4c 89 ff e8 bc 5f 77 00 4c 89
-    RSP: 0018:ffff888111f3fc50 EFLAGS: 00010293
-    RAX: 0000000000000000 RBX: ffffffffc0250d10 RCX: ffffffff816d395f
-    RDX: ffff88810836ba00 RSI: ffff888108f58580 RDI: ffffffffc02510d8
-    RBP: 00000000ffff8881 R08: 0000000000000000 R09: fffffbfff804a239
-    R10: ffffffffc02511cf R11: 6e696c6261736944 R12: ffff888108f58580
-    R13: 0000000002ce00e5 R14: ffffffffc0258720 R15: 0000000000000000
-    FS:  00007f1cae69c780(0000) GS:ffff8881fd861000(0000) knlGS:0000000000000000
-    CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-    CR2: 000055d1affa2480 CR3: 0000000108fc0003 CR4: 0000000000770ef0
-    PKRU: 55555554
-    Kernel panic - not syncing: Fatal exception
-    Kernel Offset: disabled
-    Rebooting in 1 seconds..
-
-Fixes: a25684a95646 ("ALSA: memalloc: Support for non-contiguous page allocation")
-Assisted-by: LLM
-Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
+Fixes: d8f48fbdfd9a ("soundwire: amd: Add support for AMD Manager driver")
+Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
 ---
+ drivers/soundwire/amd_manager.c | 56 +++++++++++++++++++--------------
+ 1 file changed, 33 insertions(+), 23 deletions(-)
 
-diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
-index defbb2977efe9dcd8d48b934c3944d3fe159bcd6..f774358629bbc611bd15a1f8cbd4dda3ba7f45b6 100644
---- a/sound/core/pcm_native.c
-+++ b/sound/core/pcm_native.c
-@@ -3116,14 +3116,19 @@ static snd_pcm_sframes_t snd_pcm_forward(struct snd_pcm_substream *substream,
- static int snd_pcm_delay(struct snd_pcm_substream *substream,
- 			 snd_pcm_sframes_t *delay)
- {
-+	struct snd_pcm_runtime *runtime = substream->runtime;
- 	int err;
- 
-+	/* Keep the DMA buffer alive through the sync below. */
-+	if (!atomic_inc_unless_negative(&runtime->buffer_accessing))
-+		return -EBUSY;
- 	scoped_guard(pcm_stream_lock_irq, substream) {
- 		err = do_pcm_hwsync(substream);
- 		if (delay && !err)
- 			*delay = snd_pcm_calc_delay(substream);
- 	}
- 	snd_pcm_dma_buffer_sync(substream, SNDRV_DMA_SYNC_CPU);
-+	atomic_dec(&runtime->buffer_accessing);
- 
- 	return err;
+diff --git a/drivers/soundwire/amd_manager.c b/drivers/soundwire/amd_manager.c
+index a3316efdf8ac..fa3f4e797edd 100644
+--- a/drivers/soundwire/amd_manager.c
++++ b/drivers/soundwire/amd_manager.c
+@@ -250,10 +250,9 @@ static void amd_sdw_ctl_word_prep(u32 *lower_word, u32 *upper_word, struct sdw_m
+ 	*lower_word = lower_data;
  }
+ 
+-static u64 amd_sdw_send_cmd_get_resp(struct amd_sdw_manager *amd_manager, u32 lower_data,
+-				     u32 upper_data)
++static int amd_sdw_send_cmd_get_resp(struct amd_sdw_manager *amd_manager, u32 lower_data,
++				     u32 upper_data, u64 *response)
+ {
+-	u64 resp;
+ 	u32 lower_resp, upper_resp;
+ 	u32 sts;
+ 	int ret;
+@@ -291,9 +290,8 @@ static u64 amd_sdw_send_cmd_get_resp(struct amd_sdw_manager *amd_manager, u32 lo
+ 			amd_manager->instance);
+ 		return ret;
+ 	}
+-	resp = upper_resp;
+-	resp = (resp << 32) | lower_resp;
+-	return resp;
++	*response = ((u64)upper_resp << 32) | lower_resp;
++	return 0;
+ }
+ 
+ static enum sdw_command_response
+@@ -309,19 +307,22 @@ amd_program_scp_addr(struct amd_sdw_manager *amd_manager, struct sdw_msg *msg)
+ 	scp_msg.buf = &msg->addr_page1;
+ 	scp_msg.flags = SDW_MSG_FLAG_WRITE;
+ 	amd_sdw_ctl_word_prep(&lower_data, &upper_data, &scp_msg, 0);
+-	response_buf[0] = amd_sdw_send_cmd_get_resp(amd_manager, lower_data, upper_data);
++	if (amd_sdw_send_cmd_get_resp(amd_manager, lower_data, upper_data, &response_buf[0])) {
++		dev_err_ratelimited(amd_manager->dev,
++				    "SCP_addrpage command timeout for Slave %d\n", msg->dev_num);
++		return SDW_CMD_TIMEOUT;
++	}
+ 	scp_msg.addr = SDW_SCP_ADDRPAGE2;
+ 	scp_msg.buf = &msg->addr_page2;
+ 	amd_sdw_ctl_word_prep(&lower_data, &upper_data, &scp_msg, 0);
+-	response_buf[1] = amd_sdw_send_cmd_get_resp(amd_manager, lower_data, upper_data);
++	if (amd_sdw_send_cmd_get_resp(amd_manager, lower_data, upper_data, &response_buf[1])) {
++		dev_err_ratelimited(amd_manager->dev,
++				    "SCP_addrpage command timeout for Slave %d\n", msg->dev_num);
++		return SDW_CMD_TIMEOUT;
++	}
+ 
+ 	for (index = 0; index < 2; index++) {
+-		if (response_buf[index] == -ETIMEDOUT) {
+-			dev_err_ratelimited(amd_manager->dev,
+-					    "SCP_addrpage command timeout for Slave %d\n",
+-					    msg->dev_num);
+-			return SDW_CMD_TIMEOUT;
+-		} else if (!(response_buf[index] & AMD_SDW_MCP_RESP_ACK)) {
++		if (!(response_buf[index] & AMD_SDW_MCP_RESP_ACK)) {
+ 			if (response_buf[index] & AMD_SDW_MCP_RESP_NACK) {
+ 				dev_err_ratelimited(amd_manager->dev,
+ 						    "SCP_addrpage NACKed for Slave %d\n",
+@@ -366,11 +367,7 @@ static enum sdw_command_response amd_sdw_fill_msg_resp(struct amd_sdw_manager *a
+ 		if (msg->flags == SDW_MSG_FLAG_READ)
+ 			msg->buf[offset] = FIELD_GET(AMD_SDW_MCP_RESP_RDATA, response);
+ 	} else {
+-		if (response == -ETIMEDOUT) {
+-			dev_err_ratelimited(amd_manager->dev, "command timeout for Slave %d\n",
+-					    msg->dev_num);
+-			return SDW_CMD_TIMEOUT;
+-		} else if (response & AMD_SDW_MCP_RESP_NACK) {
++		if (response & AMD_SDW_MCP_RESP_NACK) {
+ 			dev_err_ratelimited(amd_manager->dev,
+ 					    "command response NACK received for Slave %d\n",
+ 					    msg->dev_num);
+@@ -390,7 +387,11 @@ static unsigned int _amd_sdw_xfer_msg(struct amd_sdw_manager *amd_manager, struc
+ 	u32 upper_data = 0, lower_data = 0;
+ 
+ 	amd_sdw_ctl_word_prep(&lower_data, &upper_data, msg, cmd_offset);
+-	response = amd_sdw_send_cmd_get_resp(amd_manager, lower_data, upper_data);
++	if (amd_sdw_send_cmd_get_resp(amd_manager, lower_data, upper_data, &response)) {
++		dev_err_ratelimited(amd_manager->dev, "command timeout for Slave %d\n",
++				    msg->dev_num);
++		return SDW_CMD_TIMEOUT;
++	}
+ 	return amd_sdw_fill_msg_resp(amd_manager, msg, response, cmd_offset);
+ }
+ 
+@@ -446,9 +447,14 @@ static void amd_sdw_read_and_process_ping_status(struct amd_sdw_manager *amd_man
+ 	u64 response;
+ 
+ 	mutex_lock(&amd_manager->bus.msg_lock);
+-	response = amd_sdw_send_cmd_get_resp(amd_manager, 0, 0);
+-	mutex_unlock(&amd_manager->bus.msg_lock);
++	if (amd_sdw_send_cmd_get_resp(amd_manager, 0, 0, &response)) {
++		mutex_unlock(&amd_manager->bus.msg_lock);
++		dev_err_ratelimited(amd_manager->dev, "SDW%x ping status timeout\n",
++				    amd_manager->instance);
++		return;
++	}
+ 	amd_sdw_process_ping_status(response, amd_manager);
++	mutex_unlock(&amd_manager->bus.msg_lock);
+ }
+ 
+ static u32 amd_sdw_read_ping_status(struct sdw_bus *bus)
+@@ -457,7 +463,11 @@ static u32 amd_sdw_read_ping_status(struct sdw_bus *bus)
+ 	u64 response;
+ 	u32 slave_stat;
+ 
+-	response = amd_sdw_send_cmd_get_resp(amd_manager, 0, 0);
++	if (amd_sdw_send_cmd_get_resp(amd_manager, 0, 0, &response)) {
++		dev_err_ratelimited(amd_manager->dev, "SDW%x ping status timeout\n",
++				    amd_manager->instance);
++		return 0;
++	}
+ 	/* slave status from ping response */
+ 	slave_stat = FIELD_GET(AMD_SDW_MCP_SLAVE_STAT_0_3, response);
+ 	slave_stat |= FIELD_GET(AMD_SDW_MCP_SLAVE_STAT_4_11, response) << 8;
+-- 
+2.48.1
+
