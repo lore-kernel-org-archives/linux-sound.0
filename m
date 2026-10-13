@@ -1,65 +1,65 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A04B345EB8
-	for <linux-sound@vger.kernel.org>; Tue, 13 Oct 2026 05:30:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57767399CEC
+	for <linux-sound@vger.kernel.org>; Tue, 13 Oct 2026 05:30:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791869445; cv=none; b=FFJFKAPLyYjvl1yNvuRcarD9EMV8UWnxksz6ZBHVnf90sVKLpyebF9XBsQSIRVYIB/HAeVWFhwQ50Bkk2tiyxylH/ltDcvMd5pOr161LWUQ1Z62S1mhtSP3M9XtotfNxp7rT4dMnriWp75hWuaDCWDK4pZBCXY1Eijjk9RaUY80=
+	t=1791869449; cv=none; b=FUJbgn6cPYAUkkF3UUkaCcFYX6lbd1GtmG+N8FtzZyuGSjwkwvDHtZGn2BK5bcSG4z6ju7nZm683Yv6c3AOX9pVjn5D1QuN7C9aez87wXY06mwnhvTwBpIHwv4MzwP21cI5MyHtBFfQYXjzPCvGnt56I9qx/VD6TTwkuL37i9vE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791869445; c=relaxed/simple;
-	bh=KcFlavboTGzQdx+SFgUh+a4o6emzU3fjZ0ClZo866qo=;
+	s=arc-20240116; t=1791869449; c=relaxed/simple;
+	bh=AZpMcQVd242wNsymyeLV+kUSdiW8V59Q0tvwcs6k848=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=enyA93ZA8L9GNDQYLpJUrmH2TGuxzlQmO/T03P2PRiL1pg8sNioSlWFG1OktkT8/B/rwfGoILi40zl5oJPc2kdz3yp13dxOJ/DSNw7zAOaVB7EiZdujcHFNTDscLb5SjwEe5saYgnltcbIlL7PydwLaxW2F2w4qDIZYFRWPJpVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fjMo0DlM; arc=none smtp.client-ip=209.85.214.173
+	 MIME-Version; b=s3j1hlK1JQOiZBi4CaRAS4WQhiw765xu4/inwhw/4/N9sOwviEmHGlevKUW5gr93IGPMEct4cgWrAe607jNXNd1G+g6rctMD0meNBysUfShiL+mC7zcapNeI8yVN2/0IaXInTlI6a5LhkqCDl0C04VGAXg6padJZOWE5x0PxWug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aAm+48JX; arc=none smtp.client-ip=209.85.214.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fjMo0DlM"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2e8da6ef7ddso7831245ad.3
-        for <linux-sound@vger.kernel.org>; Mon, 12 Oct 2026 22:30:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aAm+48JX"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2d6e954afbdso9808585ad.2
+        for <linux-sound@vger.kernel.org>; Mon, 12 Oct 2026 22:30:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791869443; x=1792474243; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1791869446; x=1792474246; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=sFTdq2AdFaWp+a8LZGReJeGWYdMQaatHWPNuzNn9a44=;
-        b=fjMo0DlMOPNcGBHdV4q31gzLAiLQ+A6kk4OuC3tZ6/91AJXwlRji4nH6t7bH42Js/b
-         xQ12h6N/lT1nZNF5q+GdgYttBa140I9lCqnm8JU+8ekgACpsq1vKBPQ0/trxlUdg4btG
-         rjPT6PEf9+oVw7+B0LfSh2xsE+WMKSydNS6DAiqUerYv9w7Of17zkLJ9IMO/XAYPG6Wf
-         B+LHSQqA4zBFT82QRakq1j6vEVIVwUpIMYrkWxoyWABrBgPcOV4W9ACjx7Zj/t4dz3hq
-         4zHdoTWzy9rGUgjph5lJUVHwk4/PK+RHFcjhpj6m7Bz++Qy9/myophBu4Wbbf1xojmap
-         LWZg==
+        bh=mgSlMltKjH9fZj/9bm3MvgD0zfBRnf6rS+vp3uicNHM=;
+        b=aAm+48JXIaxa1Cfmyh/YaGggJpzq7MjEaX4d2V9/vZaqvHRT4fr0BU1XbReNQFEDAA
+         ae+D+qnbFO9iLbEOW4IvIbRZU7MmLIpdVDVZntYhwAZOo+lhxEUenI5VD0Z1WobzKx96
+         I+HjSB7s+lmaCBHO5BVhKN6jM7cMY3Q/VV8u48lyneJW9WBuMQR4WTjjVqxVnL9OznUR
+         hHpksf3JBKMiKqzhoQplkDyciWODmleVL7uAmpIKAjkUb/Rks3qq6kl8znzOaK8fBYDn
+         ABf1dmGRdza3WaPFbUboAFhHcg6aQW/aHbkt+8hcNxh5fIeIIOye7Ad00MlBLpKBL4BM
+         0qdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791869443; x=1792474243;
+        d=1e100.net; s=20260707; t=1791869446; x=1792474246;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=sFTdq2AdFaWp+a8LZGReJeGWYdMQaatHWPNuzNn9a44=;
-        b=rlyLWUFlbUSrjlLI7+4p6ej2ArYJaLbfcwViLC6CbvMgS/GhtHkjvQI10CfDr73PME
-         2Q68TMlDEIrrzHsGdr0Jop+wK8NVIfTU9l5LMug5CtwnVTJx8n4En38hWMX8ReDJdXa2
-         +dDbq/DmB4mHRAOU1UY02UMrf6JYIEmQzNci1r8cchDUmKkYPtCM8xwpTILmElMvlk+7
-         inN8MPGbQVrBh3yOUr6g256sAKJgp1ZMCLqAlYlziu810b5xCpveQoXLJvaLkPWRKpf0
-         V4kS4bQMGS2lHwY7oKMSwMj7bHNeZpyzaU/n28gamYspev1OhTf5nQ4AXFX74v2/FJXT
-         E29Q==
-X-Forwarded-Encrypted: i=1; AKwUvBwlhniLtreLlFkChljMIlPaBBTdnidvtX9iwzbF0fi3lcBQoOVnKqyPUgMZc4mcivAIGdNVvvdFcwCesQ==@vger.kernel.org
-X-Gm-Message-State: AFq9FYKVA69Nua7RneNtp1rYwDJtQkysx5RllLYO2maZLbFmTIsk/w1A
-	rud9LmaOT1V91Sow+BqnHkQlPM4ULjFHeqDBtWKoV2D4qoo4PJmt4W/5
-X-Gm-Gg: AYBFou1yLu0v2S7K92qC0cBCd6hAQ4E6Hjws/nq9FELD9dv6CWJYGOmWdSNACpHD97H
-	taFvpVwIA9rp1iu0Y1yFcu+X0JUNiyt0cAndA1BuGfqXMhstUsdUAa0BzaCBM/i8Kbhh933y5yz
-	b5iA4PECHo79gI3yn8Ow/rys8zm/70vDg2Y+5O/P9Nf1/OOwVmPTzlh6UOgWEckbnfMV+fo3nL1
-	rKANG3c2IiLEmgUs9iVZl5VjmleUET5B12Y95X9ONb6O5cfkUSp77fnvMXIDV0HYOgEYvXbo7QL
-	QeuIm/OG+SuKREICsAkwElBik3anhJfmWQafgA6uH2bu9FfaFf0EjRK3XNLmAVv3zenGflcA/ux
-	6WslofuEY6gz0ernTqR9KZhsc4RCcpIvP5o0+YZm4wGVdM+zUe83RWqcF1VxVBBpSx+oeFcHNTO
-	HCAImkxCCCldwQxF1qkz88hOeYFgT4Hhr0awYfbA+0Cbd+/iokMN2eKlq3KBwkhWb5SzKyWzRCz
-	r2vJKdWHZOSbjhklAjhvF1mOiEfM07sED7ZLuerkLRjqmQlTD5SlJ5cktdNOHHP8U0K9lePFR23
-	5bafOQCSpS/2HnSn
-X-Received: by 2002:a17:902:d50a:b0:2e6:943:39df with SMTP id d9443c01a7336-2e842bc7e0bmr94618825ad.25.1791869442718;
-        Mon, 12 Oct 2026 22:30:42 -0700 (PDT)
+        bh=mgSlMltKjH9fZj/9bm3MvgD0zfBRnf6rS+vp3uicNHM=;
+        b=nLH56wOqMKm4hyxvB7dNBllGnlhqhVbA3hR85BqQKYVCOBdxor8zIkECqUzi6g41rm
+         N0PGuh0MOH8TFa03RgaoQV6Mj7oL3iFjfGsj4c8nTLlihG2zlwlQvjLBSoi/r5UUGWAs
+         85ILhMAU4Afz/okN+07sDesDy/WIDh9D6Cg5SnQGRWsEB2dpl41/y8DBEDPYrlhyVTm9
+         AkFELJBSMAtdiNyA6vTPrC23vg6M9YDf7RFSKcEMxwq7mweKTMwycgeuUlGsNTgCe5z/
+         7RAA+3+0i91EOsGxsgLv6LayIp0GiiWawBrExg82pdK3VUzvzDxRebqxHAYYIjMsJ5gb
+         J6zw==
+X-Forwarded-Encrypted: i=1; AKwUvBzAtq5Wzl7fUmgZiBqKO2xp1HxOHqeZEbQYcv+7CuElPNWNEREnZb6Lw7KvNm91MjzGhzEajW7VfVWL9Q==@vger.kernel.org
+X-Gm-Message-State: AFq9FYJATm2rrLJthsMEJ8nAjLrmTvM3jIwMHiDThcYp17MTB3KrKjPp
+	lbADro+qk5AKE7AeG/wGpjlBsw2sft+3q0cTlqaygcgXkmPQZD487e2y
+X-Gm-Gg: AYBFou2GMEvOAWIdQDEXBWY8uCGgMmmdVbNRA5qwiXQkT2cfhDe8aohbnOF552Plkat
+	4acPlJ3nvdEVgiO7TbZIj6oQdR62vJLBjT5tVLSeCvbuoVhKKwgfkpmwU3axZMTKaHj1j63RWSW
+	7WzFca7ystFJxPr+kJ1y1tFm0KXmso/9P/5jL1VGyddfVgNkFsWZFWl7GIXeLpi2hY3D2i/4/61
+	WSFjG/TknDAlsq2PpM/8dndKBBNfQebVyGc2qklJHtHZH/ffL79+sK3gnlih6GEo5hWLLTyxH3R
+	sasUZ+EkvbAcbIlU+/okmm/7CJvjK2u46GTv222s7+CGn+yj6oqyR+IjFBdaasL1SsK/gTlXMFM
+	xT55MeAv3pHj6yQYqM/Lx72Ydp/DlyFRdVIUtassu7bw3dQlIHDJraiWYCMj09uWXg6/KNG9aZa
+	trwJJuP4+zkRsMerunflhTC+MYSA7L75YExC1n6+9fTyHAq4o6a+rIox5oKd7htn0FIQk4cgSxJ
+	KBzgw/hfrgIh+SfVZNTj+A4pQP+AD/CuQUrDdXiH1u/wS8nwbcfzGjYgHv89zYqb91G/w3TLSeF
+	V3A5/MUyjXsRMU30
+X-Received: by 2002:a17:903:3c45:b0:2e5:64ad:2da4 with SMTP id d9443c01a7336-2e842e0b50bmr113874005ad.56.1791869445546;
+        Mon, 12 Oct 2026 22:30:45 -0700 (PDT)
 Received: from localhost.localdomain ([183.96.175.225])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e8422b8cb6sm50820915ad.60.2026.10.12.22.30.40
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e8422b8cb6sm50820915ad.60.2026.10.12.22.30.43
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Mon, 12 Oct 2026 22:30:42 -0700 (PDT)
+        Mon, 12 Oct 2026 22:30:44 -0700 (PDT)
 From: Joonho Lee <mynameisjune111@gmail.com>
 To: Anton Yakovlev <anton.yakovlev@opensynergy.com>,
 	Takashi Iwai <tiwai@suse.com>
@@ -69,9 +69,9 @@ Cc: Joonho Lee <mynameisjune111@gmail.com>,
 	virtualization@lists.linux.dev,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v1 3/5] ALSA: virtio: Retain control requests through device reset
-Date: Tue, 13 Oct 2026 14:30:24 +0900
-Message-ID: <9d5a0ff360e66bc4ddd28aa790d617edc875e20b.1791867377.git.mynameisjune111@gmail.com>
+Subject: [PATCH v1 4/5] ALSA: virtio: Retain PCM DMA pages until messages are freed
+Date: Tue, 13 Oct 2026 14:30:25 +0900
+Message-ID: <6b6421f719a49ce0195c3d43f58b50e40a6e9347.1791867377.git.mynameisjune111@gmail.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <cover.1791867377.git.mynameisjune111@gmail.com>
 References: <cover.1791867377.git.mynameisjune111@gmail.com>
@@ -83,247 +83,235 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-virtsnd_ctl_msg_cancel_all() currently completes and releases
-pending messages before the device is reset. A sender can then free
-a message while the virtqueue still holds its token, allowing a late
-completion to access freed memory. Sending also notifies the device
-after releasing the queue lock, so teardown can reset and delete the
-queue between enqueue and notify.
+PCM I/O scatterlists point directly into the ALSA runtime's vmalloc
+buffer. If RELEASE or queue draining times out, ALSA still frees that
+managed buffer during hw_free/close while the device may retain the
+queued descriptors. Keeping only the virtio_pcm_msg objects alive does
+not keep their backing pages allocated.
 
-Gate new requests and mark pending messages canceled under the queue
-lock. Notify the device while still holding that lock, and retain
-each queue reference until normal completion or post-reset cleanup.
-Normal completion wakes a canceled sender after the device returns
-ownership; cleanup wakes remaining senders only after reset and
-virtqueue deletion.
+Take a reference to each page backing the PCM buffer before building the
+I/O scatterlists, and release those references only when the messages
+are freed after device ownership ends. This keeps late device DMA away
+from pages that the allocator could otherwise reuse after ALSA releases
+the vmalloc mapping.
 
-Keep the control queue available through snd_card_free() so close-
-time STOP and RELEASE commands can still be submitted.
-
-Fixes: 9d45e514da88 ("ALSA: virtio: handling control messages")
+Fixes: f40a28679e0b ("ALSA: virtio: handling control and I/O messages for the PCM device")
 Assisted-by: LLM
 Signed-off-by: Joonho Lee <mynameisjune111@gmail.com>
 ---
-Dependency: apply with patch 5 for control payload lifetime protection.
-This patch retains the message and its headers; caller-owned payloads
-are addressed by patch 5.
+Validation: separate ARM64 W=1 module build at this commit. With the
+full series, delayed capture completion passed two KASAN/QEMU runs;
+the tree through patch 3 reproduced freed-page reads. Playback late
+access and allocation-failure paths also have ASan/UBSan shim tests.
 
-Validation: ARM64 W=1 build and source-extracted ASan/UBSan teardown,
-late-completion and cancellation tests. The final QEMU/KASAN reset test
-covers the complete series, not this commit in isolation.
+ sound/virtio/virtio_pcm.h     |   5 ++
+ sound/virtio/virtio_pcm_msg.c | 110 ++++++++++++++++++++++++++++++++--
+ sound/virtio/virtio_pcm_ops.c |   2 +
+ 3 files changed, 112 insertions(+), 5 deletions(-)
 
- sound/virtio/virtio_card.c    |  6 +++-
- sound/virtio/virtio_card.h    |  2 ++
- sound/virtio/virtio_ctl_msg.c | 61 +++++++++++++++++++++++++++++++----
- sound/virtio/virtio_ctl_msg.h |  4 +++
- 4 files changed, 65 insertions(+), 8 deletions(-)
-
-diff --git a/sound/virtio/virtio_card.c b/sound/virtio/virtio_card.c
-index 6f35276416fe..ed884327bb0e 100644
---- a/sound/virtio/virtio_card.c
-+++ b/sound/virtio/virtio_card.c
-@@ -349,13 +349,15 @@ static void virtsnd_remove(struct virtio_device *vdev)
- 	unsigned int i;
+diff --git a/sound/virtio/virtio_pcm.h b/sound/virtio/virtio_pcm.h
+index 8837dfc12828..56ac2769b05b 100644
+--- a/sound/virtio/virtio_pcm.h
++++ b/sound/virtio/virtio_pcm.h
+@@ -13,6 +13,7 @@
  
- 	virtsnd_disable_event_vq(snd);
--	virtsnd_ctl_msg_cancel_all(snd);
- 
- 	if (snd->card)
- 		snd_card_free(snd->card);
- 
-+	virtsnd_ctl_msg_cancel_all(snd);
-+
- 	virtio_reset_device(vdev);
- 	vdev->config->del_vqs(vdev);
-+	virtsnd_ctl_msg_cleanup(snd);
- 
- 	for (i = 0; snd->substreams && i < snd->nsubstreams; ++i) {
- 		struct virtio_pcm_substream *vss = &snd->substreams[i];
-@@ -385,6 +387,7 @@ static int virtsnd_freeze(struct virtio_device *vdev)
- 
- 	virtio_reset_device(vdev);
- 	vdev->config->del_vqs(vdev);
-+	virtsnd_ctl_msg_cleanup(snd);
- 
- 	for (i = 0; i < snd->nsubstreams; ++i)
- 		cancel_work_sync(&snd->substreams[i].elapsed_period);
-@@ -412,6 +415,7 @@ static int virtsnd_restore(struct virtio_device *vdev)
- 		return rc;
- 
- 	virtio_device_ready(vdev);
-+	virtsnd_ctl_msg_enable(snd);
- 
- 	virtsnd_enable_event_vq(snd);
- 
-diff --git a/sound/virtio/virtio_card.h b/sound/virtio/virtio_card.h
-index 3ceee4e416fc..bd065bd00d25 100644
---- a/sound/virtio/virtio_card.h
-+++ b/sound/virtio/virtio_card.h
-@@ -47,6 +47,7 @@ struct virtio_kctl {
-  * @queues: Virtqueue wrappers.
-  * @card: ALSA sound card.
-  * @ctl_msgs: Pending control request list.
-+ * @ctl_msgs_blocked: Control requests are blocked during teardown or suspend.
-  * @event_msgs: Device events.
-  * @pcm_list: VirtIO PCM device list.
-  * @jacks: VirtIO jacks.
-@@ -64,6 +65,7 @@ struct virtio_snd {
- 	struct virtio_snd_queue queues[VIRTIO_SND_VQ_MAX];
- 	struct snd_card *card;
- 	struct list_head ctl_msgs;
-+	bool ctl_msgs_blocked;
- 	struct virtio_snd_event *event_msgs;
- 	struct list_head pcm_list;
- 	struct virtio_jack *jacks;
-diff --git a/sound/virtio/virtio_ctl_msg.c b/sound/virtio/virtio_ctl_msg.c
-index 6433c870f271..3ad1e1e1b205 100644
---- a/sound/virtio/virtio_ctl_msg.c
-+++ b/sound/virtio/virtio_ctl_msg.c
-@@ -15,6 +15,7 @@
-  * @list: Pending message list entry.
-  * @notify: Request completed notification.
-  * @ref_count: Reference count used to manage a message lifetime.
-+ * @cancelled: Request canceled during device teardown.
-  */
- struct virtio_snd_msg {
- 	struct scatterlist sg_request;
-@@ -22,6 +23,7 @@ struct virtio_snd_msg {
- 	struct list_head list;
- 	struct completion notify;
- 	refcount_t ref_count;
-+	bool cancelled;
- };
+ struct virtio_pcm;
+ struct virtio_pcm_msg;
++struct page;
  
  /**
-@@ -100,7 +102,7 @@ struct virtio_snd_msg *virtsnd_ctl_msg_alloc(size_t request_size,
- 
- 	INIT_LIST_HEAD(&msg->list);
- 	init_completion(&msg->notify);
--	/* This reference is dropped in virtsnd_ctl_msg_complete(). */
-+	/* The caller owns this reference; send adds a queue reference. */
- 	refcount_set(&msg->ref_count, 1);
- 
- 	return msg;
-@@ -134,6 +136,7 @@ int virtsnd_ctl_msg_send(struct virtio_snd *snd, struct virtio_snd_msg *msg,
- 	int rc;
- 
- 	virtsnd_ctl_msg_ref(msg);
-+	/* This reference stays with the queue until completion or teardown. */
- 
- 	/* Set the default status in case the message was canceled. */
- 	response->code = cpu_to_le32(VIRTIO_SND_S_IO_ERR);
-@@ -147,12 +150,17 @@ int virtsnd_ctl_msg_send(struct virtio_snd *snd, struct virtio_snd_msg *msg,
- 		psgs[nouts + nins++] = in_sgs;
- 
- 	scoped_guard(spinlock_irqsave, &queue->lock) {
--		rc = virtqueue_add_sgs(queue->vqueue, psgs, nouts, nins, msg,
--				       GFP_ATOMIC);
-+		if (snd->ctl_msgs_blocked)
-+			rc = -ENODEV;
-+		else
-+			rc = virtqueue_add_sgs(queue->vqueue, psgs, nouts, nins,
-+					       msg, GFP_ATOMIC);
- 		if (!rc) {
- 			notify = virtqueue_kick_prepare(queue->vqueue);
- 
- 			list_add_tail(&msg->list, &snd->ctl_msgs);
-+			if (notify)
-+				virtqueue_notify(queue->vqueue);
- 		}
- 	}
- 
-@@ -169,9 +177,6 @@ int virtsnd_ctl_msg_send(struct virtio_snd *snd, struct virtio_snd_msg *msg,
- 		goto on_exit;
- 	}
- 
--	if (notify)
--		virtqueue_notify(queue->vqueue);
--
- 	if (nowait)
- 		goto on_exit;
- 
-@@ -187,6 +192,11 @@ int virtsnd_ctl_msg_send(struct virtio_snd *snd, struct virtio_snd_msg *msg,
- 		goto on_exit;
- 	}
- 
-+	if (READ_ONCE(msg->cancelled)) {
-+		rc = -ENODEV;
-+		goto on_exit;
-+	}
-+
- 	switch (le32_to_cpu(response->code)) {
- 	case VIRTIO_SND_S_OK:
- 		rc = 0;
-@@ -227,9 +237,32 @@ void virtsnd_ctl_msg_complete(struct virtio_snd_msg *msg)
-  * virtsnd_ctl_msg_cancel_all() - Cancel all pending control messages.
-  * @snd: VirtIO sound device.
-  *
-- * Context: Any context.
-+ * Context: Any context. Blocks new senders and marks pending requests canceled.
-+ *          Existing senders are woken when their request completes or after
-+ *          the device has been reset.
+  * struct virtio_pcm_substream - VirtIO PCM substream.
+@@ -38,6 +39,8 @@ struct virtio_pcm_msg;
+  * @msgs: Allocated I/O messages.
+  * @nmsgs: Number of allocated I/O messages.
+  * @msg_count: Number of pending I/O messages in the virtqueue.
++ * @dma_pages: Pages backing DMA messages, retained until messages are freed.
++ * @ndma_pages: Number of retained pages.
+  * @msg_empty: Notify when msg_count is zero.
   */
- void virtsnd_ctl_msg_cancel_all(struct virtio_snd *snd)
-+{
-+	struct virtio_snd_queue *queue = virtsnd_control_queue(snd);
-+	struct virtio_snd_msg *msg;
-+
-+	guard(spinlock_irqsave)(&queue->lock);
-+	snd->ctl_msgs_blocked = true;
-+	list_for_each_entry(msg, &snd->ctl_msgs, list) {
-+		WRITE_ONCE(msg->cancelled, true);
-+	}
-+}
-+
-+/**
-+ * virtsnd_ctl_msg_cleanup() - Release messages left after queue teardown.
-+ * @snd: VirtIO sound device.
-+ *
-+ * This must be called after virtio_reset_device() and del_vqs(), when no queue
-+ * callback can still access a message.
-+ *
-+ * Context: Any context.
-+ */
-+void virtsnd_ctl_msg_cleanup(struct virtio_snd *snd)
- {
- 	struct virtio_snd_queue *queue = virtsnd_control_queue(snd);
+ struct virtio_pcm_substream {
+@@ -60,6 +63,8 @@ struct virtio_pcm_substream {
+ 	struct virtio_pcm_msg **msgs;
+ 	unsigned int nmsgs;
+ 	unsigned int msg_count;
++	struct page **dma_pages;
++	unsigned int ndma_pages;
+ 	wait_queue_head_t msg_empty;
+ };
  
-@@ -243,6 +276,20 @@ void virtsnd_ctl_msg_cancel_all(struct virtio_snd *snd)
- 	}
+diff --git a/sound/virtio/virtio_pcm_msg.c b/sound/virtio/virtio_pcm_msg.c
+index 5371f4985fd0..46bf4df65974 100644
+--- a/sound/virtio/virtio_pcm_msg.c
++++ b/sound/virtio/virtio_pcm_msg.c
+@@ -3,6 +3,9 @@
+  * virtio-snd: Virtio sound device
+  * Copyright (C) 2021 OpenSynergy GmbH
+  */
++#include <linux/limits.h>
++#include <linux/mm.h>
++#include <linux/overflow.h>
+ #include <sound/pcm_params.h>
+ 
+ #include "virtio_card.h"
+@@ -75,6 +78,73 @@ static int virtsnd_pcm_sg_num(u8 *data, unsigned int length)
+ 	return num;
  }
  
 +/**
-+ * virtsnd_ctl_msg_enable() - Allow control requests after queue restoration.
-+ * @snd: VirtIO sound device.
++ * virtsnd_pcm_dma_pages_put() - Release retained PCM buffer pages.
++ * @vss: VirtIO PCM substream.
 + *
-+ * Context: Any context.
++ * Context: Process context.
 + */
-+void virtsnd_ctl_msg_enable(struct virtio_snd *snd)
++static void virtsnd_pcm_dma_pages_put(struct virtio_pcm_substream *vss)
 +{
-+	struct virtio_snd_queue *queue = virtsnd_control_queue(snd);
++	while (vss->ndma_pages)
++		put_page(vss->dma_pages[--vss->ndma_pages]);
++	kfree(vss->dma_pages);
++	vss->dma_pages = NULL;
++}
 +
-+	guard(spinlock_irqsave)(&queue->lock);
-+	snd->ctl_msgs_blocked = false;
++/**
++ * virtsnd_pcm_dma_pages_get() - Retain the pages backing the PCM buffer.
++ * @vss: VirtIO PCM substream.
++ * @data: PCM buffer address.
++ * @length: PCM buffer size.
++ *
++ * Keep the backing pages alive while virtqueue descriptors can still refer to
++ * them, even if ALSA releases the vmalloc mapping after a failed drain.
++ *
++ * Context: Process context.
++ * Return: 0 on success, -errno on failure.
++ */
++static int virtsnd_pcm_dma_pages_get(struct virtio_pcm_substream *vss,
++				     u8 *data, size_t length)
++{
++	size_t i;
++	size_t npages;
++	size_t span;
++
++	if (!data || !length || !is_vmalloc_addr(data))
++		return -EINVAL;
++	if (vss->dma_pages || vss->ndma_pages)
++		return -EBUSY;
++
++	if (check_add_overflow(length, (size_t)offset_in_page(data), &span))
++		return -EOVERFLOW;
++
++	npages = span / PAGE_SIZE + !!(span % PAGE_SIZE);
++	if (npages > UINT_MAX)
++		return -EOVERFLOW;
++
++	vss->dma_pages = kcalloc(npages, sizeof(*vss->dma_pages), GFP_KERNEL);
++	if (!vss->dma_pages)
++		return -ENOMEM;
++
++	for (i = 0; i < npages; i++) {
++		struct page *page = vmalloc_to_page(data + i * PAGE_SIZE);
++
++		if (!page)
++			goto err_put_pages;
++
++		get_page(page);
++		vss->dma_pages[vss->ndma_pages++] = page;
++	}
++
++	return 0;
++
++err_put_pages:
++	virtsnd_pcm_dma_pages_put(vss);
++
++	return -EINVAL;
 +}
 +
  /**
-  * virtsnd_ctl_query_info() - Query the item configuration from the device.
-  * @snd: VirtIO sound device.
-diff --git a/sound/virtio/virtio_ctl_msg.h b/sound/virtio/virtio_ctl_msg.h
-index 7f4db044f28e..d917435409d0 100644
---- a/sound/virtio/virtio_ctl_msg.h
-+++ b/sound/virtio/virtio_ctl_msg.h
-@@ -68,6 +68,10 @@ static inline int virtsnd_ctl_msg_send_async(struct virtio_snd *snd,
- 
- void virtsnd_ctl_msg_cancel_all(struct virtio_snd *snd);
- 
-+void virtsnd_ctl_msg_cleanup(struct virtio_snd *snd);
+  * virtsnd_pcm_sg_from() - Build sg-list from vmalloc'ed buffer.
+  * @sgs: Preallocated sg-list to populate.
+@@ -133,22 +203,42 @@ int virtsnd_pcm_msg_alloc(struct virtio_pcm_substream *vss,
+ 			  unsigned int periods, unsigned int period_bytes)
+ {
+ 	struct snd_pcm_runtime *runtime = vss->substream->runtime;
++	size_t buffer_bytes;
+ 	unsigned int i;
++	int rc;
 +
-+void virtsnd_ctl_msg_enable(struct virtio_snd *snd);
++	if (vss->msgs || vss->nmsgs || vss->dma_pages || vss->ndma_pages)
++		return -EBUSY;
 +
- void virtsnd_ctl_msg_complete(struct virtio_snd_msg *msg);
++	if (check_mul_overflow((size_t)periods, (size_t)period_bytes,
++			       &buffer_bytes))
++		return -EOVERFLOW;
++
++	if (!runtime->dma_area || buffer_bytes > runtime->dma_bytes)
++		return -EINVAL;
++
++	rc = virtsnd_pcm_dma_pages_get(vss, runtime->dma_area, buffer_bytes);
++	if (rc)
++		return rc;
  
- int virtsnd_ctl_query_info(struct virtio_snd *snd, int command, int start_id,
+ 	vss->msgs = kzalloc_objs(*vss->msgs, periods);
+-	if (!vss->msgs)
+-		return -ENOMEM;
++	if (!vss->msgs) {
++		rc = -ENOMEM;
++		goto err_free_pages;
++	}
+ 
+ 	vss->nmsgs = periods;
+ 
+ 	for (i = 0; i < periods; ++i) {
+-		u8 *data = runtime->dma_area + period_bytes * i;
++		u8 *data = runtime->dma_area + (size_t)period_bytes * i;
+ 		int sg_num = virtsnd_pcm_sg_num(data, period_bytes);
+ 		struct virtio_pcm_msg *msg;
+ 
+ 		msg = kzalloc_flex(*msg, sgs, sg_num + 2);
+-		if (!msg)
+-			return -ENOMEM;
++		if (!msg) {
++			rc = -ENOMEM;
++			goto err_free_msgs;
++		}
+ 
+ 		msg->substream = vss;
+ 		sg_init_one(&msg->sgs[PCM_MSG_SG_XFER], &msg->xfer,
+@@ -162,6 +252,15 @@ int virtsnd_pcm_msg_alloc(struct virtio_pcm_substream *vss,
+ 	}
+ 
+ 	return 0;
++
++err_free_msgs:
++	virtsnd_pcm_msg_free(vss);
++	return rc;
++
++err_free_pages:
++	virtsnd_pcm_dma_pages_put(vss);
++
++	return rc;
+ }
+ 
+ /**
+@@ -177,6 +276,7 @@ void virtsnd_pcm_msg_free(struct virtio_pcm_substream *vss)
+ 	for (i = 0; vss->msgs && i < vss->nmsgs; ++i)
+ 		kfree(vss->msgs[i]);
+ 	kfree(vss->msgs);
++	virtsnd_pcm_dma_pages_put(vss);
+ 
+ 	vss->msgs = NULL;
+ 	vss->nmsgs = 0;
+diff --git a/sound/virtio/virtio_pcm_ops.c b/sound/virtio/virtio_pcm_ops.c
+index f2362f0dd80a..82f2d2f9dd64 100644
+--- a/sound/virtio/virtio_pcm_ops.c
++++ b/sound/virtio/virtio_pcm_ops.c
+@@ -25,6 +25,8 @@
+  *   signal or due to a timeout. In this case, the device can still access
+  *   messages even after calling ops->hw_free(). It can also issue an interrupt,
+  *   and the interrupt handler will also try to access message structures.
++ *   The messages retain references to the PCM buffer pages until they are
++ *   freed, so late DMA does not target pages released by ALSA.
+  *
+  *   Therefore, freeing of already allocated messages occurs:
+  *
 -- 
 2.54.0 (Apple Git-157)
 
