@@ -1,142 +1,172 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D9934D7D4D;
-	Tue, 13 Oct 2026 11:46:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E25A4E4C4C;
+	Tue, 13 Oct 2026 12:04:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791892015; cv=none; b=ZSlTsb2a4eWTRL0lOGXyAQLn5+BxjTCak8i7wB+RQTUnDU6XQBTpflXpHCcvTO7oB+Ydy6ydrAvnxre9BdpAze2X8yGRySyS1odVTCFenAWbxrA7BAXU6m6QQaJFjE9WKjClRb4GqsqwThF1J95esSXVBGD0sEGE82CD1mW6HSY=
+	t=1791893068; cv=none; b=tPDQFS3S+kgjs3ix8pFDjcMYuZQ+x6nuF1KdwRQ4eWRaVTmomWa79O/howVFQ0Oipdojnadz4PyVQFWNadUk69EUQQFoUJ8W/IiywUpF1cMb+uA7c6OuC3kGFyiD1kkHfwLMRuWkkw8mkA7DmTs8dd0KJxE0zVOuDfjJPFlzkR4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791892015; c=relaxed/simple;
-	bh=o5iE1cDO1gBt+uh4eIByivuwm67StlAGtlYV2hAA2DM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cTh8O7ZwzavUmyWDSCmfn9pNhWdKnYBenj1z0Mmmhlu/OFqED3sDlKy2V0gPQ7DsOnbSdk6gtYjls1TZBhHUMkS6u8A0RZ8Yl5nMuJeXcQZs9DYJp+G5oyT+4Dv52LJe3EPuoF0gD+HWKj7GI2vv8NU//O/2ww2+7jzALhilBwQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JsNwWiGG; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791893068; c=relaxed/simple;
+	bh=TD3OOfnVDe4MsO1kGCAiM9NYuCtzEvmpUK0h+6y1jiI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=dw+qY4XEhDxkHH48qiDctKFlC7XdLOzVggDv5hD+IYBHIzvWN3oURFXymZlhTy5pdpjd8GsH1PD6OpF2KuRZNmE/MF/os6j4jv4+ORcfUDYV4ClvO9PAupAM+zXvjaohNRHlxG5X9hXPoA3FAN9FFrjHRSfMB/Y6te+E6qjEyqI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=Y3yAXFev; arc=none smtp.client-ip=220.197.31.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JsNwWiGG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E65921F00898;
-	Tue, 13 Oct 2026 11:46:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791892013;
-	bh=1nnF4ZhcdJUlBWxekcjOronR2NcHp1dKz5EHoMfEfXk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=JsNwWiGGPLpQBTVRJ0pxyv5sreFzDIh4DL9er2BIPqypmeADQ3+kGufnoG9MayGsG
-	 Ow2kvpxaWsj31kCiNI6YI1xtxB6jAuvoFeSUehIJRSSr8PvPf39/J2JL8+Q8gZNKpw
-	 hpaiLridC4NDmbtWtYCSXMnVcXUvRVpYaXF7fuyaM4cd4pfx2vv7Fp6hIZ2715U51o
-	 41ifwXQLKGxBc/H0/rQD53V5RTXy4cc2VVaIpPP3J14KY9KrW96ntrahOMVdTN4KO/
-	 TSAFtr+2bjHgQH5lauCoZ5P/rczb+ytBLkrNPZZt6Dfwz5bTKu9NMmntqhvn+1eShm
-	 h0kZ4EeW1vuHA==
-Date: Tue, 13 Oct 2026 12:46:21 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
-	Paul Moore <paul@paul-moore.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen" <mkp@kernel.org>, 
-	Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, Sebastian Reichel <sre@kernel.org>, 
-	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
-	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
-	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Juri Lelli <juri.lelli@redhat.com>, 
-	Vincent Guittot <vincent.guittot@linaro.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, 
-	Oliver Upton <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
-	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
-	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
-	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
-	Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
-	Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
-	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
-	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev, 
-	Ihor Solodrai <ihor.solodrai@linux.dev>, Bert Karwatzki <spasswolf@web.de>
-Subject: Re: [PATCH v5 35/38] mm: avoid use of VMA_SPECIAL_FLAGS in
- migrate_vma_setup()
-Message-ID: <as4Z_ASrMbQ-eMTn@gremlin>
-References: <20261009-b4-mmap-prepare-vma-flag-sanify-v5-0-923b70125b1e@kernel.org>
- <20261009-b4-mmap-prepare-vma-flag-sanify-v5-35-923b70125b1e@kernel.org>
- <214514be-a935-485b-8925-07d84c1063f9@kernel.org>
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="Y3yAXFev"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=F0
+	a0sun/DlUOUhg+oQI47pu+NZ1gqi59SBBJS3E+Lqs=; b=Y3yAXFevTrbe173s5i
+	4MCLj2g1iVYGM8YWJ4rC4LYQ7xBi58ybqqh+O4hlY3UrPf87Tq7PCeksiwWNA06U
+	Wi24EIUk+WZo1Dr2N2DOOcyHOh0ZPYFdPmlnDA9H89e6BKDndlYyeQKdtJfPGOIu
+	Bk6XomtAY53tOB74KhvQ1bOyo=
+Received: from localhost.localdomain (unknown [])
+	by gzga-smtp-mtada-g1-1 (Coremail) with SMTP id _____wD3360lHs5ql5G+EA--.65161S2;
+	Tue, 13 Oct 2026 20:03:51 +0800 (CST)
+From: wangdich9700@163.com
+To: tiwai@suse.com,
+	wangdich9700@163.com,
+	perex@perex.cz
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	wangdicheng@kylinos.cn
+Subject: [PATCH] ALSA: hda/realtek: Limit Line In boost and ADC gain on DECENTA MATX03
+Date: Tue, 13 Oct 2026 20:03:27 +0800
+Message-Id: <20261013120327.998217-1-wangdich9700@163.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <214514be-a935-485b-8925-07d84c1063f9@kernel.org>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wD3360lHs5ql5G+EA--.65161S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxXF43Xr4fury8KF17CF1xXwb_yoWruw1UpF
+	4Sy3W5CFs5XFyIyrs3tr1UX3WrGa4rGr1fC3y5tw1av3Z5CrWkGa9YyrWayF15JryFgF1S
+	vrnaqa4Ykw43ZF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pRfM3iUUUUU=
+X-CM-SenderInfo: pzdqwv5lfkmliqq6il2tof0z/xtbC5wfeLmrOHidyQQAA3+
 
-On Mon, Oct 12, 2026 at 08:52:07PM +0200, David Hildenbrand (Arm) wrote:
-> On 10/9/26 20:04, Lorenzo Stoakes (ARM) wrote:
+From: wangdicheng <wangdicheng@kylinos.cn>
 
-> > diff --git a/mm/migrate_device.c b/mm/migrate_device.c
-> > index b9c453c28795..289d7b08ace4 100644
-> > --- a/mm/migrate_device.c
-> > +++ b/mm/migrate_device.c
+The DECENTA MATX03 (ALC897, SSID 1e0b:1297) exposes a high gain
+range on both the Line In pin boost and the ADC input amp. Pin 0x1a
+reports nsteps=0x03 with stepsize=0x27, that is 0, 9.75, 19.5 and
+29.25 dB. ADC 0x08 reports nsteps=0x3f with stepsize=0x02, that is
+0 to 31.5 dB in 0.5 dB steps, and defaults to 0x3f (maximum). The
+combined 60.75 dB analogue cascade overloads the front-end when the
+source level is high, producing audible harmonic distortion during
+Line In monitoring.
 
-> >  int migrate_vma_setup(struct migrate_vma *args)
-> >  {
-> > +	const struct vm_area_struct *vma = args->vma;
-> >  	long nr_pages = (args->end - args->start) >> PAGE_SHIFT;
-> >
-> >  	args->start &= PAGE_MASK;
-> >  	args->end &= PAGE_MASK;
-> > -	if (!args->vma || vma_test_any_mask(args->vma, VMA_SPECIAL_FLAGS) ||
-> > -	    vma_is_dax(args->vma))
-> > +	if (!vma)
-> > +		return -EINVAL;
-> > +	if (!vma_is_mm_managed(vma) || vma_is_fixed_mapping(vma) ||
-> > +	    vma_is_dax(vma))
->
-> Same here, with the droppable thing changed this would be
->
-> !vma_is_mm_backed() || vma_is_dax(vma)
->
-> I guess.
+Add a new fixup alc897_fixup_limit_linein_boost that overrides the amp
+capabilities of the Line In and external Mic pins to nsteps=1 (max
+~11.75 dB), and also limits the ADC input amp to nsteps=1 (max ~0.5 dB).
+The total gain drops from 60.75 dB to ~12.25 dB, eliminating the
+clipping. Internal and dock mic pins are excluded to avoid affecting
+built-in microphones.
 
-I think we need a hugetlb carveout too (ugh), will update in v6!
+Tested on the affected machine: with the fixup applied, Line In
+recording at maximum source volume is clean, and dmesg confirms the
+fixup is picked:
 
->
-> Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+  ALC897: picked fixup alc897-limit-linein-boost (SSID)
 
-Thanks!
+Signed-off-by: wangdicheng <wangdicheng@kylinos.cn>
+---
+ sound/hda/codecs/realtek/alc662.c | 50 +++++++++++++++++++++++++++++++
+ 1 file changed, 50 insertions(+)
 
---
-Cheers, Lorenzo
+diff --git a/sound/hda/codecs/realtek/alc662.c b/sound/hda/codecs/realtek/alc662.c
+index eff7c83b9c59..a140891d51fa 100644
+--- a/sound/hda/codecs/realtek/alc662.c
++++ b/sound/hda/codecs/realtek/alc662.c
+@@ -198,6 +198,49 @@ static void alc897_fixup_lenovo_headset_mode(struct hda_codec *codec,
+ 	}
+ }
+ 
++static void alc897_fixup_limit_linein_boost(struct hda_codec *codec,
++					    const struct hda_fixup *fix, int action)
++{
++	struct alc_spec *spec = codec->spec;
++	struct auto_pin_cfg *cfg = &spec->gen.autocfg;
++	int i;
++
++	if (action != HDA_FIXUP_ACT_PROBE)
++		return;
++
++	for (i = 0; i < cfg->num_inputs; i++) {
++		hda_nid_t nid = cfg->inputs[i].pin;
++		unsigned int defcfg;
++
++		if (cfg->inputs[i].type != AUTO_PIN_LINE_IN &&
++		    cfg->inputs[i].type != AUTO_PIN_MIC)
++			continue;
++
++		defcfg = snd_hda_codec_get_pincfg(codec, nid);
++		if (snd_hda_get_input_pin_attr(defcfg) == INPUT_PIN_ATTR_INT ||
++		    snd_hda_get_input_pin_attr(defcfg) == INPUT_PIN_ATTR_DOCK)
++			continue;
++
++		snd_hda_override_amp_caps(codec, nid, HDA_INPUT,
++					  (0x00 << AC_AMPCAP_OFFSET_SHIFT) |
++					  (0x01 << AC_AMPCAP_NUM_STEPS_SHIFT) |
++					  (0x2f << AC_AMPCAP_STEP_SIZE_SHIFT) |
++					  (0 << AC_AMPCAP_MUTE_SHIFT));
++	}
++
++	for (i = 0; i < spec->gen.num_all_adcs; i++) {
++		hda_nid_t adc = spec->gen.all_adcs[i];
++		unsigned int caps;
++
++		caps = query_amp_caps(codec, adc, HDA_INPUT);
++		if ((caps & AC_AMPCAP_NUM_STEPS) >> AC_AMPCAP_NUM_STEPS_SHIFT > 1) {
++			caps &= ~AC_AMPCAP_NUM_STEPS;
++			caps |= (0x01 << AC_AMPCAP_NUM_STEPS_SHIFT);
++			snd_hda_override_amp_caps(codec, adc, HDA_INPUT, caps);
++		}
++	}
++}
++
+ static const struct coef_fw alc668_coefs[] = {
+ 	WRITE_COEF(0x01, 0xbebe), WRITE_COEF(0x02, 0xaaaa), WRITE_COEF(0x03,    0x0),
+ 	WRITE_COEF(0x04, 0x0180), WRITE_COEF(0x06,    0x0), WRITE_COEF(0x07, 0x0f80),
+@@ -326,6 +369,7 @@ enum {
+ 	ALC897_FIXUP_HEADSET_MIC_PIN3,
+ 	ALC662_FIXUP_CSL_GPIO,
+ 	ALC897_FIXUP_BEELINK_SER6_AMP,
++	ALC897_FIXUP_LIMIT_LINEIN_BOOST,
+ };
+ 
+ static const struct hda_fixup alc662_fixups[] = {
+@@ -787,6 +831,10 @@ static const struct hda_fixup alc662_fixups[] = {
+ 		.type = HDA_FIXUP_FUNC,
+ 		.v.func = alc_fixup_gpio4,
+ 	},
++	[ALC897_FIXUP_LIMIT_LINEIN_BOOST] = {
++		.type = HDA_FIXUP_FUNC,
++		.v.func = alc897_fixup_limit_linein_boost,
++	},
+ };
+ 
+ static const struct hda_quirk alc662_fixup_tbl[] = {
+@@ -859,6 +907,7 @@ static const struct hda_quirk alc662_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1c6c, 0x1239, "Compaq N14JP6-V2", ALC897_FIXUP_HP_HSMIC_VERB),
+ 	SND_PCI_QUIRK(0x1e63, 0x6d9a, "F+ FLAPTOP r", ALC897_FIXUP_HP_HSMIC_VERB),
+ 	SND_PCI_QUIRK(0x1f66, 0x0202, "Beelink SER6 Max 6900", ALC897_FIXUP_BEELINK_SER6_AMP),
++	SND_PCI_QUIRK(0x1e0b, 0x1297, "DECENTA MATX03", ALC897_FIXUP_LIMIT_LINEIN_BOOST),
+ 
+ #if 0
+ 	/* Below is a quirk table taken from the old code.
+@@ -954,6 +1003,7 @@ static const struct hda_model_fixup alc662_fixup_models[] = {
+ 	{.id = ALC662_FIXUP_LENOVO_MULTI_CODECS, .name = "dual-codecs"},
+ 	{.id = ALC669_FIXUP_ACER_ASPIRE_ETHOS, .name = "aspire-ethos"},
+ 	{.id = ALC897_FIXUP_UNIS_H3C_X500S, .name = "unis-h3c-x500s"},
++	{.id = ALC897_FIXUP_LIMIT_LINEIN_BOOST, .name = "alc897-limit-linein-boost"},
+ 	{}
+ };
+ 
+-- 
+2.25.1
+
