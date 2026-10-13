@@ -1,177 +1,594 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AC5A30569F;
-	Tue, 13 Oct 2026 09:20:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791883232; cv=fail; b=MsG1mxKqR6zQZnpekGXmCncyHUnd0R6XCGB53SonpTB2Xy1Z1xKSZljhDuGX33Zpee4Ig0i33YUuxfOUHPdZ2NG9BwMti/8fhzYQXaWkpbFEhhW48Bg3m0xsES+ejzKwxwpBNGFrrbEeEMh0fpqwKm6rZhLNFSl0dSOF6Hcfk9w=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791883232; c=relaxed/simple;
-	bh=QH9t29UMmTA9hp91OdTjaWnutiYH8eT3wFL7lTZ9McY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UAr2oHHYxGpWGBAbAZv80XtaOEp3HNFIVoyKxJ1TQSEkxTm7LB4GMLqucgNmmJWL5LzmO018Uyf8pM729Fx3/LNhRoaUTNl4wFbq4dDATS4nNsj2NZLpaJhb7GXRAPxhUn0XmEg7S0+6fvDTNn6QInppo5uj/1pQyppcP+Ofh+I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=GVQdmgdj; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=jT9hJ9EJ; arc=fail smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16FF63D9DDB;
+	Tue, 13 Oct 2026 09:34:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791884082; cv=none; b=j/CcCTIScWRLXtZu3XUlDhZZa9ht8ygHd8WkNpufRYVtWKG0wieXslCGmXPnbQzmFV6aSYLOmfs0hBsiCdkK5+RbwsnNcqdAG91wXQogg9BRw/w8tarAIZXTzJCEbRJhT9dWSpyVujntCdHTFHsqCxk2AiCUB92zz/ChnS6MprU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791884082; c=relaxed/simple;
+	bh=sOH0QhaVHXjz2f1A96g44lMWUB8CFSOtpffBrRcjkjw=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=eThIhJRaU8dSDrLGQqf0SGqtlaijnqNVw5tJO6+5zqSZnSYhQf1027/HjEY7s3yE6owDXlXdffvj9JtxFtLQwvf4R3veEyV7k186XirTmrO8Dkz2JuFhEaZTkQCAicZi91fkQBpWiv6i1lov8+xNAjSoTW8zZJfUnnrU+QrmY4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ZjD2ZBeY; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="GVQdmgdj";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="jT9hJ9EJ"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69D8PgGa2100188;
-	Tue, 13 Oct 2026 04:19:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=Umj8pyXSU7vmzUdA7V4bgMz2R6N3mzwMianEbaofrP0=; b=
-	GVQdmgdjO+0WaGV7W5XUSuQexeDit+pOTVBZRpsYcQHiRKww9KSMrGJkryVGO1Mi
-	vK1V62r4FeowczOJdDaWLH7k11bEKuOL+kUoF4XTwntrngcRpCvVh6RUVt9POjI5
-	rWRvJ7Ll0n+uLklBGpSQpU9xQqbP4NkfsO4V5R1uoUMsqj1W1RCds5WA6dQ6BKmS
-	SRR6eJvsh0xYzOshozJuqUhu7eczSZHzJx73AGna0Oa1xAUFNyj06Y5RCRnHG+8C
-	uyDD/cszi5OlERoNEOANXs4LYT89jA6QJGtYvSvrEm5eiuovxgKaZN3cK442rRh4
-	UZlFFgZO/0ua14rjxhmLiA==
-Received: from sn4pr2101cu001.outbound.protection.outlook.com (mail-southcentralusazon11022122.outbound.protection.outlook.com [40.93.195.122])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4h7jrxbeb6-1
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ZjD2ZBeY"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69D8xvw3790856;
+	Tue, 13 Oct 2026 09:34:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	Y6nt4CccKm4LUspwF6XvkfJTYffgRsnF/Q9+ZdSj+50=; b=ZjD2ZBeYTMxtGjdp
+	GkoH7x+ElMEVHRCHob2qyg9yZoyv2P2N3Y+dIVh56yBXgt6cdbThgNNfF4NSR6ik
+	WTOF1IshkIUR6tV8aISv86K0+PENE/nUB/PrbZiIYWFIgE6gTgpcJWEyKImNShoz
+	1hlfX37Ul9qYf5v3IRlkyouX78LzAP39iKjQK0Ti6tmugtLG9sE7mbLBmJdokveF
+	BlmVepetFNWUA1ueBKMZI6zBxMrQheoIMwAPpoGomAqeplTEotJkQFxIu9kjEJ8R
+	rgx1GJI2C09KOjG/7rCv0qGScJ9cJ/ihbJ8G9c8u8n98jB/VaOJE+zQKU/zWjvDH
+	5s8+bg==
+Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4h9hmjr4gs-71
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Tue, 13 Oct 2026 04:19:52 -0500 (CDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Svs+eYk/vMhp5y3ZJVxZxyd+9nyQVOJJa8XvUe5wuyhH3nS1Fa0UoIgDclIm0NATpih+FuxEcO+XQpVUeRUQL4hJN5GcTk0gC6E1GTjKjW199+tlWuH/tTE8TYxzmX0u4M2t5Zp7TdLH3gqrzvPwOYIoC+grGoE9p83xULt1DQxwLWviInN1VA94BW9pXdVD+Ga99x/2Oj53EPRT0QRhvKMBFwTT2yJZKbiYZqtbGHWRjrxZIYlaxm2I4/c4E1auGH5dKScVAhejPu5i9mDkyuX/e9fWtti8hlXMiLZ1Ph5Be7Vgqn5xMKVgv9Ro1IyMokjezj0/JiYIvrFxZO/fKg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Umj8pyXSU7vmzUdA7V4bgMz2R6N3mzwMianEbaofrP0=;
- b=lSqsUeh7V+O7j8L6MO5skt461+vNFC7ryIuB/8PIMbZYl/KTDwbpR3okEBYbtOvhRndYm/Eyq6BbRe/rU98rfvo7nYlrQCaGGSg/mDJksT8DKs9MkjemMSHgK9dT3PGG8ciTOoNnRBowZxF94SuY5KV1VWA2yrtHvOcdsKVeMzrrT185sLHGKgj2zto/ATv/k4ITGqE0e+fVPvAtOx4l6F4NchnkQye+3YTOMUUF8tqihhYYl6MaSqi6dsRiwMF0anpTaV+xbFq+LYg63OCk+0QtAJOb1yYgKNEUAaAF2ff881lL3D+9YH7hH31EMqPbMqDlAO7z/33m5aOqnCfk/w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
- is 84.19.233.75) smtp.rcpttodomain=cirrus.com
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Umj8pyXSU7vmzUdA7V4bgMz2R6N3mzwMianEbaofrP0=;
- b=jT9hJ9EJKlel8FOtjchfrAR2Kqnx6O9lygVt83WJChyhJR4uEGkFhJfn58RkHqFcnjNH01bakYZcMPk3K19KNZelorYKUBM6ZS9sIUXT8AMhurLxPYz6TRgNwg4LDbwbLRQWJ7OFID2tIxXVU9CvvtzguQLUgS3fKrtoUv22xtc=
-Received: from BL1P221CA0023.NAMP221.PROD.OUTLOOK.COM (2603:10b6:208:2c5::10)
- by PH7PR19MB7097.namprd19.prod.outlook.com (2603:10b6:510:208::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.23; Tue, 13 Oct
- 2026 09:19:46 +0000
-Received: from BN2PEPF0000A993.namprd04.prod.outlook.com
- (2603:10b6:208:2c5:cafe::13) by BL1P221CA0023.outlook.office365.com
- (2603:10b6:208:2c5::10) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.496.5 via Frontend Transport; Tue, 13
- Oct 2026 09:19:45 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=softfail (sender
- IP is 84.19.233.75) smtp.mailfrom=opensource.cirrus.com; dkim=none (message
- not signed) header.d=none;dmarc=fail action=oreject
- header.from=opensource.cirrus.com;
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- BN2PEPF0000A993.mail.protection.outlook.com (10.167.248.135) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.522.6
- via Frontend Transport; Tue, 13 Oct 2026 09:19:44 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 8C43B406544;
-	Tue, 13 Oct 2026 09:19:43 +0000 (UTC)
-Received: from [198.90.208.11] (ediswws06.ad.cirrus.com [198.90.208.11])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 75C0F82024B;
-	Tue, 13 Oct 2026 09:19:43 +0000 (UTC)
-Message-ID: <226d0dc3-723d-4e2b-9ddd-1be75908c129@opensource.cirrus.com>
-Date: Tue, 13 Oct 2026 10:19:43 +0100
+	Tue, 13 Oct 2026 09:34:24 +0000 (GMT)
+Received: from pps.filterd (apblrppmta01.qualcomm.com [127.0.0.1])
+	by APBLRPPMTA01.qualcomm.com (8.18.1.11/8.18.1.11) with ESMTP id 69D5pmoR651504;
+	Tue, 13 Oct 2026 05:51:48 GMT
+Received: from hu-hgautam-hyd.qualcomm.com (hu-hgautam-hyd.qualcomm.com [10.147.247.91])
+	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 69D5plAT651483;
+	Tue, 13 Oct 2026 05:51:48 +0000 (GMT)
+From: Harendra Gautam <harendra.gautam@oss.qualcomm.com>
+Date: Tue, 13 Oct 2026 11:21:26 +0530
+Subject: [PATCH v9 03/10] ASoC: qcom: Add QAIF hardware register map
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 9/9] ASoC: wm_adsp: Give the firmware search order KUnit
- cases distinct names
-To: Mark <broonie@kernel.org>, Simon Trimmer <simont@opensource.cirrus.com>,
-        Charles Keepax <ckeepax@opensource.cirrus.com>,
-        Brendan Higgins <brendan.higgins@linux.dev>,
-        David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Randy Dunlap
- <rdunlap@infradead.org>, Theodore Ts'o <tytso@mit.edu>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Baokun Li <libaokun@linux.alibaba.com>, Jan Kara <jack@suse.cz>,
-        Ojaswin Mujoo <ojaswin@linux.ibm.com>,
-        "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>,
-        Zhang Yi <yi.zhang@huawei.com>, David Rhodes <david.rhodes@cirrus.com>,
-        Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>
-Cc: patches@opensource.cirrus.com, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-        linux-doc@vger.kernel.org, linux-ext4@vger.kernel.org,
-        linux-sound@vger.kernel.org
-References: <20261013-kunit-param-names-v1-0-4b22ec5b85b9@kernel.org>
- <20261013-kunit-param-names-v1-9-4b22ec5b85b9@kernel.org>
-Content-Language: en-GB
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
-In-Reply-To: <20261013-kunit-param-names-v1-9-4b22ec5b85b9@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN2PEPF0000A993:EE_|PH7PR19MB7097:EE_
-X-MS-Office365-Filtering-Correlation-Id: cc48a525-a78d-43b6-f2a1-08df290b1efe
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|82310400026|61400799027|36860700016|23010399003|4143699003|11063799006|921020|16102099003|56012099006|18002099003|22082099003|261009223027099003|3023799007|10067099003;
-X-Microsoft-Antispam-Message-Info:
-	1tyiZEuCMUTlMp+P3sjF3xqIvIq6sEJ8R1bJgWIBaBFrRTPk7r2Q5ixUpzWZvxsa/l19AafObn6BwQCElpBOYJ4m7u4X7K4j1fHdVKFS+Vqu795dTGIKg82EJaNjxgk79aceTbiZ18kD367FpvaBS48VscleXKyFjH592YacUjOJN+HbiA0w5nksz6VuFOFIHpMsFq6HZmKd9wmG+lvE7/PZPKsDPgagy7t7TKoKWJCYUEcukaJj4sDZHennxZA9GbhJYokjZTV5fApQ8OMtSXOA6ylIbpZRxBi8XQYzAiPGm8hTxoF9iFxKLgfdlCx/Q+/Do/QDjv6/tkfpwPOD9vFatnjKZ31T+ua+lc+jeuJxW1TzGUxlRRsTBAEp47MYEYdTCKi0ToWRIlzGv+VxUk/NQIBJnojEBTrZoQ5ewwH1nkoLUGTR2K1ETQexvvItaKH2lFbCYdson5pfsVnNNDGsK+sQBX1SWoqKd989AQME3eQdMu/GGQVgjs6sawqfTgmWgQ8If4wRC9CM9PigVmehzGzA5TbmFlrHoc1LnRbNRL8QFH+ZaNKxB8x76K+9xYEtB/o6NqQpj1xqGTc/kHNI5zL4wi4DrbJ4MSKysUeIfuKght2oDLs5Ukh6MLH98y97CIvuY1itRqqETvtmstSoLMa0osnxKNhMwOCnMgW/40g2vUDDja0NdEAIuMs7oe4FS3h+XFmruGIyx/WX0NE/STnUzxP+hjw9BiVtckith6J5UOK9O2hSZFNepBNq
-X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(376014)(82310400026)(61400799027)(36860700016)(23010399003)(4143699003)(11063799006)(921020)(16102099003)(56012099006)(18002099003)(22082099003)(261009223027099003)(3023799007)(10067099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	nP9qz5PVUn+EHUiDHCHFBRzaKHwYcgT1DO9WNu8cjR5XUPASIyYlQT8qQuFDh72pqyV7iab8KMgW6V8ubjXCCToYdEL4vY33RhFpu1xvUEsm13yVeTbg1wxl9sALeHNEuqJV/z6bj+N9hdiL0L7T5ZeBvWXW2PpscKLxTtsgmgP4D9lue2sM1V1AUr0MaeaIupq4kqsRgpcxauO40O+yKZ7j0FIhrXATdz9CcCNo+ExVCFA7Zt2/RCnwr/bYDrEDNuv3WW4biqtLd8owCkZVeedKiGKLj4yNaqu9Qx7fYeUZvrml9cLdx074i0m2R2CShsMOJoMfbhoBJqbKCaaD6hDHCpvo4UkcqwvCEOtoSjDLCbj+vI1kEHnuErs1boew7NZkz+otOGV7O7O7bZFI9zarz9mqFUKKlyZR9A2+cih2jW5JV0ZmNqPhhqbKDVAy
-X-Exchange-RoutingPolicyChecked:
-	bENUIrKjDuFSkR8Ar1JG1mfHzgrCLWDIGTChUUZ+pg44Q/LYR4pzNEvwE+gZmIM9C75mpSlC56hDJJMc46GsDT6nTMIhqIgiFgVcfoxpt6RDnvcb0caWR5oAzKXxF0dLAo6JXP+B1wLmrLh4aMct7xMfCLenNp+NsYOoxNde8E5CrjBZ+KvPv6cIdyNPgrUobtfNF9EVk4EebeOtEEwj2bUzCg/Ew4I+Nekj/kp0VnHaKolDSliS6M1sVKm7GjE0nKy66cxu54sAKemBk35efvqqL+UMhP1jvmr6CUhlUmjEUuzsbdhn3HYKVvmuaW+PbCE1FnSyFCPXxGh8+VSFzw==
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Oct 2026 09:19:44.9163
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: cc48a525-a78d-43b6-f2a1-08df290b1efe
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-BN2PEPF0000A993.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR19MB7097
-X-Authority-Analysis: v=2.4 cv=A/n5rKWG c=1 sm=1 tr=0 ts=6acdf7b8 cx=c_pps
- a=Gvitfrn81X/13pqoc+dbVQ==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
- a=w1d2syhTAAAA:8 a=Qfd6qFmGc774TwObTEkA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: DyI8Oi5GaSuaXRndVQY7GP2yKftGc2vP
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDEzMDAzNiBTYWx0ZWRfX0i0ogDqKpLfz
- J9zH9YFvK3+EIKfD3vgTbUO8+qoTFxZQ0tdsyRCyU1snXWVDiCZS/S9mE+g69vqIvWc0caKkCXK
- ZVOfScWcptLkpS7E7IVUh2CjG1BwKt8=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDEzMDAzNiBTYWx0ZWRfX6j4CLfaJda/e
- uA7ACjl1IsXcm1loc0TwMrdm77qoaEVadaMO2kGk65gF3XxUKylsQDEztLOdZ6Oa90jFrR8fYwv
- E+a48x4KJr7ZseHYnPvbY0SLAIS7j7fP3JMWjCe7E/lPBVrBVg5oZzzyUPGNFTRIelE7BK0fO4E
- fj01sTdJSVS1pmfciqA4n0kx2eVD22Et1uZkFD6H2js/qhvvsXE022+mJRvjzF/eEf+cc8RtD67
- AwK/JzEP5q7AlG60QqUj0T2OOmRbDSVfDiCpA48xBYvC5/w/gIinpndSRrzSRAQpntpAac4lKY6
- hun5xJPsTCXl6H5JxgX7AoOEfO/8IWJ+fQXEBGTy+DwE06PtTzULSNkuIouyHduBI+f85JX77IH
- gsxktB9FGD17Rft7FW+Tuc+vLs7xYMD097fQjxOdm601GalqrxvmaVfwv88tfcABuBwD8ecWjjo
- SuAXm34MbQ7TbotsEPw==
-X-Proofpoint-ORIG-GUID: DyI8Oi5GaSuaXRndVQY7GP2yKftGc2vP
-X-Proofpoint-Spam-Reason: safe
+Message-Id: <20261013-b4-qaif-shikra-audio-v9-3-f3022e28f2fd@oss.qualcomm.com>
+References: <20261013-b4-qaif-shikra-audio-v9-0-f3022e28f2fd@oss.qualcomm.com>
+In-Reply-To: <20261013-b4-qaif-shikra-audio-v9-0-f3022e28f2fd@oss.qualcomm.com>
+To: Srinivas Kandagatla <srini@kernel.org>
+Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+        Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
+        Sarath Ganapathiraju <sarath.ganapathiraju@oss.qualcomm.com>,
+        Kumar Anurag Singh <kumar.singh@oss.qualcomm.com>,
+        Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>,
+        Harendra Gautam <harendra.gautam@oss.qualcomm.com>
+X-Mailer: b4 0.15.2
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDEzMDAzNyBTYWx0ZWRfX5duY6rC94LMN
+ VvbwM5dv13IOJw1MO4Mp1Yz1PppPG2Blj/F0eozBQTqwZmsWkCPrpYe2K+h0oCu1zaSV4ihYLuo
+ K6KxkaXoxGl2E6giOZ8qyF+gMnD/pO4=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDEzMDAzNyBTYWx0ZWRfXzOHfTyo9DaR9
+ KZR1Vd005FsfXxedRDkVJhpxFKOBWXrhfiy/j9wV5d9uTM9FU/jjxn56c2Kzo2V47FH9EmlwlcA
+ 8S5gDXnV1eRegVgZJGZ+CA56HULXr2/xvjr8wKIAGHO/K8Y9S7lX4KYBhZXpwwh2sVGHjlqAZRh
+ P0lv9Y3cI6MuTLag5fn2+4Cw8kvTXYiq5x1Abw2IqhKkkyyMsKs0dVeV6RzMPPySnvQ2MGJcmBK
+ Nk8M052KiXa4q5PSO7DgEr8lXh2DguuKBX/sq74nHZlZ1E9+Tkh5CTxjb4iLeXpORATWgWHoET2
+ /S43mZcXw9s60pps7MWp8FqiSOMi8USyKD34Ca5Sy7CX7wVxnEyxBF7sF8BLPZntD9uzGlQz1Yp
+ tPwdKtBpgnJISoWshG+8rYPP6harskg6V5Fw7SU9HmrOWY54CK91CBRxu+yVPyW94i3WZhbVG61
+ 0Jx3NGFrwvxUmenuwAA==
+X-Proofpoint-ORIG-GUID: rMuflBAckzgldoQPUpbfJsxEGfJ_Gety
+X-Authority-Analysis: v=2.4 cv=O5+sLx9W c=1 sm=1 tr=0 ts=6acdfb20 cx=c_pps
+ a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
+ a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22 a=EUspDBNiAAAA:8
+ a=lZfL7hTs5R9vjdWfsbYA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: rMuflBAckzgldoQPUpbfJsxEGfJ_Gety
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-10-13_01,2026-10-09_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 impostorscore=0 adultscore=0 spamscore=0 priorityscore=1501
+ bulkscore=0 malwarescore=0 lowpriorityscore=0 phishscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610080000 definitions=main-2610130037
 
-On 13/10/2026 12:10 am, Mark wrote:
-> The wm-adsp-fw-find suite runs wm_adsp_fw_find_test_search_order()
-> against six different sets of parameters by listing it six times with
-> KUNIT_CASE_PARAM(), which names each case after the function. All six
-> cases are therefore called wm_adsp_fw_find_test_search_order, which
-> makes the results ambiguous.
-> 
-> Use KUNIT_CASE_PARAM_UNIQUE() for these entries so that each case is
-> also named for the parameter generator it is run with, for example
-> wm_adsp_fw_find_test_search_order-wm_adsp_fw_find_full_search_gen_params.
+Add qaif-reg.h to define the MMIO register offsets for the Qualcomm Audio
+Interface (QAIF) hardware block.
 
-Reviewed-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+The QAIF driver needs a common register map to program the core registers,
+audio interfaces, AIF/CIF DMA channels, interrupt registers, SHRAM/QXM
+routing, and SID maps. Add accessor helpers so the driver can select the
+proper AIF or CIF DMA register set based on the DAI ID.
+
+Signed-off-by: Harendra Gautam <harendra.gautam@oss.qualcomm.com>
+---
+ sound/soc/qcom/qaif-reg.h | 470 ++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 470 insertions(+)
+
+diff --git a/sound/soc/qcom/qaif-reg.h b/sound/soc/qcom/qaif-reg.h
+new file mode 100644
+index 000000000000..2ae26cf24c59
+--- /dev/null
++++ b/sound/soc/qcom/qaif-reg.h
+@@ -0,0 +1,470 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
++ *
++ * qaif-reg.h -- QAIF ALSA SoC CPU-Platform DAI driver register header
++ */
++#ifndef SND_SOC_QCOM_QAIF_REG_H
++#define SND_SOC_QCOM_QAIF_REG_H
++
++#include "qaif.h"
++
++#define QAIF_SUMMARY_IRQSTAT_REG(v)			(0x19188 + (0x1000 * ((v)->ee)))
++
++/* Core HW info */
++#define QAIF_HW_VERSION_REG				(0x0000)
++#define QAIF_HW_INFO_REG				(0x0004)
++#define QAIF_HW_INFO2_REG				(0x0008)
++
++/* Interface lane and channel info */
++#define QAIF_AUD_INTF_LANE_INFO_REG			(0x0020)
++#define QAIF_AUD_INTF_LANE_INFO2_REG			(0x0024)
++#define QAIF_CDC_TX_INTF_CH_INFO_REG(n)			(0x0028 + (0x4 * (n)))
++#define QAIF_CDC_RX_INTF_CH_INFO_REG(n)			(0x0068 + (0x4 * (n)))
++#define QAIF_QXM1_SHRAM_LENGTH_INFO_REG			(0x0088)
++#define QAIF_QXM0_SHRAM_LENGTH_INFO_REG			(0x008C)
++#define QAIF_NUM_AUD_INTF_TO_RAIL_INFO_REG		(0x0090)
++
++/* Debug/control and status */
++#define QAIF_DEBUG_CTL_REG				(0x0200)
++#define QAIF_WRDMA_LOOPBACK_EN_REG			(0x0204)
++#define QAIF_WRDMA_LOOPBACK_SEL_REG			(0x0208)
++#define QAIF_SHRAM_DYNAMIC_CLK_GATING_EN_REG		(0x0300)
++#define QAIF_AXI_STATUS_REG				(0x0304)
++#define QAIF_QSB_DYNAMIC_CLK_GATING_EN_REG		(0x0308)
++#define QAIF_START_STOP_CTRL_BYPASS_EN_REG		(0x030C)
++#define QAIF_QXM0_AXI_ATTR_CFG_REG			(0x040C)
++
++/* QXM request/grant debug */
++#define QAIF_QXM0_AUD_WR_REQ_GNT_DBG_STAT_REG		(0x0500)
++#define QAIF_QXM1_AUD_WR_REQ_GNT_DBG_STAT_REG		(0x0504)
++#define QAIF_QXM0_CODEC_RX_WR_REQ_DBG_STAT_REG		(0x0508)
++#define QAIF_QXM0_CODEC_RX_WR_GNT_DBG_STAT_REG		(0x050C)
++#define QAIF_QXM1_CODEC_RX_WR_REQ_DBG_STAT_REG		(0x0510)
++#define QAIF_QXM1_CODEC_RX_WR_GNT_DBG_STAT_REG		(0x0514)
++#define QAIF_QXM0_AUD_RD_REQ_GNT_DBG_STAT_REG		(0x0518)
++#define QAIF_QXM1_AUD_RD_REQ_GNT_DBG_STAT_REG		(0x051C)
++#define QAIF_QXM0_CODEC_TX_RD_REQ_DBG_STAT_REG		(0x0520)
++#define QAIF_QXM0_CODEC_TX_RD_GNT_DBG_STAT_REG		(0x0524)
++#define QAIF_QXM1_CODEC_TX_RD_REQ_DBG_STAT_REG		(0x0528)
++#define QAIF_QXM1_CODEC_TX_RD_GNT_DBG_STAT_REG		(0x052C)
++#define QAIF_QXM0_EXT_RDDMA_RD_REQ_GNT_DBG_STAT_REG	(0x0530)
++#define QAIF_QXM1_EXT_RDDMA_RD_REQ_GNT_DBG_STAT_REG	(0x0534)
++
++/* QSB transaction debug */
++#define QAIF_QSB_AUD_WR_TXN_DBG_STAT_REG		(0x0538)
++#define QAIF_QSB_CODEC_RX_WR_TXN_ERR_DBG_STAT_REG	(0x053C)
++#define QAIF_QSB_CODEC_RX_WR_TXN_OKAY_DBG_STAT_REG	(0x0540)
++#define QAIF_QSB_AUD_ADDR_SENT_DBG_STAT_REG		(0x0544)
++#define QAIF_QSB_CODEC_TX_RD_ADDR_SENT_DBG_STAT_REG	(0x0548)
++#define QAIF_QSB_EXT_RDDMA_RD_ADDR_SENT_DBG_STAT_REG	(0x054C)
++#define QAIF_QSB_CODEC_RX_WR_ADDR_SENT_DBG_STAT_REG	(0x0550)
++#define QAIF_QSB_AUD_RD_TXN_DBG_STAT_REG		(0x0554)
++#define QAIF_QSB_CODEC_TX_RD_TXN_ERR_DBG_STAT_REG	(0x0558)
++#define QAIF_QSB_CODEC_TX_RD_TXN_RCVD_DBG_STAT_REG	(0x055C)
++#define QAIF_QSB_EXT_RDDMA_RD_TXN_DBG_STAT_REG		(0x0560)
++#define QAIF_QSB_MISC_DBG_STATUS_REG			(0x0564)
++
++/* Global spare and HWE */
++#define QAIF_GLOBAL_SPARE_IN_REG			(0x0B00)
++#define QAIF_GLOBAL_SPARE_OUT_REG			(0x0B04)
++#define QAIF_HWE_CFG_REG				(0x0B08)
++
++/* SID maps */
++#define QAIF_WRDMA_SID_MAP_REG				(0x1B00)
++#define QAIF_CDC_WRDMA_SID_MAP_REG			(0x1B40)
++#define QAIF_RDDMA_SID_MAP_REG				(0x1C00)
++#define QAIF_CDC_RDDMA_SID_MAP_REG			(0x1C40)
++
++/* EE overlap interrupts */
++#define QAIF_EE_OVERLAP_IRQ_EN_REG			(0x1D00)
++#define QAIF_EE_OVERLAP_IRQ_RAW_STATUS_REG		(0x1D04)
++#define QAIF_EE_OVERLAP_IRQ_CLEAR_REG			(0x1D08)
++#define QAIF_EE_OVERLAP_IRQ_FORCE_REG			(0x1D0C)
++
++/*
++ * EE (Execution Engine) assignment and map registers.
++ *
++ * The EE offset (v->ee) is an address/index offset relative to the
++ * platform-defined QAIF/EE base and lets the hardware route the AIF
++ * operation to the correct EE context. It is hardware/platform-specific and
++ * must match the mapping defined for the selected QAIF AIF/lane in the
++ * hardware programming guide. It is not a runtime data offset and must not
++ * be changed based on the stream configuration.
++ */
++#define QAIF_EE_RDDMA_ASSIGNMENT_REG(v)			(0x19148 + (0x1000 * ((v)->ee)))
++#define QAIF_EE_WRDMA_ASSIGNMENT_REG(v)			(0x19150 + (0x1000 * ((v)->ee)))
++#define QAIF_EE_INTF_ASSIGNMENT_REG(v)			(0x19158 + (0x1000 * ((v)->ee)))
++#define QAIF_EE_CODEC_RDDMA_ASSIGN_REG(v)		(0x19308 + (0x1000 * ((v)->ee)))
++#define QAIF_EE_CODEC_WRDMA_ASSIGN_REG(v)		(0x19318 + (0x1000 * ((v)->ee)))
++#define QAIF_EE_RDDMA_MAP_REG(v)			(0x1920 + (0x1000 * ((v)->ee)))
++#define QAIF_EE_WRDMA_MAP_REG(v)			(0x1940 + (0x1000 * ((v)->ee)))
++#define QAIF_EE_INTF_MAP_REG(v)				(0x1960 + (0x1000 * ((v)->ee)))
++#define QAIF_EE_CODEC_RDDMA_MAP_REG(v)			(0x1980 + (0x1000 * ((v)->ee)))
++#define QAIF_EE_CODEC_WRDMA_MAP_REG(v)			(0x1A00 + (0x1000 * ((v)->ee)))
++
++/* EE rate-detection and VFR interrupts */
++#define QAIF_EE_RATE_DET_IRQ_EN_REG(v)			(0x190F0 + (0x1000 * ((v)->ee)))
++#define QAIF_EE_RATE_DET_IRQ_STAT_REG(v)		(0x190F4 + (0x1000 * ((v)->ee)))
++#define QAIF_EE_RATE_DET_IRQ_RAW_STAT_REG(v)		(0x190F8 + (0x1000 * ((v)->ee)))
++#define QAIF_EE_RATE_DET_IRQ_CLEAR_REG(v)		(0x190FC + (0x1000 * ((v)->ee)))
++#define QAIF_EE_RATE_DET_IRQ_FORCE_REG(v)		(0x19100 + (0x1000 * ((v)->ee)))
++
++#define QAIF_EE_VFR_IRQ_EN_REG(v)			(0x19104 + (0x1000 * ((v)->ee)))
++#define QAIF_EE_VFR_IRQ_STATUS_REG(v)			(0x19108 + (0x1000 * ((v)->ee)))
++#define QAIF_EE_VFR_IRQ_RAW_STATUS_REG(v)		(0x1910C + (0x1000 * ((v)->ee)))
++#define QAIF_EE_VFR_IRQ_CLEAR_REG(v)			(0x19110 + (0x1000 * ((v)->ee)))
++#define QAIF_EE_VFR_IRQ_FORCE_REG(v)			(0x19114 + (0x1000 * ((v)->ee)))
++
++/* EE AUD_INTF underflow/overflow interrupts */
++#define QAIF_EE_AUD_INTF_UF_IRQ_EN_REG(v)		(0x19160 + (0x1000 * ((v)->ee)))
++#define QAIF_EE_AUD_INTF_UF_IRQ_STAT_REG(v)		(0x19164 + (0x1000 * ((v)->ee)))
++#define QAIF_EE_AUD_INTF_UF_IRQ_RAW_STAT_REG(v)		(0x19168 + (0x1000 * ((v)->ee)))
++#define QAIF_EE_AUD_INTF_UF_IRQ_CLEAR_REG(v)		(0x1916C + (0x1000 * ((v)->ee)))
++#define QAIF_EE_AUD_INTF_UF_IRQ_FORCE_REG(v)		(0x19170 + (0x1000 * ((v)->ee)))
++
++#define QAIF_EE_AUD_INTF_OF_IRQ_EN_REG(v)		(0x19174 + (0x1000 * ((v)->ee)))
++#define QAIF_EE_AUD_INTF_OF_IRQ_STAT_REG(v)		(0x19178 + (0x1000 * ((v)->ee)))
++#define QAIF_EE_AUD_INTF_OF_IRQ_RAW_STAT_REG(v)		(0x1917C + (0x1000 * ((v)->ee)))
++#define QAIF_EE_AUD_INTF_OF_IRQ_CLEAR_REG(v)		(0x19180 + (0x1000 * ((v)->ee)))
++#define QAIF_EE_AUD_INTF_OF_IRQ_FORCE_REG(v)		(0x19184 + (0x1000 * ((v)->ee)))
++
++/* EE L2 Period IRQ mux selection */
++#define QAIF_EE_L2_PERIOD_IRQ_0_3_MUX_SEL_REG(v)	(0x19F00 + (0x1000 * ((v)->ee)))
++#define QAIF_EE_L2_PERIOD_IRQ_4_7_MUX_SEL_REG(v)	(0x19F04 + (0x1000 * ((v)->ee)))
++
++/* AUD_INTF block (per interface, stride 0x1000 starting at 0x4000) */
++#define QAIF_AUD_INTF_REG_ADDR(offset, i)		(0x4000 + (offset) + (0x1000 * (i)))
++
++#define QAIF_AUD_INTF_CTL_REG(i)			QAIF_AUD_INTF_REG_ADDR(0x0000, (i))
++#define QAIF_AUD_INTF_SYNC_CFG_REG(i)			QAIF_AUD_INTF_REG_ADDR(0x0004, (i))
++#define QAIF_AUD_INTF_BIT_WIDTH_CFG_REG(i)		QAIF_AUD_INTF_REG_ADDR(0x0008, (i))
++#define QAIF_AUD_INTF_FRAME_CFG_REG(i)			QAIF_AUD_INTF_REG_ADDR(0x000C, (i))
++#define QAIF_AUD_INTF_ACTV_SLOT_EN_TX_REG(i)		QAIF_AUD_INTF_REG_ADDR(0x0010, (i))
++#define QAIF_AUD_INTF_ACTV_SLOT_EN_RX_REG(i)		QAIF_AUD_INTF_REG_ADDR(0x0030, (i))
++#define QAIF_AUD_INTF_LANE_CFG_REG(i)			QAIF_AUD_INTF_REG_ADDR(0x0050, (i))
++#define QAIF_AUD_INTF_MI2S_CFG_REG(i)			QAIF_AUD_INTF_REG_ADDR(0x0054, (i))
++#define QAIF_AUD_INTF_CFG_REG(i)			QAIF_AUD_INTF_REG_ADDR(0x0058, (i))
++#define QAIF_AUD_INTF_CHAR_CTL_REG(i)			QAIF_AUD_INTF_REG_ADDR(0x005C, (i))
++#define QAIF_AUD_INTF_CHAR_CFG_REG(i)			QAIF_AUD_INTF_REG_ADDR(0x0060, (i))
++#define QAIF_AUD_INTF_CHAR_DATA_REG(i)			QAIF_AUD_INTF_REG_ADDR(0x0064, (i))
++#define QAIF_AUD_INTF_CHAR_DATA_EXT_REG(i)		QAIF_AUD_INTF_REG_ADDR(0x0068, (i))
++#define QAIF_AUD_INTF_CHAR_SYNC_REG(i)			QAIF_AUD_INTF_REG_ADDR(0x006C, (i))
++#define QAIF_AUD_INTF_INIT_DBG_STATUS_REG(i)		QAIF_AUD_INTF_REG_ADDR(0x0FF0, (i))
++#define QAIF_AUD_INTF_TX_DBG_STATUS_REG(i)		QAIF_AUD_INTF_REG_ADDR(0x0FF4, (i))
++#define QAIF_AUD_INTF_RX_DBG_STATUS_REG(i)		QAIF_AUD_INTF_REG_ADDR(0x0FF8, (i))
++
++/* RATE_DET block (per detector, stride 0x1000 starting at 0x1E000) */
++#define QAIF_RATE_DET_REG_ADDR(offset, det)		(0x1E000 + (offset) + (0x1000 * (det)))
++
++#define QAIF_RATE_DET_CONFIG_REG(det)			QAIF_RATE_DET_REG_ADDR(0x0000, (det))
++#define QAIF_RATE_DET_TARGET1_CONF_REG(det)		QAIF_RATE_DET_REG_ADDR(0x0004, (det))
++#define QAIF_RATE_DET_TARGET2_CONF_REG(det)		QAIF_RATE_DET_REG_ADDR(0x0008, (det))
++#define QAIF_RATE_DET_BIN_REG(det)			QAIF_RATE_DET_REG_ADDR(0x000C, (det))
++#define QAIF_RATE_DET_STC_DIFF_REG(det)			QAIF_RATE_DET_REG_ADDR(0x0010, (det))
++#define QAIF_RATE_DET_SEL_REG(det)			QAIF_RATE_DET_REG_ADDR(0x0014, (det))
++#define QAIF_RATE_DET_TIMEOUT_CFG_REG(det)		QAIF_RATE_DET_REG_ADDR(0x0018, (det))
++
++#define QAIF_WRDMA_MAP_QXM				(0x1000)
++#define QAIF_CDC_WRDMA_MAP_QXM				(0x1004)
++#define QAIF_RDDMA_MAP_QXM				(0x1010)
++#define QAIF_CDC_RDDMA_MAP_QXM				(0x1014)
++#define QAIF_RDDMA_QXM1_SHRAM_ST_ADDR(i)		(0x1100 + (0x4 * (i)))
++#define QAIF_CDC_RDDMA_QXM1_SHRAM_ST_ADDR(i)		(0x1140 + (0x4 * (i)))
++#define QAIF_RDDMA_QXM0_SHRAM_ST_ADDR(i)		(0x1200 + (0x4 * (i)))
++#define QAIF_CDC_RDDMA_QXM0_SHRAM_ST_ADDR(i)		(0x1240 + (0x4 * (i)))
++#define QAIF_RDDMA_QXM1_SHRAM_LEN(i)			(0x1300 + (0x4 * (i)))
++#define QAIF_CDC_RDDMA_QXM1_SHRAM_LEN(i)		(0x1340 + (0x4 * (i)))
++#define QAIF_RDDMA_QXM0_SHRAM_LEN(i)			(0x1400 + (0x4 * (i)))
++#define QAIF_CDC_RDDMA_QXM0_SHRAM_LEN(i)		(0x1440 + (0x4 * (i)))
++#define QAIF_WRDMA_QXM1_SHRAM_ST_ADDR(i)		(0x1500 + (0x4 * (i)))
++#define QAIF_CDC_WRDMA_QXM1_SHRAM_ST_ADDR(i)		(0x1540 + (0x4 * (i)))
++#define QAIF_WRDMA_QXM0_SHRAM_ST_ADDR(i)		(0x1600 + (0x4 * (i)))
++#define QAIF_CDC_WRDMA_QXM0_SHRAM_ST_ADDR(i)		(0x1640 + (0x4 * (i)))
++#define QAIF_WRDMA_QXM1_SHRAM_LEN(i)			(0x1700 + (0x4 * (i)))
++#define QAIF_CDC_WRDMA_QXM1_SHRAM_LEN(i)		(0x1740 + (0x4 * (i)))
++#define QAIF_WRDMA_QXM0_SHRAM_LEN(i)			(0x1800 + (0x4 * (i)))
++#define QAIF_CDC_WRDMA_QXM0_SHRAM_LEN(i)		(0x1840 + (0x4 * (i)))
++
++/* RDDMA */
++static inline u32 qaif_rddma_reg_addr(const struct qaif_variant *v,
++				      u32 offset, u32 i)
++{
++	return v->rddma_reg_base + offset + v->rddma_stride * i;
++}
++
++#define QAIF_RDDMA_CTL_REG(v, i)			qaif_rddma_reg_addr(v, 0x00, (i))
++#define QAIF_RDDMA_CFG_REG(v, i)			qaif_rddma_reg_addr(v, 0x04, (i))
++#define QAIF_RDDMA_BASE_ADDR_REG(v, i)			qaif_rddma_reg_addr(v, 0x08, (i))
++#define QAIF_RDDMA_BUFF_LEN_REG(v, i)			qaif_rddma_reg_addr(v, 0x10, (i))
++#define QAIF_RDDMA_CURR_ADDR_REG(v, i)			qaif_rddma_reg_addr(v, 0x14, (i))
++#define QAIF_RDDMA_PERIOD_LEN_REG(v, i)			qaif_rddma_reg_addr(v, 0x1C, (i))
++#define QAIF_RDDMA_PERIOD_CNT_REG(v, i)			qaif_rddma_reg_addr(v, 0x20, (i))
++#define QAIF_RDDMA_SHRAM_WORDCNT_REG(v, i)		qaif_rddma_reg_addr(v, 0x24, (i))
++#define QAIF_RDDMA_FRAME_STATUS_REG(v, i)		qaif_rddma_reg_addr(v, 0x28, (i))
++#define QAIF_RDDMA_FRAME_STATUS_EXTN_REG(v, i)		qaif_rddma_reg_addr(v, 0x2C, (i))
++#define QAIF_RDDMA_FRAME_STATUS_CLR_REG(v, i)		qaif_rddma_reg_addr(v, 0x30, (i))
++#define QAIF_RDDMA_SET_BUFF_CNT_REG(v, i)		qaif_rddma_reg_addr(v, 0x34, (i))
++#define QAIF_RDDMA_SET_PERIOD_CNT_REG(v, i)		qaif_rddma_reg_addr(v, 0x38, (i))
++#define QAIF_RDDMA_STC_LSB_REG(v, i)			qaif_rddma_reg_addr(v, 0x3C, (i))
++#define QAIF_RDDMA_STC_MSB_REG(v, i)			qaif_rddma_reg_addr(v, 0x40, (i))
++#define QAIF_RDDMA_PERIOD_DET_STAT_REG(v, i)		qaif_rddma_reg_addr(v, 0x44, (i))
++#define QAIF_RDDMA_PERIOD_DET_CLR_REG(v, i)		qaif_rddma_reg_addr(v, 0x48, (i))
++#define QAIF_RDDMA_FORMAT_ERR_REG(v, i)			qaif_rddma_reg_addr(v, 0x4C, (i))
++#define QAIF_RDDMA_AHB_BYPASS_REG(v, i)			qaif_rddma_reg_addr(v, 0x50, (i))
++#define QAIF_RDDMA_SHUTDOWN_STAT_REG(v, i)		qaif_rddma_reg_addr(v, 0x54, (i))
++#define QAIF_RDDMA_PADDING_CFG_REG(v, i)		qaif_rddma_reg_addr(v, 0x58, (i))
++#define QAIF_RDDMA_STATUS_REG(v, i)			qaif_rddma_reg_addr(v, 0x60, (i))
++#define QAIF_RDDMA_DBG_STATUS_REG(v, i)			qaif_rddma_reg_addr(v, 0xFF0, (i))
++
++static inline u32 qaif_codec_rddma_reg_addr(const struct qaif_variant *v,
++					    u32 offset, u32 i)
++{
++	return v->codec_rddma_reg_base + offset + v->codec_rddma_stride * i;
++}
++
++#define QAIF_CDC_RDDMA_CTL_REG(v, i)			qaif_codec_rddma_reg_addr(v, 0x00, (i))
++#define QAIF_CDC_RDDMA_CFG_REG(v, i)			qaif_codec_rddma_reg_addr(v, 0x04, (i))
++#define QAIF_CDC_RDDMA_BASE_ADDR_REG(v, i)		qaif_codec_rddma_reg_addr(v, 0x08, (i))
++#define QAIF_CDC_RDDMA_BUFF_LEN_REG(v, i)		qaif_codec_rddma_reg_addr(v, 0x10, (i))
++#define QAIF_CDC_RDDMA_CURR_ADDR_REG(v, i)		qaif_codec_rddma_reg_addr(v, 0x14, (i))
++#define QAIF_CDC_RDDMA_PERIOD_LEN_REG(v, i)		qaif_codec_rddma_reg_addr(v, 0x1C, (i))
++#define QAIF_CDC_RDDMA_PERIOD_CNT_REG(v, i)		qaif_codec_rddma_reg_addr(v, 0x20, (i))
++#define QAIF_CDC_RDDMA_SHRAM_WORDCNT_REG(v, i)		qaif_codec_rddma_reg_addr(v, 0x24, (i))
++#define QAIF_CDC_RDDMA_FRAME_STAT_REG(v, i)		qaif_codec_rddma_reg_addr(v, 0x28, (i))
++#define QAIF_CDC_RDDMA_FRAME_STAT_EXTN_REG(v, i)	qaif_codec_rddma_reg_addr(v, 0x2C, (i))
++#define QAIF_CDC_RDDMA_FRAME_STAT_CLR_REG(v, i)		qaif_codec_rddma_reg_addr(v, 0x30, (i))
++#define QAIF_CDC_RDDMA_SET_BUFF_CNT_REG(v, i)		qaif_codec_rddma_reg_addr(v, 0x34, (i))
++#define QAIF_CDC_RDDMA_SET_PERIOD_CNT_REG(v, i)		qaif_codec_rddma_reg_addr(v, 0x38, (i))
++#define QAIF_CDC_RDDMA_STC_LSB_REG(v, i)		qaif_codec_rddma_reg_addr(v, 0x3C, (i))
++#define QAIF_CDC_RDDMA_STC_MSB_REG(v, i)		qaif_codec_rddma_reg_addr(v, 0x40, (i))
++#define QAIF_CDC_RDDMA_PERIOD_DET_STAT_REG(v, i)	qaif_codec_rddma_reg_addr(v, 0x44, (i))
++#define QAIF_CDC_RDDMA_PERIOD_DET_CLR_REG(v, i)		qaif_codec_rddma_reg_addr(v, 0x48, (i))
++#define QAIF_CDC_RDDMA_FORMAT_ERR_REG(v, i)		qaif_codec_rddma_reg_addr(v, 0x4C, (i))
++#define QAIF_CDC_RDDMA_AHB_BYPASS_REG(v, i)		qaif_codec_rddma_reg_addr(v, 0x50, (i))
++#define QAIF_CDC_RDDMA_SHUTDOWN_STAT_REG(v, i)		qaif_codec_rddma_reg_addr(v, 0x54, (i))
++#define QAIF_CDC_RDDMA_PADDING_CFG_REG(v, i)		qaif_codec_rddma_reg_addr(v, 0x58, (i))
++#define QAIF_CDC_RDDMA_INTF_CFG_REG(v, i)		qaif_codec_rddma_reg_addr(v, 0x5C, (i))
++#define QAIF_CDC_RDDMA_STATUS_REG(v, i)			qaif_codec_rddma_reg_addr(v, 0x60, (i))
++#define QAIF_CDC_RDDMA_DBG_STATUS_REG(v, i)		qaif_codec_rddma_reg_addr(v, 0xFF0, (i))
++#define QAIF_CDC_RDDMA_INTF_DBG_STATUS_REG(v, i)	qaif_codec_rddma_reg_addr(v, 0xFF4, (i))
++
++/* WRDMA */
++static inline u32 qaif_wrdma_reg_addr(const struct qaif_variant *v,
++				      u32 offset, u32 i)
++{
++	return v->wrdma_reg_base + offset + v->wrdma_stride * i;
++}
++
++#define QAIF_WRDMA_CTL_REG(v, i)			qaif_wrdma_reg_addr(v, 0x00, (i))
++#define QAIF_WRDMA_CFG_REG(v, i)			qaif_wrdma_reg_addr(v, 0x04, (i))
++#define QAIF_WRDMA_BASE_ADDR_REG(v, i)			qaif_wrdma_reg_addr(v, 0x08, (i))
++#define QAIF_WRDMA_BUFF_LEN_REG(v, i)			qaif_wrdma_reg_addr(v, 0x10, (i))
++#define QAIF_WRDMA_CURR_ADDR_REG(v, i)			qaif_wrdma_reg_addr(v, 0x14, (i))
++#define QAIF_WRDMA_PERIOD_LEN_REG(v, i)			qaif_wrdma_reg_addr(v, 0x1C, (i))
++#define QAIF_WRDMA_PERIOD_CNT_REG(v, i)			qaif_wrdma_reg_addr(v, 0x20, (i))
++#define QAIF_WRDMA_SHRAM_WORDCNT_REG(v, i)		qaif_wrdma_reg_addr(v, 0x24, (i))
++#define QAIF_WRDMA_FRAME_STATUS_REG(v, i)		qaif_wrdma_reg_addr(v, 0x28, (i))
++#define QAIF_WRDMA_FRAME_STATUS_EXTN_REG(v, i)		qaif_wrdma_reg_addr(v, 0x2C, (i))
++#define QAIF_WRDMA_FRAME_STATUS_CLR_REG(v, i)		qaif_wrdma_reg_addr(v, 0x30, (i))
++#define QAIF_WRDMA_SET_BUFF_CNT_REG(v, i)		qaif_wrdma_reg_addr(v, 0x34, (i))
++#define QAIF_WRDMA_SET_PERIOD_CNT_REG(v, i)		qaif_wrdma_reg_addr(v, 0x38, (i))
++#define QAIF_WRDMA_STC_LSB_REG(v, i)			qaif_wrdma_reg_addr(v, 0x3C, (i))
++#define QAIF_WRDMA_STC_MSB_REG(v, i)			qaif_wrdma_reg_addr(v, 0x40, (i))
++#define QAIF_WRDMA_PERIOD_DET_STAT_REG(v, i)		qaif_wrdma_reg_addr(v, 0x44, (i))
++#define QAIF_WRDMA_PERIOD_DET_CLR_REG(v, i)		qaif_wrdma_reg_addr(v, 0x48, (i))
++#define QAIF_WRDMA_FORMAT_ERR_REG(v, i)			qaif_wrdma_reg_addr(v, 0x4C, (i))
++#define QAIF_WRDMA_AHB_BYPASS_REG(v, i)			qaif_wrdma_reg_addr(v, 0x50, (i))
++#define QAIF_WRDMA_SHUTDOWN_STAT_REG(v, i)		qaif_wrdma_reg_addr(v, 0x54, (i))
++#define QAIF_WRDMA_DBG_STATUS_REG(v, i)			qaif_wrdma_reg_addr(v, 0xFF0, (i))
++
++static inline u32 qaif_codec_wrdma_reg_addr(const struct qaif_variant *v,
++					    u32 offset, u32 i)
++{
++	return v->codec_wrdma_reg_base + offset + v->codec_wrdma_stride * i;
++}
++
++#define QAIF_CDC_WRDMA_CTL_REG(v, i)			qaif_codec_wrdma_reg_addr(v, 0x00, (i))
++#define QAIF_CDC_WRDMA_CFG_REG(v, i)			qaif_codec_wrdma_reg_addr(v, 0x04, (i))
++#define QAIF_CDC_WRDMA_BASE_ADDR_REG(v, i)		qaif_codec_wrdma_reg_addr(v, 0x08, (i))
++#define QAIF_CDC_WRDMA_BUFF_LEN_REG(v, i)		qaif_codec_wrdma_reg_addr(v, 0x10, (i))
++#define QAIF_CDC_WRDMA_CURR_ADDR_REG(v, i)		qaif_codec_wrdma_reg_addr(v, 0x14, (i))
++#define QAIF_CDC_WRDMA_PERIOD_LEN_REG(v, i)		qaif_codec_wrdma_reg_addr(v, 0x1C, (i))
++#define QAIF_CDC_WRDMA_PERIOD_CNT_REG(v, i)		qaif_codec_wrdma_reg_addr(v, 0x20, (i))
++#define QAIF_CDC_WRDMA_SHRAM_WORDCNT_REG(v, i)		qaif_codec_wrdma_reg_addr(v, 0x24, (i))
++#define QAIF_CDC_WRDMA_FRAME_STAT_REG(v, i)		qaif_codec_wrdma_reg_addr(v, 0x28, (i))
++#define QAIF_CDC_WRDMA_FRAME_STAT_EXTN_REG(v, i)	qaif_codec_wrdma_reg_addr(v, 0x2C, (i))
++#define QAIF_CDC_WRDMA_FRAME_STAT_CLR_REG(v, i)		qaif_codec_wrdma_reg_addr(v, 0x30, (i))
++#define QAIF_CDC_WRDMA_SET_BUFF_CNT_REG(v, i)		qaif_codec_wrdma_reg_addr(v, 0x34, (i))
++#define QAIF_CDC_WRDMA_SET_PERIOD_CNT_REG(v, i)		qaif_codec_wrdma_reg_addr(v, 0x38, (i))
++#define QAIF_CDC_WRDMA_STC_LSB_REG(v, i)		qaif_codec_wrdma_reg_addr(v, 0x3C, (i))
++#define QAIF_CDC_WRDMA_STC_MSB_REG(v, i)		qaif_codec_wrdma_reg_addr(v, 0x40, (i))
++#define QAIF_CDC_WRDMA_PERIOD_DET_STAT_REG(v, i)	qaif_codec_wrdma_reg_addr(v, 0x44, (i))
++#define QAIF_CDC_WRDMA_PERIOD_DET_CLR_REG(v, i)		qaif_codec_wrdma_reg_addr(v, 0x48, (i))
++#define QAIF_CDC_WRDMA_FORMAT_ERR_REG(v, i)		qaif_codec_wrdma_reg_addr(v, 0x4C, (i))
++#define QAIF_CDC_WRDMA_AHB_BYPASS_REG(v, i)		qaif_codec_wrdma_reg_addr(v, 0x50, (i))
++#define QAIF_CDC_WRDMA_SHUTDOWN_STAT_REG(v, i)		qaif_codec_wrdma_reg_addr(v, 0x54, (i))
++#define QAIF_CDC_WRDMA_INTF_CFG_REG(v, i)		qaif_codec_wrdma_reg_addr(v, 0x58, (i))
++#define QAIF_CDC_WRDMA_DBG_STATUS_REG(v, i)		qaif_codec_wrdma_reg_addr(v, 0xFF0, (i))
++#define QAIF_CDC_WRDMA_INTF_DBG_STATUS_REG(v, i)	qaif_codec_wrdma_reg_addr(v, 0xFF4, (i))
++
++static inline u32 qaif_rddma_irq_reg_addr(const struct qaif_variant *v,
++					  enum qaif_irq_type dma_type,
++					  u32 offset)
++{
++	if (dma_type == QAIF_AIF_IRQ)
++		return v->rddma_irq_reg_base + offset +
++		       v->rddma_irq_stride * v->ee;
++	return v->codec_rddma_irq_reg_base + offset +
++	       v->codec_rddma_irq_stride * v->ee;
++}
++
++/* RDDMA Period Interrupts */
++#define QAIF_EE_RDDMA_PERIOD_IRQ_EN_REG(v, i)		qaif_rddma_irq_reg_addr(v, i, 0x00)
++#define QAIF_EE_RDDMA_PERIOD_IRQ_STAT_REG(v, i)		qaif_rddma_irq_reg_addr(v, i, 0x08)
++#define QAIF_EE_RDDMA_PERIOD_IRQ_RAW_STAT_REG(v, i)	qaif_rddma_irq_reg_addr(v, i, 0x10)
++#define QAIF_EE_RDDMA_PERIOD_IRQ_CLR_REG(v, i)		qaif_rddma_irq_reg_addr(v, i, 0x18)
++#define QAIF_EE_RDDMA_PERIOD_IRQ_FORCE_REG(v, i)	qaif_rddma_irq_reg_addr(v, i, 0x20)
++/* RDDMA Underflow Interrupts */
++#define QAIF_EE_RDDMA_UF_IRQ_EN_REG(v, i)		qaif_rddma_irq_reg_addr(v, i, 0x28)
++#define QAIF_EE_RDDMA_UF_IRQ_STAT_REG(v, i)		qaif_rddma_irq_reg_addr(v, i, 0x30)
++#define QAIF_EE_RDDMA_UF_IRQ_RAW_STAT_REG(v, i)		qaif_rddma_irq_reg_addr(v, i, 0x38)
++#define QAIF_EE_RDDMA_UF_IRQ_CLR_REG(v, i)		qaif_rddma_irq_reg_addr(v, i, 0x40)
++#define QAIF_EE_RDDMA_UF_IRQ_FORCE_REG(v, i)		qaif_rddma_irq_reg_addr(v, i, 0x48)
++/* RDDMA Error Response Interrupts */
++#define QAIF_EE_RDDMA_ERR_RSP_IRQ_EN_REG(v, i)		qaif_rddma_irq_reg_addr(v, i, 0x50)
++#define QAIF_EE_RDDMA_ERR_RSP_IRQ_STAT_REG(v, i)	qaif_rddma_irq_reg_addr(v, i, 0x58)
++#define QAIF_EE_RDDMA_ERR_RSP_IRQ_RAW_STAT(v, i)	qaif_rddma_irq_reg_addr(v, i, 0x60)
++#define QAIF_EE_RDDMA_ERR_RSP_IRQ_CLR_REG(v, i)		qaif_rddma_irq_reg_addr(v, i, 0x68)
++#define QAIF_EE_RDDMA_ERR_RSP_IRQ_FORCE_REG(v, i)	qaif_rddma_irq_reg_addr(v, i, 0x70)
++
++static inline u32 qaif_wrdma_irq_reg_addr(const struct qaif_variant *v,
++					  enum qaif_irq_type dma_type,
++					  u32 offset)
++{
++	if (dma_type == QAIF_AIF_IRQ)
++		return v->wrdma_irq_reg_base + offset +
++		       v->wrdma_irq_stride * v->ee;
++	return v->codec_wrdma_irq_reg_base + offset +
++	       v->codec_wrdma_irq_stride * v->ee;
++}
++
++/* WRDMA Period Interrupts */
++#define QAIF_EE_WRDMA_PERIOD_IRQ_EN_REG(v, i)		qaif_wrdma_irq_reg_addr(v, i, 0x00)
++#define QAIF_EE_WRDMA_PERIOD_IRQ_STAT_REG(v, i)		qaif_wrdma_irq_reg_addr(v, i, 0x08)
++#define QAIF_EE_WRDMA_PERIOD_IRQ_RAW_STAT_REG(v, i)	qaif_wrdma_irq_reg_addr(v, i, 0x10)
++#define QAIF_EE_WRDMA_PERIOD_IRQ_CLR_REG(v, i)		qaif_wrdma_irq_reg_addr(v, i, 0x18)
++#define QAIF_EE_WRDMA_PERIOD_IRQ_FORCE_REG(v, i)	qaif_wrdma_irq_reg_addr(v, i, 0x20)
++/* WRDMA Overflow Interrupts */
++#define QAIF_EE_WRDMA_OF_IRQ_EN_REG(v, i)		qaif_wrdma_irq_reg_addr(v, i, 0x28)
++#define QAIF_EE_WRDMA_OF_IRQ_STAT_REG(v, i)		qaif_wrdma_irq_reg_addr(v, i, 0x30)
++#define QAIF_EE_WRDMA_OF_IRQ_RAW_STAT_REG(v, i)		qaif_wrdma_irq_reg_addr(v, i, 0x38)
++#define QAIF_EE_WRDMA_OF_IRQ_CLR_REG(v, i)		qaif_wrdma_irq_reg_addr(v, i, 0x40)
++#define QAIF_EE_WRDMA_OF_IRQ_FORCE_REG(v, i)		qaif_wrdma_irq_reg_addr(v, i, 0x48)
++/* WRDMA Error Response Interrupts */
++#define QAIF_EE_WRDMA_ERR_RSP_IRQ_EN_REG(v, i)		qaif_wrdma_irq_reg_addr(v, i, 0x50)
++#define QAIF_EE_WRDMA_ERR_RSP_IRQ_STAT_REG(v, i)	qaif_wrdma_irq_reg_addr(v, i, 0x58)
++#define QAIF_EE_WRDMA_ERR_RSP_IRQ_RAW_STAT(v, i)	qaif_wrdma_irq_reg_addr(v, i, 0x60)
++#define QAIF_EE_WRDMA_ERR_RSP_IRQ_CLR_REG(v, i)		qaif_wrdma_irq_reg_addr(v, i, 0x68)
++#define QAIF_EE_WRDMA_ERR_RSP_IRQ_FORCE_REG(v, i)	qaif_wrdma_irq_reg_addr(v, i, 0x70)
++
++static inline u32 qaif_dmacfg_reg(const struct qaif_variant *v,
++				  u32 i, int dir, unsigned int dai_id)
++{
++	if (qaif_is_cif_port(dai_id))
++		return dir == SNDRV_PCM_STREAM_PLAYBACK ?
++			QAIF_CDC_RDDMA_CFG_REG(v, i) :
++			QAIF_CDC_WRDMA_CFG_REG(v, i);
++	return dir == SNDRV_PCM_STREAM_PLAYBACK ?
++		QAIF_RDDMA_CFG_REG(v, i) : QAIF_WRDMA_CFG_REG(v, i);
++}
++
++static inline u32 qaif_dmactl_reg(const struct qaif_variant *v,
++				  u32 i, int dir, unsigned int dai_id)
++{
++	if (qaif_is_cif_port(dai_id))
++		return dir == SNDRV_PCM_STREAM_PLAYBACK ?
++			QAIF_CDC_RDDMA_CTL_REG(v, i) :
++			QAIF_CDC_WRDMA_CTL_REG(v, i);
++	return dir == SNDRV_PCM_STREAM_PLAYBACK ?
++		QAIF_RDDMA_CTL_REG(v, i) : QAIF_WRDMA_CTL_REG(v, i);
++}
++
++static inline u32 qaif_dma_shutdown_stat_reg(const struct qaif_variant *v,
++					     u32 i, int dir, unsigned int dai_id)
++{
++	if (qaif_is_cif_port(dai_id))
++		return dir == SNDRV_PCM_STREAM_PLAYBACK ?
++			QAIF_CDC_RDDMA_SHUTDOWN_STAT_REG(v, i) :
++			QAIF_CDC_WRDMA_SHUTDOWN_STAT_REG(v, i);
++	return dir == SNDRV_PCM_STREAM_PLAYBACK ?
++		QAIF_RDDMA_SHUTDOWN_STAT_REG(v, i) :
++		QAIF_WRDMA_SHUTDOWN_STAT_REG(v, i);
++}
++
++static inline u32 qaif_dmabuff_reg(const struct qaif_variant *v,
++				   u32 i, int dir, unsigned int dai_id)
++{
++	if (qaif_is_cif_port(dai_id))
++		return dir == SNDRV_PCM_STREAM_PLAYBACK ?
++			QAIF_CDC_RDDMA_BUFF_LEN_REG(v, i) :
++			QAIF_CDC_WRDMA_BUFF_LEN_REG(v, i);
++	return dir == SNDRV_PCM_STREAM_PLAYBACK ?
++		QAIF_RDDMA_BUFF_LEN_REG(v, i) : QAIF_WRDMA_BUFF_LEN_REG(v, i);
++}
++
++static inline u32 qaif_dmacurr_reg(const struct qaif_variant *v,
++				   u32 i, int dir, unsigned int dai_id)
++{
++	if (qaif_is_cif_port(dai_id))
++		return dir == SNDRV_PCM_STREAM_PLAYBACK ?
++			QAIF_CDC_RDDMA_CURR_ADDR_REG(v, i) :
++			QAIF_CDC_WRDMA_CURR_ADDR_REG(v, i);
++	return dir == SNDRV_PCM_STREAM_PLAYBACK ?
++		QAIF_RDDMA_CURR_ADDR_REG(v, i) : QAIF_WRDMA_CURR_ADDR_REG(v, i);
++}
++
++static inline u32 qaif_dmaper_cnt_reg(const struct qaif_variant *v,
++				      u32 i, int dir, unsigned int dai_id)
++{
++	if (qaif_is_cif_port(dai_id))
++		return dir == SNDRV_PCM_STREAM_PLAYBACK ?
++			QAIF_CDC_RDDMA_PERIOD_CNT_REG(v, i) :
++			QAIF_CDC_WRDMA_PERIOD_CNT_REG(v, i);
++	return dir == SNDRV_PCM_STREAM_PLAYBACK ?
++		QAIF_RDDMA_PERIOD_CNT_REG(v, i) : QAIF_WRDMA_PERIOD_CNT_REG(v, i);
++}
++
++static inline u32 qaif_dmaper_len_reg(const struct qaif_variant *v,
++				      u32 i, int dir, unsigned int dai_id)
++{
++	if (qaif_is_cif_port(dai_id))
++		return dir == SNDRV_PCM_STREAM_PLAYBACK ?
++			QAIF_CDC_RDDMA_PERIOD_LEN_REG(v, i) :
++			QAIF_CDC_WRDMA_PERIOD_LEN_REG(v, i);
++	return dir == SNDRV_PCM_STREAM_PLAYBACK ?
++		QAIF_RDDMA_PERIOD_LEN_REG(v, i) : QAIF_WRDMA_PERIOD_LEN_REG(v, i);
++}
++
++static inline u32 qaif_dmabase_reg(const struct qaif_variant *v,
++				   u32 i, int dir, unsigned int dai_id)
++{
++	if (qaif_is_cif_port(dai_id))
++		return dir == SNDRV_PCM_STREAM_PLAYBACK ?
++			QAIF_CDC_RDDMA_BASE_ADDR_REG(v, i) :
++			QAIF_CDC_WRDMA_BASE_ADDR_REG(v, i);
++	return dir == SNDRV_PCM_STREAM_PLAYBACK ?
++		QAIF_RDDMA_BASE_ADDR_REG(v, i) : QAIF_WRDMA_BASE_ADDR_REG(v, i);
++}
++
++static inline u32 qaif_sid_map_reg(int dir, unsigned int dai_id)
++{
++	if (qaif_is_cif_port(dai_id))
++		return dir == SNDRV_PCM_STREAM_PLAYBACK ?
++			QAIF_CDC_RDDMA_SID_MAP_REG :
++			QAIF_CDC_WRDMA_SID_MAP_REG;
++	return dir == SNDRV_PCM_STREAM_PLAYBACK ?
++		QAIF_RDDMA_SID_MAP_REG : QAIF_WRDMA_SID_MAP_REG;
++}
++
++#endif /* SND_SOC_QCOM_QAIF_REG_H */
+
+-- 
+2.34.1
 
