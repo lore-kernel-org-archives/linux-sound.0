@@ -1,84 +1,85 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7C1A4FDA6A;
-	Tue, 13 Oct 2026 12:05:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19BB64FDA75;
+	Tue, 13 Oct 2026 12:05:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791893141; cv=none; b=M/edt3ubApDXIbCVIimGo0dEK+Jv3rOu+iGuo9ijo+w6aTpVJLyWg/eBgSJA3AndWyK2lY1+8iO6/MVAKJataVFRgeWUdGlQz3IM0g9xyK04gUtxBbN1DqM4qGchVhhui+l7JJ2D7NRBmqNmMYdTvG+Vnw863n96lkm7BVsJnDk=
+	t=1791893143; cv=none; b=H9agcCF5BO7PIl/QqpiUBlzvUEHrBfcz8qa/+pfTcY0XU5PJuIswLcLmu+FA6lj/HzuMDRuHF7qBrQFOFjK/qGdD+Zjcuv62dDduALCASPa3fdEg/HqnNHNNh9Tukn2nem6ZnT4VvncptXe0+Va+2h+8/04QZa6q/JatFaISfnU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791893141; c=relaxed/simple;
-	bh=8Sq27bRgl/Q3cGjRtwKZRwqzCCAuPtYiJZFRP08rQmM=;
+	s=arc-20240116; t=1791893143; c=relaxed/simple;
+	bh=rA3O7vEWHtvbOWrU57yUTKya5RIUR3g0INDBYIyfYeA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=eTs9ErJd2tOQCsnt6UyzlokkEBng438zBQwOxBDVjno0NMOvYc5N/hm4hLHNvzhS8PrLBKM4afWTL+pOh3+8ycgN5Ucy/BuhbYoX5SMAQPAol4QGYGvEf+NUFXUtHBo3X6lWZL8Wb7nay0sfZP9jfkAMn8O/5qH2IsSH0R9k1dg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=S1QuCwH0; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=0ketxo8N; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=S1QuCwH0; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=0ketxo8N; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=IAKvv+385rPqTLOx90syRwGMgaF6lytlaT5qQ5OluuwQW6w/ukoLBMAo7DKWj0YndLVVpcWPYNqgG3qNFkbkZNLpo//Q79aOQz4IuzHdhE86iXzPyrbd1+a6CaUli2r523AqblMAe9m0PoNpmb2yCMq0d4pwu/M08gRqix2xNMs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=q8yKcMBE; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ooaslPYg; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=q8yKcMBE; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ooaslPYg; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="S1QuCwH0";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0ketxo8N";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="S1QuCwH0";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0ketxo8N"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="q8yKcMBE";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ooaslPYg";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="q8yKcMBE";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ooaslPYg"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 47C3D21F3C;
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 4735421F3B;
 	Tue, 13 Oct 2026 12:05:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1791893137; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=4gHwM10c6rIn+brCH12rVuLx7SAlE/cm6PF/D9AlqIo=;
-	b=S1QuCwH0ISSfJELvpm9yjG/KRsqFBSmYWRb0LxznrtxJbFn21KPngLkZivUwT5gRieihoA
-	Tta35azUguapOu4W5fVY+xqtw9iy+3ypGwZ4fvPvxSCf8K3kcqHFg11xisdmum5GZ+T5oK
-	cTooRm9N6FuWRnhvpuIEYgQ9noMUjTc=
+	bh=IBs/0YVFFdMTaiMyJ4Vqs2iLya5VY5ZD/ej03fMW+w0=;
+	b=q8yKcMBEgVDMtyTp29ZOmvGm0kFhqTXNSPDO2aDM9kgL3g/1wQL+F99gmhO/Mdv8RRX6s1
+	LfzQSiCXWe9/DqjPXEn1HU+CHsrzMrLBmi97bRiahi4wtAuHP+7IAHmmcvnhu+/00mW+FZ
+	CYr6nxubi5Q0Af3Fe4xQBvNnsA6WVSI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1791893137;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=4gHwM10c6rIn+brCH12rVuLx7SAlE/cm6PF/D9AlqIo=;
-	b=0ketxo8N/shrn5itnoURsefG4XLifH1gu/J0KiDfzH84qlW/HV1CmrMCBeq3tn0+h2k3T4
-	A+UKnrqyUViyOdDg==
+	bh=IBs/0YVFFdMTaiMyJ4Vqs2iLya5VY5ZD/ej03fMW+w0=;
+	b=ooaslPYgAOkSmn+dpSG0xkezon/vUzm53w5oLknHrxE81hQ/18JYFCyU8lIdYF6ABgEFbO
+	1RJcZhGL37W9RpAg==
 Authentication-Results: smtp-out1.suse.de;
-	none
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=q8yKcMBE;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=ooaslPYg
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1791893137; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=4gHwM10c6rIn+brCH12rVuLx7SAlE/cm6PF/D9AlqIo=;
-	b=S1QuCwH0ISSfJELvpm9yjG/KRsqFBSmYWRb0LxznrtxJbFn21KPngLkZivUwT5gRieihoA
-	Tta35azUguapOu4W5fVY+xqtw9iy+3ypGwZ4fvPvxSCf8K3kcqHFg11xisdmum5GZ+T5oK
-	cTooRm9N6FuWRnhvpuIEYgQ9noMUjTc=
+	bh=IBs/0YVFFdMTaiMyJ4Vqs2iLya5VY5ZD/ej03fMW+w0=;
+	b=q8yKcMBEgVDMtyTp29ZOmvGm0kFhqTXNSPDO2aDM9kgL3g/1wQL+F99gmhO/Mdv8RRX6s1
+	LfzQSiCXWe9/DqjPXEn1HU+CHsrzMrLBmi97bRiahi4wtAuHP+7IAHmmcvnhu+/00mW+FZ
+	CYr6nxubi5Q0Af3Fe4xQBvNnsA6WVSI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1791893137;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=4gHwM10c6rIn+brCH12rVuLx7SAlE/cm6PF/D9AlqIo=;
-	b=0ketxo8N/shrn5itnoURsefG4XLifH1gu/J0KiDfzH84qlW/HV1CmrMCBeq3tn0+h2k3T4
-	A+UKnrqyUViyOdDg==
+	bh=IBs/0YVFFdMTaiMyJ4Vqs2iLya5VY5ZD/ej03fMW+w0=;
+	b=ooaslPYgAOkSmn+dpSG0xkezon/vUzm53w5oLknHrxE81hQ/18JYFCyU8lIdYF6ABgEFbO
+	1RJcZhGL37W9RpAg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DD984134E4;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CBBAC134C7;
 	Tue, 13 Oct 2026 12:05:36 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 6Ox+GJAezmrxFQAAD6G6ig:T5
+	id 6Ox+GJAezmrxFQAAD6G6ig:T4
 	(envelope-from <tiwai@suse.de>); Tue, 13 Oct 2026 12:05:36 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org
-Subject: [PATCH 4/4] ALSA: line6: Use kzalloc() for PCM buffer allocation
-Date: Tue, 13 Oct 2026 14:05:25 +0200
-Message-ID: <20261013120528.52586-5-tiwai@suse.de>
+Subject: [PATCH 3/4] ALSA: pcm: Protect delay DMA sync in forward and rewind, too
+Date: Tue, 13 Oct 2026 14:05:24 +0200
+Message-ID: <20261013120528.52586-4-tiwai@suse.de>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20261013120528.52586-1-tiwai@suse.de>
 References: <20261013120528.52586-1-tiwai@suse.de>
@@ -89,56 +90,103 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Rspamd-Action: no action
+X-Spam-Score: -3.01
 X-Spam-Flag: NO
-X-Spam-Score: -2.80
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.80 / 50.00];
+X-Spamd-Result: default: False [-3.01 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	RCPT_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	MX_GOOD(-0.01)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
+	RCPT_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_NONE(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
 	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[]
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_NONE(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 4735421F3B
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 
-LINE6 driver allocates the PCM buffer via kmalloc(), and this might
-leave some bytes uninitialized that are out of the actual ring buffer
-size, while it's still exposed via mmap.
+Like the previous fix for snd_pcm_delay() (in the commit 50f413b83b31
+"ALSA: pcm: Protect delay DMA sync against concurrent HW_FREE"), the
+snd_pcm_dma_buffer_sync() call in snd_pcm_forward() and
+snd_pcm_rewind() needs the similar protection against the concurrent
+hw_free action for avoiding potential UAFs.
 
-For avoiding the leak of the uninitialized kernel memory, simply
-replace it with kzalloc().
-
-Fixes: 705ececd1c60 ("Staging: add line6 usb driver")
+Fixes: a25684a95646 ("ALSA: memalloc: Support for non-contiguous page allocation")
 Reported-by: Sashiko <sashiko-bot@kernel.org>
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/usb/line6/pcm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ sound/core/pcm_native.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/sound/usb/line6/pcm.c b/sound/usb/line6/pcm.c
-index f30d82cc0fc1..d17baf7761c6 100644
---- a/sound/usb/line6/pcm.c
-+++ b/sound/usb/line6/pcm.c
-@@ -155,7 +155,7 @@ static int line6_buffer_acquire(struct snd_line6_pcm *line6pcm,
- 	/* Invoked multiple times in a row so allocate once only */
- 	if (!test_and_set_bit(type, &pstr->opened) && !pstr->buffer) {
- 		pstr->buffer =
--			kmalloc(array3_size(line6pcm->line6->iso_buffers,
-+			kzalloc(array3_size(line6pcm->line6->iso_buffers,
- 					    LINE6_ISO_PACKETS, pkt_size),
- 				GFP_KERNEL);
- 		if (!pstr->buffer)
+diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
+index f774358629bb..c1bad92a4e9f 100644
+--- a/sound/core/pcm_native.c
++++ b/sound/core/pcm_native.c
+@@ -3078,11 +3078,15 @@ static snd_pcm_sframes_t rewind_appl_ptr(struct snd_pcm_substream *substream,
+ static snd_pcm_sframes_t snd_pcm_rewind(struct snd_pcm_substream *substream,
+ 					snd_pcm_uframes_t frames)
+ {
++	struct snd_pcm_runtime *runtime = substream->runtime;
+ 	snd_pcm_sframes_t ret;
+ 
+ 	if (frames == 0)
+ 		return 0;
+ 
++	/* Keep the DMA buffer alive through the sync below. */
++	if (!atomic_inc_unless_negative(&runtime->buffer_accessing))
++		return -EBUSY;
+ 	scoped_guard(pcm_stream_lock_irq, substream) {
+ 		ret = do_pcm_hwsync(substream);
+ 		if (!ret)
+@@ -3091,17 +3095,22 @@ static snd_pcm_sframes_t snd_pcm_rewind(struct snd_pcm_substream *substream,
+ 	}
+ 	if (ret >= 0)
+ 		snd_pcm_dma_buffer_sync(substream, SNDRV_DMA_SYNC_DEVICE);
++	atomic_dec(&runtime->buffer_accessing);
+ 	return ret;
+ }
+ 
+ static snd_pcm_sframes_t snd_pcm_forward(struct snd_pcm_substream *substream,
+ 					 snd_pcm_uframes_t frames)
+ {
++	struct snd_pcm_runtime *runtime = substream->runtime;
+ 	snd_pcm_sframes_t ret;
+ 
+ 	if (frames == 0)
+ 		return 0;
+ 
++	/* Keep the DMA buffer alive through the sync below. */
++	if (!atomic_inc_unless_negative(&runtime->buffer_accessing))
++		return -EBUSY;
+ 	scoped_guard(pcm_stream_lock_irq, substream) {
+ 		ret = do_pcm_hwsync(substream);
+ 		if (!ret)
+@@ -3110,6 +3119,7 @@ static snd_pcm_sframes_t snd_pcm_forward(struct snd_pcm_substream *substream,
+ 	}
+ 	if (ret >= 0)
+ 		snd_pcm_dma_buffer_sync(substream, SNDRV_DMA_SYNC_DEVICE);
++	atomic_dec(&runtime->buffer_accessing);
+ 	return ret;
+ }
+ 
 -- 
 2.55.0
 
