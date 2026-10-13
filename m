@@ -1,45 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A4AD485515;
-	Thu, 15 Oct 2026 10:31:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6706E50276B;
+	Thu, 15 Oct 2026 10:31:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792060285; cv=none; b=dKoo4QLCsnMwBoX87yVxQVN1bM61rMmT4JcyUPTbwciNomQIn9s5icJdgkpcU7XfI94Ls2ifc8G4kEchkuNLmXeI30hQRCNKWkWUjWXRVO35xlKoKnHtR41RbVStga2MzKBCTIAxBP3fkxxLdDTu0HhwUyaeGQwjMR6UXFB8EMU=
+	t=1792060313; cv=none; b=nOtkZwtpnlvi8dufPTOFaHGSwTzYlfvR5ylECVKzmLVo6Dtld5EYIWDwF3RclRmiYLd1GzgasnPrhH3BC7l30pwIDPkcoONmnQpddzuF/2MtmY44YfU+5Jv5SHBB5HduPBZxNSOJoWe6mmOt5oc8YTcQ6PXt+NACRlzrPxtjAfw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792060285; c=relaxed/simple;
-	bh=8s9WPA5xRPW3zkli3mcv126kpJ1ImNBdVQyHu1OlFVg=;
+	s=arc-20240116; t=1792060313; c=relaxed/simple;
+	bh=m5Umn1Oz8Qoxkt30kmgTJm8gkCXetLMp9KWj62TATrc=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=rHtmx6Ly0zbMbQ/hnMLkYw2NPAtYliz1kRK8rfkYTMPWUTkEKYbcJ3eVL46c7iZwKCODx6EYXAJQPQOoDR+UUMROLZ/KdmOvzFK3NkBuIbqSqY62+vNbn4F8/zRxRqdlDdRC7ZbRvAdp9UGplWNdk4WZsxuQUDSyvC7lCHfd3HU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=chhpwKGK; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=DXQ4teilW3NSUaP0mGBMTunETOCIMSIcE2GtOgycDTx/hyN03OBHf+nqhVfQ/qS+INA2Hk8O0PTb7y5oUkjikQRBtAkKxuW/fuZ92/pZqTKuGlYJMsd07N3w3KaVN45nfBz1Z0K+9DDVNYMbC1Lj5pCD2mlVBAsZkRb5b6L6/h0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BTBZ6Cch; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="chhpwKGK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8995F1F000C4;
-	Thu, 15 Oct 2026 10:31:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BTBZ6Cch"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32BD41F000C4;
+	Thu, 15 Oct 2026 10:31:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792060284;
-	bh=GgG5/7AXvaq/iFfJgULH7jRlgvitqo/IGXQVg44lcGM=;
+	s=k20260515; t=1792060312;
+	bh=2wZjq8a/MR56vaN874X/q1izz/HfFFHNoazfrx/mwXY=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=chhpwKGK2BQPGyb3AfW8vvJ1N88u6ydT3rUcMUNR5rMBL7u1HG3QfyFnlaaz4zkOH
-	 gBrP7TwJcIqBRUiwjvEShY1lMz9aLhStI+GALPYSNwVrv3IQfyJXj1IgA6KYFGODn6
-	 hleb3OYUFz5YGG9wKzs4lk49Kwf/PAvLJiextjpFPfpiBhjMO2+9hwj6iyEN7FW9AG
-	 i7Fm0HvQbuDpkmE5UbNo8EkF9ZPLnoTKBABUCA+1P2eAUmf6CpyvIVzAiBJl1hObP/
-	 eU1v5DfI72VieIQuH6JN4HSalRFujonf9DoJAeD26nwUJEDxJ2UjoVFguuumWvvLpP
-	 DgRWrdg/hBaDQ==
+	b=BTBZ6CchqqCjNdSyrWBNXimmeZVYcro2+fMMCkFNecl61z800S9ofeQBv7aPnfG31
+	 gsIsBCybSj3UeD/YXN8UArxNwMvVKil+oPtMHNbbMBosmbcALLBHu5t/5ORjZqUVis
+	 Ms2U6p508r+aq/aY/Dc+PamiaaZ+cQAXskGsUkGF52cpgdqDPWnpLdmkkls6iUy5aw
+	 lhd7sYCwJCpxFBNiOQywfkYfxvrexYeBj4/JJ93LlWoeiCbEcRUiCwWU5iGESbYkSP
+	 1rRkCr+KyZqV0atK72L5NKODctJ1habEG2F+Mu4+vPTyqCHaHWPSiHXnj8h64d1Ih2
+	 Yhmc8+2lIQ4LA==
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Thierry Reding <thierry.reding@kernel.org>, 
- Jonathan Hunter <jonathanh@nvidia.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20261014120148.126160-1-clamor95@gmail.com>
-References: <20261014120148.126160-1-clamor95@gmail.com>
-Subject: Re: [PATCH v2 0/2] ASoC: tegra: Support WM8994 by machine driver
-Message-Id: <179198365033.228143.4661366281162373638.b4-ty@b4>
-Date: Wed, 14 Oct 2026 14:14:10 +0100
+To: Srinivas Kandagatla <srini@kernel.org>, 
+ Runyu Xiao <runyu.xiao@seu.edu.cn>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Prasad Kumpatla <quic_pkumpatl@quicinc.com>, 
+ linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Jianhao Xu <jianhao.xu@seu.edu.cn>
+In-Reply-To: <20261004102346.1203410-1-runyu.xiao@seu.edu.cn>
+References: <20261004102346.1203410-1-runyu.xiao@seu.edu.cn>
+Subject: Re: [PATCH v2] ASoC: codecs: wcd937x: request watchdog IRQs
+ without devm
+Message-Id: <179192170017.1606900.865056512044670099.b4-ty@b4>
+Date: Tue, 13 Oct 2026 21:01:40 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,21 +48,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1444; i=broonie@kernel.org;
- h=from:subject:message-id; bh=8s9WPA5xRPW3zkli3mcv126kpJ1ImNBdVQyHu1OlFVg=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLIurC7fUFC2eydbPN+qqNMfAuqN+iuy+LKSPgs3nToef
- jxMJCulo5SFQYyLQVZMkSUui/tlfcnrNXwHF7bBzGFlAhnCwMUpABO5wMPI0Le94HUm7343GY+H
- zFxxcbX5F5m0AvbqdGQ1Xp225B33T4a/Au9Ocr5iWuJcKyOhulyfS35ylZRqcfnblVya11W/lzk
- xAwA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1130; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=m5Umn1Oz8Qoxkt30kmgTJm8gkCXetLMp9KWj62TATrc=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLIurJ7iImgjt3q29nk9QXWnrFuKRumv931xutTIL/bq3
+ Mtfl35VdZSyMIhxMciKKbLEZXG/rC95vYbv4MI2mDmsTCBDGLg4BWAieuqMDCdbtK/NSdKV3XR5
+ 6s9HKfdOXt4UE31cq8Dt77wzlW+nyf5mZGiIWSXxwu1i8LYKgT2plqGTt/D0Fu8/LfXpreAfs2N
+ dPmwA
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Wed, 14 Oct 2026 15:01:46 +0300, Svyatoslav Ryhel wrote:
-> ASoC: tegra: Support WM8994 by machine driver
-> 
-> Add Wolfson Microelectronics WM8994 codec support to the Tegra ASoC
-> machine driver. The WM8994 codec is found on devices like LG Optimus 2X
-> (P990/star) and Samsung Captivate Glide (SGH-i927).
+On Sun, 04 Oct 2026 18:23:46 +0800, Runyu Xiao wrote:
+> ASoC: codecs: wcd937x: request watchdog IRQs without devm
 
 Applied to
 
@@ -71,10 +66,8 @@ Applied to
 
 Thanks!
 
-[1/2] ASoC: dt-bindings: nvidia,tegra-audio: Document WM8994 CODEC
-      https://git.kernel.org/broonie/sound/c/5b4d158b309a
-[2/2] ASoC: tegra: Support WM8994 by machine driver
-      https://git.kernel.org/broonie/sound/c/e38398539f79
+[1/1] ASoC: codecs: wcd937x: request watchdog IRQs without devm
+      https://git.kernel.org/broonie/sound/c/b3f17433a1eb
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
