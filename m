@@ -1,240 +1,179 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CF98322A2E;
-	Tue, 13 Oct 2026 09:53:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791885186; cv=none; b=EPEdKwFNn3dEwJMRfqaBcwo6iQvgfHH1S8dNdmfHVVe1BwWkmvxiAlPCSI44vcImeE8rFq1ANJxgP8pUc21ms9eC1kUgeph80NhLEDSF3/qoL23DOXLAcl43HbjAxlT9HvRFQnTcQ35HiXCXVX0u0jGw8ZGaFikc+E+ujhf0fh4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791885186; c=relaxed/simple;
-	bh=50CYxcAt+PdnYSTKLTPrImEuPfLgAEZMJJXM77Th0Eg=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KRlgGFBRw//H01rlj04cRc9YtV31g4VXMWleBmO6U5AAqoXhRBbIKiAZmC/HXZgwjroFTq25Zn1UktB/oIiHCKr2ij2NeynKlUK3AMABHAztl3wSgXcUSPXb80r1hT6tkEP1tbc3IkjgnrVTKSZGgMPE2uE0B1tuiBdRskjaNvA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GQZw7Nhf; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=e6dI9lDP; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Ge8G8tYZ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=PKjrMQe0; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F77E383C83;
+	Tue, 13 Oct 2026 09:56:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791885385; cv=fail; b=Ey1cayvToRhhsdKKhbR+CS83Sfo++7esrW4Gz0anVuDNdCRqls0mA8nuixVHvBJwqNmqTvDbXUf+rSh4QbpQFJ9MykvwMhmlsdCUjjf8DKPmMtwDzGDYoFEnwGXIwJOjrsaC3t5kwPDKTRyWl2kAjM5BXznPWHjxZUzCZURwafc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791885385; c=relaxed/simple;
+	bh=gEFyM5FCgVOpRZcqQx8jSv0l3tXeOSM4ZhCvlLqxH2c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CZa/JQHkKeX4V3bTrWQmangqORMZZCpiEK1TWtHu7pOXq0d4AisuEMUT03T+L0H/7+diuFnwGyalWPYddb/QUOXItP1tam8FypfC/S6fUuGFo2QldxiWDGGBdxMi3TtXEGiXtq39m2+hOiT4MU4PCCYJ+LGyFmpMWyxhUrtVemE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=l+InptRW; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=ZFZJBKCZ; arc=fail smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GQZw7Nhf";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="e6dI9lDP";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ge8G8tYZ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PKjrMQe0"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id D1BCD22018;
-	Tue, 13 Oct 2026 09:53:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1791885183; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dLGrRVGebtrrYnhzcB26rT1FNHoeKMuAoOsUQCo7tQY=;
-	b=GQZw7NhfG04R3W6i5E0dg77K2bZs/ZUaAIF0HSYHj/MorljtTr3ABRgQH0Gk7HgWDqv44R
-	AY6fdmzrNBOxHAYRIzZB5/DJPUmeLwTcVW1Ugg8iA2rfwI3Nu441v+4XVak5h89XBAmQTB
-	lLhBcIf/o8dIR7QzL1zH0W2aXa9aFfc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1791885183;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dLGrRVGebtrrYnhzcB26rT1FNHoeKMuAoOsUQCo7tQY=;
-	b=e6dI9lDP3wv8LAL8cezud999vq1dGLaT0iMjghFOisZxScoHPXQoJhZhrptHyrrMxDST0t
-	qsOFXGfGn7YoQAAw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Ge8G8tYZ;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=PKjrMQe0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1791885181; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dLGrRVGebtrrYnhzcB26rT1FNHoeKMuAoOsUQCo7tQY=;
-	b=Ge8G8tYZ0ZIWfSBrlcozzrwTcbfgzUCfLRh9etNrZfQZgVpKvz1SI4HTKFA1IztByQcp/l
-	+uS4J15bMG3VRCpCdLVzKCO5qJ+Z4+UEt50uEhO4LTI5zcxGgDK3q8s+dj0B/+WUi0fzx2
-	6ejwUnba8w/npN1VtgSEKLi5PxTG0aI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1791885181;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dLGrRVGebtrrYnhzcB26rT1FNHoeKMuAoOsUQCo7tQY=;
-	b=PKjrMQe0wpAN/2ZCiELqteuFhfI9OvQV/LP1aYpnMin8VaSToUO08uqYqS6hcjqlwHpwWu
-	3bWIAVtnxGw2hqCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 33F5913432;
-	Tue, 13 Oct 2026 09:53:01 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id u1XnA33/zWp0AgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 13 Oct 2026 09:53:01 +0000
-Date: Tue, 13 Oct 2026 11:53:00 +0200
-Message-ID: <877bjmgc5f.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Cen Zhang <zzzccc427@gmail.com>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	2022090917019@std.uestc.edu.cn,
-	hemanth.selam@gmail.com,
-	nfraprado@collabora.com,
-	songxiebing@kylinos.cn,
-	sammiee5311@gmail.com,
-	kees@kernel.org,
-	cassiogabrielcontato@gmail.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	baijiaju1990@gmail.com,
-	jjzuming@gmail.com
-Subject: Re: [PATCH] ALSA: hda: Serialize virtual-master hook registration
-In-Reply-To: <pm-pmb-c2667fb9cc42fbb7943c-v2-d4b95981cdbb696491c5@gmail.com>
-References: <pm-pmb-c2667fb9cc42fbb7943c-v2-d4b95981cdbb696491c5@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="l+InptRW";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="ZFZJBKCZ"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69D4m4pO3590564;
+	Tue, 13 Oct 2026 04:55:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	PODMain02222019; bh=bygHCLtXDI14WP2FnFyAoAOobR9PB0fEsb9yr9fNOfE=; b=
+	l+InptRW2wTvPwJBTMq1mFmezGIcpAZO9lUM09Iom9sy4SD6vMVpf0ALkdZHIyq9
+	zYaMhBwAvD3hsoRnnHKcTrLNtRGcVgymSMq3Dmpl4buMa1VuxegS9x5WiKm7N+nZ
+	0g0D7Ei66D2yoS+a2tCOBHE6N5H0qC4skxAvh1KlbZy2LnPhCHGqF5i8qmxaUnF+
+	r8dNmG1qC94fQPTZd8on8Lzm0odW0DzRkC+7VfQDWub5uzM0Y/tIHpZDghsC46NO
+	Lol0nlXZ5ckwgvoaEJTnLNncRR4JTV/ZY9osHvTSijOOez9/Q4Mt1TvVG1u7QYJl
+	VBmJb9oRXasbZ2ytZ7ksRw==
+Received: from co1pr03cu002.outbound.protection.outlook.com (mail-westus2azon11020103.outbound.protection.outlook.com [52.101.46.103])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4h7hsg3hyd-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Tue, 13 Oct 2026 04:55:45 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=daK0RbWcqtlK/cIKN1Sg8LPNW0uGlgn9FhUs2unm4eJGPeHBAMRQtJRvma43xeUAGCaSeEAjfd9Cji4OUtrJaa+f+RELi/qv9hE+zdTfLLVULwCzCkS6T/GX+kFHq43GeRmvO8idcJZsS1/1brDZp19XRDSa4itnM4sCG2tlW/xzMLFpVfSZNd07s1URSv2/jwPd+q1hHn+/ur9HfQl/elT2C2rEM3mWF/suMJwk6wLme9iMiL5VX29/YgKAV/Xo1ZFXl+feRp4PBYMoK2Q89coO3DbF+/7kNplLf6dc8iBpLOngeH5GujM/kPFLfBOk+c1cs6I+anXVSgfHICo1Ag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bygHCLtXDI14WP2FnFyAoAOobR9PB0fEsb9yr9fNOfE=;
+ b=HO7w+hR700u8g0IiFkYDh2TKX9wItCRo9oxtg93XHe6VxoISu1nJPD5d4zBZPPP1f8cxY3HxnGF1aNAE84F+yP5koyxv97h/e3FhLS4gdoUoDOeqZu4qQx+eyhfz2mziV88cYVwaH/JycEtarshRWLCJaq4hbHikCInVUFHbniBW+QfCSIrP+2TW9APskYw0k5BAkfXdJmaoH4NujreUr39yuZMP6X9WdLMVx8VimvyCOTTyDMxiBjwg/T5XZEuP7hITlo+oqi1Lt8kKkbueLr8PZok5WnEQFRvt/ncGUleho0zYXcLPCO/mVI1YXi6UAf/5n/XF+d2UbxI4E3CAxw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bygHCLtXDI14WP2FnFyAoAOobR9PB0fEsb9yr9fNOfE=;
+ b=ZFZJBKCZzDwGcqpt8RmALl6V92NnXkxBFzmWz0wf7a01MS1BSgAtsr3hkoSDHjiw783iB6Eu8uJPCbUSWiE7fAadbykf+KWkA6wzxBnQzQ9F/XsFf9RhL9YNn8x09zCzih4TmBptjH1lX9oj5NMoNR2z043Muynvoc7oE5nvt44=
+Received: from CH5P220CA0014.NAMP220.PROD.OUTLOOK.COM (2603:10b6:610:1ef::15)
+ by EAYPR19MB614695.namprd19.prod.outlook.com (2603:10b6:303:2dc::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.23; Tue, 13 Oct
+ 2026 09:55:41 +0000
+Received: from BN2PEPF0000A803.namprd02.prod.outlook.com
+ (2603:10b6:610:1ef:cafe::41) by CH5P220CA0014.outlook.office365.com
+ (2603:10b6:610:1ef::15) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.472.20 via Frontend Transport; Tue,
+ 13 Oct 2026 09:55:41 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=softfail (sender
+ IP is 84.19.233.75) smtp.mailfrom=opensource.cirrus.com; dkim=none (message
+ not signed) header.d=none;dmarc=fail action=oreject
+ header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ BN2PEPF0000A803.mail.protection.outlook.com (10.167.245.164) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.522.6
+ via Frontend Transport; Tue, 13 Oct 2026 09:55:40 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id A7850406544;
+	Tue, 13 Oct 2026 09:55:39 +0000 (UTC)
+Received: from [198.90.208.11] (ediswws06.ad.cirrus.com [198.90.208.11])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 885F382024B;
+	Tue, 13 Oct 2026 09:55:39 +0000 (UTC)
+Message-ID: <b2bdcc88-5689-470a-ae71-7907a3d6a750@opensource.cirrus.com>
+Date: Tue, 13 Oct 2026 10:55:39 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Action: no action
-X-Spam-Score: -2.01
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-2.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[perex.cz,suse.com,std.uestc.edu.cn,gmail.com,collabora.com,kylinos.cn,kernel.org,vger.kernel.org];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	TAGGED_RCPT(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim]
-X-Spam-Level: 
-X-Rspamd-Queue-Id: D1BCD22018
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 5/9] firmware: cs_dsp: Give the control cache KUnit cases
+ distinct names
+To: Mark <broonie@kernel.org>, Simon Trimmer <simont@opensource.cirrus.com>,
+        Charles Keepax <ckeepax@opensource.cirrus.com>,
+        Brendan Higgins <brendan.higgins@linux.dev>,
+        David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Randy Dunlap
+ <rdunlap@infradead.org>, Theodore Ts'o <tytso@mit.edu>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Baokun Li <libaokun@linux.alibaba.com>, Jan Kara <jack@suse.cz>,
+        Ojaswin Mujoo <ojaswin@linux.ibm.com>,
+        "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>,
+        Zhang Yi <yi.zhang@huawei.com>, David Rhodes <david.rhodes@cirrus.com>,
+        Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>
+Cc: patches@opensource.cirrus.com, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+        linux-doc@vger.kernel.org, linux-ext4@vger.kernel.org,
+        linux-sound@vger.kernel.org
+References: <20261013-kunit-param-names-v1-0-4b22ec5b85b9@kernel.org>
+ <20261013-kunit-param-names-v1-5-4b22ec5b85b9@kernel.org>
+Content-Language: en-GB
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+In-Reply-To: <20261013-kunit-param-names-v1-5-4b22ec5b85b9@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN2PEPF0000A803:EE_|EAYPR19MB614695:EE_
+X-MS-Office365-Filtering-Correlation-Id: d688b169-8975-4bc9-7907-08df291023df
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|36860700016|61400799027|82310400026|376014|7416014|10067099003|3023799007|261009223027099003|921020|11063799006|4143699003|22082099003|18002099003|56012099006|16102099003;
+X-Microsoft-Antispam-Message-Info:
+	bEa5wKBnkXQ4ah+Tqk56XpL18ObBTIsvgoo0zpi3S3LGC4bDXcxEg4lUq7NvQ2BylxPRA5WzCWiHiz+M/Z9X/dUO/xXjOG0a6w86t1HMwByl2JJ+0o5pQtpyZtyPr1O3bMMGGWQbwdXEtQUPeMG9pXV+MtRS2VrBzvS30FlzeAZQ3d4GPaGAo3+FLQ8D2N9Bhv9klK1LyH1pI8Tb+in26Q6UAH5DXVYaJTHQiRBfW4KOZDeLuO/a3F5zdTYi37WspgHH6+RHwdyNjzUx/zImf5Vj09/+6S8CI0HEqdA+Yo6ARtVkEEddoSge5zxw+BkE+UbfITprLgTQNy35n9lNoDcOjOeu2NjtK41230/Lxuv7ZX1J9z3QihE+55US0R+TZRCBKvIFRQcU1yGPbQBcM6Ym0Wo/l15ELAKEFaXW3217ARYubp/cOlgVI0xzlBKvq2HaD1qRWFQ9iQKIRVrpS+WdoVWjN66bUJzN1/s/S1tX9r3c5rZyi6E4zwMrVLDvovtkFD2fJU9d2wDhFEG2eayVbc7QdmFO6gtwPtR9tKk2xxhSg+Fqd1n/bkXedM79r7guWmAP9ZuP5RC4acZ8rOtHQyu3PIJs0kIBEhA9edJHy2SgX08zIajBE1j19yztxYvDohuLAye3EPCBIQ8LIiM7ehtqQ603nDOHZvNEeh+gyM7XTGPweTmJLcOE4ZjoBwjwGqQleGqq7+gd6hefz7LuHYjG0OK034jA12spxptwN/cUZ+IQ8Ci2cOx0qIDO
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(23010399003)(36860700016)(61400799027)(82310400026)(376014)(7416014)(10067099003)(3023799007)(261009223027099003)(921020)(11063799006)(4143699003)(22082099003)(18002099003)(56012099006)(16102099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	9H76IMLdI1+9kA5HUez44+rg3GFCBiT3K0Ag8l90R4g46mqiNBqMflMwsm8waIworT52niKDFgOyMOVXqdHJsqYi2huVqicjNzCvTQaynktB2y2pPWZWism6yfJYE+XxULyg3zM7o8NSy5Yp/a5WRXYbyAL7DCgjBqkYsK/bPEzAB6YmUa6baAsOgUwOK8a8+LC8TALvaF8lYNkmhn9qqKZYmzXzsPXTZhPcsmdbVhBhllcxDA+tWP/OjxuXgikRFZakDD3XaXRLUBgjuwDBHhms80hgWJbpHutPw0utTS/PR4wB2MQ8IrB/PA6CyySXC7fyinU7MLyvoT8/TBYX1w6qUAuaN/0nH5/sEeXG1rIyGA43wm5naAPUOHRPumVwPG+C4pQPEsHOgtWvLFR9TFOmGJ+5Bw6Hi+GIswIFz6Neth6N0gSMbG2dRo4C6epZ
+X-Exchange-RoutingPolicyChecked:
+	4+UdzpezdK6jIQII+d+MC5ejWC7k+z7htyWKR/et1fXjnNtAKapDqwAaHaLolTJmXUY+Nu/BBxwivVXo4jBhd6ZjsnAatW4hnhg+LRaNUTp7vrOgQCj8jG/8R/jbiNGM8D4+36fg6dZlT0/U7grFxYeTF1EM7dlpqreHonq55q6a8sunofWULQBOmKr2Ttr6ogQ+9LAQdqnp7Q+G9tDFP3SYMC900sLARV3KanIDwL8RZuTROjq7eG57DRfHXgEhyeB/5aGtivKcUrHj7lEJYS4jQQdPQXXslDBsVizhI7MsAh2w6wDAwMA/D9oHMDYhSs6W76CsdHko22pZv/dwVQ==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Oct 2026 09:55:40.5826
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d688b169-8975-4bc9-7907-08df291023df
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-BN2PEPF0000A803.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: EAYPR19MB614695
+X-Proofpoint-ORIG-GUID: vYxmn76MBQ06_3J_WsEymzqaQkKTtCPt
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDEzMDAzOSBTYWx0ZWRfX9wjRA4kKeqKo
+ zZaSLK4lXdcZc/rIgLQXNA8rrODLYKfvD1Z+4IJfgWPIJXS7uoWEeNWDyRTA2h9p6iGWvkrM3zI
+ KiHbFE2+ohPdGuaVKhIbZ+Y89iL8NY4=
+X-Proofpoint-GUID: vYxmn76MBQ06_3J_WsEymzqaQkKTtCPt
+X-Authority-Analysis: v=2.4 cv=QufLTlyd c=1 sm=1 tr=0 ts=6ace0021 cx=c_pps
+ a=85R27yqqIDOPhBwKPsrjTg==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=KfkQE9S9VqCBgivYGm0O:22
+ a=w1d2syhTAAAA:8 a=Hlguj6pl-HWLELH-vwcA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDEzMDAzOSBTYWx0ZWRfX4v5qs9/hIgJx
+ n5oDLR7OEDoFA7YI8lYtnebZ/bFwnTxd7EanewojvxZqHfZl8CLeu9NhzZPksuZ0Rg5Ftzlhnb/
+ KDfIU0+fVWKMe5FpQ8oLMtdNWZbp+rOtM3xhcUsXaW/TaEo5apv0bl80jNn+0/4m3uCkOtiCzXI
+ i/lp06zHA45I8xw1YjVSzM33hFAPuH3YNgE3rMPzUDLRVx2Bspted1AJ3BXCv0DEGxP15ATPXaa
+ lL2k3T3+qHfizpm+1DA6ONscQEcu94VrFR2+BqvvCHZkwefSAiNYWO7OE0MRIsUtrJNxAfyy66T
+ loNfjhhiQh4sOYa85OYjEaFhfVdnGVZiB6sQQ1zOXRRnjQITRd6BT3+O0MVHybDcE9LF+SRjr11
+ m+yfJvGqzFkXwuWvPgyfU0RE4Vk3j+8u5Zvzrlzufb6gBFqmVaE3Xq93+54swxKXz6YQMjjcIgn
+ hWZM1VXAAbiyypC1wkw==
+X-Proofpoint-Spam-Reason: safe
 
-On Tue, 13 Oct 2026 09:54:55 +0200,
-Cen Zhang wrote:
+On 13/10/2026 12:10 am, Mark wrote:
+> The cs_dsp_ctl_cache suites run cs_dsp_ctl_cache_init(),
+> cs_dsp_ctl_cache_writethrough() and
+> cs_dsp_ctl_cache_writethrough_unchanged() against several sets of
+> parameters by listing each function several times with
+> KUNIT_CASE_PARAM(), which names the case after the function. The
+> resulting cases all share a name, so they cannot be told apart in the
+> results.
 > 
-> An HDA virtual-master hook must have its private argument initialized
-> before a control callback can invoke it. snd_hda_add_vmaster_hook()
-> installs the trampoline through snd_ctl_add_vmaster_hook(), which stores
-> master->hook before master->hook_private_data without serialization.
-> 
-> When a codec with a vmaster mute hook binds to an already registered
-> card, snd_hda_gen_build_controls() publishes and initializes the Master
-> Playback Switch before installing the hook. A native write that changes
-> the switch can then run in the following order:
-> 
->   1. The codec bind path publishes and initializes the master control in
->      __snd_hda_add_vmaster(), then calls snd_hda_add_vmaster_hook().
->   2. The hook setter stores master->hook, but has not yet stored its
->      private argument.
->   3. SNDRV_CTL_IOCTL_ELEM_WRITE takes controls_rwsem and calls
->      master_put() while the setter remains between those stores.
->   4. master_put() sees the callback and invokes vmaster_hook() with a
->      NULL argument. The trampoline dereferences it before the setter
->      can complete publication.
-> 
-> The write lock held by snd_ctl_elem_write() does not exclude the hook
-> setter, so this can cause a NULL pointer dereference. Take the same
-> controls_rwsem for writing in snd_hda_add_vmaster_hook() so the callback
-> and its argument are installed together with respect to native control
-> callbacks. Release it when registration returns, before the caller
-> synchronizes the hook.
-> 
-> KASAN report as below:
-> 
->     Oops: general protection fault, probably for non-canonical address 0xdffffc0000000001: 0000 [#1] SMP KASAN NOPTI
->     KASAN: null-ptr-deref in range [0x0000000000000008-0x000000000000000f]
->     CPU: 1 UID: 0 PID: 499 Comm: alsa-vmaster-tr Not tainted 7.2.0-rc6-pmb-bt-functional-v1+ #1 PREEMPT(lazy)
->     Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
->     RIP: 0010:vmaster_hook+0x35/0xb0
->     Code: f5 53 48 89 fb 48 83 ec 08 e8 57 f0 9a fc eb 50 e8 50 f0 9a fc 48 8d 7b 08 48 b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 <80> 3c 02 00 75 59 48 8d 7b 10 48 8b 43 08 48 ba 00 00 00 00 00 fc
->     RSP: 0018:ffff888117647cd0 EFLAGS: 00010212
->     RAX: dffffc0000000000 RBX: 0000000000000000 RCX: ffffffff84e9ff50
->     RDX: 0000000000000001 RSI: 0000000000000000 RDI: 0000000000000008
->     RBP: 0000000000000001 R08: 0000000000000001 R09: 0000000000000001
->     R10: ffffffff89427457 R11: ffff888115ad1d00 R12: ffffffff84e9ff30
->     R13: ffff888114943ca0 R14: 0000000000000000 R15: 0000000000000001
->     FS:  00007fe8167b3780(0000) GS:ffff88826b7e3000(0000) knlGS:0000000000000000
->     CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->     CR2: 0000557c8c2842a8 CR3: 000000011579f005 CR4: 0000000000770ef0
->     PKRU: 55555554
->     Call Trace:
->      <TASK>
->      master_put+0x20e/0x2b0
->      snd_ctl_elem_write+0x37f/0x5e0
->      snd_ctl_ioctl+0x997/0xdd0
->      ? __pfx_snd_ctl_ioctl+0x10/0x10
->      ? srso_alias_return_thunk+0x5/0xfbef5
->      ? selinux_file_ioctl+0xaa/0x280
->      ? __pfx_snd_ctl_ioctl+0x10/0x10
->      __x64_sys_ioctl+0x163/0x1d0
->      do_syscall_64+0x115/0x6a0
->      entry_SYSCALL_64_after_hwframe+0x77/0x7f
->     RIP: 0033:0x7fe8168c291b
->     Code: 00 48 89 44 24 18 31 c0 48 8d 44 24 60 c7 04 24 10 00 00 00 48 89 44 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 00 00 00 0f 05 <89> c2 3d 00 f0 ff ff 77 1c 48 8b 44 24 18 64 48 2b 04 25 28 00 00
->     RSP: 002b:00007fffab0cb150 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
->     RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 00007fe8168c291b
->     RDX: 00007fffab0cb310 RSI: 00000000c4c85513 RDI: 0000000000000003
->     RBP: 00007fffab0cb310 R08: 0000000000000000 R09: 0000000000000000
->     R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000001
->     R13: 00007fffab0cb1c0 R14: 0000000000000001 R15: 0000557c4f71fd10
->      </TASK>
->     Modules linked in:
->     ---[ end trace 0000000000000000 ]---
-> 
-> Fixes: ee52e56e7b12 ("ALSA: hda - Fix mute-LED fixed mode")
-> Assisted-by: LLM
-> Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
-> ---
-> 
-> diff --git a/sound/hda/common/codec.c b/sound/hda/common/codec.c
-> index 18838a45e6f72b838eace2d7b21d7a0a3b21017b..029e56ae78727c8cb3c3edbace8b27a5615c2a3c 100644
-> --- a/sound/hda/common/codec.c
-> +++ b/sound/hda/common/codec.c
-> @@ -2024,6 +2024,8 @@ int snd_hda_add_vmaster_hook(struct hda_codec *codec,
->  {
->  	if (!hook->hook || !hook->sw_kctl)
->  		return 0;
-> +	/* Serialize hook registration with control callbacks. */
-> +	guard(rwsem_write)(&codec->card->controls_rwsem);
->  	hook->codec = codec;
->  	snd_ctl_add_vmaster_hook(hook->sw_kctl, vmaster_hook, hook);
->  	return 0;
+> Use KUNIT_CASE_PARAM_UNIQUE() for these entries so that each case is
+> also named for the parameter generator it is run with, for example
+> cs_dsp_ctl_cache_init-all_pop_varying_len_gen_params.
 
-It's not nice to use such a low-level guard here in the upper driver.
-So I guess it's better to move the rwsem guard into
-snd_ctl_add_vmaster_hook().  But it'd need to pass the card pointer,
-too.
+Reviewed-by: Richard Fitzgerald <rf@opensource.cirrus.com>
 
-Alternatively, you can rearrange the assignment in
-snd_ctl_add_vmaster_hook() and put a barrier to assure the
-hook_private_data store, too.
-
-
-thanks,
-
-Takashi
