@@ -1,42 +1,83 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9D335172CB
-	for <linux-sound@vger.kernel.org>; Thu, 15 Oct 2026 10:32:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E51E251812D;
+	Thu, 15 Oct 2026 10:32:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792060334; cv=none; b=sw30g6GWQKBc/sjm+B5rcPA+KpgPVsu577x2ezAg26GCQ3PUxXjkYYUOM+vTt0Z+AAC/Si9BWYTVgnqapSE5/Wi/+c+fKdV6FhTpieW/QzCjrsVJU8oLFdaStA6Ub64gKW4rK1hjiaKKx+oeHEU2Hg5dqEKajO2+qfodrIaDxCY=
+	t=1792060349; cv=none; b=OSAUZL8hvhL0OLqVC5hmi0Ul5yJV4a51SzV5n2y/r8KtDXwH8ltwk87NggzoETt1oKpScnNuJCywv0vGXLQHIwqiYaHWw1UWPFu2jX6yzmek/Wkfl4AS5iFHZRfoh54eq8fhT22HEn3SijKL/6Yw230w4XulLaWmL5GiSyLJn6c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792060334; c=relaxed/simple;
-	bh=KlTMbiYv35pJcswD1cAELYKwIvwL0JFmbas6qvmfwiY=;
+	s=arc-20240116; t=1792060349; c=relaxed/simple;
+	bh=XUYOScsxtpoMvmTZT4+4w0G08Qy83jX28yQHeYVl7kI=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=aCZCV10x09fR+EOpe1yKkjrWLm85lwZ4O/mUcelhR9wWQB5yUZOsAGFApv/0IBrIFN8FEZSsyWJwsRIJ94SUXZSffCoohrLJupWtntiPQonQjVnedLrN7KcsgQMo1D/4K7xCb3qkgMeR7sz4iS/7HjI+ENfulkVlDGhrHdFkc44=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QlvWTbug; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=DzX0JVAwq62geJBRHAppZq2wvtzxZhlLGpcbCWfTnlrs87AbvHMrwix1Xm9m1pUJF0OUKPT37WAHjfoKg4NjUN4+A6ELKhYisj+PpS1pxUCbTen4mTcbKoGu6ExWOQzAO42/lp3faG1bdX/79Ba+AQ5fBrhDyu4OKvebFmsAAPg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PI5GrVnW; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QlvWTbug"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E5A61F000C4;
-	Thu, 15 Oct 2026 10:32:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PI5GrVnW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14E431F000C6;
+	Thu, 15 Oct 2026 10:32:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792060333;
-	bh=OM9ugxevf4ai8lKXFWNWgruuV0Niu9JpIDO+WA2J7Y8=;
+	s=k20260515; t=1792060347;
+	bh=LsdCD24KD2Tp7y3HBX5d5H3zRxOHnSIBh2ksy9wg8Ts=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=QlvWTbugKshfxcoRU6wCunrxQHpu24EQb3vvfOubC4YWkZfdQO3H3QSDf4Mg3RX5n
-	 6zIVQpXHHFGmEX3giI9918G76KE5RweR/6TUnsOdApWCK5jji49QAN3r6LISK3F7/x
-	 xnDq7aSWHr2ADdZtAhUVSBYmGtoPEqrhpwCTsYHnx2vZ/bSnHafFJFe/2W+Mcg2b2E
-	 GMdE2rQY9yR+aYjhWXO8WEQprYeeBEK/h1af/errIk095CI6+NKCjnRJBNiPkTALNe
-	 VK+ieFPLqdAW/tGoc+pp7uZXt+4D746ntn6n2EKvOugP7Bql/njbS33fA6N4PpPC4p
-	 67+qvjd2DGzqw==
+	b=PI5GrVnWNLXPUfA56WspsR/Sfk0JXapnfU2XLZpZyaYhVj7WNauNiYX8WZHeKvjuX
+	 5SPyA829h6ChMVvtyYpWgC9r5KhwBmWi0V9iMUVWBSOABvvFFoQ7pIFY42kEWmFQDW
+	 eH/hAvT8mHUsib5HpTG1kCLTIREHI5WbXfXRuxWoLuvwfn0jI4Kmv3qzJqMtz1kniP
+	 2mY6REC4hDxFvstBjKKrjG0lY9PS7KCcSPrnW2it1S5hUOa0yuDC9X/40L4T6+HGb3
+	 ynwiYKfpWJ3TlxbrBUA9buCkJjSpmDaMyM6UnyC3rTAvgSUUUH05G4s3qMUaPr+7SB
+	 I2d/0P6cLtriw==
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Zachary Huang <zuzhenhuang365@gmail.com>
-Cc: linux-sound@vger.kernel.org, 
- Mario Limonciello <mario.limonciello@amd.com>, 
- Vijendar Mukunda <Vijendar.Mukunda@amd.com>, zhangyi@everest-semi.com
-In-Reply-To: <179145019931.16888.9682263186729943710@gmail.com>
-References: <179145019931.16888.9682263186729943710@gmail.com>
-Subject: Re: [PATCH] ASoC: es9356: add missing DAI rates and formats
-Message-Id: <179192020840.1606900.3493516090502904433.b4-ty@b4>
-Date: Tue, 13 Oct 2026 20:36:48 +0100
+To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>, 
+ Venkata Prasad Potturu <venkataprasad.potturu@amd.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, povik+lin@cutebit.org, 
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+ Andrei Simion <andrei.simion@microchip.com>, 
+ Nicolas Ferre <nicolas.ferre@microchip.com>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ David Rhodes <david.rhodes@cirrus.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>, 
+ Fabio Estevam <festevam@gmail.com>, Nicolin Chen <nicoleotsuka@gmail.com>, 
+ Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Cezary Rojewski <cezary.rojewski@intel.com>, 
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Magnus Damm <magnus.damm@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+ Heiko Stuebner <heiko@sntech.de>, phucduc.bui@gmail.com
+Cc: Kees Cook <kees@kernel.org>, Syed Saba Kareem <syed.sabakareem@amd.com>, 
+ wangdicheng <wangdicheng@kylinos.cn>, 
+ Chris Bainbridge <chris.bainbridge@gmail.com>, 
+ Linus Walleij <linusw@kernel.org>, 
+ Charles Keepax <ckeepax@opensource.cirrus.com>, 
+ Neo Chang <YLCHANG2@nuvoton.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, 
+ u.kleine-koenig@baylibre.com, Pengpeng Hou <pengpeng@iscas.ac.cn>, 
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, 
+ Hemanth Selam <hemanth.selam@gmail.com>, 
+ Md Shofiqul Islam <shofiqtest@gmail.com>, 
+ Bjorn Helgaas <bhelgaas@google.com>, 
+ Zain Aboobacker <zainaboobacker33@gmail.com>, 
+ Sang-Heon Jeon <ekffu200098@gmail.com>, 
+ Ajit Kumar Pandey <AjitKumar.Pandey@amd.com>, 
+ Ravulapati Vishnu vardhan rao <Vishnuvardhanrao.Ravulapati@amd.com>, 
+ Bo Shen <voice.shen@atmel.com>, Vinod Koul <vkoul@kernel.org>, 
+ linux-sound@vger.kernel.org, asahi@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, patches@opensource.cirrus.com, 
+ linuxppc-dev@lists.ozlabs.org, imx@lists.linux.dev, 
+ linux-rockchip@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20261008103831.542533-1-phucduc.bui@gmail.com>
+References: <20261008103831.542533-1-phucduc.bui@gmail.com>
+Subject: Re: [PATCH 00/24] ASoC: Fix constraint return value handling
+Message-Id: <179190764565.42298.7608820451808443258.b4-ty@b4>
+Date: Tue, 13 Oct 2026 17:07:25 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,17 +87,28 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1113; i=broonie@kernel.org;
- h=from:subject:message-id; bh=KlTMbiYv35pJcswD1cAELYKwIvwL0JFmbas6qvmfwiY=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLIurF4Zar2/00swct3Wa4ozT5S/eZov9en/Dc+QM466F
- 92177Ue6yhlYRDjYpAVU2SJy+J+WV/yeg3fwYVtMHNYmUCGMHBxCsBEQisY/hn3lXkF2WjvWtal
- sLXD47vB/Cnrb8+Ji1fb/OroflXTWAdGhp3eEw/t2SR4yVxtte+DmTnsmd0qGitFfsZM/9cxZ/3
- 8Ch4A
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4621; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=XUYOScsxtpoMvmTZT4+4w0G08Qy83jX28yQHeYVl7kI=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLIurF436QbXa43IwJtVz+a9/WP+dErigiRWRdWnu6RO7
+ AjMf7hrdUcpC4MYF4OsmCJLXBb3y/qS12v4Di5sg5nDygQyhIGLUwAmIiLKyHDq2uODof8nCxuF
+ ZpfxcTPWcS7d8W7zzOu3Jb2WdVWxqZ9n+J+wZiZ7iINepZ/T5W/rbJe6Pjpf3LOofnnrcZW5jw+
+ FszMBAA==
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Thu, 08 Oct 2026 17:03:19 +0800, Zachary Huang wrote:
-> ASoC: es9356: add missing DAI rates and formats
+On Thu, 08 Oct 2026 17:38:07 +0700, phucduc.bui@gmail.com wrote:
+> ASoC: Fix constraint return value handling
+> 
+> From: bui duc phuc <phucduc.bui@gmail.com>
+> 
+> Hi all,
+> 
+> snd_pcm_hw_constraint_minmax() and snd_pcm_hw_constraint_integer()
+> may return positive values on success. However, ASoC only marks the
+> DAI, link, or component as started or opened when the corresponding
+> callback returns 0.
+> 
+> [...]
 
 Applied to
 
@@ -64,8 +116,54 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: es9356: add missing DAI rates and formats
-      https://git.kernel.org/broonie/sound/c/ea83a1103b18
+[01/24] ASoC: amd: acp: Fix .close() being skipped on rollback
+        https://git.kernel.org/broonie/misc/c/2c3400aa9f39
+[02/24] ASoC: amd: ps: Fix acp63_pdm_dma_close() being skipped on rollback
+        https://git.kernel.org/broonie/misc/c/172888114dda
+[03/24] ASoC: amd: ps: Fix acp63_sdw_dma_close() being skipped on rollback
+        https://git.kernel.org/broonie/misc/c/45dd2b22ea89
+[04/24] ASoC: amd: raven: Fix acp3x_dma_close() being skipped on rollback
+        https://git.kernel.org/broonie/misc/c/37ceef26df57
+[05/24] ASoC: amd: renoir: Fix acp_pdm_dma_close() being skipped on rollback
+        https://git.kernel.org/broonie/misc/c/a92571113ef2
+[06/24] ASoC: amd: vangogh: Fix acp5x_dma_close() being skipped on rollback
+        https://git.kernel.org/broonie/misc/c/38559fcd1c51
+[07/24] ASoC: amd: yc: Fix acp6x_pdm_dma_close() being skipped on rollback
+        https://git.kernel.org/broonie/misc/c/06654a3ef513
+[08/24] ASoC: apple: mca: Ensure the DAI is marked as started on success
+        https://git.kernel.org/broonie/misc/c/4d23ef7515dd
+[09/24] ASoC: atmel: atmel-pcm-pdc: Fix atmel_pcm_close() being skipped on rollback
+        https://git.kernel.org/broonie/misc/c/50aaca643038
+[10/24] ASoC: codecs: cs42l42: Ensure the DAI is marked as started on success
+        https://git.kernel.org/broonie/misc/c/c2a3d0b2be0c
+[11/24] ASoC: codecs: nau8325: Ensure the DAI is marked as started on success
+        https://git.kernel.org/broonie/misc/c/0634e7b24727
+[12/24] ASoC: codecs: nau8540: Ensure the DAI is marked as started on success
+        https://git.kernel.org/broonie/misc/c/1de1fd7c69a3
+[13/24] ASoC: codecs: nau8821: Ensure the DAI is marked as started on success
+        https://git.kernel.org/broonie/misc/c/fc5da89a0a8a
+[14/24] ASoC: codecs: nau8824: Ensure the DAI is marked as started on success
+        https://git.kernel.org/broonie/misc/c/e66285731262
+[15/24] ASoC: codecs: nau8825: Ensure the DAI is marked as started on success
+        https://git.kernel.org/broonie/misc/c/552944e3b027
+[16/24] ASoC: codecs: wm8580: Ensure the DAI is marked as started on success
+        https://git.kernel.org/broonie/misc/c/b2c81f056c53
+[17/24] ASoC: codecs: wm8782: Ensure the DAI is marked as started on success
+        https://git.kernel.org/broonie/misc/c/29f52545ada7
+[18/24] ASoC: imx-pcm-rpmsg: Fix imx_rpmsg_pcm_close() being skipped on rollback
+        https://git.kernel.org/broonie/misc/c/85e56c3bbb7e
+[19/24] ASoC: intel: atom: Fix .shutdown() being skipped on rollback
+        https://git.kernel.org/broonie/misc/c/e3bb57581104
+[20/24] ASoC: renesas: fsi: Ensure the component is marked as opened on success
+        https://git.kernel.org/broonie/misc/c/6bba4e5a171c
+[21/24] ASoC: renesas: msiof: Fix msiof_close() being skipped on rollback
+        https://git.kernel.org/broonie/misc/c/b7c58a55fd9b
+[22/24] ASoC: renesas: rz-ssi: Ensure the component is marked as opened on success
+        https://git.kernel.org/broonie/misc/c/fd5c45166d65
+[23/24] ASoC: rockchip: rk3399_gru_sound: Mark the link as started on success
+        https://git.kernel.org/broonie/misc/c/8a43611c834f
+[24/24] ASoC: rockchip: rockchip_max98090: Mark the link as started on success
+        https://git.kernel.org/broonie/misc/c/303961c7daf1
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
