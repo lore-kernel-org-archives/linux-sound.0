@@ -1,135 +1,160 @@
-Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1FB13CF699
-	for <linux-sound@vger.kernel.org>; Tue, 13 Oct 2026 07:14:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791875687; cv=pass; b=tZDP74QJr+aZXHdOVp2PucX0cKUTbiV5Jgsrq916xH6vHqmT/RYDZH07ehxl/GBdwRb/054qASSfnk66R9EtdsOcaTrQW3w/kh7GuT8VJRlN8QvOD/WEr90IHoEILOO8vXiQefa0l4mtF61vxtXbMNSo6q2J6ft7zDp7pdv8Z9o=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791875687; c=relaxed/simple;
-	bh=Oab5q36RLcRFvq5kzowaoH9lXYz57V+AFbZGkJbzRns=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CluVBzHE6beXWFKZnIAXMQlvTEUxeEpd46Gth47QQTSeNiS7XzTdNRxEAOyHkpOx6DhEVLzd/nDnoL5V6Jw4hqTF+P2eW6JDgFG7c4GDWIFXZMeNKBDu0ece8JIXOZ91AKLtfxu5iWtDwHiUB2IMqQwcA+r8i2IpAnXhhLa+bag=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gM2OZmHe; arc=pass smtp.client-ip=209.85.210.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EA2A39FCD7
+	for <linux-sound@vger.kernel.org>; Tue, 13 Oct 2026 07:43:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791877438; cv=none; b=OL4ukdRK5ZsMDaXNDpEH0O06+qB5nxUW4B8HZWnaz3WT9W1AtFK3tH/15VkRUcrwom+M7OJB9fh9Nz4j87aIoORoYKYdZJKlE5sSCCsL0MuicSx6pRFpzgv/yOuorQgnMRTvWSNQbu+hVzfwhyAbqx9gnk1MmAqVQNPrhm8AjZU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791877438; c=relaxed/simple;
+	bh=DgZc9TaOzYmHYSvKJq23geFrfrxuctba2uQ61M8yVKU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qSLnf/5rut0fYdekKFQrQ7Kz/aNvX58W+flXwgaBs2fKdYKz93Qe6h1Gn+q/PjZjODcO2CEREjzUt9VTQh1EBNG8dSdMqVO4DfoqdgstT8fGiWg3uaPWrRtjP/1E0IKbpPBtnRhCE2+VNiGYzGh4PIFe50q70IxcYFPqGDb53kQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PWpy+7MW; arc=none smtp.client-ip=209.85.216.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gM2OZmHe"
-Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-8198a3a54d7so4755132a34.1
-        for <linux-sound@vger.kernel.org>; Tue, 13 Oct 2026 00:14:46 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791875685; cv=none;
-        d=google.com; s=arc-20260327;
-        b=F35BxDQ3J3TQLJMAG36JzYhtfb8ayQ5x50HPq39cfAi+xOLWZNC+bdWce0u9urK/zg
-         1iXJEvoapJWgLzxXmTtWuD9ij6f0YFDngsX0sHTKUDnOLGDngPz5R4SU9zxRj0MTW8lP
-         vUTo0ih+9r9yZGfGMAbMXi2nqkz26k1qaJ3JwW5Zh0OKNuOgp+psQOvLsmc8eP8ENszk
-         SUPcfPI3TIfvLQnn0jHRRN6FV6qHBKLGKHJ/8gmyita+67kSBCI7Evhn2GMfkXKII+BQ
-         JnS7Zfd0LrHUFdNlKCrybij2ZnPMXyxAudl6V7TVx0DX2pupYJRVdYmSMdkw2HK8wO7h
-         b6xQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Oab5q36RLcRFvq5kzowaoH9lXYz57V+AFbZGkJbzRns=;
-        fh=6YB746ZDuQiygui7uD0bNdlc+3g4HFsTUpg/PdyOUPQ=;
-        b=dIkKc5o/1KBtsCVPuoohHS384lPmekUuC1nv9tYqfnzAlTRJd9YT0xuwg8bWaW/EHo
-         sLDx+J6O1PzKDS9niMkuwpxB3lAC5OPTA6TRC+GT6Ah6qGv7V4bYGz6BUbSErdnFq3E5
-         6eRPgIgBxFTlQ8P0Id/SBLe1SYQnO+fOaFtNzaCRiRdDo3TZmuLjntCLDPcBMPp0VBtM
-         H6ui5FO+dKPydssa4bLnoYdMQ+TvRzrC6vWI+4lhq2KTN0HfE0GpJwzjr2e1m4PnJXBC
-         /7P1/oiqPghp0cWq6zx+wYWzjFnnYTvey/NiCNjw7jsIUFzJK72wpQpUYeUdwOwdWZuD
-         EuBA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PWpy+7MW"
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-39647aa9d52so1592819a91.0
+        for <linux-sound@vger.kernel.org>; Tue, 13 Oct 2026 00:43:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791875685; x=1792480485; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Oab5q36RLcRFvq5kzowaoH9lXYz57V+AFbZGkJbzRns=;
-        b=gM2OZmHeiqL0xiQxjAAqlsAzVMHrKVPK2rU0w4j1ofH6x5oIWWQE/8SdowtSvQE6Cr
-         +5Mt/BOyAsGiEwR/zTUHoU9/Hy/JH0TDhQI+X3tlIt3kiZXrfmzT534KWBSZ2hkkN4MU
-         klHALIlA0ZemLbRTZlm8Oj891qv8jdwIMvV7ohiniZSrE5TzIOOSnEj7gvaKCpXdzEgs
-         lh+wtVbK/RwB03cyoRwNdxMIf261jTq6aQCHBhHLemDPFHkuNpN8e2zlKsinJHJ+Ckvl
-         f/9uR+Y3cFBs39F2zA4Jw430o/94XPaVNCZgLMWGkxSHhr9XzFWd/S5xwyVv3nCAGGdQ
-         hhjA==
+        d=gmail.com; s=20251104; t=1791877437; x=1792482237; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ZK1NeHdcHM35sHEDjJ2Bqzc2/PgsQjYGP/lMmIlnTdw=;
+        b=PWpy+7MW2HrjjKxdUyB5uzBtTmBE1oKDszK/ZLHgHXbiymkPOYdUtYijfPYzzZzcxs
+         cBWTU52I+vqE2ztG7NkU8htO0t3ZaeLXkv94MVB4QPT+L8eorOJYeyMjciZB8a11XgiU
+         u2rdJinZ9+RUxaUlsaejk5BRTdADTWIrzCfbVH7s1BBjT7CLc27tNmdsK2n4zjkSsEl2
+         ySfdqISMbHfqd2Vt85EMpujbjDRoVw9IUWAHO7MB4h/yAiSfM+MVUsAcLoZeafBwVGlE
+         wY9bHrT7XP1IJ7H1jsdMM5uy29TMEJenzL/7G+4Fe9mVqbrwELnHQwRcj08LYj5TlEti
+         B2fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791875685; x=1792480485;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Oab5q36RLcRFvq5kzowaoH9lXYz57V+AFbZGkJbzRns=;
-        b=aaBPpYf+L88Rcy+HZG/l42WScjd9Qrq4nXJA+koGQaQldx7gxpqj/vlK6gLwo4Zd5X
-         d+oiha9sANB2ZhYWpvcN2JyKJcm1ZxGL5SlptYI6PTTcu1idj433C/2by+o9Y/85XsGR
-         ucJnQII/yajT8EEJ0K+ES75HGW6kC9fWi3Ju9SE0tX+/CkMyObKEBDJAEPqAB3XGpbbw
-         KFgKMNvB3071adRvlfrtNQsm+tDq+f7KDJJMflDL5ztVIvrHWOvvGsrGPNC/fR5YXcfl
-         CJjl8DCoqAESakcVV+dt/mQw0Czf99QoRlLIVQPpnif/4pyPMTIj/6+sltgTcfqBiGhL
-         x5NA==
-X-Forwarded-Encrypted: i=1; AKwUvBzp21o9FQfKp2TKyp+76JUle6Tl9WYFc8OJE6PQ0c5MSY479LjWfbMQDXJNyz7KevKLFgT8a16Fs7XIQQ==@vger.kernel.org
-X-Gm-Message-State: AFq9FYLItKn6PbZqIp3bEi1WrefflINkGobuyw/BLC+ETHnOd3zbc3w/
-	hWvzMqmZyVEnLanO1ZpxQi27hJPsDyKxuXMgz5wJCWpEMIpyKnZtZNo7X/1oEYAeAFFCXyxnxxz
-	Cut8PYeAQYmYDKNvDYAIFFEYRRhvAD+U=
-X-Gm-Gg: AYBFou3Xf/r3CBZ5oHtY4/Hg2SPZmUKupQ9jfRluV7x32m6MVgUJ/sjSp7vmceAWXA7
-	Z5Cpcq1arpCu65WATfyqKbV4YF5R95KeV/TE5SM8Mec9WosIfWgeUwVHl4+U+sGyRMsg4X/rkKa
-	gPn5cHNaG8Xd7pbXLaKNpulGvsyX+XSUeNlBvg6zUuyR/i2Km8RVykeW2gb8e5lLeY1OPeTAF2M
-	Rtzea7pH9oSIXxcptrCf5Wu4GirySvJOsooBUlNRcExezpzsDUA2VNScOhCpy8UUjhXpIiAUOcY
-	DqrXjD+7tCYNeCfRGusfBEq9C7jve1ZsG2i9g6SglQN4yPomC4tciFHVE9wCMTM/JmivhpQGqsD
-	zylc1JMRcLHcm8NydfiQI1a8CRLkyA3AFQAGBih6JFm9eRj6SL2X6S4RFRClelqsz89LqX2Isbq
-	gqWfLgdCJcMrMV1zP/Z733p0AO3jLwRIFVijEEl0FwBpByDKt+fQ4=
-X-Received: by 2002:a05:6808:30aa:b0:495:ce6d:7d48 with SMTP id
- 5614622812f47-50c4e67cdf5mr8677005b6e.9.1791875685589; Tue, 13 Oct 2026
- 00:14:45 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1791877437; x=1792482237;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ZK1NeHdcHM35sHEDjJ2Bqzc2/PgsQjYGP/lMmIlnTdw=;
+        b=XpkqBXUmiu2bPhdqBarq1gDjYrfCNKYkq1YWrL/DdgTLGc1f3XG86jPZCVnQaXsFVV
+         5BHU7RVhdGGrZmErUIBO0bGCsqLxLgI36UPkfV3Dgjro2QxLAa542cjhtA7z/OYyLSdH
+         B/VElqEqbpbWL3EEY5s+jyagqhGKKeo+m9nMWxSzFX+XELnWlxOJHPqfHMmIaaElU+BV
+         kl3zoWOm8az1NgKQLp9oPry4KBXzbbBqr9ElSyAjwdog43A5Xyp3R15kEw9VDY50FLT4
+         DnL+xUDT05iU2Cza8i1U5NtFAq2j6LLmKpIsS7UcnNF8OcvwvA57uR6wTsZnibv0SqXH
+         hSBg==
+X-Forwarded-Encrypted: i=1; AKwUvBxUyZ9F6z760am2gen1Fm4ayiczbb51/dblLzCk43W9obX4oOtl2iYKHt69+Jzoui/qUAEc/Qu1+pxP0A==@vger.kernel.org
+X-Gm-Message-State: AFq9FYIMptssCReacmeQndh9GerpMui8h/dL2wHShgv93Tof9Kle+jOn
+	vryrhd88DYEY+FGjBuVhYQLjmrVkkngViwYFIzGLA3RX/NZmKkIXmyDP
+X-Gm-Gg: AYBFou0J04zuqn0cZUvPZr9vi7Bmz1oVr01wBKdd1zPQJouOGQ5SwLkEuITBZAtyyTW
+	JCxJZG7IdoxcR2QRzkKIZfCXc4i8R29jH4jw+HamdSvanC07LfxbFfmcfQllQzXTaCpymOomzdw
+	tcRfFZRWILGGpW9um9JiOhHRB4oNFrd814bfYpOoIiveBd76/NlTUD0WuDiwhZmnYS2v8MOyAWI
+	RAfgntNc/QxzhIOo4UhpNc7oKhQ6XWBL7rTzkblOX+aIjbR4Qtd2TMtfoLuSmQhuuuv7BjidO9y
+	TbGwUcfpiOeN0MDhvfOJXWqne01UyCPy28DO3eW5hE/5W5Jb5v+lWZr+KmCpGM/tPxVR5b03Jz0
+	6JvIY+DQi+y59DPOR+Z6RuVdIZ4w39e+ZFfghsf9F/Bc4m+iBAOzQrGgAULbZyWIE4dSo/O3qNs
+	4MwSktaX7Zz+6l8d5sIczRnQI/dWcsMcdu21wwZVurNe5/FSliVb1v8Ay/EZ9gav4CBYRrzAhJy
+	DprdhrNkyM7/wafNcRq/tGpS700jhTXVsmi4sYtgicyxDFDdaeUXdJZxJ1FPU+/MZS0qwmVpCqA
+	WKNqHnNDWwCJzcQh
+X-Received: by 2002:a17:90b:4b:b0:3a7:96d:feaf with SMTP id 98e67ed59e1d1-3ab3a9a0c59mr6091973a91.16.1791877436619;
+        Tue, 13 Oct 2026 00:43:56 -0700 (PDT)
+Received: from localhost.localdomain ([183.96.175.225])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ab36ed053csm20552825a91.4.2026.10.13.00.43.54
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Tue, 13 Oct 2026 00:43:56 -0700 (PDT)
+From: Joonho Lee <mynameisjune111@gmail.com>
+To: Takashi Iwai <tiwai@suse.com>
+Cc: "Michael S . Tsirkin" <mst@redhat.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	virtualization@lists.linux.dev,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Matias Ezequiel Vara Larsen <mvaralar@redhat.com>
+Subject: [PATCH v2 0/5] ALSA: virtio: Fix request lifetime and error recovery
+Date: Tue, 13 Oct 2026 16:43:45 +0900
+Message-ID: <cover.1791877396.git.mynameisjune111@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20261004-macaudio-v2-0-7b47ed6335a8@gmail.com>
- <20261004-macaudio-v2-9-7b47ed6335a8@gmail.com> <3698d260-13c5-4050-8f03-61f7b7185514@intel.com>
- <l_pd6lBHQaWNYoohhfxhFw@gmail.com> <8fcdfd97-fcc5-4ed9-8a9a-3e7eac53fed3@intel.com>
-In-Reply-To: <8fcdfd97-fcc5-4ed9-8a9a-3e7eac53fed3@intel.com>
-From: James Calligeros <jcalligeros99@gmail.com>
-Date: Tue, 13 Oct 2026 17:14:34 +1000
-X-Gm-Features: AclHuK8TJXmdm-cxsbCKrijwUibcd22A39HSUGZRpbNW3PHDJmMdVBEajRXhBY0
-Message-ID: <CAHgNfTyTQW2vMieSo+U7CTTuckrLZL+PuEKXfKCHYMFDBCFWng@mail.gmail.com>
-Subject: Re: [PATCH v2 09/21] ASoC: apple: Add macaudio machine driver
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: asahi@lists.linux.dev, linux-sound@vger.kernel.org, 
-	patches@opensource.cirrus.com, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org, Hector Martin <marcan@marcan.st>, 
-	Sasha Finkelstein <k@chaosmail.tech>, David Rhodes <david.rhodes@cirrus.com>, 
-	Richard Fitzgerald <rf@opensource.cirrus.com>, =?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, 
-	Sen Wang <sen@ti.com>, Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
-	Neal Gompa <neal@gompa.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, Oct 12, 2026 at 8:03=E2=80=AFPM Cezary Rojewski
-<cezary.rojewski@intel.com> wrote:
-> How does one know the speaker died? Is there some kind of signal, event
-> or an interrupt we could depend on? As delayed-work is a mechanism of
-> choice here for handling the case, I believe there is still a gap and a
-> chance for bad things to happen.
+A failed PCM start or a timed-out request can leave virtio-snd messages
+owned by the device after the caller returns. Retrying can then reuse
+pending messages, and freeing ALSA or control buffers can leave their
+addresses in a virtqueue.
 
-speakersafetyd is a userspace daemon, not hardware. It cannot generate
-interrupts. The daemon puts a magic value into a kctl every run of its
-safety model to signal to the driver that it is alive. The driver checks
-every time this kctl is put (see macaudio_slk_put) and schedules delayed
-work for the timeout, resetting the timeout if the correct value is put. If
-the kctl is not put within the timeout (e.g. if the daemon crashes),
-it locks the speaker amp volumes to a safe level that will not cause
-damage.
+This series fixes enqueue-error recovery and keeps the memory referenced
+by outstanding requests alive until completion or device reset. Reset
+also detaches unused descriptors before deleting the queues, releasing
+their DMA mappings and cancelling PCM messages without reporting them
+as completed audio.
 
-We do not want these checks running when the PCM is idle however,
-so when there are no longer any active DAI BEs, we disable the timeout.
+Changes since v1, following the Sashiko AI review:
+- Patch 1 propagates enqueue failures through ACK. Indirect PCM state is
+  committed only on success; a failed transfer stops the stream and
+  returns -EPIPE rather than allowing an out-of-sync retry.
+- Patch 2 is unchanged.
+- Patch 3 detaches unused descriptors on all queues after reset and
+  balances PCM cancellation and control-message references.
+- Patch 4 supports NOMMU with an owned, zeroed buffer instead of rejecting
+  an ordinary kmalloc-backed ALSA buffer. Capture copies are bounded and
+  disabled once the stream stops.
+- Patch 5 separates CPU metadata from DMA storage and aligns each DMA
+  region to dma_get_cache_alignment(). Control-send cleanup also uses
+  explicit, balanced locking instead of mixing scoped guards and gotos.
 
-> Czarek
+Validation of the final source:
+- Source-extracted ASan/UBSan regressions on macOS arm64 and Linux arm64,
+  including expected failures on the v1 ACK and NOMMU implementations.
+- ARM64 W=1 module builds at all five patch steps, plus an ARM32
+  CONFIG_MMU=n driver object build of the final source.
+- QEMU ARM64 KASAN tests with delayed PCM completion past hw_free,
+  delayed PCM_INFO completion after timeout, and reset with pending
+  control requests. Each case includes a subsequent recovery operation.
 
-James
+The QEMU tests use a synthetic audio backend; they do not validate a host
+microphone. NOMMU coverage is a compile and source-extracted test, not a
+booted NOMMU guest. Cache-alignment checks are not a physical
+non-coherent DMA hardware test.
+
+Reproducer source and instructions, pinned to the tested revision:
+https://github.com/whatisyourname0/virtio-snd-reproducer/tree/ef97b69baea51d952ddd7c329a1894150f41849e
+
+The reproducer currently obtains the same final driver source by applying
+the archived v1 patches plus review-v2.diff. Its full kernel/QEMU rebuild
+recipe has not been rerun end to end; the reported runtime tests used
+rebuilt candidate modules with the existing matching KASAN kernel image.
+
+Based on sound.git for-next commit
+8d70e364e866bdfca81eee24d0688fac9472cfb9.
+
+AI assistance was used for code changes, test harnesses, review, and patch
+text. The Sashiko findings were checked against the driver and reproduced
+where applicable before incorporating the fixes. Assisted-by trailers are
+included in the patches.
+
+Previous series Message-ID:
+<cover.1791867377.git.mynameisjune111@gmail.com>
+
+Joonho Lee (5):
+  ALSA: virtio: Propagate PCM send failures through ACK
+  ALSA: virtio: Recover PCM state after a failed start
+  ALSA: virtio: Retain queued messages through device reset
+  ALSA: virtio: Keep PCM DMA buffers alive through device ownership
+  ALSA: virtio: Keep control payloads alive through DMA completion
+
+ sound/virtio/virtio_card.c    |  44 ++++-
+ sound/virtio/virtio_card.h    |   2 +
+ sound/virtio/virtio_ctl_msg.c | 305 +++++++++++++++++++++++++++-------
+ sound/virtio/virtio_ctl_msg.h |  28 +++-
+ sound/virtio/virtio_kctl.c    | 104 ++++++------
+ sound/virtio/virtio_pcm.h     |  13 ++
+ sound/virtio/virtio_pcm_msg.c | 295 +++++++++++++++++++++++++++++---
+ sound/virtio/virtio_pcm_ops.c | 147 +++++++++++++---
+ 8 files changed, 780 insertions(+), 158 deletions(-)
+
+
+base-commit: 8d70e364e866bdfca81eee24d0688fac9472cfb9
+-- 
+2.54.0 (Apple Git-157)
+
