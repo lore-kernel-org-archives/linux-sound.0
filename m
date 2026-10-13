@@ -1,119 +1,135 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 905E5344D8C;
-	Tue, 13 Oct 2026 07:13:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791875591; cv=none; b=MxVEMD2W8NlNidLrY/HjKSb8gQtByrxrEYOCOfAfYFvUoDcqQr1Wi8rsk0h6CzJCdePdNWdKWB6lHduCgBhb3xeP7w5w+Edml+CHnilEH7zhS+VGDreWsa+x8WUF96zPaHBSnSpfiXI6WdqAHjlRxBzacoGuTW5mAMmqGHlNNys=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791875591; c=relaxed/simple;
-	bh=LtVI4gAK5h9eh1ziirKsfP34WCpeOHlldq+ouk6FpR8=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=s6KvN8a86mwXguyaj+i6zgwzv9K0FR2Iq4F1u6eefqt1UEy27pkUJqgL7K1j2BUOqCH0j2CIgr5oRMEAaIV0hwE30QaqwTa42xGGM/UEh1hdT+RH+UAGTXemen9PVpu5LQdg4FpBPAndRh11o+tJFIuqj7vFaxTiY/MR3fwXVfc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 85c60286c6d511f19a56ed5b684f684d-20261013
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:687966a7-ad07-4769-a472-b4a67769efe1,IP:0,U
-	RL:0,TC:0,Content:-25,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTI
-	ON:release,TS:0
-X-CID-META: VersionHash:7db8b62,CLOUDID:9d399ac283616589353ed0fad556b6dd,BulkI
-	D:nil,BulkQuantity:0,SF:102|850|865|898,TC:nil,Content:0|15|50|99,EDM:5,IP
-	:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV
-	:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 85c60286c6d511f19a56ed5b684f684d-20261013
-X-User: zhangheng@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <zhangheng@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 247047745; Tue, 13 Oct 2026 15:12:59 +0800
-From: Zhang Heng <zhangheng@kylinos.cn>
-To: tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Zhang Heng <zhangheng@kylinos.cn>,
-	Johan den Hollander <johan.den.hollander@finalist.nl>
-Subject: [PATCH v2] ALSA: hda/realtek: Add GPIO2 low quirk for ASUS E5402WHA
-Date: Tue, 13 Oct 2026 15:12:55 +0800
-Message-Id: <20261013071255.270131-1-zhangheng@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1FB13CF699
+	for <linux-sound@vger.kernel.org>; Tue, 13 Oct 2026 07:14:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791875687; cv=pass; b=tZDP74QJr+aZXHdOVp2PucX0cKUTbiV5Jgsrq916xH6vHqmT/RYDZH07ehxl/GBdwRb/054qASSfnk66R9EtdsOcaTrQW3w/kh7GuT8VJRlN8QvOD/WEr90IHoEILOO8vXiQefa0l4mtF61vxtXbMNSo6q2J6ft7zDp7pdv8Z9o=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791875687; c=relaxed/simple;
+	bh=Oab5q36RLcRFvq5kzowaoH9lXYz57V+AFbZGkJbzRns=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=CluVBzHE6beXWFKZnIAXMQlvTEUxeEpd46Gth47QQTSeNiS7XzTdNRxEAOyHkpOx6DhEVLzd/nDnoL5V6Jw4hqTF+P2eW6JDgFG7c4GDWIFXZMeNKBDu0ece8JIXOZ91AKLtfxu5iWtDwHiUB2IMqQwcA+r8i2IpAnXhhLa+bag=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gM2OZmHe; arc=pass smtp.client-ip=209.85.210.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gM2OZmHe"
+Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-8198a3a54d7so4755132a34.1
+        for <linux-sound@vger.kernel.org>; Tue, 13 Oct 2026 00:14:46 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791875685; cv=none;
+        d=google.com; s=arc-20260327;
+        b=F35BxDQ3J3TQLJMAG36JzYhtfb8ayQ5x50HPq39cfAi+xOLWZNC+bdWce0u9urK/zg
+         1iXJEvoapJWgLzxXmTtWuD9ij6f0YFDngsX0sHTKUDnOLGDngPz5R4SU9zxRj0MTW8lP
+         vUTo0ih+9r9yZGfGMAbMXi2nqkz26k1qaJ3JwW5Zh0OKNuOgp+psQOvLsmc8eP8ENszk
+         SUPcfPI3TIfvLQnn0jHRRN6FV6qHBKLGKHJ/8gmyita+67kSBCI7Evhn2GMfkXKII+BQ
+         JnS7Zfd0LrHUFdNlKCrybij2ZnPMXyxAudl6V7TVx0DX2pupYJRVdYmSMdkw2HK8wO7h
+         b6xQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Oab5q36RLcRFvq5kzowaoH9lXYz57V+AFbZGkJbzRns=;
+        fh=6YB746ZDuQiygui7uD0bNdlc+3g4HFsTUpg/PdyOUPQ=;
+        b=dIkKc5o/1KBtsCVPuoohHS384lPmekUuC1nv9tYqfnzAlTRJd9YT0xuwg8bWaW/EHo
+         sLDx+J6O1PzKDS9niMkuwpxB3lAC5OPTA6TRC+GT6Ah6qGv7V4bYGz6BUbSErdnFq3E5
+         6eRPgIgBxFTlQ8P0Id/SBLe1SYQnO+fOaFtNzaCRiRdDo3TZmuLjntCLDPcBMPp0VBtM
+         H6ui5FO+dKPydssa4bLnoYdMQ+TvRzrC6vWI+4lhq2KTN0HfE0GpJwzjr2e1m4PnJXBC
+         /7P1/oiqPghp0cWq6zx+wYWzjFnnYTvey/NiCNjw7jsIUFzJK72wpQpUYeUdwOwdWZuD
+         EuBA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791875685; x=1792480485; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Oab5q36RLcRFvq5kzowaoH9lXYz57V+AFbZGkJbzRns=;
+        b=gM2OZmHeiqL0xiQxjAAqlsAzVMHrKVPK2rU0w4j1ofH6x5oIWWQE/8SdowtSvQE6Cr
+         +5Mt/BOyAsGiEwR/zTUHoU9/Hy/JH0TDhQI+X3tlIt3kiZXrfmzT534KWBSZ2hkkN4MU
+         klHALIlA0ZemLbRTZlm8Oj891qv8jdwIMvV7ohiniZSrE5TzIOOSnEj7gvaKCpXdzEgs
+         lh+wtVbK/RwB03cyoRwNdxMIf261jTq6aQCHBhHLemDPFHkuNpN8e2zlKsinJHJ+Ckvl
+         f/9uR+Y3cFBs39F2zA4Jw430o/94XPaVNCZgLMWGkxSHhr9XzFWd/S5xwyVv3nCAGGdQ
+         hhjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791875685; x=1792480485;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Oab5q36RLcRFvq5kzowaoH9lXYz57V+AFbZGkJbzRns=;
+        b=aaBPpYf+L88Rcy+HZG/l42WScjd9Qrq4nXJA+koGQaQldx7gxpqj/vlK6gLwo4Zd5X
+         d+oiha9sANB2ZhYWpvcN2JyKJcm1ZxGL5SlptYI6PTTcu1idj433C/2by+o9Y/85XsGR
+         ucJnQII/yajT8EEJ0K+ES75HGW6kC9fWi3Ju9SE0tX+/CkMyObKEBDJAEPqAB3XGpbbw
+         KFgKMNvB3071adRvlfrtNQsm+tDq+f7KDJJMflDL5ztVIvrHWOvvGsrGPNC/fR5YXcfl
+         CJjl8DCoqAESakcVV+dt/mQw0Czf99QoRlLIVQPpnif/4pyPMTIj/6+sltgTcfqBiGhL
+         x5NA==
+X-Forwarded-Encrypted: i=1; AKwUvBzp21o9FQfKp2TKyp+76JUle6Tl9WYFc8OJE6PQ0c5MSY479LjWfbMQDXJNyz7KevKLFgT8a16Fs7XIQQ==@vger.kernel.org
+X-Gm-Message-State: AFq9FYLItKn6PbZqIp3bEi1WrefflINkGobuyw/BLC+ETHnOd3zbc3w/
+	hWvzMqmZyVEnLanO1ZpxQi27hJPsDyKxuXMgz5wJCWpEMIpyKnZtZNo7X/1oEYAeAFFCXyxnxxz
+	Cut8PYeAQYmYDKNvDYAIFFEYRRhvAD+U=
+X-Gm-Gg: AYBFou3Xf/r3CBZ5oHtY4/Hg2SPZmUKupQ9jfRluV7x32m6MVgUJ/sjSp7vmceAWXA7
+	Z5Cpcq1arpCu65WATfyqKbV4YF5R95KeV/TE5SM8Mec9WosIfWgeUwVHl4+U+sGyRMsg4X/rkKa
+	gPn5cHNaG8Xd7pbXLaKNpulGvsyX+XSUeNlBvg6zUuyR/i2Km8RVykeW2gb8e5lLeY1OPeTAF2M
+	Rtzea7pH9oSIXxcptrCf5Wu4GirySvJOsooBUlNRcExezpzsDUA2VNScOhCpy8UUjhXpIiAUOcY
+	DqrXjD+7tCYNeCfRGusfBEq9C7jve1ZsG2i9g6SglQN4yPomC4tciFHVE9wCMTM/JmivhpQGqsD
+	zylc1JMRcLHcm8NydfiQI1a8CRLkyA3AFQAGBih6JFm9eRj6SL2X6S4RFRClelqsz89LqX2Isbq
+	gqWfLgdCJcMrMV1zP/Z733p0AO3jLwRIFVijEEl0FwBpByDKt+fQ4=
+X-Received: by 2002:a05:6808:30aa:b0:495:ce6d:7d48 with SMTP id
+ 5614622812f47-50c4e67cdf5mr8677005b6e.9.1791875685589; Tue, 13 Oct 2026
+ 00:14:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20261004-macaudio-v2-0-7b47ed6335a8@gmail.com>
+ <20261004-macaudio-v2-9-7b47ed6335a8@gmail.com> <3698d260-13c5-4050-8f03-61f7b7185514@intel.com>
+ <l_pd6lBHQaWNYoohhfxhFw@gmail.com> <8fcdfd97-fcc5-4ed9-8a9a-3e7eac53fed3@intel.com>
+In-Reply-To: <8fcdfd97-fcc5-4ed9-8a9a-3e7eac53fed3@intel.com>
+From: James Calligeros <jcalligeros99@gmail.com>
+Date: Tue, 13 Oct 2026 17:14:34 +1000
+X-Gm-Features: AclHuK8TJXmdm-cxsbCKrijwUibcd22A39HSUGZRpbNW3PHDJmMdVBEajRXhBY0
+Message-ID: <CAHgNfTyTQW2vMieSo+U7CTTuckrLZL+PuEKXfKCHYMFDBCFWng@mail.gmail.com>
+Subject: Re: [PATCH v2 09/21] ASoC: apple: Add macaudio machine driver
+To: Cezary Rojewski <cezary.rojewski@intel.com>
+Cc: asahi@lists.linux.dev, linux-sound@vger.kernel.org, 
+	patches@opensource.cirrus.com, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, Hector Martin <marcan@marcan.st>, 
+	Sasha Finkelstein <k@chaosmail.tech>, David Rhodes <david.rhodes@cirrus.com>, 
+	Richard Fitzgerald <rf@opensource.cirrus.com>, =?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, 
+	Sen Wang <sen@ti.com>, Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
+	Neal Gompa <neal@gompa.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The internal speaker amplifier on the ASUS ExpertCenter AIO E5402WHA
-(ALC256, SSID 1043:3500) is enabled via GPIO2 and is active-low.
-Driving GPIO2 high, as ALC256_FIXUP_ASUS_AIO_GPIO2 does on the ZN270IE,
-keeps the speakers muted. Add a dedicated fixup that drives GPIO2 low
-so the internal speakers work.
+On Mon, Oct 12, 2026 at 8:03=E2=80=AFPM Cezary Rojewski
+<cezary.rojewski@intel.com> wrote:
+> How does one know the speaker died? Is there some kind of signal, event
+> or an interrupt we could depend on? As delayed-work is a mechanism of
+> choice here for handling the case, I believe there is still a gap and a
+> chance for bad things to happen.
 
-Closes: https://bugzilla.kernel.org/show_bug.cgi?id=221938
-Tested-by: Johan den Hollander <johan.den.hollander@finalist.nl>
-Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
----
- sound/hda/codecs/realtek/alc269.c | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+speakersafetyd is a userspace daemon, not hardware. It cannot generate
+interrupts. The daemon puts a magic value into a kctl every run of its
+safety model to signal to the driver that it is alive. The driver checks
+every time this kctl is put (see macaudio_slk_put) and schedules delayed
+work for the timeout, resetting the timeout if the correct value is put. If
+the kctl is not put within the timeout (e.g. if the daemon crashes),
+it locks the speaker amp volumes to a safe level that will not cause
+damage.
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index 9eeb3a66b2b9..92686e71dad1 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -2809,6 +2809,19 @@ static void alc275_fixup_gpio4_off(struct hda_codec *codec,
- 	}
- }
- 
-+static void alc256_fixup_asus_aio_gpio2_low(struct hda_codec *codec,
-+					    const struct hda_fixup *fix,
-+					    int action)
-+{
-+	struct alc_spec *spec = codec->spec;
-+
-+	if (action == HDA_FIXUP_ACT_PRE_PROBE) {
-+		spec->gpio_mask |= 0x04;
-+		spec->gpio_dir |= 0x04;
-+		spec->gpio_data &= ~0x04;
-+	}
-+}
-+
- /* Quirk for Thinkpad X1 7th and 8th Gen
-  * The following fixed routing needed
-  * DAC1 (NID 0x02) -> Speaker (NID 0x14); some eq applied secretly
-@@ -4250,6 +4263,7 @@ enum {
- 	ALC256_FIXUP_ASUS_HEADSET_MODE,
- 	ALC256_FIXUP_ASUS_MIC,
- 	ALC256_FIXUP_ASUS_AIO_GPIO2,
-+	ALC256_FIXUP_ASUS_AIO_GPIO2_LOW,
- 	ALC233_FIXUP_ASUS_MIC_NO_PRESENCE,
- 	ALC233_FIXUP_EAPD_COEF_AND_MIC_NO_PRESENCE,
- 	ALC233_FIXUP_LENOVO_MULTI_CODECS,
-@@ -5584,6 +5598,10 @@ static const struct hda_fixup alc269_fixups[] = {
- 		/* Set up GPIO2 for the speaker amp */
- 		.v.func = alc_fixup_gpio4,
- 	},
-+	[ALC256_FIXUP_ASUS_AIO_GPIO2_LOW] = {
-+		.type = HDA_FIXUP_FUNC,
-+		.v.func = alc256_fixup_asus_aio_gpio2_low,
-+	},
- 	[ALC233_FIXUP_ASUS_MIC_NO_PRESENCE] = {
- 		.type = HDA_FIXUP_PINS,
- 		.v.pins = (const struct hda_pintbl[]) {
-@@ -8124,6 +8142,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1043, 0x31e1, "ASUS B5605CCA", ALC294_FIXUP_ASUS_CS35L41_SPI_2),
- 	SND_PCI_QUIRK(0x1043, 0x31f1, "ASUS B3605CCA", ALC294_FIXUP_ASUS_CS35L41_SPI_2),
- 	SND_PCI_QUIRK(0x1043, 0x3391, "ASUS PM3606CKA", ALC287_FIXUP_CS35L41_I2C_2),
-+	SND_PCI_QUIRK(0x1043, 0x3500, "ASUS E5402WHA", ALC256_FIXUP_ASUS_AIO_GPIO2_LOW),
- 	SND_PCI_QUIRK(0x1043, 0x3501, "ASUS PM3606CHA", ALC256_FIXUP_ASUS_SPEAKER_COEFS),
- 	SND_PCI_QUIRK(0x1043, 0x3601, "ASUS PM5406CGA", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x1043, 0x3611, "ASUS PM5606CGA", ALC287_FIXUP_CS35L41_I2C_2),
--- 
-2.25.1
+We do not want these checks running when the PCM is idle however,
+so when there are no longer any active DAI BEs, we disable the timeout.
 
+> Czarek
+
+James
