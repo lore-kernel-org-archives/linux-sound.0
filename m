@@ -1,79 +1,77 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33F553AB47E
-	for <linux-sound@vger.kernel.org>; Tue, 13 Oct 2026 07:55:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9615D397E85
+	for <linux-sound@vger.kernel.org>; Tue, 13 Oct 2026 08:01:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791878104; cv=none; b=c0iRl7Y1GDRZBrK3bhzHl1asOE95B+lSqR5e7SX9ICoSVKKBo8zuAmH/zEpjyr/IDaHzQUiNlaMWJb1LzS36GtL0nJirXf//Wr+gNP6RER3p7yBmd2uyS73YC/5nR9z7j6zjv2D5zuA0JaurIMksy/sOshC6WSFDLJEyTRSAras=
+	t=1791878476; cv=none; b=aR+iyrOz685HnAUXckcXTg7oLba9UoetGOAO8AT2rUJ25ftY4ZIINNi75idyOOGkD3uki+p/AWQ1yriADwrbWwK+KzAi1OD8hycS6YfOP4+D6aFi0INNuuu0fljBqD2VrAGFLJP5BOXV5/YwKD2vc41fd++FQTd79BnClKkg5KI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791878104; c=relaxed/simple;
-	bh=EgSh0MeykZKTI/sMFgoYkWo6fEqw41vxM29on6Q8vYc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=UZ7paY4VP9RRr89wwtu+mAW3LQkAUTfXMUirT5acdReZd0FXN3nPbKBze+McfCipR9w15BVC2cgqdiVIklCRkHbiwbXOJZtJxNa9U6nTafPZAGvnsliiPK/qeJd1RBUjND43TGF5DKgV8WH05L0C62Q6Zsd0eBVC0WpdWuBOzRM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QuVNOrIH; arc=none smtp.client-ip=209.85.214.169
+	s=arc-20240116; t=1791878476; c=relaxed/simple;
+	bh=/PgnKTMD8+F3H2CRjecH3dstZ2TPaAecnQNfB+S5sqw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=bIwVhkfhueuaC++rdz2bmavyG7RDSHZPmasthDinswDSywUl6H4gVPjtm2ndfu3/UQsPx90qyibKUU9p2+CkE6/GsRqNv60aTcVaeIe0Gr6QuB9DjCIcTj0/qTD2BJdaEcvZr2cSi2XwR0f64AaEACJHs6KuFBtRdMZSFT0a1B4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DbUI6iIM; arc=none smtp.client-ip=209.85.214.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QuVNOrIH"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2e61ac64ec3so23088215ad.2
-        for <linux-sound@vger.kernel.org>; Tue, 13 Oct 2026 00:55:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DbUI6iIM"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2db710396ffso26689235ad.1
+        for <linux-sound@vger.kernel.org>; Tue, 13 Oct 2026 01:01:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791878102; x=1792482902; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1791878473; x=1792483273; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:message-id:date
          :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=pVb8dGJgBOCepBEpRi0mzE+ty+vlzyd21NuC7kLzqK4=;
-        b=QuVNOrIHX47GFR5LR+v949lPXnUp4PkyVv9fmEky/rrGVrfbv/uUSChRBRehfvYBCk
-         9Hb9aIC4Y7P3PWfucbupa87szHj1cAuEoHf3fpnfTH23NeR6FOGGkppOB7eOtE0EX2RG
-         5oWTwyFkBLAatMpt0UvKNKvOKG+W7KFnD0b5unp11SMORHmP53cxOTUFDI5X/5LMJ13S
-         zR7SB+V+QxoMWvOIuS7r9oE+le3iQBmEsLyE6DE71by0+NoWOTIkHtDEd+A591Pt0G9e
-         W3zjY2G8SO7V2xzZJwXOIIJVSSMgYLlATDpA51Ca6/2rRcgV0Y4drq5rIFtMSdyEVx7g
-         ZTvA==
+        bh=YrS9XfS6gUAwTQT6s4escVSU2ej1iWqHwjdTNOy38t4=;
+        b=DbUI6iIMc9c2Ww+8J1SG1MzaDg00Mvq7hPjUKj46C2Z5BEI6WeJA0s7vF9LLCG2aYE
+         jjgAVJZabsCg2tCayUvMi3VXDDFOoJ38D/UT27XYVIYolcfVRNxQHAp/0rYp6IgRr7Qo
+         UibdjiUUwL7KIGDo7eG4KspG62Tyb/WEgU9164tq33s26gPiSWtbNG0bdhLeWoPMZ7RQ
+         1CJ3PRqGRKiWh9l0qr1BKEXhQFedxxROanjSnf3w5zcDyYqrdo3HXxMp09VsuxqAMsot
+         o5pyF8QcYzRcPzuRAObFa3MI3qFfyC81P0kSgnDf9/zPsQeD9WmfTKL21M2fxrdwLH5m
+         ub7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791878102; x=1792482902;
+        d=1e100.net; s=20260707; t=1791878473; x=1792483273;
         h=content-transfer-encoding:content-type:mime-version:message-id:date
          :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=pVb8dGJgBOCepBEpRi0mzE+ty+vlzyd21NuC7kLzqK4=;
-        b=zor/LVhRgdj+WrwySSmmlk6/TZ9aPLxZSqQcmc+aWj61oJZ0FBU9oGXdkwoF/Hg8ZV
-         JqjaqX6g7FysvclslelIaxvUESB3DjkPljtlEnXZpWhpD1OFvXuJ7yO++wP4BT5fGSnS
-         yRIHRxDVYJkucScTShFOr+XyggEPQ5fsfXCvoNXO1VORXcju7aLdvznZaq5z1EwKU0jU
-         a9pwbvmTf4YFTnyrvPGI6JiGoywXBCP48EOqi3wZLdYfeoGjKypI+Lkl5eNcO/Lh0tyD
-         zdJdYGZyqxRaA3Y+6dyYYmR6Qsd2LP3t6Nzram/NgMPr+2W97dTSkp0OmOD/6Nx40hkC
-         b/Sg==
-X-Gm-Message-State: AFq9FYLmFOfmtq3We685VZzirc40ZspeHzyacLll9n1PuJIVjgGwhP1H
-	95Ga1Td6orJT1PXv8f3q114o/of0RZG9f9DZdFm/0IFBs26kq8qO80wI
-X-Gm-Gg: AYBFou13h8ZOliDntQsN0QngypOfe+YZTSf3F2Os/4y7WJobk8pFSl7House3EuENlS
-	8ZN1E6GL+eqsKSy7lrAZolsF25tbTL0KHIBbbH7DHXsgfDo+hr0mzkXLDRnNP9w1qNE3SnqLtHe
-	fusMt35rIwBdwOplTKIVFsy5yNK1QZI2HyBbCwTZs6967iqF47Y2BNBvHqqeGIZONK3JSANaKkW
-	fPY95kOWUfNt/hgjZ/C4jO2KpC/npJh0jnd+IZIa6DM4TYAQeTZkMGKg/qJxeBpF+PZ9R33gG7w
-	/R6Ui1Ub7QtC0MV+ST+K3RMNe5UZ7M5T+YahfNZ1Idff/Ol+kmQzHokB+ZrE5Rr/StIrMtfm6+t
-	Mal6OnYdAN/eEh2hioOMhpn8l8vjL9Z8seD1Uug0qNF6slGI/H90um7PbRH9UZart6SQ3T8Fps6
-	3h4ee0G5nWTBs5WNwB5kYwlRB4YYvDHXW8LWhDwx/oXnIqHLnAQgMgJu5u8hBOdq05kQ==
-X-Received: by 2002:a17:902:e541:b0:2e8:1f8a:9113 with SMTP id d9443c01a7336-2e842bd5caamr104835355ad.40.1791878102366;
-        Tue, 13 Oct 2026 00:55:02 -0700 (PDT)
+        bh=YrS9XfS6gUAwTQT6s4escVSU2ej1iWqHwjdTNOy38t4=;
+        b=xff9Frq6MeubchsIKtgnemJIM7eHqi0F91Ff8qB+D44sOiF/oPhUkLtgvZT1/hOdV/
+         jYMXiS3S3A+X5quHydnihL5m8AoO/yPdKSHUfbY1fQWLzAGA6qSVGX8SwJtbXJ6bVSMA
+         fBQGUxEsTWJJ9RrDlpaFHdNxsmCxwODdk0MrDytJXshKIGfuwxK+XTYdItqZX4zWNShS
+         nIjhYzITkVtIBoTHgWnE14mr5U3Bq1AXCmlWCYAYndG2noXbbyqWi+6HkMyAxnbHIH10
+         AQtxQJGigfmrm8yAHcKlSkB27DB7FB8+igccckLtkvhE0u0K+A876A30e5w+bbT8tQYG
+         Q5Qw==
+X-Gm-Message-State: AFq9FYJHuOa8ed0miUl9bop/zjL7HVTt7TLvCfrZiVy7dp9KlbBCnWj0
+	BWyUphgIGOg5v9rMqOV4WxsuEaZgcapKCTQhDbM6n98Fc4eozquFA1+a
+X-Gm-Gg: AYBFou0/5YgaDFlY9ozdTKAsWCBGDybD8M0V7yE76A6IqHianr2vSbyFfNwm+UYQSW0
+	uevu/RXROUIkNUgxdRtU8/JzAjYDlsITvwJaUpdp4QUu+KsB8Ztj97VV4bfFlasC/hUNWdSHG0+
+	Py+Ig4UuzYbm+edZEmqwCi92BoCGNS9eb3p1bdYHoWlihxfZzqzBXatf54whpaNxoO+Xk5E1Uxo
+	dXoZtnd90n0RvY1mr4cnlcNP9yDTHavpr6PLS4xWtY5WPmNZNWJSqDEuIdS1ayBNG+wPv4ZamCp
+	TlN0qABseeZCW9uyXCrdTk/xA0XOMUF8FMYYwfBEPSvUqLhm+CcAMuFQJObbi2/3qTL2P9jNXr8
+	TBNmi+oy3IISoAThDbXIyfFYEq/qdO2+TKgX4i88VKAWPXmG50L+j5vtt/lEK2Mv2Me7qgMd1oT
+	xJbP1MeIIz5TveN/OnwduMu90/LUdBksx9LevRg3APjY1EPivzgIG1jVcA0piZE5YCvA==
+X-Received: by 2002:a17:902:e748:b0:2e6:1c24:d5f2 with SMTP id d9443c01a7336-2e840542be6mr82916565ad.36.1791878473362;
+        Tue, 13 Oct 2026 01:01:13 -0700 (PDT)
 Received: from localhost ([111.228.63.84])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e84219e6b6sm51111515ad.20.2026.10.13.00.54.57
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e8483c3dfcsm50221715ad.24.2026.10.13.01.01.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Oct 2026 00:55:01 -0700 (PDT)
+        Tue, 13 Oct 2026 01:01:12 -0700 (PDT)
 From: Cen Zhang <zzzccc427@gmail.com>
 To: perex@perex.cz,
 	tiwai@suse.com,
-	2022090917019@std.uestc.edu.cn,
-	hemanth.selam@gmail.com,
-	nfraprado@collabora.com,
-	songxiebing@kylinos.cn,
-	sammiee5311@gmail.com,
-	kees@kernel.org,
-	cassiogabrielcontato@gmail.com
+	phucduc.bui@gmail.com,
+	cassiogabrielcontato@gmail.com,
+	cezary.rojewski@intel.com,
+	zzzccc427@gmail.com,
+	kees+treewide@kernel.org,
+	yilinzhang@moonshot.ai
 Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	baijiaju1990@gmail.com,
-	jjzuming@gmail.com,
-	zzzccc427@gmail.com
-Subject: [PATCH] ALSA: hda: Serialize virtual-master hook registration
-Date: Tue, 13 Oct 2026 15:54:55 +0800
-Message-Id: <pm-pmb-c2667fb9cc42fbb7943c-v2-d4b95981cdbb696491c5@gmail.com>
+	jjzuming@gmail.com
+Subject: [PATCH] ALSA: pcm: Protect delay DMA sync against concurrent HW_FREE
+Date: Tue, 13 Oct 2026 16:01:06 +0800
+Message-Id: <pm-pmb-d74585d187e0b1810c08-v2-25432d0951f67fdaa1a9@gmail.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -84,90 +82,218 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-An HDA virtual-master hook must have its private argument initialized
-before a control callback can invoke it. snd_hda_add_vmaster_hook()
-installs the trampoline through snd_ctl_add_vmaster_hook(), which stores
-master->hook before master->hook_private_data without serialization.
+A PCM DMA buffer must remain allocated until explicit DMA synchronization
+finishes. snd_pcm_delay() calls snd_pcm_dma_buffer_sync() after dropping
+the stream lock, without participating in the buffer-access exclusion
+used by HW_FREE.
 
-When a codec with a vmaster mute hook binds to an already registered
-card, snd_hda_gen_build_controls() publishes and initializes the Master
-Playback Switch before installing the hook. A native write that changes
-the switch can then run in the following order:
+With a managed NONCONTIG buffer requiring explicit sync, HW_PARAMS can
+allocate a separate runtime descriptor when the requested ring exceeds
+the preallocation. In PREPARED state with mmap_count zero, concurrent
+HWSYNC and HW_FREE calls on the same open PCM file can interleave:
 
-  1. The codec bind path publishes and initializes the master control in
-     __snd_hda_add_vmaster(), then calls snd_hda_add_vmaster_hook().
-  2. The hook setter stores master->hook, but has not yet stored its
-     private argument.
-  3. SNDRV_CTL_IOCTL_ELEM_WRITE takes controls_rwsem and calls
-     master_put() while the setter remains between those stores.
-  4. master_put() sees the callback and invokes vmaster_hook() with a
-     NULL argument. The trampoline dereferences it before the setter
-     can complete publication.
+1. HWSYNC checks the state in snd_pcm_delay() under the stream lock and
+   releases that lock.
+2. The sync helper fetches runtime->dma_buffer_p and enters
+   snd_dma_noncontig_sync() with that descriptor.
+3. HW_FREE takes the negative buffer-access count, checks PREPARED under
+   the stream lock, releases the lock, and frees the DMA allocation and
+   dynamic descriptor through snd_pcm_lib_free_pages().
+4. The sync callback resumes and reads the freed descriptor.
 
-The write lock held by snd_ctl_elem_write() does not exclude the hook
-setter, so this can cause a NULL pointer dereference. Take the same
-controls_rwsem for writing in snd_hda_add_vmaster_hook() so the callback
-and its argument are installed together with respect to native control
-callbacks. Release it when registration returns, before the caller
-synchronizes the hook.
+The stream lock does not cover the allocation's release, and the sync
+operation has no positive buffer-access count to prevent it. The stale
+read causes a use-after-free in snd_dma_noncontig_sync(). DELAY uses the
+same snd_pcm_delay() path.
+
+Take a positive buffer-access count before checking the state and keep it
+until the DMA sync finishes, as the transfer and mmap paths already do.
+HW_FREE then returns -EBUSY while this access is active. If a buffer
+writer has already entered, snd_pcm_delay() returns -EBUSY before using
+the buffer. Keep the sync outside the stream lock and balance the count
+on the state-error path as well.
 
 KASAN report as below:
 
-    Oops: general protection fault, probably for non-canonical address 0xdffffc0000000001: 0000 [#1] SMP KASAN NOPTI
-    KASAN: null-ptr-deref in range [0x0000000000000008-0x000000000000000f]
-    CPU: 1 UID: 0 PID: 499 Comm: alsa-vmaster-tr Not tainted 7.2.0-rc6-pmb-bt-functional-v1+ #1 PREEMPT(lazy)
+    BUG: KASAN: slab-use-after-free in snd_dma_noncontig_sync+0x295/0x310 [snd_pcm]
+    Read of size 4 at addr ffff888108f58584 by task pcm-uaf-fixture/487
+
+    CPU: 1 UID: 0 PID: 487 Comm: pcm-uaf-fixture Not tainted 7.2.0-rc6-pmb-alsa-functional-v2+ #1 PREEMPT(lazy)
     Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-    RIP: 0010:vmaster_hook+0x35/0xb0
-    Code: f5 53 48 89 fb 48 83 ec 08 e8 57 f0 9a fc eb 50 e8 50 f0 9a fc 48 8d 7b 08 48 b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 <80> 3c 02 00 75 59 48 8d 7b 10 48 8b 43 08 48 ba 00 00 00 00 00 fc
-    RSP: 0018:ffff888117647cd0 EFLAGS: 00010212
-    RAX: dffffc0000000000 RBX: 0000000000000000 RCX: ffffffff84e9ff50
-    RDX: 0000000000000001 RSI: 0000000000000000 RDI: 0000000000000008
-    RBP: 0000000000000001 R08: 0000000000000001 R09: 0000000000000001
-    R10: ffffffff89427457 R11: ffff888115ad1d00 R12: ffffffff84e9ff30
-    R13: ffff888114943ca0 R14: 0000000000000000 R15: 0000000000000001
-    FS:  00007fe8167b3780(0000) GS:ffff88826b7e3000(0000) knlGS:0000000000000000
-    CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-    CR2: 0000557c8c2842a8 CR3: 000000011579f005 CR4: 0000000000770ef0
-    PKRU: 55555554
     Call Trace:
      <TASK>
-     master_put+0x20e/0x2b0
-     snd_ctl_elem_write+0x37f/0x5e0
-     snd_ctl_ioctl+0x997/0xdd0
-     ? __pfx_snd_ctl_ioctl+0x10/0x10
+     dump_stack_lvl+0x93/0xd0
+     print_report+0xce/0x630
+     ? snd_dma_noncontig_sync+0x295/0x310 [snd_pcm]
      ? srso_alias_return_thunk+0x5/0xfbef5
-     ? selinux_file_ioctl+0xaa/0x280
-     ? __pfx_snd_ctl_ioctl+0x10/0x10
+     ? __virt_addr_valid+0x20d/0x410
+     ? snd_dma_noncontig_sync+0x295/0x310 [snd_pcm]
+     kasan_report+0xe0/0x110
+     ? snd_dma_noncontig_sync+0x295/0x310 [snd_pcm]
+     ? __pfx_snd_dma_noncontig_sync+0x10/0x10 [snd_pcm]
+     snd_dma_noncontig_sync+0x295/0x310 [snd_pcm]
+     ? __pfx_snd_dma_noncontig_sync+0x10/0x10 [snd_pcm]
+     snd_dma_buffer_sync+0xc9/0x110 [snd_pcm]
+     snd_pcm_delay+0x3bd/0x550 [snd_pcm]
+     snd_pcm_common_ioctl+0x1e7/0x3aa0 [snd_pcm]
+     ? srso_alias_return_thunk+0x5/0xfbef5
+     ? do_vfs_ioctl+0x1f5/0x1280
+     ? __pfx_do_vfs_ioctl+0x10/0x10
+     ? ioctl_has_perm.constprop.0.isra.0+0x34f/0x500
+     ? __pfx_snd_pcm_common_ioctl+0x10/0x10 [snd_pcm]
+     ? srso_alias_return_thunk+0x5/0xfbef5
+     snd_pcm_ioctl+0x76/0xb0 [snd_pcm]
+     ? __pfx_snd_pcm_ioctl+0x10/0x10 [snd_pcm]
      __x64_sys_ioctl+0x163/0x1d0
      do_syscall_64+0x115/0x6a0
      entry_SYSCALL_64_after_hwframe+0x77/0x7f
-    RIP: 0033:0x7fe8168c291b
+    RIP: 0033:0x7f1cae7ab91b
     Code: 00 48 89 44 24 18 31 c0 48 8d 44 24 60 c7 04 24 10 00 00 00 48 89 44 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 00 00 00 0f 05 <89> c2 3d 00 f0 ff ff 77 1c 48 8b 44 24 18 64 48 2b 04 25 28 00 00
-    RSP: 002b:00007fffab0cb150 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-    RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 00007fe8168c291b
-    RDX: 00007fffab0cb310 RSI: 00000000c4c85513 RDI: 0000000000000003
-    RBP: 00007fffab0cb310 R08: 0000000000000000 R09: 0000000000000000
-    R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000001
-    R13: 00007fffab0cb1c0 R14: 0000000000000001 R15: 0000557c4f71fd10
+    RSP: 002b:00007ffe12d544f0 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+    RAX: ffffffffffffffda RBX: 0000000000000004 RCX: 00007f1cae7ab91b
+    RDX: 0000000000000000 RSI: 0000000000004122 RDI: 0000000000000003
+    RBP: 00000000000001ee R08: 0000000000000073 R09: 00000000ffffffff
+    R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000003
+    R13: 0000000000000001 R14: 00005584f32b1398 R15: 00005584f32b2ce8
      </TASK>
-    Modules linked in:
-    ---[ end trace 0000000000000000 ]---
 
-Fixes: ee52e56e7b12 ("ALSA: hda - Fix mute-LED fixed mode")
+    Allocated by task 487:
+     kasan_save_stack+0x33/0x60
+     kasan_save_track+0x14/0x30
+     __kasan_kmalloc+0xaa/0xb0
+     __kmalloc_cache_noprof+0x251/0x610
+     snd_pcm_lib_malloc_pages+0x27c/0x9f0 [snd_pcm]
+     snd_pcm_hw_params+0x171c/0x1d10 [snd_pcm]
+     snd_pcm_common_ioctl+0x1f62/0x3aa0 [snd_pcm]
+     snd_pcm_ioctl+0x76/0xb0 [snd_pcm]
+     __x64_sys_ioctl+0x163/0x1d0
+     do_syscall_64+0x115/0x6a0
+     entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+    Freed by task 499:
+     kasan_save_stack+0x33/0x60
+     kasan_save_track+0x14/0x30
+     kasan_save_free_info+0x3b/0x60
+     __kasan_slab_free+0x5f/0x80
+     kfree+0x307/0x580
+     snd_pcm_lib_free_pages+0x1c9/0x420 [snd_pcm]
+     snd_pcm_common_ioctl+0x2bd3/0x3aa0 [snd_pcm]
+     snd_pcm_ioctl+0x76/0xb0 [snd_pcm]
+     __x64_sys_ioctl+0x163/0x1d0
+     do_syscall_64+0x115/0x6a0
+     entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+    The buggy address belongs to the object at ffff888108f58580
+     which belongs to the cache kmalloc-64 of size 64
+    The buggy address is located 4 bytes inside of
+     freed 64-byte region [ffff888108f58580, ffff888108f585c0)
+
+    The buggy address belongs to the physical page:
+    page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x108f58
+    flags: 0x200000000000000(node=0|zone=2)
+    page_type: f5(slab)
+    raw: 0200000000000000 ffff8881000428c0 dead000000000100 dead000000000122
+    raw: 0000000000000000 0000000000200020 00000000f5000000 0000000000000000
+    page dumped because: kasan: bad access detected
+
+    Memory state around the buggy address:
+     ffff888108f58480: fa fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
+     ffff888108f58500: 00 00 00 00 00 06 fc fc fc fc fc fc fc fc fc fc
+    >ffff888108f58580: fa fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
+                       ^
+     ffff888108f58600: fa fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
+     ffff888108f58680: fa fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
+    ==================================================================
+    Disabling lock debugging due to kernel taint
+    ------------[ cut here ]------------
+    kernel BUG at kernel/dma/mapping.c:417!
+    Oops: invalid opcode: 0000 [#1] SMP KASAN NOPTI
+    CPU: 1 UID: 0 PID: 487 Comm: pcm-uaf-fixture Tainted: G    B               7.2.0-rc6-pmb-alsa-functional-v2+ #1 PREEMPT(lazy)
+    Tainted: [B]=BAD_PAGE
+    Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+    RIP: 0010:__dma_sync_sg_for_cpu+0x230/0x360
+    Code: df 48 c1 e8 03 80 3c 10 00 0f 85 fa 00 00 00 4c 8b 35 d4 6b 7a 09 e8 7f e2 17 00 83 fd 02 0f 86 39 fe ff ff e8 71 e2 17 00 90 <0f> 0b e8 69 e2 17 00 be 08 00 00 00 4c 89 ff e8 bc 5f 77 00 4c 89
+    RSP: 0018:ffff888111f3fc50 EFLAGS: 00010293
+    RAX: 0000000000000000 RBX: ffffffffc0250d10 RCX: ffffffff816d395f
+    RDX: ffff88810836ba00 RSI: ffff888108f58580 RDI: ffffffffc02510d8
+    RBP: 00000000ffff8881 R08: 0000000000000000 R09: fffffbfff804a239
+    R10: ffffffffc02511cf R11: 6e696c6261736944 R12: ffff888108f58580
+    R13: 0000000002ce00e5 R14: ffffffffc0258720 R15: 0000000000000000
+    FS:  00007f1cae69c780(0000) GS:ffff8881fd861000(0000) knlGS:0000000000000000
+    CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+    CR2: 000055d1affa2480 CR3: 0000000108fc0003 CR4: 0000000000770ef0
+    PKRU: 55555554
+    Call Trace:
+     <TASK>
+     snd_dma_noncontig_sync+0x15a/0x310 [snd_pcm]
+     ? __pfx_snd_dma_noncontig_sync+0x10/0x10 [snd_pcm]
+     snd_dma_buffer_sync+0xc9/0x110 [snd_pcm]
+     snd_pcm_delay+0x3bd/0x550 [snd_pcm]
+     snd_pcm_common_ioctl+0x1e7/0x3aa0 [snd_pcm]
+     ? srso_alias_return_thunk+0x5/0xfbef5
+     ? do_vfs_ioctl+0x1f5/0x1280
+     ? __pfx_do_vfs_ioctl+0x10/0x10
+     ? ioctl_has_perm.constprop.0.isra.0+0x34f/0x500
+     ? __pfx_snd_pcm_common_ioctl+0x10/0x10 [snd_pcm]
+     ? srso_alias_return_thunk+0x5/0xfbef5
+     snd_pcm_ioctl+0x76/0xb0 [snd_pcm]
+     ? __pfx_snd_pcm_ioctl+0x10/0x10 [snd_pcm]
+     __x64_sys_ioctl+0x163/0x1d0
+     do_syscall_64+0x115/0x6a0
+     entry_SYSCALL_64_after_hwframe+0x77/0x7f
+    RIP: 0033:0x7f1cae7ab91b
+    Code: 00 48 89 44 24 18 31 c0 48 8d 44 24 60 c7 04 24 10 00 00 00 48 89 44 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 00 00 00 0f 05 <89> c2 3d 00 f0 ff ff 77 1c 48 8b 44 24 18 64 48 2b 04 25 28 00 00
+    RSP: 002b:00007ffe12d544f0 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+    RAX: ffffffffffffffda RBX: 0000000000000004 RCX: 00007f1cae7ab91b
+    RDX: 0000000000000000 RSI: 0000000000004122 RDI: 0000000000000003
+    RBP: 00000000000001ee R08: 0000000000000073 R09: 00000000ffffffff
+    R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000003
+    R13: 0000000000000001 R14: 00005584f32b1398 R15: 00005584f32b2ce8
+     </TASK>
+    Modules linked in: snd_pcmtest snd_pcm
+    ---[ end trace 0000000000000000 ]---
+    RIP: 0010:__dma_sync_sg_for_cpu+0x230/0x360
+    Code: df 48 c1 e8 03 80 3c 10 00 0f 85 fa 00 00 00 4c 8b 35 d4 6b 7a 09 e8 7f e2 17 00 83 fd 02 0f 86 39 fe ff ff e8 71 e2 17 00 90 <0f> 0b e8 69 e2 17 00 be 08 00 00 00 4c 89 ff e8 bc 5f 77 00 4c 89
+    RSP: 0018:ffff888111f3fc50 EFLAGS: 00010293
+    RAX: 0000000000000000 RBX: ffffffffc0250d10 RCX: ffffffff816d395f
+    RDX: ffff88810836ba00 RSI: ffff888108f58580 RDI: ffffffffc02510d8
+    RBP: 00000000ffff8881 R08: 0000000000000000 R09: fffffbfff804a239
+    R10: ffffffffc02511cf R11: 6e696c6261736944 R12: ffff888108f58580
+    R13: 0000000002ce00e5 R14: ffffffffc0258720 R15: 0000000000000000
+    FS:  00007f1cae69c780(0000) GS:ffff8881fd861000(0000) knlGS:0000000000000000
+    CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+    CR2: 000055d1affa2480 CR3: 0000000108fc0003 CR4: 0000000000770ef0
+    PKRU: 55555554
+    Kernel panic - not syncing: Fatal exception
+    Kernel Offset: disabled
+    Rebooting in 1 seconds..
+
+Fixes: a25684a95646 ("ALSA: memalloc: Support for non-contiguous page allocation")
 Assisted-by: LLM
 Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
 ---
 
-diff --git a/sound/hda/common/codec.c b/sound/hda/common/codec.c
-index 18838a45e6f72b838eace2d7b21d7a0a3b21017b..029e56ae78727c8cb3c3edbace8b27a5615c2a3c 100644
---- a/sound/hda/common/codec.c
-+++ b/sound/hda/common/codec.c
-@@ -2024,6 +2024,8 @@ int snd_hda_add_vmaster_hook(struct hda_codec *codec,
+diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
+index defbb2977efe9dcd8d48b934c3944d3fe159bcd6..f774358629bbc611bd15a1f8cbd4dda3ba7f45b6 100644
+--- a/sound/core/pcm_native.c
++++ b/sound/core/pcm_native.c
+@@ -3116,14 +3116,19 @@ static snd_pcm_sframes_t snd_pcm_forward(struct snd_pcm_substream *substream,
+ static int snd_pcm_delay(struct snd_pcm_substream *substream,
+ 			 snd_pcm_sframes_t *delay)
  {
- 	if (!hook->hook || !hook->sw_kctl)
- 		return 0;
-+	/* Serialize hook registration with control callbacks. */
-+	guard(rwsem_write)(&codec->card->controls_rwsem);
- 	hook->codec = codec;
- 	snd_ctl_add_vmaster_hook(hook->sw_kctl, vmaster_hook, hook);
- 	return 0;
++	struct snd_pcm_runtime *runtime = substream->runtime;
+ 	int err;
+ 
++	/* Keep the DMA buffer alive through the sync below. */
++	if (!atomic_inc_unless_negative(&runtime->buffer_accessing))
++		return -EBUSY;
+ 	scoped_guard(pcm_stream_lock_irq, substream) {
+ 		err = do_pcm_hwsync(substream);
+ 		if (delay && !err)
+ 			*delay = snd_pcm_calc_delay(substream);
+ 	}
+ 	snd_pcm_dma_buffer_sync(substream, SNDRV_DMA_SYNC_CPU);
++	atomic_dec(&runtime->buffer_accessing);
+ 
+ 	return err;
+ }
