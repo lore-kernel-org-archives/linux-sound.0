@@ -1,109 +1,77 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAE3552B1D7
-	for <linux-sound@vger.kernel.org>; Tue, 13 Oct 2026 17:51:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3D57521218
+	for <linux-sound@vger.kernel.org>; Tue, 13 Oct 2026 17:57:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791913886; cv=none; b=P+uFqzGfTQFJ+9/dyYgmEWhIAmIfB26hiUL+N9pjLaOM3qpIQORlxtvtwgJEY69wLHn74Ks+JXOG90CGM/vy4aYTdWmK9nxD6WY81SRl+NvL3mnJusGburk6aglqSMevNpBkS82KR1Z4Og+Ykx93Yhk6CaeQFvZaXccF8RLGOoc=
+	t=1791914277; cv=none; b=ftYrmdUs84dggXoCzQH53kTOjdXO2igWh7pzEV/QI18mqB7UNyXsSN4RnhGyHB4t6HCoK1eNQUTpT3p1t4mEvNmEaGL7YIhhXQFEZ6UKcBLstY9wDkuUuwrE5bD2ZElpSEnTk8wAytEsLzhqii4L7qKNn8j52wsA8hp3yEnCoYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791913886; c=relaxed/simple;
-	bh=NcU3zyHrdoqF7Sz2BWcoYero8xdv5Bz83v9sBOVAEgM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sAM0/1TeU9lfBfyqq983XcRssoDMM5Nl1V88IWqW7RQVgDwANm8unoaZafuh48fyfU/Tap6ExQkPudbyIH79TVkUBTq/G7/8binrPeK0x31r+GJ1j0VZTna+0a7Almbz8wxyEhZTBh7HcBpxntlwziM0vYd7ax7LLWTo+Du9OE0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=UkAYdMbo; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=YAW7BOn0; arc=none smtp.client-ip=185.246.84.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1791914277; c=relaxed/simple;
+	bh=GugSwvMULIKBhmXbHEwlcQ42TI86YVxrh5vB+fzkqc0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EfwJL0B8Ww8UWeP+HtjHfRuxKs/GWZavQA8RNb4TBJwI3opitFFK4HIVvSK7XTUP/ztkBhWXn1dlaKDqixydJNzH65EvOfvDeb0xQu/EXjkPJyF8ja3ikEHrk+/Oxj7kDrGt4ekGhGRMoDx93cBEd+BoSuPgk8w7aM4jHpvTlLY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MKOOWfUm; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="UkAYdMbo";
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="YAW7BOn0"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 2A2E11A1218
-	for <linux-sound@vger.kernel.org>; Tue, 13 Oct 2026 17:51:23 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id EB16E60362
-	for <linux-sound@vger.kernel.org>; Tue, 13 Oct 2026 17:51:22 +0000 (UTC)
-Received: by mail.galae.net (Postcow, from userid 0)
-	id 6E95411D7183A; Tue, 13 Oct 2026 19:48:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1791913882; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=i9zMtqlaeC/N/r/1IZp7EGtF4TlbMbXPfFl8uC42X1Y=;
-	b=UkAYdMboS5eP44+mgwHvEgH6VjXUk5JiJavOkxk4rsFHQPVtDryNqhWdnj+WAQiANhQT9J
-	XuJMHPDrkKNpk9XXxLN8Te6IK9BvOPLw6+dfsJMlzHT9jrXx16WolzoUhjDbmezwUi4JN9
-	+8quMijLYJ2LkPgFw6RW8haCXU5dVMg6y0Yt9cDi6xkiZnyyfXc55h1OZolud8bmwJ1U08
-	7v4GNCxh5DxeviaMlwqnkEu7RR5G8c7SFsoevn/swfHSIZ4ZjCOt07vpsuleFp3V12KCbE
-	WznguuVUFq3sydAReN1r6Sh6KFZ6vxdMl/22GxYAlnETiG1+x6bh7ec+W+EAOQ==
-Authentication-Results: mail.galae.net;
-	none
-Received: from mail.galae.net ([172.22.1.253])
-	by 9e7fea892943 with LMTP
-	id ODClAdbuzGqsGBEAtaWaaQ
-	(envelope-from <herve.codina@bootlin.com>)
-	for <herve.codina@bootlin.com>; Mon, 12 Oct 2026 16:29:42 +0200
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 5603D11D70CC0;
-	Mon, 12 Oct 2026 16:29:33 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1791815379; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=i9zMtqlaeC/N/r/1IZp7EGtF4TlbMbXPfFl8uC42X1Y=;
-	b=YAW7BOn0WCrHZnoFCxPET1QsUZ5WQIGv6Fi0hjmiBAzPVp3UmvJs9B+pVqdpEuWD2wBInS
-	p2zR0m0wEqWfsbEQ/fSqijufblgFv+OLYVhOxkkDE/SaDy/ydDcKEHEvRcUlhhmTCfNcul
-	3PdMduGzOC9JfcAOW0RG0fi3MFGgvU9uWur2Y3y6si8GrHb7OQLG4qW0txznL5Wt70N5GF
-	i1hyBBcihri1YMf1ccstAjNAStP7xzgvIMLJowyLUasNDOQHdHH6NgMginleemvth1Wz2B
-	wSTYtqb8fHGm1Svf/R8ftUz5aaCFiuEee4z/fGi6VTSU9JgGGfytL3nz8eFdwg==
-From: Herve Codina <herve.codina@bootlin.com>
-To: Richard Cheng <icheng@nvidia.com>,
-	Andrew Lunn <andrew@lunn.ch>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MKOOWfUm"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4a02718da81so26350165e9.1
+        for <linux-sound@vger.kernel.org>; Tue, 13 Oct 2026 10:57:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791914273; x=1792519073; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Q6ZTA5XoiG06DywZLo1HdZL0nmmg1bBIa4aTddTkmMk=;
+        b=MKOOWfUmQEIt5C8mAFKmz6/x3xJrZ4SbFYAuyJb3z6diSUHP8rN10ysxSd6nWErz9c
+         rYfBnZlEdzQ8jCid7o6v5JzzQuuHccw3s93E2FwJOnAcGrfZnZHmZP1gstWtP27yWdWi
+         mzVTT6NHUua0wdkDPwRCkfUFsRdoAlgo95dYrdCDfm5W2ecuGYTvazqJy7sYQX9lMq48
+         XDusO6PUDZzv/VUN3bZjH8vXFbGgbIMsj8V+YK4nnsD2qMofLDtlJqUaaUwnup9+J3D/
+         /dGAZrV/hCDNsb1Q69g6FDWNXTQPZToHGdZDzzlIK9DHixhDxaN4BlVCb/s5IwSiigNV
+         z9jQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791914273; x=1792519073;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Q6ZTA5XoiG06DywZLo1HdZL0nmmg1bBIa4aTddTkmMk=;
+        b=c1kVJln2glB37p/yc6LvfXYGnjSMULW88007PLItpknlizrlJ1Oix8SFR04dP6pbni
+         +evS+Rou7s/k8l+2C3ED0bDHEXa17hiYlc7PJ4z+5NA4wSUx1FFyTrhDS3UZZk7mI+mE
+         z+xW/Z/OSOGvGcrsVgJeGQB/SjPyBQvD7J9ELOlnlSfN4LK9JFYtsblbd5p9oVu53Ilo
+         MWw+Fo2p9q1Q1V8iT91yPYU5IjsbTAESyM/h/RSdDS68UynZqnpHfJ+QiIy6BobKSNVC
+         D3xBPYITDpr/Q+g8iJfVu00XlsqrAwhGcP8yWY9QWocBwRUsg16l+EEUwIPv51dzZ7yY
+         PZ/w==
+X-Gm-Message-State: AFq9FYIRdbEIwR/Z8ZpfQzKLgkDMpGJyzbuKL1/h6Dlx5+85BzA++3oL
+	gt+PSnss83s8epryunCdnsNCdcOsLcHlyjCXTVxA3QxGAu9x4q2xrJsI
+X-Gm-Gg: AYBFou1GOnhzsBAcElVODxHdmoWtyMlfE1vWudk9n4bY01VwqkKuLkpMbQEty4dDHoP
+	6ekKfQXCsbSDe0v9R8cDGX9qvhJsOCC8W07I7e2+/hdaAXTf9f4H+tJkygZUoyQwCTuLDLNDo/W
+	dnODsQovTpOc6kjIUpp1tDpOkZJqfS8IC1AGHVkJJ/XfECIDwP8TCqq2FhnmtbN4CAEkLmTZgYF
+	Oeb38FE7+GU1+tSiVLwyzZj5yczZEO88aAE2YZGqjgAl/ndrH1j9tDEYcdA/VcAv+1gU5++Of7+
+	oZbPdGNJfv00PqcTlx1bm6ZLItTTVSlFg6H8g2iDSh1LvLMhormkqE26Z13OCOx4goXF9V3/+/f
+	vZxAJur+xZwr6UrGB0KG4zl7ZHRjcJYDdU2Ml+mqThQd3IXIUCC45boBW//0U5vfrACuBr4EzxC
+	ZzynCs9sxFa+Je8WK9/lMlMDLwOEP+XTpEctHB6L3fglF2SUFYBKseNtFHsRK3H9hnQSGpgeqfC
+	7rUavopGqggBEB4zZl+
+X-Received: by 2002:a05:600c:8706:b0:4a0:1efa:c74a with SMTP id 5b1f17b1804b1-4a18e4b0f6amr249667145e9.20.1791914272805;
+        Tue, 13 Oct 2026 10:57:52 -0700 (PDT)
+Received: from xeon ([188.163.112.62])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a18f3b43efsm447804745e9.1.2026.10.13.10.57.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Oct 2026 10:57:52 -0700 (PDT)
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
 	Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Linus Walleij <linusw@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Len Brown <lenb@kernel.org>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Dan Williams <djbw@kernel.org>,
-	Ira Weiny <iweiny@kernel.org>,
-	Li Ming <ming.li@zohomail.com>,
-	Herve Codina <herve.codina@bootlin.com>,
-	Lizhi Hou <lizhi.hou@amd.com>
-Cc: driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	linux-gpio@vger.kernel.org,
-	linux-acpi@vger.kernel.org,
-	linux-cxl@vger.kernel.org,
-	Allan Nielsen <allan.nielsen@microchip.com>,
-	Horatiu Vultur <horatiu.vultur@microchip.com>,
-	Daniel Machon <daniel.machon@microchip.com>,
-	Steen Hegelund <steen.hegelund@microchip.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	stable@vger.kernel.org,
-	Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Subject: [PATCH v13 06/10] PCI: of: Use fw_devlink_set_device()
-Date: Mon, 12 Oct 2026 16:28:20 +0200
-Message-ID: <20261012142826.159178-7-herve.codina@bootlin.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261012142826.159178-1-herve.codina@bootlin.com>
-References: <20261012142826.159178-1-herve.codina@bootlin.com>
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v1 0/2] ASoC: codecs: Add support for Fortemedia FM34NE DSP
+Date: Tue, 13 Oct 2026 20:57:30 +0300
+Message-ID: <20261013175735.473704-1-clamor95@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -111,66 +79,24 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
-X-Last-TLS-Session-Version: None
-X-Rspamd-Queue-Id: 6E95411D7183A
-X-Spamd-Result: default: False [0.55 / 30.00];
-	BAYES_HAM(-1.95)[87.84%];
-	DATE_IN_PAST(1.00)[27];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_NO_TLS_LAST(0.10)[];
-	URIBL_BLOCKED(0.00)[fwnode.dev:url,intel.com:email,localhost:rdns,localhost:helo,nvidia.com:email,bootlin.com:mid,bootlin.com:email,qualcomm.com:email];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	BCC(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[herve.codina@bootlin.com];
-	RCPT_COUNT_TWELVE(0.00)[45];
-	PREVIOUSLY_DELIVERED(0.00)[herve.codina@bootlin.com];
-	DKIM_SIGNED(0.00)[bootlin.com:s=dkim];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[nvidia.com,lunn.ch,kernel.org,linuxfoundation.org,google.com,opensource.cirrus.com,cirrus.com,linux.intel.com,gmail.com,stgolabs.net,intel.com,zohomail.com,bootlin.com,amd.com];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	MAILCOW_DOMAIN_HEADER_FROM(0.00)[bootlin.com]
 
-The code set directly fwnode.dev field.
+The Fortemedia FM34NE is digital sound processing chip used for
+active noise suppression mainly on ASUS Transformers.
 
-Use the dedicated fw_devlink_set_device() helper to perform this
-operation.
+Svyatoslav Ryhel (2):
+  ASoC: dt-bindings: Document FM34NE DSP
+  ASoC: codecs: Add support for Fortemedia FM34NE DSP
 
-Cc: stable@vger.kernel.org
-Signed-off-by: Herve Codina <herve.codina@bootlin.com>
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Acked-by: Bjorn Helgaas <bhelgaas@google.com>
-Reviewed-by: Richard Cheng <icheng@nvidia.com>
-Acked-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
-Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
----
-Cc stable because used by other patches with Fixes + Cc stable
----
- drivers/pci/of.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../bindings/sound/asus,tf201-dsp.yaml        |   80 ++
+ sound/soc/codecs/Kconfig                      |   12 +
+ sound/soc/codecs/Makefile                     |    2 +
+ sound/soc/codecs/fm34ne-dsp.c                 |  388 +++++++
+ sound/soc/codecs/fm34ne-dsp.h                 | 1030 +++++++++++++++++
+ 5 files changed, 1512 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/sound/asus,tf201-dsp.yaml
+ create mode 100644 sound/soc/codecs/fm34ne-dsp.c
+ create mode 100644 sound/soc/codecs/fm34ne-dsp.h
 
-diff --git a/drivers/pci/of.c b/drivers/pci/of.c
-index a51dff91b196..0f45c5b72458 100644
---- a/drivers/pci/of.c
-+++ b/drivers/pci/of.c
-@@ -882,7 +882,7 @@ void of_pci_make_host_bridge_node(struct pci_host_bridge *bridge)
- 	 * bus. Avoid any new device creation.
- 	 */
- 	of_node_set_flag(np, OF_POPULATED);
--	np->fwnode.dev = &bridge->dev;
-+	fw_devlink_set_device(&np->fwnode, &bridge->dev);
- 	fwnode_dev_initialized(&np->fwnode, true);
- 
- 	ret = of_changeset_apply(cset);
 -- 
-2.55.0
+2.53.0
 
