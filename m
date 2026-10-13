@@ -1,87 +1,86 @@
-Received: from mx.swemel.ru (mx.swemel.ru [95.143.211.150])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C56623C3F7B;
-	Wed, 14 Oct 2026 10:26:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.143.211.150
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12F9847D44C;
+	Wed, 14 Oct 2026 10:28:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791973586; cv=none; b=WKyrrR1RjVOLkB5Y2prs3V3ttuB85YIk//V7UpmXEVHcNjQ65rJsAPOq8jv2VgaLFAVcpFOD3ZCQwYLsAesO9HVDCJCenQ4MiCMoPbyHZniJQTQsvqIh3kbc3djeaEHeBM87L2s/BgJjnjs33wzPDEICYxxfEVEU8ZzZywOjO+o=
+	t=1791973707; cv=none; b=QFhCsikN5t81WtguL1oq7cGCRY12Yn+HYHUbPwKeDZAlNQ9Rki9o6rPbpGAl+3/FduV4yoGxlWKbsLgyaf2mdgsP1siSN8AIgOY/W5fD9G0k6b3MEtWljzLp0y3C/pJ/gSmss7yx90NpPvF7tO5nNQTswoDrzuZ5g8Ev9edHiv4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791973586; c=relaxed/simple;
-	bh=eEwD/rk+GiCQSggNZcLZ8E08bkpy39mNXadrL1hxNpY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Lclg9vKgaBf0s9fDaUVM5JQhKy2oPlrccrn17Ls/GuwXPEXpEo7Npc0QFWQsGPYZEohlvVKD9q98zQsWx9X9/ghBlcxZEkK0xe5zSbVKO2GLeu7uBBq5uWjlVQi3HAfhK2Yb5qD2PiVxCG6o2Zbc7UGcYuLV4mQJcL0pRTU47kY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=swemel.ru; spf=pass smtp.mailfrom=swemel.ru; dkim=pass (1024-bit key) header.d=swemel.ru header.i=@swemel.ru header.b=kl5+lJwP; arc=none smtp.client-ip=95.143.211.150
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=swemel.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=swemel.ru
+	s=arc-20240116; t=1791973707; c=relaxed/simple;
+	bh=gLXFpV/UlSmNQkqR2Rdz3HkhcsW+kLh1NWeSv2ZMPtw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=PAeU3YKYBrVwvQGwFqlsVCClIssHeBs8sx+BiQ6bW8sNQAQ8Zk+F2c8Bw/LJHe2UX6j91JtHi6R9tuhYhwq97t5rc2NtepAfXR01UB0k1SHVEgFDYwE8ZtjbXYqQmEHJGCZC9ZRWnyRxJISJYmzXXupCT5HHAjNW2b9hI81l4p8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P15UsQme; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=swemel.ru header.i=@swemel.ru header.b="kl5+lJwP"
-From: Denis Arefev <arefev@swemel.ru>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=swemel.ru; s=mail;
-	t=1791973579;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=eUD8b20Zl7D+KHbQzbiKippwor7cNZzQh1VqHI5iaAc=;
-	b=kl5+lJwPHteYy6k/3BZBpOidZJcjs9Y4DCcfjQtYQ0nfPIlEzWdGxA+slzjuLi9uIYULBH
-	fQL5KqwgRm5tgtta/EyAPiAwAcRDBv+nSsJ4E7pWAaYdvAkXiWYgZjPRUWygTxVQ5mxP6c
-	uH5H6OYjFWGqYkWEigFfU8SkcKAmmhw=
-To: Jaroslav Kysela <perex@perex.cz>
-Cc: Takashi Iwai <tiwai@suse.com>,
-	Kees Cook <kees@kernel.org>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	lvc-project@linuxtesting.org,
-	stable@vger.kernel.org
-Subject: [PATCH] ALSA: cs46xx: fix unit mismatch in DSP code area bounds check
-Date: Wed, 14 Oct 2026 13:26:18 +0300
-Message-ID: <20261014102619.16415-1-arefev@swemel.ru>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P15UsQme"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 787F61F000FF;
+	Wed, 14 Oct 2026 10:28:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791973705;
+	bh=g4I3kZoi15a0UkSM62MyWrUzqeI7cpQOpRjyqBPRNhw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=P15UsQme0YnqBoiYrmd+fcc97oId+yeim30d9o63UttqSuu7mzASNXMcdQtU+uBLj
+	 eFfWPhIZ/wWk4OO5jHI1kTUUmU+f0LXp9YmUZBIg5QEtnSDPfODpwNakYbG01yo9jo
+	 PQDRmCY8ytwfXEQMQsTrs0K5yl6kTdDlaOTW12BW1GvzGxJSZ+IU/wEY29i/Kh+UIn
+	 kv957f/NB6AyHSIggC8YrT+EAcJr9JymcZWOlMCP7G0SkxQfOLz0+hkshdt3McI6IY
+	 Kb/fTlKASWVuk4gUn1EXpA0ZpXi/3xL+/8YHXOL8VFh+45R+e5Gl2OvOyy2HQldUve
+	 R6/8NscskCr/g==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Zain Aboobacker <zainaboobacker33@gmail.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20260926162533.25395-1-zainaboobacker33@gmail.com>
+References: <20260926162533.25395-1-zainaboobacker33@gmail.com>
+Subject: Re: [PATCH] ASoC: codecs: nau8825: fix typos in comments
+Message-Id: <179192410550.1606900.6359582118153179405.b4-ty@b4>
+Date: Tue, 13 Oct 2026 21:41:45 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1109; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=gLXFpV/UlSmNQkqR2Rdz3HkhcsW+kLh1NWeSv2ZMPtw=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLLOR7pN05E7UfjHiF9G9/q7kz82LjB69PXOg4PK/3Pff
+ bIpf3P6U0cpC4MYF4OsmCJLXBb3y/qS12v4Di5sg5nDygQyhIGLUwAmMlGBkeFwxV3P4DkHfsnZ
+ Wa9umqN5Nvvrq1sRUb+7RF4acW4refyJ4X86x8fvb54fj/D5cCzLx3bjm4ePFNYc9msV1zFb3yd
+ TcZMBAA==
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-ins->code.offset and code->size are measured in 32-bit words, while
-DSP_CODE_BYTE_SIZE is the size of the DSP code area in bytes. The
-check ins->code.offset + code->size > DSP_CODE_BYTE_SIZE in
-cs46xx_dsp_load_module() therefore allowed up to four times more code
-than the code area can hold.
+On Sat, 26 Sep 2026 12:25:33 -0400, Zain Aboobacker wrote:
+> ASoC: codecs: nau8825: fix typos in comments
 
-The shadow buffer ins->code.data is allocated with
-kmalloc(DSP_CODE_BYTE_SIZE), i.e. it holds DSP_CODE_BYTE_SIZE/4
-words. A firmware file with a code segment larger than
-DSP_CODE_BYTE_SIZE/4 words (28 KiB) passed the check and caused an
-out-of-bounds write in shadow_and_reallocate_code() and an
-out-of-bounds read in snd_cs46xx_download().
+Applied to
 
-Compare the sum in words against DSP_CODE_BYTE_SIZE/4 and cast it to
-u64 so that the sum cannot wrap for large code->size values.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
 
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
+Thanks!
 
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Cc: stable@vger.kernel.org
-Signed-off-by: Denis Arefev <arefev@swemel.ru>
----
- Compile tested only
- sound/pci/cs46xx/dsp_spos.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+[1/1] ASoC: codecs: nau8825: fix typos in comments
+      https://git.kernel.org/broonie/sound/c/20b2f7f75623
 
-diff --git a/sound/pci/cs46xx/dsp_spos.c b/sound/pci/cs46xx/dsp_spos.c
-index 6fd4f629d1d5..a77e6f5a14ad 100644
---- a/sound/pci/cs46xx/dsp_spos.c
-+++ b/sound/pci/cs46xx/dsp_spos.c
-@@ -393,7 +393,7 @@ int cs46xx_dsp_load_module (struct snd_cs46xx * chip, struct dsp_module_desc * m
- 		dev_dbg(chip->card->dev,
- 			"dsp_spos: module got no code segment\n");
- 	} else {
--		if (ins->code.offset + code->size > DSP_CODE_BYTE_SIZE) {
-+		if ((u64)ins->code.offset + code->size > DSP_CODE_BYTE_SIZE / 4) {
- 			dev_err(chip->card->dev,
- 				"dsp_spos: no space available in DSP\n");
- 			return -ENOMEM;
--- 
-2.43.0
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
