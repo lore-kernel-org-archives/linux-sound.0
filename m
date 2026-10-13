@@ -1,61 +1,63 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96DCF496D51
-	for <linux-sound@vger.kernel.org>; Tue, 13 Oct 2026 18:32:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36EDF49AA30
+	for <linux-sound@vger.kernel.org>; Tue, 13 Oct 2026 18:32:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791916361; cv=none; b=ODrJFsH+FtZMR6BzrqeqXBFeWL0QPHgMg0BgBKLjrXqqHub/yxmTtJcWFsgBSGg7ybfUQyYXgYEH5Cqo1tadIYpgUQlVRU1RMKARHOAvkeSGOLMpndrTl11UomS7j7q5B7vDb8NVuM+wqPgMRgcoX+He0MC1oaN238Z4TVqDef4=
+	t=1791916362; cv=none; b=Y/S4hIExTKfmBzJ1BOxsrQMP9D/nkpcYY7ZFoWQG7dGE95B6dAGebReRbM0ce6y/VyeI2qR89EekF92VJj4ogK/CLWmESDfaWvW3OhaMWjSWoaKLa6bhOjWFfctRSy8VpoA7FALS2PNTkP+i8rkcKVaxXJoHWjGg7t3L8ddFuNk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791916361; c=relaxed/simple;
-	bh=coCkx+On/PYyms59yzcyUxSZaTFniVRkfGkf4kFQfdo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IRb7tpLMKHtie5ZVazbKATRXwyB8vuQ0GJd4NgN/ieCh0R7w8BT7fdNVWHx8dfKxFEvAIK1t6qhL9RZm561zQhjwImYSqX9+Bo/yCnAwW2/py7pGeIX8Rsypyd9ZpTBbhiw3wiQ6FjqLTnkxp9owHv6Vpfz9jwT1KPXEUYC4qKM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=flswW5Xp; arc=none smtp.client-ip=209.85.128.51
+	s=arc-20240116; t=1791916362; c=relaxed/simple;
+	bh=sRh2h9zB1an4fHHdjoUBYWc1yZ5+jD2WIHwZzPaCqjM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=J/pw5rewdfqcImDpqvwYVg+syGSeVVEtieddzX2X0MjtrlHqSv/LgWgWnB+DKVPmuJsupkaTfwuCgOPGP7xx8TMfYiOZHRkC70q5IqwKuIAmJbgTd2Y/EJdUCPVGPgUTI+cDo3YBb/QyGl8wcZdjU9FIv0k0BRTneMMsM0FL360=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Fy+b4oJ8; arc=none smtp.client-ip=209.85.128.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="flswW5Xp"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a1635f7c89so1886085e9.2
-        for <linux-sound@vger.kernel.org>; Tue, 13 Oct 2026 11:32:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fy+b4oJ8"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4a02667ccebso23828385e9.0
+        for <linux-sound@vger.kernel.org>; Tue, 13 Oct 2026 11:32:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791916357; x=1792521157; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=C6xu/m6gLmnhmuK37G0mkWpbfD0iKHbUJbBWVpw5Q+Q=;
-        b=flswW5XpxZC/2Q8jDTyXpWt9BiMv+mvr5R/28HN004YKnIFZjdaWyhvcKlObT3dKSL
-         HIZ3v+IZTgwDdIDtBRAwgSiiJIYDKsJcczvBZokR8gORGxRdRHKDJYxKD47lSICJXJBk
-         d+ryhQwA3gdu/Tejk/DW5RVdoGWc2l2XGxLn273PRsf/oR1Fl42AfGFPw/JBKMYjpx29
-         uP5gbm3g9IhOn5/f+UBaNvZzk+LxAaOaSgbWrCIWgXWuaNPB6QauZIaP0b9I61IoR1pp
-         WnwlvajSk4wUo5jOlEOT6LwHh6s4XekGwmDNwgXYyRM4ud4SPSr5evnG1VMiX4bMMNIx
-         K/ng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791916357; x=1792521157;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1791916358; x=1792521158; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=C6xu/m6gLmnhmuK37G0mkWpbfD0iKHbUJbBWVpw5Q+Q=;
-        b=Isr1jLvhWyja03/1h/pwoG7CeWONSczFJF9fMafoxPlhrW/EEvpFfmDeyDw8Qagect
-         mqopMP8jdbPJYP3xRYJARDEAdRJXA1opAvz48MbDv19pqD4KiAbe9nSUOqJQqz8ELLX+
-         kHkosgKhTEtM4lfbSnz08K1R69Nk4Bsw8q4elmqm+6jB6dIJeYjq3FIx4NGUDSXCiqMz
-         2q1BgP8wpcUEnLdV0YVqfbEUy2EUhNTU9jvlYx07d9vvguq7Fbs/7OPyLD0yZi1sFQYz
-         ikYMsTL/ALmqgvm/o+/t/PuRC+hbU0JMRhtQs86xJ/UbNj3F0jp9/F1WZeWfouLg1/B1
-         5pPg==
-X-Gm-Message-State: AFq9FYIcL9Bjm8EKsD4bkGslxTl3bqNn7DkDeIXPFpNUuDtIqKicIDMZ
-	VRnQdu99WBhtJqgaMF+X++5kskYTIAKXZz3JGlUa50PxjBG7Vu/OTOo4
-X-Gm-Gg: AYBFou2QQ96iLlJvQ9XAwI/fxczXf/cJm2Q5GBGFir1BgsS4upFGhbCMIG5/iIRo/vQ
-	YEBxpwhT3rcFARh44fuQoc+zquaeNDD+ko7G7iudAol5CWV/KuMpuvkqjdgV/e4KWrn+gX93NpI
-	sW7TTz8kIYOPOpMZm4iHoGRmkgzCQMDmwePF3ojkdtNKpN81saj5XZjkFIZnncslG8iykm89hmS
-	UF7353SR6sKqnIeojThhYCk9nDwerWi5YL3KYsolG6TvzblBszyG8DGnmswZ0bd9UyljQ1lQTbc
-	7DaAtSZgcKGyNLCe2ZpSPTFfOIRBsM58MbaqlQqJ3iRDO60XoszvZoPQCF+fXRci7bxsvthPEet
-	2+oa3WbUx+Y9J4nhQgVWocfTfrQRyM2sQmcwFl8W7Z+8YiZKV8P5UDFSouAYlrkNGXT7HbvtxfJ
-	66sF1oGG6ewjIzpc+outNuhKD7GIsWl51zkkYHLTdgI9/OwgYpsoaStBlQrWFmbFOUPV3RsXM+m
-	m2m+Bt7B+QRFH5TRAM=
-X-Received: by 2002:a05:600c:6289:b0:4a1:a475:d885 with SMTP id 5b1f17b1804b1-4a1a475d8acmr98966005e9.34.1791916356633;
-        Tue, 13 Oct 2026 11:32:36 -0700 (PDT)
+        bh=kREpI8m4G/QZhA7u4s2/uYr0oWTkEgsKQc7fRL7IuIU=;
+        b=Fy+b4oJ8OF84+GRKg1LZS8p6A0387DQKq1ZTnr5UxFHmr6he2CmvuknxsCtvFLjy/u
+         kEFT4tIdfvmZJ03+g9bzWdfG4SwSjw2lnrZJhPZWPBkjqfZpPgkawZD0jcHR59W3F6KD
+         RMVYDZzOYfxdJysmh48D//1Qz7pvCpfBzro33L8roe/jZOQlMdZEI4OhY/LCIKjfcNc6
+         zumA/cnOzY9GHLsITxBuYWT3IEa+CLIifjwWYzNBcgoTUfgYyQzR3/bVKb+tPd7wNrbm
+         q4u6LUVxJ31iJ/w89bs23o2a53puFrfWbfckJjd1+OfrWyyr+vXJPsbfkFydUuOodXqX
+         o5Fg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791916358; x=1792521158;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=kREpI8m4G/QZhA7u4s2/uYr0oWTkEgsKQc7fRL7IuIU=;
+        b=IK3in94U8WORDoQQJVOKwMM0q3AjrGsxpO5WsqiUzEoeU/2WtAQa5wo4UcfVjMVDBb
+         nXxgzNmdOZaHcIAyuVq/qZRXK0Oev3wFh/UVj+MG8DuwjXYPRHp5ArJVLFMHmaHZ9qbt
+         h5M4aASbGSrNWeKtZbROp4Dw5Vzhd7igtZZ02RvV7acLJpBAOGbU3WxvsKiPeG7yrqPK
+         eoPqItwFnj9bVrb2Ka4j+j1GG0G8X9j0oU2VtEK9Nmrf8Q5EAmEiP5vVkOpnrShy0jZt
+         bSE9XG31C0w2UyeQy8uzU5a72qPEGH8nCf44fC/EVjJdqmTXy08YahSCGLCAbPXMUVCn
+         /aJw==
+X-Gm-Message-State: AFq9FYJVbULX3EYorb5ZqL+Tcfg89TuMiGPVh4ReFTUiEazDejEajN7U
+	6Lx+j1C4lxY50sjmMLn+nN2CsiJrFdy3t9LjdOhPLiEPvyUgcm3xXex1
+X-Gm-Gg: AYBFou0eUSIZAhXATWmZhamgaDZ2to/Pi0f8mDMOb/jUZtr3/5NXPQexoq7qpgYS+fl
+	JspRFJRo0MrtaUPdzY3nRqBZN6Fb10MMBymV3PpW5/7tHUz90xPe3wZiZsZVC16DxCySaYz7ft6
+	GR56X7ZEO+aSo9suQVqtstSEjih6534iw3elVzODNU93PyiIlva+86hwPX252OJbTQEQj/V0LKd
+	QJnb/iJvn7Z4bE829Kvt2rbfej/h7gOWGP63pAK+g76l9mu+qwmO3VR1atv/Zi4RRIGEWBp6R1E
+	PPQUg4oJtOxFDtp7wYeeEXSciYlroWkk4NoNFCT4CzkkRKVB+sBHZNqjVEyfXBgvJpkKR/yfGvO
+	DWn0PnoT5DRq+0ZUR6CMCIALeH3yZwT7UvgzTgf/ni+D1AihBM7BzuwF+Rgv/pNdEKK43m8Unxu
+	0TPxciPqqI1a2L+DkNfSyf+VS2MWTWIm1dOt4bGmYP/sGyoNg5843NH37aJjexH8kr8dhifH2CF
+	z9k2AKHrJQa2DZ+Du8=
+X-Received: by 2002:a05:600c:548e:b0:4a0:1aa0:7cfa with SMTP id 5b1f17b1804b1-4a18e4aa724mr275921405e9.12.1791916358313;
+        Tue, 13 Oct 2026 11:32:38 -0700 (PDT)
 Received: from xeon ([188.163.112.62])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a18bea0f1csm548921305e9.9.2026.10.13.11.32.35
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a18bea0f1csm548921305e9.9.2026.10.13.11.32.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Oct 2026 11:32:36 -0700 (PDT)
+        Tue, 13 Oct 2026 11:32:37 -0700 (PDT)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
@@ -71,10 +73,12 @@ Cc: linux-sound@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-tegra@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v1 0/2] ASoC: tegra: Support WM8994 by machine driver
-Date: Tue, 13 Oct 2026 21:32:24 +0300
-Message-ID: <20261013183226.513658-1-clamor95@gmail.com>
+Subject: [PATCH v1 1/2] ASoC: dt-bindings: nvidia,tegra-audio: document WM8994 CODEC
+Date: Tue, 13 Oct 2026 21:32:25 +0300
+Message-ID: <20261013183226.513658-2-clamor95@gmail.com>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261013183226.513658-1-clamor95@gmail.com>
+References: <20261013183226.513658-1-clamor95@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -83,22 +87,129 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add Wolfson Microelectronics WM8994 codec support to the Tegra ASoC
-machine driver. The WM8994 codec is found on devices like LG Optimus 2X
-(P990/star) and Samsung Captivate Glide (SGH-i927).
+Add dt-binding for WM8994 CODEC.
 
-Svyatoslav Ryhel (2):
-  ASoC: dt-bindings: nvidia,tegra-audio: document WM8994 CODEC
-  ASoC: tegra: Support WM8994 by machine driver
-
- .../sound/nvidia,tegra-audio-wm8994.yaml      | 109 +++++++++++
- sound/soc/tegra/Kconfig                       |  10 ++
- sound/soc/tegra/Makefile                      |   2 +
- sound/soc/tegra/tegra_wm8994.c                | 169 ++++++++++++++++++
- 4 files changed, 290 insertions(+)
+Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+---
+ .../sound/nvidia,tegra-audio-wm8994.yaml      | 109 ++++++++++++++++++
+ 1 file changed, 109 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/sound/nvidia,tegra-audio-wm8994.yaml
- create mode 100644 sound/soc/tegra/tegra_wm8994.c
 
+diff --git a/Documentation/devicetree/bindings/sound/nvidia,tegra-audio-wm8994.yaml b/Documentation/devicetree/bindings/sound/nvidia,tegra-audio-wm8994.yaml
+new file mode 100644
+index 0000000000000..3c9a055f5e4bd
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/nvidia,tegra-audio-wm8994.yaml
+@@ -0,0 +1,109 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/nvidia,tegra-audio-wm8994.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: NVIDIA Tegra audio complex with WM8994 CODEC
++
++maintainers:
++  - Svyatoslav Ryhel <clamor95@gmail.com>
++
++allOf:
++  - $ref: nvidia,tegra-audio-common.yaml#
++
++properties:
++  compatible:
++    items:
++      - pattern: '^[a-z0-9]+,tegra-audio-wm8994(-[a-z0-9]+)+$'
++      - const: nvidia,tegra-audio-wm8994
++
++  nvidia,audio-routing:
++    $ref: /schemas/types.yaml#/definitions/non-unique-string-array
++    description: |
++      A list of the connections between audio components.
++      Each entry is a pair of strings, the first being the connection's sink,
++      the second being the connection's source. Valid names for sources and
++      sinks are the pins (documented in the binding document),
++      and the jacks on the board.
++    minItems: 2
++    items:
++      enum:
++        # Board Connectors
++        - Headphone Jack
++        - Int Spk
++        - Earpiece
++        - Line Out
++        - Mic Jack
++        - Int Mic
++        - Internal Mic 1
++        - Internal Mic 2
++
++        # CODEC Pins
++        - SPKOUTLP
++        - SPKOUTLN
++        - SPKOUTRP
++        - SPKOUTRN
++        - HPOUT1L
++        - HPOUT1R
++        - HPOUT2P
++        - HPOUT2N
++        - LINEOUT1P
++        - LINEOUT1N
++        - LINEOUT2P
++        - LINEOUT2N
++        - IN1LN
++        - IN1LP
++        - IN2LN
++        - IN2LP:VXRN
++        - IN1RN
++        - IN1RP
++        - IN2RN
++        - IN2RP:VXRP
++        - DMIC1DAT
++        - DMIC2DAT
++        - MICBIAS1
++        - MICBIAS2
++
++required:
++  - nvidia,i2s-controller
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/tegra20-car.h>
++    #include <dt-bindings/gpio/gpio.h>
++
++    sound {
++        compatible = "lg,tegra-audio-wm8994-star",
++                     "nvidia,tegra-audio-wm8994";
++        nvidia,model = "LG Optimus 2X WM8994";
++
++        nvidia,audio-routing =
++                "Headphone Jack", "HPOUT1L",
++                "Headphone Jack", "HPOUT1R",
++                "Int Spk", "SPKOUTLN",
++                "Int Spk", "SPKOUTLP",
++                "Earpiece", "HPOUT2N",
++                "Earpiece", "HPOUT2P",
++                "IN2RN", "MICBIAS2",
++                "IN2RN", "Mic Jack",
++                "IN1LN", "MICBIAS1",
++                "IN1LN", "Internal Mic 1",
++                "IN1RN", "MICBIAS1",
++                "IN1RN", "Internal Mic 2";
++
++        nvidia,i2s-controller = <&tegra_i2s1>;
++        nvidia,audio-codec = <&wm8994>;
++
++        nvidia,hp-det-gpios = <&gpio 51 GPIO_ACTIVE_HIGH>;
++        nvidia,mic-det-gpios = <&gpio 27 GPIO_ACTIVE_HIGH>;
++        nvidia,ext-mic-en-gpios = <&gpio 57 GPIO_ACTIVE_HIGH>;
++        nvidia,coupled-mic-hp-det;
++
++        clocks = <&tegra_car TEGRA20_CLK_PLL_A>,
++                 <&tegra_car TEGRA20_CLK_PLL_A_OUT0>,
++                 <&tegra_car TEGRA20_CLK_CDEV1>;
++        clock-names = "pll_a", "pll_a_out0", "mclk";
++    };
 -- 
 2.53.0
 
