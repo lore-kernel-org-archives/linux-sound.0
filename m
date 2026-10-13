@@ -1,604 +1,176 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2C833E7654;
-	Tue, 13 Oct 2026 09:48:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791884923; cv=none; b=b9qGC7dgaZWVUHX6YTKfZsLetSl9TSs5O52D6hKzaZh1FNqo3kRPuZiVrgbu1/vKGfXn3EE5w37vlzXg6l2ROn+fHfLs7AtCTNHy1Q+2HWG7/MifDMdX9He03x20OnnD0uN5edXmpUQJ4JLwbGV2Bp821zap5VrYIk3+VXeqv1I=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791884923; c=relaxed/simple;
-	bh=nh9vtVwOL3Cgn2nF4nG41XLg2k83uLcXWeU0BQJPkIY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=I+qsLcvgYPBBv6qeK+KYqTVHO/3bpodnHZ3HDIf2WKntPf5Cvim8E8I/iwaj4qCsyRPBgge7wpg+++L04i2OzjtuvGHJRpy5hWQmNoPectRj3VL+nBvKoV+NRLY6NBs+JJ1/GMfyVexRfBsWkhMETVhP2UoAstH3RmVky403ajE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=eJLM1GN9; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 288C33DE425;
+	Tue, 13 Oct 2026 09:50:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791885043; cv=fail; b=nAFQvcWeN1nqwW9AMKsES1XGj1BXqHN+pvMXTnTtrE5Jn/sCrG/+mW/fLEJgUWOWMxejKV5Y8ByYAOaq1wvWzCFLjULLadCryydPTsBnNQjn3lw/3kjcOVaylNME9o/Z+F09ooDl+IS6ee2EQOEYUo1Xs6/Dgqz4toAKByL2OTs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791885043; c=relaxed/simple;
+	bh=tVTMlgvgK1mlghYafVJFUlASq84M5QV/ZE1fMdEd+JY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZcbxjGYgodEA7rtX6rBcZ50PthaNAaeEuFFXvRWfzWZCVdXBUwYGVQNw8i78rBx1iZoypS3/5AWcubEP+55McrtGZY9IaZHqzIubgP6pR5GwA8jlky1g1HuASIyf/IZEB8v4CDAt7f+ZrvRO3xHKwlI4YlqJjvFI87qjY5OjF1c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=FyKJ4ZpM; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=pWXC4ceP; arc=fail smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="eJLM1GN9"
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69D8xvOA790919;
-	Tue, 13 Oct 2026 09:48:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	7RQDGtY1dI3TEbuXKT6v6BtPGtVCcL4nnnftA4y1ucA=; b=eJLM1GN9Jiceztod
-	g2lI7wmU8YpqzA9lkWWuIkC30TpAxRJ+XWHm67CtmYsG3DiM5/mbk/yIBPr4A3U3
-	IHDhOEvIs56xVgcMs650rum1FpWZbiWdQsFkfEtOqq46BXAKLN27CahkSSKKn1wW
-	P0GIkz4Zk66ZUvuHGbtrxZUAS2Z8M/BnQwtmRMXTSFSQF8e/LwesaBVKeIHIGAyF
-	x7Y6qTo83CsCt28FZMQVtO5q7YylHylzEFWNpce/m51dhchHqWt0ea5wHEsC68St
-	DPvnXJrSFMnBpH+r+iCu3aeG4TNioflrqQkKieEg1NCKzDpw6bwrIcLUZ4JDDuSu
-	4gDjTg==
-Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4h9hmjr6w8-18
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="FyKJ4ZpM";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="pWXC4ceP"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69D7sIRo2049197;
+	Tue, 13 Oct 2026 04:50:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	PODMain02222019; bh=tVXe0LqpeZyuTSmMokwxS3/dfLYrgTPdKsPhAxnRs7E=; b=
+	FyKJ4ZpM1mZgLcYmuzdfx20EkXG0mKDUQK+jOsEmlNuI3PWMM4l0tqDYF4i8Gm2W
+	QIgiOCTAxHcPkJK0iI4fPBaNcJ9Ie4aqysov7IaiYmeK9EZXnXoBymeR7X++jsNV
+	Hx+6cBb07x1ds6PXFPjMvWw6dGqTJi8G5TSUF+2Sy4A1aKGGoDe/Dotr89XjjMHL
+	gXwi/fESEDfHvu1TtzH5Ehr+i/d+S1FLoo+Y1fX+LHRsU8/jAaGAxk6DU8iwKDJc
+	kyHQqVz0ZEOLrCZLbnRiJT0uY85X38+d3MfbIcuYabJ/H4ulR6zrpV1D0jjwj+hh
+	EWCPcuM40u/3J30fTifsBw==
+Received: from ch1pr05cu001.outbound.protection.outlook.com (mail-northcentralusazon11020115.outbound.protection.outlook.com [52.101.193.115])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4h7jrxbfp7-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Tue, 13 Oct 2026 09:48:30 +0000 (GMT)
-Received: from pps.filterd (apblrppmta01.qualcomm.com [127.0.0.1])
-	by APBLRPPMTA01.qualcomm.com (8.18.1.11/8.18.1.11) with ESMTP id 69D5pmoT651504;
-	Tue, 13 Oct 2026 05:51:51 GMT
-Received: from hu-hgautam-hyd.qualcomm.com (hu-hgautam-hyd.qualcomm.com [10.147.247.91])
-	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTP id 69D5plAZ651483;
-	Tue, 13 Oct 2026 05:51:50 +0000 (GMT)
-From: Harendra Gautam <harendra.gautam@oss.qualcomm.com>
-Date: Tue, 13 Oct 2026 11:21:32 +0530
-Subject: [PATCH v9 09/10] ASoC: qcom: Add Shikra QAIF support
+	Tue, 13 Oct 2026 04:50:02 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=D+VlS2roBbBlXvuqGvQuOWTZMptOoFRijZHquhMQJj0Or8iuBZ5nqApvc46oEDcTdHhu934zeyob7+WmlaLdNhvlXc55vQDvhxp2kOKULXGE44TSQVP3LLJ0YfjBDpE7RjQK/J7zCdXz8tessUXefFvXaRjxAOFlLuqksZYLCUBJPBebL4BqJCsHFkkrZBhNH9uW2mHrCBAUfdTOI2PVwctD4LaNXD2nXDwsww4YjszDGsfmXp86Kleyim06Kisf/uKoU7KFxHeWN5HTUsNfzvHH8soAFmSuFlryjfsVbX6VHcaSxCSK7MsnzIj+bpYnGtzQUnDiAdtSkoe045uT4Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=tVXe0LqpeZyuTSmMokwxS3/dfLYrgTPdKsPhAxnRs7E=;
+ b=NHQ1mxvTmmFJi3tvAObEz4ID7fZyXbm8sUb6sR9zLdbUXNV35PZMWbOrDzBR1wuNQiJGdWQMTPbvC/3z2yL63n2xFKMYwATZoCJpXdVIZsyAHNRtWSkGeX6e9SzauWUCvsh4w7YJfItT42qF8f2OJcWJg3/cDzvbVqg6mDeQO4cBdkxrnJzPO8/tlx3Yz/dBlbawAFKO0eVgamZYC9yfyiMiKPsAecvayqiwD/riJNt7DQqeXtbAUcEvl2rDPG/Hd5TYgR266TjbHH02nl7+Vzo/T8gp5kkR0+cJLcejdsKl1Gffk+yv3rdIhunnrWbUVyB6PDhNuAqsP5GwYAfA4g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tVXe0LqpeZyuTSmMokwxS3/dfLYrgTPdKsPhAxnRs7E=;
+ b=pWXC4cePw0sxraYcRSxB2vk2jdVnH5Tg4SYEX4ZbTBIIKb3eO05zlyKmzH0dT7M0Uq4CuzNG6R+W2PVfzA+iCGD7IapAzWwI7EUd2frjrpV/TBsMdAiBdqt9FwgYqXih+z9Fjuiw3LhduMSEWuZo3pDAPBMMkRypYf05hVtMI5M=
+Received: from DS7P221CA0017.NAMP221.PROD.OUTLOOK.COM (2603:10b6:8:25c::7) by
+ DS2PR19MB9175.namprd19.prod.outlook.com (2603:10b6:8:2b1::12) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.522.12; Tue, 13 Oct 2026 09:49:55 +0000
+Received: from CY8PEPF00000059.namprd21.prod.outlook.com
+ (2603:10b6:8:25c:cafe::a6) by DS7P221CA0017.outlook.office365.com
+ (2603:10b6:8:25c::7) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.496.5 via Frontend Transport; Tue, 13
+ Oct 2026 09:49:55 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=softfail (sender
+ IP is 84.19.233.75) smtp.mailfrom=opensource.cirrus.com; dkim=none (message
+ not signed) header.d=none;dmarc=fail action=oreject
+ header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ CY8PEPF00000059.mail.protection.outlook.com (10.167.247.22) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.546.0
+ via Frontend Transport; Tue, 13 Oct 2026 09:49:54 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id EE54440654A;
+	Tue, 13 Oct 2026 09:49:52 +0000 (UTC)
+Received: from [198.90.208.11] (ediswws06.ad.cirrus.com [198.90.208.11])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id C9EEF82026C;
+	Tue, 13 Oct 2026 09:49:52 +0000 (UTC)
+Message-ID: <f4f633d8-cbd2-477c-8afe-9d00611a255c@opensource.cirrus.com>
+Date: Tue, 13 Oct 2026 10:49:52 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 4/9] firmware: cs_dsp: Give the control read/write KUnit
+ cases distinct names
+To: Mark <broonie@kernel.org>, Simon Trimmer <simont@opensource.cirrus.com>,
+        Charles Keepax <ckeepax@opensource.cirrus.com>,
+        Brendan Higgins <brendan.higgins@linux.dev>,
+        David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Randy Dunlap
+ <rdunlap@infradead.org>, Theodore Ts'o <tytso@mit.edu>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Baokun Li <libaokun@linux.alibaba.com>, Jan Kara <jack@suse.cz>,
+        Ojaswin Mujoo <ojaswin@linux.ibm.com>,
+        "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>,
+        Zhang Yi <yi.zhang@huawei.com>, David Rhodes <david.rhodes@cirrus.com>,
+        Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>
+Cc: patches@opensource.cirrus.com, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+        linux-doc@vger.kernel.org, linux-ext4@vger.kernel.org,
+        linux-sound@vger.kernel.org
+References: <20261013-kunit-param-names-v1-0-4b22ec5b85b9@kernel.org>
+ <20261013-kunit-param-names-v1-4-4b22ec5b85b9@kernel.org>
+Content-Language: en-GB
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+In-Reply-To: <20261013-kunit-param-names-v1-4-4b22ec5b85b9@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261013-b4-qaif-shikra-audio-v9-9-f3022e28f2fd@oss.qualcomm.com>
-References: <20261013-b4-qaif-shikra-audio-v9-0-f3022e28f2fd@oss.qualcomm.com>
-In-Reply-To: <20261013-b4-qaif-shikra-audio-v9-0-f3022e28f2fd@oss.qualcomm.com>
-To: Srinivas Kandagatla <srini@kernel.org>
-Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
-        Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
-        Sarath Ganapathiraju <sarath.ganapathiraju@oss.qualcomm.com>,
-        Kumar Anurag Singh <kumar.singh@oss.qualcomm.com>,
-        Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>,
-        Harendra Gautam <harendra.gautam@oss.qualcomm.com>
-X-Mailer: b4 0.15.2
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDEzMDAzOCBTYWx0ZWRfX+YU3GdyWx+Bh
- QMKk0OXVPwhx1Lgccg/mb32i+1LjKU0je3JMIIlAR1HIQO9eGE/71TZ2R0V5D9n6sRFH8t0jPMt
- GMsfCKWDYhEQUQNWFa1hUt54R+xgTrQ=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDEzMDAzOCBTYWx0ZWRfX40gMuJAy4PWl
- H+wQ9f+e6TAs9VCcNuDpbgzGuHppzhorckiaCPfABOU8KEQatGGPS4+u1LrYxhUiApULzU1LWdR
- 7pRtf2mxVUr5sw0Eh+g9/7yZXBRgmlKliWPOrDDbeM485Ib2Fr0afp+VbFdjkhrAj+B+h+G7XzR
- wYy6OTzXDT73bl9suCDSF2oV4E3HCxOkVotdtvi9Nzf8tvuhPY/NNvchr+Cuk43NOdhJIRVZfek
- OOQX3VXgsiMZ9CDySkcnLA45/yRUb7f7BtzlR3QEk2hRunXgnnC4QUmo+emfz35WWdn/+EILguN
- 3vkKz31TaWNLIe8AtoIZgQU+NSkSV+/V9q9xiZQQoH9AA2NxsNN1D64KT/UBL8qOh4nAuNFZdBl
- NjMhc4ZE15XhIAiC20xUC42XB1nkFHetw310kCGoDIs6LTnf/QJ69lFOu0rq1+mUbsslfsmi/FA
- ruiey7eCpftmdyRMYtA==
-X-Proofpoint-ORIG-GUID: ef2p-Mbae27wTMm8f8_JVVumNscPI5zQ
-X-Authority-Analysis: v=2.4 cv=O5+sLx9W c=1 sm=1 tr=0 ts=6acdfe6e cx=c_pps
- a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
- a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22 a=EUspDBNiAAAA:8
- a=uD8aj_56PGaHGp0t6EcA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: ef2p-Mbae27wTMm8f8_JVVumNscPI5zQ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-10-13_01,2026-10-09_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 impostorscore=0 adultscore=0 spamscore=0 priorityscore=1501
- bulkscore=0 malwarescore=0 lowpriorityscore=0 phishscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610080000 definitions=main-2610130038
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY8PEPF00000059:EE_|DS2PR19MB9175:EE_
+X-MS-Office365-Filtering-Correlation-Id: 208d9808-a9c0-4632-6a82-08df290f5578
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|82310400026|36860700016|61400799027|23010399003|18002099003|16102099003|22082099003|10067099003|3023799007|921020|11063799006|261009223027099003|4143699003|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	Hmc6epQRPsJ+y7VPenjIDBxRKBBZ1W+CaI5QF+oHAoYiDCygiJmU6Zi4rJY3Yf64NUErofDKElM2r+BGFgC+9A6oyyxdXBq41nCzKyLBJIM655Js+yq+xmvjlAHj3u/LVqPKWR2XAlEfMdhLg8XWY4yzedQMAgZLn7XFLKGXKwJIx9PybunPn9Nv5LybZtbny7eY1BE4WXyVr0VtK2bN2N7dat7az10Y+Ej8XjKFAqC8D2uiCZ4KIZrPXyXnU5UR2exjb5kxP5tqP8IVED/abb+ljOD8UbGjqRP+ZtoFD5AYdq1TXNBTiKrQVrvUMZPXypINRw+TNzAxMd2I4fvU3EUV6AqW2A8vHnLBp67N2Nqp9AUqLOP3aWvR/y65tRgxcuaigGaZwIOS+/5vwKuPXWQFSJ40NxUlMsyIcZc85jBFeYyB0bdJ453I+pISzw8Yme7SHYQ7cQDVSd7LrpMGLqZMteWlW1dGaoKhhI0yS2wn6fWQzfEqlJZR6xaeKZqjDmIVr+9WtOk9Y2Xt661HvMxLDMKRx1wJX9qH2kNZk5Hj1DSxw90OLeNxqHbfFfRvdJ/OhZZIOuVzKIVnh9d1vsJg3LETQ01ixeqVaLYBPeh+PVSSh5gm3Rw5T5HjlYsCp3BCN89CVuK6tM3uk329tAXDUIqxf9Iw1p/v6qfHzX6UVfcCgymR00CgQMTFfiJ89/9b89PFm7fDsDKahZSFzYvkJdzCVFqIvfyVCkd0SPGE+rQax+QVobkRBeLGs/0u
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(7416014)(82310400026)(36860700016)(61400799027)(23010399003)(18002099003)(16102099003)(22082099003)(10067099003)(3023799007)(921020)(11063799006)(261009223027099003)(4143699003)(56012099006);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	gLYorMp4Qw8rWFayIN6wKHZLqJfHq94R/Owz7tyEN529pIWd+76GQR/70qFiJHRchEMCJwy/+jA2cUV7FiLC79oZclksv7njA8gAV/N3zKhLltuHJECl/uRCGlt5Z4q9N9PsmwA3dl76GnCzEj3gPjRI+AfuKbfGi8ZL2SGYvKbOV46rbwwzNTdT1zJRYromHiSBmMdZghax8ibWvqF49X+MWGSTmIJNkaQ6TLCeYgu3OISrEudrQ8uyFdiMUbZKMDGjLe5lyBul0kuIOKzxDusi4Ef1L/pKH+p0rJ+JugPiu3r9ZKQnj7oDSqF/SUarbfbPDozW6s4UDEexlSoTMhUFZ/7qSCpr0ucDmoJdfa6YYcM2HkrR/Z9dwljd95BYspMmlvIQGAE6S9eeBqs0sH6t+dVueta4xuh/mtzpJ9lDnxrutw1FzQ86Ut/p4uJ9
+X-Exchange-RoutingPolicyChecked:
+	ufNzBEa3NE1H8MmO2XYDo2bUHlwQlRjKeXJOHdI8J3Vtzv2/NMIt2YH+GMBWHRQFuRA/hEQNqlhk7xhhEismH5qW3TpTXvfSzfFTx6smRsvJiIeY1lgebIovthuTKOrrFOszKr1DfQxzpYG2Rfdiwn2WyIQWj8Vhaa8ZlwMxc3LUnSL44OkF5xFWge4GV5zmKDQLL7khT4IgvW+KJlukWD0f53ArclxmhYif0mLsRionyKEZ0gnWo3Z7popJpFmiqZZS4i8ZKHitrRaGJ+aT/1KgI81UDLLoRfLC+h3/F4ea9DC+TTFWDKoFM64eqQujfF8neJ/JHpoe/GGNX9MMYg==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Oct 2026 09:49:54.2160
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 208d9808-a9c0-4632-6a82-08df290f5578
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-CY8PEPF00000059.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS2PR19MB9175
+X-Authority-Analysis: v=2.4 cv=A/n5rKWG c=1 sm=1 tr=0 ts=6acdfeca cx=c_pps
+ a=1UxUaKSOIsEpFYfBxZ3OzQ==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
+ a=w1d2syhTAAAA:8 a=yyjdeEYMql9_-UDXHKQA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: O7WibqsheYp4IoS2sCViD0MMogXk8pUW
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDEzMDAzOCBTYWx0ZWRfX/CATBu+uZvpV
+ tZb2zo2WHODEJKMnyDHFeDlAZct29MK+prMO92VTsj6E8jjWzfxHwLaTk9zLbKQ/a/f+X9gug2A
+ lNhJzEctu2pOb3MfwhIZtIz2h+sOUZY=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDEzMDAzOCBTYWx0ZWRfX7kN1EGZ7pcsY
+ 4NTtLUBdX6cAYSvAmBD2UQYXUMpp0mJ0EoBpVoXbngjp2mQbW0/2TDypzteOTcw6vetyIB8h9Re
+ AAABNioROKRZGEdqYLBu/eJpZfIxbAfUbg9d/YF4KaUDYhTJ8hA0IvbiTkwb4u4nd6zu1gRgbr/
+ ggD/ROjTAzkhdr32ije4wgocbHxXeLlOioGhVxXXuj1IXYlnN4BKUGzWFxRrtaw/x+4ISxNo1V4
+ fObcKi8CQ+LDkuNE8Vr7kANX5d3c1n/ZbPbzzZ2hB6YBSNkpB+xVbfXumzYsP+TbzGN02qkvxlf
+ n8P+1n+XIhym1yReVjjLLT2+JV2ycqCo5A2zQOfsBQqDA1bzMW7if0Lf+p1wKAmFy68KY/uN+z7
+ +3/zIT2yMKGENXF6EnvnNK9G5YiJtlxt1HVQqYbqwOn+DeMI+wnKSvV3wzbdXN1e/rdUSj+2aPG
+ aUON4XLaveTYvuOfLSw==
+X-Proofpoint-ORIG-GUID: O7WibqsheYp4IoS2sCViD0MMogXk8pUW
+X-Proofpoint-Spam-Reason: safe
 
-Add the Shikra variant data for the Qualcomm Audio Interface driver so
-the common QAIF code can bind to the Shikra QAIF device and expose the
-SoC-specific DAIs.
+On 13/10/2026 12:10 am, Mark wrote:
+> The cs_dsp_ctl_rw suites run cs_dsp_ctl_write_running() and
+> cs_dsp_ctl_read_volatile_running() against several sets of parameters
+> by listing each function several times with KUNIT_CASE_PARAM(), which
+> names the case after the function. The resulting cases all share a
+> name, so they cannot be told apart in the results.
+> 
+> Use KUNIT_CASE_PARAM_UNIQUE() for these entries so that each case is
+> also named for the parameter generator it is run with, for example
+> cs_dsp_ctl_write_running-all_pop_varying_len_gen_params.
 
-Provide the Shikra DMA-to-DAI mappings, DMA and SHRAM layout, clock
-names, DAI driver data and power-management hooks required by the QAIF
-driver. Add the Kconfig symbol and Makefile entries needed to build the
-new variant.
-
-Signed-off-by: Harendra Gautam <harendra.gautam@oss.qualcomm.com>
----
- sound/soc/qcom/Kconfig       |  10 +
- sound/soc/qcom/Makefile      |   3 +
- sound/soc/qcom/qaif-shikra.c | 445 +++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 458 insertions(+)
-
-diff --git a/sound/soc/qcom/Kconfig b/sound/soc/qcom/Kconfig
-index e6e24f3b9922..b7088b1e5cad 100644
---- a/sound/soc/qcom/Kconfig
-+++ b/sound/soc/qcom/Kconfig
-@@ -71,6 +71,16 @@ config SND_SOC_QCOM_COMMON
- config SND_SOC_QCOM_SDW
- 	tristate
- 
-+config SND_SOC_QCOM_QAIF
-+	tristate "Qualcomm QAIF audio interface support"
-+	depends on COMMON_CLK
-+	select REGMAP_MMIO
-+	help
-+	  Say Y or M to enable the Qualcomm Audio Interface (QAIF) driver
-+	  for the Shikra audio platform. QAIF is a DMA-based audio
-+	  subsystem that moves PCM data between memory and external serial
-+	  audio interfaces (AIF) and internal codec interfaces (CIF).
-+
- config SND_SOC_QDSP6_COMMON
- 	tristate
- 
-diff --git a/sound/soc/qcom/Makefile b/sound/soc/qcom/Makefile
-index 985ce2ae286b..cf50b7a24bcf 100644
---- a/sound/soc/qcom/Makefile
-+++ b/sound/soc/qcom/Makefile
-@@ -47,3 +47,6 @@ obj-$(CONFIG_SND_SOC_QCOM_OFFLOAD_UTILS) += snd-soc-qcom-offload-utils.o
- 
- #DSP lib
- obj-$(CONFIG_SND_SOC_QDSP6) += qdsp6/
-+
-+snd-soc-qcom-qaif-y := qaif-cpu.o qaif-platform.o qaif-shikra.o
-+obj-$(CONFIG_SND_SOC_QCOM_QAIF) += snd-soc-qcom-qaif.o
-diff --git a/sound/soc/qcom/qaif-shikra.c b/sound/soc/qcom/qaif-shikra.c
-new file mode 100644
-index 000000000000..2db3995a2de0
---- /dev/null
-+++ b/sound/soc/qcom/qaif-shikra.c
-@@ -0,0 +1,445 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
-+ *
-+ * qaif-shikra.c -- ALSA SoC CPU-Platform DAI driver for QTi QAIF
-+ */
-+
-+#include <linux/module.h>
-+#include <linux/pm.h>
-+#include <sound/pcm.h>
-+#include <sound/soc.h>
-+#include "qaif.h"
-+
-+static const struct qaif_dmaidx_dai_map shikra_mi2s_dma_dai_map[] = {
-+	{ AIF_MI2S_RX_0, QAIF_DMA_IDX0 },
-+	{ AIF_MI2S_RX_1, QAIF_DMA_IDX1 },
-+	{ AIF_MI2S_RX_2, QAIF_DMA_IDX2 },
-+	{ AIF_MI2S_RX_3, QAIF_DMA_IDX3 },
-+	{ AIF_MI2S_TX_0, QAIF_DMA_IDX0 },
-+	{ AIF_MI2S_TX_1, QAIF_DMA_IDX1 },
-+	{ AIF_MI2S_TX_2, QAIF_DMA_IDX2 },
-+	{ AIF_MI2S_TX_3, QAIF_DMA_IDX3 },
-+};
-+
-+static const struct qaif_dmaidx_dai_map shikra_tdm_dma_dai_map[] = {
-+	{ AIF_TDM_RX_0, QAIF_DMA_IDX0 },
-+	{ AIF_TDM_RX_1, QAIF_DMA_IDX1 },
-+	{ AIF_TDM_RX_2, QAIF_DMA_IDX2 },
-+	{ AIF_TDM_RX_3, QAIF_DMA_IDX3 },
-+	{ AIF_TDM_TX_0, QAIF_DMA_IDX0 },
-+	{ AIF_TDM_TX_1, QAIF_DMA_IDX1 },
-+	{ AIF_TDM_TX_2, QAIF_DMA_IDX2 },
-+	{ AIF_TDM_TX_3, QAIF_DMA_IDX3 },
-+};
-+
-+static const struct qaif_dmaidx_dai_map shikra_cif_dma_dai_map[] = {
-+	{ RX_CODEC_DMA_RX_0, QAIF_DMA_IDX0 },
-+	{ RX_CODEC_DMA_RX_1, QAIF_DMA_IDX1 },
-+	{ VA_CODEC_DMA_TX_0, QAIF_DMA_IDX0 },
-+	{ VA_CODEC_DMA_TX_1, QAIF_DMA_IDX1 },
-+};
-+
-+static struct snd_soc_dai_driver shikra_qaif_cpu_dai_driver[] = {
-+	{
-+		.id = AIF_MI2S_RX_0,
-+		.name = "MI2S AIF RX Zero",
-+		.playback = {
-+			.stream_name = "MI2S AIF RX Zero Playback",
-+			.formats	= SNDRV_PCM_FMTBIT_S16 |
-+					  SNDRV_PCM_FMTBIT_S32,
-+			.rates		= SNDRV_PCM_RATE_8000_192000,
-+			.channels_min	= 1,
-+			.channels_max	= 2,
-+		},
-+		.ops = &asoc_qcom_qaif_aif_cpu_dai_ops,
-+	}, {
-+		.id = AIF_MI2S_TX_0,
-+		.name = "MI2S AIF TX Zero",
-+		.capture = {
-+			.stream_name = "MI2S AIF TX Zero Capture",
-+			.formats	= SNDRV_PCM_FMTBIT_S16 |
-+					  SNDRV_PCM_FMTBIT_S32,
-+			.rates		= SNDRV_PCM_RATE_8000_192000,
-+			.channels_min	= 1,
-+			.channels_max	= 2,
-+		},
-+		.ops = &asoc_qcom_qaif_aif_cpu_dai_ops,
-+	}, {
-+		.id = AIF_TDM_RX_0,
-+		.name = "TDM AIF RX Zero",
-+		.playback = {
-+			.stream_name = "TDM AIF RX Zero Playback",
-+			.formats	= SNDRV_PCM_FMTBIT_S16 |
-+					  SNDRV_PCM_FMTBIT_S24 |
-+					  SNDRV_PCM_FMTBIT_S32,
-+			.rates		= SNDRV_PCM_RATE_8000_192000,
-+			.channels_min	= 1,
-+			.channels_max	= 8,
-+		},
-+		.ops = &asoc_qcom_qaif_aif_cpu_dai_ops,
-+	}, {
-+		.id = AIF_TDM_TX_0,
-+		.name = "TDM AIF TX Zero",
-+		.capture = {
-+			.stream_name = "TDM AIF TX Zero Capture",
-+			.formats	= SNDRV_PCM_FMTBIT_S16 |
-+					  SNDRV_PCM_FMTBIT_S24 |
-+					  SNDRV_PCM_FMTBIT_S32,
-+			.rates		= SNDRV_PCM_RATE_8000_192000,
-+			.channels_min	= 1,
-+			.channels_max	= 8,
-+		},
-+		.ops = &asoc_qcom_qaif_aif_cpu_dai_ops,
-+	}, {
-+		.id = AIF_MI2S_RX_1,
-+		.name = "MI2S AIF RX One",
-+		.playback = {
-+			.stream_name = "MI2S AIF RX One Playback",
-+			.formats	= SNDRV_PCM_FMTBIT_S16 |
-+					  SNDRV_PCM_FMTBIT_S32,
-+			.rates		= SNDRV_PCM_RATE_8000_192000,
-+			.channels_min	= 1,
-+			.channels_max	= 2,
-+		},
-+		.ops = &asoc_qcom_qaif_aif_cpu_dai_ops,
-+	}, {
-+		.id = AIF_MI2S_TX_1,
-+		.name = "MI2S AIF TX One",
-+		.capture = {
-+			.stream_name = "MI2S AIF TX One Capture",
-+			.formats	= SNDRV_PCM_FMTBIT_S16 |
-+					  SNDRV_PCM_FMTBIT_S32,
-+			.rates		= SNDRV_PCM_RATE_8000_192000,
-+			.channels_min	= 1,
-+			.channels_max	= 2,
-+		},
-+		.ops = &asoc_qcom_qaif_aif_cpu_dai_ops,
-+	}, {
-+		.id = AIF_TDM_RX_1,
-+		.name = "TDM AIF RX One",
-+		.playback = {
-+			.stream_name = "TDM AIF RX One Playback",
-+			.formats	= SNDRV_PCM_FMTBIT_S16 |
-+					  SNDRV_PCM_FMTBIT_S24 |
-+					  SNDRV_PCM_FMTBIT_S32,
-+			.rates		= SNDRV_PCM_RATE_8000_192000,
-+			.channels_min	= 1,
-+			.channels_max	= 8,
-+		},
-+		.ops = &asoc_qcom_qaif_aif_cpu_dai_ops,
-+	}, {
-+		.id = AIF_TDM_TX_1,
-+		.name = "TDM AIF TX One",
-+		.capture = {
-+			.stream_name = "TDM AIF TX One Capture",
-+			.formats	= SNDRV_PCM_FMTBIT_S16 |
-+					  SNDRV_PCM_FMTBIT_S24 |
-+					  SNDRV_PCM_FMTBIT_S32,
-+			.rates		= SNDRV_PCM_RATE_8000_192000,
-+			.channels_min	= 1,
-+			.channels_max	= 8,
-+		},
-+		.ops = &asoc_qcom_qaif_aif_cpu_dai_ops,
-+	}, {
-+		.id = AIF_MI2S_RX_2,
-+		.name = "MI2S AIF RX Two",
-+		.playback = {
-+			.stream_name = "MI2S AIF RX Two Playback",
-+			.formats	= SNDRV_PCM_FMTBIT_S16 |
-+					  SNDRV_PCM_FMTBIT_S32,
-+			.rates		= SNDRV_PCM_RATE_8000_192000,
-+			.channels_min	= 1,
-+			.channels_max	= 2,
-+		},
-+		.ops = &asoc_qcom_qaif_aif_cpu_dai_ops,
-+	}, {
-+		.id = AIF_MI2S_TX_2,
-+		.name = "MI2S AIF TX Two",
-+		.capture = {
-+			.stream_name = "MI2S AIF TX Two Capture",
-+			.formats	= SNDRV_PCM_FMTBIT_S16 |
-+					  SNDRV_PCM_FMTBIT_S32,
-+			.rates		= SNDRV_PCM_RATE_8000_192000,
-+			.channels_min	= 1,
-+			.channels_max	= 2,
-+		},
-+		.ops = &asoc_qcom_qaif_aif_cpu_dai_ops,
-+	}, {
-+		.id = AIF_TDM_RX_2,
-+		.name = "TDM AIF RX Two",
-+		.playback = {
-+			.stream_name = "TDM AIF RX Two Playback",
-+			.formats	= SNDRV_PCM_FMTBIT_S16 |
-+					  SNDRV_PCM_FMTBIT_S24 |
-+					  SNDRV_PCM_FMTBIT_S32,
-+			.rates		= SNDRV_PCM_RATE_8000_192000,
-+			.channels_min	= 1,
-+			.channels_max	= 8,
-+		},
-+		.ops = &asoc_qcom_qaif_aif_cpu_dai_ops,
-+	}, {
-+		.id = AIF_TDM_TX_2,
-+		.name = "TDM AIF TX Two",
-+		.capture = {
-+			.stream_name = "TDM AIF TX Two Capture",
-+			.formats	= SNDRV_PCM_FMTBIT_S16 |
-+					  SNDRV_PCM_FMTBIT_S24 |
-+					  SNDRV_PCM_FMTBIT_S32,
-+			.rates		= SNDRV_PCM_RATE_8000_192000,
-+			.channels_min	= 1,
-+			.channels_max	= 8,
-+		},
-+		.ops = &asoc_qcom_qaif_aif_cpu_dai_ops,
-+	}, {
-+		.id = AIF_MI2S_RX_3,
-+		.name = "MI2S AIF RX Three",
-+		.playback = {
-+			.stream_name = "MI2S AIF RX Three Playback",
-+			.formats	= SNDRV_PCM_FMTBIT_S16 |
-+					  SNDRV_PCM_FMTBIT_S32,
-+			.rates		= SNDRV_PCM_RATE_8000_192000,
-+			.channels_min	= 1,
-+			.channels_max	= 2,
-+		},
-+		.ops = &asoc_qcom_qaif_aif_cpu_dai_ops,
-+	}, {
-+		.id = AIF_MI2S_TX_3,
-+		.name = "MI2S AIF TX Three",
-+		.capture = {
-+			.stream_name = "MI2S AIF TX Three Capture",
-+			.formats	= SNDRV_PCM_FMTBIT_S16 |
-+					  SNDRV_PCM_FMTBIT_S32,
-+			.rates		= SNDRV_PCM_RATE_8000_192000,
-+			.channels_min	= 1,
-+			.channels_max	= 2,
-+		},
-+		.ops = &asoc_qcom_qaif_aif_cpu_dai_ops,
-+	}, {
-+		.id = AIF_TDM_RX_3,
-+		.name = "TDM AIF RX Three",
-+		.playback = {
-+			.stream_name = "TDM AIF RX Three Playback",
-+			.formats	= SNDRV_PCM_FMTBIT_S16 |
-+					  SNDRV_PCM_FMTBIT_S24 |
-+					  SNDRV_PCM_FMTBIT_S32,
-+			.rates		= SNDRV_PCM_RATE_8000_192000,
-+			.channels_min	= 1,
-+			.channels_max	= 8,
-+		},
-+		.ops = &asoc_qcom_qaif_aif_cpu_dai_ops,
-+	}, {
-+		.id = AIF_TDM_TX_3,
-+		.name = "TDM AIF TX Three",
-+		.capture = {
-+			.stream_name = "TDM AIF TX Three Capture",
-+			.formats	= SNDRV_PCM_FMTBIT_S16 |
-+					  SNDRV_PCM_FMTBIT_S24 |
-+					  SNDRV_PCM_FMTBIT_S32,
-+			.rates		= SNDRV_PCM_RATE_8000_192000,
-+			.channels_min	= 1,
-+			.channels_max	= 8,
-+		},
-+		.ops = &asoc_qcom_qaif_aif_cpu_dai_ops,
-+	}, {
-+		.id = RX_CODEC_DMA_RX_0,
-+		.name = "RX CDC DMA RX0",
-+		.playback = {
-+			.stream_name = "RX CDC DMA RX0 Playback",
-+			.formats = SNDRV_PCM_FMTBIT_S16,
-+			.rates = SNDRV_PCM_RATE_48000,
-+			.rate_min	= 48000,
-+			.rate_max	= 48000,
-+			.channels_min	= 1,
-+			.channels_max	= 2,
-+		},
-+		.ops	= &asoc_qcom_qaif_cif_dai_ops,
-+	}, {
-+		.id = RX_CODEC_DMA_RX_1,
-+		.name = "RX CDC DMA RX1",
-+		.playback = {
-+			.stream_name = "RX CDC DMA RX1 Playback",
-+			.formats = SNDRV_PCM_FMTBIT_S16,
-+			.rates = SNDRV_PCM_RATE_48000,
-+			.rate_min	= 48000,
-+			.rate_max	= 48000,
-+			.channels_min	= 1,
-+			.channels_max	= 2,
-+		},
-+		.ops	= &asoc_qcom_qaif_cif_dai_ops,
-+	}, {
-+		.id = VA_CODEC_DMA_TX_0,
-+		.name = "VA CDC DMA TX0",
-+		.capture = {
-+			.stream_name = "VA CDC DMA TX0 Capture",
-+			.formats = SNDRV_PCM_FMTBIT_S16,
-+			.rates = SNDRV_PCM_RATE_48000,
-+			.rate_min	= 48000,
-+			.rate_max	= 48000,
-+			.channels_min	= 1,
-+			.channels_max	= 4,
-+		},
-+		.ops	= &asoc_qcom_qaif_cif_dai_ops,
-+	}, {
-+		.id = VA_CODEC_DMA_TX_1,
-+		.name = "VA CDC DMA TX1",
-+		.capture = {
-+			.stream_name = "VA CDC DMA TX1 Capture",
-+			.formats = SNDRV_PCM_FMTBIT_S16,
-+			.rates = SNDRV_PCM_RATE_48000,
-+			.rate_min	= 48000,
-+			.rate_max	= 48000,
-+			.channels_min	= 1,
-+			.channels_max	= 4,
-+		},
-+		.ops	= &asoc_qcom_qaif_cif_dai_ops,
-+	},
-+};
-+
-+static int shikra_qaif_get_dma_idx(unsigned int dai_id)
-+{
-+	const struct qaif_dmaidx_dai_map *map;
-+	int i, size;
-+
-+	if (dai_id >= AIF_MI2S_RX_0 && dai_id <= AIF_MI2S_TX_12) {
-+		map = shikra_mi2s_dma_dai_map;
-+		size = ARRAY_SIZE(shikra_mi2s_dma_dai_map);
-+	} else if (dai_id >= AIF_TDM_RX_0 && dai_id <= AIF_TDM_TX_12) {
-+		map = shikra_tdm_dma_dai_map;
-+		size = ARRAY_SIZE(shikra_tdm_dma_dai_map);
-+	} else {
-+		map = shikra_cif_dma_dai_map;
-+		size = ARRAY_SIZE(shikra_cif_dma_dai_map);
-+	}
-+
-+	for (i = 0; i < size; i++) {
-+		if (map[i].dai_id == dai_id)
-+			return map[i].dma_idx;
-+	}
-+	return -EINVAL;
-+}
-+
-+static int shikra_qaif_alloc_stream_dma_idx(struct qaif_drv_data *drvdata,
-+					    int direction,
-+					    unsigned int dai_id)
-+{
-+	const struct qaif_variant *v = drvdata->variant;
-+	int dma_idx, index;
-+
-+	dma_idx = shikra_qaif_get_dma_idx(dai_id);
-+	if (dma_idx < 0)
-+		return dma_idx;
-+
-+	if (qaif_is_aif_port(dai_id)) {
-+		index = (direction == SNDRV_PCM_STREAM_PLAYBACK) ?
-+			dma_idx : v->wrdma_start + dma_idx;
-+		if (index >= QAIF_MAX_AIF_DMA_IDX)
-+			return -EINVAL;
-+		if (test_and_set_bit(index, &drvdata->aif_dma_idx_bit_map))
-+			return -EBUSY;
-+	} else if (qaif_is_cif_port(dai_id)) {
-+		index = (direction == SNDRV_PCM_STREAM_PLAYBACK) ?
-+			dma_idx : v->codec_wrdma_start + dma_idx;
-+		if (index >= QAIF_MAX_CIF_DMA_IDX)
-+			return -EINVAL;
-+		if (test_and_set_bit(index, &drvdata->cif_dma_idx_bit_map))
-+			return -EBUSY;
-+	} else {
-+		return -EINVAL;
-+	}
-+
-+	return index;
-+}
-+
-+static int shikra_qaif_free_stream_dma_idx(struct qaif_drv_data *drvdata,
-+					   int index,
-+					   unsigned int dai_id)
-+{
-+	if (qaif_is_aif_port(dai_id))
-+		clear_bit(index, &drvdata->aif_dma_idx_bit_map);
-+	else
-+		clear_bit(index, &drvdata->cif_dma_idx_bit_map);
-+	return 0;
-+}
-+
-+static const struct qaif_variant shikra_qaif_data = {
-+	.ee = 0,
-+
-+	.num_rddma = 4,
-+	.num_wrdma = 4,
-+	.wrdma_start = 4,
-+
-+	.num_codec_rddma = 4,
-+	.num_codec_wrdma = 4,
-+	.codec_wrdma_start = 4,
-+	.num_intf = 4,
-+
-+	.rddma_reg_base = 0x8000,
-+	.rddma_stride = 0x1000,
-+	.codec_rddma_reg_base = 0xc000,
-+	.codec_rddma_stride = 0x1000,
-+
-+	.wrdma_reg_base = 0x11000,
-+	.wrdma_stride = 0x1000,
-+	.codec_wrdma_reg_base = 0x15000,
-+	.codec_wrdma_stride = 0x1000,
-+
-+	.rddma_irq_reg_base = 0x19000,
-+	.rddma_irq_stride = 0x1000,
-+	.codec_rddma_irq_reg_base = 0x191A0,
-+	.codec_rddma_irq_stride = 0x1000,
-+
-+	.wrdma_irq_reg_base = 0x19078,
-+	.wrdma_irq_stride = 0x1000,
-+	.codec_wrdma_irq_reg_base = 0x19290,
-+	.codec_wrdma_irq_stride = 0x1000,
-+
-+	.qxm_type = QAIF_QXM0,
-+	.rddma_shram_len = 64,
-+	.rddma_shram_start_addr = {0, 256},
-+	.wrdma_shram_len = 64,
-+	.wrdma_shram_start_addr = {0, 256},
-+
-+	.clk_name		= (const char * const []) {
-+					"lpass_config",
-+					"lpass_core_axim",
-+					"bus",
-+				},
-+	.num_clks		= 3,
-+
-+	.dai_driver		= shikra_qaif_cpu_dai_driver,
-+	.num_dai		= ARRAY_SIZE(shikra_qaif_cpu_dai_driver),
-+
-+	.dai_bit_clk_names	= (const char * const []) {
-+					"aif_if0_ibit",
-+					"aif_if1_ibit",
-+					"aif_if2_ibit",
-+					"aif_if3_ibit",
-+				},
-+	.aif_full_cycle_en	= (const bool []) { false, false, false, false },
-+	.aif_ctrl_data_oe	= (const bool []) { false, false, false, false },
-+	.aif_loopback_en	= (const bool []) { false, false, false, false },
-+	.alloc_stream_dma_idx	= shikra_qaif_alloc_stream_dma_idx,
-+	.free_stream_dma_idx	= shikra_qaif_free_stream_dma_idx,
-+	.get_dma_idx		= shikra_qaif_get_dma_idx,
-+};
-+
-+static const struct of_device_id shikra_qaif_cpu_device_id[] = {
-+	{ .compatible = "qcom,shikra-qaif-cpu", .data = &shikra_qaif_data },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(of, shikra_qaif_cpu_device_id);
-+
-+static struct platform_driver shikra_qaif_cpu_platform_driver = {
-+	.driver = {
-+		.name = "shikra-qaif-cpu",
-+		.of_match_table = shikra_qaif_cpu_device_id,
-+		.pm = pm_ptr(&asoc_qcom_qaif_pm_ops),
-+	},
-+	.probe = asoc_qcom_qaif_cpu_platform_probe,
-+};
-+module_platform_driver(shikra_qaif_cpu_platform_driver);
-+
-+MODULE_DESCRIPTION("Qualcomm Audio Interface (QAIF) Shikra variant driver");
-+MODULE_AUTHOR("Harendra Gautam <harendra.gautam@oss.qualcomm.com>");
-+MODULE_LICENSE("GPL");
-
--- 
-2.34.1
+Reviewed-by: Richard Fitzgerald <rf@opensource.cirrus.com>
 
