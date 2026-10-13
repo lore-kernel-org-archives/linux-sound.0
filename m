@@ -1,162 +1,150 @@
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F280A314D13
-	for <linux-sound@vger.kernel.org>; Tue, 13 Oct 2026 04:18:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6323137F314
+	for <linux-sound@vger.kernel.org>; Tue, 13 Oct 2026 04:21:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.170
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791865122; cv=pass; b=f5zKwru8akeGyEhmvgW3QfzkTNAN5M6HtmbChvegMiYj3zi9Ly5Teq3s0jWGW1IykUGcdLB7rk3v8Bn0ohrCUMvT7VPZU2pBv1Nz2vgbS3TS59g3KThRdyRLh93gU/zfyQ9lVKH6yn7wjDQqrXPEJK4WSx5a6CHzMGW/+eYAYYM=
+	t=1791865295; cv=pass; b=sXyt726wEi+gqwMxIY7RPt0muOKm6aPP9ihvG+PVJUIddzqVZaJnkqIwrM7VPN5YB+fDczMrZvY7SyGrplxrZsWqE0D03jkT/XsSMbKhv6PFyaaXPEqPCGsiZ26cXss+CJsnJpJAvBS6Xh17a/DIEALTsDFsu2sT/0yNI3yB7R0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791865122; c=relaxed/simple;
-	bh=RXTMOQ3s/A/fpHZbZ7Z1yCnaHYebzC4eV4sd40V0Aoc=;
+	s=arc-20240116; t=1791865295; c=relaxed/simple;
+	bh=s6UERuIWoDc23HHG9uQ4eEESgIt4iH+Blk1X9q9b2kE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ftBahvTLq5QCZ11RrMwlvP8JSkMeSvwu8b0pDc91Y6ACeL+49igD/mBS9yRg6niCmuMfj4BuhGZ6pVq2902sFBKENpafVas+uRjjp6FLZOb0lNT6QkBIM8pPK6FnC1pCjdoqdYgTC4sjAVrayOL4FpnhHAr0huuvGJmfAGTTW2Y=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gAnGxwWW; arc=pass smtp.client-ip=209.85.215.170
+	 To:Cc:Content-Type; b=tAGMAsK8k7cQ3bl6k7s3Ee78zAEJy3n2n1pdGJgE5MSu4yaVNhbB/aNW5/M/NaoYfKyOkR8uT69e+2NL+A1eh5D0y/fOCn//m36o852g6ku/Lh2IVR/GsGlxkYAIVqyNloCdSWFi2WEDtPIRTCVEAaL/oz1uXP4nd9bs/LMEgDI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X/iUKqay; arc=pass smtp.client-ip=209.85.128.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gAnGxwWW"
-Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-ccce6d9abfeso1377208a12.1
-        for <linux-sound@vger.kernel.org>; Mon, 12 Oct 2026 21:18:40 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791865120; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X/iUKqay"
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-885cf67963eso18032627b3.0
+        for <linux-sound@vger.kernel.org>; Mon, 12 Oct 2026 21:21:33 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791865293; cv=none;
         d=google.com; s=arc-20260327;
-        b=HEoW9AsC9xzKJA2/NCeKNcJce/DvS18OWIXq/MtFmMW55isc5EaCz5lul7hTcrJveI
-         q9ftFJ/3es9tKLN5Jn55JFkvdU1s5bSn8Aws88rJa48hHY1l1BH4SSk1heFb4LeAg7pI
-         7MkgdD01uoBaWFYo4nXZGJP/e5bMqfTPmFr0Be+F8sUukJnJU8ZFFUEmI5hzP3kYFPi4
-         iroFFBwBGwL20PcwLR/r1XYFmf4L1LHaGnJ5CMPRQqN+v5sg8Fx0eegTjfdvAX5ZTtzJ
-         srMJ4IJB2MZUloZKegExYf0g+YSLJRl8OWcjgrMX9h3YrLIKtxM+JkjkluVS2KA8tRr1
-         3G3w==
+        b=BL35rke4o2XojBEUzdrIvuxaN25v4w4QBLoD8w0iqIRwYuUSA2pFNqnGdwfwYmt2cK
+         P82HlWfSJbUCXzbcc0RR5yhAirg3kv0hXWe8plibCf49EDw/K48YbD9BsclFuXGQyxnq
+         cXjFVVqB5uEQo+dr3mLr8lkjKNof6nsevWFFP6LyJQ5ALxg+C+7oH4G2GmgevP6sbxt8
+         aCmanWwrKR0w0kfto+Tdt1v0fUFwQgUYet+HPjVroCWcvaaM0TWUyIhtbu4QZg+9H+qI
+         anNhPOajwekHo3Dq1LbgPcLnNkWWI5gT13ogk/Xrh9/GIg21MhTu+RK+R2dtarJu+P6W
+         YczA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=RXTMOQ3s/A/fpHZbZ7Z1yCnaHYebzC4eV4sd40V0Aoc=;
-        fh=4KY/GzYrI6Moo2JjNFMT9Nt3cSiI4RpvRS/aYtKOAMA=;
-        b=qdrQhwGmUk198dab4psbemzsBYDWzbR7/hz+sYoqMRhVJUKnkPI9VeqXwJae+MrPI1
-         3UyfxAqDefA8cBFmk5cMVpnsB6IjNF/Rs30osyGybQZedZim6lfzBoH6mqoUeKbe26I6
-         /5YjGolw+BphG0A+2GEwiLreJC/ZHg1cAWUxA1hz6OFxhkuuLoOPNGrnFW/OWsOsDhYZ
-         KKL+w+mP7f1mKtHFJSMdSXz1rrCrtJEqiakR9rUt4vDY7txQaLVPtfFLO10nEFcbSLiZ
-         MPZtH6i/s1cApzT3HdUHHyHDHAxpQNZaXubBnsheiod6ChSMuKPw4/FfsbzV/YkXDpC9
-         yJ8g==;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Byz8hLuIFGODwKQmN+c/5DL2ZzQd5PPTnUrY1jrei8M=;
+        fh=D2HXu5Kypw6xE8I2UuH71VjD/traf/l05S+Lb8LpWXc=;
+        b=fJvD87zjf2G0nV4YD1sW1pspC1LZUKItLvgwx9gf7vJk+4EKqZyX6uD+5ZTrrXZGzY
+         iXDASI20a5iAMFBRcD8hlBu+d7QCoCmunUOiJ9YAz6aH7tn7Bybm2oWOIoRSFOccf/T+
+         Exgi9kI8sKrs3MS6e65M0A8/xduQqKy9kUFtoL8oOi6yGh/qSKdhdKttzKPBtaWcHr88
+         dPIvuy5laQK5creNCzKhSbBnIiVw2R6h3uIDC+GqK0piW6RfOz5RiqYNlE0jNSqYd3GU
+         26JbgIYuxLaUcHRZxzRerDocw5Nen2uPNRgurMbbclkHB01zyOJhKXKsNa0G4ZswGEgH
+         dacA==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791865120; x=1792469920; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=RXTMOQ3s/A/fpHZbZ7Z1yCnaHYebzC4eV4sd40V0Aoc=;
-        b=gAnGxwWW1NaLFGFjjBnWuN9tTcCkvKmMsKgTYp6veCaJKVQsFq8Bo4JlG/FVhatgGp
-         2e2cIiPAGB6Qb/MIIA3ZWwBoAGg/ZeVaucb08SaLqLszvh52QBG5vD087h18Dvxm6SJ8
-         +R+HNrAiUOKoQwJSAZtrGhhXqcvbBNJiia+Fzy47GLEXCwTJ11PkKAv850DxYnirs6tv
-         qsbdxYjd83MqOKRm5qRCwUMGQRmoJkaDp8HRpK/PSW7Y061ASPNTrzWLdH/0PLAfDyab
-         PY+ujhonpKwMOnSGLXKjMfMxvpLtjbXyoi3BoRIKNtCojJtFG1FJI5uNdCebMM/aYgH9
-         WR4A==
+        d=gmail.com; s=20251104; t=1791865293; x=1792470093; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Byz8hLuIFGODwKQmN+c/5DL2ZzQd5PPTnUrY1jrei8M=;
+        b=X/iUKqayOrni2RSLR8J3ye2dKrmgJ/sKiq6aqyY9RSVCAlDiPJ/jnGKXWaMPSb//SI
+         ZNerg1GjlG0AyQneWn2K32/xBfQSnaOfge451CcEABy34AotzypaqsAYr2qCMMEcWOmR
+         tV9uI8xaGq8DvPviWHU7GLIAW+8CyMuc67WaiS7VQP2Wxy/31SFTxpsl/EajHkF5QCtU
+         gZMBSH528AumYRVzxxE3ub6ef68I3jGzhYup7J4MJ+hTjUScrViRT/G8o+HZeCp7CPIT
+         LNxvw8SbdgQFjZzkbMzsqccZHFSG6GraGHOZrzyEwIuLIlKFaU+XSn48t2dtxzUlzwbs
+         0oGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791865120; x=1792469920;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=RXTMOQ3s/A/fpHZbZ7Z1yCnaHYebzC4eV4sd40V0Aoc=;
-        b=QT5xI0xxVLdb2eFrKtsgJRAkXUlEpXKxDv2Q1P6AlvAP0UYQo1NIPtMdgBoGIJlZwX
-         yw69Vo0D1jIxscu4+yKYlWaHGAsDbgWQYGzMhMBAgndfQcsL4/RWCh0OJJ691LBUX2dv
-         oRkK4NhrpMjb/xV5shl1bfDwDq+FdZorN3lb+izCap4ziWpihE1jBjiJXlQOEQipqWdU
-         EnCMe/4LCkhGUWb+CCgWcIw8Ss4RQrOSaKCLOzIq6W2qSO3me8u5jklJJZhu8D70G6Qq
-         pvCaOUlAOM5yKJu6R3F9Q+HK02jLeOTpYSQgmR7z8oy20xuZ/Uw6ePZ3i3JNGKsnhhs6
-         w6PQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwCBJOvBPFoEOwIR/kwLICgZ23B+B6a/LxlnZGatBwrGcPZEBH9k/FtFRgLosS1Z1E/JqJ3k6lT++RrGA==@vger.kernel.org
-X-Gm-Message-State: AFq9FYKitw4V4PD0PIIJOgprRJSlkjn/iuMaSSkhFgUxeci53oAwZ7HW
-	yRuN2UrciMh9D8SK/fFgxlEktuDR9wzjLcyp7SFGPS+VlQEr3ezXd/d7jc9xLElCAC9jTDcgO1o
-	ad/xXcmDvbkezhojCyEk8QIesQNOHxgY=
-X-Gm-Gg: AYBFou1RUjLRxtBi4d2/k6fkQG3zX0uAwkhWE9DLXpHyg2s/bHF2sOwWUtFoGE0cAsy
-	q7+IY3yTxnM2/RK3fugX6gO9iR5PDnvoTrF3RK8mRSxXhJuEPTdEoQZYSyYbhXYwrj1c9suVUAA
-	sjhjFkZdFo5z0Q8ovYtcDsd6lnAamxGDpzu3PZtanX8FjNGmTYxQ9ISkf5oH8qq/eBat8lFgTYL
-	Io2ByabLNzQH+rbNh/qMvMxlZQvGwlXRJ6v+q3OFDMuPBITWewpbah4f7OCnpZ9NO3NY2eoJKr2
-	Wb+P7vbsVeYhjonE2JXI3fIbMIIRJUtg570zzgjmvoostnhLgdotLNP9SqBhGYn7TNYAxDSduiP
-	hdTAnWvFH2PlkPfAo52UbhGr+bsw0l28N7HjQk0Re1oLHaPTVnrxQ+ibuOK18AnJy+ls=
-X-Received: by 2002:a05:6a21:4eab:b0:3e0:de06:126b with SMTP id
- adf61e73a8af0-3e16beff287mr10686193637.66.1791865120247; Mon, 12 Oct 2026
- 21:18:40 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1791865293; x=1792470093;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Byz8hLuIFGODwKQmN+c/5DL2ZzQd5PPTnUrY1jrei8M=;
+        b=OJ9IhlRa5JM8FjIn3bSbj1hBhy6GCbWTOASgDZ14OP2RzivMg9mIifM0LsOZsOaQcI
+         csUzaDvWxVssMbth9dG7PQ30yDLHuzy98v/SHhCKRHW8lWC3YzzjcNfCoTAtXQyKPJ2e
+         bo18r/muc3xUtvhJBuGzMatNfYOddvMB1XAqraMyPQs/WNZs+gTYD9osEPXTFHHCJ/td
+         NBWVqrezBmqqt75u04cNY+BNqlAYZEKzR/guuZQ+FqYjYDoI36Ik16BYqa/f3bvV9jpd
+         ale5064+H3cQuXcfepmyrlglag6sXLJdAnDQzx/offD7AHIsWEcbP8X2LhZ1SrtzId1C
+         +8nA==
+X-Forwarded-Encrypted: i=1; AKwUvBwaNIXH3UDgpq0dflX/oCRnlBZP/YekUxX8yyzO6pBNXHv8RTQ3sDYpNwAt95N8JtoVQjY7iCc4UZGDgg==@vger.kernel.org
+X-Gm-Message-State: AFq9FYKHoeaQvMdFT3uZGa3NDPnhKA+ZK8knJpmMJxG2RA+ObgbXaVPt
+	sDBJz+FT/EKQ3TlwcwFs8bbyu+3LbV8e+w6gsOYhG/eDBQDTVQRUQ8Y8xhq3QPFXYdAtp8TokI9
+	nYCb7bxMyUEyLldLRXlPExJJIGyflbak=
+X-Gm-Gg: AYBFou2qgRUxSNC2ByrtMxXrzaXfdDhPCPNXMzsmzvSauqF6g50bgIh/SDi5G8gNcqv
+	yJWPAVACc0M8STafMp4PVUT9cYmhnQfnkgf5T7CkbBv69znOdCpQuu07EGuH1IwkPQ7M3JCClrh
+	bwFf5rFtWtJBsntUE+TOLmXBGkHfO/0O4lU3M2MuJMokJMUgNrDcP6Es8Fe9VkPevqJAg26qZ1v
+	PeWJVdL5oCWo+LQxv2lv8zdO0yYMyVtSvq38GcyzXGHLjnhIw8elOikqXwlf6rdJClC4aT8vmk2
+	gzM+JjtUkTbd7oXTjbvOVqRl62CBIuuQdnz5SEKgFH9c1QBPcPZgFoPM5co=
+X-Received: by 2002:a05:690c:a198:b0:8ab:3918:33d9 with SMTP id
+ 00721157ae682-8b07ee95c60mr33697657b3.61.1791865292925; Mon, 12 Oct 2026
+ 21:21:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20261008103831.542533-1-phucduc.bui@gmail.com>
- <20261008103831.542533-22-phucduc.bui@gmail.com> <87o6cyxyau.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87o6cyxyau.wl-kuninori.morimoto.gx@renesas.com>
-From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Tue, 13 Oct 2026 11:18:28 +0700
-X-Gm-Features: AclHuK8E-95w9dmy_Nn8Ii2RGxOq8D0J-l4YT38o4WK2kAtoUqqhMqA48tZbgYk
-Message-ID: <CAABR9nHvCfabGfBu85bm1r=hP3b0ZiCsgZfShhOv3gNUfjjhGg@mail.gmail.com>
-Subject: Re: [PATCH 21/24] ASoC: renesas: msiof: Fix msiof_close() being
- skipped on rollback
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Vijendar Mukunda <Vijendar.Mukunda@amd.com>, 
-	Venkata Prasad Potturu <venkataprasad.potturu@amd.com>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	povik+lin@cutebit.org, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
-	Andrei Simion <andrei.simion@microchip.com>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, David Rhodes <david.rhodes@cirrus.com>, 
-	Richard Fitzgerald <rf@opensource.cirrus.com>, Shengjiu Wang <shengjiu.wang@gmail.com>, 
-	Xiubo Li <Xiubo.Lee@gmail.com>, Fabio Estevam <festevam@gmail.com>, 
-	Nicolin Chen <nicoleotsuka@gmail.com>, Frank Li <Frank.Li@nxp.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Cezary Rojewski <cezary.rojewski@intel.com>, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
-	Bard Liao <yung-chuan.liao@linux.intel.com>, 
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, Heiko Stuebner <heiko@sntech.de>, 
-	Kees Cook <kees@kernel.org>, Syed Saba Kareem <syed.sabakareem@amd.com>, 
-	wangdicheng <wangdicheng@kylinos.cn>, Chris Bainbridge <chris.bainbridge@gmail.com>, 
-	Linus Walleij <linusw@kernel.org>, Charles Keepax <ckeepax@opensource.cirrus.com>, 
-	Neo Chang <YLCHANG2@nuvoton.com>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, u.kleine-koenig@baylibre.com, 
-	Pengpeng Hou <pengpeng@iscas.ac.cn>, 
-	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, Hemanth Selam <hemanth.selam@gmail.com>, 
-	Md Shofiqul Islam <shofiqtest@gmail.com>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Zain Aboobacker <zainaboobacker33@gmail.com>, Sang-Heon Jeon <ekffu200098@gmail.com>, 
-	Ajit Kumar Pandey <AjitKumar.Pandey@amd.com>, 
-	Ravulapati Vishnu vardhan rao <Vishnuvardhanrao.Ravulapati@amd.com>, Bo Shen <voice.shen@atmel.com>, 
-	Vinod Koul <vkoul@kernel.org>, linux-sound@vger.kernel.org, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, patches@opensource.cirrus.com, 
-	linuxppc-dev@lists.ozlabs.org, imx@lists.linux.dev, 
-	linux-rockchip@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+References: <pm-pmb-e1e7490bbe7ba1b3c44a-v2-3e3b6315a18c02ced60d@gmail.com> <871p9vidio.wl-tiwai@suse.de>
+In-Reply-To: <871p9vidio.wl-tiwai@suse.de>
+From: Cen Zhang <zzzccc427@gmail.com>
+Date: Tue, 13 Oct 2026 12:21:22 +0800
+X-Gm-Features: AclHuK83wFlFYzm55EIvTBGXeeWIPJbNgZM5v-29wnWvI2eGvDEShmghRE24n20
+Message-ID: <CAFRLqsW7Y8YZok60ezLw9WKDXQMWd1=3NDQ5fxAoa+dotFRAUA@mail.gmail.com>
+Subject: Re: [PATCH] ALSA: jack: Remove debugfs before freeing unregistered jacks
+To: Takashi Iwai <tiwai@suse.de>
+Cc: perex@perex.cz, tiwai@suse.com, phucduc.bui@gmail.com, kees@kernel.org, 
+	blum@kernel.org, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	baijiaju1990@gmail.com, jjzuming@gmail.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Morimoto-san,
+Hi Takashi,
 
-Thank you for your review.
-
+Takashi Iwai <tiwai@suse.de> =E4=BA=8E2026=E5=B9=B410=E6=9C=8812=E6=97=A5=
+=E5=91=A8=E4=B8=80 15:28=E5=86=99=E9=81=93=EF=BC=9A
 >
-> If so,
-
-Although I don't have MSIOF hardware, I tested this on FSI hardware.
-
-I added a .close() callback to fsi_soc_component and forced fsi_dai_startup()
-to fail to trigger rollback in __soc_pcm_open().
-
-When fsi_pcm_open() returned 1 from snd_pcm_hw_constraint_integer(),
- the .close() callback was skipped during rollback.
-When it returned 0, the callback was called as expected.
-
->we would like to have such comment to indicate such background,
-> because it is not intuitive for people.
-> Otherwise, someone (maybe me :) will return to the original code.
+> Could you verify whether the problem still exists with the latest
+> sound.git tree for-next branch (i.e. for 7.4)?  There have been fixes
+> for the races at the disconnection, and snd_card_disconnect() became
+> already mandatory before the release.
 >
 
-I'll add a comment to explain why the return value must be normalized to 0
-in the affected drivers.
+Thank you for the review and pointing out the recent disconnection
+fixes. I checked
+sound.git for-next at 8d70e364e866. A potential remaining issue is in
+the cleanup after a failed HDA codec rebind on a live card. The call
+paths below show how a newly created, unregistered jack can be freed
+before its debugfs entries are removed.
 
-For MSIOF, I noticed that snd_dmaengine_pcm_open() already calls
-snd_pcm_hw_constraint_integer() for SNDRV_PCM_HW_PARAM_PERIODS,
-so the call in msiof_open() seems redundant.
+For the generic HDA codec driver, jack creation follows:
 
-Since the first call succeeds, the second call should return 0.
-Would removing the redundant call be acceptable?
+  hda_codec_driver_probe()
+    snd_hda_codec_build_controls()
+      snd_hda_gen_build_controls()  [build_controls callback]
+        snd_hda_jack_add_kctls()
+          add_jack_kctl()
+            snd_hda_jack_add_kctl_mst()
+              snd_jack_new()
+
+snd_jack_new() creates a component in SNDRV_DEV_BUILD. With
+CONFIG_SND_JACK_INJECTION_DEBUG enabled, snd_jack_kctl_add() publishes
+its debugfs files. Even though the card already exists, this newly
+created component is not registered yet.
+
+If a later jack-control allocation fails, the error returns to
+hda_codec_driver_probe() before its snd_card_register() call. Its error
+path reaches:
+
+  snd_hda_codec_cleanup_for_unbind()
+    snd_hda_jack_tbl_clear()
+      snd_device_free()
+        __snd_device_free()
+          __snd_device_disconnect()  [skips SNDRV_DEV_BUILD]
+          snd_jack_dev_free()
+
+snd_jack_dev_free() unlinks the controls and frees their snd_jack_kctl
+attachments before calling snd_jack_dev_disconnect(). By then the
+kctl_list is empty, so snd_jack_remove_debugfs() has no entries left to
+remove. The card-level debugfs directory has not been removed by a
+snd_card_disconnect() call along this cleanup path.
 
 Best regards,
-Phuc
+Cen Zhang
