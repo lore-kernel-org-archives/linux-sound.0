@@ -1,67 +1,77 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E8E3486629
-	for <linux-sound@vger.kernel.org>; Tue, 13 Oct 2026 04:34:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 866E147FAF1
+	for <linux-sound@vger.kernel.org>; Tue, 13 Oct 2026 05:30:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791866068; cv=none; b=U3YGgVXeeTDSAfxvZzAz4mH1Iyeyt0MBOaVpDZgJ2itpQwcYMMf9kk6P12AL/WCg8gi5EesjnDHiB26wiaQ9FQtqtiBIX0FyZic0mfAK2+WEZKbu1CE4Xi5P4UCor5FqyjPURMzWzwFFtOGVtGtQXTm6Nrn3mErXggsNV34SaDU=
+	t=1791869437; cv=none; b=nVLs/zhy3qUxtiu7J01DFxtQmb4+UAwAi0FB7EN5TcEv/foosVDYxIuyBL3aXcKuKMrrdEk75/AnhQLR0qoJBtLeavZGxiaqx1Vk4/AZvdwigSxemOU0xLJYFJp16m6JQx3rA35ZFfi4DVAVuzN86r5byU6hjbeHAGmWA4TeyFA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791866068; c=relaxed/simple;
-	bh=8ybI1NEE7oS0ijxF/hUYf9i4DMISa6e27umN93+XVpE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=i7uEtUZyXdgTGyv7UAIq9WIuKUduNhueD8WMl/gGyFQPi113cc0aqemoeZL1Nn25UEZ2n+yFsbjjHyGfsxOohquelj2LREMbgP8XQMA22Jl0A2afPvt2rNqfgsxajjk705J0iNbgUxj2nHRkM/0gu6NZnP5JRei+jW1NlQxFpc4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dUyjMb/m; arc=none smtp.client-ip=209.85.128.47
+	s=arc-20240116; t=1791869437; c=relaxed/simple;
+	bh=GzDlbuaBWl4rniW5HHly+69xtzsakuywhlDzQ6UktUs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RtZ0AS99Y+2u96CHJHNW3IwJ+LL/gVmWpvnvk+0WaehPAS4foehiodiTRjsVlX1HQxq9CLn67U+ho8h6ceC1B/9oKhIh3wKSkvAPsypvgpJED/cXl1bO4ZpJK2lSk7GgXEV+NLXAWNNGBm0TVNo2qS+rW501MpMunH4e9AE0cZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RUiRYrjN; arc=none smtp.client-ip=209.85.214.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dUyjMb/m"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4a018792ab3so20852635e9.0
-        for <linux-sound@vger.kernel.org>; Mon, 12 Oct 2026 21:34:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RUiRYrjN"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2e49fbf92aaso13338435ad.0
+        for <linux-sound@vger.kernel.org>; Mon, 12 Oct 2026 22:30:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791866062; x=1792470862; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1791869432; x=1792474232; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=tSdVwuEfT+oowzv2qe/O1qt0nC5VzQNe1ZmUYrE7Smk=;
-        b=dUyjMb/mguuM3nWTve6a2Rgr/DEiI45r3Be2CGmhG9dSo1/ptpwAae0rxcCTpfVmEq
-         5YdrPaxADkJBA7Mf2TqcuA7FNOlJmV+9bGaEZX0JS0FhNRox9jTEn5phrZ7QrbI6afIT
-         cx/oDzCVNUbgp7TsgxK/vBmyn+VIqBcio1cscCmxW9EPQmLl+/4ojVEzdmHkn4ZzCu/h
-         f6R39ZHqczUBBTCdRbmUlA2py8ZvqDl0mkcXysWDEgl7bfQHXav8ymS+BBSWvdno5qBq
-         v4+DWalRDpRY89PJ1lQGvQ4vorxIQsXMXZjJ3jl5pY2AX8x9mKKP4fI6ZwYHQt4pbgkN
-         9TBQ==
+        bh=anpbORKBihWBT5stduiBRuXZUhWRspB3nfzjm5tKG/I=;
+        b=RUiRYrjN4pUg+Typq5mCK0DwXXKb1APa7IS1bs0KYqEKFIkzZ7hyhzAsYzGWiW+GHI
+         dv4PGKecToqlmQDcwpeXk0iEqKw8321xjJ/jvXCjHkuCmP1H7I6fuHh86cSdIaic62Bk
+         FQUjOkwX4VIp0YnT7R57V7oYc0nsjRNE0DydgSUWIV++7VY7TMtoZyf0QpXynHz+elAm
+         2OZ13kVUNwF5A6maRT7ob7OXF5iRUVA3LN+sriRTz2nDxQcABPXxra4IbNFnXpwwxuyf
+         pe7yOORqA0LcHsnxmbXQr9JtyO2Zwhv6c5SkEf3hPWKcFA7+pQJhtj0O4hOFf/fsgm+M
+         3g4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791866062; x=1792470862;
+        d=1e100.net; s=20260707; t=1791869432; x=1792474232;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=tSdVwuEfT+oowzv2qe/O1qt0nC5VzQNe1ZmUYrE7Smk=;
-        b=o1bAAGHMvO1/WexGqJwNQ+9uMqIVl6MDFNhWzO5hODbR2QC/NLD475ds/OWSNyrp2b
-         QUojMc/wgAPcwPBEXkVIaL9xdB8uWF13igbZV0haTYwrnAgyvNRhGK0fC/WnisuFrjWv
-         zpKytgh1oHijTIFL7K4KWZ+bAA8H67fMUfZFLUjD+LbHjrflDf52A/a3wuokI+hMiah/
-         b770LhT/pRRSXwZgEew2KEMR2Zntra09u3DyUc9jTjYz31jPycOI5ssthPo1mky9Ic23
-         oWlUIvjCT3e/SqKzSNhhTnVSZhOnXLRRi/uu3n6tZdrw8Ye8tgp73bdXBSx/IP+BTd83
-         sJng==
-X-Gm-Message-State: AFq9FYKkKhK89O2vlzQqT7Bu20fHToUsEljjRUAPRei3g5+YBnQbG7ne
-	aANSRD4/ATWBWY35PTzTERS/2bcUVtdIRvAWQYl3B7Wf4xYVwzeWJ6aDNmGA4JZu
-X-Gm-Gg: AYBFou2fNxO5W/LGZ+pnlBUam3nuvzYl3145BSUUmJmZ5rj5IGvl2kV9CvaT8UVj/CQ
-	L/LEHaZmO5yl5TI3ikNS3Iy0p10wj4A3iIPL7uanYVfDrDH9haDjkb8CqdLI8a5s5YvbOtYHiR9
-	cDvmU9vX89sneHdWfHLY/KJKi4CZsoD1iNRVIKmMXgbvwJ/HRIzth3484XpgFiY9OSCeOO0hg15
-	fs3yR4mOgiAm2zKgbmh8bydsfBwWcIo6fkRqREOLS7CsCHmkcDkHnBqruQeC2FyVvC92EDG7zRD
-	KoKsivyrOxoFa7uhJ0eJIdGQT0udc3z9MoCow49YrHf+oZaD3CXpXJW37vcyLopcJTIpDJBb4Ya
-	ti85ZmWMUhlGgw34XjKD5JDmJ+MfHPh/QEdmaOJ4cBrUta/gyDO6ydnFOSRg6DCaoS21590xuJo
-	cUEoMQV4rYAq4LnPENWifKj0rtWPBLB/NmnDS0+7H4fOBCDtXdLVmSmHo4cUBwhA==
-X-Received: by 2002:a05:600c:8a08:b0:4a1:96cd:2f72 with SMTP id 5b1f17b1804b1-4a196cd3235mr121700225e9.2.1791866062505;
-        Mon, 12 Oct 2026 21:34:22 -0700 (PDT)
-Received: from jo-Z6 ([2a02:586:e82e:5000:7fc2:feac:cb16:51fd])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48de0acb1ebsm2889024f8f.44.2026.10.12.21.34.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Oct 2026 21:34:21 -0700 (PDT)
-From: Ioannis Barkas <jnyb.de@gmail.com>
-To: linux-sound@vger.kernel.org
-Cc: Ioannis Barkas <jnyb.de@gmail.com>
-Subject: [PATCH] ALSA: fm801: Fix probe error
-Date: Tue, 13 Oct 2026 07:33:51 +0300
-Message-ID: <20261013043351.77490-1-jnyb.de@gmail.com>
-X-Mailer: git-send-email 2.53.0
+        bh=anpbORKBihWBT5stduiBRuXZUhWRspB3nfzjm5tKG/I=;
+        b=vgRr/v4l3au0HNEvmPcRuNH5pOhZ22ehom6R1pJgWOnRiQOmOx5sPb2RLHGBjfExCY
+         csB5lvvCP4WVdrHnLjlqyu9SfliH+UwW5JuFY/NyrahuluHqJTya5QDQW7voKNkJyYvH
+         599VO6e+xT5l0aR2bk5/+bnqVfup9j5Zrg93RBMnaZLFxFOSVHrPQNgotrJMXHXYoDwb
+         pdJ6Vj73Gsk1xerStq2jvIezNK4MI0WPXsruVolTHbe6ELM0u026frr7huk7q67TouVL
+         iUWL8SofaXRgVd+wsx31LzE5u8NEO/YhxTXEhG5A7QSSQY8+97cppnFP9qPvjVKqE9eR
+         KOZQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxvsNOi2HXigbcI2/4R3KIYgJ+/IR/ncPF8iosj4j3GGpKDLQxKbW68vFleZ8EwnX7lI5e7c5dZNji0Ag==@vger.kernel.org
+X-Gm-Message-State: AFq9FYJqSUn56Wsn3fILgCP0yYcXyZrFHvGfKd64HNPZ8Ts0lTWwAo2Z
+	a40ZqS0mWZQiskvJm4yF+72qSGIVSyMkssduf7JGCjYYN4D4L0JKrSb1
+X-Gm-Gg: AYBFou0eYI7XRmbg0OSqPR35VMSnceSwzyQC8OaqQYvZhL/ucf2XBYCG8gtPyVqcSgH
+	kmD8w0vIMaemB5l6yUReWWs0WVNtqup5D3/M0hhJeyUl66MZFvNrk1cX3jLsJBkdQKBozPc60bJ
+	XbfuJqR3AuX5MDz5nM1wJk28yKKkqgRWcqA4f40gBWe289yaICctWtBXCcoVt6wa3iQR618qrP/
+	Aa7tVT77DchBFofp8zQ9nA26tgAi1abj/pu4nBkACfTPTe2bjD8QCg8w4asWOAwh4eDlYanescG
+	KnUlknrgC8MKKf6IeMyh+B1kAPjB0z2/4LMwA722p27K0/e8APoZB+IBirDkm7d9yJOKFaljZyv
+	q90EnH9xcWwDA3sDPGfy+aoc3R0xtidm6JUH5c3IWZ2wZDbwqCEvJdsIvWMpLMjqjSCVxUIT8j3
+	fVSjR61V19JOUJ/m54kwT4lvsrd83wuc6nOUTEb+F5ClIIxiZ/DMe2iAF5n1L0wPAIdltCvP+Rp
+	nluQNsmX+m/xPvGqay/zdJoG0zy3yDBIYjKHQSEEbkSvm9IfDCaxrfSFp6cF6pEpP03WCnDawcw
+	29lt1HyPb/1HMFkI
+X-Received: by 2002:a17:903:1b63:b0:2e7:ff72:203f with SMTP id d9443c01a7336-2e842bd0f74mr85666295ad.61.1791869432441;
+        Mon, 12 Oct 2026 22:30:32 -0700 (PDT)
+Received: from localhost.localdomain ([183.96.175.225])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e8422b8cb6sm50820915ad.60.2026.10.12.22.30.28
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Mon, 12 Oct 2026 22:30:31 -0700 (PDT)
+From: Joonho Lee <mynameisjune111@gmail.com>
+To: Anton Yakovlev <anton.yakovlev@opensynergy.com>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: Joonho Lee <mynameisjune111@gmail.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	virtualization@lists.linux.dev,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Matias Ezequiel Vara Larsen <mvaralar@redhat.com>
+Subject: [PATCH v1 0/5] ALSA: virtio: Fix request lifetime and error recovery
+Date: Tue, 13 Oct 2026 14:30:21 +0900
+Message-ID: <cover.1791867377.git.mynameisjune111@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -70,59 +80,94 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Trying to use my FM801 card resulted in no sound card listed at OS
-Driver probe fails, and no card is registered on my old test PC:
+A failed PCM start or a timed-out request can leave virtio-snd with
+messages still owned by the device. Retrying a stream can then reuse
+pending messages, and freeing the ALSA buffer or a control payload can
+leave a descriptor pointing at released memory.
 
-snd_fm801 0000:08:08.0:
- control 2:0:0:IEC958 Capture Switch:0 is already present
-snd_fm801 0000:08:08.0:
- probe with driver snd_fm801 failed with error -16
+This series fixes the enqueue and start error paths, then keeps control
+requests and PCM backing pages alive until completion or device reset.
+It is based on Takashi Iwai's sound.git for-next branch at the base
+commit below. Please apply the five patches in order.
 
-snd_fm801 0000:08:08.0:
- control 2:0:0:IEC958 Playback Switch:0 is already present
-snd_fm801 0000:08:08.0:
- probe with driver snd_fm801 failed with error -16
+Patches 1 and 2 fix partial enqueue notification and failed-start state.
+Patch 3 serializes control notification with teardown and retains queue
+references through reset. Patch 4 retains the vmalloc-backed PCM pages
+when ALSA releases the buffer mapping after a failed drain. Patch 5 puts
+control payloads under the message reference count; it needs patch 3's
+reset lifetime handling as well as normal completion handling.
 
-Identical controls already registered by AC97 layer when the
-codec reports S/PDIF support:
+Keeping a message object alive is not sufficient by itself: its payload
+must remain alive too. Patches 3 and 5 therefore need to stay together
+when evaluating the control-request lifetime fix. An unresponsive device
+can retain memory until reset. Patch 4 adds a page-pointer array and page
+references per PCM buffer; patch 5 adds owned payload storage and copies.
 
-  "IEC958 Capture Switch"  - added by the ALC650 family patch
-                             (snd_ac97_spdif_controls_alc655)
-  "IEC958 Playback Switch" - added by the AC97 core
-                             (snd_ac97_controls_spdif)
+Validation:
+- ARM64 GCC 14.2.0 W=1 builds passed for the final series and the
+  intermediate tree through patch 4, with no build warnings in those
+  runs. The tree through patch 3 also passed a W=1 driver rebuild.
+  Patches 1 and 2 were not separately kernel-built or booted.
+- Source-extracted ASan/UBSan tests passed 340 assertions covering partial
+  enqueue, failed start, allocation failure, timeout/interruption, late
+  access, cleanup and a subsequent operation. These use kernel shims;
+  they do not prove real kernel concurrency.
+- An ARM64 KASAN guest with a fault-injecting QEMU virtio-sound backend
+  reproduced PCM-page and PCM_INFO-payload use-after-free on the tree
+  through patch 3. Two runs of each case with the complete series had no
+  KASAN or other kernel diagnostics and passed subsequent capture and
+  playback checks. A separate drain-timeout/reset/rebind run also passed.
 
-FM801 controls drive different registers (FM801_I2S_MODE bit 8
-and FM801_GEN_CTRL bit 2) from the codec ones. Give FM801 controls
-distinct names to avoid duplicates:
-  "IEC958 Capture Switch"  -> "IEC958 I2S Capture Switch"
-  "IEC958 Playback Switch" -> "IEC958 FM801 Playback Switch"
+The backend deliberately holds a capture descriptor past RELEASE, or a
+PCM_INFO response past the caller's timeout, then accesses the original
+scatterlist. A test-only guest observer reads the referenced storage so
+KASAN can check it; external DMA alone is not instrumented by KASAN. The
+reset test checks that the backend's delayed callback does not run after
+reset. It does not independently inspect guest memory after reset.
 
-Patch restores full audio functionality within OS
+These are local fault-injection results, using QEMU's none audio backend.
+TLV and enum payloads have source-shim coverage only. No physical audio,
+Apple VZ or Docker Desktop microphone validation is claimed for this
+series. VZ-specific completion compatibility changes are excluded. The
+playback ACK callback's inability to propagate enqueue errors is also
+outside this series. No new userspace ABI or feature is introduced.
 
-Investigation and patch development assisted by Claude (Anthropic AI)
+Reproducer source and instructions:
+https://github.com/whatisyourname0/virtio-snd-reproducer/tree/8e6ef41bb9c102af4f9d9809bc9fa9bd6243fb02
 
-Signed-off-by: Ioannis Barkas jnyb.de@gmail.com
----
- sound/pci/fm801.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+The source-only package includes the host harnesses, QEMU fault-injection
+patch, guest observer and build/run scripts. The 340 host assertions were
+rerun on macOS arm64 and Debian Linux aarch64. The portable QEMU validators
+passed PCM, PCM_INFO and reset checks using existing build artifacts.
+A newly generated initramfs also passed the PCM and recovery checks.
+The complete QEMU/kernel source rebuild recipe has not been run end to
+end from this package; that boundary is recorded in its README.
 
-diff --git a/sound/pci/fm801.c b/sound/pci/fm801.c
-index 9cc96b807d..96fabb0c56 100644
---- a/sound/pci/fm801.c
-+++ b/sound/pci/fm801.c
-@@ -1018,10 +1018,10 @@ FM801_SINGLE("FM Playback Switch", FM801_FM_VOL, 15, 1, 1),
- static const struct snd_kcontrol_new snd_fm801_controls_multi[] = {
- FM801_SINGLE("AC97 2ch->4ch Copy Switch", FM801_CODEC_CTRL, 7, 1, 0),
- FM801_SINGLE("AC97 18-bit Switch", FM801_CODEC_CTRL, 10, 1, 0),
--FM801_SINGLE(SNDRV_CTL_NAME_IEC958("",CAPTURE,SWITCH), FM801_I2S_MODE, 8, 1, 0),
-+FM801_SINGLE(SNDRV_CTL_NAME_IEC958("I2S ",CAPTURE,SWITCH), FM801_I2S_MODE, 8, 1, 0),
- FM801_SINGLE(SNDRV_CTL_NAME_IEC958("Raw Data ",PLAYBACK,SWITCH), FM801_I2S_MODE, 9, 1, 0),
- FM801_SINGLE(SNDRV_CTL_NAME_IEC958("Raw Data ",CAPTURE,SWITCH), FM801_I2S_MODE, 10, 1, 0),
--FM801_SINGLE(SNDRV_CTL_NAME_IEC958("",PLAYBACK,SWITCH), FM801_GEN_CTRL, 2, 1, 0),
-+FM801_SINGLE(SNDRV_CTL_NAME_IEC958("FM801 ",PLAYBACK,SWITCH), FM801_GEN_CTRL, 2, 1, 0),
- };
- 
- static int snd_fm801_mixer(struct fm801 *chip)
+AI assistance (Codex, including GPT-6 Luna Max) was used for code analysis,
+implementation, test fixtures, validation and patch text. The work was
+prompted to isolate generic virtio-snd lifetime and error fixes from
+VZ-specific behavior, reproduce the failures, and check recovery. Each
+patch carries Assisted-by: LLM.
+
+Joonho Lee (5):
+  ALSA: virtio: Notify queued PCM messages after send errors
+  ALSA: virtio: Recover PCM state after a failed start
+  ALSA: virtio: Retain control requests through device reset
+  ALSA: virtio: Retain PCM DMA pages until messages are freed
+  ALSA: virtio: Keep control payloads in refcounted messages
+
+ sound/virtio/virtio_card.c    |   6 +-
+ sound/virtio/virtio_card.h    |   2 +
+ sound/virtio/virtio_ctl_msg.c | 170 ++++++++++++++++++++++++++++------
+ sound/virtio/virtio_ctl_msg.h |  20 +++-
+ sound/virtio/virtio_kctl.c    | 101 ++++++++++----------
+ sound/virtio/virtio_pcm.h     |   5 +
+ sound/virtio/virtio_pcm_msg.c | 124 +++++++++++++++++++++++--
+ sound/virtio/virtio_pcm_ops.c |  65 +++++++++++--
+ 8 files changed, 398 insertions(+), 95 deletions(-)
+
+
+base-commit: 8d70e364e866bdfca81eee24d0688fac9472cfb9
 -- 
-2.53.0
+2.54.0 (Apple Git-157)
 
