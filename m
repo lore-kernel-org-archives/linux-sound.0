@@ -1,46 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 103B1417BD2
-	for <linux-sound@vger.kernel.org>; Tue, 13 Oct 2026 10:52:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14A734D9F7C;
+	Tue, 13 Oct 2026 10:53:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791888736; cv=none; b=RnECDenqK7HjwD8YqiW9ftE6XPdaibyw4L/HS7Avss6IrpEEZ6FDZUJYm5YmCaar/0rsf0umrkcmmoC0Blzh050AkjHJjJhg3uDzsUrZQ9lRAFIAFmUlM6ZD6r/AAflZSx7UHcjUgkDM51pavQv96KIUFWt98CV8UdyKfrfPI9Y=
+	t=1791888807; cv=none; b=ppJGGKfVsco2drqrt+HDMIezyOm/B3Xtz0b5imccwxRWm1or7rnW1qxzdQe4qgO2w2h2S+B+gqcLDJ/znQcNLPQIruvEfXgOrUsGWrWKrIaRD8SzPHfLV3dA8r7tga2ceWvyafGp/+8LVlDm/qQdMGUEWet4KEivEXq7P0iMXEs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791888736; c=relaxed/simple;
-	bh=9CIlnrdafHR6XWx4a7m9mYRPZ1Yo0bQK2WSaPWm9J2A=;
+	s=arc-20240116; t=1791888807; c=relaxed/simple;
+	bh=LSjuzUEAq8Wk3tQTOOwKYqxu4oAa3MOlcx+xHkKIvtM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UDk3WHND7eshcnhcAtm4ZftvvKVZUZ43yXsFZp7VAy16VTxKDXrCJwtr7pzPFQRJOT/OxXfRF1gaar6Rtr5I9pnf7E4I4ea+Eu39C64QcIpPAt9yYpeR1kxLDGsnHjOCzvi5ziVmhs+UxC9dzyZiyEcExNHmHttVm8k0XxViDaE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Bj5seYR4; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=F/HjMBJgryYgYSyWtYKg4jgFQB/qVtUjq+SkCek0LKfnZcvJoxo1Ao71NOSjO5XZNEHcBWhCNpYrLh2ov7f1YtacCRzg5NtQ8a7FpSzrNP7co1Ck7M1aCPGEIDmv4rc+xWMkMVe1F5z2X+r+uHpA6r8R/jpmpxH4vvvZgzVflUk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WD5PPs/T; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Bj5seYR4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C775A1F000FF;
-	Tue, 13 Oct 2026 10:52:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WD5PPs/T"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BD3C1F000FF;
+	Tue, 13 Oct 2026 10:53:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791888734;
-	bh=aGlYmvQjJG0NyXpInDR2NjrwyGT0HVlOqjOhhQq7znw=;
+	s=k20260515; t=1791888805;
+	bh=LSjuzUEAq8Wk3tQTOOwKYqxu4oAa3MOlcx+xHkKIvtM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Bj5seYR4Ic1JYvox+MrEpJ+q/nOqaRDZtwinUjRen18IV4S8e6iXp1X6gFyorOsI4
-	 C4JayKLp2BoUU0NCr1emllXqev+aNa3riTnKLkhcCM9KDHJN1Judm5dPe6FRZS00U+
-	 AynvK+A+Vgbxjo3rYd5o0S+c1QTJZPB40wjuiAkHZXSo/zgggt+qSgoPsfEOC5SASm
-	 CTWrNSSX25zHPHLtAx/Jub/IG5kWSlfpM1jf+l6MF66uO6cAcsGEEdT/t9XCiHps3O
-	 U1p/9Ql5o7aYXjWLITRrY1ILVNH4EcURSPnUN5o49K3ImNm4I16rdz3HD3NN1iiPkz
-	 OaJVGH+/Kjo+g==
-Date: Tue, 13 Oct 2026 11:52:11 +0100
+	b=WD5PPs/THEv2joNRH3WUmDo9s5GnnDNgZOHkdN1MKdFDJ5P+RoF3vjre+MLj9Lzde
+	 J/r1l1cE80Fl9tsP/pDuNmpPqveMAwrXPluqdOOErmr/fvEars2VcJqW2VVWr5AI3y
+	 6MMR+oO+uLU6pQ40J7QNyGLpQsrZwsU0lTPqV6zF1W51Df5YqsR7cWYXhyH6+WuBoP
+	 m8W5IH7aEK4mb8pFHkwmPcab99tX+G0UsbAkYveF9q+TGB8TwKPPyKew7x3z3AMFeN
+	 GD0jbDXaH1lR5Z/471/RWxvYtIUr01Hjd0flILYpnHy/xPlHNefE/dHNV6hPyES7aM
+	 vtFinet7XTULQ==
+Date: Tue, 13 Oct 2026 11:53:21 +0100
 From: Mark Brown <broonie@kernel.org>
 To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Alvin =?utf-8?Q?=C5=A0ipraga?= <alvin.sipraga@analog.com>,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2 07/13] ASoC: soc-component: move
- soc_{probe/remove}_component() to soc-component.c
-Message-ID: <2ab7a32b-4172-4f15-9326-f2914d2b5830@sirena.org.uk>
-Mail-Followup-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Alvin =?utf-8?Q?=C5=A0ipraga?= <alvin.sipraga@analog.com>,
-	linux-sound@vger.kernel.org
-References: <87mrsw6cje.wl-kuninori.morimoto.gx@renesas.com>
- <87cxts6cha.wl-kuninori.morimoto.gx@renesas.com>
- <asLKqMzZpRhloNXq@sirena.org.uk>
- <87se2axzdq.wl-kuninori.morimoto.gx@renesas.com>
+Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
+	linux-sound@vger.kernel.org, tiwai@suse.com, perex@perex.cz,
+	amade@asmblr.net, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/7] ASoC: core: Create new components in sane state
+Message-ID: <ed059f1e-2390-4e1d-bd1a-cff08a3441ad@sirena.org.uk>
+References: <20261007133353.455185-1-cezary.rojewski@intel.com>
+ <87pkxexyr6.wl-kuninori.morimoto.gx@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,47 +43,41 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ExPoyWaZI99ERGc9"
+	protocol="application/pgp-signature"; boundary="3CL9J8o+SSu9pZ3m"
 Content-Disposition: inline
-In-Reply-To: <87se2axzdq.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87pkxexyr6.wl-kuninori.morimoto.gx@renesas.com>
 X-Cookie: Some equipment shown is optional.
 
 
---ExPoyWaZI99ERGc9
+--3CL9J8o+SSu9pZ3m
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Mon, Oct 12, 2026 at 11:39:14PM +0000, Kuninori Morimoto wrote:
+On Mon, Oct 12, 2026 at 11:52:45PM +0000, Kuninori Morimoto wrote:
 
-> > > +	if (component->driver->probe) {
-> > > +		ret = component->driver->probe(component);
-> > > +		if (ret < 0)
-> > > +			goto err_probe;
-> > > +	}
+> I would like to review this patch, but unfortunately I'm busy this week.
+> Actually, I'm now posting cleanup snd_soc_component_xxx(),
+> which has many steps, and is now under progress.
 
-> > ...this doesn't have an equivalent error log to what soc_component_ret()
-> > does which is probably not great for diagnostics, nor does the cleanup.
+> I will review your patch next week, but I guess some of them (= not all)
+> are conflicts to mine...
 
-> Actually, I have a patch to use soc_component_ret() here,
-> but it changes the behavior.
-> This patch just moves function file, and will use soc_component_ret()
-> on other patch. Is it OK ?
+Ah, unfortunately I already applied it since we're in the last week
+before the merge window and it didn't get a reply - sorry about that.
 
-Sounds good.
-
---ExPoyWaZI99ERGc9
+--3CL9J8o+SSu9pZ3m
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmrODVoACgkQJNaLcl1U
-h9ArTQf/Rcva6DAHjXTcQ4Zl+N5Nui6sRfxv2YLlMfP0Kh3U0hLBlDcgAVWeB9UF
-T7LeBoMYkqQ+SEIEyF/c95YWsOnPvvp13uNzuEZBE8A6+95467KqDkPCbdRDjHX/
-SWfUfEmCD0abueJDYocfPH/g4bEqCqY1DydeeWS6xNu1lrfi6GMkSJhUQywVFs3K
-Yue4wU6EqUkSty4z3UZJVlO1eSnyWHOtzzxVFE6oiCscga6kopCscaU9MCznqpt0
-et7irTutZMc0a9uXtq6Igxxw0ctn9TYxZK5AgEqnwediZ6Qq4e+1zHDePIM3LGR1
-M6NBfblottH8BRj53bEegKdCx2mU+g==
-=PInF
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmrODaAACgkQJNaLcl1U
+h9AFHQf+IFmoF0+3WVE3eyIy0t8RAwZtBuH9xEuxRlH9R7XOa97Qo5nmEiBpjp9W
+onlbEWX4w8FW0RN69NIReP/OGf5hO5zoCeTfUJfB5Bs4inS8UVE21UMCeUMQuqIH
+TKP786SM8cXYx8nz1AOaQfnYj4wS7EpVXEg9pPpIL5iNsO5pbzUytmgoLGBB0Rnc
+vH+vfp4UzzDZPszfh+IdabrtuTZ3VPgoT7S2UuWfJdgAjwU7ZEvdiwiG0MSTVBTi
++dAoclL7xD2f9Oo6HQazprRBpyEHk5IB1fc5lZiZoqniAUY17AeMIEBLQ9cxxOi9
+JZEuU15DHb63VxvyEx33nCfs8iWvAQ==
+=v9/1
 -----END PGP SIGNATURE-----
 
---ExPoyWaZI99ERGc9--
+--3CL9J8o+SSu9pZ3m--
