@@ -1,74 +1,77 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E24E01EB1AA
-	for <linux-sound@vger.kernel.org>; Wed, 14 Oct 2026 04:06:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 807F52931FB
+	for <linux-sound@vger.kernel.org>; Wed, 14 Oct 2026 05:25:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791950820; cv=none; b=YOP2iBcHW3yDQIRXJDhGv/Bab0soO6LI3Q4yyi3giATlF+xvjvIpBCleT4DcqsdyhaSVyVKYFSxijebPtVLqtQM3k+VP8+HkerbvHAoUiuszWIMjvoBT8Vdiz8VOFyGHFzUozoVKd3qNEaQROsiHT608uE4hZr86rsY7vusTbB0=
+	t=1791955542; cv=none; b=YOWl4PfuQtc+ENpdewFge+2RM3QO+8sUJ3CBOxbn0cp6hkx/GwRSDHiv5ehDdCbVMvasaKj0N6F56fQD/imqP7f9pwHwEsnDk4bwdM9GbI99eiy/iqzTmltWBxrThTVY1U5WLpKSzunFXX3q5I8p6djplLgOwDkEA56bytyqS0A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791950820; c=relaxed/simple;
-	bh=1KtpDOY+h7GnZkqwCxm3kdRRjz+Hk65mq56qgc6Fflg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=TrlpvrBn7HuXa3p3REYFaLa6MLt9Iuop20T7HHiy0ev4lGStsgUhgHdOy6eAQ4hCl0eo9yvO+wrlx8OtO/tVXh8rzVgqVYzpASayKssLv/bEtg1k9b9KroM6gVKSURv62U18fkTILwimCxQD5um/v4zvlMtDHdtwwzhrkU0HWqY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lTKu+WIq; arc=none smtp.client-ip=209.85.216.46
+	s=arc-20240116; t=1791955542; c=relaxed/simple;
+	bh=O9aI5rrFScSHVd13CMcVMMtiXqXaFDZ3RAccZUoUcS4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=Sd8/1U3N6jbpvSC3y9oj1TFnT5aDJzLHubVe8kndT4q/R1x/45Cun9gbXeml0PMIaLS/hZDsHmDVlrEs9ghlG+JnsQt+ZRariG86EZVBC6D7VLBImbPYxq6U2cAkfQLgL2KxIEY92RAcZujP/9GOpnFDQWqLw8JJpGZLpXCn108=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BKtOIsNT; arc=none smtp.client-ip=209.85.216.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lTKu+WIq"
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-3ac78f4c10bso6165a91.1
-        for <linux-sound@vger.kernel.org>; Tue, 13 Oct 2026 21:06:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BKtOIsNT"
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-3856d6fbcb3so2170162a91.2
+        for <linux-sound@vger.kernel.org>; Tue, 13 Oct 2026 22:25:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791950818; x=1792555618; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1791955540; x=1792560340; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:message-id:date
          :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=fI+aIdg5Eg5PyjED5uc03DU2xv7jEMp47g/G9P6kJ88=;
-        b=lTKu+WIq3TRNWuh5SkHS/bVHvf2oKt8b4JNSkAb9BuLZymssKqN6n38p2QoNxvyfRE
-         X8krfMORniVCj7493DYmR+dHlJubngRFmTgSHBZFasCgBNArQ69HxSplYiuuMyZmdviq
-         oM2G8T5yVpBCjGVylUAWhV5Sx1Z/rHlEfaK6CDc6fgYNaDx/7/cfzO7p4LEwbdM/e/5/
-         MPerlnMzhbHGeaJPTDIH0jkyOzhSEQ4wV9oxjkl0gdPe3/3AVGhMhvGPd4ebYMpWdLR0
-         G/0ZBZN7c1TylXQujHXP12EAnRtPR2m0vc9eWzU+tYJwNMXaPWyE1OGzjUjdW586zvJQ
-         oP3A==
+        bh=9wyjNb2Ele/9LBjsTTcFa0oR1etdSEyzqUmFNVJDmtE=;
+        b=BKtOIsNT8/mVz1/E5BHa6rXyMJXGkvTq68qUQLsyuHdkOfdnZTJqQDZ6lCgXpXjjt7
+         2SQ9POKUuYUpcjkLkqRY7VTnS/wsInrdmSRh4DAZJOZ3JKUfKVT4STnUXSoGU9Pw0qHo
+         Q7FtZIi7zQvwK0DzN1Ce3f9rTF5xW2R2H4fW9kD87BkNxaYnQEkOyxVo7MuWPFxJVjSK
+         6B4tJPQUMYbdOvS7C8wBrv8YC8ETGEEOXHciIIfaTImkqUYpwqc0bC5rrUaIaHer61ho
+         h7j90UCTy7vEPc8hQ7SIOj6EXIS6mCKRcoghrAyY6nBYnEEVWA7u56nTyGo6FVymgtUw
+         eGrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791950818; x=1792555618;
+        d=1e100.net; s=20260707; t=1791955540; x=1792560340;
         h=content-transfer-encoding:content-type:mime-version:message-id:date
          :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=fI+aIdg5Eg5PyjED5uc03DU2xv7jEMp47g/G9P6kJ88=;
-        b=GQM9VP7uuqBoXB7A8agPE9VyJxvFHxPq6opRXrxG9WTFybkEs30wEOEfFrqMbYGwQK
-         ZKKCNSZebv4nLCigUBdZf6K4YAIWsnKOim32mXqtMPUbfStWBAhYOIsytgWB146GqeCf
-         fEfbFwqiNMtNI7BeQN+MNzxte6f+sCKQh360pxk2F8XAi+atgJGGpcNGZ1JIFooY1Yfl
-         7qELitpBfMPy9Pe+m/hDgYcXAh6zmqkt3nGGdNtHkYR35y6ITIyr3sNOGHZCHIl575dh
-         LO6Lh4el4dpIBivLz8gHOQlt/S6wdKyN2/L7Rs7etmAsgf09sB2EXxfEmCVWCdYHw+9+
-         jxmA==
-X-Gm-Message-State: AFq9FYI1uay+Ty1HUj0DN4KosogFl7Ku1KCq/uGeCoaWf7d6D3Nnw2YT
-	rZzFhrmL32YJRYZijtTCKM6B5bWs5n04LuLwBOhNxWkYgivxSMXGHOuiC3UfXAwH+/+vIA==
-X-Gm-Gg: AYBFou1mtflA9R3+G+aJ04SqnMClWQHSP5iBJda9K02mfzmYjKlZooJcCFViMOOxDuY
-	pSwG84ZJiSkFMMp1X+2G97U7xRaDRzE25WA1MxYhkpLqtuuGteM7Czmjq/eCJBFTn/DN4Ia7icz
-	3JktRr/IqAPWiwTuFhWrZ2nEtqbU48KRqCOLyd5fKoAVCyohvhQDGJ1wppizfFaMXcvPZ6CX3IS
-	TC9zNeR6yfKlTj0ohZTLtRFvMH5UOZgG0F2S3T1rvA89OW4pxTfYNh9w6errPIEjIqe+kbR6aYS
-	ONsTH2g38VFcJoF3mkEKeTv1YQXYl/aCktmIycJDDeH6NWjvUr8RU/ZWxetk8q68iWKN9OJxdcr
-	gORTFMtLdPCQ+sbax7t7NdHWmF50YF56E2SrKcpT9Ik5GeW9QOvVt0HlXj0U6w3P5UPt+m6gbLS
-	LxQOIANhvUJKx1HVwjM7/oRxKJRNAuoIK7YgfX8tgURGu4ox+Tx9N1iteJwrvrrn3/Aly1qA614
-	ZHQ
-X-Received: by 2002:a17:90a:d44b:b0:3ab:365f:ebdd with SMTP id 98e67ed59e1d1-3ab3ad2029bmr11757991a91.37.1791950817907;
-        Tue, 13 Oct 2026 21:06:57 -0700 (PDT)
+        bh=9wyjNb2Ele/9LBjsTTcFa0oR1etdSEyzqUmFNVJDmtE=;
+        b=r8oz/tFBe67qJcXn5Udh1tX74fWGJT0/GT6kDGZE450v5EUji6vS3Vz9eRZ/TmFt3i
+         FL4AaNJRfxwyDpwQSG+fXwO10BujBQEbfs7NYrdNWbcZBABpY1KOjUCryluwBlefR3/u
+         p+vv9YK87DERSgHN1bGqM2CGj89PYtwzk73XxdCn6LXTUj+0qyggs1clooYc0z/2gNW6
+         nKn+IzVHoNgE0nkF2dIXZBsOyxTMZQ5cG8fLm7WuXgSuhjSAhkhnkpBgxvXU/NT9xvkd
+         Ahd5xeguFBBNzV6lOxtJJRMJx177tRgnNGygswn7Wba8TXH1MhEcXheRUe4pFEC8lRk8
+         5nVQ==
+X-Gm-Message-State: AFq9FYJXt4G6Os86MbyHPUKgqPm/n2IoW/ke9wwARzXXXS+EkmEHWnhG
+	PaVTcmhvPIqWPZ8QsPC2+D6bXm2OX2/J9edtOCfi1QRyUDL33/uEAnG9
+X-Gm-Gg: AYBFou0Vq20u8ANwGV0DaV3sBLzmlvi8nTZBza91tKfdS8zq6/xHRfGzCti92C72jaK
+	zsqrRVRNB5OMStSFfHRzj1Rp/MAp1/rr2h9uv2nNnK7tHofpGfR1SPDrNbQ0USIVyV0a7OreSgx
+	ddecEPMg9Lna5eqDOBI8UO13P0LMYdxVKHXoKCggxyr+F7rZAKwP/F1qFYSXtETDBpEvtbAd3Wq
+	NWqbazN99P5pNWwPRoy1oRKpfhm2mELM6wHFmUl5C6KMjRX+5hliCWtdbtWOomDJoJ3Yudiubzy
+	IRZSGh7OFZLY2hNeZnsejqoTUU021sAN9TP63VwvUSVYaTgbVFXuPIXXtWErIGWeub1sKbQbtAB
+	mRwZ3KIyrIXLfrps/e9FzaTvmdGoDPMnlWgZLjpThbGf4QCzs/0074J2cxFblUDmLX23ewlpjnL
+	lk/Fdjgynf0XH5F80Cz5mgNaX414fNR+3DTYAeQ2dVR7XQDxnn2XR5RRy5grDojTzjAw==
+X-Received: by 2002:a17:90a:d2ce:b0:3a9:9f13:e960 with SMTP id 98e67ed59e1d1-3ab3a98f4e3mr12527379a91.60.1791955539666;
+        Tue, 13 Oct 2026 22:25:39 -0700 (PDT)
 Received: from localhost ([111.228.63.84])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ac760fc92csm544113a91.14.2026.10.13.21.06.54
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ac5f05083fsm2901652a91.1.2026.10.13.22.25.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Oct 2026 21:06:57 -0700 (PDT)
+        Tue, 13 Oct 2026 22:25:39 -0700 (PDT)
 From: Cen Zhang <zzzccc427@gmail.com>
 To: perex@perex.cz,
 	tiwai@suse.com,
-	kees@kernel.org
+	sammiee5311@gmail.com,
+	phucduc.bui@gmail.com,
+	kees@kernel.org,
+	thomas.weissschuh@linutronix.de,
+	tglx@kernel.org
 Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	baijiaju1990@gmail.com,
 	jjzuming@gmail.com,
 	zzzccc427@gmail.com
-Subject: [PATCH] ALSA: seq: oss: Prevent duplicate MIDI device teardown
-Date: Wed, 14 Oct 2026 12:06:52 +0800
-Message-Id: <pm-pmb-7c5128efe2110a87b872-v2-c718183fd693e73d8e95@gmail.com>
+Subject: [PATCH] ALSA: dummy: Defer hrtimer data freeing until runtime detach
+Date: Wed, 14 Oct 2026 13:25:31 +0800
+Message-Id: <pm-pmb-9c80f858ccc13b3de84d-v6-d4059ea2910fe5430f5f@gmail.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -79,237 +82,151 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Each OSS MIDI alias and its coder must have one final-release owner.
-find_slot() pins the alias under register_lock, but
-snd_seq_oss_midi_check_exit_port() clears its slot in a separate critical
-section without checking whether another callback already removed it.
-The use counter protects active users, but draining it does not elect a
-single remover.
+The hrtimer record must remain alive while a linked PCM action can
+visit its substream. dummy_pcm_close() frees that record before
+pcm_release_private() unlinks the substream. runtime->private_data still
+points to the freed allocation.
 
-This requires overlapping raw kernel-client port controls for the same
-client. snd_seq_kernel_client_ctl() does not take ioctl_mutex, and
-snd_seq_delete_port() releases ports_mutex before returning to the
-DELETE_PORT handler's PORT_EXIT broadcast. If the old deletion is delayed
-before that broadcast, a new port can reuse the vacant address. Its
-PORT_START finds and keeps the old alias. Deleting the replacement then
-produces a second PORT_EXIT for the same address. Non-atomic subscriber
-delivery holds a read rwsem, so the two receive_announce() callbacks can
-run concurrently:
+With two configured dummy capture substreams linked and the hrtimer
+backend selected, final close drops the group to SETUP. A surviving
+peer can then issue PREPARE before the closing substream is unlinked:
 
-  Old-port deletion                 Replacement-port controls
-  -----------------                 -------------------------
-  Unlink and drain old port
-  Delay before PORT_EXIT            Create port at the same address
-                                    PORT_START keeps existing alias
-                                    Delete port; PORT_EXIT pins mdev
-  PORT_EXIT pins the same mdev
-  Clear slot; drop pin              Clear slot; drop pin
-  Wait for users to drain           Wait for users to drain
-                                    Free coder; pause before kfree(mdev)
-  Free coder again: read
-  freed coder->buf
+  Target close                       Peer PREPARE
+  snd_pcm_drop(): group -> SETUP
+  do_hw_free()
+  dummy_pcm_close(): kfree(dpcm)
+                                     snd_pcm_action_nonatomic()
+                                       read-lock snd_pcm_link_rwsem
+                                     dummy_pcm_prepare()
+                                       read dpcm->timer_ops
+  pcm_release_private()
+    snd_pcm_unlink(): write-lock
 
-Both callbacks can select the same alias before either clears its slot.
-After both drop their pins, both waits can return. The second call to
-snd_midi_event_free() can then read the freed coder's buffer pointer,
-as in the report below, and attempt to release the same objects twice.
+PREPARE holds the link read semaphore and the members' buffer mutexes,
+but driver close holds neither across the free. Unlink's write lock
+comes too late to protect the record. The ops-pointer read can use freed
+memory and dispatch through an invalid function pointer. If PREPARE
+already obtained the record before close, dummy_hrtimer_prepare() can
+instead write period_time after it has been freed. The report below
+shows the dispatch-time read and the ensuing fault; it does not show
+the later write.
 
-Check that the pinned alias still occupies its slot under register_lock
-before clearing it. A callback that finds it already removed drops its
-pin and returns. Only the callback that removes the alias drains users
-and frees the coder and record. The pin keeps the record alive through
-this check, and the wait remains outside the spinlock.
+Defer freeing the hrtimer record to runtime->private_free. Runtime
+detach follows unlink, which waits for existing linked PREPARE actions
+and prevents new ones from visiting the target. Cancel the embedded
+timer in the destructor before releasing its storage. Register the
+destructor from the backend free callback so the open error path also
+releases the record through runtime detach.
 
 KASAN report as below:
 
-    ==================================================================
-    BUG: KASAN: slab-use-after-free in snd_midi_event_free+0x53/0x60
-    Read of size 8 at addr ffff888107074518 by task alsa-seq-fixtur/492
+    BUG: KASAN: slab-use-after-free in dummy_pcm_prepare+0xb7/0xc0
+    Read of size 8 at addr ffff888106b35f00 by task alsa_pcm_fixtur/491
 
-    CPU: 3 UID: 0 PID: 492 Comm: alsa-seq-fixtur Not tainted 7.2.0-rc6-pmb-bt-functional-v1+ #1 PREEMPT(lazy)
-    Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
     Call Trace:
      <TASK>
      dump_stack_lvl+0x93/0xd0
      print_report+0xce/0x630
-     ? snd_midi_event_free+0x53/0x60
+     ? dummy_pcm_prepare+0xb7/0xc0
      ? srso_alias_return_thunk+0x5/0xfbef5
      ? __virt_addr_valid+0x20d/0x410
-     ? snd_midi_event_free+0x53/0x60
+     ? dummy_pcm_prepare+0xb7/0xc0
      kasan_report+0xe0/0x110
-     ? snd_midi_event_free+0x53/0x60
-     snd_midi_event_free+0x53/0x60
-     snd_seq_oss_midi_check_exit_port+0x1d8/0x370
-     receive_announce+0x1b8/0x370
-     ? __pfx_receive_announce+0x10/0x10
+     ? dummy_pcm_prepare+0xb7/0xc0
+     dummy_pcm_prepare+0xb7/0xc0
+     snd_pcm_do_prepare+0x71/0xb0
+     snd_pcm_action_group+0x505/0xb30
+     snd_pcm_action_nonatomic+0xab/0x150
+     snd_pcm_common_ioctl+0x1bf5/0x3a50
      ? srso_alias_return_thunk+0x5/0xfbef5
-     ? __lock_acquire+0x466/0x2260
-     ? snd_seq_port_use_ptr+0x40/0x170
+     ? do_vfs_ioctl+0x1f5/0x1280
+     ? __pfx_do_vfs_ioctl+0x10/0x10
+     ? ioctl_has_perm.constprop.0.isra.0+0x34f/0x500
+     ? __pfx_snd_pcm_common_ioctl+0x10/0x10
+     ? __fput+0x5ba/0xa60
      ? srso_alias_return_thunk+0x5/0xfbef5
-     ? find_held_lock+0x2b/0x80
-     ? snd_seq_port_use_ptr+0x10c/0x170
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     ? lock_release+0xc8/0x280
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     ? __pfx_receive_announce+0x10/0x10
-     __snd_seq_deliver_single_event+0x105/0x1a0
-     ? snd_seq_port_use_ptr+0x111/0x170
-     snd_seq_deliver_single_event+0x2fc/0x770
-     ? __pfx_snd_seq_deliver_single_event+0x10/0x10
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     ? __pfx_down_read_nested+0x10/0x10
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     ? do_raw_read_unlock+0x49/0xe0
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     ? _raw_read_unlock+0x23/0x40
-     snd_seq_deliver_event+0x351/0x760
-     ? __pfx_snd_seq_deliver_event+0x10/0x10
-     ? _raw_spin_unlock_irqrestore+0x44/0x60
-     ? trace_hardirqs_on+0x18/0x160
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     ? _raw_spin_unlock_irqrestore+0x44/0x60
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     snd_seq_kernel_client_dispatch+0x13f/0x170
-     snd_seq_system_broadcast+0x100/0x150
-     ? __pfx_snd_seq_system_broadcast+0x10/0x10
-     ? mark_held_locks+0x40/0x70
-     ? _raw_spin_unlock_irqrestore+0x44/0x60
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     ? lockdep_hardirqs_on_prepare+0xea/0x1a0
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     snd_seq_ioctl_delete_port+0x179/0x4b0
-     call_seq_client_ctl+0x90/0x110
-     snd_seq_kernel_client_ctl+0x8a/0x100
-     pmbd_case_delete_port+0xa6/0xf0
-     ? __pfx_pmbd_case_delete_port+0x10/0x10
-     ? __might_fault+0xdd/0x190
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     ? __might_fault+0x14e/0x190
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     ? strim+0x19c/0x200
-     pmbd_case_control_write+0x2c5/0x470
-     ? __pfx_pmbd_case_control_write+0x10/0x10
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     ? __debugfs_file_get+0x1bd/0x7f0
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     ? lock_acquire+0x17b/0x2f0
-     ? ksys_write+0x111/0x200
-     full_proxy_write+0x11f/0x180
-     vfs_write+0x25a/0x1010
-     ? __pfx_full_proxy_write+0x10/0x10
-     ? __pfx___mutex_lock+0x10/0x10
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     ? lock_acquire+0x17b/0x2f0
-     ? __pfx_vfs_write+0x10/0x10
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     ? __fget_files+0x1e1/0x370
-     ksys_write+0x111/0x200
-     ? __pfx_ksys_write+0x10/0x10
-     ? rseq_register.isra.0+0x1f3/0x2e0
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     ? exit_to_user_mode_loop+0x3a5/0x570
-     ? srso_alias_return_thunk+0x5/0xfbef5
+     snd_pcm_ioctl+0x76/0xb0
+     ? __pfx_snd_pcm_ioctl+0x10/0x10
+     __x64_sys_ioctl+0x163/0x1d0
      do_syscall_64+0x115/0x6a0
      entry_SYSCALL_64_after_hwframe+0x77/0x7f
-    RIP: 0033:0x7f3532e4e9ee
-    Code: 08 0f 85 f5 4b ff ff 49 89 fb 48 89 f0 48 89 d7 48 89 ce 4c 89 c2 4d 89 ca 4c 8b 44 24 08 4c 8b 4c 24 10 4c 89 5c 24 08 0f 05 <c3> 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 80 00 00 00 00 48 83 ec 08
-    RSP: 002b:00007f3532dafe08 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
-    RAX: ffffffffffffffda RBX: 00007f3532db06c0 RCX: 00007f3532e4e9ee
-    RDX: 000000000000000a RSI: 000055efbd747156 RDI: 0000000000000003
-    RBP: 000055efbd747156 R08: 0000000000000000 R09: 0000000000000000
-    R10: 0000000000000000 R11: 0000000000000246 R12: 000000000000000a
-    R13: 0000000000000000 R14: 00007ffe7894e7f0 R15: 00007f35325b0000
+    RIP: 0033:0x41ee8d
+    Code: 04 25 28 00 00 00 48 89 45 c8 31 c0 48 8d 45 10 c7 45 b0 10 00 00 00 48 89 45 b8 48 8d 45 d0 48 89 45 c0 b8 10 00 00 00 0f 05 <89> c2 3d 00 f0 ff ff 77 1a 48 8b 45 c8 64 48 2b 04 25 28 00 00 00
+    RSP: 002b:00007ffcfa72fb60 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+    RAX: ffffffffffffffda RBX: 0000000000000004 RCX: 000000000041ee8d
+    RDX: 0000000000000000 RSI: 0000000000004140 RDI: 0000000000000004
+    RBP: 00007ffcfa72fbb0 R08: 00007ffcfa72fb98 R09: 0000000000000110
+    R10: 0000000000000001 R11: 0000000000000246 R12: 00007ffcfa72fcd8
+    R13: 00007ffcfa72fcf0 R14: 00000000004a8f28 R15: 0000000000000001
      </TASK>
 
-    Allocated by task 490:
+    Allocated by task 488:
      kasan_save_stack+0x33/0x60
      kasan_save_track+0x14/0x30
      __kasan_kmalloc+0xaa/0xb0
      __kmalloc_cache_noprof+0x251/0x610
-     snd_midi_event_new+0x74/0x210
-     snd_seq_oss_midi_check_new_port+0x329/0x610
-     receive_announce+0x277/0x370
-     __snd_seq_deliver_single_event+0x105/0x1a0
-     snd_seq_deliver_single_event+0x2fc/0x770
-     snd_seq_deliver_event+0x351/0x760
-     snd_seq_kernel_client_dispatch+0x13f/0x170
-     snd_seq_system_broadcast+0x100/0x150
-     snd_seq_ioctl_create_port+0x39a/0x9d0
-     call_seq_client_ctl+0x90/0x110
-     snd_seq_kernel_client_ctl+0x8a/0x100
-     pmbd_case_create_port+0xcc/0x160
-     pmbd_case_control_write+0x21d/0x470
-     full_proxy_write+0x11f/0x180
-     vfs_write+0x25a/0x1010
-     ksys_write+0x111/0x200
+     dummy_hrtimer_create+0x4a/0x170
+     dummy_pcm_open+0xe7/0x730
+     snd_pcm_open_substream+0x926/0x1580
+     snd_pcm_open+0x28d/0x6d0
+     snd_pcm_capture_open+0x82/0xe0
+     snd_open+0x1ec/0x3e0
+     chrdev_open+0x21f/0x660
+     do_dentry_open+0x5c8/0x1300
+     vfs_open+0x87/0x390
+     path_openat+0x2460/0x3cd0
+     do_file_open+0x21e/0x470
+     do_sys_openat2+0xf4/0x1b0
+     __x64_sys_openat+0x136/0x1e0
      do_syscall_64+0x115/0x6a0
      entry_SYSCALL_64_after_hwframe+0x77/0x7f
 
-    Freed by task 493:
+    Freed by task 490:
      kasan_save_stack+0x33/0x60
      kasan_save_track+0x14/0x30
      kasan_save_free_info+0x3b/0x60
      __kasan_slab_free+0x5f/0x80
      kfree+0x307/0x580
-     snd_midi_event_free+0x48/0x60
-     snd_seq_oss_midi_check_exit_port+0x1d8/0x370
-     receive_announce+0x1b8/0x370
-     __snd_seq_deliver_single_event+0x105/0x1a0
-     snd_seq_deliver_single_event+0x2fc/0x770
-     snd_seq_deliver_event+0x351/0x760
-     snd_seq_kernel_client_dispatch+0x13f/0x170
-     snd_seq_system_broadcast+0x100/0x150
-     snd_seq_ioctl_delete_port+0x179/0x4b0
-     call_seq_client_ctl+0x90/0x110
-     snd_seq_kernel_client_ctl+0x8a/0x100
-     pmbd_case_delete_port+0xa6/0xf0
-     pmbd_case_control_write+0x398/0x470
-     full_proxy_write+0x11f/0x180
-     vfs_write+0x25a/0x1010
-     ksys_write+0x111/0x200
+     dummy_hrtimer_free+0x72/0xe0
+     dummy_pcm_close+0x9f/0xd0
+     snd_pcm_release_substream.part.0+0x104/0x310
+     snd_pcm_release+0x106/0x240
+     __fput+0x39f/0xa60
+     fput_close_sync+0xff/0x200
+     __x64_sys_close+0x8c/0xf0
      do_syscall_64+0x115/0x6a0
      entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-    The buggy address belongs to the object at ffff888107074500
-     which belongs to the cache kmalloc-96 of size 96
-    The buggy address is located 24 bytes inside of
-     freed 96-byte region [ffff888107074500, ffff888107074560)
-
-    The buggy address belongs to the physical page:
-    page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x107074
-    flags: 0x200000000000000(node=0|zone=2)
-    page_type: f5(slab)
-    raw: 0200000000000000 ffff888100042280 dead000000000122 0000000000000000
-    raw: 0000000000000000 0000000000200020 00000000f5000000 0000000000000000
-    page dumped because: kasan: bad access detected
-
-    Memory state around the buggy address:
-     ffff888107074400: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-     ffff888107074480: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-    >ffff888107074500: fa fb fb fb fb fb fb fb fb fb fb fb fc fc fc fc
-                                ^
-     ffff888107074580: fa fb fb fb fb fb fb fb fb fb fb fb fc fc fc fc
-     ffff888107074600: fa fb fb fb fb fb fb fb fb fb fb fb fc fc fc fc
     ==================================================================
 
-Assisted-by: LLM
+Fixes: c631d03c6873 ("ALSA: dummy - Support high-res timer mode")
 Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
+
 ---
 
-diff --git a/sound/core/seq/oss/seq_oss_midi.c b/sound/core/seq/oss/seq_oss_midi.c
-index 70f94df651446e68af238e3a62180851a037ef76..b456bd37d87bc3d7363b5665fb65ab80c7a9aa36 100644
---- a/sound/core/seq/oss/seq_oss_midi.c
-+++ b/sound/core/seq/oss/seq_oss_midi.c
-@@ -211,6 +211,11 @@ snd_seq_oss_midi_check_exit_port(int client, int port)
- 	mdev = find_slot(client, port);
- 	if (mdev) {
- 		scoped_guard(spinlock_irqsave, &register_lock) {
-+			/* Only one callback may release the device. */
-+			if (midi_devs[mdev->seq_device] != mdev) {
-+				snd_use_lock_free(&mdev->use_lock);
-+				return 0;
-+			}
- 			midi_devs[mdev->seq_device] = NULL;
- 		}
- 		snd_use_lock_free(&mdev->use_lock);
+diff --git a/sound/drivers/dummy.c b/sound/drivers/dummy.c
+index 6b0a06e5c87638264e5d22deda1fe4bc028febe7..ae7cef9d74819a68dcf951a21768dccf38c7c4ad 100644
+--- a/sound/drivers/dummy.c
++++ b/sound/drivers/dummy.c
+@@ -476,13 +476,20 @@ static int dummy_hrtimer_create(struct snd_pcm_substream *substream)
+ 	return 0;
+ }
+ 
+-static void dummy_hrtimer_free(struct snd_pcm_substream *substream)
++static void dummy_hrtimer_runtime_free(struct snd_pcm_runtime *runtime)
+ {
+-	struct dummy_hrtimer_pcm *dpcm = substream->runtime->private_data;
++	struct dummy_hrtimer_pcm *dpcm = runtime->private_data;
+ 
++	hrtimer_cancel(&dpcm->timer);
+ 	kfree(dpcm);
+ }
+ 
++static void dummy_hrtimer_free(struct snd_pcm_substream *substream)
++{
++	/* Linked PREPARE can still use the data until unlink. */
++	substream->runtime->private_free = dummy_hrtimer_runtime_free;
++}
++
+ static const struct dummy_timer_ops dummy_hrtimer_ops = {
+ 	.create =	dummy_hrtimer_create,
+ 	.free =		dummy_hrtimer_free,
