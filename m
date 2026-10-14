@@ -1,76 +1,74 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0795E37B036
-	for <linux-sound@vger.kernel.org>; Wed, 14 Oct 2026 03:31:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEFF739023D
+	for <linux-sound@vger.kernel.org>; Wed, 14 Oct 2026 03:31:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791948665; cv=none; b=dEprL4AY4P5ENQpUiZn3qv4SLiFqx0YOW+r9Uc4bUA08tuVP2XgrooBFugRrBifCpkRPoVun3IuXW7QYjYx4jZE4IpHkawgk+dKMGebdWNkiBxsgGmPLD+TtJW5ggLWiQALrnuCM133bpWLW0OMHhOOH2dSw5JLf2U9BBaFWgvY=
+	t=1791948671; cv=none; b=eIJV42LKoejazYN/TyVUBbUxtRKvFeBoBuHLKODmCr+T7WcFFoE+DXT+WyPVaE+ffxie3abat7m0hOeEb885duBbWGhjmIxp8dhaJvRfh2Ncf3ndoAKkG5pUui92RPK0f9ClV3tU+ZwxyBgcTXsIGMEQr0ZvfHEox127vbz82qo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791948665; c=relaxed/simple;
-	bh=a1zoB4jM644DlD+AKW5E5XGLIlgEJJCaSSnkZ8z3L5E=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TODGe0FZZWK+7OwZQotcneApmjXudSIzDWCJeOq0AYCBKENF2UFHl9L10nwWmtc0QTrGIJcHgb/t5O4xawQ4ffnWq+n4yco/fwo/TX0OsRF7avGaVVgCD0uYLrtjvpWKYkYtbjJPT9QCPPeQ1kBh3QIo5P1vGmuyVIPlE0Byf14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A+dh+Yv3; arc=none smtp.client-ip=209.85.214.180
+	s=arc-20240116; t=1791948671; c=relaxed/simple;
+	bh=GBWVyNCoXhbGW1Io1T1lhwoid7Nmf9FxsF0UlPz0dPk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=aRHxcMNZPyLtYhP8APfLKyfISh2P7mZ7s6EhjAv5nDNHs6wN5JsA/1h3URApjLcqAa4jnLeGULAbCvzHrlvPz1XD47xE6iKa1VyqyOXXxyCd16Vik36QLc/9X4xhxAywdjhi/MQixbQn38iOEjeQLcAjRVAh6QkC+wpo4n2LZcw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J49rwsOI; arc=none smtp.client-ip=209.85.210.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A+dh+Yv3"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2e8455755f3so19076245ad.0
-        for <linux-sound@vger.kernel.org>; Tue, 13 Oct 2026 20:31:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J49rwsOI"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-88834d30002so1720404b3a.1
+        for <linux-sound@vger.kernel.org>; Tue, 13 Oct 2026 20:31:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791948663; x=1792553463; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=5DeSorT59zvpBPNILOX/JRE/fILGH5zaXMNlr01hcWQ=;
-        b=A+dh+Yv3JmmtSdgxIu9QQ5nuq9xS5iYHvdqgR+Mn4zbI5zLCdanmdGSbO8/qEAucjv
-         EMH8LIeva6Lq6twAJffs89BGGbk7frpZNzrXG0jZBt4LtUbID/cNU/YmO7Brf7sYyI9E
-         5GLxtR2bAAHABKstIO5GVdgDIsP0KV0+pvx7jhs74pw6PKndC8G23WNXtidSTEVizXqn
-         Xau0EXqwQ0qKwa4S2q6/xdMqx0JhkWvRLFNTRXLPel0Y4WU6EJuKjH6J1SliqPdf7+Mg
-         xe5ugGQoTxq+aIOWH0c8N49LhJ4UM3KYlkJ0sKyZz982GhEKXc83hx+PyKo/zLb8kaAu
-         vDNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791948663; x=1792553463;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1791948669; x=1792553469; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=5DeSorT59zvpBPNILOX/JRE/fILGH5zaXMNlr01hcWQ=;
-        b=VroSZR5L9JBCPalwXYfYyJRHSmcZTghdev3nswUylLwk2IJwIxqg12y1uq7qbHlV0E
-         qqHwezr57oC3aXfKOnBS+q7g7rJsNy5Qd8DTPm+qKrXEEbaG/XodO+8zCOpNEploZsmE
-         24vLcYOAV/4ZMPgwzKNhEZT2Qb2sBPrPzResMpW3dH+l+1pL0MdRnnkSs2P+0znc1cx6
-         rbRjkI1XNNQpFDTrmEuxPTm0MAm4zvKBIsstzYJQY8gCfbG9ri4FYozyYJEIP+b+ZPxY
-         HRR8lzy3G4nUqCnQP8EJMJq1OnLulPtt2OkQuvuf4CeokbUdoOawWnk8s9lzmsxRyaCv
-         aLQQ==
-X-Gm-Message-State: AFq9FYKWQRwc4/gyOec3SJwn7SgDv6SH/B8GuZB/Hjhtwh7WZWE1nYYg
-	ZHdpEk2xHAtXzPAgg5TIGaEGNf1kiEBMZGCIpd+NDhXCX/hMSDfWHOR2
-X-Gm-Gg: AYBFou0zDjvXDjreejrPBPs4E1uKj3BTHwxVToOZ8JsU9aUJpFbsb0qiCcJ8iUovzXm
-	r36S5drkCXjbk0RG0hv7pO8er2ANp5z2+HXJCVhTSPSEhqXUis7JWVRLiRyo5/fb/1nwJctbBqj
-	MJl66bDvWzmrL00zNsHQm2MCaDa/G6RAva99tYGoloCe/LiiffYAaV45owg8qos97q66m55Y233
-	fdNImwNHRg51pQKB8cg+iPm7mCIGNIiFJh+iwm5hzaI2xJniYWyTBkyLaZOwsDBsUE8l3BvP7Wf
-	fYWAhi6WguSP9yWOt3fll2m1b+n99j9pYW9dy8eUOIPjClAej27NIDdFfBPrL2Nf6uaxD+Md9dv
-	tAE8yvkl0g6XXHFxdND6li0A3U2N+fTvzXCUbG+6Y+/9CNEpQ9+5Z7cttvsNylRWtTgEwmLsMts
-	sDMpnLVbsfZt0HqOA4Mp3y1RdJQgbxSOW+xcKtQyKPbLeiw6Np7En1+9cDPv/TPCIy0kQtWv0jN
-	jpvClyzym31EcVpm0bnupCA8RgNFKJ8AjwO/of0bRGpugn+6HwciAw1TJeEr3jOmr6t03vCsJtp
-	bHJxGBjMsYykIGnz
-X-Received: by 2002:a17:903:19e7:b0:2e6:1a6c:abcd with SMTP id d9443c01a7336-2e84280a68fmr143697955ad.3.1791948663377;
-        Tue, 13 Oct 2026 20:31:03 -0700 (PDT)
+        bh=UT2c60O2oAsCSVRv4sGt/dkHyKvothdKXrO/hHE7RlQ=;
+        b=J49rwsOIOK9p7rJUXJpujWsesqd6WNPx5GfP4onVZO54UxtBL6irxBBXIoO1rY7W5n
+         b6La8736OmXmhhEhIDEqKMT/1L17bSms1QAa4RhKsVjFv/FI4lfBkHzmWiyrvmudm0uR
+         t7+OpVucz0oRY4GylWNtcvd2r4U7O35s95UsorZXcYcboh3e+gclcm5QMKfrxoyuQ1Qu
+         gttvvHNRigMIBJT0Lo6t/5elypsxcWUZE8x2J151QiLM0ARzFSg6gFzsHSY/xqhSHDqp
+         Gcz5BmSQX+8HtjZrqeGYV7e3jdGJRK7RaznT2nvrNtpgrcMD1VaJ5qnoDh2mgKss9cKC
+         ubLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791948669; x=1792553469;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=UT2c60O2oAsCSVRv4sGt/dkHyKvothdKXrO/hHE7RlQ=;
+        b=CXwShx/e5l8Dv/nFVJvkieDsRrFQLAqfZydR5JRuBf3DfqxDTLF1sxoAuJDUCxJKjT
+         X1O4edI5xR473eZ456JZSC2oMZc/COCfBCVcu0YaYjgkY/rEFuNURMmJNmUZKJFeRRt2
+         Q921V0C/UeDXiqFV6w0/Mp5zPimxKVa+qPMl9nRkaC5zcCT805cu2ADQ67yS9iZsKgex
+         HrshQ5SOegEZXqAkAoOgj8pgyB4X7nr9iEQTCa9yKsS52z4Ra+4yWcsSAxt4zJMsrd7w
+         3nIJlGvo06U0lD/l6RbtHDzRzTP+HT0Fd60TaqzeRAdMQaJ1JsmLNVvtELtSSn8orwuU
+         c87w==
+X-Forwarded-Encrypted: i=1; AKwUvBycWs2YIPpgPQy+Rw3/sduu3YK9b7dW9blMVVet332HOcX5+bheYEcu+tkCrhwkPzqFSmVtVtMCRBa8xQ==@vger.kernel.org
+X-Gm-Message-State: AFq9FYKrEAWE87ASEieSPZ019MB4ZjwAaiobibZYyH9wEEBf4b3/Fzdy
+	eDFNuoTcDXqflaA7uMAovyFP3ogtAAMf3UH/W9OKdOGjlb3BH2sNsm06
+X-Gm-Gg: AYBFou1ZaaoqcLJxP/wBW25yphg567B+Wd0R0bACNewb/+kiXErVmiAe/uexAWxJuyQ
+	9IUJEnLVLDOIdOFeGU9sBy5Jysifl6gQE9bDhZEH2GFEI3i2P7SuaELIQ1glzvg7CY0lRKwGTQt
+	ZuIZs0ybGXJ3a42/ed1M7X1kBaR/M4pKW5HUXAuQjM+rof0am8wpF61mwUPsbVdkW1t8Jvty8ZY
+	lb9OG6fKTF3/7o3or/XTdil72qE2kFLIiNGFU7VLpoeNvVyXqdgR9ffR8pTqxxf1jmTmu1FQGhs
+	y+YNWwFDWpY8tOz/pHQ+QdkVrDQWLCZDbdkyxoAc+2WTHRygD3ADBLLPQgqe8E9lYc5gHcQyvZD
+	ITMNKWaOrD05WCPgrmcryjQGYEjmtdt7nF+VBzgrFPH9UiO6HaldG6xx/DjGQvbeXchMxULJWt0
+	fKf8wFHuhr/VR2+QQUv6vFzZAOi6N8StDqeUU/TjsMUc/tHWQpyQmofMw6wwAepJvetqcDxFOtJ
+	CdQfairToZNdj9h1/In2A7Uog+l3xJkMBrWkX4kE5ymPq1DN2eXkdjXIgnWDRX0uQxRR36c2AMY
+	Sq4DmmtYFhNDXrBQ
+X-Received: by 2002:a05:6a00:807:b0:886:5938:cddb with SMTP id d2e1a72fcca58-897c5d52d33mr11853332b3a.20.1791948668856;
+        Tue, 13 Oct 2026 20:31:08 -0700 (PDT)
 Received: from localhost.localdomain ([183.96.175.225])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e8422e4ebfsm65008455ad.78.2026.10.13.20.31.00
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-89d804fab99sm539295b3a.46.2026.10.13.20.31.06
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 13 Oct 2026 20:31:01 -0700 (PDT)
+        Tue, 13 Oct 2026 20:31:08 -0700 (PDT)
 From: Joonho Lee <mynameisjune111@gmail.com>
 To: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org
-Subject: [RFC PATCH 2/2] ALSA: pcm: refresh capture pointers before drain
-Date: Wed, 14 Oct 2026 12:30:57 +0900
-Message-ID: <rfc-core-capture-drain-2.112c40f0e9284eaa@gmail.com>
-In-Reply-To: <rfc-core-capture-drain-0.112c40f0e9284eaa@gmail.com>
-References: <rfc-core-capture-drain-0.112c40f0e9284eaa@gmail.com>
+	"Michael S. Tsirkin" <mst@redhat.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	linux-sound@vger.kernel.org,
+	virtualization@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [RFC PATCH 0/1] ALSA: virtio: stage capture for VZ backends
+Date: Wed, 14 Oct 2026 12:31:04 +0900
+Message-ID: <rfc-vz-capture-compat-0.112c40f0e9284eaa@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -80,56 +78,149 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Refresh active capture pointers before the drain transition so the final
-captured tail is accounted before reads finish.
+Base: d58a3ac9b1719fdf8ce9d286be606128aeebf1aa
+      ("ALSA: virtio: Keep control payloads alive through DMA completion")
+      Local tip of the five submitted v3 patches; not an upstream commit.
+Previous series: <cover.1791881787.git.mynameisjune111@gmail.com>
+Link: https://lore.kernel.org/all/cover.1791881787.git.mynameisjune111@gmail.com/
 
-Assisted-by: LLM
-Signed-off-by: Joonho Lee <mynameisjune111@gmail.com>
----
- sound/core/pcm_native.c | 32 +++++++++++++++++++++++++-------
- 1 file changed, 25 insertions(+), 7 deletions(-)
+This is a follow-up RFC, not a replacement or v4 of that five-patch series.
+The submitted v3 fixes ACK error propagation, failed START recovery, and
+message/buffer lifetime through completion and reset. It does not add the
+VZ capture profile or the ALSA core drain handling in these companion RFCs.
 
-diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
-index defbb2977efe..622ae7be2d04 100644
---- a/sound/core/pcm_native.c
-+++ b/sound/core/pcm_native.c
-@@ -2176,14 +2176,32 @@ static int snd_pcm_drain(struct snd_pcm_substream *substream,
- 	} else if (substream->f_flags & O_NONBLOCK)
- 		nonblock = 1;
- 
--	snd_pcm_stream_lock_irq(substream);
--	/* resume pause */
--	if (runtime->state == SNDRV_PCM_STATE_PAUSED)
--		snd_pcm_pause(substream, false);
-+	/* Keep linked runtimes alive until the initial drain action completes. */
-+	scoped_guard(rwsem_read, &snd_pcm_link_rwsem) {
-+		snd_pcm_stream_lock_irq(substream);
-+		/* Resume before refreshing capture positions. */
-+		if (runtime->state == SNDRV_PCM_STATE_PAUSED)
-+			snd_pcm_pause(substream, false);
-+		snd_pcm_stream_unlock_irq(substream);
-+
-+		/* A pointer error may stop the group: hold only this member's lock. */
-+		snd_pcm_group_for_each_entry(s, substream) {
-+			if (s->stream != SNDRV_PCM_STREAM_CAPTURE)
-+				continue;
-+			scoped_guard(pcm_stream_lock_irq, s) {
-+				if (s->runtime->state == SNDRV_PCM_STATE_RUNNING)
-+					result = snd_pcm_update_hw_ptr(s);
-+			}
-+			if (result < 0)
-+				break;
-+		}
- 
--	/* pre-start/stop - all running streams are changed to DRAINING state */
--	result = snd_pcm_action(&snd_pcm_action_drain_init, substream,
--				ACTION_ARG_IGNORE);
-+		snd_pcm_stream_lock_irq(substream);
-+		/* Change the stable group to DRAINING only after all refreshes. */
-+		if (result >= 0)
-+			result = snd_pcm_action(&snd_pcm_action_drain_init,
-+						substream, ACTION_ARG_IGNORE);
-+	}
- 	if (result < 0)
- 		goto unlock;
- 	/* in non-blocking, we don't wait in ioctl but let caller poll */
+On the tested Apple Virtualization.framework capture path, short RX
+completions and the observed response layout exposed problems with the
+existing ring accounting. We also observed capture failing to resume queued
+RX after pause release. These observations motivate a compatibility path;
+they do not establish that every VZ version behaves this way or settle
+whether a backend response violates the virtio-sound specification.
+
+This RFC adds request-owned capture buffers. It validates returned length,
+status, frame alignment and ring capacity before copying audio into ALSA,
+and accounts copied, consumed and notified data separately. On the normal
+MMU path this replaces direct DMA into the ALSA ring when staging is enabled,
+at the cost of extra memory and copying. v3 already has a separate NOMMU
+bounce-buffer path; staging is not the first owned-buffer path in the driver.
+
+The pause profile uses STOP/RELEASE and re-preparation for subsequent START,
+while preserving audio already captured in the ALSA ring. It does not promise
+continuous capture during the paused interval. An ambiguous control outcome
+fails closed and may require device reprobe rather than an automatic retry.
+
+All five module parameters default off: capture_staging,
+capture_packed_status, capture_allow_short, capture_allow_empty and
+capture_pause_restart. These are explicit profile controls, not automatic
+VZ detection or newly negotiated virtio features. The companion generic wait
+and ALSA core changes still apply when this profile is disabled.
+
+Dependencies and scope
+
+Apply after v3 and these three proposed prerequisites:
+- ALSA: virtio: wait through signals for PCM teardown
+- ALSA: pcm: allow capture reads while draining
+- ALSA: pcm: refresh capture pointers before drain
+
+Companion RFC cover Message-IDs reserved for this submission:
+- <rfc-generic-control-wait-0.112c40f0e9284eaa@gmail.com>
+- <rfc-core-capture-drain-0.112c40f0e9284eaa@gmail.com>
+These are pending companion threads, not already published messages.
+
+This combined PCM patch shares ownership, counters and lifecycle state
+across staging and pause/restart. Its size is a review concern. A smaller
+split needs independently buildable and validated intermediate states.
+The patch changes guest behavior; it does not add a microphone device to
+stock Docker Desktop or implement host audio routing in its other VMMs.
+
+Validation and limits
+
+The complete local candidate (v3 plus all four RFC patches) was freshly
+built on 2026-10-14 as an ARM64 KASAN Image and installed module set with
+W=1, release 7.3.0-rc6-snd-lifetime-kasan. No old kernel objects were reused.
+There were no build errors or warnings in the changed sound paths; 517
+-Woverride-init warnings remain in two unchanged ARM64 base files.
+This is a rebuild of the pinned candidate, not a rebase to a newer upstream
+or sound maintainer tree.
+
+All ten ordinary-TCG scenarios passed with the same fresh kernel/module
+set: three short-tail drain/drop cases, four delayed-control cases, one
+pending-RX case, and two direct STOP/RELEASE reset-cancellation cases.
+Ambiguous STOP/RELEASE/PREPARE/START timeouts leave the reader at XRUN with
+zero frames; prepare is rejected before reprobe, then capture recovers.
+
+In the pending-RX case, STOP and RELEASE are acknowledged; waiting for the
+held RX times out after 1017 ms. It completes once after 5.08 guest seconds,
+then capture returns 1024 frames without another RELEASE or reset. Running
+this case from the relocated final archive also passes (1016 ms / 4.99s).
+The direct cases cancel held STOP/RELEASE responses by device unbind/rebind
+after SIGKILL and timeout, wait beyond the old response deadline, then pass
+playback/capture/replay. This does not cover every reset interleaving or
+actual event-virtqueue XRUN delivery.
+
+The QEMU 11.1.2 fixture includes backend reset cleanup changes as well as
+fault injection. These are integrated candidate results, not standalone
+v3 or isolated-patch proof, and not stock-QEMU, VZ or hardware acceptance.
+Earlier runs failed follow-on capture with ring saturation and overruns;
+those logs remain retained. Final passes do not establish a permanent fix
+for load or clock/scheduling sensitivity.
+
+Historical microphone evidence (not rerun with this new KASAN build):
+Our LinuxKit VZ launcher passed AirPods Compose capture at 6s/600s/6s.
+The 600s run returned 28,800,000 frames in 600.088s with recorder status 0
+and no non-finite samples. After recorder SIGKILL, two captures passed;
+after VM stop and fresh boot, 6s/70s/6s passed. SIP stayed enabled, the host
+audio service was not restarted, and no microphone PCM was saved.
+That earlier Compose virtio_snd.ko SHA-256 was
+245db509cb64b596e608d9ed5d86fb30235033d08b4bfcc495026252087e4476.
+It is a different binary/configuration from the fresh KASAN runtime set.
+The historical guest was 7.3.0-rc6-linuxkit-vz-compose-r3-20261014, with two
+vCPUs and --mem 4096. The packaging host reported macOS 26.7 (25G229), but
+that build was not recorded in the original run log. The exact historical
+launcher binary is not pinned by its public PR link. See vz/README.txt in
+the bundle for known inputs and these reproduction limits.
+
+The historical floating-point peak was 1.73. Liveness and finite samples
+do not establish acoustic calibration or absence of clipping. Built-in
+input, input switching, macOS sleep/wake, guest freeze/restore, physical
+non-coherent DMA/NOMMU systems and other Docker Desktop VMMs have not been
+validated on this candidate. This remains an experimental RFC.
+
+Reproducer
+
+A source-only bundle contains the pinned base/v3/RFC preparation recipe,
+kernel builder, QEMU patch stack, guest probes and all ten runtime commands.
+See qemu/README.txt and qemu/VALIDATION-RESULTS.txt in that bundle. The final
+runtime set passed under ordinary TCG; no KASAN/BUG/WARNING/oops/panic was
+matched. The 24 Python harness tests and relocated source comparison also
+passed. Existing v3 patches are included only as build prerequisites, not
+for resubmission. Reproducer source (pinned commit):
+https://github.com/whatisyourname0/virtio-snd-reproducer/tree/7a9876738bdc70ce669f02ec31fe8968eb0ee4fc/rfc/vz-capture-20261014
+The source bundle includes qemu/README.txt with the full build/run recipe,
+qemu/VALIDATION-RESULTS.txt and checksums. Downloaded public files were
+verified against the tested source package. Bundled RFC mail drafts are
+reproduction snapshots; these emails are the submission copies.
+
+Questions for review
+
+- Which observed response and pause behaviors should be fixed in the host
+  backend instead of accepted by a guest compatibility path? What protocol
+  traces or conformance cases would help decide this?
+- Are module parameters appropriate for this profile, or should activation
+  use an identifiable device quirk or a negotiated capability? What stable
+  identification would be acceptable rather than a blanket VZ assumption?
+- Is release/reprepare an acceptable implementation of capture pause, with
+  buffered-tail preservation but no continuity during the pause interval?
+- Is request-owned staging acceptable for this scope, and how should the
+  patch be split so ownership and lifecycle invariants remain reviewable?
+- Which PM, non-VZ backend and capture-format regressions should gate a
+  non-RFC submission?
+
+Joonho Lee (1):
+  ALSA: virtio: stage VZ capture and restart paused streams
+
+ sound/virtio/virtio_pcm.c     |  93 ++++-
+ sound/virtio/virtio_pcm.h     |  68 ++++
+ sound/virtio/virtio_pcm_msg.c | 286 ++++++++++++-
+ sound/virtio/virtio_pcm_ops.c | 734 +++++++++++++++++++++++++++++++++-
+ 4 files changed, 1151 insertions(+), 30 deletions(-)
+
