@@ -1,64 +1,64 @@
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85440448B87
-	for <linux-sound@vger.kernel.org>; Wed, 14 Oct 2026 06:33:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74D8C443AAF
+	for <linux-sound@vger.kernel.org>; Wed, 14 Oct 2026 06:33:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791959597; cv=none; b=nYrIy1SLGqFHF6LMxvunt7a6kGsRO31Na4Lz0EWWB4om5jOSlstVZj4WfdRFouhWrp4p+Hp0AeNhfVeecGl8JLDGYYp2bgNFeD85nCDNOBMRAJtcjm300WsJtvRBJfiXmjhUF7ivBEJwR5m8FlwTW8V+xA1eRuf6XpCAYhG5N9U=
+	t=1791959602; cv=none; b=crT1FO6x3EwyfT8/JDnlxYIkEgt/CcuWY1AMyBKmsmSoUkCAx69Pfzo89drzmOiTDUhsBy3pNr0eqM/E46xXbbc3CvfhGBsH97Qg9czHP2HsMU9ykvRFi10TzOmjgD0gnEm4LmMftq4EDocZ6k7NLpbICDUkoeBxwW+MjYNPtPA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791959597; c=relaxed/simple;
-	bh=nE32fTzBVH4R87AEkJ/Pn2GSQkElCz40GjNAKQrZqzw=;
+	s=arc-20240116; t=1791959602; c=relaxed/simple;
+	bh=s3+QGgTV4plzI/xr8IROgJwAbZe1P/l4ItW/7cwy/wU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nNU/oteuKfJrND3rryzlZ+T695gyIRuwrCaqvCKNtutPDC3UdknCOX+l2B7Y07JHME8cLRYSprAnz7p/DmFoyP9YmEk6YkwfoFzZcvDqF421US2h4hBhyJKCL8HcDx3BCTmt0SRPJM7zQuJ/HfEyndxG+n1Kko1/HXYNsUEDYcM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I5XF0u/N; arc=none smtp.client-ip=209.85.215.180
+	 MIME-Version; b=XtEQzPdcg3fjiLP1CYRUwk7Lyp2dyzPoMYnjODCT+j6pTOPF/PvJxA7D/UnduKYDd2qN+Gp7G3L/LjT++Fi9NOqEU8Rb6UzuHzj/q8r3iAn4aaf8EmJPnkcT9JdPhwngNcBfrDn+xcdRiRWJtzN3zPxgKLBtzKccmhYFVTUreyQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HRLNHaoB; arc=none smtp.client-ip=209.85.216.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I5XF0u/N"
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-cc50ad2d650so2805322a12.1
-        for <linux-sound@vger.kernel.org>; Tue, 13 Oct 2026 23:33:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HRLNHaoB"
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-3ab450c0873so3128920a91.3
+        for <linux-sound@vger.kernel.org>; Tue, 13 Oct 2026 23:33:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791959592; x=1792564392; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1791959594; x=1792564394; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=inZKemHl8Tcy7cBPO+R6o23bsF6T4LUzosGW7cwVkSc=;
-        b=I5XF0u/NQ+XIqAxqA/Ci5i7axOb1a+K3l9mNR+Nmmim1zazJPMpHoif4Iw8+6vfZ6o
-         6oO/S2aUIOMIiVR8h4fYp/0vqDy9fLOtjWGtzgGZB1SYYbp/4nSEFPWXgUc8i4844gSS
-         TtaaZ7+CaKaS3cpCsnclDj7d6in6BLVNTB4QZqGH3ftf1GD32LyGV6tnVehu2iOacfw+
-         Zob+bhWZFm7dVVNixG513IPsvshzIJvdts/DLoF3S8/UconteDiVfkUP4w0BVCH+912y
-         jHHi/e0rxrGt3XViLeDmdkJ1DG6SHlWb35xP7p7gMDvL56NuLlQegVKDq6oHw4ow1Nzx
-         6mXw==
+        bh=x0dNwa3ufJkZOa7uAR5+Q4Sf0EjzJIjuDXt2hIDnuBc=;
+        b=HRLNHaoBamsEwdq5WipuGzXDYkQmR4IDCt6BEfLxQ0RjIeKi53wLd/20yZfOJlpOzp
+         mwXk+s0IB4DYkRTdwHKZ3fFCi+1DdjgyEGH8fOvb0+9q4QRjWJJyxbLelICRDY4pL30H
+         U3j2rv8+Rt/ZBt5JZJuhn31dzfe/S4MP5MN7PaS1/69OtX/aDNJpolJEwKGQyU4jNIqW
+         K8RFudNJ55uDmOAIi+8G2xa88A1Mf/IWmLUe9GhtuYkR/8umiKk3l3cLZHeQsyFOsl2J
+         Eqs5IVoH06NqcWUeLpWdq+aPvvfS5loctUz1xDrV0xdHwaZNkNCyZ76XGz3qVzvDdsLZ
+         8qEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791959592; x=1792564392;
+        d=1e100.net; s=20260707; t=1791959594; x=1792564394;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=inZKemHl8Tcy7cBPO+R6o23bsF6T4LUzosGW7cwVkSc=;
-        b=VyvBx2KIhLQofqhKDAGGFM3LM/W2wypZGrzmdkpVE4WHL/B5rSWOhjU6NqePLxla5A
-         ttsCSvXoniMBlrCdyixAwcZBoeZSV85VUlI+RywIpO/C9UzpsYs44AGHjiIjOCrLAogc
-         9f3FERax3llbVPCvlUjP7883xMY09TunD3Tpy1rXfDnp/YlUu6W17pv+t1itaxkS3KA+
-         723V5hXZFgeQ0FsGDOqZuXOfbvESJfK8o6qxC6JRirumoVS76y396SN8bFb4K8pcvZQs
-         oxna+piSWKVEn6q+xiuzxbmH47zD/dL35RK9PPSnTP+96ywAm+xwUj1j3phtTUracX9g
-         jNqw==
-X-Forwarded-Encrypted: i=1; AKwUvByL7V8Bbd+f8w5Rg3cNwqudP3SSFsq2YTw1J1TXt/ayW0k8CDYyRwi6hHMDXXARIKO/CnOU3SOubatqWg==@vger.kernel.org
-X-Gm-Message-State: AFq9FYLpZxUZPCkDhOODqX7XSzGNNN8DRjiTI2o3wl+syhufHZxfum9n
-	EDLhLGwWP2oW5lV8OW0jbl5AXefYXlt7PLSzk1PZVjFUQ28tr37OlBtw
-X-Gm-Gg: AYBFou2syT7rLW5/8DG+Me+zhouRzZ9AFo5JCHcHsFcMyyutseFewMSFKrPkVqKKy13
-	KFB74nLqp/YIalsxJzEEen8qawsqwSPS8D+DCg95YY8d483SHQ+JIHrYhEjvkk6B30W2mLTFr7+
-	Ys8tcWv1H9TlJ2KshjZMb2j0IMwQJi6lwXYk8T+n8cO9o/gym3sOv6K03NHcz+qz8+fxaXDpQBp
-	x689o24bDUJx1nkvDPazQFgM1IvesDbkjNB2NdWWk7Nish6b0pYomEm33VqqPD66EMJXniug0Dg
-	BOuEFyG1X1daDn7Mi2BIwStNZ0Zo6BofS0RXKA/UWWwJRsDv9WgSKtOxvpIPN6zsh8ZFSNwyxCP
-	Yr14j2KG6gjPo+G59H+aA3hk4cdych2Oil5IdUPg409EXB+H8PX0k00JJ0F4jV3CXpdNodgxUQU
-	NdE7ByqNik6BSp2oVWmkuhDVVlJPqdoHMwGP4J8CFWPxBF4BsI69C+3kTo0vymhjf0AYz7sD2PB
-	LoaE9VSlO50dW/svQPuf626tY0aofEF4UyHzQBcmp06mWTIIWRsH82K3YCK927DUMkI3BW5WSk=
-X-Received: by 2002:a17:90b:2886:b0:39e:6c6a:6577 with SMTP id 98e67ed59e1d1-3ab3a966524mr12662885a91.58.1791959591652;
-        Tue, 13 Oct 2026 23:33:11 -0700 (PDT)
+        bh=x0dNwa3ufJkZOa7uAR5+Q4Sf0EjzJIjuDXt2hIDnuBc=;
+        b=rL/sMAtHIXz5xaGmhdAW5QnH2IUhxpHUvgm3s/Olf0AnccQpYzAk4jTborN7HxNeSs
+         HBA831twagHUSq9hzEgnfbV7+GeCuXpFlAJEj1PX3ABZWmAJzzUxmmqTDvTWJhJjCFaW
+         18LM+A8qf1rogb8WSS3u+bDrquuQ77DlwHfZT7p0Um9FOFkE6gbAd51uAUzrNKNudflk
+         tQzZ6cUgfkcudP6cA7dJgywUaiuf6gxKL9WAfAIL1Yzdb0ACYDxOxIXNLVrPtmtNz+mc
+         6wdL+qCu8Mm9IhVxFc6ShJV6fV9bALbJiQwywcZ0a4ExXwtfbQOjCJQOxEFbi4sdzcVa
+         CGFg==
+X-Forwarded-Encrypted: i=1; AKwUvBzJEMmb33tdCfgf07ukrCeF1nupPK9Z3RrWamfj8uqsoqpReLAGZrV3HI4EXANjt7WBQxQ508NIhFZMcA==@vger.kernel.org
+X-Gm-Message-State: AFq9FYKtivl9cjZVqRro34FR4A0qMRa4vDXfPp9z3TbQGKB/FwZq74LV
+	lXdNZEbtuDACub8fICUTkEZHpBVgrAMBhmzj314nmM/HVy+RQbzfoC2l
+X-Gm-Gg: AYBFou1Wz/s4n0kPBwE5bn6no9p3FzAVLaVD9Vf6LYXTyNXCh43xAZfEXHjTxgK81zR
+	sPBms2tta5Q/GiPUmipj+h19k2UO/yloAp4ViTn40myBkSqBw2+4SFqoaZ+7biX/U+vHekX+ucJ
+	aydSpWS1v2kqhzlGsn1YYv7eSMXHRobmzVvf0GJU381/GuNVxUWdQVitfqyvimHZlxHfsSeCfI5
+	BB4Q0aA6ESPIeoJ9o/Ggp53xSVPi64rohDU/qX4D0oyxItfLALHQh1Y1RBzBgrHiu5Ftw57WjNK
+	87rJp3opNg7QSnKQpEaXD6Blr/uMidIMVqkDP8qh2n3V6JCXv8owSYVyo4L8WKNIy+OKCycVoOC
+	CAgQRyHccQFotwoMN13XnbDFa0vb5eSFCU4JMovZ5y52jRv60STIjZJ7qeaB9oFmGBgeOrrgier
+	CU7OwMAvGz07NZZ2EON7MTJtGrD4xq3cYOQ+M3ZxXcID7lhVbhWQdY47ndR5zPxDn9Pd/gt1UKo
+	TNSAUytpepJx0KGhwPTvbB+yaTKDjyv/fT0V9O93N/UBUKLVSR4t4gf7+/Nly2t4GsnmLmxct0=
+X-Received: by 2002:a17:90b:5343:b0:39e:6c6a:6580 with SMTP id 98e67ed59e1d1-3ab3a9d3dfdmr11573517a91.67.1791959594121;
+        Tue, 13 Oct 2026 23:33:14 -0700 (PDT)
 Received: from nugod-NUC15CRHU5.tail9f095a.ts.net ([218.237.104.87])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ac600a0619sm3384495a91.7.2026.10.13.23.33.09
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ac600a0619sm3384495a91.7.2026.10.13.23.33.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Oct 2026 23:33:11 -0700 (PDT)
+        Tue, 13 Oct 2026 23:33:13 -0700 (PDT)
 From: HyeongJun An <sammiee5311@gmail.com>
 To: broonie@kernel.org
 Cc: lgirdwood@gmail.com,
@@ -66,9 +66,9 @@ Cc: lgirdwood@gmail.com,
 	patches@opensource.cirrus.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 10/13] ASoC: codecs: wm8737: Fix definition of zero cross switches
-Date: Wed, 14 Oct 2026 15:32:37 +0900
-Message-ID: <36cab58287bd24955e73bfe3a6fb24cae8fad7b8.1791959026.git.sammiee5311@gmail.com>
+Subject: [PATCH 11/13] ASoC: codecs: wm5100: Fix definition of EQ3 Band 1 Volume control
+Date: Wed, 14 Oct 2026 15:32:38 +0900
+Message-ID: <d7f690e391feda7a6d8f38d0b238b165bc1f4fe2.1791959026.git.sammiee5311@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1791959026.git.sammiee5311@gmail.com>
 References: <cover.1791959026.git.sammiee5311@gmail.com>
@@ -80,40 +80,29 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The mic (xMZC) and PGA (xPZC) zero cross bits are bits 3 and 2 of each
-channel's Audio Path register. SOC_DOUBLE takes one register and two
-shifts, so both controls only write the left register. Use
-SOC_DOUBLE_R, as the Mic Boost Switch next to them does.
+The EQ3 band 1 gain is in WM5100_EQ3_1, not in WM5100_EQ1_1, which
+holds the EQ1 band 1 gain.
 
-Fixes: 2a9ae13a2641 ("ASoC: Add initial WM8737 driver")
+Fixes: 6d4baf084f4d ("ASoC: Add WM5100 driver")
 Assisted-by: Claude:claude-opus-5-5
 Signed-off-by: HyeongJun An <sammiee5311@gmail.com>
 ---
- sound/soc/codecs/wm8737.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ sound/soc/codecs/wm5100.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/soc/codecs/wm8737.c b/sound/soc/codecs/wm8737.c
-index 33a3f88fffb3..0734f6032c8d 100644
---- a/sound/soc/codecs/wm8737.c
-+++ b/sound/soc/codecs/wm8737.c
-@@ -148,13 +148,13 @@ SOC_DOUBLE_R_TLV("Mic Boost Volume", WM8737_AUDIO_PATH_L, WM8737_AUDIO_PATH_R,
- 		 6, 3, 0, micboost_tlv),
- SOC_DOUBLE_R("Mic Boost Switch", WM8737_AUDIO_PATH_L, WM8737_AUDIO_PATH_R,
- 	     4, 1, 0),
--SOC_DOUBLE("Mic ZC Switch", WM8737_AUDIO_PATH_L, WM8737_AUDIO_PATH_R,
--	   3, 1, 0),
-+SOC_DOUBLE_R("Mic ZC Switch", WM8737_AUDIO_PATH_L, WM8737_AUDIO_PATH_R,
-+	     3, 1, 0),
+diff --git a/sound/soc/codecs/wm5100.c b/sound/soc/codecs/wm5100.c
+index 2fe937a93026..d0f5c4e89556 100644
+--- a/sound/soc/codecs/wm5100.c
++++ b/sound/soc/codecs/wm5100.c
+@@ -658,7 +658,7 @@ SOC_SINGLE_TLV("EQ2 Band 4 Volume", WM5100_EQ2_2, WM5100_EQ2_B4_GAIN_SHIFT,
+ SOC_SINGLE_TLV("EQ2 Band 5 Volume", WM5100_EQ2_2, WM5100_EQ2_B5_GAIN_SHIFT,
+ 	       24, 0, eq_tlv),
  
- SOC_DOUBLE_R_TLV("Capture Volume", WM8737_LEFT_PGA_VOLUME,
- 		 WM8737_RIGHT_PGA_VOLUME, 0, 255, 0, pga_tlv),
--SOC_DOUBLE("Capture ZC Switch", WM8737_AUDIO_PATH_L, WM8737_AUDIO_PATH_R,
--	   2, 1, 0),
-+SOC_DOUBLE_R("Capture ZC Switch", WM8737_AUDIO_PATH_L, WM8737_AUDIO_PATH_R,
-+	     2, 1, 0),
- 
- SOC_DOUBLE("INPUT1 DC Bias Switch", WM8737_MISC_BIAS_CONTROL, 0, 1, 1, 0),
- 
+-SOC_SINGLE_TLV("EQ3 Band 1 Volume", WM5100_EQ1_1, WM5100_EQ3_B1_GAIN_SHIFT,
++SOC_SINGLE_TLV("EQ3 Band 1 Volume", WM5100_EQ3_1, WM5100_EQ3_B1_GAIN_SHIFT,
+ 	       24, 0, eq_tlv),
+ SOC_SINGLE_TLV("EQ3 Band 2 Volume", WM5100_EQ3_1, WM5100_EQ3_B2_GAIN_SHIFT,
+ 	       24, 0, eq_tlv),
 -- 
 2.43.0
 
