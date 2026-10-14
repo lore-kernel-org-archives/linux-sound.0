@@ -1,645 +1,208 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB754496D34
-	for <linux-sound@vger.kernel.org>; Wed, 14 Oct 2026 07:55:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791964505; cv=none; b=ijCttyuXp/PiFPvJvPh06JTLypthCD7FaYLe5fXIwwvKlSSl7faYiqncIXwZ7W5DhGTatZuf/8xlP8iAa3OEkuy4gRoX5IYYpIc+DSi+ffFKUkRtZMnG3dxWLJn0AWNHqn4SX0vyJMeai7BAC7bSCtQvj/7iWEts1hvdHfx5Y4E=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791964505; c=relaxed/simple;
-	bh=x+pkNXyj9mUs8CswHvCXByD7Xf3NSeZHXFpTPVUyCFE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=D62bi6j3VuhvrzcSDntqOi8aql31QAMqKW66h15GL0KlL86/wOhWFSDtJKBP3wxffXvgjDSBJNZ3zuusxRO/5bdX0kluXExNY+rsb4rNef+ydRFpnDi/9VnZsVdE7gHEmrLMDGhFNViORdrICxNqWYi/tf0PrXQtPCDdz0P3xaU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=h/JNGlol; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=QyS5Q+2S; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C29262DECC2;
+	Wed, 14 Oct 2026 08:06:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.11
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791965206; cv=fail; b=UepHKLxcVFGHGt7Ss4VDALed1GiJUcRR01RGI7+pF0CMXEzwbomKGE02mRwWeZ7tXZ9jTYYKxVNmP1Y6+bStGvwikdUFaTkzXP/JLLLsmlwZUjJglCRu9pRwyLW4PfC6R2Tqda6xHHxv/JfQmv5j6EaJl4Ue1m9ySjcb9MQ7oUo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791965206; c=relaxed/simple;
+	bh=6aenGj6TeB9uphh9BWMIQJPBzokvWgVm0kbCnZsotzE=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=oGRm8TgP4shYUzYaZyEpSDPTxOicS7Re1+VaeAVGIQLK/RGr+L7uB7QSVJXgZ55YOO5cJKqb64/ECoYelXi0n3oracKsMf+IBsv4Q9g9Q3p303sq8QHEKb3WjYxM44nQS2kR0msmwn42ZVTTEzOoeBGHrlaAdex4jjw9HLXGaiM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OmeqMk2R; arc=fail smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="h/JNGlol";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="QyS5Q+2S"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69E67hB32685171
-	for <linux-sound@vger.kernel.org>; Wed, 14 Oct 2026 07:55:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	y5Xc6vSxrozHQHSbAl6Ed09G//18eP1xPeeZEIsnEfk=; b=h/JNGlolk7QpnL4X
-	gM9HCMvEsAd9HoGHOU2jDcddzbOzt9RGFJt/i07qpSPqcj1wf4mqez7Xi7e9Ya0h
-	HP+UxFaxjBISZ+A1SrIzwSekKtYE9vKoCXs25wvGeC72pjt337/4LHv/5rQkK+5J
-	WNksCbHAmOaZavwWMZAUrmIq1aASVNBdJosgXyzkxQkIs86EqNCHKwaskcLcQefS
-	SdR+39AX+SieMUSgtxCGiDv4HqRchMfAEtroExSQ46yC9sfbCZPt+Ylxral/i17Q
-	/vUm7+xuEVu5NwKXG/D73FvcO0dJ0A0RHsDjs4ptlyK4PUD0VDa+1DHBPgEpQWlQ
-	5bCJOQ==
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com [209.85.215.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ha46u0dnm-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Wed, 14 Oct 2026 07:55:03 +0000 (GMT)
-Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-cbb20f82a0eso2795431a12.0
-        for <linux-sound@vger.kernel.org>; Wed, 14 Oct 2026 00:55:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1791964503; x=1792569303; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=y5Xc6vSxrozHQHSbAl6Ed09G//18eP1xPeeZEIsnEfk=;
-        b=QyS5Q+2SXVHlDidk8Y+tqX4oxpNb5gEpswW9CF/ql5xyOBtVDJ+8IV9wv8RAjBPTCf
-         5cRlhcbN1oebAEZfEQE6QIMlXxaJVrpZ0hcRK5LZC8EcayQQPwugmIsYDEtZF7FNneG9
-         xzfYIb3KF9vQNuaqZavoxzG/uwb0Q9O87Vfj5fTNEpJbQcCI6SvhRZLzIgI3t0tL2uFP
-         oLF8tMnNnw1Ur1xqoxmsHllXhoB649LtyLvDDeFldyRwTYLChOZ3uP7f8agDrE6PMUar
-         4wK8RvQi7AVDvX+/T2GPRWeeiHvJorEdhP2Pidh7yYQJJI/z4BDhBAVWkXvMeV+tVfml
-         8rCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791964503; x=1792569303;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=y5Xc6vSxrozHQHSbAl6Ed09G//18eP1xPeeZEIsnEfk=;
-        b=WF65FgqniN0CNncOzJ/N1Aga67KxwM2tPuJJAnH2zdvZ/kjxPSruz9W6NQ8aaKrD8G
-         qoPkt1y83C3y1PoKnDT2AXl+qeb1xUOxzi34eDUFCw+0x76CtjWVkxuziqPjz0jgFuY9
-         VKMNZOVcZ1mfDImHDHWQOGhMxBQzSzokEaStx9K1giOPh6Ayg8Q9BTnj4HVaIuuF+BLC
-         u0FQMWNMpiW/bpYJsF2BQOwbCsa6fPKWJCO8isvzXHeHEasTPGFQChkcTYk95+MrOd7q
-         wFj9j6NXYtTgVTzBgCg6jbf2kFj2/VfU9s28m+L00oo5uKj64Nf4JZaAttkwJWhAxeiE
-         rGyQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzgHOOZVCTa56rCjWTwosdoP7yMGFjgT0Gsu/rgRkBLH5LXa6lq+FMN7q6vUhur4nqCIkGOQtqMLIyBXg==@vger.kernel.org
-X-Gm-Message-State: AFq9FYItvUc6BZwLJjyrESd7ZX87q+pbcLcVD/AAxgGzIx6voXVxcvRD
-	ZIKqOuzjeAkXFBxOhw5fTzTYGtQzeaPy+0P9MQw/m5DwBsz/xKutFlta0q4aft+620+mF9+uPfo
-	w0uWhZr7C69dduqYBikGypzfXNpZMv6TLrPF54VRd6lEuNTmU+iUqC+h/gf5kmnw9xw==
-X-Gm-Gg: AYBFou34+rla+jzqfDH4aRw+qvs9pf6q1PLvMLZ9vFxD3Kzr9swtWMOOET3xT/lkscp
-	8yknXSAuxzHecT8Pokp7nB6x4P3SBthP89caKJb/jsWh4UqS+lZEkzkbuk6GPmjbwTB1jU9drxS
-	XoTtvaT68gYNmxXpSx1GL4dJCJ4vSDZHGu2Hcelvl7UpeO8m2u668yzVkFbnkNiQSD9kwXVm1mQ
-	2B0Mi2DUNVOSCLzdI63zi6+jNKhi7ynqfg+4Fs8sTTOl0hLjW1sIML/yoRLeseEfeygSL1Ncu3K
-	QOQyOQ5eQFnmYjBOyrI+XcG1xKu7b/r4nE4BHmkx/154cGrDIW9RnBos2d35iE5DE2RubhAj98P
-	Hg0B1b98gUNxacrSiN13FpGkuK1E=
-X-Received: by 2002:a05:6a21:9217:b0:3dd:a196:3096 with SMTP id adf61e73a8af0-3e16bf12e59mr13168767637.70.1791964502492;
-        Wed, 14 Oct 2026 00:55:02 -0700 (PDT)
-X-Received: by 2002:a05:6a21:9217:b0:3dd:a196:3096 with SMTP id adf61e73a8af0-3e16bf12e59mr13168731637.70.1791964501765;
-        Wed, 14 Oct 2026 00:55:01 -0700 (PDT)
-Received: from [10.218.18.193] ([202.46.22.19])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-89d802a459asm782006b3a.14.2026.10.14.00.54.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Oct 2026 00:54:59 -0700 (PDT)
-Message-ID: <43f28a5f-09a9-4449-b784-ca640a442528@oss.qualcomm.com>
-Date: Wed, 14 Oct 2026 13:24:52 +0530
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OmeqMk2R"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1791965205; x=1823501205;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=6aenGj6TeB9uphh9BWMIQJPBzokvWgVm0kbCnZsotzE=;
+  b=OmeqMk2RvL6wCymmuv1JmoJrAGqgUj/Og1dOOTHfp6h0Tkh0CZfh/7G9
+   MVSHXd8DUJt8BZGlOOoINj5vh5ULWa1uvLjlZHxkKx76NJrye4LMYOz9M
+   U2S5IxV5gKMBjJCdN2xS7EH9kevuwrzunkkAEAI988XYvpm67XTo7gmov
+   2thGLsti6Sfqqf/f5s27UHPlTfrHvTM1ldPdfZy2bto2XhLGzXD+8yM7c
+   0JvmRJnKbkL0gOwhUgYZvXcfg5/GCiVsA/XnhwISRowOwXiJbrp4INvZE
+   yTa4npCY/PypACxZJvPWnQHG6nasiWYg1IbF7gTPHlsK6tmbRfH/28mLy
+   g==;
+X-CSE-ConnectionGUID: gnaE5azuSmSJEWP1lkA+oA==
+X-CSE-MsgGUID: f1JQ93OkQi2aQNPycBs5Pg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11934"; a="588810"
+X-IronPort-AV: E=Sophos;i="6.27,157,1787036400"; 
+   d="scan'208";a="588810"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2026 01:06:44 -0700
+X-CSE-ConnectionGUID: +KX1MlL3Rei97wLLhDfQyQ==
+X-CSE-MsgGUID: viE01bpQQsiEvR2lJkhx0Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,157,1787036400"; 
+   d="scan'208";a="1469107"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+  by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2026 01:06:44 -0700
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49; Wed, 14 Oct 2026 01:06:43 -0700
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49 via Frontend Transport; Wed, 14 Oct 2026 01:06:43 -0700
+Received: from PH7PR06CU001.outbound.protection.outlook.com (52.101.201.48) by
+ edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49; Wed, 14 Oct 2026 01:06:43 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=k4Rx51hqoMfT8CwuhxV3+DdZSWAr1WUkrl+4KvnPs3BzSk8NL/WZkBgk4UnqSuZh/bfVI4MfBuaUcWfWudhfhnYGZ3fmIpzYgn8KKsgZbnKmOZBBFiWm0njYJFuIBIZdhHg7IAuSeHH2MIwh+HALdEcMQJcqLcs3hK+KMnsKARUOCLUSzweu06j6CrXNphUUYpdNzy9dY32SqEpSl1ggixJs3mqKNE3MhmiIRRVNNhk3hTINNVVN4nt7Z424aMn29sVLtW/h2P6lArhYbXL5CZYyQqnAeZTqUjOyc04UFILXZnbsfUXiYVf0H2Kflt1YN5piA1OmzaKhTp+BwogZdQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=tVoPaSGnVmasDWjE8aF3VjIRPl2WdjbMmJrUMOVPZ3c=;
+ b=MlDsIKNdrsF/txTxn+EcNulZLO1XJ9nvY+mYtJ5+x/QnkCXddiND0UdWDi8utxz9cT5AF6ZfmviV8taK/wjaOUJsh/DthCFEZe5nyVM6UVOV7UOZz4WiwWQCWS2Dd+MBhL+pdS4aD+thKcZGcVIagCaedIhhtpl1RH8+WOvtEobz4ROaQywxe9SKKHKYYqUQtde9At+tzrtJ+hEVtA34yMAyYCazn8KcpbxXx8FDCBDUQCAmL7YvXzBURKs3/AtxigilYhd7XOo1gHEiPazr5s5Fs4wusZplTGAKXv9q9JB5W2VS5YmSdA13CA1v21Rg3E1mo0jM7RxVunXTpHuRZg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB6006.namprd11.prod.outlook.com (2603:10b6:510:1e1::13)
+ by MW4PR11MB6811.namprd11.prod.outlook.com (2603:10b6:303:208::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.12; Wed, 14 Oct
+ 2026 08:06:39 +0000
+Received: from PH7PR11MB6006.namprd11.prod.outlook.com
+ ([fe80::4e2d:28f0:ede9:73bd]) by PH7PR11MB6006.namprd11.prod.outlook.com
+ ([fe80::4e2d:28f0:ede9:73bd%6]) with mapi id 15.21.0496.021; Wed, 14 Oct 2026
+ 08:06:39 +0000
+Message-ID: <eb66c781-0c7f-4e37-bde7-658355f87428@intel.com>
+Date: Wed, 14 Oct 2026 10:06:34 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/7] ASoC: core: Create new components in sane state
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+CC: Mark Brown <broonie@kernel.org>, <linux-sound@vger.kernel.org>,
+	<tiwai@suse.com>, <perex@perex.cz>, <amade@asmblr.net>,
+	<linux-kernel@vger.kernel.org>
+References: <20261007133353.455185-1-cezary.rojewski@intel.com>
+ <87pkxexyr6.wl-kuninori.morimoto.gx@renesas.com>
+ <ed059f1e-2390-4e1d-bd1a-cff08a3441ad@sirena.org.uk>
+ <40696247-e763-40d8-9d4e-338047cdd4fe@intel.com>
+ <875wz5yo67.wl-kuninori.morimoto.gx@renesas.com>
+Content-Language: en-US
+From: Cezary Rojewski <cezary.rojewski@intel.com>
+In-Reply-To: <875wz5yo67.wl-kuninori.morimoto.gx@renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: VIUP296CA0010.AUTP296.PROD.OUTLOOK.COM
+ (2603:10a6:800:34f::11) To PH7PR11MB6006.namprd11.prod.outlook.com
+ (2603:10b6:510:1e1::13)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 07/10] ASoC: qcom: Add QAIF PCM operations
-To: Harendra Gautam <harendra.gautam@oss.qualcomm.com>,
-        Srinivas Kandagatla <srini@kernel.org>
-Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
-        Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
-        Sarath Ganapathiraju <sarath.ganapathiraju@oss.qualcomm.com>,
-        Kumar Anurag Singh <kumar.singh@oss.qualcomm.com>,
-        Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>,
-        ajay.nandam@oss.qualcomm.com
-References: <20261013-b4-qaif-shikra-audio-v9-0-f3022e28f2fd@oss.qualcomm.com>
- <20261013-b4-qaif-shikra-audio-v9-7-f3022e28f2fd@oss.qualcomm.com>
-Content-Language: en-US
-From: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
-In-Reply-To: <20261013-b4-qaif-shikra-audio-v9-7-f3022e28f2fd@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDE0MDAzMSBTYWx0ZWRfX2xlfezkDxzi1
- RMmRRWWerfjhR/PEo83V274hJGYGdA+NWLq/bvsZKTVy0OoXCjYxecow/N1vvFmEbOsgDBmyVph
- ScgQ87hRE16i1Z9t9N2GwTLxudc+y24=
-X-Proofpoint-GUID: hJEL3E3EN5B2uWoawH4DHbYeQhFmnQLl
-X-Authority-Analysis: v=2.4 cv=Y6ttIReN c=1 sm=1 tr=0 ts=6acf3557 cx=c_pps
- a=rz3CxIlbcmazkYymdCej/Q==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
- a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
- a=EUspDBNiAAAA:8 a=23ijev90tiKKSBFg3Y8A:9 a=QEXdDO2ut3YA:10
- a=bFCP_H2QrGi7Okbo017w:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDE0MDAzMSBTYWx0ZWRfXx3Ub32/8sHRT
- z0J6oXvhrMXSsvG3LTNZMxoPj7vnTb9Pr/MyTdTOr4GhavOjEjGw6fiODfJuM7rtxc+nFIYr7zJ
- 12L32JG7c/XFTS1F7Uc0J01fLbq9CEfYpiZ0eBhn7xxqmFPdmUQ+yXrpBZipz7DbdD6TQPUrFNb
- +hz/4T6oVlhhFec6f0nZfm9HotWy2iLgIjlIGCb0fodXyKvDoqgtISPyHKyhPJuyRel1mgL43hG
- maNEXcKY4pJvPpXh3Jdlf2Cj+Rq9LUIifXixDTwH7UltOSxNMSWO4QKvNVawcseDNc7y8/1RDh9
- 79aYL0f1QG0lpMkwv33g5Vfe8A5WK6BkPQjHst671p6VNif9W+BmEfjfHQG0/fBVX+mU1rR/jTz
- jwbqmGGcjueR1/r5sgnCMIZ4xm3aVH9tN5/vawG0SgTbg6q9ZKcM2g8YNT5dDt9E7Vt85E2yy1n
- N9yb3Lkh1uHc3FZdZFA==
-X-Proofpoint-ORIG-GUID: hJEL3E3EN5B2uWoawH4DHbYeQhFmnQLl
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-10-13_01,2026-10-09_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 malwarescore=0 adultscore=0 phishscore=0
- lowpriorityscore=0 clxscore=1015 spamscore=0 suspectscore=0 bulkscore=0
- impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610080000
- definitions=main-2610140031
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6006:EE_|MW4PR11MB6811:EE_
+X-MS-Office365-Filtering-Correlation-Id: 968130ca-021c-4daf-db1f-08df29ca1348
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|376014|1800799024|366016|56012099006|11063799006|261009223027099003|4143699003|22082099003|10067099003|18002099003|6133799003;
+X-Microsoft-Antispam-Message-Info: VOQvl5l/9WfUNPG6q6+bV8Llov1dH9Mi6YklF1dDD5x4FzNt5PGUuHliiH5TG0ckU7XxElXdPObNq7wTAXan5/a+3Qc769T2U9jMKL97k8l8KlCp2e90mFu/khB+cJ/pLNh/N8QL0pdvFyBEmy2jED3DMgBoYwNJhH6KdQPlyVpwIRNVqt1xHT/hCJraHrIGENG+6NSyjEv39D5yXxZqTzgA8O7pYHyucdvojiCVpn4Jb9qqnEmGkrEci+StzEqTYZDncUh8nGYPPKsIsyagfLEDR/iDH75Oovxk3uXUAtdUCoD6khNWZbQHgF8U8ks+q07nEL6P7RT1hetUwq2r094aoMdRzGTTKup7pJYYon2Ys4CI0xiQPTO/Ytsm4o/g7Z3JDEXdQEYi9sbFH8FAH2f/rhhHvnNsxi+aqUSH+BKMQP7rvI75jSfhNfp4EacWl+mN5OVcae5R2Xvf7dNaOeD4LTOL2cIgMS36V8FD+l/C57DzRF11P6sVh3/nQILYnkn+oEiNZItdfrYWMzxku3vxcbg6EmuTS6CegZAanaguOTNnvQUlq20bySOQh1tSUkVZuotiSRAP+BhscbZHDQiFNZAulYyENKY7yt239p2bhyrRRAyKbiz7RgsWQ+aDTS2bQGaDtAfunal/34+TBWES1pb7ZtpOFvl+PR6GxGk=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB6006.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(366016)(56012099006)(11063799006)(261009223027099003)(4143699003)(22082099003)(10067099003)(18002099003)(6133799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cG9JaDgxUjlNSGszd1BYd1B2QS9UNUh3ak82dTZLT0N0dXhUdHgvSzBxK1pS?=
+ =?utf-8?B?bm1TTm9veHc5WkpJSW95djI0MXNEQ1hHODZLMlI5YlZ3YVpiNHRMNWRnekYx?=
+ =?utf-8?B?dnlzK0pFOC9TQ1RQME1oTjh5dzRuVUx6OUtvS1VvbXg5Y0RtNTNyajBEMHV4?=
+ =?utf-8?B?am5IVWVwV2xDSTErWUlPY2hOQVZUd0t6bEVDVy9BaElkSlBLTjBycmZzVEox?=
+ =?utf-8?B?VFUzeXgrQ2dIaW5wVWhiODZXZDdqYlAzdjhsTTFvS2Eyajc4RWNoZXE3emhm?=
+ =?utf-8?B?emF0eFFET3pVbGpzcGVQcnRvYnlPNWJwb0dONXA0azdNazd4K256Wm5SUDRm?=
+ =?utf-8?B?VVRGeCszOHgxZy9keGZuUCtVNHVNZU1YUjRlV0NvbXY3N2xPaTJ3Q2Q1emhm?=
+ =?utf-8?B?UEt1WVYyQmYxMmE5cU40aGt1WENvL1RIdlVHakY2cEJBUXVqckJVTXIyRXBo?=
+ =?utf-8?B?bHFGN1RGNEgzVjVjbmZJditnR3gxWHZnOXVNQ2hrcFp3dmpHTDJabWFncVBH?=
+ =?utf-8?B?NGRvaEZ2MWJXbG54RTBFWmIrVWcrdTJkK3dldklnc2xmT2sxc1NqRU5RNjBo?=
+ =?utf-8?B?U2E5VExZWkthSmtIWmNhZlU3VDNhZWN0aTAyQVVwRzNYYzRZUFdxZ3JzVzRM?=
+ =?utf-8?B?ejZCNXI2Y0pRRkQ4bnRWckFnSi9ZMHlvODdiTndGLzBVM1BpOWhOQ1lTSW05?=
+ =?utf-8?B?Qko4ODJrQnZEellJQjY5RmpqWGpZRlBSRE1ZT2JVM0dCaVU1Q1MvTCtuMk9Q?=
+ =?utf-8?B?SjI2ODN6cTlTM0lpd24yclpxOWk0R0ovMUZIQ2xNMHZabVo2UHJsbm1MSy9s?=
+ =?utf-8?B?U2tVRERIR3B1UDhvOUpvSlFudEpMSUd6STNxZWxEaHdlT3JEK01BQi9OS1pQ?=
+ =?utf-8?B?cXVrdkhXZXJYcnk1Z3ZmbnYxVTN1OEExR0laQW05OXEzYmF2cGRDZk44dkds?=
+ =?utf-8?B?S2tUdXJaK2I0aHQ1LzIxNHVLL0JZQWU3cVRVcEszNjNLQkovQjdyWkYwUVFk?=
+ =?utf-8?B?b2NYTS9zckVYbzRTS2V2SXM4TTZIVG52RXFGRzFxOFJsbUp0RWVwRytOc0Zx?=
+ =?utf-8?B?d3g4TTNWTGp2NE9MZnd5MllLQjVzcG1GcDNsSEs5aDl1SjdQREt2TkE5aXg1?=
+ =?utf-8?B?U1pIN0pwUEdCdE1JWXpsNFNMQ1haY21pS0h0NXpXay9VMHM3bmQrbHA5emVr?=
+ =?utf-8?B?Z0hRTmFZb3RQcWJ0OUd0NkJybmVSMzJ0TmNxMndJMElhd21qSU5YYTZFaEo2?=
+ =?utf-8?B?OGFTWmFKVVdKNWJUbkIvS3RWK0VPRDE5NE5LRURlWHdDUnU5MU1qY240dFdp?=
+ =?utf-8?B?RnNVQzV3K0tHMDNYRllRV2E4UzlMQ0hjRmVGQ0JrbFcxLzRrK0VpZEhyaitC?=
+ =?utf-8?B?NEphdnhoanBYT3BhL0RDcVpYNlpPZTVsNm1kcHdGWTFhdHB4UlNpS3JOZ1lj?=
+ =?utf-8?B?Z3VOUEJPdXZRUGRObmluSVIxemNsQjFBMk1FTTNNeERleWQ4cFZXUU5FS1ha?=
+ =?utf-8?B?a1kxS2swbUNNQ0Nlcm9peVRrR09ldjFic3dMSTlNVkp0Z0ZXb2VnYmVJTWJu?=
+ =?utf-8?B?TUxTM1V2eXllRjVkcnRDaWU4SHJaVTBBTHdJNkhNM2VwZUs2bWM3cXhjcHJH?=
+ =?utf-8?B?dEdQRFBjVi9NSGVBZ3k3TkxFemJmMXhsTXdxeTBQTnRDS1d5Qnh3N21nQWc3?=
+ =?utf-8?B?NkJLbzQ4ZGJIakhnNG8vRUMxbTRhQnZPaDk4dTltWFNmSEIzdEhXTjIxL0Z4?=
+ =?utf-8?B?L2dwOGJEQTdKY0FHUGgrL1U1Q1U0Vk9EdzVFWDJ2YVMwTFl6dlh5ekg2TzlW?=
+ =?utf-8?B?TW5VUldUTDFSZXo1K2JhRG92N3hNbU5Bc3kwUDlnN0QwbTFGbXZwZmwwT05G?=
+ =?utf-8?B?QjY0WThjd2NsVFdGRHB5Tm83UmFvaHlBV0llTng3eVlLMzhoRXV6Y3c3NWIy?=
+ =?utf-8?B?ckI3bHQwbjNmSmRGUE9mMVVPdHZoRHo5dnI5emdqQjZMLzlNRWEydExjb1Vl?=
+ =?utf-8?B?V2FmU08wNFhoT1ZjUjFUdFMxVU50Vmc5UmVmMDFhcUhYOW05R1haNHpTSVlu?=
+ =?utf-8?B?MmNLM3Q0M0hlMkVaRUo3ak1tNThpaVBmekFiVUNQcFhJaVdBV3M5bnpMa0xY?=
+ =?utf-8?B?ZVlKT01VazBEKzRiRHZhK2JaZUNOODNvSi9lOG9GV1Mvc1pCU0Y1aVVqRnVl?=
+ =?utf-8?B?d1FyOEJ3akNsS3RxQlhTMmZpVDUzK0lQb0ZRMW51WE01Rk1hNWtuVk9sckFu?=
+ =?utf-8?B?QjV0UmowVzZkTksrdkVKQ1doUnZoRjEvVzZQUExiRVIvUTBxQjVXbkR1ZnVW?=
+ =?utf-8?B?bUN3NjlWZWZUVU50WEJmeVEyWUdXdytubVJ5RVhsZjdlVWpqQ1NXQ1I2VDZi?=
+ =?utf-8?Q?1bs0RLgcwVEHUHTw=3D?=
+X-Exchange-RoutingPolicyChecked: 370NxAqnR9wIfhpwwo6f4HeIZPWoDB7+M5ZTlwUkw0xwNtu3D2rpHhNPZhgMH165zsr4ahYyOWN82Y/bWUzlk+/0hG2kLJy7xIwAO6UqZSSF6V7pNBNlr3XXxw/hW5RALAiGk64hPVG0FdvOecbOWca/6oDl/42C3koBoFrq13CaF140Q510YodbS9OZ+LFsO8w4zF4Udi86ri2Em11WJ2QrIxzkuoN5fSzuiA2weS8RKNPj1J9I3QPbqiTAFCr3QzjgS+xGS3hFlg3+RH2ngX32ID/10NYgg+1EN0mHZYL2aSsRv/fCvM+9Rcrhj733meNAsgzXAyQkTJ3HP/3Lmw==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 968130ca-021c-4daf-db1f-08df29ca1348
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6006.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2026 08:06:39.5940
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: GEMRMnlua0nxY9W+K3IrwbFGlg7vI38Le5xJLNfGo4U9MfDzf8jw7C9rpMD/qWZ5B1gFq9kHmJDDic9mqpEIwTkuSq+5ekSvbKsxWxwZ2XI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB6811
+X-OriginatorOrg: intel.com
 
+On 10/14/2026 5:08 AM, Kuninori Morimoto wrote:
 
-
-On 10/13/2026 11:21 AM, Harendra Gautam wrote:
-> Add the PCM platform callbacks needed to use QAIF DAIs for playback
-> and capture.
+>> At the same time, I'm here to help with any conflicts should any arise.
 > 
-> Pre-allocate the DMA buffer via snd_pcm_set_fixed_buffer_all() in the
-> .pcm_new callback. In open(), reserve a stream DMA index and perform
-> the one-time QAIF hardware initialization. Program the DMA configuration
-> in hw_params(), set the DMA clock rate and program the DMA base, buffer
-> and period registers in prepare(), and report the current DMA position
-> from pointer(). Release all resources in close().
+> It seems there was no big issue/conflicts, Thank you for your help.
+> But 1 concern from my side is that the function naming
 > 
-> The DMA clocks themselves are prepared and enabled by the CPU DAI
-> driver's startup and shutdown callbacks.
+> We would like to keep snd_soc_component_xxx() naming.
+> New ASoC has similar functions, it is very confusable.
 > 
-> Support mmap() for CIF and AIF paths.
+> 	snd_soc_component_register()
+> 	snd_soc_register_component()
 > 
-> Signed-off-by: Harendra Gautam <harendra.gautam@oss.qualcomm.com>
+> Both are for register function, and the diff is used parameter.
+> So we would like to merge them by using _Generic()
+> This part had conflict with my (not yet posted) patches.
+> 
+> I will post merge patch (by _Generic()) later.
+I disagree about the naming part.  IMHO there should be a clear division
+between object-level and general-level functions.
 
-LGTM
+In essence if something is found within object-level scope, it should be
+prefixed with the object' class name and have the object-ptr as a first
+argument e.g.:
 
-Reviewed-by: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
+1) snd_soc_component_register(struct snd_soc_component *component)
 
-> ---
->   sound/soc/qcom/qaif-platform.c | 464 +++++++++++++++++++++++++++++++++++++++++
->   1 file changed, 464 insertions(+)
-> 
-> diff --git a/sound/soc/qcom/qaif-platform.c b/sound/soc/qcom/qaif-platform.c
-> new file mode 100644
-> index 000000000000..e24c4252825e
-> --- /dev/null
-> +++ b/sound/soc/qcom/qaif-platform.c
-> @@ -0,0 +1,464 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
-> + *
-> + * qaif-platform.c -- ALSA SoC PCM platform driver for the Qualcomm Audio Interface (QAIF)
-> + */
-> +
-> +#include <linux/dma-mapping.h>
-> +#include <linux/export.h>
-> +#include <linux/kernel.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/regmap.h>
-> +#include <sound/pcm_params.h>
-> +#include <sound/soc.h>
-> +#include "qaif-reg.h"
-> +#include "qaif.h"
-> +
-> +#define DRV_NAME "qaif-platform"
-> +
-> +/* period: 5ms @ 48kHz/1ch/S16 min, 20ms @ 48kHz/8ch/S32 max */
-> +#define QAIF_PLATFORM_PERIOD_BYTES_MIN		(48 * 5 * 1 * 2)	/* 480 B */
-> +#define QAIF_PLATFORM_PERIOD_BYTES_MAX		(48 * 20 * 8 * 4)	/* 30720 B */
-> +#define QAIF_PLATFORM_PERIODS_MIN		2
-> +#define QAIF_PLATFORM_PERIODS_MAX		4
-> +/* QAIF_PLATFORM_PERIODS_MAX * QAIF_PLATFORM_PERIOD_BYTES_MAX = 122880 B */
-> +#define QAIF_PLATFORM_BUFFER_BYTES_MAX		\
-> +	(QAIF_PLATFORM_PERIODS_MAX * QAIF_PLATFORM_PERIOD_BYTES_MAX)
-> +
-> +/* DMA CFG register bit positions */
-> +#define QAIF_DMACFG_SHRAM_WM_MASK	GENMASK(11, 0)
-> +#define QAIF_DMACFG_BURST4_BIT		BIT(18)
-> +#define QAIF_DMACFG_DYNCLK_BIT		BIT(24)
-> +
-> +/* DMA CTL register bit positions */
-> +#define QAIF_DMACTL_ENABLE_BIT		BIT(0)
-> +#define QAIF_ALL_CLIENTS_MASK		(QAIF_BITMASK_AIF_RDDMA_WRDMA | \
-> +					 QAIF_BITMASK_CIF_RDDMA_WRDMA)
-> +
-> +static const struct snd_pcm_hardware qaif_platform_hardware = {
-> +	.info			=	SNDRV_PCM_INFO_MMAP |
-> +					SNDRV_PCM_INFO_MMAP_VALID |
-> +					SNDRV_PCM_INFO_INTERLEAVED |
-> +					SNDRV_PCM_INFO_PAUSE |
-> +					SNDRV_PCM_INFO_RESUME,
-> +	.formats		=	SNDRV_PCM_FMTBIT_S16 |
-> +					SNDRV_PCM_FMTBIT_S24 |
-> +					SNDRV_PCM_FMTBIT_S32,
-> +	.rates			=	SNDRV_PCM_RATE_8000_192000,
-> +	.rate_min		=	8000,
-> +	.rate_max		=	192000,
-> +	.channels_min		=	1,
-> +	.channels_max		=	8,
-> +	.buffer_bytes_max	=	QAIF_PLATFORM_BUFFER_BYTES_MAX,
-> +	.period_bytes_min	=	QAIF_PLATFORM_PERIOD_BYTES_MIN,
-> +	.period_bytes_max	=	QAIF_PLATFORM_PERIOD_BYTES_MAX,
-> +	.periods_min		=	QAIF_PLATFORM_PERIODS_MIN,
-> +	.periods_max		=	QAIF_PLATFORM_PERIODS_MAX,
-> +	.fifo_size		=	0,
-> +};
-> +
-> +static int qaif_map_ee_resource(struct qaif_drv_data *drvdata)
-> +{
-> +	const struct qaif_variant *v = drvdata->variant;
-> +	struct regmap *map = drvdata->audio_qaif_map;
-> +	int ret;
-> +
-> +	ret = regmap_write(map, QAIF_EE_RDDMA_MAP_REG(v), GENMASK(v->num_rddma - 1, 0));
-> +	if (ret)
-> +		return ret;
-> +	ret = regmap_write(map, QAIF_EE_WRDMA_MAP_REG(v), GENMASK(v->num_wrdma - 1, 0));
-> +	if (ret)
-> +		return ret;
-> +	if (v->num_intf > 0) {
-> +		ret = regmap_write(map, QAIF_EE_INTF_MAP_REG(v), GENMASK(v->num_intf - 1, 0));
-> +		if (ret)
-> +			return ret;
-> +	}
-> +	ret = regmap_write(map, QAIF_EE_CODEC_RDDMA_MAP_REG(v),
-> +			   GENMASK(v->num_codec_rddma - 1, 0));
-> +	if (ret)
-> +		return ret;
-> +	return regmap_write(map, QAIF_EE_CODEC_WRDMA_MAP_REG(v),
-> +			    GENMASK(v->num_codec_wrdma - 1, 0));
-> +}
-> +
-> +static int qaif_map_dma_path(struct qaif_drv_data *drvdata)
-> +{
-> +	struct regmap *map = drvdata->audio_qaif_map;
-> +	int ret;
-> +
-> +	if (drvdata->variant->qxm_type != QAIF_QXM0) {
-> +		dev_err(regmap_get_device(map),
-> +			"only QXM0 is supported, qxm_type=%d\n",
-> +			drvdata->variant->qxm_type);
-> +		return -EINVAL;
-> +	}
-> +
-> +	ret = regmap_write(map, QAIF_RDDMA_MAP_QXM, QAIF_QXM0);
-> +	if (ret)
-> +		return ret;
-> +	ret = regmap_write(map, QAIF_WRDMA_MAP_QXM, QAIF_QXM0);
-> +	if (ret)
-> +		return ret;
-> +	ret = regmap_write(map, QAIF_CDC_RDDMA_MAP_QXM, QAIF_QXM0);
-> +	if (ret)
-> +		return ret;
-> +	return regmap_write(map, QAIF_CDC_WRDMA_MAP_QXM, QAIF_QXM0);
-> +}
-> +
-> +static int qaif_config_shram(struct qaif_drv_data *drvdata)
-> +{
-> +	const struct qaif_variant *v = drvdata->variant;
-> +	struct regmap *map = drvdata->audio_qaif_map;
-> +	u32 start_addr, shram_len;
-> +	int ret, i;
-> +
-> +	if (v->qxm_type != QAIF_QXM0) {
-> +		dev_err(regmap_get_device(map),
-> +			"only QXM0 is supported, qxm_type=%d\n",
-> +			v->qxm_type);
-> +		return -EINVAL;
-> +	}
-> +
-> +	start_addr = v->rddma_shram_start_addr[QAIF_AIF_DMA];
-> +	shram_len = v->rddma_shram_len;
-> +	for (i = 0; i < v->num_rddma; i++) {
-> +		ret = regmap_write(map, QAIF_RDDMA_QXM0_SHRAM_ST_ADDR(i),
-> +				   start_addr + (shram_len * i));
-> +		if (ret)
-> +			return ret;
-> +		ret = regmap_write(map, QAIF_RDDMA_QXM0_SHRAM_LEN(i), shram_len);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	start_addr = v->wrdma_shram_start_addr[QAIF_AIF_DMA];
-> +	shram_len = v->wrdma_shram_len;
-> +	for (i = 0; i < v->num_wrdma; i++) {
-> +		ret = regmap_write(map, QAIF_WRDMA_QXM0_SHRAM_ST_ADDR(i),
-> +				   start_addr + (shram_len * i));
-> +		if (ret)
-> +			return ret;
-> +		ret = regmap_write(map, QAIF_WRDMA_QXM0_SHRAM_LEN(i), shram_len);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	start_addr = v->rddma_shram_start_addr[QAIF_CIF_DMA];
-> +	shram_len = v->rddma_shram_len;
-> +	for (i = 0; i < v->num_codec_rddma; i++) {
-> +		ret = regmap_write(map, QAIF_CDC_RDDMA_QXM0_SHRAM_ST_ADDR(i),
-> +				   start_addr + (shram_len * i));
-> +		if (ret)
-> +			return ret;
-> +		ret = regmap_write(map, QAIF_CDC_RDDMA_QXM0_SHRAM_LEN(i), shram_len);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	start_addr = v->wrdma_shram_start_addr[QAIF_CIF_DMA];
-> +	shram_len = v->wrdma_shram_len;
-> +	for (i = 0; i < v->num_codec_wrdma; i++) {
-> +		ret = regmap_write(map, QAIF_CDC_WRDMA_QXM0_SHRAM_ST_ADDR(i),
-> +				   start_addr + (shram_len * i));
-> +		if (ret)
-> +			return ret;
-> +		ret = regmap_write(map, QAIF_CDC_WRDMA_QXM0_SHRAM_LEN(i), shram_len);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +	return 0;
-> +}
-> +
-> +static int qaif_init(struct snd_soc_component *component)
-> +{
-> +	struct qaif_drv_data *drvdata = snd_soc_component_get_drvdata(component);
-> +	int ret;
-> +
-> +	if (drvdata->qaif_hw_configured)
-> +		return 0;
-> +
-> +	ret = qaif_config_shram(drvdata);
-> +	if (ret) {
-> +		dev_err(component->dev, "failed to config shram: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	ret = qaif_map_ee_resource(drvdata);
-> +	if (ret) {
-> +		dev_err(component->dev, "failed to map EE resources: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	ret = qaif_map_dma_path(drvdata);
-> +	if (ret)
-> +		return ret;
-> +
-> +	drvdata->qaif_hw_configured = true;
-> +	return 0;
-> +}
-> +
-> +static int qaif_platform_pcmops_open(struct snd_soc_component *component,
-> +				     struct snd_pcm_substream *substream)
-> +{
-> +	struct snd_pcm_runtime *runtime = substream->runtime;
-> +	struct snd_soc_pcm_runtime *soc_runtime = snd_soc_substream_to_rtd(substream);
-> +	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(soc_runtime, 0);
-> +	struct qaif_drv_data *drvdata = snd_soc_component_get_drvdata(component);
-> +	const struct qaif_variant *v = drvdata->variant;
-> +	unsigned int dai_id = cpu_dai->driver->id;
-> +	struct qaif_pcm_data *data;
-> +	int ret, stream_dma_idx, dma_reg_idx, dir = substream->stream;
-> +
-> +	dma_reg_idx = v->get_dma_idx(dai_id);
-> +	if (dma_reg_idx < 0) {
-> +		dev_err(component->dev, "invalid DMA register index for DAI %u: %d\n",
-> +			dai_id, dma_reg_idx);
-> +		return dma_reg_idx;
-> +	}
-> +
-> +	data = kzalloc(sizeof(*data), GFP_KERNEL);
-> +	if (!data)
-> +		return -ENOMEM;
-> +	runtime->private_data = data;
-> +
-> +	mutex_lock(&drvdata->stream_lock);
-> +	stream_dma_idx = v->alloc_stream_dma_idx(drvdata, dir, dai_id);
-> +	mutex_unlock(&drvdata->stream_lock);
-> +	if (stream_dma_idx < 0) {
-> +		ret = stream_dma_idx;
-> +		goto err_free_data;
-> +	}
-> +
-> +	data->stream_dma_idx = stream_dma_idx;
-> +	data->dma_reg_idx = dma_reg_idx;
-> +
-> +	if (qaif_is_cif_port(dai_id))
-> +		WRITE_ONCE(drvdata->cif_substream[stream_dma_idx], substream);
-> +	else
-> +		WRITE_ONCE(drvdata->aif_substream[stream_dma_idx], substream);
-> +
-> +	snd_soc_set_runtime_hwparams(substream, &qaif_platform_hardware);
-> +
-> +	/*
-> +	 * The DMA buffer/period length registers are programmed in 64-bit
-> +	 * (8-byte) words, so constrain buffer and period sizes to that step
-> +	 * to keep the ALSA and hardware sizes identical.
-> +	 */
-> +	ret = snd_pcm_hw_constraint_step(runtime, 0,
-> +					 SNDRV_PCM_HW_PARAM_BUFFER_BYTES,
-> +					 BIT(QAIF_DMA_BYTES_TO_WORDS_SHIFT));
-> +	if (ret >= 0)
-> +		ret = snd_pcm_hw_constraint_step(runtime, 0,
-> +						 SNDRV_PCM_HW_PARAM_PERIOD_BYTES,
-> +						 BIT(QAIF_DMA_BYTES_TO_WORDS_SHIFT));
-> +	if (ret >= 0)
-> +		ret = snd_pcm_hw_constraint_integer(runtime,
-> +						    SNDRV_PCM_HW_PARAM_PERIODS);
-> +	if (ret < 0) {
-> +		dev_err(soc_runtime->dev, "setting constraints failed: %d\n", ret);
-> +		if (qaif_is_cif_port(dai_id))
-> +			WRITE_ONCE(drvdata->cif_substream[stream_dma_idx], NULL);
-> +		else
-> +			WRITE_ONCE(drvdata->aif_substream[stream_dma_idx], NULL);
-> +		mutex_lock(&drvdata->stream_lock);
-> +		v->free_stream_dma_idx(drvdata, stream_dma_idx, dai_id);
-> +		mutex_unlock(&drvdata->stream_lock);
-> +		goto err_free_data;
-> +	}
-> +	return 0;
-> +
-> +err_free_data:
-> +	kfree(data);
-> +	return ret;
-> +}
-> +
-> +static int qaif_platform_pcmops_close(struct snd_soc_component *component,
-> +				      struct snd_pcm_substream *substream)
-> +{
-> +	struct snd_soc_pcm_runtime *soc_runtime = snd_soc_substream_to_rtd(substream);
-> +	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(soc_runtime, 0);
-> +	struct qaif_drv_data *drvdata = snd_soc_component_get_drvdata(component);
-> +	const struct qaif_variant *v = drvdata->variant;
-> +	struct qaif_pcm_data *data = substream->runtime->private_data;
-> +	unsigned int dai_id = cpu_dai->driver->id;
-> +
-> +	if (qaif_is_cif_port(dai_id))
-> +		WRITE_ONCE(drvdata->cif_substream[data->stream_dma_idx], NULL);
-> +	else
-> +		WRITE_ONCE(drvdata->aif_substream[data->stream_dma_idx], NULL);
-> +
-> +	mutex_lock(&drvdata->stream_lock);
-> +	v->free_stream_dma_idx(drvdata, data->stream_dma_idx, dai_id);
-> +	mutex_unlock(&drvdata->stream_lock);
-> +
-> +	substream->runtime->private_data = NULL;
-> +	kfree(data);
-> +	return 0;
-> +}
-> +
-> +static int qaif_platform_pcmops_hw_params(struct snd_soc_component *component,
-> +					  struct snd_pcm_substream *substream,
-> +					  struct snd_pcm_hw_params *params)
-> +{
-> +	struct snd_soc_pcm_runtime *soc_runtime = snd_soc_substream_to_rtd(substream);
-> +	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(soc_runtime, 0);
-> +	struct qaif_drv_data *drvdata = snd_soc_component_get_drvdata(component);
-> +	const struct qaif_variant *v = drvdata->variant;
-> +	struct qaif_pcm_data *data = substream->runtime->private_data;
-> +	unsigned int dai_id = cpu_dai->driver->id;
-> +	int idx = data->dma_reg_idx;
-> +	int ret;
-> +
-> +	mutex_lock(&drvdata->stream_lock);
-> +	ret = qaif_init(component);
-> +	mutex_unlock(&drvdata->stream_lock);
-> +	if (ret) {
-> +		dev_err(soc_runtime->dev, "qaif_init failed: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	ret = regmap_update_bits(drvdata->audio_qaif_map,
-> +				 qaif_dmacfg_reg(v, idx, substream->stream, dai_id),
-> +				 QAIF_DMACFG_BURST4_BIT | QAIF_DMACFG_SHRAM_WM_MASK,
-> +				 QAIF_DMACFG_BURST4_BIT | QAIF_DMACTL_WM_5);
-> +	if (ret)
-> +		dev_err(soc_runtime->dev, "error updating DMA CFG: %d\n", ret);
-> +	return ret;
-> +}
-> +
-> +static int qaif_platform_pcmops_hw_free(struct snd_soc_component *component,
-> +					struct snd_pcm_substream *substream)
-> +{
-> +	struct snd_soc_pcm_runtime *soc_runtime = snd_soc_substream_to_rtd(substream);
-> +	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(soc_runtime, 0);
-> +	struct qaif_drv_data *drvdata = snd_soc_component_get_drvdata(component);
-> +	const struct qaif_variant *v = drvdata->variant;
-> +	struct qaif_pcm_data *data = substream->runtime->private_data;
-> +	unsigned int dai_id = cpu_dai->driver->id;
-> +	int idx = data->dma_reg_idx;
-> +	int ret;
-> +
-> +	ret = regmap_update_bits(drvdata->audio_qaif_map,
-> +				 qaif_dmactl_reg(v, idx, substream->stream, dai_id),
-> +				 QAIF_DMACTL_ENABLE_BIT, 0);
-> +	if (ret) {
-> +		dev_err(soc_runtime->dev, "error disabling DMA: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	ret = regmap_write(drvdata->audio_qaif_map,
-> +			   qaif_dmacfg_reg(v, idx, substream->stream, dai_id), 0);
-> +	if (ret)
-> +		dev_err(soc_runtime->dev, "error clearing DMA CFG: %d\n", ret);
-> +	return ret;
-> +}
-> +
-> +static int qaif_platform_pcmops_prepare(struct snd_soc_component *component,
-> +					struct snd_pcm_substream *substream)
-> +{
-> +	struct snd_pcm_runtime *runtime = substream->runtime;
-> +	struct snd_soc_pcm_runtime *soc_runtime = snd_soc_substream_to_rtd(substream);
-> +	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(soc_runtime, 0);
-> +	struct qaif_drv_data *drvdata = snd_soc_component_get_drvdata(component);
-> +	const struct qaif_variant *v = drvdata->variant;
-> +	struct regmap *map = drvdata->audio_qaif_map;
-> +	struct qaif_pcm_data *data = runtime->private_data;
-> +	unsigned int dai_id = cpu_dai->driver->id;
-> +	int idx = data->dma_reg_idx;
-> +	int ret, dir = substream->stream;
-> +
-> +	ret = clk_set_rate(drvdata->aud_dma_clk, QAIF_DMA_CLOCK_FREQ);
-> +	if (ret) {
-> +		dev_err(soc_runtime->dev, "error setting aud_dma_clk rate: %d\n", ret);
-> +		return ret;
-> +	}
-> +	ret = clk_set_rate(drvdata->aud_dma_mem_clk, QAIF_DMA_CLOCK_FREQ);
-> +	if (ret) {
-> +		dev_err(soc_runtime->dev, "error setting aud_dma_mem_clk rate: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	ret = regmap_write(map, qaif_sid_map_reg(dir, dai_id), drvdata->smmu_csid_bits);
-> +	if (ret) {
-> +		dev_err(soc_runtime->dev, "error writing to SID MAP reg: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	ret = regmap_write(map, qaif_dmabase_reg(v, idx, dir, dai_id),
-> +			   lower_32_bits(runtime->dma_addr));
-> +	if (ret) {
-> +		dev_err(soc_runtime->dev, "error writing to dma base reg: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	ret = regmap_write(map, qaif_dmabuff_reg(v, idx, dir, dai_id),
-> +			   (snd_pcm_lib_buffer_bytes(substream) >>
-> +			    QAIF_DMA_BYTES_TO_WORDS_SHIFT) - 1);
-> +	if (ret) {
-> +		dev_err(soc_runtime->dev, "error writing to dma buf reg: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	ret = regmap_write(map, qaif_dmaper_len_reg(v, idx, dir, dai_id),
-> +			   (snd_pcm_lib_period_bytes(substream) >>
-> +			    QAIF_DMA_BYTES_TO_WORDS_SHIFT) - 1);
-> +	if (ret)
-> +		dev_err(soc_runtime->dev, "error writing to dma period reg: %d\n", ret);
-> +	return ret;
-> +}
-> +
-> +static snd_pcm_uframes_t qaif_platform_pcmops_pointer(struct snd_soc_component *component,
-> +						      struct snd_pcm_substream *substream)
-> +{
-> +	struct snd_soc_pcm_runtime *soc_runtime = snd_soc_substream_to_rtd(substream);
-> +	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(soc_runtime, 0);
-> +	struct qaif_drv_data *drvdata = snd_soc_component_get_drvdata(component);
-> +	const struct qaif_variant *v = drvdata->variant;
-> +	struct regmap *map = drvdata->audio_qaif_map;
-> +	struct qaif_pcm_data *data = substream->runtime->private_data;
-> +	unsigned int dai_id = cpu_dai->driver->id;
-> +	unsigned int base_addr, curr_addr;
-> +	int idx = data->dma_reg_idx;
-> +	int ret, dir = substream->stream;
-> +
-> +	ret = regmap_read(map, qaif_dmabase_reg(v, idx, dir, dai_id), &base_addr);
-> +	if (ret) {
-> +		dev_err(soc_runtime->dev, "error reading from rdmabase reg: %d\n", ret);
-> +		return SNDRV_PCM_POS_XRUN;
-> +	}
-> +
-> +	ret = regmap_read(map, qaif_dmacurr_reg(v, idx, dir, dai_id), &curr_addr);
-> +	if (ret) {
-> +		dev_err(soc_runtime->dev, "error reading from rdmacurr reg: %d\n", ret);
-> +		return SNDRV_PCM_POS_XRUN;
-> +	}
-> +
-> +	return bytes_to_frames(substream->runtime,
-> +			       (curr_addr - base_addr) %
-> +			       snd_pcm_lib_buffer_bytes(substream));
-> +}
-> +
-> +static int qaif_platform_pcmops_mmap(struct snd_soc_component *component,
-> +				     struct snd_pcm_substream *substream,
-> +				     struct vm_area_struct *vma)
-> +{
-> +	struct snd_pcm_runtime *runtime = substream->runtime;
-> +
-> +	return dma_mmap_coherent(component->dev, vma,
-> +				 runtime->dma_area, runtime->dma_addr,
-> +				 runtime->dma_bytes);
-> +}
-> +
-> +static int qaif_platform_pcm_new(struct snd_soc_component *component,
-> +				 struct snd_soc_pcm_runtime *rtd)
-> +{
-> +	struct snd_pcm *pcm = rtd->pcm;
-> +
-> +	return snd_pcm_set_fixed_buffer_all(pcm, SNDRV_DMA_TYPE_DEV,
-> +					    component->dev,
-> +					    QAIF_PLATFORM_BUFFER_BYTES_MAX);
-> +}
-> 
+whereas for general-level functions where the framework does everything
+for the caller the arguments differ and so should the name:
 
+2) snd_soc_register_component(<component does not start the list>)
+
+If 2) is named in the same fashion as 1) then a user, especially ASoC
+newcomer assumes component-ptr always starts the list and gets surprised
+later.  Again, in my opinion we should not mangle all the names together
+like if their arguments do not matter.  Happy to hear more people voice
+their opinion about the subject.
+
+
+Kind regards,
+Czarek
