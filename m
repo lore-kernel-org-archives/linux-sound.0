@@ -1,190 +1,257 @@
-Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E729039E6F0
-	for <linux-sound@vger.kernel.org>; Wed, 14 Oct 2026 13:36:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 384C04E80BD;
+	Wed, 14 Oct 2026 14:12:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791984982; cv=none; b=HHjpB3ON2qsOscYg5KnKsJ7OP0pjbB6R6dozaHMwNFYj2T3SvBWEoSF4taUzexAfEKVhO6/Unp3ys3ExS9HgVeKazHrDnRb+c86qFZ+q4p71Nxyjzefyu7qCZl+dWC6Y5VaEXRu/RxJjW/B9+cBwNI08MSIBCZ17tN6kc5H2Ono=
+	t=1791987147; cv=none; b=OmRVlDlzy8IU7JsEPT6c18J0foxjDyLtQmRAXbwHKF49VSEwXandk46rLTh7Ej1b5NwXHOfOtmtxvBkA5G9zqRvYSSlZ1xUACsZz1dEI7dhNLk9kkEPEjJoCCF6NDZRz9koZNd6xUVho2K8Jh+jMqziigKnA4ynrNsY3KL5kzTg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791984982; c=relaxed/simple;
-	bh=DF8ybN2GMwLwU1qAu0KkHMz+BA0Hw6rZ+RglJjRcPVY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=orpou2wvY9GK74ga1qUA5e9HeLC0So5ax/YDWPx8CsvpA+fpo6nA54ko/KcrApxllxEd1Kf5fCYXSqnL7zx8nNaSIjkJ9I43Y9dxsbc4bPVCqpyviNKdAx8pxzHWwdJov1YebDJh6HT3a+7OPH3dMplEWbtyU1QNoUVeDphTL1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=rt3GsJ1G; arc=none smtp.client-ip=77.48.224.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
+	s=arc-20240116; t=1791987147; c=relaxed/simple;
+	bh=MtgThzQ1njBUKujr+z+EvBHpcW2lCs5+op3q2fPgav8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tFze+ex5PrttEaugw6Vz5kbwN2v6CPY3qptcl1HeWzJtoRWMinzbu+EkW9iN0eX3QeDNhqmYKAssqYmBQPLQOFratzz8gxejfUEMps9zmCxCMGypa6XZKXgkRrbPlyNecKiy7x4eCeeJn98ZmHmRp9NYVvxT6T74cU0sa4A34iU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=IAqBnoCP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=8tKvnQ2V; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wIe+jS4/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=sxIsUXGF; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="rt3GsJ1G"
-Received: from mail1.perex.cz (localhost [127.0.0.1])
-	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 3088D3EFEE;
-	Wed, 14 Oct 2026 15:28:44 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 3088D3EFEE
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
-	t=1791984524; bh=89JXbv64hAo1dFKAJ+z8aXhwRzF3UeB/7QmGRPPwM/Y=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=rt3GsJ1Gnu/knFDYlYr8xPL4HD9mu83WQsgtn9OEcp7Nt4F8AtQPK4J4jm2OhFn1Y
-	 NWrDmve1VFQ67jjxyi9E9wfoIMGixQ6PeKq9GVWQrv+uGL1MSYhtU3wVu4IXMBbVFh
-	 It/KIlVaernO76NpweFbo/4AKOZJhq++H/iAjmu4=
-Received: from [192.168.100.98] (unknown [192.168.100.98])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IAqBnoCP";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8tKvnQ2V";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wIe+jS4/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="sxIsUXGF"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	(Authenticated sender: perex)
-	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
-	Wed, 14 Oct 2026 15:28:40 +0200 (CEST)
-Message-ID: <30dcedc7-3b56-4396-af3d-6c2701ef1cb7@perex.cz>
-Date: Wed, 14 Oct 2026 15:28:38 +0200
+	by smtp-out2.suse.de (Postfix) with ESMTPS id A82BA1F7C1;
+	Wed, 14 Oct 2026 14:12:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1791987141; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=E1H5hcrPQh2rU12TigZSFLfiXPe8ucP8nib/3K5ch1o=;
+	b=IAqBnoCP8Vv9onXKjg63wWDof5K8j8CjkTIm0MnIJxnB8aXqealP3O0FlTL0TpqJK3cFZB
+	Xnt05/aSnSSWiWOTY0So9gFhzyPAPkJcw07yDlZgBvq3si6v9wpZ0pIMtu6LeGwRljmztK
+	EJZbfw8ko2F6Y8SX/ouS7vKobYRfF1g=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1791987141;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=E1H5hcrPQh2rU12TigZSFLfiXPe8ucP8nib/3K5ch1o=;
+	b=8tKvnQ2VaV7SPkmLvzQ9woMIXMIASQ/ppF102wLSM4tzFwX44rGcL07B0ftrXlLXhXnsTC
+	JYk1npaeoknHroDg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="wIe+jS4/";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=sxIsUXGF
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1791987139; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=E1H5hcrPQh2rU12TigZSFLfiXPe8ucP8nib/3K5ch1o=;
+	b=wIe+jS4/zIJDaT5g0up4I6ucrc4n6H1XpGfzGyBkoPuP0dB1imE0TD06PHj7vMwM20SBPC
+	Rmj5uCnDJ6L4ARoc6l4GQBK4fdUaU2v3daLJTIzqaDKJ1lWJE/EDhMsJcS1rFuB66tv4l4
+	Tewerg9Uq6HlhCTVWLZsGS+wMb7wTIk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1791987139;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=E1H5hcrPQh2rU12TigZSFLfiXPe8ucP8nib/3K5ch1o=;
+	b=sxIsUXGFKFK+TJT69/5zF3hbK+33SeHl03QXO1KKRfXnFdTW3c9g2o8jVFSubqZsu/GH6d
+	eI2PS+Z0wjfu0vCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3397F133F1;
+	Wed, 14 Oct 2026 14:12:19 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id xFLVNMKNz2o/bAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 14 Oct 2026 14:12:19 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: pcm: Add refcount for races between drain and unlink
+Date: Wed, 14 Oct 2026 16:12:05 +0200
+Message-ID: <20261014141212.316223-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC] ALSA: 6fire: S/PDIF output as playback channels 7/8 or as,
- a second PCM device?
-To: =?UTF-8?Q?Piotr_Gli=C5=BAniewicz?= <p.glizniewicz@gmail.com>,
- tiwai@suse.com
-Cc: torsten.schenk@zoho.com, linux-sound@vger.kernel.org
-References: <87e0832e-39ec-4298-80bc-1bc9de23caca@gmail.com>
-From: Jaroslav Kysela <perex@perex.cz>
-Content-Language: en-US
-Autocrypt: addr=perex@perex.cz; keydata=
- xsFNBFvNeCsBEACUu2ZgwoGXmVFGukNPWjA68/7eMWI7AvNHpekSGv3z42Iy4DGZabs2Jtvk
- ZeWulJmMOh9ktP9rVWYKL9H54gH5LSdxjYYTQpSCPzM37nisJaksC8XCwD4yTDR+VFCtB5z/
- E7U0qujGhU5jDTne3dZpVv1QnYHlVHk4noKxLjvEQIdJWzsF6e2EMp4SLG/OXhdC9ZeNt5IU
- HQpcKgyIOUdq+44B4VCzAMniaNLKNAZkTQ6Hc0sz0jXdq+8ZpaoPEgLlt7IlztT/MUcH3ABD
- LwcFvCsuPLLmiczk6/38iIjqMtrN7/gP8nvZuvCValLyzlArtbHFH8v7qO8o/5KXX62acCZ4
- aHXaUHk7ahr15VbOsaqUIFfNxpthxYFuWDu9u0lhvEef5tDWb/FX+TOa8iSLjNoe69vMCj1F
- srZ9x2gjbqS2NgGfpQPwwoBxG0YRf6ierZK3I6A15N0RY5/KSFCQvJOX0aW8TztisbmJvX54
- GNGzWurrztj690XLp/clewmfIUS3CYFqKLErT4761BpiK5XWUB4oxYVwc+L8btk1GOCOBVsp
- 4xAVD2m7M+9YKitNiYM4RtFiXwqfLk1uUTEvsaFkC1vu3C9aVDn3KQrZ9M8MBh/f2c8VcKbN
- njxs6x6tOdF5IhUc2E+janDLPZIfWDjYJ6syHadicPiATruKvwARAQABzSBKYXJvc2xhdiBL
- eXNlbGEgPHBlcmV4QHBlcmV4LmN6PsLBjgQTAQgAOBYhBF7f7LZepM3UTvmsRTCsxHw/elMJ
- BQJbzXgrAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEDCsxHw/elMJDGAP/ReIRiRw
- lSzijpsGF/AslLEljncG5tvb/xHwCxK5JawIpViwwyJss06/IAvdY5vn5AdfUfCl2J+OakaR
- VM/hdHjCYNu4bdBYZQBmEiKsPccZG2YFDRudEmiaoaJ1e8ZsiA3rSf4SiWWsbcBOYHr/unTf
- 4KQsdUHzPUt8Ffi9HrAFzI2wjjiyV5yUGp3x58ZypAIMcKFtA1aDwhA6YmQ6lb8/bC0LTC6l
- cAAS1tj7YF5nFfXsodCOKK5rKf5/QOF0OCD2Gy+mGLNQnq6S+kD+ujQfOLaUHeyfcNBEBxda
- nZID7gzd65bHUMAeWttZr3m5ESrlt2SaNBddbN7NVpVa/292cuwDCLw2j+fAZbiVOYyqMSY4
- LaNqmfa0wJAv30BMKeRAovozJy62j0AnntqrvtDqqvuXgYirj2BEDxx0OhZVqlI8o5qB6rA5
- Pfp2xKRE8Fw3mASYRDNad08JDhJgsR/N5JDGbh4+6sznOA5J63TJ+vCFGM37M5WXInrZJBM3
- ABicmpClXn42zX3Gdf/GMM3SQBrIriBtB9iEHQcRG/F+kkGOY4QDi4BZxo45KraANGmCkDk0
- +xLZVfWh8YOBep+x2Sf83up5IMmIZAtYnxr77VlMYHDWjnpFnfuja+fcnkuzvvy7AHJZUO1A
- aKexwcBjfTxtlX4BiNoK+MgrjYywzsFNBFvNeCsBEACb8FXFMOw1g+IGVicWVB+9AvOLOhqI
- FMhUuDWmlsnT8B/aLxcRVUTXoNgJpt0y0SpWD3eEJOkqjHuvHfk+VhKWDsg6vlNUmF1Ttvob
- 18rce0UH1s+wlE8YX8zFgODbtRx8h/BpykwnuWNTiotu9itlE83yOUbv/kHOPUz4Ul1+LoCf
- V2xXssYSEnNr+uUG6/xPnaTvKj+pC7YCl38Jd5PgxsP3omW2Pi9T3rDO6cztu6VvR9/vlQ8Z
- t0p+eeiGqQV3I+7k+S0J6TxMEHI8xmfYFcaVDlKeA5asxkqu5PDZm3Dzgb0XmFbVeakI0be8
- +mS6s0Y4ATtn/D84PQo4bvYqTsqAAJkApEbHEIHPwRyaXjI7fq5BTXfUO+++UXlBCkiH8Sle
- 2a8IGI1aBzuL7G9suORQUlBCxy+0H7ugr2uku1e0S/3LhdfAQRUAQm+K7NfSljtGuL8RjXWQ
- f3B6Vs7vo+17jOU7tzviahgeRTcYBss3e264RkL62zdZyyArbVbK7uIU6utvv0eYqG9cni+o
- z7CAe7vMbb5KfNOAJ16+znlOFTieKGyFQBtByHkhh86BQNQn77aESJRQdXvo5YCGX3BuRUaQ
- zydmrgwauQTSnIhgLZPv5pphuKOmkzvlCDX+tmaCrNdNc+0geSAXNe4CqYQlSnJv6odbrQlD
- Qotm9QARAQABwsF2BBgBCAAgFiEEXt/stl6kzdRO+axFMKzEfD96UwkFAlvNeCsCGwwACgkQ
- MKzEfD96Uwlkjg/+MZVS4M/vBbIkH3byGId/MWPy13QdDzBvV0WBqfnr6n99lf7tKKp85bpB
- y7KRAPtXu+9WBzbbIe42sxmWJtDFIeT0HJxPn64l9a1btPnaILblE1mrfZYAxIOMk3UZA3PH
- uFdyhQDJbDGi3LklDhsJFTAhBZI5xMSnqhaMmWCL99OWwfyJn2omp8R+lBfAJZR31vW6wzsj
- ssOvKIbgBpV/o3oGyAofIXPYzhY+jhWgOYtiPw9bknu748K+kK3fk0OeEG6doO4leB7LuWig
- dmLZkcLlJzSE6UhEwHZ8WREOMIGJnMF51WcF0A3JUeKpYYEvSJNDEm7dRtpb0x/Y5HIfrg5/
- qAKutAYPY7ClQLu5RHv5uqshiwyfGPaiE8Coyphvd5YbOlMm3mC/DbEstHG7zA89fN9gAzsJ
- 0TFL5lNz1s/fo+//ktlG9H28EHD8WOwkpibsngpvY+FKUGfJgIxpmdXVOkiORWQpndWyRIqw
- k8vz1gDNeG7HOIh46GnKIrQiUXVzAuUvM5vI9YaW3YRNTcn3pguQRt+Tl9Y6G+j+yvuLL173
- m4zRUU6DOygmpQAVYSOJvKAJ07AhQGaWAAi5msM6BcTU4YGcpW7FHr6+xaFDlRHzf1lkvavX
- WoxP1IA1DFuBMeYMzfyi4qDWjXc+C51ZaQd39EulYMh+JVaWRoY=
-In-Reply-To: <87e0832e-39ec-4298-80bc-1bc9de23caca@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Rspamd-Action: no action
+X-Spam-Score: -3.01
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,alsa-project.org:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	ARC_NA(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_TWO(0.00)[2];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_NONE(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Level: 
+X-Rspamd-Queue-Id: A82BA1F7C1
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 
-On 10/14/26 15:08, Piotr Gliźniewicz wrote:
-> Hello,
-> 
-> I have a patch that enables the S/PDIF output of the TerraTec DMX 6Fire
-> USB (sound/usb/6fire). Before I send it, I would like to know which of
-> two ways of exposing the output you would accept.
-> 
-> The hardware
-> ------------
-> 
-> The card has six analog outputs and one S/PDIF transmitter. All
-> playback data goes to the card in one isochronous OUT stream. At 44.1
-> to 96 kHz the packets have space for 8 slots of 32 bits per frame: six
-> for the analog outputs and two for the S/PDIF transmitter. The mainline
-> driver sends only the six analog slots. At 176.4 and 192 kHz
-> (altsetting 3) a packet carries only the six analog slots
-> (604 = 4 + 25 * 6 * 4 bytes), so the S/PDIF output is available up to
-> 96 kHz. The card has one sample rate for all outputs and the analog
-> inputs.
-> 
-> The driver shares the isochronous streams between the playback and the
-> capture substream: the first prepare sets the card rate, and while the
-> stream runs, open offers only that rate.
-> 
-> In its multi-channel mode, the Windows driver of the vendor exposes the
-> analog outputs and the S/PDIF output as two devices. The manual says:
-> "This is a multi-channel driver that signals all six analogue output
-> drivers to the operating system as one multi-channel driver. [...] The
-> digital driver is available separately, with the designation "DMX 6Fire
-> Digital Out"." In its multi-device mode the driver exposes four stereo
-> devices, and the S/PDIF output is again a separate device.
-> 
-> Option A: one PCM device with 8 playback channels (patch available)
-> -------------------------------------------------------------------
-> 
-> Playback channels 7 and 8 are the S/PDIF pair. The hw_params rules
-> allow 7 or 8 channels only at rates up to 96 kHz; at 176.4 and 192 kHz
-> they allow at most 6. A channel map gives channels 7 and 8 the position
-> UNKNOWN. I tested the S/PDIF output on the hardware at 44.1, 48 and
-> 96 kHz.
-> 
-> ICE1712, hdsp and the FireWire drivers put an S/PDIF pair that shares a
-> stream with analog channels into the same PCM device. alsa-lib splits
-> the ICE1712 device with a card file (ICE1712.conf), and UCM splits
-> several USB-Audio devices with SplitPCMDevice. alsa-lib has no card
-> file for the driver name 6FireUSB.
-> 
-> The drawback: a client that opens hw:X,0 with the largest channel count
-> gets 8 channels and at most 96 kHz. Without the patch the same client
-> gets 6 channels at up to 192 kHz. With the Pro Audio profile of
-> PipeWire 1.6.9 and the rate set to 176.4 or 192 kHz, PipeWire ran the
-> card at 96 kHz. A client that ignores the channel map and assumes a 7.1
-> layout sends the side pair to the S/PDIF output.
-> 
-> Option B: S/PDIF as PCM device 1 (no patch)
-> -------------------------------------------
-> 
-> Device 0 stays as in mainline: 6 playback channels, up to 192 kHz.
-> Device 1 has one playback substream with 2 channels, up to 96 kHz. In
-> the URB handler a third substream writes slots 7 and 8 of the same OUT
-> packets. While device 1 is closed, these slots carry zeros. The rate is
-> handled as between playback and capture in mainline: while the card
-> runs, open offers only the rate of the card. In addition, while the card
-> runs at 176.4 or 192 kHz, opening device 1 fails with -EBUSY. The
-> IEC958 controls are attached to device 1. I plan the S/PDIF input as a
-> later patch; it would be the capture substream of device 1, because the
-> receiver outputs frames at the rate of the source, which can differ
-> from the rate of the card.
-> 
-> The drawback: device 0 and device 1 start independently. Unless the
-> driver supports a linked start (snd_pcm_link()) and starts both in the
-> same packet, the analog and the digital channels are not aligned to the
-> sample. I did not find an in-tree driver that splits one shared stream
-> into two PCM devices. The drivers with a separate S/PDIF PCM device
-> that I found (ice1724, oxygen) have a separate DMA channel for it.
-> 
-> The question
-> ------------
-> 
-> Which option do you prefer? If option B, is a driver that sends the
-> data of two PCM devices in one isochronous stream acceptable?
+We added a workaround for the case where a linked substream gets
+unlinked during the drain operation by another substream of the same
+linked group in the commit 9b1dbd69ba6f ("ALSA: pcm: fix
+use-after-free on linked stream runtime in snd_pcm_drain()").
+There, we just cached the parameters of the draining substream for
+avoiding UAF.
 
-We prefer to not add complexity to the drivers, so option A with correct UCM 
-channel description is best IMHO. Pipewire supports the split now. The apps 
-should follow the channel maps for direct hw:X,Y access.
+Then, we check the draining substream (to_check) again in the loop and
+remove it from the queue only when it's still present.  It means,
+however, that the wait queue entry won't be removed if the substream
+went out of the link beforehand, hence a stale wq entry remains.
+Later on, this can be woken up, and this may hit a UAF, too.
+The problem surfaced more due to the recent change to call
+snd_pcm_unlink() earlier.
 
-Jaroslav
+For properly handling both cases above, in this patch, we introduce a
+refcount to the snd_pcm_runtime that indicates the substream is being
+accessed / used, then at snd_pcm_release_substream(), it's synced
+before the actual resource release via snd_refcount_sync().  This
+guarantees that the accessors are finished, and safe to release
+memories.  Along with the introduction of a refcount, the comments and
+the code changes by the former fix were partially reverted as they
+don't fit with the updated code flow any longer.
 
+Fixes: 9b1dbd69ba6f ("ALSA: pcm: fix use-after-free on linked stream runtime in snd_pcm_drain()")
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ include/sound/pcm.h     |  2 ++
+ sound/core/pcm.c        |  1 +
+ sound/core/pcm_native.c | 33 ++++++++++-----------------------
+ 3 files changed, 13 insertions(+), 23 deletions(-)
+
+diff --git a/include/sound/pcm.h b/include/sound/pcm.h
+index 02d8689354c4..1cf511f8d880 100644
+--- a/include/sound/pcm.h
++++ b/include/sound/pcm.h
+@@ -8,6 +8,7 @@
+  *                   Abramo Bagnara <abramo@alsa-project.org>
+  */
+ 
++#include <sound/core.h>
+ #include <sound/asound.h>
+ #include <sound/memalloc.h>
+ #include <sound/minors.h>
+@@ -414,6 +415,7 @@ struct snd_pcm_runtime {
+ 	snd_pcm_uframes_t twake; 	/* do transfer (!poll) wakeup if non-zero */
+ 	wait_queue_head_t sleep;	/* poll sleep */
+ 	wait_queue_head_t tsleep;	/* transfer sleep */
++	struct snd_refcount refcnt;	/* refcount for draining, etc */
+ 	struct snd_fasync *fasync;
+ 	bool stop_operating;		/* sync_stop will be called */
+ 	struct mutex buffer_mutex;	/* protect for buffer changes */
+diff --git a/sound/core/pcm.c b/sound/core/pcm.c
+index 41c2cab7a52c..c133f23418fe 100644
+--- a/sound/core/pcm.c
++++ b/sound/core/pcm.c
+@@ -957,6 +957,7 @@ int snd_pcm_attach_substream(struct snd_pcm *pcm, int stream,
+ 
+ 	init_waitqueue_head(&runtime->sleep);
+ 	init_waitqueue_head(&runtime->tsleep);
++	snd_refcount_init(&runtime->refcnt);
+ 
+ 	__snd_pcm_set_state(runtime, SNDRV_PCM_STATE_OPEN);
+ 	mutex_init(&runtime->buffer_mutex);
+diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
+index 6c379068b54c..41b8e2d4894e 100644
+--- a/sound/core/pcm_native.c
++++ b/sound/core/pcm_native.c
+@@ -2226,9 +2226,6 @@ static int snd_pcm_drain(struct snd_pcm_substream *substream,
+ 	for (;;) {
+ 		long tout;
+ 		struct snd_pcm_runtime *to_check;
+-		unsigned int drain_rate;
+-		snd_pcm_uframes_t drain_bufsz;
+-		bool drain_no_period_wakeup;
+ 
+ 		if (signal_pending(current)) {
+ 			result = -ERESTARTSYS;
+@@ -2243,30 +2240,23 @@ static int snd_pcm_drain(struct snd_pcm_substream *substream,
+ 			runtime = s->runtime;
+ 			if (runtime->state == SNDRV_PCM_STATE_DRAINING) {
+ 				to_check = runtime;
++				/* pin the draining substream */
++				snd_refcount_get(&to_check->refcnt);
+ 				break;
+ 			}
+ 		}
+ 		snd_pcm_group_unref(group, substream);
+ 		if (!to_check)
+ 			break; /* all drained */
+-		/*
+-		 * Cache the runtime fields needed after unlock.
+-		 * A concurrent close() on the linked stream may free
+-		 * its runtime via snd_pcm_detach_substream() once we
+-		 * release the stream lock below.
+-		 */
+-		drain_no_period_wakeup = to_check->no_period_wakeup;
+-		drain_rate = to_check->rate;
+-		drain_bufsz = to_check->buffer_size;
+ 		init_wait_entry(&wait, 0);
+ 		prepare_to_wait(&to_check->sleep, &wait, TASK_INTERRUPTIBLE);
+ 		snd_pcm_stream_unlock_irq(substream);
+-		if (drain_no_period_wakeup)
++		if (to_check->no_period_wakeup)
+ 			tout = MAX_SCHEDULE_TIMEOUT;
+ 		else {
+ 			tout = 100;
+-			if (drain_rate) {
+-				long t = drain_bufsz * 1100 / drain_rate;
++			if (to_check->rate) {
++				long t = to_check->buffer_size * 1100 / to_check->rate;
+ 				tout = max(t, tout);
+ 			}
+ 			tout = msecs_to_jiffies(tout);
+@@ -2274,14 +2264,9 @@ static int snd_pcm_drain(struct snd_pcm_substream *substream,
+ 		tout = schedule_timeout(tout);
+ 
+ 		snd_pcm_stream_lock_irq(substream);
+-		group = snd_pcm_stream_group_ref(substream);
+-		snd_pcm_group_for_each_entry(s, substream) {
+-			if (s->runtime == to_check) {
+-				finish_wait(&to_check->sleep, &wait);
+-				break;
+-			}
+-		}
+-		snd_pcm_group_unref(group, substream);
++		finish_wait(&to_check->sleep, &wait);
++		/* unpin the draining substream again now */
++		snd_refcount_put(&to_check->refcnt);
+ 
+ 		if (card->shutdown) {
+ 			result = -ENODEV;
+@@ -2832,7 +2817,9 @@ void snd_pcm_release_substream(struct snd_pcm_substream *substream)
+ 	snd_pcm_unlink(substream);
+ 
+ 	snd_pcm_drop(substream);
++
+ 	if (substream->hw_opened) {
++		snd_refcount_sync(&substream->runtime->refcnt);
+ 		if (substream->runtime->state != SNDRV_PCM_STATE_OPEN)
+ 			do_hw_free(substream);
+ 		substream->ops->close(substream);
 -- 
-Jaroslav Kysela <perex@perex.cz>
-Linux Sound Maintainer; ALSA Project; Red Hat
+2.55.0
+
