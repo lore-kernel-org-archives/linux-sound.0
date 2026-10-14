@@ -1,128 +1,153 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1709514769
-	for <linux-sound@vger.kernel.org>; Wed, 14 Oct 2026 15:21:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CD6C54B1C0
+	for <linux-sound@vger.kernel.org>; Wed, 14 Oct 2026 15:22:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791991262; cv=none; b=Pz9wFbMkqUITDgqlvGH+3sFDQNMSi1VURRQyB8B+ruZOyaeKxZqRN40AD0SUryqLdbfmXKYZKEsfoWEYSmpy8qv43YQYie08G6hiu+PHQakjZx8NvXwKzp1NKWQBYF67XZmEeRYF9B9+0lfRZ1Je5WN4uNbOCsK/L1atz9VgR7U=
+	t=1791991350; cv=none; b=CK/OtU8x1W5nTdirGK9EMNdkqYizZ9O0CHhf+m8f0QPunE6OB0OahjJFPQEL0qqVFFKuUyfZRwKO5wdOMyKfEXnSS73oo9DrchSVwU9JzzJGTDWKd+SqluZ93fDADDIIVIknEzWncWlqSIHuLPy+xBmWu9mjYwx1g/do6XazU4s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791991262; c=relaxed/simple;
-	bh=PLxWEdHDhUnvBH7lu4lQL4zExhtrF9sPTVq/XJm2+IA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HaRreFnbubH5nBiv2R7dl/A89jwJyfXjrP7LfqCf84BodVTOZwOthg6SmYt+z6NrTVsjUPUuRGcjOkRQIkt6kMShGRrWjC/uxIQxVf5lrdXH38rRt/lldQZtbHEZ84rNJxNwmJwxH35AxqCA23J0Y9Zwxqf5UcrzRnGea38PoG8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=alPPItRP; arc=none smtp.client-ip=209.85.216.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791991350; c=relaxed/simple;
+	bh=OJYOG4YSV0pLaaOPEwxxy35lIjjZKUEA7jwt74Dr43o=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=p63UC9igGbGQmw0Pm6y3hRs6CZs2As3Scpoy4uWnKpSoUSUc6H+69/JAXoIVSw76EBQrH+HdVHRhRpoKQAg4qMBlKx1UFNcF2b0+u9NH2qJf6EmAJ8lwTO48SiLk1x8AHkHGNtOEJheTa19QGojFbl9eFX7aUnkI9VNSn6d9Tpc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=C96xXxk/; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="alPPItRP"
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-3ac77270fbfso462465a91.2
-        for <linux-sound@vger.kernel.org>; Wed, 14 Oct 2026 08:21:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="C96xXxk/"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4a021c809e3so41219595e9.0
+        for <linux-sound@vger.kernel.org>; Wed, 14 Oct 2026 08:22:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791991261; x=1792596061; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=QDbRSJPPHMuwciSupVJvu82u31irQ6MMv35QtuADKcs=;
-        b=alPPItRPF8yc8eiY6JmEh45qZHMXQxIZaJ30SARxKon0nA91/af+KWuvjur79NnkVP
-         sDNZyrv01g6KGmYG2xEfqXLpzcuI3Rcv1eLGyQTh9do+BVWitdkosO1wgRUA2EJTzM9a
-         NDzrmWPE+/93JIRZYYd0iwud0abDlD9wb7hpjpkiHOTHFN6b6VVcxPcyB4BluYWHucAs
-         tbduEiQYPTzgL5q/nzoGjrMWqooG+7nM7FTXPKGMok0QkeTazGmFVD9Lza2AZRHM6HAH
-         DxWQryr6Cn8uMmY7TJNWcpi6ElEsjSwoVJzlXHrFQYqBxlJ4wqE5sh3OOJmPz9Yr7Uu5
-         ui5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791991261; x=1792596061;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=tuxon.dev; s=google; t=1791991346; x=1792596146; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=QDbRSJPPHMuwciSupVJvu82u31irQ6MMv35QtuADKcs=;
-        b=EUWtWuU1TwBMK9bf2+QmHeDjojOGmuFxC5jy7n2G0xnW8ietGNMkxb+v3n/vipZk3a
-         EfcncoDGw35M7jtJqBAC0q1AoBlVIvpXW4dimDStFHIS8PbFeyHLnVLNFY278ztUgZek
-         FoAgEGUirYuXub/pVVKDK6G8LzQM4ofoHSdXL9WAbFxts2WCUMT9L3kc1CusIi9qstXg
-         wfo1J3RLtHkj76yp3L60GGv4tS3dW5a1lT2wT1V6mBAJxk8v+psV6ZifkQ4GrDGSoh+y
-         MFEEgoUD1mUoTct4UMhX7PDZcJ8mt32bEQS1SZRxdhTb9DHOdV6gKoDTmMkdksoIYhJN
-         fCYQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxDoRytkCd+az6LtbYo9sYWJixMouUPhstpZMzMjO09IkhpzzFRhwr2VFC414S/rxb/KZOdydRyD8auAw==@vger.kernel.org
-X-Gm-Message-State: AFq9FYKJiJKgynMcDucFQ8Y0xn9kk5bnTyNyoSoODYmmj2UAk6nCtYOh
-	EzGT2fWftSC7yQ7H+2ijHwUHNQv9BGLTLwHSuTrs9Mkkdl8UgtZ/rsKo
-X-Gm-Gg: AYBFou2Rz8rekzji4hofj5IIoVqdBZW2qhnQju/J0TjRXYNkiwCBYAI5+96NJ32FIel
-	rxbwfOKNJQ/F/GIlS3ct3yzAZoR0+Kby3LdpkllJy5rvXA0oqIEAHb4QKLdUdFKU2hhBBxJGjbA
-	m0HzgdoudBKDrogeQkCXxdXApxmC2prtmLEP1IzVkBzOZ+Y1yMhHOudZGjzK0zVIUPpVlpJ/5+z
-	qVH76ANx2BeYePeOs91SbnXjxH0I+fjY/6n9HOTYOBrAXNIWIqOVuH1hctBdgT4YHEKuHhWPu4w
-	VJVmmSlR2hLRFXrwJEymTwug4l2hLohh7LHx68pEFzDFL6RP9wviawmwVxmiBiG9X7zAD3JDXai
-	O7UlURmvU+HoGU4u7Yy/q3gPlMzgT2lt84LnqPt04Xa+nxPtYqZw+b/UM5aiIOYC+iWquOZNIcS
-	C6M1iOeYWcwVA+pLfotY+/CVBXLIoM9Drl5eICAJbOptaYHiarTouzKOk7ZYCH9UpndRSCc0Me0
-	kkIKpyqS3yenEQuBxSjok26b81oR/iZnWw1y9VNj9DRen5wtwjh3m2OKoAzfftfdW3/2kb6FPoq
-	vuwzmLHrgbmX1dE=
-X-Received: by 2002:a17:90b:568b:b0:3ac:17c:6e89 with SMTP id 98e67ed59e1d1-3ac017c701bmr6727013a91.19.1791991261023;
-        Wed, 14 Oct 2026 08:21:01 -0700 (PDT)
-Received: from localhost.localdomain ([180.182.24.11])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ac92a43d98sm91997a91.0.2026.10.14.08.20.58
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 14 Oct 2026 08:21:00 -0700 (PDT)
-From: Joonho Lee <mynameisjune111@gmail.com>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org
-Subject: Re: [RFC PATCH 2/2] ALSA: pcm: refresh capture pointers before drain
-Date: Thu, 15 Oct 2026 00:20:55 +0900
-Message-ID: <core-drain-linked-lock-reply.cf2e307fcac34b6a@gmail.com>
-In-Reply-To: <87y0c0el29.wl-tiwai@suse.de>
-References: <rfc-core-capture-drain-0.112c40f0e9284eaa@gmail.com> <rfc-core-capture-drain-2.112c40f0e9284eaa@gmail.com> <8733u8g0kh.wl-tiwai@suse.de> <87y0c0el29.wl-tiwai@suse.de>
+        bh=Js2yXAKJLVFgb+YsCYrtsAgVcbxI+5CvJwak5knEqR8=;
+        b=C96xXxk/84vzF3EfzCUuCljDOFx5esb7HRrDI+a7QeuB6T5LI/2JZ6fqtHZBskFRJQ
+         ZQPfolcT+V84DFB7gc7MMb7fBjyJZZibOalRi2USNZjto3Xs/x/kMW9QyJ5BZNfqka1N
+         JREiwkJ4UXKEIHlpClrLZ2lyic+giBI/tRi4nuld/TH+PKyzFQhcLnmWHpFCBTAb+0B1
+         MHK6TlEcEJjxZrVFwO3nl6ufsit1daG1LxAJYuZ5I481bFuAdtkg5RnT1W6IdoVwKaVu
+         zDpm4iKEJXIQGvJx9tn2CdoMEiP6QrMK+c7983spn7S9QcE2zyNOJwVhLczZsQBk3pks
+         NNgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791991346; x=1792596146;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Js2yXAKJLVFgb+YsCYrtsAgVcbxI+5CvJwak5knEqR8=;
+        b=p7ytCOt5wgeWGpxZk94/hi1T4ylDy2UA+HvOKuRhtID30TuewQ4EXkIjSN7kueKOxJ
+         K7o0DoCTlRrAw9dsPFP6ekVN3XHcQkiSketXdl4gsBCCnI+TZT/RZ2GCC//RQ3ByQNJi
+         rLyT01/FQGfh4XXESJ/lm7B12Yr+wZmxaGj0nFj7dbjctEw5lmrWNDTn8iFUsVIzgtjR
+         DlTyIrrmoHEG52GIXFulvb0mk6IDGYq4Ilkan/g6OjCGdjXcAJUu5WKspjmEFKeK1LTc
+         OIzbTmpFeK2LOmLYnXjnpZH8J5Gr3kWx9ckaiikXQpN2kw4W58aU9FZdI+dfEVNfBP+4
+         XYww==
+X-Forwarded-Encrypted: i=1; AKwUvBzUXDQAv3yFKSzpgpv/7Ycoa+L7UU/xZgVTP12b5QW8gTu3ghmpQ8qRGuPEH+PEOUUyJKN0Khs4D27kvg==@vger.kernel.org
+X-Gm-Message-State: AFq9FYLiA3bjtnl/PYTUB3n7lE6zjmW9cjdONZe2fPhlJ17foxo69USy
+	mIENv/UK5629iaLh8vwf7cKQ36lCDf0F0JQQl3Q5aJS1a/u0OfWypwJQSc2OeJMujGY=
+X-Gm-Gg: AYBFou2T2c5dyVSXVqbeDB61GofMWZC7j5glMtFTpRcUGgzJhqHZq8FGCD68Zcg2X5+
+	bshV7bSW0AkvPJZGGyp6niNQIQoeoEAAIB2DwdOFYv7ZqYu/SwUIEpZqcEe7f8jrczePCvEDfCA
+	lxzitcGDb4HOv2gXwRpXHdseieYIok3FEX9fVi1Fev99R7BmZ7trGqsr9R7NzPUXB4L1WDm518A
+	UYSAHsIBUYTiKAGR9t+YEyKjLSzsoZ3MYr+7feNB8swvvA5hL8gogYFHU1s5C5hXtXS4aDE8BMF
+	IwqX3uz68qLM2+jzrapOSJefW/IYe03rwKzeZC8+IBrH/bXMJGDc52ATGvk2oGrIGS70xZV5Uyp
+	vM+WCoSLz9TQoy3QyAAgE1b9QdfrVf9gWAmpsF5CWnLi86wd9GR2wGi0EAZIohWJG34pE6gFtpq
+	m1FitNlikvGAkmwSskPOQ0U+k0UeUlSI/w3KEVZFi3hG4Ld26WqrGyEGj29plSDJy1SfljIw2V/
+	1qyyRs=
+X-Received: by 2002:a05:600c:3507:b0:4a1:afcd:3919 with SMTP id 5b1f17b1804b1-4a1afcd393emr93408495e9.7.1791991346614;
+        Wed, 14 Oct 2026 08:22:26 -0700 (PDT)
+Received: from [192.168.50.4] ([82.78.167.221])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1bd67502asm974715e9.3.2026.10.14.08.22.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 Oct 2026 08:22:25 -0700 (PDT)
+Message-ID: <3a6759c7-84bc-46ff-93f1-965c7e8dd4d0@tuxon.dev>
+Date: Wed, 14 Oct 2026 18:22:21 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 21/24] ASoC: renesas: msiof: Fix msiof_close() being
+ skipped on rollback
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Bui Duc Phuc <phucduc.bui@gmail.com>,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Cc: Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+ Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ povik+lin@cutebit.org, Andrei Simion <andrei.simion@microchip.com>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ David Rhodes <david.rhodes@cirrus.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>,
+ Fabio Estevam <festevam@gmail.com>, Nicolin Chen <nicoleotsuka@gmail.com>,
+ Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Cezary Rojewski <cezary.rojewski@intel.com>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Heiko Stuebner <heiko@sntech.de>, Kees Cook <kees@kernel.org>,
+ Syed Saba Kareem <syed.sabakareem@amd.com>,
+ wangdicheng <wangdicheng@kylinos.cn>,
+ Chris Bainbridge <chris.bainbridge@gmail.com>,
+ Linus Walleij <linusw@kernel.org>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Neo Chang <YLCHANG2@nuvoton.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
+ u.kleine-koenig@baylibre.com, Pengpeng Hou <pengpeng@iscas.ac.cn>,
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+ Hemanth Selam <hemanth.selam@gmail.com>,
+ Md Shofiqul Islam <shofiqtest@gmail.com>, Bjorn Helgaas
+ <bhelgaas@google.com>, Zain Aboobacker <zainaboobacker33@gmail.com>,
+ Sang-Heon Jeon <ekffu200098@gmail.com>,
+ Ajit Kumar Pandey <AjitKumar.Pandey@amd.com>,
+ Ravulapati Vishnu vardhan rao <Vishnuvardhanrao.Ravulapati@amd.com>,
+ Bo Shen <voice.shen@atmel.com>, Vinod Koul <vkoul@kernel.org>,
+ linux-sound@vger.kernel.org, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, patches@opensource.cirrus.com,
+ linuxppc-dev@lists.ozlabs.org, imx@lists.linux.dev,
+ linux-rockchip@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20261008103831.542533-1-phucduc.bui@gmail.com>
+ <20261008103831.542533-22-phucduc.bui@gmail.com>
+ <87o6cyxyau.wl-kuninori.morimoto.gx@renesas.com>
+ <CAABR9nHvCfabGfBu85bm1r=hP3b0ZiCsgZfShhOv3gNUfjjhGg@mail.gmail.com>
+ <87se2aw3ot.wl-kuninori.morimoto.gx@renesas.com>
+ <CAABR9nG-YJZEdj6pVD-gbGU6J2EfRMQYsKd7u0UTgfrWOyAPXA@mail.gmail.com>
+ <87qzhtyxw6.wl-kuninori.morimoto.gx@renesas.com>
+Content-Language: en-US
+From: claudiu beznea <claudiu.beznea@tuxon.dev>
+In-Reply-To: <87qzhtyxw6.wl-kuninori.morimoto.gx@renesas.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Takashi,
+Hi, Morimoto-san, Bui,
 
-Thanks for the suggestion and thoughts. I tried the smaller change and hit a
-recursive locking issue with linked capture streams.
+On 10/14/26 02:38, Kuninori Morimoto wrote:
+> 
+> Hi Bui, Claudiu
+> 
+>> For rz-ssi: in DMA mode, the driver registers the generic dmaengine
+>> PCM component, whose .open callback already applies the integer
+>> PERIODS constraint via snd_dmaengine_pcm_open().
+>>
+>> Could we drop rz_ssi_pcm_open_dma() instead, and keep the return
+>> value fix only for rz_ssi_pcm_open_pio()?
+> 
+> It seems fine, but I don't know detail of rz-ssi.
+> Claudiu, what do you think ?
 
-I used a test driver with two linked capture substreams and made the
-later member's pointer callback return SNDRV_PCM_POS_XRUN during
-drain. This led to the function calls as follows! :
+That should work. I'll test v2 once it's out.
 
-  snd_pcm_do_drain_init()
-    snd_pcm_update_hw_ptr()
-      snd_pcm_update_hw_ptr0()
-        __snd_pcm_xrun()
-          snd_pcm_stop()
-            snd_pcm_action()
-              snd_pcm_stream_group_ref()
-
-The outer drain action already holds the group locks here. Lockdep
-reported the recursive acquisition of group->lock for atomic streams and
-group->mutex for nonatomic streams. Both tests remained stuck until
-the 45-second timeout. Removing the link let both tests complete.
-
-I went back to the notify=false approach from your first sketch, which is keeping the pointer update inside snd_pcm_do_drain_init(). I also
-added the guard to the early SNDRV_PCM_POS_XRUN branch, since that
-path still called __snd_pcm_xrun(). Drain init then handles the stop,
-while ordinary pointer updates keep their existing behavior.
-
-With this change, all 24 linked test cases passed across both locking
-modes, including pointer errors, tail reads and reopen/recovery.
-KASAN and lockdep stayed quiet. This was tested with a synthetic
-driver under ARM64 QEMU; physical-device testing is still pending.
-
-One thing I wanted to check before sending a revision is, how should
-drain report a pointer error?
-
-The current change puts the failing member in SETUP and allows a
-healthy linked member to keep its tail in DRAINING. A blocking
-capture-only drain returns 0 if the rest of the action succeeds,
-and reading the failed member afterwards returns -EBADFD.
-
-Would you prefer that behavior, or should we remember the error,
-finish stopping all members, and return -EPIPE from drain? My v2 proposal
-returned -EPIPE and moved the linked group to XRUN, so this changes
-what userspace sees.
+Thank you,
+Claudiu
