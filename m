@@ -1,50 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BA234B8298;
-	Wed, 14 Oct 2026 11:49:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88CE04F6485;
+	Wed, 14 Oct 2026 11:55:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791978586; cv=none; b=R5mPmHFduz3TeOkkLfV53xJxTXOGIw6dCUKqZq42hGXQHizd0tEJbSUA4nerBF8N0oubm7wF2/0DkERaDJ6heECXXg37pIbRHCHTnEfsrWPGIELmUf8oJLjyJ5/qj50rH5s+NlQpc9kNzADKm/lNPcMGjAxF+knBIAIwuS34g+w=
+	t=1791978911; cv=none; b=BiLTVFU6ixQT7RtucFp6vjJ0dODbD1gcQ6T2Nw64vYw8ZC6Wdmf2bveAcBeBfwywrB4P325M+b7jUXfGSxuGaVe5wjJXpBGKvleGUAiebmUyP2U3AjXkfcEdDWmNBr5l1sYFxTgORSnS2rZx9dw2evHEvZZSygXgtVip9uZ4kcE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791978586; c=relaxed/simple;
-	bh=hGb7b/5SXxlz683vgCL3vE66j2izRt0r+y3lcstocew=;
+	s=arc-20240116; t=1791978911; c=relaxed/simple;
+	bh=/g7MCk/Gsb7irDnQX7W9ONQLd1+H+J5E0tN8p6IXwwo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SEwfj38Lv38rHvZZbVXsEbkZXw4EEWC8CSY5E7q/hYUTv6zM6QhU5V9w57hi+B8V5P2mqrZirJrj68UtBEmr150rPAKjAYy/AhUcSK0K6OccIOmY+h2jkNPcdEtqQ5CHy2berxrK4rlc7+kzzMBMvlGR9AAsNdSZXjUUd441Zj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y0MoJte8; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=RXChbp6h6Jxouhed92eCjo6UMQ4G750gWnZHSeepUiGv8x22OpGwzA0oq2iDwldpxFOCifQpYPN8FvfWpwzSU5uyV2TYIjS6609GHRnpFhvq5/cdJ91QoV2UcSbeMh5SdUZtbw00IOT2XroGwFR2H0RqwJ9slNWTGuEi5WdWyVo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V7SdfNiF; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y0MoJte8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A0561F000FF;
-	Wed, 14 Oct 2026 11:49:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V7SdfNiF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0321E1F000FF;
+	Wed, 14 Oct 2026 11:55:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791978579;
-	bh=hGb7b/5SXxlz683vgCL3vE66j2izRt0r+y3lcstocew=;
+	s=k20260515; t=1791978909;
+	bh=PJKVNYTz8cEA7hGglxgr5GsM/gY51wMpyvw03FfWbN8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Y0MoJte8CFCWQ5Z/wI+32Sn3LK8yQzrOXCr9LuaNKLjfPfhK63GMnFi6+BuoQeRyd
-	 DOn9y6IeCHpuzSXZJr+9c7O6I32hGzSzGUJpK2W3iYnY+cbApBE5rtDz4czypHgJQN
-	 3rylwfhhduzT53BpD8iGM4kPVR5471tptQcUJD00JQwB6V4NyCj7V3jBzIGPSeaSOI
-	 4nf1FX7zBh6BWgFoKtVO4QoEGXSVvV2V+/e7EbzbfoBMOflMpQ8DaPZdY8txdSBh3X
-	 2p8ywTKyw8uksme4VJMQa5SacVsEYAhpHGINNg78HE3/fCDO82TuKd02ilzSPGne37
-	 8s2AQxRTKtzHQ==
-Date: Wed, 14 Oct 2026 12:49:34 +0100
+	b=V7SdfNiFCB2UnrrV45qpKp1QdVKNEWYhnuhe1atCP2leLhMfwEOJaxgTODJ6QnOqI
+	 4FnyA8xntx/xbNhnRqQ1onqAk9VbCtI2cWAk05QSvZniWTxZH14BPG8tlOjJVFBPRi
+	 s5x5fdhwsAsgAg5+/gr7NAdaHH4sosnOBqTonp027Nq/FTBQKfeKnQ50OtDE/kmq8J
+	 dW1EMcKHRnOz/J4aSJsKhcDyAM2WcKhB+FmaMgPAc5pIltlPPCsQRMvTXaQnkYGrIV
+	 9MRMd3tqwAkfYW1UfkIlAnsZOqNE35u4//il60S6pcVFdtoOd9EBgABNo9OjZiIu97
+	 WNH+yZekVcFQw==
+Date: Wed, 14 Oct 2026 12:55:03 +0100
 From: Mark Brown <broonie@kernel.org>
-To: Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 2/2] ASoC: tegra: Support WM8994 by machine driver
-Message-ID: <22fd0ef9-2995-498e-a212-c07a01172dcc@sirena.org.uk>
-References: <20261013183226.513658-1-clamor95@gmail.com>
- <20261013183226.513658-3-clamor95@gmail.com>
- <10dca96b-78b2-4f46-bf4f-de67d25c916e@sirena.org.uk>
- <CAPVz0n0X58xfwhQo=V_5UQBc_cLfG8CqFPuoG4FqN9MM8MFisw@mail.gmail.com>
- <86a4957f-cb8f-4126-83a4-d525ef7b1dd6@sirena.org.uk>
- <CAPVz0n2L_4ik6nS_eQY-tQqtdLqgHofumZUU7wJjzbLGVft8kQ@mail.gmail.com>
+To: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
+Cc: alsa-devel@alsa-project.org, lgirdwood@gmail.com, perex@perex.cz,
+	tiwai@suse.com, yung-chuan.liao@linux.intel.com,
+	Basavaraj.Hiregoudar@amd.com, Sunil-kumar.Dommati@amd.com,
+	venkataprasad.potturu@amd.com, Syed.SabaKareem@amd.com,
+	Mario.Limonciello@amd.com, Richard.Gong@amd.com, Poojitha.N@amd.com,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	sound-open-firmware@alsa-project.org
+Subject: Re: [PATCH v2 00/10] ASoC: SOF/amd: ACP7.B support and ASP carveout
+ firmware loading
+Message-ID: <1736b25e-608e-41ac-8e8a-4b0a125766ab@sirena.org.uk>
+References: <20261014100902.1215212-1-Vijendar.Mukunda@amd.com>
+ <a22f2a9b-3bb9-40d0-80d6-4ce36758c4f5@sirena.org.uk>
+ <031c7453-9652-4573-9de0-5db2a795562c@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -52,56 +49,42 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="hnn4yMXF7KGTHvw7"
+	protocol="application/pgp-signature"; boundary="DJ8TnKPIJwrD5pi4"
 Content-Disposition: inline
-In-Reply-To: <CAPVz0n2L_4ik6nS_eQY-tQqtdLqgHofumZUU7wJjzbLGVft8kQ@mail.gmail.com>
+In-Reply-To: <031c7453-9652-4573-9de0-5db2a795562c@amd.com>
 X-Cookie: Live free or die.
 
 
---hnn4yMXF7KGTHvw7
-Content-Type: text/plain; charset=utf-8
+--DJ8TnKPIJwrD5pi4
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 14, 2026 at 12:00:31PM +0300, Svyatoslav Ryhel wrote:
-> =D0=B2=D1=82, 13 =D0=B6=D0=BE=D0=B2=D1=82. 2026=E2=80=AF=D1=80. =D0=BE 22=
-:04 Mark Brown <broonie@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5:
+On Wed, Oct 14, 2026 at 05:21:00PM +0530, Mukunda,Vijendar wrote:
+> On 14/10/26 16:14, Mark Brown wrote:
 
-> > On Tue, Oct 13, 2026 at 09:56:03PM +0300, Svyatoslav Ryhel wrote:
-> > > =D0=B2=D1=82, 13 =D0=B6=D0=BE=D0=B2=D1=82. 2026=E2=80=AF=D1=80. =D0=
-=BE 21:52 Mark Brown <broonie@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5:
+> > v1 is already in my CI queue, can you send an incremental change with
+> > the new stuff in here.
 
-> > Please make the entire comment a C++ one so things look more intentiona=
-l.
+> Posted an incremental patch set on top of v1.
+> https://lore.kernel.org/alsa-devel/20261013154644.3788064-1-Vijendar.Mukunda@amd.com/T/#m6b17b469c043e46ee50a3a85903324c896c81c4e
 
-> May you please be more specific how the title comment should look?
-> Just to be sure we are on the same page here.
+Thanks.  If you're sending a series as opposed to a single patch please
+always send a cover letter, it makes life a lot easier for tooling.
+It'll be fine in this case, just a note for future stuff.
 
-C++ comments are ones that start with //
-
-> Ohh, you are right. There is a missing asoc_machine fragment that adds
-
-> SND_SOC_DAPM_LINE("Line Out", NULL),
-> SND_SOC_DAPM_INPUT("FM Radio"),
-
-> If these are all required changes and you are ok with picking this
-> patch, may I reload it without delays?
-
-Yes.
-
---hnn4yMXF7KGTHvw7
+--DJ8TnKPIJwrD5pi4
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmrPbE0ACgkQJNaLcl1U
-h9A4/Qf/fSNG54QWI8X3hWalEQr7JxIBPf25tMg2w6dnBEhnzDMWZmmML497/E1Q
-dpYgCWVADwHMKhog0L0s3mLpGbv4XR+O0VLMEtP4KpN0i7d3nUFR3eJT4qruXmju
-3C2tSzhH/U4Vpye1d1lNjbDfvItNjSQxUscdVKEy6PCcX+ANIs3ZEgq+YyF5n2l3
-2Bo9ZpG7CC87K50aeEteaUAtxCVUE58q6Xc4dsio894P6X5PoEdLH0eee32s+Civ
-iR7q3hVOVJZO1xWuy0B8ltm1/YxRr5Rfv3y/acRZHLaAF43J2qH1MwSnNhJNnmSX
-P+j0VSQ8DDYVcrkRSzRTUblRA8PX5Q==
-=JrMG
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmrPbZYACgkQJNaLcl1U
+h9ClEAf9E1iR7hCm+zDfCPNCNxOS+S3V475PoRtG/TmfBbZjSfoOOw29uu5HLg0R
+qxGj6pLhkKs5wKkRNPgwvOEW3WdXvlD4g+9RqIvF+seqYwgPJIeEuv5EnuWerhyn
+pQdcz7/5H2WIJQe3+nMkotDXKCRq9+8KLx5mMABAkZxzSEfhaHEDcDqVXDQezNnk
+hJlHMv3C+QmxKfOb/cAjmsaLIp0S34DjdQw84pW0v5m5HTRZWvSlEy003ju6VK3K
+fNmai/07viSQVnXIAH/TKuwlGfX/2709lZA/MQRcOlH+404QAzWr/tOkIRh+IKA4
+0S7mvuNP4zSg3ORKxR5iV/ilC/lRUw==
+=vqcW
 -----END PGP SIGNATURE-----
 
---hnn4yMXF7KGTHvw7--
+--DJ8TnKPIJwrD5pi4--
