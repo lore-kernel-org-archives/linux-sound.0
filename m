@@ -1,232 +1,155 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 807F52931FB
-	for <linux-sound@vger.kernel.org>; Wed, 14 Oct 2026 05:25:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D74163783D5;
+	Wed, 14 Oct 2026 05:55:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791955542; cv=none; b=YOWl4PfuQtc+ENpdewFge+2RM3QO+8sUJ3CBOxbn0cp6hkx/GwRSDHiv5ehDdCbVMvasaKj0N6F56fQD/imqP7f9pwHwEsnDk4bwdM9GbI99eiy/iqzTmltWBxrThTVY1U5WLpKSzunFXX3q5I8p6djplLgOwDkEA56bytyqS0A=
+	t=1791957328; cv=none; b=ULP0hW9EIxcQHU6n5sJfMa++Xh2T0djeZbOl3o4oT+NNi9rCHx7cu2q3VT6yyRetNDI6qF6xNVn5jQszcWkOWRMcO5XbH0uzPet7VfptrW6ie/Jw90b77AXkxDvf1z/maadaq6H9Z22TN3EmTGb2gYOZUJ4414SomBKhBO66Fow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791955542; c=relaxed/simple;
-	bh=O9aI5rrFScSHVd13CMcVMMtiXqXaFDZ3RAccZUoUcS4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=Sd8/1U3N6jbpvSC3y9oj1TFnT5aDJzLHubVe8kndT4q/R1x/45Cun9gbXeml0PMIaLS/hZDsHmDVlrEs9ghlG+JnsQt+ZRariG86EZVBC6D7VLBImbPYxq6U2cAkfQLgL2KxIEY92RAcZujP/9GOpnFDQWqLw8JJpGZLpXCn108=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BKtOIsNT; arc=none smtp.client-ip=209.85.216.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791957328; c=relaxed/simple;
+	bh=xMusnSmq7X17FmO88nGfTxeBvxXs0FBIyvelidrhwwI=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=XopTn6Bjn2yUZ5KtSFj7e6thED6+AiLGL/40IZubgbO1rjq43svFN3FAZDOF5N6UmQXB3gSV9TMVddKN5NFjYkBkJlCSsQk52GGRiww7iKZ5KUj4rXhEn5pwpf+dIjRdYJv2WESaPiXhS68GAq0koQPnP/3yWouSWubBqLMgndo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Y0EWY5an; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=iLYpj8rt; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=FgxF3GWk; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=s58Obshm; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BKtOIsNT"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-3856d6fbcb3so2170162a91.2
-        for <linux-sound@vger.kernel.org>; Tue, 13 Oct 2026 22:25:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791955540; x=1792560340; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=9wyjNb2Ele/9LBjsTTcFa0oR1etdSEyzqUmFNVJDmtE=;
-        b=BKtOIsNT8/mVz1/E5BHa6rXyMJXGkvTq68qUQLsyuHdkOfdnZTJqQDZ6lCgXpXjjt7
-         2SQ9POKUuYUpcjkLkqRY7VTnS/wsInrdmSRh4DAZJOZ3JKUfKVT4STnUXSoGU9Pw0qHo
-         Q7FtZIi7zQvwK0DzN1Ce3f9rTF5xW2R2H4fW9kD87BkNxaYnQEkOyxVo7MuWPFxJVjSK
-         6B4tJPQUMYbdOvS7C8wBrv8YC8ETGEEOXHciIIfaTImkqUYpwqc0bC5rrUaIaHer61ho
-         h7j90UCTy7vEPc8hQ7SIOj6EXIS6mCKRcoghrAyY6nBYnEEVWA7u56nTyGo6FVymgtUw
-         eGrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791955540; x=1792560340;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=9wyjNb2Ele/9LBjsTTcFa0oR1etdSEyzqUmFNVJDmtE=;
-        b=r8oz/tFBe67qJcXn5Udh1tX74fWGJT0/GT6kDGZE450v5EUji6vS3Vz9eRZ/TmFt3i
-         FL4AaNJRfxwyDpwQSG+fXwO10BujBQEbfs7NYrdNWbcZBABpY1KOjUCryluwBlefR3/u
-         p+vv9YK87DERSgHN1bGqM2CGj89PYtwzk73XxdCn6LXTUj+0qyggs1clooYc0z/2gNW6
-         nKn+IzVHoNgE0nkF2dIXZBsOyxTMZQ5cG8fLm7WuXgSuhjSAhkhnkpBgxvXU/NT9xvkd
-         Ahd5xeguFBBNzV6lOxtJJRMJx177tRgnNGygswn7Wba8TXH1MhEcXheRUe4pFEC8lRk8
-         5nVQ==
-X-Gm-Message-State: AFq9FYJXt4G6Os86MbyHPUKgqPm/n2IoW/ke9wwARzXXXS+EkmEHWnhG
-	PaVTcmhvPIqWPZ8QsPC2+D6bXm2OX2/J9edtOCfi1QRyUDL33/uEAnG9
-X-Gm-Gg: AYBFou0Vq20u8ANwGV0DaV3sBLzmlvi8nTZBza91tKfdS8zq6/xHRfGzCti92C72jaK
-	zsqrRVRNB5OMStSFfHRzj1Rp/MAp1/rr2h9uv2nNnK7tHofpGfR1SPDrNbQ0USIVyV0a7OreSgx
-	ddecEPMg9Lna5eqDOBI8UO13P0LMYdxVKHXoKCggxyr+F7rZAKwP/F1qFYSXtETDBpEvtbAd3Wq
-	NWqbazN99P5pNWwPRoy1oRKpfhm2mELM6wHFmUl5C6KMjRX+5hliCWtdbtWOomDJoJ3Yudiubzy
-	IRZSGh7OFZLY2hNeZnsejqoTUU021sAN9TP63VwvUSVYaTgbVFXuPIXXtWErIGWeub1sKbQbtAB
-	mRwZ3KIyrIXLfrps/e9FzaTvmdGoDPMnlWgZLjpThbGf4QCzs/0074J2cxFblUDmLX23ewlpjnL
-	lk/Fdjgynf0XH5F80Cz5mgNaX414fNR+3DTYAeQ2dVR7XQDxnn2XR5RRy5grDojTzjAw==
-X-Received: by 2002:a17:90a:d2ce:b0:3a9:9f13:e960 with SMTP id 98e67ed59e1d1-3ab3a98f4e3mr12527379a91.60.1791955539666;
-        Tue, 13 Oct 2026 22:25:39 -0700 (PDT)
-Received: from localhost ([111.228.63.84])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ac5f05083fsm2901652a91.1.2026.10.13.22.25.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Oct 2026 22:25:39 -0700 (PDT)
-From: Cen Zhang <zzzccc427@gmail.com>
-To: perex@perex.cz,
-	tiwai@suse.com,
-	sammiee5311@gmail.com,
-	phucduc.bui@gmail.com,
-	kees@kernel.org,
-	thomas.weissschuh@linutronix.de,
-	tglx@kernel.org
-Cc: linux-sound@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Y0EWY5an";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="iLYpj8rt";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="FgxF3GWk";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="s58Obshm"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id DAF2421E6C;
+	Wed, 14 Oct 2026 05:55:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1791957325; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tFYtpA/Cs8aARD1jOtOIy8DQlx2RowLARWyS7E4L59A=;
+	b=Y0EWY5anBrqxX2+gGjXSrR01bhCfFcXK1QFGbdpBLfdrQ3YdpYVJ6ZcVPWmjZiraEZVEOp
+	TMHDZ4YJ2uKjiKlXFiCAhoPkWmAbF5NHqh1I1b24IEaz3sd1K6rHvpARdl5aAEN6Y8AvIu
+	LRN9yMBcGDQdykpL+HdbfYek3xvaGfI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1791957325;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tFYtpA/Cs8aARD1jOtOIy8DQlx2RowLARWyS7E4L59A=;
+	b=iLYpj8rtnWY+rrM5HhVrHy3ePreybAZdAuDPaEtvzEs7Uw/qcQq8JxTz+RXVIYiUwFqAT1
+	xPfXPkwp4aB8jJBg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1791957324; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tFYtpA/Cs8aARD1jOtOIy8DQlx2RowLARWyS7E4L59A=;
+	b=FgxF3GWkGhm28TiC8nTeytz8xCdSM1GuKYLFJc4cNLG2b98WBQSzIpNcodGsSeWyjF5nlQ
+	PWf6901Wh3uonh7Dd3Z5+NZlafy2J7aKxAOU7Wj+Nfb1AI07FM9lBsqCFYGQSYxuuB0+LN
+	+w2YLLW97zSvXpo64cvH0iaOkd3v1mQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1791957324;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tFYtpA/Cs8aARD1jOtOIy8DQlx2RowLARWyS7E4L59A=;
+	b=s58ObshmHr+9AlQY5w+jwo+nikbvBMHeRMnZcM0SP5bmfrf/reYBNW+0crMz+6bcn1FQRu
+	CB3XHZRfPci8jUAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 49F1E1368E;
+	Wed, 14 Oct 2026 05:55:24 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id qUYTCEwZz2r2EgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 14 Oct 2026 05:55:24 +0000
+Date: Wed, 14 Oct 2026 07:55:23 +0200
+Message-ID: <87jynkg71w.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Gergo Koteles <soyer@irl.hu>
+Cc: Shenghao Ding <shenghao-ding@ti.com>,
+	Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>,
+	Sen Wang <sen@ti.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Philipp Oster <philippdev5396@outlook.de>,
+	Georg Wenzel <g.wenzel@gmail.com>,
+	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	baijiaju1990@gmail.com,
-	jjzuming@gmail.com,
-	zzzccc427@gmail.com
-Subject: [PATCH] ALSA: dummy: Defer hrtimer data freeing until runtime detach
-Date: Wed, 14 Oct 2026 13:25:31 +0800
-Message-Id: <pm-pmb-9c80f858ccc13b3de84d-v6-d4059ea2910fe5430f5f@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	alsa-devel@alsa-project.org
+Subject: Re: [PATCH v2 0/2] ALSA: hda/tas2781: Skip invalid TAS2563 UEFI calibration data
+In-Reply-To: <cover.1791895478.git.soyer@irl.hu>
+References: <cover.1791895478.git.soyer@irl.hu>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Flag: NO
+X-Spam-Score: -1.80
+X-Spam-Level: 
+X-Spamd-Result: default: False [-1.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,outlook.de];
+	FREEMAIL_CC(0.00)[ti.com,perex.cz,suse.com,outlook.de,gmail.com,vger.kernel.org,alsa-project.org];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
 
-The hrtimer record must remain alive while a linked PCM action can
-visit its substream. dummy_pcm_close() frees that record before
-pcm_release_private() unlinks the substream. runtime->private_data still
-points to the freed allocation.
+On Tue, 13 Oct 2026 15:02:19 +0200,
+Gergo Koteles wrote:
+> 
+> Hi,
+> 
+> Georg Wenzel experienced a regession with TAS2563 amplifiers. His laptop 
+> lacks proper calibration data, and due to a bug, the driver failed to 
+> apply them in the v6.16.x. That's why they worked.
+> 
+> The amplifiers operate even without calibration data, so the calibration 
+> setup can be skipped if the data is invalid.
+> 
+> The first patch simplifies error paths in the tas2563_save_calibration() 
+> function.
+> 
+> The second patch skips the zero UEFI calibration data as it is not 
+> necessary to apply.
+> 
+> The previous patch for this problem
+> 3bc4fc135ec7 ("ALSA: hda/tas2781: Enable bass speakers support")
+> should be removed/reverted.
+> 
+> Gergo Koteles (2):
+>   ALSA: hda/tas2781: Assign total_sz at the end of the function
+>   ALSA: hda/tas2781: Skip invalid TAS2563 UEFI calibration data
 
-With two configured dummy capture substreams linked and the hrtimer
-backend selected, final close drops the group to SETUP. A surviving
-peer can then issue PREPARE before the closing substream is unlinked:
+Applied with the revert of the previous fix to for-next branch now.
 
-  Target close                       Peer PREPARE
-  snd_pcm_drop(): group -> SETUP
-  do_hw_free()
-  dummy_pcm_close(): kfree(dpcm)
-                                     snd_pcm_action_nonatomic()
-                                       read-lock snd_pcm_link_rwsem
-                                     dummy_pcm_prepare()
-                                       read dpcm->timer_ops
-  pcm_release_private()
-    snd_pcm_unlink(): write-lock
 
-PREPARE holds the link read semaphore and the members' buffer mutexes,
-but driver close holds neither across the free. Unlink's write lock
-comes too late to protect the record. The ops-pointer read can use freed
-memory and dispatch through an invalid function pointer. If PREPARE
-already obtained the record before close, dummy_hrtimer_prepare() can
-instead write period_time after it has been freed. The report below
-shows the dispatch-time read and the ensuing fault; it does not show
-the later write.
+thanks,
 
-Defer freeing the hrtimer record to runtime->private_free. Runtime
-detach follows unlink, which waits for existing linked PREPARE actions
-and prevents new ones from visiting the target. Cancel the embedded
-timer in the destructor before releasing its storage. Register the
-destructor from the backend free callback so the open error path also
-releases the record through runtime detach.
-
-KASAN report as below:
-
-    BUG: KASAN: slab-use-after-free in dummy_pcm_prepare+0xb7/0xc0
-    Read of size 8 at addr ffff888106b35f00 by task alsa_pcm_fixtur/491
-
-    Call Trace:
-     <TASK>
-     dump_stack_lvl+0x93/0xd0
-     print_report+0xce/0x630
-     ? dummy_pcm_prepare+0xb7/0xc0
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     ? __virt_addr_valid+0x20d/0x410
-     ? dummy_pcm_prepare+0xb7/0xc0
-     kasan_report+0xe0/0x110
-     ? dummy_pcm_prepare+0xb7/0xc0
-     dummy_pcm_prepare+0xb7/0xc0
-     snd_pcm_do_prepare+0x71/0xb0
-     snd_pcm_action_group+0x505/0xb30
-     snd_pcm_action_nonatomic+0xab/0x150
-     snd_pcm_common_ioctl+0x1bf5/0x3a50
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     ? do_vfs_ioctl+0x1f5/0x1280
-     ? __pfx_do_vfs_ioctl+0x10/0x10
-     ? ioctl_has_perm.constprop.0.isra.0+0x34f/0x500
-     ? __pfx_snd_pcm_common_ioctl+0x10/0x10
-     ? __fput+0x5ba/0xa60
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     snd_pcm_ioctl+0x76/0xb0
-     ? __pfx_snd_pcm_ioctl+0x10/0x10
-     __x64_sys_ioctl+0x163/0x1d0
-     do_syscall_64+0x115/0x6a0
-     entry_SYSCALL_64_after_hwframe+0x77/0x7f
-    RIP: 0033:0x41ee8d
-    Code: 04 25 28 00 00 00 48 89 45 c8 31 c0 48 8d 45 10 c7 45 b0 10 00 00 00 48 89 45 b8 48 8d 45 d0 48 89 45 c0 b8 10 00 00 00 0f 05 <89> c2 3d 00 f0 ff ff 77 1a 48 8b 45 c8 64 48 2b 04 25 28 00 00 00
-    RSP: 002b:00007ffcfa72fb60 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-    RAX: ffffffffffffffda RBX: 0000000000000004 RCX: 000000000041ee8d
-    RDX: 0000000000000000 RSI: 0000000000004140 RDI: 0000000000000004
-    RBP: 00007ffcfa72fbb0 R08: 00007ffcfa72fb98 R09: 0000000000000110
-    R10: 0000000000000001 R11: 0000000000000246 R12: 00007ffcfa72fcd8
-    R13: 00007ffcfa72fcf0 R14: 00000000004a8f28 R15: 0000000000000001
-     </TASK>
-
-    Allocated by task 488:
-     kasan_save_stack+0x33/0x60
-     kasan_save_track+0x14/0x30
-     __kasan_kmalloc+0xaa/0xb0
-     __kmalloc_cache_noprof+0x251/0x610
-     dummy_hrtimer_create+0x4a/0x170
-     dummy_pcm_open+0xe7/0x730
-     snd_pcm_open_substream+0x926/0x1580
-     snd_pcm_open+0x28d/0x6d0
-     snd_pcm_capture_open+0x82/0xe0
-     snd_open+0x1ec/0x3e0
-     chrdev_open+0x21f/0x660
-     do_dentry_open+0x5c8/0x1300
-     vfs_open+0x87/0x390
-     path_openat+0x2460/0x3cd0
-     do_file_open+0x21e/0x470
-     do_sys_openat2+0xf4/0x1b0
-     __x64_sys_openat+0x136/0x1e0
-     do_syscall_64+0x115/0x6a0
-     entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-    Freed by task 490:
-     kasan_save_stack+0x33/0x60
-     kasan_save_track+0x14/0x30
-     kasan_save_free_info+0x3b/0x60
-     __kasan_slab_free+0x5f/0x80
-     kfree+0x307/0x580
-     dummy_hrtimer_free+0x72/0xe0
-     dummy_pcm_close+0x9f/0xd0
-     snd_pcm_release_substream.part.0+0x104/0x310
-     snd_pcm_release+0x106/0x240
-     __fput+0x39f/0xa60
-     fput_close_sync+0xff/0x200
-     __x64_sys_close+0x8c/0xf0
-     do_syscall_64+0x115/0x6a0
-     entry_SYSCALL_64_after_hwframe+0x77/0x7f
-    ==================================================================
-
-Fixes: c631d03c6873 ("ALSA: dummy - Support high-res timer mode")
-Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
-
----
-
-diff --git a/sound/drivers/dummy.c b/sound/drivers/dummy.c
-index 6b0a06e5c87638264e5d22deda1fe4bc028febe7..ae7cef9d74819a68dcf951a21768dccf38c7c4ad 100644
---- a/sound/drivers/dummy.c
-+++ b/sound/drivers/dummy.c
-@@ -476,13 +476,20 @@ static int dummy_hrtimer_create(struct snd_pcm_substream *substream)
- 	return 0;
- }
- 
--static void dummy_hrtimer_free(struct snd_pcm_substream *substream)
-+static void dummy_hrtimer_runtime_free(struct snd_pcm_runtime *runtime)
- {
--	struct dummy_hrtimer_pcm *dpcm = substream->runtime->private_data;
-+	struct dummy_hrtimer_pcm *dpcm = runtime->private_data;
- 
-+	hrtimer_cancel(&dpcm->timer);
- 	kfree(dpcm);
- }
- 
-+static void dummy_hrtimer_free(struct snd_pcm_substream *substream)
-+{
-+	/* Linked PREPARE can still use the data until unlink. */
-+	substream->runtime->private_free = dummy_hrtimer_runtime_free;
-+}
-+
- static const struct dummy_timer_ops dummy_hrtimer_ops = {
- 	.create =	dummy_hrtimer_create,
- 	.free =		dummy_hrtimer_free,
+Takashi
