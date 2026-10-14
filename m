@@ -1,72 +1,74 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBB5A3043CF
-	for <linux-sound@vger.kernel.org>; Wed, 14 Oct 2026 04:03:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42E4D3BFE4F
+	for <linux-sound@vger.kernel.org>; Wed, 14 Oct 2026 04:04:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791950587; cv=none; b=oCTIRSf3zIJgHuFt4sDNCRPmZCtyCBBtmcphVK2PbusgE+82GUjBMijHmw//K4/F3waZDQog3c2NuQdF/GlexgjgVSii6szCg/rch6RGmcSpJEnNIJLSPYGq4eV9Oi32D/67hMn62cZLxTusbVBbKZV5zCJm1MyGoudxxgCVm4s=
+	t=1791950659; cv=none; b=AaSkKueSyQ+u5i+FOy4fGHewQx57vqpa0mdvlQM+I9HZ9R2OHGskKOhJksdGmDqx2Jd/7T06yBMRENxYLTTaG/vGGpMPxTLU/j/3DrkNKFFLl72UiCDymxtRvYZCYfumXBcxdENwpVg+/OYSTQBIkmAbscYq69yGMJxj8QyXBCY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791950587; c=relaxed/simple;
-	bh=N27GfF/aeXt4Lq0RNt6dQo1+aQjT6kEm4OAi7y+mL5U=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=gyXPNcNY8VGBDSWsiQ2zO/GAwP4pbFrPZq/o10cFIVupNlyQ2B7NAJf9zD53xy6VVyuZCsGNvUY+hMuk3xeAS8XCYVbpl+0LEehXLS4EHJjzOCHTYTg48+yaFUkzZQO7/4eoj2Y7hzjkU83jT1U898XHGQMcuFqC2dkcF1a+Oos=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VLgRhHWt; arc=none smtp.client-ip=209.85.214.177
+	s=arc-20240116; t=1791950659; c=relaxed/simple;
+	bh=TELD3byFoCzJHt38ueExDSjtqsJaLcUD5OsQqlJ9dpY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=qMdJy4EpjUVFOmrZ1FG6rrgpDL7yn7WxSI2/NkZPkFUK9fqatgIOKCTbNUQz6UdyACyLLyXGH1pvJEHOOlFYGr25EHdGYNAYsz8TeoZgElFUiZ1aL6EpAHsPjI7a52qZkfNEaVfOSPyuIOUTi26bwCG6L4M+Io2iBRC4YpLsEgI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cg9egB0m; arc=none smtp.client-ip=209.85.210.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VLgRhHWt"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2e8f2c3ad6bso12766555ad.1
-        for <linux-sound@vger.kernel.org>; Tue, 13 Oct 2026 21:03:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cg9egB0m"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-878b44611ffso2384994b3a.3
+        for <linux-sound@vger.kernel.org>; Tue, 13 Oct 2026 21:04:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791950585; x=1792555385; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1791950657; x=1792555457; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:message-id:date
          :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=3zQfqQvUUSUX/8/9x6ZyNgJ6KcYRnctiVv4ojnaD9r8=;
-        b=VLgRhHWt24I38Li08YmIy6dZhNwiLIxny8cTmxdR/25DpaiEn4bu4vTu/2hnV3ZuwI
-         D6/OGzXB6rEn4B1BN42EpRUTkhfPEBblw4KQ1myNNzjnL/l1vxeETytjEIJ2y24kB6rm
-         mKENlbgirh5pvzrhdlEDBHFIQvfJqc8H4bSTelxhR+jdQ0lVr3bJbl+SE/6SQ2YJ/C9g
-         vIv9DLnLK57jfNH6mfGAzBRxl/vcm4viTfx/vj85zEfp8X9sUyGjkSCtY5pCjO5E3nPA
-         9UfBie+Zy/U2GKvENCsmHtsSEoa7l2jsR14uAe8DlajwfIzV+ba5NBzWybrWRcou6gND
-         oepg==
+        bh=c+H2FgfTIXFxXOrQjvN5z55LLIoVUW5IktN5x14SgkI=;
+        b=cg9egB0mNzDHJVrYvAPkU2oGr/ePzujL1LZl2D6/C9kvqTJ7K68ZCcEQmtEjG+Rrpg
+         SQK10CMQmmPCgSt0z5ZC4nTZBWYr2YFjgufmqhXsObX6SHXE4qlr3yKilVITITIvmjy4
+         egdQk07sc7vUSH/SPRCtQkrjqOiCPeRzPJ13SkKd/GxJg5AmN8lQWAJVGs6IMfoymqDJ
+         +v94PWq2DqR3/4vxW0f+jpo8YshIUP3XfGY64q3qukyKKyKmvCrIGFtS0XJjdW4fH/Q5
+         UsZkdsOGDtoJfSv332uc9oEB4zq1NyvAMQjgAOZSMsqr0o7Q2mAxYKWf8AMOK81pM0vi
+         MCsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791950585; x=1792555385;
+        d=1e100.net; s=20260707; t=1791950657; x=1792555457;
         h=content-transfer-encoding:content-type:mime-version:message-id:date
          :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=3zQfqQvUUSUX/8/9x6ZyNgJ6KcYRnctiVv4ojnaD9r8=;
-        b=cJ3W3JF492dJGeAb5TcOtOEPqAXvZDv5lbtCePqK6/pt5vBGarl1A0PAU/33xUZOLm
-         5WEeYqKBTIeWLZEWa34rZoLjBtq8riVZuDR0e67cxWeKOZ6aDOFI/wEGqSP3JuhcAWu6
-         zk6H9ZeaMB85iqTM8Fz7B9OQ5U34EwwlHyZRhq2+l8RWfJ5Ug9uOU9NmWmUcLE3Fornc
-         SZGUSS8ZXXGnSlMw3RygJ9vnkX8GLmNad3jsSd7h29STY0i9lBqpvCiYV1vWqEAQ5lwM
-         L6d82f1+natxYmfi5/x6yC8gH3acwQAtRwrOwNP+XDgWUci9FGGU9hM+4y3mM+GMZdo4
-         h7bQ==
-X-Gm-Message-State: AFq9FYL1Bsy0wzy6yVg7iNpZpuUtU99MH/E1JNpMDl/4qJQZ9DZ/csaZ
-	GcmI+Tsux2IQAeQbu/SXcp/psx+gvHrTl1AxmziG/1wdnXlLk7+HbZHb
-X-Gm-Gg: AYBFou0RGDJgSPqq/TeTYVK2sS9N6tzkAxttpTb0yXYP2ZiOVZOYm5Z3aX9dyswsJ8t
-	2h0cjWXjXyrFbG1SZAjTwnyOqbV2UQgMg4LcX4eSOs4p6qheiTLet/YCeAJH1l9QYaq1XArilhg
-	JdDR7ftcS1eRrEHMv4ya19H/5zd7RjG/TiYiajqmGtT3iRlCe12+VijhwYSAcyjOp5b8VVTR+Ds
-	rhplIxAHLfLouWqLkGLY7ST9/2/zF19ORYsomvFK+KRdbDL5MnQhWABc733Iozknlw5M7gMACxJ
-	AFc31XepLI4hr4mWDE3vscpTDE8d+fPBov/l66xe4UE8FRJJjSO0QvGTJFcGQ7n0OOTzfD8px3O
-	JGhKK4/cCDhV3iHOgfv2qGR5E4OTt5SIB1aLdiIyaD1v7u6BpBHExLOc6dI8UjS7hZAXvsDzF1n
-	j1/8g2vuUNwE39iA/BzR+Vp7dsGYEVA+sCBDFNbMgsfOIJjMhebHMMwRmxGgGBC+Id8w==
-X-Received: by 2002:a17:90b:4b92:b0:3a8:545f:520d with SMTP id 98e67ed59e1d1-3ab3ac9f939mr11478111a91.32.1791950584896;
-        Tue, 13 Oct 2026 21:03:04 -0700 (PDT)
+        bh=c+H2FgfTIXFxXOrQjvN5z55LLIoVUW5IktN5x14SgkI=;
+        b=Qr2gwCND5HQW5caCjpMjCRf+4TZAenmk0cZSWYEg+Up1h8twA8zRP+AvL3NvtDZDLi
+         JWSVmhEYOEBSgWC3XItyiuCNP5x1LZP4KULVOQEdZeAL8YhruxTN9Hsdk9EnkLqZwKxd
+         X8/TtvxGjYAu4D9eN4fvnD77eMREh7ko1MjllXqS6g/OuemuBPc8KY1wL0RbFrysSQZw
+         AHVoYp/04gECAdaIw3p/YoG+bPSwmqlBhUF4hxowBj+ydY/52argSx5Pdx0ZYI0rsyfM
+         sh/odG5bfN92kcRQrK3d8k8hu2h1pO0aavjSp1KW5fPEluCcYXTfeWuabXRHmDTFoPOr
+         59qg==
+X-Gm-Message-State: AFq9FYJWSyuHLXFWOSqI+ivg3sGBp6p6IBcn/rhQZHbnc0i3yrzc4Meo
+	BTor52YkOX66AVr+CBoPDDIkvQyi3xOA51yPezh/1nVkbaONN/GppyF+
+X-Gm-Gg: AYBFou1BnC7hsqztiKkhOJZNQpZ4w9S+dUw+SYHlmoMis1hZluSYBZ4Hg7Mr3zK3cp2
+	V8G+mbA7Um5hynieuoEoFuSkhD6LCidxB9Z2iEeYCisiSIp6OLAe5XDF7v1QVSRxYQZx/OXdEzP
+	XDKED+VoIReShxQW/ltrtOULU9tMgR9hGMMmRK3DuwGj2oAec89JnBbt8MjYKYG1PdT/OB0Wf4y
+	QSn2azZq5o2oUcoHmjAUtng1Fd6ciu3RZPiviLBcqsNceo68WqVH4eDeAdTkhRCUPdv3MMzkVwC
+	IkmAKtg2grQx0MK8Vp5rGczJHjlIZr+nUOwV46Fu21WoZdqh7OAxkGHBMeMtfbzzQghBg2x1LT4
+	/a2+SHPjld0E6QDvZBxl0sH42m+ta9wckOwHpnSGRR3mh9JSRZAnZpC2OUV5JdMsVltrnhN20ip
+	MhAruPo8asl2l67QgAXH6pVqBQ4HCJqihopnzmb4CA2AbRr5w5ZEBzlEWRKpI05nnZsw==
+X-Received: by 2002:a05:6a00:2e16:b0:882:d8c4:17c9 with SMTP id d2e1a72fcca58-897c6c248a9mr13355818b3a.23.1791950657453;
+        Tue, 13 Oct 2026 21:04:17 -0700 (PDT)
 Received: from localhost ([111.228.63.84])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ac632711a8sm1043068a91.1.2026.10.13.21.02.56
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-89d802c09b5sm531115b3a.21.2026.10.13.21.04.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Oct 2026 21:03:04 -0700 (PDT)
+        Tue, 13 Oct 2026 21:04:17 -0700 (PDT)
 From: Cen Zhang <zzzccc427@gmail.com>
 To: perex@perex.cz,
-	tiwai@suse.com
+	tiwai@suse.com,
+	cassiogabrielcontato@gmail.com,
+	kees@kernel.org
 Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	baijiaju1990@gmail.com,
 	jjzuming@gmail.com,
 	zzzccc427@gmail.com
-Subject: [PATCH] ALSA: emux: Guard the OSS argument during port initialization
-Date: Wed, 14 Oct 2026 12:02:50 +0800
-Message-Id: <pm-pmb-f8d6ccb28f196910444f-v2-c253bf022b6e954a7bdc@gmail.com>
+Subject: [PATCH] ALSA: pcm: Reject compat refinement after disconnect
+Date: Wed, 14 Oct 2026 12:04:12 +0800
+Message-Id: <pm-pmb-b3f7b3445bb11aaa9a7b-v2-a514c1399f30f407d626@gmail.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -77,174 +79,172 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The OSS argument must be non-NULL before reset_port_mode() writes its
-event_passing field. snd_emux_open_seq_oss() assigns p->oss_arg only
-after snd_emux_create_port() attaches the writable sequencer port, so
-this field is still NULL when the callback first becomes reachable.
+A disconnected PCM stream must reject hardware refinement before
+entering its runtime constraint program. The native ioctl path checks
+for SNDRV_PCM_STATE_DISCONNECTED, but snd_pcm_ioctl_hw_params_compat()
+only checks that the runtime exists before handling HW_REFINE32. The
+built-in BUFFER_BYTES rule retains the substream as its private payload
+and reads substream->buffer_bytes_max.
 
-With sequencer OSS and an EMUX provider enabled, another sequencer
-client can learn the new address from a PORT_START announcement and
-send a direct SNDRV_SEQ_EVENT_OSS channel-mode command, with marker
-0xfe and command byte 0x8a. The following ordering is possible:
+An open compat PCM file can therefore enter that rule after the
+component has been disconnected, while its owner is about to free the
+component. The request must include SNDRV_PCM_HW_PARAM_BUFFER_BYTES for
+this rule to run. A late HDA codec probe error on an already registered
+card can supply this teardown: snd_card_register() can publish an
+earlier PCM before a later registration fails, and
+snd_hda_codec_cleanup_for_unbind() then disconnects and frees the PCMs
+without the PCM-user drain used by normal codec removal.
 
-  OSS opener                        Sequencer writer
-  snd_emux_create_port()
-    snd_seq_event_port_attach()
-      publish port, announce
-                                    receive PORT_START
-                                    snd_seq_write()
-                                      snd_emux_event_oss_input()
-                                        reset_port_mode()
-                                          write via NULL oss_arg
-  p->oss_arg = arg
+The failing order is:
 
-The callback's write precedes the opener's assignment. The core's port
-reference keeps the private data allocated but does not wait for its
-initialization. The write therefore dereferences NULL and can panic the
-kernel, as shown by the report below.
+  1. The owner calls snd_pcm_dev_disconnect(), which marks the runtime
+     DISCONNECTED and returns.
+  2. The compat file enters snd_pcm_ioctl_hw_params_compat() and then
+     snd_pcm_hw_refine(), reaching snd_pcm_hw_rule_buffer_bytes_max().
+  3. The owner calls snd_device_free(); snd_pcm_free_stream() frees the
+     substream while the rule callback is still in progress.
+  4. The callback reads buffer_bytes_max through its freed private
+     payload, causing a use-after-free.
 
-Take a single READ_ONCE() snapshot of oss_arg and update event_passing
-only when that snapshot is non-NULL. Pair it with WRITE_ONCE() in the
-open path, so the check and write use the same pointer despite
-concurrent initialization. The open path still sets the initial mode
-after assigning the argument, and subsequent channel-mode events retain
-their existing handling.
+The runtime and its rules remain allocated in this component-free path.
+The disconnect locks do not cover the subsequent free or the synchronous
+refinement loop, so they do not prevent this ordering.
+
+Reject compat HW_REFINE32 with -EBADFD when snd_pcm_get_state() reports
+a disconnected stream, matching the native ioctl. The existing helper
+reads the state under the stream lock. This stops refinement that starts
+after disconnect from entering the rule, closing the described window
+without changing component teardown.
 
 KASAN report as below:
 
-    Oops: general protection fault, probably for non-canonical address 0xdffffc0000000003: 0000 [#1] SMP KASAN NOPTI
-    KASAN: null-ptr-deref in range [0x0000000000000018-0x000000000000001f]
-    CPU: 2 UID: 0 PID: 495 Comm: fixture Tainted: G           O        7.2.0-rc6-pmb-bt-functional-v1+ #1 PREEMPT(lazy)
+    BUG: KASAN: slab-use-after-free in snd_pcm_hw_rule_buffer_bytes_max+0x276/0x2a0
+    Read of size 8 at addr ffff888111b36870 by task pmbd_alsa_reade/486
+
+    CPU: 2 UID: 0 PID: 486 Comm: pmbd_alsa_reade Tainted: G           O        7.2.0-rc6-pmb-bt-functional-v1+ #1 PREEMPT(lazy)
     Tainted: [O]=OOT_MODULE
     Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-    RIP: 0010:snd_emux_event_oss_input+0xa76/0xdd0
-    Code: fc ff df 48 c1 ea 03 80 3c 02 00 0f 85 e1 02 00 00 48 b8 00 00 00 00 00 fc ff df 48 8b 5d 78 48 8d 7b 18 48 89 fa 48 c1 ea 03 <0f> b6 04 02 84 c0 74 08 3c 03 0f 8e 40 03 00 00 c7 43 18 00 00 00
-    RSP: 0018:ffff88810a937888 EFLAGS: 00010216
-    RAX: dffffc0000000000 RBX: 0000000000000000 RCX: ffffffff84f391b2
-    RDX: 0000000000000003 RSI: 0000000000000000 RDI: 0000000000000018
-    RBP: ffff8881179fc000 R08: 0000000000000001 R09: 0000000000000001
-    R10: ffffffff89444257 R11: ffff888107dd3a00 R12: 1ffff11021526f17
-    R13: 0000000000000000 R14: 0000000000000001 R15: ffff888112cda000
-    FS:  00007fdd13c9f780(0000) GS:ffff8881fd826000(0000) knlGS:0000000000000000
-    CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-    CR2: 00007fdd13e2f943 CR3: 00000001057ba005 CR4: 0000000000770ef0
-    PKRU: 55555554
     Call Trace:
      <TASK>
-     ? __pfx_snd_emux_event_oss_input+0x10/0x10
-     ? snd_seq_port_use_ptr+0x40/0x170
+     dump_stack_lvl+0x93/0xd0
+     print_report+0xce/0x630
+     ? snd_pcm_hw_rule_buffer_bytes_max+0x276/0x2a0
      ? srso_alias_return_thunk+0x5/0xfbef5
-     ? find_held_lock+0x2b/0x80
-     ? snd_seq_port_use_ptr+0x10c/0x170
+     ? __virt_addr_valid+0x20d/0x410
+     ? snd_pcm_hw_rule_buffer_bytes_max+0x276/0x2a0
+     kasan_report+0xe0/0x110
+     ? snd_pcm_hw_rule_buffer_bytes_max+0x276/0x2a0
+     snd_pcm_hw_rule_buffer_bytes_max+0x276/0x2a0
+     ? snd_pcm_hw_rule_div+0x16b/0x200
+     ? __pfx_snd_pcm_hw_rule_buffer_bytes_max+0x10/0x10
+     ? constrain_params_by_rules+0x17a/0xfe0
+     constrain_params_by_rules+0x506/0xfe0
+     ? __pfx_constrain_params_by_rules+0x10/0x10
+     ? __ia32_compat_sys_ioctl+0x289/0x2f0
+     ? do_int80_emulation+0x14a/0x5e0
      ? srso_alias_return_thunk+0x5/0xfbef5
      ? lock_release+0xc8/0x280
      ? srso_alias_return_thunk+0x5/0xfbef5
-     ? __pfx_snd_emux_event_oss_input+0x10/0x10
-     __snd_seq_deliver_single_event+0x105/0x1a0
-     ? snd_seq_port_use_ptr+0x111/0x170
-     snd_seq_deliver_single_event+0x2fc/0x770
-     ? __pfx_snd_seq_deliver_single_event+0x10/0x10
+     ? snd_interval_refine+0x284/0x470
+     snd_pcm_hw_refine+0x768/0xcc0
+     ? __pfx_snd_pcm_hw_refine+0x10/0x10
+     ? _copy_from_user+0x51/0xa0
+     snd_pcm_ioctl_hw_params_compat+0x138/0x280
+     snd_pcm_ioctl_compat+0x4c5/0x7c0
+     ? __pfx_snd_pcm_ioctl_compat+0x10/0x10
      ? srso_alias_return_thunk+0x5/0xfbef5
-     ? add_lock_to_list+0x9d/0x1e0
+     ? selinux_file_ioctl+0xaa/0x280
+     ? ksys_write+0x16b/0x200
+     ? __pfx_snd_pcm_ioctl_compat+0x10/0x10
+     __ia32_compat_sys_ioctl+0x289/0x2f0
      ? srso_alias_return_thunk+0x5/0xfbef5
-     ? check_prev_add+0x34c/0xe80
-     snd_seq_deliver_event+0x45a/0x760
-     ? __pfx_snd_seq_deliver_event+0x10/0x10
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     ? lock_acquire+0x17b/0x2f0
-     snd_seq_client_enqueue_event.constprop.0+0x278/0x430
-     ? __pfx_snd_seq_client_enqueue_event.constprop.0+0x10/0x10
-     ? __might_fault+0xdd/0x190
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     ? __might_fault+0x14e/0x190
-     ? _raw_spin_unlock_irq+0x28/0x50
-     snd_seq_write+0x30a/0x5e0
-     ? __pfx_snd_seq_write+0x10/0x10
-     ? selinux_file_permission+0x122/0x570
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     ? security_file_permission+0x26/0x80
-     vfs_write+0x25a/0x1010
-     ? __pfx_snd_seq_write+0x10/0x10
-     ? __pfx_vfs_write+0x10/0x10
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     ? trace_hardirqs_on+0x18/0x160
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     ? __call_rcu_common.constprop.0+0x5c1/0xbd0
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     ? __fput+0x5ba/0xa60
-     ksys_write+0x1b7/0x200
-     ? __pfx_ksys_write+0x10/0x10
+     do_int80_emulation+0x14a/0x5e0
+     asm_int80_emulation+0x1a/0x20
+    RIP: 0023:0x8049084
+    Code: 80 b8 04 00 00 00 bb 01 00 00 00 b9 43 a0 04 08 ba 2b 00 00 00 cd 80 b8 36 00 00 00 89 f3 b9 10 41 5c c2 ba b8 b0 04 08 cd 80 <85> c0 78 6c b8 04 00 00 00 bb 01 00 00 00 b9 27 a0 04 08 ba 1c 00
+    RSP: 002b:00000000ffd35e40 EFLAGS: 00000246 ORIG_RAX: 0000000000000036
+    RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 00000000c25c4110
+    RDX: 000000000804b0b8 RSI: 0000000000000003 RDI: 0000000000000004
+    RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
+    R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
+    R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+     </TASK>
+
+    Allocated by task 486:
+     kasan_save_stack+0x33/0x60
+     kasan_save_track+0x14/0x30
+     __kasan_kmalloc+0xaa/0xb0
+     __kmalloc_cache_noprof+0x251/0x610
+     snd_pcm_new_stream+0x98f/0x1350
+     _snd_pcm_new+0x1d1/0x310
+     snd_pcm_new+0x43/0x60
+     0xffffffffc0401115
+     do_one_initcall+0xf3/0x4e0
+     do_init_module+0x281/0x8e0
+     load_module+0x658c/0x7cc0
+     init_module_from_file+0x15b/0x180
+     idempotent_init_module+0x22d/0x770
+     __x64_sys_finit_module+0xd2/0x160
      do_syscall_64+0x115/0x6a0
      entry_SYSCALL_64_after_hwframe+0x77/0x7f
-    RIP: 0033:0x7fdd13d31687
-    Code: 48 89 fa 4c 89 df e8 58 b3 00 00 8b 93 08 03 00 00 59 5e 48 83 f8 fc 74 1a 5b c3 0f 1f 84 00 00 00 00 00 48 8b 44 24 10 0f 05 <5b> c3 0f 1f 80 00 00 00 00 83 e2 39 83 fa 08 75 de e8 23 ff ff ff
-    RSP: 002b:00007fff073e9f20 EFLAGS: 00000202 ORIG_RAX: 0000000000000001
-    RAX: ffffffffffffffda RBX: 00007fdd13c9f780 RCX: 00007fdd13d31687
-    RDX: 000000000000001c RSI: 00007fff073e9fc0 RDI: 0000000000000003
-    RBP: 0000000000000003 R08: 0000000000000000 R09: 0000000000000000
-    R10: 0000000000000000 R11: 0000000000000202 R12: 0000561260c48082
-    R13: 0000561260c48011 R14: 0000561260c4809d R15: 0000000000000002
-     </TASK>
-    Modules linked in: snd_emux_validation(O)
-    ---[ end trace 0000000000000000 ]---
-    RIP: 0010:snd_emux_event_oss_input+0xa76/0xdd0
-    Code: fc ff df 48 c1 ea 03 80 3c 02 00 0f 85 e1 02 00 00 48 b8 00 00 00 00 00 fc ff df 48 8b 5d 78 48 8d 7b 18 48 89 fa 48 c1 ea 03 <0f> b6 04 02 84 c0 74 08 3c 03 0f 8e 40 03 00 00 c7 43 18 00 00 00
-    RSP: 0018:ffff88810a937888 EFLAGS: 00010216
-    RAX: dffffc0000000000 RBX: 0000000000000000 RCX: ffffffff84f391b2
-    RDX: 0000000000000003 RSI: 0000000000000000 RDI: 0000000000000018
-    RBP: ffff8881179fc000 R08: 0000000000000001 R09: 0000000000000001
-    R10: ffffffff89444257 R11: ffff888107dd3a00 R12: 1ffff11021526f17
-    R13: 0000000000000000 R14: 0000000000000001 R15: ffff888112cda000
-    FS:  00007fdd13c9f780(0000) GS:ffff8881fd826000(0000) knlGS:0000000000000000
-    CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-    CR2: 00007fdd13e2f943 CR3: 00000001057ba005 CR4: 0000000000770ef0
-    PKRU: 55555554
-    Kernel panic - not syncing: Fatal exception
-    Kernel Offset: disabled
-    Rebooting in 1 seconds..
+
+    Freed by task 494:
+     kasan_save_stack+0x33/0x60
+     kasan_save_track+0x14/0x30
+     kasan_save_free_info+0x3b/0x60
+     __kasan_slab_free+0x5f/0x80
+     kfree+0x307/0x580
+     snd_pcm_free_stream+0xcf/0x290
+     snd_pcm_free+0xb1/0xf0
+     __snd_device_free+0x1a1/0x490
+     snd_device_free+0xcf/0x190
+     case_owner_ioctl+0xb8/0x160 [pmbd_alsa_fixture]
+     __x64_sys_ioctl+0x163/0x1d0
+     do_syscall_64+0x115/0x6a0
+     entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+    The buggy address belongs to the object at ffff888111b36800
+     which belongs to the cache kmalloc-1k of size 1024
+    The buggy address is located 112 bytes inside of
+     freed 1024-byte region [ffff888111b36800, ffff888111b36c00)
+
+    The buggy address belongs to the physical page:
+    page: refcount:0 mapcount:0 mapping:0000000000000000 index:0xffff888111b35800 pfn:0x111b30
+    head: order:3 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
+    flags: 0x200000000000240(workingset|head|node=0|zone=2)
+    page_type: f5(slab)
+    raw: 0200000000000240 ffff888100042dc0 ffffea0004218610 ffffea00042c6810
+    raw: ffff888111b35800 000000000010000f 00000000f5000000 0000000000000000
+    head: 0200000000000240 ffff888100042dc0 ffffea0004218610 ffffea00042c6810
+    head: ffff888111b35800 000000000010000f 00000000f5000000 0000000000000000
+    head: 0200000000000003 fffffffffffffe01 00000000ffffffff 00000000ffffffff
+    head: 0000000000000000 0000000000000000 00000000ffffffff 0000000000000000
+    page dumped because: kasan: bad access detected
+
+    Memory state around the buggy address:
+     ffff888111b36700: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+     ffff888111b36780: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+    >ffff888111b36800: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+                                                                 ^
+     ffff888111b36880: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+     ffff888111b36900: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+    ==================================================================
 
 Assisted-by: LLM
 Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
 ---
 
-diff --git a/sound/synth/emux/emux_oss.c b/sound/synth/emux/emux_oss.c
-index 1145c7956afde167a451a3446ffd78ffce09cb65..30e353e7323d1129f1260cc6a3228bb7deacd4ef 100644
---- a/sound/synth/emux/emux_oss.c
-+++ b/sound/synth/emux/emux_oss.c
-@@ -124,7 +124,7 @@ snd_emux_open_seq_oss(struct snd_seq_oss_arg *arg, void *closure)
- 	arg->private_data = p;
- 	arg->addr.client = p->chset.client;
- 	arg->addr.port = p->chset.port;
--	p->oss_arg = arg;
-+	WRITE_ONCE(p->oss_arg, arg);
+diff --git a/sound/core/pcm_compat.c b/sound/core/pcm_compat.c
+index 55ecf87586c4ddc553a82997ddaf30a69ab6627a..f5696ea3a5faf60430a04b792fd77b711fd0d7eb 100644
+--- a/sound/core/pcm_compat.c
++++ b/sound/core/pcm_compat.c
+@@ -241,6 +241,9 @@ static int snd_pcm_ioctl_hw_params_compat(struct snd_pcm_substream *substream,
+ 	runtime = substream->runtime;
+ 	if (!runtime)
+ 		return -ENOTTY;
++	if (refine &&
++	    snd_pcm_get_state(substream) == SNDRV_PCM_STATE_DISCONNECTED)
++		return -EBADFD;
  
- 	reset_port_mode(p, arg->seq_mode);
- 
-@@ -141,16 +141,24 @@ snd_emux_open_seq_oss(struct snd_seq_oss_arg *arg, void *closure)
- static void
- reset_port_mode(struct snd_emux_port *port, int midi_mode)
- {
-+	struct snd_seq_oss_arg *arg;
-+
-+	/* OSS events can arrive before the open path has set oss_arg. */
-+	arg = READ_ONCE(port->oss_arg);
-+
- 	if (midi_mode) {
- 		port->port_mode = SNDRV_EMUX_PORT_MODE_OSS_MIDI;
- 		port->drum_flags = DEFAULT_DRUM_FLAGS;
- 		port->volume_atten = 0;
--		port->oss_arg->event_passing = SNDRV_SEQ_OSS_PROCESS_KEYPRESS;
-+		if (arg)
-+			arg->event_passing =
-+				SNDRV_SEQ_OSS_PROCESS_KEYPRESS;
- 	} else {
- 		port->port_mode = SNDRV_EMUX_PORT_MODE_OSS_SYNTH;
- 		port->drum_flags = 0;
- 		port->volume_atten = 32;
--		port->oss_arg->event_passing = SNDRV_SEQ_OSS_PROCESS_EVENTS;
-+		if (arg)
-+			arg->event_passing = SNDRV_SEQ_OSS_PROCESS_EVENTS;
- 	}
- }
- 
+ 	struct snd_pcm_hw_params *data __free(kfree) =
+ 		kmalloc_obj(*data);
