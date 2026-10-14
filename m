@@ -1,61 +1,67 @@
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010048.outbound.protection.outlook.com [52.101.229.48])
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010040.outbound.protection.outlook.com [52.101.228.40])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A871032F75B
-	for <linux-sound@vger.kernel.org>; Wed, 14 Oct 2026 02:59:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 635B61A238F;
+	Wed, 14 Oct 2026 03:08:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.40
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791946771; cv=fail; b=egT3Z7JGRa917LlBdHZgiiSJHH91RkPFpgiGf0eQIdhln3eMI/VNdd4LmEcM23kLmE7sjB5qNpFTFO3Otcgxs0Wk8ij3WmEXCd1805egnwhfCtWtEQePdRhrbkKTSYZNPobb7vO5VV9ngpjA0jXSsZ/phFlC+/wCaL/N50xCKyE=
+	t=1791947300; cv=fail; b=MUBTG6oiBmTYQta6oWc9sRGi/o0pJGLlcOQ5xkzNcDf2Jrv48oDGWeHuja26AAzVhodacjRZqWIj2DQjnnwr4+Du2eVb70VmziOtYWJVRO8baXNT7y/Mu9VTRC8CSNSlC5lXRYrBal6bnM+P1r55AJRr6ePTwbkq/l3Sh6BXy24=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791946771; c=relaxed/simple;
-	bh=NBBjSWedf30T/sybpKXppstugA7/bMumu4xyf0c9DHI=;
-	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=NR/U8nI4QMLidjnc9dptOloovq+SZeunbyUYy7xioHlRQa9JujxU94jUfxvp8VWUiXKjozsuYBeP5ziZKHJGT8RGnV1YhiVx7kBV5lrYSb5JeDYUQfWCkwpoMwZeeMNBP1SnKNuxy/CX6SqJG0DwIlX9P4Kcm1rIJ0fH5rJc1Xc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=fQ/MokNe; arc=fail smtp.client-ip=52.101.229.48
+	s=arc-20240116; t=1791947300; c=relaxed/simple;
+	bh=ZCl2zXdlaBpYOOj58SMDJxJpBOQomX8/urTAbyqDXHU=;
+	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=O1ZRP/gw748nzKWWwqINO/a6GUZU02gFmoKpzOSrBs5S0U36lpSzHm4uhiHQZKMcx//ixbe9X084jkMlTaQ7h4bEDm3F3TrMR17R8vN7VSLIDpQJbX7Tvrher/Hk8cCdjLlKAZPlj643X+KpH9w4yqoa74qSNJ0SDiBQQt78/b0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=i75GGQbu; arc=fail smtp.client-ip=52.101.228.40
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="fQ/MokNe"
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="i75GGQbu"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=veCcualKYnnR620sm+XWIH9kcq6ayb5lpiyix3QU+vDBSS2hpl7e4PWCC5KRLq46r0QyFNNg8Vwv8B9yIub/0lJUto1c4+6IbAbXx2u1cPNkNG8Gm0lvxH9rU9w/GcmNgHBLhXx+9L3IbNw2wDb8RSph/xUHI+ecO+lrA3ozhH5yVkUrl0Lb29oLZ07Pft4ldlSLzaiEoYaEHJizTfBlwxvHKLfPl57t86nxU9vQqtrvwCOd61FHxZR2wwjSakiKsnK5quvf7vG1ZcxmBdMxVlcYUFIjc3UbCYjfVewMQdBJzzoWRzGNAmNMJ5knr1vYXJwUzSDnhU61CardRS+Nyg==
+ b=sJGVjJzbFHM2vZhRYiD/cXBcetqPr2/cpzloc5ni++C+FoXOFpOzHwCsEASytzGRFVfTeGWQjaEa67Gu9OJZs753b1WJsAYmHT6op5UUEt7gzAvtNhXtv9KkE8II4ltoXpGgTxsyP/x203Wyirujml++vAMjw5T31HwAvP4Gm+fUTcXdt7I/OupOut2ITSa0qMCU3BojQuloQ9Mb6Bi536aoZt+Ooj4K80KZwDrzJILOdpYGzkN6MnM+rFHxy8cKHXVVv0JbeUWI9qtVlPRvAYgiMr+Mo+4Zh83jjuDqrcmTEFEGzxCtdPjP8v8YMXfZIdBgBN1okgE2p+4agUNE8w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1sKvTYL/Rr9seztoOInRDvwWX4SZJF3Dfe2sQ/6T1Qo=;
- b=XGujpCOvOgZr0j1mBsuysx9B5B4iGO6mqVVnODkKMiNrS6mu0wafUuCvPrx+U1owRoc4OeDyX3St/W6lbEL+RNPJHZdLlzGtiAWM1C7PvlXvHF+OgLYPE+2lphkcoX5QdTHKn7wDZbStQwUhRmRdzHxwVx+kxPt2Pzv/sALUhNwzCEIH5OgDNtvpBi73wXbNnELfsN2l+Tk1J97dCpc4V4FUjqPH7jhhjfhpMINRG7DqYXM+LC+PgwFGNih1SvOAsHcbxVavP3xt+DcPAWIyO7G5rNROUCaW8LNvnq98n9OxGq2WXvFpFisa/Q0H8euWF5pgbLaYr70YElySUltIgA==
+ bh=YlMSMVlWKuiqzKtuTo6ZDldSvF5hIwr6IrX/7aoF4SE=;
+ b=pUSPr55P+aphcumxDCq/oFLYsv0p0VgnLf08YrGEw9lvgHYhFNo5q+qFHK/i1Dyrx5riFFtAFbGY2Nb9PCjHHN/ybkrXJPJlxmdwHMJWRaVhsPS2F4/6T9eA8dKqltgOBDh9ldyE/b0dEJyPljlDSRmMtSI0ON652PQciLbBoGvv8GVVtkJQRBTwMDH4IKxBtCgyQpkkKB18N+A0rFNXECh+WLkpEUj2SgY/2UI11MYgfj+vQ8htQgajyD5qsgqiOlL7n3r5pPQ2bo3HoCjv6wseFMx5SSp/qKCWM1sDx1nxIV7/eFwhiczgXRbHFjd7rK1moOPVEmNleFILLJh0EA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
  dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1sKvTYL/Rr9seztoOInRDvwWX4SZJF3Dfe2sQ/6T1Qo=;
- b=fQ/MokNeE4Wl53aNk4yjyzP7h7dQzxMUnWPSY5TUIy4waul+6vtQ6hWP9QLGmFrfcAEH+eLI5mTmD9NydmOSHx2TZNEGPoxtasdSFAPwTOv7HSg5xAHpkWvHzJcS5Jv/llL+DNbZ8xf6aZhH+/o0zd9ev8vAx0vClxXP6dGMRL4=
+ bh=YlMSMVlWKuiqzKtuTo6ZDldSvF5hIwr6IrX/7aoF4SE=;
+ b=i75GGQbu5CPjV6PCtAoer79POpMoEBrjDh+xklEk91vX1LTH2y6mq+jjWscdRdqzgjcIbMy27/4tQsX0VqLWUIdVTkbuV06rzDPdhqhT2VO1so4oj/JUwwjQDTjiTc/dEy0IBN03rdj8XFAGD0717t4IKSn9dnkxLIxiQYI8Oeg=
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=renesas.com;
 Received: from OS9PR01MB820914.jpnprd01.prod.outlook.com
- (2603:1096:604:50f::14) by TY3PR01MB11826.jpnprd01.prod.outlook.com
- (2603:1096:400:406::8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.13; Wed, 14 Oct
- 2026 02:59:28 +0000
+ (2603:1096:604:50f::14) by TYCPR01MB6996.jpnprd01.prod.outlook.com
+ (2603:1096:400:bf::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.12; Wed, 14 Oct
+ 2026 03:08:16 +0000
 Received: from OS9PR01MB820914.jpnprd01.prod.outlook.com
  ([fe80::12e4:c507:3730:2294]) by OS9PR01MB820914.jpnprd01.prod.outlook.com
  ([fe80::12e4:c507:3730:2294%6]) with mapi id 15.21.0496.021; Wed, 14 Oct 2026
- 02:59:28 +0000
-Message-ID: <877bjlyokw.wl-kuninori.morimoto.gx@renesas.com>
+ 03:08:16 +0000
+Message-ID: <875wz5yo67.wl-kuninori.morimoto.gx@renesas.com>
 From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH v3 13/13] ASoC: soc-component: rename snd_soc_component_async_complete()
+To: Cezary Rojewski <cezary.rojewski@intel.com>
+Cc: Mark Brown <broonie@kernel.org>,
+	<linux-sound@vger.kernel.org>,
+	<tiwai@suse.com>,
+	<perex@perex.cz>,
+	<amade@asmblr.net>,
+	<linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 0/7] ASoC: core: Create new components in sane state
+In-Reply-To: <40696247-e763-40d8-9d4e-338047cdd4fe@intel.com>
+References: <20261007133353.455185-1-cezary.rojewski@intel.com>
+	<87pkxexyr6.wl-kuninori.morimoto.gx@renesas.com>
+	<ed059f1e-2390-4e1d-bd1a-cff08a3441ad@sirena.org.uk>
+	<40696247-e763-40d8-9d4e-338047cdd4fe@intel.com>
 User-Agent: Wanderlust/2.15.9 Emacs/30.2 Mule/6.0
-To: Mark Brown <broonie@kernel.org>, Alvin =?ISO-8859-2?Q?=A9ipraga?=
- <alvin.sipraga@analog.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <87pkxdyoml.wl-kuninori.morimoto.gx@renesas.com>
-References: <87pkxdyoml.wl-kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset=ISO-8859-2
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 14 Oct 2026 02:59:28 +0000
-X-ClientProxiedBy: TYCPR01CA0188.jpnprd01.prod.outlook.com
- (2603:1096:400:2b0::20) To OS9PR01MB820914.jpnprd01.prod.outlook.com
+Content-Type: text/plain; charset=US-ASCII
+Date: Wed, 14 Oct 2026 03:08:16 +0000
+X-ClientProxiedBy: TY6P301CA0025.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:405:3bf::7) To OS9PR01MB820914.jpnprd01.prod.outlook.com
  (2603:1096:604:50f::14)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -64,165 +70,94 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: OS9PR01MB820914:EE_|TY3PR01MB11826:EE_
-X-MS-Office365-Filtering-Correlation-Id: b02441cd-93f5-4a6f-f63a-08df299f2968
+X-MS-TrafficTypeDiagnostic: OS9PR01MB820914:EE_|TYCPR01MB6996:EE_
+X-MS-Office365-Filtering-Correlation-Id: eb43eb40-071a-48d6-3a69-08df29a06480
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|376014|1800799024|366016|52116014|10067099003|22082099003|18002099003|260925021911599003|260925022911599003|260925021311599003|11063799006|261009223027099003|56012099006|38350700014;
+	BCL:0;ARA:13230040|52116014|376014|1800799024|23010399003|366016|6133799003|18002099003|22082099003|10067099003|11063799006|261009223027099003|4143699003|56012099006|38350700014;
 X-Microsoft-Antispam-Message-Info:
-	tqxso68pifBUZW+25VF4fT1PfFhY14mt4PkU+HoyPE+RCU/el0Oi2gQGZBYBK6vmL2utTR31thpzr7DqtbhPDX4lPVFbyZIrj7qHq2xcXjuYWgM0JGdVKDOEHjc93aTsbd5cmWzXF54D8jKm5+Ozkm4eCaoa3LQ4IljIGsKqvWBwllNwFWnvoailCtUTL5UqP7OQO3J67oc3AFpMXkpSHzXjwuXPxhU7DpQevxKV66kHO88gn/aMKGAXzBuMc39hvmHpGBV+LyyARBHrw3+aF6rsbQ5dqWtHCmztG5MH4m3AGIxxbfTIy42i+J1BEwvr83/GfZFtipWpAfR07iUV2rsNcf2Z0ztiAqm+MRU6O8pL0phfH+bQOTlerV3o1WXAtfKhkqMZWhKgl7cJphaEGHnS8SjAEktHojlTPRZXTK5fIcCvhWFea++Mh2n20VJAwHU09UbmIIAewmPrZ711ow5S5HDOMEAmeTHz1JEJGaAYXSx+SssvbE+fw9DI+Kyd6dLE6P4k3lWnD92q9cs6RDm8Evr/2sIAuEUoX4M5QWu4TFdnplMvWB/IRy6BNlCXS1OhwZKbCe3LQG+4mELyxrEqeBio3G6YPt11Id/AnfQi0meBXBwrkcmjfVvrXDMTwISViruKOkTzyXkxJcNzfSucrTZbcdwHlxnr1E7YCX03Wurrq+92h9JkeTg1YAtzsdYPq153eQ9Xjuz9QEERGvBbJDZLR+svYvmpu5RbeVo=
+	XXxZyrKDse9IV3ACrGW/8e0CqoXyFh3s4M9YMJTQiVs3GS/JQrxIpTc5arg9TRfbvgIUgp8zlAeeVIy09MuRljHIn8qeOS0ABAYh5btbzxehaE3nXDLvxmSyCxjeMjaGDJiLpTDq3LbpVuWn69CQibY1eYFD16g7xaMSUxrVzxx9Xd3BSVP+0Nv7OWm0zwJP9RLY0Byo97BN7Nq8ZSdA6TCyqiFIxbdxf9RIbDK+4Faz0vb2PqK7REsUsQZqM7LxgoFPNCZl7QfvE4FMY+bbWM8/Z6nV2zr4RxAHcDajN9Kx3fZdFXvTjS6LL9mhE6rFrm4oKc0Yxbn08a/BqFV1EqQG5TZx7Yzax20uuyptoEsUkwY2h4X7eUUKaNIj+Pi9z/7en2Q4B7q4dDb+zcSYS3kfEAYTiwcECHizKf5LuiKTC+1PpatIMvN2QlGobNGq65pDHv8w6KPSmuiyMSWT+0bgTG2RCY883zDuXhcERwWNAHeuq5GVgF1bJQlUwjfQ0RJ0UMPUP5fxg5Pnp5p0M6Cs+E2W1O3QqzuAqNxfmJNahVF5Lg/Wr/t9ydGkgM58u0Grx5bq4b8toFLCw9fRMawiz9FMUMei2NUVv0fXcJwQMFYF8U+wTdu1UhuTE55suiFtg5N5hPBh9bfPw7BRB7LuAhf4nnAaWf/rcJefZBmSa06x1T+U7t/A+GDBAuhbolXQql+7Fs3K3LjuTUGGSL2sIMHSRi6B7NXhzXpEvus=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS9PR01MB820914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(366016)(52116014)(10067099003)(22082099003)(18002099003)(260925021911599003)(260925022911599003)(260925021311599003)(11063799006)(261009223027099003)(56012099006)(38350700014);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS9PR01MB820914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(1800799024)(23010399003)(366016)(6133799003)(18002099003)(22082099003)(10067099003)(11063799006)(261009223027099003)(4143699003)(56012099006)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?iso-8859-2?Q?C4Fy/fjP1MDIWf+HwjJRpJIe7fvg5/sFTDX+Fnm98q8odvkhDKFO5HZ2+K?=
- =?iso-8859-2?Q?oQUs+SdwveA2jHzGNceSj++Ipghx0NFtHlXfGbfvPfCwChmOFD03j3RomR?=
- =?iso-8859-2?Q?FSkLb1XHMRNkxIPzW7sBe1Ps2kpRht8CrwYsIed4X3cVDL69eBbfcPhHS4?=
- =?iso-8859-2?Q?fLTa9RG/F6DEe+QW4JEnWZc2541+5dG9Se6y1pCQP7Ggimd2KjBU4/vHCu?=
- =?iso-8859-2?Q?J5qOyJriarey3ZXxRYmDBNYjbX3Vjf0PDZJobBvZ4HwZdla/2+GbDvLNXU?=
- =?iso-8859-2?Q?Jx/LOuaCf4ATEe+nTivcl8pfa+NSQLZlGH7ZOI0ZL2Z7Sx9dI/1KPKE9Kt?=
- =?iso-8859-2?Q?6N55tVAyBCbDrj4TOfhX75bJLWEYvK3IAxHHtlhGX2aANdSOeuXUCx36Gs?=
- =?iso-8859-2?Q?sNZOGGRD+VyOFhaQRwJasvdVeyI4aeghjddGao7DtafQFDX4vTCt5Af3jN?=
- =?iso-8859-2?Q?VnQpjRRryHB/CLl5VJAahTDc4DqqPoiZrvyHvCPuVmRhns904Q/jLRLuLP?=
- =?iso-8859-2?Q?UBHwp5bunT6tiedkjv0X3/+SrvvoHebgnIRJDcYi05UjiMCaqIbrDHcSJP?=
- =?iso-8859-2?Q?IWQlvwiD1sM+23ffXrJIdqk3trIN3h0H+XUHptuu2l8VzcRpBDh7cOsl08?=
- =?iso-8859-2?Q?lgQJr0Vk5yEVaYZntwHMpiPQdXxE3AHprltx4K5hcFzFh6yGvt28JgRwLE?=
- =?iso-8859-2?Q?TFjHCxsdTnno8PXo/NT00PaTqqAnOBU+k+RUd/kxbmPmh16I01A4bz9Mv6?=
- =?iso-8859-2?Q?B4MRbkBrXUkSggREatlSdAtXkTX4usvLYatdPbDK7YctaBAmDoRHeZ+drz?=
- =?iso-8859-2?Q?PeXt7yCFmzrbhjSqcKoXZeaajVWybnpyglYsOxnT+4zbIoO1O05Y08Ndt/?=
- =?iso-8859-2?Q?KUF2/fiomPqfN0Ur+ehpTfmNuAfqT+pHgF45KCpU1QoRxBBSkiI90Y8pIv?=
- =?iso-8859-2?Q?bjm79EvMj6PZk8o/hV2Fy4oDR0MQ8w2QGCe3ThicGqOnuL6yEw9u6wIOz4?=
- =?iso-8859-2?Q?1UO0LMJ89VA7wn2/mRxrbVwt5c/363z6J4dSNZHnCZPtowoXWTHALGfMNa?=
- =?iso-8859-2?Q?euCl6PwR6vJ9mT4kMBFqRXNFBlDp9VflDdDfeKva3wcjbM2oFZelKk0uNR?=
- =?iso-8859-2?Q?9H/MCB4jxs4L8HeLR/Rh6th71fsblTPK5ySlvYVh/GYcVlNBnt6C02ZWAo?=
- =?iso-8859-2?Q?9xXUIZftq27VdTdKj5KqXYy0LXtGEhK2UUG5VJE7+cqAO5+uGj7dcDd9Hs?=
- =?iso-8859-2?Q?j8puWEDvwhbCS2vLfuxGzyo6lEckMQG9j8UbYHgnWYXdK1tfRxmziBemqg?=
- =?iso-8859-2?Q?21rJUKu/fZ7mnNH33gwruh7Q25K29to6YgMg7dkoUVk2ORzpBxnRYnAHKm?=
- =?iso-8859-2?Q?g1N1Bs2boqW8vf6AMfnIQPtm8WzNcTECaAARJF+wxFSeyUHUWXs9UHfn9L?=
- =?iso-8859-2?Q?E6P/iThNYLRaSb2w5tqILVYaXXuEw3u3tmPwxPPuOThnk1DtDJwKV9csfD?=
- =?iso-8859-2?Q?XdDrlfwT0pADkInFfDsnh7Y6G3AY94E/PwCkX2FY0AHvtu39L3dHzscQvT?=
- =?iso-8859-2?Q?oJFSGH3KXe/pIiWs4v71tXmAvBk5TpbtDxA8uwNJiVnYZVfiRo8jy1dX5G?=
- =?iso-8859-2?Q?iQ+79eeSVbDXSJDRq9ufIhgU09SFmHcFXFU82PMFY26SBEHz+F+3gX6Ebd?=
- =?iso-8859-2?Q?GsSF/HoJaxFoS6dlqQZSl+3N2eGJTIQQ5bj81pVeVTdNQwlYUvcT587nxX?=
- =?iso-8859-2?Q?mVwhFTbnU17GH5PalavT5R0AgjHXgqHy59qOneAFY/QlC64ljtoB50BpOs?=
- =?iso-8859-2?Q?HwT4qd6PGXklMPqSuRVZtcCtgotXQCvfcVwPGmjvfsTkf33ULJ6y?=
+	=?us-ascii?Q?dB65Q/KlqN3gFD0k2jjs+qZbXQXnDSdMWWL5jsKQ9PLzHSZ7SVedPeLy8/aY?=
+ =?us-ascii?Q?BfK2COqdLUhdQxXEPUL5jG1Ij++LlBl4cmrkPan38ISNzq/+MytKFeuKOa2I?=
+ =?us-ascii?Q?s65AmSfc2nW8R3bJ7wAsHiJh7sRpZUy11w3VYWB0kdcUtC0bNYjb8S2TiAUy?=
+ =?us-ascii?Q?o+OmipPgf5edjLjuE+Rl9kb5DrVswcV4nY/NfMIFMBuYcjp+llB+9g9En3yS?=
+ =?us-ascii?Q?WlBAi9js0UcMCyBxJDQlGuu42Ka9ny9fooLADGC7XBkpC2aHVTuHHqMjVjJa?=
+ =?us-ascii?Q?FAkBt8f9OQtzIZSOPNa7eXvvgiy/8Y1owaeMi03jU2bdNYmlOVwyqPcr9esx?=
+ =?us-ascii?Q?2S+i/eTI3CYwdQ9X/j6e9IznrJzr5NoaZ+vBK49X6PqOZYAAis/RXNoSHvqj?=
+ =?us-ascii?Q?yLERL1d1x3Hnax01f/UFPnwvmtmMeX6UNT4Aqn9TvNEHNrdVAhfHXRBmHXFh?=
+ =?us-ascii?Q?9k4417sSRxL4KXOIbRqJZ/0f4maudz7LGBgYKpH4rL6iMkiYxOqXRB9CwTR5?=
+ =?us-ascii?Q?1YuENso7hY3muQnKkRbiUROc1OrpFQDMD6v7mgTH69hMJlKctdhcd/ZhlC/l?=
+ =?us-ascii?Q?B5pg66rbMzI4JFoX5KsrtSYblHuDGJb4NGoaxpZ74EvB7dj3y7YY3bcm/Jfl?=
+ =?us-ascii?Q?WoOyY3ufxzm0CD8y1Gtn6TGLbdztPK5r4vcfh0nfi7lLIJa4ZddX6HZu6s35?=
+ =?us-ascii?Q?BzvGGbYIKrQmZoZrdPOe4WpxZeonbfS4MSxeii3NVBbgvz8C4Hum2bPycsBm?=
+ =?us-ascii?Q?+5IS6uCjCJ7qJnVD5PE++Gl4xGVMrWlwZG/Dwkn96GaLooFge32R8uZzUhfZ?=
+ =?us-ascii?Q?OegSRj7VV5pWSQVd5sKPf0IVb/Yra8HmWdPI1h9O6CLzNxbBX9lQSP2tQIpX?=
+ =?us-ascii?Q?Moc19tudloPZ0K8pikGGaeWA9klBkF28J33dmxb9k+TaR5yJkyikgomeiGnl?=
+ =?us-ascii?Q?GhsOlNXbxFGd6PRGE77OckN9b5Xyct0jutpeGux56uAWnBcCLpvh7JA1eavY?=
+ =?us-ascii?Q?WbhBTp9/kosPY7dcxNCqaiJ3f2InJ10m8d5DriNFblYEcDuFKa0k24Rn1XuQ?=
+ =?us-ascii?Q?gsJoUlQq6cXy9jzgzcuFJ/RzJH40iE05Y/mb7lwAfM4XYX66MHOwLbyTjA0+?=
+ =?us-ascii?Q?BHF5h1GIy8LNVp+GLxgdB0CWp3yhLC/CfrsXMR4BEOLgWPS3k+7a3OJNZTXi?=
+ =?us-ascii?Q?T2gwD5L0mN5q0lSUC9liJg4f492EdaL9m/tv7qzQJgbjGvLJ8Hf5p41D2yp0?=
+ =?us-ascii?Q?M5nBo/ItauVy9uaASfeKXwATSdFheJTOhAQjm3qxPtKfr/PY3OUgzQQyY4sw?=
+ =?us-ascii?Q?vSVAtdEnksRB2jsH6z+JdXBp8r4zZsN2dKFpDnmmbr4d1e6bVgVy+ati5VQw?=
+ =?us-ascii?Q?ZEfSyVedou+SQDBq/JKb7qOIpxwaGQYRkaV1WuwLVkl547ZNMFbna9qp8hVB?=
+ =?us-ascii?Q?I4OowtYdChduMEfaOHwJOqpxDXKSgmxolrA6jch7klVZQCNg+PWvA75dy/lH?=
+ =?us-ascii?Q?29yosuwRSppAs65bmy4QhsZyf/xE4jUUN2hf8yNDkoULgtwTnMNKz7RO3DVu?=
+ =?us-ascii?Q?yLhyIHxKEzGPpw2p2S9aID3wNhKzlHOueyal6V7IjyZiJkaz8ppyPQDm+Q1w?=
+ =?us-ascii?Q?s8udPqV7NddQnYUHqkQ3yBpumFMQHqQO78kaOgNSu33lKAB3ccbPDoI5jJor?=
+ =?us-ascii?Q?nAzjiKj8b33GEZQzmR/27n+BKRiUYz6DGHomlf2qgPrh26RgRdqrjxKrP+cH?=
+ =?us-ascii?Q?T/PA+I4y9I72/ZS4H4fA0+8szx+Jsx7v0ofMh4j3mKIsd43sleyo?=
 X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b02441cd-93f5-4a6f-f63a-08df299f2968
+X-MS-Exchange-CrossTenant-Network-Message-Id: eb43eb40-071a-48d6-3a69-08df29a06480
 X-MS-Exchange-CrossTenant-AuthSource: OS9PR01MB820914.jpnprd01.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2026 02:59:28.1830
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2026 03:08:16.8210
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Z1POKQ5x4D5AVNA45XL06A+Gq+NQkxj+O2yOmvCNlb3xp/XsBTU99QeyD2mTLTmAskCmZkFjF8Ffyd1XCA7atMF2cJwCcP5IHMa/m1yRwTUlyQtHHr9zulAtGRr+LBls
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY3PR01MB11826
+X-MS-Exchange-CrossTenant-UserPrincipalName: bhEDIZmXnQLmUHMwlSw/f8a/JDa1zVCcLpEO/9k2PSZ1AHSYKX3dqMMC9M/rIjLx12GdLG10lF70MM5kO1ZOguJen0TuT05i/foBjKoyrMUh/1qiTYSxxjv7h3m4Tm3+
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB6996
 
-snd_soc_component_async_complete() is regmap related function.
-Let's add _regmap_ on function name.
 
-It renames function name
--	snd_soc_component_async_complete()
-+	snd_soc_component_regmap_async_complete()
+Hi Mark, Cezary
 
-Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Reviewed-by: Alvin =A9ipraga <alvin.sipraga@analog.com>
+> >> I will review your patch next week, but I guess some of them (= not all)
+> >> are conflicts to mine...
+> > 
+> > Ah, unfortunately I already applied it since we're in the last week
+> > before the merge window and it didn't get a reply - sorry about that.
+> 
+> I do not see it applied to the for-next.
+> 
+> Obviously I'd appreciate the merge as the gap mentioned in the
+> cover-letter is there and the framework should sanitize the object
+> before returning it.
+> 
+> At the same time, I'm here to help with any conflicts should any arise.
+
+It seems there was no big issue/conflicts, Thank you for your help.
+But 1 concern from my side is that the function naming
+
+We would like to keep snd_soc_component_xxx() naming.
+New ASoC has similar functions, it is very confusable.
+
+	snd_soc_component_register()
+	snd_soc_register_component()
+
+Both are for register function, and the diff is used parameter.
+So we would like to merge them by using _Generic()
+This part had conflict with my (not yet posted) patches.
+
+I will post merge patch (by _Generic()) later.
+
+Thank you for your help !!
+
+Best regards
 ---
- include/sound/soc-component.h |  3 ++-
- sound/soc/soc-component.c     | 28 ++++++++++++++--------------
- 2 files changed, 16 insertions(+), 15 deletions(-)
-
-diff --git a/include/sound/soc-component.h b/include/sound/soc-component.h
-index c287ec6f458ee..0839f137a77e7 100644
---- a/include/sound/soc-component.h
-+++ b/include/sound/soc-component.h
-@@ -305,7 +305,6 @@ int snd_soc_component_update_bits(struct snd_soc_compon=
-ent *component,
- int snd_soc_component_update_bits_async(struct snd_soc_component *componen=
-t,
- 					unsigned int reg, unsigned int mask,
- 					unsigned int val);
--void snd_soc_component_async_complete(struct snd_soc_component *component)=
-;
- int snd_soc_component_test_bits(struct snd_soc_component *component,
- 				unsigned int reg, unsigned int mask,
- 				unsigned int value);
-@@ -336,6 +335,7 @@ int snd_soc_component_set_bias_level(struct snd_soc_com=
-ponent *component,
-=20
- int snd_soc_component_regmap_val_bytes(struct snd_soc_component *component=
-);
- int snd_soc_component_regmap_cache_sync(struct snd_soc_component *componen=
-t);
-+void snd_soc_component_regmap_async_complete(struct snd_soc_component *com=
-ponent);
- #ifdef CONFIG_REGMAP
- void snd_soc_component_init_regmap(struct snd_soc_component *component,
- 				   struct regmap *regmap);
-@@ -446,6 +446,7 @@ void snd_soc_pcm_component_delay(struct snd_pcm_substre=
-am *substream,
-=20
- /* REMOVE ME */
- #define snd_soc_component_cache_sync			snd_soc_component_regmap_cache_sync
-+#define snd_soc_component_async_complete		snd_soc_component_regmap_async_c=
-omplete
- #define snd_soc_lookup_component_nolocked		snd_soc_component_lookup_nolock
- #define snd_soc_lookup_component			snd_soc_component_lookup
- #define snd_soc_lookup_component_by_name		snd_soc_component_lookup_by_name
-diff --git a/sound/soc/soc-component.c b/sound/soc/soc-component.c
-index 4c2d2dc62f86e..07d7093855824 100644
---- a/sound/soc/soc-component.c
-+++ b/sound/soc/soc-component.c
-@@ -418,6 +418,20 @@ int snd_soc_component_regmap_cache_sync(struct snd_soc=
-_component *component)
- }
- EXPORT_SYMBOL_GPL(snd_soc_component_regmap_cache_sync);
-=20
-+/**
-+ * snd_soc_component_regmap_async_complete() - Ensure asynchronous I/O has=
- completed
-+ * @component: Component for which to wait
-+ *
-+ * This function blocks until all asynchronous I/O which has previously be=
-en
-+ * scheduled using snd_soc_component_update_bits_async() has completed.
-+ */
-+void snd_soc_component_regmap_async_complete(struct snd_soc_component *com=
-ponent)
-+{
-+	if (component->regmap)
-+		regmap_async_complete(component->regmap);
-+}
-+EXPORT_SYMBOL_GPL(snd_soc_component_regmap_async_complete);
-+
- #ifdef CONFIG_REGMAP
-=20
- /**
-@@ -922,20 +936,6 @@ int snd_soc_component_write_field(struct snd_soc_compo=
-nent *component,
- }
- EXPORT_SYMBOL_GPL(snd_soc_component_write_field);
-=20
--/**
-- * snd_soc_component_async_complete() - Ensure asynchronous I/O has comple=
-ted
-- * @component: Component for which to wait
-- *
-- * This function blocks until all asynchronous I/O which has previously be=
-en
-- * scheduled using snd_soc_component_update_bits_async() has completed.
-- */
--void snd_soc_component_async_complete(struct snd_soc_component *component)
--{
--	if (component->regmap)
--		regmap_async_complete(component->regmap);
--}
--EXPORT_SYMBOL_GPL(snd_soc_component_async_complete);
--
- /**
-  * snd_soc_component_test_bits - Test register for change
-  * @component: component
---=20
-2.53.0
-
+Kuninori Morimoto
