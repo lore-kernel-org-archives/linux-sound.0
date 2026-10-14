@@ -1,120 +1,89 @@
-Received: from mx1.white.stw.pengutronix.de (mx1.white.stw.pengutronix.de [185.203.200.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35D0F17DFFA;
-	Thu, 15 Oct 2026 12:07:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.203.200.13
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792066045; cv=pass; b=U7Y4lxOw2aSdcXlWwxPcMDCtabkliYMGs/R/5BSJ24V8fhQFno2wxEJ0dxnXWltmWihVVYR7mdVE5D4eNLw516CsJ+5zHgUsfGzI2U16eH8ZvziA+rn+6+73XH4XcwGTm4b+XVpiAG7+ROZ3UMqLvZx+vtr+oc9/XqiF+AtYFEo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792066045; c=relaxed/simple;
-	bh=nNP+Fhnuz43izQOtDHtDXM0wRfPfESEKF9hULARcNyI=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=BCRMGH7dh/dp3wOA01DvEqHg70DwBlxGqRzjs3sBTwV7BbE5z4fUePT4IORBak9+5rU4H3iQi7zfjIRpEoIlEeGo4L7/QwMTwIDRvOeVMNZxjYgozQGMQnibw9WXRWtyiq5QJh7y6YudUwmF1JRPbY9qxh0ir/0/Ser993X6rNE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; dkim=pass (2048-bit key) header.d=pengutronix.de header.i=@pengutronix.de header.b=V/VhihZi; arc=pass smtp.client-ip=185.203.200.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBF435208AF;
+	Thu, 15 Oct 2026 12:39:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792067970; cv=none; b=vA/SYEw0kuJcAG2Dh3Xg/VKQhzqMQdqAM6ewXTE3WtCeCh0febTJOAVbIHDG0QhbNfTqizxkO5TvBmdplSKdTUYBPmdCz7s8tV3NJw3YImvm1YHADsV28O6roiqmKYBqfEvglvhFAdxLQhTbjavfJL735JADjzjvgXYSzHw8/x8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792067970; c=relaxed/simple;
+	bh=5g8dz42hCtoNmWFFXwp+ciqPq7zcSQ7NlMrQDwl47bA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=q9TUiG8N+UumX4bHikx/v63cvhVXvtJOTsPKgumxcuWrTZW2cT2pwZg430pEBfrmj3avutnvODwv1YtS/CGVBA39n9Mxf43HSK9XX4/XkSyTjaDzRE+OAq/3WBnAAvvR/STQtgt5jnw6nKG0BXnQd7Edad2o8NJPIz46cZD6zn8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aPhJ8i+i; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pengutronix.de header.i=@pengutronix.de header.b="V/VhihZi"
-Received: from [IPv6:2a0a:edc0:0:900:1d::4e] (lupine.office.stw.pengutronix.de [IPv6:2a0a:edc0:0:900:1d::4e])
-	(Authenticated sender: pza@pengutronix.de)
-	by mx1.white.stw.pengutronix.de (Postfix) with ESMTPSA id 148ED200563;
-	Thu, 15 Oct 2026 14:07:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pengutronix.de;
-	s=20260414; t=1792066034;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AzhGgKYacCpBjvJn7OHauXCkEcJeUBoCpFaiUeHOgps=;
-	b=V/VhihZigYE0mxxjZyKs0RFYejck80xENPJXKEE5jhKm3DL1PsCJsqjcC8QEiMl6bLZmKi
-	k9V0AsxuEmyORjrnDQCiLX+uGPbFmlAkf+8xkTSTpRIOo4FsdRljAcD1JkiM56eXx+tBGN
-	sJvt3YVz286bjggz9GdbRE6QXizLxkd733mIOYtxrYpIiEGmyw5MeJzLLTlyCs50de1bi0
-	MHnseuB1ReE0Zg3cH7wcLIa57nG08hAdywAFVZJ63ovxvEGpAiGZsja1zRER8gTgddZqvF
-	HxVXdBy1V8oW/6Pngk1RHz/FJkrOLZVemi13uwqyvWEVEWlH43IOyIMFIPtrEg==
-ARC-Seal: i=1; s=20260414; d=pengutronix.de; t=1792066034; a=rsa-sha256;
-	cv=none;
-	b=SDsTVvWabalC0zxNlbN1N73C85Y5irdwNvJpYD28ZjuV7/zcL5uf6QwGD6qZW/9AnFbKi7
-	g9t+HA1bsRNJmwrT7ujP7mXE/OYNdMhM8gO45EmqfNU7jceU9TxyVBsQUGCygVqGmR0tpi
-	PYHDRebgWbmm/TosBDtpT3ZnvmkmXFRkqnHwG91/DnS4kTS7d9GfllfZ+zxktUoB5kwk7F
-	naeggJmYmvzavYi2o8rdgzq9eptqYOp2FafQA5TbXYFLBVdRQWMPoSrGPwZMdvHRzS8eGk
-	zQKwVsXzrPDjc98aYg+ta92I2t+XPv60Hdcww57OGeiIAuHq5GGp+vE9kG8xCA==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=pza@pengutronix.de smtp.mailfrom=p.zabel@pengutronix.de
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=pengutronix.de;
-	s=20260414; t=1792066034;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AzhGgKYacCpBjvJn7OHauXCkEcJeUBoCpFaiUeHOgps=;
-	b=FUkCn5s9zJEfrt5Bu40NO60ajsgDNr1zDeKRCcwRiNGmo5Yl8563NO4DgSeUcA0rQP9CRS
-	UNoPHhcDOKbtBaGfpfGOqUnWKqmrBypXzqingiVchkCNXnLeVjJUZCIFHVXDwHvoE0hzkC
-	B+VKGGqP7/crGl194J/gsKC94iouIiT0Ya0n2kAXlWFF+RQOvS+cUhtGY0UYLvzRD2yo4o
-	+ua2qlAu4i31B/MCWx7NvNyyjT329RgPyZt0o2somy9oF1ktxVXy4WE8wTEOxtPq1/qZDR
-	b8Ydae6KABEvGNE0oSezl0KqsDOevTwnjhITGcMfLF+ntVh48J3l6Z/wsaidPQ==
-Message-ID: <71ec016a796934e8d445e8d3b7f4e8e5335b5a8f.camel@pengutronix.de>
-Subject: Re: [PATCH v4 2/2] ASoC: airoha: Add support for AN7581 PCM driver
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Christian Marangi <ansuelsmth@gmail.com>, Liam Girdwood	
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring	
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley	
- <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai	
- <tiwai@suse.com>, linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Date: Thu, 15 Oct 2026 14:07:13 +0200
-In-Reply-To: <20261012115408.87066-3-ansuelsmth@gmail.com>
-References: <20261012115408.87066-1-ansuelsmth@gmail.com>
-	 <20261012115408.87066-3-ansuelsmth@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-0+deb13u1 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aPhJ8i+i"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00F981F000C5;
+	Thu, 15 Oct 2026 12:39:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792067969;
+	bh=NiI9d91GTc1lz7N89GHikpfSzOLogXskpaywwGjpKsM=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=aPhJ8i+iIu3kkozUqD0eQhENZqHbF6bSUAQCY/S65+pP7m8GjQvWoe1Io5USY78sm
+	 4y9+HWSZi/natrrF3SkEd9FpLeE961MwYdfZbvKloTuyBkZrLPXTvWfYxbFlUDY2xM
+	 rEuk1S4uvP7rSm0dcJWsB15+BAgN1tAeFFau3CPBfdW7pfLx7ogJD2NkP49EIToOxN
+	 PQ8jqcjvfHDr+B7802fauFCcu9YYAj6IlCUqNGC5bsC3SOP4FcTCcvp+bmBomITD7B
+	 REHJVVwz6xrQr4HDcqLigFQG+QHyH1icFFb8IcmHAaAL6RzupdoCUhpBLAhRTeECIA
+	 Rl8AyRExAjEVw==
+From: Mark Brown <broonie@kernel.org>
+To: Support Opensource <support.opensource@diasemi.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Cezary Rojewski <cezary.rojewski@intel.com>, 
+ Le Qi <le.qi@oss.qualcomm.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ kernel@oss.qualcomm.com, srinivas.kandagatla@oss.qualcomm.com
+In-Reply-To: <20261014065321.740850-1-le.qi@oss.qualcomm.com>
+References: <20261014065321.740850-1-le.qi@oss.qualcomm.com>
+Subject: Re: [PATCH v1] ASoC: codecs: da7213: Get MCLK in I2C probe
+Message-Id: <179198622135.228143.12455422842558155128.b4-ty@b4>
+Date: Wed, 14 Oct 2026 14:57:01 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1097; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=5g8dz42hCtoNmWFFXwp+ciqPq7zcSQ7NlMrQDwl47bA=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLIunKy7GJX8beX6Ofs3lyfvOdP+6GLZdl2jkJqT+16vF
+ bgxa5+eUUcpC4MYF4OsmCJLXBb3y/qS12v4Di5sg5nDygQyhIGLUwAm8nwKw3/XlXGfpkn8X8T9
+ KGsV+2EWkzUTTrDs8JZb/Wzr4ce/uH69YGSYWxChcmblbtM69kkHDmpuEmJ5NvXkYbuidvmzL/a
+ UeiWxAQA=
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Mo, 2026-10-12 at 13:54 +0200, Christian Marangi wrote:
-> The Airoha AN7581 SoC provides a PCM interface for VoIP applications,
-> supporting playback and capture at sample rates of 8 kHz and 16 kHz.
-> The driver configures the PCM bit clock to 2.048 MHz and supports
-> 8-bit and 16-bit samples, with up to 32 channels.
->=20
-> Add an ASoC platform driver for the AN7581 PCM controller configured for
-> ZSI attached voice chip.
->=20
-> Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
-> ---
->  MAINTAINERS                   |   7 +
->  sound/soc/Kconfig             |   1 +
->  sound/soc/Makefile            |   1 +
->  sound/soc/airoha/Kconfig      |  10 +
->  sound/soc/airoha/Makefile     |   3 +
->  sound/soc/airoha/an7581-pcm.c | 904 ++++++++++++++++++++++++++++++++++
->  6 files changed, 926 insertions(+)
->  create mode 100644 sound/soc/airoha/Kconfig
->  create mode 100644 sound/soc/airoha/Makefile
->  create mode 100644 sound/soc/airoha/an7581-pcm.c
->=20
-[...]
-> diff --git a/sound/soc/airoha/an7581-pcm.c b/sound/soc/airoha/an7581-pcm.=
-c
-> new file mode 100644
-> index 000000000000..568c11dc7e6b
-> --- /dev/null
-> +++ b/sound/soc/airoha/an7581-pcm.c
-> @@ -0,0 +1,904 @@
-[...]
-> +
-> +struct an7581_pcm_priv {
-> +	struct regmap *map;
-> +	struct reset_control *reset;
+On Wed, 14 Oct 2026 14:53:21 +0800, Le Qi wrote:
+> ASoC: codecs: da7213: Get MCLK in I2C probe
 
-This doesn't seem to be used anywhere other than _probe?
-Could be a local variable there.
+Applied to
 
-regards
-Philipp
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
+
+Thanks!
+
+[1/1] ASoC: codecs: da7213: Get MCLK in I2C probe
+      https://git.kernel.org/broonie/sound/c/2923259d08b0
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
