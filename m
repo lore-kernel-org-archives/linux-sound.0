@@ -1,46 +1,46 @@
-Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11010050.outbound.protection.outlook.com [52.101.193.50])
+Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011067.outbound.protection.outlook.com [52.101.52.67])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2F6C4D2ED6;
-	Wed, 14 Oct 2026 10:10:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.193.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DDF44EC656;
+	Wed, 14 Oct 2026 10:10:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.67
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791972629; cv=fail; b=qrG4OSB3hwcTHiyp6e+EX+FfUQDRcwXPoawVayRqnnVQW5Fl817TFVi4+xR+zMIZ0cypUW5EvYYjLNGlCTikaIv40UNpR1BMrT9wvwTPyksM31wc0iTUbd2JCe96ioE+Pi7J7GoDfi767Sw+edW9oOSXLcDAgfUb99ntQocWDEM=
+	t=1791972637; cv=fail; b=Im+1dw9AuaUzl9cKyZA9myQhzEyPplSwwrserE3j+5a8GnmcJVr+dOflEmXWtiliVe9nPdfkMZpFKIlsroimyumZp2TSKoWgWFrMhVaT8USfsTTOynU3Ke14VoFV24QWuRRYwmhunDnmlLW3cjeN9Zvoc6IkVBdf5euNPaNsEFs=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791972629; c=relaxed/simple;
-	bh=9Cd2Q0CMNXUR138WrDIAmjU0V5tLPPxpVh6y4l7TBVE=;
+	s=arc-20240116; t=1791972637; c=relaxed/simple;
+	bh=UGPSODMEqvMHjVe8T9rHEXyn8efUIfQVQtVbB9lQ7A0=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hCfx3Yt3Z/gb3eJ3YFCAnZic04pIvo+6NHAGcqNB8KpWXiTpd901u+I6V6k2pL3OK/dqa1Ucw6Gs2kP7hiley2lcdBtz8ON8wAYUW/qfRlbFCAPT1KcO0JZ1KpDwhrNuv8VkbVuuvIMd04h4nOUdLPptCEaXff9+NBbduFxoe14=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=NLUWwjOS; arc=fail smtp.client-ip=52.101.193.50
+	 MIME-Version:Content-Type; b=OU5LVGXuwMnOM5Tx5MJFSCDyKwvC9JET7e34CpF1wHLXH8mqb0/ObplU2TzUGzRJAVVzjwqxoHv+pBVcUe4eD16jfAqJlr0uQ/sMnFs9oLjq/0u+ygBPxo0gmb1Ro7ve11SSL2F1ACgHGtWyy4ft9vexF5TnUYY5o6L8HeEMfJU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=ySg2df78; arc=fail smtp.client-ip=52.101.52.67
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="NLUWwjOS"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="ySg2df78"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=s4jcPD4o+3lwXLDr2WBqgmXXwsXl4ckkesd2cMgiYaFaxYFPpQpbd+pW8SBIUvVXJdc/JjwRXxbb1DQHPmXiR9XRxM/S5u/HwZrCLTg1FnW53/enA222DdkUQnsfx20FScP+QX3PlXCFpKsMRRdBVho2QW01W51v6dWOOmqETGRFzYJ2hEATYlBcjFzD6yVbG6a2hC3uUWPG6uBs3qOD/3r76BXc8pF8Pnrs3G0DwE/WjizKx8Nvmzl1MMay3sNYDzNzCgxfMA3SanmRAzOedLbLt9zOXUC+gP/VodZ12Zr7TT4FXWsUXykvm5smbHt4AVkUC47txq82eo5ixFo4Xg==
+ b=oyO/7cfbXhwaYlbiNyd6rllS9lNxFtP8Tf3eUbt28PZS4k0TGRvwVyQBFGjUYVRNIGj8SHgxcB5js07ga96ZNbwtUoJWypDW7agHqhmJvNzlUrsWa4Anq29TSIzB1jYdb+v/aVscr3c/75jcXJ6MHoNxFV16IDKtlfUfGEvTfwWAz0kOkXc0fUPkIVUbuhoBy6XcXF6AIPUrP1LlQ9KEVU5/WlA6Qld+jRNKGRK2S4IK/0AEjVipv+ccuopmTE6tEJHtlN3EMjVpiWKYzC6Swv2AawzGy+ccPMic5KKWwmPx/Qv6dUYOOJaQoKtCDhkoJXZNuUVTcBIgstwa54075g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dAjskAzmgrX6/g4k3OErCDUvUyOgHsTD1YlSJ41ueQE=;
- b=tVAAMfga4IQrYpI4yzHVoiILVNgSFBajfdZvNZ0+45Yd5tIreaICPPiV1DnNXgI/3pcXbWTS50kVJleYOT6E7yAiZ2txQXYPchtkExhhtTX1/SriVOE6A50bA5Tj8j7VZm7KrT7BFdL8mBbBHbolU+BeLeVJjOqdB4VO9o4oMI+aC23yxvYEHHcShreEheuMkTygZrJLqudbC5yU9liDIwQFqS3RvsyyW/1TCsDQtEt59iQZ+U4mni4EpTSeNnUnclJx6ZG5aH8nystOK+QEmO7pKDF8rWTv/lzqNuaqw9p1n97ymRQL5Ov02OHq9JMkgRBNLJmDqeK6Y3QQQf11lA==
+ bh=11FRGgznJc3+c3Z+wuqaU2nTfXf9Tkn3ciKswfRY0xQ=;
+ b=yQheVuveCimX3tqW3/7CIYbnoXTTfaZ51pX07FIfJTM5Bb6jGQKUEvFcNb3MpdCsTzklNTDyS0Br7fP4k9CC3qqUVr77sq67i130TyNGtj0cntLqht6C7F4JxRzqaNnl4u1oAhvzxLLmoI9u2T0MnCW0z1R10PrEeYMrhxQl8ZQ8MgzxgfoUImIjXXDaHLC4Bnnk/ST9iyYSpthbBZf2BKmJ3pu9dweo/D4ywhd81a1jCkWVgLTBGYZy/ixSGuobUjXg+/0YTYfoT9+Kg4ohSqwUJivbed2NDncRhcxEIcFe524Iczxohjcs6khGPCoK4jzSd4nrH8PqQ/c8KpH9KA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dAjskAzmgrX6/g4k3OErCDUvUyOgHsTD1YlSJ41ueQE=;
- b=NLUWwjOSiPXVpfeheaJV+xiEWGogSH7MGK+7LUf5ghdbbOm0XuEKXqHWDRR0airZpQGGr5YV6uClBArfvt+GrHNwj2HoqzeTBGcuVyGRSrXbTgOoVAk3VdQfxhlZ+UCTwrQXzlQlJbVNO4LH93SfS3ax5oo6FFVxkCHsjzO978g=
-Received: from CH0PR03CA0391.namprd03.prod.outlook.com (2603:10b6:610:11b::10)
- by MN0PR12MB5932.namprd12.prod.outlook.com (2603:10b6:208:37f::9) with
+ bh=11FRGgznJc3+c3Z+wuqaU2nTfXf9Tkn3ciKswfRY0xQ=;
+ b=ySg2df78V0eO1lNFkoZ4Mvjr8SrXh1usbjQFivbs9BMf3bkifmwQliJDI+dh7yBJFU++ddIZi6Gm2h6YoA6IvnqI+y/ASnncQ53vsJ63t+0BLMSxCqJUMCg70gNrc7YdHZus0mSPk3gy8GEUyWvbIXFkuTwGo49Iy/QMk3NkesM=
+Received: from CH2PR14CA0052.namprd14.prod.outlook.com (2603:10b6:610:56::32)
+ by PH7PR12MB6787.namprd12.prod.outlook.com (2603:10b6:510:1ad::15) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.13; Wed, 14 Oct
- 2026 10:10:20 +0000
-Received: from CH3PEPF0000000F.namprd04.prod.outlook.com
- (2603:10b6:610:11b:cafe::a4) by CH0PR03CA0391.outlook.office365.com
- (2603:10b6:610:11b::10) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.23; Wed, 14 Oct
+ 2026 10:10:27 +0000
+Received: from CH3PEPF0000000D.namprd04.prod.outlook.com
+ (2603:10b6:610:56:cafe::ac) by CH2PR14CA0052.outlook.office365.com
+ (2603:10b6:610:56::32) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.21.522.4 via Frontend Transport; Wed, 14
- Oct 2026 10:10:20 +0000
+ Oct 2026 10:10:27 +0000
 X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
  is 165.204.84.17) smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -48,16 +48,16 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
 Received: from satlexmb08.amd.com (165.204.84.17) by
- CH3PEPF0000000F.mail.protection.outlook.com (10.167.244.40) with Microsoft
+ CH3PEPF0000000D.mail.protection.outlook.com (10.167.244.43) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.522.6 via Frontend Transport; Wed, 14 Oct 2026 10:10:20 +0000
+ 15.21.522.6 via Frontend Transport; Wed, 14 Oct 2026 10:10:27 +0000
 Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb08.amd.com
  (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.53; Wed, 14 Oct
- 2026 05:10:09 -0500
+ 2026 05:10:18 -0500
 Received: from amd-System-Product-Name.amd.com (10.180.168.240) by
  satlexmb07.amd.com (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.53
- via Frontend Transport; Wed, 14 Oct 2026 05:10:05 -0500
+ via Frontend Transport; Wed, 14 Oct 2026 05:10:14 -0500
 From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
 To: <broonie@kernel.org>
 CC: <alsa-devel@alsa-project.org>, <lgirdwood@gmail.com>, <perex@perex.cz>,
@@ -68,9 +68,9 @@ CC: <alsa-devel@alsa-project.org>, <lgirdwood@gmail.com>, <perex@perex.cz>,
 	<Vijendar.Mukunda@amd.com>, <Poojitha.N@amd.com>,
 	<linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
 	<sound-open-firmware@alsa-project.org>
-Subject: [PATCH v2 03/10] ASoC: amd: add I2S machine table for ACP7.B
-Date: Wed, 14 Oct 2026 15:29:11 +0530
-Message-ID: <20261014100902.1215212-4-Vijendar.Mukunda@amd.com>
+Subject: [PATCH v2 05/10] ASoC: SOF: amd: Propagate PCI subsystem Vendor and Device IDs
+Date: Wed, 14 Oct 2026 15:29:13 +0530
+Message-ID: <20261014100902.1215212-6-Vijendar.Mukunda@amd.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20261014100902.1215212-1-Vijendar.Mukunda@amd.com>
 References: <20261014100902.1215212-1-Vijendar.Mukunda@amd.com>
@@ -84,75 +84,99 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PEPF0000000F:EE_|MN0PR12MB5932:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0a2f1474-bba6-457e-031b-08df29db5a66
+X-MS-TrafficTypeDiagnostic: CH3PEPF0000000D:EE_|PH7PR12MB6787:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7092b208-ebf6-42d0-486a-08df29db5ee8
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|82310400026|23010399003|36860700016|56012099006|11063799006|261009223027099003|10067099003|22082099003|18002099003|6133799003;
+	BCL:0;ARA:13230040|1800799024|23010399003|82310400026|376014|36860700016|56012099006|11063799006|261009223027099003|18002099003|10067099003|22082099003|3023799007;
 X-Microsoft-Antispam-Message-Info:
-	BIIAiCJgYit8xKm/cdQY6ilCATIdEpCmER6LJH9JGLzzyE0IWwHTBTUE22pHhQFlOYZSGIqKA+urClg0rbKYgC5nu7YjF6rxGIWotE2lQtU2xtyKFexIZSgFaNWsFw7v0gmT4EtpKzXPi9FWMUw8o9JAS1236H+cRK9AlfkCQAJDlUU7woIXcN9GRmVdI5KEj1N9Bss65Th/wfFstEIvgwyIL50VNU0BEmWynUeG3OqS/B4UmnR4QFBdbGvPN6XJh/FakfdZaYS4HGrxz4V+A61FiH4t2HSnS7CMUWV8QbrHT/2K01q4LT2qWnLbZ2qML+Yj5yC7heK6a/UUYN3Yrbxs63lkbqpMwjnJumcLmccmSMOQhwXqUMeJfW+6Wammu4Zbx+kCczTgNOJLpDe60qUHf2qQUZEMxxmsXUWh3tWzDbVaVd7HoTN6qu5qEiY5qa3CPUjp51LUdEWeK78qhl9k3nkcc7eB27rRzJyMGUr2AbHwPMBaThOq4t5/CxxNYyug+y8zWByZfkxAlq5XnhQgoXMzzdDUSP+3TznHkfcwjWC/eLIA4FF8/tvrWXuo+cPMwx+9ZhyS4fVF1IUqS+DGhxRnKmClhrQKT5U5JLOCczpcjAPPLrPXBgcxoVzNr4LANpYe5PRu39SN5VEVi4oHbluWsWkolfGcmxavD8UD43FWczT2l4me81TyJCphg1p/o6y7+z/h0RHCVsEMyA==
+	CN/UEuWTkNKQw16dXEv1U7DFKbD1/Me5eaupNu3l8oFYyz3EXXXHYNeRX8ZZILKC1I3Gzyr69yEndROwmXDQGDvIiWq8ILOaAF6Q6d8oHkgBa6cOFhV09/7kPClYLqZ36kof1l8o3hAw0G6seKzWqiPbwpqnws7LN2ulM/AIaqS4FEDTFoGwLeGqAk2rk4cRztPR3pPe4UwX4aYg+vcjssqT/pW4MohQd6CRtBg6qpwxrvdleaKpfEVzYnBFeEpR673GKmL+5OoJPnc1oZ+ti2f3kUl0cGQOvdg53XZH6ewY8Sehy/Ujml6GrnD9buqc6ox5M3t3W6Kb8+wT/Mh1dqAL8U5R3BclHByBzQt0ODf2GS6YbBjpxcfhcUoGsAvhMxjLmQua0QeolLVZwZr3LXDM5fnYY36V69BqjM2ar+AxcvtshxnjrcqW0l++w9gJgPFNtlyWa+FPsUXhO6wF06GeunSC3Kw5QmvVv8FnH670pU0CXFx68n/uCc0XAnAH7kpnBbmi+sdEjbgx0qTVihFeI+/UbmZ2PSV+G5av7TpgOD+9lfPh0T4UPPaXWIoGTTMzJbJNSWcAJPFrU6kIEkg+JhNAtUJF2JVCs7s0R+nEv7IIowipvAtdut6qIkRgWR1ndlkyxwTN/6HWXiv/2vGyS9+LUbv74KIfvsWCvpvgTMnxi2xcxR4PDMNuxRcDNs7zv5p5cM4+DBJjVbJTAw==
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb08.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(376014)(82310400026)(23010399003)(36860700016)(56012099006)(11063799006)(261009223027099003)(10067099003)(22082099003)(18002099003)(6133799003);DIR:OUT;SFP:1101;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb08.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(82310400026)(376014)(36860700016)(56012099006)(11063799006)(261009223027099003)(18002099003)(10067099003)(22082099003)(3023799007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	duf+GObjkXTYHu4nj6j6iRCglLVYfaYCtlcZ6jh2uhn6Pe4XW8HALKeFJbF0VuxWM1q/YH6uANxgLGK0lIOzinTCbVm8luBpJjsJwljDcQDTCZ5SZ5Sq2qRVOm48nW80fUyEs9hWegrfwWkQ+ldZPwkLT2y3XdZnohwn/Ncn5FxM/cVZEEjmHDrnSaAJE/UhvQFyeGLdUFCI8V9NKNERjkBfpLD7f1Cg2gPB1qnDjgM73QF64+8vBZm6wMix/HaokV7k7ozB6JyXuBDYU7xOdzhuxgDZdpFJnBEhKd+IaxAJwhdme1H6zLBgMvI6T0HFr+gtcu5ZxYsCWX1yjQPckrFmO9HpeOSGoDnLNE3osp4MbpkC8nx4IpdvmIoIY2MaepzLExDXDfaXuvhOfvM5rypucDIip2MJWxP/cCQ5WJfx6dgSxZrPsPKtiwBM5mO7
+	aVao9trvyyDoxJ+/YCr7BC+Xk/WQbPbjicEVboF5uiR5DwWqoK0CG155Ku57ulsGTb7t1SBVUR9CoxC93E+5PNfXMIzCJPe50HnYegx4q2M/1vkuddqFf1S1wHCcghaKF1yI/MgKrWxDA9fiaPQTqERLm7oON1zDhO7MC2MAxPWtxvvxTuP56KZWiGr1+/WV5CAGgkyMV4V2tmrfBludH3o0c9kTQjPhPATSpXElaMl06KmFD26yRKKa520XegBwa+TRmEGcg0odgri4wEfaJHzNJoCFGHie4fLXQePEgHf8zaxqf4SeVpmjMH+u1tT15kKEiBljf5Fhlzay0dAgW5SjcFH1Evv7YK3pg18rDBKut/9op2ZFJD3DqjA5e0hGC8L2t3+mGATRftLEU7x3KnzYtkX62tCdfbYjAL4BBIX9WeJhXCYy24rs/ALA+ntv
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2026 10:10:20.0831
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2026 10:10:27.6195
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0a2f1474-bba6-457e-031b-08df29db5a66
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7092b208-ebf6-42d0-486a-08df29db5ee8
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb08.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	CH3PEPF0000000F.namprd04.prod.outlook.com
+	CH3PEPF0000000D.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5932
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6787
 
-Add snd_soc_acpi_amd_acp7b_sof_machines with the ACP7.B-specific
-driver name, firmware image, and topology file. Declare it in
-mach-config.h alongside the existing acp7f entry.
+Extend the AMD SOF machine driver to propagate the PCI subsystem
+Vendor and Device IDs so that they may be subsequently used as an
+SSID. Store the subsystem IDs in acp_dev_data during probe (both
+amd_sof_acp_probe and amd_sof_acp7x_probe), and propagate them
+to mach_params in the SoundWire machine select path.
 
 Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
 ---
- sound/soc/amd/acp-config.c  | 12 ++++++++++++
- sound/soc/amd/mach-config.h |  1 +
- 2 files changed, 13 insertions(+)
+ sound/soc/sof/amd/acp-common.c | 6 ++++++
+ sound/soc/sof/amd/acp.c        | 4 ++++
+ sound/soc/sof/amd/acp.h        | 2 ++
+ 3 files changed, 12 insertions(+)
 
-diff --git a/sound/soc/amd/acp-config.c b/sound/soc/amd/acp-config.c
-index d40600e12d4f0..30e01bc47ee0c 100644
---- a/sound/soc/amd/acp-config.c
-+++ b/sound/soc/amd/acp-config.c
-@@ -440,5 +440,17 @@ struct snd_soc_acpi_mach snd_soc_acpi_amd_acp7f_sof_machines[] = {
- };
- EXPORT_SYMBOL(snd_soc_acpi_amd_acp7f_sof_machines);
- 
-+struct snd_soc_acpi_mach snd_soc_acpi_amd_acp7b_sof_machines[] = {
-+	{
-+		.id = "AMDI1010",
-+		.drv_name = "acp7b-dsp",
-+		.pdata = &acp_quirk_data,
-+		.fw_filename = "sof-acp7b.ri",
-+		.sof_tplg_filename = "sof-acp7b.tplg",
-+	},
-+	{},
-+};
-+EXPORT_SYMBOL(snd_soc_acpi_amd_acp7b_sof_machines);
+diff --git a/sound/soc/sof/amd/acp-common.c b/sound/soc/sof/amd/acp-common.c
+index 33540f7c421b1..60e5c851c8743 100644
+--- a/sound/soc/sof/amd/acp-common.c
++++ b/sound/soc/sof/amd/acp-common.c
+@@ -155,9 +155,15 @@ static struct snd_soc_acpi_mach *amd_sof_sdw_machine_select(struct snd_sof_dev *
+ 		}
+ 		if (mach && mach->link_mask) {
+ 			mach->mach_params.subsystem_rev = acp_data->pci_rev;
++			mach->mach_params.subsystem_vendor = acp_data->subsystem_vendor;
++			mach->mach_params.subsystem_device = acp_data->subsystem_device;
++			mach->mach_params.subsystem_id_set = true;
+ 			mach->mach_params.links = mach->links;
+ 			mach->mach_params.link_mask = mach->link_mask;
+ 			mach->mach_params.platform = dev_name(sdev->dev);
 +
- MODULE_DESCRIPTION("AMD ACP Machine Configuration Module");
- MODULE_LICENSE("Dual BSD/GPL");
-diff --git a/sound/soc/amd/mach-config.h b/sound/soc/amd/mach-config.h
-index 2dafd742dc01c..02ce044bcbf72 100644
---- a/sound/soc/amd/mach-config.h
-+++ b/sound/soc/amd/mach-config.h
-@@ -28,6 +28,7 @@ extern struct snd_soc_acpi_mach snd_soc_acpi_amd_acp63_sof_sdw_machines[];
- extern struct snd_soc_acpi_mach snd_soc_acpi_amd_acp70_sof_machines[];
- extern struct snd_soc_acpi_mach snd_soc_acpi_amd_acp70_sdw_machines[];
- extern struct snd_soc_acpi_mach snd_soc_acpi_amd_acp70_sof_sdw_machines[];
-+extern struct snd_soc_acpi_mach snd_soc_acpi_amd_acp7b_sof_machines[];
- extern struct snd_soc_acpi_mach snd_soc_acpi_amd_acp7f_sof_machines[];
++			dev_dbg(sdev->dev, "SSID %x%04x\n", mach->mach_params.subsystem_vendor,
++				mach->mach_params.subsystem_device);
+ 			return mach;
+ 		}
+ 	}
+diff --git a/sound/soc/sof/amd/acp.c b/sound/soc/sof/amd/acp.c
+index b059039c9e0d1..71c39eb36194e 100644
+--- a/sound/soc/sof/amd/acp.c
++++ b/sound/soc/sof/amd/acp.c
+@@ -1198,6 +1198,8 @@ int amd_sof_acp_probe(struct snd_sof_dev *sdev)
+ 	adata->addr = addr;
+ 	adata->reg_range = chip->reg_end_addr - chip->reg_start_addr;
+ 	adata->pci_rev = pci->revision;
++	adata->subsystem_vendor = pci->subsystem_vendor;
++	adata->subsystem_device = pci->subsystem_device;
+ 	mutex_init(&adata->acp_lock);
+ 	sdev->pdata->hw_pdata = adata;
  
- struct config_entry {
+@@ -1335,6 +1337,8 @@ int amd_sof_acp7x_probe(struct snd_sof_dev *sdev)
+ 	adata->addr = addr;
+ 	adata->reg_range = chip->reg_end_addr - chip->reg_start_addr;
+ 	adata->pci_rev = pci->revision;
++	adata->subsystem_vendor = pci->subsystem_vendor;
++	adata->subsystem_device = pci->subsystem_device;
+ 	mutex_init(&adata->acp_lock);
+ 	sdev->pdata->hw_pdata = adata;
+ 
+diff --git a/sound/soc/sof/amd/acp.h b/sound/soc/sof/amd/acp.h
+index 1bc6b572448d8..929251772526a 100644
+--- a/sound/soc/sof/amd/acp.h
++++ b/sound/soc/sof/amd/acp.h
+@@ -296,6 +296,8 @@ struct acp_dev_data {
+ 	unsigned int pdm_sel;
+ 	bool is_sdw_dev;
+ 	unsigned int pci_rev;
++	u32 subsystem_vendor;
++	u32 subsystem_device;
+ 	int acp_sof_signed_firmware_image;
+ };
+ 
 -- 
 2.48.1
 
