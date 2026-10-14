@@ -1,87 +1,83 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 152E9421226
-	for <linux-sound@vger.kernel.org>; Wed, 14 Oct 2026 10:28:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B4D24D6C37;
+	Wed, 14 Oct 2026 10:44:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791973728; cv=none; b=DnbUPzV274A3xvP2JerhpTaOTlwaEXY6nGJC5OFudvwARdbZA/I/OGldKmIkW+vbAVF+tP7xmxGsLP2NLwBrtifYJJLitoEieyfJHH36DhKlb07gEyQPnJEzWn0codzWyWLxZLKKHObjkdRV5LvRFRgrpZscQ+IwbkvadiDatpw=
+	t=1791974649; cv=none; b=CGupxDJFaetRHpe1UFCMqCiO2UPzQb9vRb0aGnoRcHAJt5cmXAFDGh9sTLrKH3Ku1Zb8tCtOm3iBRdr2LLqgOfcQZsTB7jZlOG53UjkvzMw1HgByGNnOw18gXS67kP7h2qCoG5Ey0AjJZ3IUFKBxgXfvPVsXbofv+yro4D5NkBM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791973728; c=relaxed/simple;
-	bh=LrBdPhDavb+tJeAeIWChP0aolTPb9ldz+gFRPc7byYs=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=HmFAc6BKbzSzVz7Ol9lS4dEbzIq28QC5EIiolQ3CJXtnMB2simbdC1Ynnc+GbDvCLmvgAEdFhNB9IDhtYgiRNhiEABJ50lQkGgwfa00ukTdmej8C2QBgwiPzcZDE57wURK5zCPtUxrfx+FEOALiz4e4AVNeJ+SulgZrX3M28we4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WRZk/luk; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791974649; c=relaxed/simple;
+	bh=DP0Ieqoi5wZMgEayjuz5m/NrIvwbIMZw8khQ4qYlU9w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YVzEb4ol5Ofp0DkhnwevqRG5oPyvDt73L/Y/qVIss8lgPax/qFuL4gk58nyDs+SnDa0r4SILj8ZkRLT8cQcSNhkYDAG+YujOhWEkbUejrTYz+mD5o6e5JI8Hta1+b8e3gwbfw+MjxgKo6fQdOo2CpIdKcWmakWwCi3IAZoRIiww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h3K2TjRr; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WRZk/luk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AAC71F000FF;
-	Wed, 14 Oct 2026 10:28:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h3K2TjRr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16F9E1F000FF;
+	Wed, 14 Oct 2026 10:44:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791973726;
-	bh=qP/ID3pgeyVDOwxaYgqJOHV/b0l4+bEq/hSZcT1Xgb8=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=WRZk/lukP7wKKiBfSs1WkU55mVC0ClWhsbF7RBJ4VmdiVjfH4rXIS3CbOjjom699c
-	 L6JpRIQku5WA+WzxssiKGhvNNIATzo28V3m/t2AotdIQVyt8/HKsTxPOI528n2OhNS
-	 vdij7L+uvcw4dpJyyWcKlIDbBr8DwCreeY2Wd1/o5Oz57atKG86bq0fNWlAwyj5iMQ
-	 YiEisRlWFhT32DgXjoyjgejPxQPsu8Dp9I4KAcn6X4mOSV3n+Z2v2Eo4AwlaZFHN23
-	 sZdV2XZdFm+uvd01tN7jOLUyr3dTXIQ/dQAZJEyC8weUAOEm6tG4Ke/W7loszZHejy
-	 l5rjFZSQgx89A==
+	s=k20260515; t=1791974647;
+	bh=DP0Ieqoi5wZMgEayjuz5m/NrIvwbIMZw8khQ4qYlU9w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=h3K2TjRrVF0FqpdSOx4xHm+dQceczMutbwFmtYFvBF70SmG6yFPUcjC5MOcz7vA1L
+	 M1Ww4YqXlBMGZTRaT5FDvzEpOkW852SACFCzL7agdYaoEX3ZoaMiuD/WPOUi/rdzyj
+	 R7BrR0ZXl01IfS3lmjq42X2g186iYTr4QUox+0hxaheAoaBxtQOFZJzm7hvnNX0Tnz
+	 PPO6/8RuQhPDWkmU8Wg4tpIQO7rwlNUQQSXboOxfdH1sf8O70KQiKpValjilP1ik5K
+	 3MKAgqe0dHsOGqvyO0BZR9qF4xglgZp3jE0tuxWTHHWYPZvS6x38rqMe7QtOw+ohVh
+	 CxylkTPgnRClg==
+Date: Wed, 14 Oct 2026 11:44:02 +0100
 From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com, 
- yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev
-In-Reply-To: <20261009052942.17346-1-peter.ujfalusi@linux.intel.com>
-References: <20261009052942.17346-1-peter.ujfalusi@linux.intel.com>
-Subject: Re: [PATCH v2] ASoC: SOF: Intel: Make sure that link and host DMA
- is coupled after use
-Message-Id: <179192409531.1606900.16471414907474466797.b4-ty@b4>
-Date: Tue, 13 Oct 2026 21:41:35 +0100
+To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+Cc: alsa-devel@alsa-project.org, lgirdwood@gmail.com, perex@perex.cz,
+	tiwai@suse.com, yung-chuan.liao@linux.intel.com,
+	Basavaraj.Hiregoudar@amd.com, Sunil-kumar.Dommati@amd.com,
+	venkataprasad.potturu@amd.com, Syed.SabaKareem@amd.com,
+	Mario.Limonciello@amd.com, Richard.Gong@amd.com, Poojitha.N@amd.com,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	sound-open-firmware@alsa-project.org
+Subject: Re: [PATCH v2 00/10] ASoC: SOF/amd: ACP7.B support and ASP carveout
+ firmware loading
+Message-ID: <a22f2a9b-3bb9-40d0-80d6-4ce36758c4f5@sirena.org.uk>
+References: <20261014100902.1215212-1-Vijendar.Mukunda@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1162; i=broonie@kernel.org;
- h=from:subject:message-id; bh=LrBdPhDavb+tJeAeIWChP0aolTPb9ldz+gFRPc7byYs=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLLOR0Z35EtPtSxceGaux8crm3O+HF38jMcr8owsZ9Xm3
- Wcf20206ShlYRDjYpAVU2SJy+J+WV/yeg3fwYVtMHNYmUCGMHBxCsBEyoQZGS5ceWL9Y9/fIzpv
- 1/kt/bBQwLZG+sfl32VdayNOmPMUXt7A8L+CPftSwvmY3SwiATIrPqme/Z9RK7FD557087R/Kq+
- 9n/ICAA==
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="676xn5QD/iBmhotU"
+Content-Disposition: inline
+In-Reply-To: <20261014100902.1215212-1-Vijendar.Mukunda@amd.com>
+X-Cookie: Live free or die.
 
-On Fri, 09 Oct 2026 08:29:42 +0300, Peter Ujfalusi wrote:
-> ASoC: SOF: Intel: Make sure that link and host DMA is coupled after use
 
-Applied to
+--676xn5QD/iBmhotU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
+On Wed, Oct 14, 2026 at 03:29:08PM +0530, Vijendar Mukunda wrote:
+> This series adds ACP7.B platform support to the AMD SOF driver stack
+> and implements the ASP-authenticated firmware load path required by
+> both ACP7.B and ACP7.F.
 
-Thanks!
+v1 is already in my CI queue, can you send an incremental change with
+the new stuff in here.
 
-[1/1] ASoC: SOF: Intel: Make sure that link and host DMA is coupled after use
-      https://git.kernel.org/broonie/sound/c/0688699b3612
+--676xn5QD/iBmhotU
+Content-Type: application/pgp-signature; name="signature.asc"
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+-----BEGIN PGP SIGNATURE-----
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmrPXPEACgkQJNaLcl1U
+h9CxcAf9Heotb7IHcpwkhw5QrY+/YqPi9LmhfEcyPbJJeNN/ZM1o0r7fRqf+XkEM
+7TUkqVq8uYUTxkOluWLgWm8/8b+MGItBm1I4PHQKuY+Sx9xW7+yT/JCRf5VfvYKK
+0pAX9SF/Px0V6s44trnCHN5dU4Vd6pj+72BYCX4SmzG9I4we88Fj7APbTfSkgXsE
+uzu+GPAMa0VdJiUpQxhPpKhfWoBLR7++PZ8OW5STZlsVmK1hvMrklIws/qBF/smL
+8BYx8nXVoWIwtprUM+FpbXqCYu/H4/Viuq/BjLKP1fd5D301YERLXxvsO0mN09W5
+ZBikFDcA0ouZzsYwvgNABhauBRkjaA==
+=DX07
+-----END PGP SIGNATURE-----
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+--676xn5QD/iBmhotU--
