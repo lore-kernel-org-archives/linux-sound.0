@@ -1,108 +1,180 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EEB638C2A7;
-	Wed, 14 Oct 2026 03:25:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C515535A387
+	for <linux-sound@vger.kernel.org>; Wed, 14 Oct 2026 03:30:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791948344; cv=none; b=GmiIysOfH+0vK1mnJXCZyyzO+TZNh5/kA8ho4jVhIBCCVwgtQgoziXLVqsGUvsqNZjw8ZrTRVHs+RaPXDePM/TuM2kzRVExzAyOREWdSv32H9fpaJMH2zraiAy5PRz7i9TQbBLFvx0sEHzCl0ZON7lUacaF6mWNRd1ZWRfZvUig=
+	t=1791948644; cv=none; b=JDveiGMnGRcw8+ZQ1r7jB9Zql7fha/tJXA0jQrWfOh5Qcvjehg0Gv6qEz6kvCKKupMVjw23+B7VqI+7WL31Dnlw1OmROSTjU+7tc/udVWaQ/iPnUYeHlkiWyI3YyuFgv351FYOkkBUImpQ7eRpOPiYYo76ZNNzJ0/Z4GYxerRyY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791948344; c=relaxed/simple;
-	bh=ATXxZ4TRrfAvRKgy1xwcBmgHACM+hNV7ElwSwkqXwtU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DgEJptwdg66Dzdd5qiHkz+361WhHEc+5Bm/jj2bwip/hf/GTub5ETDoeUrMYiXD5UdZlEpu7MxYEFeROjZljNgwo5GfqwObtk9fa1V/KbEaBZCDw2wX/15IS9u6MBUb0dwDbGS6DuZ11A55cF5BgLLbyemGX9yCAXmDwbYhJwxk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=QvJl5DX/; arc=none smtp.client-ip=220.197.31.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1791948644; c=relaxed/simple;
+	bh=OQUeIiNH3AkOCvu2Yrgwm/MEfZa1fYsH7e7htsI51cA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Vudfhr+G/tH/cdXfe0mH7aVx5Ndv1HuVZdWDfJxVk7K5B3iK0T7Q29i2YliTGilGFaUCBqfqbOS8WUHA1yb7ObZKpj9JN/l41V4D3aDkIKfCU3dyVBpwvKddZwl1gsWKpsstBgrsEUMVXfYr44/cZJjm1Gp2EIAwv25tB+0w1xU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U3p7ju4H; arc=none smtp.client-ip=209.85.215.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="QvJl5DX/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=u6
-	4zh6KIdkfTRkxUpHBFUPJswjilzMUb7D4STARJsh8=; b=QvJl5DX/+1lktNv6/8
-	7fjNs67sCQRlqpHuTXVfKO5ONd4QP0Adnc1COGtwY/3ICrWAPuUv6sHLNKBCJQha
-	tGkM0kMowZvSkHa6ifHjqOG4QHZiGzuDb+rojsYNPDR5zG8LYOApmYsRVQEO8Kv0
-	8x4U/TCwbMHhHyKHoZAbHivYw=
-Received: from localhost.localdomain (unknown [])
-	by gzga-smtp-mtada-g1-1 (Coremail) with SMTP id _____wD3v88G9s5quKBFEQ--.27196S2;
-	Wed, 14 Oct 2026 11:24:55 +0800 (CST)
-From: Pengpeng Hou <hppiscas@163.com>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>
-Cc: Pengpeng Hou <hppiscas@163.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Seven Lee <wtli@nuvoton.com>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U3p7ju4H"
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-cbedd5aece4so2727628a12.0
+        for <linux-sound@vger.kernel.org>; Tue, 13 Oct 2026 20:30:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791948642; x=1792553442; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=CoiEcMZfz2BFBf5znP5oWgBmQOMNmu3cqdO1IbIkOOY=;
+        b=U3p7ju4HXEPqlitb2F+EV6D7dX0aaXC9IDtQ3ptUxXVW411HlX6f/z1/pCcu2O2KIz
+         iSPw5gDzUvq+jxmt0zG021J0EhnMee9ZAeCujcBk9RAv+QQi544ShdJf+ZiTrr2Bf6Ti
+         jsarEbr3F9++v5aTvTRVGCHYaqiU0IAKMZa8eG68iqYvGyl/ixKLnauxUADcWqhCVoEn
+         d8NhIrV2uZnMKJ/pUfATs4DWdRb1OD9mMMOua4PKCp2lEEzZzgiUg/Jr9/sCcRRmAhqD
+         eJNqKP3bE5nH07csIBaU6syNnpJInQvBJJf7ZlK7+WQPSm2BF8pIzN63v50WT3Z9eKzl
+         Y7jw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791948642; x=1792553442;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=CoiEcMZfz2BFBf5znP5oWgBmQOMNmu3cqdO1IbIkOOY=;
+        b=PYVzNoEspJIHV1Jb4wPbgM7Rvm7cCwhoX8caXXKHsZTMx+TGnuDgNXyKNTPhiIqDRo
+         QaJ67rTASJBTMx1a//ELL+Po4CGzIaZHSdkUq2+404i3N5XiHYBnVi6rw9KbZXnFbin9
+         tCPB1I83ob/5oJP8U1yOwYQA1v1/x53Vbw8+xZWBxvLYNiA31v/48BaMSSDJmxv5tn1k
+         NUZVCC0W9MnCzpd5BgSGNvphSLaQcQsfVdocA+SEfR4U6g9xhorwzd7/fzOMRrlkivPl
+         2WPjwaK964pekA+ETeR/c9oId29l7AEMlg8p+AVyUaeGpIfYd9v7Kto0LfUhcSfQzm9D
+         lElg==
+X-Forwarded-Encrypted: i=1; AKwUvBwsc00d9MAL+HTjmn/JAGfh5gZBkMyxnP8Bf5a3Rtk6fAagw+mRdqzgEWecGMdAPSl34/+bpuWw1nANzQ==@vger.kernel.org
+X-Gm-Message-State: AFq9FYKBOypBZM6ONklqMgnPt5v3Gn6KhupoEwIfyFCMTCqtGA7aRWmi
+	hwJTKPHCCfu1oKZBISSFxGyFE7CLyYBbuNOqFoZTkNyKojdjAoyjw0ZY
+X-Gm-Gg: AYBFou0cmN4KHX12qQVFVbVQuCmSBubstSmQ1vJJRU2M058PdFps4tbG4tBBhE9wGpQ
+	9ZVnOPKx/Bv7MlwrpYhD7m2Qgnjz+A9AWtvskj5I216wVCp4LBBovTrsOnSrMDfjOVCPIL8MeWR
+	C+yspbP2Pdymj8qyYv38MRStgBYIeiG5k9e84v4Hr1o6Kb7LzzhpEYJsl6L/p7M1blcnGo/YIvZ
+	yk2QhUpUKkni8n7onUVmQ67GHazGR3lLIV9govK/IQ6Ldky6pX1IasdEnUxVA5qHG4ymQrSGsnz
+	JmZGF2bFNeChgrEw3wezZJm+/t3Uq8SIn7KySRHgc7/a0LaWTAe7oxv8g1DLPyCfRE6Qts3umjs
+	6ubCVNRedkagqF8Gk9cDixKmnVLJLpP3FK7YTMG+JOJBCC0VuNDgh2By8+Xsw0hCmJ93nnd+eqC
+	xpYy7e8VNAO8KwGRGkJduDE3gOsgzfgMV/zvGFEEryuhOqaqDYiB8I1jitTzHoExS4hknHHTwpE
+	760s9wthZrVf9fxOgKahqklnaDsxY+KL5mXuuYJQ1EM4nnf1OLZOvAzPeEUV1nNAbhjxQBzjZql
+	Tso3Sx5FraH54fvv17mg4Xv57bA=
+X-Received: by 2002:a17:90b:4e8b:b0:3ab:be66:ddd3 with SMTP id 98e67ed59e1d1-3abbe66dfa9mr5759893a91.32.1791948641919;
+        Tue, 13 Oct 2026 20:30:41 -0700 (PDT)
+Received: from localhost.localdomain ([183.96.175.225])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ac60064254sm2226483a91.4.2026.10.13.20.30.39
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Tue, 13 Oct 2026 20:30:41 -0700 (PDT)
+From: Joonho Lee <mynameisjune111@gmail.com>
+To: Takashi Iwai <tiwai@suse.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	John Hsu <supercraig0719@gmail.com>,
-	"Fang, Yang A" <yang.a.fang@intel.com>,
-	Yong Zhi <yong.zhi@intel.com>,
-	Oder Chiou <oder_chiou@realtek.com>,
-	Jack Yu <jack.yu@realtek.com>,
-	Bard Liao <bardliao@realtek.com>,
-	John Lin <john.lin@realtek.com>,
-	Derek Fang <derek.fang@realtek.com>,
-	Guennadi Liakhovetski <g.liakhovetski@gmx.de>,
-	patches@opensource.cirrus.com,
-	Stephen Warren <swarren@nvidia.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>
-Subject: [PATCH v2 0/9] ASoC: stop dependent resume work after restore failures
-Date: Wed, 14 Oct 2026 11:24:43 +0800
-Message-ID: <20261014032452.13456-1-hppiscas@163.com>
-X-Mailer: git-send-email 2.50.1
+	virtualization@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [RFC PATCH 0/1] ALSA: virtio: wait through signals for PCM teardown
+Date: Wed, 14 Oct 2026 12:30:37 +0900
+Message-ID: <rfc-generic-control-wait-0.112c40f0e9284eaa@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wD3v88G9s5quKBFEQ--.27196S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7ArWxtFWxXry5GF4UAw18Krg_yoW8KrWxpF
-	s7Wa9Ykrs7J3WIyFW8urWjyFykGa93K3y5A34DW3ykWr98G34DZrs2gFZrXrZrGry3Gw1j
-	vr4UCw12yr4Dur7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zEubytUUUUU=
-X-CM-SenderInfo: 5kssx2xfdvqiywtou0bp/xtbC7QcN1WrO9gfCrgAA3L
 
-This revision addresses Mark's cache-mode concern and Charles's WM8978
-bias rollback question. It also accounts for the next suspend after a
-failed resume: the ASoC wrapper reports the callback error but marks the
-component resumed, so leaving an IRQ disabled needs driver-local ownership
-tracking to avoid disabling it a second time in the next suspend.
+Base: d58a3ac9b1719fdf8ce9d286be606128aeebf1aa
+      ("ALSA: virtio: Keep control payloads alive through DMA completion")
+      Local tip of the five submitted v3 patches; not an upstream commit.
+Previous series: <cover.1791881787.git.mynameisjune111@gmail.com>
+Link: https://lore.kernel.org/all/cover.1791881787.git.mynameisjune111@gmail.com/
 
-All nine changes retain best-effort card resume. They do not add framework
-rollback or automatic retries. The RT5682 SoundWire branch and RT5677
-retained VAD path keep their existing behavior. RT5640 handles both IRQ
-producers of jack work and clears ownership when either IRQ is freed.
-RT5677 also propagates normal-mode transport write errors and remembers
-pending restoration across later changes to the requested VAD mode.
+This is a follow-up RFC, not a replacement or v4 of that five-patch series.
+The submitted v3 fixes ACK error propagation, failed START recovery, and
+message/buffer lifetime through completion and reset. It does not add the
+VZ capture profile or the ALSA core drain handling in these companion RFCs.
 
-These issues were found by our static-analysis tool and manually reviewed.
-The code and descriptions were prepared with gpt 5 assistance; the patches
-carry the corresponding Assisted-by trailers.
+A pending signal can end the STOP or RELEASE wait while the request is
+still owned by the device. A later teardown can then submit another RELEASE
+before the earlier request completes. Keeping its memory alive, as v3 does,
+does not by itself resolve that ordering problem.
 
-Changes since v1:
-- restore cache-only mode and preserve dirty state on replay errors
-- avoid repeated suspend-owned IRQ disables after failed resume
-- return WM8978 bias to OFF on failure, without claiming hardware rollback
-  is guaranteed when the bias callback itself ignores register errors
-- clear WM8978 PLL power as system suspend does
-- quiesce both RT5640 jack IRQs and reject fresh setup while unrestored
-- fix RT5677's normal-mode write error propagation and pending-restore state
-- preserve the per-driver power, SoundWire and DSP VAD distinctions
-- resend all members as one series rather than separate unthreaded posts
+This patch makes synchronous STOP and RELEASE waits non-interruptible,
+using the existing message timeout. Completion or reset cancellation can
+still wake the waiter. Other control requests remain interruptible.
 
-Previous series:
-https://lore.kernel.org/all/20260906034321.86080-1-hppiscas@163.com/
+This changes teardown responsiveness for virtio-snd generally, even with
+all VZ options disabled: a signal no longer ends these waits immediately.
+It does not introduce a new ioctl or wire command. Each wait uses the
+configured timeout; this is not a bound on the whole close/exit sequence.
+A timeout still leaves device completion uncertain; this patch alone
+does not establish safe retry ordering after every timeout.
 
-Base: 8ef28aef33f2d5da6959ad6b579ec3cfccc009f6 (sound/for-next)
+Dependencies
 
-1. ASoC: nau8821: restore safe state after resume errors
-2. ASoC: nau8824: restore safe state after resume errors
-3. ASoC: nau8825: restore safe state after resume errors
-4. ASoC: rt5663: restore safe state after resume errors
-5. ASoC: rt5682s: restore safe state after resume errors
-6. ASoC: rt5682: restore safe state after resume errors
-7. ASoC: wm8978: restore safe state after resume errors
-8. ASoC: rt5640: restore safe state after resume errors
-9. ASoC: rt5677: restore safe state after resume errors
+This patch applies directly to v3, independently of the two ALSA core drain
+patches. The companion VZ capture RFC requires this patch and both core
+patches. Keeping these reviews separate should allow a decision on teardown
+waiting without requiring agreement on the VZ compatibility profile.
+
+Validation and limits
+
+Earlier isolated v3-plus-wait-change STD and VZ builds passed. The current
+source-extracted comparison passes 108 candidate assertions; v3 has the
+expected 14 wait-selection failures, without sanitizer diagnostics. This
+models kernel primitives, not real scheduler interleavings or hardware DMA.
+
+The complete local candidate (v3 plus all four RFC patches) was freshly
+built on 2026-10-14 as an ARM64 KASAN Image and installed module set with
+W=1, release 7.3.0-rc6-snd-lifetime-kasan. No old kernel objects were reused.
+There were no build errors or warnings in the changed sound paths; 517
+-Woverride-init warnings remain in two unchanged ARM64 base files.
+This is a rebuild of the pinned candidate, not a rebase to a newer upstream
+or sound maintainer tree.
+
+With this kernel, delayed PREPARE/START/STOP/RELEASE responses passed under
+ordinary TCG: each targeted command executes once, then its response is
+held for 1500 ms against a 1000 ms driver timeout. The reader wakes with
+zero frames and final XRUN/-EPIPE; prepare returns -EIO before reprobe and
+capture succeeds afterwards. STOP/RELEASE may first return -EIO or -EPIPE,
+depending on which ALSA wait/XRUN condition is observed first.
+
+The direct STOP and RELEASE tests hold a request, send SIGKILL, then perform
+device unbind/rebind after the process exits. Exit took 1.04s and 1.02s of
+guest time. Reset cancels the held descriptor, and no late completion is
+observed beyond its original deadline; playback/capture/replay passes.
+These runs exercise reset after timeout, not every reset/wait race.
+
+The QEMU 11.1.2 fixture includes backend reset cleanup changes as well as
+fault injection. These are integrated candidate results, not standalone
+v3 or isolated-patch proof, and not stock-QEMU, VZ or hardware acceptance.
+Earlier runs failed follow-on capture with ring saturation and overruns;
+those logs remain retained. Final passes do not establish a permanent fix
+for load or clock/scheduling sensitivity.
+
+Reproducer
+
+A source-only bundle contains the pinned base/v3/RFC preparation recipe,
+kernel builder, QEMU patch stack, guest probes and all ten runtime commands.
+See qemu/README.txt and qemu/VALIDATION-RESULTS.txt in that bundle. The final
+runtime set passed under ordinary TCG; no KASAN/BUG/WARNING/oops/panic was
+matched. The 24 Python harness tests and relocated source comparison also
+passed. Existing v3 patches are included only as build prerequisites, not
+for resubmission. Reproducer source (pinned commit):
+https://github.com/whatisyourname0/virtio-snd-reproducer/tree/7a9876738bdc70ce669f02ec31fe8968eb0ee4fc/rfc/vz-capture-20261014
+The source bundle includes qemu/README.txt with the full build/run recipe,
+qemu/VALIDATION-RESULTS.txt and checksums. Downloaded public files were
+verified against the tested source package. Bundled RFC mail drafts are
+reproduction snapshots; these emails are the submission copies.
+
+Questions for review
+
+- Is a bounded, non-interruptible STOP/RELEASE wait the right teardown
+  contract, given the effect on process exit latency?
+- Would retaining explicit in-flight teardown state across an interrupted
+  wait be preferable to changing interruptibility?
+- Should timeout/retry serialization be required in this generic change,
+  rather than addressed separately by the companion state machine?
+
+Joonho Lee (1):
+  ALSA: virtio: wait through signals for PCM teardown
+
+ sound/virtio/virtio_ctl_msg.c | 15 ++++++++++++++-
+ sound/virtio/virtio_ctl_msg.h |  3 +++
+ 2 files changed, 17 insertions(+), 1 deletion(-)
 
