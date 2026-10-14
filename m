@@ -1,208 +1,211 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C29262DECC2;
-	Wed, 14 Oct 2026 08:06:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.11
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791965206; cv=fail; b=UepHKLxcVFGHGt7Ss4VDALed1GiJUcRR01RGI7+pF0CMXEzwbomKGE02mRwWeZ7tXZ9jTYYKxVNmP1Y6+bStGvwikdUFaTkzXP/JLLLsmlwZUjJglCRu9pRwyLW4PfC6R2Tqda6xHHxv/JfQmv5j6EaJl4Ue1m9ySjcb9MQ7oUo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791965206; c=relaxed/simple;
-	bh=6aenGj6TeB9uphh9BWMIQJPBzokvWgVm0kbCnZsotzE=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=oGRm8TgP4shYUzYaZyEpSDPTxOicS7Re1+VaeAVGIQLK/RGr+L7uB7QSVJXgZ55YOO5cJKqb64/ECoYelXi0n3oracKsMf+IBsv4Q9g9Q3p303sq8QHEKb3WjYxM44nQS2kR0msmwn42ZVTTEzOoeBGHrlaAdex4jjw9HLXGaiM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OmeqMk2R; arc=fail smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD26D4A2E19
+	for <linux-sound@vger.kernel.org>; Wed, 14 Oct 2026 08:15:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791965736; cv=none; b=GZL06l3YmRw5yiEVW7kCqyxvcw2y7n+PwyBVgLgleBFP7geML+DVBY+8uKHrxiLMOmepwgUcyY8RgmcYe8fONXNzMc/eyse2ZNDGbEaRcGh78EJwEYF9OV+TlT7AQ1kUs4uxA7PRuFQdgP9gH4UhazL+ReZpWYMFllIcd7IlCL0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791965736; c=relaxed/simple;
+	bh=Jy21Spwkgjb6XMpEYLFn8RZ8houUdP1vTbK7y45kJuE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=u6oFOmsSaeUnGgXl0KqY1gIQH9uwKiY29jhVBRp/VOuVW0r7PeEGURS6LtEvmAX+z1gAUIrpNyxizyOtZFr8GdD5v7KFo0sg5u4HlUmqnO8nbv7p5qrZEQ2zz6oPgQHAkcoC/+xHadLZHl7yFMVA2K9xWcWsp9Zy5HpuhD1RwJE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dG/PPLUB; arc=none smtp.client-ip=209.85.210.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OmeqMk2R"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791965205; x=1823501205;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=6aenGj6TeB9uphh9BWMIQJPBzokvWgVm0kbCnZsotzE=;
-  b=OmeqMk2RvL6wCymmuv1JmoJrAGqgUj/Og1dOOTHfp6h0Tkh0CZfh/7G9
-   MVSHXd8DUJt8BZGlOOoINj5vh5ULWa1uvLjlZHxkKx76NJrye4LMYOz9M
-   U2S5IxV5gKMBjJCdN2xS7EH9kevuwrzunkkAEAI988XYvpm67XTo7gmov
-   2thGLsti6Sfqqf/f5s27UHPlTfrHvTM1ldPdfZy2bto2XhLGzXD+8yM7c
-   0JvmRJnKbkL0gOwhUgYZvXcfg5/GCiVsA/XnhwISRowOwXiJbrp4INvZE
-   yTa4npCY/PypACxZJvPWnQHG6nasiWYg1IbF7gTPHlsK6tmbRfH/28mLy
-   g==;
-X-CSE-ConnectionGUID: gnaE5azuSmSJEWP1lkA+oA==
-X-CSE-MsgGUID: f1JQ93OkQi2aQNPycBs5Pg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11934"; a="588810"
-X-IronPort-AV: E=Sophos;i="6.27,157,1787036400"; 
-   d="scan'208";a="588810"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2026 01:06:44 -0700
-X-CSE-ConnectionGUID: +KX1MlL3Rei97wLLhDfQyQ==
-X-CSE-MsgGUID: viE01bpQQsiEvR2lJkhx0Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,157,1787036400"; 
-   d="scan'208";a="1469107"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
-  by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2026 01:06:44 -0700
-Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.49; Wed, 14 Oct 2026 01:06:43 -0700
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.49 via Frontend Transport; Wed, 14 Oct 2026 01:06:43 -0700
-Received: from PH7PR06CU001.outbound.protection.outlook.com (52.101.201.48) by
- edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.49; Wed, 14 Oct 2026 01:06:43 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=k4Rx51hqoMfT8CwuhxV3+DdZSWAr1WUkrl+4KvnPs3BzSk8NL/WZkBgk4UnqSuZh/bfVI4MfBuaUcWfWudhfhnYGZ3fmIpzYgn8KKsgZbnKmOZBBFiWm0njYJFuIBIZdhHg7IAuSeHH2MIwh+HALdEcMQJcqLcs3hK+KMnsKARUOCLUSzweu06j6CrXNphUUYpdNzy9dY32SqEpSl1ggixJs3mqKNE3MhmiIRRVNNhk3hTINNVVN4nt7Z424aMn29sVLtW/h2P6lArhYbXL5CZYyQqnAeZTqUjOyc04UFILXZnbsfUXiYVf0H2Kflt1YN5piA1OmzaKhTp+BwogZdQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tVoPaSGnVmasDWjE8aF3VjIRPl2WdjbMmJrUMOVPZ3c=;
- b=MlDsIKNdrsF/txTxn+EcNulZLO1XJ9nvY+mYtJ5+x/QnkCXddiND0UdWDi8utxz9cT5AF6ZfmviV8taK/wjaOUJsh/DthCFEZe5nyVM6UVOV7UOZz4WiwWQCWS2Dd+MBhL+pdS4aD+thKcZGcVIagCaedIhhtpl1RH8+WOvtEobz4ROaQywxe9SKKHKYYqUQtde9At+tzrtJ+hEVtA34yMAyYCazn8KcpbxXx8FDCBDUQCAmL7YvXzBURKs3/AtxigilYhd7XOo1gHEiPazr5s5Fs4wusZplTGAKXv9q9JB5W2VS5YmSdA13CA1v21Rg3E1mo0jM7RxVunXTpHuRZg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB6006.namprd11.prod.outlook.com (2603:10b6:510:1e1::13)
- by MW4PR11MB6811.namprd11.prod.outlook.com (2603:10b6:303:208::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.12; Wed, 14 Oct
- 2026 08:06:39 +0000
-Received: from PH7PR11MB6006.namprd11.prod.outlook.com
- ([fe80::4e2d:28f0:ede9:73bd]) by PH7PR11MB6006.namprd11.prod.outlook.com
- ([fe80::4e2d:28f0:ede9:73bd%6]) with mapi id 15.21.0496.021; Wed, 14 Oct 2026
- 08:06:39 +0000
-Message-ID: <eb66c781-0c7f-4e37-bde7-658355f87428@intel.com>
-Date: Wed, 14 Oct 2026 10:06:34 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/7] ASoC: core: Create new components in sane state
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-CC: Mark Brown <broonie@kernel.org>, <linux-sound@vger.kernel.org>,
-	<tiwai@suse.com>, <perex@perex.cz>, <amade@asmblr.net>,
-	<linux-kernel@vger.kernel.org>
-References: <20261007133353.455185-1-cezary.rojewski@intel.com>
- <87pkxexyr6.wl-kuninori.morimoto.gx@renesas.com>
- <ed059f1e-2390-4e1d-bd1a-cff08a3441ad@sirena.org.uk>
- <40696247-e763-40d8-9d4e-338047cdd4fe@intel.com>
- <875wz5yo67.wl-kuninori.morimoto.gx@renesas.com>
-Content-Language: en-US
-From: Cezary Rojewski <cezary.rojewski@intel.com>
-In-Reply-To: <875wz5yo67.wl-kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: VIUP296CA0010.AUTP296.PROD.OUTLOOK.COM
- (2603:10a6:800:34f::11) To PH7PR11MB6006.namprd11.prod.outlook.com
- (2603:10b6:510:1e1::13)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dG/PPLUB"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-8875d220446so1926493b3a.3
+        for <linux-sound@vger.kernel.org>; Wed, 14 Oct 2026 01:15:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791965732; x=1792570532; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=PboKOrqQwewyKEheT1zYUFWFbeqlewnmjUU+OIA0cnM=;
+        b=dG/PPLUBZMAdY9hlsQMLpwjPxgH7tLKIk287WNii7ojfXRabBJDwYHuH9z9zTfwuWn
+         eJlAJQ42pokvkf5z60iZmSuRoFxcAY6rRDW4Fi5djrnfZoafmLx3ZgFvRA7RvKgiTL+7
+         kCRUQyHcy6FRTRgAYNHe4pJ4+aeQicb8aXdlkmwH82y5PmlE+dU/AQbRLNES3ntRfLXU
+         1TsVCv1C74ySSkEMe1ek+U4X3Sy0QAkMgRR/Ny6k0HT2qzwrXT/FPzJTmo4bYvglE+5N
+         cEcrZlWGaLfpY+rZLMlLJc/oQQKcnT49f+3IfVpUoh8TY+mnHC6TJ9FrSW69mYqGmTCo
+         ZhDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791965732; x=1792570532;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=PboKOrqQwewyKEheT1zYUFWFbeqlewnmjUU+OIA0cnM=;
+        b=0Y1JIj1CaJxIOjze4bBIk/MrsfT0I0mZSeP75x1Tff74znj0gR8QvrstZx2sO8g7Cl
+         7SgUAq6lx5eqq+xh7vodUQ9Ke1lKGYd3PEq+HpUek0/ENDDvoU7Oqa/Cs67NaIKDwYPP
+         zsXzxqCzqwg5lVjSFI8Bez8eC84cuaQpEPx0DV1tGL/QJZzCogylxbnVHA0iiv77c4zZ
+         OF+6dknQVODOFfcVj0M6GzTs7a4ccz+6o8m2JriaE7nTQS84tc39cltr3doCDPgTCqeA
+         QtyGJMd5URCWAGBdDCJ9SO07o1MVXYLP/10dDlFRsxSKZTKaFUSlF95elg/yAbbtVym7
+         jmwQ==
+X-Forwarded-Encrypted: i=1; AKwUvByCLEM0o+nMg08+aeA79zaC+AfU6MPnP14uYGXDF7L/rJy5FnVyGP89HjPhjX807z7kY2GSpI8RFJeWXw==@vger.kernel.org
+X-Gm-Message-State: AFq9FYLgjWqLVvxqXWnzWNoPR8n/iJ3h6t9mzYwcaSOGm8J7ONaYFEp2
+	QF8e7sRwb9IOSnwO+ElWa/OA/rIDogLcbChGacAWYsXZ98WBLDwvwQL/8RbrFA==
+X-Gm-Gg: AYBFou2p4ll9mhWLNITYRzAQPBQT0jnOipum/afW2Ox/kbjfastBF+A9B7IJR3E5Ns8
+	SE3TohzG/wHW1xt4y12XQJu4BV6hjviP2spB1b4wfHHbPR/6OyF7d+b1lGQPBAicOhv5PkC1jjS
+	7ZvryItVTVKGNSVnE+MLgnqVGcjkHaKx1IZige905BpmoQKI+eZcNqMVSVgal/QNvoFAVusVHVr
+	+m37N9iJL8Bc3CXXnnAWidaSuiDy4GH2yBTFae0dHGc2PWbV4dnUjmLLQA89W40Oy61OBgt5SpL
+	jO+ByeEAw059oAT4bnBNMjekuQgbrfX2+EiqKChZi6XxJShy1TIydIEL6uK8bB9ENyuYM3zOAGn
+	Y8NvBOydQ+EJ5yjSm4xkKg8qpX6FIFUNYcAFPgRT0l64KAbWXOjGQSa3MYP+WzOVHTBTwra31Qo
+	MY23PpnuVzKxpvh0krhQeFF8iIKxqBKK06vKKv8rkK4g0Gm03esPBpTLfnCrmVMn3ndLaHtNLLy
+	UUdy/3iwiUMEiYOBabLGfDhNXQaPmschXdKNXJS1fhuaSROTesaf5v5FqX+jiJMp4a0MszxBxgr
+	8w0RdWAeKeFDO5g=
+X-Received: by 2002:a05:6a00:23c8:b0:874:705d:f64d with SMTP id d2e1a72fcca58-897c6443144mr11859234b3a.27.1791965731814;
+        Wed, 14 Oct 2026 01:15:31 -0700 (PDT)
+Received: from localhost.localdomain ([121.137.86.182])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-89d803cf66fsm796426b3a.32.2026.10.14.01.15.28
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 14 Oct 2026 01:15:30 -0700 (PDT)
+From: Joonho Lee <mynameisjune111@gmail.com>
+To: Takashi Iwai <tiwai@suse.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	linux-sound@vger.kernel.org,
+	virtualization@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [RFC PATCH v2 0/1] ALSA: virtio: wait through signals for PCM teardown
+Date: Wed, 14 Oct 2026 17:15:25 +0900
+Message-ID: <rfc-v2-generic-control-wait-0.2eddd58a796e497f@gmail.com>
+In-Reply-To: <rfc-generic-control-wait-0.112c40f0e9284eaa@gmail.com>
+References: <rfc-generic-control-wait-0.112c40f0e9284eaa@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6006:EE_|MW4PR11MB6811:EE_
-X-MS-Office365-Filtering-Correlation-Id: 968130ca-021c-4daf-db1f-08df29ca1348
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|376014|1800799024|366016|56012099006|11063799006|261009223027099003|4143699003|22082099003|10067099003|18002099003|6133799003;
-X-Microsoft-Antispam-Message-Info: VOQvl5l/9WfUNPG6q6+bV8Llov1dH9Mi6YklF1dDD5x4FzNt5PGUuHliiH5TG0ckU7XxElXdPObNq7wTAXan5/a+3Qc769T2U9jMKL97k8l8KlCp2e90mFu/khB+cJ/pLNh/N8QL0pdvFyBEmy2jED3DMgBoYwNJhH6KdQPlyVpwIRNVqt1xHT/hCJraHrIGENG+6NSyjEv39D5yXxZqTzgA8O7pYHyucdvojiCVpn4Jb9qqnEmGkrEci+StzEqTYZDncUh8nGYPPKsIsyagfLEDR/iDH75Oovxk3uXUAtdUCoD6khNWZbQHgF8U8ks+q07nEL6P7RT1hetUwq2r094aoMdRzGTTKup7pJYYon2Ys4CI0xiQPTO/Ytsm4o/g7Z3JDEXdQEYi9sbFH8FAH2f/rhhHvnNsxi+aqUSH+BKMQP7rvI75jSfhNfp4EacWl+mN5OVcae5R2Xvf7dNaOeD4LTOL2cIgMS36V8FD+l/C57DzRF11P6sVh3/nQILYnkn+oEiNZItdfrYWMzxku3vxcbg6EmuTS6CegZAanaguOTNnvQUlq20bySOQh1tSUkVZuotiSRAP+BhscbZHDQiFNZAulYyENKY7yt239p2bhyrRRAyKbiz7RgsWQ+aDTS2bQGaDtAfunal/34+TBWES1pb7ZtpOFvl+PR6GxGk=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB6006.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(366016)(56012099006)(11063799006)(261009223027099003)(4143699003)(22082099003)(10067099003)(18002099003)(6133799003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cG9JaDgxUjlNSGszd1BYd1B2QS9UNUh3ak82dTZLT0N0dXhUdHgvSzBxK1pS?=
- =?utf-8?B?bm1TTm9veHc5WkpJSW95djI0MXNEQ1hHODZLMlI5YlZ3YVpiNHRMNWRnekYx?=
- =?utf-8?B?dnlzK0pFOC9TQ1RQME1oTjh5dzRuVUx6OUtvS1VvbXg5Y0RtNTNyajBEMHV4?=
- =?utf-8?B?am5IVWVwV2xDSTErWUlPY2hOQVZUd0t6bEVDVy9BaElkSlBLTjBycmZzVEox?=
- =?utf-8?B?VFUzeXgrQ2dIaW5wVWhiODZXZDdqYlAzdjhsTTFvS2Eyajc4RWNoZXE3emhm?=
- =?utf-8?B?emF0eFFET3pVbGpzcGVQcnRvYnlPNWJwb0dONXA0azdNazd4K256Wm5SUDRm?=
- =?utf-8?B?VVRGeCszOHgxZy9keGZuUCtVNHVNZU1YUjRlV0NvbXY3N2xPaTJ3Q2Q1emhm?=
- =?utf-8?B?UEt1WVYyQmYxMmE5cU40aGt1WENvL1RIdlVHakY2cEJBUXVqckJVTXIyRXBo?=
- =?utf-8?B?bHFGN1RGNEgzVjVjbmZJditnR3gxWHZnOXVNQ2hrcFp3dmpHTDJabWFncVBH?=
- =?utf-8?B?NGRvaEZ2MWJXbG54RTBFWmIrVWcrdTJkK3dldklnc2xmT2sxc1NqRU5RNjBo?=
- =?utf-8?B?U2E5VExZWkthSmtIWmNhZlU3VDNhZWN0aTAyQVVwRzNYYzRZUFdxZ3JzVzRM?=
- =?utf-8?B?ejZCNXI2Y0pRRkQ4bnRWckFnSi9ZMHlvODdiTndGLzBVM1BpOWhOQ1lTSW05?=
- =?utf-8?B?Qko4ODJrQnZEellJQjY5RmpqWGpZRlBSRE1ZT2JVM0dCaVU1Q1MvTCtuMk9Q?=
- =?utf-8?B?SjI2ODN6cTlTM0lpd24yclpxOWk0R0ovMUZIQ2xNMHZabVo2UHJsbm1MSy9s?=
- =?utf-8?B?U2tVRERIR3B1UDhvOUpvSlFudEpMSUd6STNxZWxEaHdlT3JEK01BQi9OS1pQ?=
- =?utf-8?B?cXVrdkhXZXJYcnk1Z3ZmbnYxVTN1OEExR0laQW05OXEzYmF2cGRDZk44dkds?=
- =?utf-8?B?S2tUdXJaK2I0aHQ1LzIxNHVLL0JZQWU3cVRVcEszNjNLQkovQjdyWkYwUVFk?=
- =?utf-8?B?b2NYTS9zckVYbzRTS2V2SXM4TTZIVG52RXFGRzFxOFJsbUp0RWVwRytOc0Zx?=
- =?utf-8?B?d3g4TTNWTGp2NE9MZnd5MllLQjVzcG1GcDNsSEs5aDl1SjdQREt2TkE5aXg1?=
- =?utf-8?B?U1pIN0pwUEdCdE1JWXpsNFNMQ1haY21pS0h0NXpXay9VMHM3bmQrbHA5emVr?=
- =?utf-8?B?Z0hRTmFZb3RQcWJ0OUd0NkJybmVSMzJ0TmNxMndJMElhd21qSU5YYTZFaEo2?=
- =?utf-8?B?OGFTWmFKVVdKNWJUbkIvS3RWK0VPRDE5NE5LRURlWHdDUnU5MU1qY240dFdp?=
- =?utf-8?B?RnNVQzV3K0tHMDNYRllRV2E4UzlMQ0hjRmVGQ0JrbFcxLzRrK0VpZEhyaitC?=
- =?utf-8?B?NEphdnhoanBYT3BhL0RDcVpYNlpPZTVsNm1kcHdGWTFhdHB4UlNpS3JOZ1lj?=
- =?utf-8?B?Z3VOUEJPdXZRUGRObmluSVIxemNsQjFBMk1FTTNNeERleWQ4cFZXUU5FS1ha?=
- =?utf-8?B?a1kxS2swbUNNQ0Nlcm9peVRrR09ldjFic3dMSTlNVkp0Z0ZXb2VnYmVJTWJu?=
- =?utf-8?B?TUxTM1V2eXllRjVkcnRDaWU4SHJaVTBBTHdJNkhNM2VwZUs2bWM3cXhjcHJH?=
- =?utf-8?B?dEdQRFBjVi9NSGVBZ3k3TkxFemJmMXhsTXdxeTBQTnRDS1d5Qnh3N21nQWc3?=
- =?utf-8?B?NkJLbzQ4ZGJIakhnNG8vRUMxbTRhQnZPaDk4dTltWFNmSEIzdEhXTjIxL0Z4?=
- =?utf-8?B?L2dwOGJEQTdKY0FHUGgrL1U1Q1U0Vk9EdzVFWDJ2YVMwTFl6dlh5ekg2TzlW?=
- =?utf-8?B?TW5VUldUTDFSZXo1K2JhRG92N3hNbU5Bc3kwUDlnN0QwbTFGbXZwZmwwT05G?=
- =?utf-8?B?QjY0WThjd2NsVFdGRHB5Tm83UmFvaHlBV0llTng3eVlLMzhoRXV6Y3c3NWIy?=
- =?utf-8?B?ckI3bHQwbjNmSmRGUE9mMVVPdHZoRHo5dnI5emdqQjZMLzlNRWEydExjb1Vl?=
- =?utf-8?B?V2FmU08wNFhoT1ZjUjFUdFMxVU50Vmc5UmVmMDFhcUhYOW05R1haNHpTSVlu?=
- =?utf-8?B?MmNLM3Q0M0hlMkVaRUo3ak1tNThpaVBmekFiVUNQcFhJaVdBV3M5bnpMa0xY?=
- =?utf-8?B?ZVlKT01VazBEKzRiRHZhK2JaZUNOODNvSi9lOG9GV1Mvc1pCU0Y1aVVqRnVl?=
- =?utf-8?B?d1FyOEJ3akNsS3RxQlhTMmZpVDUzK0lQb0ZRMW51WE01Rk1hNWtuVk9sckFu?=
- =?utf-8?B?QjV0UmowVzZkTksrdkVKQ1doUnZoRjEvVzZQUExiRVIvUTBxQjVXbkR1ZnVW?=
- =?utf-8?B?bUN3NjlWZWZUVU50WEJmeVEyWUdXdytubVJ5RVhsZjdlVWpqQ1NXQ1I2VDZi?=
- =?utf-8?Q?1bs0RLgcwVEHUHTw=3D?=
-X-Exchange-RoutingPolicyChecked: 370NxAqnR9wIfhpwwo6f4HeIZPWoDB7+M5ZTlwUkw0xwNtu3D2rpHhNPZhgMH165zsr4ahYyOWN82Y/bWUzlk+/0hG2kLJy7xIwAO6UqZSSF6V7pNBNlr3XXxw/hW5RALAiGk64hPVG0FdvOecbOWca/6oDl/42C3koBoFrq13CaF140Q510YodbS9OZ+LFsO8w4zF4Udi86ri2Em11WJ2QrIxzkuoN5fSzuiA2weS8RKNPj1J9I3QPbqiTAFCr3QzjgS+xGS3hFlg3+RH2ngX32ID/10NYgg+1EN0mHZYL2aSsRv/fCvM+9Rcrhj733meNAsgzXAyQkTJ3HP/3Lmw==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 968130ca-021c-4daf-db1f-08df29ca1348
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6006.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2026 08:06:39.5940
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GEMRMnlua0nxY9W+K3IrwbFGlg7vI38Le5xJLNfGo4U9MfDzf8jw7C9rpMD/qWZ5B1gFq9kHmJDDic9mqpEIwTkuSq+5ekSvbKsxWxwZ2XI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB6811
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 10/14/2026 5:08 AM, Kuninori Morimoto wrote:
+Changes since RFC v1
 
->> At the same time, I'm here to help with any conflicts should any arise.
-> 
-> It seems there was no big issue/conflicts, Thank you for your help.
-> But 1 concern from my side is that the function naming
-> 
-> We would like to keep snd_soc_component_xxx() naming.
-> New ASoC has similar functions, it is very confusable.
-> 
-> 	snd_soc_component_register()
-> 	snd_soc_register_component()
-> 
-> Both are for register function, and the diff is used parameter.
-> So we would like to merge them by using _Generic()
-> This part had conflict with my (not yet posted) patches.
-> 
-> I will post merge patch (by _Generic()) later.
-I disagree about the naming part.  IMHO there should be a clear division
-between object-level and general-level functions.
+The implementation patch is unchanged. This revision adds machine-readable
+base/prerequisite information and updates the integrated regression results
+to use the revised core capture-drain patch. The generic wait and VZ
+behavior changes proposed in v1 remain open design questions.
 
-In essence if something is found within object-level scope, it should be
-prefixed with the object' class name and have the object-ptr as a first
-argument e.g.:
+The public base and ordered prerequisite patch IDs appear below. The local
+v3 tip d58a3ac9b1719fdf8ce9d286be606128aeebf1aa is reconstructed by applying
+the five v3 patches to that public base; it is not an upstream commit.
 
-1) snd_soc_component_register(struct snd_soc_component *component)
+This is v2 of this follow-up RFC, not v4 of the five-patch virtio-snd
+lifetime series. The v3 prerequisite thread is:
+https://lore.kernel.org/all/cover.1791881787.git.mynameisjune111@gmail.com/
+The submitted v3 fixes ACK error propagation, failed START recovery, and
+message/buffer lifetime through completion and reset. It does not add the
+VZ capture profile or the ALSA core drain handling in these companion RFCs.
 
-whereas for general-level functions where the framework does everything
-for the caller the arguments differ and so should the name:
+A pending signal can end the STOP or RELEASE wait while the request is
+still owned by the device. A later teardown can then submit another RELEASE
+before the earlier request completes. Keeping its memory alive, as v3 does,
+does not by itself resolve that ordering problem.
 
-2) snd_soc_register_component(<component does not start the list>)
+This patch makes synchronous STOP and RELEASE waits non-interruptible,
+using the existing message timeout. Completion or reset cancellation can
+still wake the waiter. Other control requests remain interruptible.
 
-If 2) is named in the same fashion as 1) then a user, especially ASoC
-newcomer assumes component-ptr always starts the list and gets surprised
-later.  Again, in my opinion we should not mangle all the names together
-like if their arguments do not matter.  Happy to hear more people voice
-their opinion about the subject.
+This changes teardown responsiveness for virtio-snd generally, even with
+all VZ options disabled: a signal no longer ends these waits immediately.
+It does not introduce a new ioctl or wire command. Each wait uses the
+configured timeout; this is not a bound on the whole close/exit sequence.
+A timeout still leaves device completion uncertain; this patch alone
+does not establish safe retry ordering after every timeout.
 
+Dependencies
 
-Kind regards,
-Czarek
+This patch applies directly to v3, independently of the two ALSA core drain
+patches. The companion VZ capture RFC requires this patch and both core
+patches. Keeping these reviews separate should allow a decision on teardown
+waiting without requiring agreement on the VZ compatibility profile.
+
+Validation and limits
+
+Earlier isolated v3-plus-wait-change STD and VZ builds passed. The earlier
+source-extracted comparison passed 108 candidate assertions; v3 has the
+expected 14 wait-selection failures, without sanitizer diagnostics. This
+models kernel primitives, not real scheduler interleavings or hardware DMA.
+
+The complete local candidate (v3 plus all four RFC patches, including the
+revised core locking) was freshly built on 2026-10-14 as an ARM64 Image and
+full module set with W=1, KASAN, PROVE_LOCKING, LOCKDEP and
+DEBUG_ATOMIC_SLEEP, release 7.3.0-rc6-snd-rfc-cleanup-lockdep.
+There were no build errors or warnings in the changed sound paths; 517
+-Woverride-init warnings remain in two unchanged ARM64 base files.
+This is a rebuild of the pinned candidate, not a rebase to a newer upstream
+or sound maintainer tree.
+
+With this kernel, delayed PREPARE/START/STOP/RELEASE responses passed under
+ordinary TCG: each targeted command executes once, then its response is
+held for 1500 ms against a 1000 ms driver timeout. The reader wakes with
+zero frames and final XRUN/-EPIPE; prepare returns -EIO before reprobe and
+capture succeeds afterwards. STOP/RELEASE may first return -EIO or -EPIPE,
+depending on which ALSA wait/XRUN condition is observed first.
+
+The direct STOP and RELEASE tests hold a request, send SIGKILL, then perform
+device unbind/rebind after the process exits. Exit took 1.03s and 1.05s of
+guest time. Reset cancels the held descriptor, and no late completion is
+observed beyond its original deadline; playback/capture/replay passes.
+These runs exercise reset after timeout, not every reset/wait race.
+
+The QEMU 11.1.2 fixture includes backend reset cleanup changes as well as
+fault injection. These are integrated candidate results, not standalone
+v3 or isolated-patch proof, and not stock-QEMU, VZ or hardware acceptance.
+Earlier runs failed follow-on capture with ring saturation and overruns;
+those logs remain retained. Final passes do not establish a permanent fix
+for load or clock/scheduling sensitivity.
+
+All ten ordinary-TCG regression scenarios passed with the fresh candidate,
+as did the additional linked-stream error/recovery fixture and 24 Python
+harness tests. Successful runtime logs contained no KASAN, lockdep, WARNING,
+BUG, Oops or panic diagnostics. Initial harness/CPU-configuration failures
+are retained as invalid attempts, not counted as kernel passes.
+No new real-microphone or VZ runtime test was performed for this revision.
+
+Reproducer
+
+The previously published source package remains at this pinned commit:
+https://github.com/whatisyourname0/virtio-snd-reproducer/tree/7a9876738bdc70ce669f02ec31fe8968eb0ee4fc/rfc/vz-capture-20261014
+It contains the original RFC snapshots, kernel builder, QEMU fixture and
+ten runtime commands. It does not contain the revised core locking or the
+newly rebuilt linked-stream fixture. Do not treat it as the exact source
+of the new results above. Existing v3 patches in it are build prerequisites,
+not patches being resubmitted.
+
+The revised source stack, four signed implementation patches, exact kernel
+config and portable linked-stream fixture are published at this commit:
+https://github.com/whatisyourname0/virtio-snd-reproducer/tree/64fa85f3260b45e7dbb85c4eee68a5b4a8b064e1/rfc/vz-capture-20261014/sashiko-followup
+The public source recipe reconstructs all eight changed files byte-for-byte
+against the tested candidate. The packaged linked fixture also passed with
+freshly compiled probes, a new Alpine rootfs and a rebuilt test module on
+the same KASAN/lockdep kernel. The public archive was downloaded and checked
+against the local source package. See README.md and RESULTS.txt at that URL.
+This supplements the earlier bundle; use its corrected core 2/2 patch
+rather than the earlier core 2/2 snapshot.
+
+Questions for review
+
+- Is a bounded, non-interruptible STOP/RELEASE wait the right teardown
+  contract, given the effect on process exit latency?
+- Would retaining explicit in-flight teardown state across an interrupted
+  wait be preferable to changing interruptibility?
+- Should timeout/retry serialization be required in this generic change,
+  rather than addressed separately by the companion state machine?
+
+Joonho Lee (1):
+  ALSA: virtio: wait through signals for PCM teardown
+
+ sound/virtio/virtio_ctl_msg.c | 15 ++++++++++++++-
+ sound/virtio/virtio_ctl_msg.h |  3 +++
+ 2 files changed, 17 insertions(+), 1 deletion(-)
+
+base-commit: 8d70e364e866bdfca81eee24d0688fac9472cfb9
+prerequisite-patch-id: 39fb327a004c966ab90f66a34a64bbdbb3ffb475
+prerequisite-patch-id: 7c6bc344656fd839ae0d697ba18d66ac0b47827a
+prerequisite-patch-id: 9dd290ac3147fa7b49a475d7df8a6172778f2860
+prerequisite-patch-id: f4c24a5e441343a690f4ac2437f181c815bc23d0
+prerequisite-patch-id: ab4a5b770247a65272ab7af18a75a147daf81287
