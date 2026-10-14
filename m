@@ -1,252 +1,149 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4937247A896
-	for <linux-sound@vger.kernel.org>; Wed, 14 Oct 2026 09:14:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56F9947F3BD
+	for <linux-sound@vger.kernel.org>; Wed, 14 Oct 2026 09:17:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791969284; cv=none; b=hy0wOwpd3hPOFshweFabs/nnpDKaFCxcnQvFjt4Lws+eWwAPODbOnY7WEA0d7GvMdJQ8erWGjfkDEJtU33/gdGmxAmqizZrUHX/maQBoh5jNqRB4xlTA+nneC+NKIXA75IXZ5YD3ifFgQXDeonuEz7SvgEM3u+tvC/Y2dY45+6A=
+	t=1791969429; cv=none; b=gfoer1dim5v7cDpsFc0YVZe4DEs7Bv/U3LTxp0vyV+S98rCXmbCPLD147tYMl3Ro63PvndMjHL8UtGRTEahLuopKvFqBu9/AhNm1Y727jCYsW7wkJ/UyqpBt7lBCmJjWjTEYZ4zwXpvJNZ5Xw+Am2jRISkm1N/BzGGyGr/PddRY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791969284; c=relaxed/simple;
-	bh=l02asWc8j6+hLjU+Da7Xvnl3rhxJD4twDLpSOEejzEw=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=r5O1IXxAaJGDeO59JM8/+NyWpC8sNQXmqxtVvqkDR8Fkdj7WYH/kZhgWgXN/JWn24d4+Dl2lxtHOdJlMr+3uNcrrPRL74H4llIwvNcJ11zbqVMEr3fE2RbVGu5j/G+bUlfFRTvYL323NpA6w1stsPK4FXsR89+HLEMJYvX9IIEw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=SvHXCifb; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=FXpN1kad; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1791969429; c=relaxed/simple;
+	bh=oKJsVFLubvLsj5D35e53rnVR+8UYd1QDrDrjPrGaDLY=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=I2riFwmE1SD1sdldBBBaQbvD7WXUFnulGteUp8iw+jmnQ1EH9ZqBXJEhjWCGA6kbkcNndnE4XLhKFU1wap9Sl+OAWQzVe55olRUL5/Xeqg0N/rQt7ZjX0r9mtJd61E3ZOPVrUElINOCxPwOswKKUBarEkzgWABbD4afbjUyuBPI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YKOSo4IU; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="SvHXCifb";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="FXpN1kad"
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69E6OWHp3104067
-	for <linux-sound@vger.kernel.org>; Wed, 14 Oct 2026 09:14:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	JQKoVo024ah2t6dz9LZgJrw+qbvU9GpIAqsu/Vkuia4=; b=SvHXCifbS5RUT0JV
-	XnCqnNmE2BOCPqRS9y808lHhH2D2k58ZxpXK9FHeFQNWLADuvV74Uxc+Dj/NUSEe
-	hTJNjz41SWLa6VPES5e6xUTvCTmN78p7ptZAbi5NYK9hvlSZu7e9U3aWqVQaVVkr
-	ytdL2LGHEH7S6qmTlNSILMCjOWyUzkOWrHTJhTcYTUl0Vmb2Ra0s1Vd75hTcQGqg
-	re6sCfJh+/2P3sCc8hjG9mDNmxzf1YkOPCmi+xlcNo/h/DgRd5Sh3poRtzw9d+Rz
-	KLvYsX5eUkVurNE4dFcGibklZb99Y9UR7wwiPYqDXmLZ3p3KvGa8bFr0DSulqBDB
-	WZUFaA==
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4h9wgt265k-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Wed, 14 Oct 2026 09:14:34 +0000 (GMT)
-Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-3a47617a0b3so3461455a91.2
-        for <linux-sound@vger.kernel.org>; Wed, 14 Oct 2026 02:14:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YKOSo4IU"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-49d0da752ffso6286745e9.3
+        for <linux-sound@vger.kernel.org>; Wed, 14 Oct 2026 02:17:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1791969274; x=1792574074; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=JQKoVo024ah2t6dz9LZgJrw+qbvU9GpIAqsu/Vkuia4=;
-        b=FXpN1kadGumDpDdbqKYN3ThvnVn8JkZRUgUxg0/9QJP4E9FWhyiJtc4LVNokCoQJ8m
-         Y4uvvgeJKGmh0MWjYFUZ/opg0K+TM2qCGLMAj7dmnOY2P01nZJND4Ku7PKDLybmQ8z6v
-         N2YmjefTiTG2zVMkpnB6CdHvBytz4dGsMyNs9uIpTnS5sG6XfdmXnePFxBTj6CI9SCLy
-         /qX3nQRdwbc7sHEgob3VaNeYwfJjZH2kesGxeCt28rhlWQoUXj/DnfzebXvM7I7dS5eN
-         QRLTFa6rj7MPzYv5+UB0ZUzRyEam5VmMU/piFQTGutg8O7JoLJQyJEn6orjfrZByS1PL
-         t0yg==
+        d=gmail.com; s=20251104; t=1791969426; x=1792574226; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=jo2PRIALCUq4kxjl1uc95AJMEIZIxh5cvF+ejGasI4Q=;
+        b=YKOSo4IU5JgAX2Bqfd3CM96RMVR3XBacvjCZY3O1iXBqXvwJz4o/m02SbAJTrzIFYY
+         FVmuJ91aaX2I16rVnwYWVQsy/hGL8f5M+90MPd9tz3bcjkL78tZXgqT5X/XkfMkZq4g3
+         PdHVudlmq9DjMBYcoKbgx+e2pb7IMP5xmC6j2DKZurLGN3ieLieRPXLBw2UzsUBLSFvI
+         aHJdKUOasw/33EiTK/CNqI3zzCV2mYMUOnbqpz2vkxbmIXXz0MkunFD/kdiQ6K3IHQdM
+         zKz0bwv1dgTaYNCkWLp+mCii5blpfPDzWsAbigJACe+VMqILVr0aP2Pca3uhP6yU5AZK
+         palA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791969274; x=1792574074;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
+        d=1e100.net; s=20260707; t=1791969426; x=1792574226;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=JQKoVo024ah2t6dz9LZgJrw+qbvU9GpIAqsu/Vkuia4=;
-        b=Jn/6KZ+Bvkd3usX9Z5i50Mo7ljch/tIxkAzm8qhjy00Fax6Qm0kOr04GALiL4bB4op
-         7s8k6ThK0FuhEr0PFR3FegeiEFlJklwiGhFMPf4pAkhJW4JOP+xcXkupc1+3mkHmZCyR
-         zkznjyQtLm4Gja7VR1Obow5C/rABy/1ZuFoeTTt4AhXOQcsftGN5/SFL0UWrj+3NpPg5
-         c6LRkoKJVFtXHnPxZzmRrHOqZdHWBFJ/1m7xezXMnBiwVVijx8b1Xoq4fFpOggpBCStg
-         9woxafzc8SVrkxgzzhKuFPQURsyvrB82ivWMOxP93TwVnFG5vxnoQUTk4Ex4+99n0fSs
-         5yyQ==
-X-Forwarded-Encrypted: i=1; AKwUvBz7wwjbNBm7JkIiDj9b7+xZgXPVQc0UphvNJXKO8PMq3RXWX5vdIZLh9AmRMJk0GnxfWhfMZ9y6FJiMVw==@vger.kernel.org
-X-Gm-Message-State: AFq9FYL6uZj2UwIJCFJFcke3jgwc5tRcDQgrqE0IIjwfWV0x4J4A32v6
-	xm6YvGgjcG3cXNRU+zNAEgR4zF21akL2HKJP8XjJ7EmhXp4LSKifSSsHaTqSuTxJAlNlg6/9J1L
-	YD/nFSH0Q/xfcYj3W8nLsCXHS7WBg0lAC5eDB/GAImKEWfRltMiarzmUxFAAjmIX/NaD18NMOFw
-	==
-X-Gm-Gg: AYBFou3c1y/NQD784pJGhiAckKmwjhqHshNnRvSfKEFVV3E3IsP7ySh+sjJxu6SoYK3
-	HJwTMCZUUKCZHDnTogbxZmHYZ7qlDKiLvyZk46pvk+i9knsqTyqqojPnti9Wh1GJ7fkCzuBXkGk
-	JbM9HsA9TvOOrJsWYPnonHTcOP3+jR1/ARNEmmD4gpUTyXq2DxjSIPWAgxiPjfnArqehud0aAcX
-	9Z7326rku+tk2Yc9szWb9VinEvFaxeBGbzfnSV+QjKKCUjUnNZEY6Ay980Ogxm1eCFkNLFdhswg
-	biKJbrliXNgz0PwuShDv2xNSk3x530ZJU3LufUJuF6+ZfGoKYCXDJ5d0eHrswx41u34QKwRTYEj
-	J+UEkgUTvU97k0nf8N+vjaCBnuznOGYBjM4M=
-X-Received: by 2002:a17:902:f786:b0:2e2:c28d:ab6b with SMTP id d9443c01a7336-2e84270882amr122601525ad.0.1791969273862;
-        Wed, 14 Oct 2026 02:14:33 -0700 (PDT)
-X-Received: by 2002:a17:902:f786:b0:2e2:c28d:ab6b with SMTP id d9443c01a7336-2e84270882amr122601305ad.0.1791969273338;
-        Wed, 14 Oct 2026 02:14:33 -0700 (PDT)
-Received: from hu-mohs-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e8421b16b3sm67088595ad.30.2026.10.14.02.14.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Oct 2026 02:14:32 -0700 (PDT)
-From: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-Date: Wed, 14 Oct 2026 14:42:55 +0530
-Subject: [PATCH v5 9/9] ASoC: qcom: lpass: Add support for LPASS codec v4.0
+        bh=jo2PRIALCUq4kxjl1uc95AJMEIZIxh5cvF+ejGasI4Q=;
+        b=KsHaV4QvOoYgCl7GxmBg9rdRJ+4RKGStggPKtp7TuPgIFQMSpMFmqdme2QMki/ejP1
+         BWMMSDZBs74xPk75utEJ2hyhMwtlcVzyBUOTKQ/s9x7UyVW8c2oUYg/XicDsSt+0VrT6
+         2/rezh/pyx1llmdb997EbA82SKX62/F5rylXImmZ46Y/Bdfz08W24zFkffW9rlx4vyVQ
+         p9Cr/mH0erv78yOvCD39P3oxwuR39HGU6hN8O0/93Y41oWQycRDRV3djnLkU7GWpCR7Y
+         8Z+TLGjctGKKwWe4RL7Ej51zTcHw3zyesD6Gh+FqEl+ZfxdrY92TjvZdEyqMpA7Kn87Y
+         MUlA==
+X-Forwarded-Encrypted: i=1; AKwUvBwggW6rlmpGRmqaKaZb9DYmzBivH7gYJFNhpymZMva9zbP9jIWM0zobLpBt+dviF1E95e7Q+ivHlneDkw==@vger.kernel.org
+X-Gm-Message-State: AFq9FYIYj0HJPEvjRNYgLU39y8R8zEikOFzkP7vAYoEujUAbhjDrrTg4
+	dt7OblsIDW3mwkWrvwQpgHy+lZd+He0ybcPNE6KW7Z6u+6O8bNvHqiVX
+X-Gm-Gg: AYBFou0pk2XJLZqYVRqz0w4Zlul1UBSJnZvD+GKwxvXQaCP3pYyGDIzcAgDHP3tBkmR
+	6aLC9tdOcrnVL1iKyLNSj7sgd/IahNVtrKm2j6Y6emOnFQI7is6a0gOUUfuDS/Lux5QHE58n1Pt
+	RvG2abE8tmyv7eInhjcRzR8op3hjcMKjIMUDB8jGBq8X0I27a+rh3ZmGCmNB4f6ryKki/IE/JNs
+	beuddKHv8o45bgh+T/0wWOc8YBgf+PIYznEwB628IhVMCsjx9zvN1CUdLzIZnFt8Jz8ENSSYQ6x
+	D9Dy9eFU2NsxOdAeyzm08KnuCn94E/nMzw7cmFVB07gz0yjiLqRXV/mWn6g2ANkX2X5RtJ0jgq2
+	jA8X7dFjlen1QOaRboZb9h+Ll0OM4F0gPfMphPT5zNdP3u9frK6N7+Uh0QKIpJrKkYgcDQ46uaS
+	wl3+KWQv18xIx6FHVcxdyKLbBSahWXws+PhQUMYJRdYEOFxWrw14ZyqsWJLGiEBNqncP3hldYBX
+	5h+LGjt9Q==
+X-Received: by 2002:a05:600c:8716:b0:4a1:62b8:9aa1 with SMTP id 5b1f17b1804b1-4a18e44885dmr310815675e9.2.1791969426406;
+        Wed, 14 Oct 2026 02:17:06 -0700 (PDT)
+Received: from foxbook (bez186.neoplus.adsl.tpnet.pl. [83.28.37.186])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a18bf214a1sm489997615e9.7.2026.10.14.02.17.05
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Wed, 14 Oct 2026 02:17:06 -0700 (PDT)
+Date: Wed, 14 Oct 2026 11:17:01 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Wesley Cheng <wesley.cheng@oss.qualcomm.com>
+Cc: Mathias Nyman <mathias.nyman@linux.intel.com>, Mathias Nyman
+ <mathias.nyman@intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-sound@vger.kernel.org
+Subject: Re: [PATCH v4 3/5] usb: xhci: sideband: allocate sideband ring
+ segments from a dedicated pool
+Message-ID: <20261014111701.4a63e9ca.michal.pecio@gmail.com>
+In-Reply-To: <5cd85c1b-4bb7-4f30-930d-6c6451f09395@oss.qualcomm.com>
+References: <20260909-16k_offload_v1_b4-v4-0-f24a86617597@oss.qualcomm.com>
+	<20260909-16k_offload_v1_b4-v4-3-f24a86617597@oss.qualcomm.com>
+	<68b34f04-f7e2-4468-8a18-ac97decb987d@linux.intel.com>
+	<82e0b9c7-3b3f-4dce-a72e-64989b08ef98@oss.qualcomm.com>
+	<20261013111110.423dd0ff.michal.pecio@gmail.com>
+	<5cd85c1b-4bb7-4f30-930d-6c6451f09395@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261014-add_shikra_support_v5-v5-9-fb9f0667e613@oss.qualcomm.com>
-References: <20261014-add_shikra_support_v5-v5-0-fb9f0667e613@oss.qualcomm.com>
-In-Reply-To: <20261014-add_shikra_support_v5-v5-0-fb9f0667e613@oss.qualcomm.com>
-To: Srinivas Kandagatla <srini@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>
-Cc: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>,
-        linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1791969222; l=4300;
- i=mohammad.rafi.shaik@oss.qualcomm.com; s=20260424;
- h=from:subject:message-id; bh=SdGNI76uwD/Vc/LAF/gdMfMFsUXlmNUJ68p4AN75i9E=;
- b=1zn9O9D66Jr2LF4qRFu9DyzJRP5YWx6ksengMgUkmbt9AyYCsbR42AUtWsuL3txrmijzQpFuU
- 79oy6tr+xrZClzih9b9G9OcH5WJmzG2NJdy97d6dAvDn04Hx93W/Xju
-X-Developer-Key: i=mohammad.rafi.shaik@oss.qualcomm.com; a=ed25519;
- pk=KZedmYgMGYOzuTpLGv56tdrL+pTLDP8pdmfQ91xemiA=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDE0MDAzNiBTYWx0ZWRfX34SqK7/qd180
- 9g+QBcSAN+YW/AqRIA5NAtX6EcXArLwu45a/YXCj0bdUC2sqdUSz0CtxlrimfZJY3dJPYCy7sQO
- EXDUbJnZYhoAKh4McH3/P0NsfqOD1RrC4nkjKFBQ8vYVVweYFp7YMG+y/BlU535aV1J44ScBjPt
- 9/Od5f7EFv3Lq/VRATxAQ0og20AN+yuVbHinKajU7IYrW3Splxu+hxuYncZy+iNK1Vr+BusPcE3
- ygfGhHUFBCQaDxApljGmlq3re6XvJkRIb62n67ml90ugOWASP1bTdKvhg3vNcxc7Yh/KkZN9JQ6
- iZfUSkBsBlmAUdO46qS9cStRwxpQOhpUuDg2y75eAAuKySDkSeHtO7U88VH2Ev5zK6YL0et7tkP
- 1OZndDAMCw8WWynI7TdayrVh3Gfi72ktdLsBExmhQuqeH3ILi+Xz1MwZAAzDSawfg29iw+kXbxp
- AuqwBRHwkPjBnz4mD7Q==
-X-Authority-Analysis: v=2.4 cv=Jp1kP84C c=1 sm=1 tr=0 ts=6acf47fa cx=c_pps
- a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
- a=EUspDBNiAAAA:8 a=Pm4gKVr55SiOJ_VcJFcA:9 a=QEXdDO2ut3YA:10
- a=uKXjsCUrEbL0IQVhDsJ9:22
-X-Proofpoint-GUID: S5h8bYNcm-Bqc3Kr3X9gCiexQa3fFYii
-X-Proofpoint-ORIG-GUID: S5h8bYNcm-Bqc3Kr3X9gCiexQa3fFYii
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDE0MDAzNiBTYWx0ZWRfXwiEWqmigp5e9
- krsiuWi62W1gfsetod5tDFGLJAVQHFlz4MgaEE+5FFc5Q5psihGnb3I2Hh/Knh/sqKHzgF4RR/w
- +6QE2uf5mHhT4kNJxg+UCmmXtW+U3J8=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-10-13_01,2026-10-09_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 suspectscore=0 lowpriorityscore=0 clxscore=1015 spamscore=0
- priorityscore=1501 bulkscore=0 adultscore=0 impostorscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610080000 definitions=main-2610140036
 
-From: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+On Tue, 13 Oct 2026 15:53:39 -0700, Wesley Cheng wrote:
+> I guess my intention was to see if we could leverage the existing
+> memory operations within xHCI as much as we could.
 
-Hawi and Maili use the LPASS codec v4.0, which the macro drivers do not
-yet recognise.
+This means xhci-hcd needs to be aware of all the client requirements. 
+Today we are adding DMA pool to allocate segments on separate pages.
+But people may want more - say a client wants different segment size,
+it needs to adjust the DMA pool, but also to add another patch because
+xhci-hcd would try to create Link TRB at 4KB offset. Or maybe a client
+needs more segments. Client allocation gives this flexibility.
 
-Add LPASS_CODEC_VERSION_4_0 and its "v4.0" version string, and detect it
-in the VA macro when the hardware reports major version 4, minor 0.
+To me this is the main appeal - both sides can evolve independently,
+without needing to update each other when something changes.
 
-The RX macro register layout of LPASS codec v4.0 matches the v2.5+
-layout, so reuse the existing v2.5 register access helpers, controls,
-widgets and register defaults for it. Unlike v4.1, v4.0 does not need
-the FS counter bypass or the adaptive filter blocks, so those stay keyed
-off v4.1 only.
+Maybe the sg_table stuff could be replaced with something simpler.
+Clients still needs to tell xhci-hcd where the segments are so they
+can be mapped, but it could be a few xhci_sideband_[un]map_segment()
+calls instead of constructing a table. In principle, a client could
+even grow the ring dynamically, without any patches to xhci-hcd.
 
-Add the "qcom,hawi-lpass-rx-macro" and "qcom,hawi-lpass-va-macro"
-compatibles, both pointing at the sm8550 match data, so the version is
-read back from the hardware at probe.
+> The only concern I would have with having the client own all the
+> memory operations/allocations is that we would need to carefully
+> maintain the transitional phases between offloaded and non-offloaded
+> scenarios to be handled properly.  At least in the audio offload
+> case, we're only offloading data to the DSP when audio is active,
+> which can be for a short duration, and we have proper checks and
+> locking already within the xHCI mem/core layers.
 
-Signed-off-by: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
-Signed-off-by: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
----
- sound/soc/codecs/lpass-macro-common.h | 3 +++
- sound/soc/codecs/lpass-rx-macro.c     | 5 +++++
- sound/soc/codecs/lpass-va-macro.c     | 4 ++++
- 3 files changed, 12 insertions(+)
+Not sure if ring ownership changes anything here?
+What sort of existing checks and locking do you want to rely on?
 
-diff --git a/sound/soc/codecs/lpass-macro-common.h b/sound/soc/codecs/lpass-macro-common.h
-index 707b22a6b..a51a6012a 100644
---- a/sound/soc/codecs/lpass-macro-common.h
-+++ b/sound/soc/codecs/lpass-macro-common.h
-@@ -31,6 +31,7 @@ enum lpass_codec_version {
- 	LPASS_CODEC_VERSION_2_7,
- 	LPASS_CODEC_VERSION_2_8,
- 	LPASS_CODEC_VERSION_2_9,
-+	LPASS_CODEC_VERSION_4_0,
- 	LPASS_CODEC_VERSION_4_1,
- };
- 
-@@ -72,6 +73,8 @@ static inline const char *lpass_macro_get_codec_version_string(int version)
- 		return "v2.8";
- 	case LPASS_CODEC_VERSION_2_9:
- 		return "v2.9";
-+	case LPASS_CODEC_VERSION_4_0:
-+		return "v4.0";
- 	case LPASS_CODEC_VERSION_4_1:
- 		return "v4.1";
- 	default:
-diff --git a/sound/soc/codecs/lpass-rx-macro.c b/sound/soc/codecs/lpass-rx-macro.c
-index 93ceee878..b7c1eff05 100644
---- a/sound/soc/codecs/lpass-rx-macro.c
-+++ b/sound/soc/codecs/lpass-rx-macro.c
-@@ -1615,6 +1615,7 @@ static bool rx_is_rw_register(struct device *dev, unsigned int reg)
- 	case LPASS_CODEC_VERSION_2_6:
- 	case LPASS_CODEC_VERSION_2_7:
- 	case LPASS_CODEC_VERSION_2_8:
-+	case LPASS_CODEC_VERSION_4_0:
- 	case LPASS_CODEC_VERSION_4_1:
- 		return rx_2_5_is_rw_register(dev, reg);
- 	default:
-@@ -3660,6 +3661,7 @@ static int rx_macro_component_probe(struct snd_soc_component *component)
- 	case LPASS_CODEC_VERSION_2_6:
- 	case LPASS_CODEC_VERSION_2_7:
- 	case LPASS_CODEC_VERSION_2_8:
-+	case LPASS_CODEC_VERSION_4_0:
- 	case LPASS_CODEC_VERSION_4_1:
- 		controls = rx_macro_2_5_snd_controls;
- 		num_controls = ARRAY_SIZE(rx_macro_2_5_snd_controls);
-@@ -3846,6 +3848,7 @@ static int rx_macro_probe(struct platform_device *pdev)
- 	case LPASS_CODEC_VERSION_2_6:
- 	case LPASS_CODEC_VERSION_2_7:
- 	case LPASS_CODEC_VERSION_2_8:
-+	case LPASS_CODEC_VERSION_4_0:
- 	case LPASS_CODEC_VERSION_4_1:
- 		rx->rxn_reg_stride = 0xc0;
- 		rx->rxn_reg_stride2 = 0x0;
-@@ -3959,6 +3962,8 @@ static const struct of_device_id rx_macro_dt_match[] = {
- 		.data = (void *)LPASS_MACRO_FLAG_HAS_NPL_CLOCK,
- 	}, {
- 		.compatible = "qcom,sm8550-lpass-rx-macro",
-+	}, {
-+		.compatible = "qcom,hawi-lpass-rx-macro",
- 	}, {
- 		.compatible = "qcom,sc8280xp-lpass-rx-macro",
- 		.data = (void *)LPASS_MACRO_FLAG_HAS_NPL_CLOCK,
-diff --git a/sound/soc/codecs/lpass-va-macro.c b/sound/soc/codecs/lpass-va-macro.c
-index cdef2b187..94e3c26e6 100644
---- a/sound/soc/codecs/lpass-va-macro.c
-+++ b/sound/soc/codecs/lpass-va-macro.c
-@@ -1909,6 +1909,9 @@ static int va_macro_set_lpass_codec_version(struct va_macro *va)
- 		}
- 	} else if (maj == 4) {
- 		switch (min) {
-+		case 0:
-+			version = LPASS_CODEC_VERSION_4_0;
-+			break;
- 		case 1:
- 			version = LPASS_CODEC_VERSION_4_1;
- 			break;
-@@ -2183,6 +2186,7 @@ static const struct of_device_id va_macro_dt_match[] = {
- 	{ .compatible = "qcom,sm8250-lpass-va-macro", .data = &sm8250_va_data },
- 	{ .compatible = "qcom,sm8450-lpass-va-macro", .data = &sm8450_va_data },
- 	{ .compatible = "qcom,sm8550-lpass-va-macro", .data = &sm8550_va_data },
-+	{ .compatible = "qcom,hawi-lpass-va-macro", .data = &sm8550_va_data },
- 	{ .compatible = "qcom,sc8280xp-lpass-va-macro", .data = &sm8450_va_data },
- 	{ .compatible = "qcom,shikra-lpass-va-macro", .data = &shikra_va_data },
- 	{}
+> Since I did take a look at the other issue that probably reminded you
+> of this, without getting on to a tangent subject, it really broke
+> down to two scenarios:
+> 1.  reset_resume during bus resume
+> 2.  usb_device_reset for recovery
+> 
+> In both situations there are requirements that when those
+> happen/trigger, technically, the bus should be completely idle.  For
+> #1, since we're coming from a bus suspend transition, there should be
+> no pending URBs in flight, so if reset_resume happened, xfer rings
+> aren't being utilized.  For #2, there were some changes that weren't
+> properly handling the pre and post reset callbacks, leading to
+> problems in that situation.  I think that series showed us that there
+> are corner cases where referencing vdev could potentially be
+> unreliable.  I'm going to assume this has no relationship to the
+> client driver owning memory, please correct me if I'm wrong. :)
 
--- 
-2.34.1
+Right, ring UAF and driver data UAF are separate issues and changing
+ring ownership won't magically fix driver bugs. It seems impossible to
+avoid xhci-sideband keeping references to vdevs, because endpoints must
+be stopped on sideband removal. So these references need to be found
+and invalidated in all cases when devices are freed "prematurely".
 
+But does this need to go outside xhci-hcd (including xhci-sideband)?
+Are those callbacks into the client necessary? It seems they wouldn't
+be necessary if ring memory is client-owned.
+
+Regards,
+Michal
