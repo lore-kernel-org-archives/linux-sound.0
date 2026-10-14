@@ -1,337 +1,151 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011031.outbound.protection.outlook.com [40.93.194.31])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EAC34DE727
-	for <linux-sound@vger.kernel.org>; Wed, 14 Oct 2026 12:02:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791979346; cv=none; b=OEKekuE2nig9F1qxshgrhCbQ8msjHSd5sGIkrRlMJB0YdGxQwY71RZ5MBkszn9i4okWIoji+FzEmYuHBeQ2u3yo3K5eUcLQNTo7jtgctrn1WYC1GcwkWkp9FDx46upxrVpLcId06Daaxyxu3JmC+NtgrAqOwkhMN7+Kw6AOjcYs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791979346; c=relaxed/simple;
-	bh=vgZWAsabxU1sYftc52tRtotWk9n7ABGqA++G9DtjBJE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=O8DT6u5/FXaZOI7fClytai99utiILkjEytTIJc9E5sIBFRzxkqTfGMsbdgwnx1hPRcpVUKxKCtBO9tllzAW1gp1XPCIOJdArC6F0/qEKHWI7vLzVDbJeE91TK/c2uMt7HLBvh1s1xV1e3q+xMxaK2t+etlbj98G/VtVYMh1TeBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HpfzeCBe; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4260A4DD3B0;
+	Wed, 14 Oct 2026 12:08:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.31
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791979715; cv=fail; b=aKrWCK2w5/IPuzCoMMW7H6yBc7zNvrd7xwxBlVd+yHQozdUSx6wQ6zmGxsqfqvylFVCWEW1hj+Y6e8xjZY17jlLxTmnMidt3DObX+8pDzueCgd+iTqvEGwnD9CwMjcnDk2JTkfDtWAGUlEHbR1gS0D/Ps/pu8ZRjLfmPPHNJ5oo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791979715; c=relaxed/simple;
+	bh=Yvkham6xieYfQbbOD+Clqmin8OcCX9BRsD+iXl8Pzn8=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=VBTvn3PtSwAEZouEV7uPlps+exVwg0VjHl8VIKeg82XwT9mxvF6ADzU8klVdmCcIKM7pGvB8yk+Vs/HwdsCelzs24NrcLljobcF8KUGOJLzQrWdnPTYFiTMb2AoE2ewZDcdrOHW8AIMFa53ImmKR62j7BmtdhoqcI/vDy2QHA4s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Xpc5kMy1; arc=fail smtp.client-ip=40.93.194.31
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HpfzeCBe"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4a022fee0caso37700665e9.1
-        for <linux-sound@vger.kernel.org>; Wed, 14 Oct 2026 05:02:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791979342; x=1792584142; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=8AOHma/lvCGlxwnz7PTUSCC5usStZRZZA/1odUev8vI=;
-        b=HpfzeCBeSRX9FFza8z+xOFFS/7grIBijqt5QoPNqmKqvM/9g+/38q56oCR9GZhn5Ah
-         CXb7k6SsD10xZljOWjXTc3MZwaTO1hDLuv1uYif4bcxhIjD1BIManAtyX4noN2Hxm7yH
-         FeER6cMgybzdxIicAMQrTx45y0Jw/zyP+SIz207H11ftdJFPjbkPm3yWAdTXr54GExpb
-         0tFbMi7+ZQ/oL6SAf4P9abwq19rdsOJdBhm78ZtoDfeakuwFMky683K/yNOfuQXtk+Ts
-         nl6WIQbcjmzskuvweKjuIM5E8DFtcRNV0E4PZiPHsHD08soSFur5ihSmt9Txt7aqg1iW
-         evYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791979342; x=1792584142;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=8AOHma/lvCGlxwnz7PTUSCC5usStZRZZA/1odUev8vI=;
-        b=OGiVHeVOllBBpo6SlP+NQeoTdSI1nKMB496u1lINiSSAXrY719jFRjqwIKJQnDvlJG
-         HLYoWO4zY17fxmKnDtdlEhYL2MHSD32es9I5qy51+QOZ9VCyS1aS7wj6nC9C+CR7dRMd
-         D5bJ40r+oEP/N1qpIyK/TSBQQAIdIZ7E5fkyaaH8DBxm/MBSyp+MvhJgSht5AnvhJyXO
-         oE8AMYcJ63fKVuHSCjspDRmwjq5WTfQPnDPdkdfC17MAZTFXYV5tjtWGYiWMjGbRmstu
-         jPHS7vDbH+Do5xFBup5yzRmRnngT47nBKJv2XWuty4DpxTknHvLx1/pWZvNKyaGTMCuN
-         LQbg==
-X-Gm-Message-State: AFq9FYKTcYAI6I1YDxf1AkBTjmDrmjjHGMtcTf51BaTlRY6lAtlon38k
-	3l46zPxyrrlIxqEhSKttWTe1gZMrEMIuvbUuN1lccF/su7SP+1THkkhz
-X-Gm-Gg: AYBFou2Ds6n9AKJn+AR9/UfP8RDNPR4NMuJLacxE4XDQV6QsEuctVMjTAVxO/2qJEGS
-	53sdxS/PGqTtS5U3M26BkXwEcKQIojtr4UnU0Sy8mjYX5IhBTZkOqu/4xt7W7RNxiFVSkgOPG1v
-	aPE/zhpzoIhj8QoglC3DOafFISU6ahDSEbsU4Pny9c0Zqpknh9usp43i8+0Ufp1qzG+h3D0k86O
-	arBAtGOhbbIl7lQdDe60VORkY0xC1LmdESFyjczUWJS7xqOb4vmqKliOmjLm8hNmakkNy2k52w/
-	viUSeZrMV07usxCRyO11u8ecvmjmmbNtZGe262xt2MMrc3+OazPVT/nxkZm4Wt1QCVa6387vlqG
-	aXskIGk/+xAV3jduoyYnVp/NZVMNp4IjuqmDrAvzRmiIYHzbN9teNvOzEz52h2SbAplGqIb2kf6
-	oYwX1UUVqFHwfee6oQVM6YAso96tU+k5ssdxeh4Yesa1vHvV8aq9c1OZMRTWlM0EcDSkwHSJPJl
-	IVXw2FoJgMP0l5ZvC4=
-X-Received: by 2002:a05:600c:8b74:b0:4a0:2847:b6ee with SMTP id 5b1f17b1804b1-4a18e4fb8c1mr312727375e9.35.1791979342049;
-        Wed, 14 Oct 2026 05:02:22 -0700 (PDT)
-Received: from xeon ([188.163.112.62])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48de0ac36f9sm10937057f8f.36.2026.10.14.05.02.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Oct 2026 05:02:21 -0700 (PDT)
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-tegra@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/2] ASoC: tegra: Support WM8994 by machine driver
-Date: Wed, 14 Oct 2026 15:01:48 +0300
-Message-ID: <20261014120148.126160-3-clamor95@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261014120148.126160-1-clamor95@gmail.com>
-References: <20261014120148.126160-1-clamor95@gmail.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Xpc5kMy1"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=oBYhJkBrtgHggi4yOSdssPriUhYs0Cdd05F0JZu7dAAIk9HikyWHAW/vnk2RvTzU9EQ2BtDcYkzeoi1OGQY5J0LQ8uOndenWio/HitroWOQt71zDA9Pw9RN6+nRObedofFfFzvrqhjrydZfFSkDSx3Bu7WSfAly+iOp+9xhJnvtrubnTq6m/l2xAODlCTP9cJgiNozi8C76O772l/AepAm0LRd66I5iZoJhr6T7N76SML7SUf3DY86IFt1RSeBQhJOZ+wpUcITZDLVLkvoaj2FgpKV3umqK+ZClyoknUyZi4grDYmJZ/gz43nCH0N/gQSiHzuL0Qfy3CZiGLD66KqQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wmEMorPGK45El99Ng+zdeF+2n2r2J21sUiMwA6/bUvA=;
+ b=cfUZQ9XiPJtLq6Vb7Totxp8KaM1CawOc5icMkv3kdZ1dxR8I2vr9PNbWuW3ZEiKH64LXly+yQWoNhMAJwhxy9VDS4qYH011LeJWWTeQ+QO6Ci1pxGnfz1ATwe3iL4TNStUqVn96VYPoN4rSn/dqsRaikCAw+19DQFjEaH9FbuoVNVVj08p75pOT+QDqlN+8pQKPtZmd/HXmFsXd0mDb9HCfpMDgnJXRJp92Nik4N2g8f7dfgTAuPDMh4L9AMoJrGGpIS2peq9epPT/I3IANQyUKHiTtB2QsWgRMoNNczgO7hcCUIOvbkAq4E/4asmoSoJxZCGug9kHL3p0jyGbqGAw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wmEMorPGK45El99Ng+zdeF+2n2r2J21sUiMwA6/bUvA=;
+ b=Xpc5kMy1X0X/ZdAEZ7LaVbWpid9YZRAcaC0K9xxdq0ClkYTp6m/uV2JIWdlBCu65DWvSjGww840m419rsgIDYKqYgDAugkk9tQQOS7+UNoi3vkM3d8AtxpzoTVst335qHaTTQcseQmykgyGY681T7KbyDZiD70W1GYAPMVreUKs=
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DS2PR12MB9567.namprd12.prod.outlook.com (2603:10b6:8:27c::8) by
+ CC6PR12MB857392.namprd12.prod.outlook.com (2603:10b6:170:204::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.13; Wed, 14 Oct
+ 2026 12:08:30 +0000
+Received: from DS2PR12MB9567.namprd12.prod.outlook.com
+ ([fe80::636:1b52:24ca:d7e5]) by DS2PR12MB9567.namprd12.prod.outlook.com
+ ([fe80::636:1b52:24ca:d7e5%4]) with mapi id 15.21.0522.011; Wed, 14 Oct 2026
+ 12:08:30 +0000
+Message-ID: <0316cefa-bcc1-4f02-bf6f-6e3d678d8053@amd.com>
+Date: Wed, 14 Oct 2026 17:40:29 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 00/10] ASoC: SOF/amd: ACP7.B support and ASP carveout
+ firmware loading
+Content-Language: en-US
+To: Mark Brown <broonie@kernel.org>
+Cc: alsa-devel@alsa-project.org, lgirdwood@gmail.com, perex@perex.cz,
+ tiwai@suse.com, yung-chuan.liao@linux.intel.com,
+ Basavaraj.Hiregoudar@amd.com, Sunil-kumar.Dommati@amd.com,
+ venkataprasad.potturu@amd.com, Syed.SabaKareem@amd.com,
+ Mario.Limonciello@amd.com, Richard.Gong@amd.com, Poojitha.N@amd.com,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ sound-open-firmware@alsa-project.org
+References: <20261014100902.1215212-1-Vijendar.Mukunda@amd.com>
+ <a22f2a9b-3bb9-40d0-80d6-4ce36758c4f5@sirena.org.uk>
+ <031c7453-9652-4573-9de0-5db2a795562c@amd.com>
+ <1736b25e-608e-41ac-8e8a-4b0a125766ab@sirena.org.uk>
+From: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
+In-Reply-To: <1736b25e-608e-41ac-8e8a-4b0a125766ab@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN2P287CA0014.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:c01:21b::8) To DS2PR12MB9567.namprd12.prod.outlook.com
+ (2603:10b6:8:27c::8)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS2PR12MB9567:EE_|CC6PR12MB857392:EE_
+X-MS-Office365-Filtering-Correlation-Id: dd1ceff3-b003-47eb-14be-08df29ebdc2f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|1800799024|366016|23010399003|56012099006|11063799006|4143699003|261009223027099003|10067099003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	hkA7Gt+mV6kG/Rd2mphW0eM4ECQFixj3DlhpzA9DQFVL/qCwcrxBDriybyhj/D8zByvUo49vYNTrCooPnu2Ct9zM+okPvhudwEQCQKi8ORolxVNnEO9+QHdV1daogG6kIlfPYVfTiHczt/JMaWaDxN8x7SQL+upXXHPmDcMrra8pXoGD/APfCcaCxu7nzO8SoOJquDA9RYbCrT4zaxJE9pSkuMAN7V3gF6O9SDmmudGuTJzu766umYkGsqunTSUFg4x9tH7LQ+SU8/oHco0iR47pV5YYSJjzfrSshL8YaLw2CjfWasWvHmXsTGtGtazmcCUOa6iOeQyU2KEhvC5tN8PdBcba6cOCTuflUuwzh+PSrGggrkkqnWnOZrpVCELyH24xzMH2Fc3cMOFkzjBD4/0y62Ahl/YiJTKsJ/ex6r4aA09DBoH9bNpqV1lcdjRATwPeACHCl7SqJ5Bd69n5XI01wyy946bBrp67sbbtJlhbRo67hfMv/dugQKqg1rELY4Cz8y4u16AXEN+U+GHYjL5PcNtEozycY170Yan8QPGCICKjo0ahy1cWDSVxc6vJSzczWiEgLwlvE/W0zvh38D0CGGANOht6OpYk7RvEULGvRiP5l7FWwG3h42ItZ0rX
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS2PR12MB9567.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(23010399003)(56012099006)(11063799006)(4143699003)(261009223027099003)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?elF1cDdOeFBWZnFYTGc4NmxHNVg5TXlhVXJheW9KRmRXM0ozUk5SNzM1Q09p?=
+ =?utf-8?B?TEhxUHR4RDBvek01RlhDNUREdFpRbitRbVpUQVFCamNHUU1zb1N3bmNaMzI4?=
+ =?utf-8?B?Vlhoa1gvTDJwckFXSzJTUUhRazdBSUlzYnJOZW41RHpHeTdEWWNQczU0bW95?=
+ =?utf-8?B?bk9Ca21IZGgwclE4NisxcFVoY0UzODJ6N2UreGM4bG5SUm1lUDNOVStpVGhB?=
+ =?utf-8?B?a1M0Q0dJQ0tNNk9sTUpSa0hCaklVWXRvZENDSDB0SG9Xa1ZFeFJpczVGTHJZ?=
+ =?utf-8?B?TmpWYm9WaXQzZ0J3VjFwdnEvUDNHdnY2VVROeW5MY3NJYlVPOUVmS2d0d0d4?=
+ =?utf-8?B?Rk9qN09JVHJYai9QMlVJSzYxUmFHK2hZQ2NWTXJhRDFsV09PQTR3dkExMEtP?=
+ =?utf-8?B?K3BmL05GSzB6RkVmZHgvakVGbnZDYW1lWmp3UGtkbVAwRGczWUp2UUh3eVNF?=
+ =?utf-8?B?OG45aEtPcE9peVFxUWp6bE8xUTUxbVhLVUd6bHhqczQ1OUM4T3N2OUtNN3pj?=
+ =?utf-8?B?Uk54Qm0rY1N1M0ZiYUlnbUVmYVBoYnREa0hOck5ZRTVjNlNyNk9MVVRYVWU4?=
+ =?utf-8?B?Nnc2c2ZBUW0xTWdBTlNiZ3prdUlIVG05ZkRiQ1BYaStKblM5MGRwcXI2bXRV?=
+ =?utf-8?B?REdyVHJVdVRXUU05TW5KSlpPZ01ncnM1RFdvdHlUMld6N2U4d0paRjlDNkJU?=
+ =?utf-8?B?R2JoZC8xako1dTdPZlVCNllSaFZabksvMU9MeHdjK1BzTWZYcmhzL1lkcG1K?=
+ =?utf-8?B?NWIrYlRJVzlVKzdqWjB4WTdoODdsdHpldHM1OFljUFJsN1FGNUFJWDhFeUNt?=
+ =?utf-8?B?dnZQbE9KaTJUTS9EYlZLS0xTUlZVNzdlWFFVaFlkQ0ljK0ZIa056QVBzT2pC?=
+ =?utf-8?B?U0dKbWZiM0ZPWTU3eThBMVN3UVNPYWt6ajV1d3cwYzhZdEl0Vm1td1VEY2lS?=
+ =?utf-8?B?OWl2STdwd1ltR1BxK1QyMUtFR1hBSUdjei9qOHIrMVZUU0xoKzhsY2oyOHNx?=
+ =?utf-8?B?Y3pBNTROU3hmZzFRR2RKNTJxY0Z3SExpcjM1UW8yNEZlTWR6YnhpUUYycG53?=
+ =?utf-8?B?bml6cXFEUkJlUk4zNEFlVU9NUkdiNGdNSVNaQXlSVWh2V0FDUzVXUzJ4bDlC?=
+ =?utf-8?B?eUE2endBOHdqa3BnKy82cmtkSVRJVURnZm85NHNEOG8rS2xHUkF4ZUt0Yk1j?=
+ =?utf-8?B?VlA4MlRCb203b1owdzg5SmVCWEpuK1RCRkhya1UvK001UFpTelQyMDRxaEdq?=
+ =?utf-8?B?a3hqZnBYd0lRSnpkSXY5a1RkRzZzYVI4cW5mUm40cVFGZDRiVFl5Visxemtk?=
+ =?utf-8?B?UHFGbVFkOHM4emJTZDhkUmdEUmhCaFNVZU9PbkN5Unl5TjJWQm9LZ0dVc2Jo?=
+ =?utf-8?B?N1cyZ0psOEh6QVBGRDNrOGs5eCtpYjNWaXhHVlJFQ1FmdnMxc2x0bkhqc3A1?=
+ =?utf-8?B?NjIxa0Yvc1pLSkdlTk81eFhjMkVzYW00dTZrTmNsN1lwU0x1ZEcrQk1pMDA1?=
+ =?utf-8?B?a0VLdHN0d2R4V0pzVHErd0ZZZ0wxTko5NDhOS2ZScjRkUHlxcE5TTTloWFBZ?=
+ =?utf-8?B?QTdYTzlISG5BelFhM09QYzAxc1JTRUNsZjVnMGlRdE1IUVFPRG9jSWRVSGJX?=
+ =?utf-8?B?UjN2TkdpYTFmWWZLYUVIZEdBblpjQmNFMFRIdnFBNVpJRFB1bkE0ZWtndlk0?=
+ =?utf-8?B?WkFhVnBWSjhVNUR4UVJ6bVV5Qm9rZHZ0SHZKQy9ENHVtTlR4WUZHVGYwMU1h?=
+ =?utf-8?B?dFd3WEpXM1JMdkl0YmZOL3E2ZkVGV3NSSXY3Ti9uY1QzY2R3STFnWm5yVklP?=
+ =?utf-8?B?bzhLUnBLRGtQc1g2MnYxTFRMcS9VRU43SzBRbE8xVDJteW42WnVQRGVmZTc1?=
+ =?utf-8?B?TmUxOElRZEh4NWlQNm9LUXpmNUk3R0F2WVc4aXpza2V5ODQ4OVRLay9FNFps?=
+ =?utf-8?B?RmczSkRVSFlTaTkvM240RnhyaktZMGVlN3AycTN4MGR4Y1k0d29jdjdMM1lv?=
+ =?utf-8?B?eXk2ZE5ySmhobkowWFZiVUVkRyt6WE0zb2VVdmdUMHAxbi8wOG1zdmNYSXN1?=
+ =?utf-8?B?Q0V3Mm83M29Kdm8zMC80ZUhCNUNBODVhQ0Nsa3RzSm5aSVVGc1VFUmI1c0Vw?=
+ =?utf-8?B?a3B6b1BFMFZ1SXNjTnYwNm1BUHlubGJOMTNzdjJFaXA4ekZmWGJQNEhZT1BF?=
+ =?utf-8?B?TGE1MG0wMHJOa2NFYUdlMjZnWTNNNVI1a1MvVzI0UzhrTklLbGxVU01YY0x6?=
+ =?utf-8?B?WUx1SkREYzcrcmEzbDVEcUdydjF0R0pUcEY2VWpyMHlGc1BjZU1YU3duN1RJ?=
+ =?utf-8?B?NnBlak9BSUduMVlIQW9YV3RqR05lWkYrd1JuNWxQY3dlQ3ZBY25hQT09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dd1ceff3-b003-47eb-14be-08df29ebdc2f
+X-MS-Exchange-CrossTenant-AuthSource: DS2PR12MB9567.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2026 12:08:30.6156
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZJmDwFjPtbjb3BFJXVTeH/8NBYVfMp3gCQ5zpKx4TH7savcdyeHlALx31m92BZF1ZaIBQ5PRYFQm0+t9/3IMrw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CC6PR12MB857392
 
-Add Wolfson Microelectronics WM8994 codec support to the Tegra ASoC
-machine driver. The WM8994 codec is found on devices like LG Optimus 2X
-(P990/star) and Samsung Captivate Glide (SGH-i927).
+On 14/10/26 17:25, Mark Brown wrote:
+> On Wed, Oct 14, 2026 at 05:21:00PM +0530, Mukunda,Vijendar wrote:
+>> On 14/10/26 16:14, Mark Brown wrote:
+>>> v1 is already in my CI queue, can you send an incremental change with
+>>> the new stuff in here.
+>> Posted an incremental patch set on top of v1.
+>> https://lore.kernel.org/alsa-devel/20261013154644.3788064-1-Vijendar.Mukunda@amd.com/T/#m6b17b469c043e46ee50a3a85903324c896c81c4e
+> Thanks.  If you're sending a series as opposed to a single patch please
+> always send a cover letter, it makes life a lot easier for tooling.
+> It'll be fine in this case, just a note for future stuff.
+Noted, thanks. I'll include a cover letter for patch series going forward.
 
-Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
----
- sound/soc/tegra/Kconfig              |  10 ++
- sound/soc/tegra/Makefile             |   2 +
- sound/soc/tegra/tegra_asoc_machine.c |   2 +
- sound/soc/tegra/tegra_wm8994.c       | 175 +++++++++++++++++++++++++++
- 4 files changed, 189 insertions(+)
- create mode 100644 sound/soc/tegra/tegra_wm8994.c
-
-diff --git a/sound/soc/tegra/Kconfig b/sound/soc/tegra/Kconfig
-index fdc954028d622..dd3b2d3d6c4c9 100644
---- a/sound/soc/tegra/Kconfig
-+++ b/sound/soc/tegra/Kconfig
-@@ -239,6 +239,16 @@ config SND_SOC_TEGRA_WM8962
- 	  boards using the WM8962 codec. Currently, the supported boards are
- 	  Microsoft Surface RT.
- 
-+config SND_SOC_TEGRA_WM8994
-+	tristate "SoC Audio support for Tegra boards using a WM8994 codec"
-+	depends on I2C && GPIOLIB && MFD_WM8994
-+	select SND_SOC_TEGRA_MACHINE_DRV
-+	select SND_SOC_WM8994
-+	help
-+	  Say Y or M here if you want to add support for SoC audio on Tegra
-+	  boards using the WM8994 codec. Currently, the supported boards are
-+	  LG Optimus X2 P990.
-+
- config SND_SOC_TEGRA_WM9712
- 	tristate "SoC Audio support for Tegra boards using a WM9712 codec"
- 	depends on GPIOLIB
-diff --git a/sound/soc/tegra/Makefile b/sound/soc/tegra/Makefile
-index 1c18ef6971c09..b8f90149bfa63 100644
---- a/sound/soc/tegra/Makefile
-+++ b/sound/soc/tegra/Makefile
-@@ -43,10 +43,12 @@ obj-$(CONFIG_SND_SOC_TEGRA210_OPE) += snd-soc-tegra210-ope.o
- # Tegra machine Support
- snd-soc-tegra-wm8903-y := tegra_wm8903.o
- snd-soc-tegra-wm8962-y := tegra_wm8962.o
-+snd-soc-tegra-wm8994-y := tegra_wm8994.o
- snd-soc-tegra-machine-y := tegra_asoc_machine.o
- snd-soc-tegra-audio-graph-card-y := tegra_audio_graph_card.o
- 
- obj-$(CONFIG_SND_SOC_TEGRA_WM8903) += snd-soc-tegra-wm8903.o
- obj-$(CONFIG_SND_SOC_TEGRA_WM8962) += snd-soc-tegra-wm8962.o
-+obj-$(CONFIG_SND_SOC_TEGRA_WM8994) += snd-soc-tegra-wm8994.o
- obj-$(CONFIG_SND_SOC_TEGRA_MACHINE_DRV) += snd-soc-tegra-machine.o
- obj-$(CONFIG_SND_SOC_TEGRA_AUDIO_GRAPH_CARD) += snd-soc-tegra-audio-graph-card.o
-diff --git a/sound/soc/tegra/tegra_asoc_machine.c b/sound/soc/tegra/tegra_asoc_machine.c
-index e4af049fd7e89..e2d0e5947339d 100644
---- a/sound/soc/tegra/tegra_asoc_machine.c
-+++ b/sound/soc/tegra/tegra_asoc_machine.c
-@@ -122,6 +122,8 @@ static const struct snd_soc_dapm_widget tegra_machine_dapm_widgets[] = {
- 	SND_SOC_DAPM_LINE("Line In Jack", NULL),
- 	SND_SOC_DAPM_LINE("Line In", NULL),
- 	SND_SOC_DAPM_LINE("LineIn", NULL),
-+	SND_SOC_DAPM_LINE("Line Out", NULL),
-+	SND_SOC_DAPM_INPUT("FM Radio"),
- };
- 
- static const struct snd_kcontrol_new tegra_machine_controls[] = {
-diff --git a/sound/soc/tegra/tegra_wm8994.c b/sound/soc/tegra/tegra_wm8994.c
-new file mode 100644
-index 0000000000000..1550faeba7256
---- /dev/null
-+++ b/sound/soc/tegra/tegra_wm8994.c
-@@ -0,0 +1,175 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+//
-+// tegra_wm8994.c - Tegra machine ASoC driver for boards using WM8994 codec.
-+//
-+// Copyright (C) 2026 Svyatoslav Ryhel <clamor95@gmail.com>
-+//
-+// Based on tegra_wm8994 code copyright/by:
-+//
-+// Author: Sumit Bhattacharya <sumitb@nvidia.com>
-+// Copyright (C) 2010-2011 - NVIDIA, Inc.
-+//
-+// Based on code copyright/by:
-+//
-+// (c) 2009, 2010 Nvidia Graphics Pvt. Ltd.
-+//
-+// Copyright 2007 Wolfson Microelectronics PLC.
-+// Author: Graeme Gregory
-+//         graeme.gregory@wolfsonmicro.com or linux@wolfsonmicro.com
-+
-+#include <linux/gpio/consumer.h>
-+#include <linux/of.h>
-+#include <linux/module.h>
-+#include <linux/platform_device.h>
-+
-+#include <sound/core.h>
-+#include <sound/jack.h>
-+#include <sound/soc.h>
-+
-+#include "../codecs/wm8994.h"
-+
-+#include "tegra_asoc_machine.h"
-+
-+static struct snd_soc_jack_pin tegra_wm8994_mic_jack_pins[] = {
-+	{ .pin = "Mic Jack", .mask = SND_JACK_MICROPHONE },
-+};
-+
-+static unsigned int tegra_wm8994_mclk_rate(unsigned int srate)
-+{
-+	unsigned int mclk;
-+
-+	switch (srate) {
-+	case 8000:
-+	case 16000:
-+	case 24000:
-+	case 32000:
-+	case 48000:
-+	case 64000:
-+	case 96000:
-+		mclk = 12288000;
-+		break;
-+	case 11025:
-+	case 22050:
-+	case 44100:
-+	case 88200:
-+		mclk = 11289600;
-+		break;
-+	default:
-+		mclk = 12000000;
-+		break;
-+	}
-+
-+	return mclk;
-+}
-+
-+static const struct snd_kcontrol_new tegra_wm8994_controls[] = {
-+	SOC_DAPM_PIN_SWITCH("Speakers"),
-+	SOC_DAPM_PIN_SWITCH("Int Spk"),
-+	SOC_DAPM_PIN_SWITCH("Int Mic"),
-+	SOC_DAPM_PIN_SWITCH("Headset Mic"),
-+	SOC_DAPM_PIN_SWITCH("Internal Mic 1"),
-+	SOC_DAPM_PIN_SWITCH("Internal Mic 2"),
-+	SOC_DAPM_PIN_SWITCH("Headphones"),
-+	SOC_DAPM_PIN_SWITCH("Mic Jack"),
-+	SOC_DAPM_PIN_SWITCH("Line Out"),
-+	SOC_DAPM_PIN_SWITCH("FM Radio"),
-+};
-+
-+static int tegra_wm8994_init(struct snd_soc_pcm_runtime *rtd)
-+{
-+	struct tegra_machine *machine = snd_soc_card_get_drvdata(rtd->card);
-+	int err;
-+
-+	err = tegra_asoc_machine_init(rtd);
-+	if (err)
-+		return err;
-+
-+	if (!machine->gpiod_mic_det && machine->asoc->add_mic_jack) {
-+		struct snd_soc_dai *codec_dai = snd_soc_rtd_to_codec(rtd, 0);
-+		struct snd_soc_component *component = codec_dai->component;
-+
-+		err = snd_soc_card_jack_new_pins(rtd->card, "Mic Jack",
-+						 SND_JACK_MICROPHONE,
-+						 machine->mic_jack,
-+						 tegra_wm8994_mic_jack_pins,
-+						 ARRAY_SIZE(tegra_wm8994_mic_jack_pins));
-+		if (err) {
-+			dev_err(rtd->dev, "Mic Jack creation failed: %d\n", err);
-+			return err;
-+		}
-+
-+		wm8994_mic_detect(component, machine->mic_jack, 1);
-+	}
-+
-+	return 0;
-+}
-+
-+static int tegra_wm8994_remove(struct snd_soc_card *card)
-+{
-+	struct snd_soc_dai_link *link = &card->dai_link[0];
-+	struct snd_soc_pcm_runtime *rtd = snd_soc_get_pcm_runtime(card, link);
-+	struct tegra_machine *machine = snd_soc_card_get_drvdata(rtd->card);
-+	struct snd_soc_dai *codec_dai = snd_soc_rtd_to_codec(rtd, 0);
-+	struct snd_soc_component *component = codec_dai->component;
-+
-+	if (!machine->gpiod_mic_det && machine->asoc->add_mic_jack)
-+		wm8994_mic_detect(component, NULL, 1);
-+
-+	return 0;
-+}
-+
-+SND_SOC_DAILINK_DEFS(wm8994_hifi,
-+	DAILINK_COMP_ARRAY(COMP_EMPTY()),
-+	DAILINK_COMP_ARRAY(COMP_CODEC(NULL, "wm8994-aif1")),
-+	DAILINK_COMP_ARRAY(COMP_EMPTY()));
-+
-+static struct snd_soc_dai_link tegra_wm8994_dai = {
-+	.name = "WM8994",
-+	.stream_name = "WM8994 PCM",
-+	.init = tegra_wm8994_init,
-+	.dai_fmt = SND_SOC_DAIFMT_I2S |
-+		   SND_SOC_DAIFMT_NB_NF |
-+		   SND_SOC_DAIFMT_CBC_CFC,
-+	SND_SOC_DAILINK_REG(wm8994_hifi),
-+};
-+
-+static struct snd_soc_card snd_soc_tegra_wm8994 = {
-+	.components = "codec:wm8994",
-+	.owner = THIS_MODULE,
-+	.dai_link = &tegra_wm8994_dai,
-+	.num_links = 1,
-+	.controls = tegra_wm8994_controls,
-+	.num_controls = ARRAY_SIZE(tegra_wm8994_controls),
-+	.remove = tegra_wm8994_remove,
-+	.fully_routed = true,
-+};
-+
-+static const struct tegra_asoc_data tegra_wm8994_data = {
-+	.mclk_rate = tegra_wm8994_mclk_rate,
-+	.mclk_id = WM8994_SYSCLK_MCLK1,
-+	.card = &snd_soc_tegra_wm8994,
-+	.add_common_dapm_widgets = true,
-+	.add_common_snd_ops = true,
-+	.add_mic_jack = true,
-+	.add_hp_jack = true,
-+};
-+
-+static const struct of_device_id tegra_wm8994_of_match[] = {
-+	{ .compatible = "nvidia,tegra-audio-wm8994", .data = &tegra_wm8994_data },
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(of, tegra_wm8994_of_match);
-+
-+static struct platform_driver tegra_wm8994_driver = {
-+	.driver = {
-+		.name = "tegra-wm8994",
-+		.of_match_table = tegra_wm8994_of_match,
-+		.pm = &snd_soc_pm_ops,
-+	},
-+	.probe = tegra_asoc_machine_probe,
-+};
-+module_platform_driver(tegra_wm8994_driver);
-+
-+MODULE_AUTHOR("Svyatoslav Ryhel <clamor95@gmail.com>");
-+MODULE_DESCRIPTION("Tegra+WM8994 machine ASoC driver");
-+MODULE_LICENSE("GPL");
--- 
-2.53.0
 
