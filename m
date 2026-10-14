@@ -1,30 +1,30 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EF1E3C5857;
-	Wed, 14 Oct 2026 03:25:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 847AE3C1977;
+	Wed, 14 Oct 2026 03:25:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791948333; cv=none; b=vAWfWU8+CaOYvIOV2VgExu+siVCjdyVdqLA2cD34S8xjg3z1e4bbKSWQZQQuS3bcbVKlT+/uqzcqF/XR/J8bRuE9kBrIXUITp7G8JkCkF5t5e9np+yaA9yJZVqgPRrK8i2jtzEhsCEEMotDL7tjnqI1xrYFP9mXqo4/NfABnWK8=
+	t=1791948334; cv=none; b=OPjye8FkLMkViNfC1ZJMCR1YpN3QEcjpeUlp3Doz6emi0S8/K2/Q6BQZoFtiCgx0dDDXhAhvKTgVSG3BzdJsJ9DFV7XD/5crxcAfOrMsvokz3ncc/OWyrThl5S2F3ubB2++iKSs4hycG22bAoEyhAoyCrp+9M+jlRzjd9d9Lxc0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791948333; c=relaxed/simple;
-	bh=fw5lB2sgYxZgdLlQFDwjQeBXVp7tJFOURK6CCOvlzxw=;
+	s=arc-20240116; t=1791948334; c=relaxed/simple;
+	bh=gNgb5psNen8K/d5g8peQEmCtk/uEuyEtVGGXsKMXYps=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=a0y/pcwVPyrs3tQE3ajzNDkruNRf3U3QlceQlJC8t06buEpYaqdO9PieMs/hxFEK1GMn+vtowF2oRfcbvafa0N7aVOzguoNLROXGxZzAMD831Wy+GmmIs+jreKWbSWXgP8w7bHJs2DBzD+QglXllLy70yhP8+1Nd8pAXSNnHMRA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=RYJdVxtn; arc=none smtp.client-ip=220.197.31.5
+	 MIME-Version; b=J0jDYERTpAuas8aev51F2poL0yIPehnfVdJ+KoFxm2TBXhk8mSqMrakVa41oxdorvj3Lol1kOLa0VcDcvxzjO8QxdBdeikExkulfXM0LqbTZwO+v22GwVcjtYKgOf2wkmLgPtyWMecOt6wqJNDRkWqjBJEB4L2c1luLQHlYiyIY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=WN46vypI; arc=none smtp.client-ip=220.197.31.3
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="RYJdVxtn"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="WN46vypI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=Vj
-	aOfUXLUmCqR08z3V3xlnlFVncViHQcbCDJvc5knMw=; b=RYJdVxtnQoJDWIAhKj
-	ex3o75fQz2hw32V5iw4y3PsG0QUoWDwS6Rkq4B8yJpP9iPymMnfac3wsvrqLaIZU
-	o1xbiWnA6XDJleuBlvVHVQv6zapenHQDgr865pAXpuX+UJOnWLYZX1cpHhucTjCI
-	3hw9NwS1SBOAUYpyfvL0D4buE=
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=H/
+	sYmUCbiWUcpNWRY/wG3e2SV+DXH/sxQvHGXTzq84g=; b=WN46vypIzohvHirscs
+	V73GT7A8jKtnq2TPue8IZjGh/tWguIFekg6IHeUf4GMpAmHgQJxNGEcKpMBeeg4g
+	gVQUQL/aMMxYOwEoaAO/9HoLGEMl46pK89MSq/0ArsGW3EpMfylDQNQdcsNqEDdr
+	kvMGYIb3AouMUbW7uPbxGMrBw=
 Received: from localhost.localdomain (unknown [])
-	by gzga-smtp-mtada-g1-1 (Coremail) with SMTP id _____wD3v88G9s5quKBFEQ--.27196S6;
-	Wed, 14 Oct 2026 11:24:57 +0800 (CST)
+	by gzga-smtp-mtada-g1-1 (Coremail) with SMTP id _____wD3v88G9s5quKBFEQ--.27196S8;
+	Wed, 14 Oct 2026 11:24:59 +0800 (CST)
 From: Pengpeng Hou <hppiscas@163.com>
 To: Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>
@@ -32,15 +32,13 @@ Cc: Pengpeng Hou <hppiscas@163.com>,
 	Oder Chiou <oder_chiou@realtek.com>,
 	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
-	Jack Yu <jack.yu@realtek.com>,
 	Bard Liao <bardliao@realtek.com>,
-	John Lin <john.lin@realtek.com>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Charles Keepax <ckeepax@opensource.cirrus.com>
-Subject: [PATCH v2 4/9] ASoC: rt5663: restore safe state after resume errors
-Date: Wed, 14 Oct 2026 11:24:47 +0800
-Message-ID: <20261014032452.13456-5-hppiscas@163.com>
+Subject: [PATCH v2 6/9] ASoC: rt5682: restore safe state after resume errors
+Date: Wed, 14 Oct 2026 11:24:49 +0800
+Message-ID: <20261014032452.13456-7-hppiscas@163.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20261014032452.13456-1-hppiscas@163.com>
 References: <20261014032452.13456-1-hppiscas@163.com>
@@ -51,19 +49,19 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wD3v88G9s5quKBFEQ--.27196S6
-X-Coremail-Antispam: 1Uf129KBjvJXoWxZw15Aw4xCF45Gw4rGrW3ZFb_yoW5Ww13pF
-	ZIgFZYyw1xXr4I9FZ0yr48ZF1rCrWxKayFy3y7K342y343Jr1xur1rtF12va4qqrW5Jrnr
-	Zr40q34kWF1rGaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pirMaOUUUUU=
-X-CM-SenderInfo: 5kssx2xfdvqiywtou0bp/xtbC7QoO1mrO9grDKQAA3N
+X-CM-TRANSID:_____wD3v88G9s5quKBFEQ--.27196S8
+X-Coremail-Antispam: 1Uf129KBjvJXoWxZw15Aw1kGr1kZFyrGw1xKrg_yoW5tw13pF
+	ZxGrZ5t3yUXrsFyF90yw48WF18GrWSka1jy347K34Utr15Arn3uw1fJr1UZF1DtrW0kFnr
+	Wr4jv3yUWF45G3JanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pircTQUUUUU=
+X-CM-SenderInfo: 5kssx2xfdvqiywtou0bp/xtbC7gsO1mrO9gu6eAAA3m
 
-rt5663_resume() ignores regcache_sync() failure before continuing
+rt5682_resume() ignores regcache_sync() failure before continuing
 dependent resume operations. Restore cache-only mode, leave the cache
 dirty, and return the replay error before those operations.
 
-Do not schedule jack-detection work or enable its IRQ after a failed
-replay.
+Leave the SoundWire no-op branch unchanged; stop the I2C jack restore
+path on replay failure.
 
 ASoC still marks the component resumed when the callback reports failure.
 Track the suspend-owned IRQ disable so another suspend does not increment
@@ -73,7 +71,7 @@ change the framework's best-effort card resume policy.
 
 The issue was found by our static-analysis tool and manually reviewed.
 
-Fixes: df7c52168ee1 ("ASoC: add rt5663 codec driver")
+Fixes: 0ddce71c21f0 ("ASoC: rt5682: add rt5682 codec driver")
 Assisted-by: gpt 5
 Signed-off-by: Pengpeng Hou <hppiscas@163.com>
 ---
@@ -85,58 +83,70 @@ Changes since v1:
 Previous series:
 https://lore.kernel.org/all/20260906034321.86080-1-hppiscas@163.com/
 
- sound/soc/codecs/rt5663.c |   17 ++++++++++++++---
- 1 file changed, 14 insertions(+), 3 deletions(-)
+ sound/soc/codecs/rt5682.c |   16 +++++++++++++---
+ sound/soc/codecs/rt5682.h |    1 +
+ 2 files changed, 14 insertions(+), 3 deletions(-)
 
-diff --git a/sound/soc/codecs/rt5663.c b/sound/soc/codecs/rt5663.c
-index ec46e6180cc0ee9fd66df0174bf0d0ac8022dc45..bd6a8e98bf44445e91edf81896f526a180df083f 100644
---- a/sound/soc/codecs/rt5663.c
-+++ b/sound/soc/codecs/rt5663.c
-@@ -75,6 +75,7 @@ struct rt5663_priv {
+diff --git a/sound/soc/codecs/rt5682.c b/sound/soc/codecs/rt5682.c
+index 1aceb08b280d6cd4eca01badbc3107b0645c8949..db3f1383f84f5abaa2dc35681c59fe3f4a6188d4 100644
+--- a/sound/soc/codecs/rt5682.c
++++ b/sound/soc/codecs/rt5682.c
+@@ -2962,8 +2962,10 @@ static int rt5682_suspend(struct snd_soc_component *component)
+ 	if (rt5682->is_sdw)
+ 		return 0;
  
- 	int jack_type;
- 	unsigned int irq;
-+	bool suspend_irq_disabled;
- };
- 
- static const struct reg_sequence rt5663_patch_list[] = {
-@@ -3187,8 +3188,10 @@ static int rt5663_suspend(struct snd_soc_component *component)
- {
- 	struct rt5663_priv *rt5663 = snd_soc_component_get_drvdata(component);
- 
--	if (rt5663->irq)
-+	if (rt5663->irq && !rt5663->suspend_irq_disabled) {
- 		disable_irq(rt5663->irq);
-+		rt5663->suspend_irq_disabled = true;
+-	if (rt5682->irq)
++	if (rt5682->irq && !rt5682->suspend_irq_disabled) {
+ 		disable_irq(rt5682->irq);
++		rt5682->suspend_irq_disabled = true;
 +	}
  
- 	cancel_delayed_work_sync(&rt5663->jack_detect_work);
- 	cancel_delayed_work_sync(&rt5663->jd_unplug_work);
-@@ -3202,14 +3205,22 @@ static int rt5663_suspend(struct snd_soc_component *component)
- static int rt5663_resume(struct snd_soc_component *component)
+ 	cancel_delayed_work_sync(&rt5682->jack_detect_work);
+ 	cancel_delayed_work_sync(&rt5682->jd_check_work);
+@@ -3010,12 +3012,18 @@ static int rt5682_suspend(struct snd_soc_component *component)
+ static int rt5682_resume(struct snd_soc_component *component)
  {
- 	struct rt5663_priv *rt5663 = snd_soc_component_get_drvdata(component);
+ 	struct rt5682_priv *rt5682 = snd_soc_component_get_drvdata(component);
 +	int ret;
  
- 	regcache_cache_only(rt5663->regmap, false);
--	regcache_sync(rt5663->regmap);
-+	ret = regcache_sync(rt5663->regmap);
+ 	if (rt5682->is_sdw)
+ 		return 0;
+ 
+ 	regcache_cache_only(rt5682->regmap, false);
+-	regcache_sync(rt5682->regmap);
++	ret = regcache_sync(rt5682->regmap);
 +	if (ret) {
-+		regcache_cache_only(rt5663->regmap, true);
-+		regcache_mark_dirty(rt5663->regmap);
++		regcache_cache_only(rt5682->regmap, true);
++		regcache_mark_dirty(rt5682->regmap);
 +		return ret;
 +	}
  
- 	rt5663_irq(0, rt5663);
+ 	if (rt5682->hs_jack && (rt5682->jack_type & SND_JACK_HEADSET) == SND_JACK_HEADSET) {
+ 		snd_soc_component_update_bits(component, RT5682_SAR_IL_CMD_1,
+@@ -3033,8 +3041,10 @@ static int rt5682_resume(struct snd_soc_component *component)
+ 	mod_delayed_work(system_power_efficient_wq,
+ 		&rt5682->jack_detect_work, msecs_to_jiffies(0));
  
--	if (rt5663->irq)
-+	if (rt5663->suspend_irq_disabled) {
-+		rt5663->suspend_irq_disabled = false;
- 		enable_irq(rt5663->irq);
+-	if (rt5682->irq)
++	if (rt5682->suspend_irq_disabled) {
++		rt5682->suspend_irq_disabled = false;
+ 		enable_irq(rt5682->irq);
 +	}
  
  	return 0;
  }
+diff --git a/sound/soc/codecs/rt5682.h b/sound/soc/codecs/rt5682.h
+index de43a5d99403b926c21b2415af9022b42bf9ae8b..74356cd7fb45d84a49b6d532538ff03c529763e8 100644
+--- a/sound/soc/codecs/rt5682.h
++++ b/sound/soc/codecs/rt5682.h
+@@ -1466,6 +1466,7 @@ struct rt5682_priv {
+ 
+ 	int jack_type;
+ 	int irq;
++	bool suspend_irq_disabled;
+ 	int irq_work_delay_time;
+ };
+ 
 
 base-commit: 8ef28aef33f2d5da6959ad6b579ec3cfccc009f6
 
