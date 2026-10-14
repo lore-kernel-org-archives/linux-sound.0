@@ -1,270 +1,196 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010071.outbound.protection.outlook.com [52.101.46.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1046B2E7185;
-	Wed, 14 Oct 2026 10:07:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791972432; cv=none; b=tAEaD9G2rXD3TCVL2WDJXFAzBZ5qZPAG6N6UiWQtP7ruUf6RShQntgsvMxPcAvpklNLQsEQwutc008ezHE+wWeqbj94tcIYXrYpIhYP9Kt67R4i3ZDW65onhnnW2yeqtCNyegUqHj2JH54Xi9OTEFAip5bal56dB+xpTOPEujwQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791972432; c=relaxed/simple;
-	bh=ewRbFEdJzK10AsdH8UzpTsvJMSbM/G1SyD2t5Hjy02k=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=SIOqDgHZwZkAqOLJpPrwnrpjJd5rCqM7lt9oR7I2E/6GUJw1RC6D62czS9b0vaFtR6YqoUp7jLgrtnDjkt7dadCdtUDxb0NU/bJyPC9DcEK18NsJEnsCTSjfmnbyayWi8xYHOiXzF+7HOAMge/EiNUOeqmJWJnmzf2kSHCFNhk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1QUA6xQL; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=dFj5/C24; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1QUA6xQL; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=dFj5/C24; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC727418A5B;
+	Wed, 14 Oct 2026 10:10:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.46.71
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791972610; cv=fail; b=kccVEEwORyJFkzy8hlJdAD1J+7wXHP2EKBT3sk/g680ScqpuKf7SQ+dZ3JuiKNSFBqIXqZ4SWEDvs9X6k8ABNqmkdRM6VlAlh+MKeWwWL2cgKn1/OChcHqTFUR7atW8CD/nu5jlMLTWZlLill+vhjrlDG8gokToFS/8mQdNtCOI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791972610; c=relaxed/simple;
+	bh=N8/qLIT9pUcIeidsDH1vXjG1txF+hsH3Yim4Z/qsrng=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=dbV0tgcwfHDxfslYjpRqK8UgIK/ZjS3orbwWoIg7+2iaVxvhsZkqnD5xeDWni4Tj8Tc+2c/PGOSXeor8GXZSkGb5w09JgeGlGE7KUcRCcqFPlKqWDe86vEadC6d/9Wj+67lifeNGTZZJaX0jJksGxeCCG5i5bgEZoYJ/50AltRY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=dj0Ut2Ng; arc=fail smtp.client-ip=52.101.46.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1QUA6xQL";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="dFj5/C24";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1QUA6xQL";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="dFj5/C24"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 41C1F1F88F;
-	Wed, 14 Oct 2026 10:07:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1791972423; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pMq6RemBayrGyjOazp2iW03XQXAwMJUvEX4tKc8utxA=;
-	b=1QUA6xQLLLqqQEyb44ltaJ6i94m1i9OviIL+vJFBgCv6sfb8fF49LqaX4mdtQOGcPj8Z0E
-	YPE7jty17QR+BLoMi0vFTo6t/KUT8OBf0Gr8ba4NEV9PlF9vGVP4mtCRcM0Dqqp5TDl+bJ
-	vfo8PbZ1V0TpIwXZWpZp19Kvjha3S9A=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1791972423;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pMq6RemBayrGyjOazp2iW03XQXAwMJUvEX4tKc8utxA=;
-	b=dFj5/C24o33f6idQKUfQkVvyhiSd0MQbJzTsXKwCvYf/lGZ/vY4BT6CN1kxCM3+VDsVxgm
-	hYQghzORmrdmtOCQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1791972423; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pMq6RemBayrGyjOazp2iW03XQXAwMJUvEX4tKc8utxA=;
-	b=1QUA6xQLLLqqQEyb44ltaJ6i94m1i9OviIL+vJFBgCv6sfb8fF49LqaX4mdtQOGcPj8Z0E
-	YPE7jty17QR+BLoMi0vFTo6t/KUT8OBf0Gr8ba4NEV9PlF9vGVP4mtCRcM0Dqqp5TDl+bJ
-	vfo8PbZ1V0TpIwXZWpZp19Kvjha3S9A=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1791972423;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pMq6RemBayrGyjOazp2iW03XQXAwMJUvEX4tKc8utxA=;
-	b=dFj5/C24o33f6idQKUfQkVvyhiSd0MQbJzTsXKwCvYf/lGZ/vY4BT6CN1kxCM3+VDsVxgm
-	hYQghzORmrdmtOCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CE04B1368E;
-	Wed, 14 Oct 2026 10:07:02 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id h0ywKEZUz2q2WAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 14 Oct 2026 10:07:02 +0000
-Date: Wed, 14 Oct 2026 12:07:02 +0200
-Message-ID: <87jynkegu1.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Cen Zhang <zzzccc427@gmail.com>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	sammiee5311@gmail.com,
-	phucduc.bui@gmail.com,
-	kees@kernel.org,
-	thomas.weissschuh@linutronix.de,
-	tglx@kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	baijiaju1990@gmail.com,
-	jjzuming@gmail.com
-Subject: Re: [PATCH] ALSA: dummy: Defer hrtimer data freeing until runtime detach
-In-Reply-To: <87o6cweheq.wl-tiwai@suse.de>
-References: <pm-pmb-9c80f858ccc13b3de84d-v6-d4059ea2910fe5430f5f@gmail.com>
-	<877bjkg35f.wl-tiwai@suse.de>
-	<CAFRLqsUH-ehHgXsqFGANE2h0-3WBkeNh7-AOvf5ymWAOH5r5Mw@mail.gmail.com>
-	<87v774ejkp.wl-tiwai@suse.de>
-	<CAFRLqsX8rqZrJfLPBOhBmuwXHq_wnxiwfxDGevfQ3wMFo2thgg@mail.gmail.com>
-	<87o6cweheq.wl-tiwai@suse.de>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="dj0Ut2Ng"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ez7r/GS7NnTvA9Ri4jsHIwqHx9hfMH7KsTYdR2U8vJu7U7Jy5iylOujMZLjgF6LBwRBmBtLDujGNuPsGnEOfFK9MyEnozSXUEvUDF1Itgw3PjYHXCfZJFKLS3pxF95aZxflGnmRL9vPqJFUNFsNZA0LsF2zbvBvC+6VjPwioUHjPt7u4W85DWdY/qoDFOTeBrlpELla4UmU4awQ5Hs/ge4QYt7ZMu6xhu7F2kFJInVklg1FRXbBwyMu/Mmhq2bqaVjGVjgGneKyLie55ElXmve7Jm6W3UoOpzBpEIZF+uEVsqd6z4MT5Cg72bqTnxvNyqWC/0OlR4xuaMG/AaaznkA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rxR6TT3XuoJcJSL0T1aZxIv/O3lGjOIDnUdhadeSWvk=;
+ b=UovAYwcWTq7Si/c0XmXAsMJ2pEzlYyXJZmDbLbHE2tyNtLEOp56hOqwDbU+9Jp+gCrkext/O0IoKMeBdp7SQXNzGtAMxZOw9jOFj49wIC31cl5BMhU6CxzIGuR0CtW9d/7o4c0lZZ5+F6Zjvk/YY+IA4efOwPuKFo3ME5ci35e34iX2HW40lriwKIGKsxe+1ZLg7T/MNxjjUTPtu4BUav/UQcIqfK4QeRkjBau8QIerQ6QJPoqlQr3OQwgFJlmXZ1mrw1kXAaGk/c0PfinD5OlFBaDn8/qos02NZBBvshIHEh+HIkBtK2tDcmdOzwo2TP91v4tQByUy2Tmy1sm659Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rxR6TT3XuoJcJSL0T1aZxIv/O3lGjOIDnUdhadeSWvk=;
+ b=dj0Ut2NgM04TT7zbvR/pvTgCu0mUkigl+LzcPvyI3gLNAMrhlkdYHddj5xhK+bmRzR5F9jYEuYhLeW/dfLlULVUcsY9uRmubTJznzcPC265bkQdg8OZ6cmsDtIsnbHhnW6JbbFDxGxlinAoY0HVLXRIsMHCUZKxzWq/cR9fOP+I=
+Received: from BL1PR13CA0382.namprd13.prod.outlook.com (2603:10b6:208:2c0::27)
+ by PH8PR12MB6985.namprd12.prod.outlook.com (2603:10b6:510:1bc::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.27; Wed, 14 Oct
+ 2026 10:10:02 +0000
+Received: from BN3PEPF00022BBE.namprd04.prod.outlook.com
+ (2603:10b6:208:2c0:cafe::7d) by BL1PR13CA0382.outlook.office365.com
+ (2603:10b6:208:2c0::27) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.382.10 via Frontend Transport; Wed,
+ 14 Oct 2026 10:10:02 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
+ is 165.204.84.17) smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ BN3PEPF00022BBE.mail.protection.outlook.com (10.167.248.119) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.522.6 via Frontend Transport; Wed, 14 Oct 2026 10:10:01 +0000
+Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.53; Wed, 14 Oct
+ 2026 05:09:55 -0500
+Received: from amd-System-Product-Name.amd.com (10.180.168.240) by
+ satlexmb07.amd.com (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.53
+ via Frontend Transport; Wed, 14 Oct 2026 05:09:51 -0500
+From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+To: <broonie@kernel.org>
+CC: <alsa-devel@alsa-project.org>, <lgirdwood@gmail.com>, <perex@perex.cz>,
+	<tiwai@suse.com>, <yung-chuan.liao@linux.intel.com>,
+	<Basavaraj.Hiregoudar@amd.com>, <Sunil-kumar.Dommati@amd.com>,
+	<venkataprasad.potturu@amd.com>, <Syed.SabaKareem@amd.com>,
+	<Mario.Limonciello@amd.com>, <Richard.Gong@amd.com>,
+	<Vijendar.Mukunda@amd.com>, <Poojitha.N@amd.com>,
+	<linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<sound-open-firmware@alsa-project.org>
+Subject: [PATCH v2 00/10] ASoC: SOF/amd: ACP7.B support and ASP carveout firmware loading
+Date: Wed, 14 Oct 2026 15:29:08 +0530
+Message-ID: <20261014100902.1215212-1-Vijendar.Mukunda@amd.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-1.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_CC(0.00)[perex.cz,suse.com,gmail.com,kernel.org,linutronix.de,vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_ALL(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com]
-X-Spam-Score: -1.80
-X-Spam-Level: 
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN3PEPF00022BBE:EE_|PH8PR12MB6985:EE_
+X-MS-Office365-Filtering-Correlation-Id: 42780639-b306-47ad-6e54-08df29db4f95
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|82310400026|36860700016|376014|23010399003|56012099006|10067099003|261009223027099003|18002099003|11063799006;
+X-Microsoft-Antispam-Message-Info:
+	eofDJWQi4crOTiSw0qTRNS13E3J/glp4TWdNLWHWToHZKQbRaxy5IPtKa/mbAjFf/7n0u55qExL+pswKg3MdjfIxrUL6vUYg0gLwtqtYbkGLjv6qN9T7URq+nrh6ilhZQfdUxSdduAKtxELuVxvnCdZRMnll7n8/x62n644k7lPcCVlVlXL6uQErSzXWXoTfiaHX7Lozt1/DIOdR4PvL3iP9LYupJMUc/jDF+zbNfhsF8N8vjYaA+ZtnBGJ+Bgy40gO7hIZW5kxl5z4htHJx6EbCHpoYhq1pWBpWfjXEJbQTes4wDbpOX6hYnU430wZt/QF//jnxafgnPu+qEMwQtvplQkpi8yvR2E6ORJXu+3DT1SKawUKHxmcnTQkJBOomq1FKRP7PK/O/heO1oL6V1fLu2wn7AoB/Ha48AVzCqdvZolQgUpIZtqNxmDSl0wC7Q+S3GYGUG8uvMEuhi9k+K3JuhQxiiJM0knLW7FEIwMQQQCSGsNLpae1DxyNrq8TK9aaEr2BA6NLqOibln6e5H7/aO6qqrgfQQfj9ecna3vOTIpzYdYiDuUg4loWgx192lvX5w0ofMuHvZ8GR8mm7fDk5vcKrGWnX8rkFI5XD3PNk2nlAZHETkxEBco3Jnj9YpI/8K6NZgI9WQW319myIbRcGwy+rFkgqXh//r1Uo/LscPAwnTNHXF/rM/ox5hzTQm1w6xkCwhxhEOAnAHODl0w==
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(36860700016)(376014)(23010399003)(56012099006)(10067099003)(261009223027099003)(18002099003)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	7xUMgd0C6mPWqxkj694HfK5cGRuPy4MIRhv7jHt36Vy+Tvmp8/syLmSozztGi/vjiYBfvrcsf1v0C9xyJ123pJNnu7rqTVc310gmfT0horUzrZIbhgw8Hs81K0JUEpJZonK0ar4XWQ9HlD+GmIltxFAcLnkr3u0KwV4FuiBXor8AEta/iP/ME3W3j34BppQMoi+/rMs8/GFzd/KnLF/I1QJyPJx3AuVVQRte/OkbWWoP+iAUydIVQRBTKGRPFR4Ik50sHWUAwZJidQk2gtsPp9NfpZB47C9mepWk8CUigqO/AUF2eWm/j+anK4HieQ8vXkNHS6RYN8aOkxlvuUCIPsrNNpXm12RO4W/MleygnCqZ1aArH6Fnn+0g/RDnutwKK/K00hySs+Mo+uVJ59MZtdqc/jJM1PQNuB+9WVlvebES/eUWMInOPEnqcsxoMnSk
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2026 10:10:01.9282
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 42780639-b306-47ad-6e54-08df29db4f95
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN3PEPF00022BBE.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6985
 
-On Wed, 14 Oct 2026 11:54:37 +0200,
-Takashi Iwai wrote:
-> 
-> On Wed, 14 Oct 2026 11:33:54 +0200,
-> Cen Zhang wrote:
-> > 
-> > Hi Takashi,
-> > 
-> > >
-> > > That's not what I didn't understand: do both A and B use the same
-> > > device?  The release shouldn't happen until all detached, so the
-> > > prepare and the release can't happen concurrently for the same device.
-> > >
-> > > If A and B are for different devices, they don't interfere with each
-> > > other in the case of dummy driver.
-> > >
-> > 
-> > Yes, A and B use the same PCM device. The test opens
-> > /dev/snd/pcmC0D0c twice, and SNDRV_PCM_IOCTL_INFO reports:
-> > 
-> >   A: card=0, device=0, subdevice=0, capture
-> >   B: card=0, device=0, subdevice=1, capture
-> > 
-> > They are separate substreams with separate runtimes. With the hrtimer
-> > backend selected, dummy_hrtimer_create() allocates a separate dpcm for
-> > each runtime. The test configures both with HW_PARAMS and explicitly
-> > links them with SNDRV_PCM_IOCTL_LINK.
-> > 
-> > Sorry, I should have been clearer about what is being released. The
-> > PCM device remains alive throughout. The object being freed is A's
-> > runtime->private_data, from A's driver close callback.
-> > 
-> > snd_pcm_release_substream() checks A's own ref_count. When A's last
-> > file reference is closed, it calls A's driver close before unlinking
-> > A, even while B is still open:
-> > 
-> >   Final close of A                  PREPARE ioctl on B
-> >   ----------------                  ------------------
-> >   snd_pcm_drop(): group -> SETUP
-> >   do_hw_free(A)
-> >   dummy_pcm_close(A)
-> >     kfree(A's dpcm)
-> >                                     snd_pcm_action_nonatomic(B)
-> >                                       Take link read lock
-> >                                       Walk group: B and A
-> >                                       snd_pcm_do_prepare(A)
-> >                                         dummy_pcm_prepare(A)
-> >                                           Read freed timer_ops
-> >   pcm_release_private(A)
-> >     snd_pcm_unlink(A)
-> >   snd_pcm_detach_substream(A)
-> > 
-> > B reaches A through the PCM core's linked-group iteration:
-> > snd_pcm_action_group() invokes the prepare action for each member.
-> > A is still linked and in SETUP at that point, which the prepare state
-> > check accepts. The two dummy runtimes do not share their private data;
-> > the group action explicitly invokes A's callback with A's substream.
-> > 
-> > The final close holds pcm->open_mutex, but the PREPARE path does not
-> > take that mutex. PREPARE holds snd_pcm_link_rwsem for reading and the
-> > members' buffer mutexes; driver close does not hold those locks across
-> > the free. The link write lock is taken at the later unlink.
-> > 
-> > That is the overlap I meant: A's own backend data can be freed while
-> > A is still reachable by a PREPARE action issued through B.
-> 
-> OK, it's then about unlinking in addition to the sync-stop.
-> 
-> I believe that we should rearrange the call order of unlink; it should
-> be rather called at the very beginning and unconditionally.
-> 
-> So the revised patch is something like below.
+This series adds ACP7.B platform support to the AMD SOF driver stack
+and implements the ASP-authenticated firmware load path required by
+both ACP7.B and ACP7.F.
 
-... and after re-reading the code, I noticed that the
-snd_pcm_sync_stop() call is redundant.  After snd_pcm_drop(), the code
-continues as:
+Patches 1-2 are preparatory renames and restructuring. The existing
+acp7x machine table and chip descriptor are renamed to acp7f to
+accurately reflect the hardware they target (ACP7.F). The probe
+callback is restructured to select the per-revision descriptor via a
+dedicated static pci_device_id entry rather than encoding it in
+driver_data of the shared ID table.
 
-	if (substream->hw_opened) {
-		if (substream->runtime->state != SNDRV_PCM_STATE_OPEN)
-			do_hw_free(substream);
-		substream->ops->close(substream);
-		substream->hw_opened = 0;
-	}
+Patches 3-4 add ACP7.B hardware support. Patch 3 adds the ACP7.B I2S
+machine table with its driver name, firmware image, and topology file.
+Patch 4 adds the acp7b chip descriptor and extends acp7x_pci_probe()
+to select it for ACP7B_PCI_ID revisions alongside the existing
+acp7f_desc path.
 
-and do_hw_free() does call snd_pcm_sync_stop()
+Patch 5 propagates the PCI subsystem Vendor and Device IDs from the
+AMD SOF machine driver into mach_params, enabling downstream SDW
+machine drivers to use them as an SSID.
 
-static int do_hw_free(struct snd_pcm_substream *substream)
-{
-	int result = 0;
+Patch 6 is a cleanup: register variable declarations in the ACP7.x
+SDW wake and PME handlers are consolidated to u32.
 
-	snd_pcm_sync_stop(substream, true);
-	if (substream->ops->hw_free)
-	.....
+Patches 7-9 address PDM controller selection for ACP7.B/7.F. Patch 7
+introduces acp-mach-common.h as a minimal shared header for types used
+across all AMD ACP machine driver variants (I2S, SoundWire, and SOF),
+and moves struct amd_pdm_pdata there from the SoundWire-specific
+soc_amd_sdw_common.h. Patch 8 moves the ACP7X_PDM_DMIC0/1 constants
+to acp-mach-common.h so there is a single shared location for all PDM
+types and values, removing the duplicate definition from
+sound/soc/sof/amd/acp.h. Patch 9 fixes a gap in the SDW machine select
+path where pdm_sel was not propagated to the machine driver, preventing
+acp-sdw-sof-mach.c from configuring the correct DMIC DAI link on
+ACP7.B/7.F platforms.
 
-That said, the only missing piece is the rearrangement of unlinking
-call order.  The hrtimer was a red herring, after all, and rather the
-access to a PCM substream that is being released via the PCM link was
-the real problem.
+Patch 10 implements the two-stage ASP carveout firmware load path for
+ACP7.B and ACP7.F. At probe time the driver queries ASP for the
+physical base address and ATU group of a pre-allocated 32 MB MALL
+carveout region; probe fails immediately if ASP does not support
+carveout. At load time the signed firmware image is sent to ASP via
+the MPASP mailbox VALIDATE_IMAGE command. ASP authenticates the image
+and deposits the raw binary into the carveout; the driver then
+SHA-DMAs from the carveout into DSP IRAM. On D3->D0 resume the
+carveout content is preserved, so the ASP authentication step is
+skipped and the driver restores directly from the saved carveout
+address.
 
-Please verify whether the fix below works for your case.
+Changes in v2:
+  - Add patch 8: move ACP7X_PDM_DMIC0/1 to acp-mach-common.h as the
+    canonical single definition, removing the duplicate from
+    sound/soc/sof/amd/acp.h
+  - Fix patch 10 (v1 patch 9): remove trailing blank line at EOF in
+    sound/soc/sof/amd/acp_asp_mailbox.c
 
+Vijendar Mukunda (10):
+  ASoC: SOF: amd: rename acp7x machine table and descriptor to acp7f
+  ASoC: SOF: amd: select descriptor per PCI revision in acp7x probe
+  ASoC: amd: add I2S machine table for ACP7.B
+  ASoC: SOF: amd: add ACP7.B chip descriptor and wire per-revision probe
+  ASoC: SOF: amd: Propagate PCI subsystem Vendor and Device IDs
+  ASoC: SOF: amd: consolidate local variable declarations
+  ASoC: amd: acp: add acp-mach-common.h for shared machine driver types
+  ASoC: amd: acp: move ACP7X_PDM_DMIC0/1 to acp-mach-common.h
+  ASoC: SOF: amd: propagate pdm_sel to SDW machine driver via
+    mach->pdata
+  ASoC: SOF: amd: add ASP carveout firmware loading for ACP7.B/7.F
 
-thanks,
+ sound/soc/amd/acp-config.c             |  22 +-
+ sound/soc/amd/acp/acp-mach-common.h    |  29 ++
+ sound/soc/amd/acp/soc_amd_sdw_common.h |  14 +-
+ sound/soc/amd/mach-config.h            |   3 +-
+ sound/soc/sof/amd/Makefile             |   2 +-
+ sound/soc/sof/amd/acp-common.c         |  17 +
+ sound/soc/sof/amd/acp-dsp-offset.h     |  58 +++
+ sound/soc/sof/amd/acp-loader.c         |  64 +++
+ sound/soc/sof/amd/acp-stream.c         |   9 -
+ sound/soc/sof/amd/acp.c                |  91 +++-
+ sound/soc/sof/amd/acp.h                | 110 ++++-
+ sound/soc/sof/amd/acp7x.c              |  11 +-
+ sound/soc/sof/amd/acp_asp_mailbox.c    | 558 +++++++++++++++++++++++++
+ sound/soc/sof/amd/pci-acp7x.c          |  80 +++-
+ 14 files changed, 1008 insertions(+), 60 deletions(-)
+ create mode 100644 sound/soc/amd/acp/acp-mach-common.h
+ create mode 100644 sound/soc/sof/amd/acp_asp_mailbox.c
 
-Takashi
-
-
--- 8< --
-diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
-index a845f242a163..4fea3f6df682 100644
---- a/sound/core/pcm_native.c
-+++ b/sound/core/pcm_native.c
-@@ -2792,18 +2792,14 @@ static int snd_pcm_hw_constraints_complete(struct snd_pcm_substream *substream)
- 	return 0;
- }
- 
--static void pcm_release_private(struct snd_pcm_substream *substream)
--{
--	if (snd_pcm_stream_linked(substream))
--		snd_pcm_unlink(substream);
--}
--
- void snd_pcm_release_substream(struct snd_pcm_substream *substream)
- {
- 	substream->ref_count--;
- 	if (substream->ref_count > 0)
- 		return;
- 
-+	snd_pcm_unlink(substream);
-+
- 	snd_pcm_drop(substream);
- 	if (substream->hw_opened) {
- 		if (substream->runtime->state != SNDRV_PCM_STATE_OPEN)
-@@ -2887,8 +2883,6 @@ static int snd_pcm_open_file(struct file *file,
- 		return -ENOMEM;
- 	}
- 	pcm_file->substream = substream;
--	if (substream->ref_count == 1)
--		substream->pcm_release = pcm_release_private;
- 	file->private_data = pcm_file;
- 
- 	return 0;
+-- 
+2.48.1
