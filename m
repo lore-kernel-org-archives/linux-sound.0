@@ -1,90 +1,89 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ABDC43D4EC;
-	Wed, 14 Oct 2026 06:53:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AB532F3C07;
+	Wed, 14 Oct 2026 06:56:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791960841; cv=none; b=eviqfoFIAVpkir2T8sRSI6hr+d20acpc2KCI0fdAS4aV0dtkWcZmroNPdgp1UiqNwDrVHEccy7ivKbzmnaZ6KYvXUqe42Z4CbzgLlzdf38urWp3SumnODd0Z34S64/qwa8+5vrEn7aIfUsy91580mi5CgW+eRMt5et+LxomPCSE=
+	t=1791960962; cv=none; b=OCscNuytjcnQj+W/vaV50JEAccXSx6lacI6l8Lq0ZSKdENYRzW3sl3zdPnUcJmKvSbaauzpJjVATWnnOZ9+9V4Dqrmy9mT3yC0D64wp7k2U8WVg7Y9gGfq+qC7Q/SqACfmQ4bAzT5h6bwfBjkkAScFuIFX4p73PcyzBdgd0IlQg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791960841; c=relaxed/simple;
-	bh=neLc3P9pWXBI0WfYqwlewdW6/shu+dtCm5r5afpzb20=;
+	s=arc-20240116; t=1791960962; c=relaxed/simple;
+	bh=elXshJHzqsP6151olGaqdu31VHh+iR3X8AhTxNdpilk=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OhMZjncbu3CW0KxOfh490RynSOIf/3QyyvkTkGEkpSr5VMI764Y3Cht+0KJ/3B0V9GX3mIPKKtGF2fZ/RTkpF9mqXv1pO95721cK4QJbNKQjjRTekpYz8mX99bs575DwndFkPcYqQpP0RfiTE3XQ6hxZgAwIXKe6Lozp9SGIwu8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ts+HP15E; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=qvV1qVYw; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=TExD2Zs/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=NHcBGDBz; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=s95RzmFfyArMyVMHmSCy0PoY2FjOszqur0UQBS2OknC7wfYtRUruyJ3MmjA7OUQvCS3VvmrF/43TUcP4p8dxdhfevvZjGBlKaMx5ebxnSF7xJUN/9ZhjmNuxvfXbtOUGMq1Okq/XLOwLkSB/fhrf2FyuS+SqDY/paVQ2Pp3k+ls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=qpK06rBJ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=L7scxcJI; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=qpK06rBJ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=L7scxcJI; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ts+HP15E";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qvV1qVYw";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TExD2Zs/";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="NHcBGDBz"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qpK06rBJ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="L7scxcJI";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qpK06rBJ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="L7scxcJI"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id DE88F1F749;
-	Wed, 14 Oct 2026 06:53:56 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 3539421F93;
+	Wed, 14 Oct 2026 06:55:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1791960837; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1791960958; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=zwpKUQgSjbfPDIjWiJQhYXVmK/7Qj+HlZ9ZXXuzaYzw=;
-	b=ts+HP15EXt1OyI6bzCNlyKTy5NhuaUEROoCiHQKX3N5VRUczS+CGiaeurbZUT/aNZTYY1K
-	41WInjS4qNApfl2TsYEVvvcmjTdIUTjOiUNz9OlD9HNwIXvl3FXWvP/BB1Ho5yBp5k6fgF
-	VpREgMHaEBGPEfrSNVNCmC0wxKwKrE8=
+	bh=rwgxG29qaEu+nWnUkrNZt2bNiBXHtnEqVNMN6Ghlspw=;
+	b=qpK06rBJOSPtov5B8wTwXmCIcmcGPhiF/kPVpvIh3K3BNYzEH6w2cCcSfMxCGPWUbE6hwj
+	8su44endfaEk+X8hqh/j4CEhwxTvRPqWKbnWsxIHFGW8FpjYExKrr0XdPExQwePiEATccv
+	cxaUQBZnYKpI13qLJs6nl8Ub8dMYONE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1791960837;
+	s=susede2_ed25519; t=1791960958;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=zwpKUQgSjbfPDIjWiJQhYXVmK/7Qj+HlZ9ZXXuzaYzw=;
-	b=qvV1qVYwG2Y/gvdbxTiFVQlkXatTCq2SB9V02k1yNItX24aaGP33BKmGl2bBRZaBBHpR2a
-	GWpJeQxeSr/DzzCA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="TExD2Zs/";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=NHcBGDBz
+	bh=rwgxG29qaEu+nWnUkrNZt2bNiBXHtnEqVNMN6Ghlspw=;
+	b=L7scxcJIVxBeqnxrMbT7za+WEYNoi08IDJC+JsCFD/NcuMOrur/IzLmdQebQr8qRKJSyNm
+	5ewwUEHOhjibAEAA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=qpK06rBJ;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=L7scxcJI
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1791960836; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1791960958; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=zwpKUQgSjbfPDIjWiJQhYXVmK/7Qj+HlZ9ZXXuzaYzw=;
-	b=TExD2Zs/I/U50lWrPpDbjtUgbPD/jSZ/AyN4J5jprFClQTlgfvl4EC5MGNn6TDXkeIwrYo
-	ZotznCVnaIX1v4HJrgY+5BHvtmZ2uOChpzvZgJ10tkh5QOnKbDLqa1dCgV/9vkfzWNb3tn
-	vnfqv/lUbkOk2I7IcRyMAn/26lt9Pdg=
+	bh=rwgxG29qaEu+nWnUkrNZt2bNiBXHtnEqVNMN6Ghlspw=;
+	b=qpK06rBJOSPtov5B8wTwXmCIcmcGPhiF/kPVpvIh3K3BNYzEH6w2cCcSfMxCGPWUbE6hwj
+	8su44endfaEk+X8hqh/j4CEhwxTvRPqWKbnWsxIHFGW8FpjYExKrr0XdPExQwePiEATccv
+	cxaUQBZnYKpI13qLJs6nl8Ub8dMYONE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1791960836;
+	s=susede2_ed25519; t=1791960958;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=zwpKUQgSjbfPDIjWiJQhYXVmK/7Qj+HlZ9ZXXuzaYzw=;
-	b=NHcBGDBzX2nTR/8fsEwlfnN7RSczeW6K9uO4T06sg+MADkdDNaRF3J/36nvtpiQGuSe3zO
-	bojKHD6s1HhgaJCA==
+	bh=rwgxG29qaEu+nWnUkrNZt2bNiBXHtnEqVNMN6Ghlspw=;
+	b=L7scxcJIVxBeqnxrMbT7za+WEYNoi08IDJC+JsCFD/NcuMOrur/IzLmdQebQr8qRKJSyNm
+	5ewwUEHOhjibAEAA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 734B613726;
-	Wed, 14 Oct 2026 06:53:56 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1B3B513726;
+	Wed, 14 Oct 2026 06:55:57 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id S81/EwQnz2rgUQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 14 Oct 2026 06:53:56 +0000
-Date: Wed, 14 Oct 2026 08:53:56 +0200
-Message-ID: <87a4ogg4cb.wl-tiwai@suse.de>
+	id FMJULXwnz2ohVAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 14 Oct 2026 06:55:57 +0000
+Date: Wed, 14 Oct 2026 08:55:56 +0200
+Message-ID: <878q40g48z.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
 To: Cen Zhang <zzzccc427@gmail.com>
 Cc: perex@perex.cz,
 	tiwai@suse.com,
-	cassiogabrielcontato@gmail.com,
 	kees@kernel.org,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	baijiaju1990@gmail.com,
 	jjzuming@gmail.com
-Subject: Re: [PATCH] ALSA: pcm: Reject compat refinement after disconnect
-In-Reply-To: <pm-pmb-b3f7b3445bb11aaa9a7b-v2-a514c1399f30f407d626@gmail.com>
-References: <pm-pmb-b3f7b3445bb11aaa9a7b-v2-a514c1399f30f407d626@gmail.com>
+Subject: Re: [PATCH] ALSA: seq: oss: Prevent duplicate MIDI device teardown
+In-Reply-To: <pm-pmb-7c5128efe2110a87b872-v2-c718183fd693e73d8e95@gmail.com>
+References: <pm-pmb-7c5128efe2110a87b872-v2-c718183fd693e73d8e95@gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -116,345 +115,238 @@ X-Spamd-Result: default: False [-3.51 / 50.00];
 	RCVD_COUNT_TWO(0.00)[2];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[perex.cz,suse.com,gmail.com,kernel.org,vger.kernel.org];
+	FREEMAIL_CC(0.00)[perex.cz,suse.com,kernel.org,vger.kernel.org,gmail.com];
 	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	DKIM_TRACE(0.00)[suse.de:+];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim]
 X-Spam-Level: 
-X-Rspamd-Queue-Id: DE88F1F749
+X-Rspamd-Queue-Id: 3539421F93
 X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 
-On Wed, 14 Oct 2026 06:04:12 +0200,
+On Wed, 14 Oct 2026 06:06:52 +0200,
 Cen Zhang wrote:
 > 
-> A disconnected PCM stream must reject hardware refinement before
-> entering its runtime constraint program. The native ioctl path checks
-> for SNDRV_PCM_STATE_DISCONNECTED, but snd_pcm_ioctl_hw_params_compat()
-> only checks that the runtime exists before handling HW_REFINE32. The
-> built-in BUFFER_BYTES rule retains the substream as its private payload
-> and reads substream->buffer_bytes_max.
+> Each OSS MIDI alias and its coder must have one final-release owner.
+> find_slot() pins the alias under register_lock, but
+> snd_seq_oss_midi_check_exit_port() clears its slot in a separate critical
+> section without checking whether another callback already removed it.
+> The use counter protects active users, but draining it does not elect a
+> single remover.
 > 
-> An open compat PCM file can therefore enter that rule after the
-> component has been disconnected, while its owner is about to free the
-> component. The request must include SNDRV_PCM_HW_PARAM_BUFFER_BYTES for
-> this rule to run. A late HDA codec probe error on an already registered
-> card can supply this teardown: snd_card_register() can publish an
-> earlier PCM before a later registration fails, and
-> snd_hda_codec_cleanup_for_unbind() then disconnects and frees the PCMs
-> without the PCM-user drain used by normal codec removal.
+> This requires overlapping raw kernel-client port controls for the same
+> client. snd_seq_kernel_client_ctl() does not take ioctl_mutex, and
+> snd_seq_delete_port() releases ports_mutex before returning to the
+> DELETE_PORT handler's PORT_EXIT broadcast. If the old deletion is delayed
+> before that broadcast, a new port can reuse the vacant address. Its
+> PORT_START finds and keeps the old alias. Deleting the replacement then
+> produces a second PORT_EXIT for the same address. Non-atomic subscriber
+> delivery holds a read rwsem, so the two receive_announce() callbacks can
+> run concurrently:
 > 
-> The failing order is:
+>   Old-port deletion                 Replacement-port controls
+>   -----------------                 -------------------------
+>   Unlink and drain old port
+>   Delay before PORT_EXIT            Create port at the same address
+>                                     PORT_START keeps existing alias
+>                                     Delete port; PORT_EXIT pins mdev
+>   PORT_EXIT pins the same mdev
+>   Clear slot; drop pin              Clear slot; drop pin
+>   Wait for users to drain           Wait for users to drain
+>                                     Free coder; pause before kfree(mdev)
+>   Free coder again: read
+>   freed coder->buf
 > 
->   1. The owner calls snd_pcm_dev_disconnect(), which marks the runtime
->      DISCONNECTED and returns.
->   2. The compat file enters snd_pcm_ioctl_hw_params_compat() and then
->      snd_pcm_hw_refine(), reaching snd_pcm_hw_rule_buffer_bytes_max().
->   3. The owner calls snd_device_free(); snd_pcm_free_stream() frees the
->      substream while the rule callback is still in progress.
->   4. The callback reads buffer_bytes_max through its freed private
->      payload, causing a use-after-free.
+> Both callbacks can select the same alias before either clears its slot.
+> After both drop their pins, both waits can return. The second call to
+> snd_midi_event_free() can then read the freed coder's buffer pointer,
+> as in the report below, and attempt to release the same objects twice.
 > 
-> The runtime and its rules remain allocated in this component-free path.
-> The disconnect locks do not cover the subsequent free or the synchronous
-> refinement loop, so they do not prevent this ordering.
-> 
-> Reject compat HW_REFINE32 with -EBADFD when snd_pcm_get_state() reports
-> a disconnected stream, matching the native ioctl. The existing helper
-> reads the state under the stream lock. This stops refinement that starts
-> after disconnect from entering the rule, closing the described window
-> without changing component teardown.
+> Check that the pinned alias still occupies its slot under register_lock
+> before clearing it. A callback that finds it already removed drops its
+> pin and returns. Only the callback that removes the alias drains users
+> and frees the coder and record. The pin keeps the record alive through
+> this check, and the wait remains outside the spinlock.
 > 
 > KASAN report as below:
 > 
->     BUG: KASAN: slab-use-after-free in snd_pcm_hw_rule_buffer_bytes_max+0x276/0x2a0
->     Read of size 8 at addr ffff888111b36870 by task pmbd_alsa_reade/486
+>     ==================================================================
+>     BUG: KASAN: slab-use-after-free in snd_midi_event_free+0x53/0x60
+>     Read of size 8 at addr ffff888107074518 by task alsa-seq-fixtur/492
 > 
->     CPU: 2 UID: 0 PID: 486 Comm: pmbd_alsa_reade Tainted: G           O        7.2.0-rc6-pmb-bt-functional-v1+ #1 PREEMPT(lazy)
->     Tainted: [O]=OOT_MODULE
+>     CPU: 3 UID: 0 PID: 492 Comm: alsa-seq-fixtur Not tainted 7.2.0-rc6-pmb-bt-functional-v1+ #1 PREEMPT(lazy)
 >     Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
 >     Call Trace:
 >      <TASK>
 >      dump_stack_lvl+0x93/0xd0
 >      print_report+0xce/0x630
->      ? snd_pcm_hw_rule_buffer_bytes_max+0x276/0x2a0
+>      ? snd_midi_event_free+0x53/0x60
 >      ? srso_alias_return_thunk+0x5/0xfbef5
 >      ? __virt_addr_valid+0x20d/0x410
->      ? snd_pcm_hw_rule_buffer_bytes_max+0x276/0x2a0
+>      ? snd_midi_event_free+0x53/0x60
 >      kasan_report+0xe0/0x110
->      ? snd_pcm_hw_rule_buffer_bytes_max+0x276/0x2a0
->      snd_pcm_hw_rule_buffer_bytes_max+0x276/0x2a0
->      ? snd_pcm_hw_rule_div+0x16b/0x200
->      ? __pfx_snd_pcm_hw_rule_buffer_bytes_max+0x10/0x10
->      ? constrain_params_by_rules+0x17a/0xfe0
->      constrain_params_by_rules+0x506/0xfe0
->      ? __pfx_constrain_params_by_rules+0x10/0x10
->      ? __ia32_compat_sys_ioctl+0x289/0x2f0
->      ? do_int80_emulation+0x14a/0x5e0
+>      ? snd_midi_event_free+0x53/0x60
+>      snd_midi_event_free+0x53/0x60
+>      snd_seq_oss_midi_check_exit_port+0x1d8/0x370
+>      receive_announce+0x1b8/0x370
+>      ? __pfx_receive_announce+0x10/0x10
+>      ? srso_alias_return_thunk+0x5/0xfbef5
+>      ? __lock_acquire+0x466/0x2260
+>      ? snd_seq_port_use_ptr+0x40/0x170
+>      ? srso_alias_return_thunk+0x5/0xfbef5
+>      ? find_held_lock+0x2b/0x80
+>      ? snd_seq_port_use_ptr+0x10c/0x170
 >      ? srso_alias_return_thunk+0x5/0xfbef5
 >      ? lock_release+0xc8/0x280
 >      ? srso_alias_return_thunk+0x5/0xfbef5
->      ? snd_interval_refine+0x284/0x470
->      snd_pcm_hw_refine+0x768/0xcc0
->      ? __pfx_snd_pcm_hw_refine+0x10/0x10
->      ? _copy_from_user+0x51/0xa0
->      snd_pcm_ioctl_hw_params_compat+0x138/0x280
->      snd_pcm_ioctl_compat+0x4c5/0x7c0
->      ? __pfx_snd_pcm_ioctl_compat+0x10/0x10
+>      ? __pfx_receive_announce+0x10/0x10
+>      __snd_seq_deliver_single_event+0x105/0x1a0
+>      ? snd_seq_port_use_ptr+0x111/0x170
+>      snd_seq_deliver_single_event+0x2fc/0x770
+>      ? __pfx_snd_seq_deliver_single_event+0x10/0x10
 >      ? srso_alias_return_thunk+0x5/0xfbef5
->      ? selinux_file_ioctl+0xaa/0x280
->      ? ksys_write+0x16b/0x200
->      ? __pfx_snd_pcm_ioctl_compat+0x10/0x10
->      __ia32_compat_sys_ioctl+0x289/0x2f0
+>      ? __pfx_down_read_nested+0x10/0x10
 >      ? srso_alias_return_thunk+0x5/0xfbef5
->      do_int80_emulation+0x14a/0x5e0
->      asm_int80_emulation+0x1a/0x20
->     RIP: 0023:0x8049084
->     Code: 80 b8 04 00 00 00 bb 01 00 00 00 b9 43 a0 04 08 ba 2b 00 00 00 cd 80 b8 36 00 00 00 89 f3 b9 10 41 5c c2 ba b8 b0 04 08 cd 80 <85> c0 78 6c b8 04 00 00 00 bb 01 00 00 00 b9 27 a0 04 08 ba 1c 00
->     RSP: 002b:00000000ffd35e40 EFLAGS: 00000246 ORIG_RAX: 0000000000000036
->     RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 00000000c25c4110
->     RDX: 000000000804b0b8 RSI: 0000000000000003 RDI: 0000000000000004
->     RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
->     R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
->     R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+>      ? do_raw_read_unlock+0x49/0xe0
+>      ? srso_alias_return_thunk+0x5/0xfbef5
+>      ? _raw_read_unlock+0x23/0x40
+>      snd_seq_deliver_event+0x351/0x760
+>      ? __pfx_snd_seq_deliver_event+0x10/0x10
+>      ? _raw_spin_unlock_irqrestore+0x44/0x60
+>      ? trace_hardirqs_on+0x18/0x160
+>      ? srso_alias_return_thunk+0x5/0xfbef5
+>      ? _raw_spin_unlock_irqrestore+0x44/0x60
+>      ? srso_alias_return_thunk+0x5/0xfbef5
+>      snd_seq_kernel_client_dispatch+0x13f/0x170
+>      snd_seq_system_broadcast+0x100/0x150
+>      ? __pfx_snd_seq_system_broadcast+0x10/0x10
+>      ? mark_held_locks+0x40/0x70
+>      ? _raw_spin_unlock_irqrestore+0x44/0x60
+>      ? srso_alias_return_thunk+0x5/0xfbef5
+>      ? lockdep_hardirqs_on_prepare+0xea/0x1a0
+>      ? srso_alias_return_thunk+0x5/0xfbef5
+>      snd_seq_ioctl_delete_port+0x179/0x4b0
+>      call_seq_client_ctl+0x90/0x110
+>      snd_seq_kernel_client_ctl+0x8a/0x100
+>      pmbd_case_delete_port+0xa6/0xf0
+>      ? __pfx_pmbd_case_delete_port+0x10/0x10
+>      ? __might_fault+0xdd/0x190
+>      ? srso_alias_return_thunk+0x5/0xfbef5
+>      ? __might_fault+0x14e/0x190
+>      ? srso_alias_return_thunk+0x5/0xfbef5
+>      ? strim+0x19c/0x200
+>      pmbd_case_control_write+0x2c5/0x470
+>      ? __pfx_pmbd_case_control_write+0x10/0x10
+>      ? srso_alias_return_thunk+0x5/0xfbef5
+>      ? __debugfs_file_get+0x1bd/0x7f0
+>      ? srso_alias_return_thunk+0x5/0xfbef5
+>      ? lock_acquire+0x17b/0x2f0
+>      ? ksys_write+0x111/0x200
+>      full_proxy_write+0x11f/0x180
+>      vfs_write+0x25a/0x1010
+>      ? __pfx_full_proxy_write+0x10/0x10
+>      ? __pfx___mutex_lock+0x10/0x10
+>      ? srso_alias_return_thunk+0x5/0xfbef5
+>      ? lock_acquire+0x17b/0x2f0
+>      ? __pfx_vfs_write+0x10/0x10
+>      ? srso_alias_return_thunk+0x5/0xfbef5
+>      ? srso_alias_return_thunk+0x5/0xfbef5
+>      ? __fget_files+0x1e1/0x370
+>      ksys_write+0x111/0x200
+>      ? __pfx_ksys_write+0x10/0x10
+>      ? rseq_register.isra.0+0x1f3/0x2e0
+>      ? srso_alias_return_thunk+0x5/0xfbef5
+>      ? exit_to_user_mode_loop+0x3a5/0x570
+>      ? srso_alias_return_thunk+0x5/0xfbef5
+>      do_syscall_64+0x115/0x6a0
+>      entry_SYSCALL_64_after_hwframe+0x77/0x7f
+>     RIP: 0033:0x7f3532e4e9ee
+>     Code: 08 0f 85 f5 4b ff ff 49 89 fb 48 89 f0 48 89 d7 48 89 ce 4c 89 c2 4d 89 ca 4c 8b 44 24 08 4c 8b 4c 24 10 4c 89 5c 24 08 0f 05 <c3> 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 80 00 00 00 00 48 83 ec 08
+>     RSP: 002b:00007f3532dafe08 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+>     RAX: ffffffffffffffda RBX: 00007f3532db06c0 RCX: 00007f3532e4e9ee
+>     RDX: 000000000000000a RSI: 000055efbd747156 RDI: 0000000000000003
+>     RBP: 000055efbd747156 R08: 0000000000000000 R09: 0000000000000000
+>     R10: 0000000000000000 R11: 0000000000000246 R12: 000000000000000a
+>     R13: 0000000000000000 R14: 00007ffe7894e7f0 R15: 00007f35325b0000
 >      </TASK>
 > 
->     Allocated by task 486:
+>     Allocated by task 490:
 >      kasan_save_stack+0x33/0x60
 >      kasan_save_track+0x14/0x30
 >      __kasan_kmalloc+0xaa/0xb0
 >      __kmalloc_cache_noprof+0x251/0x610
->      snd_pcm_new_stream+0x98f/0x1350
->      _snd_pcm_new+0x1d1/0x310
->      snd_pcm_new+0x43/0x60
->      0xffffffffc0401115
->      do_one_initcall+0xf3/0x4e0
->      do_init_module+0x281/0x8e0
->      load_module+0x658c/0x7cc0
->      init_module_from_file+0x15b/0x180
->      idempotent_init_module+0x22d/0x770
->      __x64_sys_finit_module+0xd2/0x160
+>      snd_midi_event_new+0x74/0x210
+>      snd_seq_oss_midi_check_new_port+0x329/0x610
+>      receive_announce+0x277/0x370
+>      __snd_seq_deliver_single_event+0x105/0x1a0
+>      snd_seq_deliver_single_event+0x2fc/0x770
+>      snd_seq_deliver_event+0x351/0x760
+>      snd_seq_kernel_client_dispatch+0x13f/0x170
+>      snd_seq_system_broadcast+0x100/0x150
+>      snd_seq_ioctl_create_port+0x39a/0x9d0
+>      call_seq_client_ctl+0x90/0x110
+>      snd_seq_kernel_client_ctl+0x8a/0x100
+>      pmbd_case_create_port+0xcc/0x160
+>      pmbd_case_control_write+0x21d/0x470
+>      full_proxy_write+0x11f/0x180
+>      vfs_write+0x25a/0x1010
+>      ksys_write+0x111/0x200
 >      do_syscall_64+0x115/0x6a0
 >      entry_SYSCALL_64_after_hwframe+0x77/0x7f
 > 
->     Freed by task 494:
+>     Freed by task 493:
 >      kasan_save_stack+0x33/0x60
 >      kasan_save_track+0x14/0x30
 >      kasan_save_free_info+0x3b/0x60
 >      __kasan_slab_free+0x5f/0x80
 >      kfree+0x307/0x580
->      snd_pcm_free_stream+0xcf/0x290
->      snd_pcm_free+0xb1/0xf0
->      __snd_device_free+0x1a1/0x490
->      snd_device_free+0xcf/0x190
->      case_owner_ioctl+0xb8/0x160 [pmbd_alsa_fixture]
->      __x64_sys_ioctl+0x163/0x1d0
+>      snd_midi_event_free+0x48/0x60
+>      snd_seq_oss_midi_check_exit_port+0x1d8/0x370
+>      receive_announce+0x1b8/0x370
+>      __snd_seq_deliver_single_event+0x105/0x1a0
+>      snd_seq_deliver_single_event+0x2fc/0x770
+>      snd_seq_deliver_event+0x351/0x760
+>      snd_seq_kernel_client_dispatch+0x13f/0x170
+>      snd_seq_system_broadcast+0x100/0x150
+>      snd_seq_ioctl_delete_port+0x179/0x4b0
+>      call_seq_client_ctl+0x90/0x110
+>      snd_seq_kernel_client_ctl+0x8a/0x100
+>      pmbd_case_delete_port+0xa6/0xf0
+>      pmbd_case_control_write+0x398/0x470
+>      full_proxy_write+0x11f/0x180
+>      vfs_write+0x25a/0x1010
+>      ksys_write+0x111/0x200
 >      do_syscall_64+0x115/0x6a0
 >      entry_SYSCALL_64_after_hwframe+0x77/0x7f
 > 
->     The buggy address belongs to the object at ffff888111b36800
->      which belongs to the cache kmalloc-1k of size 1024
->     The buggy address is located 112 bytes inside of
->      freed 1024-byte region [ffff888111b36800, ffff888111b36c00)
+>     The buggy address belongs to the object at ffff888107074500
+>      which belongs to the cache kmalloc-96 of size 96
+>     The buggy address is located 24 bytes inside of
+>      freed 96-byte region [ffff888107074500, ffff888107074560)
 > 
 >     The buggy address belongs to the physical page:
->     page: refcount:0 mapcount:0 mapping:0000000000000000 index:0xffff888111b35800 pfn:0x111b30
->     head: order:3 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
->     flags: 0x200000000000240(workingset|head|node=0|zone=2)
+>     page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x107074
+>     flags: 0x200000000000000(node=0|zone=2)
 >     page_type: f5(slab)
->     raw: 0200000000000240 ffff888100042dc0 ffffea0004218610 ffffea00042c6810
->     raw: ffff888111b35800 000000000010000f 00000000f5000000 0000000000000000
->     head: 0200000000000240 ffff888100042dc0 ffffea0004218610 ffffea00042c6810
->     head: ffff888111b35800 000000000010000f 00000000f5000000 0000000000000000
->     head: 0200000000000003 fffffffffffffe01 00000000ffffffff 00000000ffffffff
->     head: 0000000000000000 0000000000000000 00000000ffffffff 0000000000000000
+>     raw: 0200000000000000 ffff888100042280 dead000000000122 0000000000000000
+>     raw: 0000000000000000 0000000000200020 00000000f5000000 0000000000000000
 >     page dumped because: kasan: bad access detected
 > 
 >     Memory state around the buggy address:
->      ffff888111b36700: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
->      ffff888111b36780: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
->     >ffff888111b36800: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->                                                                  ^
->      ffff888111b36880: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->      ffff888111b36900: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>      ffff888107074400: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+>      ffff888107074480: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+>     >ffff888107074500: fa fb fb fb fb fb fb fb fb fb fb fb fc fc fc fc
+>                                 ^
+>      ffff888107074580: fa fb fb fb fb fb fb fb fb fb fb fb fc fc fc fc
+>      ffff888107074600: fa fb fb fb fb fb fb fb fb fb fb fb fc fc fc fc
 >     ==================================================================
 > 
 > Assisted-by: LLM
 > Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
 
-Basically this isn't a problem only about the compat ioctl, but about
-the all hw_refine-related ioctls.  That is, snd_pcm_hw_refine() should
-have the proper buffer locking and the state check like
-snd_pcm_hw_params().  However, since it's called from many places that
-are already under buffer lock, we need two functions (with and without
-lock/state-check), and it'll be something like below.
+Applied to for-next branch now.  Thanks.
 
-Could you verify whether this works?
-
-
-thanks,
 
 Takashi
-
--- 8< --
-diff --git a/sound/core/pcm_compat.c b/sound/core/pcm_compat.c
-index 359197aa6076..c54cb07304ad 100644
---- a/sound/core/pcm_compat.c
-+++ b/sound/core/pcm_compat.c
-@@ -252,7 +252,7 @@ static int snd_pcm_ioctl_hw_params_compat(struct snd_pcm_substream *substream,
- 		return -EFAULT;
- 
- 	if (refine) {
--		err = snd_pcm_hw_refine(substream, data);
-+		err = snd_pcm_hw_refine_with_lock(substream, data);
- 		if (err < 0)
- 			return err;
- 		err = fixup_unreferenced_params(substream, data);
-diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
-index a845f242a163..a6880a96a918 100644
---- a/sound/core/pcm_native.c
-+++ b/sound/core/pcm_native.c
-@@ -580,29 +580,6 @@ int snd_pcm_hw_refine(struct snd_pcm_substream *substream,
- }
- EXPORT_SYMBOL(snd_pcm_hw_refine);
- 
--static int snd_pcm_hw_refine_user(struct snd_pcm_substream *substream,
--				  struct snd_pcm_hw_params __user * _params)
--{
--	int err;
--	struct snd_pcm_hw_params *params __free(kfree) =
--		memdup_user(_params, sizeof(*params));
--
--	if (IS_ERR(params))
--		return PTR_ERR(params);
--
--	err = snd_pcm_hw_refine(substream, params);
--	if (err < 0)
--		return err;
--
--	err = fixup_unreferenced_params(substream, params);
--	if (err < 0)
--		return err;
--
--	if (copy_to_user(_params, params, sizeof(*params)))
--		return -EFAULT;
--	return 0;
--}
--
- static int period_to_usecs(struct snd_pcm_runtime *runtime)
- {
- 	int usecs;
-@@ -799,6 +776,22 @@ static void pcm_qos_req_update(struct snd_pcm_substream *substream, int usecs)
- 					    usecs);
- }
- 
-+static int hw_params_state_check(struct snd_pcm_substream *substream)
-+{
-+	guard(pcm_stream_lock_irq)(substream);
-+	switch (substream->runtime->state) {
-+	case SNDRV_PCM_STATE_OPEN:
-+	case SNDRV_PCM_STATE_SETUP:
-+	case SNDRV_PCM_STATE_PREPARED:
-+		if (!is_oss_stream(substream) &&
-+		    atomic_read(&substream->mmap_count))
-+			return -EBADFD;
-+		return 0;
-+	default:
-+		return -EBADFD;
-+	}
-+}
-+
- static int snd_pcm_hw_params(struct snd_pcm_substream *substream,
- 			     struct snd_pcm_hw_params *params)
- {
-@@ -813,20 +806,7 @@ static int snd_pcm_hw_params(struct snd_pcm_substream *substream,
- 	err = snd_pcm_buffer_access_lock(runtime);
- 	if (err < 0)
- 		return err;
--	scoped_guard(pcm_stream_lock_irq, substream) {
--		switch (runtime->state) {
--		case SNDRV_PCM_STATE_OPEN:
--		case SNDRV_PCM_STATE_SETUP:
--		case SNDRV_PCM_STATE_PREPARED:
--			if (!is_oss_stream(substream) &&
--			    atomic_read(&substream->mmap_count))
--				err = -EBADFD;
--			break;
--		default:
--			err = -EBADFD;
--			break;
--		}
--	}
-+	err = hw_params_state_check(substream);
- 	if (err)
- 		goto unlock;
- 
-@@ -947,6 +927,57 @@ static int snd_pcm_hw_params_user(struct snd_pcm_substream *substream,
- 	return err;
- }
- 
-+/*
-+ * call snd_pcm_hw_refine() after buffer lock and sanity check;
-+ * this one should be used for ioctls and other external paths instead of
-+ * direct call of snd_pcm_hw_refine()
-+ */
-+static int snd_pcm_hw_refine_with_lock(struct snd_pcm_substream *substream,
-+				       struct snd_pcm_hw_params *params)
-+{
-+	struct snd_pcm_runtime *runtime;
-+	int err;
-+
-+	if (PCM_RUNTIME_CHECK(substream))
-+		return -ENXIO;
-+	runtime = substream->runtime;
-+	err = snd_pcm_buffer_access_lock(runtime);
-+	if (err < 0)
-+		return err;
-+	err = hw_params_state_check(substream);
-+	if (err)
-+		goto unlock;
-+
-+	err = snd_pcm_hw_refine(substream, params);
-+
-+ unlock:
-+	snd_pcm_buffer_access_unlock(runtime);
-+	return err;
-+}
-+
-+static int snd_pcm_hw_refine_user(struct snd_pcm_substream *substream,
-+				  struct snd_pcm_hw_params __user * _params)
-+{
-+	int err;
-+	struct snd_pcm_hw_params *params __free(kfree) =
-+		memdup_user(_params, sizeof(*params));
-+
-+	if (IS_ERR(params))
-+		return PTR_ERR(params);
-+
-+	err = snd_pcm_hw_refine_with_lock(substream, params);
-+	if (err < 0)
-+		return err;
-+
-+	err = fixup_unreferenced_params(substream, params);
-+	if (err < 0)
-+		return err;
-+
-+	if (copy_to_user(_params, params, sizeof(*params)))
-+		return -EFAULT;
-+	return 0;
-+}
-+
- static int do_hw_free(struct snd_pcm_substream *substream)
- {
- 	int result = 0;
-@@ -4218,7 +4249,7 @@ static int snd_pcm_hw_refine_old_user(struct snd_pcm_substream *substream,
- 	if (IS_ERR(oparams))
- 		return PTR_ERR(oparams);
- 	snd_pcm_hw_convert_from_old_params(params, oparams);
--	err = snd_pcm_hw_refine(substream, params);
-+	err = snd_pcm_hw_refine_with_lock(substream, params);
- 	if (err < 0)
- 		return err;
- 
