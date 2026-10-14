@@ -1,83 +1,248 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B4D24D6C37;
-	Wed, 14 Oct 2026 10:44:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88A9D23E334
+	for <linux-sound@vger.kernel.org>; Wed, 14 Oct 2026 10:52:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791974649; cv=none; b=CGupxDJFaetRHpe1UFCMqCiO2UPzQb9vRb0aGnoRcHAJt5cmXAFDGh9sTLrKH3Ku1Zb8tCtOm3iBRdr2LLqgOfcQZsTB7jZlOG53UjkvzMw1HgByGNnOw18gXS67kP7h2qCoG5Ey0AjJZ3IUFKBxgXfvPVsXbofv+yro4D5NkBM=
+	t=1791975145; cv=none; b=suB3BTRErGG1K8a5L2h1J2+6LEmzeI4KIUYwaa6wMYtcAPCdRr/aVdGUToXtNrsEJURwv2aoqzRCogzq/GH46IZ9AsIM4W1Tvcsg7jLDzXybg/DuRbM1PzFmvCbmHESBydx24tntUG7MwfLAwZtVAT7GLwK9/RIhEpnvrsrZcNg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791974649; c=relaxed/simple;
-	bh=DP0Ieqoi5wZMgEayjuz5m/NrIvwbIMZw8khQ4qYlU9w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YVzEb4ol5Ofp0DkhnwevqRG5oPyvDt73L/Y/qVIss8lgPax/qFuL4gk58nyDs+SnDa0r4SILj8ZkRLT8cQcSNhkYDAG+YujOhWEkbUejrTYz+mD5o6e5JI8Hta1+b8e3gwbfw+MjxgKo6fQdOo2CpIdKcWmakWwCi3IAZoRIiww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h3K2TjRr; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791975145; c=relaxed/simple;
+	bh=KC7L3HOCxgUxs3mngBmu27dN4Eu3zyEcFFlE3Y81JXI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=XFkxZ3lSbTY5Mj8CPt8D2POqfVO5MuFmms4MzG5EZ7RZXUdsjIvWvm2R4woBG/SMZWk3QjtvXRy5DwRWWvadTC9dDm0PmZ4dNusmxgVGu6D8a8TRejXwNqJMFgJUQ+mD0R+bgENeIpyBC5tQIG+tojPqcGPs4XLSyBid05fE+pg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Jkbr5Rzi; arc=none smtp.client-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h3K2TjRr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16F9E1F000FF;
-	Wed, 14 Oct 2026 10:44:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791974647;
-	bh=DP0Ieqoi5wZMgEayjuz5m/NrIvwbIMZw8khQ4qYlU9w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=h3K2TjRrVF0FqpdSOx4xHm+dQceczMutbwFmtYFvBF70SmG6yFPUcjC5MOcz7vA1L
-	 M1Ww4YqXlBMGZTRaT5FDvzEpOkW852SACFCzL7agdYaoEX3ZoaMiuD/WPOUi/rdzyj
-	 R7BrR0ZXl01IfS3lmjq42X2g186iYTr4QUox+0hxaheAoaBxtQOFZJzm7hvnNX0Tnz
-	 PPO6/8RuQhPDWkmU8Wg4tpIQO7rwlNUQQSXboOxfdH1sf8O70KQiKpValjilP1ik5K
-	 3MKAgqe0dHsOGqvyO0BZR9qF4xglgZp3jE0tuxWTHHWYPZvS6x38rqMe7QtOw+ohVh
-	 CxylkTPgnRClg==
-Date: Wed, 14 Oct 2026 11:44:02 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-Cc: alsa-devel@alsa-project.org, lgirdwood@gmail.com, perex@perex.cz,
-	tiwai@suse.com, yung-chuan.liao@linux.intel.com,
-	Basavaraj.Hiregoudar@amd.com, Sunil-kumar.Dommati@amd.com,
-	venkataprasad.potturu@amd.com, Syed.SabaKareem@amd.com,
-	Mario.Limonciello@amd.com, Richard.Gong@amd.com, Poojitha.N@amd.com,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	sound-open-firmware@alsa-project.org
-Subject: Re: [PATCH v2 00/10] ASoC: SOF/amd: ACP7.B support and ASP carveout
- firmware loading
-Message-ID: <a22f2a9b-3bb9-40d0-80d6-4ce36758c4f5@sirena.org.uk>
-References: <20261014100902.1215212-1-Vijendar.Mukunda@amd.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jkbr5Rzi"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-398a4dcf289so2076238a91.2
+        for <linux-sound@vger.kernel.org>; Wed, 14 Oct 2026 03:52:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791975144; x=1792579944; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=TY3s9VrcLeQGc0J6wLy2piQCF+zR8PiZiRlswemnIag=;
+        b=Jkbr5Rzie9oNUeSELPGKYAY5ZZvmgJ32KugOZ2Ar3heN03vLt7pG/baD0i7ochVL0N
+         ZxK4AqwxJm6ZScY1VTA3tHfVoz+MxPCFPOmaHX4u4T5eooAxdM8ICm7HfEEhPCyCuyIa
+         ClMfYOYaLwMONQPe3il6gDUA6MiiUUWFnUNzUrMx+NRHAqK0M74aMvz7XcuQ3zFo/rY9
+         B7sm+S+iIqwgvsvtJfgn//RoGukpxEiMV1568kTGJcGlN76SsSwyFBMOaYtw2XLXOVMG
+         KyrZM6rn+srRSaB1ir3hSlNvOvLA0hg7DrlsOXije6fKZgq2y/aI5hqoVTj60y79u9PB
+         G0qQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791975144; x=1792579944;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=TY3s9VrcLeQGc0J6wLy2piQCF+zR8PiZiRlswemnIag=;
+        b=k0sJ1t3N5+dFd6iVY+cgm+iSfOPpU+3gsw7KepMxj7gfA+3IgUr0b9NEGWZLbAgzYR
+         tSHppSuV3rSUcnZYZPpHS/cr74AqefXN4L14zz6gVihmww1IPcq5qc2//1cIBQsnT/bl
+         saOh+v2kzThfmJ2qLgc8fGceSi6MkNm3T9xzc8wkXsgGr99sQvkp7+ksBWlunzB4sKJN
+         0SbJkuyWDK5p8WTAWE0NSz9ZCMBcrwklm1O1tqEsE36haiy1zItBLcrHaaaHxkuiFzrm
+         Y0SRKnBSpxQVoi6MR0hfOPLj4xsIaWRtUBflUbj1mUTlm83Kd41o4KpL2MXtzTiRuvRX
+         eEGg==
+X-Gm-Message-State: AFq9FYJf4oIwbsKqRkGhZD0tK0Scr9FBWFg7tIQckOgVuZG/cQcUISJu
+	wLqCbzyT3GEkVdaxIH9IZJau7d9l3fxh8cCJ7/wabtIGfMkhgsHlmVHw
+X-Gm-Gg: AYBFou1CFwqkt6ZZUn3qbJtJkLsEn6k5fTIHOyOPFQI7GIDjIC6VL/peWDAdH5hlvdL
+	7J/JB3Ige2Jd9Yn94wjpeMSz8l168NhLIWcLRTFssPVW19kfLSFVjdJNE60pWc+fQ4492JQGQRL
+	Jsf0qdIQB4OMlQXA3IKWqlVwwT/J4X2k5gPAGNmZBoQqokc6lxpJ5JKldAgkub/O2gtAxUWlQj+
+	oIpwZBgCfJMCQY7iU4v2MvkSSjbnW2dzmbJTpqqnbSCR7FnKUOZ2jWL8PfdoGWd4uMBR9ANJn1a
+	evYqwJeuR2aTBthhfK7Z35E7lBjEKouJJv05fVmT93aLHp8ar2eTPhm1wGV22x1Mu/QJKg1CVW2
+	3r8Tcs5DgsJMxHxTw2Fr4FVfRkkjss116IeXimUPXGqZ2L+zQMyihFSBT5SbtvEN9tGCYIkh8FO
+	1kPl3ruyw8yk4wjdjcBFmssOkLaJ02XiTqyPtICJAme6bVLg+uB/bfGG1DonszAaV+IA==
+X-Received: by 2002:a17:90b:4d88:b0:3aa:6b5d:9fe4 with SMTP id 98e67ed59e1d1-3ab3a952849mr13022935a91.12.1791975143729;
+        Wed, 14 Oct 2026 03:52:23 -0700 (PDT)
+Received: from localhost ([111.228.63.84])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ac6069ca15sm4058914a91.11.2026.10.14.03.52.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Oct 2026 03:52:23 -0700 (PDT)
+From: Cen Zhang <zzzccc427@gmail.com>
+To: perex@perex.cz,
+	tiwai@suse.com,
+	phucduc.bui@gmail.com,
+	cezary.rojewski@intel.com,
+	cassiogabrielcontato@gmail.com,
+	kees+treewide@kernel.org,
+	zzzccc427@gmail.com,
+	yilinzhang@moonshot.ai,
+	sammiee5311@gmail.com,
+	kees@kernel.org,
+	thomas.weissschuh@linutronix.de,
+	tglx@kernel.org
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	baijiaju1990@gmail.com,
+	jjzuming@gmail.com,
+	tiwai@suse.de
+Subject: [PATCH v2] ALSA: pcm: Unlink substreams before releasing them
+Date: Wed, 14 Oct 2026 18:52:15 +0800
+Message-Id: <pm-pmb-9c80f858ccc13b3de84d-v7-fcd8c7aa0e837bf0b036@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="676xn5QD/iBmhotU"
-Content-Disposition: inline
-In-Reply-To: <20261014100902.1215212-1-Vijendar.Mukunda@amd.com>
-X-Cookie: Live free or die.
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+A closing PCM substream can remain in its linked group after the
+driver close callback has freed its private data. With two configured
+dummy capture substreams on the same PCM device, linked with LINK,
+PREPARE on the surviving substream can still visit the closing member:
 
---676xn5QD/iBmhotU
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+  Final close of A                   PREPARE on linked B
+  ----------------                   -------------------
+  snd_pcm_drop(): group -> SETUP
+  do_hw_free(A)
+  dummy_pcm_close(A): free dpcm
+                                     Take snd_pcm_link_rwsem for reading
+                                     Walk the group, including A
+                                     dummy_pcm_prepare(A)
+                                       Read freed timer_ops
+  pcm_release_private(A)
+    snd_pcm_unlink(A)
 
-On Wed, Oct 14, 2026 at 03:29:08PM +0530, Vijendar Mukunda wrote:
-> This series adds ACP7.B platform support to the AMD SOF driver stack
-> and implements the ASP-authenticated firmware load path required by
-> both ACP7.B and ACP7.F.
+Unlink at the start of final substream release, before dropping the
+stream or releasing driver resources. The link write lock waits for
+an existing group PREPARE, and unlink removes the closing member from
+later group actions. Keep the existing stop synchronization in
+do_hw_free() before the driver resources are freed.
 
-v1 is already in my CI queue, can you send an incremental change with
-the new stuff in here.
+Make unlink independent of the pcm_release callback so OSS substreams
+are covered too. Remove the native-only unlink callback and its
+registration, while retaining the callback hook for OSS cleanup.
 
---676xn5QD/iBmhotU
-Content-Type: application/pgp-signature; name="signature.asc"
+The existing KASAN report below records the freed timer_ops read in
+dummy_pcm_prepare().
 
------BEGIN PGP SIGNATURE-----
+KASAN report as below:
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmrPXPEACgkQJNaLcl1U
-h9CxcAf9Heotb7IHcpwkhw5QrY+/YqPi9LmhfEcyPbJJeNN/ZM1o0r7fRqf+XkEM
-7TUkqVq8uYUTxkOluWLgWm8/8b+MGItBm1I4PHQKuY+Sx9xW7+yT/JCRf5VfvYKK
-0pAX9SF/Px0V6s44trnCHN5dU4Vd6pj+72BYCX4SmzG9I4we88Fj7APbTfSkgXsE
-uzu+GPAMa0VdJiUpQxhPpKhfWoBLR7++PZ8OW5STZlsVmK1hvMrklIws/qBF/smL
-8BYx8nXVoWIwtprUM+FpbXqCYu/H4/Viuq/BjLKP1fd5D301YERLXxvsO0mN09W5
-ZBikFDcA0ouZzsYwvgNABhauBRkjaA==
-=DX07
------END PGP SIGNATURE-----
+    BUG: KASAN: slab-use-after-free in dummy_pcm_prepare+0xb7/0xc0
+    Read of size 8 at addr ffff888106b35f00 by task alsa_pcm_fixtur/491
 
---676xn5QD/iBmhotU--
+    Call Trace:
+     <TASK>
+     dump_stack_lvl+0x93/0xd0
+     print_report+0xce/0x630
+     ? dummy_pcm_prepare+0xb7/0xc0
+     ? srso_alias_return_thunk+0x5/0xfbef5
+     ? __virt_addr_valid+0x20d/0x410
+     ? dummy_pcm_prepare+0xb7/0xc0
+     kasan_report+0xe0/0x110
+     ? dummy_pcm_prepare+0xb7/0xc0
+     dummy_pcm_prepare+0xb7/0xc0
+     snd_pcm_do_prepare+0x71/0xb0
+     snd_pcm_action_group+0x505/0xb30
+     snd_pcm_action_nonatomic+0xab/0x150
+     snd_pcm_common_ioctl+0x1bf5/0x3a50
+     ? srso_alias_return_thunk+0x5/0xfbef5
+     ? do_vfs_ioctl+0x1f5/0x1280
+     ? __pfx_do_vfs_ioctl+0x10/0x10
+     ? ioctl_has_perm.constprop.0.isra.0+0x34f/0x500
+     ? __pfx_snd_pcm_common_ioctl+0x10/0x10
+     ? __fput+0x5ba/0xa60
+     ? srso_alias_return_thunk+0x5/0xfbef5
+     snd_pcm_ioctl+0x76/0xb0
+     ? __pfx_snd_pcm_ioctl+0x10/0x10
+     __x64_sys_ioctl+0x163/0x1d0
+     do_syscall_64+0x115/0x6a0
+     entry_SYSCALL_64_after_hwframe+0x77/0x7f
+    RIP: 0033:0x41ee8d
+    Code: 04 25 28 00 00 00 48 89 45 c8 31 c0 48 8d 45 10 c7 45 b0 10 00 00 00 48 89 45 b8 48 8d 45 d0 48 89 45 c0 b8 10 00 00 00 0f 05 <89> c2 3d 00 f0 ff ff 77 1a 48 8b 45 c8 64 48 2b 04 25 28 00 00 00
+    RSP: 002b:00007ffcfa72fb60 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+    RAX: ffffffffffffffda RBX: 0000000000000004 RCX: 000000000041ee8d
+    RDX: 0000000000000000 RSI: 0000000000004140 RDI: 0000000000000004
+    RBP: 00007ffcfa72fbb0 R08: 00007ffcfa72fb98 R09: 0000000000000110
+    R10: 0000000000000001 R11: 0000000000000246 R12: 00007ffcfa72fcd8
+    R13: 00007ffcfa72fcf0 R14: 00000000004a8f28 R15: 0000000000000001
+     </TASK>
+
+    Allocated by task 488:
+     kasan_save_stack+0x33/0x60
+     kasan_save_track+0x14/0x30
+     __kasan_kmalloc+0xaa/0xb0
+     __kmalloc_cache_noprof+0x251/0x610
+     dummy_hrtimer_create+0x4a/0x170
+     dummy_pcm_open+0xe7/0x730
+     snd_pcm_open_substream+0x926/0x1580
+     snd_pcm_open+0x28d/0x6d0
+     snd_pcm_capture_open+0x82/0xe0
+     snd_open+0x1ec/0x3e0
+     chrdev_open+0x21f/0x660
+     do_dentry_open+0x5c8/0x1300
+     vfs_open+0x87/0x390
+     path_openat+0x2460/0x3cd0
+     do_file_open+0x21e/0x470
+     do_sys_openat2+0xf4/0x1b0
+     __x64_sys_openat+0x136/0x1e0
+     do_syscall_64+0x115/0x6a0
+     entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+    Freed by task 490:
+     kasan_save_stack+0x33/0x60
+     kasan_save_track+0x14/0x30
+     kasan_save_free_info+0x3b/0x60
+     __kasan_slab_free+0x5f/0x80
+     kfree+0x307/0x580
+     dummy_hrtimer_free+0x72/0xe0
+     dummy_pcm_close+0x9f/0xd0
+     snd_pcm_release_substream.part.0+0x104/0x310
+     snd_pcm_release+0x106/0x240
+     __fput+0x39f/0xa60
+     fput_close_sync+0xff/0x200
+     __x64_sys_close+0x8c/0xf0
+     do_syscall_64+0x115/0x6a0
+     entry_SYSCALL_64_after_hwframe+0x77/0x7f
+    ==================================================================
+
+Fixes: 1576274d3028 ("[ALSA] Fix Oops of PCM OSS emulation")
+Suggested-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
+
+---
+Changes in v2:
+- Replace dummy-specific deferred freeing with Takashi Iwai's PCM core
+  release ordering.
+- Unlink unconditionally on final substream release before DROP and driver
+  close, covering OSS callbacks too; keep the existing sync-stop in
+  do_hw_free().
+- Update Fixes to the PCM core commit that moved unlink after driver close.
+
+Link to v1: https://lore.kernel.org/r/pm-pmb-9c80f858ccc13b3de84d-v6-d4059ea2910fe5430f5f@gmail.com
+
+diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
+index defbb2977efe9dcd8d48b934c3944d3fe159bcd6..c28d259463a11891893c352216fadcd5d9484f8b 100644
+--- a/sound/core/pcm_native.c
++++ b/sound/core/pcm_native.c
+@@ -2792,18 +2792,14 @@ static int snd_pcm_hw_constraints_complete(struct snd_pcm_substream *substream)
+ 	return 0;
+ }
+ 
+-static void pcm_release_private(struct snd_pcm_substream *substream)
+-{
+-	if (snd_pcm_stream_linked(substream))
+-		snd_pcm_unlink(substream);
+-}
+-
+ void snd_pcm_release_substream(struct snd_pcm_substream *substream)
+ {
+ 	substream->ref_count--;
+ 	if (substream->ref_count > 0)
+ 		return;
+ 
++	snd_pcm_unlink(substream);
++
+ 	snd_pcm_drop(substream);
+ 	if (substream->hw_opened) {
+ 		if (substream->runtime->state != SNDRV_PCM_STATE_OPEN)
+@@ -2887,8 +2883,6 @@ static int snd_pcm_open_file(struct file *file,
+ 		return -ENOMEM;
+ 	}
+ 	pcm_file->substream = substream;
+-	if (substream->ref_count == 1)
+-		substream->pcm_release = pcm_release_private;
+ 	file->private_data = pcm_file;
+ 
+ 	return 0;
