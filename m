@@ -1,132 +1,319 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E38954A9D58
-	for <linux-sound@vger.kernel.org>; Wed, 14 Oct 2026 08:15:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CE404A68B0
+	for <linux-sound@vger.kernel.org>; Wed, 14 Oct 2026 08:15:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791965751; cv=none; b=LuwlQB5TFYWMbmKFJUXAAT37h2+gA50euYucXViulc4jD9iWQAGYFzv39lHDzXdNsq4fBqInn1zuf4N14rGMiIULCvJx2usYRxCaPkyP6tTSbtUFSsNpA5lAhWQvKaaBU7SOjgOvC4E0fp/2EOHf8gi6PQGtO7tPH0qx7xg5XIs=
+	t=1791965751; cv=none; b=kdKRfQCTmhrUrRTeRlZ5/+xHrqTtQ117Fg1fMOffLxpwZr1fLAyoWYoo2ZrftcDIe24oBG3ceOit55aI0lUqC4hffWPjythKKpQKuIJeZA859NSjztXQl5rZvBBmuTHu73TTATaA90CUxBsYsTnPcxRlvoKPBs9DjMSM1OKR6SI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1791965751; c=relaxed/simple;
-	bh=wSZ3zwnVBwhfAGt5ifjj+oFVu2p72JS9QMJwu71vpk4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KyT4s6n7UKdRaPHwF0Ypj4g1gAi1eo2eK5JqB4rEHDtRTfbR4Wj+brsgm/XgUlZKSQW4GNKI7n4xhiEbmkqBSQ6yeP2JH5rqL3BVapVQ8PX2iPwyimCenN1jzDG9ndJvrbP1lWmE9+HcZCjiui5YKn0UDRZcXsAxNo6OlVZmDZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DhOGTsII; arc=none smtp.client-ip=209.85.216.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	bh=RNcC7loXwQAbS2fy2cUOJMcPavpqddm35TtWbLZ2Dv0=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=lXGOltI17OJg1jwrQtKQe1/bdVKo8sWYTXKRT2m5pRqBPZ5cKsA0hYTW7A0cvgfVF6UmnAaDk1FCxRstIvtUx7AdyOfi0bwjgz1g+6W+VyR2Pzz5xG+8D+I/VejbY6/KSrOrIJjobnCB86+1aLdM4aViroYf8FcVacz29xGWcpg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kiv4Aib/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=74Z2j57f; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kiv4Aib/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=74Z2j57f; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DhOGTsII"
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-3ab9268d90eso1916545a91.3
-        for <linux-sound@vger.kernel.org>; Wed, 14 Oct 2026 01:15:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791965748; x=1792570548; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=t7IRL6SEiSa3rzeqlbvDCyLB5N7LUmPGMrQiBUcualE=;
-        b=DhOGTsIIoYoFoB3HtfXJWqtn7l1e+BYak3aD2IASvJXXb0az5D4s31qAwUTcZTI6xH
-         STxLs0yiX2k9EqUmxhJhc+TBis73InrMRrjzjA5anO4QivtSWElt8BoXSUrRooMclyhL
-         yW8Nrkp7Fv/86wRPB28BTLAJS7oVOaHmW5I/bttvUUAT0Akq+NbHIa1mqy7F8fH+E1qG
-         zXDtMChb6ojZ6Qu8gTRLos3gWfMqHYji6g+uqLXbPtUtou33y3ioHUDrr04lU17oDm1l
-         a/6koldbij1XRjW1kbpTl1MqWdJuN9S0d3SWuZeT/GbYLJzFyrcmnrJGrIWE1evdhEhb
-         XzjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791965748; x=1792570548;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=t7IRL6SEiSa3rzeqlbvDCyLB5N7LUmPGMrQiBUcualE=;
-        b=aZr6x+xQahxcBdubHDi1MpPgFYQjZUrGJe9YrQlyNyvN6o5XhA3ioYHvp6EixigC3/
-         GSfgYi4WVziJUJrkpRe3nTLg19t7YI7o5wPggEYKl58HwOxZKHfOniu9qNaoxlV1azhW
-         WuHS1f9XGxmR51CfgqRG2v02QvYZ52fTomoEufEXa1wfadfmz7p1XtEdXYIjtgVAVH2/
-         umZkBi18mLY9VWI43E7BzkmgVePDf7DdiSUdOuJxLUsP7Od8F9DDwwqQ1wjZG7CdBY6q
-         J5UKPsgRlrxANYlMV8CiTiHDCLWhGHO36R8s06HIgP96duZ8VifVFYr9LsBAsxxaP1AU
-         ZJ3w==
-X-Gm-Message-State: AFq9FYLH1kRtn8VwOqxZk7CBSZRYYFY9X9fTOkXTPlC3Tmr+P/9YyYao
-	rV4h4ZdHhfegbY14niWiDnWQghzgtUtUKhlkrdcVw6dOeXGOBo8DbUiBhH7/kA==
-X-Gm-Gg: AYBFou3nJ9ZFPlyKWYzRAkjeVdxoDAoiOGp74kpg7tag8O795ezX4TMhriY7LkPsem/
-	3tc4maX4uoTkway7W63EpfINYbPwno0w81O0QSN+My0xrZg33VCVZvkQ2qc1rHyR/dT5LG+cMJC
-	BdzwyKWgAP92EKb7iwjx+sYa6Ez0fm27p/c3bUhrP+268g0Oc9+HkIYqGjIMLOGfs9uhdKUtZgd
-	Mxzv0yaf8W2iSHgmX8oXAo8dkGBay9wa7ZTK0o2W03PReqasXg5LrPCDArFryhp2H1ben4Earms
-	DsdHLhIIg0a63hI5EKYUhtvdaGR/faW28+dSFsWV2KXRg36X7w7/khYyDzj8eawTJUJgDaZlrJL
-	SCm341dTxfuqYFD1uVdv1LVyavbdgHc0QE+xZHxbLp5N4vcLB6PqYn3QTo07C8tLrXxNgF988/h
-	fOHx4jOL7ahB6Qy0+hRYw2LT13zt9253k23e82qY1ylqwftz/X2ksA/LiqpG6iEuVR+AGMxsxpL
-	kO4shz6rltxz6XCC+orGDRFMw4TStxECmF525l/YLCmxFUkI41aIt9RcL2NlkaKdv3CBSUv1ZYv
-	vqw6Z5MqwXLOTrFTS4e94YJmgw==
-X-Received: by 2002:a17:90b:51cf:b0:3ab:c370:3684 with SMTP id 98e67ed59e1d1-3abc370392emr7678451a91.30.1791965747930;
-        Wed, 14 Oct 2026 01:15:47 -0700 (PDT)
-Received: from localhost.localdomain ([121.137.86.182])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ac5f24b757sm3569229a91.10.2026.10.14.01.15.45
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 14 Oct 2026 01:15:47 -0700 (PDT)
-From: Joonho Lee <mynameisjune111@gmail.com>
-To: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>
-Cc: linux-sound@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kiv4Aib/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="74Z2j57f";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kiv4Aib/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="74Z2j57f"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id BF9091F7C5;
+	Wed, 14 Oct 2026 08:15:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1791965727; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Fo0GdmgfeO4+EkZHg2pz27AKahy6RCBiDvsUFo84pMI=;
+	b=kiv4Aib/vjXZIzZWX6rVaXuX5JmZiC2rj3pjSaZpz5gHg44Ry9eLVvy0kpGw13Y/oPVXL6
+	+ztgxbMO3zclgdffBa5UjSyFhxR9PrEz1EUeqkL8iVYkbPfT7EK2fCrZpGTg3VZxunteYk
+	7G/8CJFRPRn2UcL8p2ZmtVIQf2z+Tgk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1791965727;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Fo0GdmgfeO4+EkZHg2pz27AKahy6RCBiDvsUFo84pMI=;
+	b=74Z2j57fJaz/eMUq797K1Xcqr/CHchW2lVqcH/w6MPCn1oXHehCkiRJdNgYdC+2lWeok56
+	8no736kz/HnD0tAQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="kiv4Aib/";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=74Z2j57f
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1791965727; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Fo0GdmgfeO4+EkZHg2pz27AKahy6RCBiDvsUFo84pMI=;
+	b=kiv4Aib/vjXZIzZWX6rVaXuX5JmZiC2rj3pjSaZpz5gHg44Ry9eLVvy0kpGw13Y/oPVXL6
+	+ztgxbMO3zclgdffBa5UjSyFhxR9PrEz1EUeqkL8iVYkbPfT7EK2fCrZpGTg3VZxunteYk
+	7G/8CJFRPRn2UcL8p2ZmtVIQf2z+Tgk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1791965727;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Fo0GdmgfeO4+EkZHg2pz27AKahy6RCBiDvsUFo84pMI=;
+	b=74Z2j57fJaz/eMUq797K1Xcqr/CHchW2lVqcH/w6MPCn1oXHehCkiRJdNgYdC+2lWeok56
+	8no736kz/HnD0tAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0C2141368E;
+	Wed, 14 Oct 2026 08:15:27 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id sNHRHh46z2r4WQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 14 Oct 2026 08:15:27 +0000
+Date: Wed, 14 Oct 2026 10:15:26 +0200
+Message-ID: <8733u8g0kh.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Joonho Lee <mynameisjune111@gmail.com>
+Cc: Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-api@vger.kernel.org
-Subject: [RFC PATCH v2 1/2] ALSA: pcm: allow capture reads while draining
-Date: Wed, 14 Oct 2026 17:15:43 +0900
-Message-ID: <rfc-v2-core-capture-drain-1.2eddd58a796e497f@gmail.com>
-In-Reply-To: <rfc-v2-core-capture-drain-0.2eddd58a796e497f@gmail.com>
-References: <rfc-v2-core-capture-drain-0.2eddd58a796e497f@gmail.com>
+Subject: Re: [RFC PATCH 2/2] ALSA: pcm: refresh capture pointers before drain
+In-Reply-To: <rfc-core-capture-drain-2.112c40f0e9284eaa@gmail.com>
+References: <rfc-core-capture-drain-0.112c40f0e9284eaa@gmail.com>
+	<rfc-core-capture-drain-2.112c40f0e9284eaa@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Action: no action
+X-Spam-Score: -3.51
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	ARC_NA(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Level: 
+X-Rspamd-Queue-Id: BF9091F7C5
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 
-Allow capture transfer calls in DRAINING so already captured tail frames
-remain readable until drain completes.
+On Wed, 14 Oct 2026 05:30:57 +0200,
+Joonho Lee wrote:
+> 
+> Refresh active capture pointers before the drain transition so the final
+> captured tail is accounted before reads finish.
+> 
+> Assisted-by: LLM
+> Signed-off-by: Joonho Lee <mynameisjune111@gmail.com>
+> ---
+>  sound/core/pcm_native.c | 32 +++++++++++++++++++++++++-------
+>  1 file changed, 25 insertions(+), 7 deletions(-)
+> 
+> diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
+> index defbb2977efe..622ae7be2d04 100644
+> --- a/sound/core/pcm_native.c
+> +++ b/sound/core/pcm_native.c
+> @@ -2176,14 +2176,32 @@ static int snd_pcm_drain(struct snd_pcm_substream *substream,
+>  	} else if (substream->f_flags & O_NONBLOCK)
+>  		nonblock = 1;
+>  
+> -	snd_pcm_stream_lock_irq(substream);
+> -	/* resume pause */
+> -	if (runtime->state == SNDRV_PCM_STATE_PAUSED)
+> -		snd_pcm_pause(substream, false);
+> +	/* Keep linked runtimes alive until the initial drain action completes. */
+> +	scoped_guard(rwsem_read, &snd_pcm_link_rwsem) {
+> +		snd_pcm_stream_lock_irq(substream);
+> +		/* Resume before refreshing capture positions. */
+> +		if (runtime->state == SNDRV_PCM_STATE_PAUSED)
+> +			snd_pcm_pause(substream, false);
+> +		snd_pcm_stream_unlock_irq(substream);
+> +
+> +		/* A pointer error may stop the group: hold only this member's lock. */
+> +		snd_pcm_group_for_each_entry(s, substream) {
+> +			if (s->stream != SNDRV_PCM_STREAM_CAPTURE)
+> +				continue;
+> +			scoped_guard(pcm_stream_lock_irq, s) {
+> +				if (s->runtime->state == SNDRV_PCM_STATE_RUNNING)
+> +					result = snd_pcm_update_hw_ptr(s);
+> +			}
+> +			if (result < 0)
+> +				break;
+> +		}
+>  
+> -	/* pre-start/stop - all running streams are changed to DRAINING state */
+> -	result = snd_pcm_action(&snd_pcm_action_drain_init, substream,
+> -				ACTION_ARG_IGNORE);
+> +		snd_pcm_stream_lock_irq(substream);
+> +		/* Change the stable group to DRAINING only after all refreshes. */
+> +		if (result >= 0)
+> +			result = snd_pcm_action(&snd_pcm_action_drain_init,
+> +						substream, ACTION_ARG_IGNORE);
+> +	}
+>  	if (result < 0)
+>  		goto unlock;
+>  	/* in non-blocking, we don't wait in ioctl but let caller poll */
 
-Assisted-by: LLM
-Signed-off-by: Joonho Lee <mynameisjune111@gmail.com>
----
- sound/core/pcm_lib.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+IIUC, basically what here we do is to just call
+snd_pcm_update_hw_ptr() for capture at drain init phase, so calling it
+inside snd_pcm_do_drain_init() would make more sense, I suppose.
 
+But, the problem is that snd_pcm_update_hw_ptr() itself takes an
+action to stop the stream for XRUN.  So we'd need to fiddle along with 
+it, too, as something like below.  (Maybe we need more brush-ups.)
+
+
+thanks,
+
+Takashi
+
+-- 8< --
 diff --git a/sound/core/pcm_lib.c b/sound/core/pcm_lib.c
-index 4d665b4148d7..de952f639d3b 100644
+index 4d665b4148d7..a1b19d558234 100644
 --- a/sound/core/pcm_lib.c
 +++ b/sound/core/pcm_lib.c
-@@ -2208,13 +2208,17 @@ static int pcm_sanity_check(struct snd_pcm_substream *substream)
+@@ -206,8 +206,9 @@ void __snd_pcm_xrun(struct snd_pcm_substream *substream)
+ 
+ #endif
+ 
+-int snd_pcm_update_state(struct snd_pcm_substream *substream,
+-			 struct snd_pcm_runtime *runtime)
++static int do_pcm_update_state(struct snd_pcm_substream *substream,
++			       struct snd_pcm_runtime *runtime,
++			       bool notify)
+ {
+ 	snd_pcm_uframes_t avail;
+ 
+@@ -216,12 +217,14 @@ int snd_pcm_update_state(struct snd_pcm_substream *substream,
+ 		runtime->avail_max = avail;
+ 	if (runtime->state == SNDRV_PCM_STATE_DRAINING) {
+ 		if (avail >= runtime->buffer_size) {
+-			snd_pcm_drain_done(substream);
++			if (notify)
++				snd_pcm_drain_done(substream);
+ 			return -EPIPE;
+ 		}
+ 	} else {
+ 		if (avail >= runtime->stop_threshold) {
+-			__snd_pcm_xrun(substream);
++			if (notify)
++				__snd_pcm_xrun(substream);
+ 			return -EPIPE;
+ 		}
+ 	}
+@@ -233,6 +236,12 @@ int snd_pcm_update_state(struct snd_pcm_substream *substream,
  	return 0;
  }
  
--static int pcm_accessible_state(struct snd_pcm_runtime *runtime)
-+static int pcm_accessible_state(struct snd_pcm_substream *substream)
- {
-+	struct snd_pcm_runtime *runtime = substream->runtime;
++int snd_pcm_update_state(struct snd_pcm_substream *substream,
++			 struct snd_pcm_runtime *runtime)
++{
++	return do_pcm_update_state(substream, runtime, true);
++}
 +
- 	switch (runtime->state) {
- 	case SNDRV_PCM_STATE_PREPARED:
- 	case SNDRV_PCM_STATE_RUNNING:
- 	case SNDRV_PCM_STATE_PAUSED:
- 		return 0;
-+	case SNDRV_PCM_STATE_DRAINING:
-+		return substream->stream == SNDRV_PCM_STREAM_CAPTURE ? 0 : -EBADFD;
- 	case SNDRV_PCM_STATE_XRUN:
- 		return -EPIPE;
- 	case SNDRV_PCM_STATE_SUSPENDED:
-@@ -2320,7 +2324,7 @@ snd_pcm_sframes_t __snd_pcm_lib_xfer(struct snd_pcm_substream *substream,
- 	nonblock = !!(substream->f_flags & O_NONBLOCK);
+ static void update_audio_tstamp(struct snd_pcm_substream *substream,
+ 				struct timespec64 *curr_tstamp,
+ 				struct timespec64 *audio_tstamp)
+@@ -283,8 +292,8 @@ static void update_audio_tstamp(struct snd_pcm_substream *substream,
+ 	runtime->driver_tstamp = driver_tstamp;
+ }
  
- 	snd_pcm_stream_lock_irq(substream);
--	err = pcm_accessible_state(runtime);
-+	err = pcm_accessible_state(substream);
- 	if (err < 0)
- 		goto _end_unlock;
+-static int snd_pcm_update_hw_ptr0(struct snd_pcm_substream *substream,
+-				  unsigned int in_interrupt)
++int snd_pcm_update_hw_ptr0(struct snd_pcm_substream *substream,
++			   bool in_interrupt, bool notify)
+ {
+ 	struct snd_pcm_runtime *runtime = substream->runtime;
+ 	snd_pcm_uframes_t pos;
+@@ -490,13 +499,13 @@ static int snd_pcm_update_hw_ptr0(struct snd_pcm_substream *substream,
  
-@@ -2388,7 +2392,7 @@ snd_pcm_sframes_t __snd_pcm_lib_xfer(struct snd_pcm_substream *substream,
- 		atomic_dec(&runtime->buffer_accessing);
- 		if (err < 0)
- 			goto _end_unlock;
--		err = pcm_accessible_state(runtime);
-+		err = pcm_accessible_state(substream);
- 		if (err < 0)
- 			goto _end_unlock;
- 		appl_ptr += frames;
+ 	update_audio_tstamp(substream, &curr_tstamp, &audio_tstamp);
+ 
+-	return snd_pcm_update_state(substream, runtime);
++	return do_pcm_update_state(substream, runtime, notify);
+ }
+ 
+ /* CAUTION: call it with irq disabled */
+ int snd_pcm_update_hw_ptr(struct snd_pcm_substream *substream)
+ {
+-	return snd_pcm_update_hw_ptr0(substream, 0);
++	return snd_pcm_update_hw_ptr0(substream, false, true);
+ }
+ 
+ /**
+@@ -1906,7 +1915,7 @@ void snd_pcm_period_elapsed_under_stream_lock(struct snd_pcm_substream *substrea
+ 	runtime = substream->runtime;
+ 
+ 	if (!snd_pcm_running(substream) ||
+-	    snd_pcm_update_hw_ptr0(substream, 1) < 0)
++	    snd_pcm_update_hw_ptr0(substream, true, true) < 0)
+ 		goto _end;
+ 
+ #ifdef CONFIG_SND_PCM_TIMER
+diff --git a/sound/core/pcm_local.h b/sound/core/pcm_local.h
+index ecb21697ae3a..12bb6e75329a 100644
+--- a/sound/core/pcm_local.h
++++ b/sound/core/pcm_local.h
+@@ -28,6 +28,8 @@ int pcm_lib_apply_appl_ptr(struct snd_pcm_substream *substream,
+ int snd_pcm_update_state(struct snd_pcm_substream *substream,
+ 			 struct snd_pcm_runtime *runtime);
+ int snd_pcm_update_hw_ptr(struct snd_pcm_substream *substream);
++int snd_pcm_update_hw_ptr0(struct snd_pcm_substream *substream,
++			   bool in_interrupt, bool notify);
+ 
+ void snd_pcm_playback_silence(struct snd_pcm_substream *substream,
+ 			      snd_pcm_uframes_t new_hw_ptr);
+diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
+index a845f242a163..76983e5f4d4e 100644
+--- a/sound/core/pcm_native.c
++++ b/sound/core/pcm_native.c
+@@ -2094,6 +2094,8 @@ static int snd_pcm_do_drain_init(struct snd_pcm_substream *substream,
+ 				 snd_pcm_state_t state)
+ {
+ 	struct snd_pcm_runtime *runtime = substream->runtime;
++	int err;
++
+ 	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
+ 		switch (runtime->state) {
+ 		case SNDRV_PCM_STATE_PREPARED:
+@@ -2119,8 +2121,12 @@ static int snd_pcm_do_drain_init(struct snd_pcm_substream *substream,
+ 		if (runtime->state == SNDRV_PCM_STATE_RUNNING) {
+ 			snd_pcm_state_t new_state;
+ 
+-			new_state = snd_pcm_capture_avail(runtime) > 0 ?
+-				SNDRV_PCM_STATE_DRAINING : SNDRV_PCM_STATE_SETUP;
++			err = snd_pcm_update_hw_ptr0(substream, false, false);
++			if (err < 0)
++				new_state = SNDRV_PCM_STATE_SETUP;
++			else
++				new_state = snd_pcm_capture_avail(runtime) > 0 ?
++					SNDRV_PCM_STATE_DRAINING : SNDRV_PCM_STATE_SETUP;
+ 			snd_pcm_do_stop(substream, new_state);
+ 			snd_pcm_post_stop(substream, new_state);
+ 		}
