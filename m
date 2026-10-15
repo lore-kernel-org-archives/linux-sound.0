@@ -1,86 +1,86 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AEA14718DE;
-	Thu, 15 Oct 2026 07:19:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C60B3C8732;
+	Thu, 15 Oct 2026 07:21:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792048809; cv=none; b=STMr1dR+xHxN9SntlYnKVGHMBTqloChLFB/hoClKEnRxa26N+lNoF5cBo8np2dCBvF1sMsFlysEvoPDMdAhVdUWN4LHjhdII0zR58UMklCAej8ZzGdUaMujLZNaEpuimGErn0+uaVIwZ81DmSjEU5ByfP++U/8kE3fHSzMb+XzI=
+	t=1792048874; cv=none; b=Q3PaUtAExtVGB0Hh7UtQdwNZFquCC91Ch96z1gUdFyRmYgT/pdurFGXsltNe/qM+k6i6rgTamQ34HAhOP18kKIquiGdN/0hgLljJA56G7Lbod9/+L0i/wNgoUuoodcXSfcMliTyxVd4AYFiitUFZQeirdb6BO2p1EyWQryF0rP4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792048809; c=relaxed/simple;
-	bh=7cPgA+U7OYo29MasG8HnapJMsHYt/eD82KhNdGVMocI=;
+	s=arc-20240116; t=1792048874; c=relaxed/simple;
+	bh=fMalz7ChszegOU3gjTSzlZTKB2tNJesph5f9UjPVN5w=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bIdghCM6N97TXtuQoLyhmrnpfPtwiPqlwl7AzWaHF5+OEDFqZ7PN65jTuabC/SV8WnLPh5Relm1F46uit7F99lhGnCJAUaXC9dkkDTipgS3mcNiMPc6+RAKa0LZw4Q3xhZk83Tl44rRqtNtDVkeJs09C0DHNu+o5njJrt4B4UQQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=vsWiNWII; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bqaxEF7c; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=DkpP4XZL; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=vAc2vmHg; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=mUvVnZVsJ6Hd6x56dCu291y75pWwm5+IO/sy4MtPSuWSoNPKtuZroxSRvXJk6DghO6gexIgeXFwWer4Hh/FgMnyuE1a3tl3VLQBrX0qsL2FCjLqzhyBpMRJ3j3u1PJIl7e36ryo+bCposk5O5LR2ruxZJv6EN2+pDZCvjr2TmIE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=gq+qLOlJ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=N441EOUC; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GVkbU+Ze; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=a8WJrScp; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="vsWiNWII";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bqaxEF7c";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DkpP4XZL";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vAc2vmHg"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="gq+qLOlJ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="N441EOUC";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GVkbU+Ze";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="a8WJrScp"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 15F8E22345;
-	Thu, 15 Oct 2026 07:19:55 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id BE87522345;
+	Thu, 15 Oct 2026 07:21:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792048796; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1792048866; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=CBWP4mmvvDFg2BATo4ww7p6L/O3ZN/KTcIIvk3tuQSk=;
-	b=vsWiNWIIil0cYMnwJgJFk1U6o8n+7Dpzbh1js5oM8tVcpsOmqG13gu+36M5jlCsVO//eNO
-	5g9TRmyfvOHmMEK/Ofv7fk2z4l5vPwKgNf0F1OGRPLYLX9XOX3LyUImu41oCgG6m7LVDhe
-	z1JpZftxB7IpgJNCQtu4bx8zNVHLJlg=
+	bh=X7s6Co7d6enAImPeSG85d5cbok3iCwzwiZUrJ7iqyV4=;
+	b=gq+qLOlJceC4ghRtXbaZMWO2R7HN92sjoeQFhn+4fjYIRJvscpgrCa6TZ376QKgyZmWi3R
+	R7KRTzPM0riKbrg8XdpzU/dmgl/VojakTxQH22wcCHul6YxbcGwVrKZfdSFMLCBvwJ7I7m
+	+nZW8m7xRLm8anifoblB3u5yQ5gB+OE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792048796;
+	s=susede2_ed25519; t=1792048866;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=CBWP4mmvvDFg2BATo4ww7p6L/O3ZN/KTcIIvk3tuQSk=;
-	b=bqaxEF7ciT7US0eiqwT0oMAJq1F+b4OxlpAJLcpj2MR+66tguw1Q/YWc9YekJKcgtJ95fq
-	d+a9ysgg4jVn0mDw==
+	bh=X7s6Co7d6enAImPeSG85d5cbok3iCwzwiZUrJ7iqyV4=;
+	b=N441EOUCC6uCmhCZGPeX36Vn+9Q5gn1HoP/bqLj9LIZUkf2msuIHZRyjpRsgueA4utzQcu
+	m5T7m+3t5CV9Z/BQ==
 Authentication-Results: smtp-out1.suse.de;
-	none
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=GVkbU+Ze;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=a8WJrScp
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792048795; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1792048865; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=CBWP4mmvvDFg2BATo4ww7p6L/O3ZN/KTcIIvk3tuQSk=;
-	b=DkpP4XZLbfgVHlSJJCBHP38vCYxme53fHywbUkssrXBavyIHFYzhQZyDV8nIDMLlr4IdhM
-	yWW29LQObFkWQMSSHNPQdBBlHRbaTZzfoo+Y+vwFxG26qVEhWb5Z6ih5L2yzjSYpU3XZLl
-	mJGsDr1f3+4YZieju+wJKpAeOBs6XCg=
+	bh=X7s6Co7d6enAImPeSG85d5cbok3iCwzwiZUrJ7iqyV4=;
+	b=GVkbU+ZeawbEZ+KAMhJYTJGbMKGVF6gysPPari+6zvZmVC6AFgb85X1QCmDg6c1Vm45ymy
+	zsO+NnrKlLfF7MhM3wVPoV23Nbq+qYbZq1w6rmprNn2BDn39jkEU7tAGnTacrCQCmXe0w/
+	IOh979UIs4Z8jueC9eiQ0noNC8vZqRg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792048795;
+	s=susede2_ed25519; t=1792048865;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=CBWP4mmvvDFg2BATo4ww7p6L/O3ZN/KTcIIvk3tuQSk=;
-	b=vAc2vmHgjBEO6vRiF/KpXqeLn+07dg/ihUIzSAOOJPuLxSg0VBOq40OuGhnAvV7b2L9y3r
-	tzVtttNPAGbu65BQ==
+	bh=X7s6Co7d6enAImPeSG85d5cbok3iCwzwiZUrJ7iqyV4=;
+	b=a8WJrScpU/Wn6xO1zAzet8BYoG3ofQyatXsDNbbrT2FvNxwGYZ271PAR6Kitr5xYsGaBRw
+	G9QXBTvmXZTyKZCg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BCEB41373D;
-	Thu, 15 Oct 2026 07:19:54 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 533611373D;
+	Thu, 15 Oct 2026 07:21:05 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id m/YWJJp+0GokOAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 15 Oct 2026 07:19:54 +0000
-Date: Thu, 15 Oct 2026 09:19:54 +0200
-Message-ID: <87pkxbmnvp.wl-tiwai@suse.de>
+	id grT6AOF+0GqIOQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 15 Oct 2026 07:21:05 +0000
+Date: Thu, 15 Oct 2026 09:21:04 +0200
+Message-ID: <87o6cvmntr.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: wangdich9700@163.com
+To: Zhang Heng <zhangheng@kylinos.cn>
 Cc: tiwai@suse.com,
-	perex@perex.cz,
-	wangdicheng@kylinos.cn,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] ALSA: hda/realtek: Limit Line In boost and ADC gain on DECENTA MATX03
-In-Reply-To: <20261015021210.106392-1-wangdich9700@163.com>
-References: <20261015021210.106392-1-wangdich9700@163.com>
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/realtek: Fix quirk for HP Laptop 15-fc0xxx
+In-Reply-To: <20261015065640.377466-1-zhangheng@kylinos.cn>
+References: <20261015065640.377466-1-zhangheng@kylinos.cn>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -89,50 +89,59 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
+X-Rspamd-Action: no action
+X-Spam-Score: -3.51
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	ARC_NA(0.00)[];
-	FREEMAIL_TO(0.00)[163.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[163.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_NONE(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,kylinos.cn:email]
-X-Spam-Score: -3.30
+	FROM_EQ_ENVFROM(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,kylinos.cn:email,suse.de:dkim]
 X-Spam-Level: 
-X-Spam-Flag: NO
+X-Rspamd-Queue-Id: BE87522345
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 
-On Thu, 15 Oct 2026 04:12:10 +0200,
-wangdich9700@163.com wrote:
+On Thu, 15 Oct 2026 08:56:40 +0200,
+Zhang Heng wrote:
 > 
-> From: wangdicheng <wangdicheng@kylinos.cn>
+> The HP Laptop 15-fc0xxx is based on an AMD platform where the digital
+> microphone is provided by the snd-soc-acp6x-mach driver, not by the
+> HDA codec. The ALC236_FIXUP_HP_DMIC quirk configures pin 0x12 as an
+> internal DMIC, which is a misconfiguration for this machine: the pin
+> is not wired to a codec DMIC and the setting has no effect on the
+> actual microphone path (which works via ACP6x).
 > 
-> The DECENTA MATX03 (ALC897, SSID 1e0b:1297) exposes a high gain
-> range on both the Line In pin boost and the ADC input amp. Pin 0x1a
-> reports nsteps=0x03 with stepsize=0x27, that is 0, 9.75, 19.5 and
-> 29.25 dB. ADC 0x08 reports nsteps=0x3f with stepsize=0x02, that is
-> 0 to 31.5 dB in 0.5 dB steps, and defaults to 0x3f (maximum). The
-> combined 60.75 dB analogue cascade overloads the front-end when the
-> source level is high, producing audible noise during Line In
-> monitoring.
+> Replace ALC236_FIXUP_HP_DMIC with
+> ALC236_FIXUP_HP_MUTE_LED_MICMUTE_GPIO, the standard quirk used by the
+> closely related HP Laptop 15-fd0xxx and other ALC236 HP machines. This
+> removes the misleading DMIC pin config and adds proper mute LED and
+> micmute LED support that was missing from the original quirk.
 > 
-> Add a new fixup alc897_fixup_limit_linein_boost that overrides the
-> amp capabilities of pin 0x1a to nsteps=1 (max ~11.75 dB) and ADC
-> 0x08 to nsteps=1 (max ~0.5 dB). The total gain drops from 60.75 dB
-> to ~12.25 dB, eliminating the clipping.
-> 
-> Signed-off-by: wangdicheng <wangdicheng@kylinos.cn>
+> Fixes: 720460722310 ("ALSA: hda/realtek: add quirk for HP Laptop 15-fc0xxx")
+> Cc: stable@vger.kernel.org
+> Closes: https://bugzilla.kernel.org/show_bug.cgi?id=221233
+> Closes: https://bugzilla.kernel.org/show_bug.cgi?id=222044
+> Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
 
 Applied to for-next branch.  Thanks.
 
