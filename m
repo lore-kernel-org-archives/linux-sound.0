@@ -1,119 +1,249 @@
-Received: from mail-yx1-f48.google.com (mail-yx1-f48.google.com [74.125.224.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01D3D54B1DA
-	for <linux-sound@vger.kernel.org>; Thu, 15 Oct 2026 16:28:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792081707; cv=pass; b=izXTqU3T6dnikBOArwXBrmpiHhvFWk0ZDwdyjeQEbvcE9sIYn4SNQ9Azi5e30nSRauDPhjVCUo9+GANyy3zNsbbUTvlk+TZcQSeXMpRFygA2iHyGaYvoO960bDZ6LinlghRGbPKaMJPxbex2zU88zg9VI+eKBhbdj9O+LW+fM+U=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792081707; c=relaxed/simple;
-	bh=vgjMkfB5AFxaee5+Kwz2qMYoZ0igEfUvX5a78hOyGF4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cP29dM9mFy3lIIb81/AQu1XDXziRBzgzXW/9tlTDHw+cxk3taCNUFKPkqEHg6g/aKD5SBSNFlP0zoSqsXrpjnULWUfrPxxTueBxNP7adTpxyVgr3sQpNs8AaGuiF2zLcXyITIp2lp/Tqk8vXJ7f15YBe4OmWoWz24kmsFB97QvQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=n6hJA2MR; arc=pass smtp.client-ip=74.125.224.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF453383993;
+	Thu, 15 Oct 2026 17:03:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792083811; cv=none; b=CAHOpp//blTYBp+8zDYqxacR7DwCWR0z8AMs44QnFoOxkB6w8G2OwLwSON5mEm4CJJvjDAy+iAJIpZ5K3MTX0ItpoyXq6xShLMKJ2sivEHs7e+ZbepHR2nnSy/iG/tr9r1Y3qBILPVEaAICWdFj3nGu7gIW8p/HWwLZ0GREi6vM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792083811; c=relaxed/simple;
+	bh=mTsCIQlQlZ+s0i8gJLekPM5yddZtsSJVjZ/7RlKj1PA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=J65hchKzPnOzYBKY7KsIZQ2FykfVd9gL78OvH9EsAANhIJOb0yYaqaf26VevvJdxYkMtglHQAbdMIj4bOkXMjbNSmCk+kBNJy0HpRvsbxunZBeEd9qgk/DZiyUalEAyZxhJB+mM0U5vwDd2Fw27vNbK/kclqdgCye18MllvMLB0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eY8xqAJH; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="n6hJA2MR"
-Received: by mail-yx1-f48.google.com with SMTP id 956f58d0204a3-675617e81f9so5995882d50.3
-        for <linux-sound@vger.kernel.org>; Thu, 15 Oct 2026 09:28:14 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792081694; cv=none;
-        d=google.com; s=arc-20260327;
-        b=RbHZ5X0Oy14GI3uU9dPNqb/oUQcHgbjXEmMooPKvwcxj1NzjoWXr36Dn2gE/5AJDnY
-         RX/28p1tXNcUzXvFWWrDwYcFXJrmurGLxBZyAolj8JWr5iUDJylNJGAPPzt0tJg9kL3N
-         RKnWGH7IeSr1kZvZSJtPO/BwwFDcRDW4ieJwwAO/OGDaeBf6FmkZ6s+UNxjW//ltbF/l
-         6YB1rbvPeq/fdWfVLD4ahC0rV1Wzkktl/uZDQ6JjrxjKslADhgZwHOh0TwAWh5l8xw8p
-         3E2lHuBuztzr4Z0xLcLoeuxdOc4d1VssI9B91jXLUs/nfTaUU1qzzVfU0/CAdyK4SR/n
-         Xskg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=n2BZinCZ54N7UvTW1neOvwJj3/H4yG3CbAwjf384cj0=;
-        fh=qzKAFZt6Lwhhoz659q0J4fqpe1EHJwpshCpa4tWUags=;
-        b=XzoGGu6D4q7/ZQKuoELqBXdQAhihlNzMqTjeLfis4lIgmYakDkvb5uMpdL2BxWexEj
-         yqRw0ifpNdWmOdRv8xSLNjJndO5/rmzE9Hyl6tPR13jTMtH7jycovXU+iRXKZ+KAJhHb
-         WsCUTtoqIlqN4P7IDnID61m9UWaFBpxdl/B8S7DfN3qn7usMEyECMt4wLVXLwhVNZy0e
-         Hb3gHo3qYlPTGav3kdsZ86VKawEaPEZsIdYqb+F8Ft2bRBYEPOseazlWg7pGzalRGVxq
-         nTHpdgGMJWVSR3TYMVPBILTGCqhoJEhUyhZycu4hcybioHTHpI1L3Lr4r0JtYl+4ZwgL
-         rsyg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792081694; x=1792686494; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=n2BZinCZ54N7UvTW1neOvwJj3/H4yG3CbAwjf384cj0=;
-        b=n6hJA2MR2RM9TRYvvc6KZz42TP/2t+clfAo45Yrchi4hcWjnvW93s3viU+Q5i8C933
-         kylZxWrdI2GDr8/8MYRi641o9JEcVPGbQw63MaEGN9sHNh5ROnC8PbHhT3OpavEW6rO6
-         kKusnchev8eeL07HDcckInZyoH046jljLUSEzoyc2ncfVp95sUjIHS8NDMYImTNDVVJJ
-         JbbbFZKHv84Id+ni9Ja5Dfa5sgbk87SmSw1YTyWBrb1WfbT6iWU5qdDF7VwwF6q7LTHo
-         R5bL2e6EkuDvy32h1JftWFIn9GaROwuGv8Qo1kWm7uBwGGEDAr/i2xzVxYrY7GyNvNu8
-         mlbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792081694; x=1792686494;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=n2BZinCZ54N7UvTW1neOvwJj3/H4yG3CbAwjf384cj0=;
-        b=2JSNChhr/SWavrIamQjHm9uEz8vv6vHmg+GDjrsicUKTES9Bk7RV3/f+3Cj0ns4S/0
-         /Ib9xHAXu7r+AsQzlUOWFBddaujRrt60NfhesI4LSFG/nbztDkmgohsBzrx4jVM9vufP
-         wRJCLYbCiHEG5H0FzxupbLPhaumiV+l7ETTpIspl9RM4g5l44efRaAUY5UQ5JCmMnZTW
-         FRO+WNzd2G7Kf5PovNLz83jq3o5gqoesCH5X7FnF43t0oREBjHYvFQNDZo6/auB6Fq5C
-         2ic4ycux4hOXQvGlS6SQlIhlmwhQcYojVSDPSxZk+5kyZ+lhobpCCEZjqnwVeVKrSdKH
-         u0Hg==
-X-Forwarded-Encrypted: i=1; AKwUvBz2E2WvqjnmuKgqME50HGh/4eqPabEqAQFGfkOGlbzereI721KCMKXvIWC+CmYnQTojxkct6bHWqfob2A==@vger.kernel.org
-X-Gm-Message-State: AFq9FYKDe8DjaLvWPD/so1YBa1UOFa/UjF3SiUjX8YGI2wTsKIUzohTK
-	bDbwox+Fp6vybz2TvEinPAItOtl3mDGfyZ3VGrWHwGzUIS02nSvneuKLu5hYqTZOJ6eJNtJxgt2
-	QaoEE/rH8+YHBPq92+L6e0Uy4zwawzSo=
-X-Gm-Gg: AYBFou3YYiBuIC25KqjrziImNR5mU78nnDc1EyaKzVeBN8lGB/deZzmV3cJ+3QyFswW
-	Glcg3cOzIns9ls1Txc0WMeodkeDPc+9QMmJFhYe9oSoi59pviFql4VgQr/pA1+MZU22h+9juEW7
-	jVWNxZJdAViwfInwlTOXV2ZyVtpXOp4Ruaw9QJyFcZ/W44aU/tj1r/IeihRlBSk3HFciRqbWa64
-	RdC/WzHa4Zy6YcuLw4H+nXfw5PrU7Xm7Pmha8Ux2EMvTLdFTzkXP9Vy7n1oeQzk2U48QF0ALCqS
-	pg/LORRO8p71+BEGILmNl82cKPFMCfAKaFnF40h8pIq5/RvDyuoFcwUuYg==
-X-Received: by 2002:a05:690c:e3cd:b0:8b0:ad62:19aa with SMTP id
- 00721157ae682-8b0ad6230f0mr43580797b3.33.1792081693632; Thu, 15 Oct 2026
- 09:28:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eY8xqAJH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20E6A1F000C4;
+	Thu, 15 Oct 2026 17:03:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792083798;
+	bh=LhnZdj1n9jEiu2uk0jULpLtCBawhN6CksHAm8WDiTmw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=eY8xqAJHNT/9VMHehk3h2r3VKHap4XWBTDvU7FdwAAf+UlSmFV4C5jkxi2JeEykLw
+	 LHxigb6YdlVT8Pr9mWAJgho5u+XoUrwNM0fRE11tdJ2i7ht0QpcTO2nda19ZMj8YCf
+	 +n24IFub1OqkPZaO8ETUOPSurRq5RhPsenhvFQBLhhpFgtj1jSCrlEmj0jggK94vif
+	 8f5kSTVu68UOYWZ330x2sNRmfKDHr+29OhQL58TMoWNUwmULvpOdArsoGO4O3oucQl
+	 TSPaeJc0R3pwjoIFVQrMrtpMe6xQhxuXsM/+q+gu3axH4RcWvg+9qZiEtydAB1Ld7Y
+	 ineBcQWsTGRpg==
+Date: Thu, 15 Oct 2026 18:03:13 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Hyunuk Son <hyunuk.son@irondevice.com>
+Cc: lgirdwood@gmail.com, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, perex@perex.cz, tiwai@suse.com,
+	kiseok.jo@irondevice.com, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] ASoC: codecs: Add driver for Iron Device MA5311
+Message-ID: <9ec997b1-8443-466b-bafb-a25f9b5c47ff@sirena.org.uk>
+References: <20261015060408.128711-1-hyunuk.son@irondevice.com>
+ <20261015060408.128711-3-hyunuk.son@irondevice.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <pm-pmb-9c80f858ccc13b3de84d-v7-fcd8c7aa0e837bf0b036@gmail.com>
- <87zewgcuhy.wl-tiwai@suse.de> <CAFRLqsX6Yz2dv_dV4BvV6_F-16WDWYTAk5ikC9WY7ZySkoJKUQ@mail.gmail.com>
- <87qzhrmnz3.wl-tiwai@suse.de> <CAFRLqsUY+RhE=CsMHAvcQtUmwE_hd4_WUhJKSJiwdUUE3a--Yg@mail.gmail.com>
- <87h5in6io5.wl-tiwai@suse.de>
-In-Reply-To: <87h5in6io5.wl-tiwai@suse.de>
-From: Cen Zhang <zzzccc427@gmail.com>
-Date: Fri, 16 Oct 2026 00:28:02 +0800
-X-Gm-Features: AclHuK-KzJZ7iZD0Ep4aQoIUqULBhdU-oUSqsjVTblhrNorNiC7ItfIWaHV51BI
-Message-ID: <CAFRLqsWAkovmWbd9pf0hbTq=DRZOxK=W0JV0bo0K=L9g0f2zkQ@mail.gmail.com>
-Subject: Re: [PATCH v2] ALSA: pcm: Unlink substreams before releasing them
-To: Takashi Iwai <tiwai@suse.de>
-Cc: perex@perex.cz, tiwai@suse.com, phucduc.bui@gmail.com, 
-	cezary.rojewski@intel.com, cassiogabrielcontato@gmail.com, 
-	kees+treewide@kernel.org, yilinzhang@moonshot.ai, sammiee5311@gmail.com, 
-	kees@kernel.org, thomas.weissschuh@linutronix.de, tglx@kernel.org, 
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	baijiaju1990@gmail.com, jjzuming@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="cYFLMnh1SSjLn+6V"
+Content-Disposition: inline
+In-Reply-To: <20261015060408.128711-3-hyunuk.son@irondevice.com>
+X-Cookie: Tax and title extra.
 
-Hi Takashi,
 
->
-> Yes, and it's covered by another patch:
->   https://lore.kernel.org/20261015112256.3902-1-tiwai@suse.de
->
->
-> thanks,
->
-> Takashi
+--cYFLMnh1SSjLn+6V
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Sorry for missing that. That patch looks good to me. Feel free to add:
+On Thu, Oct 15, 2026 at 03:04:07PM +0900, Hyunuk Son wrote:
+> Add an ASoC codec driver for the Iron Device MA5311.
+>=20
+> The driver supports audio playback and capture through I2S
+> and TDM interfaces. It provides ALSA mixer controls for audio
+> configuration and uses regmap for register access.
 
-Reviewed-by: Cen Zhang <zzzccc427@gmail.com>
+There's some issues below, but nothing too major I think.
 
-Best regards,
-Cen Zhang
+> +static bool ma5311_adc_volatile_register(struct device *dev, unsigned in=
+t reg)
+> +{
+> +	return false;
+> +}
+
+You can just not provide a volatile function, the default is nothing
+volatile.  Since the driver isn't enabling a register cache volatile
+makes no difference anyway.
+
+> +static int ma5311_reset(struct snd_soc_component *component)
+> +{
+
+> +	ma5311->adc1_vol_left =3D 0xc0;
+> +	ma5311->adc1_vol_right =3D 0xc0;
+> +	ma5311->adc2_vol_left =3D 0xc0;
+> +	ma5311->adc2_vol_right =3D 0xc0;
+> +	ma5311->adc3_vol_left =3D 0xc0;
+> +	ma5311->adc3_vol_right =3D 0xc0;
+> +	ma5311->adc4_vol_left =3D 0xc0;
+> +	ma5311->adc4_vol_right =3D 0xc0;
+> +	ma5311->adc1_pga_left =3D 0x10;
+> +	ma5311->adc1_pga_right =3D 0x10;
+> +	ma5311->adc2_pga_left =3D 0x10;
+> +	ma5311->adc2_pga_right =3D 0x10;
+> +	ma5311->adc3_pga_left =3D 0x10;
+> +	ma5311->adc3_pga_right =3D 0x10;
+> +	ma5311->adc4_pga_left =3D 0x10;
+> +	ma5311->adc4_pga_right =3D 0x10;
+> +	ma5311->capture_mode =3D I2S_ADC1;
+
+Normally we just go with the hardware defaults for everything and let
+userspace set what it needs, this is mainly because different use cases
+often need different defaults.  Why are we setting all these volumes
+here?
+
+> +static int ma5311_adc_pga_control_put(struct snd_kcontrol *kcontrol,
+> +				      struct snd_ctl_elem_value *ucontrol)
+> +{
+> +	struct snd_soc_component *component =3D snd_kcontrol_chip(kcontrol);
+> +	struct ma5311_priv *ma5311 =3D snd_soc_component_get_drvdata(component);
+> +	const struct soc_mixer_control *mc =3D
+> +	    (const struct soc_mixer_control *)kcontrol->private_value;
+> +	unsigned int *cache;
+> +	unsigned int val =3D ucontrol->value.integer.value[0];
+> +
+> +	if (val < 0 || val > MA5311_ADC_PGA_CTRL_MASK)
+> +		return -EINVAL;
+> +
+> +	cache =3D ma5311_adc_pga_control_cache(ma5311, mc->reg);
+
+It's not clear to me why we have this cache code - I didn't spot where
+do anything with it outside of these get/put operations, it looks like
+exactly the sort of cache that you'd get from the regmap cache code.
+AFAICT could get it for free and just use the standard control
+implementations by enabling a register cache in regmap, if you don't
+want a cache for other registers for some reason you can mark them as
+volatile.
+
+> +static int ma5311_capture_mode_put(struct snd_kcontrol *kcontrol,
+> +				   struct snd_ctl_elem_value *ucontrol)
+> +{
+> +	struct snd_soc_component *component =3D snd_kcontrol_chip(kcontrol);
+> +	struct ma5311_priv *ma5311 =3D snd_soc_component_get_drvdata(component);
+> +	unsigned int val =3D ucontrol->value.enumerated.item[0];
+> +
+> +	if (val >=3D ARRAY_SIZE(ma5311_capture_mode_text)) {
+> +		dev_err(ma5311->dev, "%s: Out of range\n", __func__);
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (ma5311->capture_mode =3D=3D val)
+> +		return 0;
+> +
+> +	if (ma5311->adc_power_status) {
+> +		dev_err(ma5311->dev, "Try after capture is complete.\n");
+> +		return -EBUSY;
+> +	}
+
+There's no locking between this and DAPM so we could race with power up
+here.  Taking the DAPM mutex ought to do enough.
+
+> +static int ma5311_reset_control_get(struct snd_kcontrol *kcontrol,
+> +				    struct snd_ctl_elem_value *ucontrol)
+> +{
+> +	struct snd_soc_component *component =3D snd_kcontrol_chip(kcontrol);
+> +	struct ma5311_priv *ma5311 =3D snd_soc_component_get_drvdata(component);
+> +
+> +	if (!ma5311->reset_gpio)
+> +		return -ENODEV;
+
+It'd be better to only register this control if the GPIO is present,
+that way we don't have a broken control that reports errors to userspace
+if the system can't support it.  It's a bit of a dodgy control to have
+in the first place, it's rather disruptive if used at the wrong time,
+but I'm not totally against it for devices that are likely to only be
+used with highly controlled userspaces.
+
+> +	switch (params_width(params)) {
+> +	case 16:
+> +	case 24:
+> +	case 32:
+> +		break;
+> +	default:
+> +		dev_err(component->dev, "%s: unsupported PCM format: %d\n",
+> +			__func__, params_format(params));
+> +		return -EINVAL;
+> +	}
+
+Don't we need to configure anything in the hardware for clock provider
+mode here?
+
+> +#define MA5311_RATES_PLAYBACK SNDRV_PCM_RATE_8000_96000
+> +#define MA5311_RATES_CAPTURE SNDRV_PCM_RATE_8000_96000
+> +#define MA5311_FORMATS (SNDRV_PCM_FMTBIT_S16_LE | SNDRV_PCM_FMTBIT_S32_L=
+E)
+
+These don't seem to match what hw_params() accepts.
+
+> +static struct snd_soc_dai_driver ma5311_dai[] =3D {
+> +	{
+> +	 .name =3D "ma5311-amplifier",
+> +	 .id =3D 0,
+> +	 .playback =3D {
+> +		      .stream_name =3D "Playback",
+> +		      .channels_min =3D 1,
+> +		      .channels_max =3D 2,
+> +		      .rates =3D MA5311_RATES_PLAYBACK,
+> +		      .formats =3D MA5311_FORMATS,
+> +		      },
+> +	 .capture =3D {
+> +		     .stream_name =3D "Capture",
+> +		     .channels_min =3D 1,
+> +		     .channels_max =3D 8,
+> +		     .rates =3D MA5311_RATES_CAPTURE,
+> +		     .formats =3D MA5311_FORMATS,
+> +		     },
+> +	 .ops =3D &ma5311_dai_ops_amp,
+> +	  },
+> +};
+
+I think the device needs symmetric rate and widths too?
+
+> +static irqreturn_t ma5311_irq_thread(int irq, void *data)
+> +{
+> +	struct ma5311_priv *ma5311 =3D data;
+> +	unsigned int dac_status;
+> +	unsigned int dac_ocp_status;
+> +	unsigned int dac_scp_status;
+> +	int ret =3D 0;
+> +
+> +	ret |=3D regmap_read(ma5311->ctrl_regmap,
+> +			   MA5311_DAC_EA_DAC_STATUS, &dac_status);
+> +
+> +	ret |=3D regmap_read(ma5311->ctrl_regmap,
+> +			   MA5311_DAC_EB_DAC_OCP_STATUS, &dac_ocp_status);
+> +
+> +	ret |=3D regmap_read(ma5311->ctrl_regmap,
+> +			   MA5311_DAC_EC_DAC_SCP_STATUS, &dac_scp_status);
+> +
+> +	if (ret) {
+> +		dev_crit(ma5311->dev,
+> +			 "Error Occurred During Interrupt Handling\n");
+> +		return ret;
+
+This should be IRQ_NONE, we're returning irqreturn_t not an error code.
+
+--cYFLMnh1SSjLn+6V
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmrRB1AACgkQJNaLcl1U
+h9AhtQf/e2jLD9fxuDBrHk8pkz2hcUBlKE8hxvgOZzvrDeSwKFZUhwjUvxo2iGkb
++4AVJj0GUNEFsn9aAa0O31xZJY5yyiIpOT7cr5fWBWxN3D6pYZo0wcvLLbiy9PFc
+fKPN4TaHZgsqLF12MLEEL3lqhuy2GUuW/eaEsmd2UCdJArmY9/hG0iOQU87Jxb9F
+zUJKtQTTIJjgkb5oKOyqjfldHUD++kIiOCkSiTgl2NaqrPo+nuhpAJX0XUd71Xei
+eXwcEBUu+4T990pkL7O6+/eAnALTXzkNPlyYsWiFVjINinnj2zzXhEBBq3ukr/wn
+UzRbkjJ9+9vbAazZUiQZXX/ZJG9xWA==
+=gSmu
+-----END PGP SIGNATURE-----
+
+--cYFLMnh1SSjLn+6V--
