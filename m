@@ -1,160 +1,103 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C69D74D0A1C
-	for <linux-sound@vger.kernel.org>; Thu, 15 Oct 2026 19:01:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C2874A43F8;
+	Thu, 15 Oct 2026 19:03:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792090914; cv=none; b=FesiUIkwc0d8Vn0OVYt1GHMT18q3E1ZC5mD6wn2JtF7uwbiYxp7mDYDG1QW16xu6uS49l+E0W+ALHdr2Hb5UpDuUD8eVZi4881u7Xh2GBJ/exQcw02QT5KHoSvo1IUDnXFUfYs335MWMEOhlE5lRlkIByOj9BBQy19VFabDIyK0=
+	t=1792091007; cv=none; b=LIk+GPbaDLFo9WDKguEkqWG1w52BgNPBpA0LtzkUNr8TW7ZOUEzN9deEDvA4Zi45Mhusira25gx/laGbMmooEFInPcBb8m4cM62PXRJpxtrdo40FGwCSpZ1EsN1YYo9ZfYRkVPWHvMawjizOS4tJ2mWz6hBso6U8lDYbfuZfueE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792090914; c=relaxed/simple;
-	bh=EvSv0XljwdTUDZW0yDd0nu3CHQtaLNZF3Us+dEx92dk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=byhC1HCjcC+bjjP7wx9y9EsKWZq5LoHqMdRT4+hnBswBzrNeJ4++2ft0kTWXdKYzoUXvBKGQC3GozZ/0qlHLwgQRdA4x7hqO85H4ayVa+IqVcivQDwxu8rPkPTk5bK3tX7Wa1VXthc2YmUmxFakTQZFro6ZfLmc8gUiAgkBh4js=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HG090PSg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1UW3lOED; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HG090PSg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1UW3lOED; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1792091007; c=relaxed/simple;
+	bh=eCpQS2pY/uIfTWrkF2FXUdCk4bTqWWVfpHIP7uWqUd4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dMOvupEd6jDdpEk8PBxpNgppbJv97NkJTMxRqi6bOCQ64B3Mioa+fqNzs3WDgBlxBwV9ABgLhbXoxZTodCeUCzx7bpqu55CFm7wKsfNrLlJnXOb3NbI1YD35pnIgW6yRy2XcgZx/2Q0whXczWQxp7RiEysivd2UJo/QA+zyF3WY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=evZOV3qy; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HG090PSg";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1UW3lOED";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HG090PSg";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1UW3lOED"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 86B391FC9E;
-	Thu, 15 Oct 2026 19:01:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792090910; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=K4b6HSpVdpnFoHfc1bJd0QnF3diASqiNfkYJ61csn+U=;
-	b=HG090PSgcSo2xWBc2WhzxuLsTj9oBwWCPbJ2h4jQ7Ly/clboMIr7gPipOz1RxcDg+xKHzP
-	wTQofdqLivmE+2c2Qa0EgEQBsVYubPEeIVDEiBK35DNKL3gTFb0jSgVfv07pZp7J/7yCk9
-	SHmfqH5lqePD+PV/cmVCWVa1jbiYgvk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792090910;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=K4b6HSpVdpnFoHfc1bJd0QnF3diASqiNfkYJ61csn+U=;
-	b=1UW3lOEDJtdfhKaJ7VwjHYhCqOsoMpmNmhwyZJX1/i3/u2Hkr+/JS0uTJxkekRQD0F6b0g
-	nGQitiyqhT0H3DCg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=HG090PSg;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=1UW3lOED
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792090910; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=K4b6HSpVdpnFoHfc1bJd0QnF3diASqiNfkYJ61csn+U=;
-	b=HG090PSgcSo2xWBc2WhzxuLsTj9oBwWCPbJ2h4jQ7Ly/clboMIr7gPipOz1RxcDg+xKHzP
-	wTQofdqLivmE+2c2Qa0EgEQBsVYubPEeIVDEiBK35DNKL3gTFb0jSgVfv07pZp7J/7yCk9
-	SHmfqH5lqePD+PV/cmVCWVa1jbiYgvk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792090910;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=K4b6HSpVdpnFoHfc1bJd0QnF3diASqiNfkYJ61csn+U=;
-	b=1UW3lOEDJtdfhKaJ7VwjHYhCqOsoMpmNmhwyZJX1/i3/u2Hkr+/JS0uTJxkekRQD0F6b0g
-	nGQitiyqhT0H3DCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 278AC13223;
-	Thu, 15 Oct 2026 19:01:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id iNcVMR0j0WrHJgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 15 Oct 2026 19:01:50 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>
-Subject: [PATCH] ALSA: pcm: Call snd_pcm_sync_stop outside spinlock in snd_pcm_drop()
-Date: Thu, 15 Oct 2026 21:01:46 +0200
-Message-ID: <20261015190147.230736-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="evZOV3qy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C7411F000C4;
+	Thu, 15 Oct 2026 19:03:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792091005;
+	bh=ZPKERoZ7LJS+ax60+9moP0P18/yZsLBWUzgLuoqv2Xc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=evZOV3qygawQ6CVWLL4kNphfRaDs3xSTnbyoSAK013tHj0tNzEgOwu6ftdpvXfJaA
+	 7p4OM56mPWvxtXmZBHgawQo502oTMT4vd/3M1qsE5Yb8vxHJZPqELUbLz80CIbIh31
+	 EgB8pFKDDIxcu17Y2PU6/8RNWby50bkGIOABTwLyNt03TyI0gf5cZ8l5ZsluS3fDWH
+	 F4SLINdOFxykTC+A+9FacO4p74S/XP45lS06yy1wUucj6f7xssHfZLenmunIiJYdRv
+	 BNP6/aTHm4tWJBz2g0eQ/TobXwvmnjAD+xLTjbK21ZbmNtwERjnj1g35jJFTofNQHt
+	 2hWmGz6el9svA==
+Date: Thu, 15 Oct 2026 20:03:20 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+Cc: Srinivas Kandagatla <srini@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Alexey Klimov <alexey.klimov@linaro.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 3/4] ASoC: codecs: pm4125: Keep the micbias reference
+ count balanced
+Message-ID: <a3df845a-ab58-4945-9221-ff671c3dc378@sirena.org.uk>
+References: <20261015-pm4125_mbhc_support-v1-0-8bc1212db6f7@oss.qualcomm.com>
+ <20261015-pm4125_mbhc_support-v1-3-8bc1212db6f7@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Action: no action
-X-Spam-Score: -3.01
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[samsung.com:email,suse.de:email,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_TWO(0.00)[2];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_DN_SOME(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 86B391FC9E
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="x5rN7tE44XbwbmSh"
+Content-Disposition: inline
+In-Reply-To: <20261015-pm4125_mbhc_support-v1-3-8bc1212db6f7@oss.qualcomm.com>
+X-Cookie: Tax and title extra.
 
-In the recent addition of snd_pcm_sync_stop() call at snd_pcm_drop(),
-I overlooked the guard() line in snd_pcm_drop() (and the review
-overlooked, too) -- it must be called outside, of course!
 
-Let's fix it.  Now guard() became scoped_guard(), and its range is
-shown more clearly.
+--x5rN7tE44XbwbmSh
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Fixes: fdf9a21cda78 ("ALSA: pcm: Apply sync-stop at SNDRV_PCM_IOCTL_DROP ioctl")
-Reported-by: Marek Szyprowski <m.szyprowski@samsung.com>
-Closes: https://lore.kernel.org/c2bc1478-5999-455f-bd67-8b536c452215@samsung.com
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- sound/core/pcm_native.c | 19 ++++++++++---------
- 1 file changed, 10 insertions(+), 9 deletions(-)
+On Thu, Oct 15, 2026 at 07:43:11PM +0530, Mohammad Rafi Shaik wrote:
 
-diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
-index 05097f2630ad..f2e378696c7e 100644
---- a/sound/core/pcm_native.c
-+++ b/sound/core/pcm_native.c
-@@ -2307,17 +2307,18 @@ static int snd_pcm_drop(struct snd_pcm_substream *substream)
- 		return -ENXIO;
- 	runtime = substream->runtime;
- 
--	guard(pcm_stream_lock_irq)(substream);
--	if (runtime->state == SNDRV_PCM_STATE_OPEN ||
--	    runtime->state == SNDRV_PCM_STATE_DISCONNECTED)
--		return -EBADFD;
-+	scoped_guard(pcm_stream_lock_irq, substream) {
-+		if (runtime->state == SNDRV_PCM_STATE_OPEN ||
-+		    runtime->state == SNDRV_PCM_STATE_DISCONNECTED)
-+			return -EBADFD;
- 
--	/* resume pause */
--	if (runtime->state == SNDRV_PCM_STATE_PAUSED)
--		snd_pcm_pause(substream, false);
-+		/* resume pause */
-+		if (runtime->state == SNDRV_PCM_STATE_PAUSED)
-+			snd_pcm_pause(substream, false);
- 
--	result = snd_pcm_stop(substream, SNDRV_PCM_STATE_SETUP);
--	/* runtime->control->appl_ptr = runtime->status->hw_ptr; */
-+		result = snd_pcm_stop(substream, SNDRV_PCM_STATE_SETUP);
-+		/* runtime->control->appl_ptr = runtime->status->hw_ptr; */
-+	}
- 
- 	snd_pcm_sync_stop(substream, true);
- 
--- 
-2.55.0
+> The analog master bias is shared between the microphone bias supplies
+> and the playback and capture paths, so pm4125_global_mbias_enable() and
+> pm4125_global_mbias_disable() reference count it and only touch
+> PM4125_ANA_MBIAS_EN for the first user and the last one.
 
+> MICB_DISABLE clamps the per-supply reference count at zero but then
+> evaluates the enable and pull-up counts regardless, so a release that
+> has no matching request still reaches pm4125_global_mbias_disable() and
+> drops a reference it never took. The MBHC framework issues exactly such
+> a release: it takes MIC_BIAS_2 once when it starts detecting a plug
+> type and releases it both at the end of the correction work and again
+> from wcd_micbias_disable(). Inserting a jack while a stream is running
+> therefore switches the analog master bias off underneath it, leaving
+> the path up but silent, and it stays silent until another stream takes
+> the first reference again.
+>=20
+> Return early when there is nothing to release, so the hardware is only
+> touched for a request that was actually made.
+
+This feels like a bodge for poor reference counting elsewhere - in
+particular the MBHC seems to be fairly clearly double freeing.  The fix
+here just silently eats double frees AFAICT?
+
+--x5rN7tE44XbwbmSh
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmrRI3cACgkQJNaLcl1U
+h9Anewf/SNebW625O2/DwvATSkMuiiycXhDUV3/GVNmGNZwSzupnWogSeg+dZH5l
+bZCxrxAbWPjJZ461KNz1KVOAvo557NAHQ8CNBv6mEiNwN+6aA7PLtYnJ/7EYxbsV
+dt8fOSWRisvRPMLv497JhH6hkJDrZIGTbHyS1F42ESxEotM4QFSlF2NZAyImgGHh
+AoQGmVuA7X2mu5RO86mKA8HTqDL/sIeAv1yPYtWY1dWuZiqhU5Lt7LQveRhBrRUV
+cAQdk5t5rHr8Y1FTNTPFRBqGCwhnb4lz5Xu1YsPT3un5BALkGQftyfPbDmK/G5HH
+vXyUq53umdBSlddd60yZ/bqzsHk+pg==
+=8J6p
+-----END PGP SIGNATURE-----
+
+--x5rN7tE44XbwbmSh--
