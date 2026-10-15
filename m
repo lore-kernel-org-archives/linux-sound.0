@@ -1,93 +1,98 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from shared-aoh59.rev.nazwa.pl (shared-aoh59.rev.nazwa.pl [85.128.243.59])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EEF84A2062;
-	Thu, 15 Oct 2026 19:08:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B6474D956F;
+	Thu, 15 Oct 2026 19:25:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.128.243.59
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792091286; cv=none; b=iv+aDbBDxqidjrsPzR/vNq13Pbjhf2ayS483jkT7t4NCBRXqSeXm/x2kLE8KRhygu7U4SaO73HUBigGsHg7S9fy77eRQ0M4L4cBmft0gcHbrh4wAOtKfEXTUVvvmtbmpIEY6qKs4ks3QDGOrW94jf1CjJO3Tp/8CJ9Sv23XhOUs=
+	t=1792092308; cv=none; b=KigFCzLNN868xYAMQmBgCNk7ULNpf01+iLKB4JnkqplWEGkYmk1yfDmDxxKjLoLissGqAAzWn7+ZhPpURHNyB8tf0eVg8ZB8gPPguyqTubAWnHXyOYL+nTfInBOnFd5G/EqhMGZtR8T2afX0gzmYDFWTH2Otvm0zgRTd+siTmTw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792091286; c=relaxed/simple;
-	bh=cyU3X4JdKoxg9kUry1GAjfUWGDLRoQEz8UieWr1cxb4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=og+DV+rh4r56yZw7t4AXgqm8BJ/HMvlwDNSRuBJJGCsD/aFiz8isrVqDB08NM8ByEuZFxpG7P8SFtFBGOE3oUj/z3AIWGWt6ZL4XqQRryCxvXgeB2Ncb5j0jB6l4y3N8OTJodD5h2brzheJNelVjNrlXHJe+gJ3VbieUcCnV1cg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=et8klXTX; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792092308; c=relaxed/simple;
+	bh=tU7SttCJuXiXSdn4aI6q5wp5/GBBe9+68ixR/4vh4SU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=edC3pVknD9QpfjSqMKBgfSr3UxjdU0P/JnB0jshAsq9isWhyjDdCVDdSnpweBmoKbppPjxIErL1ep4NJ9PUBpV/UV01eAtER85qtGazDLBbk7/3e8ybjULlwruB+dw+cVCR1mDntvkiPscdHw5kmKZssa7VjaRDjXume889fUoE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asmblr.net; spf=pass smtp.mailfrom=asmblr.net; dkim=pass (2048-bit key) header.d=asmblr.net header.i=@asmblr.net header.b=Hi7NqBZG; arc=none smtp.client-ip=85.128.243.59
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asmblr.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asmblr.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="et8klXTX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 994EF1F000C4;
-	Thu, 15 Oct 2026 19:08:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792091284;
-	bh=uOLB46dfm0aerWqo4MfS0HfL8CCeDthLlQvQVMVFuVM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=et8klXTXLJglDd5uZg1slra9e0Xq9rIEh8OqusA0qBEtB7+kUpPInQx9jvMMELUxA
-	 8N/G9s1ZGbpj+o6gL6Rm07lZSnHAvSCyuivYwCFXfAciV7gK6taEcrAcF8H3Ibkbsn
-	 0quw91+s/Xnqx/qI7+vjtx9Fi14T1hCJ38qcJgb9AJadMNIP0UZXpqk0NQCTRWu+AJ
-	 IBrMbjo9D0idyoexyyHmGfM9ReHS+W5TOrUVPCt75SmPckAFapJVPlv+d2asXEnPIz
-	 ZglE5gCNhNokb4svGKVj9o7r94NRHo6aXaMcYBuDq9L7Ti3Wqy89+H/FIcVZSfGsOa
-	 nOeT6nuuxJuVw==
-Date: Thu, 15 Oct 2026 14:08:02 -0500
-From: Rob Herring <robh@kernel.org>
-To: Harendra Gautam <harendra.gautam@oss.qualcomm.com>
-Cc: Srinivas Kandagatla <srini@kernel.org>, Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
-	Sarath Ganapathiraju <sarath.ganapathiraju@oss.qualcomm.com>,
-	Kumar Anurag Singh <kumar.singh@oss.qualcomm.com>,
-	Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-Subject: Re: [PATCH v8 01/10] ASoC: dt-bindings: qcom,shikra-qaif-cpu: Add
- binding
-Message-ID: <20261015190802.GA5059-robh@kernel.org>
-References: <20260928-b4-qaif-shikra-audio-v8-0-ac618057fe85@oss.qualcomm.com>
- <20260928-b4-qaif-shikra-audio-v8-1-ac618057fe85@oss.qualcomm.com>
- <20261006141620.GA1950759-robh@kernel.org>
- <CAC-tS8DzW88Lu_k-yKQtyfYc8u5-rh9WKTSanJ6dq6Xo3wp+kQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=asmblr.net header.i=@asmblr.net header.b="Hi7NqBZG"
+X-Virus-Scanned: by amavisd-new using ClamAV (23)
+X-Spam-Flag: NO
+X-Spam-Score: -0.625
+X-Spam-Level: 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=asmblr.net;
+	s=1706450368.internal; t=1792092303;
+	bh=LwfbJ/ovnkdDCpiQfYRa99yrv9di6xMouQJuq/fGtQ4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=Hi7NqBZGjwJm1Uf7orLDE9VAm186iLx/suzEiIxdkTv1kiW+r9hsQtHw8pqOjTFMo
+	 mgiu/hnPhyoiUo8Hh0xfrIwRAkTREZV2hqj3k1Hya/+1K4+NShs7Ht3nc2jIuVncUa
+	 EIp8mXlyo366q5xf728lPZ1SRVf8pvTSQxHT5NNHprYBlAmcdeHLXiO0GA328MjyF7
+	 muyzsD2weArJd93Vb5e4eO+pEJYUxoYmWHGpAYXeuBFpILBGo2R2CVkszdwKdOGcGA
+	 DIFatFJtmd2KYboHIts5ir0zeIruLWXuJxndRhJkdxyqr19rpjyJxUmn5Kw6xex5f5
+	 tyCqECtxwAILg==
+Received: from milkyway (91-150-221-36.dynamic.play.pl [91.150.221.36])
+	by server753313.nazwa.pl (Postfix) with ESMTP id 662AD1BD4C5;
+	Thu, 15 Oct 2026 21:25:03 +0200 (CEST)
+Date: Thu, 15 Oct 2026 21:25:02 +0200
+From: Amadeusz =?UTF-8?B?U8WCYXdpxYRza2k=?= <amade@asmblr.net>
+To: Cezary Rojewski <cezary.rojewski@intel.com>
+Cc: broonie@kernel.org, linux-sound@vger.kernel.org, tiwai@suse.com,
+ perex@perex.cz, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] ASoC: Intel: avs: Unprepare a stream when recovery
+ occurs
+Message-ID: <20261015212502.6280c705@milkyway>
+In-Reply-To: <20261015190240.729793-2-cezary.rojewski@intel.com>
+References: <20261015190240.729793-1-cezary.rojewski@intel.com>
+	<20261015190240.729793-2-cezary.rojewski@intel.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAC-tS8DzW88Lu_k-yKQtyfYc8u5-rh9WKTSanJ6dq6Xo3wp+kQ@mail.gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Oct 12, 2026 at 12:15:52PM +0530, Harendra Gautam wrote:
-> > > +
+On Thu, 15 Oct 2026 21:02:38 +0200
+Cezary Rojewski <cezary.rojewski@intel.com> wrote:
 
-[...]
+> Recovery on alsa-lib side is handled with either:
+> 1) snd_pcm_prepare(state=XRUN)
+> 2) snd_pcm_drop/drain() -> snd_pcm_prepare(state=SETUP)
+> 
+> before starting the PCM anew. Relying solely on state=XRUN leaves 2)
+> unaccounted for. sound/core/pcm_native.c ensures correctness of the
+> state machine so plain state!=PREPARED check suffices.
+> 
+> This is the BE equivalent of job done previously for FE side only with
+> commit cfca1637bc2b ("ASoC: Intel: avs: Unprepare a stream when XRUN
+> occurs") and its follow up titled: ("ASoC: Intel: avs: Reset the stream
+> unless it is already prepared").
+> 
+> Link: https://lore.kernel.org/linux-sound/20261010103753.16969-1-stiraspo@gmail.com/T/
+> Fixes: d070002a20fc ("ASoC: Intel: avs: HDA PCM BE operations")
+> Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
+> ---
+>  sound/soc/intel/avs/pcm.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/sound/soc/intel/avs/pcm.c b/sound/soc/intel/avs/pcm.c
+> index 3cf455e8b879..a0a0d645ea33 100644
+> --- a/sound/soc/intel/avs/pcm.c
+> +++ b/sound/soc/intel/avs/pcm.c
+> @@ -461,6 +461,8 @@ static int avs_dai_hda_be_prepare(struct snd_pcm_substream *substream, struct sn
+>  	link_stream = data->link_stream;
+>  	p = &be->dpcm[substream->stream].hw_params;
+>  
+> +	if (substream->runtime->state != SNDRV_PCM_STATE_PREPARED)
+> +		link_stream->link_prepared = false;
+>  	if (link_stream->link_prepared)
+>  		return 0;
+>  
 
-> > > +
-> > > +      qcom,qaif-aif-lane-map:
-> > > +        $ref: /schemas/types.yaml#/definitions/uint32-array
-> > > +        description:
-> > > +          Per-lane direction map, one entry per lane starting from lane 0.
-> > > +          Use 0 for TX (output/speaker) and 1 for RX (input/mic).
-> > > +        minItems: 1
-> > > +        maxItems: 8
-> > > +        items:
-> > > +          enum: [0, 1]
-> >
-> > Can't you use a single uint32 bit mask for this?
-> Here intention to keep this consistent with the other tdm mask array properties.
-
-What I mean is use 1-bit per lane/slot. That *is* aligned to the 
-existing properties:
-
-  '^dai-tdm-slot-[rt]x-idle-mask$':
-    $ref: /schemas/types.yaml#/definitions/uint32
-    description: Idle slot mask. Optional. A bit being set to 1 indicates
-      that the corresponding TDM slot is inactive/idle.
-
-It can be extended to an array if you someday have more than 32 lanes, 
-but it seems you only have 8 ATM.
-
-Rob
+It's bit late, so I can be wrong, but if you are going to execute whole
+function in most cases anyway, is link_prepared even needed? Why not just:
+	if (substream->runtime->state == SNDRV_PCM_STATE_PREPARED)
+		return 0;
+and remove link_prepared entirely?
