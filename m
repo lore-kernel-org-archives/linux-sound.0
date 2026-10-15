@@ -1,145 +1,132 @@
-Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011070.outbound.protection.outlook.com [52.101.125.70])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA30E2571B8;
-	Thu, 15 Oct 2026 02:35:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.70
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792031746; cv=fail; b=FtYag56u9CKIZ33JDIrprXrULG9gqgSttr+MGoAt5kAibTA3VUjyZz0YEOTLPoyw6jJerFpawlRvizp6JP9IA9EJt0MBLHysBfD5sO2eKgdPSNQXce/PhTOVG/0JcjPWJoG56tWEy5C6uQSuLtRv4/LMTtabwb33a1WpeDIXVis=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792031746; c=relaxed/simple;
-	bh=jvuQwC+NJbPPMVOxFe1QKVtdPALZ5ef6Mrkcrdam4Eg=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=Xa787e10icIpy5T7jNZHLbVMKfNRKCLy6rdTNaBl4xmOVD55928AvI7yIA9i3UcmV8FXf3RZ6zkVretRPEf9zUKtDi0ALzZ6kXF1HNw93wko2JlITIPLhnyOAOjwddwCrUutOFjRPBXl3ltaObnuX67lXPR4HnbNtK+pl+ySex8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=l4ZQ1igC; arc=fail smtp.client-ip=52.101.125.70
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 843B23DEAD6
+	for <linux-sound@vger.kernel.org>; Thu, 15 Oct 2026 02:51:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792032679; cv=none; b=lZYAb6HB1821vzuN4YpXpfI5e13FpBtU/u47+O5Wk2bFuNc9F4xkuHCARDkGHdrl7t7qMnUNp5WBh5ivtwUxW1lehxWVxFkycXuHcA1HcDB5dT3ogXr3NI7uGC1C/iwvNUNxTrGr5p8Ocxem/XDSQPhdmk07i6PZftsXHd1tFmA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792032679; c=relaxed/simple;
+	bh=e9jjZAPNzrxWW/JlkWDVUF/F8+yzODdFPw7fP/04PhE=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=DsOJlcyqZYpvLgj5znhtV6+wM2/pu44FVeEil0E/3F+SJPURDRjHfLceXe0yMaDbS1ak3TKIqVftHRdZOBRSgQBbfkrvwRa8mjE5gUL8N+T5hK7ek0PcLZ9y65WDqocjcH27qgu6Mltt+R+mH9B7we1kRFSo+fuTQgHf06+IHcQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I+iX60ZL; arc=none smtp.client-ip=209.85.222.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="l4ZQ1igC"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GtnihWP3OAyL5xg5nlrIrXjdYMNThmaUgatKZEcWn45K2DHAQWPIL1YgD6Bx/XxzhrCul16X2qV+QZyq5o72Nil+TlgVPv9FvhRHY/kV6aZbejibc3ik58NJalYhFeimGDyE9OaCUMiDdhMm8eWAt8rSm0jajRtCJuHKNMsW4jSJIW3WR7l0wC2fNa3LCdPqhowNTWGoV5vn/PNht//3I06P3lWYQKZTEBLbJjYJKjcixbznBo94/4jpTrT1v4ZKAg/ym+Y9Kxv3j+8j6QqVy3EZx3UBhBpFIzPWl7dqmAWow8zN0TOK1hgwhyIppbfKzE5LoFelFFpz1yln8vPdbA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YTogCn0JSYB6w/kPzwjYV9roTsldqHaPF05rTRPF7YY=;
- b=Uy5keP2sPVAQ3qWvAePnL+O9ynsI/SNyf0yG6OTrzSvUXWxB5UgPadKAKGHr1gGumJBkuSL+MjrqbQzlN+Td1C27/uA5v2JfHT8vxSLRGcQirRW7OzEmN4NxNDIA9xkF/IDs8/gCo1ECoU6BjT9fWpHNF6mdAHxHFwukkjSjO/QMB9o5Ne43ilh6z7b78gqMWE3h5+/lJ/ykU+vF0vswXdvz0XgfujyaWd7X2RpHFohKcMPUVzvwfdDccrPq2PmXAOnMnJa5Qn25nOepSg59PzqTPoCABphSHUouf6t/bzUPP3UyUpuPHwmiBCKWKi02yDTf9WgoB0cvublnufVrmw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YTogCn0JSYB6w/kPzwjYV9roTsldqHaPF05rTRPF7YY=;
- b=l4ZQ1igCNEcKXw+MDDFXWQP6UhozbmmbOqA7qLfqE0caNDrgUUcMRZzcdRt2cWZRozIqCxY5TW35KYMufDUtyowQieDsiiHlyE2F9qAcQJ2mvu/NnkpdB3H3uoNYMEv1V2HzPwDSriHuqttidU9TeXSWxt78+jk9j3rt5zq1aCY=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from OS9PR01MB820914.jpnprd01.prod.outlook.com
- (2603:1096:604:50f::14) by TYWPR01MB11147.jpnprd01.prod.outlook.com
- (2603:1096:400:3f4::13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.12; Thu, 15 Oct
- 2026 02:35:42 +0000
-Received: from OS9PR01MB820914.jpnprd01.prod.outlook.com
- ([fe80::12e4:c507:3730:2294]) by OS9PR01MB820914.jpnprd01.prod.outlook.com
- ([fe80::12e4:c507:3730:2294%6]) with mapi id 15.21.0496.021; Thu, 15 Oct 2026
- 02:35:42 +0000
-Message-ID: <878q3zd72a.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: Mark Brown <broonie@kernel.org>,
-	<linux-sound@vger.kernel.org>,
-	<tiwai@suse.com>,
-	<perex@perex.cz>,
-	<amade@asmblr.net>,
-	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 0/7] ASoC: core: Create new components in sane state
-In-Reply-To: <eb66c781-0c7f-4e37-bde7-658355f87428@intel.com>
-References: <20261007133353.455185-1-cezary.rojewski@intel.com>
-	<87pkxexyr6.wl-kuninori.morimoto.gx@renesas.com>
-	<ed059f1e-2390-4e1d-bd1a-cff08a3441ad@sirena.org.uk>
-	<40696247-e763-40d8-9d4e-338047cdd4fe@intel.com>
-	<875wz5yo67.wl-kuninori.morimoto.gx@renesas.com>
-	<eb66c781-0c7f-4e37-bde7-658355f87428@intel.com>
-User-Agent: Wanderlust/2.15.9 Emacs/30.2 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Thu, 15 Oct 2026 02:35:42 +0000
-X-ClientProxiedBy: TYCP286CA0018.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:263::9) To OS9PR01MB820914.jpnprd01.prod.outlook.com
- (2603:1096:604:50f::14)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I+iX60ZL"
+Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-93e51d8d400so329565485a.0
+        for <linux-sound@vger.kernel.org>; Wed, 14 Oct 2026 19:51:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792032674; x=1792637474; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:content-type:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=3s/K9W0bzEgXYrBLh/pWzV43lciN42ZkCpUYTHPiWIc=;
+        b=I+iX60ZLBuN4IyG752jzqnBesrQsUlMlgHIXLMMKF+QFn7Rc6oidrxclU9wqawt+NN
+         dDXHy5AdGU5m31Ve6gVBLy+eMe4PNMVAK/FUSPouejgHPvVvcFD9Lqz6vAVGiRBwjS1l
+         hDQ/6/ngeRuo4mD9fBefVN3Szv64J6kL7yVPEeNAQtahbffEjdoIkpftuWNPNlorUojl
+         jllrH4UFfvuDlAI2qTTR5B6w+2oZpYE3zHZxQdi0yXwy66qEkNgt+IQgz5bs9cINNvZE
+         vc40KyfCVsEvt+bDmmpnt1WYqCitQGWgQHmgOr+W69Y+XKWnWKdJiiEQ/uy4vf3CLCaT
+         Kmiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792032674; x=1792637474;
+        h=content-transfer-encoding:mime-version:content-type:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=3s/K9W0bzEgXYrBLh/pWzV43lciN42ZkCpUYTHPiWIc=;
+        b=LMHLvlTdF4HAD2GH6AmzklKLmgF6jXSMJJvsXl1nPsU2J3V7r8Mbw6TgY1juSUuN4O
+         s5/OB0qT/k+ag3Bztz5G871NhgDsN+L9UkGxzF6crvRJYmy66uBdbkSTUnqcCxLiftH3
+         EdAiBT1nvDvC7GRgkRqN7FFpcfqiw1wrgoHnAOe8rFalbLJllU0EQ0QRgixJ6XcSLn5I
+         RAmmxMSFhMV2BpkqgDo4CBI6MhUrM62ltPgtQksH+2bk+2ioqq3sp+6fNrR6skQ5nvJf
+         YGPq9e3CYw2tAj92UZFjIsRvS6K1KT38sCVl96BpGIAyFi05jmFDyBYkfFZ+jD4nS+fh
+         Xjiw==
+X-Gm-Message-State: AFq9FYI4m0+cQO/5yfZiCK9/FLC03aB3Y9ePczjPqWbzmWogtjRbWKir
+	ZAAtJdkbHLK6su9+a4EG4RseOyoufDme7DSOukzomMp06Ek3RaDhiUY=
+X-Gm-Gg: AYBFou05S+5nQomturhT4xVAPZDJ2MgwJbnl2f8AW/lLHfaLSeSwaQbGFnMeV+/fxpL
+	+9DG/A9CVtFTxsWflaIV2kbvgVkfJk5GK8JBXyiGCLOumUhTAMCZnslD1EM8UhO0zxArVOVfsse
+	k4Tnnafb5q+z6YGilDiZE4JWsQ1N2l4dIZo7wSysXk2KjaZvd9KnyqrmBurnENuGX/r4ZvpvfRz
+	mStkTnvEhIpSwI/7SoeTR+kOQ+z6bTt9+ntbWbT15DwKVq9Q290vFLwz6QLnlxPMRKq6+XleDIo
+	XzD/iY/32h0nMSX6P8FQSjzr87YMXkyLnfq1ayH8SXPwT52eT/zBZ1URyRJ10wfrGAajuqWfAGM
+	bjZIxP2mGBjEHFWkqlo1usMXmjmkfy+jWYIZGcCZY5yIf2vKkG1SwGm0XR1jr0A0FZRT6M8eIcQ
+	81tpANhqY/uDrLHh+M+3ez07pEK3a18rGvWHb9x7HqyCURa296obc7pfO71KcqqbRBCFUaocel3
+	KWAlhZ9TOXK/hLXobOveVb338GkoxGwGe7XZ7ybDvBcoFIJKnmcyXZ2TThO25g/LhJBEyxZODwI
+	wpGUlDgXompJnx6mjyzAGSSf3SDo
+X-Received: by 2002:a05:620a:63c7:b0:93b:d79b:9a57 with SMTP id af79cd13be357-93ebd274840mr2644083185a.56.1792032673996;
+        Wed, 14 Oct 2026 19:51:13 -0700 (PDT)
+Received: from i4-gl-tmk5904-1.ad.psu.edu ([130.203.156.90])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-93ef500643bsm654053385a.13.2026.10.14.19.51.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Oct 2026 19:51:13 -0700 (PDT)
+From: Myeonghun Pak <mhun512@gmail.com>
+To: Oder Chiou <oder_chiou@realtek.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Ijae Kim <ae878000@gmail.com>
+Subject: [PATCH] ASoC: rt5645: Shut down the button timer on removal
+Date: Wed, 14 Oct 2026 22:51:10 -0400
+Message-ID: <179203261324.2681924.5002100194676410503.rt5645-button-timer@gmail.com>
+X-Mailer: git-send-email 2.53.0
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: OS9PR01MB820914:EE_|TYWPR01MB11147:EE_
-X-MS-Office365-Filtering-Correlation-Id: 885fc4c6-e0e7-4fb8-6fe2-08df2a650204
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|1800799024|366016|52116014|376014|6133799003|22082099003|18002099003|10067099003|4143699003|11063799006|56012099006|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	+fkQytaH1bNhXY7r0+XATqMJk9w1hsklSGe4p5V9vmZ1APXSPypBzS0H8zZL9cEAiPy1l3s0KnTuQ8mTX1pumGP0oOl+ZCncKLZsp5ka358ZSxn4oJq2jWfhi+xEsuhSwYADrQ7rzTxkiCbJHwe0+BAG8OxFioA5DrYhSqU2ebdMzHvoI4VgpOJJy8qfFIga4UFMZ0NpbBs/dI1aOHUDAVyVsM3wsWD2EtnOKA3FJa+bFgso7cEo2FFctaXvWNzi9QMhmNrQxvPTTRyTXJaU0zVRIMTncD7A8TG5YX00IX3pP8NH7iGES+8OFHl268nwF0OooxkpWJgewanhrUvI/7Aqjf00ET0tvBrEEbi9WkOAp9cLy8rhm8kLM5qAhrVJ4JW6RI1wXJfCJ6Jl47aeQfCd7pDyWBisQgvJCIcCDwe6u9LH8A+2DHgzNrrp++pz0v6BClKNCpSBnI19fjlxhReQyrAGDZM3KvHtux7kpSThaXKwfeigzZFDaqCQcwRj7PiKP7YAxbRIkgUWMZpCkggvLIhTXUYe+SUzQqV1syDRytZwlzdXKHrloF+mpCve/nHT6oI1Uy/teLS834pWpHqfYlus8E0QosObNWL9VQXrNg6a7dtlSTLLnejuzGoG5sFRgm6GNB8U+qI0Hgmp8e0Gxj2vxMpAFyiA+O/w2FbkigzWJ5536cm02wUBfvrlogR4fjpewThvKfoaL4iC8Ja4bzS3Vp4om1seFHcGrJo=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS9PR01MB820914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(366016)(52116014)(376014)(6133799003)(22082099003)(18002099003)(10067099003)(4143699003)(11063799006)(56012099006)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?VNMTyR30cKzRI8hRLQEMfa3fulxf+A+wf07li9IPI+vAlI+vZu5J7FbQqZp9?=
- =?us-ascii?Q?NP+hxNi1Utn42Ek9iRCpI3kNtllmvJOe/T/8DyIkPTY95rB5DT4dP+HJXGTl?=
- =?us-ascii?Q?3vLxet4XL0yIpStbU2+YvVJ2kDYkz63vwuNgTbOzoUqM0gptxtFPV4xWEbFl?=
- =?us-ascii?Q?ZMwqHeNM48GZCVuSwjuQVf3ykdNKczFc5BoU5aSGrSinBqaS6AvFN8xnM23y?=
- =?us-ascii?Q?cJAN8Zkm+OWUERPdyE+eJMJ0gjFZoz4LQHvzxSk2uI38YjYc5RlBuvJDvjeN?=
- =?us-ascii?Q?l9sNuquLDIT4bKE+POFTZz31sa9hmaUKO7P/kjDxcCiuc+ZZFWj6HUE1RPL3?=
- =?us-ascii?Q?p5P0zf0bwR0K5mn6N6RkQ6Tuqatnag5Ukt6tnUNRcqnEcAdL1Du2H2bR66CQ?=
- =?us-ascii?Q?rLJ/lY67H9YqlyixKXPN8H8zgTfOt5XVua7OBZ75XStu2D/P0FL1BSGjIVwA?=
- =?us-ascii?Q?yGOTy0X6OvrzdihgFkf8qD48QYhxLUJ/0Gi69nY0hW2PYPob50pDayu5jwjt?=
- =?us-ascii?Q?YFs88Q+42KqKAtIo0S8gXiwOrPYfMlVGDOxl3UG4GeK91IGj0PfEn/7IK8nT?=
- =?us-ascii?Q?+gCcB9QtHNAvXfCa510WfexZDDB9fzK5PGUTgSTPRQx4PfSUtXReJkCLV7tX?=
- =?us-ascii?Q?YUN8M4LIMfQwnmLeOmqH9UJ+WH75JeZdeLv2KUxsjlhxuDUqmcZMnLJO6fm1?=
- =?us-ascii?Q?gwrfFvD8MH1pRhlxSrXBL4dRbpX6NXGxaEXyD8IYnRnZKPya0tlL5ZP79HZi?=
- =?us-ascii?Q?S7MQFqDzwW6zr0eVCzpewnLTKtHaUhU1/Aol3VPug+qV5jH4C34L9WKUSSfZ?=
- =?us-ascii?Q?fFtvJsCneJxfntUqTCjg/Y+hqRX7/x8KIGSumjk2qQUAKquLp4CYqi+cfqOh?=
- =?us-ascii?Q?JbrEFwhWh2Q/O+1x/zHcuRksGMuH8H4YmXtQYnPgw6gh9U9rcwLQ56b8dnjd?=
- =?us-ascii?Q?5cnCRZi48BY1ByMwdRmxASpa6h/7cBg3ND6BjGhRIWuDW2lKAcsVZihs/LKt?=
- =?us-ascii?Q?nYhW4QzGaFiu4jjsXP98uzWSvJ3Cufl4fSels4WrTh1O9aK/2stqN/B+SE0F?=
- =?us-ascii?Q?pTCjDPXm5UgwUbK2hpYDm+eEkaR6gZ1a84qDKwOFZWg/yVYdTvWxN3GfC17k?=
- =?us-ascii?Q?dg2Y3trqGoQtP5fTyQNKkN4e/JBQVl671NhtGZtA2zo5r1ZCC5xTt/LiTV/u?=
- =?us-ascii?Q?ORLJf2ASEX/75SNZCqNkrhlLqNLsBpvxsNbaBXag0FwM4rv8gOr+moglU6V6?=
- =?us-ascii?Q?FWDtxzsFIAYCXxBNUVBdIgX1lem0ui+zEWVJIsrZOq3mo5xGBoAYMwsKVzYy?=
- =?us-ascii?Q?HZjioeQbc3sPHDQUVMdqcUnEsSAaHND0/p511GgN+rFb5GO9NDF5nh/qFeM3?=
- =?us-ascii?Q?b8nuK3eeEslw/jaHUAyGG9FrOomwnwnukT7+PBUSVUajuhUZ+b7CXk4ul2Ux?=
- =?us-ascii?Q?gs1khrOuIyMG75G3G8AgrnEDGXC8076qM18Tis+zZQvI8IbF16w6VnpAwsy3?=
- =?us-ascii?Q?Dufs8Sc8eq+PCtVbcOdB6eKNX59AlKk2kxGbE6P9z3zqMeJO77IaU4KtYw6a?=
- =?us-ascii?Q?8m3gLmdmCL6gbZt3TUpBuHcDM50l+oEQbkcHPm017aF1hDbhJsE+rUR6MGMG?=
- =?us-ascii?Q?6prdEVKh3owM2OVrFEtJjXWbPMC8eANqTNCAJN7X/lis9clrU7jlf3pmjupu?=
- =?us-ascii?Q?VANVGUSvwqQxkmg473L+7SXHZspr3fam4AhMC2iaxV6AhJWQ6EEP49gnagHz?=
- =?us-ascii?Q?LQOGW+BqOoM1R7y/x1FH6v+E5dn5gjTAB2bf26WOcpFBdQAhpOSc?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 885fc4c6-e0e7-4fb8-6fe2-08df2a650204
-X-MS-Exchange-CrossTenant-AuthSource: OS9PR01MB820914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Oct 2026 02:35:42.4813
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kOVDUyg7Na95unNZ4pvy/9CwAMoMB6xU7hErd/DYC8IuNRM/oFhLaSkcSTVIAy0no/0t1aqCeH4JfTF+k1CF9e6QWiSrU1faKVMoIVFj5591vnY5D50dCo2eEn1fV2TJ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB11147
+Content-Transfer-Encoding: 8bit
 
+jack_detect_work can rearm btn_check_timer, and the timer callback can
+queue jack_detect_work. Deleting the timer before cancelling the work
+does not break this cycle: an already running worker can rearm the timer
+after timer_delete_sync() returns. The timer can then outlive removal.
 
-Hi Cezary
+Use timer_shutdown_sync() before cancelling the delayed work so that
+subsequent attempts to rearm the timer are ignored. The IRQ producer has
+already been removed at this point. Keep the restartable timer deletion
+in the suspend path.
 
-> > We would like to keep snd_soc_component_xxx() naming.
-(snip)
-> I disagree about the naming part.  IMHO there should be a clear division
-> between object-level and general-level functions.
+This issue was identified as part of our ongoing research while
+reviewing kernel code.
 
-Yeah, I agree.
-
-I will update my branch patches which will be posted to ML
-
-Thank you for your help !!
-
-Best regards
+Fixes: 7ff6319e7da5 ("ASoC: rt5645: use polling to support HS button")
+Assisted-by: LLM
+Co-developed-by: Ijae Kim <ae878000@gmail.com>
+Signed-off-by: Ijae Kim <ae878000@gmail.com>
+Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
 ---
-Kuninori Morimoto
+Compile-tested with GCC, W=1 (x86_64). No runtime testing.
+
+ sound/soc/codecs/rt5645.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/sound/soc/codecs/rt5645.c b/sound/soc/codecs/rt5645.c
+index 7313ea7..3c4354d 100644
+--- a/sound/soc/codecs/rt5645.c
++++ b/sound/soc/codecs/rt5645.c
+@@ -19,6 +19,7 @@
+ #include <linux/acpi.h>
+ #include <linux/dmi.h>
+ #include <linux/regulator/consumer.h>
++#include <linux/timer.h>
+ #include <sound/core.h>
+ #include <sound/pcm.h>
+ #include <sound/pcm_params.h>
+@@ -4292,10 +4293,10 @@ static void rt5645_i2c_remove(struct i2c_client *i2c)
+ 		free_irq(i2c->irq, rt5645);
+ 
+ 	/*
+-	 * Since the rt5645_btn_check_callback() can queue jack_detect_work,
+-	 * the timer need to be delted first
++	 * The timer and jack_detect_work can rearm each other. Shut down the
++	 * timer before cancelling the work.
+ 	 */
+-	timer_delete_sync(&rt5645->btn_check_timer);
++	timer_shutdown_sync(&rt5645->btn_check_timer);
+ 
+ 	cancel_delayed_work_sync(&rt5645->jack_detect_work);
+ 	cancel_delayed_work_sync(&rt5645->rcclock_work);
