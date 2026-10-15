@@ -1,186 +1,158 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E51E251812D;
-	Thu, 15 Oct 2026 10:32:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 598615172FA;
+	Thu, 15 Oct 2026 10:36:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792060349; cv=none; b=OSAUZL8hvhL0OLqVC5hmi0Ul5yJV4a51SzV5n2y/r8KtDXwH8ltwk87NggzoETt1oKpScnNuJCywv0vGXLQHIwqiYaHWw1UWPFu2jX6yzmek/Wkfl4AS5iFHZRfoh54eq8fhT22HEn3SijKL/6Yw230w4XulLaWmL5GiSyLJn6c=
+	t=1792060605; cv=none; b=YKVfE86vDm/ettXzJpQjVA6mwuOEswYCfodEJSaqC0+HHWm1JG91oJGEu2d1OXt1kijr/eQ+hDbNmn+Zz+8S5wOMfPDy2ByRlciMBHqH5Pe/Af+JJBjvdSVJQki71d+UYfRveHRWZd01Em00jaEFQCLcZ1H96Ttnln//4LOV+9o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792060349; c=relaxed/simple;
-	bh=XUYOScsxtpoMvmTZT4+4w0G08Qy83jX28yQHeYVl7kI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=DzX0JVAwq62geJBRHAppZq2wvtzxZhlLGpcbCWfTnlrs87AbvHMrwix1Xm9m1pUJF0OUKPT37WAHjfoKg4NjUN4+A6ELKhYisj+PpS1pxUCbTen4mTcbKoGu6ExWOQzAO42/lp3faG1bdX/79Ba+AQ5fBrhDyu4OKvebFmsAAPg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PI5GrVnW; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792060605; c=relaxed/simple;
+	bh=s4YUPMSL1/a17aVK9zchD+uCISsgBVnbKXNEnFBRmU0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=g4JN1mTxNSIaVSIT/LVoSGEGbxOv0NaN4cCg6I0YS2sSpNlD51gTqZrhZwL/3iyNNtvksWVrSbfbWw6ltaNKyGSAde2DGm72oa5x3rH0rJrRwaxoCnGOZxZ76VRUOTYmdZsnHU4E9C4SbndmPVJhI19NWzxB2uPI2Bg72l//YX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PYFuoLpa; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PI5GrVnW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14E431F000C6;
-	Thu, 15 Oct 2026 10:32:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PYFuoLpa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFE4F1F000C5;
+	Thu, 15 Oct 2026 10:36:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792060347;
-	bh=LsdCD24KD2Tp7y3HBX5d5H3zRxOHnSIBh2ksy9wg8Ts=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=PI5GrVnWNLXPUfA56WspsR/Sfk0JXapnfU2XLZpZyaYhVj7WNauNiYX8WZHeKvjuX
-	 5SPyA829h6ChMVvtyYpWgC9r5KhwBmWi0V9iMUVWBSOABvvFFoQ7pIFY42kEWmFQDW
-	 eH/hAvT8mHUsib5HpTG1kCLTIREHI5WbXfXRuxWoLuvwfn0jI4Kmv3qzJqMtz1kniP
-	 2mY6REC4hDxFvstBjKKrjG0lY9PS7KCcSPrnW2it1S5hUOa0yuDC9X/40L4T6+HGb3
-	 ynwiYKfpWJ3TlxbrBUA9buCkJjSpmDaMyM6UnyC3rTAvgSUUUH05G4s3qMUaPr+7SB
-	 I2d/0P6cLtriw==
-From: Mark Brown <broonie@kernel.org>
-To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>, 
- Venkata Prasad Potturu <venkataprasad.potturu@amd.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, povik+lin@cutebit.org, 
- Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
- Andrei Simion <andrei.simion@microchip.com>, 
- Nicolas Ferre <nicolas.ferre@microchip.com>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- David Rhodes <david.rhodes@cirrus.com>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>, 
- Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>, 
- Fabio Estevam <festevam@gmail.com>, Nicolin Chen <nicoleotsuka@gmail.com>, 
- Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Cezary Rojewski <cezary.rojewski@intel.com>, 
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
- Bard Liao <yung-chuan.liao@linux.intel.com>, 
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Magnus Damm <magnus.damm@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
- Heiko Stuebner <heiko@sntech.de>, phucduc.bui@gmail.com
-Cc: Kees Cook <kees@kernel.org>, Syed Saba Kareem <syed.sabakareem@amd.com>, 
- wangdicheng <wangdicheng@kylinos.cn>, 
- Chris Bainbridge <chris.bainbridge@gmail.com>, 
- Linus Walleij <linusw@kernel.org>, 
- Charles Keepax <ckeepax@opensource.cirrus.com>, 
- Neo Chang <YLCHANG2@nuvoton.com>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, 
- u.kleine-koenig@baylibre.com, Pengpeng Hou <pengpeng@iscas.ac.cn>, 
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, 
- Hemanth Selam <hemanth.selam@gmail.com>, 
- Md Shofiqul Islam <shofiqtest@gmail.com>, 
- Bjorn Helgaas <bhelgaas@google.com>, 
- Zain Aboobacker <zainaboobacker33@gmail.com>, 
- Sang-Heon Jeon <ekffu200098@gmail.com>, 
- Ajit Kumar Pandey <AjitKumar.Pandey@amd.com>, 
- Ravulapati Vishnu vardhan rao <Vishnuvardhanrao.Ravulapati@amd.com>, 
- Bo Shen <voice.shen@atmel.com>, Vinod Koul <vkoul@kernel.org>, 
- linux-sound@vger.kernel.org, asahi@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, patches@opensource.cirrus.com, 
- linuxppc-dev@lists.ozlabs.org, imx@lists.linux.dev, 
- linux-rockchip@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20261008103831.542533-1-phucduc.bui@gmail.com>
-References: <20261008103831.542533-1-phucduc.bui@gmail.com>
-Subject: Re: [PATCH 00/24] ASoC: Fix constraint return value handling
-Message-Id: <179190764565.42298.7608820451808443258.b4-ty@b4>
-Date: Tue, 13 Oct 2026 17:07:25 +0100
+	s=k20260515; t=1792060604;
+	bh=DveVuAyBUJ8UMZ0cZ+ipTPCd4E9bOopYRJjExLCFVNU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=PYFuoLpa4S2ogn3JwuKVZszT0moMT16Y8TiLQW3mzfRK13fEdJroX6Gm7SEjfAPg2
+	 a1xNqKfRnVcD104sjQLSvU9o0pCMp/5yYkHCKM7vJFCIg/ZeV9giZz5YFOHBgXsh94
+	 SdatFZ22xVPTB1gbPJul09PYijB1/rKa+3RDLTx2QMJAPbVUxmyT3cIdjVEScc019T
+	 GGg84LDTHUcDfjK8nc6nAGP0BjlVndYdx83nG6DkifFemQC+5bJHbGQynaym01pmdg
+	 H+e/2oIz/EkW2F6NeV/zv3mlfRX4wub8YJmos2fTXqPD3Q9EpDFOVeZEQKaAvqsitn
+	 PdcXiVCupGxfg==
+Date: Thu, 15 Oct 2026 12:36:38 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Hyunuk Son <hyunuk.son@irondevice.com>
+Cc: broonie@kernel.org, lgirdwood@gmail.com, robh@kernel.org, 
+	krzk+dt@kernel.org, conor+dt@kernel.org, perex@perex.cz, tiwai@suse.com, 
+	kiseok.jo@irondevice.com, linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] ASoC: dt-bindings: Add Iron Device MA5311
+Message-ID: <20261015-gregarious-flawless-cuttlefish-145cab@quoll>
+References: <20261015060408.128711-1-hyunuk.son@irondevice.com>
+ <20261015060408.128711-2-hyunuk.son@irondevice.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4621; i=broonie@kernel.org;
- h=from:subject:message-id; bh=XUYOScsxtpoMvmTZT4+4w0G08Qy83jX28yQHeYVl7kI=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLIurF436QbXa43IwJtVz+a9/WP+dErigiRWRdWnu6RO7
- AjMf7hrdUcpC4MYF4OsmCJLXBb3y/qS12v4Di5sg5nDygQyhIGLUwAmIiLKyHDq2uODof8nCxuF
- ZpfxcTPWcS7d8W7zzOu3Jb2WdVWxqZ9n+J+wZiZ7iINepZ/T5W/rbJe6Pjpf3LOofnnrcZW5jw+
- FszMBAA==
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261015060408.128711-2-hyunuk.son@irondevice.com>
 
-On Thu, 08 Oct 2026 17:38:07 +0700, phucduc.bui@gmail.com wrote:
-> ASoC: Fix constraint return value handling
+On Thu, Oct 15, 2026 at 03:04:06PM +0900, Hyunuk Son wrote:
+> Add a Device Tree binding for the Iron Device MA5311
+> audio codec.
 > 
-> From: bui duc phuc <phucduc.bui@gmail.com>
+> The binding describes the properties required to identify
+> the codec and configure its connections to the host audio
+> controller.
+
+Drpo, obvious. Explain the hardware.
+
+Please wrap commit message according to Linux coding style / submission
+process (neither too early nor over the limit):
+https://elixir.bootlin.com/linux/v6.4-rc1/source/Documentation/process/submitting-patches.rst#L597
+
 > 
-> Hi all,
+> Signed-off-by: Hyunuk Son <hyunuk.son@irondevice.com>
+> ---
+>  .../bindings/sound/irondevice,ma5311.yaml     | 69 +++++++++++++++++++
+>  1 file changed, 69 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/sound/irondevice,ma5311.yaml
 > 
-> snd_pcm_hw_constraint_minmax() and snd_pcm_hw_constraint_integer()
-> may return positive values on success. However, ASoC only marks the
-> DAI, link, or component as started or opened when the corresponding
-> callback returns 0.
-> 
-> [...]
+> diff --git a/Documentation/devicetree/bindings/sound/irondevice,ma5311.yaml b/Documentation/devicetree/bindings/sound/irondevice,ma5311.yaml
+> new file mode 100644
+> index 000000000..ae4a13c29
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/sound/irondevice,ma5311.yaml
+> @@ -0,0 +1,69 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/sound/irondevice,ma5311.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Iron Device MA5311 Audio Codec
+> +
+> +maintainers:
+> +  - Hyunuk Son <hyunuk.son@irondevice.com>
+> +
+> +description:
+> +  The MA5311 is an audio device providing digital speaker amplification,
+> +  analog input conversion, and audio DSP functionality.
+> +
+> +allOf:
+> +  - $ref: dai-common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - irondevice,ma5311
+> +    description:
+> +      Requires two I2C Channel.
 
-Applied to
+Not sure what is I2C channel... like two SDA/SCL lines? Anyway, this
+goes to description.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
+> +
+> +  reg:
+> +    items:
+> +      - description: I2C address for control registers
+> +      - description: I2C address for ADC registers
+> +
+> +  reg-names:
+> +    items:
+> +      - const: control
+> +      - const: adc
+> +
+> +  reset-gpios:
+> +    maxItems: 1
+> +    description:
+> +      GPIO connected to the active-low RSTN pin.
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +    description:
+> +      Interrupt from the active-low INTN fault and thermal warning output.
+> +
+> +  '#sound-dai-cells':
+> +    const: 1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - reg-names
+> +  - '#sound-dai-cells'
+> +
+> +additionalProperties: false
 
-Thanks!
+unevaluatedProperties instead
 
-[01/24] ASoC: amd: acp: Fix .close() being skipped on rollback
-        https://git.kernel.org/broonie/misc/c/2c3400aa9f39
-[02/24] ASoC: amd: ps: Fix acp63_pdm_dma_close() being skipped on rollback
-        https://git.kernel.org/broonie/misc/c/172888114dda
-[03/24] ASoC: amd: ps: Fix acp63_sdw_dma_close() being skipped on rollback
-        https://git.kernel.org/broonie/misc/c/45dd2b22ea89
-[04/24] ASoC: amd: raven: Fix acp3x_dma_close() being skipped on rollback
-        https://git.kernel.org/broonie/misc/c/37ceef26df57
-[05/24] ASoC: amd: renoir: Fix acp_pdm_dma_close() being skipped on rollback
-        https://git.kernel.org/broonie/misc/c/a92571113ef2
-[06/24] ASoC: amd: vangogh: Fix acp5x_dma_close() being skipped on rollback
-        https://git.kernel.org/broonie/misc/c/38559fcd1c51
-[07/24] ASoC: amd: yc: Fix acp6x_pdm_dma_close() being skipped on rollback
-        https://git.kernel.org/broonie/misc/c/06654a3ef513
-[08/24] ASoC: apple: mca: Ensure the DAI is marked as started on success
-        https://git.kernel.org/broonie/misc/c/4d23ef7515dd
-[09/24] ASoC: atmel: atmel-pcm-pdc: Fix atmel_pcm_close() being skipped on rollback
-        https://git.kernel.org/broonie/misc/c/50aaca643038
-[10/24] ASoC: codecs: cs42l42: Ensure the DAI is marked as started on success
-        https://git.kernel.org/broonie/misc/c/c2a3d0b2be0c
-[11/24] ASoC: codecs: nau8325: Ensure the DAI is marked as started on success
-        https://git.kernel.org/broonie/misc/c/0634e7b24727
-[12/24] ASoC: codecs: nau8540: Ensure the DAI is marked as started on success
-        https://git.kernel.org/broonie/misc/c/1de1fd7c69a3
-[13/24] ASoC: codecs: nau8821: Ensure the DAI is marked as started on success
-        https://git.kernel.org/broonie/misc/c/fc5da89a0a8a
-[14/24] ASoC: codecs: nau8824: Ensure the DAI is marked as started on success
-        https://git.kernel.org/broonie/misc/c/e66285731262
-[15/24] ASoC: codecs: nau8825: Ensure the DAI is marked as started on success
-        https://git.kernel.org/broonie/misc/c/552944e3b027
-[16/24] ASoC: codecs: wm8580: Ensure the DAI is marked as started on success
-        https://git.kernel.org/broonie/misc/c/b2c81f056c53
-[17/24] ASoC: codecs: wm8782: Ensure the DAI is marked as started on success
-        https://git.kernel.org/broonie/misc/c/29f52545ada7
-[18/24] ASoC: imx-pcm-rpmsg: Fix imx_rpmsg_pcm_close() being skipped on rollback
-        https://git.kernel.org/broonie/misc/c/85e56c3bbb7e
-[19/24] ASoC: intel: atom: Fix .shutdown() being skipped on rollback
-        https://git.kernel.org/broonie/misc/c/e3bb57581104
-[20/24] ASoC: renesas: fsi: Ensure the component is marked as opened on success
-        https://git.kernel.org/broonie/misc/c/6bba4e5a171c
-[21/24] ASoC: renesas: msiof: Fix msiof_close() being skipped on rollback
-        https://git.kernel.org/broonie/misc/c/b7c58a55fd9b
-[22/24] ASoC: renesas: rz-ssi: Ensure the component is marked as opened on success
-        https://git.kernel.org/broonie/misc/c/fd5c45166d65
-[23/24] ASoC: rockchip: rk3399_gru_sound: Mark the link as started on success
-        https://git.kernel.org/broonie/misc/c/8a43611c834f
-[24/24] ASoC: rockchip: rockchip_max98090: Mark the link as started on success
-        https://git.kernel.org/broonie/misc/c/303961c7daf1
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+> +
+> +examples:
+> +  - |
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        audio-codec@3e {
+> +            compatible = "irondevice,ma5311";
+> +            reg = <0x3e>, <0x3f>;
+> +            #sound-dai-cells = <1>;
+> +            reg-names = "control", "adc";
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+Make the example complete.
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+Best regards,
+Krzysztof
 
