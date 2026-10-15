@@ -1,103 +1,93 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C2874A43F8;
-	Thu, 15 Oct 2026 19:03:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EEF84A2062;
+	Thu, 15 Oct 2026 19:08:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792091007; cv=none; b=LIk+GPbaDLFo9WDKguEkqWG1w52BgNPBpA0LtzkUNr8TW7ZOUEzN9deEDvA4Zi45Mhusira25gx/laGbMmooEFInPcBb8m4cM62PXRJpxtrdo40FGwCSpZ1EsN1YYo9ZfYRkVPWHvMawjizOS4tJ2mWz6hBso6U8lDYbfuZfueE=
+	t=1792091286; cv=none; b=iv+aDbBDxqidjrsPzR/vNq13Pbjhf2ayS483jkT7t4NCBRXqSeXm/x2kLE8KRhygu7U4SaO73HUBigGsHg7S9fy77eRQ0M4L4cBmft0gcHbrh4wAOtKfEXTUVvvmtbmpIEY6qKs4ks3QDGOrW94jf1CjJO3Tp/8CJ9Sv23XhOUs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792091007; c=relaxed/simple;
-	bh=eCpQS2pY/uIfTWrkF2FXUdCk4bTqWWVfpHIP7uWqUd4=;
+	s=arc-20240116; t=1792091286; c=relaxed/simple;
+	bh=cyU3X4JdKoxg9kUry1GAjfUWGDLRoQEz8UieWr1cxb4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dMOvupEd6jDdpEk8PBxpNgppbJv97NkJTMxRqi6bOCQ64B3Mioa+fqNzs3WDgBlxBwV9ABgLhbXoxZTodCeUCzx7bpqu55CFm7wKsfNrLlJnXOb3NbI1YD35pnIgW6yRy2XcgZx/2Q0whXczWQxp7RiEysivd2UJo/QA+zyF3WY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=evZOV3qy; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=og+DV+rh4r56yZw7t4AXgqm8BJ/HMvlwDNSRuBJJGCsD/aFiz8isrVqDB08NM8ByEuZFxpG7P8SFtFBGOE3oUj/z3AIWGWt6ZL4XqQRryCxvXgeB2Ncb5j0jB6l4y3N8OTJodD5h2brzheJNelVjNrlXHJe+gJ3VbieUcCnV1cg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=et8klXTX; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="evZOV3qy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C7411F000C4;
-	Thu, 15 Oct 2026 19:03:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="et8klXTX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 994EF1F000C4;
+	Thu, 15 Oct 2026 19:08:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792091005;
-	bh=ZPKERoZ7LJS+ax60+9moP0P18/yZsLBWUzgLuoqv2Xc=;
+	s=k20260515; t=1792091284;
+	bh=uOLB46dfm0aerWqo4MfS0HfL8CCeDthLlQvQVMVFuVM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=evZOV3qygawQ6CVWLL4kNphfRaDs3xSTnbyoSAK013tHj0tNzEgOwu6ftdpvXfJaA
-	 7p4OM56mPWvxtXmZBHgawQo502oTMT4vd/3M1qsE5Yb8vxHJZPqELUbLz80CIbIh31
-	 EgB8pFKDDIxcu17Y2PU6/8RNWby50bkGIOABTwLyNt03TyI0gf5cZ8l5ZsluS3fDWH
-	 F4SLINdOFxykTC+A+9FacO4p74S/XP45lS06yy1wUucj6f7xssHfZLenmunIiJYdRv
-	 BNP6/aTHm4tWJBz2g0eQ/TobXwvmnjAD+xLTjbK21ZbmNtwERjnj1g35jJFTofNQHt
-	 2hWmGz6el9svA==
-Date: Thu, 15 Oct 2026 20:03:20 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-Cc: Srinivas Kandagatla <srini@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+	b=et8klXTXLJglDd5uZg1slra9e0Xq9rIEh8OqusA0qBEtB7+kUpPInQx9jvMMELUxA
+	 8N/G9s1ZGbpj+o6gL6Rm07lZSnHAvSCyuivYwCFXfAciV7gK6taEcrAcF8H3Ibkbsn
+	 0quw91+s/Xnqx/qI7+vjtx9Fi14T1hCJ38qcJgb9AJadMNIP0UZXpqk0NQCTRWu+AJ
+	 IBrMbjo9D0idyoexyyHmGfM9ReHS+W5TOrUVPCt75SmPckAFapJVPlv+d2asXEnPIz
+	 ZglE5gCNhNokb4svGKVj9o7r94NRHo6aXaMcYBuDq9L7Ti3Wqy89+H/FIcVZSfGsOa
+	 nOeT6nuuxJuVw==
+Date: Thu, 15 Oct 2026 14:08:02 -0500
+From: Rob Herring <robh@kernel.org>
+To: Harendra Gautam <harendra.gautam@oss.qualcomm.com>
+Cc: Srinivas Kandagatla <srini@kernel.org>, Mark Brown <broonie@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Alexey Klimov <alexey.klimov@linaro.org>,
 	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 3/4] ASoC: codecs: pm4125: Keep the micbias reference
- count balanced
-Message-ID: <a3df845a-ab58-4945-9221-ff671c3dc378@sirena.org.uk>
-References: <20261015-pm4125_mbhc_support-v1-0-8bc1212db6f7@oss.qualcomm.com>
- <20261015-pm4125_mbhc_support-v1-3-8bc1212db6f7@oss.qualcomm.com>
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
+	Sarath Ganapathiraju <sarath.ganapathiraju@oss.qualcomm.com>,
+	Kumar Anurag Singh <kumar.singh@oss.qualcomm.com>,
+	Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+Subject: Re: [PATCH v8 01/10] ASoC: dt-bindings: qcom,shikra-qaif-cpu: Add
+ binding
+Message-ID: <20261015190802.GA5059-robh@kernel.org>
+References: <20260928-b4-qaif-shikra-audio-v8-0-ac618057fe85@oss.qualcomm.com>
+ <20260928-b4-qaif-shikra-audio-v8-1-ac618057fe85@oss.qualcomm.com>
+ <20261006141620.GA1950759-robh@kernel.org>
+ <CAC-tS8DzW88Lu_k-yKQtyfYc8u5-rh9WKTSanJ6dq6Xo3wp+kQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="x5rN7tE44XbwbmSh"
-Content-Disposition: inline
-In-Reply-To: <20261015-pm4125_mbhc_support-v1-3-8bc1212db6f7@oss.qualcomm.com>
-X-Cookie: Tax and title extra.
-
-
---x5rN7tE44XbwbmSh
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CAC-tS8DzW88Lu_k-yKQtyfYc8u5-rh9WKTSanJ6dq6Xo3wp+kQ@mail.gmail.com>
 
-On Thu, Oct 15, 2026 at 07:43:11PM +0530, Mohammad Rafi Shaik wrote:
+On Mon, Oct 12, 2026 at 12:15:52PM +0530, Harendra Gautam wrote:
+> > > +
 
-> The analog master bias is shared between the microphone bias supplies
-> and the playback and capture paths, so pm4125_global_mbias_enable() and
-> pm4125_global_mbias_disable() reference count it and only touch
-> PM4125_ANA_MBIAS_EN for the first user and the last one.
+[...]
 
-> MICB_DISABLE clamps the per-supply reference count at zero but then
-> evaluates the enable and pull-up counts regardless, so a release that
-> has no matching request still reaches pm4125_global_mbias_disable() and
-> drops a reference it never took. The MBHC framework issues exactly such
-> a release: it takes MIC_BIAS_2 once when it starts detecting a plug
-> type and releases it both at the end of the correction work and again
-> from wcd_micbias_disable(). Inserting a jack while a stream is running
-> therefore switches the analog master bias off underneath it, leaving
-> the path up but silent, and it stays silent until another stream takes
-> the first reference again.
->=20
-> Return early when there is nothing to release, so the hardware is only
-> touched for a request that was actually made.
+> > > +
+> > > +      qcom,qaif-aif-lane-map:
+> > > +        $ref: /schemas/types.yaml#/definitions/uint32-array
+> > > +        description:
+> > > +          Per-lane direction map, one entry per lane starting from lane 0.
+> > > +          Use 0 for TX (output/speaker) and 1 for RX (input/mic).
+> > > +        minItems: 1
+> > > +        maxItems: 8
+> > > +        items:
+> > > +          enum: [0, 1]
+> >
+> > Can't you use a single uint32 bit mask for this?
+> Here intention to keep this consistent with the other tdm mask array properties.
 
-This feels like a bodge for poor reference counting elsewhere - in
-particular the MBHC seems to be fairly clearly double freeing.  The fix
-here just silently eats double frees AFAICT?
+What I mean is use 1-bit per lane/slot. That *is* aligned to the 
+existing properties:
 
---x5rN7tE44XbwbmSh
-Content-Type: application/pgp-signature; name="signature.asc"
+  '^dai-tdm-slot-[rt]x-idle-mask$':
+    $ref: /schemas/types.yaml#/definitions/uint32
+    description: Idle slot mask. Optional. A bit being set to 1 indicates
+      that the corresponding TDM slot is inactive/idle.
 
------BEGIN PGP SIGNATURE-----
+It can be extended to an array if you someday have more than 32 lanes, 
+but it seems you only have 8 ATM.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmrRI3cACgkQJNaLcl1U
-h9Anewf/SNebW625O2/DwvATSkMuiiycXhDUV3/GVNmGNZwSzupnWogSeg+dZH5l
-bZCxrxAbWPjJZ461KNz1KVOAvo557NAHQ8CNBv6mEiNwN+6aA7PLtYnJ/7EYxbsV
-dt8fOSWRisvRPMLv497JhH6hkJDrZIGTbHyS1F42ESxEotM4QFSlF2NZAyImgGHh
-AoQGmVuA7X2mu5RO86mKA8HTqDL/sIeAv1yPYtWY1dWuZiqhU5Lt7LQveRhBrRUV
-cAQdk5t5rHr8Y1FTNTPFRBqGCwhnb4lz5Xu1YsPT3un5BALkGQftyfPbDmK/G5HH
-vXyUq53umdBSlddd60yZ/bqzsHk+pg==
-=8J6p
------END PGP SIGNATURE-----
-
---x5rN7tE44XbwbmSh--
+Rob
