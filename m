@@ -1,161 +1,160 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2C4155D886;
-	Thu, 15 Oct 2026 18:56:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C69D74D0A1C
+	for <linux-sound@vger.kernel.org>; Thu, 15 Oct 2026 19:01:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792090590; cv=none; b=txHnZ1XC6pBiIQ1Kx/mSPK/1l/Q8/ZCBy/MVyx/pBkom6K/sLl3wygpL5e3ejJ+tXoEDczLEFJRty1K4snJ08XAnXWgVmRWgjTJZXqPtImLaHXQMc+MnXsSMXzCIfZ51L7linxD2+XO4sxhmg7kBNZqbPlizeIsl6ds8lcVYKaM=
+	t=1792090914; cv=none; b=FesiUIkwc0d8Vn0OVYt1GHMT18q3E1ZC5mD6wn2JtF7uwbiYxp7mDYDG1QW16xu6uS49l+E0W+ALHdr2Hb5UpDuUD8eVZi4881u7Xh2GBJ/exQcw02QT5KHoSvo1IUDnXFUfYs335MWMEOhlE5lRlkIByOj9BBQy19VFabDIyK0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792090590; c=relaxed/simple;
-	bh=TpL3AL+DPLyvjc59lhaDDL+UzcNvTzAPwCOP4r44f/c=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cfXCriGKiXK8p1Nb2yBphZejYccqCBanr5kJH9mq6Rxg2XRy2wTxY/LsmMVyo0oVR8OPMmAOzUFWEnAxB2ASFY5qCMHiSfgk6s67ieUYQmORD6vtK5+G4WpR2XU3jFzPlCflO/oH5+8BPuEa3Tjk+J2MEu0oZCMRqPaUbNLjVdo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=DZByGVhl; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1/9Sl0xs; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xYpch03A; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=BQW3L8Sj; arc=none smtp.client-ip=195.135.223.130
+	s=arc-20240116; t=1792090914; c=relaxed/simple;
+	bh=EvSv0XljwdTUDZW0yDd0nu3CHQtaLNZF3Us+dEx92dk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=byhC1HCjcC+bjjP7wx9y9EsKWZq5LoHqMdRT4+hnBswBzrNeJ4++2ft0kTWXdKYzoUXvBKGQC3GozZ/0qlHLwgQRdA4x7hqO85H4ayVa+IqVcivQDwxu8rPkPTk5bK3tX7Wa1VXthc2YmUmxFakTQZFro6ZfLmc8gUiAgkBh4js=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HG090PSg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1UW3lOED; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HG090PSg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1UW3lOED; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DZByGVhl";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1/9Sl0xs";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xYpch03A";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="BQW3L8Sj"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HG090PSg";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1UW3lOED";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HG090PSg";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1UW3lOED"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 6BD9E21FB2;
-	Thu, 15 Oct 2026 18:56:23 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 86B391FC9E;
+	Thu, 15 Oct 2026 19:01:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792090584; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+DYdVznP4V2nXI5G3D8OFKhVnP9OHZHEq/UKx3pvMMg=;
-	b=DZByGVhlaJWR0AXGe09JZxo5azVqC0JmifzxIo47AAqRaUiWABzpAF3XC1q5Rn6yyLw38f
-	woZUhrZsDAyx1urs63lyZVQadFafGXBmKcMDt7xKIiyKqOTZPFoxZRHhOpTYf0CgkOILxi
-	lf6v54xJnh2KhTpLP64qbsNcIWN9LI4=
+	t=1792090910; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=K4b6HSpVdpnFoHfc1bJd0QnF3diASqiNfkYJ61csn+U=;
+	b=HG090PSgcSo2xWBc2WhzxuLsTj9oBwWCPbJ2h4jQ7Ly/clboMIr7gPipOz1RxcDg+xKHzP
+	wTQofdqLivmE+2c2Qa0EgEQBsVYubPEeIVDEiBK35DNKL3gTFb0jSgVfv07pZp7J/7yCk9
+	SHmfqH5lqePD+PV/cmVCWVa1jbiYgvk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792090584;
+	s=susede2_ed25519; t=1792090910;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+DYdVznP4V2nXI5G3D8OFKhVnP9OHZHEq/UKx3pvMMg=;
-	b=1/9Sl0xstsljIX60qqJ4rtNhMC5pjY1eX7p2gmllfUwTypIP6p8uaroFTVyJaSWu5LXRbR
-	sntqv42EMf+b0wDw==
-Authentication-Results: smtp-out1.suse.de;
-	none
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=K4b6HSpVdpnFoHfc1bJd0QnF3diASqiNfkYJ61csn+U=;
+	b=1UW3lOEDJtdfhKaJ7VwjHYhCqOsoMpmNmhwyZJX1/i3/u2Hkr+/JS0uTJxkekRQD0F6b0g
+	nGQitiyqhT0H3DCg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=HG090PSg;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=1UW3lOED
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792090583; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+DYdVznP4V2nXI5G3D8OFKhVnP9OHZHEq/UKx3pvMMg=;
-	b=xYpch03AooGnsUxSnXua5WzLWaeE2N4rNHTSSTXtY6Z6ehiOIPp2/I3POy0E7zkvI1angN
-	bVzLzva+7MhANwulceQOyR7QTFEZ1rwEuBN0k2fpvbFRceF6wavzyKGWxC2lZlfBXZ3/oz
-	FJ6VAWkvZ8+9KiwW345cFnEJCx/qAjQ=
+	t=1792090910; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=K4b6HSpVdpnFoHfc1bJd0QnF3diASqiNfkYJ61csn+U=;
+	b=HG090PSgcSo2xWBc2WhzxuLsTj9oBwWCPbJ2h4jQ7Ly/clboMIr7gPipOz1RxcDg+xKHzP
+	wTQofdqLivmE+2c2Qa0EgEQBsVYubPEeIVDEiBK35DNKL3gTFb0jSgVfv07pZp7J/7yCk9
+	SHmfqH5lqePD+PV/cmVCWVa1jbiYgvk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792090583;
+	s=susede2_ed25519; t=1792090910;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+DYdVznP4V2nXI5G3D8OFKhVnP9OHZHEq/UKx3pvMMg=;
-	b=BQW3L8SjnE28Yyd+pXYP0KWbN6y79CvwN68ogeaVP1lnCWBbMuqGVkMfm/zPbH8JphlcNY
-	suNexLdRFkjabdDg==
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=K4b6HSpVdpnFoHfc1bJd0QnF3diASqiNfkYJ61csn+U=;
+	b=1UW3lOEDJtdfhKaJ7VwjHYhCqOsoMpmNmhwyZJX1/i3/u2Hkr+/JS0uTJxkekRQD0F6b0g
+	nGQitiyqhT0H3DCg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 26C901321C;
-	Thu, 15 Oct 2026 18:56:22 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 278AC13223;
+	Thu, 15 Oct 2026 19:01:50 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id zJWOItUh0WrbIAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 15 Oct 2026 18:56:22 +0000
-Date: Thu, 15 Oct 2026 20:56:21 +0200
-Message-ID: <874iem7pyi.wl-tiwai@suse.de>
+	id iNcVMR0j0WrHJgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 15 Oct 2026 19:01:50 +0000
 From: Takashi Iwai <tiwai@suse.de>
-To: Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: pcm: Apply sync-stop at SNDRV_PCM_IOCTL_DROP ioctl
-In-Reply-To: <c2bc1478-5999-455f-bd67-8b536c452215@samsung.com>
-References: <20261014142454.320703-1-tiwai@suse.de>
-	<CGME20261015183022eucas1p10d5777e112c34458f4b360407d2228c4@eucas1p1.samsung.com>
-	<c2bc1478-5999-455f-bd67-8b536c452215@samsung.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+To: linux-sound@vger.kernel.org
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>
+Subject: [PATCH] ALSA: pcm: Call snd_pcm_sync_stop outside spinlock in snd_pcm_drop()
+Date: Thu, 15 Oct 2026 21:01:46 +0200
+Message-ID: <20261015190147.230736-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-3.30 / 50.00];
+X-Rspamd-Action: no action
+X-Spam-Score: -3.01
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.01 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
+	MX_GOOD(-0.01)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[samsung.com:email,suse.de:email,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
 	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCPT_COUNT_TWO(0.00)[2];
+	RCVD_COUNT_TWO(0.00)[2];
 	RCVD_TLS_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email]
-X-Spam-Score: -3.30
+	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
 X-Spam-Level: 
-X-Spam-Flag: NO
+X-Rspamd-Queue-Id: 86B391FC9E
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 
-On Thu, 15 Oct 2026 20:30:21 +0200,
-Marek Szyprowski wrote:
-> 
-> On 14.10.2026 16:24, Takashi Iwai wrote:
-> > When a PCM stream is stopped via SNDRV_PCM_IOCTL_DROP ioctl, it calls
-> > snd_pcm_stop() but sync-stop operation is missing.  Although this is
-> > usually no big issue, let's add snd_pcm_sync_stop() call, just to be
-> > sure.
-> >
-> > Signed-off-by: Takashi Iwai <tiwai@suse.de>
-> > ---
-> >  sound/core/pcm_native.c | 2 ++
-> >  1 file changed, 2 insertions(+)
-> >
-> > diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
-> > index 6c379068b54c..7ffbf2c0ea92 100644
-> > --- a/sound/core/pcm_native.c
-> > +++ b/sound/core/pcm_native.c
-> > @@ -2332,6 +2332,8 @@ static int snd_pcm_drop(struct snd_pcm_substream *substream)
-> >  	result = snd_pcm_stop(substream, SNDRV_PCM_STATE_SETUP);
-> >  	/* runtime->control->appl_ptr = runtime->status->hw_ptr; */
-> >  
-> > +	snd_pcm_sync_stop(substream, true);
-> > +
-> >  	return result;
-> >  }
-> 
-> This patch landed in today's linux-next as commit fdf9a21cda78 ("ALSA: pcm: Apply
-> sync-stop at SNDRV_PCM_IOCTL_DROP ioctl"). In my tests I found that it triggers
-> the kernel bug about invalid context for sleeping.
-> 
-> It looks that thissnd_pcm_sync_stop() should be called outside the scope of
-> the guard(pcm_stream_lock_irq)(substream).
+In the recent addition of snd_pcm_sync_stop() call at snd_pcm_drop(),
+I overlooked the guard() line in snd_pcm_drop() (and the review
+overlooked, too) -- it must be called outside, of course!
 
-Gah, obviously it's calling in a wrong context, and I overlooked
-guard() line.
+Let's fix it.  Now guard() became scoped_guard(), and its range is
+shown more clearly.
 
-I'm going to submit the trivial fix.
+Fixes: fdf9a21cda78 ("ALSA: pcm: Apply sync-stop at SNDRV_PCM_IOCTL_DROP ioctl")
+Reported-by: Marek Szyprowski <m.szyprowski@samsung.com>
+Closes: https://lore.kernel.org/c2bc1478-5999-455f-bd67-8b536c452215@samsung.com
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ sound/core/pcm_native.c | 19 ++++++++++---------
+ 1 file changed, 10 insertions(+), 9 deletions(-)
 
+diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
+index 05097f2630ad..f2e378696c7e 100644
+--- a/sound/core/pcm_native.c
++++ b/sound/core/pcm_native.c
+@@ -2307,17 +2307,18 @@ static int snd_pcm_drop(struct snd_pcm_substream *substream)
+ 		return -ENXIO;
+ 	runtime = substream->runtime;
+ 
+-	guard(pcm_stream_lock_irq)(substream);
+-	if (runtime->state == SNDRV_PCM_STATE_OPEN ||
+-	    runtime->state == SNDRV_PCM_STATE_DISCONNECTED)
+-		return -EBADFD;
++	scoped_guard(pcm_stream_lock_irq, substream) {
++		if (runtime->state == SNDRV_PCM_STATE_OPEN ||
++		    runtime->state == SNDRV_PCM_STATE_DISCONNECTED)
++			return -EBADFD;
+ 
+-	/* resume pause */
+-	if (runtime->state == SNDRV_PCM_STATE_PAUSED)
+-		snd_pcm_pause(substream, false);
++		/* resume pause */
++		if (runtime->state == SNDRV_PCM_STATE_PAUSED)
++			snd_pcm_pause(substream, false);
+ 
+-	result = snd_pcm_stop(substream, SNDRV_PCM_STATE_SETUP);
+-	/* runtime->control->appl_ptr = runtime->status->hw_ptr; */
++		result = snd_pcm_stop(substream, SNDRV_PCM_STATE_SETUP);
++		/* runtime->control->appl_ptr = runtime->status->hw_ptr; */
++	}
+ 
+ 	snd_pcm_sync_stop(substream, true);
+ 
+-- 
+2.55.0
 
-thanks,
-
-Takashi
