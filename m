@@ -1,471 +1,142 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFC7D5304C2
-	for <linux-sound@vger.kernel.org>; Thu, 15 Oct 2026 14:14:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD82F483BE1
+	for <linux-sound@vger.kernel.org>; Thu, 15 Oct 2026 15:18:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792073658; cv=none; b=Lkezn8NYjLQ4/hTjs6A2LSfETnyhZ+JogDBh3UCGPjjIVzsv3AI0OpMLreKB7Kdw0UMYBF3lwUIgdg79eTuJGZm/w46872JBMfe4gI581mkLqB+nAbQaRXTkQ/9yr8UuJO6xLQ7NFreouFM8fb2wsCjZPPtlVrkeBvQLxp+OwR8=
+	t=1792077489; cv=none; b=lVcpjaEzOnzuU61Tio7jGhXmnIuhdtrFXtWPIGv/7htFOuCAKZUMv9bLG/+6phiSWFKogbsBkHly4br8e5DjqhJ5SzYrG4ZRbwN1Dxo5YEX0kaE1ynLnCahvfwK32xlDlziY62P0TXfPZIKsbjQVmTFBZHhUlRv/PW/eGzQ6UM8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792073658; c=relaxed/simple;
-	bh=vifwALirNCulqflcyosVo587mRiiz/RrvkajLnxXmwg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=OQUlFH0Jo2jbR67MVv+j39MEH2GfGUvpe4DY+H44f5AfcJEDfyDGJxtbPW7uQOupf+b4lVmzwReE9M/Gf3iMECm/cs91pQiH4Ya2wRcjazxIkJX32YVI23gp6SeAJD7broMsu3A+qWlHMk3D1AvrtupzHmhrYJg+ck++7gLc+NA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ha8/vyvP; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=UsRKTPvT; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1792077489; c=relaxed/simple;
+	bh=mITcLME8QrCkaVocHYuqBS9Lza3cEgTwRwuIm2BoJ5c=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=g4UIzRYRlBT4l0/Cy+y6YHRfRkf8JStz7TJ8qAFyll7OH1YDpLngb2ldUoPhDjv9ARaCZQ3rJIa7hBCshEFp6k+mp+5qHAypycFk7aaarVgIlr9FsoKTiiCzkLkzuyIc4+0CXn9K/1JUFcxl+wzWtey7rQga7T4p8tzqCuIgWvY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Wuz7d0gW; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=YMqki1gw; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Wuz7d0gW; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=YMqki1gw; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ha8/vyvP";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="UsRKTPvT"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69F9kEYC2999153
-	for <linux-sound@vger.kernel.org>; Thu, 15 Oct 2026 14:14:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	OsvYNszg57jlvaTs1ikqKAQgHALw87NQfyfWIWRw060=; b=ha8/vyvPKRMwqRVU
-	zKk41GEPVF+COGBKZ/Zx4rnU0krSGHIARZmS9TIkoxrWvcFZPGN7I6rEcX5HX9pR
-	uTleGOtiDx8/dyzpUUY6ysFvcymVtL+oXVbSbS5nRTgIlerrL4yhIFDP1pJqPPYm
-	cJ9lm7P6ueSoEkmEMs/U5KmPbPc2qnusigI5hWkQVdBcla56Od8keqDyNhvNI+fZ
-	94G9atKSBBYmW8bafSba28InqqFJ5LLzBW//Jb5knIoz9Hv57FLffhXjt8clCtth
-	LDdIvVVlqgAGVv4zMvkIWLUYWtprnIhA8UEii6jwyKnc1ep4KuQYz9RUTfGQG4tM
-	5z3HLw==
-Received: from mail-oo1-f71.google.com (mail-oo1-f71.google.com [209.85.161.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hausm1bj5-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Thu, 15 Oct 2026 14:14:16 +0000 (GMT)
-Received: by mail-oo1-f71.google.com with SMTP id 006d021491bc7-6f538c3453fso5857eaf.1
-        for <linux-sound@vger.kernel.org>; Thu, 15 Oct 2026 07:14:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1792073655; x=1792678455; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=OsvYNszg57jlvaTs1ikqKAQgHALw87NQfyfWIWRw060=;
-        b=UsRKTPvTYI1yda7Hn0ucaGqYi9GQ6/G51tq3/pshwtBT+wYXmUAEhQcAqfiEESO3EN
-         GPt737qWl40wcxRWt5iOMi4FOzNniH7yjNx9BZ3sdFa6XTIECGDjyFA8usZ0DtMn4OnQ
-         7MwHuBZGzExFShv2Fq/IuEXSzQUuNpsGgIyUUQj9744VCW4CefchRrom7Zns64HeBJVa
-         wdNzfPNvW+YfxDC7yCH8gByEOl19hu46yftA52dyuYpxuf1vLIzM+nMLfq1qSlBHlyvN
-         Jo0NQ2QcJoyHhmp3ElrW1xWR19wXRK8BHoCZDa8WhpwL4bHobefHf0ZbmZQBd3Hho2L9
-         VIQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792073655; x=1792678455;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=OsvYNszg57jlvaTs1ikqKAQgHALw87NQfyfWIWRw060=;
-        b=0pfheHL4FFNFD+b4RKhyO7zDupmaf3TxkQ7uS3q2o7V7BBjlyk+6jY4PogE7Hd4h+I
-         xhXu1C/cAGQbq554865R0c4QLzKEItd8s+vpe9k7EwrYdovibeIV68NR3c5XR/aUzgBX
-         2eLTowNajOCaN1abG+IZzBGFFMY4BY/k6M+u/piBDxoRaEw5gc+9a9BBZL/Wl+UYXXvV
-         knXYgt7C2fsBEyTqnxOBApi/3Q5G/3z0vLKjrskjU/xHbjm5qlEvC0VpE1PQ/nNUIyB/
-         MEqxiYWA20jrYDmsIanTMLCSdtBN/JrmyEIx72MignYCtjreUo6PwNcOYCIPErW+EbQh
-         9tPw==
-X-Forwarded-Encrypted: i=1; AKwUvBzOTyQIwXdhsZOS3HoC3glQyUHrAeX9Tk3iQtjFGMK3v5STigQ75DbMn66QRoqe9EvygbPyyoh6VZGeOQ==@vger.kernel.org
-X-Gm-Message-State: AFq9FYLakYOTfhhymf5F6EKl9nH0mK7WdiUXroR3V8iMqOuun//rvd49
-	5K84G3ittRRF/tNJjLdiqKfMTOEx/tjQPgZV2N6rgpn/KLwhoezTWEmAJwYY71SY9Mobgspus/t
-	RkV3wFFSUFL4fcu/2MpGV/jty6H8r3Lo6Hk0Nx4S8ZoZZLtSx8PlymmTvH/k+cqTqOg==
-X-Gm-Gg: AYBFou3p35D8DKPNL8Q/6EXvdfrVz11vTHj+aWI3tEVD2P/+I7aI57AwqqKZYu4WN7L
-	aWTrVx8n6JT/aUJMRGEnWxfeDUVhPqZsRuNEgNnCMeJcS12LltK7ZWwHYdJVhEAF4AnJ2VGLpFZ
-	nom52GS8jb/H4es433z8eC+VdP2DlaodqC8Q3jZbGiJWV5AtgWCuOnVug0VJGLBxe8vslCqzqrA
-	t2ngRTfEl+Ci0kUrJLeIAD6/Ld3HqFSyKdCLlFDm8ce9abW2o2utpOUW3yI5UloTZeHEo/FaiKp
-	Y1GbnsUsRmgb0+h5f73utUlmNlVXkEowt4xtKrGsx1uraKMnKetp7i9p4JlCJOPniaSWIA2ccfQ
-	cBIBMl7USegai1bkDpmvpw9K0ZSuCQPfKJvo=
-X-Received: by 2002:a05:6820:200a:b0:6dc:e1c3:b2b4 with SMTP id 006d021491bc7-70110176ef6mr95026eaf.38.1792073653511;
-        Thu, 15 Oct 2026 07:14:13 -0700 (PDT)
-X-Received: by 2002:a05:6820:200a:b0:6dc:e1c3:b2b4 with SMTP id 006d021491bc7-70110176ef6mr95002eaf.38.1792073652940;
-        Thu, 15 Oct 2026 07:14:12 -0700 (PDT)
-Received: from hu-mohs-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-6f47500ae30sm11366719eaf.1.2026.10.15.07.14.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Oct 2026 07:14:12 -0700 (PDT)
-From: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-Date: Thu, 15 Oct 2026 19:43:12 +0530
-Subject: [PATCH v1 4/4] ASoC: codecs: pm4125: Add the MBHC callbacks needed
- for jack detection
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Wuz7d0gW";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YMqki1gw";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Wuz7d0gW";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YMqki1gw"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id D4EED1F86C;
+	Thu, 15 Oct 2026 15:18:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1792077485; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EpT89qE6ibgw5hVmLJgOu0WmGnwDzjP7tOfFmQ4hfGA=;
+	b=Wuz7d0gWYsRElW5xCwl8oXS5WzRnL3urUnA9oMY9hw4ucKmL12ahB7QhUs2/a+1Tt/KNFf
+	O+2zFsgQvJPe9Y772XbiNCwGHEtioVqw7rLBJ8qyHkfwGfqCA8r1T0P+vOoyZmS0IRzLCq
+	biBj2tMGPQXkqDO06tclyYpZvhrkMoE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1792077485;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EpT89qE6ibgw5hVmLJgOu0WmGnwDzjP7tOfFmQ4hfGA=;
+	b=YMqki1gwB+pcANEZx7DTQjaUtOOQwZ0G0VUNbKcpGMFOh44FrO5GXaPZOMRHdFfBuHuksR
+	tXJAsmngYFI3McDA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1792077485; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EpT89qE6ibgw5hVmLJgOu0WmGnwDzjP7tOfFmQ4hfGA=;
+	b=Wuz7d0gWYsRElW5xCwl8oXS5WzRnL3urUnA9oMY9hw4ucKmL12ahB7QhUs2/a+1Tt/KNFf
+	O+2zFsgQvJPe9Y772XbiNCwGHEtioVqw7rLBJ8qyHkfwGfqCA8r1T0P+vOoyZmS0IRzLCq
+	biBj2tMGPQXkqDO06tclyYpZvhrkMoE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1792077485;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EpT89qE6ibgw5hVmLJgOu0WmGnwDzjP7tOfFmQ4hfGA=;
+	b=YMqki1gwB+pcANEZx7DTQjaUtOOQwZ0G0VUNbKcpGMFOh44FrO5GXaPZOMRHdFfBuHuksR
+	tXJAsmngYFI3McDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 84DC513223;
+	Thu, 15 Oct 2026 15:18:05 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id mX8tFq3u0GoFRwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 15 Oct 2026 15:18:05 +0000
+Date: Thu, 15 Oct 2026 17:18:03 +0200
+Message-ID: <87qzhr6lhw.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	linux-sound@vger.kernel.org,
+	alsa-devel@alsa-project.org
+Subject: Re: [GIT PULL] ASoC fixes for v7.3-rc7
+In-Reply-To: <bdcee80ff1b48cbbcfacaa3eb404fbca@kernel.org>
+References: <bdcee80ff1b48cbbcfacaa3eb404fbca@kernel.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261015-pm4125_mbhc_support-v1-4-8bc1212db6f7@oss.qualcomm.com>
-References: <20261015-pm4125_mbhc_support-v1-0-8bc1212db6f7@oss.qualcomm.com>
-In-Reply-To: <20261015-pm4125_mbhc_support-v1-0-8bc1212db6f7@oss.qualcomm.com>
-To: Srinivas Kandagatla <srini@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Alexey Klimov <alexey.klimov@linaro.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1792073622; l=13255;
- i=mohammad.rafi.shaik@oss.qualcomm.com; s=20260424;
- h=from:subject:message-id; bh=vifwALirNCulqflcyosVo587mRiiz/RrvkajLnxXmwg=;
- b=xVkdlESIZnWIIvxIbb12RkB1Cx4qyAqsAtKha4RZ/N1qexOUb2h6oANXq128QmwXI90oDOJ+8
- /5cRNCjaEdpBrWf8wml3R93W6HCHNbhDBLsNv4/dA14rX9O9nlHBgtw
-X-Developer-Key: i=mohammad.rafi.shaik@oss.qualcomm.com; a=ed25519;
- pk=KZedmYgMGYOzuTpLGv56tdrL+pTLDP8pdmfQ91xemiA=
-X-Proofpoint-GUID: 12oRiEhreuHj2yTQfpdX7R8pVV1bzVK5
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDE1MDA1NiBTYWx0ZWRfX3jBVl+rB52/9
- +j8rtlpvfghmo8FNwgV486zbQuklQ43PvoNBqJnE9XJZUnFwG1/BJZVg70jn2EH7+pFjn4eKU14
- bYsNmmXs56pIoD38JFb9dMavQeI/NKHETjQWfk0WVliI+4kDofmbLZxQ3lsPGdTdxsdpqpy19Ez
- z2WzZ89AoukTkL40THxC67SgIstZImI6Fseh5HGdZLYhvkNjQmi3/h9rqgagtGtr73nC98s1UpP
- 4i3UNxEXOl6nKbfItuwqpllFa1tyMdEtQG2mm37soU6xf1mfuWFZ6TUyM/LQaDG1grhFiQzTYa6
- M+G/3IX0+/Y0Cqihc1sKmiyEY/e6WjM8FVth2q92kuDUGP3I3vIfpwlQ0B3AcYv2kKhyYZeO4HN
- uysVkFubBR29fy9ahqz9e1IxCrcl35S7U1SphvR1OKRvGyuGBlekyS3r6Xup7rUeLYTYcBdKplP
- FLrdwXaPXnPBm236w+g==
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDE1MDA1NiBTYWx0ZWRfXyk4TWiqPMbn9
- b+dEwecEVQlIaxCQ+MC5S91/vbxGSh8Px21WdBZAQiUd1TXwm8MCBOHUpCIFOxsBLbX8nAqwItW
- 2BUd+6rOhTwcyR2vhQfLokAjfOhSOEg=
-X-Authority-Analysis: v=2.4 cv=Eb5d0/mC c=1 sm=1 tr=0 ts=6ad0dfb8 cx=c_pps
- a=V4L7fE8DliODT/OoDI2WOg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
- a=EUspDBNiAAAA:8 a=AT8lqgG73mO-_AR6YKwA:9 a=QEXdDO2ut3YA:10
- a=WZGXeFmKUf7gPmL3hEjn:22
-X-Proofpoint-ORIG-GUID: 12oRiEhreuHj2yTQfpdX7R8pVV1bzVK5
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-10-14_01,2026-10-14_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 impostorscore=0 phishscore=0 bulkscore=0 priorityscore=1501
- clxscore=1015 lowpriorityscore=0 adultscore=0 malwarescore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610080000 definitions=main-2610150056
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,alsa-project.org];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -3.30
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-The codec only hands the MBHC framework the electrical bias and button
-threshold callbacks, and leaves the rest of struct wcd_mbhc_cb empty.
-The framework falls back to driving the shared register fields itself
-for some of them, but it has no fallback at all for the ones that
-control hardware it cannot describe generically, so plug type detection
-runs without the RCO clock, without a micbias ramp and without the
-headset ground detection comparator, and never gets a usable ADC
-reading.
+On Thu, 15 Oct 2026 15:09:26 +0200,
+Mark Brown wrote:
+> 
+> The following changes since commit 24a19b953e2a3d0ea5a8c4951a0ab8f32720c907:
+> 
+>   Linux 7.3-rc7 (2026-10-11 20:04:55 -0700)
+> 
+> are available in the Git repository at:
+> 
+>   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v7.3-rc7
+> 
+> for you to fetch changes up to 2a31b5378c6db9c4a8d399e5d10d32cd4b732bef:
+> 
+>   ASoC: amd: yc: disable MSI on resume (2026-10-13 14:32:22 +0100)
+> 
+> ----------------------------------------------------------------
+> ASoC: Fixes for v7.3
+> 
+> There's a relatively large block of fixes for errors in register field
+> definitions here, resulting from an audit done after review of a prior
+> series.  The fixes themselves are very small and can be directly checked
+> against the datasheets.  Other than that we've got some driver specific
+> fixes, the AMD fix is a little large but fixes a clear issue and won't
+> affect other systems.
 
-Add the callbacks the ADC based detection logic needs:
+Pulled now.  Thanks.
 
- - clk_setup() enables the MBHC RCO, which clocks the detection FSM.
- - micbias_enable_status() lets the framework tell whether MIC_BIAS_2
-   is already up for recording, so it does not switch the button
-   current source on underneath a capture stream.
- - hph_pull_up_control() selects the HPHL pull up current used while
-   sensing an insertion, defaulting to 3uA as the hardware expects.
- - mbhc_micbias_control() routes the framework's MIC_BIAS_2 requests
-   through pm4125_micbias_control() so they share the reference count
-   with the DAPM micbias widgets and with the analog master bias.
- - mbhc_micb_ramp_control() ramps MIC_BIAS_2 instead of stepping it,
-   which is required before the cross connection check reads the
-   Schmitt trigger outputs.
- - mbhc_micb_ctrl_thr_mic() raises MIC_BIAS_2 to the threshold needed
-   to tell a special headset from an extension cable, and puts it back
-   afterwards.
- - get_micbias_val() reports the programmed MIC_BIAS_2 voltage. The
-   generic path assumes a 1V base, while this codec starts at 1.6V in
-   50mV steps, so the framework would scale every threshold wrongly.
- - mbhc_gnd_det_ctrl() enables the headset ground pull up comparator
-   together with ground detection, in that order on the way up and the
-   reverse on the way down.
- - hph_pull_down_ctrl() parks the headphone outputs in a pull down
-   while no jack is being driven.
 
-pm4125_mbhc_micb_adjust_voltage() changes MIC_BIAS_2 while it is
-enabled, which has to be done with the output briefly pulled up, so
-serialise it against concurrent requests with a mutex.
-
-Assisted-by: Claude Opus 5
-Signed-off-by: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
----
- sound/soc/codecs/pm4125.c | 188 ++++++++++++++++++++++++++++++++++++++++++++++
- sound/soc/codecs/pm4125.h |  13 ++++
- 2 files changed, 201 insertions(+)
-
-diff --git a/sound/soc/codecs/pm4125.c b/sound/soc/codecs/pm4125.c
-index 2100f4e36..6dd5ce0f4 100644
---- a/sound/soc/codecs/pm4125.c
-+++ b/sound/soc/codecs/pm4125.c
-@@ -8,6 +8,7 @@
- #include <linux/irqdomain.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
-+#include <linux/mutex.h>
- #include <linux/of.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
-@@ -76,6 +77,8 @@ struct pm4125_priv {
- 	struct regmap_irq_chip_data *irq_chip;
- 	struct snd_soc_jack *jack;
- 	unsigned long status_mask;
-+	/* Protects micbias voltage adjustment against concurrent requests */
-+	struct mutex micb_lock;
- 	s32 micb_ref[PM4125_MAX_MICBIAS];
- 	s32 pullup_ref[PM4125_MAX_MICBIAS];
- 
-@@ -968,6 +971,12 @@ static int pm4125_set_swr_port(struct snd_kcontrol *kcontrol, struct snd_ctl_ele
- 	return 1;
- }
- 
-+static void pm4125_mbhc_clk_setup(struct snd_soc_component *component, bool enable)
-+{
-+	snd_soc_component_write_field(component, PM4125_ANA_MBHC_CTL_1,
-+				      PM4125_ANA_MBHC_CTL_RCO_EN_MASK, enable);
-+}
-+
- static void pm4125_mbhc_bias_control(struct snd_soc_component *component, bool enable)
- {
- 	snd_soc_component_write_field(component, PM4125_ANA_MBHC_ELECT,
-@@ -995,9 +1004,187 @@ static void pm4125_mbhc_program_btn_thr(struct snd_soc_component *component,
- 	}
- }
- 
-+static bool pm4125_mbhc_micb_en_status(struct snd_soc_component *component, int micb_num)
-+{
-+	if (micb_num != MIC_BIAS_2)
-+		return false;
-+
-+	return snd_soc_component_read_field(component, PM4125_ANA_MICBIAS_MICB_1_2_EN,
-+					    PM4125_ANA_MICBIAS_MICB2_EN_MASK) == 1;
-+}
-+
-+static void pm4125_mbhc_hph_l_pull_up_control(struct snd_soc_component *component,
-+					      enum mbhc_hs_pullup_iref pull_up_cur)
-+{
-+	/* Default pull up current to 3uA */
-+	if (pull_up_cur < I_OFF || pull_up_cur > I_3P0_UA || pull_up_cur == I_DEFAULT)
-+		pull_up_cur = I_3P0_UA;
-+
-+	snd_soc_component_write_field(component, PM4125_ANA_MBHC_PLUG_DETECT_CTL,
-+				      PM4125_ANA_MBHC_HSDET_PULLUP_C_MASK, pull_up_cur);
-+}
-+
-+static int pm4125_mbhc_request_micbias(struct snd_soc_component *component,
-+				       int micb_num, int req)
-+{
-+	return pm4125_micbias_control(component, micb_num, req, false);
-+}
-+
-+static void pm4125_mbhc_micb_ramp_control(struct snd_soc_component *component, bool enable)
-+{
-+	if (enable) {
-+		snd_soc_component_write_field(component, PM4125_ANA_MBHC_MICB2_RAMP,
-+					      PM4125_ANA_MBHC_MICB2_RAMP_SHIFT_MASK,
-+					      PM4125_ANA_MBHC_MICB2_RAMP_SHIFT_CTRL);
-+		snd_soc_component_write_field(component, PM4125_ANA_MBHC_MICB2_RAMP,
-+					      PM4125_ANA_MBHC_MICB2_RAMP_EN_MASK, 1);
-+	} else {
-+		snd_soc_component_write_field(component, PM4125_ANA_MBHC_MICB2_RAMP,
-+					      PM4125_ANA_MBHC_MICB2_RAMP_EN_MASK, 0);
-+		snd_soc_component_write_field(component, PM4125_ANA_MBHC_MICB2_RAMP,
-+					      PM4125_ANA_MBHC_MICB2_RAMP_SHIFT_MASK, 0);
-+	}
-+}
-+
-+static int pm4125_mbhc_micb_adjust_voltage(struct snd_soc_component *component,
-+					   int req_volt, int micb_num)
-+{
-+	struct pm4125_priv *pm4125 = snd_soc_component_get_drvdata(component);
-+	int cur_vout_ctl, req_vout_ctl, micb_en, ret = 0;
-+	unsigned int pullup_mask, en_mask;
-+
-+	switch (micb_num) {
-+	case MIC_BIAS_1:
-+		pullup_mask = PM4125_ANA_MICBIAS_MICB1_PULL_UP_MASK;
-+		en_mask = PM4125_ANA_MICBIAS_MICB1_EN_MASK;
-+		break;
-+	case MIC_BIAS_2:
-+		pullup_mask = PM4125_ANA_MICBIAS_MICB2_PULL_UP_MASK;
-+		en_mask = PM4125_ANA_MICBIAS_MICB2_EN_MASK;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	mutex_lock(&pm4125->micb_lock);
-+
-+	/*
-+	 * If requested micbias voltage is same as current micbias voltage,
-+	 * then just return. Otherwise, adjust voltage as per requested value.
-+	 * If micbias is already enabled, then to avoid slow micbias ramp-up
-+	 * or down enable pull-up momentarily, change the micbias value and
-+	 * then re-enable micbias.
-+	 */
-+	micb_en = snd_soc_component_read_field(component, PM4125_ANA_MICBIAS_MICB_1_2_EN,
-+					       en_mask);
-+	cur_vout_ctl = snd_soc_component_read_field(component, PM4125_ANA_MICBIAS_LDO_1_SETTING,
-+						    PM4125_ANA_MICBIAS_MICB_OUT_VAL_MASK);
-+
-+	req_vout_ctl = pm4125_get_micb_vout_ctl_val(component->dev, req_volt);
-+	if (req_vout_ctl < 0) {
-+		ret = -EINVAL;
-+		goto exit;
-+	}
-+
-+	if (cur_vout_ctl == req_vout_ctl)
-+		goto exit;
-+
-+	if (micb_en == 1)
-+		snd_soc_component_write_field(component, PM4125_ANA_MICBIAS_MICB_1_2_EN,
-+					      pullup_mask,
-+					      PM4125_ANA_MICBIAS_MICB_PULL_ENABLE);
-+
-+	snd_soc_component_write_field(component, PM4125_ANA_MICBIAS_LDO_1_SETTING,
-+				      PM4125_ANA_MICBIAS_MICB_OUT_VAL_MASK, req_vout_ctl);
-+
-+	if (micb_en == 1) {
-+		snd_soc_component_write_field(component, PM4125_ANA_MICBIAS_MICB_1_2_EN,
-+					      pullup_mask,
-+					      PM4125_ANA_MICBIAS_MICB_PULL_DISABLE);
-+		/* Add 2ms delay as per HW requirement after enabling micbias */
-+		usleep_range(2000, 2100);
-+	}
-+exit:
-+	mutex_unlock(&pm4125->micb_lock);
-+
-+	return ret;
-+}
-+
-+static int pm4125_mbhc_micb_ctrl_threshold_mic(struct snd_soc_component *component,
-+					       int micb_num, bool req_en)
-+{
-+	struct pm4125_priv *pm4125 = snd_soc_component_get_drvdata(component);
-+	int micb_mv;
-+
-+	if (micb_num != MIC_BIAS_2)
-+		return -EINVAL;
-+
-+	/*
-+	 * If device tree micbias level is already above the minimum voltage
-+	 * needed to detect threshold microphone, then do not change the
-+	 * micbias, just return.
-+	 */
-+	if (pm4125->micb2_mv >= WCD_MBHC_THR_HS_MICB_MV)
-+		return 0;
-+
-+	micb_mv = req_en ? WCD_MBHC_THR_HS_MICB_MV : pm4125->micb2_mv;
-+
-+	return pm4125_mbhc_micb_adjust_voltage(component, micb_mv, MIC_BIAS_2);
-+}
-+
-+static void pm4125_mbhc_get_micbias_val(struct snd_soc_component *component, int *mb)
-+{
-+	u8 vout_ctl;
-+
-+	/* Read MBHC Micbias (Mic Bias2) voltage */
-+	vout_ctl = snd_soc_component_read_field(component, PM4125_ANA_MICBIAS_LDO_1_SETTING,
-+						PM4125_ANA_MICBIAS_MICB_OUT_VAL_MASK);
-+
-+	/*
-+	 * Formula for getting micbias from vout:
-+	 *	micbias = 1.6V + VOUT_CTL * 50mV
-+	 */
-+	*mb = 1600 + (vout_ctl * 50);
-+}
-+
-+static void pm4125_mbhc_gnd_det_ctrl(struct snd_soc_component *component, bool enable)
-+{
-+	if (enable) {
-+		snd_soc_component_write_field(component, PM4125_ANA_MBHC_MECH,
-+					      PM4125_ANA_MBHC_HSG_PULLUP_COMP_EN_MASK, 1);
-+		snd_soc_component_write_field(component, PM4125_ANA_MBHC_MECH,
-+					      PM4125_ANA_MBHC_GND_DET_EN_MASK, 1);
-+	} else {
-+		snd_soc_component_write_field(component, PM4125_ANA_MBHC_MECH,
-+					      PM4125_ANA_MBHC_GND_DET_EN_MASK, 0);
-+		snd_soc_component_write_field(component, PM4125_ANA_MBHC_MECH,
-+					      PM4125_ANA_MBHC_HSG_PULLUP_COMP_EN_MASK, 0);
-+	}
-+}
-+
-+static void pm4125_mbhc_hph_pull_down_ctrl(struct snd_soc_component *component, bool enable)
-+{
-+	u8 val = enable ? PM4125_ANA_HPHPA_CNP_GND_PULL_DOWN :
-+			  PM4125_ANA_HPHPA_CNP_GND_PULL_NONE;
-+
-+	snd_soc_component_write_field(component, PM4125_ANA_HPHPA_CNP_CTL_2,
-+				      PM4125_ANA_HPHPA_CNP_GND_L_MASK, val);
-+	snd_soc_component_write_field(component, PM4125_ANA_HPHPA_CNP_CTL_2,
-+				      PM4125_ANA_HPHPA_CNP_GND_R_MASK, val);
-+}
-+
- static const struct wcd_mbhc_cb mbhc_cb = {
-+	.clk_setup = pm4125_mbhc_clk_setup,
- 	.mbhc_bias = pm4125_mbhc_bias_control,
- 	.set_btn_thr = pm4125_mbhc_program_btn_thr,
-+	.micbias_enable_status = pm4125_mbhc_micb_en_status,
-+	.hph_pull_up_control = pm4125_mbhc_hph_l_pull_up_control,
-+	.mbhc_micbias_control = pm4125_mbhc_request_micbias,
-+	.mbhc_micb_ramp_control = pm4125_mbhc_micb_ramp_control,
-+	.mbhc_micb_ctrl_thr_mic = pm4125_mbhc_micb_ctrl_threshold_mic,
-+	.get_micbias_val = pm4125_mbhc_get_micbias_val,
-+	.mbhc_gnd_det_ctrl = pm4125_mbhc_gnd_det_ctrl,
-+	.hph_pull_down_ctrl = pm4125_mbhc_hph_pull_down_ctrl,
- };
- 
- static int pm4125_mbhc_init(struct snd_soc_component *component)
-@@ -1692,6 +1879,7 @@ static int pm4125_probe(struct platform_device *pdev)
- 		return dev_err_probe(dev, ret, "Failed to get micbias\n");
- 
- 	atomic_set(&pm4125->gloal_mbias_cnt, 0);
-+	mutex_init(&pm4125->micb_lock);
- 
- 	cfg = &pm4125->mbhc_cfg;
- 	cfg->mbhc_micbias = MIC_BIAS_2;
-diff --git a/sound/soc/codecs/pm4125.h b/sound/soc/codecs/pm4125.h
-index 25fd3106f..3ee6f9c25 100644
---- a/sound/soc/codecs/pm4125.h
-+++ b/sound/soc/codecs/pm4125.h
-@@ -13,7 +13,9 @@
- #define PM4125_DIG_BASE_ADDR			0x3400
- 
- #define PM4125_ANA_MICBIAS_MICB_1_2_EN		(PM4125_ANA_BASE_ADDR+0x040)
-+#define  PM4125_ANA_MICBIAS_MICB1_EN_MASK	BIT(6)
- #define  PM4125_ANA_MICBIAS_MICB1_PULL_UP_MASK	BIT(5)
-+#define  PM4125_ANA_MICBIAS_MICB2_EN_MASK	BIT(2)
- #define  PM4125_ANA_MICBIAS_MICB2_PULL_UP_MASK	BIT(1)
- #define  PM4125_ANA_MICBIAS_MICB2_PULL_DN_MASK	BIT(0)
- #define  PM4125_ANA_MICBIAS_MICB_PULL_ENABLE	1
-@@ -25,6 +27,8 @@
- #define PM4125_ANA_TX_AMIC1			(PM4125_ANA_BASE_ADDR+0x047)
- #define PM4125_ANA_TX_AMIC2			(PM4125_ANA_BASE_ADDR+0x048)
- #define PM4125_ANA_MBHC_MECH			(PM4125_ANA_BASE_ADDR+0x05A)
-+#define  PM4125_ANA_MBHC_GND_DET_EN_MASK	BIT(6)
-+#define  PM4125_ANA_MBHC_HSG_PULLUP_COMP_EN_MASK BIT(1)
- #define PM4125_ANA_MBHC_ELECT			(PM4125_ANA_BASE_ADDR+0x05B)
- #define  PM4125_ANA_MBHC_ELECT_BIAS_EN_MASK	BIT(0)
- #define  PM4125_ANA_MBHC_ELECT_BIAS_ENABLE	1
-@@ -40,9 +44,14 @@
- #define PM4125_ANA_MBHC_BTN3_ZDET_DBG_400	(PM4125_ANA_BASE_ADDR+0x063)
- #define PM4125_ANA_MBHC_BTN4_ZDET_DBG_1400	(PM4125_ANA_BASE_ADDR+0x064)
- #define PM4125_ANA_MBHC_MICB2_RAMP		(PM4125_ANA_BASE_ADDR+0x065)
-+#define  PM4125_ANA_MBHC_MICB2_RAMP_EN_MASK	BIT(7)
-+#define  PM4125_ANA_MBHC_MICB2_RAMP_SHIFT_MASK	GENMASK(4, 2)
-+#define  PM4125_ANA_MBHC_MICB2_RAMP_SHIFT_CTRL	3
- #define PM4125_ANA_MBHC_CTL_1			(PM4125_ANA_BASE_ADDR+0x066)
-+#define  PM4125_ANA_MBHC_CTL_RCO_EN_MASK	BIT(7)
- #define PM4125_ANA_MBHC_CTL_2			(PM4125_ANA_BASE_ADDR+0x067)
- #define PM4125_ANA_MBHC_PLUG_DETECT_CTL		(PM4125_ANA_BASE_ADDR+0x068)
-+#define  PM4125_ANA_MBHC_HSDET_PULLUP_C_MASK	GENMASK(7, 6)
- #define PM4125_ANA_MBHC_ZDET_ANA_CTL		(PM4125_ANA_BASE_ADDR+0x069)
- #define PM4125_ANA_MBHC_ZDET_RAMP_CTL		(PM4125_ANA_BASE_ADDR+0x06A)
- #define PM4125_ANA_MBHC_FSM_STATUS		(PM4125_ANA_BASE_ADDR+0x06B)
-@@ -58,6 +67,10 @@
- #define  PM4125_ANA_HPHPA_CNP_CTL_1_EN_MASK	BIT(1)
- #define  PM4125_ANA_HPHPA_CNP_CTL_1_EN		1
- #define PM4125_ANA_HPHPA_CNP_CTL_2		(PM4125_ANA_BASE_ADDR+0x084)
-+#define  PM4125_ANA_HPHPA_CNP_GND_L_MASK	GENMASK(5, 4)
-+#define  PM4125_ANA_HPHPA_CNP_GND_R_MASK	GENMASK(3, 2)
-+#define  PM4125_ANA_HPHPA_CNP_GND_PULL_DOWN	2
-+#define  PM4125_ANA_HPHPA_CNP_GND_PULL_NONE	0
- #define  PM4125_ANA_HPHPA_CNP_OCP_EN_L_MASK	BIT(1)
- #define  PM4125_ANA_HPHPA_CNP_OCP_EN_R_MASK	BIT(0)
- #define  PM4125_ANA_HPHPA_CNP_OCP_ENABLE	1
-
--- 
-2.34.1
-
+Takashi
