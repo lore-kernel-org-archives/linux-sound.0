@@ -1,107 +1,164 @@
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05F6C3F410D
-	for <linux-sound@vger.kernel.org>; Thu, 15 Oct 2026 23:23:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33667175A9D
+	for <linux-sound@vger.kernel.org>; Thu, 15 Oct 2026 23:48:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792106584; cv=none; b=H+sDj8cV2kv1sN5evm7t4ebU4Z1XDK5KnrnnyBQRJFZIN/DltOjAIxgBzk7OxJJTEPS3d70vEvuNFUS0Wil9xv971gZsWhnOZkeraYM+MtIK5NVjSIHX5+4D2fZV6LaXENYqxXZ0hFCsKcV2Px8sHHQtPRo2wakPnX8KXNmUjps=
+	t=1792108091; cv=none; b=V1ppvjsNFQLo0W3ey0SJ1r2W4jLio7n/6YusStztQxd7SQBov2b9SOHxN5UJlLiIhznXHcn+ByH5En3b5MQMoCzvDFD7H0m7kHNexIXNxCJ2fIalWpUVAg9J5EUib6vW+5feYJ1eNj6fN0jw/+UyO4+ddDzN4hmr697kMDW8AIk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792106584; c=relaxed/simple;
-	bh=NIVzQ+RJCCvoNJTkWGq+tQGBzXKOSJUfZgl5oF2rlZU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=q6WFTetghF/LEDrz9PhqLleqyfrl6p8yY097KHgcyrKCXE5hqdf+1S0+rgha1bupdH7uLIsX2X64AAFdSlMGtjzH/DGw2BW3deCatXoU2u5FhTIyRT+KBNlQ9Z8ImH9KU08jnYEapwGUSVb43TNDuS1vD15ea6/G61zoNyUrBBQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mF1m7ZBR; arc=none smtp.client-ip=209.85.160.169
+	s=arc-20240116; t=1792108091; c=relaxed/simple;
+	bh=FxNvXGumU/2fsM36onSYdlMMUXPemM3oxSTy+CpTOSE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=RbstkxCE560j1tGlbQZv61ikSQmYT60N6LFC+Q7g03yZC6NQn1vmSvcf5/hRdkXo1bwi7/r3aWZlaK5XCncz2BHZPZnaRUYThs4vc1Kc8BVQcWPiGiAeJyCPk3U31Jz3csb/2ls7VcND45ssNoLTOIQ2e4+Zfnsda6brAAxtALA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ejDscta8; arc=none smtp.client-ip=209.85.215.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mF1m7ZBR"
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-53582498790so24519031cf.2
-        for <linux-sound@vger.kernel.org>; Thu, 15 Oct 2026 16:23:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ejDscta8"
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-cd62c570b5dso1409774a12.2
+        for <linux-sound@vger.kernel.org>; Thu, 15 Oct 2026 16:48:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792106581; x=1792711381; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=03oMX6BgLkysOvRrvfzzjSMNwOnFtfGZ6sCBy/TZ3gc=;
-        b=mF1m7ZBRox2MnjjljYs2DutrrSuifZUKHXoPKse9jsGLSVLyODBdFiIAHJTY7nR9Yh
-         0Ad348k8kD/aQ///RNS9q2p4SfbdvM1SiTtjkNztB+PHSBwnZ+2mxvsoub/REETj9uIV
-         2saJc4PFWqSSCyYlfsds2JDonAI603nOrtGEXxsn5H0Jyug8ISRui78M1GUDOLwunHsH
-         2QMXiXnvS1CJNUntOsMWjteZ0p7RntkVhFWTdxbvaH+Fvju3R7wNoc8aS35VPOWZRxM0
-         xGEVDNL8K1JeeoK57VH/wf2AwgfW/O4Dbs+MisSiszbZrPIDR4MmJCHMbQheSBEJpbCf
-         o05w==
+        d=gmail.com; s=20251104; t=1792108089; x=1792712889; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=QHMtTPJd5CGkNnfuYvZleiw12hUo1dI+m+gbvcH1A2g=;
+        b=ejDscta8rIUZKYGD5l2Zr2l4tBwcjKPAk4KgzKbmLLcAT89iR8oFOuXcmQJOj/aWR3
+         zEcMOVLxsvPF98JRRO+nHofMmsxpd+kYSjiiO9M8l5p2hYIBzNL9OOAm6XyvX75prpdI
+         wqC13WbAOV+GAZ4d1BP3A+CyGDUeoV8CpEaQS9/P16TRQ5cDvsz/5Phj6r8D1/ytZVky
+         FisEZQr3VYLJI8bBz5FldwOEbDFCFXc5wsu+SHbqsFFI7loa9l4i0XuZ0mCkUGvebUDX
+         fpmQ6Ogdy1XAeH5fZcUW6fNjOtggFdMahdfIKsK6sUCenthsVoQJD2wBRngyRT8SCt2g
+         P/Tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792106581; x=1792711381;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=03oMX6BgLkysOvRrvfzzjSMNwOnFtfGZ6sCBy/TZ3gc=;
-        b=IVknsGh5N1K9w5SauGz2cAzjeJ7UMCjXVf0BLaxpSdKgJcoHh0L0YMqRo7u4tXqb6P
-         EX4W3UcUz8twJzplVjHCje4C9mJZQ734EFyLBVGMThWpfxI3VMucmjQaBvNBbmU3NeXT
-         nRYr0bevk9XnNNfG2ty5rOiofXXA4LBmYa/gK2D/hzl+sDNysoVgyRd4Md0IZpr3fTmh
-         oyy5xy/qujykMvenZuegBE7+ZDbcAM+ERuYMhEXCMDcLwbKBtyNRFPcS/r66AyA1l8yB
-         7K0qc7TKWoDy+5jyvWdyqIWV8PeOkuD0aB3zI/fZ7v6YmMSbXR8JLY1Q66hSvS6vt5Dj
-         2+QA==
-X-Forwarded-Encrypted: i=1; AKwUvBy2poEEQrfollbiP+1HRTpgDCxrnAvlrSri4V0LVF/PCf6QIuRxKJHTnqm/AzA8zERwPwvQkVyddkLJXQ==@vger.kernel.org
-X-Gm-Message-State: AFq9FYKc5lVDqrIhfwa1RqHPuz5yHOenQhj1OxK4/MfNljdhQOMwsqO9
-	5gUNFGHpiQyMBjjoYgm1aJmgDmGWBEAFiKzUIZEieL417a4BKCrAboJg
-X-Gm-Gg: AYBFou3UZRwFQ8lL+/JbTZmmt2JAuJfN606eomKblVya0NDPrUC9Z1vVDZlwwPFe7Aa
-	/AH1WlZvXO0S64C2XOZDIfVNz+BvfWXxd8y8vNL3hPWF0bNYQh/HVKFKSsCfaGJScc6DlkdUdS6
-	vSURD0sKOBr6xztprPGXMAqrGviF4JtkwDAy7VFvFkUwJ/HtM17/izLCCpgBpXdKKF3OsJbO5he
-	uZ2KJ+UgOMHRGBw89ikeFqK4sQhDCtSTDNT9JsyKATrucKmlT8oSYJGS8hRBmAsXLP4B0BDYSXl
-	DUybdwRwESVeq0do4haIOVBWPrtsbYB/t+gC5xcb9H+QZYCKfPC4d7DafzoJcvlVUwvOlxMrUdm
-	k2Vxq6HMedtg4bSOVe9/0dY54NeS4vlggEw/dAGE4FxLBM1LcYKIvHxnpHEEnLK3Frmx3nZveQG
-	r50PCYOkIM79fxfArFFHFph2WCUiC41LQb+HiVgACxfbt2r04l4vAPVL5cZQ8a5PvoJ8rQ7qTYm
-	WFfVJBoopDmlQzc
-X-Received: by 2002:a05:622a:130d:b0:530:b2e4:4e30 with SMTP id d75a77b69052e-5359fde2799mr324546181cf.61.1792106580684;
-        Thu, 15 Oct 2026 16:23:00 -0700 (PDT)
-Received: from chowdhury.taild927b5.ts.net ([2607:fb91:5000:22c8::3f3b])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5362a9bbad2sm6453911cf.18.2026.10.15.16.22.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Oct 2026 16:23:00 -0700 (PDT)
-From: Imtiaz Chowdhury <imtiazc56@gmail.com>
-To: tiwai@suse.com
-Cc: perex@perex.cz,
+        d=1e100.net; s=20260707; t=1792108089; x=1792712889;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=QHMtTPJd5CGkNnfuYvZleiw12hUo1dI+m+gbvcH1A2g=;
+        b=vhNvi3CuXhI5EIBIDhgrZ6S/rrUpN1bRMj46joe6UOxF6HWntKDKLgAiP8LVk2rrAV
+         LOnDLgjeeHIo+jHBJ5jl6Ma1u9ZmINsVFXbjwwgXm4uPbRWk9Va8AngAJqaFhKsa/GZy
+         HsIlnUM+K3QQOrNRdAXinqOO7RiugHkxZt0ecdVXWjtHaq/DuKoUHIMc5Wz3nsA9Msf7
+         cZaMrGwGicpc+zoXH1AqeWxNYKu5QP2+xLa5UxyunddwEFxnFawCMGwTmktXalWEEU0c
+         IMnFMpUjNFTgHlQkmszrt+OrPy5ebjQ9pqzRwHgLJSPWDACEoF8f+qLE5BcoQeu+zibn
+         dLfA==
+X-Forwarded-Encrypted: i=1; AKwUvBzlwKoEWRnYmF4g6J6J3bCvXB6xQGeqT/KMgQoV3ojIq0Yorsw53ii2d8F1TYxT62KlUqEtCxz6aT9geg==@vger.kernel.org
+X-Gm-Message-State: AFq9FYLyydh87U3DC+lGNt15bUAQAecbTw9P55Xhs9VVrIpwXD6B3+kl
+	cXu8Kx+/0f72v5W3FEykg/LE28+028Eyatwu6SGSjlUuDfn0m09Va27K
+X-Gm-Gg: AYBFou0K6t0Yo6+Hlgb6Cp5zHcTkBr/L4wNb9Ue4vctiya/FuVul3fPuEHwHgnAwd8v
+	jrSA03EZSV+PYoh6yPCUDZfvdFIbq0OhIgi/ouRT6eBCxDYBPmJL7ySCvl6ew6BCW5Mzz4GRNer
+	0O/Qi1VKmu1dwMFRim61bI6fofHqafUKdrocEqvBROtDTJIVXS2ENDmmKuX2zy4QrrvAeaU9+Ll
+	EVFqoeOJkiUbbeZkk3zl8FBzVrk1sLEiWWhEZSkoROxwctE3BBUG4pNAIXn5H+VuQauGbPuYvMA
+	jf9YN4Z40tsvZpDNQa1j6utxeetbJO0ehhCAQYheKIVW0d2xJHO779YGZboraZEj/exDTP3VjO5
+	2o6cLgjHJ6NAaRtzDFGlkYEeNEfVX/yMEpTfZ4O8y3iUwYqYGilHmoHI0TJ6KrQexqwJQEk/MWw
+	GbteEQ7xSpznAnhRaiof7/qUQxaIVvCaO67CgO4dTri7QkSHkkPLlDzCcHbzzTo7m1YKAQWsish
+	R865GTW6flVe7GZ+eWQdIL1LW7xgrAlohY2dCIxvcVYxbhwZ0jpEXPFDFAbKskpMkJH2V+xuCYt
+	mYopXMsnMGKEyscF
+X-Received: by 2002:a17:90a:d44d:b0:3ab:2737:3395 with SMTP id 98e67ed59e1d1-3ab3a8d0e98mr17335574a91.42.1792108089426;
+        Thu, 15 Oct 2026 16:48:09 -0700 (PDT)
+Received: from localhost.localdomain ([183.96.175.225])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3acc46ee27fsm1213468a91.5.2026.10.15.16.48.05
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Thu, 15 Oct 2026 16:48:08 -0700 (PDT)
+From: Joonho Lee <mynameisjune111@gmail.com>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Imtiaz Chowdhury <imtiazc56@gmail.com>
-Subject: [PATCH] ALSA: hda/realtek: Add HP ENVY Laptop 13-ba1xxx quirk
-Date: Thu, 15 Oct 2026 19:22:10 -0400
-Message-ID: <20261015232210.35946-1-imtiazc56@gmail.com>
-X-Mailer: git-send-email 2.56.0
+	linux-api@vger.kernel.org
+Subject: [PATCH v5 0/2] ALSA: pcm: preserve capture tail during drain
+Date: Fri, 16 Oct 2026 08:48:03 +0900
+Message-ID: <v5-core-capture-drain-0.e9b40d3bc08c4162@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On the HP ENVY Laptop 13-ba1xxx, the F5 and F8 key's LED were not
-working at all.
+Capture drain can leave final frames buffered after the device stops.
+This series lets userspace read those frames and refreshes the linked
+streams' hardware pointers before drain-init.
 
-Add a quirk for subsystem ID 0x8820 so it uses the existing
-ALC245_FIXUP_HP_X360_MUTE_LEDS fixup, as done for the 13-ba0xxx.
+Patch 1 allows capture reads in DRAINING, preserves the unread count when
+waking a blocked reader, and finishes capture with snd_pcm_drain_done()
+so linked playback can continue draining. DELAY and SYNC_PTR(HWSYNC) use
+the cached final capture pointer after capture stops.
 
-Tested on HP ENVY Laptop 13-ba1063cl: F5 and F8 LED lights work as
-intended. Checked the audio systems both with headphones and no
-headphones, and there were no issues.
+Patch 2 refreshes each running member under its stream lock while holding
+snd_pcm_link_rwsem for reading. It updates both playback and capture,
+after the existing pause-resume step. The pause and drain-init actions
+remain outside the link rwsem. Pointer errors follow the normal XRUN
+path and return -EPIPE before drain-init.
 
-Signed-off-by: Imtiaz Chowdhury <imtiazc56@gmail.com>
----
- sound/hda/codecs/realtek/alc269.c | 1 +
- 1 file changed, 1 insertion(+)
+Changes since RFC v4:
+- Submit as a non-RFC series following Takashi's response.
+- No changes to either patch body, including the commit message, diff,
+  and existing trailers. This cover and the mail headers are updated.
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index 76a7ed218..799a5a7a8 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -7696,6 +7696,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x8812, "HP Spectre x360 15-eb1xxx", ALC285_FIXUP_HP_SPECTRE_X360_EB1),
- 	SND_PCI_QUIRK(0x103c, 0x881d, "HP 250 G8 Notebook PC", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
- 	SND_PCI_QUIRK(0x103c, 0x881e, "HP Laptop 15s-du3xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
-+	SND_PCI_QUIRK(0x103c, 0x8820, "HP ENVY Laptop 13-ba1xxx", ALC245_FIXUP_HP_X360_MUTE_LEDS),
- 	SND_PCI_QUIRK(0x103c, 0x8846, "HP EliteBook 850 G8 Notebook PC", ALC285_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8847, "HP EliteBook x360 830 G8 Notebook PC", ALC285_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x884b, "HP EliteBook 840 Aero G8 Notebook PC", ALC285_FIXUP_HP_GPIO_LED),
--- 
-2.56.0
+Takashi said both patches look OK and that he can try merging a non-RFC
+series:
+https://lore.kernel.org/all/87ld7z6jsk.wl-tiwai@suse.de/
+Previous RFC v4:
+https://lore.kernel.org/all/rfc-v4-core-capture-drain-0.b56779f7976d4657@gmail.com/
+Implementation and test discussion:
+https://lore.kernel.org/all/core-drain-helper-reply.0c1099dbd0ca4a37@gmail.com/
 
+The five-patch virtio-snd lifetime v3 series is unchanged:
+https://lore.kernel.org/all/cover.1791881787.git.mynameisjune111@gmail.com/
+The base and prerequisite IDs below preserve the tested integration:
+apply the five lifetime patches, then these two core patches. Replace
+both earlier core patches when testing this revision. Core has no
+dependency on the generic control-wait or VZ compatibility RFC. This
+submission does not revise either companion series.
+
+The following validation is from RFC v4's unchanged source; no new
+runtime tests were run for this mail-only revision.
+
+Validation used ARM64 QEMU with KASAN and lockdep:
+- 26 linked-stream checks passed across atomic and nonatomic modes,
+  including paused drain, first/later member pointer errors, normal XRUN
+  handling, tail reads, and unlink/prepare/reopen recovery.
+- The three patch-1 failures were reproduced with the helper and the old
+  first patch in both locking modes. All six corresponding fixed cases
+  passed: a blocked reader received all 64 final frames, capture EOF
+  left linked playback in DRAINING, and both position queries succeeded
+  without another pointer callback.
+- Four additional blocked-reader runs compared baseline and fixed modules
+  in both modes with a stronger gate: thread sleep and a pointer callback
+  after START. They confirmed the baseline loss and fixed 64-frame read.
+- The 10 existing lifecycle and timeout/reset scenarios passed, including
+  held STOP/RELEASE, SIGKILL, reset, and subsequent I/O recovery.
+- No KASAN, lockdep, or panic diagnostics appeared in the 54 selected
+  logs, which include the baseline behavioral-failure comparisons.
+
+The full Image and modules were first built with the new helper and the
+old first patch. After fixing the three tail issues, sound/core was
+rebuilt with W=1 against that same configuration and symbol versions,
+and the corrected PCM module was used for the runs above. The module
+build had no warnings or errors. The full build had 517 existing
+-Woverride-init warnings in arch/arm64 outside sound/. The exported v5
+core source matches the tested source byte for byte.
+
+These tests use synthetic drivers and modified fault/reset backends.
+
+LLM assistance was used for implementation, reproducer development,
+analysis, and documentation. I reviewed the changes and test evidence.
+Assisted-by: LLM
+
+Joonho Lee (2):
+  ALSA: pcm: allow capture reads while draining
+  ALSA: pcm: refresh linked pointers before draining
+
+ sound/core/pcm_lib.c    | 16 ++++++++++------
+ sound/core/pcm_native.c | 27 ++++++++++++++++++++++++++-
+ 2 files changed, 36 insertions(+), 7 deletions(-)
+
+base-commit: 8d70e364e866bdfca81eee24d0688fac9472cfb9
+prerequisite-patch-id: 39fb327a004c966ab90f66a34a64bbdbb3ffb475
+prerequisite-patch-id: 7c6bc344656fd839ae0d697ba18d66ac0b47827a
+prerequisite-patch-id: 9dd290ac3147fa7b49a475d7df8a6172778f2860
+prerequisite-patch-id: f4c24a5e441343a690f4ac2437f181c815bc23d0
+prerequisite-patch-id: ab4a5b770247a65272ab7af18a75a147daf81287
