@@ -1,108 +1,90 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B1E444C513;
-	Thu, 15 Oct 2026 22:06:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6263A40B11C;
+	Thu, 15 Oct 2026 22:13:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792102021; cv=none; b=vCIkQ7yow0joAf12VDhDFcYyKjY57xMh6hgWcIh5PAkfxSCxYw9Mu1OxEXZZdjqkEfDG+QKuIysSt1Ypk7kMQVZpLYBn4kuEZanBoHh5ClxuhfYpzTvDf87v8x8OhMm49Ezm2hcaCPLI7VPYnEWTCKR5jhYBQ4iKpNSOKzmqfNc=
+	t=1792102428; cv=none; b=OI1mRaZtpWtivYXiW6ddcitcgbBq7ylF0GTAPZXqrf+vztwQclE2Fg3f8vmfTmEo/v+towuwFijSFZNGk75zM/zkT59heUGNy4HcHa5W/4kSK+qVueVOJaclBMdPaHvNgwWlpjNRrHc6klKE8Jd7FufmLZBdTkLneEBnbE6Fc2I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792102021; c=relaxed/simple;
-	bh=Mg6sR5il0RShpzOVM0ickiyTSt5ZzLBb2bLUeOy+Oo4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=tZ+SFYwR3UbYG6UPeQr9snIphD1SkneRq+QO0bN+JItImL0a2RLyUc2utNqKHRNM1+v/7fDYWcii4/ujlkMYiYDsV8FUEJB8DhJaoV4Vw1cuGYHPSs+aoulnJeL1Y8XapI68+oPsxaGE5ySEYgTafII5ssTBY4++d7hKAFSQpvI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ls+O6WCJ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792102428; c=relaxed/simple;
+	bh=y+VasQ4aL7Focz6vi0d5xxW7JpBpA1cs6a5hhY6eYl4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bmdLJpdl7VPmzI7wjecg+ahc73qyrQHg8Qx35x+rt11wbdAEkWrf2FyxWFRcRYUpin8BLToNHlG1mQz9IjRxQXHCpYucBUELmF0+FIfWjWr6o5ASf7dE6lEKdIkaakq/ptmer7pa+woBhVMHzYWlXB6zTAAMo+zJUQWi3djEUbw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TXCHMCyN; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ls+O6WCJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 887181F000C7;
-	Thu, 15 Oct 2026 22:06:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TXCHMCyN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D293C1F000C4;
+	Thu, 15 Oct 2026 22:13:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792102019;
-	bh=gKW4pOkXMoKUBl72JvPKMspWV3kldfu7FbHkUiioGXU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=Ls+O6WCJzrIu7xjHpoDoI2KxPlFXRf3NCMEiroH4VkvZgTa1otElzibw4LD5qlcNM
-	 JuqKkula66gu0i9354QGLI5eH0WAhavxd80jtITYDj8KT+gWnDB+Nt09Aianf4CzbH
-	 7liSV+9JRlif8adb8x6xrsNiiBcXki/6yOq2IfD/QPnyBvCcv3+BPog7Tyv0KpRg4V
-	 BtoEEmOmxhahFcgatAAYLMAktRZNWElNuw5JAs4LWloxdQMwWCK6w/LjVbY/ocJtuN
-	 upK9dEKr7DvRxyRRit/65V61HBHsFhcZNjWXGZ2KHcpppRZSL9hUyhJVX6H2UouZTB
-	 GS8kB4/LfD5IA==
+	s=k20260515; t=1792102423;
+	bh=ZXpkbDlDApBPK2KQbFof91uesi3/H9UAD12pf5U8tvI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=TXCHMCyNp2JOwUejlUfnkxZWaLeT4HaVMFnZqFsrKaM/J9Px3R5A/U7j+XSunbaxH
+	 9g6TO1gL/135Hl2NX+CaWIMiThGZsb/uLMlectAmqPLla97zZ1XUjRaydVxLeLZ4I9
+	 06jhT6MiqqHlnsr2TUMfgvXTT9I+DBtlobnGNhFT1d7Gie14XKYKZWXpzjPy9eCPZZ
+	 iK+P7DTPCRyX3U/b5XG4K8z6k59jzB6YcxQuxlWYiUwi78VRFtapi8KTbWdsAi0vIO
+	 v/0Vz15L52x55UoQmOpbvC5/xHDtbLNoMJIVsYg8djeQQ7NUTJm+wmhMIlb3ShZRcJ
+	 9tOMUj59lSKSQ==
+Date: Thu, 15 Oct 2026 23:13:38 +0100
 From: Mark Brown <broonie@kernel.org>
-To: Srinivas Kandagatla <srini@kernel.org>, 
- Vladyslav Tymoshchuk <tvlad744@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Zhang Jiaxi <Z1529105815@outlook.com>, 
- Johan Hovold <johan@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, 
- linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20261014162703.10172-1-tvlad744@gmail.com>
-References: <20261014162703.10172-1-tvlad744@gmail.com>
-Subject: Re: [PATCH 0/3] ASoC: qcom: qdsp6: report the position of a
- drained buffer
-Message-Id: <179207977800.134795.6981644438030253996.b4-ty@b4>
-Date: Thu, 15 Oct 2026 16:56:18 +0100
+To: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
+Cc: alsa-devel@alsa-project.org, lgirdwood@gmail.com, perex@perex.cz,
+	tiwai@suse.com, yung-chuan.liao@linux.intel.com,
+	Basavaraj.Hiregoudar@amd.com, Sunil-kumar.Dommati@amd.com,
+	venkataprasad.potturu@amd.com, Syed.SabaKareem@amd.com,
+	Mario.Limonciello@amd.com, Richard.Gong@amd.com,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	sound-open-firmware@alsa-project.org
+Subject: Re: [PATCH 0/9] ASoC: SOF/amd: ACP7.B support and ASP carveout
+ firmware loading
+Message-ID: <894dae20-5574-4b88-99f2-55df1861e3a2@sirena.org.uk>
+References: <20261013154644.3788064-1-Vijendar.Mukunda@amd.com>
+ <179191856632.42298.5680316320552393906.b4-ty@b4>
+ <247100a4-3dec-4257-abaa-2b311deb842b@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2014; i=broonie@kernel.org;
- h=from:subject:message-id; bh=Mg6sR5il0RShpzOVM0ickiyTSt5ZzLBb2bLUeOy+Oo4=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLIu+tXznZiUeq5y1pwY/Qc9K8WOrs3Yu1p9wuUJ0jU5J
- cZJAsqzO0pZGMS4GGTFFFnisrhf1pe8XsN3cGEbzBxWJpAhDFycAjCRT96MDMefG0Ud3xVilfos
- etULXp+/VhMYghlWz5JemGXJohJ4vJfhf8BaoXA1jvwmxmu7pqxo2FPz32lKjuiTkpkhkjXnXHL
- 6mQE=
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="RSd1CeaTP7vu4YSv"
+Content-Disposition: inline
+In-Reply-To: <247100a4-3dec-4257-abaa-2b311deb842b@amd.com>
+X-Cookie: <<<<< EVACUATION ROUTE <<<<<
 
-On Wed, 14 Oct 2026 19:26:59 +0300, Vladyslav Tymoshchuk wrote:
-> ASoC: qcom: qdsp6: report the position of a drained buffer
-> 
-> Since commit a93dad6f4e6a ("ASoC: q6apm-dai: make use of
-> q6apm_get_hw_pointer") q6apm-dai reports one frame less than the
-> position of the last buffer the DSP returned, and commit 44432315444c
-> ("ASoC: qcom: q6asm-dai: use q6asm_get_hw_pointer") did the same in
-> q6asm-dai. When the application stops feeding a playback stream, the
-> position never reaches appl_ptr: ALSA never sees the underrun, the
-> stream stays RUNNING without period interrupts, and drain ends on its
-> timeout with -EIO. On a OnePlus Pad 3 (SM8750) this left PipeWire's
-> PCM stuck for hours after a stall.
-> 
-> [...]
 
-Applied to
+--RSd1CeaTP7vu4YSv
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
+On Thu, Oct 15, 2026 at 05:30:01PM +0530, Mukunda,Vijendar wrote:
 
-Thanks!
+> I noticed that the incremental patches sent as replies to the v1 series were
+> not included in the applied changes.
+> https://lore.kernel.org/alsa-devel/20261014114446.1476489-1-Vijendar.Mukunda@amd.com/T/#u
 
-[1/3] ASoC: qcom: q6apm-dai: wrap the position of a full ring to 0
-      https://git.kernel.org/broonie/sound/c/0ea3e0b196f9
-[2/3] ASoC: qcom: q6apm: reset the hw pointer with the fragment queue
-      https://git.kernel.org/broonie/sound/c/0337b8129cf6
-[3/3] ASoC: qcom: q6asm-dai: wrap the position of a full ring to 0
-      https://git.kernel.org/broonie/sound/c/222d04cf55bc
+> Please let me know if you would prefer the incremental patches to be resent?
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+Those should have gone in separately on top of these, that was the whole
+point of them being incremental.  Due to the confusion with lack of a
+cover letter they used some slightly different tooling, pulling your
+patch out of one series without a cover letter really caused problems.
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+--RSd1CeaTP7vu4YSv
+Content-Type: application/pgp-signature; name="signature.asc"
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+-----BEGIN PGP SIGNATURE-----
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmrRUBEACgkQJNaLcl1U
+h9A/TAf/egWlpMYt+GYuZvSVWwehLO4+S8F9z4nYIIc4K+mxgrc4XCtXVZr89bD5
+YQFXej6tWdftFrsCyjLTEl/p51oVBJIkvvjtYpCuK/vImp6nwaVfhyd5xEw+thI0
+Ki1cbQ7Sh261plY+dkEteUqEd2lP7+j+49iUG++F1PD0/YVfZKDfF/vCbZ0QXJq6
+FaLdyk80ShECn6MTgh1yVJNyXX6Ma4sFVKqGULXeew+TyHXtM4kNsUfawgC0M2vQ
+hZNdVQDcYnySCD82nN9gMULllLHslgbVp5q+7HD+euYS0bpURpSXdfBuqz/+eTxf
+O8jAWoNqMpcljEVN30Gtz8ye43pD9w==
+=ZsMW
+-----END PGP SIGNATURE-----
 
-Thanks,
-Mark
-
+--RSd1CeaTP7vu4YSv--
