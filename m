@@ -1,123 +1,176 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29C494D09F3;
-	Thu, 15 Oct 2026 11:12:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2446C496D4C;
+	Thu, 15 Oct 2026 11:23:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792062753; cv=none; b=IqTPoZbpwfGdoCjiaXKUrjXJwJK0GYWFicUs7plDLUFxVXTQywduuu7f/rizTpX8Ljngz5gDiTkaiZ3xmbcVePjN5qJqMHpTURGKQKA8m2VCbYAHm82tcMlkWULIUwYTlpq/yC70TdzpORX/lsosMbV58f8RiiKAK/va+yRdmd4=
+	t=1792063384; cv=none; b=OEtO4cDPsTtdNkEVCLORFVZRtWBKy6DewGc0DgUdsAWF3kvRlikJya1ZpHjxnt+DtCTecQCwDzQ7N6NuZkn1bDU9kfhAdSc4VxkYKkHs8XVXJzd/7QgRirthXGAAueCg8LP0Brg/sRvfMaq9ESiNyJifv+6xHYyhb6EaqkjRJ8I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792062753; c=relaxed/simple;
-	bh=bkweXtoihosFshd+ODeZ15r+eBZfG4aT59zz7MBbLuo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mlEjjGp6ZjUmKurL5QTi1zw4+0vnP86WOupPWupb77fBt2wFWe3Tm0XvseHwvTL5xKQQDOM3XtUkO2irLlLF5rX2HeMxifzDyuvYeF/1fbIfbUFhtQg7Nj9XsNL9flgs8IEOHwrV0GwGu9AAoKzkDwUPd7KsJZAmu5XaxAawFYQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R+8xOXUk; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792063384; c=relaxed/simple;
+	bh=AZ/P7eWYM2XgxubfOQXat5xhCbvsmcrymhIherAUJ3Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gO+9XLvEzfXLR1+4Ix8rBnC+ajpIf9PB5Dp/67w7yFYHApU8oC4DMpmwoGEkJB46MHXrqIvzpgEV15VF838YxjE2LWqk8LdnKU9BORhPW0yJ+VnaXAn5MLh0jl7eXG6QsKCR2Y7nmtRE6fwz4ADY1CvrNdZW56DMuLa2fP9NlOw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=cHKIboG9; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LULk9oze; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=C2cIP8F9; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=JOkECapC; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R+8xOXUk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5727F1F000C4;
-	Thu, 15 Oct 2026 11:12:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792062751;
-	bh=Hd6BBnEO5pGpbCON7Q87RSeR9u1q3VXpiWY+WMKFASs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=R+8xOXUkDkZ9pKZHBmcNtj8NyuP6cR0oqQgoZ8UCc+tB3DzT4QCvEJXW8Nh+PAHLO
-	 l4qO7p4Clap8JJBD57iJA17dF9oaApVDpvp9NMyxi2p9zza3C5/jxCXVuqp97P3kH/
-	 6RncdVn38CsHW39zcgI8DIfqy4X+t2GhIU9JFMzzboPBxl+hGJOmX6ojQV+MHKJjzv
-	 keBaU7H/dW4cHXdRTPAOoj3PXUzd0obz4/xGRkI4yhpdkI4hjeNJmNTCIIZMIQGcGL
-	 wUvK5fhMpbxaZqaxQQpRrEEA+IDFwqvTiLrkNMorRjRdP64wUDyKUMoYHX3QYp6pVZ
-	 cc0SD3e32mliw==
-Date: Thu, 15 Oct 2026 12:12:17 +0100
-From: Mark Brown <broonie@kernel.org>
-To: phucduc.bui@gmail.com
-Cc: Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
-	Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	povik+lin@cutebit.org, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Andrei Simion <andrei.simion@microchip.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Xiubo Li <Xiubo.Lee@gmail.com>, Fabio Estevam <festevam@gmail.com>,
-	Nicolin Chen <nicoleotsuka@gmail.com>, Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Cezary Rojewski <cezary.rojewski@intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Heiko Stuebner <heiko@sntech.de>, Kees Cook <kees@kernel.org>,
-	Syed Saba Kareem <syed.sabakareem@amd.com>,
-	wangdicheng <wangdicheng@kylinos.cn>,
-	Chris Bainbridge <chris.bainbridge@gmail.com>,
-	Linus Walleij <linusw@kernel.org>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Neo Chang <YLCHANG2@nuvoton.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
-	u.kleine-koenig@baylibre.com, Pengpeng Hou <pengpeng@iscas.ac.cn>,
-	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
-	Hemanth Selam <hemanth.selam@gmail.com>,
-	Md Shofiqul Islam <shofiqtest@gmail.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Zain Aboobacker <zainaboobacker33@gmail.com>,
-	Sang-Heon Jeon <ekffu200098@gmail.com>,
-	Bo Shen <voice.shen@atmel.com>, Vinod Koul <vkoul@kernel.org>,
-	linux-sound@vger.kernel.org, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, patches@opensource.cirrus.com,
-	linuxppc-dev@lists.ozlabs.org, imx@lists.linux.dev,
-	linux-rockchip@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 00/25] ASoC: Fix constraint return value handling
-Message-ID: <ad722297-5ca5-42c5-a07e-59fa958387c1@sirena.org.uk>
-References: <20261015014324.5569-1-phucduc.bui@gmail.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cHKIboG9";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LULk9oze";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="C2cIP8F9";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JOkECapC"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E599122373;
+	Thu, 15 Oct 2026 11:22:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1792063381; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=cdfSGqvu2Zeh+2ZegbL7lrMbjR59Xsctd/M0aTAEWWs=;
+	b=cHKIboG9U79pAa9fkqoRU9wArYfyDMJx8dNlzwoSQfSo4BSnSqQnd8GYKtYCnq2h7MgDb6
+	aRrxFzXV1d+PMtGMIMVQxpd6NjvU6fYgz/jbHeExR050kz4i7tiy+k9gK43tsYdff2vGCq
+	fvDr2X8bnHu2nTQh9yuO6zREEcdBfPc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1792063381;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=cdfSGqvu2Zeh+2ZegbL7lrMbjR59Xsctd/M0aTAEWWs=;
+	b=LULk9ozeVOUDGGnFAg78P47CulgFdxvi9fr9ZS+i3hOFWYgRwEyXSaY0PZLn0U08ha7TQw
+	qKyqoi3SrJF2fHAw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=C2cIP8F9;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=JOkECapC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1792063379; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=cdfSGqvu2Zeh+2ZegbL7lrMbjR59Xsctd/M0aTAEWWs=;
+	b=C2cIP8F9gxBKk5fbdSmz8IFbG1+Izvh3SzRpbfRp0/MWxwNXnCF9sTY7T9t25u1Dl7DsD/
+	p8ufXWdB9LKYFdVQW3mKAfVbExtV/VJ+bEdjwov3FBwKqH8Wm3db7GVkB3UOHj/6jr9urK
+	R1B3rwEm5uDPIXwCpllZcE2j6vddm70=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1792063379;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=cdfSGqvu2Zeh+2ZegbL7lrMbjR59Xsctd/M0aTAEWWs=;
+	b=JOkECapCnW+ZCv2RWGwNV5iwCQJdbhqAnMOQBqQgMrW7Bg4AdHZL6It4KGSmOWbMdVzx/Z
+	ErZipT6SN8ovy3Bw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 79E2F132C9;
+	Thu, 15 Oct 2026 11:22:59 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id ub/sB5O30GqVSwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 15 Oct 2026 11:22:59 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: core: Serialize snd_refcount put and sync
+Date: Thu, 15 Oct 2026 13:22:41 +0200
+Message-ID: <20261015112256.3902-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="syrl3Afg657kytt3"
-Content-Disposition: inline
-In-Reply-To: <20261015014324.5569-1-phucduc.bui@gmail.com>
-X-Cookie: Tax and title extra.
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: E599122373
+X-Rspamd-Action: no action
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_TWO(0.00)[2];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:email,suse.de:dkim,sashiko.dev:url];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_NONE(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Flag: NO
+X-Spam-Score: -3.01
 
+When a thread tries to sync-and-destroy the resource with
+snd_refcount_sync(), it might lead to a UAF in a very slight time
+window.  Namely, snd_refount_put() calls wake_up() after
+atomic_dec_and_test(), but wait_event() in snd_refcount_sync() checks
+the condition via atomic_test() without serialization, hence the
+thread that called snd_refcount_sync() can continue immediately to
+release the resource before another thread calls wake_up().
 
---syrl3Afg657kytt3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+For avoiding the race above, introduce the spinlock and take it at
+snd_refcount_put() and snd_refcount_sync() in order to serialize the
+operations.
 
-On Thu, Oct 15, 2026 at 08:42:59AM +0700, phucduc.bui@gmail.com wrote:
+Fixes: dcca9b6064c3 ("ALSA: Add simple refcount helper functions")
+Reported-by: Sashiko <sashiko-bot@kernel.org>
+Closes: https://sashiko.dev/#/patchset/20261015071838.31082-1-tiwai%40suse.de
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ include/sound/core.h | 1 +
+ sound/core/misc.c    | 5 ++++-
+ 2 files changed, 5 insertions(+), 1 deletion(-)
 
-> Changes in v2:=20
->  - Add Reviewed-by tags from Vijendar Mukunda and Chancel Liu.
->  - Remove redundant integer constraints already applied by=20
->    snd_dmaengine_pcm_open().
+diff --git a/include/sound/core.h b/include/sound/core.h
+index daa91a46a16b..657b12e1e95b 100644
+--- a/include/sound/core.h
++++ b/include/sound/core.h
+@@ -84,6 +84,7 @@ struct snd_device {
+ struct snd_refcount {
+ 	atomic_t count;
+ 	wait_queue_head_t waiter;
++	spinlock_t lock;
+ };
+ 
+ void snd_refcount_init(struct snd_refcount *ref);
+diff --git a/sound/core/misc.c b/sound/core/misc.c
+index 066fb9ecdcdc..6fe199e76e83 100644
+--- a/sound/core/misc.c
++++ b/sound/core/misc.c
+@@ -183,11 +183,13 @@ void snd_refcount_init(struct snd_refcount *ref)
+ {
+ 	atomic_set(&ref->count, 0);
+ 	init_waitqueue_head(&ref->waiter);
++	spin_lock_init(&ref->lock);
+ }
+ EXPORT_SYMBOL_GPL(snd_refcount_init);
+ 
+ void snd_refcount_put(struct snd_refcount *ref)
+ {
++	guard(spinlock_irqsave)(&ref->lock);
+ 	if (atomic_dec_and_test(&ref->count))
+ 		wake_up(&ref->waiter);
+ }
+@@ -195,6 +197,7 @@ EXPORT_SYMBOL_GPL(snd_refcount_put);
+ 
+ void snd_refcount_sync(struct snd_refcount *ref)
+ {
+-	wait_event(ref->waiter, !atomic_read(&ref->count));
++	guard(spinlock_irq)(&ref->lock);
++	wait_event_lock_irq(ref->waiter, !atomic_read(&ref->count), ref->lock);
+ }
+ EXPORT_SYMBOL_GPL(snd_refcount_sync);
+-- 
+2.55.0
 
-v1 was applied, please send incremental changes for the differences.
-
---syrl3Afg657kytt3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmrQtRAACgkQJNaLcl1U
-h9DzAQf/WcguhgqKmLmBlSGrfAmohZap9b+qyUgyk3gBcdL4pfDRN2N0m/jg80sq
-EGu7yBR6LzgAalcEkMLnjACfVsi4kZuopa6nijef9rrYX/cJcxUrOSjK3l2G+rD8
-U6h20fO6YVWgAkmtLtV9G7PU+gy+06ZO8snDL9dTODv9DYyWZvQ4mTgJvAK7rYQP
-mBKi2rhlpXe2rMyRIvXW4FQtX1kqOzt+gtSHjApzltjchxaDuM6/jThE4a8+o4Ms
-XpUeCo9/Bg4u29Zt4okIN1S1up/cOjyNcEQwgf+5Lf0qlZXbV4Dyk43TNms3vuED
-ZSE26kZ6DpaP/lgPoejNuYeJrPX9Pw==
-=HbjQ
------END PGP SIGNATURE-----
-
---syrl3Afg657kytt3--
