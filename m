@@ -1,135 +1,135 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 702BD372B3C;
-	Fri, 16 Oct 2026 10:27:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5CC619B3CB;
+	Fri, 16 Oct 2026 10:29:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792146465; cv=none; b=nA5WUYmkMR4X6BH8mBu2krGK1UUWEtMN7gbXJFv+KVlwjcoDXlsZLOl8M6IzwBQs4sfJIALEIBO7zFXRwqTDHGim/EvAndrTZZIiPu5aNLFpcsEf/zGvqwSDzS1im2rw1AQ/JiXSOLBLyZ0lnZg1hZhYbxsDuhHfS0UfSJ1zUMM=
+	t=1792146545; cv=none; b=tvlZT7C1XHYgg9bIAS85iVxDwhD3e3Og6qiiWk7A2nXRWDPYjJtvVQZrZKdqqFL91n8Y1Ged1YDTC0Xe+zgY+Vs5L5CZaH9YCwaEmzDN+Ozw9/O6MblrZh0nZz2szOWVGQUTL+Nlsav0GyaMuHvYMl+BbkicmcAR9uTUgTIHSFA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792146465; c=relaxed/simple;
-	bh=limMFJbcwwduTpzFLcDiK/5fNhxrgEYq52T7UWtvs0Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H+JY18hiQLw2lSKJYiJJskbqzA4AyHFicCpPd0QQ3UxPVYtwby21aovg2g7wXKljszWc+S9+0jg/yU9ATf/DgD64mtnmDZ9x+aVEYtV7qrtlQ8rl2ado3s0SbSALJ4Y+5ewlSRfzJ78rB4kPlmLstIKhHpPTZUD+mSxXO5SpOvA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fHEL6kP6; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792146545; c=relaxed/simple;
+	bh=6zqTom2WlZPTwEEtyh3GxcUXytYw4YtB15LlXVi6qP8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=bWQ2YtiQlFAKYd2lHcugGW2ZxQ9yFK9Z3IPgxFWCkzmQfFp3klpQkTB3WvNDB5+1U5sqT2aNVvspN6mOZCJ6MikkhFI19VhoidnFQG2aJhEO4VIGvm4UNZXzk3LDhoOJ8PrBWDtVMKfChDkGEMnHfF6XTznQq1oawBEfNVjLmBU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VGPQfZVb; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fHEL6kP6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2AE71F000C4;
-	Fri, 16 Oct 2026 10:27:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VGPQfZVb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5691B1F000C4;
+	Fri, 16 Oct 2026 10:29:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792146462;
-	bh=U0J00jo5OiHeBPxzEIa6F1DcCXv2U6x9A+gpdOvbR5U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=fHEL6kP6IS5s8belsewK7AeFU5zIrffBszsKo3//zeOY4pQ+UIumG35dxnULGf/3d
-	 EGt29felUqNf9Ch2QvIQZsnCqtVy/W+u/st4lU4MN3C/Dcl/dTc7W/ZbbvESn7cHBc
-	 eqi6D1ok1vbZ5mqfq+W0prdxLrbNmI58Lp7Jtrx5vsHRjUFxpjvTNcwCLCMNZlw8vx
-	 dAmhzmT4L+uzQJ81JqVTU1ciXGN2fNgY0dXoFx6rvI5v5OP64DuDhSesR7W4ptJl6o
-	 pR2pL8DNGR8LlR9297+A5XzUqMTod1ALxmn/eUISmu/nTdZ7t3YKh25BYzSomJDpfx
-	 LCuJ//VjMWTGA==
-Date: Fri, 16 Oct 2026 11:27:29 +0100
+	s=k20260515; t=1792146544;
+	bh=Fupo3qVQI2pxjW/yxgqOTHlZPzPsqE2ts6oU7cgw2DA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=VGPQfZVbRThd2e8iprQYEPOUs0X+ngE0wfYnIyy8UEx6+zOguaCbIiZBhtzPsjicb
+	 YsGQSs1bBQqy7bj8GCRiA7MQw9gmzRGpGN/7lfooSOh0A0HQcUxIStioTnApgg2X4X
+	 PP917JW0LTzqTasxVWsumro6ZLXivRk4imnPbYVWj1CxOCHkN99LtOhbZn1yVddTeb
+	 thfGihva+3KaTwK1XTadhCfjeMZQEdBYYxlRkyrJUX9/MV4bxLONLnq7FTOARG6285
+	 czuKceIbFBxohW+rGVP56n2fh+J3vV/KOeBWf0V6lteewshCyyH/Uw3e6JRNlvRENc
+	 sdIxKHO/FlUTQ==
 From: Mark Brown <broonie@kernel.org>
-To: phucduc.bui@gmail.com
-Cc: Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
-	Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	povik+lin@cutebit.org, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Andrei Simion <andrei.simion@microchip.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Xiubo Li <Xiubo.Lee@gmail.com>, Fabio Estevam <festevam@gmail.com>,
-	Nicolin Chen <nicoleotsuka@gmail.com>, Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Cezary Rojewski <cezary.rojewski@intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Heiko Stuebner <heiko@sntech.de>, Kees Cook <kees@kernel.org>,
-	Syed Saba Kareem <syed.sabakareem@amd.com>,
-	wangdicheng <wangdicheng@kylinos.cn>,
-	Chris Bainbridge <chris.bainbridge@gmail.com>,
-	Linus Walleij <linusw@kernel.org>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Neo Chang <YLCHANG2@nuvoton.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
-	u.kleine-koenig@baylibre.com, Pengpeng Hou <pengpeng@iscas.ac.cn>,
-	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
-	Hemanth Selam <hemanth.selam@gmail.com>,
-	Md Shofiqul Islam <shofiqtest@gmail.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Zain Aboobacker <zainaboobacker33@gmail.com>,
-	Sang-Heon Jeon <ekffu200098@gmail.com>,
-	Bo Shen <voice.shen@atmel.com>, Vinod Koul <vkoul@kernel.org>,
-	linux-sound@vger.kernel.org, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, patches@opensource.cirrus.com,
-	linuxppc-dev@lists.ozlabs.org, imx@lists.linux.dev,
-	linux-rockchip@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 25/25] ASoC: rockchip: rockchip_max98090: Mark the
- link as started on success
-Message-ID: <46a96bc8-2ee7-4c6f-ad8e-94321f8b9630@sirena.org.uk>
-References: <20261015014324.5569-1-phucduc.bui@gmail.com>
- <20261016040048.506531-1-phucduc.bui@gmail.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Trevor Wu <trevor.wu@mediatek.com>, 
+ Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>, phucduc.bui@gmail.com
+Cc: Liam Girdwood <lgirdwood@gmail.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ cassiogabrielcontato@gmail.com, Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>, 
+ Liviu Dudau <liviu.dudau@arm.com>, Haotian Zhang <vulab@iscas.ac.cn>, 
+ HariKrishna Sagala <hariconscious@gmail.com>, linux-sound@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20261014112752.683032-1-phucduc.bui@gmail.com>
+References: <20261014112752.683032-1-phucduc.bui@gmail.com>
+Subject: Re: [PATCH v3 00/16] ASoC: mediatek: mt8195: Fix clock error
+ handling
+Message-Id: <179210283368.134795.1901521604596560361.b4-ty@b4>
+Date: Thu, 15 Oct 2026 23:20:33 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="tqlzx0giHWNwlE1k"
-Content-Disposition: inline
-In-Reply-To: <20261016040048.506531-1-phucduc.bui@gmail.com>
-X-Cookie: <<<<< EVACUATION ROUTE <<<<<
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3281; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=6zqTom2WlZPTwEEtyh3GxcUXytYw4YtB15LlXVi6qP8=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLIu/sm+ejBlzx6b75GzeiTOSM154fpUbf+8KVxXWHa47
+ P0soTKltaOUhUGMi0FWTJElLov7ZX3J6zV8Bxe2wcxhZQIZwsDFKQATUd7LyHBi2v1rgTuv/jLj
+ ENK4PGuj7LPGxQs2L1us9OvBwikfeOasYmTYnSs09yqjeJ6wVnQBo3O1Ypbhx+s3Q4QO3X152yh
+ J/jALAA==
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-
---tqlzx0giHWNwlE1k
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Oct 16, 2026 at 11:00:48AM +0700, phucduc.bui@gmail.com wrote:
+On Wed, 14 Oct 2026 18:27:35 +0700, phucduc.bui@gmail.com wrote:
+> ASoC: mediatek: mt8195: Fix clock error handling
+> 
 > From: bui duc phuc <phucduc.bui@gmail.com>
->=20
-> snd_pcm_hw_constraint_minmax() may return 1, which is then returned
-> from rk_aif1_startup(). ASoC only marks the DAI link as started
-> when .startup() returns 0.
+> 
+> Hi all,
+> 
+> This series improves error handling in the MT8195 ASoC driver,
+> mainly by checking and propagating errors from clock operations.
+> 
+> [...]
 
-Can you please resubmit this as a separate patch as a new thread without
-the series numbering?  This is really going to mess with the tooling :(
+Applied to
 
-Please don't send new patches in reply to old patches or serieses, this
-makes it harder for both people and tools to understand what is going
-on - it can bury things in mailboxes and make it difficult to keep track
-of what current patches are, both for the new patches and the old ones.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
 
-Series numbering only makes sense within a series for ordering, if
-you're sending something separately to a series or a new series then
-preserving the ordering of the series just causes confusion.
+Thanks!
 
---tqlzx0giHWNwlE1k
-Content-Type: application/pgp-signature; name="signature.asc"
+[01/16] ASoC: mediatek: mt8195: Fix tuner clock error handling
+        https://git.kernel.org/broonie/sound/c/8e5a2eabb0d7
+[02/16] ASoC: mediatek: mt8195: Use dev_err_probe() in mt8195_afe_init_clock()
+        https://git.kernel.org/broonie/sound/c/ad1617e53609
+[03/16] ASoC: mediatek: mt8195: Fix register access clock error handling
+        https://git.kernel.org/broonie/sound/c/c23390ecf5c0
+[04/16] ASoC: mediatek: mt8195: Fix timing system clock error handling
+        https://git.kernel.org/broonie/sound/c/f18c0a8e528e
+[05/16] ASoC: mediatek: mt8195: Fix main clock error handling
+        https://git.kernel.org/broonie/sound/c/9f1b48c658ac
+[06/16] ASoC: mediatek: mt8195: Fix paired memif clock error handling
+        https://git.kernel.org/broonie/sound/c/c0ec135cf3fd
+[07/16] ASoC: mediatek: mt8195: Fix FE startup error handling
+        https://git.kernel.org/broonie/sound/c/b1db7408c8e0
+[08/16] ASoC: mediatek: mt8195: Check paired MEMIF clock enable in FE trigger
+        https://git.kernel.org/broonie/sound/c/a2ae972c75a1
+[09/16] ASoC: mediatek: mt8195: Fix runtime resume error handling
+        https://git.kernel.org/broonie/sound/c/933fbfb66488
+[10/16] ASoC: mediatek: mt8195: Remove redundant error message
+        https://git.kernel.org/broonie/sound/c/9f9ba582ac82
+[11/16] ASoC: mediatek: mt8195: Propagate IRQ lookup errors
+        https://git.kernel.org/broonie/sound/c/9d5dedb285fb
+[12/16] ASoC: mediatek: mt8195: Fix ETDM MCLK error handling
+        https://git.kernel.org/broonie/sound/c/91dce9c7eec2
+[13/16] ASoC: mediatek: mt8195: Fix ETDM startup error handling
+        https://git.kernel.org/broonie/sound/c/8e67c67f3fd2
+[14/16] ASoC: mediatek: mt8195: Fix HDMI TX startup error handling
+        https://git.kernel.org/broonie/sound/c/1d6f1785d903
+[15/16] ASoC: mediatek: mt8195: Fix ETDM probe error handling
+        https://git.kernel.org/broonie/sound/c/ca3ac9a7eec1
+[16/16] ASoC: mediatek: mt8195: Fix clock parent error handling
+        https://git.kernel.org/broonie/sound/c/a4276a80c62e
 
------BEGIN PGP SIGNATURE-----
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmrR/BAACgkQJNaLcl1U
-h9AosQf/VknJyrGXrKz1JvZbJBxS2f4nWntI49PwwvAzQ6a4SD3xfvD3bg/M7LAZ
-J5+AHHz3VAcAYPq1gkxEy4pCm8MVao9XTc3Ujwu5jluXqeXIubKVaZnzHh+J84Ux
-cjBkHDIed/T5gVNU5Q+CpctZcDl1jrOFs3dUiUzMw9T3JTDLH3NN8u10CbKzFsaO
-n7SWoLoUuganF2oSbR0LpA9qfDv+AVTwzA0kxeNZA0Uu75kwlJ7nmFxDmpw857/8
-BHCXxOUkS3ASKZ05NU5uuVGM2XAfSRzRAS/AY1SCT45ujPw9O9lhufB70UDqLW7a
-SnN5ueA4U9Y+tWt2D0rrEe/M9oXKtw==
-=No3u
------END PGP SIGNATURE-----
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
---tqlzx0giHWNwlE1k--
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
