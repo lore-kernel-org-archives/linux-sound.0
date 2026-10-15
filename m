@@ -1,147 +1,94 @@
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B36670808
-	for <linux-sound@vger.kernel.org>; Thu, 15 Oct 2026 18:30:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E84455C334;
+	Thu, 15 Oct 2026 18:55:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792089034; cv=none; b=X9XwUQRwWV7RI/L0H1uWDbI/gqOO14IGc18M7u+pgquAndPEjNWrRldQ2sBSx/N5MaLtHjB84XVFdKgynTEFLVljlFYkuwPHN8iQHb1UY6ZxSyJJ4B63McOiHwEUM794/OnWJEIwwbAtELTz1iV52T9GiYeVJ4LgAkETTvLy13g=
+	t=1792090524; cv=none; b=qB8qwsN45gDpjmodf5Qr6BS8CHeFG2vZ1611+zcA++MUmnDeX/RyfyOR9nUVerM69ucwfBbsHyMm5951V+i1Rq58IgotcXq/0pHXXM5MGuewu6glPDDmT1mRIXyuuN394ABYhmTG1mr96FJIbalQYcgp9DppAfyK12kviaS5tI4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792089034; c=relaxed/simple;
-	bh=P6/dvSz7qneGgfTy8nKL/yEy6vMoWyvQKJylEVWqeVw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
-	 Content-Type:References; b=KA+rFALiyKTFpcEI2QjUeTlEI4qW/Q30JHxxafJs+D8pga+nU0iKPQHz/snX68UlHo2UOrOSL/JBKD97iXI5aKKRvHuwDzHbfNdH1PVCmVWuBSuMAdNX+8ezPbOMmxXEGw2aTWAy+q8JrIgBOXkkdkQGD0UFtG6KmGfVtPc0xXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=KsdNJgAK; arc=none smtp.client-ip=210.118.77.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	s=arc-20240116; t=1792090524; c=relaxed/simple;
+	bh=ZVk6gLLI8AxZG0qeUX3TjmvhAoXDOYp/KHnGOlzHNOw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=hBwX8P7PZ1Od/e8jXsPXQuE7CEXo0HZLIjNg9DMmhlfWPmnxAlNI03FqHuxK1BgKTrDeCtmNUnxkmhSE9z3JyWjY6PAo9R73+GDcrDhiE5XjyD0PISkzlClduDi5OP6WqPzHJ4Fj0SPAKFHqET4f3wirfakaLZtw+9sZCKTSzvo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HwB+h7vq; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="KsdNJgAK"
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20261015183022euoutp0224679407057b3bcb4109b2ab0e79a97c~ex3imYCNH0813808138euoutp02e
-	for <linux-sound@vger.kernel.org>; Thu, 15 Oct 2026 18:30:22 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20261015183022euoutp0224679407057b3bcb4109b2ab0e79a97c~ex3imYCNH0813808138euoutp02e
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1792089022;
-	bh=x6Lm/7Jf9p49V05YIXOEdlVtzYgWkqbSiTYrDBfJ3Gc=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=KsdNJgAKPsAEP1NxDTUwfPouqhHYs/SxPJ8AeJVbAPFGRtlJlMQYQLhDY9EiJ+nz4
-	 LuPFc+1Eoo9n0mQabnzlcl489dyOf15Mv4cHkApS+P4LlAMNiTda3gkyd7j1H3L3Hy
-	 /Bb43XMLwJqaZWANqq6gmEy/3w1heN/OAGuoJ8sA=
-Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
-	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-	20261015183022eucas1p10d5777e112c34458f4b360407d2228c4~ex3ibJmez0417304173eucas1p16;
-	Thu, 15 Oct 2026 18:30:22 +0000 (GMT)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
-	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20261015183022eusmtip222c5dcfbbdbde3e98c6c15f6604fd951~ex3iOgxaP2603526035eusmtip2Q;
-	Thu, 15 Oct 2026 18:30:22 +0000 (GMT)
-Message-ID: <c2bc1478-5999-455f-bd67-8b536c452215@samsung.com>
-Date: Thu, 15 Oct 2026 20:30:21 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HwB+h7vq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792090520; x=1823626520;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ZVk6gLLI8AxZG0qeUX3TjmvhAoXDOYp/KHnGOlzHNOw=;
+  b=HwB+h7vqjNarv8fri4ZPyGlpRVFYhm9QXCC/JBh501g6VFMKYtcCb3uT
+   wVlc/XaRrH8DiRsg5B/qCxxyTAKDrVvxoWM8n0se0ew9F/IRCToObGFxr
+   90UqpjAUlupVNBgNhNn4Hn/gtMNNmX6oEg3FC/Zi9jZ37uHRDan1fSVY7
+   LZjLwXyIyJUIVtB13K2i8EzrAi6Ol/KazrkK5gtm61lqJ0GpHVbs5FY2E
+   oiEHOTGk2KicG9CueuHEokIk4ZLzrZ3fJvX5RaT33Z6AejqFbshLHxG2a
+   Dax12NKSQ3x5gjCm3MfY/83hxU6gA0TbrMHuDyUa3NkwA6PjiU0UuJUax
+   Q==;
+X-CSE-ConnectionGUID: g/CmumF5R/G5FhMvi+F89g==
+X-CSE-MsgGUID: B5VExETTRKiDy6ou9Tc0Ew==
+X-IronPort-AV: E=McAfee;i="6800,10657,11936"; a="764271"
+X-IronPort-AV: E=Sophos;i="6.27,160,1787036400"; 
+   d="scan'208";a="764271"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2026 11:55:18 -0700
+X-CSE-ConnectionGUID: G1CefiNXSVy0Qpm6a4BB1Q==
+X-CSE-MsgGUID: 6jSX7SvOQ6mhBwRG1aSBxQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,160,1787036400"; 
+   d="scan'208";a="1742118"
+Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
+  by orviesa001.jf.intel.com with ESMTP; 15 Oct 2026 11:55:17 -0700
+From: Cezary Rojewski <cezary.rojewski@intel.com>
+To: broonie@kernel.org,
+	linux-sound@vger.kernel.org
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	amade@asmblr.net,
+	linux-kernel@vger.kernel.org,
+	Cezary Rojewski <cezary.rojewski@intel.com>
+Subject: [PATCH 0/3] ASoC: Intel: avs: Fix for recovery procedure and new size-checks
+Date: Thu, 15 Oct 2026 21:02:37 +0200
+Message-Id: <20261015190240.729793-1-cezary.rojewski@intel.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Betterbird (Windows)
-Subject: Re: [PATCH] ALSA: pcm: Apply sync-stop at SNDRV_PCM_IOCTL_DROP
- ioctl
-To: Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Content-Language: en-US
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <20261014142454.320703-1-tiwai@suse.de>
 Content-Transfer-Encoding: 8bit
-X-CMS-MailID: 20261015183022eucas1p10d5777e112c34458f4b360407d2228c4
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20261015183022eucas1p10d5777e112c34458f4b360407d2228c4
-X-EPHeader: CA
-X-CMS-RootMailID: 20261015183022eucas1p10d5777e112c34458f4b360407d2228c4
-References: <20261014142454.320703-1-tiwai@suse.de>
-	<CGME20261015183022eucas1p10d5777e112c34458f4b360407d2228c4@eucas1p1.samsung.com>
 
-On 14.10.2026 16:24, Takashi Iwai wrote:
-> When a PCM stream is stopped via SNDRV_PCM_IOCTL_DROP ioctl, it calls
-> snd_pcm_stop() but sync-stop operation is missing.  Although this is
-> usually no big issue, let's add snd_pcm_sync_stop() call, just to be
-> sure.
->
-> Signed-off-by: Takashi Iwai <tiwai@suse.de>
-> ---
->  sound/core/pcm_native.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
-> index 6c379068b54c..7ffbf2c0ea92 100644
-> --- a/sound/core/pcm_native.c
-> +++ b/sound/core/pcm_native.c
-> @@ -2332,6 +2332,8 @@ static int snd_pcm_drop(struct snd_pcm_substream *substream)
->  	result = snd_pcm_stop(substream, SNDRV_PCM_STATE_SETUP);
->  	/* runtime->control->appl_ptr = runtime->status->hw_ptr; */
->  
-> +	snd_pcm_sync_stop(substream, true);
-> +
->  	return result;
->  }
+The first change addresses XRUN recovery for HDA-Link i.e.: BackEnd
+side of a HDAudio stream.
 
-This patch landed in today's linux-next as commit fdf9a21cda78 ("ALSA: pcm: Apply
-sync-stop at SNDRV_PCM_IOCTL_DROP ioctl"). In my tests I found that it triggers
-the kernel bug about invalid context for sleeping.
+It is the BE side equivalent of job done previously for FE side only
+with commit cfca1637bc2b ("ASoC: Intel: avs: Unprepare a stream when
+XRUN occurs") and its follow up titled: ("ASoC: Intel: avs: Reset the
+stream unless it is already prepared") [1].
 
-It looks that thissnd_pcm_sync_stop() should be called outside the scope of
-the guard(pcm_stream_lock_irq)(substream).
+The next fix problems found by static analyzers. Additional size checks
+for topology and a fix for module underflow should a DSP-module be
+unloaded on the DSP side in unexpected fashion. Theoretically that's not
+possible without a corrupted firmware, but the if-statement is already
+there, just a dev_warn() though.
 
-Here is log from one of my test boards:
+[1]: https://lore.kernel.org/linux-sound/20261010103753.16969-1-stiraspo@gmail.com/
 
---->8----
 
-root@target:~# speaker-test -l1
+Cezary Rojewski (3):
+  ASoC: Intel: avs: Unprepare a stream when recovery occurs
+  ASoC: Intel: avs: Verify sizes of configs coming from topology
+  ASoC: Intel: avs: Prevent module info underflow
 
-speaker-test 1.1.3
+ sound/soc/intel/avs/pcm.c      | 2 ++
+ sound/soc/intel/avs/topology.c | 6 ++++++
+ sound/soc/intel/avs/utils.c    | 6 ++++--
+ 3 files changed, 12 insertions(+), 2 deletions(-)
 
-Playback device is default
-Stream parameters are 48000Hz, S16_LE, 1 channels
-Using 16 octaves of pink noise
-Rate set to 48000Hz (requested 48000Hz)
-Buffer size range from 128 to 131072
-Period size range from 64 to 65536
-Using max buffer size 131072
-Periods = 4
-was set period_size = 32768
-was set buffer_size = 131072
- 0 - Front Left
-Time per period = 0.030588
-BUG: sleeping function called from invalid context at ./include/linux/dmaengine.h:1326
-in_atomic(): 1, irqs_disabled(): 128, non_block: 0, pid: 1691, name: speaker-test
-preempt_count: 1, expected: 0
-RCU nest depth: 0, expected: 0
-locks held by speaker-test/1691: 1, last CPU#3:
- #0: c22ad2a4 (&group->lock#2){..-.}-{3:3}, at: snd_pcm_drop+0x30/0xd0
-irq event stamp: 10920
-hardirqs last  enabled at (10919): [<c0dcda30>] _raw_spin_unlock_irqrestore+0x5c/0x60
-hardirqs last disabled at (10920): [<c0dcd5e0>] _raw_spin_lock_irq+0x60/0x64
-softirqs last  enabled at (10832): [<c0113ab4>] vfp_support_entry+0x98/0x400
-softirqs last disabled at (10830): [<c0113a44>] vfp_support_entry+0x28/0x400
-CPU: 3 UID: 0 PID: 1691 Comm: speaker-test Not tainted 7.3.0-rc6-00238-gfdf9a21cda78 #13903 PREEMPT
-Hardware name: Samsung Exynos (Flattened Device Tree)
-Call trace:
- unwind_backtrace from show_stack+0x10/0x14
- show_stack from dump_stack_lvl+0x6c/0x8c
- dump_stack_lvl from __might_resched+0x198/0x264
- __might_resched from snd_dmaengine_pcm_sync_stop+0x8c/0xac
- snd_dmaengine_pcm_sync_stop from snd_soc_pcm_component_sync_stop+0x3c/0x98
- snd_soc_pcm_component_sync_stop from snd_pcm_drop+0x68/0xd0
- snd_pcm_drop from sys_ioctl+0x508/0xc2c
- sys_ioctl from ret_fast_syscall+0x0/0x1c
-Exception stack(0xf1da1fa8 to 0xf1da1ff0)
-...
-root@target:~#
-
---->8----
-
-Best regards
 -- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
+2.34.1
 
