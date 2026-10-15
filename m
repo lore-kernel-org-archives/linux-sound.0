@@ -1,182 +1,120 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 703B243F081
-	for <linux-sound@vger.kernel.org>; Fri, 16 Oct 2026 10:21:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08B77283FD9
+	for <linux-sound@vger.kernel.org>; Fri, 16 Oct 2026 10:26:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792146077; cv=none; b=oZtKqCd0gxCcsG+uktoi/Wq1Qta+Y85VVTdECTWfvUhJrvUnr0nuPQFdMfMjJ/tFxWjHJe13uqTr406gAr1FI2VCfvfC1sObHsKm6x1n0/Fo5ZJeoxoqLcZs5FA7t9bKyMHoN93FYxur9KQwzeIKuWYjUbn5AD0oz48wnZLN5pE=
+	t=1792146378; cv=none; b=SNT5ySsLt0HXUxEe71bh9IXJHySD6p6/MhslHV7qzXvE6O030vVzviX8a3dER93sC9sri9oXyjIGqGHjp1UpFeCRAa2RlhyaW64baPJcXGg11LbXCgiPyfoOq4o+abJCla2enZRv8kx3BjmgE1OxFeLCLUeLJtyrrAQprqP/gRo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792146077; c=relaxed/simple;
-	bh=/yOLqhnrBxL+q2VE978a9XQLFBicrFACElLsHEaWrwU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=qOPHLaMXquReAjSsCfv+WV5Nrxx4Qbdly/LlxLiJuIpw3aEBUrRC4AVPYHYGGmeY/PxC/jevp6GCPnE6uW9ovoG/wN66JOyoEZLBEFhAQlUYsyLT0DtzYfZejHzRYyY5LXY0sw/CK2mV/gW5jZnfZ+2lFk2bIHlcHkpxxgCGDmw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=bUopq4+R; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=NE/JxNK+; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1792146378; c=relaxed/simple;
+	bh=cxPyBc6Q1teP6tpsww6F2aWv2ysPDdNzRM7kKZuSp8A=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=IqaOmZx3s4oeJICvSnAzOlkztoQdOS7ntl/iuG79RI0fIrthwnlXK7ATTYoFxomqHkfgkPUgSXfeYLILBLj5ncKlLbcXoWTYMJl7Pw4f03K/bJn+qlsaCHUPxjOx5TMfRB9AW0DGKb7eAf90y572xqeBWT59RL9yILp/tyQFzqU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GSXwmlJu; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="bUopq4+R";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="NE/JxNK+"
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69GAAMIq488643
-	for <linux-sound@vger.kernel.org>; Fri, 16 Oct 2026 10:21:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	1ljqOM735N0dyPHkuB1lU0B1VjJbx3yNT1Oftgxme1c=; b=bUopq4+RC8X6BfF9
-	x8rfMyP/OOlUubaRa5EPc9niCSuT082/INTj8TW2+sjt4wBzj8l5vC0X4tom5EVC
-	33Hmv1hMZ0rWctcqzoMddcCtSRctRmT8cvpM887rNserT3WS3yvhXO0p2ZmCTwvA
-	GcAg72PhWOGDobUVdNMKvq4aS0xYzL1XRTwlM79MyIDPYvj/qp6adsSPKG8mobMZ
-	CUr9B9kqk/BXxyXqHihFjDzU7ZmAfnL8DkSDvBW/7uUZml5PS8s57rvKc+Z8kt9c
-	+eLIj0rGC9MggCaKCHd/aUlZvLHT5Nz4WgDqvy1Bow4ZxJEPjWClqODy6sRTo6/3
-	b7g/8Q==
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hbcjt9chy-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Fri, 16 Oct 2026 10:21:15 +0000 (GMT)
-Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-53568f05f8bso17508811cf.3
-        for <linux-sound@vger.kernel.org>; Fri, 16 Oct 2026 03:21:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1792146075; x=1792750875; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=1ljqOM735N0dyPHkuB1lU0B1VjJbx3yNT1Oftgxme1c=;
-        b=NE/JxNK+Zav5ddFgi80l/I0oAQSy0kOmCV6oY6QdHYTPEP4L2JY/+NJ1q8cpFIDM6h
-         WKL6dANtn7BFNpeMR/PKhCdjVtSAz2Rdj2YN25RMWZtCAjx865SIWGyEaRx8c/9imCBS
-         3s/5Nyc+zkx/ycvlPZ3YRZD7yJk45Zmr1Lt4CFyaIOfSAFVmwKt6ekCzvplXiBvVqiaC
-         Zt/pnjy0/rnnIOQuq2Zl58IXVZtitJvcLNx86td9M+Nt1VtYM28s/lNcUWSLe3ZFny40
-         vq4eM0XJJ7GH1RsbgVsm7Ru4VAQ1xoCDSk/5T1SOvkHJLTW3P4NoQf+HxTINOU6JjinQ
-         sRew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792146075; x=1792750875;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=1ljqOM735N0dyPHkuB1lU0B1VjJbx3yNT1Oftgxme1c=;
-        b=cfRKYRZ7aVZEmCbI9nkwWdck5gh6lZ/K9dSGy1Cr6h1dRAFi//wE7mj8GVCswTH++F
-         30zi08CmTXqO0BMIyLadfCPE36Y0K0BdXmVzUeu9pIPUF64ZF1ciJPtgqz7Mwd0kr5AB
-         o32XxZ4SZ6UpsXdR17bPp+ZRNI8xWw2VOram3xI923Dz5BhIK9JpzYK16j/uu6lesZM6
-         ug/pxzZ0oJZVHQprioSIOZ/1Mze5H9IzeF9KU39iWJaR7pKO/P1JFzwq+a6QXwarHUWm
-         iJGcAtC4rXkH+Jv73fgkKUpMwYAoCsYi7lJgx2vz6AEdNDllz1P/lxiCIjFCW7gu9rFg
-         6KUg==
-X-Forwarded-Encrypted: i=1; AKwUvBxk7/o1qGpph7YHD0k/PEWNI7y0v7CPZsqPLJbLrvCWzPNH3MBAyAwKV67wVUY7gw5P5earxFvHbzjPhA==@vger.kernel.org
-X-Gm-Message-State: AFq9FYKuqgv+KPfem6wnLkORMaq1Zh22mVLdtmM/P3mrsr7O8fdeOl6W
-	hM3QEICaZsv4HO/RJeTke/heqJi5HWdING70upz+YvGi7uj/qwGlLCwm4f5dUqrrINdEcvS39bY
-	5gfAqoG3lAxeXkQQiO11zrDIgLlQZKDijjNPzQiKbwLXtrWyqUv/T3HyeearvtJLAPQ==
-X-Gm-Gg: AYBFou1MViefGbPdiUjG1AA2tsZGVugAlCclCS/W1ojiutjr/O7SEri9zlxX7CyW8F+
-	FCHXN2wSeDnKTziDP48i8tK4tl95ObWSnsGsto4rcWL7SbtRrFADuW+2RrTRs3Qc5J1z3QeiB/y
-	cWNX61cB2k48dgIpmTw9c17ufb/dIj5nGWi3nT7V/2iFJ/E56+9iCPynNMbZUaE4BsBWGrgn6y6
-	8YoAkGhcZlMerMLE3eNbYgWbpMF2R//zQPbYevihMDxtqHqMNRlvaRbypWEsXEly7vNSQgySdhy
-	GgYOvwWadTX8c3/A7SBkT0E8PlsI+q5VDfk95Bn4C2t1YT1HSiCgykW/TDEYLI8ia6FbYulxuzn
-	/i/Rg9/bTCozqb9eCzuT34w==
-X-Received: by 2002:ac8:5745:0:b0:535:496:56ab with SMTP id d75a77b69052e-5359f06c305mr397433981cf.0.1792146074784;
-        Fri, 16 Oct 2026 03:21:14 -0700 (PDT)
-X-Received: by 2002:ac8:5745:0:b0:535:496:56ab with SMTP id d75a77b69052e-5359f06c305mr397433381cf.0.1792146074105;
-        Fri, 16 Oct 2026 03:21:14 -0700 (PDT)
-Received: from [192.168.226.26] ([178.235.128.140])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c40919bc742sm57787066b.54.2026.10.16.03.21.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Oct 2026 03:21:13 -0700 (PDT)
-Message-ID: <87839ad6-c489-40b3-bfcc-60c436cd1a6f@oss.qualcomm.com>
-Date: Fri, 16 Oct 2026 12:21:10 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GSXwmlJu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37BBA1F000C4;
+	Fri, 16 Oct 2026 10:26:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792146374;
+	bh=TMNw2QnYhNXIk0IH7mEftB0m5M0FJDBZpTZelvks8j0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=GSXwmlJubdEdS2pPey0WqS3b6ZnV6VXY+/j4tYnomv4nSf/xtkDmXk9DHCcM/IqGD
+	 Ye3ksNk8Witss18MAa4HJWx9k7VxA/QSvPjQNQxTIler/thL4F2Ve5PqSDPWRPHr7r
+	 yOtX7AaEoZeJeC5lN7dFWlA3+sSQHo54hSrRAXdQwSMJ29iARhUxlnzLRqIUOSSja7
+	 UErQ07Nrkgo2PXGsVUkzm6oeuwiJe8A8upr+/gm85IjCsjSvOQbjvq+ZAQK9uf/vvF
+	 DXHZe08Rgx1qy08DSb0UuFQ4fxN0jwGHKKNl/iEi47ZPvbTU5wSivb5ftfEbdmN2Nq
+	 6qNOVvYjUmw2A==
+From: Mark Brown <broonie@kernel.org>
+To: =?utf-8?q?Alvin_=C5=A0ipraga?= <alvin.sipraga@analog.com>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <87pkxdyoml.wl-kuninori.morimoto.gx@renesas.com>
+References: <87pkxdyoml.wl-kuninori.morimoto.gx@renesas.com>
+Subject: Re: [PATCH v3 00/13] ASoC: soc-component: move
+ snd_soc_component_xxx() to soc-component.c
+Message-Id: <179210244504.134795.6815897194553571348.b4-ty@b4>
+Date: Thu, 15 Oct 2026 23:14:05 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 10/11] arm64: dts: qcom: sdm670: add digital audio
- codec
-To: Richard Acayan <mailingradian@gmail.com>,
-        Jassi Brar <jassisinghbrar@gmail.com>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Abel Vesa <abelvesa@kernel.org>,
-        Srinivas Kandagatla <srini@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Andy Gross <agross@kernel.org>, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-        linux-sound@vger.kernel.org
-References: <20261003175659.23536-1-mailingradian@gmail.com>
- <20261003175659.23536-11-mailingradian@gmail.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20261003175659.23536-11-mailingradian@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDE2MDA0MSBTYWx0ZWRfX7W2KuLzlu7CE
- 9FCc0RickzcNhANzsPL2SS9Ck5zXwE6pcGUx9kmSQx5DmaKy/o1ABUVahbvj9Cwje8tMxSzTI/N
- uwfL7HaYgZY97VCi1eEvobzRAugqLNOOp6fPpZ52ZJHJ5itxqwMiDlrlFctvQiP/c4Wsu/7xlW5
- Xq8wCaRMd2qw30B7SO9l3FIFL4hidcPWx+ebnGkOya1TOZ6Y8gWdd/piwGNmU9YlURAr5BpO545
- MV8Onux73ffnhB9myI6YKllbMJjPSs6g1+ECUgJY7LrCrp7b99l3OyoXJe747jSaJhFjMbkMRhf
- bUq+eqa16vg1GFqVg4GxvWrJke9dqiI0fGiuBivbWVOQm88361IcDiMmmpZGYZQVKCXEPnBSPhn
- 016wpC47xDCk/xZnKsECDM4XmAoeu9qAS7dLq4rEBCqKQkusjzp3OUFZ2oDp2YWgR18m208DocK
- UNohwRY9MtX0R87cImA==
-X-Proofpoint-ORIG-GUID: opJ7bfgKkbOs8NVL4ZiNR_WAcMYXZBZo
-X-Proofpoint-GUID: opJ7bfgKkbOs8NVL4ZiNR_WAcMYXZBZo
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDE2MDA0MSBTYWx0ZWRfXysfFv3D8Gr+s
- TPJqEOHIxk2H2pHD+ouoI3SmTFq4B+zi5qcSiBng683zeEuggXb8nvuvMENxtRL+5CeGuhfblbj
- 6vkoPHMBifKzLeUcKvP96JOIH3P3cd4=
-X-Authority-Analysis: v=2.4 cv=VpS2kO2n c=1 sm=1 tr=0 ts=6ad1fa9b cx=c_pps
- a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
- a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22
- a=pGLkceISAAAA:8 a=kdm4YS7hd6rvY0lC6QsA:9 a=QEXdDO2ut3YA:10
- a=a_PwQJl-kcHnX1M80qC6:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-10-16_01,2026-10-14_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 bulkscore=0 adultscore=0 phishscore=0 clxscore=1015
- malwarescore=0 lowpriorityscore=0 priorityscore=1501 impostorscore=0
- spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2610080000
- definitions=main-2610160041
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3017; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=cxPyBc6Q1teP6tpsww6F2aWv2ysPDdNzRM7kKZuSp8A=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLIu/j5yfMOZaVe3MM69x6H5JXnKbPYpJ80aVrD6Lkjhl
+ jtU0++Y3lHKwiDGxSArpsgSl8X9sr7k9Rq+gwvbYOawMoEMYeDiFICJbO9k+KeQ+C4uUURXWnhn
+ SYjMHLMZFu/dX/GvXnr0I2/E+efKnf8YGeZy3Poc/+Km7MTJAWdirRN3rFx3IedadlDkvCW3jy2
+ u+sQPAA==
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On 10/3/26 7:56 PM, Richard Acayan wrote:
-> Add the digital WCD audio codec to the SDM670 device tree.
+On Wed, 14 Oct 2026 02:58:27 +0000, Kuninori Morimoto wrote:
+> ASoC: soc-component: move snd_soc_component_xxx() to soc-component.c
 > 
-> Signed-off-by: Richard Acayan <mailingradian@gmail.com>
-> ---
->  arch/arm64/boot/dts/qcom/sdm670.dtsi | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
 > 
-> diff --git a/arch/arm64/boot/dts/qcom/sdm670.dtsi b/arch/arm64/boot/dts/qcom/sdm670.dtsi
-> index 038ef0f73ea9..91188acd16b1 100644
-> --- a/arch/arm64/boot/dts/qcom/sdm670.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/sdm670.dtsi
-> @@ -21,6 +21,7 @@
->  #include <dt-bindings/power/qcom-rpmpd.h>
->  #include <dt-bindings/soc/qcom,apr.h>
->  #include <dt-bindings/soc/qcom,rpmh-rsc.h>
-> +#include <dt-bindings/sound/qcom,q6dsp-lpass-ports.h>
->  
->  / {
->  	interrupt-parent = <&intc>;
-> @@ -2541,5 +2542,19 @@ data2-pins {
->  				};
->  			};
->  		};
-> +
-> +		lpass_codec: audio-codec@62ec0000 {
-> +			compatible = "qcom,sdm670-wcd-digital-codec",
-> +				     "qcom,msm8916-wcd-digital-codec";
-> +			reg = <0 0x62ec0000 0 0x400>;
-> +
-> +			clocks = <&q6afecc LPASS_CLK_ID_INT_MCLK_0 LPASS_CLK_ATTRIBUTE_COUPLE_NO>;
-> +			clock-names = "mclk";
+> Hi Mark
+> 
+> I'm now posting ASoC Capsuling patches.
+> Current status, and this patch-set postion is below.
+> This patch-set moves Component related functions to soc-component.c
+> 
+> [...]
 
-This clock configuration is forbidden according to bindings
+Applied to
 
-I'm not expert in audio, but an LLM points me towards
-LPASS_CLK_ID_INTERNAL_DIGITAL_CODEC_CORE
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
 
-Konrad
+Thanks!
+
+[01/13] ASoC: soc-component: tidyup be_hw_params_fixup() define position
+        https://git.kernel.org/broonie/sound/c/3901d17c976f
+[02/13] ASoC: soc-component: replace bool member to bit field
+        https://git.kernel.org/broonie/sound/c/0ce431a9fc69
+[03/13] ASoC: soc-component: move snd_soc_add_component_controls()
+        https://git.kernel.org/broonie/sound/c/ed2c53c841fe
+[04/13] ASoC: soc-component: move snd_soc_component_fixup_controls()
+        https://git.kernel.org/broonie/sound/c/ee0daa7a3101
+[05/13] ASoC: soc-component: move soc_component_to_node() to soc-component.c
+        https://git.kernel.org/broonie/sound/c/81db2fed151e
+[06/13] ASoC: soc-component: move snd_soc_is_matching_component() to soc-component.c
+        https://git.kernel.org/broonie/sound/c/78a856d727c9
+[07/13] ASoC: soc-component: move soc_{probe/remove}_component() to soc-component.c
+        https://git.kernel.org/broonie/sound/c/8b1121c5dff0
+[08/13] ASoC: soc-component: move snd_soc_component_to_dapm() to soc-component.c
+        https://git.kernel.org/broonie/sound/c/5c904834414c
+[09/13] ASoC: soc-component: move snd_soc_component_cache_sync() to soc-component.c
+        https://git.kernel.org/broonie/sound/c/3f78fa38938a
+[10/13] ASoC: soc-component: move snd_soc_component_active() to soc-component.c
+        https://git.kernel.org/broonie/sound/c/614749f16e94
+[11/13] ASoC: soc-component: move component_list to soc-component.c
+        https://git.kernel.org/broonie/sound/c/8c186bc6b77b
+[12/13] ASoC: soc-component: move snd_soc_lookup_component() to soc-component.c
+        https://git.kernel.org/broonie/sound/c/1fec554d55aa
+[13/13] ASoC: soc-component: rename snd_soc_component_async_complete()
+        https://git.kernel.org/broonie/sound/c/19224d29ffb4
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
