@@ -1,97 +1,147 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B7F3392811;
-	Thu, 15 Oct 2026 18:11:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B36670808
+	for <linux-sound@vger.kernel.org>; Thu, 15 Oct 2026 18:30:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792087870; cv=none; b=IWOvYnYZihffhJXGFck/7xj9cFw59mTB6HGXBEMvLu9YIlh/KucengkTr4BjhxoJlVax1QYpYRiArA4sZskNRDAWlLZQyLWfYIGR3dJ9Dtyyy0B94rhP9nCbB3vqteKqxB7cZgiyIofPMdFwnBEHJ/Do9IAxj3hMcT8uYx2S5t4=
+	t=1792089034; cv=none; b=X9XwUQRwWV7RI/L0H1uWDbI/gqOO14IGc18M7u+pgquAndPEjNWrRldQ2sBSx/N5MaLtHjB84XVFdKgynTEFLVljlFYkuwPHN8iQHb1UY6ZxSyJJ4B63McOiHwEUM794/OnWJEIwwbAtELTz1iV52T9GiYeVJ4LgAkETTvLy13g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792087870; c=relaxed/simple;
-	bh=lsg1dfijms7lkhDf96j9gOlfkCYlZ3biuUFE22Qt6m8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PzQFwl2aH1+Pl5+8D6vcYWj4R1bqCxZsl2qPkbAgrxNIG5ScjkaM+EZ2XkgCu7LAvCHDopRxPWaq3RZ/P3HtifrzmZilC14e2gMITSlNTssxw4XccppqsUkr5l7ZvssJO18ojZvZndzrWw6GG5Wn4VYSJTIOYnYIPkhmUwe+9F4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PWeo8Wq0; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792089034; c=relaxed/simple;
+	bh=P6/dvSz7qneGgfTy8nKL/yEy6vMoWyvQKJylEVWqeVw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
+	 Content-Type:References; b=KA+rFALiyKTFpcEI2QjUeTlEI4qW/Q30JHxxafJs+D8pga+nU0iKPQHz/snX68UlHo2UOrOSL/JBKD97iXI5aKKRvHuwDzHbfNdH1PVCmVWuBSuMAdNX+8ezPbOMmxXEGw2aTWAy+q8JrIgBOXkkdkQGD0UFtG6KmGfVtPc0xXU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=KsdNJgAK; arc=none smtp.client-ip=210.118.77.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PWeo8Wq0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 102141F000C4;
-	Thu, 15 Oct 2026 18:11:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792087862;
-	bh=nNbgFoILvXz3KdF+x2gpod6rM+HqoXUVeCqW4noJ2MI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=PWeo8Wq0x00IHGH2lHZb/0LiuKi0GXm7wnBbqa2PVvVqWhqEMgbvmCSKoUUb90xPh
-	 fPGjtYqDdKnW27H8GeEBPYkcLfyNVqOiL4x4YVmjAcvCIdg/AOC6qpqigUrpLYmTpF
-	 Lpg6gOFQnjAIa3IjV1zJmCveD8ZfHYBFCa+3j6/PGIkfk8LVx7jrGvyvoO5f3TgXkE
-	 eTiULcMc/LuEIcoXIr7djtzX+F91gt2KhVx+2CrBBz1DiiFLC0xAQJF/02a8Ddbb8Y
-	 AlBWUb4BxfeAXKHrgPYsu1mZyPMUO9Ctt/ABcDWu5Ap91JY93/tJkf42eWpdwM53pK
-	 4fFwhWvAgDELQ==
-Date: Thu, 15 Oct 2026 19:10:58 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Sebastian Reichel <sre@kernel.org>
-Cc: Srinivas Kandagatla <srini@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ASoC: codecs: wsa884x: Add mute control knob
-Message-ID: <55831eb0-b7b0-43f3-8c03-4d1029ea97a2@sirena.org.uk>
-References: <20261014-wsa884x-mute-support-v1-1-74d98d79e635@collabora.com>
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="KsdNJgAK"
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20261015183022euoutp0224679407057b3bcb4109b2ab0e79a97c~ex3imYCNH0813808138euoutp02e
+	for <linux-sound@vger.kernel.org>; Thu, 15 Oct 2026 18:30:22 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20261015183022euoutp0224679407057b3bcb4109b2ab0e79a97c~ex3imYCNH0813808138euoutp02e
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1792089022;
+	bh=x6Lm/7Jf9p49V05YIXOEdlVtzYgWkqbSiTYrDBfJ3Gc=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=KsdNJgAKPsAEP1NxDTUwfPouqhHYs/SxPJ8AeJVbAPFGRtlJlMQYQLhDY9EiJ+nz4
+	 LuPFc+1Eoo9n0mQabnzlcl489dyOf15Mv4cHkApS+P4LlAMNiTda3gkyd7j1H3L3Hy
+	 /Bb43XMLwJqaZWANqq6gmEy/3w1heN/OAGuoJ8sA=
+Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+	20261015183022eucas1p10d5777e112c34458f4b360407d2228c4~ex3ibJmez0417304173eucas1p16;
+	Thu, 15 Oct 2026 18:30:22 +0000 (GMT)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20261015183022eusmtip222c5dcfbbdbde3e98c6c15f6604fd951~ex3iOgxaP2603526035eusmtip2Q;
+	Thu, 15 Oct 2026 18:30:22 +0000 (GMT)
+Message-ID: <c2bc1478-5999-455f-bd67-8b536c452215@samsung.com>
+Date: Thu, 15 Oct 2026 20:30:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="bvels45Sch5WBIir"
-Content-Disposition: inline
-In-Reply-To: <20261014-wsa884x-mute-support-v1-1-74d98d79e635@collabora.com>
-X-Cookie: Tax and title extra.
+User-Agent: Betterbird (Windows)
+Subject: Re: [PATCH] ALSA: pcm: Apply sync-stop at SNDRV_PCM_IOCTL_DROP
+ ioctl
+To: Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Content-Language: en-US
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+In-Reply-To: <20261014142454.320703-1-tiwai@suse.de>
+Content-Transfer-Encoding: 8bit
+X-CMS-MailID: 20261015183022eucas1p10d5777e112c34458f4b360407d2228c4
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20261015183022eucas1p10d5777e112c34458f4b360407d2228c4
+X-EPHeader: CA
+X-CMS-RootMailID: 20261015183022eucas1p10d5777e112c34458f4b360407d2228c4
+References: <20261014142454.320703-1-tiwai@suse.de>
+	<CGME20261015183022eucas1p10d5777e112c34458f4b360407d2228c4@eucas1p1.samsung.com>
 
+On 14.10.2026 16:24, Takashi Iwai wrote:
+> When a PCM stream is stopped via SNDRV_PCM_IOCTL_DROP ioctl, it calls
+> snd_pcm_stop() but sync-stop operation is missing.  Although this is
+> usually no big issue, let's add snd_pcm_sync_stop() call, just to be
+> sure.
+>
+> Signed-off-by: Takashi Iwai <tiwai@suse.de>
+> ---
+>  sound/core/pcm_native.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
+> index 6c379068b54c..7ffbf2c0ea92 100644
+> --- a/sound/core/pcm_native.c
+> +++ b/sound/core/pcm_native.c
+> @@ -2332,6 +2332,8 @@ static int snd_pcm_drop(struct snd_pcm_substream *substream)
+>  	result = snd_pcm_stop(substream, SNDRV_PCM_STATE_SETUP);
+>  	/* runtime->control->appl_ptr = runtime->status->hw_ptr; */
+>  
+> +	snd_pcm_sync_stop(substream, true);
+> +
+>  	return result;
+>  }
 
---bvels45Sch5WBIir
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+This patch landed in today's linux-next as commit fdf9a21cda78 ("ALSA: pcm: Apply
+sync-stop at SNDRV_PCM_IOCTL_DROP ioctl"). In my tests I found that it triggers
+the kernel bug about invalid context for sleeping.
 
-On Wed, Oct 14, 2026 at 07:02:54PM +0200, Sebastian Reichel wrote:
+It looks that thissnd_pcm_sync_stop() should be called outside the scope of
+the guard(pcm_stream_lock_irq)(substream).
 
-> This codec is typically used with ALSA UCM, which right now falls back
-> to handling mute in software. Expose proper hardware mute control
-> considering the driver already handles it internally anyways, which
-> allows UCM to bind speaker mute LED to the new control knob.
+Here is log from one of my test boards:
 
-> +	wsa884x->user_mute = mute;
-> +	if (wsa884x->pa_on)
-> +		wsa884x_set_mute(component, mute || wsa884x->trigger_mute);
+--->8----
 
-This is checking for pa_on but...
+root@target:~# speaker-test -l1
 
->  static int wsa884x_mute_stream(struct snd_soc_dai *dai, int mute, int stream)
->  {
+speaker-test 1.1.3
 
-> +	guard(mutex)(&wsa884x->sp_lock);
-> +	wsa884x->trigger_mute = mute;
-> +	wsa884x_set_mute(component, mute || wsa884x->user_mute);
+Playback device is default
+Stream parameters are 48000Hz, S16_LE, 1 channels
+Using 16 octaves of pink noise
+Rate set to 48000Hz (requested 48000Hz)
+Buffer size range from 128 to 131072
+Period size range from 64 to 65536
+Using max buffer size 131072
+Periods = 4
+was set period_size = 32768
+was set buffer_size = 131072
+ 0 - Front Left
+Time per period = 0.030588
+BUG: sleeping function called from invalid context at ./include/linux/dmaengine.h:1326
+in_atomic(): 1, irqs_disabled(): 128, non_block: 0, pid: 1691, name: speaker-test
+preempt_count: 1, expected: 0
+RCU nest depth: 0, expected: 0
+locks held by speaker-test/1691: 1, last CPU#3:
+ #0: c22ad2a4 (&group->lock#2){..-.}-{3:3}, at: snd_pcm_drop+0x30/0xd0
+irq event stamp: 10920
+hardirqs last  enabled at (10919): [<c0dcda30>] _raw_spin_unlock_irqrestore+0x5c/0x60
+hardirqs last disabled at (10920): [<c0dcd5e0>] _raw_spin_lock_irq+0x60/0x64
+softirqs last  enabled at (10832): [<c0113ab4>] vfp_support_entry+0x98/0x400
+softirqs last disabled at (10830): [<c0113a44>] vfp_support_entry+0x28/0x400
+CPU: 3 UID: 0 PID: 1691 Comm: speaker-test Not tainted 7.3.0-rc6-00238-gfdf9a21cda78 #13903 PREEMPT
+Hardware name: Samsung Exynos (Flattened Device Tree)
+Call trace:
+ unwind_backtrace from show_stack+0x10/0x14
+ show_stack from dump_stack_lvl+0x6c/0x8c
+ dump_stack_lvl from __might_resched+0x198/0x264
+ __might_resched from snd_dmaengine_pcm_sync_stop+0x8c/0xac
+ snd_dmaengine_pcm_sync_stop from snd_soc_pcm_component_sync_stop+0x3c/0x98
+ snd_soc_pcm_component_sync_stop from snd_pcm_drop+0x68/0xd0
+ snd_pcm_drop from sys_ioctl+0x508/0xc2c
+ sys_ioctl from ret_fast_syscall+0x0/0x1c
+Exception stack(0xf1da1fa8 to 0xf1da1ff0)
+...
+root@target:~#
 
-...I can't see what guarantees that pa_on is set here.  It looks like
-these are mono speakers with multiple speakers connected to a stream,
-someone could fiddle with the routing on an active stream and power up a
-speaker.  We should probably recheck in the speaker event.
+--->8----
 
---bvels45Sch5WBIir
-Content-Type: application/pgp-signature; name="signature.asc"
+Best regards
+-- 
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmrRFzEACgkQJNaLcl1U
-h9CUFQf9EcgxtBivBJw7MRNDX+lovyKT+6n/oIqUwVjzdJR9fnFHr+0adwjwTuS7
-6IcssrX7G9beIUBdIkLDM2Bc1cd5bk1bPQbpT9KwHGCOPTLNtm9ZmtaZ8fL5ls0P
-u5+8DhkM8DyzosZP+JrUVWIWYfRIT8j/b59E37SzxoGXAbZojBsa6DKnBs/CTIg6
-kfNEGMOzI5uMlZ2P5lLirwhb5T8gNVG02UAdrj1JmGUcFMpuDUY8BMH1INV4297Q
-H9kbP3tXbkvuaajAa99P2TsqbgZo3xNBjkr4h7aQHOg6gZmuitO5ynqfZdKliJoo
-t+cwcmOmM0ikoNFygykcpplgEFbWrA==
-=eS07
------END PGP SIGNATURE-----
-
---bvels45Sch5WBIir--
