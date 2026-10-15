@@ -1,241 +1,154 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89F9C1D9A70
-	for <linux-sound@vger.kernel.org>; Thu, 15 Oct 2026 00:44:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792025068; cv=none; b=Lktnn3zNhzu5EJWHTfsq1noUjoavP8ySEESHGyl6I7ZphzWN9LInQDLgbrejecfk1scwPfCvdUDT1hRZBVgWn40gYtyMsfUFHY4FxFqwGNokvItNgiM27U2hGFS1xAnf7veh5GP9KeLv9cm0lLhcm+jKFKZQNRx8gDbiPCnB6GQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792025068; c=relaxed/simple;
-	bh=Am1zJrn9JDhl3VNyJyMRi/vW0Nz9xOEmi/5uPEvS7GA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZkxHZqlWVJMaM8OQw7gsGi7UqQgojzqCLgi12OogAQCAj0YBXOfI61MRh90+TGfALFqgpdeIvAfi6FSTwuCavJviID1X0pJqpd7DRvlFTLkM1n/B0VF8S2MkHSWw2RizmVUXMqvTXhnXWEvu6jrbJ4q4XJ3bgTnh+7vjPMsKGlE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=OppX0DSr; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Cj308ehm; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A787D13CF82
+	for <linux-sound@vger.kernel.org>; Thu, 15 Oct 2026 01:39:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.179
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792028385; cv=pass; b=gdgrk5VCAIyMzurtLDErgnVaU7CcD0WjS+rkEpG3QLs4V2JCy5cBdq1uMQKsHTj02+ML2JI5YT9azg8RNosFKdoGWjBPTrmHfv7/szC1OAzL3D5YpcBE6O4pQzSYLcdPGG9WkFZfHdaeL1LONTjE1APDRAvUihP5FlJtJkFtVTI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792028385; c=relaxed/simple;
+	bh=7UAKkSVFiLjeCKqwwiBA8/TCsyeb/yPhvR9ZVVpCVjM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ZQaptMtqmpCjlXWkGcpE0a9bPrFcbMKkFvXmVXFNLpjlrDUObdQLo78KZSwsgYM3FsyIecXjlIaoPlWwQzLaf4Mxglj7ew92uC9TN07F54AGAzLsxzKZKSN/IY8Hs45Op7p6LwCeEBDWaOC5nkKjDzDdQHWG56Cp2sHTZB0p4Hs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i1n/68Qs; arc=pass smtp.client-ip=209.85.215.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="OppX0DSr";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Cj308ehm"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69ENJagZ500328
-	for <linux-sound@vger.kernel.org>; Thu, 15 Oct 2026 00:44:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	WwLvIv226Kbz3Mldv+ppT8nWCp7iwfoRCP3ii8p0yZA=; b=OppX0DSr1y+EdrxL
-	hQ53BDmahnAmCSDCDDZGm8/Mz2kpeAeqAoor/0xWh2mnzpTk7U1ANH6OZLcd2iVJ
-	xh4XILsG7jaFV4vY95YKadp0vMlBqMzromZAyfqyLovZXcdF5DXLWrh1wUcuWLc6
-	89AeZ/5Q8WVZW70aqvknq8tZMeAdwF7+t6RmuGcgOqiYx0s/AQxXLqqkYr2HV/UH
-	tEjKXZnWqxdnpS+a1Qqi/KpCbdViuiWbYcCwWvjVS3b0NaSGoXVCmTHD8iZ018fp
-	tfe4ATrMPiEXGxjwQm6mOiLx1vR4tNn/3nDJPcygrh2MTVkqGgddWoCs/o/Yi6zK
-	wPDYQA==
-Received: from mail-dy1-f197.google.com (mail-dy1-f197.google.com [74.125.82.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4haagf2duf-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Thu, 15 Oct 2026 00:44:26 +0000 (GMT)
-Received: by mail-dy1-f197.google.com with SMTP id 5a478bee46e88-3510d0baf63so4944086eec.1
-        for <linux-sound@vger.kernel.org>; Wed, 14 Oct 2026 17:44:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i1n/68Qs"
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-cd6028ff33fso1918039a12.0
+        for <linux-sound@vger.kernel.org>; Wed, 14 Oct 2026 18:39:43 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792028383; cv=none;
+        d=google.com; s=arc-20260327;
+        b=aEe5ZbiDqGtvOHTUDkOLHzJo1tf/0ewltUgfcVitThNxfe5DZ5UjzyGpDN54smgKZH
+         OXUUn1RMKMGHS7+rB8uEBf4Osfae5JXJ9rItxiMnIpoTB/DpgB32VSm1ShndozoU95KG
+         0MaTghNhjl6seEagofOYqA3EKRmfEGvsgpNO/+8nhhvKPlLD3rbLQ79qdy2fjtakQmLc
+         mzhO9rqjJSrRBHxPkj4g6zyUschFvtgSy6gm9VcTVcW4hrmUrT0I6SPW64Sdn2rdygRA
+         1175e/Mf/lKcXcDW1op7pipKSRXy1zZU6nFhT2NNz/RDNbo3N20Q2GVvbtPlpAIEarBl
+         8HRA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=7UAKkSVFiLjeCKqwwiBA8/TCsyeb/yPhvR9ZVVpCVjM=;
+        fh=Qw4n2klS0ZsgKCp0ryoddA9QzPuXrT76aZO8T0dTGrY=;
+        b=PzTvChJBtnT6Rye80pKGMP90M/d1LpURTqkO69OFX/kro1EhLNZgYC+Z6VPN6y7bWH
+         CwKoSAd1lc2OwOXbXI8bGYgfwgwp3LG4iW+DNG4yGDlcLTlMOQcU3JTshmuY9OCrGyzv
+         YhSnzw3FlAX+u3nslThh22cSGVHbxp1MN/R78Vjnq5H4m+bDhswIOM6spfLAxniXgJjZ
+         wYcGlxCuo6+t2dm8gC0zPQ32Y7Gsoru10lHUGF1gVBfDZ3UpKqsAb6ENh9cHfdAJ71IH
+         +EMKUTM4BL62CVsdA+3FAL7xs0IG6jzxpolZ09KmuTqWiBhjAW+C5DwS09C/hwlmf3ph
+         vD/A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1792025066; x=1792629866; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1792028383; x=1792633183; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=WwLvIv226Kbz3Mldv+ppT8nWCp7iwfoRCP3ii8p0yZA=;
-        b=Cj308ehmGm6PcUsT+wuhlNk+JBlFyCWT7fwZuXFnOmLIgoEBTGIJ3bXCl2ULuAsjKZ
-         kOchhixPPsAwO7XLXxDnAOvIxjK8gg1IZIdoF4kcrm2qd3xRyWl/kGErvhL5J/M9ILmV
-         rZxA6ttqi/mQ5+MOvOtMAFBpvUpE2OAAHB5AzZk6oBSxj+iEawL80JMnszeyDtvC5F4C
-         lJfv38AS/miKyJMy/j+K8drYnlmljOA98x50w3zWf/OJYwz5s0heOI3c1ZPWwGTUWDnM
-         FDPAuVQOBeWZWEGqsZ8+dUVM1ciu6OYwKj4CQHJIQneX8+rfXzXIPIiQ6x00axgLFkgu
-         F9Lw==
+        bh=7UAKkSVFiLjeCKqwwiBA8/TCsyeb/yPhvR9ZVVpCVjM=;
+        b=i1n/68QsX5mSayOSTyq612muWvig38beYybjN53xxBowSpgKghyZ6wLe5SrKRhhFLN
+         z7VEKfLPkGfG2/zX+ux25IZEL7f9Xi3dx+zNQtEhna+Fld8jir/Y0appgbtwM9AhTyTn
+         cFtf5G0MM3ZtF2rOfVXOL9T4tCmaBtLml2ExD+NrV2AsIUd0uiADbe6TMwAseyl0fs0l
+         ME3EELltZr+tcP01gHbOPNZmdvrjYY17UkYzSdaZZcxx08jvN5RXef9ZV5nyBLR7zKsL
+         a0OiB70a0Z73i6ukXnGBCyjqZIjM66xUfkL5i1e5QHQSTD2ujy256iZQHFetz10tWtyS
+         hxyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792025066; x=1792629866;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=WwLvIv226Kbz3Mldv+ppT8nWCp7iwfoRCP3ii8p0yZA=;
-        b=aW7bd1PszPGNi/hH2fOKa9Z3tEy2ADUNQLGBIdGX9P80wlrAsebB4HX3U+gHfQFBOn
-         3zqXF21A852FcEGboLy2ukEYlqUFEYTxSWWRToWSWVSg3Nnjldrju/JkjMOxjtldlvJn
-         3Ob7iCv19yNq5xKxPAu8bUYm00LSiyhDCM2D+dWbPX/A2gOUm1+Nk5CFopTCPOEwt9Ob
-         umd/OluZ/WpKYR7uYEJ70YgQXD0AVG7L5OYQBUXMhqcX8VaD6Ogm3zOp+Iy0KPHY+UU2
-         HeHgoAhX8zNlhLSU3e2xYnQf8/ANDXA8P+FP8qXXzQsk/uVKHr9M27HHgCK/4dru136W
-         GKAQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzYgH+667yIACE5XNBBIvmRnAXPuJNqAkdatYDfM1WQJ31zo+I7TqsAPICX6r0vMcU/9q2eDu5Uiz+LrQ==@vger.kernel.org
-X-Gm-Message-State: AFq9FYKgxNmDnZaRfGLxLGvKTp81tNfe3O+4Y7PRg0zYvps1s8tCWAbn
-	jxrvTn3kHfReb4LD7TAzFCc0mhvzYhkmGWzfGFnLwik0kFBpokkhcAkyyXFdvEWhDE8RZoXPnUW
-	X7OTrfgXs2CCCagDmHwQbdzjmX07wAPpgR3gEX7A5M/WtG066Oq6Ye8xrAM92iQN+cw==
-X-Gm-Gg: AYBFou2JMw8w+AZiHLYs8oz/qMerJ3bclrfjU+3AMcnRsGfXTI54TNmSxGif0d4Dx7E
-	Cy9rxU1RgSfPFHPh0uHEgcr8lJqNDTJi9AzjzEJ8sdKxxUiuUBjWhNbl5iW6+ND6ZENIPiMF5yR
-	5ug5TR92spolfRi8a3nxSN0SjK4JQmsFDJ7vzWKIs/t6iChb+hP8Af865nD3IgvLKvU9SErv/jo
-	NHtKiTq1uVtT0Tlq0/cOfrI4c+dfk3CnhAo184o24zymywUO8RxOzVyHkUw3HTlz1515Lv1clus
-	9Og6I8+4bIUmyx6NeU+yLBpWwNpjoO1+RisWeJjfpZL7J6LPliRkmKHYoGzefc4QlQdBhU+QL9z
-	CKwwAgnNcTOxj0b5dFIdF/eTIjwdu2YC42U8nEEegihpYD6g=
-X-Received: by 2002:a05:7300:d18b:b0:351:1e2e:da4d with SMTP id 5a478bee46e88-3537e0bdfe0mr24842335eec.23.1792025065623;
-        Wed, 14 Oct 2026 17:44:25 -0700 (PDT)
-X-Received: by 2002:a05:7300:d18b:b0:351:1e2e:da4d with SMTP id 5a478bee46e88-3537e0bdfe0mr24842296eec.23.1792025064843;
-        Wed, 14 Oct 2026 17:44:24 -0700 (PDT)
-Received: from [10.73.199.44] (pat_11.qualcomm.com. [192.35.156.11])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3537c61eaa0sm62458917eec.0.2026.10.14.17.44.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Oct 2026 17:44:24 -0700 (PDT)
-Message-ID: <5a60513e-9d39-4cbe-9f2b-dde8ca71a8a3@oss.qualcomm.com>
-Date: Wed, 14 Oct 2026 17:44:23 -0700
+        d=1e100.net; s=20260707; t=1792028383; x=1792633183;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=7UAKkSVFiLjeCKqwwiBA8/TCsyeb/yPhvR9ZVVpCVjM=;
+        b=V+Xm7d0E4bQnD8FEb/DSQBUv3fRb81ArkdB8Y43qqPmkKXRPDjOUxFG5EuE2+h4X21
+         1wAZYfRm/wQL7IJ8Q+5MWsBIRh/GJzJZDd2qcsRTtKEuuIl2+oh72G6ChV3yAp+Gfh9e
+         t5S8MmbuBX6BDH/RrACoHzGGWwzo8YHU1kFzLiLExlps5WBmXWBz8ASJ99+F6JiIRjBg
+         9bgHlFWfCoMEptAUEkK76L9PaPbN6nU6FsehNxFyzw6Ay1OjB+30EyUfRodAkievdHzE
+         5qaOdtW5N1XbTdbeq1rGz+bfrVmraqtBw8+QK8VYO6ovqc63QbxieQF3Lzdj4TOoAt/V
+         7v8Q==
+X-Forwarded-Encrypted: i=1; AKwUvBx9dcMiMmZoc+Eb2+ozydnJzkjyRnLqq0lPD/W+1lDCPjlwrPAsnfZUYgEEmp4MGzaLAKo8osZ7RPbBaw==@vger.kernel.org
+X-Gm-Message-State: AFq9FYIZ0Azcb3K8hsd2UrbpkE8c/Ek9H5i0/YRKf0a4vU1IDemgWeOE
+	HBWN9Q7YXVgbTNmAez89bx02QVs27BQE+O11/ICezQ5f4qf7V1ykcpJxbkKDptH+DOEOfLrqePN
+	PaetPrnaSIHuCCaHp1B20VcvA8CnKmxY=
+X-Gm-Gg: AYBFou0Ow2tXRmdsFe9th/ytjeYV6vIMmqgrm9k4lHQ3hTvFxSgo1KsbKTiiRajS0EV
+	7g2X31ip55f7CFBTMF+Gmpym4o17S/9sObB+1F6beZEDGeIkXajR7s8MF2KZxa/Hl8EjGe73kec
+	0zdmPv7loetRItG+QH0WwdTSiyDfo7LAZ125YbSe5uHurUNmyMPsAwwWQJufqmLJG6qVeXnQXey
+	Buxb8CtuPumvv0DmGD8Y03/ymqt7dcJ7TRNSgdwlZ2hDzUz+GEcVsLKenwVsmlYkPcIYNN9T2qg
+	6fDlgv28VQqbj2EYYiWRdq1dowRFQFg0a7kGp6kgTuc07dHzy5e29544F18u/qGHVUAPrIgaGWL
+	PiDqrtz8iHFg0VMrvZhpP39Na25+aE75nWlO1TdWZpthp6ksSCQtv/lk9tDtK+YIZgQs=
+X-Received: by 2002:a17:90b:4acc:b0:3a0:e1f7:9b04 with SMTP id
+ 98e67ed59e1d1-3ab3a60ac9amr16312045a91.12.1792028382966; Wed, 14 Oct 2026
+ 18:39:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 3/5] usb: xhci: sideband: allocate sideband ring
- segments from a dedicated pool
-To: Mathias Nyman <mathias.nyman@linux.intel.com>,
-        Michal Pecio <michal.pecio@gmail.com>
-Cc: Mathias Nyman <mathias.nyman@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-sound@vger.kernel.org
-References: <20260909-16k_offload_v1_b4-v4-0-f24a86617597@oss.qualcomm.com>
- <20260909-16k_offload_v1_b4-v4-3-f24a86617597@oss.qualcomm.com>
- <68b34f04-f7e2-4468-8a18-ac97decb987d@linux.intel.com>
- <82e0b9c7-3b3f-4dce-a72e-64989b08ef98@oss.qualcomm.com>
- <20261013111110.423dd0ff.michal.pecio@gmail.com>
- <73096f91-146a-4754-a685-f3b22f1ac3d5@linux.intel.com>
-Content-Language: en-US
-From: Wesley Cheng <wesley.cheng@oss.qualcomm.com>
-In-Reply-To: <73096f91-146a-4754-a685-f3b22f1ac3d5@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDE1MDAwMSBTYWx0ZWRfX7ZAZcWC/3Mm3
- 8RgtnIwtROssd/oSJM20iV2k43ww381fpW/urSp1Iu54RvHKFj+fQs/K0IBPPLT0uQrhlH0AsRE
- hKp3mlD1sraTmMbAYkZis0r/ODcv7Z7pI8d4Fd7uLTvNdItNM+F2uKuYj7Ny+7shAi7EoPD1pFk
- HCjboUB3dAE6jRFSnHrqPYN8jnGoxkDuG3znQtiH1+EieM8qLBa6PG66N7YRXN3N1C9v/+sdg81
- 60bC0Q6S5MO6/vpmfkDBGfe4Icrbb1S4mOm09gcPT5tLIoPrFz0SxJZKqzmUqz/0SpYmZKlZWOj
- HkiS8efUBrmoQbBWAXMLfE0pngi/1++w5xfwefj1uv05jci69ZQkBkhyEH4iiiidfscHmVMePZ7
- qB2va+bipEvFM1trKPINUGF8mIQJOIaB/un8LK/BUXJUulncTnmtfd9YD1v0KsrdRKZXOs411QG
- jfKFlMIB1JP7/eHlNKQ==
-X-Proofpoint-GUID: ix4LhAxODGOjHOVo6wjcgnkuu3Iz76pf
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDE1MDAwMSBTYWx0ZWRfX35BoEc5wiy8N
- ltA++ZRwCjGyMhqOgt8nzaxqr8wXzre3RyFuN4UTsKBAVgXSYWhY2O93yFH3v4F+I6j8dSB6c8z
- BfLYYx8HpMlzbBw71PamfDi+zFYXiHw=
-X-Proofpoint-ORIG-GUID: ix4LhAxODGOjHOVo6wjcgnkuu3Iz76pf
-X-Authority-Analysis: v=2.4 cv=V/noQuni c=1 sm=1 tr=0 ts=6ad021ea cx=c_pps
- a=Uww141gWH0fZj/3QKPojxA==:117 a=ZdW6uxA9NKXbfdqeeS2OGA==:17
- a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
- a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=ZtxY5wSq_RZQGLwgOdYA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=PxkB5W3o20Ba91AHUih5:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-10-13_01,2026-10-14_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 malwarescore=0 lowpriorityscore=0 impostorscore=0
- bulkscore=0 adultscore=0 clxscore=1015 phishscore=0 spamscore=0
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610080000
- definitions=main-2610150001
+References: <20261008103831.542533-1-phucduc.bui@gmail.com>
+ <20261008103831.542533-22-phucduc.bui@gmail.com> <87o6cyxyau.wl-kuninori.morimoto.gx@renesas.com>
+ <CAABR9nHvCfabGfBu85bm1r=hP3b0ZiCsgZfShhOv3gNUfjjhGg@mail.gmail.com>
+ <87se2aw3ot.wl-kuninori.morimoto.gx@renesas.com> <CAABR9nG-YJZEdj6pVD-gbGU6J2EfRMQYsKd7u0UTgfrWOyAPXA@mail.gmail.com>
+ <87qzhtyxw6.wl-kuninori.morimoto.gx@renesas.com> <3a6759c7-84bc-46ff-93f1-965c7e8dd4d0@tuxon.dev>
+In-Reply-To: <3a6759c7-84bc-46ff-93f1-965c7e8dd4d0@tuxon.dev>
+From: Bui Duc Phuc <phucduc.bui@gmail.com>
+Date: Thu, 15 Oct 2026 08:39:29 +0700
+X-Gm-Features: AclHuK8C1u90VDPCucQhY3afyuLfcxP0SCIJrlA3M2hLxVwcjMsqinLCGr2nhSI
+Message-ID: <CAABR9nFA5p=5hnMoxFHLtmGEj4kvfrN6M6UFPnm9hRQv_CAP6Q@mail.gmail.com>
+Subject: Re: [PATCH 21/24] ASoC: renesas: msiof: Fix msiof_close() being
+ skipped on rollback
+To: claudiu beznea <claudiu.beznea@tuxon.dev>
+Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
+	Vijendar Mukunda <Vijendar.Mukunda@amd.com>, 
+	Venkata Prasad Potturu <venkataprasad.potturu@amd.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	povik+lin@cutebit.org, Andrei Simion <andrei.simion@microchip.com>, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, David Rhodes <david.rhodes@cirrus.com>, 
+	Richard Fitzgerald <rf@opensource.cirrus.com>, Shengjiu Wang <shengjiu.wang@gmail.com>, 
+	Xiubo Li <Xiubo.Lee@gmail.com>, Fabio Estevam <festevam@gmail.com>, 
+	Nicolin Chen <nicoleotsuka@gmail.com>, Frank Li <Frank.Li@nxp.com>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Cezary Rojewski <cezary.rojewski@intel.com>, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+	Bard Liao <yung-chuan.liao@linux.intel.com>, 
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, Heiko Stuebner <heiko@sntech.de>, 
+	Kees Cook <kees@kernel.org>, Syed Saba Kareem <syed.sabakareem@amd.com>, 
+	wangdicheng <wangdicheng@kylinos.cn>, Chris Bainbridge <chris.bainbridge@gmail.com>, 
+	Linus Walleij <linusw@kernel.org>, Charles Keepax <ckeepax@opensource.cirrus.com>, 
+	Neo Chang <YLCHANG2@nuvoton.com>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, u.kleine-koenig@baylibre.com, 
+	Pengpeng Hou <pengpeng@iscas.ac.cn>, 
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, Hemanth Selam <hemanth.selam@gmail.com>, 
+	Md Shofiqul Islam <shofiqtest@gmail.com>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Zain Aboobacker <zainaboobacker33@gmail.com>, Sang-Heon Jeon <ekffu200098@gmail.com>, 
+	Ajit Kumar Pandey <AjitKumar.Pandey@amd.com>, 
+	Ravulapati Vishnu vardhan rao <Vishnuvardhanrao.Ravulapati@amd.com>, Bo Shen <voice.shen@atmel.com>, 
+	Vinod Koul <vkoul@kernel.org>, linux-sound@vger.kernel.org, asahi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, patches@opensource.cirrus.com, 
+	linuxppc-dev@lists.ozlabs.org, imx@lists.linux.dev, 
+	linux-rockchip@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
+Hi Claudiu, Morimoto-san,
 
+> >
+> >> For rz-ssi: in DMA mode, the driver registers the generic dmaengine
+> >> PCM component, whose .open callback already applies the integer
+> >> PERIODS constraint via snd_dmaengine_pcm_open().
+> >>
+> >> Could we drop rz_ssi_pcm_open_dma() instead, and keep the return
+> >> value fix only for rz_ssi_pcm_open_pio()?
+> >
+> > It seems fine, but I don't know detail of rz-ssi.
+> > Claudiu, what do you think ?
+>
+> That should work. I'll test v2 once it's out.
+>
 
-On 10/14/2026 7:26 AM, Mathias Nyman wrote:
-> On 10/13/26 12:11, Michal Pecio wrote:
->> On Mon, 12 Oct 2026 18:01:50 -0700, Wesley Cheng wrote:
->>> On 10/5/2026 4:03 AM, Mathias Nyman wrote:
->>>> xhci is the one allocating the ring when adding an endpoint, and
->>>> telling xHC hardware to write to that ring. It seems more
->>>> approriate that xhci should be the one freeing the ring after it
->>>> told xHC hardware to drop the endpoint, and there no longer is a
->>>> risk on hardware accessing it.
->>>
->>> Hi Mathias,
->>>
->>> Sorry for the late response.  Was out last week.
->>>
->>> Specifically in the disconnect path (while audio offload is active),
->>> when we utilize the usb_set_interface() path, it'll return early due
->>> to the iface->unregistering check.  This would lead to the
->>> drop_endpoint not to be called, and rely on the xhci_free_dev() to
->>> handle the transfer ring cleanup.  This wouldn't work in the offload
->>> situation, because qc_audio_offload is the only entity managing the
->>> DMA pool, and that would be freed during the .disconnect callback,
->>> which happens BEFORE xhci_free_dev().
-> 
-> You are right, audio class driver .disconnect is called, driver unbound
-> and interface device gone before xhci_free_dev() is called.
-> 
-> If sideband is unregistered as part of .disconnect callback it also means
-> ring/pool would be destroyed before xHC has dropped the endpoint/disabled
-> the slot. Would be better to free the ring after we know xHC controller
-> won't access it.
-> 
->>>
->>> Would you be more inclined to prefer a solution where we can defer
->>> the DMA pool free'ing to the xHCI core during xhci_free_dev, or maybe
->>> adding another sideband notifier (sb->notify_client) enum to tell the
->>> client driver that it can release the pool?
-> 
-> sb->notify_client callback has the risk that this sideband entity is
-> unregistered and gone by the time we want to call it
-> 
-> Deferring freeing the DMA poolby some kind of reference counting again adds
-> complexity, and maybe not a suitable solution for this issue.
-> (taking a reference at sideband register and every dma_pool_zalloc(), putting
-> when freeing or sideband unregister, finally freeing pool when reaching zero.)
-> 
-> I'm trying to figure out a simpler solution.
-> 
-> How about skipping dma pools completely for endpoints in these cases?
-> (page size over 4k with offloaded endpoints)
-> 
-> Instead of sideband client creating a custom dma pool it could just set a
-> 'no dma pool' flag for the endpoint. xhci driver would allocate the
-> ring segments using dma_alloc_coherent() instead of dma_pool_zalloc() for
-> these, possibly even allocate a full page for each segment?
-> Freeing would be done similarly.
-> 
-> Would this be a viable simple solution?
-> 
+Thanks for your help and feedback. I'll send v2 now.
 
-I think so, this was something similar I proposed on v0:
-https://lore.kernel.org/all/20260824-16k_offload_v1_b4-v1-0-49a6be60ca30@oss.qualcomm.com/
-
-In that case, the client offload driver wasn't responsible for freeing 
-anything and that was all taken care of by xHCI core.  The sideband just 
-set the alignment_req.  Might need to make some adjustments after the 
-further discussions we've had.
-
-Thanks
-Wesley Cheng
-
->>
->> I'm not Mathias but my opinion is the same as always: none of these
->> problems would exist if the sideband client allocated and freed all
->> transfer/event ring memory, and xhci-sideband only owned a mapping.
->>
->> The mapping would be freed by xhci_sideband_unregister() or similar
->> calls, which should ensure that the xHC stops using the rings, and
->> memory would only be freed by the client driver after unregistering
->> the sideband and stopping the coprocessor. Nothing is ever UAF or
->> leaked, and ensuring this is *easy*. And if xhci-hcd randomly wants
->> to get rid of some endpoint, it simply stops using the mapping and
->> lets the sideband client clean it up two milliseconds later.
->>
->> One thing I'm not entirely sure about is how we could create this
->> mapping. Using bare iommu_map() creates a hard dependency on IOMMU.
->> Documentation/core-api/dma-attributes.rst mentions possibility of
->> using generic dma_map_() helpers on multiple devices, so maybe this
->> can work, but I haven't seen existing examples of such use.
->>
-> Could be an option, but maybe not for this specific issue.
-> It's a larger, complex change without any real need (yet).
-> 
-> I'm hoping vendors would move away from this sideband implementation
-> instead of evolving it, adapting the 'xHCI Audio Sideband Capability'
-> defined in xHCI  specification section 7.9 instead.
-> 
-> Thanks
-> Mathias
-
+Best regards,
+Phuc
