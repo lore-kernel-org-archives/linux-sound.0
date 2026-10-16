@@ -1,228 +1,142 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B69131DDBB
-	for <linux-sound@vger.kernel.org>; Fri, 16 Oct 2026 02:18:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84808339375
+	for <linux-sound@vger.kernel.org>; Fri, 16 Oct 2026 02:39:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792117085; cv=none; b=rRP8Wk1tFf/5ixcYX0a6GLXVu7Zr/Mw/AI1jvFVCIFCouMpMY+ZyrWrbMqQyZdssOXFkmLildHXqVuHKSCF3WljiJRmfrJCHKWe+LkhcK8I+s3R2WTZQDYS2R0S2QV7hyazrNeLabVI1dasgWdA9TRuFkWgC/vm1ah812OK6gh8=
+	t=1792118357; cv=none; b=Wg6qyO2yybq0an82IYC7Ad8xdVgeayddXjEkqN9ngMe2ybf4/jmcrUVnJjGPBOgdijUUYZLXQupiYJIQAW7T+oaGP0dJjC8T6cpqDe8n3bnQg3y7RlyI+8PaSFVLfnaFrXYFVipjlnJB/Kv415uraFafAXEPGsLfrymorUbK5Ho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792117085; c=relaxed/simple;
-	bh=GBFbgKzou55yninokS8DLRi/3/Ccr4x4v6rKeAamxJE=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=lST0dK6273F8Bdagdxux0EM8bOGgw97rtts70yzVEysALzocAkZhBwSRjrPWKO1JFF84vgf8ZO1EFK7W0MzzTUfmFTBus+Ikgl3RzBrXOirrMEORHqg1ELD/+TCfU0JBmz4UyLvcv5j0hKk7FFFDnlTE6RrEtD757xP+MC2CNaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VJHyxo08; arc=none smtp.client-ip=209.85.216.50
+	s=arc-20240116; t=1792118357; c=relaxed/simple;
+	bh=ukvRG+eGml9IVW95j6YyXQHLAFiPnlfIx2qs8F/RGic=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=H7yQyfe+yRN711DgXMAfE8ibdq0vdCmB17LfOAoBvd6EHvYUq7/sT8g/yPLNb7QWnMg9eTZyQIF/gDEtxf1weuFA6PGfPsJBW0ag+28Bxm5wsw1sVzsLPRrSEMIazfh/hTE4cTWVYWHObLbOQAwPvPijCARa680cMRut8As7Y78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hMQszls/; arc=none smtp.client-ip=209.85.160.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VJHyxo08"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-3a7cfe8f761so384811a91.1
-        for <linux-sound@vger.kernel.org>; Thu, 15 Oct 2026 19:18:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hMQszls/"
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-533861a59b8so23245151cf.1
+        for <linux-sound@vger.kernel.org>; Thu, 15 Oct 2026 19:39:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792117083; x=1792721883; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
+        d=gmail.com; s=20251104; t=1792118355; x=1792723155; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:content-type:message-id:date
          :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=WlzWRF8aDptzQD1ma/Z723oZi8PKFT4bgskbfzy3X34=;
-        b=VJHyxo08Ix9V1+PzHwq4qIvNIY8xrtCNZ84yj4LAzLd6UWMMz7IUpPuE/iFBloLT/8
-         Iu9ZtgLoA46TfgM+waaVskudsQMXevP/HvoGFhbpUpJrxMxELb8qs5XuS1BNuvNWura0
-         52oKFyOcttefxfsi2k8SBEl9A8gXkhWIF7zs3VI7gQ95x0QDb37aCERyiHUK+7ALKY0C
-         d6PvlfUUsAAFa8gHkxAlXZJ+s3WwSBPKsD6MPn4YXARr2JQF/DkuEHFS5c6s4rCizBSB
-         JA5AZrEqfOsojQd3aDjqbyTi1SQCOh3+e9pAAPy26oahmQTttzuI+jCM4VNz+aJ28XnK
-         YgUw==
+        bh=bSW72b6TbEDeHWj4s+TQe2ybMIewbEC1kCXuvHMAJq4=;
+        b=hMQszls/BpON0PvW98EQHQZjchs0Becn5V3ufv/HesZ+1GMb719fI9zPDTOaTaMqAF
+         yJG7L7QsAsbO0CdMi3kt7qt/vumfuKeP/3/QipYWBw4ajhRc9Q9T31RlilqfP5vjIZqE
+         xjPFL89IKzhs+DoircawqEfCaV9J2JHRFv54y9ZEKRQQq9Mz5wrkzGjlNFYaA7evqY1g
+         i3hYZoZChpJ0an4cwkvbD1qAWG1jl6Grm4bjEotvTBgW+4UDyIeUVhGrKmERRx6kwt1e
+         lZJf+3LrWF5QbW6BaZqwUINR97TwxzR1/epZBIiXqrm2r+naymlInEbR5jvQcuCv4N9L
+         X3ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792117083; x=1792721883;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
+        d=1e100.net; s=20260707; t=1792118355; x=1792723155;
+        h=content-transfer-encoding:mime-version:content-type:message-id:date
          :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=WlzWRF8aDptzQD1ma/Z723oZi8PKFT4bgskbfzy3X34=;
-        b=HFd4lIahkcwu/JoNhtQVed3Bcga/IJy/yat2Mhg/H2NmU+JL6r77lmOKIDMRfKp03D
-         REgKS2OjHsKWUi9uV15DayaRyi4i0EGAWPVe9UWJhCSg7ZeXN5Gosa1YoJgj1m01rmhT
-         JdJesXPr0XdrvhoOkZIRahkQl8v+MfRNL5+sbzatvqvnVS8igxnCeuFtvwrqVXl7lK7v
-         xG+Wmvg4aRtaSqpRsLspPyChGkqUCMyHRtklZkZIX5Jopx81drnvmuQqPacA4QqcFBW6
-         utFYD+NlfanbYTX62BrWe7tU2gGj5H5NeNBPemXVSYYZRrTKYIFMl8Sbr/eEIwWLT5ZS
-         gMJg==
-X-Gm-Message-State: AFq9FYLfm30519XU/neF01VTjfsxHsG/8DvUgnBpnNekGF1JuDEo8VOk
-	NabDIV71cq9pMON8twqmG1DFEeZF9iwyTMIqCV2v/2SDZNpKT4jdqQpp
-X-Gm-Gg: AYBFou0ditAnH6eHUTAxx+iFTfQfepIlhhCHwofDV4ukEBvVZxZr4CrLL7G2Fmwp2Jz
-	vAwOu04PU6jldRMrTsK5h1/I8whKGW3IktyR0MeJ/qOlh45oUB703+viAOXDNR5QOzlFW6r6fvl
-	iUytIM2V6gXXGSTGIFKh7F0L0ynC3wYrxhFe5jn3kQQgyYf6ORTF6ZFSZBx7n9556UeZ4KVrrGm
-	f4UEfmTqMHVNWc5lI7d4e80JyD9L8FsWco0EBZK0bYKsmdxUYL4TcI52J/wxLWAtvbFSge/KsSg
-	/kYWTnIx4R3cG615sF3llF5MvrjXec9S5FmTBzdLWQKIKgQjEQyzqSjGd89DPImDRQhAaYG1m56
-	Ivz/2COgaPAZ1EaZtQ6PL3clPZHAEuypjxY6Ug/wwziG8piZDnvETZB+AAGobx4A2VDTfEtZBd8
-	MjkieTFelmlScV4C2E4PQO3bzgi5+HZr0Ep6GNWsoLxxS8u9nFLJjbMjVJ30C6C3K/E1w=
-X-Received: by 2002:a17:90b:4a85:b0:3a0:d7f2:5a58 with SMTP id 98e67ed59e1d1-3acbb68a0a3mr1226044a91.3.1792117083210;
-        Thu, 15 Oct 2026 19:18:03 -0700 (PDT)
-Received: from localhost ([111.228.63.84])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ac94798212sm6830721a91.14.2026.10.15.19.18.00
+        bh=bSW72b6TbEDeHWj4s+TQe2ybMIewbEC1kCXuvHMAJq4=;
+        b=o2S/5kd01Nz/Qiiffr9eq7iALT4qI+EgnuJliD/Fdy8pqt58EQzTDVW59RR5k79YDc
+         MPt4TIorE0CfAs346mphXcvVTzCFDF8iqIW+UYSSTFJcB5hYgXFqHFOEjaFRcvK8vLPP
+         8yB03oHtSkmtgn4Laiavw/zzI1L2TzSXkzsiSu7UwyWV8RBVXQU81N/0RlIR/tfW6kvS
+         F9Hn8OfyaQO6c6b8XVQoxMipTbdjc2+OT6bqe9BWMyUENeIhdEt/SXnwSlvTd3elC2eL
+         yNT+/wmQU/pq0uG/kDhRMNH5yJkUy820iNer7KQIWypxpaCAUO4AIsd7SJXDqF+YBs7F
+         hA8Q==
+X-Forwarded-Encrypted: i=1; AKwUvBx7/CS4ovSo7Arp2RVX4smH8NHmeONLW8VxGFqZSqyT2IZP07cmLC2Br9pMKBgd65TA5+yjz1zChCe7pg==@vger.kernel.org
+X-Gm-Message-State: AFq9FYLybI9RR71Pb7/T3TGx8QWaV4ekuxhJiiXCEjHs/ghTEGTxg9HK
+	bQ9+eZLaciukU4CDlJM0C6LmgkSXuJkF84BroJABFnUyC56VcVTt0ti3O9S73LfVOw==
+X-Gm-Gg: AYBFou19GGh1r9fkC06HPocqo/mAVedsnl81ddQjBzmx18QUE5QDhjKPSUFCAiNYFXQ
+	8fOxy0DzkrNpK3qoa09uoJ79Ln9FjToJOmzRZKLVcuOEKprWospRG2RAHtt3s3pKLM6nISezmZd
+	0H1/QmO69d+Bys3fw06OryctU+/Go9XzMDNAff4/6yx9dCRGXaVkt5TkyHA0MdTY/dH72H7Z+Ll
+	H56zccysesvhYTlDbkgupoT04wPwizUDlg/m5xCjGwn5e9umHIgc6DQ3ANQWzwYkF9yDP5m74vs
+	xw1IqlY+1vUQstl2qqZb41eMz2aYELLt9kdENopiVyByTc0X5X/OrUDUu/V/R7i3AdipRd7YDD8
+	SA7NAaueLGwk8RZYrWTrYUcRwMggt1GPnIn3nDlXOEPctIKz6W/S/MKGq7y8ZniOf3EFHawMSIR
+	jftZ1cEpO88xneI31lgGeAY5X81hF99iyYrhzybkX1rZIN11J6TlN9dQX40kiLSEhp8gX9ecQUj
+	zWjAjvegv+byRYH7oMKaQn6fTvE1F5fDZ8zXIoX7Ci4V16IKf9fQejwuHKPXlSWEdI9wJJ9yxhg
+	AI/VYe4+GeZLIyVr13LPzqiqs/XG
+X-Received: by 2002:ac8:5f8e:0:b0:51c:fc4:a144 with SMTP id d75a77b69052e-5359f46d56bmr352039851cf.4.1792118355392;
+        Thu, 15 Oct 2026 19:39:15 -0700 (PDT)
+Received: from i4-gl-tmk5904-1.ad.psu.edu ([130.203.156.90])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5362a8e782fsm10160841cf.8.2026.10.15.19.39.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Oct 2026 19:18:02 -0700 (PDT)
-From: Cen Zhang <zzzccc427@gmail.com>
-To: perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
+        Thu, 15 Oct 2026 19:39:14 -0700 (PDT)
+From: Myeonghun Pak <mhun512@gmail.com>
+To: Shengjiu Wang <shengjiu.wang@gmail.com>,
+	Xiubo Li <Xiubo.Lee@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: Myeonghun Pak <mhun512@gmail.com>,
+	Fabio Estevam <festevam@gmail.com>,
+	Nicolin Chen <nicoleotsuka@gmail.com>,
+	linux-sound@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
 	linux-kernel@vger.kernel.org,
-	baijiaju1990@gmail.com,
-	jjzuming@gmail.com,
-	zzzccc427@gmail.com
-Subject: [PATCH] ALSA: seq: oss: Ignore sync echoes without a write queue
-Date: Fri, 16 Oct 2026 10:17:58 +0800
-Message-Id: <pm-pmb-3634251be738461947da-v2-64371e8c8d6cbf6956a3@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	Ijae Kim <ae878000@gmail.com>
+Subject: [PATCH] ASoC: fsl_esai: Disable reset work before suspending on remove
+Date: Thu, 15 Oct 2026 22:39:12 -0400
+Message-ID: <20261016023912.3658714-1-mhun512@gmail.com>
+X-Mailer: git-send-email 2.53.0
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The sync-echo callback needs a write queue before it can wake up a
-synchronizing writer. However, snd_seq_oss_open() publishes the session's
-port with snd_seq_oss_event_input() as its callback before allocating
-and assigning dp->writeq.
+XRUN recovery was introduced as deferred reset and later converted to a
+work item. The reset reads ESAI registers and can restart the transmit
+and receive paths. fsl_esai_remove() currently suspends the device before
+cancelling the work, so a running reset can overlap regcache and clock
+shutdown. The managed IRQ can also queue another reset after cancellation.
 
-A kernel caller using snd_seq_kernel_client_dispatch() with the OSS
-client ID can deliver an ECHO containing SEQ_SYNCTIMER to this port
-before the write queue is assigned. The helper stamps the supplied
-client ID into the event, so the callback's source-client check accepts
-it. Regular userspace events carry their own client ID and are rejected.
+Disable and drain the work before runtime PM teardown. This lets an
+already running reset finish while the device is active and rejects later
+queue attempts until the managed IRQ is released. The IRQ handler's own
+register accesses during teardown are a separate issue.
 
-The failing ordering is:
+This issue was identified as part of our ongoing research while
+reviewing kernel code.
 
-    OSS open                          Kernel direct dispatch
-    --------                          ----------------------
-    Zero-allocate dp
-    Set dp->cseq
-    Publish callback port
-                                      Dispatch ECHO as the OSS client
-                                      Look up and pin that port
-                                      Enter snd_seq_oss_event_input()
-                                      Pass NULL to writeq_wakeup()
-    Allocate and assign dp->writeq
-
-Dispatch reaches the callback after port publication and before the
-queue assignment. OSS register_mutex serializes open and release, but
-direct dispatch does not take it. The port use reference keeps dp alive
-through the callback; it does not wait for constructor initialization.
-The wakeup helper therefore attempts to acquire sync_lock through a
-NULL queue pointer, causing a fault.
-
-Sample dp->writeq once in the SEQ_SYNCTIMER branch and ignore the echo
-when the queue is absent, matching the adjacent read-queue check. Pass
-the checked pointer to the wakeup helper so a NULL sample cannot reach
-the lock access. The existing port reference protects the queue's
-lifetime through this call, since port deletion drains callbacks before
-free_devinfo() frees the queue.
-
-KASAN report as below:
-
-    Oops: general protection fault, probably for non-canonical address 0xdffffc000000000d: 0000 [#1] SMP KASAN NOPTI
-    KASAN: null-ptr-deref in range [0x0000000000000068-0x000000000000006f]
-    CPU: 2 UID: 0 PID: 69 Comm: kworker/2:1 Tainted: G        W           7.2.0-rc6-pmb-bt-functional-v1+ #1 PREEMPT(lazy)
-    Tainted: [W]=WARN
-    Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-    Workqueue: events pmbd_dispatch_early_sync_echo
-    RIP: 0010:do_raw_spin_lock+0x71/0x270
-    Code: d0 60 81 49 8d 14 04 c7 02 f1 f1 f1 f1 c7 42 04 04 f3 f3 f3 65 48 8b 15 05 df 88 09 48 89 54 24 60 31 d2 48 89 fa 48 c1 ea 03 <0f> b6 14 02 48 89 f8 83 e0 07 83 c0 03 38 d0 7c 08 84 d2 0f 85 b9
-    RSP: 0018:ffff88810450f878 EFLAGS: 00010013
-    RAX: dffffc0000000000 RBX: 0000000000000068 RCX: 0000000000000000
-    RDX: 000000000000000d RSI: 0000000000000000 RDI: 000000000000006c
-    RBP: 0000000000000293 R08: 0000000000000001 R09: 0000000000000000
-    R10: ffffffff8940fe57 R11: 0000000000000000 R12: 1ffff110208a1f10
-    R13: 0000000000000068 R14: 0000000000000001 R15: ffff88810450fbee
-    FS:  0000000000000000(0000) GS:ffff8881fd885000(0000) knlGS:0000000000000000
-    CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-    CR2: 00000000006d2890 CR3: 0000000106cbf002 CR4: 0000000000770ef0
-    PKRU: 55555554
-    Call Trace:
-     <TASK>
-     ? pmbd_probe_hit_cookie+0xee/0x1c0
-     ? __pfx_do_raw_spin_lock+0x10/0x10
-     ? lock_acquire+0x2b8/0x2f0
-     ? __pfx_pmbd_probe_hit_cookie+0x10/0x10
-     _raw_spin_lock_irqsave+0x44/0x60
-     ? snd_seq_oss_writeq_wakeup+0x30/0xf0
-     snd_seq_oss_writeq_wakeup+0x30/0xf0
-     snd_seq_oss_event_input+0x1e4/0x2a0
-     ? do_raw_read_unlock+0x49/0xe0
-     ? __pfx_snd_seq_oss_event_input+0x10/0x10
-     __snd_seq_deliver_single_event+0x105/0x1a0
-     ? snd_seq_port_use_ptr+0x111/0x170
-     snd_seq_deliver_single_event+0x2fc/0x770
-     ? __pfx_snd_seq_deliver_single_event+0x10/0x10
-     ? __pfx_pmbd_hold_maybe+0x10/0x10
-     snd_seq_deliver_event+0x45a/0x760
-     ? __pfx_do_raw_spin_lock+0x10/0x10
-     ? lock_acquire+0x2b8/0x2f0
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     ? __pfx_snd_seq_deliver_event+0x10/0x10
-     ? _raw_spin_unlock_irqrestore+0x44/0x60
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     ? trace_hardirqs_on+0x18/0x160
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     ? _raw_spin_unlock_irqrestore+0x44/0x60
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     snd_seq_kernel_client_dispatch+0x19c/0x1e0
-     pmbd_dispatch_early_sync_echo+0x121/0x1c0
-     ? __pfx_pmbd_dispatch_early_sync_echo+0x10/0x10
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     ? finish_task_switch.isra.0+0x1dc/0x980
-     process_one_work+0x908/0x19c0
-     ? __pfx_process_one_work+0x10/0x10
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     worker_thread+0x65c/0xe40
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     ? __kthread_parkme+0x175/0x220
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     ? __pfx_worker_thread+0x10/0x10
-     kthread+0x34f/0x460
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     ? __pfx_kthread+0x10/0x10
-     ret_from_fork+0x659/0x940
-     ? __pfx_ret_from_fork+0x10/0x10
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     ? __switch_to+0x74f/0xf80
-     ? __pfx_kthread+0x10/0x10
-     ret_from_fork_asm+0x1a/0x30
-     </TASK>
-    Modules linked in:
-    ---[ end trace 0000000000000000 ]---
-    RIP: 0010:do_raw_spin_lock+0x71/0x270
-    Code: d0 60 81 49 8d 14 04 c7 02 f1 f1 f1 f1 c7 42 04 04 f3 f3 f3 65 48 8b 15 05 df 88 09 48 89 54 24 60 31 d2 48 89 fa 48 c1 ea 03 <0f> b6 14 02 48 89 f8 83 e0 07 83 c0 03 38 d0 7c 08 84 d2 0f 85 b9
-    RSP: 0018:ffff88810450f878 EFLAGS: 00010013
-    RAX: dffffc0000000000 RBX: 0000000000000068 RCX: 0000000000000000
-    RDX: 000000000000000d RSI: 0000000000000000 RDI: 000000000000006c
-    RBP: 0000000000000293 R08: 0000000000000001 R09: 0000000000000000
-    R10: ffffffff8940fe57 R11: 0000000000000000 R12: 1ffff110208a1f10
-    R13: 0000000000000068 R14: 0000000000000001 R15: ffff88810450fbee
-    FS:  0000000000000000(0000) GS:ffff8881fd885000(0000) knlGS:0000000000000000
-    CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-    CR2: 00000000006d2890 CR3: 0000000106cbf002 CR4: 0000000000770ef0
-    PKRU: 55555554
-    Kernel panic - not syncing: Fatal exception
-    Kernel Offset: disabled
-    Rebooting in 1 seconds..
-
+Fixes: 7ccafa2b3879 ("ASoC: fsl_esai: recover the channel swap after xrun")
 Assisted-by: LLM
-Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
+Co-developed-by: Ijae Kim <ae878000@gmail.com>
+Signed-off-by: Ijae Kim <ae878000@gmail.com>
+Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
 ---
+Compile-tested with GCC, W=1 (arm64). No runtime testing.
 
-diff --git a/sound/core/seq/oss/seq_oss_event.c b/sound/core/seq/oss/seq_oss_event.c
-index 122735862044dcc9942ed0f79d4d88f2e0d6f4ba..3c2cfaea94d1de14f70e24ada73172fe6afb75b0 100644
---- a/sound/core/seq/oss/seq_oss_event.c
-+++ b/sound/core/seq/oss/seq_oss_event.c
-@@ -433,8 +433,12 @@ snd_seq_oss_event_input(struct snd_seq_event *ev, int direct, void *private_data
+Backports before the tasklet-to-work conversion need adaptation; check
+disable_work_sync() availability.
+
+ sound/soc/fsl/fsl_esai.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/sound/soc/fsl/fsl_esai.c b/sound/soc/fsl/fsl_esai.c
+index 4a530a6..83a9963 100644
+--- a/sound/soc/fsl/fsl_esai.c
++++ b/sound/soc/fsl/fsl_esai.c
+@@ -10,6 +10,7 @@
+ #include <linux/of_irq.h>
+ #include <linux/of_platform.h>
+ #include <linux/pm_runtime.h>
++#include <linux/workqueue.h>
+ #include <sound/dmaengine_pcm.h>
+ #include <sound/pcm_params.h>
  
- 	rec = (union evrec*)&ev->data;
- 	if (rec->s.code == SEQ_SYNCTIMER) {
-+		struct seq_oss_writeq *writeq = READ_ONCE(dp->writeq);
+@@ -1099,11 +1100,11 @@ static void fsl_esai_remove(struct platform_device *pdev)
+ {
+ 	struct fsl_esai *esai_priv = platform_get_drvdata(pdev);
+ 
++	disable_work_sync(&esai_priv->work);
 +
-+		if (!writeq)
-+			return 0;
- 		/* sync echo back */
--		snd_seq_oss_writeq_wakeup(dp->writeq, rec->t.time);
-+		snd_seq_oss_writeq_wakeup(writeq, rec->t.time);
- 		
- 	} else {
- 		/* echo back event */
+ 	pm_runtime_disable(&pdev->dev);
+ 	if (!pm_runtime_status_suspended(&pdev->dev))
+ 		fsl_esai_runtime_suspend(&pdev->dev);
+-
+-	cancel_work_sync(&esai_priv->work);
+ }
+ 
+ static const struct of_device_id fsl_esai_dt_ids[] = {
