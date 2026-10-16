@@ -1,203 +1,95 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A23224D957E;
-	Fri, 16 Oct 2026 14:35:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13F154D794C;
+	Fri, 16 Oct 2026 14:43:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792161324; cv=none; b=R4VBkKL81rFqA970gt4k4hLFjVcjhHkQtE/dLrl0AdD4iTxv5iM6KeUPxhZhPdSdpBHUDTz2bslyePAsjmOGqpukT/xxBAtEJBDEE0AG+E1uM5DwU2c9JS9XN7bWUOlo2Ynj+QCNR52/S76b8+6ztqFnzFc3u0z6HYZT0Xi4EDs=
+	t=1792161784; cv=none; b=qvoaDP/87YR7ihPyLHXggijt0m50khvFRhkyuzE9jCWeN4hJVOmEvkOOwfCTXrxSMhwqama345+W14XIjn3Rn05UGwW/bbBRpAH4mBNU1/BrXK7c3ljcPitS2SQQQT5s0Tii7kn1gHY5kbh20W4jc4hcr0toO1bI++PrnERcJhY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792161324; c=relaxed/simple;
-	bh=j6KCEVumfcOPoJKthiY0VvennBzGTDjKegocjAp2ulc=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pkMrfg/fnJbP+mFuoDGVfT2ialLQ4wPslx7LUqxr0Q389sHxkcE2nIqkt23bWY3QwnD+uXUIAmSWrIguDQXyJVDjod1UKYJW8iVM0YLsFdev5a1MODytnBE/CfmPNz0tpAte50p36pLqASzuUJTyk7m6uJ+wZ3mxq2812u9HUUI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HaPR83Du; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=UD8EToKL; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HaPR83Du; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=UD8EToKL; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1792161784; c=relaxed/simple;
+	bh=GNKrYVvIUcHDGigsc/8m91FuNewSDvpZXXab6be7tr0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=n6/e+cO1f8XUwbhz4YlhkEA5uAedL5/vKG1aPMHttrkV/QJ4is+I5aPQjORtcLx6T+El5eece95v15GJD8Oq41GlMJ7jfxRddsbAjk5uqw7cfAkRdgoHYrj6BOa44w82lwpWyVisgupKbJM/5wF6j4pGgkjO+3MEmQo3iRdVbHo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=O+sy/lrA; arc=none smtp.client-ip=178.21.23.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HaPR83Du";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UD8EToKL";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HaPR83Du";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UD8EToKL"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id AF6451F456;
-	Fri, 16 Oct 2026 14:35:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792161319; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5E93OwKE40qyDdwFKgNKcqO0FbUR/pPxJNB7vT4rn1Y=;
-	b=HaPR83Dur3FlESWysi8KoBF79+MWkFbVzuDEZK2UTuOzLaWSfO4y+YH1yD3e3Ap05MKZRy
-	KMlAp0a4ypgn/amUrMwnlStUTSxeLA67Q56s2yV92+FLt45WVlzdnNwC5b4Lx4NIoGCpbo
-	vRlB9X0JO4jdGelAB37oB15dp9NQh8U=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792161319;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5E93OwKE40qyDdwFKgNKcqO0FbUR/pPxJNB7vT4rn1Y=;
-	b=UD8EToKLsSp4wDlW106XiUW8ozm8a9OOrbYWxRoE0T9Oczgxrm4xCMldaWXnjB468Qte4/
-	EsCJuC8au2hcbiBg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=HaPR83Du;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=UD8EToKL
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792161319; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5E93OwKE40qyDdwFKgNKcqO0FbUR/pPxJNB7vT4rn1Y=;
-	b=HaPR83Dur3FlESWysi8KoBF79+MWkFbVzuDEZK2UTuOzLaWSfO4y+YH1yD3e3Ap05MKZRy
-	KMlAp0a4ypgn/amUrMwnlStUTSxeLA67Q56s2yV92+FLt45WVlzdnNwC5b4Lx4NIoGCpbo
-	vRlB9X0JO4jdGelAB37oB15dp9NQh8U=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792161319;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5E93OwKE40qyDdwFKgNKcqO0FbUR/pPxJNB7vT4rn1Y=;
-	b=UD8EToKLsSp4wDlW106XiUW8ozm8a9OOrbYWxRoE0T9Oczgxrm4xCMldaWXnjB468Qte4/
-	EsCJuC8au2hcbiBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5151A1378C;
-	Fri, 16 Oct 2026 14:35:19 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Q0oNCic20mocJQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 16 Oct 2026 14:35:19 +0000
-Date: Fri, 16 Oct 2026 16:35:18 +0200
-Message-ID: <877bjh3e8p.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Joonho Lee <mynameisjune111@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.com>,
-	"Michael S . Tsirkin" <mst@redhat.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	virtualization@lists.linux.dev,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Matias Ezequiel Vara Larsen <mvaralar@redhat.com>,
-	Eugenio Perez <eperezma@redhat.com>
-Subject: Re: [PATCH v3 0/5] ALSA: virtio: Fix request lifetime and error recovery
-In-Reply-To: <cover.1791881787.git.mynameisjune111@gmail.com>
-References: <cover.1791881787.git.mynameisjune111@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="O+sy/lrA"
+Received: from mail01.layka.lan (localhost [127.0.0.1])
+	by disroot.org (Postfix) with ESMTP id D6CC182A98;
+	Fri, 16 Oct 2026 16:42:59 +0200 (CEST)
+X-Virus-Scanned: SPAM Filter at disroot.org
+Received: from layka.disroot.org ([127.0.0.1])
+ by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id spJcM5oqIzej; Fri, 16 Oct 2026 16:42:59 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
+	t=1792161779; bh=GNKrYVvIUcHDGigsc/8m91FuNewSDvpZXXab6be7tr0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=O+sy/lrAzjVg4l8yxi0Cua6MI9GttXQj1YYRuPQhyD5JEaUVOm3ex2lqzw3+SrAph
+	 vP6xaSeh1iB5+sUpnJwWA6iZ9Z1gDIMw5OsggCyJpjH1mJcMp3meLWoKpU19xsqsa7
+	 QavYPZ4a2Hfs/vFtpf1N54/ADKgiWVhVXQkUiddS3OzP/WewWu0qSHoHDeJ45YHu5x
+	 2mQT8Af6abmdgfVYqLxJbCq9KywcohEa/9HKUbEDjKf5WQBezFLlxcMEwNwGfc8Z8g
+	 cEiMsp4DoklS7rozueJ4aVrTFSSa2wrvfhcaX8hEKbE9+/OS9QS3A0+FsyEpbnBZAM
+	 s4xSiMRo3YtBg==
+Message-ID: <b474edba-33db-4892-b490-cd767211e4ad@disroot.org>
+Date: Fri, 16 Oct 2026 16:42:58 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: AF6451F456
-X-Rspamd-Action: no action
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	ARC_NA(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
+MIME-Version: 1.0
+User-Agent: Betterbird (Linux)
+Subject: Re: [PATCH v2] ALSA: hda: cs35l41: Support HP OmniBook 7 Laptop
+ 16-bh0xxx
+To: Takashi Iwai <tiwai@suse.de>, Jon Harrison <jonerickharrison@gmail.com>
+Cc: david.rhodes@cirrus.com, linux-kernel@vger.kernel.org,
+ linux-sound@vger.kernel.org, patches@opensource.cirrus.com, perex@perex.cz,
+ rf@opensource.cirrus.com, tiwai@suse.com
+References: <CAEG=48+jRv7wHgd-yPTHEf9YFO++XusKQgT+WJz60hgCE8pGww@mail.gmail.com>
+ <87a4od3f4f.wl-tiwai@suse.de>
+Content-Language: en-US
+From: Sven <skbotnl@disroot.org>
+In-Reply-To: <87a4od3f4f.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, 13 Oct 2026 10:57:47 +0200,
-Joonho Lee wrote:
+On 16/10/2026 16:16, Takashi Iwai wrote:
+> On Fri, 16 Oct 2026 00:15:24 +0200,
+> Jon Harrison wrote:
+>>
+>> On Mon, 24 Aug 2026, Stefan Binding wrote:
+>>> We are currently awaiting confirmation of the correct settings before we do
+>>> so.
+>>
+>> I have another HP OmniBook 7 Laptop 16-bh0xxx, SKU D2KR6UA#ABA,
+>> BIOS F.12, subsystem 103c:8e60, running Linux 7.2.5. Both CS35L41
+>> amplifiers still fail to probe:
+>>
+>>    cs35l41-hda i2c-CSC3551:00-cs35l41-hda.0: Failed property
+>> cirrus,dev-index: -22
+>>    cs35l41-hda i2c-CSC3551:00-cs35l41-hda.0: error -EINVAL: Platform
+>> not supported
+>>
+>> The speakers only play through the Realtek fallback and are very quiet.
+>> Has that settings confirmation arrived, and is there an expected time
+>> for the quirk?
 > 
-> A failed PCM start or a timed-out request can leave virtio-snd messages
-> owned by the device after the caller returns. Retrying can then reuse
-> pending messages, and freeing ALSA or control buffers can leave their
-> addresses in a virtqueue.
+> OK, we've waited enough long, so I take the patch to for-next branch
+> now (for 7.4-rc1).
 > 
-> This series fixes enqueue-error recovery and keeps the memory referenced
-> by outstanding requests alive until completion or device reset. Reset
-> also detaches unused descriptors before deleting the queues, releasing
-> their DMA mappings and cancelling PCM messages without reporting them
-> as completed audio.
+> If this is really breaking something, let me know.  We'll fix up again
+> before 7.4 release.
 > 
-> Changes since v2, following the Sashiko AI review:
-> - Patch 2 protects all stopped-state accesses with vss->lock, including
->   hw_params, prepare, open, STOP and sync_stop completion. The RELEASE
->   decision and stopped=true transition now share a critical section.
->   Sleeping operations remain outside the spinlock.
-> - Patch 5 aligns every DMA region for both cache maintenance and typed
->   CPU accesses, and removes the initial +1 offset. This handles coherent
->   systems where dma_get_cache_alignment() returns 1, as well as odd
->   region lengths that could otherwise misalign later payloads.
-> - Patches 1, 3 and 4 are unchanged.
 > 
-> Validation of the final v3 source:
-> - ARM64 W=1 module build and ARM32 CONFIG_MMU=n driver object build.
-> - Source-extracted ASan/UBSan PCM, control, reset, ACK and DMA lifetime
->   regressions on macOS arm64. The v2 control allocator produces UBSan
->   misalignment diagnostics; the v3 allocator passes typed header and
->   request/response integer64 accesses with DMA alignments 1, 2, 4, 8,
->   32, 64 and 128.
-> - Deterministic stopped-state lock instrumentation catches unlocked v2
->   accesses and passes 73 lifecycle assertions for v3. It covers ACK
->   failure, RELEASE failure/retry and ACK during RELEASE, and checks that
->   blocking operations do not run with the spinlock held.
+> thanks,
 > 
-> The stopped-state test instruments extracted source; it is not KCSAN or
-> an actual threaded kernel race test. NOMMU was compiled, not booted.
-> Physical non-coherent DMA hardware and host microphone behavior were
-> not tested by these regressions. The QEMU ARM64 KASAN fault/recovery runs
-> reported in v2 have not been rerun for these v3 changes.
-> 
-> Reproducer source and instructions:
-> https://github.com/whatisyourname0/virtio-snd-reproducer/tree/3ee5c7c1e864dae50a127b0a25cd122532daa6de
-> 
-> Based on sound.git for-next commit
-> 8d70e364e866bdfca81eee24d0688fac9472cfb9.
-> 
-> AI assistance was used for code changes, tests, review and patch text.
-> Assisted-by trailers are included. Sashiko's findings were checked against
-> the driver and covered by regressions before incorporating the fixes.
-> 
-> Previous series Message-ID:
-> <cover.1791877396.git.mynameisjune111@gmail.com>
-> 
-> Joonho Lee (5):
->   ALSA: virtio: Propagate PCM send failures through ACK
->   ALSA: virtio: Recover PCM state after a failed start
->   ALSA: virtio: Retain queued messages through device reset
->   ALSA: virtio: Keep PCM DMA buffers alive through device ownership
->   ALSA: virtio: Keep control payloads alive through DMA completion
+> Takashi
 
-Through a quick glance, the patches look OK, but they are a bit too
-heavy changes at this very late stage for the next merge window.
-I can take those for 7.4-rc1 if the virtio maintainer gives an ack,
-but otherwise postponed for 7.5.
-
-Or, if you have some more urgent fixes to address some known issues,
-please cook a smaller patch that can be more easily digested.
-
-
-thanks,
-
-Takashi
+Hello,
+I saw the commit in tiwai/sound. I noticed that 3900 was used for the 
+boost_peak_milliamp value. I just wanted to note that as far as I can 
+remember that is the value that the Windows driver uses, while the 
+malformed but readable _DSD specifies 4500 (at least mine does). I don't 
+know which one is correct, but 3900 is probably on the safer side I guess.
