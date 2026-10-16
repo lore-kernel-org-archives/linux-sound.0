@@ -1,115 +1,119 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 837384334B9
-	for <linux-sound@vger.kernel.org>; Fri, 16 Oct 2026 07:25:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16FE42F0C48
+	for <linux-sound@vger.kernel.org>; Fri, 16 Oct 2026 07:31:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792135539; cv=none; b=bIz1X0owk26gweXio5wRoTpjBSd/ADSwo/Zlx9muj+N0zj13LNCbDFdB7Feog1aUtOmXW0Ln04uG+5C/mSq1vUOkjLyi+tM4fN/EKRLXU2IBE9vN7PvASl+HK8D4SyUFOfp2c4bFK6nmpPJ0hdixqf6WqJDIiCmM4g7ubbwiZdU=
+	t=1792135899; cv=none; b=kQQomrkb84000/RlDxfaqhtNhpsY8Vdh1t5RarYoAIy9ZZjTAb9mA83CRECzwLIWw1tq7VrboZwWrc+wZLZyI6lkr9nkN0qhsqP4M4jzRSCDnZAZSdp9mcAlbjBa+eFF8sb/t8C3lvC+FI2jsRT+qspHDaxs/t5n2yRTPskxynQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792135539; c=relaxed/simple;
-	bh=VezvnPfAFk9BE26q/X15JVkhgpA/qwbmXTUd7w7R6OA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=m9pXBnkwDLRFMrvBT7zl3WHE4tN+abH+gCHNROS1UulCCWsAfBRUcFvBIgJdq/OAYeVWQ1y4Byi8DOlWyQk6TIoxpECoMwWYt4OS5FDVK2cHZpjTfd/P+kujoAsqe9k+8kPMeazBz3LVc/5Dfkbki/6vJ0LGm3RYh0l4Tz1vTBU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WdfEXCvO; arc=none smtp.client-ip=209.85.215.178
+	s=arc-20240116; t=1792135899; c=relaxed/simple;
+	bh=xd0kHW2wKv1bTxBiEr51rhIZr9/PO+bTSCtf7rMq+AE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=lb4bqHa2ttDnrO9N6T/1WTIHoFyc+sxEy4LFYdqlATuE27W440W0yLKdA8zDk0CyNWPqiCc6sR6xE7oGardqOgEICL7bQFuyQrqjEz1ZFfK65Af6p/Dc2BrNIbsUWzH1y45EDcroFKZuKV9YmokeHqALhWgUo4iPVkcD8GmTMPg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PoR7vAj3; arc=none smtp.client-ip=209.85.218.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WdfEXCvO"
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-cd5e6f0a22bso1511971a12.1
-        for <linux-sound@vger.kernel.org>; Fri, 16 Oct 2026 00:25:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PoR7vAj3"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-c350db5a761so36850766b.1
+        for <linux-sound@vger.kernel.org>; Fri, 16 Oct 2026 00:31:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792135537; x=1792740337; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=FwvQmXJD2Zw06QmGHQhTYptB614fchntA9Grpa7lwMw=;
-        b=WdfEXCvOxBYnlU82iv4NQaLZVlEr4CK/9CGuWG9XDAJyO6dLp520oC/G/jB2VqIoQt
-         a7877w0IvKrCoLImugVusA+TMJyHgXpJfa40BYaX7Zbi7DgEv1Wuf+gbTiPZZS+Sw2/0
-         n006u79hI5eVoX6ckQzVfEwxlYTbSModcVVE9kLC66z7f48fseTfMMj0EWrhUQwdU6yx
-         S0Lii/LTo/UQYLc77Rpr6CErH04a1dOHf8syJFAvZsmicGCYFjl7TND8pRQ26rboXNE0
-         u8IIZ5JKEAq7ZgkAJQg4PQmedFp91XTKHpZjLRbeayQTpACP0H0XwHdxyzNxGxOcfpg0
-         Q0pw==
+        d=gmail.com; s=20251104; t=1792135896; x=1792740696; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=o3uoaulQf4S54/KJl+1X3n/7IeNT8lvIHaLneLyKQ6E=;
+        b=PoR7vAj3jIsQVJYWRo/tziDimFRhL79XValGb7lEY8oDoVzuy5K8piwiMwUgpnDBhC
+         0y1xlxwZ7geso8CA76xIFQewMmOR1FCl0vvrhyr4BcyInmZfimWHcWunygiPtWYKDSMH
+         cJpPapDDz1P25NY1RPk9LO6Q0PLern2J3LxW2eUfxnTLYuL1gO6IxHsk/Q3hdG1ojriX
+         PKqDWw4dM/sv+Idn8UBCLUSiiK5mIwcfabnqY+enKBJ1xCSzaLo6DRoLL0A9zig6atnK
+         yT3M2EW/tZUEk/wx5BAOf6SJWtdwYK3wBajkVlokwjubzmRYms/RiokUoXsbjlzKRaAZ
+         Lchg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792135537; x=1792740337;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=FwvQmXJD2Zw06QmGHQhTYptB614fchntA9Grpa7lwMw=;
-        b=yOGVndRnjqiF/27AG7yR0NyL7iK+Ccxpm5hpsWusnV1fmLr9Uw/3LCEIz85/KTFzJt
-         IaUgaDut5zKXChTzzpeGf3O+2oH77vymjASuYLO25hBgJaaXnyel7IsqMrbLaEv2ak/N
-         S0thpWsIY2N46pcQB66byR6ETH2DG1LHwdWldnjFiaHFPPgPEL0ouDoTmd0/4KSYj+D9
-         bkLL8TIeAhKPZ5GfKSk6qkwkmx+pttT+XEF71TTWVnO72BjkGqp8gBC7FBv4BKgjfE4b
-         Ofvo0ky1QXbqGSKq3J1mAGKN0gwjS0MeqKBrSd2kLuIUrWb3JBTK65J2UaWFojQuFmME
-         x1uQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxkRK9lqGFcsqBQkhCj77SUoMftDLDMQ+HDHwvROFUpavAzoCfqHsS4DRWIoyEJHqNozMg+QzgXRn7eaA==@vger.kernel.org
-X-Gm-Message-State: AFq9FYJ+3vOuo3AtMJPnqk8tQ6+WwPDIsz+Q0b+pkMUTIUmRtmFX+LvF
-	Q4HNsAbUcCLe8xj0smgfi2/W++kQLzE43/pzB0i/RdyN/oJjVWhe6si2
-X-Gm-Gg: AYBFou29d1B1yr/mxN6rkB4UFDOVvwzti/1VVdpMb67/9VQ78YLDjrSdEY+zZenSI+t
-	BFJlah29beqLbADd/Poz3gGOZhD+I7f+c60y+qa0Dx17NtojJMJilQ47lasDVjVW5fCDf7NGsNZ
-	7coRscYmsTnwzQvkJZbWA5jL+xabWAP2Sj4s6isF2OGNP4XBmqul0E5ObhD72zEa9eekAMlt2/X
-	NWXLSZ6HXm/qpyHL/cWL7rXBIYHcaqRu9coRuMPYQnp0urdiFkDAwckw0uhYPLE3z0AgbUQKrmE
-	XmNjShpjyz+0Q4bmkakqzqmmTmov5vVO1NEK2gM+iic5qEfk0kFyONUEiReeY9xnN4krc0+k5JI
-	5iILtwiH+iWF9imwWJN+GDOaH/Ube27IVhO9UH/VuxcKwzC92eReyAD6tO+QHQ69AY1hl5pTFvJ
-	lM4QGAZSrhtUFQapzrjAaa2I2yITvIJJDHm5dqMp6DDKKeTmmvVvRkBjHZ/7dLYA02h1aPnVivC
-	UCQs2uQWms5wWJu/bXxDT6svwGJ9DNQE7O8Xq887/bt0V//QJqP20J+JlLF3WtjufkjvCBjqGA=
-X-Received: by 2002:a05:6a21:1585:b0:3e1:1faf:eba0 with SMTP id adf61e73a8af0-3e16be93a96mr19817283637.44.1792135536737;
-        Fri, 16 Oct 2026 00:25:36 -0700 (PDT)
-Received: from nugod-NUC15CRHU5.tail9f095a.ts.net ([218.237.104.87])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cd6549b6171sm615257a12.14.2026.10.16.00.25.33
+        d=1e100.net; s=20260707; t=1792135896; x=1792740696;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=o3uoaulQf4S54/KJl+1X3n/7IeNT8lvIHaLneLyKQ6E=;
+        b=LbWr15jjHWnXQ64jJgHEJQY14mgsGWJTDFkPOLIsXPfehiSW75Oc2S8pkg2umiFQbt
+         EsOFShmUeFnDwYAiFmEss1yLzxHm3TCEaKkRQr04TXnS2rUpyfGgeLE6iZAunxd/Areo
+         h3enMOitDeukjq9N/I6MjSERumqDUJnd3q9KFQ/rojgBzAhv4pBG7nJuuaNPELWIFstK
+         9r3nUVxHmrU5Ddtx9c6ATKmTLByQzyWfEJRcA6SdsmppLuCkiTiDjwbWfP26xpS4RGBy
+         4GCmcEkcVVYUT91IHtNe0ftkjdW3LZvzxYDNUNlxSi90XxNltkLHTdArgzYXWv5tbdBy
+         Y8jQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwen0zHeAYfL4PC0OqFI66WkcBaLtetjymDeos3RvMBravydr9AlnPTRDgsYQ1RF6Z7tpPe3oDnmk9F8Q==@vger.kernel.org
+X-Gm-Message-State: AFq9FYItZTi2d8jX6YznOTQLl0VmaEmatUySvNCE9pyL0gXTvOYZ4SbP
+	SWybzHX0ATp0t48CBznxw/J51c3JrQYdg0hQF6uvXIGXjv4xOT/WTU+L
+X-Gm-Gg: AYBFou19w/gwornnmsKxTeVH71uYwEPQYa5NSB03O6j9wK9ytJ2WERLpqG2lGjb684j
+	L2XKO9SBjTSXjrcokWifzWh6kQE3YFr6BvZPs73LrRjTTFKIDvQSiK82bSuZaJZdG1d53o9eODJ
+	XwcOjyT3l38tLjhIjRTpi2YiWDiAVXsm3ezA2Eipo4IVk68AXPryFPvmmsi5qUSninWWbyQjxKE
+	Y/sWYBlcq2OwKu+S6an8/i3OUyEEJJQN/ekZYL3cKaIzFFenhwgoytzYcVr8sNlh617HqAJIxkN
+	BaJ3lHYXlR3qFou6pgbi6nOZMFgp9bOKL/TbkECluOJqgOItpy5gLo94GPZYrxVahrtl86G1va0
+	coPqi0YL7dm5bAEUFkK76iv9t6fT9crcEFz8yUx/H0D/fFCivKShyDGUDvPmXGwC9de/QLe+l8J
+	I/aqtxMb/sjUyd6wk2UAa7u5pdD/zosHP2ZJBFN35nbEju5fAHqLRT+Mg9NJJfFp8DZOpV
+X-Received: by 2002:a17:907:9686:b0:c1f:983f:d8a with SMTP id a640c23a62f3a-c31aa017261mr2123865766b.24.1792135896227;
+        Fri, 16 Oct 2026 00:31:36 -0700 (PDT)
+Received: from keen.lan ([212.75.99.75])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c4090dd125csm44471366b.26.2026.10.16.00.31.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Oct 2026 00:25:35 -0700 (PDT)
-From: HyeongJun An <sammiee5311@gmail.com>
-To: broonie@kernel.org
-Cc: lgirdwood@gmail.com,
-	support.opensource@diasemi.com,
-	shenghao-ding@ti.com,
-	kevin-lu@ti.com,
-	baojun.xu@ti.com,
-	sen@ti.com,
+        Fri, 16 Oct 2026 00:31:35 -0700 (PDT)
+From: =?UTF-8?q?Piotr=20Gli=C5=BAniewicz?= <p.glizniewicz@gmail.com>
+To: Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>
+Cc: Torsten Schenk <torsten.schenk@zoho.com>,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 4/4] ASoC: codecs: sta350: Fix definition of Ch2 and Ch3 Volume Bypass controls
-Date: Fri, 16 Oct 2026 16:25:19 +0900
-Message-ID: <1107a42a563459b26038bdff4d8f6e2423816d0a.1792135144.git.sammiee5311@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1792135144.git.sammiee5311@gmail.com>
-References: <cover.1792135144.git.sammiee5311@gmail.com>
+	=?UTF-8?q?Piotr=20Gli=C5=BAniewicz?= <p.glizniewicz@gmail.com>
+Subject: [PATCH 0/3] ALSA: 6fire: S/PDIF output
+Date: Fri, 16 Oct 2026 09:31:29 +0200
+Message-ID: <20261016073132.109288-1-p.glizniewicz@gmail.com>
+X-Mailer: git-send-email 2.56.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Each channel's master volume bypass (CxVBP) is in its own
-configuration register, C2CFG and C3CFG, not in C1CFG, which holds the
-channel 1 bit.
+The DMX 6Fire USB has a coaxial S/PDIF output, which the driver keeps
+disabled. This series enables it as playback channels 7 and 8 of the
+existing PCM device, the layout chosen in the RFC thread [1].
 
-Fixes: 2439ea1f0f8f ("ASoC: sta350: Add codec driver")
-Assisted-by: Claude:claude-opus-5-5
-Signed-off-by: HyeongJun An <sammiee5311@gmail.com>
----
- sound/soc/codecs/sta350.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Patch 1 takes stream_mutex in the "Digital Thru Playback Route" put.
+It fixes a race with prepare that exists in mainline, and patch 3
+depends on the lock.
 
-diff --git a/sound/soc/codecs/sta350.c b/sound/soc/codecs/sta350.c
-index d2b6f73d5e10..95aee5aa2bff 100644
---- a/sound/soc/codecs/sta350.c
-+++ b/sound/soc/codecs/sta350.c
-@@ -477,9 +477,9 @@ SOC_SINGLE("Ch2 EQ Bypass Switch",
- SOC_SINGLE("Ch1 Master Volume Bypass Switch",
- 	   STA350_C1CFG, STA350_CxCFG_VBP_SHIFT, 1, 0),
- SOC_SINGLE("Ch2 Master Volume Bypass Switch",
--	   STA350_C1CFG, STA350_CxCFG_VBP_SHIFT, 1, 0),
-+	   STA350_C2CFG, STA350_CxCFG_VBP_SHIFT, 1, 0),
- SOC_SINGLE("Ch3 Master Volume Bypass Switch",
--	   STA350_C1CFG, STA350_CxCFG_VBP_SHIFT, 1, 0),
-+	   STA350_C3CFG, STA350_CxCFG_VBP_SHIFT, 1, 0),
- SOC_ENUM("Ch1 Binary Output Select", sta350_binary_output_ch1_enum),
- SOC_ENUM("Ch2 Binary Output Select", sta350_binary_output_ch2_enum),
- SOC_ENUM("Ch3 Binary Output Select", sta350_binary_output_ch3_enum),
+Patch 2 adds a playback channel map in the order of the manual of the
+card, FL FR FC LFE RL RR on Line Out 1 to 6.
+
+Patch 3 adds the output with the "IEC958 Playback Default", "IEC958
+Playback Con Mask" and "IEC958 Playback Switch" controls. With 8
+channels the card runs at 96 kHz at most. The Pro Audio profile of
+PipeWire 1.6.9 opened the device with 8 channels, so with this series
+it gets 8 channels at up to 96 kHz instead of 6 channels at up to
+192 kHz. A client that asks for 6 channels still gets 176.4 and
+192 kHz.
+
+A UCM profile for alsa-ucm-conf will describe the channels: the default
+variant with analog 5.1 and S/PDIF as two sinks at up to 96 kHz, and a
+"HiFi Analog" variant with analog 5.1 only at up to 192 kHz, which
+turns the switch off while in use. I tested a draft with
+PipeWire 1.6.9 and this series; I will send it after the kernel
+patches are accepted.
+
+[1] https://lore.kernel.org/linux-sound/30dcedc7-3b56-4396-af3d-6c2701ef1cb7@perex.cz/
+
+Piotr Gliźniewicz (3):
+  ALSA: 6fire: take stream_mutex in the Digital Thru control
+  ALSA: 6fire: add a playback channel map
+  ALSA: 6fire: add S/PDIF output
+
+ sound/usb/6fire/control.c |  32 +++-
+ sound/usb/6fire/pcm.c     | 334 ++++++++++++++++++++++++++++++++++++--
+ sound/usb/6fire/pcm.h     |   7 +-
+ 3 files changed, 351 insertions(+), 22 deletions(-)
+
 -- 
-2.43.0
+2.56.0
 
