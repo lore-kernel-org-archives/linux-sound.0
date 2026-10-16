@@ -1,104 +1,267 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84E9E509EE2
-	for <linux-sound@vger.kernel.org>; Fri, 16 Oct 2026 17:46:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 324A048DB52
+	for <linux-sound@vger.kernel.org>; Fri, 16 Oct 2026 18:18:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792172804; cv=none; b=udpEPCvtR9BNnUw1YxcUJl3rTLOnTnGv2URqwS8P2QRgs8KGI2s6b9WFIhcp+cp+Q7XSz0HBIokY2+JbuUXyMiqom6tFNxo5rxpRDmqTg3ATjX+sjsHr11MLVvdgAHrlKbH10/KOE7Zv0QDEW9Eq3kOavSqr17LwZl86cxjwo1U=
+	t=1792174728; cv=none; b=lRMVgx1DHQ/tVXFOHs9+aCdLS3hy5p77eCFVYnFdtzMbUe4B1CJ4dvVzso2pL4KZXo2dNLZkta+prZRwAUuoZuUXkYrIHO/J+CHR2K7OA9YbIy7raBKPBjXFKgw1vcyBzfDBQ739rAB5Ocbekt5Y/K6Hcia6GR9pozpu4wYEIVQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792172804; c=relaxed/simple;
-	bh=iG7yw/XW9kt+scsciYbPOm2zkpcdecfUamR5JJerxbY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hG7hY3RcCc5Tls8Ii2re8eB3+TdU1Bh0OfQfebwSXY581dxvWnIeYYKCeJACqnZhBZuarvsjs5GqMbfsJWQOKWNNFddM8jtsXbsS/WldVc3x5zo20xYWMfm8zGrL5KXbyKabR24C2B1iviSGLD92kPswWmIEnqo7bKVCIPrYrrw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CwsZn0kl; arc=none smtp.client-ip=209.85.128.48
+	s=arc-20240116; t=1792174728; c=relaxed/simple;
+	bh=cv7M+dN044DZi58xzYZ0UJyxuBaQyZGB9jKAovpJDq0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nFrDniOW4khULq9thop5Ii2qLRFWBSaZA3Yr8QoAVbV8QPDIkCT16V5oILOIjzS/1sQsIO73lqmPJJEbF6WimlK42Ntg8hcSAxTXK6pg3Ne0gWzis3cMi8wfM+ot825ZZ4TvdClIuUC1JUc3Hn0RuyKi1srqHWu6fvwURU2CQ38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h3DNfDb7; arc=none smtp.client-ip=209.85.216.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CwsZn0kl"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4a1cef0439aso2574445e9.0
-        for <linux-sound@vger.kernel.org>; Fri, 16 Oct 2026 10:46:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h3DNfDb7"
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-3ab4178ee33so258188a91.3
+        for <linux-sound@vger.kernel.org>; Fri, 16 Oct 2026 11:18:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792172801; x=1792777601; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=xXTYs7ePdo05GsxVQxd5NyG1vGmSHNhIKeIMrVirDTE=;
-        b=CwsZn0kl32Cv83jX2PRf4e4w6xFPV2HghCHwRVb6b2e5FZkFoSldpErM088Vj9Uf97
-         bk6fVVpCT0R7z8ms4QLUdvv2iTfEE76+Z473lB+uCL8nCoexV/FOYz/qDj2LYPH5uvV+
-         /5Ezr5jN76u3R4oXfiyCm2mIgAHznE4e6OPRj7lbc5GwVHipa+bgwX+O02Ka2zRJFTtM
-         xRwvEQrOpw19dP8wygIjVBedXXTGk/oTgAuu/PZX5SM0AU5NOHKCBJT+dyT7Pg3n+e/I
-         bRe2rsVNZz8vL27Ji1OGu3w59YO0P0F+n/zTuETC/5F7QztyuddBNaIQOmEyU/HBqgxY
-         nBRw==
+        d=gmail.com; s=20251104; t=1792174725; x=1792779525; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=h9A2Yfj731x24w4qxPFGevwuk2PrCtFEa04ZNqz0+k4=;
+        b=h3DNfDb7P5tOc84dkYuDtQTl+1aP3E5flFzLAkw6VEnPLAKugnv3YC4tEg9APXRF/O
+         ICM3G7cQg5Vc9QsMm3e4B8eJDPCdQu5O7laa3pkefJily2LMaQ2si2WQvW9N403sfSux
+         KjYY2jPdVVE02C8kSprKs1m14tkCje6f8+yWU6wD27jPVcNvAM4210qdDjxRsEvWl+nM
+         aW7btW4oSLpslIXqOiNPj37Od8j5mjjjwWm1e6nfq0c4KitZV+Jyz0Z8r5RI+T0eTpKS
+         nr2ZdKHYK+5HerOlZ5MAEINPad62zj+SKtl9L8dPp83/xzNFfERIghQzcxoc73Zfj8O0
+         aMog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792172801; x=1792777601;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20260707; t=1792174725; x=1792779525;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=xXTYs7ePdo05GsxVQxd5NyG1vGmSHNhIKeIMrVirDTE=;
-        b=aJPd4x5XA6DO7XSX0Nh9gYQJVl5bLXwaDOIHuOEO6QWvfne4WPAemsIBV/bbv6vEPo
-         ZFGnUzRn5b3lTGPKjbd2So+RBE1Lxz4wHx1Vk8KeXplJveMvo80hP+AYV4UJna2lwY80
-         LDkco1T8XvjKHbZylow1NBfMuoID6gbJe2hqoMYW32K73XZizbmZnr0CHK6oCImMPxZF
-         ni6UvFScN26VNu03cYuCJc4i2fjE+6yfHH4bvrvgp+4PWfUCAgkSYIlUHpNVkt1esPQU
-         6GIWbL0ChSHrNMT6YJm9Zee+kW/OcW+gyVJGhLi5ZRDjZ7c6cCxfD+J58l4DDXu8JUA2
-         EmAQ==
-X-Gm-Message-State: AFq9FYJ+8CHj0S2Si2Iafb/5W9QrCKMx+ZrgpbYUXbfTMrG9uKtkd8AG
-	d5e7l1mH7PjhKbXZrhbnur/CZfnOr2Oc7zngiHHM1++yIbbqgLZWOItjafewCL2D5pM=
-X-Gm-Gg: AYBFou3oRwjHCwoWzNRJlLP56c5DOeh2qaQfWN2vKPfkpprqnxZdu0I2HdrmQ80AIPt
-	W6ZPxO34DizarYWTO28YaY2lqIb3Ql7gxS1njsvvpRnKpAycaU5evr0dnRRK6KkPi5SmgHKWtVg
-	N2nfRNFLclVtxtzV7FgQNewmh0dQNGYA/QF0Jn2Jw/zaXWMQ3R62jurQ2iXDwRLV2XOfi42vTqZ
-	rqaL5b26e9SHGvkkghmwyW6hL8xKS7LM28sVmvopB7QHSi2FtmOSMnVk7BvDEwLDVFjJIyaplSt
-	GrQyZbAusEMaoukMFv5/rjmy9CV/gJnPUtdY28yBY3FBffO+41BpvGwp0gdsNhgDdXDzNhFwDL3
-	7Sm+CR9/qPp/SDHWiJPPYNslDphMLmCecXir6FCZau4sQXoj65hNp5Z1zyPxIh5tk7/oo/EsUHO
-	j6M/1XMnCpuQTL6KCguJK1sBFdIIl8QoHM+aotY35EmL+FxeyhFdQJRbbl3yZpPNVn1CG7ul7G5
-	nDuOm8oGnI2lrgJTIh1QCg4wAUE0U9+z2WUIGU3lyFZ8gOBcxm98hTvDeI26ueGeaUgeRted367
-	7jA=
-X-Received: by 2002:a05:600c:3508:b0:49f:e772:6ddf with SMTP id 5b1f17b1804b1-4a1d762251bmr12053835e9.32.1792172800327;
-        Fri, 16 Oct 2026 10:46:40 -0700 (PDT)
-Received: from rattlynaught.tailfd605.ts.net (93-45-212-86.ip104.fastwebnet.it. [93.45.212.86])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1d2e93a01sm43201305e9.0.2026.10.16.10.46.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Oct 2026 10:46:39 -0700 (PDT)
-From: Giovanni Maria Mazzone <giovannimariamazzone@gmail.com>
-To: linux-sound@vger.kernel.org
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Subject: [PATCH] ALSA: hda/realtek: Add quirk for HP 15s-eq3xxx mute LED
-Date: Fri, 16 Oct 2026 19:46:27 +0200
-Message-ID: <20261016174627.362872-1-giovannimariamazzone@gmail.com>
-X-Mailer: git-send-email 2.55.0
+        bh=h9A2Yfj731x24w4qxPFGevwuk2PrCtFEa04ZNqz0+k4=;
+        b=F6BdOq1EQMZ7nmHxPxDR6fvXoHBEYVja2IyUBckzb5h1ed2OS94bW6eRfQ9i519O6D
+         Tg7H1qTdRfoZnZbibHheZJ2KcrT2c5ivwW5Rii1uo754fmnSZ7ezXqGvcTFl8JrIV7Iw
+         h/vKYdFoiDIIjmfTU0HKSBoitTCBrkeFcEjLsxIXLNCWOzPp1zs4rkurWEXVgrlPpVwH
+         +ESVCjSryTk53fGDw8jg5m2lq0j+NnQv/Ok/XDr8SP5FXwWujlJt9PIgEp/vggxM0jxB
+         yh9yXwOyqhURgNhnLXIGI2HS3jrRD4uqjNed+P4lZkEmLJRrL8ARFpA9XOdcC6E9qxgj
+         aRfA==
+X-Forwarded-Encrypted: i=1; AKwUvBwaoLYACRs3vQm9gPXVy098YGk238PCy2QQ1lIm784NfZnSz5kt68V7pFqj3M4rtJw95bZh6uOfixhEnA==@vger.kernel.org
+X-Gm-Message-State: AFq9FYI9enuF6TT5Fbn4ACKFWbHcFJEdDe0tTM84riAPg/wDZ8Zs8heW
+	ztWZaF7QrEyx4Ey4uR2242GU09Raa/pXLl4qA9ykM3ArJ2MEzhlNHPxt
+X-Gm-Gg: AYBFou3Qz2upPUmzucPqE66pInTFcxSOwbfCckcR2ITURC7LUQO2RsYq5lQ8zB+k21D
+	w61UrGF10ipnFlq+3yTP07Vg59pmOGxLV0JFfNbC7bM33dw7fMB4mzzZKhaICIg5i9OKgXlfAgq
+	hHVPynAwYe923XT8qd/BQsIe+jHvMkhQGu+7AYWx68zJc/p9NSHIjyLQASNEeOxyjXgayQS5/F9
+	q3m8+Sx6NrIwc9Evbb2tyMYC65pyPdgxsAD1JU8Q6hN3p1Z9B/wb5InXla97eaxzr4zqYzA55sx
+	e/o48UreYvRyvn2q8rre8t+MSmOw9d3Usd/DTaGVIslysIq5UjMBvtnKAJSWjosVpbwg8sEWK0B
+	/sW+a+XB2PlIXspcWTLCCaBkBW/upv9SE7fEwMvrzzl/rXj1wRX3RxE/tMI4nfcIZHSdmtwK4yI
+	adMrHvr3INqeZqkKC/dCOF83Z+7PB/mA4prwP6b+geo53w/CJo/dsBXSCKQWBUCU8rquwMnkr9N
+	Qq26xKsasaS0tfo5rDv5kAEF6OpGWotQ150WOo4KmkhC3uownOGwpMh66n+Q1dJnr2ow3UY5Dgh
+	y4uCQG/Ism/XdgR/0rmSq04jmF+AScXAfJualwWqyjIRZI8YUJBb7d3U+62uecR9/G5V7eH9LWX
+	pM8iyo/Z7QnyLVIrGwpp4EiehtxHkWI8max3/nT4rY7YXVOPGS9gxlUtj7yyM
+X-Received: by 2002:a17:90b:5112:b0:3ac:7f4c:a690 with SMTP id 98e67ed59e1d1-3acef189c0dmr530059a91.35.1792174725391;
+        Fri, 16 Oct 2026 11:18:45 -0700 (PDT)
+Received: from [192.168.1.100] ([58.124.177.116])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3acc49c263asm4911998a91.17.2026.10.16.11.18.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 16 Oct 2026 11:18:44 -0700 (PDT)
+Message-ID: <e4cd86b2-6975-43e2-9812-daf8e4207583@gmail.com>
+Date: Sat, 17 Oct 2026 03:18:40 +0900
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] ASoC: cs35l56: Add DAI for SDCA OT25 stream
+To: stable@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Richard Fitzgerald <rf@opensource.cirrus.com>, broonie@kernel.org,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ patches@opensource.cirrus.com
+References: <20261005155235.1386525-1-rf@opensource.cirrus.com>
+ <20261005155235.1386525-2-rf@opensource.cirrus.com>
+Content-Language: en-US
+From: Juhyung Park <qkrwngud825@gmail.com>
+In-Reply-To: <20261005155235.1386525-2-rf@opensource.cirrus.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The HP Laptop 15s-eq3xxx (SSID 103c:89fc) uses the Realtek ALC236
-codec. Its speaker mute LED is driven by COEF index 0x07 bit 0, which
-is exactly what the existing ALC236_FIXUP_HP_MUTE_LED_COEFBIT2 quirk
-implements. The sibling models 15s-eq1xxx (103c:8706) and 15s-eq2xxx
-(103c:887a) already carry this quirk, but the eq3xxx SSID was never
-added, so the LED never follows the mute state.
+Hi,
 
-Add the missing SSID to the quirk table.
+v7.2.11 includes bf7a3ce1d563 ("ASoC: sdw_utils: Switch CS35L56/57/62/63 
+to use OT25 DAI")
+[ Upstream commit 4b7f393a01f88e8d03cba94cf4948652de14789b ]
 
-Signed-off-by: Giovanni Maria Mazzone <giovannimariamazzone@gmail.com>
----
- sound/hda/codecs/realtek/alc269.c | 1 +
- 1 file changed, 1 insertion(+)
+but not this preceding patch from the same series, which adds the DAI it
+switches to.
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index 1623cf9..a71b443 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -7502,6 +7502,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x8870, "HP ZBook Fury 15.6 Inch G8 Mobile Workstation PC", ALC285_FIXUP_HP_GPIO_AMP_INIT),
- 	SND_PCI_QUIRK(0x103c, 0x8873, "HP ZBook Studio 15.6 Inch G8 Mobile Workstation PC", ALC285_FIXUP_HP_GPIO_AMP_INIT),
- 	SND_PCI_QUIRK(0x103c, 0x887a, "HP Laptop 15s-eq2xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
-+	SND_PCI_QUIRK(0x103c, 0x89fc, "HP Laptop 15s-eq3xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
- 	SND_PCI_QUIRK(0x103c, 0x887c, "HP Laptop 14s-fq1xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
- 	SND_PCI_QUIRK(0x103c, 0x888a, "HP ENVY x360 Convertible 15-eu0xxx", ALC245_FIXUP_HP_X360_MUTE_LEDS),
- 	SND_PCI_QUIRK(0x103c, 0x888d, "HP ZBook Power 15.6 inch G8 Mobile Workstation PC", ALC236_FIXUP_HP_GPIO_LED),
--- 
-2.55.0
+sof_sdw tries to bind a DAI that the cs35l56 codec driver never 
+registers, and card creation fails:
+
+sof_sdw sof_sdw: ASoC: CODEC DAI cs35l56-ot25 not registered
+
+On my Galaxy Book6 Pro with CS35L57, this breaks sound.
+
+Please apply this commit 86c8360c97f6 ("ASoC: cs35l56: Add DAI for SDCA 
+OT25 stream") to stable too.
+
+Thanks,
+Juhyung
+
+On 10/6/26 12:52 AM, Richard Fitzgerald wrote:
+> Add a DAI for the SDCA OT25 stream on SoundWire DP4.
+> 
+> The SDCA-defined OT25 stream is an amp reference feedback, typically used
+> for AEC. The firmware outputs this on DP4. The firmware owns all control
+> registers for this stream so there are no mixer controls or any other
+> configuration options.
+> 
+> Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+> ---
+>   include/sound/cs35l56.h        |  1 +
+>   sound/soc/codecs/cs35l56-sdw.c |  9 ++++--
+>   sound/soc/codecs/cs35l56.c     | 54 ++++++++++++++++++++++++++++++++++
+>   3 files changed, 62 insertions(+), 2 deletions(-)
+> 
+> diff --git a/include/sound/cs35l56.h b/include/sound/cs35l56.h
+> index 45a5df574aa6d..747e10ec1a274 100644
+> --- a/include/sound/cs35l56.h
+> +++ b/include/sound/cs35l56.h
+> @@ -312,6 +312,7 @@ struct snd_ctl_elem_value;
+>   
+>   #define CS35L56_SDW1_PLAYBACK_PORT			1
+>   #define CS35L56_SDW1_CAPTURE_PORT			3
+> +#define CS35L56_OT25_CAPTURE_PORT			4
+>   
+>   #define CS35L56_NUM_BULK_SUPPLIES			3
+>   #define CS35L56_NUM_DSP_REGIONS				5
+> diff --git a/sound/soc/codecs/cs35l56-sdw.c b/sound/soc/codecs/cs35l56-sdw.c
+> index 98bb4542b9143..e10f04d677f4d 100644
+> --- a/sound/soc/codecs/cs35l56-sdw.c
+> +++ b/sound/soc/codecs/cs35l56-sdw.c
+> @@ -265,11 +265,11 @@ static int cs35l56_sdw_read_prop(struct sdw_slave *peripheral)
+>   	if (ret == 0)
+>   		prop->clk_stop_mode1 = !!clock_stop_1;
+>   
+> -	ports = devm_kcalloc(cs35l56->base.dev, 2, sizeof(*ports), GFP_KERNEL);
+> +	ports = devm_kcalloc(cs35l56->base.dev, 3, sizeof(*ports), GFP_KERNEL);
+>   	if (!ports)
+>   		return -ENOMEM;
+>   
+> -	prop->source_ports = BIT(CS35L56_SDW1_CAPTURE_PORT);
+> +	prop->source_ports = BIT(CS35L56_SDW1_CAPTURE_PORT) | BIT(CS35L56_OT25_CAPTURE_PORT);
+>   	prop->sink_ports = BIT(CS35L56_SDW1_PLAYBACK_PORT);
+>   	prop->paging_support = true;
+>   	prop->use_domain_irq = true;
+> @@ -286,6 +286,11 @@ static int cs35l56_sdw_read_prop(struct sdw_slave *peripheral)
+>   	ports[1].num = CS35L56_SDW1_CAPTURE_PORT;
+>   	ports[1].type = SDW_DPN_FULL;
+>   	ports[1].ch_prep_timeout = 10;
+> +
+> +	/* DP4 - capture */
+> +	ports[2].num = CS35L56_OT25_CAPTURE_PORT;
+> +	ports[2].type = SDW_DPN_FULL;
+> +	ports[2].ch_prep_timeout = 10;
+>   	prop->src_dpn_prop = &ports[1];
+>   
+>   	dev_dbg(&peripheral->dev, "clock stop mode 1 supported: %s\n",
+> diff --git a/sound/soc/codecs/cs35l56.c b/sound/soc/codecs/cs35l56.c
+> index 74129fcc79dce..dd264c310e1eb 100644
+> --- a/sound/soc/codecs/cs35l56.c
+> +++ b/sound/soc/codecs/cs35l56.c
+> @@ -32,6 +32,7 @@
+>   #include <sound/cs-amp-lib.h>
+>   #include <sound/pcm.h>
+>   #include <sound/pcm_params.h>
+> +#include <sound/sdw.h>
+>   #include <sound/soc.h>
+>   #include <sound/soc-dapm.h>
+>   #include <sound/tlv.h>
+> @@ -324,6 +325,7 @@ static const struct snd_soc_dapm_widget cs35l56_dapm_widgets[] = {
+>   	SND_SOC_DAPM_SIGGEN("VDDBMON ADC"),
+>   	SND_SOC_DAPM_SIGGEN("VBSTMON ADC"),
+>   	SND_SOC_DAPM_SIGGEN("TEMPMON ADC"),
+> +	SND_SOC_DAPM_SIGGEN("OT25 Reference"),
+>   
+>   	SND_SOC_DAPM_INPUT("Calibrate"),
+>   };
+> @@ -388,6 +390,8 @@ static const struct snd_soc_dapm_route cs35l56_audio_map[] = {
+>   	{ "SDW1 Capture", NULL, "SDW1 TX2 Source" },
+>   	{ "SDW1 Capture", NULL, "SDW1 TX3 Source" },
+>   	{ "SDW1 Capture", NULL, "SDW1 TX4 Source" },
+> +
+> +	{ "OT25", NULL, "OT25 Reference" },
+>   };
+>   
+>   static int cs35l56_dsp_event(struct snd_soc_dapm_widget *w,
+> @@ -722,6 +726,37 @@ static int cs35l56_sdw_dai_set_stream(struct snd_soc_dai *dai,
+>   	return 0;
+>   }
+>   
+> +static int cs35l56_ot25_dai_hw_params(struct snd_pcm_substream *substream,
+> +				      struct snd_pcm_hw_params *params,
+> +				      struct snd_soc_dai *dai)
+> +{
+> +	struct cs35l56_private *cs35l56 = snd_soc_component_get_drvdata(dai->component);
+> +	struct sdw_stream_runtime *sdw_stream = snd_soc_dai_get_dma_data(dai, substream);
+> +	struct sdw_stream_config sconfig = { };
+> +	struct sdw_port_config pconfig = { };
+> +	int ret;
+> +
+> +	dev_dbg(cs35l56->base.dev, "%s: rate %d\n", __func__, params_rate(params));
+> +
+> +	if (!cs35l56->base.init_done)
+> +		return -ENODEV;
+> +
+> +	if (!sdw_stream)
+> +		return -EINVAL;
+> +
+> +	snd_sdw_params_to_config(substream, params, &sconfig, &pconfig);
+> +	pconfig.num = CS35L56_OT25_CAPTURE_PORT;
+> +
+> +	ret = sdw_stream_add_slave(cs35l56->sdw_peripheral, &sconfig, &pconfig,
+> +				   1, sdw_stream);
+> +	if (ret) {
+> +		dev_err(dai->dev, "Failed to add OT25 stream: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>   static const struct snd_soc_dai_ops cs35l56_sdw_dai_ops = {
+>   	.set_tdm_slot = cs35l56_sdw_dai_set_tdm_slot,
+>   	.shutdown = cs35l56_sdw_dai_shutdown,
+> @@ -730,6 +765,13 @@ static const struct snd_soc_dai_ops cs35l56_sdw_dai_ops = {
+>   	.set_stream = cs35l56_sdw_dai_set_stream,
+>   };
+>   
+> +static const struct snd_soc_dai_ops cs35l56_ot25_dai_ops = {
+> +	.shutdown = cs35l56_sdw_dai_shutdown,
+> +	.hw_params = cs35l56_ot25_dai_hw_params,
+> +	.hw_free = cs35l56_sdw_dai_hw_free,
+> +	.set_stream = cs35l56_sdw_dai_set_stream,
+> +};
+> +
+>   static struct snd_soc_dai_driver cs35l56_dai[] = {
+>   	{
+>   		.name = "cs35l56-asp1",
+> @@ -778,6 +820,18 @@ static struct snd_soc_dai_driver cs35l56_dai[] = {
+>   		.symmetric_rate = 1,
+>   		.ops = &cs35l56_sdw_dai_ops,
+>   	},
+> +	{
+> +		.name = "cs35l56-ot25",
+> +		.id = 3,
+> +		.capture = {
+> +			.stream_name = "OT25",
+> +			.channels_min = 1,
+> +			.channels_max = 2,
+> +			.rates = CS35L56_RATES,
+> +			.formats = CS35L56_TX_FORMATS,
+> +		},
+> +		.ops = &cs35l56_ot25_dai_ops,
+> +	},
+>   };
+>   
+>   static int cs35l56_write_cal(struct cs35l56_private *cs35l56)
 
