@@ -1,165 +1,167 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81E0C47884F
-	for <linux-sound@vger.kernel.org>; Fri, 16 Oct 2026 11:26:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.173
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792149970; cv=pass; b=me17KiYQD2UzIP/CE2EPgGAdROUXT7t5D0ClV60WVHNiMnpGKjbooBta17GcT6ee29LHxZwdBx4QRP3pfHKyZf/R/SnewR7zzOjlQhvGsVYWYiB/lyzZ1WjXeojGcYlkTFmgbTTKEz/24MPl1+003/YrPniG50AN6BTRkD9XnDY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792149970; c=relaxed/simple;
-	bh=R7fc9o/O4yqhA3W/kJmDsBhaIBU4bJflgTG28U+KE44=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cVWrcd2ujro9tSJgcwS7+CO14Lq657mMMY7cn3D5iovMk/XCiSaUvJ+23Cwh2czrlETAp/Y2Y/GW6v1yxHb1hqOGdnbCHvjKcu6bfc1wRmeadjs3a/pSEjtH07+/ejgA3Jw/32ANMoSAGHizQma6y5EW7xyapZo1KtKizVRufmU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JDUOhPxJ; arc=pass smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E44F415F1F;
+	Fri, 16 Oct 2026 11:48:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792151340; cv=none; b=R4TE2EIeWP4Re6N80+nLA8zg6hPktf6zblvhAg/gd0mg8x283nIwyN9sfpPrjAW78UR0TfvQ6syvvod2YuPtgyUN2Fh3b47JVa2l5hkf+9FWDWkuzqpEoXXNSByu9ZMVVDSC6vzj52fOmk9DMJpGjoDb+rk6+KuY1/BmXmCHSWg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792151340; c=relaxed/simple;
+	bh=1dErfnGk0AlXFnzWnPutAkMayL10aS7cXpIkmvlZrAE=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=pxprEm/OQyQKUCblebXpFQbDI32gekoQ+GaTn6ixPBo18jdUetXbYh76RTUDrJv1zvr63ROP1EBgW+cWk8DcVHGgndIt+fHNbxb0bebblbkP2cwbqYjhohg1HWdBVivUTzcIRY9lTxmUWnXfxkA19BILYqaPYNuekBow62qI2GM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=M1K+YkUQ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ZRp+80+5; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Kb+9fk2S; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=nIchJfnw; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JDUOhPxJ"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2e608cd460eso34752505ad.3
-        for <linux-sound@vger.kernel.org>; Fri, 16 Oct 2026 04:26:08 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792149968; cv=none;
-        d=google.com; s=arc-20260327;
-        b=jtAj0B09lCsyNmBB6xVAkflMs2XlT8fhNFHA3QL8dFvMZ+d1KRwxe73zQdir8wUZUj
-         Dny0kBv6YJJJk3Nd6Zulq+CzH8h7+94YOoBdPbWHnu4t4Ait2tgTl4r8i4bdVma86xBi
-         j98P+3YCAQ+SGoxRybnkkc7LsQqsVHGFDQB5G5n2sDg1d84Q+6zVeWlXbwjB18timbwG
-         +PDIaQWN+jNwvjgknZXMCWIbgsNeNUkmlkJNosRyl66hKixMZ5ZERwWwk+MKkuNZw2nb
-         11MIe4IewdrnBlccdmOfnzUxArnSRXvUYKdQARHgFrPHxYA3+A2veFJb8D+2OXNDMiPf
-         yifg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=vApPRxEqpGQADna5mwyiV+wtnRS+6fLHQ7GBxAw9kX8=;
-        fh=p6ulZ7AKYbRBUvvgrJJi+Kixy6RrNMaCdCg2r1P72i0=;
-        b=LeoflvcH2Nga8IebNcWzYsjdrGNuVih21rG1uoOyjBt0L3nwMunBx5P8HzZ6y4F9Mn
-         0JBhpWocun1g5FpFVLv8nWFFagFZSeW7OUGnT1Pv+62Yc/0/7cEr2I36X/kbiH8PYt2W
-         lg8sOp9YfQdbjQaV1kJBxJ1pf1iA3S0aRcaqrfF9F4iNqW3O3B6AgWw6nRCsFRWKryBw
-         x5CYONLiDdp3r8kOvJc1Sd4nC1YROSMSFZ7qx092l3fPs7xkaPZUcgxnQ7Fi9ztlnoqf
-         peu0C6DY+2nzy5LNL6meiSgPCxmtRbiR/s/zOnvdF3KAKR1e3NfXyKdXKHE9hxNvpXby
-         2EXQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792149968; x=1792754768; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=vApPRxEqpGQADna5mwyiV+wtnRS+6fLHQ7GBxAw9kX8=;
-        b=JDUOhPxJFfNqGzF6qKagGJ9RdRyuEtlDsg+3/BmwOi8JRKOFv69C/T58mLShzd9MLR
-         P4lD88hLeJxqC/81P7wQ53ZoLv+i68KSQCpKcKcJfrTplRaSwkyHF9JOQS+TRyVtR2GJ
-         ynQGWzn8Zc8IG6In2A46KxGeym75SzVyTOUSEG3ZzyQLMuuDdyep816xIYjogWDEEwp3
-         3LywSes+jn2igaxBP5OqlRJ5hZLuboyXNJghCSwRjbQkzKZ9TkR7T/Hw9iZa6V/FBa7G
-         JsLPrG8QIVh1537rgYtGIKaIpXnlHN3ECjvINIepxb/jmZxy3P1u65/S6l99rhkiF2mE
-         3sfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792149968; x=1792754768;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=vApPRxEqpGQADna5mwyiV+wtnRS+6fLHQ7GBxAw9kX8=;
-        b=R/Q5JE1yelqJpgHpAsws3den0cW3YkA6VwSmPCLSpM5GtAZb9NyfJHk4rOFCtUnCdH
-         z7M+c4Jv4OrDaXk/IqoUnj3ZcW+1xcU5eL6H0GSXJL7wpbEtQ/jJLFotqoZ0A3CYrqD0
-         GiHgSpg6kVyKTMxd0wl72nn77CNl5QnTmP0mXO3Ce92sZThI3/SKgilX0lYUpKZnRvG3
-         1AORKwhpiNVwE40gcw3KE46cfGNNJcg68KE5RLZBWds+P/L57cZ2KPo688A7PbZeg1RB
-         cqguFthlCjeFgSZkLUuvPkIugcVaTq8d8I3D2r9BlWbgcCefLs+XTSaeK6woBnkHNSBI
-         YhjQ==
-X-Forwarded-Encrypted: i=1; AKwUvBymBLp9PBzHj4VJg5FbYWuOLOZ8BXSc0NiBCe29ON1/wRDDSuCoYvHkc1uwmBhZZsi/kBu9BDPalm3kVA==@vger.kernel.org
-X-Gm-Message-State: AFq9FYJlAOTY3YtDW+ThyouhUZByRsOJeAuZgfCx/ftLo+05ME3XER/R
-	IZDJoRMRx1F2Xuk4f0jRyPKOviJOqyg2cL0sslQnSnOj+Vtmb7tyh9DtEaGKt9ZfInP8PG3TPnV
-	eGn24hrAfT801RidEd459uYNtqHIn2lg=
-X-Gm-Gg: AYBFou2ltg650EUqtguVK0EjpPlQYU0j4oqtf3wuiAIQSOU5UrkvUU6ZHdX6/OGYLoK
-	U7kol503d3bkUlPjeUPpJV+6rhmJeemtallTt3K4LKO5KZHUlL1q+V9CB43T8wNhe4VBTboHoSh
-	/5ptEA/xPIibkZHMUTto/jq73Su6mlHJmdeuWlYubJBjuyDtKHKhskGI6qLgzPbRDBeIa4+vusE
-	aZtzxCig+FHFGCkvqMA1oJhD0UFuSpYY0HGLYvtS/gxgoWoHY84kJ+0iBh1AZzqw0SjS/oPxbh8
-	zoI9gshhwNtVN2kknnyPtuHt4zUe2NntTR9MHBdrF/T1Q8jLthBwx0EEBdbL7fxhPn+ILu4Pdoc
-	9xehPiBluIqOWXDAr9QYxw5paXHF2aiLRhelvTOHkgf6bNI9rDOvCFyrH1OHD+KjNmdrL
-X-Received: by 2002:a17:903:11ce:b0:2e9:4e83:1979 with SMTP id
- d9443c01a7336-2e94e836527mr62789995ad.32.1792149967287; Fri, 16 Oct 2026
- 04:26:07 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="M1K+YkUQ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ZRp+80+5";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Kb+9fk2S";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="nIchJfnw"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id EB75221C94;
+	Fri, 16 Oct 2026 11:48:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1792151337; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=v/bfWoWUMHkhWwnlc0q37jRAWjpZZtVN17NMMVfkpuk=;
+	b=M1K+YkUQfPQy+rtPHFcCMRnkGa+d1ZVnPoQNqYT6nv6a+1/hB2kpCTDq+b36A1Kkn2oZ9Q
+	VdM1MFfcL1Y2ep8gySXphy8UapHzkzv+hvFJqxccdxnWKs7RqzGvsZUxp8Uy1FX8Q5DOLH
+	OlqVrhNo2nPC+S04cbkGaLNo1PjY+j0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1792151337;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=v/bfWoWUMHkhWwnlc0q37jRAWjpZZtVN17NMMVfkpuk=;
+	b=ZRp+80+52qkWFc7qxKC4e2mqMOmNKu/DvO90SpdoyqCYnNUu0yWRUWBLxldpI2nVvi2Hf9
+	iN1NJ7xlA3eEjUDw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Kb+9fk2S;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=nIchJfnw
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1792151336; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=v/bfWoWUMHkhWwnlc0q37jRAWjpZZtVN17NMMVfkpuk=;
+	b=Kb+9fk2S8OVy8LOaiKSLh3VAb7vkCFUR2OqdXbQ6vDedDYnAfy9WzBg3OuQUmEaUPses5o
+	zYHgUHpwJEe0cyRuXTjyaLNBsUnIt6OT7gEtBKQ8Okbk2P7TV4J0Eqk/zAD/FdZexgKreA
+	4IIautBb6hI7tgY0HOP9aef4QAC8OVA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1792151336;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=v/bfWoWUMHkhWwnlc0q37jRAWjpZZtVN17NMMVfkpuk=;
+	b=nIchJfnwa8VdmITe8LH9DVPKp0RIEm38JtJ80AZbLrnpvHPD+3Z2a/vU7gFhekNDp7h2AF
+	5TlxQaAPnvbN1QAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 769C5139B7;
+	Fri, 16 Oct 2026 11:48:56 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id MqGEEygP0mptJgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 16 Oct 2026 11:48:56 +0000
+Date: Fri, 16 Oct 2026 13:48:55 +0200
+Message-ID: <87h5iluaqg.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Cen Zhang <zzzccc427@gmail.com>
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	thomas.weissschuh@linutronix.de,
+	kees@kernel.org,
+	phucduc.bui@gmail.com,
+	sammiee5311@gmail.com,
+	clemens@ladisch.de,
+	tglx@kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	baijiaju1990@gmail.com,
+	jjzuming@gmail.com
+Subject: Re: [PATCH] ALSA: dummy: Refresh the CD capture switch before use
+In-Reply-To: <pm-pmb-7364ede2179b8830f660-v2-ca37049bc2e3679bb65f@gmail.com>
+References: <pm-pmb-7364ede2179b8830f660-v2-ca37049bc2e3679bb65f@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20261015014324.5569-1-phucduc.bui@gmail.com> <20261016040048.506531-1-phucduc.bui@gmail.com>
- <46a96bc8-2ee7-4c6f-ad8e-94321f8b9630@sirena.org.uk>
-In-Reply-To: <46a96bc8-2ee7-4c6f-ad8e-94321f8b9630@sirena.org.uk>
-From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Fri, 16 Oct 2026 18:25:56 +0700
-X-Gm-Features: AclHuK9bobvuHZz0ZvKJfKfhAJdiG3c7XQlmqU2uHEyUuNfyFRrkKv-rn3SiKZ0
-Message-ID: <CAABR9nG8PeQS4GBGwENfHTRBUnroKYQiEu29iztix+py=Arprg@mail.gmail.com>
-Subject: Re: [PATCH v2 25/25] ASoC: rockchip: rockchip_max98090: Mark the link
- as started on success
-To: Mark Brown <broonie@kernel.org>
-Cc: Vijendar Mukunda <Vijendar.Mukunda@amd.com>, 
-	Venkata Prasad Potturu <venkataprasad.potturu@amd.com>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, povik+lin@cutebit.org, 
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>, Andrei Simion <andrei.simion@microchip.com>, 
-	Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, David Rhodes <david.rhodes@cirrus.com>, 
-	Richard Fitzgerald <rf@opensource.cirrus.com>, Shengjiu Wang <shengjiu.wang@gmail.com>, 
-	Xiubo Li <Xiubo.Lee@gmail.com>, Fabio Estevam <festevam@gmail.com>, 
-	Nicolin Chen <nicoleotsuka@gmail.com>, Frank Li <Frank.Li@nxp.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Cezary Rojewski <cezary.rojewski@intel.com>, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
-	Bard Liao <yung-chuan.liao@linux.intel.com>, 
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, Heiko Stuebner <heiko@sntech.de>, 
-	Kees Cook <kees@kernel.org>, Syed Saba Kareem <syed.sabakareem@amd.com>, 
-	wangdicheng <wangdicheng@kylinos.cn>, Chris Bainbridge <chris.bainbridge@gmail.com>, 
-	Linus Walleij <linusw@kernel.org>, Charles Keepax <ckeepax@opensource.cirrus.com>, 
-	Neo Chang <YLCHANG2@nuvoton.com>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, u.kleine-koenig@baylibre.com, 
-	Pengpeng Hou <pengpeng@iscas.ac.cn>, 
-	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, Hemanth Selam <hemanth.selam@gmail.com>, 
-	Md Shofiqul Islam <shofiqtest@gmail.com>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Zain Aboobacker <zainaboobacker33@gmail.com>, Sang-Heon Jeon <ekffu200098@gmail.com>, 
-	Bo Shen <voice.shen@atmel.com>, Vinod Koul <vkoul@kernel.org>, linux-sound@vger.kernel.org, 
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	patches@opensource.cirrus.com, linuxppc-dev@lists.ozlabs.org, 
-	imx@lists.linux.dev, linux-rockchip@lists.infradead.org, 
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Action: no action
+X-Spam-Score: -2.01
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-2.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[perex.cz,suse.com,linutronix.de,kernel.org,gmail.com,ladisch.de,vger.kernel.org];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TAGGED_RCPT(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Spam-Level: 
+X-Rspamd-Queue-Id: EB75221C94
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 
-Hi Mark,
+On Fri, 16 Oct 2026 04:01:10 +0200,
+Cen Zhang wrote:
+> 
+> The CD Capture Switch control must remain live while
+> snd_dummy_iobox_put() updates its access flags and uses its ID for
+> notification. snd_card_dummy_new_mixer() caches the control pointer, but
+> snd_ctl_remove_id() can unlink and free it without updating that cache.
+> 
+> This requires a kernel caller to remove the switch while the dummy card
+> stays connected and External I/O Box remains writable. Userspace
+> ELEM_REMOVE rejects this driver control because it lacks
+> SNDRV_CTL_ELEM_ACCESS_USER.
 
-> Can you please resubmit this as a separate patch as a new thread without
-> the series numbering?  This is really going to mess with the tooling :(
->
-> Please don't send new patches in reply to old patches or serieses, this
-> makes it harder for both people and tools to understand what is going
-> on - it can bury things in mailboxes and make it difficult to keep track
-> of what current patches are, both for the new patches and the old ones.
->
-> Series numbering only makes sense within a series for ordering, if
-> you're sending something separately to a series or a new series then
-> preserving the ordering of the series just causes confusion.
+So, the removal shouldn't happen, but...
 
-Sorry for the inconvenience.
+> With I/O Box initially 1 and CD Volume still
+> present, the following ordered sequence is possible:
+> 
+>   1. snd_ctl_remove_id() takes controls_rwsem for write, finds and
+>      unlinks CD Capture Switch, sends removal notifications and calls
+>      snd_ctl_free_one(), then drops the semaphore and returns.
 
-This was patch 25 of v2. I had only managed to send the first 24
-patches previously.
-Patch 25 failed to send due to an error, so I sent it afterward to
-complete the series history.
+... how this happens at all?  Unless 1 really happens, the rest are
+fictional dreams.
 
-Link to v2:
-https://lore.kernel.org/all/20261015014324.5569-1-phucduc.bui@gmail.com/
+The same for another dummy driver patch.  Does it really happen at
+all?
 
-Since you had already applied v1, this patch does not necessarily need
-to be resubmitted,
-so please feel free to ignore it.
 
-Link v1 :
-https://lore.kernel.org/all/20261008103831.542533-1-phucduc.bui@gmail.com/
+thanks,
 
-I have also sent the incremental changes in a separate thread, as you requested:
-
-https://lore.kernel.org/all/20261016040946.521195-1-phucduc.bui@gmail.com/
-
-Best regards,
-Phuc
+Takashi
