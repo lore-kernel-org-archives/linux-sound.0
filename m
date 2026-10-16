@@ -1,258 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta0.migadu.com (out-114.mta0.migadu.com [91.218.175.114])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2326F3C8C74;
-	Fri, 16 Oct 2026 21:52:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10A9C3E0C6F
+	for <linux-sound@vger.kernel.org>; Fri, 16 Oct 2026 23:24:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.114
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792187548; cv=none; b=QyyHxOqpY1fJf5waALAb5ekQRFjKKZjmWNxxqeYjRIKRaraRpaq1e4/ZyXLuEVKgyZTUyKY1kmeZhbfMmBrHTc6eYwRr/FwsFq9VTh3bvFtU/1eSy98qpUjDbDRxWONyU2PBm+CeyjtcT9Nwa/D5BmJhP3lcP6qyZBIqdfYfW0M=
+	t=1792193074; cv=none; b=d2mD2Ko04fC0FjYsqPBTj47USoDQbtbohqhh+L/0Hh3ssOqhdFXz1ohld3QDDGRRKjx2QrWXbBoUjQdY56WeCJY1OuZZsfHbjGmZiN3Wt5zWVvCbzQqYFeoPJYJ3QAmhqbg9vygr57kD4zXypxQvPfdGoqfBwa5uG4b/BRYwiQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792187548; c=relaxed/simple;
-	bh=/X3zmd/w1MxITRY95sziVrw8/iiMEHN/vWnCVXAZW7s=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=VL9rFtUXd2wLNyYa7FGRcEjyY/a+di7o9wxwJxIGiSeHBqm3lUmvKbHJy4BgpvZgu777YeQv+l2bvif98wBu89LzsfCOAFO70m1HFAzbVfOEF2ZMmYGPisVWS5qBJdl2n/+zZLpmizPe2pCAooOVXVs6HXp1ERXf3twa2cB4AIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C+DCkd1k; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1792193074; c=relaxed/simple;
+	bh=jGAdImBGD1zBR6ZCSwCEdEyZFGXYBaqDl4HcKAwxYFQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YqmruKv6R09JKQQ0iX1V5N1AF87xDFP0+AhTATLb5Hc6YTDbo4+CP8vBxeZ3d2PeG7llqFduOln71+Vkm+NDCfA81llBdrYlE9+BEljr+f/m+wzo2ObLjQ3zxdzuuxfqT47Ls+m5HpoUQl6nKCVKSwHUPt2h3bi9MSdEsrHOdiM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ohEi0Dsk; arc=none smtp.client-ip=91.218.175.114
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C+DCkd1k"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id D36B7C2BCFA;
-	Fri, 16 Oct 2026 21:52:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1792187547;
-	bh=/X3zmd/w1MxITRY95sziVrw8/iiMEHN/vWnCVXAZW7s=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=C+DCkd1kyesT45QauOaLVNmIiuXFvdvMbxIYGmyoZf45bjH2TTfFxfM2dgY3mkjTt
-	 AHI93JB1kjvYILDQCL+YyOlmRQ73gakxtpdA9nUWk4HhfVOFRV3eZDEHR8tl2FkBid
-	 9MBM5ZRS4xHNwYuWZsBAMPaKTNk/oYLbE7tXBhuFZrxz5Lo1Hv25VGvfPkcMFmUz+p
-	 IQ07cE9XuVFKEcMrIMAhRBYK1PycI9Rn1k1KxjbHTUgx5fPCK7ZYTvG93IpL6ukgiM
-	 6NnGTqw3R0Fi1U/CW1Y4WbOAk+ke0UN0JfoGoiltoXshMEk6+vQ9QM/ZOttoRh3qnz
-	 0tZ5AHN5f+QPg==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B47F7CCF2C4;
-	Fri, 16 Oct 2026 21:52:27 +0000 (UTC)
-From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
-Date: Fri, 16 Oct 2026 23:52:21 +0200
-Subject: [PATCH v6 2/2] arm64: dts: qcom: sdm845-google: Add WCD9340 codec
- and microphone capture
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ohEi0Dsk"
+X-Envelope-To: linux-sound@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=jGAdImBGD1zBR6ZCSwCEdEyZFGXYBaqDl4HcKAwxYFQ=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1792193069; v=1; x=1792797869;
+ b=ohEi0DskkRJKko7UMYzQoJ5ZVtLOvhRW5DpGBZy8orVZ4teVKDXVmVVqbEk+NM+LiaQTJKBa
+ PrJFYzyBh2MyCJlUbIpopUCnN4soEusdxUQAjn5dPeweZt0dnZc+69CYsJV/471JNlunC6rCjfz
+ 2izBSe3Qkfd5C6px5EYlTfrw=
+X-Envelope-To: linux-sound@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id d1975a4dcb4e56ae;
+	Fri, 16 Oct 2026 23:24:29 +0000
+X-Mizu-Trace-ID: d1975a4dcb4e56ae
+X-Migadu-Flow: FLOW_OUT
+From: Matthew Schwartz <matthew.schwartz@linux.dev>
+To: broonie@kernel.org
+Cc: Matthew Schwartz <matthew.schwartz@linux.dev>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+	Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
+	Oder Chiou <oder_chiou@realtek.com>,
+	Shenghao Ding <shenghao-ding@ti.com>,
+	Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>,
+	Sen Wang <sen@ti.com>,
+	Cezary Rojewski <cezary.rojewski@intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/5] ASoC: support the ASUS ROG Xbox Ally X20 audio
+Date: Fri, 16 Oct 2026 16:24:10 -0700
+Message-ID: <20261016232416.2628603-1-matthew.schwartz@linux.dev>
+X-Mailer: git-send-email 2.56.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261016-pixel3-audio-v6-2-11c88448b3be@ixit.cz>
-References: <20261016-pixel3-audio-v6-0-11c88448b3be@ixit.cz>
-In-Reply-To: <20261016-pixel3-audio-v6-0-11c88448b3be@ixit.cz>
-To: Srinivas Kandagatla <srini@kernel.org>, 
- Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- David Rhodes <david.rhodes@cirrus.com>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- David Rhodes <drhodes@opensource.cirrus.com>, 
- Conor Dooley <conor+dt@kernel.org>, Abel Vesa <abelvesa@kernel.org>
-Cc: Viken Dadhaniya <viken.dadhaniya@oss.qualcomm.com>, 
- linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- linux-kernel@vger.kernel.org, patches@opensource.cirrus.com, 
- devicetree@vger.kernel.org, phone-devel@vger.kernel.org, 
- David Heidelberg <david@ixit.cz>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4188; i=david@ixit.cz;
- h=from:subject:message-id;
- bh=fI7A/5RiukFa0xOXY64dBcvV3k0LObsxRG+TKhW69sM=;
- b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBq0pya7mNGQmYwuz/Ftu263gZOuTcutmceIt0y7
- Ca5c92tywCJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCatKcmgAKCRBgAj/E00kg
- cjH9EACyuB2RE1aXYBfMTr3qEF7BRp2E8mJ5GB0LswS0VRMqlkgCwEn7wvAVgrzZkSPgOgEJw9S
- v5AnBQva/ezC0qGMkuOdcypNfLWmxtcOOs5o7LVOEEtRDAwO7bY3znJT7E5iSAzEv0F0XT87shC
- h02GjlhCMwV/DrKU16ofUoEieGYH+PwpYRyRpwvk97QdsJ720z7TjNU5dp0X4z8HYqdnXQKWPh+
- WIsZ1LDbo90Iz6jMJqnJ4Ek4BNPl7Wy1GyYttfHObWRgebnxrxolz6WdeAd2CiWQ/m7J408QoPl
- PyJBFdZpLd34N48VU+8zT46ojiFTvDKpUkLFjGqmpjhwuZiHd71BvkT8SXHv0H5gUWyXFATN8SN
- 4rno7o2XeHH1sTXC7J6k3atSbyyxahJlH/5i5T7s2c4zXtwf8DApOrL6Oss5gBdgb170mNQa4Gl
- hX4hkw8MKOFUsJmSuN8cBwRjjEyvxyvBGE79fhCgQ7boj7RVfza7sdO8tppyoorMzvJCMER2rP/
- ZMnmowkN9mo531ozlEoMOUkhQWfbfMkadQWLkKaSAR+UF9hHiMd7T/1t8wiYnm2DyghNyxEbLXE
- cMLV8DVkhmD6nMc4VL8peVNvUb2YaTtd84O1kYXGDMofvHifrDHp2XsfytyNbGdXz+aDkV8xApt
- L/lcU9VGSj2kIpQ==
-X-Developer-Key: i=david@ixit.cz; a=openpgp;
- fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
-X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
-X-Original-From: David Heidelberg <david@ixit.cz>
-Reply-To: david@ixit.cz
+Content-Transfer-Encoding: 8bit
 
-From: David Heidelberg <david@ixit.cz>
+The ASUS ROG Xbox Ally X20 (RC74XA) moves from the HDA codec and TAS2781
+amps of the earlier ROG Ally models to SoundWire on ACP 7.0, with two
+TAS2783 amps on link 0 and an RT721 on link 1. Its BIOS marks the ACP as
+legacy DMIC only, no machine table entry matches the link layout, and
+its TAS2783 firmware in linux-firmware uses the four-field name that
+carries the BIOS speaker ID, so the speakers do not work today.
 
-The Pixel 3 sound card so far only drove the two CS35L36 speaker
-amplifiers. Wire in the WCD9340 codec , add a SLIMbus capture link
-for it and route the three digital microphones
+Patches 1 to 3 cover that: the ACP config override so the SoundWire
+links are probed, the machine entry, and the speaker ID firmware name.
+Patch 4 stops sdw_utils from creating the TAS2783 amp feedback capture
+link when the BIOS declares an empty source port list, which otherwise
+fails on every open. It touches the shared helper and the AMD and Intel
+SoundWire machine drivers, but I was only able to test on AMD. Patch 5
+makes rt721-sdca wait for its power domains to reach PS0, which removes
+a burst of full scale samples at the start of headset mic capture.
 
-Based on work done by Casey Tunturi.
+Tested on an RC74XA with speaker playback on both amps, headphones, jack
+detection, both microphones and suspend.
 
-Signed-off-by: David Heidelberg <david@ixit.cz>
----
- arch/arm64/boot/dts/qcom/sdm845-google-common.dtsi | 58 ++++++++++++++++++++++
- 1 file changed, 58 insertions(+)
+Matthew Schwartz (5):
+  ASoC: amd: acp-config: force SoundWire probe on ASUS RC74XA
+  ASoC: amd: acp: add ACP70 SoundWire machine entry for ASUS RC74XA
+  ASoC: tas2783-sdw: use the BIOS speaker ID in the firmware name
+  ASoC: sdw_utils: honor empty DisCo port lists when creating DAI links
+  ASoC: rt721-sdca: wait for PDEs to reach PS0 after powering them up
 
-diff --git a/arch/arm64/boot/dts/qcom/sdm845-google-common.dtsi b/arch/arm64/boot/dts/qcom/sdm845-google-common.dtsi
-index 68d26c1a06d0c..8e303a91bfaa2 100644
---- a/arch/arm64/boot/dts/qcom/sdm845-google-common.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sdm845-google-common.dtsi
-@@ -4,18 +4,20 @@
- 
- #include <dt-bindings/arm/qcom,ids.h>
- #include <dt-bindings/dma/qcom-gpi.h>
- #include <dt-bindings/input/linux-event-codes.h>
- #include <dt-bindings/interrupt-controller/irq.h>
- #include <dt-bindings/regulator/qcom,rpmh-regulator.h>
- #include <dt-bindings/sound/qcom,q6afe.h>
- #include <dt-bindings/sound/qcom,q6asm.h>
-+#include <dt-bindings/sound/qcom,wcd934x.h>
- 
- #include "sdm845.dtsi"
-+#include "sdm845-wcd9340.dtsi"
- #include "pm8998.dtsi"
- #include "pmi8998.dtsi"
- 
- /delete-node/ &mpss_region;
- /delete-node/ &venus_mem;
- /delete-node/ &cdsp_mem;
- /delete-node/ &mba_region;
- /delete-node/ &slpi_mem;
-@@ -512,16 +514,20 @@ dai@72 {
- 		qcom,tdm-data-align = <0>;
- 	};
- };
- 
- &q6asmdai {
- 	dai@0 {
- 		reg = <MSM_FRONTEND_DAI_MULTIMEDIA1>;
- 	};
-+
-+	dai@1 {
-+		reg = <MSM_FRONTEND_DAI_MULTIMEDIA2>;
-+	};
- };
- 
- &qupv3_id_0 {
- 	status = "okay";
- };
- 
- &qupv3_id_1 {
- 	status = "okay";
-@@ -539,40 +545,81 @@ &qup_uart9_tx {
- 
- &sound {
- 	compatible = "qcom,sdm845-sndcard";
- 	model = "Pixel 3";
- 	pinctrl-0 = <&quat_mi2s_active>, <&quat_mi2s_sd0_active>,
- 		    <&quat_mi2s_sd1_active>;
- 	pinctrl-names = "default";
- 
-+	audio-routing = "DMIC0", "MCLK", /* Top mic */
-+			"DMIC0", "MIC BIAS1",
-+			"DMIC3", "MCLK", /* Top-edge mic */
-+			"DMIC3", "MIC BIAS3",
-+			"DMIC4", "MCLK", /* Bottom mic */
-+			"DMIC4", "MIC BIAS4";
-+
- 	/* mm[0-9]-dai-link nodes must be positioned first regardless of sorting */
- 	mm1-dai-link {
- 		link-name = "MultiMedia1";
- 
- 		cpu {
- 			sound-dai = <&q6asmdai MSM_FRONTEND_DAI_MULTIMEDIA1>;
- 		};
- 	};
- 
-+	mm2-dai-link {
-+		link-name = "MultiMedia2";
-+
-+		cpu {
-+			sound-dai = <&q6asmdai MSM_FRONTEND_DAI_MULTIMEDIA2>;
-+		};
-+	};
-+
- 	cs35l36-dai-link {
- 		link-name = "Speaker Playback";
- 
- 		codec {
- 			sound-dai = <&cs35l36_bottom>, <&cs35l36_top>;
- 		};
- 
- 		cpu {
- 			sound-dai = <&q6afedai QUATERNARY_TDM_RX_0>;
- 		};
- 
- 		platform {
- 			sound-dai = <&q6routing>;
- 		};
- 	};
-+
-+	slimcap-dai-link {
-+		link-name = "SLIM Capture 1";
-+
-+		codec {
-+			sound-dai = <&wcd9340 AIF1_CAP>;
-+		};
-+
-+		cpu {
-+			sound-dai = <&q6afedai SLIMBUS_0_TX>;
-+		};
-+
-+		platform {
-+			sound-dai = <&q6routing>;
-+		};
-+	};
-+};
-+
-+&swm {
-+	/*
-+	 * Nothing hangs off the codec's SoundWire bus on this board: the
-+	 * speakers are CS35L36 amplifiers on QUAT_TDM. With an empty bus the
-+	 * controller reports port mismatches and frame-generator timeouts on
-+	 * every boot.
-+	 */
-+	status = "disabled";
- };
- 
- &tlmm {
- 	gpio-reserved-ranges = < 0 4>, /* SPI (Intel MNH Pixel Visual Core) */
- 			       <81 4>; /* SPI (most likely Fingerprint Cards FPC1075) */
- 
- 	nfc_default: nfc-default-state {
- 		enable-pins {
-@@ -718,16 +765,27 @@ &usb_1_qmpphy {
- };
- 
- &venus {
- 	firmware-name = "qcom/sdm845/Google/blueline/venus.mbn";
- 
- 	status = "okay";
- };
- 
-+&wcd9340 {
-+	/* PM8998 LN_BB_CLK2 feeds the Pixel Visual Core on this board */
-+	clocks = <&rpmhcc RPMH_LN_BB_CLK3>;
-+	reset-gpios = <&tlmm 64 GPIO_ACTIVE_HIGH>;
-+	vdd-buck-supply = <&vreg_s4a_1p8>;
-+	vdd-buck-sido-supply = <&vreg_s4a_1p8>;
-+	vdd-tx-supply = <&vreg_s4a_1p8>;
-+	vdd-rx-supply = <&vreg_s4a_1p8>;
-+	vdd-io-supply = <&vreg_s4a_1p8>;
-+};
-+
- &wifi {
- 	vdd-0.8-cx-mx-supply = <&vreg_l5a_0p8>;
- 	vdd-1.8-xo-supply = <&vreg_pmu_xo>;
- 	vdd-1.3-rfa-supply = <&vreg_pmu_rf>;
- 	vdd-3.3-ch0-supply = <&vreg_pmu_ch0>;
- 
- 	qcom,snoc-host-cap-8bit-quirk;
- 
+ include/sound/soc_sdw_utils.h            |  1 +
+ sound/soc/amd/acp-config.c               |  7 ++++
+ sound/soc/amd/acp/acp-sdw-legacy-mach.c  |  2 +-
+ sound/soc/amd/acp/acp-sdw-sof-mach.c     |  2 +-
+ sound/soc/amd/acp/amd-acp70-acpi-match.c | 44 ++++++++++++++++++++++++
+ sound/soc/codecs/Kconfig                 |  1 +
+ sound/soc/codecs/rt721-sdca-sdw.c        | 17 +++++++++
+ sound/soc/codecs/rt721-sdca.c            | 33 ++++++++++++++++++
+ sound/soc/codecs/rt721-sdca.h            |  1 +
+ sound/soc/codecs/tas2783-sdw.c           | 42 ++++++++++++++++++++--
+ sound/soc/intel/boards/sof_sdw.c         |  2 +-
+ sound/soc/sdw_utils/soc_sdw_utils.c      | 36 +++++++++++++++++--
+ 12 files changed, 179 insertions(+), 9 deletions(-)
 
+
+base-commit: 2450a9bcd3423612f614ea15ff44966fed189191
 -- 
-2.55.0
-
+2.56.0
 
