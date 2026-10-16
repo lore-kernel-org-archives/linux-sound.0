@@ -1,82 +1,131 @@
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11D1E31326A
-	for <linux-sound@vger.kernel.org>; Fri, 16 Oct 2026 03:40:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 369831A6808
+	for <linux-sound@vger.kernel.org>; Fri, 16 Oct 2026 04:01:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792122051; cv=none; b=mbFuHbPSfTtT+xFc4YUSj/Ef4Xi0elrvc5VZMRRHnlK+OW0vCG85mwNe3DqkWgi2oVy4V76ORBvFLYDtrs4BNiU9UfkidQ1LQlcOiGJhZKv1YwYafYMUoZO9EF0QW90Cs+caGd4X7AR6QNb6AU4QrE/aH+xePMQXI0lUnN18D78=
+	t=1792123277; cv=none; b=RhoBe4ls7JVh6p5eMPDaVbvGYH30xNl4JKTemz0M14lq6rcpBC5HVturUeleJJ1kRZoVFz0iKX3TeDGWi8uDy8IsQnkcFWMzvX7/kS1ypSIaUQGm7Ck1W09ay6bbKuS/CeewpsQVhjc1XdMq3Odnpe09mS1soTaWDKmOcSLRvMw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792122051; c=relaxed/simple;
-	bh=VqMWfuWL6abzNfrkThQl5y1V57dHrZF9qtIRjP/vSUw=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=sWFpF+gFMBVgXhKd8QqQdbdiqmkgWXcq6CDdq98fkzD27E/thEIgzqEpY7kmUM9L3eTtdksbbQ5VmbFrg1U7s8yHYGqJY+XA9+ENxhCb72LprDBmzV+8S8AJj2BDcWnTpJFquFh9iGoE8fsoLG8QhqvJ5dNa2ja/SJSukb1ABHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bCF1Cvn/; arc=none smtp.client-ip=209.85.160.171
+	s=arc-20240116; t=1792123277; c=relaxed/simple;
+	bh=kz6hWgoXjwzN/plzsOuupJpm8SEQMOhxfOMvvFLoLo4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=F2rHRQDqG4xcCgfV69/OpsnfvZ14KhkTFXP7FgCIzVsPegNTCzI5e0sptBd8Lvq7nV7QaGIuhg/My5TXcAqNdzqnaAIG4PUeJ6Xjd50MjAyYLxYelRYjk1zDsjX/VKeadf0v8mGf9DDfgkRXAfUz6RulQfJyEpeqIB8akvJafKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YiU6kWI3; arc=none smtp.client-ip=209.85.214.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bCF1Cvn/"
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-533778ab0bdso68069801cf.3
-        for <linux-sound@vger.kernel.org>; Thu, 15 Oct 2026 20:40:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YiU6kWI3"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2e87c66e556so3167025ad.0
+        for <linux-sound@vger.kernel.org>; Thu, 15 Oct 2026 21:01:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792122049; x=1792726849; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:content-type:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=FiSWddY//7cIxkgjPTVJ04fT7tu3WDIsuOMUv0HXBC4=;
-        b=bCF1Cvn/5bNm56SDsGzH06qM3UgTgHt+mvOm2nu5pSgdUZfmE8FzAFznPyG6qzcoZz
-         IH9pJul2bpsWV453n78sFZn/B5Y+Qh1WvAXgSnqXoWakV+T3aEaxRGJPIQ8QJc2X0j6b
-         OTs0DXIc7a2mARgT3gGwbG6ux/Kby5Rc5QjRITBdR9wGyv9MFjBSor+72/VXVWlFaUmT
-         EZiZClnTdnIVUrefS/fMoP9EFkcwXL7SFKsfMCrLf+fRWQ+qeUhVtvwECpSlExdRAMfj
-         HSFvv9RdE1iXVXid67I8yBceFP4xotni8WcVkwdlZCNwUxPaji9vAlixiC176dq0TppQ
-         lZhg==
+        d=gmail.com; s=20251104; t=1792123274; x=1792728074; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=5Qhe5E4dgThyJhSYyDtuQ9hNBBoGOWOTPXhOMe7iZzE=;
+        b=YiU6kWI38o7n8Ng0a9H5qDIsVqCAnrHCHj1sdVAJsUntfAoVin71Cn3xhsDnYP/Exn
+         pcZYJ/86txoykL0YK/CjwFnX6J9y+wBaG5FO1sKU/6/amBr78Qs8jXJHi1FiptgiM9+M
+         ILBrXV3rcdDaEZinW8tA7y+yGf/RIEj+VDMQm89ey18mr6j+yvxpibG8qGgxaFPvQO6F
+         svObyTy2lSHy+sgyySDEspbm9DJqRqkL0Ce5lJD2BcNfUQSSIiKo3ums+6bpcfBem/Tp
+         IhnWn8kdo1BAmkQMg8YDJlLcmiXHpTpCqqmiZXzE2FFE2Jf4pL6WBF+BjGLoGmoQYu2k
+         Spmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792122049; x=1792726849;
-        h=content-transfer-encoding:mime-version:content-type:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=FiSWddY//7cIxkgjPTVJ04fT7tu3WDIsuOMUv0HXBC4=;
-        b=1hW8sPyGxS7jcdyL4ZK+yi3SyXcHv8VMG6bGd/t8G7XXUkn4RMdMM8gDSnaypOpebC
-         8eMsG7KRJRFYWoLADmNCNKYT9wsaKAAcET6YOsNwdfib4BwU5SrjzhCtV/G0K0stxGme
-         PeP1QnzIQKWF09cy+sgZcg5tt/pLUwj9f9DCTy9HNy+UFWEiUVgsNeZBzGXw5YavOno8
-         JnSiRFuJDcMpfGEGCUcb5Cld+WRDsCybDUwXmtl/wh8HToiJhWZyLL3uQ3gq1iEEw4X8
-         lrt/2x6GgNCaUzKd80IRkvBy9sBhE/K0rE5EwbJh7onPOULWWsAsjUnp/o6LCpXezM44
-         Gcmw==
-X-Forwarded-Encrypted: i=1; AKwUvBw3fpzsg6hGWPfDCWWLLlBGyAfOg4JkgbWhLo1EBAIC+hu+QYWL+nVL71ANKjN4fyZdGFxvOoSMFNv7cw==@vger.kernel.org
-X-Gm-Message-State: AFq9FYI69HT74Z15IZnP2SoIb3+D/AHDkALg+D8O5YmrTrc9kFfmzXZy
-	b/Enz78ZGVtnrCifBcUv4f+iRRKf9pVf04jZy0GOjK5OR1CsIknbn6w=
-X-Gm-Gg: AYBFou1n0sW0cdsN9tq56DTAB5togl03NKZq7GJb/70eIH4wHtHQwNZh8fI/1xHpeF6
-	prPFKnIY71gvezLxe3uN5mtQtxCUqJfs+uljjtG7VESRiHBoEad35NndU0XKJdfjuS6yxjIhyST
-	9J2fwaIbDa1o/bn6oPiL2f7u7qsbnwhVQeVdpH72LiHL0UXdIA+1EYiFydYHDh9oxDQA66Dw2b3
-	SqD/QgEulwgrNDndpOLy1e71ZGB/eMOgbLihSGnSELGcurGnKTWMWSZ8L5dAmTxJREYWrwM+eoM
-	/VKBSThOzkDMPwNKxDwP3MKFC5udRLeuWETCnLI2CwF772m1nIU9urJ874Bd/l3wJIU/upGr0EQ
-	N5QkGehs7hwNivsNahOiFbpS3YRO/TdREgGIH3wyDWhGTn7LnHJe2e9r1m+aTf5gYmleLH22ho6
-	w7Cdvb2Sa/hnxX/VhZhuWsSBRV1dWCeYJCmaU4b6F3XuYw3QCy4znDv6xUC/Apa363LX+Wm2SJR
-	jCisJtG8Xd3n2Zm2Z54CF0hgo2gPmrgrPlJuya0VShB2IxVZWZ9xDWUevQHCCwru3PHCMWrp3Ny
-	VdDodCuxvjEZYHHCmwXtFzUYa5Bo
-X-Received: by 2002:a05:622a:558c:b0:535:232f:ca21 with SMTP id d75a77b69052e-5359f486ebemr346542441cf.11.1792122048786;
-        Thu, 15 Oct 2026 20:40:48 -0700 (PDT)
-Received: from i4-gl-tmk5904-1.ad.psu.edu ([130.203.156.90])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5362a9dbdb5sm11198881cf.22.2026.10.15.20.40.47
+        d=1e100.net; s=20260707; t=1792123274; x=1792728074;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=5Qhe5E4dgThyJhSYyDtuQ9hNBBoGOWOTPXhOMe7iZzE=;
+        b=jqBsFRq05W7rD8nkMQ8cN2T5DCO2PMfcm5dIYU60M1XFYQ9Pnz0g92H34YjtW2AigT
+         dhPjsx7L3qcZ82occNIFudV9zqzpDD3Nx/nPFPDJnEeCJ+i4wwPTXHpKeo53wZ3VXcuW
+         oZaFkKLHsYm3Ef9MARaBAzqyrSOc5t700LQ5+96bPZ50ByFDaoGwYg+0hQVFenM04Ask
+         iJNiYlZLO+eFNG0/4iXv2wMpD0xcPXszEUr4kpkjK+37H6rlsHGM5EVbjodqsxoxtmUR
+         iCqlJvpiQp9BkyiNyNCfs0DwCVw1mcuwtNyyl9Sbw98bnaeQkgdjOTisQpBhoAKpNGIk
+         sIsA==
+X-Forwarded-Encrypted: i=1; AKwUvBxPVXhcL7nvq/orR3LicMCfw22KhHgNp1f/agzPsAFQgjRMN1C5+Fgck7GnOFuEDJ13Lz3FQRXA3bQtig==@vger.kernel.org
+X-Gm-Message-State: AFq9FYIFNNzlGE3gQMpZuzZ7i05QY4qdaxX19VkgIje9G14vsBrwjZWB
+	FZJSbpH5mA+1w+rtn3rQgDtY/EQwttG7KPGZE66frMko6XWdCIxk2c8q
+X-Gm-Gg: AYBFou1uFmO+u/mrJJB+mTGkb7sFSZxaZJkHpjQJPFl1Ax79rLZNro4xgr3ZBLK7AWJ
+	msT7+S4QgTU/XOuc/WdczC5XIUJLFKv8Z8faHQ035xY7F9u7kCUJ7FaoNVkFJODkGCcQr3O7NlX
+	X6Kdu62KM1Djn6iZ9cnIFqAURTkgXKQW2lfrOZQixREFnUJSdy7UoVcRtiLsRO3C7atmp2Bltku
+	zEHRxlngpNVVkF6QdwziPBTwaw/UTUH1acBAyy/njhzM3S/RWwXc6KHGSstWh1Ew1Q16rJxMl6B
+	E6RXXSQLdtb3PTXJeElWa0Gpx3jl+FjOj1z6W3KqLMM50v52sKMBJkmX4qJK5xtWC6Ue5jlek+P
+	qf4DmomEs47rR2gFtGWY5CpPKo+VU8yo6WOeJ8IT9ZVeZPsE+0+hWN6qNuRTOxJSQdfaDq2LFam
+	UDVN6AN+iRLktrHly4MGk99BOIOYqm56h9Jv6ypo1ogImkm2uAAMitWOUHCp2nwOwpXa4lvhdPo
+	GYzRNSyzzxvtG8uCdq8IBZIOK8b0C4xtOFo02nyj+d4684mBlrWnWBSqO3oKSO5IkQiQn0zi1nu
+	4RL4oDgv617Yv98=
+X-Received: by 2002:a17:90b:39a4:b0:3ac:b764:8521 with SMTP id 98e67ed59e1d1-3acbb9255ccmr1718768a91.38.1792123274359;
+        Thu, 15 Oct 2026 21:01:14 -0700 (PDT)
+Received: from phuc-desktop.. ([183.91.15.56])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3acc4872861sm2304450a91.7.2026.10.15.21.01.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Oct 2026 20:40:47 -0700 (PDT)
-From: Myeonghun Pak <mhun512@gmail.com>
-To: Liam Girdwood <lgirdwood@gmail.com>,
+        Thu, 15 Oct 2026 21:01:13 -0700 (PDT)
+From: phucduc.bui@gmail.com
+To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+	Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
 	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: Myeonghun Pak <mhun512@gmail.com>,
+	povik+lin@cutebit.org,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Andrei Simion <andrei.simion@microchip.com>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Shengjiu Wang <shengjiu.wang@gmail.com>,
+	Xiubo Li <Xiubo.Lee@gmail.com>,
+	Fabio Estevam <festevam@gmail.com>,
+	Nicolin Chen <nicoleotsuka@gmail.com>,
+	Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Cezary Rojewski <cezary.rojewski@intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Heiko Stuebner <heiko@sntech.de>
+Cc: Kees Cook <kees@kernel.org>,
+	Syed Saba Kareem <syed.sabakareem@amd.com>,
+	wangdicheng <wangdicheng@kylinos.cn>,
+	Chris Bainbridge <chris.bainbridge@gmail.com>,
+	Linus Walleij <linusw@kernel.org>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Neo Chang <YLCHANG2@nuvoton.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
+	u.kleine-koenig@baylibre.com,
+	Pengpeng Hou <pengpeng@iscas.ac.cn>,
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+	Hemanth Selam <hemanth.selam@gmail.com>,
+	Md Shofiqul Islam <shofiqtest@gmail.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Zain Aboobacker <zainaboobacker33@gmail.com>,
+	Sang-Heon Jeon <ekffu200098@gmail.com>,
+	Bo Shen <voice.shen@atmel.com>,
+	Vinod Koul <vkoul@kernel.org>,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
+	asahi@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	Ijae Kim <ae878000@gmail.com>
-Subject: [PATCH] ASoC: mediatek: mt2701: join the IRQ before managed cleanup
-Date: Thu, 15 Oct 2026 23:40:45 -0400
-Message-ID: <gm-top10-20261015191529-g154-c729db287fde@mhun512.gmail.com>
-X-Mailer: git-send-email 2.53.0
-Content-Type: text/plain; charset="utf-8"
+	patches@opensource.cirrus.com,
+	linuxppc-dev@lists.ozlabs.org,
+	imx@lists.linux.dev,
+	linux-rockchip@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	bui duc phuc <phucduc.bui@gmail.com>
+Subject: [PATCH v2 25/25] ASoC: rockchip: rockchip_max98090: Mark the link as started on success
+Date: Fri, 16 Oct 2026 11:00:48 +0700
+Message-ID: <20261016040048.506531-1-phucduc.bui@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261015014324.5569-1-phucduc.bui@gmail.com>
+References: <20261015014324.5569-1-phucduc.bui@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -85,182 +134,52 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The IRQ is published before the handler's arrays, regmap and clock state
-are ready. Remove drops the PM reference before managed IRQ release, so
-a handler may also overlap clock shutdown or subsequent resource
-cleanup.
+From: bui duc phuc <phucduc.bui@gmail.com>
 
-Initialize the dependencies and acquire the PM reference before
-requesting the IRQ. Register a PM cleanup action before the IRQ
-resource, and a final IRQ-disable action after component registration.
-Reverse release then joins the IRQ, removes the components, frees the
-IRQ and drops PM before releasing the backing arrays.
+snd_pcm_hw_constraint_minmax() may return 1, which is then returned
+from rk_aif1_startup(). ASoC only marks the DAI link as started
+when .startup() returns 0.
 
-Disable and join the IRQ explicitly when component registration fails.
-Use pm_runtime_resume_and_get() so a failed resume does not retain a new
-usage reference. If manual clock resume succeeded while runtime PM
-stayed disabled, unwind those clocks if the later PM get fails.
+This currently has no functional impact, as there is no .shutdown()
+callback in the relevant snd_soc_ops. Still, return 0 explicitly on
+success to match what ASoC expects and ensure the DAI link is correctly
+marked as started.
 
-This issue was identified as part of our ongoing research while
-reviewing kernel code.
-
-Fixes: 43a6a7e71063 ("ASoC: mediatek: add mt2701 platform driver implementation.")
-Assisted-by: LLM
-Co-developed-by: Ijae Kim <ae878000@gmail.com>
-Signed-off-by: Ijae Kim <ae878000@gmail.com>
-Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
+Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
-The final devres action disables the IRQ rather than looking up and
-freeing another managed resource during devres release. Independent
-PCM/card lifetime and system-suspend clock ordering are outside this
-change.
+ sound/soc/rockchip/rockchip_max98090.c | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
 
-Compiled with Clang 22.1.2 and W=1 in the accompanying validation
-bundle. The prior G154 diff received independent source review. The
-revised manual-resume failure cleanup received coordinator
-counterexample review. No runtime reproducer, hardware test or
-full-kernel link was performed.
-
-Base: 0fcb05b72344f40806cbe810de8872f1698bf053
-
- sound/soc/mediatek/mt2701/mt2701-afe-common.h |  1 +
- sound/soc/mediatek/mt2701/mt2701-afe-pcm.c    | 65 ++++++++++++-------
- 2 files changed, 44 insertions(+), 22 deletions(-)
-
-diff --git a/sound/soc/mediatek/mt2701/mt2701-afe-common.h b/sound/soc/mediatek/mt2701/mt2701-afe-common.h
-index c9477bc24ee9..c7ffae5b6fb0 100644
---- a/sound/soc/mediatek/mt2701/mt2701-afe-common.h
-+++ b/sound/soc/mediatek/mt2701/mt2701-afe-common.h
-@@ -89,6 +89,7 @@ struct mt2701_soc_variants {
- };
+diff --git a/sound/soc/rockchip/rockchip_max98090.c b/sound/soc/rockchip/rockchip_max98090.c
+index 426506a8e18e..de392b420ebd 100644
+--- a/sound/soc/rockchip/rockchip_max98090.c
++++ b/sound/soc/rockchip/rockchip_max98090.c
+@@ -191,12 +191,23 @@ static int rk_aif1_hw_params(struct snd_pcm_substream *substream,
  
- struct mt2701_afe_private {
-+	int irq_id;
- 	struct clk *base_ck[MT2701_BASE_CLK_NUM];
- 	struct clk *mrgif_ck;
- 	struct clk *hadds2pll_ck;
-diff --git a/sound/soc/mediatek/mt2701/mt2701-afe-pcm.c b/sound/soc/mediatek/mt2701/mt2701-afe-pcm.c
-index d56b498e8c0c..ef051157a0c7 100644
---- a/sound/soc/mediatek/mt2701/mt2701-afe-pcm.c
-+++ b/sound/soc/mediatek/mt2701/mt2701-afe-pcm.c
-@@ -1591,12 +1591,31 @@ static int mt2701_afe_runtime_resume(struct device *dev)
- 	return mt2701_afe_enable_clock(afe);
- }
- 
-+static void mt2701_afe_pm_disable(void *data)
-+{
-+	struct device *dev = data;
-+
-+	pm_runtime_put_sync(dev);
-+	pm_runtime_disable(dev);
-+	if (!pm_runtime_status_suspended(dev))
-+		mt2701_afe_runtime_suspend(dev);
-+}
-+
-+static void mt2701_afe_irq_disable(void *data)
-+{
-+	struct mtk_base_afe *afe = data;
-+	struct mt2701_afe_private *afe_priv = afe->platform_priv;
-+
-+	disable_irq(afe_priv->irq_id);
-+}
-+
- static int mt2701_afe_pcm_dev_probe(struct platform_device *pdev)
+ static int rk_aif1_startup(struct snd_pcm_substream *substream)
  {
- 	const struct mt2701_soc_variants *soc;
- 	struct mtk_base_afe *afe;
- 	struct mt2701_afe_private *afe_priv;
- 	struct device *dev;
-+	bool manual_resume = false;
- 	int i, irq_id, ret;
- 
- 	afe = devm_kzalloc(&pdev->dev, sizeof(*afe), GFP_KERNEL);
-@@ -1619,13 +1638,7 @@ static int mt2701_afe_pcm_dev_probe(struct platform_device *pdev)
- 	irq_id = platform_get_irq_byname(pdev, "asys");
- 	if (irq_id < 0)
- 		return irq_id;
--
--	ret = devm_request_irq(dev, irq_id, mt2701_asys_isr,
--			       IRQF_TRIGGER_NONE, "asys-isr", (void *)afe);
--	if (ret) {
--		dev_err(dev, "could not request_irq for asys-isr\n");
--		return ret;
--	}
-+	afe_priv->irq_id = irq_id;
- 
- 	afe->regmap = syscon_node_to_regmap(dev->parent->of_node);
- 	if (IS_ERR(afe->regmap)) {
-@@ -1687,14 +1700,27 @@ static int mt2701_afe_pcm_dev_probe(struct platform_device *pdev)
- 		ret = mt2701_afe_runtime_resume(dev);
- 		if (ret)
- 			goto err_pm_disable;
-+		manual_resume = true;
- 	}
--	pm_runtime_get_sync(dev);
-+	ret = pm_runtime_resume_and_get(dev);
-+	if (ret)
-+		goto err_pm_disable;
-+
-+	/* Keep the AFE powered until the components and IRQ are released. */
-+	ret = devm_add_action_or_reset(dev, mt2701_afe_pm_disable, dev);
-+	if (ret)
++	int ret;
+ 	/*
+ 	 * Set period size to 240 because pl330 has issue
+ 	 * dealing with larger period in stress testing.
+ 	 */
+-	return snd_pcm_hw_constraint_minmax(substream->runtime,
+-			SNDRV_PCM_HW_PARAM_PERIOD_SIZE, 240, 240);
++	ret = snd_pcm_hw_constraint_minmax(substream->runtime,
++					   SNDRV_PCM_HW_PARAM_PERIOD_SIZE,
++					   240, 240);
++	if (ret < 0)
 +		return ret;
 +
-+	ret = devm_request_irq(dev, irq_id, mt2701_asys_isr,
-+			       IRQF_TRIGGER_NONE, "asys-isr", afe);
-+	if (ret)
-+		return ret;
- 
- 	ret = devm_snd_soc_register_component(&pdev->dev, &mtk_afe_pcm_platform,
- 					      NULL, 0);
- 	if (ret) {
- 		dev_warn(dev, "err_platform\n");
--		goto err_platform;
-+		goto err_irq_disable;
- 	}
- 
- 	ret = devm_snd_soc_register_component(&pdev->dev,
-@@ -1703,27 +1729,23 @@ static int mt2701_afe_pcm_dev_probe(struct platform_device *pdev)
- 					 ARRAY_SIZE(mt2701_afe_pcm_dais));
- 	if (ret) {
- 		dev_warn(dev, "err_dai_component\n");
--		goto err_platform;
-+		goto err_irq_disable;
- 	}
- 
--	return 0;
-+	/* Drain the IRQ before releasing the managed components. */
-+	return devm_add_action_or_reset(dev, mt2701_afe_irq_disable, afe);
- 
--err_platform:
--	pm_runtime_put_sync(dev);
-+err_irq_disable:
-+	disable_irq(irq_id);
-+	return ret;
- err_pm_disable:
- 	pm_runtime_disable(dev);
-+	if (manual_resume)
-+		mt2701_afe_runtime_suspend(dev);
- 
- 	return ret;
++	/*
++	 * ASoC only marks the DAI link as started when .startup() returns 0.
++	 * Since snd_pcm_hw_constraint_minmax() may return 1, explicitly
++	 * return 0 to ensure the DAI link is correctly marked as started.
++	 */
++	return 0;
  }
  
--static void mt2701_afe_pcm_dev_remove(struct platform_device *pdev)
--{
--	pm_runtime_put_sync(&pdev->dev);
--	pm_runtime_disable(&pdev->dev);
--	if (!pm_runtime_status_suspended(&pdev->dev))
--		mt2701_afe_runtime_suspend(&pdev->dev);
--}
--
- static const struct mt2701_soc_variants mt2701_soc_v1 = {
- 	.i2s_num = 4,
- };
-@@ -1752,7 +1774,6 @@ static struct platform_driver mt2701_afe_pcm_driver = {
- 		   .pm = pm_ptr(&mt2701_afe_pm_ops),
- 	},
- 	.probe = mt2701_afe_pcm_dev_probe,
--	.remove = mt2701_afe_pcm_dev_remove,
- };
- 
- module_platform_driver(mt2701_afe_pcm_driver);
+ static const struct snd_soc_ops rk_aif1_ops = {
+-- 
+2.43.0
+
