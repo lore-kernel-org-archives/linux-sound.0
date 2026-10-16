@@ -1,78 +1,72 @@
 Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 770AA335067
-	for <linux-sound@vger.kernel.org>; Fri, 16 Oct 2026 02:17:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B69131DDBB
+	for <linux-sound@vger.kernel.org>; Fri, 16 Oct 2026 02:18:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792117057; cv=none; b=jD5yEuZi/uQfLm6ppoY0Lsk6hhjfSfeEH1/cmTO0HaXHxyl8i+3fof4z+TpoNm/M4ZI8vNiDkweqBWY3bSBkUXco4adYsHRq8z/YMqrhVEb/2R4y99yjxq8EF15ceAMi+BSnTQLIZxQtKsxuNWFlewyGk2umwr3pPeGkRbsaj5A=
+	t=1792117085; cv=none; b=rRP8Wk1tFf/5ixcYX0a6GLXVu7Zr/Mw/AI1jvFVCIFCouMpMY+ZyrWrbMqQyZdssOXFkmLildHXqVuHKSCF3WljiJRmfrJCHKWe+LkhcK8I+s3R2WTZQDYS2R0S2QV7hyazrNeLabVI1dasgWdA9TRuFkWgC/vm1ah812OK6gh8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792117057; c=relaxed/simple;
-	bh=NvR2WM9jj8jRIgCdUG7NjHDGnPC2aHpHe+hr7SZN8iY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=TNof6BkrWvGcbgnKWBbzKkMI5obrFo9Z5slG0F0YujfI4a02umLay9rIOx/ttsHfaPXrmzS0u7nfCuPJ3lnO+IUh0hNCuts3kxwgPFoDM6O/FE+Cp7kmfS3A1GmuxEYUrCsvPWBa1kzH/DLU9smY/Ls6xI+JcmVY/V61Hdo/ymA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fnhtI3W4; arc=none smtp.client-ip=209.85.216.50
+	s=arc-20240116; t=1792117085; c=relaxed/simple;
+	bh=GBFbgKzou55yninokS8DLRi/3/Ccr4x4v6rKeAamxJE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=lST0dK6273F8Bdagdxux0EM8bOGgw97rtts70yzVEysALzocAkZhBwSRjrPWKO1JFF84vgf8ZO1EFK7W0MzzTUfmFTBus+Ikgl3RzBrXOirrMEORHqg1ELD/+TCfU0JBmz4UyLvcv5j0hKk7FFFDnlTE6RrEtD757xP+MC2CNaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VJHyxo08; arc=none smtp.client-ip=209.85.216.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fnhtI3W4"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-38759bcd877so3747492a91.2
-        for <linux-sound@vger.kernel.org>; Thu, 15 Oct 2026 19:17:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VJHyxo08"
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-3a7cfe8f761so384811a91.1
+        for <linux-sound@vger.kernel.org>; Thu, 15 Oct 2026 19:18:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792117056; x=1792721856; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1792117083; x=1792721883; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:message-id:date
          :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=CVmS+D5i0kAr5Pru2PharXfZ0ptxDBQzVp4Kcfu2Y0k=;
-        b=fnhtI3W4XJLr3EfsQWRYSBnF8yg8zxgPwfIR/7puNu4nK7t3dY3kiya7SyYaYNz/w5
-         7WpPqe9yBvrAG96HI4X48ZCZcZXrdzEmRmZbbbBQ0roONTMQM4sG1KfEqvPRKZNFXpkl
-         WaXi8sN2dT+5lHXrJSleEqd3nQ8xpiETISX5UTYSoU5LDJQGkr4qKX56Km3NQK0aE1oA
-         8OFwytnBotZy2BRHbCmblUdoIi0utS2+HxJ6pnyQ4VqX8hrXmQ6WaBU7lgmi14SpYhcV
-         m9EOgKqUN4CNZ98FzRNv37Fn9JpX8VxoYhZfZBYG2bz9rNbfpXlICZumkuslH8TPW6ck
-         RzPg==
+        bh=WlzWRF8aDptzQD1ma/Z723oZi8PKFT4bgskbfzy3X34=;
+        b=VJHyxo08Ix9V1+PzHwq4qIvNIY8xrtCNZ84yj4LAzLd6UWMMz7IUpPuE/iFBloLT/8
+         Iu9ZtgLoA46TfgM+waaVskudsQMXevP/HvoGFhbpUpJrxMxELb8qs5XuS1BNuvNWura0
+         52oKFyOcttefxfsi2k8SBEl9A8gXkhWIF7zs3VI7gQ95x0QDb37aCERyiHUK+7ALKY0C
+         d6PvlfUUsAAFa8gHkxAlXZJ+s3WwSBPKsD6MPn4YXARr2JQF/DkuEHFS5c6s4rCizBSB
+         JA5AZrEqfOsojQd3aDjqbyTi1SQCOh3+e9pAAPy26oahmQTttzuI+jCM4VNz+aJ28XnK
+         YgUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792117056; x=1792721856;
+        d=1e100.net; s=20260707; t=1792117083; x=1792721883;
         h=content-transfer-encoding:content-type:mime-version:message-id:date
          :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=CVmS+D5i0kAr5Pru2PharXfZ0ptxDBQzVp4Kcfu2Y0k=;
-        b=uYhtEecVTCtDJH3cDew/cZhng5GEYKgAZtHv6E6wHUk1mSDmwKHOMQev2/qBGxKxSX
-         L14bo9tXXmEBRiR6eGacO6rxgZpyRGEoSH8UsSY0yOrXL1ITZ7XadVmprxZbcIfZ+0Uu
-         tXzNeIAGfCIxDMZ9lzVjjqzSHiRMHbVBnMYX3WeVGtqixEdcgCFEBv+ulsbz5fHQqgwp
-         TrywbqUhG2DtNRAa8QaNhnt+YrQ6SgASaxdpN5sMYFoYVU4+wQMW2bz9LY8nIDTPFtzV
-         pyZXAEpf169eS163T8sYpzGlQlzoVsuieZlJlu6Z5ynPRQIM8IwmwsUUSD2hIV8PQ+au
-         scpw==
-X-Gm-Message-State: AFq9FYJuzU7celpQb2wty1ydgKyLuSVtkp7nqVN0yDTCVMdZ0UJtW7Mr
-	9n3+K6NYuIXiKuEUGMURBOwjI8LczRpC2RHXsqzyKLh+aQW3KFdvFqTt
-X-Gm-Gg: AYBFou1gwu/0Svv6YtTNSewUbBAheUiL3MK4ClqZzMf2lUBGvv1cgVaC2TXYw+PYuyW
-	SbZACENaXaOl9WEDmOrKR0RYmMLj+GR1+J3CTRW79ls36TmlCghURbpYRqYwJsbscO2lVuj1/II
-	xlbK6OPqQZ9JFLIk7xZOdPXFnpaU3aoFlbcpekiGeKIpGs7QBMuj5ebY+GaF3ndKtZjRqt87BTa
-	bKHfxhSWlIV4qrh9GSawWXQG3ng3rHtUi65DTptcJxbJts5gWjDj0cCnUadDp2p5Q+uqyUFp9ur
-	g5kGBZ4cQVJ3vg+B3lUWwpgdYjYU2mfNm0Fl+pBRNYCeLiG/L//9v2A77jPjp6STaUiQQ278r+v
-	3Bbl8ePeJnyhSgCCQ7tv3J9epSj6u+HnskiqA5ARsg03xXJDi6LKkYHuKkym/rnLXExgrk50Wos
-	ZSoFUusnDM0hF+ShPFR2OvVBPlkEwEpUR7ROcnPFnY8XzDToGJjM7t7bQdeEqC/qTTWw==
-X-Received: by 2002:a17:90b:384a:b0:3ac:b3c7:de14 with SMTP id 98e67ed59e1d1-3acb3c7e4a0mr2312783a91.61.1792117055618;
-        Thu, 15 Oct 2026 19:17:35 -0700 (PDT)
+        bh=WlzWRF8aDptzQD1ma/Z723oZi8PKFT4bgskbfzy3X34=;
+        b=HFd4lIahkcwu/JoNhtQVed3Bcga/IJy/yat2Mhg/H2NmU+JL6r77lmOKIDMRfKp03D
+         REgKS2OjHsKWUi9uV15DayaRyi4i0EGAWPVe9UWJhCSg7ZeXN5Gosa1YoJgj1m01rmhT
+         JdJesXPr0XdrvhoOkZIRahkQl8v+MfRNL5+sbzatvqvnVS8igxnCeuFtvwrqVXl7lK7v
+         xG+Wmvg4aRtaSqpRsLspPyChGkqUCMyHRtklZkZIX5Jopx81drnvmuQqPacA4QqcFBW6
+         utFYD+NlfanbYTX62BrWe7tU2gGj5H5NeNBPemXVSYYZRrTKYIFMl8Sbr/eEIwWLT5ZS
+         gMJg==
+X-Gm-Message-State: AFq9FYLfm30519XU/neF01VTjfsxHsG/8DvUgnBpnNekGF1JuDEo8VOk
+	NabDIV71cq9pMON8twqmG1DFEeZF9iwyTMIqCV2v/2SDZNpKT4jdqQpp
+X-Gm-Gg: AYBFou0ditAnH6eHUTAxx+iFTfQfepIlhhCHwofDV4ukEBvVZxZr4CrLL7G2Fmwp2Jz
+	vAwOu04PU6jldRMrTsK5h1/I8whKGW3IktyR0MeJ/qOlh45oUB703+viAOXDNR5QOzlFW6r6fvl
+	iUytIM2V6gXXGSTGIFKh7F0L0ynC3wYrxhFe5jn3kQQgyYf6ORTF6ZFSZBx7n9556UeZ4KVrrGm
+	f4UEfmTqMHVNWc5lI7d4e80JyD9L8FsWco0EBZK0bYKsmdxUYL4TcI52J/wxLWAtvbFSge/KsSg
+	/kYWTnIx4R3cG615sF3llF5MvrjXec9S5FmTBzdLWQKIKgQjEQyzqSjGd89DPImDRQhAaYG1m56
+	Ivz/2COgaPAZ1EaZtQ6PL3clPZHAEuypjxY6Ug/wwziG8piZDnvETZB+AAGobx4A2VDTfEtZBd8
+	MjkieTFelmlScV4C2E4PQO3bzgi5+HZr0Ep6GNWsoLxxS8u9nFLJjbMjVJ30C6C3K/E1w=
+X-Received: by 2002:a17:90b:4a85:b0:3a0:d7f2:5a58 with SMTP id 98e67ed59e1d1-3acbb68a0a3mr1226044a91.3.1792117083210;
+        Thu, 15 Oct 2026 19:18:03 -0700 (PDT)
 Received: from localhost ([111.228.63.84])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3acc487e509sm1717020a91.9.2026.10.15.19.17.31
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ac94798212sm6830721a91.14.2026.10.15.19.18.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Oct 2026 19:17:35 -0700 (PDT)
+        Thu, 15 Oct 2026 19:18:02 -0700 (PDT)
 From: Cen Zhang <zzzccc427@gmail.com>
 To: perex@perex.cz,
-	tiwai@suse.com,
-	thomas.weissschuh@linutronix.de,
-	sammiee5311@gmail.com,
-	tglx@kernel.org,
-	phucduc.bui@gmail.com,
-	kees@kernel.org,
-	clemens@ladisch.de
+	tiwai@suse.com
 Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	baijiaju1990@gmail.com,
 	jjzuming@gmail.com,
 	zzzccc427@gmail.com
-Subject: [PATCH] ALSA: dummy: Revalidate CD Volume before updating its access
-Date: Fri, 16 Oct 2026 10:17:29 +0800
-Message-Id: <pm-pmb-0d5be4c3f73a268b6e4e-v2-33b37cf9980d74d33ee3@gmail.com>
+Subject: [PATCH] ALSA: seq: oss: Ignore sync echoes without a write queue
+Date: Fri, 16 Oct 2026 10:17:58 +0800
+Message-Id: <pm-pmb-3634251be738461947da-v2-64371e8c8d6cbf6956a3@gmail.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -83,213 +77,152 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The CD Volume control must remain live while snd_dummy_iobox_put()
-updates its access flags and sends an INFO notification. The mixer
-constructor caches a raw pointer to that control, but removing it does
-not invalidate the cached pointer.
+The sync-echo callback needs a write queue before it can wake up a
+synchronizing writer. However, snd_seq_oss_open() publishes the session's
+port with snd_seq_oss_event_input() as its callback before allocating
+and assigning dp->writeq.
 
-This can happen when a kernel client removes CD Volume through
-snd_ctl_remove_id() while the dummy card remains connected and External
-I/O Box is still present. Userspace ELEM_REMOVE rejects this driver
-control, so a kernel control-removal caller is required. With I/O Box
-initially set to 1, the following ordering is possible:
+A kernel caller using snd_seq_kernel_client_dispatch() with the OSS
+client ID can deliver an ECHO containing SEQ_SYNCTIMER to this port
+before the write queue is assigned. The helper stamps the supplied
+client ID into the event, so the callback's source-client check accepts
+it. Regular userspace events carry their own client ID and are rejected.
 
-  1. The kernel client takes controls_rwsem for write in
-     snd_ctl_remove_id(). __snd_ctl_remove() unlinks CD Volume, sends
-     REMOVE notifications and frees it through snd_ctl_free_one(). The
-     semaphore is released and removal returns.
-  2. After removal returns, a native ELEM_WRITE changes External I/O Box
-     from 1 to 0. snd_ctl_elem_write() takes controls_rwsem for write
-     and calls snd_dummy_iobox_put(), which follows the cached CD Volume
-     pointer to update vd[0].access.
+The failing ordering is:
 
-The access update starts with a use-after-free read. The subsequent
-write and notification ID access also use the freed allocation. The
-semaphore serializes removal and the callback, but does not preserve a
-control removed before callback entry.
+    OSS open                          Kernel direct dispatch
+    --------                          ----------------------
+    Zero-allocate dp
+    Set dp->cseq
+    Publish callback port
+                                      Dispatch ECHO as the OSS client
+                                      Look up and pin that port
+                                      Enter snd_seq_oss_event_input()
+                                      Pass NULL to writeq_wakeup()
+    Allocate and assign dp->writeq
 
-Save the control ID after successful addition and look it up again
-inside snd_dummy_iobox_put(). The existing control-write semaphore keeps
-a found control live through the access update and INFO notification.
-Skip those operations when the lookup fails, preserving the I/O Box
-value change and the surviving control's update.
+Dispatch reaches the callback after port publication and before the
+queue assignment. OSS register_mutex serializes open and release, but
+direct dispatch does not take it. The port use reference keeps dp alive
+through the callback; it does not wait for constructor initialization.
+The wakeup helper therefore attempts to acquire sync_lock through a
+NULL queue pointer, causing a fault.
+
+Sample dp->writeq once in the SEQ_SYNCTIMER branch and ignore the echo
+when the queue is absent, matching the adjacent read-queue check. Pass
+the checked pointer to the wakeup helper so a NULL sample cannot reach
+the lock access. The existing port reference protects the queue's
+lifetime through this call, since port deletion drains callbacks before
+free_devinfo() frees the queue.
 
 KASAN report as below:
 
-    BUG: KASAN: slab-use-after-free in snd_dummy_iobox_put+0x391/0x440 [snd_dummy]
-    Read of size 4 at addr ffff88810d8b4c98 by task alsa-trigger/415
-
-    CPU: 0 UID: 0 PID: 415 Comm: alsa-trigger Tainted: G           O        7.2.0-rc6-pmb-bt-functional-v1+ #1 PREEMPT(lazy)
-    Tainted: [O]=OOT_MODULE
+    Oops: general protection fault, probably for non-canonical address 0xdffffc000000000d: 0000 [#1] SMP KASAN NOPTI
+    KASAN: null-ptr-deref in range [0x0000000000000068-0x000000000000006f]
+    CPU: 2 UID: 0 PID: 69 Comm: kworker/2:1 Tainted: G        W           7.2.0-rc6-pmb-bt-functional-v1+ #1 PREEMPT(lazy)
+    Tainted: [W]=WARN
     Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+    Workqueue: events pmbd_dispatch_early_sync_echo
+    RIP: 0010:do_raw_spin_lock+0x71/0x270
+    Code: d0 60 81 49 8d 14 04 c7 02 f1 f1 f1 f1 c7 42 04 04 f3 f3 f3 65 48 8b 15 05 df 88 09 48 89 54 24 60 31 d2 48 89 fa 48 c1 ea 03 <0f> b6 14 02 48 89 f8 83 e0 07 83 c0 03 38 d0 7c 08 84 d2 0f 85 b9
+    RSP: 0018:ffff88810450f878 EFLAGS: 00010013
+    RAX: dffffc0000000000 RBX: 0000000000000068 RCX: 0000000000000000
+    RDX: 000000000000000d RSI: 0000000000000000 RDI: 000000000000006c
+    RBP: 0000000000000293 R08: 0000000000000001 R09: 0000000000000000
+    R10: ffffffff8940fe57 R11: 0000000000000000 R12: 1ffff110208a1f10
+    R13: 0000000000000068 R14: 0000000000000001 R15: ffff88810450fbee
+    FS:  0000000000000000(0000) GS:ffff8881fd885000(0000) knlGS:0000000000000000
+    CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+    CR2: 00000000006d2890 CR3: 0000000106cbf002 CR4: 0000000000770ef0
+    PKRU: 55555554
     Call Trace:
      <TASK>
-     dump_stack_lvl+0x93/0xd0
-     print_report+0xce/0x630
-     ? snd_dummy_iobox_put+0x391/0x440 [snd_dummy]
+     ? pmbd_probe_hit_cookie+0xee/0x1c0
+     ? __pfx_do_raw_spin_lock+0x10/0x10
+     ? lock_acquire+0x2b8/0x2f0
+     ? __pfx_pmbd_probe_hit_cookie+0x10/0x10
+     _raw_spin_lock_irqsave+0x44/0x60
+     ? snd_seq_oss_writeq_wakeup+0x30/0xf0
+     snd_seq_oss_writeq_wakeup+0x30/0xf0
+     snd_seq_oss_event_input+0x1e4/0x2a0
+     ? do_raw_read_unlock+0x49/0xe0
+     ? __pfx_snd_seq_oss_event_input+0x10/0x10
+     __snd_seq_deliver_single_event+0x105/0x1a0
+     ? snd_seq_port_use_ptr+0x111/0x170
+     snd_seq_deliver_single_event+0x2fc/0x770
+     ? __pfx_snd_seq_deliver_single_event+0x10/0x10
+     ? __pfx_pmbd_hold_maybe+0x10/0x10
+     snd_seq_deliver_event+0x45a/0x760
+     ? __pfx_do_raw_spin_lock+0x10/0x10
+     ? lock_acquire+0x2b8/0x2f0
      ? srso_alias_return_thunk+0x5/0xfbef5
-     ? __virt_addr_valid+0x20d/0x410
-     ? snd_dummy_iobox_put+0x391/0x440 [snd_dummy]
-     kasan_report+0xe0/0x110
-     ? snd_dummy_iobox_put+0x391/0x440 [snd_dummy]
-     snd_dummy_iobox_put+0x391/0x440 [snd_dummy]
-     snd_ctl_elem_write+0x376/0x5a0
-     snd_ctl_ioctl+0x997/0xdd0
-     ? __pfx_snd_ctl_ioctl+0x10/0x10
-     ? __pfx_do_sys_openat2+0x10/0x10
+     ? __pfx_snd_seq_deliver_event+0x10/0x10
+     ? _raw_spin_unlock_irqrestore+0x44/0x60
      ? srso_alias_return_thunk+0x5/0xfbef5
-     ? selinux_file_ioctl+0xaa/0x280
-     ? __pfx_snd_ctl_ioctl+0x10/0x10
-     __x64_sys_ioctl+0x163/0x1d0
-     do_syscall_64+0x115/0x6a0
-     entry_SYSCALL_64_after_hwframe+0x77/0x7f
-    RIP: 0033:0x7fc9c21a991b
-    Code: 00 48 89 44 24 18 31 c0 48 8d 44 24 60 c7 04 24 10 00 00 00 48 89 44 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 00 00 00 0f 05 <89> c2 3d 00 f0 ff ff 77 1c 48 8b 44 24 18 64 48 2b 04 25 28 00 00
-    RSP: 002b:00007ffc08d51f80 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-    RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 00007fc9c21a991b
-    RDX: 00007ffc08d51fe0 RSI: 00000000c4c85513 RDI: 0000000000000003
-    RBP: 0000000000000004 R08: 0000000000000000 R09: 0000000000000000
-    R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-    R13: 00007ffc08d52600 R14: 00007fc9c22d8000 R15: 00005578bae81d58
+     ? trace_hardirqs_on+0x18/0x160
+     ? srso_alias_return_thunk+0x5/0xfbef5
+     ? _raw_spin_unlock_irqrestore+0x44/0x60
+     ? srso_alias_return_thunk+0x5/0xfbef5
+     snd_seq_kernel_client_dispatch+0x19c/0x1e0
+     pmbd_dispatch_early_sync_echo+0x121/0x1c0
+     ? __pfx_pmbd_dispatch_early_sync_echo+0x10/0x10
+     ? srso_alias_return_thunk+0x5/0xfbef5
+     ? finish_task_switch.isra.0+0x1dc/0x980
+     process_one_work+0x908/0x19c0
+     ? __pfx_process_one_work+0x10/0x10
+     ? srso_alias_return_thunk+0x5/0xfbef5
+     worker_thread+0x65c/0xe40
+     ? srso_alias_return_thunk+0x5/0xfbef5
+     ? __kthread_parkme+0x175/0x220
+     ? srso_alias_return_thunk+0x5/0xfbef5
+     ? __pfx_worker_thread+0x10/0x10
+     kthread+0x34f/0x460
+     ? srso_alias_return_thunk+0x5/0xfbef5
+     ? __pfx_kthread+0x10/0x10
+     ret_from_fork+0x659/0x940
+     ? __pfx_ret_from_fork+0x10/0x10
+     ? srso_alias_return_thunk+0x5/0xfbef5
+     ? __switch_to+0x74f/0xf80
+     ? __pfx_kthread+0x10/0x10
+     ret_from_fork_asm+0x1a/0x30
      </TASK>
+    Modules linked in:
+    ---[ end trace 0000000000000000 ]---
+    RIP: 0010:do_raw_spin_lock+0x71/0x270
+    Code: d0 60 81 49 8d 14 04 c7 02 f1 f1 f1 f1 c7 42 04 04 f3 f3 f3 65 48 8b 15 05 df 88 09 48 89 54 24 60 31 d2 48 89 fa 48 c1 ea 03 <0f> b6 14 02 48 89 f8 83 e0 07 83 c0 03 38 d0 7c 08 84 d2 0f 85 b9
+    RSP: 0018:ffff88810450f878 EFLAGS: 00010013
+    RAX: dffffc0000000000 RBX: 0000000000000068 RCX: 0000000000000000
+    RDX: 000000000000000d RSI: 0000000000000000 RDI: 000000000000006c
+    RBP: 0000000000000293 R08: 0000000000000001 R09: 0000000000000000
+    R10: ffffffff8940fe57 R11: 0000000000000000 R12: 1ffff110208a1f10
+    R13: 0000000000000068 R14: 0000000000000001 R15: ffff88810450fbee
+    FS:  0000000000000000(0000) GS:ffff8881fd885000(0000) knlGS:0000000000000000
+    CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+    CR2: 00000000006d2890 CR3: 0000000106cbf002 CR4: 0000000000770ef0
+    PKRU: 55555554
+    Kernel panic - not syncing: Fatal exception
+    Kernel Offset: disabled
+    Rebooting in 1 seconds..
 
-    Allocated by task 415:
-     kasan_save_stack+0x33/0x60
-     kasan_save_track+0x14/0x30
-     __kasan_kmalloc+0xaa/0xb0
-     __kmalloc_noprof+0x2d7/0x770
-     snd_ctl_new+0x51/0x190
-     snd_ctl_new1+0x13c/0x650
-     snd_dummy_probe+0xba5/0x1240 [snd_dummy]
-     platform_probe+0xbe/0x1d0
-     really_probe+0x21f/0xa90
-     __driver_probe_device+0x1ec/0x490
-     driver_probe_device+0x4f/0x130
-     __device_attach_driver+0x1d2/0x2e0
-     bus_for_each_drv+0x155/0x1d0
-     __device_attach+0x1c3/0x490
-     device_initial_probe+0x96/0xb0
-     bus_probe_device+0x69/0x160
-     device_add+0xfff/0x1700
-     platform_device_add+0x318/0x7b0
-     platform_device_register_full+0x596/0x7b0
-     pmbd_remove_cd_exit+0x12a/0xf90 [remove_cd]
-     do_one_initcall+0xf3/0x4e0
-     do_init_module+0x281/0x8e0
-     load_module+0x658c/0x7cc0
-     init_module_from_file+0x15b/0x180
-     idempotent_init_module+0x22d/0x770
-     __x64_sys_finit_module+0xd2/0x160
-     do_syscall_64+0x115/0x6a0
-     entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-    Freed by task 415:
-     kasan_save_stack+0x33/0x60
-     kasan_save_track+0x14/0x30
-     kasan_save_free_info+0x3b/0x60
-     __kasan_slab_free+0x5f/0x80
-     kfree+0x307/0x580
-     snd_ctl_free_one+0x6b/0x110
-     __snd_ctl_remove+0x26f/0x360
-     snd_ctl_remove_id+0x4f/0x70
-     0xffffffffc04060c9
-     do_one_initcall+0xf3/0x4e0
-     do_init_module+0x281/0x8e0
-     load_module+0x658c/0x7cc0
-     init_module_from_file+0x15b/0x180
-     idempotent_init_module+0x22d/0x770
-     __x64_sys_finit_module+0xd2/0x160
-     do_syscall_64+0x115/0x6a0
-     entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-    The buggy address belongs to the object at ffff88810d8b4c00
-     which belongs to the cache kmalloc-192 of size 192
-    The buggy address is located 152 bytes inside of
-     freed 192-byte region [ffff88810d8b4c00, ffff88810d8b4cc0)
-
-    The buggy address belongs to the physical page:
-    page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x10d8b4
-    flags: 0x200000000000000(node=0|zone=2)
-    page_type: f5(slab)
-    raw: 0200000000000000 ffff8881000423c0 dead000000000122 0000000000000000
-    raw: 0000000000000000 0000000000100010 00000000f5000000 0000000000000000
-    page dumped because: kasan: bad access detected
-
-    Memory state around the buggy address:
-     ffff88810d8b4b80: 00 00 00 00 fc fc fc fc fc fc fc fc fc fc fc fc
-     ffff88810d8b4c00: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-    >ffff88810d8b4c80: fb fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
-                                ^
-     ffff88810d8b4d00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-     ffff88810d8b4d80: 00 00 00 00 fc fc fc fc fc fc fc fc fc fc fc fc
-    ==================================================================
-
-Fixes: 16e434670e95 ("ALSA: dummy: allow disabling mixer controls")
 Assisted-by: LLM
 Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
 ---
 
-diff --git a/sound/drivers/dummy.c b/sound/drivers/dummy.c
-index 6b0a06e5c87638264e5d22deda1fe4bc028febe7..d422fb3fa25d1279df2e971e0f5546a329db4049 100644
---- a/sound/drivers/dummy.c
-+++ b/sound/drivers/dummy.c
-@@ -134,7 +134,7 @@ struct snd_dummy {
- 	int mixer_volume[MIXER_ADDR_LAST+1][2];
- 	int capture_source[MIXER_ADDR_LAST+1][2];
- 	int iobox;
--	struct snd_kcontrol *cd_volume_ctl;
-+	struct snd_ctl_elem_id cd_volume_id;
- 	struct snd_kcontrol *cd_switch_ctl;
- };
+diff --git a/sound/core/seq/oss/seq_oss_event.c b/sound/core/seq/oss/seq_oss_event.c
+index 122735862044dcc9942ed0f79d4d88f2e0d6f4ba..3c2cfaea94d1de14f70e24ada73172fe6afb75b0 100644
+--- a/sound/core/seq/oss/seq_oss_event.c
++++ b/sound/core/seq/oss/seq_oss_event.c
+@@ -433,8 +433,12 @@ snd_seq_oss_event_input(struct snd_seq_event *ev, int direct, void *private_data
  
-@@ -836,6 +836,7 @@ static int snd_dummy_iobox_put(struct snd_kcontrol *kcontrol,
- 			       struct snd_ctl_elem_value *value)
- {
- 	struct snd_dummy *dummy = snd_kcontrol_chip(kcontrol);
-+	struct snd_kcontrol *cd_volume_ctl;
- 	int changed;
- 
- 	if (value->value.enumerated.item[0] > 1)
-@@ -845,20 +846,27 @@ static int snd_dummy_iobox_put(struct snd_kcontrol *kcontrol,
- 	if (changed) {
- 		dummy->iobox = value->value.enumerated.item[0];
- 
-+		/* The control-write path holds controls_rwsem. */
-+		cd_volume_ctl = snd_ctl_find_id(dummy->card,
-+						&dummy->cd_volume_id);
- 		if (dummy->iobox) {
--			dummy->cd_volume_ctl->vd[0].access &=
--				~SNDRV_CTL_ELEM_ACCESS_INACTIVE;
-+			if (cd_volume_ctl)
-+				cd_volume_ctl->vd[0].access &=
-+					~SNDRV_CTL_ELEM_ACCESS_INACTIVE;
- 			dummy->cd_switch_ctl->vd[0].access &=
- 				~SNDRV_CTL_ELEM_ACCESS_INACTIVE;
- 		} else {
--			dummy->cd_volume_ctl->vd[0].access |=
--				SNDRV_CTL_ELEM_ACCESS_INACTIVE;
-+			if (cd_volume_ctl)
-+				cd_volume_ctl->vd[0].access |=
-+					SNDRV_CTL_ELEM_ACCESS_INACTIVE;
- 			dummy->cd_switch_ctl->vd[0].access |=
- 				SNDRV_CTL_ELEM_ACCESS_INACTIVE;
- 		}
- 
--		snd_ctl_notify(dummy->card, SNDRV_CTL_EVENT_MASK_INFO,
--			       &dummy->cd_volume_ctl->id);
-+		if (cd_volume_ctl)
-+			snd_ctl_notify(dummy->card,
-+				       SNDRV_CTL_EVENT_MASK_INFO,
-+				       &cd_volume_ctl->id);
- 		snd_ctl_notify(dummy->card, SNDRV_CTL_EVENT_MASK_INFO,
- 			       &dummy->cd_switch_ctl->id);
- 	}
-@@ -903,7 +911,7 @@ static int snd_card_dummy_new_mixer(struct snd_dummy *dummy)
- 		if (err < 0)
- 			return err;
- 		if (!strcmp(kcontrol->id.name, "CD Volume"))
--			dummy->cd_volume_ctl = kcontrol;
-+			dummy->cd_volume_id = kcontrol->id;
- 		else if (!strcmp(kcontrol->id.name, "CD Capture Switch"))
- 			dummy->cd_switch_ctl = kcontrol;
- 
+ 	rec = (union evrec*)&ev->data;
+ 	if (rec->s.code == SEQ_SYNCTIMER) {
++		struct seq_oss_writeq *writeq = READ_ONCE(dp->writeq);
++
++		if (!writeq)
++			return 0;
+ 		/* sync echo back */
+-		snd_seq_oss_writeq_wakeup(dp->writeq, rec->t.time);
++		snd_seq_oss_writeq_wakeup(writeq, rec->t.time);
+ 		
+ 	} else {
+ 		/* echo back event */
