@@ -1,63 +1,65 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAB3033939D
-	for <linux-sound@vger.kernel.org>; Fri, 16 Oct 2026 04:10:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE51C35F5E5
+	for <linux-sound@vger.kernel.org>; Fri, 16 Oct 2026 04:10:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792123811; cv=none; b=G5lFE0FdPbR/y5GGyErdrK6KaugwL/ocGQTQQvDMUaUw/nZQtNGZdcoC7YbajvCcoOxLb/rOZnueTvUFWiuZTdyYSnTkOh5GG526+AUsQWswV8BbNMdFR18vnhC24eerK+sP4tYbQ9fYVE5Nm6RQDQKIJUEJG1PJ5J8d7RE3SIQ=
+	t=1792123826; cv=none; b=WzEvXOw2ppIWF/c0I8pt24KAfVyGcrC+32XxyEOdXItHzIB/Q940xESymGP/XL+/9NwNa9sV7jFpYe8T4E+YZ7kP6sfYEqAnJX6cY3LQ/yeHkmyCNsSNvyOkfuL7qRh6H0KQixSsRxTgR4Lz/+ObmZmj+tOoY81ANI4GlPEEqXs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792123811; c=relaxed/simple;
-	bh=r3T6KsS5uqRgrtiSAYChS0Ck5zpfD1Or1gG0Bl9B9YY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KFwI2WVFR+UZi+gTLeTUe4coNp0uDWdrZCCM1AG15C/TrU0GkaAKTjpzZATypHp9AxCxedXf1PNHyY05SBXreUTsyjmywXqEjY9tz3pEtHCg+4ECxMB9fuxthu6z/qR4suELqITGvxZ6MzfWq1fkzc/OWzy+yLHDJbwfyXsdn3U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Sml8tb8l; arc=none smtp.client-ip=209.85.214.175
+	s=arc-20240116; t=1792123826; c=relaxed/simple;
+	bh=V7YkcGOeqeXCi9lDzvM4uEOXSB2T7RzqTJxl6SF+/ug=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Htrp4ICFnGLEab5RVxQAgg431LLpOnGbOd+WPffvGe1+ro9f60m7fSz2xLokPlHDTYqVbVHmW6+Ef5wDE3CO2136oYxb2leOblF3TCDZ+ud2o33nKDE9p8CUkx9ovYBIIrMOkgu+l8hDtjetx2L8peatDqf7Ebgm0whg4xWeRnY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YflVaAAr; arc=none smtp.client-ip=209.85.214.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Sml8tb8l"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2e60f9af6e6so22915295ad.3
-        for <linux-sound@vger.kernel.org>; Thu, 15 Oct 2026 21:10:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YflVaAAr"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2e8da6ef7ddso18593895ad.3
+        for <linux-sound@vger.kernel.org>; Thu, 15 Oct 2026 21:10:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792123809; x=1792728609; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=SYnQxKBL88L7bG0SnRsZyN/ibAKxj/QjIVLFKTNculY=;
-        b=Sml8tb8lzGkYEv2SUFTYh/0FtPwal/k4AqOSIHw1TYsCbQoZLCy6mRi4NJkNpjolMb
-         731BAmGhHCQNLTHbKhIMiZ0488FHeivNbrPnn2oFjvIFG1JbT27V2XzWLku2vyRT8niB
-         t42PLXzDNaqthmzSI8lEw+SAl3WdI421P5YyRiieI/2WWCzVl7BuWhl4+uwyq6zoXc4s
-         4ulku9fCuRHFZmfpjQlSq3f/AMmLzIP76QemZzYr/Pvz88tmYxZ9ymg7uOxk0pny88BL
-         51twx1ftCSo6w5znalpNa8Tf/QJyEVO980gAb4HGicVauxzXRXpRDkTQwb4seR+CYPIt
-         SD2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792123809; x=1792728609;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1792123824; x=1792728624; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=SYnQxKBL88L7bG0SnRsZyN/ibAKxj/QjIVLFKTNculY=;
-        b=TbddrE12LcMFR6WK+7/b1O0MFDNKzGDBNCdp3kuNV9ci24VJgAwmBC1Zw8N46hu/d2
-         fd9CMn2LoEcqHlzmbGjfOnm9AIaZAE2VSkQOVHw1oHeyNxJLmjAz0lJsP8Auv0ZTwgSv
-         1YyCurIaVk8G2AufRNK3O34BSAYN5LlzLhP9+u+gJp/OY5lNHbaDXt8eocAuUOGWzwBm
-         HdY4+X+Elk9sulNJhIvMWHIW6cdiUiR/Lhp8svikVAU2wg4WxGl+O+um6spzHusIV8NU
-         R9O5mLT+VKzBlHz+z6ekV10HJVD5AQYRg6+C6useK0p1ntiUWmPz3T5y36gZfogHXnws
-         96Ug==
-X-Forwarded-Encrypted: i=1; AKwUvBxwSfuw5z1rFx1fteipDAaIiqabaYCUm8kc2nSbc6/iaNYdb9Ri/NcUwuXAZ+cM0XZ+fO59zz/gk/6m1Q==@vger.kernel.org
-X-Gm-Message-State: AFq9FYKncRZumLlETM2Tp/7NZVeT3Gz7TMogHmo3lERlimvvJbKRq7ya
-	1vzpJ7uToboP7967fDICUaF6bQrEx65lJwT4rzZdyZrrzdDkbhnciIk0
-X-Gm-Gg: AYBFou06zNwh+nGagtR7+BYq95Z8YSaW5JqAA0JEtjquEShRLGZ7y+I/NNuk+ga1ZH4
-	/m2yzeEBkabQNV53WihR4lAGAqfDxTNpb5G6OCbEleyQSREqWPdV0sWZTweropcgJDS65TaRRkA
-	eqqM1fPiypYja+Dg1G6WpFVH5K73gk/7e6sLvG1kKGfoSbroK59WUzyAFrg+qgPL91Fm9Nmbyh8
-	Q0BXzkNy7lFPtLDY2PQKupS5U7wY9x29suW8HXg+T2Pvs4ilciycYRydDzvYKAIba5oMIyG3vQc
-	9Q42osw9KHmBSM27MVLdpeLR36cOrydAIoedXcA2k28R8Z4dn0KrUoLJ1EgflT9fj9l6OAyuExZ
-	xmOWj1/+hOxDq0nptBYV5npnQj0hV4e/FNhcn0f++Yg+gEPlZmF/A7oK9kINUJ/XYQIh4vzvsdC
-	KFGW3sYTPsQefHLwa6dmDptAeuRWwpFE4OlvqhE67i/dWHeest+9/sntaFA9S5Hosmjla8LxecG
-	hAYWpP7ixf3Vsk/XMtIkQT9iMBZ1jqiKBiFE5eSR/4mvJWw4lzIsUbHI8lkVEqnw7qQD5LaltDQ
-	7L0r9r+Lf3j2SQ==
-X-Received: by 2002:a17:902:cec2:b0:2db:7941:9e11 with SMTP id d9443c01a7336-2e842cd431cmr197979565ad.9.1792123809100;
-        Thu, 15 Oct 2026 21:10:09 -0700 (PDT)
+        bh=LqPJpnpDl1bjZy/2WTSO/k4hLO3gGJGG3iYDq3mgh9U=;
+        b=YflVaAArAXsziPvBMprjpAbieMG70UrNkg/TnSDm0GeXf5+YaspqrI3BWIoY2tlW+r
+         R0IhpEKotol9k+uExAjA2//bqN66vb2OiXvN4wSOBG46/f34SvIfxb7govjgSk/tgwzf
+         0iNZ+0kg4i23ztloLBQh2qO7m8q/jHySfT54ouvPxilHD/VExnDLMdgNF1Ib2PIFwdvf
+         IMdq4NKBf84jUNcmIzLxfua7fgVZVB1uoQe9maEw/tzeIh4LdMlTSkTGghy5Z8t1i8iq
+         rOEXihW2LjhV7iq9fy88WmVhgONRTM4vV9Rmux3yRbkbSKu6hbGkk50ylEw3qxA19ID3
+         sNHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792123824; x=1792728624;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=LqPJpnpDl1bjZy/2WTSO/k4hLO3gGJGG3iYDq3mgh9U=;
+        b=av6ubDxTrUXjFlNjLpT9IOI85qrtnE4tF57OoLDgLZm983obuv67sGqd5OOLCX6b2n
+         i7jMJY8aeIT/EhipeGxOKXwf55+hYq0VaLdnsQc3OWl1paoBcjj29a+BF+pzvvZfsoyc
+         3u5OFBeNlfRUXTb11jTV6VxoTT3RtufWzOGMMnCEGGRnpQr7BdbCL7Y0T0WYw1kjz7rj
+         xZgHT34GE8W754nD6/Bn6+XmapJk6AmvcWEEPQFcerefSzhJY8CmgApHvNOkxLI0BFiO
+         DBuFiETPvgvhfsA90kGAiYnShtOTZSfIjJ+dRXkEFaCfU0VHOujPmEbwAE72YpvbtR9Y
+         1p3g==
+X-Forwarded-Encrypted: i=1; AKwUvBw8USgAUkDo1xGLJcpsmgJwsAksM7mvcpH5nK8ZEZN2NaS1EHXYvF+pg9YcQCMbvZK2ypQXID/lxxSvDQ==@vger.kernel.org
+X-Gm-Message-State: AFq9FYKk/pp2puzhBzAtn8K/0BNo0nM25KpigH7vchuHOl4ZC9EKWJD1
+	bBTGlq5hJfy3g6M6DjUsxSXi4T8gsBAmJmFvdzZFBXRZJzRi1rn+0PkJ
+X-Gm-Gg: AYBFou3cluW9mXW9DBftdP7MWKOJS0tUwwKWXGat8Gry/SoZq3s9Tcr4Cxp76nF0Qph
+	NMi/VdkkSvZs158w2bY9etZJVZivKUvuM+gnUoSjkJETGXOlk84K0ckps4WzOVab9fk1mZwDICq
+	oL1AjtF78ctWqC9iXNU4shGtnmFQwvzloDL3d5zQsLT/9syhq0UDZjhXXFkwT0fu8qQdb0qrLII
+	79Kwdf/bPAW9LtfuIM2RB5ihY5MbI6U+YsD4CNLXp5DgSiRr45bVi2ASFcrsrqG2Fx64/8lSIRc
+	zHq8LC9hCwnzn6iN7+RVzTM2vMh6pww2lHvbNlZBbnq8S0r6JGUjVHFv1tSiMxV5xamRVC8YsNV
+	q8tJwP4rlQmaOPREFzmvjnRIm+K5+GiqeWb3Tdh4QngPFpbwNtjIDVn0AI3SRnsvt9wOer5P99A
+	NPS+srCKOAAv1BD2R6k+5Qomf6n+2cLrnsFX8tXwzzIbsnbmtzLn5ij0cIDPDbnwXDIGftR1fw8
+	GqgMepL1CHItD810YiW/qbF+XtvGtgxk0ucYkYWAFWfkkCmKLffL/xYYWMI4tcBX7fRJ8DRTkb0
+	spsi29inKq5OeA==
+X-Received: by 2002:a17:902:d4c8:b0:2e9:970c:2c5 with SMTP id d9443c01a7336-2e9970c073cmr381995ad.39.1792123823874;
+        Thu, 15 Oct 2026 21:10:23 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e97e8ab443sm3815785ad.65.2026.10.15.21.09.56
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e97e8ab443sm3815785ad.65.2026.10.15.21.10.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Oct 2026 21:10:08 -0700 (PDT)
+        Thu, 15 Oct 2026 21:10:23 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
 	Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
@@ -118,10 +120,12 @@ Cc: Kees Cook <kees@kernel.org>,
 	linux-renesas-soc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 00/11] ASoC: Address remaining PCM constraint issues
-Date: Fri, 16 Oct 2026 11:09:35 +0700
-Message-ID: <20261016040946.521195-1-phucduc.bui@gmail.com>
+Subject: [PATCH 01/11] ASoC: amd: Explain component open return value handling
+Date: Fri, 16 Oct 2026 11:09:36 +0700
+Message-ID: <20261016040946.521195-2-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261016040946.521195-1-phucduc.bui@gmail.com>
+References: <20261016040946.521195-1-phucduc.bui@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -132,66 +136,140 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-Hi all,
+Add comments explaining why the .open() callbacks must return 0
+on success to ensure proper rollback handling and prevent future
+changes from reintroducing the issue.
 
-Since v1 has already been applied, this series provides incremental 
-changes to address the remaining items from v2:
- - Add comments explaining why .open() and .startup() must return 0 
-   on success to prevent the issue from being reintroduced.
- - Add Reviewed-by tags from Vijendar Mukunda and Chancel Liu, 
-   and Acked-by tags from Morimoto-san and Cezary.
- - Remove redundant integer constraints already applied 
-   by snd_dmaengine_pcm_open().
+Reviewed-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+---
+ sound/soc/amd/acp/acp-platform.c      | 5 +++++
+ sound/soc/amd/ps/ps-pdm-dma.c         | 6 ++++++
+ sound/soc/amd/ps/ps-sdw-dma.c         | 6 ++++++
+ sound/soc/amd/raven/acp3x-pcm-dma.c   | 6 ++++++
+ sound/soc/amd/renoir/acp3x-pdm-dma.c  | 6 ++++++
+ sound/soc/amd/vangogh/acp5x-pcm-dma.c | 6 ++++++
+ sound/soc/amd/yc/acp6x-pdm-dma.c      | 6 ++++++
+ 7 files changed, 41 insertions(+)
 
-Link v1: 
-https://lore.kernel.org/all/20261008103831.542533-1-phucduc.bui@gmail.com/
-Link v2: 
-https://lore.kernel.org/all/20261015014324.5569-1-phucduc.bui@gmail.com/
-
-Compile-tested only.
-
-Best regards,
-Phuc
-
-bui duc phuc (11):
-  ASoC: amd: Explain component open return value handling
-  ASoC: apple: Explain DAI startup return value handling
-  ASoC: atmel: Explain component open return value handling
-  ASoC: codecs: Explain DAI startup return value handling
-  ASoC: imx-pcm-rpmsg: Explain component open return value handling
-  ASoC: intel: atom: Explain DAI startup return value handling
-  ASoC: renesas: msiof: Explain component open return value handling
-  ASoC: renesas: msiof: Remove redundant period constraint
-  ASoC: renesas: rz-ssi: Explain component open return value handling
-  ASoC: renesas: rz-ssi: Remove redundant component open callback
-  ASoC: rockchip: Explain DAI link startup return value handling
-
- sound/soc/amd/acp/acp-platform.c             |  5 +++++
- sound/soc/amd/ps/ps-pdm-dma.c                |  6 ++++++
- sound/soc/amd/ps/ps-sdw-dma.c                |  6 ++++++
- sound/soc/amd/raven/acp3x-pcm-dma.c          |  6 ++++++
- sound/soc/amd/renoir/acp3x-pdm-dma.c         |  6 ++++++
- sound/soc/amd/vangogh/acp5x-pcm-dma.c        |  6 ++++++
- sound/soc/amd/yc/acp6x-pdm-dma.c             |  6 ++++++
- sound/soc/apple/mca.c                        |  5 +++++
- sound/soc/atmel/atmel-pcm-pdc.c              |  5 +++++
- sound/soc/codecs/cs42l42.c                   |  5 +++++
- sound/soc/codecs/nau8325.c                   |  5 +++++
- sound/soc/codecs/nau8540.c                   |  5 +++++
- sound/soc/codecs/nau8821.c                   |  5 +++++
- sound/soc/codecs/nau8824.c                   |  5 +++++
- sound/soc/codecs/nau8825.c                   |  5 +++++
- sound/soc/codecs/wm8580.c                    |  5 +++++
- sound/soc/codecs/wm8782.c                    |  5 +++++
- sound/soc/fsl/imx-pcm-rpmsg.c                |  6 ++++++
- sound/soc/intel/atom/sst-mfld-platform-pcm.c |  5 +++++
- sound/soc/renesas/fsi.c                      |  5 +++++
- sound/soc/renesas/rcar/msiof.c               | 10 ++--------
- sound/soc/renesas/rz-ssi.c                   | 19 +++++--------------
- sound/soc/rockchip/rk3399_gru_sound.c        |  5 +++++
- sound/soc/rockchip/rockchip_max98090.c       |  5 +++++
- 24 files changed, 124 insertions(+), 22 deletions(-)
-
+diff --git a/sound/soc/amd/acp/acp-platform.c b/sound/soc/amd/acp/acp-platform.c
+index ba6dfe8fb6b7..f2c8853775ad 100644
+--- a/sound/soc/amd/acp/acp-platform.c
++++ b/sound/soc/amd/acp/acp-platform.c
+@@ -248,6 +248,11 @@ static int acp_dma_open(struct snd_soc_component *component, struct snd_pcm_subs
+ 	list_add_tail(&stream->list, &chip->stream_list);
+ 	spin_unlock_irq(&chip->acp_lock);
+ 
++	/*
++	 * ASoC only marks the component as opened when .open() returns 0.
++	 * Since snd_pcm_hw_constraint_integer() may return 1, explicitly
++	 * return 0 to ensure .close() is not skipped on rollback.
++	 */
+ 	return 0;
+ }
+ 
+diff --git a/sound/soc/amd/ps/ps-pdm-dma.c b/sound/soc/amd/ps/ps-pdm-dma.c
+index 28e0686e9373..12c341e89bce 100644
+--- a/sound/soc/amd/ps/ps-pdm-dma.c
++++ b/sound/soc/amd/ps/ps-pdm-dma.c
+@@ -211,6 +211,12 @@ static int acp63_pdm_dma_open(struct snd_soc_component *component,
+ 
+ 	pdm_data->acp63_base = adata->acp63_base;
+ 	runtime->private_data = pdm_data;
++
++	/*
++	 * ASoC only marks the component as opened when .open() returns 0.
++	 * Since snd_pcm_hw_constraint_integer() may return 1, explicitly
++	 * return 0 to ensure .close() is not skipped on rollback.
++	 */
+ 	return 0;
+ }
+ 
+diff --git a/sound/soc/amd/ps/ps-sdw-dma.c b/sound/soc/amd/ps/ps-sdw-dma.c
+index 553fe11a2e50..c2640985f54c 100644
+--- a/sound/soc/amd/ps/ps-sdw-dma.c
++++ b/sound/soc/amd/ps/ps-sdw-dma.c
+@@ -337,6 +337,12 @@ static int acp63_sdw_dma_open(struct snd_soc_component *component,
+ 	stream->stream_id = cpu_dai->id;
+ 	stream->instance = amd_manager->instance;
+ 	runtime->private_data = stream;
++
++	/*
++	 * ASoC only marks the component as opened when .open() returns 0.
++	 * Since snd_pcm_hw_constraint_integer() may return 1, explicitly
++	 * return 0 to ensure .close() is not skipped on rollback.
++	 */
+ 	return 0;
+ }
+ 
+diff --git a/sound/soc/amd/raven/acp3x-pcm-dma.c b/sound/soc/amd/raven/acp3x-pcm-dma.c
+index 072f3dc35d40..765057499021 100644
+--- a/sound/soc/amd/raven/acp3x-pcm-dma.c
++++ b/sound/soc/amd/raven/acp3x-pcm-dma.c
+@@ -237,6 +237,12 @@ static int acp3x_dma_open(struct snd_soc_component *component,
+ 
+ 	i2s_data->acp3x_base = adata->acp3x_base;
+ 	runtime->private_data = i2s_data;
++
++	/*
++	 * ASoC only marks the component as opened when .open() returns 0.
++	 * Since snd_pcm_hw_constraint_integer() may return 1, explicitly
++	 * return 0 to ensure .close() is not skipped on rollback.
++	 */
+ 	return 0;
+ }
+ 
+diff --git a/sound/soc/amd/renoir/acp3x-pdm-dma.c b/sound/soc/amd/renoir/acp3x-pdm-dma.c
+index c0481a9ba858..89dc60849c06 100644
+--- a/sound/soc/amd/renoir/acp3x-pdm-dma.c
++++ b/sound/soc/amd/renoir/acp3x-pdm-dma.c
+@@ -233,6 +233,12 @@ static int acp_pdm_dma_open(struct snd_soc_component *component,
+ 
+ 	pdm_data->acp_base = adata->acp_base;
+ 	runtime->private_data = pdm_data;
++
++	/*
++	 * ASoC only marks the component as opened when .open() returns 0.
++	 * Since snd_pcm_hw_constraint_integer() may return 1, explicitly
++	 * return 0 to ensure .close() is not skipped on rollback.
++	 */
+ 	return 0;
+ }
+ 
+diff --git a/sound/soc/amd/vangogh/acp5x-pcm-dma.c b/sound/soc/amd/vangogh/acp5x-pcm-dma.c
+index 33d59d992ee0..72050fa2de80 100644
+--- a/sound/soc/amd/vangogh/acp5x-pcm-dma.c
++++ b/sound/soc/amd/vangogh/acp5x-pcm-dma.c
+@@ -231,6 +231,12 @@ static int acp5x_dma_open(struct snd_soc_component *component,
+ 	}
+ 	i2s_data->acp5x_base = adata->acp5x_base;
+ 	runtime->private_data = i2s_data;
++
++	/*
++	 * ASoC only marks the component as opened when .open() returns 0.
++	 * Since snd_pcm_hw_constraint_integer() may return 1, explicitly
++	 * return 0 to ensure .close() is not skipped on rollback.
++	 */
+ 	return 0;
+ }
+ 
+diff --git a/sound/soc/amd/yc/acp6x-pdm-dma.c b/sound/soc/amd/yc/acp6x-pdm-dma.c
+index afa9f66533e3..cba2509faaa1 100644
+--- a/sound/soc/amd/yc/acp6x-pdm-dma.c
++++ b/sound/soc/amd/yc/acp6x-pdm-dma.c
+@@ -209,6 +209,12 @@ static int acp6x_pdm_dma_open(struct snd_soc_component *component,
+ 
+ 	pdm_data->acp6x_base = adata->acp6x_base;
+ 	runtime->private_data = pdm_data;
++
++	/*
++	 * ASoC only marks the component as opened when .open() returns 0.
++	 * Since snd_pcm_hw_constraint_integer() may return 1, explicitly
++	 * return 0 to ensure .close() is not skipped on rollback.
++	 */
+ 	return 0;
+ }
+ 
 -- 
 2.43.0
 
