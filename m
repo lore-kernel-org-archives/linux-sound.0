@@ -1,267 +1,147 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56A0C400DF0;
-	Fri, 16 Oct 2026 14:06:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0EA14A4400
+	for <linux-sound@vger.kernel.org>; Fri, 16 Oct 2026 14:10:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792159620; cv=none; b=LHAdLdJskJ04Y5SWjk60rc5nyBTvQZj2rxL+kuYqmlaQ3Mi4J6TZXgAkYom2s2FnIzoLJ/ptX2a5tI6sNwCOrJjweiZUubtm17rM6lLZsw9skiIALof+ePPG5Elv7nmoXl3C5ALA6i9dYSJ+QG3rmycFfMRXKRR0qIKgtakKw0A=
+	t=1792159863; cv=none; b=jUAurhkFggFpL3FDspsemI2Iu09Pj/jRolLY2PwwoOCxvTTIGDvk3A2kykNMH6KsOBhrQTeBT0SMLHIM/RcZ3AZlT+dULtXGnNXfOb5v1jWCPHY07wA7zhJBgO16m3C6jF0ND6nr9cuWTzKRDTS0vMPBcr2nqYKPp/qx985QGP0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792159620; c=relaxed/simple;
-	bh=laXpyMbyQvikcokqa6TPuJbpMAASFo+P/IomiKQkd8g=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=agh4xCeIDQ1+JJd/Q+0RNQFuL2padeRdtjGl3d5cfIeyaZwUpxywQd54a3N3U8eLpntARBSIghz1H7Qar0e8ZDgYTV10SNAfrC1/0CaPfF4VkOL5cal1WKoBHPOEh/CT1gWshI+py07kq1fwFGA6FxgU9MJdh5IeIx2CZ89FSvk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QwP75ijC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=9cX9DZ5C; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QwP75ijC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=9cX9DZ5C; arc=none smtp.client-ip=195.135.223.131
+	s=arc-20240116; t=1792159863; c=relaxed/simple;
+	bh=jXN8d51ToLeCeEcHFPW3hCWHUmZIZlnf0KopZfYQBK8=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=WeXm9/stnyyelO3va6UNv683ngezyM2ViZPQT4K9zTw1E7Uu70TgvA7eMeogHRWVQgJu89WLNxmwMnE8DdSk121ykW1emoR/5Ry6yEpZM+qoqooNGxRyI/ekZS5h8QNdwPrlN700eqNoEBHZBg0M4Mu0/Tb3keem2DT8KubtDww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=AmxCeCZc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=naUcjAlS; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=AmxCeCZc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=naUcjAlS; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QwP75ijC";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9cX9DZ5C";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QwP75ijC";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9cX9DZ5C"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="AmxCeCZc";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="naUcjAlS";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="AmxCeCZc";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="naUcjAlS"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 4C51A1F393;
-	Fri, 16 Oct 2026 14:06:57 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 554D11F443;
+	Fri, 16 Oct 2026 14:10:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792159617; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=iKCfNBhdQxIRgHQVwz4DPXBOjNDgLzPkUj6bf9817x4=;
-	b=QwP75ijCOY+LTXSF0wTEBVU7NWDc87J0bUfx4l/FMt1QO1pCM3Puyzb/qs7FUZ0ozVVltI
-	1+pjDdY/9lecB+D6WP8vlE0H38LfTj24QGLhxbJpJFjhADmkQ8IPubou4YT2dbXcF9+tBt
-	Kf/MYnGCwtsVqQUWsqIrHm1+Bt3JOn0=
+	t=1792159857; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ccU4hX0FjEvwGhb+/NDp3/Zfsv1b4pDl3bC20verUGs=;
+	b=AmxCeCZc/440k5A0oCi8WniY/spLnwuX1KdeB50jhqxVvUAGNf+K0aCrbd6nwliiYk4lyO
+	NMcAvzXIWmXDG5m7Q/eBHw/S+xTq/laS0rG/CgCbqNatO46Kpw36SNwoX9I4iYSdLyCHMx
+	Ef4C2oSEXZeQ0mmWGDHfWKqRLhDWoj0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792159617;
+	s=susede2_ed25519; t=1792159857;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=iKCfNBhdQxIRgHQVwz4DPXBOjNDgLzPkUj6bf9817x4=;
-	b=9cX9DZ5CcQepKSXvc7sknB3tuI6q+baexqVsglJbHyRX7bVm0e3HKoSmkXV8P4p5yZjv/W
-	jnXHsdTx1OeGTfBg==
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ccU4hX0FjEvwGhb+/NDp3/Zfsv1b4pDl3bC20verUGs=;
+	b=naUcjAlSMwf/CORb7itaxS4aaA65tleCk5yeY1a4nVR0/Bw2dX1JD2MwQmXmbEFHBr9kA3
+	52t3vm989AZG2VAA==
 Authentication-Results: smtp-out2.suse.de;
-	none
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=AmxCeCZc;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=naUcjAlS
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792159617; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=iKCfNBhdQxIRgHQVwz4DPXBOjNDgLzPkUj6bf9817x4=;
-	b=QwP75ijCOY+LTXSF0wTEBVU7NWDc87J0bUfx4l/FMt1QO1pCM3Puyzb/qs7FUZ0ozVVltI
-	1+pjDdY/9lecB+D6WP8vlE0H38LfTj24QGLhxbJpJFjhADmkQ8IPubou4YT2dbXcF9+tBt
-	Kf/MYnGCwtsVqQUWsqIrHm1+Bt3JOn0=
+	t=1792159857; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ccU4hX0FjEvwGhb+/NDp3/Zfsv1b4pDl3bC20verUGs=;
+	b=AmxCeCZc/440k5A0oCi8WniY/spLnwuX1KdeB50jhqxVvUAGNf+K0aCrbd6nwliiYk4lyO
+	NMcAvzXIWmXDG5m7Q/eBHw/S+xTq/laS0rG/CgCbqNatO46Kpw36SNwoX9I4iYSdLyCHMx
+	Ef4C2oSEXZeQ0mmWGDHfWKqRLhDWoj0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792159617;
+	s=susede2_ed25519; t=1792159857;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=iKCfNBhdQxIRgHQVwz4DPXBOjNDgLzPkUj6bf9817x4=;
-	b=9cX9DZ5CcQepKSXvc7sknB3tuI6q+baexqVsglJbHyRX7bVm0e3HKoSmkXV8P4p5yZjv/W
-	jnXHsdTx1OeGTfBg==
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ccU4hX0FjEvwGhb+/NDp3/Zfsv1b4pDl3bC20verUGs=;
+	b=naUcjAlSMwf/CORb7itaxS4aaA65tleCk5yeY1a4nVR0/Bw2dX1JD2MwQmXmbEFHBr9kA3
+	52t3vm989AZG2VAA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 073071339F;
-	Fri, 16 Oct 2026 14:06:57 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F04661339F;
+	Fri, 16 Oct 2026 14:10:56 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id /Q86NoAv0mqQCAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 16 Oct 2026 14:06:57 +0000
+	id QpORMHAw0mp7DAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 16 Oct 2026 14:10:56 +0000
+Date: Fri, 16 Oct 2026 16:10:56 +0200
+Message-ID: <87cxt93fdb.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Cen Zhang <zzzccc427@gmail.com>
-Subject: [PATCH] ALSA: jack: Expose injection debugfs at device register phase
-Date: Fri, 16 Oct 2026 16:06:09 +0200
-Message-ID: <20261016140653.4406-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.55.0
+To: Nicolas Chauvet <kwizart@gmail.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,	Takashi Iwai <tiwai@suse.com>,	Lianqin
+ Hu <hulianqin@vivo.com>,	Rong Zhang <i@rong.moe>,	"Geoffrey D . Bennett"
+ <g@b4.vu>,	Sebastian =?ISO-8859-1?Q?Dalfu=DF?= <sd@sedf.de>,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH] ALSA: usb-audio: Add quirk for Logitech HD Pro Webcam c920
+In-Reply-To: <20261016094404.13802-1-kwizart@gmail.com>
+References: <20261016094404.13802-1-kwizart@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -2.80
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 554D11F443
+X-Rspamd-Action: no action
 X-Spam-Level: 
-X-Spamd-Result: default: False [-2.80 / 50.00];
+X-Spamd-Result: default: False [-3.51 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	RCVD_TLS_ALL(0.00)[];
+	MX_GOOD(-0.01)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
 	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	MIME_TRACE(0.00)[0:+];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com];
-	RCPT_COUNT_THREE(0.00)[3];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	RCVD_COUNT_TWO(0.00)[2];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com]
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
 
-Currently we add debugfs interfaces for jack injection (with
-CONFIG_SND_JACK_INJECTION_DEBUG) at creating jack kctls in
-snd_jack_kctl_add().  This means that those debugfs interfaces are
-already exposed to user-space at the early probe phase -- that is, it
-allows user-space already fiddling with it, while other components are
-still being initialized and hidden until snd_card_register().
-Depending on the driver implementation, such behavior can be an
-unpleasant surprise.
+On Fri, 16 Oct 2026 11:44:04 +0200,
+Nicolas Chauvet wrote:
+> 
+> Quirky device sample:
+>   usb 5-2: new high-speed USB device number 2 using xhci_hcd
+>   usb 5-2: New USB device found, idVendor=046d, idProduct=08e5, bcdDevice= 0.0c
+>   usb 5-2: New USB device strings: Mfr=0, Product=2, SerialNumber=0
+>   usb 5-2: Product: HD Pro Webcam C920
+>    ...
+>   uvcvideo 5-2:1.0: Found UVC 1.00 device HD Pro Webcam C920 (046d:08e5)
+>   uvcvideo 5-2:1.1: Failed to set UVC probe control : -32 (exp. 26).
+>   usb 5-2: current rate 16000 is different from the runtime rate 32000
+>   usb 5-2: reset high-speed USB device number 2 using xhci_hcd
+>   usb 5-2: current rate 16000 is different from the runtime rate 32000
+>   usb 5-2: current rate 16000 is different from the runtime rate 32000
+>   usb 5-2: current rate 16000 is different from the runtime rate 32000
+> 
+> Signed-off-by: Nicolas Chauvet <kwizart@gmail.com>
 
-For aligning the device exposure behavior, move the debugfs
-registration at the device register phase, too.  snd_jack_kctl_add()
-may still add the corresponding debugfs interfaces (for the
-dynamically added jacks, if any), but it's done only conditionally
-after the card has been registered.
+Applied to for-next branch.  Thanks.
 
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- include/sound/jack.h |  2 +-
- sound/core/jack.c    | 56 ++++++++++++++++++++++++++++++++++----------
- 2 files changed, 45 insertions(+), 13 deletions(-)
 
-diff --git a/include/sound/jack.h b/include/sound/jack.h
-index 715b95983188..cf19c333e2eb 100644
---- a/include/sound/jack.h
-+++ b/include/sound/jack.h
-@@ -62,10 +62,10 @@ struct snd_jack {
- 	struct list_head kctl_list;
- 	struct snd_card *card;
- 	const char *id;
-+	bool registered;
- #ifdef CONFIG_SND_JACK_INPUT_DEV
- 	struct input_dev *input_dev;
- 	struct mutex input_dev_lock;
--	int registered;
- 	int type;
- 	char name[100];
- 	unsigned int key[6];   /* Keep in sync with definitions above */
-diff --git a/sound/core/jack.c b/sound/core/jack.c
-index d9132b885ea3..a81a64b3bfe7 100644
---- a/sound/core/jack.c
-+++ b/sound/core/jack.c
-@@ -38,6 +38,7 @@ static const int jack_switch_types[SND_JACK_SWITCH_TYPES] = {
- };
- #endif /* CONFIG_SND_JACK_INPUT_DEV */
- 
-+static void snd_jack_add_debugfs(struct snd_jack *jack);
- static void snd_jack_remove_debugfs(struct snd_jack *jack);
- 
- static int snd_jack_dev_disconnect(struct snd_device *device)
-@@ -88,11 +89,10 @@ static int snd_jack_dev_free(struct snd_device *device)
- }
- 
- #ifdef CONFIG_SND_JACK_INPUT_DEV
--static int snd_jack_dev_register(struct snd_device *device)
-+static int snd_jack_input_dev_register(struct snd_card *card,
-+				       struct snd_jack *jack)
- {
--	struct snd_jack *jack = device->device_data;
--	struct snd_card *card = device->card;
--	int err, i;
-+	int i;
- 
- 	snprintf(jack->name, sizeof(jack->name), "%s %s",
- 		 card->shortname, jack->id);
-@@ -120,14 +120,32 @@ static int snd_jack_dev_register(struct snd_device *device)
- 		input_set_capability(jack->input_dev, EV_KEY, jack->key[i]);
- 	}
- 
--	err = input_register_device(jack->input_dev);
--	if (err == 0)
--		jack->registered = 1;
--
--	return err;
-+	return input_register_device(jack->input_dev);
-+}
-+#else
-+static inline int snd_jack_input_dev_register(struct snd_card *card,
-+					      struct snd_jack *jack)
-+{
-+	return 0;
- }
- #endif /* CONFIG_SND_JACK_INPUT_DEV */
- 
-+static int snd_jack_dev_register(struct snd_device *device)
-+{
-+	struct snd_card *card = device->card;
-+	struct snd_jack *jack = device->device_data;
-+	int err;
-+
-+	err = snd_jack_input_dev_register(card, jack);
-+	if (err < 0)
-+		return err;
-+
-+	snd_jack_add_debugfs(jack);
-+
-+	jack->registered = true;
-+	return 0;
-+}
-+
- #ifdef CONFIG_SND_JACK_INJECTION_DEBUG
- static void snd_jack_inject_report(struct snd_jack_kctl *jack_kctl, int status)
- {
-@@ -349,6 +367,9 @@ static int snd_jack_debugfs_add_inject_node(struct snd_jack *jack,
- 	char *tname;
- 	int i;
- 
-+	if (jack_kctl->jack_debugfs_root)
-+		return 0;
-+
- 	/* Don't create injection interface for Phantom jacks */
- 	if (strstr(jack_kctl->kctl->id.name, "Phantom"))
- 		return 0;
-@@ -387,6 +408,14 @@ static int snd_jack_debugfs_add_inject_node(struct snd_jack *jack,
- 	return 0;
- }
- 
-+static void snd_jack_add_debugfs(struct snd_jack *jack)
-+{
-+	struct snd_jack_kctl *jack_kctl;
-+
-+	list_for_each_entry(jack_kctl, &jack->kctl_list, list)
-+		snd_jack_debugfs_add_inject_node(jack, jack_kctl);
-+}
-+
- static void snd_jack_remove_debugfs(struct snd_jack *jack)
- {
- 	struct snd_jack_kctl *jack_kctl;
-@@ -403,6 +432,10 @@ static int snd_jack_debugfs_add_inject_node(struct snd_jack *jack,
- 	return 0;
- }
- 
-+static void snd_jack_add_debugfs(struct snd_jack *jack)
-+{
-+}
-+
- static void snd_jack_remove_debugfs(struct snd_jack *jack)
- {
- }
-@@ -423,7 +456,8 @@ static void snd_jack_kctl_add(struct snd_jack *jack, struct snd_jack_kctl *jack_
- {
- 	jack_kctl->jack = jack;
- 	list_add_tail(&jack_kctl->list, &jack->kctl_list);
--	snd_jack_debugfs_add_inject_node(jack, jack_kctl);
-+	if (jack->registered)
-+		snd_jack_debugfs_add_inject_node(jack, jack_kctl);
- }
- 
- static struct snd_jack_kctl * snd_jack_kctl_new(struct snd_card *card, const char *name, unsigned int mask)
-@@ -504,9 +538,7 @@ int snd_jack_new(struct snd_card *card, const char *id, int type,
- 	int err;
- 	static const struct snd_device_ops ops = {
- 		.dev_free = snd_jack_dev_free,
--#ifdef CONFIG_SND_JACK_INPUT_DEV
- 		.dev_register = snd_jack_dev_register,
--#endif /* CONFIG_SND_JACK_INPUT_DEV */
- 		.dev_disconnect = snd_jack_dev_disconnect,
- 	};
- 
--- 
-2.55.0
-
+Takashi
