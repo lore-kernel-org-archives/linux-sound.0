@@ -1,122 +1,112 @@
-Received: from mta0.migadu.com (out-244.mta0.migadu.com [91.218.175.244])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD0F83F23BD
-	for <linux-sound@vger.kernel.org>; Sun, 18 Oct 2026 17:02:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.244
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C65943F4DDB;
+	Sun, 18 Oct 2026 17:44:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792342978; cv=none; b=rpyucc4Y4JFhFWWwU7Ve2u4lYCy077WYjgTVWcNOjgX1+vwdC2VxxKc1Vim0jRZqPHf/WQ1PcDbn83AziHSqW6cxB4stsz1FG+7fsChXZkrnp1qoxpDfPY2oNltaplpSb9aTGvK0GoMR/Y+eCj9Cz/erTx/Bm0LfrMP/YzleMis=
+	t=1792345456; cv=none; b=UdBay+TlS7QKTVLeZQWTh5UsxVx1ddYGjvvRr1akQTmAmQLbpdACY10rIoUSne6I/5b+Lb48xsbTmA/ue+dhhXz+9ocA+7UEqx5bVrGF1B134JMaV0/RHabAdlvcJl3Ge1npvGasI/Kwt8NJQki+z3XtYGk/EONAZaowbFj/LG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792342978; c=relaxed/simple;
-	bh=qRlGL9BgQNwsXr+HqA7nK9JJTvMCj6p8URwOiE7lOoQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QMrJxrFANpgNbqUEjFdoWR3mQ1zJKhIYrJFI1Cm4rZThujQd/RjGV8j+UpdmSnjPS34y44x9sdD8bAIY5Qg7QZZ1XNG5FnC6z8K9n3/CdRXq/MfOTbeVChOs+t4A+XzPIGAVvcb+nDCeENYmwhKvWyEDIwQyzBefs9+0TopoNW8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=dPf4sUtR; arc=none smtp.client-ip=91.218.175.244
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1792345456; c=relaxed/simple;
+	bh=HTgBam/57cwFDyFC9raY1HwslZ/Y36gSS6pch6RineI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=KYI5PlrGwXDFkkcot+uEYWps3qeq6Mus5nTVEHiSusKGrbAPSdfB8OoKv+CcN8S52mO1lMW2unnahA822g6kQQN0VGQfDAY7mvvpwMCCmj8U6HYaNQD7RMkRX23DNVIAX58svRW8EOYwHySZIgw6DBmhWafRsVxZH5e+nIbF9IU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SIA+fjgY; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="dPf4sUtR"
-X-Envelope-To: linux-sound@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=qRlGL9BgQNwsXr+HqA7nK9JJTvMCj6p8URwOiE7lOoQ=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1792342971; v=1; x=1792947771;
- b=dPf4sUtRZ+BLVBK8WkemP2gEOesnOQDRW2JZC5B20SlvwvV5UwsEGSOo7QMJ/ZTJ8HHKIDN3
- R8IaxsiiUZICro2pt0gwgd9Amsk3tqNAr4kQrV+LXS8Zgsa0sm6/tZ3zfmaGWN2SvjS7Syg5hxK
- g0uYTOcelrPGSAHcgLvjHqt4=
-X-Envelope-To: linux-sound@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id bbd058d5ff1fdc28;
-	Sun, 18 Oct 2026 17:02:51 +0000
-X-Mizu-Trace-ID: bbd058d5ff1fdc28
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <5fcf8148-5775-4043-920e-650b3bedf7c2@linux.dev>
-Date: Sun, 18 Oct 2026 18:59:37 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SIA+fjgY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 575CF1F000C4;
+	Sun, 18 Oct 2026 17:43:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792345454;
+	bh=4gfnIScozc18XM8zitveza+3VRuR3POnpsiN1zhL9F4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=SIA+fjgYvDk1MgBwz9nOjF9y0h174BUSLCt3E85aH9M9nEAFM3MMZH0Q+i3p88RKD
+	 SR1TzNlX7G8S/kSKs6zngO1dBrmeM6odtVFjyxk2lopGmdtOtAHBkz8AFZqMiE/14M
+	 VpA0A1u1kWAlkLuJh+dqb3iT2CS9P86A9bA6KgLJBpwGfU4ha4Lcy+d8FHSTw8Vn/y
+	 VOoOHTa5HnMvJhd4Z9V4oknHUWuFaSx2gzcuKSRihXeIlpbcqHkod3W0mIqQ4BJ8SW
+	 UJXJzHf7MZW5xbelE93ORwVzUpK6lK1pO5O/5hGrDZUJSTF1COM5jORXQDGis575F/
+	 NtmDWiVZ3Coig==
+From: Mark Brown <broonie@kernel.org>
+To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
+ Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Srinivas Kandagatla <srini@kernel.org>, 
+ Shawn Guo <shengchao.guo@oss.qualcomm.com>, 
+ Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
+In-Reply-To: <20261009-nord-asoc-driver-support-v3-v3-0-0c1897f21ccf@oss.qualcomm.com>
+References: <20261009-nord-asoc-driver-support-v3-v3-0-0c1897f21ccf@oss.qualcomm.com>
+Subject: Re: [PATCH v3 0/7] ASoC: qcom: Add Nord audio support
+Message-Id: <179218547477.3162228.13366578492097805160.b4-ty@b4>
+Date: Fri, 16 Oct 2026 22:17:54 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 06/13] ASoC: amd: acp: move ignore_internal_dmic gate to
- DMIC enable condition
-To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>, broonie@kernel.org
-Cc: alsa-devel@alsa-project.org, lgirdwood@gmail.com, perex@perex.cz,
- tiwai@suse.com, yung-chuan.liao@linux.intel.com,
- Basavaraj.Hiregoudar@amd.com, Sunil-kumar.Dommati@amd.com,
- venkataprasad.potturu@amd.com, Syed.SabaKareem@amd.com,
- Mario.Limonciello@amd.com, Richard.Gong@amd.com, Poojitha.N@amd.com,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- sound-open-firmware@alsa-project.org
-References: <20261014101817.1240200-1-Vijendar.Mukunda@amd.com>
- <20261014101817.1240200-7-Vijendar.Mukunda@amd.com>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <20261014101817.1240200-7-Vijendar.Mukunda@amd.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2091; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=HTgBam/57cwFDyFC9raY1HwslZ/Y36gSS6pch6RineI=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLKusrq/E0qTYX7oyeK+3+pa4NIL784mhohEVAiov8iZr
+ uHy4FFiRykLgxgXg6yYIktcFvfL+pLXa/gOLmyDmcPKBDKEgYtTACYi3crIcEFygWPVaUfXl7bc
+ kr63m+W7Ws+5pHCsXXK2d6tmndmBpwz/nWY+WXJNx+qIyGYHTqdFyc9fHmdVFTLaf/WBZ8tFvth
+ L/AA=
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On 10/14/26 12:16, Vijendar Mukunda wrote:
-> Move the ignore_internal_dmic check from inside the dmic_num > 0 block
-> to the DMIC enable condition itself. This eliminates the dead if/else
-> inside the dmic_num > 0 block - when dmic_num is set,
-> create_dmic_dailinks() is always called. Demote the suppression message
-> from dev_warn to dev_dbg since ignoring the ACP DMIC in favour of a
-> SoundWire DMIC codec is expected behaviour, not a warning condition.
+On Fri, 09 Oct 2026 18:42:46 +0530, Mohammad Rafi Shaik wrote:
+> ASoC: qcom: Add Nord audio support
 > 
-> No functional change for platforms without a SoundWire DMIC codec.
+> This series adds audio support for the Qualcomm Nord Ride and
+> RRD boards and includes the required machine driver, device tree
+> binding updates, and codec improvements needed for the board's
+> external audio codec configuration.
 > 
-> Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-> ---
->  sound/soc/amd/acp/acp-sdw-sof-mach.c | 18 +++++++++---------
->  1 file changed, 9 insertions(+), 9 deletions(-)
-> 
-> diff --git a/sound/soc/amd/acp/acp-sdw-sof-mach.c b/sound/soc/amd/acp/acp-sdw-sof-mach.c
-> index ac4c9e852f671..1207e35ffb581 100644
-> --- a/sound/soc/amd/acp/acp-sdw-sof-mach.c
-> +++ b/sound/soc/amd/acp/acp-sdw-sof-mach.c
-> @@ -351,9 +351,13 @@ static int sof_card_dai_links_create(struct snd_soc_card *card)
->  	sdw_be_num = ret;
->  
->  	/* enable dmic */
-> -	if (sof_sdw_quirk & ASOC_SDW_ACP_DMIC || mach_params->dmic_num ||
-> -	    amd_ctx->pdm_sel)
-> +	if ((sof_sdw_quirk & ASOC_SDW_ACP_DMIC || mach_params->dmic_num ||
-> +	     amd_ctx->pdm_sel) && !ctx->ignore_internal_dmic)
->  		dmic_num = 1;
-> +	else if (ctx->ignore_internal_dmic &&
-> +		 (sof_sdw_quirk & ASOC_SDW_ACP_DMIC ||
-> +		  mach_params->dmic_num || amd_ctx->pdm_sel))
-> +		dev_dbg(dev, "ACP DMIC suppressed by SoundWire DMIC\n");
+> [...]
 
-this looks weird with the same boolean tested twice, can't this be made
-simpler with
+Applied to
 
-if (sof_sdw_quirk & ASOC_SDW_ACP_DMIC || mach_params->dmic_num ||	
-	amd_ctx->pdm_sel)
-	if (ctx->ignore_internal_dmic)
-		dev_dbg(dev, "ACP DMIC suppressed by SoundWire DMIC\n");
-	else
-		dmic_num = 1;
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
 
->  
->  	dev_dbg(dev, "sdw %d, dmic %d", sdw_be_num, dmic_num);
->  
-> @@ -384,13 +388,9 @@ static int sof_card_dai_links_create(struct snd_soc_card *card)
->  
->  	/* dmic */
->  	if (dmic_num > 0) {
-> -		if (ctx->ignore_internal_dmic) {
-> -			dev_warn(dev, "Ignoring ACP DMIC\n");
-> -		} else {
-> -			ret = create_dmic_dailinks(card, &dai_links, &be_id, 1);
-> -			if (ret)
-> -				return ret;
-> -		}
-> +		ret = create_dmic_dailinks(card, &dai_links, &be_id, 1);
-> +		if (ret)
-> +			return ret;
->  	}
->  
->  	WARN_ON(codec_conf != card->codec_conf + card->num_configs);
+Thanks!
+
+[1/7] ASoC: dt-bindings: ti,pcm1681: Document the optional SCK clock
+      https://git.kernel.org/broonie/sound/c/8855a9319c18
+[2/7] ASoC: codec: pcm1681: Add optional SCK clock and runtime PM support
+      https://git.kernel.org/broonie/sound/c/8987e9a24f45
+[3/7] ASoC: codec: pcm1681: Add TDM support
+      https://git.kernel.org/broonie/sound/c/a93f77e4187f
+[4/7] ASoC: dt-bindings: ti,pcm1681: Document the PCM1681 supplies
+      https://git.kernel.org/broonie/sound/c/f5f5bfcecf65
+[5/7] ASoC: codec: pcm1681: Enable the PCM1681 supplies
+      https://git.kernel.org/broonie/sound/c/3b953d0e72a1
+[6/7] ASoC: dt-bindings: qcom,sm8250: Add Nord sound card
+      https://git.kernel.org/broonie/sound/c/22a72cf1d60c
+[7/7] ASoC: qcom: sc8280xp: Add Nord sound card support
+      https://git.kernel.org/broonie/sound/c/6e539c02b04b
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
