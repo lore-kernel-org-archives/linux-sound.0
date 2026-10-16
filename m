@@ -1,86 +1,174 @@
-Received: from mail.nozomi.space (mail.nozomi.space [139.162.184.125])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF4014FE2D3;
-	Fri, 16 Oct 2026 16:15:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=139.162.184.125
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D7674B95AD;
+	Fri, 16 Oct 2026 16:19:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792167312; cv=none; b=fh1Uj5DerKXpXQqLTZ8DIC/czu6KZwSQ+q1Jt6FSCd6vpbdDBZ3bnEusEmbOYHczudt5ls8HjkNkDwvMGaq47RyBOjd58AXwJlK2xjJb0cCWGwfHo1GhA6jmtH05FyF2eF1++0Ytf8xaQxF3tjwx9Q8xCXcY2Dc7SIa3mI6Pufk=
+	t=1792167577; cv=none; b=FpIOEUSp1brXgIdZPeUGffHdyy4dyPejRNz7UhVOZNGIBEwiwz07yfurgnTGUaN3OduzHAWLFAeIkT7NVKTdIPo00uqNwTf8lbloVekFLcdh3EG+bVcWbZtzZL4kGSwZxL1hhR9WmueKBLAcQwVc2VyAT5d7dAHMQcylbtOeK+Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792167312; c=relaxed/simple;
-	bh=+waw1SuLWXrPyq5l4Hyn4lERHBCZwpl+TXBqPNFZ8s8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=LdYqtFNStEIwKqlFhGp56a29rj3MuE6rR3q5qgfmbZ81l3iAf8DvZp/WttoOu4Dal8A0Qb+Zk/xvq6Vd2zA53HPtot6C2ewNz7mngA+Dttm74aKX7NaQcXcEnJqbC+JVlP/IwX4L+hej+syNRkyng2J1asYAVgKM+Q1up0elozI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nozomi.space; spf=pass smtp.mailfrom=nozomi.space; dkim=pass (2048-bit key) header.d=nozomi.space header.i=@nozomi.space header.b=ZQ66W5hl; arc=none smtp.client-ip=139.162.184.125
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nozomi.space
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nozomi.space
+	s=arc-20240116; t=1792167577; c=relaxed/simple;
+	bh=FaHge6BOQYC9DUOEiYHL48sxtI2YaVLriLdnCipUaRo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fD4tJNUjpJM0lsfINerbYEbJ7X8HwnQ8sd8bZkQzZXIZIwuGKclshaXi+gFyhS0jui2FuipflIMFwVzoCrElTOT7C47LrvLEcF4q3qE+rar7g/c9rP2jJBf1DubZnr+/dM6ta9nZw6PsEP7yIvr2CkBjPhmbcG1Y0KH01mlviyc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=DbHKdyzG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=g+cbxXj+; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ckn8nR7Z; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=DIlB6vEE; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nozomi.space header.i=@nozomi.space header.b="ZQ66W5hl"
-From: =?UTF-8?q?Micha=C5=82=20Kope=C4=87?= <michal@nozomi.space>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nozomi.space;
-	s=mail; t=1792167298;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=fpOnpHUlmYdOv4gPzZ2omqt3CmZEZdq9OSzIodZ303E=;
-	b=ZQ66W5hlir9wlHKTxyRZAIejQYiTE71r65GNC8e+3zI19L/8bXcCyf2/P+ugU9jHxlAbwE
-	kXKjuovaoxn13FoA8XT7wf75nF1JMiJJjE7R/5S5LecsOTD2o2le53pZOZFWkO65XissoI
-	UCrKue2X7BOEwTx9YY3fFvvy4JB/zu+mUyalrBdwX1pdU1yMiKoUmOTZGuqzEnKos3ksO2
-	lOMNdYaiF4voVLgXeYPTACJ0jb8KynTEGQS7Si/nidZygn3p1Ihz4IzQizalfiXPOsatw1
-	bCDxunfUSkMwia71YSTxc6oKTDosXMSruEvap1CAKUibwOLuTceWLZ7kpQ7VoA==
-To: Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Trevor Wu <trevor.wu@mediatek.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	=?UTF-8?q?Micha=C5=82=20Kope=C4=87?= <michal@nozomi.space>
-Subject: [PATCH] ASoC: mediatek: mt8188: Suspend the AFE across system sleep
-Date: Fri, 16 Oct 2026 18:14:55 +0200
-Message-ID: <20261016161455.194400-1-michal@nozomi.space>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DbHKdyzG";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="g+cbxXj+";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ckn8nR7Z";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DIlB6vEE"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 12D7121CEE;
+	Fri, 16 Oct 2026 16:19:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1792167573; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=DdOOIzDuBt+xmBBXMBlcFA6zlcRSQy8J22Ffir6CcNs=;
+	b=DbHKdyzGupOwy1X2u3i9Q6NmKHOCKrsVnBaGpWNlKP4ffVNHpwXaYm3zTGO5qrTIYv7Gc2
+	aH3j43i9ATc3LO86aMxccdLhscoZE65Ac0I/BsDtL9aKcC8iOkykkSoEfHMwmxY7ffnCjW
+	fHua11TW4RuUfPObhEXRlq8jGRn0uYA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1792167573;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=DdOOIzDuBt+xmBBXMBlcFA6zlcRSQy8J22Ffir6CcNs=;
+	b=g+cbxXj+kASVd3mx21RwxqruFlvEK0ZRfazv0EZSt5e0I15w6DWY2Nfnfe8eIV9bA5tl/N
+	2LdZrPyJdle7euAg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1792167572; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=DdOOIzDuBt+xmBBXMBlcFA6zlcRSQy8J22Ffir6CcNs=;
+	b=ckn8nR7ZZ98gXdbfQuGgPvAy1TOMqRWVAhUoenWfzhKMcoZl0zZNAvfdxGcxDJdu6nU5y/
+	3kKYEdaeGoUzQ8772de2hvJSWKbawzMuW2HchIiehdgp7hpB47IIBp0aqUFUmNVirpmG6s
+	T5MSXpTYFgY0kpEtK1dCpHIBa//xNzw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1792167572;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=DdOOIzDuBt+xmBBXMBlcFA6zlcRSQy8J22Ffir6CcNs=;
+	b=DIlB6vEEX8yaBbR/ndStz6hY1kNlddx4eOTeVjhq0pfA7xwZ+vHNCP/Nj5WnTWr/XLFN0L
+	ESLKfisgNjNJwqDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C903B1339F;
+	Fri, 16 Oct 2026 16:19:31 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Cz2mJ5NO0moFHwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 16 Oct 2026 16:19:31 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: seq: oss: Skip events until fully initialized
+Date: Fri, 16 Oct 2026 18:19:29 +0200
+Message-ID: <20261016161930.482309-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Score: -2.80
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_DN_NONE(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCPT_COUNT_TWO(0.00)[2];
+	ARC_NA(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo]
 
-The AFE only has runtime PM callbacks. When a stream is open across
-system suspend, the AFE stays runtime active, so its clocks stay enabled
-and its register cache isn't marked dirty, while its power domain is
-turned off in the noirq phase. On resume, the deferred card resume work
-powers the DAPM widgets back up and writes the AFE registers, whose
-clocks are off after the domain was power cycled. The write stalls the
-bus and the system hangs.
+When an OSS sequencer device is opened, it creates a sequencer port,
+then further initializes the internal states like a timer instance,
+etc.  Since the sequencer port is published, an event can be already
+delivered, and this may hit unexpected event handling, which can
+eventually cause a NULL dereference (like the timer start/stop event
+triggered before the timer initialization).
 
-Force the AFE into runtime suspend for system sleep, and back to its
-previous state on resume, so that the domain sidebands, the clocks and
-the register cache are restored before anything touches the AFE.
+For avoiding such a race, introduce a simple guard and skips the event
+processing until the port is fully initialized.
+At releasing the device, in turn, clear this guard, so that any input
+events will be discarded during the teardown.
 
-Fixes: bf106bf09376 ("ASoC: mediatek: mt8188: add platform driver")
-Signed-off-by: Michał Kopeć <michal@nozomi.space>
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Reported-by: Sashiko <sashiko-bot@kernel.org>
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/soc/mediatek/mt8188/mt8188-afe-pcm.c | 1 +
- 1 file changed, 1 insertion(+)
+ sound/core/seq/oss/seq_oss_device.h | 1 +
+ sound/core/seq/oss/seq_oss_event.c  | 3 +++
+ sound/core/seq/oss/seq_oss_init.c   | 2 ++
+ 3 files changed, 6 insertions(+)
 
-diff --git a/sound/soc/mediatek/mt8188/mt8188-afe-pcm.c b/sound/soc/mediatek/mt8188/mt8188-afe-pcm.c
-index 7b1f5d05f4d61..1710a9be2bcff 100644
---- a/sound/soc/mediatek/mt8188/mt8188-afe-pcm.c
-+++ b/sound/soc/mediatek/mt8188/mt8188-afe-pcm.c
-@@ -3379,6 +3379,7 @@ static const struct of_device_id mt8188_afe_pcm_dt_match[] = {
- MODULE_DEVICE_TABLE(of, mt8188_afe_pcm_dt_match);
+diff --git a/sound/core/seq/oss/seq_oss_device.h b/sound/core/seq/oss/seq_oss_device.h
+index 935cf3df0b30..571186db4fa5 100644
+--- a/sound/core/seq/oss/seq_oss_device.h
++++ b/sound/core/seq/oss/seq_oss_device.h
+@@ -72,6 +72,7 @@ struct seq_oss_devinfo {
+ 	int cseq;	/* sequencer client number */
+ 	int port;	/* sequencer port number */
+ 	int queue;	/* sequencer queue number */
++	bool initialized;
  
- static const struct dev_pm_ops mt8188_afe_pm_ops = {
-+	SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend, pm_runtime_force_resume)
- 	RUNTIME_PM_OPS(mt8188_afe_runtime_suspend,
- 		       mt8188_afe_runtime_resume, NULL)
- };
+ 	struct snd_seq_addr addr;	/* address of this device */
+ 
+diff --git a/sound/core/seq/oss/seq_oss_event.c b/sound/core/seq/oss/seq_oss_event.c
+index 3c2cfaea94d1..cf493f6c983b 100644
+--- a/sound/core/seq/oss/seq_oss_event.c
++++ b/sound/core/seq/oss/seq_oss_event.c
+@@ -425,6 +425,9 @@ snd_seq_oss_event_input(struct snd_seq_event *ev, int direct, void *private_data
+ 	struct seq_oss_devinfo *dp = (struct seq_oss_devinfo *)private_data;
+ 	union evrec *rec;
+ 
++	if (!dp || !smp_load_acquire(&dp->initialized))
++		return 0; /* ignored */
++
+ 	if (ev->type != SNDRV_SEQ_EVENT_ECHO)
+ 		return snd_seq_oss_midi_input(ev, direct, private_data);
+ 
+diff --git a/sound/core/seq/oss/seq_oss_init.c b/sound/core/seq/oss/seq_oss_init.c
+index 6586e07431c3..6474a76a3cce 100644
+--- a/sound/core/seq/oss/seq_oss_init.c
++++ b/sound/core/seq/oss/seq_oss_init.c
+@@ -258,6 +258,7 @@ snd_seq_oss_open(struct file *file, int level)
+ 
+ 	client_table[dp->index] = dp;
+ 	num_clients++;
++	smp_store_release(&dp->initialized, true);
+ 
+ 	return 0;
+ 
+@@ -403,6 +404,7 @@ snd_seq_oss_release(struct seq_oss_devinfo *dp)
+ 
+ 	client_table[dp->index] = NULL;
+ 	num_clients--;
++	smp_store_release(&dp->initialized, false);
+ 
+ 	snd_seq_oss_reset(dp);
+ 
 -- 
-2.56.0
+2.55.0
 
