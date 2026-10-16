@@ -1,358 +1,136 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 159FA4B7A3C;
-	Fri, 16 Oct 2026 13:06:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792156010; cv=none; b=hBgelM/eVSEZmvQwmmZkWdk0MRjXu8A02ajw/dGsJaelv+Jkgsl97LlOs6g5X6xD4sQFmDyEpuBxaW/dw5HiaTIuIqQhNxo2xi5zA/yr56fuACMx6l6pSxdKdOE+8vaQN7avXAjDvoutqe32PpMkvvjii8EOnzhK8sTGnurrwp8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792156010; c=relaxed/simple;
-	bh=xoh88ia03hSYikb1jErklZElh9aXVdkU37srG0dnlMU=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KZosp9V5CyDZqq1wRQqD0SSB3OvQgSBu/qW1kYJXGxRjy8iXYSUl/+KKcOlJ9u7SEUCNChIi+k9LN3Pl/5wuMdzkD2lQKUeh8vREU7/bp+QocLu+AAnxmiyNs/iNZ6YzmOLSmytqNBQKYHhEjoyKcK1cdl9hoCLZ4ToySDLb58Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GuVHOpDU; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=BKIbmaS7; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GuVHOpDU; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=BKIbmaS7; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D2864C653C
+	for <linux-sound@vger.kernel.org>; Fri, 16 Oct 2026 13:26:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.173
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792157163; cv=pass; b=u4iqYdgq+qr3Sc4eusT9qMcbCJ4rkzfBqcuSnds/kw/qNVh/OoU7J8DHzg+LA21DdmADTLdpRTJ436KNerG+z/2HWIzu5nBdm4CRG5HY6ccx/6u0fjp5HgC21qI0Mys5NyBHw7kPRvXnpvWdou6bG3rAhBktqeoGnpyatKa+CvE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792157163; c=relaxed/simple;
+	bh=DZT/XWOXoKGyI2UqmZGeHkrhaLa/wAQWCwg6PKnLw3Q=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bBFXeANwXDhNItP2pgPtXFxGyFWYY+tOxUK/zSnt6fZn7AvmVZS5cmIT2aDFZz4z732kxycG/i25sgZxZ+mXF0p5oJfv9GTPGoTPa2hzEx0omGV0QzibkHYx6oqSodOvYufvXH99XEI+qbq9RnSi/aCaBr8RpaK7mCItLQwIWkc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WJbdG0yk; arc=pass smtp.client-ip=209.85.128.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GuVHOpDU";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="BKIbmaS7";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GuVHOpDU";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="BKIbmaS7"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id C198E21BEB;
-	Fri, 16 Oct 2026 13:06:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792156004; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6J1xCGEg4/c1WF8q12nop1AVdZvIbbp744BPBxeF1jk=;
-	b=GuVHOpDU/i2n1eWjO5BSP7HqWY5uEiry8tOsBaIOdcovKSEwSDE8Cm7XJfEVaSdWIbKVIa
-	noMs4pdRHEjp3azY3VpM7XuMkDdBuj4aapOTrcm0YjGg3FVFmM6GI6/lQ+3DPhU66LXtQt
-	NyxUrlnIh5O/bsgvZGDfYjVcCN6EOXY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792156004;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6J1xCGEg4/c1WF8q12nop1AVdZvIbbp744BPBxeF1jk=;
-	b=BKIbmaS74vwqQVuqcrVN74OtexkFbL8YgAz+6fTd5j+/lAxvUQgB0BM3Y/o4n2DzsLNO+c
-	tLedWuYBUcKJOxBQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792156004; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6J1xCGEg4/c1WF8q12nop1AVdZvIbbp744BPBxeF1jk=;
-	b=GuVHOpDU/i2n1eWjO5BSP7HqWY5uEiry8tOsBaIOdcovKSEwSDE8Cm7XJfEVaSdWIbKVIa
-	noMs4pdRHEjp3azY3VpM7XuMkDdBuj4aapOTrcm0YjGg3FVFmM6GI6/lQ+3DPhU66LXtQt
-	NyxUrlnIh5O/bsgvZGDfYjVcCN6EOXY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792156004;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6J1xCGEg4/c1WF8q12nop1AVdZvIbbp744BPBxeF1jk=;
-	b=BKIbmaS74vwqQVuqcrVN74OtexkFbL8YgAz+6fTd5j+/lAxvUQgB0BM3Y/o4n2DzsLNO+c
-	tLedWuYBUcKJOxBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4BDFE1378C;
-	Fri, 16 Oct 2026 13:06:44 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id lntCCGQh0mpmdAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 16 Oct 2026 13:06:44 +0000
-Date: Fri, 16 Oct 2026 15:06:43 +0200
-Message-ID: <87cxt9u74s.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Cen Zhang <zzzccc427@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	perex@perex.cz,
-	tiwai@suse.com,
-	phucduc.bui@gmail.com,
-	kees@kernel.org,
-	blum@kernel.org,
-	hui.wang@canonical.com,
-	kai.vehmanen@linux.intel.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	baijiaju1990@gmail.com,
-	jjzuming@gmail.com
-Subject: Re: [PATCH] ALSA: jack: Protect debugfs setup against control removal
-In-Reply-To: <CAFRLqsVH=Xkeoh2icgSftWCnk3uEUGPst=N3qeGoZ7Zy9+W6WA@mail.gmail.com>
-References: <pm-pmb-0f2e227b93626e3c7554-v2-0b7a6296bbea01ae57e8@gmail.com>
-	<87ik316gq4.wl-tiwai@suse.de>
-	<CAFRLqsVH=Xkeoh2icgSftWCnk3uEUGPst=N3qeGoZ7Zy9+W6WA@mail.gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WJbdG0yk"
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-8ab43af5e97so11860017b3.1
+        for <linux-sound@vger.kernel.org>; Fri, 16 Oct 2026 06:26:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792157159; cv=none;
+        d=google.com; s=arc-20260327;
+        b=hmRDP0znfjbx1VMI1kMbZT0ieZS8U5aVPzmZCJ9QNCW0LRRj6VjeAcQ6Igb0WVHjxV
+         LeHo2EDXrrsshoavMXvTVKbWzJznqD0tqmtj1cRfqeY7X6mloKokgvmXxZTLGvtKo1yp
+         aGzCpB6CgVBfMmISIleFaFL44n1iGf3nCl+Z3gFuaPgHiY89jJtmhX2ate6kaxiYJw34
+         f/0Srhu0ioKAJiD6n7NMf4AqXEx8vByuIWUILGMcwZtLBY6IQAMk4F9p6VlARC57tlvW
+         MymET+VTSpW7hy40cjG2V1OoeWcN7ijWdWwENjMPsachnU2gXqgxD8JQQVtx8cLCCxsp
+         j9bA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=APz0ofQeCgfpp4Rr4X5ZAvn3C9Lg/jRZ2eNxMkJH3fc=;
+        fh=g2T+AOedwaQG2CtIlGa6S83yA8XeKuhj0shx5gmIIwg=;
+        b=hG/CdpAylMFS7uG3PUW6LuOyLP2H6qc1J7kmdP27yks19bIwWRKhNc3aFfBef+Ed/U
+         2QLwCgo4VZCZC5RQOd/lSOcnAAkJuzLuNhtTH3iFM7oJAiY9MJutaw40Ahr+TYNsxE+U
+         DoUKXk2FkEGKbg1Azw/5YskSHqu1JgzmL+8lzjj5pWqZq1zfNo82y4SBQcEbFNeKvtOp
+         YF5g2JfnymDJaM6teVFDKraxKQpbpMl9QmkcHOe6hKoOR2Ck6+NtMcb1Ipxvn4xawYFv
+         bmxsYL5dI4Tx4RWZHVgq428UVuqCx2u42LFE2Hbs7ArXPvarPCofxPTA4OyIyu5KsiOl
+         xI6g==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792157159; x=1792761959; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=APz0ofQeCgfpp4Rr4X5ZAvn3C9Lg/jRZ2eNxMkJH3fc=;
+        b=WJbdG0ykff2gljxmC8mbma8dQHAzMBHcijJgAbLFbw6vnqkgPFs5hZBIkxYJLRMMei
+         i2TvFVHLGlap2jS0pNqPcgWME109kROwX/4WtIcylFaf7uaZxrDjcvAo67wZklimQ8Ed
+         8pxKKeCwQ8Pi4O1o9p9NhHfOXoBWf4/IA5pcRLpkc5UmcBzCIL0Z3pp/sVym1R7Lp7Hq
+         Tw+7rkc8LyZBELB1KQo2x0QfLdek3Og+3FLSgPHI1KzPIMY3w9OV1ue8GRY9gp5A+s5k
+         V99A/I0T/Z5ffdpHQzbe+aDMCVHaDgBUZxWfqukB4pkYsOcxYaeWAz4Lcoeye1l9XZ4b
+         mX8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792157159; x=1792761959;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=APz0ofQeCgfpp4Rr4X5ZAvn3C9Lg/jRZ2eNxMkJH3fc=;
+        b=IajzkyMtP50NzY3UZ8ZO11fjAuYLrZBt5zPhuBln/0XfLxmIa2tLXF8+KY2NBVFO1Q
+         ao1IRWCvJwUt5/MkMRu9BUYd9oyRbVAF98PgpoL3tOjrwRql00qETntT5Xl3wlRKL69x
+         qb6s59fvxxOwS/iM2Ax/UTq+5frijjfMmms0VgIXpkvhT0tN+kAC18+3CIrIC2T9bu73
+         TEs7xs5FytlkIWnFNRT5zTFTHL/1BXjqnuRID9B+kwnOckNT3iftlLhtQgrOCYETcx8h
+         skxZPTjQvUVdK7GqTgPg4W1WbLZsdmf83UOeYRAai8P2tzhksMRn75wWm5r30+0zO0Tb
+         TqVw==
+X-Forwarded-Encrypted: i=1; AKwUvBwSBtsNb05IjIqZ3OavJlyRejJWeqqrlKGE3iBU9IAwW3XgUd0+MaMuTv30+aC7O1sFxBuolqM0ONvmRw==@vger.kernel.org
+X-Gm-Message-State: AFq9FYKBsKoiuUGs+5omQm3EfBh2Fas9zoqcN9nqTM9PLABBtEtrjDp0
+	ROls6godIpWOkP1we7eyORV84P73g0v47PY3QngsIiYDWMYBA0HjdaHtH9I2R+ylmOnuhTtcrtv
+	QZ78vxotOxz5H8uQXKVL3hu0lp3mUhwQ=
+X-Gm-Gg: AYBFou3WX9ye8FU5pCApz9zsJwTPpovaOVAXwfcZfnSq+hBLowU7KZGoRezvMOniQgP
+	70ea/DGkVK201imAWxLjaRwS80pgk98eqbVxIoG2qE6e0e76wLFAPMbBeZImtroiy6LfpicmvE3
+	kAOCpaEIB2lafKaZfBJ8azyiVYDzlCTDnsOyxPldhfuKn2yTOLMyQa32uAikFHJxX8cOZsUMvlA
+	oFeceSs5H7uvkU6fIHabSS172eoB/rkHZGBzolOhP5OC9p/0ZgHI9KSwzo3Cj0pTjRBYxzasbzl
+	iU1ncHVooceLN6bZl4RAuraK2rWmzGHi0o9PFahdk4VmO9eFpnDKY8GMromVMjD3YqpIceDyKFg
+	xkP9IDSjmjg==
+X-Received: by 2002:a05:690c:f02:b0:8b0:ce9f:29a5 with SMTP id
+ 00721157ae682-8b0e2c60d38mr11375297b3.18.1792157159051; Fri, 16 Oct 2026
+ 06:25:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-2022-JP
-X-Spamd-Result: default: False [-1.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_TLS_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[suse.de,perex.cz,suse.com,gmail.com,kernel.org,canonical.com,linux.intel.com,vger.kernel.org];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -1.80
-X-Spam-Level: 
-X-Spam-Flag: NO
+MIME-Version: 1.0
+References: <pm-pmb-7364ede2179b8830f660-v2-ca37049bc2e3679bb65f@gmail.com>
+ <87h5iluaqg.wl-tiwai@suse.de> <CAFRLqsUi3te_Dq=o8jDCQyXMO+OmjEKMqa7n8KiRLbifRuHnsQ@mail.gmail.com>
+ <87ecdpu7b0.wl-tiwai@suse.de>
+In-Reply-To: <87ecdpu7b0.wl-tiwai@suse.de>
+From: Cen Zhang <zzzccc427@gmail.com>
+Date: Fri, 16 Oct 2026 21:25:44 +0800
+X-Gm-Features: AclHuK-9PGtUDPkyX16Eqe6a3I68CBZZk-zvN1vsDIlCD4Nk4dJj_YE6arrsbL8
+Message-ID: <CAFRLqsUoZyhjN0qhtPv2EcfBZutTD=8yj_tdMuP0FjrMrNn-nQ@mail.gmail.com>
+Subject: Re: [PATCH] ALSA: dummy: Refresh the CD capture switch before use
+To: Takashi Iwai <tiwai@suse.de>
+Cc: perex@perex.cz, tiwai@suse.com, thomas.weissschuh@linutronix.de, 
+	kees@kernel.org, phucduc.bui@gmail.com, sammiee5311@gmail.com, 
+	clemens@ladisch.de, tglx@kernel.org, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, baijiaju1990@gmail.com, jjzuming@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 16 Oct 2026 15:00:37 +0200,
-Cen Zhang wrote:
-> 
-> Hi Takashi,
-> 
-> Takashi Iwai <tiwai@suse.de> 于2026年10月16日周五 19:13写道：
-> >
-> > On Fri, 16 Oct 2026 04:04:37 +0200,
-> > Cen Zhang wrote:
-> > >
-> > > The jack control attachment must remain alive while its injection
-> > > interface is being initialized. snd_jack_kctl_add() links the attachment
-> > > to jack->kctl_list and then calls snd_jack_debugfs_add_inject_node(),
-> > > which dereferences jack_kctl->kctl to read the control name. Neither the
-> > > list insertion nor the debugfs setup holds controls_rwsem.
-> > >
-> > > With CONFIG_SND_JACK_INJECTION_DEBUG enabled, an independent kernel
-> > > control owner can remove the newly linked control in this order:
-> > >
-> > >   1. The creator publishes the control with snd_ctl_add(), which releases
-> > >      controls_rwsem, and links its attachment in snd_jack_kctl_add().
-> > >   2. The remover takes controls_rwsem for writing in snd_ctl_remove().
-> > >      __snd_ctl_remove() unlinks the control and calls snd_ctl_free_one().
-> > >      snd_jack_kctl_private_free() unlinks and frees the attachment, then
-> > >      snd_ctl_free_one() frees the control.
-> > >   3. The creator enters snd_jack_debugfs_add_inject_node() and reads the
-> > >      control name through the freed attachment.
-> > >
-> > > This causes a use-after-free read during jack creation. Hold the existing
-> > > controls_rwsem for reading before linking the attachment and until the
-> > > debugfs helper returns. The remover's write lock then keeps the attachment
-> > > and its control alive throughout this post-publication setup interval.
-> > >
-> > > KASAN report as below:
-> > >
-> > >     BUG: KASAN: slab-use-after-free in snd_jack_kctl_add+0x50b/0x5e0
-> > >     Read of size 8 at addr ffff88810d8def00 by task kworker/2:1/68
-> > >
-> > >     CPU: 2 UID: 0 PID: 68 Comm: kworker/2:1 Tainted: G           O        7.2.0-rc6-pmb-bt-functional-v1+ #1 PREEMPT(lazy)
-> > >     Tainted: [O]=OOT_MODULE
-> > >     Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-> > >     Workqueue: events azx_probe_work [snd_hda_intel]
-> > >     Call Trace:
-> > >      <TASK>
-> > >      dump_stack_lvl+0x93/0xd0
-> > >      print_report+0xce/0x630
-> > >      ? snd_jack_kctl_add+0x50b/0x5e0
-> > >      ? srso_alias_return_thunk+0x5/0xfbef5
-> > >      ? __virt_addr_valid+0x20d/0x410
-> > >      ? snd_jack_kctl_add+0x50b/0x5e0
-> > >      kasan_report+0xe0/0x110
-> > >      ? snd_jack_kctl_add+0x50b/0x5e0
-> > >      snd_jack_kctl_add+0x50b/0x5e0
-> > >      ? snd_jack_kctl_add+0x5/0x5e0
-> > >      snd_jack_new+0x347/0x4c0
-> > >      snd_hda_jack_add_kctl_mst+0x19e/0x540 [snd_hda_codec]
-> > >      add_jack_kctl+0x1b9/0x2c0 [snd_hda_codec]
-> > >      ? __pfx_add_jack_kctl+0x10/0x10 [snd_hda_codec]
-> > >      ? srso_alias_return_thunk+0x5/0xfbef5
-> > >      ? _raw_spin_unlock_irqrestore+0x44/0x60
-> > >      ? srso_alias_return_thunk+0x5/0xfbef5
-> > >      ? pmbd_probe_hit_cookie+0xee/0x1c0
-> > >      snd_hda_jack_add_kctls+0x212/0x910 [snd_hda_codec]
-> > >      ? srso_alias_return_thunk+0x5/0xfbef5
-> > >      snd_hda_gen_build_controls+0x23a/0x6a0 [snd_hda_codec_generic]
-> > >      ? __pfx_snd_hda_gen_build_controls+0x10/0x10 [snd_hda_codec_generic]
-> > >      snd_hda_codec_build_controls+0x2e4/0x9f0 [snd_hda_codec]
-> > >      ? __pfx_snd_hda_codec_build_controls+0x10/0x10 [snd_hda_codec]
-> > >      ? srso_alias_return_thunk+0x5/0xfbef5
-> > >      ? snd_hda_codec_build_pcms+0x4d8/0x6e0 [snd_hda_codec]
-> > >      hda_codec_driver_probe+0x26e/0x590 [snd_hda_codec]
-> > >      ? __pfx_hda_codec_driver_probe+0x10/0x10 [snd_hda_codec]
-> > >      really_probe+0x21f/0xa90
-> > >      __driver_probe_device+0x1ec/0x490
-> > >      driver_probe_device+0x4f/0x130
-> > >      __device_attach_driver+0x1d2/0x2e0
-> > >      ? __pfx___device_attach_driver+0x10/0x10
-> > >      bus_for_each_drv+0x155/0x1d0
-> > >      ? __pfx_bus_for_each_drv+0x10/0x10
-> > >      ? srso_alias_return_thunk+0x5/0xfbef5
-> > >      ? trace_hardirqs_on+0x18/0x160
-> > >      ? srso_alias_return_thunk+0x5/0xfbef5
-> > >      ? _raw_spin_unlock_irqrestore+0x44/0x60
-> > >      __device_attach+0x1c3/0x490
-> > >      ? __pfx___device_attach+0x10/0x10
-> > >      ? snd_hda_codec_configure+0x4a2/0x690 [snd_hda_codec]
-> > >      snd_hda_codec_configure+0x4c5/0x690 [snd_hda_codec]
-> > >      ? __pfx_snd_hda_codec_configure+0x10/0x10 [snd_hda_codec]
-> > >      ? __pfx_azx_probe_codecs+0x10/0x10 [snd_hda_codec]
-> > >      ? srso_alias_return_thunk+0x5/0xfbef5
-> > >      ? request_threaded_irq+0x21f/0x380
-> > >      azx_codec_configure+0x65/0x200 [snd_hda_codec]
-> > >      azx_probe_work+0x4d8/0x23b0 [snd_hda_intel]
-> > >      ? __pfx_azx_probe_work+0x10/0x10 [snd_hda_intel]
-> > >      ? srso_alias_return_thunk+0x5/0xfbef5
-> > >      ? lock_release+0xc8/0x280
-> > >      ? srso_alias_return_thunk+0x5/0xfbef5
-> > >      process_one_work+0x908/0x19c0
-> > >      ? __pfx_process_one_work+0x10/0x10
-> > >      ? srso_alias_return_thunk+0x5/0xfbef5
-> > >      ? lock_is_held_type+0x8f/0x100
-> > >      ? srso_alias_return_thunk+0x5/0xfbef5
-> > >      worker_thread+0x65c/0xe40
-> > >      ? srso_alias_return_thunk+0x5/0xfbef5
-> > >      ? __kthread_parkme+0x175/0x220
-> > >      ? srso_alias_return_thunk+0x5/0xfbef5
-> > >      ? __pfx_worker_thread+0x10/0x10
-> > >      kthread+0x34f/0x460
-> > >      ? srso_alias_return_thunk+0x5/0xfbef5
-> > >      ? __pfx_kthread+0x10/0x10
-> > >      ret_from_fork+0x659/0x940
-> > >      ? __pfx_ret_from_fork+0x10/0x10
-> > >      ? srso_alias_return_thunk+0x5/0xfbef5
-> > >      ? __switch_to+0x74f/0xf80
-> > >      ? __pfx_kthread+0x10/0x10
-> > >      ret_from_fork_asm+0x1a/0x30
-> > >      </TASK>
-> > >
-> > >     Allocated by task 68:
-> > >      kasan_save_stack+0x33/0x60
-> > >      kasan_save_track+0x14/0x30
-> > >      __kasan_kmalloc+0xaa/0xb0
-> > >      __kmalloc_cache_noprof+0x251/0x610
-> > >      snd_jack_kctl_new+0x80/0x180
-> > >      snd_jack_new+0x4b/0x4c0
-> > >      snd_hda_jack_add_kctl_mst+0x19e/0x540 [snd_hda_codec]
-> > >      add_jack_kctl+0x1b9/0x2c0 [snd_hda_codec]
-> > >      snd_hda_jack_add_kctls+0x212/0x910 [snd_hda_codec]
-> > >      snd_hda_gen_build_controls+0x23a/0x6a0 [snd_hda_codec_generic]
-> > >      snd_hda_codec_build_controls+0x2e4/0x9f0 [snd_hda_codec]
-> > >      hda_codec_driver_probe+0x26e/0x590 [snd_hda_codec]
-> > >      really_probe+0x21f/0xa90
-> > >      __driver_probe_device+0x1ec/0x490
-> > >      driver_probe_device+0x4f/0x130
-> > >      __device_attach_driver+0x1d2/0x2e0
-> > >      bus_for_each_drv+0x155/0x1d0
-> > >      __device_attach+0x1c3/0x490
-> > >      snd_hda_codec_configure+0x4c5/0x690 [snd_hda_codec]
-> > >      azx_codec_configure+0x65/0x200 [snd_hda_codec]
-> > >      azx_probe_work+0x4d8/0x23b0 [snd_hda_intel]
-> > >      process_one_work+0x908/0x19c0
-> > >      worker_thread+0x65c/0xe40
-> > >      kthread+0x34f/0x460
-> > >      ret_from_fork+0x659/0x940
-> > >      ret_from_fork_asm+0x1a/0x30
-> > >
-> > >     Freed by task 436:
-> > >      kasan_save_stack+0x33/0x60
-> > >      kasan_save_track+0x14/0x30
-> > >      kasan_save_free_info+0x3b/0x60
-> > >      __kasan_slab_free+0x5f/0x80
-> > >      kfree+0x307/0x580
-> > >      snd_jack_kctl_private_free+0x154/0x200
-> > >      __snd_ctl_remove+0x29f/0x3b0
-> > >      snd_ctl_remove+0x46/0x70
-> > >      remove_control_set+0x110/0x1b0 [pmbd_alsa_control_remove]
-> > >      param_attr_store+0x191/0x2f0
-> > >      module_attr_store+0x5d/0x90
-> > >      sysfs_kf_write+0xed/0x140
-> > >      kernfs_fop_write_iter+0x34b/0x500
-> > >      vfs_write+0x637/0x1010
-> > >      ksys_write+0x111/0x200
-> > >      do_syscall_64+0x115/0x6a0
-> > >      entry_SYSCALL_64_after_hwframe+0x77/0x7f
-> > >
-> > >     The buggy address belongs to the object at ffff88810d8def00
-> > >      which belongs to the cache kmalloc-64 of size 64
-> > >     The buggy address is located 0 bytes inside of
-> > >      freed 64-byte region [ffff88810d8def00, ffff88810d8def40)
-> > >
-> > >     The buggy address belongs to the physical page:
-> > >     page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x10d8de
-> > >     flags: 0x200000000000000(node=0|zone=2)
-> > >     page_type: f5(slab)
-> > >     raw: 0200000000000000 ffff8881000428c0 dead000000000100 dead000000000122
-> > >     raw: 0000000000000000 0000000000200020 00000000f5000000 0000000000000000
-> > >     page dumped because: kasan: bad access detected
-> > >
-> > >     Memory state around the buggy address:
-> > >      ffff88810d8dee00: fa fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
-> > >      ffff88810d8dee80: fa fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
-> > >     >ffff88810d8def00: fa fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
-> > >                        ^
-> > >      ffff88810d8def80: 00 00 00 00 00 00 fc fc fc fc fc fc fc fc fc fc
-> > >      ffff88810d8df000: fa fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
-> > >     ==================================================================
-> > >
-> > > Fixes: 2d670ea2bd53 ("ALSA: jack: implement software jack injection via debugfs")
-> > > Assisted-by: LLM
-> > > Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
-> > > ---
-> > >
-> > > diff --git a/sound/core/jack.c b/sound/core/jack.c
-> > > index 0f04018181acb20f6bf85b11a9f6d4c7d3179e5a..dd604ffd8c815a9828f5e4b30a70b7597c86a37f 100644
-> > > --- a/sound/core/jack.c
-> > > +++ b/sound/core/jack.c
-> > > @@ -418,6 +418,7 @@ static void snd_jack_kctl_private_free(struct snd_kcontrol *kctl)
-> > >
-> > >  static void snd_jack_kctl_add(struct snd_jack *jack, struct snd_jack_kctl *jack_kctl)
-> > >  {
-> > > +     guard(rwsem_read)(&jack->card->controls_rwsem);
-> > >       jack_kctl->jack = jack;
-> > >       list_add_tail(&jack_kctl->list, &jack->kctl_list);
-> > >       snd_jack_debugfs_add_inject_node(jack, jack_kctl);
-> >
-> > That looks too ad hoc.  We need to check the real cause at first.
-> >
-> > Could you elaborate how this situation is triggered?  In the above
-> > stack trace, it looks like that the jack ctl was created via hd-audio
-> > codec, but how was it removed?
-> >
-> >
-> > thanks,
-> >
-> > Takashi
-> 
-> I'm very sorry for wasting your time. Please disregard this patch.
-> I'll be much more careful
-> in the future.
+Hi Takashi,
 
-OK.  Meanwhile, I think we should work on the jack driver code a bit
-more regarding the debugfs: namely, the debugfs is exposed already at
-the creation of kctls, so they are accessible before other interface
-registration via snd_card_register().  The debugfs addition should be
-rather moved to the register phase for avoiding the unexpected access
-via debugfs, instead.  I'm going to submit a patch later.
+Takashi Iwai <tiwai@suse.de> =E4=BA=8E2026=E5=B9=B410=E6=9C=8816=E6=97=A5=
+=E5=91=A8=E4=BA=94 21:03=E5=86=99=E9=81=93=EF=BC=9A
+>
+> Don't worry, your patches have been appreciated.
+>
+> But, I guess that we can ask the model to provide a PoC code for
+> triggering the bug, at least for the case like dummy driver, and
+> verify the actual crash?  This would show more clearly whether it's a
+> real issue or not.
+>
+>
+> thanks,
+>
+> Takashi
 
+Thank you very much for your understanding and suggestions =E2=80=94 I real=
+ly
+appreciate it.
 
-thanks,
+Actually, I have already been doing this: the kasan or Oops reports
+were come from real tests.  But as the
+three cases showing, the LLM model sometimes adds extra modules or
+calls to create non-existent false behaviors
+in order to verify its own obfuscation, which then lead to the final error.
 
-Takashi
+I will strengthen the restrictions on this part and review the outputs
+more carefully going forward.
+
+Thank you again for your understanding and patience.
+
+Best regards,
+Cen Zhang
