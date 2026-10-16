@@ -1,85 +1,87 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1718D24679C;
-	Fri, 16 Oct 2026 08:19:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85D5D3BBA0B
+	for <linux-sound@vger.kernel.org>; Fri, 16 Oct 2026 08:21:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792138777; cv=none; b=aATd/+N137zGrDsZfNh5LA1lW1WUo0pwTcCQSqm+KlUmh326HBAlZ1ltsatCQxQo2KMZou5VicwhBV3bosuKsqNGp5QN8u7GjLhD6JumBDS+zmpLVBdrFEBi8xBtIE1FhDHXbK25qSW6iScTurFKDNLJZ25zWXcmuE0NA8BzTrA=
+	t=1792138861; cv=none; b=f2zr2tCTiNP5ovVZxSAo9i5rYZKgyL05mxMwWdOcpIBw+JUfxX0m/1PqkJXDbIbT+QX+QDQIm8KF3QKgkwqjcNmM5FxfI3Wts0NpDIfVNRk0uJzMo92uk0eV+m/CqsjEcA+Qg/dnBM5nABBF0D8Pd/RGVHY15lVPrpIACmncVfo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792138777; c=relaxed/simple;
-	bh=0RwjRcT4HUlT4QhPcM8OlG1dkNRUnFFcPb0AroMAfU4=;
+	s=arc-20240116; t=1792138861; c=relaxed/simple;
+	bh=BOOkYLgUaPu0axgwVqPPQh923YwcL1wTo6GS7Rp7sGA=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Qg/2PRogmM2/aLKTRTgirJN/gnlYo8cG+w+5s17Tn56IA4qd0geRnfinRDYbdF1AGqYO8zfZ3JX3Ta5GlazYdIiAMzQcNoHtV75cimzu+psCEglidSsRuoVl8+7AJtYRRS9iXc6U3blyo5YlqLTF5VlEdeFhFTCKqobM+ssfE8Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=pVf8JopK; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ohd70vue; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=pVf8JopK; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ohd70vue; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=MTg4r/oNEZ+wBoNpt99NVM1qg2Q0qpOm4UArH91Fa543Zi+0KokaQ79DHcVi+FTRphpqSofx5XyxFWeu7I/jFFB1s145lLSfL82nSVlEr0DKQmaXZaIuuv5ZzVRF4CK7e6EdNBzFDiTANZN7ZXCPNV9tf8GRWLNPG/qRT522p5k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1Y0vH9yD; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gdubjBOU; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1Y0vH9yD; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gdubjBOU; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="pVf8JopK";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ohd70vue";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="pVf8JopK";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ohd70vue"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1Y0vH9yD";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gdubjBOU";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1Y0vH9yD";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gdubjBOU"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id DBC1521BD0;
-	Fri, 16 Oct 2026 08:19:33 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 022741F43B;
+	Fri, 16 Oct 2026 08:20:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792138773; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1792138850; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=n5eFwldiSe5zgBeATGXAEa9p3G7itOL9ZX2UnYj1uP8=;
-	b=pVf8JopKdBbtS7arN7J1g5tX+OXuGIKofersfket00mx62T8r+L9UiCYtsb4XerNDFiyh0
-	rSXz/OuTQHfKoVv1lBynGHYfFQ26Q0iWCq9r0iMp2tShNb40f61Aks+lJMhGCR+8PYn5AW
-	Hmz0U5IVaxqtswAH1n3wZ0CvH3l0bHw=
+	bh=3HDGHxYDCOJkufrEMSIyp3sPGUcQk5bS4SZm0hZm9ac=;
+	b=1Y0vH9yDBziQxlw9EIOF1hm215hZ/1OJTXV7vuZzw8IKdXU+tESZo4vuXN2P48OBT42d+w
+	DhCD4rbtX0Zxaz22EAam7Dev+cJpKqUJQf1Tg7OsNZc57v3iKi0MhEgNVXmGuLdbC6guNh
+	/UrYADTURV7p+DX9M7c7AjMEpjHAQMU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792138773;
+	s=susede2_ed25519; t=1792138850;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=n5eFwldiSe5zgBeATGXAEa9p3G7itOL9ZX2UnYj1uP8=;
-	b=ohd70vueCFOi2VGHdWZCGVxbRwFg+6q9wJNE5NAZU4vC0HcRFcjnjd/WaIrOo5bjXkUAPT
-	88MnuQH3rqgUOyBQ==
-Authentication-Results: smtp-out1.suse.de;
+	bh=3HDGHxYDCOJkufrEMSIyp3sPGUcQk5bS4SZm0hZm9ac=;
+	b=gdubjBOUA1cqHhws1qZuQUVL8YDtXhFeBSpeQTqUs4oW8EBMu1LMQHOLDSPHnWOQ/xw0U6
+	yUvYm/dIAxeN48Dw==
+Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792138773; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1792138850; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=n5eFwldiSe5zgBeATGXAEa9p3G7itOL9ZX2UnYj1uP8=;
-	b=pVf8JopKdBbtS7arN7J1g5tX+OXuGIKofersfket00mx62T8r+L9UiCYtsb4XerNDFiyh0
-	rSXz/OuTQHfKoVv1lBynGHYfFQ26Q0iWCq9r0iMp2tShNb40f61Aks+lJMhGCR+8PYn5AW
-	Hmz0U5IVaxqtswAH1n3wZ0CvH3l0bHw=
+	bh=3HDGHxYDCOJkufrEMSIyp3sPGUcQk5bS4SZm0hZm9ac=;
+	b=1Y0vH9yDBziQxlw9EIOF1hm215hZ/1OJTXV7vuZzw8IKdXU+tESZo4vuXN2P48OBT42d+w
+	DhCD4rbtX0Zxaz22EAam7Dev+cJpKqUJQf1Tg7OsNZc57v3iKi0MhEgNVXmGuLdbC6guNh
+	/UrYADTURV7p+DX9M7c7AjMEpjHAQMU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792138773;
+	s=susede2_ed25519; t=1792138850;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=n5eFwldiSe5zgBeATGXAEa9p3G7itOL9ZX2UnYj1uP8=;
-	b=ohd70vueCFOi2VGHdWZCGVxbRwFg+6q9wJNE5NAZU4vC0HcRFcjnjd/WaIrOo5bjXkUAPT
-	88MnuQH3rqgUOyBQ==
+	bh=3HDGHxYDCOJkufrEMSIyp3sPGUcQk5bS4SZm0hZm9ac=;
+	b=gdubjBOUA1cqHhws1qZuQUVL8YDtXhFeBSpeQTqUs4oW8EBMu1LMQHOLDSPHnWOQ/xw0U6
+	yUvYm/dIAxeN48Dw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 94B9A1339F;
-	Fri, 16 Oct 2026 08:19:33 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A754E1339F;
+	Fri, 16 Oct 2026 08:20:49 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id vB2TGhXe0WqqUQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 16 Oct 2026 08:19:33 +0000
-Date: Fri, 16 Oct 2026 10:19:33 +0200
-Message-ID: <87pkxa5a7e.wl-tiwai@suse.de>
+	id 2GRaH2He0Wo4UwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 16 Oct 2026 08:20:49 +0000
+Date: Fri, 16 Oct 2026 10:20:49 +0200
+Message-ID: <87o6cu5a5a.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Imtiaz Chowdhury <imtiazc56@gmail.com>
-Cc: tiwai@suse.com,
-	perex@perex.cz,
+To: Joonho Lee <mynameisjune111@gmail.com>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek: Add HP ENVY Laptop 13-ba1xxx quirk
-In-Reply-To: <20261015232210.35946-1-imtiazc56@gmail.com>
-References: <20261015232210.35946-1-imtiazc56@gmail.com>
+	linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org
+Subject: Re: [PATCH v5 0/2] ALSA: pcm: preserve capture tail during drain
+In-Reply-To: <v5-core-capture-drain-0.e9b40d3bc08c4162@gmail.com>
+References: <v5-core-capture-drain-0.e9b40d3bc08c4162@gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -94,16 +96,16 @@ X-Spamd-Result: default: False [-3.30 / 50.00];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	FREEMAIL_TO(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	MIME_TRACE(0.00)[0:+];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
+	TO_DN_SOME(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
 	RCVD_TLS_ALL(0.00)[];
@@ -112,22 +114,84 @@ X-Spam-Score: -3.30
 X-Spam-Level: 
 X-Spam-Flag: NO
 
-On Fri, 16 Oct 2026 01:22:10 +0200,
-Imtiaz Chowdhury wrote:
+On Fri, 16 Oct 2026 01:48:03 +0200,
+Joonho Lee wrote:
 > 
-> On the HP ENVY Laptop 13-ba1xxx, the F5 and F8 key's LED were not
-> working at all.
+> Capture drain can leave final frames buffered after the device stops.
+> This series lets userspace read those frames and refreshes the linked
+> streams' hardware pointers before drain-init.
 > 
-> Add a quirk for subsystem ID 0x8820 so it uses the existing
-> ALC245_FIXUP_HP_X360_MUTE_LEDS fixup, as done for the 13-ba0xxx.
+> Patch 1 allows capture reads in DRAINING, preserves the unread count when
+> waking a blocked reader, and finishes capture with snd_pcm_drain_done()
+> so linked playback can continue draining. DELAY and SYNC_PTR(HWSYNC) use
+> the cached final capture pointer after capture stops.
 > 
-> Tested on HP ENVY Laptop 13-ba1063cl: F5 and F8 LED lights work as
-> intended. Checked the audio systems both with headphones and no
-> headphones, and there were no issues.
+> Patch 2 refreshes each running member under its stream lock while holding
+> snd_pcm_link_rwsem for reading. It updates both playback and capture,
+> after the existing pause-resume step. The pause and drain-init actions
+> remain outside the link rwsem. Pointer errors follow the normal XRUN
+> path and return -EPIPE before drain-init.
 > 
-> Signed-off-by: Imtiaz Chowdhury <imtiazc56@gmail.com>
+> Changes since RFC v4:
+> - Submit as a non-RFC series following Takashi's response.
+> - No changes to either patch body, including the commit message, diff,
+>   and existing trailers. This cover and the mail headers are updated.
+> 
+> Takashi said both patches look OK and that he can try merging a non-RFC
+> series:
+> https://lore.kernel.org/all/87ld7z6jsk.wl-tiwai@suse.de/
+> Previous RFC v4:
+> https://lore.kernel.org/all/rfc-v4-core-capture-drain-0.b56779f7976d4657@gmail.com/
+> Implementation and test discussion:
+> https://lore.kernel.org/all/core-drain-helper-reply.0c1099dbd0ca4a37@gmail.com/
+> 
+> The five-patch virtio-snd lifetime v3 series is unchanged:
+> https://lore.kernel.org/all/cover.1791881787.git.mynameisjune111@gmail.com/
+> The base and prerequisite IDs below preserve the tested integration:
+> apply the five lifetime patches, then these two core patches. Replace
+> both earlier core patches when testing this revision. Core has no
+> dependency on the generic control-wait or VZ compatibility RFC. This
+> submission does not revise either companion series.
+> 
+> The following validation is from RFC v4's unchanged source; no new
+> runtime tests were run for this mail-only revision.
+> 
+> Validation used ARM64 QEMU with KASAN and lockdep:
+> - 26 linked-stream checks passed across atomic and nonatomic modes,
+>   including paused drain, first/later member pointer errors, normal XRUN
+>   handling, tail reads, and unlink/prepare/reopen recovery.
+> - The three patch-1 failures were reproduced with the helper and the old
+>   first patch in both locking modes. All six corresponding fixed cases
+>   passed: a blocked reader received all 64 final frames, capture EOF
+>   left linked playback in DRAINING, and both position queries succeeded
+>   without another pointer callback.
+> - Four additional blocked-reader runs compared baseline and fixed modules
+>   in both modes with a stronger gate: thread sleep and a pointer callback
+>   after START. They confirmed the baseline loss and fixed 64-frame read.
+> - The 10 existing lifecycle and timeout/reset scenarios passed, including
+>   held STOP/RELEASE, SIGKILL, reset, and subsequent I/O recovery.
+> - No KASAN, lockdep, or panic diagnostics appeared in the 54 selected
+>   logs, which include the baseline behavioral-failure comparisons.
+> 
+> The full Image and modules were first built with the new helper and the
+> old first patch. After fixing the three tail issues, sound/core was
+> rebuilt with W=1 against that same configuration and symbol versions,
+> and the corrected PCM module was used for the runs above. The module
+> build had no warnings or errors. The full build had 517 existing
+> -Woverride-init warnings in arch/arm64 outside sound/. The exported v5
+> core source matches the tested source byte for byte.
+> 
+> These tests use synthetic drivers and modified fault/reset backends.
+> 
+> LLM assistance was used for implementation, reproducer development,
+> analysis, and documentation. I reviewed the changes and test evidence.
+> Assisted-by: LLM
+> 
+> Joonho Lee (2):
+>   ALSA: pcm: allow capture reads while draining
+>   ALSA: pcm: refresh linked pointers before draining
 
-Applied to for-next branch.  Thanks.
+Applied both to for-next branch now.  Thanks.
 
 
 Takashi
