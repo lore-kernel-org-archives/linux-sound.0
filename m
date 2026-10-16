@@ -1,214 +1,150 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE5803E7BCC;
-	Fri, 16 Oct 2026 09:50:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0C3A440635
+	for <linux-sound@vger.kernel.org>; Fri, 16 Oct 2026 09:57:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792144217; cv=none; b=JrGdVVbnS73Lpd6tnaKKdpHNYMCOfDhobogRkPkoM9JpsLt3Q1fxtyjANoHLIPd64xht4h3I0qBuAiK/m+5mUegVXcbpA5s4uAUwjPqd6ZATH649DGWy28gBy2GFu/6EYCTTwCLGiXq3ocB5utsZXXpNo+9vjtMIa15UpOK4Pw4=
+	t=1792144640; cv=none; b=cLplBNbiYmNJAuHZOniGCGMXUuIuxAFRQTJl8WGxiWO7mFtLud5icyU6Z1wtYDIwk0FJggtj+HDjmwytK0iVLPWZTRdW0GbdC5Yh+s9HKobRjnT3XbnVVnFtRPdPyyJR8Go5qyeYEB/3GNp7RkrZatS8Gp0z9cx3m40oqTGlE8Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792144217; c=relaxed/simple;
-	bh=+VH1b7dp2UsdCVDoqNXSe/YT+zOlGcVeF1CesZixEAc=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=EdsYi/5EW+AZmOR6+gjqij+haAQGGqW+CB9xJtNUsSne8Wp3ZfRZBIQ4zzfmIzJyPLOo1+D05fN+riIJU9Eh7X1xvyNp5GCVv70hYXPxq1iRyqcqLTGxAll2pcHcWxL7phArOtKQ1XaT0zNjYVToCr6xE7agj3+sVYb9u6ziNL8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZZw889mC; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792144640; c=relaxed/simple;
+	bh=SoGz1wR1Wyop2Qvinvrnk3+hvBdaIxCKNnO4HMCC00g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=TCdJfKQwTWdXBEeolj2FQbTfQ2AihugC0mNMGQOFGdQNpmMpWqCtpiAU08wx6VQZn+6sEVD52VB4GKmeaKZhQlp5Zdp0+1nPLYCHs7qq16j46pdtMLkN+SNLPPFfLIUo50eLQIG/+U+4/EpuoQtKDXCQO7ZGW0bA0xlqvFvIDvc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=QVdD24u4; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=e8bqxDMQ; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZZw889mC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 235FF1F000C5;
-	Fri, 16 Oct 2026 09:50:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792144215;
-	bh=gmAXQRJlfTpv2jTp8nNfSmRL3tsHK2nxYIuDqbrD0Ek=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References;
-	b=ZZw889mC+isr1n52Ro8ZqOkARCfLgZGZlxgQX/PBUXte5V6WOxk8TbSwl81mnAfjn
-	 wf+LT4CmzCZyFEI5LxWGEBDPNb95bnHWLgBc7bKMVgbty2QEL//1S2CqyT/Fj9wzQQ
-	 R9wEb2oxlz0NFaatGse3eXtjVdLybifkzzxL2Fjy8nYCbkJcrHjmhXJIfnOuP7dvok
-	 boExSY+GVrFepyinT+zKKhs4QlAujaPF5hd3jpTECt1c9U01UhaLF0kIXAHZ/sKo85
-	 Cfp/nucdAlJsGtFMRk1uiVnfN5YO5+MJYEyz80KN+ptK+8/tYwYNUtsCIkWIDv/MFK
-	 iDM1XZzRap0Wg==
-Date: Fri, 16 Oct 2026 11:50:13 +0200 (CEST)
-From: Jiri Kosina <jikos@kernel.org>
-To: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-cc: Benjamin Tissoires <bentiss@kernel.org>, tiwai@suse.de, tiwai@suse.com, 
-    perex@perex.cz, linux-input@vger.kernel.org, linux-sound@vger.kernel.org, 
-    linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8 0/2] the Topping M62's vendor controls, on the component
- framework
-In-Reply-To: <20261003184217.34671-1-mikhail.v.gavrilov@gmail.com>
-Message-ID: <65584p23-91oo-r3o9-84po-7r7679278pn8@xreary.bet>
-References: <20261003184217.34671-1-mikhail.v.gavrilov@gmail.com>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="QVdD24u4";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="e8bqxDMQ"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69G8lW692815463
+	for <linux-sound@vger.kernel.org>; Fri, 16 Oct 2026 09:57:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	vEZuI1yyPm/8RNp/MlW2xnhdHbaQCPMJNbR/Nh1GbqE=; b=QVdD24u43PumWTel
+	YctVLY1o7YRrIGcwJaLWaaWHvTCPzmn5XBlaTC+kEWDuAH6XV/FiOmv/seM8tNDe
+	B1Q+FLkykpmmPEGEcOkfyfZoztJt4NviHuj1OYY6w0Kh8NRli6ZAgTuaiDfekdTD
+	FJVpXzHokZ0yu5KqUPmKb4SWIfBqOLYmD2tj7xsUXpa8aISTiX3uLXzrVFfMHGaF
+	2prxEbQvO0PZ9kHk+4+DYBTduBVuh8T/qeHtafg13xCgHvEnVzbKKR32QuqaHWU7
+	2978+hprQFDnDgOVoPC5XS3kvheFbARpp+jRxpkrtjLVYR0kJIzhlMIGWYDVdl3u
+	WxWODg==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hb8r120rb-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Fri, 16 Oct 2026 09:57:18 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-93ea8a9cfe6so114436085a.2
+        for <linux-sound@vger.kernel.org>; Fri, 16 Oct 2026 02:57:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1792144638; x=1792749438; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=vEZuI1yyPm/8RNp/MlW2xnhdHbaQCPMJNbR/Nh1GbqE=;
+        b=e8bqxDMQNq8FYwEDdMI1z56qB+1J0nsuZUZ9/B+uQ15quA8/WanVtk8Mwfrq7mVngj
+         j+eu//bmZFwhkolHvQFiU0stGOMhdDBCzBAuHO4H+InS7oUB+a+4cZXx8hLyd3AyOMGb
+         J+7blz2kNFSLdsYJP20cksDwYvBZ7ncoDjFcjUce5pxFuHYZvHhR4oFM7NTwkSVT8tcq
+         V9NSfvSEqceoICMDAc84j1u/5nA2QJDgVmstpXTuiQH0tVYBq6kTVyGO/GL7lvVpFIYr
+         LMPIxem6VK+0vFyOMfUAeVFD5KPvI/AVi4bq+19rnbrNtHEU5A7FRtbUH31jgaYj7lVc
+         vPeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792144638; x=1792749438;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=vEZuI1yyPm/8RNp/MlW2xnhdHbaQCPMJNbR/Nh1GbqE=;
+        b=L9w6LKGKZe9B7aGKaay28bB1cZuWxLt23P5zHggMsgoE2YPhAviP+RRVZKHZpfLiV7
+         +44qEah8rxkKRwEKEjhFESLnizvqDwuTWo+qX6wWcU7082CC0+8v6vm6Z2HwQ3ehOeUO
+         QyCRXY8A+0eWVGRSVVmz2U07ojPm2Xo+Ubv80Jf6j9wRPJr/7hVmDihJOe9hYoTBnQtf
+         TAMH8owSHK2kyxU3MgAUGaMi1cWQC5ciwKH+Re1ahjakccHkBhqdEM7KV2ll+0PZEfS5
+         +5nyStnONHZzaVjdi/XmCfdSjYLlrO0nmiaVakuuEwjWhYVgygFU1oJdWk0Rrnp2eMWf
+         43tw==
+X-Forwarded-Encrypted: i=1; AKwUvBwg13ue5GgWD9/XBTfREZAJwNQVaonQabVHpPuUQCrZBiBXFMn0NX5XLpm4Subl7uC+rGZPSbNxf+0LBw==@vger.kernel.org
+X-Gm-Message-State: AFq9FYKqwoOoXzUn0E1KDfYQcAHMSbjcn7sA5OgHzfi+YDW64+HSIcAl
+	P2EUecEZcTlqkIPqCPJTBvYlB2C4ZRmaf6HLJn01jBj+C5+657527XA4+6otHvS04n1fkUog2By
+	MqTvMDsV0FJhsVG9pOQBOIdFy9o7pqmF3k5eyYDoh2N/5T15bW8iWImAZvM9RkjY5yQ==
+X-Gm-Gg: AYBFou34fuik0pyS4o7z+qJdlBx9okTH6Na4OBRi8umZzUxULG81OihVFPf5wkS2P4O
+	jc2xIdmGldwtT0w9/wdpYCPIe/VBje5qQp9x/wdxH3y7ZyHCp4y2aAggCUlo8HZYh8BCyBwhKE2
+	bSLDpDtNX6LuhBXZas3G5a+DyNmAIFip72Esk4pbWuNeFAMxhTFsr0zm537YXmbsUVW5by6Rw38
+	Dbxbg9ofcQOJL3ErwWGa83Ud5xRbJYJfbklepLKF14FKiMlvsGR5GMllubo/QDpn8qJrbPSttYo
+	lCCq3Gw+vEsT7BnYwquBgiG52I7eI5TJISLuvn4y0/hoTBq7updZD1f7gFbM4bo44I2pLH8osHk
+	NlzIm5m8SQ8WGPV0fcHEymA==
+X-Received: by 2002:a05:620a:6506:b0:93e:508b:7800 with SMTP id af79cd13be357-93ebcd29970mr3687800285a.0.1792144637718;
+        Fri, 16 Oct 2026 02:57:17 -0700 (PDT)
+X-Received: by 2002:a05:620a:6506:b0:93e:508b:7800 with SMTP id af79cd13be357-93ebcd29970mr3687797785a.0.1792144637202;
+        Fri, 16 Oct 2026 02:57:17 -0700 (PDT)
+Received: from [192.168.226.26] ([178.235.128.140])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c4090dcf98fsm54523466b.13.2026.10.16.02.57.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 16 Oct 2026 02:57:16 -0700 (PDT)
+Message-ID: <2ee02f35-3dc8-4448-aa30-331932a40629@oss.qualcomm.com>
+Date: Fri, 16 Oct 2026 11:57:13 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 08/11] arm64: dts: qcom: sdm670-google: enable adsp
+To: Richard Acayan <mailingradian@gmail.com>,
+        Jassi Brar <jassisinghbrar@gmail.com>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Abel Vesa <abelvesa@kernel.org>,
+        Srinivas Kandagatla <srini@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Andy Gross <agross@kernel.org>, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+        linux-sound@vger.kernel.org
+References: <20261003175659.23536-1-mailingradian@gmail.com>
+ <20261003175659.23536-9-mailingradian@gmail.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20261003175659.23536-9-mailingradian@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: tHlc3h9LOzEr2wbZj85ytY9F8Hi_L7Gp
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDE2MDAzOSBTYWx0ZWRfXzZZ8oJ9kAiMt
+ Adv7VNIs7+U/bi8JRSqXLN5Z5+aejuVyzkRpZ8aOY8KHXm8TztZl8aMFUSqGDz/K1l3wT9Fik7r
+ OJNfprvXnZmLVsxGFu1lGTinzTf8cQ8=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDE2MDAzOSBTYWx0ZWRfXzaViUHfEmUJ5
+ SHmQ6dV3l7vOhxmjC43vve45tpMa3jeZZJ6EFtAxPh3CbuLZ9ruX+rgUYwP+jRfez37aM1tiicI
+ 0UFLoQwbk/TWYWt/2NRIYgTPl0egybLqXlgdH3SzFNmoDSV2b39MUBkQ2e564nGhJZ1DoFGzlvC
+ 1bYqF6zO3XiUaVyu5Jz3N82JjYFOzLatzKtvJWJMfh1CR61k9PdttALXcmGW8slj+ZF2eaQw0Oj
+ vz87hlFiTDgQRjvyNgod4apcjpjk7Dvrh8Jt7Mc3cwZe0sXBnF4PKLyV13nJrgIY2TSrTZ9MFNq
+ ZcnO6ig2bqQqkEccuDtchKZNEVSG3fKU7JPnhzHwiJ5B7zjDXixWLhpmlbusH63v2seQJ2hzAel
+ fGA8Co1FTop/ET5bcHmLWS0rFuL7X0lE52h/SWaoWog43oSHCH+q7FfSFIQYj1qLeRyNbaV428B
+ AqVFdaTrm1wmBkwHksA==
+X-Proofpoint-GUID: tHlc3h9LOzEr2wbZj85ytY9F8Hi_L7Gp
+X-Authority-Analysis: v=2.4 cv=L/CI0OT8 c=1 sm=1 tr=0 ts=6ad1f4fe cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
+ a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22
+ a=pGLkceISAAAA:8 a=EUspDBNiAAAA:8 a=1DDleCVHwAjOA7h17fsA:9 a=QEXdDO2ut3YA:10
+ a=Ql4v02ufxVEA:10 a=bTQJ7kPSJx9SKPbeHEYW:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-10-14_01,2026-10-14_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 clxscore=1015 malwarescore=0 spamscore=0 priorityscore=1501
+ lowpriorityscore=0 impostorscore=0 phishscore=0 adultscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610080000 definitions=main-2610160039
 
-On Sat, 3 Oct 2026, Mikhail Gavrilov wrote:
+On 10/3/26 7:56 PM, Richard Acayan wrote:
+> Enable the ADSP on the Pixel 3a in anticipation of audio support.
+> 
+> Signed-off-by: Richard Acayan <mailingradian@gmail.com>
+> ---
 
-> The Topping M62 keeps its analogue input gains, output volumes and
-> output source selectors behind a vendor protocol on a HID interface,
-> outside the USB Audio Class. On Linux they can only be set by hand on
-> the front panel; the one capture gain snd-usb-audio exposes is a
-> digital trim after the converter.
-> 
-> This series makes them ordinary ALSA controls on the card
-> snd-usb-audio already creates. 1/2 is a HID driver that carries the
-> protocol. 2/2 adds the controls to the M62's mixer quirk, which is
-> also the component master the HID driver binds to.
-> 
-> Two things change since v7.
-> 
-> The controls now live as long as the card. In v7 the HID driver
-> created them on the card it was handed at bind and removed them at
-> unbind, so reloading it was visible to everything holding the card:
-> the controls came back with new numids, a stored alsactl state no
-> longer matched them -- and restore then fell back to its generic init,
-> which sets any "Headphone Playback Volume" to -20 dB, here the
-> analogue headphone stage -- a sound server kept the elements it had
-> already enumerated, and a volume the card was still holding read as
-> zero. Now the controls are snd-usb-audio's and the HID driver is the
-> transport: it fills in an ops structure the master owns, in the shape
-> of struct drm_audio_component (new: include/sound/topping.h), and
-> passes on what the card reports. Unbinding it changes nothing about
-> the controls, not even their active flag, since alsa-lib's simple
-> mixer handles an INFO event by removing the element and adding it
-> again -- the very churn this is meant to spare a sound server. A value
-> written meanwhile is kept, and the next bind writes it back. Controls
-> are no longer removed from a live card either, which is what set off
-> the alsa-lib heap corruption described in the v7 cover letter.
-> 
-> The selectors no longer have an "Unknown" item. The card never reports
-> a source selector, and reports an output volume only when its knob
-> turns. Topping were asked for a command that reads the selection and
-> declined to provide one or to commit to adding one. So the driver now
-> sets what it cannot read: at the first bind each output listens to
-> Playback 1/2, the analogue headphone volume starts at its quiet end --
-> what init_cur_mix_raw() does for a volume it cannot read -- and the
-> OTG stream at unity. alsactl and the sound server override these as
-> soon as the card appears, and after a resume they are written again
-> from the cache.
-> 
-> On the tree question: 2/2 includes the header 1/2 adds, so it builds
-> only on top of 1/2; at run time neither needs the other. 1/2 alone
-> binds, subscribes and passes nothing on; 2/2 alone registers a master
-> that never matches.
-> 
-> Changes since v7
-> (https://lore.kernel.org/all/20260930213322.32454-1-mikhail.v.gavrilov@gmail.com/):
-> 
->   - the controls, their table, tapers and cache moved from
->     hid-topping-m62 into sound/usb/mixer_topping.c; the HID driver
->     keeps the frame, the subscription and the power management, and
->     hands the audio side every valid frame;
->   - include/sound/topping.h is the interface between the two;
->   - the HID driver is now hid-topping, CONFIG_HID_TOPPING: captures of
->     Topping's own application driving their E2x2 OTG show the same
->     frame, and a module name is hard to change once it has been
->     released;
->   - the controls survive the HID driver's unbind without an event, and
->     a write made while it is unbound reaches the card at the next bind;
->   - the "Unknown" item is gone; what the card does not report is
->     written at the first bind and after a resume;
->   - a gain the card has not reported and nobody has set is left alone
->     at a rebind rather than written as the zero the cache holds.
-> 
-> Sashiko's question on v7 2/2, whether topping_private_free() can race
-> the devres unwind of a failed probe, applies to this version
-> unchanged, and so does the answer: both run under the usb_device lock
-> (https://lore.kernel.org/all/20260930224954.121402-1-mikhail.v.gavrilov@gmail.com/).
-> 
-> Tested
-> 
-> Fedora, 7.3.0-rc5-e767a4ea70a3 plus this series, with KASAN (generic),
-> lockdep and UBSAN; M62 firmware V87.05.45.48.27, bcdDevice 3.27. Both
-> loaded modules, hid-topping and snd-usb-audio, were matched against
-> the installed files by build ID, and the new source files in the tree
-> they were built from against these patches. Two M62s were connected
-> throughout, the second on other firmware, bcdDevice 1.45; the runs
-> below address the first unless they say otherwise.
-> 
-> A reboot with both connected: hid-topping bound the two at 11.6 and
-> 11.7 s, and the components were bound at 27.3 and 34.0 s from inside
-> snd-usb-audio's probe, each card to the HID device of its own unit, so
-> the nine controls existed before either card was registered -- numids
-> 11 to 19 on the first card, 12 to 20 on the second, whose USB Audio
-> Class part has one control more; the first card's headphone selector
-> with fourteen items, on Playback 1/2.
-> 
-> Module unload and load against the live cards with PipeWire running:
-> "amixer -c M62 contents" was identical before and after, and "wpctl
-> get-volume @DEFAULT_AUDIO_SINK@" read 0.29 before and after.
-> 
-> Fifty further cycles of module unload and load, one second apart, with
-> PipeWire running on an alsa-lib that carries the remap fix: a hundred
-> binds, two per cycle; WirePlumber was never restarted by systemd, and
-> nothing on the system dumped core.
-> 
-> With the card's headphone volume at 20, "Headphone Playback Volume"
-> set to 30 while hid-topping was unloaded read 30 after the module was
-> loaded again, and one step of the front-panel knob then brought the
-> card's own report of 31: the new bind had written 30 to the card.
-> 
-> "alsactl restore M62" exits 0, with no fallback to the generic init,
-> before and after a system suspend to RAM. Around a second suspend, one
-> step of a card's headphone knob moved that card's "Headphone Playback
-> Volume" by one and left the other card's alone -- before the suspend
-> on the first card, after it on both.
-> 
-> The first card's cable pulled out while audio was playing: one failed
-> URB submission from snd-usb-audio, the disconnect, and nothing else;
-> plugged back in, the HID driver and the component bound again within
-> a second. The second card was not disturbed.
-> 
-> The cable pulled out again while a loop wrote 30 and 31 into
-> "Headphone Playback Volume" back to back: five writes during the pull
-> returned EPROTO to amixer, then the card was gone. The log held the
-> disconnect and nothing else, and both bound again within a second of
-> the plug going back in. The second card's cable pulled out once as
-> well: the disconnect alone, and both bound again within a second of
-> the plug going back in.
-> 
-> No WARNING, BUG, KASAN, UBSAN, lockdep report or call trace in the
-> kernel log of the whole boot.
-> 
-> Not re-run for v8, after passing on v7: Mobile Mode without a UCM
-> profile.
-> 
-> Not tested:
-> 
->   - the reload cycles with stock alsa-lib: this machine carries the
->     remap fix;
->   - the HID driver binding after the card has registered, so that the
->     restorers run before the controls exist: on every boot here the HID
->     driver bound first;
->   - the write-back after a resume of what the card does not report,
->     which changes nothing a control shows and was not listened for;
->   - an audio-side unbind and rebind with the HID driver left bound;
->   - hibernation, and with it .reset_resume, which shares
->     topping_resume() with .resume: this machine powers off instead of
->     saving an image, for reasons unrelated to this series;
->   - kmemleak, compiled in here but disabled at boot;
->   - a card whose battery has run down;
->   - a big-endian host.
-> 
-> Mikhail Gavrilov (2):
->   HID: topping: transport for the M62's vendor controls
->   ALSA: usb-audio: add the Topping M62's vendor controls
-> 
->  MAINTAINERS               |  10 +
->  drivers/hid/Kconfig       |  20 +
->  drivers/hid/Makefile      |   1 +
->  drivers/hid/hid-ids.h     |   3 +
->  drivers/hid/hid-quirks.c  |   3 +
->  drivers/hid/hid-topping.c | 498 +++++++++++++++++++++
+Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
-Acked-by: Jiri Kosina <jkosina@suse.com>
-
-Takashi, will you take the whole lot through alsa tree?
-
--- 
-Jiri Kosina
-SUSE Labs
-
+Konrad
