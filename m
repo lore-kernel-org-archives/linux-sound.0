@@ -1,148 +1,337 @@
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D2F848124C
-	for <linux-sound@vger.kernel.org>; Fri, 16 Oct 2026 12:50:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 387C147C118
+	for <linux-sound@vger.kernel.org>; Fri, 16 Oct 2026 12:51:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.180
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792155019; cv=pass; b=QJqOQ0MMsssQGK6a/NsxHLCr88Pqhv445P6cFpuBLhisAqJa1Oj25Bi5PvRx6ppuTdFDoiJ1p7KfSnahm5fND+wteQYuNjNVcC9bxmIWsL5F3bZdIkhy2o2PfZ40kmvMno9MqvQD8bqYSho1WneeSpvpEqGL9F8wjQ7OnZ42Gos=
+	t=1792155123; cv=pass; b=WTgvh1Ci3Fjr+YwkUTQ9zO2F5qTLb6i2VqF1G2GkkqGCjYHRcyejxO5D34FBjVG7XtNmtZjJ923r/mFb2VypGFM/sd/iFXesegmd+2Yz5Enc03veUKolS1lXRjxWUFk7BIaDPVL8AaI4WgKOAtHgXdnWmRycm5+s3M3OFKGdpXc=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792155019; c=relaxed/simple;
-	bh=1MtXL9mGYyLi0fjYCHpA9fWEu6AI4NWfXD4RPwcMmmg=;
+	s=arc-20240116; t=1792155123; c=relaxed/simple;
+	bh=hKICZWLA5RsMjLO8UXLqtxxIkVmz51Vlt7o8QcZtuUw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HEt8dnI067Ud6YLdjho7S/0G6W0iiAYW5/qXLP3A6h5OUUZ+j+Enj05eZo9C6p7bn+VhrfMOKenL/s59IDbN8EerVb14u8BlaNWrwwdhHwAUDWKw5azwPZhR7J2+3SMUcQW5QOfbRA6hfAb0ViHSgnKDYryJSjLuEU+dQnIcIzg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ID0hrt41; arc=pass smtp.client-ip=209.85.128.179
+	 To:Cc:Content-Type; b=nDuyvJnmi1wlY3XfKI21LqdTux9OWt5W069VqD5MPSnk6StC7J47PjvvTaVBKSixBCVBEaSKXH9WBxC4M49zoycIB7psofQCGBpbpDFNcmMUo5kJNt8ZviIu6FOaY8+5EGdh0HSDJ+ZECNN1a72J6tWsqfNr+id4HMsEgpep+lc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rEONZ0Nz; arc=pass smtp.client-ip=209.85.128.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ID0hrt41"
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-8ab3d3c5761so53560667b3.1
-        for <linux-sound@vger.kernel.org>; Fri, 16 Oct 2026 05:50:17 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792155016; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rEONZ0Nz"
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-8b0e21048f8so10948697b3.0
+        for <linux-sound@vger.kernel.org>; Fri, 16 Oct 2026 05:51:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792155117; cv=none;
         d=google.com; s=arc-20260327;
-        b=LbCBX4JBtPS9XaZVik8NcghilR8enmAcYjMkYuaG6RwNIWh3w7X9kpAPfzrKYhEJ6c
-         9HbzEjYFSK9p+dye3WZfwsgU6Z4hk5uv/Ky3WabfSiR5RQfkLjwD0bfweIgdR0z1qkZW
-         a52EBQqvpWlTpY9FDweUcSq3Mt+APhMA/e+8h0ORPh6FeE9oY89ilBPRf98Mky520S45
-         zwRpnYcDAkZH/XVQnIJiPAu6dXP7dnQv9PL885xW0VTrpkMahEgTaer/dHVVdEYOOIOl
-         0XQk7MOmPH5I+scDEZy8H5DNOq1nUMyCyYrdhsaK7AGj6DcTpS3sSATbrFWPZ4HUeJ/y
-         Qi8g==
+        b=Hpa9nHYRLg0iJCuq6djy3VRT3E3yqe71mXzjyOQjJQbRT/l8bvwy3roLpbWnR5WoeH
+         7Gf0YOOqPl1cpsi4Jsr8vIeWV+60SC7A0C3y0iteXnYYOd5nR4ROJ/0l3jIxGEtTN/K1
+         XXFW0EJotTgN7XmpNLhfMDnpnMWfay9zzMjYV7swc30TltPrxQ20TO3kswTEdSXNilOO
+         0YiO06B72amFF2+r6QlUwnrxj7UhEhrDs5/UKs0LLWKRkm+52oCW+B2zwYZ4whDNmsJO
+         qptKvBgIPfHPXB4QX8eVAUrKWKs+GVCS8Hc2gjXGZKcuz6beaUjDGBfZg7aHsllXOsOt
+         Xt6Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=ixZiXg3DpqQLlqPnsFNiW1oZccPMNZwd2UYeKFHm514=;
-        fh=Qaiqj/PxzqiW6H0J6nDu6Tt1/MXYd93E4PvqSXpt8U4=;
-        b=gQqJaFeKpd9phD6kodBfBGvknGmBU7glqNPNiwHfPu+SEWEVZx/nZQHaruLPw+m9D1
-         juGKAbtVyRaVUUDHw+ohlm/fcCFL8r8kS6v6GC4J/pUnMXb77ktpchqsy7tLXZdwDLHW
-         6rn1FnJ1TYZZCKE7xRxqiTpvWKgsdzxxQQrkTO6SDoDBzRqxlUhvTvEqIzt7T5/qZ8qX
-         YRL9c8MorHaGgMGayyx1DsBnsiMvuWhHZkT+yoaAZlKvy93XGRWoC7BSh5E9ufznXKIN
-         ZYr9kRDwxR1skCaTgTJIkdZ/Sa4APGXlHwkRg0ZCHjrsKMXNZYpwjXV2aNPqcX9HJwOl
-         dkXg==;
+        bh=6l+1/7krsFZpRBFydVqob7OkjMRdjcgUOwpkkb3EGec=;
+        fh=DVm1zgAa4JDADow9JM3JM4qYVlFLVPSeZJGfkJygKUI=;
+        b=dFMKKxqxayysc7y4GKHHHlmPj8hgwVsQ8/ZfNHggclKAFshSHki9rIeivif/RIutAb
+         F92gmdFOkf9LnG0hu3klhQdsWP6wzKkOH1iseY+LhGaFEgBNAQTAFSMGm/uuqTPGnV0H
+         YM+LQLEyUfsP2IhhrJOmovm8epUCxP5D7KsJOk5Jahvm0iH4WGfiROk3wQ+B8OxBw6xG
+         lPNxNltK05W1Yn8dbz9Awsj6xKu2aqK/AawbJPoeFpJsXHtTnw3NRHUVtkS8b5hHoeR/
+         A3+fUtiHqcNvy7IM8y5Vy5BGE1CVGaDxAabhL+E+10UZmF4pC3sjxKJ7U/k4i//zytI+
+         yEyQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792155016; x=1792759816; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1792155117; x=1792759917; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=ixZiXg3DpqQLlqPnsFNiW1oZccPMNZwd2UYeKFHm514=;
-        b=ID0hrt41wdcA7HOdjTypyvqjK2+bp//oSrVanWKlVq+GjNEu1KvSL9Ko+A2OSqXnFz
-         dF2ojdr4b95KFJc4L7kQGdhDGK1Qu/N2O5TrS6tEdRRY79T7TKH/jEoR8IgwYUtwNDux
-         lrcxEX0obRU7r3Lgq9S63eAfC0aeditAHS/bghXiqj+qTZlErRgSkgQ+x13b1MQxRh7a
-         Z4AgUB+OqGMbBY2dGaAt2neIIQnmtJjRujhquo7OAW1NwNrNKCKoXauPvyCsbg6EvENr
-         fORFwJTxE5JQmGAJ7fnoBBupx+lHwcCxh2RxfzkexHCu/jPghxkABxXEEC+trG2lH/uy
-         OhIA==
+        bh=6l+1/7krsFZpRBFydVqob7OkjMRdjcgUOwpkkb3EGec=;
+        b=rEONZ0NzrSGIBPneXDHULbu3hv+dFUmS9zxSIvhguENiKwlIXYl+c7edgcCVqFrR7B
+         fjOlwgIvfyA4MitOkPFdlhgV7754MIJKKC8YD2fHPIU44yTlS3u0e1cRG0APTG9kmx+4
+         W0fIzIDkAFCU6qBXU//yaBmzJqkLKTYCZTYgifBVp88U+6OxaXU8wA+O3/6b2FKkHJS2
+         VJW72ZxL6rkDnHq20GfImDjJmbpX9XKQwwOi2m6CipGy4H1lO+ac3LSekVLD43nGB3cl
+         k2yN0CmXy/pEdAdCe+YKq3Toor3Ozv8Aul4npZw56cbUWKeaPCffwQFHLxGp4bFX6JLK
+         N1JQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792155016; x=1792759816;
+        d=1e100.net; s=20260707; t=1792155117; x=1792759917;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=ixZiXg3DpqQLlqPnsFNiW1oZccPMNZwd2UYeKFHm514=;
-        b=Qd1A01LIFe1lwgng7hAleUyMUuDT/uJ4t4A3d8Du6cHAZ29Qe2ggjJtHxe/bXtmPxr
-         Ut0RyW8lkj/qcZ57RhLN9epflOnnlmZ/+2TUCLnRGN+7gHMweSV+jfShaRKJhpZql2R1
-         QFAVqvTqNMYxsojXQ2Dl+uas2mqNaUOpRMvN7wD2bgR3AbTfKjXP9LaVJ/tbHxkkZ89r
-         3e4ht+DzLKYVr0qcfOjBOe/csmCJzpaw/Wd09f7bdwVNbFQsXgvdEs7fiSH3YYuUVqZt
-         3mXi26sOh4xcBiOGyRf4tPh2on9tLdjWtOLIEwZiAvdIcPrWHJUrSMtCneoU1VaKRwLh
-         /j0w==
-X-Forwarded-Encrypted: i=1; AKwUvByVRNccpIu+33ei6WZcrPQPuukaafbbxHVqj734cEpvWeNzS/HRbm8KpZA6qIINEDOth/nsckcR/j2qqQ==@vger.kernel.org
-X-Gm-Message-State: AFq9FYJRQ9MpLr3toelxEuTiSZT62MgpLGJS4dhDT+HDMZJAiByFW4IS
-	gudkaKJWZOaj4HjYZ2sHXlGFmuBucZ2eff/UJ/iZfRSlYC+w7Hcx1vAstCJy3h8mUl7s0DqCrg/
-	xafzEd62PaFObV1dfAq+XiveLSoIcodg=
-X-Gm-Gg: AYBFou1bDvODBzIUh5vf0YyH/Yb6gQmOYeyluPdw1eBaGsjKnpI1BabYY+YYWDniepJ
-	V3EZuZMo5taDRDoQUOQvKAh/nkmxM/fCp0W82mY62dEIoDnhW6ilWbPZ93Oe9mldZYlk7xaBzNi
-	laUmCf6Zk616+9dQSI8VIfApwuk+NrrqS+Z6/5qOiyKzgufUA4q8JBsLpyr6LQggUsvWFk0rge3
-	QTf+NCUBPFuxNpe008Glu5zd8SZDlObNtBkrXEOW1E+Vfz2G3tOZpFXOdTj3E+LU1c3Rx/Pogqz
-	xZ4ir+7vzKYzhqJGmU8ZZrt03sCUHvYkXGjdb5zaPOJVyj6hqL/MNas28OeGdVR4t1XAfud8H+b
-	s3T3yN5wEY8c=
-X-Received: by 2002:a05:690c:a186:b0:8b0:d36c:14f6 with SMTP id
- 00721157ae682-8b0d36c1ee8mr19025677b3.51.1792155016446; Fri, 16 Oct 2026
- 05:50:16 -0700 (PDT)
+        bh=6l+1/7krsFZpRBFydVqob7OkjMRdjcgUOwpkkb3EGec=;
+        b=u12OLYJLBUxiXTlHBdqM7II0pxWQWa7r/vb/4ucHMytvJOUtjfPUkVBRWk4bXBvfCP
+         7FpsToF9jEC60s8P6i5OjVEnKKRrquVUC1teKcSFnhRHnXc7+fy9ZCEb9o3RNtZEp2j4
+         3S0h1VMoNNF+82OcA+eAy2XfOkwUZ9t4BGL5XsQcSuS3tkgw4i9oNcC+dwltaYCi/rN/
+         5+oEalb8DQeateUeW7CNFefSi6QSIOPV59cFkLjs9J046oHqYhlbgF3JYt/3R6pdXslu
+         yXvgnTwC/bcYTGnVTnHJXZYbHTyPYsEzwo5FAMtgZdMVLkVpOMyt5NoIH58h54hYP1pL
+         jxKw==
+X-Gm-Message-State: AFq9FYI1NnxOfuOOySseEnaa7HXxwELHPwsI9E8m/D1Ei3IiznUyVokj
+	xAX4i0OIKkfZxBvUCRWbqeUFG2jjm0DNtT+jp32NOnE/R/06nyM42cfzWwMh9+5VAlZr1D8i4+s
+	Dftt2aSmS7qULXNsGpXMHo3ockMDegZxhKTbJZ5Ja4+73yuc=
+X-Gm-Gg: AYBFou3PDeKruMRhixpWl7T8XDU6rOTARZGmz/PChT/0fTpYHq1xMi+phQwHKZ3paSE
+	tN6Q3j7dHeMF0KNfLaOBzbn9EjJEvFr9ZhyVYEenYkaRYtP1vGOjTcYnGsPEkt08cSo2GxIjN0f
+	J6zITIFXPpDr1QoEE7HuWvQqulGTcrhG82/RXEutfkrERLm9uR3k1le8VApJcknwL5T/Szu5Tps
+	yjpPygoR9DDnz+bTfzpuxGFLISWgtvzgP/lJT80yi7gQf2RdsXfUe9qc0hTuK7ZaTWmfJVYdrWm
+	yWMKN4FvhNxwqVFuLuZBqTfkQNzfI/LJwymeo56dn7Z/XaJJ+SBZlPbue27h99ZWahIbevKCgYz
+	EQ+xFtQ5XVg==
+X-Received: by 2002:a05:690c:dc6:b0:8ae:b617:7113 with SMTP id
+ 00721157ae682-8b07ebf4cd1mr79810017b3.6.1792155116960; Fri, 16 Oct 2026
+ 05:51:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <pm-pmb-7364ede2179b8830f660-v2-ca37049bc2e3679bb65f@gmail.com> <87h5iluaqg.wl-tiwai@suse.de>
-In-Reply-To: <87h5iluaqg.wl-tiwai@suse.de>
+References: <pm-pmb-0d5be4c3f73a268b6e4e-v2-33b37cf9980d74d33ee3@gmail.com>
+In-Reply-To: <pm-pmb-0d5be4c3f73a268b6e4e-v2-33b37cf9980d74d33ee3@gmail.com>
 From: Cen Zhang <zzzccc427@gmail.com>
-Date: Fri, 16 Oct 2026 20:50:04 +0800
-X-Gm-Features: AclHuK_zr_wz7gkffPgcSUdCxRifxJeRFC54lcCq55oDX3Fga1mI679bJ9E-H0o
-Message-ID: <CAFRLqsUi3te_Dq=o8jDCQyXMO+OmjEKMqa7n8KiRLbifRuHnsQ@mail.gmail.com>
-Subject: Re: [PATCH] ALSA: dummy: Refresh the CD capture switch before use
-To: Takashi Iwai <tiwai@suse.de>
-Cc: perex@perex.cz, tiwai@suse.com, thomas.weissschuh@linutronix.de, 
-	kees@kernel.org, phucduc.bui@gmail.com, sammiee5311@gmail.com, 
-	clemens@ladisch.de, tglx@kernel.org, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, baijiaju1990@gmail.com, jjzuming@gmail.com
+Date: Fri, 16 Oct 2026 20:51:43 +0800
+X-Gm-Features: AclHuK-X737h9BghQqlTouYKUNNXRdml9Jq7Tf4Jd8ELwTClBZxo4ttj7f0oXvw
+Message-ID: <CAFRLqsXG8xb_1=UsCR-Myh-THrWLBF9JPP01AYmR19SjE-vAPQ@mail.gmail.com>
+Subject: Re: [PATCH] ALSA: dummy: Revalidate CD Volume before updating its access
+To: perex@perex.cz, tiwai@suse.com, thomas.weissschuh@linutronix.de, 
+	sammiee5311@gmail.com, tglx@kernel.org, phucduc.bui@gmail.com, 
+	kees@kernel.org, clemens@ladisch.de
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	baijiaju1990@gmail.com, jjzuming@gmail.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Takashi,
+Hi all,
 
-Takashi Iwai <tiwai@suse.de> =E4=BA=8E2026=E5=B9=B410=E6=9C=8816=E6=97=A5=
-=E5=91=A8=E4=BA=94 19:49=E5=86=99=E9=81=93=EF=BC=9A
+Cen Zhang <zzzccc427@gmail.com> =E4=BA=8E2026=E5=B9=B410=E6=9C=8816=E6=97=
+=A5=E5=91=A8=E4=BA=94 10:17=E5=86=99=E9=81=93=EF=BC=9A
 >
-> On Fri, 16 Oct 2026 04:01:10 +0200,
-> Cen Zhang wrote:
-> >
-> > The CD Capture Switch control must remain live while
-> > snd_dummy_iobox_put() updates its access flags and uses its ID for
-> > notification. snd_card_dummy_new_mixer() caches the control pointer, bu=
-t
-> > snd_ctl_remove_id() can unlink and free it without updating that cache.
-> >
-> > This requires a kernel caller to remove the switch while the dummy card
-> > stays connected and External I/O Box remains writable. Userspace
-> > ELEM_REMOVE rejects this driver control because it lacks
-> > SNDRV_CTL_ELEM_ACCESS_USER.
+> The CD Volume control must remain live while snd_dummy_iobox_put()
+> updates its access flags and sends an INFO notification. The mixer
+> constructor caches a raw pointer to that control, but removing it does
+> not invalidate the cached pointer.
 >
-> So, the removal shouldn't happen, but...
+> This can happen when a kernel client removes CD Volume through
+> snd_ctl_remove_id() while the dummy card remains connected and External
+> I/O Box is still present. Userspace ELEM_REMOVE rejects this driver
+> control, so a kernel control-removal caller is required. With I/O Box
+> initially set to 1, the following ordering is possible:
 >
-> > With I/O Box initially 1 and CD Volume still
-> > present, the following ordered sequence is possible:
-> >
-> >   1. snd_ctl_remove_id() takes controls_rwsem for write, finds and
-> >      unlinks CD Capture Switch, sends removal notifications and calls
-> >      snd_ctl_free_one(), then drops the semaphore and returns.
+>   1. The kernel client takes controls_rwsem for write in
+>      snd_ctl_remove_id(). __snd_ctl_remove() unlinks CD Volume, sends
+>      REMOVE notifications and frees it through snd_ctl_free_one(). The
+>      semaphore is released and removal returns.
+>   2. After removal returns, a native ELEM_WRITE changes External I/O Box
+>      from 1 to 0. snd_ctl_elem_write() takes controls_rwsem for write
+>      and calls snd_dummy_iobox_put(), which follows the cached CD Volume
+>      pointer to update vd[0].access.
 >
-> ... how this happens at all?  Unless 1 really happens, the rest are
-> fictional dreams.
+> The access update starts with a use-after-free read. The subsequent
+> write and notification ID access also use the freed allocation. The
+> semaphore serializes removal and the callback, but does not preserve a
+> control removed before callback entry.
 >
-> The same for another dummy driver patch.  Does it really happen at
-> all?
+> Save the control ID after successful addition and look it up again
+> inside snd_dummy_iobox_put(). The existing control-write semaphore keeps
+> a found control live through the access update and INFO notification.
+> Skip those operations when the lookup fails, preserving the I/O Box
+> value change and the surviving control's update.
 >
+> KASAN report as below:
 >
-> thanks,
+>     BUG: KASAN: slab-use-after-free in snd_dummy_iobox_put+0x391/0x440 [s=
+nd_dummy]
+>     Read of size 4 at addr ffff88810d8b4c98 by task alsa-trigger/415
 >
-> Takashi
+>     CPU: 0 UID: 0 PID: 415 Comm: alsa-trigger Tainted: G           O     =
+   7.2.0-rc6-pmb-bt-functional-v1+ #1 PREEMPT(lazy)
+>     Tainted: [O]=3DOOT_MODULE
+>     Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix,=
+ 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+>     Call Trace:
+>      <TASK>
+>      dump_stack_lvl+0x93/0xd0
+>      print_report+0xce/0x630
+>      ? snd_dummy_iobox_put+0x391/0x440 [snd_dummy]
+>      ? srso_alias_return_thunk+0x5/0xfbef5
+>      ? __virt_addr_valid+0x20d/0x410
+>      ? snd_dummy_iobox_put+0x391/0x440 [snd_dummy]
+>      kasan_report+0xe0/0x110
+>      ? snd_dummy_iobox_put+0x391/0x440 [snd_dummy]
+>      snd_dummy_iobox_put+0x391/0x440 [snd_dummy]
+>      snd_ctl_elem_write+0x376/0x5a0
+>      snd_ctl_ioctl+0x997/0xdd0
+>      ? __pfx_snd_ctl_ioctl+0x10/0x10
+>      ? __pfx_do_sys_openat2+0x10/0x10
+>      ? srso_alias_return_thunk+0x5/0xfbef5
+>      ? selinux_file_ioctl+0xaa/0x280
+>      ? __pfx_snd_ctl_ioctl+0x10/0x10
+>      __x64_sys_ioctl+0x163/0x1d0
+>      do_syscall_64+0x115/0x6a0
+>      entry_SYSCALL_64_after_hwframe+0x77/0x7f
+>     RIP: 0033:0x7fc9c21a991b
+>     Code: 00 48 89 44 24 18 31 c0 48 8d 44 24 60 c7 04 24 10 00 00 00 48 =
+89 44 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 00 00 00 0f 05 <89> c2 3d 0=
+0 f0 ff ff 77 1c 48 8b 44 24 18 64 48 2b 04 25 28 00 00
+>     RSP: 002b:00007ffc08d51f80 EFLAGS: 00000246 ORIG_RAX: 000000000000001=
+0
+>     RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 00007fc9c21a991b
+>     RDX: 00007ffc08d51fe0 RSI: 00000000c4c85513 RDI: 0000000000000003
+>     RBP: 0000000000000004 R08: 0000000000000000 R09: 0000000000000000
+>     R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+>     R13: 00007ffc08d52600 R14: 00007fc9c22d8000 R15: 00005578bae81d58
+>      </TASK>
+>
+>     Allocated by task 415:
+>      kasan_save_stack+0x33/0x60
+>      kasan_save_track+0x14/0x30
+>      __kasan_kmalloc+0xaa/0xb0
+>      __kmalloc_noprof+0x2d7/0x770
+>      snd_ctl_new+0x51/0x190
+>      snd_ctl_new1+0x13c/0x650
+>      snd_dummy_probe+0xba5/0x1240 [snd_dummy]
+>      platform_probe+0xbe/0x1d0
+>      really_probe+0x21f/0xa90
+>      __driver_probe_device+0x1ec/0x490
+>      driver_probe_device+0x4f/0x130
+>      __device_attach_driver+0x1d2/0x2e0
+>      bus_for_each_drv+0x155/0x1d0
+>      __device_attach+0x1c3/0x490
+>      device_initial_probe+0x96/0xb0
+>      bus_probe_device+0x69/0x160
+>      device_add+0xfff/0x1700
+>      platform_device_add+0x318/0x7b0
+>      platform_device_register_full+0x596/0x7b0
+>      pmbd_remove_cd_exit+0x12a/0xf90 [remove_cd]
+>      do_one_initcall+0xf3/0x4e0
+>      do_init_module+0x281/0x8e0
+>      load_module+0x658c/0x7cc0
+>      init_module_from_file+0x15b/0x180
+>      idempotent_init_module+0x22d/0x770
+>      __x64_sys_finit_module+0xd2/0x160
+>      do_syscall_64+0x115/0x6a0
+>      entry_SYSCALL_64_after_hwframe+0x77/0x7f
+>
+>     Freed by task 415:
+>      kasan_save_stack+0x33/0x60
+>      kasan_save_track+0x14/0x30
+>      kasan_save_free_info+0x3b/0x60
+>      __kasan_slab_free+0x5f/0x80
+>      kfree+0x307/0x580
+>      snd_ctl_free_one+0x6b/0x110
+>      __snd_ctl_remove+0x26f/0x360
+>      snd_ctl_remove_id+0x4f/0x70
+>      0xffffffffc04060c9
+>      do_one_initcall+0xf3/0x4e0
+>      do_init_module+0x281/0x8e0
+>      load_module+0x658c/0x7cc0
+>      init_module_from_file+0x15b/0x180
+>      idempotent_init_module+0x22d/0x770
+>      __x64_sys_finit_module+0xd2/0x160
+>      do_syscall_64+0x115/0x6a0
+>      entry_SYSCALL_64_after_hwframe+0x77/0x7f
+>
+>     The buggy address belongs to the object at ffff88810d8b4c00
+>      which belongs to the cache kmalloc-192 of size 192
+>     The buggy address is located 152 bytes inside of
+>      freed 192-byte region [ffff88810d8b4c00, ffff88810d8b4cc0)
+>
+>     The buggy address belongs to the physical page:
+>     page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x=
+10d8b4
+>     flags: 0x200000000000000(node=3D0|zone=3D2)
+>     page_type: f5(slab)
+>     raw: 0200000000000000 ffff8881000423c0 dead000000000122 0000000000000=
+000
+>     raw: 0000000000000000 0000000000100010 00000000f5000000 0000000000000=
+000
+>     page dumped because: kasan: bad access detected
+>
+>     Memory state around the buggy address:
+>      ffff88810d8b4b80: 00 00 00 00 fc fc fc fc fc fc fc fc fc fc fc fc
+>      ffff88810d8b4c00: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>     >ffff88810d8b4c80: fb fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
+>                                 ^
+>      ffff88810d8b4d00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>      ffff88810d8b4d80: 00 00 00 00 fc fc fc fc fc fc fc fc fc fc fc fc
+>     =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+> Fixes: 16e434670e95 ("ALSA: dummy: allow disabling mixer controls")
+> Assisted-by: LLM
+> Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
+> ---
+>
+> diff --git a/sound/drivers/dummy.c b/sound/drivers/dummy.c
+> index 6b0a06e5c87638264e5d22deda1fe4bc028febe7..d422fb3fa25d1279df2e971e0=
+f5546a329db4049 100644
+> --- a/sound/drivers/dummy.c
+> +++ b/sound/drivers/dummy.c
+> @@ -134,7 +134,7 @@ struct snd_dummy {
+>         int mixer_volume[MIXER_ADDR_LAST+1][2];
+>         int capture_source[MIXER_ADDR_LAST+1][2];
+>         int iobox;
+> -       struct snd_kcontrol *cd_volume_ctl;
+> +       struct snd_ctl_elem_id cd_volume_id;
+>         struct snd_kcontrol *cd_switch_ctl;
+>  };
+>
+> @@ -836,6 +836,7 @@ static int snd_dummy_iobox_put(struct snd_kcontrol *k=
+control,
+>                                struct snd_ctl_elem_value *value)
+>  {
+>         struct snd_dummy *dummy =3D snd_kcontrol_chip(kcontrol);
+> +       struct snd_kcontrol *cd_volume_ctl;
+>         int changed;
+>
+>         if (value->value.enumerated.item[0] > 1)
+> @@ -845,20 +846,27 @@ static int snd_dummy_iobox_put(struct snd_kcontrol =
+*kcontrol,
+>         if (changed) {
+>                 dummy->iobox =3D value->value.enumerated.item[0];
+>
+> +               /* The control-write path holds controls_rwsem. */
+> +               cd_volume_ctl =3D snd_ctl_find_id(dummy->card,
+> +                                               &dummy->cd_volume_id);
+>                 if (dummy->iobox) {
+> -                       dummy->cd_volume_ctl->vd[0].access &=3D
+> -                               ~SNDRV_CTL_ELEM_ACCESS_INACTIVE;
+> +                       if (cd_volume_ctl)
+> +                               cd_volume_ctl->vd[0].access &=3D
+> +                                       ~SNDRV_CTL_ELEM_ACCESS_INACTIVE;
+>                         dummy->cd_switch_ctl->vd[0].access &=3D
+>                                 ~SNDRV_CTL_ELEM_ACCESS_INACTIVE;
+>                 } else {
+> -                       dummy->cd_volume_ctl->vd[0].access |=3D
+> -                               SNDRV_CTL_ELEM_ACCESS_INACTIVE;
+> +                       if (cd_volume_ctl)
+> +                               cd_volume_ctl->vd[0].access |=3D
+> +                                       SNDRV_CTL_ELEM_ACCESS_INACTIVE;
+>                         dummy->cd_switch_ctl->vd[0].access |=3D
+>                                 SNDRV_CTL_ELEM_ACCESS_INACTIVE;
+>                 }
+>
+> -               snd_ctl_notify(dummy->card, SNDRV_CTL_EVENT_MASK_INFO,
+> -                              &dummy->cd_volume_ctl->id);
+> +               if (cd_volume_ctl)
+> +                       snd_ctl_notify(dummy->card,
+> +                                      SNDRV_CTL_EVENT_MASK_INFO,
+> +                                      &cd_volume_ctl->id);
+>                 snd_ctl_notify(dummy->card, SNDRV_CTL_EVENT_MASK_INFO,
+>                                &dummy->cd_switch_ctl->id);
+>         }
+> @@ -903,7 +911,7 @@ static int snd_card_dummy_new_mixer(struct snd_dummy =
+*dummy)
+>                 if (err < 0)
+>                         return err;
+>                 if (!strcmp(kcontrol->id.name, "CD Volume"))
+> -                       dummy->cd_volume_ctl =3D kcontrol;
+> +                       dummy->cd_volume_id =3D kcontrol->id;
+>                 else if (!strcmp(kcontrol->id.name, "CD Capture Switch"))
+>                         dummy->cd_switch_ctl =3D kcontrol;
+>
 
-Thanks very much for the review. You're right. It is AI obfuscation.
-After carefully checking the code myself, I could not find a real path
-that removes them.
+This is AI obfuscation. I'm very, very sorry for this noise. It is all my f=
+ault.
 
-I'm very, very sorry for this noise. Please disregard both patches.
-I'll be much more careful in the future.
+Sorry for this again :(
 
 Best regards,
 Cen Zhang
