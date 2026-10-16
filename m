@@ -1,87 +1,88 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85D5D3BBA0B
-	for <linux-sound@vger.kernel.org>; Fri, 16 Oct 2026 08:21:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E563836EAA4;
+	Fri, 16 Oct 2026 08:21:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792138861; cv=none; b=f2zr2tCTiNP5ovVZxSAo9i5rYZKgyL05mxMwWdOcpIBw+JUfxX0m/1PqkJXDbIbT+QX+QDQIm8KF3QKgkwqjcNmM5FxfI3Wts0NpDIfVNRk0uJzMo92uk0eV+m/CqsjEcA+Qg/dnBM5nABBF0D8Pd/RGVHY15lVPrpIACmncVfo=
+	t=1792138910; cv=none; b=LN99jxa3dujESJ7M9ZJhlAGFeRIC1B/tmrk1wAoxdEDN2EFYyzN9xBCM1dBzxhPd4YUx64ckZKRWv3T7oodVBJR3sUzju2O70AauV36FiX1HZMjOYulJzIKk0ZxXaZ1sDEgqLIAj3ZewTPa/LFeygSv33rB+NXGZ6jJIOMnDRhc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792138861; c=relaxed/simple;
-	bh=BOOkYLgUaPu0axgwVqPPQh923YwcL1wTo6GS7Rp7sGA=;
+	s=arc-20240116; t=1792138910; c=relaxed/simple;
+	bh=iH33ZwSzsKvbb294Cxd2ezlaOiKc7/eTwIgSaXukpwI=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MTg4r/oNEZ+wBoNpt99NVM1qg2Q0qpOm4UArH91Fa543Zi+0KokaQ79DHcVi+FTRphpqSofx5XyxFWeu7I/jFFB1s145lLSfL82nSVlEr0DKQmaXZaIuuv5ZzVRF4CK7e6EdNBzFDiTANZN7ZXCPNV9tf8GRWLNPG/qRT522p5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1Y0vH9yD; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gdubjBOU; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1Y0vH9yD; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gdubjBOU; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=NlCLkiQPKItINgwJhsHHcwf23F9LJyLdjQlkQBIpwnH/2ilvKPUg4Rjg9Z9vS0I7O9AcKT3zgwBhyegyGY/nL0IyVQKCTo7FRKSKQ/CH8VHVLhXXRSJITcyXsUCrszvSkPIAPfrPxDXN0upT2Dq+zgHnO0IDMfplwnOPoZss1iQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HWS1Nvmu; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=OtCMRTOn; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HWS1Nvmu; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=OtCMRTOn; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1Y0vH9yD";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gdubjBOU";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1Y0vH9yD";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gdubjBOU"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HWS1Nvmu";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="OtCMRTOn";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HWS1Nvmu";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="OtCMRTOn"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 022741F43B;
-	Fri, 16 Oct 2026 08:20:50 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id CFE041F443;
+	Fri, 16 Oct 2026 08:21:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792138850; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1792138904; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3HDGHxYDCOJkufrEMSIyp3sPGUcQk5bS4SZm0hZm9ac=;
-	b=1Y0vH9yDBziQxlw9EIOF1hm215hZ/1OJTXV7vuZzw8IKdXU+tESZo4vuXN2P48OBT42d+w
-	DhCD4rbtX0Zxaz22EAam7Dev+cJpKqUJQf1Tg7OsNZc57v3iKi0MhEgNVXmGuLdbC6guNh
-	/UrYADTURV7p+DX9M7c7AjMEpjHAQMU=
+	bh=BXuvA3my8MPg44hQq06ErEwSQHyLzkap6/ifKw/x3nE=;
+	b=HWS1Nvmuq3l124egseY7Owri46knZn0TNFqOnVUSzQDt7zQ/qJgTlKY5wT34zlDZEbkeBn
+	pG+UtqIpEK1uQRQNLSxmvyr6N7Lm4ZNBlf/0g3tO+GgZevrHUkX0xA/53pZZ93j0z3uxrW
+	0yZHzbcr8N2K46+rEQopjlXFno03xEI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792138850;
+	s=susede2_ed25519; t=1792138904;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3HDGHxYDCOJkufrEMSIyp3sPGUcQk5bS4SZm0hZm9ac=;
-	b=gdubjBOUA1cqHhws1qZuQUVL8YDtXhFeBSpeQTqUs4oW8EBMu1LMQHOLDSPHnWOQ/xw0U6
-	yUvYm/dIAxeN48Dw==
+	bh=BXuvA3my8MPg44hQq06ErEwSQHyLzkap6/ifKw/x3nE=;
+	b=OtCMRTOnshcJQahCq8ug2yfGH0EqmfobWDQQ9fNNqUVsx4VBVYJN4yVQs/psOJ5fl/Zf+o
+	f0UqXtzoIZDrT/AA==
 Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792138850; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1792138904; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3HDGHxYDCOJkufrEMSIyp3sPGUcQk5bS4SZm0hZm9ac=;
-	b=1Y0vH9yDBziQxlw9EIOF1hm215hZ/1OJTXV7vuZzw8IKdXU+tESZo4vuXN2P48OBT42d+w
-	DhCD4rbtX0Zxaz22EAam7Dev+cJpKqUJQf1Tg7OsNZc57v3iKi0MhEgNVXmGuLdbC6guNh
-	/UrYADTURV7p+DX9M7c7AjMEpjHAQMU=
+	bh=BXuvA3my8MPg44hQq06ErEwSQHyLzkap6/ifKw/x3nE=;
+	b=HWS1Nvmuq3l124egseY7Owri46knZn0TNFqOnVUSzQDt7zQ/qJgTlKY5wT34zlDZEbkeBn
+	pG+UtqIpEK1uQRQNLSxmvyr6N7Lm4ZNBlf/0g3tO+GgZevrHUkX0xA/53pZZ93j0z3uxrW
+	0yZHzbcr8N2K46+rEQopjlXFno03xEI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792138850;
+	s=susede2_ed25519; t=1792138904;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3HDGHxYDCOJkufrEMSIyp3sPGUcQk5bS4SZm0hZm9ac=;
-	b=gdubjBOUA1cqHhws1qZuQUVL8YDtXhFeBSpeQTqUs4oW8EBMu1LMQHOLDSPHnWOQ/xw0U6
-	yUvYm/dIAxeN48Dw==
+	bh=BXuvA3my8MPg44hQq06ErEwSQHyLzkap6/ifKw/x3nE=;
+	b=OtCMRTOnshcJQahCq8ug2yfGH0EqmfobWDQQ9fNNqUVsx4VBVYJN4yVQs/psOJ5fl/Zf+o
+	f0UqXtzoIZDrT/AA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A754E1339F;
-	Fri, 16 Oct 2026 08:20:49 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7A6EF1339F;
+	Fri, 16 Oct 2026 08:21:44 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 2GRaH2He0Wo4UwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 16 Oct 2026 08:20:49 +0000
-Date: Fri, 16 Oct 2026 10:20:49 +0200
-Message-ID: <87o6cu5a5a.wl-tiwai@suse.de>
+	id JGx3FJje0Wp5VAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 16 Oct 2026 08:21:44 +0000
+Date: Fri, 16 Oct 2026 10:21:44 +0200
+Message-ID: <87mrse5a3r.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Joonho Lee <mynameisjune111@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
+To: Cen Zhang <zzzccc427@gmail.com>
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	kees@kernel.org,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org
-Subject: Re: [PATCH v5 0/2] ALSA: pcm: preserve capture tail during drain
-In-Reply-To: <v5-core-capture-drain-0.e9b40d3bc08c4162@gmail.com>
-References: <v5-core-capture-drain-0.e9b40d3bc08c4162@gmail.com>
+	baijiaju1990@gmail.com,
+	jjzuming@gmail.com
+Subject: Re: [PATCH] ALSA: vmaster: Protect follower lookup and setup
+In-Reply-To: <pm-pmb-6c0b7e841529ddd0b21a-v2-b53dbcd593a7a4bd9582@gmail.com>
+References: <pm-pmb-6c0b7e841529ddd0b21a-v2-b53dbcd593a7a4bd9582@gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -96,102 +97,173 @@ X-Spamd-Result: default: False [-3.30 / 50.00];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	FREEMAIL_TO(0.00)[gmail.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_CC(0.00)[perex.cz,suse.com,kernel.org,vger.kernel.org,gmail.com];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
 X-Spam-Score: -3.30
 X-Spam-Level: 
 X-Spam-Flag: NO
 
-On Fri, 16 Oct 2026 01:48:03 +0200,
-Joonho Lee wrote:
+On Fri, 16 Oct 2026 04:02:29 +0200,
+Cen Zhang wrote:
 > 
-> Capture drain can leave final frames buffered after the device stops.
-> This series lets userspace read those frames and refreshes the linked
-> streams' hardware pointers before drain-init.
+> A control selected by snd_ctl_add_followers() must remain alive until
+> _snd_ctl_add_follower() has copied it and installed its wrapper. The
+> lookup returns a raw pointer without retaining the control, and neither
+> the short-lived list lookup lock nor the fast lookup protects later use.
 > 
-> Patch 1 allows capture reads in DRAINING, preserves the unread count when
-> waking a blocked reader, and finishes capture with snd_pcm_drain_done()
-> so linked playback can continue draining. DELAY and SYNC_PTR(HWSYNC) use
-> the cached final capture pointer after capture stops.
+> If a kernel client adds followers to a live virtual master while another
+> client removes or replaces a published follower, the following order is
+> possible, with the card and master kept alive:
 > 
-> Patch 2 refreshes each running member under its stream lock while holding
-> snd_pcm_link_rwsem for reading. It updates both playback and capture,
-> after the existing pause-resume step. The pause and drain-init actions
-> remain outside the link rwsem. Pointer errors follow the normal XRUN
-> path and return -EPIPE before drain-init.
+>   Follower setup                      Control removal
+>   snd_ctl_add_followers()
+>     snd_ctl_find_id_mixer()
+>       return follower
+>                                       snd_ctl_remove()
+>                                         down_write(controls_rwsem)
+>                                         __snd_ctl_remove()
+>                                           unlink follower
+>                                           snd_ctl_free_one(follower)
+>                                         up_write(controls_rwsem)
+>     _snd_ctl_add_follower()
+>       read follower->count
 > 
-> Changes since RFC v4:
-> - Submit as a non-RFC series following Takashi's response.
-> - No changes to either patch body, including the commit message, diff,
->   and existing trailers. This cover and the mail headers are updated.
+> Removal completes after lookup returns and before setup reads the
+> control. Since setup holds neither controls_rwsem nor a reference, the
+> count read and subsequent control copies can access freed memory.
 > 
-> Takashi said both patches look OK and that he can try merging a non-RFC
-> series:
-> https://lore.kernel.org/all/87ld7z6jsk.wl-tiwai@suse.de/
-> Previous RFC v4:
-> https://lore.kernel.org/all/rfc-v4-core-capture-drain-0.b56779f7976d4657@gmail.com/
-> Implementation and test discussion:
-> https://lore.kernel.org/all/core-drain-helper-reply.0c1099dbd0ca4a37@gmail.com/
+> Hold controls_rwsem for writing across the lookup and follower setup.
+> This prevents removal or replacement from freeing the selected control
+> until wrapper installation is complete. Write ownership also excludes
+> control callbacks while setup changes the callback and private fields.
 > 
-> The five-patch virtio-snd lifetime v3 series is unchanged:
-> https://lore.kernel.org/all/cover.1791881787.git.mynameisjune111@gmail.com/
-> The base and prerequisite IDs below preserve the tested integration:
-> apply the five lifetime patches, then these two core patches. Replace
-> both earlier core patches when testing this revision. Core has no
-> dependency on the generic control-wait or VZ compatibility RFC. This
-> submission does not revise either companion series.
+> KASAN report as below:
 > 
-> The following validation is from RFC v4's unchanged source; no new
-> runtime tests were run for this mail-only revision.
+>     BUG: KASAN: slab-use-after-free in _snd_ctl_add_follower+0x452/0x520
+>     Read of size 4 at addr ffff888107957d50 by task loadmodule/491
 > 
-> Validation used ARM64 QEMU with KASAN and lockdep:
-> - 26 linked-stream checks passed across atomic and nonatomic modes,
->   including paused drain, first/later member pointer errors, normal XRUN
->   handling, tail reads, and unlink/prepare/reopen recovery.
-> - The three patch-1 failures were reproduced with the helper and the old
->   first patch in both locking modes. All six corresponding fixed cases
->   passed: a blocked reader received all 64 final frames, capture EOF
->   left linked playback in DRAINING, and both position queries succeeded
->   without another pointer callback.
-> - Four additional blocked-reader runs compared baseline and fixed modules
->   in both modes with a stronger gate: thread sleep and a pointer callback
->   after START. They confirmed the baseline loss and fixed 64-frame read.
-> - The 10 existing lifecycle and timeout/reset scenarios passed, including
->   held STOP/RELEASE, SIGKILL, reset, and subsequent I/O recovery.
-> - No KASAN, lockdep, or panic diagnostics appeared in the 54 selected
->   logs, which include the baseline behavioral-failure comparisons.
+>     CPU: 3 UID: 0 PID: 491 Comm: loadmodule Tainted: G           O        7.2.0-rc6-pmb-bt-functional-v1+ #1 PREEMPT(lazy)
+>     Tainted: [O]=OOT_MODULE
+>     Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+>     Call Trace:
+>      <TASK>
+>      dump_stack_lvl+0x93/0xd0
+>      print_report+0xce/0x630
+>      ? _snd_ctl_add_follower+0x452/0x520
+>      ? srso_alias_return_thunk+0x5/0xfbef5
+>      ? __virt_addr_valid+0x20d/0x410
+>      ? _snd_ctl_add_follower+0x452/0x520
+>      kasan_report+0xe0/0x110
+>      ? _snd_ctl_add_follower+0x452/0x520
+>      _snd_ctl_add_follower+0x452/0x520
+>      snd_ctl_add_followers+0x153/0x2b0
+>      ? srso_alias_return_thunk+0x5/0xfbef5
+>      ? __pfx_snd_ctl_add_followers+0x10/0x10
+>      ? __might_fault+0x135/0x190
+>      ? srso_alias_return_thunk+0x5/0xfbef5
+>      ? __might_fault+0x14e/0x190
+>      ? __pfx_fixture_write+0x10/0x10 [pmbd_vmaster_fixture]
+>      fixture_write+0x174/0x1f0 [pmbd_vmaster_fixture]
+>      ? __pfx_fixture_write+0x10/0x10 [pmbd_vmaster_fixture]
+>      ? __pfx___might_resched+0x10/0x10
+>      proc_reg_write+0x1fb/0x2d0
+>      vfs_write+0x25a/0x1010
+>      ? __pfx_proc_reg_write+0x10/0x10
+>      ? kmem_cache_free+0x242/0x580
+>      ? __pfx_vfs_write+0x10/0x10
+>      ? srso_alias_return_thunk+0x5/0xfbef5
+>      ? putname+0x93/0xe0
+>      ? srso_alias_return_thunk+0x5/0xfbef5
+>      ? do_sys_openat2+0x12a/0x1b0
+>      ? __pfx_do_sys_openat2+0x10/0x10
+>      ksys_write+0x111/0x200
+>      ? __pfx_ksys_write+0x10/0x10
+>      ? irqentry_exit+0xbe/0x820
+>      ? srso_alias_return_thunk+0x5/0xfbef5
+>      do_syscall_64+0x115/0x6a0
+>      entry_SYSCALL_64_after_hwframe+0x77/0x7f
+>     RIP: 0033:0x7f0b835a9687
+>     Code: 48 89 fa 4c 89 df e8 58 b3 00 00 8b 93 08 03 00 00 59 5e 48 83 f8 fc 74 1a 5b c3 0f 1f 84 00 00 00 00 00 48 8b 44 24 10 0f 05 <5b> c3 0f 1f 80 00 00 00 00 83 e2 39 83 fa 08 75 de e8 23 ff ff ff
+>     RSP: 002b:00007ffc82ea0360 EFLAGS: 00000202 ORIG_RAX: 0000000000000001
+>     RAX: ffffffffffffffda RBX: 00007f0b83517780 RCX: 00007f0b835a9687
+>     RDX: 0000000000000005 RSI: 0000564f8a21d074 RDI: 0000000000000003
+>     RBP: 0000000000000003 R08: 0000000000000000 R09: 0000000000000000
+>     R10: 0000000000000000 R11: 0000000000000202 R12: 0000000000000000
+>     R13: 00007ffc82ea04f0 R14: 00007f0b83755000 R15: 0000564f8a21ed78
+>      </TASK>
 > 
-> The full Image and modules were first built with the new helper and the
-> old first patch. After fixing the three tail issues, sound/core was
-> rebuilt with W=1 against that same configuration and symbol versions,
-> and the corrected PCM module was used for the runs above. The module
-> build had no warnings or errors. The full build had 517 existing
-> -Woverride-init warnings in arch/arm64 outside sound/. The exported v5
-> core source matches the tested source byte for byte.
+>     Allocated by task 485:
+>      kasan_save_stack+0x33/0x60
+>      kasan_save_track+0x14/0x30
+>      __kasan_kmalloc+0xaa/0xb0
+>      __kmalloc_noprof+0x2d7/0x770
+>      snd_ctl_new+0x51/0x190
+>      snd_ctl_new1+0x13c/0x650
+>      0xffffffffc04011b5
+>      do_one_initcall+0xf3/0x4e0
+>      do_init_module+0x281/0x8e0
+>      load_module+0x658c/0x7cc0
+>      init_module_from_file+0x15b/0x180
+>      idempotent_init_module+0x22d/0x770
+>      __x64_sys_finit_module+0xd2/0x160
+>      do_syscall_64+0x115/0x6a0
+>      entry_SYSCALL_64_after_hwframe+0x77/0x7f
 > 
-> These tests use synthetic drivers and modified fault/reset backends.
+>     Freed by task 492:
+>      kasan_save_stack+0x33/0x60
+>      kasan_save_track+0x14/0x30
+>      kasan_save_free_info+0x3b/0x60
+>      __kasan_slab_free+0x5f/0x80
+>      kfree+0x307/0x580
+>      __snd_ctl_remove+0x2ac/0x3d0
+>      snd_ctl_remove+0x46/0x70
+>      fixture_write+0x1ae/0x1f0 [pmbd_vmaster_fixture]
+>      proc_reg_write+0x1fb/0x2d0
+>      vfs_write+0x25a/0x1010
+>      ksys_write+0x111/0x200
+>      do_syscall_64+0x115/0x6a0
+>      entry_SYSCALL_64_after_hwframe+0x77/0x7f
 > 
-> LLM assistance was used for implementation, reproducer development,
-> analysis, and documentation. I reviewed the changes and test evidence.
+>     The buggy address belongs to the object at ffff888107957d00
+>      which belongs to the cache kmalloc-192 of size 192
+>     The buggy address is located 80 bytes inside of
+>      freed 192-byte region [ffff888107957d00, ffff888107957dc0)
+> 
+>     The buggy address belongs to the physical page:
+>     page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x107957
+>     flags: 0x200000000000000(node=0|zone=2)
+>     page_type: f5(slab)
+>     raw: 0200000000000000 ffff8881000423c0 dead000000000100 dead000000000122
+>     raw: 0000000000000000 0000000000100010 00000000f5000000 0000000000000000
+>     page dumped because: kasan: bad access detected
+> 
+>     Memory state around the buggy address:
+>      ffff888107957c00: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>      ffff888107957c80: fb fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
+>     >ffff888107957d00: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>                                                      ^
+>      ffff888107957d80: fb fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
+>      ffff888107957e00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>     ==================================================================
+> 
+> Fixes: ae07eb9bf23e ("ALSA: vmaster: Add snd_ctl_add_followers() helper")
 > Assisted-by: LLM
-> 
-> Joonho Lee (2):
->   ALSA: pcm: allow capture reads while draining
->   ALSA: pcm: refresh linked pointers before draining
+> Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
 
-Applied both to for-next branch now.  Thanks.
+Applied to for-next branch.  Thanks.
 
 
 Takashi
