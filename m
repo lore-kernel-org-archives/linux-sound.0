@@ -1,243 +1,155 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A532443C16
-	for <linux-sound@vger.kernel.org>; Fri, 16 Oct 2026 10:29:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D51F63E3C53
+	for <linux-sound@vger.kernel.org>; Fri, 16 Oct 2026 10:34:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792146591; cv=none; b=kNsfw3l/ebYvyK1mC2uVd6IBqWnsVpRuvvN85pqw20ruSdqeU00sWBJ7mqTdFeT3W26OD00rE94fD1zvoxtxuNa6xTbuerBKNibfWEzbra52YsCuSwABmo+QhR9yDTRuMVfQg4QTc/PdCssIAcHTNeCp1yfhm6DCdHNSlDRg+tQ=
+	t=1792146857; cv=none; b=mwnXbzmr4MO6tFUbvUVifAUAGnCqXVqTJU1/sAFCtym3u2TGCaE8LLOELK0zfrSWGsdXUA65upogJGTO2RRzTAHvUoBKsd1T5iPnjQb5Tkmp12hbSnAeWrhZoSX8U7Lwx9uF2PAQerFjYlBNejT2kwAaekyWWZxIVpo6BOL4pdc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792146591; c=relaxed/simple;
-	bh=BJa52UcGpHydezQrvMRTYS4LZALlcRs58n+/XGz/+Ps=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=u6+yLNSd599hv4U1aTtdiUmQUzU6E5DZhX0o7RRoCxW/r8zpYHj14U0URmPqzl6EYa3j1xzX/R2fhUbORrA/eenoiWYAlX1IcDf/2vHfDdMUof/poCrToKZybrthE62rsKmGUST/JqbBmrb6a6ctlrZPjV6AfA2WkSepNDQZCLQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R14ZVvHR; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1792146857; c=relaxed/simple;
+	bh=BnTr82S8w9wakAEeUEBfR1LlMbPBAs/IS0VPp87s/50=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=D+dSxGrVnt5nGFwOFIcuEyAt67MkKyCcUaM8qp+saAcQZBHSOLuA2KS/LoECA1PL/OSEMwSyTE5nsuhv3HzDLQyuhP6LQHsxbPh/TnfGv4In/45W2IokaSb+O3ltrohH/yQOsPZcsVm1ofhVv6PgCgpJABE9L5Ec2ARgn+s7iZs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com; spf=pass smtp.mailfrom=amarulasolutions.com; dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b=QK1ahZAd; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amarulasolutions.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R14ZVvHR"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-48afcfc4bf5so1175009f8f.1
-        for <linux-sound@vger.kernel.org>; Fri, 16 Oct 2026 03:29:49 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="QK1ahZAd"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4a02753c04fso33948055e9.3
+        for <linux-sound@vger.kernel.org>; Fri, 16 Oct 2026 03:34:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792146587; x=1792751387; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=RQnN3qNvWgUvgCtj7xlWr+dFJba801MekrCsHnx2s00=;
-        b=R14ZVvHRDiIoZ0hzog+d/DD/4z/qPZOxnTirzFOB1NUSjVXbA97h1jOpGnoYEpZFtO
-         QAVqTuavpMdV5qI8oUmx0Hp5NWKn+fOsdJfE3znAGZlaI4nllrv3hL+ENKmb7v3nFX1e
-         aa/E2lkrAQa35vOSrWI0iaNATE77vSItx4Qj6AHNWQR4SRAW8wbwFeISg3AEhDIVpye1
-         wwz83cSyBZp4L6emQUQatKAvy3Dl30VtPWQLTU76xL7TMceyX6UiRifAMTlld9d/c9UU
-         if7lPBTlS6h4rYbRGQ3qXgTjzzFDyjsGeiZhGZAfzEIBK8lHRWBfXpVA8/CBq0rSFAk3
-         L9fw==
+        d=amarulasolutions.com; s=google; t=1792146854; x=1792751654; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=kIHJ0txQc8+sqtyNixhwGX7E5WSVvBAZuK9qukcWHcA=;
+        b=QK1ahZAd4FUDQxSn6v1HSOGutEKOhjnbLoOOZdMRp2yj3NrwKZSxHCFPBZfkL2lqW/
+         lNSDygSCQXbIQfaoYwicAYqr0mH5CbxbRE3bYkI4VZo9as4EE9jXtZbOZ+WRzuJcs9Uv
+         7DXDgDQfqhp91+hWEntqil3Ui/srt8kMwPKrA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792146587; x=1792751387;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=RQnN3qNvWgUvgCtj7xlWr+dFJba801MekrCsHnx2s00=;
-        b=k6zloFTHuoGAtzOakoafWFkdSxkUu7P4MPUQMdpcK18YhYoCkIdDVFTY2RCw+ypWgW
-         vLPTOVMnvSeUHKXsjvDWLtJVRPWD0S3veGLP727CYxyLFaLIWo/1/Xn7k6B6Wk3VfYhZ
-         W2gF1dCf7M9Ka9cEBh8mT75BNB8rnJxCeb4RucCmXYWWNqQo/SbA9/tmBnxUp6PkYG5B
-         3VPYeGmJT/VA9BKFWv1g7aHltkI/3zq33Y4qC+rrJOvvUHU0ds5SmR8qS+y6+pDsOqUV
-         /B7bajk/k8MnxiiKCbMQxDRgHFK5kFbpF4RsPMYeal3Nkt4kRpDpgbNYxjDR5TZmsyec
-         vR2A==
-X-Forwarded-Encrypted: i=1; AKwUvBw5hzKR1vtdBKjOTWXU+5VcrEZgj4BMgauAsRlor7mStPKayyBz+S3L93kunFp1mdPCyl2ZITPp/EbQ2A==@vger.kernel.org
-X-Gm-Message-State: AFq9FYKu0UJ92+Hk/Xa40Y4zhhxX8YgfG2bG6OLW1B9Ka592czFdTbF3
-	IQ6yskhd/Vmg5XYTns5qyPcBp3ouvNYt4KpV4vlh/Ng4Y+Ht758b8x3qy+HeRaUL
-X-Gm-Gg: AYBFou0Pr76C7tbP4biKg/s9MKh1hi10t7CkNKBDQvTkFXwmH9CHBRYj7kQsHwKqMnn
-	gy8ABn1K6ktiq6sJ3Gw7/1gNynTMrtdK6rwEZjTPwfpfDwjgYSkXsrxd+7rCTHYDLlkL8HiqtPp
-	fWcFg/fI7P1jaMSJdYcV3GL2VAoChDZtlhCvCf4P3hxFFCCUckV1HSpNTgZxPVvGvZ+USOmGHDx
-	64uqgQCP0HclKD7n3SdaP0toiORsvf4vacubg5ithJIMN3+PxlN6uNEkNn//cMhdb6Ad36+ld0A
-	q8iZTktTtkrPQmqTAquVaWThyC/qF+M3LHd8/ik5Zov1KxAf80W/uyzhNKC+lXmfS3N8JhLq/h7
-	4b9gh9qU/bqJYtrgE7HEIh5jN8WdRnvtisCft2ylgvEADPbHmXteGjNGtGLP4NvNHceQk0Ja9+M
-	U1pCVf7yW/M0Nb15N6VDNlNpuuhC6EKrsXcHNfbkvKShG9CtfvagK16g5BGt4EJ53mc0OUJf2d8
-	ESXRtkO9baejtlE8N5TlqVcPtqELGvmqF60vVh0qNIugp9RGtgQTi0pdXx8eguh//XTJcHvfwEq
-	uISDVhJS/k+tA77EAShrTy+b0XE/c+oA9OLnoarVpLu5WVL8gsGxYu7tLRLHjrKu
-X-Received: by 2002:a05:6000:11d2:b0:487:169f:d341 with SMTP id ffacd0b85a97d-48dbaaddbbemr29617033f8f.12.1792146587298;
-        Fri, 16 Oct 2026 03:29:47 -0700 (PDT)
-Received: from px13.tail3a7e86.ts.net (91-201-160-110.ip4.as24916.net. [91.201.160.110])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfd503a24sm4143035f8f.49.2026.10.16.03.29.46
+        d=1e100.net; s=20260707; t=1792146854; x=1792751654;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=kIHJ0txQc8+sqtyNixhwGX7E5WSVvBAZuK9qukcWHcA=;
+        b=SpHZcewZpXzO8sidvZz38Qp2Kc+T/9G+TJzKQhtxnzwJLMgcG/79QPooqz0CfzBEqJ
+         RIO3ybOIJFN9zSBBRqp0MHW48WaskIvnPhbkfY5hqIgTbcc3Ls1CHp0yBPfyCf2chQXd
+         a4ERumNwuFRA0sUBDpQIhewTBJRApfWWM/kccNbRNRnqU83i6fMSdSZVYaYM/VrMPCrZ
+         G9k07RNPrxMTA1XaEO8o7d4E/AKjTQyGEFkEaYYKa0a5ujTI/9HKEwvP6H292Nc4wW4X
+         19yuhP8noDf8i9TKH/y85MxDC/acoSnBIfpaVR21zNaN4JH2V0L/pY24P6z1QO89dEvj
+         7bTQ==
+X-Forwarded-Encrypted: i=1; AKwUvByZXX8z9XfgINiZ1sUG7ulGVg9w9G/iVtUPjaEiO+yZaC4ypLuPdPbrwaDN4ABS9U6t+Wqe39kM3UcEuQ==@vger.kernel.org
+X-Gm-Message-State: AFq9FYKcS8TpDisFubwhj/mibGY4f6z8zRcVRo2hwSsz5HQhEejSX/QD
+	/6G8HWLLi9oVxtbmD9Vbw+olf3mMh6U64hOYyJvzANdpiH+ZZeiM8wTeJtj2hgRR3Bo=
+X-Gm-Gg: AYBFou2s+5dtEPuEmQr/WPTYAbvy2SxJN+MlOkZ3wfh4HTxo6GevxxpN+4/3wPGkCCK
+	x+zW0dI7u9kwHgfz9FYsMkik+Eyq2kED6QnlDHE6zLyE5b10y4hsPCEsEVQQEqf52du4xHcEzVf
+	PmZd8qx6h7kQPCdKZhheVt3HD0LnHaAFiUKxQwp3Nbvklk5cWRUXAyQ79rUrtwMuSlmE2kOPXsN
+	oez/GlqNPnM49NoJZr5eZnGXm5C+TESfPIeAtwN68PBKY53b4dErL9RMfCCBy76YX4O4NimYxcE
+	9HKNI0rme4we3fYeVDjfe3SxlxZdMtPncLHq9V0lVfvi3pNzP18txi82a9yDmv3Aedbs5OvVf45
+	g3963jQEIi/j1AxTWjZxK4Mo8TRVK1Tafzd3u2NYb0GJcwdpqWBnxsJrtNyhU4ayrRLp6yFvOUz
+	wZdRZN+XSVomD8K0XQWpLi1nDWXZR7l3yu2WRIFJGUuWAP696M3vIhi4cDw0WsunABhtYXGOfxv
+	j695fN/tz3DQpqJ8PKbhq/l//upaA95FcK+Z08ud327HJTIVirSCv4mXsgymXpLJA==
+X-Received: by 2002:a05:600c:46cc:b0:4a0:8b1:f5c with SMTP id 5b1f17b1804b1-4a18e4b583fmr437610075e9.22.1792146854144;
+        Fri, 16 Oct 2026 03:34:14 -0700 (PDT)
+Received: from localhost (dynamic-2a00-1028-8382-0206-0000-0000-0000-0bc0.ipv6.o2.cz. [2a00:1028:8382:206::bc0])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfd471b06sm4783272f8f.5.2026.10.16.03.34.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Oct 2026 03:29:46 -0700 (PDT)
-From: Lee Mann <leepaulmann@gmail.com>
-To: broonie@kernel.org,
-	lgirdwood@gmail.com,
-	linux-sound@vger.kernel.org
-Cc: shenghao-ding@ti.com,
-	kevin-lu@ti.com,
-	baojun.xu@ti.com,
-	sen@ti.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	andrey.golovko@gmail.com,
-	antoine@montane.tech,
-	linux-kernel@vger.kernel.org,
-	Lee Mann <leepaulmann@gmail.com>
-Subject: [PATCH] ASoC: tas2783-sdw: restore the volume controls after re-initialisation
-Date: Fri, 16 Oct 2026 11:28:46 +0100
-Message-ID: <20261016102846.22908-1-leepaulmann@gmail.com>
-X-Mailer: git-send-email 2.55.0
+        Fri, 16 Oct 2026 03:34:13 -0700 (PDT)
+From: =?utf-8?q?Roman_Smr=C5=BE?= <roman@amarulasolutions.com>
+Subject: [PATCH v2 0/5] ASoC: pcm179x: Add support for pcm1795 and pcm1796
+Date: Fri, 16 Oct 2026 12:33:53 +0200
+Message-Id: <20261016-work-v2-0-9340b9555fbb@amarulasolutions.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/12OTQ6CMBBGr0Jmbc20FTCuvIdhUepUqkBNB1BDu
+ LsFdy5f8r6fGZiiJ4ZTNkOkybMPfQK1y8A2pr+R8NfEoFAVElGJV4gPUWLuFNYFquMBkvqM5Px
+ 7q7lUP+axvpMd1uxqNJ6HED/bziRX769ykgKFQ8p1bUutpTubzsSxNRzacUiveG9DB9WyLF/kR
+ 2KEtQAAAA==
+X-Change-ID: 20261002-work-705f20b60284
+To: Peter Rosin <peda@lysator.liu.se>, 
+ =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+ Lars-Peter Clausen <lars@metafoo.de>, 
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Shenghao Ding <shenghao-ding@ti.com>, 
+ Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, 
+ Sen Wang <sen@ti.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>
+Cc: asahi@lists.linux.dev, linux-sound@vger.kernel.org, 
+ patches@opensource.cirrus.com, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-amarula@amarulasolutions.com, 
+ Michael Trimarchi <michael@amarulasolutions.com>, 
+ =?utf-8?q?Roman_Smr=C5=BE?= <roman@amarulasolutions.com>
+X-Mailer: b4 0.16.0
 
-When the SoundWire controller is power-gated during system suspend, the
-amplifier loses its register state and tas_update_status() re-runs
-tas_io_init() on re-attach, which resets the device and reloads the
-firmware. Since commit b627da430357 ("ASoC: tas2783-sdw: drop stale
-regcache on uninitialized re-attach") the cache is dropped first, and
-that commit notes that cached user settings then fall back to hardware
-defaults. Before it, the cache was synced back before the reset, which
-wiped the values again, so they were lost either way.
+This adds support for the PCM1795 and the PCM1796 to the pcm179x driver.
 
-For the two volume controls this is audible: the digital volume comes
-back at its default, full scale (0 dB), while userspace still holds the
-level it set before suspend and does not write it again. The first
-sound after resume plays at maximum volume until the user changes the
-volume. On an ASUS ProArt PX13 with PipeWire at 48% the "Speaker Volume"
-control reads 200 after resume instead of 162.
+The PCM1795 is register compatible with the PCM1792A, but it encodes two
+of the register 18 FMT[2:0] values differently, so the format encoding is
+described with a per-codec table instead of the width switches. Only the
+PCM1795 has real 32-bit formats; on the PCM1792A and the PCM1796 a 32-bit
+container keeps the 24-bit code, as it always has. Left-justified, which
+the driver accepted but never programmed, is added on the way.
 
-Remember the register values written through the "Amp Volume" and
-"Speaker Volume" controls and write them back once the init sequence
-has completed. Only values userspace has set are restored, so the
-first initialisation is unchanged.
+This series is based on a work done in 2016 by my collegue:
+https://lore.kernel.org/all/20160311232856.GC27257@panicking/
 
-Fixes: 4cc9bd8d7b32 ("ASoc: tas2783A: Add soundwire based codec driver")
-Assisted-by: LLM
-Signed-off-by: Lee Mann <leepaulmann@gmail.com>
 ---
-Notes (not for the changelog):
+Changes in v2:
+- Added missing entry to spi_ids.
+- Added SND_SOC_POSSIBLE_DAIFMT_LEFT_J as supported format.
+- Updated description of devicetree bindings commit.
+- Link to v1: https://patch.msgid.link/20261002-work-v1-0-f0e53bc7331f@amarulasolutions.com
 
-AI assistance: I worked on this with Claude Code, as I don't normally
-get this low level.
+To: Peter Rosin <peda@lysator.liu.se>
+To: Martin Povišer <povik+lin@cutebit.org>
+To: Lars-Peter Clausen <lars@metafoo.de>
+To: Nuno Sá <nuno.sa@analog.com>
+To: Liam Girdwood <lgirdwood@gmail.com>
+To: Mark Brown <broonie@kernel.org>
+To: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzk+dt@kernel.org>
+To: Conor Dooley <conor+dt@kernel.org>
+To: Shenghao Ding <shenghao-ding@ti.com>
+To: Kevin Lu <kevin-lu@ti.com>
+To: Baojun Xu <baojun.xu@ti.com>
+To: Sen Wang <sen@ti.com>
+To: Jaroslav Kysela <perex@perex.cz>
+To: Takashi Iwai <tiwai@suse.com>
+Cc: asahi@lists.linux.dev
+Cc: linux-sound@vger.kernel.org
+Cc: patches@opensource.cirrus.com
+Cc: devicetree@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
 
-It drafted the code and the changelog from my measurements of the problem;
-I reviewed the change, built it and tested it on my machine as described
-below.
+---
+Michael Trimarchi (2):
+      ASoC: dt-bindings: Add ti,pcm1795 and ti,pcm1796
+      ASoC: pcm179x: Add support for pcm1975
 
-Testing: ASUS ProArt PX13 HN7306EA (two TAS2783 on SoundWire link 1, AMD
-ACP), v7.3-rc6 with this patch applied to the in-tree driver, PipeWire at
-48%. After s2idle, "tas2783-N Speaker Volume" read 200 without the patch
-and 162 with it (the value set before suspend), with nothing done in
-userspace; stereo playback is unaffected. checkpatch --strict is clean
-apart from the Fixes/commit references checkpatch cannot resolve in my
-tree.
+Roman Smrž (3):
+      ASoC: pcm179x: Refactor regmap value lookup
+      ASoC: pcm179x: Add left-justified formats for pcm1792a
+      ASoC: pcm179x: Add compatible string for pcm1796 and spi_ids entry
 
-This posting is rebased onto broonie/sound for-next (686b3eff60). The only
-conflict was the new "Re-active AMP after resume" write in tas_io_init(),
-which the restore now follows. The rebased driver (for-next's
-tas2783-sdw.c with this patch, W=1 clean) was also run on the same
-machine: after ~60 s of s2idle both amps read 162 again, matching
-PipeWire. for-next does not have 173cb3147ba2 ("ASoC: tas2783-sdw: split a
-stereo stream across the two mono amps") yet, so only the left speaker
-played on that build; the volume check covered both amps.
+ .../devicetree/bindings/sound/trivial-codec.yaml   |   2 +
+ sound/soc/codecs/pcm179x-i2c.c                     |   2 +
+ sound/soc/codecs/pcm179x-spi.c                     |   4 +
+ sound/soc/codecs/pcm179x.c                         | 117 +++++++++++++++------
+ sound/soc/codecs/pcm179x.h                         |  12 ++-
+ 5 files changed, 104 insertions(+), 33 deletions(-)
+---
+base-commit: 2f2f7eeef8b0a1a9b9ca998231419873ccae8d4e
+change-id: 20261002-work-705f20b60284
 
- sound/soc/codecs/tas2783-sdw.c | 60 +++++++++++++++++++++++++++++++---
- 1 file changed, 56 insertions(+), 4 deletions(-)
-
-diff --git a/sound/soc/codecs/tas2783-sdw.c b/sound/soc/codecs/tas2783-sdw.c
-index a57230e01f..5235a7ddc4 100644
---- a/sound/soc/codecs/tas2783-sdw.c
-+++ b/sound/soc/codecs/tas2783-sdw.c
-@@ -84,6 +84,14 @@ struct tas2783_prv {
- 	struct calibration_data cali_data;
- 	struct sdw_slave *sdw_peripheral;
- 	struct sdca_function_data *sa_func_data;
-+	/*
-+	 * Last values userspace wrote to the two volume controls. Re-applied
-+	 * after tas_io_init(), which resets the device and drops the cache.
-+	 */
-+	unsigned int user_amp_lvl;
-+	unsigned int user_dvc_lvl;
-+	bool user_amp_set;
-+	bool user_dvc_set;
- 	enum sdw_slave_status status;
- 	/* calibration */
- 	struct mutex calib_lock;
-@@ -536,10 +544,25 @@ static s32 tas2783_digital_getvol(struct snd_kcontrol *kcontrol,
- 	return snd_soc_get_volsw(kcontrol, ucontrol);
- }
- 
-+static void tas2783_save_vol(struct tas2783_prv *tas_dev, unsigned int reg,
-+			     unsigned int *val, bool *set)
-+{
-+	if (!regmap_read(tas_dev->regmap, reg, val))
-+		*set = true;
-+}
-+
- static s32 tas2783_digital_putvol(struct snd_kcontrol *kcontrol,
- 				  struct snd_ctl_elem_value *ucontrol)
- {
--	return snd_soc_put_volsw(kcontrol, ucontrol);
-+	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
-+	struct tas2783_prv *tas_dev = snd_soc_component_get_drvdata(component);
-+	s32 ret = snd_soc_put_volsw(kcontrol, ucontrol);
-+
-+	if (ret >= 0)
-+		tas2783_save_vol(tas_dev, TAS2783_DVC_LVL,
-+				 &tas_dev->user_dvc_lvl, &tas_dev->user_dvc_set);
-+
-+	return ret;
- }
- 
- static s32 tas2783_amp_getvol(struct snd_kcontrol *kcontrol,
-@@ -551,7 +574,34 @@ static s32 tas2783_amp_getvol(struct snd_kcontrol *kcontrol,
- static s32 tas2783_amp_putvol(struct snd_kcontrol *kcontrol,
- 			      struct snd_ctl_elem_value *ucontrol)
- {
--	return snd_soc_put_volsw(kcontrol, ucontrol);
-+	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
-+	struct tas2783_prv *tas_dev = snd_soc_component_get_drvdata(component);
-+	s32 ret = snd_soc_put_volsw(kcontrol, ucontrol);
-+
-+	if (ret >= 0)
-+		tas2783_save_vol(tas_dev, TAS2783_AMP_LEVEL,
-+				 &tas_dev->user_amp_lvl, &tas_dev->user_amp_set);
-+
-+	return ret;
-+}
-+
-+static void tas2783_restore_vol(struct tas2783_prv *tas_dev)
-+{
-+	int ret;
-+
-+	if (tas_dev->user_amp_set) {
-+		ret = regmap_write(tas_dev->regmap, TAS2783_AMP_LEVEL,
-+				   tas_dev->user_amp_lvl);
-+		if (ret)
-+			dev_warn(tas_dev->dev, "amp level restore failed: %d\n", ret);
-+	}
-+
-+	if (tas_dev->user_dvc_set) {
-+		ret = regmap_write(tas_dev->regmap, TAS2783_DVC_LVL,
-+				   tas_dev->user_dvc_lvl);
-+		if (ret)
-+			dev_warn(tas_dev->dev, "volume restore failed: %d\n", ret);
-+	}
- }
- 
- static const struct snd_kcontrol_new tas2783_snd_controls[] = {
-@@ -1245,11 +1295,13 @@ static s32 tas_io_init(struct device *dev, struct sdw_slave *slave)
- 
- 		/* Re-active AMP after resume. */
- 		regmap_write(tas_dev->regmap, TASDEV_REG_SDW(0, 0, 2), 0);
--		if (ret)
-+		if (ret) {
- 			dev_err(tas_dev->dev,
- 				"init writes failed, err=%d", ret);
--		else
-+		} else {
- 			tas_dev->hw_init = true;
-+			tas2783_restore_vol(tas_dev);
-+		}
- 	}
- 
- 	return ret;
-
-base-commit: 686b3eff603871bd500434e00ff15394a0c782bc
--- 
-2.55.0
+Best regards,
+--  
+Roman Smrž <roman@amarulasolutions.com>
 
