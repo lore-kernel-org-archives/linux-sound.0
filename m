@@ -1,169 +1,104 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 627AC5304D4;
-	Fri, 16 Oct 2026 16:54:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84E9E509EE2
+	for <linux-sound@vger.kernel.org>; Fri, 16 Oct 2026 17:46:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792169651; cv=none; b=epuY51YzvEoCv54uhfmE53+QH1hHO/GZSQ5E4rXIMUw1t/areUW/t8vn6MM70xZYd0YC4kmjQNOBdQ01YUX0jVrGCFlQuGmqJzbiONTC6CYlKUbvlu2x7//bzMG3yh6b1vBhKCTGhyG1jlFd71ZlRVXEVcCPyDRB6Tc+nCzI2s0=
+	t=1792172804; cv=none; b=udpEPCvtR9BNnUw1YxcUJl3rTLOnTnGv2URqwS8P2QRgs8KGI2s6b9WFIhcp+cp+Q7XSz0HBIokY2+JbuUXyMiqom6tFNxo5rxpRDmqTg3ATjX+sjsHr11MLVvdgAHrlKbH10/KOE7Zv0QDEW9Eq3kOavSqr17LwZl86cxjwo1U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792169651; c=relaxed/simple;
-	bh=kkFs0VVbr9mEriiGEWjJfyONEqPkYQBMumheJTOXXcc=;
-	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=YHxpuIMOhDnEv9Jv+pg9jFd1TTjNGXCrAfK/qDJmUo06kwJj45hU+RNAvwI1xvgiUmAf0rC8wx6w6gBzRek75M7V7YnduLctAT24TMeC2oB4Bk9URtL6aJHji7oGV5Kw1+CnFEcVGH83wPIobtvDpb60tcPjJJpdM2h/F+si/t8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hMRAVzeM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gGdorgk/; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hMRAVzeM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gGdorgk/; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1792172804; c=relaxed/simple;
+	bh=iG7yw/XW9kt+scsciYbPOm2zkpcdecfUamR5JJerxbY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hG7hY3RcCc5Tls8Ii2re8eB3+TdU1Bh0OfQfebwSXY581dxvWnIeYYKCeJACqnZhBZuarvsjs5GqMbfsJWQOKWNNFddM8jtsXbsS/WldVc3x5zo20xYWMfm8zGrL5KXbyKabR24C2B1iviSGLD92kPswWmIEnqo7bKVCIPrYrrw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CwsZn0kl; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hMRAVzeM";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gGdorgk/";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hMRAVzeM";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gGdorgk/"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 4447E21C70;
-	Fri, 16 Oct 2026 16:54:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792169647; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=IYE4ZbVFSzp3eowApnNd8w/suhWnGdjNnQbB0iMW2A0=;
-	b=hMRAVzeMZEqZOjER2A6bTtO15B3YxkMmq2iZlooLWM/mmHIoqaJmyE72pF2x5+2DmleKhi
-	9+591Bu3q9ofjgDfdw5NSQWFgEPhm1Rl6KQrc63ur63g812+dFKQ5UXYBIWXLoqpA/ZiNb
-	aC60YEkxxuYPOvQd8Zo7B4Qob1T/Uug=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792169647;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=IYE4ZbVFSzp3eowApnNd8w/suhWnGdjNnQbB0iMW2A0=;
-	b=gGdorgk/uIJjuXFzEHm/SoGWsvRwvNTz2C1K8Mg15c6dpepHwLG4VdkAXw/JfsGLvYs6eM
-	BuFj9fgAR3K+3qCw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=hMRAVzeM;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="gGdorgk/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792169647; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=IYE4ZbVFSzp3eowApnNd8w/suhWnGdjNnQbB0iMW2A0=;
-	b=hMRAVzeMZEqZOjER2A6bTtO15B3YxkMmq2iZlooLWM/mmHIoqaJmyE72pF2x5+2DmleKhi
-	9+591Bu3q9ofjgDfdw5NSQWFgEPhm1Rl6KQrc63ur63g812+dFKQ5UXYBIWXLoqpA/ZiNb
-	aC60YEkxxuYPOvQd8Zo7B4Qob1T/Uug=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792169647;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=IYE4ZbVFSzp3eowApnNd8w/suhWnGdjNnQbB0iMW2A0=;
-	b=gGdorgk/uIJjuXFzEHm/SoGWsvRwvNTz2C1K8Mg15c6dpepHwLG4VdkAXw/JfsGLvYs6eM
-	BuFj9fgAR3K+3qCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EF9FB139B7;
-	Fri, 16 Oct 2026 16:54:06 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id TlUIMa5W0mpSQwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 16 Oct 2026 16:54:06 +0000
-Date: Fri, 16 Oct 2026 18:54:06 +0200
-Message-ID: <87y0bx1t8x.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
- Mailing List <linux-kernel@vger.kernel.org>
-Subject: [GIT PULL] sound fixes for 7.3-final
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CwsZn0kl"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4a1cef0439aso2574445e9.0
+        for <linux-sound@vger.kernel.org>; Fri, 16 Oct 2026 10:46:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792172801; x=1792777601; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=xXTYs7ePdo05GsxVQxd5NyG1vGmSHNhIKeIMrVirDTE=;
+        b=CwsZn0kl32Cv83jX2PRf4e4w6xFPV2HghCHwRVb6b2e5FZkFoSldpErM088Vj9Uf97
+         bk6fVVpCT0R7z8ms4QLUdvv2iTfEE76+Z473lB+uCL8nCoexV/FOYz/qDj2LYPH5uvV+
+         /5Ezr5jN76u3R4oXfiyCm2mIgAHznE4e6OPRj7lbc5GwVHipa+bgwX+O02Ka2zRJFTtM
+         xRwvEQrOpw19dP8wygIjVBedXXTGk/oTgAuu/PZX5SM0AU5NOHKCBJT+dyT7Pg3n+e/I
+         bRe2rsVNZz8vL27Ji1OGu3w59YO0P0F+n/zTuETC/5F7QztyuddBNaIQOmEyU/HBqgxY
+         nBRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792172801; x=1792777601;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=xXTYs7ePdo05GsxVQxd5NyG1vGmSHNhIKeIMrVirDTE=;
+        b=aJPd4x5XA6DO7XSX0Nh9gYQJVl5bLXwaDOIHuOEO6QWvfne4WPAemsIBV/bbv6vEPo
+         ZFGnUzRn5b3lTGPKjbd2So+RBE1Lxz4wHx1Vk8KeXplJveMvo80hP+AYV4UJna2lwY80
+         LDkco1T8XvjKHbZylow1NBfMuoID6gbJe2hqoMYW32K73XZizbmZnr0CHK6oCImMPxZF
+         ni6UvFScN26VNu03cYuCJc4i2fjE+6yfHH4bvrvgp+4PWfUCAgkSYIlUHpNVkt1esPQU
+         6GIWbL0ChSHrNMT6YJm9Zee+kW/OcW+gyVJGhLi5ZRDjZ7c6cCxfD+J58l4DDXu8JUA2
+         EmAQ==
+X-Gm-Message-State: AFq9FYJ+8CHj0S2Si2Iafb/5W9QrCKMx+ZrgpbYUXbfTMrG9uKtkd8AG
+	d5e7l1mH7PjhKbXZrhbnur/CZfnOr2Oc7zngiHHM1++yIbbqgLZWOItjafewCL2D5pM=
+X-Gm-Gg: AYBFou3oRwjHCwoWzNRJlLP56c5DOeh2qaQfWN2vKPfkpprqnxZdu0I2HdrmQ80AIPt
+	W6ZPxO34DizarYWTO28YaY2lqIb3Ql7gxS1njsvvpRnKpAycaU5evr0dnRRK6KkPi5SmgHKWtVg
+	N2nfRNFLclVtxtzV7FgQNewmh0dQNGYA/QF0Jn2Jw/zaXWMQ3R62jurQ2iXDwRLV2XOfi42vTqZ
+	rqaL5b26e9SHGvkkghmwyW6hL8xKS7LM28sVmvopB7QHSi2FtmOSMnVk7BvDEwLDVFjJIyaplSt
+	GrQyZbAusEMaoukMFv5/rjmy9CV/gJnPUtdY28yBY3FBffO+41BpvGwp0gdsNhgDdXDzNhFwDL3
+	7Sm+CR9/qPp/SDHWiJPPYNslDphMLmCecXir6FCZau4sQXoj65hNp5Z1zyPxIh5tk7/oo/EsUHO
+	j6M/1XMnCpuQTL6KCguJK1sBFdIIl8QoHM+aotY35EmL+FxeyhFdQJRbbl3yZpPNVn1CG7ul7G5
+	nDuOm8oGnI2lrgJTIh1QCg4wAUE0U9+z2WUIGU3lyFZ8gOBcxm98hTvDeI26ueGeaUgeRted367
+	7jA=
+X-Received: by 2002:a05:600c:3508:b0:49f:e772:6ddf with SMTP id 5b1f17b1804b1-4a1d762251bmr12053835e9.32.1792172800327;
+        Fri, 16 Oct 2026 10:46:40 -0700 (PDT)
+Received: from rattlynaught.tailfd605.ts.net (93-45-212-86.ip104.fastwebnet.it. [93.45.212.86])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1d2e93a01sm43201305e9.0.2026.10.16.10.46.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Oct 2026 10:46:39 -0700 (PDT)
+From: Giovanni Maria Mazzone <giovannimariamazzone@gmail.com>
+To: linux-sound@vger.kernel.org
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Subject: [PATCH] ALSA: hda/realtek: Add quirk for HP 15s-eq3xxx mute LED
+Date: Fri, 16 Oct 2026 19:46:27 +0200
+Message-ID: <20261016174627.362872-1-giovannimariamazzone@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Action: no action
-X-Spam-Score: -3.51
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_DN_ALL(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 4447E21C70
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Linus,
+The HP Laptop 15s-eq3xxx (SSID 103c:89fc) uses the Realtek ALC236
+codec. Its speaker mute LED is driven by COEF index 0x07 bit 0, which
+is exactly what the existing ALC236_FIXUP_HP_MUTE_LED_COEFBIT2 quirk
+implements. The sibling models 15s-eq1xxx (103c:8706) and 15s-eq2xxx
+(103c:887a) already carry this quirk, but the eq3xxx SSID was never
+added, so the LED never follows the mute state.
 
-please pull sound fixes for v7.3 from:
+Add the missing SSID to the quirk table.
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-7.3
-
-The topmost commit is 8e8cd9a4c6dc006e9bd51b8ad0079fb4576b48d3
-
-----------------------------------------------------------------
-
-sound fixes for 7.3
-
-Here are the (hopefully) last bits for 7.3.
-At this time, all changes are small and device-specific ASoC fixes.
-Not super-urgent, but should be fairly safe to take.
-
-----------------------------------------------------------------
-
-Avi Weiss (1):
-      ASoC: stm32: spdifrx: fix synchronization state check
-
-HyeongJun An (6):
-      ASoC: cs42l56: Put the Limiter Cushion control on the limiter register
-      ASoC: cs42l52: Fix the NG Type Switch bit
-      ASoC: pcm3168a: Fix the DAC zero flag polarity bit
-      ASoC: max98371: Fix the Speaker DHT Min Volume bits
-      ASoC: wm8978: Fix the 128x oversampling switch bits
-      ASoC: nau8822: Fix the 128x oversampling switch bits
-
-Mario Limonciello (1):
-      ASoC: amd: yc: disable MSI on resume
-
-Peter Ujfalusi (2):
-      ASoC: SOF: ipc4-topology: Fix shift-out-of-bounds for aggregated ALH capture
-      ASoC: SOF: sof-client: Use event-handler mutex consistently
-
-Sergey Tiraspolsky (1):
-      ASoC: Intel: avs: Reset the stream unless it is already prepared
-
+Signed-off-by: Giovanni Maria Mazzone <giovannimariamazzone@gmail.com>
 ---
- sound/soc/amd/yc/pci-acp6x.c  | 38 ++++++++++++++++++++++++++++++++++++--
- sound/soc/codecs/cs42l52.c    |  2 +-
- sound/soc/codecs/cs42l56.c    |  2 +-
- sound/soc/codecs/max98371.c   |  2 +-
- sound/soc/codecs/nau8822.c    |  4 ++--
- sound/soc/codecs/pcm3168a.c   |  2 +-
- sound/soc/codecs/wm8978.c     |  4 ++--
- sound/soc/intel/avs/pcm.c     |  2 +-
- sound/soc/sof/ipc4-topology.c |  9 ++++++---
- sound/soc/sof/sof-client.c    |  6 +++---
- sound/soc/stm/stm32_spdifrx.c |  2 +-
- 11 files changed, 55 insertions(+), 18 deletions(-)
+ sound/hda/codecs/realtek/alc269.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index 1623cf9..a71b443 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -7502,6 +7502,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x8870, "HP ZBook Fury 15.6 Inch G8 Mobile Workstation PC", ALC285_FIXUP_HP_GPIO_AMP_INIT),
+ 	SND_PCI_QUIRK(0x103c, 0x8873, "HP ZBook Studio 15.6 Inch G8 Mobile Workstation PC", ALC285_FIXUP_HP_GPIO_AMP_INIT),
+ 	SND_PCI_QUIRK(0x103c, 0x887a, "HP Laptop 15s-eq2xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
++	SND_PCI_QUIRK(0x103c, 0x89fc, "HP Laptop 15s-eq3xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
+ 	SND_PCI_QUIRK(0x103c, 0x887c, "HP Laptop 14s-fq1xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
+ 	SND_PCI_QUIRK(0x103c, 0x888a, "HP ENVY x360 Convertible 15-eu0xxx", ALC245_FIXUP_HP_X360_MUTE_LEDS),
+ 	SND_PCI_QUIRK(0x103c, 0x888d, "HP ZBook Power 15.6 inch G8 Mobile Workstation PC", ALC236_FIXUP_HP_GPIO_LED),
+-- 
+2.55.0
 
