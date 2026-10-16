@@ -1,73 +1,77 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8392731AF2D
-	for <linux-sound@vger.kernel.org>; Fri, 16 Oct 2026 02:02:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 664A82BDC1C
+	for <linux-sound@vger.kernel.org>; Fri, 16 Oct 2026 02:04:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792116156; cv=none; b=eCn4yoY96cMKprEbnx78+1wrLy7wBaHidsOBWMHlK8aer3VqDzJRJLlbxYmZCyDo8tAWWmnIJwo/qwOnU6MVdcCGR1RGgGQjnRS8THKGH2XLfBHaHhzb2GhRbtVDqdjdVEUTfnarbA74djQEoJvNK0VyWLBbcwBGMZLWvvpUstE=
+	t=1792116287; cv=none; b=UqElceh9w5L7A+3+HCrr8Qifry2MeAzJjgbKVrYOYlqBNf3vS+jle56i6pCnmpNYX4qlWocNrxS1RSLqfQxfmj5ehf9m9XRkW9S4WhzqPVLaUux/M2B3ejXAWYMdaRTi1B0ME7GPAdAPB1Ujra2aRcnD5kPwFUwFmLcm/bw9xaE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792116156; c=relaxed/simple;
-	bh=A0I1mWwizIvYdZUBcf5raPdsCOAEwZDrb/1+5sxxi8w=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=mK2g5Llu9Mw7R8T/tUgcOv973tJE25i8xkHE+MtGtJN8h2fQd86wK5aOuUA/eaQwh4WWymTwBoecweIJ5LDD3L+iH0j/hhdOsS5YFVm6Q54b7s6chh2c5ZHRLHAxFWP/47Ag4V6gtm0tQUl4Lswy0qPuoJ0s9XRsN4wADXukfFo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z5zvW4Gl; arc=none smtp.client-ip=209.85.210.173
+	s=arc-20240116; t=1792116287; c=relaxed/simple;
+	bh=LVFZKom2xvc7Ck1yD864BRzvK5konzcXIKxRyDpS4Io=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=Kt2FJSSYvjNvho/5rvSd16qSYrtHmarp4G4vve7szGDJsJSltX0EZX+kxVhRalP4c6duv0mAk/6WL/u2PwdUtyj3YIMx1yC6p76tsrOXdrQU5X2ZSK4Z+dWRvLnIgk5srSSwLWw7iHoubvQYCvJRVN/2ZsFMeQ2s6DPXH8i+ewg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P8m+FgW2; arc=none smtp.client-ip=209.85.216.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z5zvW4Gl"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-89d6bd67045so336784b3a.0
-        for <linux-sound@vger.kernel.org>; Thu, 15 Oct 2026 19:02:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P8m+FgW2"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-3a0aaa0fd13so4439441a91.2
+        for <linux-sound@vger.kernel.org>; Thu, 15 Oct 2026 19:04:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792116155; x=1792720955; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1792116284; x=1792721084; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:message-id:date
          :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=GyGVehmhLNcazv3ZQY4plfSb5McnZ6DkGVKM3V9rd8s=;
-        b=Z5zvW4Gl26iKnTI+5qcXc1My93nhkDtvEK/9s/iGpYZH3MjqZiCQKuSGEKmYSmjqqG
-         curLed4qb7jsmBVVRha0209siyYjtrPkiCFYjv1ze4Xy/7HaItn2Lf4w6mmf0PMlrA9m
-         9Nz1AIAma4Zi2BdatZ7QlAQeItvfVXWM/UZQsuMxhSfTKteGKD/UsPeyLeGLJ06JuhcO
-         SSMYmNXvokVpZ09AfaEUj5DA2UmvWNZ5yzmfRN+o2u11kPwWSVPjUMpk3DH0DLtQtU/p
-         IDwzCFpLII1tbj4aW8yqtf5qK2Hk0jSPIPBr2B/HJ8mJ5vmJuw2VEzR3WkNJoKK1CeQ7
-         vUzA==
+        bh=puhD66ynBKF0mzbAFUzBYXxynPmUnfSs5mE7TE7zq8Y=;
+        b=P8m+FgW2XnFQl/NjJ5iWVM5/p2C8oMcPPBspmhqJ4+DoGJy85UftO6uHD6KQ2y5JKd
+         aFhB/NSdtC6shDdMXwlZygNOoGszRt7SU65MJ6QewhL5CD9wxrb/qik/I6UMK57Qd24k
+         Di4EyWbnuoTkX85AQw1y3IoO9BNoqC/aeo72AJ58k8nl0wncM8uVm9DgPeB2iovHOOvM
+         VEBmCB6UgNmyrQeY+uj8RPQMXwU6i5FhFuFRhY+vcbGBBEJXqQbOm3xARxqupySs0vE4
+         797NP40w5CbZAaF7QN6WjJg5EAkUbZvRvDcL3EBEsO6awhUXfpDgjmQ50BkCNsuJsgZp
+         2UPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792116155; x=1792720955;
+        d=1e100.net; s=20260707; t=1792116284; x=1792721084;
         h=content-transfer-encoding:content-type:mime-version:message-id:date
          :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=GyGVehmhLNcazv3ZQY4plfSb5McnZ6DkGVKM3V9rd8s=;
-        b=l+7RLAlwuPm4ZuymjkWlPB55pqQ9kVBZwVwPwZx04HyGkwreZJF4+ecKtyO4KUPVvz
-         ixHM9kt5w/3ogKyNHHfZXAjXxjyof7fK6ltFilJcbqDZdbvlEKz3FGU7IXxNH5rp5OkW
-         sQon0sbH/3X6vl1T3ocgnZdXUJ8YTTED7FRnV9sSoMI1M720bKe/EhhzW2N+Lnac1Jwp
-         Q4Gemx1UJXso7X45EyNxadRj/C+jRnuKLdTG8fHCrNGThSB/u8OiTDS6t4gELWSby/Yd
-         tv5iXGJkPBVLmICsRg3EikSEnPqNCzJtaam58neb50xrbon3fdEJGRiN2sfdVSK1JBc3
-         bNIA==
-X-Gm-Message-State: AFq9FYLn8nw8QkMhD5iZvZEyPzLM+Bm+BhEG/sPCFYTNOhmTN7RBynLA
-	sG/o60owIU/WXVAS3oc5lcvctZfjS41m7jBh7zg2Uqo8RNlYcX8KJjgd
-X-Gm-Gg: AYBFou3HY4m+EoqeKwFANAnzBM45hGeQfkB0Iou1HDlvNgZh5HRRT6pYYTJOOeIFQwo
-	uf/l1zr1cxst6pAWNkEKNmj4ee+V/bClpusPrt2VaXp82eogIdFqgvxLeNelw3apyosRU47+lWg
-	u4Brx7N4akM0LNdbmFYHnN5AwThwpVZ3z9GBLWo6ZauvQXdNx4QKOwQz+LTVjyLlyDfTD7ROnI3
-	X3EnRFDGuEEoh8d6OCroH8mLDpgQGtUDBUSC+ZZmaQVxXfuAZWLtgVOKz4YE5KWTJ9AOFBakPgM
-	f3jXByZgjTSvKeKtSy2UWkYSZJ7kHqatEUxrpFx5WefgmdtQ3SfjoF2F/VjcLX56ndEmnKO/qOO
-	gMOgmoNAUWoSSh3UdA6V4aGuxrGXEJFTzOeEXCq64MCFtObY5bQuiOWV0Vn9h2AQnv/m0bG7fXm
-	o0jJU0wbJaAtHomdnTbI0a/coE6LKkAzggfWJSgDQanyeFhImr5NW7j0sUauTqlhHTkA==
-X-Received: by 2002:aa7:8886:0:b0:89c:e375:1de9 with SMTP id d2e1a72fcca58-89f1e7ab4f8mr1365092b3a.4.1792116154809;
-        Thu, 15 Oct 2026 19:02:34 -0700 (PDT)
+        bh=puhD66ynBKF0mzbAFUzBYXxynPmUnfSs5mE7TE7zq8Y=;
+        b=Vv2iYZXJb80DeWv6jeofvqfIIiSNfBYtcAm2BUk7mOgHEdoUEdeyQBz9wSglWFn5Hl
+         Dgr/J42zYic4GKzmhiBAoi3dJ6IQ5QALolUR9GYwkfG2FjSYGUkcGphwMWLTUDphT9Kb
+         IwGL9WOlhgzkedz9x3jPET6wjZoEP/s3JTtiB02jkjxgKWuC6roh3+kjuBuFEgL2SVlM
+         JaVGe7jvP+PwHLq3jDJvo/TaMoUJu6+Z2ciYxV49ZmNxZX0v+AH+8Qf0AnLXqBVn97T1
+         iX/qfsC6D2xKtqRw99+aT/qw3vrIFPqzEdJ5uernh8k+O8h16Bfw2VIPlI3O0S8tNSiJ
+         JPvA==
+X-Gm-Message-State: AFq9FYKp99FpjC95b2MGKDXE7BkSVylVfJ2HIjaftc1Tk5/9fwEEJ63Q
+	76vNhFn0sWOnbRpn2ktoQBWZ2+DfYpMsfAbMR8BJpeZMGSEYbMrfJ8mX
+X-Gm-Gg: AYBFou09y44smlpw0X0Kn6kCJr1Yo15Sg7EozIcxbG1nEknmXsaOcNo7fwDAZjPqDcm
+	LneUNpDC4rkmoBxd62SlhIwZNg9eW40ws8zn7sC10eLPcQBsbXclYc/NYnTRut2jZ7Wb7EzGbo3
+	WSSJBTbBS+4Vs+7cidrODYGQSsgY3LW6XIHDVf4/bpZxR6H30+xZJqTkL7fFf1KpDQ+EMWPxzR5
+	Q/52QiR+k6mPQMKReKbWYcMRRDvu5IOaGo5KVsBmvlO+FIE7TmcQQIT0fH3EHER6Yfj63t+NfiF
+	qMGNc6Py64Hmx6UGQLbSsPOdee48g4/b9L6IftqlR9uAYHc/5TcN2Sf5CWrY3C696ULJio7hEPE
+	gjlrU96panUdiIOTu8bbrHhTfWw0XEQZ/QypilVAkqCYFjyNpRM/y3Qm++Xx/UCQE/klLH2/SpE
+	yHdMzK5I1ZaXIsUMIQEaWNgTvOqm/c7i9tp88dZKZkywLvq1IHbN/1Yve4UsA3Vh1nRQ==
+X-Received: by 2002:a17:90b:2688:b0:3a4:adea:50ad with SMTP id 98e67ed59e1d1-3ab3a775938mr18017420a91.27.1792116283528;
+        Thu, 15 Oct 2026 19:04:43 -0700 (PDT)
 Received: from localhost ([111.228.63.84])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-89f54b2eec9sm350873b3a.8.2026.10.15.19.02.31
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cd654a249f3sm330134a12.27.2026.10.15.19.04.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Oct 2026 19:02:34 -0700 (PDT)
+        Thu, 15 Oct 2026 19:04:43 -0700 (PDT)
 From: Cen Zhang <zzzccc427@gmail.com>
 To: perex@perex.cz,
 	tiwai@suse.com,
-	kees@kernel.org
+	phucduc.bui@gmail.com,
+	kees@kernel.org,
+	blum@kernel.org,
+	hui.wang@canonical.com,
+	kai.vehmanen@linux.intel.com
 Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	baijiaju1990@gmail.com,
 	jjzuming@gmail.com,
 	zzzccc427@gmail.com
-Subject: [PATCH] ALSA: vmaster: Protect follower lookup and setup
-Date: Fri, 16 Oct 2026 10:02:29 +0800
-Message-Id: <pm-pmb-6c0b7e841529ddd0b21a-v2-b53dbcd593a7a4bd9582@gmail.com>
+Subject: [PATCH] ALSA: jack: Protect debugfs setup against control removal
+Date: Fri, 16 Oct 2026 10:04:37 +0800
+Message-Id: <pm-pmb-0f2e227b93626e3c7554-v2-0b7a6296bbea01ae57e8@gmail.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -78,169 +82,197 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-A control selected by snd_ctl_add_followers() must remain alive until
-_snd_ctl_add_follower() has copied it and installed its wrapper. The
-lookup returns a raw pointer without retaining the control, and neither
-the short-lived list lookup lock nor the fast lookup protects later use.
+The jack control attachment must remain alive while its injection
+interface is being initialized. snd_jack_kctl_add() links the attachment
+to jack->kctl_list and then calls snd_jack_debugfs_add_inject_node(),
+which dereferences jack_kctl->kctl to read the control name. Neither the
+list insertion nor the debugfs setup holds controls_rwsem.
 
-If a kernel client adds followers to a live virtual master while another
-client removes or replaces a published follower, the following order is
-possible, with the card and master kept alive:
+With CONFIG_SND_JACK_INJECTION_DEBUG enabled, an independent kernel
+control owner can remove the newly linked control in this order:
 
-  Follower setup                      Control removal
-  snd_ctl_add_followers()
-    snd_ctl_find_id_mixer()
-      return follower
-                                      snd_ctl_remove()
-                                        down_write(controls_rwsem)
-                                        __snd_ctl_remove()
-                                          unlink follower
-                                          snd_ctl_free_one(follower)
-                                        up_write(controls_rwsem)
-    _snd_ctl_add_follower()
-      read follower->count
+  1. The creator publishes the control with snd_ctl_add(), which releases
+     controls_rwsem, and links its attachment in snd_jack_kctl_add().
+  2. The remover takes controls_rwsem for writing in snd_ctl_remove().
+     __snd_ctl_remove() unlinks the control and calls snd_ctl_free_one().
+     snd_jack_kctl_private_free() unlinks and frees the attachment, then
+     snd_ctl_free_one() frees the control.
+  3. The creator enters snd_jack_debugfs_add_inject_node() and reads the
+     control name through the freed attachment.
 
-Removal completes after lookup returns and before setup reads the
-control. Since setup holds neither controls_rwsem nor a reference, the
-count read and subsequent control copies can access freed memory.
-
-Hold controls_rwsem for writing across the lookup and follower setup.
-This prevents removal or replacement from freeing the selected control
-until wrapper installation is complete. Write ownership also excludes
-control callbacks while setup changes the callback and private fields.
+This causes a use-after-free read during jack creation. Hold the existing
+controls_rwsem for reading before linking the attachment and until the
+debugfs helper returns. The remover's write lock then keeps the attachment
+and its control alive throughout this post-publication setup interval.
 
 KASAN report as below:
 
-    BUG: KASAN: slab-use-after-free in _snd_ctl_add_follower+0x452/0x520
-    Read of size 4 at addr ffff888107957d50 by task loadmodule/491
+    BUG: KASAN: slab-use-after-free in snd_jack_kctl_add+0x50b/0x5e0
+    Read of size 8 at addr ffff88810d8def00 by task kworker/2:1/68
 
-    CPU: 3 UID: 0 PID: 491 Comm: loadmodule Tainted: G           O        7.2.0-rc6-pmb-bt-functional-v1+ #1 PREEMPT(lazy)
+    CPU: 2 UID: 0 PID: 68 Comm: kworker/2:1 Tainted: G           O        7.2.0-rc6-pmb-bt-functional-v1+ #1 PREEMPT(lazy)
     Tainted: [O]=OOT_MODULE
     Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+    Workqueue: events azx_probe_work [snd_hda_intel]
     Call Trace:
      <TASK>
      dump_stack_lvl+0x93/0xd0
      print_report+0xce/0x630
-     ? _snd_ctl_add_follower+0x452/0x520
+     ? snd_jack_kctl_add+0x50b/0x5e0
      ? srso_alias_return_thunk+0x5/0xfbef5
      ? __virt_addr_valid+0x20d/0x410
-     ? _snd_ctl_add_follower+0x452/0x520
+     ? snd_jack_kctl_add+0x50b/0x5e0
      kasan_report+0xe0/0x110
-     ? _snd_ctl_add_follower+0x452/0x520
-     _snd_ctl_add_follower+0x452/0x520
-     snd_ctl_add_followers+0x153/0x2b0
+     ? snd_jack_kctl_add+0x50b/0x5e0
+     snd_jack_kctl_add+0x50b/0x5e0
+     ? snd_jack_kctl_add+0x5/0x5e0
+     snd_jack_new+0x347/0x4c0
+     snd_hda_jack_add_kctl_mst+0x19e/0x540 [snd_hda_codec]
+     add_jack_kctl+0x1b9/0x2c0 [snd_hda_codec]
+     ? __pfx_add_jack_kctl+0x10/0x10 [snd_hda_codec]
      ? srso_alias_return_thunk+0x5/0xfbef5
-     ? __pfx_snd_ctl_add_followers+0x10/0x10
-     ? __might_fault+0x135/0x190
+     ? _raw_spin_unlock_irqrestore+0x44/0x60
      ? srso_alias_return_thunk+0x5/0xfbef5
-     ? __might_fault+0x14e/0x190
-     ? __pfx_fixture_write+0x10/0x10 [pmbd_vmaster_fixture]
-     fixture_write+0x174/0x1f0 [pmbd_vmaster_fixture]
-     ? __pfx_fixture_write+0x10/0x10 [pmbd_vmaster_fixture]
-     ? __pfx___might_resched+0x10/0x10
-     proc_reg_write+0x1fb/0x2d0
-     vfs_write+0x25a/0x1010
-     ? __pfx_proc_reg_write+0x10/0x10
-     ? kmem_cache_free+0x242/0x580
-     ? __pfx_vfs_write+0x10/0x10
+     ? pmbd_probe_hit_cookie+0xee/0x1c0
+     snd_hda_jack_add_kctls+0x212/0x910 [snd_hda_codec]
      ? srso_alias_return_thunk+0x5/0xfbef5
-     ? putname+0x93/0xe0
+     snd_hda_gen_build_controls+0x23a/0x6a0 [snd_hda_codec_generic]
+     ? __pfx_snd_hda_gen_build_controls+0x10/0x10 [snd_hda_codec_generic]
+     snd_hda_codec_build_controls+0x2e4/0x9f0 [snd_hda_codec]
+     ? __pfx_snd_hda_codec_build_controls+0x10/0x10 [snd_hda_codec]
      ? srso_alias_return_thunk+0x5/0xfbef5
-     ? do_sys_openat2+0x12a/0x1b0
-     ? __pfx_do_sys_openat2+0x10/0x10
-     ksys_write+0x111/0x200
-     ? __pfx_ksys_write+0x10/0x10
-     ? irqentry_exit+0xbe/0x820
+     ? snd_hda_codec_build_pcms+0x4d8/0x6e0 [snd_hda_codec]
+     hda_codec_driver_probe+0x26e/0x590 [snd_hda_codec]
+     ? __pfx_hda_codec_driver_probe+0x10/0x10 [snd_hda_codec]
+     really_probe+0x21f/0xa90
+     __driver_probe_device+0x1ec/0x490
+     driver_probe_device+0x4f/0x130
+     __device_attach_driver+0x1d2/0x2e0
+     ? __pfx___device_attach_driver+0x10/0x10
+     bus_for_each_drv+0x155/0x1d0
+     ? __pfx_bus_for_each_drv+0x10/0x10
      ? srso_alias_return_thunk+0x5/0xfbef5
-     do_syscall_64+0x115/0x6a0
-     entry_SYSCALL_64_after_hwframe+0x77/0x7f
-    RIP: 0033:0x7f0b835a9687
-    Code: 48 89 fa 4c 89 df e8 58 b3 00 00 8b 93 08 03 00 00 59 5e 48 83 f8 fc 74 1a 5b c3 0f 1f 84 00 00 00 00 00 48 8b 44 24 10 0f 05 <5b> c3 0f 1f 80 00 00 00 00 83 e2 39 83 fa 08 75 de e8 23 ff ff ff
-    RSP: 002b:00007ffc82ea0360 EFLAGS: 00000202 ORIG_RAX: 0000000000000001
-    RAX: ffffffffffffffda RBX: 00007f0b83517780 RCX: 00007f0b835a9687
-    RDX: 0000000000000005 RSI: 0000564f8a21d074 RDI: 0000000000000003
-    RBP: 0000000000000003 R08: 0000000000000000 R09: 0000000000000000
-    R10: 0000000000000000 R11: 0000000000000202 R12: 0000000000000000
-    R13: 00007ffc82ea04f0 R14: 00007f0b83755000 R15: 0000564f8a21ed78
+     ? trace_hardirqs_on+0x18/0x160
+     ? srso_alias_return_thunk+0x5/0xfbef5
+     ? _raw_spin_unlock_irqrestore+0x44/0x60
+     __device_attach+0x1c3/0x490
+     ? __pfx___device_attach+0x10/0x10
+     ? snd_hda_codec_configure+0x4a2/0x690 [snd_hda_codec]
+     snd_hda_codec_configure+0x4c5/0x690 [snd_hda_codec]
+     ? __pfx_snd_hda_codec_configure+0x10/0x10 [snd_hda_codec]
+     ? __pfx_azx_probe_codecs+0x10/0x10 [snd_hda_codec]
+     ? srso_alias_return_thunk+0x5/0xfbef5
+     ? request_threaded_irq+0x21f/0x380
+     azx_codec_configure+0x65/0x200 [snd_hda_codec]
+     azx_probe_work+0x4d8/0x23b0 [snd_hda_intel]
+     ? __pfx_azx_probe_work+0x10/0x10 [snd_hda_intel]
+     ? srso_alias_return_thunk+0x5/0xfbef5
+     ? lock_release+0xc8/0x280
+     ? srso_alias_return_thunk+0x5/0xfbef5
+     process_one_work+0x908/0x19c0
+     ? __pfx_process_one_work+0x10/0x10
+     ? srso_alias_return_thunk+0x5/0xfbef5
+     ? lock_is_held_type+0x8f/0x100
+     ? srso_alias_return_thunk+0x5/0xfbef5
+     worker_thread+0x65c/0xe40
+     ? srso_alias_return_thunk+0x5/0xfbef5
+     ? __kthread_parkme+0x175/0x220
+     ? srso_alias_return_thunk+0x5/0xfbef5
+     ? __pfx_worker_thread+0x10/0x10
+     kthread+0x34f/0x460
+     ? srso_alias_return_thunk+0x5/0xfbef5
+     ? __pfx_kthread+0x10/0x10
+     ret_from_fork+0x659/0x940
+     ? __pfx_ret_from_fork+0x10/0x10
+     ? srso_alias_return_thunk+0x5/0xfbef5
+     ? __switch_to+0x74f/0xf80
+     ? __pfx_kthread+0x10/0x10
+     ret_from_fork_asm+0x1a/0x30
      </TASK>
 
-    Allocated by task 485:
+    Allocated by task 68:
      kasan_save_stack+0x33/0x60
      kasan_save_track+0x14/0x30
      __kasan_kmalloc+0xaa/0xb0
-     __kmalloc_noprof+0x2d7/0x770
-     snd_ctl_new+0x51/0x190
-     snd_ctl_new1+0x13c/0x650
-     0xffffffffc04011b5
-     do_one_initcall+0xf3/0x4e0
-     do_init_module+0x281/0x8e0
-     load_module+0x658c/0x7cc0
-     init_module_from_file+0x15b/0x180
-     idempotent_init_module+0x22d/0x770
-     __x64_sys_finit_module+0xd2/0x160
-     do_syscall_64+0x115/0x6a0
-     entry_SYSCALL_64_after_hwframe+0x77/0x7f
+     __kmalloc_cache_noprof+0x251/0x610
+     snd_jack_kctl_new+0x80/0x180
+     snd_jack_new+0x4b/0x4c0
+     snd_hda_jack_add_kctl_mst+0x19e/0x540 [snd_hda_codec]
+     add_jack_kctl+0x1b9/0x2c0 [snd_hda_codec]
+     snd_hda_jack_add_kctls+0x212/0x910 [snd_hda_codec]
+     snd_hda_gen_build_controls+0x23a/0x6a0 [snd_hda_codec_generic]
+     snd_hda_codec_build_controls+0x2e4/0x9f0 [snd_hda_codec]
+     hda_codec_driver_probe+0x26e/0x590 [snd_hda_codec]
+     really_probe+0x21f/0xa90
+     __driver_probe_device+0x1ec/0x490
+     driver_probe_device+0x4f/0x130
+     __device_attach_driver+0x1d2/0x2e0
+     bus_for_each_drv+0x155/0x1d0
+     __device_attach+0x1c3/0x490
+     snd_hda_codec_configure+0x4c5/0x690 [snd_hda_codec]
+     azx_codec_configure+0x65/0x200 [snd_hda_codec]
+     azx_probe_work+0x4d8/0x23b0 [snd_hda_intel]
+     process_one_work+0x908/0x19c0
+     worker_thread+0x65c/0xe40
+     kthread+0x34f/0x460
+     ret_from_fork+0x659/0x940
+     ret_from_fork_asm+0x1a/0x30
 
-    Freed by task 492:
+    Freed by task 436:
      kasan_save_stack+0x33/0x60
      kasan_save_track+0x14/0x30
      kasan_save_free_info+0x3b/0x60
      __kasan_slab_free+0x5f/0x80
      kfree+0x307/0x580
-     __snd_ctl_remove+0x2ac/0x3d0
+     snd_jack_kctl_private_free+0x154/0x200
+     __snd_ctl_remove+0x29f/0x3b0
      snd_ctl_remove+0x46/0x70
-     fixture_write+0x1ae/0x1f0 [pmbd_vmaster_fixture]
-     proc_reg_write+0x1fb/0x2d0
-     vfs_write+0x25a/0x1010
+     remove_control_set+0x110/0x1b0 [pmbd_alsa_control_remove]
+     param_attr_store+0x191/0x2f0
+     module_attr_store+0x5d/0x90
+     sysfs_kf_write+0xed/0x140
+     kernfs_fop_write_iter+0x34b/0x500
+     vfs_write+0x637/0x1010
      ksys_write+0x111/0x200
      do_syscall_64+0x115/0x6a0
      entry_SYSCALL_64_after_hwframe+0x77/0x7f
 
-    The buggy address belongs to the object at ffff888107957d00
-     which belongs to the cache kmalloc-192 of size 192
-    The buggy address is located 80 bytes inside of
-     freed 192-byte region [ffff888107957d00, ffff888107957dc0)
+    The buggy address belongs to the object at ffff88810d8def00
+     which belongs to the cache kmalloc-64 of size 64
+    The buggy address is located 0 bytes inside of
+     freed 64-byte region [ffff88810d8def00, ffff88810d8def40)
 
     The buggy address belongs to the physical page:
-    page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x107957
+    page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x10d8de
     flags: 0x200000000000000(node=0|zone=2)
     page_type: f5(slab)
-    raw: 0200000000000000 ffff8881000423c0 dead000000000100 dead000000000122
-    raw: 0000000000000000 0000000000100010 00000000f5000000 0000000000000000
+    raw: 0200000000000000 ffff8881000428c0 dead000000000100 dead000000000122
+    raw: 0000000000000000 0000000000200020 00000000f5000000 0000000000000000
     page dumped because: kasan: bad access detected
 
     Memory state around the buggy address:
-     ffff888107957c00: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-     ffff888107957c80: fb fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
-    >ffff888107957d00: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-                                                     ^
-     ffff888107957d80: fb fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
-     ffff888107957e00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+     ffff88810d8dee00: fa fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
+     ffff88810d8dee80: fa fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
+    >ffff88810d8def00: fa fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
+                       ^
+     ffff88810d8def80: 00 00 00 00 00 00 fc fc fc fc fc fc fc fc fc fc
+     ffff88810d8df000: fa fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
     ==================================================================
 
-Fixes: ae07eb9bf23e ("ALSA: vmaster: Add snd_ctl_add_followers() helper")
+Fixes: 2d670ea2bd53 ("ALSA: jack: implement software jack injection via debugfs")
 Assisted-by: LLM
 Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
 ---
 
-diff --git a/sound/core/vmaster.c b/sound/core/vmaster.c
-index cd3dcaaf9f720e723ad6667e3df5e384a121542d..f4dad747717a4f52983e27d35575a8511d2317c3 100644
---- a/sound/core/vmaster.c
-+++ b/sound/core/vmaster.c
-@@ -287,6 +287,8 @@ EXPORT_SYMBOL(_snd_ctl_add_follower);
-  *
-  * Adds the multiple follower kcontrols with the given names.
-  * Returns 0 for success or a negative error code.
-+ *
-+ * Note that this function takes card->controls_rwsem lock internally.
-  */
- int snd_ctl_add_followers(struct snd_card *card, struct snd_kcontrol *master,
- 			  const char * const *list)
-@@ -294,6 +296,7 @@ int snd_ctl_add_followers(struct snd_card *card, struct snd_kcontrol *master,
- 	struct snd_kcontrol *follower;
- 	int err;
+diff --git a/sound/core/jack.c b/sound/core/jack.c
+index 0f04018181acb20f6bf85b11a9f6d4c7d3179e5a..dd604ffd8c815a9828f5e4b30a70b7597c86a37f 100644
+--- a/sound/core/jack.c
++++ b/sound/core/jack.c
+@@ -418,6 +418,7 @@ static void snd_jack_kctl_private_free(struct snd_kcontrol *kctl)
  
-+	guard(rwsem_write)(&card->controls_rwsem);
- 	for (; *list; list++) {
- 		follower = snd_ctl_find_id_mixer(card, *list);
- 		if (follower) {
+ static void snd_jack_kctl_add(struct snd_jack *jack, struct snd_jack_kctl *jack_kctl)
+ {
++	guard(rwsem_read)(&jack->card->controls_rwsem);
+ 	jack_kctl->jack = jack;
+ 	list_add_tail(&jack_kctl->list, &jack->kctl_list);
+ 	snd_jack_debugfs_add_inject_node(jack, jack_kctl);
