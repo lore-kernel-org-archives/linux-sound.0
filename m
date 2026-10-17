@@ -1,46 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34FF13B27C9;
-	Sat, 17 Oct 2026 17:05:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86A403BE178;
+	Sat, 17 Oct 2026 17:45:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792256706; cv=none; b=b4OpunpLT4+6Ot13lREIk+BHZghnL37wIkxTSOXaFHXYfJgLsn8ciPU3SNzJdDU36nqIW3/ee8vv4BPhbHTKxk+ZRlJ14slnLGKl7LmuVhEzYmZlrOWRLQfxq6m6Xr05VNmCN+mtdiD4m4pTOyv2Ip5meZW/YxP9OhdjFcYqu9c=
+	t=1792259132; cv=none; b=HfA9gUXStamEZJq4ZzoXeS6BpidLmy+PPzC7lrQLIjz1icevgGBCBGlEoqA3Q40A1cuUcQ3Mn/a8Z8X9cdVP4x5Bl7SH18kjSJ1kPGYxgYWAEzDvy/yBB30ibQQveLRVCMDMXquVYc8q+ZHVj+aqJqTAAx4nfVuzpCf8+krbhbc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792256706; c=relaxed/simple;
-	bh=NTv8UAB1ICSx0ptxYfIUBJ8oo6tkISnTzGdQg1UEECw=;
+	s=arc-20240116; t=1792259132; c=relaxed/simple;
+	bh=owzaTet5v3EgXi5SdOmanPONyS+RQRW3Vx26RCaPIP0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o6k5s+67OyPN/TpjQiAQnTsB33JggaDBut+hn9R+GUIp1fFXFox61xwace5WfwXr8eybdju3VpMR+3C2FZSwP+vbMRFjEXcCAmwCsxU36Mvka5zlCN7tZv2Ur/XPwylWV4eN68RHZl50gAC6kCdxYJxvuvv6MWRAJqKMcDQPo/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JXqya8iP; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=QtM6iwnPG7ejOFLQkMnKOwW15LslD/DR9HjVydQSofEoiWUIErhiIMnDEWIhGn0P7KMHq6K2Utmr8M/UQSwEZL+Gp2evujQmxBxBxO6hnT73LqsvhJNvSVTnWVHS8EsoidXNsOutLFyVRq2WL1R8rj6C3YSkvyj58lI1eAgcO9I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b3PgLbaH; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JXqya8iP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F8CF1F000C6;
-	Sat, 17 Oct 2026 17:05:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b3PgLbaH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C79F81F000C5;
+	Sat, 17 Oct 2026 17:45:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792256705;
-	bh=LHXrzvAT9LWhJb9bhlQvj4bxXBxn9dZWl9aPj62MfWM=;
+	s=k20260515; t=1792259131;
+	bh=GPzCo40LEnNwcaTb4CaHpuAV9iShvhyOmUd7WqaMELc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=JXqya8iP5PMfMR53ETfSM+l5ehjll8YXp8b1eeWVuepfcNNUToADpcl3gsSCZrrw3
-	 WwbaJ5nkmGd9aYhMa2jgPvu7GAeioCVUsD6NoDoOjuVvB/Pc8uLQsGE/lnA2ckSQkQ
-	 u8lh6v7Kqog9T6+54wWH/CFVaHBfMft+lderxtUuTRLmUbno/E29CZkoNHUFGWgB2x
-	 HpmHFQ8+uzabx8+nUFr0Lb3KBDHnY4iC6Dxcrwwg9HnZgv7+F9NPYGxa5uP9t23PSH
-	 o+7H3FwDyQgz2XuuTV3AK8I0voybNhDgDDJH/9SpuG4sw3Qz1ieg8fJfzsM0vxAami
-	 239uMMj5STT7w==
-Date: Sat, 17 Oct 2026 19:05:02 +0200
+	b=b3PgLbaHEGLiLpHaf3B6QCRkw87Ww/ZQ+CksWs3f+U964DOpyTFvb77Zm1PHDPCr0
+	 nJxd8W1Amz5ukzR52U3/KEoFkNVAD8bTK2FGyG+C+S0PovixxnAQ+KhUO8VwS642S5
+	 sWd0846YLvW0Hm3c/Bmz2RNqQkdvRjBw3Uf4u/TG/YHmuHp2MJkeUdZTXif09ROtCm
+	 ML41vGf5KMyKFedqae0ephevU0gI9vjHK9O/xhJ6r1i4Adv3AiMs39q3TUzUG4byP9
+	 8H65cvKYtfDISGA1YmRJxGbk5IkrvsYyc/ZvmBXraPoL6EWKBqEq2idZdP4V6kLbVl
+	 J9wNbbRM5UeSg==
+Date: Sat, 17 Oct 2026 19:45:28 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Val Packett <val@packett.cool>
-Cc: Srinivas Kandagatla <srini@kernel.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
+To: Roman =?utf-8?B?U21yxb4=?= <roman@amarulasolutions.com>
+Cc: Peter Rosin <peda@lysator.liu.se>, 
+	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>, Lars-Peter Clausen <lars@metafoo.de>, 
+	Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
 	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
-	Luca Weiss <luca.weiss@fairphone.com>, Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>, 
-	~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH 3/5] ASoC: dt-bindings: qcom,sm8250: Add Motorola Edge 30
- sound card
-Message-ID: <20261017-fast-pudu-of-promotion-cc0ffc@quoll>
-References: <20261016073157.611956-1-val@packett.cool>
- <20261016073157.611956-4-val@packett.cool>
+	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, 
+	Sen Wang <sen@ti.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	asahi@lists.linux.dev, linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-amarula@amarulasolutions.com, 
+	Michael Trimarchi <michael@amarulasolutions.com>
+Subject: Re: [PATCH v2 1/5] ASoC: dt-bindings: Add ti,pcm1795 and ti,pcm1796
+Message-ID: <20261017-predictable-faithful-orca-3265f2@quoll>
+References: <20261016-work-v2-0-9340b9555fbb@amarulasolutions.com>
+ <20261016-work-v2-1-9340b9555fbb@amarulasolutions.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,15 +51,25 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261016073157.611956-4-val@packett.cool>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20261016-work-v2-1-9340b9555fbb@amarulasolutions.com>
 
-On Fri, Oct 16, 2026 at 04:31:51AM -0300, Val Packett wrote:
-> Document the bindings for the sound card on motorola-dubai which uses the
-> Elite DSP architecture.
-> 
-> Signed-off-by: Val Packett <val@packett.cool>
+On Fri, Oct 16, 2026 at 12:33:54PM +0200, Roman Smr=C5=BE wrote:
+> From: Michael Trimarchi <michael@amarulasolutions.com>
+>=20
+> The PCM1795 and PCM1796 are cost/power-reduced variants of PCM1792A.
+> Both are register compatible with the PCM1792A, so they belong in the
+> trivial codec schema.
+>=20
+> Signed-off-by: Michael Trimarchi <michael@amarulasolutions.com>
+> Signed-off-by: Roman Smr=C5=BE <roman@amarulasolutions.com>
+>=20
 > ---
->  Documentation/devicetree/bindings/sound/qcom,sm8250.yaml | 1 +
+> Changes in v2:
+> - Updated description.
+> ---
+>  Documentation/devicetree/bindings/sound/trivial-codec.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
 
 Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
