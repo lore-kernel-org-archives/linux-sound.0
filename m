@@ -1,61 +1,61 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 691313EC83E
-	for <linux-sound@vger.kernel.org>; Sat, 17 Oct 2026 07:01:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E84B13EAC61
+	for <linux-sound@vger.kernel.org>; Sat, 17 Oct 2026 07:27:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792220519; cv=none; b=HTUjcWtffWIBTmpJ+bOvZSQnQQhvHJKke5VnqlZdcX1JvUu3lanziAWRYVkAiySOGyVAXI/baMQt1k0koKqCYF1EaCagSaaBxm5I6/1m1afmlKudat/VD75N77aJx6nfiTQz+O6FvR3f4HoI0Hl3XEjpfZzuwwCOrg4iWRAYfd0=
+	t=1792222050; cv=none; b=FNGB5vkpMDM+bGTums8W/hqmaaQyVSFxEaMkUjvzrPyMnL+fYWUjaYFYPLmrMHjkuG9UvZgQeJTG95TFazyJJk537OGT7ey23gxd81r6O0EmnX6Dc6pZlGu7O3JnGsy326N77JMrSb2dqkpNG5FQ57ae7tRUEyBwsy5c8CQRIG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792220519; c=relaxed/simple;
-	bh=aw0MPoxuG1QOoV9BOTq+Prrg/+S3pi689Zo3XQROyX0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=VauZwKk/vERiK8uVYTt3TLiZfjLL7KP/LkEMC58t7yzz0PPCpg2Jsbl0BqPZcSAysOsI8M6d/aMrwjfAA/l0GymzcBt84bJ33Ee40XBsB0xqxP+cmagozlSTvDONYN8VvRsqBhIcV040jiaPayRSukSNqJk0XdNlB49/f70eEO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lGiqAIM6; arc=none smtp.client-ip=209.85.214.176
+	s=arc-20240116; t=1792222050; c=relaxed/simple;
+	bh=ScCkCg1PasslyQrcGv0QXe/t4I4hQs8RryHqx7F57W4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=LxsdH9iY7MxtR0AsUyK+Jhk77IY7Sdj04MmNvw02FkbHZ1X9RF4wvw5yOa+zFulNIVkfMBZPLNYtCSLrd8ibj04YJRj7n3EfafQzV28/ryLJ9/NvsTdnoADn3hVVomQDdqL7pQSIdXlAF/1tQnPQcnhwiGR99zaTCjjwfR7DNLE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eJgSfn5j; arc=none smtp.client-ip=209.85.210.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lGiqAIM6"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2e8246b13cbso4311335ad.2
-        for <linux-sound@vger.kernel.org>; Sat, 17 Oct 2026 00:01:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eJgSfn5j"
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-8917c712f32so259361b3a.2
+        for <linux-sound@vger.kernel.org>; Sat, 17 Oct 2026 00:27:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792220517; x=1792825317; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1792222047; x=1792826847; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:message-id:date
          :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=GG2ifTQKbsTqni2SOuwEWnUWLH2Ni+EYe1SzZ/Lm0Hs=;
-        b=lGiqAIM6Ntm8gAU4SI3RkBmnTTSLVmyqaTIOsHoxG14OcnxJ2tqSO+gZ55X7lemvkU
-         Y69TCcyNftamnBrUpwy6ahNhHWvXpUGfGlR0s4TrvPrY/eNwpzn0mBofdEPmQ82Fubor
-         rH9jQMeTuQOG1aIk+9IBndmLVRdxyfL53sVp9d1b/UxpJldcpjLkFiZBaImYEpzPzLV0
-         tC7cV7G/ZPRBauurImyN6QVCM9VhsTrw/aSXB84R5yoc015twUblhYCD5DPxhGUsV1bx
-         gCHu9I35q41NCbaQ3QzzlVQtCKjFEoeqqvx3LDBvblnLHxLel/mzv30UuqIcUbbnacni
-         dVCg==
+        bh=UCr2hGuSoBbZG63UvS3r5zJM0OZa0bzIBmhskmWguD0=;
+        b=eJgSfn5jy/eER1wuOUFEAhwfPbXLTmO/3PcLJMiyBB40eHzRjse5jj69lflDu1MVVX
+         gGZAoYPViMCyXA5hXwG4+w7SAWF7SkdCaw7rKJLLX4lJszZY0cTSwHwXGwvJ8A3Zm0wZ
+         Mu9nU+RxEW7WlJzxMuUMr2tuz0pic0pSIM6WrmN9/eWaN1r6TNAGw6HXSmq5oT1QfenX
+         TnJEK6iz9pmW+823iAcqUCodkdWRa9dClMYbHnrks7Q2R4YYONG96g4WaecF6mcM727f
+         zMOGsWSAJX6dUlIgzYYy9lUUHRsGzb9VeZmOYJPd+A/K92pDXdUDGNxi3AOpOGiqRygj
+         VlBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792220517; x=1792825317;
+        d=1e100.net; s=20260707; t=1792222047; x=1792826847;
         h=content-transfer-encoding:content-type:mime-version:message-id:date
          :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=GG2ifTQKbsTqni2SOuwEWnUWLH2Ni+EYe1SzZ/Lm0Hs=;
-        b=eCR6b6xcrFWpwVZNPk/jj2wccWuFih4uhb/myB6P4Atjja2YBv2kqWh+ij3qrcCX89
-         cIVHtUoxP/4daHGw3duszwBYrFAxhCvr3+0LTFfVowYV73qhj4Q0l8fTKNFt1qWp0SB4
-         +9+kCXecr1DS68KcapWLXokGbSqjVyScvKh4YchWGEJrJ1CT8XHcWThmwX/yT03eGjft
-         TemD+P7a22ZtbyDgF2KKK4nQLsCfvr7qJLlSTUOeMKaFcbggNPHqk/xClin/BiaRv2Pc
-         TQ+ZwY9xMohiygYe2ehfSF0p0WWW1TNr+lNJDptiK1BgvffkCaeGXc4fXgHsX0I+lD7z
-         fv1Q==
-X-Gm-Message-State: AFq9FYJTToihqV5Q5bbpqzfzL7QuuMBZEZylL02P2xnHRtoW3TXEJKUM
-	15igLRHCOm89I9oUOkFzkJMApuGEsduEIeq+JdaMpeiK8p2YcmGr2aa9
-X-Gm-Gg: AYBFou3lC17HG5rmNLxH8GCyC9bzYAw7nu45yhL6p23UmkLafiDiHvNB052E7bQ2cxr
-	klTb/RZ1yJa9MD3Gq27TrJf+r1EEMKeibwrY9JsakqeC1EAS6xDvSVVYXXHD3RELCP7PAN4XIZl
-	oOAj3NV4+mF/A/pSKT1ZMpzEw5rIY8D5K7vuztkp6J4YH5hlPwt6VJhpBn9FJmb0KXxRai1bnQV
-	tgqMXSg+bybPVn/N/VBBRpHkUKaR/gjVRvfdJ3PS8pgki0Ec5DLqD0xF2OPni11qOZWjhtX8pAI
-	GBgGMhKUoAZs/LnaKTPcXszL+UINvw2xLN8iJUXCFABQ7cXqpIvGc5su0MKmni8pCGfyduXzLVP
-	mj15+fGtAoP1z+TrF7TrZesPfTmymh9qrCAgIw2qNlmVIDGknKFYWhzjEpf0VnrtUDbu2YXB+zt
-	PcOjMadxy0pJor580Ggq/PVM9IuJppgCVvycLvg0CdPWhZs0VqmkBgR8Ya2C8/PJayKg==
-X-Received: by 2002:a17:903:2284:b0:2dd:c100:943e with SMTP id d9443c01a7336-2e9a6d36770mr19636925ad.60.1792220516593;
-        Sat, 17 Oct 2026 00:01:56 -0700 (PDT)
+        bh=UCr2hGuSoBbZG63UvS3r5zJM0OZa0bzIBmhskmWguD0=;
+        b=ygcMvGp40UigYagnSNG+a5YKKVQJ7AY4eTKxpX2qPQDcaW0+8kmz9+xBc6qXcum6Dk
+         pkwXoPueszTq6zEESq64TLPJRad/7etKlsTcxRfjWoGK8yTbEFrCyGNEDSYT4qiAjRyq
+         hGuo2ouFcleDrlHHv/4b3BYKlJj243CCSmK+Pj2GDtv2CgasYc/4dyNtM2Y0w0G8FEgU
+         JuvpQAbtk6dnyQk8ajJjn/+1KA64X8z+zSRursq7sSkC+NR1RuDT+jzmYnN9O3oTyGsh
+         sWeTHQgVCcwFh+K5K2Ipx1xgeGLUR9SV5ACQ8prKsS0XgyMu3A+cOOAv1pwARTxeH/TK
+         etJQ==
+X-Gm-Message-State: AFq9FYKfp6URJ2MP7FAIl+2WdW0xx2/0mRCZCe2AMR4Js9z+kNIxr0NF
+	RsRf4c+ffONUWQxMAsXT+Qrltvb6XxClEuz6cjSheF4rkDEuk016h83R
+X-Gm-Gg: AYBFou1jJErApKb/r2DkLdAabc1FUZsFyVI0n/NOJ1usmWaIk+2YwfwQ8w5GyW9R2Wi
+	Fa9LpdN6j1/6ZzO4zTyONJ/mqabudqBLSRY4M4O/0ZxaVcqSED30yAi599pGrgMnuwsVKcKZpY+
+	dlOHQBJ+ywW+r20bmjSPiB+Bdg/+K0BmvgM9wjxGWVkXe+4iU9uuho7nC7Uo7fuUM2ZvM9enSFJ
+	8F0+qSCMj4pgEWqKLeCcCQGt8skKXznMY2jOALwLLyFzFVfZzPd85jVpJxUklwT5LhkvXnSul+l
+	Uv/7L2Vgzm7awG6Chh6QDB2SKuZHXaURbgt3Uco0KFrSjtv0Gg1eJzdHrbuWYBLEmlght/40978
+	T0HObTXz5PWssiEAFDDQd3VUUAYOL1yHv+/0xK2w+hYt+zqf+Uhre8A4IYmvooi+o1ckn/RbX65
+	i2pd+1M5H641GeG+QYBsD5Hh7caJOQ5cTsGpnzdIQ9737hQzOw1aj59XuBLdwZUGr7zFI=
+X-Received: by 2002:a05:6a20:43a7:b0:3dd:85a9:55a3 with SMTP id adf61e73a8af0-3e2260646f4mr1317417637.37.1792222047021;
+        Sat, 17 Oct 2026 00:27:27 -0700 (PDT)
 Received: from localhost ([111.228.63.84])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e97e834f32sm19029435ad.41.2026.10.17.00.01.52
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-89f56c8cf81sm1973166b3a.16.2026.10.17.00.27.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 Oct 2026 00:01:56 -0700 (PDT)
+        Sat, 17 Oct 2026 00:27:26 -0700 (PDT)
 From: Cen Zhang <zzzccc427@gmail.com>
 To: perex@perex.cz,
 	tiwai@suse.com
@@ -64,9 +64,9 @@ Cc: linux-sound@vger.kernel.org,
 	baijiaju1990@gmail.com,
 	jjzuming@gmail.com,
 	zzzccc427@gmail.com
-Subject: [PATCH] ALSA: seq: oss: Initialize the timer before publishing the port
-Date: Sat, 17 Oct 2026 15:01:49 +0800
-Message-Id: <pm-pmb-1295c9b521e15b3753d6-v2-d2f1fcf0f038e0776f7c@gmail.com>
+Subject: [PATCH] ALSA: pcm: oss: Serialize final setup list cleanup
+Date: Sat, 17 Oct 2026 15:27:19 +0800
+Message-Id: <pm-pmb-a4703edca61d34aa679b-v6-680f350d78e44f9de7a7@gmail.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -77,80 +77,190 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-An OSS sequencer port must have an initialized timer before MIDI input
-can reach send_midi_event(). snd_seq_oss_open() publishes the callback
-port and assigns dp->readq before allocating dp->timer.
+OSS setup nodes and their task names must remain valid throughout
+snd_pcm_oss_look_for_setup(). The lookup holds setup_mutex while
+comparing names, traversing the list and copying a matched record, but
+snd_pcm_oss_proc_done() frees that list without taking the mutex.
 
-A client owning a MIDI port that another OSS session has opened for
-reading can submit a direct event to the new OSS port. Direct delivery
-does not require a subscription to the destination, and
-snd_seq_oss_midi_input() checks the source alias's readable-open bit
-without requiring that alias to belong to the destination session.
-For a read-capable /dev/sequencer open, this permits the following order:
+With verbose proc support enabled, an OSS open on a stream with a
+populated setup list can overlap HDA codec unbind. The card remains
+registered, so the card-file reference does not prevent the PCM
+component from being freed.
 
-  OSS open                         Direct MIDI input
-  create_port(dp)
-  dp->readq = ...
-                                   snd_seq_write() to the new port
-                                   snd_seq_oss_midi_input()
-                                   send_midi_event()
-                                     dp->timer->running
-  dp->timer = snd_seq_oss_timer_new(dp)
+The lookup runs before pcm->open_mutex is taken and before the driver
+acquires a PCM reference. Codec unbind disconnects the PCM and drains
+existing codec PCM references first. Its cleanup then reaches
+snd_pcm_free() through codec_release_pcms() and snd_device_free(). The
+n_unregister callback invokes snd_pcm_oss_unregister_minor() and
+snd_pcm_oss_proc_done().
 
-The callback dereferences a NULL timer in this interval. The OSS
-register_mutex does not cover event callbacks, and the destination
-port's use reference only protects the session's lifetime.
+Both columns below access the setup list of the same PCM stream. Without
+this fix, cleanup does not take setup_mutex:
 
-Initialize the timer before creating the callback port, so the existing
-port publication also publishes the initialized timer. The timer
-constructor does not need a queue or a port. Use free_devinfo() when no
-port was created to release the timer on failures.
+  OSS open                        HDA PCM teardown
+  --------                        ----------------
+  snd_pcm_oss_look_for_setup()
+    lock(setup_mutex)
+    setup = setup_list
+                                  snd_pcm_oss_proc_done()
+                                    snd_info_free_entry()
+                                    /* no setup_mutex held */
+                                    snd_pcm_oss_proc_free_setup_list()
+                                      kfree(setup->task_name)
+                                      kfree(setup)
+    read setup->task_name
+    or setup->next -> UAF
+
+Take setup_mutex around final list cleanup, as the proc clear/erase path
+already does. This waits for the active lookup to finish its reads and
+copy before freeing the nodes. Acquire the mutex after
+snd_info_free_entry() so proc callback rundown can finish without
+waiting on a mutex held by teardown.
+
+KASAN report as below:
+
+    BUG: KASAN: slab-use-after-free in snd_pcm_oss_look_for_setup+0x30c/0x3c0
+    Read of size 8 at addr ffff888106ecc2c0 by task pmbdossuaf/427
+
+    CPU: 3 UID: 0 PID: 427 Comm: pmbdossuaf Not tainted 7.2.0-rc6-pmb-alsa-functional-v2+ #1 PREEMPT(lazy)
+    Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+    Call Trace:
+     <TASK>
+     dump_stack_lvl+0x93/0xd0
+     print_report+0xce/0x630
+     ? snd_pcm_oss_look_for_setup+0x30c/0x3c0
+     ? srso_alias_return_thunk+0x5/0xfbef5
+     ? __virt_addr_valid+0x20d/0x410
+     ? snd_pcm_oss_look_for_setup+0x30c/0x3c0
+     kasan_report+0xe0/0x110
+     ? snd_pcm_oss_look_for_setup+0x30c/0x3c0
+     snd_pcm_oss_look_for_setup+0x30c/0x3c0
+     snd_pcm_oss_open+0xd38/0x1240
+     ? srso_alias_return_thunk+0x5/0xfbef5
+     ? avc_has_perm_noaudit+0x4a/0x330
+     ? srso_alias_return_thunk+0x5/0xfbef5
+     ? find_held_lock+0x2b/0x80
+     ? __pfx_snd_pcm_oss_open+0x10/0x10
+     ? srso_alias_return_thunk+0x5/0xfbef5
+     ? __lock_acquire+0x466/0x2260
+     ? srso_alias_return_thunk+0x5/0xfbef5
+     ? srso_alias_return_thunk+0x5/0xfbef5
+     ? srso_alias_return_thunk+0x5/0xfbef5
+     ? lock_release+0xc8/0x280
+     ? __pfx_snd_pcm_oss_open+0x10/0x10
+     soundcore_open+0x3ae/0x510
+     ? __pfx_soundcore_open+0x10/0x10
+     chrdev_open+0x21f/0x660
+     ? __pfx_chrdev_open+0x10/0x10
+     ? srso_alias_return_thunk+0x5/0xfbef5
+     do_dentry_open+0x5c8/0x1300
+     ? __pfx_chrdev_open+0x10/0x10
+     ? security_inode_permission+0x5d/0xb0
+     vfs_open+0x87/0x390
+     ? srso_alias_return_thunk+0x5/0xfbef5
+     path_openat+0x2460/0x3cd0
+     ? do_syscall_64+0x115/0x6a0
+     ? entry_SYSCALL_64_after_hwframe+0x77/0x7f
+     ? __pfx_path_openat+0x10/0x10
+     do_file_open+0x21e/0x470
+     ? __pfx_do_file_open+0x10/0x10
+     ? _raw_spin_unlock+0x23/0x40
+     ? srso_alias_return_thunk+0x5/0xfbef5
+     ? alloc_fd+0x3a6/0x6b0
+     do_sys_openat2+0xf4/0x1b0
+     ? __pfx_do_sys_openat2+0x10/0x10
+     ? srso_alias_return_thunk+0x5/0xfbef5
+     __x64_sys_openat+0x136/0x1e0
+     ? __pfx___x64_sys_openat+0x10/0x10
+     ? irqentry_exit+0xbe/0x820
+     ? srso_alias_return_thunk+0x5/0xfbef5
+     do_syscall_64+0x115/0x6a0
+     entry_SYSCALL_64_after_hwframe+0x77/0x7f
+    RIP: 0033:0x7f687d8c4687
+    Code: 48 89 fa 4c 89 df e8 58 b3 00 00 8b 93 08 03 00 00 59 5e 48 83 f8 fc 74 1a 5b c3 0f 1f 84 00 00 00 00 00 48 8b 44 24 10 0f 05 <5b> c3 0f 1f 80 00 00 00 00 83 e2 39 83 fa 08 75 de e8 23 ff ff ff
+    RSP: 002b:00007ffca02dde50 EFLAGS: 00000202 ORIG_RAX: 0000000000000101
+    RAX: ffffffffffffffda RBX: 00007f687d830780 RCX: 00007f687d8c4687
+    RDX: 0000000000080801 RSI: 00007f687d518b90 RDI: ffffffffffffff9c
+    RBP: 00007f687d66e1c8 R08: 0000000000000000 R09: 0000000000000000
+    R10: 0000000000000000 R11: 0000000000000202 R12: 00000000000001ff
+    R13: 00007f687d356830 R14: 00007ffca02ddf30 R15: 00007f687d518b90
+     </TASK>
+
+    Allocated by task 426:
+     kasan_save_stack+0x33/0x60
+     kasan_save_track+0x14/0x30
+     __kasan_kmalloc+0xaa/0xb0
+     __kmalloc_cache_noprof+0x251/0x610
+     snd_pcm_oss_proc_write+0x619/0x950
+     snd_info_text_entry_release+0x100/0x260
+     close_pdeo.part.0+0xe0/0x2e0
+     close_pdeo+0x161/0x180
+     proc_reg_release+0x185/0x1f0
+     __fput+0x39f/0xa60
+     fput_close_sync+0xff/0x200
+     __x64_sys_close+0x8c/0xf0
+     do_syscall_64+0x115/0x6a0
+     entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+    Freed by task 428:
+     kasan_save_stack+0x33/0x60
+     kasan_save_track+0x14/0x30
+     kasan_save_free_info+0x3b/0x60
+     __kasan_slab_free+0x5f/0x80
+     kfree+0x307/0x580
+     snd_pcm_oss_proc_free_setup_list+0x9c/0x140
+     snd_pcm_oss_unregister_minor+0x203/0x450
+     snd_pcm_free+0xb0/0x180
+     __snd_device_free+0x193/0x3f0
+     snd_device_free+0xcf/0x190
+     snd_hda_codec_cleanup_for_unbind+0x1b3/0xad0
+     hda_codec_driver_remove+0x1c4/0x2e0
+     device_remove+0x12a/0x170
+     device_release_driver_internal+0x471/0x650
+     unbind_store+0xfd/0x110
+     drv_attr_store+0x79/0xb0
+     sysfs_kf_write+0xed/0x140
+     kernfs_fop_write_iter+0x34b/0x500
+     vfs_write+0x637/0x1010
+     ksys_write+0x111/0x200
+     do_syscall_64+0x115/0x6a0
+     entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+    The buggy address belongs to the object at ffff888106ecc2c0
+     which belongs to the cache kmalloc-32 of size 32
+    The buggy address is located 0 bytes inside of
+     freed 32-byte region [ffff888106ecc2c0, ffff888106ecc2e0)
+
+    The buggy address belongs to the physical page:
+    page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x106ecc
+    flags: 0x200000000000000(node=0|zone=2)
+    page_type: f5(slab)
+    raw: 0200000000000000 ffff888100042780 dead000000000100 dead000000000122
+    raw: 0000000000000000 0000000000400040 00000000f5000000 0000000000000000
+    page dumped because: kasan: bad access detected
+
+    Memory state around the buggy address:
+     ffff888106ecc180: fa fb fb fb fc fc fc fc fa fb fb fb fc fc fc fc
+     ffff888106ecc200: fa fb fb fb fc fc fc fc fa fb fb fb fc fc fc fc
+    >ffff888106ecc280: fa fb fb fb fc fc fc fc fa fb fb fb fc fc fc fc
+                                               ^
+     ffff888106ecc300: fa fb fb fb fc fc fc fc fa fb fb fb fc fc fc fc
+     ffff888106ecc380: fa fb fb fb fc fc fc fc fa fb fb fb fc fc fc fc
+    ==================================================================
 
 Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
 Assisted-by: LLM
 
 ---
-
-diff --git a/sound/core/seq/oss/seq_oss_init.c b/sound/core/seq/oss/seq_oss_init.c
-index 6586e07431c35f4fdeb074a65f982e3cc78d0ee5..f1bd52c765b97f54932456f2e68164cb4f02fdc5 100644
---- a/sound/core/seq/oss/seq_oss_init.c
-+++ b/sound/core/seq/oss/seq_oss_init.c
-@@ -198,6 +198,14 @@ snd_seq_oss_open(struct file *file, int level)
- 		goto _error;
+diff --git a/sound/core/oss/pcm_oss.c b/sound/core/oss/pcm_oss.c
+index bd19328dca9e..ac7f6f1384fc 100644
+--- a/sound/core/oss/pcm_oss.c
++++ b/sound/core/oss/pcm_oss.c
+@@ -3111,6 +3111,7 @@ static void snd_pcm_oss_proc_done(struct snd_pcm *pcm)
+ 		struct snd_pcm_str *pstr = &pcm->streams[stream];
+ 		snd_info_free_entry(pstr->oss.proc_entry);
+ 		pstr->oss.proc_entry = NULL;
++		guard(mutex)(&pstr->oss.setup_mutex);
+ 		snd_pcm_oss_proc_free_setup_list(pstr);
  	}
- 
-+	/* initialize timer before the port can receive events */
-+	dp->timer = snd_seq_oss_timer_new(dp);
-+	if (!dp->timer) {
-+		pr_err("ALSA: seq_oss: can't alloc timer\n");
-+		rc = -ENOMEM;
-+		goto _error;
-+	}
-+
- 	/* create port */
- 	rc = create_port(dp);
- 	if (rc < 0) {
-@@ -239,14 +247,6 @@ snd_seq_oss_open(struct file *file, int level)
- 		}
- 	}
- 
--	/* initialize timer */
--	dp->timer = snd_seq_oss_timer_new(dp);
--	if (!dp->timer) {
--		pr_err("ALSA: seq_oss: can't alloc timer\n");
--		rc = -ENOMEM;
--		goto _error;
--	}
--
- 	/* set private data pointer */
- 	file->private_data = dp;
- 
-@@ -328,7 +328,7 @@ static int
- delete_port(struct seq_oss_devinfo *dp)
- {
- 	if (dp->port < 0) {
--		kfree(dp);
-+		free_devinfo(dp);
- 		return 0;
- 	}
- 
+ }
