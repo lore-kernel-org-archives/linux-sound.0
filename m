@@ -1,250 +1,352 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 250033FA5CE
-	for <linux-sound@vger.kernel.org>; Sat, 17 Oct 2026 06:00:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E546B39E17E
+	for <linux-sound@vger.kernel.org>; Sat, 17 Oct 2026 06:58:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792216839; cv=none; b=l1YmJ2yJ2dHySaCs/p28qR9TEpmnCnuJwLoHoiq12J3PQCoUZnrd4F8O96NB91o0qDQpsHl/R7jBMBMLPsRxG1jKf9wGxyvz8ylwLrJBHuoowPUP2hNMtyLe3Y1UHCnh3NBN6OLYN/5B5+kgO/qH9JS6YUD63L64hHbRdaOmXg8=
+	t=1792220322; cv=none; b=EHEOh5D+tsq+O7ENhd2WuBeTUnZE3n+rvnB6kjOWUiEC5hV/rL5/GeUl27fen4RxOM4zqaHBZaXPukgxikvLGONNfy/s38TfI7bTE25425ome7MHjiYGT/ShUMZ7RrpUALKSHumHXLcv6n1GLCu31QeNY6mP5M5zGnHer3+KFZs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792216839; c=relaxed/simple;
-	bh=h6xZJRHrGResOFjtr1iSFAq4gf5CGK90ztYrN1KAtZo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jrxju7r6AYo+cPFSPDh0wyNL21duvR4YtotWeSDLiKLkgjZEtpo8hIjm8+xcH7++TrnvXubyI+5W/a0zc3625NI5XOUNa0JRCa9nRHZuoKZGWk7jG9npNjyMBKwBc22F1J39NwoZHfKwVYvtg7utB+v/hXmuAkAIT4ASaB/XoQ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cIAu7Ruc; arc=none smtp.client-ip=209.85.215.173
+	s=arc-20240116; t=1792220322; c=relaxed/simple;
+	bh=ESRSRmmEgvnSHq2i7EhlN+mYcsFuoC9Y8GhPuHzWZsM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=GrDeldHOPaDbCLqQf5SGwB6EaayxNm3UCFjkhx3E9RsdNi+Kj4OyaWoFqb1vaDll01+wwxG4CJVjcwTV5PvF+n5M676u3s6nDH01qGEFrgl8/D2VcH9t8m3fdr4Yb/uCrP9VNgm0Ad9HqgITQFTeEKlo2ULEjQG7mBQsE5mtf20=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g8h+mL7c; arc=none smtp.client-ip=209.85.216.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cIAu7Ruc"
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-cc1cf287ef8so411100a12.3
-        for <linux-sound@vger.kernel.org>; Fri, 16 Oct 2026 23:00:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g8h+mL7c"
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-3ac91ac8924so412345a91.1
+        for <linux-sound@vger.kernel.org>; Fri, 16 Oct 2026 23:58:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792216836; x=1792821636; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=1SSKD9R3/tZDll832XAf/4iUolviOcI2RSxt/Z/hu94=;
-        b=cIAu7RucrFQ6SlVsB8zErWgL3VIhW+ZC2rkqlXzJHxqjihyQ4/tqV3nDy+HUFqMEx3
-         ViT9eq54HsVHf5DABr42gzsM4Yapqq0nbh7o7XV4xqyaKCFE8RUK8tR9y+C49FMqHeb0
-         +S6OP0X4Bs043rW87dFkQN9mgPVianlOoZxYsdCSVhFMppQ2toL8SyLbybA334eusH/6
-         JWrS/nSo+030DgUjNX/tB4tlaRwOLl3Fp6ESjOQ08316EBb41Us5yv/IQwtPrhbxQJAB
-         bmP8s0IxzOubcfjlXX8Lomy55gauAscw7A0LFuWzvsLp76blzHCB7JJrAIMf7eW2XIx+
-         QYrg==
+        d=gmail.com; s=20251104; t=1792220320; x=1792825120; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=1p/9iIZcHkAsPmovUNOT6SYxgHuv9VL91d3C6K5p3j4=;
+        b=g8h+mL7c2mv9iJpl77TZYeBwoafbbfMgOkoAw4PS/KrpFfbfefPhOG6xvg1x7CnvxW
+         +Jgba0KpIYrcjFt8xDndp4mQrfmEOLYfBEk6WS2D12yB7mFPUjOK2vBBoVeEHIae5rNl
+         d6k6J1bh+Pry/LR7nREtV/4xbt9nhubrnxjWa7gTkv+oN65Y7EYUz4Ccqo5HbnbYiEnt
+         vcC+7y5o4T47daSAa418eNwEu5SE3HELcUNZ2E2UgY1hVVvVh1KxTZEvTjzzmClBJOaL
+         lgvBjr+iJ4jEPKBH3z+C0OmYoiALVuuxqmFEcHuOVpBUNAh3EkoskJrXBUYYwlgMJcc5
+         00Sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792216836; x=1792821636;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=1SSKD9R3/tZDll832XAf/4iUolviOcI2RSxt/Z/hu94=;
-        b=AMrraD2l+oJcrxXA3/pLjAAh9NNL+obaoTl0/mRgTz+NVrybgDAAwt7w8Z9ivXkWWe
-         s/rwyqXT17SbIf0Kpuc4lZa5/KopfKf9aQJcXwbzfi4t1e4XdyZEqRDdFQciEWNRjRYl
-         MW4jwGazsdGj8dSQUN+8qGaAyAeu3mzC8lEvjMvGQIfvO9D7eZofOwfCjQTdzg+dxz2b
-         M+bnMfaOMG8suo6ZivhPSF5aEQEY0N2LD6penwsS93MYh18uk4IT3SeWMqYMKGUp3kVm
-         6zkOEORf8k6+E5798BikZ3jlaEN4JYIqF43I4dytkv/KdPma6d2695Egvd4O033mk/o1
-         Zmng==
-X-Forwarded-Encrypted: i=1; AKwUvByhru62E6zdY6lkFU09M5gMS8QvDw+Y8K4WNZcKZfSE9+Gq77qrcKh9FluCE5IZWSV0CblKU6WJT8J+/w==@vger.kernel.org
-X-Gm-Message-State: AFq9FYKAXQZd/RzoQdgdC0NHMXh9Tux/GM/3kx/KHqprDLZCfQTjWyPI
-	ZcMqYtGlY472ggCXv12CkZtZc2SVknExtwKGwjF2n/2Um4dCe0C4S57p
-X-Gm-Gg: AYBFou1ogXIMumeK/T9XgD1E9Sn6mq7T7lIReW29geFsfyVw+xYYDTNPwZ2AfyXLCh8
-	fLGy0aY0VnZ4jZX5Xq4XGW8uoySddtgD+5yevLi5f1UKUUeqK6yh2oVT7hPS6EA4L/5T21609zu
-	uqkOLpe+pUAj9cw3wvpZ0dJUCcd16Z49WZknSWleJnOL8z8hzPsEG7rAN77pwPWlt3p1vDUGtli
-	YlLQViVGG8RkygOo1kauYrjMK4vpZ4NrRM5hQWE/HU3KEwyxqY6z6P8I+pRdyn4GF0/p9gFOvsd
-	uhiE5riZYpVklcDrM1wX7tqWcKWOvlZYfXotWUv4nR4QTnaOkxC9wjALa767Jty+bA8/vBZbU4i
-	NKENkOxxz+Dd3zv4lyQbnF/eoMug7J9SeFKPlAqWc1LXV1u8w3bRpbDEWSKRjBiKkeQs4HTn0Dw
-	43mXkjt1GJkQPdWocUlf64DoYgw0ioHJVMYr/MPViDefNfL6GJ2Sm/jx7JFSgTehXhE+Zxpo7ZS
-	ddW82ZAa7JaKbA43lEDIpIJm5wpUtjpNOExNPJHXb0kazAT54+N4Am0DuqTrDtOl212SkFCmr3z
-	OgadOrWGc6FuOObx2ofQWEPe
-X-Received: by 2002:a17:90b:5745:b0:3ac:c03a:38b0 with SMTP id 98e67ed59e1d1-3acee27798dmr1860446a91.8.1792216835447;
-        Fri, 16 Oct 2026 23:00:35 -0700 (PDT)
-Received: from localhost.localdomain ([180.182.24.11])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ace34c8d9asm3638033a91.5.2026.10.16.23.00.32
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 16 Oct 2026 23:00:34 -0700 (PDT)
-From: Joonho Lee <mynameisjune111@gmail.com>
-To: Anton Yakovlev <anton.yakovlev@opensynergy.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	linux-sound@vger.kernel.org,
-	virtualization@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [RFC PATCH 2/2] ALSA: virtio: prioritize staged capture period work
-Date: Sat, 17 Oct 2026 15:00:30 +0900
-Message-ID: <rfc-virtio-snd-capture-followups-2.f2737c95c12e45b4@gmail.com>
-In-Reply-To: <rfc-virtio-snd-capture-followups-0.f2737c95c12e45b4@gmail.com>
-References: <rfc-virtio-snd-capture-followups-0.f2737c95c12e45b4@gmail.com>
+        d=1e100.net; s=20260707; t=1792220320; x=1792825120;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=1p/9iIZcHkAsPmovUNOT6SYxgHuv9VL91d3C6K5p3j4=;
+        b=MSqBVRLrNHgOxVwlRWivOz7FOOCmxiGDcGhe5jTFQadnGQZ4gZL0sDTjjCmVK6K3jx
+         PIUatJ7bTrkNxcOa6iAViUsKseaKQWY39vWxGDBcdKKKIokJ4t7BIgxY74TKgW4RVqui
+         cRaGlmJmKEfTSApKLdZHxV5LuTj7WIELSgyP59dCNkJhx6nI8w1sXjXRPni+6QvisZ0D
+         sHK6g6znPqsox8tTUACTgmmI/gS+qe65LHPv/BNjUeamoAC/NHYSMCzHH8zDDHixlW+L
+         Cwk4n8dUPRNdr0rsxiWAl4Fk2wF//qWOzmf7g+qgGbTYY95ppqzSLTnMO7I6M3vMpl28
+         xqzw==
+X-Gm-Message-State: AFq9FYJ0x5pUoO1abGnNCM5U8KSl0jybhV8qhnH+vUhGn6ykMVUwYB9V
+	raSK1C2Aipk1ms1fkZWYMZ2lDC4ozV17ZNokcdXZ0B8gdEnKoFCvsQW8
+X-Gm-Gg: AYBFou3/xCfBqTVU1WCe4BbrXb2Gm8GA5BFvMXqPXS3zJ8yuph3VaJ271nHYaPHIkug
+	jVAj2AXjccudVujNfS5AJ4Z0VsPSyg84Zwog2XoBksm8tGiUm7ybWbHusd1Qd8xvmCAr5nEJiOj
+	Evs9Ed7irWZYBrq0V5NB0M46dcKR/ycuI+Bh+bVCpjK5KxNBy0QZPY2zmA7uTvszINv4RIezX5Y
+	TAqW2hla6VWwPl4YtZM7+dnRT1h/6rPifmFWbovuiX7H4bDA+BxQ0SrAapj2BCyPDX1ORcOqkRF
+	LjFiba9at3AqWGJVVqq0C93TjAZezunR1iOEMAVqtmN+mmlW5rC8rHlcZniG5+47mNw9A/oNPwo
+	kpZU46lN8/05chwLi+UvXM/GThwUCzHR0oV+ul84oJdRE1NuW0BMsSy8W4XxepvZHPFsVmTOaWz
+	XOECFb2Lhgx4RHqUV+5eLNfBQFRMfA0PUcLCY1aNfCUXQNVT+hRNhEtQeP8wuG9qwwFto=
+X-Received: by 2002:a17:90b:4c8e:b0:3ac:b3f9:70cb with SMTP id 98e67ed59e1d1-3acef5f4367mr1770291a91.57.1792220319754;
+        Fri, 16 Oct 2026 23:58:39 -0700 (PDT)
+Received: from localhost ([111.228.63.84])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3acc49c263asm6898616a91.17.2026.10.16.23.58.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Oct 2026 23:58:39 -0700 (PDT)
+From: Cen Zhang <zzzccc427@gmail.com>
+To: perex@perex.cz,
+	tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	baijiaju1990@gmail.com,
+	jjzuming@gmail.com,
+	zzzccc427@gmail.com
+Subject: [PATCH] ALSA: info: Serialize freeing with recursive registration
+Date: Sat, 17 Oct 2026 14:58:31 +0800
+Message-Id: <pm-pmb-26d66390a25fec9fad6c-v2-743c9b89c0f0d761eda1@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-CPU contention can delay staged capture period notifications while RX
-completions continue filling the unread ring. In a two-vCPU VZ guest with
-16 nice-0 CPU workers, the ACK-fixed baseline stopped with ring_capacity
-and EPIPE in three runs, after 11.74, 30.77 and 30.33 seconds of audio.
+An snd_info_entry must remain alive while it is reachable from a proc
+node. snd_info_free_entry() clears entry->p under info_mutex, but drops
+the mutex before unlinking and freeing the entry. The recursive
+snd_info_register() walk can still find it and publish another node.
 
-Route staged capture period work through system_highpri_wq with a common
-helper at all ten producers, including ACK errors and self-requeue. Keep
-playback and non-staged streams on the normal workqueue. Initialization,
-cancellation, buffer geometry and capture accounting remain unchanged.
+With a live card and a PCM OSS proc entry, unloading snd-pcm-oss can
+therefore overlap a card owner's repeated snd_card_register(). The OSS
+notifier removal holds register_mutex, while the already-registered card
+path holds snd_card_mutex. Neither excludes the other path:
 
-With the same kernel, input, geometry and userspace priority, the candidate
-completed three 70-second captures and immediate reopens. Its maximum
-matched queue-to-start delay was 20.366 ms, versus 108.112 ms in the first
-baseline failure. The other baseline failures had pending work without
-matching execution, so matched-only statistics do not bound that delay.
+  PCM OSS removal                    Card registration
+  snd_pcm_oss_proc_done()
+    snd_info_free_entry()
+      proc_remove(entry->p)
+      lock info_mutex
+      clear entry->p
+      unlock info_mutex
+                                     snd_info_card_register()
+                                       snd_info_register()
+                                         find linked OSS entry
+                                         lock info_mutex
+                                         publish new proc node
+                                         unlock info_mutex
+      unlink entry
+      kfree(entry)
 
-Reader scheduling delays were also present. Both arms passed a separate
-nice -10 reader control, and host load varied between runs. These results
-support the change for the tested workload without isolating a kernel-only
-cause or guaranteeing lossless capture under arbitrary CPU load.
-KASAN/lockdep QEMU regressions passed with the unchanged candidate source.
+A subsequent open of the new node passes its stale pde_data pointer to
+snd_info_text_entry_open(). alloc_info_private() then reads entry->p
+from freed storage.
 
-This follows the staged ACK fix and pending VZ capture support. The
-introducing staged-capture patch has no upstream Fixes commit ID yet.
+Hold info_mutex across the entire recursive registration walk and across
+clearing, unlinking and freeing the entry tree. Use internal recursive
+helpers so the mutex is acquired only once. Registration then finishes
+before the entry is cleared, or walks the tree after the entry has been
+unlinked. Keep proc_remove() outside info_mutex: proc open takes the same
+mutex, and removal waits for pending proc operations to finish.
 
-Link: https://lore.kernel.org/all/rfc-v2-vz-capture-compat-1.b9ab4c1540dc4691@gmail.com/
+KASAN report as below:
+
+    BUG: KASAN: slab-use-after-free in alloc_info_private+0x12f/0x1a0
+    Read of size 8 at addr ffff888115c84250 by task python3/426
+
+    CPU: 3 UID: 0 PID: 426 Comm: python3 Tainted: G           O        7.2.0-rc6-pmb-bt-functional-v1+ #1 PREEMPT(lazy)
+    Tainted: [O]=OOT_MODULE
+    Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+    Call Trace:
+     <TASK>
+     dump_stack_lvl+0x93/0xd0
+     print_report+0xce/0x630
+     ? alloc_info_private+0x12f/0x1a0
+     ? srso_alias_return_thunk+0x5/0xfbef5
+     ? __virt_addr_valid+0x20d/0x410
+     ? alloc_info_private+0x12f/0x1a0
+     kasan_report+0xe0/0x110
+     ? alloc_info_private+0x12f/0x1a0
+     alloc_info_private+0x12f/0x1a0
+     snd_info_text_entry_open+0xbd/0x2d0
+     ? __kasan_slab_alloc+0x89/0x90
+     ? __pfx_snd_info_text_entry_open+0x10/0x10
+     ? srso_alias_return_thunk+0x5/0xfbef5
+     ? proc_reg_open+0x20e/0x590
+     ? __pfx_snd_info_text_entry_open+0x10/0x10
+     proc_reg_open+0x27d/0x590
+     do_dentry_open+0x5c8/0x1300
+     ? __pfx_proc_reg_open+0x10/0x10
+     ? security_inode_permission+0x5d/0xb0
+     vfs_open+0x87/0x390
+     ? srso_alias_return_thunk+0x5/0xfbef5
+     path_openat+0x2460/0x3cd0
+     ? __pfx_path_openat+0x10/0x10
+     do_file_open+0x21e/0x470
+     ? __pfx_do_file_open+0x10/0x10
+     ? _raw_spin_unlock+0x23/0x40
+     ? srso_alias_return_thunk+0x5/0xfbef5
+     ? alloc_fd+0x3a6/0x6b0
+     do_sys_openat2+0xf4/0x1b0
+     ? __pfx_do_sys_openat2+0x10/0x10
+     __x64_sys_openat+0x136/0x1e0
+     ? __pfx___x64_sys_openat+0x10/0x10
+     ? irqentry_exit+0xbe/0x820
+     ? srso_alias_return_thunk+0x5/0xfbef5
+     do_syscall_64+0x115/0x6a0
+     entry_SYSCALL_64_after_hwframe+0x77/0x7f
+    RIP: 0033:0x7f4e79f32687
+    Code: 48 89 fa 4c 89 df e8 58 b3 00 00 8b 93 08 03 00 00 59 5e 48 83 f8 fc 74 1a 5b c3 0f 1f 84 00 00 00 00 00 48 8b 44 24 10 0f 05 <5b> c3 0f 1f 80 00 00 00 00 83 e2 39 83 fa 08 75 de e8 23 ff ff ff
+    RSP: 002b:00007ffdd084f450 EFLAGS: 00000202 ORIG_RAX: 0000000000000101
+    RAX: ffffffffffffffda RBX: 00007f4e79e9e780 RCX: 00007f4e79f32687
+    RDX: 0000000000080000 RSI: 00007f4e79c84d90 RDI: ffffffffffffff9c
+    RBP: 00007f4e79cdc1a0 R08: 0000000000000000 R09: 0000000000000000
+    R10: 0000000000000000 R11: 0000000000000202 R12: 00000000000001ff
+    R13: 00007f4e79e0b140 R14: 00007ffdd084f530 R15: 00007f4e79c84d90
+     </TASK>
+
+    Allocated by task 421:
+     kasan_save_stack+0x33/0x60
+     kasan_save_track+0x14/0x30
+     __kasan_kmalloc+0xaa/0xb0
+     __kmalloc_cache_noprof+0x251/0x610
+     snd_info_create_entry+0x56/0x400
+     0xffffffffc0401b64
+     snd_pcm_notify+0x34e/0x470
+     0xffffffffc041b19b
+     do_one_initcall+0xf3/0x4e0
+     do_init_module+0x281/0x8e0
+     load_module+0x658c/0x7cc0
+     init_module_from_file+0x15b/0x180
+     idempotent_init_module+0x22d/0x770
+     __x64_sys_finit_module+0xd2/0x160
+     do_syscall_64+0x115/0x6a0
+     entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+    Freed by task 424:
+     kasan_save_stack+0x33/0x60
+     kasan_save_track+0x14/0x30
+     kasan_save_free_info+0x3b/0x60
+     __kasan_slab_free+0x5f/0x80
+     kfree+0x307/0x580
+     snd_info_free_entry+0x3d4/0x4d0
+     0xffffffffc0400d80
+     snd_pcm_notify+0x216/0x470
+     __do_sys_delete_module+0x338/0x530
+     do_syscall_64+0x115/0x6a0
+     entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+    The buggy address belongs to the object at ffff888115c84200
+     which belongs to the cache kmalloc-256 of size 256
+    The buggy address is located 80 bytes inside of
+     freed 256-byte region [ffff888115c84200, ffff888115c84300)
+
+    The buggy address belongs to the physical page:
+    page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x115c84
+    head: order:1 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
+    flags: 0x200000000000040(head|node=0|zone=2)
+    page_type: f5(slab)
+    raw: 0200000000000040 ffff888100042b40 dead000000000100 dead000000000122
+    raw: 0000000000000000 0000000000100010 00000000f5000000 0000000000000000
+    head: 0200000000000040 ffff888100042b40 dead000000000100 dead000000000122
+    head: 0000000000000000 0000000000100010 00000000f5000000 0000000000000000
+    head: 0200000000000001 ffffffffffffff81 00000000ffffffff 00000000ffffffff
+    head: 0000000000000000 0000000000000000 00000000ffffffff 0000000000000000
+    page dumped because: kasan: bad access detected
+
+    Memory state around the buggy address:
+     ffff888115c84100: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+     ffff888115c84180: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+    >ffff888115c84200: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+                                                     ^
+     ffff888115c84280: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+     ffff888115c84300: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+    ==================================================================
+
+Fixes: 2471b6c80a70 ("ALSA: info: Register proc entries recursively, too")
+Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
 Assisted-by: LLM
-Signed-off-by: Joonho Lee <mynameisjune111@gmail.com>
----
- sound/virtio/virtio_pcm.c     |  4 ++--
- sound/virtio/virtio_pcm.h     | 12 ++++++++++++
- sound/virtio/virtio_pcm_msg.c |  6 +++---
- sound/virtio/virtio_pcm_ops.c | 10 +++++-----
- 4 files changed, 22 insertions(+), 10 deletions(-)
 
-diff --git a/sound/virtio/virtio_pcm.c b/sound/virtio/virtio_pcm.c
-index a3478fc8848db..d8515b2144a14 100644
---- a/sound/virtio/virtio_pcm.c
-+++ b/sound/virtio/virtio_pcm.c
-@@ -397,7 +397,7 @@ static void virtsnd_pcm_period_elapsed(struct work_struct *work)
+---
+
+diff --git a/sound/core/info.c b/sound/core/info.c
+index c4d57d0809adff80732fdb741832c92b9b68f387..9b801caa65caab96ee4aa83a3141ea4306084868 100644
+--- a/sound/core/info.c
++++ b/sound/core/info.c
+@@ -737,27 +737,13 @@ static void snd_info_clear_entries(struct snd_info_entry *entry)
+ 	entry->p = NULL;
+ }
+ 
+-/**
+- * snd_info_free_entry - release the info entry
+- * @entry: the info entry
+- *
+- * Releases the info entry.
+- */
+-void snd_info_free_entry(struct snd_info_entry * entry)
++static void __snd_info_free_entry(struct snd_info_entry *entry)
+ {
+ 	struct snd_info_entry *p, *n;
+ 
+-	if (!entry)
+-		return;
+-	if (entry->p) {
+-		proc_remove(entry->p);
+-		guard(mutex)(&info_mutex);
+-		snd_info_clear_entries(entry);
+-	}
+-
+ 	/* free all children at first */
+ 	list_for_each_entry_safe(p, n, &entry->children, list)
+-		snd_info_free_entry(p);
++		__snd_info_free_entry(p);
+ 
+ 	p = entry->parent;
+ 	if (p) {
+@@ -769,6 +755,25 @@ void snd_info_free_entry(struct snd_info_entry * entry)
+ 		entry->private_free(entry);
+ 	kfree(entry);
+ }
++
++/**
++ * snd_info_free_entry - release the info entry
++ * @entry: the info entry
++ *
++ * Releases the info entry.
++ */
++void snd_info_free_entry(struct snd_info_entry *entry)
++{
++	if (!entry)
++		return;
++	if (entry->p)
++		proc_remove(entry->p);
++
++	/* Serialize clearing and unlinking with recursive registration. */
++	guard(mutex)(&info_mutex);
++	snd_info_clear_entries(entry);
++	__snd_info_free_entry(entry);
++}
+ EXPORT_SYMBOL(snd_info_free_entry);
+ 
+ static int __snd_info_register(struct snd_info_entry *entry)
+@@ -778,7 +783,6 @@ static int __snd_info_register(struct snd_info_entry *entry)
+ 	if (snd_BUG_ON(!entry))
+ 		return -ENXIO;
+ 	root = entry->parent == NULL ? snd_proc_root->p : entry->parent->p;
+-	guard(mutex)(&info_mutex);
+ 	if (entry->p || !root)
+ 		return 0;
+ 	if (S_ISDIR(entry->mode)) {
+@@ -801,16 +805,7 @@ static int __snd_info_register(struct snd_info_entry *entry)
+ 	return 0;
+ }
+ 
+-/**
+- * snd_info_register - register the info entry
+- * @entry: the info entry
+- *
+- * Registers the proc info entry.
+- * The all children entries are registered recursively.
+- *
+- * Return: Zero if successful, or a negative error code on failure.
+- */
+-int snd_info_register(struct snd_info_entry *entry)
++static int snd_info_register_recursive(struct snd_info_entry *entry)
+ {
+ 	struct snd_info_entry *p;
+ 	int err;
+@@ -822,13 +817,28 @@ int snd_info_register(struct snd_info_entry *entry)
  	}
  
- 	if (requeue)
--		schedule_work(&vss->elapsed_period);
-+		virtsnd_pcm_schedule_period_elapsed(vss);
+ 	list_for_each_entry(p, &entry->children, list) {
+-		err = snd_info_register(p);
++		err = snd_info_register_recursive(p);
+ 		if (err < 0)
+ 			return err;
+ 	}
+ 
+ 	return 0;
  }
++
++/**
++ * snd_info_register - register the info entry
++ * @entry: the info entry
++ *
++ * Registers the proc info entry.
++ * The all children entries are registered recursively.
++ *
++ * Return: Zero if successful, or a negative error code on failure.
++ */
++int snd_info_register(struct snd_info_entry *entry)
++{
++	guard(mutex)(&info_mutex);
++	return snd_info_register_recursive(entry);
++}
+ EXPORT_SYMBOL(snd_info_register);
  
  /**
-@@ -606,7 +606,7 @@ void virtsnd_pcm_event(struct virtio_snd *snd, struct virtio_snd_event *event)
- 			if (vss->xfer_enabled) {
- 				vss->xfer_xrun = true;
- 				if (vss->capture_staging)
--					schedule_work(&vss->elapsed_period);
-+					virtsnd_pcm_schedule_period_elapsed(vss);
- 			}
- 		}
- 		break;
-diff --git a/sound/virtio/virtio_pcm.h b/sound/virtio/virtio_pcm.h
-index e143a15592f05..5d1d88f2823b2 100644
---- a/sound/virtio/virtio_pcm.h
-+++ b/sound/virtio/virtio_pcm.h
-@@ -8,6 +8,7 @@
- 
- #include <linux/atomic.h>
- #include <linux/virtio_config.h>
-+#include <linux/workqueue.h>
- #include <sound/pcm.h>
- #include <sound/pcm-indirect.h>
- 
-@@ -114,6 +115,17 @@ struct virtio_pcm_substream {
- 	wait_queue_head_t msg_empty;
- };
- 
-+/* Keep non-staged PCM notifications on schedule_work()'s normal queue. */
-+static inline bool
-+virtsnd_pcm_schedule_period_elapsed(struct virtio_pcm_substream *vss)
-+{
-+	if (vss->direction == SNDRV_PCM_STREAM_CAPTURE &&
-+	    vss->capture_staging)
-+		return queue_work(system_highpri_wq, &vss->elapsed_period);
-+
-+	return schedule_work(&vss->elapsed_period);
-+}
-+
- /*
-  * ALSA may observe a subperiod tail before its period callback. Keep actual
-  * unread occupancy separate from pointer observations and notification state.
-diff --git a/sound/virtio/virtio_pcm_msg.c b/sound/virtio/virtio_pcm_msg.c
-index 795e52e09564b..663f7695b5be8 100644
---- a/sound/virtio/virtio_pcm_msg.c
-+++ b/sound/virtio/virtio_pcm_msg.c
-@@ -627,7 +627,7 @@ static void virtsnd_pcm_capture_xrun_locked(struct virtio_pcm_substream *vss)
- {
- 	if (!vss->xfer_xrun) {
- 		vss->xfer_xrun = true;
--		schedule_work(&vss->elapsed_period);
-+		virtsnd_pcm_schedule_period_elapsed(vss);
- 	}
- }
- 
-@@ -720,7 +720,7 @@ static void virtsnd_pcm_capture_complete(struct virtio_pcm_msg *msg,
- 			virtsnd_pcm_capture_xrun_locked(vss);
- 		}
- 		if (got_audio && !vss->xfer_xrun)
--			schedule_work(&vss->elapsed_period);
-+			virtsnd_pcm_schedule_period_elapsed(vss);
- 	} else if (!vss->msg_count) {
- 		wake_up_all(&vss->msg_empty);
- 	}
-@@ -858,7 +858,7 @@ static void virtsnd_pcm_msg_complete(struct virtio_pcm_msg *msg,
- 		runtime->delay =
- 			bytes_to_frames(runtime,
- 					le32_to_cpu(msg->status.latency_bytes));
--		schedule_work(&vss->elapsed_period);
-+		virtsnd_pcm_schedule_period_elapsed(vss);
- 	} else if (!vss->msg_count) {
- 		wake_up_all(&vss->msg_empty);
- 	}
-diff --git a/sound/virtio/virtio_pcm_ops.c b/sound/virtio/virtio_pcm_ops.c
-index 85e7576903d56..d50924b792f65 100644
---- a/sound/virtio/virtio_pcm_ops.c
-+++ b/sound/virtio/virtio_pcm_ops.c
-@@ -232,7 +232,7 @@ virtsnd_pcm_pause_restart_fail(struct virtio_pcm_substream *vss,
- 				VIRTSND_PCM_PAUSE_RESTART_RESET_REQUIRED;
- 	}
- 	if (notify_xrun)
--		schedule_work(&vss->elapsed_period);
-+		virtsnd_pcm_schedule_period_elapsed(vss);
- 	vss->substream->runtime->stop_operating = true;
- }
- 
-@@ -1253,7 +1253,7 @@ static int virtsnd_pcm_capture_staged_ack(struct virtio_pcm_substream *vss,
- 			return -EPIPE;
- 		if (!virtsnd_pcm_capture_counters_valid(vss)) {
- 			vss->xfer_xrun = true;
--			schedule_work(&vss->elapsed_period);
-+			virtsnd_pcm_schedule_period_elapsed(vss);
- 			return -EPIPE;
- 		}
- 
-@@ -1264,7 +1264,7 @@ static int virtsnd_pcm_capture_staged_ack(struct virtio_pcm_substream *vss,
- 		if (diff < 0 ||
- 		    (snd_pcm_uframes_t)diff > runtime->buffer_size) {
- 			vss->xfer_xrun = true;
--			schedule_work(&vss->elapsed_period);
-+			virtsnd_pcm_schedule_period_elapsed(vss);
- 			return -EPIPE;
- 		}
- 
-@@ -1275,7 +1275,7 @@ static int virtsnd_pcm_capture_staged_ack(struct virtio_pcm_substream *vss,
- 				       &next_acked_total) ||
- 		    next_acked_total > vss->capture_copied_total) {
- 			vss->xfer_xrun = true;
--			schedule_work(&vss->elapsed_period);
-+			virtsnd_pcm_schedule_period_elapsed(vss);
- 			return -EPIPE;
- 		}
- 
-@@ -1292,7 +1292,7 @@ static int virtsnd_pcm_capture_staged_ack(struct virtio_pcm_substream *vss,
- 			rc = virtsnd_pcm_capture_send(vss);
- 			if (rc) {
- 				vss->xfer_xrun = true;
--				schedule_work(&vss->elapsed_period);
-+				virtsnd_pcm_schedule_period_elapsed(vss);
- 			}
- 		}
- 	}
