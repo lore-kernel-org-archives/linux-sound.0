@@ -1,61 +1,61 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5083356760
-	for <linux-sound@vger.kernel.org>; Sat, 17 Oct 2026 07:01:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 691313EC83E
+	for <linux-sound@vger.kernel.org>; Sat, 17 Oct 2026 07:01:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792220464; cv=none; b=nPaBA+iBTolTz/lRu1rBfN0lhDzOQTddVI1MEHlCcYa7TqVCm/pUa4o4zfnCgL4EPC6w7IYMh1awyiyk+qcFhDJyhHoTYO/EF7Hhg39y3oPCYhwiIuX9rgX93Fj2f2SnnvQM0u+KIZRZ9JTlwLSHs8M5TOkhXmDFT4JpVtY/TNg=
+	t=1792220519; cv=none; b=HTUjcWtffWIBTmpJ+bOvZSQnQQhvHJKke5VnqlZdcX1JvUu3lanziAWRYVkAiySOGyVAXI/baMQt1k0koKqCYF1EaCagSaaBxm5I6/1m1afmlKudat/VD75N77aJx6nfiTQz+O6FvR3f4HoI0Hl3XEjpfZzuwwCOrg4iWRAYfd0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792220464; c=relaxed/simple;
-	bh=Ykfx0SMB+vs7928mQESl8JU5jg1mVkmDBYjT+l3yM0o=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=KlgVugJEUzNw6Q8IkObdyfFEfW8qYkCpdg/obHhpdoTquO2XWctYnrH23KD/DrAmS5aFpHe+OnUryfNW9fOBnP7MxLlLeBcPrdB8bd6CYNI/a2S2TMXlPXiFdALYLomRRn0OaXP7F9z9+HGvLZ/I7VGFDOPBXjwef0lctBsKrRQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bLkxDlg1; arc=none smtp.client-ip=209.85.214.169
+	s=arc-20240116; t=1792220519; c=relaxed/simple;
+	bh=aw0MPoxuG1QOoV9BOTq+Prrg/+S3pi689Zo3XQROyX0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=VauZwKk/vERiK8uVYTt3TLiZfjLL7KP/LkEMC58t7yzz0PPCpg2Jsbl0BqPZcSAysOsI8M6d/aMrwjfAA/l0GymzcBt84bJ33Ee40XBsB0xqxP+cmagozlSTvDONYN8VvRsqBhIcV040jiaPayRSukSNqJk0XdNlB49/f70eEO0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lGiqAIM6; arc=none smtp.client-ip=209.85.214.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bLkxDlg1"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2e5378b281aso2451795ad.2
-        for <linux-sound@vger.kernel.org>; Sat, 17 Oct 2026 00:01:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lGiqAIM6"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2e8246b13cbso4311335ad.2
+        for <linux-sound@vger.kernel.org>; Sat, 17 Oct 2026 00:01:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792220463; x=1792825263; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1792220517; x=1792825317; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:message-id:date
          :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=uqmf/gpLV/7FBGP+y0T4LAW9t6W7h08u10hqCEpMGqo=;
-        b=bLkxDlg1LkR4bKJAP1isgQs92bj0EU6H3p0l7yLw2k301V9Z63Qi6zcY1Kw4/uy4dA
-         w6HbpzDnLKq0/yIPz6UOr7V5qaYrV7mn2QimNndpQ3PG+I9/9SUOdbfbeRMgtBc1YQLR
-         TRI0pKZM2P/VhCLgHf/tksiJjgUr8D/qRlYxZQrGtDQcpBiSMGToHDrGLK4fqm3BC7YC
-         7KxptNgNuws6pXKkg63PaJfPZQGyfRc6D5e9LcwkWhh5RnOwR6AegracV6n1je+9Y5b7
-         jciR4JPpvcbtIHtiDXVLzmD9nil5s5WCJEKFtWRKEAvaVr2p1eXdCE3hvjFimr2nPFrO
-         oXvA==
+        bh=GG2ifTQKbsTqni2SOuwEWnUWLH2Ni+EYe1SzZ/Lm0Hs=;
+        b=lGiqAIM6Ntm8gAU4SI3RkBmnTTSLVmyqaTIOsHoxG14OcnxJ2tqSO+gZ55X7lemvkU
+         Y69TCcyNftamnBrUpwy6ahNhHWvXpUGfGlR0s4TrvPrY/eNwpzn0mBofdEPmQ82Fubor
+         rH9jQMeTuQOG1aIk+9IBndmLVRdxyfL53sVp9d1b/UxpJldcpjLkFiZBaImYEpzPzLV0
+         tC7cV7G/ZPRBauurImyN6QVCM9VhsTrw/aSXB84R5yoc015twUblhYCD5DPxhGUsV1bx
+         gCHu9I35q41NCbaQ3QzzlVQtCKjFEoeqqvx3LDBvblnLHxLel/mzv30UuqIcUbbnacni
+         dVCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792220463; x=1792825263;
+        d=1e100.net; s=20260707; t=1792220517; x=1792825317;
         h=content-transfer-encoding:content-type:mime-version:message-id:date
          :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=uqmf/gpLV/7FBGP+y0T4LAW9t6W7h08u10hqCEpMGqo=;
-        b=iwTe2ev9uYW2IPO2KFk8LSyondfdx1G+pVnSQ5x9edixIfctOqRBdMfMdM4EvJPfFg
-         oMnzJ+TtoLx98seti0a/W5ycHDwkEoG/q72lhDziVPYAWca6wpKHZuNkpwWMOi+CsTyG
-         ZRqZKJAeD4z4y7dBSfiZQTqs6364fDtyP4M5AK6BalwrccKkXl/9TKX333Vm0Bgh2XRa
-         L0jP4fttQz7Hj16zAsI8HFgiH1+4e7f+WaauWUAvxu90eEjNJmmw24Jz6HwYBsuQc4jH
-         vcFfBG6xKXBcKXqgd0/mUAqgb9FRiFcdTmUWpwq+gXrXTC1maK6xszbYbugH+BBWVPmj
-         gnIw==
-X-Gm-Message-State: AFq9FYItZ1mcEGo6vEiegGFRC0B16GQFKSTL/wZoNP3LNG/3iPnntPOW
-	opqv4JHWdjFXjcW0lbnxihQGn3kPE8hgeqmS3ON8wQd1h73oaAl9q4A9
-X-Gm-Gg: AYBFou3LO60DwStgZ1XZvwGSoznd6jZPedGR7ySXUApezdzbolHkqoUrVjB9yTBN+Hf
-	Y6y6EV5Bt1uIuArtqACTsMh00v/sR/vXj3i/xhnB8JdK6sC7/dgUjNC4Yj8EDHSfiKC8gBPreGV
-	budkotlADNDeCFT8zlPeo0KedDP2CQdTEmmsqVCWQtiy6pDFEG6xCdXA2+58+8Plc4N84KaKuEb
-	Fmt3EgS7LmWQPyZDpo9QLMCDD8jIaEeYp41JjKQ5Xo8jpOibGuyISzPB6Zxzx81ze5X8yi6Klom
-	XLafJqq10GGm5XdOmZytJfQHK+u5BtEZCI7nY8pVUwf40qkzPWqb0yVDtTYD33j2E+WigXBLCWV
-	zPqGlgxQHhodhpdE3M2AmwuVpl8YtfzKqDD+V7Wq3NxoLmm4JZOd3H0FxyT2JYzSPrwSnv4dejI
-	BDFPwLy+6Ev0hg3x0b0RJB+IjdCd/0ZWlL9Tz8NarZmm+B5E6qfgOh3VrTtZlHO1TmDA==
-X-Received: by 2002:a17:903:37cc:b0:2e9:8bd4:577d with SMTP id d9443c01a7336-2e9a6a0a794mr19030945ad.37.1792220462827;
-        Sat, 17 Oct 2026 00:01:02 -0700 (PDT)
+        bh=GG2ifTQKbsTqni2SOuwEWnUWLH2Ni+EYe1SzZ/Lm0Hs=;
+        b=eCR6b6xcrFWpwVZNPk/jj2wccWuFih4uhb/myB6P4Atjja2YBv2kqWh+ij3qrcCX89
+         cIVHtUoxP/4daHGw3duszwBYrFAxhCvr3+0LTFfVowYV73qhj4Q0l8fTKNFt1qWp0SB4
+         +9+kCXecr1DS68KcapWLXokGbSqjVyScvKh4YchWGEJrJ1CT8XHcWThmwX/yT03eGjft
+         TemD+P7a22ZtbyDgF2KKK4nQLsCfvr7qJLlSTUOeMKaFcbggNPHqk/xClin/BiaRv2Pc
+         TQ+ZwY9xMohiygYe2ehfSF0p0WWW1TNr+lNJDptiK1BgvffkCaeGXc4fXgHsX0I+lD7z
+         fv1Q==
+X-Gm-Message-State: AFq9FYJTToihqV5Q5bbpqzfzL7QuuMBZEZylL02P2xnHRtoW3TXEJKUM
+	15igLRHCOm89I9oUOkFzkJMApuGEsduEIeq+JdaMpeiK8p2YcmGr2aa9
+X-Gm-Gg: AYBFou3lC17HG5rmNLxH8GCyC9bzYAw7nu45yhL6p23UmkLafiDiHvNB052E7bQ2cxr
+	klTb/RZ1yJa9MD3Gq27TrJf+r1EEMKeibwrY9JsakqeC1EAS6xDvSVVYXXHD3RELCP7PAN4XIZl
+	oOAj3NV4+mF/A/pSKT1ZMpzEw5rIY8D5K7vuztkp6J4YH5hlPwt6VJhpBn9FJmb0KXxRai1bnQV
+	tgqMXSg+bybPVn/N/VBBRpHkUKaR/gjVRvfdJ3PS8pgki0Ec5DLqD0xF2OPni11qOZWjhtX8pAI
+	GBgGMhKUoAZs/LnaKTPcXszL+UINvw2xLN8iJUXCFABQ7cXqpIvGc5su0MKmni8pCGfyduXzLVP
+	mj15+fGtAoP1z+TrF7TrZesPfTmymh9qrCAgIw2qNlmVIDGknKFYWhzjEpf0VnrtUDbu2YXB+zt
+	PcOjMadxy0pJor580Ggq/PVM9IuJppgCVvycLvg0CdPWhZs0VqmkBgR8Ya2C8/PJayKg==
+X-Received: by 2002:a17:903:2284:b0:2dd:c100:943e with SMTP id d9443c01a7336-2e9a6d36770mr19636925ad.60.1792220516593;
+        Sat, 17 Oct 2026 00:01:56 -0700 (PDT)
 Received: from localhost ([111.228.63.84])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e97e804e80sm19807695ad.23.2026.10.17.00.01.00
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e97e834f32sm19029435ad.41.2026.10.17.00.01.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 Oct 2026 00:01:02 -0700 (PDT)
+        Sat, 17 Oct 2026 00:01:56 -0700 (PDT)
 From: Cen Zhang <zzzccc427@gmail.com>
 To: perex@perex.cz,
 	tiwai@suse.com
@@ -64,9 +64,9 @@ Cc: linux-sound@vger.kernel.org,
 	baijiaju1990@gmail.com,
 	jjzuming@gmail.com,
 	zzzccc427@gmail.com
-Subject: [PATCH] ALSA: jack: Protect the index scan against control removal
-Date: Sat, 17 Oct 2026 15:00:58 +0800
-Message-Id: <pm-pmb-f08c844bb1163c8d4fa1-v2-2f3c99e40f90134846ee@gmail.com>
+Subject: [PATCH] ALSA: seq: oss: Initialize the timer before publishing the port
+Date: Sat, 17 Oct 2026 15:01:49 +0800
+Message-Id: <pm-pmb-1295c9b521e15b3753d6-v2-d2f1fcf0f038e0776f7c@gmail.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -77,59 +77,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-A control found during a jack-name index scan must remain alive until
-snd_ctl_find_id() finishes comparing its ID and count. However,
-get_available_index() calls it without holding card->controls_rwsem.
-With CONFIG_SND_CTL_FAST_LOOKUP enabled, the lookup loads a raw control
-pointer from ctl_hash and dereferences it in elem_id_matches() without
-any lock that excludes removal.
+An OSS sequencer port must have an initialized timer before MIDI input
+can reach send_midi_event(). snd_seq_oss_open() publishes the callback
+port and assigns dp->readq before allocating dp->timer.
 
-This can happen when a jack is created while a different jack owner on
-the same card removes an existing control with the same name and index.
-For example, probe and unbind of different HDA codecs can reach these
-paths on a shared card if their generated jack names match.
-The codec device locks do not serialize operations on different
-codecs. The unbind path can free the control during the index scan:
+A client owning a MIDI port that another OSS session has opened for
+reading can submit a direct event to the new OSS port. Direct delivery
+does not require a subscription to the destination, and
+snd_seq_oss_midi_input() checks the source alias's readable-open bit
+without requiring that alias to belong to the destination session.
+For a read-capable /dev/sequencer open, this permits the following order:
 
-  Codec A: probe                  Codec B: unbind
-  --------------                  ---------------
-  get_available_index()
-    snd_ctl_find_id()
-      kctl = xa_load(...)
-                                  hda_codec_driver_remove()
-                                    snd_hda_codec_cleanup_for_unbind()
-                                      snd_hda_jack_tbl_clear()
-                                        snd_device_free()
-                                          __snd_device_free()
-                                            snd_jack_dev_free()
-                                              snd_ctl_remove()
-                                                snd_ctl_remove_locked()
-                                                  __snd_ctl_remove()
-                                                    snd_ctl_free_one()
-                                                      kfree(kctl)
-      elem_id_matches(kctl, ...)
-        read freed id/count -> UAF
+  OSS open                         Direct MIDI input
+  create_port(dp)
+  dp->readq = ...
+                                   snd_seq_write() to the new port
+                                   snd_seq_oss_midi_input()
+                                   send_midi_event()
+                                     dp->timer->running
+  dp->timer = snd_seq_oss_timer_new(dp)
 
-Hold controls_rwsem for read across the index scan so removal cannot
-free a control until the lookup has finished using it. Release the lock
-when get_available_index() returns, before the caller adds the new
-control under the write lock.
+The callback dereferences a NULL timer in this interval. The OSS
+register_mutex does not cover event callbacks, and the destination
+port's use reference only protects the session's lifetime.
 
-Fixes: 38ea4c3dc306 ("ALSA: control: Optimize locking for look-up")
+Initialize the timer before creating the callback port, so the existing
+port publication also publishes the initialized timer. The timer
+constructor does not need a queue or a port. Use free_devinfo() when no
+port was created to release the timer on failures.
+
 Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
 Assisted-by: LLM
 
 ---
 
-diff --git a/sound/core/ctljack.c b/sound/core/ctljack.c
-index 6b6ab34fbde89a6551eb634ce13c66922770d0e5..36700fda79f3c027e84bad416c4dcc3d5da1c6bd 100644
---- a/sound/core/ctljack.c
-+++ b/sound/core/ctljack.c
-@@ -38,6 +38,7 @@ static int get_available_index(struct snd_card *card, const char *name)
- 	sid.iface = SNDRV_CTL_ELEM_IFACE_CARD;
- 	strscpy(sid.name, name, sizeof(sid.name));
+diff --git a/sound/core/seq/oss/seq_oss_init.c b/sound/core/seq/oss/seq_oss_init.c
+index 6586e07431c35f4fdeb074a65f982e3cc78d0ee5..f1bd52c765b97f54932456f2e68164cb4f02fdc5 100644
+--- a/sound/core/seq/oss/seq_oss_init.c
++++ b/sound/core/seq/oss/seq_oss_init.c
+@@ -198,6 +198,14 @@ snd_seq_oss_open(struct file *file, int level)
+ 		goto _error;
+ 	}
  
-+	guard(rwsem_read)(&card->controls_rwsem);
- 	while (snd_ctl_find_id(card, &sid)) {
- 		sid.index++;
- 		/* reset numid; otherwise snd_ctl_find_id() hits this again */
++	/* initialize timer before the port can receive events */
++	dp->timer = snd_seq_oss_timer_new(dp);
++	if (!dp->timer) {
++		pr_err("ALSA: seq_oss: can't alloc timer\n");
++		rc = -ENOMEM;
++		goto _error;
++	}
++
+ 	/* create port */
+ 	rc = create_port(dp);
+ 	if (rc < 0) {
+@@ -239,14 +247,6 @@ snd_seq_oss_open(struct file *file, int level)
+ 		}
+ 	}
+ 
+-	/* initialize timer */
+-	dp->timer = snd_seq_oss_timer_new(dp);
+-	if (!dp->timer) {
+-		pr_err("ALSA: seq_oss: can't alloc timer\n");
+-		rc = -ENOMEM;
+-		goto _error;
+-	}
+-
+ 	/* set private data pointer */
+ 	file->private_data = dp;
+ 
+@@ -328,7 +328,7 @@ static int
+ delete_port(struct seq_oss_devinfo *dp)
+ {
+ 	if (dp->port < 0) {
+-		kfree(dp);
++		free_devinfo(dp);
+ 		return 0;
+ 	}
+ 
