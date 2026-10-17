@@ -1,79 +1,74 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 390793ED5BB
-	for <linux-sound@vger.kernel.org>; Sat, 17 Oct 2026 05:48:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D6C940098A
+	for <linux-sound@vger.kernel.org>; Sat, 17 Oct 2026 06:00:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792216120; cv=none; b=SMXXSDSn/UWVQDkr8IhdkiYAaVx6J+N9ikH5HIm8YwnnFL3a1yngmy18+et0iY/3EaIn7xH5v/oXEJg7kb5WeyvvOZ9vYOFmDCe2/G6ERhGtIwu2Ly9VIQ4bVnzW6Dldz3rXCihyhJr0l0SvjL5aGZNJR6sSXwsXpiDdD2dOn+A=
+	t=1792216825; cv=none; b=j2WjZ9U0pTkh4Pir9iSJmtMwTTlC0MpgZXEQCull7VrS0CYoZYRz6wDEh1StY/Ha+LXqXtkZjVZlCvxenee5HgV/T3WD8nQFX5AvTTeUOqW6cDgocGzTYIOBPUceljvdiUuBegyi626DItatORGWR6wdrC/x86QIcmuzD2B0TVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792216120; c=relaxed/simple;
-	bh=9fMyyGKTkQEAoDsumbngQp/WWiqq6Jh+va+HSuzquvg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rVkgP0eWPrxBKYF+d73k08YuvVt4QrXw4bQmvNDc2FdGmSeHbuDgSXzf96vBWudxDp6FmTRYd2zQTqk6anVtwc177O+ek5B+Sm+o2vJda4WFbTIBgpaxuUd9jg1KFqXhZgCZNf5JoTaouD8Yf2Th2qBJtvmGCSFZ2OdHH8kJKdI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aqImvMo4; arc=none smtp.client-ip=209.85.216.51
+	s=arc-20240116; t=1792216825; c=relaxed/simple;
+	bh=lq8OWJxtvFNdz454e1SVHMr8naj0Ut+ma6XM69TxQRQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Y8LFwJwKtsulO0VKmoAe9C1ezfSwIQyuyc0hHuMbhW1UL57xKhaiPc+Qkc99cADQ580OI2GlX78lGousfluNX8T64hvYfVCkEmgqn4Ig1wyNEG57dHcQhhJyf7XOz+SR2qhSO50PGvzIn6Hymk8rid29BcoRv7qcpRqNLmGaaaw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gXp4kJKz; arc=none smtp.client-ip=209.85.214.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aqImvMo4"
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-3acd21ba21aso548284a91.1
-        for <linux-sound@vger.kernel.org>; Fri, 16 Oct 2026 22:48:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gXp4kJKz"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2e99b1e5b4cso2670465ad.0
+        for <linux-sound@vger.kernel.org>; Fri, 16 Oct 2026 23:00:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792216118; x=1792820918; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=jL0842hIhQyR5Dge1RIRz6LTLe0BpYG83ykXATA9X5o=;
-        b=aqImvMo4PBZiL1LchDeht5kwVwXWAwj5WkQStnhV/tM04w/Kjwm8mG4TCteZoA2KZx
-         46zIXvkC3XngPvr0U8BPLLKXAcda4H7C3JVYTkpTIFb8enr9JXpDx5bq3kkJYt1Himz7
-         C/i4iYo3KNldgxrY7B4j5Pehw5VZOqh1+3JehPUCGyQsmMHrdmVzSCTaCX4sfUQQdMdc
-         J+H7yrNMOsS6iYRF1zaEEXo/gUVV1bp+eJUeGiEh9Zu37mBddbLxuvWnZMI31zMPG88G
-         yFPLgeDxgA/ExS1zJbz7SQ/S+enUlHHLuKGEEAZsCCNGMQ9iAfl035uNMRNLdbFQwUZz
-         RAXQ==
+        d=gmail.com; s=20251104; t=1792216824; x=1792821624; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=6t3JxNwq87GdMMoHD48Yg+y/3JiCN4qGqQmO7+PdZ3o=;
+        b=gXp4kJKzmWm1vWcy1+bpDu0WoAiFtWwGz2aek40EXP7OSAmWdwtga5cvLEM+nEic7X
+         DQF7xGsOEbexxx9Qq4TGnhwooFLHJpmynPdvyfdI/ceUHMhBDtnJCu91YBqb28vq2JlB
+         iIP7rftUVTW7waXxhSMVMY4vnm7YNA6QKvelmJp/kucGqiyXjkqW9ohU+0WLr71Gir3i
+         oWALYMFw9pRiWL/3vCdIu8LdmcDF/Eyzb7gYOMEqyDWuQqPGw+aM5inp+79OMvaOyIvk
+         13+unOmu+JveSOaJ/7HFRo7yWQp5gCHGLnAtIfmpomXOxZLPjl+0oEn8jg8VHEZNiTqY
+         TgbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792216118; x=1792820918;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=jL0842hIhQyR5Dge1RIRz6LTLe0BpYG83ykXATA9X5o=;
-        b=KSk0nFbN0rnrX6CgQEmtSxo0I4eK15dra9aP88DYiJJcmxdrd8sR9c16LdSfamH9vA
-         YVDLAdp318v+fx1SJMH2JepAKRbYNjd+rLCzlvbObegh57XtvdjVuoUluvy9ShULct3g
-         +72WdpdjpWyKx2XBXad3dlDhdXuO4fJDgVydSCiXjwX4JCJevNXUS5mW0AVxaxYAcc8h
-         4n4UMtzDDsoLS1MxjOLvreHPWlO1dkNKNra8Ra4BS1btC6NT+gn5/jBvlCf5CUtvyVma
-         m2OdTmE1EQldqqaFTFX0CDU0UnXPGMEmbH2nUvEgdyqsAXhCvpNk1TCuPOpn9x25p6Cn
-         NU/w==
-X-Forwarded-Encrypted: i=1; AKwUvBxghWjV77yUoI87+0hgFlliLTWIJ0GawbDRp5YxOit5+QOp+MjOz0Z/Xyv+9seU4bUouk606evBwR575w==@vger.kernel.org
-X-Gm-Message-State: AFq9FYI6FWHlPGjuMSxtWml0iGsYZMVNREHd1gq0tW08RKojonigRZK3
-	BUnn8gyPMKr5JbXrhfzCWpePxqumFNGlCyeZMsZ4tKLTfX2eDqjT0mCR
-X-Gm-Gg: AYBFou2x6og/riS99/ZX6uUoYn2PIA+v57nq6nw3iUp0pLNTowLB/bGM/ZO/TPzl3/Q
-	h2QNWtIyWmEiLbQJfXmJ/6ESjihRe1mk0HL+YcZp1mxqxZdPumjj3NnkCVG3hd+6J+2zIKB6pRe
-	6U4APMT95JenkfxWm7Chs8lvJXFccZ6OLjYOS8BGyXQZqVPOn/woBKEP2E8HM3zBSupKJiDn9P0
-	Mq8nNZ+nAYaEW6SRrqHQ9zxvN3QKid7OSCyBp36kWsqL7u+uCM6TFCg34PPiTYqknJVSJ0DnzjJ
-	pqi/jh0eoN6iZuabGDjttmgjOKQRf6tOPy0TwF9VKovciTMmBUsxpKyaWf3HAj7pJ0+CJM3mTQO
-	80uDWVj2DBAp61oEYEzaHWDvPEYXg4uR7t5wixSI4kc4VYoCFehjh4oWYVIZWFMdbQHFJlYh5R2
-	B3KHs7cBgdOtCOnOE/T6v6jkj3KCA8EZCBSmvyWwZNNrCy5Y5RSIr1/9Pq4FMNW3mRjiEwvHObs
-	ImP2ec0CF8Fxdc31KWcL8ytgG4Y463XN3P+2HLCDQRDaqre4G7stAqrzevomod8Av4SIJvqzg24
-	LPY9GE9bqT4aZcQFSPN48/SG
-X-Received: by 2002:a17:90b:4d82:b0:3a5:147a:3b63 with SMTP id 98e67ed59e1d1-3acee728a94mr1661012a91.8.1792216118185;
-        Fri, 16 Oct 2026 22:48:38 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1792216824; x=1792821624;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=6t3JxNwq87GdMMoHD48Yg+y/3JiCN4qGqQmO7+PdZ3o=;
+        b=V+vcI8CizJnaIs++J/PaaYmGuYkdHlc8uocT+9QTqPdTnnMSMHvaf4+2PzJETUh78C
+         FU5phUR/a9uDb8+HHICedO52P8cSSQD6yiQZprYiVbnKqqYUg+hEhFMvNFyL1+rJtpYk
+         9/iwT9VR6/3nhgjG1AJ9zngV5DDqO4LtU0nAtNtcfxW33NRJpqMd4hODvgNegyLFzO8Y
+         UlSiLX7FzzsDt0cC5qjmLfIMX5Q+gGhoQtoSRRPwKZR/bZ+czND6SPNXVaFJ4I0INLh7
+         rH5xc25YIThxFBa+MgoRAtX38Qv9RmMH85xqiTEl7ojovrx87HF9O1LckG0sWyKUFBsH
+         CSHg==
+X-Forwarded-Encrypted: i=1; AKwUvBz+o0oNDM4CDIdji6chlHZmfnlo4Pse6cz1EsvYYOwk/z1/ZdrIGrSnlIUtj3JbAJw1UiwQp8i4DYPC7w==@vger.kernel.org
+X-Gm-Message-State: AFq9FYIpj1FjIAxCkq9W+bQlntxsnQk47+jcuM05d7rR7Xl7cU6fiIHM
+	wTJY2vDFTkD0Z8ZVLrCwU6/isn+6QtguHdF7zXiKymTGQ2CWKvdgrHp2
+X-Gm-Gg: AYBFou1IMzPUO4kjL1GqjGMO4dzYEDMmcJetuRcjJ002nVDEdfC3yYKTwbnMM0RZI6Q
+	KqHvT0njLRQDpCkhCNTcVBm2cUNxj/05o6TyJGXoCRIXq701V7LwcKsUWiWgo7lhYfd2ja9L8aR
+	xFnL+GHZBrzfWDo2DAnrWz7O+SOf46Gr1WaqmJDA8RC0lSjWsT6k2d8YNlrwtvp/Cx3qz2vm30f
+	t54n1xMJuIYujOXNDcCGbm8YaCT2edvGfs+LGAbrUZhauUQ9+Qu0PPz8GIaDOVPb2SdA9BIMLYT
+	NvD23ZjFC4vwbvPo5ShA5i4nCJk0QreZCl1UNhyxwdZGBMaDWM6h16Hw94/cGhAK/ZDL3FqqpkO
+	2PW8VCCGAmBIk/+USLPSou7jTmJ6ikLJUYvzVdFvy9dAeY2Ovvb9skDCD5OvAGTf8MoA2HsbmqP
+	N7iFNXgqgY+uMdBF0GuWPQR/p+tTG7V/qh/0+SM7wS2MJyHmqq/2L7MXEHDxhLX7qPn46Nc28Km
+	sjWX6qb9t9T1ynCxYrzwUHQ5SiVepCDkAxVzSnuulw2GFIswRMWeu7LOrMgTviqN7ddK2b9Kp1S
+	VC1kOrDfQZ1NieI=
+X-Received: by 2002:a17:902:f543:b0:2e9:5ec6:bfc9 with SMTP id d9443c01a7336-2e9a69f74b5mr16402635ad.9.1792216823244;
+        Fri, 16 Oct 2026 23:00:23 -0700 (PDT)
 Received: from localhost.localdomain ([180.182.24.11])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ac9474b52fsm13570028a91.9.2026.10.16.22.48.36
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e97e835a19sm18834465ad.45.2026.10.16.23.00.21
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 16 Oct 2026 22:48:37 -0700 (PDT)
+        Fri, 16 Oct 2026 23:00:22 -0700 (PDT)
 From: Joonho Lee <mynameisjune111@gmail.com>
 To: Anton Yakovlev <anton.yakovlev@opensynergy.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
 	Takashi Iwai <tiwai@suse.com>
-Cc: "Michael S . Tsirkin" <mst@redhat.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	virtualization@lists.linux.dev,
+Cc: Jaroslav Kysela <perex@perex.cz>,
 	linux-sound@vger.kernel.org,
+	virtualization@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [RFC PATCH v2 1/1] ALSA: virtio: trace control message lifecycles
-Date: Sat, 17 Oct 2026 14:48:32 +0900
-Message-ID: <rfc-v2-virtio-snd-control-trace-1.60ead383067a41ae@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <rfc-v2-virtio-snd-control-trace-0.60ead383067a41ae@gmail.com>
-References: <rfc-v2-virtio-snd-control-trace-0.60ead383067a41ae@gmail.com>
+Subject: [RFC PATCH 0/2] ALSA: virtio: fix staged capture ACK ordering and period scheduling
+Date: Sat, 17 Oct 2026 15:00:19 +0900
+Message-ID: <rfc-virtio-snd-capture-followups-0.f2737c95c12e45b4@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -82,418 +77,157 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-A timed-out control request can complete later or be canceled during
-teardown. The existing opcode-only timeout message does not identify the
-request or show when the queue gives it back, which makes it difficult to
-correlate control stalls with guest scheduling and device reset activity.
+Hi,
 
-Add a virtio_snd_ctl_msg trace event with a per-send identifier and phases
-for enqueue, response, cancellation and the sender's wait outcome. Record
-PCM stream IDs where the request layout supplies one, the enqueue or wait
-result, and the device's used length and response status. Mark optional
-fields explicitly and check the writable response capacity before reading
-a status for the event.
+These two follow-ups address separate failure paths in the staged
+capture support from the VZ RFC v2. Patch 1 fixes ACK accounting under
+concurrent RX completion. Patch 2 changes scheduling of staged capture
+period work. Keeping them separate lets the accounting fix and
+scheduling policy be reviewed and tested independently.
 
-Assign IDs only to requests sent while the event is enabled. Keep sender
-wait outcomes separate from queue completion so a timeout followed by a
-late response retains the same ID. Include neither audio data nor kernel
-addresses in the event.
+Patch 1 commits consumed bytes under the substream lock before waiting
+for the RX queue lock. It then refills with queue -> substream lock
+ordering. After consumption has been committed, refill failure latches
+XRUN and ACK returns success. Returning an error would roll ALSA
+appl_ptr back while the driver's consumption counters remained advanced.
+Pre-commit errors still propagate. Ring-capacity checks continue to
+reject unread overflow.
 
-Leave protocol results, request ownership and timeout handling unchanged.
-The added fields increase each control-message structure by 24 bytes on
-the tested ARM64 configurations, including when tracing is disabled. No
-events are added to PCM data completions.
+Patch 2 routes staged capture period work to system_highpri_wq at all
+ten producers, including self-requeue and the ACK error paths. Playback
+and non-staged streams retain normal scheduling. Work cancellation and
+initialization, buffer sizes, sample accounting and module parameter
+defaults remain unchanged. Enabling staged capture changes scheduling;
+this patch does not provide real-time guarantees.
 
-Assisted-by: LLM
-Signed-off-by: Joonho Lee <mynameisjune111@gmail.com>
----
-Changes in v2:
-- Group internal helper event arguments in struct virtsnd_ctl_event.
-- Use designated initializers and named validity flags instead of positional
-  booleans. Keep TRACE_EVENT and its record format unchanged.
+Base and prerequisites
 
- sound/virtio/Makefile               |   2 +
- sound/virtio/virtio_ctl_msg.c       | 178 +++++++++++++++++++++++++++++++++++-
- sound/virtio/virtio_ctl_msg_trace.h | 107 ++++++++++++++++++++++
- 3 files changed, 286 insertions(+), 1 deletion(-)
+The tested base is sound.git 5618f6837ef3314e2c581d4c05ec13b7ed975cb4.
+It contains core capture-drain commits 1f21537b1186 and d9f52113f2634.
+Those commits supply the core dependency for this series and supersede
+the older core RFC v3 dependency named by the VZ RFC v2 cover letter.
 
-diff --git a/sound/virtio/Makefile b/sound/virtio/Makefile
-index 3ca41b3c8..3db8ad687 100644
---- a/sound/virtio/Makefile
-+++ b/sound/virtio/Makefile
-@@ -2,6 +2,8 @@
- 
- obj-$(CONFIG_SND_VIRTIO) += virtio_snd.o
- 
-+CFLAGS_virtio_ctl_msg.o := -I$(src)
-+
- virtio_snd-y := \
- 	virtio_card.o \
- 	virtio_chmap.o \
-diff --git a/sound/virtio/virtio_ctl_msg.c b/sound/virtio/virtio_ctl_msg.c
-index 6433c870f..4cac9aa0d 100644
---- a/sound/virtio/virtio_ctl_msg.c
-+++ b/sound/virtio/virtio_ctl_msg.c
-@@ -3,11 +3,16 @@
-  * virtio-snd: Virtio sound device
-  * Copyright (C) 2021 OpenSynergy GmbH
-  */
-+#include <linux/device.h>
-+#include <linux/limits.h>
- #include <linux/moduleparam.h>
- #include <linux/virtio_config.h>
- 
- #include "virtio_card.h"
- 
-+#define CREATE_TRACE_POINTS
-+#include "virtio_ctl_msg_trace.h"
-+
- /**
-  * struct virtio_snd_msg - Control message.
-  * @sg_request: Scattergather list containing a device request (header).
-@@ -15,6 +20,13 @@
-  * @list: Pending message list entry.
-  * @notify: Request completed notification.
-  * @ref_count: Reference count used to manage a message lifetime.
-+ * @trace_id: Stable identifier for tracing this request lifecycle.
-+ * @trace_opcode: Decoded request opcode for tracing.
-+ * @trace_stream_id: Decoded PCM stream identifier for tracing.
-+ * @trace_response_capacity: Cached capacity of writable response buffers.
-+ * @trace_opcode_valid: Whether @trace_opcode was decoded from the request.
-+ * @trace_stream_id_valid: Whether @trace_stream_id was decoded safely.
-+ * @trace_canceled: Whether teardown canceled this request.
-  */
- struct virtio_snd_msg {
- 	struct scatterlist sg_request;
-@@ -22,8 +34,111 @@ struct virtio_snd_msg {
- 	struct list_head list;
- 	struct completion notify;
- 	refcount_t ref_count;
-+	u64 trace_id;
-+	u32 trace_opcode;
-+	u32 trace_stream_id;
-+	u32 trace_response_capacity;
-+	bool trace_opcode_valid;
-+	bool trace_stream_id_valid;
-+	bool trace_canceled;
-+};
-+
-+static atomic64_t virtsnd_ctl_msg_trace_id = ATOMIC64_INIT(0);
-+
-+/* Per-event values; request-lifetime metadata stays in virtio_snd_msg. */
-+struct virtsnd_ctl_event {
-+	u8 phase;
-+	u8 outcome;
-+	u8 flags;
-+	int result;
-+	u32 used_len;
-+	u32 status;
- };
- 
-+static inline void virtsnd_ctl_msg_trace(struct virtio_snd *snd,
-+					 struct virtio_snd_msg *msg,
-+					 const struct virtsnd_ctl_event *event)
-+{
-+	u8 flags;
-+
-+	if (!msg->trace_id)
-+		return;
-+
-+	flags = event->flags;
-+	if (msg->trace_opcode_valid)
-+		flags |= VIRTSND_CTL_TRACE_VALID_OPCODE;
-+	if (msg->trace_stream_id_valid)
-+		flags |= VIRTSND_CTL_TRACE_VALID_STREAM_ID;
-+
-+	trace_virtio_snd_ctl_msg(dev_name(&snd->vdev->dev), msg->trace_id,
-+				 event->phase, event->outcome, flags,
-+				 msg->trace_opcode, msg->trace_stream_id,
-+				 event->result, event->used_len, event->status);
-+}
-+
-+static u32 virtsnd_ctl_msg_trace_capacity(struct virtio_snd_msg *msg,
-+					  struct scatterlist *in_sgs)
-+{
-+	struct scatterlist *sg;
-+	u32 capacity = msg->sg_response.length;
-+
-+	for (sg = in_sgs; sg; sg = sg_next(sg)) {
-+		if (capacity > U32_MAX - sg->length)
-+			return U32_MAX;
-+
-+		capacity += sg->length;
-+	}
-+
-+	return capacity;
-+}
-+
-+static void virtsnd_ctl_msg_trace_prepare(struct virtio_snd_msg *msg,
-+					  struct virtio_snd_hdr *request,
-+					  struct scatterlist *in_sgs)
-+{
-+	struct virtio_snd_pcm_hdr *pcm_request = (void *)request;
-+	size_t request_size;
-+	u32 opcode;
-+
-+	msg->trace_id = 0;
-+	msg->trace_canceled = false;
-+
-+	if (!trace_virtio_snd_ctl_msg_enabled())
-+		return;
-+
-+	request_size = msg->sg_request.length;
-+	msg->trace_opcode = 0;
-+	msg->trace_stream_id = 0;
-+	msg->trace_response_capacity =
-+		virtsnd_ctl_msg_trace_capacity(msg, in_sgs);
-+	msg->trace_opcode_valid = false;
-+	msg->trace_stream_id_valid = false;
-+
-+	msg->trace_id = atomic64_inc_return(&virtsnd_ctl_msg_trace_id);
-+	if (request_size < sizeof(*request))
-+		return;
-+
-+	opcode = le32_to_cpu(request->code);
-+	msg->trace_opcode = opcode;
-+	msg->trace_opcode_valid = true;
-+
-+	if (request_size < sizeof(struct virtio_snd_pcm_hdr))
-+		return;
-+
-+	switch (opcode) {
-+	case VIRTIO_SND_R_PCM_SET_PARAMS:
-+	case VIRTIO_SND_R_PCM_PREPARE:
-+	case VIRTIO_SND_R_PCM_RELEASE:
-+	case VIRTIO_SND_R_PCM_START:
-+	case VIRTIO_SND_R_PCM_STOP:
-+		msg->trace_stream_id = le32_to_cpu(pcm_request->stream_id);
-+		msg->trace_stream_id_valid = true;
-+		break;
-+	default:
-+		break;
-+	}
-+}
-+
- /**
-  * virtsnd_ctl_msg_ref() - Increment reference counter for the message.
-  * @msg: Control message.
-@@ -134,6 +249,7 @@ int virtsnd_ctl_msg_send(struct virtio_snd *snd, struct virtio_snd_msg *msg,
- 	int rc;
- 
- 	virtsnd_ctl_msg_ref(msg);
-+	virtsnd_ctl_msg_trace_prepare(msg, request, in_sgs);
- 
- 	/* Set the default status in case the message was canceled. */
- 	response->code = cpu_to_le32(VIRTIO_SND_S_IO_ERR);
-@@ -154,6 +270,18 @@ int virtsnd_ctl_msg_send(struct virtio_snd *snd, struct virtio_snd_msg *msg,
- 
- 			list_add_tail(&msg->list, &snd->ctl_msgs);
- 		}
-+
-+		virtsnd_ctl_msg_trace(snd, msg, &(const struct virtsnd_ctl_event) {
-+			.phase = VIRTSND_CTL_TRACE_ENQUEUE,
-+			.outcome = VIRTSND_CTL_TRACE_OUTCOME_NONE,
-+			.flags = VIRTSND_CTL_TRACE_VALID_RESULT,
-+			.result = rc,
-+		});
-+		if (!rc && nowait)
-+			virtsnd_ctl_msg_trace(snd, msg, &(const struct virtsnd_ctl_event) {
-+				.phase = VIRTSND_CTL_TRACE_WAIT,
-+				.outcome = VIRTSND_CTL_TRACE_OUTCOME_ASYNC,
-+			});
- 	}
- 
- 	if (rc) {
-@@ -182,6 +310,19 @@ int virtsnd_ctl_msg_send(struct virtio_snd *snd, struct virtio_snd_msg *msg,
- 				"control message (0x%08x) timeout\n",
- 				le32_to_cpu(request->code));
- 			rc = -ETIMEDOUT;
-+			virtsnd_ctl_msg_trace(snd, msg, &(const struct virtsnd_ctl_event) {
-+				.phase = VIRTSND_CTL_TRACE_WAIT,
-+				.outcome = VIRTSND_CTL_TRACE_OUTCOME_TIMEOUT,
-+				.flags = VIRTSND_CTL_TRACE_VALID_RESULT,
-+				.result = rc,
-+			});
-+		} else {
-+			virtsnd_ctl_msg_trace(snd, msg, &(const struct virtsnd_ctl_event) {
-+				.phase = VIRTSND_CTL_TRACE_WAIT,
-+				.outcome = VIRTSND_CTL_TRACE_OUTCOME_SIGNAL,
-+				.flags = VIRTSND_CTL_TRACE_VALID_RESULT,
-+				.result = rc,
-+			});
- 		}
- 
- 		goto on_exit;
-@@ -202,6 +343,15 @@ int virtsnd_ctl_msg_send(struct virtio_snd *snd, struct virtio_snd_msg *msg,
- 		break;
- 	}
- 
-+	virtsnd_ctl_msg_trace(snd, msg, &(const struct virtsnd_ctl_event) {
-+		.phase = VIRTSND_CTL_TRACE_WAIT,
-+		.outcome = READ_ONCE(msg->trace_canceled) ?
-+			VIRTSND_CTL_TRACE_OUTCOME_CANCEL :
-+			VIRTSND_CTL_TRACE_OUTCOME_RESPONSE,
-+		.flags = VIRTSND_CTL_TRACE_VALID_RESULT,
-+		.result = rc,
-+	});
-+
- on_exit:
- 	virtsnd_ctl_msg_unref(msg);
- 
-@@ -239,6 +389,11 @@ void virtsnd_ctl_msg_cancel_all(struct virtio_snd *snd)
- 			list_first_entry(&snd->ctl_msgs, struct virtio_snd_msg,
- 					 list);
- 
-+		WRITE_ONCE(msg->trace_canceled, true);
-+		virtsnd_ctl_msg_trace(snd, msg, &(const struct virtsnd_ctl_event) {
-+			.phase = VIRTSND_CTL_TRACE_CANCEL,
-+			.outcome = VIRTSND_CTL_TRACE_OUTCOME_CANCEL,
-+		});
- 		virtsnd_ctl_msg_complete(msg);
- 	}
- }
-@@ -297,7 +452,28 @@ void virtsnd_ctl_notify_cb(struct virtqueue *vqueue)
- 	guard(spinlock_irqsave)(&queue->lock);
- 	do {
- 		virtqueue_disable_cb(vqueue);
--		while ((msg = virtqueue_get_buf(vqueue, &length)))
-+		while ((msg = virtqueue_get_buf(vqueue, &length))) {
-+			struct virtio_snd_hdr *response =
-+				virtsnd_ctl_msg_response(msg);
-+
-+			if (trace_virtio_snd_ctl_msg_enabled() && msg->trace_id) {
-+				bool status_valid =
-+					msg->sg_response.length >= sizeof(*response) &&
-+					length >= sizeof(*response) &&
-+					length <= msg->trace_response_capacity;
-+				u32 status = status_valid ?
-+					le32_to_cpu(response->code) : 0;
-+
-+				virtsnd_ctl_msg_trace(snd, msg, &(const struct virtsnd_ctl_event) {
-+					.phase = VIRTSND_CTL_TRACE_RESPONSE,
-+					.outcome = VIRTSND_CTL_TRACE_OUTCOME_NONE,
-+					.flags = status_valid ?
-+						VIRTSND_CTL_TRACE_VALID_STATUS : 0,
-+					.used_len = length,
-+					.status = status,
-+				});
-+			}
- 			virtsnd_ctl_msg_complete(msg);
-+		}
- 	} while (!virtqueue_enable_cb(vqueue));
- }
-diff --git a/sound/virtio/virtio_ctl_msg_trace.h b/sound/virtio/virtio_ctl_msg_trace.h
-new file mode 100644
-index 000000000..d6d9e9a04
---- /dev/null
-+++ b/sound/virtio/virtio_ctl_msg_trace.h
-@@ -0,0 +1,107 @@
-+/* SPDX-License-Identifier: GPL-2.0+ */
-+#undef TRACE_SYSTEM
-+#define TRACE_SYSTEM virtio_snd
-+
-+#if !defined(_TRACE_VIRTIO_SND_CTL_MSG_H) || \
-+	defined(TRACE_HEADER_MULTI_READ)
-+#define _TRACE_VIRTIO_SND_CTL_MSG_H
-+
-+#include <linux/tracepoint.h>
-+
-+#define VIRTSND_CTL_TRACE_ENQUEUE		0
-+#define VIRTSND_CTL_TRACE_RESPONSE		1
-+#define VIRTSND_CTL_TRACE_CANCEL		2
-+#define VIRTSND_CTL_TRACE_WAIT			3
-+
-+#define VIRTSND_CTL_TRACE_OUTCOME_NONE		0
-+#define VIRTSND_CTL_TRACE_OUTCOME_ASYNC		1
-+#define VIRTSND_CTL_TRACE_OUTCOME_RESPONSE	2
-+#define VIRTSND_CTL_TRACE_OUTCOME_CANCEL	3
-+#define VIRTSND_CTL_TRACE_OUTCOME_TIMEOUT	4
-+#define VIRTSND_CTL_TRACE_OUTCOME_SIGNAL		5
-+
-+#define VIRTSND_CTL_TRACE_VALID_OPCODE		0x01
-+#define VIRTSND_CTL_TRACE_VALID_STREAM_ID	0x02
-+#define VIRTSND_CTL_TRACE_VALID_RESULT		0x04
-+#define VIRTSND_CTL_TRACE_VALID_STATUS		0x08
-+
-+/*
-+ * An ID identifies one send during this module's lifetime. Only requests sent
-+ * while this event is enabled receive an ID. Enabling it during an existing
-+ * request therefore does not produce a partial lifecycle for that request.
-+ *
-+ * A wait event describes the sender's return; response and cancel describe
-+ * queue ownership ending. A timeout or signal can precede a later response.
-+ * Invalid fields contain zero and must be interpreted using their valid flag.
-+ */
-+TRACE_EVENT(virtio_snd_ctl_msg,
-+
-+	TP_PROTO(const char *device, u64 request_id, u8 phase, u8 outcome,
-+		 u8 flags, u32 opcode, u32 stream_id, int result,
-+		 u32 used_len, u32 status),
-+
-+	TP_ARGS(device, request_id, phase, outcome, flags, opcode, stream_id,
-+		result, used_len, status),
-+
-+	TP_STRUCT__entry(
-+		__string(device, device)
-+		__field(u64, request_id)
-+		__field(u8, phase)
-+		__field(u8, outcome)
-+		__field(bool, opcode_valid)
-+		__field(u32, opcode)
-+		__field(bool, stream_id_valid)
-+		__field(u32, stream_id)
-+		__field(int, result)
-+		__field(bool, result_valid)
-+		__field(u32, used_len)
-+		__field(bool, status_valid)
-+		__field(u32, status)
-+	),
-+
-+	TP_fast_assign(
-+		__assign_str(device);
-+		__entry->request_id = request_id;
-+		__entry->phase = phase;
-+		__entry->outcome = outcome;
-+		__entry->opcode_valid = flags & VIRTSND_CTL_TRACE_VALID_OPCODE;
-+		__entry->opcode = opcode;
-+		__entry->stream_id_valid =
-+			flags & VIRTSND_CTL_TRACE_VALID_STREAM_ID;
-+		__entry->stream_id = stream_id;
-+		__entry->result = result;
-+		__entry->result_valid = flags & VIRTSND_CTL_TRACE_VALID_RESULT;
-+		__entry->used_len = used_len;
-+		__entry->status_valid = flags & VIRTSND_CTL_TRACE_VALID_STATUS;
-+		__entry->status = status;
-+	),
-+
-+	TP_printk("device=%s id=%llu phase=%s outcome=%s opcode_valid=%d opcode=0x%08x stream_id_valid=%d stream_id=%u result_valid=%d result=%d used_len=%u status_valid=%d status=0x%08x",
-+		  __get_str(device),
-+		  (unsigned long long)__entry->request_id,
-+		  __print_symbolic(__entry->phase,
-+				   { VIRTSND_CTL_TRACE_ENQUEUE, "enqueue" },
-+				   { VIRTSND_CTL_TRACE_RESPONSE, "response" },
-+				   { VIRTSND_CTL_TRACE_CANCEL, "cancel" },
-+				   { VIRTSND_CTL_TRACE_WAIT, "wait" }),
-+		  __print_symbolic(__entry->outcome,
-+				   { VIRTSND_CTL_TRACE_OUTCOME_NONE, "none" },
-+				   { VIRTSND_CTL_TRACE_OUTCOME_ASYNC, "async" },
-+				   { VIRTSND_CTL_TRACE_OUTCOME_RESPONSE, "response" },
-+				   { VIRTSND_CTL_TRACE_OUTCOME_CANCEL, "cancel" },
-+				   { VIRTSND_CTL_TRACE_OUTCOME_TIMEOUT, "timeout" },
-+				   { VIRTSND_CTL_TRACE_OUTCOME_SIGNAL, "signal" }),
-+		  __entry->opcode_valid, __entry->opcode,
-+		  __entry->stream_id_valid, __entry->stream_id,
-+		  __entry->result_valid, __entry->result, __entry->used_len,
-+		  __entry->status_valid, __entry->status)
-+);
-+
-+#endif /* _TRACE_VIRTIO_SND_CTL_MSG_H */
-+
-+/* This part must be outside protection */
-+#undef TRACE_INCLUDE_PATH
-+#define TRACE_INCLUDE_PATH .
-+#undef TRACE_INCLUDE_FILE
-+#define TRACE_INCLUDE_FILE virtio_ctl_msg_trace
-+#include <trace/define_trace.h>
--- 
-2.50.1
+Apply these public prerequisites in order, then patches 1 and 2:
+
+1. Five virtio-snd lifetime/error-recovery v3 patches:
+   https://lore.kernel.org/all/cover.1791881787.git.mynameisjune111@gmail.com/
+2. The generic teardown-wait RFC v2 patch:
+   https://lore.kernel.org/all/rfc-v2-generic-control-wait-0.2eddd58a796e497f@gmail.com/
+3. The VZ capture RFC v2 patch:
+   https://lore.kernel.org/all/rfc-v2-vz-capture-compat-1.b9ab4c1540dc4691@gmail.com/
+
+The seven stable prerequisite patch IDs are listed below. These
+follow-ups need the pending staged-capture implementation; its
+introducing patch has no upstream commit ID for a Fixes tag yet. The two
+changes do not include the separate control tracepoints or input-route
+recovery work.
+
+Validation
+
+For patch 1, source-extracted host fixtures under ASan/UBSan reproduce
+the baseline ACK race and post-commit pointer rollback. The candidate
+preserves wrapped data and accounting, including failed refill. Two
+ARM64 QEMU boots exercise the extracted logic with real spinlocks, KASAN
+and lockdep. A full-driver baseline/candidate matrix passed 20 lifecycle
+scenarios, covering packed tails, delayed PREPARE/START/STOP/RELEASE,
+pending RX, reset cancellation and playback/capture recovery.
+
+For patch 2, the unchanged candidate also passed ten full-driver QEMU
+scenarios with KASAN and lockdep. The ARM64 build emitted the known 517
+-Woverride-init warnings outside sound/, with no sound-source warnings.
+The fixtures use test glue and a modified QEMU backend for fault
+injection.
+
+The physical comparison used the built-in MacBook Pro microphone through
+VZ, a two-vCPU/2048 MiB guest, mono S16_LE at 48 kHz, a 1024-frame
+period and a 4096-frame buffer. Six fresh boots compared ACK-only with
+ACK plus patch 2, in A/B, B/A, A/B order. Each boot ran quiet capture
+for six seconds, then a 70-second target with 16 nice-0 CPU workers,
+then a six-second reopen. The reader also used nice 0 in both arms.
+
+  Run  ACK-only received before EPIPE     ACK + patch 2
+  1       563520 frames (11.74 seconds)   3360000 frames (70 seconds)
+  2      1476752 frames (30.77 seconds)   3360000 frames (70 seconds)
+  3      1455840 frames (30.33 seconds)   3360000 frames (70 seconds)
+
+All three failures logged ring_capacity. All candidate captures had zero
+read errors and nonzero signal; all six immediate reopens passed.
+Routes, worker priorities, worker cleanup and guest shutdown were
+checked. Trace loss was zero. The initrd contents differed only in
+virtio_snd.ko and its expected-hash file; the kernel and capture
+executable were equal.
+
+The first baseline failure included a 108.112 ms period-work dispatch
+delay and a 255.821 ms runnable wait for the reader. The other two
+failures left pending work without matching execution, so their
+matched-only latency maxima understate outstanding work. Candidate
+maximum dispatch delays were 13.029, 12.355 and 20.366 ms across the
+three runs.
+
+In a separate pair with the reader at nice -10 in both arms, both
+versions completed 70 seconds and reopened successfully. Host load was
+lower during that control. It is an exploratory result, not an isolated
+priority effect. Host load varied throughout the comparisons and tracing
+adds overhead. The evidence supports this change for the tested
+workload, with contention affecting both kernel work and userspace
+scheduling. It does not establish an exclusive kernel-only cause or
+lossless capture under arbitrary load.
+
+One initial run failed before valid capture because of a harness
+identity check. Another had a result-parser delimiter error; its
+original trace was preserved and independently reparsed. Four preflight
+attempts refused an unexpected input device before launching a VM. These
+are excluded from clean-capture counts. The eight accepted boots contain
+24 capture phases: three reproduced baseline failures and 21 completed
+captures.
+
+Remaining coverage and review questions
+
+The physical result covers this built-in mono input and this guest
+setup. Input switching, sleep/wake, other interfaces, other VMMs and
+physical non-coherent DMA remain outside this comparison. Guest poweroff
+was used for cleanup; graceful ACPI shutdown was not tested by this
+matrix. The fresh regressions described above predate this packaging
+step. The committed source matches the tested source byte for byte.
+
+The new fixtures, harness and raw logs are currently local. An immutable
+public reproducer snapshot still needs to be prepared before submission.
+
+Is system_highpri_wq appropriate for the opt-in staged capture path, or
+would a driver-owned queue be preferable? Is returning success after the
+ACK accounting commit, with XRUN latched on refill failure, the right
+way to preserve ALSA pointer consistency? I would also appreciate
+guidance on whether these follow-ups should be folded into the pending
+VZ revision.
+
+Codex (GPT-6 Astra) assisted with test harnesses, trace review and this
+text. The work was directed at isolating the ACK race, preserving
+accounting on errors, and comparing unchanged baseline/candidate
+artifacts under the same explicit guest workload. The patches carry
+Assisted-by attribution.
+
+Thanks,
+Joonho
+
+Joonho Lee (2):
+  ALSA: virtio: account staged capture reads before RX refill
+  ALSA: virtio: prioritize staged capture period work
+
+ sound/virtio/virtio_pcm.c     |   4 +-
+ sound/virtio/virtio_pcm.h     |  12 ++++
+ sound/virtio/virtio_pcm_msg.c |   6 +-
+ sound/virtio/virtio_pcm_ops.c | 132 ++++++++++++++++++++--------------
+ 4 files changed, 96 insertions(+), 58 deletions(-)
+
+
+base-commit: 5618f6837ef3314e2c581d4c05ec13b7ed975cb4
+prerequisite-patch-id: 39fb327a004c966ab90f66a34a64bbdbb3ffb475
+prerequisite-patch-id: 7c6bc344656fd839ae0d697ba18d66ac0b47827a
+prerequisite-patch-id: 9dd290ac3147fa7b49a475d7df8a6172778f2860
+prerequisite-patch-id: f4c24a5e441343a690f4ac2437f181c815bc23d0
+prerequisite-patch-id: ab4a5b770247a65272ab7af18a75a147daf81287
+prerequisite-patch-id: cfe3e7000e695a2fda27993f4d9acf0a637cf24e
+prerequisite-patch-id: 771e8815f2b874d98376f309dc60bc90244f378c
+prerequisite-message-id: cover.1791881787.git.mynameisjune111@gmail.com
+prerequisite-message-id: rfc-v2-generic-control-wait-0.2eddd58a796e497f@gmail.com
+prerequisite-message-id: rfc-v2-vz-capture-compat-0.b9ab4c1540dc4691@gmail.com
