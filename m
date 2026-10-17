@@ -1,120 +1,122 @@
-Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40B081925BC
-	for <linux-sound@vger.kernel.org>; Sat, 17 Oct 2026 05:06:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2172631B828
+	for <linux-sound@vger.kernel.org>; Sat, 17 Oct 2026 05:15:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792213617; cv=none; b=kaywtFF65+8d1iQT1fI82kwOFYGYdtw9PMKv0IFAs9pR8GHMicVLYsRNZlhjvnBxMWQsbHjwxLiU4bhvZDBi0EFcmq9koEBNfjXM1AQPtS/VpJlLwgaKciGogahBjAd5tLEYCdvSCzCGcFQYJv/qSAdB8lRhpKEICUiyDbVCv8c=
+	t=1792214134; cv=none; b=Yeqt8MJSSZvv0eUWZ6xBF57eikGshrOVAZASoU7Vq59hWfKBbmn+0RKJdbRjx7aaHKaAMt8/X8lRHI2cC6AeSKzuNBSYMXYcxF7uAmsbVXp092U8frGugLzHjJvyNrQ17L+Fl37mGM+S+K4rriT4ZusnQAZgfHvNuBEaYQubph4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792213617; c=relaxed/simple;
-	bh=UxEGsDp+X8XVGsojDB6p8Pq7U4zHWN6nO0KwXXBjwTU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=LM0LY3FokVmavUnw1bJWpEcUT+/MUUI99GoJE2H6SX4PnkGSQH3hW9DmtP/6TNUrRieZpgxAGX2DofFVPGx1jCqA/Ye0bat+4/thpg4CP5tHvkdmBgWAxbyaCUnDx7wsrkq4WLatg94AUSg/9kPneieKUgymTjRseVBiyO2eEIo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rG7bTMiV; arc=none smtp.client-ip=209.85.210.42
+	s=arc-20240116; t=1792214134; c=relaxed/simple;
+	bh=95SdnSdg3U+zWWAokMZ2g2KRRVCLQeq73KICUEfOvb8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=q2439V7IkflMl8O/0SmTWu17qbdb4dHT8TZ8+0WzvQ51/ooIGMK4yiwkceMe/c3fIrrP6kb5ICKuIPTRDXyMR+aZYh0ZfM5H83uZyHWi4+Is8RWfg796Sqx/Ti0LLBi2NOVKs33DroZLsR0QVT5ZmQCQtEADyxE7MYwX2gCqqSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e69dl9ha; arc=none smtp.client-ip=209.85.216.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rG7bTMiV"
-Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-825487fb37bso316059a34.3
-        for <linux-sound@vger.kernel.org>; Fri, 16 Oct 2026 22:06:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e69dl9ha"
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-3ac91ac8924so389133a91.1
+        for <linux-sound@vger.kernel.org>; Fri, 16 Oct 2026 22:15:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792213614; x=1792818414; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=2QPqiCPtv6mBsOEA+xwRq+Gvryl1g6t6b+sIBHTwo/w=;
-        b=rG7bTMiV27I2A4OpBqK+mMADpNRgZ2ml1KduiGZcmIBFOTVPuazF39SXvRcF/x6Ps5
-         hlDyUYtC2fAPNuE4rC8ZAFpAqzqj6dZ8C/2e6uFAeMGATLxumEmOJjQ9iuc53pJ93k7K
-         Jt1mUXYOO8g7uPi05mVdU0gfl0xBZUAHMgFW/lvnLLTEXaKRFlI1TEzpw0pV3fnsU0mG
-         OQICOph2JBVGJRyxCfB7bXq1CA8tnd9H1doaZmMgCHQPnAKNAihfsNvIl1VIyKxoUg1A
-         eHwemBZzRLVPKCFW/lStKADIdYiBNUrFWnplKWBfWSu0f3sR97pUUhk4DnO8aTr9UGhI
-         baPQ==
+        d=gmail.com; s=20251104; t=1792214131; x=1792818931; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=J8NkLjAJdUFmj5MLQvoJkW4xVPLRTNUGffFYw5vC+68=;
+        b=e69dl9hakpx+ANYReUiFzvYEF2HNSG+geV7Kdxp84Zh7Qpy/rd6AMWlxvXT7/gi3DO
+         QG/WYIck0y5fLEhBrxtkUJXP5tVfnblmWTRftHvk8IqUyZMCymmySG/pfF0EbCM8PbqN
+         1OQLoEAj7Vo5Xl4608hz/YczqXv4d6L3A3LebTxsFUd9p1mujJ70m/h6ZB6hdlg2JVZ+
+         gnR0ciNB4RrWXrI5ly0iuOkfrd74hldH5GnPV5QCoJXdAzs9MTNbBdBRU5Jqa5aq97Ce
+         2HRJ7exlvtRWIeDIMPcmesEG7+5rbRMe1/Ebwl0Wu1JBBl1taZcRHRRDf9svUUip8pks
+         tvsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792213614; x=1792818414;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=2QPqiCPtv6mBsOEA+xwRq+Gvryl1g6t6b+sIBHTwo/w=;
-        b=jVXKJumhE5bEe/NKNkHKHhPseVGwop/zgmOBLtqCbcWHK6tjXVIov+q9L6A/SSCS52
-         xuQ1+ULjGKdDXEIW3ujAcpkO/iDCo1it9N8wuWjrUW2StOC2mNJTWwHlkN0iMesG2swQ
-         pMNiFnjkkIMy4+bFSW2G+ZtTzDsqYtor8516pfWgaDNXFy9HsmExIaLm/+nhFic6R205
-         Hi39owSkCosXRdQwJdlI0uvhgKQeR2tqP92EH2quPtl1GCp4TSk0hy6V0SFbL12XQnQV
-         2Rys7SSKTceLPQmu2h9WxnTSA27cqnS49gSri0/93R1sC7j33TF13snYtlNv0uuecmRA
-         /wFQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwA12UjIb0XIdkvCoh3f+C3EcrToV4lTHlJuu7P+OfFG/1lEyF3pksv+6UDP9/Eqbtaa9yU8QcyJSUgfQ==@vger.kernel.org
-X-Gm-Message-State: AFq9FYJdyfv3iWCPonhRhl0myRQdVOBMU4+Vws3b4TRpclAgG9uPkluO
-	D0Yl1La8cv4XDvokF2Uwyq65dXnCwfmqE9dscs2xkBt4kHj7q4Gim/FdzGntlQ==
-X-Gm-Gg: AYBFou2XhQTWiP639CMRMv1g8ZJF75lksQuSxwiq6otKgLQHlm0GhyFn9aOyeuaq9J+
-	W+gQf3bEDYlH4TkyHFVYKJdNS6Hb6ti3M/BmvRbxMRZwY75ck+4rO125gYrsYhsRANJEDTvr8Tb
-	tLt355+I8Y78QUqBBp74eF0AgCo2YBSpkHzBJ8a44sC2ZpP1Ji1kpzfEm0RaDQaP7tkJsVrkQ5G
-	vNC0EbK7aE8JOk6zwP5/VWq0r0Rd/ZzNHgCSGm6qeJnO0N+H8iUrxlrZ/G7TxgxwZPVwBOsP2YY
-	SPk8m75T+Dp5wTy4plQA6bOI1pPqxT/W3ih0V4GkSxZohcPqVd2YLzk7bKQ243CWRZt6LnTQytK
-	0cmKK28TWpECFSbpTT46JvVGGRoLpP6f7djokCJwHwMdSwrYOFi6j6pjLaKJ7S2kA2/P7EHnTMo
-	v8MfmtP3znHNIHr/5i5ZkEZdwoqBPsR0xZ38eKKZPqWzgAL9GQo9I0dyTv24J7lB4NIwwc+cdtH
-	u0smcZ1A3yRcBGkBk6wqpmbkgs8WA==
-X-Received: by 2002:a05:6830:2e05:b0:80c:d34f:5f65 with SMTP id 46e09a7af769-84501a1395fmr1739782a34.30.1792213614098;
-        Fri, 16 Oct 2026 22:06:54 -0700 (PDT)
-Received: from fedora (fixed-189-203-106-166.totalplay.net. [189.203.106.166])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-842a0f31614sm3504872a34.3.2026.10.16.22.06.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Oct 2026 22:06:53 -0700 (PDT)
-From: =?UTF-8?q?Jos=C3=A9=20Miguel=20Castellanos=20Valladolid?= <josstamy@gmail.com>
-To: tiwai@suse.com
-Cc: perex@perex.cz,
+        d=1e100.net; s=20260707; t=1792214131; x=1792818931;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=J8NkLjAJdUFmj5MLQvoJkW4xVPLRTNUGffFYw5vC+68=;
+        b=hKgDv2kHeGSKtkzJMJgOcA8ZqJHpzo0AS0/s51lcHEIsEyaLudT6OtX4I4pK4GCHXL
+         eWP8nq8bsAHi9JumxNbOnu42qGx6cesqa28ykJWpOATjoAaunenP7hGsZtpglGoEw0q3
+         FYaaLMveJNUj1VnK40bhMRBm5HdpEv5ZpoZsefHi0jbHsL66AFiILG3cG9xtQgtIMwGC
+         ZB48IwWX/iQf+XRxVUSaB7heUW10d0pjWCDNEQLY1ig4MVpnXMXzzUPkzmoFZ69QKG7X
+         Rk43/xPi9iOpTSjYoI0FURERQAAXPf1cA3LZwOfM27Jmp46vUg+RyIz8y1vjnfBWZJ/Q
+         /yyw==
+X-Forwarded-Encrypted: i=1; AKwUvByGuXho6Pp1uojNApJ3Vgl7OQP0lYeNSavSIJvxPBuyzZZ85/3OBkrCdMAz7rxxrsjDGdOkpx73ZN+rkA==@vger.kernel.org
+X-Gm-Message-State: AFq9FYL/42MbGVtZAIRCtL1J+s75mhK8weprViussXkrJV61hiARi01I
+	uQHHyPL+ze3IIl/bN9FNA8erlJQD/xjsfp9dAalCFjaB3rmAZ4q3LnjN
+X-Gm-Gg: AYBFou3fCyi/4i6JQCuBY+gJ8c9G2qeQsZdiaoJ/vLk7n6R9yKj7SFvVNnnuLnv9o3A
+	SAq6YIVqpQIA87KSGIUv9E+OiaKIhGMRmgv64wOvEp9v20SdhwPDVHsgJBZ+vyIYFQ/JEr1uDdq
+	K7HYSIIcHjw9CYDrISqGsCHi6KuRuqAnzqgLRxk4DDXjzKSp/0EmnBJoSwOWZlOMEpMTCqG2cAk
+	+GQCitPb8auMOiR2P4sDrNsC//yptWouJVbNFFGIh+bR+DiS5wuoxObzslHemft4iZ8ElfCLut3
+	Zc8njqrfOD/Sx6AQNIxH6h7HY7wQphqQ7ipaWDzZZgFMopmkWRR+7qICJzosP5Sb9WppTvqGzv0
+	0ZB2qbfxi8CH5borjRDH/asKySYbvN+tMGWhSQ2lXp+Ct95U5NeF0WR/V+zRZP90bGKdUdcaDD3
+	stxamQ2uI4CW61Iy7KZ4zewetVWusTkEyaZbY8mluWLRKgFOlEf9I6FCt8gXArxitd86kwtEZEZ
+	VxMM6vw2pUL6vclGoa4mNfzHYdpojDhC6sx28/b1gyPxC1WDd1h5xaUOcTowuhWJ4GhWRuwYtEu
+	sXyupfvzBlceGc9mspSrovSF
+X-Received: by 2002:a17:90b:5623:b0:3ac:9a54:e3ce with SMTP id 98e67ed59e1d1-3acef6391ecmr1619670a91.63.1792214131334;
+        Fri, 16 Oct 2026 22:15:31 -0700 (PDT)
+Received: from localhost.localdomain ([180.182.24.11])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3acc38b457esm7443575a91.0.2026.10.16.22.15.29
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Fri, 16 Oct 2026 22:15:30 -0700 (PDT)
+From: Joonho Lee <mynameisjune111@gmail.com>
+To: Anton Yakovlev <anton.yakovlev@opensynergy.com>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: "Michael S . Tsirkin" <mst@redhat.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	virtualization@lists.linux.dev,
 	linux-sound@vger.kernel.org,
-	=?UTF-8?q?Jos=C3=A9=20Miguel=20Castellanos=20Valladolid?= <josstamy@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH] ALSA: hda/realtek: Enable mute LEDs on HP OmniBook X Flip 14-fm0xxx
-Date: Fri, 16 Oct 2026 23:06:15 -0600
-Message-ID: <20261017050615.14481-1-josstamy@gmail.com>
-X-Mailer: git-send-email 2.56.0
+	linux-kernel@vger.kernel.org
+Subject: [RFC PATCH 0/1] ALSA: virtio: trace control message lifecycles
+Date: Sat, 17 Oct 2026 14:15:26 +0900
+Message-ID: <rfc-virtio-snd-control-trace-0.208f05ae8ea44e77@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The HP OmniBook X Flip Laptop 14-fm0xxx (subsystem ID 0x103c8d9f, ALC245
-with two CS35L41 amplifiers over I2C) is currently handled by
-ALC287_FIXUP_CS35L41_I2C_2. That binds the amplifiers but does not set up
-the mute LEDs, so neither the speaker mute key LED nor the microphone mute
-key LED lights up under Linux. With that fixup the codec GPIOs stay
-disabled (IO[0..2] enable=0).
+Hi,
 
-Switch the entry to ALC287_FIXUP_CS35L41_I2C_2_HP_MUTE_LEDS, which chains
-cs35l41_fixup_i2c_two with ALC245_FIXUP_HP_X360_MUTE_LEDS. This keeps the
-amplifier setup and adds the speaker mute LED through the ALC245 COEF
-register and the mic mute LED through codec GPIO2. It is the same fixup
-already used for the 17 Turbine OmniBook 7 DIS (0x103c8d9c).
+While investigating capture stalls, I needed to tell whether a control request had timed out, completed later, or been canceled during teardown. The existing timeout log gives the raw opcode, but repeated requests need an identifier to follow their lifetimes (or cycles).
 
-Tested on the affected laptop with v7.2.11 using the equivalent
-ALC245_FIXUP_HP_ENVY_X360_15_FH0XXX fixup, which has the identical
-cs35l41_fixup_i2c_two + ALC245_FIXUP_HP_X360_MUTE_LEDS chain: hda::mute
-and hda::micmute LED class devices appear and both key LEDs light up
-when muting.
+This RFC adds one trace event to sound/virtio. Its enqueue, response, cancel and wait records share a per-send ID. Wait records describe the sender's outcome, response and cancel records describe queue completion. Therefore a timed-out wait can be followed by a response with the same identifier.
 
-Cc: stable@vger.kernel.org
-Signed-off-by: José Miguel Castellanos Valladolid <josstamy@gmail.com>
----
- sound/hda/codecs/realtek/alc269.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The patch applies directly to the mainline base listed below. PCM capture staging, split-ACK accounting, workqueue priority and application recovery changes are outside this RFC.
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index 36d3bc23a..c33a38598 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -7957,7 +7957,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x8d9c, "HP 17 Turbine OmniBook 7 DIS", ALC287_FIXUP_CS35L41_I2C_2_HP_MUTE_LEDS),
- 	SND_PCI_QUIRK(0x103c, 0x8d9d, "HP 17 Turbine OmniBook X UMA", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x103c, 0x8d9e, "HP 17 Turbine OmniBook X DIS", ALC287_FIXUP_CS35L41_I2C_2),
--	SND_PCI_QUIRK(0x103c, 0x8d9f, "HP 14 Cadet (x360)", ALC287_FIXUP_CS35L41_I2C_2),
-+	SND_PCI_QUIRK(0x103c, 0x8d9f, "HP 14 Cadet (x360)", ALC287_FIXUP_CS35L41_I2C_2_HP_MUTE_LEDS),
- 	SND_PCI_QUIRK(0x103c, 0x8da0, "HP 16 Clipper OmniBook 7(X360)", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x103c, 0x8da1, "HP 16 Clipper OmniBook X", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x103c, 0x8da7, "HP 14 Enstrom OmniBook X", ALC287_FIXUP_CS35L41_I2C_2),
--- 
-2.56.0
+Validation of the exact source diff:
+- ARM64 W=1 kernel/module builds with KASAN and lockdep; additional object builds with BPF events enabled and with event tracing disabled.
+- Six QEMU cases compare baseline, trace-off and trace-on for a delayed PREPARE response and cancellation during unbind/rebind. Each checks subsequent capture and playback. No KASAN/lockdep diagnostics or trace loss were recorded. These tests use a patched synthetic QEMU backend.
+- Eighteen QEMU performance trials, 9,000 timed open/start/drop/close cycles, use a 4,096-frame buffer. Enabled trials produce the expected enqueue/response/wait counts. Steady capture produces no control events.
 
+The added message fields cost 24 bytes per request on the tested ARM64 configurations, even with tracing off. Module sections grew by 11,160 bytes in the debug build. Actual allocation depends on slab/page layout.
+
+A further non-debug comparison used this exact candidate with QEMU 11.1.2 and HVF, sharing the same Image/config and differing only in virtio_snd.ko. Six balanced orders exercised 90,000 timed lifecycle cycles at 4,096 frames, followed by three 30-second synthetic captures. All functional checks passed, as each capture read 1,440,000 frames, with zero XRUNs or read errors. Each trace-on lifecycle trial recorded 90,000 events without loss. Steady capture recorded no control events.
+
+Observed medians of six per-trial p95/p99 lifecycle times, in microseconds, were 201.105/349.729 for baseline, 254.146/334.416 for trace off, and 291.667/413.083 for trace on. Median process CPU time per lifecycle was 70.437, 70.532 and 77.300 microseconds, respectively. These measure the open/configure/prepare/start/drop/close sequence, rather than audio delivery latency.
+
+Native VZ with the unpatched baseline and internal microphone completed 100 lifecycle cycles, but a 30-second capture returned EIO after 1,131,472 frames (23.57 seconds of audio). Native VZ steady-capture performance remains unverified. Earlier VZ integration results included experimental capture changes and a different port of the trace implementation, as they do not establish performance of this exact candidate.
+
+Additional ARM64 QEMU fault injection exercises the real send and completion paths through a separate test-only caller. The backend returns status `0xdeadbeef` and used lengths 0, 3 and 37 for a 36-byte response capacity. Blocking queue consumption fills 64 entries; the 65th send returns -ENOSPC. A held asynchronous request returns before its response, while SIGUSR1 interrupts a synchronous wait with kernel -ERESTARTSYS and userspace EINTR. Both requests complete later without another sender wait. Each fault is followed by a successful query, then the suite checks an additional-SG query, capture and capture reopen at 4,096 frames, plus playback.
+
+The length faults deliberately write a complete response within the writable buffers and alter only the reported used length. Baseline and instrumented senders still return success in those cases. The event records the raw length with status_valid=0 and status=0; this patch does not change protocol validation. An unknown status with a valid length is recorded verbatim, with the existing sender path returning -EINVAL. Here status_valid describes coverage of the response header word. The raw used length remains available for opcode-specific payload checks.
+
+Two fresh boots each of baseline, feature trace-off and feature trace-on passed all 42 fault scenarios with identical sender results. Each trace-on run contained 280 events with no trace loss. The original, unmodified production modules also passed six repeated timeout/reset regressions. Seven deliberately corrupted evidence sets were rejected by the oracle.
+
+The fault caller and QEMU changes are local test fixtures, excluded from this patch. The production control implementation remains byte-for-byte the candidate tested above. The fixture modules were rebuilt with W=1; KASAN and lockdep remain enabled. These synthetic tests do not exercise physical microphone input or establish additional VZ compatibility.
+
+Thanks,
+Joonho
+
+Joonho Lee (1):
+  ALSA: virtio: trace control message lifecycles
+
+ sound/virtio/Makefile               |   2 +
+ sound/virtio/virtio_ctl_msg.c       | 156 +++++++++++++++++++++++++++-
+ sound/virtio/virtio_ctl_msg_trace.h | 107 +++++++++++++++++++
+ 3 files changed, 264 insertions(+), 1 deletion(-)
+ create mode 100644 sound/virtio/virtio_ctl_msg_trace.h
+
+ base-commit: 2f2f7eeef8b0a1a9b9ca998231419873ccae8d4e
