@@ -1,66 +1,214 @@
-Received: from air.basealt.ru (air.basealt.ru [193.43.8.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34D094CF47A;
-	Sat, 17 Oct 2026 10:20:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.43.8.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D02293C4163;
+	Sat, 17 Oct 2026 10:31:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792232407; cv=none; b=j8bVcwYY/SCBfWJ3C9+yCquWco0WCxnPsk8wcRVujghhm4BtAg3FcHXyBEGGnrTGzgYOrqg8GdkDBcYDol7a1B9embnb8j7UGS57oxXDEOrm9zA4ffxFRHgzq8LsBNVbbTYkHs3XW5E8iyfJLW2hKouj4HmCeoCeJe1QIOGl/Pc=
+	t=1792233122; cv=none; b=gkxmRiwywh8CcbQtIILFs6MvVdKDrwdaUIDJcGw9gL52tuqV+i74oVKKPalQNtrKlAbclVZlAYs+CISlmytLY4bkiPsuadQWaGYEFTRpZznRYVNjSf03T/+yrbA5cjpVaDrlQ37FU2/xu6obvTu9N3KyaWY2E2s3vBSDtGw3RyE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792232407; c=relaxed/simple;
-	bh=o+5IbCAJg5N2g2vKghmB96Ml9i7PO+ok+afNnvQCb7o=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=erlap31d0yROKRoN2bmdsAzxn58G8ndz+212ll7TZ/hZ5enuwvvCedJxwAqAuqmV9bArTC+5TLMaAqHbfsuf/0ebN8toJfNmtecXmyWGxQirivhDaFD3QbbSrBsID4shg0Pc7fQQL3is4WEwxKVyu7Az0hHQvA+P4nUh6u5u6k0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=altlinux.org; spf=pass smtp.mailfrom=altlinux.org; arc=none smtp.client-ip=193.43.8.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=altlinux.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=altlinux.org
-Received: from altlinux.ipa.basealt.ru (unknown [193.43.11.2])
-	(Authenticated sender: kovalevvv)
-	by air.basealt.ru (Postfix) with ESMTPSA id 413572337D;
-	Sat, 17 Oct 2026 13:12:59 +0300 (MSK)
-From: Vasiliy Kovalev <kovalev@altlinux.org>
-To: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
+	s=arc-20240116; t=1792233122; c=relaxed/simple;
+	bh=8Sam++QywWms/RRrPwse85nq2TJkglcFx6i2zC73XS0=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=XQgS/GHjGTKLiYT+KM9jB4sjuX3oZBi1zn6rfjBgQAipP3yQQEfye3E9XJMjbQEdUHnCe7H2K1Il+Ni8EOSECa0a5ZBoGTl0VVpFL0gRVh8jBfu+16Xe5Nfe/W/UoblLnSi4Vji8XAMsoTfzsoS95wXyr+YJn21HgueSNVcAnZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GIsnDzO+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=rwGfSIWo; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=BN6UyB6j; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=kDuuGrI+; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GIsnDzO+";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rwGfSIWo";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="BN6UyB6j";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="kDuuGrI+"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 77A911F44F;
+	Sat, 17 Oct 2026 10:31:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1792233116; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FHaH74bOf21j9DIx0c01Sl3r4QEftpKhFzhthKWkkNI=;
+	b=GIsnDzO+ourOXl12ZSznPofHNWkeZ+cyJnec4rNKOWym9JGcM3ftG/AdRX+YDBqwLN9tQJ
+	W73c51mDbqFPncGpWgMaDWzspc3JNsY8ENrmC0mGnLXv8AMps06FV1kR+4w4FWeArc8tAo
+	Py2A0yzrCR8HC+qxQyaJGau1DlB1QR8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1792233116;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FHaH74bOf21j9DIx0c01Sl3r4QEftpKhFzhthKWkkNI=;
+	b=rwGfSIWoJRYxKBhjHCeOOgrSoL6Q+4KUoprnJ+wWvui9Cnp1qlmYKnZxE7wLQXUoQ5NprL
+	ucRekuK7NyCvmWAg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1792233115; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FHaH74bOf21j9DIx0c01Sl3r4QEftpKhFzhthKWkkNI=;
+	b=BN6UyB6jmFd39hOyTDh6lr1RHFrbU4XAqqLI79UfZJmsmzgjUYiJam2nbprN0i1bIQZgeN
+	ifFWcG2HPr9dZ71DV9wFOt1PG79mJOD5co+W22/r9MYH/xYoswCD6dIw4q7B4WsPk3IP30
+	M8bh5ZqLOYxruUASDNCLG9luk+bmmO0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1792233115;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FHaH74bOf21j9DIx0c01Sl3r4QEftpKhFzhthKWkkNI=;
+	b=kDuuGrI+Xc/y0Hs5JSohN/B3BOwoTeufksafqdFI0y92qOMeE0F2VPGWiU1sKV2/rcPfxj
+	hwF7KHECTZijh/Dg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1E498133A7;
+	Sat, 17 Oct 2026 10:31:55 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id O2fKOZpO02pAJAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sat, 17 Oct 2026 10:31:55 +0000
+Date: Sat, 17 Oct 2026 12:31:54 +0200
+Message-ID: <87ecdo1uud.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Cen Zhang <zzzccc427@gmail.com>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	perex@perex.cz,
+	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Nikita Maksimov <nickstogramm@yandex.ru>,
-	kovalev@altlinux.org
-Subject: [PATCH] ALSA: hda/via: Apply runtime PM workaround for ASUS X55A
-Date: Sat, 17 Oct 2026 13:12:57 +0300
-Message-Id: <20261017101257.215166-1-kovalev@altlinux.org>
-X-Mailer: git-send-email 2.33.8
+	linux-kernel@vger.kernel.org,
+	baijiaju1990@gmail.com,
+	jjzuming@gmail.com
+Subject: Re: [PATCH] ALSA: info: Serialize freeing with recursive registration
+In-Reply-To: <CAFRLqsVs8BGNHb8qG6nnrCc=fafMYAmCSDuXDb8uBRBrgJhnEA@mail.gmail.com>
+References: <pm-pmb-26d66390a25fec9fad6c-v2-743c9b89c0f0d761eda1@gmail.com>
+	<87ld7w20ok.wl-tiwai@suse.de>
+	<CAFRLqsVs8BGNHb8qG6nnrCc=fafMYAmCSDuXDb8uBRBrgJhnEA@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_TLS_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_CC(0.00)[suse.de,perex.cz,suse.com,vger.kernel.org,gmail.com];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -3.30
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-ASUS X55A requires the same workaround like other machines with
-VT1802, otherwise it loses the codec power on a few nodes and the
-sound stays silent.
+On Sat, 17 Oct 2026 11:27:54 +0200,
+Cen Zhang wrote:
+> 
+> Hi Takashi,
+> 
+> >
+> > Does the above crash really happen with unmodified code?
+> > The PCM oss proc unregister is per card, hence there can't be race
+> > between register and unregister for the same card.
+> >
+> > The hardening itself in the proc code is good, per se (although it's
+> > doubtful whether we really need a global mutex from the performance
+> > POV), though.
+> >
+> >
+> > thanks,
+> >
+> > Takashi
+> 
+> 
+> Thank you for the review. The quoted KASAN report used scheduling
+> instrumentation
+> and a small test module that called snd_card_register() on an already registered
+> dummy card.
+> 
+> But reviewing the source, I found a concrete scenario involving
+> existing in-tree callers that appears to allow this race.
+> 
+> Consider a registered card with PCM A and its published OSS proc
+> entry. A later bind of another codec B on the same card can reach
+> hda_codec_driver_probe(), which calls snd_card_register() when
+> !bus_probing && card->registered.
+> 
+> At the same time, snd-pcm-oss can be unloaded while the card remains
+> registered, provided no active OSS references prevent the unload.
+> alsa_pcm_oss_exit() calls snd_pcm_notify(..., 1), which invokes
+> n_unregister() for the registered PCM devices and frees their OSS
+> proc entries.
+> 
+> The interleaving I believe the source permits is:
+> 
+>   HDA codec B probe                  snd-pcm-oss module exit
+>   -----------------                  -----------------------
+>   snd_card_register(card)
+>     snd_device_register_all(card)
+>     /* PCM register_mutex released */
+> 
+>                                      lock(register_mutex)
+>                                      n_unregister(PCM A)
+>                                        snd_info_free_entry(entry)
+>                                          proc_remove(entry->p)
+>                                          lock(info_mutex)
+>                                          entry->p = NULL
+>                                          unlock(info_mutex)
+>                                          /* entry still linked */
+> 
+>     lock(snd_card_mutex)
+>     snd_info_card_register(card)
+>       snd_info_register(card->proc_root)
+>         find PCM A's linked entry
+>         lock(info_mutex)
+>         recreate proc node with
+>           entry as private data
+>         unlock(info_mutex)
+>     unlock(snd_card_mutex)
+> 
+>                                      unlink entry
+>                                      kfree(entry)
+>                                      unlock(register_mutex)
+> 
+> The card-info traversal does not hold the PCM register_mutex, and
+> OSS notifier removal does not take snd_card_mutex. The parent proc
+> directories also remain present because the card and PCM A have
+> not been removed.
+> 
+> This appears to allow the new proc node to retain a pointer to the
+> freed entry. A subsequent open could then reach alloc_info_private()
+> with that stale pointer. Please let me know if I have overlooked
+> another serialization point in this path.
 
-Fixes: a0645daf1610 ("ALSA: HDA: Early Forbid of runtime PM")
-Link: https://bugzilla.altlinux.org/45606
-Cc: <stable@vger.kernel.org>
-Tested-by: Nikita Maksimov <nickstogramm@yandex.ru>
-Signed-off-by: Vasiliy Kovalev <kovalev@altlinux.org>
----
- sound/hda/codecs/via.c | 1 +
- 1 file changed, 1 insertion(+)
+OK, the arbitrary OSS removal is the problem child.
 
-diff --git a/sound/hda/codecs/via.c b/sound/hda/codecs/via.c
-index 807312cffd35..0641fc14b346 100644
---- a/sound/hda/codecs/via.c
-+++ b/sound/hda/codecs/via.c
-@@ -933,6 +933,7 @@ static const struct hda_fixup via_fixups[] = {
- static const struct hda_quirk vt2002p_fixups[] = {
- 	SND_PCI_QUIRK(0x1043, 0x13f7, "Asus B23E", VIA_FIXUP_POWER_SAVE),
- 	SND_PCI_QUIRK(0x1043, 0x1487, "Asus G75", VIA_FIXUP_ASUS_G75),
-+	SND_PCI_QUIRK(0x1043, 0x1c33, "Asus X55A", VIA_FIXUP_POWER_SAVE),
- 	SND_PCI_QUIRK(0x1043, 0x8532, "Asus X202E", VIA_FIXUP_INTMIC_BOOST),
- 	SND_PCI_QUIRK_VENDOR(0x1558, "Clevo", VIA_FIXUP_POWER_SAVE),
- 	{}
--- 
-2.50.1
+IMO, instead of hardening piece-by-piece in ad hoc ways, we can pin
+the OSS PCM and mixer module when any card is added and unpin at the
+card removal, so that we can't unload OSS modules while there are any
+actually used cards.
 
+The cases with the partial HDA codec probe/remove is a different
+problem, though.  This has to be addressed somehow better.
+
+
+thanks,
+
+Takashi
