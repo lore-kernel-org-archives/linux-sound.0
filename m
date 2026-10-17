@@ -1,281 +1,127 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 981A92E11C7;
-	Sat, 17 Oct 2026 10:47:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05A78491585
+	for <linux-sound@vger.kernel.org>; Sat, 17 Oct 2026 12:51:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792234059; cv=none; b=VXqTZ3ErwGciKcLS84v+bChJeWJLh0nSfWDjj27VgP1GMsjnbDY+OPDw132so0Guihmt+gMiK4PT4dzHGicqoIBtF7CGJ+g3Oi+mccimazbPrmp0t42sGLdiEHpY62y+cn2EIwlF9Hh51XUAxx2o6UgJJD+T3/SClnGnvLgDzN8=
+	t=1792241484; cv=none; b=VcfAdYN2YEw0kd27kSDuBj7TEKlVJxaQHruCo+lpl6tRPFhDM4OQVL2dXMaQ43AL6WJlwMKd6YmwJysctCxRb+yMLGv4WaR3rUBGDCZXHxaQWfumFHpNuLwPEetIIMxKFV+MeSur7ecRk04MtBqJKPZYE1D94ckfVFsMjRf9M7c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792234059; c=relaxed/simple;
-	bh=39ARCK9lcPsfXWBXoRLwKxpJzdqrE4HnnoCnP90p7tY=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nbePGOwiD/poBh64/oqbhti114TKK9wtLVzLHUostXyj4jurgHXC+sSbvrMC82Om2G1utTUzex7tDqbB4ln8aIe+nltKhsEQKPPNTo//kPzQ7zEux+vqg+0aomv7bhKAbhhb4wrLtaSYah5kFN4Y0eLMb3wRu6IEWFMJnWx7WdY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hwKgMiCV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Xf915SPl; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=P0Blv9Sx; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=qE/5ILiK; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1792241484; c=relaxed/simple;
+	bh=ejhKqmQASVCjBpB6Zzm6onKZzFwjxIZTAb/mq8y168c=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=TExkBwfTv5Eialh1WKryZ16Aygs/y3MOS9qgruSjPAzzEH3WDqt+mTdq+/d6lTrJTp1X9jLs66xOe9UILy4R3OTNIF4CvlfU9WkvVBVHOUdCvLRsSQHNgoBiaDKcaB6xlDyx43MTlf8LIto6L+uYXEwBaH6DcCqLJqxDEkXBOdc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HLtecz7k; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hwKgMiCV";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Xf915SPl";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="P0Blv9Sx";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qE/5ILiK"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 7957821CD8;
-	Sat, 17 Oct 2026 10:47:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792234055; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=68vfiRaa2us99PpsAAvgS26dgF1NtVVNahsovh1xngs=;
-	b=hwKgMiCVndqsj2U+MtzeDjQQg3iIURaakwW8YMRJ6L7g974pQK1et4LiD4MqhcXsg2rOK8
-	26ouepzXognVzxqPAPYH5JdfhWzCyxKAU1z03xv4xvSXSAquYWCC9jfljjdF9UWx9H1srJ
-	p98Wso/IhVf8bShoqSYXbIW++C2770U=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792234055;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=68vfiRaa2us99PpsAAvgS26dgF1NtVVNahsovh1xngs=;
-	b=Xf915SPlPfOW1n8HBTAq2WyojbeJWZNXXqnW/YbkinizCfC0f6u6Iep0whi5mmb+C0Vq4g
-	eatH7WJ8aIpu9kAQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792234054; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=68vfiRaa2us99PpsAAvgS26dgF1NtVVNahsovh1xngs=;
-	b=P0Blv9SxbcS8QvFGrJAuBn9S6eJVgeETAITrfYUaQRZUZFnEa4NlFQY3UDdAGxkzT/JkYG
-	5kjpRRBNmLc+0Bib/NXdgrigj84JgdmyiULmHCMgZLHbD4gFfhZT+1Ufw5NoSgCDasiW9X
-	b0fdnGo4ieJGVjsqG9x5mXeZE52h6p0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792234054;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=68vfiRaa2us99PpsAAvgS26dgF1NtVVNahsovh1xngs=;
-	b=qE/5ILiKwyaZseNPgG0nbgzBY9JvOxdElGEtkAfAhonGZTyvmLrEvRsyMlDHyt4mWvYeh5
-	EIo/qErv90kL15AA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 06B0D133A7;
-	Sat, 17 Oct 2026 10:47:33 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id LzuHM0VS02pJMwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sat, 17 Oct 2026 10:47:33 +0000
-Date: Sat, 17 Oct 2026 12:47:33 +0200
-Message-ID: <87bj8s1u4a.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Cen Zhang <zzzccc427@gmail.com>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HLtecz7k"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2e86dce4510so2890345ad.3
+        for <linux-sound@vger.kernel.org>; Sat, 17 Oct 2026 05:51:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792241482; x=1792846282; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=ejhKqmQASVCjBpB6Zzm6onKZzFwjxIZTAb/mq8y168c=;
+        b=HLtecz7klVYY7tyn/NXtELa5lanybttTeR2gU+zEnB6ZccZtUf448HmuCIbEz9qJPu
+         tTGK1T4RuqzOkHG1JWoxNvzYhuhBVdg0m+vPBNy7YeHLrWKMc9kmjCCxdZRbSq/z2F6I
+         E4tKPVPxp5bzsEkfYE0ZdNhOR6iOsry860Fc4H7qCxbyYnwX5rYAvXJN9854eBHaCQ0j
+         fI50l312PVIYDVYv2uk27Eo1ASlcOg5OdEWMH48iaZWmY5sUtyVzzpTq8S3qKWqIHMjr
+         jTpMq0s2nTKWOX3x9oqxLjLILbaPPX7DZvVBZzKoy7CQqAw1Tyrce/i3vFxS+c7DuND8
+         Du0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792241482; x=1792846282;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ejhKqmQASVCjBpB6Zzm6onKZzFwjxIZTAb/mq8y168c=;
+        b=FzBGOaVr2Uz3/Rb1rZvr9Ihsk2JCAKc8zbVPiFSKbBpqR9qWwBx56B67caFwrk+jTU
+         ssbXRKyZjkF7wJzojJqQSuEZ+C7YqKu/ipupBCyydsMDyiQi8a6n40Td5Pg1JtavI5N6
+         MN2ZayfjLMzW+s+P0+fauuV/K3Nq4m+ZzPBTFjgSvgAGpsUiJ5CkUKIxiibjd56KNkk+
+         G+h1WgxdimtNtwi7GX1DDyA+1aHTCYFpt/cRp0YzYFNcsL7L27u9Li3ouoYJkiL+2VlF
+         0+7vMZsnoh2eqLmTThfAkcGeyzDhdVyNLJKiEQBr/uY8h/wvjnzzfdgWxAa7jgLih6Xy
+         3AnQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwOp9kG5nEhxIRh6es4d5M0M47Y40Kxa/BITaXjUyDQDSaEFyW49nrf1skUuxHpuIM5b8AOnLOKgXQ6ZQ==@vger.kernel.org
+X-Gm-Message-State: AFq9FYI/ZvxcxlZv4/eu/qpn85wt1WUM9kywEX1p/4J55ciqJftNEo0v
+	WH+SDA7onC88oyKa94c42Wx8HRh9dYydFO1PxVQcYGHvbPO0PqjHOKi7
+X-Gm-Gg: AYBFou1Sg6jHNOePaSYRXGAChZyWXKlWUfJ/yvku6fUtp9s1Vm9bBpQMtFGt7avhBno
+	dRxT1k4NY0UMjmPPSkq58W6odmlLFHHjlGtd6Y3cFb29cnTmyV4huxrgZjuJ50/oLQ4lks7+jQV
+	Hbcamb1d3HIJHimO778lacRskYPYO2AuomPZBpv+l+TjUK33mUT0M4EX73lZA8KztmJasoeZ7f9
+	lfprp6R5BIiWjkNnzUr7rusM63EzAOHfFpLmE1mNzOdorrLYvOlVsu5zeBicDFQR/zrVK0bUlE4
+	TrouXqmZNC40tDWyY2rNqvdUMY78Zs47eHOcEr2Ts83r8W0qk/YcMDK4yWfxV18qVubuAGCS0cz
+	m36mOaSW5/fJp/7p8J3YUj8CJAyjuD0PnPLptJHDLTUG43XIrHcN4pzdP8kuATTVMGYmGhFfKuv
+	XEiYiPtJ3cSvKYUJjTpuN6DPGltVaf1OWFjUwFPHzUQOelleaDc+LtgO3JzzRrqazoH1O+cUoSR
+	7hrfE4e6ZjZ596pHFVh9FX301fv4MMvcuwHY2QXoJjl689wjszOKM0/LpTYWXhb733Rt5N+k99c
+	AVnUxCSe4flZamQ=
+X-Received: by 2002:a17:903:acd:b0:2e9:6788:9373 with SMTP id d9443c01a7336-2e9a68d9118mr21964585ad.17.1792241482151;
+        Sat, 17 Oct 2026 05:51:22 -0700 (PDT)
+Received: from localhost.localdomain ([180.182.24.11])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e97e8b98a9sm22014615ad.74.2026.10.17.05.51.18
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sat, 17 Oct 2026 05:51:20 -0700 (PDT)
+From: Joonho Lee <mynameisjune111@gmail.com>
+To: Anton Yakovlev <anton.yakovlev@opensynergy.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	baijiaju1990@gmail.com,
-	jjzuming@gmail.com
-Subject: Re: [PATCH] ALSA: info: Serialize freeing with recursive registration
-In-Reply-To: <87ecdo1uud.wl-tiwai@suse.de>
-References: <pm-pmb-26d66390a25fec9fad6c-v2-743c9b89c0f0d761eda1@gmail.com>
-	<87ld7w20ok.wl-tiwai@suse.de>
-	<CAFRLqsVs8BGNHb8qG6nnrCc=fafMYAmCSDuXDb8uBRBrgJhnEA@mail.gmail.com>
-	<87ecdo1uud.wl-tiwai@suse.de>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	virtualization@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH 0/2] ALSA: virtio: fix staged capture ACK ordering and period scheduling
+Date: Sat, 17 Oct 2026 21:51:14 +0900
+Message-ID: <virtio-snd-capture-reproducer.e56fe77fd0dc4571@gmail.com>
+In-Reply-To: <rfc-virtio-snd-capture-followups-0.f2737c95c12e45b4@gmail.com>
+References: <rfc-virtio-snd-capture-followups-0.f2737c95c12e45b4@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_TLS_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_CC(0.00)[perex.cz,suse.com,vger.kernel.org,gmail.com];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Sat, 17 Oct 2026 12:31:54 +0200,
-Takashi Iwai wrote:
-> 
-> On Sat, 17 Oct 2026 11:27:54 +0200,
-> Cen Zhang wrote:
-> > 
-> > Hi Takashi,
-> > 
-> > >
-> > > Does the above crash really happen with unmodified code?
-> > > The PCM oss proc unregister is per card, hence there can't be race
-> > > between register and unregister for the same card.
-> > >
-> > > The hardening itself in the proc code is good, per se (although it's
-> > > doubtful whether we really need a global mutex from the performance
-> > > POV), though.
-> > >
-> > >
-> > > thanks,
-> > >
-> > > Takashi
-> > 
-> > 
-> > Thank you for the review. The quoted KASAN report used scheduling
-> > instrumentation
-> > and a small test module that called snd_card_register() on an already registered
-> > dummy card.
-> > 
-> > But reviewing the source, I found a concrete scenario involving
-> > existing in-tree callers that appears to allow this race.
-> > 
-> > Consider a registered card with PCM A and its published OSS proc
-> > entry. A later bind of another codec B on the same card can reach
-> > hda_codec_driver_probe(), which calls snd_card_register() when
-> > !bus_probing && card->registered.
-> > 
-> > At the same time, snd-pcm-oss can be unloaded while the card remains
-> > registered, provided no active OSS references prevent the unload.
-> > alsa_pcm_oss_exit() calls snd_pcm_notify(..., 1), which invokes
-> > n_unregister() for the registered PCM devices and frees their OSS
-> > proc entries.
-> > 
-> > The interleaving I believe the source permits is:
-> > 
-> >   HDA codec B probe                  snd-pcm-oss module exit
-> >   -----------------                  -----------------------
-> >   snd_card_register(card)
-> >     snd_device_register_all(card)
-> >     /* PCM register_mutex released */
-> > 
-> >                                      lock(register_mutex)
-> >                                      n_unregister(PCM A)
-> >                                        snd_info_free_entry(entry)
-> >                                          proc_remove(entry->p)
-> >                                          lock(info_mutex)
-> >                                          entry->p = NULL
-> >                                          unlock(info_mutex)
-> >                                          /* entry still linked */
-> > 
-> >     lock(snd_card_mutex)
-> >     snd_info_card_register(card)
-> >       snd_info_register(card->proc_root)
-> >         find PCM A's linked entry
-> >         lock(info_mutex)
-> >         recreate proc node with
-> >           entry as private data
-> >         unlock(info_mutex)
-> >     unlock(snd_card_mutex)
-> > 
-> >                                      unlink entry
-> >                                      kfree(entry)
-> >                                      unlock(register_mutex)
-> > 
-> > The card-info traversal does not hold the PCM register_mutex, and
-> > OSS notifier removal does not take snd_card_mutex. The parent proc
-> > directories also remain present because the card and PCM A have
-> > not been removed.
-> > 
-> > This appears to allow the new proc node to retain a pointer to the
-> > freed entry. A subsequent open could then reach alloc_info_private()
-> > with that stale pointer. Please let me know if I have overlooked
-> > another serialization point in this path.
-> 
-> OK, the arbitrary OSS removal is the problem child.
-> 
-> IMO, instead of hardening piece-by-piece in ad hoc ways, we can pin
-> the OSS PCM and mixer module when any card is added and unpin at the
-> card removal, so that we can't unload OSS modules while there are any
-> actually used cards.
+Hi,
 
-I meant something like below (totally untested)
+I've prepared the reproducer and build instructions for this series:
 
+https://github.com/whatisyourname0/virtio-snd-reproducer/tree/88913cb432c3771d179a274e3b622a22b03bb9f1/capture-followups
 
-Takashi
+DEPENDENCIES.md lists the exact base and prerequisite patches. The
+preparation script reconstructs the pre-ACK, ACK-only and ACK plus
+scheduling trees from those patches. Each tree matches the source used
+for the original tests. The two kernel patches in this series are
+unchanged.
 
--- 8< --
-diff --git a/sound/core/oss/mixer_oss.c b/sound/core/oss/mixer_oss.c
-index f1fa42e634fc..2e686bd6c5f9 100644
---- a/sound/core/oss/mixer_oss.c
-+++ b/sound/core/oss/mixer_oss.c
-@@ -1309,13 +1309,18 @@ static int snd_mixer_oss_free1(void *private)
- static int snd_mixer_oss_notify_handler(struct snd_card *card, int cmd)
- {
- 	struct snd_mixer_oss *mixer;
-+	int err;
- 
- 	if (cmd == SND_MIXER_OSS_NOTIFY_REGISTER) {
--		int idx, err;
-+		int idx;
- 
- 		mixer = kzalloc_objs(*mixer, 2);
- 		if (mixer == NULL)
- 			return -ENOMEM;
-+		if (!try_module_get(THIS_MODULE)) {
-+			kfree(mixer);
-+			return -ENODEV;
-+		}
- 		mutex_init(&mixer->reg_mutex);
- 		err = snd_register_oss_device(SNDRV_OSS_DEVICE_TYPE_MIXER,
- 					      card, 0,
-@@ -1325,6 +1330,7 @@ static int snd_mixer_oss_notify_handler(struct snd_card *card, int cmd)
- 				"unable to register OSS mixer device %i:%i\n",
- 				card->number, 0);
- 			kfree(mixer);
-+			module_put(THIS_MODULE);
- 			return err;
- 		}
- 		mixer->oss_dev_alloc = 1;
-@@ -1358,7 +1364,9 @@ static int snd_mixer_oss_notify_handler(struct snd_card *card, int cmd)
- 		if (cmd == SND_MIXER_OSS_NOTIFY_DISCONNECT)
- 			return 0;
- 		snd_mixer_oss_proc_done(mixer);
--		return snd_mixer_oss_free1(mixer);
-+		err = snd_mixer_oss_free1(mixer);
-+		module_put(THIS_MODULE);
-+		return err;
- 	}
- 	return 0;
- }
-diff --git a/sound/core/oss/pcm_oss.c b/sound/core/oss/pcm_oss.c
-index bd19328dca9e..3d35f9d2d675 100644
---- a/sound/core/oss/pcm_oss.c
-+++ b/sound/core/oss/pcm_oss.c
-@@ -3151,6 +3151,9 @@ static void register_oss_dsp(struct snd_pcm *pcm, int index)
- 
- static int snd_pcm_oss_register_minor(struct snd_pcm *pcm)
- {
-+	if (!try_module_get(THIS_MODULE))
-+		return -ENODEV;
-+
- 	pcm->oss.reg = 0;
- 	if (dsp_map[pcm->card->number] == (int)pcm->device) {
- 		char name[128];
-@@ -3207,6 +3210,7 @@ static int snd_pcm_oss_unregister_minor(struct snd_pcm *pcm)
- {
- 	snd_pcm_oss_disconnect_minor(pcm);
- 	snd_pcm_oss_proc_done(pcm);
-+	module_put(THIS_MODULE);
- 	return 0;
- }
- 
+For patch 1, ack/ extracts the baseline and candidate routines and tests
+ACK ordering and refill failure with two kernel threads. I rebuilt the
+ACK-only kernel and fixture module with KASAN and lockdep. All four
+cases passed, followed by module unload and a clean guest shutdown. The
+fixture supplies test queue hooks; full virtqueue coverage is a separate
+part of the test setup.
+
+I also rebuilt QEMU and the kernel with both patches for the capture
+regression checks. All 24 captures across four/eight channels and
+one/two vCPUs matched the expected file length and SHA-256. A deliberate
+reader stall produced XRUN, and a fresh capture after it matched the
+oracle. An eight-channel, one-vCPU run completed 70 seconds under guest
+CPU load and a subsequent ten-second capture without XRUN or a data
+mismatch. The kernel logs were clean.
+
+These QEMU tests use a deterministic synthetic source. They cover
+capture correctness and recovery; the VZ comparison in the original
+cover letter remains the evidence for patch 2's scheduling benefit. The
+ACK fixture uses the ACK-only tree because patch 2 changes a shared
+helper. Both build paths are documented separately.
+
+FRESH-BUILD-VALIDATION.md records the source and artifact hashes,
+results and remaining test limits. The package also includes the QEMU
+fixture patch, the guest build recipe and the channel/frame oracle.
+
+I'd appreciate guidance on which parts would be most useful to keep in
+the kernel test suite and which should stay with the QEMU test backend.
+
+Thanks,
+Joonho
