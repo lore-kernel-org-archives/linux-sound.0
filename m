@@ -1,61 +1,61 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E546B39E17E
-	for <linux-sound@vger.kernel.org>; Sat, 17 Oct 2026 06:58:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5083356760
+	for <linux-sound@vger.kernel.org>; Sat, 17 Oct 2026 07:01:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792220322; cv=none; b=EHEOh5D+tsq+O7ENhd2WuBeTUnZE3n+rvnB6kjOWUiEC5hV/rL5/GeUl27fen4RxOM4zqaHBZaXPukgxikvLGONNfy/s38TfI7bTE25425ome7MHjiYGT/ShUMZ7RrpUALKSHumHXLcv6n1GLCu31QeNY6mP5M5zGnHer3+KFZs=
+	t=1792220464; cv=none; b=nPaBA+iBTolTz/lRu1rBfN0lhDzOQTddVI1MEHlCcYa7TqVCm/pUa4o4zfnCgL4EPC6w7IYMh1awyiyk+qcFhDJyhHoTYO/EF7Hhg39y3oPCYhwiIuX9rgX93Fj2f2SnnvQM0u+KIZRZ9JTlwLSHs8M5TOkhXmDFT4JpVtY/TNg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792220322; c=relaxed/simple;
-	bh=ESRSRmmEgvnSHq2i7EhlN+mYcsFuoC9Y8GhPuHzWZsM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=GrDeldHOPaDbCLqQf5SGwB6EaayxNm3UCFjkhx3E9RsdNi+Kj4OyaWoFqb1vaDll01+wwxG4CJVjcwTV5PvF+n5M676u3s6nDH01qGEFrgl8/D2VcH9t8m3fdr4Yb/uCrP9VNgm0Ad9HqgITQFTeEKlo2ULEjQG7mBQsE5mtf20=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g8h+mL7c; arc=none smtp.client-ip=209.85.216.53
+	s=arc-20240116; t=1792220464; c=relaxed/simple;
+	bh=Ykfx0SMB+vs7928mQESl8JU5jg1mVkmDBYjT+l3yM0o=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=KlgVugJEUzNw6Q8IkObdyfFEfW8qYkCpdg/obHhpdoTquO2XWctYnrH23KD/DrAmS5aFpHe+OnUryfNW9fOBnP7MxLlLeBcPrdB8bd6CYNI/a2S2TMXlPXiFdALYLomRRn0OaXP7F9z9+HGvLZ/I7VGFDOPBXjwef0lctBsKrRQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bLkxDlg1; arc=none smtp.client-ip=209.85.214.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g8h+mL7c"
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-3ac91ac8924so412345a91.1
-        for <linux-sound@vger.kernel.org>; Fri, 16 Oct 2026 23:58:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bLkxDlg1"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2e5378b281aso2451795ad.2
+        for <linux-sound@vger.kernel.org>; Sat, 17 Oct 2026 00:01:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792220320; x=1792825120; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1792220463; x=1792825263; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:message-id:date
          :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=1p/9iIZcHkAsPmovUNOT6SYxgHuv9VL91d3C6K5p3j4=;
-        b=g8h+mL7c2mv9iJpl77TZYeBwoafbbfMgOkoAw4PS/KrpFfbfefPhOG6xvg1x7CnvxW
-         +Jgba0KpIYrcjFt8xDndp4mQrfmEOLYfBEk6WS2D12yB7mFPUjOK2vBBoVeEHIae5rNl
-         d6k6J1bh+Pry/LR7nREtV/4xbt9nhubrnxjWa7gTkv+oN65Y7EYUz4Ccqo5HbnbYiEnt
-         vcC+7y5o4T47daSAa418eNwEu5SE3HELcUNZ2E2UgY1hVVvVh1KxTZEvTjzzmClBJOaL
-         lgvBjr+iJ4jEPKBH3z+C0OmYoiALVuuxqmFEcHuOVpBUNAh3EkoskJrXBUYYwlgMJcc5
-         00Sg==
+        bh=uqmf/gpLV/7FBGP+y0T4LAW9t6W7h08u10hqCEpMGqo=;
+        b=bLkxDlg1LkR4bKJAP1isgQs92bj0EU6H3p0l7yLw2k301V9Z63Qi6zcY1Kw4/uy4dA
+         w6HbpzDnLKq0/yIPz6UOr7V5qaYrV7mn2QimNndpQ3PG+I9/9SUOdbfbeRMgtBc1YQLR
+         TRI0pKZM2P/VhCLgHf/tksiJjgUr8D/qRlYxZQrGtDQcpBiSMGToHDrGLK4fqm3BC7YC
+         7KxptNgNuws6pXKkg63PaJfPZQGyfRc6D5e9LcwkWhh5RnOwR6AegracV6n1je+9Y5b7
+         jciR4JPpvcbtIHtiDXVLzmD9nil5s5WCJEKFtWRKEAvaVr2p1eXdCE3hvjFimr2nPFrO
+         oXvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792220320; x=1792825120;
+        d=1e100.net; s=20260707; t=1792220463; x=1792825263;
         h=content-transfer-encoding:content-type:mime-version:message-id:date
          :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=1p/9iIZcHkAsPmovUNOT6SYxgHuv9VL91d3C6K5p3j4=;
-        b=MSqBVRLrNHgOxVwlRWivOz7FOOCmxiGDcGhe5jTFQadnGQZ4gZL0sDTjjCmVK6K3jx
-         PIUatJ7bTrkNxcOa6iAViUsKseaKQWY39vWxGDBcdKKKIokJ4t7BIgxY74TKgW4RVqui
-         cRaGlmJmKEfTSApKLdZHxV5LuTj7WIELSgyP59dCNkJhx6nI8w1sXjXRPni+6QvisZ0D
-         sHK6g6znPqsox8tTUACTgmmI/gS+qe65LHPv/BNjUeamoAC/NHYSMCzHH8zDDHixlW+L
-         Cwk4n8dUPRNdr0rsxiWAl4Fk2wF//qWOzmf7g+qgGbTYY95ppqzSLTnMO7I6M3vMpl28
-         xqzw==
-X-Gm-Message-State: AFq9FYJ0x5pUoO1abGnNCM5U8KSl0jybhV8qhnH+vUhGn6ykMVUwYB9V
-	raSK1C2Aipk1ms1fkZWYMZ2lDC4ozV17ZNokcdXZ0B8gdEnKoFCvsQW8
-X-Gm-Gg: AYBFou3/xCfBqTVU1WCe4BbrXb2Gm8GA5BFvMXqPXS3zJ8yuph3VaJ271nHYaPHIkug
-	jVAj2AXjccudVujNfS5AJ4Z0VsPSyg84Zwog2XoBksm8tGiUm7ybWbHusd1Qd8xvmCAr5nEJiOj
-	Evs9Ed7irWZYBrq0V5NB0M46dcKR/ycuI+Bh+bVCpjK5KxNBy0QZPY2zmA7uTvszINv4RIezX5Y
-	TAqW2hla6VWwPl4YtZM7+dnRT1h/6rPifmFWbovuiX7H4bDA+BxQ0SrAapj2BCyPDX1ORcOqkRF
-	LjFiba9at3AqWGJVVqq0C93TjAZezunR1iOEMAVqtmN+mmlW5rC8rHlcZniG5+47mNw9A/oNPwo
-	kpZU46lN8/05chwLi+UvXM/GThwUCzHR0oV+ul84oJdRE1NuW0BMsSy8W4XxepvZHPFsVmTOaWz
-	XOECFb2Lhgx4RHqUV+5eLNfBQFRMfA0PUcLCY1aNfCUXQNVT+hRNhEtQeP8wuG9qwwFto=
-X-Received: by 2002:a17:90b:4c8e:b0:3ac:b3f9:70cb with SMTP id 98e67ed59e1d1-3acef5f4367mr1770291a91.57.1792220319754;
-        Fri, 16 Oct 2026 23:58:39 -0700 (PDT)
+        bh=uqmf/gpLV/7FBGP+y0T4LAW9t6W7h08u10hqCEpMGqo=;
+        b=iwTe2ev9uYW2IPO2KFk8LSyondfdx1G+pVnSQ5x9edixIfctOqRBdMfMdM4EvJPfFg
+         oMnzJ+TtoLx98seti0a/W5ycHDwkEoG/q72lhDziVPYAWca6wpKHZuNkpwWMOi+CsTyG
+         ZRqZKJAeD4z4y7dBSfiZQTqs6364fDtyP4M5AK6BalwrccKkXl/9TKX333Vm0Bgh2XRa
+         L0jP4fttQz7Hj16zAsI8HFgiH1+4e7f+WaauWUAvxu90eEjNJmmw24Jz6HwYBsuQc4jH
+         vcFfBG6xKXBcKXqgd0/mUAqgb9FRiFcdTmUWpwq+gXrXTC1maK6xszbYbugH+BBWVPmj
+         gnIw==
+X-Gm-Message-State: AFq9FYItZ1mcEGo6vEiegGFRC0B16GQFKSTL/wZoNP3LNG/3iPnntPOW
+	opqv4JHWdjFXjcW0lbnxihQGn3kPE8hgeqmS3ON8wQd1h73oaAl9q4A9
+X-Gm-Gg: AYBFou3LO60DwStgZ1XZvwGSoznd6jZPedGR7ySXUApezdzbolHkqoUrVjB9yTBN+Hf
+	Y6y6EV5Bt1uIuArtqACTsMh00v/sR/vXj3i/xhnB8JdK6sC7/dgUjNC4Yj8EDHSfiKC8gBPreGV
+	budkotlADNDeCFT8zlPeo0KedDP2CQdTEmmsqVCWQtiy6pDFEG6xCdXA2+58+8Plc4N84KaKuEb
+	Fmt3EgS7LmWQPyZDpo9QLMCDD8jIaEeYp41JjKQ5Xo8jpOibGuyISzPB6Zxzx81ze5X8yi6Klom
+	XLafJqq10GGm5XdOmZytJfQHK+u5BtEZCI7nY8pVUwf40qkzPWqb0yVDtTYD33j2E+WigXBLCWV
+	zPqGlgxQHhodhpdE3M2AmwuVpl8YtfzKqDD+V7Wq3NxoLmm4JZOd3H0FxyT2JYzSPrwSnv4dejI
+	BDFPwLy+6Ev0hg3x0b0RJB+IjdCd/0ZWlL9Tz8NarZmm+B5E6qfgOh3VrTtZlHO1TmDA==
+X-Received: by 2002:a17:903:37cc:b0:2e9:8bd4:577d with SMTP id d9443c01a7336-2e9a6a0a794mr19030945ad.37.1792220462827;
+        Sat, 17 Oct 2026 00:01:02 -0700 (PDT)
 Received: from localhost ([111.228.63.84])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3acc49c263asm6898616a91.17.2026.10.16.23.58.36
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e97e804e80sm19807695ad.23.2026.10.17.00.01.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Oct 2026 23:58:39 -0700 (PDT)
+        Sat, 17 Oct 2026 00:01:02 -0700 (PDT)
 From: Cen Zhang <zzzccc427@gmail.com>
 To: perex@perex.cz,
 	tiwai@suse.com
@@ -64,9 +64,9 @@ Cc: linux-sound@vger.kernel.org,
 	baijiaju1990@gmail.com,
 	jjzuming@gmail.com,
 	zzzccc427@gmail.com
-Subject: [PATCH] ALSA: info: Serialize freeing with recursive registration
-Date: Sat, 17 Oct 2026 14:58:31 +0800
-Message-Id: <pm-pmb-26d66390a25fec9fad6c-v2-743c9b89c0f0d761eda1@gmail.com>
+Subject: [PATCH] ALSA: jack: Protect the index scan against control removal
+Date: Sat, 17 Oct 2026 15:00:58 +0800
+Message-Id: <pm-pmb-f08c844bb1163c8d4fa1-v2-2f3c99e40f90134846ee@gmail.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -77,276 +77,59 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-An snd_info_entry must remain alive while it is reachable from a proc
-node. snd_info_free_entry() clears entry->p under info_mutex, but drops
-the mutex before unlinking and freeing the entry. The recursive
-snd_info_register() walk can still find it and publish another node.
+A control found during a jack-name index scan must remain alive until
+snd_ctl_find_id() finishes comparing its ID and count. However,
+get_available_index() calls it without holding card->controls_rwsem.
+With CONFIG_SND_CTL_FAST_LOOKUP enabled, the lookup loads a raw control
+pointer from ctl_hash and dereferences it in elem_id_matches() without
+any lock that excludes removal.
 
-With a live card and a PCM OSS proc entry, unloading snd-pcm-oss can
-therefore overlap a card owner's repeated snd_card_register(). The OSS
-notifier removal holds register_mutex, while the already-registered card
-path holds snd_card_mutex. Neither excludes the other path:
+This can happen when a jack is created while a different jack owner on
+the same card removes an existing control with the same name and index.
+For example, probe and unbind of different HDA codecs can reach these
+paths on a shared card if their generated jack names match.
+The codec device locks do not serialize operations on different
+codecs. The unbind path can free the control during the index scan:
 
-  PCM OSS removal                    Card registration
-  snd_pcm_oss_proc_done()
-    snd_info_free_entry()
-      proc_remove(entry->p)
-      lock info_mutex
-      clear entry->p
-      unlock info_mutex
-                                     snd_info_card_register()
-                                       snd_info_register()
-                                         find linked OSS entry
-                                         lock info_mutex
-                                         publish new proc node
-                                         unlock info_mutex
-      unlink entry
-      kfree(entry)
+  Codec A: probe                  Codec B: unbind
+  --------------                  ---------------
+  get_available_index()
+    snd_ctl_find_id()
+      kctl = xa_load(...)
+                                  hda_codec_driver_remove()
+                                    snd_hda_codec_cleanup_for_unbind()
+                                      snd_hda_jack_tbl_clear()
+                                        snd_device_free()
+                                          __snd_device_free()
+                                            snd_jack_dev_free()
+                                              snd_ctl_remove()
+                                                snd_ctl_remove_locked()
+                                                  __snd_ctl_remove()
+                                                    snd_ctl_free_one()
+                                                      kfree(kctl)
+      elem_id_matches(kctl, ...)
+        read freed id/count -> UAF
 
-A subsequent open of the new node passes its stale pde_data pointer to
-snd_info_text_entry_open(). alloc_info_private() then reads entry->p
-from freed storage.
+Hold controls_rwsem for read across the index scan so removal cannot
+free a control until the lookup has finished using it. Release the lock
+when get_available_index() returns, before the caller adds the new
+control under the write lock.
 
-Hold info_mutex across the entire recursive registration walk and across
-clearing, unlinking and freeing the entry tree. Use internal recursive
-helpers so the mutex is acquired only once. Registration then finishes
-before the entry is cleared, or walks the tree after the entry has been
-unlinked. Keep proc_remove() outside info_mutex: proc open takes the same
-mutex, and removal waits for pending proc operations to finish.
-
-KASAN report as below:
-
-    BUG: KASAN: slab-use-after-free in alloc_info_private+0x12f/0x1a0
-    Read of size 8 at addr ffff888115c84250 by task python3/426
-
-    CPU: 3 UID: 0 PID: 426 Comm: python3 Tainted: G           O        7.2.0-rc6-pmb-bt-functional-v1+ #1 PREEMPT(lazy)
-    Tainted: [O]=OOT_MODULE
-    Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-    Call Trace:
-     <TASK>
-     dump_stack_lvl+0x93/0xd0
-     print_report+0xce/0x630
-     ? alloc_info_private+0x12f/0x1a0
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     ? __virt_addr_valid+0x20d/0x410
-     ? alloc_info_private+0x12f/0x1a0
-     kasan_report+0xe0/0x110
-     ? alloc_info_private+0x12f/0x1a0
-     alloc_info_private+0x12f/0x1a0
-     snd_info_text_entry_open+0xbd/0x2d0
-     ? __kasan_slab_alloc+0x89/0x90
-     ? __pfx_snd_info_text_entry_open+0x10/0x10
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     ? proc_reg_open+0x20e/0x590
-     ? __pfx_snd_info_text_entry_open+0x10/0x10
-     proc_reg_open+0x27d/0x590
-     do_dentry_open+0x5c8/0x1300
-     ? __pfx_proc_reg_open+0x10/0x10
-     ? security_inode_permission+0x5d/0xb0
-     vfs_open+0x87/0x390
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     path_openat+0x2460/0x3cd0
-     ? __pfx_path_openat+0x10/0x10
-     do_file_open+0x21e/0x470
-     ? __pfx_do_file_open+0x10/0x10
-     ? _raw_spin_unlock+0x23/0x40
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     ? alloc_fd+0x3a6/0x6b0
-     do_sys_openat2+0xf4/0x1b0
-     ? __pfx_do_sys_openat2+0x10/0x10
-     __x64_sys_openat+0x136/0x1e0
-     ? __pfx___x64_sys_openat+0x10/0x10
-     ? irqentry_exit+0xbe/0x820
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     do_syscall_64+0x115/0x6a0
-     entry_SYSCALL_64_after_hwframe+0x77/0x7f
-    RIP: 0033:0x7f4e79f32687
-    Code: 48 89 fa 4c 89 df e8 58 b3 00 00 8b 93 08 03 00 00 59 5e 48 83 f8 fc 74 1a 5b c3 0f 1f 84 00 00 00 00 00 48 8b 44 24 10 0f 05 <5b> c3 0f 1f 80 00 00 00 00 83 e2 39 83 fa 08 75 de e8 23 ff ff ff
-    RSP: 002b:00007ffdd084f450 EFLAGS: 00000202 ORIG_RAX: 0000000000000101
-    RAX: ffffffffffffffda RBX: 00007f4e79e9e780 RCX: 00007f4e79f32687
-    RDX: 0000000000080000 RSI: 00007f4e79c84d90 RDI: ffffffffffffff9c
-    RBP: 00007f4e79cdc1a0 R08: 0000000000000000 R09: 0000000000000000
-    R10: 0000000000000000 R11: 0000000000000202 R12: 00000000000001ff
-    R13: 00007f4e79e0b140 R14: 00007ffdd084f530 R15: 00007f4e79c84d90
-     </TASK>
-
-    Allocated by task 421:
-     kasan_save_stack+0x33/0x60
-     kasan_save_track+0x14/0x30
-     __kasan_kmalloc+0xaa/0xb0
-     __kmalloc_cache_noprof+0x251/0x610
-     snd_info_create_entry+0x56/0x400
-     0xffffffffc0401b64
-     snd_pcm_notify+0x34e/0x470
-     0xffffffffc041b19b
-     do_one_initcall+0xf3/0x4e0
-     do_init_module+0x281/0x8e0
-     load_module+0x658c/0x7cc0
-     init_module_from_file+0x15b/0x180
-     idempotent_init_module+0x22d/0x770
-     __x64_sys_finit_module+0xd2/0x160
-     do_syscall_64+0x115/0x6a0
-     entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-    Freed by task 424:
-     kasan_save_stack+0x33/0x60
-     kasan_save_track+0x14/0x30
-     kasan_save_free_info+0x3b/0x60
-     __kasan_slab_free+0x5f/0x80
-     kfree+0x307/0x580
-     snd_info_free_entry+0x3d4/0x4d0
-     0xffffffffc0400d80
-     snd_pcm_notify+0x216/0x470
-     __do_sys_delete_module+0x338/0x530
-     do_syscall_64+0x115/0x6a0
-     entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-    The buggy address belongs to the object at ffff888115c84200
-     which belongs to the cache kmalloc-256 of size 256
-    The buggy address is located 80 bytes inside of
-     freed 256-byte region [ffff888115c84200, ffff888115c84300)
-
-    The buggy address belongs to the physical page:
-    page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x115c84
-    head: order:1 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
-    flags: 0x200000000000040(head|node=0|zone=2)
-    page_type: f5(slab)
-    raw: 0200000000000040 ffff888100042b40 dead000000000100 dead000000000122
-    raw: 0000000000000000 0000000000100010 00000000f5000000 0000000000000000
-    head: 0200000000000040 ffff888100042b40 dead000000000100 dead000000000122
-    head: 0000000000000000 0000000000100010 00000000f5000000 0000000000000000
-    head: 0200000000000001 ffffffffffffff81 00000000ffffffff 00000000ffffffff
-    head: 0000000000000000 0000000000000000 00000000ffffffff 0000000000000000
-    page dumped because: kasan: bad access detected
-
-    Memory state around the buggy address:
-     ffff888115c84100: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-     ffff888115c84180: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-    >ffff888115c84200: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-                                                     ^
-     ffff888115c84280: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-     ffff888115c84300: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-    ==================================================================
-
-Fixes: 2471b6c80a70 ("ALSA: info: Register proc entries recursively, too")
+Fixes: 38ea4c3dc306 ("ALSA: control: Optimize locking for look-up")
 Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
 Assisted-by: LLM
 
 ---
 
-diff --git a/sound/core/info.c b/sound/core/info.c
-index c4d57d0809adff80732fdb741832c92b9b68f387..9b801caa65caab96ee4aa83a3141ea4306084868 100644
---- a/sound/core/info.c
-+++ b/sound/core/info.c
-@@ -737,27 +737,13 @@ static void snd_info_clear_entries(struct snd_info_entry *entry)
- 	entry->p = NULL;
- }
+diff --git a/sound/core/ctljack.c b/sound/core/ctljack.c
+index 6b6ab34fbde89a6551eb634ce13c66922770d0e5..36700fda79f3c027e84bad416c4dcc3d5da1c6bd 100644
+--- a/sound/core/ctljack.c
++++ b/sound/core/ctljack.c
+@@ -38,6 +38,7 @@ static int get_available_index(struct snd_card *card, const char *name)
+ 	sid.iface = SNDRV_CTL_ELEM_IFACE_CARD;
+ 	strscpy(sid.name, name, sizeof(sid.name));
  
--/**
-- * snd_info_free_entry - release the info entry
-- * @entry: the info entry
-- *
-- * Releases the info entry.
-- */
--void snd_info_free_entry(struct snd_info_entry * entry)
-+static void __snd_info_free_entry(struct snd_info_entry *entry)
- {
- 	struct snd_info_entry *p, *n;
- 
--	if (!entry)
--		return;
--	if (entry->p) {
--		proc_remove(entry->p);
--		guard(mutex)(&info_mutex);
--		snd_info_clear_entries(entry);
--	}
--
- 	/* free all children at first */
- 	list_for_each_entry_safe(p, n, &entry->children, list)
--		snd_info_free_entry(p);
-+		__snd_info_free_entry(p);
- 
- 	p = entry->parent;
- 	if (p) {
-@@ -769,6 +755,25 @@ void snd_info_free_entry(struct snd_info_entry * entry)
- 		entry->private_free(entry);
- 	kfree(entry);
- }
-+
-+/**
-+ * snd_info_free_entry - release the info entry
-+ * @entry: the info entry
-+ *
-+ * Releases the info entry.
-+ */
-+void snd_info_free_entry(struct snd_info_entry *entry)
-+{
-+	if (!entry)
-+		return;
-+	if (entry->p)
-+		proc_remove(entry->p);
-+
-+	/* Serialize clearing and unlinking with recursive registration. */
-+	guard(mutex)(&info_mutex);
-+	snd_info_clear_entries(entry);
-+	__snd_info_free_entry(entry);
-+}
- EXPORT_SYMBOL(snd_info_free_entry);
- 
- static int __snd_info_register(struct snd_info_entry *entry)
-@@ -778,7 +783,6 @@ static int __snd_info_register(struct snd_info_entry *entry)
- 	if (snd_BUG_ON(!entry))
- 		return -ENXIO;
- 	root = entry->parent == NULL ? snd_proc_root->p : entry->parent->p;
--	guard(mutex)(&info_mutex);
- 	if (entry->p || !root)
- 		return 0;
- 	if (S_ISDIR(entry->mode)) {
-@@ -801,16 +805,7 @@ static int __snd_info_register(struct snd_info_entry *entry)
- 	return 0;
- }
- 
--/**
-- * snd_info_register - register the info entry
-- * @entry: the info entry
-- *
-- * Registers the proc info entry.
-- * The all children entries are registered recursively.
-- *
-- * Return: Zero if successful, or a negative error code on failure.
-- */
--int snd_info_register(struct snd_info_entry *entry)
-+static int snd_info_register_recursive(struct snd_info_entry *entry)
- {
- 	struct snd_info_entry *p;
- 	int err;
-@@ -822,13 +817,28 @@ int snd_info_register(struct snd_info_entry *entry)
- 	}
- 
- 	list_for_each_entry(p, &entry->children, list) {
--		err = snd_info_register(p);
-+		err = snd_info_register_recursive(p);
- 		if (err < 0)
- 			return err;
- 	}
- 
- 	return 0;
- }
-+
-+/**
-+ * snd_info_register - register the info entry
-+ * @entry: the info entry
-+ *
-+ * Registers the proc info entry.
-+ * The all children entries are registered recursively.
-+ *
-+ * Return: Zero if successful, or a negative error code on failure.
-+ */
-+int snd_info_register(struct snd_info_entry *entry)
-+{
-+	guard(mutex)(&info_mutex);
-+	return snd_info_register_recursive(entry);
-+}
- EXPORT_SYMBOL(snd_info_register);
- 
- /**
++	guard(rwsem_read)(&card->controls_rwsem);
+ 	while (snd_ctl_find_id(card, &sid)) {
+ 		sid.index++;
+ 		/* reset numid; otherwise snd_ctl_find_id() hits this again */
