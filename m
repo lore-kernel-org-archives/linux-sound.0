@@ -1,45 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1160F37BE64;
-	Sat, 17 Oct 2026 16:32:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34FF13B27C9;
+	Sat, 17 Oct 2026 17:05:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792254738; cv=none; b=HRrxMtfJtvZeXjn877lk9Kgi5j9Zi3AH7FG61+qzuVyfZ7Lnr5+ajtfsTsPEFaqMI1RtW0cbE47kT86w6aX1za7tjr/ZswkGKbXoot8BLHzcWZSA3oQRXAMe+dIwlZ6VB5CqUV4Hp2MvJV+jbJB8DxYBGnJGPCj9rkOWRbSQXgA=
+	t=1792256706; cv=none; b=b4OpunpLT4+6Ot13lREIk+BHZghnL37wIkxTSOXaFHXYfJgLsn8ciPU3SNzJdDU36nqIW3/ee8vv4BPhbHTKxk+ZRlJ14slnLGKl7LmuVhEzYmZlrOWRLQfxq6m6Xr05VNmCN+mtdiD4m4pTOyv2Ip5meZW/YxP9OhdjFcYqu9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792254738; c=relaxed/simple;
-	bh=6aArWhdUyT7JOEHGG/p/CF2AWoy197eosIqZXtgGF0g=;
+	s=arc-20240116; t=1792256706; c=relaxed/simple;
+	bh=NTv8UAB1ICSx0ptxYfIUBJ8oo6tkISnTzGdQg1UEECw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N5hilGBYr35gRmcGamCbcYDFPDmhgj+jLpL0RSlF1WJISDN0sr+cLYYq7VkIq3ueSMCslLm3gt5Xe/qEzPgQ9mCX6hDyLTQMvXVYClGvdWrOvQnu0Y2D0ziPJS3beyPQGPIlEBHig9fRUkHq5KMGywG8xVWShZHlZ7qr0oJIUWk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WHltJ8sm; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=o6k5s+67OyPN/TpjQiAQnTsB33JggaDBut+hn9R+GUIp1fFXFox61xwace5WfwXr8eybdju3VpMR+3C2FZSwP+vbMRFjEXcCAmwCsxU36Mvka5zlCN7tZv2Ur/XPwylWV4eN68RHZl50gAC6kCdxYJxvuvv6MWRAJqKMcDQPo/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JXqya8iP; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WHltJ8sm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B3E71F000C5;
-	Sat, 17 Oct 2026 16:32:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JXqya8iP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F8CF1F000C6;
+	Sat, 17 Oct 2026 17:05:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792254737;
-	bh=LiCBouRtEdVUhIhRFH26iTaGqUiyrApY9i75/37ninQ=;
+	s=k20260515; t=1792256705;
+	bh=LHXrzvAT9LWhJb9bhlQvj4bxXBxn9dZWl9aPj62MfWM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=WHltJ8smM5clEoJ9t9KOHhurwVsxDf6ToNDmNzaEKJh2Vx03Hzp0JNzueQJIVOjvT
-	 qFxOawj4XP9WqB5ZGvHq5GY6+fcrMeId3Z0vUggXetkgJb2R/jHDsjMyOjNQfZGqHr
-	 GvnAi42qvAmoAHK6El3zQZHpoumbx5x+KTOPjBUsoJ9ZEIQq5lqSTYGFxZKBGzIzV7
-	 S4NRMMrC91IfNkCKIgQmYwPaYoiuvYrJ6e9OFixmErKnEt+GQ+YEebAZPawSb3UKiJ
-	 8qtgKqkukIz4nTpzvlkayYMcWTUQZCAFuShCFHZ4SdlsXWrDJm+RyYZ49nmBNj+RbJ
-	 f8CkQsGMiPikw==
-Date: Sat, 17 Oct 2026 18:32:13 +0200
+	b=JXqya8iP5PMfMR53ETfSM+l5ehjll8YXp8b1eeWVuepfcNNUToADpcl3gsSCZrrw3
+	 WwbaJ5nkmGd9aYhMa2jgPvu7GAeioCVUsD6NoDoOjuVvB/Pc8uLQsGE/lnA2ckSQkQ
+	 u8lh6v7Kqog9T6+54wWH/CFVaHBfMft+lderxtUuTRLmUbno/E29CZkoNHUFGWgB2x
+	 HpmHFQ8+uzabx8+nUFr0Lb3KBDHnY4iC6Dxcrwwg9HnZgv7+F9NPYGxa5uP9t23PSH
+	 o+7H3FwDyQgz2XuuTV3AK8I0voybNhDgDDJH/9SpuG4sw3Qz1ieg8fJfzsM0vxAami
+	 239uMMj5STT7w==
+Date: Sat, 17 Oct 2026 19:05:02 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+To: Val Packett <val@packett.cool>
 Cc: Srinivas Kandagatla <srini@kernel.org>, 
 	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
 	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-arm-msm@vger.kernel.org, 
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
-Subject: Re: [PATCH v5 7/9] ASoC: dt-bindings: qcom: Add Maili LPASS macro
- codecs
-Message-ID: <20261017-vivid-chubby-chimpanzee-c31c56@quoll>
-References: <20261014-add_shikra_support_v5-v5-0-fb9f0667e613@oss.qualcomm.com>
- <20261014-add_shikra_support_v5-v5-7-fb9f0667e613@oss.qualcomm.com>
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
+	Luca Weiss <luca.weiss@fairphone.com>, Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>, 
+	~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 3/5] ASoC: dt-bindings: qcom,sm8250: Add Motorola Edge 30
+ sound card
+Message-ID: <20261017-fast-pudu-of-promotion-cc0ffc@quoll>
+References: <20261016073157.611956-1-val@packett.cool>
+ <20261016073157.611956-4-val@packett.cool>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,40 +49,17 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261014-add_shikra_support_v5-v5-7-fb9f0667e613@oss.qualcomm.com>
+In-Reply-To: <20261016073157.611956-4-val@packett.cool>
 
-On Wed, Oct 14, 2026 at 02:42:53PM +0530, Mohammad Rafi Shaik wrote:
-> From: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+On Fri, Oct 16, 2026 at 04:31:51AM -0300, Val Packett wrote:
+> Document the bindings for the sound card on motorola-dubai which uses the
+> Elite DSP architecture.
 > 
-> Add compatibles for the RX, TX and VA macro codecs found in the Low
-> Power Audio SubSystem (LPASS) of the Qualcomm Maili SoC.
-> 
-> The Maili RX, TX and VA macros are identical to their Hawi counterparts,
-> so document them with the corresponding Hawi compatible as fallback.
-> 
-> Signed-off-by: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
-> Signed-off-by: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+> Signed-off-by: Val Packett <val@packett.cool>
 > ---
->  Documentation/devicetree/bindings/sound/qcom,lpass-rx-macro.yaml | 4 ++++
->  Documentation/devicetree/bindings/sound/qcom,lpass-tx-macro.yaml | 4 ++++
->  Documentation/devicetree/bindings/sound/qcom,lpass-va-macro.yaml | 4 ++++
->  3 files changed, 12 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/qcom,lpass-rx-macro.yaml b/Documentation/devicetree/bindings/sound/qcom,lpass-rx-macro.yaml
-> index 142955b85..41b578f83 100644
-> --- a/Documentation/devicetree/bindings/sound/qcom,lpass-rx-macro.yaml
-> +++ b/Documentation/devicetree/bindings/sound/qcom,lpass-rx-macro.yaml
-> @@ -29,6 +29,10 @@ properties:
->                - qcom,sm8750-lpass-rx-macro
->                - qcom,x1e80100-lpass-rx-macro
->            - const: qcom,sm8550-lpass-rx-macro
-> +      - items:
-> +          - enum:
-> +              - qcom,maili-lpass-rx-macro
-> +          - const: qcom,hawi-lpass-rx-macro
+>  Documentation/devicetree/bindings/sound/qcom,sm8250.yaml | 1 +
 
-h < s, thus this list should be placed before above one using sm8550
-fallback.
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
 Best regards,
 Krzysztof
