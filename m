@@ -1,49 +1,72 @@
-Received: from mta1.migadu.com (out-23.mta1.migadu.com [95.215.58.23])
+Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B3A644AB68
-	for <linux-sound@vger.kernel.org>; Fri, 16 Oct 2026 23:25:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.23
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 008EC3148D8
+	for <linux-sound@vger.kernel.org>; Sat, 17 Oct 2026 00:50:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792193103; cv=none; b=jggeloXgMu3TI1PipaCpEYa42jWlxFzFtUH7hqZEg+gn5bmuSkHCUrp5Ab5ux0tWW+UtS/NGY9T9JviHtwu8bHu+4wdIILGYFa0nQ57Ya1rq8rULMyyxIQa6IUUL4sCy8IR1LA8ZsEF1TXXvZmUXLK+4AOmTup4tuGyW+l1ZuhE=
+	t=1792198252; cv=none; b=C3amUmWoq3SY0BvhIitqJrYhu9yIa0vnmrD3nP2B9H+/CLKS+qHlPCcGtqkNn4wSgzSq/Pvvsm2mLtxUT24zG6c+gpn2/VBeBvBZK2JhvAHVLtb8OrGFi/jiNS+RbXnNdlzxSz/Ei5MzrpQ4Zuuqlty91vEP93kFXD+GijQ913k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792193103; c=relaxed/simple;
-	bh=+HBh9PCDoOVSgniwVzdp064w1if1mJ10eg0q78SkfXI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VUJ/Ll3UyqawkzEtHqF1WurvjBLboxCdp7vp3zZfolQWSvmwS9iYwT/NBtVTePadNet4fMKgWu2aT7GkPPAJogi49M9fL2bk2WviJ3G7xhcgv+Rq8a9M5//Hpftyjc6+57KZVna7wBKeYG2L/sHtI5AXuZGzqv4pTxQclLfVhAU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=xTAgfeHw; arc=none smtp.client-ip=95.215.58.23
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1792198252; c=relaxed/simple;
+	bh=5V8rinvEffdQKrE933/i9Jyx4668IhiI+lCFsqIuIZo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eozbPe27Vtws5tNQ7Bbp5wVjaNOyJ/6kmIzW41eb89tsvyET/Nsxd1vMZFnijhgGlPAUIrtElS3e9QkQXqm3B34Q0VpJCHkwkXsEyQZLt6OQ2ZQbbN1L2q0IlARMqydk/XFYOinmxA6mlnzO1TsWD8i7SKoaRKUgdKv5cBVW7MA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gehfVjRO; arc=none smtp.client-ip=209.85.167.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="xTAgfeHw"
-X-Envelope-To: linux-sound@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=+HBh9PCDoOVSgniwVzdp064w1if1mJ10eg0q78SkfXI=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1792193099; v=1; x=1792797899;
- b=xTAgfeHwmt7u0+P9g5Qiny+FziW8Sm8YNH8RU/gmJ6WKyw/1kqqtTmxV4FScK0g1C23KNb/+
- 629uv5B2LOCEI1UN2CBtFgVAyrPsfkmiu16ebZr/HL1YxMpvCW5y0A26PiG1QhnjtB8cWznWAgS
- g0Id6D/oSHeg+1FywdHjLHiA=
-X-Envelope-To: linux-sound@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id dd4bccc0454df3a2;
-	Fri, 16 Oct 2026 23:24:58 +0000
-X-Mizu-Trace-ID: dd4bccc0454df3a2
-X-Migadu-Flow: FLOW_OUT
-From: Matthew Schwartz <matthew.schwartz@linux.dev>
-To: broonie@kernel.org
-Cc: Matthew Schwartz <matthew.schwartz@linux.dev>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Oder Chiou <oder_chiou@realtek.com>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gehfVjRO"
+Received: by mail-oi1-f172.google.com with SMTP id 5614622812f47-4af173320f9so318001b6e.2
+        for <linux-sound@vger.kernel.org>; Fri, 16 Oct 2026 17:50:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792198250; x=1792803050; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=t+hJXj8wwiIb+5no1EG7QW0zHdqHn0SmMCU0JKT/7aQ=;
+        b=gehfVjROL79+MsFFUIGuyrVCyf4r0h1E9bbuMkuV84/ZaS1BwEL0bfHMAmD9NL2VdT
+         GVGgeVmy9nHjrYYdRxGcf4k8xAGFVGvr4GjaYYzjxLy2XwC73Rnx61QunLMUUpIAA5V2
+         1feC4FsXQzc2xYeMFys3cNsMjtuoERILxL2I5uyETcQESlwmDz3XGLa6E5bjpBOjQ7I4
+         CbxyDQfqOupAGlslzuAc81M7BtqsixdKmFME0zcKvWNvdddxElXC5NPB1PGgsm5IBU6M
+         S+YBXEkWhPnboNMtZSTzrg4jXGn0WJ0oZlyoWD5SpiY6OzCrhHwMXslGPOaJjeAnLZwl
+         nNSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792198250; x=1792803050;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=t+hJXj8wwiIb+5no1EG7QW0zHdqHn0SmMCU0JKT/7aQ=;
+        b=pG2lI19e2aKOSfYWng1aXoGUuz5QK7f/DluOqjgDCkUPhM0m9ohgAPjjMYvrK/tWjL
+         yd3v+WgvIUXKErtYBe8wGUnkiJiNCQHyziqqgyDaJRJJU/WXR3Byi3fpH1DBch/ZCYxr
+         1qtuTpshvhOBQ0z7anoBUYNkkXxbOm0wC11ndax6NRnHEYANG9Skg+JrpHXsxNsMAIUU
+         hYmAvaHv45KgN/qK9NLUqJFoxtkQM3fc9b/IW7fdrnRjsPyF9+pCm9BzRDjHqoNyIVg3
+         BUz+NHRBX3Kv+axU4R6wlD2g03vHQQkh1RP2m0Coa6PTVqVmHprcLxjyjHaZfnGm2F11
+         YOew==
+X-Forwarded-Encrypted: i=1; AKwUvBzUEcVFvjUBcUTOZqxxWsw2N1cBhyCkQM+JdEpB8r8W6zmLOboNS+YXnfly5W/7REfzv3THo3W301Ot4g==@vger.kernel.org
+X-Gm-Message-State: AFq9FYKoeuVVK4ZKs4CQo5D8l1iDPXE5ZpfkFrer8OtIVlWFq58+43Sv
+	QQCI/GQaEkKTWs85VETtpyLnNPaHGF5Sq9i+mrWwC1B2fIuaD9ZhRpXzw1pQhDLwRhI=
+X-Gm-Gg: AYBFou2HXCA7wcFYbkrljorJlDpXuk7wR1wpPcgKnT9xY5Gc7lBIHn6hgOrTlrqAXwB
+	DRxO642vHc7z/GYvBGeC/c/UHFcB98lep0YWPQKE65l6hb2u8zTDu4Ks/MKwRMu7dg8/Oj7I9bv
+	N5X8VyIJFiJ8w/YOAv4Rr40iutdKwhiYA+SoIILZSvbf/fE4CBXdtcCtgYtBPFzLcFXloiZXBBu
+	KPoZ0YH3+OYSzG/tK580GBbiyC3JjcuIOQ58mcZvV0R2GiFhz6FayzsE1arPskDIAug8WDv+9GA
+	4UNpIqLougddOGpMPqqf699TQBiRqdU1lEARqO6j0hTU4U7MqmULg4CSyGuR98x0MVmpOsLTaRe
+	2GFVDmMKdQZVqrWiqzWojuGCnB0OzYcHOx50o6gItmmq8yVrT+mO/+BXXFkJst3dNufzDeROAPY
+	WxsDwMVj+UtyQMIgo+UCclAbIX8lq2+agb4Miz5HzU+l10h3iG7qWgFZjBecPzlDI=
+X-Received: by 2002:a05:6808:1245:b0:537:3bdb:2d7b with SMTP id 5614622812f47-53cd247bf4fmr1239261b6e.11.1792198249790;
+        Fri, 16 Oct 2026 17:50:49 -0700 (PDT)
+Received: from fedora ([2806:266:482:9274:1367:9be1:68ed:86d5])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4a73b63cff2sm2843941fac.7.2026.10.16.17.50.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Oct 2026 17:50:49 -0700 (PDT)
+From: Luis Gerardo Lopez Hernandez <gamaerry@gmail.com>
+To: Takashi Iwai <tiwai@suse.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 5/5] ASoC: rt721-sdca: wait for PDEs to reach PS0 after powering them up
-Date: Fri, 16 Oct 2026 16:24:15 -0700
-Message-ID: <20261016232416.2628603-6-matthew.schwartz@linux.dev>
+	linux-kernel@vger.kernel.org,
+	Luis Gerardo Lopez Hernandez <gamaerry@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] ALSA: hda/realtek: Fix internal speakers on Acer Aspire AL16-31P
+Date: Fri, 16 Oct 2026 18:50:39 -0600
+Message-ID: <20261017005039.9139-1-gamaerry@gmail.com>
 X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261016232416.2628603-1-matthew.schwartz@linux.dev>
-References: <20261016232416.2628603-1-matthew.schwartz@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -52,168 +75,39 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The PDE event handlers write REQUESTED_PS and return, so DAPM unmutes
-the feature unit and the stream starts while the power domain is still
-transitioning. On the ASUS ROG Xbox Ally X20 the first headset mic
-capture after the capture path powers down starts with about 0.45 s
-pinned at full scale, and the DisCo tables give the jack function PDEs
-up to 500 ms to reach PS0.
+The Acer Aspire AL16-31P (Intel Alder Lake-N, Realtek ALC269VC,
+PCI/codec SSID 2782:1718) has its internal speakers wired to pin 0x1b,
+but the BIOS marks that pin as not connected (0x411111f0) and only
+exposes pin 0x14 as the speaker. As a result the internal speakers are
+silent while headphones, HDMI and Bluetooth work.
 
-Poll ACTUAL_PS with sdca_asoc_pde_poll_actual_ps() after each power up,
-like rt722 does since its DMIC pop noise fix, and use the 500 ms maximum
-for the jack function PDEs. Power down is left alone because ACTUAL_PS
-can stay at PS0 while the data port is still running.
+This is the same layout as the Infinix Y4 Max and MEDION E15433, which
+share the 0x2782 subsystem vendor. Reuse their fixup, which configures
+pin 0x1b as an internal speaker and limits the internal mic boost.
 
-Signed-off-by: Matthew Schwartz <matthew.schwartz@linux.dev>
+Tested by booting with snd-hda-intel model=2782:1705: the fixup is
+picked, pin 0x1b is used as a speaker output, the internal speakers
+work, and they are muted when headphones are plugged in.
+
+Cc: stable@vger.kernel.org
+Assisted-by: Claude:claude-opus-5-5
+Signed-off-by: Luis Gerardo Lopez Hernandez <gamaerry@gmail.com>
 ---
- sound/soc/codecs/Kconfig          |  1 +
- sound/soc/codecs/rt721-sdca-sdw.c | 17 ++++++++++++++++
- sound/soc/codecs/rt721-sdca.c     | 33 +++++++++++++++++++++++++++++++
- sound/soc/codecs/rt721-sdca.h     |  1 +
- 4 files changed, 52 insertions(+)
+ sound/hda/codecs/realtek/alc269.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
-index ba59dabeeccde..133f397cc6e96 100644
---- a/sound/soc/codecs/Kconfig
-+++ b/sound/soc/codecs/Kconfig
-@@ -1978,6 +1978,7 @@ config SND_SOC_RT712_SDCA_DMIC_SDW
- config SND_SOC_RT721_SDCA_SDW
- 	tristate "Realtek RT721 SDCA Codec - SDW"
- 	depends on SOUNDWIRE
-+	depends on SND_SOC_SDCA
- 	select REGMAP_SOUNDWIRE
- 	select REGMAP_SOUNDWIRE_MBQ
- 
-diff --git a/sound/soc/codecs/rt721-sdca-sdw.c b/sound/soc/codecs/rt721-sdca-sdw.c
-index fc34a0537d5fb..44cf9ca866c94 100644
---- a/sound/soc/codecs/rt721-sdca-sdw.c
-+++ b/sound/soc/codecs/rt721-sdca-sdw.c
-@@ -39,6 +39,14 @@ static bool rt721_sdca_readable_register(struct device *dev, unsigned int reg)
- 		RT721_SDCA_CTL_HIDTX_CURRENT_OWNER, 0) ... SDW_SDCA_CTL(FUNC_NUM_HID,
- 		RT721_SDCA_ENT_HID01, RT721_SDCA_CTL_HIDTX_MESSAGE_LENGTH, 0):
- 	case RT721_BUF_ADDR_HID1 ... RT721_BUF_ADDR_HID2:
-+	case SDW_SDCA_CTL(FUNC_NUM_JACK_CODEC, RT721_SDCA_ENT_PDE12,
-+		RT721_SDCA_CTL_ACTUAL_POWER_STATE, 0):
-+	case SDW_SDCA_CTL(FUNC_NUM_JACK_CODEC, RT721_SDCA_ENT_PDE40,
-+		RT721_SDCA_CTL_ACTUAL_POWER_STATE, 0):
-+	case SDW_SDCA_CTL(FUNC_NUM_MIC_ARRAY, RT721_SDCA_ENT_PDE2A,
-+		RT721_SDCA_CTL_ACTUAL_POWER_STATE, 0):
-+	case SDW_SDCA_CTL(FUNC_NUM_AMP, RT721_SDCA_ENT_PDE41,
-+		RT721_SDCA_CTL_ACTUAL_POWER_STATE, 0):
- 	case SDW_SDCA_CTL(FUNC_NUM_AMP, RT721_SDCA_ENT0,
- 		RT721_SDCA_CTL_FUNC_STATUS, 0):
- 		return true;
-@@ -64,6 +72,14 @@ static bool rt721_sdca_volatile_register(struct device *dev, unsigned int reg)
- 		RT721_SDCA_CTL_HIDTX_CURRENT_OWNER, 0) ... SDW_SDCA_CTL(FUNC_NUM_HID,
- 		RT721_SDCA_ENT_HID01, RT721_SDCA_CTL_HIDTX_MESSAGE_LENGTH, 0):
- 	case RT721_BUF_ADDR_HID1 ... RT721_BUF_ADDR_HID2:
-+	case SDW_SDCA_CTL(FUNC_NUM_JACK_CODEC, RT721_SDCA_ENT_PDE12,
-+		RT721_SDCA_CTL_ACTUAL_POWER_STATE, 0):
-+	case SDW_SDCA_CTL(FUNC_NUM_JACK_CODEC, RT721_SDCA_ENT_PDE40,
-+		RT721_SDCA_CTL_ACTUAL_POWER_STATE, 0):
-+	case SDW_SDCA_CTL(FUNC_NUM_MIC_ARRAY, RT721_SDCA_ENT_PDE2A,
-+		RT721_SDCA_CTL_ACTUAL_POWER_STATE, 0):
-+	case SDW_SDCA_CTL(FUNC_NUM_AMP, RT721_SDCA_ENT_PDE41,
-+		RT721_SDCA_CTL_ACTUAL_POWER_STATE, 0):
- 	case SDW_SDCA_CTL(FUNC_NUM_AMP, RT721_SDCA_ENT0,
- 		RT721_SDCA_CTL_FUNC_STATUS, 0):
- 		return true;
-@@ -595,3 +611,4 @@ module_sdw_driver(rt721_sdca_sdw_driver);
- MODULE_DESCRIPTION("ASoC RT721 SDCA SDW driver");
- MODULE_AUTHOR("Jack Yu <jack.yu@realtek.com>");
- MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS("SND_SOC_SDCA");
-diff --git a/sound/soc/codecs/rt721-sdca.c b/sound/soc/codecs/rt721-sdca.c
-index 9f567caecb70a..db4bf367011ec 100644
---- a/sound/soc/codecs/rt721-sdca.c
-+++ b/sound/soc/codecs/rt721-sdca.c
-@@ -21,6 +21,9 @@
- #include <linux/soundwire/sdw_registers.h>
- #include <linux/slab.h>
- #include <sound/soc-dapm.h>
-+#include <sound/sdca.h>
-+#include <sound/sdca_asoc.h>
-+#include <sound/sdca_function.h>
- #include <sound/sdw.h>
- #include <sound/tlv.h>
- 
-@@ -1482,6 +1485,32 @@ static int rt721_sdca_fu36_event(struct snd_soc_dapm_widget *w,
- 	return 0;
- }
- 
-+/* The DisCo tables give the jack function PDEs up to 500 ms for PS3 to PS0 */
-+static const struct sdca_pde_delay rt721_jack_pde_delays[] = {
-+	{ .from_ps = SDCA_PDE_PS3, .to_ps = SDCA_PDE_PS0, .us = 500000 },
-+};
-+
-+/* REQUESTED_PS only starts the transition, so wait for ACTUAL_PS to reach PS0 */
-+static void rt721_sdca_pde_wait_ps0(struct rt721_sdca_priv *rt721,
-+				    unsigned char func, unsigned char entity)
-+{
-+	const struct sdca_pde_delay *delays = NULL;
-+	int num_delays = 0;
-+	int ret;
-+
-+	if (func == FUNC_NUM_JACK_CODEC) {
-+		delays = rt721_jack_pde_delays;
-+		num_delays = ARRAY_SIZE(rt721_jack_pde_delays);
-+	}
-+
-+	ret = sdca_asoc_pde_poll_actual_ps(rt721->regmap, func, entity,
-+					   SDCA_PDE_PS3, SDCA_PDE_PS0,
-+					   delays, num_delays);
-+	if (ret)
-+		dev_warn(&rt721->slave->dev, "PDE 0x%x did not reach PS0: %d\n",
-+			 entity, ret);
-+}
-+
- static int rt721_sdca_pde47_event(struct snd_soc_dapm_widget *w,
- 	struct snd_kcontrol *kcontrol, int event)
- {
-@@ -1495,6 +1524,7 @@ static int rt721_sdca_pde47_event(struct snd_soc_dapm_widget *w,
- 		regmap_write(rt721->regmap,
- 			SDW_SDCA_CTL(FUNC_NUM_JACK_CODEC, RT721_SDCA_ENT_PDE40,
- 				RT721_SDCA_CTL_REQ_POWER_STATE, 0), ps0);
-+		rt721_sdca_pde_wait_ps0(rt721, FUNC_NUM_JACK_CODEC, RT721_SDCA_ENT_PDE40);
- 		break;
- 	case SND_SOC_DAPM_PRE_PMD:
- 		regmap_write(rt721->regmap,
-@@ -1518,6 +1548,7 @@ static int rt721_sdca_pde41_event(struct snd_soc_dapm_widget *w,
- 		regmap_write(rt721->regmap,
- 			SDW_SDCA_CTL(FUNC_NUM_AMP, RT721_SDCA_ENT_PDE41,
- 				RT721_SDCA_CTL_REQ_POWER_STATE, 0), ps0);
-+		rt721_sdca_pde_wait_ps0(rt721, FUNC_NUM_AMP, RT721_SDCA_ENT_PDE41);
- 		break;
- 	case SND_SOC_DAPM_PRE_PMD:
- 		regmap_write(rt721->regmap,
-@@ -1541,6 +1572,7 @@ static int rt721_sdca_pde11_event(struct snd_soc_dapm_widget *w,
- 		regmap_write(rt721->regmap,
- 			SDW_SDCA_CTL(FUNC_NUM_MIC_ARRAY, RT721_SDCA_ENT_PDE2A,
- 				RT721_SDCA_CTL_REQ_POWER_STATE, 0), ps0);
-+		rt721_sdca_pde_wait_ps0(rt721, FUNC_NUM_MIC_ARRAY, RT721_SDCA_ENT_PDE2A);
- 		break;
- 	case SND_SOC_DAPM_PRE_PMD:
- 		regmap_write(rt721->regmap,
-@@ -1564,6 +1596,7 @@ static int rt721_sdca_pde34_event(struct snd_soc_dapm_widget *w,
- 		regmap_write(rt721->regmap,
- 			SDW_SDCA_CTL(FUNC_NUM_JACK_CODEC, RT721_SDCA_ENT_PDE12,
- 				RT721_SDCA_CTL_REQ_POWER_STATE, 0), ps0);
-+		rt721_sdca_pde_wait_ps0(rt721, FUNC_NUM_JACK_CODEC, RT721_SDCA_ENT_PDE12);
- 		break;
- 	case SND_SOC_DAPM_PRE_PMD:
- 		regmap_write(rt721->regmap,
-diff --git a/sound/soc/codecs/rt721-sdca.h b/sound/soc/codecs/rt721-sdca.h
-index cc3bce0ba5178..2ae68ce3fde28 100644
---- a/sound/soc/codecs/rt721-sdca.h
-+++ b/sound/soc/codecs/rt721-sdca.h
-@@ -260,6 +260,7 @@ struct rt721_sdca_dmic_kctrl_priv {
- #define RT721_SDCA_CTL_XUV				0x34
- #define RT721_SDCA_CTL_FU_CH_GAIN			0x0b
- #define RT721_SDCA_CTL_FUNC_STATUS			0x10
-+#define RT721_SDCA_CTL_ACTUAL_POWER_STATE		0x10
- 
- /* RT721 SDCA channel */
- #define CH_L	0x01
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index 36d3bc23a..2a0d25493 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -8671,6 +8671,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x2782, 0x1701, "Infinix Y4 Max", ALC269VC_FIXUP_INFINIX_Y4_MAX),
+ 	SND_PCI_QUIRK(0x2782, 0x1705, "MEDION E15433", ALC269VC_FIXUP_INFINIX_Y4_MAX),
+ 	SND_PCI_QUIRK(0x2782, 0x1707, "Vaio VJFE-ADL", ALC298_FIXUP_SPK_VOLUME),
++	SND_PCI_QUIRK(0x2782, 0x1718, "Acer Aspire AL16-31P", ALC269VC_FIXUP_INFINIX_Y4_MAX),
+ 	SND_PCI_QUIRK(0x2782, 0x4900, "MEDION E15443", ALC233_FIXUP_MEDION_MTL_SPK),
+ 	SND_PCI_QUIRK(0x2782, 0xa128, "Positivo N15RPE-S", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
+ 	SND_PCI_QUIRK(0x2782, 0xa212, "Lunnen Ground 14", ALC269VC_FIXUP_LUNNEN_GROUND_14),
 -- 
 2.56.0
 
