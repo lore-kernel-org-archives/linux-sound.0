@@ -1,127 +1,202 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+Received: from mail-yx1-f49.google.com (mail-yx1-f49.google.com [74.125.224.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05A78491585
-	for <linux-sound@vger.kernel.org>; Sat, 17 Oct 2026 12:51:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792241484; cv=none; b=VcfAdYN2YEw0kd27kSDuBj7TEKlVJxaQHruCo+lpl6tRPFhDM4OQVL2dXMaQ43AL6WJlwMKd6YmwJysctCxRb+yMLGv4WaR3rUBGDCZXHxaQWfumFHpNuLwPEetIIMxKFV+MeSur7ecRk04MtBqJKPZYE1D94ckfVFsMjRf9M7c=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792241484; c=relaxed/simple;
-	bh=ejhKqmQASVCjBpB6Zzm6onKZzFwjxIZTAb/mq8y168c=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TExkBwfTv5Eialh1WKryZ16Aygs/y3MOS9qgruSjPAzzEH3WDqt+mTdq+/d6lTrJTp1X9jLs66xOe9UILy4R3OTNIF4CvlfU9WkvVBVHOUdCvLRsSQHNgoBiaDKcaB6xlDyx43MTlf8LIto6L+uYXEwBaH6DcCqLJqxDEkXBOdc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HLtecz7k; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25FB438C421
+	for <linux-sound@vger.kernel.org>; Sat, 17 Oct 2026 15:14:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792250067; cv=pass; b=Dh9ij0JKNIjfGsNICu+zJ8+mcARvjVcXs8cJIEMK4qpECfbzDPk4rj/IggVOmE4q7UxwrKHWE3uUI+gL1u80W5m/0xgJ+nA0fpiCIumCT4HiqNyM1fdwk04tt5M68PPGFpRzT2M7pp8fKNLYYGux5VdDC0LOqFokka0MQcOxl5w=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792250067; c=relaxed/simple;
+	bh=2gcDKbdCCLqMqHhK8oJJGW6NSKFDlP0sJsXi4mnHmwo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Gi7uIwKQbZq7fFnYnKrshcYd5yST+RSD+4onfmDusqbiBZtgTMbXJTMCUDaRSM3zySqDe8oTdJdyopw9d0NWlg+BK+S6OEaAHyL1UpFceEjC4tz79U60uSl7VSKL+R3JH1OZALmxRvLK7b3YhKxEA6nJAJTyErir2bqErMDlTNE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KIGT076I; arc=pass smtp.client-ip=74.125.224.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HLtecz7k"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2e86dce4510so2890345ad.3
-        for <linux-sound@vger.kernel.org>; Sat, 17 Oct 2026 05:51:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KIGT076I"
+Received: by mail-yx1-f49.google.com with SMTP id 956f58d0204a3-679a2297c55so658128d50.1
+        for <linux-sound@vger.kernel.org>; Sat, 17 Oct 2026 08:14:25 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792250065; cv=none;
+        d=google.com; s=arc-20260327;
+        b=eKjjfx/L7dV9ScdKCF6tU1mgPh7aUHJhfeuGR9bkUzQdXmbA47r5cflPu7Jf8NVFIA
+         TfZplpXReR1Ox/RNVnA1Ekds9UvJhBmrhNMGVCuByUXSUc8qkPZRxq1ul4TUF8sFovAh
+         8+wGahlL4G8ztmoGwypEhTlwkYo0OHGSGZzqHNP8vqRgmDbKSvZkyLrWHhO4/7b4+eP5
+         y6ZcxyMCN4oJCYcj2qdqBM59YOzGbFhN8cRVlhdprNoLcnmfAac88CSoZgol/EhFM89E
+         AxP5iY1dQBKfW6ddjXYYcTn3TZ8j3OgFdJZiQWgtz5uI5AYzpSgHHUfXihi8C1iRNr39
+         CU0Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=GipuAe3BWx4PIpFUcH/elDBDZ0+uIB+GVKCWA82fBvM=;
+        fh=rbQZd76jKdrD9+Pmp4wtVKSQw3SQWu12excLxNfyGfA=;
+        b=IQXwiSqydGB6A5Sijsjeg52wapf5ta8CWcoAetIDZHXqTtiTekhGkFZRbtJDBY2HTu
+         0wV0NpKLjJr9NzXtl06I3UB5eKOj3+I6qKEIDgKCr5hVhyPKsiO20KY7rWKAXQ0NjEYk
+         dL8T3LXMm61rs7nNyJItVHZQI3TizKAmYPf+g9sCvZV/UkrpgV58Fa9Lvpne94ZGn2bg
+         QdxXUKXmqutyI4vuiNaBTdOzUjHNjFfn8UA1zsnztcpbjgUyeQDm3ThIFFINcxhOYnds
+         W/B7gwQZCmhs3qBsVl/QeS3vOSJ1+P9ZwuB2rN1rOjbULjHaKx5AH4qJMuh0wPb0/S21
+         lYcA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792241482; x=1792846282; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+        d=gmail.com; s=20251104; t=1792250065; x=1792854865; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=ejhKqmQASVCjBpB6Zzm6onKZzFwjxIZTAb/mq8y168c=;
-        b=HLtecz7klVYY7tyn/NXtELa5lanybttTeR2gU+zEnB6ZccZtUf448HmuCIbEz9qJPu
-         tTGK1T4RuqzOkHG1JWoxNvzYhuhBVdg0m+vPBNy7YeHLrWKMc9kmjCCxdZRbSq/z2F6I
-         E4tKPVPxp5bzsEkfYE0ZdNhOR6iOsry860Fc4H7qCxbyYnwX5rYAvXJN9854eBHaCQ0j
-         fI50l312PVIYDVYv2uk27Eo1ASlcOg5OdEWMH48iaZWmY5sUtyVzzpTq8S3qKWqIHMjr
-         jTpMq0s2nTKWOX3x9oqxLjLILbaPPX7DZvVBZzKoy7CQqAw1Tyrce/i3vFxS+c7DuND8
-         Du0Q==
+        bh=GipuAe3BWx4PIpFUcH/elDBDZ0+uIB+GVKCWA82fBvM=;
+        b=KIGT076I+a6TOHDcnPlrE1Cfx6OjYgFejAkxDvaKYsf0ADbzGyv+1U5GsaMCZTkL4a
+         NN/xAOikdGoA0O3UGBiuBeMAXAl3XrT9Rd6SSpUA0KzSSRyHYQ1kOkylltABRgF0xOE/
+         af2gkQtRzDLVWG1Y+o+AkJUOH8kuu0PkjzlbrQuYzkS3Ud+RdLKYMm/glw29zOJJHdjw
+         jwAuA2kduIAUBTuyZGv43NQyHAlmA1OcFxh/piAnGfXbyrxSBADZ/PWA/4bBu6t5hD5j
+         CpV2I24WbcdAPd1hwfId0tOBnHO7Aghg1k+h8uOrHw+UFBv9/npOcsORMd0KdR3POWWU
+         fzbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792241482; x=1792846282;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+        d=1e100.net; s=20260707; t=1792250065; x=1792854865;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=ejhKqmQASVCjBpB6Zzm6onKZzFwjxIZTAb/mq8y168c=;
-        b=FzBGOaVr2Uz3/Rb1rZvr9Ihsk2JCAKc8zbVPiFSKbBpqR9qWwBx56B67caFwrk+jTU
-         ssbXRKyZjkF7wJzojJqQSuEZ+C7YqKu/ipupBCyydsMDyiQi8a6n40Td5Pg1JtavI5N6
-         MN2ZayfjLMzW+s+P0+fauuV/K3Nq4m+ZzPBTFjgSvgAGpsUiJ5CkUKIxiibjd56KNkk+
-         G+h1WgxdimtNtwi7GX1DDyA+1aHTCYFpt/cRp0YzYFNcsL7L27u9Li3ouoYJkiL+2VlF
-         0+7vMZsnoh2eqLmTThfAkcGeyzDhdVyNLJKiEQBr/uY8h/wvjnzzfdgWxAa7jgLih6Xy
-         3AnQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwOp9kG5nEhxIRh6es4d5M0M47Y40Kxa/BITaXjUyDQDSaEFyW49nrf1skUuxHpuIM5b8AOnLOKgXQ6ZQ==@vger.kernel.org
-X-Gm-Message-State: AFq9FYI/ZvxcxlZv4/eu/qpn85wt1WUM9kywEX1p/4J55ciqJftNEo0v
-	WH+SDA7onC88oyKa94c42Wx8HRh9dYydFO1PxVQcYGHvbPO0PqjHOKi7
-X-Gm-Gg: AYBFou1Sg6jHNOePaSYRXGAChZyWXKlWUfJ/yvku6fUtp9s1Vm9bBpQMtFGt7avhBno
-	dRxT1k4NY0UMjmPPSkq58W6odmlLFHHjlGtd6Y3cFb29cnTmyV4huxrgZjuJ50/oLQ4lks7+jQV
-	Hbcamb1d3HIJHimO778lacRskYPYO2AuomPZBpv+l+TjUK33mUT0M4EX73lZA8KztmJasoeZ7f9
-	lfprp6R5BIiWjkNnzUr7rusM63EzAOHfFpLmE1mNzOdorrLYvOlVsu5zeBicDFQR/zrVK0bUlE4
-	TrouXqmZNC40tDWyY2rNqvdUMY78Zs47eHOcEr2Ts83r8W0qk/YcMDK4yWfxV18qVubuAGCS0cz
-	m36mOaSW5/fJp/7p8J3YUj8CJAyjuD0PnPLptJHDLTUG43XIrHcN4pzdP8kuATTVMGYmGhFfKuv
-	XEiYiPtJ3cSvKYUJjTpuN6DPGltVaf1OWFjUwFPHzUQOelleaDc+LtgO3JzzRrqazoH1O+cUoSR
-	7hrfE4e6ZjZ596pHFVh9FX301fv4MMvcuwHY2QXoJjl689wjszOKM0/LpTYWXhb733Rt5N+k99c
-	AVnUxCSe4flZamQ=
-X-Received: by 2002:a17:903:acd:b0:2e9:6788:9373 with SMTP id d9443c01a7336-2e9a68d9118mr21964585ad.17.1792241482151;
-        Sat, 17 Oct 2026 05:51:22 -0700 (PDT)
-Received: from localhost.localdomain ([180.182.24.11])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e97e8b98a9sm22014615ad.74.2026.10.17.05.51.18
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sat, 17 Oct 2026 05:51:20 -0700 (PDT)
-From: Joonho Lee <mynameisjune111@gmail.com>
-To: Anton Yakovlev <anton.yakovlev@opensynergy.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	linux-sound@vger.kernel.org,
-	virtualization@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 0/2] ALSA: virtio: fix staged capture ACK ordering and period scheduling
-Date: Sat, 17 Oct 2026 21:51:14 +0900
-Message-ID: <virtio-snd-capture-reproducer.e56fe77fd0dc4571@gmail.com>
-In-Reply-To: <rfc-virtio-snd-capture-followups-0.f2737c95c12e45b4@gmail.com>
-References: <rfc-virtio-snd-capture-followups-0.f2737c95c12e45b4@gmail.com>
+        bh=GipuAe3BWx4PIpFUcH/elDBDZ0+uIB+GVKCWA82fBvM=;
+        b=LtmcJpP5wfxMJcjMZKMtMmcGyUNYPIr95E/Uic4+ii/fISnoRjH2OAtp5a+hwFZNGz
+         3sNV53xOghEs5cfPbIO8HF9V4Zx9Zt5a9gL0COfrzvvh8sO240eEmHGgysi1txSXpW7k
+         d8S8lW+BXHlfDoQZCq9dauqjcf2KA+B8XyjFBl8SL7lqIq9E60gfpA4NI/ehKdpOMW9W
+         Z2uwQtpeJ4QQRodxewoDrZ7fOxOmd/D4Z986nq2R13qyhg4SlW+RpofznB4fsJyg4k69
+         PxWN51LApXcGIhf2mOXdWFguaqD1G1LZ3JVoqRL4wpZq0rs1mPptLtMESoJPhokZXNCs
+         7tvg==
+X-Forwarded-Encrypted: i=1; AKwUvBwrYSbnkiiFY+UBtk0jBECrNty2aEzknprXwZbxHy1hZRCMQjkZxYjgabKBbJQNNQ3Myqox1RA+kKWYVg==@vger.kernel.org
+X-Gm-Message-State: AFq9FYLbgtYXpjaV4Zwy3YffttgSpevrjY/kd1IFj5izrzTIgKqu9P7I
+	rMGuChejjaTakuIF1E6m/ldZPIW5u84TWUsewLaVyRIbfK9uBJ4NIuMhI+wAvb4T5hMovt+8lYL
+	QGey5iDNfJ9QElR9inJ9ZGG9+pU0MQfsZ9I4MzsI6ZIdMUD4=
+X-Gm-Gg: AYBFou3GfOpCJlZqrPnCP2m4XU44FzF6OUhbedA2ZWqdXWZPm7j6FTMixE0yw2GnVBx
+	MTbHIBcF7zsZTXSk8jrtDPRU7gYgFc3ERsYuQ+mWwDfnLtQtrTBLxVz2xPZ7DvEyqyLwropPlM9
+	0xNEcGmEz7V2YzMkV91zGbXLh4oSNbbthHJ4wslHrLvxi6X+/oDYYOKXsvg1on2MK9gV0PyEPkj
+	lkp2zK4zTS0e4GsacMni2u/ZZIYFcMmio+SA0y2t7NzWSNrKxpWFh6rvUub0r/Ka8qCsigBeb3M
+	YMom6UyrjI2ScdIRKVcMKsixXYcMxmey58WGTUGpQajoV1f3AdkovNHl
+X-Received: by 2002:a05:690e:454a:20b0:679:583:e45e with SMTP id
+ 956f58d0204a3-679ca4d586emr564058d50.8.1792250064946; Sat, 17 Oct 2026
+ 08:14:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <pm-pmb-26d66390a25fec9fad6c-v2-743c9b89c0f0d761eda1@gmail.com>
+ <87ld7w20ok.wl-tiwai@suse.de> <CAFRLqsVs8BGNHb8qG6nnrCc=fafMYAmCSDuXDb8uBRBrgJhnEA@mail.gmail.com>
+ <87ecdo1uud.wl-tiwai@suse.de> <87bj8s1u4a.wl-tiwai@suse.de>
+In-Reply-To: <87bj8s1u4a.wl-tiwai@suse.de>
+From: Cen Zhang <zzzccc427@gmail.com>
+Date: Sat, 17 Oct 2026 23:14:12 +0800
+X-Gm-Features: AclHuK-xEKioADGTiLMltPLaprezTGdBPdIHxHvc9v89B5ZAIk4ud1epwNdVnaY
+Message-ID: <CAFRLqsX0iZEHWF3uTgv0FW12DPJv=ESAKFYLwWSvJzxKPsxK8g@mail.gmail.com>
+Subject: Re: [PATCH] ALSA: info: Serialize freeing with recursive registration
+To: Takashi Iwai <tiwai@suse.de>
+Cc: perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, baijiaju1990@gmail.com, jjzuming@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+Hi Takashi,
 
-I've prepared the reproducer and build instructions for this series:
+Takashi Iwai <tiwai@suse.de> =E4=BA=8E2026=E5=B9=B410=E6=9C=8817=E6=97=A5=
+=E5=91=A8=E5=85=AD 18:47=E5=86=99=E9=81=93=EF=BC=9A
+>
+> I meant something like below (totally untested)
+>
+>
+> Takashi
+>
+> -- 8< --
+> diff --git a/sound/core/oss/mixer_oss.c b/sound/core/oss/mixer_oss.c
+> index f1fa42e634fc..2e686bd6c5f9 100644
+> --- a/sound/core/oss/mixer_oss.c
+> +++ b/sound/core/oss/mixer_oss.c
+> @@ -1309,13 +1309,18 @@ static int snd_mixer_oss_free1(void *private)
+>  static int snd_mixer_oss_notify_handler(struct snd_card *card, int cmd)
+>  {
+>         struct snd_mixer_oss *mixer;
+> +       int err;
+>
+>         if (cmd =3D=3D SND_MIXER_OSS_NOTIFY_REGISTER) {
+> -               int idx, err;
+> +               int idx;
+>
+>                 mixer =3D kzalloc_objs(*mixer, 2);
+>                 if (mixer =3D=3D NULL)
+>                         return -ENOMEM;
+> +               if (!try_module_get(THIS_MODULE)) {
+> +                       kfree(mixer);
+> +                       return -ENODEV;
+> +               }
+>                 mutex_init(&mixer->reg_mutex);
+>                 err =3D snd_register_oss_device(SNDRV_OSS_DEVICE_TYPE_MIX=
+ER,
+>                                               card, 0,
+> @@ -1325,6 +1330,7 @@ static int snd_mixer_oss_notify_handler(struct snd_=
+card *card, int cmd)
+>                                 "unable to register OSS mixer device %i:%=
+i\n",
+>                                 card->number, 0);
+>                         kfree(mixer);
+> +                       module_put(THIS_MODULE);
+>                         return err;
+>                 }
+>                 mixer->oss_dev_alloc =3D 1;
+> @@ -1358,7 +1364,9 @@ static int snd_mixer_oss_notify_handler(struct snd_=
+card *card, int cmd)
+>                 if (cmd =3D=3D SND_MIXER_OSS_NOTIFY_DISCONNECT)
+>                         return 0;
+>                 snd_mixer_oss_proc_done(mixer);
+> -               return snd_mixer_oss_free1(mixer);
+> +               err =3D snd_mixer_oss_free1(mixer);
+> +               module_put(THIS_MODULE);
+> +               return err;
+>         }
+>         return 0;
+>  }
+> diff --git a/sound/core/oss/pcm_oss.c b/sound/core/oss/pcm_oss.c
+> index bd19328dca9e..3d35f9d2d675 100644
+> --- a/sound/core/oss/pcm_oss.c
+> +++ b/sound/core/oss/pcm_oss.c
+> @@ -3151,6 +3151,9 @@ static void register_oss_dsp(struct snd_pcm *pcm, i=
+nt index)
+>
+>  static int snd_pcm_oss_register_minor(struct snd_pcm *pcm)
+>  {
+> +       if (!try_module_get(THIS_MODULE))
+> +               return -ENODEV;
+> +
+>         pcm->oss.reg =3D 0;
+>         if (dsp_map[pcm->card->number] =3D=3D (int)pcm->device) {
+>                 char name[128];
+> @@ -3207,6 +3210,7 @@ static int snd_pcm_oss_unregister_minor(struct snd_=
+pcm *pcm)
+>  {
+>         snd_pcm_oss_disconnect_minor(pcm);
+>         snd_pcm_oss_proc_done(pcm);
+> +       module_put(THIS_MODULE);
+>         return 0;
+>  }
+>
 
-https://github.com/whatisyourname0/virtio-snd-reproducer/tree/88913cb432c3771d179a274e3b622a22b03bb9f1/capture-followups
+Thank you for the review and suggestions. This looks good to me.
 
-DEPENDENCIES.md lists the exact base and prerequisite patches. The
-preparation script reconstructs the pre-ACK, ACK-only and ACK plus
-scheduling trees from those patches. Each tree matches the source used
-for the original tests. The two kernel patches in this series are
-unchanged.
+While reviewing the draft, I noticed one detail we may need to account
+for: snd_pcm_free() calls
+n_unregister even for a PCM that never reached n_register, for example
+during creation failure or
+BUILD-state cleanup. We may therefore need per-PCM bookkeeping so that
+unregister drops a
+module reference only if one was successfully acquired.
 
-For patch 1, ack/ extracts the baseline and candidate routines and tests
-ACK ordering and refill failure with two kernel threads. I rebuilt the
-ACK-only kernel and fixture module with KASAN and lockdep. All four
-cases passed, followed by module unload and a clean guest shutdown. The
-fixture supplies test queue hooks; full virtqueue coverage is a separate
-part of the test setup.
+I would also like to check the last-reference drop against callback
+completion and notifier traversal,
+to make sure module teardown cannot overtake either.
 
-I also rebuilt QEMU and the kernel with both patches for the capture
-regression checks. All 24 captures across four/eight channels and
-one/two vCPUs matched the expected file length and SHA-256. A deliberate
-reader stall produced XRUN, and a fresh capture after it matched the
-oracle. An eight-channel, one-vCPU run completed 70 seconds under guest
-CPU load and a subsequent ten-second capture without XRUN or a data
-mismatch. The kernel logs were clean.
+I will send a patch soon.
 
-These QEMU tests use a deterministic synthetic source. They cover
-capture correctness and recovery; the VZ comparison in the original
-cover letter remains the evidence for patch 2's scheduling benefit. The
-ACK fixture uses the ACK-only tree because patch 2 changes a shared
-helper. Both build paths are documented separately.
+Thanks again.
 
-FRESH-BUILD-VALIDATION.md records the source and artifact hashes,
-results and remaining test limits. The package also includes the QEMU
-fixture patch, the guest build recipe and the channel/frame oracle.
-
-I'd appreciate guidance on which parts would be most useful to keep in
-the kernel test suite and which should stay with the QEMU test backend.
-
-Thanks,
-Joonho
+Best regards,
+Cen Zhang
