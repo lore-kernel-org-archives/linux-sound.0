@@ -1,100 +1,176 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta0.migadu.com (out-227.mta0.migadu.com [91.218.175.227])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96977331203;
-	Sun, 18 Oct 2026 16:56:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B7894CF489
+	for <linux-sound@vger.kernel.org>; Sun, 18 Oct 2026 17:02:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.227
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792342595; cv=none; b=Cax6bxSySCNWO+lamiXDDKtamukDuumeWHLJ3484KZNJzzqfv2Vl77Yc+7VlpDarIeu0HJ031d2CR6ZB9+BBbSjUjMS+0Jm0r+aAwQHSS6ESxSk+t7Rf9UB0mEsbkP/FQQuNK1F3iiYhOPYG68kh4/MDZV8SHldv0G5XRPvJUhM=
+	t=1792342971; cv=none; b=QIRyISRFERFoSCdGQ3NIPhMJIOu4/Ddk09huDLfQGezRCdtXlDgXroGrrY8dkqKJSQ5XOs1madb1ucy6QQYCTV6WPaT1hhHn1J46kDf2Ye2tY31W4a7BTT477vXmHpqPxSjgF6VISpt/RilfkC/apf2utnKi5Z20oDSlo0JirTI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792342595; c=relaxed/simple;
-	bh=d3ay5FXVBDcidVSbB5fN4cGPC7NcpEA77jmvawpdrdI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=ZhVoGp3uBB84dKSpvtX4J4XU3tjh3ziM3XP+4xOOvLhRyQWX2Mvgu+JeY6nozSI2zWXtfScTXNypGVSqgK9yMUhTI4WeJGec4MKBFBwC9t10kkM/3BjficW0bnq+0TUCCvqg5QJBY5x7oGGiL800k/SdO83meCl5UsVgwvUtH5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JCl/OMXx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1792342971; c=relaxed/simple;
+	bh=lPEojixQlZu0XsdawGc9KMhpuxaWKjq69w52P0FToho=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nWRzSlX7vFQmfds6dmeJ/YyuHcYwpbkQhVyQpUFfNnrif2uVUStVpOnxPlGKoxq5snq5QCBOMFjbI8SBaxfSBUafC2OcMjY4HCsJbhxaRhvsuY+yzetdhuWRMQYodQkrerPmBT+NFOX3OHbH3mPjzgaOokSwWQBO1UFFJ90EBg4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=cyL7eESr; arc=none smtp.client-ip=91.218.175.227
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JCl/OMXx"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 36708C2BCC7;
-	Sun, 18 Oct 2026 16:56:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1792342595;
-	bh=d3ay5FXVBDcidVSbB5fN4cGPC7NcpEA77jmvawpdrdI=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=JCl/OMXxBcGhi2Ll/A5UPVqONZLV0PSFH4cwDTB9PnRFNj1hXb5UcFENGP2WMZLOp
-	 NED5yX0u80HjEt9JhGv5pLjurLBFDaqLgLWPbsLxDsXY1WpyUmGJE/v6PGH7v6XO1o
-	 fGZASlgyqToSsH3lNiGrGGEXdFxlOj/K+NuymrOwroxaz4yKcJKHnBU91mIxaLkR1d
-	 hYEFNIQ3xPP0R+N0u07kHjTyOlvh7KlSrHNf7Mn8pcRmx9EjInwQeksPaDo3Gb1QiS
-	 ZGii2oC3rKREujlC9rgS95Fm/TwtpW+qJj/rIClxhdjPyq5Q8dExHNi98TKVhbK8MU
-	 ToioVsYHRXRFg==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22ADACCA490;
-	Sun, 18 Oct 2026 16:56:35 +0000 (UTC)
-From: George Christidis via B4 Relay <devnull+gxristidis.gmail.com@kernel.org>
-Date: Sun, 18 Oct 2026 18:56:31 +0200
-Subject: [PATCH] ALSA: hda/realtek: Fix headset mic on ASUS Zenbook 14
- UX3402VA
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="cyL7eESr"
+X-Envelope-To: linux-sound@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=lPEojixQlZu0XsdawGc9KMhpuxaWKjq69w52P0FToho=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1792342966; v=1; x=1792947766;
+ b=cyL7eESro6G73kDFE3jvssKSrJuu9t39+Wj1RoTsoE44aLhUHA8vxv5h58JQwukqDdIkw1Wf
+ 1k7ljhnEbY9poJrvGJ6Ulwh0nY2H0KOBBh0EqooC2g3fgy8Q0jpHSSeLidKrfyOA+SKFB4t1k2W
+ wXlNGC4ewHHDQOmEcTO5agIc=
+X-Envelope-To: linux-sound@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id b4ec3a066f264b08;
+	Sun, 18 Oct 2026 17:02:46 +0000
+X-Mizu-Trace-ID: b4ec3a066f264b08
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <94e1b390-903c-4a34-bd9e-9c128b6c1622@linux.dev>
+Date: Sun, 18 Oct 2026 18:41:18 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V3 02/10] soundwire: amd: cache ping slave status to avoid
+ spurious disconnect on timeout
+To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>, vkoul@kernel.org
+Cc: broonie@kernel.org, alsa-devel@alsa-project.org,
+ yung-chuan.liao@linux.intel.com, Basavaraj.Hiregoudar@amd.com,
+ Sunil-kumar.Dommati@amd.com, venkataprasad.potturu@amd.com,
+ Syed.SabaKareem@amd.com, Mario.Limonciello@amd.com, Richard.Gong@amd.com,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20261013085111.2009061-1-Vijendar.Mukunda@amd.com>
+ <20261013085111.2009061-3-Vijendar.Mukunda@amd.com>
+Content-Language: en-US
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+In-Reply-To: <20261013085111.2009061-3-Vijendar.Mukunda@amd.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261018-for-linus-v1-1-4d8e9ff27d89@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXM0QpAMBSA4VfRubbaVkZeRS6MM4402jEpeXfD5
- Vd//wWMgZChzi4IeBDT6hNUnkE/dX5EQUMyaKmNkqoSbg1iIR9ZaGt1aWRnC2cg9VtAR+f3atr
- fHO2M/f4O4L4f5zB/zG0AAAA=
-X-Change-ID: 20261018-for-linus-2bb2760ab5f6
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- stable@vger.kernel.org, George Christidis <gxristidis@gmail.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1792342594; l=1568;
- i=gxristidis@gmail.com; s=20261018; h=from:subject:message-id;
- bh=WO42s5RZ6hbZHX1anwLnUs6RiGT8aq0KXyrmR3Fn9vI=;
- b=QgWJrj9Qpp1fCpRoh16U+axun5rMtlsLJ/obgxrMZptprt+QU8kMl0U/dMuYYg3D9Y0nsg0hy
- p0h9w83tomhAJA7xDeWYteWFx+8QV5fZZetdGYyjRhH+OnU7W0ftD9Q
-X-Developer-Key: i=gxristidis@gmail.com; a=ed25519;
- pk=LWp/LBe13KlT/70ZpW3a73MV3ESP4a0DmOo2Zrz0Dhg=
-X-Endpoint-Received: by B4 Relay for gxristidis@gmail.com/20261018 with
- auth_id=1227
-X-Original-From: George Christidis <gxristidis@gmail.com>
-Reply-To: gxristidis@gmail.com
 
-From: George Christidis <gxristidis@gmail.com>
+On 10/13/26 10:49, Vijendar Mukunda wrote:
+> Add ping_slave_stat to struct amd_sdw_manager to cache the slave_stat
+> from the last successful ping response. On timeout,
+> amd_sdw_read_ping_status() returns the cached value (or 0 if no
+> successful response yet) to avoid the spurious "no peripherals
+> attached" warning from sdw_show_ping_status().
 
-The UX3402VA (1043:16a3) BIOS leaves pin 0x19 unconfigured, so the
-headset mic does not work. Use ALC294_FIXUP_ASUS_SPI_HEADSET_MIC like
-the UX3405MA, it sets up the mic and keeps the CS35L41 speaker fixup.
+I read this description multiple times and I don't get
 
-Tested on a UX3402VA: headset mic, internal mic and speakers work.
+a) in what cases you'd get a timeout on a PING command?
 
-Cc: stable@vger.kernel.org
-Signed-off-by: George Christidis <gxristidis@gmail.com>
----
- sound/hda/codecs/realtek/alc269.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+and
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index 1623cf926..cea8c7091 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -7867,7 +7867,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1043, 0x1663, "ASUS GU603ZI/ZJ/ZQ/ZU/ZV", ALC285_FIXUP_ASUS_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1043, 0x1664, "ASUS ExpertBook PM3406CHA", ALC256_FIXUP_ASUS_PM3406CHA),
- 	SND_PCI_QUIRK(0x1043, 0x1683, "ASUS UM3402YAR", ALC287_FIXUP_CS35L41_I2C_2),
--	SND_PCI_QUIRK(0x1043, 0x16a3, "ASUS UX3402VA", ALC245_FIXUP_CS35L41_SPI_2),
-+	SND_PCI_QUIRK(0x1043, 0x16a3, "ASUS UX3402VA", ALC294_FIXUP_ASUS_SPI_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1043, 0x16b2, "ASUS GU603", ALC289_FIXUP_ASUS_GA401),
- 	SND_PCI_QUIRK(0x1043, 0x16d3, "ASUS UX5304VA", ALC245_FIXUP_CS35L41_SPI_2),
- 	SND_PCI_QUIRK(0x1043, 0x16e3, "ASUS UX50", ALC269_FIXUP_STEREO_DMIC),
+b) why the cached value of the last ping is a relevant concealment?
+You'd still get an error message on a timeout...Maybe this makes the log
+"cleaner" but still there was an error in the first place.
 
----
-base-commit: 8e8cd9a4c6dc006e9bd51b8ad0079fb4576b48d3
-change-id: 20261018-for-linus-2bb2760ab5f6
+> ping_slave_stat is initialised to U32_MAX in probe and reset to
+> U32_MAX under msg_lock on entry to the POWER_OFF_MODE resume path,
+> before any hardware step that can fail and return early, so that a
+> partially-failed resume cannot leave a stale pre-suspend value behind
+> for a subsequent ping timeout to report.
+> 
+> Add lockdep_assert_held() in amd_sdw_read_ping_status() to document
+> that the caller must hold msg_lock.
 
-Best regards,
---  
-George Christidis <gxristidis@gmail.com>
+that lockdep_ add is a different improvement that should go in a
+separate patch - it's not related to the timeout management and the
+suggested use of a cached value.
 
+> Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+> ---
+>  drivers/soundwire/amd_manager.c   | 21 ++++++++++++++++++++-
+>  include/linux/soundwire/sdw_amd.h |  4 ++++
+>  2 files changed, 24 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/soundwire/amd_manager.c b/drivers/soundwire/amd_manager.c
+> index fa3f4e797edd..a57b59609bfe 100644
+> --- a/drivers/soundwire/amd_manager.c
+> +++ b/drivers/soundwire/amd_manager.c
+> @@ -453,6 +453,9 @@ static void amd_sdw_read_and_process_ping_status(struct amd_sdw_manager *amd_man
+>  				    amd_manager->instance);
+>  		return;
+>  	}
+> +	amd_manager->ping_slave_stat =
+> +		FIELD_GET(AMD_SDW_MCP_SLAVE_STAT_0_3, response) |
+> +		(FIELD_GET(AMD_SDW_MCP_SLAVE_STAT_4_11, response) << 8);
+>  	amd_sdw_process_ping_status(response, amd_manager);
+>  	mutex_unlock(&amd_manager->bus.msg_lock);
+>  }
+> @@ -463,15 +466,19 @@ static u32 amd_sdw_read_ping_status(struct sdw_bus *bus)
+>  	u64 response;
+>  	u32 slave_stat;
+>  
+> +	/* Called by sdw_show_ping_status() which holds msg_lock. */
+> +	lockdep_assert_held(&bus->msg_lock);
+> +
+>  	if (amd_sdw_send_cmd_get_resp(amd_manager, 0, 0, &response)) {
+>  		dev_err_ratelimited(amd_manager->dev, "SDW%x ping status timeout\n",
+>  				    amd_manager->instance);
+> -		return 0;
+> +		return amd_manager->ping_slave_stat == U32_MAX ? 0 : amd_manager->ping_slave_stat;
+>  	}
+>  	/* slave status from ping response */
+>  	slave_stat = FIELD_GET(AMD_SDW_MCP_SLAVE_STAT_0_3, response);
+>  	slave_stat |= FIELD_GET(AMD_SDW_MCP_SLAVE_STAT_4_11, response) << 8;
+>  	dev_dbg(amd_manager->dev, "slave_stat:0x%x\n", slave_stat);
+> +	amd_manager->ping_slave_stat = slave_stat;
+>  	return slave_stat;
+>  }
+>  
+> @@ -1087,6 +1094,7 @@ static int amd_sdw_manager_probe(struct platform_device *pdev)
+>  		dev_err(dev, "mmio not found\n");
+>  		return -ENOMEM;
+>  	}
+> +	amd_manager->ping_slave_stat = U32_MAX;
+>  	amd_manager->instance = pdata->instance;
+>  	amd_manager->mmio = amd_manager->acp_mmio +
+>  			    (amd_manager->instance * SDW_MANAGER_REG_OFFSET);
+> @@ -1414,6 +1422,17 @@ static int __maybe_unused amd_resume_runtime(struct device *dev)
+>  		}
+>  	} else if (amd_manager->power_mode_mask & AMD_SDW_POWER_OFF_MODE) {
+>  		writel(0x00, amd_manager->acp_mmio + ACP_SW_WAKE_EN(amd_manager->instance));
+> +		/*
+> +		 * POWER_OFF_MODE tears the bus down completely; invalidate the
+> +		 * cached ping status on entry, before any step that can fail and
+> +		 * return early, so that a partially-failed resume leaves the first
+> +		 * post-resume ping timeout returning 0 rather than stale
+> +		 * pre-suspend data. CLK_STOP_MODE leaves peripherals attached, so
+> +		 * the cache remains valid there.
+> +		 */
+> +		mutex_lock(&amd_manager->bus.msg_lock);
+> +		amd_manager->ping_slave_stat = U32_MAX;
+> +		mutex_unlock(&amd_manager->bus.msg_lock);
+>  		if (amd_manager->acp_rev >= ACP70_PCI_REV_ID) {
+>  			ret = amd_sdw_host_wake_enable(amd_manager, false);
+>  			if (ret)
+> diff --git a/include/linux/soundwire/sdw_amd.h b/include/linux/soundwire/sdw_amd.h
+> index 470360a2723c..d0e97007e3ff 100644
+> --- a/include/linux/soundwire/sdw_amd.h
+> +++ b/include/linux/soundwire/sdw_amd.h
+> @@ -76,6 +76,9 @@ struct sdw_amd_dai_runtime {
+>   * @acp_rev: acp pci device revision id
+>   * @clk_stopped: flag set to true when clock is stopped
+>   * @power_mode_mask: flag interprets amd SoundWire manager power mode
+> + * @ping_slave_stat: cached slave status from the last ping
+> + *		     transaction that returned a response;
+> + *                   initialised to U32_MAX ("no valid reading yet")
+>   * @dai_runtime_array: dai runtime array
+>   */
+>  struct amd_sdw_manager {
+> @@ -105,6 +108,7 @@ struct amd_sdw_manager {
+>  	u32 wake_en_mask;
+>  	u32 power_mode_mask;
+>  	u32 acp_rev;
+> +	u32 ping_slave_stat;
+>  	bool clk_stopped;
+>  
+>  	struct sdw_amd_dai_runtime **dai_runtime_array;
 
