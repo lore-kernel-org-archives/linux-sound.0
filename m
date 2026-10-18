@@ -1,69 +1,69 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E33336CDF2
-	for <linux-sound@vger.kernel.org>; Sun, 18 Oct 2026 05:55:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E92A3411FA7
+	for <linux-sound@vger.kernel.org>; Sun, 18 Oct 2026 05:55:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792302933; cv=none; b=c81mEcTw9dDmuZaPCilPbE30cKU90IFaO2fjn1DXwNv2+bBAyNw0OkShSh+WgLe12ysot1b9JTGq/lbIe2lpxUmceWmVq0FEeyRjsuhnm3Pnd2bByGS6XD3w3Nv+DbJ9IHsQVK8VIB7zf3jHeFIV7Vsniw3JR9yI7iYOiuyoqkc=
+	t=1792302942; cv=none; b=rpvP9fPV6LK8Z4KM2lBjSw7P4PI9/+SOCisoGbDD48xMMSE643RfGkS2ZshHkn2qwONVh3VW+jSpniDiDSuRKkOH7fhSMGWeSp94hPkDtoB15KSy4Uz6SPjPwskQHvvXLDn9hI3Xf3K/liaq6V83fGmBQjG3H3Up1gF0vj2N0xs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792302933; c=relaxed/simple;
-	bh=L/QlyuMnLBDV61JQRkgIlDc1IxU9ojp/9m+G2x+efgk=;
+	s=arc-20240116; t=1792302942; c=relaxed/simple;
+	bh=9blMBWr7YSyHeQmUBs/7VgENlyvjO/n7aari+GuU1zA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=K3zg5yxfKhC5kzWjYgnFA1yd71OJPlwM1ksV10JMTknPGQFo75BPqLtRrhIdlWmp5ml7uPtULxPE/xaqWHXYNOE3v/QojQ0HIvszVMqmi9o1zGdD9FMeiVjgdfmyhc8+hiu29nA7A7s1M177su9k9SMKdZPo3fuMq1c/BBfuKI4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qKXYh/ra; arc=none smtp.client-ip=209.85.216.53
+	 In-Reply-To:To:Cc; b=VjGq+ABkNSw6OoURTcuyzeFqTOkguIgu5L7jIAL7groU8tMtNB0lAPZB08WvgG4lPfiMg2fIZgYWVxpbnuVFM7Lx2PanC07RlRM4tj8bpbvly36wdaCDWQZYKwZIwjCUbqpBrc2vgukgzKk3loMDIUxFjgO0PvwidmQTEdfqcLU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eBjZn2s6; arc=none smtp.client-ip=209.85.214.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qKXYh/ra"
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-3ab60ff4273so1098936a91.0
-        for <linux-sound@vger.kernel.org>; Sat, 17 Oct 2026 22:55:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eBjZn2s6"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2e812e2b31bso5427865ad.3
+        for <linux-sound@vger.kernel.org>; Sat, 17 Oct 2026 22:55:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792302931; x=1792907731; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1792302940; x=1792907740; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=A8gbur1ARV/hJRgldNVfFQEJ716Dcvui6UIUaLYcvaI=;
-        b=qKXYh/ray7yeTDuMXlAX/WufraxAYrj+Dx+cYsa5GgXXtAUVUjvL/UzKE4gdQ3PQiO
-         nwsgpw8QF4bbWIhp8lYmXj1U2nUg4E3FPi/RP1wsn1lRwjimw41N0lmW1uirtz4iWSkw
-         SP61FMvxASAEGRpPmEAMQP7kDJT0TFc5Eqr1DSISDws0bj5gyLqjhUD6EaSA/828tuPm
-         IPsMv/dXh2pHBrjFjRV2n56y7vYV7POhXVOPyIy7TSjbgd/ADCNvSCgzyKQf21oEXmYQ
-         H36LDNaL2S+yuEJJtlLYY/MJafHntgKPArtSeRea9R3S8TjCwfYSGQVMVCVxMFf5BpIq
-         Y1HA==
+        bh=oG7xpTf+2B5oFo7T4YVD/UfNfM1JDvvTcYxZXQ4liDI=;
+        b=eBjZn2s6KT0Yqw29Fb4b8QJW+GQTu43bRIN8ksn5s3GYdTgKhz4vwoZBQpBM1ieG7n
+         wqRr8ec5p9+hw5A/kKOuaElT2CnHUSRWACP9do/zM7e7NybWUvSOTFDe2JvZbRvfGCHd
+         mK68i/C0o4WTQF3cKD9slXkLjUHqF6xx5nzbUyBV4slUmoOSCttbpXTOmHIP04gLBm2r
+         dT3Z8kTMr3tQ3wMsHkNdSI9rOJM7FwmMUJzrVLt0rpZWuRw0ejEJ2ezvzIqs8UOfDrRz
+         JqLm2ZmIk+tClAi7yS5v208J2Gd05iB1njfSv3mb8x+30EC795HlMcylNCjsVRFWIRig
+         g2hA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792302931; x=1792907731;
+        d=1e100.net; s=20260707; t=1792302940; x=1792907740;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=A8gbur1ARV/hJRgldNVfFQEJ716Dcvui6UIUaLYcvaI=;
-        b=Am1R3W1iL3K7OAhJvjKqVl/lncixsUDSOmN6gPBi/IU4MSHSmZW1fVneHvWqO5LzNe
-         ZFs7gcwJwFVIgvsxJpIknDsF9nowDkgMf0Xjj+bhkfx3MXFA1twQtOjUwIuPJpk5D4ec
-         zcNzzMABVw3TfMg78sgRTeOHs3s6OPzj+D7nmCYBSC5Vd8qapoEWOZMfEKG4aBPw97OT
-         661tk9V2lc04EC9drt9B35xtRIa+wd/Ehl0w1QYWnSE3rejtRPEPESAtU+dGEHpVdtqV
-         0JvMuhY6HIMz2kaoNDD9d0t+xmP+kJ8iiP9DJxCClEu8WNURj+KPY4jQQSofQ4aruBEZ
-         uFaw==
-X-Forwarded-Encrypted: i=1; AKwUvBxbzn2SwHe04e4gODeZAiUGLxFXUBEO0zx4Oa71O9IpXS+bVFLWJoStmViRsjuqoZh4frJ5cYJq3aMwuw==@vger.kernel.org
-X-Gm-Message-State: AFq9FYKrFS9pWCZGyWlmfJwWdCmbOzNyIrgbzHNFlj+Vm+DJJk1jeYbv
-	NIZwl5k8AUzfSUVFtuO83pID0CWRILlaLB7p1mu7s7ikNkNpCFxwmiJw
-X-Gm-Gg: AYBFou3hgd5lF5qSoVgsDhdT8WuLcHKTZ8cL9b5mqClb01aiojM+F7n6LW+sP4Nd2nY
-	gbi1gxa5fdTTC6M8CYzbnFYRzj3doU0UpkcC04g/+Yfz7Ax3HHX+0vhUGw89G1V1TpJlfaXBttv
-	bZGsgPP/vmtj3dkumppjWyaZSAf2o/cQnXVdyxVMYLEQEzYF/enMKScTaF+tW1mScM7V0oAHrUa
-	bdxhNauEZ/q++fdZg59jHjitVUDf9wU2NRicSwIsf4jW2owflTpB8UfUjMZhPZxa17j87itOMV6
-	3EG1jUDCMKQeicczojuYmPjbIoW1FIYj7BC6tzebd2pvsGYHVJi9JX6PF5+M+/P2gIBleXeyU/6
-	+uUsBQrg3dPkNwtsUcKxhPlfymydyKPMj8DvXnys8hx7nr3W5LPk7nonf3knT8qNA7QThrZ4s1z
-	1SUTSTlGu2HrSeaCmiWBiQU00IJDSyu94yxwCUNGLHeuTVtJN3RcIwttofLyPSWeff8bToSR6pM
-	y/oefn3QsnhCgqdAGXVZCHk6an2c6Y2/NzPagKowxEoCVnXtcCz2LCu5V/vt92iKuEsh+Nis9a3
-	hov5KtdMsAOAaI2TDYUe8RfEw1DEHDNLoI+vKg6OCCB1FQ==
-X-Received: by 2002:a17:90b:388c:b0:3ab:be66:ddbe with SMTP id 98e67ed59e1d1-3acef17b443mr4199337a91.28.1792302931040;
-        Sat, 17 Oct 2026 22:55:31 -0700 (PDT)
+        bh=oG7xpTf+2B5oFo7T4YVD/UfNfM1JDvvTcYxZXQ4liDI=;
+        b=Le0d/0Tkc4WKM8jSjwVxOD0XX0I0F4yhcQBXIf5kjBg3tFtQTVDRm9aSBz7uE5ra3+
+         k6j00oT1s1DIE2cZIWlnYEJtuRfZBldAcaoUurSGu1Fq3mqR325FpSdtrqfjDdzoRyG1
+         /2K+/cAY1nhufikFe+scs7yOFEjQgg5Ks942rt7amfKKuRsLR16mGVVNNwfGj8z1Vgyn
+         wD533RcgA2GLj8SaCp01PO3QoXP/xMeAXtE5lSeXIeJ0Jda3t5JJLE6PFqUqWFQM1ZOB
+         rFgaRI/IZ5BUyhc0b0PN4rCZn2ruJl31klsqlwVrZc2whjzusmsnXUfUFgm1i/wKxDAN
+         uGVw==
+X-Forwarded-Encrypted: i=1; AKwUvByHG6X2pNqEywb15UQG+Qzj8t3Lt9ihPduwMpVctsoJG5wcEl9SLKxh5DOEwP6x7u7KCm0/194kFiq/ZA==@vger.kernel.org
+X-Gm-Message-State: AFq9FYIN5kc3SgW36KQ30OyKoj+J483cwKezzdRBlDg4cLx7q07ON9hr
+	AHbEQm4FLllWKfO8RYPlSnUhKtFSZJn57Z/CrCLSmT+9ADe7RElcFASd
+X-Gm-Gg: AYBFou0NDRqWgCSnjRsPjWZx2yEq9CnOSfVIHGl/sXczo6XHzFEVIpUm2P2mgav0itr
+	T0vCorgSEuqeHvJ2bWpfymyxPqbo38FPkIqIbrTH0IKo40F8qGZGcRoyOaKLNwagvcQDvYCpoD7
+	grtq0K8mAOkF5WDH8vK2dHFhiPJPE5kIqKAvsdmcHqqdnjZwKZ8RT8wmFCgms8dUXi6quTQAOzc
+	/ibmgU4rk9vgoVuislup18FE8hbXCsHzXf7TGCgomtlO6EWkRFtP+Pj0LbYBtsL8jtQ+YAKxSwO
+	b/ylGySYYA0tk+DXzuU5luOteAy34rAZoz1/q42ptCLHwIV2jmMjGcYjpSZ8qOQt5WpTuLayNcc
+	tOFuppvxxpF/dCSVppilRrBpVLGkUsOSlW+pZSZojzgJxqvtRFe3rB+Lz+78USDZJeQ51AtzRWO
+	KkUhwKL+H+hEhnL5DkiZkfPDukFr6EQ54UrdOREnHBjxkIt1YM35mjHSQ8IP7Bb8/iPuYoYfdak
+	BhK2snYncv6gW2QiuF6mokmpGugZK6CszYgdYicSe1d7dFB7JEDBLaz1F/MusLnMVIeHvlQe/rI
+	STvcplSr+4GDOwPJ7oItwmU24M7ytW6/cr/Xn6+HgGp4YMM=
+X-Received: by 2002:a17:90a:d446:b0:3a4:e735:b39d with SMTP id 98e67ed59e1d1-3acef603b1dmr3522678a91.64.1792302940213;
+        Sat, 17 Oct 2026 22:55:40 -0700 (PDT)
 Received: from [10.0.70.21] ([2403:581e:d87e:0:fc2d:ed31:e80e:412d])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3acd0cde4fdsm5511292a91.4.2026.10.17.22.55.20
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3acd0cde4fdsm5511292a91.4.2026.10.17.22.55.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 Oct 2026 22:55:29 -0700 (PDT)
+        Sat, 17 Oct 2026 22:55:39 -0700 (PDT)
 From: James Calligeros <jcalligeros99@gmail.com>
-Date: Sun, 18 Oct 2026 15:54:00 +1000
-Subject: [PATCH v3 06/21] ASoC: card: Let 'fixup_controls' return errors
+Date: Sun, 18 Oct 2026 15:54:01 +1000
+Subject: [PATCH v3 07/21] ASoC: tas2770: Add compatible for TAS5770L
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -71,8 +71,8 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20261018-macaudio-v3-6-abdff7741dea@gmail.com>
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261018-macaudio-v3-7-abdff7741dea@gmail.com>
 References: <20261018-macaudio-v3-0-abdff7741dea@gmail.com>
 In-Reply-To: <20261018-macaudio-v3-0-abdff7741dea@gmail.com>
 To: David Rhodes <david.rhodes@cirrus.com>, 
@@ -94,119 +94,36 @@ Cc: asahi@lists.linux.dev, linux-sound@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
  linux-mediatek@lists.infradead.org
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3700;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=758;
  i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=WKyXFBYrRnpsdpBs7slDgKqmeLl5GkYhostLo7OTo0E=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDFlX4nl87T3eH52yiC/OL4kx8RDDVXlZQf9lU9a6vbxw9
- +IPh/hjHRNZGMS4GCzFFFk2NAl5zDZiu9kvUrkXZg4rE8gQaZEGBiBgYeDLTcwrNdIx0jPVNtQz
- NNIx1jFi4OIUgKne8ZGRYX/F3ut5WcfvqE5O/rHN8cD3KUEB56UknrrOjWb/crB7ricjw2Vm9hK
- RRfx77sqoHRCY9KBn30OXzQzajz/9dbPNujk9jgUA
+ bh=9blMBWr7YSyHeQmUBs/7VgENlyvjO/n7aari+GuU1zA=;
+ b=owGbwMvMwCV2xczoYuD3ygTG02pJDFlX4nnc7m2aKqH0TDBh9iuOyj/7pF3478Srb3rG07en6
+ mJ/VbJQx0QWBjEuBksxRZYNTUIes43YbvaLVO6FmcPKBDJEWqSBAQhYGPhyE/NKjXSM9Ey1DfUM
+ jXSMdYwYuDgFYKrzzjL8s6yU1a66u2PRM+OLheZhW/a1Hub/Fv5y14fNKn+KvT4+5mFkODrn2ZI
+ 8QaFFRdVFE67HGHSc7Zm03eRM7jZDTdv23ua7nAA=
 X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
  fpr=B08212489B3206D98F1479BDD43632D151F77960
 
-From: Martin Povišer <povik+lin@cutebit.org>
+TAS5770L is an Apple-specific variant of TAS2770 found in a number
+of first-generation Apple Silicon Macs. Add a compatible for it.
 
-Let the 'fixup_controls' card method return error values which will roll
-back the half-done binding of the card.
-
-Signed-off-by: Martin Povišer <povik+lin@cutebit.org>
 Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
 ---
- include/sound/soc-card.h                 |  2 +-
- include/sound/soc.h                      |  2 +-
- .../soc/mediatek/mt8188/mt8188-mt6359.c  |  4 +++-
- sound/soc/soc-card.c                     | 12 +++++++++---
- sound/soc/soc-core.c                     |  5 ++++-
- 5 files changed, 18 insertions(+), 7 deletions(-)
+ sound/soc/codecs/tas2770.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/include/sound/soc-card.h b/include/sound/soc-card.h
-index 1f1e7d45f553..c392e6c4844b 100644
---- a/include/sound/soc-card.h
-+++ b/include/sound/soc-card.h
-@@ -44,7 +44,7 @@ int snd_soc_card_resume_post(struct snd_soc_card *card);
- 
- int snd_soc_card_probe(struct snd_soc_card *card);
- int snd_soc_card_late_probe(struct snd_soc_card *card);
--void snd_soc_card_fixup_controls(struct snd_soc_card *card);
-+int snd_soc_card_fixup_controls(struct snd_soc_card *card);
- int snd_soc_card_remove(struct snd_soc_card *card);
- 
- void snd_soc_card_set_topology_name(struct snd_soc_card *card, const char *preifx);
-diff --git a/include/sound/soc.h b/include/sound/soc.h
-index dcfd706a73ad..a3b9d2610514 100644
---- a/include/sound/soc.h
-+++ b/include/sound/soc.h
-@@ -1005,7 +1005,7 @@ struct snd_soc_card {
- 
- 	int (*probe)(struct snd_soc_card *card);
- 	int (*late_probe)(struct snd_soc_card *card);
--	void (*fixup_controls)(struct snd_soc_card *card);
-+	int (*fixup_controls)(struct snd_soc_card *card);
- 	int (*remove)(struct snd_soc_card *card);
- 
- 	/* the pre and post PM functions are used to do any PM work before and
-diff --git a/sound/soc/mediatek/mt8188/mt8188-mt6359.c b/sound/soc/mediatek/mt8188/mt8188-mt6359.c
-index 75c90d1d165f..14890af97706 100644
---- a/sound/soc/mediatek/mt8188/mt8188-mt6359.c
-+++ b/sound/soc/mediatek/mt8188/mt8188-mt6359.c
-@@ -1280,7 +1280,7 @@ static struct snd_soc_dai_link mt8188_mt6359_dai_links[] = {
- 	},
+diff --git a/sound/soc/codecs/tas2770.c b/sound/soc/codecs/tas2770.c
+index 882e19857697..5dfddd3bd049 100644
+--- a/sound/soc/codecs/tas2770.c
++++ b/sound/soc/codecs/tas2770.c
+@@ -978,6 +978,7 @@ MODULE_DEVICE_TABLE(i2c, tas2770_i2c_id);
+ #if defined(CONFIG_OF)
+ static const struct of_device_id tas2770_of_match[] = {
+ 	{ .compatible = "ti,tas2770" },
++	{ .compatible = "ti,tas5770l" }, /* Apple variant */
+ 	{},
  };
- 
--static void mt8188_fixup_controls(struct snd_soc_card *card)
-+static int mt8188_fixup_controls(struct snd_soc_card *card)
- {
- 	struct mtk_soc_card_data *soc_card_data = snd_soc_card_get_drvdata(card);
- 	struct mtk_platform_card_data *card_data = soc_card_data->card_data;
-@@ -1302,6 +1302,8 @@ static void mt8188_fixup_controls(struct snd_soc_card *card)
- 		else
- 			dev_warn(card->dev, "Cannot find ctl : Headphone Switch\n");
- 	}
-+
-+	return 0;
- }
- 
- static struct snd_soc_card mt8188_mt6359_soc_card = {
-diff --git a/sound/soc/soc-card.c b/sound/soc/soc-card.c
-index 282d666dae9e..e4d81329cde3 100644
---- a/sound/soc/soc-card.c
-+++ b/sound/soc/soc-card.c
-@@ -184,10 +184,16 @@ int snd_soc_card_late_probe(struct snd_soc_card *card)
- 	return 0;
- }
- 
--void snd_soc_card_fixup_controls(struct snd_soc_card *card)
-+int snd_soc_card_fixup_controls(struct snd_soc_card *card)
- {
--	if (card->fixup_controls)
--		card->fixup_controls(card);
-+	if (card->fixup_controls) {
-+		int ret = card->fixup_controls(card);
-+
-+		if (ret < 0)
-+			return soc_card_ret(card, ret);
-+	}
-+
-+	return 0;
- }
- 
- int snd_soc_card_remove(struct snd_soc_card *card)
-diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
-index 06167a198591..2092373698db 100644
---- a/sound/soc/soc-core.c
-+++ b/sound/soc/soc-core.c
-@@ -2109,7 +2109,10 @@ static int snd_soc_bind_card(struct snd_soc_card *card)
- 		if (ret < 0)
- 			goto probe_end;
- 	}
--	snd_soc_card_fixup_controls(card);
-+
-+	ret = snd_soc_card_fixup_controls(card);
-+	if (ret < 0)
-+		goto probe_end;
- 
- 	ret = snd_card_register(card->snd_card);
- 	if (ret < 0) {
+ MODULE_DEVICE_TABLE(of, tas2770_of_match);
 
 -- 
 2.56.0
