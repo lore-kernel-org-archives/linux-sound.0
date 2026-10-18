@@ -1,155 +1,229 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1065644725C;
-	Sun, 18 Oct 2026 09:34:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B1E732FA18
+	for <linux-sound@vger.kernel.org>; Sun, 18 Oct 2026 10:18:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792316060; cv=none; b=LBTXrcGBJODE0WkV67Ydg55jMQoztlvrvXdArzPvN1NKYv8HR5ZXtHNk80n9o3Ak3INOzXNljU7ZZagDTonV4AhHRXXivXIuoV1LvOrzHeMMrlWInTx7n8tVk9wRWkWPRivaNcUuwEEgxoRghbXIgPMjPqIOPZGeyKVYDIgiG4A=
+	t=1792318722; cv=none; b=fBFWDU0/l9KnN5kj7i19DYQKVBzgnjoMo/WQJgjoc+eYn/mqwn3HbqtmvOWso/MM/eIUkpmU7kUtEvffF7fZEFQJwExdyfgNo/2vWFqEMkDUpwWrcHGdPuCbO+ov5MwFlR9x6KCQ8jaf1EtQtZDwklbfbfHR9iNmMu9kER4w5dg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792316060; c=relaxed/simple;
-	bh=K7URSFqeOOhxmGzr8p1MgGgLM6weHBvz8IRI8NwAg2k=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oYPb4uehBZAJjmXd5q9lWHEOozLj/cjDfLPyDArkSh7m+8wG9QyZT0/uqDeZzwDj+zNg9s3+jWFEoT6Dgc6X/dktwTN4wIZEOpVMzV6xfWmOJ7CnFsGkOdPaQGuw52ZQq4cyrKSSP35eqIwbKzRJUXJDneyp9Ci9BwR2Imd4aMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=EPaEtH/d; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ivqci73t; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=iwj41htA; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=jCGkltGP; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1792318722; c=relaxed/simple;
+	bh=b2LrlLkZJEXop3ZA4rJS2x0ZvQcjdTqgRnxGJins/e0=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=mfN+CIeD29717ArpwdENoUpRNGQ/4yV5JH/gqk2pgArGw0dfJJHAyxDLEjd8/vOIfGTHvf/t3lmzhiDEZOCwng8VjaMWzFjE5UVuC8ep0lNqEqaVLp643Rc2WBck+IDhSmgCbbiOmvQzhQ4Jo4clM2CPhxaiQZh+iwlL2wMbLVQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=SS3HdWo9; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EPaEtH/d";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ivqci73t";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="iwj41htA";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="jCGkltGP"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A5E5521CB3;
-	Sun, 18 Oct 2026 09:34:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792316055; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bqOkGU0BbBD1hERTPjMJq73uQ6ZdLU+dztkLydr2U3E=;
-	b=EPaEtH/dlubTVowIAEnCLErmqIQAEEkK0NSIAhN/mQ4IQB7PCoP7S8ZcKZtvoIL87tU+NH
-	A/6SWG0cbuKllWBUfv2RnfMuA+7u7DtX4tK2xnA3yHu9M988H1IBDTra/gdJz3XaTD30CH
-	jut3r+VhwARARff2/VmcwXWpPtV2tUo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792316055;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bqOkGU0BbBD1hERTPjMJq73uQ6ZdLU+dztkLydr2U3E=;
-	b=ivqci73tEHitro9g6dmrVob4axFV+yp8hwaiyU70cosebvPP/WZQeNNoX4RaPCUB5lTJRC
-	LofK6e4J6j4+QZCA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792316054; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bqOkGU0BbBD1hERTPjMJq73uQ6ZdLU+dztkLydr2U3E=;
-	b=iwj41htAOlKmRh4mil0cx2XQ5CM/Hc5JlZ0wqkABmblELP/O6D1FHXtiDSy4QL4/YA7T7v
-	jqVtt4V0/LBbIGzyeL5y62R4TkCgEavoPczl2SyxnsmpyTakRwtJdOnbyWWiDLPS6yiZJ/
-	LAv32aTKlTNknEZA4rCmJnxm2Xx0c6U=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792316054;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bqOkGU0BbBD1hERTPjMJq73uQ6ZdLU+dztkLydr2U3E=;
-	b=jCGkltGPlwNW+Zwf1DoPITPnHCqVGulkLe5oe6U/9HZ7cfpUZjzranITUAbm+8HMwkEq0Z
-	hctfG7iCpj+dJ2Cg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3359C134B3;
-	Sun, 18 Oct 2026 09:34:14 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id vec7ApaS1GrpAgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sun, 18 Oct 2026 09:34:14 +0000
-Date: Sun, 18 Oct 2026 11:34:13 +0200
-Message-ID: <87wlrfz71m.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Vasiliy Kovalev <kovalev@altlinux.org>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Nikita Maksimov <nickstogramm@yandex.ru>
-Subject: Re: [PATCH] ALSA: hda/via: Apply runtime PM workaround for ASUS X55A
-In-Reply-To: <ffd3e030-c056-da1e-0549-c41d7681abc2@basealt.ru>
-References: <20261017101257.215166-1-kovalev@altlinux.org>
-	<874iej1k7q.wl-tiwai@suse.de>
-	<ffd3e030-c056-da1e-0549-c41d7681abc2@basealt.ru>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="SS3HdWo9"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-48df0fa43c5so829994f8f.0
+        for <linux-sound@vger.kernel.org>; Sun, 18 Oct 2026 03:18:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1792318718; x=1792923518; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=c8IHe+CUIm/KPhpOQ7ziP0T0YfArguySEnc0dVC2++w=;
+        b=SS3HdWo9s/1drXLJ32SHDRnbp+cO39gw/M90ypVVhWGIhlRF9iFvpr0tACoEAKqys/
+         6vibIaAjUtOuvn8KFiyv7QbcSHVOgnAmx+3GbqMAEryhaY5xSGE7pJlLaCaSyTIFvHFb
+         64dQXFB/KlNdLu9liU3hOMthR9WfAbFCOmJ7ETo2aWbBC4sKaB1lhO04zb+VB1fcy/9h
+         OiNqYXkmkET7f9tawVsWbLyzZOsZIc4naiyzbTxO/v2jXLAnGs4Uo1ayPCBh7ZKpBR4N
+         CfNadBci5qUGBXaiL9KMCnV7LOMEz+9Ozz1m7tpZeSPtuyaFtxlERttb+FA9I1jvMuzD
+         Zryw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792318718; x=1792923518;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=c8IHe+CUIm/KPhpOQ7ziP0T0YfArguySEnc0dVC2++w=;
+        b=RrJl19RIy2WmWb6nK93oI9KGeP0oBpnY78sUtfOUSnxH8wWz+MlfOf/bdvdvSK8RRJ
+         4y784yIoUVUrtO2VmNfinQwp0vU7tPrwmFcnMMlE8FrAyVCA+S2+CFm22dXTqAUWoy2I
+         XIGk2c1IP2AuOi5Fuj2WpvTPeJMF6caGLExIEHZoqfpH6Mv92PcdszJuDYG6BiE2gGPl
+         dxcCxEXveKuuGCKun6I3IPVvzpGro21kxLZlpDCKbzxUvmNKCyMji7YEznCYxMv4IWGs
+         oyIr39nuFE5aUojTnGZvBM473BfkhuZ8222QtjN7AC6E0AZjDwTxmyevvSCrLyAADePo
+         p5uA==
+X-Gm-Message-State: AFq9FYJ2hVUtwG4qz4Iweh9OMgtHqNwjYj6EPygUEVedC7xIFqA+CX5X
+	AA5uTagjQE2ngxBoxtBcupkpNwj5V8W825sXT/eCftj7lMqxJjzatyowbVEIZDOZ6lc=
+X-Gm-Gg: AYBFou0kkAqg6j1wa1KHsxo+o2i6yCqMvb4doGyH0VCLhHz3/JxyCBXgEJV05KG72u8
+	Mq92rYo/K2fB70hsi3SJMzB3yWQ9+1zAIrw3fTg313md7YxaDihYveNlLTyyuJupczPXWJtJ4n2
+	Y0wSN8v8gGu5CQNYZtPn4pm4DYVhw586Gg/rs0xI8z6uL5kO7wyCDyWdKmYbSQr4eJfNbrECYez
+	sgq6zE5EF/kqyV0VqgH0r7yPZQQsevO96O1g49YelnQpKT6ez44+aJoEK3E/64Wvq4m5NiCDLaf
+	E4cZkDPDgWFAqnXFc5fqu2jV+W2WL7ebyvBso+HIX/opgegfXB6exura1I4cEC7gMAqEjN7J91n
+	rhzBJCpr0p1eyqXw0gM2s85tf6H5VFkb7+aKbA5mv8QmOkpL9JhjqCKvY/fMBgL4qLCUUEhbupv
+	QBDi9AR6TvjnA9v22b2E1bSIkCj4u4plauZrAVcHH9i37co9df8YW8dHgM6wQU+vJlItJx
+X-Received: by 2002:a05:6000:2c0d:b0:48e:d40:a87c with SMTP id ffacd0b85a97d-48e0d40aa21mr6538051f8f.16.1792318717509;
+        Sun, 18 Oct 2026 03:18:37 -0700 (PDT)
+Received: from [127.0.1.1] ([37.103.126.255])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfd4d4978sm14911507f8f.21.2026.10.18.03.18.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 18 Oct 2026 03:18:37 -0700 (PDT)
+From: Valerio Setti <vsetti@baylibre.com>
+Subject: [PATCH v5 0/7] ASoC: meson: gx: add base support for I2S audio
+ input
+Date: Sun, 18 Oct 2026 12:17:57 +0200
+Message-Id: <20261018-audin-v5-0-4b8cc13a1b22@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[yandex.ru];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_CC(0.00)[suse.de,suse.com,perex.cz,vger.kernel.org,yandex.ru];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIANac1GoC/23PQW7CMBAF0Ksgr+vKM3bshBX3qLqwJ5NiRBNkg
+ 1WEcvc6UBCqWH7pvz+ai8icImexXl1E4hJznMYamreVoK0fv1jGvmaBCq1qNUh/6uMoO/IhmEY
+ RdUbU7iHxEH+uOx+ft5xPYcd0XPDS2MZ8nNL5eqjA0rttdoB/mwWkkm4IPHCHrQPYBH/ex5D4n
+ aZvscwWfIbuDrFC3fZsAkHP2ryA+gni46Ku0DurNCApZ+kFNA8ISt3fL6ZCNM5aYwHa0PyD8zz
+ /AoLBkC1aAQAA
+X-Change-ID: 20260831-audin-9cabb450cc94
+To: Jerome Brunet <jbrunet@baylibre.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Kevin Hilman <khilman@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, Valerio Setti <vsetti@baylibre.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6232; i=vsetti@baylibre.com;
+ h=from:subject:message-id; bh=b2LrlLkZJEXop3ZA4rJS2x0ZvQcjdTqgRnxGJins/e0=;
+ b=owGbwMvMwCV2z3ty7kUrRgbG02pJDFlX5vxSkio3mFTiavE/8c/aMrmL3DMnf3thHGFmHOKk7
+ zDhmLtNRykLgxgXg6yYIgvL9Hu/C0rVHhonnCyAmcPKBDKEgYtTACaS5MTIsO3//9BLYjrWwlNP
+ yKgtOfpCmfPtha9qH7q36HovYnjScZfhf/2WbV8StuizPj9rKqB/4JBL/ZOfbBG5Z2ZIF07v2s+
+ oxwkA
+X-Developer-Key: i=vsetti@baylibre.com; a=openpgp;
+ fpr=0497DEFB707526E13360C970DE4B936DD13A0100
 
-On Sun, 18 Oct 2026 10:50:53 +0200,
-Vasiliy Kovalev wrote:
-> 
-> Hi,
-> 
-> On 10/18/26 11:33, Takashi Iwai wrote:
-> > On Sat, 17 Oct 2026 12:12:57 +0200,
-> > Vasiliy Kovalev wrote:
-> >> 
-> >> ASUS X55A requires the same workaround like other machines with
-> >> VT1802, otherwise it loses the codec power on a few nodes and the
-> >> sound stays silent.
-> >> 
-> >> Fixes: a0645daf1610 ("ALSA: HDA: Early Forbid of runtime PM")
-> >> Link: https://bugzilla.altlinux.org/45606
-> >> Cc: <stable@vger.kernel.org>
-> >> Tested-by: Nikita Maksimov <nickstogramm@yandex.ru>
-> >> Signed-off-by: Vasiliy Kovalev <kovalev@altlinux.org>
-> > 
-> > The addition of a quirk is OK, but is Fixes tag really pointing to the
-> > culprit?  The commit is for forbidding the runtime PM, and I see no
-> > clear reason how this commit breaks.
-> 
-> I followed the precedent of your B23E patch[1], which carried the
-> same Fixes tag. If you don't think it applies here, happy to drop
-> it - let me know if you'd rather remove it yourself or have me
-> send a v2 without it (keeping Cc: stable).
-> 
-> [1] https://lore.kernel.org/all/20210817052432.14751-1-tiwai@suse.de/
+This series is the 2nd part of the initial RFC [1] proposed to add audio
+input support to the Meson GX SoCs. After the AIU reshaping series [2] that
+has recently been merged, this one adds the audio input path itself.
 
-OK, that looks like a failure in the previous commit, then.
-I applied to for-next branch now without Fixes tag.
+Apart from some glue commits for gx-formatter Kconfig split, a fix for i2s
+clock divider disabling in aiu-encoder-i2s, DT, bindings and integration
+with gx-card, the core commit is the 4th one, which adds the AUDIN driver.
+This is the counterpart of AIU for capture: it gets the entire register
+range, it handles peripheral clock and reset, it instantiates the I2S data
+formatter as widget and FIFOs as DAIs.
 
+Resulting capture topology is:
+  pads --> AIU I2S Encoder -> AUDIN I2S Formatter -> AUDIN FIFO -> RAM
 
-thanks,
+This series includes all the changes related to this work (dt-bindings,
+drivers and device-tree) in order to give the full picture in one single
+place.
 
-Takashi
+Unfortunately, since no Meson GXBB/GXL board available in the tree features
+an I2S capture capable codec, this work cannot be directly tested out of
+the box. To test it an external codec must be connected to the SoC.
+When working on this series, a custom hat board with an NXP SGTL5000 codec
+has been plugged on top of an Odroid-C2 (GXBB). The last commit of this
+series fully details all the device-tree changes which are required to
+finalize the support for this scenario.
+With this hardware configuration it has been possible to successfully
+validate the implementation with:
+- alsa tools (arecord)
+- pcm-tests
+
+[1]: https://lore.kernel.org/linux-sound/20260411-audin-rfc-v2-0-4c8a6ec5fcab@baylibre.com/
+[2]: https://lore.kernel.org/linux-sound/20260610-reshape-aiu-as-axg-v2-0-cac3663a8b51@baylibre.com/
+
+Signed-off-by: Valerio Setti <vsetti@baylibre.com>
+---
+Changes in v5:
+- Take the PCM stream lock in the FIFO polling timer callback and skip
+  re-arming it if a trigger already did so, fixing a race on quick
+  PAUSE_PUSH -> PAUSE_RELEASE transitions. [Sashiko]
+- Cancel the FIFO polling timer in the DAI 'shutdown' callback, so the
+  timer is guaranteed to be stopped before the DAI data is freed on
+  driver unbind. [Sashiko]
+- Fixed commit message for commit 'ASoC: meson: aiu: add I2S Capture DAI'
+  as requested by Jerome. Since the code is unchanged I kept the
+  'Reviewed-by' tag.
+- Link to v4: https://patch.msgid.link/20261001-audin-v4-0-2476646118b5@baylibre.com
+
+Changes in v4:
+- Dropped the family compatible 'amlogic,gx-audin'. 'amlogic,gxbb-audin'
+  and 'amlogic,gxl-audin' are now the compatibles for GXBB and GXL SoCs,
+  respectively, with the former also used as fallback for the latter.
+  [Krzysztof]
+- Link to v3: https://patch.msgid.link/20260922-audin-v3-0-a760312c076c@baylibre.com
+
+Changes in v3:
+- Fixed i2s clock divider disabling in 'aiu-encoder-i2s' 'hw_free'.
+  [Sashiko]
+- Specified const value of "#sound-dai-cells" property in dt-binding.
+  [Sashiko]
+- Advance 'last_pos' by whole periods in the FIFO polling timer to avoid
+  drifting period notifications. [Sashiko]
+- Link to v2: https://patch.msgid.link/20260917-audin-v2-0-38de4bc1de34@baylibre.com
+
+Changes in v2:
+- Dropped FIFO child nodes from AUDIN in device-tree. Now AUDIN is the
+  only sound component and FIFOs are its DAIs. This is the same design
+  used in AIU. [Krzysztof]
+- Renamed driver compatible, using 'amlogic,gx-audin' as fallback and
+  'amlogic,gx[bb|l]-audin' as SoC specific. Fixed also other reported
+  comments on the binding. [Krzysztof]
+- Adjusted headers inclusion in 'audin.c' and spacing in the empty entry
+  of 'meson_gx_audin_of_match'. [Uwe]
+- Replaced 'snd_soc_component_read' with 'regmap_read' in 'audin_fifo_pos'
+  in order to prevent sleeping in atomic context. Also changed the hrtimer
+  from hard-irq to a soft-irq one. [Sashiko]
+- Added 'sync_stop' callback in 'audin_component' to ensure the hrtimer is
+  fully stopped before attempting to restart the stream in a
+  "start->stop->prepare->start" scenario.
+- Link to v1: https://patch.msgid.link/20260912-audin-v1-0-7fbefe928711@baylibre.com
+
+To: Jerome Brunet <jbrunet@baylibre.com>
+To: Liam Girdwood <lgirdwood@gmail.com>
+To: Mark Brown <broonie@kernel.org>
+To: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzk+dt@kernel.org>
+To: Conor Dooley <conor+dt@kernel.org>
+To: Valerio Setti <vsetti@baylibre.com>
+To: Jaroslav Kysela <perex@perex.cz>
+To: Takashi Iwai <tiwai@suse.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>
+To: Kevin Hilman <khilman@baylibre.com>
+To: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Cc: linux-sound@vger.kernel.org
+Cc: devicetree@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-amlogic@lists.infradead.org
+
+---
+Valerio Setti (7):
+      ASoC: dt-bindings: add amlogic,gxbb-audin
+      ASoC: meson: build gx-formatter as a separate module
+      ASoC: meson: aiu-encoder-i2s: ensure clk divider gets disabled in hw_free
+      ASoC: meson: add AUDIN driver
+      ASoC: meson: aiu: add I2S Capture DAI
+      ASoC: meson: gx-card: add support for audin FIFO
+      arm64: dts: amlogic: gx: add AUDIN node
+
+ .../bindings/sound/amlogic,gxbb-audin.yaml         |  69 ++++
+ arch/arm64/boot/dts/amlogic/meson-gx.dtsi          |   9 +
+ arch/arm64/boot/dts/amlogic/meson-gxbb.dtsi        |   5 +
+ arch/arm64/boot/dts/amlogic/meson-gxl.dtsi         |   6 +
+ sound/soc/meson/Kconfig                            |  14 +
+ sound/soc/meson/Makefile                           |   7 +-
+ sound/soc/meson/aiu-encoder-i2s.c                  |  12 +-
+ sound/soc/meson/aiu.c                              |   7 +
+ sound/soc/meson/audin-fifo.c                       | 392 +++++++++++++++++++++
+ sound/soc/meson/audin-formatter-i2s.c              | 174 +++++++++
+ sound/soc/meson/audin.c                            | 188 ++++++++++
+ sound/soc/meson/audin.h                            |  30 ++
+ sound/soc/meson/gx-card.c                          |  16 +-
+ 13 files changed, 914 insertions(+), 15 deletions(-)
+---
+base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
+change-id: 20260831-audin-9cabb450cc94
+
+Best regards,
+--  
+Valerio Setti <vsetti@baylibre.com>
+
