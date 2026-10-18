@@ -1,125 +1,125 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+Received: from mta0.migadu.com (out-57.mta0.migadu.com [91.218.175.57])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 257CA418361
-	for <linux-sound@vger.kernel.org>; Sun, 18 Oct 2026 06:48:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8E3E3914E8
+	for <linux-sound@vger.kernel.org>; Sun, 18 Oct 2026 08:26:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.57
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792306084; cv=none; b=fQuB9A72nkn65Z+3G3I/bYNfjrpKL3Sd2ktqRaLGn5WJn6BvbG/jTJerjNcHV7LKb4Aqaam+9MFJ4/1/uWxGeR/+8vnaxVXASLvgYFRMD0j6o6Ny/gUlrUip/CD580jIk9oECs1TYa4o4gxmhW8zNuOGdh/8ZfVs7APL60oiLfo=
+	t=1792311967; cv=none; b=kFibYTY37i+UzYu1gCE1bm0bGUjGHq/AA2sTau5/Iwu3Dgg78MezBCShhPg2/1dD8q6Dp+5tMmvoFjFs1dVDJmFL/Z5Eu5StEajjxOFksrQVmSevlrNLRzvreg4Hk+keRJejjzYGEBlP0Stc1Hs8v8NCUsiBjn3sGVHDFKftAFw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792306084; c=relaxed/simple;
-	bh=iAQVZOMW0+bhS/cf91WaZ04ecjIibbvlCOaHvWxii6I=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sxeLDwracJZqlmeHEAohqv8nTsr9oTpvJH9fBIrvXKeGOr+hqB+TtO8YbwbZL7fr6hQJ1mf76a190Gof6GpCRc78ZXT+uOi6Qh8c2rINTc8lfm+T4Ekk3hcqmLh/MVQlESs9aLaJ3yUx6ShzkDg8pkOaIfbVG0m/p6Uz+ViIoXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O1C4OxIn; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1792311967; c=relaxed/simple;
+	bh=J5PC8gST+ZMQ+PlrJ0ItD5SSPSAhiAZWA1TUm9ZN3l8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DC1IZl+uH8gl3c4BiZGLdzA6UvxHZQWPXkOIjq4YDRd4hBJur5xrb8BDppStfUuLI49hfBeQDJj07bJ7Jc1GlA8b1k64BfVx0cDtQXK72fw7zfHt7BabQdRBHI02UT7ByLugfAGL1iWMeKSJ7bItzbn54cr+ahjYUnROiFjjbEM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Zf14Chhv; arc=none smtp.client-ip=91.218.175.57
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O1C4OxIn"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2e8b20a899fso4836325ad.1
-        for <linux-sound@vger.kernel.org>; Sat, 17 Oct 2026 23:48:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792306082; x=1792910882; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=7Q1hldRStoWiBDf2EXexTgdIyIEGJ6QyfYQsG5TRVsk=;
-        b=O1C4OxIntsBRRma1DspwdgZsTGU7k4GWX/jNt7eOFUUG8gyv0iQm0RughEyXb3aPJ2
-         GeOOWo+QiXDmh5bVU0IkwEWSMW6N5wC4a32ZpVgdNgU7OZX77SK3X3VZU5RKA0vFg3Rs
-         qtbMLH2cZYjqiBprrm+AuIOjEXlwotGupxLMr3+ctPEyW/WCp+ddpRECHIRjIjGvQY89
-         KYbg65W6xnDca+uuo7YTMSzYbNvnezzAWXL+B5j6FWdDVqBTqSZlUptITYjElGkcSTj2
-         JIP6u+GbyO+iVeZrzVLGBrAgNFslPlPdPCkorVlXWw/FaWB5qjxJTvgxJGf3iqtu5auW
-         GvVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792306082; x=1792910882;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=7Q1hldRStoWiBDf2EXexTgdIyIEGJ6QyfYQsG5TRVsk=;
-        b=p54u+lOAiE2YIIQslk4XOO6lp6oE9ViUIvR0x7gEgVzWXDYX7XOCYxXAKW4VEEfH20
-         ES+TLhGy2PqbYq4kc5VG3TjEztUXVGwHrjeOxPcfpIIBX5Jnr/orrQJwd9E/PbxeMnmy
-         OHetJlgGlr1M67WLXZtaLq37lxw/IiueL5H6JkVuObxbQtvDGb3aRrUHqxbzdpY3h0sU
-         GrSv9+w0kpEikiUfcq88qPxfXi2S++5ww/XWoH79CV0mkOZjQ9Nrqj1WWkZHF3SqArNE
-         1dlMZbSTzpDvwSDHTQSboKV36P73FnJShw7pKQ0GDRHjSenEzsqE0ZYM5nQEOJVQiWY+
-         4oOQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwG6NfDK7LyjiDywz3/SMduDgKf7FN31YBw/wx6/VD43X67fj7AkGDASbNN+d2Gb54IUnVwmWrX9nwe3g==@vger.kernel.org
-X-Gm-Message-State: AFq9FYI2hTN2PeaWl6ba3CwvFS23OTHV3wzzL7/j0PbrWh4UQHlcxbFG
-	E1iKuGFcMe06gbUVtyMooYtM3/cg+CwwByjat+8AJol+4AW2HqZ6RnAE
-X-Gm-Gg: AYBFou0NhhMjBJCKW/jjoO70Qa1Bh+DQ/lqJlkorOkIkndQSAThDMAY1WkgF9QnIhk7
-	w/RqqY30S4VcXam+Te/42yQnWr7miuFfgIVSKuxuIQ7noQpW8FhVnAkpPwLtpLsimbzmT8GyN8T
-	jXuMt5rPDNUHp1O/k78NPgWE9wPDK3JJq4yUx5CPNZluUi6lxUWy9t9VSKKtTu4WIUawuxf1pYQ
-	UuuLf1xTECXxgMmgAcqvVqjCqblLorGaAJq+jD8/Z+c6BMtaPSUb9AkE1oTl6KMQUglffDINyw9
-	mX3h2wiaoSS53clI0D1A3/BI/wereJSY8YIggbWGVDWrVs8sYmNVcRTRnZ4qc44p9beUAPkLec9
-	v/29njk5ZWXKEMrgPwz5sW5e0eE7Am6QxDVlzNWSGTz0K3hJyrVzHXtY/Gg7fqTdBi1Kdq4oGD0
-	zkoZwiaG8pI3v6L11Azd8nPStAfXMUdxjllMjx555hqlBCC6IpF1frd9RlDdyHjGFDYVMPX4CRV
-	WnuYNLTaCsXLnO4lWOjuXr+MtFXMzZ/gWBbK4u1tHsPSfXQXY5oyeWwg8mCCk4v2o/UOj0r6Lk=
-X-Received: by 2002:a17:903:1251:b0:2e9:66c4:1711 with SMTP id d9443c01a7336-2e9a6d40eecmr36944135ad.52.1792306082373;
-        Sat, 17 Oct 2026 23:48:02 -0700 (PDT)
-Received: from nugod-NUC15CRHU5.tail9f095a.ts.net ([218.237.104.87])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e97e8b98a9sm27280335ad.74.2026.10.17.23.47.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 Oct 2026 23:48:01 -0700 (PDT)
-From: HyeongJun An <sammiee5311@gmail.com>
-To: broonie@kernel.org
-Cc: lgirdwood@gmail.com,
-	shenghao-ding@ti.com,
-	kevin-lu@ti.com,
-	baojun.xu@ti.com,
-	sen@ti.com,
-	marex@denx.de,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] ASoC: tlv320aic32x4: Fix definition of TAS2505 HP Driver Gain Volume control
-Date: Sun, 18 Oct 2026 15:47:46 +0900
-Message-ID: <e50b88689e8efd353ee597a6692ab4db30aa63e7.1792135145.git.sammiee5311@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1792135145.git.sammiee5311@gmail.com>
-References: <cover.1792135145.git.sammiee5311@gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Zf14Chhv"
+X-Envelope-To: linux-sound@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=J5PC8gST+ZMQ+PlrJ0ItD5SSPSAhiAZWA1TUm9ZN3l8=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1792311964; v=1; x=1792916764;
+ b=Zf14ChhvB9YE2ZvT/kedHWyOZNKHJjcKsmDD66tuzAs55O+6tgR3gXth1Tnp1kRWXYDl9r9y
+ tNVz/KkU5kgsqndckJYa8a2kzpX2SxL7qcsv8QQkKnn0mZe+ciobwDU3jg0LSHyJmjRkQcYY2KF
+ Io7O3+u891NnyLP5VvkpBN/0=
+X-Envelope-To: linux-sound@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 1d910006412fb8d7;
+	Sun, 18 Oct 2026 08:26:03 +0000
+X-Mizu-Trace-ID: 1d910006412fb8d7
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <795ed7a1-0610-4215-a0f5-398dbf558704@linux.dev>
+Date: Sun, 18 Oct 2026 10:25:32 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/3] ASoC/soundwire: remove ghost peripherals from the
+ mach table
+To: "Liao, Bard" <bard.liao@intel.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+ "vkoul@kernel.org" <vkoul@kernel.org>,
+ "broonie@kernel.org" <broonie@kernel.org>, "tiwai@suse.de" <tiwai@suse.de>
+Cc: "vinod.koul@linaro.org" <vinod.koul@linaro.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "peter.ujfalusi@linux.intel.com" <peter.ujfalusi@linux.intel.com>
+References: <20260915131327.1783551-1-yung-chuan.liao@linux.intel.com>
+ <528a9777-1587-4dfc-a366-000fc0867d4b@linux.dev>
+ <SJ2PR11MB8424E1911A4CA6F9414A07DAFFB92@SJ2PR11MB8424.namprd11.prod.outlook.com>
+ <SJ2PR11MB8424E1FAF2D8D1EAD84C3B92FF942@SJ2PR11MB8424.namprd11.prod.outlook.com>
+ <3b718d6e-462e-4d22-b42b-915cd88bd60f@linux.dev>
+ <SJ2PR11MB8424C255FBA45B9F4CA02113FF932@SJ2PR11MB8424.namprd11.prod.outlook.com>
+ <175ea8c2-2375-4b1c-a2d0-dcc7998c9e76@linux.dev>
+ <SJ2PR11MB8424CCF92DD83A5E890E9C39FF9F2@SJ2PR11MB8424.namprd11.prod.outlook.com>
+Content-Language: en-US
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+In-Reply-To: <SJ2PR11MB8424CCF92DD83A5E890E9C39FF9F2@SJ2PR11MB8424.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The TAS2505 HP volume is bits 6:0 of page 1 register 22, not of
-register 16, which holds the HP driver mute (bit 6) and gain
-(bits 5:0).
 
-Fixes: 2169d6a0f072 ("ASoC: tlv320aic32x4: Fix TAS2505 volume controls")
-Assisted-by: Claude:claude-opus-5-5
-Signed-off-by: HyeongJun An <sammiee5311@gmail.com>
----
- sound/soc/codecs/tlv320aic32x4.c | 2 +-
- sound/soc/codecs/tlv320aic32x4.h | 1 +
- 2 files changed, 2 insertions(+), 1 deletion(-)
+>> Well, you've got two problems here.
+>>
+>> a) there's a difference between generations. Starting with ACE2.0, the
+>> SoundWire bus is started much earlier than in previous generations,
+>> where the SoundWire bus was started after firmware download.
+>>
+>> In other words, the timing to sync and report as attached differs by
+>> orders of magnitude. I am worried that this code might break stuff on
+>> older platforms.
+> 
+> The commits will not check the existence of the peripherals for the
+> ACE2.0- platforms. So it should be fine.
 
-diff --git a/sound/soc/codecs/tlv320aic32x4.c b/sound/soc/codecs/tlv320aic32x4.c
-index 7fec94768afb..2ee4a9d2abf2 100644
---- a/sound/soc/codecs/tlv320aic32x4.c
-+++ b/sound/soc/codecs/tlv320aic32x4.c
-@@ -1057,7 +1057,7 @@ static const struct snd_kcontrol_new aic32x4_tas2505_snd_controls[] = {
- 	SOC_ENUM("DAC Playback PowerTune Switch", l_ptm_enum),
- 
- 	SOC_SINGLE_TLV("HP Driver Gain Volume",
--		       AIC32X4_HPLGAIN, 0, 0x74, 1, tlv_tas_driver_gain),
-+		       TAS2505_HPVOL, 0, 0x74, 1, tlv_tas_driver_gain),
- 	SOC_SINGLE("HP DAC Playback Switch", AIC32X4_HPLGAIN, 6, 1, 1),
- 
- 	SOC_SINGLE_TLV("Speaker Driver Playback Volume",
-diff --git a/sound/soc/codecs/tlv320aic32x4.h b/sound/soc/codecs/tlv320aic32x4.h
-index cfab6f8ce5ac..d0c2e1002e99 100644
---- a/sound/soc/codecs/tlv320aic32x4.h
-+++ b/sound/soc/codecs/tlv320aic32x4.h
-@@ -94,6 +94,7 @@ int aic32x4_register_clocks(struct device *dev, const char *mclk_name);
- #define	AIC32X4_LOLGAIN		AIC32X4_REG(1, 18)
- #define	AIC32X4_LORGAIN		AIC32X4_REG(1, 19)
- #define AIC32X4_HEADSTART	AIC32X4_REG(1, 20)
-+#define TAS2505_HPVOL		AIC32X4_REG(1, 22)
- #define TAS2505_SPK		AIC32X4_REG(1, 45)
- #define TAS2505_SPKVOL1		AIC32X4_REG(1, 46)
- #define TAS2505_SPKVOL2		AIC32X4_REG(1, 48)
--- 
-2.43.0
+ok
+
+>> b) there's nothing in the MIPI spec that says how much time a device
+>> should take to report as ATTACHED. A well-intended implementation
+>> following Recommendation {2121} would e.g. try to find the sync word
+>> with a default frame shape of 48x2, which isn't used at all by Intel.
+> 
+> Can't we rely on reading device 0 to know whether all peripherals are
+> enumerated? Is it possible that a peripheral can be attached after some
+> time when all other peripherals on the same bus are attached?
+
+yes that's entirely possible. A peripheral may be extra cautious to
+avoid synchronizing on a wrong pattern, and take extra time to report as
+Device 0.
+
+> Will it trigger another interrupt in that case? My assumption is that
+> a bus will only get one attached interrupt when it starts. And we will
+> keep reading the device 0 and programing the device number nutil there
+> is no device 0.
+
+yes that's the problem. Worst case you would get N interrupts for each
+of the N peripherals.
+
+>> If you want to keep the code above, you absolutely need to record the
+>> time at which the bus started and wait TBD ms before signaling
+>> enumeration_complete(). You would also need to deal with a case where
+>> another device shows up with a delay, would you throw another
+>> complete_all() then?
+>>
+> 
+> Can we add a peripheral property to indicate a waiting time and wait the
+> largest waiting time of the peripherals?
+
+that would be ideal, but it's not easy to get this sort of information.
+This could depend on the clock base and frame shape as well which is
+system dependent.
+
+It's probably easier to introduce a default at the bus level and a
+kernel parameter to bump that value up in case of problems.
+
+You should also flag the case with a dev_err in case of a second
+interrupt, that'd be a clear evidence of the delay not being large enough.
+
+Keeping track of the time since the bus reset completed would help as well.
+
+It's all small potatoes but it'd help harden your solution.
 
