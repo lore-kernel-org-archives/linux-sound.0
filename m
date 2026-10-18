@@ -1,109 +1,91 @@
-Received: from mta1.migadu.com (out-184.mta1.migadu.com [95.215.58.184])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 401B543B4BC
-	for <linux-sound@vger.kernel.org>; Sun, 18 Oct 2026 20:00:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 939362ECD3A;
+	Sun, 18 Oct 2026 20:43:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792353659; cv=none; b=MxtweyfwyDTJMqlkV4NFdaWhh0OruPHECSiWshGywWb92qR6xxlrYzIfYUGPPko+ePbW04mbznjcYfcB9OmjvIeJk44edoMNTM+NoE3jQzV4AmZOZUmqkbhhdCXEu9/jiYqwTgUFF+ZE3eiVleSKJEQK2gT7TiyYvka29vIRuLE=
+	t=1792356181; cv=none; b=kbCeFTyUK+lDbNjCLqFqsdb04wQse3+xesg53NZVic3lU0z/5eD5e1d4Uqld8sdqZ2skclMPL+BA/2uryHq9KMr+QCFBZkcQzrhO3qOBVFBwO+HQUsR5NahMBnkDVn9X315Mby+BXkYLD8VinEVfyDSU3UZeFsoUDyCNrE9qMIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792353659; c=relaxed/simple;
-	bh=7DXDKizFUs2Cy9tSHE4KHil2ccfrx9+eco7MbQktoVY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Se56y9LE1I4mBin21I9FujnCqy/gCJsj7wI4EvPYDaRFqhdXJYBf+2Y5KNVeF1EBWk+kuMGPKSJyHegojXvf38uhAuXT7y8XXD/YmffdGz5RIPAQmC8vfeR3OgNWMfZVRgU74MSEhmMgkFEHUdwnyZ/3g6WRyzktVfK9/KBsgoc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=L3CmQSxM; arc=none smtp.client-ip=95.215.58.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1792356181; c=relaxed/simple;
+	bh=B9OeQ8S/rwH39Ce2nzAaPu1FyCJAkeWHkfiPnBfuavA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=uaIOSHzLjN343FLfwhm9n4pbE9fK/rcb/oTE2pockaKhabAe0WhVS//4/8dK+kba1hzmYltvLI2WyyZHyvNohhC6KQHHw4dSZr/yLqVY5j7TjfGfqjheAWHh6vRUaVByN3B5xGknbgHNzElZJvyZbEulG6etx8jkRx3zBYOBNEY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ww73r2d9; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="L3CmQSxM"
-X-Envelope-To: linux-sound@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=7DXDKizFUs2Cy9tSHE4KHil2ccfrx9+eco7MbQktoVY=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1792353656; v=1; x=1792958456;
- b=L3CmQSxM7/2PwxUvfX+LmziGw8HANDt6C4hVdh9UuVHTATcgf5sSL9k5NMuJJ2SgOgH+3eZp
- +eDsu0M0MAW6d7F91gZIWuwn1R4H7s53YUR3I4QvuHwVyzGlvuzMaCnUCOQbvwdD/5G0BirtK0A
- n+mP87183NCs+1njGZGmaJ5E=
-X-Envelope-To: linux-sound@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id b37a12a848d1d196;
-	Sun, 18 Oct 2026 20:00:55 +0000
-X-Mizu-Trace-ID: b37a12a848d1d196
-X-Migadu-Flow: FLOW_OUT
-From: Matthew Schwartz <matthew.schwartz@linux.dev>
-To: broonie@kernel.org
-Cc: Matthew Schwartz <matthew.schwartz@linux.dev>,
-	Shenghao Ding <shenghao-ding@ti.com>,
-	Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>,
-	Sen Wang <sen@ti.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Niranjan H Y <niranjan.hy@ti.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] ASoC: tas2783-sdw: refuse playback when the init writes failed
-Date: Sun, 18 Oct 2026 13:00:08 -0700
-Message-ID: <20261018200009.1493438-4-matthew.schwartz@linux.dev>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261018200009.1493438-1-matthew.schwartz@linux.dev>
-References: <20261018200009.1493438-1-matthew.schwartz@linux.dev>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ww73r2d9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7919C1F000C4;
+	Sun, 18 Oct 2026 20:42:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792356180;
+	bh=TmhQnTrv6ywRMNtTfAMi3vCSYV96W28WmyeQgUgJt6c=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=Ww73r2d9+rkxrtTKd63zBItGhHtahud5XwnemhipjSjQosg/Q1YK5AaOiqOWmGLny
+	 DkgPP4vvjDsUdREL4FQtTWULTQOaMsmaUrgerGGO+9ge3LuyXtJprayE2B/4rGWBjl
+	 18Zvss0Z0a0BNFxu+SnyPdcFsYK7T/viCXn4VQ6tRS9mQs4Ba+WXSIp4VxAD3AIaWx
+	 K/8hOpJdpVqGeUDOTtoC1CHPq0myTEgroic0UOI7oaLk5pOUWJd3NCDCH3U+n25bXo
+	 3Y2QwvLkUbQVEvB4RdnzBPSb557474iGhIUsp1kQ1EXQG9SkXk+puh74rd3zUMacug
+	 tl6d5IFTD0RPw==
+From: Mark Brown <broonie@kernel.org>
+To: HyeongJun An <sammiee5311@gmail.com>
+Cc: lgirdwood@gmail.com, shenghao-ding@ti.com, kevin-lu@ti.com, 
+ baojun.xu@ti.com, sen@ti.com, marex@denx.de, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <cover.1792135145.git.sammiee5311@gmail.com>
+References: <cover.1792135145.git.sammiee5311@gmail.com>
+Subject: Re: [PATCH 0/3] ASoC: codecs: Fix more control definitions that
+ write another control's bits
+Message-Id: <179232618522.3162228.13619131350262429905.b4-ty@b4>
+Date: Sun, 18 Oct 2026 13:23:05 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
 
-When the SDCA function initialization writes fail, tas_io_init() leaves
-hw_init false, but the firmware download has already set fw_dl_success,
-so tas_sdw_hw_params() goes on to play through an amp that is missing
-part of its setup. On the ASUS ROG Xbox Ally X20 those writes come from
-the ACPI DisCo initialization table and include the posture, which the
-BIOS sets differently on each amp.
+On Sun, 18 Oct 2026 15:47:43 +0900, HyeongJun An wrote:
+> ASoC: codecs: Fix more control definitions that write another control's bits
+> 
+> These are the last fixes found by the overlap scan from the first
+> series [1]. In sta32x and sta350 a 4-bit field has a maximum of 16, so
+> the control also writes the bit above it. In tlv320aic32x4 a TAS2505
+> control uses the wrong register.
+> 
+> [...]
 
-Refuse playback until the init writes have completed as well, and log
-which of the two steps is missing. A stream that is only prepared again
-after a resume does not go through hw_params, so check in the port
-prepare as well.
+Applied to
 
-Fixes: ca8f3611dcf8 ("ASoC: tas2783A: use acpi initialisation table")
-Signed-off-by: Matthew Schwartz <matthew.schwartz@linux.dev>
----
- sound/soc/codecs/tas2783-sdw.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
 
-diff --git a/sound/soc/codecs/tas2783-sdw.c b/sound/soc/codecs/tas2783-sdw.c
-index 8e7376889b6d..6c4cc8868415 100644
---- a/sound/soc/codecs/tas2783-sdw.c
-+++ b/sound/soc/codecs/tas2783-sdw.c
-@@ -1055,6 +1055,11 @@ static s32 tas_sdw_hw_params(struct snd_pcm_substream *substream,
- 		return -EINVAL;
- 	}
- 
-+	if (!tas_dev->hw_init) {
-+		dev_err(tas_dev->dev, "error playback without init writes");
-+		return -EINVAL;
-+	}
-+
- 	sdw_stream = snd_soc_dai_get_dma_data(dai, substream);
- 	if (!sdw_stream)
- 		return -EINVAL;
-@@ -1427,6 +1432,12 @@ static int tas_port_prep(struct sdw_slave *slave, struct sdw_prepare_ch *prep_ch
- 	addr = SDW_DPN_PREPARECTRL(prep_ch->num);
- 	switch (pre_ops) {
- 	case SDW_OPS_PORT_PRE_PREP:
-+		if (!tas_dev->hw_init) {
-+			dev_err(dev, "error port %d prepare without init writes\n",
-+				prep_ch->num);
-+			return -EINVAL;
-+		}
-+
- 		/*
- 		 * The Function has to be powered before the port can complete
- 		 * channel preparation.  hw_params() does that when a stream is
--- 
-2.56.0
+Thanks!
+
+[1/3] ASoC: codecs: sta32x: Fix definition of limiter threshold controls
+      https://git.kernel.org/broonie/sound/c/e06bf60ee5bf
+[2/3] ASoC: codecs: sta350: Fix definition of limiter threshold controls
+      https://git.kernel.org/broonie/sound/c/77623752c156
+[3/3] ASoC: tlv320aic32x4: Fix definition of TAS2505 HP Driver Gain Volume control
+      https://git.kernel.org/broonie/sound/c/f28c09b7e62f
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
