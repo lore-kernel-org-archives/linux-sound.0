@@ -1,69 +1,69 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C42D52D1F7B
-	for <linux-sound@vger.kernel.org>; Sun, 18 Oct 2026 05:56:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71514419FA6
+	for <linux-sound@vger.kernel.org>; Sun, 18 Oct 2026 05:56:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792302975; cv=none; b=nTzbHdAfy0pmB3iEf0fgGD8qsZZJgcKJHi8NjjwcU3cknRH+4+udb5caARBOWqonye5fRY5CaehNiPAqp6n6MIz5e8hN9Uz4GFqsJIp0rKE2NQw6NLkx2Np04T4zL73LL7aJMnk61IohU1V8N0LpRzRgdIZ/K+A3lIDVt6vT8f0=
+	t=1792302981; cv=none; b=Mitv5p1X0kTAo3jDaHGDHa6nYHKZjKzeCC9VmYcuL4KlKK9tIk8v7m3777cu3YauyzNY1xBvALEBJJMaT+D1QeGyrzX1+JXg0LCNyhcJFUTyTrfWrE88D1zbDrK4BEyqh6XljwWsaaqsApR1S/Jw2w+jsyQ9N1mp6qmss7dfKb8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792302975; c=relaxed/simple;
-	bh=7YjUxx5cRZKi+klFXhj4dazdV+HixE7bGSBpAbaz/eY=;
+	s=arc-20240116; t=1792302981; c=relaxed/simple;
+	bh=HgeKP4GX0C8xVVymnI3UcLA+XVtzd7U2ZKk4pTgAUaI=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=snrphyVc4aX/HV6yOCWvk5KbWTeytUD7ooqGCsxfVEwqBvy4Ciar3Re8EKcNO7Vx/BgjsDig0m402AzjgFN5uvP+3VBUWc1myItRKwDEQMlHkxeFJh0aosLW9KVrgUaGEbuigUnLOY4RsOtrHiFl59KuCA1t+cGxzBOx5VxxAqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OZgkE2UG; arc=none smtp.client-ip=209.85.216.54
+	 In-Reply-To:To:Cc; b=Z9W9Uqpy5dOCNeSKBIqKPJsdTFnZjemc+wZJiGdMJSbPfTPY2dTb2jJCkrCXFSVnI407SAEBCXw5iyf8wMp3G1yBq8UxKH/rJUjOFnjUyRbL+4znHuv4xfq9lLbHl5xVXs0v1kc/WrBBRPEmimegegeC0B3tPpV1IEMdS8G2tqY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NDFSigx7; arc=none smtp.client-ip=209.85.216.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OZgkE2UG"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-3ab41538192so909459a91.0
-        for <linux-sound@vger.kernel.org>; Sat, 17 Oct 2026 22:56:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NDFSigx7"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-3a0aaa0fd13so1101869a91.2
+        for <linux-sound@vger.kernel.org>; Sat, 17 Oct 2026 22:56:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792302970; x=1792907770; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1792302980; x=1792907780; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=LrWabHNJwVCKT8rO401JvBzl+Yh/bItuPD7jZ9TyRbU=;
-        b=OZgkE2UGSYCmkKP90iFfrB/IVNMt6wGV6c0EohJ8rGRSwCDGPwxwGXUque42Hawrz5
-         +5T0h0GBILlBssgxHDKcm9cfBG5IzPRY0RPzo6LxirRUannx3pockcjhHq+kYUOqIRNT
-         zmN6QNPJSSFL3Fxkozwmjc7CHGpk2nJ8Z6trqgSRXzqnU+HiOmYsA8URNuuo7yGLPc/J
-         sAX/uV22uVzWCcK4L9NCpt582aNdyvA6NhXO3uSfCKlwl5KXccldnYXP6M66b8LDkEqD
-         qYiDKZiKCBzwsmnZKxwp+VTWWI0tSPE4Gq3D2/g9RDU6dC4hr9Z3QP+1Qeq/e58pns7i
-         oqhQ==
+        bh=xKNPOCoinzGZ8u1xC7JnkW0RdGTkMTpvs4SLnqlKxuU=;
+        b=NDFSigx7LZMaOl59pAmMjnlidh2V85KiDAaYpwHgKuOvS3tnvArHvGpVb46jsWrAuc
+         f6dYCgN46CCvME+IwQllgzR5hVgsFT1ImdIY7JC50L8oMkb3ZiLXkDKLPY7eo4FwIMwt
+         FbyPNB/xOr3s3RAAJtOPKQGP0xmj6JZz8L0wqh3i9j2ku7NmyZvdd4XQY9MidV/bogwy
+         +X0UJsm7rfFRROjt21E1Bc4FiCSPj4UCBjmuGXPj8cPgQ55z2I6NQBuhavnejHxan3ph
+         Cbzqj1JPr10VK8d2dFiHoit/sO2TlzBu8Ik1Xh5dYcPhxgSGjC+9oCqn9ypO8K4d+1kv
+         c78w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792302970; x=1792907770;
+        d=1e100.net; s=20260707; t=1792302980; x=1792907780;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=LrWabHNJwVCKT8rO401JvBzl+Yh/bItuPD7jZ9TyRbU=;
-        b=Gx3cOYnhsLAqPHl1XL98Wxf9erETc5CeoQfF/x18ZBG4ZP3GQNSEQZ+KHARlbEx2vP
-         0g4AabrXX4H2JIv1tB4K5O3j8EVa8W/5HTzFO9wnxL396VswZbHL+IRFnzbsOtAg7K26
-         SyhbTUl+uC7RLvdo5MteRc81vLydmkbYqLDcsrq1HMkAcZZkUbknqxcZMoEejC2Ry5f+
-         Zz2FKEWfFhJfT76KEHhHMvHvAUjBAw6PEJn4DPJkQ27/7/aHZWEzc2sphDuMkRatblNC
-         ZGSWqSGH9mk8Peqm6bqy86Iyi/asYBNTC6vjHyWJaTQgzF2L2UEd7PXoez8LN9TCGoOW
-         DB0Q==
-X-Forwarded-Encrypted: i=1; AKwUvBwmlV8B52aBCBHEL2H+NBYs08gfAGUS9CKsT24n4XaF2++B0Gau66Q6IyTwp43mcvTz/RHVMmFvpsrl2w==@vger.kernel.org
-X-Gm-Message-State: AFq9FYKDu2LUanNv86ELcOY0nkaQNpNYVZpcTM2FA2PG2IhVsj2+k7lz
-	bPk7QUhVSdmNvvOjYm7MKbU0slAJi9470+zyRXjAwgPPmLPTwWO/s9jI
-X-Gm-Gg: AYBFou2ZBPgDp9RdVbQolVj/thfFjx/3kJeersXFtrCsIXOhqijNciD+o4srp4Jgnx4
-	inuzRtp7KdvVT/NNqbi1GPqpsv8SN2gjI4ds8MZQuZqgtr9nQvaefc1lQm8+a3EJx48Sy/d9Uul
-	75PFb1uzPtlmCg6QzwFBDmWyAPMNLj8V/MFg41sLT/TQpEUVW33ORwXPZsUbd21PCYEps+rb1ep
-	mmM5NblEYcWholva0wTcK+0SfG82ScfiR2v4AQxhd3ZWuyc+b5V06RqRqhg/l9bgdzg2l5nJ/XY
-	yq/Hqjh6b8IDD2VAu0oolcFiUNLDdscrI6rZlGbzozHLLQSaK0PeH2a/c0FDZFXzg2Ov99P6M0D
-	HJaqjyz3V9sFb/JCHbAbyB3oOgfhZJRy1qQQ4ODZiDdsVNiaGS/yrjNbmwAhrkRfOqul4Ehq5YG
-	DEdrpUgixL6PiqMcr7Jq2jGXiNFro2miN28N8mooCojtviuwI7Yrd4UBv1Av0ETJnPpu0AKBtvz
-	w/EMndtNaAkjHV81iWLqpHT1VBDVR+Du4GBuF8Q9wruQv5uVuF5d+kHSQEQHBQOq2HP1BtX35xp
-	tecBVCwJgpBQc7jVQDBm1P67Uv5XcbpCAkC2RQZiMvOOsqNQ/MfnuQ3o
-X-Received: by 2002:a17:90a:c10e:b0:3ac:a521:95c with SMTP id 98e67ed59e1d1-3acef10a76emr3948159a91.58.1792302970047;
-        Sat, 17 Oct 2026 22:56:10 -0700 (PDT)
+        bh=xKNPOCoinzGZ8u1xC7JnkW0RdGTkMTpvs4SLnqlKxuU=;
+        b=RmiGDcqaWZV6oyDymwyeRzdvpumqFeWWenM1rKe6qYunYz+6yKA7XQw8jJfkcb5Eqk
+         ygxDeU7wi6lT237C/dELclWPQ1YNWtwtlEri0Mn9x320qSPdRqAf9fXGhuRa5V8cCfAB
+         CA0Y3hoHJJ7H356d7VSzhrX16cfLRXHpPKEn6cm+44wsWXqBi/PCM43l1plPcaFWJ6Am
+         hJehnMR7HgcCKgqv3cWzc7ivD6XL9gAMUWAagd0eqfWTnfO85iyZmYyX/spAGxKvIFgK
+         bqSd1PEv0Is59AC4e59geafNB9v5WGylw9OUJw+6c3XvKPwZCPl1BlEsU9kDgAx05Pgg
+         Zl7w==
+X-Forwarded-Encrypted: i=1; AKwUvByNhHEthMrDTrrN43tzvinrhJg8OSoq+svpjcwN6msVYABnqH/ugyUu6HSaCcHrYbXEJAuj5y/Vjbzdvg==@vger.kernel.org
+X-Gm-Message-State: AFq9FYL3nUJ7pcQiCEUbXKy4RUdQLujkhtrqowgTNs0dezsv3usnvv5Q
+	6VH9tJ1IiBNRMdka7VFTdSh45QGwHvMmLPfUJ/bZhnPSaujOPzpZp1Di
+X-Gm-Gg: AYBFou0SuGWJKEMRTqtDiCwCXXKsoP+im6s3kQRg4nGMrSeviAVcRaKdcOYuUUE02+W
+	WAqYnCNpGFpfV5PlafrxXJoQqLHk0OKY8HGt7vzh5Un9dONRnNLy6bzcttKzFGXJgfc8109lU3k
+	aY5O8o/omHZfyS9v0zK2z/ccI8kvkYfqtNTk5IWjtYUlengkoE29U+pcxrJXxbFOrrEFzqItUz4
+	AjiIkwj94NL6/LKZgcd+5S6MQPAHnOxbh4Rp+0SHOJSEc9nk6Lx3AdBFzX5HUwshnpdG/UPaMLY
+	0xht+AbHiTgL+juPM1VpX3ZCln8ziPtf49r+KWd4WwK9GxGWqgcD2LXamjrM+4NqpBA1i8PUPzn
+	tFE6EYsvt6D0b0/2G9DYIOmrfE4s/DKm4RtX5UiqM/gF41emDgU1R+8GrS1Iv9IJCJgWOQfSxjb
+	NLMMJgLHrbDvnMydv4sPwiLPPbBSWxzfRFM8BFhhTtuWqOKR0oL3amvJD0jJIo5jjO8O/5IkOAO
+	hzX8akU3L+83YXFkPQ+UvgXwwf1VfPWXZMfFtwyWEyoO8Pw5J+lI3DKtFhKiNKXQrstn9XqHpUI
+	llCW7vn/MzXFKOkNh3rFoAhCw/TOLLddeiC19W/3mq+wLA==
+X-Received: by 2002:a17:90a:d443:b0:3ac:97e3:7389 with SMTP id 98e67ed59e1d1-3aceefac299mr3428943a91.44.1792302979629;
+        Sat, 17 Oct 2026 22:56:19 -0700 (PDT)
 Received: from [10.0.70.21] ([2403:581e:d87e:0:fc2d:ed31:e80e:412d])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3acd0cde4fdsm5511292a91.4.2026.10.17.22.56.00
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3acd0cde4fdsm5511292a91.4.2026.10.17.22.56.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 Oct 2026 22:56:09 -0700 (PDT)
+        Sat, 17 Oct 2026 22:56:19 -0700 (PDT)
 From: James Calligeros <jcalligeros99@gmail.com>
-Date: Sun, 18 Oct 2026 15:54:04 +1000
-Subject: [PATCH v3 10/21] arm64: dts: apple: t8103-j274: Add
+Date: Sun, 18 Oct 2026 15:54:05 +1000
+Subject: [PATCH v3 11/21] arm64: dts: apple: t8103-j313: Add
  speaker/headset jack nodes
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -73,7 +73,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261018-macaudio-v3-10-abdff7741dea@gmail.com>
+Message-Id: <20261018-macaudio-v3-11-abdff7741dea@gmail.com>
 References: <20261018-macaudio-v3-0-abdff7741dea@gmail.com>
 In-Reply-To: <20261018-macaudio-v3-0-abdff7741dea@gmail.com>
 To: David Rhodes <david.rhodes@cirrus.com>, 
@@ -95,50 +95,62 @@ Cc: asahi@lists.linux.dev, linux-sound@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
  linux-mediatek@lists.infradead.org
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2046;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2535;
  i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=7YjUxx5cRZKi+klFXhj4dazdV+HixE7bGSBpAbaz/eY=;
- b=owGbwMvMwCV2xczoYuD3ygTG02pJDFlX4nnv5xU5ifpW3Y8/1tgrVHjA1jpI9H2itEec0gq5j
- cLG1eIdE1kYxLgYLMUUWTY0CXnMNmK72S9SuRdmDisTyBBpkQYGIGBh4MtNzCs10jHSM9U21DM0
- 0jHWMWLg4hSAqdafychw6fvlqiSXi6yOnRG7j4qU8a7tZ3v0/xjfpoCN0V+n9UyRZ2RYk7e4/Dy
- XRAJ37yHxqKNftsdpXTjstlGpi+NdoK04pwMnAA==
+ bh=HgeKP4GX0C8xVVymnI3UcLA+XVtzd7U2ZKk4pTgAUaI=;
+ b=owGbwMvMwCV2xczoYuD3ygTG02pJDFlX4nmVdrF8n6+zRbKnZNPTcy8WvWZoP/ppXdiMHQryS
+ jsdZ1x/3DGRhUGMi8FSTJFlQ5OQx2wjtpv9IpV7YeawMoEMkRZpYAACFga+3MS8UiMdIz1TbUM9
+ QyMdYx0jBi5OAZjqPR8YGVYbejg82f4lR+LH0cCjC/+bB/2akW8gvSDs74r9/ycpPbRm+Ct4/U9
+ PICvLweea5q1v/Rwddvfnqv8punzuZ10LR5ZsCzMA
 X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
  fpr=B08212489B3206D98F1479BDD43632D151F77960
 
-The M1 Mac mini integrates Apple-specific variants of the TI TAS2770
+The M1 MacBook Air integrates Apple-specific variants of the TI TAS2770
 and Cirrus CS42L42. Add these nodes and advertise them to the machine
 driver via the sound node.
 
 Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
 ---
- arch/arm64/boot/dts/apple/t8103-j274.dts | 72 +++++++++++++++++++++++++
- 1 file changed, 72 insertions(+)
+ arch/arm64/boot/dts/apple/t8103-j313.dts | 87 +++++++++++++++++++++++++
+ 1 file changed, 87 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/apple/t8103-j274.dts b/arch/arm64/boot/dts/apple/t8103-j274.dts
-index 1212852251e0..150d778565f0 100644
---- a/arch/arm64/boot/dts/apple/t8103-j274.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j274.dts
-@@ -75,4 +75,76 @@ &i2c2 {
- 	status = "okay";
+diff --git a/arch/arm64/boot/dts/apple/t8103-j313.dts b/arch/arm64/boot/dts/apple/t8103-j313.dts
+index f8b2b1637b9d..ed0eb358809b 100644
+--- a/arch/arm64/boot/dts/apple/t8103-j313.dts
++++ b/arch/arm64/boot/dts/apple/t8103-j313.dts
+@@ -55,4 +55,91 @@ &typec1 {
+ 	label = "USB-C Left-front";
  };
  
 +/* Audio codecs */
 +&i2c1 {
 +	status = "okay";
 +
-+	speaker: codec@31 {
++	speaker_left: codec@31 {
 +		compatible = "ti,tas5770l";
 +		reg = <0x31>;
 +		interrupts-extended = <&pinctrl_ap 182 IRQ_TYPE_LEVEL_LOW>;
 +		shutdown-gpios = <&pinctrl_ap 181 GPIO_ACTIVE_HIGH>;
 +		#sound-dai-cells = <0>;
++		sound-name-prefix = "Left";
 +		ti,imon-slot-no = <0>;
 +		ti,vmon-slot-no = <2>;
 +	};
 +};
 +
-+&i2c2 {
++&i2c3 {
 +	status = "okay";
++
++	speaker_right: codec@34 {
++		compatible = "ti,tas5770l";
++		reg = <0x34>;
++		interrupts-extended = <&pinctrl_ap 182 IRQ_TYPE_LEVEL_LOW>;
++		shutdown-gpios = <&pinctrl_ap 181 GPIO_ACTIVE_HIGH>;
++		#sound-dai-cells = <0>;
++		sound-name-prefix = "Right";
++		ti,imon-slot-no = <4>;
++		ti,vmon-slot-no = <6>;
++	};
 +
 +	jack_codec: codec@48 {
 +		compatible = "cirrus,cs42l83";
@@ -158,8 +170,8 @@ index 1212852251e0..150d778565f0 100644
 +
 +/ {
 +	sound: sound {
-+		compatible = "apple,j274-macaudio";
-+		model = "Mac mini J274";
++		compatible = "apple,j313-macaudio";
++		model = "MacBook Air J313";
 +
 +		#address-cells = <1>;
 +		#size-cells = <0>;
@@ -167,14 +179,17 @@ index 1212852251e0..150d778565f0 100644
 +		dai-link@0 {
 +			reg = <0>;
 +
-+			link-name = "Speaker";
++			dai-tdm-idle-mode-0 = "zero";
++			dai-tdm-idle-mode-1 = "zero";
++
++			link-name = "Speakers";
 +
 +			codec {
-+				sound-dai = <&speaker>;
++				sound-dai = <&speaker_left>, <&speaker_right>;
 +			};
 +
 +			cpu {
-+				sound-dai = <&mca 0>;
++				sound-dai = <&mca 0>, <&mca 1>;
 +			};
 +		};
 +
@@ -194,7 +209,7 @@ index 1212852251e0..150d778565f0 100644
 +	};
 +};
 +
- #include "hwmon-mini.dtsi"
+ #include "hwmon-laptop.dtsi"
 
 -- 
 2.56.0
