@@ -1,98 +1,180 @@
-Received: from mail-244121.protonmail.ch (mail-244121.protonmail.ch [109.224.244.121])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta1.migadu.com (out-20.mta1.migadu.com [95.215.58.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EA303E5A20;
-	Sun, 18 Oct 2026 22:10:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.121
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C02C4D17BA
+	for <linux-sound@vger.kernel.org>; Sun, 18 Oct 2026 22:44:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792361455; cv=none; b=HZorStQfNY4bh+yoMUloEy+M4GjdBdDp81Z7/yDRv+Wxy2slg6mqDk6SLlXnz7i8wmBl9RZd/Gwc4bH9qMf81M3oXl/Ng/q3VRAoYkuf/4stC2rnV+MAL3Wp0Gn7kvNSGri2L0UyvIsl7xTEiZ/JdaSAy9ocO+dIWTGtTKsQ9Ks=
+	t=1792363486; cv=none; b=Cila66xxDx9F26PIv2ETx+fTdMSgZB9bTvXEVoVfUMPGD+g72K5k4FyiMUCFGrTTf95yqJU5yQd70iBU/qHdwFfWZOwWKtVtHfQ9+HBqPXhbsuk3xQgLicBFeedUaD6XKmGlSejBukhvEW/x23LuP1uNoLKytCOj4l6PLV5G3BA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792361455; c=relaxed/simple;
-	bh=bc3ypj6NPkdr3YDpTha1rqolAwQtDj2mmFjEDfaCjXU=;
-	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=L+3oVWJ2anF6Jp2U9zpEkVokRZDJMR/+e5rsYGr3em0PoBPm9gK1yXcb00NmOB2wFjj/6tg2WM6IL3hFRQG1C0JE72Zi30LIFG+jW+9x88DByjKkRNac5yQJ2/VuJ97APvA0BBtFXvFVNYG1PqzmchIkOu6KCUfW0O/UBysxi+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=Qs8+S75r; arc=none smtp.client-ip=109.224.244.121
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
+	s=arc-20240116; t=1792363486; c=relaxed/simple;
+	bh=zWR5OAyWdhXmhQvTQixGFKFnKfWZir2Dn2fJQFSHfXI=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=bbht3N+xzNCxgxgpOjR17MIs6i06n4pyKyS+N2HO5PRY/hlPniS3sBHHFxOv6+TDUJ5zCYL1kWCiVC3d2VsTjJaHmCsEwsP+aMM1Zicv6MA2OCCZZ3dnFOLrBuGwiyKNX8KI7BHGxFEV2I0kxSNWEZcDjRj/CAT5+p4ZgfiOMcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool; spf=pass smtp.mailfrom=packett.cool; dkim=pass (2048-bit key) header.d=packett.cool header.i=@packett.cool header.b=AQHcW6GB; arc=none smtp.client-ip=95.215.58.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=packett.cool
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="Qs8+S75r"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
-	s=protonmail3; t=1792361446; x=1792620646;
-	bh=zr/0kwnMQPJza4kMI+4PgYVBG2o2yG+P+fXE/Cl5i8M=;
-	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=Qs8+S75rqiiqhyM9gQBp8xHcQzqYA/HGgNYpihrZzPYPIoN0kmMuFPGFOj6WMRf6R
-	 KxKco9+MX/vg9t3d1Hk639IYFul6S8DX5c6TX99eK2IWh9RbuPhQbWX2FzaQOH4Ptx
-	 WgHOtrNEzX8fYqx+PZuUmAf4ue7n4VT+vCyHP/1T73GRb7FZub3npPW8BqymI/KiMW
-	 hG/I0x2WUZrJRVD5z2knoAq9GTI6K51Ui2+bRpIklqAgBNrSL9QGpT7qt/Y3GpX1ep
-	 HvMI1qGez1BomOYWkpxuuw639eDkSnR+5/qrBX8rub72Z049mqcj6n7YfIaKCSavUu
-	 vs98Wl7TpBR8g==
-Date: Sun, 18 Oct 2026 22:10:41 +0000
-To: Srinivas Kandagatla <srini@kernel.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>
-From: Birk Skyum <birk.skyum@pm.me>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: qcom: q6apm-lpass-dais: Reset the codec DMA channel map in hw_params
-Message-ID: <20261018220857.16819-1-birk.skyum@pm.me>
-Feedback-ID: 21326998:user:proton
-X-Pm-Message-ID: 7380a9d5bd8463919b93461000f582c0001d4f7f
+	dkim=pass (2048-bit key) header.d=packett.cool header.i=@packett.cool header.b="AQHcW6GB"
+X-Envelope-To: linux-sound@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=zWR5OAyWdhXmhQvTQixGFKFnKfWZir2Dn2fJQFSHfXI=;
+ c=simple/simple; d=packett.cool;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1792363481; v=1; x=1792968281;
+ b=AQHcW6GBj/etZQqq+KWhh5fyqPXpAbgNPHRzDTfotoqmQP8EbpDKlkt8uB1o/+nDdMVvJYfx
+ aNa5qeVovowbD3fhKRJ0XXJ3AwP9XLNweRM/FpOqxRSqOc61zLENRXILoFo3rfLp99O/M9UtRQ4
+ Y95+3oFjHWCE/FaTGfQXArwHWeoP0xj5bKTwmvd7SKRHmD3KehRnWvRofgEqWzdQipwPYihzZq1
+ jfZJ2+n74InJDX00ejhSFDgBTFnq/hC8fEmtIwOqhS7ciCO0K18d3Y4XhP4mB4R9DLkDDC75NKw
+ VqXT/nnNGsNdHfcZ20wDzvlLZgw6YxNUtmaKDLj1WUWXQ==
+X-Envelope-To: linux-sound@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 2579d1d25b7eaed8;
+	Sun, 18 Oct 2026 22:44:41 +0000
+X-Mizu-Trace-ID: 2579d1d25b7eaed8
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <7d1fd5e4-a35a-4675-8b0c-005e9f022646@packett.cool>
+Date: Sun, 18 Oct 2026 19:44:31 -0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] ASoC: codecs: aw88261: complete the start at trigger
+ time
+From: Val Packett <val@packett.cool>
+To: Vladyslav Tymoshchuk <tvlad744@gmail.com>, Mark Brown
+ <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Srinivas Kandagatla <srini@kernel.org>, Luca Weiss
+ <luca.weiss@fairphone.com>,
+ Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>,
+ Federico Amedeo Izzo <federico@izzo.pro>, linux-sound@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
+References: <20261016120000.aw88261-trigger-v2-1-tvlad744@gmail.com>
+ <58c229e2-ee81-4b75-92e9-1eaee2d19d0b@packett.cool>
+Content-Language: en-US
+In-Reply-To: <58c229e2-ee81-4b75-92e9-1eaee2d19d0b@packett.cool>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Since commit c663014e452d ("ASoC: qcom: audioreach: compute active
-channel maps from channel_map"), the codec DMA active channel mask is
-built from the port's channel map instead of its channel count.
-q6dma_hw_params() fills that map with
-audioreach_set_default_channel_mapping(), but the map lives in the
-DAI's module config for as long as the device exists and is never
-cleared, and the default mapping only covers one, two and four
-channels. Entries left from an earlier stream, or entries the default
-mapping does not fill, give a mask that does not match the channel
-count, and the DSP refuses to start the port. On the Lenovo Yoga Slim
-7x every capture from the digital microphones fails with
 
-  q6apm-lpass-dais ...: Failed to start APM port 110
+On 10/18/26 4:20 PM, Val Packett wrote:
+>
+> On 10/17/26 7:00 AM, Vladyslav Tymoshchuk wrote:
+>> The amplifier is started from the PRE_PMU event of its AIF widget, that
+>> is from DAPM in prepare. aw88261_dev_start() waits up to 20 ms there for
+>> the PLL to lock to the bit clock and powers the amplifier down again if
+>> it does not.
+>>
+>> The Qualcomm AudioReach backends only start their graph, and with it
+>> the I2S/TDM clocks, in trigger since commit b54a38af7138 ("ASoC: qcom:
+>> q6apm-lpass-dai: move graph start to trigger"). There every start fails
+>> with "start failure (-1)" and the speaker stays silent for the whole
+>> stream, as seen with six AW88261 on a TDM link of SM8750.
+>>
+>> Split the start at the first step that needs the bit clock, the PLL
+>> lock check, whatever the host does:
+>>
+>>   - PRE_PMU clears power down (PWDN), configures the I2S interface and
+>>     the PLL and writes the boost settings of aw88261_reg_force_set().
+>>     The amplifier stays powered down (AMPPD) and muted.
+>>   - The unmute, called after the trigger of the CPU DAI with
+>>     .mute_unmute_on_trigger, does the rest: it checks the PLL lock,
+>>     clears AMPPD, checks SYSST, enables the feedback and unmutes. If the
+>>     PLL does not lock, "start failure" is logged, the amplifier is left
+>>     as PRE_PMU left it and the next trigger start tries again.
+>>   - The mute in trigger undoes the unmute (mute, feedback off, AMPPD),
+>>     and POST_PMD sets PWDN as before.
+>>
+>> So only the steps that need the clock run in trigger: 14 register
+>> accesses and 1 ms per amplifier for the unmute when the PLL has locked,
+>> 12 and 1 ms for the mute. The same steps run there on hosts that have
+>> the clock running from prepare. aw88261_reg_force_set() only writes
+>> boost settings and now runs before AMPPD is cleared rather than right
+>> after.
+>>
+>> wsa883x and wsa884x split their start the same way, with the
+>> configuration in DAPM and GLOBAL_PA_EN in the trigger-time mute. The
+>> vendor driver of this amplifier family (aw882xx) also starts the
+>> amplifier from .mute_stream, with the same sequence.
+>>
+>> The register accesses go over I2C and sleep, so they need a nonatomic
+>> trigger, which the Qualcomm DPCM links using this codec have. On an
+>> atomic PCM, as seen from substream->pcm->nonatomic in .startup, PRE_PMU
+>> does the whole start as before and the mute callback does nothing.
+>>
+>> POST_PMD can also run for an amplifier that was never powered up, as
+>> seen when the card is registered, so make "already power off" a debug
+>> message.
+>>
+>> Assisted-by: LLM
+>> Signed-off-by: Vladyslav Tymoshchuk <tvlad744@gmail.com>
+>> ---
+>> [..]
+>> +/*
+>> + * First part of the start, which does not need the bit clock: power 
+>> up and
+>> + * configure the I2S interface and the PLL. The amplifier stays 
+>> powered down
+>> + * (AMPPD) and muted.
+>> + */
+>> +static int aw88261_dev_power_up(struct aw88261 *aw88261)
+>> [..]
+>> +/*
+>> + * Second part of the start, which needs the bit clock as the PLL 
+>> locks to
+>> + * it: check the lock, enable the amplifier and the feedback, and 
+>> unmute.
+>> + * On failure the device is left as aw88261_dev_power_up() left it.
+>> + */
+>> +static int aw88261_dev_enable(struct aw88261 *aw88261)
+>> [..]
+>> +/* Undo aw88261_dev_enable() */
+>> +static void aw88261_dev_disable(struct aw_device *aw_dev)
+>> [..]
+>> +static int aw88261_dev_start(struct aw88261 *aw88261, bool enable)
+>
+> "power_up", "start", *and* "enable".. this naming is a mess now.
+>
+> Would be nicer to make the *names* more descriptive of what's actually 
+> being turned on/off.
+>
+>> [..]
+>> --- a/sound/soc/codecs/aw88261.h
+>> +++ b/sound/soc/codecs/aw88261.h
+>> @@ -564,6 +564,8 @@ enum {
+>>   enum {
+>>       AW88261_DEV_PW_OFF = 0,
+>>       AW88261_DEV_PW_ON,
+>> +    /* powered up and configured, amplifier off: waits for the bit 
+>> clock */
+>> +    AW88261_DEV_PW_READY,
+>
+> Would make more sense to stick the intermediate state in the, well, 
+> middle. And rename the states to something that makes sense like { 
+> OFF, WAITING_FOR_BIT_CLOCK, RUNNING } instead of making everything a 
+> comment like the slop machine left it.
+>
+>> [..]
+>> base-commit: 0f8bc3b93b76d16682a4d4999f9559b1e18016f9
+>
+>
+> It does work here, anyhow, so
+>
+> Tested-by: Val Packett <val@packett.cool> # sm7325-motorola-dubai 
 
-Clear the map before filling it, and map any channel the default
-mapping leaves out. With this, capture through PipeWire and direct
-captures with two, four and two channels in a row work again.
 
-Fixes: c663014e452d ("ASoC: qcom: audioreach: compute active channel maps f=
-rom channel_map")
-Signed-off-by: Birk Skyum <birk.skyum@pm.me>
----
- sound/soc/qcom/qdsp6/q6apm-lpass-dais.c | 5 +++++
- 1 file changed, 5 insertions(+)
+Though after this last reboot now, it's weirdly stuck when on the 
+speaker profile, changing the volume did not play the "boop" sounds.. 
+(nothing appearing in dmesg).. until I switched to the earpiece profile, 
+when a big bunch of those played in a row!
 
-diff --git a/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c b/sound/soc/qcom/qdsp6=
-/q6apm-lpass-dais.c
-index e204fd5..403fe83 100644
---- a/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c
-+++ b/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c
-@@ -173,11 +173,16 @@ static int q6dma_hw_params(struct snd_pcm_substream *=
-substream,
- =09struct q6apm_lpass_dai_data *dai_data =3D dev_get_drvdata(dai->dev);
- =09struct audioreach_module_config *cfg =3D &dai_data->module_config[dai->=
-id];
- =09int channels =3D hw_param_interval_c(params, SNDRV_PCM_HW_PARAM_CHANNEL=
-S)->max;
-+=09int i;
-=20
- =09cfg->bit_width =3D params_width(params);
- =09cfg->sample_rate =3D params_rate(params);
- =09cfg->num_channels =3D channels;
-+=09memset(cfg->channel_map, 0, sizeof(cfg->channel_map));
- =09audioreach_set_default_channel_mapping(cfg->channel_map, channels);
-+=09for (i =3D 0; i < channels && i < AR_PCM_MAX_NUM_CHANNEL; i++)
-+=09=09if (!cfg->channel_map[i])
-+=09=09=09cfg->channel_map[i] =3D i + 1;
-=20
- =09return 0;
- }
---=20
-2.53.0
+Not guaranteed that this is related to these driver changes, but 
+suspicious..
 
+
+> Thanks,
+> ~val
+>
