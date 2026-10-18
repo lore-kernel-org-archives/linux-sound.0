@@ -1,101 +1,163 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta1.migadu.com (out-141.mta1.migadu.com [95.215.58.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E10452AD0C;
-	Sun, 18 Oct 2026 17:47:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6F0E3F44D5
+	for <linux-sound@vger.kernel.org>; Sun, 18 Oct 2026 19:20:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792345643; cv=none; b=INVe9HhUJtG7Cao+zvRrFPL/YrG6Fo603T2BNQn3T3Xfw9KLdMazaXWm0QaNfQdwTCFK1qMEwqOfBHRSyrcGsCn/8argEB0b2K81TWyupVYYWCDYYsUEb8VczGUoOn7R2sHq2HB1eGTNsZZgoLYPoMmgBHcl8NK0Ar50V3//NpI=
+	t=1792351240; cv=none; b=PKOYa0EaVSWT0dmvU0RYndrTGaSPX4hyDCSDAIvUYk/UmA5byMYbrqTQ80EEg9SD2UVVoGt2aTfN6PBm1ZpnRxCt/R0cmUjfoSnyRlhN1Sz9RiazcIUAD/uOD60tboCdxG5zSkUIEjPOB+BweYS5OFWx4DZJ0cu142abtd/kVhk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792345643; c=relaxed/simple;
-	bh=0GaUDWNHboICjjntSAfmKBuvkrmebSUBPg7VWN/KRnM=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Mq0/Tvo/G2bsunOhSx1d8DS2Z7XPqLsm5KfBWwhRj9BCejYVdaYh2GcxZRdNiTmG21DobP5kAIFCcMCInEesGES/5pOK2JtLZ7/VxZUbmNCbEA0apNnsY7ZU//alb172gT/f8mzOGucXfbE171+Vbj0KK0I0kEw+ZJuvEwQsBuQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=es0ULFOT; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792351240; c=relaxed/simple;
+	bh=iiW1cpkkxTodBSKiwX66uDEJjEpsAttD/hVeIXrp0zs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=H/BiKyqRwGCtix+zii8lE83x2NveainAZQM2yutDMWNcxmB+yLav2d0EcdzBunzR/GkGuew14QlCK++iPiRXaXfCiVOZfZ9D3vqxs3Vuarj8LrbBX7ffT6uJwFgaUYbsYszdk1+buAIU/SVkl+CE2AOCMSWLQSneatj0pQ/qLJk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool; spf=pass smtp.mailfrom=packett.cool; dkim=pass (2048-bit key) header.d=packett.cool header.i=@packett.cool header.b=qXqXNzL+; arc=none smtp.client-ip=95.215.58.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=packett.cool
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="es0ULFOT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CE2F1F000C4;
-	Sun, 18 Oct 2026 17:47:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792345641;
-	bh=3PWg4wFyY/5JtUeMyFYwYokLNsNA3wvyEJlGxTodazY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=es0ULFOTibsky7FRB8ZberxpwkM+Xch4mX+W2Od3KkZwRDYcn/DLA1C85O5Kdbc1k
-	 78Aje5RzYs45YMMaH7kVM7M0fRzjNxFsh/Xt6FcrsYTpv9UYpdaU5ugfUBv/FgobXg
-	 JNhJ39VT9yl2S4y1zTwckLWudiLpo54j5pP498ryDzinTLSgu4bMKCSA5LR53JaHSy
-	 dDFAeu61hYh7r0QJ9jVH/EI8nCEIOTwbEThgazkUyOXKGemHbyrL9f+E0j7etmEx/b
-	 SdRIv74xcyXcQFmTDNFYFw8I8C5UDF8prAWIzxBN42jVZY5Q3FMJXOVterfJA/zSd1
-	 4nXo9uPzgkgnQ==
-From: Mark Brown <broonie@kernel.org>
-To: HyeongJun An <sammiee5311@gmail.com>
-Cc: lgirdwood@gmail.com, support.opensource@diasemi.com, 
- shenghao-ding@ti.com, kevin-lu@ti.com, baojun.xu@ti.com, sen@ti.com, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <cover.1792135144.git.sammiee5311@gmail.com>
-References: <cover.1792135144.git.sammiee5311@gmail.com>
-Subject: Re: [PATCH 0/4] ASoC: codecs: Fix control definitions that write
- another control's register
-Message-Id: <179218524120.3162228.17240342868117542010.b4-ty@b4>
-Date: Fri, 16 Oct 2026 22:14:01 +0100
+	dkim=pass (2048-bit key) header.d=packett.cool header.i=@packett.cool header.b="qXqXNzL+"
+X-Envelope-To: linux-sound@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=iiW1cpkkxTodBSKiwX66uDEJjEpsAttD/hVeIXrp0zs=;
+ c=simple/simple; d=packett.cool;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1792351235; v=1; x=1792956035;
+ b=qXqXNzL+oS2/nPGDKtzbcpN/3JpG0X0ambzqNxpYL7pW7xzHmF+tHMOi3RhqJuKboIf4yjgN
+ Kz4rv4/40Fyukl9WQudE9P9THmzc6sGgenwoDn54k9Rd2Z0nvWvD3lHiEiNupA5t6L0vo3K7BBb
+ 3aP0M1m47JP2GbjcJ27dS50gkWzZ6+uFiBdp73rCOzh4kHk7nWHf3ulpxrzCAVBb1aEs3GIo34Q
+ BHEOToKHBz/oddocpvNe/64EiJQN6OUkFbQegud0O2WJP9sLZh0gYwiB/JHB7mkqPD9CGeoM24D
+ 2sjI2xI4n66jZeklFIg5zN64PNdszjFcNYS+zw5IbMhJQ==
+X-Envelope-To: linux-sound@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 4f31773a1836853f;
+	Sun, 18 Oct 2026 19:20:21 +0000
+X-Mizu-Trace-ID: 4f31773a1836853f
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <58c229e2-ee81-4b75-92e9-1eaee2d19d0b@packett.cool>
+Date: Sun, 18 Oct 2026 16:20:12 -0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] ASoC: codecs: aw88261: complete the start at trigger
+ time
+To: Vladyslav Tymoshchuk <tvlad744@gmail.com>, Mark Brown
+ <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Srinivas Kandagatla <srini@kernel.org>, Luca Weiss
+ <luca.weiss@fairphone.com>,
+ Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>,
+ Federico Amedeo Izzo <federico@izzo.pro>, linux-sound@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
+References: <20261016120000.aw88261-trigger-v2-1-tvlad744@gmail.com>
+Content-Language: en-US
+From: Val Packett <val@packett.cool>
+In-Reply-To: <20261016120000.aw88261-trigger-v2-1-tvlad744@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1832; i=broonie@kernel.org;
- h=from:subject:message-id; bh=0GaUDWNHboICjjntSAfmKBuvkrmebSUBPg7VWN/KRnM=;
- b=kA0DAAoWL+9zsLPQOIkByyZiAGrVBhOiKqU1aBijXDCXfIPaTIyq0QF/KiyeKp6xlRLEp1VCw
- 4h1BAAWCgAdFiEEXmoL6X9066wOwaGGL+9zsLPQOIkFAmrVBhMACgkQL+9zsLPQOIk6XwD7Bznw
- cc71VQRQsJ72C5XF7uFPiytFNEN2PjTMBXn0muwBAKFQxpICG+P/uGPK09x+JxPkkJRS8Pt4jBJ
- tZoZGQoAH
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Fri, 16 Oct 2026 16:25:15 +0900, HyeongJun An wrote:
-> ASoC: codecs: Fix control definitions that write another control's register
-> 
-> These are more fixes found by the overlap scan from the first series
-> [1]. In each driver a control writes the register of another control.
-> 
-> [1] https://lore.kernel.org/all/20261008130953.2446692-1-sammiee5311@gmail.com/
-> 
-> [...]
 
-Applied to
+On 10/17/26 7:00 AM, Vladyslav Tymoshchuk wrote:
+> The amplifier is started from the PRE_PMU event of its AIF widget, that
+> is from DAPM in prepare. aw88261_dev_start() waits up to 20 ms there for
+> the PLL to lock to the bit clock and powers the amplifier down again if
+> it does not.
+>
+> The Qualcomm AudioReach backends only start their graph, and with it
+> the I2S/TDM clocks, in trigger since commit b54a38af7138 ("ASoC: qcom:
+> q6apm-lpass-dai: move graph start to trigger"). There every start fails
+> with "start failure (-1)" and the speaker stays silent for the whole
+> stream, as seen with six AW88261 on a TDM link of SM8750.
+>
+> Split the start at the first step that needs the bit clock, the PLL
+> lock check, whatever the host does:
+>
+>   - PRE_PMU clears power down (PWDN), configures the I2S interface and
+>     the PLL and writes the boost settings of aw88261_reg_force_set().
+>     The amplifier stays powered down (AMPPD) and muted.
+>   - The unmute, called after the trigger of the CPU DAI with
+>     .mute_unmute_on_trigger, does the rest: it checks the PLL lock,
+>     clears AMPPD, checks SYSST, enables the feedback and unmutes. If the
+>     PLL does not lock, "start failure" is logged, the amplifier is left
+>     as PRE_PMU left it and the next trigger start tries again.
+>   - The mute in trigger undoes the unmute (mute, feedback off, AMPPD),
+>     and POST_PMD sets PWDN as before.
+>
+> So only the steps that need the clock run in trigger: 14 register
+> accesses and 1 ms per amplifier for the unmute when the PLL has locked,
+> 12 and 1 ms for the mute. The same steps run there on hosts that have
+> the clock running from prepare. aw88261_reg_force_set() only writes
+> boost settings and now runs before AMPPD is cleared rather than right
+> after.
+>
+> wsa883x and wsa884x split their start the same way, with the
+> configuration in DAPM and GLOBAL_PA_EN in the trigger-time mute. The
+> vendor driver of this amplifier family (aw882xx) also starts the
+> amplifier from .mute_stream, with the same sequence.
+>
+> The register accesses go over I2C and sleep, so they need a nonatomic
+> trigger, which the Qualcomm DPCM links using this codec have. On an
+> atomic PCM, as seen from substream->pcm->nonatomic in .startup, PRE_PMU
+> does the whole start as before and the mute callback does nothing.
+>
+> POST_PMD can also run for an amplifier that was never powered up, as
+> seen when the card is registered, so make "already power off" a debug
+> message.
+>
+> Assisted-by: LLM
+> Signed-off-by: Vladyslav Tymoshchuk <tvlad744@gmail.com>
+> ---
+> [..]
+> +/*
+> + * First part of the start, which does not need the bit clock: power up and
+> + * configure the I2S interface and the PLL. The amplifier stays powered down
+> + * (AMPPD) and muted.
+> + */
+> +static int aw88261_dev_power_up(struct aw88261 *aw88261)
+> [..]
+> +/*
+> + * Second part of the start, which needs the bit clock as the PLL locks to
+> + * it: check the lock, enable the amplifier and the feedback, and unmute.
+> + * On failure the device is left as aw88261_dev_power_up() left it.
+> + */
+> +static int aw88261_dev_enable(struct aw88261 *aw88261)
+> [..]
+> +/* Undo aw88261_dev_enable() */
+> +static void aw88261_dev_disable(struct aw_device *aw_dev)
+> [..]
+> +static int aw88261_dev_start(struct aw88261 *aw88261, bool enable)
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
+"power_up", "start", *and* "enable".. this naming is a mess now.
 
-Thanks!
+Would be nicer to make the *names* more descriptive of what's actually 
+being turned on/off.
 
-[1/4] ASoC: codecs: da732x: Fix definition of ADC2 EQ Overall Volume control
-      https://git.kernel.org/broonie/sound/c/ebef9212cb46
-[2/4] ASoC: codecs: tlv320adc3xxx: Fix definition of AGC Target Level control
-      https://git.kernel.org/broonie/sound/c/0a9efcb663b5
-[3/4] ASoC: codecs: sta32x: Fix definition of Ch2 and Ch3 Volume Bypass controls
-      https://git.kernel.org/broonie/sound/c/ea53ab9003d8
-[4/4] ASoC: codecs: sta350: Fix definition of Ch2 and Ch3 Volume Bypass controls
-      https://git.kernel.org/broonie/sound/c/7308ce7c8459
+> [..]
+> --- a/sound/soc/codecs/aw88261.h
+> +++ b/sound/soc/codecs/aw88261.h
+> @@ -564,6 +564,8 @@ enum {
+>   enum {
+>   	AW88261_DEV_PW_OFF = 0,
+>   	AW88261_DEV_PW_ON,
+> +	/* powered up and configured, amplifier off: waits for the bit clock */
+> +	AW88261_DEV_PW_READY,
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+Would make more sense to stick the intermediate state in the, well, 
+middle. And rename the states to something that makes sense like { OFF, 
+WAITING_FOR_BIT_CLOCK, RUNNING } instead of making everything a comment 
+like the slop machine left it.
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+> [..]
+> base-commit: 0f8bc3b93b76d16682a4d4999f9559b1e18016f9
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+It does work here, anyhow, so
+
+Tested-by: Val Packett <val@packett.cool> # sm7325-motorola-dubai
+
 
 Thanks,
-Mark
+~val
 
