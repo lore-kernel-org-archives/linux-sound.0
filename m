@@ -1,64 +1,64 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F76749BD9C
-	for <linux-sound@vger.kernel.org>; Sun, 18 Oct 2026 12:49:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C065F49D581
+	for <linux-sound@vger.kernel.org>; Sun, 18 Oct 2026 12:49:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792327795; cv=none; b=ZHMxlvyp2SyV/O1P0gfQdRORjTSWIP0CaPqXwSuKnpeCCGM873wMwtNXHkaMtm/CC8ws/cbeY1cOfVucDBJyXxj7e6RT7peC8SpI0YvmsrYe0hLb6I5YJ+68Pz1FErnnk0wjNVyUHLlLay/cZhnRQveEIdd3EuY/BVLzyxJEyMI=
+	t=1792327797; cv=none; b=n2Sfd+URSXGaZ7rg7U1Bdba2tabf8wwJvGykcSPWpTAUrMe5HDojrPHUS+W0BHI+SCMTo/C2yMe3ELYvD+E6k9eOsJcPJwcMSLUQOtcRZQcS+IPKK95rLjztiXLOtDVUalzEJ6s4u/cA7qFsESEloCgJCZ3ZaNF4QxOIr4oyTuk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792327795; c=relaxed/simple;
-	bh=ZybwQuyiX3gXI+mzrbA/1G2Vz3Vmb3YTfYhqISQGDuE=;
+	s=arc-20240116; t=1792327797; c=relaxed/simple;
+	bh=in8qrMhhCn8+iRl1pHPQhgbmr3OKXurF25m+dmvmaas=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=iA0PTx+T0OF0jZb00VV8eTYvjKPEezv9J+3K5TPbd9gk6eQPHubSfprXMR5h16XBuz/WXw5WiIsJ7ZbEroclF24PzfTEBtOuIb+ElU2qimhHJcJHSiT/kWsKjcuqOCRq6cA6zBmdgtznxaYM5sgt4TpFJhZ3VCC/xdA4lBRKt3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l0XP4VA2; arc=none smtp.client-ip=209.85.221.45
+	 MIME-Version; b=teL+rpXlXJRk+bc6Qnf8UU4nw9w4Wqgil+DibXrCKPokkzO1Hxh65XTZXQn4iEd3kb6WPX6wH/9kqRRFhwULyNm0RooybJvg8HF3Gg96fdo/Ix2cUlOqkKxZuYYJwpy/t+xn6oaifrSoxN4KdVhfER1MT8UdtIsBF8m9PXwX7F4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y+h3zafj; arc=none smtp.client-ip=209.85.128.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l0XP4VA2"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-48b0584ad71so751181f8f.0
-        for <linux-sound@vger.kernel.org>; Sun, 18 Oct 2026 05:49:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y+h3zafj"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4a1df146015so4907995e9.0
+        for <linux-sound@vger.kernel.org>; Sun, 18 Oct 2026 05:49:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792327791; x=1792932591; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1792327793; x=1792932593; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=R28zVLjzzIWNytJABkl7jLklHY8Z5yrz+uQ9TaZ758Y=;
-        b=l0XP4VA2we8UZpiHWkTDEPLBIdkTMNtPwCd0fna/1lXEnqXuSvlPq0G18W2ZSktjVY
-         4QFzVnFuG7Us8mOHcILG2kzk2Pa0VADTA2LnzVD7DaC1ChDx0Vf586sWeWcYalour91k
-         FrS+e0eFcaKZYIYZzBaILHQeULdKTUv3Iq89zI2Gs2me6OPcG+F9I8B1LnMiYAV5YLRI
-         dzfwZLaAwyOw5iTO/WqFXmWsBfM/xobJweW3iUZ1HsdIInCo3asza5PsF0wAEJl5VZkW
-         0KhHEbgKhdpfxiTsELMUhUucp/sLF14k3Mee+QdACjSMXs9rwidVh3IkVcsuwRPtXLX3
-         tn4w==
+        bh=CwYhA8yuwTltEmhlw7+AMc/GWC8sIlkGYHOhcUohYjQ=;
+        b=Y+h3zafjeGoQsR9v6uOmGHSKtPe4Kz0A466+tcLVW/A0i+SwSHJqunJet3YLo1b93t
+         FFD731C1nSezeruyGHrYeNjYH9Pb2zntiTxpBtEq62nQYGaB8W6I3nl6x1ab2L/dA8Ck
+         Y+74Mggxz0/lzhSWsO8lIyYtr1+tD7JAVwUdNoTDC1fzLCA/Y3cXBab0SJNRSXqt1e8u
+         KN6GUyKQUJ9BMRwKvL9GbYK3Vrrc0ksEdwV4oFNDzQtofOzdnU8O+UD3feHRwoABGyAo
+         HekeYHbxyfEB9WiPXkF+i64AkmLXTnocJLnQrAkXFfluw74Jn7XSe+htioXbU+Bi3R2P
+         Hodw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792327791; x=1792932591;
+        d=1e100.net; s=20260707; t=1792327793; x=1792932593;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=R28zVLjzzIWNytJABkl7jLklHY8Z5yrz+uQ9TaZ758Y=;
-        b=M2+byBO+A2UC1A4xftJ3qwjiPbw0fPRQK1LpEl9hiea5NAZOlbTK+lV8qiqp+4dMPs
-         66qufb8GaJ+aj0FgkB77PLMTv1RXjkU5wU6W0s5+4j9EEwN9Ux5O2W8ClZV8mp3QGMOT
-         IYNzvlOVGg7y9M7Vg7vk8NAm/PZ6Kv8lHJV9/oCW7g0Ni9PVBvNYmxeFI9ABbkFLks9o
-         Pu+PT3n87ITpIqlKItWYw+JOCHeapDcK0YJ+yE08yxWTj+5laPKOkOEKtm68IuqzEaxt
-         ioQFEJwflmMRtC6DFOe0sjKo7Y8WxpXeou8Vq5kxtEBtBRkrZ/ZHrjsfa83laBQXIeE/
-         ALcw==
-X-Forwarded-Encrypted: i=1; AKwUvBy0/RMCAGkehP/Zq8f5en9kKE+desQ1cnhXpHi4ITjoMr9C4UHli4Sq4Z4ELiXklQadY9xNoa6WpgSe1Q==@vger.kernel.org
-X-Gm-Message-State: AFq9FYI+T5S4JQJ5uhJNFwL5lAhUxyf0GUH7LlIdLSY9ca3Vt2zyQHjq
-	ng8MjRpRg2mJVzKuBqATLKA23pgd7io0PuDMbL9uOfUWfY7yQpdyVuqx
-X-Gm-Gg: AYBFou1I8kiE2dVLDGB13DMIPhtYK+og9rFL2YXvZp2Z63cys/an2hpQiGPTrKTszu+
-	dLTTd732L46hBQDKMIxC9ZT+E1SU6M41KeF971zsOmwyllszpdoOnfssm7aRjvYmgy70JP6/y0n
-	A3lCJsCwclccjRKOmK7zD7ijCaKbBubIX+wYZcLqtZmrkpzg4dpnNugFlaMkMk8wW5rM9D/yWnx
-	UnmdESzxL4Zms1xAQeEn+hhpghOYk4/P/wUIsJ4A9NPmVHoOFhbciHu/ZY8yxcC3axd4sa/jgKP
-	dO1x6x0+6FA+x4gQHcus85rzdOUf4pBbJ2HKwCxNLq3jza+DG14fmQo0iB2SN2KrmoyqTkcYpkb
-	YDPq8UwtU8IjH7lxUqjCwlEbMhtaje9+UevGOgDgakt7R9yBMNHGFaMZ2O4J6AF+NmACm5c68go
-	fYj2feKWincKa1MBcwkaUVnmaWSE8WYz7ysl7JB8nG16ioDUfg9F1Of9VT4RK7g/aYUALqNB4c3
-	v8cMNjjEgwlcWHg+b55DAhgp3FR0AC2l9mY2hyl8ATB5Pb4FKFPzs0IcdbKWUVqjxoqPQ==
-X-Received: by 2002:a05:600c:8709:b0:4a1:7e77:c382 with SMTP id 5b1f17b1804b1-4a1d75e6f32mr98908035e9.5.1792327790979;
-        Sun, 18 Oct 2026 05:49:50 -0700 (PDT)
+        bh=CwYhA8yuwTltEmhlw7+AMc/GWC8sIlkGYHOhcUohYjQ=;
+        b=Qt0eDAVTk82KngSTPUY2Qsv5WFNOqZ0wF4lW86YO5RPR1lUxpRKid6J0Q6hIGxUSLl
+         bubRy6EIgHN0JEfvUJ9qUVgQQ66KYc0RNofCw1yl/6g1CS49rg/xb9vg97ztVkbW4Yts
+         N7j0/IISJDlVP+MTiDrfqF3LLRqe50GL17TKxzES7H4d98W+hkJfbjqRxTpLQOHiYbpH
+         uQxZw8ZXiNQkHU0f87ZpOa4cvUott5t18sal57KwLNdB9bvwAIWfFdCT9OswEN9d3fFl
+         9Cn0Y7LmbBNj6UWJV4vUpREJBdsKE07xHu3HD7Iy70ZFXYTlszIzqUdxE846OQqo88QU
+         5nRQ==
+X-Forwarded-Encrypted: i=1; AKwUvByhwXHJoogiPHHRfSEbdJNBRhLM4o2FNTFlhFrcMk9QNdx+WeWi0Ya7iAe0pjVr9t2flkpWie6Rn/LmeA==@vger.kernel.org
+X-Gm-Message-State: AFq9FYKy8jwonqq0RTf5HidIWss85Lf/kU+S60oVm80qfCphYInuXqF1
+	JXAsGqfld3qydXL7cjPual+SVEo9lkoEfSsoc3H3JwjoEe4/b0bMAA+FzhJLps3B5tvRZYBk
+X-Gm-Gg: AYBFou1rI71WY+dk8pLguL2nw2Yk9IFIrfFi3XArC2MkDR5A7byp67c3bfKzAF1ThrG
+	eAb/ieGnroFFtzmPhT2nm5P2IyeQhEstKK8LIS7XLuORVCZ5QoYwDe4focxOksBty4uSNW3P0dr
+	J4bR0RosU/XdUbJs3TOoxAfE+iQC2jCrN9wUJdiAw+y4Tz8nD2Z+bBbaPPMswMFTom+5V+StM4C
+	1rZzb8FKtX5TsnwuqNQGA2NuyAUXX/8HX/9FcHbxRXu2oj9biO4eDNiXvzQkHSQIAkq3RYbDGhq
+	zmaFZFxySuXUr2TUd1kWQ99WjPZpeFh8hHk0s/j8Q0FfY5xt3q6tKyr3LuYlqdkK9yLuiLWYqwD
+	3CfJGUuTRD+35chNejAKFaOY0nZbbNH+HD60zvb6xIW5/asKTAwuEeoB7WesW9p5uHJPrzWO+Gr
+	cL1w2EBUtYR+gb6q3rc15/5R/Um89CjmBUqrlDDjm1P64DzlqQcW+36PPwdvzygTuWjM4uv9Z6c
+	50mdArDjsbIKG+Yq6Doyk9INhppbxfvQazxcXIHVlU2i2/r1gLNQEhK5qLeklZAwlQLLi8=
+X-Received: by 2002:a05:600c:1f86:b0:4a1:93fd:8f8 with SMTP id 5b1f17b1804b1-4a1d75ab363mr109281025e9.4.1792327792739;
+        Sun, 18 Oct 2026 05:49:52 -0700 (PDT)
 Received: from localhost ([178.214.243.78])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1e3ebb3aasm71214555e9.0.2026.10.18.05.49.48
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1e3ebb3aasm71214555e9.0.2026.10.18.05.49.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Oct 2026 05:49:50 -0700 (PDT)
+        Sun, 18 Oct 2026 05:49:52 -0700 (PDT)
 From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
 To: jikos@kernel.org,
 	bentiss@kernel.org,
@@ -69,9 +69,9 @@ Cc: tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-Subject: [PATCH v9 5/8] HID: topping: report the M62's battery level
-Date: Sun, 18 Oct 2026 17:48:35 +0500
-Message-ID: <20261018124838.129349-6-mikhail.v.gavrilov@gmail.com>
+Subject: [PATCH v9 6/8] ALSA: usb-audio: add the Topping M62's port power settings
+Date: Sun, 18 Oct 2026 17:48:36 +0500
+Message-ID: <20261018124838.129349-7-mikhail.v.gavrilov@gmail.com>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <20261018124838.129349-1-mikhail.v.gavrilov@gmail.com>
 References: <20261018124838.129349-1-mikhail.v.gavrilov@gmail.com>
@@ -83,379 +83,261 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The M62 runs on its own battery, and a card connected to a computer can
-still run down: whether the host charges it depends on a setting of the
-card's USB-C port, and nothing on a Linux desktop shows its level.
+An M62 whose USB-C port the vendor's application has set to Off or
+Discharge does not charge from the computer it is connected to, and
+runs its battery down; nothing on Linux shows that setting or changes
+it, nor the power of the OTG port. Both are kept in the card, and the
+application offers them under Device.
 
-The card reports the level itself, at 0x11/0x18 in percent: within
-seconds of the subscription and again at every change. Offer it as a
-power supply of device scope, so that it is never taken for the
-system's own battery. The supply is registered only once the first
-level has arrived: UPower decides when a device supply appears whether
-it is a battery, by reading its capacity, and ignores for good one that
-cannot answer yet. Whether it is charging the card does not report, so
-the status is unknown.
+Offer both as enumerated controls with the application's items: "USB-C
+Port Power" (Charge, Discharge, Off) and "OTG Port Power" (Discharge,
+Off), at 0x11/0x1c and 0x11/0x1b, in every mode.
 
-In Mobile Mode the card announces nothing to a plain subscription, and
-its first level came 20 to 30 seconds after it appeared. Inside a
-session it announces at once, so the driver now opens one at bind and
-at resume as the vendor application does, with the handshake 0x11/0x01
-before the subscription and the request to announce: the supply then
-appears about 2 seconds after a card is plugged in, in either mode. The
-dump of DSP blocks the card adds inside a session carries nothing this
-driver exposes, and is ignored.
-
-The card answers the handshake with its mode, 8 to 851 ms after it
-here, the latest while it was still sending an announce asked for just
-before, and the vendor application sends nothing until that answer has
-come; its next frame follows the answer by 4 to 6 ms. In a first bind
-that wrote straight after the handshake, the one write that reached the
-card 2 ms before the answer was not applied, while the rest were. So
-the subscription, the request to announce and everything the audio side
-writes after a bind or a resume wait for the answer, or for 3.5 s, a
-little longer than an announce lasts, from a card that gives none.
-
-The E2x2 OTG has no battery and gets no supply.
+Like every other value here, both are written at the first bind: the
+USB-C port to Charge, so that a card left on Off or Discharge by another
+host takes power from this one again, and the OTG port to Off, which
+leaves a phone on it to its own battery rather than the card's.
+alsactl's restore then puts back what the user chose. The card reports
+both settings in its announce, and a report updates the control, as for
+the volumes; but it sends each of the two once in an announce and leaves
+one or both out of some announces, 13 of 120 in one run here, so the
+announce cannot stand in for the write. The vendor application reads
+them from the announce and never pushes them; a host that is to charge
+the card cannot leave that to an announce that may not come.
 
 Signed-off-by: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
 ---
- drivers/hid/Kconfig       |   3 +-
- drivers/hid/hid-topping.c | 195 +++++++++++++++++++++++++++++++++++---
- 2 files changed, 184 insertions(+), 14 deletions(-)
+ sound/usb/mixer_topping.c | 143 ++++++++++++++++++++++++++++----------
+ 1 file changed, 108 insertions(+), 35 deletions(-)
 
-diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-index 9367a71..fad88f4 100644
---- a/drivers/hid/Kconfig
-+++ b/drivers/hid/Kconfig
-@@ -1289,13 +1289,14 @@ config HID_TOPPING
- 	depends on USB_HID
- 	depends on SND_USB_AUDIO
- 	select CRC16
-+	select POWER_SUPPLY
- 	help
- 	  The vendor protocol behind the input gains, output volumes and
- 	  source selectors of the Topping M62 and E2x2 OTG USB audio
- 	  interfaces, and the output switches of the E2x2 OTG. These are
- 	  not described by the USB Audio Class and are reached over the
- 	  card's HID interface, so a driver is needed for them to work
--	  at all.
-+	  at all. The M62's battery level is reported as a power supply.
- 
- 	  The controls themselves belong to snd-usb-audio, on the sound
- 	  card it makes for the same device; this driver carries them
-diff --git a/drivers/hid/hid-topping.c b/drivers/hid/hid-topping.c
-index 7b46c4c..f9e05ce 100644
---- a/drivers/hid/hid-topping.c
-+++ b/drivers/hid/hid-topping.c
-@@ -28,9 +28,15 @@
-  * The M62 says nothing until it is subscribed: one write of 0x11/0x24
-  * starts the notification stream, after which every change, including
-  * a front panel button, arrives unsolicited.  A second write, 0x11/0x26,
-- * makes the device announce what it reports at all.  The E2x2 OTG
-- * reports without being asked, and its own vendor application never
-- * sends it either of the two, so neither does this driver.
-+ * makes the device announce what it reports at all -- in Mobile Mode
-+ * only inside a session, so a third goes first: 0x11/0x01, the
-+ * handshake the vendor application opens with.  The device answers it
-+ * with its mode, and inside the session adds a dump of its DSP blocks
-+ * that nothing here uses; until it has answered, the application sends
-+ * it nothing more, and neither does this driver.  The E2x2 OTG reports
-+ * without being asked, and its own vendor application never subscribes
-+ * to it or asks it to announce, so this driver sends it none of the
-+ * three.
+diff --git a/sound/usb/mixer_topping.c b/sound/usb/mixer_topping.c
+index 725db57..854ff0a 100644
+--- a/sound/usb/mixer_topping.c
++++ b/sound/usb/mixer_topping.c
+@@ -2,16 +2,17 @@
+ /*
+  * Topping M62 and E2x2 OTG -- the cards' vendor controls.
   *
-  * The control pipe is not an option: GET_REPORT and SET_REPORT both
-  * stall with EPIPE for every report type, so the interrupt endpoints
-@@ -46,14 +52,23 @@
-  * struct topping_component it is handed with the one operation the
-  * controls need -- send a frame -- and from then on passes on every
-  * frame the card reports.
-+ *
-+ * THE M62'S BATTERY IS.  The card reports its charge in percent at
-+ * 0x11/0x18, and this driver offers it as a power supply of device
-+ * scope, registered once the first level has arrived.  Whether the card
-+ * is charging it does not say.  Like every report the level comes only
-+ * to a subscriber, so the supply appears after the card's audio side
-+ * has bound.
+- * The M62's analogue input gains, output volumes, source selectors and
+- * loopback gains, and the E2x2 OTG's digital input gains, faders,
+- * source selectors and output switches, are not described by the USB
+- * Audio Class.  They are reached over a vendor protocol on the card's
+- * HID interface, which hid-topping speaks.  This file owns the
+- * controls; that driver is the transport.  The two meet through the
+- * component framework, with this side as the master, in the same shape
+- * as HD-audio and the graphics drivers in sound/hda/core/component.c:
+- * the master owns a struct topping_component, and the HID driver fills
+- * in its one operation when it binds and clears it when it unbinds.
++ * The M62's analogue input gains, output volumes, source selectors,
++ * loopback gains and port power settings, and the E2x2 OTG's digital
++ * input gains, faders, source selectors and output switches, are not
++ * described by the USB Audio Class.  They are reached over a vendor
++ * protocol on the card's HID interface, which hid-topping speaks.
++ * This file owns the controls; that driver is the transport.
++ * The two meet through the component framework, with this side
++ * as the master, in the same shape as HD-audio and the graphics
++ * drivers in sound/hda/core/component.c: the master owns a struct
++ * topping_component, and the HID driver fills in its one operation
++ * when it binds and clears it when it unbinds.
+  *
+  * THE CONTROLS LIVE AS LONG AS THE CARD.  They are created at the first
+  * bind of the HID driver and not removed when it unbinds: a value
+@@ -27,19 +28,22 @@
+  * THE CARD'S STATE CANNOT BE READ.  The card reports what a hand does to
+  * its hardware, every turn of a front-panel knob, and when a session
+  * opens it announces the gains of the inputs that have something
+- * plugged in; nothing answers a request for a value.  A host that does
+- * not set the card inherits whatever the last host, or a hand on the
+- * panel, left in a battery-powered card.  So the first bind writes
++ * plugged in and the M62's port power settings, though an announce can
++ * leave those out; nothing answers a request for a value.  A host that
++ * does not set the card inherits whatever the last host, or a hand on
++ * the panel, left in a battery-powered card.  So the first bind writes
+  * everything, and from then on the cache is the truth, which the card's
+  * own reports keep up to date: each output listens to the host's main
+  * stream, Playback 1/2, with the mixer out of the path, or at 0 dB
+  * through it where there is no way around it, as on an M62 in Mobile
+  * Mode; every input gain starts at 0 dB, where it changes nothing; the
+- * analogue headphone stage starts at its quiet end; and the digital
+- * stream to a phone starts at unity.  That follows the usual Linux
+- * division -- the kernel puts the hardware into a defined state, and the
+- * level a user hears is set from userspace, by alsactl's restore or init
+- * and by the sound server, both of which run after the card appears.
++ * analogue headphone stage starts at its quiet end; the digital stream
++ * to a phone starts at unity; and the M62's USB-C port charges the card,
++ * while its OTG port leaves a phone to its own battery.  That follows
++ * the usual Linux division -- the kernel puts the hardware into a
++ * defined state, and the level a user hears is set from userspace, by
++ * alsactl's restore or init and by the sound server, both of which run
++ * after the card appears.
   */
  
  #include <linux/bits.h>
- #include <linux/cleanup.h>
-+#include <linux/completion.h>
- #include <linux/component.h>
- #include <linux/crc16.h>
- #include <linux/hid.h>
- #include <linux/module.h>
-+#include <linux/power_supply.h>
- #include <linux/sched/mm.h>
- #include <linux/slab.h>
- #include <linux/spinlock.h>
-@@ -77,9 +92,12 @@
-  */
- #define TOPPING_IFNUM		GENMASK(7, 0)
- #define TOPPING_SUBSCRIBE	BIT(8)	/* wants 0x11/0x24 and its renewal */
-+#define TOPPING_BATTERY		BIT(9)	/* reports its charge at 0x11/0x18 */
- 
- /* device-scope properties */
- #define TOPPING_TT_DEVICE	0x11
-+#define TOPPING_PP_HANDSHAKE	0x01
-+#define TOPPING_PP_BATTERY	0x18
- #define TOPPING_PP_SUBSCRIBE	0x24
- #define TOPPING_PP_ANNOUNCE	0x26
- 
-@@ -92,6 +110,18 @@
-  */
- #define TOPPING_KEEPALIVE_MS	2000
- 
-+/*
-+ * NOTHING FOLLOWS THE HANDSHAKE UNTIL IT IS ANSWERED.  The card answers
-+ * 0x11/0x01 8 to 851 ms after it here, the latest while it was still
-+ * sending an announce asked for just before, and the vendor application
-+ * sends nothing in between: its next frame follows the answer by 4 to
-+ * 6 ms.  A write that reached the card 2 ms before the answer was once
-+ * not applied, while the rest of the same bind's writes were.  An
-+ * announce lasts 3.1 to 3.3 s from its request, so a card that has not
-+ * answered by this is not waited for any longer.
-+ */
-+#define TOPPING_ANSWER_MS	3500
-+
- struct topping_hid {
- 	struct hid_device *hdev;
- 	struct usb_interface *intf;	/* for runtime PM */
-@@ -106,6 +136,18 @@ struct topping_hid {
- 
- 	bool subscribe;			/* TOPPING_SUBSCRIBE */
- 	struct delayed_work keepalive;
-+	struct completion answered;	/* the card's answer to 0x11/0x01 */
-+
-+	/*
-+	 * The charge in percent, or -1 until the card has said; written
-+	 * by .raw_event() alone.  psy stays NULL until battery_work has
-+	 * registered the supply, and on a card without a battery.
-+	 */
-+	bool has_battery;		/* TOPPING_BATTERY */
-+	int battery;
-+	struct power_supply *psy;
-+	struct power_supply_desc psy_desc;
-+	struct work_struct battery_work;
+@@ -250,14 +254,43 @@ struct topping_enum_desc {
+ 	u8 modes;		/* the modes that have it, or 0 for all */
  };
  
- /* ------------------------------------------------------------------ */
-@@ -237,6 +279,25 @@ static int topping_raw_event(struct hid_device *hdev,
- 	if (get_unaligned_be16(data + 11) != crc16(0xffff, data + 2, 9))
- 		return 0;
- 
-+	if (data[5] == TOPPING_TT_DEVICE && data[6] == TOPPING_PP_HANDSHAKE)
-+		complete(&th->answered);
-+
-+	if (th->has_battery && data[5] == TOPPING_TT_DEVICE &&
-+	    data[6] == TOPPING_PP_BATTERY) {
-+		int charge = clamp_t(s32, get_unaligned_be32(data + 7), 0, 100);
-+		/* pairs with the release in topping_battery_work() */
-+		struct power_supply *psy = smp_load_acquire(&th->psy);
-+
-+		/* the card repeats an unchanged level now and then */
-+		if (charge != th->battery) {
-+			WRITE_ONCE(th->battery, charge);
-+			if (psy)
-+				power_supply_changed(psy);
-+			else
-+				schedule_work(&th->battery_work);
-+		}
-+	}
-+
- 	/*
- 	 * Under the lock that topping_unbind() takes to clear th->comp,
- 	 * so a frame cannot reach an audio side that has already been
-@@ -249,6 +310,23 @@ static int topping_raw_event(struct hid_device *hdev,
- 	return 0;
- }
- 
-+/*
-+ * Open a session as the vendor application does on connecting, less
-+ * its push of the whole workspace: the handshake, and once the card has
-+ * answered it, the subscription and the request to announce.  What the
-+ * audio side writes comes after this returns, at a bind and at a resume
-+ * alike, so that waits for the answer too.
-+ */
-+static void topping_open_session(struct topping_hid *th)
-+{
-+	reinit_completion(&th->answered);
-+	if (!topping_send(th, TOPPING_TT_DEVICE, TOPPING_PP_HANDSHAKE, 1))
-+		wait_for_completion_timeout(&th->answered,
-+					    msecs_to_jiffies(TOPPING_ANSWER_MS));
-+	topping_send(th, TOPPING_TT_DEVICE, TOPPING_PP_SUBSCRIBE, 1);
-+	topping_send(th, TOPPING_TT_DEVICE, TOPPING_PP_ANNOUNCE, 1);
-+}
-+
- static void topping_keepalive(struct work_struct *work)
- {
- 	struct topping_hid *th = container_of(work, struct topping_hid,
-@@ -263,6 +341,89 @@ static void topping_keepalive(struct work_struct *work)
- 			      msecs_to_jiffies(TOPPING_KEEPALIVE_MS));
- }
- 
-+/* ------------------------------------------------------------------ */
-+/* battery								*/
-+/* ------------------------------------------------------------------ */
-+
-+static const enum power_supply_property topping_battery_props[] = {
-+	POWER_SUPPLY_PROP_STATUS,
-+	POWER_SUPPLY_PROP_CAPACITY,
-+	POWER_SUPPLY_PROP_SCOPE,
-+	POWER_SUPPLY_PROP_MODEL_NAME,
++/* the power settings of the two ports, as the vendor application has them */
++static const char * const topping_m62_usbc_power[] = {
++	"Charge", "Discharge", "Off",
 +};
 +
-+static int topping_battery_get(struct power_supply *psy,
-+			       enum power_supply_property psp,
-+			       union power_supply_propval *val)
-+{
-+	struct topping_hid *th = power_supply_get_drvdata(psy);
++static const u8 topping_m62_usbc_power_value[] = { 1, 2, 3 };
 +
-+	switch (psp) {
-+	case POWER_SUPPLY_PROP_STATUS:
-+		/* the card does not report whether it is charging */
-+		val->intval = POWER_SUPPLY_STATUS_UNKNOWN;
-+		break;
-+	case POWER_SUPPLY_PROP_CAPACITY:
-+		val->intval = READ_ONCE(th->battery);
-+		break;
-+	case POWER_SUPPLY_PROP_SCOPE:
-+		/* the card's own battery, never the system's */
-+		val->intval = POWER_SUPPLY_SCOPE_DEVICE;
-+		break;
-+	case POWER_SUPPLY_PROP_MODEL_NAME:
-+		val->strval = th->hdev->name;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+	return 0;
-+}
++static const struct topping_sources topping_m62_usbc = {
++	topping_m62_usbc_power, topping_m62_usbc_power_value,
++	ARRAY_SIZE(topping_m62_usbc_power),
++};
 +
-+/*
-+ * Registered only once the card has reported a level.  A supply that
-+ * cannot yet answer for its capacity is not a battery to UPower, which
-+ * decides that once, when the supply appears, and ignores it from then
-+ * on.
-+ */
-+static void topping_battery_work(struct work_struct *work)
-+{
-+	struct topping_hid *th = container_of(work, struct topping_hid,
-+					      battery_work);
-+	struct hid_device *hdev = th->hdev;
-+	struct power_supply_config cfg = { .drv_data = th };
-+	struct power_supply *psy;
-+	int err;
++static const char * const topping_m62_otg_power[] = { "Discharge", "Off" };
 +
-+	if (th->psy)
-+		return;
++static const u8 topping_m62_otg_power_value[] = { 1, 0 };
 +
-+	th->psy_desc.name = devm_kasprintf(&hdev->dev, GFP_KERNEL,
-+					   "hid-%s-battery",
-+					   dev_name(&hdev->dev));
-+	if (!th->psy_desc.name)
-+		return;
-+	th->psy_desc.type = POWER_SUPPLY_TYPE_BATTERY;
-+	th->psy_desc.properties = topping_battery_props;
-+	th->psy_desc.num_properties = ARRAY_SIZE(topping_battery_props);
-+	th->psy_desc.get_property = topping_battery_get;
++static const struct topping_sources topping_m62_otg = {
++	topping_m62_otg_power, topping_m62_otg_power_value,
++	ARRAY_SIZE(topping_m62_otg_power),
++};
 +
-+	/*
-+	 * devm on the HID device: released after .remove(), which has
-+	 * stopped .raw_event() and this work by then.
-+	 */
-+	psy = devm_power_supply_register(&hdev->dev, &th->psy_desc, &cfg);
-+	if (IS_ERR(psy)) {
-+		hid_err(hdev, "battery: %ld\n", PTR_ERR(psy));
-+		return;
-+	}
-+	err = power_supply_powers(psy, &hdev->dev);
-+	if (err)
-+		hid_warn(hdev, "battery: powers link: %d\n", err);
-+
-+	/* a supply seen by .raw_event() is a registered one */
-+	smp_store_release(&th->psy, psy);
-+}
-+
- /* ------------------------------------------------------------------ */
- /* component								*/
- /* ------------------------------------------------------------------ */
-@@ -286,15 +447,16 @@ static int topping_bind(struct device *dev, struct device *master,
- 		th->comp = comp;
- 
- 	/*
--	 * Subscribe and ask for the state HERE rather than at probe:
--	 * before this point there is nobody to pass the answer to.  The
--	 * card answers in two waves -- the jacks at once, the gain of a
--	 * connected input about 5 s later -- so nothing here waits for
--	 * them: each value arrives through .raw_event() on its own.
-+	 * Open the session and ask for the state HERE rather than at
-+	 * probe: before this point there is nobody to pass the answer to.
-+	 * The card answers in two waves -- the jacks at once, the gain of
-+	 * a connected input about 5 s later -- so nothing here waits for
-+	 * them: each value arrives through .raw_event() on its own.  Only
-+	 * the answer to the handshake is waited for, inside
-+	 * topping_open_session(), before the audio side writes anything.
- 	 */
- 	if (th->subscribe) {
--		topping_send(th, TOPPING_TT_DEVICE, TOPPING_PP_SUBSCRIBE, 1);
--		topping_send(th, TOPPING_TT_DEVICE, TOPPING_PP_ANNOUNCE, 1);
-+		topping_open_session(th);
- 		schedule_delayed_work(&th->keepalive,
- 				      msecs_to_jiffies(TOPPING_KEEPALIVE_MS));
- 	}
-@@ -367,9 +529,13 @@ static int topping_probe(struct hid_device *hdev,
- 	    (id->driver_data & TOPPING_IFNUM))
- 		return -ENODEV;
- 	th->subscribe = id->driver_data & TOPPING_SUBSCRIBE;
-+	th->has_battery = id->driver_data & TOPPING_BATTERY;
-+	th->battery = -1;
- 
- 	spin_lock_init(&th->lock);
- 	INIT_DELAYED_WORK(&th->keepalive, topping_keepalive);
-+	init_completion(&th->answered);
-+	INIT_WORK(&th->battery_work, topping_battery_work);
- 	hid_set_drvdata(hdev, th);
- 
- 	err = hid_parse(hdev);
-@@ -409,6 +575,7 @@ err_close:
- 	hid_hw_close(hdev);
- err_stop:
- 	hid_hw_stop(hdev);
-+	cancel_work_sync(&th->battery_work);
- 	return err;
- }
- 
-@@ -430,6 +597,9 @@ static void topping_remove(struct hid_device *hdev)
- 
- 	hid_hw_close(hdev);
- 	hid_hw_stop(hdev);
-+
-+	/* After the reports have stopped, so that nothing queues it again. */
-+	cancel_work_sync(&th->battery_work);
- }
- 
- static int topping_suspend(struct hid_device *hdev, pm_message_t message)
-@@ -466,8 +636,7 @@ static int topping_resume(struct hid_device *hdev)
- 	 */
- 	if (th->subscribe) {
- 		noio = memalloc_noio_save();
--		topping_send(th, TOPPING_TT_DEVICE, TOPPING_PP_SUBSCRIBE, 1);
--		topping_send(th, TOPPING_TT_DEVICE, TOPPING_PP_ANNOUNCE, 1);
-+		topping_open_session(th);
- 		memalloc_noio_restore(noio);
- 	}
- 
-@@ -495,7 +664,7 @@ static const struct hid_device_id topping_devices[] = {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_TOPPING, USB_DEVICE_ID_TOPPING_E2X2_OTG),
- 	  .driver_data = 4 },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_TOPPING, USB_DEVICE_ID_TOPPING_M62),
--	  .driver_data = 4 | TOPPING_SUBSCRIBE },
-+	  .driver_data = 4 | TOPPING_SUBSCRIBE | TOPPING_BATTERY },
- 	{ }
+ /*
+- * A selector answers on ONE target of a pair, unlike a volume or a
+- * mute, which must be written to both: the second target of an
++ * A source selector answers on ONE target of a pair, unlike a volume
++ * or a mute, which must be written to both: the second target of an
+  * output's pair, the first of a loopback return's.  It is never
+  * reported, so it is always written at the first bind.  The outputs
+  * start on the host's main stream, the loopback returns where the
+  * vendor application puts them.
+  *
++ * The power settings of the USB-C port the card is connected by and of
++ * its OTG port are in the card's announce, but not in every one, and
++ * another host can leave them anywhere: set to Off or Discharge, the
++ * USB-C port does not charge the card from this computer, and the card
++ * runs its battery down.  So they are written like everything else, the
++ * USB-C port to Charge and the OTG port to Off, which leaves a phone on
++ * that port to its own battery rather than the card's.
++ *
+  * The names end in "Source", not "Route": alsa-lib's simple mixer joins
+  * a "... Playback Route" or "... Capture Route" enumeration to the
+  * volume of the same name and then reads and writes only the
+@@ -277,6 +310,8 @@ static const struct topping_enum_desc topping_m62_enums[] = {
+ 	  TOPPING_M62_BT, &topping_m62_src, TOPPING_PRO },
+ 	{ "Loopback 7/8 Capture Source", 0x57, 0x02,
+ 	  TOPPING_M62_OTG_IN, &topping_m62_src, TOPPING_PRO },
++	{ "USB-C Port Power", 0x11, 0x1c, 0, &topping_m62_usbc },	/* Charge */
++	{ "OTG Port Power", 0x11, 0x1b, 1, &topping_m62_otg },		/* Off */
  };
- MODULE_DEVICE_TABLE(hid, topping_devices);
+ 
+ /*
+@@ -610,7 +645,9 @@ static void topping_sync(struct topping_mixer *tm)
+ 	for (i = 0; i < m->num_enums; i++) {
+ 		if (!topping_here(tm, m->enums[i].modes))
+ 			continue;
+-		topping_write_sel(tm, i, tm->sel[i]);
++		scoped_guard(spinlock_irqsave, &tm->val_lock)
++			value = tm->sel[i];
++		topping_write_sel(tm, i, value);
+ 	}
+ 	for (i = 0; i < m->num_fixed; i++)
+ 		topping_write(tm, m->fixed[i].target, m->fixed[i].prop,
+@@ -640,6 +677,41 @@ static void topping_resume_work(struct work_struct *work)
+  * control's own private_free clears kctl[] under this lock.  It is safe
+  * from here: it takes read_lock_irqsave and allocates with GFP_ATOMIC.
+  */
++static void topping_report_sel(struct topping_mixer *tm, u8 target,
++			       u8 prop, s32 value)
++{
++	const struct topping_model *m = tm->model;
++	const struct topping_enum_desc *d;
++	struct snd_kcontrol *kctl;
++	unsigned int item;
++	int i;
++
++	for (i = 0; i < m->num_enums; i++) {
++		d = &m->enums[i];
++		if (d->target == target && d->prop == prop &&
++		    topping_here(tm, d->modes))
++			break;
++	}
++	if (i == m->num_enums)
++		return;			/* a meter, or something unnamed */
++
++	for (item = 0; item < d->src->num; item++)
++		if (d->src->values[item] == value)
++			break;
++	if (item == d->src->num)
++		return;
++
++	guard(spinlock_irqsave)(&tm->val_lock);
++
++	if (tm->sel[i] == item)
++		return;
++	tm->sel[i] = item;
++
++	kctl = tm->kctl[m->num_ctls + i];
++	if (kctl)
++		snd_ctl_notify(tm->card, SNDRV_CTL_EVENT_MASK_VALUE, &kctl->id);
++}
++
+ static void topping_report(struct topping_component *comp, u8 target,
+ 			   u8 prop, s32 value)
+ {
+@@ -648,8 +720,10 @@ static void topping_report(struct topping_component *comp, u8 target,
+ 	int idx;
+ 
+ 	idx = topping_index_of(tm, target, prop);
+-	if (idx < 0)
+-		return;			/* a meter, or something unnamed */
++	if (idx < 0) {
++		topping_report_sel(tm, target, prop, value);
++		return;
++	}
+ 	if (value < tm->model->ctls[idx].min ||
+ 	    value > tm->model->ctls[idx].max)
+ 		return;
+@@ -795,7 +869,7 @@ static const struct snd_kcontrol_new topping_sw = {
+ };
+ 
+ /* ------------------------------------------------------------------ */
+-/* the source selectors							*/
++/* the selectors: sources, and the M62's port power			*/
+ /* ------------------------------------------------------------------ */
+ 
+ static int topping_sel_info(struct snd_kcontrol *kctl,
+@@ -833,24 +907,23 @@ static int topping_sel_put(struct snd_kcontrol *kctl,
+ 
+ 	guard(mutex)(&tm->lock);
+ 
+-	/*
+-	 * No report ever moves a selector, so the cache can be compared
+-	 * and changed outside the spinlock; the spinlock is still taken
+-	 * for the reader's sake.
+-	 */
+-	prev = tm->sel[idx];
+-	if (prev == item)
+-		return 0;
+-	scoped_guard(spinlock_irqsave, &tm->val_lock)
++	/* as for a volume: the cache first, and a report has the last word */
++	scoped_guard(spinlock_irqsave, &tm->val_lock) {
++		if (tm->sel[idx] == item)
++			return 0;
++		prev = tm->sel[idx];
+ 		tm->sel[idx] = item;
++	}
+ 
+ 	if (!tm->bound)
+ 		return 1;
+ 
+ 	err = topping_write_sel(tm, idx, item);
+ 	if (err < 0) {
+-		scoped_guard(spinlock_irqsave, &tm->val_lock)
+-			tm->sel[idx] = prev;
++		scoped_guard(spinlock_irqsave, &tm->val_lock) {
++			if (tm->sel[idx] == item)
++				tm->sel[idx] = prev;
++		}
+ 		return err;
+ 	}
+ 
 -- 
 2.43.0
 
