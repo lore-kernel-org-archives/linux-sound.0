@@ -1,129 +1,315 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4D4A35AC01
-	for <linux-sound@vger.kernel.org>; Sun, 18 Oct 2026 05:48:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8120E3A7189
+	for <linux-sound@vger.kernel.org>; Sun, 18 Oct 2026 05:54:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792302485; cv=none; b=XhJxqSJ/A+56rcOqqTD7Rn5m36YJzxz7EIA1jNFmO+h69O0s/Yq4kOFRoO7SvOcvW8pZS56z9nyV7nJGjcP9BsNM53PScOnUXZshneyjPPaNNznoYv5FcY4MGoMYYr6h3pnJCIrALtug+49cjbEFaw3HIRPE6B/bYBnTmGCW7Xw=
+	t=1792302877; cv=none; b=PzVMr5wQ8ahvag6G4fG/uDS2SH5S1lVFAdJnlaxyLDF8fkgMO2eO/6WiAr3R2sfmqTHLbCfZoMtbuGlDOwny32LsGgZZTTonY8SIi50ReqcLbfYyyW0Ml9wYy53xYyDYM/eE9ZaedYZ+7MpgYlbwuVQZnJ8MszeSTFbnjBkfD1I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792302485; c=relaxed/simple;
-	bh=nL33N4MkG2GAXW61rbmW51GmG14HD5JKfZBJNorgJ1I=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mRvQrO+RFb+J763lb9sU6emy0NiZPq6rGU/0GEU5nJgLeH5MhMPtdzG6HOri5+Aq3jlJWM2Lo0HfB2txmDsIRQ+MyAJpVnEEvTxLHyisP+VTRVQRnD2BJVolGRmEBUoA+iiSXT8iP4/xI23fGqFX1bl5kmKM3+JcnYDvowCar24=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a+Fudt+4; arc=none smtp.client-ip=209.85.210.176
+	s=arc-20240116; t=1792302877; c=relaxed/simple;
+	bh=3aMcWhy4tgojr+3EfBTSz3gENuV3a19tf7UPbpG7pQs=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=fKRYn7UXEsNo2JfNpbLdCdi5Ce4KP6CcFcN+yKcZD0tuPPzvUe1QrXN2uuhpvtkHhj6ElNxU7E+wOentVKkHe//wGb6llWpQv1tTt3GV8WhW9rMOMILqAlYu4ZAUMgZ1agFGAZVSLN/glUTgDJ/73ZT7hx4dvlbSv42Vxmb76RE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X0tSEphT; arc=none smtp.client-ip=209.85.216.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a+Fudt+4"
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-8a05b210703so153036b3a.0
-        for <linux-sound@vger.kernel.org>; Sat, 17 Oct 2026 22:48:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X0tSEphT"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-3ac5b090d16so705993a91.0
+        for <linux-sound@vger.kernel.org>; Sat, 17 Oct 2026 22:54:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792302483; x=1792907283; darn=vger.kernel.org;
-        h=content-type:content-transfer-encoding:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=OZY9wh4sxQs63RQAxeF2tIFILu93inTX2QwnrPUnhYs=;
-        b=a+Fudt+4e3OgW67xS1yaWa8wIhwZ0817b8ZSxDEmUF7BN/A8tWfBQdUtxrSbUpOixK
-         ax0dihjdGmYwaGU6Q9Tv3mxTI8Iu89eMfygwHBV+yHZozOl9Qv+wMPLkxvAEBHghsKjy
-         n2WYDipj5a1iuntZKr1My8AunZiesDyYCwglNoKCcOyMWpbDDnRnoTv5NaMPSTEgL1EQ
-         ua2QT2RYy56PwqQOSvHU3nAfRrs3a65vPB/Z5bgyjCco8D7layo2OPpAhe+TLjbcBhhL
-         APFMzXGDKF6ulpYnzlIXC1uTqKDEt5xVsyN0OcAZAa47rQ4VPqQkPFHSYF8/ID84zObZ
-         biKQ==
+        d=gmail.com; s=20251104; t=1792302873; x=1792907673; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=6URPsYJRnMhn86UpOhNKjpas0t0SFBwykPnRhuPO50g=;
+        b=X0tSEphT9wkPXxteLUa3DiXpT9cFUYX31sLzim0OBqzkrLxGYp1b/AgwL1uw7btXaF
+         lq+JyYARpP1lfg+VxEglp6V2OXKn2ycmsfQVJSLLUZHdEILu/fHLzWTbwkZNIXfKde3u
+         w+rhbnGvMubgdSlZQIQEkO/2js34K+vXDPYVZRXFtHIKx5vPu9X1Rj1ymhLKdLNCbEMT
+         dq87oXNIFJ2/7P/1pI1vT7imrjEIjkoEve8wQjuJU4gXRjrIf/zVnSGmVjd5LV3A7lSV
+         QTy7Jt40bCQjJiQoeHDuSFnNlOtmXanz3twsaIroyxke/qpHa6pNOuBa8NsqNb+vez3m
+         aA8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792302483; x=1792907283;
-        h=content-type:content-transfer-encoding:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=OZY9wh4sxQs63RQAxeF2tIFILu93inTX2QwnrPUnhYs=;
-        b=C5Uh/X11mJTXu0SIrJKRQqL2icsWc7ux33IyFz75MPAn0t+cbS8gTmKKSuDtTYVdYF
-         sVJzj/YZD0GukNoi1D5968KM4hZp6YQDAcNrrZ60Cp0fFt7wjRiR09DyqT4SQlRvEoC2
-         hHvLcOIqn/zJJbclj2vinsBJIYSBf/0zLe10nHtNpOrejJ4fhO2/v1stt7Wv4Rq5w1tF
-         GGzq2hcb4tzlO3uvSnZXfoJFRCxXL4Wm5p4zNsfskN1kWh7HKMHgsjZ6WmBFA70z4WW6
-         1fAWw1TJYuhjWBfAdcTD3KPbRhEkkjWTedRmKWiVbMg8ge/BEA9V8llRXsPXvQrIuF86
-         ctcw==
-X-Forwarded-Encrypted: i=1; AKwUvBwaYNFsGmZ8+3+SERVVWf41zBtYABiHSNnXp+IeV33jUh7nY4DrXHHggrL0GMyBYaDRXvxD3N6jiFrkUg==@vger.kernel.org
-X-Gm-Message-State: AFq9FYIPbtbDWu3r1aNUmH4roXH97L4OLmWwJ7nycrs6KmxodTZi+Ya/
-	ufHcNwd+5jxHnHPZR6bHD2EAfyFY77EwRihpX6HzmF6C6v8AZHFma9p4
-X-Gm-Gg: AYBFou3RsIOu7dmn6joS/L0fDonnLW8KwjH7bKrgR8frwHGMxgM4dB9LbJVOR44va0Y
-	KuaJf3+qsJeeiTG91W3FxHgvzzjjPder/iOARoi28yAvy6zew4VsSIrEcrsHOisTaEoHvOKYoY0
-	6OWe6wgPZ+iQ0K3ZWJRn/FwJhtbSOaDS9vVe0g7nBJB5bjLTydxEQxWohbUZP0c6UhW6N3xXQZV
-	BYM+zD09HivTCPw/FVO2u3ut0H+qw5yb2Pf3/NswltCSW/Blfnp7gRQd0tzQIFspsukRrMGifi1
-	TF6pDxDZrkIv1LUWVGz4+uYvdYOJJgobubB5A2CYVBC7PegRrA9XFLGoT+aguEvAVy7JR2olQGJ
-	PXZ87JtHgIOd2acHwv7Pnk6f2r6P2uqgoZDoSfTM6gsyVPB/uadToQCQek18sL73l/7HGtevmrw
-	qKGTmFwz8vHE3heBl+vKFvieRf7Nt7HzpenYnrO0lwovW6OeRo28wZAwC35Jlg/CMwqybgG05XA
-	DvNoWO7WGb/owlpQQ8Ia8NHkvRuFOEFk8rDH49RiDnn10lzOwja6MNG099dl4kHElTr9CVL45xb
-	TjpnKIeJMVRNuaC45KQsa3HIDDKGnLlA20pJeVnonY+wBiyeA4c=
-X-Received: by 2002:a05:6a20:c5aa:b0:3e1:efce:1d35 with SMTP id adf61e73a8af0-3e225f2b40emr3593769637.14.1792302483139;
-        Sat, 17 Oct 2026 22:48:03 -0700 (PDT)
-Received: from setsuna.localnet ([2403:581e:d87e:0:fc2d:ed31:e80e:412d])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-89f57452b16sm2648102b3a.29.2026.10.17.22.47.56
+        d=1e100.net; s=20260707; t=1792302873; x=1792907673;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=6URPsYJRnMhn86UpOhNKjpas0t0SFBwykPnRhuPO50g=;
+        b=i4sUS+NOOYmdWYHHSzmzQ1Q+gormmLgzjEItNlvB22NYOMzeu9Mn0X4nftOcdmdPot
+         5WzoO+Atp07dbzWAociQpGk/gLidyyb2zA/Ie4F3TEqU7fWtN6sfOXLN8qdGERxzsWkd
+         POVOJ6B/qEE9FMcmWCaQP2udz2B+uM0J+yItKmz18cfYQMDi5g7ZmZ5AL3gbwhDAsHVV
+         V/IsN6t5bMqHTACsUFj6BupkOZmpufrjs4emCii3sQZ4GLBMwUYVLLIbNPNyhr3H0zqo
+         0U+/A3XI0Bjs64uDGJjuav7LvGUNLMCpicfcRj1qILXfDy5DGnZF4sc7s6S439DfYOFX
+         UeOg==
+X-Forwarded-Encrypted: i=1; AKwUvBw6Me3Qs7sgv0sl44Gnld1j+iHHD1j4O3zOL1+CdHDiGBvt9OYiVmqWxmDzOh4UFy/P06ROSy6sRnKSdQ==@vger.kernel.org
+X-Gm-Message-State: AFq9FYIZjypBXtMyisiTV7EzFVbxa+af3s+4BCCMNZfgnQ+Z4D3oBN5K
+	s87YtpsIA0+KcI7B2JjLhGMNbUrVoY/UoQFtegxcbuPFFUEfCqUFOhrz
+X-Gm-Gg: AYBFou3HE1WMlxB2HjvDiHzYCdBbC8SNwX4brY5H1Wwxl6DdQRqjqTEuRZfqMyVyNAN
+	CMlSyJd/OlMd1QMZwhZIZTlbqp5zeq67A3hACxd9PUTEn3K1gD8dCD5R41wsaKt8Jtfg8E2P5Ay
+	uKVt6Gk9CUXkMESZineg7GQm+rvl5cjqssFkbI6oYowpy6xoQoxjACvZfNFGgYz83LmykRTIMcQ
+	Wat/XB/9DUlrcbi2IbfBIGHMwNbCvZbc0goA2maX565gw9WsciKyChQNI22XBSj+BftewXmQ6hv
+	Qp+Np8YhKxNNtWCe3fFBUrXN16wdGbMcEeF4mIpmdoA8JnKertYYX694J/b9CWkF36KnE3V17Zz
+	keLLvgUC7zVhvn46zPM5OMeepBye/RBFR4Q62IRbOzASUYLlRYnUHTQqlN31wMaJclWD8HVO3qR
+	vIkNCTy0a0uZpmNwgMwm9NLcug89oHAlFx+j5AaO6OiIzcCCrKeGJkFkbqsfydNACs+enagQ2ZH
+	1lXs7UscxlNuuPS+TpQf/8GGssBI8G/GgDH/ve/mF3lgX6R5r6aj9KQBCk048f8n+XWi3J+Oeqh
+	GlDS7jjN/roxG8B+VGAvlU0J+RNZ5ZdL+5Hm+fXYLLAcSQ==
+X-Received: by 2002:a17:90b:45:b0:3ab:330d:6e47 with SMTP id 98e67ed59e1d1-3aceefbd753mr2884766a91.10.1792302872659;
+        Sat, 17 Oct 2026 22:54:32 -0700 (PDT)
+Received: from [10.0.70.21] ([2403:581e:d87e:0:fc2d:ed31:e80e:412d])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3acd0cde4fdsm5511292a91.4.2026.10.17.22.54.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 Oct 2026 22:48:02 -0700 (PDT)
+        Sat, 17 Oct 2026 22:54:32 -0700 (PDT)
 From: James Calligeros <jcalligeros99@gmail.com>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: David Rhodes <david.rhodes@cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Martin =?UTF-8?B?UG92acWhZXI=?= <povik+lin@cutebit.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
- Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>,
- Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
- Neal Gompa <neal@gompa.dev>, asahi@lists.linux.dev,
- linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH v2 08/21] ASoC: card: Let 'fixup_controls' return errors
-Date: Sun, 18 Oct 2026 15:47:54 +1000
-Message-ID: <sd9fj8SNRAmGisFuRJU7rg@gmail.com>
-In-Reply-To: <asZV7oBh7jQ6wk/g@opensource.cirrus.com>
-References:
- <20261004-macaudio-v2-0-7b47ed6335a8@gmail.com>
- <20261004-macaudio-v2-8-7b47ed6335a8@gmail.com>
- <asZV7oBh7jQ6wk/g@opensource.cirrus.com>
+Subject: [PATCH v3 00/21] Add speaker and headset jack support for Apple
+ Silicon Macs
+Date: Sun, 18 Oct 2026 15:53:54 +1000
+Message-Id: <20261018-macaudio-v3-0-abdff7741dea@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/02Nyw6CMBQFf4V0bc3tA1BX/odxUW4L1Ag1LTQaw
+ r9L0SjLSc7MmUgw3ppATtlEvIk2WNcvIHYZwVb1jaFWL0w48AKOLKedQjVq66gQyFDWAqRWZJk
+ /vKntc01drh8OY3UzOCQ/LVobBudf61dkaffNcvhnI6NAS8kQOahSmvzcdMre9+g6krKR/0QGI
+ DciT2IlS6MLIXJ12IrzPL8BlLVE8+sAAAA=
+X-Change-ID: 20260915-macaudio-33c1c4f304da
+To: David Rhodes <david.rhodes@cirrus.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ James Calligeros <jcalligeros99@gmail.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
+ Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>, 
+ Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
+ Neal Gompa <neal@gompa.dev>
+Cc: asahi@lists.linux.dev, linux-sound@vger.kernel.org, 
+ patches@opensource.cirrus.com, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-mediatek@lists.infradead.org, Hector Martin <marcan@marcan.st>, 
+ Sasha Finkelstein <k@chaosmail.tech>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=9750;
+ i=jcalligeros99@gmail.com; h=from:subject:message-id;
+ bh=3aMcWhy4tgojr+3EfBTSz3gENuV3a19tf7UPbpG7pQs=;
+ b=owGbwMvMwCV2xczoYuD3ygTG02pJDFlX4rklNL2/XD9/46bF9RVXtqTMFZk4gXXpjYn/A/l95
+ 30Qd+VY1zGRhUGMi8FSTJFlQ5OQx2wjtpv9IpV7YeawMoEMkRZpYAACFga+3MS8UiMdIz1TbUM9
+ QyMdYx0jBi5OAZjqHV8ZGU5k5/1Vn6t2f4/78i+yL195a3olMZ/ZYVH6M1JLv73omS8jwz2ZiVW
+ 6Rx/s87Jd8PfJTo9+5RU7BJ8yvV91LeTB9F/KVjwA
+X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
+ fpr=B08212489B3206D98F1479BDD43632D151F77960
 
-On Thursday, 8 October 2026 12:23:42=E2=80=AFam Australian Eastern Standard=
- Time=20
-Charles Keepax wrote:
-> On Sun, Oct 04, 2026 at 04:03:35PM +1000, James Calligeros wrote:
-> > From: Martin Povi=C5=A1er <povik+lin@cutebit.org>
-> >=20
-> > Let the 'fixup_controls' card method return error values which will roll
-> > back the half-done binding of the card.
-> >=20
-> > Signed-off-by: Martin Povi=C5=A1er <povik+lin@cutebit.org>
-> > Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
-> > ---
-> >=20
-> >  include/sound/soc-card.h                 |  2 +-
-> >  include/sound/soc.h                      |  2 +-
-> >  .../soc/mediatek/mt8188/mt8188-mt6359.c  |  4 +++-
-> >  sound/soc/soc-card.c                     | 12 +++++++++---
-> >  sound/soc/soc-core.c                     |  5 ++++-
->=20
-> Fixup is missing here for sound/soc/sdca/sdca_class_function.c
+Hi folks,
 
-Unless I'm missing something, that one calls the .fixup_controls on
-snd_soc_component_driver, which is not the snd_soc_card callback
-modified by this commit. That callback already expected an int,
-and class_function_component_fixup_controls already returns one
-per b8f71f16134f ("ASoC: SDCA: Switch to fixup_controls callback
-for IRQ registration").
+This series adds the machine driver and related bindings for the
+primary audio subsystem on Apple Silicon Macs. The macaudio
+machine driver is based on an RFC sent many years ago
+by Martin Povišer[1]. 
+
+The driver uses the DPCM model to dynamically
+glue a backend DAI (combination of MCA ports and codecs) to a
+frontend PCM. While this theoretically allows us to route any
+backend to any frontend, this is not used in practice; the "Primary"
+frontend is always used for the headset codec and the "Secondary"
+is always used for the speakers.
+
+The audio subsystem on Apple Silicon Macs is rather complicated and
+the speaker arrangement is highly variable; some machines have a
+single mono woofer while others pull together multiple woofers
+and tweeters into a single stereo pair. Every machine also includes
+a headset jack, and some also have their own builtin microphones which
+are handled by a separate coprocessor with its own driver.
+
+Many functions which are handled by firmware on other platforms
+must be handled by the kernel or by userspace. Most notably, speaker
+protection is handled by speakersafetyd[2], a userspace daemon.
+Speaker protection is handled in userspace due to the expensive
+floating point calculations and amount of per-machine configuration
+data required.
+
+The machine driver facilitates this by exposing a capture
+PCM from which the voltage and current across each speaker's voice
+coil can be read. Given that there are absolutely no hardware or
+firmware level failsafes preventing permanent damage to the fragile
+speakers found on these machines, the driver also implements a
+failsafe that will significantly attenuate and lock the gains
+of every connected speaker unless speakersafetyd is running.
+
+Version 2 of this series drops numerous fixes and semi-related
+patches that are not strictly necessary for the machine driver
+to function correctly. These will be resubmitted at a later date.
+
+Adding the required Devicetree updates for M3 series devices would
+have bloated this series to an unreasonable size as they are still
+missing most prerequisite hardware nodes. They will be added in a
+future series.
 
 Regards,
 James
 
+[1] https://lore.kernel.org/asahi/20220606191910.16580-1-povik+lin@cutebit.org/
+[2] https://github.com/AsahiLinux/speakersafetyd
+
+---
+Changes in v3:
+- Add TAS5770L compatible to TAS2770 driver to match binding
+- Fix incorrect Right Tweeter prefix on J415
+- Make reference to dai-common.yaml in cs42l{42,84} bindings for
+  common properties
+- Fix Devicetree binding formatting in macaudio binding
+- Sort macaudio compatible list by fallback compatible
+- Add references to fixed regulators for machines with CS42L83
+- Fix iMac model compatibles (they are compatible with each other)
+- Fix Mac Mini J474 name
+- Rework kctl activate/deactivate to be a more pure wrapper of snd_ctl_activate_id
+- Check for kctl->put before iterating in soc_set_enum_kctl
+- Allocate structs on heap in soc_set_enum_kctl
+- Rework snd_soc_set_enum_kctl to be neater
+- Refactor snd_soc_set_enum_kctl to eliminate ret assignment
+- Set evalue.id and info.id in soc_set_enum_kctl
+- Guard against pointer arithmetic errors/null pointer deref in volume limiter
+- Replace stored snd_soc_card with static struct
+- Mark speaker BEs/FEs as nonatomic
+- Link to v2: https://patch.msgid.link/20261004-macaudio-v2-0-7b47ed6335a8@gmail.com
+
+Changes in v2:
+- Drop patches that are only tangentially related (will be submitted
+  later)
+- Drop wildcard-matching API for kctls
+- Relabel J473 sound model to Mac mini
+- Align Devicetree changes with upstream bindings
+- Relax Cirrus CS42L42 required properties to keep DT style checker happy
+- Define missing properties in CS42L{42,84} bindings
+- Fix mistyped DT properties
+- Improve macaudio DT binding description
+- Drop generic fallback compatible for apple,macaudio
+- Drop now-redundant descriptions from other compatibles
+- Constrain DAI link link-name property with an enum of valid values
+- Drop MCA node from macaudio binding example
+- Fix heading comment style in macaudio
+- Drop obsolete module parameter
+- Replace string functions with safer variants
+- Replace dropped wildcard API with searching for full kctl name
+- Rework idle props parsing to better surface errors/invalid Devicetree entries
+- Add additional locking to backend setup
+- Take controls_rwsem when safety functions are called from workqueues
+- Replace all mutex{,un}lock calls with guard/scoped_guard
+- Fix incorrect amp gain value for j37x config struct
+- static const-ify all config structs
+- Cancel control lock update workqueue on teardown
+- Drop unused DAPM widget
+- Fix commented-out safe volume calculations
+- Drop speaker lock kcontrol ownership checks and related core API extension
+- Link to v1: https://patch.msgid.link/20260920-macaudio-v1-0-741cc20a74e5@gmail.com
+
+To: David Rhodes <david.rhodes@cirrus.com>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+To: Martin Povišer <povik+lin@cutebit.org>
+To: Liam Girdwood <lgirdwood@gmail.com>
+To: Mark Brown <broonie@kernel.org>
+To: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzk+dt@kernel.org>
+To: Conor Dooley <conor+dt@kernel.org>
+To: James Calligeros <jcalligeros99@gmail.com>
+To: Jaroslav Kysela <perex@perex.cz>
+To: Takashi Iwai <tiwai@suse.com>
+To: Matthias Brugger <matthias.bgg@gmail.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+To: Shenghao Ding <shenghao-ding@ti.com>
+To: Kevin Lu <kevin-lu@ti.com>
+To: Baojun Xu <baojun.xu@ti.com>
+To: Sen Wang <sen@ti.com>
+To: Sven Peter <sven@kernel.org>
+To: Janne Grunau <j@jannau.net>
+To: Neal Gompa <neal@gompa.dev>
+Cc: asahi@lists.linux.dev
+Cc: linux-sound@vger.kernel.org
+Cc: patches@opensource.cirrus.com
+Cc: devicetree@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-mediatek@lists.infradead.org
+
+---
+James Calligeros (16):
+      ASoC: dt-bindings: cs42l84: Document sound-name-prefix property
+      ASoC: dt-bindings: cs42l42: Document additional dai-common properties
+      ASoC: tas2770: Add compatible for TAS5770L
+      arm64: dts: apple: t8103-jxxx: Add regulators for CS42L83 power supply
+      arm64: dts: apple: t8103-j274: Add speaker/headset jack nodes
+      arm64: dts: apple: t8103-j313: Add speaker/headset jack nodes
+      arm64: dts: apple: t8103-j293: Add speaker/headset jack nodes
+      arm64: dts: apple: t8103-j45x: Add headset jack nodes
+      arm64: dts: apple: t8112-j413: Add speaker/headset jack nodes
+      arm64: dts: apple: t8112-j415: Add speaker/headset jack nodes
+      arm64: dts: apple: t8112-j473: Add speaker/headset jack nodes
+      arm64: dts: apple: t8112-j493: Add speaker/headset jack nodes
+      arm64: dts: apple: t600x-j31x: Add speaker/headset jack nodes
+      arm64: dts: apple: t600x-j375: Add speaker/headset jack nodes
+      arm64: dts: apple: t602x-j41x: Add speaker/headset jack nodes
+      arm64: dts: apple: t602x-j47x: Add speaker/headset jack nodes
+
+Martin Povišer (5):
+      ASoC: dt-bindings: Add binding for Apple Silicon Mac audio
+      ASoC: ops: Introduce 'snd_soc_ctl_activate'
+      ASoC: ops: Introduce 'soc_set_enum_kctl'
+      ASoC: card: Let 'fixup_controls' return errors
+      ASoC: apple: Add macaudio machine driver
+
+ .../bindings/sound/apple,macaudio.yaml   |  212 +++
+ .../bindings/sound/cirrus,cs42l42.yaml   |    7 +
+ .../bindings/sound/cirrus,cs42l84.yaml   |    5 +
+ .../arm64/boot/dts/apple/t6000-j314s.dts |    5 +
+ .../arm64/boot/dts/apple/t6000-j316s.dts |    5 +
+ .../arm64/boot/dts/apple/t6001-j314c.dts |    5 +
+ .../arm64/boot/dts/apple/t6001-j316c.dts |    5 +
+ .../arm64/boot/dts/apple/t6001-j375c.dts |    5 +
+ .../arm64/boot/dts/apple/t6002-j375d.dts |    5 +
+ .../boot/dts/apple/t600x-j314-j316.dtsi  |  135 ++
+ .../arm64/boot/dts/apple/t600x-j375.dtsi |   65 +
+ .../arm64/boot/dts/apple/t6020-j414s.dts |    5 +
+ .../arm64/boot/dts/apple/t6020-j416s.dts |    5 +
+ .../arm64/boot/dts/apple/t6020-j474s.dts |    5 +
+ .../arm64/boot/dts/apple/t6021-j414c.dts |    5 +
+ .../arm64/boot/dts/apple/t6021-j416c.dts |    5 +
+ .../arm64/boot/dts/apple/t6021-j475c.dts |    5 +
+ .../arm64/boot/dts/apple/t6022-j475d.dts |    5 +
+ .../boot/dts/apple/t602x-j414-j416.dtsi  |   35 +
+ .../boot/dts/apple/t602x-j474-j475.dtsi  |   10 +
+ arch/arm64/boot/dts/apple/t8103-j274.dts |   72 ++
+ arch/arm64/boot/dts/apple/t8103-j293.dts |  116 ++
+ arch/arm64/boot/dts/apple/t8103-j313.dts |   87 ++
+ arch/arm64/boot/dts/apple/t8103-j456.dts |   43 +
+ arch/arm64/boot/dts/apple/t8103-j457.dts |   43 +
+ .../arm64/boot/dts/apple/t8103-jxxx.dtsi |   32 +
+ arch/arm64/boot/dts/apple/t8112-j413.dts |  108 ++
+ arch/arm64/boot/dts/apple/t8112-j415.dts |  132 ++
+ arch/arm64/boot/dts/apple/t8112-j473.dts |   62 +
+ arch/arm64/boot/dts/apple/t8112-j493.dts |  108 ++
+ include/sound/soc-card.h                 |    2 +-
+ include/sound/soc.h                      |    6 +-
+ sound/soc/apple/Kconfig                  |   18 +
+ sound/soc/apple/Makefile                 |    4 +
+ sound/soc/apple/macaudio.c               | 1715 +++++++++++++++++++++++++
+ sound/soc/codecs/tas2770.c               |    1 +
+ .../soc/mediatek/mt8188/mt8188-mt6359.c  |    4 +-
+ sound/soc/soc-card.c                     |   12 +-
+ sound/soc/soc-core.c                     |    5 +-
+ sound/soc/soc-ops.c                      |   99 ++
+ 40 files changed, 3196 insertions(+), 7 deletions(-)
+---
+base-commit: 74612d0b448fe745e80cda87fe49ac3c102ccc1f
+change-id: 20260915-macaudio-33c1c4f304da
+
+Best regards,
+--  
+James Calligeros <jcalligeros99@gmail.com>
 
