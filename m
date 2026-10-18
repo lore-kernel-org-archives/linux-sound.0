@@ -1,64 +1,64 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 023C34D4874
-	for <linux-sound@vger.kernel.org>; Sun, 18 Oct 2026 20:57:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 663FA4D599C
+	for <linux-sound@vger.kernel.org>; Sun, 18 Oct 2026 20:57:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792357059; cv=none; b=ZffzJ3yV39qp18Po91QxsyJ+eD+MIQ0UXiBZ5ssbONgwGPhwXDA7YoVIrVwh6gzuHHcCwiItLGgRqwynBsiTx0De8yEm0nfje+XTRp9ea4eMQM/6bbH4/iNwERPiyEIJXvDGwWXAsMt3zh0WmGtJ+jZd+K4QTdujPFPRRObOkAI=
+	t=1792357061; cv=none; b=W0IzGykR2zRz9DDxqaOD3gXhrWHaxNLvJ5vKbKd9bHf1cbpYKcGCU0uKbTIwsrUa4I3TIFRjo692tZRgEvZ/EwCGcbT6PEIH02mA6XF/5MnyGEgOWmulZMU11/inQ7W1b0js80RaqYkr07NNjTyYFh1Cv6tdzrc8aq3rAIAqdk0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792357059; c=relaxed/simple;
-	bh=in8qrMhhCn8+iRl1pHPQhgbmr3OKXurF25m+dmvmaas=;
+	s=arc-20240116; t=1792357061; c=relaxed/simple;
+	bh=egCkSl1ziENZtLgdaKC+K1+MML1bessZk/jEY6CYHho=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pfg/CzSmZNDrFb08+YVHLKUufGSyCyS9cczSwPsbzBnA3WIxZlvT0PkXvLt5XgVO7glP/gIpiQgyIkL6tZ/6BTf2/cMZftttI5hSKiK8IMDt5nw03vsQq5UsTsIfkb+JveswfHOe/H+0X04nrTnIRyIReiV8iPZ1dyf9GNQF6XU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R6j546mz; arc=none smtp.client-ip=209.85.221.49
+	 MIME-Version; b=O4xQf0ZbKyzkrR/i5EdUV7KBYrqh044syBTHMLvYptUMTQxDXcaGWNCij4/3bGMNVj4Z/VUJZbTjuFzfX48SgRSPTcnjvYqM0XbtzyB0HVMElEF+hT1JKOBMLqWyRS8HvbiK3lapm1FFx0jQs9G9kLBDrIQAN5XjjQqHwmv9YWI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jee2R4LK; arc=none smtp.client-ip=209.85.221.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R6j546mz"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-48dfaa3fa12so1558215f8f.0
-        for <linux-sound@vger.kernel.org>; Sun, 18 Oct 2026 13:57:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jee2R4LK"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-48df4e9d2d4so826053f8f.3
+        for <linux-sound@vger.kernel.org>; Sun, 18 Oct 2026 13:57:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792357055; x=1792961855; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1792357057; x=1792961857; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=CwYhA8yuwTltEmhlw7+AMc/GWC8sIlkGYHOhcUohYjQ=;
-        b=R6j546mzN8EMmpPFf8Z3tWPkbcJSctbTeu6CVjzOuw9OuQhSpz1OchwCoA422oFFvx
-         R3h1HKBUo9wBjRciu7Wudd9I71riTwdawQ9e+HdoD+Seb+Dm1gqIuaO5Ltis5vo0doXO
-         lTxRqc9UgKdjzv6XN/t7k2LKCYYc+KT8uHAsVHuXdj+SUOtBPXpEui+YaKyKDS/ngzso
-         pSx1oF5EbSsQkVI9ukL+E5FCSzIpwIXHoDg//SD6UjQnGvbnjRQknBPns2QppFtgGZXw
-         wFEFEWvEZI9xJyKux4fME11qnLsIXS8GNvgi1z9OdNlUu7rAviVEVnJYK4CbpY9CidQo
-         OQAA==
+        bh=vlhaq0uy1Evc/akvQOutaQ2B/WUPQcS2vQ+budKfpsw=;
+        b=jee2R4LKe3D+1NB8z+lMa11Qx9qKeOxE6POEThOOuvqsHzjS0NMcadsLdqxc1c+ZEO
+         dsS9DzdgVz0M5dSKsZYpFHVdRGrv9pTQoY8SRH9+UcqWxYkRkiZ9rnGlapuQWsFRemcF
+         YvqHcfVB2nZFKd1RWOf0gKhyXr8Bv1w4VFApvwWRJTDB+1csoVflLucL2px8Rm+fustu
+         SOb8lYtye3X9KFNlSRZIdnaWx0ZbqMOxMm2hWuIFBErMrgHbuWH+Xu+8wMP7AL5eG4Zw
+         bDitejyOaR8DwBQOSepZpMRMTrDROChrbRAzOeR+AulP2a5+X78/4b28mVFkjWzbsYR9
+         nQXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792357055; x=1792961855;
+        d=1e100.net; s=20260707; t=1792357057; x=1792961857;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=CwYhA8yuwTltEmhlw7+AMc/GWC8sIlkGYHOhcUohYjQ=;
-        b=pFFI8DkeaQ9m2KCS7N5PpJcBxgFrvj+MG1c0kGNCaL+SKzfqJwHTyJzMo+M8OQis/C
-         XyyqoXNeEbwbKhSpwy4D7D4xnr+ncMR7oweNVg5i4qJhM1w9cyjgcvKzYD9AZxk0LFM9
-         q4t4pBqsPmNJcco3TUhOdtVk2Pj8TQ2JjzVZK4AWU19fdiTtDARnqWEwxT3g8miMRpCB
-         G55Fe+QMcsgHhiCxOheIjZwiFSSECpwWSu4iey4uzlPONyru87QTeoKRHSoFEqplg96i
-         AEYEPZ9yHeWa4bvml+R/7fCWJA+DPM5wD14RTikyslYuUCy1IPzxL6cAxwz9DuWIn3Tu
-         SVFw==
-X-Forwarded-Encrypted: i=1; AKwUvBymfZCrhdj7x2/PwsgR00x8Iw6H5yV4OOp//NdPhOgezdKIy1k4M+iS0xYydbKdH+UFsV1JX5GO371iew==@vger.kernel.org
-X-Gm-Message-State: AFq9FYLAH9ycLlcWQwXCCGRXHBk+hJqiKqgjgmCpiKzWZWQUyIXCOBH/
-	QaEhXEyaBoOZ7kWzyB1+OujwSKTKrpYnaYfwpNUBRwFLr1MfsjHT1c/U
-X-Gm-Gg: AYBFou2bvBTppuo3VbFv0DY+NdKymD1Eos7Mp1qWwukp1AeI7LyyalOYnM6ea1/BOVC
-	2S9Cck7y4e3OOw0YCsBOQ/PHfaU/O0nunwC6q1dJEnkSnOZlkaXb3YrECDIMYGBQMsUq0aZYbtI
-	jgXq828G5GcW7jXuzN5UEI4cRXgpp3Rb5+D0Ik/i0fa90byKqpAKOtkSWa2v58/kjXq6IiImNYC
-	ZJflM9JmPXg89tBKguiE1K5u4dlQMIUuZ1cVbJPsit5wSfR/2+wW9ZCe62KBzZvUIbAYubqrznU
-	zc1IITCUz6AWFcKfWuK+fGDQHAPLDnSAYJN0hucWN9mZzsenXUycKoJUkvrk4ZnxpGbzuEyV6vb
-	yfRrasyfnmG/tkGRHcVcDnsBJY9uPKCZzxsWMUaGhLF9S+pY92xbRt5pI+n8T/uwjxU5QLsLEO7
-	9OswcT/dpfICXNyaaBvNyb0uCCMsFYAznSmPaBBP7alX7+M43EqwLUoyFqcwvZmXMmKII6Bz+Bs
-	zqQJN/9n3jbvRDCBrCkqDff6akb7xE+r+EDrFAZMpoT/O2OwMEG5jla6aKahJcVV++h3A==
-X-Received: by 2002:a5d:5d08:0:b0:48d:efcb:1fea with SMTP id ffacd0b85a97d-48e07911cf3mr13691712f8f.0.1792357054881;
-        Sun, 18 Oct 2026 13:57:34 -0700 (PDT)
+        bh=vlhaq0uy1Evc/akvQOutaQ2B/WUPQcS2vQ+budKfpsw=;
+        b=hzrC/bcGWU0No7ZVAcSl1kiYFTHdimGqrwCj5Msy+VJZNZSFKv14rdJX6t0ZtaKKSA
+         28XRMVqgz4PCtemTGbSWQgSxM7ZSUs8l6RmhP4Vdd/kLJAtnXyTuLanp94+Db0/3tUec
+         vVC9nvQP/DZ7V97vvkkwfOdJXZBB4i5+HhF5JhBlyJW/55DDuGkHAJ4MFHxuVn9Mm2rk
+         wzbax5JzUdXsoP45DNnEs5TVd9ZsjJpBgO+Lt6XfAT6ZD1w1mRFbb8Se4bBMoVrIjOfM
+         /RHl3lJmwAAJnzKEH1l9+dj9xkXHmoUzZ6WiJDNeCS1plsnppTYKC3UjIm9lplnnnvG9
+         KmvQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwpzEmyraXPP7KnrJP/8gEdWeJzUrFpVV1eu5Tz+bdIb7hGxr1ZbHhb8CeTdc0tjR6PeZ1LtHLs2DBCWA==@vger.kernel.org
+X-Gm-Message-State: AFq9FYKOR/2o4Kgg3zpwF1VwcKUVrKzDDQ0z1x9YPfEKuZ263H+P/U1W
+	clmh5nzcq6QRQIlbQ+CDt/zz1eE/xASzV4YKtJYlKfDxGWEZj+ldhekd
+X-Gm-Gg: AYBFou1KqJw/aztilDKzQc22Pu8j9HO/K53hs8AIDefcd6M3OpPcJSzaQMcTTqggHsa
+	oaeRF5rPwFoZzXwNiglwjQOcR0+ea1Y01wCJJfwCMZd5c137VF5cpY5eV4M+s4zxXwkA7IfPmWR
+	TqIU51c31qAFnF/bqKt3dpetcdaNsks6k3TC+jX2ts6KMQhZ8qXmGK7zOykMtVON8uCvWbQTqrD
+	Us4b83vaBrmzScsiSGUt+nG4T7bzAis+csuCSogvjOYAFoScRRn7ah2CRfRIUYiXv65M99cnLNu
+	Wr405ZDH7s5UGxTQr30C5VVQ7H2ceGKa+ZxOu3wtjPGyvEyjW0x96QhnOYkfDxes5T0vXLFCmVd
+	B9Qyfav1xA16EznoJnQzwYoiEvUHSvCakzCOfuyNVjFuc1EMVJJkoGjdeZn3B8NWeOZKbmX4jhB
+	g6eMR/o3vR9zqVjX3cePJ+1XnLfHnJillx4IAVGVCMny/s4rs4Dvs1uWrqU6s14IeWndt3S/YQe
+	+zfz4bSbgUMRzdKY2A45DKT6hl68JOGPSd7S09o2V9a17VOhZy7QzNSRFar+TNTKPAIpA==
+X-Received: by 2002:a05:6000:4549:b0:48b:69d4:bb35 with SMTP id ffacd0b85a97d-48e07bbe545mr6877543f8f.12.1792357057391;
+        Sun, 18 Oct 2026 13:57:37 -0700 (PDT)
 Received: from localhost ([178.214.243.78])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfd4f5177sm18496263f8f.30.2026.10.18.13.57.31
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfd4f5177sm18496263f8f.30.2026.10.18.13.57.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Oct 2026 13:57:33 -0700 (PDT)
+        Sun, 18 Oct 2026 13:57:36 -0700 (PDT)
 From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
 To: jikos@kernel.org,
 	bentiss@kernel.org,
@@ -69,9 +69,9 @@ Cc: tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-Subject: [PATCH v10 6/8] ALSA: usb-audio: add the Topping M62's port power settings
-Date: Mon, 19 Oct 2026 01:57:08 +0500
-Message-ID: <20261018205711.168291-7-mikhail.v.gavrilov@gmail.com>
+Subject: [PATCH v10 7/8] ALSA: usb-audio: add the Topping M62's mutes
+Date: Mon, 19 Oct 2026 01:57:09 +0500
+Message-ID: <20261018205711.168291-8-mikhail.v.gavrilov@gmail.com>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <20261018205711.168291-1-mikhail.v.gavrilov@gmail.com>
 References: <20261018205711.168291-1-mikhail.v.gavrilov@gmail.com>
@@ -83,261 +83,274 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-An M62 whose USB-C port the vendor's application has set to Off or
-Discharge does not charge from the computer it is connected to, and
-runs its battery down; nothing on Linux shows that setting or changes
-it, nor the power of the OTG port. Both are kept in the card, and the
-application offers them under Device.
+M Control Center shows a MUTE beside each level these controls offer,
+and the card keeps it: a MUTE left on by another host silences that
+input or output here, with nothing on Linux to show it or to clear it.
 
-Offer both as enumerated controls with the application's items: "USB-C
-Port Power" (Charge, Discharge, Off) and "OTG Port Power" (Discharge,
-Off), at 0x11/0x1c and 0x11/0x1b, in every mode.
+Offer each as a switch named after its level, so that alsa-lib's simple
+mixer joins the two and a sound server mutes through the card: the
+inputs' MUTEs at property 05 of their targets, the outputs' at property
+04 of both targets of their pair, and in Mobile Mode those of the
+Playback 1/2 knob and the Recording fader at property 04 of theirs. The
+card takes 1 for muted, so each switch is the inverse, on when the
+sound passes. Each was pressed in the application and captured, in
+both modes. The application writes them all off at each connect, and
+so does the first bind here. The card reports the outputs' in its
+announce, as 0x64/04 and 0x62/04, and that report has the last word.
 
-Like every other value here, both are written at the first bind: the
-USB-C port to Charge, so that a card left on Off or Discharge by another
-host takes power from this one again, and the OTG port to Off, which
-leaves a phone on it to its own battery rather than the card's.
-alsactl's restore then puts back what the user chose. The card reports
-both settings in its announce, and a report updates the control, as for
-the volumes; but it sends each of the two once in an announce and leaves
-one or both out of some announces, 13 of 120 in one run here, so the
-announce cannot stand in for the write. The vendor application reads
-them from the announce and never pushes them; a host that is to charge
-the card cannot leave that to an announce that may not come.
+The card also releases a MUTE by itself. In Pro Audio and Live Streaming
+Mode, HP's volume written from the host while HP was muted released the
+MUTE in 29 writes of 54, by HP's sound through a cable to AUX, and the
+card reported each release at 0x64/04; a MUTE written right after the
+volume did not hold in 7 probes of 9. No other level written from the
+host released its MUTE. A sound server writes such a volume as a matter
+of course: PipeWire, switching back to a device it has saved as muted,
+writes the MUTE and then the volume 4 ms later, and the card released
+HP's MUTE after 11 such switches of 20, for about two seconds before
+PipeWire wrote the MUTE again. So a level set while its switch is off is
+only kept, and the switch writes it on its way on, just before the
+MUTE 0, as M Control Center writes a level turned under a MUTE before
+releasing it. A bind and a resume, which write a level and then its
+MUTE, leave a muted level to its switch the same way.
+
+In Live Streaming Mode a level turned one step on the panel released its
+port's MUTE in 257 turns of 260. The card reported every release of HP,
+AUX and OTG OUT and most of IN 1's and IN 2's, and the switches follow
+those reports rather than guess: a release left unreported stays shown
+as muted, as M Control Center shows it. A level kept under a MUTE the
+card has released, or one the card has reported, is dropped rather than
+written over the card's own.
+
+The MUTE on each of Pro Audio Mode's loopback returns has no property of
+its own: the application writes the return's gain to off and, when
+released, back to its level, and a return carrying a tone stayed as it
+was with 1 written to 04 or 05 of its targets. Off is already the
+bottom step of that volume control, so the returns get no switch.
 
 Signed-off-by: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
 ---
- sound/usb/mixer_topping.c | 143 ++++++++++++++++++++++++++++----------
- 1 file changed, 108 insertions(+), 35 deletions(-)
+ sound/usb/mixer_topping.c | 106 +++++++++++++++++++++++++++++++++++---
+ 1 file changed, 98 insertions(+), 8 deletions(-)
 
 diff --git a/sound/usb/mixer_topping.c b/sound/usb/mixer_topping.c
-index 725db57..854ff0a 100644
+index 854ff0a..5fd14b3 100644
 --- a/sound/usb/mixer_topping.c
 +++ b/sound/usb/mixer_topping.c
-@@ -2,16 +2,17 @@
- /*
-  * Topping M62 and E2x2 OTG -- the cards' vendor controls.
-  *
-- * The M62's analogue input gains, output volumes, source selectors and
-- * loopback gains, and the E2x2 OTG's digital input gains, faders,
-- * source selectors and output switches, are not described by the USB
-- * Audio Class.  They are reached over a vendor protocol on the card's
-- * HID interface, which hid-topping speaks.  This file owns the
-- * controls; that driver is the transport.  The two meet through the
-- * component framework, with this side as the master, in the same shape
-- * as HD-audio and the graphics drivers in sound/hda/core/component.c:
-- * the master owns a struct topping_component, and the HID driver fills
-- * in its one operation when it binds and clears it when it unbinds.
-+ * The M62's analogue input gains, output volumes, source selectors,
-+ * loopback gains and port power settings, and the E2x2 OTG's digital
-+ * input gains, faders, source selectors and output switches, are not
-+ * described by the USB Audio Class.  They are reached over a vendor
-+ * protocol on the card's HID interface, which hid-topping speaks.
-+ * This file owns the controls; that driver is the transport.
-+ * The two meet through the component framework, with this side
-+ * as the master, in the same shape as HD-audio and the graphics
-+ * drivers in sound/hda/core/component.c: the master owns a struct
-+ * topping_component, and the HID driver fills in its one operation
-+ * when it binds and clears it when it unbinds.
-  *
-  * THE CONTROLS LIVE AS LONG AS THE CARD.  They are created at the first
-  * bind of the HID driver and not removed when it unbinds: a value
-@@ -27,19 +28,22 @@
-  * THE CARD'S STATE CANNOT BE READ.  The card reports what a hand does to
-  * its hardware, every turn of a front-panel knob, and when a session
-  * opens it announces the gains of the inputs that have something
-- * plugged in; nothing answers a request for a value.  A host that does
-- * not set the card inherits whatever the last host, or a hand on the
-- * panel, left in a battery-powered card.  So the first bind writes
-+ * plugged in and the M62's port power settings, though an announce can
-+ * leave those out; nothing answers a request for a value.  A host that
-+ * does not set the card inherits whatever the last host, or a hand on
-+ * the panel, left in a battery-powered card.  So the first bind writes
-  * everything, and from then on the cache is the truth, which the card's
-  * own reports keep up to date: each output listens to the host's main
-  * stream, Playback 1/2, with the mixer out of the path, or at 0 dB
-  * through it where there is no way around it, as on an M62 in Mobile
-  * Mode; every input gain starts at 0 dB, where it changes nothing; the
-- * analogue headphone stage starts at its quiet end; and the digital
-- * stream to a phone starts at unity.  That follows the usual Linux
-- * division -- the kernel puts the hardware into a defined state, and the
-- * level a user hears is set from userspace, by alsactl's restore or init
-- * and by the sound server, both of which run after the card appears.
-+ * analogue headphone stage starts at its quiet end; the digital stream
-+ * to a phone starts at unity; and the M62's USB-C port charges the card,
-+ * while its OTG port leaves a phone to its own battery.  That follows
-+ * the usual Linux division -- the kernel puts the hardware into a
-+ * defined state, and the level a user hears is set from userspace, by
-+ * alsactl's restore or init and by the sound server, both of which run
-+ * after the card appears.
+@@ -46,6 +46,7 @@
+  * after the card appears.
   */
  
++#include <linux/bitmap.h>
  #include <linux/bits.h>
-@@ -250,14 +254,43 @@ struct topping_enum_desc {
+ #include <linux/build_bug.h>
+ #include <linux/cleanup.h>
+@@ -115,6 +116,7 @@ struct topping_ctl_desc {
+ 	const unsigned int *tlv;	/* NULL for a switch */
+ 	const s32 *map;		/* what each step writes, or NULL: the step */
+ 	bool sw;		/* an on/off switch, not a level */
++	bool mute;		/* a MUTE, 1 when on: the switch is its inverse */
+ 	u8 resend;		/* written again after this one if on, or 0 */
  	u8 modes;		/* the modes that have it, or 0 for all */
  };
+@@ -163,21 +165,51 @@ static_assert(ARRAY_SIZE(topping_m62_lb_gain) == 103);
  
-+/* the power settings of the two ports, as the vendor application has them */
-+static const char * const topping_m62_usbc_power[] = {
-+	"Charge", "Discharge", "Off",
-+};
-+
-+static const u8 topping_m62_usbc_power_value[] = { 1, 2, 3 };
-+
-+static const struct topping_sources topping_m62_usbc = {
-+	topping_m62_usbc_power, topping_m62_usbc_power_value,
-+	ARRAY_SIZE(topping_m62_usbc_power),
-+};
-+
-+static const char * const topping_m62_otg_power[] = { "Discharge", "Off" };
-+
-+static const u8 topping_m62_otg_power_value[] = { 1, 0 };
-+
-+static const struct topping_sources topping_m62_otg = {
-+	topping_m62_otg_power, topping_m62_otg_power_value,
-+	ARRAY_SIZE(topping_m62_otg_power),
-+};
-+
- /*
-- * A selector answers on ONE target of a pair, unlike a volume or a
-- * mute, which must be written to both: the second target of an
-+ * A source selector answers on ONE target of a pair, unlike a volume
-+ * or a mute, which must be written to both: the second target of an
-  * output's pair, the first of a loopback return's.  It is never
-  * reported, so it is always written at the first bind.  The outputs
-  * start on the host's main stream, the loopback returns where the
-  * vendor application puts them.
-  *
-+ * The power settings of the USB-C port the card is connected by and of
-+ * its OTG port are in the card's announce, but not in every one, and
-+ * another host can leave them anywhere: set to Off or Discharge, the
-+ * USB-C port does not charge the card from this computer, and the card
-+ * runs its battery down.  So they are written like everything else, the
-+ * USB-C port to Charge and the OTG port to Off, which leaves a phone on
-+ * that port to its own battery rather than the card's.
-+ *
-  * The names end in "Source", not "Route": alsa-lib's simple mixer joins
-  * a "... Playback Route" or "... Capture Route" enumeration to the
-  * volume of the same name and then reads and writes only the
-@@ -277,6 +310,8 @@ static const struct topping_enum_desc topping_m62_enums[] = {
- 	  TOPPING_M62_BT, &topping_m62_src, TOPPING_PRO },
- 	{ "Loopback 7/8 Capture Source", 0x57, 0x02,
- 	  TOPPING_M62_OTG_IN, &topping_m62_src, TOPPING_PRO },
-+	{ "USB-C Port Power", 0x11, 0x1c, 0, &topping_m62_usbc },	/* Charge */
-+	{ "OTG Port Power", 0x11, 0x1b, 1, &topping_m62_otg },		/* Off */
+ static const DECLARE_TLV_DB_SCALE(topping_tlv_lb, -9000, 100, 1);
+ 
++/*
++ * Each level has the MUTE the vendor application shows beside it, as a
++ * switch of the same name: property 05 for an input and 04 for an
++ * output, where 1 is muted.  The application writes all of them with
++ * the sound on at every connect, and so does the first bind here; the
++ * card reports the outputs' in its announce, and that report has the
++ * last word.  The card also releases a MUTE by itself: HP's in about
++ * half the writes of HP's volume made under it, and any port's when its
++ * level is turned on the panel.  So a level set while its switch is off
++ * is only kept, and written on the switch's way on, as the application
++ * writes a level turned under a MUTE before releasing it.  The card
++ * reports most of its own releases, and the switch follows the report;
++ * a release left unreported is not guessed at.  A loopback return's
++ * MUTE has no property: the application writes the gain to off and
++ * back, and off is the bottom step of the return's volume here.
++ */
+ static const struct topping_ctl_desc topping_m62_ctls[] = {
+ 	{ "Mic1 Analog Capture Volume", 0x21, 0, 0x04, 0, 88,
+ 	  0, topping_tlv_gain },			/* 0 dB */
++	{ "Mic1 Analog Capture Switch", 0x21, 0, 0x05, 0, 1, 1,
++	  .sw = true, .mute = true },
+ 	{ "Mic2 Analog Capture Volume", 0x22, 0, 0x04, 0, 88,
+ 	  0, topping_tlv_gain },			/* 0 dB */
++	{ "Mic2 Analog Capture Switch", 0x22, 0, 0x05, 0, 1, 1,
++	  .sw = true, .mute = true },
+ 	{ "Aux Capture Volume", 0x23, 0, 0x04, 0, 99,
+ 	  81, topping_tlv_out_9 },		/* 0 dB */
++	{ "Aux Capture Switch", 0x23, 0, 0x05, 0, 1, 1,
++	  .sw = true, .mute = true },
+ 	{ "Bluetooth Capture Volume", 0x25, 0, 0x04, 0, 99,
+ 	  99, topping_tlv_out_0 },		/* 0 dB */
++	{ "Bluetooth Capture Switch", 0x25, 0, 0x05, 0, 1, 1,
++	  .sw = true, .mute = true },
+ 	{ "OTG Capture Volume", 0x27, 0, 0x04, 0, 99,
+ 	  99, topping_tlv_out_0 },		/* 0 dB */
++	{ "OTG Capture Switch", 0x27, 0, 0x05, 0, 1, 1,
++	  .sw = true, .mute = true },
+ 	{ "Headphone Playback Volume", 0x64, 0x63, 0x03, 0, 99,
+ 	  0, topping_tlv_out_9 },		/* the quiet end */
++	{ "Headphone Playback Switch", 0x64, 0x63, 0x04, 0, 1, 1,
++	  .sw = true, .mute = true },
+ 	{ "OTG Playback Volume", 0x62, 0x61, 0x03, 0, 99,
+ 	  99, topping_tlv_out_0 },		/* 0 dB, unity */
++	{ "OTG Playback Switch", 0x62, 0x61, 0x04, 0, 1, 1,
++	  .sw = true, .mute = true },
+ 	/*
+ 	 * A loopback return's gain is written to both targets of its pair
+ 	 * and never reported.  It starts at 0 dB, unity, as the vendor
+@@ -197,15 +229,20 @@ static const struct topping_ctl_desc topping_m62_ctls[] = {
+ 	 * headphones, which carry it with every input while the recording
+ 	 * does not, and its Recording fader, the level of the recording.
+ 	 * Both are whole decibels, -90 to +12 and -90 to 0, where Pro Audio
+-	 * Mode takes Q25 on the same targets.  Neither is reported, so the
+-	 * first bind writes 0 dB: the knob then passes the playback's level
+-	 * on unchanged, as Pro Audio Mode's outputs do with the mixer out of
+-	 * the path, and the fader is at its top.
++	 * Mode takes Q25 on the same targets.  Neither is reported, nor is
++	 * either MUTE, so the first bind writes 0 dB and the sound on: the
++	 * knob then passes the playback's level on unchanged, as Pro Audio
++	 * Mode's outputs do with the mixer out of the path, and the fader is
++	 * at its top.
+ 	 */
+ 	{ "PCM Playback Volume", 0x53, 0x54, 0x03, -90, 12,
+ 	  0, topping_tlv_lb, .modes = TOPPING_MOBILE },
++	{ "PCM Playback Switch", 0x53, 0x54, 0x04, 0, 1, 1,
++	  .sw = true, .mute = true, .modes = TOPPING_MOBILE },
+ 	{ "Recording Capture Volume", 0x51, 0x52, 0x03, -90, 0,
+ 	  0, topping_tlv_lb, .modes = TOPPING_MOBILE },
++	{ "Recording Capture Switch", 0x51, 0x52, 0x04, 0, 1, 1,
++	  .sw = true, .mute = true, .modes = TOPPING_MOBILE },
  };
  
  /*
-@@ -610,7 +645,9 @@ static void topping_sync(struct topping_mixer *tm)
- 	for (i = 0; i < m->num_enums; i++) {
- 		if (!topping_here(tm, m->enums[i].modes))
- 			continue;
--		topping_write_sel(tm, i, tm->sel[i]);
-+		scoped_guard(spinlock_irqsave, &tm->val_lock)
-+			value = tm->sel[i];
-+		topping_write_sel(tm, i, value);
- 	}
- 	for (i = 0; i < m->num_fixed; i++)
- 		topping_write(tm, m->fixed[i].target, m->fixed[i].prop,
-@@ -640,6 +677,41 @@ static void topping_resume_work(struct work_struct *work)
-  * control's own private_free clears kctl[] under this lock.  It is safe
-  * from here: it takes read_lock_irqsave and allocates with GFP_ATOMIC.
-  */
-+static void topping_report_sel(struct topping_mixer *tm, u8 target,
-+			       u8 prop, s32 value)
+@@ -535,6 +572,7 @@ struct topping_mixer {
+ 
+ 	spinlock_t val_lock;		/* the cache and kctl[] against reports */
+ 	int *val;			/* one per row of the model's ctls */
++	unsigned long *kept;		/* levels set under their MUTE, unwritten */
+ 	unsigned int *sel;		/* one per row of its enums */
+ 
+ 	/* the volume controls and switches first, then the selectors */
+@@ -548,6 +586,7 @@ static void topping_mixer_release(struct kref *ref)
+ 
+ 	kfree(tm->kctl);
+ 	kfree(tm->sel);
++	bitmap_free(tm->kept);
+ 	kfree(tm->val);
+ 	mutex_destroy(&tm->lock);
+ 	kfree(tm);
+@@ -585,12 +624,45 @@ static int topping_index_of(const struct topping_mixer *tm, u8 target,
+ 	return -1;
+ }
+ 
++/* whether the row after @idx is the MUTE of the level in it */
++static bool topping_muted(const struct topping_model *m, int idx)
 +{
-+	const struct topping_model *m = tm->model;
-+	const struct topping_enum_desc *d;
-+	struct snd_kcontrol *kctl;
-+	unsigned int item;
-+	int i;
-+
-+	for (i = 0; i < m->num_enums; i++) {
-+		d = &m->enums[i];
-+		if (d->target == target && d->prop == prop &&
-+		    topping_here(tm, d->modes))
-+			break;
-+	}
-+	if (i == m->num_enums)
-+		return;			/* a meter, or something unnamed */
-+
-+	for (item = 0; item < d->src->num; item++)
-+		if (d->src->values[item] == value)
-+			break;
-+	if (item == d->src->num)
-+		return;
-+
-+	guard(spinlock_irqsave)(&tm->val_lock);
-+
-+	if (tm->sel[i] == item)
-+		return;
-+	tm->sel[i] = item;
-+
-+	kctl = tm->kctl[m->num_ctls + i];
-+	if (kctl)
-+		snd_ctl_notify(tm->card, SNDRV_CTL_EVENT_MASK_VALUE, &kctl->id);
++	return idx + 1 < m->num_ctls && m->ctls[idx + 1].mute;
 +}
 +
- static void topping_report(struct topping_component *comp, u8 target,
- 			   u8 prop, s32 value)
+ static int topping_write_ctl(struct topping_mixer *tm, int idx, int value)
  {
-@@ -648,8 +720,10 @@ static void topping_report(struct topping_component *comp, u8 target,
- 	int idx;
+-	const struct topping_ctl_desc *d = &tm->model->ctls[idx];
+-	s32 wire = d->map ? d->map[value] : value;
++	const struct topping_model *m = tm->model;
++	const struct topping_ctl_desc *d = &m->ctls[idx];
++	s32 wire = d->mute ? !value : d->map ? d->map[value] : value;
++	bool kept;
+ 	int err, other, on;
  
- 	idx = topping_index_of(tm, target, prop);
--	if (idx < 0)
--		return;			/* a meter, or something unnamed */
-+	if (idx < 0) {
-+		topping_report_sel(tm, target, prop, value);
-+		return;
++	/*
++	 * A level set while its switch is off is only kept: written under
++	 * the MUTE, it may be taken for a release.  The switch writes it on
++	 * its way on, before the MUTE 0, so that the sound comes back at it.
++	 */
++	if (topping_muted(m, idx)) {
++		scoped_guard(spinlock_irqsave, &tm->val_lock) {
++			on = tm->val[idx + 1];
++			if (!on)
++				__set_bit(idx, tm->kept);
++		}
++		if (!on)
++			return 0;
++	} else if (d->mute && value) {
++		scoped_guard(spinlock_irqsave, &tm->val_lock) {
++			kept = test_bit(idx - 1, tm->kept);
++			other = tm->val[idx - 1];
++		}
++		if (kept) {
++			err = topping_write_ctl(tm, idx - 1, other);
++			if (err)
++				return err;
++		}
 +	}
++
+ 	err = topping_write(tm, d->target, d->prop, wire);
+ 	if (!err && d->target_pair) {
+ 		/*
+@@ -599,6 +671,10 @@ static int topping_write_ctl(struct topping_mixer *tm, int idx, int value)
+ 		 */
+ 		err = topping_write(tm, d->target_pair, d->prop, wire);
+ 	}
++	if (!err && topping_muted(m, idx)) {
++		scoped_guard(spinlock_irqsave, &tm->val_lock)
++			__clear_bit(idx, tm->kept);
++	}
+ 	if (!err && d->resend) {
+ 		other = topping_index_of(tm, d->resend, d->prop);
+ 		scoped_guard(spinlock_irqsave, &tm->val_lock)
+@@ -622,7 +698,8 @@ static int topping_write_sel(struct topping_mixer *tm, int idx,
+  * values the cache was born with; at a later bind, with what was set
+  * while this side was alone, which is still only in the cache; and after
+  * a resume, in case the card came up on its own defaults or was changed
+- * on its panel while the host slept.
++ * on its panel while the host slept.  A level whose switch is off is
++ * kept for the switch, as a put keeps it.
+  *
+  * Errors are not passed on.  The HID driver logs the ones that mean
+  * something, and a card that cannot be written now is written again by
+@@ -724,12 +801,24 @@ static void topping_report(struct topping_component *comp, u8 target,
+ 		topping_report_sel(tm, target, prop, value);
+ 		return;
+ 	}
++	if (tm->model->ctls[idx].mute)
++		value = !value;
  	if (value < tm->model->ctls[idx].min ||
  	    value > tm->model->ctls[idx].max)
  		return;
-@@ -795,7 +869,7 @@ static const struct snd_kcontrol_new topping_sw = {
- };
  
- /* ------------------------------------------------------------------ */
--/* the source selectors							*/
-+/* the selectors: sources, and the M62's port power			*/
- /* ------------------------------------------------------------------ */
+ 	guard(spinlock_irqsave)(&tm->val_lock);
  
- static int topping_sel_info(struct snd_kcontrol *kctl,
-@@ -833,24 +907,23 @@ static int topping_sel_put(struct snd_kcontrol *kctl,
++	/*
++	 * The card's word, on a level or on the release of its MUTE, drops
++	 * a level kept under that MUTE, rather than have it written over
++	 * the card's later.
++	 */
++	if (topping_muted(tm->model, idx))
++		__clear_bit(idx, tm->kept);
++	else if (tm->model->ctls[idx].mute && value)
++		__clear_bit(idx - 1, tm->kept);
++
+ 	if (tm->val[idx] == value)
+ 		return;
+ 	tm->val[idx] = value;
+@@ -1202,9 +1291,10 @@ static struct topping_mixer *topping_mixer_new(struct usb_mixer_interface *mixer
+ 	spin_lock_init(&tm->val_lock);
  
- 	guard(mutex)(&tm->lock);
- 
--	/*
--	 * No report ever moves a selector, so the cache can be compared
--	 * and changed outside the spinlock; the spinlock is still taken
--	 * for the reader's sake.
--	 */
--	prev = tm->sel[idx];
--	if (prev == item)
--		return 0;
--	scoped_guard(spinlock_irqsave, &tm->val_lock)
-+	/* as for a volume: the cache first, and a report has the last word */
-+	scoped_guard(spinlock_irqsave, &tm->val_lock) {
-+		if (tm->sel[idx] == item)
-+			return 0;
-+		prev = tm->sel[idx];
- 		tm->sel[idx] = item;
-+	}
- 
- 	if (!tm->bound)
- 		return 1;
- 
- 	err = topping_write_sel(tm, idx, item);
- 	if (err < 0) {
--		scoped_guard(spinlock_irqsave, &tm->val_lock)
--			tm->sel[idx] = prev;
-+		scoped_guard(spinlock_irqsave, &tm->val_lock) {
-+			if (tm->sel[idx] == item)
-+				tm->sel[idx] = prev;
-+		}
- 		return err;
+ 	tm->val = kzalloc_objs(*tm->val, m->num_ctls);
++	tm->kept = bitmap_zalloc(m->num_ctls, GFP_KERNEL);
+ 	tm->sel = kzalloc_objs(*tm->sel, m->num_enums);
+ 	tm->kctl = kzalloc_objs(*tm->kctl, m->num_ctls + m->num_enums);
+-	if (!tm->val || !tm->sel || !tm->kctl) {
++	if (!tm->val || !tm->kept || !tm->sel || !tm->kctl) {
+ 		kref_put(&tm->ref, topping_mixer_release);
+ 		return NULL;
  	}
- 
 -- 
 2.43.0
 
