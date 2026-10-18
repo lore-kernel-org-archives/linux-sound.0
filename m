@@ -1,153 +1,177 @@
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-out-3.itc.rwth-aachen.de (mail-out-3.itc.rwth-aachen.de [134.130.5.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD2553C4B79
-	for <linux-sound@vger.kernel.org>; Sun, 18 Oct 2026 10:41:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.180
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792320069; cv=pass; b=pq2voOawq+ujox8ojPAjkmeBKW33eNXfxnr6PWBBUfv0FDxBsTy9bUGeiouuFxHCckqZm3xE9lsWdV29j8aFietrfFBLfODNF1JtN5jHpR5KAy0Ouwjxyob1HkvQh/yxW0Oq13ftAkUW+AT2ve7UZLloyba2G8PR8Zz4YmXa3Iw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792320069; c=relaxed/simple;
-	bh=8jhAuc7pwWvfqOH4Ow9qWedCG7FGjAiVn+1XI19X5Rc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GqDHPjV6kgVBSU22fZGw15DqdWfVUmidd7ftmtiMVss8vXpbGUB/xVM9u5rI7QuRBzJRtY3vEXJ82i0+SUL9XLKL3/xK4T/B8k3ETt/ivfxPPfBg9zwsMbG8q3wJ8YcEPOIKnU85uXYzcTFhyo2W1jT+cIxwAYPg1Llx6mzf36c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sqlLYroZ; arc=pass smtp.client-ip=209.85.208.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C97574CF49B;
+	Sun, 18 Oct 2026 11:22:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.130.5.48
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792322549; cv=none; b=kyh5hF/t12q05BxsUMZzrR/cBTvPXyw5lKCPpFAhD/I6x76wDSKAkw0R109Qb2i89/6H3R6/+YREUEF7J2u7HNjdtWBs/BqklbVM0xQB0I7x2E0Hjarhp7cNQXUgvQsb9ZZAscmLotqGNQo4gkbTzj4DVEznDOl3SYQXo2heQf8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792322549; c=relaxed/simple;
+	bh=/jvxOavyqf6JKvXUc8LNrLvhLT4JhLjHd5uL73Mm1AY=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=YhIiF9omm8CX5q5uqfS4iUw7qEb7yB1mV7CdPqfHlF7BOeVlIlh1DYD+7VicAke8dBRXbKt0ejrHL2T1Bqo5Qq3dDhutWw4PsZASyBPXsr2k6hkZ5f9Q7WRFQIf7ggowtmj5+2ST6wkApTB2lbQwjz+R7NmngjFlO4B1sHLUBPg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=rwth-aachen.de; spf=pass smtp.mailfrom=rwth-aachen.de; dkim=pass (2048-bit key) header.d=rwth-aachen.de header.i=@rwth-aachen.de header.b=aaUvPHOp; arc=none smtp.client-ip=134.130.5.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=rwth-aachen.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rwth-aachen.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sqlLYroZ"
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-3a9761758adso7477261fa.0
-        for <linux-sound@vger.kernel.org>; Sun, 18 Oct 2026 03:41:07 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792320066; cv=none;
-        d=google.com; s=arc-20260327;
-        b=eGnx7puY9NGaLEsi7qdzn0W4C2nk60nmEOoVkn5Gv45Mnyb+iXhXVpUnilEh+OpNm0
-         eXlXNt76VwC+R2NjWFYhy1uO8st9qgxYM+eiQY6zf6NrCHVBza0ZMSaaU78UjCWxRrjg
-         AWR29bTxK+o832lM1SkrNYcA+8/3mw4KfPR/2obXN4fp9ZqquktKp1hmqwJlup34pBsR
-         abE/CG9Zz+wFSTyiABY8y0uowr0UOHalfbpkI9yq8ObbwEEpJFWYjn15zMsWoP5MBXGn
-         fC+61EuPNyIzs2QoqLSQ4irse03hmX9tE1RFhx7aEmlncQ5xCiCHBobW9tQIO5MhgUC+
-         mHeQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=a6yENM5EuRAmJBudT6I5Nb3Xf4qZEcKL22EK2zMKYnk=;
-        fh=JjWsHN0DJlObo7NsxWnFJ0DEGw8/E95xNG9eKba+dZM=;
-        b=T0r2sbDw5MzGCNPW/5tZnbZh3+Fqe6Xp0FFEKvYf5NwTJKn+yQV6BeUXMv52A5mlE7
-         c1yQiLh/A1SULgYM3ThiYAgkTg9fDhttGLcffACpVoY78XDq8K0uNSixSF69XKzymUSZ
-         KmGp86xjR/QQR/SpevIZwdthcv92SLvdboH6eAYvYsGi4mCFPwy1FNUda88TQrgI4dr4
-         Sp0LoQw6Wg2ALIIpoePJI+B5UVT+Q/g4cmg04yxhMcJteUfHdUUbLmBhRDBZ914UZW8b
-         ziLjwZlVzo4l8vvaLpRCtEXrm2IETpNW49H4PJyvA2yuFMgdfu6eF0D9uxY8hsh8z1zL
-         xsHQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=rwth-aachen.de header.i=@rwth-aachen.de header.b="aaUvPHOp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792320066; x=1792924866; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=a6yENM5EuRAmJBudT6I5Nb3Xf4qZEcKL22EK2zMKYnk=;
-        b=sqlLYroZXcWgS/8iD8QwOb0cOQyMGpvXtxqS/DWu3x/frQCXcYTBLcwQBTKeKOpeo3
-         Prh57fKomf10Tqk64OV9alUuk8cJSm0ih6Ta+tqKXQpyViNKD9aggHYcmo5yQ5kIefdb
-         WvzT5a6ZXulHYXlhZWGO1atdQOyM0w7yfEb9diFSPxHuLQCryO6HiqjXsJuwCxIDavaq
-         /xt+p6AIwRNWtdfFaDLCiDMJ7E3WnlejSrnLW9ubkHTb3O9awPBJhD975Av3V/WbV2Z8
-         31CHc/sD3NQsm5zuuiETZQHq06LCgXmSWJ7wOkFFjhoaRFPkojk8mXnaqdDq2HCPiNkS
-         YFoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792320066; x=1792924866;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=a6yENM5EuRAmJBudT6I5Nb3Xf4qZEcKL22EK2zMKYnk=;
-        b=juANyEOBlEwER6oPWRrF27Tb8Il/EyZ6KB1obFZY4luqYA+Lnh+POjsOBk/+PojGlT
-         kgABfo5vLT58TwZjoedOdXILNlZP0pYyIq6cJDAkhhDA12f0+60H4WGxD0FJ+BE5o++F
-         0EUFMJ8FiXbspsZiIjvWf8JjR+FJq1pf5u6ciKE7+aYDNLXKKKy2G4PMbyCIA1aEHxzE
-         tF9Sk2fd/HPjeJ1r6wLUywg0OftT3MD1TNRIdwFQh9agGvJl29ODuJdT3fc2EFJMYZVF
-         sOP4qWHPDcRVB9RjVchSH7EBVCaGJW4PTIBnwwEB6HVTrPm1oSDvo6FijPg8C4ziScSU
-         7uXA==
-X-Forwarded-Encrypted: i=1; AKwUvBxW1+aQRVgYQVlriKP8XUFKQ3XPueCYXbdnZUbtQCx2blG3zPpKNKvjWkO/8dt7FDISDRY30hhdFnQZtg==@vger.kernel.org
-X-Gm-Message-State: AFq9FYLwU1Bns1UNGjL1WnDIptV3H22fjVfn4xcNavEsizzqZMwpDaQ8
-	xGvbZpH3MdCTuDEt6Ja3gmxRyK2Hd2YbA+XJioxHOOunCdG0Mo7Wye3iwCW85+Wb3zJYdw+FlxO
-	byRFrLxCQs1x+2yqbrFT+bYrJ8BKW6+U=
-X-Gm-Gg: AYBFou2PN0ls8ILO3fAPMn+TLv9zqxM9I5IaerTqIM7uciY4Tvvvq/O+pqh5T/UzUFn
-	FTQ32BPj+i/nCveyKSRXyiKoPItygqV/MxWX6a9CocCSYRkogTdUDaDu9YhWEtYVtsn+LLQK59q
-	GJI97m8NSoNbDLjvQEMJ8vTrmD5NP6R2zRau8DEuNeduxfjzDDO/VVQPQoEdIK/yp416vJukSLc
-	vvBglmwm2TqSqkd00s98IKCTobPEAjpb8Ssb2lF6Gezpb17rZ2dbbFQZYUAfv72velbQDFtJru6
-	MYozkaTZwjQg14YStVhj/a5Z+qnM3FgFISc6jb4v5+1SO0GhTpBCEZfaRkWCG6wjGk/1qdLnn1R
-	GnorDIRbBIA21tttHzIFBOptQN2xWXPyfMsXofciB3xbFOxTuQZEWedhyb0sJdmaXwbYOkmcH6t
-	PeKcV0Lzwa/5eiEgn+FnNj2jM0V6r5CVHhm6WldIl4PzmVEpEfvjW2megibNKjLxERBzV2imY=
-X-Received: by 2002:a2e:be27:0:b0:3aa:f1f0:1e2a with SMTP id
- 38308e7fff4ca-3ab29294e73mr11194711fa.11.1792320065495; Sun, 18 Oct 2026
- 03:41:05 -0700 (PDT)
+  d=rwth-aachen.de; i=@rwth-aachen.de; q=dns/txt;
+  s=20240516-RWTH; t=1792322544; x=1823858544;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=iKxZGMdkB05646i9vrZdqtUXJWd7gA2lSMwIXWflxxg=;
+  b=aaUvPHOp1DsQVCvkBYZF19xuDxwJ0N9L0jGFALsf/0MgjODXcwH4CJ9w
+   JBwuwSa23xhtpPPHiqjtZoAYcd8GlhJdgaXZoNk2psS2m1up5LsyICRKx
+   YRbca9qU4DO9zKmzEJe7Xw6RW1tgN56OfuwefawQbAoOLaqOwJVwHWPPk
+   GBNGeNjXOc/hwMeCJNLoY6mdG5tZt2oO8pzQe6j0Y0HmXN4A8yE+L5+O9
+   KuFpXztPNNukOP7iBANW34n9I5dH2lifb+X84R6Xz/J4H2TcKip8dcMK5
+   f9lqztf+8FICPdDhYo6WHlhBWNoBgG52PzDIw8uenESUKdfEacj/ADg18
+   Q==;
+X-CSE-ConnectionGUID: DwHOB9DNReClCySJDLVIHw==
+X-CSE-MsgGUID: osTYjOwwRseRDxS5/NcLcg==
+X-IPAS-Result: =?us-ascii?q?A2ASAgCDqtRq/5wagoZaHgEBCxIMggULgleCYZdgnQmBf?=
+ =?us-ascii?q?g8BAQEBAQEBAQEIAVEEAQGFBY4XKDQJDgECBAMCAwEBAQEBAQEBAQEBAQoBA?=
+ =?us-ascii?q?QYBAQEBAQEGBYEhhglTkEALATkNgT0OBYMCgnXAYTOBAYUL2T2BaAELCQEKA?=
+ =?us-ascii?q?YE4hXKCbQGFA3aFMoFVRIEVgnMHb4UQhXgEgy6XN0iBAngsAVUTDQoLBwWBa?=
+ =?us-ascii?q?AM1EioVbjIdgSM+Fy9YGwYFgR2BIIIWIxk2eoEJXoErKWABEBeBCYIHAoJUg?=
+ =?us-ascii?q?gACAUlBDgdFUwklQxJHJiIIEgkBExowC4EbODwJKAQ9FwxzDB0FcggCDQkHT?=
+ =?us-ascii?q?RgNSBEsNxUZQm4HkioegmWBDoJdLQiSfoMsr200B4I5gWiBYAYMgwGcaU2EB?=
+ =?us-ascii?q?JNdkw0BmQiCWaIBhD4CBAIEBQIYgWiCFTMaJIM2UxcCD+BGdz0BAQcCBw4DC?=
+ =?us-ascii?q?4FokX4BAQ?=
+IronPort-Data: A9a23:l++H16lzgUhzuaMueIRJx1/o5gxUJ0RdPkR7XQ2eYbSJt1+Wr1Gzt
+ xJNXW3VOv+CNDT1etp/OYWyo00O7ZfVmNAwHgdl/H9kEltH+JHPbTi7wuYcHAvPdJGZHBI/h
+ yk6QoOdRCzhZiaE/n9BCpC48z8hk/nOGeqkYAL9EngZbRd+Tys8gg5Ulec8g4p56fC0GArlV
+ ena+qUzA3f7nWQrWo4ow/jb8k025K2i4GpwUmEWPJingnePzxH5M7pCfcldH1OgKqFIE+izQ
+ fr0zb3R1gvx4xc3B9q5pa3we0sMT6S6FVDmZq1+AvXKbrBq/0Te445jXBYuQR4/Zwahw7id/
+ O5wWamYEm/FCIWRwrhHA0kAe81JFfYuFLfveRBTuCEIpqHMWyOEL/5GVCnaMWCEkwp6KTkmy
+ BAWFNwCRjycp8WckZ6dcORHgu8yF+vHGL0+mm41mFk1Dd5+KXzCa7/V+d9VzHIv34VHW+zBe
+ 8pcYDYpYBmojx9nYwxLTstlxKHy2D+mLmMwRFG9/MLb50DMxQht3aKrL9ffd8aiX9pJngORr
+ 2nG8mK/Dhxy2Nm3kmfcqCvz17Wf9c/9cIUJKIy60eF1ukae/EADM0BRc1Cfqvbs3yZSXPoac
+ ST44BEGqak06VzuVd7gWRGQvnGJpFgfVsBWHul87xuCooLbywzFQHYZJhZadNUssMIeWzMnz
+ BmKksnvCDgpt6eaIVqF+62ZvRuqNDIYPSkJd0csUQoa6tjLu5wog1TESdMLOK2ykNTxFC/Yy
+ jSWqCk4mqVVitQEv42//Fbak3evq4LPQwod+AraRCSm4xl/aYrjYJangWU39t5aM5qZQ0nEo
+ yFBko6E8/wOSJiB0iCAKAkQIIyUCz++GGW0qTZS81MJrlxBJ1bLkVhs3QxD
+IronPort-HdrOrdr: A9a23:vE1Rb6mr4AVUWSPMtMNXi3EBpd/pDfIp3DAbv31ZSRFFG/Fxl6
+ iV8MjzsiWE6gr5OUtQ/OxoV5PvfZqxz/RICOoqTNSftWvd2VdARbsKheDfKlXbaknDH4Vmup
+ uIHZISNDWmZmIK6/oSmDPZLz92+qjhzJyV
+X-Talos-CUID: 9a23:5jK6H2EmptN0HuZgqmJL624zMJEJVEfQ53P7MnSaJUJXaZ2KHAo=
+X-Talos-MUID: =?us-ascii?q?9a23=3Aao0O7A1fBWktDvzcDtFr0J98KjUj5L+SOUIqjoo?=
+ =?us-ascii?q?8oMS+GTxLZnC7hxC8Tdpy?=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.27,165,1787004000"; 
+   d="scan'208";a="351217928"
+Received: from rwthex-w1-a.rwth-ad.de ([134.130.26.156])
+  by mail-in-3.itc.rwth-aachen.de with ESMTP; 18 Oct 2026 13:21:13 +0200
+Received: from spucky.fritz.box (2003:d1:2f12:ef00:cbcb:ad65:990:c533) by
+ rwthex-w1-a.rwth-ad.de (2a00:8a60:1:e500::26:156) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.53; Sun, 18 Oct 2026 13:21:12 +0200
+From: Walter Weber <walter.weber@rwth-aachen.de>
+To: <linux-sound@vger.kernel.org>
+CC: "Geoffrey D . Bennett" <g@b4.vu>, Walter Weber
+	<walter.weber@rwth-aachen.de>, <stable@vger.kernel.org>, Jaroslav Kysela
+	<perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Vasiliy Kovalev
+	<kovalev@altlinux.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH] ALSA: usb-audio: Fix Scarlett 8i6 Gen 1 router source numbering
+Date: Sun, 18 Oct 2026 13:20:09 +0200
+Message-ID: <20261018112012.41807-1-walter.weber@rwth-aachen.de>
+X-Mailer: git-send-email 2.56.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20261016102846.22908-1-leepaulmann@gmail.com> <9eff39cf-24a1-47f8-ad78-781d467cbfaf@linux.dev>
-In-Reply-To: <9eff39cf-24a1-47f8-ad78-781d467cbfaf@linux.dev>
-From: Lee Mann <leepaulmann@gmail.com>
-Date: Sun, 18 Oct 2026 11:40:52 +0100
-X-Gm-Features: AclHuK-dBsw2XRKK0VBBmns2XgkV6vizQOqMvQ_kjopl16lqoHClNrkOWUpQeuI
-Message-ID: <CAJgi9roroOLL+ftaufLfB-K2_oMnVf62yODHFf-AN37hh975DQ@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: tas2783-sdw: restore the volume controls after re-initialisation
-To: Matthew Schwartz <matthew.schwartz@linux.dev>
-Cc: broonie@kernel.org, lgirdwood@gmail.com, linux-sound@vger.kernel.org, 
-	shenghao-ding@ti.com, kevin-lu@ti.com, baojun.xu@ti.com, sen@ti.com, 
-	perex@perex.cz, tiwai@suse.com, andrey.golovko@gmail.com, 
-	antoine@montane.tech, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: rwthex-s1-a.rwth-ad.de (2a00:8a60:1:e500::26:152) To
+ rwthex-w1-a.rwth-ad.de (2a00:8a60:1:e500::26:156)
 
-Hi Matt,
+The router source numbering in s8i6_info is identical to the 6i6 entry
+and was never verified on hardware (it is marked "untested..."). On a
+Scarlett 8i6 1st Gen everything after the analog inputs is off by two:
 
-Thanks, that sounds like the better fix. A Reported-by is fine with me,
-and please consider my patch superseded by your series.
+  - "SPDIF 1/2" select values 16/17, which carry no signal;
+  - "Mix A/B" select values 18/19, which are the actual S/PDIF inputs;
+  - "Mix C-F" select the actual Mix A-D, and Mix E/F cannot be
+    selected at all;
+  - the matrix inputs cannot be fed from S/PDIF.
 
-One data point from the ProArt PX13 (two TAS2783 on one AMD ACP link):
-with for-next plus my patch I didn't see the -16 errors at boot over
-several boots, so this machine may not hit the idle runtime-suspend
-path the way the X20 does. I'm happy to test your series here and send
-a Tested-by.
+The real numbering was measured on the device by routing known signals
+(PCM test tones, mixes with distinct gains, an S/PDIF out-to-in
+loopback) and checking which source value arrives in the capture
+stream:
 
-Thanks,
-Lee
+  PCM 1-12      0-11
+  Analog 1-4   12-15
+  (no signal)  16-17
+  S/PDIF 1-2   18-19
+  Mix A-F      20-25
 
+Correct the offsets and enum lengths accordingly, and update the
+(currently unused) matrix_mux_init table to match. Values 16/17
+remain as placeholders (shown as "Analog 5/6") since the enum maps
+items to source values linearly.
 
-On Sun, 18 Oct 2026 at 06:37, Matthew Schwartz
-<matthew.schwartz@linux.dev> wrote:
->
-> On 10/16/26 3:28 AM, Lee Mann wrote:
-> > -     return snd_soc_put_volsw(kcontrol, ucontrol);
-> > +     struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
-> > +     struct tas2783_prv *tas_dev = snd_soc_component_get_drvdata(component);
-> > +     s32 ret = snd_soc_put_volsw(kcontrol, ucontrol);
-> > +
-> > +     if (ret >= 0)
-> > +             tas2783_save_vol(tas_dev, TAS2783_DVC_LVL,
-> > +                              &tas_dev->user_dvc_lvl, &tas_dev->user_dvc_set);
->
->
-> Hi Lee,
->
-> I ran into the same bug bringing up the ASUS ROG Xbox Ally X20 (two
-> TAS2783 on one AMD link), and there's one more case this doesn't cover.
->
-> On for-next idle_bias_on is 0, so the amps runtime suspend whenever
-> nothing is playing. The cache is dropped on attach and after the
-> firmware download, so until something writes the volume registers
-> again they aren't cached, and snd_soc_get_volsw()/put_volsw() fail with
-> -EBUSY from regmap in cache-only mode while the amp is suspended. Your
-> restore fixes that once a value has been set during playback, but at
-> boot nothing has set it yet, so the first mixer accesses fail and every
-> boot logs "ASoC error (-16)" for both registers. On the X20 the link
-> is also powered off when idle, so the amps are re-initialized on every
-> wake, not just after system suspend.
->
-> I have a fix I was working on that addresses the same issue but keeps
-> both values in the driver instead of the register cache, so get/put
-> work while the amp is suspended and the values are programmed again
-> after every init and resume. It's part of a small series with two
-> other tas2783 fixes. I'll post it shortly with you on Cc with a
-> Reported-by on the relevant patch if that's okay with you.
->
-> Thanks,
-> Matt
+The 6i6 entry uses the same layout and is also marked untested. It is
+left unchanged since I have no 6i6 to verify it.
+
+Tested on a Scarlett 8i6 1st Gen (bcdDevice 2.60) with v7.2.11.
+
+Fixes: 76b188c4b370 ("ALSA: usb-audio: Scarlett mixer interface for 6i6, 18i6, 18i8 and 18i20")
+Cc: stable@vger.kernel.org
+Signed-off-by: Walter Weber <walter.weber@rwth-aachen.de>
+---
+ sound/usb/mixer_scarlett.c | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
+
+diff --git a/sound/usb/mixer_scarlett.c b/sound/usb/mixer_scarlett.c
+index 6808730ef..ac0fb2e88 100644
+--- a/sound/usb/mixer_scarlett.c
++++ b/sound/usb/mixer_scarlett.c
+@@ -999,7 +999,11 @@ static const struct scarlett_device_info s6i6_info = {
+ 	}
+ };
+ 
+-/*  untested...  */
++/*
++ * Router source numbering, measured on hardware: PCM 1-12 = 0-11,
++ * Analog 1-4 = 12-15, 16-17 carry no signal (shown as "Analog 5/6"),
++ * S/PDIF 1-2 = 18-19, Mix A-F = 20-25.
++ */
+ static const struct scarlett_device_info s8i6_info = {
+ 	.matrix_in = 18,
+ 	.matrix_out = 6,
+@@ -1009,15 +1013,15 @@ static const struct scarlett_device_info s8i6_info = {
+ 
+ 	.opt_master = {
+ 		.start = -1,
+-		.len = 25,
+-		.offsets = {0, 12, 16, 18, 18},
++		.len = 27,
++		.offsets = {0, 12, 18, 20, 20},
+ 		.names = NULL
+ 	},
+ 
+ 	.opt_matrix = {
+ 		.start = -1,
+-		.len = 19,
+-		.offsets = {0, 12, 16, 18, 18},
++		.len = 21,
++		.offsets = {0, 12, 18, 20, 20},
+ 		.names = NULL
+ 	},
+ 
+@@ -1034,7 +1038,7 @@ static const struct scarlett_device_info s8i6_info = {
+ 
+ 	.matrix_mux_init = {
+ 		12, 13, 14, 15,                 /* Analog -> 1..4 */
+-		16, 17,                          /* SPDIF -> 5,6 */
++		18, 19,                          /* SPDIF -> 5,6 */
+ 		0, 1, 2, 3, 4, 5, 6, 7,     /* PCM[1..12] -> 7..18 */
+ 		8, 9, 10, 11
+ 	}
+-- 
+2.56.0
+
