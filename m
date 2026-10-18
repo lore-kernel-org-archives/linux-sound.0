@@ -1,109 +1,139 @@
-Received: from 4.mo561.mail-out.ovh.net (4.mo561.mail-out.ovh.net [178.33.46.10])
+Received: from fhigh-a8-smtp.messagingengine.com (fhigh-a8-smtp.messagingengine.com [103.168.172.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA87B31E844
-	for <linux-sound@vger.kernel.org>; Sun, 18 Oct 2026 16:01:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.33.46.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C8683EFD04
+	for <linux-sound@vger.kernel.org>; Sun, 18 Oct 2026 16:36:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.159
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792339266; cv=none; b=r+m1nxCHrDjpTwSaxpHmpMQJga7kBoTpXfVl6U/dT6nlZhQ//HmiyMts3cAGE5FARhdsxsF2O3O4TG1dpt+mMPghVdcLwECefxu3vur9NyNT+JEM6aXBWciRW16qEPA9YWUQYqxYsfo0htnTs9jweMRloDUsEoXqztjkw1sUQ+k=
+	t=1792341394; cv=none; b=XjgEyAXuuL0BGqYNtylv4QkzfEDLfVnTGuyHUeXN0IxxyUFMnLzGeTJr6t/i/ybJtUE0LN/eascbIyiTbp5Z9Lv3IY1Q3cm+KI+ilp6P0uPhpiM2qEOz1Hm2HU6iHkZCGX9xbZVWeRux82Y9i4aO9v72EobH4bT9V5mLa55iXhc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792339266; c=relaxed/simple;
-	bh=HoHaPtjHoYfkbv9dtFclewtiTpwiXcz72MUS8v1F7Ok=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ogYQ/Dzjh8ZcGnk9TsJHrJeyIxfWQ507xgAVL3x/n9KDU0W5cYupP2iiwaNR56yOL60ZieoyeFxaDYUfPH4kj3u2X5Rc02Lr7IVdfW65Nw5lKrbK108iXO87UN03cpfM3L2/H8kR+AnvewuNTYszPnw7L0q60DNDzV0p12JU3pA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fortytwo.fr; spf=pass smtp.mailfrom=fortytwo.fr; dkim=pass (2048-bit key) header.d=fortytwo.fr header.i=@fortytwo.fr header.b=BglLw0HX; arc=none smtp.client-ip=178.33.46.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fortytwo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fortytwo.fr
+	s=arc-20240116; t=1792341394; c=relaxed/simple;
+	bh=1206x6K8a9ICANECB2z1av+VARsTQzPmVYCJuXW4jkQ=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:Subject:Content-Type; b=k/bAHiGfgiLWQ8cgdBsH+5cG9iVLv1m325cxAHU9b2vkbF8HYt8FlHwcpz7zqh62X4BEPgryFVInqG50XSH/fqGuO0OZ+fKR34THSMWrV6VWfLEdUVaUuAbI9LNwBbruhJ2KQ1MBP4cW+2L3AmnKLwinJ7OyzFO/92XYBarSNjg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=willbush.dev; spf=pass smtp.mailfrom=willbush.dev; dkim=pass (2048-bit key) header.d=willbush.dev header.i=@willbush.dev header.b=lYKzUJi3; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=HbyAxFIo; arc=none smtp.client-ip=103.168.172.159
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=willbush.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=willbush.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fortytwo.fr header.i=@fortytwo.fr header.b="BglLw0HX"
-Received: from director8.ghost.mail-out.ovh.net (unknown [10.109.231.178])
-	by mo561.mail-out.ovh.net (Postfix) with ESMTP id 4j6x184Dhzz5y6T
-	for <linux-sound@vger.kernel.org>; Sun, 18 Oct 2026 11:15:24 +0000 (UTC)
-Received: from ghost-submission-7ccd8bbbb6-g6jb4 (unknown [10.111.174.188])
-	by director8.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 0068FC010E;
-	Sun, 18 Oct 2026 11:15:23 +0000 (UTC)
-Received: from fortytwo.fr ([37.59.142.97])
-	by ghost-submission-7ccd8bbbb6-g6jb4 with ESMTPSA
-	id SwRZKUuq1GqLkAUAZOlizA
-	(envelope-from <thomas.nemer@fortytwo.fr>); Sun, 18 Oct 2026 11:15:23 +0000
-Authentication-Results:garm.ovh; auth=pass (GARM-97G002cba71a3c-52dd-4ff1-974c-945b586c1852,
-                    B56F0971D6B095CE003BCFC685B2F3186F5EFD30) smtp.auth=thomas.nemer@fortytwo.fr
-X-OVh-ClientIp:95.173.222.53
-From: Thomas Nemer <thomas.nemer@fortytwo.fr>
-To: tiwai@suse.com,
-	perex@perex.cz
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Abhinav Mahadevan <abhi220204@gmail.com>,
-	Thomas Nemer <thomas.nemer@fortytwo.fr>,
-	stable@vger.kernel.org
-Subject: [PATCH] ALSA: usb-audio: Fix missing sample-rate control for PreSonus AudioBox USB
-Date: Sun, 18 Oct 2026 13:15:19 +0200
-Message-ID: <20261018111519.191844-1-thomas.nemer@fortytwo.fr>
-X-Mailer: git-send-email 2.56.0
+	dkim=pass (2048-bit key) header.d=willbush.dev header.i=@willbush.dev header.b="lYKzUJi3";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="HbyAxFIo"
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id CE9521400105
+	for <linux-sound@vger.kernel.org>; Sun, 18 Oct 2026 12:36:24 -0400 (EDT)
+Received: from phl-imap-02 ([10.202.2.81])
+  by phl-compute-01.internal (MEProxy); Sun, 18 Oct 2026 12:36:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=willbush.dev; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm3; t=1792341384; x=1792427784; bh=3t
+	GoBjVzGZKF3e9XOxGK5DBNmYAUi7baXlpnnVm/Z3E=; b=lYKzUJi3M3GXQPl6Eu
+	OxmLhF00+esvTt2lxajrUvAONrZ1UHMSK/lkQOu4CVi5p8m2vXOEwHrulmhsSR9e
+	UMNw3ZOQZD45T6HObUTTAAgXrYdssOB5VyDZyAi50EmTFF/SgRf+cHa+Rl0UEUJ8
+	xYfTq9sqSH8QwfkVKMsPqB3PmtP5GBCSxK6+b4HdMQxBMCww6DzSsJnwg5J4/xNm
+	eXAdgfk9mhx/IKsCc7uCBYvGGaJPqg4fUpbLHG0K5tXrlbWKEHkKHrSP4O0XQMtA
+	Ne9pCy7F1QEoJKoHZHpmAAJ54vur+E9UfxCaO3ZMWS9kdaEXjBsIauIeg34HIUn3
+	uzvw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1792341384; x=1792427784; bh=3tGoBjVzGZKF3e9XOxGK5DBNmYAU
+	i7baXlpnnVm/Z3E=; b=HbyAxFIo459zrV+gweoJ3VnrGHcnvr7yGM3xCCjd9kfU
+	wct+tX7EYnLzqe10R5S5DjbY7ul51xd8Zrs9wSHkayadXL4EmZqOJQ0jCe5rXTQG
+	U8LknvSfKEZ8Zhrg2WErEDQixgWhGN3sA1ZeEcE2ca0MNCosjyAM/kYMO+okrbpg
+	FTEuJbk2LcrJ4NyTu48dEsvOSQ7nzzW2zSX5yCgVIH7dzSnWPEFF2FdI6hDM3Akl
+	6dJ3t+8+eDNKvlH32mK32d3RnR34eIkB3agPDEk9Xri9jw4w1+xP0UPogQnfRWB1
+	MQniU2gLxt0EhY/QH+ecAnK89SoUl0PmsD737lzhag==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-06;
+	repo=github.com/dkim2wg/interop; date=2026-10-08; sw=lmtpprox;
+	action=sign d=willbush.dev a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1792341384; d=willbush.dev;
+	mf=PHdpbGxAd2lsbGJ1c2guZGV2Pg==;
+	rt=PGxpbnV4LXNvdW5kQHZnZXIua2VybmVsLm9yZz4=;
+	s=fm3:rsa-sha256:iSL+GG7K0+JvrmJ6ToU0UfsrOSYauRP3C3IIqRcrUYi+jz/
+	IogCwVc4HazYYNKXRXqPwkIqzL/WkGTMWnl85lf+BF96KSvHZp1/5LDL2JW9D5z+
+	ZLnbooHeA3YaxeMaqSh6SOtTObo8OfgDjA1qM6Dk58z8Cc98aIvxstOpiPD4n1+d
+	ftPQP0P1tT42xRsowqU09my4GJcHpKhgHwWvr1Bw/nYWU7SWY9hXbhSJPSWH/630
+	QeT5YMLPcf1OntdAoRtbp6rouEhyqmWDScGdCZ5geh8KXvu+eQtWP1UN5JTX57ij
+	3ki4+he/oMNak6/EtuhYiDwORaW9Oi+VLV86YPg==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-06;
+	repo=github.com/dkim2wg/interop; date=2026-10-08; sw=lmtpprox;
+	action=mi-m=1; hc=10;
+	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
+	from,message-id,mime-version,subject,to;
+Message-Instance: m=1; h=sha256:VyqkAny2DlF94PbEW/U6krYIS9vjRI0OHL+QyT+KFWo=:1206x6K8a9ICANECB2z1av+VARsTQzPmVYCJuXW4jkQ=;
+X-ME-Sender: <xms:iPXUarlCO74UqomhNfK6oJCRMOe_QxmEPyZqaR5Og5Gjck6rqckurw>
+    <xme:iPXUappySAnDJnF208TqYQrD85S4B0w7I9kmkoW7jqzFJWvKc5IhTlSeNT4iy581K
+    8rELZ8Or-qh-1mWFDlpvm9YqqDYcJbPwNTMU5za1Z_23Awx9219PAA>
+X-ME-Proxy-Cause: dmFkZTF60ouSx4v/CB2rZwLkCojmMW49pkgKmDBNRc390uF4YMSwxJ+jNb6I9CBnm7ox1F
+    Z4jKHIAHpdZigf6UdYARBoyG41hXtIuZ+OgLdv7Rp15fxeo2CXIpBFk15nuvl7vX0b0Zf2
+    m5Kb92mDMdj7Vn6dZUHKRagG+inK6bPlrSwibh3IKh8fS1YVfTk2neEkSSAdPU0EW5z6ix
+    kGpfNcz4+4fmzaQ1UP3jCqI3P6HFVDoafmt/07TPsGz3XI73yMrm2SkAivSafxxyl4D0PD
+    up67XGqJIp5de7BHkcloFhcPsUgX7ZRVelaGxZYMlPSQ4xuu1ynuDzBVEmzC3QlbblKqN7
+    mbs/fjX2to2SorxzQMPraQXjoOkyCPz9YqGymZIZ1AP66g8Uo81NfmZn5MWIGlCUZ66bdm
+    9r/+nZUll/KEpBwonSVZ9OWjarzXBQmPe/Lw3ss3El+8CkRYgcyzY4/UmCuy8PCrr0lbxE
+    Lgk8KDLDJvtwSryJY22wgVhfLxFH6lsB4Zy+KTVSfxtkHCTLspdcRuP2h+/oCQ3hawv1UK
+    w5WP4UYShO7X08ERXmMaEYyiTdeQS/PzLn9zZHsahejk/ebpy864nLb82tDYcUrMdAFJIb
+    EODpBl5TIbj6Igbk0HFMQOrY5CmQteO5/rxsDdaQ38EmA8WCJ8HqUIkuYgPA
+X-ME-Proxy: <xmx:iPXUasLr_N5428jlTcBt1LtrKFCVWRrgSiq3IzCc8HDU4HWVDhtLPg>
+    <xmx:iPXUarOowU7nZ8_3sSzfpaPFF8wNIsC2qgJMHAZcW1wuDVkviXjFjQ>
+    <xmx:iPXUai5klthezB1OJ04pNHeDv-VpubRNl09UscnMWONUrsizA17oPQ>
+    <xmx:iPXUal4ZWwmfoNwu53kKvw8KH7ARQKw5CO95jPfioHIZBTq98Y8svw>
+    <xmx:iPXUahKPugSNnyuTaKqpJw_lk8nvb1bORzk65pxFZJKVir8PsS3oatwV>
+Feedback-ID: i0f194965:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 10C71700065; Sun, 18 Oct 2026 12:36:24 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-x-ovh-tracer-id: 12271183087021757979
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: dmFkZTECwDY6ynUbKWqkMeXQFbYg9bRd6yio3w7rsWEWqT1noq+4OFe/QChhGPGl0UFM6yq80jVtF+TPk0xM8/YNV/pHp9YEmPHjMjp3Wd+O18ZidHvCkWh5G+1sVl6Xx6zPIE32rrNLilFpC+fKE1UP2yL0xUYRa3C65tBve2mLCrQiqmizofo0mKnenTb6RzzXd4vS8h51a0KVT8ffzzb7hY1sPFc8VYPr0ivEYHcmWO0R/JbifqMnZE0+nRMQkYXbZqwW4Ul+0Op8Gi+emSzP2ciws2AfMs18GesHadyksTgx1y3l+HwiGhfOwJvp/8zN9HgXznruMmeVII2VjoIgKqoIcUVCM+7x3g9U4Q4ikj8NYOr6wfZkq8i9OONSfgs85CTuciOtYCC55w0E4o8Y2CoKG1jHO5CSdX4KewEs7USCF8JP99XyODQSQgE7unkJr4RpAVoFlPTQ74cKSwKepG2blFSO0gHhaYeSiZdTQuLqMufkSKYKK6ktJXEuEej5F0DLrihVhxsuWGxVyn28msZ0JprIb8lGDxSn/95MWXCmQrxLVoqK5PEJwa/jw9qSmltfs4QOGWQjNDchjXY3peJdqA/eZ4MpVIBTnaTXEX7KTegizoUoTZH1LrOCMGQ6zOTydDbDTaliIJQUBxzrfx1wtXgJiQgk9FH6qfEI0ZfGXQ
-DKIM-Signature: a=rsa-sha256; bh=GvC2EkNZpLSK0S+Zb8J1W73t6EIxhICjDJ3m4zRPN/g=;
- c=relaxed/relaxed; d=fortytwo.fr; h=From; s=ovhmo5104297-selector1;
- t=1792322124; v=1;
- b=BglLw0HXajdquoFMYaeMJzWjqA67/eZjgtvG8knpnWwk602L42Jlni0UY60DsR6fMOZUSc0A
- EanytxtO+4w3sYond7siJNTxCxY8mKhcsKluQ8gYE0EgjVDTzb/Zy+/5cz2uGlJ45OWiZvRfInT
- p7wY3IJ3gCm/ZU+kFQc5JsfgmlBAgoguHNeUYjMNHRZXWu6VAwBMiuONuskoIU+Mk5DJhtDOvSo
- pjcAsBvNex3u8Yp2T2CEt0ESaAS3u+V+SOWkExUuaHckq4XgBBKhNI0nm1W4RwWqdWmxmEgv0v9
- uy0kiUhIr59sgd9pCw3GIadR1A2Y3gpCdPk5WHPnjwTGQ==
+Date: Sun, 18 Oct 2026 11:34:27 -0500
+From: "Will Bush" <will@willbush.dev>
+To: "Takashi Iwai" <tiwai@suse.com>
+Cc: "Jaroslav Kysela" <perex@perex.cz>, linux-sound@vger.kernel.org,
+ regressions@lists.linux.dev, stable@vger.kernel.org,
+ "Jan Lentfer" <jan.lentfer@web.de>,
+ =?UTF-8?Q?Sebastian_Dalfu=C3=9F?= <sd@sedf.de>
+Message-Id: <45162613-2802-401c-84c9-742f9c8c68e6@app.fastmail.com>
+Subject: [REGRESSION] usb-audio: Behringer UMC204HD broken in 7.2.10
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-The fixed audio formats for the PreSonus AudioBox USB declare
-.attributes = 0, dropping UAC_EP_CS_ATTR_SAMPLE_RATE that the device
-advertises in its class-specific endpoint descriptors (EP_GENERAL
-bmAttributes 0x01 on both EP 0x01 and EP 0x82).
+Hi Takashi,
 
-As a result set_sample_rate_v1() bails out and the kernel never sends
-the UAC1 SET_CUR SAMPLING_FREQ request, leaving the device on its
-power-on default clock. Playback and capture then run distorted
-whenever the stream rate differs from that default. The device keeps
-the last rate set by a host as long as it stays powered, which made the
-regression look intermittent (e.g. it disappears after the device was
-initialized by a host running a kernel without this quirk entry).
+Thanks for all your work on usb-audio. I was updating my system (NixOS), which
+took me from 7.2.9 to 7.2.10, and my Behringer UMC204HD device stopped working.
 
-Restore the sample-rate attribute on both streams.
+It gets into a loop:
 
-Fixes: 34fe4a9df247 ("ALSA: usb-audio: Add quirk for PreSonus AudioBox USB")
-Cc: stable@vger.kernel.org
-Signed-off-by: Thomas Nemer <thomas.nemer@fortytwo.fr>
----
- sound/usb/quirks-table.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+  [  225.148019] blazar kernel: usb 3-4: new high-speed USB device number 19 using xhci_hcd
+  [  225.340016] blazar kernel: usb 3-4: New USB device found, idVendor=1397, idProduct=0508, bcdDevice= 1.35
+  [  225.366005] blazar kernel: usb 3-4: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+  [  225.366187] blazar kernel: usb 3-4: Product: UMC204HD 192k
+  [  225.366304] blazar kernel: usb 3-4: Manufacturer: BEHRINGER
+  [  230.493021] blazar kernel: usb 3-4: failed to read device descriptor: -110
+  [  230.493313] blazar kernel: snd-usb-audio 3-4:1.0: probe with driver snd-usb-audio failed with error -110
+  [  235.612029] blazar kernel: usb 3-4: failed to read device descriptor: -110
+  [  235.612302] blazar kernel: snd-usb-audio 3-4:1.3: probe with driver snd-usb-audio failed with error -110
+  [  240.732035] blazar kernel: usb 3-4: failed to read device descriptor: -110
+  [  240.732461] blazar kernel: snd-usb-audio 3-4:1.4: probe with driver snd-usb-audio failed with error -110
+  [  240.732538] blazar kernel: usb 3-4: USB disconnect, device number 19
+  [  241.019061] blazar kernel: usb 3-4: new high-speed USB device number 20 using xhci_hcd
 
-diff --git a/sound/usb/quirks-table.h b/sound/usb/quirks-table.h
-index 2da8cbe3e6..6343a50fb2 100644
---- a/sound/usb/quirks-table.h
-+++ b/sound/usb/quirks-table.h
-@@ -2911,7 +2911,7 @@ YAMAHA_DEVICE(0x7010, "UB99"),
- 					.iface = 2,
- 					.altsetting = 1,
- 					.altset_idx = 1,
--					.attributes = 0,
-+					.attributes = UAC_EP_CS_ATTR_SAMPLE_RATE,
- 					.endpoint = 0x01,
- 					.ep_attr = USB_ENDPOINT_XFER_ISOC,
- 					.rates = SNDRV_PCM_RATE_44100 |
-@@ -2932,7 +2932,7 @@ YAMAHA_DEVICE(0x7010, "UB99"),
- 					.iface = 3,
- 					.altsetting = 1,
- 					.altset_idx = 1,
--					.attributes = 0,
-+					.attributes = UAC_EP_CS_ATTR_SAMPLE_RATE,
- 					.endpoint = 0x82,
- 					.ep_attr = USB_ENDPOINT_XFER_ISOC,
- 					.rates = SNDRV_PCM_RATE_44100 |
--- 
-2.56.0
+Issue seems to be from commit: b5c4823cf3e4 ("ALSA: usb-audio: Apply boot quirk for Behringer models generically")
 
+I was able to patch 7.2.10 to get it working again:
+
+-	if (USB_ID_VENDOR(id) == 0x1397)
++	if (id == USB_ID(0x1397, 0x1234))
+
+Not sure if applying the quirk to every Behringer device is too broad or what
+the fix should be. Ping me if you want me to test a patch.
+
+#regzbot introduced: b5c4823cf3e4
+
+Thanks,
+Will Bush
