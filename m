@@ -1,83 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.217.45
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.217.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792431997;
-	b=Jm1MALl6jd2vhsn/dlawM6Op6QrfeLHdAorA0MFjR1RxIYd9WGkq5cZJCPfXDQCPusgA
-	 grn507ZO6Lbw4ckRWZ+fP8ru+eFvUw8t8ie27dd+TUDzwcdkv7Ad/PnOTD8lh1lhlibuq
-	 NSB/hr4hwv9l3SpCXTA1JDrplSaeSRkZZ5v2mOqlA13uCzXsTkvgcXP87m32atuIQkGZK
-	 V09IZlj6aq3N3zZOqC8JXX5so8PsCQF+SUcTTNy0vUxczXGeQFSWO09z4mZiGnDqwUZIN
-	 JwGxx6vEziqliB1OKLFQZtup54Ycdg/csOtdtaT4t6o+XD85yML17OKFEP5pc5ROKSw==
+	t=1792431999;
+	b=hXaR2kUpz1tbrbIc9a+tlokyrJzDSXpYzskDFiALIx8NRIEdD4T3IiJJVUZ6yV+UeTaH
+	 3ccWsfTkpzstIxPIGKz4dCcrXv/RjcRjZ2DrTJr596OjtuhDBY6ReNvsRot6W5Ps4cwlU
+	 vOJRAyX8uzKQzVPCSh9Ky6+a2wljV4v74jpj1VMNlMY6aa1VSuVIecYdpSVix8Vw9EEWW
+	 OOWPNmWhDMAsdCW8H5zrqR5J8o+xEL0CC5ONnDHhSbewOADjPt69Ci5AukFZINUOQTBgR
+	 QQ6lvw0KkYOtpQzwLsaE9Bx3qbU3DmZ3J+RgnBc+DJzM/PUOFb3ER/9yRiLvXrPCvzw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792431997;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792431999;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=B5W6DsCWFtYZKF0aOXpVSIa5Zd4BJibZGEM2WU5Ugw4=;
-	b=IaqGs0z+BMOzgRzCXUHcR8pvr/WDAES3LP8VrRuty4gzX7bMRvwHoA1KQSmS4NELRrBm
-	 4u4ouzffiIbwlwEreJpApqYlvbwVQgqJYdeg5UiXXNrQNaMqlb697ZDIHprpWNwEEjY4x
-	 yhTk+Nw4o8AXQAsNGB8SqNUUot8PB3XOJQ4BaZHVrq/W02T8nHOaafTuaDxQQ18YSiI7h
-	 vv7TvLL6PwDQvafB3qy+jwtIX+aV4Hnd6BgMdRJ9pgYHFUlV/gAS2JfP4vON8uR/AxEi4
-	 JA70QkbMkjHFZPCgOafxCPn1Dzpr+7lR6wB9A95n542EsTt2LErh5w+fQeU/G+qDqZA==
+	bh=/j+L9c85Zmk9gdLPRB45/y1VrP4yGCXm6RLIZSp5kzw=;
+	b=4C85LCojfRqlNQQNEaofy2lYVFk54DpYFM+o7AqYP4GkMOIN+/WiPw/3k2bMR9296pNY
+	 ql57HnhLrjnsbQwEHC24xB2ukhX5v2Cz0z0QgQUBlhioHPD/fmBnzpn1kP0AGoDHuRF0I
+	 7zBfOvMM3nK1Xnnv6aKJBj3/7o8DvWrEXqEzsU25bnq2QL1hN2M+a7f4j6C03O9mrdjMR
+	 JY/T7dudgEvxRY3QGbhDX+6odJkbvg/quXoARqaKzml3HK8RhU9M77D5O9cJhD5RxeP8b
+	 ur4lRjW9EfNoy+Ttm1Gmv8FyF1wCTllgIclW6ejbNRjFCQ6EiYhpJb166oE0dV0fsFg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=Ac1KJ7PC;
-	arc=none smtp.remote-ip=209.85.217.45
-Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com [209.85.217.45])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=AmpSduC3;
+	arc=none smtp.remote-ip=209.85.217.41
+Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7512160A3831
-	for <linux-sound@vger.kernel.org>; Mon, 19 Oct 2026 17:46:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7512160A3831
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BDF860A4AD9
+	for <linux-sound@vger.kernel.org>; Mon, 19 Oct 2026 17:46:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1BDF860A4AD9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=Ac1KJ7PC
-Received: by mail-vs1-f45.google.com with SMTP id ada2fe7eead31-7c6e6822b11so647571137.0
-        for <linux-sound@vger.kernel.org>; Mon, 19 Oct 2026 10:46:36 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=AmpSduC3
+Received: by mail-vs1-f41.google.com with SMTP id ada2fe7eead31-7a6e560f580so1453441137.1
+        for <linux-sound@vger.kernel.org>; Mon, 19 Oct 2026 10:46:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792431995; x=1793036795; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1792431998; x=1793036798; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=B5W6DsCWFtYZKF0aOXpVSIa5Zd4BJibZGEM2WU5Ugw4=;
-        b=Ac1KJ7PCeOlItLBovwnkjZ9pjZY+juAutygyb0712Nl6r8o3yTssNQVKZsNxC3+wM+
-         eIcntaNbIisg1vxm/SNXnaqrwIUFjl0yCDfGxqELJFp1alLwXRBW+qPUXyIsUY+jzMxD
-         Z6WtNqJOAqZChhzHiQB+fCQc7o5Nym1c3BeqC/iXhXMtxMB2tZrNgtML5bSZvgJLR2aG
-         S2ticH/lcErQ3h2vH3JSiODwn444WNk9w8NfWWyOLasA9j3I1aMryjKiMQfefmNWgsl5
-         wHolXnMdE9vUMrd7R/nlSghzydngB9+FAVe/1bMQ2rt6dGskBmiXftwVnr+mX13cR7RR
-         dYnw==
+        bh=/j+L9c85Zmk9gdLPRB45/y1VrP4yGCXm6RLIZSp5kzw=;
+        b=AmpSduC3UfBn+AzvxVn+pVam6OOmCc3dzILgnDfMxVUlGJ+/lBEFLhnrp5Gb58wcJJ
+         nq55YP+IMz9QMPLf5JdqzaY3OxJJOSSrF6imo/mXQL+maDYsDv7D4nVHns2S5IaGMKuI
+         55ckGaCDQafa3OCOAKzAd+YdoCPXNC41YwMKryBlmhev7nPu5gMOh+4wj0vWxDp2sxLe
+         s1lqtb/bm9z8RytRurd/0GftCprHndxQT00p5w0cjj4nwYR4udgc7QIByDIQam3A8y8D
+         Er5Xi1M3d1L5/++/rMu5PkcV9Q4a8ipMIYBuFm4omY2ZgZcHXmxIaT9r5dvZrGTso5Er
+         9T6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792431995; x=1793036795;
+        d=1e100.net; s=20260707; t=1792431998; x=1793036798;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=B5W6DsCWFtYZKF0aOXpVSIa5Zd4BJibZGEM2WU5Ugw4=;
-        b=Qsw/yMI8yHZP+ws8QutD5Y1ms8Po5lf210/mIAudrE5g99OKUj1sALMNpxHfpnMvI3
-         1tQu7Xg7F/zHQu6PqNNtZ5jfxWqpjQ4ct2suJ2egXDncHjUuKrATmOMtZfI2A/sFpY/R
-         IRwXK1v5JwTbpRIk9mDyWKUNyrToNxrModzEp9CzKcgQtoeAA2brLVrLEW7e64/+6b4f
-         E7FxPlvHoYLGTGz4I9NK8iMCbME13Xud73oQ68gTlq46NMaMBB48tIKBSGxmg3qczqvR
-         UZuUjrJSGwHovpoH3o8WZ73ujWtb6gQBYJkc4s5+L63Vh21HBo94sy6yHp6M9/B3r/0O
-         a3fA==
-X-Forwarded-Encrypted: i=1; AKwUvBw+mpkKyi1yuqJn9hjPw31CWSs8Tp9GPf+dNy3JiY4UHLBoBIZIg8UfIQIM/cXyGSldBqU9Dhj3eXdTuQ==@vger.kernel.org
-X-Gm-Message-State: AFq9FYKxLWUGMJpKMC/x0Tiya9CTqJYQO59TfDd9omuPJ+2L3Ka63X0w
-	eO7YkKKYsrhwu5iNdUKlG4pOLuBaiTrVVHLb8IXyzvM/6mqYyJNNl3Os
-X-Gm-Gg: AYBFou127FODW6pVR7M3B2c7AWyLY36SsXFoaG6kKeC5Wyi3pshBu+4vCb5nBe1LAqo
-	YzvgO5fw8zCnBca0PNDRetUiQs8L33UfmAuKfB0ZoSc0hzABoActnoQfrhI/tYm5Pxn2CkYaTtV
-	W/gLjoW9dLBkQw7JRfA4X/y7alwsU7Hw++KNgjpGtl1bXsCce0LkvdZ06/twS7BW60fC0E6VVeI
-	ZBlRvWkGf0hcOkGwFKIuDfAXJnG8TpHO+TxuzcMHxcVAVeaJnFoIMbUCQFiK6QFswvfsM7ZNfjj
-	HXOSn5zHomhtz6aBOMPTO9yHKM2Zv5UtO8jTM1WHGrsvGD8HYisNe8YDJot4WTUqORRD8cS5qeS
-	VqNCrUDf/FruQkyZi+688qmijcx5dlXAxSUg/O03IlZLoW2nZg02nSovcKoAakaexiPEyG3JJy6
-	d5J2x+5PWHprP6VOUbeEEr21F4Kh6mRiOX3+rx6sySzRqPu0e4frAGi5alabuL7MMGp8F8I+zEv
-	ND+0+NcSksgNffWQp4C/TQJZij/GeMV66eIzs9FEFiDnqgGUeA72677MzR0x46+Z0SbxttAh38v
-	DUsIV/CLMeXOpmOoeJ3aT3LhBCQtw3E=
-X-Received: by 2002:a05:6102:509f:b0:7cb:bbcc:e52 with SMTP id ada2fe7eead31-7cc364ab6c3mr1915373137.0.1792431995265;
-        Mon, 19 Oct 2026 10:46:35 -0700 (PDT)
+        bh=/j+L9c85Zmk9gdLPRB45/y1VrP4yGCXm6RLIZSp5kzw=;
+        b=zp0f1p52X+TfmzUWXLrJYTxi/xhdm+Wvf2RDzBXzgb61d/UTyn4GvBJLdJCKcnEDdq
+         AWtPmC5UWec5GWoGNCgGSM3bgoV5JPMNFMdLybuSr1PxhfFkg6hO+jXJ1BrhtNFxR0Cn
+         s4LOE6wCh8VYt8zauj6j2NKhLNgx+RgO1uVwVj+hhK13MExFJd0T692T6lnfqE98VSn/
+         rja2IgFN4hyDqrpzf+y1OtZqseN2BkeAxgz+FDLzBCXl0YIy7XOYR+86bLzFdlePzFxi
+         sCczx79Gnmd9wwxLhfiRjYuVlwaYwqEryaWUaWh7pekdRVwJue6eof0wTjje/JHdkErM
+         SEOA==
+X-Forwarded-Encrypted: i=1; AKwUvBw3rEuWfI/C7X/dXZM00wp9WBggA4JI9p4rNuHNFXrTKaEQ3iLID4S7VKJGKIm/7p3aQjrNhhNl+8a8JQ==@vger.kernel.org
+X-Gm-Message-State: AFq9FYLD7DUzORDam+r8DlcRFFNDnQ3U/4CXginNArsL0yr33Kqktffi
+	AHbYbBd8RTQ5SYugJZwC4CKJysaWIT5V4PMZErs5RcfcRrNy72iWwkgw7fBSBpOC
+X-Gm-Gg: AYBFou0DXwA/JlOB+OGsUH91PrO5krBUqlJyz3g02fz2DquTn3jVPaTU62+DE6jCwEg
+	YkcLAl1O2yCNqAubeVqDBwopYBqCIWIsBrH9PQ6DddtJLiql5Qo4x94pqDJ0D5tXY+lvUeWQ93n
+	aYdSKTeC5N29UhUheH5rHL2eXlB3UPjB/EMXhcUp+nvbdQIzbaFGnAuq5Svwaxd0g5XYhxn+Jbp
+	1AkOcvY8/qPo5zqY/9lSf2E8kp8WprSZ2O4Jd0VK75EPXTQlfKrlhu+ppULdGSJz/QyDBsLoHx0
+	+vDReqeZ6MG5VOyGOLYu2LO+z/vU6IrRFiqSfeAd+ALG8w93xInoBG1UAnAAd5F5Sy57C98FJJi
+	JaVAsiWg1R5qQU6kRpRI5TDhlFO+vnF4UB+qgeF886PuuioMPt/PfboxqLcpEq/ST060Z7/tkKd
+	W/lUYiPXMSvKNkeWzdoeLQZPF5jimDAJY3uDP8moU8cr5laBsggoLXYgtU9wHL0hD0OkRN17MSI
+	QBL36XQGi87EzJ6qU98BMCtaCZQd4vZOubDANmRVNhU8/xadU65qgVO+RlOwWhEzwOb57XGOM/I
+	fSyzuqZcc6h+u/okYDepse8gkfCDOZA=
+X-Received: by 2002:a05:6102:849b:20b0:7cc:3eb0:6ef5 with SMTP id ada2fe7eead31-7cc3eb09b24mr1525700137.11.1792431997928;
+        Mon, 19 Oct 2026 10:46:37 -0700 (PDT)
 Received: from alsa-dev.int.suenodeluz.com.do ([74.244.193.177])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-990bb3adfd0sm790707241.12.2026.10.19.10.46.34
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-990bb3adfd0sm790707241.12.2026.10.19.10.46.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2026 10:46:34 -0700 (PDT)
+        Mon, 19 Oct 2026 10:46:36 -0700 (PDT)
 From: Frank van de Pol <fvdpol@gmail.com>
 To: tiwai@suse.de,
 	perex@perex.cz
@@ -87,9 +87,9 @@ Cc: corbet@lwn.net,
 	fvdpol@gmail.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v5 11/13] ALSA: jockey3: Add MIDI support
-Date: Mon, 19 Oct 2026 13:44:43 -0400
-Message-ID: <20261019174445.1931263-12-fvdpol@gmail.com>
+Subject: [PATCH v5 12/13] ALSA: jockey3: Add power management
+Date: Mon, 19 Oct 2026 13:44:44 -0400
+Message-ID: <20261019174445.1931263-13-fvdpol@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20261019174445.1931263-1-fvdpol@gmail.com>
 References: <20261019174445.1931263-1-fvdpol@gmail.com>
@@ -104,555 +104,345 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a rawmidi device for the control surface.
+Add suspend, resume and reset_resume callbacks.
 
-MIDI OUT is multiplexed into the playback stream, one byte per packet.
-A leaky bucket holds the output to about 2500 bytes per second. The
-device communicates internally with the control surface at the full
-MIDI rate of 3125 bytes per second, but the control surface stops
-responding under sustained traffic at that rate.
+Suspend stops the URBs. Resume programs the rate again and restarts
+them; reset_resume also repeats the initialization handshake first.
 
-The device does not accept and handle MIDI Running Status, so
-ploytec_midi.c expands it before the bytes are sent.
+SNDRV_PCM_INFO_RESUME is not set. The device loses stream
+synchronization across a suspend, so userspace has to prepare the
+stream again.
 
-MIDI IN arrives on its own bulk endpoint, which has been polled since
-the transport patch. The completion handler now strips the padding
-bytes the firmware inserts and passes the rest to the rawmidi core.
+A watchdog tick or a recovery that is already running must not restart
+or reset a device that is being suspended. JOCKEY3_FLAG_SUSPENDED is
+set before the URBs are stopped, and the watchdog and the recovery
+ladder test it at each point where they would otherwise act.
 
 Assisted-by: LLM
 Signed-off-by: Frank van de Pol <fvdpol@gmail.com>
 ---
- sound/usb/jockey3/.kunitconfig   |   1 +
- sound/usb/jockey3/Kconfig        |   1 +
- sound/usb/jockey3/Makefile       |   2 +-
- sound/usb/jockey3/jockey3.c      | 217 ++++++++++++++++++++++++++++++-
- sound/usb/jockey3/ploytec_midi.c |  83 ++++++++++++
- sound/usb/jockey3/ploytec_midi.h |  36 +++++
- 6 files changed, 332 insertions(+), 8 deletions(-)
- create mode 100644 sound/usb/jockey3/ploytec_midi.c
- create mode 100644 sound/usb/jockey3/ploytec_midi.h
+ sound/usb/jockey3/jockey3.c | 183 +++++++++++++++++++++++++++++++-----
+ 1 file changed, 161 insertions(+), 22 deletions(-)
 
-diff --git a/sound/usb/jockey3/.kunitconfig b/sound/usb/jockey3/.kunitconfig
-index a562106b37b8f..a9681c891f096 100644
---- a/sound/usb/jockey3/.kunitconfig
-+++ b/sound/usb/jockey3/.kunitconfig
-@@ -3,6 +3,7 @@ CONFIG_KUNIT=y
- CONFIG_SOUND=y
- CONFIG_SND=y
- CONFIG_SND_PCM=y
-+CONFIG_SND_RAWMIDI=y
- 
- CONFIG_USB_SUPPORT=y
- CONFIG_USB=y
-diff --git a/sound/usb/jockey3/Kconfig b/sound/usb/jockey3/Kconfig
-index b61a11738e9bf..4b40a962417dd 100644
---- a/sound/usb/jockey3/Kconfig
-+++ b/sound/usb/jockey3/Kconfig
-@@ -2,6 +2,7 @@
- config SND_USB_JOCKEY3
- 	tristate "Reloop Jockey 3 support"
- 	select SND_PCM
-+	select SND_RAWMIDI
- 	help
- 	  Say Y here to include support for the Reloop Jockey 3 DJ controllers.
- 	  These devices utilize a non-standard, proprietary Ploytec USB
-diff --git a/sound/usb/jockey3/Makefile b/sound/usb/jockey3/Makefile
-index 381f006134930..3f339608f4d23 100644
---- a/sound/usb/jockey3/Makefile
-+++ b/sound/usb/jockey3/Makefile
-@@ -1,6 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0
- obj-$(CONFIG_SND_USB_JOCKEY3) += snd-reloop-jockey3.o
--snd-reloop-jockey3-y := jockey3.o ploytec_proto.o ploytec_codec.o
-+snd-reloop-jockey3-y := jockey3.o ploytec_proto.o ploytec_codec.o ploytec_midi.o
- 
- # The codec functions are not exported, so the KUnit tests are
- # linked into the driver module rather than built as a separate test module.
 diff --git a/sound/usb/jockey3/jockey3.c b/sound/usb/jockey3/jockey3.c
-index 90458f5d9245e..17c014f2e69d0 100644
+index 17c014f2e69d0..db351c42d85c3 100644
 --- a/sound/usb/jockey3/jockey3.c
 +++ b/sound/usb/jockey3/jockey3.c
-@@ -25,10 +25,12 @@
- #include <linux/cleanup.h>
- #include <sound/core.h>
- #include <sound/initval.h>
-+#include <sound/rawmidi.h>
- #include <sound/pcm.h>
- #include <sound/pcm_params.h>
- #include "ploytec_proto.h"
- #include "ploytec_codec.h"
-+#include "ploytec_midi.h"
- 
- #define RELOOP_VENDOR_ID         0x200c
- #define RELOOP_JOCKEY3_ME_PID    0x1019
-@@ -441,6 +443,7 @@ struct jockey3_pcm_urb_stream {
-  * @intf0: interface 0, which the driver is bound to; read-only after probe
-  * @intf1: interface 1, claimed explicitly because it owns EP 0x86
-  * @pcm: the PCM device; read-only after probe
-+ * @rmidi: the rawmidi device; read-only after probe
-  * @xfer_buf: bounce buffer for EP0 control transfers, USB_XFER_BUF_SIZE bytes.
-  *	Serialized by @rate_mutex once the card is live. The one exception is
-  *	jockey3_initialize(), which runs from probe before the card is
-@@ -486,9 +489,16 @@ struct jockey3_pcm_urb_stream {
+@@ -170,17 +170,18 @@ MODULE_PARM_DESC(enable, "Enable " CARD_NAME " soundcard.");
+  *
+  * The watchdog work item adds one rule: rate_mutex must never be held across
+  * cancel_delayed_work_sync(&chip->watchdog_work). jockey3_stop_urbs() is called
+- * from inside rate_mutex at three sites, so it disarms with the non-sync
++ * from inside rate_mutex at four sites, so it disarms with the non-sync
+  * cancel_delayed_work(), which is safe under any lock; a tick that is already
+  * running when the cancel lands re-reads 'stopping' and does nothing. The sync
+  * form appears only in jockey3_disconnect(), in probe's error path and in
+  * jockey3_free_resources(), none of which holds a mutex.
+  *
+  * Because that disarm does not wait, a tick can be parked on rate_mutex while
+- * jockey3_pre_reset() takes the device down, then wake to the timestamps it
+- * zeroed and read the stream as stalled. So jockey3_recover_urb_stream()
+- * re-tests DISCONNECTED and RESETTING under the mutex and leaves the restart
+- * to jockey3_post_reset().
++ * jockey3_suspend() or jockey3_pre_reset() takes the device down, then wake to
++ * the timestamps they zeroed and read the stream as stalled. So
++ * jockey3_recover_urb_stream() re-tests DISCONNECTED, SUSPENDED and RESETTING
++ * under the mutex and leaves the restart to whichever path is bringing the
++ * device back.
+  *
+  * jockey3_watchdog_work() itself may call jockey3_recover_urb_stream(),
+  * which takes rate_mutex and calls jockey3_stop_urbs() -- i.e. the watchdog's
+@@ -450,7 +451,10 @@ struct jockey3_pcm_urb_stream {
+  *	registered or the watchdog armed, so it is the only user in existence.
+  * @rate_mutex: serializes sample-rate changes and the URB stop/start that goes
+  *	with them; process context only, outermost lock
+- * @flags: JOCKEY3_FLAG_* bits, atomic bitops
++ * @flags: JOCKEY3_FLAG_* bits, atomic bitops. SUSPENDED is set before
++ *	jockey3_suspend() takes @rate_mutex and cleared by
++ *	jockey3_restore_device() under it, so a tick blocked on that mutex sees
++ *	it on the way out.
+  * @current_rate: sample rate the hardware is programmed to; @rate_mutex
+  * @dev_idx: card slot held in jockey3_devices_used
+  * @reset_done: completed by jockey3_post_reset(), and by jockey3_disconnect()
+@@ -483,7 +487,7 @@ struct jockey3_pcm_urb_stream {
+  *	callers elsewhere poll rather than block on recovery finishing.
+  * @warm_start: true if the current URB ring was last started by the stall
+  *	watchdog's own lightweight restart, false for every other (re)start
+- *	(first open, rate change, USB reset, probe). Both kinds share
++ *	(first open, rate change, USB reset, resume, probe). Both kinds share
+  *	one start_grace_ms; this only labels which one is in effect, for
+  *	dev_dbg(). Chip-wide, not per-direction: jockey3_start_urbs() restarts
   *	the shared ring for both directions at once. Plain bool, written by
-  *	jockey3_start_urbs() and read unlocked by the watchdog via
-  *	WRITE_ONCE()/READ_ONCE().
-+ * @midi_in_substream: open MIDI IN substream, or NULL; @midi_lock
-+ * @midi_out_substream: open MIDI OUT substream, or NULL; @midi_lock
-  * @midi_in_urb: the single MIDI IN URB; not anchored, killed directly
-  * @midi_in_buf: transfer buffer for @midi_in_urb
-  * @midi_lock: protects the MIDI fields; IRQ-safe leaf
-+ * @midi_out_acc: accumulator for the MIDI OUT rate limiter; @midi_lock
-+ * @midi_rate_divisor: current_rate / PLOYTEC_PLAYBACK_FRAMES; @midi_lock.
-+ *	Derived from @current_rate and published here because the rate limiter
-+ *	runs in URB completion context and cannot take @rate_mutex.
-+ * @midi_state: Running Status expander state; @midi_lock
-  * @midi_stopping: see jockey3_pcm_urb_stream.stopping; @midi_lock
-  * @midi_consec_errors: consecutive MIDI IN URB errors; @midi_lock
-  * @playback: playback streaming state
-@@ -500,6 +510,7 @@ struct jockey3_chip {
- 	struct usb_interface *intf0;
- 	struct usb_interface *intf1;
- 	struct snd_pcm *pcm;
-+	struct snd_rawmidi *rmidi;
- 	unsigned char *xfer_buf;
- 	struct mutex rate_mutex;	/* serializes rate changes; outermost lock */
- 	unsigned long flags;
-@@ -513,9 +524,14 @@ struct jockey3_chip {
- 	bool warm_start;	/* set by jockey3_start_urbs(): warm vs cold, for dev_dbg() only */
+@@ -585,6 +589,7 @@ static void jockey3_release_slot(unsigned int dev_idx)
+ /* Chip flags */
+ #define JOCKEY3_FLAG_DISCONNECTED	0
+ #define JOCKEY3_FLAG_RESETTING		1
++#define JOCKEY3_FLAG_SUSPENDED		2
  
- 	/* MIDI Path */
-+	struct snd_rawmidi_substream *midi_in_substream;
-+	struct snd_rawmidi_substream *midi_out_substream;
- 	struct urb *midi_in_urb;
- 	unsigned char *midi_in_buf;
- 	spinlock_t midi_lock;	/* protects the MIDI fields; IRQ-safe leaf */
-+	unsigned int midi_out_acc;
-+	unsigned int midi_rate_divisor;
-+	struct ploytec_midi_running_status midi_state;
- 	bool midi_stopping;
- 	unsigned int midi_consec_errors;
- 
-@@ -580,11 +596,22 @@ static inline bool jockey3_is_resetting(const struct jockey3_chip *chip)
+ static inline bool jockey3_is_disconnected(const struct jockey3_chip *chip)
+ {
+@@ -596,6 +601,11 @@ static inline bool jockey3_is_resetting(const struct jockey3_chip *chip)
  	return test_bit(JOCKEY3_FLAG_RESETTING, &chip->flags);
  }
  
-+/*
-+ * Publish a new sample rate.
-+ *
-+ * chip->current_rate is protected by rate_mutex, but the MIDI OUT rate limiter
-+ * runs in URB completion (atomic) context and cannot take it. Rather than have
-+ * that path read current_rate unlocked, the value it actually needs is derived
-+ * here and published under midi_lock -- which also gets the division off the
-+ * per-URB hot path.
-+ */
- static void jockey3_set_current_rate(struct jockey3_chip *chip, unsigned int rate)
- {
- 	lockdep_assert_held(&chip->rate_mutex);
- 
- 	chip->current_rate = rate;
-+	scoped_guard(spinlock_irqsave, &chip->midi_lock)
-+		chip->midi_rate_divisor = rate / PLOYTEC_PLAYBACK_FRAMES;
- }
- 
- /*
-@@ -1156,6 +1183,58 @@ static void jockey3_capture_callback(struct urb *urb)
- 		jockey3_resubmit_failed(chip, ret, "capture");
- }
- 
-+/**
-+ * jockey3_get_next_midi_out_byte() - pick the MIDI byte for one playback packet
-+ * @chip: driver state
-+ *
-+ * Every outgoing playback packet reserves one slot for MIDI. This returns the
-+ * byte for it, through a leaky-bucket limiter holding the stream to roughly
-+ * 2500 bytes/sec. The hardware carries the full MIDI line rate of 3125
-+ * bytes/sec, but sustained traffic at it makes the control surface stop
-+ * responding to updates, so the limit sits below that. The idle byte is
-+ * returned when there is nothing to send or no budget.
-+ *
-+ * midi_lock is held across snd_rawmidi_transmit() so
-+ * chip->midi_out_substream cannot change under us. The order is safe because
-+ * the rawmidi core calls snd_rawmidi_output_trigger() without substream->lock,
-+ * and holding a driver lock there is the established idiom (sound/usb/midi.c
-+ * does it under ep->buffer_lock).
-+ *
-+ * Called from the playback URB completion handler, so this runs in atomic
-+ * context.
-+ *
-+ * Return: the byte to place in the packet's MIDI slot.
-+ */
-+static u8 jockey3_get_next_midi_out_byte(struct jockey3_chip *chip)
++static inline bool jockey3_is_suspended(const struct jockey3_chip *chip)
 +{
-+	u8 b;
-+
-+	guard(spinlock_irqsave)(&chip->midi_lock);
-+
-+	/*
-+	 * Rate limit MIDI to ~2500 bytes/sec -- see the kernel-doc above for why
-+	 * this sits below the device's 3125 bytes/sec MIDI line rate.
-+	 */
-+	chip->midi_out_acc += 2500;
-+	if (chip->midi_out_acc < chip->midi_rate_divisor)
-+		return PLOYTEC_MIDI_IDLE_BYTE;
-+	chip->midi_out_acc -= chip->midi_rate_divisor;
-+
-+	/* Handle queued byte from Running Status expansion first before consuming from ALSA */
-+	if (chip->midi_state.has_queued_byte) {
-+		chip->midi_state.has_queued_byte = false;
-+		return chip->midi_state.queued_byte;
-+	}
-+
-+	if (!chip->midi_out_substream)
-+		return PLOYTEC_MIDI_IDLE_BYTE;
-+
-+	if (snd_rawmidi_transmit(chip->midi_out_substream, &b, 1) != 1)
-+		return PLOYTEC_MIDI_IDLE_BYTE;
-+
-+	return ploytec_midi_running_status_expand(&chip->midi_state, b, &chip->intf0->dev);
++	return test_bit(JOCKEY3_FLAG_SUSPENDED, &chip->flags);
 +}
 +
  /*
-  * Fill the sample area of a playback packet with silence, for when there is
-  * no PCM data to send.
-@@ -1255,13 +1334,17 @@ static void jockey3_playback_callback(struct urb *urb)
+  * Publish a new sample rate.
+  *
+@@ -1711,7 +1721,7 @@ static void jockey3_submit_failed(struct jockey3_chip *chip, int err,
+  * @chip: driver state
+  * @warm: true only for the stall watchdog's own lightweight restart of a ring
+  *	that was streaming a moment earlier; false for a cold start (first open,
+- *	rate change, USB reset, probe). Both share start_grace_ms; this
++ *	rate change, USB reset, resume, probe). Both share start_grace_ms; this
+  *	only labels the restart for dev_dbg() and is recorded chip-wide in
+  *	@chip->warm_start.
+  *
+@@ -1736,6 +1746,13 @@ static int jockey3_start_urbs(struct jockey3_chip *chip, bool warm)
+ 	if (jockey3_is_disconnected(chip))
+ 		return -ENODEV;
+ 
++	/*
++	 * Belt and braces; jockey3_recover_urb_stream() is what actually bails.
++	 * jockey3_restore_device() clears the flag before its own restart.
++	 */
++	if (jockey3_is_suspended(chip))
++		return -ESHUTDOWN;
++
+ 	dev_dbg(&chip->intf0->dev, "Starting all URBs (%s start, grace %u ms)\n",
+ 		warm ? "warm" : "cold", jockey3_start_grace_ms());
+ 
+@@ -1891,6 +1908,13 @@ static void jockey3_start_urbs_failed(struct jockey3_chip *chip, int err, const
+ 		return;
  	}
  
- 	/*
--	 * Every packet reserves one slot for a MIDI OUT byte. Nothing feeds it
--	 * yet, so it carries the idle byte.
-+	 * The outgoing MIDI data is encapsulated in the playback stream, one
-+	 * real (rate-limited) byte per packet: jockey3_get_next_midi_out_byte()'s
-+	 * leaky-bucket limiter is calibrated on @midi_rate_divisor, which
-+	 * assumes exactly one call per packet interval. Calling it once
-+	 * per URB instead of once per packet would silently divide MIDI
-+	 * OUT throughput by the chosen N.
- 	 */
- 	for (sp = 0; sp < submit_pkts; sp++) {
- 		u8 *sub = buf + sp * PLOYTEC_PKT_SIZE;
++	if (err == -ESHUTDOWN || jockey3_is_suspended(chip)) {
++		dev_dbg(&chip->intf0->dev,
++			"Could not start URBs after %s: device is suspended; the resume path will start them\n",
++			context);
++		return;
++	}
++
+ 	if (err == -ENOENT) {
+ 		dev_err(&chip->intf0->dev,
+ 			"Endpoints are disabled after %s; the device needs a reset to restore them\n",
+@@ -2139,7 +2163,7 @@ static void jockey3_watchdog_check(struct jockey3_chip *chip, const int directio
  
--		sub[PLOYTEC_MIDI_OUT_OFFSET] = PLOYTEC_MIDI_IDLE_BYTE;
-+		sub[PLOYTEC_MIDI_OUT_OFFSET] = jockey3_get_next_midi_out_byte(chip);
+ 	scoped_guard(spinlock_irqsave, &urb_stream->lock) {
+ 		/*
+-		 * One flag covers every deliberate stop -- rate change,
++		 * One flag covers every deliberate stop -- rate change, suspend,
+ 		 * pre_reset and teardown all reach jockey3_stop_urbs(). Checked
+ 		 * before now/last/age_ns are sampled, not after: this tick can
+ 		 * have been sitting on system_long_wq for a while before it got
+@@ -2272,7 +2296,15 @@ static void jockey3_watchdog_work(struct work_struct *work)
+ 	struct jockey3_chip *chip = container_of(to_delayed_work(work),
+ 						 struct jockey3_chip, watchdog_work);
  
- 		/* Ploytec Sync byte and gap padding */
- 		sub[PLOYTEC_SYNC_BYTE_OFFSET] = PLOYTEC_SYNC_BYTE_VALUE;
-@@ -1309,9 +1392,10 @@ static void jockey3_playback_callback(struct urb *urb)
- static void jockey3_midi_in_callback(struct urb *urb)
- {
- 	struct jockey3_chip *chip = urb->context;
-+	unsigned char *buf = (unsigned char *)urb->transfer_buffer;
- 	unsigned int errors;
- 	bool stopping;
--	int ret;
-+	int i, n = 0, ret;
- 
- 	switch (jockey3_urb_check(urb)) {
- 	case JOCKEY3_URB_STOPPED:
-@@ -1335,6 +1419,8 @@ static void jockey3_midi_in_callback(struct urb *urb)
- 				"MIDI IN stopped after %u consecutive URB errors\n", errors);
- 			return;
- 		}
-+		/* Transient: resubmit, but there is no usable data in this buffer */
-+		urb->actual_length = 0;
- 		break;
- 	case JOCKEY3_URB_OK:
- 		scoped_guard(spinlock_irqsave, &chip->midi_lock)
-@@ -1346,11 +1432,29 @@ static void jockey3_midi_in_callback(struct urb *urb)
+-	if (jockey3_is_disconnected(chip))
++	/*
++	 * Suspend as well as teardown: jockey3_stop_urbs() disarms with the
++	 * non-sync cancel_delayed_work(), which leaves a tick that is already
++	 * running to finish. Without this it would requeue itself and keep
++	 * ticking for the whole suspend, for no purpose -- every check below
++	 * bails out on the suspended flag anyway. Resume re-arms via
++	 * jockey3_start_urbs().
++	 */
++	if (jockey3_is_disconnected(chip) || jockey3_is_suspended(chip))
  		return;
  
  	/*
--	 * Nothing consumes the payload yet, but the endpoint is kept polled: the
--	 * device is only ever run with all three bulk endpoints serviced.
-+	 * Compact the payload in place, dropping the padding the device emits
-+	 * between real MIDI bytes. The transfer buffer is ours, so this needs no
-+	 * lock; doing it up front turns the delivery below into a single locked
-+	 * call instead of one per byte.
+@@ -2327,11 +2359,11 @@ static bool jockey3_wait_urb_stream_started(struct jockey3_chip *chip, const int
+ 
+ 	while (time_before(jiffies, deadline)) {
+ 		/*
+-		 * A device that went away mid-wait completes nothing more;
+-		 * spinning out the grace only delays the caller's next decision,
+-		 * which in the recovery path is whether to reset.
++		 * A device that went down mid-wait completes nothing until it is
++		 * restored; spinning out the grace only delays the caller's next
++		 * decision, which in the recovery path is whether to reset.
+ 		 */
+-		if (jockey3_is_disconnected(chip))
++		if (jockey3_is_disconnected(chip) || jockey3_is_suspended(chip))
+ 			return false;
+ 
+ 		if (require_healthy ? jockey3_stream_streaming_healthy(chip, urb_stream)
+@@ -2434,14 +2466,16 @@ static int jockey3_run_recovery_ladder(struct jockey3_chip *chip, const int dire
+ 		/*
+ 		 * Stale for the same reason the alive check above is repeated: a
+ 		 * tick that blocked here may have been waiting on
+-		 * jockey3_pre_reset(), and wakes to a stream that looks dead
+-		 * only because that zeroed the timestamps. Restarting on that
+-		 * would submit URBs to a device that is in the middle of a reset.
++		 * jockey3_suspend() or jockey3_pre_reset(), and wakes to a
++		 * stream that looks dead only because they zeroed the
++		 * timestamps. Restarting on that would submit URBs to a
++		 * suspended device, then escalate to resetting one.
+ 		 *
+-		 * Bailing loses nothing: jockey3_post_reset() restarts the ring
+-		 * itself on the way back up.
++		 * Bailing loses nothing: both paths restart the ring themselves
++		 * on the way back up.
+ 		 */
+-		if (jockey3_is_disconnected(chip) || jockey3_is_resetting(chip)) {
++		if (jockey3_is_disconnected(chip) || jockey3_is_suspended(chip) ||
++		    jockey3_is_resetting(chip)) {
+ 			dev_dbg(&chip->intf0->dev,
+ 				"%s stream stalled (%s), but the device is being taken down; leaving the restart to the resume path\n",
+ 				type, context);
+@@ -2474,12 +2508,21 @@ static int jockey3_run_recovery_ladder(struct jockey3_chip *chip, const int dire
+ 	 * timeout on a reset that will never come. Ahead of the budget, so this
+ 	 * spends no attempt.
+ 	 *
+-	 * Racy by construction -- a disconnect arriving just after the test still
++	 * Suspended as well as disconnected, and this is not the same check as
++	 * the one under rate_mutex above. That one covers a tick that arrives
++	 * after jockey3_suspend() has run. A tick which passed it earlier, while
++	 * the device was still live, is legitimately mid-recovery and reaches
++	 * here only after its grace has elapsed -- by which time suspend may have
++	 * happened. Resetting from there was observed to queue a reset the
++	 * suspended device could not complete, leaving the resume path waiting
++	 * out jockey3_wait_for_reset_completion() twice over.
 +	 *
-+	 * For different devices (firmware revision) different padding bytes have
-+	 * been observed: 0xF9, 0xFB, 0xFD, 0xFF. Since the device is not sending
-+	 * any MIDI system or real-time messages, we can safely ignore any byte
-+	 * 0xF0..0xFF received from the device.
++	 * Racy by construction -- either state arriving just after the test still
+ 	 * hits it. The timeout bounds that; closing it properly would mean
+ 	 * serializing against jockey3_disconnect(), which must not block on
+ 	 * driver locks.
  	 */
-+	for (i = 0; i < urb->actual_length; i++)
-+		if (buf[i] < 0xF0)
-+			buf[n++] = buf[i];
-+
- 	ret = 0;
- 	scoped_guard(spinlock_irqsave, &chip->midi_lock) {
-+		/*
-+		 * Deliver under midi_lock so the substream cannot be cleared by
-+		 * jockey3_midi_in_close() while we are dereferencing it.
-+		 */
-+		if (n && !chip->midi_stopping && chip->midi_in_substream)
-+			snd_rawmidi_receive(chip->midi_in_substream, buf, n);
-+
- 		if (!chip->midi_stopping && !jockey3_is_disconnected(chip))
- 			ret = usb_submit_urb(urb, GFP_ATOMIC);
- 	}
-@@ -3101,6 +3205,81 @@ static const struct snd_pcm_ops jockey3_pcm_ops = {
- 	.pointer = jockey3_pcm_pointer,
- };
- 
-+static int jockey3_midi_in_open(struct snd_rawmidi_substream *substream)
-+{
-+	struct jockey3_chip *chip = substream->rmidi->private_data;
-+
-+	if (jockey3_is_disconnected(chip))
-+		return -ENODEV;
-+	return 0;
-+}
-+
-+/*
-+ * Normally trigger(0) has already cleared the pointer, but the rawmidi core can
-+ * reach close without it (an interrupted drain, or close_substream() with
-+ * cleanup suppressed), so drop it here too rather than leave a dangling
-+ * reference for the URB callback.
-+ */
-+static int jockey3_midi_in_close(struct snd_rawmidi_substream *substream)
-+{
-+	struct jockey3_chip *chip = substream->rmidi->private_data;
-+
-+	guard(spinlock_irqsave)(&chip->midi_lock);
-+	if (chip->midi_in_substream == substream)
-+		chip->midi_in_substream = NULL;
-+
-+	return 0;
-+}
-+
-+static void jockey3_midi_in_trigger(struct snd_rawmidi_substream *substream, int up)
-+{
-+	struct jockey3_chip *chip = substream->rmidi->private_data;
-+
-+	guard(spinlock_irqsave)(&chip->midi_lock);
-+	chip->midi_in_substream = up ? substream : NULL;
-+}
-+
-+static int jockey3_midi_out_open(struct snd_rawmidi_substream *substream)
-+{
-+	struct jockey3_chip *chip = substream->rmidi->private_data;
-+
-+	if (jockey3_is_disconnected(chip))
-+		return -ENODEV;
-+	return 0;
-+}
-+
-+/* See jockey3_midi_in_close() for why the pointer is cleared here as well. */
-+static int jockey3_midi_out_close(struct snd_rawmidi_substream *substream)
-+{
-+	struct jockey3_chip *chip = substream->rmidi->private_data;
-+
-+	guard(spinlock_irqsave)(&chip->midi_lock);
-+	if (chip->midi_out_substream == substream)
-+		chip->midi_out_substream = NULL;
-+
-+	return 0;
-+}
-+
-+static void jockey3_midi_out_trigger(struct snd_rawmidi_substream *substream, int up)
-+{
-+	struct jockey3_chip *chip = substream->rmidi->private_data;
-+
-+	guard(spinlock_irqsave)(&chip->midi_lock);
-+	chip->midi_out_substream = up ? substream : NULL;
-+}
-+
-+static const struct snd_rawmidi_ops jockey3_midi_in_ops = {
-+	.open = jockey3_midi_in_open,
-+	.close = jockey3_midi_in_close,
-+	.trigger = jockey3_midi_in_trigger
-+};
-+
-+static const struct snd_rawmidi_ops jockey3_midi_out_ops = {
-+	.open = jockey3_midi_out_open,
-+	.close = jockey3_midi_out_close,
-+	.trigger = jockey3_midi_out_trigger
-+};
-+
- static int jockey3_initialize(struct jockey3_chip *chip, int model)
- {
- 	int ret;
-@@ -3241,6 +3420,9 @@ static int jockey3_init_midi_urb(struct jockey3_chip *chip)
- {
- 	struct usb_device *dev = chip->dev;
- 
-+	memset(&chip->midi_state, 0, sizeof(chip->midi_state));
-+	chip->midi_out_acc = 0;
-+
- 	chip->midi_in_buf = kmalloc(PLOYTEC_PKT_SIZE, GFP_KERNEL);
- 	if (!chip->midi_in_buf)
- 		return -ENOMEM;
-@@ -3411,6 +3593,23 @@ static int jockey3_init_pcm(struct jockey3_chip *chip)
- 				      jockey3_capture_chmap, 6, 0, NULL);
+-	if (jockey3_is_disconnected(chip)) {
++	if (jockey3_is_disconnected(chip) || jockey3_is_suspended(chip)) {
+ 		dev_dbg(&chip->intf0->dev,
+ 			"%s stream still stalled after URB restart, but the device is down; not resetting (%s)\n",
+ 			type, context);
+@@ -2584,6 +2627,10 @@ static int jockey3_recover_urb_stream(struct jockey3_chip *chip, const int direc
+  * SNDRV_PCM_INFO_BATCH: the hardware pointer only advances once per completed
+  * bulk URB (a whole Ploytec frame group), never per sample, so userspace must
+  * not assume a sample-accurate position.
++ *
++ * SNDRV_PCM_INFO_RESUME is deliberately absent: the device loses stream
++ * synchronization across a suspend, so the ALSA core should return -ESTRPIPE
++ * and have userspace re-prepare rather than issue TRIGGER_RESUME.
+  */
+ #define JOCKEY3_PCM_INFO	(SNDRV_PCM_INFO_MMAP |		\
+ 				 SNDRV_PCM_INFO_INTERLEAVED |	\
+@@ -2895,6 +2942,7 @@ static int jockey3_pcm_trigger(struct snd_pcm_substream *substream, int cmd)
+ 			urb_stream->running = true;
+ 			break;
+ 		case SNDRV_PCM_TRIGGER_STOP:
++		case SNDRV_PCM_TRIGGER_SUSPEND:
+ 			urb_stream->running = false;
+ 			break;
+ 		default:
+@@ -3953,6 +4001,94 @@ static int jockey3_post_reset(struct usb_interface *intf)
+ 	return 0;
  }
  
-+static int jockey3_init_midi(struct jockey3_chip *chip)
++static int jockey3_suspend(struct usb_interface *intf, pm_message_t message)
 +{
-+	int ret = snd_rawmidi_new(chip->card, CARD_NAME " MIDI", 0, 1, 1, &chip->rmidi);
++	struct jockey3_chip *chip = usb_get_intfdata(intf);
 +
++	if (chip && intf == chip->intf0) {
++		dev_dbg(&intf->dev, "USB suspend, stopping URBs\n");
++
++		/*
++		 * Before rate_mutex below: a tick blocked on that mutex resumes
++		 * the moment this drops it, and the flag is what stops it
++		 * restarting the ring. See jockey3_recover_urb_stream().
++		 */
++		set_bit(JOCKEY3_FLAG_SUSPENDED, &chip->flags);
++
++		/* Notify ALSA core to transition state and unblock userspace */
++		if (chip->pcm)
++			snd_pcm_suspend_all(chip->pcm);
++
++		/*
++		 * Stop the physical URBs under rate_mutex, matching
++		 * jockey3_restore_device() on the resume side -- otherwise a
++		 * suspend could land in the middle of a rate change.
++		 */
++		scoped_guard(mutex, &chip->rate_mutex)
++			jockey3_stop_urbs(chip);
++	}
++	return 0;
++}
++
++static int jockey3_restore_device(struct jockey3_chip *chip, bool reset)
++{
++	int ret;
++
++	guard(mutex)(&chip->rate_mutex);
++
++	/*
++	 * Cleared under the mutex, before the restart below that
++	 * jockey3_recover_urb_stream() defers to. A tick cannot slip in between:
++	 * it needs this same mutex to restart anything.
++	 */
++	clear_bit(JOCKEY3_FLAG_SUSPENDED, &chip->flags);
++
++	if (reset) {
++		ret = jockey3_initialize_ploytec(chip, NULL);
++		if (ret < 0)
++			return ret;
++	}
++
++	ret = jockey3_set_rate(chip, chip->current_rate, true);
 +	if (ret < 0)
 +		return ret;
 +
-+	chip->rmidi->private_data = chip;
-+	strscpy(chip->rmidi->name, CARD_NAME " MIDI", sizeof(chip->rmidi->name));
-+	snd_rawmidi_set_ops(chip->rmidi, SNDRV_RAWMIDI_STREAM_INPUT, &jockey3_midi_in_ops);
-+	snd_rawmidi_set_ops(chip->rmidi, SNDRV_RAWMIDI_STREAM_OUTPUT, &jockey3_midi_out_ops);
-+	chip->rmidi->info_flags = SNDRV_RAWMIDI_INFO_INPUT |
-+				  SNDRV_RAWMIDI_INFO_OUTPUT |
-+				  SNDRV_RAWMIDI_INFO_DUPLEX;
++	/*
++	 * Report the failure up: the PM core logs a failed resume, and unlike the
++	 * reset path there is no queued recovery on the way that would pick this
++	 * up on its own.
++	 */
++	ret = jockey3_start_urbs(chip, false);
++	if (ret < 0) {
++		dev_err(&chip->intf0->dev, "Failed to start URBs while restoring device: %d\n",
++			ret);
++		return ret;
++	}
 +	return 0;
 +}
 +
- static void jockey3_setup_card_names(struct jockey3_chip *chip, int driver_info)
- {
- 	/*
-@@ -3555,6 +3754,10 @@ static int jockey3_probe(struct usb_interface *intf, const struct usb_device_id
- 	if (ret < 0)
- 		goto err_free_card;
- 
-+	ret = jockey3_init_midi(chip);
-+	if (ret < 0)
-+		goto err_free_card;
-+
- 	jockey3_setup_card_names(chip, usb_id->driver_info);
- 
- 	if (card->id[0] == '\0')
-@@ -3814,4 +4017,4 @@ module_exit(jockey3_module_exit);
- MODULE_AUTHOR("Frank van de Pol <fvdpol@gmail.com>");
- MODULE_DESCRIPTION(CARD_NAME " ALSA Driver");
- MODULE_LICENSE("GPL");
--MODULE_SOFTDEP("pre: snd-pcm");
-+MODULE_SOFTDEP("pre: snd-pcm snd-rawmidi");
-diff --git a/sound/usb/jockey3/ploytec_midi.c b/sound/usb/jockey3/ploytec_midi.c
-new file mode 100644
-index 0000000000000..3eebc706bb301
---- /dev/null
-+++ b/sound/usb/jockey3/ploytec_midi.c
-@@ -0,0 +1,83 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ *   Generic MIDI 1.0 Running Status expander
-+ *
-+ *   Copyright (c) 2026 by Frank van de Pol <fvdpol@gmail.com>
-+ */
-+
-+/*
-+ * The logic here is generic MIDI 1.0 Running Status handling: it operates
-+ * purely on a byte stream, with no dependency on USB or on the rest of this
-+ * driver. It carries the ploytec_ prefix and lives in the Ploytec layer
-+ * because that firmware is what requires it -- the device does not accept a
-+ * Running Status stream and needs every message fully status-prefixed.
-+ *
-+ * Should a second driver ever need the same behavior, this would be a
-+ * reasonable candidate to migrate into a shared kernel library rather than
-+ * duplicating it.
-+ */
-+
-+#include "ploytec_midi.h"
-+
-+/**
-+ * ploytec_midi_running_status_expand() - Expand MIDI 1.0 Running Status
-+ * @state: expander state, zero-initialized by the caller before first use
-+ * @b: the next raw MIDI byte from the source stream, in stream order
-+ * @dev: struct device for diagnostic logging (currently unused)
-+ *
-+ * MIDI 1.0 allows the status byte of a Channel Voice Message to be omitted
-+ * when it repeats the previous message's status ("Running Status"). Some
-+ * MIDI receivers don't implement Running Status and require every message
-+ * to carry its status byte explicitly; this function expands a Running
-+ * Status stream back into fully status-prefixed messages.
-+ *
-+ * Call this once per raw input byte. Most calls simply return @b unchanged.
-+ * When a data byte arrives while Running Status is active, the synthesised
-+ * status byte is returned immediately for the caller to send first, and @b
-+ * itself is queued in @state->queued_byte (with @state->has_queued_byte set)
-+ * for the caller to retrieve and send on the next output opportunity, ahead
-+ * of consuming any further input.
-+ *
-+ * Return: the next byte to send to the receiver.
-+ */
-+u8 ploytec_midi_running_status_expand(struct ploytec_midi_running_status *state,
-+				      u8 b, struct device *dev)
++static int jockey3_resume(struct usb_interface *intf)
 +{
-+	u8 byte;
++	struct jockey3_chip *chip = usb_get_intfdata(intf);
 +
-+	if (b >= 0x80) { // Status byte
-+		if (b < 0xf0) { // Channel Voice Message (0x80-0xEF)
-+			state->running_status = b;
-+			/* Determine expected data bytes based on MIDI opcode */
-+			if ((b & 0xf0) == 0xc0 || (b & 0xf0) == 0xd0)
-+				state->expected_data = 1; // PC, Channel Pressure
-+			else
-+				state->expected_data = 2; // Note On/Off, CC, etc.
-+		} else if (b < 0xf8) { // System Common Message (0xf0-0xf7)
-+			/* System Common messages clear Running Status */
-+			state->running_status = 0;
-+			state->expected_data = 0;
-+		} else { // System Real-Time Message (0xf8-0xff), do not affect Running Status
-+			return b;
-+		}
-+
-+		state->data_count = state->expected_data; // initialize expected data byte count
-+		return b;
++	if (chip && intf == chip->intf0) {
++		dev_dbg(&intf->dev, "USB resume, restoring device\n");
++		return jockey3_restore_device(chip, false);
 +	}
-+
-+	/* Data byte */
-+	if (state->data_count > 0) {
-+		state->data_count--;
-+		return b;
-+	} else if (state->running_status >= 0x80) {
-+		/* Message is complete but we got a data byte -> expand Running Status */
-+		byte = state->running_status;
-+		state->queued_byte = b;
-+		state->has_queued_byte = true;
-+		state->data_count = state->expected_data - 1; // already 1 byte queued
-+		return byte;
-+	}
-+
-+	/* No running status expansion active, just send the data byte */
-+	return b;
++	return 0;
 +}
-diff --git a/sound/usb/jockey3/ploytec_midi.h b/sound/usb/jockey3/ploytec_midi.h
-new file mode 100644
-index 0000000000000..079bce519e9d9
---- /dev/null
-+++ b/sound/usb/jockey3/ploytec_midi.h
-@@ -0,0 +1,36 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+/*
-+ *   Generic MIDI 1.0 Running Status expander
-+ *
-+ *   Copyright (c) 2026 by Frank van de Pol <fvdpol@gmail.com>
-+ */
 +
-+#ifndef __SOUND_USB_JOCKEY3_PLOYTEC_MIDI_H
-+#define __SOUND_USB_JOCKEY3_PLOYTEC_MIDI_H
++static int jockey3_reset_resume(struct usb_interface *intf)
++{
++	struct jockey3_chip *chip = usb_get_intfdata(intf);
 +
-+#include <linux/types.h>
++	if (chip && intf == chip->intf0) {
++		dev_dbg(&intf->dev, "USB reset resume, restoring device\n");
++		return jockey3_restore_device(chip, true);
++	}
++	return 0;
++}
 +
-+struct device;
-+
-+/**
-+ * struct ploytec_midi_running_status - MIDI 1.0 Running Status expander state
-+ * @expected_data: number of data bytes expected for the current @running_status message
-+ * @data_count: number of data bytes still to be consumed for the in-progress message
-+ * @running_status: the currently active Running Status (Channel Voice) opcode, or 0 if none
-+ * @queued_byte: data byte held back when a Running Status byte had to be synthesised
-+ * @has_queued_byte: true when @queued_byte holds a byte still to be delivered
-+ *
-+ * Zero-initialize before first use.
-+ */
-+struct ploytec_midi_running_status {
-+	int expected_data;
-+	int data_count;
-+	u8 running_status;
-+	u8 queued_byte;
-+	bool has_queued_byte;
-+};
-+
-+u8 ploytec_midi_running_status_expand(struct ploytec_midi_running_status *state,
-+				      u8 b, struct device *dev);
-+
-+#endif /* __SOUND_USB_JOCKEY3_PLOYTEC_MIDI_H */
+ static const struct usb_device_id jockey3_ids[] = {
+ 	{ USB_DEVICE(RELOOP_VENDOR_ID, RELOOP_JOCKEY3_ME_PID), .driver_info = JOCKEY3_ME },
+ 	{ USB_DEVICE(RELOOP_VENDOR_ID, RELOOP_JOCKEY3_REMIX_PID), .driver_info = JOCKEY3_REMIX },
+@@ -3981,6 +4117,9 @@ static struct usb_driver jockey3_driver = {
+ 	.disconnect = jockey3_disconnect,
+ 	.pre_reset = jockey3_pre_reset,
+ 	.post_reset = jockey3_post_reset,
++	.suspend = jockey3_suspend,
++	.resume = jockey3_resume,
++	.reset_resume = jockey3_reset_resume,
+ 	.id_table = jockey3_ids
+ };
+ 
 -- 
 2.47.3
 
