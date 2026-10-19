@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16709549FE8;
-	Mon, 19 Oct 2026 13:56:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86D9754FEB5;
+	Mon, 19 Oct 2026 13:56:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792418198; cv=none; b=qd0ydzIkviI8GkcUxDeYsqpADttWqADwhfYKojWGdiG8S9DbNGCGT/veU5/SMrg9Ogq3UCdPDsz9zXHtaDxKGGHEuNKGQs+/npMQBiNZMZciiRYbh4IBmDCKr0bm4PEBQ0UKk5Gur0MWg+5snAOg1RzEPkg5nWFLvZdtVx18J/Q=
+	t=1792418221; cv=none; b=PvKT4t2x2N7RWZTCX0aLi32aQPZafuM9Om+CmMKeB/lb6/CoQl97EXYiP2LaWhGHf3ox6k7ztEeoAyVdlmCjKdCW/sAIQ459+xaTVsOg9Xq04+NhVYV6eaUs1Tfp8V+LiJ4WQheVl6z0fsD0hxYKQFnN3ZKA8R/d8oGAbkVK+eY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792418198; c=relaxed/simple;
-	bh=oo8OmNd7PFkwcBm9mFfdSsWqNFY7K44HIBsli4h8vwE=;
+	s=arc-20240116; t=1792418221; c=relaxed/simple;
+	bh=n9wHKD2O9IpNjCp2rrC4hUtFJkVuW27YbDBf7dw322s=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XXeLOO5R2ZQW267FKZyk0pu3viFunoSnPeKbC/fWvXtgWPOlJwjgYoAKX0z5w3OcKLea9QGbuQx/ylj/hiWPEBc5uwW2b7Sw9G/jhR4kQvRBaI10J3MY5cNz0l5pMd2rwUOGOSZ0tPv/nWIRtGey5JuWqs0eBeO596mN3R/AUU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OMBS8j6C; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=iZHNvb/yrlm4YphT0fAydjqotWJO5pDT6dn1YQzRKZbkbEcmVZaIMDtvYHMCG/BcxyRVmsWpM8STd80e6kuQr5D5gi5hyxNEg2xMw3oNSFO60QNHMnZtlgA+x1D30whV2oLHSaAfTYO4AfrBzH/NWL837PVewootkZKP+A1+jhM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bXfBdrsr; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OMBS8j6C"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14B181F000C5;
-	Mon, 19 Oct 2026 13:56:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bXfBdrsr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3706B1F000C4;
+	Mon, 19 Oct 2026 13:56:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792418196;
-	bh=cU4XMLCf+ejcttphqk7t+RlgvoU6IylGaxO6JhCgIaA=;
+	s=k20260515; t=1792418218;
+	bh=aIN5BhUeoH5hONmFrj7uiLaPc6hxPRvbFMgdVeU9bDU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=OMBS8j6C5rqwdXSuduRYec0+wmo4cDAw9ONdS5AoZ+SdiWi91kQpGpLosNLv+XHtG
-	 II1QNXtU5xqUEXEgpEpk2F27/WEi0zxlo2a8WQskTEOD38qs0o9XEKv42PVZIkucxU
-	 Aq6wAjNFeh0jhy+Bq37hd82WkXrxg3I6qirlSXakqoQ3WjD9SsbvRo8jvSaN0fXFpK
-	 jsp7enxbRPQPmSU9JUftZT6CcFv8tMI6J6LXg+YTAkiatAtuVHLhpijS3aXcwEqvYQ
-	 m2HZuo4QGHxiRYlyBjziczeilZwZZBbxYCH3x4Bk2TcAP/OZIQdXIcjKFSFO4I8Yue
-	 d1SDhc6ReL5pQ==
+	b=bXfBdrsrRGgWDFqvbAMpfruuTrpZtIN/aI/EDW0POm+A+HaJLtp7BfTcVcGudtlVg
+	 RoOxqJI2Nihylg2E9kBhJ5rDLBiRR1jhj/SYc6pd8hItlwUiUia9F6QL0Ol6qX+V0Z
+	 dVp9ucunW8iEyfIra6iCzA0O1taz2CFd9aVwUxQyxIt4kqwVRxJtTOXEUwNc0l2FU7
+	 HxMQCAIqIc2fayo+w+v3kM91eKm20hJe4bESTEzVgeaZiSQG5OZcQN8KK0BIUkOhGv
+	 O0CP4aQYFsskF0Pb8lAMwv77SeD8xv3fnQGIlPwEg9PLgi+bm6e473wfGFs/B5X1eB
+	 aq2ywfIyKsz8A==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Edson Juliano Drosdeck <edson.drosdeck@gmail.com>,
+Cc: Bob Song <songxiebing@kylinos.cn>,
 	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18] ALSA: hda/realtek: Limit mic boost on Positivo N15RPE-S
-Date: Mon, 19 Oct 2026 09:46:11 -0400
-Message-ID: <20261019135441.1420968-80-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-5.15] ALSA: hda/realtek: add missing error checks for COEF index reads in alc269
+Date: Mon, 19 Oct 2026 09:46:27 -0400
+Message-ID: <20261019135441.1420968-96-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261019135441.1420968-1-sashal@kernel.org>
 References: <20261019135441.1420968-1-sashal@kernel.org>
@@ -54,407 +54,404 @@ X-stable-base: Linux 6.18.57
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Edson Juliano Drosdeck <edson.drosdeck@gmail.com>
+From: Bob Song <songxiebing@kylinos.cn>
 
-[ Upstream commit 253010acfc8ad908446347b30a613032d1517bb5 ]
+[ Upstream commit 5b106b40ed22098f2bc049efb645148d038444bd ]
 
-The internal mic boost on the Positivo N15RPE-S is too high.
-Fix this by applying the ALC269_FIXUP_LIMIT_INT_MIC_BOOST fixup to the machine
-to limit the gain.
+alc_read_coef_idx() and alc_read_coefex_idx() can return -1 on error
+via snd_hda_codec_read(). Several codec initialization and shutdown
+functions save these return values and later write them back to
+hardware registers without checking for errors, potentially corrupting
+COEF register state on a read failure.
 
-Signed-off-by: Edson Juliano Drosdeck <edson.drosdeck@gmail.com>
-Link: https://patch.msgid.link/20260805154518.19093-1-edson.drosdeck@gmail.com
+Add error checks in:
+- alc282_init() and alc282_shutup(): check coef78 before write-back
+- alc285_hp_init(): check coef38/coef0d/coef36 before update, check
+  val before write-back, and break polling loop on error
+- alc294_hp_init(): break polling loop on read error
+
+Signed-off-by: Bob Song <songxiebing@kylinos.cn>
+Link: https://patch.msgid.link/20260730015302.253008-1-songxiebing@kylinos.cn
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-The local tree is **6.12.111** (`pending-6.12`). This is a one-line
-Realtek HDA PCI quirk for a laptop whose driver and existing mic-boost
-fixup are already in this tree.
+This tree is **6.1.188**. The unguarded COEF save/restore paths are
+present in `sound/pci/hda/patch_realtek.c`, and the same class of bug
+already went to stable in 2014 because writing a failed COEF read can
+stall the codec.
 
-===============================================================
-PHASE 1: COMMIT MESSAGE FORENSICS
-===============================================================
+## Phase 1: Commit message forensics
 
-Step 1.1: PARSE THE SUBJECT LINE
-Record: [ALSA hda/realtek] [Limit] [apply existing
-ALC269_FIXUP_LIMIT_INT_MIC_BOOST to Positivo N15RPE-S because internal
-mic boost is too high]
+**Step 1.1 — Subject**
+Record: `[ALSA/hda/realtek] [add] missing error checks for COEF index
+reads in alc269`
 
-Step 1.2: PARSE ALL COMMIT MESSAGE TAGS
+**Step 1.2 — Tags**
 Record:
-- Signed-off-by: Edson Juliano Drosdeck (author)
-- Link: https://patch.msgid.link/20260805154518.19093-1-
-  edson.drosdeck@gmail.com
-- Signed-off-by: Takashi Iwai (ALSA maintainer)
-- No Fixes:, Reported-by:, Tested-by:, Reviewed-by:, Acked-by:, or Cc:
-  stable
-- Ignore pipeline markers (none present on the upstream commit
-  `253010acfc8ad`)
+- `Signed-off-by: Bob Song <songxiebing@kylinos.cn>` (author)
+- `Link: https://patch.msgid.link/20260730015302.253008-1-
+  songxiebing@kylinos.cn`
+- `Signed-off-by: Takashi Iwai <tiwai@suse.de>` (ALSA maintainer)
+- No `Fixes:`, `Reported-by:`, `Tested-by:`, `Reviewed-by:`, `Cc:
+  stable` (absence expected)
+- Ignore any pipeline `Signed-off-by: Sasha Levin` / `[Upstream commit
+  ...]` if present
 
-Step 1.3: ANALYZE THE COMMIT BODY TEXT
+**Step 1.3 — Body**
 Record:
-- Bug: internal microphone boost on Positivo N15RPE-S is too high
-- Symptom: excessive gain / noisy internal mic (the fixup comment says
-  levels 2 and 3 are too noisy)
-- Failure mode: hardware-specific unusable/noisy capture, not a kernel
-  crash
-- Root cause: this PCI SSID is not in the quirk table, so the existing
-  boost limiter is not applied
-- Version info: none stated
+- Bug: `alc_read_coef_idx()` / `alc_read_coefex_idx()` can return `-1`
+  via `snd_hda_codec_read()`. Init/shutdown save that value and write it
+  back.
+- Symptom: COEF register corruption on read failure (wrong headphone-amp
+  / depop state; historically this class of write can stall the codec).
+- Root cause: missing `!= -1` checks on save/restore and on depop
+  polling.
+- No version bounds in the message.
 
-Step 1.4: DETECT HIDDEN BUG FIXES
-Record: Not a disguised cleanup. It is an explicit hardware quirk: map
-SSID `0x2782:0xa128` to an existing fixup.
+**Step 1.4 — Hidden bug fix?**
+Record: Yes. “Add missing error checks” is a real error-path fix, not
+style. Same pattern as `alc_update_coefex_idx()` and
+`alc269_fill_coef()` in this tree.
 
-===============================================================
-PHASE 2: DIFF ANALYSIS - LINE BY LINE
-===============================================================
+## Phase 2: Diff analysis
 
-Step 2.1: INVENTORY THE CHANGES
+**Step 2.1 — Inventory**
 Record:
-- Files: `sound/hda/codecs/realtek/alc269.c` (+1 / -0)
-- Function/table: `alc269_fixup_tbl[]`
-- Scope: single-file, one-line surgical quirk addition
+- File in the candidate: `sound/hda/codecs/realtek/alc269.c` (`+14/-8`)
+- Functions: `alc282_init`, `alc282_shutup`, `alc285_hp_init`,
+  `alc294_hp_init`
+- Scope: single-file surgical fix
 
-Step 2.2: UNDERSTAND THE CODE FLOW CHANGE
+**Step 2.2 — Flow change**
 Record:
-- Before: PCI SSID `0x2782:0xa128` has no match; codec uses default
-  auto-config with full internal-mic boost range
-- After: that SSID matches `ALC269_FIXUP_LIMIT_INT_MIC_BOOST`, which at
-  probe overrides amp caps so internal-mic boost is only steps 0–1
-- Path: codec probe (`patch_alc269()` → `snd_hda_pick_fixup(...,
-  alc269_fixup_tbl, ...)`)
+- `alc282_init` / `alc282_shutup`: save coef 0x78, temporarily write
+  `0x9004`, then restore. After: restore only if `coef78 != -1`.
+- `alc285_hp_init`: depop poll `val & 0x8000` for up to 20×50ms, then
+  write `val` and restore coef 0x38/0x0d/0x36. After: stop poll on `-1`;
+  skip those writes if the saved/read value is `-1`.
+- `alc294_hp_init`: same poll pattern on bit `0x0080`; after: break on
+  `-1`. No val write-back here.
 
-Step 2.3: IDENTIFY THE BUG MECHANISM
-Record: [Hardware workaround] Existing
-`alc269_fixup_limit_int_mic_boost()` already limits noisy boost levels 2
-and 3. This commit only adds the PCI ID so that function runs on this
-laptop.
+**Step 2.3 — Bug mechanism**
+Record: Logic / hardware-state corruption on error.
+- `codec_read()` in this tree returns `-1` when `snd_hdac_exec_verb()`
+  fails (`sound/hda/hdac_device.c`).
+- COEF payload is 16-bit, so `-1` becomes `0xFFFF` on write.
+- `alc_update_coef_idx(..., mask, coefXX)` with `coefXX == -1` does
+  `(current & ~mask) | 0xFFFFFFFF` and sets every bit.
+- `val & 0x8000` is true for `-1`, so the depop loop always runs the
+  full ~1s then writes `0xFFFF`.
 
-Verified function in this tree
-(`sound/pci/hda/patch_realtek.c:6661-6690`):
-- Runs only on `HDA_FIXUP_ACT_PROBE`
-- Walks auto-config inputs, keeps only `AUTO_PIN_MIC` with
-  `INPUT_PIN_ATTR_INT`
-- Calls `snd_hda_override_amp_caps()` with `NUM_STEPS=1`
+**Step 2.4 — Fix quality**
+Record: Obviously correct and matches existing `if (val != -1)` guards.
+Success path unchanged. Regression risk is low: skipping a restore when
+there is no valid saved value is safer than writing `0xFFFF`.
 
-Step 2.4: ASSESS THE FIX QUALITY
+## Phase 3: Git history
+
+**Step 3.1 — Blame / introduction**
 Record:
-- Quality: obviously correct; identical pattern already used for
-  Positivo ARN50, Positivo N14AP7, VAIO VJFE-CL, several ThinkPads
-- Minimal: one `SND_PCI_QUIRK` line, no API/data-structure change
-- Regression risk: very low; only SSID `0x2782:0xa128` is affected. The
-  chosen fixup is chained to `ALC269_FIXUP_THINKPAD_ACPI`, but that is
-  the same chain used by the other Positivo/VAIO limit-boost entries
-  already in this tree.
+- ALC282 save/restore: `7b5c7a0240b11` (2014) “Fix the noise after
+  suspend and resume on ALC282 codec” — ancestor of this HEAD.
+- ALC285 HP init: `3c24e48330adf` (2021) — ancestor of this HEAD.
+- 2014 COEF-guard: `f3ee07d8b6e06` “Avoid setting wrong COEF on ALC269 &
+  co” — ancestor of this HEAD; `Cc: stable`; documented that writing
+  after a `-1` read can stall the codec and broke resume on Acer AO725.
 
-===============================================================
-PHASE 3: GIT HISTORY INVESTIGATION
-===============================================================
+**Step 3.2 — Fixes: tag**
+Record: None. The incomplete coverage of `f3ee07d8b6e06` is the
+historical analogue.
 
-Step 3.1: BLAME THE CHANGED LINES
+**Step 3.3 — Related file history**
+Record: Recent `patch_realtek.c` commits are quirks, not this fix. `git
+log --grep="missing error checks"` / `"COEF index reads"` on this file:
+no hit. Candidate `5b106b40ed220` is **not** an ancestor of HEAD.
+
+**Step 3.4 — Author**
+Record: Bob Song (Kylinos), not the ALSA maintainer. Takashi Iwai
+applied it after a v1→v2 split.
+
+**Step 3.5 — Dependencies**
+Record: Standalone. Needs only `alc_read_coef*_idx()` returning `-1`,
+which this tree already has. No new helpers.
+
+## Phase 4: Mailing list
+
+**Step 4.1 — Original discussion**
+Record: `b4 dig -c 5b106b40ed220` →
+https://patch.msgid.link/20260730015302.253008-1-songxiebing@kylinos.cn
+- v1 combined this with a `codec->bus->pci` NULL check.
+- Takashi: “Could you split the NULL check to another patch? Basically
+  it's a completely different sort of fix from others.”
+- v2: this COEF patch only. Takashi: “Applied to for-next branch.
+  Thanks.”
+- No NAK, no stable nomination, no reviewer concern about the COEF
+  checks.
+
+**Step 4.2 — Recipients (`b4 dig -w`)**
+Record: `tiwai@suse.com`, `perex@perex.cz`, `linux-sound@`, `linux-
+kernel@`. Maintainer was To: and applied it.
+
+**Step 4.3 — Bug report**
+Record: No syzbot/bugzilla for *these* sites. The stall/resume failure
+for the same `-1` write pattern is documented in `f3ee07d8b6e06` /
+bugzilla 52181.
+
+**Step 4.4 — Series**
+Record: v2 series patch 1/2 is this fix; patch 2/2 is the PCI NULL check
+(separate). This patch is self-contained.
+
+**Step 4.5 — Stable list**
+Record: lore.kernel.org WebFetch returned 403 (Anubis). UNVERIFIED
+whether stable@ already discussed this specific commit. Full linux-sound
+thread was recovered via `b4 dig -m`.
+
+## Phase 5: Code semantics (this tree)
+
+**Step 5.1 — Functions**
+Record: `alc282_init`, `alc282_shutup`, `alc285_hp_init`,
+`alc294_hp_init` in `sound/pci/hda/patch_realtek.c`.
+
+**Step 5.2 — Callers (verified)**
 Record:
-- Insertion point in this tree is after `SND_PCI_QUIRK(0x2782, 0x4900,
-  "MEDION E15443", ...)` (`98b5ade3a44d8f`, 2024)
-- The buggy “missing ID” is not old code; the laptop simply was never
-  listed
-- The fixup itself dates to `3e0d611b2045b` (“ALSA: hda - Limit internal
-  mic boost for a few Asus machines”, 2013-04-22, contained in
-  v3.10-rc1) and **is an ancestor of HEAD**
+- `alc282_init` / `alc282_shutup`: codec `0x10ec0282` (`spec->init_hook`
+  / `spec->shutup`).
+- `alc285_hp_init`: from `alc225_init` on boot and S3/S4 resume (skipped
+  only for ALC287/ALC245).
+- `alc225_init`: ALC215/245/285/289, ALC225/295/299, ALC287.
+- `alc294_hp_init`: from `alc294_init` on boot / S4 restore;
+  ALC234/274/294 and ALC700.
+- `alc_init()` runs `spec->init_hook`; `.init = alc_init`.
+- `alc_suspend()` → `alc_shutup()` → `spec->shutup`; `alc_resume()` →
+  `patch_ops.init`.
 
-Step 3.2: FOLLOW THE FIXES: TAG
-Record: No Fixes: tag. Expected for a new device quirk. Not a negative
-signal.
+**Step 5.3 — Callees**
+Record: `alc_read_coef*_idx`, `alc_write_coef*_idx`,
+`alc_update_coef*_idx`, `snd_hda_codec_write`, `msleep`.
 
-Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES
-Record:
-- Related commits already in this tree:
-  - `d44418f5024f6` ALSA: hda/realtek: Limit mic boost on Positivo ARN50
-    (same author, same fixup; already backported here)
-  - `86a433862912f` ALSA: hda/realtek: Limit mic boost on N14AP7 (same
-    author, same fixup; had Cc: stable)
-- Standalone: not patch X/Y. No prerequisite series.
+**Step 5.4 — Reachability**
+Record: Yes. Probe, suspend, and resume on common Realtek laptop codecs.
+Not an obscure config path.
 
-Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS
-Record: Edson Juliano Drosdeck has 10 commits in
-`sound/pci/hda/patch_realtek.c` on this tree, almost all Positivo/VAIO
-HDA quirks. Regular hardware-quirk contributor, not a one-off.
+**Step 5.5 — Similar patterns**
+Record: Already guarded in this file:
+- `__alc_update_coefex_idx()`: `if (val != -1)`
+- `alc269_fill_coef()`: `if (val != -1 && ...)` before write
+These four functions were the remaining save/restore holes.
 
-Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS
-Record:
-- Depends only on `ALC269_FIXUP_LIMIT_INT_MIC_BOOST` and
-  `alc269_fixup_tbl[]`, both present
-- Can apply standalone as a one-line quirk in
-  `sound/pci/hda/patch_realtek.c`
-- Mainline file path `sound/hda/codecs/realtek/alc269.c` is the
-  post-6.12 HDA codec split; that path does **not** exist here.
-  Equivalent table is `alc269_fixup_tbl` in `patch_realtek.c`
+## Phase 6: This checkout (6.1.188)
 
-===============================================================
-PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
-===============================================================
+**Step 6.1 — Does the buggy code exist?**
+Record: Yes. Unguarded write-backs:
 
-Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION
-Record:
-- `b4 dig -c 253010acfc8ad` → https://patch.msgid.link/20260805154518.19
-  093-1-edson.drosdeck@gmail.com
-- `b4 dig -a`: only v1; no later revision
-- Thread is two messages: the patch and Takashi Iwai “Applied to for-
-  next branch. Thanks.”
-- No NAK, no requested changes, no reviewer-flagged risk
-- No explicit Cc: stable in the thread (absence expected)
+```3429:3431:sound/pci/hda/patch_realtek.c
+        /* Headphone capless set to normal mode */
+        alc_write_coef_idx(codec, 0x78, coef78);
+}
+```
 
-Step 4.2: CHECK WHO REVIEWED THE PATCH
-Record (`b4 dig -w`): To Takashi Iwai (`tiwai@suse.com`); Cc Jaroslav
-Kysela (`perex@perex.cz`), Realtek (`kailang@realtek.com`), linux-sound,
-linux-kernel. Subsystem maintainer received and applied it.
+```3465:3468:sound/pci/hda/patch_realtek.c
+        alc_auto_setup_eapd(codec, false);
+        alc_shutup_pins(codec);
+        alc_write_coef_idx(codec, 0x78, coef78);
+}
+```
 
-Step 4.3: SEARCH FOR THE BUG REPORT
-Record: No syzbot/bugzilla link. Description is a hardware report from
-the same author who previously submitted verified Positivo quirks. No
-independent public bug count found.
+```3718:3727:sound/pci/hda/patch_realtek.c
+        val = alc_read_coefex_idx(codec, 0x58, 0x00);
+        for (i = 0; i < 20 && val & 0x8000; i++) {
+                msleep(50);
+                val = alc_read_coefex_idx(codec, 0x58, 0x00);
+        } /* Wait for depop procedure finish  */
 
-Step 4.4: CHECK FOR RELATED PATCHES AND SERIES
-Record: Standalone one-patch series. Same author’s ARN50/N14AP7 limit-
-boost quirks are the precedent; those are already in this tree.
+        alc_write_coefex_idx(codec, 0x58, 0x00, val); /* write back the
+result */
+        alc_update_coef_idx(codec, 0x38, 1<<4, coef38);
+```
 
-Step 4.5: CHECK STABLE MAILING LIST HISTORY
-Record: lore.kernel.org/stable search returned HTTP 403. No stable-list
-discussion verified. No evidence this was rejected for stable.
+Same unguarded poll in `alc294_hp_init`. Introduced 2014/2021; both are
+in this tree.
 
-===============================================================
-PHASE 5: CODE SEMANTIC ANALYSIS
-===============================================================
+**Step 6.2 — Backport difficulty**
+Record: Minor path rework. Candidate path
+`sound/hda/codecs/realtek/alc269.c` does not exist here; equivalent code
+is `sound/pci/hda/patch_realtek.c`. Function bodies match the pre-patch
+logic. Not a semantic conflict.
 
-Step 5.1: IDENTIFY KEY FUNCTIONS IN THE DIFF
-Record: Table `alc269_fixup_tbl[]` only. Runtime function used by the
-new ID: `alc269_fixup_limit_int_mic_boost()`. Probe picker:
-`snd_hda_pick_fixup()` from `patch_alc269()`.
+**Step 6.3 — Already fixed here?**
+Record: No. `git merge-base --is-ancestor 5b106b40ed220 HEAD` failed. No
+later substitute fix in this file.
 
-Step 5.2: TRACE CALLERS
-Record:
-- `patch_alc269()` at `sound/pci/hda/patch_realtek.c:12416` calls
-  `snd_hda_pick_fixup(codec, alc269_fixup_models, alc269_fixup_tbl,
-  alc269_fixups)` (line 12583)
-- That is the ALC269-family codec probe path
-  (CONFIG_SND_HDA_CODEC_REALTEK)
-- Not IRQ, not syscall hot path; once at device probe
+## Phase 7: Subsystem
 
-Step 5.3: TRACE CALLEES
-Record: `alc269_fixup_limit_int_mic_boost()` →
-`snd_hda_codec_get_pincfg()`, `snd_hda_get_input_pin_attr()`,
-`snd_hda_override_amp_caps()`. No allocation, no new locks.
+**Step 7.1**
+Record: ALSA HD-audio Realtek codec. **IMPORTANT** (default audio on a
+huge set of laptops).
 
-Step 5.4: FOLLOW THE CALL CHAIN
-Record: Userspace cannot trigger a crash path. The ID is matched when
-this laptop’s Realtek HDA codec is probed. Reachable for owners of
-Positivo N15RPE-S with SND_HDA_CODEC_REALTEK. Unprivileged users then
-get a usable (non-blown-out) internal mic.
+**Step 7.2**
+Record: Mature driver; current 6.1.y activity is mostly quirks. These
+init/shutup paths have been stable for years, which is why leftover `-1`
+write-backs still matter.
 
-Step 5.5: SEARCH FOR SIMILAR PATTERNS
-Record: Same `ALC269_FIXUP_LIMIT_INT_MIC_BOOST` already used for many
-IDs in this tree, including:
-- `0x1c6c:0x122a` Positivo N14AP7
-- `0x2014:0x800a` Positivo ARN50
-- `0x2782:0x0214` VAIO VJFE-CL
-This is a systematic hardware pattern, not a one-off experiment.
+## Phase 8: Impact and risk
 
-===============================================================
-PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
-===============================================================
+**Step 8.1 — Who**
+Record: Users of ALC282, ALC215/225/285/289, ALC225/295/299,
+ALC234/274/294, ALC700 — typical `CONFIG_SND_HDA_CODEC_REALTEK` x86
+laptops.
 
-Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?
-Record:
-- `git describe HEAD` = `p-6.12-2-gd38d58a4e0359`; `make kernelversion`
-  = 6.12.111
-- `git merge-base --is-ancestor 253010acfc8ad HEAD` → **not in this
-  tree**
-- `0xa128` is absent from `patch_realtek.c` (grep: no matches)
-- The missing-ID bug exists here: the laptop would probe without the
-  limiter
-- Fixup and table exist since well before 6.12 (fixup from v3.10)
+**Step 8.2 — Trigger**
+Record: Codec COEF read returns `-1` (verb timeout, invalid COEF on a
+variant, flaky link during suspend/resume). Not an unprivileged syscall
+exploit; it is a common device PM path.
 
-Step 6.2: CHECK FOR BACKPORT COMPLICATIONS
-Record: Needs a trivial backport, not a clean git-am of the mainline
-diff:
-1. Path: `sound/hda/codecs/realtek/alc269.c` →
-   `sound/pci/hda/patch_realtek.c`
-2. Context: mainline next line is Lunnen Ground 14 (`0x2782, 0xa212`),
-   which is **not** in 6.12; insert after `0x2782, 0x4900` and before
-   `0x7017, 0x2014`
-That is the same class of adjustment used for `d44418f5024f6` (ARN50) on
-this tree.
+**Step 8.3 — Failure mode**
+Record: Wrong COEF restore / depop result. Severity **HIGH** for audio:
+headphone noise, failed depop, or codec stall (the failure
+`f3ee07d8b6e06` already shipped to stable). Not a kernel oops by itself.
 
-Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE
-Record: No N15RPE-S entry. Nearby same-class quirks (ARN50, N14AP7) are
-present. No alternate fix for `0x2782:0xa128`.
+**Step 8.4 — Ratio**
+Record: Benefit medium-high (PM path on common hardware, same class as a
+prior stable fix). Risk very low (~14 lines of `!= -1` guards, success
+path identical).
 
-===============================================================
-PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
-===============================================================
+## Phase 9: Synthesis
 
-Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY
-Record: [sound/pci/hda Realtek codec] [IMPORTANT for laptop audio;
-PERIPHERAL in that only this PCI ID is affected]
+**Evidence FOR**
+- Real write of error sentinel `-1`/`0xFFFF` into codec COEF state.
+- `alc_update_coef_idx(..., saved)` with `saved == -1` sets all bits on
+  a register that may still be readable.
+- Depop poll treats `-1` as “still busy” for a full second.
+- Same class as `f3ee07d8b6e06` (codec stall / resume failure, `Cc:
+  stable`).
+- Small, obviously correct, maintainer-applied.
+- Buggy functions exist in this 6.1.188 tree and are not fixed.
 
-Step 7.2: ASSESS SUBSYSTEM ACTIVITY
-Record: Very active: last 20 commits on `patch_realtek.c` are mostly
-more `SND_PCI_QUIRK` entries (HP, Lenovo, Samsung, MECHREVO, ASUS).
-Mature driver; this is the normal way hardware enablement/workarounds
-land.
+**Evidence AGAINST**
+- No user report for these four sites.
+- Exact patch needs a file-path backport (`alc269.c` →
+  `patch_realtek.c`).
+- Static-analysis style; trigger is an already-failing verb.
 
-===============================================================
-PHASE 8: IMPACT AND RISK ASSESSMENT
-===============================================================
+**Unresolved**
+- lore.kernel.org HTTP 403 for stable@ search (thread itself was
+  retrieved with b4).
 
-Step 8.1: DETERMINE WHO IS AFFECTED
-Record: Driver-specific / PCI-SSID-specific: only Positivo N15RPE-S
-(`0x2782:0xa128`) with Realtek ALC269-family HDA.
+**Stable rules**
+1. Obviously correct and tested? **PASS** (maintainer applied v2;
+   success path unchanged)
+2. Real user-visible bug? **PASS** (bad COEF restore on
+   init/suspend/resume)
+3. Important (stall / broken audio / register corruption)? **PASS**
+   (same class as the 2014 stable COEF-stall fix)
+4. Small and contained? **PASS** (`+14/-8`, four local checks)
+5. No new features/APIs? **PASS**
+6. Can apply here? **PASS** with a trivial path backport to
+   `patch_realtek.c`
 
-Step 8.2: DETERMINE THE TRIGGER CONDITIONS
-Record:
-- Trigger: every boot/probe on that laptop when using the internal mic
-  at high boost
-- Common for owners of that model; zero impact elsewhere
-- Not a security trigger; not unprivileged-crash
+**Exception category:** none (not an ID/quirk/DT/build/docs exception).
+It is a normal small bugfix.
 
-Step 8.3: DETERMINE THE FAILURE MODE SEVERITY
-Record: [Noisy / overly boosted internal mic, capture quality unusable
-at high gain] [MEDIUM for those users; LOW globally]. Not
-panic/UAF/corruption, but it is a real hardware defect the existing
-quirk is designed to fix.
-
-Step 8.4: CALCULATE RISK-BENEFIT RATIO
-Record:
-- Benefit: high for N15RPE-S users on 6.12 (mic works as on later
-  kernels)
-- Risk: very low (one ID, existing fixup, same pattern already
-  backported here)
-- Ratio: strongly favors backport
-
-===============================================================
-PHASE 9: FINAL SYNTHESIS
-===============================================================
-
-Step 9.1: COMPILE THE EVIDENCE
-FOR:
-- Explicit audio-codec hardware quirk (`SND_PCI_QUIRK` + existing fixup)
-- Real user-visible bug (internal mic boost too high)
-- One line, obviously correct, maintainer-applied
-- Same author’s identical Positivo ARN50 quirk already in this 6.12 tree
-- Fixup and quirk table already present
-- No new API, no new driver, no behavioral change except this SSID
-
-AGAINST:
-- Not a crash/security/data-corruption bug
-- Mainline path differs; needs 1-line context/path adjustment
-- No independent public bugzilla/syzbot report
-- Affected population is one laptop model
-
-UNRESOLVED:
-- Could not query lore.kernel.org/stable (HTTP 403)
-- Could not independently verify the author’s hardware test beyond the
-  commit text and maintainer apply
-
-Step 9.2: APPLY THE STABLE RULES CHECKLIST
-1. Obviously correct and tested? PASS — one ID, existing fixup, applied
-   by Takashi Iwai
-2. Fixes a real bug that affects users? PASS — excessive internal mic
-   boost on this machine
-3. Important issue? PASS under the hardware-quirk exception (audio codec
-   quirk); severity MEDIUM for that model
-4. Small and contained? PASS — +1 line
-5. No new features or APIs? PASS — ID mapped to existing fixup
-6. Can apply to the local tree? PASS — equivalent table exists; needs
-   trivial path/context backport, same as prior quirks on this tree
-
-Step 9.3: CHECK FOR EXCEPTION CATEGORIES
-Record: **Hardware quirk / audio codec quirk** (`SND_PCI_QUIRK` in
-Realtek HDA). This is an explicit stable exception.
-
-Step 9.4: MAKE YOUR DECISION
-This should be backported to this 6.12 tree. It is the standard Realtek
-laptop quirk: add a PCI subsystem ID so an existing limiter runs. The
-driver, table, and `ALC269_FIXUP_LIMIT_INT_MIC_BOOST` are all here; only
-the N15RPE-S ID is missing. Risk is confined to that SSID.
-
-------------------------------------------------
-What problem it solves and why it matters
-The Positivo N15RPE-S ships with an internal mic whose boost steps 2–3
-are too hot. Without this ID, 6.12 users of that laptop keep the default
-full boost range. The commit maps `0x2782:0xa128` onto the long-standing
-limiter already used for other Positivo machines in this tree.
-
-Stable-rules fit
-It is small, obviously correct, does not add APIs, and is the documented
-audio-quirk exception. It is not a crash fix, but stable routinely takes
-these ID-only Realtek quirks.
-
-Risk vs benefit
-Benefit is a working internal mic for that model. Risk is a single-ID
-table entry using a fixup that has been in the kernel since v3.10 and is
-already applied to sibling Positivo IDs here.
-
-Concerns
-The mainline hunk will not `git am` cleanly because of the later HDA
-file split and a neighboring Lunnen Ground 14 entry that 6.12 lacks. The
-backport is still a one-line insert into `alc269_fixup_tbl` in
-`sound/pci/hda/patch_realtek.c`.
+This should go into this 6.1.188 tree. The bug is in the local
+`alc282_*` / `alc285_hp_init` / `alc294_hp_init` paths; the fix is a few
+`!= -1` guards that this tree already uses elsewhere.
 
 Verification:
-- [Phase 1] Parsed tags on `253010acfc8ad`: author SOB, maintainer SOB,
-  msgid Link; no Fixes/Reported-by/Cc: stable
-- [Phase 2] Diff: +1 `SND_PCI_QUIRK(0x2782, 0xa128, "Positivo N15RPE-S",
-  ALC269_FIXUP_LIMIT_INT_MIC_BOOST)`
-- [Phase 2] Read `alc269_fixup_limit_int_mic_boost()` at
-  `patch_realtek.c:6661-6690`; confirmed it clamps internal-mic amp
-  steps to 0–1
-- [Phase 2] Confirmed `[ALC269_FIXUP_LIMIT_INT_MIC_BOOST]` exists at
-  line 8711 and chains to `ALC269_FIXUP_THINKPAD_ACPI` (same as other
-  Positivo limit-boost entries)
-- [Phase 3] `git merge-base --is-ancestor 3e0d611b2045b HEAD` — fixup
-  present (v3.10)
-- [Phase 3] `git merge-base --is-ancestor 253010acfc8ad HEAD` —
-  candidate **not** in this tree
-- [Phase 3] `git log --grep=N15RPE -- sound/pci/hda/` — empty
-- [Phase 3] Grep `0xa128` in `patch_realtek.c` — no match
-- [Phase 3] Same-class commits in tree: `d44418f5024f6` (ARN50),
-  `86a433862912f` (N14AP7)
-- [Phase 3] Author has 10 Realtek HDA quirk commits in this tree
-- [Phase 4] `b4 dig -c 253010acfc8ad` → msgid
-  20260805154518.19093-1-edson.drosdeck@gmail.com
-- [Phase 4] `b4 dig -a`: v1 only
-- [Phase 4] `b4 dig -w`: To tiwai, Cc linux-sound / perex / Realtek
-- [Phase 4] LKML/Patchew: Takashi “Applied to for-next”; no NAK
-- [Phase 4] UNVERIFIED: lore.kernel.org/stable search HTTP 403
-- [Phase 5] `patch_alc269()` line 12583 uses `alc269_fixup_tbl`
-- [Phase 6] `git describe HEAD` = p-6.12-2-gd38d58a4e0359; kernelversion
-  6.12.111
-- [Phase 6] Local file is `sound/pci/hda/patch_realtek.c`; `alc269.c`
-  does not exist; insert after 0x2782/0x4900 before 0x7017/0x2014
-- [Phase 8] Failure mode: noisy/excessive internal mic boost on one
-  laptop; not a crash
+- [Phase 1] Parsed tags: author Bob Song; Link msgid; SOB Takashi Iwai;
+  no Fixes/Reported-by/Cc stable
+- [Phase 2] Diff: 14 insertions / 8 deletions; four functions; skip
+  write-back and stop poll on `-1`
+- [Phase 2] `codec_read()` in this tree returns `-1` on
+  `snd_hdac_exec_verb()` failure (`sound/hda/hdac_device.c:988-997`)
+- [Phase 3] `git merge-base --is-ancestor 7b5c7a0240b11 HEAD` — yes
+  (ALC282 write-back, 2014)
+- [Phase 3] `git merge-base --is-ancestor 3c24e48330adf HEAD` — yes
+  (alc285_hp_init, 2021)
+- [Phase 3] `git merge-base --is-ancestor f3ee07d8b6e06 HEAD` — yes
+  (2014 COEF-guard, Cc:stable, codec stall)
+- [Phase 3] `git merge-base --is-ancestor 5b106b40ed220 HEAD` — no (fix
+  not in this tree)
+- [Phase 4] `b4 dig -c 5b106b40ed220`: v1 split requested, v2 applied;
+  no NAK
+- [Phase 4] UNVERIFIED: lore.kernel.org/stable search (HTTP 403)
+- [Phase 5] Callers: `alc_init` → init_hook; `alc_suspend` → shutup;
+  `alc_resume` → init; vendor IDs 0x10ec0282 / 0215 / 0225 / 0234 / 0285
+  / 0294 / …
+- [Phase 6] `git describe HEAD`: `p-6.1-2-g8ee893656ef69`; `make
+  kernelversion`: **6.1.188**
+- [Phase 6] Buggy code present in `sound/pci/hda/patch_realtek.c` lines
+  3430, 3467, 3719-3727, 3992
+- [Phase 6] Target file `sound/hda/codecs/realtek/alc269.c` missing
+  here; equivalent functions exist
+- [Phase 8] Failure mode: COEF corruption / possible codec stall on
+  resume; severity HIGH for audio, not a kernel oops
 
 **YES**
 
- sound/hda/codecs/realtek/alc269.c | 1 +
- 1 file changed, 1 insertion(+)
+ sound/hda/codecs/realtek/alc269.c | 22 ++++++++++++++--------
+ 1 file changed, 14 insertions(+), 8 deletions(-)
 
 diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index f2b0eb8501a78..5098d3f375316 100644
+index d88627558150f..3364f6ad91fcb 100644
 --- a/sound/hda/codecs/realtek/alc269.c
 +++ b/sound/hda/codecs/realtek/alc269.c
-@@ -7646,6 +7646,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x2782, 0x1705, "MEDION E15433", ALC269VC_FIXUP_INFINIX_Y4_MAX),
- 	SND_PCI_QUIRK(0x2782, 0x1707, "Vaio VJFE-ADL", ALC298_FIXUP_SPK_VOLUME),
- 	SND_PCI_QUIRK(0x2782, 0x4900, "MEDION E15443", ALC233_FIXUP_MEDION_MTL_SPK),
-+	SND_PCI_QUIRK(0x2782, 0xa128, "Positivo N15RPE-S", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
- 	SND_PCI_QUIRK(0x2782, 0xa212, "Lunnen Ground 14", ALC269VC_FIXUP_LUNNEN_GROUND_14),
- 	SND_PCI_QUIRK(0x7017, 0x2014, "Star Labs StarFighter", ALC233_FIXUP_STARLABS_STARFIGHTER),
- 	SND_PCI_QUIRK(0x8086, 0x2074, "Intel NUC 8", ALC233_FIXUP_INTEL_NUC8_DMIC),
+@@ -296,7 +296,8 @@ static void alc282_init(struct hda_codec *codec)
+ 		msleep(100);
+ 
+ 	/* Headphone capless set to normal mode */
+-	alc_write_coef_idx(codec, 0x78, coef78);
++	if (coef78 != -1)
++		alc_write_coef_idx(codec, 0x78, coef78);
+ }
+ 
+ static void alc282_shutup(struct hda_codec *codec)
+@@ -333,7 +334,8 @@ static void alc282_shutup(struct hda_codec *codec)
+ 
+ 	alc_auto_setup_eapd(codec, false);
+ 	alc_shutup_pins(codec);
+-	alc_write_coef_idx(codec, 0x78, coef78);
++	if (coef78 != -1)
++		alc_write_coef_idx(codec, 0x78, coef78);
+ }
+ 
+ static const struct coef_fw alc283_coefs[] = {
+@@ -585,15 +587,19 @@ static void alc285_hp_init(struct hda_codec *codec)
+ 
+ 	alc_write_coefex_idx(codec, 0x58, 0x00, 0xf888); /* HP depop procedure start */
+ 	val = alc_read_coefex_idx(codec, 0x58, 0x00);
+-	for (i = 0; i < 20 && val & 0x8000; i++) {
++	for (i = 0; i < 20 && val != -1 && val & 0x8000; i++) {
+ 		msleep(50);
+ 		val = alc_read_coefex_idx(codec, 0x58, 0x00);
+ 	} /* Wait for depop procedure finish  */
+ 
+-	alc_write_coefex_idx(codec, 0x58, 0x00, val); /* write back the result */
+-	alc_update_coef_idx(codec, 0x38, 1<<4, coef38);
+-	alc_update_coef_idx(codec, 0x0d, 0x110, coef0d);
+-	alc_update_coef_idx(codec, 0x36, 3<<13, coef36);
++	if (val != -1)
++		alc_write_coefex_idx(codec, 0x58, 0x00, val); /* write back the result */
++	if (coef38 != -1)
++		alc_update_coef_idx(codec, 0x38, 1<<4, coef38);
++	if (coef0d != -1)
++		alc_update_coef_idx(codec, 0x0d, 0x110, coef0d);
++	if (coef36 != -1)
++		alc_update_coef_idx(codec, 0x36, 3<<13, coef36);
+ 
+ 	msleep(50);
+ 	alc_update_coef_idx(codec, 0x4a, 1<<15, 0);
+@@ -858,7 +864,7 @@ static void alc294_hp_init(struct hda_codec *codec)
+ 
+ 	/* Wait for depop procedure finish  */
+ 	val = alc_read_coefex_idx(codec, 0x58, 0x01);
+-	for (i = 0; i < 20 && val & 0x0080; i++) {
++	for (i = 0; i < 20 && val != -1 && val & 0x0080; i++) {
+ 		msleep(50);
+ 		val = alc_read_coefex_idx(codec, 0x58, 0x01);
+ 	}
 -- 
 2.53.0
 
