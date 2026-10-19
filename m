@@ -1,61 +1,64 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67A964B2CD3
-	for <linux-sound@vger.kernel.org>; Mon, 19 Oct 2026 10:14:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 734CA4CB8B8
+	for <linux-sound@vger.kernel.org>; Mon, 19 Oct 2026 10:14:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792404852; cv=none; b=OghBPQ0965WR9JKLjDiO9+qfct6DEvqzpLnDHLbPi+0kXXtv2QoCAyclKzIxI/IVFnzK2M6GISPws01SduYofNaXgKEJLFja9t6+hjVcemn+A4UbOpI2duB2bZCPJByI8LNiy2FaajLIFCuYV8zmtkpJ7ZHrNAnCeqiHNTq8P9Q=
+	t=1792404854; cv=none; b=PTCdBm95D9nBOxVoxArVXXbtX+j8Zwt5PFYpyCrRFiQg7x9F0jHO7OqT/jIjD1EYAAq050mn6rJs/ynSXCoCmkyU4ZxtL9kkpkG5tmejAtgiB6fUgVSmDn42bHcnnF3x0oq3mBhlNoqZLwG2yNaYOAccptgKMhhL6aNX9GKCcd0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792404852; c=relaxed/simple;
-	bh=JxVH/U0EKuR4YXqDHVYox10gj/DArPqHrhBKFVk0k9Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=l8B3pnKFWbWDWhRwbNBbNIK2HEav7zpujSuEoQDDhUcg49PTI5FTtxMMli4zZsQPv/9tqxNtpzBe82ESb2nvACG4TDdlRanzS638fClO8fXeGCxIJSKYmLiHDmX7Gi8at3tKtjWhsABsmPa8aMfHHyk5ugCuOfqdzjh4hMonfpY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qg8a7DvK; arc=none smtp.client-ip=209.85.221.54
+	s=arc-20240116; t=1792404854; c=relaxed/simple;
+	bh=aR5OSmq23bLV4lV/PZCwDUREMgyfHjAL91EyeuGpuVw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=B81j+FB38RnNytzoyJ3Eer4PZhag1zkB5th3UZ0zzLNLK/FrzG4Xk+rZTNkMWpYLv2WQHYZM1QcTeA+XKYSYW4JSAtoupwj2BluWtH1X48xcyj0GpfSyrtX2b7V61LK3HtoNog3eujd7UbxMXoLGXVnHnRMlJMW8Mk2KxgEon3M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=q0upcJcN; arc=none smtp.client-ip=209.85.128.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qg8a7DvK"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-48c5358fc28so1631512f8f.0
-        for <linux-sound@vger.kernel.org>; Mon, 19 Oct 2026 03:14:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="q0upcJcN"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4a1e3b87ac5so8794085e9.1
+        for <linux-sound@vger.kernel.org>; Mon, 19 Oct 2026 03:14:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792404850; x=1793009650; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=vP4YGQ5Le5HIuJGSzxUdWfPQia5YJdsjfkTeNwdpcT0=;
-        b=qg8a7DvKscBqaq85yMueyii7IiW5EzgfR4nL48Nq8xjGVJ8If6aoNmgbTcSBCpZmk9
-         5toJiUezr2iMOyx8jygc5JkedC2eUdpA2Q/iN6HoebB98Un2YAnSv793RAhBJdsqrrmy
-         vAt8jpx4y+ohjOxlNYtrVzJKBL78ymeP8Bs/j/a1P2T8bycyUYZdCQ/mBfIey/JngAuZ
-         nasCCXDTHwBxlLwYEqp7+fTvv+MbvhMXvteSKqqJM4xbPif7Uj1Y78s0/tOgPf2kZ5j4
-         pvUCaU9ciFS6fcB1K/5CDK0z2DWd+AnVlWrXVwk/m6aGORcq7gG+3pI8s0fpBHDZADW7
-         jj2A==
+        d=gmail.com; s=20251104; t=1792404851; x=1793009651; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=GaYNfmiJAdoDL3WIMAcoiEX2xPvw24j0M/jps2oZpr4=;
+        b=q0upcJcN3ers98XFTquqk4j+vwTfMgwIKkE6hoLK/zQ1sticoF5gThEUPk4CDe3Qg9
+         nB9uAyU9ry92lwjSw65F+2+Om/BydqfPIjUXhXcuL9wELtIoxTlIAHq+KhuqMdQZujNf
+         jKtykNNjbz1wQNBR4OENLjvtB5lA2p6BLCAwdePWGI+VwHwD/8s+YVREmfsaoxv0iUK9
+         pEnwKszZJvXlUiKGLUihH79RWSw01PZbnlQj5LdelYnHzqze2m8k0wZzPPhmIc5kJd2O
+         bKeDpXJ02221zJVMgZGJPo5il1myWBYusNwNnhGXfdgheGa4swKoUB42HMxLdIyFJo3E
+         ao/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792404850; x=1793009650;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=vP4YGQ5Le5HIuJGSzxUdWfPQia5YJdsjfkTeNwdpcT0=;
-        b=Lf3Szk4SErAz5Gr+K6Uwwk0jQjdNalZ2fNZI+RE6w5ynR8m3TkkpZNEG6TZz31b0t2
-         j1mXU+oRuqC/x5cj0/Tw0v2hE2mt7UIagTasJDojRqLELSlAIOYOZBBnBRFFuLymz8yc
-         ahw0r85oBbLNvVkWUys0LW58Ou5r4E8JcOhu8P4TmVgaHw9pfTGSHDvE6TdLztCvtyHs
-         n7B0eiWBHfaWEy0VnB8SsgLtzqE56Ma25/jgrmYbPpIfSLuDA/TKkQMEB8t3FhofwGAD
-         ke+CG1GBdSRSfrKA5adW7X89Eex7Y6FchEBjYGVTIRLwoJ4E91re07qd2X/CZBACrxtm
-         dZhg==
-X-Gm-Message-State: AFq9FYLOJAlplzzHRQYCWFYJUq6vzBiR9LVaaZgj6NZXSVU1psmFtp9J
-	9nnI3IhJmFNbcl8rlGk8KJpfEgxwUdbZIH8FALS2AqCxJhLH0Grn73BC
-X-Gm-Gg: AYBFou3IYrhgvpfFwcf2ZHj1oj3DOFp+8dyJdvkRgzaWMKSYsQjJkilBgZWjKyQJWTU
-	foTB364xLiD6vL3OzMAzCKZPBtIwjJ/epujPK1W4AFjEelYCWd8XsChoNa0fAkUd6UUOI2yzSyv
-	WPsCRGdAI1a0o5r38NwyDId6sEHcdhvqkLpSsIBZaEuS0UdC2U05FA/1AFkm5p102FtCXWetBxi
-	NjxIKzi45NrIl1SYBBTleo7xakrrrcrKCpvbq6U2OU2N/yB0NqHyiWAagd3rMhiuo+oH/HEXKSf
-	2DjaWTehN2DXM8kg1HUEeSTmeQt4CSsvgysyW9GAv4+/tBGkW6Izd0SrYyv9+GmN5gU94C8Utlt
-	PZkxpzvh3r1WriOru2ujciRryKe1SMF0Rk23j0nB8hcOnFJYjQwJS1E3D4dQ8G7cVtrEsUKAEAf
-	qN7CLPJ4TeC+XxeU0Wl9+POyZq+UX2oFqzj4jjuCtyhCI0WP9jWGS/UEXOmyjv7XHyjiKBq/SDB
-	21rN5gx67v1AG0qgT4=
-X-Received: by 2002:a05:6000:4021:b0:48e:cd3:b3ec with SMTP id ffacd0b85a97d-48e0cd3b575mr11780776f8f.28.1792404849518;
-        Mon, 19 Oct 2026 03:14:09 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1792404851; x=1793009651;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=GaYNfmiJAdoDL3WIMAcoiEX2xPvw24j0M/jps2oZpr4=;
+        b=VDhO1MrTo6NLVYKjqMxXVDxhY+ktx8sLZug4wDvgVWd/wHHJUtg1f+jlNrcsnKg5lW
+         LYsKZRYS5VUpfe13RYs3BSUQ19V0RUShi34PDF6DJzq9mjBYMSnwJPonbW1dV5SmnoVg
+         IXmddRgC4LAjSKQN6dqbm4vYrRnHQq3BRIUNGxbm4ebfJCAOjBkR4Ye+Gsl3uuHnMwmw
+         bCTk6ceZzOQopehFIGF+0hvDLjrNU1woXlc3OfSDmsuvCNqiwja+R+Z/zoPJbSvWZipV
+         wpqcMKM8DTxsC/dWrqz7NImRYZ3vAiwOijP3cJkk4pAHc/tUbjfcxUymT7riWMRSbSU8
+         CW7w==
+X-Gm-Message-State: AFq9FYK4TFd22Svch/v9tRMsUI0JsnaIHk0QDz/kELq+2ZUXOyQDKNQz
+	CkyrtG2VTyY3xRtsOe7rajlgxrcfic3bNrG2iU2iV770VT4+teoBDWEO
+X-Gm-Gg: AYBFou2+EwcO6ukxa0Oa+1YrAh8rVL8iSagsK3AubOWmAdB6/q8naZtCWeQ+QnRHly+
+	n/EaySkCL3w2lr1oMV3IM9nkfhv/jc/7ZjJMEA/RI7GsfZM86qJomeO3LXWWIeMNIg6JQ5heHDS
+	Kz9DvkBl4D6a2hv2zqOX1YGhS5oVSJx5YBjAErqoHEy/B4c63lYI63kZq5/nwzWMHgxxADFLIS5
+	ZJZqNHmGTIWinaGrDTHT6RhdN10d4uBDG9I5dbNMri+keRPwWy1WlsiXrlr6ncMhOgcuo/1XsqE
+	lu3u98rq9nDOaiBw6Qt0aGJ9Qs3nc0y9ncVYTZnWCHOqbfdQXDSFCjL68TrQaH+PkCuRLBzbrzi
+	YKXjt0nH5kKn7gyrLm64myYeWa6Kofbm6YJwN7ICKfzWzVzSrXbHCiPzhUmqv1YnfmceNOrFAUo
+	pUqmyvnRnTAi75zqbxACgtzxmhkdpQe0TptEjAR8s83qGXDVE1EiCEIzblDO9MW8rmjm+g48NWM
+	A8CyHQWJJvUYK2hRE4=
+X-Received: by 2002:a05:600c:1394:b0:4a1:d492:1604 with SMTP id 5b1f17b1804b1-4a1d75f2524mr156656665e9.11.1792404851325;
+        Mon, 19 Oct 2026 03:14:11 -0700 (PDT)
 Received: from xeon ([188.163.112.62])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfd4f5177sm21822041f8f.30.2026.10.19.03.14.07
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfd4f5177sm21822041f8f.30.2026.10.19.03.14.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2026 03:14:07 -0700 (PDT)
+        Mon, 19 Oct 2026 03:14:10 -0700 (PDT)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
@@ -68,43 +71,113 @@ To: Liam Girdwood <lgirdwood@gmail.com>,
 Cc: linux-sound@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 0/2] ASoC: codecs: Add support for Fortemedia FM34NE DSP
-Date: Mon, 19 Oct 2026 13:13:54 +0300
-Message-ID: <20261019101357.117462-1-clamor95@gmail.com>
+Subject: [PATCH v2 1/2] ASoC: dt-bindings: Document FM34NE DSP
+Date: Mon, 19 Oct 2026 13:13:55 +0300
+Message-ID: <20261019101357.117462-2-clamor95@gmail.com>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261019101357.117462-1-clamor95@gmail.com>
+References: <20261019101357.117462-1-clamor95@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The Fortemedia FM34NE is digital sound processing chip used for
-active noise suppression mainly on ASUS Transformers.
+Document the FM34NE DSP based voice processor used in the ASUS Transformer
+devices.
 
+Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 ---
-Changes in v2:
-- remove ports from schema
-- schema moved to dsp
-- add return value check in fm34ne_dsp_set_config()
-- dropped unused headers
----
-
-Svyatoslav Ryhel (2):
-  ASoC: dt-bindings: Document FM34NE DSP
-  ASoC: codecs: Add support for Fortemedia FM34NE DSP
-
- .../bindings/dsp/asus,tf201-dsp.yaml          |   77 ++
- sound/soc/codecs/Kconfig                      |   12 +
- sound/soc/codecs/Makefile                     |    2 +
- sound/soc/codecs/fm34ne-dsp.c                 |  390 +++++++
- sound/soc/codecs/fm34ne-dsp.h                 | 1030 +++++++++++++++++
- 5 files changed, 1511 insertions(+)
+ .../bindings/dsp/asus,tf201-dsp.yaml          | 77 +++++++++++++++++++
+ 1 file changed, 77 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/dsp/asus,tf201-dsp.yaml
- create mode 100644 sound/soc/codecs/fm34ne-dsp.c
- create mode 100644 sound/soc/codecs/fm34ne-dsp.h
 
+diff --git a/Documentation/devicetree/bindings/dsp/asus,tf201-dsp.yaml b/Documentation/devicetree/bindings/dsp/asus,tf201-dsp.yaml
+new file mode 100644
+index 0000000000000..46308a462af16
+--- /dev/null
++++ b/Documentation/devicetree/bindings/dsp/asus,tf201-dsp.yaml
+@@ -0,0 +1,77 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/dsp/asus,tf201-dsp.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Fortemedia FM34NE based voice processor
++
++description:
++  Fortemedia FM34NE is a hardware voice processor (DSP — Digital Signal
++  Processor) designed by Fortemedia. It specializes in real-time audio
++  processing, focusing on noise suppression and echo cancellation.
++
++maintainers:
++  - Svyatoslav Ryhel <clamor95@gmail.com>
++
++allOf:
++  - $ref: dai-common.yaml#
++
++properties:
++  compatible:
++    enum:
++      - asus,sl101-dsp
++      - asus,tf101-dsp
++      - asus,tf201-dsp
++      - asus,tf300t-dsp
++      - asus,tf700t-dsp
++      - pegatron,chagall-dsp
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    items:
++      - description: Master clock to the DSP
++
++  reset-gpios:
++    maxItems: 1
++
++  bypass-gpios:
++    maxItems: 1
++    description: Signal that switches DSP into programming mode.
++
++  vdd-supply: true
++
++  port:
++    $ref: audio-graph-port.yaml#
++    unevaluatedProperties: false
++
++required:
++  - compatible
++  - reg
++  - bypass-gpios
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        codec@60 {
++            compatible = "asus,tf201-dsp";
++            reg = <0x60>;
++
++            clocks = <&fm34ne_clk>;
++
++            bypass-gpios = <&gpio 222 GPIO_ACTIVE_HIGH>;
++            reset-gpios = <&gpio 115 GPIO_ACTIVE_LOW>;
++
++            vdd-supply = <&vdd_1v8_dsp>;
++        };
++    };
++...
 -- 
 2.53.0
 
