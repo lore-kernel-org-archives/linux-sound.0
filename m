@@ -1,81 +1,81 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.51
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792450941;
-	b=qatfnOEREFd1ItCZy6lwOBYpW6oqxyzYmgNmixXerWgbWYhaW3W023NVi2+pbv+Oukd8
-	 gDG2PXiLeR+UgbCEyw8SZOmkH2Bw7taowS6aog4npcRu6rGDDx/N9AynIPOwBZms5Tw37
-	 vQ2NlQW5vIRHFNnOCJk1J43YyTAJTEPZ57GE0l/t8QaHVzl3T7+at+VaQNhEab310v94G
-	 X27hCkwXuoNfPpOcC3dWf9JGRMM7b6SINRsb8maZ+Ndr7CwPyFQWYHzX2o2YpwEmLSLoo
-	 Tice73v5q1lnuzzpq5OaGE6SHzGggl7W5YHuGu4sZd7i59R3LgLQw9zq88W2cK2aPQA==
+	t=1792450943;
+	b=jKUWQC+PqAB+6seQjE/Z63GIx1JYTut0RSwaPHuhWHEFA7um/bE46faYzUhTW1iLWeG3
+	 L/FGsiXGMX9P0x4kBEPJP6iLKB2qpomjddYPdFm176IBsPt3epgc7/GOATFbhmAxXaJOV
+	 UDKv0AiDkB+4KJtSBlmNquxMGeZr+T1sDzkGkkWf6V0n73bdjU6GSRlP6lLLMtOabKSbv
+	 nfpFQ/fGuB0A31hzmi8B557hFhX4/DO2nGnmIIlzErXxXCffXFuJqZ8RPmnQki/9kYEMY
+	 toyJl4uyR3z761n5D3NHSXQVMGfCsk7xz45iHhbSpzApMQPkXEryXBRdwYDf/SV6XRQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792450941;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792450943;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=+wB+opXLZBnzXpHBZAbJVPm4+IVuh89t5flsJUrwfNA=;
-	b=sIXrNZ4IrENq9oVNI0eYnYKAMu1vbIsGvvLaqu0Uk++5ezALV7Ze7y7hGBscEG1kKTuq
-	 6K+03+Fa0RiFDumeWiSupVyNHUZHwkd8WG8jEhSFtvOeOxHko8ZwqJpWSOtbOcjIWABM9
-	 tahytTjV+zc5Qeq5d7TqmJbesPSIGOZK1m22B20jg5Hd2rt7vF4ZLkQa0RmFF5DioYdau
-	 wrCXzgN5zpCbKYWrJyYtT3LiMqPlwVK+twLdzLedQqNta4rugn5scYxmOWvpI+GvnC4h6
-	 1rYIl0DaMUJbH3CMI4uiba0pUriwaKdhG7zfhv1OkGpjJlCsZOI76KElCocgn/Q5lfA==
+	bh=zraiqcqrqhJWYv6kozl2Pz+m4C0IhnfwuOksIs6CLCE=;
+	b=pwxCGgoZYnF2zXse7FjBY6Lr5CN6FzhNohSTplMo8IzMLYKslwesBpQ+AyNOERlCK9AE
+	 bmPy4pQz2iEBq/qDjM68PXKrNwxvVaGpveuTE0GznsMY18PPD+josUbYC55O5697OkYQ0
+	 7IaiXyW/TMQ40PTNhytnT6EHvg48oX7DCLB9BvI5Z0uVt1F6nJg6yRX/Zk/cDgnNMJgP9
+	 4BD0S+LqTc8pmTTJk+OrYo7dlSEvlBHZiq8O5ni3E6YfZpcONiP7DSGL/5hxe7qDfUDbD
+	 8BkjxvtklUjAS1duSBH7grd6+ZHY9gaZ4Bq09qHeKnlr8ijj4Ko4VhAST2No1xwrCRg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=qV3hb8Px;
-	arc=none smtp.remote-ip=209.85.160.41
-Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=NUzkIfPC;
+	arc=none smtp.remote-ip=209.85.210.51
+Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B70C6606A31F
-	for <linux-sound@vger.kernel.org>; Mon, 19 Oct 2026 23:02:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B70C6606A31F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6F49606A322
+	for <linux-sound@vger.kernel.org>; Mon, 19 Oct 2026 23:02:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C6F49606A322
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=qV3hb8Px
-Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-490d838b425so1582408fac.3
-        for <linux-sound@vger.kernel.org>; Mon, 19 Oct 2026 16:02:20 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=NUzkIfPC
+Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-81ba09a5d23so2284192a34.3
+        for <linux-sound@vger.kernel.org>; Mon, 19 Oct 2026 16:02:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792450940; x=1793055740; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1792450942; x=1793055742; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=+wB+opXLZBnzXpHBZAbJVPm4+IVuh89t5flsJUrwfNA=;
-        b=qV3hb8PxA3KhrbtkJWdJ0Zuxk/4T517Q0l3sgDd8BbjOa04lkUFcfdzmHJsPVy2qf8
-         5HKucjb/0i4nNkvTXv2q7N1TnV+SrGOTXWnSxWqcChfFXwOcD4hvCswSEEPDk0Bv5y3R
-         wI5fbjRrLsKQ8UH72Mg7/zyCCMQDDlFsXQBocSUppu5ps7nr/ZvRQAfBzybOmQV0mX8F
-         oYPbLdDfpI3MKgsJi1UEf7cFGdnWaEhcPHJ9qRy4xLX3rwy9gYkj6tfBFIF8I5f1+z0+
-         AkhJDRH/zKOaMXOjJ4EwYHiaGa9EH8iB+UlZkAmOLrDl9mJ/F2YEMDoPNli/V/ZrXMNs
-         SWbw==
+        bh=zraiqcqrqhJWYv6kozl2Pz+m4C0IhnfwuOksIs6CLCE=;
+        b=NUzkIfPCL8LfG9GJna5426ezcATIb78zd4wGWYUc3g7E1OIZ86kngW37tvJO7gJ1Eb
+         zJV569aurEIRr/cajxz1Z8RUpG7L2wqZ//8/m34RtrIGU2HRuqiZ+fnwqQ06+1OW+k1M
+         GvmBeL25T+YJSMeWy/o+KadkswoUsz62TXhrhKeWDms025M5iHVggHNHj749dHS4vOqx
+         z53dqrxo4hVzgacBX8+GtGwx9xgZ/nwl8MZQiEBdpCBy4+Rjfu9PMduwHa6UmNo8pzg4
+         qthzB7kIIIykfuckijl3MCAmz5+MyRsO4Q/hV1VSzOp1pcANOomzBwlBkgNPlV0Hdj/W
+         V7Uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792450940; x=1793055740;
+        d=1e100.net; s=20260707; t=1792450942; x=1793055742;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=+wB+opXLZBnzXpHBZAbJVPm4+IVuh89t5flsJUrwfNA=;
-        b=PRLKuyioP1+vmwazoanxq5/s6B+eBWVxQrW0sgJfdgeiWTrXVTWmG36qFIdxLd9OLr
-         ZVqcDbhQVns5ffiwayFOWliSROqzCzOidxcS9g+ruhbXc/8ftP6WnMtZpzeTj9Tl8qQE
-         gHKAOmIEp8ccP++jqdj4bO4N93skJ06yNn3wfAx81FxjWG0Md6aNR8M+7nqOtq9q5yiH
-         AaQuYQXI/IJuRKnZSB2xiVWWJHGzFDQ5MGb+LyvYWZ13R7F82j8n8ewhQiEzJuzf9rgh
-         J/E4Vj2vKl76XKtqavDPWKUCPwFOxEjA1Ux5IUDZCUpiizMi3XZApBntn1zQWXQ3pUDG
-         BRsA==
-X-Gm-Message-State: AFq9FYK9t+DMGD4ckbZPJcbww9Y/35jMhhrmDtirhSfQ7tg+kLNxsU7q
-	ucn1g62h1CCRAdFkSJSpNgNt2WrieWvB2/00qgmhikAqaNS0Qz6/ZPEW
-X-Gm-Gg: AYBFou15qz7PJpD2zQH9GaiEozPaQiMy+G6MBYfdMDpztEE68JCOV94/DDXQeQVCX31
-	M/ty60L8UBwCPqBONdKMp+6B0yzA2Y+mDSNwmg0WRzoinWCXwS3jSG6FKFGepNfKm2NtoTiRP1/
-	CJErKFSYA/58IJB0bXetkiygI8q8REa0Zoruks0vDgW1YLMxiSSycvAZmIR2NpVlSLT3ck2G/Is
-	JjKb17yyeYcVq/bKAHdSeuhFoHE4g06ngiABhhZfKIbxDHJtItmqnZ5u3rWZ/j8nkbJ9R0f1zuf
-	kDnwlVOKPYfiVpVAbN3b7mmBmrLF3RnLNR0/E3notpnV0/7MKd+9DEcMyCZny+zM4XYZnx3FJTw
-	lqOYr7FglfcD029TlqmAJOVvVV5weQ1tdoRI62W4TGN8MH/9zvart4CS/Hl9UXbF3amd0hRfig2
-	N/RpMy6/j9adBfZMSQVAzd6fKUQth80Jiz6SENLoDIvY5TwjrGgWoOR/K/vpFYCuCAsMmSVWv0w
-	65LewUbvtg4+Hs=
-X-Received: by 2002:a05:6871:8902:b0:494:396:1205 with SMTP id 586e51a60fabf-4a7578d8fb6mr8477024fac.14.1792450939595;
-        Mon, 19 Oct 2026 16:02:19 -0700 (PDT)
+        bh=zraiqcqrqhJWYv6kozl2Pz+m4C0IhnfwuOksIs6CLCE=;
+        b=v4Z98Ce62WJ0MdE7UXBbCSuMHEIlWMCitWTJz/eNm6zNgSj9GGOpgxv66NfFWX3EfY
+         89Ky/+3vHMmdf4UfhHyHT1mbfV4UonJd3+SEf/HE5zq5WtA12oXJiDOWqf3JdCXZWOwD
+         DYMjadjtoMWkTpjHocyz7tDJ/Sp3hV0z9upxQXMV0jbHm8h1io7PZd7t0sl6+IJYFfsL
+         tuNgHSAO3QN6SMc6k1+kQ/dIr6TsssWC2Q10Mnep4oG0LLSR8c15zxZPURCgAhflYtdg
+         X84n6JOwdrM4uax2MNvcCSj8hafclN8ZodGgB0rJkM7uNfgnabQFb5od9ssXvpy3XNDH
+         5NIg==
+X-Gm-Message-State: AFq9FYIhJNKRYqcbcYNaJYu5Fs9ePAAfzLSc7S4nvz69E53W/s2cTP5a
+	FCFZfAMrdZSEN1Ad6qAWNzajb5eW9zHOqBrRRjtdyKAaTXqoZeMuaqHE
+X-Gm-Gg: AYBFou2bhJPyqReZgZVgbWDAsd8TJm2madYpYlnO7n4ULWMAWoyUD6E3GxEuni/v5VW
+	bYAdd+MizspPlqVwyCNx3mbk4S67ybW9T6inUziow2w0e1Faj9ft/zYBBK9im6WmCieIwNvBYye
+	45K34i0P2PaJa6FGSw8J72KhrNnMBd0YKGEwnjdHe2DUQvwN9Y7Uz//w5fr8Ut+6OItMCGqBePc
+	RsCS+e5sQaRjQYObGwKpQf93LPU6M7uzyR/I/CectPPhwsnPxSuvusW9HRBWZfdWGNmIlZbo8JS
+	Rnxkm5o8CZxBrzBqdJq4LFPKDEzYteJvwvMRTN2dgpghpWignArPUr7n+Yd2D0IWPDzRt2iyyrF
+	/THPgdsmCyWx296DJzIGv6IuAoIkby5BfUYDR41GPXh+NneZGzDDMkiMff09j+W/PHsyHcM29sn
+	7cHUbtyNOUxaubE0sbvyvWU6XzwWnrzvckOofWAR1IFS5ECwY0rMVE1vFKj2FNE/o446xocxZve
+	gORAH6Qzh1Uovdk
+X-Received: by 2002:a05:6808:13c6:b0:4f4:d7:b15b with SMTP id 5614622812f47-53cc6b003a6mr8280876b6e.4.1792450941672;
+        Mon, 19 Oct 2026 16:02:21 -0700 (PDT)
 Received: from localhost.localdomain ([2600:1702:4ff0:baa0:5054:ff:fe3d:4ddb])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4a73b6d7e0csm9327797fac.12.2026.10.19.16.02.17
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4a73b6d7e0csm9327797fac.12.2026.10.19.16.02.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2026 16:02:17 -0700 (PDT)
+        Mon, 19 Oct 2026 16:02:21 -0700 (PDT)
 From: Will Porter <mrwillporter@gmail.com>
 To: Takashi Iwai <tiwai@suse.com>,
 	Jaroslav Kysela <perex@perex.cz>
@@ -84,9 +84,9 @@ Cc: linux-sound@vger.kernel.org,
 	Neil Andrews <neil@androos.io>,
 	Christian Ruppert <arc@gmx.li>,
 	Will Porter <mrwillporter@gmail.com>
-Subject: [PATCH 2/5] ALSA: usb-audio: Add Audient iD14 MkI monitor and routing controls
-Date: Mon, 19 Oct 2026 18:01:56 -0500
-Message-ID: <20261019230159.834954-3-mrwillporter@gmail.com>
+Subject: [PATCH 3/5] ALSA: usb-audio: Add Audient iD14 MkI mixer matrix
+Date: Mon, 19 Oct 2026 18:01:57 -0500
+Message-ID: <20261019230159.834954-4-mrwillporter@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20261019230159.834954-1-mrwillporter@gmail.com>
 References: <20261019230159.834954-1-mrwillporter@gmail.com>
@@ -101,47 +101,18 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The iD14 MkI keeps three groups of controls where the generic driver
-cannot discover them:
-- the monitor controller, on Audient extension unit 54
-- the headphone level, on feature unit 10, whose descriptor declares
-  no controls
-- the output routing, on extension unit 51
+Mixer unit 60 mixes 14 inputs (Mic 1-2, Digi 1-8, DAW 1-4) into four
+outputs (Main L/R, Cue L/R). GET RANGE reports -127 to 0 dB in 1 dB
+steps, so the generic driver creates four "Analogue 4 Volume" controls
+with values from 0 to 127. The crosspoints take -128 dB (mute) to +6 dB
+in 1/256 dB steps. The reported range cannot show the gains above 0 dB
+or the fine steps that Audient's iD application uses.
 
-So Linux users cannot change the routing. The MkI powers up with every
-output on DAW Thru: the USB stream goes straight to the output and
-bypasses the volume knob.
-
-Add mixer_audient_id.c with these controls:
-
-- Monitor Speaker Playback Volume and Switch (speaker level and cut)
-- Monitor Dim Playback Switch, Monitor Dim Level Playback Volume
-- Monitor Mono Playback Switch, Monitor Mono Mode Playback Enum
-- Monitor Polarity Invert Playback Switch
-- Monitor Headphone Playback Volume and Switch (FU 10, channels 3-4)
-- Talkback Playback Switch
-- Main Out L/R Source Playback Enum, Headphone L/R Source Playback Enum:
-  "Main Mix", "Cue Mix" or "DAW Thru (full scale)"
-
-Every get reads the device, because the volume knob changes the speaker
-and headphone levels. The volumes are 0-128 in 1 dB steps: 0 is -128 dB
-(mute) and 128 is 0 dB. The driver converts them to the device's s16 in
-1/256 dB.
-
-The routing controls are mono enums, as in mixer_scarlett2.c. Thus one
-output on DAW Thru cannot hide behind its pair. The "... Playback Enum"
-names follow the same driver. A source outside the list reads as an
-extra item, "Other". A put rejects "Other", but alsactl store saves it.
-A restore of it then fails for that control only, or for the card with
---pedantic. The restore cannot recreate the original source. So after a
-replug on bus power, that output stays on its power-on source, DAW Thru.
-
-The file is named for the iD family and keeps model data in per-model
-tables, as mixer_scarlett2.c does. Only the iD14 MkI is supported. Other
-iD models keep the generic driver.
-
-The driver writes nothing at probe. User space sets the launch state of
-Audient's iD application (all outputs on Main Mix).
+Add one control per crosspoint, "Mix <output> <input> Playback Volume".
+The value is the device's s16 in 1/256 dB, from -128 dB (mute) to
++6 dB. The fine steps carry the pan law of Audient's iD application.
+GET CUR works, so get reads the device. Hide the generic controls in
+the MkI map. The driver writes nothing to the mixer at probe.
 
 Test setup:
 - iD14 MkI, firmware 1.1.1
@@ -150,484 +121,187 @@ Test setup:
   and the complete driver (this commit and the later ones)
 
 Results:
-- routing: listening tests (Main Mix and Cue Mix, left and right) and
-  read-back
-- dim, by ear: host switch and iD key
-- talkback, by ear (a later commit adds the talkback source control)
-- alsactl store and restore across a replug
-- an out-of-list routing byte (0x13) reads as "Other"
+- crosspoints read back after writes
+- DAW 1/2 reach Main L/R and Cue L/R through them (listening test)
 
 Assisted-by: Claude:claude-opus-5-5
 Signed-off-by: Will Porter <mrwillporter@gmail.com>
 ---
- sound/usb/Makefile           |   1 +
- sound/usb/mixer_audient_id.c | 407 +++++++++++++++++++++++++++++++++++
- sound/usb/mixer_audient_id.h |   7 +
- sound/usb/mixer_quirks.c     |   4 +
- 4 files changed, 419 insertions(+)
- create mode 100644 sound/usb/mixer_audient_id.c
- create mode 100644 sound/usb/mixer_audient_id.h
+ sound/usb/mixer_audient_id.c | 124 +++++++++++++++++++++++++++++++++++
+ sound/usb/mixer_maps.c       |   1 +
+ 2 files changed, 125 insertions(+)
 
-diff --git a/sound/usb/Makefile b/sound/usb/Makefile
-index 2e842dcc7..7e4e6553d 100644
---- a/sound/usb/Makefile
-+++ b/sound/usb/Makefile
-@@ -11,6 +11,7 @@ snd-usb-audio-y := 	card.o \
- 			helper.o \
- 			implicit.o \
- 			mixer.o \
-+			mixer_audient_id.o \
- 			mixer_evo.o \
- 			mixer_quirks.o \
- 			mixer_scarlett.o \
 diff --git a/sound/usb/mixer_audient_id.c b/sound/usb/mixer_audient_id.c
-new file mode 100644
-index 000000000..b4d1e1697
---- /dev/null
+index b4d1e1697..5b38590ce 100644
+--- a/sound/usb/mixer_audient_id.c
 +++ b/sound/usb/mixer_audient_id.c
-@@ -0,0 +1,407 @@
-+// SPDX-License-Identifier: GPL-2.0
+@@ -43,6 +43,7 @@
+ #define ID14_FU_OUT		0x0a	/* feature unit before the outputs */
+ #define ID14_ROUTE		0x33	/* routing XU: CN = destination */
+ #define ID14_MON		0x36	/* monitor controller XU */
++#define ID14_MIXER		0x3c	/* mixer unit: 14 inputs x 4 outputs */
+ 
+ /* Control selectors */
+ #define ID14_ROUTE_SOURCE	0x06	/* u8: source of the destination */
+@@ -60,6 +61,7 @@
+  * use 1 dB steps. The controls show the steps: 0 (-128 dB, mute) ... 128 (0 dB).
+  */
+ #define ID_DB(db)		((db) * 256)
++#define ID_DB_MIN		ID_DB(-128)	/* 0x8000: mute */
+ #define ID_VOL_MAX		128		/* control value for 0 dB */
+ 
+ enum id_kind {
+@@ -392,10 +394,125 @@ static int id_add_ctl(struct usb_mixer_interface *mixer, const struct id_ctl *c)
+ 	return snd_usb_mixer_add_list(&e->list, kctl, false, true);
+ }
+ 
 +/*
-+ * Audient iD mixer controls
-+ *
-+ * Supported models:
-+ * - iD14 MkI (2708:0002)
-+ *
-+ * Other Audient iD models keep the generic driver. Their units may differ,
-+ * and this code does not cover them. As in mixer_scarlett2.c, a later
-+ * model can add its own control tables to this file. Unit IDs, tables and
-+ * functions named id14_* are for the iD14 MkI only. The id_* helpers take
-+ * a table.
-+ *
-+ * The iD14 MkI (2708:0002) has its monitor controller, output routing,
-+ * headphone level, input options and a 14 x 4 mixer on Audient extension
-+ * units and on feature units whose descriptors declare no controls. The
-+ * generic driver cannot discover these. This file adds them.
-+ *
-+ * The protocol comes from Audient's iD application (version 4.4.5 for
-+ * macOS). USB captures of the application confirmed it.
-+ *
-+ * The controls read the device on every get: the front panel changes
-+ * several of them.
-+ *
-+ * Get and put need no lock of their own: the control core runs put with
-+ * card->controls_rwsem held for writing and get with it held for reading.
++ * iD14 MkI mixer crosspoints: CS 1, CN = input * 4 + output, s16 in
++ * 1/256 dB. The control value is the raw s16, -128 dB (mute) ... +6 dB;
++ * the iD application's pan law needs the fine steps. GET CUR works; no
++ * probe writes.
 + */
++#define ID14_MIX_OUTPUTS	4
++#define ID14_MIX_MAX		ID_DB(6)
 +
-+#include <linux/slab.h>
-+#include <linux/unaligned.h>
-+#include <linux/usb.h>
-+#include <linux/usb/audio.h>
-+#include <linux/usb/audio-v2.h>
-+#include <sound/control.h>
-+#include <sound/tlv.h>
-+
-+#include "usbaudio.h"
-+#include "mixer.h"
-+#include "helper.h"
-+#include "mixer_audient_id.h"
-+
-+/* Unit IDs */
-+#define ID14_FU_OUT		0x0a	/* feature unit before the outputs */
-+#define ID14_ROUTE		0x33	/* routing XU: CN = destination */
-+#define ID14_MON		0x36	/* monitor controller XU */
-+
-+/* Control selectors */
-+#define ID14_ROUTE_SOURCE	0x06	/* u8: source of the destination */
-+#define ID14_MON_MONO		0x00
-+#define ID14_MON_MONO_MODE	0x01
-+#define ID14_MON_POLARITY	0x03
-+#define ID14_MON_CUT		0x04
-+#define ID14_MON_DIM		0x05
-+#define ID14_MON_DIM_LEVEL	0x06	/* s16, 1/256 dB */
-+#define ID14_MON_TALKBACK	0x07
-+#define ID14_MON_VOLUME		0x12	/* s16, 1/256 dB; the knob also sets it */
-+
-+/*
-+ * Volumes are the device's s16 in 1/256 dB; the knob and the iD application
-+ * use 1 dB steps. The controls show the steps: 0 (-128 dB, mute) ... 128 (0 dB).
-+ */
-+#define ID_DB(db)		((db) * 256)
-+#define ID_VOL_MAX		128		/* control value for 0 dB */
-+
-+enum id_kind {
-+	ID_BOOL,	/* u8: 1 = on */
-+	ID_BOOL_INV,	/* u8: 1 = cut or mute, shown as a switch that is off */
-+	ID_VOL,		/* s16 in 1/256 dB; control value 0 ... ID_VOL_MAX, 1 dB steps */
-+	ID_ENUM,	/* item list with device values (struct id_enum) */
++static const char *const id14_mix_inputs[] = {
++	"Mic 1", "Mic 2",
++	"Digi 1", "Digi 2", "Digi 3", "Digi 4", "Digi 5", "Digi 6", "Digi 7", "Digi 8",
++	"DAW 1", "DAW 2", "DAW 3", "DAW 4",
 +};
 +
-+struct id_enum {
-+	const char *const *texts;
-+	const u32 *values;
-+	unsigned int items;
-+	u8 len;		/* bytes on the wire */
++static const char *const id14_mix_outputs[ID14_MIX_OUTPUTS] = {
++	"Main L", "Main R", "Cue L", "Cue R",
 +};
 +
-+struct id_ctl {
-+	const char *name;
-+	enum id_kind kind;
-+	u8 unit;
-+	u8 cs;
-+	u8 cn;		/* first channel number */
-+	u8 channels;
-+	const struct id_enum *e;
-+};
++static const DECLARE_TLV_DB_MINMAX_MUTE(id14_mix_tlv, -12800, 600);
 +
-+/*
-+ * The texts have one item more than the values. A put cannot select the last
-+ * item, "Other": it shows a device value outside the list.
-+ */
-+#define ID_ENUM_TEXTS(name, texts_, len_, ...)					\
-+	static const u32 name##_values[] = { __VA_ARGS__ };			\
-+	static const struct id_enum name = {					\
-+		.texts = texts_, .values = name##_values,			\
-+		.items = ARRAY_SIZE(name##_values), .len = len_,		\
-+	}
-+#define ID_ENUM_DEF(name, len_, ...)						\
-+	ID_ENUM_TEXTS(name, name##_texts, len_, __VA_ARGS__);			\
-+	static_assert(ARRAY_SIZE(name##_texts) == ARRAY_SIZE(name##_values) + 1)
-+
-+/* Mono mode: one-speaker sum (Left, Right) or phantom centre. */
-+static const char *const id14_mono_mode_texts[] = { "Left", "Centre", "Right", "Other" };
-+
-+ID_ENUM_DEF(id14_mono_mode, 1, 1, 0, 2);
-+
-+/*
-+ * Routing sources for each destination. DAW Thru plays the USB stream
-+ * directly and bypasses the volume knob: full scale. Main Mix is 0x14/0x15
-+ * on the main outputs and 0x18/0x19 on the headphones.
-+ */
-+static const char *const id14_route_texts[] = {
-+	"Main Mix", "Cue Mix", "DAW Thru (full scale)", "Other",
-+};
-+
-+ID_ENUM_TEXTS(id14_route_ml, id14_route_texts, 1, 0x14, 0x10, 0x00);
-+ID_ENUM_TEXTS(id14_route_mr, id14_route_texts, 1, 0x15, 0x11, 0x01);
-+ID_ENUM_TEXTS(id14_route_hl, id14_route_texts, 1, 0x18, 0x10, 0x02);
-+ID_ENUM_TEXTS(id14_route_hr, id14_route_texts, 1, 0x19, 0x11, 0x03);
-+static_assert(ARRAY_SIZE(id14_route_texts) == ARRAY_SIZE(id14_route_ml_values) + 1);
-+
-+static const struct id_ctl id14_mk1_ctls[] = {
-+	{ .name = "Monitor Speaker Playback Volume", .kind = ID_VOL, .unit = ID14_MON,
-+	  .cs = ID14_MON_VOLUME, .channels = 1 },
-+	{ .name = "Monitor Speaker Playback Switch", .kind = ID_BOOL_INV, .unit = ID14_MON,
-+	  .cs = ID14_MON_CUT, .channels = 1 },
-+	{ .name = "Monitor Dim Playback Switch", .kind = ID_BOOL, .unit = ID14_MON,
-+	  .cs = ID14_MON_DIM, .channels = 1 },
-+	{ .name = "Monitor Dim Level Playback Volume", .kind = ID_VOL, .unit = ID14_MON,
-+	  .cs = ID14_MON_DIM_LEVEL, .channels = 1 },
-+	{ .name = "Monitor Mono Playback Switch", .kind = ID_BOOL, .unit = ID14_MON,
-+	  .cs = ID14_MON_MONO, .channels = 1 },
-+	{ .name = "Monitor Mono Mode Playback Enum", .kind = ID_ENUM, .unit = ID14_MON,
-+	  .cs = ID14_MON_MONO_MODE, .channels = 1, .e = &id14_mono_mode },
-+	{ .name = "Monitor Polarity Invert Playback Switch", .kind = ID_BOOL, .unit = ID14_MON,
-+	  .cs = ID14_MON_POLARITY, .channels = 1 },
-+	/* The descriptor declares no controls on FU 10; the headphones are CN 3-4. */
-+	{ .name = "Monitor Headphone Playback Volume", .kind = ID_VOL, .unit = ID14_FU_OUT,
-+	  .cs = UAC_FU_VOLUME, .cn = 3, .channels = 2 },
-+	{ .name = "Monitor Headphone Playback Switch", .kind = ID_BOOL_INV, .unit = ID14_FU_OUT,
-+	  .cs = UAC_FU_MUTE, .cn = 3, .channels = 2 },
-+	{ .name = "Talkback Playback Switch", .kind = ID_BOOL, .unit = ID14_MON,
-+	  .cs = ID14_MON_TALKBACK, .channels = 1 },
-+	{ .name = "Main Out L Source Playback Enum", .kind = ID_ENUM, .unit = ID14_ROUTE,
-+	  .cs = ID14_ROUTE_SOURCE, .cn = 0, .channels = 1, .e = &id14_route_ml },
-+	{ .name = "Main Out R Source Playback Enum", .kind = ID_ENUM, .unit = ID14_ROUTE,
-+	  .cs = ID14_ROUTE_SOURCE, .cn = 1, .channels = 1, .e = &id14_route_mr },
-+	{ .name = "Headphone L Source Playback Enum", .kind = ID_ENUM, .unit = ID14_ROUTE,
-+	  .cs = ID14_ROUTE_SOURCE, .cn = 2, .channels = 1, .e = &id14_route_hl },
-+	{ .name = "Headphone R Source Playback Enum", .kind = ID_ENUM, .unit = ID14_ROUTE,
-+	  .cs = ID14_ROUTE_SOURCE, .cn = 3, .channels = 1, .e = &id14_route_hr },
-+	{ }
-+};
-+
-+/* Per-control state; the usb_mixer_elem_list must come first (snd_usb_mixer_elem_free). */
-+struct id_elem {
-+	struct usb_mixer_elem_list list;
-+	const struct id_ctl *ctl;
-+};
-+
-+/* 0 = -128 dB (mute), 1 dB per step: ID_VOL_MAX = 0 dB. */
-+static const DECLARE_TLV_DB_SCALE(id_vol_tlv, -12800, 100, 1);
-+
-+static int id_xfer(struct usb_mixer_interface *mixer, bool set,
-+		   u8 unit, u8 cs, u8 cn, void *buf, int len)
++static int id14_mix_info(struct snd_kcontrol *kctl, struct snd_ctl_elem_info *uinfo)
 +{
-+	struct snd_usb_audio *chip = mixer->chip;
-+	struct usb_device *dev = chip->dev;
-+	int err;
-+
-+	CLASS(snd_usb_lock, pm)(chip);
-+	if (pm.err < 0)
-+		return pm.err;
-+	err = snd_usb_ctl_msg(dev,
-+			      set ? usb_sndctrlpipe(dev, 0) : usb_rcvctrlpipe(dev, 0),
-+			      UAC2_CS_CUR,
-+			      USB_TYPE_CLASS | USB_RECIP_INTERFACE |
-+			      (set ? USB_DIR_OUT : USB_DIR_IN),
-+			      cs << 8 | cn, unit << 8 | mixer->hostif->desc.bInterfaceNumber,
-+			      buf, len);
-+	if (err < 0)
-+		return err;
-+	return err == len ? 0 : -EIO;	/* a short transfer is not a value */
-+}
-+
-+static int id_len(const struct id_ctl *c)
-+{
-+	switch (c->kind) {
-+	case ID_ENUM:
-+		return c->e->len;
-+	case ID_VOL:
-+		return 2;
-+	default:
-+		return 1;
-+	}
-+}
-+
-+static bool id_valid(const struct id_ctl *c, long val)
-+{
-+	switch (c->kind) {
-+	case ID_BOOL:
-+	case ID_BOOL_INV:
-+		return val == 0 || val == 1;
-+	case ID_VOL:
-+		return val >= 0 && val <= ID_VOL_MAX;
-+	case ID_ENUM:
-+		return val >= 0 && val < c->e->items;	/* never "Other" */
-+	}
-+	return false;
-+}
-+
-+/* Read channel i. An item outside the list reads as the extra last item. */
-+static int id_read(struct usb_mixer_interface *mixer, const struct id_ctl *c,
-+		   unsigned int i, long *val)
-+{
-+	u8 buf[4] = { 0 };
-+	unsigned int item;
-+	s16 raw;
-+	u32 dev;
-+	int err;
-+
-+	err = id_xfer(mixer, false, c->unit, c->cs, c->cn + i, buf, id_len(c));
-+	if (err < 0)
-+		return err;
-+	raw = get_unaligned_le16(buf);
-+
-+	switch (c->kind) {
-+	case ID_BOOL:
-+		*val = !!buf[0];
-+		break;
-+	case ID_BOOL_INV:
-+		*val = !buf[0];
-+		break;
-+	case ID_VOL:
-+		/* the knob moves in whole dB; round anything else to the nearest step */
-+		*val = clamp_t(long, DIV_ROUND_CLOSEST(raw, ID_DB(1)) + ID_VOL_MAX,
-+			       0, ID_VOL_MAX);
-+		break;
-+	case ID_ENUM:
-+		dev = get_unaligned_le32(buf);
-+		for (item = 0; item < c->e->items; item++)
-+			if (c->e->values[item] == dev)
-+				break;
-+		*val = item;	/* c->e->items: "Other" */
-+		break;
-+	}
++	uinfo->type = SNDRV_CTL_ELEM_TYPE_INTEGER;
++	uinfo->count = 1;
++	uinfo->value.integer.min = ID_DB_MIN;
++	uinfo->value.integer.max = ID14_MIX_MAX;
 +	return 0;
 +}
 +
-+static int id_write(struct usb_mixer_interface *mixer, const struct id_ctl *c,
-+		    unsigned int i, long val)
++struct id14_mix {
++	struct usb_mixer_elem_list list;	/* first: snd_usb_mixer_elem_free */
++	u8 cn;
++};
++
++static int id14_mix_read(struct id14_mix *m, long *val)
 +{
-+	u8 buf[4] = { 0 };
++	u8 buf[2];
++	int err;
 +
-+	switch (c->kind) {
-+	case ID_BOOL:
-+		buf[0] = val;
-+		break;
-+	case ID_BOOL_INV:
-+		buf[0] = !val;
-+		break;
-+	case ID_VOL:
-+		put_unaligned_le16(ID_DB(val - ID_VOL_MAX), buf);
-+		break;
-+	case ID_ENUM:
-+		put_unaligned_le32(c->e->values[val], buf);
-+		break;
-+	}
-+	return id_xfer(mixer, true, c->unit, c->cs, c->cn + i, buf, id_len(c));
-+}
-+
-+static int id_info(struct snd_kcontrol *kctl, struct snd_ctl_elem_info *uinfo)
-+{
-+	struct id_elem *e = snd_kcontrol_chip(kctl);
-+	const struct id_ctl *c = e->ctl;
-+
-+	switch (c->kind) {
-+	case ID_ENUM:
-+		return snd_ctl_enum_info(uinfo, c->channels, c->e->items + 1, c->e->texts);
-+	case ID_VOL:
-+		uinfo->type = SNDRV_CTL_ELEM_TYPE_INTEGER;
-+		uinfo->value.integer.min = 0;
-+		uinfo->value.integer.max = ID_VOL_MAX;
-+		break;
-+	default:
-+		uinfo->type = SNDRV_CTL_ELEM_TYPE_BOOLEAN;
-+		uinfo->value.integer.min = 0;
-+		uinfo->value.integer.max = 1;
-+		break;
-+	}
-+	uinfo->count = c->channels;
++	err = id_xfer(m->list.mixer, false, ID14_MIXER, UAC2_MU_MIXER, m->cn, buf, sizeof(buf));
++	if (err < 0)
++		return err;
++	*val = clamp_t(long, (s16)get_unaligned_le16(buf), ID_DB_MIN, ID14_MIX_MAX);
 +	return 0;
 +}
 +
-+static void id_set_value(const struct id_ctl *c, struct snd_ctl_elem_value *v,
-+			 unsigned int i, long val)
++static int id14_mix_get(struct snd_kcontrol *kctl, struct snd_ctl_elem_value *v)
 +{
-+	if (c->kind == ID_ENUM)
-+		v->value.enumerated.item[i] = val;
-+	else
-+		v->value.integer.value[i] = val;
-+}
-+
-+static long id_get_value(const struct id_ctl *c, const struct snd_ctl_elem_value *v,
-+			 unsigned int i)
-+{
-+	return c->kind == ID_ENUM ? v->value.enumerated.item[i] : v->value.integer.value[i];
-+}
-+
-+static int id_get(struct snd_kcontrol *kctl, struct snd_ctl_elem_value *v)
-+{
-+	struct id_elem *e = snd_kcontrol_chip(kctl);
-+	const struct id_ctl *c = e->ctl;
-+	unsigned int i;
++	struct id14_mix *m = snd_kcontrol_chip(kctl);
 +	long val;
 +	int err;
 +
-+	for (i = 0; i < c->channels; i++) {
-+		err = id_read(e->list.mixer, c, i, &val);
-+		if (err < 0)
-+			return err;
-+		id_set_value(c, v, i, val);
-+	}
++	err = id14_mix_read(m, &val);
++	if (err < 0)
++		return err;
++	v->value.integer.value[0] = val;
 +	return 0;
 +}
 +
-+static int id_put(struct snd_kcontrol *kctl, struct snd_ctl_elem_value *v)
++static int id14_mix_put(struct snd_kcontrol *kctl, struct snd_ctl_elem_value *v)
 +{
-+	struct id_elem *e = snd_kcontrol_chip(kctl);
-+	struct usb_mixer_interface *mixer = e->list.mixer;
-+	const struct id_ctl *c = e->ctl;
-+	unsigned int i;
-+	long cur, val;
-+	int err, changed = 0;
++	struct id14_mix *m = snd_kcontrol_chip(kctl);
++	long cur, val = v->value.integer.value[0];
++	u8 buf[2];
++	int err;
 +
-+	for (i = 0; i < c->channels; i++)
-+		if (!id_valid(c, id_get_value(c, v, i)))
-+			return -EINVAL;
-+
-+	CLASS(snd_usb_lock, pm)(mixer->chip);
++	if (val < ID_DB_MIN || val > ID14_MIX_MAX)
++		return -EINVAL;
++	CLASS(snd_usb_lock, pm)(m->list.mixer->chip);
 +	if (pm.err < 0)
 +		return pm.err;
-+
-+	for (i = 0; i < c->channels; i++) {
-+		val = id_get_value(c, v, i);
-+		err = id_read(mixer, c, i, &cur);
-+		if (err < 0)
-+			return err;
-+		if (cur == val)
-+			continue;
-+		changed = 1;
-+		err = id_write(mixer, c, i, val);
-+		if (err < 0)
-+			return err;
-+	}
-+	return changed;
++	err = id14_mix_read(m, &cur);
++	if (err < 0 || cur == val)
++		return err;
++	put_unaligned_le16(val, buf);
++	err = id_xfer(m->list.mixer, true, ID14_MIXER, UAC2_MU_MIXER, m->cn, buf, sizeof(buf));
++	return err < 0 ? err : 1;
 +}
 +
-+static int id_add_ctl(struct usb_mixer_interface *mixer, const struct id_ctl *c)
++static int id14_mix_add_ctl(struct usb_mixer_interface *mixer, unsigned int in,
++			    unsigned int out)
 +{
 +	struct snd_kcontrol_new knew = {
 +		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+		.name = c->name,
-+		/* The front panel changes values: user space must not cache them. */
-+		.access = SNDRV_CTL_ELEM_ACCESS_READWRITE | SNDRV_CTL_ELEM_ACCESS_VOLATILE,
-+		.info = id_info,
-+		.get = id_get,
-+		.put = id_put,
++		.access = SNDRV_CTL_ELEM_ACCESS_READWRITE |
++			  SNDRV_CTL_ELEM_ACCESS_VOLATILE |
++			  SNDRV_CTL_ELEM_ACCESS_TLV_READ,
++		.info = id14_mix_info,
++		.get = id14_mix_get,
++		.put = id14_mix_put,
++		.tlv.p = id14_mix_tlv,
 +	};
 +	struct snd_kcontrol *kctl;
-+	struct id_elem *e;
++	struct id14_mix *m;
 +
-+	if (c->kind == ID_VOL) {
-+		knew.access |= SNDRV_CTL_ELEM_ACCESS_TLV_READ;
-+		knew.tlv.p = id_vol_tlv;
-+	}
-+
-+	e = kzalloc_obj(*e);
-+	if (!e)
++	m = kzalloc_obj(*m);
++	if (!m)
 +		return -ENOMEM;
-+	e->list.mixer = mixer;
-+	e->list.id = c->unit;
-+	e->ctl = c;
++	m->list.mixer = mixer;
++	m->list.id = ID14_MIXER;
++	m->cn = in * ID14_MIX_OUTPUTS + out;
 +
-+	kctl = snd_ctl_new1(&knew, e);
++	kctl = snd_ctl_new1(&knew, m);
 +	if (!kctl) {
-+		kfree(e);
++		kfree(m);
 +		return -ENOMEM;
 +	}
++	snprintf(kctl->id.name, sizeof(kctl->id.name), "Mix %s %s Playback Volume",
++		 id14_mix_outputs[out], id14_mix_inputs[in]);
 +	kctl->private_free = snd_usb_mixer_elem_free;
-+	return snd_usb_mixer_add_list(&e->list, kctl, false, true);
++	return snd_usb_mixer_add_list(&m->list, kctl, false, true);
 +}
 +
-+/* called from mixer_quirks.c */
-+int snd_audient_id14_mk1_controls_create(struct usb_mixer_interface *mixer)
-+{
-+	const struct id_ctl *c;
-+	int err;
-+
-+	for (c = id14_mk1_ctls; c->name; c++) {
-+		err = id_add_ctl(mixer, c);
-+		if (err < 0)
-+			return err;
-+	}
-+	return 0;
-+}
-diff --git a/sound/usb/mixer_audient_id.h b/sound/usb/mixer_audient_id.h
-new file mode 100644
-index 000000000..c456353ed
---- /dev/null
-+++ b/sound/usb/mixer_audient_id.h
-@@ -0,0 +1,7 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#ifndef __USB_MIXER_AUDIENT_ID_H
-+#define __USB_MIXER_AUDIENT_ID_H
-+
-+int snd_audient_id14_mk1_controls_create(struct usb_mixer_interface *mixer);
-+
-+#endif /* __USB_MIXER_AUDIENT_ID_H */
-diff --git a/sound/usb/mixer_quirks.c b/sound/usb/mixer_quirks.c
-index 01210cc3f..478e6152c 100644
---- a/sound/usb/mixer_quirks.c
-+++ b/sound/usb/mixer_quirks.c
-@@ -34,6 +34,7 @@
- #include "usbaudio.h"
- #include "mixer.h"
- #include "mixer_quirks.h"
-+#include "mixer_audient_id.h"
- #include "mixer_scarlett.h"
- #include "mixer_scarlett2.h"
- #include "mixer_us16x08.h"
-@@ -4609,6 +4610,9 @@ int snd_usb_mixer_apply_create_quirk(struct usb_mixer_interface *mixer)
- 	case USB_ID(0x03f0, 0x0269): /* HP TB Dock G2 */
- 		err = hp_dock_mixer_create(mixer);
- 		break;
-+	case USB_ID(0x2708, 0x0002): /* Audient iD14 MkI */
-+		err = snd_audient_id14_mk1_controls_create(mixer);
-+		break;
- 	}
+ /* called from mixer_quirks.c */
+ int snd_audient_id14_mk1_controls_create(struct usb_mixer_interface *mixer)
+ {
+ 	const struct id_ctl *c;
++	unsigned int in, out;
+ 	int err;
  
- 	return err;
+ 	for (c = id14_mk1_ctls; c->name; c++) {
+@@ -403,5 +520,12 @@ int snd_audient_id14_mk1_controls_create(struct usb_mixer_interface *mixer)
+ 		if (err < 0)
+ 			return err;
+ 	}
++	for (in = 0; in < ARRAY_SIZE(id14_mix_inputs); in++) {
++		for (out = 0; out < ID14_MIX_OUTPUTS; out++) {
++			err = id14_mix_add_ctl(mixer, in, out);
++			if (err < 0)
++				return err;
++		}
++	}
+ 	return 0;
+ }
+diff --git a/sound/usb/mixer_maps.c b/sound/usb/mixer_maps.c
+index 7795a5fbe..e147c1a48 100644
+--- a/sound/usb/mixer_maps.c
++++ b/sound/usb/mixer_maps.c
+@@ -529,6 +529,7 @@ static const struct usbmix_name_map audient_id14_map[] = {
+ /* Audient iD14 MkI: model-specific control map. */
+ static const struct usbmix_name_map audient_id14_mk1_map[] = {
+ 	{ 12, "Monitor Mix Playback" },	/* FU, partial coverage */
++	{ 60, NULL },			/* MU, see mixer_audient_id.c */
+ 	{}
+ };
+ 
 -- 
 2.47.3
 
