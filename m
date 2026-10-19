@@ -1,183 +1,436 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 332214F68AB
-	for <linux-sound@vger.kernel.org>; Mon, 19 Oct 2026 13:41:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BF6951A156;
+	Mon, 19 Oct 2026 13:55:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792417303; cv=none; b=aOH56uV1iLIoMypnVfaxGOYF5GUxHzguLlrEzK7U0VZvskPoPBH9tSOWyNyTRd+Vb+iorHpHeNFartnQh96rGVT9dapb+aFel1iGZWwRdolr/UysJHNsVyZebniQGAB4SamK8NvdG7QbrrednY7xSPB4PZVR9xJGcVy1J6BjuZg=
+	t=1792418110; cv=none; b=jowmghB7tI32+jTGnWD+JoRXpnJD0qt17c7WLrESQ4QfqTaxpD5XjiK0/s/QLZ2rU4kRQPwzohLnOOjSbG1WdRPOeNyEluJgsVvaRFcAAju0z7Ldrr7nPJ0gdxtX6j/8LsAz1nkg8n53h/dcQ2gVacFZDIycRYZ8C4S5HHlg+gM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792417303; c=relaxed/simple;
-	bh=hLRYNiIFpN5MJZo0UujIbLJcUZVp8+gOs06hfUBDIcY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iJ3oSJ1+Ext6S6lCuETpZsS6lNtNDkzxxHIcPOQQ8Y6jEFoGtbZf3c+0CUrjk36LFFACa7cV2w53I7Q1hvF4l8Shtq/1zusbHoex+liyMKdwgvfpY6x0ZB7q68xZ0QE4kxJ3F3gCADXldJStrpFjryzgVnDe59AH+ASqoOU3QVA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=omHBm/48; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=jap7YI+g; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1792418110; c=relaxed/simple;
+	bh=lZ/xr+KvCONhgQNAJwYVyRysQZbRmWPUIntCI8rlXoo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=AhJ8QNVnTndEl6Oe5L5V7ZEGLNl/W1+fa8eA/mHf8qkZhtr7y8vZ6V7oKINbg2RJXcqgs0EXGg/x/O1uVhBdhrICs/KPPeGyIN6fOCTOUuiMIgvTTljJpJ5/dQ4I3LCHfPbmatf74HAHo4lPaUQV3ATxL80YTXXL+kFeXc31s3k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zngt5FPq; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="omHBm/48";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="jap7YI+g"
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69J8PDpx2193411
-	for <linux-sound@vger.kernel.org>; Mon, 19 Oct 2026 13:41:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	dDGgUx2y+vlBcRfA5nze/kCSIFOOUQjvYj72SlXRyOQ=; b=omHBm/48enmLcQH/
-	MNw8ut+xE4M1JaFUhd5ppKQYXRk174X7DcI4lJ/rbgLUWbP6794HOkDiJfagG2WV
-	xi2YLRAw5FdI+qUlyIqpdv6F7ws+P0WTqi4VnB8qnTQ8R3g4ASB8kuJkryQuTpMs
-	+8GCgpschP2zYW8psKdYFFvKyp8xTA7tsVPpu08cfTQnwE+Mq4AOaGb9zKBGFxTR
-	yy9zyQA6HDBSr2vDzpMk13XQtm8x/sR1hPgW5uLIYDEEpturxeoP477/5hKDm+tk
-	PNz29+fkXoTCUpZ4kcfFXC0xOQkVTVL5mQWZ2Mo+O3Pjic3TPfLi2S5ZJghBpRem
-	EjECjA==
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hd5w1axyj-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Mon, 19 Oct 2026 13:41:41 +0000 (GMT)
-Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-2e601800e58so30477225ad.2
-        for <linux-sound@vger.kernel.org>; Mon, 19 Oct 2026 06:41:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1792417300; x=1793022100; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=dDGgUx2y+vlBcRfA5nze/kCSIFOOUQjvYj72SlXRyOQ=;
-        b=jap7YI+gWNqJhpB89hLdZwKg54zKBnIsq3KylwbogVJf8yVf8wPp/jyG3Lw4EgVY7O
-         O6dv/j/vyfWeXBALV+XPEmOWjGVU4BiQsjmzqndd1TTUOg/hXATgJ8NLe+VD/JF146BD
-         TpUT9kyvhY1hnr6vxNe+WTJhyggqYEE1KTfRR5imDSCrxJaES3AVJlVGBM3yDfxCJxwC
-         UOAvj2LMpx83/JrfDYAnGRPLt25Hr+Ta49TvjaYZ5TBuacVBiXV+tRv07K7iyID3FWI3
-         5DG+zcTzpVqVbDrwZB6fdUOS6QTAc395T7Y9MGCoXOZYk7iqxdjXo1I2Lwa91q50vIM2
-         mu/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792417300; x=1793022100;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=dDGgUx2y+vlBcRfA5nze/kCSIFOOUQjvYj72SlXRyOQ=;
-        b=q1rstU1HC6aNwUqI4gK4zu2Q9IkCHrmelG9xt6mlJE4qdjvVAQf7VHNlOKViQwY6rh
-         SdESr1Mfrku3gojtPIUhj1HLLApCKUuvUWKqdko7zw1/WPfcTWXlv7sc5Bzrx15rZMIh
-         Usr260HNeZ2kMwCUESWEA3bLbnLIOgdJN05QrzFPdVNEG1LHwgYerogRgL9WT12ew8Qk
-         3wWWMAyV2RM3h5/umn0i0gzDCLaeJqCoqZhryOmaXhp82OzODJR4/XrdaUdc7zDB+th+
-         tYLmlJdoGEj/maRvoxw9uLG7rbGxXkOaXDAVEk/bV1BqzDf06z6NogxWeaW4KqRqDh//
-         5XBQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxeKp41KsSk+unTMeuPjI3NlocmH/odyqQsStCIxdfCsuWkj3RW38Bl20xCvC/wrMavyn63gWpzZQ9EWA==@vger.kernel.org
-X-Gm-Message-State: AFq9FYLLQL0tGyvY7HIaaySGSBFirIWrUMfVBB+wTWxyPGxvzlu1H1P+
-	FIu8u4JoCoP0TVhI7PBAF/qmhk033SOq6Jc2eluC50nYIKX+blh3ROjpiRAFiDgL7j8kSVd7wGV
-	Q7bCX0egWEJJAgBhyHnmnj9gekVEs7s81Y3l85cfYFDo/XC6ywgzkq1u87U3H3/uJfqvOfeHTIg
-	==
-X-Gm-Gg: AYBFou3i6q0LxwXITfy15OXxQ9TADH2fX8eVohi0fnzM1g8WFrUcRLqCz7CaULiuPgb
-	6oi17jw4SAB/FmwCbAd2UF4iXuecvO4zt8sVBVo+iQ8wjp0VafcBFBHFktoYL/b8i6KUDqCkfh+
-	i/rMyuvolO2Akl76MuVk8yqqPsD7puLc85W3gX3YTt4+ZTohPMBYiC380ibTKem3XkYJra2DRR2
-	hQ4PLLMy4OqMSzzVb9coNpMn8v+F4NbP2P6N/lu4k+BZtiyZws1X7SEzw/mH1ITNKkDFWyGHp7G
-	xBdiZencLQ1eEi+CWU86KTUh29TxVf0sFmrsP9kTBmfLrLBu+8HTKrPsUl2jLH2QXvtD3m+K70/
-	K78XDBhQOQAEMpiBoH21Xpn/j6JDfpISNNw8=
-X-Received: by 2002:a17:902:f546:b0:2e9:5a8c:5ae4 with SMTP id d9443c01a7336-2e9a6d403acmr67541155ad.24.1792417300208;
-        Mon, 19 Oct 2026 06:41:40 -0700 (PDT)
-X-Received: by 2002:a17:902:f546:b0:2e9:5a8c:5ae4 with SMTP id d9443c01a7336-2e9a6d403acmr67540605ad.24.1792417298844;
-        Mon, 19 Oct 2026 06:41:38 -0700 (PDT)
-Received: from [192.168.0.103] ([124.123.193.51])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ea1501e269sm989185ad.46.2026.10.19.06.41.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 Oct 2026 06:41:18 -0700 (PDT)
-Message-ID: <5c2a1c97-1ae3-4369-b94f-93264662ff47@oss.qualcomm.com>
-Date: Mon, 19 Oct 2026 19:11:12 +0530
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zngt5FPq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B55E1F000C6;
+	Mon, 19 Oct 2026 13:55:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792418107;
+	bh=E3uHqtJGn3K0/BPaGidR4/EjNYDS0MywQbMZ4OjHCCM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=Zngt5FPqyVyBs4tfII0JpPY/eiWf+bNzm/P6L/0hSEc+SdTWfm5qKoLjFyESO5IZ5
+	 zqkQLB3ESfEFmCJ5uJOWIKvWjMzh3xchRPy2SotzYO7O7OViNal+brWZYPyn7WDhSy
+	 Es3YFN5VD8+WbMiN+MP5v4eSlT7X9W770BQSMqIB1coTNgomr57LvTt3nwoDtTt/fq
+	 5v3CXLzTxOCg/ynfEbtYGFY6Xt9+6qBArS5V0QZjh409Nd1Phb07E8KDX6q3r7eIjZ
+	 2H1VaqirgB9BhMV2qJiU0Zcekzyg+CeuF40MQx/ok7jECXhjWPclVUrLW8MlqhyPu4
+	 Q4ci7g8xPsqqg==
+From: Sasha Levin <sashal@kernel.org>
+To: patches@lists.linux.dev,
+	stable@vger.kernel.org
+Cc: Chad Talbott <chad.talbott@gmail.com>,
+	Takashi Iwai <tiwai@suse.de>,
+	Sasha Levin <sashal@kernel.org>,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.18] ALSA: usb-audio: Add MIN_MUTE quirk for Creative Sound Blaster Play! 3
+Date: Mon, 19 Oct 2026 09:45:08 -0400
+Message-ID: <20261019135441.1420968-17-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261019135441.1420968-1-sashal@kernel.org>
+References: <20261019135441.1420968-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 7/9] ASoC: dt-bindings: qcom: Add Maili LPASS macro
- codecs
-To: Krzysztof Kozlowski <krzk@kernel.org>,
-        Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-Cc: Srinivas Kandagatla <srini@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>, linux-arm-msm@vger.kernel.org,
-        linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20261014-add_shikra_support_v5-v5-0-fb9f0667e613@oss.qualcomm.com>
- <20261014-add_shikra_support_v5-v5-7-fb9f0667e613@oss.qualcomm.com>
- <20261017-vivid-chubby-chimpanzee-c31c56@quoll>
-Content-Language: en-US
-From: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
-In-Reply-To: <20261017-vivid-chubby-chimpanzee-c31c56@quoll>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDE5MDA1NCBTYWx0ZWRfX5t/90D0ucag7
- 7QLjdgDWYBsM/G06Oi32772KpTbTTJ7I7LQ8DTrD3cUhjp8FbX0HQIhjZnyglp8oBPfPcmqnYKd
- nKfpxSoNhSTcx/paFrRJ1pBv6h2/EtA=
-X-Authority-Analysis: v=2.4 cv=KuPYSmWN c=1 sm=1 tr=0 ts=6ad61e15 cx=c_pps
- a=JL+w9abYAAE89/QcEU+0QA==:117 a=BrlcFtHvR1PXzI/wv7BzPw==:17
- a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22
- a=EUspDBNiAAAA:8 a=s_dmKMIZ5sDHlGwdeUEA:9 a=QEXdDO2ut3YA:10
- a=324X-CrmTo6CU4MGRt3R:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDE5MDA1NCBTYWx0ZWRfX7voayfx86apI
- IgRwcT17Ftocw2QW9p1512HgZaOQ2khFhisKQXUG5QrehiwGSY8ykep9mjL2SX6j6mprq67dGbp
- v3YgZpauxTGuZeWqoOTbHxLYtk4El0L/KLFRbsfL0y7Yk4ZthdsPi4mVor21hd4BdldQsJkM3Wj
- isvZHNyTiMUg0K1gDTMtky9323diJoT2ALyW+JL+Ar/9J9wS3uywE7e+Y7VDEjaAH0OZL0tk9gK
- 2MyCeH8vG/YLnUHhcoCaDdx1k243nWUa6PXtPa8GwtAu7UNiu4qMe8E8wO9cQMcOfbNn0BidxA0
- AEm5XbvpGIcAvVeMolWVWw6LaMaR7J+79qhhY2OjQVa57WLydzmYbpQQUez1y7wcr0wejwjh4JE
- KOJtBw+XeCFyq0LQQGw9JqIcu/FCZ+BS7dcP7jHeRI4vB1GFutAyusfXdZyPr3Lg7TbP6rSe8hu
- xCcx53KOn+vx8XSDmIQ==
-X-Proofpoint-ORIG-GUID: 2nIvRItPvuI50Nc3kYsRf8wubj32X1Vl
-X-Proofpoint-GUID: 2nIvRItPvuI50Nc3kYsRf8wubj32X1Vl
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-10-19_03,2026-10-14_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 bulkscore=0 priorityscore=1501 impostorscore=0 malwarescore=0
- spamscore=0 clxscore=1015 lowpriorityscore=0 adultscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610080000 definitions=main-2610190054
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.18.57
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+From: Chad Talbott <chad.talbott@gmail.com>
 
-On 10/17/2026 10:02 PM, Krzysztof Kozlowski wrote:
-> On Wed, Oct 14, 2026 at 02:42:53PM +0530, Mohammad Rafi Shaik wrote:
->> From: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
->>
->> Add compatibles for the RX, TX and VA macro codecs found in the Low
->> Power Audio SubSystem (LPASS) of the Qualcomm Maili SoC.
->>
->> The Maili RX, TX and VA macros are identical to their Hawi counterparts,
->> so document them with the corresponding Hawi compatible as fallback.
->>
->> Signed-off-by: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
->> Signed-off-by: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
->> ---
->>   Documentation/devicetree/bindings/sound/qcom,lpass-rx-macro.yaml | 4 ++++
->>   Documentation/devicetree/bindings/sound/qcom,lpass-tx-macro.yaml | 4 ++++
->>   Documentation/devicetree/bindings/sound/qcom,lpass-va-macro.yaml | 4 ++++
->>   3 files changed, 12 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/sound/qcom,lpass-rx-macro.yaml b/Documentation/devicetree/bindings/sound/qcom,lpass-rx-macro.yaml
->> index 142955b85..41b578f83 100644
->> --- a/Documentation/devicetree/bindings/sound/qcom,lpass-rx-macro.yaml
->> +++ b/Documentation/devicetree/bindings/sound/qcom,lpass-rx-macro.yaml
->> @@ -29,6 +29,10 @@ properties:
->>                 - qcom,sm8750-lpass-rx-macro
->>                 - qcom,x1e80100-lpass-rx-macro
->>             - const: qcom,sm8550-lpass-rx-macro
->> +      - items:
->> +          - enum:
->> +              - qcom,maili-lpass-rx-macro
->> +          - const: qcom,hawi-lpass-rx-macro
-> h < s, thus this list should be placed before above one using sm8550
-> fallback.
+[ Upstream commit 352cef030f9036a658e6eb03d6bb85fa19c7c103 ]
 
-Right, will move the hawi block above the sm8550-fallback one
-in all three bindings (rx/tx/va) in next revision.
+The Creative Sound Blaster Play! 3 (041e:324d) exposes a Feature Unit
+volume control with a range of -44.00 dB .. 0.00 dB over raw values
+0..88, but raw value 0 is in fact a hard mute rather than -44.00 dB.
 
-Thanks,
-Prasad
+Tested on hardware.
 
->
-> Best regards,
-> Krzysztof
+Signed-off-by: Chad Talbott <chad.talbott@gmail.com>
+Link: https://patch.msgid.link/20260819003237.452807-1-chad.talbott@gmail.com
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+
+LLM Generated explanations, may be completely bogus:
+
+This is a hardware quirk for an existing USB-audio device. The local
+tree is **6.12.111** (`p-6.12-3-gc504cf0baa3d8`). The MIN_MUTE machinery
+is already here; only the device ID is missing.
+
+===============================================================
+PHASE 1: COMMIT MESSAGE FORENSICS
+===============================================================
+
+**Step 1.1: PARSE THE SUBJECT LINE**
+Record: `[ALSA: usb-audio:] [Add] [MIN_MUTE quirk for Creative Sound
+Blaster Play! 3 (041e:324d)]`
+
+**Step 1.2: PARSE ALL COMMIT MESSAGE TAGS**
+Record:
+- `Signed-off-by: Chad Talbott <chad.talbott@gmail.com>` (author)
+- `Link: https://patch.msgid.link/20260819003237.452807-1-
+  chad.talbott@gmail.com`
+- `Signed-off-by: Takashi Iwai <tiwai@suse.de>` (ALSA maintainer applied
+  it)
+- No `Fixes:`, no `Reported-by:`, no `Cc: stable` (absence is expected)
+- Ignore any pipeline `Signed-off-by: Sasha Levin` / `[Upstream commit
+  ...]` markers
+
+**Step 1.3: ANALYZE THE COMMIT BODY TEXT**
+Record:
+- Bug: Play! 3 reports Feature Unit volume as -44.00 dB .. 0.00 dB over
+  raw 0..88, but raw 0 is a **hard mute**, not -44 dB.
+- Symptom: userspace (PulseAudio/PipeWire) treats the bottom of the
+  slider as a quiet but audible level. Volume mapping is wrong; audio
+  stays silent until the slider is raised well above 0.
+- Version info: none in the message. The device is existing USB audio
+  hardware, not a new kernel-era device.
+- Root cause: device firmware lies about the meaning of the minimum
+  volume value. The kernel must advertise `DB_MINMAX_MUTE` via TLV.
+
+**Step 1.4: DETECT HIDDEN BUG FIXES**
+Record: Not hidden. This is an explicit hardware quirk. Same class as
+the C-Media min-mute fix (`0f174b3525a43`, 2017, originally `Cc:
+stable`) and later MIN_MUTE device-ID additions already in this tree.
+
+===============================================================
+PHASE 2: DIFF ANALYSIS - LINE BY LINE
+===============================================================
+
+**Step 2.1: INVENTORY THE CHANGES**
+Record:
+- File: `sound/usb/quirks.c` only (`+2` lines)
+- Function/table: `quirk_flags_table[]`
+- Scope: single-file, two-line table entry
+
+**Step 2.2: UNDERSTAND THE CODE FLOW CHANGE**
+Record:
+- Before: `041e:324d` has no quirk-flag match. Probe still binds the
+  generic USB-audio driver.
+- After: `snd_usb_init_quirk_flags()` sets
+  `QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE` (mainline name) /
+  `QUIRK_FLAG_MIXER_MIN_MUTE` (this tree).
+- Path: mixer Feature Unit setup, playback volume TLV. Not an error
+  path.
+
+**Step 2.3: IDENTIFY THE BUG MECHANISM**
+Record:
+- Category: **hardware workaround** (quirk table entry)
+- Mechanism: `snd_usb_mixer_fu_apply_quirk()` sees the flag and, for
+  controls whose name contains `"Playback"`, sets `cval->min_mute = 1`.
+  `snd_usb_mixer_vol_tlv()` then reports `SNDRV_CTL_TLVT_DB_MINMAX_MUTE`
+  instead of a plain dB min/max.
+
+**Step 2.4: ASSESS THE FIX QUALITY**
+Record:
+- Obviously correct: one VID:PID added next to other Creative `0x041e`
+  entries, using an existing flag.
+- Minimal: no API, no data-structure, no locking changes.
+- Regression risk: very low; the flag is scoped to this ID and only
+  changes TLV metadata for playback volume. Other devices are untouched.
+- Backport note: this tree uses `QUIRK_FLAG_MIXER_MIN_MUTE`, not
+  `QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE`. Same effect: the local handler
+  already limits the flag to Playback controls.
+
+===============================================================
+PHASE 3: GIT HISTORY INVESTIGATION
+===============================================================
+
+**Step 3.1: BLAME THE CHANGED LINES**
+Record: Insertion is between existing Creative entries:
+- `DEVICE_FLG(0x041e, 0x3000, /* Creative SB Extigy */)` —
+  `3c69dc9134130d` (Takashi Iwai, 2021)
+- `DEVICE_FLG(0x041e, 0x4080, /* Creative Live Cam VF0610 */)` —
+  `4d4dee0aefec36` (Takashi Iwai, 2021)
+The table and adjacent IDs have been stable for years. The Play! 3 ID is
+simply missing.
+
+**Step 3.2: FOLLOW THE FIXES: TAG**
+Record: No `Fixes:` tag. Not applicable. The “bug” is device firmware
+behavior, not a kernel regression.
+
+**Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES**
+Record: Related commits already in this tree:
+- `c2564438d30a8` — “move mixer_quirks' min_mute into common quirk”
+  (upstream `2c3ca8cc55a3`)
+- `2368ce440dfbc` — “Add mute TLV for playback volumes on more devices”
+  (same pattern: extra `QUIRK_FLAG_MIXER_MIN_MUTE` IDs)
+- `0f174b3525a43` — original C-Media min-mute (2017, `Cc: stable`)
+Standalone device-ID addition, not part of a series.
+
+**Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS**
+Record: No other `Chad Talbott` / `chad.talbott` commits under
+`sound/usb/` in this tree. One-off hardware report, applied by the ALSA
+maintainer.
+
+**Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS**
+Record: Prerequisite is the MIN_MUTE flag. Confirmed present: `git
+merge-base --is-ancestor c2564438d30a8 HEAD` succeeds.
+`QUIRK_FLAG_MIXER_MIN_MUTE` is defined in `sound/usb/usbaudio.h` as `(1U
+<< 24)`. Can apply standalone after renaming the flag.
+
+===============================================================
+PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
+===============================================================
+
+**Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION**
+Record:
+- `b4 mbox` on msgid `20260819003237.452807-1-chad.talbott@gmail.com`
+  saved `/tmp/sbplay3` (2 messages).
+- Original submission: 18 Aug 2026, To: Takashi Iwai, Jaroslav Kysela;
+  Cc: linux-sound, linux-kernel. Single patch, not a series.
+- Reply from Takashi Iwai (`87cxvenu39.wl-tiwai@suse.de`, 19 Aug 2026):
+  **“Applied now. Thanks.”** No NAK, no requested revisions, no stable
+  discussion.
+- `b4 dig -c` was not usable: the commit is not in this checkout.
+- Direct lore WebFetch returned HTTP 403; the mbox from `b4` is the
+  source of truth.
+
+**Step 4.2: CHECK WHO REVIEWED THE PATCH**
+Record: Recipients were the ALSA maintainers and linux-sound. Maintainer
+applied v1 as-is.
+
+**Step 4.3: SEARCH FOR THE BUG REPORT**
+Record: No bugzilla/syzbot link. Evidence is the author’s “Tested on
+hardware” and the concrete VID:PID plus measured dB range.
+
+**Step 4.4: CHECK FOR RELATED PATCHES AND SERIES**
+Record: Standalone `[PATCH]`, not `X/Y`. Thread has only the patch and
+the apply ack.
+
+**Step 4.5: CHECK STABLE MAILING LIST HISTORY**
+Record: lore.kernel.org/stable WebFetch returned 403. No stable-list
+discussion found via `git log --grep` on `sound/usb/`. No evidence this
+was rejected for stable.
+
+===============================================================
+PHASE 5: CODE SEMANTIC ANALYSIS
+===============================================================
+
+**Step 5.1: IDENTIFY KEY FUNCTIONS**
+Record: No function body changed. Data consumed by
+`snd_usb_init_quirk_flags()` and `snd_usb_mixer_fu_apply_quirk()`.
+
+**Step 5.2: TRACE CALLERS**
+Record:
+- `snd_usb_init_quirk_flags()` called from `sound/usb/card.c:666` during
+  USB-audio probe.
+- `snd_usb_mixer_fu_apply_quirk()` called from `sound/usb/mixer.c:1818`
+  while building Feature Unit controls.
+- `snd_usb_mixer_vol_tlv()` is the TLV callback userspace reads.
+
+**Step 5.3: TRACE CALLEES**
+Record: The new row only sets `chip->quirk_flags`. Later, `min_mute`
+changes TLV type to `SNDRV_CTL_TLVT_DB_MINMAX_MUTE`
+(`include/uapi/sound/tlv.h`).
+
+**Step 5.4: FOLLOW THE CALL CHAIN**
+Record: Plug in Play! 3 → USB-audio probe → mixer create → userspace
+reads volume TLV. Reachable from normal device use, not a rare config.
+
+**Step 5.5: SEARCH FOR SIMILAR PATTERNS**
+Record: Same `QUIRK_FLAG_MIXER_MIN_MUTE` already used for Conexant,
+C-Media, Realtek, OnePlus, HECATE, HONOR, etc. in this tree’s
+`quirk_flags_table`. This is another instance of a known, already-
+backported pattern.
+
+Semcode MCP tools: not available; used grep/read.
+
+===============================================================
+PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
+===============================================================
+
+**Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?**
+Record: Yes. USB-audio mixer + MIN_MUTE flag exist. `041e:324d` is
+**not** in `sound/usb/quirks.c` (or elsewhere under `sound/usb/`). The
+device will enumerate as generic USB audio with the wrong mute TLV. Bug
+introduced by hardware, not by a post-6.12 kernel change.
+
+**Step 6.2: CHECK FOR BACKPORT COMPLICATIONS**
+Record: Expected difficulty: **minor** (one-token rename).
+- Insertion context `0x041e, 0x3000` then `0x041e, 0x4080` is present at
+  `quirks.c:2154-2157`.
+- `QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE` is **not** defined here.
+- Use `QUIRK_FLAG_MIXER_MIN_MUTE` instead; local
+  `snd_usb_mixer_fu_apply_quirk()` already gates on `"Playback"`.
+- Nearby mainline-only entries (`0x040b:0x0897`, `0x045e:0x070f`) are
+  not required.
+
+**Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE**
+Record: MIN_MUTE infrastructure and other device IDs are here. No Play!
+3 entry. No alternate fix for `041e:324d`.
+
+===============================================================
+PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
+===============================================================
+
+**Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY**
+Record: `sound/usb/` ALSA USB-audio. **IMPORTANT** for USB
+DACs/headsets; not core mm/fs. Play! 3 is a real consumer USB DAC.
+
+**Step 7.2: ASSESS SUBSYSTEM ACTIVITY**
+Record: Actively maintained; this 6.12 tree already carries later USB-
+audio quirk backports (JBL FIXED_RATE, AB13X reset, DSD IDs, extra
+MIN_MUTE IDs). Quirk-table additions are routine here.
+
+===============================================================
+PHASE 8: IMPACT AND RISK ASSESSMENT
+===============================================================
+
+**Step 8.1: DETERMINE WHO IS AFFECTED**
+Record: Driver-specific: owners of Creative Sound Blaster Play! 3
+(`041e:324d`). Zero effect on other hardware.
+
+**Step 8.2: DETERMINE THE TRIGGER CONDITIONS**
+Record: Every time the device is used with a dB-aware mixer
+(PulseAudio/PipeWire). Not a race. Unprivileged users hit it via the
+volume slider. Very likely for this hardware.
+
+**Step 8.3: DETERMINE THE FAILURE MODE SEVERITY**
+Record: Incorrect volume/mute mapping: silence at “low” volume, min
+position not treated as mute. Not a panic or corruption. **MEDIUM**
+functionally, but it is the standard USB-audio min-mute hardware bug.
+Original 2017 fix was stable-bound; later MIN_MUTE ID lists are already
+in 6.12.y.
+
+**Step 8.4: CALCULATE RISK-BENEFIT RATIO**
+Record:
+- Benefit: high for Play! 3 users (usable volume curve).
+- Risk: very low (2 lines, ID-matched, TLV only).
+- Ratio: strongly favors backport with the flag-name tweak.
+
+===============================================================
+PHASE 9: FINAL SYNTHESIS
+===============================================================
+
+**Step 9.1: COMPILE THE EVIDENCE**
+
+FOR:
+- Classic USB-audio hardware quirk (stable exception category).
+- Real, tested-on-hardware volume/mute lie from the device.
+- Two-line table add; no new APIs.
+- MIN_MUTE flag and handler already in this 6.12.111 tree.
+- Same pattern already backported (`c2564438d30a8`, `2368ce440dfbc`).
+- ALSA maintainer applied v1 with no concerns.
+- Insertion point exists next to other Creative IDs.
+
+AGAINST:
+- Original patch uses `QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE` (needs rename
+  to `QUIRK_FLAG_MIXER_MIN_MUTE`).
+- Not a crash/UAF/security issue.
+- Affects one consumer DAC.
+
+UNRESOLVED:
+- Could not query lore.kernel.org/stable (HTTP 403). No indication of a
+  prior reject.
+
+**Step 9.2: APPLY THE STABLE RULES CHECKLIST**
+1. Obviously correct and tested? **PASS** — hardware-tested; maintainer
+   applied.
+2. Fixes a real bug that affects users? **PASS** — wrong mute/volume
+   mapping on a real DAC.
+3. Important issue? **PASS** under the hardware-quirk exception (not a
+   crash).
+4. Small and contained? **PASS** — +2 lines, one file.
+5. No new features or APIs? **PASS** — existing quirk flag, new device
+   ID only.
+6. Can apply to the local tree? **PASS** with trivial backport
+   (`MIXER_PLAYBACK_MIN_MUTE` → `MIXER_MIN_MUTE`).
+
+**Step 9.3: CHECK FOR EXCEPTION CATEGORIES**
+Record: **Hardware quirk/workaround** (USB-audio mixer min-mute),
+equivalent in spirit to USB/PCI quirk table additions.
+
+**Step 9.4: MAKE YOUR DECISION**
+Backport. The local tree already has the quirk flag; this only adds the
+Play! 3 ID. Rename the flag during apply.
+
+------------------------------------------------
+What problem it solves, and why it matters here
+------------------------------------------------
+Play! 3 reports -44 dB at raw 0, but raw 0 is mute. Without the TLV mute
+bit, PulseAudio/PipeWire keep the device “silent until ~30% volume.”
+That is the same class of bug already documented in this tree’s MIN_MUTE
+commit (PipeWire MR / Arch wiki). 6.12 users with this DAC still hit it.
+
+Risk vs benefit: two-line, ID-scoped TLV change vs broken volume on a
+supported USB-audio device. Benefit wins.
+
+Concerns: mechanical apply of the mainline diff will not compile until
+the flag is renamed. That is a one-token stable backport, not a missing-
+prerequisite situation.
+
+Verification:
+- [Phase 1] Parsed tags: author SOB, Link msgid, Takashi Iwai SOB; no
+  Fixes/Reported-by/Cc:stable
+- [Phase 1] Body: 041e:324d, -44 dB vs hard mute at raw 0, tested on
+  hardware
+- [Phase 2] Diff: +2 lines in `sound/usb/quirks.c` `quirk_flags_table[]`
+- [Phase 2] Handler in this tree: `mixer_quirks.c:4504-4506` sets
+  `cval->min_mute` for Playback when `QUIRK_FLAG_MIXER_MIN_MUTE` is set
+- [Phase 2] TLV: `mixer.c:555-556` uses `SNDRV_CTL_TLVT_DB_MINMAX_MUTE`
+- [Phase 3] Blame: Creative neighbors from 2021 (`3c69dc9134130d`,
+  `4d4dee0aefec36`)
+- [Phase 3] `git merge-base --is-ancestor c2564438d30a8 HEAD`: MIN_MUTE
+  infra **is** in this tree
+- [Phase 3] `2368ce440dfbc` already added more MIN_MUTE IDs to this tree
+- [Phase 3] No `Fixes:` tag (N/A)
+- [Phase 3] `git log --author='Chad Talbott' -- sound/usb/`: no other
+  commits
+- [Phase 4] `b4 mbox` msgid
+  `20260819003237.452807-1-chad.talbott@gmail.com`: 2-message thread;
+  Iwai “Applied now”
+- [Phase 4] lore WebFetch 403; stable-list search 403
+- [Phase 5] Callers: `snd_usb_init_quirk_flags` from `card.c:666`;
+  `snd_usb_mixer_fu_apply_quirk` from `mixer.c:1818`
+- [Phase 5] semcode unavailable
+- [Phase 6] `git describe HEAD` → `p-6.12-3-gc504cf0baa3d8`; `make
+  kernelversion` → 6.12.111
+- [Phase 6] `0x324d` absent; `QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE`
+  absent; `QUIRK_FLAG_MIXER_MIN_MUTE` present; sandwich context present
+- [Phase 8] Failure mode: wrong volume/mute TLV on one USB DAC; not a
+  kernel oops
+- UNVERIFIED: full lore.kernel.org HTML thread (403); whether a later
+  mainline commit renamed MIN_MUTE → PLAYBACK_MIN_MUTE (flag absent
+  here; local Playback filter makes the names equivalent)
+
+**YES**
+
+ sound/usb/quirks.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
+index b08e07324f830..8dcba375bd4a3 100644
+--- a/sound/usb/quirks.c
++++ b/sound/usb/quirks.c
+@@ -2152,6 +2152,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
+ 		   QUIRK_FLAG_GET_SAMPLE_RATE | QUIRK_FLAG_MIC_RES_16),
+ 	DEVICE_FLG(0x041e, 0x3000, /* Creative SB Extigy */
+ 		   QUIRK_FLAG_IGNORE_CTL_ERROR),
++	DEVICE_FLG(0x041e, 0x324d, /* Creative Sound Blaster Play! 3 */
++		   QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE),
+ 	DEVICE_FLG(0x041e, 0x4080, /* Creative Live Cam VF0610 */
+ 		   QUIRK_FLAG_GET_SAMPLE_RATE),
+ 	DEVICE_FLG(0x045e, 0x083c, /* MS USB Link headset */
+-- 
+2.53.0
+
