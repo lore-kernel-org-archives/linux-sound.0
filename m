@@ -1,97 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.169
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.226
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792426693;
-	b=tf/PxaL9fBXVIMsovPBxOgznUI8CsKhk75ziuWTOlXNd8BrGMc+fYNhaQHl1JXehuoZg
-	 VWoBC/Jjbd/57Fpp3Ko48jExOvg3HRDCQWbANnrwH0mhYXNxpQLQASD22hVS5jNEdhubY
-	 kcgZgKNNv68NuRcWo+D8Rre7pF3EqiFAgEQJNZyPsNXJUCukD+xSjfzEtCSVhsPSSgO+W
-	 ITsK4uN7JwTh7IJUwWudAGJ6J0LWaykeTXJeXpkkSctCjqMq6DGs5viRLhIhb4MLRLhC0
-	 nsd2Se+PQ9S7rIDrWqVGU7k78wtnHIKPJtBCY7O0tPc+aTltu4WjuW6nsf3SrQpNvlg==
+	t=1792426836;
+	b=yUUkjgow2FfjBVi4m8kLbMj7mBiX8TDRqg4L0MoNI9JYcYxOqO07y7lefKHHcYLclqoT
+	 vgNxoeV2eCCbLBINJaLxpT317ha1FvVrrLRj0sRlewl0DD1fcf7miPfSKCM/D7rqZ0tJK
+	 leA1GBKW8WTzFRsrD2jBNQZt/ZoJtxxRqrMPbtrknjhRzW/uT5dYmykQQKwg3ojjyltUm
+	 Hw1PDLaZBM0SXlJpWTnJls9b1X+ezLDzCvuLE1qo03VEjbvn0WkQh6dmM0pXG350tTAe0
+	 MyfJJPGz9gzzPBnhz+sDtPsX0zIB+rfKVLlD3lc3nPRftEJQXBiikg/Fw0M2p5yNI4Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792426693;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=cdJPCWnGkorpLO32ktzbPWjsu9IZRJbbXQIGeOMqDBs=;
-	b=zOuwRvgLg6P15Qqveo6e1qz2cbULXMvEuK1t6te0atQUlwlEJfjKuWitwKMuaJRzYrG1
-	 aWkxOX0wr4pV5Okxgcq/QrlUazIdZvmqUosHTetkVAFaiW5syq7K2KfrkMjuWiqU9lhlK
-	 T94aHzSzfstEBXa4MphCcZtowvRHtYdMNKMxlwyORjyctxYldVc05oNg1U+2f78HnGlh+
-	 25jL92ceB5oumjxl6fDniFekehroJTvnl5FAr986vjbtPFoA3JtywSsjaLXdyEhYvK7Mk
-	 X7FaomNiTHvARe/jaC//hLI48GSgEjYya6jkPvtoo2k8F74eIMbKntvoYLmmEWR0OfQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792426836;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=ifPegrFwKeuR20glcd9bdriukmk7u4OjwQO0HUNZiH4=;
+	b=njE3c7xhSUzHKXvGygy1GAhsWHBORxkihC89RmtFGGAuduDoX4tzZR9V4OvKq1Lkoa48
+	 nCdu3A7dhQKP/fITdIPZ4Lbz2DvDyPJYt+gXHcqRvoadfb1voiDe4eQB9ox26XHzzwwVu
+	 o5Y40kYkCqmBQkAYuCiWQAoNTp5GX/yVmY1by8Nh5guHzACnt9s7aZ7iDnoHpeQZjWiRQ
+	 Zy6auQPqWl4HR06EYz09fcxMueu9TsYCrG36Mce5Amj/TM68lDZt/4ZdEpxsR2ZnMPJ46
+	 tGkWN6vUH2AY6wO2/DIxJ+NMHWVmIDTIhSsFf3rCXobJ2sdFKFF/Dg5hGaZoor4K1TQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=NlghLLUF;
-	arc=none smtp.remote-ip=74.125.82.169
-Received: from mail-dy1-f169.google.com (mail-dy1-f169.google.com [74.125.82.169])
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=IajvSsVF;
+	arc=none smtp.remote-ip=91.218.175.226
+Received: from mta0.migadu.com (out-226.mta0.migadu.com [91.218.175.226])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EA2660A3825
-	for <linux-sound@vger.kernel.org>; Mon, 19 Oct 2026 16:18:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2EA2660A3825
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E617E606A31E
+	for <linux-sound@vger.kernel.org>; Mon, 19 Oct 2026 16:20:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E617E606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=NlghLLUF
-Received: by mail-dy1-f169.google.com with SMTP id 5a478bee46e88-35c76e9614aso4427035eec.0
-        for <linux-sound@vger.kernel.org>; Mon, 19 Oct 2026 09:18:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792426692; x=1793031492; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=cdJPCWnGkorpLO32ktzbPWjsu9IZRJbbXQIGeOMqDBs=;
-        b=NlghLLUF2FbNboWwLud4VJ9BQloVK1P5Z2CdqbcQVhDho2r5kJ6nuKmYD2aZL9lSgs
-         XUyzYjjjAJWcpCFbC2L7wWmGJ1bFk7fZtKpmansYVFVyVdjhcuxFTq6Crym1jiqGsQ9J
-         FQBjTcuqfrizyKhzORa8P4iWbh9/Y7y/7IVE5ay/ZGzQri8bQfODzav9KGpIwmSlWGLR
-         RyuVHwcQKGhVzV5SQ61QFz7pE8CfLm2JeaT8beVGh6vi6F2qSlanO2cXcbAOFYavlFT4
-         bz32NgQe6uyP+9PGDwiSYq0APKnYZsxSvyKkH0fE8hwEJg7LgbQD8CANBFqDMHZFpSgd
-         Mm3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792426692; x=1793031492;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=cdJPCWnGkorpLO32ktzbPWjsu9IZRJbbXQIGeOMqDBs=;
-        b=xBykTHw+2g1VF+42sHQXglt1XId720zcBWK9U5Bbbn24V7h6q+2iPpGPEprxeRINXo
-         Cey8K0A+PzKrWqAsapDyzea3DcPoD6wEKvv6qWC+kDgNZ5xDZVkndY5VRoXEZmfAe8k8
-         pSniZtAKKeuZxARR2q29nEMPOghTLo7T4K2k9U2j14gkFLxlzI0soCCS/+HtXXiWvirP
-         vQtTe96lMyVy2mAqMgCRWjYfr7/f5v6kuLboGVypoJ3eNZYa3vCdgMjwFmIc8JbDViQX
-         7OaCRUSCkpGv+UHI4dt8+v/og1RSkLotpk1e1lSnnXVlKUJdBu9JXTMepZ+zd5zH5opB
-         2pRg==
-X-Forwarded-Encrypted: i=1; AKwUvBw1PAdBW6O1UmFeX+Q++mQvqAXhbFH2Q6ketw1rV4BY5i0944L6NNlWlePWqH3uo51HWQG5Xhwdd1olZQ==@vger.kernel.org
-X-Gm-Message-State: AFq9FYI7lFgdp8ccO59+AXOIMW4zk+EM9w0K/bSLWlPtZaxmccUqfAq4
-	Z/0A2aq6uXon15UT6YmJnJfz+EE7WroWqHifSCqc2wJH+x6QHvLYSVMW
-X-Gm-Gg: AYBFou1pOheuoGHj8hywYJfUZ+Xb1MnkhIP5OlFa+1uXEY3cmN/c7x/F3zFbaWNq2IP
-	cZwXauvndNo6849ccjOMjTFmYhEBYybdk+cIdpYg3QjSvsAZdJpQHZQfNWE4jHrfjXgFrog7+zP
-	nBEgbZ/8ApceRaT830b+7hvKHEWD9Y0xOK8QZBLn6R/BytVAakQtNnD6sRzxgtXqMDE4S9MH+fv
-	HLVDgj7nRYgqVJMfX0KhNsvZTywlr3WKekdwPD8NazSmdnxvHoeRTDS5ILTrL1VSkN9cz+/NIIk
-	9+6FY94JFcuFqWAxyTP7QvP+gENdzkFnA3BLT8H26f+trFjKuYbTPzHARUOFulrY0R5BWpYE0PG
-	PHaxKudmLqg5ljtW0A26/HNklnezKnTc7MyCEqifQkIittJ1RsnsPnTECaRBNWe4YH/GPh/blgm
-	Jh8jHlmk6OAmxe6UAdFT9RkBVkUYk7uuZbwLU93LEFT3D41qVZpsBWh7YyD5ViNo4uPD6X0qewY
-	iN+LgDNU8coLY4a2V0erA==
-X-Received: by 2002:a05:7301:4305:b0:35f:227b:f8bc with SMTP id 5a478bee46e88-361a1465355mr10294813eec.11.1792426692027;
-        Mon, 19 Oct 2026 09:18:12 -0700 (PDT)
-Received: from redducc.localdomain ([183.83.156.125])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36082b8573dsm33412914eec.25.2026.10.19.09.18.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2026 09:18:11 -0700 (PDT)
-From: redducc <sushmit718@gmail.com>
-To: Srinivas Kandagatla <srini@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
-	Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
-	linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: qcom: q6apm: Fix the wait for SHARED_MEM_UNMAP_REGIONS
-Date: Mon, 19 Oct 2026 16:18:05 +0000
-Message-ID: <20261019161805.2427-1-sushmit718@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=IajvSsVF
+X-Envelope-To: linux-sound@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=Ll78rnmuwRI9wIbvpSsCG8uEaQpmaTggmYNaTLfLFlM=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1792426833; v=1; x=1793031633;
+ b=IajvSsVFJx+fZfVvWUlPRLTNmJ3jJRge2t0CAgXipH/4Wwl19HiGgzGquu6LiSaOYHOlpjDS
+ 2KyAtUfovnfOOe1u4Dgdstqvla6WvHLjvmrJARZOfMDMsIyO1UVk/Hei7M3an2f8vZlFLMkYsrX
+ RezPgl8qHfjHFVifqZ70O00c=
+X-Envelope-To: linux-sound@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id dfba00eb11b236da;
+	Mon, 19 Oct 2026 16:20:30 +0000
+X-Mizu-Trace-ID: dfba00eb11b236da
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <bdc967fd-c056-492d-b970-db5630f21b95@linux.dev>
+Date: Mon, 19 Oct 2026 17:56:51 +0200
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -101,45 +58,307 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] ASoC: tas2783-sdw: keep the volume settings across
+ resets
+To: Matthew Schwartz <matthew.schwartz@linux.dev>, broonie@kernel.org
+Cc: Lee Mann <leepaulmann@gmail.com>, Shenghao Ding <shenghao-ding@ti.com>,
+ Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>,
+ Sen Wang <sen@ti.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Andrey Golovko <andrey.golovko@gmail.com>, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20261018200009.1493438-1-matthew.schwartz@linux.dev>
+ <20261018200009.1493438-2-matthew.schwartz@linux.dev>
+Content-Language: en-US
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+In-Reply-To: <20261018200009.1493438-2-matthew.schwartz@linux.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The DSP acknowledges APM_CMD_SHARED_MEM_UNMAP_REGIONS with a
-GPR_BASIC_RSP_RESULT packet. apm_callback() stores the packet opcode,
-GPR_BASIC_RSP_RESULT, as the result opcode, but
-audioreach_send_cmd_sync() waits for the result opcode to match the
-command, APM_CMD_SHARED_MEM_UNMAP_REGIONS. The wait never completes,
-so every unmap blocks for the full 5 s timeout and logs
-"CMD timeout".
+On 10/18/26 22:00, Matthew Schwartz wrote:
+> The register cache is dropped when the amp attaches uninitialized and
+> again after the firmware download, so the Amp Volume and Speaker Volume
+> registers are not cached while the amp is runtime suspended, and every
+> read or write of those controls fails with -EBUSY. On a platform that
+> powers the SoundWire link off when idle, such as the ASUS ROG Xbox Ally
+> X20, the amp is also reset and initialized again on every wake, so a
+> volume set while it was awake is lost the next time the link idles.
+> 
+> Keep both settings in the driver, as the cache has to be dropped
+> whenever the reset and the firmware download change registers behind
+> it. Reads return the kept value, a write reaches the device only while
+> it is runtime active and initialized, and the settings are programmed
+> again after every init and resume. Until userspace sets a control, the
+> value the firmware leaves after each init is adopted instead, so its
+> tuning stays in effect. Waking the amp for a control access would
+> instead cost a full init of both X20 amps, about 0.2 s each.
+> 
+> Fixes: b627da430357 ("ASoC: tas2783-sdw: drop stale regcache on uninitialized re-attach")
 
-Store the opcode of the command being acknowledged, as the other
-GPR_BASIC_RSP_RESULT cases already do.
+Erm, not sure what to think about this fix of a fix.
 
-Fixes: 8ea6e25c8536 ("ASoC: qcom: q6apm: Add support for early buffer mapping on DSP")
-Assisted-by: LLM
-Signed-off-by: redducc <sushmit718@gmail.com>
----
- sound/soc/qcom/qdsp6/q6apm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This commit b627da430357 introduced the regcache_drop_region() for all
+kinds of reasons, and now this new patch introduces a manual management
+of the volume registers - but why limit this management to volume
+settings only? Shouldn't other features such as e.g. bass boost or EQ
+also be restored?
 
-diff --git a/sound/soc/qcom/qdsp6/q6apm.c b/sound/soc/qcom/qdsp6/q6apm.c
-index b6b1ef6833b3..379b15b7e503 100644
---- a/sound/soc/qcom/qdsp6/q6apm.c
-+++ b/sound/soc/qcom/qdsp6/q6apm.c
-@@ -960,7 +960,7 @@ static int apm_callback(const struct gpr_resp_pkt *data, void *priv, int op)
- 			wake_up(&apm->wait);
- 			break;
- 		case APM_CMD_SHARED_MEM_UNMAP_REGIONS:
--			apm->result.opcode = hdr->opcode;
-+			apm->result.opcode = result->opcode;
- 			apm->result.status = 0;
- 			rsp = data->payload;
- 
+It really feels like the problem is that the regmap is not properly
+restored...at the end of the day, this driver is missing a
+regcache_sync(), no?
 
-base-commit: 6a56f4f29711dd2da49f03a5b99ce53779e638d7
-prerequisite-patch-id: 154550924ab1d2c1bc95517c058aaee0bb242f92
-prerequisite-patch-id: 22bca48e48813fb55976db043f9c35c926c61e3d
-prerequisite-patch-id: cd21b1ff6a4fef14c706cea97fc906d7a0331b5c
-prerequisite-patch-id: ce4057205dd2c2a6650c3a36c60664bd2737e202
--- 
-2.43.0
+> Reported-by: Lee Mann <leepaulmann@gmail.com>
+> Link: https://lore.kernel.org/r/20261016102846.22908-1-leepaulmann@gmail.com
+> Signed-off-by: Matthew Schwartz <matthew.schwartz@linux.dev>
+> ---
+>  sound/soc/codecs/tas2783-sdw.c | 159 +++++++++++++++++++++++++++++++--
+>  1 file changed, 151 insertions(+), 8 deletions(-)
+> 
+> diff --git a/sound/soc/codecs/tas2783-sdw.c b/sound/soc/codecs/tas2783-sdw.c
+> index a57230e01f75..ebb52efc1edf 100644
+> --- a/sound/soc/codecs/tas2783-sdw.c
+> +++ b/sound/soc/codecs/tas2783-sdw.c
+> @@ -12,6 +12,7 @@
+>  // Author: Baojun Xu <baojun.xu@ti.com>
+>  // Author: Kevin Lu <kevin-lu@ti.com>
+>  
+> +#include <linux/bitfield.h>
+>  #include <linux/cleanup.h>
+>  #include <linux/unaligned.h>
+>  #include <linux/crc32.h>
+> @@ -89,6 +90,15 @@ struct tas2783_prv {
+>  	struct mutex calib_lock;
+>  	/* pde and firmware download */
+>  	struct mutex pde_lock;
+> +	/* volume settings, kept across resets */
+> +	struct mutex vol_lock;
+> +	unsigned int amp_level;
+> +	unsigned int dvc_level;
+> +	/* set by userspace, so program it instead of adopting it */
+> +	bool amp_set;
+> +	bool dvc_set;
+> +	/* runtime active, so volume writes reach the device */
+> +	bool vol_live;
+>  	struct regmap *regmap;
+>  	struct device *dev;
+>  	struct class *class;
+> @@ -530,36 +540,151 @@ static const struct regmap_sdw_mbq_cfg tas2783_mbq_cfg = {
+>  	.mbq_size = tas2783_sdca_mbq_size,
+>  };
+>  
+> +#define TAS2783_AMP_LEVEL_MAX	20
+> +#define TAS2783_DVC_LVL_MAX	200
+> +
+> +/* forced, as a failed write leaves the new value in the cache */
+> +static s32 tas2783_write_amp_level(struct tas2783_prv *tas_dev,
+> +				   unsigned int level)
+> +{
+> +	return regmap_write_bits(tas_dev->regmap, TAS2783_AMP_LEVEL,
+> +				 TAS2783_AMP_LEVEL_MASK,
+> +				 FIELD_PREP(TAS2783_AMP_LEVEL_MASK, level));
+> +}
+> +
+> +static s32 tas2783_write_dvc_level(struct tas2783_prv *tas_dev,
+> +				   unsigned int level)
+> +{
+> +	return regmap_write(tas_dev->regmap, TAS2783_DVC_LVL,
+> +			    TAS2783_DVC_LVL_MAX - level);
+> +}
+> +
+> +/* program the volume settings userspace set, adopt the firmware ones */
+> +static s32 tas2783_sync_volume(struct tas2783_prv *tas_dev)
+> +{
+> +	unsigned int val;
+> +	s32 ret;
+> +
+> +	lockdep_assert_held(&tas_dev->vol_lock);
+> +
+> +	if (tas_dev->amp_set) {
+> +		ret = tas2783_write_amp_level(tas_dev, tas_dev->amp_level);
+> +	} else {
+> +		ret = regmap_read(tas_dev->regmap, TAS2783_AMP_LEVEL, &val);
+> +		if (!ret) {
+> +			val = FIELD_GET(TAS2783_AMP_LEVEL_MASK, val);
+> +			tas_dev->amp_level = umin(val, TAS2783_AMP_LEVEL_MAX);
+> +		}
+> +	}
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (tas_dev->dvc_set)
+> +		return tas2783_write_dvc_level(tas_dev, tas_dev->dvc_level);
+> +
+> +	ret = regmap_read(tas_dev->regmap, TAS2783_DVC_LVL, &val);
+> +	if (!ret)
+> +		tas_dev->dvc_level = TAS2783_DVC_LVL_MAX -
+> +				     umin(val, TAS2783_DVC_LVL_MAX);
+> +
+> +	return ret;
+> +}
+> +
+> +static bool tas2783_vol_valid(struct snd_kcontrol *kcontrol, long val)
+> +{
+> +	struct soc_mixer_control *mc =
+> +		(struct soc_mixer_control *)kcontrol->private_value;
+> +
+> +	if (mc->platform_max && val > mc->platform_max)
+> +		return false;
+> +
+> +	return val >= 0 && val <= mc->max;
+> +}
+> +
+>  static s32 tas2783_digital_getvol(struct snd_kcontrol *kcontrol,
+>  				  struct snd_ctl_elem_value *ucontrol)
+>  {
+> -	return snd_soc_get_volsw(kcontrol, ucontrol);
+> +	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
+> +	struct tas2783_prv *tas_dev = snd_soc_component_get_drvdata(component);
+> +
+> +	guard(mutex)(&tas_dev->vol_lock);
+> +	ucontrol->value.integer.value[0] = tas_dev->dvc_level;
+> +
+> +	return 0;
+>  }
+>  
+>  static s32 tas2783_digital_putvol(struct snd_kcontrol *kcontrol,
+>  				  struct snd_ctl_elem_value *ucontrol)
+>  {
+> -	return snd_soc_put_volsw(kcontrol, ucontrol);
+> +	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
+> +	struct tas2783_prv *tas_dev = snd_soc_component_get_drvdata(component);
+> +	long val = ucontrol->value.integer.value[0];
+> +	s32 ret;
+> +
+> +	if (!tas2783_vol_valid(kcontrol, val))
+> +		return -EINVAL;
+> +
+> +	guard(mutex)(&tas_dev->vol_lock);
+> +	if (tas_dev->vol_live && tas_dev->hw_init) {
+> +		ret = tas2783_write_dvc_level(tas_dev, val);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	tas_dev->dvc_set = true;
+> +	if (val == tas_dev->dvc_level)
+> +		return 0;
+> +
+> +	tas_dev->dvc_level = val;
+> +
+> +	return 1;
+>  }
+>  
+>  static s32 tas2783_amp_getvol(struct snd_kcontrol *kcontrol,
+>  			      struct snd_ctl_elem_value *ucontrol)
+>  {
+> -	return snd_soc_get_volsw(kcontrol, ucontrol);
+> +	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
+> +	struct tas2783_prv *tas_dev = snd_soc_component_get_drvdata(component);
+> +
+> +	guard(mutex)(&tas_dev->vol_lock);
+> +	ucontrol->value.integer.value[0] = tas_dev->amp_level;
+> +
+> +	return 0;
+>  }
+>  
+>  static s32 tas2783_amp_putvol(struct snd_kcontrol *kcontrol,
+>  			      struct snd_ctl_elem_value *ucontrol)
+>  {
+> -	return snd_soc_put_volsw(kcontrol, ucontrol);
+> +	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
+> +	struct tas2783_prv *tas_dev = snd_soc_component_get_drvdata(component);
+> +	long val = ucontrol->value.integer.value[0];
+> +	s32 ret;
+> +
+> +	if (!tas2783_vol_valid(kcontrol, val))
+> +		return -EINVAL;
+> +
+> +	guard(mutex)(&tas_dev->vol_lock);
+> +	if (tas_dev->vol_live && tas_dev->hw_init) {
+> +		ret = tas2783_write_amp_level(tas_dev, val);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	tas_dev->amp_set = true;
+> +	if (val == tas_dev->amp_level)
+> +		return 0;
+> +
+> +	tas_dev->amp_level = val;
+> +
+> +	return 1;
+>  }
+>  
+>  static const struct snd_kcontrol_new tas2783_snd_controls[] = {
+>  	SOC_SINGLE_RANGE_EXT_TLV("Amp Volume", TAS2783_AMP_LEVEL,
+> -				 1, 0, 20, 0, tas2783_amp_getvol,
+> +				 1, 0, TAS2783_AMP_LEVEL_MAX, 0, tas2783_amp_getvol,
+>  				 tas2783_amp_putvol, tas2781_amp_tlv),
+>  	SOC_SINGLE_RANGE_EXT_TLV("Speaker Volume", TAS2783_DVC_LVL,
+> -				 0, 0, 200, 1, tas2783_digital_getvol,
+> +				 0, 0, TAS2783_DVC_LVL_MAX, 1, tas2783_digital_getvol,
+>  				 tas2783_digital_putvol, tas2781_dvc_tlv),
+>  };
+>  
+> @@ -1116,6 +1241,9 @@ static s32 tas2783_sdca_dev_suspend(struct device *dev)
+>  {
+>  	struct tas2783_prv *tas_dev = dev_get_drvdata(dev);
+>  
+> +	scoped_guard(mutex, &tas_dev->vol_lock)
+> +		tas_dev->vol_live = false;
+> +
+>  	if (!tas_dev->hw_init)
+>  		return 0;
+>  
+> @@ -1148,6 +1276,14 @@ static s32 tas2783_sdca_dev_resume(struct device *dev)
+>  		return ret;
+>  	}
+>  
+> +	guard(mutex)(&tas_dev->vol_lock);
+> +	if (tas_dev->hw_init) {
+> +		ret = tas2783_sync_volume(tas_dev);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +	tas_dev->vol_live = true;
+> +
+>  	return 0;
+>  }
+>  
+> @@ -1245,11 +1381,14 @@ static s32 tas_io_init(struct device *dev, struct sdw_slave *slave)
+>  
+>  		/* Re-active AMP after resume. */
+>  		regmap_write(tas_dev->regmap, TASDEV_REG_SDW(0, 0, 2), 0);
+> +		if (!ret) {
+> +			guard(mutex)(&tas_dev->vol_lock);
+> +			ret = tas2783_sync_volume(tas_dev);
+> +			tas_dev->hw_init = !ret;
+> +		}
+>  		if (ret)
+>  			dev_err(tas_dev->dev,
+>  				"init writes failed, err=%d", ret);
+> -		else
+> -			tas_dev->hw_init = true;
+>  	}
+>  
+>  	return ret;
+> @@ -1427,6 +1566,9 @@ static s32 tas_sdw_probe(struct sdw_slave *peripheral,
+>  	tas_dev->fw_version = 0;
+>  	mutex_init(&tas_dev->calib_lock);
+>  	mutex_init(&tas_dev->pde_lock);
+> +	mutex_init(&tas_dev->vol_lock);
+> +	tas_dev->amp_level = TAS2783_AMP_LEVEL_MAX;
+> +	tas_dev->dvc_level = TAS2783_DVC_LVL_MAX;
+>  
+>  	init_waitqueue_head(&tas_dev->fw_wait);
+>  	dev_set_drvdata(dev, tas_dev);
+> @@ -1452,6 +1594,7 @@ static void tas_sdw_remove(struct sdw_slave *peripheral)
+>  	tas_remove(tas_dev);
+>  	mutex_destroy(&tas_dev->calib_lock);
+>  	mutex_destroy(&tas_dev->pde_lock);
+> +	mutex_destroy(&tas_dev->vol_lock);
+>  	dev_set_drvdata(&peripheral->dev, NULL);
+>  }
+>  
 
