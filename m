@@ -1,45 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D828500AB2;
-	Mon, 19 Oct 2026 13:58:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C5634DCB2A;
+	Mon, 19 Oct 2026 13:58:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792418332; cv=none; b=VQDoJ4zOf3aHOPd3x5f+LBLVJCxrs3G32Dur+slapfiFD6doG1YIax/wgIh/LxAFYRF4HGmQ+3AoAfzhC0UOgRHujXd1SANFSOSF4RnSBFcOiu8oKcaxPVHbj0sgmdKiLMyKtx1Wl0vNgSHWXp1yDvJ3+vo3Q/NLtsPRCPEEzPU=
+	t=1792418336; cv=none; b=RSoWSOqPTt7pBwFOPqyHSS29+xD8vjbescO21FGWNEO8qCpSWX0N2XASKCMBi+1HgxFMtoVEq56ccnuxz3nQHOX0rk9QHMj+r5YlDhyu5ebDJ4ejOwXdy0NQJAPeYcyQ3Gy99NYutFvSESQ3Vii8h8P1fLnoB2Eymi7p5vg5Cv4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792418332; c=relaxed/simple;
-	bh=b416kC/7CaYadZQDJ9zlNw1KeykzNXi6AefTmPsk9d0=;
+	s=arc-20240116; t=1792418336; c=relaxed/simple;
+	bh=MxbhZWYHOavEXJYGWMsUHj2asa8Y4naKaJ4sl7L+QuE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gH0A0xQ6QsUxXeYYn6FkcztXSsl7X3UPvjtschmCWrlb1KupgXFBmakK0BdLj6Oaas/k3pdIkRsG6KoiqsNSYJA0qE/QnXbECeX/lfxf3xsIAPt/dkGEv7Y/nL3zF9WXl6fJ3s/9Rk+AnPOlaIvDho9LfqbHByl9/gPT2wuyHO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eDEguPhG; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=RPM1ekng+u8CVhCaWP+bRzXav3YKpopqlapk+pKfRuCN19C1187t2GM17IwGzHycsKRd00Ty+GVEBxrSd+PmyoVhGMBRKuILh7hjzAubDexT04cGq7lqgrHBOAgOlK8UvciaRJM91Qrx0HZf0ehdqov4PCui/xpyaajgFc+sOKY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MY662OyQ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eDEguPhG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B1801F000C7;
-	Mon, 19 Oct 2026 13:58:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MY662OyQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55C4D1F000C6;
+	Mon, 19 Oct 2026 13:58:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792418327;
-	bh=WAqhhXzj65SZ1X+PrGy9aIEIqNsKhn7pV/K6lVOjYDU=;
+	s=k20260515; t=1792418333;
+	bh=CXXmyIGEgU20Zu/avjRGxBpyCBsYo2diibyVB8dXzoY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=eDEguPhGPzyOSR8HN+aXNhuUjaiy0dVkof5Ydr6yqPwHdwpcrE0IwGO+zhA31t7Pl
-	 TNQuFSbx3HyriK2RKsIfPUnMkO96NuvRUY/Ef/C2XtisXWTw3/JQelh8YijfteWQze
-	 2cmWl3iPQDcZHoyx7N+G11ucehL8b/GqdHLviKiYcdohK/IXFou5nenwJIugkslQGx
-	 5rgjtyMBCYeUYo4hPBAyvGX5zRdWUboReOYk36dH8IkuehSUcTx3fDwm8yzF/9sNMr
-	 IdsMxzPW6dLdA2dyu/VMKWA6gF3I8Ja7xnxgkJ4VBTrE16HIz11zbndfqhUjQNlErF
-	 y9RoIVwR9ZxAQ==
+	b=MY662OyQWhKAPHhG72wgkTf/bs2VtR1c95jXslGicv86ClBK8lCL11IDBARqJevJ2
+	 yi8nHMAsL1NrXsZRXzIZP4ou0rjjilIe2gCcCvqHwCitGgDYkaS2tjxLGTHJ/t0/Cg
+	 5ANorBzN88HnQ27jTKFt0PNJDmTzXEuNdu8kwS6yz0SPCIEoKCCf2SIQoj6Szzj9pK
+	 Fg0sGBQwMetOHS/iSUX/IebKmzeZ/HTUnbLUFrTxHDYSkAHSl8lHFmphwaCXcUr+I5
+	 Gi/wrdYR2HPUSHBiZiblVpjhiEsl36OwuWWlXubfOtALCO4medYujlZ8acRYvt6+lu
+	 sdFXHw6EPPcvA==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Pengpeng Hou <pengpeng@iscas.ac.cn>,
-	Mark Brown <broonie@kernel.org>,
+Cc: Zhang Heng <zhangheng@kylinos.cn>,
+	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
-	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18] ASoC: codecs: uda1342: Leave cache-only mode before syncing
-Date: Mon, 19 Oct 2026 09:47:40 -0400
-Message-ID: <20261019135441.1420968-169-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-6.1] ALSA: hda/realtek: Add quirk for Acer Nitro AN515-45
+Date: Mon, 19 Oct 2026 09:47:44 -0400
+Message-ID: <20261019135441.1420968-173-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261019135441.1420968-1-sashal@kernel.org>
 References: <20261019135441.1420968-1-sashal@kernel.org>
@@ -55,392 +54,354 @@ X-stable-base: Linux 6.18.57
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Pengpeng Hou <pengpeng@iscas.ac.cn>
+From: Zhang Heng <zhangheng@kylinos.cn>
 
-[ Upstream commit 29da72e58fde87e632f2fa43e448fcd1e3ab31b0 ]
+[ Upstream commit 0d90a929836344f1d3b39f22f08ccecc62378a59 ]
 
-uda1342_suspend() puts the regmap into cache-only mode. uda1342_resume()
-marks the cache dirty and syncs it, but does not first leave cache-only
-mode and ignores sync failures.
+The Acer Nitro AN515-45 requires ALC2XX_FIXUP_HEADSET_MIC to make the
+headset microphone work properly.
 
-Leave cache-only mode before syncing the dirty cache, propagate sync
-failures, and restore cache-only/dirty state on failure.
-
-Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
-Link: https://patch.msgid.link/20260704072140.67222-1-pengpeng@iscas.ac.cn
-Signed-off-by: Mark Brown <broonie@kernel.org>
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=221925
+Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
+Link: https://patch.msgid.link/20260921124450.639601-2-zhangheng@kylinos.cn
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-The local tree is **v7.3-rc4**. The UDA1342 resume path never left
-cache-only mode, so after suspend the codec stays cache-only and later
-register writes never reach hardware.
+This is a one-line Realtek HDA hardware quirk for Acer Nitro AN515-45.
+The local tree is **6.18.57** (`v6.18.57-155-gcdf239ca885b2`). The
+existing `ALC2XX_FIXUP_HEADSET_MIC` path is already in this tree; the
+SSID `1025:151e` is not in `v6.18.57`.
 
 ===============================================================
 PHASE 1: COMMIT MESSAGE FORENSICS
 ===============================================================
 
-**Step 1.1: PARSE THE SUBJECT LINE**
-Record: **[ASoC/codecs/uda1342] [Leave / prevent incorrect PM cache
-state] [Disable cache-only mode before `regcache_sync()` on resume, and
-fail resume if sync fails]**
+Step 1.1: PARSE THE SUBJECT LINE
+Record: `[ALSA/hda/realtek] [Add] quirk for Acer Nitro AN515-45` — add
+an existing headset-mic fixup for one laptop SSID.
 
-**Step 1.2: PARSE ALL COMMIT MESSAGE TAGS**
+Step 1.2: PARSE ALL COMMIT MESSAGE TAGS
 Record:
-- **Fixes:** none (expected for this review)
-- **Reported-by:** none
-- **Tested-by:** none
-- **Reviewed-by:** none
-- **Acked-by:** none
-- **Cc: stable:** none (expected)
-- **Link:**
-  https://patch.msgid.link/20260704072140.67222-1-pengpeng@iscas.ac.cn
-- **Signed-off-by:** Pengpeng Hou (author); Mark Brown (ASoC
-  maintainer). Ignore any Sasha Levin SOB if present.
+- `Link: https://bugzilla.kernel.org/show_bug.cgi?id=221925` — user bug
+  report
+- `Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>` — author
+- `Link:
+  https://patch.msgid.link/20260921124450.639601-2-zhangheng@kylinos.cn`
+  — patch 2/2
+- `Signed-off-by: Takashi Iwai <tiwai@suse.de>` — ALSA maintainer
+- No `Fixes:`, `Reported-by:`, `Tested-by:`, `Cc: stable` (absence is
+  expected)
+- Ignore pipeline `[ Upstream commit ... ]` and `Signed-off-by: Sasha
+  Levin`
 
-**Step 1.3: ANALYZE THE COMMIT BODY TEXT**
+Step 1.3: ANALYZE THE COMMIT BODY TEXT
 Record:
-- **Bug:** `uda1342_suspend()` sets `regcache_cache_only(..., true)`.
-  `uda1342_resume()` marks the cache dirty and calls `regcache_sync()`
-  without leaving cache-only mode, and ignores the sync return value.
-- **Symptom:** After suspend/resume the map stays cache-only, so later
-  `regmap` writes update only the cache. On this tree, `regcache_sync()`
-  also `WARN_ON`s and returns `-EINVAL` if `cache_only` is still set.
-- **Version info in message:** none
-- **Root cause (author):** resume never disables cache-only before sync,
-  and never reports sync failure.
+- Bug: headset microphone on Acer Nitro AN515-45 does not work
+- Symptom: combo-jack mic not detected / not created as an input
+- Root cause (from bugzilla, not the short commit body): BIOS leaves pin
+  0x19 as N/A (`Pin Default 0x411111f0`); no headset-mic path is parsed
+- Fix: apply existing `ALC2XX_FIXUP_HEADSET_MIC` for PCI/codec SSID
+  `1025:151e`
 
-**Step 1.4: DETECT HIDDEN BUG FIXES**
-Record: Not a disguised cleanup. It is an explicit PM correctness fix
-(leave cache-only, propagate errors, restore dirty/cache-only on
-failure).
+Step 1.4: DETECT HIDDEN BUG FIXES
+Record: Not a disguised cleanup. This is an explicit hardware quirk to
+make a broken jack work.
 
 ===============================================================
-PHASE 2: DIFF ANALYSIS
+PHASE 2: DIFF ANALYSIS - LINE BY LINE
 ===============================================================
 
-**Step 2.1: INVENTORY THE CHANGES**
+Step 2.1: INVENTORY THE CHANGES
 Record:
-- File: `sound/soc/codecs/uda1342.c` (+8 / -1)
-- Function: `uda1342_resume()`
-- Scope: single-file surgical fix
+- File: `sound/hda/codecs/realtek/alc269.c` (+1 / −0)
+- Function/table: `alc269_fixup_tbl[]`
+- Scope: single-file, one-line table addition
 
-**Step 2.2: UNDERSTAND THE CODE FLOW CHANGE**
+Step 2.2: UNDERSTAND THE CODE FLOW CHANGE
 Record:
-- **Before:** `regcache_mark_dirty()` then `regcache_sync()` with
-  `cache_only` still true; return 0 always.
-- **After:** `regcache_cache_only(..., false)`, mark dirty, `ret =
-  regcache_sync()`. On failure, re-enter cache-only, mark dirty, return
-  `ret`.
-- Path: system-sleep resume (and the runtime-resume callback used by
-  `pm_runtime_force_resume()`).
+- Before: SSID `0x1025:0x151e` has no dedicated entry, so probe does not
+  apply the headset-mic pincfg
+- After: that SSID maps to `ALC2XX_FIXUP_HEADSET_MIC`
+- Path: codec probe / pin parse (`alc269_probe` → `snd_hda_pick_fixup`)
+- Not an error path or API change
 
-**Step 2.3: IDENTIFY THE BUG MECHANISM**
+Step 2.3: IDENTIFY THE BUG MECHANISM
 Record:
-- **Category:** logic / PM correctness (cache-only left enabled; ignored
-  error)
-- **Mechanism:** suspend enables cache-only. Resume must disable it
-  before sync so writes hit I2C. Leaving it set means `_regmap_write()`
-  takes the cache-only early return and never calls `map->reg_write()`.
-  This tree also has `WARN_ON(map->cache_only)` in `regcache_sync()`, so
-  the old resume warns and returns `-EINVAL` without restoring hardware.
+- Category: hardware workaround (quirk table entry)
+- Mechanism: `alc2xx_fixup_headset_mic()` at pre-probe sets pin 0x19 to
+  `0x03a1103c`, updates coef 0x45, and sets `HDA_PINCFG_HEADSET_MIC` so
+  the combo-jack mic is parsed
 
-**Step 2.4: ASSESS THE FIX QUALITY**
+Step 2.4: ASSESS THE FIX QUALITY
 Record:
-- Matches the usual ASoC pattern (`tas2552_runtime_resume()` and many
-  others).
-- Minimal, obviously correct.
-- Failure unwind matches other codecs: stay cache-only and dirty so a
-  later resume can retry.
-- Regression risk is low: one driver, resume path only, no API change.
+- Minimal, same pattern as AN515-57 / AN515-58 / AN517-55 already in
+  this tree
+- Only the matching laptop is affected
+- Regression risk is low; remaining auto-mic source-switch behavior is
+  existing generic parser behavior, not introduced here
 
 ===============================================================
 PHASE 3: GIT HISTORY INVESTIGATION
 ===============================================================
 
-**Step 3.1: BLAME THE CHANGED LINES**
+Step 3.1: BLAME THE CHANGED LINES
 Record:
-- Buggy resume introduced in `de0fb25e37aae` (“ASoC: codecs: Add uda1342
-  codec driver”, Binbin Zhou, 2024-10-09).
-- First appeared in **v6.13-rc1**. Present in this 7.3-rc4 tree.
+- Neighboring Acer entries come from `aeeb85f26c3bbe` (Realtek codec
+  split, 2025-07-09) and later sibling quirks
+- The missing-SSID bug is “no quirk for this board,” not a recently
+  introduced logic bug
+- `ALC2XX_FIXUP_HEADSET_MIC` itself dates to 2024 (`5a69e3d0a1b0` /
+  `50db91fccea0` era) and is present in v6.18.57
 
-**Step 3.2: FOLLOW THE FIXES: TAG**
-Record: No `Fixes:` tag. Introducer is `de0fb25e37aae`, confirmed
-ancestor of HEAD.
+Step 3.2: FOLLOW THE FIXES: TAG
+Record: No `Fixes:` tag. Not applicable.
 
-**Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES**
-Record: Only four commits on the file: driver add, two `i2c_device_id`
-cleanups, then this fix. Standalone, not patch X/Y.
+Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES
+Record:
+- Sibling: `a9584e9e46448` “Enable headset mic for Acer Nitro 5”
+  (AN515-57) is already in v6.18.57
+- Same file routinely receives one-line `SND_PCI_QUIRK` additions
+- Series is `[PATCH 2/2]`; patch 1/2 is an unrelated Lenovo ThinkBook
+  G8+ quirk (`17aa:38dc`) and is not a prerequisite
 
-**Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS**
-Record: Pengpeng Hou is a regular small-fix contributor, not the UDA1342
-author. Original driver is Binbin Zhou (Loongson). Mark Brown applied
-the patch. Related work around the same time: many ASoC “propagate
-`regcache_sync()` errors” patches.
+Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS
+Record: Zhang Heng submitted two independent one-line quirks. Takashi
+Iwai applied both. Author is a contributor; maintainer sign-off is the
+stronger signal.
 
-**Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS**
-Record: None. Uses `regcache_cache_only` / `regcache_mark_dirty` /
-`regcache_sync`, all long-standing. Applies standalone.
+Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS
+Record: Standalone. Needs only `alc269_fixup_tbl` and
+`ALC2XX_FIXUP_HEADSET_MIC`, both present in this 6.18.y tree.
 
 ===============================================================
 PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
 ===============================================================
 
-**Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION**
+Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION
 Record:
-- `b4 dig -c 29da72e58fde8` →
-  https://patch.msgid.link/20260704072140.67222-1-pengpeng@iscas.ac.cn
-- `b4 dig -a`: only **v1**
-- Thread: submission + Mark Brown “Applied to sound.git for-7.3”. No
-  NAK, no requested revisions, no reviewer `Cc: stable`.
+- `b4 dig -c 0d90a929836344f1d3b39f22f08ccecc62378a59` matched `[PATCH
+  2/2]`
+- Lore/msgid: `https://patch.msgid.link/20260921124450.639601-2-
+  zhangheng@kylinos.cn`
+- Only v1; no later revision
+- Takashi Iwai: “Applied both patches. Thanks.” No NAK, no stable
+  objection
 
-**Step 4.2: CHECK WHO REVIEWED THE PATCH**
-Record (`b4 dig -w`): Liam Girdwood, Mark Brown, Jaroslav Kysela,
-Takashi Iwai, Linus Walleij, Charles Keepax, Uwe Kleine-König, linux-
-sound, linux-kernel. Maintainer Mark Brown applied it.
+Step 4.2: CHECK WHO REVIEWED THE PATCH
+Record (`b4 dig -w`): To `tiwai@suse.com`; Cc `linux-
+sound@vger.kernel.org`, `linux-kernel@vger.kernel.org`. Subsystem
+maintainer applied it.
 
-**Step 4.3: SEARCH FOR THE BUG REPORT**
-Record: No `Reported-by`, syzbot, or bugzilla. Bug is from code
-inspection. Driver was added for **Loongson-2K1000** (`7d04763cae994`
-series: “Add uda1342 codec required on Loongson-2K1000”), so there are
-real boards, even with no in-tree `.dts` match for `nxp,uda1342`.
+Step 4.3: SEARCH FOR THE BUG REPORT
+Record (bugzilla 221925, fetched via curl; WebFetch returned 403):
+- Title: `ALC295 / Acer Nitro AN515-45 (1025:151e): headset mic not
+  detected, BIOS disables pin 0x19`
+- Reporter: Rishikesh Jha, 2026-08-26, hardware AMD AN515-45, codec
+  ALC295 `0x10ec0295`, subsystem `0x1025151e`
+- Symptom: speakers/headphones/internal mic work; combo-jack headset mic
+  is not created
+- Reporter verified a firmware pincfg plus `headset-mode`
+- Zhang Heng asked for `model=alc2xx-fixup-headset-mic`; reporter
+  confirmed the headset mic works
+- Remaining userspace auto-mic mux limitation is explained as generic
+  parser behavior, not a reason this quirk is wrong
 
-**Step 4.4: CHECK FOR RELATED PATCHES AND SERIES**
-Record: Standalone v1. Same resume pattern exists across ASoC codecs.
+Step 4.4: CHECK FOR RELATED PATCHES AND SERIES
+Record: Patch 1/2 is a different machine/SSID/fixup. This commit does
+not depend on it.
 
-**Step 4.5: CHECK STABLE MAILING LIST HISTORY**
-Record: lore.kernel.org/stable returned 403. No evidence this was
-discussed on stable (UNVERIFIED beyond the 403).
+Step 4.5: CHECK STABLE MAILING LIST HISTORY
+Record: No useful `lore.kernel.org/stable` hit for this model. The
+original AN515-58 headset-mic quirk (`5a69e3d0a1b0`) was `Cc: stable`.
 
 ===============================================================
 PHASE 5: CODE SEMANTIC ANALYSIS
 ===============================================================
 
-**Step 5.1: IDENTIFY KEY FUNCTIONS**
-Record: `uda1342_resume()`; `uda1342_suspend()` unchanged.
+Step 5.1: IDENTIFY KEY FUNCTIONS IN THE DIFF
+Record: Table `alc269_fixup_tbl[]` only. Consumed fixup:
+`alc2xx_fixup_headset_mic()`.
 
-**Step 5.2: TRACE CALLERS**
+Step 5.2: TRACE CALLERS
 Record:
-- Wired via `DEFINE_RUNTIME_DEV_PM_OPS(uda1342_pm_ops, uda1342_suspend,
-  uda1342_resume, NULL)`:
-  - system sleep: `pm_runtime_force_suspend` / `pm_runtime_force_resume`
-  - runtime: `uda1342_suspend` / `uda1342_resume`
-- `.pm = pm_sleep_ptr(&uda1342_pm_ops)` so system sleep uses these ops.
-- Probe never calls `pm_runtime_enable()`, so runtime autosuspend is
-  unused. System suspend still calls `GET_CALLBACK(dev,
-  runtime_suspend/resume)` from `pm_runtime_force_*`
-  (`drivers/base/power/runtime.c`).
+- `alc269_probe()` calls `snd_hda_pick_fixup(..., alc269_fixup_tbl,
+  alc269_fixups)`
+- That matches PCI SSID, then codec SSID
+- Probe path for ALC269-family codecs including ALC295 (`0x10ec0295`)
 
-**Step 5.3: TRACE CALLEES**
-Record: `regcache_cache_only`, `regcache_mark_dirty`, `regcache_sync`.
-Sync uses maple ops (`REGCACHE_MAPLE`) and `_regmap_write`.
+Step 5.3: TRACE CALLEES
+Record: `alc2xx_fixup_headset_mic()` → `snd_hda_apply_pincfgs()`,
+`alc_update_coef_idx()`, `spec->parse_flags |= HDA_PINCFG_HEADSET_MIC`
 
-**Step 5.4: FOLLOW THE CALL CHAIN**
-Record:
-- Userspace: suspend/resume (or hibernation) with
-  `CONFIG_SND_SOC_UDA1342` and a `nxp,uda1342` I2C device.
-- After a “successful” old resume, `uda1342_mute()` /
-  `uda1342_hw_params()` → `regmap_update_bits()` → `_regmap_write()`
-  cache-only early return → no I2C write.
-- Reachable on real Loongson-2K1000 hardware; not a syscall fuzzer path.
+Step 5.4: FOLLOW THE CALL CHAIN
+Record: Reachable on boot when this laptop’s HD-audio codec is
+enumerated. Userspace sees the missing capture device without the quirk.
+Not a syscall crash path; it is a real device-enablement path.
 
-**Step 5.5: SEARCH FOR SIMILAR PATTERNS**
-Record: Same leave-cache-only-then-sync pattern in many codecs
-(`tas2552.c`, `wm8962.c`, etc.). This driver was the one that omitted
-it.
+Step 5.5: SEARCH FOR SIMILAR PATTERNS
+Record: Same fixup already used in this tree for AN515-57 (`0x1539`),
+AN515-58 (`0x159c`), AN517-55 (`0x1597`), plus other vendors.
 
 ===============================================================
 PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
 ===============================================================
 
-**Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?**
-Record:
-- `git describe HEAD` → **v7.3-rc4-27-gf0100363d8c37**
-- `make kernelversion` → **7.3.0-rc4**
-- Driver present: `sound/soc/codecs/uda1342.c`
-- `git merge-base --is-ancestor de0fb25e37aae HEAD` → yes
-- Bug introduced in v6.13-rc1, still in this lineage. Current file
-  already has the fixed resume (expected: this is the mainline commit
-  under review).
+Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?
+Record: Yes. v6.18.57 has `sound/hda/codecs/realtek/alc269.c`,
+`ALC2XX_FIXUP_HEADSET_MIC`, and sibling Nitro entries, but **no**
+`0x1025, 0x151e` / AN515-45 line. Headset mic stays broken on this model
+here.
 
-**Step 6.2: CHECK FOR BACKPORT COMPLICATIONS**
-Record: Clean apply. Surrounding resume/probe code is the original
-driver plus trivial `i2c_device_id` init cleanups. No refactor.
+Step 6.2: CHECK FOR BACKPORT COMPLICATIONS
+Record: Clean apply. Insert point is identical: after `0x1466` Aspire
+A515-56, before `0x1534` Predator PH315-54.
 
-**Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE**
-Record: No earlier equivalent fix. Later `86fc3483a4d60` (“regcache:
-Warn if regcache_sync() is called in cache_only mode”, also v7.3-rc1)
-makes the old resume a `WARN_ON` + `-EINVAL` on this tree.
+Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE
+Record: Sibling Nitro headset-mic quirks are present. There is no
+earlier AN515-45-specific fix. (Ignore candidate-prep cherry-pick on
+current HEAD.)
 
 ===============================================================
 PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
 ===============================================================
 
-**Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY**
-Record: **ASoC codec driver** (`sound/soc/codecs/`). Criticality:
-**PERIPHERAL** (one NXP codec, Loongson-2K1000). Not core mm/fs/net.
+Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY
+Record: ALSA HD-audio Realtek codec driver. Criticality: IMPORTANT for
+users of this common laptop audio stack; board-specific impact.
 
-**Step 7.2: ASSESS SUBSYSTEM ACTIVITY**
-Record: ASoC codecs are actively developed. This file itself is quiet
-(four commits). Mature for this driver: the PM bug was present from
-introduction.
+Step 7.2: ASSESS SUBSYSTEM ACTIVITY
+Record: Mature, actively receiving per-board quirks. This is the normal
+stable-safe pattern, not a new subsystem.
 
 ===============================================================
 PHASE 8: IMPACT AND RISK ASSESSMENT
 ===============================================================
 
-**Step 8.1: DETERMINE WHO IS AFFECTED**
-Record: Users of **CONFIG_SND_SOC_UDA1342** / `nxp,uda1342` (documented
-for Loongson-2K1000). Driver- and config-specific, not universal.
+Step 8.1: DETERMINE WHO IS AFFECTED
+Record: Driver-specific / hardware-specific: Acer Nitro AN515-45, SSID
+`1025:151e`, Realtek ALC295.
 
-**Step 8.2: DETERMINE THE TRIGGER CONDITIONS**
-Record:
-- Trigger: system suspend/resume with this codec.
-- Common on any machine that sleeps.
-- Not an unprivileged syscall exploit path.
-- Not a timing race.
+Step 8.2: DETERMINE THE TRIGGER CONDITIONS
+Record: Every boot / every headset plug on that machine. Unprivileged
+user cannot crash the kernel; they just cannot use the headset mic.
 
-**Step 8.3: DETERMINE THE FAILURE MODE SEVERITY**
-Record:
-- On this tree: `WARN_ON` in `regcache_sync()` and resume returns
-  `-EINVAL` → hardware not restored.
-- Even without that warn: cache-only left set → mute/volume/hw_params
-  never programmed to the chip; audio broken after resume.
-- Severity: **HIGH** for those devices (broken audio / failed resume),
-  not a panic or filesystem corruption.
+Step 8.3: DETERMINE THE FAILURE MODE SEVERITY
+Record: Functional hardware failure (headset capture missing). Severity
+MEDIUM as a crash, HIGH as user-visible hardware breakage. Stable
+routinely takes these quirks.
 
-**Step 8.4: CALCULATE RISK-BENEFIT RATIO**
+Step 8.4: CALCULATE RISK-BENEFIT RATIO
 Record:
-- **Benefit:** medium-high for UDA1342 boards; zero elsewhere.
-- **Risk:** very low (8 lines, one function, standard pattern).
-- **Ratio:** favorable.
+- Benefit: high for owners of this 2021-era Nitro 5; restores combo-jack
+  mic
+- Risk: very low (one table row, existing fixup, SSID-matched)
+- Ratio: strongly favors backport
 
 ===============================================================
 PHASE 9: FINAL SYNTHESIS
 ===============================================================
 
-**Step 9.1: COMPILE THE EVIDENCE**
-
+Step 9.1: COMPILE THE EVIDENCE
 FOR:
-- Real suspend/resume bug: cache-only never cleared, so post-resume
-  register writes never hit I2C.
-- On this 7.3-rc4 tree, `regcache_sync()` additionally WARNs and fails
-  if cache-only is still set.
-- Small, surgical, matches other ASoC codecs; maintainer applied v1 with
-  no objections.
-- Driver exists here since v6.13; no extra prerequisites.
-- Error return lets the PM core fail resume instead of pretending it
-  succeeded.
+- Real user bug (bugzilla 221925) with alsa-info and codec dump
+- Reporter confirmed `alc2xx-fixup-headset-mic` makes the headset mic
+  work
+- One-line `SND_PCI_QUIRK` using a fixup already in 6.18.y
+- Same fix already shipped here for sibling Nitro 5 models
+- ALSA maintainer applied it; no NAK
+- Explicit stable exception: hardware quirk for an existing driver
 
 AGAINST:
-- Peripheral codec, no in-tree DTS, no user/syzbot report.
-- Author is not the original driver author; no `Tested-by`.
-- Not a security/UAF/deadlock class issue.
+- Not a crash/security/corruption fix
+- Bugzilla still lists leftover auto-mic source-switch UX after the mic
+  appears
+- Patch 2/2 of a series (other patch is unrelated, not required)
 
 UNRESOLVED:
-- Stable list search on lore returned 403.
-- No public confirmation of a user-reproduced resume failure (code
-  analysis only).
+- WebFetch of lore/bugzilla returned 403; bugzilla content was verified
+  with curl instead
 
-**Step 9.2: APPLY THE STABLE RULES CHECKLIST**
-1. Obviously correct and tested? **PASS** — standard pattern; applied by
-   Mark Brown. No extra tester tag.
-2. Fixes a real bug that affects users? **PASS** — resume leaves the
-   codec in cache-only; Loongson-2K1000 uses this codec.
-3. Important issue? **PASS** — broken audio / failed resume after sleep;
-   WARN_ON on this tree. Not a panic, but user-visible PM breakage.
-4. Small and contained? **PASS** — 8 insertions, 1 deletion, one
-   function.
-5. No new features or APIs? **PASS**
-6. Can apply to the local tree? **PASS** — file and helpers exist;
-   context matches.
+Step 9.2: APPLY THE STABLE RULES CHECKLIST
+1. Obviously correct and tested? PASS — existing fixup; reporter tested
+   the model; maintainer applied
+2. Fixes a real bug that affects users? PASS — headset mic not detected
+3. Important issue? PASS under the hardware-quirk exception (device does
+   not work correctly)
+4. Small and contained? PASS — +1 line
+5. No new features or APIs? PASS — table entry only
+6. Can apply to the local tree? PASS — clean insert into
+   `alc269_fixup_tbl` on 6.18.y
 
-**Step 9.3: CHECK FOR EXCEPTION CATEGORIES**
-Record: None (not a device ID / DT / build / docs exception). It is a
-normal small bug fix.
+Step 9.3: CHECK FOR EXCEPTION CATEGORIES
+Record: Hardware quirk / workaround for a broken BIOS pin config on
+existing hardware. This is a standard YES for stable.
 
-**Step 9.4: MAKE YOUR DECISION**
-This tree has the UDA1342 driver and the broken resume. The patch is the
-usual, low-risk ASoC fix: leave cache-only, sync, report errors. That is
-appropriate to backport here.
+Step 9.4: MAKE YOUR DECISION
+Backport. This tree already has the Realtek driver and
+`ALC2XX_FIXUP_HEADSET_MIC`. Adding SSID `1025:151e` is the same class of
+fix already present for AN515-57/58.
 
-**What the commit solves for this tree:** After suspend, resume never
-turns cache-only off. Sync then either WARNs/`-EINVAL` (this 7.3 code)
-or leaves later `regmap` writes stuck in the cache. Audio after sleep is
-wrong. The patch restores hardware and reports I2C/sync failure.
+What it solves for 6.18.y users: on Acer Nitro AN515-45 the BIOS marks
+headset-mic pin 0x19 as N/A, so the kernel never creates a headset
+capture device. The quirk applies the existing pincfg/coef fixup so the
+combo jack mic works.
 
-**Stable rules:** Small, obviously correct, no new API, applies cleanly,
-real PM bug.
-
-**Risk vs benefit:** Very low regression risk vs fixing resume for this
-codec.
-
-**Concerns:** Niche hardware, no tester tag. Not enough to reject a
-9-line resume fix whose code is present in this checkout.
+Risk vs benefit: one SSID-guarded line, reused fixup, verified on the
+machine. Benefit is real hardware enablement; regression surface is that
+one laptop.
 
 Verification:
-- [Phase 1] Parsed tags: Link to msgid `20260704072140.67222-1`; SOBs
-  Hou and Brown; no Fixes/Reported-by/Cc:stable
-- [Phase 2] Diff: `uda1342_resume()` +8/-1; add
-  `regcache_cache_only(false)`, check `regcache_sync()`, unwind on error
-- [Phase 2] `_regmap_write()`: cache_only + !cache_bypass returns 0
-  without `reg_write` (verified in `drivers/base/regmap/regmap.c`)
-- [Phase 2] `regcache_sync()`: `WARN_ON(map->cache_only)` returns
-  `-EINVAL` (verified line 437 of `regcache.c`)
-- [Phase 3] `git describe HEAD`: v7.3-rc4-27-gf0100363d8c37; `make
-  kernelversion`: 7.3.0-rc4
-- [Phase 3] `git blame` on parent: buggy resume is `de0fb25e37aae`
-  (v6.13-rc1)
-- [Phase 3] `git merge-base --is-ancestor de0fb25e37aae HEAD`: yes
-- [Phase 3] `git merge-base --is-ancestor 29da72e58fde8 HEAD`: yes
-  (mainline commit under review)
-- [Phase 3] File log: four commits, no series dependency
-- [Phase 4] `b4 dig -c 29da72e58fde8`: lore msgid match; `-a`: v1 only;
-  `-w`: ASoC maintainers CC’d; mbox: Brown applied, no NAK
-- [Phase 4] lore.kernel.org/stable: 403 — UNVERIFIED
-- [Phase 5] `DEFINE_RUNTIME_DEV_PM_OPS` + `pm_sleep_ptr`;
-  `pm_runtime_force_suspend/resume` call the runtime callbacks
-- [Phase 5] Probe does not `pm_runtime_enable()` — system sleep still
-  uses `pm_runtime_force_*`
-- [Phase 5] `7d04763cae994`: driver added for Loongson-2K1000
-- [Phase 6] Pre-fix resume read from `29da72e58fde8^`: mark dirty +
-  sync, no `cache_only(false)`
-- [Phase 6] WARN_ON added in `86fc3483a4d60` (v7.3-rc1), present in this
-  tree
-- [Phase 8] Failure: WARN + failed resume / cache-only stuck; severity
-  HIGH for this device
-- UNVERIFIED: whether this was already requested on the stable list
-  (HTTP 403)
+- [Phase 1] Parsed tags: bugzilla 221925, msgid `...639601-2...`, SOB
+  Takashi Iwai; no Fixes/Cc stable
+- [Phase 2] Diff: +1 `SND_PCI_QUIRK(0x1025, 0x151e, "Acer Nitro
+  AN515-45", ALC2XX_FIXUP_HEADSET_MIC)` in `alc269_fixup_tbl`
+- [Phase 2] Read `alc2xx_fixup_headset_mic()`: sets pin 0x19
+  `0x03a1103c`, coef 0x45, `HDA_PINCFG_HEADSET_MIC`
+- [Phase 3] `make kernelversion` / `git describe HEAD`: 6.18.57 /
+  `v6.18.57-155-gcdf239ca885b2`
+- [Phase 3] No Fixes tag to follow
+- [Phase 3] Sibling AN515-57 quirk `a9584e9e46448` is ancestor of
+  `v6.18.57`
+- [Phase 3] Series patch 1/2 is unrelated ThinkBook G8+ quirk
+- [Phase 4] `b4 dig -c 0d90a9298363`: matched patch 2/2; only v1
+- [Phase 4] `b4 dig -w`: To tiwai, Cc linux-sound
+- [Phase 4] mbox: Takashi “Applied both patches”
+- [Phase 4] curl bugzilla 221925: ALC295, SSID 1025:151e, pin 0x19 N/A;
+  `alc2xx-fixup-headset-mic` confirmed working
+- [Phase 4] lore/bugzilla WebFetch: 403 (used curl/b4 instead)
+- [Phase 5] `alc269_probe()` → `snd_hda_pick_fixup()` uses this table on
+  codec enumeration
+- [Phase 6] `git grep 0x151e v6.18.57 --
+  sound/hda/codecs/realtek/alc269.c`: no match
+- [Phase 6] `git grep ALC2XX_FIXUP_HEADSET_MIC v6.18.57 --
+  .../alc269.c`: present, including AN515-57/58
+- [Phase 6] v6.18.57 insert point between `0x1466` and `0x1534` matches
+  the patch
+- [Phase 8] Failure mode: headset mic missing on that laptop, not a
+  kernel oops
+- UNVERIFIED: live reproduction on AN515-45 hardware (not available
+  here)
 
 **YES**
 
- sound/soc/codecs/uda1342.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ sound/hda/codecs/realtek/alc269.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/sound/soc/codecs/uda1342.c b/sound/soc/codecs/uda1342.c
-index b0b29012842da..c21919bef4d72 100644
---- a/sound/soc/codecs/uda1342.c
-+++ b/sound/soc/codecs/uda1342.c
-@@ -308,9 +308,16 @@ static int uda1342_suspend(struct device *dev)
- static int uda1342_resume(struct device *dev)
- {
- 	struct uda1342_priv *uda1342 = dev_get_drvdata(dev);
-+	int ret;
- 
-+	regcache_cache_only(uda1342->regmap, false);
- 	regcache_mark_dirty(uda1342->regmap);
--	regcache_sync(uda1342->regmap);
-+	ret = regcache_sync(uda1342->regmap);
-+	if (ret) {
-+		regcache_cache_only(uda1342->regmap, true);
-+		regcache_mark_dirty(uda1342->regmap);
-+		return ret;
-+	}
- 
- 	return 0;
- }
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index 4eefd5d87f04b..fa5bc54ff083d 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -6615,6 +6615,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1025, 0x142b, "Acer Swift SF314-42", ALC255_FIXUP_ACER_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1025, 0x1430, "Acer TravelMate B311R-31", ALC256_FIXUP_ACER_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1025, 0x1466, "Acer Aspire A515-56", ALC255_FIXUP_ACER_HEADPHONE_AND_MIC),
++	SND_PCI_QUIRK(0x1025, 0x151e, "Acer Nitro AN515-45", ALC2XX_FIXUP_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1025, 0x1534, "Acer Predator PH315-54", ALC255_FIXUP_ACER_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1025, 0x1539, "Acer Nitro 5 AN515-57", ALC2XX_FIXUP_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1025, 0x159c, "Acer Nitro 5 AN515-58", ALC2XX_FIXUP_HEADSET_MIC),
 -- 
 2.53.0
 
