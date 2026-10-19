@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3C7A5DE999;
-	Mon, 19 Oct 2026 14:02:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08A57526597;
+	Mon, 19 Oct 2026 14:02:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792418539; cv=none; b=sQSxs9yknSLwNhtGfyipRc3iqgxDztYDdinMr8A2Qnglu+d8xBZ6U9iAiING/IW26yzBOhI31J2Utd7jI5GFTOst1EfmiDiZqQvj/DMxQb5KQhCSNIR46VooLc3H2wNre5egu8Pph07RkVA6H4x0iq6G+slMuyxfIMP2pXRRIVk=
+	t=1792418573; cv=none; b=kk4cELhDuiolgN0dwbZBBmLILGRsKcV2we/y0eBq9aSfwq+oFVI7VuiVQmI/45rC5HmO7c0KyHVt9CgXAWcSx12eZe8PmieHKaCggpEOHjPPEv1EpOtoFN9DiaTdOIR6eMP2+vfNLqcFnj9awFXqT6064xD7p5IflHJY1dRPmYk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792418539; c=relaxed/simple;
-	bh=2p0mEzJLWfOGEC5OD/3TM2/rVM6Kn5a7xXK7lqvUKQY=;
+	s=arc-20240116; t=1792418573; c=relaxed/simple;
+	bh=QF1eQoIqa08aJYjuOaD3cOfQFUsXGmH5ogs9SHg25ys=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Ua8SUNNLpkFctNwZOjgfivelO6c2zmS5gDiGM51IgR0g++Esjcz+dvfmgd8N7VkZHoKWyjx4VQ1V+3Dsb4BUVOT+UgmcLLND7W/jvYQ+CpnRrdaqin/b7+ILhQrAqPtkd6Y41EfbkhYyIjXpOvQLBGIdD//RVVo7vm6FEtx5mN8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Nqx9rlDX; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=kBDyuupke+rkpxX5AUZ5bwT67uQ81WsyUrknJ7q8QvGvL0vHxr8wNFoqaPdvzqSeVGL2iEn4dTSexdwOnglzXZr+tVSLtiWrOZDb+VpjLk5lnDPgp8HKQG/B4J6LAyXNr1l26Bo2P/x7280s+O234bJh2UzIRqa5DPZLvIDcZaQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F3ab/Beh; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Nqx9rlDX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70E9D1F000C4;
-	Mon, 19 Oct 2026 14:02:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F3ab/Beh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 030591F000C9;
+	Mon, 19 Oct 2026 14:02:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792418534;
-	bh=RSFCUUn9tTT4o2aFy4MJqRVfv+N/W91AMgfdwSwp4fc=;
+	s=k20260515; t=1792418569;
+	bh=EXOEt8iWCksbEuOcUGPJXw9M2YosVwX4WoL1niqqiAo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Nqx9rlDXesh3DNKxHVXSSASUTzLsrfkDaPfNlOjfxePn/MjXrTc2voJboy0hLNOcC
-	 wYyXkuGJVMBvbcF/ta98ypi6l40Db4ArsnQ7Ko44++3k1aydrhuV3f9BjUYUgECrnl
-	 lwwsDHqIQW170v/bZ4nIWAKwHlyCxWHzLs3D5LL9Z6Qvp7RWR8FjTbXDpgghhUC5XV
-	 ZCHCOM6a6w8BcvuNNMLpx07SJWfkwnWov4R3qUvYta2SgjChJ0dgUIWyvxEw0eJ6mh
-	 IDo72EOVTGoWSi2nCA9OsO4ZGWJeGLt9EwRQPm6PONHPrTaufshHk5EAm16XGFs7Zc
-	 lwVqG6DJLs+LQ==
+	b=F3ab/BehDzOhAQAYE+CefBEKbWSvcwvuYFz0d8aLyr4q0mo/yt0fHDmXb2sHfLAC5
+	 WHlyOUXIBtqFm3kQZpM/1EfxtprtibZHkGsNMj5ouzU3wTIvklm2996e3vPPxEEl3L
+	 aULBWUh1caCYR7mzkDCHsrPgG+uWSpZz7GlUzCFfDm2HiBx8chAwGJUsVloZLnkbSR
+	 pBS3umQ2a1ea9Yl6cSJncKV5m54O7ho1fg27USieI1t0GMlvf1bnOh1IeRWoYIOU6h
+	 Q/rnKwFXxcH18fq3Yc4tqqd8dLk3CuJ6YxiADRlPXoRg0U/Q8VSFgYty2velSM2o/l
+	 26GHB/oduPHPQ==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Tomasz Bojanowski <tomasz@bojanowski.me>,
+Cc: Yashraj Ghule <yashrajghule.221@gmail.com>,
 	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-5.15] ALSA: usb-audio: Add mixer mapping for MSI MAG B850M MORTAR WIFI
-Date: Mon, 19 Oct 2026 09:50:07 -0400
-Message-ID: <20261019135441.1420968-316-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-6.12] ALSA: hda/realtek: Fix mute LED for HP Victus 15-fa1xxx (MB 8C3F)
+Date: Mon, 19 Oct 2026 09:50:32 -0400
+Message-ID: <20261019135441.1420968-341-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261019135441.1420968-1-sashal@kernel.org>
 References: <20261019135441.1420968-1-sashal@kernel.org>
@@ -54,411 +54,469 @@ X-stable-base: Linux 6.18.57
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Tomasz Bojanowski <tomasz@bojanowski.me>
+From: Yashraj Ghule <yashrajghule.221@gmail.com>
 
-[ Upstream commit 7b457ae8cf711831f19d20963f5ed2fdf4842d3a ]
+[ Upstream commit 19b02fecd8f857909af779afe3816e487ac10cd0 ]
 
-The USB audio device 0db0:cc78 (Realtek ALC4080) on the MSI MAG B850M
-MORTAR WIFI motherboard exposes all playback controls as "PCM", which
-makes it hard to tell the outputs apart.
+The HP Victus 15-fa1xxx with motherboard 8C3F is missing the
+existing mute LED quirk for ALC245 codecs.
 
-Its mixer layout matches the one of the MSI MPG X570S Carbon Max Wifi
-(units 29, 30 and 32), so reuse msi_mpg_x570s_carbon_max_wifi_alc4080_map
-for this device too. With the mapping applied, the controls show up as
-"Speaker", "Front Headphone" and "IEC958".
+Add the 103c:8c3f subsystem ID to the existing
+ALC245_FIXUP_HP_MUTE_LED_COEFBIT quirk.
 
-Tested with a patched snd-usb-audio module on a 7.2.7 kernel.
+Tested on HP Victus 15-fa1xxx (MB 8C3F). The mute LED works
+as intended.
 
-Signed-off-by: Tomasz Bojanowski <tomasz@bojanowski.me>
-Link: https://patch.msgid.link/20260923184957.6687-1-tomasz@bojanowski.me
+Signed-off-by: Yashraj Ghule <yashrajghule.221@gmail.com>
+Link: https://patch.msgid.link/20260816110655.11592-1-yashrajghule.221@gmail.com
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-This is a four-line USB mixer-map ID addition for an existing `snd-usb-
-audio` quirk table. The local tree is **6.18.57**; the reused ALC4080
-map is already here, and the new ID is not in `v6.18.57`.
+Confirmed: this is a one-line HDA subsystem-ID quirk, the existing
+ALC245 mute-LED fixup is already in 6.12, and 0x8c3f is not. Writing the
+full nine-phase analysis.
 
----
-
-## PHASE 1: COMMIT MESSAGE FORENSICS
+===============================================================
+PHASE 1: COMMIT MESSAGE FORENSICS
+===============================================================
 
 **Step 1.1: PARSE THE SUBJECT LINE**
-Record: **[ALSA/usb-audio] [Add] mixer mapping for MSI MAG B850M MORTAR
-WIFI (USB ID 0db0:cc78)**
+
+Record: **[ALSA: hda/realtek]** **[Fix]** mute LED for HP Victus
+15-fa1xxx motherboard 8C3F by adding PCI/HDA subsystem ID `103c:8c3f` to
+an existing quirk.
 
 **Step 1.2: PARSE ALL COMMIT MESSAGE TAGS**
+
 Record:
-- **Fixes:** none (expected for this review class)
+- **Fixes:** none (expected for this review pipeline)
 - **Reported-by:** none
-- **Tested-by:** none as a tag; body says the author tested a patched
-  `snd-usb-audio` on **7.2.7**
-- **Reviewed-by / Acked-by:** none in the commit; mailing-list apply-ack
-  from Takashi Iwai
-- **Link:**
-  `https://patch.msgid.link/20260923184957.6687-1-tomasz@bojanowski.me`
-- **Cc: stable:** absent (not a negative signal)
-- **Signed-off-by:** Tomasz Bojanowski (author); Takashi Iwai
-  `<tiwai@suse.de>` (SOUND maintainer). Ignore Sasha Levin.
+- **Tested-by:** none as a tag; the body states the author tested it on
+  the matching machine
+- **Reviewed-by:** none
+- **Acked-by:** none
+- **Link:** `https://patch.msgid.link/20260816110655.11592-1-
+  yashrajghule.221@gmail.com`
+- **Cc: stable:** none (expected; not a negative signal)
+- **Signed-off-by:** Yashraj Ghule `<yashrajghule.221@gmail.com>`
+  (author); Takashi Iwai `<tiwai@suse.de>` (ALSA maintainer)
+- Ignore any Sasha Levin SOB if present in candidate packaging
+
+Notable: ALSA maintainer SOB; author-tested; no syzbot/crash report (not
+expected for a hardware quirk).
 
 **Step 1.3: ANALYZE THE COMMIT BODY TEXT**
+
 Record:
-- **Bug:** USB audio `0db0:cc78` (Realtek ALC4080 on MSI MAG B850M
-  MORTAR WIFI) exposes every playback control as `"PCM"`, so speaker,
-  front headphone, and S/PDIF cannot be told apart.
-- **Symptom:** unusable/ambiguous mixer controls;
-  PulseAudio/PipeWire/UCM cannot bind the right output.
-- **Root cause:** generic USB mixer names; layout matches existing MSI
-  ALC4080 maps (units 29, 30, 32).
-- **Fix:** reuse `msi_mpg_x570s_carbon_max_wifi_alc4080_map`.
-- **Version info:** tested on 7.2.7; hardware is a current AM5 board, so
-  6.18.y users have this device.
+- **Bug:** HP Victus 15-fa1xxx with motherboard ID 8C3F does not match
+  the existing ALC245 mute-LED quirk, so the mute LED does not follow
+  mute state.
+- **Symptom:** mute LED stays wrong / does not work.
+- **Version info:** none in the message.
+- **Root cause:** missing `SND_PCI_QUIRK` for SSID `103c:8c3f`. Same
+  product line already has other SSIDs (this tree already has
+  `103c:8bc8` "HP Victus 15-fa1xxx").
+- **Fix:** add that SSID to `ALC245_FIXUP_HP_MUTE_LED_COEFBIT`.
 
 **Step 1.4: DETECT HIDDEN BUG FIXES**
-Record: **Not a hidden fix.** It is an explicit hardware quirk / mixer-
-map ID addition. Not cleanup or a new API.
 
----
+Record: Not a hidden fix. It is an explicit hardware quirk / device-ID
+addition. The verb "Fix" is accurate: the LED hardware is already there;
+the driver never maps this SSID onto the existing coefbit LED helper.
 
-## PHASE 2: DIFF ANALYSIS
+===============================================================
+PHASE 2: DIFF ANALYSIS - LINE BY LINE
+===============================================================
 
 **Step 2.1: INVENTORY THE CHANGES**
+
 Record:
-- **File:** `sound/usb/mixer_maps.c` — **+4 / −0**
-- **Function/data:** `usbmix_ctl_maps[]` only
-- **Scope:** single-file surgical table entry
+- File in the candidate: `sound/hda/codecs/realtek/alc269.c` (+1 / −0)
+- This 6.12 tree still uses `sound/pci/hda/patch_realtek.c` (codec split
+  not present)
+- Function/table: `alc269_fixup_tbl[]`
+- Scope: single-file, one-line surgical quirk addition
 
 **Step 2.2: UNDERSTAND THE CODE FLOW CHANGE**
-Record: **Before:** `snd_usb_mixer_controls()` walks `usbmix_ctl_maps`;
-`0x0db0:0xcc78` misses, so units keep generic `"PCM"` names. **After:**
-that ID selects `msi_mpg_x570s_carbon_max_wifi_alc4080_map`, and
-`find_map()` / `check_mapped_name()` rename units 29/30/32. Probe-time
-mixer build only; other USB IDs unchanged.
+
+Record:
+- **Before:** `snd_hda_pick_fixup()` during Realtek ALC269-family probe
+  walks `alc269_fixup_tbl` by PCI SSID. `103c:8c3f` does not match.
+  Probe then may fall through to pin fixups and the vendor-wide HP entry
+  `SND_PCI_QUIRK_VENDOR(0x103c, "HP", ALC269_FIXUP_HP_MUTE_LED)`
+  (`alc269_fixup_vendor_tbl`). That generic HP LED path is not the
+  ALC245 coefbit path used by other Victus 15-fa/fb machines.
+- **After:** SSID `103c:8c3f` matches
+  `ALC245_FIXUP_HP_MUTE_LED_COEFBIT`, so
+  `alc245_fixup_hp_mute_led_coefbit()` runs at `HDA_FIXUP_ACT_PRE_PROBE`
+  and registers the mute LED via coef index 0x0b.
+- Path affected: codec probe / mute-LED setup on that one HP SSID only.
 
 **Step 2.3: IDENTIFY THE BUG MECHANISM**
-Record: **[Hardware workaround / USB mixer-map ID]** — same pattern as
-PCI/USB ID additions. No leak, race, or crash.
 
-Verified map in this tree:
-
-```476:481:sound/usb/mixer_maps.c
-static const struct usbmix_name_map
-msi_mpg_x570s_carbon_max_wifi_alc4080_map[] = {
-        { 29, "Speaker Playback" },
-        { 30, "Front Headphone Playback" },
-        { 32, "IEC958 Playback" },
-        {}
-};
-```
-
-Lookup in `snd_usb_mixer_controls()`:
-
-```3278:3286:sound/usb/mixer.c
-        for (map = usbmix_ctl_maps; map->id; map++) {
-                if (map->id == state.chip->usb_id) {
-                        state.map = map->map;
-                        state.selector_map = map.selector_map;
-                        mixer->connector_map = map->connector_map;
-                        break;
-                }
-        }
-```
+Record:
+- **Category:** hardware workaround / device ID addition (stable
+  exception).
+- **Mechanism:** HP reused the Victus 15-fa1xxx name across motherboard
+  SSIDs (`8bc8` already in this tree; mainline also has `8c2d`, `8c3f`,
+  and later `8bb1`). Quirk matching is exact vendor:device. Missing ID →
+  LED not driven by the ALC245 coefbit helper.
+- Not UAF, leak, race, or crash.
 
 **Step 2.4: ASSESS THE FIX QUALITY**
-Record: **Obviously correct.** Four lines, reuses a 2022 map already
-used for two MSI ALC4080 IDs. **Regression risk: very low** — scoped to
-one USB ID; wrong names would only affect that board, and the author
-tested it. No locking, allocation, or API change.
 
----
+Record:
+- Obviously correct: one `SND_PCI_QUIRK` using the same fixup already
+  used by many Victus SKUs in this file (`8a4f`, `8a50`, `8bc8`, `8c30`,
+  `8c99`, `8c9c`, …).
+- Minimal; no unrelated edits.
+- Regression risk is very low: the new entry is SSID-specific. Wrong
+  SSID would not match. Same helper is already production-used on this
+  tree.
+- v2 reordering (SSID sort) does not change runtime (the table is a
+  match list, not order-dependent beyond uniqueness).
 
-## PHASE 3: GIT HISTORY INVESTIGATION
+===============================================================
+PHASE 3: GIT HISTORY INVESTIGATION
+===============================================================
 
 **Step 3.1: BLAME THE CHANGED LINES**
-Record: Candidate lines blamed to `53b3abbe6e262` (this patch). Reused
-map from **`5762f980ca10d`** (Johannes Schickel, 2022-01-15, “add
-mapping for MSI MPG X570S Carbon Max Wifi”). Sibling ID `0x0db0:0xa073`
-from **`4ddef9c4d70aa`** (2022-04-18, Torpedo Max). Neighboring
-`usbmix_ctl_maps` MSI/ASUS entries date to 2020.
+
+Record:
+- Insertion sits next to `SND_PCI_QUIRK(0x103c, 0x8c30, "HP Victus
+  15-fb1xxx", ALC245_FIXUP_HP_MUTE_LED_COEFBIT)` — blamed to
+  `b474f60f6a0c9` (Adam Queler, 2024-09-03), already in this tree,
+  originally `Cc: stable`.
+- The fixup enum/function `ALC245_FIXUP_HP_MUTE_LED_COEFBIT` /
+  `alc245_fixup_hp_mute_led_coefbit()` exists here (`patch_realtek.c`
+  around 4778 and 10522).
+- Helper was brought in via `c4cc8f6c31263` ("ALSA: hda/realtek -
+  Support mute led function for HP platform", upstream `22c7f77247a8`),
+  ancestor of HEAD.
+- Same product line: `96fe253552c26` already added `103c:8bc8` "HP
+  Victus 15-fa1xxx" to this tree (upstream `a0914bf56e26`, `Cc:
+  stable`).
 
 **Step 3.2: FOLLOW THE FIXES: TAG**
-Record: **No Fixes: tag.** Bug is missing a device-specific map, not a
-regression from a named commit. Prerequisite map **is** in this series:
-`git merge-base --is-ancestor 5762f980ca10d v6.18.57` → yes; same for
-`4ddef9c4d70aa`.
 
-**Step 3.3: CHECK FILE HISTORY**
-Record: Recent `mixer_maps.c` work is more ID/quirk entries (Corsair
-Virtuoso, Razer Barracuda dB map, KTMicro rename, Corsair HS80).
-**Standalone.** No “patch X/Y”.
+Record: No `Fixes:` tag. N/A. The "bug" is a missing table entry, not a
+regression from a specific prior commit.
+
+**Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES**
+
+Record:
+- This tree already contains many of the same class of patches (git log
+  `--grep='mute LED' -- sound/pci/hda/patch_realtek.c` returned 166
+  commits).
+- Recent examples: Victus 16-e0xxx MB 88ED (`faee5b4612c26`), Victus
+  15-fa0xxx MB 8A50 (`0ecc9d81b46b1`), Victus 16-s0xxx, 16-r0xxx,
+  15-fb1xxx (`b474f60f6a0c9`).
+- Mainline context line `103c:8c2d` "HP Victus 15-fa1xxx (MB 8C2D)" is
+  **not** in this tree (`git log --grep='8C2D' --
+  sound/pci/hda/patch_realtek.c` empty). That is neighboring context,
+  not a functional prerequisite.
+- Standalone: yes. Not patch X/Y.
 
 **Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS**
-Record: Only this ALSA commit in-tree. Author is a hardware reporter,
-not the maintainer. Weight comes from **Takashi Iwai** applying it.
 
-**Step 3.5: DEPENDENT/PREREQUISITE COMMITS**
-Record: Needs `msi_mpg_x570s_carbon_max_wifi_alc4080_map` and
-`usbmix_ctl_maps[]`. Both exist at `v6.18.57`. **Applies standalone.**
+Record: `git log --author='Yashraj Ghule' -- sound/pci/hda/` is empty in
+this tree. Author is an end-user contributor, not the subsystem
+maintainer. Weight comes from Takashi Iwai applying it, plus the well-
+worn quirk pattern.
 
-Precedent: Torpedo Max (`4ddef9c4d70aa`) is the same reuse and carried
-**`Cc: stable@vger.kernel.org`**. This 6.18.y tree already has later
-mixer-map ID quirks (`5144ddfb71c18` Corsair Virtuoso later revision,
-`a7de2b873f3db` HS80, `93adf20ff4d6e` KTMicro) — `git merge-base --is-
-ancestor` of each vs `v6.18.57` is true.
+**Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS**
 
----
+Record:
+- Needs `ALC245_FIXUP_HP_MUTE_LED_COEFBIT` and `alc269_fixup_tbl` — both
+  present.
+- Does **not** need the later `alc269.c` file split.
+- Does **not** need the 8C2D quirk.
+- Can apply standalone with path remap to
+  `sound/pci/hda/patch_realtek.c` and insertion after the existing
+  `0x8c30` line.
 
-## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
+===============================================================
+PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
+===============================================================
 
 **Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION**
+
 Record:
-- `b4 dig -c 53b3abbe6e262` →
-  https://patch.msgid.link/20260923184957.6687-1-tomasz@bojanowski.me
-- `b4 dig -a`: **v1 only**, 2026-09-23
-- Thread: submission + Takashi Iwai **“Applied now. Thanks.”**
-  (2026-09-28). **No NAK, no revision requests, no stable discussion in-
-  thread.**
+- `b4 dig -c <HEAD>` cannot match this commit; it is not in this
+  checkout.
+- `b4 mbox` on Message-ID
+  `20260816110655.11592-1-yashrajghule.221@gmail.com` found **4
+  messages**.
+- Thread: v1 (15 Aug 2026) → Takashi review → v2 (16 Aug 2026) → Takashi
+  "Applied now."
+- v1 issues (not technical risk of the quirk): SOB must use a real name;
+  table must stay in PCI SSID order (`8c3f` belongs after `8c30`, not
+  before).
+- v2 addressed both; that is the committed form.
+- No NAK. No reviewer concern about the quirk itself. No `Cc: stable` in
+  the thread.
+- lore.kernel.org HTTP fetch returned 403; thread recovered from lore
+  via `b4 mbox`.
 
 **Step 4.2: CHECK WHO REVIEWED THE PATCH**
-Record (`b4 dig -w`): To/Cc **Takashi Iwai**, **Jaroslav Kysela**,
-`linux-sound`, `linux-kernel`. Right maintainers. Maintainer applied v1
-unchanged.
+
+Record (from mbox, equivalent of `b4 dig -w`):
+- To: Jaroslav Kysela `perex@perex.cz`
+- Cc: Takashi Iwai `tiwai@suse.de`, `linux-sound@vger.kernel.org`
+- Reviewer/applier: Takashi Iwai (ALSA/HDA maintainer)
 
 **Step 4.3: SEARCH FOR THE BUG REPORT**
-Record: No bugzilla/syzbot. Author hit it on real hardware. Related
-userspace: alsa-ucm-conf PR #581 (“add UCM2 support for MSI MAG B850M
-Mortar Wifi (ALC4080)”) describes **front-panel and S/PDIF routing
-problems** on this board. Kernel mixer names matter for UCM. That PR is
-supporting context, not a second kernel report.
 
-**Step 4.4: RELATED PATCHES AND SERIES**
-Record: Standalone 1/1. A later lore subject “USB-Audio: add MSI MAG
-B850M Mortar **Max** WiFi (0db0:83ed)” is a **different** USB ID — not a
-dependency.
+Record: No bugzilla/syzbot link. Evidence of user impact is the author
+test on HP Victus 15-fa1xxx (MB 8C3F). Same model family already needed
+extra SSIDs (8bc8 here; 8C2D and 8BB1 in later/mainline discussion),
+which matches HP shipping multiple board IDs under one marketing name.
+
+**Step 4.4: CHECK FOR RELATED PATCHES AND SERIES**
+
+Record: Standalone v1→v2, not a multi-patch series. Related but
+independent: 8C2D (Eren Demir) and 8BB1 (Krish Gulati / bugzilla 221982)
+add other fa1xxx SSIDs. None of those replace 8C3F.
 
 **Step 4.5: CHECK STABLE MAILING LIST HISTORY**
-Record: `lore.kernel.org/stable/?q=...` returned **403**. Openwall/LKML
-copies had **no stable NAK**. Unverified whether anyone mailed stable@
-about this exact patch. Not used as a negative.
 
----
+Record: No stable-list discussion found for 8C3F specifically. Closely
+related 8bc8 and 8c30 quirks in this tree **did** carry `Cc: stable` and
+were backported. That is the established policy for this exact pattern,
+not evidence this commit was already selected.
 
-## PHASE 5: CODE SEMANTIC ANALYSIS
+===============================================================
+PHASE 5: CODE SEMANTIC ANALYSIS
+===============================================================
 
 **Step 5.1: KEY FUNCTIONS**
-Record: No function bodies changed. Data consumed by
-`snd_usb_mixer_controls()` → `find_map()` → `check_mapped_name()`.
+
+Record: table `alc269_fixup_tbl`; runtime helper
+`alc245_fixup_hp_mute_led_coefbit()` (unchanged); picker
+`snd_hda_pick_fixup()`.
 
 **Step 5.2: TRACE CALLERS**
-Record: `snd_usb_mixer_controls()` runs when `snd-usb-audio` builds
-mixers for a matching USB audio interface (device probe). Userspace-
-reachable via plugging/enumerating this onboard codec.
+
+Record:
+- Realtek ALC269-family probe in `patch_realtek.c` (~12583) calls
+  `snd_hda_pick_fixup(..., alc269_fixup_tbl, alc269_fixups)`.
+- Then `snd_hda_apply_fixup(codec, HDA_FIXUP_ACT_PRE_PROBE)` (~12606).
+- Context: codec probe (device enumeration), not IRQ/hot path.
 
 **Step 5.3: TRACE CALLEES**
-Record: `find_map` is a linear table walk; `check_mapped_name` copies a
-string into `kctl->id.name`. No alloc/lock beyond existing mixer control
-creation.
+
+Record: `alc245_fixup_hp_mute_led_coefbit()` sets `spec->mute_led_coef`
+(idx 0x0b, mask/on/off bits) and `snd_hda_gen_add_mute_led_cdev(codec,
+coef_mute_led_set)`.
 
 **Step 5.4: FOLLOW THE CALL CHAIN**
-Record: USB enumerate → `snd-usb-audio` probe → mixer parse → kcontrol
-names. **Yes, reachable** for anyone with this motherboard. Unprivileged
-users see the names via ALSA/PulseAudio; they cannot trigger a kernel
-crash with this change.
+
+Record: userspace/hw mute → HDA mixer/LED classdev → coef write.
+Reachable on this laptop at boot + mute key. Not a syscall security
+path.
 
 **Step 5.5: SEARCH FOR SIMILAR PATTERNS**
-Record: Same map already used for `0x0db0:0x419c` and `0x0db0:0xa073`.
-This is the established ALC4080 pattern.
 
----
+Record: many `ALC245_FIXUP_HP_MUTE_LED_COEFBIT` rows for Victus SSIDs
+already in this file (including `0x8bc8` 15-fa1xxx and `0x8c30`
+15-fb1xxx). Same bug, different board ID — systematic HP SSID
+fragmentation.
 
-## PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
+===============================================================
+PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
+===============================================================
 
 **Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?**
+
 Record:
-- `git describe HEAD` → **`v6.18.57-155-gcdf239ca885b2`**
-- `make kernelversion` → **6.18.57**
-- `v6.18.57:sound/usb/mixer_maps.c` has the ALC4080 map and IDs `0x419c`
-  / `0xa073`, **not** `0xcc78`
-- The unmapped-ID bug **exists on this 6.18.y base**
-- `git merge-base --is-ancestor 53b3abbe6e262 v6.18.57` → **false** (not
-  in the 6.18.57 tag)
+- Tree: `pending-6.12` / `git describe` `p-6.12-3-gc504cf0baa3d8` /
+  `make kernelversion` **6.12.111**.
+- `sound/hda/codecs/realtek/alc269.c` does **not** exist.
+- Equivalent table: `sound/pci/hda/patch_realtek.c` `alc269_fixup_tbl`.
+- `0x8c3f` is **absent** (`grep` on that file: no match).
+- `ALC245_FIXUP_HP_MUTE_LED_COEFBIT` **is** present.
+- Nearby `0x8c30` **is** present (line 11088).
+- Nearby mainline `0x8c2d` is **absent**.
+- Bug is a missing ID, not a post-6.12 logic regression. The machine and
+  the helper both exist for 6.12 users.
 
-(The candidate is present on current HEAD because autosel applied it for
-evaluation. That is ignored as selection evidence.)
+**Step 6.2: CHECK FOR BACKPORT COMPLICATIONS**
 
-**Step 6.2: BACKPORT COMPLICATIONS**
-Record: **Clean apply.** Context around the Torpedo Max entry is
-identical at `v6.18.57`. Needle found; `0xcc78` absent; map symbol
-present.
+Record: **minor path/context adjustment**, not a rework.
+- Remap file to `sound/pci/hda/patch_realtek.c`.
+- Insert after `0x8c30` (8c2d context from mainline is missing, so a
+  verbatim git-apply of the mainline hunk may not be fully clean).
+- No API/data-structure change.
 
-**Step 6.3: RELATED FIXES ALREADY HERE**
-Record: Carbon Max and Torpedo Max maps are here. **No equivalent
-`0xcc78` mapping** at `v6.18.57`.
+**Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE**
 
----
+Record: `0x8bc8` covers a different fa1xxx SSID, not 8C3F. Exact PCI
+SSID match only. No substitute for this ID.
 
-## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
+===============================================================
+PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
+===============================================================
 
-**Step 7.1:** Record: **ALSA USB audio (`sound/usb/`)** — **IMPORTANT**
-(common onboard USB audio on AM5 boards). Not core mm/net, not staging.
+**Step 7.1: SUBSYSTEM AND CRITICALITY**
 
-**Step 7.2:** Record: Active; this 6.18.y tree already backports mixer-
-map ID quirks. SOUND maintainers: Takashi Iwai, Jaroslav Kysela
-(`MAINTAINERS`).
+Record: ALSA HD-audio / Realtek codec (`sound/pci/hda/`). **IMPORTANT**
+for laptop audio users, **PERIPHERAL** in blast radius (one HP SSID).
+Not mm/fs/net core.
 
----
+**Step 7.2: SUBSYSTEM ACTIVITY**
 
-## PHASE 8: IMPACT AND RISK ASSESSMENT
+Record: High churn of device quirks; this file is the standard place for
+HP mute-LED IDs. Mature helper, incremental table growth.
 
-**Step 8.1:** Record: **Driver-specific / USB-ID-specific** — MSI MAG
-B850M MORTAR WIFI (`0db0:cc78`) with `CONFIG_SND_USB_AUDIO`. Other
-devices unaffected.
+===============================================================
+PHASE 8: IMPACT AND RISK ASSESSMENT
+===============================================================
 
-**Step 8.2:** Record: Trigger is **every probe** of that codec. Common
-for that board. Unprivileged users see wrong mixer names; not a syscall
-crash.
+**Step 8.1: WHO IS AFFECTED**
 
-**Step 8.3:** Record: **Failure mode:** all playback controls named
-`"PCM"` → users cannot control speaker vs headphone vs IEC958
-independently; userspace routing/UCM can pick the wrong output.
-**Severity: MEDIUM** as a functional hardware quirk (not
-oops/corruption). Still the class stable explicitly wants.
+Record: **driver-specific / hardware-specific** — only HP SSID
+`103c:8c3f` (Victus 15-fa1xxx MB 8C3F). CONFIG_SND_HDA_CODEC_REALTEK
+(standard laptop configs).
 
-**Step 8.4:** Record: **Benefit: high for those boards, zero
-elsewhere.** **Risk: very low** (4 lines, one ID). **Ratio: strongly
-favorable.**
+**Step 8.2: TRIGGER CONDITIONS**
 
----
+Record: every boot + mute on that SKU. Not a race. Unprivileged user can
+observe the LED; not a privilege-escalation path.
 
-## PHASE 9: FINAL SYNTHESIS
+**Step 8.3: FAILURE MODE SEVERITY**
 
-**Step 9.1: EVIDENCE**
+Record: mute LED does not track mute. **MEDIUM** functionally (no
+oops/corruption). Still a real hardware bug. Stable rules explicitly
+include device IDs and hardware quirks.
 
-**For:**
-- Official rule: *“fix a real bug that bothers people **or just add a
-  device ID**”* and *hardware quirk* (`Documentation/process/stable-
-  kernel-rules.rst`)
-- Same class as USB/PCI ID and mixer-map quirks routinely taken into
-  6.18.y
-- Identical 2022 sibling (Torpedo Max) was **Cc: stable**
-- Real hardware: ALC4080 with colliding `"PCM"` names
-- 4 lines, reuses an in-tree map, maintainer-applied, author-tested
-- Map + table exist at `v6.18.57`; applies cleanly
-- Only that USB ID is affected
+**Step 8.4: RISK-BENEFIT RATIO**
 
-**Against:**
-- Not a crash, UAF, or security fix
-- No Fixes:/Cc: stable on this commit (expected; not a veto)
-- No second independent reporter in the kernel thread
+Record:
+- **Benefit:** restores mute LED on a shipping HP Victus SKU for 6.12
+  users; same class already backported here many times.
+- **Risk:** very low (one SSID-guarded line, existing helper).
+- **Ratio:** strongly favors backport.
 
-**Unresolved:**
-- lore.kernel.org/stable search 403 — no verified stable-list thread
-- Commit text says controls show as `"Speaker"` / `"Front Headphone"` /
-  `"IEC958"`; table strings are `"* Playback"`. Same as the 2022 map.
-  Does not change correctness.
+===============================================================
+PHASE 9: FINAL SYNTHESIS
+===============================================================
+
+**Step 9.1: COMPILE THE EVIDENCE**
+
+FOR:
+- Stable rules: "fix a real bug … **or just add a device ID**" and
+  "**hardware quirk**" (`Documentation/process/stable-kernel-rules.rst`
+  lines 15–20).
+- One-line addition to an existing driver/fixup.
+- Target SSID missing; helper and table present in 6.12.111.
+- Author tested on the exact machine; ALSA maintainer applied v2.
+- Same Victus 15-fa1xxx family already has `8bc8` in this tree; 8C3F is
+  another board ID.
+- Dozens of identical mute-LED quirk backports already in this file.
+
+AGAINST:
+- Not a crash/security/data-corruption fix.
+- Mainline path differs (`alc269.c` vs `patch_realtek.c`); 8c2d context
+  line missing (trivial).
+- No `Cc: stable` on the original (expected here; similar quirks often
+  still go to stable).
+
+UNRESOLVED:
+- Direct lore.kernel.org HTTP was 403; discussion was recovered via `b4
+  mbox`.
+- Could not `b4 dig -c` an upstream SHA because that commit is not in
+  this checkout.
+- No independent bugzilla for 8C3F (author is the tester).
 
 **Step 9.2: STABLE RULES CHECKLIST**
-1. Obviously correct and tested? **PASS** — 4-line ID add; author
-   tested; maintainer applied
-2. Fixes a real bug that affects users? **PASS** — indistinguishable
-   mixer controls on real hardware
-3. Important issue? **PASS** as **hardware quirk / device ID**
-   (documented exception); not a panic
-4. Small and contained? **PASS** — +4 lines, one file
-5. No new features or APIs? **PASS** — existing map, existing driver
-6. Can apply to the local tree? **PASS** — clean against `v6.18.57`
 
-**Step 9.3: EXCEPTION CATEGORY**
-Record: **Device ID addition + hardware quirk/workaround** (USB mixer-
-map ID on existing `snd-usb-audio`).
+1. Obviously correct and tested? **PASS** — one table entry; author
+   tested; maintainer applied.
+2. Fixes a real bug that affects users? **PASS** — mute LED dead on that
+   SKU.
+3. Important issue? **PASS** as hardware quirk / device ID (severity
+   MEDIUM, allowed exception).
+4. Small and contained? **PASS** — +1 line.
+5. No new features or APIs? **PASS** — enables existing fixup for one
+   SSID.
+6. Can apply to the local tree? **PASS** — helper+table exist; needs
+   path remap and insert after `0x8c30`.
+
+**Step 9.3: EXCEPTION CATEGORIES**
+
+Record: **Device ID addition to an existing driver** and **hardware
+quirk/workaround** (HDA `SND_PCI_QUIRK`).
 
 **Step 9.4: DECISION**
-Backport. This is the standard stable-eligible USB mixer ID quirk:
-small, isolated, already-supported driver, real board, in-tree map.
 
----
+This should be backported to **this** 6.12 tree. The bug is present
+(missing `103c:8c3f`), the fix is the standard Realtek mute-LED quirk,
+and it is self-contained aside from a trivial file-path/context tweak.
 
-### What the commit solves and why it matters here
+What it solves for stable users: HP Victus 15-fa1xxx systems with
+motherboard SSID 8C3F get a working mute LED, matching other
+fa1xxx/fb1xxx board IDs already quirked here.
 
-On this 6.18.y tree, `snd-usb-audio` already drives Realtek ALC4080
-motherboard codecs, but `0db0:cc78` has no name map. All playback
-volumes appear as `"PCM"`, so users (and UCM) cannot separate speaker,
-front headphone, and S/PDIF. The patch binds that ID to the existing MSI
-ALC4080 map.
+Risk vs benefit: one SSID-specific line vs a user-visible LED bug on a
+current consumer laptop. Benefit dominates.
 
-### Stable rules / risk vs benefit
+Concerns: apply to `sound/pci/hda/patch_realtek.c`, not `alc269.c`; do
+not require the absent 8C2D row.
 
-Meets the written stable rules via the **device ID / hardware quirk**
-exception. Benefit is correct mixer labels for this AM5 board; risk is
-confined to that USB ID. No prerequisites beyond code already in
-`v6.18.57`.
-
-### Concerns
-
-None material. Different Mortar **Max** ID `0db0:83ed` is a separate
-patch and not required. Presence of this commit on current autosel HEAD
-is evaluation-pipeline state, not a reason to skip a technical YES.
-
----
-
-### Verification
-- **[Phase 1]** Parsed subject/tags/body from `git show 53b3abbe6e262`;
-  Link msgid `20260923184957.6687-1-tomasz@bojanowski.me`
-- **[Phase 2]** Diff: +4 lines in `usbmix_ctl_maps[]`; map contents and
-  `snd_usb_mixer_controls()` lookup read in this tree
-- **[Phase 3]** `git blame` on map (5762f980ca10d, 2022) and ID rows;
-  Torpedo Max `4ddef9c4d70aa` has `Cc: stable`; `git merge-base --is-
-  ancestor` of map/Torpedo vs `v6.18.57` = yes
-- **[Phase 3]** `git log --oneline -20 -- sound/usb/mixer_maps.c`;
-  author search only this commit
-- **[Phase 4]** `b4 dig -c/-a/-w` and `-m /tmp/thread.mbox`: v1 only; To
-  Iwai/Kysela/linux-sound; Iwai “Applied now”
-- **[Phase 4]** Openwall + LKML mirrors of the same thread;
-  lore.kernel.org 403 on patch.msgid.link and stable search
-- **[Phase 4]** Web search found alsa-ucm-conf PR #581 for this board
-  (userspace routing)
-- **[Phase 5]** Call path: `snd_usb_mixer_controls` → `find_map` →
-  `check_mapped_name` verified in `mixer.c`
-- **[Phase 6]** `git describe HEAD` = `v6.18.57-155-gcdf239ca885b2`;
-  `make kernelversion` = 6.18.57; `git grep` on `v6.18.57 --
-  sound/usb/mixer_maps.c`: map yes, `0xcc78` no; ancestor check of
-  candidate vs `v6.18.57` = no
-- **[Phase 6]** Context around Torpedo Max entry identical at `v6.18.57`
-  (clean apply)
-- **[Phase 6]** Similar mixer-map ID quirks already in `v6.18.57`
-  (Corsair Virtuoso, HS80, KTMicro)
-- **[Phase 7]** SOUND maintainers in `MAINTAINERS`; `sound/usb/` still
-  receiving 6.18.y quirks
-- **[Phase 8]** Failure mode is misnamed mixer controls for one USB ID,
-  not a kernel oops
-- **UNVERIFIED:** whether this patch was already discussed on stable@
-  (lore stable search 403)
-
-The patch is a contained hardware quirk for an existing driver and
-should be taken into this 6.18.y tree.
+Verification:
+- [Phase 1] Parsed subject/tags/body from the candidate message; Link
+  msgid `20260816110655.11592-1-yashrajghule.221@gmail.com`; SOBs Ghule
+  + Iwai; no Fixes/syzbot/stable Cc.
+- [Phase 2] Diff is +1 `SND_PCI_QUIRK(0x103c, 0x8c3f, ...,
+  ALC245_FIXUP_HP_MUTE_LED_COEFBIT)` in `alc269_fixup_tbl`.
+- [Phase 3] `git describe HEAD` → `p-6.12-3-gc504cf0baa3d8`; `make
+  kernelversion` → 6.12.111; branch `pending-6.12`.
+- [Phase 3] `alc269.c` missing; quirk table in
+  `sound/pci/hda/patch_realtek.c`.
+- [Phase 3] `grep 0x8c3f` in that file: no match.
+  `ALC245_FIXUP_HP_MUTE_LED_COEFBIT` present (enum ~8222, fixup ~10522,
+  function ~4778).
+- [Phase 3] `0x8c30` present (blame `b474f60f6a0c9`); `0x8bc8` present
+  (`96fe253552c26`); `0x8c2d` absent.
+- [Phase 3] `git merge-base --is-ancestor` for `b474f60f6a0c9` and
+  `c4cc8f6c31263`: both ancestors of HEAD.
+- [Phase 3] `git log --grep='mute LED' --
+  sound/pci/hda/patch_realtek.c`: 166 commits of the same class.
+- [Phase 4] `b4 mbox` on the msgid: v1, Takashi review (SOB name + SSID
+  sort), v2, "Applied now."
+- [Phase 4] Recipients: perex, tiwai, linux-sound. No NAK.
+- [Phase 4] lore WebFetch 403; discussion taken from the saved mbox.
+- [Phase 5] Probe path `snd_hda_pick_fixup` ~12583 →
+  `snd_hda_apply_fixup` PRE_PROBE ~12606; vendor HP fallback
+  `ALC269_FIXUP_HP_MUTE_LED` at `alc269_fixup_vendor_tbl`.
+- [Phase 6] Backport difficulty: path remap + insert after 8c30 (8c2d
+  context missing).
+- [Phase 7] ALSA HDA Realtek; quirk-table activity high.
+- [Phase 8] Failure: mute LED inoperative on one HP SSID; severity
+  MEDIUM; risk very low.
+- UNVERIFIED: upstream mainline SHA of this commit (not in this
+  checkout; `b4 dig -c HEAD` cannot match it).
 
 **YES**
 
- sound/usb/mixer_maps.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ sound/hda/codecs/realtek/alc269.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/sound/usb/mixer_maps.c b/sound/usb/mixer_maps.c
-index ace4ccad8f51c..a82b9c1d578d9 100644
---- a/sound/usb/mixer_maps.c
-+++ b/sound/usb/mixer_maps.c
-@@ -718,6 +718,10 @@ static const struct usbmix_ctl_map usbmix_ctl_maps[] = {
- 		.id = USB_ID(0x0db0, 0xa073),
- 		.map = msi_mpg_x570s_carbon_max_wifi_alc4080_map,
- 	},
-+	{	/* MSI MAG B850M MORTAR WIFI */
-+		.id = USB_ID(0x0db0, 0xcc78),
-+		.map = msi_mpg_x570s_carbon_max_wifi_alc4080_map,
-+	},
- 	{	/* MSI TRX40 */
- 		.id = USB_ID(0x0db0, 0x543d),
- 		.map = trx40_mobo_map,
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index 9ec18f779a700..bc33930e83b9f 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -6974,6 +6974,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x8c21, "HP Pavilion Plus Laptop 14-ey0XXX", ALC245_FIXUP_HP_X360_MUTE_LEDS),
+ 	SND_PCI_QUIRK(0x103c, 0x8c2d, "HP Victus 15-fa1xxx (MB 8C2D)", ALC245_FIXUP_HP_MUTE_LED_COEFBIT),
+ 	SND_PCI_QUIRK(0x103c, 0x8c30, "HP Victus 15-fb1xxx", ALC245_FIXUP_HP_MUTE_LED_COEFBIT),
++	SND_PCI_QUIRK(0x103c, 0x8c3f, "HP Victus 15-fa1xxx (MB 8C3F)", ALC245_FIXUP_HP_MUTE_LED_COEFBIT),
+ 	SND_PCI_QUIRK(0x103c, 0x8c46, "HP EliteBook 830 G11", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8c47, "HP EliteBook 840 G11", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8c48, "HP EliteBook 860 G11", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
 -- 
 2.53.0
 
