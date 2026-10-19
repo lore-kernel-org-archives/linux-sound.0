@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6712461257C;
-	Mon, 19 Oct 2026 14:03:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCE3553875B;
+	Mon, 19 Oct 2026 14:04:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792418640; cv=none; b=pIpGQ+9+VrT78OYH99+pvC/yL+Yz4O4iT19akubGUpMfVYcLt9uV3LGRbiuQWifF7im8YF4KWFjL7g7k5ZzNSS4ahwh020ylVfDuDMX2tYQ7tlqwORUHxD14uy1M3B3Y9s38xXKwdcovRfSh3qq027+yFfi4LWYmmTQCibym9Ss=
+	t=1792418681; cv=none; b=M/O0ZSdK3K50IYKthoXdXUZbxEWcxPvwBN/xuPrvcdlLJIYv8sJQoVfXYDJuuRCtDKEC9P/c8ul9w+q9+wMatXOYYOomrMOBZ14KoOL+9oZU7MtcbwN6aXf3zYBDRLatr7OTR3FtcbI7qNShd/OMKNuTs3P3S9gClD40c447LSc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792418640; c=relaxed/simple;
-	bh=r5s3InEchgvzp3m5zFOMXBo11KI1W/XUdhk/T3HSa7o=;
+	s=arc-20240116; t=1792418681; c=relaxed/simple;
+	bh=jrQMOA/SM4mc01xbFxhcMqq6uwiY2uRcd+zxTo7vtqc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uL/p5uzqdMYxPLfh421oN7UmHjlHkdtAop3wmTx3ACLj7+9Z/7Y2wy66J+tT/PjyYhPqiLzeDsXthGnWrWHWFfrsbn1AMEi/HJ6U1FtsjKFNofX4RrWvKEBuhGPWUAk+6c1RONLVoEtw2tVUijCzOXT2Xb2Un8dbat5LZYOpwCo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V/NQEzy0; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=mdydJ9MFpZ6Bw+hwXyXUQgwaLRB1VM7T/92dqgVYQSYCd2p6hU+10eU0QRtp8dyidQH0j+3EsX5lM5HS/GGTRUhqEEBnH28/DmqSTZ7nZHkQCZpCjPhLhRFpvD/dIDPnWJcGnUfzZDsWFHiIjkDpqb0/3FytJMkkSfAgq9r1r9A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FYh1Z35Y; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V/NQEzy0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 266391F000C6;
-	Mon, 19 Oct 2026 14:03:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FYh1Z35Y"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B43161F000C4;
+	Mon, 19 Oct 2026 14:04:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792418638;
-	bh=RpwoW7TM1a80u01aCDnUbBDnSWEjFDM2O80sxikozNc=;
+	s=k20260515; t=1792418678;
+	bh=1GBZygteAOTn7BJ5HKhZvdqg98ATeVmYxOHQkitqReU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=V/NQEzy0VZ9FzibMz+BiyK1tSjkk8DCXXiPKi3hhKYJA4YrIT4ZeE72fk7OuOysu9
-	 +lbsRhpftpHyzoB7+i4sfAA8WCKVEHpmlr4QFFhZaOyY22Xq/8rFrwF0+5JcFoI1Xz
-	 bxxuLY8YpFXCMipVD3Zd6QhAZ/CF9GBKj77JBc+5HwEYRojw52uvMrHIKZcDumsD3F
-	 3yN8UeNauPYvBIyvtj0SkfRYUjjc77o5/20hZMkJNhu5st9iV+lQV/ol5+ZhBQ8LAL
-	 0v9GCar2R9x+51VwPudHar4f3qecBBbJOUWQNCbrdijQZLWgu/uSal2cjyEPk2jSFn
-	 K2oZTi8dJq4/w==
+	b=FYh1Z35YrvPMr2AKY+hn/4u/rj/z6BSpBvwvu4oQ8uI4SWQjnUvKVmMfT3obnVV6K
+	 oHFlE+k63RpPibpVOpFkxfpSnSWOZT7FRgL7sfwqkRMoKAnNXLT7d9yFT4EshAEEt4
+	 7Nz160dkmxxIqUtm59AXwzGWiNoEJML6HEd2X45E1LVLRBe/ipCfWOEMd19rj0iXLk
+	 2qQNy7ksTh4/i8r1E2INXkSCLXQMl7Cg/rmnDLvwj2KK0+oJJvjryOf/YnShz/1I+7
+	 /wTMl68j5BxbnECrM/0j+seFpxwcqHaCZ3KLS26hAZuhaqqsKJDzfj0iGduq5lr4I4
+	 Kci6n3q9y9AGw==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Bob Song <songxiebing@kylinos.cn>,
+Cc: Muhtasham Nawr al-Mahmud <muhtaseem2005@gmail.com>,
 	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-6.1] ALSA: hda: Check snd_hda_power_pm construct error before executing verb
-Date: Mon, 19 Oct 2026 09:51:22 -0400
-Message-ID: <20261019135441.1420968-391-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-6.6] ALSA: hda/realtek: Fix speakers on ASUS PM3406CHA
+Date: Mon, 19 Oct 2026 09:51:50 -0400
+Message-ID: <20261019135441.1420968-419-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261019135441.1420968-1-sashal@kernel.org>
 References: <20261019135441.1420968-1-sashal@kernel.org>
@@ -54,68 +54,88 @@ X-stable-base: Linux 6.18.57
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Bob Song <songxiebing@kylinos.cn>
+From: Muhtasham Nawr al-Mahmud <muhtaseem2005@gmail.com>
 
-[ Upstream commit df27e4dc80c4a30ad206432cb848aab00de22ca7 ]
+[ Upstream commit 0eee030c2c09c7a44be778de5f451d9e7a2f09c1 ]
 
-When userspace writes 1 to /sys/bus/pci/devices/XX/remove to remove
-HDA PCI device, the HDA hardware control path is shut down and devres
-unmaps the BAR virtual address bus->remap_addr automatically during
-driver removal.
+The ASUS ExpertBook PM3406CHA uses an ALC256 codec with subsystem
+ID 1043:1664. On Linux boot, the internal speakers are silent even
+though playback is routed to the codec and the speaker pin is
+configured for output.
 
-If a delayed HDA verb command arrives after the MMIO region is
-unmapped, the driver will access invalid virtual addresses and trigger
-a page fault splat.
+The codec starts with coefficient 0x10 set to 0x1d20. Writing 0x7f20
+to coefficient 0x10 immediately restores internal speaker output.
 
-So add an error check right after constructing snd_hda_power_pm.
+This was reproduced on the affected hardware from a fresh boot using
+hda-verb. Reducing a larger initialization sequence showed that this
+coefficient write alone is sufficient; no GPIO, EAPD, pin-control, or
+other coefficient changes are required. After applying the coefficient
+in userspace, speaker output also remains functional across suspend
+and resume.
 
-Signed-off-by: Bob Song <songxiebing@kylinos.cn>
-Link: https://patch.msgid.link/20260717024948.506335-1-songxiebing@kylinos.cn
+Add a machine-specific HDA fixup that writes the required coefficient.
+
+The fixup has been compile-tested, but could not be boot-tested because
+the affected hardware is no longer available.
+
+Closes: https://bugs.launchpad.net/ubuntu/+source/alsa-driver/+bug/2162718
+Signed-off-by: Muhtasham Nawr al-Mahmud <muhtaseem2005@gmail.com>
+Link: https://patch.msgid.link/20260924144512.3989-1-muhtaseem2005@gmail.com
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-Local tree is **7.3-rc4** (`v7.3-rc4-27-gf0100363d8c37`). The HDA
-`CLASS(snd_hda_power_pm)` path exists here, and this is a real page-
-fault on PCI unbind. Analysis below is for this checkout only.
+This is a machine-specific Realtek HDA quirk for silent speakers on one
+ASUS laptop. The local tree is **6.18.57**; the ALC256 driver and quirk
+tables are already here, and the SSID entry is not.
 
 ===============================================================
 PHASE 1: COMMIT MESSAGE FORENSICS
 ===============================================================
 
 **Step 1.1: PARSE THE SUBJECT LINE**
-Record: **[ALSA: hda:] [Check] [bail out of verb execution if
-`snd_hda_power_pm` construction failed and the controller is already
-stopped]**
+Record: **[ALSA: hda/realtek]** **[Fix]** **[restore internal speakers
+on ASUS ExpertBook PM3406CHA]**
 
 **Step 1.2: PARSE ALL COMMIT MESSAGE TAGS**
 Record:
-- `Signed-off-by: Bob Song <songxiebing@kylinos.cn>` (author)
-- `Link: https://patch.msgid.link/20260717024948.506335-1-
-  songxiebing@kylinos.cn` (v2 submission)
-- `Signed-off-by: Takashi Iwai <tiwai@suse.de>` (ALSA/HDA maintainer)
-- No `Fixes:`, no `Reported-by:`, no `Tested-by:`, no `Cc: stable`
-  (absence expected)
-- Pipeline `Signed-off-by: Sasha Levin` / `[Upstream commit ...]`
-  ignored
+- `Closes: https://bugs.launchpad.net/ubuntu/+source/alsa-
+  driver/+bug/2162718` — Ubuntu bug with a real user report
+- `Link: https://patch.msgid.link/20260924144512.3989-1-
+  muhtaseem2005@gmail.com` — original submission
+- `Signed-off-by: Muhtasham Nawr al-Mahmud <muhtaseem2005@gmail.com>` —
+  author
+- `Signed-off-by: Takashi Iwai <tiwai@suse.de>` — ALSA maintainer
+  applied it
+- No `Fixes:` tag (expected: this is a missing hardware quirk, not a
+  regression)
+- No `Cc: stable@vger.kernel.org` (expected for this review queue)
+- No `Reported-by:` / `Tested-by:` in the git message; the Launchpad
+  thread supplies both in practice
+- Ignore pipeline `Signed-off-by: Sasha Levin` / `[Upstream commit ...]`
 
 **Step 1.3: ANALYZE THE COMMIT BODY TEXT**
 Record:
-- **Bug:** After `echo 1 > /sys/bus/pci/devices/XX/remove`, the HDA
-  control path is torn down and `devres` unmaps `bus->remap_addr`.
-- **Symptom:** A later HDA verb still runs, touches the unmapped BAR,
-  **page fault / splat**.
-- **Root cause (author):** `CLASS(snd_hda_power_pm, pm)(codec)` can
-  fail; the old code ignored `pm.err` and still called
-  `snd_hdac_bus_exec_verb_unlocked()`.
-- **Version info:** none in the message.
+- **Bug:** ASUS ExpertBook PM3406CHA (ALC256, SSID `1043:1664`) boots
+  with internal speakers silent even though ALSA routes playback to the
+  codec and the speaker pin is an output.
+- **Symptom:** no audible speaker output; HDMI/Bluetooth still work
+  (Launchpad).
+- **Root cause:** vendor coefficient `0x10` comes up as `0x1d20`.
+  Writing `0x7f20` restores output. Isolated with `hda-verb` from a
+  larger init sequence; GPIO/EAPD/pin-control/other coeffs were not
+  required. After the userspace write, audio still worked across
+  suspend/resume.
+- **Version info:** Launchpad reporter: Ubuntu 24.04.4, kernel
+  `7.0.0-28-generic`; author also tested on `7.2.6-arch2-1`.
+- **Caveat in the message:** author compile-tested the kernel patch but
+  no longer had the laptop for a kernel boot-test.
 
 **Step 1.4: DETECT HIDDEN BUG FIXES**
-Record: Not hidden. Explicit crash-avoidance check. The v1 lore text is
-even clearer: constructor fails, code still issues verbs, then MMIO
-after iounmap.
+Record: Not a disguised cleanup. This is an explicit hardware-quirk bug
+fix.
 
 ===============================================================
 PHASE 2: DIFF ANALYSIS - LINE BY LINE
@@ -123,87 +143,80 @@ PHASE 2: DIFF ANALYSIS - LINE BY LINE
 
 **Step 2.1: INVENTORY THE CHANGES**
 Record:
-- File: `sound/hda/common/codec.c` — **+6 / -0**
-- Function: `call_exec_verb()`
-- Scope: **single-file surgical fix**
+- File: `sound/hda/codecs/realtek/alc269.c`  **+10 / -0**
+- Functions/tables: `enum { ... }` (add `ALC256_FIXUP_ASUS_PM3406CHA`),
+  `alc269_fixups[]`, `alc269_fixup_tbl[]`
+- Scope: **single-file surgical hardware quirk**
 
 **Step 2.2: UNDERSTAND THE CODE FLOW CHANGE**
 Record:
-- **Before:** `CLASS(snd_hda_power_pm, pm)(codec)` then immediately
-  `guard(mutex)` and `snd_hdac_bus_exec_verb_unlocked()` — `pm.err`
-  unused.
-- **After:** if `pm.err < 0 && !bus->core.chip_init`, warn and return
-  `pm.err`; skip MMIO.
-- Path: verb send after power-up, specifically when the controller is
-  already stopped.
+1. Enum: add a new fixup ID used as an index into `alc269_fixups[]`.
+2. Fixup table: `HDA_FIXUP_VERBS` writing nid `0x20`
+   `AC_VERB_SET_COEF_INDEX 0x10` then `AC_VERB_SET_PROC_COEF 0x7f20`.
+3. Quirk table: `SND_PCI_QUIRK(0x1043, 0x1664, "ASUS ExpertBook
+   PM3406CHA", ALC256_FIXUP_ASUS_PM3406CHA)`.
+
+Before: `alc269_probe()` has no PCI-SSID match for `1043:1664`.
+Launchpad shows a pin-match fallback (`"ALC256: picked fixup (pin
+match)"` with empty name) that does not enable speakers.
+
+After: PCI SSID match wins (`snd_hda_pick_fixup` runs first;
+`snd_hda_pick_pin_fixup` returns immediately if `fixup_id` is already
+set). Verbs are queued at `HDA_FIXUP_ACT_PROBE` via
+`snd_hda_add_verbs()` and executed in `alc_init()` after Realtek init,
+including resume.
 
 **Step 2.3: IDENTIFY THE BUG MECHANISM**
-Record:
-- **Category:** memory-safety / invalid MMIO after teardown (page
-  fault).
-- **Mechanism:** `snd_hdac_bus_send_cmd_corb()` does
-  `snd_hdac_chip_readw(bus, CORBWP)` via `bus->remap_addr` with **no
-  `chip_init` guard**. `azx_send_cmd()` only checks `chip->disabled`.
-  After `snd_hdac_bus_stop_chip()` sets `chip_init = false`, a delayed
-  verb still MMIO’s the BAR. Power-up failure (`pm_runtime_get_sync`
-  error while the device is going away) is the signal that hardware is
-  no longer usable.
-- **Note:** `CLASS` destructor still runs on the early return, so the
-  `get`/`put` pair stays balanced (`pm_runtime_get_sync` still bumps the
-  usage count on error).
+Record: **[Hardware workaround / codec quirk]**
+Broken: ALC256 coef `0x10` left at `0x1d20` on this SKU, so the internal
+amp/output path stays muted.
+Fix: machine-specific init/resume verb write of `0x7f20`. Same pattern
+as `ALC269_FIXUP_DELL_M101Z` (speaker enable via coef verbs).
 
 **Step 2.4: ASSESS THE FIX QUALITY**
-Record:
-- **Quality:** Small, matches the header note (“If the error handling is
-  needed, refer `pm.err`”). HDMI already checks `pm.err`
-  (`sound/hda/codecs/hdmi/hdmi.c`).
-- **Conservative:** both `pm.err < 0` **and** `!chip_init` — v1’s
-  `pm_runtime_status_suspended()` false-positive on platform devices
-  without RPM was why v1 was dropped.
-- **Residual hole:** if power-up fails but `chip_init` is still true,
-  verbs still run; if `chip_init` is false but power-up succeeded, verbs
-  still run. Incomplete, not wrong.
-- **Regression risk:** low for this v2 form. `codec_warn` on a teardown
-  race is acceptable.
+Record: Obviously correct for this class of fix: one SSID, two verbs,
+existing `HDA_FIXUP_VERBS` machinery. Isolated to `1043:1664`. ALSA
+maintainer accepted it. Low regression risk for other machines. Residual
+risk is headphone routing on this one SKU if coef `0x10` is also a
+HP/speaker switch on ALC256 (GX502/GU502 comments use `0x10` that way
+with different values). That is unverified on this SKU; Takashi still
+applied the patch, and the Launchpad reporter confirmed speakers work.
 
 ===============================================================
 PHASE 3: GIT HISTORY INVESTIGATION
 ===============================================================
 
 **Step 3.1: BLAME THE CHANGED LINES**
-Record:
-- `CLASS(snd_hda_power_pm, pm)(codec)` introduced in **`8dad6b3dac279`**
-  (“ALSA: hda/common: Use cleanup macros for PM controls”, 2025-08-29) —
-  in this tree.
-- Before that, `codec_exec_verb()` called `snd_hda_power_up_pm()` and
-  **also ignored the return value** (`664c715573c2c`, 2015). Ignoring
-  power-up failure is old; `pm.err` only became easy to check after
-  CLASS.
+Record: There is no “introduced-by” regression. The bug is a **missing
+quirk**. Surrounding table entries (`0x1043:0x1663` / `0x1683`,
+`ALC269_FIXUP_DELL_M101Z`) already exist at `v6.18.57`. ALC256
+(`0x10ec0256`) is a first-class ID in this file
+(`HDA_CODEC_ID(0x10ec0256, "ALC256")`).
 
 **Step 3.2: FOLLOW THE FIXES: TAG**
-Record: No `Fixes:` tag. Closest introducer of this exact shape is
-`8dad6b3dac279` (CLASS refactor, “no functional changes”). Present in
-this 7.3 tree.
+Record: No `Fixes:` tag. Not applicable. This is new-hardware quirk
+coverage, not a revert of a bad change.
 
 **Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES**
 Record:
-- Immediate parents of `call_exec_verb`: `8dad6b3dac279` (extract +
-  CLASS), `62dd3851d2450` (`guard(mutex)`).
-- Follow-ups on this file after the fix (`ba4239b6d8e1b`,
-  `7284788743121`) are unrelated.
-- Standalone 6-line patch, not patch X/Y.
+- Related: `0156c22fb0ca8` “Add support for ASUS Commercial laptops
+  using CS35L41 HDA” adds **PM3406CKA** (`0x1043:0x1454`) with
+  `ALC287_FIXUP_CS35L41_I2C_2`. That is a **different SKU** with Cirrus
+  companion amps. Copying it to CHA would be wrong.
+- Similar silent-speaker quirk already in this tree: `e561c2740b628`
+  Higole F9B.
+- Standalone 10-line patch, not `X/Y` of a series. No follow-up on this
+  SSID after the candidate.
 
 **Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS**
-Record: Bob Song is a regular HDA contributor (quirks, NULL checks), not
-the maintainer. Maintainer is Takashi Iwai, who applied the patch.
+Record: Only this commit by Muhtasham Nawr al-Mahmud under `sound/hda/`.
+Not the subsystem maintainer. Applied by Takashi Iwai (`MAINTAINERS`:
+sound maintainer).
 
 **Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS**
-Record:
-- Needs `CLASS(snd_hda_power_pm)` / `struct __hda_power_obj.err` from
-  **`5d8c9c987fbdd`** + **`8dad6b3dac279`**.
-- Needs `sound/hda/common/codec.c` (moved in **`05be28fe8521f`**,
-  2025-07).
-- **All of that is in this 7.3-rc4 tree.** Applies standalone here.
+Record: None. Uses `HDA_FIXUP_VERBS`, `SND_PCI_QUIRK`,
+`alc269_fixups[]`, `alc269_fixup_tbl[]` — all present at `v6.18.57`. Can
+apply standalone.
 
 ===============================================================
 PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
@@ -211,126 +224,146 @@ PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
 
 **Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION**
 Record:
-- Lore (via `b4 dig`): https://patch.msgid.link/20260717024948.506335-1-
-  songxiebing@kylinos.cn
-- **v1** (2026-07-13): `pm.err < 0 && pm_runtime_status_suspended(...)`.
-  Takashi applied, then **author asked to drop it**: platforms without
-  RPM keep `runtime_status == suspended`, so verbs would be blocked.
-  Takashi dropped it.
-- **v2** (2026-07-17): `pm.err < 0 && !bus->core.chip_init`. Takashi:
-  “Applied to for-next branch.” **This is the committed version.**
-- **v3** (same day): only `!bus->core.chip_init` (no `pm.err`). **Not
-  applied.**
-- No NAKs on v2. No `Cc: stable` in review.
+- `b4 dig -c 0eee030c2c09…` matched msgid
+  `20260924144512.3989-1-muhtaseem2005@gmail.com`
+- Series: **v1 RFC only** (no v2/v3)
+- LKML: https://lkml.iu.edu/2609.3/01658.html (patch),
+  https://lkml.iu.edu/2609.3/11978.html (reply)
+- Takashi Iwai: “The code change looks OK, so I applied this now.” **No
+  NAK, no requested changes.**
+- lore.kernel.org fetches returned 403; discussion recovered via `b4
+  dig`, Patchew, and LKML IU.
 
 **Step 4.2: CHECK WHO REVIEWED THE PATCH**
-Record: To/Cc: Takashi Iwai, Jaroslav Kysela, linux-sound, linux-kernel.
-Subsystem maintainer applied v2 after the v1 false-positive.
+Record (`b4 dig -w`): Muhtasham Nawr al-Mahmud; Jaroslav Kysela; Takashi
+Iwai; Kailang Yang (Realtek); `linux-sound@vger.kernel.org`; `linux-
+kernel@vger.kernel.org`. Subsystem maintainer reviewed and applied.
 
 **Step 4.3: SEARCH FOR THE BUG REPORT**
-Record: No bugzilla/syzbot. Trigger described as sysfs PCI `remove`. No
-stack dump in the thread. **UNVERIFIED** how many users hit it beyond
-the author (Kylinos).
+Record (Launchpad #2162718):
+- Reporter: Nguyễn Trọng Tuyền, 2026-08-03, ASUS ExpertBook P3
+  PM3406CHA, Ryzen 7 8840HS, ALC256, SSID `1043:1664`.
+- Thought it was the same as PM3406CKA (#2133791, `1043:1454`); that SKU
+  needed CS35L41, this one does not.
+- Author isolated coef `0x10` on the hardware; reporter later: “It works
+  perfectly on my laptop (Ubuntu 24.04.4, kernel 7.0.0-28). My speakers
+  are finally working again!”
+- Independent user confirmation of the userspace workaround. Kernel-
+  patch `Tested-by` was offered but not in the commit.
 
 **Step 4.4: CHECK FOR RELATED PATCHES AND SERIES**
-Record: Standalone. HDMI already has similar `pm.err` checks;
-ca0132/realtek CLASS sites were not changed.
+Record: Standalone RFC. Not part of a multi-patch series. PM3406CKA
+CS35L41 quirk is a different machine and must not be reused.
 
 **Step 4.5: CHECK STABLE MAILING LIST HISTORY**
-Record: lore.kernel.org/stable search returned a bot wall (403).
-**UNVERIFIED** whether stable@ already discussed this. No local `git log
---grep` hits besides this commit.
+Record: No stable-list hit for PM3406CHA (lore.kernel.org/stable 403;
+web search did not show a stable NAK or prior rejection). UNVERIFIED
+that it was ever discussed on stable@; absence is not a negative.
 
 ===============================================================
 PHASE 5: CODE SEMANTIC ANALYSIS
 ===============================================================
 
-**Step 5.1: IDENTIFY KEY FUNCTIONS IN THE DIFF**
-Record: `call_exec_verb()`; helper for `codec_exec_verb()`.
+**Step 5.1: IDENTIFY KEY FUNCTIONS**
+Record: No function bodies changed. Data: `ALC256_FIXUP_ASUS_PM3406CHA`,
+`alc269_fixups[]`, `alc269_fixup_tbl[]`. Consumers: `alc269_probe()` →
+`snd_hda_pick_fixup()` → `snd_hda_apply_fixup()`; `alc_init()` →
+`snd_hda_apply_verbs()`.
 
 **Step 5.2: TRACE CALLERS**
 Record:
-- `codec_exec_verb` is `codec->core.exec_verb`
-  (`snd_hda_codec_device_new`).
-- `snd_hdac_exec_verb()` uses that; fallback is
-  `snd_hdac_bus_exec_verb()`.
-- Reachable from mixer/jack/HDMI/proc/hwdep/regmap — **normal HDA I/O**,
-  not an obscure helper.
+- `alc269_probe()` calls `snd_hda_pick_fixup(..., alc269_fixup_tbl,
+  alc269_fixups)` then `snd_hda_apply_fixup(..., HDA_FIXUP_ACT_PROBE)`.
+- `alc_init()` (codec `.init`, including resume) calls
+  `snd_hda_apply_verbs()` then `HDA_FIXUP_ACT_INIT`.
+- `HDA_FIXUP_VERBS` are applied only at `HDA_FIXUP_ACT_PROBE` to
+  **register** the list; documented to run at init and resume
+  (`snd_hda_add_verbs` comment in `auto_parser.c`).
+- Path: HD-audio codec probe on this laptop, then PCM playback. Not IRQ-
+  hot.
 
 **Step 5.3: TRACE CALLEES**
-Record: `snd_hda_power_up_pm` → `pm_runtime_get_sync`;
-`snd_hdac_bus_exec_verb_unlocked` → `bus->ops->command` (`azx_send_cmd`
-→ `snd_hdac_bus_send_cmd_corb`) which **MMIO’s `remap_addr`**.
+Record: `snd_hda_sequence_write()` of two vendor verbs on nid `0x20`
+(Realtek vendor processing node). No alloc/lock/API change.
 
 **Step 5.4: FOLLOW THE CALL CHAIN**
-Record:
-- Everyday verbs: yes, from ALSA ioctls (often unprivileged for the
-  audio device).
-- **The crash path** is teardown: PCI `remove` / `snd_card_free` /
-  `azx_free` → `azx_stop_chip()` (`chip_init = false`) then `pcim` BAR
-  unmap. Needs a verb still in flight (jack work, unsol work, a racing
-  ctl).
-- `echo 1 > .../remove` is admin; **VFIO GPU passthrough** also unbinds
-  the HDA function. Userspace-reachable as a privileged/hotplug path,
-  not a syzbot syscall smash.
+Record: Unprivileged playback on this laptop triggers the silent path
+today. After the quirk, probe/init writes the coef. Userspace-reachable
+on the affected SKU.
 
 **Step 5.5: SEARCH FOR SIMILAR PATTERNS**
-Record: HDMI already checks `pm.err`. USB mixer code widely checks
-`pm.err < 0` after CLASS. This `call_exec_verb` site was the hole for
-generic HDA verbs.
+Record: Same file already uses coef-`0x10` verbs
+(`ALC269_FIXUP_ASUS_N7601ZM`, `ALC274_FIXUP_ASUS_ZEN_AIO_27`) and
+speaker-enable verbs (`ALC269_FIXUP_DELL_M101Z`). This matches
+established Realtek practice.
 
 ===============================================================
 PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
 ===============================================================
 
 **Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?**
-Record: **Yes.** `sound/hda/common/codec.c` `call_exec_verb()` uses
-CLASS; `chip_init` and `pm.err` exist. Parent of `df27e4dc80c4a` had no
-check. Bug is this tree’s HDA code (CLASS era, ~6.18+; this is 7.3).
+Record:
+- `git describe HEAD` → `v6.18.57-155-gcdf239ca885b2`
+- `make kernelversion` / Makefile → **6.18.57**
+- `git merge-base --is-ancestor 97902f970e5cd v6.18.57` → **not an
+  ancestor** (the quirk is **not** in the 6.18.57 baseline)
+- At `v6.18.57`, `alc269_fixup_tbl` goes `0x1663` then `0x1683`; **no
+  `0x1664` / PM3406CHA**
+- File `sound/hda/codecs/realtek/alc269.c` exists (split in
+  `aeeb85f26c3bb`, long before 6.18)
+- ALC256 ID table present at v6.18.57
+- Bug is the missing SSID quirk; it exists on this 6.18.y tree
 
 **Step 6.2: CHECK FOR BACKPORT COMPLICATIONS**
-Record: **Clean apply** on this tree: same function, same CLASS, same
-`bus->core.chip_init`.
+Record: **Clean apply expected.** Insertion points at v6.18.57:
+- enum: `ALC269_FIXUP_DELL_M101Z` then `ALC269_FIXUP_SKU_IGNORE`
+- `alc269_fixups[]`: same pair of entries
+- quirk table: `0x1663` then `0x1683`
+No struct/API mismatch.
 
 **Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE**
-Record: No earlier alternate fix. HDMI’s `pm.err` checks do not cover
-`call_exec_verb`.
+Record: No other `PM3406CHA` / `0x1043:0x1664` fix. PM3406CKA CS35L41
+entry is a different SSID and amp topology.
 
 ===============================================================
 PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
 ===============================================================
 
 **Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY**
-Record: **ALSA HD-audio codec core** (`sound/hda/common/`).
-**IMPORTANT** — Intel/AMD/NVIDIA HDA is on most PCs, not core mm/sched.
+Record: **ALSA HD-audio Realtek codec** (`sound/hda/codecs/realtek/`).
+**IMPORTANT** for laptop audio, not core mm/VFS. Quirk-table maintenance
+is routine in stable.
 
 **Step 7.2: ASSESS SUBSYSTEM ACTIVITY**
-Record: Active (CLASS/guard cleanups, HDMI, Realtek). Maintainer-acked.
+Record: High churn of per-machine quirks (mute LEDs, SSIDs, silent
+speakers). Mature driver, new rows for new laptops. That is the intended
+stable pattern.
 
 ===============================================================
 PHASE 8: IMPACT AND RISK ASSESSMENT
 ===============================================================
 
 **Step 8.1: DETERMINE WHO IS AFFECTED**
-Record: **Driver-specific** — HDA users who unbind/remove the PCI
-function (sysfs remove, VFIO, hotplug, driver rebind). Not all boots.
+Record: **Driver-specific / SSID-specific.** Only ASUS ExpertBook
+PM3406CHA (`PCI SSID 1043:1664`, ALC256). No effect on other machines.
 
 **Step 8.2: DETERMINE THE TRIGGER CONDITIONS**
-Record: Timing-dependent: delayed verb vs. chip stop / BAR unmap.
-Privileged/hotplug, not a typical unprivileged mixer write while the
-device is live.
+Record: Every boot / every speaker playback on that laptop. Not a race.
+Unprivileged user playing audio. Reported on Ubuntu 24.04.
 
 **Step 8.3: DETERMINE THE FAILURE MODE SEVERITY**
-Record: **Page fault / oops** (author; lore v1 said “page fault BUG”).
-**Severity: HIGH** (oops on unbind; panic if `panic_on_oops`). Not
-filesystem corruption.
+Record: Internal speakers completely silent while the stack looks
+healthy. Not a panic/UAF. **MEDIUM–HIGH functional** for owners of that
+laptop (device unusable for built-in audio). HDMI/BT still work.
 
 **Step 8.4: CALCULATE RISK-BENEFIT RATIO**
 Record:
-- **Benefit:** HIGH for unbind/VFIO/hotplug — avoids oops.
-- **Risk:** LOW — 6 lines, v1 regression already filtered, maintainer
-  applied v2.
-- **Ratio:** favorable.
+- **Benefit:** High for that SKU (speakers work). Matches the stable
+  hardware-quirk exception. User-confirmed.
+- **Risk:** Very low: +10 lines, one SSID, existing verb mechanism,
+  maintainer-acked. Possible headphone interaction on this SKU only
+  (unverified).
+- **Ratio:** Strongly favors backport.
 
 ===============================================================
 PHASE 9: FINAL SYNTHESIS
@@ -338,122 +371,132 @@ PHASE 9: FINAL SYNTHESIS
 
 **Step 9.1: COMPILE THE EVIDENCE**
 
-**FOR:**
-- Real oops: MMIO after HDA BAR unmap / chip stop.
-- `snd_hdac_bus_send_cmd_corb()` has no `chip_init`/`remap_addr`
-  validity check — verified.
-- 6-line, no new API, CLASS destructor still balances PM.
-- Maintainer applied v2 after a real v1 false-positive on no-RPM
-  platform devices.
-- All prerequisites exist in **this** 7.3-rc4 tree.
-- HDA + PCI unbind (including GPU audio / VFIO) is a real production
-  path.
+FOR:
+- Real user-visible bug: silent internal speakers
+- Ubuntu Launchpad #2162718; original reporter confirmed the coef
+  workaround
+- Isolated, machine-specific `HDA_FIXUP_VERBS` + `SND_PCI_QUIRK`
+- +10 lines, one file, no new API
+- Driver, ALC256 support, and quirk tables already in 6.18.57
+- Same pattern as existing speaker/coef quirks
+- Takashi Iwai applied the RFC as-is
+- Explicit stable exception: hardware quirk / SSID enablement for an
+  existing driver
 
-**AGAINST:**
-- No stack trace, syzbot, or extra `Reported-by`.
-- Trigger is teardown, not playback.
-- Check is incomplete (`pm.err` XOR `chip_init`).
-- v3 was not taken; v2 is what mainline has.
+AGAINST:
+- Not a crash, UAF, or security bug
+- Author could not boot-test the kernel patch after losing the laptop
+  (userspace path was tested; reporter confirmed it)
+- Unverified headphone behavior if coef `0x10` is a HP/speaker mux on
+  this SKU
 
-**UNRESOLVED:**
-- Exact delayed-verb source (jack vs unsol vs racing ctl) not dumped.
-- stable@ discussion unverified (lore blocked).
+UNRESOLVED:
+- lore.kernel.org HTTP 403 (discussion recovered elsewhere)
+- No stable@ thread found
+- Headphone path on this SKU not documented
 
 **Step 9.2: APPLY THE STABLE RULES CHECKLIST**
-1. Obviously correct and tested? **PASS** — v2 after v1 drop; maintainer
-   applied.
-2. Fixes a real bug that affects users? **PASS** — oops on PCI remove.
-3. Important issue? **PASS** — kernel page fault / oops (HIGH, not idle
-   WARN).
-4. Small and contained? **PASS** — +6 lines, one function.
-5. No new features or APIs? **PASS**.
-6. Can apply to the local tree? **PASS** —
-   CLASS/`pm.err`/`chip_init`/`call_exec_verb` all present.
+1. Obviously correct and tested? **PASS** — standard quirk; hda-verb
+   isolation; Launchpad confirmation; maintainer applied
+2. Fixes a real bug that affects users? **PASS** — silent speakers,
+   filed and confirmed
+3. Important issue? **PASS** for this class (hardware quirk / broken
+   audio on a shipping laptop), not CRITICAL crash
+4. Small and contained? **PASS** — 10 lines, one SSID
+5. No new features or APIs? **PASS** — quirk only
+6. Can apply to the local tree? **PASS** — 6.18.57 has the file and
+   insertion context; SSID not already present
 
 **Step 9.3: CHECK FOR EXCEPTION CATEGORIES**
-Record: None (not a device ID/quirk/DT/build/doc). It is a normal crash
-fix.
+Record: **Hardware quirk / existing-driver SSID enablement.** Automatic
+YES category in the stable rules given in the prompt.
 
 **Step 9.4: MAKE YOUR DECISION**
-For **this 7.3-rc4 tree**, the bug is present, the patch is self-
-contained, and it prevents a verified MMIO-after-teardown oops. It meets
-stable rules here.
 
-**What it solves for this tree:** A delayed HDA verb after controller
-stop / BAR unmap used to ignore `snd_hda_power_pm` failure and hit
-unmapped MMIO. Skipping the verb when power-up failed **and**
-`chip_init` is false stops that oops without the v1 “platform device
-never left RPM_SUSPENDED” regression.
-
-**Risk vs benefit:** Low risk, clear oops-avoidance benefit on
-unbind/hotplug.
-
----
+This belongs on 6.18.y. The ALC256 Realtek driver already enumerates
+this laptop; without the SSID row, speakers stay silent. The change is a
+two-verb init/resume write gated to `1043:1664`, the same style as other
+Realtek speaker quirks already in this file. It applies cleanly to this
+tree and does not need the unrelated PM3406CKA CS35L41 patch.
 
 Verification:
-- [Phase 1] Tags: author Bob Song; Link to v2 msgid; SOB Takashi Iwai;
-  no Fixes/Reported-by/Cc:stable
-- [Phase 1] Body: PCI sysfs `remove` → BAR unmap → delayed verb → page
-  fault
-- [Phase 2] Diff: +6 in `call_exec_verb()`; `pm.err < 0 &&
-  !bus->core.chip_init` then return
-- [Phase 2] `snd_hdac_bus_send_cmd_corb()` uses `snd_hdac_chip_readw` on
-  `remap_addr` with no `chip_init` check (`sound/hda/core/controller.c`)
-- [Phase 2] `azx_send_cmd()` only checks `chip->disabled`
-- [Phase 2] Header documents `pm.err` (`include/sound/hda_codec.h`)
-- [Phase 2] CLASS destructor still `snd_hda_power_down_pm` on early
-  return (RAII)
-- [Phase 3] Blame: CLASS in `8dad6b3dac279` (2025-08-29); this tree has
-  it (`git merge-base --is-ancestor` 0)
-- [Phase 3] Pre-CLASS `codec_exec_verb` also ignored
-  `snd_hda_power_up_pm()` return (`git show 8dad6b3dac279`)
-- [Phase 3] CLASS macros: `5d8c9c987fbdd`; file move: `05be28fe8521f`;
-  both in this tree
-- [Phase 3] No follow-up fix of this check after `df27e4dc80c4a`
-- [Phase 4] `b4 dig -c df27e4dc80c4a`: v1/v2/v3; committed = v2
-- [Phase 4] mbox: v1 applied then dropped (no-RPM platform false
-  positive); v2 applied; v3 not applied
-- [Phase 4] Recipients: tiwai, perex, linux-sound
-- [Phase 4] lore WebFetch 403; stable@ search unverified (bot wall)
-- [Phase 5] `codec_exec_verb` set as `codec->core.exec_verb`; used via
-  `snd_hdac_exec_verb`
-- [Phase 5] HDMI already checks `pm.err` (`hdmi.c`)
-- [Phase 6] `git describe HEAD` = `v7.3-rc4-27-gf0100363d8c37`; `make
-  kernelversion` = 7.3.0-rc4
-- [Phase 6] Pre-image of `call_exec_verb` confirmed via `git show
-  df27e4dc80c4a^:sound/hda/common/codec.c`
-- [Phase 6] `azx_free()` stops chip when `bus->chip_init` (`intel.c`);
-  `azx_remove()` → `snd_card_free`
-- [Phase 8] Failure mode: page fault on unmapped BAR; trigger: PCI
-  remove / unbind
-- UNVERIFIED: exact delayed-verb producer; number of users; stable@
-  thread
-
-The fix is small, matches this tree’s CLASS-based HDA code, and prevents
-a real oops on device teardown.
+- [Phase 1] Parsed tags: `Closes:` Launchpad 2162718; `Link:` patch
+  msgid; SOB author + Takashi Iwai; no `Fixes:`/`Cc: stable`
+- [Phase 1] Body: silent speakers; coef `0x10` `0x1d20`→`0x7f20`; hda-
+  verb isolation
+- [Phase 2] Diff: +10 in `alc269.c`; enum + `HDA_FIXUP_VERBS` +
+  `SND_PCI_QUIRK(0x1043,0x1664)`
+- [Phase 2] `auto_parser.c`: `HDA_FIXUP_VERBS` registered at PROBE, run
+  from `alc_init()` after codec init and on resume
+- [Phase 3] No `Fixes:` tag; missing-quirk, not a regression
+- [Phase 3] Related `0156c22fb0ca8` is PM3406CKA CS35L41 (`0x1454`),
+  different hardware
+- [Phase 3] Author has only this hda commit; Takashi applied it
+- [Phase 4] `b4 dig -c 0eee030c2c09…`: RFC v1 only; recipients include
+  Iwai/Kysela/Realtek/linux-sound
+- [Phase 4] Takashi: “The code change looks OK, so I applied this now.”
+  No NAK
+- [Phase 4] Launchpad: reporter confirmed speakers work with the coef
+  write
+- [Phase 4] lore.kernel.org direct fetch: 403; used b4/Patchew/LKML IU
+  instead
+- [Phase 5] Call chain: `alc269_probe` → `snd_hda_pick_fixup` → verbs →
+  `alc_init`/`snd_hda_apply_verbs`
+- [Phase 5] Pin-match cannot override once PCI SSID is set
+  (`snd_hda_pick_pin_fixup` early return)
+- [Phase 6] `git describe HEAD` = `v6.18.57-155-gcdf239ca885b2`;
+  kernelversion 6.18.57
+- [Phase 6] `git merge-base --is-ancestor 97902f970e5cd v6.18.57` failed
+  → quirk **not** in 6.18.57 baseline
+- [Phase 6] `git show v6.18.57:…alc269.c` has `0x1663` then `0x1683`, no
+  `0x1664`; DELL_M101Z/SKU_IGNORE insertion points exist
+- [Phase 6] ALC256 `0x10ec0256` present at v6.18.57
+- [Phase 7] ALSA Realtek; Takashi Iwai in MAINTAINERS
+- [Phase 8] Failure mode: silent speakers on one laptop SSID; severity
+  MEDIUM–HIGH functional; risk very low
+- UNVERIFIED: headphone interaction of coef `0x10` on this SKU; no
+  stable@ discussion recovered
 
 **YES**
 
- sound/hda/common/codec.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ sound/hda/codecs/realtek/alc269.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/sound/hda/common/codec.c b/sound/hda/common/codec.c
-index 8cab932177194..7869f673894fe 100644
---- a/sound/hda/common/codec.c
-+++ b/sound/hda/common/codec.c
-@@ -39,6 +39,12 @@ static int call_exec_verb(struct hda_bus *bus, struct hda_codec *codec,
- 	int err;
- 
- 	CLASS(snd_hda_power_pm, pm)(codec);
-+	if (pm.err < 0 && !bus->core.chip_init) {
-+		codec_warn(codec,
-+			   "Failed to send cmd 0x%x ret=[%d], hda control stopped\n",
-+			   cmd, pm.err);
-+		return pm.err;
-+	}
- 	guard(mutex)(&bus->core.cmd_mutex);
- 	if (flags & HDA_RW_NO_RESPONSE_FALLBACK)
- 		bus->no_response_fallback = 1;
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index fa5bc54ff083d..a40b85fbaf393 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -3678,6 +3678,7 @@ enum {
+ 	ALC269_FIXUP_SONY_VAIO,
+ 	ALC275_FIXUP_SONY_VAIO_GPIO2,
+ 	ALC269_FIXUP_DELL_M101Z,
++	ALC256_FIXUP_ASUS_PM3406CHA,
+ 	ALC269_FIXUP_SKU_IGNORE,
+ 	ALC269_FIXUP_ASUS_G73JW,
+ 	ALC269_FIXUP_ASUS_N7601ZM_PINS,
+@@ -4089,6 +4090,14 @@ static const struct hda_fixup alc269_fixups[] = {
+ 			{}
+ 		}
+ 	},
++	[ALC256_FIXUP_ASUS_PM3406CHA] = {
++		.type = HDA_FIXUP_VERBS,
++		.v.verbs = (const struct hda_verb[]) {
++			{ 0x20, AC_VERB_SET_COEF_INDEX, 0x10 },
++			{ 0x20, AC_VERB_SET_PROC_COEF, 0x7f20 },
++			{}
++		}
++	},
+ 	[ALC269_FIXUP_SKU_IGNORE] = {
+ 		.type = HDA_FIXUP_FUNC,
+ 		.v.func = alc_fixup_sku_ignore,
+@@ -7184,6 +7193,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1043, 0x1652, "ASUS ROG Zephyrus Do 15 SE", ALC289_FIXUP_ASUS_ZEPHYRUS_DUAL_SPK),
+ 	SND_PCI_QUIRK(0x1043, 0x1662, "ASUS GV301QH", ALC294_FIXUP_ASUS_DUAL_SPK),
+ 	SND_PCI_QUIRK(0x1043, 0x1663, "ASUS GU603ZI/ZJ/ZQ/ZU/ZV", ALC285_FIXUP_ASUS_HEADSET_MIC),
++	SND_PCI_QUIRK(0x1043, 0x1664, "ASUS ExpertBook PM3406CHA", ALC256_FIXUP_ASUS_PM3406CHA),
+ 	SND_PCI_QUIRK(0x1043, 0x1683, "ASUS UM3402YAR", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x1043, 0x16a3, "ASUS UX3402VA", ALC245_FIXUP_CS35L41_SPI_2),
+ 	SND_PCI_QUIRK(0x1043, 0x16b2, "ASUS GU603", ALC289_FIXUP_ASUS_GA401),
 -- 
 2.53.0
 
