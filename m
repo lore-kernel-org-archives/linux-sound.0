@@ -1,45 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 959F655F624;
-	Mon, 19 Oct 2026 13:57:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7762256CE04;
+	Mon, 19 Oct 2026 13:57:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792418257; cv=none; b=J9moGr1PHWEV/KiyzAzhkEjOauPu3aKAiNum3arFY9uny3veNja/c7mHZ6XKU+i89malDf9tfFhqikw8lhNXJVW7peI0eCUM2m3CZbKpIsTTV8hneAmtuOqxUkTO4jJ6x1xkcvMfvJsM34Z149aFKtqOxY8is85Rsp9aRZm0al8=
+	t=1792418280; cv=none; b=ArLc2kVp079IDvSycHytREHYfX+ut9vjN3H69uNrqN6RPxmlWWrAgfgwtQdXYzchRH4r4SnWWch3JrKj/HKuyjLxgRQOSI6Ozpbfx15Kal0H00kjPoi2dirvNHtitQuD3cnwYVhzYCxjkGzPlhqf93/EXWgajViJ/TtfRs12sBU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792418257; c=relaxed/simple;
-	bh=MM+AaQHsp4wpgAhHNkA8vM0Fly5Ksy7GWA4iSSoDAZI=;
+	s=arc-20240116; t=1792418280; c=relaxed/simple;
+	bh=p7XwU1Cmktg71iLWiSqZGVHzdkqB53V+abIuVga9KAA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=L7xKYS1MOEzJDA6UKiw01gfXgZxdKr6PqwYxZRKGyaAGLIigVkssGgGx7/sae69fSBUub8JNQa+FjyKWKPT3A0N8v7uzxjvTU116EhIgrJgz8DgIGp/DfFl7AdGAN9qpnQGe243ayLbCsFbLsy2qGSIA1JICh/KHnR4MAPUzv1k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PBQziWuH; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=j/zFei94h7iKJ8L6f//N06c4Iaq1r02L1f6yLvpd3DyjhKFgRBW7y7UZjj0kOArjtMoaaFHQu9gSmfTIQL87FjkGWMiTcAYlumN2bGnikfdpPgmQZxdp34sBpTBNHKjIUpjbvWIGBMVbHI3llbzydjvs4U7T5gG3V83Wc39b0qU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QzBbMgz6; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PBQziWuH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7AC6F1F000C4;
-	Mon, 19 Oct 2026 13:57:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QzBbMgz6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BA751F000C6;
+	Mon, 19 Oct 2026 13:57:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792418254;
-	bh=wx9Mb4QsaVFHtSfVFCf4Mf+XgS6xKgB1lDQXb9H3s5w=;
+	s=k20260515; t=1792418278;
+	bh=ZePzfD06LTtY9SuocAapOamZxhL1BzMjFtw4kmvDVuI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=PBQziWuHfr3bfy+ejeY4kT9ZGxeU93eLsOlIzTc7Z26oAf3etFgU2AdHR3RewfIlu
-	 XybQSCmmDu8g/ni5e8H505j90YhvqSgv3Poh/cdRWkVzNRO0OY3gFSa+vCKEDns3Gy
-	 XLlbNg1Kfcw3ueZyoW5dotRStmv/IL71mnWmKqhp8b79vlXw+iZXDa/eWHOge/y7Rn
-	 YA25XYqIZZ6G215LxXCIUyeDs9TtthEAKkw2uHQZr1Zo4YlsFn10WhBI5MLt3UyhGb
-	 4T28hnjHhc3sDWnL0PVym4A6rkwQL5BdP1Bxm0xW8yQjptBBvJEEHeFULZYVmImDBO
-	 o+RXHpz71x++Q==
+	b=QzBbMgz6ZQkbYTQQDL3XPiDvofPaOy93nh7jRztpHNWgb2M0AWhoXFMOdAr1TXHJC
+	 RxD2+LOeOO7JR3UMiKqXFN6HysV2yUJ5fZSXcnzZawMJ5VQZxWs8qESK12tQNC2IBk
+	 BXUXaWz0DgCKLwnAQDdtNzzFlYFa/qaPBmlv3PSQPxHNMCR9InCmrtifWs+axdizmi
+	 E1e1CepSIxyu5tFRdQ9GWlxaXtz+4ObuB0v9kN92xfmwvXIo8dyJSoCg5+H+3t3ei6
+	 YBpXVoqZiOjQBpaujZsl6DBRC2c1z5pNqB/lM2zRqspktlioNkpgJhanrSGwkqbXpH
+	 ugkwOBw6+ZMPA==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Mark Brown <broonie@kernel.org>,
+Cc: Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Vinod Koul <vkoul@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	lgirdwood@gmail.com,
-	perex@perex.cz,
-	tiwai@suse.com,
+	yung-chuan.liao@linux.intel.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-5.10] ASoC: codec: max98926: fixup invert setup mask
-Date: Mon, 19 Oct 2026 09:46:53 -0400
-Message-ID: <20261019135441.1420968-122-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-6.1] soundwire: dmi-quirks: Disable ghost Realtek on Asus Expertbook
+Date: Mon, 19 Oct 2026 09:47:05 -0400
+Message-ID: <20261019135441.1420968-134-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261019135441.1420968-1-sashal@kernel.org>
 References: <20261019135441.1420968-1-sashal@kernel.org>
@@ -55,467 +53,374 @@ X-stable-base: Linux 6.18.57
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
 
-[ Upstream commit dd0ae9a2e19a24c532c9aa80a44f572b4907bcdf ]
+[ Upstream commit 90af3209742db61a7f9d7d054a16165818cfc6d8 ]
 
-invert might have both WCI/BCI mask, but regmap_update_bits() masks
-BCI only. It needs both mask. Fixup it.
+The Asus Expertbook B9406CAA also has a Realtek device in the ACPI that
+doesn't exist in the physical hardware. This confuses the machine driver
+into attempting to create DAI links for the device. Add a quirk to
+remove this device.
 
-	static int max98926_dai_set_fmt(...)
-	{
-		...
-		switch (fmt & SND_SOC_DAIFMT_INV_MASK) {
-		case SND_SOC_DAIFMT_NB_NF:
-			break;
-		case SND_SOC_DAIFMT_NB_IF:
-=>			invert = MAX98926_DAI_WCI_MASK;
-			break;   ^^^^^^^^^^^^^^^^^^^^^
-		case SND_SOC_DAIFMT_IB_NF:
-=>			invert = MAX98926_DAI_BCI_MASK;
-			break;   ^^^^^^^^^^^^^^^^^^^^^
-		case SND_SOC_DAIFMT_IB_IF:
-=>			invert = MAX98926_DAI_BCI_MASK | MAX98926_DAI_WCI_MASK;
-			break;   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-		default:
-			...
-		}
-		...
-		regmap_update_bits(max98926->regmap, MAX98926_FORMAT,
-				MAX98926_DAI_BCI_MASK, invert);
-		...		^^^^^^^^^^^^^^^^^^^^^
-	}
-
-Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Link: https://patch.msgid.link/87wltomc97.wl-kuninori.morimoto.gx@renesas.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
+Closes: https://github.com/thesofproject/linux/issues/5828
+Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+Link: https://patch.msgid.link/20260630081132.3294488-1-ckeepax@opensource.cirrus.com
+Signed-off-by: Vinod Koul <vkoul@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-This is a **6.12.111** tree (`pending-6.12`, `p-6.12-3-gc504cf0baa3d8`).
-The candidate is `dd0ae9a2e19a2` (“ASoC: codec: max98926: fixup invert
-setup mask”). It is **not** in this checkout; the buggy
-`regmap_update_bits()` mask **is**.
-
----
-
-## PHASE 1: COMMIT MESSAGE FORENSICS
-
-**Step 1.1: PARSE THE SUBJECT LINE**
-- Subsystem: `ASoC: codec: max98926`
-- Action verb: `fixup`
-- Claimed intent: correct the invert-mode bit mask written to the
-  MAX98926 FORMAT register
-
-Record: **[ASoC/max98926] [fixup] [WCI invert bit never programmed
-because update mask is BCI-only]**
-
-**Step 1.2: PARSE ALL COMMIT MESSAGE TAGS**
-- `Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>`
-  (author)
-- `Link: https://patch.msgid.link/87wltomc97.wl-
-  kuninori.morimoto.gx@renesas.com`
-- `Signed-off-by: Mark Brown <broonie@kernel.org>` (ASoC maintainer)
-- No `Fixes:`, `Reported-by:`, `Tested-by:`, `Reviewed-by:`, `Acked-
-  by:`, or `Cc: stable` (absence of the last two is expected for this
-  review)
-
-Record: **Author + ASoC maintainer SOB; lore Link; no user/syzbot
-report**
-
-**Step 1.3: ANALYZE THE COMMIT BODY TEXT**
-The body shows `max98926_dai_set_fmt()` building `invert` as:
-- `NB_IF` → `MAX98926_DAI_WCI_MASK`
-- `IB_NF` → `MAX98926_DAI_BCI_MASK`
-- `IB_IF` → `BCI | WCI`
-
-then calling `regmap_update_bits(..., MAX98926_DAI_BCI_MASK, invert)`.
-`regmap_update_bits()` only changes bits in the mask, so WCI is never
-written.
-
-Record: **[Bug: WCI invert bit dropped] [Symptom: inverted frame clock
-not applied] [No version info] [Root cause: BCI-only mask]**
-
-**Step 1.4: DETECT HIDDEN BUG FIXES**
-This is an explicit register-programming bug, not a disguised cleanup.
-
-Record: **Not a hidden fix; it is a real DAI-format bug**
-
----
-
-## PHASE 2: DIFF ANALYSIS
-
-**Step 2.1: INVENTORY THE CHANGES**
-- File: `sound/soc/codecs/max98926.c` (`1 insertion, 1 deletion`)
-- Function: `max98926_dai_set_fmt()`
-- Scope: single-file, one-line surgical fix
-
-Record: **[max98926.c +1/-1] [max98926_dai_set_fmt] [surgical]**
-
-**Step 2.2: UNDERSTAND THE CODE FLOW CHANGE**
-Before (this tree, lines 360–363):
-
-```360:364:sound/soc/codecs/max98926.c
-        regmap_write(max98926->regmap,
-                        MAX98926_FORMAT, MAX98926_DAI_DLY_MASK);
-        regmap_update_bits(max98926->regmap, MAX98926_FORMAT,
-                        MAX98926_DAI_BCI_MASK, invert);
-        return 0;
-```
-
-`regmap_write()` sets FORMAT to only `DAI_DLY_MASK` (WCI and BCI
-cleared). Then update_bits can set BCI, but never WCI.
-
-After: mask is `MAX98926_DAI_BCI_MASK | MAX98926_DAI_WCI_MASK`, so both
-invert bits can be set.
-
-Record: **[BCI-only update → BCI|WCI update on DAI set_fmt path]**
-
-**Step 2.3: IDENTIFY THE BUG MECHANISM**
-Header bits in this tree:
-
-```525:528:sound/soc/codecs/max98926.h
-#define MAX98926_DAI_WCI_MASK           (1<<3)
-...
-#define MAX98926_DAI_BCI_MASK           (1<<2)
-```
-
-This is a logic/correctness bug: wrong `regmap` mask, so advertised
-invert modes do not take effect.
-
-Record: **[Logic/correctness] [WCI never written for NB_IF/IB_IF]**
-
-**Step 2.4: ASSESS THE FIX QUALITY**
-Obviously correct: it matches sibling `max98925.c` (already uses `BCI |
-WCI`). Minimal. No API/locking/refcount change. Regression risk is near
-zero: NB_NF still writes 0 into both bits; IB_NF still sets only BCI.
-
-Record: **[Obviously correct, 1-line] [Very low regression risk]**
-
----
-
-## PHASE 3: GIT HISTORY INVESTIGATION
-
-**Step 3.1: BLAME THE CHANGED LINES**
-`git blame -L 343,363 -- sound/soc/codecs/max98926.c`: the buggy mask is
-from `a2e2876aa0bab` (“ASoC: Add max98926 codec driver”, Anish Kumar,
-2016-01-14). `git describe --contains a2e2876aa0bab` → `v4.6-rc1~...`.
-Present for ~10 years.
-
-Record: **[a2e2876aa0bab, v4.6] [long-standing bug]**
-
-**Step 3.2: FOLLOW THE FIXES: TAG**
-No `Fixes:` tag. The introducing commit is in this tree (`git merge-base
---is-ancestor a2e2876aa0bab HEAD` succeeded).
-
-The **identical** bug in the sibling driver was already treated as
-stable material:
-
-```
-0b51601d4504f4 ASoC: max98925: Fix mask for setting DAI invert mode
-...
-Cc: stable@vger.kernel.org
-```
-
-That 2015 fix is in this tree. max98926 (2016) reintroduced the same
-mistake.
-
-Record: **[No Fixes tag; sibling max98925 fix was Cc: stable]
-[Introducing commit is in this 6.12 tree]**
-
-**Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES**
-Recent `max98926.c` history in this tree is probe/OF/DAI-terminology
-churn, not invert-mask work. No prerequisite refactor. Standalone 1-line
-change.
-
-Record: **[No prerequisites] [Standalone]**
-
-**Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS**
-Kuninori Morimoto is a regular ASoC contributor. Nearby work includes
-`alc5623` invert tidyup (different driver, “tidyup” not this bug). This
-patch is a standalone `[PATCH]`, not patch X/Y.
-
-Record: **[Core ASoC contributor] [Standalone invert-mask fix, not a
-series]**
-
-**Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS**
-The hunk matches this tree exactly. `git show dd0ae9a2e19a2 | git apply
---check` → **APPLY_CLEAN**. No new helpers or structs.
-
-Record: **[No dependencies] [Applies standalone and cleanly]**
-
----
-
-## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
-
-**Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION**
-`b4 dig -c dd0ae9a2e19a2` → https://patch.msgid.link/87wltomc97.wl-
-kuninori.morimoto.gx@renesas.com
-`b4 dig -a`: single v1, no later revisions.
-Mbox (2 messages): submission + Mark Brown “Applied to for-7.3”. No NAK,
-no review concerns, no `Cc: stable` request. Included in the “sound
-fixes for 7.3-rc1” pull.
-
-Record: **[v1 only] [Applied by ASoC maintainer] [No objections]
-[Treated as a fix in the rc1 pull]**
-
-**Step 4.2: CHECK WHO REVIEWED THE PATCH**
-`b4 dig -w` recipients: Jaroslav Kysela, Liam Girdwood, Mark Brown,
-Takashi Iwai, linux-sound@. Maintainer applied it the same day.
-
-Record: **[ASoC/ALSA maintainers on To; Mark Brown applied]**
-
-**Step 4.3: SEARCH FOR THE BUG REPORT**
-No `Reported-by` / bugzilla / syzbot. Found by code inspection (same
-class as Axel Lin’s 2015 max98925 fix).
-
-Record: **[No user report; bug is visible from the code and sibling
-driver]**
-
-**Step 4.4: CHECK FOR RELATED PATCHES AND SERIES**
-Standalone `[PATCH]`. No follow-ups on `all-next` after this commit for
-`max98926.c`.
-
-Record: **[Standalone; no later superceding patch]**
-
-**Step 4.5: CHECK STABLE MAILING LIST HISTORY**
-Search for this title on lore stable did not find a prior stable
-discussion (unrelated hits only).
-
-Record: **[No stable-list discussion found]**
-
----
-
-## PHASE 5: CODE SEMANTIC ANALYSIS
-
-**Step 5.1: IDENTIFY KEY FUNCTIONS**
-Record: **[`max98926_dai_set_fmt`]**
-
-**Step 5.2: TRACE CALLERS**
-Wired as `.set_fmt` in `max98926_dai_ops`. ASoC core
-`snd_soc_dai_set_fmt()` in `sound/soc/soc-dai.c` calls
-`dai->driver->ops->set_fmt`. `sound/soc/soc-core.c` applies DAI format
-from the card/DAI link at setup.
-
-Record: **[Called from ASoC DAI format setup, not a hot IRQ path]**
-
-**Step 5.3: TRACE CALLEES**
-`regmap_write` / `regmap_update_bits` on `MAX98926_FORMAT`.
-
-Record: **[Register programming only]**
-
-**Step 5.4: FOLLOW THE CALL CHAIN**
-Reachable when a MAX98926 card configures DAI format (DT `dai-format` /
-machine driver). Unprivileged users typically cannot change invert
-flags, but boot/stream setup hits this. `NB_IF` / `IB_IF` are the broken
-cases (`soc-dai.h`: inverted frame).
-
-Record: **[Reachable on DAI setup for this codec] [Broken for inverted
-frame clock]**
-
-**Step 5.5: SEARCH FOR SIMILAR PATTERNS**
-This tree: only `max98926.c` still uses BCI-only. `max98925.c` already
-uses `BCI | WCI`.
-
-Record: **[Sibling already fixed; this is the remaining copy of the same
-bug]**
-
----
-
-## PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
-
-**Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?**
-Yes. `git merge-base --is-ancestor dd0ae9a2e19a2 HEAD` failed (fix not
-present). Surrounding code in this tree matches the parent of the
-candidate commit. Introduced in v4.6, still here in 6.12.111.
-
-Record: **[Buggy code present at max98926_dai_set_fmt] [Since v4.6]**
-
-**Step 6.2: CHECK FOR BACKPORT COMPLICATIONS**
-Context is identical; `git apply --check` is clean.
-
-Record: **[Clean apply]**
-
-**Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE**
-No invert-mask fix for max98926 in this tree. max98925’s equivalent fix
-**is** already here.
-
-Record: **[No prior max98926 invert fix; sibling fix already present]**
-
----
-
-## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
-
-**Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY**
-`sound/soc/codecs/max98926.c` — Maxim MAX98926 speaker amplifier.
-`CONFIG_SND_SOC_MAX98926` is selected via `SND_SOC_ALL_CODECS` imply; DT
-compatible `maxim,max98926` exists. No in-tree board file found that
-hard-codes this codec.
-
-Record: **[ASoC codec driver] [PERIPHERAL, but real hardware]**
-
-**Step 7.2: ASSESS SUBSYSTEM ACTIVITY**
-Codec file is mature; little recent functional change.
-
-Record: **[Mature driver; bug is old, not a new-feature regression]**
-
----
-
-## PHASE 8: IMPACT AND RISK ASSESSMENT
-
-**Step 8.1: DETERMINE WHO IS AFFECTED**
-Users of MAX98926 whose DAI link requests inverted word/frame clock
-(`NB_IF` or `IB_IF`). Default `NB_NF` is unaffected.
-
-Record: **[Driver-specific; only inverted-frame configurations]**
-
-**Step 8.2: DETERMINE THE TRIGGER CONDITIONS**
-Triggered at DAI format setup (card bring-up / PCM start). Common I2S is
-`NB_NF` (works). Inverted frame is less common but is a documented,
-handled mode in this function. Not a userspace-triggered security issue.
-
-Record: **[DAI setup] [Uncommon invert modes] [Not unprivileged-
-exploitable]**
-
-**Step 8.3: DETERMINE THE FAILURE MODE SEVERITY**
-WCI never programmed → LRCLK/frame polarity wrong → swapped channels,
-DAI desync, or unusable playback. Not a panic/UAF/deadlock.
-
-Record: **[Incorrect audio DAI polarity] [Severity: MEDIUM-HIGH for
-affected devices; not CRITICAL crash]**
-
-**Step 8.4: CALCULATE RISK-BENEFIT RATIO**
-- Benefit: makes advertised invert modes actually work; same class of
-  fix max98925 already shipped to stable.
-- Risk: 1-line mask OR, no API/locking change, applies cleanly.
-
-Record: **[Benefit: medium for this hardware] [Risk: very low]
-[Favorable]**
-
----
-
-## PHASE 9: FINAL SYNTHESIS
-
-**Step 9.1: COMPILE THE EVIDENCE**
-
+I have enough to decide: this is a DMI hardware quirk for a user-
+confirmed “no sound” failure, and the `ghost_realtek` machinery already
+exists in this 7.3 tree.
+
+===============================================================
+PHASE 1: COMMIT MESSAGE FORENSICS
+===============================================================
+
+Step 1.1: PARSE THE SUBJECT LINE
+Record: [soundwire: dmi-quirks] [Disable] [DMI quirk to hide a ghost
+Realtek SoundWire device on Asus Expertbook B9406CAA]
+
+Step 1.2: PARSE ALL COMMIT MESSAGE TAGS
+Record:
+- Closes: https://github.com/thesofproject/linux/issues/5828 (user-filed
+  SOF audio bug)
+- Signed-off-by: Charles Keepax (author)
+- Link: https://patch.msgid.link/20260630081132.3294488-1-
+  ckeepax@opensource.cirrus.com
+- Signed-off-by: Vinod Koul (SoundWire maintainer)
+- No Fixes: tag (expected)
+- No Cc: stable (expected)
+- No Reported-by / Tested-by / Reviewed-by / Acked-by in the committed
+  message
+- Ignore pipeline SOBs: none present (no Sasha Levin marker)
+
+Step 1.3: ANALYZE THE COMMIT BODY TEXT
+Record:
+- Bug: ACPI lists a Realtek SoundWire device that is not physically
+  present on Asus Expertbook B9406CAA.
+- Symptom: the machine driver tries to create DAI links for that ghost
+  device; audio probe fails (dummy output / no card).
+- Version info in the GitHub issue (not the commit body): worked on 7.0,
+  broken since 7.1 after function-topology matching.
+- Root cause: firmware/ACPI advertises RT722 on link 3; function
+  topology builds the card from ACPI, so the ghost device breaks card
+  creation.
+
+Step 1.4: DETECT HIDDEN BUG FIXES
+Record: Not a disguised cleanup. It is an explicit hardware quirk. The
+“add a table entry” form is the standard stable-acceptable quirk
+pattern.
+
+===============================================================
+PHASE 2: DIFF ANALYSIS - LINE BY LINE
+===============================================================
+
+Step 2.1: INVENTORY THE CHANGES
+Record:
+- File: `drivers/soundwire/dmi-quirks.c` (+7 / −0)
+- Function/data: `adr_remap_quirk_table[]` only (no new functions)
+- Scope: single-file surgical DMI match addition
+
+Step 2.2: UNDERSTAND THE CODE FLOW CHANGE
+Record:
+- Before: B9406CAA did not match `adr_remap_quirk_table`, so ACPI `_ADR`
+  0x000330025d072201 (RT722 on link 3) stayed visible.
+- After: DMI match `ASUS` + board `B9406CAA` uses existing
+  `ghost_realtek[]`, remapping that `_ADR` to 0.
+- Path: SoundWire ACPI slave discovery (`find_slave()`), not a hot path
+  or a new API.
+
+Step 2.3: IDENTIFY THE BUG MECHANISM
+Record: [Hardware workaround / DMI quirk]
+Mechanism: `ghost_realtek[]` remaps `0x000330025d072201` → `0`.
+`find_slave()` does `if (!addr) return false;`, so the ghost device is
+not registered and sof_sdw does not build DAI links for it.
+
+Step 2.4: ASSESS THE FIX QUALITY
+Record: Obviously correct and minimal. Same pattern as UX5406AA / Lenovo
+83QK / 83SF. Regression risk is very low: only that DMI pair is
+affected; other machines are unchanged.
+
+===============================================================
+PHASE 3: GIT HISTORY INVESTIGATION
+===============================================================
+
+Step 3.1: BLAME THE CHANGED LINES
+Record: The new B9406CAA block is this commit (`90af3209742db`,
+2026-06-30). `ghost_realtek[]` and the PTL comment come from
+`4dab2b904414f` (“Disable ghost Realtek devices”, 2026-05-20, in v7.2).
+`dmi-quirks.c` itself dates to `f6594cdfec4cd` (v5.13).
+
+Step 3.2: FOLLOW THE FIXES: TAG
+Record: No Fixes: tag. The user-visible regression was function topology
+in 7.1 (`e0fb794d67f86` / `45cf24da0a10` pair, present in v7.1). This
+commit does not revert those; it adds a device-specific ACPI workaround.
+`git merge-base --is-ancestor e0fb794d67f86 v7.1` is true.
+
+Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES
+Record: Same-file siblings: `4dab2b904414f` (base table), then B9406CAA,
+then UX8407AA / GX651AR / GX651AX. Standalone: one extra DMI row.
+Prerequisite is only `ghost_realtek[]`, which is in this tree.
+
+Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS
+Record: Charles Keepax has 30 SoundWire commits here; he introduced
+`ghost_realtek`. Vinod Koul (maintainer) applied it. Pierre-Louis
+Bossart (reviewer in MAINTAINERS) was CCed.
+
+Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS
+Record: Depends on `ghost_realtek[]` (`4dab2b904414f`, in v7.2 and in
+this 7.3 tree) and on remap-to-zero skip in `find_slave()` (`if (!addr)
+return false;` in `drivers/soundwire/slave.c`). Both exist here. Applies
+standalone on this tree.
+
+===============================================================
+PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
+===============================================================
+
+Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION
+Record:
+- b4 dig: https://patch.msgid.link/20260630081132.3294488-1-
+  ckeepax@opensource.cirrus.com
+- Series: v1 only (no v2/v3)
+- Cover note: follow-up quirk after a previous one proved unnecessary
+- Vinod Koul: “Applied, thanks!” → `90af3209742db`
+- No NAK, no review concerns, no Cc: stable in the thread
+
+Step 4.2: CHECK WHO REVIEWED THE PATCH
+Record (b4 dig -w): To Vinod Koul; Cc Pierre-Louis Bossart, Bard Liao,
+linux-sound, linux-kernel, Cirrus patches. Maintainer applied it. No
+extra Reviewed-by on this follow-up (the base table had Reviewed-by:
+Pierre-Louis Bossart).
+
+Step 4.3: SEARCH FOR THE BUG REPORT
+Record: GitHub thesofproject/linux#5828, closed.
+- Reporter q66: no sound on ExpertBook B9406CAA since 7.1 (dummy output;
+  `snd_soc_register_card failed -517`, later duplicate sysfs).
+- Charles identified ACPI ghost: `link 3 mfg_id 0x025d part_id 0x0722`.
+- Reporter confirmed DMI `ASUS` / `B9406CAA` and that this exact quirk
+  restored sound (downstream Chimera Linux kernel).
+- Charles: “Yeah that is the correct fix.”
+- Separate later UCM/mute-LED discussion is unrelated to this quirk.
+
+Step 4.4: CHECK FOR RELATED PATCHES AND SERIES
+Record: Standalone 1/1. Same family as `4dab2b904414f` and later laptop
+rows. No other patches required for this DMI entry.
+
+Step 4.5: CHECK STABLE MAILING LIST HISTORY
+Record: lore.kernel.org/stable WebFetch returned 403. UNVERIFIED whether
+it was discussed on stable@. On the GitHub issue, Charles said the
+original ghost-Realtek table should be forwarded to stable because 7.1
+already had the topology switch. That is context, not a substitute for
+this patch’s own merit.
+
+===============================================================
+PHASE 5: CODE SEMANTIC ANALYSIS
+===============================================================
+
+Step 5.1: IDENTIFY KEY FUNCTIONS IN THE DIFF
+Record: No function body changes. Data only: `adr_remap_quirk_table[]`
+using existing `ghost_realtek[]`. Consumer: `sdw_dmi_override_adr()`.
+
+Step 5.2: TRACE CALLERS
+Record:
+- `sdw_dmi_override_adr()` is `bus->ops->override_adr` for Intel
+  (`drivers/soundwire/intel_auxdevice.c`).
+- Called from `find_slave()` in `drivers/soundwire/slave.c` during ACPI
+  enumeration.
+- Context: device probe / SoundWire bus init, not IRQ.
+
+Step 5.3: TRACE CALLEES
+Record: `dmi_first_match()`, then table walk. If ADR matches, replace
+with remapped value (0 for ghost Realtek).
+
+Step 5.4: FOLLOW THE CALL CHAIN
+Record: Boot/probe of Intel SOF SoundWire (Panther Lake Expertbook).
+Userspace cannot trigger it except by using the laptop. Reachable on
+that hardware every boot. Confirmed by dmesg in the issue.
+
+Step 5.5: SEARCH FOR SIMILAR PATTERNS
+Record: Same `ghost_realtek` DMI rows for UX5406AA, 83QK, 83SF, later
+UX8407AA / GX651AR / GX651AX. Systematic ACPI ghost-device problem, not
+a one-off.
+
+===============================================================
+PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
+===============================================================
+
+Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?
+Record: Yes. Local tree is v7.3-rc4 (`7.3.0-rc4`). `ghost_realtek[]` and
+remap-to-zero skip are present. Function topology on PTL
+(`snd_soc_acpi_intel_no_function_topology` in `soc-acpi-intel-ptl-
+match.c`) is present — that is what made the ghost ACPI entry fatal from
+7.1. The B9406CAA row is already in this checkout at lines 189–195 of
+`dmi-quirks.c` (`git merge-base --is-ancestor 90af3209742db HEAD`
+succeeded). The bug class exists here; this tree already contains the
+fix because it is 7.3 mainline.
+
+Step 6.2: CHECK FOR BACKPORT COMPLICATIONS
+Record: Clean apply on this tree. Same table layout as the patch. No
+rework needed. (Would need `ghost_realtek[]` on a tree older than v7.2.)
+
+Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE
+Record: Base table `4dab2b904414f` is here. No alternate B9406CAA fix
+besides this row. Later extra laptops are independent.
+
+===============================================================
+PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
+===============================================================
+
+Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY
+Record: [SoundWire DMI quirks / Intel SOF audio] [IMPORTANT for affected
+laptops, PERIPHERAL globally]. Not core mm/net, but complete audio loss
+on a shipping Panther Lake laptop.
+
+Step 7.2: ASSESS SUBSYSTEM ACTIVITY
+Record: Active: multiple 2026 ghost-Realtek DMI additions. Maintainer-
+applied. Mature quirk file since v5.13.
+
+===============================================================
+PHASE 8: IMPACT AND RISK ASSESSMENT
+===============================================================
+
+Step 8.1: DETERMINE WHO IS AFFECTED
+Record: Driver/platform-specific: Asus Expertbook B9406CAA (DMI board
+name). CONFIG_SOUNDWIRE_INTEL + SOF PTL machine driver.
+
+Step 8.2: DETERMINE THE TRIGGER CONDITIONS
+Record: Every boot on that laptop once function topology is used (7.1+).
+Not a race. Not unprivileged-attack surface. Reporter reproduced on
+7.1.1.
+
+Step 8.3: DETERMINE THE FAILURE MODE SEVERITY
+Record: [No audio / card probe failure] [HIGH for that hardware]. Not a
+panic. User-visible: dummy output, deferred probe `-517`, or failed
+DAI/sysfs setup. Confirmed in issue 5828.
+
+Step 8.4: CALCULATE RISK-BENEFIT RATIO
+Record: Benefit high for those users (restores sound). Risk very low:
+7-line DMI entry, existing remap table, DMI-gated. Ratio strongly favors
+applying it on trees that already have `ghost_realtek`.
+
+===============================================================
+PHASE 9: FINAL SYNTHESIS
+===============================================================
+
+Step 9.1: COMPILE THE EVIDENCE
 FOR:
-- Real, obvious register bug: WCI invert is computed then discarded
-- One-line, obviously correct; matches max98925
-- Identical max98925 fix (`0b51601d4504f4`) was `Cc: stable`
-- Bug present since v4.6 and in this 6.12 tree
-- Applies cleanly; no dependencies or new APIs
-- Applied by Mark Brown; landed in a sound **fixes** pull
-- User-visible: inverted frame clock does not work
+- Hardware quirk / DMI workaround — listed as a stable exception.
+- Real user bug: complete audio failure; reporter tested this exact
+  match.
+- Maintainer applied; SOF issue closed with this approach.
+- 7 lines, existing `ghost_realtek[]`, no new API.
+- `ghost_realtek` and remap-to-0 skip exist in this 7.3 tree.
+- Same pattern as other accepted laptop rows.
 
 AGAINST:
-- Not a crash, UAF, deadlock, or security issue
-- Peripheral codec; no in-tree machine driver found
-- No `Reported-by` / `Tested-by`
-- Common `NB_NF` path already works
+- Not a crash/UAF/security bug (audio probe failure).
+- Affects one laptop model.
+- No Fixes:/Cc: stable (expected for this review pipeline).
+- This 7.3-rc4 checkout already contains the commit (mainline source,
+  not a reason to reject on merit).
 
 UNRESOLVED:
-- Direct user reports of broken MAX98926 inverted-frame setups were not
-  found
-- lore.kernel.org WebFetch returned 403; discussion recovered via `b4
-  dig -m`
+- lore.kernel.org WebFetch 403; stable@ discussion not independently
+  confirmed beyond GitHub.
 
-**Step 9.2: APPLY THE STABLE RULES CHECKLIST**
-1. Obviously correct and tested? **PASS** — 1-line mask, sibling
-   precedent, maintainer applied
-2. Fixes a real bug that affects users? **PASS** — advertised invert
-   modes do not program WCI
-3. Important issue? **PASS** — hardware misconfiguration / broken audio
-   for inverted frame (same bar as the 2015 max98925 stable fix), not a
-   panic
-4. Small and contained? **PASS** — 1 line, one function
-5. No new features or APIs? **PASS**
-6. Can apply to the local tree? **PASS** — `git apply --check` clean;
-   context matches
+Step 9.2: APPLY THE STABLE RULES CHECKLIST
+1. Obviously correct and tested? PASS — same remap table; user confirmed
+   on B9406CAA; maintainer applied.
+2. Fixes a real bug that affects users? PASS — no sound since 7.1 on
+   that Expertbook.
+3. Important issue? PASS — HIGH: total audio loss, not a panic; still a
+   serious hardware enablement/regression for that machine.
+4. Small and contained? PASS — +7 lines, one file, one DMI entry.
+5. No new features or APIs? PASS — table row only.
+6. Can apply to the local tree? PASS — `ghost_realtek` and
+   `sdw_dmi_override_adr` exist; patch matches current table form.
 
-**Step 9.3: CHECK FOR EXCEPTION CATEGORIES**
-Not a device-ID/quirk/DT/build/docs exception. It is a normal small
-driver correctness fix.
+Step 9.3: CHECK FOR EXCEPTION CATEGORIES
+Record: Hardware quirk / DMI workaround for broken ACPI. Automatically
+qualifies.
 
-**Step 9.4: MAKE YOUR DECISION**
-This belongs in **this** 6.12 tree. The buggy code is here, the fix is
-trivial and already proven on the sibling codec (including an explicit
-stable nomination there), and the only cost is flipping one register
-mask bit that the driver already intended to set.
+Step 9.4: MAKE YOUR DECISION
+This tree (v7.3-rc4) has the buggy ACPI path, function topology, and
+`ghost_realtek`. The change is a one-row DMI quirk that restores audio
+on a shipping laptop. That is exactly the stable-acceptable quirk class.
 
-### What the commit solves for stable users
-On MAX98926, `set_fmt` claims to support word-clock invert (`NB_IF` /
-`IB_IF`) but `regmap_update_bits()` only allows the BCI bit to change,
-so LRCLK invert never reaches the chip. That is broken DAI polarity for
-those boards, not a style change.
+What it solves: ACPI advertises a non-existent RT722; sof_sdw then fails
+to build the card. The quirk remaps that `_ADR` to 0 so discovery skips
+it.
 
-### Risk vs benefit
-Very low risk (one OR into an existing mask) versus a real, long-
-standing hardware-config bug that already met the stable bar on
-max98925.
+Risk vs benefit: benefit is restoring sound; risk is a DMI-gated no-op
+on every other machine.
 
-### Concerns
-None for this tree: no prerequisites, no conflict, no follow-up needed.
-Impact is limited to MAX98926 with inverted frame clock.
+No missing prerequisites on this tree.
 
----
+Verification:
+- [Phase 1] Tags: Closes GitHub 5828; SOB Charles Keepax + Vinod Koul;
+  lore msgid link; no Fixes/Cc: stable
+- [Phase 2] Diff: +7 lines in `adr_remap_quirk_table` matching
+  ASUS/B9406CAA → `ghost_realtek`
+- [Phase 2] `ghost_realtek` remaps 0x000330025d072201 → 0;
+  `find_slave()` skips `!addr`
+- [Phase 3] `git describe HEAD` → v7.3-rc4-27-gf0100363d8c37; `make
+  kernelversion` → 7.3.0-rc4
+- [Phase 3] `git merge-base --is-ancestor 90af3209742db HEAD` → already
+  in this tree (7.3-rc1+)
+- [Phase 3] `4dab2b904414f` (`ghost_realtek`) is ancestor of v7.2 and of
+  HEAD; not in v7.1
+- [Phase 3] `90af3209742db` is in v7.3-rc1, not in v7.2 / v7.2.7
+- [Phase 3] Topology commits `e0fb794d67f86` / `45cf24da0a10` are in
+  v7.1 (issue’s regression window)
+- [Phase 3] blame: B9406CAA block is 90af3209742db; table intro
+  4dab2b904414f
+- [Phase 4] b4 dig: lore patch-id match, v1 only, Vinod “Applied,
+  thanks!”
+- [Phase 4] b4 dig -w: Vinod, Pierre-Louis Bossart, Bard Liao, linux-
+  sound
+- [Phase 4] GitHub 5828: reporter confirmed quirk; Charles: correct fix;
+  dmesg shows ghost 0x025d:0x0722 on link 3
+- [Phase 4] lore.kernel.org WebFetch 403 — stable@ search UNVERIFIED
+- [Phase 5] callers: `intel_auxdevice` `.override_adr` → `find_slave()`
+  ACPI enum
+- [Phase 6] local `dmi-quirks.c` already has B9406CAA and
+  `ghost_realtek`
+- [Phase 7] SOUNDWIRE maintainers Vinod Koul / Bard Liao; reviewer
+  Pierre-Louis Bossart
+- [Phase 8] Failure: no audio on one Asus PTL laptop; severity HIGH;
+  risk very low
+- UNVERIFIED: stable@ mailing list archive contents (HTTP 403)
 
-## Verification
-- [Phase 1] Parsed tags: author SOB, Mark Brown SOB, lore Link; no
-  Fixes/Reported-by/Cc: stable
-- [Phase 2] Diff: 1 line in `max98926_dai_set_fmt()`; mask `BCI` → `BCI
-  | WCI`
-- [Phase 2] Header verified: WCI is bit 3, BCI is bit 2 in `max98926.h`
-- [Phase 3] `git blame`: buggy line from `a2e2876aa0bab` (2016, v4.6)
-- [Phase 3] `git merge-base --is-ancestor a2e2876aa0bab HEAD`:
-  introducing commit **is** in this tree
-- [Phase 3] Sibling fix `0b51601d4504f4` (“Fix mask for setting DAI
-  invert mode”) had `Cc: stable@vger.kernel.org` and is in this tree
-- [Phase 3] `git log` on `max98926.c`: no invert-mask prerequisite
-- [Phase 4] `b4 dig -c dd0ae9a2e19a2`: lore URL `87wltomc97.wl-
-  kuninori.morimoto.gx@renesas.com`
-- [Phase 4] `b4 dig -a`: v1 only
-- [Phase 4] `b4 dig -w`: Kysela, Girdwood, Brown, Iwai, linux-sound
-- [Phase 4] mbox: Mark Brown applied to for-7.3; no NAKs
-- [Phase 4] WebFetch lore/msgid: 403; discussion taken from b4 mbox
-  instead
-- [Phase 4] Stable lore search: no prior discussion of this patch
-- [Phase 5] Callers: `snd_soc_dai_set_fmt()` → dai ops `.set_fmt`; used
-  from `soc-core.c` DAI setup
-- [Phase 5] `git grep`: only max98926 still has BCI-only invert update
-- [Phase 6] `make kernelversion` / Makefile: **6.12.111**; `git describe
-  HEAD`: `p-6.12-3-gc504cf0baa3d8`
-- [Phase 6] `git merge-base --is-ancestor dd0ae9a2e19a2 HEAD`: fix
-  **not** in this tree
-- [Phase 6] Parent context of candidate matches local `max98926.c` lines
-  360–363
-- [Phase 6] `git apply --check`: APPLY_CLEAN
-- [Phase 7] No in-tree machine driver hard-coding max98926; DT
-  compatible `maxim,max98926` exists
-- [Phase 8] Failure mode: WCI not programmed → wrong frame polarity /
-  broken audio; not a crash
-- UNVERIFIED: specific MAX98926 products using `NB_IF`/`IB_IF` in the
-  field (driver still implements those cases)
+This is a hardware quirk for a real, user-confirmed audio failure. It is
+small, already the established `ghost_realtek` pattern, and the
+supporting code is in this tree.
 
 **YES**
 
- sound/soc/codecs/max98926.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/soundwire/dmi-quirks.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/sound/soc/codecs/max98926.c b/sound/soc/codecs/max98926.c
-index ae962bda163eb..8f48f702d5621 100644
---- a/sound/soc/codecs/max98926.c
-+++ b/sound/soc/codecs/max98926.c
-@@ -360,7 +360,7 @@ static int max98926_dai_set_fmt(struct snd_soc_dai *codec_dai,
- 	regmap_write(max98926->regmap,
- 			MAX98926_FORMAT, MAX98926_DAI_DLY_MASK);
- 	regmap_update_bits(max98926->regmap, MAX98926_FORMAT,
--			MAX98926_DAI_BCI_MASK, invert);
-+			MAX98926_DAI_BCI_MASK | MAX98926_DAI_WCI_MASK, invert);
- 	return 0;
- }
- 
+diff --git a/drivers/soundwire/dmi-quirks.c b/drivers/soundwire/dmi-quirks.c
+index 32a46a2d90f7c..2a98fc8c104d6 100644
+--- a/drivers/soundwire/dmi-quirks.c
++++ b/drivers/soundwire/dmi-quirks.c
+@@ -178,6 +178,13 @@ static const struct dmi_system_id adr_remap_quirk_table[] = {
+ 		.driver_data = (void *)hp_omen_16,
+ 	},
+ 	/* PTL devices */
++	{
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "ASUS"),
++			DMI_MATCH(DMI_BOARD_NAME, "B9406CAA"),
++		},
++		.driver_data = (void *)ghost_realtek,
++	},
+ 	{
+ 		.matches = {
+ 			DMI_MATCH(DMI_SYS_VENDOR, "ASUS"),
 -- 
 2.53.0
 
