@@ -1,65 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.65.24
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792441178;
-	b=pjykvD7r1jg9MPMKH02PmRkEuxH4KQGs9jvRycCJPuGr7p1/2pPv2opxBuuegC2Tq2RB
-	 x3FbD4s3V7jAhoRL9duH9h8l8rAxmEC9aoccywCXal+Lt5WhXc18ZsTbFn2J7PCX1t7e/
-	 zslb00k2jXyfapXlS8GfYucLjm1wRv7KZ5NjQL4VBdHCgPqGj4DmlhXysA5L9dy8uw6wM
-	 RJGktV4gWXZy39HcRPNu1MnzMXuA4XPnXDVVf1TNruzMKwfOAZPq/kfnH/eY3zuqyzZ4Q
-	 E1H1PmmQLTbG9qJMdeXFFVrZHnJB43q4QhrSol/58Gawhe8pyEJnUM3129NO8Cm+X9Q==
+	t=1792442563;
+	b=KPvnte2umQxcU+y9DTodq5aq3oJx4EODK0x6ls1DAqdrlIYD9NwOdjfP042BDGoapa8N
+	 6dHzd/AZVaqHQA7r0U7diEjnGPXPSYkgvw1GKyEtxEyJYe8hvvpeH6bEq2LsM7rebG18T
+	 RswY0+nbPi82zMHRGlzHoEAOjWR+I4ksDGX2PQfjW6LVvqxrhjNbf8TV1bYkSSsbv9mfQ
+	 2QQBznJSQDdeDKkKi9Wy9sppaEEBt/b8LR+AVKxHHvBUnRgGuNvfiYvSIbSd4E6lUa8Fh
+	 vFIbhOH7i8Iavmm44YtYvxibXT7BJQWvMETIicBlIIT2BbcyQXW0vL0j+081HwDy/jA==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792441178;
-	h=DMARC-Filter:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
-	 In-Reply-To:To:Cc:X-Mailer:X-ZohoMailClient;
-	bh=LYDN74urPhus1FTjqWgUFcGEsxt5OFWS2saapF699WY=;
-	b=HwTv7xdoic435pXEy8qeyVe9/dS/HmOIp9FAaB7qBUYMliATjiUZa4gHK4U+jGYPvDQA
-	 9WR25iRr9GuI42a1zARATt89Gc6zSqEmrhS8Vd8icacgRPvedkYvlYPKgkL2ppsW6XBTI
-	 eobU1j6Id0gRYjkjaD4WcuzPd0CmE7KSWaiDKQdS/sqUb8x9NwiPfiXiQTHUxW9JdMcyw
-	 6Of1NL0ziz9sE3BF1coYkkpPGFhD0iQ0tZ+m+g2cy0XrQmrzEyg972YtxLA8WY8XOLIuC
-	 sAb/lyYKwudE5mIr0UVaJe34ujBDEKT88c4hH4lp3Ovjic5Bff8fy5QUyxLvaN6KrnA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792442563;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:Content-Type:Content-Disposition:
+	 In-Reply-To:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=o2QjvA/y5Btd8S5rN1Zmuz1Z4m0p5O6mlwHr8eDsAl4=;
+	b=0SWZXciQsBGuQkgiAH3H1hqKFEWKO4Lm/uqSgMWSMBGQU3pCZYiOmFK9dJHKcnO0dFwe
+	 6CUH62nobKZyODYwHFU1ZcIioy2Vna2FbPES+1sWIDQhLDU126e/OBFZHrCjSd8IDEFDh
+	 EwFdcwTkxKSeevDrrzIukexh3pVn98Y3pBmXARFiSWILcPrjehMcWFDJzAF2yNoxPT9T1
+	 Iv9k0iYEPKxLNIlhRBUooL1X2Ji6Zf4zmkJHtoCIJ7SjVqcw3CYcIYWbVA3zD1y2twvY1
+	 ELLOdRuto7fDSnuxwpWCoip6CoSAg3TebhyaXuG0tLY7wleXsI5NTMy4iLhtpeVQq+A==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=rong.moe;
-	spf=pass smtp.mailfrom=rong.moe;
-	dkim=pass header.d=rong.moe header.i=i@rong.moe header.a=rsa-sha256 header.s=zmail2048 header.b=SEP2732e;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=136.143.188.112
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+	dmarc=pass header.from=oss.nxp.com;
+	spf=pass smtp.mailfrom=oss.nxp.com;
+	dkim=pass header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=f2K5nsOq;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.65.24
+Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11011024.outbound.protection.outlook.com [52.101.65.24])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CF0B606A31D;
-	Mon, 19 Oct 2026 20:19:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7CF0B606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rong.moe
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0572C606A31C;
+	Mon, 19 Oct 2026 20:42:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0572C606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=rong.moe header.i=i@rong.moe header.a=rsa-sha256 header.s=zmail2048 header.b=SEP2732e
-ARC-Seal: i=1; a=rsa-sha256; t=1792441129; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=V+KXXAK2wtwKdm3j9Jo2Opems9p57moBvt+uOOkDxnnsUpkd0w/zAQO6Qxh+O5hAzfs/2VCIppJ1TNmIAAf2mEswLCQlWHpSf+k8bI0dkUe988RgqD7N+TqTy0zMklkB9XYqvAmm6ZdaTlWIHaB8kAFU/JnZrbl4s9G/w2b/gY0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1792441129; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=LYDN74urPhus1FTjqWgUFcGEsxt5OFWS2saapF699WY=; 
-	b=LMqOvhHONvQL+i/3evVQwd/6SUWjoU4JLne5MPkVpkp41P68A2aKBy11u4U5G4dFeB8Ye27KwYHO50MS1YFaZyWr92/BjMxHy+Yz1+RNxxpy6LxMLJ+HSSBIrWLTBzZ/tfVcGM8ereJCv6VcTUp+MkSSkg96UiEiV0DUwuAVawo=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=rong.moe;
-	spf=pass  smtp.mailfrom=i@rong.moe;
-	dmarc=pass header.from=<i@rong.moe>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1792441129;
-	s=zmail2048; d=rong.moe; i=i@rong.moe;
-	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:In-Reply-To:To:To:Cc:Cc:Reply-To;
-	bh=LYDN74urPhus1FTjqWgUFcGEsxt5OFWS2saapF699WY=;
-	b=SEP2732ezftDsN46zEcccxoBz5z5YujftcYXDLOP/VCZ3a8fqY+2hqsGQBPyfR+I
-	sXw20n7BncGilvmOVlP37yyIFQSMymHIQUNf8VdXwpqMA5bwlKwVq6nJF9X2WIcIsMr
-	3nHAzZtJF6dHE4nP2SQ0IX+ff/a7Fn9UBckDqNHjM0zWUhex6ERfvcDmOFSyHjTiTtM
-	pxzlsTiV6Zwf/zrifP2Jqcq/6IhuqjZSPPaFd50+bS2cVVrEAXzIuR/JBDbp15YG8Qw
-	7y0TE7CAejqKJ4dvKjSHkeMHIJYIs1NBHZJtdPoU7/W+L+wzHsDVWR1RphqAee4kXbu
-	U6MvczbQNw==
-Received: by smtp.zohomail.com with SMTPS id 1792441126468940.8600773455743;
-	Mon, 19 Oct 2026 13:18:46 -0700 (PDT)
-From: Rong Zhang <i@rong.moe>
-Date: Tue, 20 Oct 2026 04:18:25 +0800
-Subject: [PATCH 4/4] ALSA: usb-audio: Add dB scale quirk for Xiaomi Speaker
- Mini
+	dkim=pass (2048-bit key, unprotected) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=f2K5nsOq
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=kmmbb1NftZH9qB+rL6NLH+RrECEORrq6121SAM0xk2fgJcGyQONdHWmJC+5+EsQkmyKcLqBxcbsjWriwkYZVXX7ITDny4eepMqEhYOUuNCKBDs7H5M55e8cU/e6HuZkb3NRRGKCLaC0i6/Jsc+LhLwicARZf0dXT0q0ewOF+LeElzKqvBnGGrv+h423o9JGe5iRGn4xorVuqpjutWsw8LnYG76rutTCKdDvf1bm8T9H8dqYOcdPc153+PZzBJOjCZWgurSpl05fC/r6WPkLurTsKpjPIKCh7BOQX4DtuoNkfbyC0kkTtED8LDpLYoa/h/HH5e7ks3k8p+gbKO+llBg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=o2QjvA/y5Btd8S5rN1Zmuz1Z4m0p5O6mlwHr8eDsAl4=;
+ b=kEClOTy0GYfepV6Nv8LPm+2ubQFgVBEvr6UpwiHpL0d4gd1REVPM5GgMqSnYABO5l0hu9JQTviDw/gDtE0M7QRruWPLT6di538Mf/tfVJgDg1gGrhj+Gc4CCMBCymsPWrr3tj4Lt6oZoE0FFUGdaqYEOX9PWl+rOyA6UBNAZKsefT2j9JsAJy3IhhvOS7NVwiu50DRNGlmvfyntmW7TTfJB5MgZjN5yT2PpUWSIGs7GUXJGwLuBepgk/FfcifFrgsDbPXhSZ4PyxNyyN588WsfcA5gwX2bnRPdyCKS7kEGjfAl1PV/qBbeXD2FldxShF/E+wDSSZ95OBJoX+05r5Qw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=o2QjvA/y5Btd8S5rN1Zmuz1Z4m0p5O6mlwHr8eDsAl4=;
+ b=f2K5nsOqy/GZwC1cP65AU3cDNkT5E5oN4uIM3M67BUipHY0K0afjqwUb4L7OFYYWnJRp/7By0793HiIaPK6OHeV23Z3A2atuqsxw2i9QI3tGCyK1WyFKc5JQRmBpuvpHIj6KJnZoaoL4ALvPqeoipzTXD33q9m5sZT1evyjTe/ZJRvxC453ZsufMinAX7cQnxV2ijo3pVeSYD56/ocXvmOBYZs5ym+iFNJzYbKccVEfkpy4aZg35tixWoFV+Eqn9oeilGHzKUWVkn7K79z83qRiDRRiUg2raYJ9FnIDaTrq+PZvoucAw8LIjy6JrCdX0UCeKL5yOryxCsgD0BTg3vw==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from MI3PR04MB12438.eurprd04.prod.outlook.com (2603:10a6:290:76::14)
+ by MMZPR04MB387749.eurprd04.prod.outlook.com (2603:10a6:190:4f::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.19; Mon, 19 Oct
+ 2026 20:42:40 +0000
+Received: from MI3PR04MB12438.eurprd04.prod.outlook.com
+ ([fe80::c715:c32:8bb1:b70b]) by MI3PR04MB12438.eurprd04.prod.outlook.com
+ ([fe80::c715:c32:8bb1:b70b%6]) with mapi id 15.21.0522.017; Mon, 19 Oct 2026
+ 20:42:40 +0000
+Date: Mon, 19 Oct 2026 15:42:29 -0500
+From: Frank Li <Frank.li@oss.nxp.com>
+To: Chancel Liu <chancel.liu@oss.nxp.com>
+Cc: Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>,
+	Fabio Estevam <festevam@gmail.com>,
+	Nicolin Chen <nicoleotsuka@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, Chancel Liu <chancel.liu@nxp.com>
+Subject: Re: [PATCH] ASoC: imx-pcm-rpmsg: Flush pending work in hw_free
+Message-ID: <ataAteh8BJKbhyOV@SMW015318>
+References: <20261019-b4-imx-pcm-rpmsg-concurrent-v1-1-c1fb8c33f4db@nxp.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261019-b4-imx-pcm-rpmsg-concurrent-v1-1-c1fb8c33f4db@nxp.com>
+X-ClientProxiedBy: PH0PR07CA0074.namprd07.prod.outlook.com
+ (2603:10b6:510:f::19) To MI3PR04MB12438.eurprd04.prod.outlook.com
+ (2603:10a6:290:76::14)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -69,175 +104,128 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261020-b4-uac-ya-audio-v1-4-2d6e053b7f50@rong.moe>
-References: <20261020-b4-uac-ya-audio-v1-0-2d6e053b7f50@rong.moe>
-In-Reply-To: <20261020-b4-uac-ya-audio-v1-0-2d6e053b7f50@rong.moe>
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Takashi Iwai <tiwai@suse.de>, Rong Zhang <i@rong.moe>
-X-Mailer: b4 0.17-dev-6be7c
-X-ZohoMailClient: External
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MI3PR04MB12438:EE_|MMZPR04MB387749:EE_
+X-MS-Office365-Filtering-Correlation-Id: 76e18ae2-ffb4-4414-a6c8-08df2e218486
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|366016|19092799006|23010399003|1800799024|261009223027099003|56012099006|10067099003|6133799003|22082099003|18002099003|11063799006;
+X-Microsoft-Antispam-Message-Info:
+	rYwNi/H6s8/CZGOutrW3XXPmCaHvVlBiTruMS1Cyg1PIVNhOyVEiRLAn03cy5ln0hR2AsNitn1XL8eLJwqVHgxP2xJxObAfH6n2ZODUW7e1qlLnoe+p6bqFjeWdP6PLYXUboJvSpBIYUZzk72qFuBUzMa6ezmwFZJIudqRWQ9jt0uc61DVPO1zHjVpxPyMWGSWeR3Rs0FiW+FndSzGIilgjOvx/63uW7MTq7DPGh7eDj+FcTAZF+aYcdppFRDOxvZr8rW++b/B+LyFVgB+1u1tNJ5OD4P3oazvQALqOhf4mu/SaSMSPtEEUBRcIg3ifbmKB2PdxVX9JFfeD78IOOAlIgetTqCWCViMiMGnZ8l9+x5fZwKRB0bJ/CA+J0u3i80yhAWV5Lxv9fXQVex64zAW3+amN5OWdBZ6n08fs7QjVpusSROXoNm0x/mV3Yc3gNjh7oP2ibY6+An3pYSrospvSZgtMyyefPW+5pNbX961KNDnt2T7IhL9H0KELKfD8iqE/RKAbJ6z8BuihrOv2bDrKfErE3u4idx47/OIfyGQotLSmkUBvxQao87Brq7eYLQdI6C0JZ4kHwMYpHY0vYJbumb9FGY4WrnwG870yn9aAy7lRqrv29kBBQkm87JqOph1xuqPDvUi+A38fi0UXPAfihf17+I0S69PyB3gslEZU=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MI3PR04MB12438.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(19092799006)(23010399003)(1800799024)(261009223027099003)(56012099006)(10067099003)(6133799003)(22082099003)(18002099003)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?kCHzq4ZW/9uyo+57UF8DADhoyovtwxebcYmsd7AeSjlsr9BgpILXjHwQnW1c?=
+ =?us-ascii?Q?cljvIiv/2UWGhhKwUVPh6wpN+gYgoEIHu8XlxBGHdGMQXg4NxI+3w8adQKhA?=
+ =?us-ascii?Q?pqCnZYsZRtuUG9hWaURSiJILwIqM4TK+UeCZ111562/suKSaak8BRiBhq3XW?=
+ =?us-ascii?Q?Eg7RI1KDr15ZIs42mzP5S+LFeWkWTn9hx1m9yS6IYd1bMolfHJFC9R9qKhrF?=
+ =?us-ascii?Q?yuZPNQSVBPNS9tW28PS8YgXsDzm95mqZUFh1bGHv+St4EKwTSbnzpONMHFu1?=
+ =?us-ascii?Q?627SBoChOt7p0TuzKjK0S0FlHXR67KBM16oYxACMs8yibYcLUlE3+gRmuiVk?=
+ =?us-ascii?Q?ov295IlkrScreOX/771bEkNDyRxQAWkT6XeWNHoCKA1cT9nJTfXzSFjTrz1A?=
+ =?us-ascii?Q?fYVwJYEbmy0X6nK/bmILI5BsB81YWFkG6zqCtaoWW/mDUxUv9efE5yeYa8Hz?=
+ =?us-ascii?Q?ez2mxi1oeXo2tHm4R/wNAlpbzq6PXij2kBhitEt+iu1JTIz1F7gdis7WVDwV?=
+ =?us-ascii?Q?eD1Q46hluf70S54YC/F5znaUOJf06WeqojjfEHFDGr620z534nS4At6aCdrN?=
+ =?us-ascii?Q?mpeYiTm/CUPX8Z6CShEk/SAfodPLAEPhndrpH80A9myKsl2LROKVwE7mEgMw?=
+ =?us-ascii?Q?xwdwyxlH0fkdW7ibjsg3tv7cSB+Vodf7i7QtlSZrdcFg/tc55CISq0ohjkzM?=
+ =?us-ascii?Q?PTqQ0nCrH9iOSdfzyJVTWqylI1iAOTkjoN/I1IPFI+mDRQtXa4Gyx1irlBT4?=
+ =?us-ascii?Q?B50I4C8CEDA0omrKjoIr1FaZOF6kIPMuC2B9eAJF8wyqApdmLc2ECHQcE3Ol?=
+ =?us-ascii?Q?n6bT1khh1KQYJeGVgZpqbteO1TF+Kl8XBDx8I5TxtTAQpljUlJ0UzzNJPEN7?=
+ =?us-ascii?Q?ECs4MT6NSFfVHysHfPWyC3CVOxVO6Gl3QM+aL2X77uQcF9US/ExH7t/vzRFc?=
+ =?us-ascii?Q?TQjcWhnTYeUMxkl1X5GD0uThef7N5HpMz+nQVVErMdZmcXNq4o8ql/1JVDmW?=
+ =?us-ascii?Q?qpOvmAWkWPZl58CyzVGvd/M9YTGu5eWQEcD44s7ZsF0UWX8VwlE7ly00Qg5z?=
+ =?us-ascii?Q?KuErMCDhTvxH5oX25HG+NE2BSSUNwh+VQ8ry1MBy4pmIvf0oTK3nDAeS6kmL?=
+ =?us-ascii?Q?3FZu3wdFrUzEMd74SjH7QbmIqyj6ZOy8amTvEjOK+vpQQ2A23yg6tmBM6Kvl?=
+ =?us-ascii?Q?m7dx5XxG5QjiP9lVGo/rWIzBdDIpISgHD3iGpb4ZHuQg9pOCPWzdx9oSBcrw?=
+ =?us-ascii?Q?zjrDmTraZ8kkswFiC4ujApURRIIDfNkEVoR+4RT3w4X1jTAS5r+Ivozfwoyf?=
+ =?us-ascii?Q?bvcReCEIX8c+NyQ5qkY1mwn81cyK3qVRnzvsbXXFT6fp1YPsQavgua9TPLCV?=
+ =?us-ascii?Q?VDWP/j2TnY66q3gVDXbZNO3f/Kmx2/wMbJVOyhm3AalXwkwZAScoAzLqzXxQ?=
+ =?us-ascii?Q?zEi470GEd6MpN8dFiAZh5ZqrqcjexIJvNIT8U7qglK8nxUCX/rSSor1CkjLt?=
+ =?us-ascii?Q?tyiwfy7MGStU5eldH1fgk1xfY9t/TqCT2GHXhoqseyWa/EcwzJZg9cdnK+zb?=
+ =?us-ascii?Q?ye/DNv8X5d4vduuYBlJNDlrGUMmsu5BqWL+IgeciRR1d3JoBoGtXLLgIKx2P?=
+ =?us-ascii?Q?ox5pfLvcbiy2+XF0nYZiUGPmjkZ3eJKRVGqI+GaBX3M5e1F1C1WYyH918cbn?=
+ =?us-ascii?Q?PE48Qxh7BEFnbQqbFHOZ0v74MBMsMnHSq1vGi84kDKtOq2pOwpiPAIKYfk0W?=
+ =?us-ascii?Q?j1Uts3Z0gBDJgqxS/WN1yujNL0dAAaVjWtSXLSDi57GMg0l3uM/b?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 76e18ae2-ffb4-4414-a6c8-08df2e218486
+X-MS-Exchange-CrossTenant-AuthSource: MI3PR04MB12438.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Oct 2026 20:42:40.4176
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: mqEe2eVFqjATHMCx8ifVXah1qDz7DO4YpB1qf9gjhiqgXm/KjM/18HBdjMCm4a51HVhveCApipP/mfZxRojyH9HLuBjDY+ylgDBvw/JTSM5fkSk6lHRHYJJXAbvWN+Vx
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MMZPR04MB387749
 
-I recently brought an Xiaomi Speaker Mini (USB Product string, marketing
-name: Xiaomi Bluetooth Speaker Mini), which is never advertised as UAC
-capable.
+On Mon, Oct 19, 2026 at 03:58:20PM +0900, Chancel Liu wrote:
+> From: Chancel Liu <chancel.liu@nxp.com>
+>
+> imx_rpmsg_terminate_all() queues the TERMINATE message to the workqueue
+> and returns, while the DAI hw_free() synchronously gates the audio
+> clock. The two can then run concurrently, and this concurrent access to
+> the shared audio clock path can cause a stop failure or even hang the
+> system.
+>
+> Flush the workqueue in a new component hw_free(), which runs before the
+> DAI hw_free(), so TERMINATE is fully handled before the clock is gated.
+> CLOSE stays the last message.
+>
+> Signed-off-by: Chancel Liu <chancel.liu@nxp.com>
+> ---
 
-By chance, I connected it to my PC, and a UAC device showed up.
-Unsurprisingly, it's yet another device with insane volume control, so I
-tried to measure its volume mapping @ 1000Hz with a microphone:
+Reviewed-by: Frank Li <Frank.Li@nxp.com>
 
-+--------+--------+-----------+-------------+--------+
-|  hex   |  dec   | dec => dB | measured dB |  res   |
-+--------+--------+-----------+-------------+--------+
-| 0xd000 | -12288 |    -48.00 |      (mute) |        |
-| 0xdd00 |  -8960 |    -35.00 |       -68.6 | 3328 # |
-| 0xe540 |  -6848 |    -26.75 |       -61.2 | 2112   |
-| 0xea40 |  -5568 |    -21.75 |       -57.0 | 1280   |
-| 0xed80 |  -4736 |    -18.50 |       -52.5 |  832   |
-| 0xf0a0 |  -3936 |    -15.38 |       -48.3 |  800   |
-| 0xf2d0 |  -3376 |    -13.19 |       -42.1 |  560   |
-| 0xf4d0 |  -2864 |    -11.19 |       -36.1 |  512   |
-| 0xf6c0 |  -2368 |     -9.25 |       -32.0 |  496   |
-| 0xf840 |  -1984 |     -7.75 |       -24.0 |  384   |
-| 0xf9e0 |  -1568 |     -6.13 |       -17.9 |  416   |
-| 0xfb30 |  -1232 |     -4.81 |       -13.9 |  336   |
-| 0xfc80 |   -896 |     -3.50 |       -10.0 |  336   |
-| 0xfd90 |   -624 |     -2.44 |        -6.0 |  272   |
-| 0xfeb0 |   -336 |     -1.31 |        -4.0 |  288   |
-| 0xffb0 |    -80 |     -0.31 |        -2.0 |  256   |
-| 0x0000 |      0 |      0.00 |         0.0 |   80   |
-+--------+--------+-----------+-------------+--------+
-
-Footnote #: running out of the 10-item limit of TLV ranges. The
-limitation is from alsa-lib, where MAX_TLV_RANGE_SIZE == 256 Bytes.
-
-The volume control mixer declares res == 256, but actually acts like
-res == 1 (i.e., accepts any value between min and max) and has uneven
-resolutions in reality. Setting any value between (0xd000, 0xdd00]
-results in the same audible volume as 0xdd00, and so on.
-
-Carefully overrides cval->{min,max,res} so that volume steps with
-2dB or 4dB resolution can be approximately represented togother.
-With that, we can expose a 25-step TLV range mapping with 10 items.
-
-The quirk is applied only when the mixer values match the seen ones,
-so that it won't be accidentally applied to unseen variants.
-
-Quirky device sample:
-
-  usb 3-1: new full-speed USB device number 14 using xhci_hcd
-  usb 3-1: New USB device found, idVendor=2717, idProduct=5096, bcdDevice= 1.00
-  usb 3-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-  usb 3-1: Product: Xiaomi Speaker Mini-****
-  usb 3-1: Manufacturer: bestechnic
-  usb 3-1: SerialNumber: 20160406.1
-  usb 3-1: Found last interface = 0
-  usb 3-1: 1:1: add audio endpoint 0x3
-  usb 3-1: Creating new data endpoint #3
-  usb 3-1: 1:1 Set sample rate 48000, clock 0
-  usb 3-1: [5] FU [PCM Playback Switch] ch = 1, val = 0/1/1
-  usb 3-1: cannot set ctl value: req = 0x4, wValue = 0x200, wIndex = 0x500, type = 4, data = 0x80/0x0
-  usb 3-1: [5] FU [PCM Playback Volume] ch = 1, val = -12288/0/256
-  input: bestechnic Xiaomi Speaker Mini-2421 as /devices/pci0000:00/0000:00:08.3/0000:67:00.0/usb3/3-1/3-1:1.2/0003:2717:5096.002A/input/input69
-  hid-generic 0003:2717:5096.002A: input,hidraw10: USB HID v1.11 Device [bestechnic Xiaomi Speaker Mini-2421] on usb-0000:67:00.0-1/input2
-
-(**** is the last four digits of the device's serial number)
-
-Signed-off-by: Rong Zhang <i@rong.moe>
----
- sound/usb/mixer_quirks.c | 69 ++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 69 insertions(+)
-
-diff --git a/sound/usb/mixer_quirks.c b/sound/usb/mixer_quirks.c
-index 6cdd3ee94d66..3534f6fad74b 100644
---- a/sound/usb/mixer_quirks.c
-+++ b/sound/usb/mixer_quirks.c
-@@ -4840,6 +4840,71 @@ static void snd_ab13x_quirks(struct usb_mixer_interface *mixer, struct usb_mixer
- 	}
- }
- 
-+static void snd_xiaomi_speaker_mini_quirk_db_scale(struct usb_mixer_interface *mixer,
-+						   struct usb_mixer_elem_info *cval,
-+						   struct snd_kcontrol *kctl)
-+{
-+	/*
-+	 * Volume mapping based on normalized microphone measurement @ 1000Hz:
-+	 * +--------+--------+-----------+-------------+--------+
-+	 * |  hex   |  dec   | dec => dB | measured dB |  res   |
-+	 * +--------+--------+-----------+-------------+--------+
-+	 * | 0xd000 | -12288 |    -48.00 |      (mute) |        |
-+	 * | 0xdd00 |  -8960 |    -35.00 |       -68.6 | 3328 # |
-+	 * | 0xe540 |  -6848 |    -26.75 |       -61.2 | 2112   |
-+	 * | 0xea40 |  -5568 |    -21.75 |       -57.0 | 1280   |
-+	 * | 0xed80 |  -4736 |    -18.50 |       -52.5 |  832   |
-+	 * | 0xf0a0 |  -3936 |    -15.38 |       -48.3 |  800   |
-+	 * | 0xf2d0 |  -3376 |    -13.19 |       -42.1 |  560   |
-+	 * | 0xf4d0 |  -2864 |    -11.19 |       -36.1 |  512   |
-+	 * | 0xf6c0 |  -2368 |     -9.25 |       -32.0 |  496   |
-+	 * | 0xf840 |  -1984 |     -7.75 |       -24.0 |  384   |
-+	 * | 0xf9e0 |  -1568 |     -6.13 |       -17.9 |  416   |
-+	 * | 0xfb30 |  -1232 |     -4.81 |       -13.9 |  336   |
-+	 * | 0xfc80 |   -896 |     -3.50 |       -10.0 |  336   |
-+	 * | 0xfd90 |   -624 |     -2.44 |        -6.0 |  272   |
-+	 * | 0xfeb0 |   -336 |     -1.31 |        -4.0 |  288   |
-+	 * | 0xffb0 |    -80 |     -0.31 |        -2.0 |  256   |
-+	 * | 0x0000 |      0 |      0.00 |         0.0 |   80   |
-+	 * +--------+--------+-----------+-------------+--------+
-+	 *
-+	 * The volume control mixer declares res == 256, but actually acts like
-+	 * res == 1 (i.e., accepts any value between min and max) and has uneven
-+	 * resolutions in reality. Setting any value between (0xd000, 0xdd00]
-+	 * results in the same audible volume as 0xdd00, and so on.
-+	 *
-+	 * Footnote #: running out of the 10-item limit of TLV ranges.
-+	 */
-+	static const DECLARE_TLV_DB_RANGE(scale,
-+		 0,  0, TLV_DB_SCALE_ITEM( -6120,  0, 0), /*                             -7104 */
-+		 1,  5, TLV_DB_SCALE_ITEM( -5700,  0, 0), /* -6808, -6512, -6216, -5920, -5624 */
-+		 6,  8, TLV_DB_SCALE_ITEM( -5250,  0, 0), /*               -5328, -5032, -4736 */
-+		 9, 10, TLV_DB_SCALE_ITEM( -4830,  0, 0), /*                      -4440, -4144 */
-+		11, 12, TLV_DB_SCALE_ITEM( -4210,  0, 0), /*                      -3848, -3552 */
-+		13, 14, TLV_DB_SCALE_ITEM( -3610,  0, 0), /*                      -3256, -2960 */
-+		15, 16, TLV_DB_SCALE_ITEM( -3200,  0, 0), /*                      -2664, -2368 */
-+		17, 18, TLV_DB_MINMAX_ITEM(-2400, -1790), /*                      -2072, -1776 */
-+		19, 21, TLV_DB_MINMAX_ITEM(-1390,  -600), /*               -1480, -1184,  -888 */
-+		22, 24, TLV_DB_MINMAX_ITEM( -400,     0), /*                -592,  -296,     0 */
-+	);
-+
-+	if (cval->min == -12288 && cval->max == 0 && cval->res == 256) {
-+		if (!deconflict_playback_tlv_quirks(mixer, kctl))
-+			return;
-+
-+		/*
-+		 * These values are carefully chosen so that volume steps with
-+		 * 2dB or 4dB resolution can be approximately represented
-+		 * togother.
-+		 */
-+		snd_usb_apply_db_scale_val(mixer, cval, kctl, scale,
-+					   "Xiaomi Speaker Mini", -7104, 0, 296);
-+	} else {
-+		usb_audio_dbg(mixer->chip,
-+			      "not applying Xiaomi Speaker Mini quirk on unknown variant\n");
-+	}
-+}
-+
- static void snd_usb_mv_silicon_quirks(struct usb_mixer_interface *mixer,
- 				      struct usb_mixer_elem_info *cval,
- 				      struct snd_kcontrol *kctl)
-@@ -4915,6 +4980,10 @@ void snd_usb_mixer_fu_apply_quirk(struct usb_mixer_interface *mixer,
- 		if (unitid == 7 && cval->control == UAC_FU_VOLUME)
- 			snd_dragonfly_quirk_db_scale(mixer, cval, kctl);
- 		break;
-+	case USB_ID(0x2717, 0x5096): /* Xiaomi Speaker Mini */
-+		if (cval->control == UAC_FU_VOLUME)
-+			snd_xiaomi_speaker_mini_quirk_db_scale(mixer, cval, kctl);
-+		break;
- 	}
- 
- 	if (cval->control == UAC_FU_VOLUME &&
-
--- 
-2.55.0
-
+>  sound/soc/fsl/imx-pcm-rpmsg.c | 14 +++++++++++---
+>  1 file changed, 11 insertions(+), 3 deletions(-)
+>
+> diff --git a/sound/soc/fsl/imx-pcm-rpmsg.c b/sound/soc/fsl/imx-pcm-rpmsg.c
+> index 85b7c929a28a..6a0174d6c78d 100644
+> --- a/sound/soc/fsl/imx-pcm-rpmsg.c
+> +++ b/sound/soc/fsl/imx-pcm-rpmsg.c
+> @@ -178,6 +178,16 @@ static int imx_rpmsg_pcm_hw_params(struct snd_soc_component *component,
+>  	return 0;
+>  }
+>
+> +static int imx_rpmsg_pcm_hw_free(struct snd_soc_component *component,
+> +				 struct snd_pcm_substream *substream)
+> +{
+> +	struct rpmsg_info *info = dev_get_drvdata(component->dev);
+> +
+> +	flush_workqueue(info->rpmsg_wq);
+> +
+> +	return 0;
+> +}
+> +
+>  static snd_pcm_uframes_t imx_rpmsg_pcm_pointer(struct snd_soc_component *component,
+>  					       struct snd_pcm_substream *substream)
+>  {
+> @@ -285,9 +295,6 @@ static int imx_rpmsg_pcm_close(struct snd_soc_component *component,
+>  	struct rpmsg_info *info = dev_get_drvdata(component->dev);
+>  	struct rpmsg_msg *msg;
+>
+> -	/* Flush work in workqueue to make TX_CLOSE is the last message */
+> -	flush_workqueue(info->rpmsg_wq);
+> -
+>  	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
+>  		msg = &info->msg[TX_CLOSE];
+>  		msg->s_msg.header.cmd = TX_CLOSE;
+> @@ -624,6 +631,7 @@ static const struct snd_soc_component_driver imx_rpmsg_soc_component = {
+>  	.open		= imx_rpmsg_pcm_open,
+>  	.close		= imx_rpmsg_pcm_close,
+>  	.hw_params	= imx_rpmsg_pcm_hw_params,
+> +	.hw_free	= imx_rpmsg_pcm_hw_free,
+>  	.trigger	= imx_rpmsg_pcm_trigger,
+>  	.pointer	= imx_rpmsg_pcm_pointer,
+>  	.ack		= imx_rpmsg_pcm_ack,
+>
+> ---
+> base-commit: 8d00cfd77ffa64477129969eec8249c8cdadc9c2
+> change-id: 20261019-b4-imx-pcm-rpmsg-concurrent-1522959ba768
+>
+> Best regards,
+> --
+> Chancel Liu <chancel.liu@nxp.com>
+>
+>
