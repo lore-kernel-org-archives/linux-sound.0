@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA0CB59E3AD;
-	Mon, 19 Oct 2026 13:59:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCF1252F82F;
+	Mon, 19 Oct 2026 13:59:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792418365; cv=none; b=hcbfUJLILZiHVR58fXfWtQv2jk5cGl+MB3t2DNLofVp9gHR5KOm7hP7AwoNZgS9m3g47b/1m+S9TWHHaUNrwJgDpq0L2b76p+OHn7RW5AjKGTO+eyLstg+7ppCg1DAS0pl5CTcBLQQ1cNwpASKHaQxv2bURdbrD8rFS7M8kwPn8=
+	t=1792418389; cv=none; b=tEryHEQskWwc6Gp52kbcF6xqHYG4jG7/FV0lGCXF4YH6JZ4ATERVV8rLG2zboQqxYyccxBMFIbkIc28XnMu28pH+g6cdRxbqzOxT6uydO+aHOkU9htWkl0J6ZWgslkfaAO92Ti8f4bZqSOx6x5abFCk9iuKw4nxou/OKfQzOYa0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792418365; c=relaxed/simple;
-	bh=BKFfN43nGp3VVpTNr/Lo+W/WKIX7D9y9XlEAqk2L2mY=;
+	s=arc-20240116; t=1792418389; c=relaxed/simple;
+	bh=CXzADxk9wqX09v7ycqrdX6eAVir6soUV+PCXFq9YVhU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CzE17NDFSyECNqZty8hMq3BvXPttXNbmVme0gZGJqM5YycQh+XpULItQFh/kxQ32z98367lpFoJUUi1Cpvm1qTMCH/iQ4uKktWP6hkPeOU6ptK8A+GzdGCygoLB1DrpbZpKDvD2IMqf8L8Ep5f8YFjKUuFkCDYWOjZFva1fH74M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jh/uACEB; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=N/EbjqCU3X7BMqf1MEScMyPc4UFYFykxup8Y0lO8jJAzYa7/KyVVqym5GBOy842bEEwMCfpU8wBB3dJNY6owBcqZLbffdvZeCylbZnYrOkzbzm+HpfrvyXfSc43Fe09zL7w035eiX0pLiSQLb64+mf9o3j69z0DhFzg0bkP9T0M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TKQoQXyf; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jh/uACEB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E220C1F000C7;
-	Mon, 19 Oct 2026 13:59:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TKQoQXyf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7EEE1F000C9;
+	Mon, 19 Oct 2026 13:59:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792418362;
-	bh=MOv2BYNXyBuekzXIr95SQ6L2BOOc1CRfATxmrksmpro=;
+	s=k20260515; t=1792418384;
+	bh=8mQ3Y+7UHIH059+NAi9vk+LgHMB4/3HWDkvw9jCS914=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=jh/uACEBb3d1DWQyrV66BeLfnKPMADETSxW2XjSG60kZNlsQ7oJLHP/wWWrVX8S5e
-	 ygbqzEiQHmdS8GB5yTKoW4CkGvATKlQi8JbiPHyaCmTvtVpT8mFXNJ/w+MdWD6t2g2
-	 UZbeYcso/CzOQ7Q83Znn1r2lNx/D62BH65n+Gts9upgG3acMk8KAsH6t/S5807BGRl
-	 rmcjfAOz44VQ/+JwWYX2yqf87OI7yWN/3igPoQMzCc2GNR4potwcJx1yIyzh1y2k/b
-	 2rmAYYgTg8ySBFvG+jl8CYwZoAw9YDYw/ddMdyTrSOuBJOuuL6c1plihXV03xCc9OT
-	 qv+nnrxR2g5Ow==
+	b=TKQoQXyfw4atyFLeKELm/jUlqecQo+rgyrlTYIUx+2HIV2m5H+ceoUzXEMb0lgZNO
+	 u4peYGDHCVg0FGbCHnjtJ57Xv0UIkZGFXGVPrBoiB6n4YacCMeepEfUm8zlgUIDPv/
+	 rjsG1Zhy92+6V3LWVIhd0YDLqEkSf2K4dciowLCWaSGl/TOK7o5nlE9doQsgqxPK+d
+	 1vVHkZ27eF8y6y0aXhE1PHPjTMvUewtzJHE7grF4lUBhX4wtDhrUG+dmqm0hNaqrfU
+	 c4k9pIixM/G2lZrM8LcxQHN6PQAipYI0OUluciASVM7skjFLohpgxbGaQLFPcQEcNo
+	 yi2EH9E6eCoXg==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Fu Hao <fuhao@open-hieco.net>,
+Cc: Michal Pecio <michal.pecio@gmail.com>,
 	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18] ALSA: hda: Add support for Hygon family 18h model 5h HD-Audio
-Date: Mon, 19 Oct 2026 09:48:05 -0400
-Message-ID: <20261019135441.1420968-194-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-5.10] ALSA: usx2y: Stop clearing urb->hcpriv before submission
+Date: Mon, 19 Oct 2026 09:48:22 -0400
+Message-ID: <20261019135441.1420968-211-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261019135441.1420968-1-sashal@kernel.org>
 References: <20261019135441.1420968-1-sashal@kernel.org>
@@ -54,386 +54,440 @@ X-stable-base: Linux 6.18.57
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Fu Hao <fuhao@open-hieco.net>
+From: Michal Pecio <michal.pecio@gmail.com>
 
-[ Upstream commit 41212ff3e4ed475d9f91d26b5324075087702987 ]
+[ Upstream commit fabae5548149ef5c8a056875d9ebdc38366db539 ]
 
-Add the new PCI ID 0x1d94 0x14a9 for Hygon family 18h model 5h
-HDA controller.
+This is managed by USB core and drivers aren't expected to touch it.
 
-Signed-off-by: Fu Hao <fuhao@open-hieco.net>
-Link: https://patch.msgid.link/8b38f2941375553e4246167736c6acb5a541e833.1781523812.git.fuhao@open-hieco.net
+It should only be not NULL on a submitted URB, in which case clearing
+defeats the "submitted while active" sanity check in usb_submit_urb()
+and may crash the HCD handling the URB and panic the kernel.
+
+Signed-off-by: Michal Pecio <michal.pecio@gmail.com>
+Link: https://patch.msgid.link/20260810075728.483c827e.michal.pecio@gmail.com
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-The local tree is **6.18.53** (`v6.18.53-5049-g0f0bdc2b0dffb`). The
-verdict is only about this tree: the existing HD-Audio PCI driver is
-present, Hygon vendor IDs already exist, and this is a PCI ID addition
-to that driver.
+I have the local tree, the live `hcpriv` path, and the mailing-list
+record. The rest of this is the nine-phase write-up and the backport
+verdict for 6.12 only.
 
----
-
-## PHASE 1: COMMIT MESSAGE FORENSICS
+===============================================================
+PHASE 1: COMMIT MESSAGE FORENSICS
+===============================================================
 
 **Step 1.1: PARSE THE SUBJECT LINE**
-Record: `[ALSA/hda] [Add] [PCI ID 0x1d94:0x14a9 for Hygon family 18h
-model 5h HD-Audio controller]`
+
+Record: **[ALSA/usx2y] [Stop]** Stop clearing `urb->hcpriv` before
+`usb_submit_urb()`. “Stop” here means “stop doing something unsafe,”
+i.e. a correctness fix, not a feature.
 
 **Step 1.2: PARSE ALL COMMIT MESSAGE TAGS**
-Record:
-- `Fixes:` — none (expected)
-- `Reported-by:` — none
-- `Tested-by:` — none
-- `Reviewed-by:` / `Acked-by:` — none on the commit
-- `Link:` `https://patch.msgid.link/8b38f2941375553e4246167736c6acb5a541
-  e833.1781523812.git.fuhao@open-hieco.net`
-- `Cc: stable@vger.kernel.org` — none (expected)
-- `Signed-off-by: Fu Hao <fuhao@open-hieco.net>` (author)
+
+Verified from `git show fabae5548149ef5c8a056875d9ebdc38366db539`:
+
+- `Signed-off-by: Michal Pecio <michal.pecio@gmail.com>` (author)
+- `Link: https://patch.msgid.link/20260810075728.483c827e.michal.pecio@g
+  mail.com`
 - `Signed-off-by: Takashi Iwai <tiwai@suse.de>` (ALSA maintainer)
-- Ignore pipeline `Signed-off-by: Sasha Levin` and `[Upstream commit
-  ...]`
+
+Absent (expected for this pipeline, not a negative signal): `Fixes:`,
+`Cc: stable`, `Reported-by`, `Tested-by`, `Reviewed-by`, `Acked-by`.
+
+No syzbot, no CVE, no multi-user report.
 
 **Step 1.3: ANALYZE THE COMMIT BODY TEXT**
+
 Record:
-[Bug description] Hygon family 18h model 5h HD-Audio is missing from the
-existing Intel/generic HDA PCI ID table, so `snd-hda-intel` never binds.
-[Symptom] No HD-Audio controller on that SoC (no `snd_hda_intel` probe).
-[Version information] None in the message.
-[Root cause] New PCI device `vendor 0x1d94` / `device 0x14a9` was never
-listed.
+- **Bug:** Client driver writes `urb->hcpriv = NULL` immediately before
+  `usb_submit_urb()`. `hcpriv` is USB-core/HCD private.
+- **Symptom/failure mode:** If the URB is still active (`hcpriv !=
+  NULL`), that store hides it from `usb_submit_urb()`’s “submitted while
+  active” check. The HCD then treats a live URB as a new submit and
+  **can crash / panic**.
+- **Version info in the message:** none. Git places the commit at
+  `v7.2-rc5-196-gfabae5548149e` (2026-08-10). The assignment itself
+  dates to `1da177e4c3f41` (Linux-2.6.12-rc2).
+- **Root cause (author):** drivers must not touch `hcpriv`; a non-NULL
+  value means “already submitted.”
 
 **Step 1.4: DETECT HIDDEN BUG FIXES**
-Record: Not a hidden fix. This is explicit hardware enablement via a PCI
-ID. Cover letter (v3 0/7) calls it “initial support for the integrated
-HD-Audio controller.” A follow-up (v3 7/7) adds a dword-access quirk
-because byte writes to GCTL/SD_CTL fail on this controller.
 
----
+Record: Not a disguised cleanup. The message names the panic path. The
+diff is a one-line deletion of an illegal store.
 
-## PHASE 2: DIFF ANALYSIS
+===============================================================
+PHASE 2: DIFF ANALYSIS - LINE BY LINE
+===============================================================
 
 **Step 2.1: INVENTORY THE CHANGES**
+
 Record:
-- File: `sound/hda/controllers/intel.c` only (`+7` lines, no deletions)
-- Functions/data: `#define PCI_DEVICE_ID_HYGON_18H_M05H_HDA`, enum
-  `AZX_DRIVER_HYGON`, `driver_short_names[]`, `azx_ids[]`
-- Scope: single-file surgical PCI ID + driver-type tag
+- File: `sound/usb/usx2y/usbusx2yaudio.c` — 1 deletion, 0 additions
+- Function: `usx2y_urb_submit()`
+- Scope: single-file, surgical
 
 **Step 2.2: UNDERSTAND THE CODE FLOW CHANGE**
-Record:
-- Before: `azx_ids[]` has Intel/AMD/ATI/Zhaoxin/Loongson/etc.; no Hygon
-  entry. AMD/ATI class wildcards do not match vendor `0x1d94`. Probe
-  never runs for this device.
-- After: PCI match `PCI_VDEVICE(HYGON, 0x14a9)` with `AZX_DRIVER_HYGON |
-  AZX_DCAPS_POSFIX_LPIB | AZX_DCAPS_NO_MSI`, then normal `azx_probe()`.
-- Path: PCI enumeration / module probe, not an error path.
+
+Record: Before, `usx2y_urb_submit()` set `start_frame`, **zeroed
+`hcpriv`**, set `urb->dev`, then `usb_submit_urb(GFP_ATOMIC)`. After,
+the `hcpriv` store is gone. This is the **normal ISO resubmit path**
+(completion → `usx2y_usbframe_complete()` → `usx2y_urb_submit()`), not
+an error-only path.
 
 **Step 2.3: IDENTIFY THE BUG MECHANISM**
-Record: `[Hardware enablement / PCI ID]` Existing driver does not claim
-this controller. New enum value is an internal tag (same pattern as
-Loongson/Zhaoxin), not a new driver. Caps reuse existing
-`AZX_DCAPS_POSFIX_LPIB` and `AZX_DCAPS_NO_MSI`.
+
+Record: **[Memory safety / HCD invariant]** `urb->hcpriv` is documented
+in `include/linux/usb.h` as HCD-private. `usb_submit_urb()` in this
+tree:
+
+```378:381:drivers/usb/core/urb.c
+        if (urb->hcpriv) {
+                WARN_ONCE(1, "URB %pK submitted while active\n", urb);
+                return -EBUSY;
+        }
+```
+
+`__usb_hcd_giveback_urb()` already sets `urb->hcpriv = NULL` **before**
+the complete callback, so on a legal resubmit the driver’s store is a
+no-op. If the URB is still queued, the store defeats
+`-EBUSY`/`WARN_ONCE`. xHCI then does `urb->hcpriv = urb_priv` in
+`xhci_urb_enqueue()` over a live URB (new `urb_priv`, old still on the
+ring) → DMA/ring corruption and panic.
 
 **Step 2.4: ASSESS THE FIX QUALITY**
-Record: Minimal and obviously correct. Regression risk is low and
-limited to this PCI ID. `azx_max_codecs[]` is sparse; HYGON stays 0, and
-`azx_probe_codecs()` treats 0 as `AZX_DEFAULT_CODECS`. Companion quirk
-(7/7) is needed for reliable register writes; this ID patch still
-compiles and applies alone.
 
----
+Record: Obviously correct: delete an illegal write. Minimal. Regression
+risk is very low: giveback already NULL’s `hcpriv` before complete;
+first-time submits from `usx2y_urbs_start()` go through
+`usb_submit_urb()` directly with a freshly allocated URB. On a true
+double-submit, users get `-EBUSY` and this driver’s existing `dev_err` +
+`usx2y_clients_stop()` instead of an HCD panic.
 
-## PHASE 3: GIT HISTORY INVESTIGATION
+===============================================================
+PHASE 3: GIT HISTORY INVESTIGATION
+===============================================================
 
 **Step 3.1: BLAME THE CHANGED LINES**
-Record: Insertion is next to Loongson IDs (`28bd137a3c8e1`, 2023) and
-the table terminator (`{ 0, }`, ancient). Not a recent regression; the
-ID was never present. `PCI_VENDOR_ID_HYGON` (`0x1d94`) has been in
-`include/linux/pci_ids.h` since `c6babb5806b77` (2018).
+
+Record: `git blame` on line 170: `urb->hcpriv = NULL` introduced in
+**`1da177e4c3f41` (Linux-2.6.12-rc2, 2005)**. Present for the entire
+life of this driver. Surrounding function was only renamed/style-fixed
+(Takashi Iwai, 2021).
 
 **Step 3.2: FOLLOW THE FIXES: TAG**
-Record: No `Fixes:` tag. N/A.
+
+Record: No `Fixes:` tag. The broken line is original driver code, not a
+later regression. The USB-core check was added in **`2f02bc8af3abb`
+(Alan Stern, 2012)** “USB: report submission of active URBs”
+(`WARN_ONCE` + `-EBUSY`). That commit exists in this tree. This driver
+has been defeating that check since the check existed.
 
 **Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES**
-Record: Related: `054940f79377d` / upstream `e096c24e7f97` — “Fix single
-byte writing issue for Hygon family 18h model 5h” (series 7/7). That
-patch depends on `AZX_DRIVER_HYGON` from this one. Other nearby HDA ID
-work (Lisuan, denylist) is unrelated. This ID commit is standalone for
-bind/enable; the quirk is a separate follow-up.
+
+Record: Recent local history on this file includes `86f82bf2b5f99`
+(validate `nrpacks`), print API, `__counted_by`, etc. None of those
+remove `hcpriv`. `git merge-base --is-ancestor fabae5548149e HEAD` →
+**not an ancestor** (exit 1). Standalone one-line patch, not `N/M`.
 
 **Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS**
-Record: Fu Hao submitted the Hygon 18h models 4h–8h series (CPU
-topology, perf, microcode, HDA). Not the ALSA maintainer. Takashi Iwai
-applied both HDA patches to for-next.
+
+Record: Michal Pecio has no prior ALSA usx2y commits in this checkout.
+On `origin/master` the only nearby `hcpriv` work is `25e531b422dc2`
+(`usb: xhci: Make usb_host_endpoint.hcpriv survive endpoint_disable()`)
+— different field (`ep->hcpriv`), not a prerequisite. Author is a
+USB/xHCI contributor; ALSA maintainer applied this the same day.
 
 **Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS**
-Record: Needs `PCI_VENDOR_ID_HYGON`, `PCI_VDEVICE()`,
-`AZX_DCAPS_POSFIX_LPIB`, `AZX_DCAPS_NO_MSI`, and
-`sound/hda/controllers/intel.c` (moved in `2d9223d2d64cb`, already in
-v6.18.53). All present. Does not need series patches 1–5
-(x86/perf/microcode). Patch 7/7 is recommended so audio actually works,
-but is not a compile/apply prerequisite.
 
----
+Record: None. The function, field, and `usb_submit_urb()` check all
+exist here. `git show fabae5548149e | git apply --check` succeeded.
+Standalone.
 
-## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
+===============================================================
+PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
+===============================================================
 
 **Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION**
-Record: `b4 dig -c 41212ff3e4ed` →
-https://patch.msgid.link/8b38f2941375553e4246167736c6acb5a541e833.178152
-3812.git.fuhao@open-hieco.net
-Series: **[PATCH v3 0/7] Add support for Hygon family 18h models 4h-8h**
-(2026-06-15). This is **6/7**. `b4 dig -a` listed v3 as the matching
-series. v1→v2: switched to existing `access_sdnctl_in_dword` instead of
-a Hygon-specific flag; v2→v3: “Refine the code of Hygon HD-Audio device
-ID.” Takashi: “Applied to for-next branch now.” No NAK on 6/7 or 7/7.
+
+Record:
+- `b4 dig -c fabae5548149e` → https://patch.msgid.link/20260810075728.48
+  3c827e.michal.pecio@gmail.com
+- `b4 dig -a`: **v1 only**, 2026-08-10
+- Thread (LKML/openwall): standalone `[PATCH]`, no v2. Takashi Iwai:
+  “Applied to for-next branch. Thanks.” No NAK, no stable discussion, no
+  reviewer risk flags.
 
 **Step 4.2: CHECK WHO REVIEWED THE PATCH**
-Record: `b4 dig -w` recipients: Fu Hao, Bjorn Helgaas, Jaroslav Kysela
-(`perex@perex.cz`), Takashi Iwai, linux-kernel, linux-sound, linux-pci,
-tingyin.duan. ALSA maintainers were on To/Cc. Takashi applied it.
+
+Record (`b4 dig -w`): To/Cc Jaroslav Kysela, Takashi Iwai, linux-sound,
+linux-kernel. **Not** linux-usb. Applied by the ALSA maintainer the same
+day; no separate Reviewed-by.
 
 **Step 4.3: SEARCH FOR THE BUG REPORT**
-Record: No syzbot/bugzilla. Hardware enablement from Hygon (open-hieco).
-No public crash report.
+
+Record: No `Reported-by`, no bugzilla/syzbot. Inspection-driven.
+Severity from the author is kernel panic; no public crash log was found.
 
 **Step 4.4: CHECK FOR RELATED PATCHES AND SERIES**
-Record: 1–5 are x86 CPU/perf/microcode (independent). 6 = this ID. 7 =
-dword-access quirk using `AZX_DRIVER_HYGON`. Audio support is 6+7; 6 is
-still a valid PCI ID addition by itself.
+
+Record: Not a series. `git log origin/master
+fabae5548149e..origin/master -- sound/usb/usx2y/usbusx2yaudio.c` is
+empty (no follow-up/revert).
 
 **Step 4.5: CHECK STABLE MAILING LIST HISTORY**
-Record: lore.kernel.org `/stable/` returned HTTP 403 (WebFetch and
-curl). UNVERIFIED whether stable@ discussed this ID.
 
----
+Record: lore.kernel.org returned 403 via WebFetch. Web search of
+`site:lore.kernel.org/stable usx2y hcpriv` found **no** stable-list
+thread. UNVERIFIED beyond that search: no evidence it was rejected for
+stable.
 
-## PHASE 5: CODE SEMANTIC ANALYSIS
+===============================================================
+PHASE 5: CODE SEMANTIC ANALYSIS
+===============================================================
+
+semcode MCP is not available; callers/callees from grep + reads.
 
 **Step 5.1: IDENTIFY KEY FUNCTIONS**
-Record: No function bodies changed. Data only: ID define,
-`AZX_DRIVER_HYGON`, `driver_short_names`, `azx_ids[]`. Runtime path is
-existing `azx_probe()`.
+
+Record: `usx2y_urb_submit()` only.
 
 **Step 5.2: TRACE CALLERS**
-Record: `azx_ids` → `azx_driver.id_table` → PCI core → `azx_probe()` →
-`azx_first_init()` / `azx_probe_continue()`. Device-enumeration path,
-not IRQ/hot path until the device exists.
+
+Record:
+- `usx2y_usbframe_complete()` in the same file: playback URB after
+  `usx2y_urb_play_prepare()`, capture `completed_urb` after retire.
+  Called from `i_usx2y_urb_complete()` (URB complete / giveback).
+- `usx2yhwdeppcm.c` includes `usbusx2yaudio.c` and calls
+  `usx2y_urb_submit()` for capture (and second capture) in the
+  hwdep/rawusb path.
+
+Hot path: **every ISO frame** while PCM is running. Userspace trigger:
+open/play/record on a Tascam US-122/224/428 (`CONFIG_SND_USB_USX2Y`).
 
 **Step 5.3: TRACE CALLEES**
-Record: Unchanged. Probe uses existing PCI/HDA init, LPIB position fix,
-MSI disable.
+
+Record: `usb_submit_urb(urb, GFP_ATOMIC)`, `dev_err` on failure. No
+alloc, no new locks.
 
 **Step 5.4: FOLLOW THE CALL CHAIN**
-Record: Userspace does not trigger it; PCI probe does on Hygon 18h m5h.
-No class wildcard for `PCI_VENDOR_ID_HYGON` (only
-Intel/Glenfly/NVIDIA/Creative/ATI/AMD). Without this ID, the controller
-is not claimed.
+
+Record: `usb_hcd_giveback_urb` → `__usb_hcd_giveback_urb` (`hcpriv =
+NULL`) → `i_usx2y_urb_complete` → `usx2y_usbframe_complete` →
+`usx2y_urb_submit` → `usb_submit_urb`. Reachable from normal PCM. On a
+clean complete, `hcpriv` is already NULL. Double-submit is the dangerous
+case (startup state machine `STATE_STARTING1/2` can pick
+`urb[0]`/`urb[1]` by index; two URBs per substream, `NRURBS == 2`).
 
 **Step 5.5: SEARCH FOR SIMILAR PATTERNS**
-Record: Same pattern as Loongson (`28bd137a3c8e1`) and many other HDA
-PCI ID additions already in this tree (Alder Lake, Glenfly, AMD display
-HDA, etc.).
 
----
+Record: `urb->hcpriv = NULL` in `sound/` exists **only** in this file.
+Other `hcpriv` writes are in HCDs (`xhci`, `ehci`, `ohci`, …), which is
+correct. This driver is the outlier among ALSA USB.
 
-## PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
+===============================================================
+PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
+===============================================================
 
 **Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?**
-Record: Yes. v6.18.53 `azx_ids[]` ends at Loongson then `{ 0, }`. No
-Hygon entry. `git merge-base --is-ancestor` of the candidate vs
-`v6.18.53` is false (not in 6.18.53). Driver file and
-`PCI_VENDOR_ID_HYGON` are present.
+
+Record: **Yes.** Local tree: `pending-6.12`, `git describe`
+`p-6.12-3-gc504cf0baa3d8`, **`make kernelversion` = 6.12.111**. Line 170
+of `sound/usb/usx2y/usbusx2yaudio.c` is `urb->hcpriv = NULL;`.
+Introduced in 2.6.12-rc2; present for this entire 6.12 line.
 
 **Step 6.2: CHECK FOR BACKPORT COMPLICATIONS**
-Record: Dry-run apply of upstream `41212ff3e4ed` onto v6.18.53 `intel.c`
-succeeded (`patch -p1 --dry-run`; later hunks applied at offsets because
-mainline grew extra IDs). Expected backport difficulty: **clean apply /
-trivial offsets**.
+
+Record: **Clean apply** (`git apply --check` exit 0). Hunk context
+matches. No refactor of this submit helper in 6.12 vs the mainline
+parent.
 
 **Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE**
-Record: v6.18.53 has no Hygon HDA ID and no Hygon dword-access quirk.
-`access_sdnctl_in_dword` already exists (Loongson). No alternate fix for
-0x1d94:0x14a9.
 
----
+Record: No prior usx2y `hcpriv` fix (`git log --grep=hcpriv --
+sound/usb/usx2y/` empty). Nearby usx2y hardening in this tree (`nrpacks`
+validation, URB `actual_length` checks, etc.) does not replace this
+change.
 
-## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
+===============================================================
+PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
+===============================================================
 
 **Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY**
-Record: `[sound/hda PCI controller] [IMPORTANT]` — not core mm/net, but
-the standard HD-Audio stack used on PCs/servers with this SoC.
+
+Record: **ALSA USB** (`sound/usb/usx2y/`), driver-specific.
+**PERIPHERAL/IMPORTANT-for-those-devices**: Tascam US-122/224/428
+(`CONFIG_SND_USB_USX2Y`, x86/PPC/Alpha). Not core mm/net, but USB audio
+submit on a live HCD is a **system-wide panic** if it fires.
 
 **Step 7.2: ASSESS SUBSYSTEM ACTIVITY**
-Record: Active (denylists, Nvidia BDL, other PCI IDs). PCI ID table is
-the normal extension point. Maintainer Takashi Iwai applied the patch.
 
----
+Record: Mature (2002–2005 origin), still receiving real fixes in 6.12
+(parameter validation, bounds). Low churn, not staging.
 
-## PHASE 8: IMPACT AND RISK ASSESSMENT
+===============================================================
+PHASE 8: IMPACT AND RISK ASSESSMENT
+===============================================================
 
 **Step 8.1: DETERMINE WHO IS AFFECTED**
-Record: Driver-specific / platform-specific: Hygon family 18h model 5h
-with HD-Audio `0x1d94:0x14a9`. Other machines unchanged.
+
+Record: **Driver-specific / config-specific**: users with Tascam
+US-122/224/428 and `CONFIG_SND_USB_USX2Y`. Unprivileged PCM I/O can
+exercise the path.
 
 **Step 8.2: DETERMINE THE TRIGGER CONDITIONS**
-Record: Every boot on that hardware (PCI probe). Not a race. Not
-unprivileged-syscall. Without the ID, audio is simply missing.
+
+Record: Legal resubmit after giveback: `hcpriv` already NULL → **no
+behavior change**. Panic requires submitting a still-active URB (startup
+state machine, lost `completed_urb`, or overlapping complete/submit).
+Not shown with a public reproducer; ISO ping-pong with two URBs makes it
+**plausible**. Unprivileged users running audio can hit the submit path.
 
 **Step 8.3: DETERMINE THE FAILURE MODE SEVERITY**
-Record: `[No HD-Audio device bind] [MEDIUM for those users; exception-
-qualified]` Not a panic. Follow-up 7/7: byte writes fail so audio can
-still be broken after bind if 7/7 is omitted.
+
+Record: **HCD crash / kernel panic** if an active URB is submitted after
+`hcpriv` is cleared. **Severity: CRITICAL** when it fires; **likelihood:
+unproven / low** (no Reported-by). After the fix: `-EBUSY` + WARN +
+stream stop — **HIGH** improvement vs panic.
 
 **Step 8.4: CALCULATE RISK-BENEFIT RATIO**
-Record: Benefit: high for that hardware (enables existing driver). Risk:
-very low (+7 lines, one PCI ID, existing caps). Ratio favors backport.
-Best if 7/7 is taken with it so GCTL/SD_CTL writes succeed.
 
----
+Record:
+- **Benefit:** Restores USB core’s active-URB guard on a path that
+  otherwise can panic the machine; correct path unchanged.
+- **Risk:** 1-line deletion, no API, no locking, no data-structure
+  change.
+- **Ratio:** Strongly favors backport.
 
-## PHASE 9: FINAL SYNTHESIS
+===============================================================
+PHASE 9: FINAL SYNTHESIS
+===============================================================
 
 **Step 9.1: COMPILE THE EVIDENCE**
 
 FOR:
-- Classic PCI ID addition to an existing driver (stable exception #1)
-- Driver, path `sound/hda/controllers/intel.c`, and
-  `PCI_VENDOR_ID_HYGON` all exist in 6.18.53
-- No Hygon class wildcard; without this ID the device is never bound
-- +7 lines, existing `AZX_DCAPS_*`, applies to v6.18.53
-- Applied by ALSA maintainer Takashi Iwai
-- Same pattern as Loongson and other HDA PCI IDs already in this tree
+- Objectively illegal write to HCD-private `urb->hcpriv` (docs + USB
+  core).
+- Defeats `usb_submit_urb()`’s `WARN_ONCE`/`-EBUSY` (in this tree since
+  2012).
+- Failure mode is HCD crash/panic (xhci re-owns a live URB).
+- Buggy line present here since 2.6.12; commit is **not** in HEAD.
+- 1 deletion; `git apply --check` clean; no prerequisites.
+- USB-knowledgeable author; ALSA maintainer applied v1 same day; no NAK;
+  no later revert.
 
 AGAINST:
-- Part of series 6/7; 7/7 is the functional quirk (byte writes fail)
-- No `Reported-by` / crash / CVE
-- Adds an internal `AZX_DRIVER_HYGON` enum (needed for the quirk, not a
-  UAPI)
+- No `Reported-by` / syzbot / crash log.
+- Tascam-only driver.
+- On the spec-compliant complete path the store is already a no-op
+  (giveback NULL’s `hcpriv` first), so this is **latent** unless double-
+  submit happens.
 
 UNRESOLVED:
-- Stable mailing list (lore 403)
-- How widely this SoC is deployed on 6.18-based distros
+- Could not fetch lore.kernel.org (403); discussion recovered via b4 +
+  LKML/openwall.
+- No stable-list hit found; not proven it was ever NAK’d for stable.
 
-**Step 9.2: STABLE RULES CHECKLIST**
-1. Obviously correct and tested? **PASS** — ID table entry; maintainer
-   applied; v3 after review
-2. Fixes a real bug that affects users? **PASS** — missing bind = no
-   audio on this controller
-3. Important issue? **PASS** under the device-ID exception (not a panic)
-4. Small and contained? **PASS** — 7 lines, one file
-5. No new features or APIs? **PASS** — existing driver, internal enum,
-   no UAPI
-6. Can apply to the local tree? **PASS** — dry-run on v6.18.53 `intel.c`
-   succeeded
+**Step 9.2: APPLY THE STABLE RULES CHECKLIST**
 
-**Step 9.3: EXCEPTION CATEGORIES**
-Record: **New device ID on an existing driver.** Also adjacent to a
-hardware quirk (7/7), which is a separate YES-class patch.
+1. Obviously correct and tested? **PASS** — one illegal store removed;
+   maintainer applied; correct path unchanged.
+2. Fixes a real bug that affects users? **PASS** — drivers must not
+   clear `hcpriv`; this driver does; users of this hardware exist.
+3. Important issue (crash, security, corruption, deadlock)? **PASS** —
+   bypass can panic the HCD; severity is crash, even if unreported.
+4. Small and contained? **PASS** — 1 line, one function.
+5. No new features or APIs? **PASS**.
+6. Can apply to the local tree? **PASS** — clean apply; code present.
 
-**Step 9.4: DECISION**
-This is hardware enablement for a controller the 6.18.53 HDA driver
-already knows how to drive, blocked only by a missing PCI ID. That is
-standard stable material. Series patches 1–5 are unrelated. Patch 7/7
-should also be considered so register writes work, but it does not make
-6/7 unsuitable.
+**Step 9.3: CHECK FOR EXCEPTION CATEGORIES**
 
----
+Record: Not a device-ID/quirk/DT/build/docs exception. Ordinary small
+bugfix.
 
-### What the commit solves for this tree
-On 6.18.53, `snd-hda-intel` never matches Hygon `0x1d94:0x14a9`. This
-adds that ID (with LPIB position fix and `NO_MSI`) so probe runs. That
-matters for users of Hygon 18h model 5h who stay on this LTS kernel.
+**Step 9.4: MAKE YOUR DECISION**
 
-### Risk vs benefit
-Benefit is enabling audio hardware; risk is confined to that PCI ID.
-Companion quirk 7/7 should travel with it so byte-only GCTL/SD_CTL
-writes do not fail after bind.
+This belongs in **this** 6.12 tree. The hardware set is narrow, but the
+patch is the lowest-risk way to stop a driver from disabling USB core’s
+double-submit guard. A panic on ISO resubmit is exactly the class of bug
+stable is meant to take; waiting for a public oops is unnecessary when
+the mechanism is visible in this checkout.
 
-### Concerns
-Apply is clean. No missing symbols. Incomplete without 7/7 for full
-functionality, but 6/7 is still a valid, self-contained ID addition.
+------------------------------------------------
+What the commit solves for 6.12 users
+------------------------------------------------
+`usx2y_urb_submit()` currently zeros `urb->hcpriv` before
+`usb_submit_urb()`. USB core uses that pointer as “this URB is in the
+HCD.” Clearing it lets a still-active URB through as if it were idle.
+That can crash the host controller. After the deletion, a double-submit
+returns `-EBUSY` and this driver already stops the streams.
 
----
+Meets stable rules: obviously correct, real invariant bug, crash
+severity, 1 line, no new API, applies here.
+
+Risk vs benefit: benefit is avoiding a panic; risk is effectively zero
+on the giveback path this driver uses every frame.
+
+Concerns: niche device, no reproducer. Neither blocks a one-line restore
+of an existing USB-core check.
 
 Verification:
-- [Phase 1] Parsed tags: author Fu Hao, Link msgid, SOB Takashi Iwai; no
-  Fixes/Reported-by/Cc:stable
-- [Phase 2] Diff: +7 lines in `sound/hda/controllers/intel.c` (define,
-  enum, short name, `azx_ids[]`)
-- [Phase 2] Confirmed no generic Hygon HD-Audio class match; AMD/ATI
-  wildcards only
-- [Phase 2] `azx_probe_codecs(..., 0)` uses `AZX_DEFAULT_CODECS`
-  (`sound/hda/common/controller.c`)
-- [Phase 3] `PCI_VENDOR_ID_HYGON` since `c6babb5806b77` (2018); present
-  in v6.18.53 `pci_ids.h:2616`
-- [Phase 3] File move `2d9223d2d64cb` is ancestor of v6.18.53
-- [Phase 3] `git merge-base --is-ancestor <candidate> v6.18.53` → not in
-  6.18.53
-- [Phase 3] Follow-up `e096c24e7f97` / `054940f79377d` is series 7/7
-  (dword access)
-- [Phase 4] `b4 dig -c 41212ff3e4ed`: v3 6/7, lore msgid above; `b4 dig
-  -a`: series v3 0/7; `b4 dig -w`: tiwai/perex/linux-sound
-- [Phase 4] mbox: Takashi “Applied to for-next”; no NAK on HDA patches
-- [Phase 4] UNVERIFIED: lore.kernel.org WebFetch/curl 403 (including
-  /stable/)
-- [Phase 5] Call chain: `azx_ids` → `azx_probe` (PCI enumeration)
-- [Phase 6] `make kernelversion` / Makefile: 6.18.53; `git describe
-  HEAD`: `v6.18.53-5049-g0f0bdc2b0dffb`
-- [Phase 6] Dry-run `patch -p1` of `41212ff3e4ed` onto v6.18.53
-  `intel.c`: success
-- [Phase 6] `AZX_DCAPS_POSFIX_LPIB` / `AZX_DCAPS_NO_MSI` present in
-  v6.18.53
-- [Phase 8] Failure mode: missing PCI bind → no HD-Audio on that SoC;
-  severity medium, exception-qualified
+- [Phase 1] Tags: author SOB, Link msgid, Takashi Iwai SOB; no
+  Fixes/Reported-by/stable Cc
+- [Phase 1] Subject/body: stop illegal `hcpriv` clear; panic if URB
+  still active
+- [Phase 2] Diff: delete `urb->hcpriv = NULL` in `usx2y_urb_submit()`;
+  confirmed at line 170 in this tree
+- [Phase 2] `usb_submit_urb()` checks `urb->hcpriv` and returns `-EBUSY`
+  (`drivers/usb/core/urb.c:378-381`)
+- [Phase 2] `__usb_hcd_giveback_urb()` sets `urb->hcpriv = NULL` before
+  `urb->complete()` (`hcd.c:1627`)
+- [Phase 2] xHCI `xhci_urb_enqueue()` assigns `urb->hcpriv = urb_priv`
+  (`xhci.c:1552`)
+- [Phase 2] `include/linux/usb.h`: `hcpriv` is HCD-private;
+  Documentation `-EBUSY` = URB already active
+- [Phase 3] blame: `1da177e4c3f41` Linux-2.6.12-rc2 introduced the store
+- [Phase 3] sanity check added `2f02bc8af3abb` (2012), present here
+- [Phase 3] `git merge-base --is-ancestor fabae5548149e HEAD` → not in
+  this tree
+- [Phase 3] no follow-up/revert on `origin/master` for this file after
+  the commit
+- [Phase 4] `b4 dig -c fabae5548149e`: lore msgid; v1 only; To/Cc ALSA
+  maintainers
+- [Phase 4] Takashi Iwai applied to for-next; no NAK
+- [Phase 4] lore.kernel.org WebFetch 403; LKML/openwall used instead
+- [Phase 5] callers: `usx2y_usbframe_complete`, hwdep path via `#include
+  "usbusx2yaudio.c"`
+- [Phase 5] only `sound/` instance of `urb->hcpriv = NULL`
+- [Phase 6] `git describe HEAD` = p-6.12-3-gc504cf0baa3d8; `make
+  kernelversion` = 6.12.111
+- [Phase 6] `git apply --check` of `fabae5548149e` succeeded
+- [Phase 7] `CONFIG_SND_USB_USX2Y` Tascam US-122/224/428
+- [Phase 8] Failure mode: HCD panic on active-URB submit; severity
+  CRITICAL if triggered
+- UNVERIFIED: no public reproducer; stable@ archive not readable (403)
 
 **YES**
 
- sound/hda/controllers/intel.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ sound/usb/usx2y/usbusx2yaudio.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/sound/hda/controllers/intel.c b/sound/hda/controllers/intel.c
-index 98367b87d8017..f07fc5dc5cede 100644
---- a/sound/hda/controllers/intel.c
-+++ b/sound/hda/controllers/intel.c
-@@ -100,6 +100,8 @@ enum {
- #define ATIHDMI_NUM_CAPTURE	0
- #define ATIHDMI_NUM_PLAYBACK	8
- 
-+/* Hygon HD Audio controller */
-+#define PCI_DEVICE_ID_HYGON_18H_M05H_HDA	0x14a9
- 
- static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;
- static char *id[SNDRV_CARDS] = SNDRV_DEFAULT_STR;
-@@ -241,6 +243,7 @@ enum {
- 	AZX_DRIVER_ZHAOXIN,
- 	AZX_DRIVER_ZHAOXINHDMI,
- 	AZX_DRIVER_LOONGSON,
-+	AZX_DRIVER_HYGON,
- 	AZX_DRIVER_GENERIC,
- 	AZX_NUM_DRIVERS, /* keep this as last entry */
- };
-@@ -357,6 +360,7 @@ static const char * const driver_short_names[] = {
- 	[AZX_DRIVER_ZHAOXIN] = "HDA Zhaoxin",
- 	[AZX_DRIVER_ZHAOXINHDMI] = "HDA Zhaoxin HDMI",
- 	[AZX_DRIVER_LOONGSON] = "HDA Loongson",
-+	[AZX_DRIVER_HYGON] = "HDA Hygon",
- 	[AZX_DRIVER_GENERIC] = "HD-Audio Generic",
- };
- 
-@@ -2814,6 +2818,9 @@ static const struct pci_device_id azx_ids[] = {
- 	  .driver_data = AZX_DRIVER_LOONGSON | AZX_DCAPS_NO_TCSEL },
- 	{ PCI_VDEVICE(LOONGSON, PCI_DEVICE_ID_LOONGSON_HDMI),
- 	  .driver_data = AZX_DRIVER_LOONGSON | AZX_DCAPS_NO_TCSEL },
-+	/* Hygon HDAudio */
-+	{ PCI_VDEVICE(HYGON, PCI_DEVICE_ID_HYGON_18H_M05H_HDA),
-+	  .driver_data = AZX_DRIVER_HYGON | AZX_DCAPS_POSFIX_LPIB | AZX_DCAPS_NO_MSI },
- 	{ 0, }
- };
- MODULE_DEVICE_TABLE(pci, azx_ids);
+diff --git a/sound/usb/usx2y/usbusx2yaudio.c b/sound/usb/usx2y/usbusx2yaudio.c
+index c7c7ec9c228b4..1ea181e9bb283 100644
+--- a/sound/usb/usx2y/usbusx2yaudio.c
++++ b/sound/usb/usx2y/usbusx2yaudio.c
+@@ -167,7 +167,6 @@ static int usx2y_urb_submit(struct snd_usx2y_substream *subs, struct urb *urb, i
+ 	if (!urb)
+ 		return -ENODEV;
+ 	urb->start_frame = frame + NRURBS * nr_of_packs();  // let hcd do rollover sanity checks
+-	urb->hcpriv = NULL;
+ 	urb->dev = subs->usx2y->dev; /* we need to set this at each time */
+ 	err = usb_submit_urb(urb, GFP_ATOMIC);
+ 	if (err < 0) {
 -- 
 2.53.0
 
